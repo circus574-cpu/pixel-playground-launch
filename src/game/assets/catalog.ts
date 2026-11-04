@@ -314,8 +314,30 @@ export function textureBinding(
 } {
   return source.renderBindings[id] ?? fallback;
 }
-/** Summoned small wasps share the existing wasp identity instead of becoming boars. */
+/** Summoned small wasps share the existing wasp identity; bosses use their continental apex guardian representation. */
 export function monsterVisual(kind: string, source = catalog): ActorVisual {
+  if (kind.startsWith("boss:")) {
+    const bossId = kind.slice(5);
+    const bossGuardianMap: Record<string, string> = {
+      ygdrasha: "verdant-straznik-ruin",
+      thorgar: "verdant-skalny-jelen",
+      "arcykaplan-pustki": "aether-marionetka-rytualu",
+      aurelith: "aether-lew-swiatyni",
+      "arbiter-zero": "nexus-straznik-rdzenia",
+      "hydra-rdzen": "nexus-latarnia-plazmowa",
+      kharzul: "pyra-skalny-berserker",
+      pyrrhax: "pyra-golem-ruin",
+    };
+    const guardian = bossGuardianMap[bossId];
+    if (guardian) {
+      const visual = monsterVisual(guardian, source);
+      return {
+        ...visual,
+        id: `boss-${bossId}`,
+        size: [180, 180],
+      };
+    }
+  }
   const visualKind = kind === "verdant-mala-osa" ? "verdant-bursztynowa-osa" : kind;
   const prefix = visualKind.split("-")[0] as WorldId;
   if (!(prefix in WORLDS)) return actorVisual("verdant", "enemy", undefined, false, source);

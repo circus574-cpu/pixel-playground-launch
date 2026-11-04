@@ -438,6 +438,9 @@ export async function prepareSuperior(options: {
   // is as tall as the hero); presentation only — reach and collision stay in the monster rules.
   const enemyVisual = (kind: string) => {
     const visual = monsterVisual(kind);
+    if (kind.startsWith("boss:")) {
+      return { ...visual, size: [180, 180] as [number, number] };
+    }
     const size = MONSTER_BASE.find((b) => b.id === kind)?.size;
     if (!WORLD_V2 || !size) return visual;
     const side = MONSTER_SIZE_PX[size] ?? visual.size[1];

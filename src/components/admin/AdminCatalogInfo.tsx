@@ -437,9 +437,10 @@ export function MonsterCatalogInfo({
       <ul className="ki-loot-drops-list">
         {drops.map((d, i) => {
           // If custom chance override is present
-          const customFraction =
+          const customVal =
             lootChances?.[d.name] ?? lootChances?.[d.id] ?? lootChances?.[String(i)];
-          const currentFraction = customFraction !== undefined ? customFraction : d.chance;
+          const rawFraction = customVal !== undefined ? customVal : d.chance;
+          const currentFraction = rawFraction > 1 ? rawFraction / 100 : rawFraction;
           const currentPercent = Math.round(currentFraction * 1000) / 10;
 
           return (
@@ -466,7 +467,7 @@ export function MonsterCatalogInfo({
                       value={currentPercent}
                       onChange={(e) => {
                         const val = Math.max(0, Math.min(100, Number(e.target.value) || 0));
-                        onLootChanceChange(d.name, val);
+                        onLootChanceChange(d.name, Number((val / 100).toFixed(4)));
                       }}
                     />
                     <span>%</span>
@@ -475,14 +476,24 @@ export function MonsterCatalogInfo({
                     <button
                       type="button"
                       className="ki-loot-quick-btn"
-                      onClick={() => onLootChanceChange(d.name, Math.max(0, currentPercent - 10))}
+                      onClick={() =>
+                        onLootChanceChange(
+                          d.name,
+                          Number((Math.max(0, currentPercent - 10) / 100).toFixed(4)),
+                        )
+                      }
                     >
                       -10%
                     </button>
                     <button
                       type="button"
                       className="ki-loot-quick-btn"
-                      onClick={() => onLootChanceChange(d.name, Math.min(100, currentPercent + 10))}
+                      onClick={() =>
+                        onLootChanceChange(
+                          d.name,
+                          Number((Math.min(100, currentPercent + 10) / 100).toFixed(4)),
+                        )
+                      }
                     >
                       +10%
                     </button>
