@@ -1,0 +1,147 @@
+[
+  {
+    "name": "grounds",
+    "cols": 4,
+    "rows": 2,
+    "names": [
+      "circuit-plain",
+      "synthetic-garden",
+      "plateau",
+      "core-waste",
+      "moss-stone",
+      "pale-plaza",
+      "crystal-ground",
+      "damp-stone"
+    ],
+    "kind": "terrain",
+    "prompt": "NEXUS-9 art for Ki Legends, a premium hand painted anime fantasy 2D RPG inhabited by android scholars. Cohesive enchanted technological wilderness: graphite and pale weathered stone, restrained gold, luminous cyan circuits, violet and magenta foliage, jade and teal undergrowth. Beautiful detailed painterly game art with fine outlines, readable silhouettes and subtle light, NOT photoreal, NOT pixel art, not a neon city. Three-quarter overhead view, upper-left light. NO text, NO UI, NO characters, NO labels, NO borders, NO logos. Square flat seamless surface swatches in a strict grid, every cell fully covered with only its material, no dividers or margins. Even light, NO perspective gradient, NO vignette, NO large object, no buildings, no trees, no roads drawn through the material; small details, uniform spatial distribution, edges tile naturally. Rich small scale painterly texture. Exactly EIGHT swatches, 4 columns by 2 rows. TOP ROW left to right: 1 dark grey weathered stone earth with very fine sparse dormant cyan circuit traces, 2 lush teal-jade moss and tiny purple petals synthetic garden floor, 3 cool pale fractured plateau stone with small graphite gravel, 4 dusty slate ash and broken dark ceramic particles with sparse dim cyan crystal flecks, core wastes. BOTTOM ROW: 5 darker mossy cobblestone forest earth with violet clover, 6 aged ivory-grey angular plaza slabs with restrained gold seam lines, 7 dark stony ground threaded with tiny aqua mineral veins, 8 damp cool slate pebbles, a little moss and moist dark earth, no open water."
+  },
+  {
+    "name": "roads",
+    "cols": 3,
+    "rows": 2,
+    "names": [
+      "road-paved",
+      "road-earth",
+      "road-forest",
+      "road-mountain",
+      "road-channel",
+      "road-ruin"
+    ],
+    "kind": "road",
+    "prompt": "NEXUS-9 art for Ki Legends, a premium hand painted anime fantasy 2D RPG inhabited by android scholars. Cohesive enchanted technological wilderness: graphite and pale weathered stone, restrained gold, luminous cyan circuits, violet and magenta foliage, jade and teal undergrowth. Beautiful detailed painterly game art with fine outlines, readable silhouettes and subtle light, NOT photoreal, NOT pixel art, not a neon city. Three-quarter overhead view, upper-left light. NO text, NO UI, NO characters, NO labels, NO borders, NO logos. Square flat seamless surface swatches in a strict grid, every cell fully covered with only its material, no dividers or margins. Even light, NO perspective gradient, NO vignette, NO large object, no buildings, no trees, no roads drawn through the material; small details, uniform spatial distribution, edges tile naturally. Rich small scale painterly texture. Exactly SIX material swatches, 3 columns by 2 rows. These are WALKABLE road construction materials covering the whole cell, no verges and no surrounding landscape. TOP ROW: 1 fine pale slate road paving, irregular weathered rectangles, 2 compact grey-brown dirt path with tiny pale pebbles, 3 dark mossy forest stepping stones with fallen violet petals. BOTTOM ROW: 4 rough pale mountain gravel and small flat rocks, 5 graphite translucent glass-like solid causeway paving with fine cyan circuit geometry, clearly solid stone/glass and no open water, 6 worn ancient dark grey polygonal road bricks with subtle gold fragments."
+  },
+  {
+    "name": "flora",
+    "cols": 4,
+    "rows": 2,
+    "names": [
+      "violet-tree",
+      "cyan-tree",
+      "silver-cypress",
+      "crystal-tree",
+      "fern",
+      "violet-bush",
+      "luminous-grass",
+      "mushrooms"
+    ],
+    "kind": "object",
+    "prompt": "NEXUS-9 art for Ki Legends, a premium hand painted anime fantasy 2D RPG inhabited by android scholars. Cohesive enchanted technological wilderness: graphite and pale weathered stone, restrained gold, luminous cyan circuits, violet and magenta foliage, jade and teal undergrowth. Beautiful detailed painterly game art with fine outlines, readable silhouettes and subtle light, NOT photoreal, NOT pixel art, not a neon city. Three-quarter overhead view, upper-left light. NO text, NO UI, NO characters, NO labels, NO borders, NO logos. Isolated complete sprites on a perfectly regular grid. Every cell contains exactly ONE complete subject. Each subject MUST be scaled to leave 15% EMPTY TRANSPARENT PADDING on every side within its cell, with no overlaps or clipping. Real transparent RGBA background. Remove ALL background, haze, white/grey matte, display plinth, ground plate and cast ground shadow. Emissive accents stay inside the object silhouette, no glow cloud outside. Exactly EIGHT subjects on a 4 column by 2 row grid. TOP ROW: 1 ancient twisting dark tree with lush violet-magenta leaf canopy and a few tiny cyan veins in bark, 2 spreading teal-leaf tree with silver bark and cyan luminous buds, 3 slender silver-blue cypress, 4 modest small tree formed of slate bark and translucent blue crystal leaves. BOTTOM ROW: 5 lush jade fern clump with tiny purple flowers, 6 broad rounded violet flowering bush, 7 fan of teal grass with tiny cyan seed tips, 8 small cluster of violet and cyan bioluminescent mushrooms on one short piece of bark. Only subjects, no round bases or water bowls."
+  },
+  {
+    "name": "landforms",
+    "cols": 4,
+    "rows": 2,
+    "names": [
+      "hill",
+      "cliff",
+      "peak",
+      "basalt-ridge",
+      "crystal-outcrop",
+      "stone-arch",
+      "spring",
+      "chasm-rim"
+    ],
+    "kind": "large",
+    "prompt": "NEXUS-9 art for Ki Legends, a premium hand painted anime fantasy 2D RPG inhabited by android scholars. Cohesive enchanted technological wilderness: graphite and pale weathered stone, restrained gold, luminous cyan circuits, violet and magenta foliage, jade and teal undergrowth. Beautiful detailed painterly game art with fine outlines, readable silhouettes and subtle light, NOT photoreal, NOT pixel art, not a neon city. Three-quarter overhead view, upper-left light. NO text, NO UI, NO characters, NO labels, NO borders, NO logos. Isolated complete sprites on a perfectly regular grid. Every cell contains exactly ONE complete subject. Each subject MUST be scaled to leave 15% EMPTY TRANSPARENT PADDING on every side within its cell, with no overlaps or clipping. Real transparent RGBA background. Remove ALL background, haze, white/grey matte, display plinth, ground plate and cast ground shadow. Emissive accents stay inside the object silhouette, no glow cloud outside. Exactly EIGHT natural terrain objects, 4 columns by 2 rows. TOP ROW: 1 low pale rocky hill with teal moss, 2 vertical layered grey limestone cliff with sparse tiny purple plants, 3 jagged graphite mountain peak with restrained blue mineral fissures, 4 short cluster of dark basalt columns. BOTTOM ROW: 5 a natural weathered boulder with small translucent cyan crystal veins, 6 graceful natural dark stone arch with a little purple vine, 7 small rocky turquoise spring and thin short waterfall bounded close to rock silhouette, 8 short irregular broken rock lip of a shallow dark chasm with a few dim cyan mineral seams, no flat large terrain plate."
+  },
+  {
+    "name": "props",
+    "cols": 5,
+    "rows": 2,
+    "names": [
+      "rocks",
+      "crystals",
+      "log",
+      "stump",
+      "camp",
+      "energy-brazier",
+      "chest",
+      "sign",
+      "supplies",
+      "ruin"
+    ],
+    "kind": "object",
+    "prompt": "NEXUS-9 art for Ki Legends, a premium hand painted anime fantasy 2D RPG inhabited by android scholars. Cohesive enchanted technological wilderness: graphite and pale weathered stone, restrained gold, luminous cyan circuits, violet and magenta foliage, jade and teal undergrowth. Beautiful detailed painterly game art with fine outlines, readable silhouettes and subtle light, NOT photoreal, NOT pixel art, not a neon city. Three-quarter overhead view, upper-left light. NO text, NO UI, NO characters, NO labels, NO borders, NO logos. Isolated complete sprites on a perfectly regular grid. Every cell contains exactly ONE complete subject. Each subject MUST be scaled to leave 15% EMPTY TRANSPARENT PADDING on every side within its cell, with no overlaps or clipping. Real transparent RGBA background. Remove ALL background, haze, white/grey matte, display plinth, ground plate and cast ground shadow. Emissive accents stay inside the object silhouette, no glow cloud outside. Exactly TEN exploration props, 5 columns by 2 rows. TOP ROW: 1 small varied group of grey natural rocks, 2 compact cluster of elegant cyan crystals, 3 fallen dark mossy log with a few violet flowers, 4 hollow weathered stump with small teal fern, 5 compact scholarly field camp: small graphite/cream fabric shelter, bedroll and satchel with tiny cyan lamp. BOTTOM ROW: 6 small weathered metal brazier containing a contained cyan energy flame, 7 closed graphite and old-gold travel chest, 8 slender blank slate direction sign on a post with small cyan indicator, 9 compact stack of two sealed storage crates and rolled cables, 10 small broken ancient ivory-grey stone gateway remnant with restrained gold ornament and moss. Not full landscapes."
+  },
+  {
+    "name": "structures",
+    "cols": 3,
+    "rows": 2,
+    "names": [
+      "field-lab",
+      "reactor",
+      "terminal",
+      "monolith",
+      "relay",
+      "transit-gate"
+    ],
+    "kind": "large",
+    "prompt": "NEXUS-9 art for Ki Legends, a premium hand painted anime fantasy 2D RPG inhabited by android scholars. Cohesive enchanted technological wilderness: graphite and pale weathered stone, restrained gold, luminous cyan circuits, violet and magenta foliage, jade and teal undergrowth. Beautiful detailed painterly game art with fine outlines, readable silhouettes and subtle light, NOT photoreal, NOT pixel art, not a neon city. Three-quarter overhead view, upper-left light. NO text, NO UI, NO characters, NO labels, NO borders, NO logos. Isolated complete sprites on a perfectly regular grid. Every cell contains exactly ONE complete subject. Each subject MUST be scaled to leave 15% EMPTY TRANSPARENT PADDING on every side within its cell, with no overlaps or clipping. Real transparent RGBA background. Remove ALL background, haze, white/grey matte, display plinth, ground plate and cast ground shadow. Emissive accents stay inside the object silhouette, no glow cloud outside. Exactly SIX small wilderness landmark structures, 3 columns by 2 rows. These match a grey stone/cyan-circuit android sanctuary, not modern industrial buildings. TOP ROW: 1 compact two-level slate and ivory field research lab with cyan window strips and subtle gold trim, 2 small circular stone/graphite reactor with a cyan crystal core held in a narrow protective cage, 3 small open stone pavilion containing a weathered cyan-lit terminal pedestal, screen has NO letters. BOTTOM ROW: 4 ancient tall angular grey monolith with thin cyan geometric rune channels (abstract shapes, no writing), 5 small elegant relay tower on a narrow stone base with a cyan crystal beacon, 6 freestanding ancient slate portal arch with subdued cyan circuitry inside its frame and an empty transparent passage. No broad platform or terrain base."
+  },
+  {
+    "name": "liquids",
+    "cols": 3,
+    "rows": 2,
+    "names": [
+      "ocean",
+      "river",
+      "shallow-water",
+      "dry-shore",
+      "dry-bank",
+      "energy-liquid"
+    ],
+    "kind": "terrain",
+    "prompt": "NEXUS-9 art for Ki Legends, a premium hand painted anime fantasy 2D RPG inhabited by android scholars. Cohesive enchanted technological wilderness: graphite and pale weathered stone, restrained gold, luminous cyan circuits, violet and magenta foliage, jade and teal undergrowth. Beautiful detailed painterly game art with fine outlines, readable silhouettes and subtle light, NOT photoreal, NOT pixel art, not a neon city. Three-quarter overhead view, upper-left light. NO text, NO UI, NO characters, NO labels, NO borders, NO logos. Square flat seamless surface swatches in a strict grid, every cell fully covered with only its material, no dividers or margins. Even light, NO perspective gradient, NO vignette, NO large object, no buildings, no trees, no roads drawn through the material; small details, uniform spatial distribution, edges tile naturally. Rich small scale painterly texture. Exactly SIX square swatches, 3 columns by 2 rows. TOP ROW: 1 deep cool teal ocean with delicate uniform ripples, 2 clear moving turquoise river water with fine pale reflections, 3 shallow cyan water above small grey pebbles. BOTTOM ROW: 4 DRY cool silver-grey shoreline sand and fine pebbles, NO water, 5 DRY dark slate riverbank gravel with tiny teal moss, NO water, 6 contained fictional cyan energy liquid with restrained luminous aqua eddies on deep dark blue, no shore or containers. No huge highlights or hard shadows."
+  },
+  {
+    "name": "effects",
+    "cols": 3,
+    "rows": 2,
+    "names": [
+      "fx-mist",
+      "fx-fireflies",
+      "fx-petals",
+      "fx-energy",
+      "fx-steam",
+      "fx-dust"
+    ],
+    "kind": "fx",
+    "prompt": "NEXUS-9 art for Ki Legends, a premium hand painted anime fantasy 2D RPG inhabited by android scholars. Cohesive enchanted technological wilderness: graphite and pale weathered stone, restrained gold, luminous cyan circuits, violet and magenta foliage, jade and teal undergrowth. Beautiful detailed painterly game art with fine outlines, readable silhouettes and subtle light, NOT photoreal, NOT pixel art, not a neon city. Three-quarter overhead view, upper-left light. NO text, NO UI, NO characters, NO labels, NO borders, NO logos. Transparent VFX sprite sheet, exactly SIX separated effects on a strict 3 column by 2 row grid, 15% empty transparent margin around every effect, nothing touches cell edges. Subtle softly fading alpha suitable for overlay; no opaque rectangles, no white backdrop, no checkerboard baked into image, no terrain or objects. TOP ROW: 1 low small wisps of pale teal ground mist, 2 sparse cluster of tiny cyan firefly-like light motes, 3 sparse drifting violet and pink flower petals. BOTTOM ROW: 4 delicate restrained cyan energy sparks and thin small arcs, 5 wisps of pale blue-white steam, 6 sparse tiny silver-violet dust motes. Fine gentle effects rather than full-frame explosions. All gradients fade fully into true transparency."
+  },
+  {
+    "name": "services-passages",
+    "cols": 3,
+    "rows": 2,
+    "names": [
+      "smithy",
+      "inn",
+      "bridge",
+      "steps",
+      "cave",
+      "bunker"
+    ],
+    "kind": "large",
+    "prompt": "Six separate premium hand painted anime fantasy RPG environment sprites for Nexus-9, a luminous scholarly android sanctuary. Match ornate weathered grey stone, graphite panels, restrained old gold, cyan crystal energy details, a little teal and violet foliage. Beautiful detailed painterly 2D game art, three-quarter overhead, lighting upper left, NOT photoreal or pixel art. STRICT 3 columns by 2 rows evenly spaced grid. Each object must fit COMPLETELY inside its cell with 15 percent EMPTY transparent padding on all sides. No clipping, no backdrop, no opaque ground plate, no white matte, NO outside haze or glow, true transparent alpha, no text, no UI, no people. TOP ROW left to right: 1 medium repair workshop building, charcoal and ivory stone walls, pitched angular slate roof, cyan-lit forge opening, small anvil and robot repair tools beside a closed door, ornament matching an ancient magical science city; 2 medium inn and recharging lodge building in matching architecture, warm amber windows, cyan energy lantern and small coil next to double doors, inviting, not a modern hotel; 3 graceful small traversable stone/metal bridge with low gold-trim rails and faint cyan circuit inlays, span left to right, no river underneath. BOTTOM ROW: 4 short set of weathered grey stone steps with thin cyan inlays, no attached scenery; 5 natural dark cave mouth in a cool pale stone outcrop, a few tiny cyan crystals; 6 compact sealed old research bunker entrance embedded in a small rock outcrop, geometric cyan door panel, no big platform. All six independently isolated, complete silhouettes."
+  }
+]

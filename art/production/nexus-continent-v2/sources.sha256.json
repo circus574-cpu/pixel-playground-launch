@@ -1,0 +1,38 @@
+[
+  {
+    "file": "grounds.png",
+    "sha256": "d5acf3bb80ef5c5da5660c58116ee4da65977670c5dadc283d9f872f0f17ee9d"
+  },
+  {
+    "file": "roads.png",
+    "sha256": "af9258a0830890913b1762283050cf4779400c38e5bb95a003f76e49b619ad6c"
+  },
+  {
+    "file": "flora.png",
+    "sha256": "51ee7d3a87c15ab429c4b51dc0d4b7c4f866ff3c4ef3d4b0a9a0ff13d60e0e66"
+  },
+  {
+    "file": "landforms.png",
+    "sha256": "96b3f7874e2791a213f8f555eb01ce2d868b8bc0832bd1f33abaa8095e01eb1f"
+  },
+  {
+    "file": "props.png",
+    "sha256": "e6c259aee333719fe3b93ac20219894f6b1f17a0fa4a36d600eab0b01678fae8"
+  },
+  {
+    "file": "structures.png",
+    "sha256": "fff96551d38200cccf18716d10df970e0da626b023330d4a5154b0a7c71d2068"
+  },
+  {
+    "file": "liquids.png",
+    "sha256": "7c20d4d5c4178ca16b497ff34446087b08263bb426fa1ffc7e3bdb0f76ceef5c"
+  },
+  {
+    "file": "effects.png",
+    "sha256": "d534cc366e24e47a3a6a30130f766f229f42ac5660896e95a7c2b9a0870a3885"
+  },
+  {
+    "file": "services-passages.png",
+    "sha256": "9021c771d5a9131fec0c230be87709151895c4de5e36cc8860c01a1b914534fa"
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-04",
+  "tool": "image_gen",
+  "originalsRetained": true,
+  "cleanupSheets": [
+    "flora",
+    "props",
+    "structures",
+    "services-passages"
+  ],
+  "note": "Original generation sheets retained; four sheets edited for alpha and spacing. Extraction, resize and padding by prepare.mjs. Effects are single images, not frame animations.",
+  "sourceSha256": {
+    "services-passages.png": "9021c771d5a9131fec0c230be87709151895c4de5e36cc8860c01a1b914534fa",
+    "structures.png": "fff96551d38200cccf18716d10df970e0da626b023330d4a5154b0a7c71d2068",
+    "props.png": "e6c259aee333719fe3b93ac20219894f6b1f17a0fa4a36d600eab0b01678fae8",
+    "flora.png": "51ee7d3a87c15ab429c4b51dc0d4b7c4f866ff3c4ef3d4b0a9a0ff13d60e0e66",
+    "services-passages-original.png": "7c2463130bc202fc55a185276e4fa31330b0ed14f4edc65b13abae15f795bc42",
+    "effects.png": "d534cc366e24e47a3a6a30130f766f229f42ac5660896e95a7c2b9a0870a3885",
+    "liquids.png": "7c20d4d5c4178ca16b497ff34446087b08263bb426fa1ffc7e3bdb0f76ceef5c",
+    "structures-original.png": "2baa1f4d2789da4f55a5726cd96ad309e9483d0f7dc56f1ad4b72fda7e1a10a8",
+    "props-original.png": "2a2927633ffca26afb468916c9e02ae5eaef8f186a36c611f6028f7289e2eb59",
+    "landforms.png": "96b3f7874e2791a213f8f555eb01ce2d868b8bc0832bd1f33abaa8095e01eb1f",
+    "flora-original.png": "21013f91d89270f3d0176c90b796c55b2e4ff2232f636ed78b8307834d3f3461",
+    "roads.png": "af9258a0830890913b1762283050cf4779400c38e5bb95a003f76e49b619ad6c",
+    "grounds.png": "d5acf3bb80ef5c5da5660c58116ee4da65977670c5dadc283d9f872f0f17ee9d"
+  }
+}
