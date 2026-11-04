@@ -114,3 +114,10 @@
 - Pięć obrazów (trawa, skała, piasek, droga ziemna, ścieżka górska) powtórzono po poprawce promptów (strumyki w trawie i skale,
   krzaki w piasku, schody zamiast ścieżki, droga po skosie). Obiekty mają jeszcze podstawy terenu pod spodem; prompty już poprawione.
 - To próbki bez odbioru właściciela i bez wdrożenia do klienta; gra bez zmian.
+
+## Świat poza miastami: Aetheria, 20 obrazów (do odbioru)
+
+- Aetheria wygenerowana tak jak Verdantia (`gpt-image-1-mini`, medium, 20 promptów): `art/production/world/aetheria/` z promptem przy
+  każdym obrazie i `manifest.json` (SHA-256). Kafle i rzeka zszyte w szwach na CPU.
+- Znane wady: wszystkie 8 obiektów ma podstawę (kamienna obwódka z wodą lub darń) mimo zakazu w prompcie, ścieżka leśna ma strumień
+  przy krawędzi, zielenie wychodzą żółtozielone. Próbki bez odbioru właściciela; gra bez zmian.
