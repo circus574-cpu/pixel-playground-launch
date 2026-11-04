@@ -1,0 +1,73 @@
+{
+  "status": "concept sheets, not installed game assets",
+  "totalDesigns": 52,
+  "sheets": [
+    {
+      "file": "pyra-podloza-4-warianty.png",
+      "designs": 4,
+      "bytes": 2994385,
+      "sha256": "104e16b4b6acbe31b3a527448c1ee4a0f019c0e562a0f4739f119af77aa224dc"
+    },
+    {
+      "file": "pyra-drogi-4-warianty.png",
+      "designs": 4,
+      "bytes": 3026792,
+      "sha256": "b84d2dd3caa36d4661e18335ed46dd0b95ca126e215dbf579f1866982b2fd451"
+    },
+    {
+      "file": "pyra-roslinnosc-5-wariantow.png",
+      "designs": 5,
+      "bytes": 2625479,
+      "sha256": "6494a3cb6b4b965ae5d4f868a8865366f18519fffbac94c50f0b533118a6d04c"
+    },
+    {
+      "file": "pyra-formy-terenu-5-wariantow.png",
+      "designs": 5,
+      "bytes": 2602609,
+      "sha256": "8ee904840976c40d984643d843e6894ae3a6c816d1d38bb9e2997b86c7649638"
+    },
+    {
+      "file": "pyra-formy-terenu-5-nowych-wariantow.png",
+      "designs": 5,
+      "bytes": 2377540,
+      "sha256": "4d363a806c4e45c9eeb3430ac0a564d30403ae7141514acfb6d541772cef51be"
+    },
+    {
+      "file": "pyra-woda-lawa-brzegi-6-wariantow.png",
+      "designs": 6,
+      "bytes": 3588969,
+      "sha256": "392a65d33de2b7bf27890aab79af8a949530aed9bb4ef852c728cf2b6df49bf1"
+    },
+    {
+      "file": "pyra-drobne-dekoracje-8-wariantow.png",
+      "designs": 8,
+      "bytes": 1343682,
+      "sha256": "3df097f6b505e3477bdc4999b0eb0a501bdf71ac3849aa2c44281309afdbdad3"
+    },
+    {
+      "file": "pyra-przejscia-terenowe-4-warianty.png",
+      "designs": 4,
+      "bytes": 2708463,
+      "sha256": "798e8e8f88abefffa15c5c5fece06dd1dfeb2757dc6e5c2200e1dbed74e757a8"
+    },
+    {
+      "file": "pyra-rekwizyty-swiata-6-wariantow.png",
+      "designs": 6,
+      "bytes": 2427211,
+      "sha256": "1f12fa01ff789913d20fb6616f75deb8b3d79083473b9e2a51e7fa8ba6184589"
+    },
+    {
+      "file": "pyra-efekty-otoczenia-5-wariantow.png",
+      "designs": 5,
+      "bytes": 1662531,
+      "sha256": "926c57991c5be4e92e7e9328aa253d62fb858cc4431463057ab55e3462cb9d21"
+    }
+  ],
+  "remainingPreparation": [
+    "Extract individual sprites and materials",
+    "Inspect/clean alpha backgrounds and colored halos",
+    "Verify texture tiling and transitions",
+    "Create animation/runtime particles for static VFX concepts",
+    "Import and review in the actual game"
+  ]
+}

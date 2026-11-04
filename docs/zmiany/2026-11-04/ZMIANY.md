@@ -173,3 +173,8 @@ fizycznego telefonu. Zrzuty dalszych biomów używają poprawnego lokalnego
 zapisu testowego z pozycją na istniejącej drodze, bez podmiany świata/spawnów.
 
 Zbiorcza [walidacja końcowego kodu](qa/verdantia-continent/validation.json); logi TypeScript, kompilacji, lint i zasobów w tym samym katalogu QA.
+
+
+## Pyra — zapis wszystkich wygenerowanych materiałów w repo
+
+Na prośbę właściciela zabezpieczono komplet 10 plansz PNG (52 wzory) oraz manifest i dostępne prompty w [archiwum źródłowym](../../../art/production/pyra-concepts-2026-11-04/). Gałąź `art/pyra-materials-2026-11-04` powstała z podglądu Verdantii `cb7d5154`; ten commit dodaje wyłącznie archiwum i jego opis, bez integracji Pyry z runtime. Wszystkie 10 kopii PNG zweryfikowano według SHA-256 manifestu.

@@ -685,3 +685,8 @@ Ikony surowców (17 typów × 2–3 warianty) i ikony przedmiotów z Księgi (br
 2. Gęstość świata: pełne pokrycie całego kontynentu od razu czy najpierw pas wokół miasta o promieniu ok. 15 000 j.
 3. Styl zwierząt: malowany jak potwory, czy prostszy (mniej klatek).
 4. Prawa do referencji i checkpointów oraz moment uruchomienia poda (po stronie właściciela).
+
+
+## Pyra — archiwum koncepcji 04.11.2026
+
+Na gałęzi `art/pyra-materials-2026-11-04` zachowano [10 plansz PNG, manifest z SHA-256 i dostępne prompty](../art/production/pyra-concepts-2026-11-04/): 52 wzory podłoży, dróg, roślin, form terenu, przejść, dekoracji, rekwizytów oraz statycznych efektów. To archiwum wygenerowanych koncepcji; nie jest paczką runtime. Wymaga wydzielenia elementów, oczyszczenia alfa/poświat, sprawdzenia kafelkowania i przygotowania animacji efektów przed importem do gry.
