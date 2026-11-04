@@ -1,6 +1,12 @@
 # KI Legends — dokumentacja projektu
 
-**Najnowsza partia rozwoju — Opieka Planetarnych:** TV07/TV08/TV09 i
+**Najnowsza partia rozwoju — Bariery Mędrców:** TA04/TA05/TA06 w trzech
+stopniach i `ma-barrier` po Barierach II. Katalog **24/48 prób, 72/144 stopni**;
+Mędrcy mają 6/12 prób. To połowa katalogu prób, nie połowa całego projektu.
+[Zakres i dowody](zmiany/2026-11-04/ZMIANY.md#bariery-mędrców--ta04-ta05-ta06).
+
+
+**Poprzednia partia rozwoju — Opieka Planetarnych:** TV07/TV08/TV09 i
 odblokowanie `mv-root` po Opiece II. Katalog **21/48 prób, 63/144 stopni**;
 Planetarni mają komplet 12 prób, ale pełny rozwój nadal nie jest ukończony.
 [Zakres i kontrole](zmiany/2026-11-04/ZMIANY.md#opieka--tv07-tv08-tv09).

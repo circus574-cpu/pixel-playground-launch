@@ -16,6 +16,9 @@ export const TRIAL_IDS = [
   "TA01",
   "TA02",
   "TA03",
+  "TA04",
+  "TA05",
+  "TA06",
   "TN07",
   "TN08",
   "TN09",
@@ -26,6 +29,9 @@ export const TRIAL_IDS = [
 export type TrialId = (typeof TRIAL_IDS)[number];
 export type TrialTier = 1 | 2 | 3;
 export type TrialKind =
+  | "barrier-waves"
+  | "mirrors"
+  | "cover-windows"
   | "supplies"
   | "water-allocation"
   | "camp"
@@ -47,7 +53,8 @@ export type TrialKind =
   | "counter"
   | "restraint"
   | "position";
-export type DomainId = "care" | "trails" | "earth" | "memory" | "seals" | "construction" | "duel";
+export type DomainId =
+  "care" | "trails" | "earth" | "memory" | "seals" | "barriers" | "construction" | "duel";
 export type TrialDefinition = {
   id: TrialId;
   race: RaceId;
@@ -60,6 +67,33 @@ export type TrialDefinition = {
 };
 // Only implemented controllers are exposed as playable; targets come from the owner specification.
 export const TRIALS: readonly TrialDefinition[] = [
+  {
+    id: "TA04",
+    race: "sage",
+    domain: "barriers",
+    name: "Osłona archiwum",
+    kind: "barrier-waves",
+    targets: [3, 4, 5],
+    maxErrors: 0,
+  },
+  {
+    id: "TA05",
+    race: "sage",
+    domain: "barriers",
+    name: "Droga zwierciadeł",
+    kind: "mirrors",
+    targets: [2, 3, 4],
+    maxErrors: 0,
+  },
+  {
+    id: "TA06",
+    race: "sage",
+    domain: "barriers",
+    name: "Okna osłony",
+    kind: "cover-windows",
+    targets: [3, 4, 5],
+    maxErrors: 0,
+  },
   {
     id: "TV07",
     race: "planetary",
@@ -257,6 +291,7 @@ export const DOMAIN_NAMES: Record<DomainId, string> = {
   earth: "Żywa Ziemia",
   memory: "Pamięć Korzeni",
   seals: "Pieczęcie",
+  barriers: "Bariery",
   construction: "Konstrukcja",
   duel: "Pojedynek",
 };

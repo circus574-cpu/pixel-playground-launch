@@ -1,6 +1,19 @@
 # KI Legends — aktualny plan i zadania
 
-## Najnowsza partia — Opieka Planetarnych, 04.11
+## Najnowsza partia — Bariery Mędrców, 04.11
+
+PR #90: TA04 Osłona archiwum, TA05 Droga zwierciadeł, TA06 Okna osłony,
+każda w trzech stopniach. Bariery II odblokowują istniejący `ma-barrier`.
+Katalog **24/48 prób, 72/144 stopni**; Mędrcy mają 6/12 prób i 2700 praktyki
+z prób. Pozostaje **24 próby / 72 stopnie**, pięć wariantów i trzy moduły,
+interakcje dziedzin w świecie, późne starcia, tytuły oraz pełny graf/budżet
+kampanii i odbiór UI. Połowa katalogu prób nie oznacza połowy całej aplikacji.
+Następne dziedziny Mędrców: Skupienie (TA07–TA09) i Pamięć (TA10–TA12).
+[Zakres i kontrole](zmiany/2026-11-04/ZMIANY.md#bariery-mędrców--ta04-ta05-ta06).
+To gałąź robocza bez scalenia i publikacji; niższe checkpointy są historyczne.
+
+
+## Poprzednia partia — Opieka Planetarnych, 04.11
 
 PR #90: TV07 Zapas dla wyprawy, TV08 Źródło dla dwóch osad, TV09 Ostatni obóz,
 każda w trzech stopniach. Opieka II odblokowuje istniejący `mv-root`.

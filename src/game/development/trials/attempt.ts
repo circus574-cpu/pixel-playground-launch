@@ -1,3 +1,5 @@
+import { BarrierWaves, CoverWindows } from "./barriers";
+import { traceMirrors } from "./mirrors";
 import { CampTrial } from "./camp";
 import { EscortActivity } from "../heritage/escort";
 import { ProtectedActor } from "../heritage/protectedActor";
@@ -42,6 +44,8 @@ export class TrialAttempt {
   private target: PracticeTarget | undefined;
   private restraint: RestraintActivity | undefined;
   private camp: CampTrial | undefined;
+  private waves: BarrierWaves | undefined;
+  private cover: CoverWindows | undefined;
   private escort: EscortActivity | undefined;
   private companion: ProtectedActor | undefined;
   private escortHazard: { x: number; y: number; until: number } | undefined;
@@ -82,14 +86,29 @@ export class TrialAttempt {
     this.session = loanSession(this.race);
     const p = this.session.player;
     p.level = 20;
+    if (definition.kind === "barrier-waves") {
+      p.skills.push("B1");
+      this.session.kit.learn("B1");
+    }
     p.items.potion = 0;
     p.hp = this.session.kit.stats.maxHp;
     p.ki = this.session.kit.stats.maxKi;
     const physical = ["counter", "earth-rhythm", "restraint", "position"].includes(definition.kind);
     this.puzzles =
-      physical || ["wind-route", "messenger", "camp"].includes(definition.kind)
+      physical ||
+      ["wind-route", "messenger", "camp", "barrier-waves", "cover-windows"].includes(
+        definition.kind,
+      )
         ? []
         : trialPuzzles(definition, tier);
+    if (definition.kind === "barrier-waves") {
+      this.waves = new BarrierWaves(this.session, tier);
+      this.phase = "barrier-waves";
+    }
+    if (definition.kind === "cover-windows") {
+      this.cover = new CoverWindows(this.session, tier);
+      this.phase = "cover-windows";
+    }
     if (definition.kind === "camp") {
       this.camp = new CampTrial(this.session, tier);
       this.phase = "camp";
@@ -202,6 +221,12 @@ export class TrialAttempt {
   }
   instructions() {
     const k = this.definition.kind;
+    if (k === "barrier-waves")
+      return `Osłoń rdzeń przed ${this.targetCount} falami, zachowując minimum 50% jego HP. Stań w zielonym punkcie między źródłem a rdzeniem i włącz Świetlistą Barierę B1 po zapowiedzi. Bariera zużywa prawdziwą pojemność i testowe KI; odnowienie działa normalnie. Nie nauczysz swojej postaci B1 przez tę próbę.`;
+    if (k === "cover-windows")
+      return `Zajmij rzeczywistą osłonę w ${this.targetCount} oknach. Reakcja ${[1800, 1500, 1300][this.tier - 1]} ms od zapowiedzi. Zielony punkt musi być za ścianą względem czerwonego źródła; wykonaj ruch po sygnale. Samo stanie za ścianą nie zalicza okna.`;
+    if (k === "mirrors")
+      return `Ustaw ${this.targetCount} zwierciadła. Promień ma przejść przez wszystkie do odbiornika O, nie dotykając chronionego punktu !. Jawny podgląd pokazuje rzeczywistą trasę.`;
     if (k === "supplies")
       return `Przygotuj cały zestaw ${this.targetCount} wypożyczonych składników według jawnych opisów. Nie dodawaj zbędnych elementów.`;
     if (k === "water-allocation")
@@ -233,6 +258,8 @@ export class TrialAttempt {
   }
   get currentPoint(): Point | undefined {
     if (this.result.outcome !== "running") return undefined;
+    if (this.waves) return this.waves.point;
+    if (this.cover) return this.cover.snapshot().phase === "warning" ? this.cover.point : undefined;
     if (this.camp) return this.camp.point;
     if (this.escort) return this.escort.nextTarget().point;
     if (this.definition.kind === "wind-route") return this.route[this.result.successes];
@@ -282,11 +309,13 @@ export class TrialAttempt {
     const valid = puzzle.modules
       ? !!modules && moduleSolutionValid(puzzle, modules)
       : !modules &&
-        (puzzle.pack
-          ? packAnswerValid(puzzle, answerId)
-          : puzzle.allocation
-            ? allocationAnswerValid(puzzle, answerId)
-            : answerId === puzzle.answer);
+        (puzzle.mirrors
+          ? traceMirrors(puzzle.mirrors, answerId).passed
+          : puzzle.pack
+            ? packAnswerValid(puzzle, answerId)
+            : puzzle.allocation
+              ? allocationAnswerValid(puzzle, answerId)
+              : answerId === puzzle.answer);
     if (!valid) {
       this.result.errors++;
       if (this.result.errors > this.definition.maxErrors)
@@ -294,7 +323,7 @@ export class TrialAttempt {
       return;
     }
     this.result.successes +=
-      puzzle.pack || puzzle.allocation
+      puzzle.pack || puzzle.allocation || puzzle.mirrors
         ? this.targetCount
         : puzzle.modules
           ? this.targetCount
@@ -310,6 +339,8 @@ export class TrialAttempt {
     this.result.reason = reason;
     this.session.paused = true;
     this.session.practiceTargets.removeOwner(this.instanceId);
+    this.waves?.dispose();
+    this.cover?.dispose();
     this.camp?.dispose();
     this.restraint?.dispose();
     this.escortHazard = undefined;
@@ -338,6 +369,22 @@ export class TrialAttempt {
         "failed",
         "Profil testowy poległ. Oryginalna postać nie utraciła zasobów.",
       );
+    const barrier = this.waves ?? this.cover;
+    if (barrier) {
+      barrier.update();
+      const r = barrier.snapshot();
+      this.result.successes = r.completed;
+      if (r.phase === "failed")
+        this.finish(
+          "failed",
+          this.waves
+            ? "Rdzeń utracił wymagane 50% HP."
+            : "Nie zajęto osłony w wymaganym oknie po zapowiedzi.",
+        );
+      else if (r.phase === "passed")
+        this.finish("passed", "Wszystkie cele osłony wykonane. Zatwierdź wynik.");
+      return;
+    }
     if (this.camp) {
       this.camp.update(this.result.activeMs);
       const r = this.camp.snapshot();
@@ -443,6 +490,12 @@ export class TrialAttempt {
   snapshot() {
     const r = this.restraint?.snapshot();
     const messages: Record<string, string> = {
+      "barrier-waves": this.waves
+        ? `Rdzeń: ${Math.ceil(this.waves.actor.body.hp)}% HP. ${this.waves.snapshot().phase === "warning" ? "FALA — zajmij zielony punkt i użyj B1." : "Przygotuj się na kolejną falę."}`
+        : "",
+      "cover-windows": this.cover
+        ? `${this.cover.snapshot().phase === "warning" ? "OSŁONA — rusz do zielonego punktu za ścianą." : "Czekaj na zapowiedź."} ${Math.ceil(this.cover.snapshot().remainingMs)} ms.`
+        : "",
       camp: this.camp
         ? `Pozostało ${Math.ceil(this.camp.snapshot().remainingMs / 1000)} s. Okno osłony ${Math.ceil(this.camp.snapshot().windowMs / 1000)} s. ${this.camp.snapshot().guarded ? "Punkt osłonięty; przygotuj się do kolejnego." : "Podejdź do zaznaczonej osłony."}`
         : "",
@@ -460,6 +513,8 @@ export class TrialAttempt {
     };
     return {
       ...this.result,
+      waves: this.waves?.snapshot() ?? null,
+      cover: this.cover?.snapshot() ?? null,
       camp: this.camp?.snapshot() ?? null,
       escort:
         this.escort && this.companion

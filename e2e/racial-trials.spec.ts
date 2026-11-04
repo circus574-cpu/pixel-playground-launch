@@ -118,6 +118,9 @@ for (const [race, id, land] of [
   ["Planetarni", "TV04", "verdant"],
   ["Planetarni", "TV05", "verdant"],
   ["Planetarni", "TV06", "verdant"],
+  ["Mędrcy", "TA04", "aether"],
+  ["Mędrcy", "TA05", "aether"],
+  ["Mędrcy", "TA06", "aether"],
   ["Mędrcy", "TA01", "aether"],
   ["Androidy", "TN08", "nexus"],
   ["Legendy", "TP08", "pyra"],
@@ -153,7 +156,32 @@ for (const [race, id, land] of [
         return metrics ? JSON.parse(metrics).renderer : null;
       })
       .toBe(info.project.name === "software-webgl" ? "WebGL" : "Canvas");
-    if (id === "TV09") {
+    if (id === "TA04" || id === "TA06") {
+      const result = page.getByRole("dialog", { name: "Wynik próby rasowej", exact: true });
+      let previous = "";
+      for (let i = 0; i < 1500 && !(await result.count()); i++) {
+        const d = await stage.evaluate((el) => ({ ...el.dataset }));
+        if (
+          d["barrierPhase"] === "warning" &&
+          d["trialX"] !== undefined &&
+          d["trialY"] !== undefined
+        ) {
+          const point = { x: Number(d["trialX"]), y: Number(d["trialY"]) };
+          const key = `${point.x},${point.y}`;
+          if (previous !== key) {
+            previous = key;
+            await walkToStation(page, false, point);
+            if (id === "TA04") {
+              await stage.locator('[data-ability="B1"]').click();
+              await page.screenshot({ path: info.outputPath("aether-barrier-active.png") });
+            }
+          }
+        }
+        await page.waitForTimeout(50);
+      }
+      if (id === "TA04")
+        expect(Number(await stage.getAttribute("data-object-hp"))).toBeGreaterThanOrEqual(50);
+    } else if (id === "TV09") {
       let previous = "";
       const result = page.getByRole("dialog", { name: "Wynik próby rasowej", exact: true });
       for (let i = 0; i < 800 && !(await result.count()); i++) {
@@ -302,7 +330,7 @@ for (const [race, id, land] of [
         await expect(stage).toHaveAttribute("data-trial-phase", "hold");
       }
     } else {
-      const rounds = ["TN08", "TV07", "TV08"].includes(id)
+      const rounds = ["TN08", "TV07", "TV08", "TA05"].includes(id)
         ? 1
         : id === "TV04"
           ? 2
@@ -317,7 +345,16 @@ for (const [race, id, land] of [
         if (i === 0)
           await page.screenshot({ path: info.outputPath(`${land}-trial-materials.png`) });
         const text = await materials.locator(".ki-trial-document").allTextContents();
-        if (id === "TV07") {
+        if (id === "TA05") {
+          await expect(
+            materials.getByRole("img", { name: "Układ zwierciadeł i promienia" }),
+          ).toBeVisible();
+          await expect(materials).toContainText("Lustro /");
+          await materials.getByRole("button", { name: "Obróć zwierciadło 2", exact: true }).click();
+          await expect(materials).toContainText("Podgląd: odbiornik.");
+          await page.screenshot({ path: info.outputPath("aether-mirror-route.png") });
+          await materials.getByRole("button", { name: "Uruchom promień", exact: true }).click();
+        } else if (id === "TV07") {
           const heading = await materials.getByRole("heading", { level: 2 }).innerText();
           const roles = heading.split("Potrzeby: ")[1]!.replace(/\.$/, "").split(", ");
           const rows = text.join(" ").split(". Wybierz")[0]!.split("; ");

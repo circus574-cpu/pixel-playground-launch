@@ -21,7 +21,24 @@ export function walkTrial(a: TrialAttempt, point: Point) {
 }
 export function completeTrial(a: TrialAttempt) {
   a.begin();
-  if (a.definition.kind === "camp") {
+  if (["barrier-waves", "cover-windows"].includes(a.definition.kind)) {
+    let previous = "";
+    for (let n = 0; n < 5000 && a.snapshot().outcome === "running"; n++) {
+      const r = a.snapshot(),
+        barrier = r.waves ?? r.cover;
+      if (barrier?.phase === "warning") {
+        const point = a.currentPoint!,
+          key = `${point.x},${point.y}`;
+        if (key !== previous) {
+          previous = key;
+          a.session.command({ type: "move", ...point });
+        }
+        if (r.waves && a.session.kit.shieldPoints === 0)
+          a.session.command({ type: "ability", ability: "B1" });
+      }
+      tickTrial(a);
+    }
+  } else if (a.definition.kind === "camp") {
     let last = "";
     for (let n = 0; n < 5000 && a.snapshot().outcome === "running"; n++) {
       const point = a.currentPoint!,

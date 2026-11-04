@@ -1,3 +1,4 @@
+import { MirrorPuzzle } from "./MirrorPuzzle";
 import { GameLoadingScreen } from "./GameLoadingScreen";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { TrialAttempt } from "../../game/development/trials/attempt";
@@ -119,6 +120,9 @@ export function TrialRoom({
       data-trial-phase={result.phase}
       data-trial-round={result.round}
       data-trial-successes={result.successes}
+      data-barrier-phase={result.waves?.phase ?? result.cover?.phase}
+      data-object-hp={result.waves?.object.hp}
+      data-barrier-remaining={result.waves?.remainingMs ?? result.cover?.remainingMs}
       data-camp-remaining={result.camp?.remainingMs}
       data-camp-guarded={result.camp?.guarded}
       data-companion-x={result.escort?.x}
@@ -194,7 +198,12 @@ export function TrialRoom({
               <p className="ki-trial-document">{doc.text}</p>
             </article>
           ))}
-          {puzzle.pack ? (
+          {puzzle.mirrors ? (
+            <MirrorPuzzle
+              board={puzzle.mirrors}
+              submit={(answer) => attempt.answer(result.round, answer)}
+            />
+          ) : puzzle.pack ? (
             <fieldset>
               <legend>Wybierz składniki zestawu</legend>
               {puzzle.options.map((option) => (

@@ -1,5 +1,43 @@
 # KI Legends — rozwój i walka
 
+## Bariery Mędrców — kontynuacja PR #90, 04.11
+
+TA04/TA05/TA06 odpowiadają §7.5 zlecenia właściciela z 28.10.
+TA04 wymaga ochrony obiektu przed 3/4/5 falami, z minimum 50% HP. Wypożyczony
+profil poznaje wyłącznie B1 oprócz podstawowego R; nie uczy go właściciela postaci.
+Gracz staje w punkcie przechwycenia pomiędzy źródłem a rdzeniem i uruchamia B1
+po zapowiedzi. Ochrona jest równa rzeczywistemu ubytkowi pojemności B1 przez
+`kit.absorb`; sam unik/nietykalność ani tarcza użyta poza punktem nie chronią
+rdzenia. `ProtectedActor` obsługuje HP, zdarzenia trafień i śmierć, wyłącznie
+środowiskowo — bez rejestrowania obiektu jako celu AI potworów w mieście.
+Profil ćwiczebny: 100 HP rdzenia, fala 30 obrażeń, promień przechwycenia 40 j.,
+zapowiedź 1800 ms, przygotowanie pierwszej fali 1500 ms i kolejnych 11 s.
+To jawne parametry sali; zwykła pojemność, koszt KI, czas i cooldown B1 pozostają
+kanoniczne. Jedna nieosłonięta fala pozostawia 70 HP; dwie obniżają do 40 i przerywają próbę.
+
+TA05 ma planszę z 2/3/4 obracanymi zwierciadłami i jawnym podglądem promienia.
+Wspólny klientowi i serwerowi ray tracer odbija promień od / i \, sprawdza wszystkie
+zwierciadła, odbiornik, chroniony punkt, wyjście poza planszę i pętle. Warunkiem
+jest rzeczywista poprawna trasa, nie porównanie z ukrytym kodem odpowiedzi.
+Ustawienia idą istniejącym polem `answerId`, bez nowego RPC ani zmiany formatu zapisu.
+
+TA06 wymaga osłony w 3/4/5 oknach, w 1800/1500/1300 ms od zapowiedzi.
+Dwa punkty znajdują się za istniejącą ścianą względem naprzemiennych źródeł.
+W chwili rozstrzygnięcia gracz musi być w promieniu 50 j., mieć przerwaną linię
+widoczności do źródła oraz wykonać ruch co najmniej 30 j. po sygnale. Przygotowanie
+między oknami wynosi 1200 ms. Samo wcześniejsze zajęcie miejsca i AFK nie wystarcza.
+To profil terenowego ćwiczenia, bez nowego modelu obrażeń lub fal AI.
+Pauza zatrzymuje oba kontrolery, anulowanie usuwa przejściowy stan próby.
+
+Bariery II (minimum trzech wyników) odblokowują istniejący `ma-barrier`,
+bez zmiany kompromisu: czas ×1,50, pojemność ×0,80. Ledger wydaje praktykę
+100/150/200 tylko raz za stopień; zapis zachowuje formaty 10/6 i development v3.
+Katalog obejmuje **24/48 prób i 72/144 stopni**. Mędrcy mają 6/12 prób i 2700
+praktyki z prób; wcześniejsza teoretyczna suma wynosi 15 100, wciąż o 2700 mniej
+niż 17 800. Osiągalność/balans pełnej kampanii nie są jeszcze potwierdzone.
+[Dowody i ograniczenia](zmiany/2026-11-04/ZMIANY.md#bariery-mędrców--ta04-ta05-ta06).
+
+
 ## Opieka Planetarnych — kontynuacja PR #90, 04.11
 
 TV07/TV08/TV09 implementują §6.5 specyfikacji właściciela. Zapas wymaga wybrania

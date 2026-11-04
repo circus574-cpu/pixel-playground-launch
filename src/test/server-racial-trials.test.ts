@@ -163,10 +163,10 @@ it("server disposal discards an unfinished loan without changing its character",
   expect(s.session.player).toEqual(before);
 });
 
-it.each(["TV01", "TV02", "TV03", "TV07", "TV08", "TV09"] as const)(
+it.each(["TV01", "TV02", "TV03", "TV07", "TV08", "TV09", "TA04", "TA05", "TA06"] as const)(
   "server authoritatively completes %s and restores only the owned grade",
   async (id) => {
-    const { record, simulation: s } = await fixture("planetary");
+    const { record, simulation: s } = await fixture(id.startsWith("TA") ? "sage" : "planetary");
     try {
       const before = structuredClone(s.session.player);
       s.command({ type: "trial-start", id, tier: 1 });
@@ -178,7 +178,7 @@ it.each(["TV01", "TV02", "TV03", "TV07", "TV08", "TV09"] as const)(
       action("accept");
       expect(s.session.player).toEqual(before);
       action("ready");
-      if (["TV02", "TV07", "TV08"].includes(id)) {
+      if (["TV02", "TV07", "TV08", "TA05"].includes(id)) {
         const puzzles = trialPuzzles(a.definition, 1);
         for (let i = 0; i < puzzles.length; i++) {
           const target = a.currentPoint!;
@@ -192,6 +192,23 @@ it.each(["TV01", "TV02", "TV03", "TV07", "TV08", "TV09"] as const)(
             round: i,
             answerId: puzzles[i]!.answer,
           });
+        }
+      } else if (id === "TA04" || id === "TA06") {
+        let previous = "";
+        for (let i = 0; i < 3000 && a.snapshot().outcome === "running"; i++) {
+          const r = a.snapshot(),
+            barrier = r.waves ?? r.cover;
+          if (barrier?.phase === "warning") {
+            const point = a.currentPoint!,
+              key = `${point.x},${point.y}`;
+            if (key !== previous) {
+              previous = key;
+              input({ type: "move", ...point });
+            }
+            if (r.waves && a.session.kit.shieldPoints === 0)
+              input({ type: "ability", ability: "B1" });
+          }
+          await s.tick(50);
         }
       } else if (id === "TV09") {
         let previous = "";

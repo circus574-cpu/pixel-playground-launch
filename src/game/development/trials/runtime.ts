@@ -57,6 +57,46 @@ export function trialRuntime(attempt: TrialAttempt): GameRuntime {
         next = now + 100;
         const result = attempt.snapshot();
         marks.clear();
+        const barrier = result.waves ?? result.cover;
+        if (barrier) {
+          marks
+            .lineStyle(2, barrier.phase === "warning" ? 0xff817e : 0xbc8878)
+            .lineBetween(
+              barrier.origin.x,
+              barrier.origin.y,
+              result.waves?.object.x ?? barrier.point.x,
+              result.waves?.object.y ?? barrier.point.y,
+            )
+            .strokeCircle(barrier.origin.x, barrier.origin.y, 12);
+          if (result.waves) {
+            const object = result.waves.object;
+            marks
+              .fillStyle(0x64dcf5)
+              .fillTriangle(
+                object.x,
+                object.y - 24,
+                object.x + 18,
+                object.y,
+                object.x,
+                object.y + 24,
+              )
+              .fillTriangle(
+                object.x,
+                object.y - 24,
+                object.x - 18,
+                object.y,
+                object.x,
+                object.y + 24,
+              )
+              .lineStyle(3, 0xe5d28b)
+              .strokeCircle(object.x, object.y, 28);
+            health
+              .setVisible(true)
+              .setPosition(object.x, object.y - 35)
+              .setDepth(object.y + 1)
+              .setText(`Rdzeń · ${Math.ceil(object.hp)}% HP`);
+          }
+        }
         if (result.camp) {
           for (const p of result.camp.points) {
             marks
@@ -111,7 +151,7 @@ export function trialRuntime(attempt: TrialAttempt): GameRuntime {
           title.setVisible(visible);
           label.setVisible(visible);
           companion?.setVisible(visible);
-          health.setVisible(visible && !!companion);
+          health.setVisible(visible && (!!companion || !!attempt.snapshot().waves));
         },
         dispose: () => {
           scene.events.off("update", draw);

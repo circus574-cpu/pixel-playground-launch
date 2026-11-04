@@ -1,3 +1,4 @@
+import { mirrorBoard, type MirrorBoard } from "./mirrors";
 import { MODULE_ENERGY, type ModuleId } from "../state";
 import { MODULES } from "../modifiers";
 import type { TrialDefinition, TrialTier } from "./catalog";
@@ -7,6 +8,7 @@ export type TrialPuzzle = {
   documents: { title: string; text: string }[];
   options: { id: string; label: string }[];
   answer: string;
+  mirrors?: MirrorBoard;
   modules?: { count: number; budget: number; required: string[] };
   pack?: { count: number };
   allocation?: { total: number; demands: readonly [number, number] };
@@ -87,6 +89,22 @@ export function allocationAnswerValid(puzzle: TrialPuzzle, value: string) {
 /** Training records are explicit exercises, not new claims about the campaign's history. */
 export function trialPuzzles(def: TrialDefinition, tier: TrialTier): TrialPuzzle[] {
   const count = def.targets[tier - 1]!;
+  if (def.kind === "mirrors") {
+    return [
+      {
+        prompt: `Ustaw ${count} zwierciadła i doprowadź promień do odbiornika, omijając chroniony punkt.`,
+        documents: [
+          {
+            title: "Karta optyczna",
+            text: "Źródło Ź emituje promień w prawo. Lustro / odbija: prawo → góra, góra → prawo, lewo → dół, dół → lewo. Lustro \\ odbija: prawo → dół, dół → prawo, lewo → góra, góra → lewo. O to odbiornik, ! to chroniony punkt. Promień musi wykorzystać wszystkie zwierciadła. Obracaj lustra i sprawdzaj jawną trasę, potem uruchom promień.",
+          },
+        ],
+        options: [],
+        mirrors: mirrorBoard(tier),
+        answer: ["/", "\\", "/", "\\"].slice(0, count).join(","),
+      },
+    ];
+  }
   if (def.kind === "supplies") {
     const entries = [
       ["Liść opatrunkowy", "opatrunek"],

@@ -1,0 +1,10 @@
+
+Running 3 tests using 1 worker
+
+(node:7396) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/racial-trials.spec.ts:128:3 › Mędrcy: real TA04, one-time reward and reload (1.1m)
+  ✓  2 [gameplay] › e2e/racial-trials.spec.ts:128:3 › Mędrcy: real TA05, one-time reward and reload (30.3s)
+  ✓  3 [gameplay] › e2e/racial-trials.spec.ts:128:3 › Mędrcy: real TA06, one-time reward and reload (49.1s)
+
+  3 passed (2.5m)
