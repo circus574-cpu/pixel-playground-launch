@@ -28,3 +28,17 @@ pliki referencyjne z tej samej gałęzi, bez zmian źródeł. Końcowy wynik pon
 [Dowody](qa/prompt-board-refresh/).
 
 Pełny TypeScript aplikacji/e2e/tools: PASS. Lint: 0 błędów / 15 istniejących ostrzeżeń.
+
+
+### Potwierdzone wdrożenie
+
+Panel **opublikowany na stagingu** z `ad3dc5fddc9fd5b0e3df7a3c0be84e3f34f7e976`:
+[workflow 41806554958](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41806554958), SUCCESS.
+Read-only audyt po wdrożeniu
+[41806787479](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41806787479)
+potwierdza 584 brakujące prompty, 7/7 plików zgodnych z ich SHA-256 oraz identyczność
+stanu z kopią przed wdrożeniem. Nie utracono danych ani historii.
+Publiczny HTML/JS/moduł kolejki: HTTP 200, zgodność bajtowa/SHA z wydaniem;
+prywatny katalog bez logowania: HTTP 401. Pełny TypeScript ponowiony: PASS.
+Wyniki są w `qa/prompt-board-refresh/deployment.json` i `inventory-after.json`.
+Kod gry i jego wdrożenie nie zostały zmienione. Kolejny commit zawiera tylko ten zapis dowodów.

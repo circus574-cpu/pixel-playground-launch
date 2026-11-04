@@ -1,0 +1,74 @@
+{
+  "release": "ad3dc5fddc9fd5b0e3df7a3c0be84e3f34f7e976",
+  "catalogCount": 584,
+  "pendingCount": 584,
+  "kinds": {
+    "texture": 10,
+    "icon": 70,
+    "effect": 17,
+    "portrait": 9,
+    "object": 78,
+    "animation": 400
+  },
+  "uploaded": [
+    {
+      "id": "training.planetary.dummy",
+      "files": 1,
+      "types": [
+        "image/jpeg"
+      ],
+      "revision": false
+    },
+    {
+      "id": "training.planetary.target",
+      "files": 1,
+      "types": [
+        "image/jpeg"
+      ],
+      "revision": false
+    },
+    {
+      "id": "training.planetary.ki-node",
+      "files": 1,
+      "types": [
+        "image/jpeg"
+      ],
+      "revision": false
+    },
+    {
+      "id": "project.P-V3.before",
+      "files": 1,
+      "types": [
+        "image/jpeg"
+      ],
+      "revision": false
+    },
+    {
+      "id": "project.P-V3.after",
+      "files": 1,
+      "types": [
+        "image/jpeg"
+      ],
+      "revision": false
+    },
+    {
+      "id": "project.P-V4.before",
+      "files": 1,
+      "types": [
+        "image/jpeg"
+      ],
+      "revision": false
+    },
+    {
+      "id": "project.P-V4.after",
+      "files": 1,
+      "types": [
+        "image/jpeg"
+      ],
+      "revision": false
+    }
+  ],
+  "filesTotal": 7,
+  "filesVerified": 7,
+  "backupMatches": true
+}

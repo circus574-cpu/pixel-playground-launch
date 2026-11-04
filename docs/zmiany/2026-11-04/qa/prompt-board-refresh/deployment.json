@@ -1,0 +1,30 @@
+{
+  "release": "ad3dc5fddc9fd5b0e3df7a3c0be84e3f34f7e976",
+  "deploymentRun": 41806554958,
+  "auditRun": 41806787479,
+  "filesPreserved": 7,
+  "hashesVerified": 7,
+  "stateBackupMatches": true,
+  "httpTestsPassed": 15,
+  "browserScenariosPassed": 6,
+  "pendingPrompts": 584,
+  "newInteriorTextures": 10,
+  "archivedReadyPrompts": 91,
+  "public": {
+    "/prompty/": {
+      "status": 200,
+      "sha256": "12e3a7d71301354c306ba0e72c157cc6d9c05bc197e0c3a4581fa0a34027c35f"
+    },
+    "/prompty/app.js": {
+      "status": 200,
+      "sha256": "623592396b77d4761b059d0397abc0d63812991fc5d1638411d8b09d06a39f41"
+    },
+    "/prompty/queue.mjs": {
+      "status": 200,
+      "sha256": "0f7a12ee4fd842a960a7ce87258ff498cad751704cd6893336df3d08721ab068"
+    },
+    "/prompty/api/prompts": {
+      "status": 401
+    }
+  }
+}

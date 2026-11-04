@@ -1,0 +1,4 @@
+
+> typecheck
+> tsc --noEmit && tsc --noEmit -p tsconfig.e2e.json && tsc --noEmit -p tsconfig.tools.json
+
