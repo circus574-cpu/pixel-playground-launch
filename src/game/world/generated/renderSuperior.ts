@@ -1,4 +1,13 @@
 import {
+  aetheriaContinentEnabled,
+  aetheriaTerrainBindings,
+  aetheriaBiomeBindings,
+  aetheriaObjects,
+  aetheriaRoadside,
+  aetheriaBiomeAt,
+  aetheriaNoise,
+} from "./aetheriaContinent";
+import {
   pyraContinentEnabled,
   pyraTerrainBindings,
   pyraBiomeBindings,
@@ -113,10 +122,23 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   const painted = paintedMeadowEnabled(source.loader.definition.feature);
   const pyraContinent = pyraContinentEnabled(source.loader.definition.feature);
   const verdantContinent = verdantiaContinentEnabled(source.loader.definition.feature);
-  const continent = verdantContinent || pyraContinent;
-  const terrainBindings = pyraContinent ? pyraTerrainBindings : continentTerrainBindings;
-  const biomeBindings = pyraContinent ? pyraBiomeBindings : continentBiomeBindings;
-  const terrainPrefix = pyraContinent ? "terrain.pyra-continent." : "terrain.verdantia-continent.";
+  const aetheriaContinent = aetheriaContinentEnabled(source.loader.definition.feature);
+  const continent = verdantContinent || pyraContinent || aetheriaContinent;
+  const terrainBindings = aetheriaContinent
+    ? aetheriaTerrainBindings
+    : pyraContinent
+      ? pyraTerrainBindings
+      : continentTerrainBindings;
+  const biomeBindings = aetheriaContinent
+    ? aetheriaBiomeBindings
+    : pyraContinent
+      ? pyraBiomeBindings
+      : continentBiomeBindings;
+  const terrainPrefix = aetheriaContinent
+    ? "terrain.aetheria-continent."
+    : pyraContinent
+      ? "terrain.pyra-continent."
+      : "terrain.verdantia-continent.";
   const remapObjects = pyraContinent ? pyraObjects : continentObjects;
   const roadside = pyraContinent ? pyraRoadside : continentRoadside;
   const outside = source.outsideCities ?? (() => false);
@@ -153,7 +175,14 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       ? meadowBuildings(source.art.acceptedCityBuildings)
       : source.art.acceptedCityBuildings),
     ...(painted && source.loader.definition.feature === "aether"
-      ? aetherLegacyScenery(source.art.acceptedCityScenery ?? [])
+      ? aetheriaContinent
+        ? [
+            ...aetherLegacyScenery(
+              (source.art.acceptedCityScenery ?? []).filter((item) => !outside(item)),
+            ),
+            ...(source.art.acceptedCityScenery ?? []).filter(outside),
+          ]
+        : aetherLegacyScenery(source.art.acceptedCityScenery ?? [])
       : paintedNexus
         ? nexusScenery(source.art.acceptedCityScenery ?? [])
         : (source.art.acceptedCityScenery ?? [])),
@@ -297,7 +326,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       ctx.globalAlpha = 1;
     };
     if (!wilderness)
-      for (const b of biomes)
+      for (const b of aetheriaContinent ? [...biomes].sort((a, b) => a - b) : biomes)
         texture(ground[b] ?? ground[0]!, groundAlpha, (i) => !!(flags[i]! & 16) && biome[i] === b);
     if (painted && !wilderness) {
       const shop = source.art.acceptedCityBuildings.find((b) => b.id === "accepted-city-shop");
@@ -374,6 +403,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         (i) =>
           !!(flags[i]! & 16) &&
           biome[i] !== 2 &&
+          (!aetheriaContinent || biome[i]! < 2) &&
           outside(cellPoint(i)) &&
           [i - 2, i + 2, i - cols * 2, i + cols * 2].some(
             (j) => j >= 0 && j < flags.length && !(flags[j]! & 16),
@@ -384,6 +414,42 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         pattern(terrainPrefix + "water"),
         1,
         (i) => !(flags[i]! & 16) && outside(cellPoint(i)),
+        false,
+      );
+    }
+    if (aetheriaContinent) {
+      const dryLand = (i: number) => !!(flags[i]! & 16) && outside(cellPoint(i));
+      texture(
+        pattern(terrainPrefix + "snow"),
+        0.95,
+        (i) => {
+          const p = cellPoint(i);
+          return (
+            dryLand(i) &&
+            biome[i]! >= 2 &&
+            Math.sin(p.x / 510) + Math.cos(p.y / 670) > (biome[i] === 3 ? 0.75 : -0.3)
+          );
+        },
+        false,
+      );
+      texture(
+        pattern(terrainPrefix + "wet"),
+        0.65,
+        (i) => {
+          const p = cellPoint(i);
+          return dryLand(i) && biome[i] === 0 && Math.sin(p.x / 490) + Math.cos(p.y / 740) > 1.2;
+        },
+        false,
+      );
+      texture(
+        pattern(terrainPrefix + "river"),
+        0.65,
+        (i) =>
+          !(flags[i]! & 16) &&
+          outside(cellPoint(i)) &&
+          [i - 2, i + 2, i - cols * 2, i + cols * 2].some(
+            (j) => j >= 0 && j < flags.length && !!(flags[j]! & 16),
+          ),
         false,
       );
     }
@@ -420,7 +486,13 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         false,
       );
     }
-    if (painted && !paintedPyra && !paintedNexus) meadowLight(ctx, data.x, data.y, scale);
+    if (
+      painted &&
+      !paintedPyra &&
+      !paintedNexus &&
+      !(aetheriaContinent && wilderness && (biomes.has(2) || biomes.has(3)))
+    )
+      meadowLight(ctx, data.x, data.y, scale);
     const silhouette = painted ? document.createElement("canvas") : undefined;
     if (silhouette) silhouette.width = silhouette.height = resolution + 48;
     const pen = silhouette?.getContext("2d") ?? ctx;
@@ -505,7 +577,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         return { c, p };
       };
       const masks: ({ c: HTMLCanvasElement; p: CanvasRenderingContext2D } | undefined)[] =
-        Array.from({ length: 4 });
+        Array.from({ length: aetheriaContinent ? 5 : 4 });
       for (const r of source.roads) {
         // Split only the presentation stroke, keeping every original point and width.
         for (let i = 1; i < r.points.length; i++) {
@@ -522,21 +594,39 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             continue;
           const col = Math.max(0, Math.min(cols - 1, Math.floor(((mx - data.x) / CHUNK) * cols)));
           const row = Math.max(0, Math.min(rows - 1, Math.floor(((my - data.y) / CHUNK) * rows)));
-          const kind = pyraContinent
+          const nearWater =
+            aetheriaContinent &&
+            [
+              row * cols + col - 2,
+              row * cols + col + 2,
+              (row - 2) * cols + col,
+              (row + 2) * cols + col,
+            ].some((j) => j >= 0 && j < flags.length && !(flags[j]! & 16));
+          const kind = aetheriaContinent
             ? biome[row * cols + col]! >= 2
-              ? 2
-              : r.kind.includes("trail")
+              ? 3
+              : nearWater
+                ? 4
+                : r.kind === "road" || r.kind === "city-path"
+                  ? 0
+                  : biome[row * cols + col] === 1
+                    ? 2
+                    : 1
+            : pyraContinent
+              ? biome[row * cols + col]! >= 2
+                ? 2
+                : r.kind.includes("trail")
+                  ? 3
+                  : r.kind === "road" || r.kind === "city-path"
+                    ? 0
+                    : 1
+              : biome[row * cols + col] === 2
                 ? 3
                 : r.kind === "road" || r.kind === "city-path"
                   ? 0
-                  : 1
-            : biome[row * cols + col] === 2
-              ? 3
-              : r.kind === "road" || r.kind === "city-path"
-                ? 0
-                : r.kind.includes("trail")
-                  ? 2
-                  : 1;
+                  : r.kind.includes("trail")
+                    ? 2
+                    : 1;
           const mask = (masks[kind] ??= createMask());
           strokeRoad([a, b], r.width, "#fff", mask.p);
         }
@@ -641,9 +731,17 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     return {
       key,
       image: scene.add
-        .image(data.x, data.y, key)
+        // A one-unit bleed prevents subpixel cracks between wilderness tiles when zooming.
+        .image(
+          data.x - (aetheriaContinent && wilderness ? 1 : 0),
+          data.y - (aetheriaContinent && wilderness ? 1 : 0),
+          key,
+        )
         .setOrigin(0)
-        .setDisplaySize(CHUNK, CHUNK)
+        .setDisplaySize(
+          CHUNK + (aetheriaContinent && wilderness ? 2 : 0),
+          CHUNK + (aetheriaContinent && wilderness ? 2 : 0),
+        )
         .setDepth(renderDepth("ground"))
         // Slightly darker, cooler ground and scenery keep the actors in the foreground.
         .setTint(0xd0d4dc)
@@ -657,15 +755,27 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       const [data, art] = await Promise.all([source.loader.loadChunk(x, y), source.readArt(x, y)]);
       if (disposed || !wanted.has(id)) return;
       const originalItems = [...art, ...(staticGrid.get(id) ?? [])];
-      const items = continent ? remapObjects(originalItems, outside, source.roads) : originalItems;
+      const biomeAt = aetheriaContinent ? aetheriaBiomeAt(data) : () => 0;
+      const items = aetheriaContinent
+        ? aetheriaObjects(originalItems, outside, source.roads, biomeAt)
+        : continent
+          ? remapObjects(originalItems, outside, source.roads)
+          : originalItems;
       if (continent) {
         const flags = decodeRuns(data.terrain.flags, data.terrain.width * data.terrain.height);
         items.push(
-          ...roadside(data.x, data.y, source.roads, outside, (p) => {
-            const col = Math.floor(((p.x - data.x) / CHUNK) * data.terrain.width),
-              row = Math.floor(((p.y - data.y) / CHUNK) * data.terrain.height);
-            return !!(flags[row * data.terrain.width + col]! & 16);
-          }),
+          ...(aetheriaContinent ? aetheriaRoadside : roadside)(
+            data.x,
+            data.y,
+            source.roads,
+            outside,
+            (p) => {
+              const col = Math.floor(((p.x - data.x) / CHUNK) * data.terrain.width),
+                row = Math.floor(((p.y - data.y) / CHUNK) * data.terrain.height);
+              return !!(flags[row * data.terrain.width + col]! & 16);
+            },
+            biomeAt,
+          ),
         );
       }
       const ids = new Set(
@@ -754,6 +864,11 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         }
         if (!image) {
           const ref = catalog.renderBindings[item.binding]!;
+          const iceFormation =
+            aetheriaContinent && item.binding === "object.aetheria-continent.glacier-ridge";
+          const drawScale = iceFormation
+            ? 0.65 + aetheriaNoise(item.x + 11, item.y - 29) * 0.25
+            : 1;
           image = sizeScenery(
             scene.add.image(
               item.x,
@@ -762,37 +877,41 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
                 (paintedNexus && ref.asset.startsWith("nexus-painted-")) ||
                 ref.asset.startsWith("verdantia-continent-") ||
                 ref.asset.startsWith("verdantia-extra-") ||
-                ref.asset.startsWith("pyra-continent-")
+                ref.asset.startsWith("pyra-continent-") ||
+                ref.asset.startsWith("aetheria-continent-")
                 ? ref.asset
                 : blendedTexture(scene, ref.asset, ref.frame),
               ref.frame,
             ),
-            item.width,
-            item.height,
+            item.width * drawScale,
+            item.height * drawScale,
             ref.fit,
           )
             .setOrigin(item.anchorX, item.anchorY)
             .setTint(
               ref.asset.startsWith("verdantia-continent-") ||
                 ref.asset.startsWith("verdantia-extra-") ||
-                ref.asset.startsWith("pyra-continent-")
+                ref.asset.startsWith("pyra-continent-") ||
+                ref.asset.startsWith("aetheria-continent-")
                 ? 0xf5f2de
                 : 0xdfe2e8,
             )
             .setDepth(renderDepth(item.layer ?? "objects", item.y));
+          if (iceFormation) image.setFlipX(aetheriaNoise(item.x, item.y) > 0.5);
           tile.images.set(item.id, image);
           if (
             item.kind !== "ambient-effect" &&
             (ref.asset.startsWith("verdantia-continent-") ||
               ref.asset.startsWith("verdantia-extra-") ||
-              ref.asset.startsWith("pyra-continent-"))
+              ref.asset.startsWith("pyra-continent-") ||
+              ref.asset.startsWith("aetheria-continent-"))
           ) {
             // A shared transparent sprite can straddle a chunk boundary without a cut shadow.
             tile.shadows.set(
               item.id,
               scene.add
                 .image(item.x + item.width * 0.08, item.y, shadowKey)
-                .setDisplaySize(item.width * 0.84, item.width * 0.35)
+                .setDisplaySize(item.width * drawScale * 0.84, item.width * drawScale * 0.35)
                 .setDepth(renderDepth("paths")),
             );
           }
@@ -843,6 +962,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     scene.game.canvas.dataset["superiorPainted"] = String(painted);
     scene.game.canvas.dataset["verdantiaContinent"] = String(verdantContinent);
     scene.game.canvas.dataset["pyraContinent"] = String(pyraContinent);
+    scene.game.canvas.dataset["aetheriaContinent"] = String(aetheriaContinent);
     scene.game.canvas.dataset["verdantiaExtra"] = String(verdantContinent && extraSceneryEnabled());
     scene.game.canvas.dataset["superiorGroundResolution"] = String(resolution);
     scene.game.canvas.dataset["superiorScenery"] = String(

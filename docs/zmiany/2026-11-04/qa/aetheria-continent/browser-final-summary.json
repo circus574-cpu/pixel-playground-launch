@@ -1,0 +1,159 @@
+{
+  "allPassed": true,
+  "checks": [
+    {
+      "title": "Aetheria: real terrain, city, ambient graphics, streaming, reload and PvE",
+      "project": "gameplay",
+      "status": "passed",
+      "durationMs": 62595,
+      "runtime": {
+        "scenes": [
+          {
+            "name": "terraces",
+            "x": 36840,
+            "y": "23272"
+          },
+          {
+            "name": "grove",
+            "x": 36584,
+            "y": "20712"
+          },
+          {
+            "name": "peaks",
+            "x": 37608,
+            "y": "16360"
+          },
+          {
+            "name": "glaciers",
+            "x": 18408,
+            "y": "16872"
+          }
+        ],
+        "errors": [],
+        "missing": [],
+        "metrics": {
+          "sampleAtMs": 15077,
+          "fps": 38.01,
+          "frameP50Ms": 23.100000001490116,
+          "frameP95Ms": 41.29999999701977,
+          "frameMaxMs": 69.60000000149012,
+          "slowFrames": 3,
+          "objects": 544,
+          "activeObjects": 544,
+          "visibleObjects": 498,
+          "textures": 115,
+          "estimatedTextureBytes": 232420160,
+          "bakedTextureBytes": 0,
+          "jsHeapBytes": 422908301,
+          "renderer": "Canvas",
+          "drawCalls": null
+        }
+      }
+    },
+    {
+      "title": "Pyra: real terrain, city, ambient graphics, streaming, reload and PvE",
+      "project": "gameplay",
+      "status": "passed",
+      "durationMs": 67524,
+      "runtime": {
+        "scenes": [
+          {
+            "name": "ash",
+            "x": 44048,
+            "y": "12528"
+          },
+          {
+            "name": "basalt",
+            "x": 47376,
+            "y": "15472"
+          },
+          {
+            "name": "volcanic",
+            "x": 46224,
+            "y": "11184"
+          },
+          {
+            "name": "canyon",
+            "x": 48784,
+            "y": "15472"
+          }
+        ],
+        "errors": [],
+        "missing": [],
+        "metrics": {
+          "sampleAtMs": 16830,
+          "fps": 17.99,
+          "frameP50Ms": 16,
+          "frameP95Ms": 519,
+          "frameMaxMs": 519,
+          "slowFrames": 2,
+          "objects": 521,
+          "activeObjects": 521,
+          "visibleObjects": 469,
+          "textures": 120,
+          "estimatedTextureBytes": 205318028,
+          "bakedTextureBytes": 0,
+          "jsHeapBytes": 297885263,
+          "renderer": "Canvas",
+          "drawCalls": null
+        }
+      }
+    },
+    {
+      "title": "Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE",
+      "project": "gameplay",
+      "status": "passed",
+      "durationMs": 69391,
+      "runtime": {
+        "metrics": {
+          "sampleAtMs": 13936,
+          "fps": 35.68,
+          "frameP50Ms": 23.299999997019768,
+          "frameP95Ms": 56.5,
+          "frameMaxMs": 85,
+          "slowFrames": 4,
+          "objects": 323,
+          "activeObjects": 323,
+          "visibleObjects": 261,
+          "textures": 116,
+          "estimatedTextureBytes": 219043504,
+          "bakedTextureBytes": 0,
+          "jsHeapBytes": 563244367,
+          "renderer": "Canvas",
+          "drawCalls": null
+        },
+        "errors": [],
+        "missing": []
+      }
+    },
+    {
+      "title": "Aetheria: real terrain, city, ambient graphics, streaming, reload and PvE",
+      "project": "software-webgl",
+      "status": "passed",
+      "durationMs": 89872,
+      "runtime": {
+        "scenes": [],
+        "errors": [],
+        "missing": [],
+        "metrics": {
+          "sampleAtMs": 43693,
+          "fps": 13.06,
+          "frameP50Ms": 72.70000000298023,
+          "frameP95Ms": 134.89999999850988,
+          "frameMaxMs": 134.89999999850988,
+          "slowFrames": 13,
+          "objects": 361,
+          "activeObjects": 361,
+          "visibleObjects": 313,
+          "textures": 114,
+          "estimatedTextureBytes": 232156276,
+          "bakedTextureBytes": 0,
+          "jsHeapBytes": 286000000,
+          "renderer": "WebGL",
+          "drawCalls": null
+        }
+      }
+    }
+  ],
+  "scope": "Functional Canvas: Aetheria/Pyra/Verdantia; software WebGL: Aetheria. Hardware phone performance remains unverified."
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "file": "generated-surfaces.png",
+    "sha256": "b8e41db4d3f2fa3543bbb7055a7c0d3368b626817fcc0e07d88bd04dab88db6b"
+  },
+  {
+    "file": "aetheria-rockg.png",
+    "sha256": "07b82516008473c7531ab60c7d28995de6d375f3fa391dfa2b2c2d5de4745f06"
+  },
+  {
+    "file": "aetheria-wet.png",
+    "sha256": "0d3e37420ec1cfe043fb1ded5150b335a47332d6bb26623eb9a7413426d5d0db"
+  },
+  {
+    "file": "aetheria-sand.png",
+    "sha256": "5302cefb090cc2246b67e52a9d4468d7f9fe61a82ba4bdbb9bb9ed0d192e0640"
+  },
+  {
+    "file": "aetheria-water.png",
+    "sha256": "5d1a6b6cc5e76ae5284456a6ec84302f391d8a2adc54c62454a63ea51c9a41be"
+  },
+  {
+    "file": "aetheria-road1.png",
+    "sha256": "93339c8dd3a40cc6fb20ea0a1bff987e1d55273f0b21fe550d010bf7026e0558"
+  },
+  {
+    "file": "aetheria-road2.png",
+    "sha256": "06c04b87c38e39809a47e22116cd60bcae7ed30f2e34bb4fa31e7248376ed921"
+  },
+  {
+    "file": "aetheria-road3.png",
+    "sha256": "939e548f7c1e6083f1bcec2055137a0c2ad2f6c08b6ac8048b28b8bff9597a89"
+  },
+  {
+    "file": "aetheria-road4.png",
+    "sha256": "15eeda4439c7fdb22ce6f3b70c8eb41ee6fa1ba70ab26fb7d1e20609cda26102"
+  },
+  {
+    "file": "aetheria-road5.png",
+    "sha256": "093ae5d75b03d128e7f1e40ff6b69b360044a3beb56b22316dd6c34fa443e80a"
+  },
+  {
+    "file": "aetheria-river.png",
+    "sha256": "fc7654dbd5b3a5071e8e1c606cf9c188abba3e1eecac695da174b38cefa22612"
+  },
+  {
+    "file": "generated-plants.png",
+    "sha256": "8d190861ec5c9d283305fc93610a7022e61c494640b56f21ce04be1430728208"
+  },
+  {
+    "file": "generated-landforms.png",
+    "sha256": "af60f0127d76f1b67f4ee76bc41c8ab0c229edfc507c973a092446043f11cd5c"
+  },
+  {
+    "file": "generated-props.png",
+    "sha256": "02e6920406e06f234af88ee306ea92f906ea735d6ea99a278e3c080d10085cc7"
+  }
+]

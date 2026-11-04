@@ -1,0 +1,19 @@
+import {readFileSync,readdirSync,writeFileSync} from 'node:fs';
+import {aetheriaObjects,aetheriaBiomeAt} from './src/game/world/generated/aetheriaContinent';
+import type {ArtObject} from './src/game/world/generated/renderSuperior';
+import type {BrowserChunk} from './src/game/world/generated/browserLoader';
+const dir='public/game/worlds/superior-v2/aether/';
+const world=JSON.parse(readFileSync(dir+'world.json','utf8'));
+const art=JSON.parse(readFileSync('public/game/worlds/superior-v2/art/aether/feature.art.json','utf8'));
+const outside=(p:{x:number;y:number})=>world.settlements.every((s:{bounds:{x:number;y:number;width:number;height:number}})=>p.x<s.bounds.x-12||p.x>s.bounds.x+s.bounds.width+12||p.y<s.bounds.y-12||p.y>s.bounds.y+s.bounds.height+12);
+const counts:Record<string,number>={},examples:Record<string,ArtObject>={},climates:Record<string,Record<string,number>>={};
+const objects=Object.values(art).filter(Array.isArray).flat().filter(o=>o?.binding) as ArtObject[];
+for(const name of readdirSync('public/game/worlds/superior-v2/art/aether/chunks'))if(name.endsWith('.art.json'))objects.push(...JSON.parse(readFileSync('public/game/worlds/superior-v2/art/aether/chunks/'+name,'utf8')).objects);
+const cache=new Map<string,(p:{x:number;y:number})=>number>();
+const biomeAt=(p:{x:number;y:number})=>{const key=Math.floor(p.x/2048)+'-'+Math.floor(p.y/2048);let at=cache.get(key);if(!at){at=aetheriaBiomeAt(JSON.parse(readFileSync(dir+'chunks/'+key+'.json','utf8')) as BrowserChunk);cache.set(key,at);}return at(p);};
+for(const item of objects)if(outside(item))for(const mapped of aetheriaObjects([item],outside,world.roads,biomeAt))if(mapped.binding.startsWith('object.aetheria-continent.')){
+ const key=mapped.binding.replace('object.aetheria-continent.','');counts[key]=(counts[key]??0)+1;
+ const b=String(biomeAt(item));climates[b]??={};climates[b]![key]=(climates[b]![key]??0)+1;
+ if(!examples[key]||Math.hypot(item.x-36511,item.y-25730)<Math.hypot(examples[key]!.x-36511,examples[key]!.y-25730))examples[key]=item;
+}
+writeFileSync('docs/zmiany/2026-11-04/qa/aetheria-continent/mapping-audit.json',JSON.stringify({counts,climates,objectBindings:Object.keys(counts).length,examples},null,2)+'\n');console.log(JSON.stringify(counts,null,2));

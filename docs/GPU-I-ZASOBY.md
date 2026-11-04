@@ -727,3 +727,34 @@ Runtime: 7 773 994 bajty, 26,65 MiB rozkodowanych pikseli; pełny digest
 Tylko najbliższe fragmenty świata i widoczne obiekty są streamowane.
 Koncepcje efektów mają animację transformacji/alfa; nie są pełnymi animacjami
 klatkowymi. Odbiór na fizycznym telefonie pozostaje otwarty.
+
+
+## Aetheria — pakiet kontynentu runtime 04.11.2026
+
+Pakiet [aetheria-continent-v2@1.0.0](../art/production/aetheria-continent-v2/)
+zawiera 36 osobnych obrazów: 14 powierzchni i 22 obiekty. Zachowano wszystkie
+20 materiałów źródłowych z gałęzi `art/world-verdantia-v2`, ich manifest oraz
+prompty; SHA-256 oryginalnych obrazów zweryfikowano przed przygotowaniem.
+Do runtime wybrano 10 istniejących materiałów powierzchni. Pozostałe cztery
+nawierzchnie i 22 obiekty przygotowano przez `image_gen`, aby zastąpić blade
+podłoża i obiekty z wodnymi/kamiennymi podstawkami.
+
+Cztery plansze generacji, trzy oczyszczone plansze obiektów, komplet użytych
+promptów i źródłowe SHA-256 są zachowane w `source/`, `provenance.json` oraz
+`sources.sha256.json`. Obróbka tła i marginesów korzysta z `image_gen`;
+`prepare.mjs` technicznie wydziela komórki, usuwa małe odłączone fragmenty
+sąsiednich obiektów przy krawędzi, skaluje i dodaje przezroczysty margines.
+Drogi i nurt wykorzystują środkowy pas obrazu, żeby nie namalować pozornej
+wody na przechodnim lądzie. Osiem niewykorzystanych starych obiektów oraz dwa
+stare podłoża pozostają w archiwum źródłowym.
+
+Odtworzenie: `node art/production/aetheria-continent-v2/prepare.mjs`, potem
+`npm run assets:import -- art/production/aetheria-continent-v2/manifest.json --install`
+(przy ponownej instalacji dodać `--replace`). Rejestr ma osobne wiązania
+`terrain.aetheria-continent.*` i `object.aetheria-continent.*`; istniejące klucze
+nie są nadpisywane. Opt-in: `ki-aetheria-continent=1`.
+
+Runtime: 5 331 248 bajtów, 16,21 MiB rozkodowanych pikseli. Digest:
+`3117f4ea8b96a9ffc9cf799a03f519f78ef8928a4cb91c372127bcce58f4a931`.
+Gra korzysta ze streamingu i dotychczasowych budżetów. Odbiór płynności
+na fizycznym telefonie pozostaje otwarty; programowy WebGL sprawdza poprawność.

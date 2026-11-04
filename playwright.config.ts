@@ -51,6 +51,7 @@ export default defineConfig({
       testMatch: [
         "**/verdantia-continent.spec.ts",
         "**/pyra-continent.spec.ts",
+        "**/aetheria-continent.spec.ts",
         "**/development.spec.ts",
         "**/verdant-painted-preview.spec.ts",
         "**/development-heritage.spec.ts",

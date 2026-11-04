@@ -1,3 +1,9 @@
+import {
+  aetheriaContinentEnabled,
+  aetheriaObjects,
+  aetheriaTerrainBindings,
+  aetheriaBiomeAt,
+} from "./aetheriaContinent";
 import { pyraContinentEnabled, pyraObjects, pyraTerrainBindings } from "./pyraContinent";
 import {
   buildSuperiorSimulationWorld,
@@ -325,6 +331,15 @@ export async function prepareSuperior(options: {
         value.objects = continentObjects(value.objects, outsideCities, source.roads);
       if (pyraContinentEnabled(info.id))
         value.objects = pyraObjects(value.objects, outsideCities, source.roads);
+      if (aetheriaContinentEnabled(info.id)) {
+        const chunk = await loader.loadChunk(x, y);
+        value.objects = aetheriaObjects(
+          value.objects,
+          outsideCities,
+          source.roads,
+          aetheriaBiomeAt(chunk),
+        );
+      }
       artCache.set(id, value.objects);
       if (artCache.size > 12) artCache.delete(artCache.keys().next().value!);
       return value.objects;
@@ -351,6 +366,7 @@ export async function prepareSuperior(options: {
   if (verdantiaContinentEnabled(info.id))
     for (const key of continentTerrainBindings) addBinding(key);
   if (pyraContinentEnabled(info.id)) for (const key of pyraTerrainBindings) addBinding(key);
+  if (aetheriaContinentEnabled(info.id)) for (const key of aetheriaTerrainBindings) addBinding(key);
   for (const obj of [
     ...art.buildings,
     ...art.acceptedCityBuildings,

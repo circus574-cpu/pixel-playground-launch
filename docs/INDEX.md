@@ -1,5 +1,7 @@
 # KI Legends — dokumentacja projektu
 
+**Aetheria — nowa oprawa kontynentu:** [36 zasobów, cztery biomy i zrzuty](zmiany/2026-11-04/ZMIANY.md#aetheria--nowa-oprawa-kontynentu).
+
 **Pyra — nowa oprawa kontynentu na osobnej gałęzi:** [52 zasoby runtime, zakres i zrzuty](zmiany/2026-11-04/ZMIANY.md#pyra--nowa-oprawa-kontynentu).
 
 **Verdantia — 26 dodatkowych grafik podłączonych do gry:** [zakres integracji i zrzuty](zmiany/2026-11-04/ZMIANY.md#verdantia--ukończenie-integracji-dodatkowej-oprawy).
