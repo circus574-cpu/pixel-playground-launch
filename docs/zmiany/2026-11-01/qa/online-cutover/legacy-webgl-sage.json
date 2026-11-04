@@ -1,0 +1,37 @@
+{
+  "sourceSHA": "a32ba3ed68a2164c43965dd7b969678df988173c",
+  "run": 41320574198,
+  "test": "V3 real combat, rapid input, movement and persistence",
+  "viewport": [
+    1920,
+    1080
+  ],
+  "errors": [
+    {
+      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m421\u001b[39m\nReceived:   \u001b[31mInfinity\u001b[39m\n\nCall Log:\n- Timeout 180000ms exceeded while waiting on the predicate",
+      "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m421\u001b[39m\nReceived:   \u001b[31mInfinity\u001b[39m\n\nCall Log:\n- Timeout 180000ms exceeded while waiting on the predicate\n    at /home/runner/work/pixel-playground-launch/pixel-playground-launch/e2e/combat-v3.spec.ts:75:10"
+    }
+  ],
+  "console": [],
+  "player": {
+    "x": "23640.083142665393",
+    "y": "13772.13480731487",
+    "animation": "walk",
+    "target": ""
+  },
+  "measuredMetrics": {
+    "sampleAtMs": 218576,
+    "fps": 1.11,
+    "frameP50Ms": 908.5999999998603,
+    "frameP95Ms": 908.5999999998603,
+    "objects": 577,
+    "activeObjects": 577,
+    "visibleObjects": 524,
+    "textures": 91,
+    "estimatedTextureBytes": 149836640,
+    "bakedTextureBytes": 0,
+    "jsHeapBytes": 72200000,
+    "renderer": "WebGL",
+    "drawCalls": null
+  }
+}

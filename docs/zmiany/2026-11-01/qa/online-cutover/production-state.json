@@ -1,0 +1,45 @@
+{
+  "observedAt": "2026-11-01T20:19:42Z",
+  "implementedPR": 69,
+  "testedSource": "c3839cc52897f532cf78f49ffaa86309c2143709",
+  "serverQA": {
+    "run": 41323498115,
+    "status": "success",
+    "unitPassed": 1023,
+    "postgresPassed": 25,
+    "gameServerPassed": 6,
+    "phaserRacesPassed": 4
+  },
+  "publishedRelease": "1f2e4d6e53f908adccaa7a0708c4457bd60d3f83",
+  "publicationRun": 41324818344,
+  "publicationStatus": "success",
+  "laterReleaseObserved": "d49c9dec344dac86ef5214e4de77ac7173de8a77",
+  "laterReleaseAuthor": "other executor; not attributed to this session",
+  "readiness": {
+    "run": 41346252088,
+    "dbConnected": true,
+    "characterPersistenceReady": true,
+    "activePlayers": 0
+  },
+  "backupRestoreRun": 41324368446,
+  "backupRestoreStatus": "success",
+  "legacyRelayStillRunning": true,
+  "productionAuthenticatedQANotExecuted": "No administrative key or dedicated test-account credentials for existing Supabase Auth; owner agreed to create test character, actual entry not yet confirmed",
+  "restartAndRelayShutdown": "PENDING actual character persistence confirmation; do not claim completed",
+  "authProjectUnchanged": "istakaetceprpnbafdgu",
+  "physicalPhoneVerified": false,
+  "legacyWebgl": {
+    "run": 41320574198,
+    "status": "cancelled at job time limit",
+    "completedPassed": 26,
+    "failed": 2,
+    "remainingIncomplete": 31,
+    "measuredFps": [
+      1.11,
+      1.58
+    ]
+  },
+  "privateRecoveryLocator": "/home/codex/ki-multiplayer-db/last-online-config-backup",
+  "secretsCopiedToGit": false,
+  "gpuTouched": false
+}
