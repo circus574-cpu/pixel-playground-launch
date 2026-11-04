@@ -465,6 +465,23 @@ generatorze (jedna plansza 4:3 na potwora: 4 klatki chodu/lotu, 4 ataku, 4 śmie
   (latający, `--no-effects`), nexus-pajak-spawalniczy, nexus-roj-nanitow (chmura jako jedna zwarta masa, `--no-effects`)
   i pyra-popielny-wilk. Test `monsters-anime-complete` pilnuje, że każdy potwór bestiariusza ma pakiet.
 
+## Generowanie świata z promptów — `gen_from_prompts.py` (04.11.2026)
+
+Bez płatnego API: tekstury, drogi, przejścia, przyroda, budynki i wnętrza powstają na własnym GPU z promptów w
+`art/pipeline/prompts/world/*.md` (256 kompletnych promptów: 4 kontynenty × 64). Skrypt `scripts/gpu/gen_from_prompts.py`
+używa tego samego silnika co `gen_terrain_textures.py` i `gen_nature_assets.py` (SDXL z
+`/workspace/ki-legends-gpu/models/checkpoints`, domyślnie DreamShaper XL Turbo, 8 kroków):
+
+- `tile` (teren, skrzyżowania) i `road` (drogi 2:1): kołowe dopełnienie splotów, bezszwowe krawędzie; `plain` (przejścia):
+  bez dopełnienia, bo połówki różnią się celowo.
+- `sprite` (drzewa, krzewy, skały, woda, ozdoby, budynki z zewnątrz): na czystej bieli, tło usuwa `rembg` (isnet-anime).
+- `room` (wnętrza): cały pokój 960:760, kuźnia Pyry pionowo 540:1100.
+- Długie prompty są pisane pod duże generatory; SDXL ma okno 77 tokenów, więc skrypt wycina z każdego opis (`Subject`)
+  i paletę, a styl i negatyw dokłada krótki, osobny na tryb.
+- Wyjście: `renders/prompts-<tag>/<plik>-v<i>.png`, `metadata.json` (seed, SHA-256, błąd szwu) i arkusz przeglądowy na grupę.
+- `--dry-run` pokazuje plan bez GPU. Skala 2× to zwykłe Lanczos; `--refine` (img2img) jest niesprawdzony.
+- Skrypt nie startuje ani nie zatrzymuje poda. Licencje modeli: nadal `ASSET-LICENSE-REGISTER.md`.
+
 ## Zestaw grafik do układania świata — kontrakt (23.10.2026)
 
 Codex układa świat i questy (współrzędne, obiekty, NPC, spawny). Ten dokument mówi, **z czego** może

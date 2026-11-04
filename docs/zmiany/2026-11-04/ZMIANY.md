@@ -80,3 +80,10 @@
   przywraca stare wizerunki).
 - Atlasy obejrzane na ciemnym tle: tło usunięte czysto we wszystkich pięciu; w ostatniej klatce śmierci Świetlika
   zostaje tylko drobny odprysk pyłu (reszta zanikającego blasku jest za słaba na próg skryptu).
+
+## Generowanie świata z promptów na własnym GPU
+
+- `scripts/gpu/gen_from_prompts.py` czyta 256 kompletnych promptów (`art/pipeline/prompts/world/`: teren, drogi, przejścia,
+  przyroda, budynki, wnętrza czterech ras) i renderuje je SDXL z odpowiednim trybem (bezszwowy kafel, sprite z wycinaniem
+  tła, pokój). Powód: płatne API jest drogie. Sprawdzone tylko `--dry-run` (parser: 256 promptów, tryby zgodne z liczbą
+  w plikach); renderowanie czeka na pod uruchomiony przez właściciela, więc jakości wyników jeszcze nie znam.
