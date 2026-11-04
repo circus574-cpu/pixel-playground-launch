@@ -353,6 +353,11 @@ export function NpcDialogue({
               <p>
                 <strong>{p.gold} monet</strong>
               </p>
+              <div style={{ marginBottom: 6 }}>
+                <small style={{ fontWeight: 600, color: "#f59e0b", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  Towary podstawowe
+                </small>
+              </div>
               {ITEM_IDS.map((id) => (
                 <article key={id} className="ki-item-row" aria-label={ITEMS[id].name}>
                   <ItemIcon item={id} />
@@ -378,33 +383,102 @@ export function NpcDialogue({
                   </div>
                 </article>
               ))}
-              {Object.entries(p.materials).map(([id, n]) => (
-                <article key={id} className="ki-item-row">
-                  {gpuIcon("material-" + id) ? (
-                    <img
-                      className="ki-icon ki-item-icon ki-gpu-item"
-                      src={gpuIcon("material-" + id)}
-                      alt=""
-                      aria-hidden
-                    />
-                  ) : (
-                    <span
-                      aria-hidden="true"
-                      className="ki-icon ki-item-icon"
-                      style={{ backgroundPosition: "100% 50%" }}
-                    />
-                  )}
-                  <div>
-                    <strong>{MATERIALS[id]?.name ?? id}</strong>
-                    <small>Masz: {n}</small>
-                  </div>
-                  <div className="ki-trade-actions">
-                    <button onClick={() => send({ type: "trade", item: id, buy: false })}>
-                      Sprzedaj · {MATERIALS[id]?.sell ?? 0}
-                    </button>
-                  </div>
-                </article>
-              ))}
+              <div style={{ marginTop: 10, marginBottom: 6 }}>
+                <small style={{ fontWeight: 600, color: "#38bdf8", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  Eliksiry i zaopatrzenie KI
+                </small>
+              </div>
+              {["P-KI-01", "P-ELX-V"].map((v2Id) => {
+                const def = getItemById(v2Id);
+                if (!def) return null;
+                const owned = p.bagItems?.[v2Id] ?? 0;
+                return (
+                  <article key={v2Id} className="ki-item-row" aria-label={def.name}>
+                    <div style={{ width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)", borderRadius: 4 }}>
+                      <span style={{ fontSize: 16 }}>🧪</span>
+                    </div>
+                    <div>
+                      <strong>{def.name}</strong>
+                      <small>W torbie: {owned} szt. ({def.effectDescription || "Eliksir"})</small>
+                    </div>
+                    <div className="ki-trade-actions">
+                      <button
+                        disabled={p.gold < def.price}
+                        onClick={() => send({ type: "trade", item: v2Id, buy: true })}
+                      >
+                        Kup · {def.price}
+                      </button>
+                      {owned > 0 && (
+                        <button
+                          onClick={() => send({ type: "trade", item: v2Id, buy: false })}
+                        >
+                          Sprzedaj · {Math.max(1, Math.floor(def.price / 2))}
+                        </button>
+                      )}
+                    </div>
+                  </article>
+                );
+              })}
+              {Object.keys(p.materials).length > 0 && (
+                <div style={{ marginTop: 10, paddingTop: 6, borderTop: "1px solid rgba(255,255,255,0.12)" }}>
+                  <small style={{ fontWeight: 600, color: "#93c5fd", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                    Surowce rzemieślnicze
+                  </small>
+                  {Object.entries(p.materials).map(([id, n]) => (
+                    <article key={id} className="ki-item-row">
+                      {gpuIcon("material-" + id) ? (
+                        <img
+                          className="ki-icon ki-item-icon ki-gpu-item"
+                          src={gpuIcon("material-" + id)}
+                          alt=""
+                          aria-hidden
+                        />
+                      ) : (
+                        <span
+                          aria-hidden="true"
+                          className="ki-icon ki-item-icon"
+                          style={{ backgroundPosition: "100% 50%" }}
+                        />
+                      )}
+                      <div>
+                        <strong>{MATERIALS[id]?.name ?? id}</strong>
+                        <small>Masz: {n}</small>
+                      </div>
+                      <div className="ki-trade-actions">
+                        <button onClick={() => send({ type: "trade", item: id, buy: false })}>
+                          Sprzedaj · {MATERIALS[id]?.sell ?? 0}
+                        </button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
+              {p.bagItems && Object.keys(p.bagItems).length > 0 && (
+                <div style={{ marginTop: 10, paddingTop: 6, borderTop: "1px solid rgba(255,255,255,0.12)" }}>
+                  <small style={{ fontWeight: 600, color: "#a7f3d0", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                    Przedmioty w torbie (Loot / Ekwipunek V2)
+                  </small>
+                  {Object.entries(p.bagItems).map(([id, n]) => {
+                    if (n <= 0 || id === "P-KI-01" || id === "P-ELX-V") return null;
+                    const def = getItemById(id);
+                    const name = def?.name ?? id;
+                    const sellPrice = def?.price ? Math.max(1, Math.floor(def.price / 2)) : Math.max(5, (def?.level || 1) * 8);
+                    return (
+                      <article key={id} className="ki-item-row">
+                        <div>
+                          <strong>{name}</strong>
+                          <small>Ilość: {n} szt. · Poz. {def?.level ?? 1} · {def?.category ?? "przedmiot"}</small>
+                        </div>
+                        <div className="ki-trade-actions">
+                          <button onClick={() => send({ type: "trade", item: id, buy: false })}>
+                            Sprzedaj · +{sellPrice}
+                          </button>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              )}
             </>
           )}
           {npc.id === "smith" && (

@@ -401,6 +401,7 @@ export function equipmentStats(
           if (item.stats.critChancePercent) gear.technique += item.stats.critChancePercent;
           if (item.stats.critChancePoints) gear.technique += item.stats.critChancePoints;
           if (item.stats.moveSpeedPercent) gear.moveSpeedPct += item.stats.moveSpeedPercent;
+          if (item.stats.speedMultiplier) gear.moveSpeedPct += Math.round((item.stats.speedMultiplier - 1) * 100);
         }
       }
     }
@@ -2145,9 +2146,18 @@ export class GameSession implements MonsterHost {
         return;
       }
       if (!(c.item in ITEMS)) {
-        if (!c.buy && p.bagItems && (p.bagItems[c.item] ?? 0) > 0) {
-          const def = getItemById(c.item);
-          if (def) {
+        const def = getItemById(c.item);
+        if (def) {
+          if (c.buy) {
+            const buyPrice = def.price ? def.price : Math.max(15, (def.level || 1) * 20);
+            if (p.gold < buyPrice) return this.say("Za mało monet.");
+            if (!this.addBagItem(c.item, 1)) return this.say("Brak miejsca w torbie podróżnej.");
+            p.gold -= buyPrice;
+            this.say(`Kupiono: ${def.name} (-${buyPrice} złota).`);
+            this.flush();
+            return;
+          }
+          if (!c.buy && p.bagItems && (p.bagItems[c.item] ?? 0) > 0) {
             const count = p.bagItems[c.item]!;
             if (count <= 1) delete p.bagItems[c.item];
             else p.bagItems[c.item] = count - 1;

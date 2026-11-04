@@ -43,3 +43,13 @@
   - **Dynamiczne rozpraszanie chmur i poświaty:** Wraz ze zbliżaniem kamery do ziemi (poniżej orbity 1.55) krycie chmur płynnie zanika z 0.4 do 0.02, a krawędziowy blask atmosferyczny i halo wyłączają się, odsłaniając krystalicznie czystą powierzchnię lądu.
   - **Maksymalna ostrość tekstury (4K / Mipmapping / Anizotropia 16x):** W `configure()` włączono generowanie mipmap `LinearMipmapLinearFilter`, filtrowanie anizotropowe podniesiono do limitu sprzętowego GPU (16x), zoptymalizowano podmianę na teksturę 3840 px z flagą `material.needsUpdate = true`, a skalę reliefu `bumpScale` wygładzono przy powierzchni (z 2.2 do 0.5), eliminując artefakty cieniowania.
   - **Czytelność etykiet i szlaków:** Przy dużym zbliżeniu duże odznaki kontynentalne delikatnie zmniejszają skalę, a złote linie dróg i punkty miast stają się wiodącym, ostrym elementem krajobrazu.
+
+### 9. Domknięcie pakietu 5 krytycznych poprawek mechaniki (Gałąź `pop1`)
+- **Cel:** Kompleksowe usunięcie 5 krytycznych błędów z audytu na nowej dedykowanej gałęzi `pop1`.
+- **Zrealizowano:**
+  - **Bossowie w Phaserze:** Rozszerzono `monsterVisual()` w `catalog.ts` o pełną normalizację identyfikatorów bossów (obsługa `boss:`, `boss_`, `boss-`, aliasów i nazw złożonych jak `ygdrasha_the_rooted`). Każdy boss otrzymuje monumentalny model apex guardiana o skali 180 px; żaden boss nie ulega degradacji do modelu leśnego dzika.
+  - **Prędkość chodu ekwipunku:** Dodano uwzględnienie `speedMultiplier` obok `moveSpeedPercent` w `equipmentStats` (`session.ts`), skierowano bonus do `gear.moveSpeedPct` i rzeczywistej prędkości chodu postaci, chroniąc `attackSpeedPct` przed fałszywym zawyżaniem.
+  - **Normalizacja szansy dropu:** Skorygowano przycisk 100% w `AdminCatalogInfo.tsx` (przekazywanie wartości `1.0` zamiast `100`), co zapewnia spójność z ułamkowym modelem losowania w `MonsterSystem.rollLoot`.
+  - **Czystość stref bezpiecznych:** Zweryfikowano brak spawnów potworów wewnątrz granic stref miejskich (`city.bounds`) na wszystkich 4 kontynentach.
+  - **Dwukierunkowy handel V2 u kupca:** W `session.ts` odblokowano możliwość zakupu przedmiotów z katalogu V2 (`P-KI-01`, `P-ELX-V`), a w `AdventurePanels.tsx` wprowadzono przejrzyste sekcje sklepu: towary podstawowe, zaopatrzenie KI, surowce rzemieślnicze oraz przedmioty w torbie podróżnej (`bagItems`) z przyciskami natychmiastowej sprzedaży za złoto.
+  - **Zestaw testów:** Zaktualizowano i rozszerzono testy w `src/test/poprawki-audit.test.ts` (5/5 PASS) oraz zweryfikowano brak regresji w `city.test.ts`, `session.test.ts`, `monsters.test.ts` i `npc-systems.test.ts` (łącznie 91/91 PASS).

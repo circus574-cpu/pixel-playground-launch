@@ -316,27 +316,38 @@ export function textureBinding(
 }
 /** Summoned small wasps share the existing wasp identity; bosses use their continental apex guardian representation. */
 export function monsterVisual(kind: string, source = catalog): ActorVisual {
-  if (kind.startsWith("boss:")) {
-    const bossId = kind.slice(5);
+  if (kind.startsWith("boss:") || kind.startsWith("boss_") || kind.startsWith("boss-")) {
+    const rawId = kind.replace(/^boss[:_-]/, "");
+    const cleanId = rawId.toLowerCase().replace(/_/g, "-");
     const bossGuardianMap: Record<string, string> = {
       ygdrasha: "verdant-straznik-ruin",
       thorgar: "verdant-skalny-jelen",
       "arcykaplan-pustki": "aether-marionetka-rytualu",
+      arcykaplan: "aether-marionetka-rytualu",
       aurelith: "aether-lew-swiatyni",
       "arbiter-zero": "nexus-straznik-rdzenia",
+      arbiter: "nexus-straznik-rdzenia",
       "hydra-rdzen": "nexus-latarnia-plazmowa",
+      hydra: "nexus-latarnia-plazmowa",
       kharzul: "pyra-skalny-berserker",
       pyrrhax: "pyra-golem-ruin",
     };
-    const guardian = bossGuardianMap[bossId];
-    if (guardian) {
-      const visual = monsterVisual(guardian, source);
-      return {
-        ...visual,
-        id: `boss-${bossId}`,
-        size: [180, 180],
-      };
+    let guardian = bossGuardianMap[cleanId];
+    if (!guardian) {
+      for (const [key, g] of Object.entries(bossGuardianMap)) {
+        if (cleanId.startsWith(key) || key.startsWith(cleanId)) {
+          guardian = g;
+          break;
+        }
+      }
     }
+    const targetGuardian = guardian ?? "verdant-straznik-ruin";
+    const visual = monsterVisual(targetGuardian, source);
+    return {
+      ...visual,
+      id: `boss-${cleanId}`,
+      size: [180, 180],
+    };
   }
   const visualKind = kind === "verdant-mala-osa" ? "verdant-bursztynowa-osa" : kind;
   const prefix = visualKind.split("-")[0] as WorldId;

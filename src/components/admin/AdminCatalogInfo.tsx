@@ -500,7 +500,7 @@ export function MonsterCatalogInfo({
                     <button
                       type="button"
                       className="ki-loot-quick-btn"
-                      onClick={() => onLootChanceChange(d.name, 100)}
+                      onClick={() => onLootChanceChange(d.name, 1.0)}
                     >
                       100%
                     </button>
