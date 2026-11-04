@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { monsterVisual } from "../game/assets/catalog";
 import { equipmentStats, GameSession, type NpcId } from "../game/session";
+import { CITY_OBJECTS, VERDANT_BOARS } from "../game/city/verdantia";
+import { occlusionAlpha, foliageAlpha } from "../game/world/visibility";
 import { WORLDS } from "../game/world/worlds";
 import aetherSpawns from "../../public/game/worlds/superior-v2/aether/spawns.json" with { type: "json" };
 import nexusSpawns from "../../public/game/worlds/superior-v2/nexus/spawns.json" with { type: "json" };
@@ -97,6 +99,36 @@ describe("POPRAWKI - Weryfikacja poprawek z audytu technicznego", () => {
     checkSpawns("aether", aetherSpawns as any);
     checkSpawns("nexus", nexusSpawns as any);
     checkSpawns("pyra", pyraSpawns as any);
+  });
+
+  it("Wymóg: strefy spawnów potworów są oczyszczone z zasłaniających drzew i gęstej przyrody (czyste pole walki)", () => {
+    // 1. Verdantia - w promieniu walki wokół dzików (VERDANT_BOARS) nie ma żadnych zasłaniających koron drzew
+    const treeKinds = new Set(["oak", "fir"]);
+    for (const b of VERDANT_BOARS) {
+      const treesNearBoar = CITY_OBJECTS.filter(
+        (o) => treeKinds.has(o.kind) && Math.hypot(o.x - b.x, o.y - b.y) < 450,
+      );
+      expect(treesNearBoar.length).toBe(0);
+    }
+
+    // 2. visibility.ts - przejrzystość roślinności w walce spada do 0.12 (88% przezroczystości), nie zasłaniając widoku
+    const mockTree = {
+      id: "test-tree",
+      kind: "oak",
+      x: 100,
+      y: 100,
+      width: 200,
+      height: 300,
+      anchorX: 0.5,
+      anchorY: 0.9,
+      solid: true,
+    };
+    // Postać za drzewem
+    const alphaHero = occlusionAlpha(mockTree, { x: 100, y: 70 });
+    expect(alphaHero).toBeLessThanOrEqual(0.15);
+
+    const alphaMonster = foliageAlpha(mockTree, [{ id: "enemy-1", x: 100, y: 70 }]);
+    expect(alphaMonster).toBeLessThanOrEqual(0.15);
   });
 
   it("Błąd 5: kupiec obsługuje handel przedmiotami z katalogu V2 (kupno i sprzedaż z torby)", () => {

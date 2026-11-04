@@ -287,6 +287,48 @@ export async function prepareSuperior(options: {
   const protectedAssets = new Set(initialAssets.keys());
   const artCache = new Map<string, ArtObject[]>();
   const artRequests = new Map<string, Promise<ArtObject[]>>();
+
+  // Spatial index of combat spawns for clearing view-blocking trees in exp arenas
+  const SPAWN_CELL_PX = 512;
+  const combatSpawnsByCell = new Map<string, { x: number; y: number }[]>();
+  for (const s of spawnData.overworld) {
+    const cx = Math.floor(s.x / SPAWN_CELL_PX);
+    const cy = Math.floor(s.y / SPAWN_CELL_PX);
+    for (let dx = -1; dx <= 1; dx++) {
+      for (let dy = -1; dy <= 1; dy++) {
+        const k = (cx + dx) + ":" + (cy + dy);
+        let list = combatSpawnsByCell.get(k);
+        if (!list) {
+          list = [];
+          combatSpawnsByCell.set(k, list);
+        }
+        list.push(s);
+      }
+    }
+  }
+
+  const isCombatNature = (o: ArtObject) => {
+    const k = (o.kind ?? "").toLowerCase();
+    const b = (o.binding ?? "").toLowerCase();
+    return (
+      /tree|pine|oak|birch|spruce|willow|palm|cherry|bamboo|bush|shrub|foliage/.test(k) ||
+      /tree|pine|oak|birch|spruce|willow|palm|cherry|bamboo|bush|shrub|foliage/.test(b)
+    );
+  };
+
+  const isNearSpawnArena = (x: number, y: number, radius = 450): boolean => {
+    const k = Math.floor(x / SPAWN_CELL_PX) + ":" + Math.floor(y / SPAWN_CELL_PX);
+    const nearby = combatSpawnsByCell.get(k);
+    if (!nearby) return false;
+    const r2 = radius * radius;
+    for (const s of nearby) {
+      const dx = x - s.x;
+      const dy = y - s.y;
+      if (dx * dx + dy * dy < r2) return true;
+    }
+    return false;
+  };
+
   const readArt = async (x: number, y: number) => {
     const id = x + "-" + y,
       cached = artCache.get(id);
@@ -315,9 +357,22 @@ export async function prepareSuperior(options: {
       if (info.id === "verdant")
         for (const o of value.objects)
           if (o.binding === "object.crystal") o.binding = "object.biome-forest.mossy-boulder";
-      artCache.set(id, value.objects);
+
+      // Clear dense trees and large nature in monster combat arenas:
+      // locations for exping are battlefields, not view-blocking dense forests.
+      // Small rocks or tiny ground props (<130px) stay at max 5%; tall trees and obscuring foliage are removed.
+      const combatClearedObjects = value.objects.filter((o) => {
+        if (!isCombatNature(o)) return true;
+        if (isNearSpawnArena(o.x, o.y, 450)) {
+          const hash = Math.abs(Math.floor(o.x * 13 + o.y * 37)) % 100;
+          return hash < 5 && (o.height ?? 200) < 130;
+        }
+        return true;
+      });
+
+      artCache.set(id, combatClearedObjects);
       if (artCache.size > 12) artCache.delete(artCache.keys().next().value!);
-      return value.objects;
+      return combatClearedObjects;
     })();
     artRequests.set(id, promise);
     try {

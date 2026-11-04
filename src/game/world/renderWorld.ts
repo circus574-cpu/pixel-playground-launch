@@ -3,7 +3,7 @@ import type Phaser from "phaser";
 import { catalog, hazardBinding, textureBinding } from "../assets/catalog";
 import { atmosphere } from "../assets/atmosphere";
 import { renderDepth } from "../assets/layers";
-import type { WorldDefinition } from "./types";
+import type { WorldDefinition, RegionObject } from "./types";
 import { renderForest } from "./renderForest";
 import { occlusionAlpha } from "./visibility";
 import { bakeRoads } from "./renderRoads";
@@ -362,18 +362,35 @@ export function renderWorld(scene: Phaser.Scene, world: WorldDefinition) {
     }
   }
   // Region worlds carry tens of thousands of decorations: only objects near the camera exist as game objects.
-  const sceneryGrid = buildSceneryGrid(world.objects);
-  const reach = sceneryReach(world.objects);
+  // Combat arenas around monster spawns: clear view-blocking trees & dense foliage so combat is unobstructed
+  const combatEnemies = world.enemies ?? [];
+  const isCombatTree = (o: RegionObject) => {
+    const k = (o.kind ?? "").toLowerCase();
+    const a = (o.asset ?? "").toLowerCase();
+    return (
+      /tree|pine|oak|birch|spruce|willow|palm|cherry|bamboo|bush|shrub|foliage/.test(k) ||
+      /tree|pine|oak|birch|spruce|willow|palm|cherry|bamboo|bush|shrub|foliage/.test(a)
+    );
+  };
+  const activeObjects = world.objects.filter((o) => {
+    if (!combatEnemies.length || !isCombatTree(o)) return true;
+    for (const e of combatEnemies) {
+      if (Math.hypot(o.x - e.x, o.y - e.y) < 480) return false;
+    }
+    return true;
+  });
+  const sceneryGrid = buildSceneryGrid(activeObjects);
+  const reach = sceneryReach(activeObjects);
   const live = new Map<
     number,
     {
-      object: (typeof world.objects)[number];
+      object: (typeof activeObjects)[number];
       image: Phaser.GameObjects.Image;
       shadow: Phaser.GameObjects.Image | null;
     }
   >();
   const spawn = (i: number) => {
-    const object = world.objects[i]!;
+    const object = activeObjects[i]!;
     const ref = textureBinding(
       "object." + world.id + "." + object.id,
       textureBinding("object." + object.asset, { asset: object.asset! }),

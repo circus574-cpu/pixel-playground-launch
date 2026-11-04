@@ -3,6 +3,7 @@ import {
   FOREST_RIVER,
   VERDANT_SIZE,
   FOREST_OBJECTS,
+  FOREST_ENEMIES,
   type ForestObject,
 } from "../world/forest";
 import type { WorldNpc } from "../world/types";
@@ -83,6 +84,25 @@ export const VERDANT_CITY_BOUNDS = {
   width: 4000,
   height: 2500,
 };
+
+/** Wild boars live beyond the city bounds, on a ring around them. */
+export const VERDANT_BOARS = Array.from({ length: 20 }, (_, i) => {
+  const angle = (2 * Math.PI * (i + 0.5)) / 20 + 0.35,
+    ring = i % 3;
+  return {
+    x: Math.round(
+      VERDANT_CITY_BOUNDS.x +
+        VERDANT_CITY_BOUNDS.width / 2 +
+        (VERDANT_CITY_BOUNDS.width / 2 + 450 + ring * 160) * Math.SQRT2 * Math.cos(angle),
+    ),
+    y: Math.round(
+      VERDANT_CITY_BOUNDS.y +
+        VERDANT_CITY_BOUNDS.height / 2 +
+        (VERDANT_CITY_BOUNDS.height / 2 + 450 + ring * 120) * Math.SQRT2 * Math.sin(angle),
+    ),
+  };
+});
+
 export const VERDANT_CITY: CityDefinition = {
   name: "Zielona Przystań",
   bounds: VERDANT_CITY_BOUNDS,
@@ -96,11 +116,24 @@ const inClearing = (o: ForestObject) =>
     (r) =>
       o.x > r.x - 95 && o.x < r.x + r.width + 95 && o.y > r.y - 70 && o.y < r.y + r.height + 70,
   );
+const isCombatFoliage = (kind: string) => /oak|fir|bush|tree|pine|spruce|birch/.test(kind);
+// Exp / combat arenas around monster spawns: clear view-blocking trees & dense foliage so combat is unobstructed
+const inCombatArena = (o: ForestObject) => {
+  if (!isCombatFoliage(o.kind)) return false;
+  for (const b of VERDANT_BOARS) {
+    if (Math.hypot(o.x - b.x, o.y - b.y) < 480) return true;
+  }
+  for (const e of FOREST_ENEMIES) {
+    if (Math.hypot(o.x - e.x, o.y - e.y) < 480) return true;
+  }
+  return false;
+};
 export const CITY_OBJECTS: readonly ForestObject[] = [
   ...FOREST_OBJECTS.filter(
     (o) =>
       !oldBuildings.has(o.kind) &&
-      (!inClearing(o) || ["bridge", "fountain", "lamp"].includes(o.kind)),
+      (!inClearing(o) || ["bridge", "fountain", "lamp"].includes(o.kind)) &&
+      !inCombatArena(o),
   ),
   ...plots.map((p) => ({
     id: "city-" + p.id,
@@ -234,20 +267,4 @@ export const CITY_NPCS: WorldNpc[] = [
       "Stoisz przed matecznikiem puszczy. W głębi drzew czuwa Ygdrasha – pradawna matka korzeni. Jej pnącza więżą, a jad zatruwa nieuważnych. Używaj ognia i unikaj trujących kałuż! Zalecany poziom: 8+.",
   },
 ];
-/** Wild boars live beyond the city bounds, on a ring around them. */
-export const VERDANT_BOARS = Array.from({ length: 20 }, (_, i) => {
-  const angle = (2 * Math.PI * (i + 0.5)) / 20 + 0.35,
-    ring = i % 3;
-  return {
-    x: Math.round(
-      VERDANT_CITY_BOUNDS.x +
-        VERDANT_CITY_BOUNDS.width / 2 +
-        (VERDANT_CITY_BOUNDS.width / 2 + 450 + ring * 160) * Math.SQRT2 * Math.cos(angle),
-    ),
-    y: Math.round(
-      VERDANT_CITY_BOUNDS.y +
-        VERDANT_CITY_BOUNDS.height / 2 +
-        (VERDANT_CITY_BOUNDS.height / 2 + 450 + ring * 120) * Math.SQRT2 * Math.sin(angle),
-    ),
-  };
-});
+

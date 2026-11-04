@@ -20,7 +20,7 @@ export function occlusionAlpha(object: ForestObject, player: Point): number {
   if (object.height >= 140 && coversPlayer(object, player, 0)) occluded = true;
   // Crowns still read as in front of the hero, but a dense forest no longer hides them completely
   // (owner 26.10.2026: the hero was invisible among v2 trees).
-  return /tree|pine|bamboo|oak|birch|spruce|willow|palm/.test(object.kind) ? 0.45 : 0.28;
+  return /tree|pine|bamboo|oak|birch|spruce|willow|palm|cherry|crystal|bush/.test(object.kind) ? 0.12 : 0.18;
 }
 
 export function coversPlayer(object: ForestObject, player: Point, margin?: number): boolean {
@@ -51,7 +51,7 @@ export const focusOcclusion = {
   },
 };
 
-const CROWN = /tree|pine|bamboo|oak|birch|spruce|willow|palm/;
+const CROWN = /tree|pine|bamboo|oak|birch|spruce|willow|palm|cherry|crystal|bush/;
 /**
  * Opacity of a foreground object for every creature that could stand behind it, so a dense forest
  * never hides a monster or a villager (owner 02.11.2026). Same fading as for the hero.
@@ -68,7 +68,7 @@ export function foliageAlpha(object: ForestObject, foci: readonly OcclusionFocus
     if (!coversPlayer(object, f)) continue;
     if (object.height >= 140 && coversPlayer(object, f, 0)) coveredFoci.add(f.id);
     // Stronger fade than for the hero: several crowns stack in a forest, and a monster is small.
-    alpha = Math.min(alpha, CROWN.test(object.kind) ? 0.3 : 0.2);
+    alpha = Math.min(alpha, CROWN.test(object.kind) ? 0.12 : 0.18);
   }
   return alpha;
 }
