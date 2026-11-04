@@ -36,6 +36,7 @@ import type { Obstacle } from "../../movement";
 import type { GameLoadingState } from "../../loading";
 import { loadBrowserFeature } from "./browserLoader";
 import { renderSuperior, type ArtObject, type FeatureArt } from "./renderSuperior";
+import { arenaClearingEnabled, buildArenaIndex, clearsArena } from "../combatArena";
 import { WORLD_BASE, WORLD_V2 } from "./worldVersion";
 import { v2Places } from "../../worlds/v2Places";
 import { questsV2 } from "../../quests/v2Tracker";
@@ -285,6 +286,10 @@ export async function prepareSuperior(options: {
     addAsset(ref.asset);
   }
   const protectedAssets = new Set(initialAssets.keys());
+  // On by default (`?ki-clear-arenas=0` opts out): decoration only, collision never reads art objects.
+  const arenaIndex = arenaClearingEnabled(location.search)
+    ? buildArenaIndex(spawnData.overworld)
+    : null;
   const artCache = new Map<string, ArtObject[]>();
   const artRequests = new Map<string, Promise<ArtObject[]>>();
   const readArt = async (x: number, y: number) => {
@@ -315,9 +320,12 @@ export async function prepareSuperior(options: {
       if (info.id === "verdant")
         for (const o of value.objects)
           if (o.binding === "object.crystal") o.binding = "object.biome-forest.mossy-boulder";
-      artCache.set(id, value.objects);
+      const objects = arenaIndex
+        ? value.objects.filter((o) => !clearsArena(arenaIndex, o))
+        : value.objects;
+      artCache.set(id, objects);
       if (artCache.size > 12) artCache.delete(artCache.keys().next().value!);
-      return value.objects;
+      return objects;
     })();
     artRequests.set(id, promise);
     try {

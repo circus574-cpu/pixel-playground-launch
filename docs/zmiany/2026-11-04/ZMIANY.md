@@ -104,6 +104,21 @@
 - To próbki bez odbioru właściciela (akceptacja dotyczyła tylko Pyry), nieprzycięte do 960:760 i niewdrożone do klienta.
   Znane wady wspólne z Pyrą: lekko skośne ściany boczne, w części obrazów brak wyraźnego progu drzwi, kadr 3:2.
 
+## Czyszczenie drzew z pól walki (domyślnie włączone, `?ki-clear-arenas=0` wyłącza)
+
+- Powód: przy spawnach potworów gęsty las zasłaniał walkę, a potwory zlewały się z tłem. W świecie v2 (`superior-v2/art`) około 47%
+  drzew i krzewów leży w promieniu 450 j. od któregoś spawnu, więc zwykłe wycięcie w tym promieniu usunęłoby prawie połowę lasu.
+- Rozwiązanie: `src/game/world/combatArena.ts`, jedna wspólna funkcja używana przy wczytaniu dekoracji w `superiorRuntime.ts`.
+  Wysokie (≥100 j.) niesolidne drzewa i krzewy w promieniu 260 j. od spawnu znikają, w pierścieniu 260–420 j. zostaje 40%
+  (deterministycznie z pozycji obiektu). Skały, niskie rośliny i drzewa z kolizją (`solid`, 8493 obiekty) zostają.
+- Tylko prezentacja: obiekty dekoracji nie wchodzą do kolizji ani nawigacji, więc zapisy i ścieżki się nie zmieniają. Decyzja właściciela
+  04.11.2026: włączone domyślnie; `?ki-clear-arenas=0` przywraca dawny las. Przezroczystość koron
+  (`visibility.ts`) bez zmian.
+- Test: `src/test/combat-arena.test.ts`. Zrzuty z gry przy spawnach czterech krain, bez flagi i z flagą:
+  `docs/zmiany/2026-11-04/qa/combat-arenas/`.
+- Z gałęzi `pop1` świadomie nie przeniesiono: bonusu `speedMultiplier` do szybkości ruchu (liczyłby się podwójnie obok
+  `moveSpeedPercent`), globalnej przezroczystości koron 0.12 i ukrywania obiektów w `renderWorld.ts`/`verdantia.ts`.
+
 ## Ikony HUD (10 z 11)
 
 - Dziesięć malowanych ikon 128 px w `public/game/icons-v3/` (z oryginałów 1254 px, prawdziwa alfa): `hud-hp`, `hud-ki`, `hud-zar`,
