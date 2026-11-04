@@ -1,5 +1,7 @@
 # KI Legends — dokumentacja projektu
 
+**Verdantia — kontynent, podgląd 04.11.2026:** [zakres, materiały i zrzuty z rzeczywistej gry](zmiany/2026-11-04/ZMIANY.md#verdantia--oprawa-kontynentu-na-osobnej-gałęzi).
+
 **Aetheria — próbna oprawa na osobnej gałęzi:** [lokalny zrzut i instrukcja](zmiany/2026-11-03/ZMIANY.md#aetheria--oprawa-z-materiałów-właściciela).
 
 **Próba oprawy Verdantii (osobna gałąź, bez publikacji):** [kod, zasoby, zrzut z gry i włączenie podglądu](zmiany/2026-11-03/ZMIANY.md#próba-malowanej-verdantii--gałąź-podglądowa).

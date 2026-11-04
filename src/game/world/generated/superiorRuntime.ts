@@ -3,6 +3,11 @@ import {
   type SuperiorSimulationSource as Source,
 } from "./simulationWorld";
 import { STREAM_TEXTURE_BUDGET_BYTES, streamTextureBytes } from "../../assets/streamBudget";
+import {
+  verdantiaContinentEnabled,
+  continentObjects,
+  continentTerrainBindings,
+} from "./verdantiaContinent";
 import type Phaser from "phaser";
 import type { OnlineClient } from "../../online/client";
 import { GameSession, type StoragePort } from "../../session";
@@ -315,6 +320,8 @@ export async function prepareSuperior(options: {
       if (info.id === "verdant")
         for (const o of value.objects)
           if (o.binding === "object.crystal") o.binding = "object.biome-forest.mossy-boulder";
+      if (verdantiaContinentEnabled(info.id))
+        value.objects = continentObjects(value.objects, outsideCities, source.roads);
       artCache.set(id, value.objects);
       if (artCache.size > 12) artCache.delete(artCache.keys().next().value!);
       return value.objects;
@@ -338,6 +345,8 @@ export async function prepareSuperior(options: {
   };
   for (const key of [...art.groundByBiome, art.water, art.road, art.plaza])
     if (key) addBinding(key);
+  if (verdantiaContinentEnabled(info.id))
+    for (const key of continentTerrainBindings) addBinding(key);
   for (const obj of [
     ...art.buildings,
     ...art.acceptedCityBuildings,
@@ -658,6 +667,7 @@ export async function prepareSuperior(options: {
         art,
         roads: source.roads,
         cityRoads: (source.acceptedSource?.city?.roads ?? []).map((r) => ({ ...r, ...shift(r) })),
+        outsideCities,
         readArt,
         acquire,
         release,

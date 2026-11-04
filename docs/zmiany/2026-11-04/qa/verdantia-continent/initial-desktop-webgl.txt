@@ -1,0 +1,53 @@
+
+Running 2 tests using 1 worker
+
+(node:18992) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE (2.4m)
+(node:19413) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [software-webgl] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE (5.3m)
+
+
+  1) [software-webgl] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.ki-hud')
+    Expected: visible
+    Timeout: 60000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.ki-hud') with timeout 60000ms
+      - waiting for locator('.ki-hud')
+
+
+       at fixtures.ts:292
+
+      290 | async function base_expectHud(page: import("@playwright/test").Page) {
+      291 |   const { expect } = await import("@playwright/test");
+    > 292 |   await expect(page.locator(".ki-hud")).toBeVisible();
+          |                                         ^
+      293 | }
+      294 | /** Learns a skill-tree node through the real "Umiejętności" panel. */
+      295 | export async function learnSkill(page: import("@playwright/test").Page, name: string) {
+        at base_expectHud (/tmp/ki-verdantia-continent/e2e/fixtures.ts:292:41)
+        at patchActiveCharacter (/tmp/ki-verdantia-continent/e2e/fixtures.ts:288:3)
+        at /tmp/ki-verdantia-continent/e2e/verdantia-continent.spec.ts:60:5
+
+    Error Context: test-results/verdantia-continent-Verdan-dece4-g-touch-reload-and-live-PvE-software-webgl/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/verdantia-continent-Verdan-dece4-g-touch-reload-and-live-PvE-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/verdantia-continent-Verdan-dece4-g-touch-reload-and-live-PvE-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Slow test file: [software-webgl] › e2e/verdantia-continent.spec.ts (5.3m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  1 failed
+    [software-webgl] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE 
+  1 passed (7.8m)

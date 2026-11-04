@@ -1,0 +1,247 @@
+{
+  "config": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/tmp/ki-verdantia-continent/node_modules/.bin/playwright",
+      "test",
+      "e2e/verdantia-continent.spec.ts",
+      "--project=gameplay",
+      "--trace=off",
+      "--output=/tmp/verdantia-canvas-final"
+    ],
+    "configFile": "/tmp/ki-verdantia-continent/playwright.config.ts",
+    "rootDir": "/tmp/ki-verdantia-continent/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/verdantia-canvas-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "gameplay",
+        "name": "gameplay",
+        "testDir": "/tmp/ki-verdantia-continent/e2e",
+        "testIgnore": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/map-performance.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/city-webgl.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/verdantia-canvas-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "software-webgl",
+        "name": "software-webgl",
+        "testDir": "/tmp/ki-verdantia-continent/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/verdantia-continent.spec.ts",
+          "**/development.spec.ts",
+          "**/verdant-painted-preview.spec.ts",
+          "**/development-heritage.spec.ts",
+          "**/heritage-delivery.spec.ts",
+          "**/development-combat-smoke.spec.ts",
+          "**/city-webgl.spec.ts",
+          "**/combat-bosses.spec.ts",
+          "**/combat-skills.spec.ts",
+          "**/combat-v3.spec.ts",
+          "**/combat-v3-superior.spec.ts",
+          "**/argon-mobile.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/hero-lifecycle.spec.ts",
+          "**/world-rendering.spec.ts",
+          "**/superior-world.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/verdantia-canvas-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-canvas",
+        "name": "application-canvas",
+        "testDir": "/tmp/ki-verdantia-continent/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/map-performance.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/verdantia-canvas-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-webgl",
+        "name": "application-webgl",
+        "testDir": "/tmp/ki-verdantia-continent/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/map-performance.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/tmp/verdantia-canvas-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "gameplay",
+        "testDir": "/tmp/ki-verdantia-continent/e2e",
+        "snapshotDir": "/tmp/ki-verdantia-continent/e2e",
+        "testIgnore": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/map-performance.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/city-webgl.spec.ts"
+        ],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4178",
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          },
+          "trace": "off",
+          "screenshot": "only-on-failure",
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-webgl"
+            ]
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "gameplay"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/stage3-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "verdantia-continent.spec.ts",
+      "file": "verdantia-continent.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 61782,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-04T16:42:29.438Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "verdantia-runtime",
+                      "contentType": "application/json",
+                      "body": "eyJtZXRyaWNzIjoie1wic2FtcGxlQXRNc1wiOjE0OTM5LFwiZnBzXCI6MzUuNTMsXCJmcmFtZVA1ME1zXCI6MjYuMjAwMDAwMDAyOTgwMjMyLFwiZnJhbWVQOTVNc1wiOjYyLjkwMDAwMDAwNTk2MDQ2NCxcImZyYW1lTWF4TXNcIjo4NSxcInNsb3dGcmFtZXNcIjo2LFwib2JqZWN0c1wiOjMwNyxcImFjdGl2ZU9iamVjdHNcIjozMDcsXCJ2aXNpYmxlT2JqZWN0c1wiOjI0NyxcInRleHR1cmVzXCI6MTI1LFwiZXN0aW1hdGVkVGV4dHVyZUJ5dGVzXCI6MjI2MjU1NzE2LFwiYmFrZWRUZXh0dXJlQnl0ZXNcIjowLFwianNIZWFwQnl0ZXNcIjozMjI5MzE1MzYsXCJyZW5kZXJlclwiOlwiQ2FudmFzXCIsXCJkcmF3Q2FsbHNcIjpudWxsfSIsImVycm9ycyI6W10sIm1pc3NpbmciOltdfQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6c2d619356831754ab29-ef0f951929b6a928f152",
+          "file": "verdantia-continent.spec.ts",
+          "line": 4,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-04T16:42:28.937Z",
+    "duration": 62635.239,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

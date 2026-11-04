@@ -103,3 +103,73 @@
   sala, sklep, gospoda, kuźnia, skarbiec, trening.
 - To próbki bez odbioru właściciela (akceptacja dotyczyła tylko Pyry), nieprzycięte do 960:760 i niewdrożone do klienta.
   Znane wady wspólne z Pyrą: lekko skośne ściany boczne, w części obrazów brak wyraźnego progu drzwi, kadr 3:2.
+
+
+## Verdantia — oprawa kontynentu na osobnej gałęzi
+
+Zlecenie właściciela 04.11: rozpocząć od Verdantii, wykorzystać materiały
+z `art/world-verdantia-v2` i dwóch ZIP-ów z podanego Dysku, poprawić jakość
+w razie potrzeby i pokazać zrzuty z rzeczywistej gry.
+Gałąź `preview/verdantia-continent-v2`, baza `main@ec2b2578`.
+
+- Paczka `verdantia-continent-v2@1.0.1`: 6 powierzchni, 4 materiały dróg,
+  5 przezroczystych obiektów. Materiały właściciela: sosna, krzew, skały,
+  paprocie/kwiaty i nawierzchnie. Dąb i łąka powstały przez `image_gen`.
+- Oryginały PNG, dostępne prompty, SHA-256 i pochodzenie:
+  [pakiet produkcyjny](../../../art/production/verdantia-continent-v2/).
+  Runtime `public/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/`:
+  4 583 774 bajty; 15,95 MiB rozkodowanych pikseli. Starszą lokalną próbę 1.0.0
+  zastąpiono przed publikacją gałęzi.
+- Wiązania kontynentu mają własną przestrzeń nazw. Poza miastami renderer
+  używa masek biomów/lądu i istniejących tras. W całkowicie dzikich chunkach
+  pomija przykrytą warstwę starych tekstur, a puste maski nie są rasteryzowane.
+  Nowych materiałów nie przepuszcza przez filtr kolorystyczny starego pakietu.
+- Dekoracyjne drzewa bez fizycznego footprintu tworzą grupy i polany;
+  usunięcie ich obrazu nie usuwa żadnej kolizji. Solidne obiekty pozostają
+  widoczne. Dodatkowe kwiaty przy poboczach nie mają kolizji. Cienie kontaktowe
+  są sprite'ami, mogą przechodzić przez granice chunków. Okluzja graczy pozostaje aktywna.
+- [Porównanie SHA-256 z bazą](qa/verdantia-continent/geometry-preserved.json):
+  `world.json`, `terrain.json`, `navigation.json`, `collision.json`, `spawns.json`
+  pozostają identyczne. Nie zmieniono questów, statystyk, kont, zapisów ani serwera.
+- Starsze kłody, pniaki, grzyby, trzciny, obozy i kryształy zasobów pozostają
+  dotychczasowe. Pierwotne próbki obiektów z wyspami podłoża nie zostały
+  automatycznie przyjęte jako gotowe zamienniki.
+
+Uruchomienie: `npm run playtest -- --host 127.0.0.1 --port 4178`, następnie
+`http://127.0.0.1:4178/scripts/playtest.html?ki-world-v2=1&ki-verdant-continent=1`.
+Wybranie Planetarnych i rozpoczęcie przygody korzysta z normalnego runtime gry.
+Podgląd jest opt-in; nie stanowi scalenia ani publikacji na domenach.
+
+Weryfikacja końcowego kodu: pełny TypeScript aplikacji/e2e/tools PASS,
+13 testów jednostkowych PASS, pełna walidacja zasobów PASS,
+lint 0 błędów (15 dotychczasowych ostrzeżeń),
+kompilacja produkcyjna PASS, dokumentacja PASS (10 podręczników, 15 dzienników,
+235 przeniesionych dowodów i 346 chronionych źródeł). Canvas: wszystkie asercje
+ruchu, czterech biomów, ponownego wczytywania, telefonu i rzeczywistego PvE PASS
+w izolowanym przebiegu (1,0 min); programowy WebGL 852×393 PASS (oddzielny przebieg).
+Dwa wcześniejsze przebiegi wymagały powtórzenia po kolizji katalogów trace
+przerywanej próby i awarii karty podczas równoległej kompilacji. Końcowa seria
+Canvas biegła samodzielnie, bez trace. [Raport Canvas](qa/verdantia-continent/canvas-final.json),
+[log](qa/verdantia-continent/canvas-final.txt), [zaliczony mobilny WebGL](qa/verdantia-continent/webgl-mobile-final.json).
+
+Zrzuty z lokalnego runtime:
+[las i szlak](qa/verdantia-continent/canvas/verdantia-forest-road.png),
+[zachowane miasto](qa/verdantia-continent/canvas/verdantia-city-preserved.png),
+[głębszy las](qa/verdantia-continent/canvas/verdantia-deep-forest.png),
+[wzgórza](qa/verdantia-continent/canvas/verdantia-highlands.png),
+[mokradła](qa/verdantia-continent/canvas/verdantia-wetland.png),
+[telefon i PvE w WebGL](qa/verdantia-continent/webgl/verdantia-mobile-live-pve.png),
+[wybrzeże](qa/verdantia-continent/verdantia-coast.png),
+[wybrzeże na telefonie pionowo](qa/verdantia-continent/verdantia-coast-mobile.png).
+Osobny podgląd wybrzeża: PASS, zero błędów strony i brakujących zasobów;
+[pozycja, metryki i sposób przygotowania zapisu](qa/verdantia-continent/coast-runtime.json).
+
+Pierwsza próba dużego programowego WebGL (1600×1000) nie zaliczyła ponownego
+wczytywania w limicie 60 s. Zachowano [raport](qa/verdantia-continent/initial-desktop-webgl.json)
+i [log](qa/verdantia-continent/initial-desktop-webgl.txt). Po optymalizacji
+weryfikacja WebGL obejmuje telefon 852×393; duży desktop i komplet czterech
+biomów są sprawdzane w Canvas. To nie jest pomiar sprzętowego GPU ani odbiór
+fizycznego telefonu. Zrzuty dalszych biomów używają poprawnego lokalnego
+zapisu testowego z pozycją na istniejącej drodze, bez podmiany świata/spawnów.
+
+Zbiorcza [walidacja końcowego kodu](qa/verdantia-continent/validation.json); logi TypeScript, kompilacji, lint i zasobów w tym samym katalogu QA.

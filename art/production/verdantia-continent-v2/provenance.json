@@ -1,0 +1,43 @@
+{
+  "date": "2026-11-04",
+  "scope": "Verdantia wilderness only; owner-requested art preview on a separate branch",
+  "baseMain": "ec2b2578",
+  "worldSourceBranch": {
+    "branch": "art/world-verdantia-v2",
+    "commit": "00e15ad5",
+    "used": ["forest", "rockg", "wet", "sand", "water"],
+    "generator": "gpt-image-1-mini (as recorded by source manifest)"
+  },
+  "driveFolder": "https://drive.google.com/drive/folders/1RENiil5en-Xp0TlcDAuKv2sUAFg6E8Zq",
+  "ownerArchives": [
+    {
+      "name": "verdantia-objects-5-8.zip",
+      "driveId": "1HIAVeGH0rHFLLqTOK61UsWV88VdKLk95",
+      "bytes": 3815811,
+      "sha256": "43adf7ef2a48cfe6803fff7053b33e9f5b6518507e12f1d7d0236277c74b1099"
+    },
+    {
+      "name": "verdantia-roads-1-4.zip",
+      "driveId": "1-9x_jzvRya1YcVirNxuCsQVXiRSPsI4X",
+      "bytes": 23301280,
+      "sha256": "32817093947b0228fc354ed3f83126081a33ecc6b1632503e01f9ffc41a6423a"
+    }
+  ],
+  "generated": {
+    "provider": "ChatGPT image_gen tool; model identifier not exposed by tool",
+    "reference": "source/verdantia-bush.png",
+    "assets": ["verdantia-oak-generated", "verdantia-meadow-generated"],
+    "authorization": "Owner explicitly permitted improving/generating graphics in the task"
+  },
+  "processing": [
+    "Original PNGs preserved with SHA-256.",
+    "Objects: alpha trim, transparent padding, fit within 512 px; original game foot anchors/footprints preserved.",
+    "Roads: central road-surface strip x=0 y=970 width=2048 height=290, then resize; flora is separate and routes follow authored centre lines.",
+    "Terrain: grass 768 px, other surfaces 640 px. Roads 768 px wide. WebP quality=92, alpha=100; GPU importer performs validated installation."
+  ],
+  "knownLimitations": [
+    "Old camp/building props, logs, stumps, reeds, mushrooms and resource crystals are retained where no matching replacement was provided.",
+    "This is an opt-in preview, not an owner art acceptance or production deployment.",
+    "Physical mobile GPU and real-phone performance still need owner-device review."
+  ]
+}

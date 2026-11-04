@@ -1,5 +1,23 @@
 # KI Legends — świat, kontynenty i miasta
 
+## Verdantia — podgląd oprawy kontynentu 04.11.2026
+
+Gałąź `preview/verdantia-continent-v2`, opcja `ki-verdant-continent=1` w Superior v2.
+Nowe materiały dziczy obejmują łąkę, las, kamienne wzgórza, mokradła, piasek
+i wodę; drogi korzystają z czterech nawierzchni dostarczonych przez właściciela.
+Rośliny i skały są osobnymi sprite'ami, z głębią według stóp i przygaszaniem
+przy zasłanianiu postaci. Drzewa bez kolizji tworzą rzadsze grupy i polany,
+a przy szlakach dochodzą drobne niesolidne krzewy i kwiaty. Cienie kontaktowe
+są współdzielonymi sprite'ami, więc nie urywają się na granicach chunków.
+
+Zmiana obowiązuje poza istniejącymi bezpiecznymi osadami. Ich granice, budynki
+i dotychczasowe wiązania grafik pozostają zachowane. Kontur lądu, nawigacja,
+kolizje, spawny, statystyki i zapis nie są regenerowane ani migrowane.
+Wcześniejsze rekwizyty obozów, kłody, pniaki, trzciny, grzyby i kryształy
+zasobów nadal używają dotychczasowych grafik — ta dostawa ich nie zastępuje.
+[Źródła i import](GPU-I-ZASOBY.md#verdantia--materiały-kontynentu-04112026),
+[lokalne zrzuty i weryfikacja](zmiany/2026-11-04/ZMIANY.md#verdantia--oprawa-kontynentu-na-osobnej-gałęzi).
+
 ## Malowana Verdantia — podgląd 03.11.2026
 
 Gałąź `preview/verdantia-painted-terrain`, flaga `ki-verdant-painted=1`:

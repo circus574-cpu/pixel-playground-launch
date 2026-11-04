@@ -1,0 +1,39 @@
+{
+  "sourceReport": "optimized-run-with-trace-collision.json",
+  "project": "software-webgl",
+  "viewport": [
+    852,
+    393
+  ],
+  "tests": [
+    {
+      "timeout": 300000,
+      "annotations": [],
+      "expectedStatus": "passed",
+      "projectId": "software-webgl",
+      "projectName": "software-webgl",
+      "results": [
+        {
+          "workerIndex": 1,
+          "parallelIndex": 0,
+          "status": "passed",
+          "duration": 117844,
+          "errors": [],
+          "stdout": [],
+          "stderr": [],
+          "retry": 0,
+          "startTime": "2026-11-04T16:37:19.354Z",
+          "annotations": [],
+          "attachments": [
+            {
+              "name": "verdantia-runtime",
+              "contentType": "application/json",
+              "body": "eyJtZXRyaWNzIjoie1wic2FtcGxlQXRNc1wiOjU0OTYwLFwiZnBzXCI6OS43NixcImZyYW1lUDUwTXNcIjo3MC4xOTk5OTk5OTU1Mjk2NSxcImZyYW1lUDk1TXNcIjoyNjMuODAwMDAwMDA0NDcwMzUsXCJmcmFtZU1heE1zXCI6MjYzLjgwMDAwMDAwNDQ3MDM1LFwic2xvd0ZyYW1lc1wiOjgsXCJvYmplY3RzXCI6NTAwLFwiYWN0aXZlT2JqZWN0c1wiOjUwMCxcInZpc2libGVPYmplY3RzXCI6NDQyLFwidGV4dHVyZXNcIjoxMjEsXCJlc3RpbWF0ZWRUZXh0dXJlQnl0ZXNcIjoyMjU5NjM2NDQsXCJiYWtlZFRleHR1cmVCeXRlc1wiOjAsXCJqc0hlYXBCeXRlc1wiOjI1NDAwMDAwMCxcInJlbmRlcmVyXCI6XCJXZWJHTFwiLFwiZHJhd0NhbGxzXCI6bnVsbH0iLCJlcnJvcnMiOltdLCJtaXNzaW5nIjpbXX0="
+            }
+          ]
+        }
+      ],
+      "status": "expected"
+    }
+  ]
+}

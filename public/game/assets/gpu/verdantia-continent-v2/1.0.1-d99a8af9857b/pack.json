@@ -1,0 +1,254 @@
+{
+  "schemaVersion": 1,
+  "id": "verdantia-continent-v2",
+  "version": "1.0.1",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "verdantia-continent-grass",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/verdantia-continent-grass.webp",
+      "width": 768,
+      "height": 768
+    },
+    {
+      "id": "verdantia-continent-forest",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/verdantia-continent-forest.webp",
+      "width": 640,
+      "height": 640
+    },
+    {
+      "id": "verdantia-continent-rockg",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/verdantia-continent-rockg.webp",
+      "width": 640,
+      "height": 640
+    },
+    {
+      "id": "verdantia-continent-wet",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/verdantia-continent-wet.webp",
+      "width": 640,
+      "height": 640
+    },
+    {
+      "id": "verdantia-continent-sand",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/verdantia-continent-sand.webp",
+      "width": 640,
+      "height": 640
+    },
+    {
+      "id": "verdantia-continent-water",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/verdantia-continent-water.webp",
+      "width": 640,
+      "height": 640
+    },
+    {
+      "id": "verdantia-continent-road1",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/verdantia-continent-road1.webp",
+      "width": 768,
+      "height": 109
+    },
+    {
+      "id": "verdantia-continent-road2",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/verdantia-continent-road2.webp",
+      "width": 768,
+      "height": 109
+    },
+    {
+      "id": "verdantia-continent-road3",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/verdantia-continent-road3.webp",
+      "width": 768,
+      "height": 109
+    },
+    {
+      "id": "verdantia-continent-road4",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/verdantia-continent-road4.webp",
+      "width": 768,
+      "height": 109
+    },
+    {
+      "id": "verdantia-continent-oak",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/verdantia-continent-oak.webp",
+      "width": 503,
+      "height": 536
+    },
+    {
+      "id": "verdantia-continent-pine",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/verdantia-continent-pine.webp",
+      "width": 357,
+      "height": 536
+    },
+    {
+      "id": "verdantia-continent-bush",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/verdantia-continent-bush.webp",
+      "width": 536,
+      "height": 474
+    },
+    {
+      "id": "verdantia-continent-rocks",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/verdantia-continent-rocks.webp",
+      "width": 536,
+      "height": 477
+    },
+    {
+      "id": "verdantia-continent-flora",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-continent-v2/1.0.1-d99a8af9857b/verdantia-continent-flora.webp",
+      "width": 536,
+      "height": 445
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "terrain.verdantia-continent.grass": {
+      "asset": "verdantia-continent-grass",
+      "fit": "contain",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "terrain.verdantia-continent.forest": {
+      "asset": "verdantia-continent-forest",
+      "fit": "contain",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "terrain.verdantia-continent.rockg": {
+      "asset": "verdantia-continent-rockg",
+      "fit": "contain",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "terrain.verdantia-continent.wet": {
+      "asset": "verdantia-continent-wet",
+      "fit": "contain",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "terrain.verdantia-continent.sand": {
+      "asset": "verdantia-continent-sand",
+      "fit": "contain",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "terrain.verdantia-continent.water": {
+      "asset": "verdantia-continent-water",
+      "fit": "contain",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "terrain.verdantia-continent.road1": {
+      "asset": "verdantia-continent-road1",
+      "fit": "contain",
+      "tileSize": [
+        1024,
+        176
+      ]
+    },
+    "terrain.verdantia-continent.road2": {
+      "asset": "verdantia-continent-road2",
+      "fit": "contain",
+      "tileSize": [
+        1024,
+        176
+      ]
+    },
+    "terrain.verdantia-continent.road3": {
+      "asset": "verdantia-continent-road3",
+      "fit": "contain",
+      "tileSize": [
+        1024,
+        176
+      ]
+    },
+    "terrain.verdantia-continent.road4": {
+      "asset": "verdantia-continent-road4",
+      "fit": "contain",
+      "tileSize": [
+        1024,
+        176
+      ]
+    },
+    "object.verdantia-continent.oak": {
+      "asset": "verdantia-continent-oak",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-continent.pine": {
+      "asset": "verdantia-continent-pine",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-continent.bush": {
+      "asset": "verdantia-continent-bush",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-continent.rocks": {
+      "asset": "verdantia-continent-rocks",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-continent.flora": {
+      "asset": "verdantia-continent-flora",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    }
+  },
+  "effects": {}
+}

@@ -1,5 +1,30 @@
 # KI Legends — GPU i zasoby
 
+## Verdantia — materiały kontynentu 04.11.2026
+
+Paczka `verdantia-continent-v2@1.0.1` jest opt-in (`ki-verdant-continent=1`):
+15 zasobów, około 4,37 MiB plików runtime i 15,95 MiB rozkodowanych pikseli.
+Miasta zachowują swoje zaakceptowane wiązania; nowe klucze mają przestrzeń
+`terrain.verdantia-continent.*` / `object.verdantia-continent.*`.
+Nie podniesiono limitu pamięci streamingu dla potworów.
+
+Źródła: pięć powierzchni z `art/world-verdantia-v2@00e15ad5`, cztery drogi
+i cztery przezroczyste obiekty z dwóch ZIP-ów właściciela na Dysku Google.
+Dodatkowo wygenerowano oddzielne drzewo liściaste bez wyspy podłoża i teksturę
+łąki przez narzędzie `image_gen`, na podstawie palety dostarczonego krzewu.
+Oryginalne PNG, dostępne prompty, SHA-256 i identyfikatory archiwów zachowano
+w [pakiecie źródłowym](../art/production/verdantia-continent-v2/).
+[Pochodzenie i ograniczenia](../art/production/verdantia-continent-v2/provenance.json).
+Nie uruchamiano ani nie zmieniano instancji GPU właściciela.
+
+Odtworzenie: `node art/production/verdantia-continent-v2/prepare.mjs`, następnie
+`npm run assets:import -- art/production/verdantia-continent-v2/manifest.json --install`.
+Przy ponownym imporcie istniejącej wersji dodać `--replace`. Zachowana alfa,
+przycięcie pustych marginesów i dopasowanie rozmiaru nie zmieniają fizycznych
+kotwic. Z ilustracji dróg wycięto pas samej nawierzchni; renderer nakłada go
+na maski istniejących tras, bez wklejania prostokątnych obrazków całej drogi.
+Piasek i woda korzystają z istniejącej maski lądu. [Dowody z gry](zmiany/2026-11-04/ZMIANY.md#verdantia--oprawa-kontynentu-na-osobnej-gałęzi).
+
 ## Aetheria — materiały właściciela 03.11.2026
 
 Pakiet `aether-painted-preview@1.0.0`, flaga `ki-aether-painted=1`: cztery

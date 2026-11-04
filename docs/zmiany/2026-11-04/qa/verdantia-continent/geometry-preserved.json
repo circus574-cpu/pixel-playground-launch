@@ -1,0 +1,27 @@
+{
+  "baseMain": "ec2b257859b3bda47f4360ce60f2ce5b269b9adc",
+  "runtimePackDigest": "d99a8af9857ba8a0a5e4cd638c252cd9b387affedde781400d00d722f7f7df12",
+  "feature": "verdant",
+  "checks": {
+    "world.json": {
+      "sha256": "10dad1222f4d5e47f4eb2f66c2c20bbb70f1d5e91493a2b12bdcbcba2d387cfb",
+      "unchanged": true
+    },
+    "terrain.json": {
+      "sha256": "0ac05ad196fc8468889a90a54ead8ec9de731aaada0e48ace8192cf2132ed3e1",
+      "unchanged": true
+    },
+    "navigation.json": {
+      "sha256": "2d9763723b12731b8ae455d7e78927b6cee80dfa169949d89c159c2ae9afb5d4",
+      "unchanged": true
+    },
+    "collision.json": {
+      "sha256": "503117b800ace4cc2ab2365ace11617c4f9adfc5581167cf5f2703c4e1d85054",
+      "unchanged": true
+    },
+    "spawns.json": {
+      "sha256": "3a588ae01782669918b71ba547651cef885039b6b8e468c40d174b3bb2a3763e",
+      "unchanged": true
+    }
+  }
+}
