@@ -1,3 +1,4 @@
+import { remaining } from "./queue.mjs";
 import http from "node:http";
 import {
   createCipheriv,
@@ -59,7 +60,7 @@ const equal = (a, b) => {
 
 export async function makeBoard({
   dataDir = process.env.BOARD_DATA || "/data",
-  catalogFile = process.env.BOARD_CATALOG || path.join(here, "prompts.json"),
+  catalogFile = process.env.BOARD_CATALOG || path.join(here, "prompts.current.json"),
   authFile = process.env.BOARD_AUTH || "/run/board-auth.json",
   origin = process.env.BOARD_ORIGIN || "https://staging.kilegends.pl",
   secure = true,
@@ -212,16 +213,24 @@ export async function makeBoard({
       }
       if (
         ["GET", "HEAD"].includes(req.method) &&
-        ["/prompty", "/prompty/", "/prompty/app.js", "/prompty/style.css"].includes(route)
+        [
+          "/prompty",
+          "/prompty/",
+          "/prompty/app.js",
+          "/prompty/queue.mjs",
+          "/prompty/style.css",
+        ].includes(route)
       ) {
-        const name = route.endsWith("app.js")
-          ? "app.js"
-          : route.endsWith("style.css")
-            ? "style.css"
-            : "index.html";
+        const name = route.endsWith("queue.mjs")
+          ? "queue.mjs"
+          : route.endsWith("app.js")
+            ? "app.js"
+            : route.endsWith("style.css")
+              ? "style.css"
+              : "index.html";
         res.setHeader(
           "Content-Type",
-          name.endsWith(".js")
+          name.endsWith(".js") || name.endsWith(".mjs")
             ? "text/javascript; charset=utf-8"
             : name.endsWith(".css")
               ? "text/css; charset=utf-8"
@@ -277,7 +286,11 @@ export async function makeBoard({
         return json(res, 200, { ok: true });
       }
       if (route === "/prompty/api/prompts" && req.method === "GET")
-        return json(res, 200, { catalog, state: state.prompts, maxUpload });
+        return json(res, 200, {
+          catalog: remaining(catalog, state.prompts),
+          state: state.prompts,
+          maxUpload,
+        });
       if (route === "/prompty/api/export" && req.method === "GET") {
         res.setHeader("Content-Disposition", 'attachment; filename="ki-prompts-progress.json"');
         return json(res, 200, state);

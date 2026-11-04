@@ -1,0 +1,63 @@
+{
+  "release": "9d8a0a0107a60acdaaad18958811ea940cdc220e",
+  "catalogCount": 665,
+  "uploaded": [
+    {
+      "id": "training.planetary.dummy",
+      "files": 1,
+      "types": [
+        "image/jpeg"
+      ],
+      "revision": false
+    },
+    {
+      "id": "training.planetary.target",
+      "files": 1,
+      "types": [
+        "image/jpeg"
+      ],
+      "revision": false
+    },
+    {
+      "id": "training.planetary.ki-node",
+      "files": 1,
+      "types": [
+        "image/jpeg"
+      ],
+      "revision": false
+    },
+    {
+      "id": "project.P-V3.before",
+      "files": 1,
+      "types": [
+        "image/jpeg"
+      ],
+      "revision": false
+    },
+    {
+      "id": "project.P-V3.after",
+      "files": 1,
+      "types": [
+        "image/jpeg"
+      ],
+      "revision": false
+    },
+    {
+      "id": "project.P-V4.before",
+      "files": 1,
+      "types": [
+        "image/jpeg"
+      ],
+      "revision": false
+    },
+    {
+      "id": "project.P-V4.after",
+      "files": 1,
+      "types": [
+        "image/jpeg"
+      ],
+      "revision": false
+    }
+  ],
+  "filesTotal": 7
+}

@@ -13,8 +13,11 @@
       <header>
         <div>
           <span class="eyebrow">KI LEGENDS · WARSZTAT</span>
-          <h1>Prompty i gotowe zasoby</h1>
-          <p>Skopiuj prompt → wygeneruj → wgraj wynik. Postęp zapisuje się na serwerze.</p>
+          <h1>Brakujące materiały do rozwoju gry</h1>
+          <p>
+            Skopiuj prompt → wygeneruj → wgraj wynik. Ukończony prompt znika z listy, a plik
+            pozostaje zapisany.
+          </p>
         </div>
         <button id="logout" hidden>Wyloguj</button>
       </header>
@@ -34,11 +37,13 @@
       </section>
       <section id="board" hidden>
         <details class="notice">
-          <summary>Najpierw sześć próbek · zasady warsztatu</summary>
+          <summary>Najpierw wnętrza · tylko brakujące materiały</summary>
           <p>
-            Lista „Start — 6 próbek” prowadzi przez pierwszą partię. „Zaliczony” oznacza zapis
-            wyniku, nie akceptację artystyczną ani import do gry. Animacje i bronie wykonuj dopiero
-            po spełnieniu ich zależności.
+            Gotowe grafiki treningu, 41 dźwięków i wcześniejsze dostawy usunięto z aktywnej listy.
+            Najpierw przygotuj podłogi i ściany wnętrz; istniejące meble wykorzystamy ponownie. Po
+            wgraniu kompletnego wyniku prompt znika. Pliki i historia pozostają w eksporcie.
+            Animacje i bronie wykonuj dopiero po spełnieniu zależności. Upload nie oznacza importu
+            do gry.
           </p>
         </details>
         <section class="progress-box">
@@ -50,7 +55,7 @@
           <label>Szukaj<input id="search" type="search" placeholder="Nazwa, ID lub rasa…" /></label>
           <label
             >Partia<select id="priority">
-              <option value="START">Start — 6 próbek</option>
+              <option value="START">Start — wnętrza</option>
               <option value="ALL">Wszystkie partie</option>
               <option>P0</option>
               <option>P1</option>
@@ -81,7 +86,7 @@
             >Status<select id="status">
               <option value="ALL">Wszystkie</option>
               <option value="pending">Do zrobienia</option>
-              <option value="done">Zaliczone</option>
+
               <option value="revision">Do poprawy</option>
             </select></label
           >

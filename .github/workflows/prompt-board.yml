@@ -31,7 +31,7 @@ jobs:
       - name: Prepare isolated board bundle
         if: inputs.operation != 'audit'
         run: |
-          test -s docs/design/development-prompts/prompts.json
+          test -s deploy/prompt-board/prompts.current.json
           tar -czf /tmp/ki-prompt-board.tar.gz -C deploy/prompt-board . -C "$GITHUB_WORKSPACE/docs/design/development-prompts" prompts.json
       - name: Deploy only prompt board on staging
         if: inputs.operation != 'audit'
@@ -58,12 +58,23 @@ jobs:
           trap 'rm -f "$key"' EXIT
           printf '%s\n' "$SSH_PRIVATE_KEY" > "$key"
           ssh -i "$key" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/known_hosts" codex@85.235.150.189 'python3 -' <<'PY'
-          import json
+          import json,hashlib,collections
           from pathlib import Path
           base=Path.home()/'ki-prompt-board'
           release=(base/'current-release').read_text().strip()
-          catalog=json.loads((base/'releases'/release/'prompts.json').read_text())
+          release_dir=base/'releases'/release
+          catalog_file=release_dir/'prompts.current.json'
+          if not catalog_file.exists(): catalog_file=release_dir/'prompts.json'
+          catalog=json.loads(catalog_file.read_text())
           state=json.loads((base/'data/state.json').read_text())
           rows=[{'id':key,'files':len(value.get('files',[])),'types':sorted(set(f.get('type','') for f in value.get('files',[]))),'revision':bool(value.get('revision'))} for key,value in state['prompts'].items()]
-          print('BOARD_AUDIT_JSON='+json.dumps({'release':release,'catalogCount':len(catalog),'uploaded':rows,'filesTotal':sum(r['files'] for r in rows)},ensure_ascii=False))
+          pending=[]
+          for p in catalog:
+            r=state['prompts'].get(p['id'],{})
+            files=[f for f in r.get('files',[]) if not r.get('revisedAt') or f.get('uploadedAt','')>r['revisedAt']]
+            done=not r.get('revision') and (any(f.get('type')=='application/zip' for f in files) or len(files)>=8 if p['kind']=='animation' else bool(files))
+            if not done: pending.append(p)
+          verified=sum(hashlib.sha256((base/'data/files'/f['stored']).read_bytes()).hexdigest()==f['sha256'] for r in state['prompts'].values() for f in r.get('files',[]))
+          backup=base/'backups'/('state-before-'+release+'.json')
+          print('BOARD_AUDIT_JSON='+json.dumps({'release':release,'catalogCount':len(catalog),'pendingCount':len(pending),'kinds':dict(collections.Counter(p['kind'] for p in pending)),'uploaded':rows,'filesTotal':sum(r['files'] for r in rows),'filesVerified':verified,'backupMatches':backup.exists() and backup.read_bytes()==(base/'data/state.json').read_bytes()},ensure_ascii=False))
           PY
