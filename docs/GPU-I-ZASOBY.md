@@ -702,3 +702,28 @@ Na gałęzi `art/pyra-materials-2026-11-04` zachowano [10 plansz PNG, manifest z
 Pakiet [verdantia-extra-runtime](../art/production/verdantia-extra-runtime/) zawiera 26 osobnych sprite’ów wyciętych z przygotowanych przez `image_gen` wersji czterech plansz. Pierwotne koncepcje są zachowane. Wycięcia mają przezroczyste tło, puste marginesy i rozmiary 192/256/384/512 px; pełny pakiet ma 10,37 MiB rozkodowanych pikseli i około 3,18 MiB plików. Włącza go istniejąca opcja `ki-verdant-continent=1`, razem z podłożami i drogami. Przypisania mają osobne klucze `object.verdantia-extra.*`; miasta i statystyki nie są nadpisywane.
 
 Odtworzenie: `node art/production/verdantia-extra-runtime/prepare.mjs`, następnie `npm run assets:import -- art/production/verdantia-extra-runtime/manifest.json --install` (przy ponownej instalacji dodać `--replace`). Pochodzenie, źródła i SHA-256 są w tym samym pakiecie. Warianty drzew i podszytu są deterministyczne, a fizyczne footprinty, kotwice i położenia pozostają źródłowe.
+
+
+## Pyra — pakiet kontynentu runtime 04.11.2026
+
+Pakiet [pyra-continent-v2@1.0.0](../art/production/pyra-continent-v2/)
+wydziela 52 obrazy z dziesięciu zachowanych plansz: 14 materiałów powierzchni,
+33 obiekty oraz 5 efektów otoczenia. Pięć plansz (rośliny, dwa zestawy terenu,
+przejścia, rekwizyty) oczyszczono przez `image_gen`; oryginalne koncepcje
+pozostają w osobnym archiwum. `provenance.json` i `sources.sha256.json`
+zapisują pochodzenie oraz SHA-256. Importer stosuje osobne wiązania
+`terrain.pyra-continent.*` i `object.pyra-continent.*`, opt-in
+`ki-pyra-continent=1`; nie zastępuje wcześniejszych kluczy katalogu.
+
+Odtworzenie: `node art/production/pyra-continent-v2/prepare.mjs`, następnie
+`npm run assets:import -- art/production/pyra-continent-v2/manifest.json --install`
+(przy ponownej instalacji dodać `--replace`). Przy wycinaniu usuwane są wyłącznie
+małe, odłączone fragmenty sąsiednich elementów dotykające krawędzi komórki.
+Sprite’y mają przezroczysty margines. Materiały dróg wycięto ze środkowego pasa,
+a brzegi z części stałego gruntu, żeby nie nakładać obrazu cieczy na szlak.
+
+Runtime: 7 773 994 bajty, 26,65 MiB rozkodowanych pikseli; pełny digest
+`55660ce18ae52d4d64d648e84920baa448b6923136142f42ed6e6edbcbaadd00`.
+Tylko najbliższe fragmenty świata i widoczne obiekty są streamowane.
+Koncepcje efektów mają animację transformacji/alfa; nie są pełnymi animacjami
+klatkowymi. Odbiór na fizycznym telefonie pozostaje otwarty.

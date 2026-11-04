@@ -1,0 +1,68 @@
+{
+  "tool": "image_gen",
+  "date": "2026-11-04",
+  "originalArchive": "art/production/pyra-concepts-2026-11-04",
+  "operation": "Five sheets edited to remove background and edge glow while retaining separate subjects. Technical extraction, alpha component isolation, trim, padding and resize: prepare.mjs. Original archive preserved.",
+  "sources": [
+    {
+      "file": "pyra-drobne-dekoracje-8-wariantow.png",
+      "archiveSha256": "3df097f6b505e3477bdc4999b0eb0a501bdf71ac3849aa2c44281309afdbdad3",
+      "runtimeSourceSha256": "3df097f6b505e3477bdc4999b0eb0a501bdf71ac3849aa2c44281309afdbdad3",
+      "alphaCleanupWithImageGen": false
+    },
+    {
+      "file": "pyra-drogi-4-warianty.png",
+      "archiveSha256": "b84d2dd3caa36d4661e18335ed46dd0b95ca126e215dbf579f1866982b2fd451",
+      "runtimeSourceSha256": "b84d2dd3caa36d4661e18335ed46dd0b95ca126e215dbf579f1866982b2fd451",
+      "alphaCleanupWithImageGen": false
+    },
+    {
+      "file": "pyra-efekty-otoczenia-5-wariantow.png",
+      "archiveSha256": "926c57991c5be4e92e7e9328aa253d62fb858cc4431463057ab55e3462cb9d21",
+      "runtimeSourceSha256": "926c57991c5be4e92e7e9328aa253d62fb858cc4431463057ab55e3462cb9d21",
+      "alphaCleanupWithImageGen": false
+    },
+    {
+      "file": "pyra-formy-terenu-5-nowych-wariantow.png",
+      "archiveSha256": "4d363a806c4e45c9eeb3430ac0a564d30403ae7141514acfb6d541772cef51be",
+      "runtimeSourceSha256": "276b8591bb36587f7d8ff8bb710e8a34a31d9bdf41d59d07aa756d7a7837d8fa",
+      "alphaCleanupWithImageGen": true
+    },
+    {
+      "file": "pyra-formy-terenu-5-wariantow.png",
+      "archiveSha256": "8ee904840976c40d984643d843e6894ae3a6c816d1d38bb9e2997b86c7649638",
+      "runtimeSourceSha256": "099017b582fe8e915d9788bac593aa756424c93969b3b77864154d38b27a262e",
+      "alphaCleanupWithImageGen": true
+    },
+    {
+      "file": "pyra-podloza-4-warianty.png",
+      "archiveSha256": "104e16b4b6acbe31b3a527448c1ee4a0f019c0e562a0f4739f119af77aa224dc",
+      "runtimeSourceSha256": "104e16b4b6acbe31b3a527448c1ee4a0f019c0e562a0f4739f119af77aa224dc",
+      "alphaCleanupWithImageGen": false
+    },
+    {
+      "file": "pyra-przejscia-terenowe-4-warianty.png",
+      "archiveSha256": "798e8e8f88abefffa15c5c5fece06dd1dfeb2757dc6e5c2200e1dbed74e757a8",
+      "runtimeSourceSha256": "43c1b2a9f53502057042a3eb61202cb7c98e4fec980836e157382a5eb62d82f7",
+      "alphaCleanupWithImageGen": true
+    },
+    {
+      "file": "pyra-rekwizyty-swiata-6-wariantow.png",
+      "archiveSha256": "1f12fa01ff789913d20fb6616f75deb8b3d79083473b9e2a51e7fa8ba6184589",
+      "runtimeSourceSha256": "9a6da63d7cbfda0e9e2e8f1af215cb0a332589c15ec665184a67ae6958d6db02",
+      "alphaCleanupWithImageGen": true
+    },
+    {
+      "file": "pyra-roslinnosc-5-wariantow.png",
+      "archiveSha256": "6494a3cb6b4b965ae5d4f868a8865366f18519fffbac94c50f0b533118a6d04c",
+      "runtimeSourceSha256": "ca4ad4812dd0ab9c30bd64622eb5b68ca19b4cbac88f9f51e36a6a9b7836b4c5",
+      "alphaCleanupWithImageGen": true
+    },
+    {
+      "file": "pyra-woda-lawa-brzegi-6-wariantow.png",
+      "archiveSha256": "392a65d33de2b7bf27890aab79af8a949530aed9bb4ef852c728cf2b6df49bf1",
+      "runtimeSourceSha256": "392a65d33de2b7bf27890aab79af8a949530aed9bb4ef852c728cf2b6df49bf1",
+      "alphaCleanupWithImageGen": false
+    }
+  ]
+}

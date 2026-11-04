@@ -235,3 +235,77 @@ Zrzuty z rzeczywistego runtime:
 Zrzuty dalszych miejsc używają poprawnego lokalnego zapisu testowego z pozycją
 na sprawdzonym nawigacyjnie terenie. Nie są nowym projektem mapy ani pełnym
 tłem ilustracyjnym. Fizyczny telefon i sprzętowe WebGL pozostają do odbioru.
+
+## Pyra — nowa oprawa kontynentu
+
+Zlecenie: rozpocząć nową Pyrę z wcześniej przygotowanych materiałów.
+Gałąź `preview/pyra-continent-v2` wychodzi z `7b5d4939` i zachowuje ukończoną
+Verdantię oraz oba archiwa źródłowe. To faktyczny renderer gry, nie ilustracja
+użyta jako cała mapa. Podgląd: `/scripts/playtest.html?ki-world-v2=1&ki-pyra-continent=1`,
+rasa **Legendy**. Dla zwykłej strony gry dopisać `ki-pyra-continent=1` do jej URL.
+
+- [Pakiet](../../../art/production/pyra-continent-v2/) zawiera 52 osobne obrazy:
+  14 materiałów powierzchni, 33 obiekty i 5 efektów. Import runtime:
+  7 773 994 bajty, 26,65 MiB rozkodowanych pikseli;
+  [log importera](qa/pyra-continent/import.txt).
+- Pięć plansz oczyszczono przez `image_gen`; źródłowe dziesięć plansz
+  koncepcyjnych pozostaje nienaruszone. `provenance.json`, `prepare.mjs`
+  i `sources.sha256.json` w pakiecie opisują pochodzenie i odtwarzanie.
+  [Kontrola alfa](qa/pyra-continent/alpha-check.json) obejmuje wszystkie wycięcia.
+- Popielne pola, bazalt, wulkany i kaniony używają własnych materiałów.
+  Cztery faktury dróg, liście, popiół, siarka, brzegi i woda urozmaicają podłoże.
+  [Audyt terenu](qa/pyra-continent/terrain-audit.json): źródło zawiera 1089
+  niedostępnych komórek wulkanicznego lądu kwalifikujących się do nakładki lawy.
+  Nie oznacza to nowych przeszkód ani obrażeń środowiskowych.
+- Klony, sosny i trzy krzewy zastępują odpowiednie stare dekoracje. Nowe skały,
+  klify, kratery, szczeliny, źródła, obozy, ruiny i wejścia korzystają z istniejących
+  położeń i metadanych. [Audyt przypisań](qa/pyra-continent/mapping-audit.json)
+  potwierdza użycie wszystkich 38 wiązań obiektów/efektów w pełnym świecie.
+- Mosty i schody to cztery niewielkie dekoracje na istniejących szerokich szlakach,
+  bez nowej nawigacji, wysokości czy kolizji. Obozy, kopalnie, ruiny i skrzynie
+  otrzymują wygląd; nie dodano im nowej interakcji ani nagród.
+- Para, dym, popiół, żar i ciepłe powietrze mają animację przesunięcia/zanikania
+  przezroczystych obrazów; nie są sekwencjami nowych klatek. Nie zasłaniają drogi
+  nieprzezroczystym tłem i nie mają cienia kontaktowego.
+- [Geometria](qa/pyra-continent/geometry-preserved.json): `world`, `terrain`,
+  `navigation`, `collision` i `spawns` są bajtowo zgodne z bazą. Miasta bezpieczne,
+  gotowa Twierdza Popiołu, statystyki i zapis nie są przemalowywane ani migrowane.
+  Dotychczasowe bindingi i domyślna oprawa pozostają zachowane. Nie scalano
+  do `main` ani nie publikowano na domenach.
+
+Zrzuty z rzeczywistej gry:
+[popielne pola](qa/pyra-continent/canvas/pyra-ash.png),
+[bazalt](qa/pyra-continent/canvas/pyra-basalt.png),
+[wulkaniczny teren](qa/pyra-continent/canvas/pyra-volcanic.png),
+[kaniony](qa/pyra-continent/canvas/pyra-canyon.png),
+[dzikie ziemie](qa/pyra-continent/canvas/pyra-wilderness.png),
+[zachowana stolica](qa/pyra-continent/canvas/pyra-city.png),
+[telefon WebGL](qa/pyra-continent/webgl/pyra-mobile-pve.png).
+Sceny dalszych biomów używają poprawnego lokalnego zapisu testowego z pozycją
+na sprawdzonym nawigacyjnie terenie. Pozostałe zrzuty powstają po rzeczywistym
+ruchu. Fizyczny telefon, sprzętowe GPU i odbiór estetyczny całego kontynentu
+pozostają do oceny właściciela.
+
+Końcowe testy funkcjonalne gry: **4/4 PASS** — Pyra i regresja Verdantii,
+każda na Canvas 1600×1000 oraz programowym WebGL 852×393. Sprawdzono prawdziwy
+ruch, streaming, ponowne wejście z lokalnego zapisu, zadawanie obrażeń potworowi,
+przyciski widoku telefonu i limit 12 chunków. Brak błędów strony oraz brakujących
+zasobów w końcowych przebiegach. [Zbiorczy raport](qa/pyra-continent/browser-final-summary.json),
+[Canvas](qa/pyra-continent/browser-canvas-final.txt),
+[WebGL](qa/pyra-continent/browser-webgl-final.txt).
+Telemetria jest zapisana w raportach; programowy WebGL potwierdza poprawność
+renderowania, nie stanowi odbioru płynności na fizycznym telefonie.
+
+Pierwszy łączony przebieg zachowano jako [log początkowy](qa/pyra-continent/browser-initial.txt):
+Pyra przeszła obie ścieżki, lecz Verdantia miała crash przeglądarki przy równoległych
+ciężkich kontrolach oraz timeout ruchu w przebiegu obejmującym przeładowanie kodu.
+Kontrole rozdzielono, zakończono retusz i powtórzono obie krainy. Końcowe wyniki
+powyżej dotyczą stabilnego, niezmienianego podczas testów kodu.
+
+Pozostałe kontrole końcowe: [pełny TypeScript app/e2e/tools](qa/pyra-continent/typecheck.txt)
+PASS; [20 testów w 4 plikach](qa/pyra-continent/unit.txt) PASS;
+[wszystkie zasoby](qa/pyra-continent/assets.txt) PASS;
+[lint](qa/pyra-continent/lint.txt) 0 błędów / 15 wcześniejszych ostrzeżeń;
+[kompilacja produkcyjna](qa/pyra-continent/build.txt) PASS.
+[Zestawienie kontroli](qa/pyra-continent/validation.json).
+[Kontrola dokumentacji](qa/pyra-continent/docs.txt): PASS.

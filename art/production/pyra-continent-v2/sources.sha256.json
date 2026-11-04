@@ -1,0 +1,164 @@
+[
+  {
+    "file": "pyra-podloza-4-warianty.png",
+    "sha256": "104e16b4b6acbe31b3a527448c1ee4a0f019c0e562a0f4739f119af77aa224dc",
+    "columns": [
+      2,
+      2
+    ],
+    "names": [
+      "basalt",
+      "ash",
+      "gravel",
+      "leaves"
+    ],
+    "split": 0.5
+  },
+  {
+    "file": "pyra-drogi-4-warianty.png",
+    "sha256": "b84d2dd3caa36d4661e18335ed46dd0b95ca126e215dbf579f1866982b2fd451",
+    "columns": [
+      2,
+      2
+    ],
+    "names": [
+      "road1",
+      "road2",
+      "road3",
+      "road4"
+    ],
+    "split": 0.5
+  },
+  {
+    "file": "pyra-woda-lawa-brzegi-6-wariantow.png",
+    "sha256": "392a65d33de2b7bf27890aab79af8a949530aed9bb4ef852c728cf2b6df49bf1",
+    "columns": [
+      3,
+      3
+    ],
+    "names": [
+      "water",
+      "lava",
+      "shore",
+      "lava-bank",
+      "sulfur",
+      "ash-rock"
+    ],
+    "split": 0.5
+  },
+  {
+    "file": "pyra-roslinnosc-5-wariantow.png",
+    "sha256": "ca4ad4812dd0ab9c30bd64622eb5b68ca19b4cbac88f9f51e36a6a9b7836b4c5",
+    "columns": [
+      2,
+      3
+    ],
+    "names": [
+      "maple",
+      "pine",
+      "berry-bush",
+      "copper-bush",
+      "lantern-bush"
+    ],
+    "split": 0.565
+  },
+  {
+    "file": "pyra-formy-terenu-5-wariantow.png",
+    "sha256": "099017b582fe8e915d9788bac593aa756424c93969b3b77864154d38b27a262e",
+    "columns": [
+      2,
+      3
+    ],
+    "names": [
+      "hill",
+      "cliff",
+      "ridge",
+      "crater",
+      "fissure"
+    ],
+    "split": 0.5
+  },
+  {
+    "file": "pyra-formy-terenu-5-nowych-wariantow.png",
+    "sha256": "276b8591bb36587f7d8ff8bb710e8a34a31d9bdf41d59d07aa756d7a7837d8fa",
+    "columns": [
+      2,
+      3
+    ],
+    "names": [
+      "obsidian-spire",
+      "rock-arch",
+      "pahoehoe",
+      "spring",
+      "scree"
+    ],
+    "split": 0.5
+  },
+  {
+    "file": "pyra-drobne-dekoracje-8-wariantow.png",
+    "sha256": "3df097f6b505e3477bdc4999b0eb0a501bdf71ac3849aa2c44281309afdbdad3",
+    "columns": [
+      4,
+      4
+    ],
+    "names": [
+      "rocks",
+      "shards",
+      "dry-grass",
+      "stump",
+      "log",
+      "leaf-patch",
+      "crystals",
+      "weeds"
+    ],
+    "split": 0.5
+  },
+  {
+    "file": "pyra-przejscia-terenowe-4-warianty.png",
+    "sha256": "43c1b2a9f53502057042a3eb61202cb7c98e4fec980836e157382a5eb62d82f7",
+    "columns": [
+      2,
+      2
+    ],
+    "names": [
+      "bridge",
+      "steps",
+      "cave",
+      "mine"
+    ],
+    "split": 0.5
+  },
+  {
+    "file": "pyra-rekwizyty-swiata-6-wariantow.png",
+    "sha256": "9a6da63d7cbfda0e9e2e8f1af215cb0a332589c15ec665184a67ae6958d6db02",
+    "columns": [
+      3,
+      3
+    ],
+    "names": [
+      "camp",
+      "sign",
+      "fire",
+      "ruin",
+      "cart",
+      "supplies"
+    ],
+    "split": 0.5
+  },
+  {
+    "file": "pyra-efekty-otoczenia-5-wariantow.png",
+    "sha256": "926c57991c5be4e92e7e9328aa253d62fb858cc4431463057ab55e3462cb9d21",
+    "columns": [
+      3,
+      2
+    ],
+    "names": [
+      "fx-ash",
+      "fx-embers",
+      "fx-smoke",
+      "fx-heat",
+      "fx-steam"
+    ],
+    "split": 0.5
+  }
+]

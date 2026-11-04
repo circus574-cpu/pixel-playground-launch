@@ -1,0 +1,366 @@
+[
+  {
+    "id": "pyra-continent-basalt",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044,
+    "coverage": 1
+  },
+  {
+    "id": "pyra-continent-ash",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044,
+    "coverage": 1
+  },
+  {
+    "id": "pyra-continent-gravel",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044,
+    "coverage": 1
+  },
+  {
+    "id": "pyra-continent-leaves",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044,
+    "coverage": 1
+  },
+  {
+    "id": "pyra-continent-road1",
+    "width": 512,
+    "height": 122,
+    "edgeNonzeroAlpha": 1264,
+    "coverage": 1
+  },
+  {
+    "id": "pyra-continent-road2",
+    "width": 512,
+    "height": 122,
+    "edgeNonzeroAlpha": 1264,
+    "coverage": 1
+  },
+  {
+    "id": "pyra-continent-road3",
+    "width": 512,
+    "height": 122,
+    "edgeNonzeroAlpha": 1264,
+    "coverage": 1
+  },
+  {
+    "id": "pyra-continent-road4",
+    "width": 512,
+    "height": 122,
+    "edgeNonzeroAlpha": 1264,
+    "coverage": 1
+  },
+  {
+    "id": "pyra-continent-water",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044,
+    "coverage": 1
+  },
+  {
+    "id": "pyra-continent-lava",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044,
+    "coverage": 1
+  },
+  {
+    "id": "pyra-continent-shore",
+    "width": 512,
+    "height": 194,
+    "edgeNonzeroAlpha": 1408,
+    "coverage": 1
+  },
+  {
+    "id": "pyra-continent-lava-bank",
+    "width": 512,
+    "height": 194,
+    "edgeNonzeroAlpha": 1408,
+    "coverage": 1
+  },
+  {
+    "id": "pyra-continent-sulfur",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044,
+    "coverage": 1
+  },
+  {
+    "id": "pyra-continent-ash-rock",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044,
+    "coverage": 1
+  },
+  {
+    "id": "pyra-continent-maple",
+    "width": 400,
+    "height": 363,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.5282300275482094
+  },
+  {
+    "id": "pyra-continent-pine",
+    "width": 398,
+    "height": 400,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.518391959798995
+  },
+  {
+    "id": "pyra-continent-berry-bush",
+    "width": 272,
+    "height": 197,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.5693303971334727
+  },
+  {
+    "id": "pyra-continent-copper-bush",
+    "width": 272,
+    "height": 205,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.5901721664275467
+  },
+  {
+    "id": "pyra-continent-lantern-bush",
+    "width": 272,
+    "height": 213,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.5781897265948633
+  },
+  {
+    "id": "pyra-continent-hill",
+    "width": 528,
+    "height": 294,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.6297348484848485
+  },
+  {
+    "id": "pyra-continent-cliff",
+    "width": 528,
+    "height": 351,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.5710362168695502
+  },
+  {
+    "id": "pyra-continent-ridge",
+    "width": 528,
+    "height": 447,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.5292056470747746
+  },
+  {
+    "id": "pyra-continent-crater",
+    "width": 528,
+    "height": 402,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.6814836800844264
+  },
+  {
+    "id": "pyra-continent-fissure",
+    "width": 528,
+    "height": 526,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.42346828551676463
+  },
+  {
+    "id": "pyra-continent-obsidian-spire",
+    "width": 528,
+    "height": 452,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.35805510860820594
+  },
+  {
+    "id": "pyra-continent-rock-arch",
+    "width": 528,
+    "height": 325,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.4564393939393939
+  },
+  {
+    "id": "pyra-continent-pahoehoe",
+    "width": 528,
+    "height": 458,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.48435225618631733
+  },
+  {
+    "id": "pyra-continent-spring",
+    "width": 528,
+    "height": 488,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.47017821659215103
+  },
+  {
+    "id": "pyra-continent-scree",
+    "width": 528,
+    "height": 410,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.49763950480413893
+  },
+  {
+    "id": "pyra-continent-rocks",
+    "width": 272,
+    "height": 240,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.613219975490196
+  },
+  {
+    "id": "pyra-continent-shards",
+    "width": 272,
+    "height": 232,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.4464376267748479
+  },
+  {
+    "id": "pyra-continent-dry-grass",
+    "width": 272,
+    "height": 230,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.5604219948849105
+  },
+  {
+    "id": "pyra-continent-stump",
+    "width": 272,
+    "height": 249,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.45360855185447674
+  },
+  {
+    "id": "pyra-continent-log",
+    "width": 272,
+    "height": 178,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.47750743555849307
+  },
+  {
+    "id": "pyra-continent-leaf-patch",
+    "width": 272,
+    "height": 150,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.4835539215686275
+  },
+  {
+    "id": "pyra-continent-crystals",
+    "width": 272,
+    "height": 264,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.5292028743315508
+  },
+  {
+    "id": "pyra-continent-weeds",
+    "width": 272,
+    "height": 218,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.5351625742039935
+  },
+  {
+    "id": "pyra-continent-bridge",
+    "width": 528,
+    "height": 328,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.451802706947524
+  },
+  {
+    "id": "pyra-continent-steps",
+    "width": 528,
+    "height": 369,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.48507945306725797
+  },
+  {
+    "id": "pyra-continent-cave",
+    "width": 528,
+    "height": 351,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.6413116204782872
+  },
+  {
+    "id": "pyra-continent-mine",
+    "width": 528,
+    "height": 367,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.6892442820576336
+  },
+  {
+    "id": "pyra-continent-camp",
+    "width": 272,
+    "height": 266,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.5021561256081379
+  },
+  {
+    "id": "pyra-continent-sign",
+    "width": 246,
+    "height": 272,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.29547764227642276
+  },
+  {
+    "id": "pyra-continent-fire",
+    "width": 272,
+    "height": 213,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.5408209058271196
+  },
+  {
+    "id": "pyra-continent-ruin",
+    "width": 272,
+    "height": 259,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.5551896434249376
+  },
+  {
+    "id": "pyra-continent-cart",
+    "width": 272,
+    "height": 238,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.525673504695996
+  },
+  {
+    "id": "pyra-continent-supplies",
+    "width": 272,
+    "height": 220,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.5940006684491979
+  },
+  {
+    "id": "pyra-continent-fx-ash",
+    "width": 164,
+    "height": 208,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.8324636491557224
+  },
+  {
+    "id": "pyra-continent-fx-embers",
+    "width": 143,
+    "height": 208,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.7955890263582571
+  },
+  {
+    "id": "pyra-continent-fx-smoke",
+    "width": 138,
+    "height": 208,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.7954640468227425
+  },
+  {
+    "id": "pyra-continent-fx-heat",
+    "width": 208,
+    "height": 160,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.82109375
+  },
+  {
+    "id": "pyra-continent-fx-steam",
+    "width": 151,
+    "height": 208,
+    "edgeNonzeroAlpha": 0,
+    "coverage": 0.807596790626592
+  }
+]

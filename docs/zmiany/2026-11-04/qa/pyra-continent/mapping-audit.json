@@ -1,0 +1,305 @@
+{
+  "counts": {
+    "ruin": 41,
+    "hill": 32,
+    "crater": 75,
+    "fx-heat": 75,
+    "fx-smoke": 75,
+    "spring": 96,
+    "fx-steam": 96,
+    "cliff": 94,
+    "scree": 32,
+    "obsidian-spire": 712,
+    "fissure": 27,
+    "ridge": 45,
+    "pahoehoe": 45,
+    "fire": 40,
+    "fx-embers": 40,
+    "fx-ash": 40,
+    "camp": 80,
+    "supplies": 40,
+    "sign": 40,
+    "rocks": 1138,
+    "log": 1829,
+    "copper-bush": 2728,
+    "crystals": 283,
+    "berry-bush": 2709,
+    "lantern-bush": 2809,
+    "cart": 28,
+    "mine": 1,
+    "cave": 2,
+    "rock-arch": 1,
+    "pine": 3734,
+    "maple": 6254,
+    "leaf-patch": 2592,
+    "weeds": 2633,
+    "dry-grass": 2670,
+    "stump": 4001,
+    "shards": 1352,
+    "bridge": 2,
+    "steps": 2
+  },
+  "objectBindings": 38,
+  "examples": {
+    "ruin": {
+      "id": "landmark-famous-pyra-2",
+      "x": 37712,
+      "y": 41328
+    },
+    "hill": {
+      "id": "pyra-relief-0",
+      "x": 28688,
+      "y": 7984
+    },
+    "crater": {
+      "id": "pyra-relief-1",
+      "x": 32208,
+      "y": 7824
+    },
+    "fx-heat": {
+      "id": "pyra-relief-1",
+      "x": 32208,
+      "y": 7824
+    },
+    "fx-smoke": {
+      "id": "pyra-relief-1",
+      "x": 32208,
+      "y": 7824
+    },
+    "spring": {
+      "id": "pyra-relief-10",
+      "x": 29552,
+      "y": 8144
+    },
+    "fx-steam": {
+      "id": "pyra-relief-10",
+      "x": 29552,
+      "y": 8144
+    },
+    "cliff": {
+      "id": "pyra-relief-13",
+      "x": 29456,
+      "y": 8112
+    },
+    "scree": {
+      "id": "pyra-relief-17",
+      "x": 27952,
+      "y": 5680
+    },
+    "obsidian-spire": {
+      "id": "pyra-relief-20",
+      "x": 32016,
+      "y": 8176
+    },
+    "fissure": {
+      "id": "pyra-relief-22",
+      "x": 33712,
+      "y": 7728
+    },
+    "ridge": {
+      "id": "pyra-relief-42",
+      "x": 35504,
+      "y": 12240
+    },
+    "pahoehoe": {
+      "id": "pyra-relief-54",
+      "x": 43024,
+      "y": 11440
+    },
+    "fire": {
+      "id": "pyra-camp-0-0",
+      "x": 59920,
+      "y": 14640
+    },
+    "fx-embers": {
+      "id": "pyra-camp-0-0",
+      "x": 59920,
+      "y": 14640
+    },
+    "fx-ash": {
+      "id": "pyra-camp-0-0",
+      "x": 59920,
+      "y": 14640
+    },
+    "camp": {
+      "id": "pyra-camp-0-1",
+      "x": 59600,
+      "y": 14460
+    },
+    "supplies": {
+      "id": "pyra-camp-0-4",
+      "x": 60100,
+      "y": 14780
+    },
+    "sign": {
+      "id": "pyra-camp-0-5",
+      "x": 59700,
+      "y": 14760
+    },
+    "rocks": {
+      "id": "accepted-zone-south-patch-boulder-group-2",
+      "x": 47319.28602700001,
+      "y": 14752.471948999999
+    },
+    "log": {
+      "id": "pyra-resource-0",
+      "x": 18320,
+      "y": 22192
+    },
+    "copper-bush": {
+      "id": "pyra-resource-1",
+      "x": 42352,
+      "y": 15120
+    },
+    "crystals": {
+      "id": "pyra-resource-3",
+      "x": 20912,
+      "y": 17360
+    },
+    "berry-bush": {
+      "id": "pyra-resource-9",
+      "x": 34512,
+      "y": 24976
+    },
+    "lantern-bush": {
+      "id": "pyra-resource-25",
+      "x": 16816,
+      "y": 22672
+    },
+    "cart": {
+      "id": "pyra-resource-108",
+      "x": 52016,
+      "y": 15760
+    },
+    "mine": {
+      "id": "v2-transit-3-pyra",
+      "x": 19984,
+      "y": 29360
+    },
+    "cave": {
+      "id": "v2-transit-4-pyra",
+      "x": 30896,
+      "y": 15984
+    },
+    "rock-arch": {
+      "id": "v2-pyra-chambers-pyra",
+      "x": 33968,
+      "y": 23024
+    },
+    "pine": {
+      "id": "pyra-v2-object-1161",
+      "x": 496,
+      "y": 22320
+    },
+    "maple": {
+      "id": "pyra-v2-object-4494",
+      "x": 1904,
+      "y": 22096
+    },
+    "leaf-patch": {
+      "id": "pyra-v2-object-4744",
+      "x": 496,
+      "y": 22832
+    },
+    "weeds": {
+      "id": "pyra-v2-object-11556",
+      "x": 1232,
+      "y": 23152
+    },
+    "dry-grass": {
+      "id": "pyra-v2-object-9552",
+      "x": 3504,
+      "y": 23152
+    },
+    "stump": {
+      "id": "pyra-object-683",
+      "x": 20976,
+      "y": 21392
+    },
+    "shards": {
+      "id": "pyra-object-6770",
+      "x": 20816,
+      "y": 20592
+    },
+    "bridge": {
+      "id": "pyra-path-2",
+      "kind": "path-decoration",
+      "binding": "object.pyra-continent.bridge",
+      "x": 38544,
+      "y": 15728,
+      "width": 326.4,
+      "height": 230.39999999999998,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "layer": "below",
+      "solid": false
+    },
+    "steps": {
+      "id": "pyra-path-3",
+      "kind": "path-decoration",
+      "binding": "object.pyra-continent.steps",
+      "x": 37712,
+      "y": 19184,
+      "width": 326.4,
+      "height": 230.39999999999998,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "layer": "below",
+      "solid": false
+    }
+  },
+  "passages": [
+    {
+      "id": "pyra-path-0",
+      "kind": "path-decoration",
+      "binding": "object.pyra-continent.bridge",
+      "x": 43600,
+      "y": 13424,
+      "width": 326.4,
+      "height": 230.39999999999998,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "layer": "below",
+      "solid": false
+    },
+    {
+      "id": "pyra-path-1",
+      "kind": "path-decoration",
+      "binding": "object.pyra-continent.steps",
+      "x": 40016,
+      "y": 16368,
+      "width": 326.4,
+      "height": 230.39999999999998,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "layer": "below",
+      "solid": false
+    },
+    {
+      "id": "pyra-path-2",
+      "kind": "path-decoration",
+      "binding": "object.pyra-continent.bridge",
+      "x": 38544,
+      "y": 15728,
+      "width": 326.4,
+      "height": 230.39999999999998,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "layer": "below",
+      "solid": false
+    },
+    {
+      "id": "pyra-path-3",
+      "kind": "path-decoration",
+      "binding": "object.pyra-continent.steps",
+      "x": 37712,
+      "y": 19184,
+      "width": 326.4,
+      "height": 230.39999999999998,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "layer": "below",
+      "solid": false
+    }
+  ]
+}

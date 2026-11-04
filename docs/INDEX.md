@@ -1,5 +1,7 @@
 # KI Legends — dokumentacja projektu
 
+**Pyra — nowa oprawa kontynentu na osobnej gałęzi:** [52 zasoby runtime, zakres i zrzuty](zmiany/2026-11-04/ZMIANY.md#pyra--nowa-oprawa-kontynentu).
+
 **Verdantia — 26 dodatkowych grafik podłączonych do gry:** [zakres integracji i zrzuty](zmiany/2026-11-04/ZMIANY.md#verdantia--ukończenie-integracji-dodatkowej-oprawy).
 
 **Verdantia — kontynent, podgląd 04.11.2026:** [zakres, materiały i zrzuty z rzeczywistej gry](zmiany/2026-11-04/ZMIANY.md#verdantia--oprawa-kontynentu-na-osobnej-gałęzi).

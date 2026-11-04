@@ -1,0 +1,18 @@
+{
+  "typecheck": "PASS: app, e2e, tools",
+  "unit": "PASS: 20 tests / 4 files",
+  "assets": "PASS",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 15
+  },
+  "build": "PASS",
+  "browser": "PASS: 4 final functional runs, Pyra and Verdantia, Canvas and software WebGL",
+  "geometry": "Identical to 7b5d49392b12070e63c8cc9e281b5dd6dbeff0f8",
+  "runtimeImages": 52,
+  "runtimeBytes": 7773994,
+  "decodedPackMiB": 26.64837646484375,
+  "productionDeployed": false,
+  "hardwarePhonePerformance": "Not tested",
+  "documentation": "PASS: exactly 10 thematic manuals, local links and protected evidence"
+}

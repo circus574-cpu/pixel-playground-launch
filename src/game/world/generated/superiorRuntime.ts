@@ -1,3 +1,4 @@
+import { pyraContinentEnabled, pyraObjects, pyraTerrainBindings } from "./pyraContinent";
 import {
   buildSuperiorSimulationWorld,
   type SuperiorSimulationSource as Source,
@@ -322,6 +323,8 @@ export async function prepareSuperior(options: {
           if (o.binding === "object.crystal") o.binding = "object.biome-forest.mossy-boulder";
       if (verdantiaContinentEnabled(info.id))
         value.objects = continentObjects(value.objects, outsideCities, source.roads);
+      if (pyraContinentEnabled(info.id))
+        value.objects = pyraObjects(value.objects, outsideCities, source.roads);
       artCache.set(id, value.objects);
       if (artCache.size > 12) artCache.delete(artCache.keys().next().value!);
       return value.objects;
@@ -347,6 +350,7 @@ export async function prepareSuperior(options: {
     if (key) addBinding(key);
   if (verdantiaContinentEnabled(info.id))
     for (const key of continentTerrainBindings) addBinding(key);
+  if (pyraContinentEnabled(info.id)) for (const key of pyraTerrainBindings) addBinding(key);
   for (const obj of [
     ...art.buildings,
     ...art.acceptedCityBuildings,

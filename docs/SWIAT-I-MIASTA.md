@@ -1,4 +1,27 @@
 # KI Legends — świat, kontynenty i miasta
+## Pyra — podgląd oprawy kontynentu 04.11.2026
+
+Gałąź `preview/pyra-continent-v2`, opcja `ki-pyra-continent=1` w Superior v2.
+Podgląd dotyczy dzikich ziem poza czterema bezpiecznymi osadami. Zachowuje
+ukończoną Twierdzę Popiołu, usługi, drzwi oraz wszystkie źródłowe dane świata.
+
+Cztery istniejące biomy otrzymują własne podłoża: popielne pola, bazalt,
+wulkany i kaniony. Nakładki liści, siarki, skał i brzegów tworzą lokalne
+przejścia. Cztery faktury szlaków zależą od rodzaju drogi i biomu; ich punkty,
+szerokości i przejezdność pozostają źródłowe. Ognista lawa jest malowana tylko
+na istniejących niedostępnych komórkach wulkanicznego lądu; nie dodaje obrażeń.
+
+Osobne sprite’y zastępują drzewa, krzewy, drewno, skały, wulkany, źródła,
+obsydian, obozy, ruiny, zaopatrzenie i wejścia. Przerzedzane są wyłącznie
+bezkolizyjne dekoracje. Cztery niewielkie grafiki mostów/schodów leżą na
+istniejących szerokich szlakach jako dekoracyjne przepusty; nie są nową trasą
+ani modelem wysokości. Dym, para, żar, popiół i gorące powietrze wykorzystują
+statyczne przezroczyste tekstury z animacją pozycji/zanikania, nie nowe sekwencje
+klatek. Geometria, kolizje, zapis i spawny pozostają bez zmian.
+
+[Źródła, wyniki i zrzuty z gry](zmiany/2026-11-04/ZMIANY.md#pyra--nowa-oprawa-kontynentu).
+To gałąź podglądowa, bez scalenia do `main` ani publikacji domen.
+
 
 ## Verdantia — podgląd oprawy kontynentu 04.11.2026
 

@@ -1,3 +1,13 @@
+import {
+  pyraContinentEnabled,
+  pyraTerrainBindings,
+  pyraBiomeBindings,
+  pyraObjects,
+  pyraRoadside,
+  pyraPathScenery,
+  pyraEffectFrame,
+  pyraMoltenCell,
+} from "./pyraContinent";
 import { nexusGarden, nexusScenery, nexusWalkways } from "./nexusPainted";
 import {
   verdantiaContinentEnabled,
@@ -101,7 +111,14 @@ const layerCanvas = (size = 512) => {
 /** Only streamed chunks have canvases; only nearby decorations have Phaser images. */
 export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   const painted = paintedMeadowEnabled(source.loader.definition.feature);
-  const continent = verdantiaContinentEnabled(source.loader.definition.feature);
+  const pyraContinent = pyraContinentEnabled(source.loader.definition.feature);
+  const verdantContinent = verdantiaContinentEnabled(source.loader.definition.feature);
+  const continent = verdantContinent || pyraContinent;
+  const terrainBindings = pyraContinent ? pyraTerrainBindings : continentTerrainBindings;
+  const biomeBindings = pyraContinent ? pyraBiomeBindings : continentBiomeBindings;
+  const terrainPrefix = pyraContinent ? "terrain.pyra-continent." : "terrain.verdantia-continent.";
+  const remapObjects = pyraContinent ? pyraObjects : continentObjects;
+  const roadside = pyraContinent ? pyraRoadside : continentRoadside;
   const outside = source.outsideCities ?? (() => false);
   const paintedPyra = painted && source.loader.definition.feature === "pyra";
   const paintedNexus = painted && source.loader.definition.feature === "nexus";
@@ -130,6 +147,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     doorsKey = "";
   const markers: (Phaser.GameObjects.Ellipse | Phaser.GameObjects.Text)[] = [];
   const staticItems = [
+    ...(pyraContinent ? pyraPathScenery(source.roads, outside) : []),
     ...(painted ? meadowBuildings(source.art.buildings) : source.art.buildings),
     ...(painted
       ? meadowBuildings(source.art.acceptedCityBuildings)
@@ -345,13 +363,13 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     if (continent) {
       for (const b of biomes)
         texture(
-          pattern(continentBiomeBindings[b] ?? continentBiomeBindings[0]!),
+          pattern(biomeBindings[b] ?? biomeBindings[0]!),
           1,
           (i) => !!(flags[i]! & 16) && biome[i] === b && outside(cellPoint(i)),
           false,
         );
       texture(
-        pattern("terrain.verdantia-continent.sand"),
+        pattern(terrainPrefix + (pyraContinent ? "shore" : "sand")),
         0.8,
         (i) =>
           !!(flags[i]! & 16) &&
@@ -363,9 +381,42 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         false,
       );
       texture(
-        pattern("terrain.verdantia-continent.water"),
+        pattern(terrainPrefix + "water"),
         1,
         (i) => !(flags[i]! & 16) && outside(cellPoint(i)),
+        false,
+      );
+    }
+    if (pyraContinent) {
+      const dryLand = (i: number) => !!(flags[i]! & 16) && outside(cellPoint(i));
+      texture(
+        pattern(terrainPrefix + "leaves"),
+        0.95,
+        (i) => {
+          const p = cellPoint(i);
+          return (
+            dryLand(i) &&
+            biome[i] === 0 &&
+            Math.sin(p.x / 550) + Math.sin(p.y / 720) + Math.sin((p.x + p.y) / 1100) > 0.55
+          );
+        },
+        false,
+      );
+      texture(pattern(terrainPrefix + "ash-rock"), 0.8, (i) => dryLand(i) && biome[i] === 3, false);
+      texture(
+        pattern(terrainPrefix + "sulfur"),
+        0.7,
+        (i) => {
+          const p = cellPoint(i);
+          return dryLand(i) && biome[i] === 3 && Math.sin(p.x / 430) + Math.cos(p.y / 600) > 1.25;
+        },
+        false,
+      );
+      // Molten material stays on already impassable volcanic cells.
+      texture(
+        pattern(terrainPrefix + "lava"),
+        1,
+        (i) => dryLand(i) && pyraMoltenCell(flags[i]!, biome[i]!),
         false,
       );
     }
@@ -471,8 +522,15 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             continue;
           const col = Math.max(0, Math.min(cols - 1, Math.floor(((mx - data.x) / CHUNK) * cols)));
           const row = Math.max(0, Math.min(rows - 1, Math.floor(((my - data.y) / CHUNK) * rows)));
-          const kind =
-            biome[row * cols + col] === 2
+          const kind = pyraContinent
+            ? biome[row * cols + col]! >= 2
+              ? 2
+              : r.kind.includes("trail")
+                ? 3
+                : r.kind === "road" || r.kind === "city-path"
+                  ? 0
+                  : 1
+            : biome[row * cols + col] === 2
               ? 3
               : r.kind === "road" || r.kind === "city-path"
                 ? 0
@@ -488,7 +546,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
           paintedPaths(
             nc,
             masks[i]!.c,
-            pattern("terrain.verdantia-continent.road" + (i + 1)),
+            pattern(terrainPrefix + "road" + (i + 1)),
             data.x,
             data.y,
             scale,
@@ -599,13 +657,11 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       const [data, art] = await Promise.all([source.loader.loadChunk(x, y), source.readArt(x, y)]);
       if (disposed || !wanted.has(id)) return;
       const originalItems = [...art, ...(staticGrid.get(id) ?? [])];
-      const items = continent
-        ? continentObjects(originalItems, outside, source.roads)
-        : originalItems;
+      const items = continent ? remapObjects(originalItems, outside, source.roads) : originalItems;
       if (continent) {
         const flags = decodeRuns(data.terrain.flags, data.terrain.width * data.terrain.height);
         items.push(
-          ...continentRoadside(data.x, data.y, source.roads, outside, (p) => {
+          ...roadside(data.x, data.y, source.roads, outside, (p) => {
             const col = Math.floor(((p.x - data.x) / CHUNK) * data.terrain.width),
               row = Math.floor(((p.y - data.y) / CHUNK) * data.terrain.height);
             return !!(flags[row * data.terrain.width + col]! & 16);
@@ -618,7 +674,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
           .map(textureId),
       );
       if (paintedNexus) ids.add(textureId("terrain.nexus-painted-courtyard"));
-      if (continent) for (const key of continentTerrainBindings) ids.add(textureId(key));
+      if (continent) for (const key of terrainBindings) ids.add(textureId(key));
       for (const item of items) ids.add(textureId(item.binding));
       await source.acquire(scene, ids, id);
       if (disposed || !wanted.has(id)) {
@@ -705,7 +761,8 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
               (paintedPyra && ref.asset.startsWith("pyra-painted-")) ||
                 (paintedNexus && ref.asset.startsWith("nexus-painted-")) ||
                 ref.asset.startsWith("verdantia-continent-") ||
-                ref.asset.startsWith("verdantia-extra-")
+                ref.asset.startsWith("verdantia-extra-") ||
+                ref.asset.startsWith("pyra-continent-")
                 ? ref.asset
                 : blendedTexture(scene, ref.asset, ref.frame),
               ref.frame,
@@ -717,15 +774,18 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             .setOrigin(item.anchorX, item.anchorY)
             .setTint(
               ref.asset.startsWith("verdantia-continent-") ||
-                ref.asset.startsWith("verdantia-extra-")
+                ref.asset.startsWith("verdantia-extra-") ||
+                ref.asset.startsWith("pyra-continent-")
                 ? 0xf5f2de
                 : 0xdfe2e8,
             )
             .setDepth(renderDepth(item.layer ?? "objects", item.y));
           tile.images.set(item.id, image);
           if (
-            ref.asset.startsWith("verdantia-continent-") ||
-            ref.asset.startsWith("verdantia-extra-")
+            item.kind !== "ambient-effect" &&
+            (ref.asset.startsWith("verdantia-continent-") ||
+              ref.asset.startsWith("verdantia-extra-") ||
+              ref.asset.startsWith("pyra-continent-"))
           ) {
             // A shared transparent sprite can straddle a chunk boundary without a cut shadow.
             tile.shadows.set(
@@ -738,6 +798,11 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
           }
         }
         image.setAlpha(Math.min(occlusionAlpha(item, player), foliageAlpha(item, others)));
+        if (pyraContinent && item.kind === "ambient-effect") {
+          const frame = pyraEffectFrame(item, scene.time.now);
+          image.setPosition(frame.x, frame.y).setAlpha(frame.alpha);
+          tile.shadows.get(item.id)?.setVisible(false);
+        }
       }
     const doors = source.currentDoors(),
       nextKey = doors.map((d) => d.door.x + "," + d.door.y).join(";");
@@ -776,8 +841,9 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     scene.game.canvas.dataset["superiorChunks"] = String(live.size);
     scene.game.canvas.dataset["superiorPending"] = String(pending.size);
     scene.game.canvas.dataset["superiorPainted"] = String(painted);
-    scene.game.canvas.dataset["verdantiaContinent"] = String(continent);
-    scene.game.canvas.dataset["verdantiaExtra"] = String(continent && extraSceneryEnabled());
+    scene.game.canvas.dataset["verdantiaContinent"] = String(verdantContinent);
+    scene.game.canvas.dataset["pyraContinent"] = String(pyraContinent);
+    scene.game.canvas.dataset["verdantiaExtra"] = String(verdantContinent && extraSceneryEnabled());
     scene.game.canvas.dataset["superiorGroundResolution"] = String(resolution);
     scene.game.canvas.dataset["superiorScenery"] = String(
       [...live.values()].reduce((n, t) => n + t.images.size, 0),
