@@ -99,7 +99,7 @@ Przegląd złączonych PR-ów, otwartych gałęzi, plików serwera, migracji ora
 ### Usunięte nieaktualne instrukcje i korekty pojęć
 
 - Zastąpiono aktywne sformułowania: „gra lokalnym PvE”, „serwer nie istnieje”, „PostgreSQL tylko pod przyszły multiplayer”, „Supabase to aktywne konta i postacie”, „trzeba zakończyć migrację Aruba”, „otwarte tylko PR #4/#6/#11”, „cztery przedmioty to cały ekwipunek”.
-- Aktualizacja: `AGENTS.md`, `README.md`, `ARUBA_STAGING.md`, dziewięć podręczników tematycznych oraz bieżący dziennik. Datuj stare dowody i zachowuj źródłowe grafiki/PDF, archiwalne dzienniki i migracje bez przerabiania historii.
+- Aktualizacja: `AGENTS.md`, `README.md`, `ARUBA_STAGING.md`, osiem podręczników tematycznych oraz bieżący dziennik. Datuj stare dowody i zachowuj źródłowe grafiki/PDF, archiwalne dzienniki i migracje bez przerabiania historii.
 - **Znane ryzyko:** plik `.env` występuje jako śledzony w repozytorium. W tym audycie nie odczytywano jego zawartości; potrzebny bezpieczny przegląd pod kątem sekretów oraz ewentualna rotacja. Konfiguracja `docker-compose.yml` nadal zawiera obowiązkowe wartości Supabase — sprawdzić rzeczywiste Coolify przed refaktoryzacją.
 
 ### Granice weryfikacji
