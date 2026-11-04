@@ -103,3 +103,14 @@
   sala, sklep, gospoda, kuźnia, skarbiec, trening.
 - To próbki bez odbioru właściciela (akceptacja dotyczyła tylko Pyry), nieprzycięte do 960:760 i niewdrożone do klienta.
   Znane wady wspólne z Pyrą: lekko skośne ściany boczne, w części obrazów brak wyraźnego progu drzwi, kadr 3:2.
+
+## Świat poza miastami: Verdantia, 20 obrazów (do odbioru)
+
+- Zasada właściciela: na kontynent po 5 rzeczy w czterech grupach (tekstury podłoża, ukształtowanie terenu, drogi, przyroda), po 1 obrazie na
+  prompt, razem 20 na kontynent. Prompty: `art/pipeline/prompts/world/PROMPTY-{Verdantia,Aetheria,Nexus-9,Pyra}-v2.md` (poprzednie
+  pliki po 52 prompty zastąpione).
+- Verdantia wygenerowana `gpt-image-1-mini` (jakość medium): `art/production/world/verdantia/` (PNG, prompt przy każdym obrazie,
+  `manifest.json` z SHA-256). Kafle i rzeka zszyte w szwach na CPU, drogi w poziomie, obiekty z alfa.
+- Pięć obrazów (trawa, skała, piasek, droga ziemna, ścieżka górska) powtórzono po poprawce promptów (strumyki w trawie i skale,
+  krzaki w piasku, schody zamiast ścieżki, droga po skosie). Obiekty mają jeszcze podstawy terenu pod spodem; prompty już poprawione.
+- To próbki bez odbioru właściciela i bez wdrożenia do klienta; gra bez zmian.
