@@ -388,3 +388,9 @@ Tryb KI nadal wymaga poziomu 20. Testy: `level-uncapped`, `skills-repair`. Rangi
 - Testy: `kit-ranks` (proporcjonalność efektów w czterech rasach, uczenie i reset rang, reguły korzenia),
   `skills-repair`, `monsters` (zapis z rangą 2).
 - Nie zmierzono balansu walki przy wysokich rangach ani na telefonie; wartości rosną liniowo bez sufitu.
+
+## Nazwy nad budynkiem i nad graczem
+
+- Nazwa budynku jest wyśrodkowana nad dachem (pozycja z `staticItems` dopasowana po współrzędnych drzwi, z awaryjnym
+  przesunięciem nad drzwi). Nazwa gracza wraz z poziomem jest nad postacią i skaluje się odwrotnie do zoomu kamery.
+- Sprawdzone wizualnie w Aetherii i Pyrze; typecheck, lint, testy i kontrola dokumentacji przechodzą.

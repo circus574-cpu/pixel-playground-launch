@@ -381,12 +381,7 @@ export function mountKileGends(
       releaseScene.push(rendering.dispose);
       if (runtime?.dispose) releaseScene.push(runtime.dispose);
       releaseScene.push(() => this.interiorView?.dispose());
-      this.hero = this.actor(
-        session.player,
-        "Ty · " + RACES[session.player.race].name,
-        "hero",
-        visual,
-      );
+      this.hero = this.actor(session.player, this.heroLabel(), "hero", visual);
       this.syncEnemies();
       for (const n of world.npcs) {
         const actor = this.actor(n, n.name, "npc", actorVisual(world.id, "npc", n.id));
@@ -1215,6 +1210,11 @@ export function mountKileGends(
         this.texturedEffect("shield", event);
       }
     }
+    /** The player's own name as shown above the head: character name and level. */
+    private heroLabel() {
+      const p = session.player;
+      return (p.name || "Ty · " + RACES[p.race].name) + " [Lvl " + p.level + "]";
+    }
     private report() {
       let npcLabels = 0,
         enemyLabels = 0;
@@ -1545,7 +1545,19 @@ export function mountKileGends(
       }
       const quiet =
         !worldLabels || Boolean(session.dialogue) || session.paused || session.player.dead;
+      const ownLabel = this.heroLabel();
+      if (this.hero.name.text !== ownLabel) this.hero.name.setText(ownLabel);
       for (const a of this.actors) {
+        if (a.kind === "hero") {
+          // Player names (the own one and other players') always float above the head.
+          a.name
+            .setPosition(a.body.x, a.body.y - a.visual.size[1] * a.visual.origin[1] - 12)
+            .setScale(1 / this.cameras.main.zoom)
+            .setVisible(!quiet && a.body.visible);
+          a.track.setPosition(a.body.x, a.body.y - 76);
+          a.bar.setPosition(a.body.x - 32, a.body.y - 76);
+          continue;
+        }
         // Labels and bars follow a creature's height (sized by its bestiary class) from the 84 px baseline.
         const lift = a.kind === "enemy" ? (a.visual.size[1] - 84) * a.visual.origin[1] : 0;
         a.name.setPosition(a.body.x, a.body.y - 104 - lift).setScale(1 / this.cameras.main.zoom);
