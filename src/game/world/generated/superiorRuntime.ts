@@ -286,7 +286,7 @@ export async function prepareSuperior(options: {
     addAsset(ref.asset);
   }
   const protectedAssets = new Set(initialAssets.keys());
-  // Opt-in `?ki-clear-arenas=1`: decoration only, collision never reads art objects.
+  // On by default (`?ki-clear-arenas=0` opts out): decoration only, collision never reads art objects.
   const arenaIndex = arenaClearingEnabled(location.search)
     ? buildArenaIndex(spawnData.overworld)
     : null;

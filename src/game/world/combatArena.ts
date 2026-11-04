@@ -1,7 +1,7 @@
 import type { Point } from "../navigation";
 
 /**
- * Combat-arena clearing (opt-in `?ki-clear-arenas=1`, owner request 04.11.2026): tall trees and dense
+ * Combat-arena clearing (default on since owner decision 04.11.2026; `?ki-clear-arenas=0` restores the old forest): tall trees and dense
  * bushes right next to a monster spawn hide the fight and burn sprites. Presentation only: art objects
  * are non-solid and collision always comes from the world's own obstacles, so saves and navigation
  * never depend on what is drawn here.
@@ -16,7 +16,7 @@ const CELL = 512;
 const FOLIAGE = /tree|pine|oak|birch|spruce|willow|palm|cherry|bamboo|bush|shrub|foliage/;
 
 export function arenaClearingEnabled(search: string): boolean {
-  return new URLSearchParams(search).get("ki-clear-arenas") === "1";
+  return new URLSearchParams(search).get("ki-clear-arenas") !== "0";
 }
 
 export type ArenaObject = Point & {

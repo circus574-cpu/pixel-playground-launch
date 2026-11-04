@@ -19,10 +19,10 @@ const tree = (x: number, y: number, extra = {}) => ({
 describe("combat arena clearing", () => {
   const index = buildArenaIndex([{ x: 1000, y: 1000 }]);
 
-  it("is off unless ?ki-clear-arenas=1", () => {
-    expect(arenaClearingEnabled("")).toBe(false);
-    expect(arenaClearingEnabled("?ki-clear-arenas=0")).toBe(false);
+  it("is on by default and off only with ?ki-clear-arenas=0", () => {
+    expect(arenaClearingEnabled("")).toBe(true);
     expect(arenaClearingEnabled("?ki-clear-arenas=1")).toBe(true);
+    expect(arenaClearingEnabled("?ki-clear-arenas=0")).toBe(false);
   });
 
   it("removes tall trees in the core, keeps those far away", () => {
