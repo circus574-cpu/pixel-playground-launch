@@ -1,20 +1,7 @@
-# Tasks
-- [x] Add password-protected /test with artwork background.
-- [x] Enable private persistent uploads and downloads for all file extensions.
-- [x] Verify password protection and upload/read-back flow.
-- [x] Add protected inline previews and verify them on /test.
-- [x] Replace primitive /mapa geography with a real detailed painted atlas and aligned hitboxes.
-- [x] Refine mobile atlas controls and verify desktop/mobile interactions and existing routes.
-- [x] Run unit tests and confirm preview build; report exact commit without publishing.
-- [x] Upgrade /mapa to a lazy 3D globe with 2D fallback, tests and docs (not published).
-- [x] Aetheria anime start-point art pack behind ?ki-aether-art=1 for owner review (not published).
-- [x] Prepare and integrate anime start art for Nexus-9 and Pyra; preserve accepted Verdantia and defer animations.
-- [x] Verify new region art and save/collision regression; document review links without publication.
-- [x] Alternative Verdantia start village behind ?ki-verdant-art=1 (accepted forest stays default).
-- [x] Enlarge Aetheria to 3600x2560 (old coordinates valid). Nexus-9, Pyra, Verdantia enlargement deferred by owner (credits).
-- [x] Curved roads and organic courts in Aetheria (others deferred).
-- [x] New Aetheria districts, object kinds and 8 enemies (aether-expansion pack).
-- [x] Make the accepted anime art packs default in the game (all four lands).
-- [x] Aetheria minimap, tests, screenshots; publish on owner request.
-- [x] Aruba staging deploy files delivered as ZIP in Files (GitHub branch write declined by owner).
-- [x] Whole-database file: official export path given; app data + accounts already exported.
+# KI Legends — orientacja w zadaniach
+
+Ten plik **nie przechowuje już historycznej checklisty migracji ani starej listy ukończonych podglądów**. Aktualny stan i priorytety są w [docs/PLAN-I-ZADANIA.md](docs/PLAN-I-ZADANIA.md), a zasady dla wykonawców w [AGENTS.md](AGENTS.md).
+
+Stan na 2026-11-04: VPS Aruba + Coolify + prywatny PostgreSQL + serwerowe PvE działają w architekturze projektu. To nie jest zadanie „do zrobienia”. Do odrębnej weryfikacji pozostają żywa produkcja/Resend, funkcjonalność i bezpieczeństwo pełnego MMO, fizyczny telefon oraz odbiór niescalonych gałęzi rozwoju i labiryntów. Dzienniki: [04.11](docs/zmiany/2026-11-04/ZMIANY.md).
+
+**Otwarte PR do przeglądu (na checkpoint 04.11):** #71 (ops / live QA), #80 (labirynty), #87 (audyt rozwoju), #90 (rozwój ras). PR #102 (test powtórzonych zdarzeń questów) został scalony do `main` 04.11. Nie traktować otwartego PR jako funkcji produkcyjnej. Nie publikować ani nie scalać bez wyraźnego polecenia.

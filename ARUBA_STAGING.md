@@ -1,46 +1,15 @@
-# KI Legends — status migracji VPS Aruba
+# KI Legends — Aruba / Coolify / PostgreSQL
 
-Status 01.11.2026: **migracja zakończona — produkcja działa na VPS Aruba (Coolify)**.
-Wdrożenie: `.github/workflows/aruba-production.yml` po pushu do `main`, po zielonym
-jobie `verify`. Poniższa treść to historyczny zapis przygotowań z gałęzi
-`migration/aruba-staging-2026-10-28`.
+**Aktualizacja 2026-11-04.** To już **nie jest plan migracji**. Hosting KI Legends został przeniesiony na VPS Aruba, a prywatny PostgreSQL oraz serwer gry są częścią istniejącej architektury. Nie wracać do instrukcji „dostarczyć ZIP przed pierwszym wdrożeniem”, „brak serwera”, „Supabase jako jedyne konto gry” ani „brak migracji”; są to historyczne checkpointy.
 
-## Dostępne
-- Kod gry zsynchronizowany na GitHub (main: `0b5ae9486914962626d8b7bbe5ce09fccbeb35ab`).
-- Wygenerowano pełny pakiet `KI-LEGENDS-VPS-pakiet.zip` oraz bundle historii 89 gałęzi, ale nie ma ich jeszcze w tym repo ani na Aruba.
-- Pakiet zawiera Dockerfile z osobnymi targetami `app` (Node.js 22) i `web` (Caddy), docker-compose, lokalne okładki, multimedia oraz skrypty backupu i testów.
-- W GitHub `.gitattributes` stosuje Git LFS dla niektórych zasobów źródłowych 3D — sprawdzić pobranie pełnych obiektów LFS przed budowaniem.
+## Stan i odnośniki
 
-## Bezwzględnie przed wdrożeniem
-1. Dostarczyć i zweryfikować oryginalny ZIP (sumy SHA-256 i manifest); bez niego nie odtwarzać ręcznie niekompletnego pakietu.
-2. Oddzielić dane kont i sekretne klucze Supabase; nie wystawiać `SUPABASE_SERVICE_ROLE_KEY` w kodzie przeglądarki/GitHub.
-3. Zabezpieczyć konta i zapisy graczy; sprawdzić kompletność przywracania do nowego środowiska.
-4. Testować na tymczasowej domenie, bez zmiany `kilegends.pl`.
-5. Przed cutoverem przejść testy: /, /mapa, /konto, /admin, /test; rozgrywka mobilna, audio Range/206 i zasoby.
+- Produkcja: `kilegends.pl`, VPS Aruba/Coolify, aplikacja Node.js + Caddy; `/ws/*` na port 7420 demona, PostgreSQL w prywatnej sieci Compose.
+- Uruchomiony kod serwerowego PvE, kont i postaci na PostgreSQL, rewizje świata publikowane z panelu; nie mylić z ukończonym MMO.
+- Ścieżki bieżące: [architektura](docs/ARCHITEKTURA-I-TESTY.md), [plan i kontrole](docs/PLAN-I-ZADANIA.md), [indeks](docs/INDEX.md), [instrukcja agentów](AGENTS.md).
+- Weryfikacja **bieżącej aktywności** kontenerów, działania SMTP/Resend, odtwarzania kopii oraz sesji prawdziwego gracza wymaga osobnego live QA. Bez tego nie wolno ogłaszać nowego wyniku testu.
+- Migracja projektu została zakończona, lecz otwarty PR #71 dokumentuje historyczne niedomknięte kontrole ops/rollback — to osobny zakres QA, nie argument za powtarzaniem migracji.
 
-Uwaga: gra jest lokalnym PvE, nie ma jeszcze działającego serwera multiplayer.
+## Historyczny zapis przygotowań
 
-## Bloker
-- Oryginalny pakiet z dużymi zasobami istnieje w pierwotnym eksporcie, ale w tym czacie nie ma dostępu do jego bajtów, tylko do historii i źródeł.
-- Brak dostępu administracyjnego do Coolify.
-
-
-## Aktualizacja 29.10.2026 — uzupełnione pliki do budowania
-
-Powyższe braki opisują wcześniejszy checkpoint. Dwa brakujące obrazy overlay są
-teraz w `deploy/overlay/public/`. Pobrano oryginalne bajty z istniejącego hostingu;
-obie sumy zgadzają się z wcześniej zatwierdzonym `deploy/overlay/SHA256SUMS`.
-Dockerfile nie potrzebuje już pobierać ich ze starego hostingu podczas budowania.
-Pozostałe archiwa/eksporty nie zostały tu skopiowane ani udostępnione publicznie.
-
-Weryfikacja kontenerów na tej gałęzi: `.github/workflows/aruba-staging.yml`.
-Uruchamia wyłącznie lokalny stos CI, bez VPS, DNS i sekretów produkcyjnych.
-W Coolify użyć tej gałęzi i `docker-compose.staging.yml`, a publiczne zmienne
-z `.env.staging.example` przypisać jako build/runtime zgodnie z compose.
-Domenę tymczasową skierować wyłącznie do `web:80`; usługa `app` nie ma publicznego portu.
-Nie zastępować pustych sekretów stagingu fikcyjnym service_role.
-
-Pełne polecenia, wyniki i ograniczenia są w
-[chronologicznym dzienniku](docs/zmiany/2026-10-29/ZMIANY.md).
-**Uruchomienie na Aruba pozostaje niepotwierdzone: ta sesja nie ma adresu ani
-uwierzytelnienia VPS/Coolify.** Sam push do GitHub nie stanowi wdrożenia.
+Stare pakiety ZIP, staging, wyniki logów z 28–29.10 i listy blokad pozostają w historii Git tego pliku i dziennikach [28.10](docs/zmiany/2026-10-28/ZMIANY.md), [29.10](docs/zmiany/2026-10-29/ZMIANY.md) i [01.11](docs/zmiany/2026-11-01/ZMIANY.md). Nie stosować ich jako checklisty nowego wdrożenia i nie przywracać starych usług bez osobnej zgody właściciela.

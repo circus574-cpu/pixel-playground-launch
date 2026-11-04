@@ -1,31 +1,37 @@
 # KI Legends — aktualny plan i zadania
 
-## Bieżący checkpoint — 01.11.2026 po publikacji serwerowego PvE, panelu postaci, ekwipunku i wydaniu na main
+## Stan potwierdzony w repozytorium — 04.11.2026 (`main@316faad1`)
 
-Kod i potwierdzona publikacja: `main@2026c18` (PR #70, ilustrowane katalogi potworów i przedmiotów w `/admin`). Hosting: VPS Aruba (Coolify), wdrożenie automatyczne po pushu do `main` — od 01.11 dopiero po zielonej bramce jakości (typecheck, testy, lint, zasoby, dokumentacja, build). Lovable nie jest już hostingiem. Aktualizacje z 01.11 obejmują integrację serwerowych postaci (PR #69), pełny panel administracyjny postaci serwera dedykowanego (`ServerCharacterManager` w `/admin`), system 8-slotowego ekwipunku, 40-slotowej torby i depozytu miejskiego (`feat/inventory-bag-and-city-depot`), komplet 46/46 zasobów Etapu 1 oraz automatyczne wdrożenie produkcyjne Aruba. Zob. [dziennik 01.11](zmiany/2026-11-01/ZMIANY.md#10-integracja-gałęzi-pełna-weryfikacja-jakościowa-i-publikacja-main-commit-fbfde40f).
-Ten checkpoint zastępuje wcześniejsze etykiety stanu; zachowuje historyczne wyniki i nierozwiązane błędy.
-Dowody i dokładne polecenia: [dziennik 29.10](zmiany/2026-10-29/ZMIANY.md#stan-po-scaleniu-i-publikacji--aktualizacja-dokumentacji).
+**Serwer gry i baza nie są już planem.** KI Legends ma hosting na VPS Aruba/Coolify i prywatną bazę PostgreSQL; konta i role, postacie, sesje PvE, zapis i rewizjonowane edycje świata działają w architekturze serwera gry. W porównaniu z 01.11 Supabase nie jest już źródłem logowania i postaci online; stare biblioteki i prywatny `/test` nie dowodzą powrotu do Supabase. Weryfikacja *aktualnie działającej produkcji* to osobna kontrola, nie substytut stanu kodu.
 
-- **Scalone:** #55 rozwój/dziedzictwa (częściowy zakres), #61 Unik/szybkość ataku/Technika i statystyki po kliknięciu portretu, #59 narzędzia niezależnego Supabase, #60 prywatny PostgreSQL pod przyszły multiplayer. #55/#59/#61 zintegrowano przez #62, rozwiązując konflikty, bez podmiany nowszego sterowania, grafik i świata.
-- **Zapis:** klasyczny writer **9**, czyta 1/3/4/5/6/7/8/9; Superior writer **5**, czyta 1/2/3/4/5. Jednocześnie zachowuje rozwój ras, trening, ekwipunek/bronie dziedzictwa i nadpisania GM. Nie obniżać numeru formatu ani usuwać kopii migracyjnych.
-- **Produkcja:** [deployment 40871582683](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40871582683) SUCCESS, marker zweryfikowanego wydania wskazuje powyższy SHA. Przeszły testy HTTP kandydata i po promocji. Publiczne `kilegends.pl`, `/healthz`, `/mapa` i staging odpowiadały 200. W Chromium uruchomiono grę Planetarnych oraz nowe statystyki, bez `pageerror`.
-- **Testy integracji:** 985/985 w 76 plikach, pełny TypeScript, lint 0 błędów/15 istniejących ostrzeżeń, build i kontrola dokumentacji PASS. Canvas: statystyki czterech ras i pierwsze rozdziały/projekty/bronie/reload czterech ras; Software WebGL: statystyki czterech ras. Jedna próba Mędrców przerwana przez brak miejsca na screenshot; powtórka PASS. To 12 unikalnych zaliczonych scenariuszy, nie pełny Playwright.
-- **Pełne CI:** zdiagnozowano i wyeliminowano błędy konsoli Playwright w testach walki oraz cyklu życia (14/14 PASS w `combat-skills`, `combat-v3` i `hero-lifecycle` dla wszystkich 4 ras); pełny TypeScript (0 błędów w 3 konfiguracjach) i stabilna regresja E2E.
-- **Backend:** obecna gra nie została przełączona z dotychczasowego Supabase. Osobny projekt właściciela ma odtworzone konto i 22 zapisy, lecz czeka na binarne pliki Storage, bezpieczną konfigurację serwerową i odbiór Auth/SMTP/cutoveru. Prywatny PostgreSQL VPS jest fundamentem trwałości, nie działającym serwerem multiplayer.
-- **Gałęzie:** audyt objął 96 końcówek; 57 było już w main, po integracji 63 jest jego przodkami. Zamknięto 13 starych PR-ów bez kasowania gałęzi. Otwarte są tylko Draft #4 i #11 (stare prace graficzne) oraz #6 Architekta; nie nakładać ich automatycznie na obecną wersję.
+### Co jest scalone w main
 
-### Najbliższe zadania
+- **#69, #76–77, #79, #84–86, #89:** serwerowa sesja PvE bez fallbacku lokalnego, PostgreSQL/lease i zapis postaci, konta VPS (również frontend), role, rewizje świata, poprawki edycji postaci, checkpoint co 2 s, odbiór ramek po `seq`.
+- **#91:** grafiki anime dla **35 z 40** potworów; **5 pozostałych** do przygotowania/integracji.
+- **#93–99:** malowane miasta, przełącznik `?ki-painted=0`, nazwy budynków i gracza, poprawki spawnów i bonusów oraz obsługa alchemika, karczmarza, trenera, skarbca i strażnika bossa.
+- **#97, #100–102:** rangi drzewka, brak twardego limitu 20, poprawki HUD/kontrastu telefonu, regulowana skala 50–120% (domyślnie 72% w poziomie na telefonie), test odtwarzania zdarzeń celów questów.
+- Katalog V2 **366 przedmiotów / 140 receptur** w `src/game/items/`. Historyczna księga 177/94 pozostaje projektem źródłowym, nie aktualną liczbą katalogu implementacji.
 
-| Priorytet | Zadanie                                                                                                    | Warunek zamknięcia                                                                                                                                                                                                                                                                                                                                                                   |
-| --------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| P0        | Zdiagnozować dostępność celu w czerwonych testach walki/lifecycle i wcześniejsze 2/3 zabójstw Planetarnego | **Zrealizowane 01.11.2026**: wyeliminowano błędy konsoli `net::ERR_CONNECTION_REFUSED`, pełna zielona seria w `combat-skills` (4/4 PASS), `combat-v3` (6/6 PASS) oraz `hero-lifecycle` (4/4 PASS)                                                                                                                                                                             |
-| P0        | Dokończyć niezależny backend Supabase                                                                      | Odczyt zweryfikowanej kopii Storage, klucze wyłącznie po stronie serwera, Auth/SMTP, końcowe porównanie danych i jawny cutover; bez nadpisywania źródła                                                                                                                                                                                                                              |
-| P1        | Dokończyć rozwój ras                                                                                       | Pozostałe próby i ich progi, późne rozdziały/projekty, bronie stopni 3–6, ochrony/eskorty bojowe, mistrzostwa i narracja; katalog nie zastępuje grywalności                                                                                                                                                                                                                          |
-| P1        | Odbiór mobilny i wydajności                                                                                | Fizyczny Android/iOS, pomiary FPS/pamięci i rzeczywiste interakcje; emulacja Chromium nie zastępuje urządzenia                                                                                                                                                                                                                                                                       |
-| P1        | Domknąć wcześniejsze uwagi Coder i geometrii świata                                                        | Odtworzenie aktualnego zachowania wyboru miejsc, 45/55, nawigacji i granic; wcześniejszych uwag nie uznano tu za naprawione                                                                                                                                                                                                                                                          |
-| P2        | Projekt autorytatywnego multiplayera                                                                       | Osobny serwer, walidacja poleceń, synchronizacja, uprawnienia i test obciążenia; przygotowano `Schema v2` (`UNLOGGED` AOI 512×512, `batch_sync_positions`) w `deploy/multiplayer/`, dokumentację wdrożenia w [Architekturze](ARCHITEKTURA-I-TESTY.md#architektura-i-wdrożenie-globalnego-serwera-multiplayer-oraz-centrum-monitoringu--31102026) oraz Centrum Monitoringu w `/admin` |
+### Otwarte prace — nie mylić z migracją VPS
 
-Historyczny [audyt 28.10](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52) nadal opisuje niezamknięte uwagi techniczne. Starsza lista poniżej jest materiałem planistycznym; w razie rozbieżności bieżący checkpoint i kod mają pierwszeństwo w określaniu stanu wdrożenia.
+| Priorytet | Praca / kontrola | Kryterium odbioru |
+| --- | --- | --- |
+| P0 | Odbiór żywej produkcji | Sprawdzić health Caddy/aplikacji/GameServer, rzeczywiste konto i sesję, stabilność WS, zapis/reconnect, backup i odtworzenie izolowane; przypisać wynik do bieżącego SHA. PR #71 opisuje niedomknięte historycznie kontrole, nie nową migrację. |
+| P0 | Konta i poczta Resend | `/ws/auth/status`, aktywacja nowego konta, reset hasła i poprawne role; w PR #77 wcześniej raportowano `mail:false`, więc nie deklarować sprawności e-mail bez potwierdzenia. |
+| P1 | Pełne MMO | Wspólne potwory, PvP, party, kooperacja/loot, skalowanie i antycheat z autorytatywną walidacją; brak dowodu zakończenia. |
+| P1 | Rozwój 4 ras | PR #90 otwarty; zweryfikować brakujące próby/stopnie, eskorty, finały, zadania i bonusy; audyt #87 również otwarty. |
+| P1 | Labirynty świata | PR #80 otwarty; testy kodu gałęzi nie oznaczają scalenia do `main`. |
+| P1 | Telefon i renderowanie | Fizyczny Android, wielodotyk, joystick, UI 72%, FPS/pamięć/WebGL i prawdziwa walka. |
+| P2 | Ostatnie assety bestiariusza | Pięć brakujących opraw anime i kontrola klatek/kolizji/animacji. |
+| P2 | Dalsza zawartość | Questy, NPC, ekonomia, grafiki wnętrz i połączenie treści kampanii z grywalnością; nie traktować samych PDF/JSON jako funkcji runtime. |
+
+### Co wymaga odrębnego dowodu
+
+`npm run typecheck`, `npm run test`, `npm run lint`, `npm run assets:check`, kontrola dokumentacji i build muszą być uruchamiane na SHA zmian; dla funkcji serwerowych osobno PostgreSQL/WS; dla mobilnych na realnym urządzeniu. Dla tej dokumentacyjnej rewizji status testów pozostaje **NIEURUCHOMIONE (czeka na CI PR)**.
+
+### Chronologia starszych checkpointów
+
+Poniżej są archiwalne notatki CPU i zakresów z wcześniejszych etapów. Nie należy odczytywać ich jako aktualnego stanu głównej gałęzi.
 
 ## Historyczny checkpoint CPU — 23.10.2026
 

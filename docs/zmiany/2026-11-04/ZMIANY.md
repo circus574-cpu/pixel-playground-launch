@@ -71,3 +71,21 @@
   układ użytkownika się nie przesuwa. Wirtualny joystick jest rysowany przez grę i ma własną skalę z edytora.
 - Specyfikacje e2e startują ze skalą 100 % (`fullScaleHud`), bo mierzą cele dotyku 44 px; przy 72 % przyciski mają
   ok. 35 px, co jest świadomym kompromisem na prośbę właściciela (można podnieść suwakiem).
+
+## Uporządkowanie dokumentacji infrastruktury i agentów — 04.11.2026
+
+**Bazowy checkpoint:** `main@316faad1` (po merge PR #102). **Zakres: wyłącznie dokumentacja**; nie modyfikowano implementacji gry, PostgreSQL, kontenerów ani produkcji. Odniesienia do starszych runów i statusów nie są nowymi wynikami QA.
+
+### Co zostało poprawione
+
+- Przepisano `AGENTS.md`: usunięto nieprawdziwe twierdzenie „gra jest lokalnym PvE, a prywatny PostgreSQL to tylko plan”. Dopisano aktualną architekturę GameServer/WebSocket/serwerowego PvE, zasadę kont i zapisów na VPS/PostgreSQL, pełne QA przed twierdzeniami o produkcji, zakaz ponownej migracji i pracę bez samowolnego deploymentu, kontroli GPU lub zmian zapisów.
+- Zaktualizowano `README.md`, `docs/INDEX.md`, `docs/ZASADY.md`, `docs/ARCHITEKTURA-I-TESTY.md`, `docs/PLAN-I-ZADANIA.md`: aktualne warstwy, funkcje po PR #69–102, różnica między kodem serwerowego PvE a pełnym MMO, stan otwartych PR i ostatnie zmiany UI/grafik.
+- `ARUBA_STAGING.md` i `roadmap.md`: stare blokery przygotowania do migracji usunięto z instrukcji bieżących; zachowane w historii Git i datowanych dziennikach. Wskazano, że obecny VPS/PostgreSQL/serwer gry nie są zadaniem „do wykonania”.
+- Wskazano jako osobną kontrolę stan `/ws/auth/status`/Resend (PR #77 raportował brak konfiguracji), realne health/live QA, backup/restore oraz niezakończony zakres MMO; nie ukryto znanych ograniczeń.
+- Potwierdzono w repo: `src/server/gameServer.ts`, `src/server/characters/onlineSession.ts`, `src/server/characters/repository.ts`, `src/server/accounts/`, `src/game/online/client.ts`, `src/server/world/overrides.ts`, `deploy/multiplayer/compose.yml`, `deploy/Caddyfile`, `.github/workflows/aruba-production.yml`.
+
+### Stan PR i testów
+
+- Na początku przeglądu #71, #80, #87 i #90 były otwarte. #102 został już scalony 04.11 do `main@316faad1`.
+- Dokumentacyjna aktualizacja **nie stanowi potwierdzenia** live-statusu VPS, działania Resend, pełnego MMO lub przetestowania gry na fizycznym urządzeniu.
+- **Testy bieżącej rewizji:** brak lokalnego uruchomienia komend w sesji konektora; weryfikacja struktury/linków i pełne QA powinny wykonać się w CI nowego PR. Raportować wyniki rzeczywiste, nie dziedziczyć PASS sprzed zmian.
