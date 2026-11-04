@@ -24,11 +24,12 @@ const SELECTOR: Record<Exclude<ControlId, "joystick">, string> = {
 };
 
 /** CSS variables that place and size the controls on the HUD root. */
-export function controlStyle(c: ControlLayout): Record<string, string> {
+/** Offsets are screen pixels; inside a HUD zoomed by `uiScale` they are divided by it to stay put. */
+export function controlStyle(c: ControlLayout, uiScale = 1): Record<string, string> {
   const out: Record<string, string> = {};
   for (const id of ["attack", "potion", "skills"] as const) {
-    out[`--ctl-${id}-x`] = c[id].dx + "px";
-    out[`--ctl-${id}-y`] = c[id].dy + "px";
+    out[`--ctl-${id}-x`] = c[id].dx / uiScale + "px";
+    out[`--ctl-${id}-y`] = c[id].dy / uiScale + "px";
     out[`--ctl-${id}-s`] = String(c[id].scale);
   }
   return out;
@@ -41,9 +42,15 @@ const BUTTONS =
   ".ki-actionbar .ki-secondary-skills .ki-skill[data-ability], .ki-actionbar > .ki-dodge";
 
 /** Inline offset of one skill or dodge button, on top of its group placement. */
-export function buttonStyle(c: ControlLayout, id: string): Record<string, string> | undefined {
+export function buttonStyle(
+  c: ControlLayout,
+  id: string,
+  uiScale = 1,
+): Record<string, string> | undefined {
   const b = c.buttons?.[id];
-  return b && (b.dx || b.dy) ? { translate: b.dx + "px " + b.dy + "px" } : undefined;
+  return b && (b.dx || b.dy)
+    ? { translate: b.dx / uiScale + "px " + b.dy / uiScale + "px" }
+    : undefined;
 }
 
 export function ControlEditor({

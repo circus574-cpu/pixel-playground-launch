@@ -12,6 +12,7 @@ import {
   writeUiPreferences,
   CONTROL_IDS,
   CONTROL_SCALE,
+  UI_SCALE,
   type ControlLayout,
   type UiPreferences,
 } from "../../game/uiPreferences";
@@ -314,6 +315,8 @@ export function GameHud({
   ]);
 
   const [preferences, setPreferences] = useState(readUiPreferences);
+  // While arranging the touch controls the HUD is shown unscaled, so handles match screen pixels.
+  const hudScale = arranging ? 1 : preferences.uiScale;
   const [hiddenSaveWarning, setHiddenSaveWarning] = useState("");
   const scope = panel
     ? "panel:" + panel
@@ -465,7 +468,7 @@ export function GameHud({
         className="ki-skill"
         data-ability={a.id}
         key={a.id}
-        style={a.id === "R" ? undefined : buttonStyle(preferences.controls, a.id)}
+        style={a.id === "R" ? undefined : buttonStyle(preferences.controls, a.id, hudScale)}
         title={
           a.name + (a.id === "R" ? "" : " · " + a.ki + " KI · " + a.cd / 1000 + " s odnowienia")
         }
@@ -502,7 +505,8 @@ export function GameHud({
       style={
         {
           "--ki-ui-image": `url("${uiTextureUrl()}")`,
-          ...controlStyle(preferences.controls),
+          "--ki-ui-scale": String(hudScale),
+          ...controlStyle(preferences.controls, hudScale),
         } as CSSProperties
       }
     >
@@ -653,7 +657,7 @@ export function GameHud({
           continents={staffDestinations ?? []}
           current={planetLocation}
           onTravel={onStaffTravel}
-          style={buttonStyle(preferences.controls, "gm")}
+          style={buttonStyle(preferences.controls, "gm", hudScale)}
         />
       )}
       <section
@@ -828,7 +832,7 @@ export function GameHud({
             className="ki-skill ki-dodge"
             data-ability="dodge"
             key="dodge"
-            style={buttonStyle(preferences.controls, "dodge")}
+            style={buttonStyle(preferences.controls, "dodge", hudScale)}
             title="Unik · krótki zryw z chwilą nietykalności"
             aria-label="Unik"
             disabled={!state.ready || player.dead || panel !== null || Boolean(state.dialogue)}
@@ -1214,6 +1218,20 @@ export function GameHud({
                   </button>
                 )}
                 <p>Pochodzenie: {RACES[player.race].name}</p>
+                <label>
+                  <span>Rozmiar interfejsu · {Math.round(preferences.uiScale * 100)}%</span>
+                  <input
+                    aria-label="Rozmiar interfejsu"
+                    type="range"
+                    min={UI_SCALE.min}
+                    max={UI_SCALE.max}
+                    step={0.02}
+                    value={preferences.uiScale}
+                    onChange={(e) =>
+                      setPreferences((current) => ({ ...current, uiScale: Number(e.target.value) }))
+                    }
+                  />
+                </label>
                 <label>
                   <span>Oddalenie mapy · {Math.round(zoom * 100)}%</span>
                   <input

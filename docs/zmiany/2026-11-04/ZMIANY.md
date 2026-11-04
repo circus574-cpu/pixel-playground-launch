@@ -52,3 +52,13 @@
   znacznik celu jest cyjanowy, a czerwone strefy zagrożenia mają jasny obrys.
 - **Nie zmierzono** kosztu obrysu na telefonie ani wyglądu na fizycznym urządzeniu; sprawdzono zrzutem Chromium
   915×412 z wstrzykniętym stanem walki (statusy, paski wrogów), nie prawdziwą walką.
+
+## Skala interfejsu (uwaga właściciela: HUD i okna za duże)
+
+- Nowe ustawienie „Rozmiar interfejsu” (suwak 50–120 % w Ustawieniach, zapamiętywany w `ki-legends:ui-preferences:v1`)
+  skaluje cały HUD razem z oknami (ekwipunek, drzewko, ustawienia) przez CSS `zoom` na `.ki-hud`.
+  Domyślnie 72 % na telefonie w poziomie (`max-height: 500px`), 100 % na dużych ekranach.
+- Przesunięcia przycisków z edytora sterowania są dzielone przez skalę, a sam edytor pokazuje HUD w 100 %, więc
+  układ użytkownika się nie przesuwa. Wirtualny joystick jest rysowany przez grę i ma własną skalę z edytora.
+- Specyfikacje e2e startują ze skalą 100 % (`fullScaleHud`), bo mierzą cele dotyku 44 px; przy 72 % przyciski mają
+  ok. 35 px, co jest świadomym kompromisem na prośbę właściciela (można podnieść suwakiem).
