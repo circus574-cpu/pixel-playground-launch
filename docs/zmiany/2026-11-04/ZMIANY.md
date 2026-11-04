@@ -52,3 +52,13 @@
   znacznik celu jest cyjanowy, a czerwone strefy zagrożenia mają jasny obrys.
 - **Nie zmierzono** kosztu obrysu na telefonie ani wyglądu na fizycznym urządzeniu; sprawdzono zrzutem Chromium
   915×412 z wstrzykniętym stanem walki (statusy, paski wrogów), nie prawdziwą walką.
+
+## Przegląd uwag raportu inżynieryjnego (04.11.2026)
+
+- **Powtarzane cele zadań:** sprawdzone w danych (106 zadań): wszystkie cele `visit`, `talk` i `discover` mają
+  `targetCount = 1`, odkrycia chroni `discoveredLocationIds`, nagrody `rewardClaimedQuestIds`, więc ponowne wejście do
+  miasta po przeładowaniu sceny nie nalicza postępu ani nagrody drugi raz. Test `quest-replay` utrwala tę zasadę.
+  Zmiany w silniku nie były potrzebne.
+- **Nie wdrożone (świadomie):** unikalne instancje przedmiotów (dziś `upgrade` to jedno globalne 0/1; zmiana dotyka
+  zapisów graczy i wymaga osobnej decyzji właściciela) oraz pula obiektów potworów (najpierw pomiar tworzenia/niszczenia
+  aktorów na telefonie; bez pomiaru to przedwczesna optymalizacja).
