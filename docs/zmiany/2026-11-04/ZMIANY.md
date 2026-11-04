@@ -121,3 +121,14 @@
   każdym obrazie i `manifest.json` (SHA-256). Kafle i rzeka zszyte w szwach na CPU.
 - Znane wady: wszystkie 8 obiektów ma podstawę (kamienna obwódka z wodą lub darń) mimo zakazu w prompcie, ścieżka leśna ma strumień
   przy krawędzi, zielenie wychodzą żółtozielone. Próbki bez odbioru właściciela; gra bez zmian.
+
+## Świat poza miastami: Nexus-9 i Pyra (12 z 20), prompty obiektów v3
+
+- Nexus-9 i Pyra: tekstury podłoża, ocean, rzeka i drogi (12 obrazów na kontynent), `gpt-image-1-mini` medium, w
+  `art/production/world/{nexus-9,pyra}/` z promptami i `manifest.json`. Osiem obiektów na kontynent właściciel generuje sam z
+  `art/pipeline/prompts/world/PROMPTY-OBIEKTY-v3.md` (32 prompty dla czterech kontynentów).
+- Przyczyna podstaw pod obiektami i błędnych oceanów: paleta kontynentu w prompcie (woda, żarzące się szczeliny) przenikała do
+  obiektów i wody. Prompty obiektów v3 mają osobną paletę bez wody, widok z przodu pod kątem 30° zamiast „three-quarter top-down”
+  i zasadę „wycięta naklejka, pod spodem tylko przezroczystość”. Test na czterech obiektach: bez podstaw.
+- Oceany i piasek Nexus-9 oraz ocean Pyry powtórzono po poprawce palet (wcześniej woda wyglądała jak popękana skała lub lawa).
+  Prompty Verdantii i Aetherii nie zmieniają się: ich obrazy powstały ze starszych wersji, zapisanych przy obrazach.
