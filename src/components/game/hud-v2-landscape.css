@@ -849,3 +849,9 @@ img.ki-gpu-item {
     min-width: 92px;
   }
 }
+.ki-gpu-meter {
+  width: 14px;
+  height: 14px;
+  margin-right: 3px;
+  vertical-align: middle;
+}

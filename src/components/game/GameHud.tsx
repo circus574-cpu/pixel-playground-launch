@@ -114,6 +114,9 @@ const iconNames = [
   "Umiejętności",
 ];
 const POTION_COOLDOWN = POTION.cooldown;
+/** Painted icon of a racial resource bar (Żar of the Legends, Ładunek Rdzenia of the Androids). */
+const resourceIcon = (label: string) =>
+  gpuIcon(label === "Żar" ? "hud-zar" : label === "Ładunek Rdzenia" ? "hud-rdzen" : "");
 const STATUS_NAMES: Record<string, string> = {
   slow: "Spowolnienie",
   root: "Unieruchomienie",
@@ -553,6 +556,9 @@ export function GameHud({
           >
             <i style={{ width: (player.hp / state.stats.maxHp) * 100 + "%" }} />
             <span>
+              {gpuIcon("hud-hp") && (
+                <img className="ki-gpu-meter" src={gpuIcon("hud-hp")} alt="" aria-hidden />
+              )}
               {Math.ceil(player.hp)} / {state.stats.maxHp}
             </span>
           </div>
@@ -566,6 +572,9 @@ export function GameHud({
           >
             <i style={{ width: (player.ki / state.stats.maxKi) * 100 + "%" }} />
             <span>
+              {gpuIcon("hud-ki") && (
+                <img className="ki-gpu-meter" src={gpuIcon("hud-ki")} alt="" aria-hidden />
+              )}
               {Math.floor(player.ki)} / {state.stats.maxKi}
             </span>
           </div>
@@ -588,6 +597,14 @@ export function GameHud({
             >
               <i style={{ width: (state.resource.value / state.resource.max) * 100 + "%" }} />
               <span>
+                {resourceIcon(state.resource.label) && (
+                  <img
+                    className="ki-gpu-meter"
+                    src={resourceIcon(state.resource.label)}
+                    alt=""
+                    aria-hidden
+                  />
+                )}
                 {state.resource.label} {state.resource.value}
                 {state.resource.state === "overheat" ? " · PRZEGRZANIE" : ""}
               </span>
@@ -596,12 +613,25 @@ export function GameHud({
           {(state.statuses.length > 0 || state.buffs.length > 0 || state.shieldPoints > 0) && (
             <div className="ki-status-strip" aria-label="Efekty">
               {state.shieldPoints > 0 && (
-                <span className="ki-status-chip is-buff">Tarcza {state.shieldPoints}</span>
+                <span className="ki-status-chip is-buff">
+                  {gpuIcon("hud-shield") && (
+                    <img className="ki-gpu-status" src={gpuIcon("hud-shield")} alt="" aria-hidden />
+                  )}
+                  Tarcza {state.shieldPoints}
+                </span>
               )}
               {state.buffs
                 .filter((b) => !b.id.startsWith("fx-") && b.id !== "dodge")
                 .map((b) => (
                   <span key={b.id} className="ki-status-chip is-buff">
+                    {gpuIcon("buff-" + b.id) && (
+                      <img
+                        className="ki-gpu-status"
+                        src={gpuIcon("buff-" + b.id)}
+                        alt=""
+                        aria-hidden
+                      />
+                    )}
                     {b.id} · {(b.ms / 1000).toFixed(0)} s
                   </span>
                 ))}
