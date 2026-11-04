@@ -758,3 +758,29 @@ Runtime: 5 331 248 bajtów, 16,21 MiB rozkodowanych pikseli. Digest:
 `3117f4ea8b96a9ffc9cf799a03f519f78ef8928a4cb91c372127bcce58f4a931`.
 Gra korzysta ze streamingu i dotychczasowych budżetów. Odbiór płynności
 na fizycznym telefonie pozostaje otwarty; programowy WebGL sprawdza poprawność.
+
+
+## Nexus — komplet materiałów kontynentu 04.11.2026
+
+[Pakiet nexus-continent-v2](../art/production/nexus-continent-v2/) zawiera
+64 osobne obrazy WebP: 8 podłoży, 6 nawierzchni dróg, 8 roślin, 8 form terenu,
+10 rekwizytów, 6 struktur, 6 materiałów wody/brzegów, 6 statycznych nakładek
+VFX oraz 6 budynków/przejść. Łącznie 20 powierzchni, 38 obiektów i 6 efektów.
+Dwa budynki uzupełniają nowszą oprawę warsztatu i gospody/punktu regeneracji;
+cztery pozostałe budynki usługowe miasta mają już malowane zasoby. Ich stan
+oraz SHA-256 istniejących plików zapisuje `existing-city.json`.
+
+Wygenerowano dziewięć plansz przez `image_gen`, a cztery z nich dodatkowo
+oczyszczono edycją alfa i marginesów. Oryginały, oczyszczone wersje, wszystkie
+prompty i pochodzenie pozostają w `source/` i `provenance.json`. Przygotowanie:
+`node art/production/nexus-continent-v2/prepare.mjs`. Osobne bindingi
+`terrain.nexus-continent.*` oraz `object.nexus-continent.*` nie nadpisują miasta.
+Wielkość plików: 4 458 920 bajtów, 33,87 MiB rozkodowanych pikseli całego zestawu.
+
+Pakiet jest materiałem do integracji, `previewOnly: true`; nie wpisano go do
+aktywnego katalogu i nie włączono w grze. `coverage.json` wymienia grupy i dalsze
+prace: przypisania, maski lądu/wody, footprinty, skala/gęstość i odbiór w runtime.
+Efekty są pojedynczymi przezroczystymi obrazami do późniejszej animacji,
+a nie animowanymi sekwencjami. Ciągłość tekstur, maski brzegów i wydajność
+wymagają oceny podczas integracji. Bohaterowie, potwory, HUD i audio pozostają
+osobnymi istniejącymi zasobami. [Kontrole i podgląd](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu).

@@ -1,0 +1,521 @@
+{
+  "count": 64,
+  "bytes": 4458920,
+  "decodedMiB": 33.87250518798828,
+  "alphaMargins": "44/44 non-surface images have fully transparent borders",
+  "installed": false,
+  "checks": [
+    {
+      "id": "nexus-continent-circuit-plain",
+      "width": 443,
+      "height": 443,
+      "bytes": 91632,
+      "sha256": "6a409cd231d889d3a4a11f00f6b1dc7a253d9f29adac138222de8873725fe842",
+      "edgeNonzeroAlpha": 1768
+    },
+    {
+      "id": "nexus-continent-synthetic-garden",
+      "width": 443,
+      "height": 443,
+      "bytes": 117586,
+      "sha256": "b0e2a3a0f4519ae1655863112688c5144e8d5e7958a1c8833512f3a2ac5ce0e3",
+      "edgeNonzeroAlpha": 1768
+    },
+    {
+      "id": "nexus-continent-plateau",
+      "width": 443,
+      "height": 443,
+      "bytes": 94466,
+      "sha256": "a9ec7fb5075f7f881987ab6e53b98778925a4604a915a2ef6004c058b23c12df",
+      "edgeNonzeroAlpha": 1768
+    },
+    {
+      "id": "nexus-continent-core-waste",
+      "width": 443,
+      "height": 443,
+      "bytes": 100132,
+      "sha256": "0a0fc39e125ea6d08581adfdeeae6c0dac0483861e212882c5ec99cbde7e4120",
+      "edgeNonzeroAlpha": 1768
+    },
+    {
+      "id": "nexus-continent-moss-stone",
+      "width": 443,
+      "height": 443,
+      "bytes": 102658,
+      "sha256": "abdf5c45ee365a89d23feb624c176351672ce83691b8dde9670b49c1a4133a95",
+      "edgeNonzeroAlpha": 1768
+    },
+    {
+      "id": "nexus-continent-pale-plaza",
+      "width": 443,
+      "height": 443,
+      "bytes": 84954,
+      "sha256": "af65a103b529ff9bde1d2cb427f617761b87185ad4c020d83008571f312d1fd4",
+      "edgeNonzeroAlpha": 1768
+    },
+    {
+      "id": "nexus-continent-crystal-ground",
+      "width": 443,
+      "height": 443,
+      "bytes": 96786,
+      "sha256": "fac18f55195a1fa112717f445b09e60e10bcf8a0c1452960b43b0bc53d4854e7",
+      "edgeNonzeroAlpha": 1768
+    },
+    {
+      "id": "nexus-continent-damp-stone",
+      "width": 443,
+      "height": 443,
+      "bytes": 94800,
+      "sha256": "99edc1cd62a654cd902755805f8a6d22e215fe03373a06c056ed16f9b6eb4b2f",
+      "edgeNonzeroAlpha": 1768
+    },
+    {
+      "id": "nexus-continent-road-paved",
+      "width": 512,
+      "height": 512,
+      "bytes": 136562,
+      "sha256": "edde2e9a2033cf2e72286e0ddca7f8a162038e9ad4f80737c5c4d98d248deac3",
+      "edgeNonzeroAlpha": 2044
+    },
+    {
+      "id": "nexus-continent-road-earth",
+      "width": 512,
+      "height": 512,
+      "bytes": 141438,
+      "sha256": "59d9c352ab75023f529e050d6da99321d3a3031b55b88d0a7bb99e874a24ffab",
+      "edgeNonzeroAlpha": 2044
+    },
+    {
+      "id": "nexus-continent-road-forest",
+      "width": 512,
+      "height": 512,
+      "bytes": 140376,
+      "sha256": "645f6efc54d27270d1193ead5109c12fbef46fc9e592ae1c8c49a5e845603518",
+      "edgeNonzeroAlpha": 2044
+    },
+    {
+      "id": "nexus-continent-road-mountain",
+      "width": 512,
+      "height": 512,
+      "bytes": 153238,
+      "sha256": "e818a133fd5f6dfcdfc020f3b3faa57928263f800637eeb20fc9253b773362b2",
+      "edgeNonzeroAlpha": 2044
+    },
+    {
+      "id": "nexus-continent-road-channel",
+      "width": 512,
+      "height": 512,
+      "bytes": 100324,
+      "sha256": "03cea54c7341ff047a522b0daf1883d79ff2d75e5f61ad4250e9293278732103",
+      "edgeNonzeroAlpha": 2044
+    },
+    {
+      "id": "nexus-continent-road-ruin",
+      "width": 512,
+      "height": 512,
+      "bytes": 135672,
+      "sha256": "5c1ef1dea20a44d6abd241eedd37f1fd0e17c7c76d2b1e3b8052909940a5698b",
+      "edgeNonzeroAlpha": 2044
+    },
+    {
+      "id": "nexus-continent-violet-tree",
+      "width": 349,
+      "height": 333,
+      "bytes": 76678,
+      "sha256": "16a167d4e5fc6c47b34c86d065cbb4f34a4ff8cb4c45a635cf7205685ecbe6dc",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-cyan-tree",
+      "width": 387,
+      "height": 313,
+      "bytes": 75852,
+      "sha256": "3eff87e2151864505c2fea4502fc4bedd4b8d77ad2b1759de8b21146062a8c6b",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-silver-cypress",
+      "width": 306,
+      "height": 347,
+      "bytes": 34154,
+      "sha256": "c27551b219d210e7970472543d6419ec6a81729bf3c49d560a8641ada89d703c",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-crystal-tree",
+      "width": 357,
+      "height": 309,
+      "bytes": 63814,
+      "sha256": "c66a12c615fc16c17fd982151391fce259c296b50e7de4a196375f183b04d626",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-fern",
+      "width": 272,
+      "height": 216,
+      "bytes": 43174,
+      "sha256": "b28a0d37abcbee1c03242de34408b91538ad6ebc24abe1aafde2214e89dae39e",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-violet-bush",
+      "width": 272,
+      "height": 220,
+      "bytes": 41888,
+      "sha256": "686d783f4e7840b3abb55350341978c2a577915203afefb5b48b4c17b657abf3",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-luminous-grass",
+      "width": 272,
+      "height": 234,
+      "bytes": 53210,
+      "sha256": "a9f687efc4b7142471f0b157c109b9071aa73050b79bb41eb738edc72822400b",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-mushrooms",
+      "width": 272,
+      "height": 227,
+      "bytes": 41262,
+      "sha256": "7f2576128e868ba069eae2070d72d2e34ce1bf0c62dc77421b4adb9e4a1a2f9a",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-hill",
+      "width": 419,
+      "height": 268,
+      "bytes": 59564,
+      "sha256": "973a3295e5a52fd3af2268384216b5233f2098400091a17d27fbae6f07c584b8",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-cliff",
+      "width": 374,
+      "height": 390,
+      "bytes": 79358,
+      "sha256": "1e9b3d3e5f57196d2b78be40101616427e061e9dd1b18c22a945ae9036e35586",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-peak",
+      "width": 410,
+      "height": 374,
+      "bytes": 67906,
+      "sha256": "750cd23dea6419df708790b53f68d51d76497bcccd7facc063c19be0d0635733",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-basalt-ridge",
+      "width": 387,
+      "height": 329,
+      "bytes": 52858,
+      "sha256": "1a175359c6e2e6c20cd7166765a7b258ed0126b11e35644fd0df16f524611f64",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-crystal-outcrop",
+      "width": 389,
+      "height": 322,
+      "bytes": 66706,
+      "sha256": "34e7f539aa30fa86016edea63e3d93bb5c5cbf2bf8f9b7d82c8d88e87e3fe3fd",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-stone-arch",
+      "width": 404,
+      "height": 327,
+      "bytes": 61848,
+      "sha256": "ab13d157dcd7220779a7db1a15c81e0b9512775afefa2abd50d40f502527fd92",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-spring",
+      "width": 396,
+      "height": 314,
+      "bytes": 72322,
+      "sha256": "dd3e43a8e630fa7f26f493dcc5dbc0b591672fa0277ec1779e80fcac096bb0b1",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-chasm-rim",
+      "width": 389,
+      "height": 299,
+      "bytes": 61982,
+      "sha256": "924972efec3a5e66ed10accd1c46c7caa64b9cbe82be478fe2c029e4f34bb197",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-rocks",
+      "width": 272,
+      "height": 213,
+      "bytes": 31892,
+      "sha256": "07e28821d73270d05de1e2578297e69cc2c35dec664b01c48c92f9d68ecda347",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-crystals",
+      "width": 270,
+      "height": 261,
+      "bytes": 41754,
+      "sha256": "1c821881eb971017ee67697e2b86f8c1c31838d00a7a1def2d5d83f9f072f58c",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-log",
+      "width": 272,
+      "height": 207,
+      "bytes": 34016,
+      "sha256": "445e006fb06dcf115aebc324d7db3866a84f3d15e045fb9fed20d74e737c70dd",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-stump",
+      "width": 272,
+      "height": 239,
+      "bytes": 35084,
+      "sha256": "bb8a2bc9520ba6c058d74dea57cd0990729a62944c37d84f185898c6efd8d282",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-camp",
+      "width": 272,
+      "height": 222,
+      "bytes": 32426,
+      "sha256": "f356bd533b674004cc87f6ce2a2172cf53b73b93beaab483f694c74318639956",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-energy-brazier",
+      "width": 203,
+      "height": 272,
+      "bytes": 35300,
+      "sha256": "98590c46f1b91b6b6e0d5d9875ea83c9eb1396d21b8c611a776e539da03e3358",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-chest",
+      "width": 272,
+      "height": 202,
+      "bytes": 30878,
+      "sha256": "2740986070e9dc6b737ef13c3d2f55635b0394189ebc6584708c6805b351083e",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-sign",
+      "width": 187,
+      "height": 272,
+      "bytes": 29128,
+      "sha256": "81915a7cb0c653754f038452736c15008c1e170a7048018097bc2b3458d0d2a5",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-supplies",
+      "width": 272,
+      "height": 247,
+      "bytes": 33294,
+      "sha256": "5f7a3fe3ed431b607d68a5150108123a96cd37440fe3473394ba1306e3a0b600",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-ruin",
+      "width": 272,
+      "height": 248,
+      "bytes": 47880,
+      "sha256": "c5115431f630b3912e7aa1fe99751f0c1c5751ce295df4cf89bc897d54f1e038",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-field-lab",
+      "width": 375,
+      "height": 364,
+      "bytes": 69866,
+      "sha256": "3555924124eae4fdd7c40a24c77c600fd1860553fed940183a32139606a996df",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-reactor",
+      "width": 334,
+      "height": 354,
+      "bytes": 60404,
+      "sha256": "b818ac6028736663183864763888d93c2f11d3c9fd75f5ee6d25c7b7e9fd9c15",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-terminal",
+      "width": 333,
+      "height": 365,
+      "bytes": 76938,
+      "sha256": "b10c65f0822c830440c4fcdbe2c20bc01ce2c231ca0eef96a67218f0b5181db9",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-monolith",
+      "width": 317,
+      "height": 387,
+      "bytes": 56834,
+      "sha256": "93cf239369b4dec0a277ea573a43ef2ec42e4e48ed9411c6a8a021f0490a344f",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-relay",
+      "width": 246,
+      "height": 396,
+      "bytes": 45982,
+      "sha256": "ef58db6793dfb16d00d0395be0809bccc6706911b1e68b2cda03756c2b9ef214",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-transit-gate",
+      "width": 386,
+      "height": 385,
+      "bytes": 71180,
+      "sha256": "858671034458885e229111a8f7cc94363ca2b0dd8f4d24a3f14431bc3aaffa57",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-ocean",
+      "width": 512,
+      "height": 512,
+      "bytes": 95652,
+      "sha256": "d3fd54586e46633d62b5d06b7d809a56ae0e32af06d61afff6f91dd39ed9e2f8",
+      "edgeNonzeroAlpha": 2044
+    },
+    {
+      "id": "nexus-continent-river",
+      "width": 512,
+      "height": 512,
+      "bytes": 109470,
+      "sha256": "03f7d60ab14bc56e383c93c2de18369b55de9fa237c140e8f7edea1ab31ba368",
+      "edgeNonzeroAlpha": 2044
+    },
+    {
+      "id": "nexus-continent-shallow-water",
+      "width": 512,
+      "height": 512,
+      "bytes": 121584,
+      "sha256": "7052c6fdc2a51c0c7f4b31db7028f894dae119fb3ef0a16cc20dd9bc88cf8793",
+      "edgeNonzeroAlpha": 2044
+    },
+    {
+      "id": "nexus-continent-dry-shore",
+      "width": 512,
+      "height": 512,
+      "bytes": 166008,
+      "sha256": "aa9c53ba6c6f0f0493640c29df366d4bb930918f57ce6e00948d3ff4fb34b9e6",
+      "edgeNonzeroAlpha": 2044
+    },
+    {
+      "id": "nexus-continent-dry-bank",
+      "width": 512,
+      "height": 512,
+      "bytes": 150490,
+      "sha256": "03e6a6ae56a7fa0c6fd3a444d60d53c6cb8753967402647ed1e72d1b9d4563e7",
+      "edgeNonzeroAlpha": 2044
+    },
+    {
+      "id": "nexus-continent-energy-liquid",
+      "width": 512,
+      "height": 512,
+      "bytes": 71256,
+      "sha256": "a2616e816f07c720528415f05095c9f10022b5d6a0d8bb2fea677ccb1260b829",
+      "edgeNonzeroAlpha": 2044
+    },
+    {
+      "id": "nexus-continent-fx-mist",
+      "width": 208,
+      "height": 109,
+      "bytes": 11384,
+      "sha256": "76ba631dd9178e8d6fcabe524297479520f89d6c663271505f085448cd5ec4c8",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-fx-fireflies",
+      "width": 207,
+      "height": 208,
+      "bytes": 21592,
+      "sha256": "1f6beee9b01c1b437303f413b3ab8018b855cc42897f40bf33a01f959401a495",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-fx-petals",
+      "width": 208,
+      "height": 152,
+      "bytes": 9518,
+      "sha256": "abf43b50a1ae382e8fb180898bb2ab370b8b314a3337943eaf66d3e275ce323c",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-fx-energy",
+      "width": 208,
+      "height": 122,
+      "bytes": 14594,
+      "sha256": "de73293322019bd4e5a7e17855cae279efd16d8fb94f5525e077746238a6823d",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-fx-steam",
+      "width": 175,
+      "height": 208,
+      "bytes": 19052,
+      "sha256": "7e5cb987edfe90f54cfed0c733be8e3c6783830b3da4cbeb1d7261f621500346",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-fx-dust",
+      "width": 208,
+      "height": 206,
+      "bytes": 14506,
+      "sha256": "222d51e0a0748bcd37bea57b5b9301b3e450ef19826796c934edb31981f7451c",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-smithy",
+      "width": 415,
+      "height": 399,
+      "bytes": 72586,
+      "sha256": "9f9b037bb589194d5effd42117a7442fbf86d644cb3486f68c4a4bd03fc1c1a1",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-inn",
+      "width": 430,
+      "height": 373,
+      "bytes": 78980,
+      "sha256": "b3695a873f9cd46c00dbf009524a4788c278a60276290e2bbd518f28cc5eb8ee",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-bridge",
+      "width": 444,
+      "height": 270,
+      "bytes": 48168,
+      "sha256": "41c0d6aac967c77059f59c4bb544127536fde2be3557d4ade161a32729f17f5e",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-steps",
+      "width": 407,
+      "height": 298,
+      "bytes": 48186,
+      "sha256": "592a9e418abdd3cc15a944c0222f1e2a6dbf411b7d3b1d853de1807586fb62d7",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-cave",
+      "width": 430,
+      "height": 359,
+      "bytes": 64528,
+      "sha256": "453fcff2c575a9ff3a2b20e858c6637a9654f25e366c93ef8e43a49c144fceff",
+      "edgeNonzeroAlpha": 0
+    },
+    {
+      "id": "nexus-continent-bunker",
+      "width": 435,
+      "height": 356,
+      "bytes": 65310,
+      "sha256": "591da74494841c9eef50367645967db8943b0d572b2d0d2cad6fd4e1f4e6dffe",
+      "edgeNonzeroAlpha": 0
+    }
+  ]
+}

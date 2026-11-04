@@ -390,3 +390,48 @@ zasobów. [Zestawienie](qa/aetheria-continent/browser-final-summary.json),
 Telemetria jest zachowana; programowy WebGL nie stanowi odbioru płynności
 na fizycznym telefonie.
 [Kontrola dokumentacji](qa/aetheria-continent/docs.txt): PASS.
+
+
+## Nexus — komplet materiałów kontynentu
+
+Zlecenie właściciela: wygenerować całą potrzebną grafikę dla kontynentu Nexusa.
+Gałąź `art/nexus-continent-materials-2026-11-04` wychodzi z `69353152`.
+Przeanalizowano cztery biomy i istniejące grafiki miasta. Zestaw środowiska
+pasuje do grafitu, jasnego kamienia, złota, turkusowej energii i fioletowej roślinności.
+
+[Pakiet źródłowy i osobne obrazy](../../../art/production/nexus-continent-v2/),
+[podgląd wszystkich 64 elementów](qa/nexus-materials/preview.jpg).
+
+- 8 podłoży: równiny obwodów, syntetyczny ogród, płaskowyż, pustkowia rdzeni,
+  omszały kamień, jasny plac, kryształowe podłoże i wilgotny łupek.
+- 6 nawierzchni szlaków: bruk, ziemia, runo ze stopniami, górski żwir,
+  solidna nawierzchnia z obwodami i ruiny drogi.
+- 8 roślin: cztery drzewa, paprocie, fioletowy krzew, świetlista trawa, grzyby.
+- 8 form terenu: wzgórze, klif, szczyt, bazalt, ruda/kryształowy głaz,
+  naturalny łuk, źródło/wodospad, krawędź rozpadliny.
+- 10 rekwizytów: kamienie, kryształy, kłoda, pniak, obóz, energetyczne palenisko,
+  skrzynia, drogowskaz, zaopatrzenie, ruina.
+- 6 struktur: laboratorium polowe, reaktor, terminal, monolit, przekaźnik, brama.
+- 6 materiałów wody i brzegów; 6 przezroczystych statycznych nakładek efektów.
+- 6 dodatkowych budynków/przejść: warsztat, gospoda/punkt regeneracji,
+  most, schody, jaskinia, wejście do bunkra.
+
+Dziewięć oryginalnych plansz oraz cztery edycje oczyszczające zachowano z promptami
+w `source/`. `prepare.mjs` wydziela komórki, odrzuca małe obce fragmenty przy
+krawędziach, skaluje i dodaje przezroczyste marginesy. `provenance.json` oraz
+`sources.sha256.json` zachowują pochodzenie i sumy. Istniejące budynki mają
+osobny spis z SHA-256; ich pliki pozostają bez zmian.
+
+[Walidacja](qa/nexus-materials/validation.json): 64 unikalne obrazy i bindingi,
+wymiary zgodne z manifestem, pełne dekodowanie wszystkich plików PASS;
+44/44 obiektów/efektów ma przezroczyste zewnętrzne marginesy.
+[Schemat pakietu](qa/nexus-materials/schema.txt): PASS.
+Łącznie 4 458 920 bajtów, 33,87 MiB rozkodowanych pikseli.
+
+To dostawa materiałów: nie zmieniono kodu gry, aktywnego rejestru zasobów,
+geometrii, statystyk, zapisów ani produkcji. Pakiet pozostaje do podłączenia.
+Przy integracji trzeba sprawdzić skalę, kotwice, maski wody, gęstość i powtarzanie
+tekstur w rzeczywistej grze. Efekty wymagają animacji/sterowania alfa.
+Nie wykonywano testów rozgrywki dla jeszcze niepodłączonego zestawu.
+[Kontrola dokumentacji](qa/nexus-materials/docs.txt): PASS.
+[Lint skryptu przygotowania](qa/nexus-materials/lint.txt): PASS.

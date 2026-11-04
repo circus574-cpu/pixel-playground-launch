@@ -1,5 +1,7 @@
 # KI Legends — dokumentacja projektu
 
+**Nexus — komplet 64 wygenerowanych materiałów:** [podgląd, źródła i zakres](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu).
+
 **Aetheria — nowa oprawa kontynentu:** [36 zasobów, cztery biomy i zrzuty](zmiany/2026-11-04/ZMIANY.md#aetheria--nowa-oprawa-kontynentu).
 
 **Pyra — nowa oprawa kontynentu na osobnej gałęzi:** [52 zasoby runtime, zakres i zrzuty](zmiany/2026-11-04/ZMIANY.md#pyra--nowa-oprawa-kontynentu).
