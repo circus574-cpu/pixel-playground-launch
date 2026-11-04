@@ -142,6 +142,7 @@ describe("UI preferences survive refresh without touching character saves", () =
     writeUiPreferences(value);
     expect(readUiPreferences()).toEqual({
       ...value,
+      uiScale: 1,
       musicVolume: 0.3,
       musicMuted: false,
       sfxVolume: 0.6,

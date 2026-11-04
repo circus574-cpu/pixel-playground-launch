@@ -21,6 +21,9 @@
 .ki-hud {
   position: absolute;
   inset: 0;
+  /* Interface scale (settings): zoom shrinks the HUD and its windows; the box keeps filling the
+     screen because percentages and insets resolve against the unzoomed parent. */
+  zoom: var(--ki-ui-scale, 1);
   pointer-events: none;
   z-index: 5;
   background: linear-gradient(180deg, #020a0866, transparent 22%, transparent 72%, #02080677);

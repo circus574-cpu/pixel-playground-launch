@@ -15,7 +15,18 @@ export const DEFAULT_CONTROLS: ControlLayout = {
   skills: { dx: 0, dy: 0, scale: 1 },
   joystick: { dx: 0, dy: 0, scale: 1 },
 };
+/** Size of the whole HUD and its windows: smaller by default on a phone, adjustable in the settings. */
+export const UI_SCALE = { min: 0.5, max: 1.2 } as const;
+export function defaultUiScale(): number {
+  try {
+    return window.matchMedia("(max-height: 500px) and (max-width: 1100px)").matches ? 0.72 : 1;
+  } catch {
+    return 1;
+  }
+}
 export type UiPreferences = {
+  /** HUD and window scale; see `UI_SCALE`. */
+  uiScale: number;
   messages: boolean;
   worldLabels: boolean;
   largeMinimap: boolean;
@@ -28,6 +39,7 @@ export type UiPreferences = {
   controls: ControlLayout;
 };
 export const DEFAULT_UI_PREFERENCES: UiPreferences = {
+  uiScale: 1,
   messages: true,
   worldLabels: true,
   largeMinimap: false,
@@ -69,9 +81,10 @@ export function readUiPreferences(): UiPreferences {
   try {
     const raw: unknown = JSON.parse(window.localStorage.getItem(UI_PREFERENCES_KEY) ?? "null");
     if (!raw || typeof raw !== "object")
-      return { ...DEFAULT_UI_PREFERENCES, controls: readControls(null) };
+      return { ...DEFAULT_UI_PREFERENCES, uiScale: defaultUiScale(), controls: readControls(null) };
     const value = raw as Record<string, unknown>;
     return {
+      uiScale: finite(value["uiScale"], UI_SCALE.min, UI_SCALE.max, defaultUiScale()),
       messages: typeof value["messages"] === "boolean" ? value["messages"] : true,
       worldLabels: typeof value["worldLabels"] === "boolean" ? value["worldLabels"] : true,
       largeMinimap: typeof value["largeMinimap"] === "boolean" ? value["largeMinimap"] : false,
@@ -82,13 +95,19 @@ export function readUiPreferences(): UiPreferences {
       controls: readControls(value["controls"]),
     };
   } catch {
-    return { ...DEFAULT_UI_PREFERENCES };
+    return { ...DEFAULT_UI_PREFERENCES, uiScale: defaultUiScale() };
   }
 }
 export function writeUiPreferences(
-  value: Omit<UiPreferences, "controls" | "musicVolume" | "musicMuted" | "sfxVolume" | "sfxMuted"> &
+  value: Omit<
+    UiPreferences,
+    "controls" | "musicVolume" | "musicMuted" | "sfxVolume" | "sfxMuted" | "uiScale"
+  > &
     Partial<
-      Pick<UiPreferences, "controls" | "musicVolume" | "musicMuted" | "sfxVolume" | "sfxMuted">
+      Pick<
+        UiPreferences,
+        "controls" | "musicVolume" | "musicMuted" | "sfxVolume" | "sfxMuted" | "uiScale"
+      >
     >,
 ) {
   try {
