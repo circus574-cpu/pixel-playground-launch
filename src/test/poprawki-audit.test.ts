@@ -64,8 +64,8 @@ describe("POPRAWKI - Weryfikacja poprawek z audytu technicznego", () => {
       }
     };
 
-    checkSpawns("aether", aetherSpawns as any);
-    checkSpawns("nexus", nexusSpawns as any);
-    checkSpawns("pyra", pyraSpawns as any);
+    checkSpawns("aether", aetherSpawns);
+    checkSpawns("nexus", nexusSpawns);
+    checkSpawns("pyra", pyraSpawns);
   });
 });

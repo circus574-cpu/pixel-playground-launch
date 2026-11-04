@@ -4,7 +4,10 @@ import { WORLDS } from "../game/world/worlds";
 
 function run(g: GameSession, ready: () => boolean, seconds = 100) {
   for (let i = 0; i < seconds * 20 && !ready(); i++) g.tick(50);
-  expect(ready(), "Timeout waiting for condition: " + JSON.stringify({ p: g.player, notice: g.notice })).toBe(true);
+  expect(
+    ready(),
+    "Timeout waiting for condition: " + JSON.stringify({ p: g.player, notice: g.notice }),
+  ).toBe(true);
 }
 
 function talk(g: GameSession, npc: NpcId) {

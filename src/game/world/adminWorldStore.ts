@@ -596,7 +596,12 @@ export function applyAdminWorldOverridesToRuntime(
     if (ov?.loot) {
       target.loot = ov.loot.map((name, idx) => {
         const customChance = ov.lootChances?.[name] ?? ov.lootChances?.[String(idx)];
-        const normalized = customChance !== undefined ? (customChance > 1 ? customChance / 100 : customChance) : undefined;
+        const normalized =
+          customChance !== undefined
+            ? customChance > 1
+              ? customChance / 100
+              : customChance
+            : undefined;
         return {
           name,
           chance:
@@ -608,7 +613,12 @@ export function applyAdminWorldOverridesToRuntime(
     } else if (ov?.lootChances) {
       target.loot = base.loot.map((entry, idx) => {
         const customChance = ov.lootChances?.[entry.name] ?? ov.lootChances?.[String(idx)];
-        const normalized = customChance !== undefined ? (customChance > 1 ? customChance / 100 : customChance) : undefined;
+        const normalized =
+          customChance !== undefined
+            ? customChance > 1
+              ? customChance / 100
+              : customChance
+            : undefined;
         return {
           ...entry,
           chance: normalized !== undefined ? normalized : entry.chance,

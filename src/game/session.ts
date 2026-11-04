@@ -1938,7 +1938,11 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "rest") {
-      if ((p.interior !== "inn" || this.nearbyNpc()?.id !== "innkeeper") && this.dialogue !== "innkeeper") return;
+      if (
+        (p.interior !== "inn" || this.nearbyNpc()?.id !== "innkeeper") &&
+        this.dialogue !== "innkeeper"
+      )
+        return;
       if (p.hp >= this.kit.stats.maxHp && p.ki >= this.kit.stats.maxKi)
         return this.say("Masz pełne życie i KI. Nic nie zapłacisz.");
       if (p.gold < 5) return this.say("Odpoczynek kosztuje 5 monet.");
@@ -2077,10 +2081,12 @@ export class GameSession implements MonsterHost {
             "Plotka: Kronikarze donoszą o gnieździe Zephyrosa na Wichrowej Iglicy. Prąd wstępujący odpycha każdego, kto nie potrafi ustabilizować aury Ki!",
           nexus:
             "Plotka: Czujniki wykryły przegrzanie rdzenia Golema w komorze reaktora. Przed jego promieniem termicznym chronią tylko metalowe filary chłodzące!",
-          pyra:
-            "Plotka: Władca Kharzul zbiera moc w lawowych kraterach południa. Atakuje niszczycielską szarżą — szybki uskok w bok to jedyny ratunek!",
+          pyra: "Plotka: Władca Kharzul zbiera moc w lawowych kraterach południa. Atakuje niszczycielską szarżą — szybki uskok w bok to jedyny ratunek!",
         };
-        this.say(RUMORS_BY_CONTINENT[this.world.id] ?? "Na szlakach krążą groźne bestie. Dbaj o zapas mikstur i ekwipunek.");
+        this.say(
+          RUMORS_BY_CONTINENT[this.world.id] ??
+            "Na szlakach krążą groźne bestie. Dbaj o zapas mikstur i ekwipunek.",
+        );
       }
       if (c.action === "boss_enter") {
         const dest = this.world.landmarks.find((l) => l.kind === "danger") ?? {
@@ -2101,7 +2107,9 @@ export class GameSession implements MonsterHost {
         return this.say("Porozmawiaj z alchemiczką, aby warzyć mikstury.");
       const matKeys = Object.keys(p.materials);
       if (matKeys.length === 0)
-        return this.say("Potrzebujesz przynajmniej jednego surowca (ziół, mchu lub kłów) do warzenia.");
+        return this.say(
+          "Potrzebujesz przynajmniej jednego surowca (ziół, mchu lub kłów) do warzenia.",
+        );
       const firstMat = matKeys[0]!;
       if (c.recipe === "hp") {
         if (p.gold < 5) return this.say("Warzenie Mikstury Zdrowia wymaga 5 monet i 1 materiału.");
@@ -2153,7 +2161,9 @@ export class GameSession implements MonsterHost {
             const count = p.bagItems[c.item]!;
             if (count <= 1) delete p.bagItems[c.item];
             else p.bagItems[c.item] = count - 1;
-            const sellPrice = def.price ? Math.max(1, Math.floor(def.price / 2)) : Math.max(5, (def.level || 1) * 8);
+            const sellPrice = def.price
+              ? Math.max(1, Math.floor(def.price / 2))
+              : Math.max(5, (def.level || 1) * 8);
             p.gold += sellPrice;
             this.say(`Sprzedano: ${def.name} (+${sellPrice} złota).`);
             this.flush();

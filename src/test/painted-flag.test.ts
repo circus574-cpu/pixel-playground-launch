@@ -10,9 +10,9 @@ const PAINTED = [
   "pyra-painted-preview",
 ];
 
-describe("jedna flaga malowanych miast", () => {
-  it("?ki-painted=1 włącza wszystkie cztery miasta", () => {
-    const packs = previewPacks("?ki-painted=1");
+describe("malowane miasta bez flagi", () => {
+  it("wszystkie cztery miasta są włączone bez flagi", () => {
+    const packs = previewPacks("");
     for (const id of PAINTED) expect(packs).toContain(id);
   });
 
@@ -26,11 +26,10 @@ describe("jedna flaga malowanych miast", () => {
     }
   });
 
-  it("bez flagi nic się nie zmienia, a flagi pojedynczych miast nadal działają", () => {
-    for (const id of PAINTED) expect(previewPacks("")).not.toContain(id);
-    expect(previewPacks("?ki-pyra-painted=1")).toContain("pyra-painted-preview");
-    expect(previewPacks("?ki-nexus-painted=1")).toContain("nexus-painted-preview");
-    expect(previewPacks("?ki-aether-painted=1")).toContain("aether-painted-preview");
-    expect(previewPacks("?ki-verdant-painted=1")).toContain("verdant-leaf-buildings");
+  it("malowane miasta są domyślnie publiczne, a ?ki-painted=0 przywraca stary wygląd", () => {
+    for (const id of PAINTED) {
+      expect(previewPacks("")).toContain(id);
+      expect(previewPacks("?ki-painted=0")).not.toContain(id);
+    }
   });
 });

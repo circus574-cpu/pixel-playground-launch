@@ -420,16 +420,13 @@ export function NpcDialogue({
           )}
           {npc.id === "trainer" && (
             <>
-            <button onClick={() => send({ type: "training", action: "start" })}>
-              Rozpocznij próbę bojową (Manekin treningowy)
-            </button>
-            <button
-              disabled={p.skills.length <= 1}
-              onClick={() => send({ type: "respec" })}
-            >
-              Zresetuj węzły talentów KI (Odzyskaj punkty)
-            </button>
-          </>
+              <button onClick={() => send({ type: "training", action: "start" })}>
+                Rozpocznij próbę bojową (Manekin treningowy)
+              </button>
+              <button disabled={p.skills.length <= 1} onClick={() => send({ type: "respec" })}>
+                Zresetuj węzły talentów KI (Odzyskaj punkty)
+              </button>
+            </>
           )}
           {npc.id === "innkeeper" && (
             <>
@@ -477,13 +474,23 @@ export function NpcDialogue({
           )}
           {npc.id === "warden" && (
             <div style={{ display: "flex", flexDirection: "column", gap: "8px", width: "100%" }}>
-              <div style={{ padding: "8px", background: "rgba(255,255,255,0.06)", borderRadius: "4px" }}>
+              <div
+                style={{
+                  padding: "8px",
+                  background: "rgba(255,255,255,0.06)",
+                  borderRadius: "4px",
+                }}
+              >
                 <strong>Raport Taktyczny Strażnika:</strong>
                 <p style={{ margin: "4px 0", fontSize: "0.88em", lineHeight: "1.4" }}>
-                  {world.id === "verdant" && "Ygdrasha (Poziom 8+): Prastara matka korzeni uderza falami toksycznego pyłu i pnączy. Używaj ognia i unikaj kałuż jadu!"}
-                  {world.id === "aether" && "Zephyros (Poziom 12+): Władca Wichrów odpycha falami ciśnienia. Zachowaj KI na kontrataki w oknach spokoju!"}
-                  {world.id === "nexus" && "Core Golem (Poziom 14+): Mechaniczny olbrzym strzela wiązką jonową. Chowaj się za filarami chłodzącymi!"}
-                  {world.id === "pyra" && "Kharzul (Poziom 16+): Władca Popiołów wykonuje niszczycielską szarżę. Kluczowy jest unik w bok w ostatniej chwili!"}
+                  {world.id === "verdant" &&
+                    "Ygdrasha (Poziom 8+): Prastara matka korzeni uderza falami toksycznego pyłu i pnączy. Używaj ognia i unikaj kałuż jadu!"}
+                  {world.id === "aether" &&
+                    "Zephyros (Poziom 12+): Władca Wichrów odpycha falami ciśnienia. Zachowaj KI na kontrataki w oknach spokoju!"}
+                  {world.id === "nexus" &&
+                    "Core Golem (Poziom 14+): Mechaniczny olbrzym strzela wiązką jonową. Chowaj się za filarami chłodzącymi!"}
+                  {world.id === "pyra" &&
+                    "Kharzul (Poziom 16+): Władca Popiołów wykonuje niszczycielską szarżę. Kluczowy jest unik w bok w ostatniej chwili!"}
                 </p>
               </div>
               <button onClick={() => send({ type: "dialogue", action: "boss_enter" })}>

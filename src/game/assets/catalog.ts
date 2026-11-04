@@ -141,7 +141,7 @@ export function makeCatalog(
 }
 /** Packs enabled by each opt-in review switch (`?<param>=1`). */
 export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
-  /** One switch for every painted city (Verdantia, Aetheria, Nexus-9, Pyra); the per-city flags below still work. */
+  /** Painted cities (Verdantia, Aetheria, Nexus-9, Pyra) are public by default (owner decision 04.11.2026); `?ki-painted=0` restores the old look. */
   "ki-painted": [
     "verdant-painted-preview",
     "verdant-leaf-buildings",
@@ -262,7 +262,7 @@ export function previewPacks(search: string): string[] {
     param === "ki-world-v2"
       ? params.get("ki-world-v1") !== "1"
       : // Anime monsters accepted by the owner 02.11.2026: default on, `?ki-monsters-anime=0` restores the old ones.
-        param === "ki-monsters-anime"
+        param === "ki-monsters-anime" || param === "ki-painted"
         ? params.get(param) !== "0"
         : params.get(param) === "1";
   return Object.entries(PREVIEW_SWITCHES).flatMap(([param, packs]) => (on(param) ? packs : []));
