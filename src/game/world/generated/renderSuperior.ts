@@ -575,15 +575,24 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             .setStrokeStyle(2, 0xd7c77d)
             .setDepth(renderDepth("below", d.door.y)),
         );
+        // The name floats above the building (its roof), not under the door. The building whose
+        // door this is gives the top edge; a door without a drawn building falls back to a spot above it.
+        const house = staticItems.find(
+          (i) => i.door && i.door.x === d.door.x && i.door.y === d.door.y,
+        );
+        // The art has an empty margin above the roof, so the label sits a tenth of the height inside it.
+        const top = house
+          ? house.y - house.height * house.anchorY + house.height * 0.1
+          : d.door.y - 150;
         markers.push(
           scene.add
-            .text(d.door.x, d.door.y + 30, d.name, {
+            .text(d.door.x, top, d.name, {
               fontSize: "20px",
               color: "#fff1cc",
               stroke: "#142a24",
               strokeThickness: 4,
             })
-            .setOrigin(0.5)
+            .setOrigin(0.5, 1)
             .setDepth(renderDepth("labels")),
         );
       }
