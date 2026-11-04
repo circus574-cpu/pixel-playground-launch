@@ -71,3 +71,12 @@
   układ użytkownika się nie przesuwa. Wirtualny joystick jest rysowany przez grę i ma własną skalę z edytora.
 - Specyfikacje e2e startują ze skalą 100 % (`fullScaleHud`), bo mierzą cele dotyku 44 px; przy 72 % przyciski mają
   ok. 35 px, co jest świadomym kompromisem na prośbę właściciela (można podnieść suwakiem).
+
+## Potwory anime: komplet 40 z 40
+
+- Z pięciu plansz właściciela (1448×1086, siatka 4×3): Liściak Skrytobójca, Świetlik Pieczęci, Pająk Spawalniczy,
+  Rój Nanitów i Popielny Wilk. Pakiety `enemy-v3-*` zbudowane `scripts/gpu/ingest_creature_sheet.py` (Świetlik i Rój z
+  `--no-effects`), dopisane do listy `ki-monsters-anime` w `catalog.ts` (domyślnie włączone, `?ki-monsters-anime=0`
+  przywraca stare wizerunki).
+- Atlasy obejrzane na ciemnym tle: tło usunięte czysto we wszystkich pięciu; w ostatniej klatce śmierci Świetlika
+  zostaje tylko drobny odprysk pyłu (reszta zanikającego blasku jest za słaba na próg skryptu).
