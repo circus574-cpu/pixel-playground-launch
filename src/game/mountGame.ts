@@ -58,6 +58,8 @@ type Actor = {
   kind: "hero" | "npc" | "enemy";
   body: Phaser.GameObjects.Container;
   sprite: Phaser.GameObjects.Sprite;
+  /** Four tinted copies behind the sprite: a thin cool rim that separates it from busy ground. */
+  rim?: Phaser.GameObjects.Sprite[] | undefined;
   bar: Phaser.GameObjects.Rectangle;
   name: Phaser.GameObjects.Text;
   track: Phaser.GameObjects.Rectangle;
@@ -388,7 +390,7 @@ export function mountKileGends(
         actor.npcId = n.id;
         if (actor.visual.tintable) actor.sprite.setTint(n.tint);
       }
-      this.selection = this.add.ellipse(0, 0, 85, 32).setStrokeStyle(3, 0xffdf86).setVisible(false);
+      this.selection = this.add.ellipse(0, 0, 85, 32).setStrokeStyle(3, 0x7defff).setVisible(false);
       const shieldArt = catalog.renderBindings["effect.shield"];
       this.shield = shieldArt
         ? this.add.sprite(0, 0, shieldArt.asset, shieldArt.frame).setDisplaySize(100, 112)
@@ -789,7 +791,8 @@ export function mountKileGends(
     private ring(p: Point, radius: number, color: number, ms: number, fill = 0.12) {
       const disc = this.add
         .ellipse(p.x, p.y, radius * 2, radius * 1.1, color, fill)
-        .setStrokeStyle(3, color, 0.8)
+        // Enemy danger zones keep the red fill but get a pale outline that reads on red ground.
+        .setStrokeStyle(3, color === 0xff5a4a ? 0xfff0d0 : color, 0.9)
         .setDepth(renderDepth("combat", p.y - 1));
       this.trackEffect(disc, color === 0xff5a4a);
       this.tweens.add({
@@ -877,15 +880,37 @@ export function mountKileGends(
         track.setVisible(false);
         bar.setVisible(false);
       }
+      // Hero and enemies get a thin cool rim (cyan for the hero, pale violet for enemies) so that a red
+      // character does not vanish in a red forest; NPCs keep the plain look.
+      const rim =
+        kind === "npc"
+          ? undefined
+          : (
+              [
+                [-3, 0],
+                [3, 0],
+                [0, -3],
+                [0, 3],
+              ] as const
+            ).map(([dx, dy]) =>
+              this.add
+                .sprite(dx, dy, clip.asset, first)
+                .setDisplaySize(...config.size)
+                .setOrigin(...config.origin)
+                .setTint(kind === "hero" ? 0xa8f4ff : 0xe6d2ff)
+                .setTintMode(Phaser.TintModes.FILL)
+                .setAlpha(0.85),
+            );
       const actor = {
         kind,
         visual: config,
         animation: new ActorAnimation(sprite, config),
         facing: { x: 0, y: 1 },
         body: this.add
-          .container(p.x, p.y, halo ? [halo, shadow, sprite] : [shadow, sprite])
+          .container(p.x, p.y, [...(halo ? [halo] : []), shadow, ...(rim ?? []), sprite])
           .setDepth(p.y),
         sprite,
+        rim,
         bar,
         name,
         track,
@@ -1548,6 +1573,12 @@ export function mountKileGends(
       const ownLabel = this.heroLabel();
       if (this.hero.name.text !== ownLabel) this.hero.name.setText(ownLabel);
       for (const a of this.actors) {
+        if (a.rim && a.body.visible)
+          for (const r of a.rim)
+            r.setTexture(a.sprite.texture.key, a.sprite.frame.name)
+              .setFlip(a.sprite.flipX, a.sprite.flipY)
+              .setDisplaySize(a.sprite.displayWidth, a.sprite.displayHeight)
+              .setAlpha(a.sprite.alpha * 0.85);
         if (a.kind === "hero") {
           // Player names (the own one and other players') always float above the head.
           a.name

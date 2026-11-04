@@ -612,7 +612,8 @@ export function GameHud({
                     />
                   )}
                   {STATUS_NAMES[s.id] ?? s.id}
-                  {s.stacks && s.stacks > 1 ? " ×" + s.stacks : ""} · {(s.ms / 1000).toFixed(0)} s
+                  {s.stacks && s.stacks > 1 ? " ×" + s.stacks : ""} ·{" "}
+                  {Math.max(1, Math.ceil(s.ms / 1000))} s
                 </span>
               ))}
             </div>
@@ -882,6 +883,17 @@ export function GameHud({
       >
         {toolsOpen ? <span aria-hidden="true">×</span> : <MangaIcon symbol="map" />}
         <small>Widok</small>
+      </button>
+      <button
+        className="ki-chat-pill ki-frame"
+        aria-label="Czat lokalny"
+        onClick={() => {
+          setToolsOpen(false);
+          setChatOpen(true);
+        }}
+      >
+        <MangaIcon symbol="chat" />
+        <small>Czat lokalny</small>
       </button>
       <div ref={tools} id="ki-tools" className={`ki-tools ${toolsOpen ? "is-open" : ""}`}>
         <nav className="ki-view-controls ki-frame" aria-label="Widok mapy">

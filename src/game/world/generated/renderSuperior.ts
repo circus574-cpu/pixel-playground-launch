@@ -457,6 +457,8 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         .setOrigin(0)
         .setDisplaySize(CHUNK, CHUNK)
         .setDepth(renderDepth("ground"))
+        // Slightly darker, cooler ground and scenery keep the actors in the foreground.
+        .setTint(0xd0d4dc)
         .setVisible(visible),
     };
   };
@@ -558,6 +560,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             ref.fit,
           )
             .setOrigin(item.anchorX, item.anchorY)
+            .setTint(0xdfe2e8)
             .setDepth(renderDepth(item.layer ?? "objects", item.y));
           tile.images.set(item.id, image);
         }
