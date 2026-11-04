@@ -50,7 +50,7 @@ SPRITE_HINTS = ("-tree-", "-plant-", "-rock-", "-water-", "-decor-", "-exterior"
 
 def mode_of(name, size):
     if name.endswith("-interior"):
-        return "room-portrait" if "1080" in size else "room"
+        return "room-portrait" if ("1080" in size or "540:1100" in size) else "room"
     if any(h in name for h in SPRITE_HINTS):
         return "sprite"
     if "-trans-" in name:
@@ -73,10 +73,12 @@ def parse_prompts(directory=PROMPT_DIR):
             name, size, prompt = m["name"], m["size"].strip(), m["prompt"].strip()
             entries.append({"name": name, "title": m["title"], "size": size, "prompt": prompt,
                             "mode": mode_of(name, size), "source": f.name})
-    names = [e["name"] for e in entries]
-    if len(set(names)) != len(names):
-        raise SystemExit("duplicate prompt file names")
-    return entries
+    # A later file overrides an earlier one with the same name (files are read in alphabetical order, so the
+    # corrected WNETRZA-v2-*.md interiors replace the old v1 interiors inside BUDYNKI-*.md).
+    by_name = {}
+    for e in entries:
+        by_name[e["name"]] = e
+    return list(by_name.values())
 
 
 def compact(entry):

@@ -1,0 +1,58 @@
+{
+ "world": "pyra",
+ "date": "2026-11-04",
+ "model": "gpt-image-1-mini",
+ "quality": "medium",
+ "promptSource": "art/pipeline/prompts/world (wnętrza v2, poprawiony kadr)",
+ "status": "zaakceptowane przez właściciela 04.11.2026; surowe obrazy, bez przycięcia do proporcji gry i bez wdrożenia do klienta",
+ "images": [
+  {
+   "file": "pyra-hall-interior.png",
+   "prompt": "pyra-hall-interior.prompt.txt",
+   "title": "Sala Przysięgi",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "b44b60819f4ac189074e526361513d622324611e32b85c4260394a727a7516ce"
+  },
+  {
+   "file": "pyra-shop-interior.png",
+   "prompt": "pyra-shop-interior.prompt.txt",
+   "title": "Targ Klanów",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "20af9cb1974ebad352e2eb478f04be35b4d24f4751409d354bf78ba3724ba721"
+  },
+  {
+   "file": "pyra-inn-interior.png",
+   "prompt": "pyra-inn-interior.prompt.txt",
+   "title": "Gospoda Pod Żarem",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "2821b1eca62e1eba5030be89b824352000b147323f317bd74b022d5c29712b9a"
+  },
+  {
+   "file": "pyra-smithy-interior.png",
+   "prompt": "pyra-smithy-interior.prompt.txt",
+   "title": "Kuźnia Żaru",
+   "generatedSize": "1024x1536",
+   "gameRoom": "540:1100",
+   "sha256": "57d5757e17b255bd38d75bcb5d8da0eb7468af50bb69e9f5c5bd676f0aa2cca3"
+  },
+  {
+   "file": "pyra-depot-interior.png",
+   "prompt": "pyra-depot-interior.prompt.txt",
+   "title": "Skarbiec Klanu",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "817770cc10c9093008d21ac38740827af2724d771405c52a0d35c1de7dbf112f"
+  },
+  {
+   "file": "pyra-arena-interior.png",
+   "prompt": "pyra-arena-interior.prompt.txt",
+   "title": "Plac Ćwiczeń Klanów",
+   "generatedSize": "1536x1024",
+   "gameRoom": "960:760",
+   "sha256": "2466b35108462c6ba737c6ccb218e6ea53d655566572e196b1919da491ab61e0"
+  }
+ ]
+}
