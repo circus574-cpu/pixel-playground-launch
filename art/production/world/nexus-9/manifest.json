@@ -1,0 +1,108 @@
+{
+  "world": "nexus-9",
+  "date": "2026-11-04",
+  "model": "gpt-image-1-mini",
+  "quality": "medium",
+  "promptSource": "art/pipeline/prompts/world/PROMPTY-Nexus-9-v2.md",
+  "status": "próbki do odbioru właściciela; 12 z 20 (tekstury, ukształtowanie wody, drogi); 8 obiektów właściciel generuje z PROMPTY-OBIEKTY-v3.md",
+  "postprocess": "kafle i rzeka: szew zszyty na CPU (półprzesunięta kopia, maska sin²); drogi: tylko w poziomie",
+  "knownIssues": ["ścieżka leśna bardzo ciemna, słabo widoczna na tle"],
+  "images": [
+    {
+      "file": "nexus9-grass.png",
+      "prompt": "nexus9-grass.prompt.txt",
+      "title": "Trawa / step",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "sha256": "b18fc5a8c583e3f126e9bb9161b10b337784f6224e4e097df73b6d181e7595cb"
+    },
+    {
+      "file": "nexus9-forest.png",
+      "prompt": "nexus9-forest.prompt.txt",
+      "title": "Runo leśne",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "sha256": "031bf3f2e71738072051b3db4acb4009bb14a642aea178df4c19c5ac762e851e"
+    },
+    {
+      "file": "nexus9-rockg.png",
+      "prompt": "nexus9-rockg.prompt.txt",
+      "title": "Skała (podłoże górskie)",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "sha256": "b3977f8caf1a8d3b4fe2e72f02080137e604bdac6acb5f1c2d4de0ba1356e9f7"
+    },
+    {
+      "file": "nexus9-wet.png",
+      "prompt": "nexus9-wet.prompt.txt",
+      "title": "Mokradła",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "sha256": "6269a746085e3ef9d2000414e8c28602e6c4b1fe641c878e55949f919b637fc3"
+    },
+    {
+      "file": "nexus9-sand.png",
+      "prompt": "nexus9-sand.prompt.txt",
+      "title": "Piasek",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "sha256": "e965f79241024880cddfc9e251f185aadae1c2d53e1fe5adca9cb8b3679f3644"
+    },
+    {
+      "file": "nexus9-water.png",
+      "prompt": "nexus9-water.prompt.txt",
+      "title": "Ocean (woda, kafel)",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "sha256": "ca218b18b0b2198f6aea21eb90e8c1acd7ce321842ee7b94a5a158d0b9803919"
+    },
+    {
+      "file": "nexus9-river.png",
+      "prompt": "nexus9-river.prompt.txt",
+      "title": "Rzeka (pas poziomy, bezszwowy)",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "sha256": "98b1022b4f44305d8f846743e986508fa6cb5c229e315d2116ae3f3ca93f12c0"
+    },
+    {
+      "file": "nexus9-road1.png",
+      "prompt": "nexus9-road1.prompt.txt",
+      "title": "Główna droga bita",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "sha256": "0632bf36a1211e970cdcb1f711b5143d78eba7c7d8613bfa55ec0e06aca32b7e"
+    },
+    {
+      "file": "nexus9-road2.png",
+      "prompt": "nexus9-road2.prompt.txt",
+      "title": "Droga ziemna",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "sha256": "8c8b4007f00519d173e5cc52fc24696f5d52f2bd81fabcb517daf4cd9e6a0320"
+    },
+    {
+      "file": "nexus9-road3.png",
+      "prompt": "nexus9-road3.prompt.txt",
+      "title": "Ścieżka leśna",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "sha256": "9885a7177ac03ea26c7c2a4889e9caa847e0fa0b8aa9c93751e7d77d5a102aa8"
+    },
+    {
+      "file": "nexus9-road4.png",
+      "prompt": "nexus9-road4.prompt.txt",
+      "title": "Ścieżka górska",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "sha256": "ee3a088a35f8e0350401a0e22e5cf228d462fac173af4d27b4584b1131d78f45"
+    },
+    {
+      "file": "nexus9-road5.png",
+      "prompt": "nexus9-road5.prompt.txt",
+      "title": "Droga przybrzeżna",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "sha256": "fe10983a6d926d610b49dffc28f8d2048190262d5c9e3cd4c9d814dec69f44ca"
+    }
+  ]
+}
