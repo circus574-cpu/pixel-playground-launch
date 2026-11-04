@@ -18,6 +18,49 @@ export const continentTerrainBindings = [
   "road4",
 ].map((n) => "terrain.verdantia-continent." + n);
 export const continentBiomeBindings = continentTerrainBindings.slice(0, 4);
+export const extraSceneryEnabled = () => !!catalog.renderBindings["object.verdantia-extra.fern"];
+export const understoryNames = [
+  "fern",
+  "blueberry",
+  "bramble",
+  "grass",
+  "mushrooms",
+  "flowers",
+  "burdock",
+  "rose",
+] as const;
+
+/** Semantic substitutions only: no new interactions, destinations or physical footprints. */
+export function extraSceneryName(item: ArtObject, roads: readonly Road[] = []): string | undefined {
+  const b = item.binding,
+    // Independent from canopy thinning, so no tree variant is excluded by retention.
+    n = noise(Math.floor(item.x) + 7919, Math.floor(item.y) - 313);
+  const pick = (names: readonly string[]) =>
+    names[Math.min(names.length - 1, Math.floor(n * names.length))]!;
+  if (/verdant-(oak|tree2)-|biome-forest.tall-broadleaf-oak-tree/.test(b))
+    return pick(["ancient-oak", "ancient-oak", "birch", "willow"]);
+  if (/verdant-(flowerbush|bush)-|biome-forest.flowering-bush/.test(b))
+    return pick(["blueberry", "bramble", "rose"]);
+  if (/verdant-fern-/.test(b)) return pick(["fern", "flowers", "burdock"]);
+  if (/verdant-reeds-/.test(b)) return "grass";
+  if (/verdant-mushrooms-/.test(b)) return "mushrooms";
+  if (/verdant-stump-/.test(b)) return "stump";
+  if (/verdant-log-|biome-forest.fallen-mossy-log/.test(b)) {
+    if (n < 0.12 && roads.some((r) => roadDistance(item, r) < r.width / 2 + 240)) return "cart";
+    return pick(["log", "log", "roots"]);
+  }
+  if (b.endsWith("cliff-outcrop")) return "cliff";
+  if (b.endsWith("boulder-pile")) return "hill";
+  if (b.endsWith("mountain-peak") || b.endsWith("tall-rocky-mountain-peak")) return "ridge";
+  if (b.endsWith("rock-with-a-small-waterfall") || b.endsWith("verdant-fountain")) return "spring";
+  if (b.endsWith("verdant-bridge")) return "bridge";
+  if (b.endsWith("verdant-tent")) return "camp";
+  if (b.endsWith("verdant-totem")) return "shrine";
+  if (b.endsWith("verdant-banner")) return "sign";
+  if (b.endsWith("verdant-crates")) return "chest";
+  if (b === "object.ruins-props.an-ancient-stone-gate-ruin") return pick(["cave", "arch"]);
+  return undefined;
+}
 
 /** Retained objects keep their physical metadata. Only non-solid decorative canopies may thin. */
 export function continentObjects(
@@ -30,7 +73,7 @@ export function continentObjects(
     let name: string | undefined;
     if (/verdant-(oak|tree2)-|biome-forest.tall-broadleaf-oak-tree/.test(item.binding))
       name = "oak";
-    else if (/verdant-pine-/.test(item.binding)) name = "pine";
+    else if (/verdant-pine-|biome-mountain.mountain-pine-tree/.test(item.binding)) name = "pine";
     else if (/verdant-(flowerbush|bush)-|biome-forest.flowering-bush/.test(item.binding))
       name = "bush";
     else if (/verdant-fern-/.test(item.binding)) name = "flora";
@@ -50,7 +93,14 @@ export function continentObjects(
       )
         return [];
     }
-    return [name ? { ...item, binding: "object.verdantia-continent." + name } : item];
+    const extra = extraSceneryEnabled() ? extraSceneryName(item, roads) : undefined;
+    return [
+      extra
+        ? { ...item, binding: "object.verdantia-extra." + extra }
+        : name
+          ? { ...item, binding: "object.verdantia-continent." + name }
+          : item,
+    ];
   });
 }
 
@@ -108,10 +158,15 @@ export function continentRoadside(
         continue;
       const rim = Math.min(...nearby.map((r) => roadDistance(p, r) - r.width / 2));
       if (rim < 36 || rim > 170) continue;
+      const extra = extraSceneryEnabled()
+        ? understoryNames[Math.floor(noise(gy + 17, gx) * understoryNames.length)]!
+        : undefined;
       items.push({
         id: `verdantia-rim-${gx}-${gy}`,
         kind: "bush",
-        binding: "object.verdantia-continent." + (n > 0.76 ? "bush" : "flora"),
+        binding: extra
+          ? "object.verdantia-extra." + extra
+          : "object.verdantia-continent." + (n > 0.76 ? "bush" : "flora"),
         ...p,
         width: n > 0.76 ? 95 : 66,
         height: n > 0.76 ? 88 : 65,

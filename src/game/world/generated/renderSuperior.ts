@@ -5,6 +5,7 @@ import {
   continentBiomeBindings,
   continentRoadside,
   continentObjects,
+  extraSceneryEnabled,
 } from "./verdantiaContinent";
 import {
   paintedMeadowEnabled,
@@ -703,7 +704,8 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
               item.y,
               (paintedPyra && ref.asset.startsWith("pyra-painted-")) ||
                 (paintedNexus && ref.asset.startsWith("nexus-painted-")) ||
-                ref.asset.startsWith("verdantia-continent-")
+                ref.asset.startsWith("verdantia-continent-") ||
+                ref.asset.startsWith("verdantia-extra-")
                 ? ref.asset
                 : blendedTexture(scene, ref.asset, ref.frame),
               ref.frame,
@@ -713,10 +715,18 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             ref.fit,
           )
             .setOrigin(item.anchorX, item.anchorY)
-            .setTint(ref.asset.startsWith("verdantia-continent-") ? 0xf5f2de : 0xdfe2e8)
+            .setTint(
+              ref.asset.startsWith("verdantia-continent-") ||
+                ref.asset.startsWith("verdantia-extra-")
+                ? 0xf5f2de
+                : 0xdfe2e8,
+            )
             .setDepth(renderDepth(item.layer ?? "objects", item.y));
           tile.images.set(item.id, image);
-          if (ref.asset.startsWith("verdantia-continent-")) {
+          if (
+            ref.asset.startsWith("verdantia-continent-") ||
+            ref.asset.startsWith("verdantia-extra-")
+          ) {
             // A shared transparent sprite can straddle a chunk boundary without a cut shadow.
             tile.shadows.set(
               item.id,
@@ -767,6 +777,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     scene.game.canvas.dataset["superiorPending"] = String(pending.size);
     scene.game.canvas.dataset["superiorPainted"] = String(painted);
     scene.game.canvas.dataset["verdantiaContinent"] = String(continent);
+    scene.game.canvas.dataset["verdantiaExtra"] = String(continent && extraSceneryEnabled());
     scene.game.canvas.dataset["superiorGroundResolution"] = String(resolution);
     scene.game.canvas.dataset["superiorScenery"] = String(
       [...live.values()].reduce((n, t) => n + t.images.size, 0),

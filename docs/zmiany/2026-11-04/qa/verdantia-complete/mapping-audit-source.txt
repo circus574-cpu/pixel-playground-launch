@@ -1,0 +1,17 @@
+import {readFileSync,readdirSync,writeFileSync} from 'node:fs';
+import {extraSceneryName} from './src/game/world/generated/verdantiaContinent';
+import {browserNavigation} from './src/game/world/generated/browserTerrain';
+const dir='public/game/worlds/superior-v2/verdant/';
+const read=(p:string)=>JSON.parse(readFileSync(dir+p,'utf8'));
+const world=read('world.json'),art=JSON.parse(readFileSync('public/game/worlds/superior-v2/art/verdant/feature.art.json','utf8'));
+const outside=(p:any)=>world.settlements.every((s:any)=>p.x<s.bounds.x-12||p.x>s.bounds.x+s.bounds.width+12||p.y<s.bounds.y-12||p.y>s.bounds.y+s.bounds.height+12);
+const counts:Record<string,number>={},examples:Record<string,any>={};
+const objects=Object.values(art).filter(Array.isArray).flat().filter((o:any)=>o?.binding);
+for(const name of readdirSync('public/game/worlds/superior-v2/art/verdant/chunks').filter(n=>/^(2[0-5])-(1[5-9]|20)\.art.json$/.test(n))) objects.push(...JSON.parse(readFileSync('public/game/worlds/superior-v2/art/verdant/chunks/'+name,'utf8')).objects);
+for(const item of objects as any[]) if(outside(item)){
+ const name=extraSceneryName(item,world.roads);if(!name)continue;counts[name]=(counts[name]??0)+1;
+ if(!examples[name]||Math.hypot(item.x-49000,item.y-35000)<Math.hypot(examples[name].x-49000,examples[name].y-35000))examples[name]={id:item.id,x:item.x,y:item.y};
+}
+const nav=browserNavigation(world.geometry.width,world.geometry.height,read('navigation.json'),read('terrain.json'),read('collision.json'));
+const scenes=['camp','spring','cliff','cave','arch','bridge'].map(name=>({name,source:examples[name],point:nav.safe({x:examples[name].x+180,y:examples[name].y+620})}));
+console.log(JSON.stringify({counts,scenes},null,2));writeFileSync('/tmp/verdantia-extra-audit.json',JSON.stringify({counts,examples,scenes},null,2));

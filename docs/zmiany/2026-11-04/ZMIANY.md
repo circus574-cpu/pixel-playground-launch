@@ -183,3 +183,55 @@ Na prośbę właściciela zabezpieczono komplet 10 plansz PNG (52 wzory) oraz ma
 ## Verdantia — 26 dodatkowych wzorów grafiki
 
 Na prośbę właściciela wzbogacono bibliotekę koncepcji Verdantii o [4 plansze PNG, prompty i manifest SHA-256](../../../art/production/verdantia-extra-concepts-2026-11-04/). Wszystkie 4 kopie porównano bajtowo z oryginałami. Gałąź `art/verdantia-extra-2026-11-04` wychodzi z archiwum Pyry `abb36449`; nowy commit dodaje wyłącznie koncepcje i opis. Nie zmieniono runtime, map, kolizji ani zapisów.
+
+
+## Verdantia — ukończenie integracji dodatkowej oprawy
+
+Zlecenie właściciela: dokończyć Verdantię, dodając wygenerowane grafiki.
+Gałąź `preview/verdantia-complete-art` zachowuje wcześniejszy podgląd kontynentu
+oraz archiwa źródłowe. Do runtime podłączono wszystkie 26 nowych elementów.
+
+- Cztery oryginalne plansze zachowano. Wersje z czystym tłem przygotowano
+  przez `image_gen`, następnie wydzielono osobne komórki i odrzucono małe,
+  odłączone fragmenty sąsiednich obiektów przy krawędzi komórki.
+- Pakiet [verdantia-extra-runtime@1.0.1](../../../art/production/verdantia-extra-runtime/):
+  26 obrazów, 3 333 194 bajty runtime, 10,37 MiB rozkodowanych pikseli.
+  Duże formy terenu i most mają 512 px, drzewa 384 px, drobne obiekty 192/256 px.
+  Wersja 1.0.0 była lokalną próbą; nie opublikowano jej jako osobnego wydania.
+- Istniejąca opcja `ki-verdant-continent=1` wczytuje podłoża i nowy pakiet.
+  Rośliny podszytu zastępują starsze krzewy, paprocie, trzciny i grzyby;
+  nowe drzewa, drewno, korzenie, formy terenu, obozy i wejścia zastępują
+  odpowiednie dotychczasowe wiązania poza bezpiecznymi osadami.
+- Warianty drzew wybierane są niezależnie od przerzedzania koron, więc
+  dąb, brzoza i wierzba mogą pojawić się w tej samej okolicy. Nowy test
+  sprawdza obecność wszystkich trzech w zachowanej populacji.
+- [Audyt przypisań](qa/verdantia-complete/mapping-audit.json) potwierdza
+  występowanie wszystkich 26 nazw w istniejących rekordach świata.
+  [Geometria](qa/verdantia-complete/geometry-preserved.json) jest bajtowo
+  zgodna z bazą `cb7d5154`. Nie zmieniono nawigacji, kolizji, zapisów,
+  statystyk, spawnów, usług miast, łupu ani znaczenia wejść do podziemi.
+  Nowy wygląd skrzyń/kapliczek nie dodaje nowych interakcji ani nagród.
+- Kryształy KI i domy wiosek zachowują dotychczasowy wygląd. Gotowe miasto
+  główne nie jest przemalowywane. To podgląd na gałęzi, bez publikacji domen.
+
+Kontrole końcowe: pełny TypeScript aplikacji/e2e/tools PASS; 15 testów w trzech
+plikach PASS; walidacja wszystkich zasobów PASS; lint 0 błędów (15 wcześniejszych
+ostrzeżeń); kompilacja produkcyjna PASS; dokumentacja PASS. Gra: Canvas 1600×1000
+oraz programowy WebGL 852×393 PASS, ruch, zapis i ponowne wejście, cztery biomy,
+obóz/źródło (Canvas), widok telefonu oraz rzeczywiste zadawanie obrażeń potworowi.
+[Raport przeglądarek](qa/verdantia-complete/browser-final.json),
+[log](qa/verdantia-complete/browser-final.txt),
+[kontrola alfa 26 sprite’ów](qa/verdantia-complete/alpha-check.json).
+
+Zrzuty z rzeczywistego runtime:
+[las](qa/verdantia-complete/canvas/verdantia-forest-road.png),
+[głęboki las](qa/verdantia-complete/canvas/verdantia-deep-forest.png),
+[wzgórza](qa/verdantia-complete/canvas/verdantia-highlands.png),
+[mokradła](qa/verdantia-complete/canvas/verdantia-wetland.png),
+[obóz](qa/verdantia-complete/canvas/verdantia-camp.png),
+[okolica źródła](qa/verdantia-complete/canvas/verdantia-spring.png),
+[zachowane miasto](qa/verdantia-complete/canvas/verdantia-city-preserved.png),
+[telefon WebGL](qa/verdantia-complete/webgl/verdantia-mobile-live-pve.png).
+Zrzuty dalszych miejsc używają poprawnego lokalnego zapisu testowego z pozycją
+na sprawdzonym nawigacyjnie terenie. Nie są nowym projektem mapy ani pełnym
+tłem ilustracyjnym. Fizyczny telefon i sprzętowe WebGL pozostają do odbioru.

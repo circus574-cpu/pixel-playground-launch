@@ -1,0 +1,236 @@
+[
+  {
+    "sprite": "chest.webp",
+    "size": [
+      272,
+      229
+    ],
+    "transparentCorners": true,
+    "sha256": "909f99dc143b41fa7c6a400db8c9c0edb53cbf81316a09065c51cd93ae761021"
+  },
+  {
+    "sprite": "camp.webp",
+    "size": [
+      272,
+      263
+    ],
+    "transparentCorners": true,
+    "sha256": "6dce0e2d2a5568203ae9d46df90afebe075fb975041d29fae1bbb1a9055b76fa"
+  },
+  {
+    "sprite": "shrine.webp",
+    "size": [
+      272,
+      245
+    ],
+    "transparentCorners": true,
+    "sha256": "bcd731fc3e78c1c169994a58590a8b600f358c6ff7ce17ca9e7d5c88cb67f1a4"
+  },
+  {
+    "sprite": "cart.webp",
+    "size": [
+      272,
+      211
+    ],
+    "transparentCorners": true,
+    "sha256": "d74a5084797a75c81b13eb6e342d7bc2accbe3c8d2a7e10232434aea43adf406"
+  },
+  {
+    "sprite": "sign.webp",
+    "size": [
+      272,
+      243
+    ],
+    "transparentCorners": true,
+    "sha256": "8482a707a06c6d6fd6cccf3cf461ec926558e84cab72fc6dce8b07e1225069b6"
+  },
+  {
+    "sprite": "bridge.webp",
+    "size": [
+      528,
+      390
+    ],
+    "transparentCorners": true,
+    "sha256": "2f7786012cbec8748a272b74a8a847a6032d4d0c670e5d7b83fe815be3030e64"
+  },
+  {
+    "sprite": "cave.webp",
+    "size": [
+      528,
+      408
+    ],
+    "transparentCorners": true,
+    "sha256": "3f5cb6b30bc5d87d68b84b5a2944cec8e4109e754d35306da241bdbbed97d585"
+  },
+  {
+    "sprite": "ridge.webp",
+    "size": [
+      528,
+      291
+    ],
+    "transparentCorners": true,
+    "sha256": "c8db601f7d5b25c0c4fd718283aeef5d6ba87f76f7b6bcd1970b580c6bc4b07f"
+  },
+  {
+    "sprite": "spring.webp",
+    "size": [
+      528,
+      429
+    ],
+    "transparentCorners": true,
+    "sha256": "d6ff024405e0c0d6f86c17729cd3b224c3d4da80201da5014ef50becdcafdee3"
+  },
+  {
+    "sprite": "arch.webp",
+    "size": [
+      528,
+      409
+    ],
+    "transparentCorners": true,
+    "sha256": "22379d719f553611f29b324d9b13fc555d6aca9ad27370a377759df871a0578b"
+  },
+  {
+    "sprite": "cliff.webp",
+    "size": [
+      528,
+      464
+    ],
+    "transparentCorners": true,
+    "sha256": "b74f5c3863841f508067dec4ada4910f0c3c02a60d3654bf13d62a4d9c9efff9"
+  },
+  {
+    "sprite": "hill.webp",
+    "size": [
+      528,
+      284
+    ],
+    "transparentCorners": true,
+    "sha256": "e7670abcf585db75af98e3125737477a069a9e50945b74d6faa8233bb5ca6a99"
+  },
+  {
+    "sprite": "roots.webp",
+    "size": [
+      272,
+      255
+    ],
+    "transparentCorners": true,
+    "sha256": "cf38e58b5803181239195ea06f1c7f12bb1eac6cc50591e0d1875c9c3c6bdc14"
+  },
+  {
+    "sprite": "stump.webp",
+    "size": [
+      272,
+      255
+    ],
+    "transparentCorners": true,
+    "sha256": "fd0ca5d348b040a7b597d0a69ed4038f5d99af6d4d28e9194efc00e7c1d1f0a6"
+  },
+  {
+    "sprite": "log.webp",
+    "size": [
+      272,
+      245
+    ],
+    "transparentCorners": true,
+    "sha256": "721ca23033a28a05fea8f6d1d4500f7b0f1c330fa095a7dd5477c18e9d1b9f5f"
+  },
+  {
+    "sprite": "willow.webp",
+    "size": [
+      400,
+      400
+    ],
+    "transparentCorners": true,
+    "sha256": "f4523be4893ee2d05c2960d9d9a097c0363c44cb71c2af7ad3f2bf0b773fb6c8"
+  },
+  {
+    "sprite": "birch.webp",
+    "size": [
+      400,
+      400
+    ],
+    "transparentCorners": true,
+    "sha256": "238a1a7533e3dc10cda19a0b0346222617b082299846fb97342bc31230c9aa46"
+  },
+  {
+    "sprite": "ancient-oak.webp",
+    "size": [
+      400,
+      400
+    ],
+    "transparentCorners": true,
+    "sha256": "957e760814fc9e590a9dd1205289f3467aefc39f5259bff133511bfbb8a4efa4"
+  },
+  {
+    "sprite": "rose.webp",
+    "size": [
+      208,
+      194
+    ],
+    "transparentCorners": true,
+    "sha256": "95d00db6a3ebe728b2606a538c8f635b237dcdce642f4191f674613833fc3836"
+  },
+  {
+    "sprite": "burdock.webp",
+    "size": [
+      208,
+      181
+    ],
+    "transparentCorners": true,
+    "sha256": "86c3de79627bf516921932c477312673bebfddc841a9cba62486fe038abddc09"
+  },
+  {
+    "sprite": "flowers.webp",
+    "size": [
+      208,
+      136
+    ],
+    "transparentCorners": true,
+    "sha256": "46e52ec8c80414a8b713074355e89b112206753c05d37dffc6d85758abebe601"
+  },
+  {
+    "sprite": "mushrooms.webp",
+    "size": [
+      190,
+      208
+    ],
+    "transparentCorners": true,
+    "sha256": "e7697410870e308b750b6c9ed712bccd0612b3b75a852ca681e270f870e8b114"
+  },
+  {
+    "sprite": "grass.webp",
+    "size": [
+      208,
+      202
+    ],
+    "transparentCorners": true,
+    "sha256": "5ea0bf37c2005e43445eb8de292e3acc2a13a03835797cb8479f3ab43329206d"
+  },
+  {
+    "sprite": "bramble.webp",
+    "size": [
+      208,
+      185
+    ],
+    "transparentCorners": true,
+    "sha256": "3fa064ba6d5bd844dc1f31ef3c38cd5e8945f16fa0fc7b5306c4a2b03759fe43"
+  },
+  {
+    "sprite": "blueberry.webp",
+    "size": [
+      208,
+      165
+    ],
+    "transparentCorners": true,
+    "sha256": "0664309fa024dabf55803ee395f1329e42ec0406443aed3acce191cae2a9abf3"
+  },
+  {
+    "sprite": "fern.webp",
+    "size": [
+      208,
+      176
+    ],
+    "transparentCorners": true,
+    "sha256": "cc2ffb78eac83c44b6103ffc49a2965a6f45dd3d1e04c8707b66698426abd6b8"
+  }
+]

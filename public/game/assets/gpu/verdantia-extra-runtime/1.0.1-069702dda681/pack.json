@@ -1,0 +1,430 @@
+{
+  "schemaVersion": 1,
+  "id": "verdantia-extra-runtime",
+  "version": "1.0.1",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "verdantia-extra-fern",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-fern.webp",
+      "width": 208,
+      "height": 176
+    },
+    {
+      "id": "verdantia-extra-blueberry",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-blueberry.webp",
+      "width": 208,
+      "height": 165
+    },
+    {
+      "id": "verdantia-extra-bramble",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-bramble.webp",
+      "width": 208,
+      "height": 185
+    },
+    {
+      "id": "verdantia-extra-grass",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-grass.webp",
+      "width": 208,
+      "height": 202
+    },
+    {
+      "id": "verdantia-extra-mushrooms",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-mushrooms.webp",
+      "width": 190,
+      "height": 208
+    },
+    {
+      "id": "verdantia-extra-flowers",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-flowers.webp",
+      "width": 208,
+      "height": 136
+    },
+    {
+      "id": "verdantia-extra-burdock",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-burdock.webp",
+      "width": 208,
+      "height": 181
+    },
+    {
+      "id": "verdantia-extra-rose",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-rose.webp",
+      "width": 208,
+      "height": 194
+    },
+    {
+      "id": "verdantia-extra-ancient-oak",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-ancient-oak.webp",
+      "width": 400,
+      "height": 400
+    },
+    {
+      "id": "verdantia-extra-birch",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-birch.webp",
+      "width": 400,
+      "height": 400
+    },
+    {
+      "id": "verdantia-extra-willow",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-willow.webp",
+      "width": 400,
+      "height": 400
+    },
+    {
+      "id": "verdantia-extra-log",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-log.webp",
+      "width": 272,
+      "height": 245
+    },
+    {
+      "id": "verdantia-extra-stump",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-stump.webp",
+      "width": 272,
+      "height": 255
+    },
+    {
+      "id": "verdantia-extra-roots",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-roots.webp",
+      "width": 272,
+      "height": 255
+    },
+    {
+      "id": "verdantia-extra-hill",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-hill.webp",
+      "width": 528,
+      "height": 284
+    },
+    {
+      "id": "verdantia-extra-cliff",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-cliff.webp",
+      "width": 528,
+      "height": 464
+    },
+    {
+      "id": "verdantia-extra-arch",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-arch.webp",
+      "width": 528,
+      "height": 409
+    },
+    {
+      "id": "verdantia-extra-spring",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-spring.webp",
+      "width": 528,
+      "height": 429
+    },
+    {
+      "id": "verdantia-extra-ridge",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-ridge.webp",
+      "width": 528,
+      "height": 291
+    },
+    {
+      "id": "verdantia-extra-cave",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-cave.webp",
+      "width": 528,
+      "height": 408
+    },
+    {
+      "id": "verdantia-extra-bridge",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-bridge.webp",
+      "width": 528,
+      "height": 390
+    },
+    {
+      "id": "verdantia-extra-sign",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-sign.webp",
+      "width": 272,
+      "height": 243
+    },
+    {
+      "id": "verdantia-extra-cart",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-cart.webp",
+      "width": 272,
+      "height": 211
+    },
+    {
+      "id": "verdantia-extra-shrine",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-shrine.webp",
+      "width": 272,
+      "height": 245
+    },
+    {
+      "id": "verdantia-extra-camp",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-camp.webp",
+      "width": 272,
+      "height": 263
+    },
+    {
+      "id": "verdantia-extra-chest",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "/game/assets/gpu/verdantia-extra-runtime/1.0.1-069702dda681/verdantia-extra-chest.webp",
+      "width": 272,
+      "height": 229
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "object.verdantia-extra.fern": {
+      "asset": "verdantia-extra-fern",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.blueberry": {
+      "asset": "verdantia-extra-blueberry",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.bramble": {
+      "asset": "verdantia-extra-bramble",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.grass": {
+      "asset": "verdantia-extra-grass",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.mushrooms": {
+      "asset": "verdantia-extra-mushrooms",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.flowers": {
+      "asset": "verdantia-extra-flowers",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.burdock": {
+      "asset": "verdantia-extra-burdock",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.rose": {
+      "asset": "verdantia-extra-rose",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.ancient-oak": {
+      "asset": "verdantia-extra-ancient-oak",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.birch": {
+      "asset": "verdantia-extra-birch",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.willow": {
+      "asset": "verdantia-extra-willow",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.log": {
+      "asset": "verdantia-extra-log",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.stump": {
+      "asset": "verdantia-extra-stump",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.roots": {
+      "asset": "verdantia-extra-roots",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.hill": {
+      "asset": "verdantia-extra-hill",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.cliff": {
+      "asset": "verdantia-extra-cliff",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.arch": {
+      "asset": "verdantia-extra-arch",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.spring": {
+      "asset": "verdantia-extra-spring",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.ridge": {
+      "asset": "verdantia-extra-ridge",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.cave": {
+      "asset": "verdantia-extra-cave",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.bridge": {
+      "asset": "verdantia-extra-bridge",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.sign": {
+      "asset": "verdantia-extra-sign",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.cart": {
+      "asset": "verdantia-extra-cart",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.shrine": {
+      "asset": "verdantia-extra-shrine",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.camp": {
+      "asset": "verdantia-extra-camp",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-extra.chest": {
+      "asset": "verdantia-extra-chest",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    }
+  },
+  "effects": {}
+}

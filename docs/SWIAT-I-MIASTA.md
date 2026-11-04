@@ -13,8 +13,11 @@ są współdzielonymi sprite'ami, więc nie urywają się na granicach chunków.
 Zmiana obowiązuje poza istniejącymi bezpiecznymi osadami. Ich granice, budynki
 i dotychczasowe wiązania grafik pozostają zachowane. Kontur lądu, nawigacja,
 kolizje, spawny, statystyki i zapis nie są regenerowane ani migrowane.
-Wcześniejsze rekwizyty obozów, kłody, pniaki, trzciny, grzyby i kryształy
-zasobów nadal używają dotychczasowych grafik — ta dostawa ich nie zastępuje.
+Uzupełnienie `verdantia-extra-runtime` dodaje 26 przygotowanych sprite’ów: nowe drzewa,
+podszyt, kłody, pniaki, korzenie, formy terenu, obozy i rekwizyty eksploracji.
+Zastępują odpowiednie grafiki istniejących obiektów poza miastami. Część starszych
+zasobów, m.in. kryształy KI i domy wiosek, pozostaje kanoniczna. Nowe obrazy nie
+dodają usług, nagród, wejść ani nowych przeszkód fizycznych.
 [Źródła i import](GPU-I-ZASOBY.md#verdantia--materiały-kontynentu-04112026),
 [lokalne zrzuty i weryfikacja](zmiany/2026-11-04/ZMIANY.md#verdantia--oprawa-kontynentu-na-osobnej-gałęzi).
 

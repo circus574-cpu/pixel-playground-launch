@@ -1,11 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { makeCatalog, previewPacks } from "../game/assets/catalog";
+import { catalog, makeCatalog, previewPacks } from "../game/assets/catalog";
 import { PackSchema } from "../game/assets/schema";
 import imported from "../game/assets/imported.json";
 import {
   continentObjects,
   continentRoadside,
   roadDistance,
+  extraSceneryName,
 } from "../game/world/generated/verdantiaContinent";
 import type { ArtObject } from "../game/world/generated/renderSuperior";
 
@@ -22,6 +23,27 @@ const tree: ArtObject = {
   solid: false,
 };
 describe("Verdantia continent presentation safety", () => {
+  it("retains all three new tree variants after decorative canopy thinning", () => {
+    const key = "object.verdantia-extra.fern",
+      previous = catalog.renderBindings[key];
+    catalog.renderBindings[key] = { asset: "test-preview-marker", fit: "contain" };
+    try {
+      const items = Array.from({ length: 400 }, (_, i) => ({
+        ...tree,
+        id: "oak-" + i,
+        x: 1000 + (i % 20) * 73,
+        y: 2000 + Math.floor(i / 20) * 89,
+      }));
+      const mapped = continentObjects(items, () => true);
+      const names = new Set(mapped.map((o) => o.binding));
+      for (const name of ["ancient-oak", "birch", "willow"])
+        expect(names.has("object.verdantia-extra." + name)).toBe(true);
+      expect(mapped.length).toBeLessThan(items.length);
+    } finally {
+      if (previous) catalog.renderBindings[key] = previous;
+      else delete catalog.renderBindings[key];
+    }
+  });
   it("is opt-in and leaves the accepted city bindings intact", () => {
     expect(previewPacks("")).not.toContain("verdantia-continent-v2");
     expect(previewPacks("?ki-verdant-continent=1")).toContain("verdantia-continent-v2");
@@ -29,6 +51,11 @@ describe("Verdantia continent presentation safety", () => {
     const reviewPack = packs.find((p) => p.id === "verdantia-continent-v2")!;
     expect(reviewPack.assets.reduce((sum, a) => sum + a.width! * a.height! * 4, 0)).toBeLessThan(
       20 * 1024 * 1024,
+    );
+    const extra = packs.find((p) => p.id === "verdantia-extra-runtime")!;
+    expect(extra.assets).toHaveLength(26);
+    expect(extra.assets.reduce((sum, a) => sum + a.width! * a.height! * 4, 0)).toBeLessThan(
+      16 * 1024 * 1024,
     );
     const original = makeCatalog(packs, previewPacks(""));
     const review = makeCatalog(packs, previewPacks("?ki-verdant-continent=1"));
@@ -104,5 +131,25 @@ describe("Verdantia continent presentation safety", () => {
         },
       ),
     ).toBe(20);
+  });
+  it("matches replacement art to existing world semantics without touching source geometry", () => {
+    const specimens = [
+      ["object.ki-v2-objects.verdant-stump-0", "stump"],
+      ["object.ki-v2-objects.verdant-mushrooms-1", "mushrooms"],
+      ["object.ki-v2-camps.verdant-tent", "camp"],
+      ["object.ki-v2-camps.verdant-crates", "chest"],
+      ["object.biome-mountain.cliff-outcrop", "cliff"],
+      ["object.biome-mountain.rock-with-a-small-waterfall", "spring"],
+      ["object.ki-v2-landmarks.verdant-bridge", "bridge"],
+    ];
+    for (const [binding, expected] of specimens) {
+      const item = { ...tree, binding: binding! };
+      const before = structuredClone(item);
+      expect(extraSceneryName(item)).toBe(expected);
+      expect(item).toEqual(before);
+    }
+    expect(
+      extraSceneryName({ ...tree, binding: "object.ki-v2-buildings.verdant-house" }),
+    ).toBeUndefined();
   });
 });

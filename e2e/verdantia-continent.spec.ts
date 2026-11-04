@@ -23,6 +23,7 @@ test("Verdantia continent: actual city, wilderness streaming, touch, reload and 
     canvas = stage.locator("canvas");
   await expect(stage).toHaveAttribute("data-player-x", /^\d/);
   await expect(canvas).toHaveAttribute("data-verdantia-continent", "true");
+  await expect(canvas).toHaveAttribute("data-verdantia-extra", "true");
   await expect(canvas).toHaveAttribute("data-superior-pending", "0");
   expect(JSON.parse((await stage.getAttribute("data-metrics"))!).renderer).toBe(
     info.project.name === "software-webgl" ? "WebGL" : "Canvas",
@@ -52,12 +53,14 @@ test("Verdantia continent: actual city, wilderness streaming, touch, reload and 
   await walk(49296, 33700);
   await walk(49424, 33000);
   await page.screenshot({ path: info.outputPath("verdantia-forest-road.png") });
-  // Ordinary, valid local QA saves place the hero on authored roads in the other biomes.
+  // Valid local QA saves place the hero on navigable ground in biomes and by existing landmarks.
   // No runtime entities, colliders or spawn slots are replaced by the fixture.
   const scenes = [
     { name: "deep-forest", x: 45328, y: 35760 },
     { name: "highlands", x: 49232, y: 28688 },
     { name: "wetland", x: 43344, y: 40144 },
+    { name: "camp", x: 52516, y: 32904 },
+    { name: "spring", x: 47716, y: 39804 },
   ];
   for (const scene of info.project.name === "software-webgl" ? [] : scenes) {
     await patchActiveCharacter(

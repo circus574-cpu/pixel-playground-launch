@@ -695,3 +695,10 @@ Na gałęzi `art/pyra-materials-2026-11-04` zachowano [10 plansz PNG, manifest z
 ## Verdantia — dodatkowe koncepcje 04.11.2026
 
 [Archiwum 4 plansz i promptów](../art/production/verdantia-extra-concepts-2026-11-04/) zawiera 26 nowych wzorów: 8 roślin podszytu, 6 drzew i elementów drewna, 6 form terenu oraz 6 rekwizytów eksploracji. Gałąź `art/verdantia-extra-2026-11-04`. To materiały koncepcyjne; przed importem wymagają wydzielenia, oczyszczenia tła/poświat i oceny skali oraz kotwic.
+
+
+## Verdantia — przygotowane dodatkowe grafiki runtime
+
+Pakiet [verdantia-extra-runtime](../art/production/verdantia-extra-runtime/) zawiera 26 osobnych sprite’ów wyciętych z przygotowanych przez `image_gen` wersji czterech plansz. Pierwotne koncepcje są zachowane. Wycięcia mają przezroczyste tło, puste marginesy i rozmiary 192/256/384/512 px; pełny pakiet ma 10,37 MiB rozkodowanych pikseli i około 3,18 MiB plików. Włącza go istniejąca opcja `ki-verdant-continent=1`, razem z podłożami i drogami. Przypisania mają osobne klucze `object.verdantia-extra.*`; miasta i statystyki nie są nadpisywane.
+
+Odtworzenie: `node art/production/verdantia-extra-runtime/prepare.mjs`, następnie `npm run assets:import -- art/production/verdantia-extra-runtime/manifest.json --install` (przy ponownej instalacji dodać `--replace`). Pochodzenie, źródła i SHA-256 są w tym samym pakiecie. Warianty drzew i podszytu są deterministyczne, a fizyczne footprinty, kotwice i położenia pozostają źródłowe.
