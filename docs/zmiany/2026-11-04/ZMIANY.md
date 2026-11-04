@@ -87,3 +87,11 @@
   przyroda, budynki, wnętrza czterech ras) i renderuje je SDXL z odpowiednim trybem (bezszwowy kafel, sprite z wycinaniem
   tła, pokój). Powód: płatne API jest drogie. Sprawdzone tylko `--dry-run` (parser: 256 promptów, tryby zgodne z liczbą
   w plikach); renderowanie czeka na pod uruchomiony przez właściciela, więc jakości wyników jeszcze nie znam.
+
+## Wnętrza budynków Pyry (zaakceptowane próbki)
+
+- Sześć wnętrz Pyry (sala, sklep, gospoda, kuźnia, skarbiec, trening) wygenerowanych `gpt-image-1-mini` (jakość medium) z promptów
+  v2 zapisanych w `art/pipeline/prompts/world/WNETRZA-v2-*.md`. Surowe PNG, prompty i SHA-256 w `art/production/interiors/pyra/`
+  (`manifest.json`). Właściciel zaakceptował je 04.11.2026.
+- Obrazy są surowe: 1536×1024 (kuźnia 1024×1536), jeszcze nie przycięte do proporcji pokoju w grze (960:760, kuźnia 540:1100)
+  i nie wdrożone do klienta. Prompty v2 zastępują wersję v1 (`WNETRZA-*` ze starego kadru izometrycznego).
