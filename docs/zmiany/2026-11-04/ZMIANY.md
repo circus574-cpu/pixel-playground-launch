@@ -309,3 +309,84 @@ PASS; [20 testów w 4 plikach](qa/pyra-continent/unit.txt) PASS;
 [kompilacja produkcyjna](qa/pyra-continent/build.txt) PASS.
 [Zestawienie kontroli](qa/pyra-continent/validation.json).
 [Kontrola dokumentacji](qa/pyra-continent/docs.txt): PASS.
+
+## Aetheria — nowa oprawa kontynentu
+
+Zlecenie właściciela po Pyrze: przygotować Aetherię. Gałąź
+`preview/aetheria-continent-v2` wychodzi z `c00193d7`, zachowując podglądy
+Pyry i Verdantii. Podgląd: `/scripts/playtest.html?ki-world-v2=1&ki-aetheria-continent=1`,
+rasa **Mędrcy**. Na zwykłej stronie gry dopisać `ki-aetheria-continent=1`.
+To rzeczywisty renderer Superior, bez pełnej ilustracji jako tła mapy.
+
+- [Pakiet aetheria-continent-v2@1.0.0](../../../art/production/aetheria-continent-v2/)
+  zawiera 36 osobnych obrazów: 14 powierzchni i 22 obiekty. Runtime:
+  5 331 248 bajtów, 16,21 MiB rozkodowanych pikseli;
+  [raport importera](qa/aetheria-continent/import.txt).
+- Pobrano i zweryfikowano SHA-256 wszystkich 20 źródłowych obrazów Aetherii
+  z gałęzi `art/world-verdantia-v2`. Zachowano ich prompty i manifest.
+  Dziesięć istniejących powierzchni wykorzystano w grze. Cztery podłoża oraz
+  22 obiekty przygotowano na czterech nowych planszach przez `image_gen`.
+  Trzy plansze obiektów oczyszczono dodatkową edycją tła i marginesów.
+  Oryginały generacji, wersje oczyszczone, komplet użytych promptów i sumy
+  są w `source/`, `provenance.json` oraz `sources.sha256.json` pakietu.
+- Tarasy źródeł i święty gaj dostają nowe trawy, runo, sakury, miłorzęby,
+  cyprysy, bambusy i kwitnące rośliny. Źródłowe zimne biomy dostają śnieg,
+  lód, zaśnieżone sosny, góry i lodowe formacje. Odczyt klimatu korzysta
+  ze zweryfikowanych komórek źródłowych chunków, również przy rozgrzewaniu
+  streamingu. Nie zmieniono zasięgu ani nazw biomów.
+- Pięć nawierzchni szlaków zachowuje źródłowe linie i szerokości. Tekstura
+  nurtu trafia wyłącznie na istniejącą wodę przy lądzie. Wycięto środkowe
+  pasy dróg, aby nie domalować strumienia na przechodnim szlaku.
+- Skały, klify, wodospady, obozy, kapliczki, skrzynie, drogowskazy, martwe
+  drewno i wejścia otrzymują nowe sprite’y. Dwa wejścia tranzytowe mają łuki,
+  komnaty — jaskinię, labirynt — ruinę. To wygląd istniejących wejść,
+  bez nowych kierunków podróży, nagród czy funkcji skrzyń/kapliczek.
+  [Audyt przypisań](qa/aetheria-continent/mapping-audit.json) potwierdza użycie
+  wszystkich 22 nowych wiązań obiektów.
+- Pierwszy podgląd pokazał zbyt gęste duże pniaki i kłody. Przerzedzono
+  wyłącznie dekoracje bez kolizji/footprintu; także drzewa, podszyt i lodowe
+  odłamki mają kontrolowaną gęstość. Lodowe formacje otrzymują zróżnicowaną
+  skalę rysunku i odbicie, bez zmiany fizyki. Stała kolejność masek biomów
+  i naddatek jednej jednostki świata wokół obrazu podłoża na dzikich ziemiach ograniczają
+  szczeliny przy niecałkowitym powiększeniu kamery. Nie powiększa to lądu.
+- [Geometria i dane świata](qa/aetheria-continent/geometry-preserved.json)
+  pozostają bajtowo zgodne z bazą: `world`, `terrain`, `navigation`, `collision`,
+  `spawns`. Nie zmieniono statystyk, zapisu, łupu, usług osad ani kanonicznych
+  kryształów KI. Gotowe Sanktuarium zachowuje swoje zasoby. Pozostałe
+  kontynenty mają osobne opcje podglądu; domyślna oprawa nie jest nadpisana.
+
+[Kontrola alfa](qa/aetheria-continent/alpha-check.json),
+[przegląd osobnych zasobów](qa/aetheria-continent/runtime-contact.jpg).
+Zrzuty z uruchomionej gry:
+[tarasy](qa/aetheria-continent/canvas/aetheria-terraces.png),
+[gaj](qa/aetheria-continent/canvas/aetheria-grove.png),
+[szczyty](qa/aetheria-continent/canvas/aetheria-peaks.png),
+[lodowce](qa/aetheria-continent/canvas/aetheria-glaciers.png),
+[wyjście z miasta](qa/aetheria-continent/canvas/aetheria-wilderness.png),
+[zachowana stolica](qa/aetheria-continent/canvas/aetheria-city.png),
+[telefon WebGL](qa/aetheria-continent/webgl/aetheria-mobile-pve.png).
+Cztery sceny dalszych biomów wykorzystują prawidłowy lokalny zapis testowy
+z pozycją sprawdzoną przez nawigację; [współrzędne i udział biomu w otoczeniu](qa/aetheria-continent/scenes.json).
+Ruch przy mieście i walka są rzeczywiste. Fizyczny telefon, sprzętowy GPU
+oraz odbiór estetyczny całego kontynentu pozostają otwarte.
+Nie scalano do `main` i nie publikowano na domenach.
+
+Końcowe kontrole: [pełny TypeScript app/e2e/tools](qa/aetheria-continent/typecheck.txt)
+PASS; [25 testów w 5 plikach](qa/aetheria-continent/unit.txt) PASS;
+[walidacja wszystkich zasobów](qa/aetheria-continent/assets.txt) PASS;
+[lint](qa/aetheria-continent/lint.txt) 0 błędów / 15 wcześniejszych ostrzeżeń;
+[kompilacja produkcyjna](qa/aetheria-continent/build.txt) PASS.
+Skrypt przygotowania odtworzył identycznie wszystkie 36 obrazów, manifest i sumy
+źródeł — [raport SHA-256](qa/aetheria-continent/reproducibility.json).
+
+Końcowa gra: **4/4 PASS** — Aetheria na Canvas 1600×1000 i programowym WebGL
+852×393 oraz regresja Pyry i Verdantii na Canvas. Sprawdzono rzeczywisty ruch,
+streaming, zapis i powrót, zadawanie obrażeń potworowi, widok telefonu i limit
+12 chunków. W końcowych przebiegach nie było błędów strony ani brakujących
+zasobów. [Zestawienie](qa/aetheria-continent/browser-final-summary.json),
+[Canvas](qa/aetheria-continent/browser-canvas-final.txt),
+[WebGL](qa/aetheria-continent/browser-webgl-final.txt),
+[rejestr kontroli](qa/aetheria-continent/validation.json).
+Telemetria jest zachowana; programowy WebGL nie stanowi odbioru płynności
+na fizycznym telefonie.
+[Kontrola dokumentacji](qa/aetheria-continent/docs.txt): PASS.

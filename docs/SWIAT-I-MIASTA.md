@@ -1,4 +1,33 @@
 # KI Legends — świat, kontynenty i miasta
+
+## Aetheria — podgląd oprawy kontynentu 04.11.2026
+
+Gałąź `preview/aetheria-continent-v2`, opcja `ki-aetheria-continent=1` w Superior v2,
+rasa **Mędrcy**. Zmiana jest warstwą prezentacji poza istniejącymi osadami.
+Zachowuje gotowe Sanktuarium Tysiąca Źródeł, jego budynki, NPC i usługi.
+
+Cztery źródłowe biomy pozostają w swoich miejscach: tarasy źródeł, święty gaj,
+lodowe szczyty i lodowce. Nowe łąki i runo, pięć nawierzchni dróg, jasny kamień,
+śnieg, lód, piasek oraz woda używają istniejących masek. Tekstura nurtu trafia
+wyłącznie na istniejącą wodę przy brzegu — nie tworzy nowej rzeki ani przejścia.
+Nawierzchnie zależą od biomu, kategorii szlaku i sąsiedztwa wody.
+
+Sakury, miłorzęby, cyprysy i zaśnieżone sosny zastępują odpowiednie dekoracje.
+Zimne biomy nie otrzymują nowych kwitnących krzewów ani bambusów. Mniejsze
+rośliny, martwe drewno i lodowe formacje są przerzedzane wyłącznie wtedy, gdy
+nie mają kolizji. Każda fizyczna przeszkoda zachowuje tożsamość, położenie,
+footprint oraz metadane. Lodowe odłamki mają deterministycznie zróżnicowaną
+skalę rysunku i odbicie; fizyka nie korzysta z tych zmian wyglądu.
+
+Kapliczki, obozy, skrzynie, drogowskazy, skały i wejścia dostają osobne sprite’y.
+Dwa istniejące wejścia tranzytowe wyglądają jak naturalne łuki, komnaty jak jaskinia,
+a labirynt jak ruina. Nie tworzy to nowych podziemi, nagród ani interakcji.
+Kryształy KI i kanoniczne budynki/większe miejsca zachowują wcześniejsze grafiki.
+Nie dodano mechaniki mrozu, pływania ani nowej animowanej fauny.
+
+[Źródła, audyty i zrzuty z gry](zmiany/2026-11-04/ZMIANY.md#aetheria--nowa-oprawa-kontynentu).
+To podgląd na osobnej gałęzi, bez scalenia do `main` lub publikacji domen.
+
 ## Pyra — podgląd oprawy kontynentu 04.11.2026
 
 Gałąź `preview/pyra-continent-v2`, opcja `ki-pyra-continent=1` w Superior v2.
