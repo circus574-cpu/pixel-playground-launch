@@ -1,6 +1,14 @@
 # KI Legends — świat, kontynenty i miasta
 
-## Malowana Verdantia — podgląd 03.11.2026
+## Bieżący stan — 04.11.2026
+
+**Superior jest jedynym światem aktywnej gry.** Gra wykonuje PvE na serwerze VPS/PostgreSQL; edycje świata publikowane w panelu admina trafiają do `world_admin.revisions` i są nakładane live (#79). W `main` po #99 malowane Aetheria, Nexus-9, Pyra oraz budynki Verdantii są domyślne; stara oprawa jest dostępna przez `?ki-painted=0`. NPC: alchemik, karczmarz, trener, kustosz depozytu i strażnik bossa mają wdrożone interakcje. Poprawiono spawny w strefach bezpiecznych i etykiety budynków/postaci.
+
+**Nie na `main`:** PR #80 z 4 grywalnymi labiryntami; nie nazywać ich wydanymi. Starsze notatki o świecie v1, opt-in malowanej Verdantii, lokalnym PvE i braku scalenia pochodzą z 23–03.11 i nie opisują już produkcyjnego stanu. Niezależnie zweryfikować geometrię i interakcje na fizycznym telefonie.
+
+## Historyczny etap prób oprawy — 03.11.2026
+
+### Pierwotny podgląd Verdantii — zarchiwizowany (03.11)
 
 Gałąź `preview/verdantia-painted-terrain`, flaga `ki-verdant-painted=1`:
 ostrzejsze podłoże, wspólna maska dróg bez równych obrysów, łagodne poszarpane
@@ -16,7 +24,7 @@ mapę Kamiennego Sadu. Styl nie zastępuje wszystkich zasobów świata.
 
 
 
-## Superior — jedyny świat gry
+## Historyczny opis przejścia na Superior — 23.10.2026
 
 Decyzja właściciela 24.10.2026: Superior zastępuje cztery stare mapy gry.
 Na `feature/superior-runtime-20261023` zwykłe wejście uruchamia wygenerowany

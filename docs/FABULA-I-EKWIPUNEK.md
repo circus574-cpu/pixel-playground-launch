@@ -31,7 +31,7 @@ To księga dla projektanta, scenarzysty i osoby wdrażającej zawartość. Rozdz
 
 Kanon: Planetarni/Verdantia, Mędrcy/Aetheria, Androidy/Nexus-9, Legendy/Pyra. Nie zastępujemy go nazwami usuniętymi z aneksu. Planeta Superior zachowuje geometrię czterech głównych miast oddalonych po powierzchni o 80 000 jednostek. Sześć wysp questowych wykorzystujemy fabularnie, bez przenoszenia ich na atlasie. Cztery miasta na kontynent to kierunek rozwoju; nowe osady poniżej są propozycjami nazw i ról, a nie istniejącymi lokacjami.
 
-Gra na dziś ma lokalne sloty postaci. Instancje, reputacje, globalne wydarzenia i wspólne decyzje świata nie są tu przedstawiane jako istniejący multiplayer. Cała kampania musi dać się ukończyć solo. Ewentualna kooperacja otrzyma osobną architekturę autorytatywnego serwera.
+Stan z 04.11.2026: postacie i PvE mają sesję serwera na VPS oraz trwały zapis PostgreSQL; brak kompletnego MMO, wspólnej walki, PvP i drużyn. Ten projekt kampanii pozostaje planem fabularnym, a nie dowodem pełnego wdrożenia questów. Kampania musi dać się ukończyć solo; ewentualna kooperacja wymaga osobnej walidacji.
 
 ## Filary przygody
 

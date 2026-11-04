@@ -1,5 +1,7 @@
 # KI Legends — rasy i postacie
 
+**Stan 04.11.2026 (`main@1690fb6e`):** cztery kanoniczne rasy pozostają bez zmian, a aktywne postacie mają konta i zapis na VPS/PostgreSQL. W `main` działają serwerowe PvE, rangi węzłów i brak limitu 20; **pełny program rozwoju ras nie jest ukończony**. PR #90 (Draft) pozostaje niescalony, podobnie jak audyt #87. Wersje bohaterów/animacji i dawne odwołania do lokalnych slotów poniżej są checkpointami historycznymi.
+
 Stan bieżący: 29.10.2026, `main@5cea48da`. Integracja nie zmienia zatwierdzonych tożsamości, nazw kontynentów ani obecnych paczek bohaterów HD. Rozwój ras i nowe parametry treningu są w main, lecz dalsze rozdziały i próby pozostają nieukończone. Liczby, wyposażenie i zasady wzrostu: [rozwój i walka](ROZWOJ-I-WALKA.md). Historyczne checkpointy grafik poniżej zachowują własne daty i wersje.
 
 ## Cztery tożsamości

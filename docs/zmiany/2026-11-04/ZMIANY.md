@@ -62,3 +62,46 @@
   układ użytkownika się nie przesuwa. Wirtualny joystick jest rysowany przez grę i ma własną skalę z edytora.
 - Specyfikacje e2e startują ze skalą 100 % (`fullScaleHud`), bo mierzą cele dotyku 44 px; przy 72 % przyciski mają
   ok. 35 px, co jest świadomym kompromisem na prośbę właściciela (można podnieść suwakiem).
+
+## Audyt spójności repo i dokumentacji — 04.11.2026 (`main@1690fb6e`)
+
+Przegląd złączonych PR-ów, otwartych gałęzi, plików serwera, migracji oraz aktywnych instrukcji agentów. Ta partia zmienia wyłącznie dokumentację na gałęzi `docs/ki-legends-vps-postgresql-audit-20261104`; **nie wdraża gry, nie modyfikuje bazy ani nie scala do `main`**.
+
+### Serwer i PostgreSQL — stan potwierdzony z kodu i historii
+
+- PR #60 (29.10): na Aruba działa prywatny PostgreSQL 17 `ki_multiplayer`, bez publicznego portu; notatka PR mówi wprost o **braku VPN** i wewnętrznej sieci Docker. `VPS` to serwer, `VPN` to potencjalny tunel — nie utożsamiać.
+- PR #69 (01.11): `src/server/characters/{repository,onlineSession,socket,superiorSimulation}.ts`, `src/game/online/client.ts`; serwer jest właścicielem postaci i sesji PvE. Bez PostgreSQL/serwera nie ma awaryjnego przejścia na zapis lokalny. Oddzielne instancje potworów PvE — nie MMO.
+- PR #76–77 (02.11): `deploy/multiplayer/init/005-accounts.sql`, `src/server/accounts/`, `/ws/auth/*` i `/konto`; konta, e-mail aktywacyjny, sesje i role na VPS; obsługa migracji z poprzedniego Auth tylko jako legacy.
+- PR #79 (02.11): `deploy/multiplayer/init/006-world-overrides.sql`, `src/server/world/overrides.ts`; wersjonowane edycje świata z `/admin` do PostgreSQL i nakładanie live.
+- PR #84/#85/#86/#89 (03.11): naprawy niespójnych checkpointów przy edycji GM, okresowego zapisu co 2 s i numeracji ramek; panel admina odczytuje PostgreSQL zamiast nieużywanych tabel Supabase.
+- Konfiguracja serwera: jeden `Superior`, port 7420, 20 Hz, limit 50 (`src/server/managedServer.ts`, `deploy/multiplayer/compose.yml`); limit konfiguracyjny nie jest wynikiem benchmarku 50 graczy.
+
+### Najnowsze zmiany `main` 03–04.11
+
+| PR / commit | Stan na bazowym `main` | Zakres |
+| --- | --- | --- |
+| #97 `04fa4e9f` | scalony | poziom i punkty ponad 20, rangi umiejętności, korekty HUD/mapy |
+| #99 `5cf630cc` | scalony | malowane miasta domyślnie, POPRAWKI, profesje NPC i etykiety budynków/postaci |
+| #100 `8ecffd19` | scalony | HUD telefonu, kontrast postaci i walki |
+| #101 `1690fb6e` | scalony, punkt odniesienia audytu | skala UI 50–120%, domyślnie 72% mobile |
+
+### Gałęzie/PR otwarte — nie traktować jako funkcji aktywnej gry
+
+| PR | Gałąź | Co wnosi lub czego nie kończy |
+| --- | --- | --- |
+| #90 (Draft) | `feature/complete-character-development` | rozwój ras: 24/48 prób i 72/144 stopni w gałęzi, niezamknięty odbiór |
+| #87 (Draft) | `audit/progression-review-20261103` | raport błędów i braków rozwoju, nie naprawa produkcji |
+| #80 | `feat/labyrinths` | 4 labirynty; nie scalono |
+| #102 | `fix/quest-idempotency` | test powtórzonych zdarzeń questów; otwarty |
+| #71 (Draft) | `ops/online-cutover-20261101` | narzędzia i dowody migracji; nie zakończono wszystkich kontroli live i restartu |
+| #66 | `feature/prompt-production-board` | warsztat promptów na staging; brak scalenia |
+
+### Usunięte nieaktualne instrukcje i korekty pojęć
+
+- Zastąpiono aktywne sformułowania: „gra lokalnym PvE”, „serwer nie istnieje”, „PostgreSQL tylko pod przyszły multiplayer”, „Supabase to aktywne konta i postacie”, „trzeba zakończyć migrację Aruba”, „otwarte tylko PR #4/#6/#11”, „cztery przedmioty to cały ekwipunek”.
+- Aktualizacja: `AGENTS.md`, `README.md`, `ARUBA_STAGING.md`, dziewięć podręczników tematycznych oraz bieżący dziennik. Datuj stare dowody i zachowuj źródłowe grafiki/PDF, archiwalne dzienniki i migracje bez przerabiania historii.
+- **Znane ryzyko:** plik `.env` występuje jako śledzony w repozytorium. W tym audycie nie odczytywano jego zawartości; potrzebny bezpieczny przegląd pod kątem sekretów oraz ewentualna rotacja. Konfiguracja `docker-compose.yml` nadal zawiera obowiązkowe wartości Supabase — sprawdzić rzeczywiste Coolify przed refaktoryzacją.
+
+### Granice weryfikacji
+
+Sprawdzono GitHub `main`, metadane PR, katalogi `docs/`, `src/server/`, `deploy/multiplayer/` i wybrane pliki kodu; nie pobierano pełnych binariów gry (repo ma duży katalog zasobów). Nie uruchamiano tu TypeScript/Vitest/Playwright, SQL na produkcji, niezależnego restore ani fizycznego telefonu. Nie przypisywać temu audytowi nowych wyników PASS. PR #101 deklarował 1132 lokalne testy, a ich wynik dotyczy jego SHA. To jest synchronizacja dokumentacji; pełna kontrola runtime jest zadaniem osobnym.

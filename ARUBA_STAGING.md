@@ -1,46 +1,21 @@
-# KI Legends — status migracji VPS Aruba
+# KI Legends — Aruba/VPS (stan i archiwum migracji)
 
-Status 01.11.2026: **migracja zakończona — produkcja działa na VPS Aruba (Coolify)**.
-Wdrożenie: `.github/workflows/aruba-production.yml` po pushu do `main`, po zielonym
-jobie `verify`. Poniższa treść to historyczny zapis przygotowań z gałęzi
-`migration/aruba-staging-2026-10-28`.
+**Stan obowiązujący od 01–04.11.2026: migracja hostingu na VPS Aruba/Coolify została wykonana.** To nie jest już lista czynności do przeprowadzenia. Produkcyjny serwer gry Node, prywatny PostgreSQL 17 oraz serwerowy PvE i konta graczy na VPS zostały wprowadzone do kodu/scalone (`#60`, `#69`, `#76`, `#77`, `#79`).
 
-## Dostępne
-- Kod gry zsynchronizowany na GitHub (main: `0b5ae9486914962626d8b7bbe5ce09fccbeb35ab`).
-- Wygenerowano pełny pakiet `KI-LEGENDS-VPS-pakiet.zip` oraz bundle historii 89 gałęzi, ale nie ma ich jeszcze w tym repo ani na Aruba.
-- Pakiet zawiera Dockerfile z osobnymi targetami `app` (Node.js 22) i `web` (Caddy), docker-compose, lokalne okładki, multimedia oraz skrypty backupu i testów.
-- W GitHub `.gitattributes` stosuje Git LFS dla niektórych zasobów źródłowych 3D — sprawdzić pobranie pełnych obiektów LFS przed budowaniem.
+**Aktualne źródła:** [AGENTS.md](AGENTS.md), [indeks](docs/INDEX.md), [architektura](docs/ARCHITEKTURA-I-TESTY.md), [dzienniki 01–04.11](docs/zmiany/2026-11-04/ZMIANY.md). Stary eksport ZIP, kontenery staging, hasła dawnego Supabase i pierwotny brak dostępu do Coolify nie są już aktywnymi blokerami migracji projektu.
 
-## Bezwzględnie przed wdrożeniem
-1. Dostarczyć i zweryfikować oryginalny ZIP (sumy SHA-256 i manifest); bez niego nie odtwarzać ręcznie niekompletnego pakietu.
-2. Oddzielić dane kont i sekretne klucze Supabase; nie wystawiać `SUPABASE_SERVICE_ROLE_KEY` w kodzie przeglądarki/GitHub.
-3. Zabezpieczyć konta i zapisy graczy; sprawdzić kompletność przywracania do nowego środowiska.
-4. Testować na tymczasowej domenie, bez zmiany `kilegends.pl`.
-5. Przed cutoverem przejść testy: /, /mapa, /konto, /admin, /test; rozgrywka mobilna, audio Range/206 i zasoby.
+## Bieżący układ
+- VPS Aruba + Coolify obsługuje aplikację i usługę `Superior` (Node, domyślnie `7420`, 20 Hz, limit konfiguracyjny 50). Przekazywanie `/ws/*` i serwerową sesję PvE należy sprawdzać według aktualnego release.
+- PostgreSQL 17 przechowuje postacie/operacje/sesje, konta oraz rewizje świata; dane bazy są prywatne, bez publicznej ekspozycji portu PostgreSQL.
+- Konta i tokeny są na VPS (`/ws/auth/*`); zapis postaci i symulacja PvE są na serwerze (`/ws/online`). Dawny Supabase pozostaje w częściach kodu i ścieżce migracji kont/legacy, ale nie jest głównym źródłem aktywnych postaci.
+- W repo istnieją `docker-compose.yml`, `docker-compose.online.yml`, `deploy/multiplayer/` i `.github/workflows/aruba-production.yml`. Ich deklaracje nie zastępują odczytu bieżącego Coolify i kontroli wydania; nie przeprowadzaj ponownego cutoveru ani resetu bazy na podstawie starej instrukcji.
+- **VPN nie jest potwierdzony:** PR #60 opisuje prywatną sieć Docker i brak skonfigurowanego tunelu. Słowo VPS nie oznacza VPN.
 
-Uwaga: gra jest lokalnym PvE, nie ma jeszcze działającego serwera multiplayer.
+## Historyczne checkpointy (nieaktywne)
+- **28–29.10:** przygotowywano staging, eksporty ZIP, Dockerfile i warstwy overlay; wówczas wdrożenie/komplet danych bywały niepotwierdzone.
+- **29.10 (#60):** utworzono prywatną bazę PostgreSQL pod przyszłą integrację.
+- **01.11 (#69):** gra przeszła na obowiązkową sesję serwerową PvE i trwałe postacie. Pozostały osobne kontrole operacyjne po cutoverze, udokumentowane w Draft #71.
+- **02.11 (#76, #77, #79):** przeniesiono konta i panel na VPS oraz uruchomiono edycję świata z rewizjami PostgreSQL.
+- **03–04.11:** naprawiono serwerowy zapis/odświeżanie pozycji, panel, NPC, grafikę i HUD; szczegóły w dziennikach.
 
-## Bloker
-- Oryginalny pakiet z dużymi zasobami istnieje w pierwotnym eksporcie, ale w tym czacie nie ma dostępu do jego bajtów, tylko do historii i źródeł.
-- Brak dostępu administracyjnego do Coolify.
-
-
-## Aktualizacja 29.10.2026 — uzupełnione pliki do budowania
-
-Powyższe braki opisują wcześniejszy checkpoint. Dwa brakujące obrazy overlay są
-teraz w `deploy/overlay/public/`. Pobrano oryginalne bajty z istniejącego hostingu;
-obie sumy zgadzają się z wcześniej zatwierdzonym `deploy/overlay/SHA256SUMS`.
-Dockerfile nie potrzebuje już pobierać ich ze starego hostingu podczas budowania.
-Pozostałe archiwa/eksporty nie zostały tu skopiowane ani udostępnione publicznie.
-
-Weryfikacja kontenerów na tej gałęzi: `.github/workflows/aruba-staging.yml`.
-Uruchamia wyłącznie lokalny stos CI, bez VPS, DNS i sekretów produkcyjnych.
-W Coolify użyć tej gałęzi i `docker-compose.staging.yml`, a publiczne zmienne
-z `.env.staging.example` przypisać jako build/runtime zgodnie z compose.
-Domenę tymczasową skierować wyłącznie do `web:80`; usługa `app` nie ma publicznego portu.
-Nie zastępować pustych sekretów stagingu fikcyjnym service_role.
-
-Pełne polecenia, wyniki i ograniczenia są w
-[chronologicznym dzienniku](docs/zmiany/2026-10-29/ZMIANY.md).
-**Uruchomienie na Aruba pozostaje niepotwierdzone: ta sesja nie ma adresu ani
-uwierzytelnienia VPS/Coolify.** Sam push do GitHub nie stanowi wdrożenia.
+Nie utożsamiać zakończonej migracji hostingu z pełnym multiplayerem ani ze zweryfikowanym tunelem VPN. Weryfikacja na żywo, backup poza VPS i test fizycznego telefonu nadal są odrębnymi kontrolami.

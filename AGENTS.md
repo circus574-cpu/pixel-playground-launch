@@ -1,37 +1,33 @@
-- Avoid rewriting published git history — force pushing, or rebasing/amending/squashing commits that are already pushed.
-- The sketch space uses a shared-password encrypted server session, not user accounts; verify it before every storage operation.
-- Sketch files live in a private Cloud bucket with no anonymous or authenticated storage policies; guarded server functions issue upload and short-lived download capabilities.
-- Keep upload validation in a shared client-safe schema so the browser and server enforce the same filename and size rules without restricting extensions.
-- Inline previews use session-guarded short-lived storage capabilities and local typed blob URLs; render text as plain text and never send private files to third-party viewers.
+# AGENTS.md — KI Legends (stan: 04.11.2026)
 
-## Ki Legends production
+## Źródła prawdy i procedura agenta
+- Zanim zmienisz kod, przeczytaj `docs/INDEX.md`, `docs/ZASADY.md`, odpowiedni dokument tematyczny i najnowszy dziennik `docs/zmiany/YYYY-MM-DD/ZMIANY.md`. Sprawdź aktualne `main`, powiązane PR-y i rzeczywiste pliki. Dzienniki z poprzednich dat są historią, nie obowiązującym stanem.
+- Rozróżniaj: pomysł, dane/asset, kod w gałęzi, otwarty PR, merge do `main`, test lokalny, wdrożenie na VPS i test produkcyjny. Nie przypisuj ukończenia funkcji na podstawie samego opisu PR ani liczby plików.
+- Każdą zmianę opisuj w istniejącym dzienniku danego dnia; aktualizuj adekwatne podręczniki. Dokumentacja ma dokładnie 10 tematycznych plików `docs/*.md` wymienionych w indeksie, plus dzienniki i dane źródłowe.
+- Nie nadpisuj zatwierdzonej historii Gita; bez force push, rebase/amend opublikowanych commitów. Nie scalaj PR, nie publikuj produkcji i nie zmieniaj konfiguracji serwera produkcyjnego bez odrębnej zgody właściciela. Do prac dokumentacyjnych stosuj osobną gałąź i PR.
 
-- GPU pod lifecycle is owner-only. Never call Start, Stop, Restart or Terminate, including after renders, during CPU tests, for cleanup or to retry capacity. The owner performs these actions. This explicit instruction supersedes historical advice to stop GPU rental automatically.
-- Follow `docs/ZASADY.md` and the user's current stage constraints.
-- The user authorized Stage 2 gameplay on 2026-10-19 after the anime forest integration. Preserve the accepted map; see docs/ROZWOJ-I-WALKA.md. Implement local PvE progression, never claim authoritative multiplayer. Production publication requires separate explicit user authorization.
-- Use independent terrain/object resources, never a complete concept illustration as the production world.
-- Keep the camera zoomed out by default and retain the whole-stage fullscreen control with its HUD.
-- Region art upgrades ship as GPU-importer packs of render bindings (`terrain.*`, `object.*`, optional `terrain.<world>-wall`, presentation-only `origin`), opt-in via `PREVIEW_SWITCHES` until the owner accepts them; collision footprints stay in region JSON.
-- Run the repository's full TypeScript configuration, not just a partial ad hoc typecheck.
-- Preserve `/test`, storage guards, secrets, unrelated features and published git history.
-- /mapa shows a lazily loaded WebGL globe wrapping the painted equirectangular atlas, with the flat atlas plus transparent SVG hitboxes as the 2D view and no-WebGL fallback; both views pick regions from the same traced outlines, so regenerate outlines and `scripts/build_globe_textures.py` outputs whenever the atlas changes.
+## Aktualna infrastruktura — OBOWIĄZUJĄCE
+- **KI Legends już działa w architekturze serwerowej na VPS Aruba/Coolify. PostgreSQL 17 jest działającą prywatną bazą projektu; NIE jest tylko planem ani 'bazą pod przyszły multiplayer'.** Serwer gry to proces Node `src/server/gameServer.ts`, zarządzany przez `src/server/managedServer.ts`; domyślnie pojedynczy węzeł `Superior`, port 7420, 20 ticków/s, limit konfiguracji 50 graczy (nie udowodniona wydajność dla 50 połączeń).
+- Produkcyjna ścieżka postaci i PvE jest serwerowa: PR #69, `src/server/characters/{repository,onlineSession,socket,superiorSimulation}.ts`, klient `src/game/online/client.ts`, endpoint `/ws/online`. GameSession i obliczenia rozwoju/walki działają po stronie serwera; klient Phaser wysyła intencje i prezentuje snapshoty. Postać i operacje mają trwałość w PostgreSQL, lease, walidację właściciela i obsługę powtórzeń. Błąd serwera/bazy blokuje online PvE; **nie uruchamiaj lokalnego fallbacku zapisu**.
+- Konta, tokeny, role, aktywacja i reset hasła zostały przeniesione na VPS/PostgreSQL (PR #76 i #77): `src/server/accounts/`, schemat `deploy/multiplayer/init/005-accounts.sql`, `/ws/auth/*`, `/konto` i `/admin`. Resend służy do e-maili aktywacyjnych, jeśli usługa jest skonfigurowana. Historyczny Supabase służy przejściu/legacy oraz osobnym funkcjom; NIE przedstawiaj go jako głównej bazy aktywnych kont i postaci.
+- Zmiany świata z `/admin` mają rewizje w PostgreSQL `world_admin.revisions` i publikację live na serwerze (PR #79; `src/server/world/overrides.ts`; migracja `006-world-overrides.sql`). Panel zarządza istniejącymi postaciami i kontami VPS.
+- PostgreSQL działa w wewnętrznej sieci prywatnej Dockera i nie ma publicznego portu bazy. W historii PR #60 wyraźnie wskazano, że **tunel VPN nie był skonfigurowany**. Nie wymyślaj WireGuard/VPN; jeśli konfiguracja się zmieniła, potwierdź to w bieżącym runtime przed oznaczeniem jako aktywne. VPS i VPN to różne rzeczy.
+- Serwerowy PvE, trwałe konta/postacie i obecność innych postaci NIE oznaczają kompletnego MMO: wspólne potwory/stan walki, PvP, drużyny, handel między graczami i testy obciążenia wymagają osobnego wdrożenia i odbioru.
 
-## Shared project knowledge — required for every agent
+## Integracja i ograniczenia
+- `docker-compose.yml`, `docker-compose.online.yml`, `deploy/multiplayer/`, `deploy/Caddyfile` i `.github/workflows/aruba-production.yml` są istotnymi elementami deploymentu. Część compose i historycznych instrukcji nadal ma zależności Supabase: przed ich zmianą sprawdź faktyczną konfigurację Coolify, sieć, backup i migracje; nie wycinaj sekretów ani kontenerów w ciemno.
+- **Nie używaj Lovable do publikowania lub zmieniania KI Legends.** Utrzymuj GitHub + VPS/Coolify i istniejący przepływ deploymentu. Unikaj płatnego AI/API w runtime i w implementacji walki.
+- GPU i instancje wynajmu: wyłącznie właściciel decyduje o Start/Stop/Restart/Terminate, skali i rozliczeniach, również po renderze i w bezczynności. Nie usuwaj danych/volume/modeli. Dozwolony jest odczyt stanu i autoryzowane zadania na działającym GPU.
+- Zachowaj zatwierdzone rasy: Planetarni/Verdantia, Mędrcy/Aetheria, Androidy/Nexus-9, Legendy/Pyra; styl anime/manga, świat Superior i wspólną geometrię mapy 2D/3D. Grafika prezentacyjna nie może samowolnie zmieniać kolizji, statystyk ani architektury zapisu.
+- Nie modyfikuj ręcznie plików generowanych `nodes.generated.ts`, `base.generated.ts`; popraw źródło i generator. Zachowaj oryginalny PDF, aneks ras i bestiariusz 40 potworów oraz ich SHA/ewidencję licencji.
+- `/test` to oddzielna chroniona przestrzeń szkiców ze wspólnym hasłem/sesją i prywatnymi plikami; nie łącz jej uprawnień z kontami graczy. Sprawdzaj sesję przed każdą operacją, wydawaj krótkie uprawnienia upload/download, nie używaj zewnętrznych viewerów. Nie ujawniaj sekretów i nie formatuj generowanych `src/integrations/supabase/types.ts` i `previewAuthStorage.ts`.
 
-- Before planning or implementing Ki Legends changes, read [docs/INDEX.md](docs/INDEX.md) and the relevant linked source documents from the current commit. Do not rely solely on chat memory or PR descriptions.
-- The owner-provided 12-page design PDF is a source document; see [docs/INDEX.md](docs/INDEX.md) for an interim text index. The original binary PDF and its 12 lossless parts are present; verify the recorded SHA-256 before claiming archival completeness.
-- Distinguish conceptual race art and proposed abilities from implemented, tested features. Preserve existing accepted race identities and assets.
-- **GPU instance control is reserved exclusively for the owner.** Codex/agents must never start, stop, restart, delete, resize, or change billing/hardware configuration of GPU instances without the owner's explicit decision. This remains true after render completion, during idle time, and on failures. Agents may inspect state, run authorized workloads on an already-running instance, safeguard data, and report to the owner.
-- Never merge a PR, publish the game, or alter production configuration without separate explicit owner approval.
-- Generated Cloud client files (`src/integrations/supabase/types.ts`, `previewAuthStorage.ts`) are listed in `.prettierignore`, because the platform regenerates them and reformatting would break lint after every sync.
-- Rasy i potwory: statystyki ras, 4 drzewka (29 węzłów) i model obrażeń pochodzą z aneksu właściciela 22.10.2026, a 40 potworów z jego bestiariusza HTML; źródła liczb to generowane pliki (`nodes.generated.ts`, `base.generated.ts`) — nie edytować ich ręcznie, zmieniać źródło i generator. Opis, założenia i luki: `docs/ROZWOJ-I-WALKA.md`. Szybkość ruchu rośnie o 5% bazowej na poziom do 20 (decyzja właściciela). Właściciel 23.10.2026 zlecił generację całej planety według zatwierdzonej geometrii, z drogami, ścieżkami, ukrytymi lokacjami i labiryntami; spawny mają powstawać w osobnej generacji na gotowych danych świata. Ta decyzja zastępuje wcześniejsze odłożenie spawnów. Bezpieczne miasta pozostają bez przeciwników.
-- Region curved roads/courts (`terrain.roads`, `terrain.courts`) are presentation-only and baked into chunk textures by `src/game/world/renderRoads.ts`; collision always comes from obstacles and footprints so saves and navigation stay independent of art.
-- The planet atlas (2D/3D) is shared by /mapa and the in-game overlay via MapaView props (`current`, `onClose`); it only reads the active character continent through MapChrome and never imports game session code, keeping /mapa light.
-- Continents have the size of the painted continents (docs/SWIAT-I-MIASTA.md); each local city is a safe area of about 4000 × 2500 units (`city.bounds`, no combat, `inSafeCity`), the rest of the continent is empty but reachable ground. Region content is moved with `scripts/expand_continents.py` and the `scripts/build_*_city.py` builders; saves follow `layout`/`layoutShifts`.
+## Stan zmian na dzień 04.11.2026
+- W `main` po PR #99 działają malowane miasta domyślnie (`?ki-painted=0` wyłącza), profesje NPC i poprawki dropów/spawnów; po #100 poprawiono kontrast i mobilny HUD; po #101 dodano skalę interfejsu 50–120%. Świeży kod i testy mają pierwszeństwo przed wcześniejszymi założeniami o flagach i wyglądzie.
+- Otwarte i **niescalone** w chwili audytu: #90 rozwój ras (Draft; postęp częściowy), #87 audyt rozwoju (Draft), #80 labirynty, #102 test idempotencji questów, #71 ops/cutover (Draft), #66 warsztat promptów. Nie traktuj ich zawartości jako produkcji.
+- Szczegóły, źródłowe commity i nierozstrzygnięte kontrole: `docs/zmiany/2026-11-04/ZMIANY.md` oraz `docs/PLAN-I-ZADANIA.md`.
 
-## Documentation maintenance
-
-- Keep exactly the ten thematic Markdown documents listed in `docs/INDEX.md`; update the relevant topic instead of adding status, QA, handoff or per-delivery manuals.
-- Write chronological changes in `docs/zmiany/YYYY-MM-DD/ZMIANY.md` (one journal per date); keep that day's QA evidence under its `qa/` subfolder.
-- Preserve source PDFs, canonical JSON, legal texts and provenance. These are evidence/data, not extra active manuals. Older descriptions remain in Git.
-- Run `python3 scripts/docs/check_documentation.py` after documentation changes. Do not regenerate the removed documents from old scripts.
+## Weryfikacja zmian
+- Minimum przed PR: `npm ci`, `npm run typecheck`, `npm run lint`, `npm run test`, `npm run build`, `npm run assets:check` i `python3 scripts/docs/check_documentation.py` (gdy pełne repo i zależności są dostępne). Zapisuj wynik, SHA, środowisko oraz pominięcia; nigdy nie wpisuj PASS bez wykonania.
+- Dla serwera: osobne testy PostgreSQL, auth, lease/receipts, online tick, `/ws/online`, dostęp na VPS i regresja po restarcie; dla UI mobile: Playwright + test na fizycznym telefonie. Nie utożsamiaj testu jednostkowego z weryfikacją produkcji.
+- Nowe funkcje na `main` nie muszą być jeszcze potwierdzone na produkcyjnym VPS: dopóki nie sprawdzono runu i zdrowia aplikacji, pisz 'scalone do main', a nie 'wdrożone i sprawdzone'.

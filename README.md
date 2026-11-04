@@ -1,21 +1,32 @@
 # KI Legends
 
-Dokumentacja projektu: [indeks 10 tematów](docs/INDEX.md).
-Historia prac: [dziennik 23.10.2026](docs/zmiany/2026-10-23/ZMIANY.md).
-Projekt fabuły: [Księga przygody PDF](KI-LEGENDS-KSIEGA-PRZYGODY-v1.0.pdf).
+**Stan kodu na 04.11.2026:** gra ma serwer Node na VPS Aruba/Coolify, prywatną bazę PostgreSQL 17, konta i role na VPS oraz serwerową rozgrywkę PvE z zapisem postaci. Nie jest to ukończone MMORPG. Nie mylić serwera **VPS** z osobnym tunelem **VPN** — jego konfiguracja nie została potwierdzona.
 
-## Development
+- [Dokumentacja — indeks i bieżący stan](docs/INDEX.md)
+- [Instrukcje obowiązujące wszystkich agentów](AGENTS.md)
+- [Architektura serwera i weryfikacja](docs/ARCHITEKTURA-I-TESTY.md)
+- [Plan i nierozstrzygnięte zadania](docs/PLAN-I-ZADANIA.md)
+- [Zmiany 04.11.2026](docs/zmiany/2026-11-04/ZMIANY.md)
+- [Historia przygotowań Aruba (nie bieżąca instrukcja migracji)](ARUBA_STAGING.md)
 
-Praca lokalna wymaga Node.js (wersja 20+) oraz npm.
+## Rozwój lokalny
+
+Node.js 22+, npm i poprawne prywatne zmienne środowiskowe odpowiednie do testowanego scenariusza.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+npm ci
 npm run dev
 ```
 
-### Skrypty weryfikacyjne
+## Kontrole przed PR
 
-- `npm run typecheck` — pełna weryfikacja typów TypeScript (główna aplikacja, testy E2E, narzędzia)
-- `npm run test` — testy jednostkowe i integracyjne (Vitest)
+```sh
+npm run typecheck
+npm run lint
+npm run test
+npm run build
+npm run assets:check
+python3 scripts/docs/check_documentation.py
+```
+
+Testy wymagające rzeczywistej bazy PostgreSQL i scenariusze live VPS uruchamiaj tylko z dedykowanymi danymi testowymi. Push do `main` może wywołać workflow produkcyjny; nie wykonuj go bez zgody właściciela.
