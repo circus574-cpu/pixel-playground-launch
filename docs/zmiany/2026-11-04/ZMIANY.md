@@ -104,6 +104,25 @@
 - To próbki bez odbioru właściciela (akceptacja dotyczyła tylko Pyry), nieprzycięte do 960:760 i niewdrożone do klienta.
   Znane wady wspólne z Pyrą: lekko skośne ściany boczne, w części obrazów brak wyraźnego progu drzwi, kadr 3:2.
 
+## Ikony HUD (10 z 11)
+
+- Dziesięć malowanych ikon 128 px w `public/game/icons-v3/` (z oryginałów 1254 px, prawdziwa alfa): `hud-hp`, `hud-ki`, `hud-zar`,
+  `hud-rdzen`, `hud-shield`, `hud-target`, `hud-combat`, `hud-map`, `buff-combo`, `buff-dodge`; zarejestrowane w `gpuIcons.ts`.
+- Podpięte w `GameHud.tsx`: ikona przy paskach zdrowia i Ki, przy zasobie rasy (Żar, Ładunek Rdzenia), przy buforze Tarcza oraz
+  przy buforach `combo` i `dodge` (gdy bufor ma ikonę `buff-<id>`). `hud-target`, `hud-combat`, `hud-map` czekają na przebudowę listy
+  walki i minimapy. Brakuje `buff-ki-focus` (jedyna wersja miała wypaloną szachownicę); bez ikony chip działa jak dotąd.
+
+## HUD: ikony w pasku walki, zwijana minimapa
+
+- Pasek „Walka” (`CombatPanel.tsx`): ikona `hud-combat` w nagłówku, wybrany przeciwnik oznaczony ikoną `hud-target` zamiast „◆”.
+  Wybór celu kliknięciem w przeciwnika działał już wcześniej (komenda `target`).
+- Minimapa: przycisk × w tytule składa ją do jednej ikony `hud-map` (52 px) w tym samym rogu; stan pamiętany w
+  `localStorage` (`ki-minimap-hidden`), bez zmiany formatu ustawień. Zrzuty z gry: komputer 1280×720 i telefon 852×393.
+- Sprawdzone bez zmian: przycisk ADM/GM jest renderowany tylko dla postaci z rolą (`state.staff`), więc zwykły gracz go nie widzi;
+  joystick jest rysowany przez grę i mieści się w układzie telefonu.
+- Testy e2e `hud-layout` dla Planetarnych (Verdantia) są czerwone także na czystym `main` w tym środowisku (ładowanie świata,
+  dysk sesji bliski pełnego), więc nie wynikają z tej zmiany; pozostałe 9 z 12 przechodzi.
+
 ## Świat poza miastami: Verdantia, 20 obrazów (do odbioru)
 
 - Zasada właściciela: na kontynent po 5 rzeczy w czterech grupach (tekstury podłoża, ukształtowanie terenu, drogi, przyroda), po 1 obrazie na
