@@ -1,0 +1,24 @@
+✔ anonymous access, download and upload are denied (97.498247ms)
+✔ wrong password and cross-origin login are rejected (94.750277ms)
+✔ upload persists, private download matches SHA and progress survives process restart (3106.962342ms)
+✔ duplicate upload returns conflict and preserves the original (95.217718ms)
+✔ invalid signature, executable, audio at image target and traversal do not count (95.100986ms)
+✔ oversize and unknown prompt are rejected without recording completion (91.238312ms)
+✔ concurrent different uploads are retained without lost state (90.857773ms)
+✔ mark revision keeps originals; new upload clears flag and retains both versions (88.859278ms)
+board request error 507
+✔ storage cap refuses incoming file without changing progress (76.443285ms)
+✔ logout clears private session cookie (75.509597ms)
+✔ login attempts are rate limited (422.050425ms)
+✔ production admin authorization is verified remotely; ordinary users denied and role removal revokes access (59.561263ms)
+✔ HEAD supports staging redirect, page and health checks (44.894479ms)
+✔ a completed upload leaves the queue, persists privately and can be reopened for revision (100.741297ms)
+✔ catalogue pruning preserves historical records, export and private file downloads (83.946913ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4718.18751

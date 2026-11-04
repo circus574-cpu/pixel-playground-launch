@@ -240,3 +240,53 @@ test("HEAD supports staging redirect, page and health checks", async (t) => {
   assert.equal((await fetch(base + "/prompty/", { method: "HEAD" })).status, 200);
   assert.equal((await fetch(base + "/healthz", { method: "HEAD" })).status, 200);
 });
+
+test("a completed upload leaves the queue, persists privately and can be reopened for revision", async (t) => {
+  const f = await fixture(t);
+  await f.login();
+  await f.upload("icon.one");
+  let data = await (await f.request("prompts")).json();
+  assert.equal(
+    data.catalog.some((p) => p.id === "icon.one"),
+    false,
+  );
+  const record = data.state["icon.one"];
+  assert.equal(record.files.length, 1);
+  await f.restart();
+  data = await (await f.request("prompts")).json();
+  assert.equal(
+    data.catalog.some((p) => p.id === "icon.one"),
+    false,
+  );
+  assert.deepEqual(data.state["icon.one"], record);
+  assert.equal((await f.request("files/" + record.files[0].id)).status, 200);
+  await f.request("prompts/icon.one/revision", { method: "POST" });
+  data = await (await f.request("prompts")).json();
+  assert.equal(
+    data.catalog.some((p) => p.id === "icon.one"),
+    true,
+  );
+  assert.equal(data.state["icon.one"].files.length, 1);
+});
+
+test("catalogue pruning preserves historical records, export and private file downloads", async (t) => {
+  const f = await fixture(t);
+  await f.login();
+  await f.upload("icon.one");
+  const before = await (await f.request("export")).json();
+  const old = before.prompts["icon.one"].files[0];
+  await fs.writeFile(
+    f.config.catalogFile,
+    JSON.stringify([{ id: "new.texture", kind: "texture", prompt: "New material" }]),
+  );
+  await f.restart();
+  const after = await (await f.request("export")).json();
+  assert.deepEqual(after, before);
+  assert.equal((await f.request("files/" + old.id)).status, 200);
+  assert.equal((await f.upload("icon.one")).status, 404);
+  const data = await (await f.request("prompts")).json();
+  assert.deepEqual(
+    data.catalog.map((p) => p.id),
+    ["new.texture"],
+  );
+});

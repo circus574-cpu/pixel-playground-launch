@@ -1,5 +1,29 @@
 # KI Legends — GPU i zasoby
 
+## Kolejka materiałów staging — 04.11.2026
+
+Panel `/prompty/` otrzymał katalog roboczy `deploy/prompt-board/prompts.current.json`.
+Oryginalne 665 promptów w `docs/design/development-prompts/` pozostają niezmienione.
+Audyt zasobów na `a9e44175` wykazał 46 gotowych grafik treningu i 41 dźwięków;
+wykluczono je z ponownego zamawiania. Inwentaryzacja panelu potwierdziła 7 plików,
+z czego 3 pokrywają się z grafiką treningu, a 4 to projekty P-V3/P-V4 przed/po.
+Te 91 identyfikatorów jest poza aktywną kolejką. Szczegóły i SHA źródeł zawiera
+`deploy/prompt-board/materials-plan.json`.
+
+Dodano 10 brakujących tekstur wnętrz: podłoga użytkowa, kamienna i ściana dla
+Verdantii, Aetherii i Nexusa oraz użytkowa podłoga Pyry. Kamień i ściana Pyry są
+już w paczce kuźni. Nie zamawiano ponownie 48 istniejących obiektów wnętrz.
+Ich obecność nie oznacza zakończenia integracji — część wymaga podpięcia renderera.
+Pozostałe prompty obejmują nadal niedostarczone postacie/animacje, portrety,
+projekty, efekty i ikony. Jest 584 pozycji katalogu roboczego, z czego 400 to
+osobne kierunkowe klipy animacji. To liczba materiałów, nie procent ukończenia gry.
+
+Po kompletnym uploadzie prompt znika natychmiast i po ponownym wejściu; jedna
+klatka nie zalicza ośmioklatkowej animacji. Rekord, eksport i prywatny plik są
+zachowane. Wersja do poprawy pozostaje w kolejce. Logowanie administratora,
+limity i ochrona pobierania nie są zmieniane. [Dowody](zmiany/2026-11-04/ZMIANY.md).
+
+
 
 ## Partia 2 i braki do docelowej oprawy — 23.10.2026
 

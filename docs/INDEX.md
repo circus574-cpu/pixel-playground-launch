@@ -1,5 +1,10 @@
 # KI Legends — dokumentacja projektu
 
+**Warsztat promptów — aktualizacja 04.11.2026:** osobna kolejka brakujących
+materiałów na stagingu, bez przebudowy gry. Gotowe grafiki/dźwięki oraz dostawy
+ukryte, historia i pliki zachowane. [Audyt i wdrożenie](zmiany/2026-11-04/ZMIANY.md).
+
+
 Aktualizacja: **29.10.2026, po scaleniu i wdrożeniu**. Punkt odniesienia kodu i potwierdzonej produkcji: `main@5cea48dae81171b5e3bea1eeff124a0d8857ad76`.
 [PR #62](https://github.com/circus574-cpu/pixel-playground-launch/pull/62) połączył #55, #59 i #61; #60 scalono wcześniej. Rozwój ras jest częściowo wdrożony, nowe parametry treningu i okno statystyk są w grze, a skrypty migracji backendu nie oznaczają przełączenia bazy.
 
@@ -23,6 +28,7 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-11-04](zmiany/2026-11-04/ZMIANY.md)
 - [2026-10-29](zmiany/2026-10-29/ZMIANY.md)
 
 - [2026-10-28](zmiany/2026-10-28/ZMIANY.md)

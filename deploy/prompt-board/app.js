@@ -1,11 +1,12 @@
+import { completed as isCompleted, remaining } from "/prompty/queue.mjs";
 const $ = (id) => document.getElementById(id);
 const start = new Set([
-  "training.planetary.dummy",
-  "training.planetary.target",
-  "training.planetary.ki-node",
-  "audio.development.dummy-hit",
-  "audio.development.exam-success",
-  "audio.development.ki-charge",
+  "interior.planetary.floor",
+  "interior.planetary.stone",
+  "interior.planetary.wall",
+  "interior.sage.floor",
+  "interior.sage.stone",
+  "interior.sage.wall",
 ]);
 let catalog = [],
   records = {},
@@ -38,12 +39,7 @@ async function api(route, options = {}) {
   return data;
 }
 function completed(p) {
-  const r = records[p.id];
-  if (!r || r.revision) return false;
-  const current = r.files.filter((f) => !r.revisedAt || f.uploadedAt > r.revisedAt);
-  return p.kind === "animation"
-    ? current.some((f) => f.type === "application/zip") || current.length >= 8
-    : current.length > 0;
+  return isCompleted(p, records[p.id]);
 }
 function stateOf(p) {
   return records[p.id]?.revision ? "revision" : completed(p) ? "done" : "pending";
@@ -58,12 +54,12 @@ async function load() {
   render();
 }
 function render() {
-  const done = catalog.filter(completed).length;
-  $("progress-label").textContent = `Zaliczone: ${done} / ${catalog.length} · zapisane na serwerze`;
-  $("progress").max = catalog.length;
-  $("progress").value = done;
+  const active = remaining(catalog, records);
+  $("progress-label").textContent =
+    `Do dostarczenia: ${active.length} · gotowe materiały są ukryte, pliki zachowane`;
+  $("progress").hidden = true;
   const search = $("search").value.trim().toLocaleLowerCase("pl");
-  const filtered = catalog.filter(
+  const filtered = active.filter(
     (p) =>
       ($("priority").value === "ALL" ||
         ($("priority").value === "START" ? start.has(p.id) : p.priority === $("priority").value)) &&

@@ -44,7 +44,7 @@ trap rollback ERR
 "${compose[@]}" up -d --wait --wait-timeout 120
 docker exec ki-prompt-board node -e "fetch('http://127.0.0.1:3000/prompty/api/prompts').then(r=>{if(r.status!==401)process.exit(1);console.log('Anonymous catalogue denied: PASS')})"
 for attempt in $(seq 1 20); do
-  if curl --fail --silent --show-error --max-time 10 https://staging.kilegends.pl/prompty/ | grep -q 'Prompty i gotowe zasoby'; then break; fi
+  if curl --fail --silent --show-error --max-time 10 https://staging.kilegends.pl/prompty/ | grep -q 'Brakujące materiały do rozwoju gry'; then break; fi
   if [ "$attempt" = 20 ]; then exit 1; fi
   sleep 2
 done
