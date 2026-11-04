@@ -1,0 +1,59 @@
+{
+  "status": "concept sheets; extraction and alpha cleanup required before runtime use",
+  "jobs": [
+    {
+      "file": "verdantia-podszyt-8-wariantow.png",
+      "count": 8,
+      "prompt": "Beautiful polished hand-painted fantasy environment assets for VERDANTIA, a lush living forest continent in a 2D RPG. Rich natural forest greens, warm golden upper-left sunlight, mossy gray stone, warm brown wood, tiny white and blue flowers. Cohesive detailed painterly style, readable at small game scale, three-quarter overhead RPG camera. Separate entire objects, generously spaced, no overlaps, wide outer margins. No text, labels, UI, frames or watermark. Transparent background with alpha zero in empty space; no atmospheric gradient, colored halo, landscape backdrop, grass islands or artificial pedestals. Exactly EIGHT low forest vegetation assets in a 4x2 layout. Top row: a lush spreading fern with tiny white flowers; a compact wild blueberry bush with blue berries; a bramble with small pink blossoms and a few dark berries; a delicate clump of tall meadow grasses with golden seed heads. Bottom row: a cluster of small red-capped woodland mushrooms with moss; a low patch of blue forget-me-nots and daisies; a broad-leaf burdock plant with curled leaves; an airy wild rose bush with pale cream blossoms. Distinct natural silhouettes, modest realistic scale, separate root/stem endings, no baked soil plates."
+    },
+    {
+      "file": "verdantia-stare-drzewa-i-drewno-6-wariantow.png",
+      "count": 6,
+      "prompt": "Beautiful polished hand-painted fantasy environment assets for VERDANTIA, a lush living forest continent in a 2D RPG. Rich natural forest greens, warm golden upper-left sunlight, mossy gray stone, warm brown wood, tiny white and blue flowers. Cohesive detailed painterly style, readable at small game scale, three-quarter overhead RPG camera. Separate entire objects, generously spaced, no overlaps, wide outer margins. No text, labels, UI, frames or watermark. Transparent background with alpha zero in empty space; no atmospheric gradient, colored halo, landscape backdrop, grass islands or artificial pedestals. Exactly SIX distinct woodland assets in a spacious 3x2 layout. Top row: an ancient broad oak with a thick twisting trunk, lush asymmetrical green crown and a natural hollow near its base; a slender white-barked birch with airy fresh green foliage; an elegant drooping willow with long graceful green branches and no pond attached. Bottom row: a large fallen moss-covered hollow log with a few tiny shelf mushrooms; a weathered hollow stump with delicate new green shoots; a tangled exposed tree-root formation embracing two small gray rocks, only roots and rocks, no full tree. All silhouettes fully visible with plenty of space, complete roots and leaf tips, no cropping. No ground patches."
+    },
+    {
+      "file": "verdantia-naturalne-formy-terenu-6-wariantow.png",
+      "count": 6,
+      "prompt": "Beautiful polished hand-painted fantasy environment assets for VERDANTIA, a lush living forest continent in a 2D RPG. Rich natural forest greens, warm golden upper-left sunlight, mossy gray stone, warm brown wood, tiny white and blue flowers. Cohesive detailed painterly style, readable at small game scale, three-quarter overhead RPG camera. Separate entire objects, generously spaced, no overlaps, wide outer margins. No text, labels, UI, frames or watermark. Transparent background with alpha zero in empty space; no atmospheric gradient, colored halo, landscape backdrop, grass islands or artificial pedestals. Exactly SIX geological forest terrain features in a spacious 3x2 layout. Top row: a low broad grassy knoll with a few exposed mossy rocks and tiny flowers, organically tapering edges; an irregular curved moss-covered limestone escarpment with a broken upper ledge; a beautiful natural weathered stone arch with a clearly open archway and hanging ivy. Bottom row: a small terraced woodland spring with clear turquoise water in natural rock basins, no mist; a low elongated ridge of rounded mossy stone outcrops with tiny ferns in cracks; a dark natural cave entrance framed by irregular gray rocks, fern fronds and thin ivy, a clearly readable opening with no door. Shapes must all be different, believable geology, no building-like formations or cut platforms. Only narrow organic contact edges, no circular terrain islands or rectangular bases."
+    },
+    {
+      "file": "verdantia-odkrycia-i-rekwizyty-6-wariantow.png",
+      "count": 6,
+      "prompt": "Beautiful polished hand-painted fantasy environment assets for VERDANTIA, a lush living forest continent in a 2D RPG. Rich natural forest greens, warm golden upper-left sunlight, mossy gray stone, warm brown wood, tiny white and blue flowers. Cohesive detailed painterly style, readable at small game scale, three-quarter overhead RPG camera. Separate entire objects, generously spaced, no overlaps, wide outer margins. No text, labels, UI, frames or watermark. Transparent background with alpha zero in empty space; no atmospheric gradient, colored halo, landscape backdrop, grass islands or artificial pedestals. Exactly SIX standalone exploration props in a spacious 3x2 layout. Top row: an old small wooden footbridge with mossy planks and simple curved railings, complete deck and both ends visible, no river attached; a rustic forest trail signpost with two blank wooden arrows, a little ivy and no lettering; an abandoned wooden handcart with one damaged wheel, two closed sacks and a few green vines. Bottom row: a small ruined woodland shrine made of weathered mossy gray stone with a simple leaf-shaped carved relief, no writing or humanoid statue; a secluded traveler camp consisting of a small moss-green canvas tent, one bedroll and an unlit stone-ring firepit; a small old treasure chest partially embraced by thick tree roots, with tiny ferns and a few white flowers, no treasure spilled out. Warm inviting forest adventure mood. No people, full landscapes or base plates."
+    }
+  ],
+  "results": [
+    {
+      "status": "fulfilled",
+      "value": {
+        "file": "verdantia-podszyt-8-wariantow.png",
+        "source": "/workspace/generated_images/exec-72bd3f1f-90f3-4ec7-ae7a-0c3bd8546216.png",
+        "count": 8
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "file": "verdantia-stare-drzewa-i-drewno-6-wariantow.png",
+        "source": "/workspace/generated_images/exec-4ecc6167-60de-4836-b099-99596b4703d0.png",
+        "count": 6
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "file": "verdantia-naturalne-formy-terenu-6-wariantow.png",
+        "source": "/workspace/generated_images/exec-c36c1c15-c5a1-453d-8e99-7e4409bc1453.png",
+        "count": 6
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "file": "verdantia-odkrycia-i-rekwizyty-6-wariantow.png",
+        "source": "/workspace/generated_images/exec-19c154c4-0458-4ddd-aac9-345ad259d1b0.png",
+        "count": 6
+      }
+    }
+  ]
+}
