@@ -461,8 +461,9 @@ generatorze (jedna plansza 4:3 na potwora: 4 klatki chodu/lotu, 4 ataku, 4 śmie
   prawo lub lewo (góra i dół pokazują bok); `idle` = pierwsza klatka chodu, `hit` = pierwsza klatka
   śmierci, `respawn` = śmierć od końca. Pakiety zastępują `enemy-v2-<id>` tym samym kluczem aktora.
 - Włączenie: domyślnie; `?ki-monsters-anime=0` przywraca poprzednie wizerunki (`enemy-v2-*` zostają).
-- Gotowe: 35 z 40 potworów. Bez planszy zostają: verdant-lisciak-skrytobojca, aether-swietlik-pieczeci, nexus-pajak-spawalniczy, nexus-roj-nanitow, pyra-popielny-wilk.
-  Rój nanitów to chmura bez jednego ciała i wymaga innego ujęcia.
+- Gotowe: **40 z 40** potworów. Ostatnie pięć (04.11.2026): verdant-lisciak-skrytobojca, aether-swietlik-pieczeci
+  (latający, `--no-effects`), nexus-pajak-spawalniczy, nexus-roj-nanitow (chmura jako jedna zwarta masa, `--no-effects`)
+  i pyra-popielny-wilk. Test `monsters-anime-complete` pilnuje, że każdy potwór bestiariusza ma pakiet.
 
 ## Zestaw grafik do układania świata — kontrakt (23.10.2026)
 

@@ -202,6 +202,11 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
     "enemy-v3-verdant-puchacz-pylowy",
     "enemy-v3-verdant-skalny-jelen",
     "enemy-v3-verdant-straznik-ruin",
+    "enemy-v3-verdant-lisciak-skrytobojca",
+    "enemy-v3-aether-swietlik-pieczeci",
+    "enemy-v3-nexus-pajak-spawalniczy",
+    "enemy-v3-nexus-roj-nanitow",
+    "enemy-v3-pyra-popielny-wilk",
   ],
   /** World v2 preview: painted ground per biome and freestanding props for every continent. */
   "ki-world-v2": [
