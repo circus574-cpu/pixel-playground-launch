@@ -153,3 +153,13 @@
 - Otwarte: odbiór wyglądu przez właściciela i decyzja o przeniesieniu do
   `DEFAULT_ON_SWITCHES`; gęstość dziczy nadal zależy od danych autorowanych,
   rozrzut jest limitem 40 obiektów na chunk, nie rozwiązaniem docelowym.
+
+## Poprawki po zgłoszeniach
+
+### 8. Awaria po kliknięciu w mapę: ekran „This page didn't load” (05.11.2026, wieczór)
+
+- Zgłoszenie właściciela (zrzut z telefonu): po kliknięciu w mapę w grze pojawia się główny ekran błędu aplikacji.
+- Nie odtworzono w przeglądarce: minimapa → mapa 2D → globus 3D → kliknięcia przycisków i regionów (cztery rasy, telefon i komputer, serwer deweloperski), a także `/mapa` na produkcji. Brak błędów strony; brakujących fragmentów kodu na produkcji też nie ma.
+- Najbardziej prawdopodobna przyczyna (hipoteza, nie potwierdzona zapisem błędu z telefonu): karta gry otwarta przed wdrożeniami z 05.11. Mapa ładuje się leniwie z fragmentu o haszowanej nazwie, a po wdrożeniu stare fragmenty znikają. Ładowanie kończy się błędem, a przycisk „Try again” nie odświeżał strony.
+- Poprawka: błąd ładowania fragmentu po wdrożeniu odświeża stronę raz na minutę (`src/lib/staleChunk.ts`, także zdarzenie `vite:preloadError`); „Try again” w takim przypadku przeładowuje stronę; mapa planety w grze jest w osłonie `PanelBoundary`, więc jej awaria pokazuje komunikat z przyciskami „Odśwież” i „Wróć do gry” zamiast zrywać całą grę. Test: `src/test/stale-chunk.test.tsx`.
+- Jeśli awaria wróci po odświeżeniu strony, to jest inna przyczyna: potrzebny komunikat błędu z konsoli lub rasa, miejsce postaci i kroki.

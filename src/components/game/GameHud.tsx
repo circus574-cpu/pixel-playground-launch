@@ -1,3 +1,4 @@
+import { PanelBoundary } from "./PanelBoundary";
 import { DevelopmentPanel, type StartExam } from "./DevelopmentPanel";
 import { CharacterStatsPanel } from "./CharacterStatsPanel";
 import { CombatQuestSummary } from "./CombatQuestSummary";
@@ -1159,25 +1160,30 @@ export function GameHud({
           aria-modal="true"
           aria-label="Mapa planety"
         >
-          <Suspense
-            fallback={
-              <div className="ki-planet-loading" role="status">
-                Wczytywanie mapy planety…
-              </div>
-            }
+          <PanelBoundary
+            label="Mapa planety"
+            onClose={() => (WORLD_V2 ? closeAndResume() : setPanel("map"))}
           >
-            <PlanetAtlas
-              onTeleport={
-                state.staff && !state.player.interior && !state.player.dead
-                  ? onStaffTeleport
-                  : undefined
+            <Suspense
+              fallback={
+                <div className="ki-planet-loading" role="status">
+                  Wczytywanie mapy planety…
+                </div>
               }
-              current={planetLocation ?? state.player.continent}
-              focus={mapFocus}
-              onTravel={onPlanetTravel}
-              onClose={() => (WORLD_V2 ? closeAndResume() : setPanel("map"))}
-            />
-          </Suspense>
+            >
+              <PlanetAtlas
+                onTeleport={
+                  state.staff && !state.player.interior && !state.player.dead
+                    ? onStaffTeleport
+                    : undefined
+                }
+                current={planetLocation ?? state.player.continent}
+                focus={mapFocus}
+                onTravel={onPlanetTravel}
+                onClose={() => (WORLD_V2 ? closeAndResume() : setPanel("map"))}
+              />
+            </Suspense>
+          </PanelBoundary>
         </div>
       )}
       {panel && panel !== "planet" && (
