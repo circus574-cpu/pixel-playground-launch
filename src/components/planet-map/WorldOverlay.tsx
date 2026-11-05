@@ -6,6 +6,7 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 import { decodedImage, loadWorldOverlay } from "./preload";
 import { meets, visiblePlaces, type Box, type Place } from "./labelLayout";
+import { REGIONS } from "./mapData";
 import type { OverlayLands, OverlayTile } from "./worldToAtlas";
 
 type Road = { id: string; land: string; kind: string; width: number; points: [number, number][] };
@@ -105,20 +106,35 @@ function TerrainCanvas({
         }
         if (!ctx) return;
         ctx.imageSmoothingEnabled = true;
-        for (const tile of visible) {
-          const image = images.get(tile.land);
+        // Each land's painted map is a rectangle with its own ocean margin. Clip it to the traced
+        // outline of that land, otherwise the margin shows as a square patch over the atlas ocean.
+        for (const land of lands) {
+          const image = images.get(land);
           if (!image) continue;
-          const [a, b, c, d, e, f] = tile.m as [number, number, number, number, number, number];
-          const [x, y, w, h] = tile.crop as [number, number, number, number];
-          ctx.setTransform(
-            a * scale,
-            b * scale,
-            c * scale,
-            d * scale,
-            (e - x0) * scale,
-            (f - y0) * scale,
-          );
-          ctx.drawImage(image, x, y, w, h, x, y, w + 0.6, h + 0.6);
+          const outline = REGIONS.find((r) => r.id === land)?.outline;
+          ctx.save();
+          if (outline && outline.length > 2) {
+            ctx.setTransform(scale, 0, 0, scale, -x0 * scale, -y0 * scale);
+            ctx.beginPath();
+            outline.forEach((pt, i) => (i ? ctx.lineTo(pt.x, pt.y) : ctx.moveTo(pt.x, pt.y)));
+            ctx.closePath();
+            ctx.clip();
+          }
+          for (const tile of visible) {
+            if (tile.land !== land) continue;
+            const [a, b, c, d, e, f] = tile.m as [number, number, number, number, number, number];
+            const [x, y, w, h] = tile.crop as [number, number, number, number];
+            ctx.setTransform(
+              a * scale,
+              b * scale,
+              c * scale,
+              d * scale,
+              (e - x0) * scale,
+              (f - y0) * scale,
+            );
+            ctx.drawImage(image, x, y, w, h, x, y, w + 0.6, h + 0.6);
+          }
+          ctx.restore();
         }
       };
       if (decodedImage.cached) {
