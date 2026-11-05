@@ -110,3 +110,44 @@
 - `SWIAT-I-MIASTA.md`, `GPU-I-ZASOBY.md`, `AGENTS.md`: Verdantia, Pyra i Aetheria są scalone (PR #118) i domyślnie włączone (`=0` wyłącza); opt-in `PREVIEW_SWITCHES` dotyczy tylko nowych, jeszcze nieodebranych pakietów.
 - `PLAN-I-ZADANIA.md`: checkpoint 05.11 z faktycznie otwartymi pracami (odbiory, animacje po transformacji, Nexus-9, ostrość globusu, nieaktualne e2e, stare gałęzie). `RASY-I-POSTACIE.md`, `README.md`: data i odnośniki.
 - Nie zmieniano treści historycznych (checkpointy 23–29.10, 01.11 zostają jako zapis). Kontrola: `scripts/docs/check_documentation.py`.
+
+## Kontynent Nexus-9
+
+### 8. Integracja pakietu `nexus-continent-v2` z dziczą (05.11.2026, gałąź `feat/nexus-continent-art`)
+
+- Zlecenie właściciela: podłączyć materiały kontynentu Nexus-9 tak, żeby było pięknie.
+- Pakiet zaimportowany do rejestru (`npm run assets:import -- … --install`): 64 zasoby,
+  11 319 728 B rejestru, 33,87 MiB dekodowanych pikseli, budżet dekodowany świata
+  101,6 MiB z limitu 128 MiB. Wiązania `terrain.nexus-continent.*` i
+  `object.nexus-continent.*` nie nadpisują istniejących kluczy ani miasta.
+- Runtime: `src/game/world/generated/nexusContinent.ts` (biomy 1:1 z `biomeNames`,
+  sceneria na realne identyfikatory autorowane, roślinność przydrożna, efekty
+  ambientowe, rozrzut dekoracyjny) + czwarta gałąź w `renderSuperior.ts`
+  (podłoża biomów, woda, brzegi, sześć nawierzchni dróg, kryształowa skorupa,
+  wilgotny mech, blady kamień, naładowana ciecz, poświata płycizn, sucha skarpa,
+  cienie kontaktowe, animacja efektów) + remap i doładowywanie tekstur
+  w `superiorRuntime.ts`. Manifest dostał siedem aliasów nazw (`sand`, `water`,
+  `road1…road5`), bo blok generyczny renderera żąda właśnie takich identyfikatorów.
+- Włączanie: `?ki-nexus-continent=1`. **Nie włączono domyślnie** — pakiet czeka na
+  odbiór właściciela; `DEFAULT_ON_SWITCHES` pozostaje nietknięty.
+- Ustalenie o pustce: dane autorowane niosą poza miastem **8–16 obiektów na kadr
+  wobec 104 w stolicy**. Sama zamiana pakietu nie usuwa pustki, więc dodano rozrzut
+  obiektów nieistotnych fizycznie (bez `footprint`, `solid: false`) z limitem 40
+  na chunk. Kolizje, nawigacja, spawny i zapisy bez zmian.
+- Pomiar w buildzie playtest (programowy WebGL, pięć miejsc dobranych kryterium
+  rozstrzału od stolicy): dekoracje 8 → 20, 13 → 23, 12 → 23, 16 → 33; stolica
+  104 → 111; **zero błędów konsoli w każdym kadrze**. W pustkowia rdzeni kadr
+  pokazuje rodzimego potwora w walce (Strażnik Rdzenia 14, 877/877), czyli spawny
+  działają w dziczy.
+- Testy: `src/test/nexus-continent.test.ts` (8, wszystkie przechodzą),
+  `e2e/nexus-continent.spec.ts` zarejestrowany w projekcie `software-webgl`.
+- Bramka na tej gałęzi: pełny TypeScript (3 konfiguracje) PASS, `npm run test`
+  1201 przechodzi / 10 pominiętych, lint 0 błędów i 15 istniejących ostrzeżeń,
+  kontrola dokumentacji PASS, `npm run build` PASS.
+- **Nie zweryfikowano:** `e2e/nexus-continent.spec.ts` nie przechodzi w kontenerze
+  agenta — pada na budżecie marszu 90 s przy ~10,6 jednostki/s na programowym WebGL;
+  kontrolnie uruchomiony bez zmian `aetheria-continent.spec.ts` pada identycznie, więc
+  pomiar dotyczy środowiska, nie kodu. Wymaga potwierdzenia w CI i na fizycznym telefonie.
+- Otwarte: odbiór wyglądu przez właściciela i decyzja o przeniesieniu do
+  `DEFAULT_ON_SWITCHES`; gęstość dziczy nadal zależy od danych autorowanych,
+  rozrzut jest limitem 40 obiektów na chunk, nie rozwiązaniem docelowym.

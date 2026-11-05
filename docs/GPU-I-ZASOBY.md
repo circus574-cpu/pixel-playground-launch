@@ -781,3 +781,48 @@ Efekty są pojedynczymi przezroczystymi obrazami do późniejszej animacji,
 a nie animowanymi sekwencjami. Ciągłość tekstur, maski brzegów i wydajność
 wymagają oceny podczas integracji. Bohaterowie, potwory, HUD i audio pozostają
 osobnymi istniejącymi zasobami. [Kontrole i podgląd](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu).
+
+## Nexus-9 — integracja oprawy kontynentu 05.11.2026
+
+Ten wpis zastępuje akapit „nie wpisano go do aktywnego katalogu" powyżej.
+
+Pakiet [nexus-continent-v2@1.0.0](../art/production/nexus-continent-v2/) jest
+zaimportowany do rejestru i podłączony do renderu świata. Rejestr po instalacji:
+11 319 728 bajtów, digest `74639393a0f03565c127b81ee164885c9ecd3128e687be49a138c8efb7df06d1`,
+katalog zasobów `public/game/assets/gpu/nexus-continent-v2/1.0.0-74639393a0f0/`.
+Dekodowane piksele zestawu 33,87 MiB; budżet dekodowany świata Nexus-9 po instalacji
+106 541 856 B (101,6 MiB) z limitu 128 MiB. Odtworzenie:
+`node art/production/nexus-continent-v2/prepare.mjs`, potem
+`npm run assets:import -- art/production/nexus-continent-v2/manifest.json --install`
+(przy ponownej instalacji dodać `--replace`).
+
+Wiązania są osobne: `terrain.nexus-continent.*` i `object.nexus-continent.*` nie
+nadpisują żadnego istniejącego klucza ni miasta. Blok generyczny renderera żąda pod
+prefiksem kontynentu nazw `sand`, `water` i `road1…roadN`, których pakiet nie używał
+(`dry-shore`, `ocean`, `road-paved`), dlatego manifest zawiera siedem aliasów na te
+same zasoby. Runtime: `src/game/world/generated/nexusContinent.ts` — cztery podłoża
+biomów mapowane 1:1 na `biomeNames` ze `world.json`, przepisanie scenerii na realne
+identyfikatory autorowane (`nexus-lab`, `nexus-monolith`, `nexus-reactor`,
+`nexus-terminal`, obozowiska), roślinność przydrożna, efekty ambientowe i rozrzut
+dekoracyjny.
+
+**Włączanie:** `?ki-nexus-continent=1`. Pakiet NIE jest w `DEFAULT_ON_SWITCHES` —
+czeka na odbiór właściciela, zgodnie z zasadą, że domyślnie włącza się dopiero
+zaakceptowaną oprawę.
+
+**Gęstość dziczy.** Dane autorowane niosą poza miastem 8–16 obiektów na kadr
+przeciw 104 w stolicy, więc sama paleta nie usuwa pustki. Rozrzut dokłada obiekty
+**nieistotne fizycznie** (bez `footprint`, `solid: false`) z limitem 40 na strumieniowany
+chunk; kolizje, nawigacja, spawny i zapisy pozostają bez zmian. Zmierzono w buildzie
+playtest na programowym WebGL: 8 → 20, 13 → 23, 12 → 23, 16 → 33 dekoracji, zero
+błędów konsoli. Cząstki powietrzne są tylko w biomach ciepłych — gęstsze pole
+wymusiło wygasanie zrzutu.
+
+**Testy.** `src/test/nexus-continent.test.ts` (8): opt-in, brak nadpisania istniejących
+wiązań, aliasy, odczyt komórek biomu bez zmiany chunka, nienaruszalność miast i
+obiektów fizycznych, warianty koron według biomu, nieistotność rozrzutu i limit cząstek.
+`e2e/nexus-continent.spec.ts` w projekcie `software-webgl` (rejestracja w
+`playwright.config.ts`). **Nie wykonano go pomyślnie w kontenerze agenta**: pada na
+budżecie marszu 90 s przy tempie ~10,6 jednostki/s na programowym WebGL — identycznie
+jak istniejący `aetheria-continent.spec.ts`, którego nie zmieniano. Odbiór na fizycznym
+telefonie pozostaje otwarty.
