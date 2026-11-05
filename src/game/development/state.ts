@@ -212,6 +212,8 @@ export const CurrentDevelopmentSchema = Version2Base.extend({
     fail("Missing trail mastery unlock");
   if (domainRank(s.trials, "planetary", "earth") >= 2 && !s.unlockedVariants.includes("mv-earth"))
     fail("Missing earth mastery unlock");
+  if (domainRank(s.trials, "sage", "focus") >= 2 && !s.unlockedVariants.includes("ma-focus"))
+    fail("Missing focus mastery unlock");
   if (domainRank(s.trials, "sage", "barriers") >= 2 && !s.unlockedVariants.includes("ma-barrier"))
     fail("Missing barrier mastery unlock");
   if (domainRank(s.trials, "sage", "seals") >= 2 && !s.unlockedVariants.includes("ma-seal"))

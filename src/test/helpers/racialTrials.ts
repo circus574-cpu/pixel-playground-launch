@@ -21,7 +21,29 @@ export function walkTrial(a: TrialAttempt, point: Point) {
 }
 export function completeTrial(a: TrialAttempt) {
   a.begin();
-  if (["barrier-waves", "cover-windows"].includes(a.definition.kind)) {
+  if (a.definition.kind === "power-targets") {
+    for (let i = 0; i < a.targetCount; i++) {
+      walkTrial(a, a.currentPoint!);
+      a.inspect();
+      a.answer(i, "precise");
+    }
+  } else if (["focus-cycles", "sustain-nodes"].includes(a.definition.kind)) {
+    let last = "";
+    for (let n = 0; n < 6000 && a.snapshot().outcome === "running"; n++) {
+      const r = a.snapshot(),
+        point = a.currentPoint!,
+        key = `${point.x},${point.y}`;
+      if (last !== key) {
+        last = key;
+        a.session.command({ type: "move", ...point });
+      }
+      if (r.focus?.phase === "ready" && !a.session.kit.remaining("C1")) {
+        a.session.command({ type: "cancel" });
+        a.session.command({ type: "ability", ability: "C1" });
+      }
+      tickTrial(a);
+    }
+  } else if (["barrier-waves", "cover-windows"].includes(a.definition.kind)) {
     let previous = "";
     for (let n = 0; n < 5000 && a.snapshot().outcome === "running"; n++) {
       const r = a.snapshot(),

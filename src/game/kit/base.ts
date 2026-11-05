@@ -107,6 +107,9 @@ export abstract class Kit {
   shields: Shield[] = [];
   circles: Circle[] = [];
   channel: Channel | undefined;
+  /** Ephemeral completion receipt; not persisted and independent of the renderer. */
+  channelResult: { serial: number; id: string; completed: boolean } | undefined;
+  private channelSerial = 0;
   /** Time during which the player can do nothing (Przeciążenie Systemu shutdown, overheating is separate). */
   lockMs = 0;
   protected timers: { ms: number; fn: () => void }[] = [];
@@ -420,6 +423,7 @@ export abstract class Kit {
     if (!c) return;
     if ((reason === "move" && !c.breakOnMove) || (reason === "hit" && !c.breakOnHit)) return;
     this.channel = undefined;
+    this.channelResult = { serial: ++this.channelSerial, id: c.id, completed: false };
     c.onEnd(false);
   }
 
@@ -683,8 +687,9 @@ export abstract class Kit {
           c.next += c.every;
           c.onTick();
         }
-        if (c.ms <= 0) {
+        if (c.ms <= 0 && this.channel === c) {
           this.channel = undefined;
+          this.channelResult = { serial: ++this.channelSerial, id: c.id, completed: true };
           c.onEnd(true);
         }
       }

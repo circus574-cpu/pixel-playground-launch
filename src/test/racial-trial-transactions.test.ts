@@ -60,7 +60,7 @@ describe("racial trial results are owned, atomic and finite", () => {
       }
       const d = s.player.development!;
       expect(domainRank(d.trials, race, TRIALS.find((t) => t.race === race)!.domain)).toBe(3);
-      expect(d.practiceEarned).toBe(race === "planetary" ? 5400 : race === "sage" ? 2700 : 1350);
+      expect(d.practiceEarned).toBe(race === "planetary" ? 5400 : race === "sage" ? 4050 : 1350);
       expect(DevelopmentSchema.safeParse(d).success).toBe(true);
       if (race === "planetary") {
         expect(d.unlockedVariants).toContain("mv-earth");
@@ -70,6 +70,7 @@ describe("racial trial results are owned, atomic and finite", () => {
       if (race === "sage") {
         expect(d.unlockedVariants).toContain("ma-seal");
         expect(d.unlockedVariants).toContain("ma-barrier");
+        expect(d.unlockedVariants).toContain("ma-focus");
       }
       if (race === "legend") expect(d.unlockedVariants).toContain("mp-cuts");
       if (race === "android") {
@@ -85,7 +86,7 @@ describe("racial trial results are owned, atomic and finite", () => {
       completeTrial(again);
       expect(s.finishRacialTrial(again)).toBe(true);
       expect(s.player.development!.practiceEarned).toBe(
-        race === "planetary" ? 5400 : race === "sage" ? 2700 : 1350,
+        race === "planetary" ? 5400 : race === "sage" ? 4050 : 1350,
       );
     },
   );

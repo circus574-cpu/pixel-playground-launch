@@ -118,6 +118,9 @@ for (const [race, id, land] of [
   ["Planetarni", "TV04", "verdant"],
   ["Planetarni", "TV05", "verdant"],
   ["Planetarni", "TV06", "verdant"],
+  ["Mędrcy", "TA07", "aether"],
+  ["Mędrcy", "TA08", "aether"],
+  ["Mędrcy", "TA09", "aether"],
   ["Mędrcy", "TA04", "aether"],
   ["Mędrcy", "TA05", "aether"],
   ["Mędrcy", "TA06", "aether"],
@@ -156,7 +159,47 @@ for (const [race, id, land] of [
         return metrics ? JSON.parse(metrics).renderer : null;
       })
       .toBe(info.project.name === "software-webgl" ? "WebGL" : "Canvas");
-    if (id === "TA04" || id === "TA06") {
+    if (id === "TA07") {
+      for (let i = 0; i < 2; i++) {
+        await walkToStation(page, false);
+        await expect(stage).toHaveAttribute("data-focus-phase", "ready");
+        const skill = stage.locator('[data-ability="C1"]');
+        await expect(skill).toBeEnabled();
+        await skill.click();
+        await expect(stage).toHaveAttribute("data-focus-phase", "channel");
+        if (i === 0) await page.screenshot({ path: info.outputPath("focus-channel-c1.png") });
+        await expect(stage).toHaveAttribute("data-trial-successes", String(i + 1));
+      }
+    } else if (id === "TA08") {
+      for (let i = 0; i < 3; i++) {
+        await walkToStation(page, false);
+        await stage.getByRole("button", { name: "Zbadaj stanowisko", exact: true }).click();
+        const materials = page.getByRole("dialog", { name: "Materiały próby", exact: true });
+        await expect(materials).toContainText("Regeneracja nie odnawia");
+        if (i === 0) await page.screenshot({ path: info.outputPath("focus-ki-budget.png") });
+        await materials.getByRole("button", { name: /^Precyzyjny przepływ/ }).click();
+        await expect(stage).toHaveAttribute("data-trial-successes", String(i + 1));
+      }
+      expect(Number(await stage.getAttribute("data-focus-spent"))).toBeLessThanOrEqual(
+        Number(await stage.getAttribute("data-focus-budget")),
+      );
+    } else if (id === "TA09") {
+      const result = page.getByRole("dialog", { name: "Wynik próby rasowej", exact: true });
+      let previous = "";
+      for (let i = 0; i < 1000 && !(await result.count()); i++) {
+        const d = await stage.evaluate((el) => ({ ...el.dataset }));
+        if (d["trialX"] !== undefined && d["trialY"] !== undefined) {
+          const key = `${d["trialX"]},${d["trialY"]}`;
+          if (key !== previous) {
+            previous = key;
+            await walkToStation(page, false);
+            if (i === 0) await page.screenshot({ path: info.outputPath("focus-active-nodes.png") });
+          }
+        }
+        await page.waitForTimeout(100);
+      }
+      expect(Number(await stage.getAttribute("data-focus-remaining"))).toBe(0);
+    } else if (id === "TA04" || id === "TA06") {
       const result = page.getByRole("dialog", { name: "Wynik próby rasowej", exact: true });
       let previous = "";
       for (let i = 0; i < 1500 && !(await result.count()); i++) {

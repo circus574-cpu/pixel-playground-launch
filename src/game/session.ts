@@ -1842,6 +1842,11 @@ export class GameSession implements MonsterHost {
       )
         next.unlockedVariants.push("mv-earth");
       if (
+        domainRank(next.trials, "sage", "focus") >= 2 &&
+        !next.unlockedVariants.includes("ma-focus")
+      )
+        next.unlockedVariants.push("ma-focus");
+      if (
         domainRank(next.trials, "sage", "barriers") >= 2 &&
         !next.unlockedVariants.includes("ma-barrier")
       )
