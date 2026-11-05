@@ -246,6 +246,12 @@ Gałęzie: A — Ogień Walki, B — Żelazna Wola, C — Wybuch KI.
 | C9 / Ognisty Kataklizm        | ultimate |        16 | C7 lub C8        | Kolumna ognia w dużym obszarze ×4,5 i podpalenie na 5 s; 35 Ki; odn. 30 s.                                                             |
 | T / Forma Płomiennego Legendy | ki-mode  |        20 | A9 lub B9 lub C9 | 20 s: +30% Ataku, Żar utrzymuje się na 100; aura jako osobny efekt; 50 Ki; odn. 120 s.                                                 |
 
+## Tabele rozwoju ras 1–60 — przelicznik właściciela (05.11.2026)
+
+Źródło: [KI_Legends_Tabele_Rozwoju_Ras_1-60.xlsx](design/source-annexes/KI_Legends_Tabele_Rozwoju_Ras_1-60.xlsx), SHA-256 `b82984e26cc84e03ef849c45be866a669adc3ff4f8e3f2e47b31426b50ad4abb`. Arkusze: progi XP, cztery rasy, porównanie.
+Poziomy 1–20 przepisano z księgi (rozdz. 15); **poziomy 21–60 to ekstrapolacja oznaczona w arkuszu „DO BALANSU”**. Wzór: HP/KI/ATK/DEF = baza + stały krok na poziom; ruch i KI/s = baza × (1 + 5% × (poziom − 1)); krytyk = baza + krok; tempo ataku stałe na rasę (650/800/700/750 ms); XP do następnego poziomu = 100 + 60 × (L − 1); 1 punkt drzewka na poziom.
+Stan: tylko plik źródłowy i opis. Gra nadal kończy kampanię na poziomie 20, a generowane `base.generated.ts` nie zostały zmienione; wdrożenie poziomów 21–60 wymaga decyzji właściciela i testów balansu.
+
 ## Bestiariusz i ograniczenia
 
 Kanoniczne są 40 potworów właściciela z HTML i `roster.json`. Dawna alternatywna
