@@ -6,6 +6,7 @@ import type { Point } from "../navigation";
 const PRIORITY: Record<AnimationState, number> = {
   idle: 0,
   walk: 1,
+  kiwalk: 1,
   run: 2,
   attack: 3,
   skill: 4,
@@ -59,7 +60,15 @@ export class ActorAnimation {
         : now + (clip && frames ? (frames.length / clip.fps) * 1000 : state === "hit" ? 130 : 240);
     this.lastKey = "";
   }
-  update(now: number, moving: boolean, dead: boolean, facing: Point, paused = false) {
+  update(
+    now: number,
+    moving: boolean,
+    dead: boolean,
+    facing: Point,
+    paused = false,
+    /** Tryb KI is active: a moving hero walks in the powered-up form when the race has that clip. */
+    kiForm = false,
+  ) {
     if (paused) {
       this.sprite.anims.pause();
       return;
@@ -75,7 +84,7 @@ export class ActorAnimation {
       this.pending = undefined;
       if (pending && now <= pending.expires) this.trigger(pending.state, now, pending.facing);
       else {
-        this.state = moving ? "walk" : "idle";
+        this.state = moving ? (kiForm && this.visual.clips.kiwalk ? "kiwalk" : "walk") : "idle";
         this.direction = facing;
       }
     }

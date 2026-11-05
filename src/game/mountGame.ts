@@ -1451,6 +1451,7 @@ export function mountKileGends(
         session.player.dead,
         session.facing,
         session.paused || !!session.dialogue,
+        session.kit.buffs.some((b) => b.id === "T"),
       );
       // Behind trees or buildings the hero shows as a light outline drawn over them (as in Diablo).
       const sprite = this.hero.sprite,
