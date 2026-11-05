@@ -1,0 +1,143 @@
+
+Running 6 tests using 1 worker
+
+(node:6435) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/racial-trials.spec.ts:131:3 › Mędrcy: real TA07, one-time reward and reload (41.9s)
+  ✓  2 [gameplay] › e2e/racial-trials.spec.ts:131:3 › Mędrcy: real TA08, one-time reward and reload (26.0s)
+  ✘  3 [gameplay] › e2e/racial-trials.spec.ts:131:3 › Mędrcy: real TA09, one-time reward and reload (2.2m)
+(node:6732) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [software-webgl] › e2e/racial-trials.spec.ts:131:3 › Mędrcy: real TA07, one-time reward and reload (1.3m)
+  ✘  5 [software-webgl] › e2e/racial-trials.spec.ts:131:3 › Mędrcy: real TA08, one-time reward and reload (34.3s)
+
+
+  1) [gameplay] › e2e/racial-trials.spec.ts:131:3 › Mędrcy: real TA09, one-time reward and reload ──
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 65
+    Received:   108.21280441488788
+
+    Call Log:
+    - Timeout 60000ms exceeded while waiting on the predicate
+
+      105 |       ),
+      106 |     )
+    > 107 |     .toBeLessThan(65);
+          |      ^
+      108 | }
+      109 |
+      110 | for (const [race, id, land] of [
+        at walkToStation (/workspace/pixel-playground-launch/e2e/racial-trials.spec.ts:107:6)
+        at /workspace/pixel-playground-launch/e2e/racial-trials.spec.ts:195:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/focus-browser/racial-trials-Mędrcy-real-TA09-one-time-reward-and-reload-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/focus-browser/racial-trials-Mędrcy-real-TA09-one-time-reward-and-reload-gameplay/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/focus-browser/racial-trials-Mędrcy-real-TA09-one-time-reward-and-reload-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/focus-browser/racial-trials-Mędrcy-real-TA09-one-time-reward-and-reload-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [software-webgl] › e2e/racial-trials.spec.ts:131:3 › Mędrcy: real TA08, one-time reward and reload 
+
+    Test was interrupted.
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('.ki-canvas').first()
+    Expected: "arena"
+    Received: "outside"
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.ki-canvas').first() with timeout 60000ms
+      - waiting for locator('.ki-canvas').first()
+        6 × locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="idle" data-terrain-mode="superior" data-camera-y="25280.014998" data-player-…>…</div>
+          - unexpected value "outside"
+        2 × locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-y="25280.014998" data-camera-…>…</div>
+          - unexpected value "outside"
+        2 × locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-y="25279.96345349431" data-pl…>…</div>
+          - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-x="35872.19455311005" data-ca…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-x="35873.08661778813" data-ca…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-player-y="25727.0082351681" data-cam…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-player-x="36536.43193428222" data-ca…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-x="35886.52885998986" data-pl…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-x="35890.99449952613" data-pl…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-x="35898.154680244574" data-c…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-x="35908.29370058091" data-pl…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-x="35916.18805413236" data-ca…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-x="35926.95584088322" data-pl…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-player-x="36600.84314442446" data-ca…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-x="35948.941918706" data-play…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-player-x="36620.43939645094" data-ca…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-x="35968.40267896394" data-ca…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-x="35979.56487955288" data-ca…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-x="35990.74301340063" data-ca…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-y="25259.53971322817" data-pl…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-x="36013.11728348925" data-pl…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-x="36015.91478645322" data-ca…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="0" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-player-y="25702.5297494161" data-cam…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="1" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-player-x="36693.231076576" data-came…>…</div>
+        - unexpected value "outside"
+        - locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-npc-labels="1" data-world="aether" data-joystick-x="0" data-joystick-y="0" data-load-ms="4277" data-projectiles="0" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" data-camera-x="36032.70506169099" data-pl…>…</div>
+        - unexpected value "outside"
+      - Test ended.
+
+
+      140 |     await page.goto("/scripts/playtest.html?ki-world-v2=1");
+      141 |     await page.getByRole("button", { name: `Wybierz: ${race}`, exact: true }).click();
+    > 142 |     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+          |                          ^
+      143 |     const canvas = page.locator(".ki-canvas").first();
+      144 |     await expect(canvas).toHaveAttribute("data-player-x", /^\d/);
+      145 |     await openHudTool(page, "Umiejętności");
+        at /workspace/pixel-playground-launch/e2e/racial-trials.spec.ts:142:26
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/focus-browser/racial-trials-Mędrcy-real-TA08-one-time-reward-and-reload-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/focus-browser/racial-trials-Mędrcy-real-TA08-one-time-reward-and-reload-software-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/focus-browser/racial-trials-Mędrcy-real-TA08-one-time-reward-and-reload-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/focus-browser/racial-trials-Mędrcy-real-TA08-one-time-reward-and-reload-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [gameplay] › e2e/racial-trials.spec.ts:131:3 › Mędrcy: real TA09, one-time reward and reload ───
+  1 interrupted
+    [software-webgl] › e2e/racial-trials.spec.ts:131:3 › Mędrcy: real TA08, one-time reward and reload 
+  1 did not run
+  3 passed (5.4m)

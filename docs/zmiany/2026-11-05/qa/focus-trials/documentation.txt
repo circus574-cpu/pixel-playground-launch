@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/workspace/pixel-playground-launch/scripts/docs/check_documentation.py", line 42, in <module>
+    linked_posix in TRACKED
+AssertionError: ('zmiany/2026-11-05/ZMIANY.md', 'qa/focus-trials/verification.json', 'linked file is not tracked by Git')

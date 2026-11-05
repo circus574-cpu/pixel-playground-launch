@@ -1,5 +1,17 @@
 # KI Legends — aktualny plan i zadania
 
+## Kontynuacja 05.11 — Skupienie Mędrców
+
+Osobna gałąź `feature/racial-focus-trials-20261105` od PR #90 dodaje TA07/TA08/TA09
+w trzech stopniach oraz odblokowanie istniejącego `ma-focus` po Skupieniu II.
+Katalog tej gałęzi: **27/48 prób, 81/144 stopni**; Mędrcy 9/12 prób.
+Pozostają **21 prób / 63 stopnie**, cztery warianty i trzy moduły, interakcje dziedzin
+w świecie, późne starcia, tytuły, graf/budżet i pełny odbiór kampanii.
+Dalej: Pamięć Mędrców (TA10–TA12). Nie scalono ani nie opublikowano.
+[Mechanika](ROZWOJ-I-WALKA.md#skupienie-mędrców--kontynuacja-rozwoju-0511),
+[dowody](zmiany/2026-11-05/ZMIANY.md#skupienie-mędrców--ta07ta08ta09).
+
+
 ## Najnowsza partia — Bariery Mędrców, 04.11
 
 PR #90: TA04 Osłona archiwum, TA05 Droga zwierciadeł, TA06 Okna osłony,
