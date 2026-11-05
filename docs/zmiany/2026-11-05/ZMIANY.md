@@ -52,3 +52,15 @@
   o pamięci GPU z testem `globeQuality`), a mapa 2D ma przy dużym zbliżeniu dodatkową warstwę terenu świata, której globus nie ma. Realne
   rozwiązanie to dodanie takiej warstwy do globusa albo przejście z globusa do mapy 2D przy dużym zbliżeniu: wymaga decyzji właściciela.
 - Nie zweryfikowano: fizycznego telefonu i sprzętowego WebGL (emulacja z programowym renderowaniem).
+
+## Materiały animacji ras
+
+### 4. Chód po transformacji (4 filmy Gemini, tylko zapis)
+
+- Właściciel (05.11.2026) przekazał 4 filmy chodu postaci po transformacji, w innej formie niż chód bazowy. Zapisane bez obróbki w `art-wip/gemini-walk-videos/`
+  obok istniejących `*-walk`, `*-fight` i `*-transform`: `android-walk-transformed.mp4`, `legend-walk-transformed.mp4`, `sage-walk-transformed.mp4`,
+  `planetary-walk-transformed.mp4`.
+- Wszystkie: H.264 1280×720, 24 kl./s, 10 s, z dźwiękiem AAC; białe lub jasnoszare tło (nie przezroczyste), widok z boku.
+- Przypisanie do ras z wyglądu postaci, porównanego z istniejącymi filmami `*-fight` tych ras: Android (srebrne włosy, pancerz z niebieskimi obwodami),
+  Legenda (czerwony pancerz), Mędrzec (kobieta w turkusowej sukni), Planetar (zielono-biały strój z pomarańczowym szalem).
+- To materiał roboczy (`art-wip`): nie jest podpięty do gry ani wycięty na klatki. Wycięcie klatek z tłem na przezroczystość to osobny krok.
