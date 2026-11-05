@@ -1,0 +1,11 @@
+
+Running 2 tests using 1 worker
+
+(node:30110) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE (1.2m)
+(node:30303) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [software-webgl] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE (1.7m)
+
+  2 passed (2.9m)

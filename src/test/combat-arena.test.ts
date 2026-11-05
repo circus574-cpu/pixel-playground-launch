@@ -47,4 +47,16 @@ describe("combat arena clearing", () => {
       clearsArena(index, tree(1000, 1000, { binding: "object.biome-mountain.boulder-pile" })),
     ).toBe(false);
   });
+  it("recognises the continent-art trees and bushes (maple, ginkgo, cypress, bramble, blueberry)", () => {
+    for (const name of [
+      "object.pyra-continent.maple",
+      "object.aetheria-continent.ginkgo",
+      "object.aetheria-continent.cypress",
+      "object.verdantia-extra.bramble",
+      "object.verdantia-extra.blueberry",
+    ])
+      expect(clearsArena(index, tree(1000, 1000, { binding: name })), name).toBe(true);
+    for (const name of ["object.pyra-continent.rocks", "object.verdantia-extra.cliff"])
+      expect(clearsArena(index, tree(1000, 1000, { binding: name })), name).toBe(false);
+  });
 });

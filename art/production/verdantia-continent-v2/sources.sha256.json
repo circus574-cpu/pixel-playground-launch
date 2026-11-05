@@ -1,0 +1,62 @@
+[
+  {
+    "name": "verdantia-meadow-generated",
+    "sha256": "186f4fe5b300edd0758843c671be0d923d8ed9524ba6ef301253872edc2938a9"
+  },
+  {
+    "name": "verdantia-forest",
+    "sha256": "80963c7fd597cbcbc6c6cbad5a3c70416c87dc95f3268006de1e8834fed7bc12"
+  },
+  {
+    "name": "verdantia-rockg",
+    "sha256": "992f6a0a5d5867114e3665d332ac6c38f74b9a4e828e6a5481e9f7986423649e"
+  },
+  {
+    "name": "verdantia-wet",
+    "sha256": "230830647e406ea80ff4bfb2c1adbe6fb5288170ff1a6a895d70b8274c2cbb4c"
+  },
+  {
+    "name": "verdantia-sand",
+    "sha256": "e9c821c4ca499f19e5e6aa5b35f66249e6ddc8cac18a4a3f4ab6525ef55a18cd"
+  },
+  {
+    "name": "verdantia-water",
+    "sha256": "ef9d06eaab1dfc8e9cc38d778312946e2f63c48bb953fcb83b720edd7f2daf1e"
+  },
+  {
+    "name": "verdantia-road1",
+    "sha256": "b1dc58a2ee899e647057d6719a3d634a45184753d0a5001e5d8f5812d6b11954"
+  },
+  {
+    "name": "verdantia-road2",
+    "sha256": "f0cfa65d644d66548e6ec4ed8a32729ed939970a0022976078cf7154e394e804"
+  },
+  {
+    "name": "verdantia-road3",
+    "sha256": "9be610e5afd79d572a6d0ecb436e4179078d26be7f438d395371489477fe9edd"
+  },
+  {
+    "name": "verdantia-road4",
+    "sha256": "b8596b2db2515570d9a196bbaac883a485d3f4470b5ff84a21a04223b1fe4bf3"
+  },
+  {
+    "name": "verdantia-oak-generated",
+    "sha256": "b917f0c8e2368355b474258b8670c5a330904b1238b30a4b1ed68ef577c66c5a"
+  },
+  {
+    "name": "verdantia-tree2",
+    "sha256": "0a5c920519ad65c4ac0916b65121ccfa4a46107f53a182e2efafef6f83848d32"
+  },
+  {
+    "name": "verdantia-bush",
+    "sha256": "644b93a8d5543136ad71cdcfbfb62e64ea913cbf9d46159658f6c383f58666f7"
+  },
+  {
+    "name": "verdantia-rocks",
+    "sha256": "5583b8e76579bd31a65f639fdef7a0aaa21a3fa61a624d7ff6b83b570e478d76"
+  },
+  {
+    "name": "verdantia-flora",
+    "sha256": "402aa4322daccadee0b9a7b8a326f1b37cbd27115febc57cbbb25736d842c4c9"
+  }
+]

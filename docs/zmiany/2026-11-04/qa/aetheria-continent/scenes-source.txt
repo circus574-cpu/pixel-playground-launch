@@ -1,0 +1,14 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {browserNavigation,decodeRuns} from './src/game/world/generated/browserTerrain';
+const dir='public/game/worlds/superior-v2/aether/',read=(p:string)=>JSON.parse(readFileSync(dir+p,'utf8')),w=read('world.json');
+const nav=browserNavigation(w.geometry.width,w.geometry.height,read('navigation.json'),read('terrain.json'),read('collision.json'));
+const index=JSON.parse(readFileSync('public/game/worlds/superior-v2/index.json','utf8'));const arrival=index.features.find((f:any)=>f.id==='aether').arrival;
+const cache=new Map();const bAt=(p:any)=>{let key=Math.floor(p.x/2048)+'-'+Math.floor(p.y/2048),c=cache.get(key);if(!c){c=read('chunks/'+key+'.json');c.biomes=decodeRuns(c.terrain.biome,c.terrain.width*c.terrain.height);cache.set(key,c);}return c.biomes[Math.floor((p.y-c.y)/32)*c.terrain.width+Math.floor((p.x-c.x)/32)];};
+const enemies=read('spawns.json').overworld;
+const scenes=[0,1,2,3].map(b=>{
+ const candidates=[];
+ const purity=(p:any)=>{let n=0,total=0;for(let dy=-600;dy<=600;dy+=200)for(let dx=-600;dx<=600;dx+=200){if(bAt({x:p.x+dx,y:p.y+dy})===b)n++;total++;}return n/total;};
+ for(let y=1000;y<w.geometry.height-1000;y+=256)for(let x=1000;x<w.geometry.width-1000;x+=256){const p={x,y};if(bAt(p)!==b||!nav.walkable(p)||Math.hypot(p.x-arrival.x,p.y-arrival.y)<2400||!w.settlements.every((s:any)=>p.x<s.bounds.x-500||p.x>s.bounds.x+s.bounds.width+500||p.y<s.bounds.y-500||p.y>s.bounds.y+s.bounds.height+500)||!enemies.every((e:any)=>Math.hypot(p.x-e.x,p.y-e.y)>700))continue;const score=purity(p);if(score>0.8)candidates.push({...p,score});}
+ candidates.sort((a:any,b:any)=>Math.hypot(a.x-arrival.x,a.y-arrival.y)-Math.hypot(b.x-arrival.x,b.y-arrival.y));return {biome:b,...candidates[0]};
+});
+const output={arrival,exit:nav.safe({x:arrival.x,y:arrival.y+1700}),scenes};console.log(output);writeFileSync('/tmp/aetheria-pure-grid.json',JSON.stringify(output));

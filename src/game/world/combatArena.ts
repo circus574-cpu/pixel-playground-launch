@@ -13,7 +13,8 @@ export const ARENA_THIN_KEEP = 0.4;
 /** Ground props and low bushes below this height never block the view of a fight. */
 export const ARENA_MIN_HEIGHT = 100;
 const CELL = 512;
-const FOLIAGE = /tree|pine|oak|birch|spruce|willow|palm|cherry|bamboo|bush|shrub|foliage/;
+const FOLIAGE =
+  /tree|pine|oak|birch|spruce|willow|palm|cherry|bamboo|bush|shrub|foliage|maple|ginkgo|cypress|sakura|blossom|bramble|blueberry/;
 
 export function arenaClearingEnabled(search: string): boolean {
   return new URLSearchParams(search).get("ki-clear-arenas") !== "0";

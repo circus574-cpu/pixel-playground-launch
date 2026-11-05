@@ -1,0 +1,67 @@
+{
+  "type": "concept-sheets",
+  "generator": "image_gen",
+  "jobs": [
+    {
+      "file": "pyra-woda-lawa-brzegi-6-wariantow.png",
+      "prompt": "Create a 3-column by 2-row grid of SIX equally sized square material samples, each STRICT top-down flat orthographic, no gutters or labels. Top left: seamless dark teal ocean water with subtle small wave ripples. Top middle: seamless slowly flowing orange-red molten lava with dark cooling crust ribbons, readable restrained glow, no landscape. Top right: horizontal natural volcanic seashore with dark basalt gravel and ash in upper half, teal water lower half, irregular organic wave edge and thin pale foam, continuous left-to-right. Bottom left: horizontal molten lava shoreline, dark solid basalt upper half, glowing lava lower half, irregular cooled black crust lip between, continuous across edges. Bottom middle: a natural soft transition between yellow ochre sulfur mineral ground and dark brown volcanic earth, irregular organic boundary across centre, no pavers. Bottom right: a natural transition between loose charcoal ash and rough basalt stone ground, organic mottled edge, no straight boundary. Fine material detail. Only ground and liquid surfaces, NO raised objects, trees, buildings, characters or decorative symbols. All samples fill their cells."
+    },
+    {
+      "file": "pyra-drobne-dekoracje-8-wariantow.png",
+      "alpha": true,
+      "prompt": "Polished hand-painted 2D fantasy RPG environment art for PYRA, a volcanic autumn continent. Cohesive charcoal basalt, rusty brown ash soil, crimson and copper accents, restrained orange embers. Sharp readable painterly detail, consistent three-quarter overhead game camera for objects, soft upper-left lighting. No text, labels, UI, watermark or frames. This is a sheet of separate asset concepts, not a landscape scene. Every entire object contained inside the canvas with generous margins, ample separation, no overlapping silhouettes. Exactly EIGHT isolated environmental props in a spacious 4-column by 2-row layout. Top row: (1) small cluster of rough basalt stones, (2) scattered sharp black obsidian fragments with subtle purple reflections, (3) small dry rusty grass tuft, (4) a charred hollow tree stump with no fire. Bottom row: (5) a short fallen burned log with exposed wood, (6) a low patch of copper and crimson fallen maple leaves, (7) a small cluster of dark red mineral crystals, (8) a hardy low clump of wiry purple-brown ashland weeds with tiny dull orange buds. Natural irregular silhouettes, small believable details. ACTUAL transparent background, alpha zero beyond object edges, no glow fields or atmospheric backdrop, no colored haze, no ground plates, no grass islands, no bases or pedestals. Props must look naturally placed over separate terrain."
+    },
+    {
+      "file": "pyra-przejscia-terenowe-4-warianty.png",
+      "alpha": true,
+      "prompt": "Polished hand-painted 2D fantasy RPG environment art for PYRA, a volcanic autumn continent. Cohesive charcoal basalt, rusty brown ash soil, crimson and copper accents, restrained orange embers. Sharp readable painterly detail, consistent three-quarter overhead game camera for objects, soft upper-left lighting. No text, labels, UI, watermark or frames. This is a sheet of separate asset concepts, not a landscape scene. Every entire object contained inside the canvas with generous margins, ample separation, no overlapping silhouettes. Exactly FOUR different standalone terrain passage assets arranged in a spacious 2x2 layout: TOP LEFT a narrow old dark stone footbridge with a complete walkable deck and two low rough basalt side rails, both ends visible, no water or gorge attached. TOP RIGHT a run of worn natural basalt steps climbing a small rocky incline, uneven charcoal slabs with rusty dust, clear upper and lower landings, no pedestal. BOTTOM LEFT a natural cave entrance, irregular dark basalt arch formation surrounding a deep black entrance, no door, no interior scene, small irregular rocky footprint. BOTTOM RIGHT an abandoned mine entrance cut into volcanic rock, heavy weathered charred timber supports, short rusty narrow-gauge rails ending near entrance, no full landscape or building. Consistent three-quarter overhead RPG view, believable entrances players could walk into. Completely isolated silhouettes with actual transparent background, alpha zero outside rocks and structures. No atmospheric background, no gradient wash, no colored halo, no island platforms, no labels or people."
+    },
+    {
+      "file": "pyra-rekwizyty-swiata-6-wariantow.png",
+      "alpha": true,
+      "prompt": "Polished hand-painted 2D fantasy RPG environment art for PYRA, a volcanic autumn continent. Cohesive charcoal basalt, rusty brown ash soil, crimson and copper accents, restrained orange embers. Sharp readable painterly detail, consistent three-quarter overhead game camera for objects, soft upper-left lighting. No text, labels, UI, watermark or frames. This is a sheet of separate asset concepts, not a landscape scene. Every entire object contained inside the canvas with generous margins, ample separation, no overlapping silhouettes. Exactly SIX different environmental prop groups in a spacious 3-column by 2-row layout. Top left a small traveler campsite with one weathered dark red canvas tent and two bedrolls, no terrain island. Top middle a rugged wooden trail signpost with two blank arrow boards and worn rope, NO lettering or symbols. Top right a small stone-ring campfire with a modest amber flame and short charred logs, no smoke backdrop. Bottom left a small broken ancient basalt ruin fragment with three weathered stone columns and a low collapsed lintel, NOT a whole temple. Bottom middle an abandoned damaged wooden two-wheel supply cart with a few closed sacks and one broken wheel, no people. Bottom right a low rough wooden supply barrier with a battered closed chest, two barrels and a folded crimson cloth, no heraldic logos. Dark volcanic-autumn fantasy palette, shapes clearly legible and distinct. Actual transparent background, no colored atmospheric glow fields, no gradient background, no ground islands or square plates, no pedestals, no cast shadow wash, no full scenery. Every group separated and fully visible."
+    },
+    {
+      "file": "pyra-efekty-otoczenia-5-wariantow.png",
+      "alpha": true,
+      "prompt": "Create a clean VFX concept sprite sheet for a beautiful hand-painted 2D volcanic fantasy RPG. EXACTLY FIVE isolated environmental effects, arranged three across top and two across bottom, separated with wide transparent gutters. TOP LEFT: a loose delicate scatter of tiny falling gray volcanic ash flakes, varied size and opacity, no cloud backdrop. TOP MIDDLE: a small upward spray of warm orange sparks and glowing ember motes, individual discrete particles, no fire source. TOP RIGHT: a soft thin curling plume of charcoal-gray smoke, subtle semi-transparent hand-painted wisps, no chimney or object. BOTTOM LEFT: a low soft localized ember-glow effect, a few dim orange glowing cracks and motes with gentle transparent falloff, no terrain plate. BOTTOM RIGHT: a small white-gray geothermal steam plume, delicate translucent curling wisps with a faint warm tint, no pool or source object. Production VFX samples on ACTUAL fully transparent background with alpha zero in all empty space between effects. Subtle luminous edges only around individual sparks, absolutely no opaque dark background, no checkerboard, no broad colored background gradient, no atmospheric scene. No text, labels, objects, characters, borders or watermark. Each effect entirely visible. These are five single effect sprite concepts, NOT animation frames."
+    }
+  ],
+  "results": [
+    {
+      "status": "fulfilled",
+      "value": {
+        "file": "pyra-woda-lawa-brzegi-6-wariantow.png",
+        "source": "/workspace/generated_images/exec-bc2ea9fe-8188-4943-a9e7-b8619b8ec2e0.png"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "file": "pyra-drobne-dekoracje-8-wariantow.png",
+        "source": "/workspace/generated_images/exec-ada811f2-7f0d-4879-96b2-22ca4fe37997.png"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "file": "pyra-przejscia-terenowe-4-warianty.png",
+        "source": "/workspace/generated_images/exec-30289220-7058-4188-8f1f-72771674d6c8.png"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "file": "pyra-rekwizyty-swiata-6-wariantow.png",
+        "source": "/workspace/generated_images/exec-3bdd24a9-1db6-4a3d-a9d2-241f09069bf8.png"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "file": "pyra-efekty-otoczenia-5-wariantow.png",
+        "source": "/workspace/generated_images/exec-52410f9e-7986-41d4-a9c8-a4f6f54e2a5f.png"
+      }
+    }
+  ]
+}

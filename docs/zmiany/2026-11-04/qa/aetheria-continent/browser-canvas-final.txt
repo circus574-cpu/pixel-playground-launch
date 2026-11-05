@@ -1,0 +1,10 @@
+
+Running 3 tests using 1 worker
+
+(node:42732) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/aetheria-continent.spec.ts:3:1 › Aetheria: real terrain, city, ambient graphics, streaming, reload and PvE (1.0m)
+  ✓  2 [gameplay] › e2e/pyra-continent.spec.ts:3:1 › Pyra: real terrain, city, ambient graphics, streaming, reload and PvE (1.1m)
+  ✓  3 [gameplay] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE (1.2m)
+
+  3 passed (3.3m)

@@ -1,0 +1,31 @@
+{
+  "status": "concept sheets, not integrated runtime sprites",
+  "totalConcepts": 26,
+  "files": [
+    {
+      "file": "verdantia-podszyt-8-wariantow.png",
+      "concepts": 8,
+      "sha256": "bb3d271ac90b04693dd898ec38d7706244a59784b504c9745941e01806694bac"
+    },
+    {
+      "file": "verdantia-stare-drzewa-i-drewno-6-wariantow.png",
+      "concepts": 6,
+      "sha256": "52e6fe5679cd50fca884be8ea022af40fe1cc679048ac63aef75f9126e562ab9"
+    },
+    {
+      "file": "verdantia-naturalne-formy-terenu-6-wariantow.png",
+      "concepts": 6,
+      "sha256": "5e3e8c14fdeb8fe6a76a4ef0c340861e52f6b565acebd96dbc2a228baff9b112"
+    },
+    {
+      "file": "verdantia-odkrycia-i-rekwizyty-6-wariantow.png",
+      "concepts": 6,
+      "sha256": "b3c9524a4a5cb3937d894e32cad4fe307881e892305c2f107aea25db8fb2528a"
+    }
+  ],
+  "remaining": [
+    "Extract objects",
+    "Clean backgrounds and colored halos; inspect alpha",
+    "Validate scale, feet and runtime budget before importer integration"
+  ]
+}

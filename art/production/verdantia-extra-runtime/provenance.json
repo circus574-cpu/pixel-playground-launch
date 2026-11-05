@@ -1,0 +1,25 @@
+{
+  "originalSheets": "../verdantia-extra-concepts-2026-11-04",
+  "cleanupTool": "image_gen",
+  "cleanedSources": [
+    {
+      "file": "verdantia-podszyt-8-wariantow.png",
+      "path": "/workspace/generated_images/exec-4400776f-3b98-4ea3-914f-1e8b97efc845.png"
+    },
+    {
+      "file": "verdantia-stare-drzewa-i-drewno-6-wariantow.png",
+      "path": "/workspace/generated_images/exec-99efb8de-8e0b-460c-b32a-0f4c3c62e2df.png"
+    },
+    {
+      "file": "verdantia-naturalne-formy-terenu-6-wariantow.png",
+      "path": "/workspace/generated_images/exec-902b54fa-0675-4f64-a8a0-389426e4f3af.png"
+    },
+    {
+      "file": "verdantia-odkrycia-i-rekwizyty-6-wariantow.png",
+      "path": "/workspace/generated_images/exec-4d41ce87-2541-46ab-9e2d-309d68593837.png"
+    }
+  ],
+  "cleanup": "Preserve object designs, count and grid order; remove background, atmospheric wash and halos; output isolated alpha cutouts with complete separated silhouettes.",
+  "packing": "Extract grid cells; discard only small disconnected edge fragments from neighbouring cells, retain main silhouettes; trim empty alpha margins; add transparent padding; resize understory to 192px, props to 256px, trees to 384px, terrain/bridge to 512px; encode WebP. World positions, footprints and foot anchors remain unchanged.",
+  "runtimeStatus": "Opt-in addition to ki-verdant-continent=1; no production publication"
+}

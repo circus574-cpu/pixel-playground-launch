@@ -1,0 +1,236 @@
+{
+  "counts": {
+    "spring": 85,
+    "bridge": 1,
+    "ridge": 67,
+    "hill": 99,
+    "cliff": 102,
+    "camp": 80,
+    "shrine": 40,
+    "chest": 40,
+    "sign": 40,
+    "log": 407,
+    "bramble": 387,
+    "rose": 383,
+    "roots": 198,
+    "blueberry": 387,
+    "cart": 9,
+    "cave": 2,
+    "arch": 2,
+    "birch": 889,
+    "ancient-oak": 1818,
+    "willow": 967,
+    "flowers": 227,
+    "stump": 228,
+    "mushrooms": 219,
+    "grass": 480,
+    "fern": 177,
+    "burdock": 204
+  },
+  "examples": {
+    "spring": {
+      "id": "verdant-relief-365",
+      "x": 47536,
+      "y": 39184
+    },
+    "bridge": {
+      "id": "landmark-famous-verdant-2",
+      "x": 34576,
+      "y": 57712
+    },
+    "ridge": {
+      "id": "verdant-relief-364",
+      "x": 48624,
+      "y": 39376
+    },
+    "hill": {
+      "id": "verdant-relief-232",
+      "x": 52304,
+      "y": 31120
+    },
+    "cliff": {
+      "id": "verdant-relief-247",
+      "x": 51696,
+      "y": 32240
+    },
+    "camp": {
+      "id": "verdant-camp-15-1",
+      "x": 52336,
+      "y": 32284
+    },
+    "shrine": {
+      "id": "verdant-camp-15-3",
+      "x": 52596,
+      "y": 32104
+    },
+    "chest": {
+      "id": "verdant-camp-15-4",
+      "x": 52836,
+      "y": 32604
+    },
+    "sign": {
+      "id": "verdant-camp-15-5",
+      "x": 52436,
+      "y": 32584
+    },
+    "log": {
+      "id": "verdant-object-72497",
+      "x": 49808,
+      "y": 36080
+    },
+    "bramble": {
+      "id": "verdant-object-19381",
+      "x": 48336,
+      "y": 35792
+    },
+    "rose": {
+      "id": "verdant-resource-409",
+      "x": 49488,
+      "y": 36048
+    },
+    "roots": {
+      "id": "verdant-resource-868",
+      "x": 48688,
+      "y": 35824
+    },
+    "blueberry": {
+      "id": "verdant-object-64014",
+      "x": 48560,
+      "y": 36048
+    },
+    "cart": {
+      "id": "verdant-object-31970",
+      "x": 44240,
+      "y": 37456
+    },
+    "cave": {
+      "id": "v2-verdant-labyrinth-verdant",
+      "x": 61296,
+      "y": 22896
+    },
+    "arch": {
+      "id": "v2-transit-4-verdant",
+      "x": 51632,
+      "y": 30032
+    },
+    "birch": {
+      "id": "verdant-object-15536",
+      "x": 48816,
+      "y": 35920
+    },
+    "ancient-oak": {
+      "id": "verdant-object-38588",
+      "x": 49296,
+      "y": 35824
+    },
+    "willow": {
+      "id": "verdant-object-40489",
+      "x": 48912,
+      "y": 35856
+    },
+    "flowers": {
+      "id": "verdant-object-45513",
+      "x": 48304,
+      "y": 36048
+    },
+    "stump": {
+      "id": "verdant-object-59100",
+      "x": 48560,
+      "y": 36208
+    },
+    "mushrooms": {
+      "id": "verdant-object-42364",
+      "x": 48496,
+      "y": 35856
+    },
+    "grass": {
+      "id": "verdant-object-28233",
+      "x": 48464,
+      "y": 36144
+    },
+    "fern": {
+      "id": "verdant-object-48437",
+      "x": 49040,
+      "y": 36560
+    },
+    "burdock": {
+      "id": "verdant-object-52286",
+      "x": 48368,
+      "y": 35856
+    }
+  },
+  "scenes": [
+    {
+      "name": "camp",
+      "source": {
+        "id": "verdant-camp-15-1",
+        "x": 52336,
+        "y": 32284
+      },
+      "point": {
+        "x": 52516,
+        "y": 32904
+      }
+    },
+    {
+      "name": "spring",
+      "source": {
+        "id": "verdant-relief-365",
+        "x": 47536,
+        "y": 39184
+      },
+      "point": {
+        "x": 47716,
+        "y": 39804
+      }
+    },
+    {
+      "name": "cliff",
+      "source": {
+        "id": "verdant-relief-247",
+        "x": 51696,
+        "y": 32240
+      },
+      "point": {
+        "x": 51876,
+        "y": 32860
+      }
+    },
+    {
+      "name": "cave",
+      "source": {
+        "id": "v2-verdant-labyrinth-verdant",
+        "x": 61296,
+        "y": 22896
+      },
+      "point": {
+        "x": 61476,
+        "y": 23516
+      }
+    },
+    {
+      "name": "arch",
+      "source": {
+        "id": "v2-transit-4-verdant",
+        "x": 51632,
+        "y": 30032
+      },
+      "point": {
+        "x": 51812,
+        "y": 30652
+      }
+    },
+    {
+      "name": "bridge",
+      "source": {
+        "id": "landmark-famous-verdant-2",
+        "x": 34576,
+        "y": 57712
+      },
+      "point": {
+        "x": 34704.893585739424,
+        "y": 58194.96134731838
+      }
+    }
+  ]
+}

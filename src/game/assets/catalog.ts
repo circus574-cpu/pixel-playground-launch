@@ -139,8 +139,12 @@ export function makeCatalog(
   }
   return { assets, actors, actorBindings, renderBindings, effects };
 }
-/** Packs enabled by each opt-in review switch (`?<param>=1`). */
+/** Packs enabled by each review switch (`?<param>=1`; the default-on ones need `=0` to turn off). */
 export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
+  "ki-aetheria-continent": ["aetheria-continent-v2"],
+  "ki-pyra-continent": ["pyra-continent-v2"],
+  /** Verdantia wilderness materials; accepted city art is unchanged. */
+  "ki-verdant-continent": ["verdantia-continent-v2", "verdantia-extra-runtime"],
   /** Painted cities (Verdantia, Aetheria, Nexus-9, Pyra) are public by default (owner decision 04.11.2026); `?ki-painted=0` restores the old look. */
   "ki-painted": [
     "verdant-painted-preview",
@@ -259,6 +263,14 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
     "enemy-v2-verdant-straznik-ruin",
   ],
 };
+/** Review switches that are on unless the URL says `=0`. */
+const DEFAULT_ON_SWITCHES: ReadonlySet<string> = new Set([
+  "ki-monsters-anime",
+  "ki-painted",
+  "ki-verdant-continent",
+  "ki-pyra-continent",
+  "ki-aetheria-continent",
+]);
 /** All four delivered heroes are active packs; legacy hero URL flags are harmless. */
 export function previewPacks(search: string): string[] {
   const params = new URLSearchParams(search);
@@ -267,7 +279,8 @@ export function previewPacks(search: string): string[] {
     param === "ki-world-v2"
       ? params.get("ki-world-v1") !== "1"
       : // Anime monsters accepted by the owner 02.11.2026: default on, `?ki-monsters-anime=0` restores the old ones.
-        param === "ki-monsters-anime" || param === "ki-painted"
+        // Continent art (Verdantia, Pyra, Aetheria) public by owner decision 05.11.2026: default on, `=0` opts out.
+        DEFAULT_ON_SWITCHES.has(param)
         ? params.get(param) !== "0"
         : params.get(param) === "1";
   return Object.entries(PREVIEW_SWITCHES).flatMap(([param, packs]) => (on(param) ? packs : []));

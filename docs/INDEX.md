@@ -1,5 +1,15 @@
 # KI Legends — dokumentacja projektu
 
+**Nexus — komplet 64 wygenerowanych materiałów:** [podgląd, źródła i zakres](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu).
+
+**Aetheria — nowa oprawa kontynentu:** [36 zasobów, cztery biomy i zrzuty](zmiany/2026-11-04/ZMIANY.md#aetheria--nowa-oprawa-kontynentu).
+
+**Pyra — nowa oprawa kontynentu na osobnej gałęzi:** [52 zasoby runtime, zakres i zrzuty](zmiany/2026-11-04/ZMIANY.md#pyra--nowa-oprawa-kontynentu).
+
+**Verdantia — 26 dodatkowych grafik podłączonych do gry:** [zakres integracji i zrzuty](zmiany/2026-11-04/ZMIANY.md#verdantia--ukończenie-integracji-dodatkowej-oprawy).
+
+**Verdantia — kontynent, podgląd 04.11.2026:** [zakres, materiały i zrzuty z rzeczywistej gry](zmiany/2026-11-04/ZMIANY.md#verdantia--oprawa-kontynentu-na-osobnej-gałęzi).
+
 **Aetheria — próbna oprawa na osobnej gałęzi:** [lokalny zrzut i instrukcja](zmiany/2026-11-03/ZMIANY.md#aetheria--oprawa-z-materiałów-właściciela).
 
 **Próba oprawy Verdantii (osobna gałąź, bez publikacji):** [kod, zasoby, zrzut z gry i włączenie podglądu](zmiany/2026-11-03/ZMIANY.md#próba-malowanej-verdantii--gałąź-podglądowa).

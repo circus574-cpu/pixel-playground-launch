@@ -1,5 +1,30 @@
 # KI Legends — GPU i zasoby
 
+## Verdantia — materiały kontynentu 04.11.2026
+
+Paczka `verdantia-continent-v2@1.0.1` jest opt-in (`ki-verdant-continent=1`):
+15 zasobów, około 4,37 MiB plików runtime i 15,95 MiB rozkodowanych pikseli.
+Miasta zachowują swoje zaakceptowane wiązania; nowe klucze mają przestrzeń
+`terrain.verdantia-continent.*` / `object.verdantia-continent.*`.
+Nie podniesiono limitu pamięci streamingu dla potworów.
+
+Źródła: pięć powierzchni z `art/world-verdantia-v2@00e15ad5`, cztery drogi
+i cztery przezroczyste obiekty z dwóch ZIP-ów właściciela na Dysku Google.
+Dodatkowo wygenerowano oddzielne drzewo liściaste bez wyspy podłoża i teksturę
+łąki przez narzędzie `image_gen`, na podstawie palety dostarczonego krzewu.
+Oryginalne PNG, dostępne prompty, SHA-256 i identyfikatory archiwów zachowano
+w [pakiecie źródłowym](../art/production/verdantia-continent-v2/).
+[Pochodzenie i ograniczenia](../art/production/verdantia-continent-v2/provenance.json).
+Nie uruchamiano ani nie zmieniano instancji GPU właściciela.
+
+Odtworzenie: `node art/production/verdantia-continent-v2/prepare.mjs`, następnie
+`npm run assets:import -- art/production/verdantia-continent-v2/manifest.json --install`.
+Przy ponownym imporcie istniejącej wersji dodać `--replace`. Zachowana alfa,
+przycięcie pustych marginesów i dopasowanie rozmiaru nie zmieniają fizycznych
+kotwic. Z ilustracji dróg wycięto pas samej nawierzchni; renderer nakłada go
+na maski istniejących tras, bez wklejania prostokątnych obrazków całej drogi.
+Piasek i woda korzystają z istniejącej maski lądu. [Dowody z gry](zmiany/2026-11-04/ZMIANY.md#verdantia--oprawa-kontynentu-na-osobnej-gałęzi).
+
 ## Aetheria — materiały właściciela 03.11.2026
 
 Pakiet `aether-painted-preview@1.0.0`, flaga `ki-aether-painted=1`: cztery
@@ -660,3 +685,102 @@ Ikony surowców (17 typów × 2–3 warianty) i ikony przedmiotów z Księgi (br
 2. Gęstość świata: pełne pokrycie całego kontynentu od razu czy najpierw pas wokół miasta o promieniu ok. 15 000 j.
 3. Styl zwierząt: malowany jak potwory, czy prostszy (mniej klatek).
 4. Prawa do referencji i checkpointów oraz moment uruchomienia poda (po stronie właściciela).
+
+
+## Pyra — archiwum koncepcji 04.11.2026
+
+Na gałęzi `art/pyra-materials-2026-11-04` zachowano [10 plansz PNG, manifest z SHA-256 i dostępne prompty](../art/production/pyra-concepts-2026-11-04/): 52 wzory podłoży, dróg, roślin, form terenu, przejść, dekoracji, rekwizytów oraz statycznych efektów. To archiwum wygenerowanych koncepcji; nie jest paczką runtime. Wymaga wydzielenia elementów, oczyszczenia alfa/poświat, sprawdzenia kafelkowania i przygotowania animacji efektów przed importem do gry.
+
+
+## Verdantia — dodatkowe koncepcje 04.11.2026
+
+[Archiwum 4 plansz i promptów](../art/production/verdantia-extra-concepts-2026-11-04/) zawiera 26 nowych wzorów: 8 roślin podszytu, 6 drzew i elementów drewna, 6 form terenu oraz 6 rekwizytów eksploracji. Gałąź `art/verdantia-extra-2026-11-04`. To materiały koncepcyjne; przed importem wymagają wydzielenia, oczyszczenia tła/poświat i oceny skali oraz kotwic.
+
+
+## Verdantia — przygotowane dodatkowe grafiki runtime
+
+Pakiet [verdantia-extra-runtime](../art/production/verdantia-extra-runtime/) zawiera 26 osobnych sprite’ów wyciętych z przygotowanych przez `image_gen` wersji czterech plansz. Pierwotne koncepcje są zachowane. Wycięcia mają przezroczyste tło, puste marginesy i rozmiary 192/256/384/512 px; pełny pakiet ma 10,37 MiB rozkodowanych pikseli i około 3,18 MiB plików. Włącza go istniejąca opcja `ki-verdant-continent=1`, razem z podłożami i drogami. Przypisania mają osobne klucze `object.verdantia-extra.*`; miasta i statystyki nie są nadpisywane.
+
+Odtworzenie: `node art/production/verdantia-extra-runtime/prepare.mjs`, następnie `npm run assets:import -- art/production/verdantia-extra-runtime/manifest.json --install` (przy ponownej instalacji dodać `--replace`). Pochodzenie, źródła i SHA-256 są w tym samym pakiecie. Warianty drzew i podszytu są deterministyczne, a fizyczne footprinty, kotwice i położenia pozostają źródłowe.
+
+
+## Pyra — pakiet kontynentu runtime 04.11.2026
+
+Pakiet [pyra-continent-v2@1.0.0](../art/production/pyra-continent-v2/)
+wydziela 52 obrazy z dziesięciu zachowanych plansz: 14 materiałów powierzchni,
+33 obiekty oraz 5 efektów otoczenia. Pięć plansz (rośliny, dwa zestawy terenu,
+przejścia, rekwizyty) oczyszczono przez `image_gen`; oryginalne koncepcje
+pozostają w osobnym archiwum. `provenance.json` i `sources.sha256.json`
+zapisują pochodzenie oraz SHA-256. Importer stosuje osobne wiązania
+`terrain.pyra-continent.*` i `object.pyra-continent.*`, opt-in
+`ki-pyra-continent=1`; nie zastępuje wcześniejszych kluczy katalogu.
+
+Odtworzenie: `node art/production/pyra-continent-v2/prepare.mjs`, następnie
+`npm run assets:import -- art/production/pyra-continent-v2/manifest.json --install`
+(przy ponownej instalacji dodać `--replace`). Przy wycinaniu usuwane są wyłącznie
+małe, odłączone fragmenty sąsiednich elementów dotykające krawędzi komórki.
+Sprite’y mają przezroczysty margines. Materiały dróg wycięto ze środkowego pasa,
+a brzegi z części stałego gruntu, żeby nie nakładać obrazu cieczy na szlak.
+
+Runtime: 7 773 994 bajty, 26,65 MiB rozkodowanych pikseli; pełny digest
+`55660ce18ae52d4d64d648e84920baa448b6923136142f42ed6e6edbcbaadd00`.
+Tylko najbliższe fragmenty świata i widoczne obiekty są streamowane.
+Koncepcje efektów mają animację transformacji/alfa; nie są pełnymi animacjami
+klatkowymi. Odbiór na fizycznym telefonie pozostaje otwarty.
+
+
+## Aetheria — pakiet kontynentu runtime 04.11.2026
+
+Pakiet [aetheria-continent-v2@1.0.0](../art/production/aetheria-continent-v2/)
+zawiera 36 osobnych obrazów: 14 powierzchni i 22 obiekty. Zachowano wszystkie
+20 materiałów źródłowych z gałęzi `art/world-verdantia-v2`, ich manifest oraz
+prompty; SHA-256 oryginalnych obrazów zweryfikowano przed przygotowaniem.
+Do runtime wybrano 10 istniejących materiałów powierzchni. Pozostałe cztery
+nawierzchnie i 22 obiekty przygotowano przez `image_gen`, aby zastąpić blade
+podłoża i obiekty z wodnymi/kamiennymi podstawkami.
+
+Cztery plansze generacji, trzy oczyszczone plansze obiektów, komplet użytych
+promptów i źródłowe SHA-256 są zachowane w `source/`, `provenance.json` oraz
+`sources.sha256.json`. Obróbka tła i marginesów korzysta z `image_gen`;
+`prepare.mjs` technicznie wydziela komórki, usuwa małe odłączone fragmenty
+sąsiednich obiektów przy krawędzi, skaluje i dodaje przezroczysty margines.
+Drogi i nurt wykorzystują środkowy pas obrazu, żeby nie namalować pozornej
+wody na przechodnim lądzie. Osiem niewykorzystanych starych obiektów oraz dwa
+stare podłoża pozostają w archiwum źródłowym.
+
+Odtworzenie: `node art/production/aetheria-continent-v2/prepare.mjs`, potem
+`npm run assets:import -- art/production/aetheria-continent-v2/manifest.json --install`
+(przy ponownej instalacji dodać `--replace`). Rejestr ma osobne wiązania
+`terrain.aetheria-continent.*` i `object.aetheria-continent.*`; istniejące klucze
+nie są nadpisywane. Opt-in: `ki-aetheria-continent=1`.
+
+Runtime: 5 331 248 bajtów, 16,21 MiB rozkodowanych pikseli. Digest:
+`3117f4ea8b96a9ffc9cf799a03f519f78ef8928a4cb91c372127bcce58f4a931`.
+Gra korzysta ze streamingu i dotychczasowych budżetów. Odbiór płynności
+na fizycznym telefonie pozostaje otwarty; programowy WebGL sprawdza poprawność.
+
+
+## Nexus — komplet materiałów kontynentu 04.11.2026
+
+[Pakiet nexus-continent-v2](../art/production/nexus-continent-v2/) zawiera
+64 osobne obrazy WebP: 8 podłoży, 6 nawierzchni dróg, 8 roślin, 8 form terenu,
+10 rekwizytów, 6 struktur, 6 materiałów wody/brzegów, 6 statycznych nakładek
+VFX oraz 6 budynków/przejść. Łącznie 20 powierzchni, 38 obiektów i 6 efektów.
+Dwa budynki uzupełniają nowszą oprawę warsztatu i gospody/punktu regeneracji;
+cztery pozostałe budynki usługowe miasta mają już malowane zasoby. Ich stan
+oraz SHA-256 istniejących plików zapisuje `existing-city.json`.
+
+Wygenerowano dziewięć plansz przez `image_gen`, a cztery z nich dodatkowo
+oczyszczono edycją alfa i marginesów. Oryginały, oczyszczone wersje, wszystkie
+prompty i pochodzenie pozostają w `source/` i `provenance.json`. Przygotowanie:
+`node art/production/nexus-continent-v2/prepare.mjs`. Osobne bindingi
+`terrain.nexus-continent.*` oraz `object.nexus-continent.*` nie nadpisują miasta.
+Wielkość plików: 4 458 920 bajtów, 33,87 MiB rozkodowanych pikseli całego zestawu.
+
+Pakiet jest materiałem do integracji, `previewOnly: true`; nie wpisano go do
+aktywnego katalogu i nie włączono w grze. `coverage.json` wymienia grupy i dalsze
+prace: przypisania, maski lądu/wody, footprinty, skala/gęstość i odbiór w runtime.
+Efekty są pojedynczymi przezroczystymi obrazami do późniejszej animacji,
+a nie animowanymi sekwencjami. Ciągłość tekstur, maski brzegów i wydajność
+wymagają oceny podczas integracji. Bohaterowie, potwory, HUD i audio pozostają
+osobnymi istniejącymi zasobami. [Kontrole i podgląd](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu).

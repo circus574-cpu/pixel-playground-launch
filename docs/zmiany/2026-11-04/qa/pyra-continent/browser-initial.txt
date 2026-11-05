@@ -1,0 +1,72 @@
+
+Running 4 tests using 1 worker
+
+(node:35086) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/pyra-continent.spec.ts:3:1 › Pyra: real terrain, city, ambient graphics, streaming, reload and PvE (1.2m)
+  ✘  2 [gameplay] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE (40.2s)
+(node:36108) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [software-webgl] › e2e/pyra-continent.spec.ts:3:1 › Pyra: real terrain, city, ambient graphics, streaming, reload and PvE (1.9m)
+  ✘  4 [software-webgl] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE (2.7m)
+
+
+  1) [gameplay] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.ki-hud')
+    Expected: visible
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.ki-hud') with timeout 60000ms
+      - waiting for locator('.ki-hud')
+      - Target crashed
+
+
+       at fixtures.ts:292
+
+      290 | async function base_expectHud(page: import("@playwright/test").Page) {
+      291 |   const { expect } = await import("@playwright/test");
+    > 292 |   await expect(page.locator(".ki-hud")).toBeVisible();
+          |                                         ^
+      293 | }
+      294 | /** Learns a skill-tree node through the real "Umiejętności" panel. */
+      295 | export async function learnSkill(page: import("@playwright/test").Page, name: string) {
+        at base_expectHud (/tmp/ki-verdantia-continent/e2e/fixtures.ts:292:41)
+        at patchActiveCharacter (/tmp/ki-verdantia-continent/e2e/fixtures.ts:288:3)
+        at /tmp/ki-verdantia-continent/e2e/verdantia-continent.spec.ts:66:5
+
+    Error Context: ../pyra-e2e-final/verdantia-continent-Verdan-dece4-g-touch-reload-and-live-PvE-gameplay/error-context.md
+
+  2) [software-webgl] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 65
+    Received:   989.5008520912611
+
+    Call Log:
+    - Timeout 90000ms exceeded while waiting on the predicate
+
+      48 |         { timeout: 90000 },
+      49 |       )
+    > 50 |       .toBeLessThan(65);
+         |        ^
+      51 |     await expect(canvas).toHaveAttribute("data-superior-pending", "0");
+      52 |   };
+      53 |   await walk(49296, 33700);
+        at walk (/tmp/ki-verdantia-continent/e2e/verdantia-continent.spec.ts:50:8)
+        at /tmp/ki-verdantia-continent/e2e/verdantia-continent.spec.ts:80:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../pyra-e2e-final/verdantia-continent-Verdan-dece4-g-touch-reload-and-live-PvE-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../pyra-e2e-final/verdantia-continent-Verdan-dece4-g-touch-reload-and-live-PvE-software-webgl/error-context.md
+
+  2 failed
+    [gameplay] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE
+    [software-webgl] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE
+  2 passed (6.6m)

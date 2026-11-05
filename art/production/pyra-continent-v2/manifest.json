@@ -1,0 +1,831 @@
+{
+  "schemaVersion": 1,
+  "id": "pyra-continent-v2",
+  "version": "1.0.0",
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "pyra-continent-basalt",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "basalt.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "pyra-continent-ash",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "ash.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "pyra-continent-gravel",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "gravel.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "pyra-continent-leaves",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "leaves.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "pyra-continent-road1",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road1.webp",
+      "width": 512,
+      "height": 122
+    },
+    {
+      "id": "pyra-continent-road2",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road2.webp",
+      "width": 512,
+      "height": 122
+    },
+    {
+      "id": "pyra-continent-road3",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road3.webp",
+      "width": 512,
+      "height": 122
+    },
+    {
+      "id": "pyra-continent-road4",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road4.webp",
+      "width": 512,
+      "height": 122
+    },
+    {
+      "id": "pyra-continent-water",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "water.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "pyra-continent-lava",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "lava.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "pyra-continent-shore",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "shore.webp",
+      "width": 512,
+      "height": 194
+    },
+    {
+      "id": "pyra-continent-lava-bank",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "lava-bank.webp",
+      "width": 512,
+      "height": 194
+    },
+    {
+      "id": "pyra-continent-sulfur",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "sulfur.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "pyra-continent-ash-rock",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "ash-rock.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "pyra-continent-maple",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "maple.webp",
+      "width": 400,
+      "height": 363
+    },
+    {
+      "id": "pyra-continent-pine",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pine.webp",
+      "width": 398,
+      "height": 400
+    },
+    {
+      "id": "pyra-continent-berry-bush",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "berry-bush.webp",
+      "width": 272,
+      "height": 197
+    },
+    {
+      "id": "pyra-continent-copper-bush",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "copper-bush.webp",
+      "width": 272,
+      "height": 205
+    },
+    {
+      "id": "pyra-continent-lantern-bush",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "lantern-bush.webp",
+      "width": 272,
+      "height": 213
+    },
+    {
+      "id": "pyra-continent-hill",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "hill.webp",
+      "width": 528,
+      "height": 294
+    },
+    {
+      "id": "pyra-continent-cliff",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "cliff.webp",
+      "width": 528,
+      "height": 351
+    },
+    {
+      "id": "pyra-continent-ridge",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "ridge.webp",
+      "width": 528,
+      "height": 447
+    },
+    {
+      "id": "pyra-continent-crater",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "crater.webp",
+      "width": 528,
+      "height": 402
+    },
+    {
+      "id": "pyra-continent-fissure",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fissure.webp",
+      "width": 528,
+      "height": 526
+    },
+    {
+      "id": "pyra-continent-obsidian-spire",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "obsidian-spire.webp",
+      "width": 528,
+      "height": 452
+    },
+    {
+      "id": "pyra-continent-rock-arch",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "rock-arch.webp",
+      "width": 528,
+      "height": 325
+    },
+    {
+      "id": "pyra-continent-pahoehoe",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pahoehoe.webp",
+      "width": 528,
+      "height": 458
+    },
+    {
+      "id": "pyra-continent-spring",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "spring.webp",
+      "width": 528,
+      "height": 488
+    },
+    {
+      "id": "pyra-continent-scree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "scree.webp",
+      "width": 528,
+      "height": 410
+    },
+    {
+      "id": "pyra-continent-rocks",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "rocks.webp",
+      "width": 272,
+      "height": 240
+    },
+    {
+      "id": "pyra-continent-shards",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "shards.webp",
+      "width": 272,
+      "height": 232
+    },
+    {
+      "id": "pyra-continent-dry-grass",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "dry-grass.webp",
+      "width": 272,
+      "height": 230
+    },
+    {
+      "id": "pyra-continent-stump",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "stump.webp",
+      "width": 272,
+      "height": 249
+    },
+    {
+      "id": "pyra-continent-log",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "log.webp",
+      "width": 272,
+      "height": 178
+    },
+    {
+      "id": "pyra-continent-leaf-patch",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "leaf-patch.webp",
+      "width": 272,
+      "height": 150
+    },
+    {
+      "id": "pyra-continent-crystals",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "crystals.webp",
+      "width": 272,
+      "height": 264
+    },
+    {
+      "id": "pyra-continent-weeds",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "weeds.webp",
+      "width": 272,
+      "height": 218
+    },
+    {
+      "id": "pyra-continent-bridge",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "bridge.webp",
+      "width": 528,
+      "height": 328
+    },
+    {
+      "id": "pyra-continent-steps",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "steps.webp",
+      "width": 528,
+      "height": 369
+    },
+    {
+      "id": "pyra-continent-cave",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "cave.webp",
+      "width": 528,
+      "height": 351
+    },
+    {
+      "id": "pyra-continent-mine",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "mine.webp",
+      "width": 528,
+      "height": 367
+    },
+    {
+      "id": "pyra-continent-camp",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "camp.webp",
+      "width": 272,
+      "height": 266
+    },
+    {
+      "id": "pyra-continent-sign",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "sign.webp",
+      "width": 246,
+      "height": 272
+    },
+    {
+      "id": "pyra-continent-fire",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fire.webp",
+      "width": 272,
+      "height": 213
+    },
+    {
+      "id": "pyra-continent-ruin",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "ruin.webp",
+      "width": 272,
+      "height": 259
+    },
+    {
+      "id": "pyra-continent-cart",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "cart.webp",
+      "width": 272,
+      "height": 238
+    },
+    {
+      "id": "pyra-continent-supplies",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "supplies.webp",
+      "width": 272,
+      "height": 220
+    },
+    {
+      "id": "pyra-continent-fx-ash",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fx-ash.webp",
+      "width": 164,
+      "height": 208
+    },
+    {
+      "id": "pyra-continent-fx-embers",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fx-embers.webp",
+      "width": 143,
+      "height": 208
+    },
+    {
+      "id": "pyra-continent-fx-smoke",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fx-smoke.webp",
+      "width": 138,
+      "height": 208
+    },
+    {
+      "id": "pyra-continent-fx-heat",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fx-heat.webp",
+      "width": 208,
+      "height": 160
+    },
+    {
+      "id": "pyra-continent-fx-steam",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fx-steam.webp",
+      "width": 151,
+      "height": 208
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "terrain.pyra-continent.basalt": {
+      "asset": "pyra-continent-basalt",
+      "tileSize": [
+        768,
+        768
+      ]
+    },
+    "terrain.pyra-continent.ash": {
+      "asset": "pyra-continent-ash",
+      "tileSize": [
+        768,
+        768
+      ]
+    },
+    "terrain.pyra-continent.gravel": {
+      "asset": "pyra-continent-gravel",
+      "tileSize": [
+        768,
+        768
+      ]
+    },
+    "terrain.pyra-continent.leaves": {
+      "asset": "pyra-continent-leaves",
+      "tileSize": [
+        768,
+        768
+      ]
+    },
+    "terrain.pyra-continent.road1": {
+      "asset": "pyra-continent-road1",
+      "tileSize": [
+        768,
+        128
+      ]
+    },
+    "terrain.pyra-continent.road2": {
+      "asset": "pyra-continent-road2",
+      "tileSize": [
+        768,
+        128
+      ]
+    },
+    "terrain.pyra-continent.road3": {
+      "asset": "pyra-continent-road3",
+      "tileSize": [
+        768,
+        128
+      ]
+    },
+    "terrain.pyra-continent.road4": {
+      "asset": "pyra-continent-road4",
+      "tileSize": [
+        768,
+        128
+      ]
+    },
+    "terrain.pyra-continent.water": {
+      "asset": "pyra-continent-water",
+      "tileSize": [
+        768,
+        768
+      ]
+    },
+    "terrain.pyra-continent.lava": {
+      "asset": "pyra-continent-lava",
+      "tileSize": [
+        768,
+        768
+      ]
+    },
+    "terrain.pyra-continent.shore": {
+      "asset": "pyra-continent-shore",
+      "tileSize": [
+        768,
+        768
+      ]
+    },
+    "terrain.pyra-continent.lava-bank": {
+      "asset": "pyra-continent-lava-bank",
+      "tileSize": [
+        768,
+        768
+      ]
+    },
+    "terrain.pyra-continent.sulfur": {
+      "asset": "pyra-continent-sulfur",
+      "tileSize": [
+        768,
+        768
+      ]
+    },
+    "terrain.pyra-continent.ash-rock": {
+      "asset": "pyra-continent-ash-rock",
+      "tileSize": [
+        768,
+        768
+      ]
+    },
+    "object.pyra-continent.maple": {
+      "asset": "pyra-continent-maple",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.pine": {
+      "asset": "pyra-continent-pine",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.berry-bush": {
+      "asset": "pyra-continent-berry-bush",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.copper-bush": {
+      "asset": "pyra-continent-copper-bush",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.lantern-bush": {
+      "asset": "pyra-continent-lantern-bush",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.hill": {
+      "asset": "pyra-continent-hill",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.cliff": {
+      "asset": "pyra-continent-cliff",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.ridge": {
+      "asset": "pyra-continent-ridge",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.crater": {
+      "asset": "pyra-continent-crater",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.fissure": {
+      "asset": "pyra-continent-fissure",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.obsidian-spire": {
+      "asset": "pyra-continent-obsidian-spire",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.rock-arch": {
+      "asset": "pyra-continent-rock-arch",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.pahoehoe": {
+      "asset": "pyra-continent-pahoehoe",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.spring": {
+      "asset": "pyra-continent-spring",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.scree": {
+      "asset": "pyra-continent-scree",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.rocks": {
+      "asset": "pyra-continent-rocks",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.shards": {
+      "asset": "pyra-continent-shards",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.dry-grass": {
+      "asset": "pyra-continent-dry-grass",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.stump": {
+      "asset": "pyra-continent-stump",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.log": {
+      "asset": "pyra-continent-log",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.leaf-patch": {
+      "asset": "pyra-continent-leaf-patch",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.crystals": {
+      "asset": "pyra-continent-crystals",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.weeds": {
+      "asset": "pyra-continent-weeds",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.bridge": {
+      "asset": "pyra-continent-bridge",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.steps": {
+      "asset": "pyra-continent-steps",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.cave": {
+      "asset": "pyra-continent-cave",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.mine": {
+      "asset": "pyra-continent-mine",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.camp": {
+      "asset": "pyra-continent-camp",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.sign": {
+      "asset": "pyra-continent-sign",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.fire": {
+      "asset": "pyra-continent-fire",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.ruin": {
+      "asset": "pyra-continent-ruin",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.cart": {
+      "asset": "pyra-continent-cart",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.supplies": {
+      "asset": "pyra-continent-supplies",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.fx-ash": {
+      "asset": "pyra-continent-fx-ash",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.fx-embers": {
+      "asset": "pyra-continent-fx-embers",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.fx-smoke": {
+      "asset": "pyra-continent-fx-smoke",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.fx-heat": {
+      "asset": "pyra-continent-fx-heat",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.pyra-continent.fx-steam": {
+      "asset": "pyra-continent-fx-steam",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    }
+  },
+  "effects": {}
+}

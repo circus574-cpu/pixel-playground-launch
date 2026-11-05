@@ -1,5 +1,78 @@
 # KI Legends — świat, kontynenty i miasta
 
+## Aetheria — podgląd oprawy kontynentu 04.11.2026
+
+Gałąź `preview/aetheria-continent-v2`, opcja `ki-aetheria-continent=1` w Superior v2,
+rasa **Mędrcy**. Zmiana jest warstwą prezentacji poza istniejącymi osadami.
+Zachowuje gotowe Sanktuarium Tysiąca Źródeł, jego budynki, NPC i usługi.
+
+Cztery źródłowe biomy pozostają w swoich miejscach: tarasy źródeł, święty gaj,
+lodowe szczyty i lodowce. Nowe łąki i runo, pięć nawierzchni dróg, jasny kamień,
+śnieg, lód, piasek oraz woda używają istniejących masek. Tekstura nurtu trafia
+wyłącznie na istniejącą wodę przy brzegu — nie tworzy nowej rzeki ani przejścia.
+Nawierzchnie zależą od biomu, kategorii szlaku i sąsiedztwa wody.
+
+Sakury, miłorzęby, cyprysy i zaśnieżone sosny zastępują odpowiednie dekoracje.
+Zimne biomy nie otrzymują nowych kwitnących krzewów ani bambusów. Mniejsze
+rośliny, martwe drewno i lodowe formacje są przerzedzane wyłącznie wtedy, gdy
+nie mają kolizji. Każda fizyczna przeszkoda zachowuje tożsamość, położenie,
+footprint oraz metadane. Lodowe odłamki mają deterministycznie zróżnicowaną
+skalę rysunku i odbicie; fizyka nie korzysta z tych zmian wyglądu.
+
+Kapliczki, obozy, skrzynie, drogowskazy, skały i wejścia dostają osobne sprite’y.
+Dwa istniejące wejścia tranzytowe wyglądają jak naturalne łuki, komnaty jak jaskinia,
+a labirynt jak ruina. Nie tworzy to nowych podziemi, nagród ani interakcji.
+Kryształy KI i kanoniczne budynki/większe miejsca zachowują wcześniejsze grafiki.
+Nie dodano mechaniki mrozu, pływania ani nowej animowanej fauny.
+
+[Źródła, audyty i zrzuty z gry](zmiany/2026-11-04/ZMIANY.md#aetheria--nowa-oprawa-kontynentu).
+To podgląd na osobnej gałęzi, bez scalenia do `main` lub publikacji domen.
+
+## Pyra — podgląd oprawy kontynentu 04.11.2026
+
+Gałąź `preview/pyra-continent-v2`, opcja `ki-pyra-continent=1` w Superior v2.
+Podgląd dotyczy dzikich ziem poza czterema bezpiecznymi osadami. Zachowuje
+ukończoną Twierdzę Popiołu, usługi, drzwi oraz wszystkie źródłowe dane świata.
+
+Cztery istniejące biomy otrzymują własne podłoża: popielne pola, bazalt,
+wulkany i kaniony. Nakładki liści, siarki, skał i brzegów tworzą lokalne
+przejścia. Cztery faktury szlaków zależą od rodzaju drogi i biomu; ich punkty,
+szerokości i przejezdność pozostają źródłowe. Ognista lawa jest malowana tylko
+na istniejących niedostępnych komórkach wulkanicznego lądu; nie dodaje obrażeń.
+
+Osobne sprite’y zastępują drzewa, krzewy, drewno, skały, wulkany, źródła,
+obsydian, obozy, ruiny, zaopatrzenie i wejścia. Przerzedzane są wyłącznie
+bezkolizyjne dekoracje. Cztery niewielkie grafiki mostów/schodów leżą na
+istniejących szerokich szlakach jako dekoracyjne przepusty; nie są nową trasą
+ani modelem wysokości. Dym, para, żar, popiół i gorące powietrze wykorzystują
+statyczne przezroczyste tekstury z animacją pozycji/zanikania, nie nowe sekwencje
+klatek. Geometria, kolizje, zapis i spawny pozostają bez zmian.
+
+[Źródła, wyniki i zrzuty z gry](zmiany/2026-11-04/ZMIANY.md#pyra--nowa-oprawa-kontynentu).
+To gałąź podglądowa, bez scalenia do `main` ani publikacji domen.
+
+
+## Verdantia — podgląd oprawy kontynentu 04.11.2026
+
+Gałąź `preview/verdantia-continent-v2`, opcja `ki-verdant-continent=1` w Superior v2.
+Nowe materiały dziczy obejmują łąkę, las, kamienne wzgórza, mokradła, piasek
+i wodę; drogi korzystają z czterech nawierzchni dostarczonych przez właściciela.
+Rośliny i skały są osobnymi sprite'ami, z głębią według stóp i przygaszaniem
+przy zasłanianiu postaci. Drzewa bez kolizji tworzą rzadsze grupy i polany,
+a przy szlakach dochodzą drobne niesolidne krzewy i kwiaty. Cienie kontaktowe
+są współdzielonymi sprite'ami, więc nie urywają się na granicach chunków.
+
+Zmiana obowiązuje poza istniejącymi bezpiecznymi osadami. Ich granice, budynki
+i dotychczasowe wiązania grafik pozostają zachowane. Kontur lądu, nawigacja,
+kolizje, spawny, statystyki i zapis nie są regenerowane ani migrowane.
+Uzupełnienie `verdantia-extra-runtime` dodaje 26 przygotowanych sprite’ów: nowe drzewa,
+podszyt, kłody, pniaki, korzenie, formy terenu, obozy i rekwizyty eksploracji.
+Zastępują odpowiednie grafiki istniejących obiektów poza miastami. Część starszych
+zasobów, m.in. kryształy KI i domy wiosek, pozostaje kanoniczna. Nowe obrazy nie
+dodają usług, nagród, wejść ani nowych przeszkód fizycznych.
+[Źródła i import](GPU-I-ZASOBY.md#verdantia--materiały-kontynentu-04112026),
+[lokalne zrzuty i weryfikacja](zmiany/2026-11-04/ZMIANY.md#verdantia--oprawa-kontynentu-na-osobnej-gałęzi).
+
 ## Malowana Verdantia — podgląd 03.11.2026
 
 Gałąź `preview/verdantia-painted-terrain`, flaga `ki-verdant-painted=1`:

@@ -1,0 +1,309 @@
+{
+  "config": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/tmp/ki-verdantia-continent/node_modules/.bin/playwright",
+      "test",
+      "e2e/pyra-continent.spec.ts",
+      "e2e/verdantia-continent.spec.ts",
+      "--project=software-webgl",
+      "--trace=off",
+      "--output=/tmp/pyra-e2e-webgl-final"
+    ],
+    "configFile": "/tmp/ki-verdantia-continent/playwright.config.ts",
+    "rootDir": "/tmp/ki-verdantia-continent/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/pyra-e2e-webgl-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "gameplay",
+        "name": "gameplay",
+        "testDir": "/tmp/ki-verdantia-continent/e2e",
+        "testIgnore": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/map-performance.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/city-webgl.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/pyra-e2e-webgl-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "software-webgl",
+        "name": "software-webgl",
+        "testDir": "/tmp/ki-verdantia-continent/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/verdantia-continent.spec.ts",
+          "**/pyra-continent.spec.ts",
+          "**/development.spec.ts",
+          "**/verdant-painted-preview.spec.ts",
+          "**/development-heritage.spec.ts",
+          "**/heritage-delivery.spec.ts",
+          "**/development-combat-smoke.spec.ts",
+          "**/city-webgl.spec.ts",
+          "**/combat-bosses.spec.ts",
+          "**/combat-skills.spec.ts",
+          "**/combat-v3.spec.ts",
+          "**/combat-v3-superior.spec.ts",
+          "**/argon-mobile.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/hero-lifecycle.spec.ts",
+          "**/world-rendering.spec.ts",
+          "**/superior-world.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/pyra-e2e-webgl-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-canvas",
+        "name": "application-canvas",
+        "testDir": "/tmp/ki-verdantia-continent/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/map-performance.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/pyra-e2e-webgl-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-webgl",
+        "name": "application-webgl",
+        "testDir": "/tmp/ki-verdantia-continent/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/map-performance.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/tmp/pyra-e2e-webgl-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "software-webgl",
+        "testDir": "/tmp/ki-verdantia-continent/e2e",
+        "snapshotDir": "/tmp/ki-verdantia-continent/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/verdantia-continent.spec.ts",
+          "**/pyra-continent.spec.ts",
+          "**/development.spec.ts",
+          "**/verdant-painted-preview.spec.ts",
+          "**/development-heritage.spec.ts",
+          "**/heritage-delivery.spec.ts",
+          "**/development-combat-smoke.spec.ts",
+          "**/city-webgl.spec.ts",
+          "**/combat-bosses.spec.ts",
+          "**/combat-skills.spec.ts",
+          "**/combat-v3.spec.ts",
+          "**/combat-v3-superior.spec.ts",
+          "**/argon-mobile.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/hero-lifecycle.spec.ts",
+          "**/world-rendering.spec.ts",
+          "**/superior-world.spec.ts"
+        ],
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4178",
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          },
+          "trace": "off",
+          "screenshot": "only-on-failure",
+          "launchOptions": {
+            "args": [
+              "--no-sandbox",
+              "--use-gl=angle",
+              "--use-angle=swiftshader",
+              "--enable-unsafe-swiftshader"
+            ]
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "software-webgl"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/stage3-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "pyra-continent.spec.ts",
+      "file": "pyra-continent.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Pyra: real terrain, city, ambient graphics, streaming, reload and PvE",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "software-webgl",
+              "projectName": "software-webgl",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 107260,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-04T21:38:49.385Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "pyra-runtime",
+                      "contentType": "application/json",
+                      "body": "eyJzY2VuZXMiOltdLCJlcnJvcnMiOltdLCJtaXNzaW5nIjpbXSwibWV0cmljcyI6IntcInNhbXBsZUF0TXNcIjo1NDM1MyxcImZwc1wiOjI2LjY2LFwiZnJhbWVQNTBNc1wiOjIxLjMwMDAwMDAwNDQ3MDM1LFwiZnJhbWVQOTVNc1wiOjE0MC42MDAwMDAwMDE0OTAxMixcImZyYW1lTWF4TXNcIjoxNTUuNjAwMDAwMDAxNDkwMTIsXCJzbG93RnJhbWVzXCI6MTAsXCJvYmplY3RzXCI6NzEzLFwiYWN0aXZlT2JqZWN0c1wiOjcxMyxcInZpc2libGVPYmplY3RzXCI6NjYyLFwidGV4dHVyZXNcIjoxMjAsXCJlc3RpbWF0ZWRUZXh0dXJlQnl0ZXNcIjoyMDQyMTI4MTYsXCJiYWtlZFRleHR1cmVCeXRlc1wiOjAsXCJqc0hlYXBCeXRlc1wiOjMwNDAwMDAwMCxcInJlbmRlcmVyXCI6XCJXZWJHTFwiLFwiZHJhd0NhbGxzXCI6bnVsbH0ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4d5d4583a772b41358a7-bf6d05d3e759389928e7",
+          "file": "pyra-continent.spec.ts",
+          "line": 3,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "verdantia-continent.spec.ts",
+      "file": "verdantia-continent.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "software-webgl",
+              "projectName": "software-webgl",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 90706,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-04T21:40:36.775Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "verdantia-runtime",
+                      "contentType": "application/json",
+                      "body": "eyJtZXRyaWNzIjoie1wic2FtcGxlQXRNc1wiOjM5Njc4LFwiZnBzXCI6MTIuMjgsXCJmcmFtZVA1ME1zXCI6ODIuODk5OTk5OTk4NTA5ODgsXCJmcmFtZVA5NU1zXCI6MTY1Ljg5OTk5OTk5ODUwOTg4LFwiZnJhbWVNYXhNc1wiOjE2NS44OTk5OTk5OTg1MDk4OCxcInNsb3dGcmFtZXNcIjoxMCxcIm9iamVjdHNcIjo1MjcsXCJhY3RpdmVPYmplY3RzXCI6NTI3LFwidmlzaWJsZU9iamVjdHNcIjo0NzQsXCJ0ZXh0dXJlc1wiOjExMSxcImVzdGltYXRlZFRleHR1cmVCeXRlc1wiOjIxODcyMzIwOCxcImJha2VkVGV4dHVyZUJ5dGVzXCI6MCxcImpzSGVhcEJ5dGVzXCI6MjU0MDAwMDAwLFwicmVuZGVyZXJcIjpcIldlYkdMXCIsXCJkcmF3Q2FsbHNcIjpudWxsfSIsImVycm9ycyI6W10sIm1pc3NpbmciOltdfQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6c2d619356831754ab29-97e0e5c8fdd906ad7356",
+          "file": "verdantia-continent.spec.ts",
+          "line": 4,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-04T21:38:48.920Z",
+    "duration": 199525.888,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

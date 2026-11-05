@@ -1,0 +1,20 @@
+
+> assets:import
+> tsx scripts/import-game-assets.ts art/production/pyra-continent-v2/manifest.json --install
+
+{
+  "id": "pyra-continent-v2",
+  "version": "1.0.0",
+  "digest": "55660ce18ae52d4d64d648e84920baa448b6923136142f42ed6e6edbcbaadd00",
+  "assets": 52,
+  "bytesBefore": 3054244,
+  "bytesAfter": 7773994,
+  "worlds": {
+    "verdant": 125856544,
+    "aether": 106391840,
+    "nexus": 97039136,
+    "pyra": 108984432
+  },
+  "installed": true,
+  "directory": "game/assets/gpu/pyra-continent-v2/1.0.0-55660ce18ae5"
+}

@@ -1,0 +1,60 @@
+[
+  {
+    "file": "verdantia-podszyt-8-wariantow.png",
+    "sha256": "164f4a47d1e244ebfff93ebead193ecffd761f9de007d6e70ca6d99dddeba74d",
+    "columns": 4,
+    "rows": 2,
+    "names": [
+      "fern",
+      "blueberry",
+      "bramble",
+      "grass",
+      "mushrooms",
+      "flowers",
+      "burdock",
+      "rose"
+    ]
+  },
+  {
+    "file": "verdantia-stare-drzewa-i-drewno-6-wariantow.png",
+    "sha256": "a621331e86a863bc263457da171a012845b333957ebff06349a4c25dfa3819ab",
+    "columns": 3,
+    "rows": 2,
+    "names": [
+      "ancient-oak",
+      "birch",
+      "willow",
+      "log",
+      "stump",
+      "roots"
+    ]
+  },
+  {
+    "file": "verdantia-naturalne-formy-terenu-6-wariantow.png",
+    "sha256": "183bcb5bd0de0b97160b3174fa322ccca41b17e57ec0754f4379753728d8401d",
+    "columns": 3,
+    "rows": 2,
+    "names": [
+      "hill",
+      "cliff",
+      "arch",
+      "spring",
+      "ridge",
+      "cave"
+    ]
+  },
+  {
+    "file": "verdantia-odkrycia-i-rekwizyty-6-wariantow.png",
+    "sha256": "2d5195d981fd313bc246356e8231c1f5b54caf821108a5809daaa2b11757dd5c",
+    "columns": 3,
+    "rows": 2,
+    "names": [
+      "bridge",
+      "sign",
+      "cart",
+      "shrine",
+      "camp",
+      "chest"
+    ]
+  }
+]

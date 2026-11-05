@@ -1,0 +1,20 @@
+{
+  "typecheck": "PASS: app, e2e, tools",
+  "unit": "PASS: 25 tests / 5 files",
+  "assets": "PASS",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 15
+  },
+  "build": "PASS",
+  "browser": "PASS: Aetheria Canvas and software WebGL; Pyra/Verdantia Canvas regression",
+  "geometry": "Identical to c00193d7519c4655611ff3a6e4b3539642334f5f",
+  "runtimeImages": 36,
+  "runtimeBytes": 5331248,
+  "decodedPackMiB": 16.214324951171875,
+  "originalImageSha256Verified": 20,
+  "reproducibleRuntimeAssets": 36,
+  "productionDeployed": false,
+  "hardwarePhonePerformance": "Not tested",
+  "documentation": "PASS: exactly 10 thematic manuals, links and protected evidence"
+}
