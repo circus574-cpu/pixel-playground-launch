@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "status": "ENVIRONMENT_UNAVAILABLE_INTEGRATION_NOT_DELIVERED",
+  "baseline": "32a9855d564619592d47b9d4c89fe484b272bcb8",
+  "branch": "feature/superior-islands-art-integration",
+  "date": "2026-11-05",
+  "purpose": "Pakiet odzyskania przygotowany z kontekstu po utracie środowiska. To nie dowód ukończenia integracji. PR124 zawiera komplet źródeł grafik. Nie scalać i nie publikować.",
+  "restore": "Najpierw odzyskaj istniejący workspace i jego niezacommitowane zmiany, jeżeli jest dostępny. Nie nadpisuj ich. Jeżeli został utracony: odtwórz newFiles, zastosuj replaceExactly z kontrolą expectedOccurrences, uruchom generator manifestów oraz importer dla sześciu wysp; sformatuj i przetestuj. Kod w tym pakiecie odtworzono z kontekstu, bez potwierdzenia zgodności bajtowej z niedostępnym workspace.",
+  "newFiles": {
+    "src/game/world/generated/islandArt.ts": "import { catalog } from \"../../assets/catalog\";\nimport type { ArtObject, FeatureArt } from \"./renderSuperior\";\n\nexport const islandArtEnabled = (feature: string) =>\n  /^island-[1-6]$/.test(feature) && !!catalog.renderBindings[`terrain.${feature}.biome-0`];\n\nexport function islandObjects(feature: string, objects: ArtObject[]): ArtObject[] {\n  if (!islandArtEnabled(feature)) return objects;\n  return objects.map((item) => {\n    const b = item.binding;\n    const kind = /ancient-stone-gate-ruin/.test(b) ? \"arch\"\n      : /-(oak|tree2|pine)-|tall-broadleaf/.test(b) ? \"tree\"\n      : ![\"island-1\", \"island-3\", \"island-6\"].includes(feature) && /bush|fern|reeds|mushrooms/.test(b) ? \"flora\"\n      : /boulder|rock|obsidian|ice-spire|ice-crystal/.test(b) ? \"rock\" : undefined;\n    return kind ? { ...item, binding: `object.${feature}.${kind}` } : item;\n  });\n}\nexport function islandFeatureArt(feature: string, art: FeatureArt): FeatureArt {\n  if (!islandArtEnabled(feature)) return art;\n  return {\n    ...art,\n    groundByBiome: art.groundByBiome.map((_, i) => `terrain.${feature}.biome-${i}`),\n    water: feature === \"island-6\" ? art.water : `terrain.${feature}.water`,\n    road: `terrain.${feature}.road`, plaza: `terrain.${feature}.plaza`,\n    acceptedCityScenery: islandObjects(feature, art.acceptedCityScenery ?? []),\n    dungeonEntrances: islandObjects(feature, art.dungeonEntrances),\n  };\n}\n/** Temporary renderer canvases. Isolate frames before resampling, then soft toroidal patches. */\nexport function islandMaterial(image: CanvasImageSource, x: number, y: number, width: number, height: number) {\n  const frame = document.createElement(\"canvas\");\n  frame.width = width; frame.height = height;\n  frame.getContext(\"2d\")!.drawImage(image, x, y, width, height, 0, 0, width, height);\n  image = frame; x = y = 0;\n  const canvas = document.createElement(\"canvas\");\n  canvas.width = canvas.height = 512;\n  const ctx = canvas.getContext(\"2d\")!;\n  ctx.drawImage(image, x + width / 2, y + height / 2, 1, 1, 0, 0, 512, 512);\n  const patch = document.createElement(\"canvas\");\n  patch.width = patch.height = 256;\n  const pen = patch.getContext(\"2d\")!;\n  const fade = pen.createLinearGradient(0, 0, 256, 0);\n  fade.addColorStop(0, \"transparent\"); fade.addColorStop(0.2, \"white\");\n  fade.addColorStop(0.8, \"white\"); fade.addColorStop(1, \"transparent\");\n  const vertical = pen.createLinearGradient(0, 0, 0, 256);\n  vertical.addColorStop(0, \"transparent\"); vertical.addColorStop(0.2, \"white\");\n  vertical.addColorStop(0.8, \"white\"); vertical.addColorStop(1, \"transparent\");\n  for (let row = 0; row < 4; row++) for (let col = 0; col < 4; col++) {\n    const seed = ((row + 1) * 73856093 ^ (col + 1) * 19349663) >>> 0;\n    pen.globalCompositeOperation = \"source-over\";\n    pen.clearRect(0, 0, 256, 256);\n    pen.drawImage(image, x + (seed % 257) / 512 * width, y + ((seed >>> 9) % 257) / 512 * height,\n      width / 2, height / 2, 0, 0, 256, 256);\n    pen.globalCompositeOperation = \"destination-in\";\n    pen.fillStyle = fade; pen.fillRect(0, 0, 256, 256);\n    pen.fillStyle = vertical; pen.fillRect(0, 0, 256, 256);\n    for (const dx of [col * 128, col * 128 - 512])\n      for (const dy of [row * 128, row * 128 - 512]) ctx.drawImage(patch, dx, dy);\n  }\n  return canvas;\n}\n",
+    "src/test/island-art.test.ts": "import { describe, expect, it, vi } from \"vitest\";\nimport type { ArtObject, FeatureArt } from \"../game/world/generated/renderSuperior\";\nvi.mock(\"../game/assets/catalog\", () => ({ catalog: { renderBindings: Object.fromEntries(\n  Array.from({ length: 6 }, (_, i) => [`terrain.island-${i + 1}.biome-0`, { asset: \"test\" }]),\n) } }));\nimport { islandArtEnabled, islandFeatureArt, islandObjects } from \"../game/world/generated/islandArt\";\nconst tree = { id: \"tree\", binding: \"object.ki-v2-objects.aether-oak-2\", x: 123, y: 456,\n  width: 110, height: 240, anchorX: 0.5, anchorY: 0.9, solid: true,\n  footprint: { x: 100, y: 450, width: 40, height: 20 },\n} as unknown as ArtObject;\nconst art = { groundByBiome: [\"a\", \"b\", \"c\", \"d\"], water: \"ocean\", road: \"road\", plaza: \"plaza\",\n  buildings: [tree], acceptedCityBuildings: [tree], acceptedCityScenery: [tree], resources: [tree], dungeonEntrances: [],\n} as FeatureArt;\ndescribe(\"island art presentation overlay\", () => {\n  for (let i = 1; i <= 6; i++) it(`island ${i}: independent materials preserve physical state and services`, () => {\n    const feature = `island-${i}`;\n    const before = structuredClone(art);\n    const result = islandFeatureArt(feature, art);\n    expect(result.groundByBiome).toEqual([0, 1, 2, 3].map(n => `terrain.${feature}.biome-${n}`));\n    expect(result.water).toBe(i === 6 ? \"ocean\" : `terrain.${feature}.water`);\n    expect(result.buildings).toBe(art.buildings);\n    expect(result.resources).toBe(art.resources);\n    expect(islandObjects(feature, [tree])[0]).toEqual({ ...tree, binding: `object.${feature}.tree` });\n    expect(art).toEqual(before);\n  });\n  it(\"leaves all continents and unknown islands untouched\", () => {\n    for (const f of [\"aether\", \"verdant\", \"pyra\", \"nexus\", \"island-7\"]) {\n      expect(islandArtEnabled(f)).toBe(false);\n      expect(islandFeatureArt(f, art)).toBe(art);\n      const items = [tree]; expect(islandObjects(f, items)).toBe(items);\n    }\n  });\n  it(\"does not substitute gatherable materials, buildings or unrelated props\", () => {\n    for (const binding of [\"object.crystal\", \"object.herb\", \"object.house\", \"object.log\"]) {\n      const item = { ...tree, binding }; expect(islandObjects(\"island-1\", [item])[0]).toBe(item);\n    }\n  });\n});\n"
+  },
+  "replaceExactly": [
+    {
+      "path": "src/game/assets/catalog.ts",
+      "search": "export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {",
+      "replacement": "export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {\n  \"ki-islands-art\": [1, 2, 3, 4, 5, 6].map((i) => `superior-island-${i}-art`),",
+      "expectedOccurrences": 1
+    },
+    {
+      "path": "src/game/world/generated/superiorRuntime.ts",
+      "search": "import {\n  aetheriaContinentEnabled,",
+      "replacement": "import { islandFeatureArt, islandObjects } from \"./islandArt\";\nimport {\n  aetheriaContinentEnabled,",
+      "expectedOccurrences": 1
+    },
+    {
+      "path": "src/game/world/generated/superiorRuntime.ts",
+      "search": "const art = JSON.parse(new TextDecoder().decode(artBytes)) as FeatureArt;",
+      "replacement": "const art = islandFeatureArt(info.id, JSON.parse(new TextDecoder().decode(artBytes)) as FeatureArt);",
+      "expectedOccurrences": 1
+    },
+    {
+      "path": "src/game/world/generated/superiorRuntime.ts",
+      "search": "throw Error(\"Błędne dekoracje\");",
+      "replacement": "throw Error(\"Błędne dekoracje\");\n      value.objects = islandObjects(info.id, value.objects);",
+      "expectedOccurrences": 1
+    },
+    {
+      "path": "src/game/world/generated/renderSuperior.ts",
+      "search": "import {\n  aetheriaContinentEnabled,",
+      "replacement": "import { islandArtEnabled, islandMaterial } from \"./islandArt\";\nimport {\n  aetheriaContinentEnabled,",
+      "expectedOccurrences": 1
+    },
+    {
+      "path": "src/game/world/generated/renderSuperior.ts",
+      "search": "  const painted = paintedMeadowEnabled(source.loader.definition.feature);",
+      "replacement": "  const feature = source.loader.definition.feature;\n  const island = islandArtEnabled(feature);\n  const materials = new Map<string, HTMLCanvasElement>();\n  const painted = paintedMeadowEnabled(feature) || island;",
+      "expectedOccurrences": 1
+    },
+    {
+      "path": "src/game/world/generated/renderSuperior.ts",
+      "search": ": painted\n        ? meadowScenery",
+      "replacement": ": painted && !island\n        ? meadowScenery",
+      "expectedOccurrences": 1
+    },
+    {
+      "path": "src/game/world/generated/renderSuperior.ts",
+      "search": "      const image = scene.textures.get(textureId(binding)).getSourceImage() as HTMLImageElement;",
+      "replacement": "      const texture = scene.textures.get(textureId(binding));\n      const ref = catalog.renderBindings[binding]!;\n      let image = texture.getSourceImage() as HTMLImageElement | HTMLCanvasElement;\n      if (island && ref.frame !== undefined) {\n        const frame = texture.get(ref.frame);\n        const materialKey = ref.asset + \":\" + ref.frame;\n        let material = materials.get(materialKey);\n        if (!material) {\n          material = islandMaterial(frame.source.image as CanvasImageSource, frame.cutX, frame.cutY, frame.cutWidth, frame.cutHeight);\n          materials.set(materialKey, material);\n        }\n        image = material;\n      }",
+      "expectedOccurrences": 1
+    },
+    {
+      "path": "src/game/world/generated/renderSuperior.ts",
+      "search": "legacyTone && painted && !paintedPyra",
+      "replacement": "legacyTone && painted && !island && !paintedPyra",
+      "expectedOccurrences": 1
+    },
+    {
+      "path": "src/game/world/generated/renderSuperior.ts",
+      "search": "    if (painted && !wilderness) {",
+      "replacement": "    if (painted && !island && !wilderness) {",
+      "expectedOccurrences": 1
+    },
+    {
+      "path": "src/game/world/generated/renderSuperior.ts",
+      "search": "      painted &&\n      !paintedPyra",
+      "replacement": "      painted &&\n      !island &&\n      !paintedPyra",
+      "expectedOccurrences": 1
+    },
+    {
+      "path": "src/game/world/generated/renderSuperior.ts",
+      "search": "    if (continent) {\n      for (const b of biomes)",
+      "replacement": "    if (island) {\n      texture(pattern(`terrain.${feature}.shore`), 0.85, (i) =>\n        !!(flags[i]! & 16) && [i - 2, i + 2, i - cols * 2, i + cols * 2].some(\n          (j) => j >= 0 && j < flags.length && !(flags[j]! & 16)), false);\n      if (feature === \"island-6\") texture(pattern(`terrain.${feature}.lava`), 0.8,\n        (i) => !!(flags[i]! & 16) && !(flags[i]! & 1) && biome[i] === 3, false);\n    }\n    if (continent) {\n      for (const b of biomes)",
+      "expectedOccurrences": 1
+    },
+    {
+      "path": "src/game/world/generated/renderSuperior.ts",
+      "search": ".setOrigin(item.anchorX, item.anchorY)",
+      "replacement": ".setOrigin(island && ref.origin ? ref.origin[0] : item.anchorX, island && ref.origin ? ref.origin[1] : item.anchorY)",
+      "expectedOccurrences": 1
+    },
+    {
+      "path": "src/game/world/generated/renderSuperior.ts",
+      "search": "    scene.game.canvas.dataset[\"superiorChunks\"]",
+      "replacement": "    scene.game.canvas.dataset[\"islandArt\"] = island ? feature : \"off\";\n    scene.game.canvas.dataset[\"superiorChunks\"]",
+      "expectedOccurrences": 1
+    },
+    {
+      "path": "src/game/world/generated/renderSuperior.ts",
+      "search": "      if (continent && scene.textures.exists(shadowKey)) scene.textures.remove(shadowKey);",
+      "replacement": "      if (continent && scene.textures.exists(shadowKey)) scene.textures.remove(shadowKey);\n      materials.clear();",
+      "expectedOccurrences": 1
+    },
+    {
+      "path": "playwright.config.ts",
+      "search": "        \"**/aetheria-continent.spec.ts\",",
+      "replacement": "        \"**/aetheria-continent.spec.ts\",\n        \"**/island-art.spec.ts\",",
+      "expectedOccurrences": 1
+    }
+  ],
+  "packManifestGeneratorPython": "import json\nfrom pathlib import Path\nfrom PIL import Image\nroot=Path(\"art/production/superior-islands-v1\")\nbiomes=[[0,0,2,1],[0,2,1,2],[0,0,1,2],[0,2,1,2],[0,2,1,2],[0,2,1,0]]\nfor i in range(1,7):\n    folder=root/f\"island-{i}\"\n    names={k:list(json.loads((folder/f\"{k}.atlas.json\").read_text())[\"frames\"]) for k in [\"terrain\",\"props\"]}\n    bindings={}\n    def ref(kind,index,props=False):\n        key=\"props\" if props else \"terrain\"\n        value={\"asset\":f\"island-{i}-{key}\",\"frame\":names[key][index]}\n        if not props: value[\"tileSize\"]=[512,512]\n        else:\n            im=Image.open(folder/\"props.png\").convert(\"RGBA\")\n            box=(index%3*512,index//3*512,index%3*512+512,index//3*512+512)\n            alpha=im.crop(box).getchannel(\"A\").point(lambda a:255 if a>200 else 0).getbbox()\n            value.update(fit=\"contain\",origin=[0.5,(alpha[3] if alpha else 512)/512])\n        bindings[f\"{'object' if props else 'terrain'}.island-{i}.{kind}\"]=value\n    for b,idx in enumerate(biomes[i-1]): ref(f\"biome-{b}\",idx)\n    for kind,idx in [(\"road\",3),(\"plaza\",3),(\"shore\",4),(\"lava\" if i==6 else \"water\",5)]: ref(kind,idx)\n    for kind,idx in [(\"tree\",0),(\"flora\",1),(\"rock\",1 if i in [3,6] else 2),(\"landmark\",3),(\"arch\",4),(\"cargo\",5)]: ref(kind,idx,True)\n    pack={\"schemaVersion\":1,\"id\":f\"superior-island-{i}-art\",\"version\":\"1.0.0\",\"previewOnly\":True,\n      \"assets\":[{\"id\":f\"island-{i}-{key}\",\"kind\":\"atlas\",\"version\":\"1.0.0\",\"url\":f\"{key}.png\",\n      \"atlasUrl\":f\"{key}.atlas.json\",\"width\":1536,\"height\":1024} for key in [\"terrain\",\"props\"]],\"renderBindings\":bindings}\n    (folder/\"runtime-pack.json\").write_text(json.dumps(pack,indent=2)+\"\\n\")\n",
+  "installCommands": [
+    "npm run assets:import -- art/production/superior-islands-v1/island-1/runtime-pack.json --install",
+    "npm run assets:import -- art/production/superior-islands-v1/island-2/runtime-pack.json --install",
+    "npm run assets:import -- art/production/superior-islands-v1/island-3/runtime-pack.json --install",
+    "npm run assets:import -- art/production/superior-islands-v1/island-4/runtime-pack.json --install",
+    "npm run assets:import -- art/production/superior-islands-v1/island-5/runtime-pack.json --install",
+    "npm run assets:import -- art/production/superior-islands-v1/island-6/runtime-pack.json --install"
+  ],
+  "observations": [
+    "Przed końcowymi poprawkami składania tekstur: pełny Vitest 1202 PASS, 10 SKIP; po poprawkach ponownie 8 testów overlay PASS.",
+    "Canvas: sześć wysp renderuje się i przeładowuje, pobierane są wyłącznie atlasy aktywnej wyspy; scenariusz PASS przed ostatnią optymalizacją cache i dodaniem widoków wilderness.",
+    "Test pikselowy wykrył przenikanie sąsiedniej ramki atlasu przy resamplingu; izolacja ramki 1:1 naprawiła wyciek czerwonych pikseli.",
+    "W tym samym teście stary dobór dwóch próbek koloru przestał być poprawny po zmianie algorytmu; finalny test sprawdza więcej niż 2 wartości kanału zielonego w całym materiale.",
+    "Pełny typecheck, assets:check i production build przechodziły w trakcie pracy. Lint miał błąd formatowania nowego helpera (poprawiony Prettierem) oraz 15 wcześniejszych ostrzeżeń.",
+    "Końcowe Canvas i mobilny Software WebGL były uruchomione, ale środowisko utracono przed odczytaniem wyników. Nie deklarować ich PASS.",
+    "Zrzuty runtime powstały lokalnie; nie zdążono przesłać ich do GitHuba. Wygląd lustrzany odrzucono i zastąpiono miękkimi przesuniętymi fragmentami; PNG pozostają niezmienione."
+  ],
+  "pending": [
+    "Odzyskać/przywrócić e2e/island-art.spec.ts oraz dokumentację z workspace, jeśli możliwe.",
+    "Test runtime: nowa postać Planetarna, URL /scripts/playtest.html?ki-world-v2=1&ki-islands-art=1, dla każdej wyspy fixture save.feature=id, town=null, player.continent=feature.affinity i x/y=arrival. Reload, sprawdź data-island-art, pending=0, jeden canvas, <=12 chunków i żądania WebP tylko aktualnej wyspy. Do wilderness ustaw x/y pierwszego resources world.json przez patchActiveCharacter. Sprawdź scenery>0, zrób screenshot. Zachowaj rasę, level, XP, items, skills i equipment oraz jeden slot. Przełącznik =0 ma wyłączyć oprawę. Nie testować podróży starym UI atlasu: v2 nie pokazuje starej legendy/przycisków podróży.",
+    "Test pikselowy w prawdziwym Canvas: atlas czerwony, ramka 4x4 niebieska z zieloną ćwiartką; islandMaterial(atlas,4,0,4,4). Brak czerwonych pikseli, periodyczne krawędzie różnią się <=8/255, kanał zielony ma >2 wartości; testować Canvas oraz WebGL projekt.",
+    "Końcowy typecheck, lint, assets:check, source validate.py, Vitest i build. Playwright sześć wysp Canvas + Software WebGL (852x393). Fizyczny telefon pozostaje niezweryfikowany.",
+    "Dopisać wyniki do istniejącego dziennika docs/zmiany/2026-11-05/ZMIANY.md i QA. Uruchomić check_documentation.py. Nie dodawać nowych aktywnych manuali.",
+    "Push pełnej integracji na tę gałąź i otworzyć Draft PR do audytu. Żadnego merge, wdrożenia, zmian geometrii/spawnów/kolizji/zapisów, /test ani infrastruktury GPU.",
+    "Manifesty v1.0.1 wysp 3/6 w utraconym workspace korygowały rock -> props frame1 (kryształ/obsydian), zamiast lampy/paleniska z frame2. Generator odzyskiwania już ma poprawne wiązania i zaczyna od 1.0.0 na czystej bazie. Nie nadpisywać istniejących importów bez porównania wersji."
+  ]
+}
