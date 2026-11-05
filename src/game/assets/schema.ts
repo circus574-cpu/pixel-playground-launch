@@ -12,6 +12,7 @@ export const DIRECTIONS = [
 export const STATES = [
   "idle",
   "walk",
+  "kiwalk",
   "run",
   "attack",
   "skill",
