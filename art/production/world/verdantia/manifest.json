@@ -1,0 +1,195 @@
+{
+  "world": "verdantia",
+  "date": "2026-11-04",
+  "model": "gpt-image-1-mini",
+  "quality": "medium",
+  "promptSource": "art/pipeline/prompts/world/PROMPTY-Verdantia-v2.md",
+  "status": "próbki do odbioru właściciela; surowe obrazy, niewdrożone do klienta",
+  "postprocess": "kafle i rzeka: szew w poziomie/pionie zszyty na CPU (półprzesunięta kopia, maska sin²); drogi: tylko w poziomie; obiekty: bez obróbki, PNG z alfa",
+  "knownIssues": [
+    "obiekty (szczyt, klif, wzgórze, drzewa, krzew, skały, roślinność) mają podstawę/łatkę terenu pod spodem; prompty v2 poprawiono, te obrazy powstały ze starszą wersją",
+    "piasek ma kilka zielonkawych kamyków"
+  ],
+  "images": [
+    {
+      "file": "verdantia-grass.png",
+      "prompt": "verdantia-grass.prompt.txt",
+      "title": "Trawa / step",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "transparent": false,
+      "sha256": "2f28f1daa3fb520733f7a616678cd04cb549ee9bc3eccbfbb073bd781f29569c"
+    },
+    {
+      "file": "verdantia-forest.png",
+      "prompt": "verdantia-forest.prompt.txt",
+      "title": "Runo leśne",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "transparent": false,
+      "sha256": "80963c7fd597cbcbc6c6cbad5a3c70416c87dc95f3268006de1e8834fed7bc12"
+    },
+    {
+      "file": "verdantia-rockg.png",
+      "prompt": "verdantia-rockg.prompt.txt",
+      "title": "Skała (podłoże górskie)",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "transparent": false,
+      "sha256": "992f6a0a5d5867114e3665d332ac6c38f74b9a4e828e6a5481e9f7986423649e"
+    },
+    {
+      "file": "verdantia-wet.png",
+      "prompt": "verdantia-wet.prompt.txt",
+      "title": "Mokradła",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "transparent": false,
+      "sha256": "230830647e406ea80ff4bfb2c1adbe6fb5288170ff1a6a895d70b8274c2cbb4c"
+    },
+    {
+      "file": "verdantia-sand.png",
+      "prompt": "verdantia-sand.prompt.txt",
+      "title": "Piasek",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "transparent": false,
+      "sha256": "e9c821c4ca499f19e5e6aa5b35f66249e6ddc8cac18a4a3f4ab6525ef55a18cd"
+    },
+    {
+      "file": "verdantia-water.png",
+      "prompt": "verdantia-water.prompt.txt",
+      "title": "Ocean (woda, kafel)",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "transparent": false,
+      "sha256": "ef9d06eaab1dfc8e9cc38d778312946e2f63c48bb953fcb83b720edd7f2daf1e"
+    },
+    {
+      "file": "verdantia-peak.png",
+      "prompt": "verdantia-peak.prompt.txt",
+      "title": "Szczyt górski (obiekt)",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "b162e7c729a3072e4221452440a126ff4dbae27f722f877953c2b4073b66f943"
+    },
+    {
+      "file": "verdantia-cliff.png",
+      "prompt": "verdantia-cliff.prompt.txt",
+      "title": "Ściana klifu (obiekt)",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "2c7da1dc679a61871c36318f82590b5256068e1735b1edc78db369de6e2f5252"
+    },
+    {
+      "file": "verdantia-hill.png",
+      "prompt": "verdantia-hill.prompt.txt",
+      "title": "Wzgórze (obiekt)",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "5e118bb20b9c4d15d360f7c0be1cdb00867e9cb24f162f8c1ff30018b9bbb283"
+    },
+    {
+      "file": "verdantia-river.png",
+      "prompt": "verdantia-river.prompt.txt",
+      "title": "Rzeka (pas poziomy, bezszwowy)",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "transparent": false,
+      "sha256": "e93bfb220335fd10ee35cc4f5de978dd3caf9d182280007ddd651e975dc44af2"
+    },
+    {
+      "file": "verdantia-road1.png",
+      "prompt": "verdantia-road1.prompt.txt",
+      "title": "Główna droga bita",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "transparent": false,
+      "sha256": "2417bcc73293a6a5696e8f08d83da82270242c9610ace41a32066372dfddafc0"
+    },
+    {
+      "file": "verdantia-road2.png",
+      "prompt": "verdantia-road2.prompt.txt",
+      "title": "Droga ziemna",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "transparent": false,
+      "sha256": "c849f1e7cde7e007b8447d1ca660807ade8f5fbca4f41c453ffe74d967e67252"
+    },
+    {
+      "file": "verdantia-road3.png",
+      "prompt": "verdantia-road3.prompt.txt",
+      "title": "Ścieżka leśna",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "transparent": false,
+      "sha256": "4cd9126810dd0fdfa2ac6dbf9a9c1084930764337eabfb51390f79dea7b310ef"
+    },
+    {
+      "file": "verdantia-road4.png",
+      "prompt": "verdantia-road4.prompt.txt",
+      "title": "Ścieżka górska",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "transparent": false,
+      "sha256": "9b67c11f4675657855155ef6d05e5ef4ddf3016d8bb5bd66aeb4b24e215ec4e4"
+    },
+    {
+      "file": "verdantia-road5.png",
+      "prompt": "verdantia-road5.prompt.txt",
+      "title": "Droga przybrzeżna",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "transparent": false,
+      "sha256": "4becae85d31f39f3fd1ee02af753899c8a27e783b527a482f6b04978b2fe2518"
+    },
+    {
+      "file": "verdantia-tree.png",
+      "prompt": "verdantia-tree.prompt.txt",
+      "title": "Duże drzewo",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "c536c4728d5933d5616f19eb56631dd917dd1b4715356eda77a53b0ea3ee73dc"
+    },
+    {
+      "file": "verdantia-tree2.png",
+      "prompt": "verdantia-tree2.prompt.txt",
+      "title": "Drugie drzewo (inny gatunek)",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "bcdf2fbfca656870ef60293e23086373c0a8ddef15ac625a6557396f5057cb9b"
+    },
+    {
+      "file": "verdantia-bush.png",
+      "prompt": "verdantia-bush.prompt.txt",
+      "title": "Krzew",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "7fccbbea1b18b5f3a21e5e011c82f8423e0675fd132f271147934c090594be1e"
+    },
+    {
+      "file": "verdantia-rocks.png",
+      "prompt": "verdantia-rocks.prompt.txt",
+      "title": "Skały (głazy)",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "090337e1fc6228f12f9ac94aaeec31f94626f371f0dae5a987ec4edf17cce32e"
+    },
+    {
+      "file": "verdantia-flora.png",
+      "prompt": "verdantia-flora.prompt.txt",
+      "title": "Roślinność przyziemna",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "73f80a8f5ce60357e6cf471f4bb3acdc9949fda50e82f7eb8484ed23bb8e606b"
+    }
+  ]
+}

@@ -44,8 +44,9 @@ describe("Verdantia continent presentation safety", () => {
       else delete catalog.renderBindings[key];
     }
   });
-  it("is opt-in and leaves the accepted city bindings intact", () => {
-    expect(previewPacks("")).not.toContain("verdantia-continent-v2");
+  it("is default-on (=0 opts out) and leaves the accepted city bindings intact", () => {
+    expect(previewPacks("")).toContain("verdantia-continent-v2");
+    expect(previewPacks("?ki-verdant-continent=0")).not.toContain("verdantia-continent-v2");
     expect(previewPacks("?ki-verdant-continent=1")).toContain("verdantia-continent-v2");
     const packs = imported.map((p) => PackSchema.parse(p));
     const reviewPack = packs.find((p) => p.id === "verdantia-continent-v2")!;
@@ -57,20 +58,28 @@ describe("Verdantia continent presentation safety", () => {
     expect(extra.assets.reduce((sum, a) => sum + a.width! * a.height! * 4, 0)).toBeLessThan(
       16 * 1024 * 1024,
     );
-    const original = makeCatalog(packs, previewPacks(""));
+    const original = makeCatalog(packs, previewPacks("?ki-verdant-continent=0"));
     const review = makeCatalog(packs, previewPacks("?ki-verdant-continent=1"));
     for (const [key, value] of Object.entries(original.renderBindings))
       expect(review.renderBindings[key]).toEqual(value);
   });
   it("keeps city scenery and all physical metadata unchanged, without mutating the source", () => {
-    expect(continentObjects([tree], () => false)).toEqual([tree]);
-    const solid = { ...tree, solid: true, footprint: { x: 480, y: 590, width: 40, height: 20 } };
-    const result = continentObjects([solid], () => true)[0]!;
-    expect(result.binding).toBe("object.verdantia-continent.oak");
-    const { binding: _binding, ...physical } = result;
-    const { binding: _original, ...expected } = solid;
-    expect(physical).toEqual(expected);
-    expect(solid.binding).toBe(tree.binding);
+    // The extra scenery pack is default-on now; switch it off here so this checks the base continent mapping.
+    const key = "object.verdantia-extra.fern",
+      previous = catalog.renderBindings[key];
+    delete catalog.renderBindings[key];
+    try {
+      expect(continentObjects([tree], () => false)).toEqual([tree]);
+      const solid = { ...tree, solid: true, footprint: { x: 480, y: 590, width: 40, height: 20 } };
+      const result = continentObjects([solid], () => true)[0]!;
+      expect(result.binding).toBe("object.verdantia-continent.oak");
+      const { binding: _binding, ...physical } = result;
+      const { binding: _original, ...expected } = solid;
+      expect(physical).toEqual(expected);
+      expect(solid.binding).toBe(tree.binding);
+    } finally {
+      if (previous) catalog.renderBindings[key] = previous;
+    }
   });
   it("keeps roadside flora on land, outside cities and away from the path centre", () => {
     const road = {

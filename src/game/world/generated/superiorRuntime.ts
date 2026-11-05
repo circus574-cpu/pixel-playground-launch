@@ -48,6 +48,8 @@ import type { Obstacle } from "../../movement";
 import type { GameLoadingState } from "../../loading";
 import { loadBrowserFeature } from "./browserLoader";
 import { renderSuperior, type ArtObject, type FeatureArt } from "./renderSuperior";
+import { arenaClearingEnabled, buildArenaIndex, clearsArena } from "../combatArena";
+import { monsterFramePx, monsterSizesEnabled, type SizeClass } from "../../monsters/visualSize";
 import { WORLD_BASE, WORLD_V2 } from "./worldVersion";
 import { v2Places } from "../../worlds/v2Places";
 import { questsV2 } from "../../quests/v2Tracker";
@@ -297,6 +299,10 @@ export async function prepareSuperior(options: {
     addAsset(ref.asset);
   }
   const protectedAssets = new Set(initialAssets.keys());
+  // On by default (`?ki-clear-arenas=0` opts out): decoration only, collision never reads art objects.
+  const arenaIndex = arenaClearingEnabled(location.search)
+    ? buildArenaIndex(spawnData.overworld)
+    : null;
   const artCache = new Map<string, ArtObject[]>();
   const artRequests = new Map<string, Promise<ArtObject[]>>();
   const readArt = async (x: number, y: number) => {
@@ -340,9 +346,12 @@ export async function prepareSuperior(options: {
           aetheriaBiomeAt(chunk),
         );
       }
-      artCache.set(id, value.objects);
+      const objects = arenaIndex
+        ? value.objects.filter((o) => !clearsArena(arenaIndex, o))
+        : value.objects;
+      artCache.set(id, objects);
       if (artCache.size > 12) artCache.delete(artCache.keys().next().value!);
-      return value.objects;
+      return objects;
     })();
     artRequests.set(id, promise);
     try {
@@ -465,6 +474,8 @@ export async function prepareSuperior(options: {
   let activeScene: Phaser.Scene | undefined;
   // World v2 draws each creature at its bestiary size class (S/M/L = 0.62/0.8/0.98, an M creature
   // is as tall as the hero); presentation only — reach and collision stay in the monster rules.
+  // Body-measured sizes (default on, `?ki-monster-sizes=0` opts out): the old S/M/L frames made most creatures look alike.
+  const sizesByBody = monsterSizesEnabled(location.search);
   const enemyVisual = (kind: string) => {
     const visual = monsterVisual(kind);
     if (kind.startsWith("boss:")) {
@@ -472,7 +483,8 @@ export async function prepareSuperior(options: {
     }
     const size = MONSTER_BASE.find((b) => b.id === kind)?.size;
     if (!WORLD_V2 || !size) return visual;
-    const side = MONSTER_SIZE_PX[size] ?? visual.size[1];
+    const measured = sizesByBody ? monsterFramePx(kind, size as SizeClass) : undefined;
+    const side = measured ?? MONSTER_SIZE_PX[size] ?? visual.size[1];
     return { ...visual, size: [side, side] as [number, number] };
   };
   const monsterAssets = new Map<string, Set<string>>();

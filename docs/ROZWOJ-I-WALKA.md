@@ -285,6 +285,8 @@ Punkt stóp w masterze `(256,409.6)`, latające unoszą się o 36 px i lądują 
 Animacja jest deformacją obrazu, nie pełnym ruchem ręcznie animowanych kończyn.
 Kontrola raportu: 416 klatek, brak violations i pustej alfy, zgodne hashe/marginesy.
 Skala S/M/L: 0.62/0.80/0.98; shrink w raporcie przy zbyt małym marginesie.
+W świecie v2 rozmiar na ekranie nie wynika z tej skali (sprite'y wypełniają ramkę niezależnie od klasy), tylko z pomiaru ciała i
+mnożników w `src/game/monsters/visualSize.ts` (opt-out `?ki-monster-sizes=0`); szczegóły: `docs/zmiany/2026-11-05/ZMIANY.md`.
 Wiązanie `<świat>.enemy.<slug>`; pełna mapa `art/production/enemies/bindings.json`.
 Silnik danych/AI jest zaimplementowany. Wszystkie 40 istniejących dostaw
 zainstalowano na `feature/superior-runtime-20261023` po bezstratnym pakowaniu

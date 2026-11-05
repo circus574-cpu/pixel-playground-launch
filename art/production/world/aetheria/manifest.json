@@ -1,0 +1,196 @@
+{
+  "world": "aetheria",
+  "date": "2026-11-04",
+  "model": "gpt-image-1-mini",
+  "quality": "medium",
+  "promptSource": "art/pipeline/prompts/world/PROMPTY-Aetheria-v2.md",
+  "status": "próbki do odbioru właściciela; surowe obrazy, niewdrożone do klienta",
+  "postprocess": "kafle i rzeka: szew zszyty na CPU (półprzesunięta kopia, maska sin²); drogi: tylko w poziomie; obiekty: PNG z alfa bez obróbki",
+  "knownIssues": [
+    "wszystkie obiekty mają podstawę (kamienna obwódka z wodą, darń) mimo zakazu w prompcie",
+    "ścieżka leśna ma strumień przy dolnej krawędzi",
+    "zielenie wychodzą żółtozielone zamiast bladej szałwii"
+  ],
+  "images": [
+    {
+      "file": "aetheria-grass.png",
+      "prompt": "aetheria-grass.prompt.txt",
+      "title": "Trawa / step",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "transparent": false,
+      "sha256": "e8cb0904fb4b22a552a1cb8374ca1b0e7f807875e67c0c77c6cbb2224624465c"
+    },
+    {
+      "file": "aetheria-forest.png",
+      "prompt": "aetheria-forest.prompt.txt",
+      "title": "Runo leśne",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "transparent": false,
+      "sha256": "b9d9d11ecdf807ef0f04d7f7adf27a709aa9ff2d468c7c684e631b4c34319be0"
+    },
+    {
+      "file": "aetheria-rockg.png",
+      "prompt": "aetheria-rockg.prompt.txt",
+      "title": "Skała (podłoże górskie)",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "transparent": false,
+      "sha256": "07b82516008473c7531ab60c7d28995de6d375f3fa391dfa2b2c2d5de4745f06"
+    },
+    {
+      "file": "aetheria-wet.png",
+      "prompt": "aetheria-wet.prompt.txt",
+      "title": "Mokradła",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "transparent": false,
+      "sha256": "0d3e37420ec1cfe043fb1ded5150b335a47332d6bb26623eb9a7413426d5d0db"
+    },
+    {
+      "file": "aetheria-sand.png",
+      "prompt": "aetheria-sand.prompt.txt",
+      "title": "Piasek",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "transparent": false,
+      "sha256": "5302cefb090cc2246b67e52a9d4468d7f9fe61a82ba4bdbb9bb9ed0d192e0640"
+    },
+    {
+      "file": "aetheria-water.png",
+      "prompt": "aetheria-water.prompt.txt",
+      "title": "Ocean (woda, kafel)",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "transparent": false,
+      "sha256": "5d1a6b6cc5e76ae5284456a6ec84302f391d8a2adc54c62454a63ea51c9a41be"
+    },
+    {
+      "file": "aetheria-peak.png",
+      "prompt": "aetheria-peak.prompt.txt",
+      "title": "Szczyt górski (obiekt)",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "6747523cd31c7f34f0171238514ba872c1371812465f013d12704d40594f366f"
+    },
+    {
+      "file": "aetheria-cliff.png",
+      "prompt": "aetheria-cliff.prompt.txt",
+      "title": "Ściana klifu (obiekt)",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "b511655d4b844773d23a9392d5a1beb1a7d74efed2a05033510d629251692da8"
+    },
+    {
+      "file": "aetheria-hill.png",
+      "prompt": "aetheria-hill.prompt.txt",
+      "title": "Wzgórze (obiekt)",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "90c0e3905f8c30186d3afd21028fe7fe0f5084ae9cb56c7b6cc1f13fcde937e2"
+    },
+    {
+      "file": "aetheria-river.png",
+      "prompt": "aetheria-river.prompt.txt",
+      "title": "Rzeka (pas poziomy, bezszwowy)",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "transparent": false,
+      "sha256": "fc7654dbd5b3a5071e8e1c606cf9c188abba3e1eecac695da174b38cefa22612"
+    },
+    {
+      "file": "aetheria-road1.png",
+      "prompt": "aetheria-road1.prompt.txt",
+      "title": "Główna droga bita",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "transparent": false,
+      "sha256": "93339c8dd3a40cc6fb20ea0a1bff987e1d55273f0b21fe550d010bf7026e0558"
+    },
+    {
+      "file": "aetheria-road2.png",
+      "prompt": "aetheria-road2.prompt.txt",
+      "title": "Droga ziemna",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "transparent": false,
+      "sha256": "06c04b87c38e39809a47e22116cd60bcae7ed30f2e34bb4fa31e7248376ed921"
+    },
+    {
+      "file": "aetheria-road3.png",
+      "prompt": "aetheria-road3.prompt.txt",
+      "title": "Ścieżka leśna",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "transparent": false,
+      "sha256": "939e548f7c1e6083f1bcec2055137a0c2ad2f6c08b6ac8048b28b8bff9597a89"
+    },
+    {
+      "file": "aetheria-road4.png",
+      "prompt": "aetheria-road4.prompt.txt",
+      "title": "Ścieżka górska",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "transparent": false,
+      "sha256": "15eeda4439c7fdb22ce6f3b70c8eb41ee6fa1ba70ab26fb7d1e20609cda26102"
+    },
+    {
+      "file": "aetheria-road5.png",
+      "prompt": "aetheria-road5.prompt.txt",
+      "title": "Droga przybrzeżna",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "transparent": false,
+      "sha256": "093ae5d75b03d128e7f1e40ff6b69b360044a3beb56b22316dd6c34fa443e80a"
+    },
+    {
+      "file": "aetheria-tree.png",
+      "prompt": "aetheria-tree.prompt.txt",
+      "title": "Duże drzewo",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "94fd2d776618c4ce4569f3c9acbb82fc9e9ce3913ad5768b1db4fcee2414b335"
+    },
+    {
+      "file": "aetheria-tree2.png",
+      "prompt": "aetheria-tree2.prompt.txt",
+      "title": "Drugie drzewo (inny gatunek)",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "9d3d20969339963863875967792d0f1c1aeea35050e018e0bd5fc560204a5525"
+    },
+    {
+      "file": "aetheria-bush.png",
+      "prompt": "aetheria-bush.prompt.txt",
+      "title": "Krzew",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "cd50109f213f66479b7529cd4481d672ae8c96256e266172c468c04bd1664e63"
+    },
+    {
+      "file": "aetheria-rocks.png",
+      "prompt": "aetheria-rocks.prompt.txt",
+      "title": "Skały (głazy)",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "0be6aa7aca6b9f6e3ab41ed10a470ce0432b651a263452c07ce157e6f8db576c"
+    },
+    {
+      "file": "aetheria-flora.png",
+      "prompt": "aetheria-flora.prompt.txt",
+      "title": "Roślinność przyziemna",
+      "kind": "object",
+      "generatedSize": "1024x1024",
+      "transparent": true,
+      "sha256": "b3b34012f5b4cc562331657e8a9e74e8c94fe847f6f1dcf57fefc5e01c763dae"
+    }
+  ]
+}

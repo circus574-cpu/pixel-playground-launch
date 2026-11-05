@@ -23,8 +23,9 @@ const object: ArtObject = {
   footprint: { width: 40, height: 40 },
 };
 describe("Pyra presentation safety", () => {
-  it("is opt-in, preserves previous bindings and fits the streaming budget", () => {
-    expect(previewPacks("")).not.toContain("pyra-continent-v2");
+  it("is default-on (=0 opts out), preserves previous bindings and fits the streaming budget", () => {
+    expect(previewPacks("")).toContain("pyra-continent-v2");
+    expect(previewPacks("?ki-pyra-continent=0")).not.toContain("pyra-continent-v2");
     const packs = imported.map((p) => PackSchema.parse(p));
     const pack = packs.find((p) => p.id === "pyra-continent-v2")!;
     expect(pack.assets).toHaveLength(52);
@@ -32,7 +33,7 @@ describe("Pyra presentation safety", () => {
     expect(pack.assets.reduce((n, a) => n + a.width! * a.height! * 4, 0)).toBeLessThan(
       32 * 1024 * 1024,
     );
-    const base = makeCatalog(packs, previewPacks("")),
+    const base = makeCatalog(packs, previewPacks("?ki-pyra-continent=0")),
       review = makeCatalog(packs, previewPacks("?ki-pyra-continent=1"));
     for (const [k, v] of Object.entries(base.renderBindings))
       expect(review.renderBindings[k]).toEqual(v);

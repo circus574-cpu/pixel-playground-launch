@@ -24,8 +24,9 @@ const tree: ArtObject = {
   footprint: { width: 50, height: 50 },
 };
 describe("Aetheria presentation safety", () => {
-  it("adds an opt-in pack without replacing any previous binding", () => {
-    expect(previewPacks("")).not.toContain("aetheria-continent-v2");
+  it("adds a default-on pack (=0 opts out) without replacing any previous binding", () => {
+    expect(previewPacks("")).toContain("aetheria-continent-v2");
+    expect(previewPacks("?ki-aetheria-continent=0")).not.toContain("aetheria-continent-v2");
     const packs = imported.map((p) => PackSchema.parse(p)),
       pack = packs.find((p) => p.id === "aetheria-continent-v2")!;
     expect(pack.assets).toHaveLength(36);
@@ -33,7 +34,7 @@ describe("Aetheria presentation safety", () => {
     expect(pack.assets.reduce((n, a) => n + a.width! * a.height! * 4, 0)).toBeLessThan(
       28 * 1024 * 1024,
     );
-    const base = makeCatalog(packs, previewPacks("")),
+    const base = makeCatalog(packs, previewPacks("?ki-aetheria-continent=0")),
       preview = makeCatalog(packs, previewPacks("?ki-aetheria-continent=1"));
     for (const [k, v] of Object.entries(base.renderBindings))
       expect(preview.renderBindings[k]).toEqual(v);
