@@ -1,5 +1,46 @@
 # KI Legends — rozwój i walka
 
+## Skupienie Mędrców — kontynuacja rozwoju, 05.11
+
+Gałąź `feature/racial-focus-trials-20261105` opiera się na zapisanym PR #90
+(`a9e44175946fc11f85f823879da535de2deb3e83`). Nie zmienia jego gałęzi,
+nie scala nowego main i nie podmienia cudzej grafiki. To następna partia rozwoju,
+nie ukończenie pełnej kampanii czterech ras.
+
+Zaimplementowano TA07/TA08/TA09 w trzech stopniach według §7.5 zlecenia właściciela:
+
+- TA07: 2/3/4 pełne, nieprzerwane kanały rzeczywistego C1. Stanowiska wymagają
+  dojścia i sygnału co najmniej 1500 ms. Normalny cooldown 15 s i zasady
+  przerywania C1 pozostają. Profil sali daje 20 s na rozpoczęcie po sygnale.
+  Kit udostępnia efemeryczne potwierdzenie ukończenia/przerwania, niezależne od
+  renderera i nieobecne w zapisach. Końcowy tick nie może wydać drugiego,
+  pozytywnego potwierdzenia po przerwaniu przez onTick.
+- TA08: 3/4/5 rzeczywiście zasilanych celów w limicie 70/65/60% testowego KI.
+  Jawny profil sali oferuje precyzyjny przepływ za 10% maksimum i szeroki za 25%.
+  Każdy pobiera KI z wypożyczonego profilu. Kontroler liczy łączny wydatek;
+  regeneracja nie odnawia budżetu. Różne mieszane rozwiązania są dopuszczalne,
+  jeśli mieszczą się w limicie. Odległość, LOS, odczyt stanowiska i numer rundy
+  sprawdza istniejący kontroler. Nie są to nowe koszty kanonicznych technik.
+- TA09: 2/3/4 węzły przez pełne 45/60/75 aktywnych sekund. Profil sali wymaga
+  kolejnych odwiedzin w promieniu 45 j. i utrzymania pozycji przez 500 ms.
+  Każdy węzeł wygasa po `liczba_węzłów × 8000 + 2000` ms od odnowienia;
+  początkowe okno pozwala dotrzeć do całej sieci. Wejście w widoczną czerwoną
+  strefę przerywa próbę. Jednorazowe odwiedziny i AFK nie zaliczają utrzymania.
+
+Skupienie II, minimum wszystkich trzech stopni, odblokowuje istniejący `ma-focus`:
+odzysk KI ×1,20 i kanał ×1,50. Bez zmian bazowych statystyk, drzewek i XP.
+Wyniki, jednorazowe 100/150/200 praktyki i odtwarzanie używają obecnego ledgeru,
+intencji i formatów 10/6, development v3. Właściciel nie dostaje wypożyczonego C1,
+nie traci swoich zasobów ani cooldownów. Klient i serwer muszą znać ten sam katalog.
+
+Katalog tej gałęzi: **27/48 prób, 81/144 stopni**; Mędrcy **9/12 prób**, 4050
+praktyki z prób. Pozostaje **21 prób / 63 stopnie**, cztery warianty i trzy moduły,
+interakcje dziedzin poza salą, późne starcia, tytuły, graf osiągalności i pełny
+odbiór kampanii. Budżet katalogowy Mędrców nadal jest o 1350 mniejszy niż 17 800;
+nie oznacza to pomiaru osiągalności. Kolejna dziedzina: Pamięć (TA10–TA12).
+[Dowody, wyniki i ograniczenia](zmiany/2026-11-05/ZMIANY.md#skupienie-mędrców--ta07ta08ta09).
+
+
 ## Bariery Mędrców — kontynuacja PR #90, 04.11
 
 TA04/TA05/TA06 odpowiadają §7.5 zlecenia właściciela z 28.10.

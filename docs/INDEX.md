@@ -1,5 +1,9 @@
 # KI Legends — dokumentacja projektu
 
+**Rozwój, 05.11:** osobna kontynuacja PR #90 dodaje Skupienie Mędrców
+(TA07–TA09, trzy stopnie, `ma-focus` po II). Katalog gałęzi: **27/48 prób, 81/144 stopni**.
+Pełny rozwój nadal nieukończony. [Zakres i kontrole](zmiany/2026-11-05/ZMIANY.md#skupienie-mędrców--ta07ta08ta09).
+
 **Najnowsza partia rozwoju — Bariery Mędrców:** TA04/TA05/TA06 w trzech
 stopniach i `ma-barrier` po Barierach II. Katalog **24/48 prób, 72/144 stopni**;
 Mędrcy mają 6/12 prób. To połowa katalogu prób, nie połowa całego projektu.
@@ -63,6 +67,7 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-11-05](zmiany/2026-11-05/ZMIANY.md)
 - [2026-11-04](zmiany/2026-11-04/ZMIANY.md)
 - [2026-11-03](zmiany/2026-11-03/ZMIANY.md)
 - [2026-11-02](zmiany/2026-11-02/ZMIANY.md)

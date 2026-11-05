@@ -118,6 +118,10 @@ export function TrialRoom({
       data-trial-id={attempt.trialId}
       data-trial-tier={attempt.tier}
       data-trial-phase={result.phase}
+      data-focus-phase={result.focus?.phase}
+      data-focus-remaining={result.focus?.remainingMs}
+      data-focus-spent={result.focus?.spentKi}
+      data-focus-budget={result.focus?.budgetKi}
       data-trial-round={result.round}
       data-trial-successes={result.successes}
       data-barrier-phase={result.waves?.phase ?? result.cover?.phase}

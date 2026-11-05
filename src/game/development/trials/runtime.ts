@@ -57,6 +57,27 @@ export function trialRuntime(attempt: TrialAttempt): GameRuntime {
         next = now + 100;
         const result = attempt.snapshot();
         marks.clear();
+        if (result.focus) {
+          for (const danger of result.focus.dangers)
+            marks
+              .fillStyle(0xa42c36, 0.3)
+              .fillCircle(danger.x, danger.y, danger.radius)
+              .lineStyle(3, 0xff7272)
+              .strokeCircle(danger.x, danger.y, danger.radius);
+          for (const node of result.focus.nodes)
+            marks
+              .lineStyle(3, node.current ? 0xffd885 : 0x75d9e6)
+              .strokeCircle(node.x, node.y, 25)
+              .lineStyle(5, node.remainingMs < 5000 ? 0xff7272 : 0x75d9e6)
+              .lineBetween(
+                node.x - 20,
+                node.y - 35,
+                node.x -
+                  20 +
+                  40 * Math.min(1, node.remainingMs / (result.focus.target * 8000 + 2000)),
+                node.y - 35,
+              );
+        }
         const barrier = result.waves ?? result.cover;
         if (barrier) {
           marks

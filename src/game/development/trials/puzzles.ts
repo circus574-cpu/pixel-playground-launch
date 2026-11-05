@@ -89,6 +89,7 @@ export function allocationAnswerValid(puzzle: TrialPuzzle, value: string) {
 /** Training records are explicit exercises, not new claims about the campaign's history. */
 export function trialPuzzles(def: TrialDefinition, tier: TrialTier): TrialPuzzle[] {
   const count = def.targets[tier - 1]!;
+  if (["focus-cycles", "power-targets", "sustain-nodes"].includes(def.kind)) return [];
   if (def.kind === "mirrors") {
     return [
       {
