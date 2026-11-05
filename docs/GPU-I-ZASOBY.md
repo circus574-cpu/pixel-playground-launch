@@ -853,3 +853,26 @@ surowego RGBA przed mipmapami, bez pomiaru wydajności telefonu.
 
 Kontrola plików: `python3 art/production/superior-islands-v1/validate.py`.
 [Wyniki, zakres i instrukcja](zmiany/2026-11-05/ZMIANY.md#grafiki-i-tekstury-sześciu-wysp-superior).
+
+## Wyspy Superiora — integracja własnych materiałów 05.11.2026
+
+Dostawa `art/production/superior-islands-v1/` (12 atlasów PNG 1536 × 1024, 36 klatek
+podłoży i 36 rekwizytów, po 6 na wyspę; `status: generated-source-atlases-not-installed`)
+została zainstalowana w rejestrze jako sześć pakietów `superior-island-{1..6}-art@1.0.0`,
+każdy `previewOnly: true` z dwoma zasobami typu `atlas` i 14 wiązaniami.
+
+Wiązania: `terrain.island-N.biome-{0..3}`, `terrain.island-N.{road,plaza,shore,water}`
+(wyspa 6 ma `lava` zamiast `water`) oraz `object.island-N.{tree,flora,rock,landmark,arch,cargo}`.
+Poprzednio dane świata prosiły o wiązania kontynentu macierzystego, więc wyspy nie miały
+własnego wyglądu. Runtime: `src/game/world/generated/islandArt.ts` — przepisanie `FeatureArt`
+i obiektów scenerii oraz składanie kafli toroidalnie, bo dostawa nie certyfikowała
+bezszwowości w Phaser.
+
+Odtworzenie: generator manifestów (port z PIL na `sharp`) tworzy
+`island-N/runtime-pack.json`, potem sześć razy
+`npm run assets:import -- art/production/superior-islands-v1/island-N/runtime-pack.json --install`.
+Digesty z instalacji: `ab61814f…`, `29d4cb44…`, `de4c05c6…`, `33fdccb6…`, `2cdf7913…`, `e72bce69…`.
+
+Włączanie: `?ki-islands-art=1`, poza `DEFAULT_ON_SWITCHES` do czasu odbioru właściciela.
+Kolizje, footprinty, spawny i zapisy nie są zmieniane; rekwizyty overlayu są nieistotne
+fizycznie. Odbiór na fizycznym telefonie pozostaje otwarty.

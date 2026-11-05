@@ -163,14 +163,14 @@ Gałąź `art/superior-islands-20261105`, baza aktualnego main
 świata, biomów, kolizji, questów, zapisów, walki, HUD-u ani infrastruktury GPU.
 Prace rozwoju ras pozostały na osobnej gałęzi/PR #122.
 
-| ID | Projektowa nazwa z księgi | Osobny kierunek graficzny |
-| --- | --- | --- |
-| island-1 | Wyspa Pierwszego Echa | Polarna perła, akwamaryn, lodowce, śnieg i jasne sanktuaria |
-| island-2 | Wyspa Złamanej Pieczęci | Jadeit, kwitnące ogrody, jasny wapień i źródła |
-| island-3 | Wyspa Odwróconej Latarki | Ametyst, różowy kwarc, indygo i stare złoto |
-| island-4 | Wyspa Czterech Cum | Złoty piasek, oliwki, ciepły kamień i neutralny port |
-| island-5 | Wyspa Milczącego Nieba | Srebrzyste trawy, ciemny łupek, mokradła i zniszczone przekaźniki |
-| island-6 | Wyspa Ostatniego Tonu | Obsydian, wulkaniczny popiół, miedź, żar i polarny szron |
+| ID       | Projektowa nazwa z księgi | Osobny kierunek graficzny                                         |
+| -------- | ------------------------- | ----------------------------------------------------------------- |
+| island-1 | Wyspa Pierwszego Echa     | Polarna perła, akwamaryn, lodowce, śnieg i jasne sanktuaria       |
+| island-2 | Wyspa Złamanej Pieczęci   | Jadeit, kwitnące ogrody, jasny wapień i źródła                    |
+| island-3 | Wyspa Odwróconej Latarki  | Ametyst, różowy kwarc, indygo i stare złoto                       |
+| island-4 | Wyspa Czterech Cum        | Złoty piasek, oliwki, ciepły kamień i neutralny port              |
+| island-5 | Wyspa Milczącego Nieba    | Srebrzyste trawy, ciemny łupek, mokradła i zniszczone przekaźniki |
+| island-6 | Wyspa Ostatniego Tonu     | Obsydian, wulkaniczny popiół, miedź, żar i polarny szron          |
 
 Każda wyspa otrzymała sześć powierzchni: miękkie podłoże, skałę, trzeci lokalny
 materiał, nawierzchnię traktu/ruin, brzeg i wodę lub wulkaniczny materiał płynny.
@@ -205,3 +205,42 @@ Archiwum do pobrania: `deliveries/superior-islands-20261105/art-pack.zip`,
 SHA-256 i liczba plików w delivery.json obok. CRC archiwum sprawdzone.
 Po rozpakowaniu otworzyć superior-islands-v1/preview.html; import do Phasera jest
 odrębnym krokiem. Wczytywać tylko atlas aktywnej wyspy i zachować kolizje z danych świata.
+
+## Wyspy Superiora
+
+### 9. Własne materiały sześciu wysp (05.11.2026, gałąź `feat/superior-islands-art`)
+
+- Zlecenie właściciela: wszystkie wyspy mają być ładne. Materiały zostawił Codex na gałęzi
+  `feature/superior-islands-art-integration` wraz z pakietem odzyskania
+  `docs/zmiany/2026-11-05/qa/island-art-integration/recovery.json` (status
+  `ENVIRONMENT_UNAVAILABLE_INTEGRATION_NOT_DELIVERED`).
+- **Diagnoza przyczyny, nie objawu:** dane świata prosiły o wiązania kontynentu
+  macierzystego (`terrain.ki-v2-aether-*` dla wysp 1–3, `verdant` dla 4–5, `pyra` dla 6),
+  więc każda wyspa wyglądała jak odłamek swojego kontynentu.
+- Zastosowano recepturę odzyskania mechanicznie: 16 podmian z twardym licznikiem
+  wystąpień (`expectedOccurrences`), przerwą przy jakimkolwiek rozjeździe i dwoma plikami
+  w oryginalnych bajtach (`src/game/world/generated/islandArt.ts`,
+  `src/test/island-art.test.ts`). Nowe wiązania: `terrain.island-N.*`, `object.island-N.*`.
+- Kafle składane toroidalnie (16 przesuniętych połówek ramki z miękkim zanikiem alfa),
+  bo `manifest.json` dostawy wprost ostrzega: „seamless edge repetition has not been
+  certified in Phaser".
+- Generator manifestów przeportowany ze skryptu PIL na `sharp`, ponieważ Pillow nie jest
+  dostępne w kontenerze agenta; indeksy klatek i originy z progowanej alfa zachowują
+  semantykę oryginału. Wygenerowano 6 × `runtime-pack.json` (14 wiązań na wyspę, 84 razem),
+  zaimportowano 6 pakietów: katalog 177 → 184 pozycji.
+- Włączanie: `?ki-islands-art=1`. **Nie włączono domyślnie** — czeka na odbiór właściciela.
+  Geometria, kolizje, miasta, usługi i zapisy bez zmian.
+- Pomiar wizualny: dwanaście kadrów (sześć wysp × baza i po zmianie), ten sam teleport do
+  punktu przybycia, czekanie na `pending=0` i 12 s oddechu, **zero błędów konsoli w obu
+  przebiegach**. Widoczna zmiana: płaska trawa i szare bruki z prostokątnymi szwami →
+  gęstsze podłoże z własnym wzorem nawierzchni (m.in. turkusowe łuki na płycie), mniej
+  czytelne szwy kafli.
+- **Czego to NIE naprawiło (uczciwie):** liczba dekoracji w kadrze pozostała **5** w obu
+  wariantach — własne materiały nie dodają treści. Wyspy nadal są ubogie w obiekty, a
+  `acceptedScenery` dla nich to 0. HUD i minimapa pokazują surowy identyfikator osady
+  („Przystań island-2") zamiast nazwy własnej.
+- Testy: `src/test/island-art.test.ts` (8) przechodzi; `e2e/island-art.spec.ts` napisany
+  od nowa, bo pakiet odzyskania oznacza go jako zgubiony razem z workspace. Pełny
+  TypeScript PASS, `npm run test` 1210 przechodzi / 10 pominiętych, lint bez błędów.
+- Nie zweryfikowano: przebieg e2e w kontenerze agenta (programowy WebGL nie mieści się w
+  budżetach czasu speców), odbiór na fizycznym telefonie, decyzja o włączeniu domyślnym.
