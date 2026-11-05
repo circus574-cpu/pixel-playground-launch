@@ -64,3 +64,13 @@
 - Przypisanie do ras z wyglądu postaci, porównanego z istniejącymi filmami `*-fight` tych ras: Android (srebrne włosy, pancerz z niebieskimi obwodami),
   Legenda (czerwony pancerz), Mędrzec (kobieta w turkusowej sukni), Planetar (zielono-biały strój z pomarańczowym szalem).
 - To materiał roboczy (`art-wip`): nie jest podpięty do gry ani wycięty na klatki. Wycięcie klatek z tłem na przezroczystość to osobny krok.
+
+### 5. Prompty animacji (etapy 1-3) i filmy Legendy
+
+- Właściciel (05.11.2026): w grze są już chód, oddech, jeden cios, transformacja i chód po transformacji, więc nowe filmy dotyczą wyłącznie braków
+  (combo, umiejętności, unik, garda, trafienia, śmierć, wstawanie, bieg, ładowanie, zwycięstwo, interakcja). Limitów generowania nie ma; film trwa 10 s,
+  a w nim jak najwięcej animacji, opisanych co do sekundy.
+- Prompty, tabela ras i zasady wyciągnięte z testów: `art/pipeline/prompts/animacje/PROMPTY-ANIMACJE-v1.md` (etapy 1-4).
+- Filmy Legendy (forma bazowa), bez obróbki: `art-wip/gemini-anim-stages/legend-etap{1-walka,2-reakcje,3-ruch}.mp4`. Wszystkie trzy trzymają oś czasu z promptu,
+  tło jest czyste (bez cienia od etapu 2).
+- Nie wycięte do gry; wycięcie klatek to osobny krok.
