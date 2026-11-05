@@ -420,7 +420,7 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
     expect(s.player.development!.heritage.weapon!.location).toBe("bag");
     // Controlled interior fixture for the actual depot command, not a manufactured chapter result.
     s.player.interior = "depot";
-    Object.assign(s.player, cityRoom("depot").chest);
+    Object.assign(s.player, cityRoom("depot", s.player.continent).chest);
     s.depotOpen = true;
     s.command({ type: "heritage-weapon", action: "deposit" });
     expect(s.player.development!.heritage.weapon!.location).toBe("depot");
@@ -432,7 +432,7 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
 });
 
 describe("interior reload regressions", () => {
-  it("uses the actual portrait Pyra smithy dimensions and preserves bytes on an invalid room", () => {
+  it("uses the actual painted Pyra smithy dimensions and preserves bytes on an invalid room", () => {
     const port = storage();
     const index = JSON.parse(
       readFileSync("public/game/worlds/superior-v2/index.json", "utf8"),
@@ -444,16 +444,16 @@ describe("interior reload regressions", () => {
       ...newPlayer("legend"),
       ...index.features.find((f) => f.id === "pyra")!.arrival,
       interior: "smithy" as const,
-      x: 270,
-      y: 900,
+      x: 640,
+      y: 1400,
     };
     expect(save.save(p)).toBe(true);
     const loaded = new SuperiorSaveStore(port, "pyra-slot", index, "pyra").load();
     expect(loaded?.interior).toBe("smithy");
-    expect(loaded?.x).toBe(270);
-    expect(loaded?.y).toBe(900);
+    expect(loaded?.x).toBe(640);
+    expect(loaded?.y).toBe(1400);
     const raw = JSON.parse(port.getItem("pyra-slot")!);
-    raw.player.x = 541;
+    raw.player.x = 1281;
     const invalid = JSON.stringify(raw);
     port.data.set("pyra-slot", invalid);
     const blocked = new SuperiorSaveStore(port, "pyra-slot", index, "pyra");

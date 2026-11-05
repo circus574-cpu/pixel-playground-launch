@@ -17,7 +17,7 @@ import { installRenderTelemetry } from "./assets/telemetry";
 import { RACES, type RaceId } from "./world/races";
 import { playtestSaveKey } from "./playtest";
 import { renderWorld } from "./world/renderWorld";
-import { renderCityStreets, renderCityInterior } from "./city/renderCity";
+import { renderCityStreets, renderCityInterior, prefetchRooms } from "./city/renderCity";
 import { cityRoom } from "./city/room";
 import type { BuildingId } from "./city/types";
 import { clampZoom, DEFAULT_ZOOM } from "./view";
@@ -374,6 +374,7 @@ export function mountKileGends(
       const rendering = runtimeRendering ?? renderWorld(this, world);
       this.runtimeVisible = runtimeRendering?.setVisible;
       if (!runtime) renderCityStreets(this, world);
+      prefetchRooms(world.id);
       this.outsideObjects = this.children.list.filter(
         (o): o is Phaser.GameObjects.GameObject & Phaser.GameObjects.Components.Visible =>
           !beforeWorld.has(o) && "setVisible" in o,
@@ -450,22 +451,16 @@ export function mountKileGends(
       const zoom = () => {
         this.cameras.main.setZoom(clampZoom(Number(parent.dataset["zoom"] ?? DEFAULT_ZOOM)));
         if (session.player.interior) {
+          // Painted rooms are larger than the screen: the whole width on a wide screen, a scrolling
+          // window on a phone, always following the hero inside the room.
           const room = cityRoom(session.player.interior, world.id);
           const cam = this.cameras.main;
-          if (room.height > room.width) {
-            // Portrait room: composed for a tall screen, shown whole. Wide screens fit its height; the
-            // walls beyond the room are drawn, never stretched.
-            const portraitScreen = this.scale.height >= this.scale.width;
-            if (portraitScreen) {
-              cam.setZoom(Math.max(this.scale.width / room.width, this.scale.height / room.height));
-              cam.setBounds(0, 0, room.width, room.height);
-              if (this.hero) cam.startFollow(this.hero.body, true, 0.12, 0.12);
-            } else {
-              cam.setZoom(this.scale.height / room.height);
-              cam.stopFollow().removeBounds();
-              cam.centerOn(room.width / 2, room.height / 2);
-            }
-          } else cam.centerOn(room.width / 2, room.height / 2);
+          cam.setZoom(Math.max(this.scale.width / room.width, 0.5));
+          cam.setBounds(0, 0, room.width, room.height);
+          if (this.hero) {
+            cam.startFollow(this.hero.body, true, 0.12, 0.12);
+            cam.centerOn(session.player.x, session.player.y);
+          }
         }
         // The resting joystick keeps its screen place and size at any zoom.
         if (this.stickBase && this.joystickId === null) this.resetStick();
@@ -555,7 +550,7 @@ export function mountKileGends(
                     ? { type: "loot", id: session.snapshot().nearbyLoot[0]?.id ?? "" }
                     : bound === "interact"
                       ? session.player.interior === "depot" &&
-                        distance(session.player, cityRoom("depot").chest) < 145
+                        distance(session.player, cityRoom("depot", world.id).chest) < 145
                         ? { type: "chest" }
                         : session.snapshot().nearbyBuilding &&
                             !session.npcs.some((n) => distance(n, session.player) < 140)
@@ -1368,18 +1363,12 @@ export function mountKileGends(
         this.input.keyboard?.resetKeys();
         if (session.player.interior) {
           this.outsideObjects.forEach((o) => o.setVisible(false));
-          this.interiorView = renderCityInterior(
-            this,
-            world,
-            session.player.interior,
-            runtime?.interiorBindings,
-          );
-          const room = cityRoom(session.player.interior, world.id);
+          this.interiorView = renderCityInterior(this, world, session.player.interior);
           this.cameras.main
             .stopFollow()
             .removeBounds()
             .setBackgroundColor(world.city?.palette?.background ?? "#101e1b");
-          this.cameras.main.centerOn(room.width / 2, room.height / 2);
+          // ki:zoom fits the room and follows the hero (see zoom() above).
           parent.dispatchEvent(new Event("ki:zoom"));
         } else {
           this.outsideObjects.forEach((o) => o.setVisible(true));
@@ -1444,7 +1433,7 @@ export function mountKileGends(
       this.hero.body
         .setPosition(session.player.x, session.player.y)
         .setDepth(session.player.y)
-        .setScale(world.id === "pyra" && session.player.interior === "smithy" ? 1.45 : 1);
+        .setScale(1);
       this.hero.animation.update(
         this.animationTime,
         session.moving,
