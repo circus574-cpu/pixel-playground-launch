@@ -2,7 +2,7 @@
 
 ## Verdantia — materiały kontynentu 04.11.2026
 
-Paczka `verdantia-continent-v2@1.0.1` jest opt-in (`ki-verdant-continent=1`):
+Paczka `verdantia-continent-v2@1.0.1` jest domyślnie włączona od 05.11.2026 (`ki-verdant-continent=0` wyłącza):
 15 zasobów, około 4,37 MiB plików runtime i 15,95 MiB rozkodowanych pikseli.
 Miasta zachowują swoje zaakceptowane wiązania; nowe klucze mają przestrzeń
 `terrain.verdantia-continent.*` / `object.verdantia-continent.*`.
@@ -588,7 +588,7 @@ Orientacyjnie: kilkanaście części jednego zestawu to godzina pracy GPU plus p
 
 Decyzja właściciela (23.10.2026): cała planeta ma zostać wypełniona. Poprawki animacji i podłoża przy miastach robimy na końcu. Potrzebne jest bardzo zróżnicowane środowisko (skały, góry, wulkany) oraz **neutralne zwierzęta**, które dają pożywienie i inne surowce (osobno od potworów z bestiariusza, które pozostają przeciwnikami).
 
-Zasady wspólne: niezależne zasoby (tekstury `terrain.*`, obiekty `object.*`, aktor `fauna.*`), nigdy gotowa ilustracja świata jako podłoże; kolizje z danych regionów, nie z grafiki; opt-in przez `PREVIEW_SWITCHES` do akceptacji; budżet tekstur 128 MiB na aktywny świat (kontynent ładuje tylko własny zestaw biomów plus wspólne skały); prawa do referencji i checkpointów nadal nierozstrzygnięte (ASSET-LICENSE-REGISTER.md).
+Zasady wspólne: niezależne zasoby (tekstury `terrain.*`, obiekty `object.*`, aktor `fauna.*`), nigdy gotowa ilustracja świata jako podłoże; kolizje z danych regionów, nie z grafiki; nowe pakiety wchodzą przez `PREVIEW_SWITCHES` (opt-in) do akceptacji właściciela, po której trafiają do `DEFAULT_ON_SWITCHES` (`=0` wyłącza; tak są dziś Verdantia, Pyra, Aetheria, potwory anime i malowane miasta); budżet tekstur 128 MiB na aktywny świat (kontynent ładuje tylko własny zestaw biomów plus wspólne skały); prawa do referencji i checkpointów nadal nierozstrzygnięte (ASSET-LICENSE-REGISTER.md).
 
 ### 1. Krajobraz: tekstury podłoża (`terrain.*`)
 
@@ -712,7 +712,7 @@ przejścia, rekwizyty) oczyszczono przez `image_gen`; oryginalne koncepcje
 pozostają w osobnym archiwum. `provenance.json` i `sources.sha256.json`
 zapisują pochodzenie oraz SHA-256. Importer stosuje osobne wiązania
 `terrain.pyra-continent.*` i `object.pyra-continent.*`, opt-in
-`ki-pyra-continent=1`; nie zastępuje wcześniejszych kluczy katalogu.
+domyślnie włączone od 05.11.2026 (`ki-pyra-continent=0` wyłącza); nie zastępuje wcześniejszych kluczy katalogu.
 
 Odtworzenie: `node art/production/pyra-continent-v2/prepare.mjs`, następnie
 `npm run assets:import -- art/production/pyra-continent-v2/manifest.json --install`
@@ -750,7 +750,7 @@ Odtworzenie: `node art/production/aetheria-continent-v2/prepare.mjs`, potem
 `npm run assets:import -- art/production/aetheria-continent-v2/manifest.json --install`
 (przy ponownej instalacji dodać `--replace`). Rejestr ma osobne wiązania
 `terrain.aetheria-continent.*` i `object.aetheria-continent.*`; istniejące klucze
-nie są nadpisywane. Opt-in: `ki-aetheria-continent=1`.
+nie są nadpisywane. Domyślnie włączone od 05.11.2026; `ki-aetheria-continent=0` wyłącza.
 
 Runtime: 5 331 248 bajtów, 16,21 MiB rozkodowanych pikseli. Digest:
 `3117f4ea8b96a9ffc9cf799a03f519f78ef8928a4cb91c372127bcce58f4a931`.

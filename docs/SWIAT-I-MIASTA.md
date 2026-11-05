@@ -1,8 +1,8 @@
 # KI Legends — świat, kontynenty i miasta
 
-## Aetheria — podgląd oprawy kontynentu 04.11.2026
+## Aetheria — oprawa kontynentu (domyślnie włączona od 05.11.2026)
 
-Gałąź `preview/aetheria-continent-v2`, opcja `ki-aetheria-continent=1` w Superior v2,
+Scalona przez PR #118 (wcześniej gałąź `preview/aetheria-continent-v2`). Domyślnie włączona w Superior v2; `ki-aetheria-continent=0` przywraca dawny wygląd. Opis,
 rasa **Mędrcy**. Zmiana jest warstwą prezentacji poza istniejącymi osadami.
 Zachowuje gotowe Sanktuarium Tysiąca Źródeł, jego budynki, NPC i usługi.
 
@@ -26,11 +26,11 @@ Kryształy KI i kanoniczne budynki/większe miejsca zachowują wcześniejsze gra
 Nie dodano mechaniki mrozu, pływania ani nowej animowanej fauny.
 
 [Źródła, audyty i zrzuty z gry](zmiany/2026-11-04/ZMIANY.md#aetheria--nowa-oprawa-kontynentu).
-To podgląd na osobnej gałęzi, bez scalenia do `main` lub publikacji domen.
+Geometria, kolizje, nawigacja, spawny i zapisy bez zmian; zasoby są prezentacją.
 
-## Pyra — podgląd oprawy kontynentu 04.11.2026
+## Pyra — oprawa kontynentu (domyślnie włączona od 05.11.2026)
 
-Gałąź `preview/pyra-continent-v2`, opcja `ki-pyra-continent=1` w Superior v2.
+Scalona przez PR #118 (wcześniej gałąź `preview/pyra-continent-v2`). Domyślnie włączona w Superior v2; `ki-pyra-continent=0` przywraca dawny wygląd.
 Podgląd dotyczy dzikich ziem poza czterema bezpiecznymi osadami. Zachowuje
 ukończoną Twierdzę Popiołu, usługi, drzwi oraz wszystkie źródłowe dane świata.
 
@@ -49,11 +49,11 @@ statyczne przezroczyste tekstury z animacją pozycji/zanikania, nie nowe sekwenc
 klatek. Geometria, kolizje, zapis i spawny pozostają bez zmian.
 
 [Źródła, wyniki i zrzuty z gry](zmiany/2026-11-04/ZMIANY.md#pyra--nowa-oprawa-kontynentu).
-To gałąź podglądowa, bez scalenia do `main` ani publikacji domen.
+Geometria, kolizje, nawigacja, spawny i zapisy bez zmian.
 
-## Verdantia — podgląd oprawy kontynentu 04.11.2026
+## Verdantia — oprawa kontynentu (domyślnie włączona od 05.11.2026)
 
-Gałąź `preview/verdantia-continent-v2`, opcja `ki-verdant-continent=1` w Superior v2.
+Scalona przez PR #118 (wcześniej gałąź `preview/verdantia-continent-v2`). Domyślnie włączona w Superior v2; `ki-verdant-continent=0` przywraca dawny wygląd.
 Nowe materiały dziczy obejmują łąkę, las, kamienne wzgórza, mokradła, piasek
 i wodę; drogi korzystają z czterech nawierzchni dostarczonych przez właściciela.
 Rośliny i skały są osobnymi sprite'ami, z głębią według stóp i przygaszaniem
@@ -72,9 +72,9 @@ dodają usług, nagród, wejść ani nowych przeszkód fizycznych.
 [Źródła i import](GPU-I-ZASOBY.md#verdantia--materiały-kontynentu-04112026),
 [lokalne zrzuty i weryfikacja](zmiany/2026-11-04/ZMIANY.md#verdantia--oprawa-kontynentu-na-osobnej-gałęzi).
 
-## Malowana Verdantia — podgląd 03.11.2026
+## Malowana Verdantia — miasta (03.11.2026, publiczne od 04.11.2026)
 
-Gałąź `preview/verdantia-painted-terrain`, flaga `ki-verdant-painted=1`:
+Flaga `ki-verdant-painted` (malowane miasta włączone publicznie decyzją właściciela 04.11.2026, [dziennik](zmiany/2026-11-04/ZMIANY.md#malowane-miasta-publicznie-decyzja-właściciela-04112026)):
 ostrzejsze podłoże, wspólna maska dróg bez równych obrysów, łagodne poszarpane
 brzegi, korekta zieleni i światła, liściasty sklep oraz dodatkowe niesolidne rośliny.
 To warstwa prezentacji rzeczywistego Superior; kolizje, nawigacja, punkty wejść,
@@ -91,7 +91,7 @@ mapę Kamiennego Sadu. Styl nie zastępuje wszystkich zasobów świata.
 Decyzja właściciela 24.10.2026: Superior zastępuje cztery stare mapy gry.
 Na `feature/superior-runtime-20261023` zwykłe wejście uruchamia wygenerowany
 kontynent pochodzenia postaci. Flaga `ki-superior` nie jest potrzebna.
-Zmiana pozostaje na gałęzi, bez scalenia do main i publikacji.
+Stan historyczny z 24.10; Superior v2 jest od PR #44 jedynym światem na `main`.
 Dziesięć lądów ma własny teren, minimapę z obrysu, kolizje i przypisania grafik.
 Nowy renderer tworzy tekstury 512² dla chunków 2048 jednostek oraz sprite'y dekoracji
 przy widoku; typowy limit to 12 chunków. Wyjątek zachowuje wszystkie widoczne chunki

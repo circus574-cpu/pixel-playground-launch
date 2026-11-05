@@ -1,6 +1,6 @@
 # KI Legends — rasy i postacie
 
-Stan bieżący: 29.10.2026, `main@5cea48da`. Integracja nie zmienia zatwierdzonych tożsamości, nazw kontynentów ani obecnych paczek bohaterów HD. Rozwój ras i nowe parametry treningu są w main, lecz dalsze rozdziały i próby pozostają nieukończone. Liczby, wyposażenie i zasady wzrostu: [rozwój i walka](ROZWOJ-I-WALKA.md). Historyczne checkpointy grafik poniżej zachowują własne daty i wersje.
+Stan bieżący: 05.11.2026 (`main@f2625549`); paczki bohaterów `2.1.0` z klipem `kiwalk` opisano niżej, reszta sekcji pochodzi z 29.10.2026. Integracja nie zmienia zatwierdzonych tożsamości, nazw kontynentów ani obecnych paczek bohaterów HD. Rozwój ras i nowe parametry treningu są w main, lecz dalsze rozdziały i próby pozostają nieukończone. Liczby, wyposażenie i zasady wzrostu: [rozwój i walka](ROZWOJ-I-WALKA.md). Historyczne checkpointy grafik poniżej zachowują własne daty i wersje.
 
 ## Cztery tożsamości
 

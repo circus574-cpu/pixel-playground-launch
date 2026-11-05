@@ -1,7 +1,7 @@
 # KI Legends
 
 Dokumentacja projektu: [indeks 10 tematów](docs/INDEX.md).
-Historia prac: [dziennik 23.10.2026](docs/zmiany/2026-10-23/ZMIANY.md).
+Historia prac: [dziennik 05.11.2026](docs/zmiany/2026-11-05/ZMIANY.md), pozostałe dni w [indeksie](docs/INDEX.md#historia--jeden-dziennik-na-dzień).
 Projekt fabuły: [Księga przygody PDF](KI-LEGENDS-KSIEGA-PRZYGODY-v1.0.pdf).
 
 ## Development
