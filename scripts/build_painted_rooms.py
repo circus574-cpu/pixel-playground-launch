@@ -3,7 +3,7 @@
 
     python3 scripts/build_painted_rooms.py
 
-Reads art/production/interiors/<city>/<world>-<building>-interior.png (1536x1024 (Pyra smithy: 1024x1536)) and writes
+Reads art/production/interiors/<city>/<world>-<building>-interior.png (1536x1024) and writes
 public/game/interiors/<world>-<building>.webp. Pictures are loaded one at a time when the player enters a building.
 """
 from pathlib import Path
@@ -19,7 +19,7 @@ for city, world in CITIES.items():
     for b in BUILDINGS:
         src = ROOT / f"art/production/interiors/{city}/{world}-{b}-interior.png"
         im = Image.open(src).convert("RGB")
-        assert im.size in ((1536, 1024), (1024, 1536)), (src, im.size)  # only the Pyra smithy is a portrait
+        assert im.size == (1536, 1024), (src, im.size)
         dst = out / f"{world}-{b}.webp"
         im.save(dst, quality=88, method=6)
         total += dst.stat().st_size

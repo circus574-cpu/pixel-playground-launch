@@ -12,9 +12,8 @@ describe("painted interiors of the special buildings", () => {
       const nav = new Navigation(room.width, room.height, room.obstacles);
       it(`${world}/${id}: larger room, everything reachable, picture shipped`, () => {
         // The old rooms were 960x760 (the Pyra smithy 540x1100).
-        const portrait = world === "pyra" && id === "smithy";
-        expect(room.width).toBe(portrait ? 1280 : ROOM_WIDTH);
-        expect(room.height).toBe(portrait ? 1920 : ROOM_HEIGHT);
+        expect(room.width).toBe(ROOM_WIDTH);
+        expect(room.height).toBe(ROOM_HEIGHT);
         expect(room.width * room.height).toBeGreaterThan(960 * 760 * 3);
         for (const p of [room.entry, room.exit, room.npc, room.chest, room.dummy])
           expect(nav.walkable(p), JSON.stringify(p)).toBe(true);

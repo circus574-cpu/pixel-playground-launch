@@ -265,7 +265,7 @@ Aetheria używa archiwów/pagód jako kilku różnych usług; Nexus powtarza lab
 Pyra święte miejsca wojny. To zastępniki, nie gotowe indywidualne fasady.
 Wnętrza sześciu budynków specjalnych każdego miasta to od 05.11.2026 malowane pokoje (24 obrazy
 z `art/production/interiors/`, sala, sklep, arena, depozyt, kuźnia, gospoda), znacznie większe niż
-dawne 960 × 760: 1920 × 1280, kuźnia Pyry pionowa 1280 × 1920. Obraz jest tłem pokoju i ładuje się
+dawne 960 × 760 i 540 × 1100 (kuźnia Pyry): wszystkie 1920 × 1280. Obraz jest tłem pokoju i ładuje się
 dopiero przy wejściu do budynku (nie liczy się do budżetu tekstur świata), a po wyjściu jest zwalniany.
 Kolizje (ściana tylna, meble, punkty NPC, skrzyni depozytu i manekina areny) zapisano w
 `src/game/city/paintedRooms.ts` jako obrysy odczytane z obrazów; nie zależą od pliku grafiki. Kamera

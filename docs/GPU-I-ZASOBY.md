@@ -557,7 +557,8 @@ Maszynowy opis: [`world-asset-kit.json`](world-asset-kit.json), generowany przez
 - Wnętrza sześciu budynków specjalnych (sala, sklep, arena, depozyt, kuźnia, gospoda) we wszystkich czterech
   miastach to **malowane pokoje**: `src/game/city/paintedRooms.ts` (kolizje odczytane z obrazów), obrazy
   `public/game/interiors/<świat>-<budynek>.webp` z `art/production/interiors/` (skrypt
-  `scripts/build_painted_rooms.py`). Pokoje mają 1920 × 1280, kuźnia Pyry jest pionowa 1280 × 1920.
+  `scripts/build_painted_rooms.py`). Wszystkie pokoje, także kuźnia Pyry, mają 1920 × 1280. Dawny pionowy obraz kuźni Pyry jest zachowany jako
+  `pyra-smithy-interior-portrait-v1.png`.
 - Miasto = strefa bezpieczna ~4000 × 2500 (`city.bounds`), poza nią walka. Nowe obiekty w mieście nie mogą
   zasłaniać drzwi budynków usługowych (muszą być osiągalne A* ze startu).
 - Nie edytować `imported.json` ręcznie ani plików `*.generated.ts`; paczki wchodzą przez

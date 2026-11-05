@@ -432,7 +432,7 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
 });
 
 describe("interior reload regressions", () => {
-  it("uses the actual painted Pyra smithy dimensions and preserves bytes on an invalid room", () => {
+  it("uses the actual painted room dimensions and preserves bytes on an invalid room", () => {
     const port = storage();
     const index = JSON.parse(
       readFileSync("public/game/worlds/superior-v2/index.json", "utf8"),
@@ -444,16 +444,16 @@ describe("interior reload regressions", () => {
       ...newPlayer("legend"),
       ...index.features.find((f) => f.id === "pyra")!.arrival,
       interior: "smithy" as const,
-      x: 640,
-      y: 1400,
+      x: 1000,
+      y: 1100,
     };
     expect(save.save(p)).toBe(true);
     const loaded = new SuperiorSaveStore(port, "pyra-slot", index, "pyra").load();
     expect(loaded?.interior).toBe("smithy");
-    expect(loaded?.x).toBe(640);
-    expect(loaded?.y).toBe(1400);
+    expect(loaded?.x).toBe(1000);
+    expect(loaded?.y).toBe(1100);
     const raw = JSON.parse(port.getItem("pyra-slot")!);
-    raw.player.x = 1281;
+    raw.player.x = 1921;
     const invalid = JSON.stringify(raw);
     port.data.set("pyra-slot", invalid);
     const blocked = new SuperiorSaveStore(port, "pyra-slot", index, "pyra");

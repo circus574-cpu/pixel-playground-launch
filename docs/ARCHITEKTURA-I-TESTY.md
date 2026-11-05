@@ -704,8 +704,8 @@ pozostaje w pamięci; szczytowe zużycie na fizycznym telefonie wymaga osobnego 
   joysticka, przypisań, pozycji HUD, kamery, hostingu i prywatnego `/test`.
 
 Regresja Pyry: `SuperiorSaveStore` sprawdza wymiary `cityRoom(interior, affinity)`,
-a nie stałe wymiary. Od 05.11.2026 pokoje specjalnych budynków mają 1920 × 1280, a kuźnia
-Pyry 1280 × 1920 (wcześniej 960 × 760 i 540 × 1100); jej poprawny zapis (np. x=640, y=1400)
+a nie stałe wymiary. Od 05.11.2026 pokoje wszystkich specjalnych budynków, także kuźni Pyry, mają
+1920 × 1280 (wcześniej 960 × 760 i 540 × 1100); poprawny zapis (np. x=1000, y=1100)
 musi się wczytywać. Testy obejmują też błędne współrzędne i zachowanie oryginału.
 `e2e/development-heritage.spec.ts` nie ustawia flag postępu: zaczyna nową postacią,
 kończy stary prolog przez UI, idzie do kolejnych obiektów, wybiera odpowiedzi,

@@ -25,8 +25,6 @@ type Spec = {
   /** Depot chest and arena dummy: the point where the player stands to use them. */
   chest?: readonly [number, number];
   dummy?: readonly [number, number];
-  /** Room size in world units; the Pyra smithy picture is a portrait (1024×1536), all others are 3:2 landscapes. */
-  size?: readonly [number, number];
 };
 
 const SIDE = 45;
@@ -264,18 +262,19 @@ const SPECS: Record<PaintedWorld, Record<BuildingId, Spec>> = {
       chest: [490, 560],
     },
     smithy: {
-      wallY: 440,
-      size: [1280, 1920],
+      wallY: 400,
       blocks: [
-        [300, 440, 690, 510],
-        [350, 510, 640, 660],
-        [40, 440, 290, 660],
-        [20, 670, 300, 870],
-        [700, 440, 990, 660],
-        [840, 590, 1000, 780],
-        [720, 780, 1000, 960],
+        [330, 400, 650, 570],
+        [410, 575, 585, 765],
+        [100, 390, 285, 570],
+        [10, 330, 105, 660],
+        [0, 670, 125, 930],
+        [700, 260, 850, 490],
+        [650, 440, 710, 530],
+        [740, 490, 915, 820],
+        [840, 440, 1000, 950],
       ],
-      npc: [500, 750],
+      npc: [290, 760],
     },
     inn: {
       wallY: 440,
@@ -297,7 +296,7 @@ export const isPaintedWorld = (id: string | undefined): id is PaintedWorld =>
 
 export function paintedRoom(building: BuildingId, world: PaintedWorld): Interior {
   const s = SPECS[world][building];
-  const [width, height] = s.size ?? [ROOM_WIDTH, ROOM_HEIGHT];
+  const [width, height] = [ROOM_WIDTH, ROOM_HEIGHT];
   const sx = width / 1000,
     sy = height / 1000;
   const rect = (r: Rect) => ({

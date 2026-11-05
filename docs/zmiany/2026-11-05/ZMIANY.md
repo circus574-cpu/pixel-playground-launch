@@ -90,8 +90,9 @@
 
 - Zlecenie właściciela (05.11.2026): zrobić wnętrza budynków specjalnych z materiału z 04.11, pokoje mają być większe niż były.
 - 24 obrazy z `art/production/interiors/` (4 miasta × sala, sklep, arena, depozyt, kuźnia, gospoda) są teraz tłem pokoi w grze. Wcześniej leżały nieużyte, a gra rysowała programowe podłogi i meble.
-- Rozmiar: 960 × 760 → 1920 × 1280 (3,4 × większa powierzchnia); kuźnia Pyry, jedyny obraz pionowy (1024 × 1536), 540 × 1100 → 1280 × 1920.
-  Dawna, ręcznie składana kuźnia Pyry (`renderSmithy.ts`, `SMITHY_ROOM`) zastąpiona zaakceptowanym obrazem z 04.11.
+- Rozmiar: 960 × 760 → 1920 × 1280 (3,4 × większa powierzchnia); kuźnia Pyry 540 × 1100 → też 1920 × 1280. Dawna, ręcznie składana kuźnia Pyry (`renderSmithy.ts`, `SMITHY_ROOM`) usunięta.
+- Kuźnia Pyry miała jedyny obraz pionowy (1024 × 1536). Na życzenie właściciela („Pyra ma być taka sama, też poziom”) wygenerowano poziomą wersję 1536 × 1024 (gpt-image-1-mini, jakość medium, ten sam prompt bez akapitu o pionowym kadrze; `pyra-smithy-interior.prompt.txt`, `WNETRZA-v2-Pyra.md`),
+  a pionowy obraz zachowano jako `pyra-smithy-interior-portrait-v1.png`. Nowy obraz nie przeszedł jeszcze odbioru właściciela.
 - Kolizje: `src/game/city/paintedRooms.ts`, obrysy mebli odczytane z siatki nałożonej na każdy obraz (0..1000 jednostek obrazu), sprawdzone nakładką czerwonych prostokątów na wszystkich 24 obrazach.
   Punkty NPC, skrzyni depozytu (osobny dla każdego miasta) i manekina areny wyznaczone osobno dla pokoju; sesja przenosi manekina treningowego na punkt pokoju (był na stałe w (600, 300)).
 - Obraz ładuje się przy wejściu i jest zwalniany przy wyjściu (nie liczy się do budżetu tekstur świata); 4,1 MiB webp, `scripts/build_painted_rooms.py`. Kamera: cała szerokość pokoju na szerokim ekranie (zoom ≥ 0,5), podąża za bohaterem.
