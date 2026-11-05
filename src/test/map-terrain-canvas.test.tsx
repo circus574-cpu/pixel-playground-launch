@@ -18,7 +18,18 @@ import { WorldOverlay } from "../components/planet-map/WorldOverlay";
 afterEach(() => vi.restoreAllMocks());
 it("draws visible source tiles on one bounded canvas without SVG image nodes", async () => {
   const drawImage = vi.fn();
-  const context = { drawImage, setTransform: vi.fn() };
+  const clip = vi.fn();
+  const context = {
+    drawImage,
+    setTransform: vi.fn(),
+    save: vi.fn(),
+    restore: vi.fn(),
+    beginPath: vi.fn(),
+    moveTo: vi.fn(),
+    lineTo: vi.fn(),
+    closePath: vi.fn(),
+    clip,
+  };
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(
     context as unknown as CanvasRenderingContext2D,
   );
@@ -35,6 +46,8 @@ it("draws visible source tiles on one bounded canvas without SVG image nodes", a
   expect(canvas.width).toBeLessThanOrEqual(300);
   expect(canvas.height).toBeLessThanOrEqual(150);
   expect(decodedImage).toHaveBeenCalledTimes(1);
+  // The painted land map is clipped to the land's outline: no rectangular ocean margin on the atlas.
+  expect(clip).toHaveBeenCalledTimes(1);
 });
 it("keeps the base map usable if detailed terrain cannot be loaded", async () => {
   decodedImage.mockRejectedValue(Error("offline"));

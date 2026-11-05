@@ -53,11 +53,20 @@ export function visiblePlaces(
   const shown = new Set<(typeof candidates)[number]>();
   for (const c of order) {
     if (!c.wants) continue;
-    const half = (c.p.name.length * px(11) * 0.56) / 2;
+    // Cinzel 600 is wide: about 0.74 em per character.
+    const half = (c.p.name.length * px(11) * 0.74) / 2;
     const top = c.p.y + c.r + px(12) - px(11);
     const box: Box = [c.p.x - half - gap, top - gap, c.p.x + half + gap, top + px(11) + gap];
-    // Only labels compete with each other; the small icons never hide a name.
     if (labels.some((o) => meets(o, box))) continue;
+    // A name never covers the icon of a more important place (a camp's name stays off a town).
+    if (
+      candidates.some(
+        (o) =>
+          rank(o.p.kind) < rank(c.p.kind) &&
+          meets(box, [o.p.x - o.r, o.p.y - o.r, o.p.x + o.r, o.p.y + o.r]),
+      )
+    )
+      continue;
     labels.push(box);
     shown.add(c);
   }

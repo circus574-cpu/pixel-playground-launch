@@ -13,7 +13,7 @@ export type Vec3 = [number, number, number];
 
 /** Camera limits, as distances from the planet centre (planet radius = 1). */
 export const CAMERA = {
-  min: 1.4,
+  min: 1.15,
   /** How far beyond the fitted opening distance the user may zoom out. */
   maxFactor: 1.3,
   /** Share of the shorter screen side the planet fills at the opening view. */

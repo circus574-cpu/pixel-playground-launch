@@ -128,3 +128,17 @@ describe("/mapa globe render budget", () => {
     expect(q.hiResColor).toBe(true);
   });
 });
+
+describe("/mapa globe on touch screens", () => {
+  it("marker buttons do not capture a finger, so pinch and rotate reach the globe", async () => {
+    const { readFileSync } = await import("node:fs");
+    const css = readFileSync("src/components/planet-map/globe.css", "utf8");
+    expect(css).toMatch(
+      /@media \(pointer: coarse\)\s*\{\s*\.pg-marker\s*\{\s*pointer-events: none !important;/,
+    );
+  });
+
+  it("lets the camera come close enough to read the surface", () => {
+    expect(CAMERA.min).toBeLessThanOrEqual(1.2);
+  });
+});
