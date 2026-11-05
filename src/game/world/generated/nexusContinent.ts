@@ -187,15 +187,24 @@ export function nexusObjects(
 /** Static translucent textures animated by position and fade, like the Pyra ambient set. */
 export function nexusEffectFrame(item: ArtObject, time: number) {
   const phase = (((time / 2600 + nexusNoise(item.x, item.y)) % 1) + 1) % 1;
-  const lift = Math.sin(phase * Math.PI * 2) * 6;
+  // Motes released into the air travel; sprites clinging to a machine only shimmer.
+  const airborne = item.id.startsWith("nexus-air-");
+  const drift = airborne ? 46 : 5;
+  const lift = Math.sin(phase * Math.PI * 2) * (airborne ? 22 : 6);
   const alpha =
     (item.binding.endsWith("fx-energy")
       ? 0.2
       : item.binding.endsWith("fx-fireflies")
-        ? 0.3
-        : 0.22) *
+        ? 0.34
+        : item.binding.endsWith("fx-petals")
+          ? 0.3
+          : 0.22) *
     (0.55 + 0.45 * Math.sin(phase * Math.PI));
-  return { x: item.x + Math.cos(phase * Math.PI * 2) * 5, y: item.y + lift, alpha };
+  return {
+    x: item.x + Math.cos(phase * Math.PI * 2) * drift,
+    y: item.y + lift,
+    alpha,
+  };
 }
 
 /** Tylko dekoracyjna roślinność przydrożna; skalne biomy pozostają rzadkie. */
@@ -249,6 +258,131 @@ export function nexusRoadside(
         anchorX: 0.5,
         anchorY: 0.92,
         layer: "objects",
+        solid: false,
+      });
+    }
+  return result;
+}
+
+/**
+ * Wilderness dressing. The authored continent carries 8–16 props per screen against 104
+ * in the capital, so no palette can hide the emptiness. These sprites are deliberately
+ * nonphysical: no footprint and solid=false, so collision, navigation and saves stay
+ * exactly as authored. Density is capped because every prop is an animated budget image.
+ */
+export function nexusScatter(
+  x: number,
+  y: number,
+  roads: readonly Road[],
+  outside: (p: Point) => boolean,
+  land: (p: Point) => boolean,
+  biomeAt: (p: Point) => number,
+): ArtObject[] {
+  const result: ArtObject[] = [];
+  const MIX: Record<number, [string, number][]> = {
+    0: [
+      ["luminous-grass", 0.4],
+      ["rocks", 0.25],
+      ["fern", 0.2],
+      ["crystal-tree", 0.08],
+      ["sign", 0.07],
+    ],
+    1: [
+      ["violet-bush", 0.34],
+      ["fern", 0.24],
+      ["mushrooms", 0.18],
+      ["cyan-tree", 0.12],
+      ["log", 0.12],
+    ],
+    2: [
+      ["rocks", 0.34],
+      ["basalt-ridge", 0.24],
+      ["silver-cypress", 0.2],
+      ["cliff", 0.14],
+      ["stump", 0.08],
+    ],
+    3: [
+      ["crystals", 0.36],
+      ["crystal-outcrop", 0.24],
+      ["monolith", 0.16],
+      ["ruin", 0.14],
+      ["chasm-rim", 0.1],
+    ],
+  };
+  for (let gy = Math.ceil(y / 220); gy * 220 < y + 2048; gy++)
+    for (let gx = Math.ceil(x / 220); gx * 220 < x + 2048; gx++) {
+      if (result.length >= 40) return result;
+      const roll = nexusNoise(gx * 41 + 7, gy * 67 + 11);
+      if (roll > 0.34) continue;
+      const p = {
+        x: gx * 220 + nexusNoise(gx, gy * 3) * 190,
+        y: gy * 220 + nexusNoise(gx * 5, gy) * 190,
+      };
+      if (p.x < x || p.x >= x + 2048 || p.y < y || p.y >= y + 2048 || !outside(p) || !land(p))
+        continue;
+      if (roads.some((r) => roadDistance(p, r) < r.width / 2 + 70)) continue;
+      const biome = biomeAt(p);
+      let acc = 0;
+      const pick = (MIX[biome] ?? MIX[0]!).find(([_, w]) => (acc += w) >= roll / 0.34);
+      if (!pick) continue;
+      const name = pick[0];
+      const big = [
+        "cyan-tree",
+        "silver-cypress",
+        "crystal-tree",
+        "cliff",
+        "basalt-ridge",
+        "chasm-rim",
+      ].includes(name);
+      result.push({
+        id: `nexus-dress-${gx}-${gy}`,
+        kind: big ? "tree" : "bush",
+        binding: "object.nexus-continent." + name,
+        ...p,
+        width: big ? 300 : 96,
+        height: big ? 360 : 92,
+        anchorX: 0.5,
+        anchorY: 0.92,
+        layer: "objects",
+        solid: false,
+      });
+    }
+  return result;
+}
+
+/**
+ * Airborne motes over the warm biomes only. Kept deliberately sparse: every mote is an
+ * animated Phaser image inside the streamed chunk budget, and a dense field measured a
+ * screenshot timeout on software WebGL. Cold rock stays stark, which is also the intent.
+ */
+export function nexusAir(
+  x: number,
+  y: number,
+  outside: (p: Point) => boolean,
+  land: (p: Point) => boolean,
+  biomeAt: (p: Point) => number,
+): ArtObject[] {
+  const result: ArtObject[] = [];
+  for (let gy = Math.ceil(y / 320); gy * 320 < y + 2048; gy++)
+    for (let gx = Math.ceil(x / 320); gx * 320 < x + 2048; gx++) {
+      const roll = nexusNoise(gx * 17 + 3, gy * 31 + 5);
+      if (roll > 0.3) continue;
+      const p = { x: gx * 320 + roll * 290, y: gy * 320 + nexusNoise(gy * 13, gx * 29) * 290 };
+      if (p.x < x || p.x >= x + 2048 || p.y < y || p.y >= y + 2048 || !outside(p) || !land(p))
+        continue;
+      const biome = biomeAt(p);
+      if (biome >= 2) continue;
+      const binding = biome === 1 ? (roll < 0.07 ? "fx-fireflies" : "fx-petals") : "fx-dust";
+      result.push({
+        id: `nexus-air-${gx}-${gy}`,
+        kind: "ambient-effect",
+        binding: "object.nexus-continent." + binding,
+        ...p,
+        width: 96,
+        height: 96,
+        anchorX: 0.5,
+        anchorY: 0.5,
+        layer: "overhead",
         solid: false,
       });
     }

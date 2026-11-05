@@ -25,6 +25,8 @@ import {
   nexusObjects,
   nexusRoadside,
   nexusBiomeAt,
+  nexusScatter,
+  nexusAir,
   nexusEffectFrame,
   nexusEnergyCell,
 } from "./nexusContinent";
@@ -855,20 +857,25 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             : originalItems;
       if (continent) {
         const flags = decodeRuns(data.terrain.flags, data.terrain.width * data.terrain.height);
+        const onLand = (p: Point) => {
+          const col = Math.floor(((p.x - data.x) / CHUNK) * data.terrain.width),
+            row = Math.floor(((p.y - data.y) / CHUNK) * data.terrain.height);
+          return !!(flags[row * data.terrain.width + col]! & 16);
+        };
         items.push(
           ...(nexusContinent ? nexusRoadside : aetheriaContinent ? aetheriaRoadside : roadside)(
             data.x,
             data.y,
             source.roads,
             outside,
-            (p) => {
-              const col = Math.floor(((p.x - data.x) / CHUNK) * data.terrain.width),
-                row = Math.floor(((p.y - data.y) / CHUNK) * data.terrain.height);
-              return !!(flags[row * data.terrain.width + col]! & 16);
-            },
+            onLand,
             biomeAt,
           ),
         );
+        if (nexusContinent) {
+          items.push(...nexusScatter(data.x, data.y, source.roads, outside, onLand, biomeAt));
+          items.push(...nexusAir(data.x, data.y, outside, onLand, biomeAt));
+        }
       }
       const ids = new Set(
         [...source.art.groundByBiome, source.art.water, source.art.road, source.art.plaza]

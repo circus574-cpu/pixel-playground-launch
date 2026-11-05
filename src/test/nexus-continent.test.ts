@@ -6,6 +6,8 @@ import {
   nexusBiomeAt,
   nexusObjects,
   nexusRoadside,
+  nexusScatter,
+  nexusAir,
   nexusSceneryName,
   nexusEffectFrame,
 } from "../game/world/generated/nexusContinent";
@@ -200,5 +202,83 @@ describe("Nexus-9 presentation safety", () => {
     const frame = nexusEffectFrame(fx[0]!, 1234);
     expect(frame.alpha).toBeGreaterThan(0);
     expect(frame.alpha).toBeLessThan(0.4);
+  });
+  it("dresses the wilderness with nonphysical props only, and caps the count", () => {
+    const roads = [
+      {
+        points: [
+          [0, 500],
+          [4000, 500],
+        ] as [number, number][],
+        width: 80,
+        kind: "road",
+      },
+    ];
+    expect(
+      nexusScatter(
+        0,
+        0,
+        roads,
+        () => false,
+        () => true,
+        () => 0,
+      ),
+    ).toEqual([]);
+    const props = nexusScatter(
+      0,
+      0,
+      roads,
+      () => true,
+      () => true,
+      () => 3,
+    );
+    expect(props.length).toBeGreaterThan(0);
+    expect(props.length).toBeLessThanOrEqual(40);
+    for (const p of props) {
+      expect(p.solid).toBe(false);
+      expect(p.footprint).toBeUndefined();
+      expect(p.layer).toBe("objects");
+      expect(p.binding.startsWith("object.nexus-continent.")).toBe(true);
+      // Nothing may sit on the road surface.
+      expect(p.y).not.toBeCloseTo(500, -1);
+    }
+  });
+  it("keeps the airborne field sparse and warm-only, because every mote costs a frame", () => {
+    const cold = nexusAir(
+      0,
+      0,
+      () => true,
+      () => true,
+      () => 3,
+    );
+    expect(cold).toEqual([]);
+    const inCity = nexusAir(
+      0,
+      0,
+      () => false,
+      () => true,
+      () => 1,
+    );
+    expect(inCity).toEqual([]);
+    const warm = nexusAir(
+      0,
+      0,
+      () => true,
+      () => true,
+      () => 1,
+    );
+    expect(warm.length).toBeGreaterThan(0);
+    // A dense field measured a screenshot timeout on software WebGL. This is the guard.
+    expect(warm.length).toBeLessThanOrEqual(24);
+    for (const mote of warm) {
+      expect(mote.kind).toBe("ambient-effect");
+      expect(mote.solid).toBe(false);
+      expect(mote.layer).toBe("overhead");
+      expect(mote.id.startsWith("nexus-air-")).toBe(true);
+    }
+    // Motes travel; sprites clinging to a machine only shimmer in place.
+    const a = nexusEffectFrame(warm[0]!, 0),
+      b = nexusEffectFrame(warm[0]!, 1300);
+    expect(Math.abs(a.x - b.x) + Math.abs(a.y - b.y)).toBeGreaterThan(0);
   });
 });
