@@ -1,0 +1,62 @@
+{
+  "id": "island-1",
+  "projectName": "Wyspa Pierwszego Echa",
+  "nameStatus": "project name from docs/FABULA-I-EKWIPUNEK.md, not a rename of world geometry",
+  "style": "Polarna perła, lodowiec i akwamaryn",
+  "worldAffinity": "aether",
+  "existingBiomeNames": [
+    "tarasy źródeł",
+    "święty gaj",
+    "lodowe szczyty",
+    "lodowce"
+  ],
+  "atlases": [
+    {
+      "kind": "terrain",
+      "image": "island-1/terrain.png",
+      "descriptor": "island-1/terrain.atlas.json",
+      "prompt": "island-1/terrain.prompt.txt",
+      "sha256": "1d00abbdd42e6da27a57ed7389122a57dfe9eb31ae91ac9ebf7ca72a75d20a24",
+      "sourceImage": "exec-c585e1e1-a50c-45aa-a38e-346762ef3128.png",
+      "bytes": 2919785,
+      "frames": [
+        "island-1.terrain.snow",
+        "island-1.terrain.glacier-ice",
+        "island-1.terrain.pearl-stone",
+        "island-1.terrain.sacred-paving",
+        "island-1.terrain.frost-shore",
+        "island-1.terrain.polar-water"
+      ],
+      "alpha": null
+    },
+    {
+      "kind": "props",
+      "image": "island-1/props.png",
+      "descriptor": "island-1/props.atlas.json",
+      "prompt": "island-1/props.prompt.txt",
+      "sha256": "06997f670005b0cefb72f730b5f5e1a7ab76570051282f1da5864f9c5df29e07",
+      "sourceImage": "exec-e415a08d-7065-411a-bd70-5916ad257d6e.png",
+      "bytes": 2453157,
+      "frames": [
+        "island-1.props.polar-conifer",
+        "island-1.props.glacier-crystals",
+        "island-1.props.pearl-boulder",
+        "island-1.props.echo-altar",
+        "island-1.props.frost-arch",
+        "island-1.props.expedition-chest"
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 253,
+        "zeroFraction": 0.1770025889078776,
+        "below16Fraction": 0.5835450490315756,
+        "cornerValues": [
+          1,
+          0,
+          1,
+          0
+        ]
+      }
+    }
+  ]
+}

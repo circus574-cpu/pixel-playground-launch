@@ -153,3 +153,55 @@
 - Otwarte: odbiór wyglądu przez właściciela i decyzja o przeniesieniu do
   `DEFAULT_ON_SWITCHES`; gęstość dziczy nadal zależy od danych autorowanych,
   rozrzut jest limitem 40 obiektów na chunk, nie rozwiązaniem docelowym.
+
+## Grafiki i tekstury sześciu wysp Superior
+
+### Nowe zestawy dla wszystkich sześciu wysp — osobna gałąź artystyczna
+
+Gałąź `art/superior-islands-20261105`, baza aktualnego main
+`c099f607e64b308ac8bc3e27b599ed0b693af047`. Nie zmieniono istniejących zasobów,
+świata, biomów, kolizji, questów, zapisów, walki, HUD-u ani infrastruktury GPU.
+Prace rozwoju ras pozostały na osobnej gałęzi/PR #122.
+
+| ID | Projektowa nazwa z księgi | Osobny kierunek graficzny |
+| --- | --- | --- |
+| island-1 | Wyspa Pierwszego Echa | Polarna perła, akwamaryn, lodowce, śnieg i jasne sanktuaria |
+| island-2 | Wyspa Złamanej Pieczęci | Jadeit, kwitnące ogrody, jasny wapień i źródła |
+| island-3 | Wyspa Odwróconej Latarki | Ametyst, różowy kwarc, indygo i stare złoto |
+| island-4 | Wyspa Czterech Cum | Złoty piasek, oliwki, ciepły kamień i neutralny port |
+| island-5 | Wyspa Milczącego Nieba | Srebrzyste trawy, ciemny łupek, mokradła i zniszczone przekaźniki |
+| island-6 | Wyspa Ostatniego Tonu | Obsydian, wulkaniczny popiół, miedź, żar i polarny szron |
+
+Każda wyspa otrzymała sześć powierzchni: miękkie podłoże, skałę, trzeci lokalny
+materiał, nawierzchnię traktu/ruin, brzeg i wodę lub wulkaniczny materiał płynny.
+Lawa island-6 jest kandydatem dekoracji, nie zmianą oceanu ani nawigacji.
+Do każdej są też sześć osobnych motywów otoczenia: drzewo/pień, roślinność lub
+kryształ, skała, wyróżniający obiekt wyspy, łuk ruin i skrzynia/ładunek.
+Nie są to przemalowane kopie istniejącego arkusza.
+
+Wynik: **12 arkuszy PNG 1536×1024, 36 tekstur i 36 dekoracji w polach 512×512**.
+Źródła, prompty, manifesty, deskryptory ramek i galeria są w
+`art/production/superior-islands-v1/`. Oryginalne wygenerowane pliki zachowano bez
+edycji pikseli; rejestr pochodzenia zawiera SHA-256 i jawny brak identyfikatora
+modelu w odpowiedzi narzędzia. Nie wystawiano samodzielnej gwarancji prawnej.
+
+Kontrola dekodowania, wymiarów, unikalności, SHA-256, kanału alfa i granic 72 ramek
+PASS. Raporty w `qa/superior-islands/`. To grafiki źródłowe do odbioru/importu,
+nie wdrożenie do gry. Bez testu powtarzania szwów, krawędzi matowania i marginesów
+sprite'ów w Phaserze. Galeria jest podglądem źródeł, nie zrzutem gry. Nie wykonano
+odbioru wydajności ani fizycznego telefonu. Żaden test runtime nie jest tu oznaczony PASS.
+Nie scalono ani nie opublikowano.
+
+### Podgląd i pobranie paczki wysp
+
+[Galeria źródeł](qa/superior-islands/gallery.png) pokazuje wszystkie sześć zestawów;
+nie jest zrzutem z gry. Sprawdzono przez lokalny HTTP: 12 obrazów dekoduje się,
+sześć kart wysp, brak błędów pageerror i przepełnienia poziomego. Pierwsze otwarcie
+file:// zablokowała polityka Chromium; użyto zwykłego lokalnego HTTP.
+Pełny TypeScript aplikacji/e2e/tools i bieżące assets:check PASS.
+Nie uruchamiano pełnego Vitest/Playwright gry dla niezainstalowanych grafik.
+
+Archiwum do pobrania: `deliveries/superior-islands-20261105/art-pack.zip`,
+SHA-256 i liczba plików w delivery.json obok. CRC archiwum sprawdzone.
+Po rozpakowaniu otworzyć superior-islands-v1/preview.html; import do Phasera jest
+odrębnym krokiem. Wczytywać tylko atlas aktywnej wyspy i zachować kolizje z danych świata.

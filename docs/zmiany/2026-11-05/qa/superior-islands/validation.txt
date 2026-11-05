@@ -1,0 +1,2 @@
+PASS: 6 islands, 12 unique decodable PNG atlases, 36 terrain + 36 prop frames, dimensions, alpha, hashes and frame bounds.
+Not certified: seamless tiling, sprite matte/padding/anchors, Phaser import, gameplay or mobile performance.

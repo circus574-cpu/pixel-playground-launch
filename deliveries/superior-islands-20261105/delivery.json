@@ -1,0 +1,15 @@
+{
+  "format": "ki-island-art-delivery-1",
+  "archive": "art-pack.zip",
+  "sha256": "1f970c596fe0184c2210a8d93422d1ffc885e98629664889dc2a85239dffa38e",
+  "bytes": 35118571,
+  "files": 46,
+  "sourceFolder": "art/production/superior-islands-v1",
+  "counts": {
+    "islands": 6,
+    "pngAtlases": 12,
+    "terrainFrames": 36,
+    "propFrames": 36
+  },
+  "runtimeInstalled": false
+}

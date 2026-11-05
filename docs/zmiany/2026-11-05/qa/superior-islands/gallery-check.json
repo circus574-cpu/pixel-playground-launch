@@ -1,0 +1,11 @@
+{
+  "result": {
+    "images": 12,
+    "decoded": true,
+    "islandCards": 6,
+    "overflow": false
+  },
+  "errors": [],
+  "kind": "Static source-art gallery, not Phaser gameplay",
+  "transport": "Local HTTP; initial file:// preview blocked by Chromium policy"
+}
