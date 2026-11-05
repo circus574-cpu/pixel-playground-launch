@@ -51,7 +51,6 @@ klatek. Geometria, kolizje, zapis i spawny pozostają bez zmian.
 [Źródła, wyniki i zrzuty z gry](zmiany/2026-11-04/ZMIANY.md#pyra--nowa-oprawa-kontynentu).
 To gałąź podglądowa, bez scalenia do `main` ani publikacji domen.
 
-
 ## Verdantia — podgląd oprawy kontynentu 04.11.2026
 
 Gałąź `preview/verdantia-continent-v2`, opcja `ki-verdant-continent=1` w Superior v2.
@@ -86,8 +85,6 @@ mapę Kamiennego Sadu. Styl nie zastępuje wszystkich zasobów świata.
 > **Stan obowiązujący 28.10.2026 (`main@30f7b8d5`):** od PR #44 domyślny jest Superior v2, PR #49 włączył malowane tekstury Gemini, `954dd3ee` dodał mapę 2D w Coder, a PR #52 zoptymalizował preloading i renderowanie mapy w grze. Niżej zachowano historyczne opisy gałęzi z 23–24.10; sformułowania „v1 aktywny” i „bez scalenia” są datowanymi checkpointami, **nie opisem obecnej produkcji**.
 >
 > **Kanon nie jest tożsamy z odbiorem:** 45% lądu / 55% wody na sferze (4 kontynenty i 6 wysp), maks. 20 rozległych podziemi (4–5 labiryntów), przejścia między kontynentami oraz bezstratne migracje nadal wymagają niezależnego sprawdzenia aktywnej geometrii, nawigacji, questów i zapisów. Historyczne 152 podziemia nie są 152 gotowymi grywalnymi lokacjami. Mapa Coder ma dodatkowo niezaliczoną interakcję wyboru miast/lokacji; patrz [audyt 28.10](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52).
-
-
 
 ## Superior — jedyny świat gry
 
@@ -136,7 +133,6 @@ Otwarte: pełne wnętrza lochów z nagrodami, zbieranie zasobów, ukryte miejsca
 życie mieszkańców/karawany, grafiki NPC oraz odbiór wyglądu zainstalowanych 40 potworów,
 limity i pomiary fizycznego telefonu. Poniższy opis generacji dotyczy danych źródłowych;
 znaczniki `runtimeInstalled: false` zachowano w ich niezmienionych oryginałach.
-
 
 Stan: 23.10.2026, `origin/main` na `d0bfc2c`. Wszystkie cztery miasta mają wspólne
 wejścia, wnętrza i usługi. Dawne opisy „dane gotowe, mechanik brak” są nieaktualne.
@@ -267,8 +263,14 @@ Na ulicach: Kaena, Rokan.
 
 Aetheria używa archiwów/pagód jako kilku różnych usług; Nexus powtarza laboratoria,
 Pyra święte miejsca wojny. To zastępniki, nie gotowe indywidualne fasady.
-Wspólne podłogi/meble `city-interiors` powstały programowo; dostawy GPU mają nadać
-wnętrzom osobny wygląd ras. Paleta `CityDefinition.palette` i wiązania per świat:
+Wnętrza sześciu budynków specjalnych każdego miasta to od 05.11.2026 malowane pokoje (24 obrazy
+z `art/production/interiors/`, sala, sklep, arena, depozyt, kuźnia, gospoda), znacznie większe niż
+dawne 960 × 760: 1920 × 1280, kuźnia Pyry pionowa 1280 × 1920. Obraz jest tłem pokoju i ładuje się
+dopiero przy wejściu do budynku (nie liczy się do budżetu tekstur świata), a po wyjściu jest zwalniany.
+Kolizje (ściana tylna, meble, punkty NPC, skrzyni depozytu i manekina areny) zapisano w
+`src/game/city/paintedRooms.ts` jako obrysy odczytane z obrazów; nie zależą od pliku grafiki. Kamera
+pokazuje całą szerokość pokoju na szerokim ekranie, a na telefonie przewija się za bohaterem.
+Wspólne podłogi/meble `city-interiors` zostają tylko jako zapas, gdy obrazu nie da się wczytać. Paleta `CityDefinition.palette` i wiązania per świat:
 `terrain.<worldId>.city-road`, `terrain.<worldId>.interior-floor|interior-stone`,
 `object.<worldId>.interior.<chest|anvil|dummy|shelf|bed|desk>`; brak lokalnego wiązania
 używa wspólnego fallbacku.
@@ -279,7 +281,6 @@ i integracja runtime pozostają wymagane przed wdrożeniem.
 Testy `city`, `aetheria-city`, `nexus-city`, `pyra-city` sprawdzają separację,
 osiągalność, brak walki w mieście i zachowaną walkę poza granicą. Wynik testu nie
 zastępuje oceny wyglądu i fizycznego telefonu.
-
 
 ## Pełna generacja Superior na CPU — 23.10.2026
 
@@ -323,7 +324,6 @@ pościgu, wędrówki i aggro + 256. Siatka aktywacji i limit 24 to **kontrakt do
 nie zmierzona wydajność Androida ani już zaimplementowany streaming potworów.
 
 Instrukcja uruchomienia i odbioru: [architektura](ARCHITEKTURA-I-TESTY.md#pełna-planeta-i-osobna-generacja-spawnów).
-
 
 ## Kontynenty w skali planety i miasta 4000 × 2500 (23.10.2026)
 
@@ -401,7 +401,6 @@ w pamięci i śpi. Nie zmienia się atlas, geometria kontynentów, położenie m
 wysp ani rejestr podziemi. To nie nowy tunel ani nowy duży loch.
 24 trwałe projekty świata z nowego zlecenia nadal wymagają realizacji i odbioru;
 sama sala egzaminacyjna nie stanowi ich wdrożenia.
-
 
 ### Lokalne cele i projekty dziedzictwa — PR #55, w realizacji
 

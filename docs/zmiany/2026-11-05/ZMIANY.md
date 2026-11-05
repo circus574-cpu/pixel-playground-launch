@@ -83,3 +83,20 @@
 - Filmy Legendy (forma bazowa), bez obróbki: `art-wip/gemini-anim-stages/legend-etap{1-walka,2-reakcje,3-ruch}.mp4`. Wszystkie trzy trzymają oś czasu z promptu,
   tło jest czyste (bez cienia od etapu 2).
 - Nie wycięte do gry; wycięcie klatek to osobny krok.
+
+## Wnętrza budynków
+
+### 6. Malowane wnętrza budynków specjalnych (24 pokoje, większe)
+
+- Zlecenie właściciela (05.11.2026): zrobić wnętrza budynków specjalnych z materiału z 04.11, pokoje mają być większe niż były.
+- 24 obrazy z `art/production/interiors/` (4 miasta × sala, sklep, arena, depozyt, kuźnia, gospoda) są teraz tłem pokoi w grze. Wcześniej leżały nieużyte, a gra rysowała programowe podłogi i meble.
+- Rozmiar: 960 × 760 → 1920 × 1280 (3,4 × większa powierzchnia); kuźnia Pyry, jedyny obraz pionowy (1024 × 1536), 540 × 1100 → 1280 × 1920.
+  Dawna, ręcznie składana kuźnia Pyry (`renderSmithy.ts`, `SMITHY_ROOM`) zastąpiona zaakceptowanym obrazem z 04.11.
+- Kolizje: `src/game/city/paintedRooms.ts`, obrysy mebli odczytane z siatki nałożonej na każdy obraz (0..1000 jednostek obrazu), sprawdzone nakładką czerwonych prostokątów na wszystkich 24 obrazach.
+  Punkty NPC, skrzyni depozytu (osobny dla każdego miasta) i manekina areny wyznaczone osobno dla pokoju; sesja przenosi manekina treningowego na punkt pokoju (był na stałe w (600, 300)).
+- Obraz ładuje się przy wejściu i jest zwalniany przy wyjściu (nie liczy się do budżetu tekstur świata); 4,1 MiB webp, `scripts/build_painted_rooms.py`. Kamera: cała szerokość pokoju na szerokim ekranie (zoom ≥ 0,5), podąża za bohaterem.
+  Bohater w kuźni Pyry nie jest już powiększany 1,45 ×.
+- Weryfikacja w prawdziwej grze (build playtest, programowy WebGL): wejście do wszystkich 24 budynków przez drzwi, zrzuty na 1280 × 720 oraz 6 pokoi Verdantii na 390 × 844, brak błędów w konsoli.
+  Testy: `src/test/smithy-room.test.ts` (26 testów: rozmiar, osiągalność NPC/skrzyni/manekina/wyjścia, plik obrazu), poprawione `city`, `heritage-runtime`.
+- Nie zweryfikowano: e2e `e2e/city.spec.ts` i `e2e/manga-hud.spec.ts` (wejście przez „Plan miasta”) są nieaktualne od zwinięcia panelu „Akcje” w trybie świata v2 i nie przechodzą także bez tej zmiany; fizycznego telefonu.
+- Do poprawy po odbiorze: punkty obrysu to odczyt z obrazu, więc pojedyncze meble mogą blokować lub przepuszczać o kilkadziesiąt jednostek za dużo; obrazy mają ok. 4 MiB w sumie, ale wielkość 1536 px rozciągnięta 1,25 × jest lekko miękka.
