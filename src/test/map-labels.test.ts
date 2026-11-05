@@ -48,3 +48,27 @@ describe("etykiety miejsc na mapie", () => {
     expect(town[0]!.named).toBe(false);
   });
 });
+
+describe("etykiety: szerokość i ikony ważniejszych miejsc", () => {
+  it("nazwa obozu nie przykrywa ikony miasta", () => {
+    const out = visiblePlaces(
+      [place("town", "town", 500, 500, "Stacja"), place("camp", "camp", 500, 490)],
+      bounds,
+      6,
+      px,
+    );
+    expect(out.find((o) => o.p.id === "camp")!.named).toBe(false);
+  });
+
+  it("szeroka czcionka: dwie długie nazwy obok siebie nie nachodzą na siebie", () => {
+    const long = "Kaplica Dezerterów Popiołu";
+    // 150 units apart is less than one 26-char Cinzel label at 11 px (~212), so only one fits.
+    const out = visiblePlaces(
+      [place("a", "camp", 500, 500, long), place("b", "camp", 650, 500, long)],
+      bounds,
+      6,
+      px,
+    );
+    expect(out.filter((o) => o.named)).toHaveLength(1);
+  });
+});

@@ -244,3 +244,14 @@
 .pg-marker.is-current .pg-name {
   color: #f0d79a;
 }
+
+/*
+ * Touch screens: a finger that lands on a continent label must still reach the globe, otherwise the
+ * browser takes the pinch and rotation never starts. Taps still select the region through the
+ * canvas raycast; the buttons stay focusable for keyboards and screen readers.
+ */
+@media (pointer: coarse) {
+  .pg-marker {
+    pointer-events: none !important;
+  }
+}
