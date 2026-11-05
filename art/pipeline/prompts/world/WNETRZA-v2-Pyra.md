@@ -2,11 +2,12 @@
 
 Miasto: **Twierdza Popiołu**. Tylko wnętrza. Każdy prompt jest kompletny: wklej cały blok. Poprawka względem v1: dokładny opis kadru (wysoka kamera ~60°, ściana tylna 25%, podłoga 75%, cienkie ściany boczne, bez makiety), równe jasne światło bez ciemnych rogów, środek podłogi pusty, margines pod przycięcie do 960:760.
 
-Rozmiar generowania: **1536×1024** (kuźnia Pyry: **1024×1536**); potem przycięcie do 960:760 (kuźnia 540:1100).
+Rozmiar generowania: **1536×1024** ; od 05.11.2026 także kuźnia Pyry jest pozioma 1536×1024 (wcześniejsza pionowa 1024×1536 zachowana jako `pyra-smithy-interior-portrait-v1.png`).
 
 ---
 
 ### 1. Sala Przysięgi
+
 **Plik:** `pyra-hall-interior` · **Rozmiar:** 1536×1024 → 960:760
 
 ```
@@ -16,6 +17,7 @@ Hand-painted anime-fantasy game art in the style of a polished JRPG, painterly b
 ---
 
 ### 2. Targ Klanów
+
 **Plik:** `pyra-shop-interior` · **Rozmiar:** 1536×1024 → 960:760
 
 ```
@@ -25,6 +27,7 @@ Hand-painted anime-fantasy game art in the style of a polished JRPG, painterly b
 ---
 
 ### 3. Gospoda Pod Żarem
+
 **Plik:** `pyra-inn-interior` · **Rozmiar:** 1536×1024 → 960:760
 
 ```
@@ -34,15 +37,17 @@ Hand-painted anime-fantasy game art in the style of a polished JRPG, painterly b
 ---
 
 ### 4. Kuźnia Żaru
-**Plik:** `pyra-smithy-interior` · **Rozmiar:** 1024×1536 → 540:1100
+
+**Plik:** `pyra-smithy-interior` · **Rozmiar:** 1536×1024 (od 05.11.2026 pozioma; wcześniej 1024×1536 → 540:1100)
 
 ```
-Hand-painted anime-fantasy game art in the style of a polished JRPG, painterly brushwork with fine ink-like outlines, rich readable detail. VIEW AND COMPOSITION (follow exactly): the room is seen from a high camera looking down at about 60 degrees, a top-down three-quarter view like a classic 2D action RPG, NOT isometric, NOT a diagonal corner view, NOT a miniature diorama. The BACK WALL is a flat front-facing strip across the FULL width of the image, edge to edge, taking only the top 25% of the image height. The FLOOR is a large, flat, fully visible rectangle taking the lower 75% of the image, edge to edge, seen almost from above, with visible stone or plank texture. The side walls are only thin narrow strips (about 4% of the width) at the far left and right edges. There is NO front wall; the bottom edge of the image is the open front of the room, with a plain doorway threshold at the bottom centre. The room fills the entire image to all four edges: NO black or empty background around it, NO thick floor slab or base, NO floating cut-out. LIGHTING: bright, even, readable lighting over the WHOLE image; NO dark vignette, NO dark or black corners, NO heavy shadows; lantern and fire glow are only soft warm accents. Floor, walls and furniture must be clearly visible everywhere. LAYOUT: the large centre of the floor and the area in front of the doorway stay completely EMPTY (nothing on the floor there, only a plain floor, at most a flat rug) so that characters can walk. Furniture and props stand only against the back wall, in the two back corners and along the side strips, drawn in the same top-down three-quarter view. SAFE AREA: keep all furniture and important details inside the central 80% of the width, because the image will be cropped to the proportions 960:760 (about 5:4). No characters, no people, no animals, no text, no letters, no signs with writing, no UI, no watermark. This room is TALL and NARROW (portrait image, about the proportions of a phone screen held upright): the back wall at the top, the whole room visible; the back-wall strip takes the top 20% and the floor the lower 80%. Subject: the interior of the smithy of the city of Pyra: a volcanic forge: a huge forge with a roaring fire and a glowing lava channel on the back wall, a big anvil at the back centre, a quenching trough, racks of swords and hammers along the left wall, bellows, a workbench on the right, sacks of charcoal and iron ingots in the corners. Colour palette: dark basalt and charcoal, rust red, burnt orange, ember glow, warm lantern light, aged dark wood and iron..
+Hand-painted anime-fantasy game art in the style of a polished JRPG, painterly brushwork with fine ink-like outlines, rich readable detail. VIEW AND COMPOSITION (follow exactly): the room is seen from a high camera looking down at about 60 degrees, a top-down three-quarter view like a classic 2D action RPG, NOT isometric, NOT a diagonal corner view, NOT a miniature diorama. The BACK WALL is a flat front-facing strip across the FULL width of the image, edge to edge, taking only the top 25% of the image height. The FLOOR is a large, flat, fully visible rectangle taking the lower 75% of the image, edge to edge, seen almost from above, with visible stone or plank texture. The side walls are only thin narrow strips (about 4% of the width) at the far left and right edges. There is NO front wall; the bottom edge of the image is the open front of the room, with a plain doorway threshold at the bottom centre. The room fills the entire image to all four edges: NO black or empty background around it, NO thick floor slab or base, NO floating cut-out. LIGHTING: bright, even, readable lighting over the WHOLE image; NO dark vignette, NO dark or black corners, NO heavy shadows; lantern and fire glow are only soft warm accents. Floor, walls and furniture must be clearly visible everywhere. LAYOUT: the large centre of the floor and the area in front of the doorway stay completely EMPTY (nothing on the floor there, only a plain floor, at most a flat rug) so that characters can walk. Furniture and props stand only against the back wall, in the two back corners and along the side strips, drawn in the same top-down three-quarter view. SAFE AREA: keep all furniture and important details inside the central 80% of the width, because the image will be cropped to the proportions 960:760 (about 5:4). No characters, no people, no animals, no text, no letters, no signs with writing, no UI, no watermark. Subject: the interior of the smithy of the city of Pyra: a volcanic forge: a huge forge with a roaring fire and a glowing lava channel on the back wall, a big anvil at the back centre, a quenching trough, racks of swords and hammers along the left wall, bellows, a workbench on the right, sacks of charcoal and iron ingots in the corners. Colour palette: dark basalt and charcoal, rust red, burnt orange, ember glow, warm lantern light, aged dark wood and iron..
 ```
 
 ---
 
 ### 5. Skarbiec Klanu
+
 **Plik:** `pyra-depot-interior` · **Rozmiar:** 1536×1024 → 960:760
 
 ```
@@ -52,6 +57,7 @@ Hand-painted anime-fantasy game art in the style of a polished JRPG, painterly b
 ---
 
 ### 6. Plac Ćwiczeń Klanów
+
 **Plik:** `pyra-arena-interior` · **Rozmiar:** 1536×1024 → 960:760
 
 ```

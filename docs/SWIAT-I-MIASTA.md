@@ -1,8 +1,8 @@
 # KI Legends — świat, kontynenty i miasta
 
-## Aetheria — podgląd oprawy kontynentu 04.11.2026
+## Aetheria — oprawa kontynentu (domyślnie włączona od 05.11.2026)
 
-Gałąź `preview/aetheria-continent-v2`, opcja `ki-aetheria-continent=1` w Superior v2,
+Scalona przez PR #118 (wcześniej gałąź `preview/aetheria-continent-v2`). Domyślnie włączona w Superior v2; `ki-aetheria-continent=0` przywraca dawny wygląd. Opis,
 rasa **Mędrcy**. Zmiana jest warstwą prezentacji poza istniejącymi osadami.
 Zachowuje gotowe Sanktuarium Tysiąca Źródeł, jego budynki, NPC i usługi.
 
@@ -26,11 +26,11 @@ Kryształy KI i kanoniczne budynki/większe miejsca zachowują wcześniejsze gra
 Nie dodano mechaniki mrozu, pływania ani nowej animowanej fauny.
 
 [Źródła, audyty i zrzuty z gry](zmiany/2026-11-04/ZMIANY.md#aetheria--nowa-oprawa-kontynentu).
-To podgląd na osobnej gałęzi, bez scalenia do `main` lub publikacji domen.
+Geometria, kolizje, nawigacja, spawny i zapisy bez zmian; zasoby są prezentacją.
 
-## Pyra — podgląd oprawy kontynentu 04.11.2026
+## Pyra — oprawa kontynentu (domyślnie włączona od 05.11.2026)
 
-Gałąź `preview/pyra-continent-v2`, opcja `ki-pyra-continent=1` w Superior v2.
+Scalona przez PR #118 (wcześniej gałąź `preview/pyra-continent-v2`). Domyślnie włączona w Superior v2; `ki-pyra-continent=0` przywraca dawny wygląd.
 Podgląd dotyczy dzikich ziem poza czterema bezpiecznymi osadami. Zachowuje
 ukończoną Twierdzę Popiołu, usługi, drzwi oraz wszystkie źródłowe dane świata.
 
@@ -49,12 +49,11 @@ statyczne przezroczyste tekstury z animacją pozycji/zanikania, nie nowe sekwenc
 klatek. Geometria, kolizje, zapis i spawny pozostają bez zmian.
 
 [Źródła, wyniki i zrzuty z gry](zmiany/2026-11-04/ZMIANY.md#pyra--nowa-oprawa-kontynentu).
-To gałąź podglądowa, bez scalenia do `main` ani publikacji domen.
+Geometria, kolizje, nawigacja, spawny i zapisy bez zmian.
 
+## Verdantia — oprawa kontynentu (domyślnie włączona od 05.11.2026)
 
-## Verdantia — podgląd oprawy kontynentu 04.11.2026
-
-Gałąź `preview/verdantia-continent-v2`, opcja `ki-verdant-continent=1` w Superior v2.
+Scalona przez PR #118 (wcześniej gałąź `preview/verdantia-continent-v2`). Domyślnie włączona w Superior v2; `ki-verdant-continent=0` przywraca dawny wygląd.
 Nowe materiały dziczy obejmują łąkę, las, kamienne wzgórza, mokradła, piasek
 i wodę; drogi korzystają z czterech nawierzchni dostarczonych przez właściciela.
 Rośliny i skały są osobnymi sprite'ami, z głębią według stóp i przygaszaniem
@@ -73,9 +72,9 @@ dodają usług, nagród, wejść ani nowych przeszkód fizycznych.
 [Źródła i import](GPU-I-ZASOBY.md#verdantia--materiały-kontynentu-04112026),
 [lokalne zrzuty i weryfikacja](zmiany/2026-11-04/ZMIANY.md#verdantia--oprawa-kontynentu-na-osobnej-gałęzi).
 
-## Malowana Verdantia — podgląd 03.11.2026
+## Malowana Verdantia — miasta (03.11.2026, publiczne od 04.11.2026)
 
-Gałąź `preview/verdantia-painted-terrain`, flaga `ki-verdant-painted=1`:
+Flaga `ki-verdant-painted` (malowane miasta włączone publicznie decyzją właściciela 04.11.2026, [dziennik](zmiany/2026-11-04/ZMIANY.md#malowane-miasta-publicznie-decyzja-właściciela-04112026)):
 ostrzejsze podłoże, wspólna maska dróg bez równych obrysów, łagodne poszarpane
 brzegi, korekta zieleni i światła, liściasty sklep oraz dodatkowe niesolidne rośliny.
 To warstwa prezentacji rzeczywistego Superior; kolizje, nawigacja, punkty wejść,
@@ -87,14 +86,12 @@ mapę Kamiennego Sadu. Styl nie zastępuje wszystkich zasobów świata.
 >
 > **Kanon nie jest tożsamy z odbiorem:** 45% lądu / 55% wody na sferze (4 kontynenty i 6 wysp), maks. 20 rozległych podziemi (4–5 labiryntów), przejścia między kontynentami oraz bezstratne migracje nadal wymagają niezależnego sprawdzenia aktywnej geometrii, nawigacji, questów i zapisów. Historyczne 152 podziemia nie są 152 gotowymi grywalnymi lokacjami. Mapa Coder ma dodatkowo niezaliczoną interakcję wyboru miast/lokacji; patrz [audyt 28.10](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52).
 
-
-
 ## Superior — jedyny świat gry
 
 Decyzja właściciela 24.10.2026: Superior zastępuje cztery stare mapy gry.
 Na `feature/superior-runtime-20261023` zwykłe wejście uruchamia wygenerowany
 kontynent pochodzenia postaci. Flaga `ki-superior` nie jest potrzebna.
-Zmiana pozostaje na gałęzi, bez scalenia do main i publikacji.
+Stan historyczny z 24.10; Superior v2 jest od PR #44 jedynym światem na `main`.
 Dziesięć lądów ma własny teren, minimapę z obrysu, kolizje i przypisania grafik.
 Nowy renderer tworzy tekstury 512² dla chunków 2048 jednostek oraz sprite'y dekoracji
 przy widoku; typowy limit to 12 chunków. Wyjątek zachowuje wszystkie widoczne chunki
@@ -136,7 +133,6 @@ Otwarte: pełne wnętrza lochów z nagrodami, zbieranie zasobów, ukryte miejsca
 życie mieszkańców/karawany, grafiki NPC oraz odbiór wyglądu zainstalowanych 40 potworów,
 limity i pomiary fizycznego telefonu. Poniższy opis generacji dotyczy danych źródłowych;
 znaczniki `runtimeInstalled: false` zachowano w ich niezmienionych oryginałach.
-
 
 Stan: 23.10.2026, `origin/main` na `d0bfc2c`. Wszystkie cztery miasta mają wspólne
 wejścia, wnętrza i usługi. Dawne opisy „dane gotowe, mechanik brak” są nieaktualne.
@@ -267,8 +263,14 @@ Na ulicach: Kaena, Rokan.
 
 Aetheria używa archiwów/pagód jako kilku różnych usług; Nexus powtarza laboratoria,
 Pyra święte miejsca wojny. To zastępniki, nie gotowe indywidualne fasady.
-Wspólne podłogi/meble `city-interiors` powstały programowo; dostawy GPU mają nadać
-wnętrzom osobny wygląd ras. Paleta `CityDefinition.palette` i wiązania per świat:
+Wnętrza sześciu budynków specjalnych każdego miasta to od 05.11.2026 malowane pokoje (24 obrazy
+z `art/production/interiors/`, sala, sklep, arena, depozyt, kuźnia, gospoda), znacznie większe niż
+dawne 960 × 760 i 540 × 1100 (kuźnia Pyry): wszystkie 1920 × 1280. Obraz jest tłem pokoju i ładuje się
+dopiero przy wejściu do budynku (nie liczy się do budżetu tekstur świata), a po wyjściu jest zwalniany.
+Kolizje (ściana tylna, meble, punkty NPC, skrzyni depozytu i manekina areny) zapisano w
+`src/game/city/paintedRooms.ts` jako obrysy odczytane z obrazów; nie zależą od pliku grafiki. Kamera
+pokazuje całą szerokość pokoju na szerokim ekranie, a na telefonie przewija się za bohaterem.
+Wspólne podłogi/meble `city-interiors` zostają tylko jako zapas, gdy obrazu nie da się wczytać. Paleta `CityDefinition.palette` i wiązania per świat:
 `terrain.<worldId>.city-road`, `terrain.<worldId>.interior-floor|interior-stone`,
 `object.<worldId>.interior.<chest|anvil|dummy|shelf|bed|desk>`; brak lokalnego wiązania
 używa wspólnego fallbacku.
@@ -279,7 +281,6 @@ i integracja runtime pozostają wymagane przed wdrożeniem.
 Testy `city`, `aetheria-city`, `nexus-city`, `pyra-city` sprawdzają separację,
 osiągalność, brak walki w mieście i zachowaną walkę poza granicą. Wynik testu nie
 zastępuje oceny wyglądu i fizycznego telefonu.
-
 
 ## Pełna generacja Superior na CPU — 23.10.2026
 
@@ -323,7 +324,6 @@ pościgu, wędrówki i aggro + 256. Siatka aktywacji i limit 24 to **kontrakt do
 nie zmierzona wydajność Androida ani już zaimplementowany streaming potworów.
 
 Instrukcja uruchomienia i odbioru: [architektura](ARCHITEKTURA-I-TESTY.md#pełna-planeta-i-osobna-generacja-spawnów).
-
 
 ## Kontynenty w skali planety i miasta 4000 × 2500 (23.10.2026)
 
@@ -401,7 +401,6 @@ w pamięci i śpi. Nie zmienia się atlas, geometria kontynentów, położenie m
 wysp ani rejestr podziemi. To nie nowy tunel ani nowy duży loch.
 24 trwałe projekty świata z nowego zlecenia nadal wymagają realizacji i odbioru;
 sama sala egzaminacyjna nie stanowi ich wdrożenia.
-
 
 ### Lokalne cele i projekty dziedzictwa — PR #55, w realizacji
 

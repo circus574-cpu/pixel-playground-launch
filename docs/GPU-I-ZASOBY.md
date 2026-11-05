@@ -2,7 +2,7 @@
 
 ## Verdantia — materiały kontynentu 04.11.2026
 
-Paczka `verdantia-continent-v2@1.0.1` jest opt-in (`ki-verdant-continent=1`):
+Paczka `verdantia-continent-v2@1.0.1` jest domyślnie włączona od 05.11.2026 (`ki-verdant-continent=0` wyłącza):
 15 zasobów, około 4,37 MiB plików runtime i 15,95 MiB rozkodowanych pikseli.
 Miasta zachowują swoje zaakceptowane wiązania; nowe klucze mają przestrzeń
 `terrain.verdantia-continent.*` / `object.verdantia-continent.*`.
@@ -554,8 +554,11 @@ Maszynowy opis: [`world-asset-kit.json`](world-asset-kit.json), generowany przez
 
 ### Czego nie ruszać
 
-- Wnętrze kuźni w Pyrze to **pionowa sala 540 × 1100** (`SMITHY_ROOM` w `src/game/city/room.ts`); jej
-  kolizje są dopasowane do grafik paczki `pyra-smithy`. Inne wnętrza mają układ 960 × 760.
+- Wnętrza sześciu budynków specjalnych (sala, sklep, arena, depozyt, kuźnia, gospoda) we wszystkich czterech
+  miastach to **malowane pokoje**: `src/game/city/paintedRooms.ts` (kolizje odczytane z obrazów), obrazy
+  `public/game/interiors/<świat>-<budynek>.webp` z `art/production/interiors/` (skrypt
+  `scripts/build_painted_rooms.py`). Wszystkie pokoje, także kuźnia Pyry, mają 1920 × 1280. Dawny pionowy obraz kuźni Pyry jest zachowany jako
+  `pyra-smithy-interior-portrait-v1.png`.
 - Miasto = strefa bezpieczna ~4000 × 2500 (`city.bounds`), poza nią walka. Nowe obiekty w mieście nie mogą
   zasłaniać drzwi budynków usługowych (muszą być osiągalne A* ze startu).
 - Nie edytować `imported.json` ręcznie ani plików `*.generated.ts`; paczki wchodzą przez
@@ -585,7 +588,7 @@ Orientacyjnie: kilkanaście części jednego zestawu to godzina pracy GPU plus p
 
 Decyzja właściciela (23.10.2026): cała planeta ma zostać wypełniona. Poprawki animacji i podłoża przy miastach robimy na końcu. Potrzebne jest bardzo zróżnicowane środowisko (skały, góry, wulkany) oraz **neutralne zwierzęta**, które dają pożywienie i inne surowce (osobno od potworów z bestiariusza, które pozostają przeciwnikami).
 
-Zasady wspólne: niezależne zasoby (tekstury `terrain.*`, obiekty `object.*`, aktor `fauna.*`), nigdy gotowa ilustracja świata jako podłoże; kolizje z danych regionów, nie z grafiki; opt-in przez `PREVIEW_SWITCHES` do akceptacji; budżet tekstur 128 MiB na aktywny świat (kontynent ładuje tylko własny zestaw biomów plus wspólne skały); prawa do referencji i checkpointów nadal nierozstrzygnięte (ASSET-LICENSE-REGISTER.md).
+Zasady wspólne: niezależne zasoby (tekstury `terrain.*`, obiekty `object.*`, aktor `fauna.*`), nigdy gotowa ilustracja świata jako podłoże; kolizje z danych regionów, nie z grafiki; nowe pakiety wchodzą przez `PREVIEW_SWITCHES` (opt-in) do akceptacji właściciela, po której trafiają do `DEFAULT_ON_SWITCHES` (`=0` wyłącza; tak są dziś Verdantia, Pyra, Aetheria, potwory anime i malowane miasta); budżet tekstur 128 MiB na aktywny świat (kontynent ładuje tylko własny zestaw biomów plus wspólne skały); prawa do referencji i checkpointów nadal nierozstrzygnięte (ASSET-LICENSE-REGISTER.md).
 
 ### 1. Krajobraz: tekstury podłoża (`terrain.*`)
 
@@ -686,23 +689,19 @@ Ikony surowców (17 typów × 2–3 warianty) i ikony przedmiotów z Księgi (br
 3. Styl zwierząt: malowany jak potwory, czy prostszy (mniej klatek).
 4. Prawa do referencji i checkpointów oraz moment uruchomienia poda (po stronie właściciela).
 
-
 ## Pyra — archiwum koncepcji 04.11.2026
 
 Na gałęzi `art/pyra-materials-2026-11-04` zachowano [10 plansz PNG, manifest z SHA-256 i dostępne prompty](../art/production/pyra-concepts-2026-11-04/): 52 wzory podłoży, dróg, roślin, form terenu, przejść, dekoracji, rekwizytów oraz statycznych efektów. To archiwum wygenerowanych koncepcji; nie jest paczką runtime. Wymaga wydzielenia elementów, oczyszczenia alfa/poświat, sprawdzenia kafelkowania i przygotowania animacji efektów przed importem do gry.
 
-
 ## Verdantia — dodatkowe koncepcje 04.11.2026
 
 [Archiwum 4 plansz i promptów](../art/production/verdantia-extra-concepts-2026-11-04/) zawiera 26 nowych wzorów: 8 roślin podszytu, 6 drzew i elementów drewna, 6 form terenu oraz 6 rekwizytów eksploracji. Gałąź `art/verdantia-extra-2026-11-04`. To materiały koncepcyjne; przed importem wymagają wydzielenia, oczyszczenia tła/poświat i oceny skali oraz kotwic.
-
 
 ## Verdantia — przygotowane dodatkowe grafiki runtime
 
 Pakiet [verdantia-extra-runtime](../art/production/verdantia-extra-runtime/) zawiera 26 osobnych sprite’ów wyciętych z przygotowanych przez `image_gen` wersji czterech plansz. Pierwotne koncepcje są zachowane. Wycięcia mają przezroczyste tło, puste marginesy i rozmiary 192/256/384/512 px; pełny pakiet ma 10,37 MiB rozkodowanych pikseli i około 3,18 MiB plików. Włącza go istniejąca opcja `ki-verdant-continent=1`, razem z podłożami i drogami. Przypisania mają osobne klucze `object.verdantia-extra.*`; miasta i statystyki nie są nadpisywane.
 
 Odtworzenie: `node art/production/verdantia-extra-runtime/prepare.mjs`, następnie `npm run assets:import -- art/production/verdantia-extra-runtime/manifest.json --install` (przy ponownej instalacji dodać `--replace`). Pochodzenie, źródła i SHA-256 są w tym samym pakiecie. Warianty drzew i podszytu są deterministyczne, a fizyczne footprinty, kotwice i położenia pozostają źródłowe.
-
 
 ## Pyra — pakiet kontynentu runtime 04.11.2026
 
@@ -713,7 +712,7 @@ przejścia, rekwizyty) oczyszczono przez `image_gen`; oryginalne koncepcje
 pozostają w osobnym archiwum. `provenance.json` i `sources.sha256.json`
 zapisują pochodzenie oraz SHA-256. Importer stosuje osobne wiązania
 `terrain.pyra-continent.*` i `object.pyra-continent.*`, opt-in
-`ki-pyra-continent=1`; nie zastępuje wcześniejszych kluczy katalogu.
+domyślnie włączone od 05.11.2026 (`ki-pyra-continent=0` wyłącza); nie zastępuje wcześniejszych kluczy katalogu.
 
 Odtworzenie: `node art/production/pyra-continent-v2/prepare.mjs`, następnie
 `npm run assets:import -- art/production/pyra-continent-v2/manifest.json --install`
@@ -727,7 +726,6 @@ Runtime: 7 773 994 bajty, 26,65 MiB rozkodowanych pikseli; pełny digest
 Tylko najbliższe fragmenty świata i widoczne obiekty są streamowane.
 Koncepcje efektów mają animację transformacji/alfa; nie są pełnymi animacjami
 klatkowymi. Odbiór na fizycznym telefonie pozostaje otwarty.
-
 
 ## Aetheria — pakiet kontynentu runtime 04.11.2026
 
@@ -752,13 +750,12 @@ Odtworzenie: `node art/production/aetheria-continent-v2/prepare.mjs`, potem
 `npm run assets:import -- art/production/aetheria-continent-v2/manifest.json --install`
 (przy ponownej instalacji dodać `--replace`). Rejestr ma osobne wiązania
 `terrain.aetheria-continent.*` i `object.aetheria-continent.*`; istniejące klucze
-nie są nadpisywane. Opt-in: `ki-aetheria-continent=1`.
+nie są nadpisywane. Domyślnie włączone od 05.11.2026; `ki-aetheria-continent=0` wyłącza.
 
 Runtime: 5 331 248 bajtów, 16,21 MiB rozkodowanych pikseli. Digest:
 `3117f4ea8b96a9ffc9cf799a03f519f78ef8928a4cb91c372127bcce58f4a931`.
 Gra korzysta ze streamingu i dotychczasowych budżetów. Odbiór płynności
 na fizycznym telefonie pozostaje otwarty; programowy WebGL sprawdza poprawność.
-
 
 ## Nexus — komplet materiałów kontynentu 04.11.2026
 

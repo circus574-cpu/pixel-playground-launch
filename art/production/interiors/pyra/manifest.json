@@ -34,9 +34,10 @@
    "file": "pyra-smithy-interior.png",
    "prompt": "pyra-smithy-interior.prompt.txt",
    "title": "Kuźnia Żaru",
-   "generatedSize": "1024x1536",
-   "gameRoom": "540:1100",
-   "sha256": "57d5757e17b255bd38d75bcb5d8da0eb7468af50bb69e9f5c5bd676f0aa2cca3"
+   "generatedSize": "1536x1024",
+   "gameRoom": "1920:1280",
+   "sha256": "10a7b046651e142959f5a112ca7a3111c25e7e33f4831dcc9f7a927efc6e9e27",
+   "note": "05.11.2026: wersja pozioma 1536x1024 (ta sama kompozycja co pozostałe pokoje), zamiast pionowej 1024x1536"
   },
   {
    "file": "pyra-depot-interior.png",
@@ -53,6 +54,12 @@
    "generatedSize": "1536x1024",
    "gameRoom": "960:760",
    "sha256": "2466b35108462c6ba737c6ccb218e6ea53d655566572e196b1919da491ab61e0"
+  },
+  {
+   "file": "pyra-smithy-interior-portrait-v1.png",
+   "prompt": "pyra-smithy-interior-portrait-v1.prompt.txt",
+   "title": "Kuźnia Żaru (pionowa, zastąpiona 05.11.2026)",
+   "sha256": "57d5757e17b255bd38d75bcb5d8da0eb7468af50bb69e9f5c5bd676f0aa2cca3"
   }
  ]
 }

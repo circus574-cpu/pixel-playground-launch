@@ -1,30 +1,17 @@
 # KI Legends — dokumentacja projektu
 
-**Nexus — komplet 64 wygenerowanych materiałów:** [podgląd, źródła i zakres](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu).
+Aktualizacja: **05.11.2026, po PR #120 (`main@f2625549`) i gałęzi `feat/special-interiors`**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
 
-**Aetheria — nowa oprawa kontynentu:** [36 zasobów, cztery biomy i zrzuty](zmiany/2026-11-04/ZMIANY.md#aetheria--nowa-oprawa-kontynentu).
+**Stan na 05.11.2026 (szczegóły i dowody w [dzienniku 05.11](zmiany/2026-11-05/ZMIANY.md)):**
 
-**Pyra — nowa oprawa kontynentu na osobnej gałęzi:** [52 zasoby runtime, zakres i zrzuty](zmiany/2026-11-04/ZMIANY.md#pyra--nowa-oprawa-kontynentu).
+- Oprawa kontynentów Verdantia, Pyra i Aetheria jest **scalona (PR #118) i domyślnie włączona**; wyłączenie: `?preview=ki-<świat>-continent=0`. Nexus-9 ma tylko komplet materiałów graficznych, bez integracji w grze ([04.11](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu)).
+- Wielkości potworów z pomiaru ciała (PR #117), mapa 2D/globus (PR #119) i chód po transformacji `kiwalk` dla czterech ras, paczki bohaterów `2.1.0` (PR #120) są na `main`.
+- Malowane wnętrza budynków specjalnych (4 światy × 6 budynków, pokoje 1920×1280) są na gałęzi `feat/special-interiors`; ich publikację opisuje dziennik 05.11.
+- Serwerowy zapis i rozgrywka PvE (PR #69), panel postaci w `/admin` i miejski depozyt są scalone i opublikowane (01.11). Backend produkcyjny nadal działa na dotychczasowym Supabase; cutover na własny PostgreSQL czeka na odbiór właściciela.
 
-**Verdantia — 26 dodatkowych grafik podłączonych do gry:** [zakres integracji i zrzuty](zmiany/2026-11-04/ZMIANY.md#verdantia--ukończenie-integracji-dodatkowej-oprawy).
+Bieżący stan, pozostałe zadania i źródła wyników: [plan](PLAN-I-ZADANIA.md#bieżący-checkpoint--05112026). Architektura serwerowego PvE i warunki cutoveru: [Architektura](ARCHITEKTURA-I-TESTY.md#kandydat-serwerowej-rozgrywki-pve--trzecia-partia-0111-pr-69).
 
-**Verdantia — kontynent, podgląd 04.11.2026:** [zakres, materiały i zrzuty z rzeczywistej gry](zmiany/2026-11-04/ZMIANY.md#verdantia--oprawa-kontynentu-na-osobnej-gałęzi).
-
-**Aetheria — próbna oprawa na osobnej gałęzi:** [lokalny zrzut i instrukcja](zmiany/2026-11-03/ZMIANY.md#aetheria--oprawa-z-materiałów-właściciela).
-
-**Próba oprawy Verdantii (osobna gałąź, bez publikacji):** [kod, zasoby, zrzut z gry i włączenie podglądu](zmiany/2026-11-03/ZMIANY.md#próba-malowanej-verdantii--gałąź-podglądowa).
-
-Aktualizacja: **01.11.2026, po PR #70 (`main@2026c18`) i dodaniu bramki jakości CI przed wdrożeniem**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
-Wdrożono pełny panel administracyjny postaci serwerowych (`ServerCharacterManager` w `/admin` z podglądem i edycją bazy PostgreSQL, statystyk, 8 slotów ekwipunku, torby 40 slotów, depozytu, zadań i drzewka skilli oraz akcjami live), wdrożono 8-slotowy ekwipunek, 40-slotową torbę i miejski depozyt na złoto i przedmioty, włączono 46/46 zasobów Etapu 1 oraz opublikowano gałąź `main` z automatycznym deploymentem na serwerze Aruba.
-
-**Wdrożenie i produkcja:** Rozwój ras jest częściowo wdrożony, parametry treningu i okno statystyk są w grze, a serwer multiplayer dysponuje dedykowanym silnikiem orkiestracji procesów Node.js (`multiplayerServer.ts`). Lokalne testy integracji, pełny TypeScript i testy jednostkowe monitoringu/sterowania serwerem zakończone sukcesem.
-
-Bieżący stan, pozostałe zadania i źródła wyników: [plan](PLAN-I-ZADANIA.md#bieżący-checkpoint--01112026-po-publikacji-serwerowego-pve-panelu-postaci-ekwipunku-i-wydaniu-na-main) oraz [zamknięcie zmian 01.11](zmiany/2026-11-01/ZMIANY.md#10-integracja-gałęzi-pełna-weryfikacja-jakościowa-i-publikacja-main-commit-fbfde40f).
-
-Serwerowy zapis i rozgrywka PvE (PR #69) oraz zarządzanie postaciami w PostgreSQL zostały scalone do gałęzi `main`.
-Wdrożenie na serwerze produkcyjnym Aruba zostało opublikowane i jest aktywne.
-Aktualny protokół, testy i warunki cutoveru opisuje
-[Architektura](ARCHITEKTURA-I-TESTY.md#kandydat-serwerowej-rozgrywki-pve--trzecia-partia-0111-pr-69).
+Materiały graficzne kontynentów (zakres, źródła, zrzuty): [Nexus](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu), [Aetheria](zmiany/2026-11-04/ZMIANY.md#aetheria--nowa-oprawa-kontynentu), [Pyra](zmiany/2026-11-04/ZMIANY.md#pyra--nowa-oprawa-kontynentu), [Verdantia](zmiany/2026-11-04/ZMIANY.md#verdantia--oprawa-kontynentu-na-osobnej-gałęzi).
 
 Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym indeksem.
 
@@ -42,6 +29,10 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-11-05](zmiany/2026-11-05/ZMIANY.md)
+- [2026-11-04](zmiany/2026-11-04/ZMIANY.md)
+- [2026-11-03](zmiany/2026-11-03/ZMIANY.md)
+- [2026-11-02](zmiany/2026-11-02/ZMIANY.md)
 - [2026-11-01](zmiany/2026-11-01/ZMIANY.md)
 - [2026-10-31](zmiany/2026-10-31/ZMIANY.md)
 - [2026-10-29](zmiany/2026-10-29/ZMIANY.md)

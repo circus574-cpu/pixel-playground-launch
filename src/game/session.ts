@@ -1361,6 +1361,8 @@ export class GameSession implements MonsterHost {
     this.player.interior = id;
     this.interiorEnteredAt = this.nowMs;
     this.nav = room ? new Navigation(room.width, room.height, room.obstacles) : this.outsideNav;
+    // The training dummy stands where the painted arena shows it.
+    if (room && id === "arena") Object.assign(this.dummy, room.dummy);
     Object.assign(this.player, this.nav.safe(room?.entry ?? previous?.door ?? this.world.spawn));
     this.dialogue = null;
     this.depotOpen = false;
@@ -1398,7 +1400,11 @@ export class GameSession implements MonsterHost {
   private transferDepotGold(amount: number, withdraw: boolean) {
     const p = this.player;
     ensurePlayerEquipment(p);
-    if (!this.depotOpen || p.interior !== "depot" || distance(p, cityRoom("depot").chest) > 115)
+    if (
+      !this.depotOpen ||
+      p.interior !== "depot" ||
+      distance(p, cityRoom("depot", this.world.id).chest) > 115
+    )
       return this.say("Otwórz swoją skrzynię w budynku depozytu.");
     if (!Number.isInteger(amount) || amount < 1) return;
     if (withdraw) {
@@ -1417,7 +1423,11 @@ export class GameSession implements MonsterHost {
   private transferDepot(item: string, quantity: number, withdraw: boolean) {
     const p = this.player;
     ensurePlayerEquipment(p);
-    if (!this.depotOpen || p.interior !== "depot" || distance(p, cityRoom("depot").chest) > 115)
+    if (
+      !this.depotOpen ||
+      p.interior !== "depot" ||
+      distance(p, cityRoom("depot", this.world.id).chest) > 115
+    )
       return this.say("Otwórz swoją skrzynię w budynku depozytu.");
     if (!Number.isInteger(quantity) || quantity < 1 || quantity > 99) return;
     const material = isMaterial(item);
@@ -1934,7 +1944,7 @@ export class GameSession implements MonsterHost {
       this.pendingNpc = null;
       this.pendingExit = false;
       this.pendingChest = true;
-      this.go(cityRoom("depot").chest);
+      this.go(cityRoom("depot", this.world.id).chest);
       return;
     }
     if (c.type === "rest") {
@@ -2658,7 +2668,11 @@ export class GameSession implements MonsterHost {
         return;
       }
     }
-    if (this.pendingChest && p.interior === "depot" && distance(p, cityRoom("depot").chest) <= 95) {
+    if (
+      this.pendingChest &&
+      p.interior === "depot" &&
+      distance(p, cityRoom("depot", this.world.id).chest) <= 95
+    ) {
       this.pendingChest = false;
       this.depotOpen = true;
       this.route = [];

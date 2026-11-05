@@ -1,6 +1,19 @@
 # KI Legends — aktualny plan i zadania
 
-## Bieżący checkpoint — 01.11.2026 po publikacji serwerowego PvE, panelu postaci, ekwipunku i wydaniu na main
+## Bieżący checkpoint — 05.11.2026
+
+Kod: `main@f2625549` (PR #117 wielkości potworów, #118 oprawa kontynentów Verdantia/Pyra/Aetheria domyślnie włączona, #119 mapa i globus, #120 chód po transformacji `kiwalk`) oraz gałąź `feat/special-interiors` (malowane wnętrza budynków specjalnych) — jej status publikacji: [dziennik 05.11](zmiany/2026-11-05/ZMIANY.md). Hosting i bramka jakości bez zmian (poniżej, checkpoint 01.11). Dowody: [dziennik 05.11](zmiany/2026-11-05/ZMIANY.md), [04.11](zmiany/2026-11-04/ZMIANY.md).
+
+Otwarte (stan faktyczny, bez zmian decyzji właściciela):
+
+- **Odbiór właściciela:** nowa kuźnia Pyry (pozioma, 1920×1280), proporcje wnętrz pozostałych światów, wielkości potworów (mnożniki to propozycja projektowa).
+- **Animacje:** po transformacji bohater stoi, atakuje i ginie w formie bazowej (brak filmów tych stanów); Legenda i Planetar mają ukosy `kiwalk` zbudowane z profilu. Etapy 1–3 filmów Legendy (walka, reakcje, ruch) są zapisane w `art-wip/gemini-anim-stages/` z instrukcjami `art/pipeline/prompts/animacje/PROMPTY-ANIMACJE-v1.md`; nie są jeszcze w grze.
+- **Świat:** Nexus-9 ma 64 grafiki środowiska bez integracji w grze; globus jest nieostry przy dużym zbliżeniu (decyzja: warstwa terenu na globusie albo przejście do mapy 2D).
+- **Testy:** specyfikacje e2e `city` i `manga-hud` są nieaktualne wobec HUD świata v2 (przycisk „Plan miasta” w zwiniętym panelu Akcje); do przepisania.
+- **Backend i telefon:** bez zmian względem checkpointu 01.11 (cutover PostgreSQL, odbiór na fizycznym telefonie, brak sprzętowego WebGL w dowodach).
+- **Porządek repo:** około 50 starych, niescalonych gałęzi oraz otwarte PR-y (w tym #80, #103, #104, #115, #116 — te dwa ostatnie zastąpione przez #118) czekają na decyzję właściciela; nic nie zamykano ani nie kasowano.
+
+## Poprzedni checkpoint — 01.11.2026 po publikacji serwerowego PvE, panelu postaci, ekwipunku i wydaniu na main
 
 Kod i potwierdzona publikacja: `main@2026c18` (PR #70, ilustrowane katalogi potworów i przedmiotów w `/admin`). Hosting: VPS Aruba (Coolify), wdrożenie automatyczne po pushu do `main` — od 01.11 dopiero po zielonej bramce jakości (typecheck, testy, lint, zasoby, dokumentacja, build). Lovable nie jest już hostingiem. Aktualizacje z 01.11 obejmują integrację serwerowych postaci (PR #69), pełny panel administracyjny postaci serwera dedykowanego (`ServerCharacterManager` w `/admin`), system 8-slotowego ekwipunku, 40-slotowej torby i depozytu miejskiego (`feat/inventory-bag-and-city-depot`), komplet 46/46 zasobów Etapu 1 oraz automatyczne wdrożenie produkcyjne Aruba. Zob. [dziennik 01.11](zmiany/2026-11-01/ZMIANY.md#10-integracja-gałęzi-pełna-weryfikacja-jakościowa-i-publikacja-main-commit-fbfde40f).
 Ten checkpoint zastępuje wcześniejsze etykiety stanu; zachowuje historyczne wyniki i nierozwiązane błędy.
