@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "id": "superior-island-4-art",
+  "version": "1.0.0",
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "island-4-terrain",
+      "kind": "atlas",
+      "version": "1.0.0",
+      "url": "terrain.png",
+      "atlasUrl": "terrain.atlas.json",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "id": "island-4-props",
+      "kind": "atlas",
+      "version": "1.0.0",
+      "url": "props.png",
+      "atlasUrl": "props.atlas.json",
+      "width": 1536,
+      "height": 1024
+    }
+  ],
+  "renderBindings": {
+    "terrain.island-4.biome-0": {
+      "asset": "island-4-terrain",
+      "frame": "island-4.terrain.coastal-grass",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-4.biome-1": {
+      "asset": "island-4-terrain",
+      "frame": "island-4.terrain.olive-humus",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-4.biome-2": {
+      "asset": "island-4-terrain",
+      "frame": "island-4.terrain.terracotta-rock",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-4.biome-3": {
+      "asset": "island-4-terrain",
+      "frame": "island-4.terrain.olive-humus",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-4.road": {
+      "asset": "island-4-terrain",
+      "frame": "island-4.terrain.harbour-paving",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-4.plaza": {
+      "asset": "island-4-terrain",
+      "frame": "island-4.terrain.harbour-paving",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-4.shore": {
+      "asset": "island-4-terrain",
+      "frame": "island-4.terrain.gold-sand",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-4.water": {
+      "asset": "island-4-terrain",
+      "frame": "island-4.terrain.azure-water",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "object.island-4.tree": {
+      "asset": "island-4-props",
+      "frame": "island-4.props.olive-tree",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.93359375
+      ]
+    },
+    "object.island-4.flora": {
+      "asset": "island-4-props",
+      "frame": "island-4.props.coastal-shrub",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.84765625
+      ]
+    },
+    "object.island-4.rock": {
+      "asset": "island-4-props",
+      "frame": "island-4.props.honey-boulder",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.84375
+      ]
+    },
+    "object.island-4.landmark": {
+      "asset": "island-4-props",
+      "frame": "island-4.props.moorings",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.873046875
+      ]
+    },
+    "object.island-4.arch": {
+      "asset": "island-4-props",
+      "frame": "island-4.props.harbour-arch",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.873046875
+      ]
+    },
+    "object.island-4.cargo": {
+      "asset": "island-4-props",
+      "frame": "island-4.props.merchant-cargo",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.875
+      ]
+    }
+  }
+}

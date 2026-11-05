@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "superior-island-1-art",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "island-1-terrain",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/superior-island-1-art/1.0.0-ab61814f597f/island-1-terrain.webp",
+      "atlasUrl": "/game/assets/gpu/superior-island-1-art/1.0.0-ab61814f597f/island-1-terrain.json",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "id": "island-1-props",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/superior-island-1-art/1.0.0-ab61814f597f/island-1-props.webp",
+      "atlasUrl": "/game/assets/gpu/superior-island-1-art/1.0.0-ab61814f597f/island-1-props.json",
+      "width": 1536,
+      "height": 1024
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "terrain.island-1.biome-0": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.snow",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-1.biome-1": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.snow",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-1.biome-2": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.pearl-stone",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-1.biome-3": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.glacier-ice",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-1.road": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.sacred-paving",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-1.plaza": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.sacred-paving",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-1.shore": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.frost-shore",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-1.water": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.polar-water",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "object.island-1.tree": {
+      "asset": "island-1-props",
+      "frame": "island-1.props.polar-conifer",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.935546875
+      ]
+    },
+    "object.island-1.flora": {
+      "asset": "island-1-props",
+      "frame": "island-1.props.glacier-crystals",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.8984375
+      ]
+    },
+    "object.island-1.rock": {
+      "asset": "island-1-props",
+      "frame": "island-1.props.pearl-boulder",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.84765625
+      ]
+    },
+    "object.island-1.landmark": {
+      "asset": "island-1-props",
+      "frame": "island-1.props.echo-altar",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.84375
+      ]
+    },
+    "object.island-1.arch": {
+      "asset": "island-1-props",
+      "frame": "island-1.props.frost-arch",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.8515625
+      ]
+    },
+    "object.island-1.cargo": {
+      "asset": "island-1-props",
+      "frame": "island-1.props.expedition-chest",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.798828125
+      ]
+    }
+  },
+  "effects": {}
+}

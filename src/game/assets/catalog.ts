@@ -141,6 +141,7 @@ export function makeCatalog(
 }
 /** Packs enabled by each review switch (`?<param>=1`; the default-on ones need `=0` to turn off). */
 export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
+  "ki-islands-art": [1, 2, 3, 4, 5, 6].map((i) => `superior-island-${i}-art`),
   "ki-aetheria-continent": ["aetheria-continent-v2"],
   "ki-pyra-continent": ["pyra-continent-v2"],
   /** Nexus-9 wilderness materials; opt-in via `?ki-nexus-continent=1` until the owner accepts. */

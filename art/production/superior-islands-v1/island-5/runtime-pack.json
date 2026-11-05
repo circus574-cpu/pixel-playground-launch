@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "id": "superior-island-5-art",
+  "version": "1.0.0",
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "island-5-terrain",
+      "kind": "atlas",
+      "version": "1.0.0",
+      "url": "terrain.png",
+      "atlasUrl": "terrain.atlas.json",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "id": "island-5-props",
+      "kind": "atlas",
+      "version": "1.0.0",
+      "url": "props.png",
+      "atlasUrl": "props.atlas.json",
+      "width": 1536,
+      "height": 1024
+    }
+  ],
+  "renderBindings": {
+    "terrain.island-5.biome-0": {
+      "asset": "island-5-terrain",
+      "frame": "island-5.terrain.silver-grass",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-5.biome-1": {
+      "asset": "island-5-terrain",
+      "frame": "island-5.terrain.marsh-peat",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-5.biome-2": {
+      "asset": "island-5-terrain",
+      "frame": "island-5.terrain.wet-slate",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-5.biome-3": {
+      "asset": "island-5-terrain",
+      "frame": "island-5.terrain.marsh-peat",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-5.road": {
+      "asset": "island-5-terrain",
+      "frame": "island-5.terrain.relay-path",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-5.plaza": {
+      "asset": "island-5-terrain",
+      "frame": "island-5.terrain.relay-path",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-5.shore": {
+      "asset": "island-5-terrain",
+      "frame": "island-5.terrain.silt-shore",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-5.water": {
+      "asset": "island-5-terrain",
+      "frame": "island-5.terrain.petrol-water",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "object.island-5.tree": {
+      "asset": "island-5-props",
+      "frame": "island-5.props.silver-willow",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.921875
+      ]
+    },
+    "object.island-5.flora": {
+      "asset": "island-5-props",
+      "frame": "island-5.props.burgundy-fern",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.861328125
+      ]
+    },
+    "object.island-5.rock": {
+      "asset": "island-5-props",
+      "frame": "island-5.props.slate-boulder",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.89453125
+      ]
+    },
+    "object.island-5.landmark": {
+      "asset": "island-5-props",
+      "frame": "island-5.props.broken-relay",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.9375
+      ]
+    },
+    "object.island-5.arch": {
+      "asset": "island-5-props",
+      "frame": "island-5.props.wetland-arch",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.896484375
+      ]
+    },
+    "object.island-5.cargo": {
+      "asset": "island-5-props",
+      "frame": "island-5.props.travel-chest",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.814453125
+      ]
+    }
+  }
+}

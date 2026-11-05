@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "superior-island-6-art",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "island-6-terrain",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/superior-island-6-art/1.0.0-e72bce69a987/island-6-terrain.webp",
+      "atlasUrl": "/game/assets/gpu/superior-island-6-art/1.0.0-e72bce69a987/island-6-terrain.json",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "id": "island-6-props",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/superior-island-6-art/1.0.0-e72bce69a987/island-6-props.webp",
+      "atlasUrl": "/game/assets/gpu/superior-island-6-art/1.0.0-e72bce69a987/island-6-props.json",
+      "width": 1536,
+      "height": 1024
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "terrain.island-6.biome-0": {
+      "asset": "island-6-terrain",
+      "frame": "island-6.terrain.volcanic-ash",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-6.biome-1": {
+      "asset": "island-6-terrain",
+      "frame": "island-6.terrain.frost-gravel",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-6.biome-2": {
+      "asset": "island-6-terrain",
+      "frame": "island-6.terrain.obsidian",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-6.biome-3": {
+      "asset": "island-6-terrain",
+      "frame": "island-6.terrain.volcanic-ash",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-6.road": {
+      "asset": "island-6-terrain",
+      "frame": "island-6.terrain.core-paving",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-6.plaza": {
+      "asset": "island-6-terrain",
+      "frame": "island-6.terrain.core-paving",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-6.shore": {
+      "asset": "island-6-terrain",
+      "frame": "island-6.terrain.black-sand",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-6.lava": {
+      "asset": "island-6-terrain",
+      "frame": "island-6.terrain.ember-melt",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "object.island-6.tree": {
+      "asset": "island-6-props",
+      "frame": "island-6.props.deadwood",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.927734375
+      ]
+    },
+    "object.island-6.flora": {
+      "asset": "island-6-props",
+      "frame": "island-6.props.ember-obsidian",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.84375
+      ]
+    },
+    "object.island-6.rock": {
+      "asset": "island-6-props",
+      "frame": "island-6.props.ember-obsidian",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.84375
+      ]
+    },
+    "object.island-6.landmark": {
+      "asset": "island-6-props",
+      "frame": "island-6.props.core-altar",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.736328125
+      ]
+    },
+    "object.island-6.arch": {
+      "asset": "island-6-props",
+      "frame": "island-6.props.basalt-arch",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.87890625
+      ]
+    },
+    "object.island-6.cargo": {
+      "asset": "island-6-props",
+      "frame": "island-6.props.expedition-chest",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.7890625
+      ]
+    }
+  },
+  "effects": {}
+}

@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "id": "superior-island-3-art",
+  "version": "1.0.0",
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "island-3-terrain",
+      "kind": "atlas",
+      "version": "1.0.0",
+      "url": "terrain.png",
+      "atlasUrl": "terrain.atlas.json",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "id": "island-3-props",
+      "kind": "atlas",
+      "version": "1.0.0",
+      "url": "props.png",
+      "atlasUrl": "props.atlas.json",
+      "width": 1536,
+      "height": 1024
+    }
+  ],
+  "renderBindings": {
+    "terrain.island-3.biome-0": {
+      "asset": "island-3-terrain",
+      "frame": "island-3.terrain.violet-moss",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-3.biome-1": {
+      "asset": "island-3-terrain",
+      "frame": "island-3.terrain.violet-moss",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-3.biome-2": {
+      "asset": "island-3-terrain",
+      "frame": "island-3.terrain.amethyst-rock",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-3.biome-3": {
+      "asset": "island-3-terrain",
+      "frame": "island-3.terrain.crystal-dust",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-3.road": {
+      "asset": "island-3-terrain",
+      "frame": "island-3.terrain.lantern-paving",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-3.plaza": {
+      "asset": "island-3-terrain",
+      "frame": "island-3.terrain.lantern-paving",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-3.shore": {
+      "asset": "island-3-terrain",
+      "frame": "island-3.terrain.quartz-shore",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-3.water": {
+      "asset": "island-3-terrain",
+      "frame": "island-3.terrain.indigo-water",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "object.island-3.tree": {
+      "asset": "island-3-props",
+      "frame": "island-3.props.violet-tree",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.943359375
+      ]
+    },
+    "object.island-3.flora": {
+      "asset": "island-3-props",
+      "frame": "island-3.props.rose-crystals",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.8828125
+      ]
+    },
+    "object.island-3.rock": {
+      "asset": "island-3-props",
+      "frame": "island-3.props.rose-crystals",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.8828125
+      ]
+    },
+    "object.island-3.landmark": {
+      "asset": "island-3-props",
+      "frame": "island-3.props.ritual-plinth",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.845703125
+      ]
+    },
+    "object.island-3.arch": {
+      "asset": "island-3-props",
+      "frame": "island-3.props.violet-arch",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.87890625
+      ]
+    },
+    "object.island-3.cargo": {
+      "asset": "island-3-props",
+      "frame": "island-3.props.archive-chest",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.763671875
+      ]
+    }
+  }
+}

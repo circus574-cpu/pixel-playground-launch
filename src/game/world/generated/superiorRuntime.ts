@@ -1,3 +1,4 @@
+import { islandFeatureArt, islandObjects } from "./islandArt";
 import {
   aetheriaContinentEnabled,
   aetheriaObjects,
@@ -136,7 +137,10 @@ export async function prepareSuperior(options: {
   const artBytes = await artResponse.arrayBuffer();
   if ((await bytesHash(artBytes)) !== artManifest[save.feature + "/feature.art.json"])
     throw Error("Błędna suma oprawy lądu");
-  const art = JSON.parse(new TextDecoder().decode(artBytes)) as FeatureArt;
+  const art = islandFeatureArt(
+    info.id,
+    JSON.parse(new TextDecoder().decode(artBytes)) as FeatureArt,
+  );
   // KI crystal nodes were bound to the Nexus machine crystal on every land. Outside Nexus they
   // show a natural crystal cluster; the node itself (position, kind) is unchanged.
   if (info.id !== "nexus")
@@ -334,6 +338,7 @@ export async function prepareSuperior(options: {
       const value = JSON.parse(text) as { format: string; objects: ArtObject[] };
       if (value.format !== "superior-art-overlay-1" || !Array.isArray(value.objects))
         throw Error("Błędne dekoracje");
+      value.objects = islandObjects(info.id, value.objects);
       // The generator scattered Nexus machine crystals through Verdantia's forests as decoration;
       // show a mossy forest boulder there instead. Positions and collision stay as authored.
       if (info.id === "verdant")

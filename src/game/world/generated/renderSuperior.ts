@@ -1,3 +1,4 @@
+import { islandArtEnabled, islandMaterial } from "./islandArt";
 import {
   aetheriaContinentEnabled,
   aetheriaTerrainBindings,
@@ -131,7 +132,10 @@ const layerCanvas = (size = 512) => {
 };
 /** Only streamed chunks have canvases; only nearby decorations have Phaser images. */
 export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
-  const painted = paintedMeadowEnabled(source.loader.definition.feature);
+  const feature = source.loader.definition.feature;
+  const island = islandArtEnabled(feature);
+  const materials = new Map<string, HTMLCanvasElement>();
+  const painted = paintedMeadowEnabled(feature) || island;
   const pyraContinent = pyraContinentEnabled(source.loader.definition.feature);
   const verdantContinent = verdantiaContinentEnabled(source.loader.definition.feature);
   const aetheriaContinent = aetheriaContinentEnabled(source.loader.definition.feature);
@@ -210,7 +214,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     ...source.art.dungeonEntrances,
     ...(paintedNexus
       ? nexusGarden(source.art)
-      : painted
+      : painted && !island
         ? meadowScenery(source.art, source.cityRoads)
         : []),
   ];
@@ -240,7 +244,25 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     if (!tex) throw Error("Nie można przygotować terenu");
     const ctx = tex.getContext();
     const pattern = (binding: string) => {
-      const image = scene.textures.get(textureId(binding)).getSourceImage() as HTMLImageElement;
+      const texture = scene.textures.get(textureId(binding));
+      const ref = catalog.renderBindings[binding]!;
+      let image = texture.getSourceImage() as HTMLImageElement | HTMLCanvasElement;
+      if (island && ref.frame !== undefined) {
+        const frame = texture.get(ref.frame);
+        const materialKey = ref.asset + ":" + ref.frame;
+        let material = materials.get(materialKey);
+        if (!material) {
+          material = islandMaterial(
+            frame.source.image as CanvasImageSource,
+            frame.cutX,
+            frame.cutY,
+            frame.cutWidth,
+            frame.cutHeight,
+          );
+          materials.set(materialKey, material);
+        }
+        image = material;
+      }
       const tile = ctx.createPattern(image, "repeat")!;
       const size = catalog.renderBindings[binding]?.tileSize ?? [256, 256];
       // Preserve texture scale relative to the world footprint at either bake resolution.
@@ -331,7 +353,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       lctx.clearRect(0, 0, resolution, resolution);
       lctx.fillStyle = fill;
       lctx.filter =
-        legacyTone && painted && !paintedPyra && !paintedNexus && fill !== water
+        legacyTone && painted && !island && !paintedPyra && !paintedNexus && fill !== water
           ? "saturate(0.82) brightness(0.9)"
           : "none";
       lctx.fillRect(0, 0, resolution, resolution);
@@ -347,7 +369,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     if (!wilderness)
       for (const b of aetheriaContinent ? [...biomes].sort((a, b) => a - b) : biomes)
         texture(ground[b] ?? ground[0]!, groundAlpha, (i) => !!(flags[i]! & 16) && biome[i] === b);
-    if (painted && !wilderness) {
+    if (painted && !island && !wilderness) {
       const shop = source.art.acceptedCityBuildings.find((b) => b.id === "accepted-city-shop");
       if (shop)
         texture(ground[0]!, 1, (i) => {
@@ -408,6 +430,25 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       });
     }
     if (!wilderness) texture(water, waterAlpha, (i) => !(flags[i]! & 16));
+    if (island) {
+      texture(
+        pattern(`terrain.${feature}.shore`),
+        0.85,
+        (i) =>
+          !!(flags[i]! & 16) &&
+          [i - 2, i + 2, i - cols * 2, i + cols * 2].some(
+            (j) => j >= 0 && j < flags.length && !(flags[j]! & 16),
+          ),
+        false,
+      );
+      if (feature === "island-6")
+        texture(
+          pattern(`terrain.${feature}.lava`),
+          0.8,
+          (i) => !!(flags[i]! & 16) && !(flags[i]! & 1) && biome[i] === 3,
+          false,
+        );
+    }
     if (continent) {
       for (const b of biomes)
         texture(
@@ -576,6 +617,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     }
     if (
       painted &&
+      !island &&
       !paintedPyra &&
       !paintedNexus &&
       !(aetheriaContinent && wilderness && (biomes.has(2) || biomes.has(3)))
@@ -986,7 +1028,10 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             item.height * drawScale,
             ref.fit,
           )
-            .setOrigin(item.anchorX, item.anchorY)
+            .setOrigin(
+              island && ref.origin ? ref.origin[0] : item.anchorX,
+              island && ref.origin ? ref.origin[1] : item.anchorY,
+            )
             .setTint(
               ref.asset.startsWith("verdantia-continent-") ||
                 ref.asset.startsWith("verdantia-extra-") ||
@@ -1059,6 +1104,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         );
       }
     }
+    scene.game.canvas.dataset["islandArt"] = island ? feature : "off";
     scene.game.canvas.dataset["superiorChunks"] = String(live.size);
     scene.game.canvas.dataset["superiorPending"] = String(pending.size);
     scene.game.canvas.dataset["superiorPainted"] = String(painted);
@@ -1088,6 +1134,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       disposed = true;
       for (const id of [...live.keys()]) drop(id);
       if (continent && scene.textures.exists(shadowKey)) scene.textures.remove(shadowKey);
+      materials.clear();
       markers.splice(0).forEach((m) => m.destroy());
     },
   };

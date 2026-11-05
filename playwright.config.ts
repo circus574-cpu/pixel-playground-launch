@@ -52,6 +52,7 @@ export default defineConfig({
         "**/verdantia-continent.spec.ts",
         "**/pyra-continent.spec.ts",
         "**/aetheria-continent.spec.ts",
+        "**/island-art.spec.ts",
         "**/nexus-continent.spec.ts",
         "**/development.spec.ts",
         "**/verdant-painted-preview.spec.ts",
