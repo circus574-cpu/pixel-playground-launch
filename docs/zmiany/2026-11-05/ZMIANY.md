@@ -110,3 +110,4 @@
 - `SWIAT-I-MIASTA.md`, `GPU-I-ZASOBY.md`, `AGENTS.md`: Verdantia, Pyra i Aetheria są scalone (PR #118) i domyślnie włączone (`=0` wyłącza); opt-in `PREVIEW_SWITCHES` dotyczy tylko nowych, jeszcze nieodebranych pakietów.
 - `PLAN-I-ZADANIA.md`: checkpoint 05.11 z faktycznie otwartymi pracami (odbiory, animacje po transformacji, Nexus-9, ostrość globusu, nieaktualne e2e, stare gałęzie). `RASY-I-POSTACIE.md`, `README.md`: data i odnośniki.
 - Nie zmieniano treści historycznych (checkpointy 23–29.10, 01.11 zostają jako zapis). Kontrola: `scripts/docs/check_documentation.py`.
+- Dodano źródło właściciela: tabele rozwoju ras do poziomu 60 (`docs/design/source-annexes/KI_Legends_Tabele_Rozwoju_Ras_1-60.xlsx`), opis w [Rozwój i walka](../../ROZWOJ-I-WALKA.md#tabele-rozwoju-ras-160--przelicznik-właściciela-05112026). Bez zmian w kodzie.

@@ -2,10 +2,12 @@
 
 ## Bieżący checkpoint — 05.11.2026
 
-Kod: `main@f2625549` (PR #117 wielkości potworów, #118 oprawa kontynentów Verdantia/Pyra/Aetheria domyślnie włączona, #119 mapa i globus, #120 chód po transformacji `kiwalk`) oraz gałąź `feat/special-interiors` (malowane wnętrza budynków specjalnych) — jej status publikacji: [dziennik 05.11](zmiany/2026-11-05/ZMIANY.md). Hosting i bramka jakości bez zmian (poniżej, checkpoint 01.11). Dowody: [dziennik 05.11](zmiany/2026-11-05/ZMIANY.md), [04.11](zmiany/2026-11-04/ZMIANY.md).
+Kod: `main@555da1ea`, opublikowany na produkcję (PR #117 wielkości potworów, #118 oprawa kontynentów Verdantia/Pyra/Aetheria domyślnie włączona, #119 mapa i globus, #120 chód po transformacji `kiwalk`, #121 malowane wnętrza budynków specjalnych). Hosting i bramka jakości bez zmian (poniżej, checkpoint 01.11). Dowody: [dziennik 05.11](zmiany/2026-11-05/ZMIANY.md), [04.11](zmiany/2026-11-04/ZMIANY.md).
 
 Otwarte (stan faktyczny, bez zmian decyzji właściciela):
 
+- **Rozwój ras (niescalony):** Draft #90 (`feature/complete-character-development`, 12 commitów, stan 04.11): 12 prób ras w progresji serwerowej, poprawki bonusów wyposażenia; 24 z 48 prób, 72 ze 144 stopni, reszta kampanii rozwoju nieukończona. Draft #87 to audyt luk. Zgodność gałęzi z obecnym `main` niesprawdzona. Tabele poziomów 1–60 (źródło właściciela 05.11) czekają na decyzję; gra kończy się na poziomie 20.
+- **Nexus-9:** Codex nie wypchnął nowszej partii niż grafiki z 04.11 (PR #116, w `main` przez #118); integracja w grze nie istnieje.
 - **Odbiór właściciela:** nowa kuźnia Pyry (pozioma, 1920×1280), proporcje wnętrz pozostałych światów, wielkości potworów (mnożniki to propozycja projektowa).
 - **Animacje:** po transformacji bohater stoi, atakuje i ginie w formie bazowej (brak filmów tych stanów); Legenda i Planetar mają ukosy `kiwalk` zbudowane z profilu. Etapy 1–3 filmów Legendy (walka, reakcje, ruch) są zapisane w `art-wip/gemini-anim-stages/` z instrukcjami `art/pipeline/prompts/animacje/PROMPTY-ANIMACJE-v1.md`; nie są jeszcze w grze.
 - **Świat:** Nexus-9 ma 64 grafiki środowiska bez integracji w grze; globus jest nieostry przy dużym zbliżeniu (decyzja: warstwa terenu na globusie albo przejście do mapy 2D).

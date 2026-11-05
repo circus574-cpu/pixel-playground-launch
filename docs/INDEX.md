@@ -1,12 +1,12 @@
 # KI Legends — dokumentacja projektu
 
-Aktualizacja: **05.11.2026, po PR #120 (`main@f2625549`) i gałęzi `feat/special-interiors`**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
+Aktualizacja: **05.11.2026, po PR #121 (`main@555da1ea`, wdrożone na produkcję)**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
 
 **Stan na 05.11.2026 (szczegóły i dowody w [dzienniku 05.11](zmiany/2026-11-05/ZMIANY.md)):**
 
 - Oprawa kontynentów Verdantia, Pyra i Aetheria jest **scalona (PR #118) i domyślnie włączona**; wyłączenie: `?preview=ki-<świat>-continent=0`. Nexus-9 ma tylko komplet materiałów graficznych, bez integracji w grze ([04.11](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu)).
 - Wielkości potworów z pomiaru ciała (PR #117), mapa 2D/globus (PR #119) i chód po transformacji `kiwalk` dla czterech ras, paczki bohaterów `2.1.0` (PR #120) są na `main`.
-- Malowane wnętrza budynków specjalnych (4 światy × 6 budynków, pokoje 1920×1280) są na gałęzi `feat/special-interiors`; ich publikację opisuje dziennik 05.11.
+- Malowane wnętrza budynków specjalnych (4 światy × 6 budynków, pokoje 1920×1280) są scalone (PR #121) i opublikowane.
 - Serwerowy zapis i rozgrywka PvE (PR #69), panel postaci w `/admin` i miejski depozyt są scalone i opublikowane (01.11). Backend produkcyjny nadal działa na dotychczasowym Supabase; cutover na własny PostgreSQL czeka na odbiór właściciela.
 
 Bieżący stan, pozostałe zadania i źródła wyników: [plan](PLAN-I-ZADANIA.md#bieżący-checkpoint--05112026). Architektura serwerowego PvE i warunki cutoveru: [Architektura](ARCHITEKTURA-I-TESTY.md#kandydat-serwerowej-rozgrywki-pve--trzecia-partia-0111-pr-69).
