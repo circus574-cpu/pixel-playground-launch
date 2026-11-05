@@ -92,7 +92,7 @@ export function nexusSceneryName(item: ArtObject, biome = 0): string | undefined
   }
   if (/nexus-fern-/.test(b)) return biome >= 2 ? "luminous-grass" : "fern";
   if (/nexus-reeds-/.test(b)) return "luminous-grass";
-  if (/nexus-mushrooms-/.test(b)) return biome >= 2 ? "crystals" : "mushrooms";
+  if (/nexus-mushrooms-/.test(b)) return "mushrooms";
   if (/nexus-(bush|flowerbush)-/.test(b)) return biome >= 2 ? "luminous-grass" : "violet-bush";
   if (/nexus-(rocks|boulder)-/.test(b)) return biome >= 2 ? "basalt-ridge" : "rocks";
   if (/nexus-log-/.test(b)) return "log";
