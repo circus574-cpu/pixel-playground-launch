@@ -781,3 +781,31 @@ Efekty są pojedynczymi przezroczystymi obrazami do późniejszej animacji,
 a nie animowanymi sekwencjami. Ciągłość tekstur, maski brzegów i wydajność
 wymagają oceny podczas integracji. Bohaterowie, potwory, HUD i audio pozostają
 osobnymi istniejącymi zasobami. [Kontrole i podgląd](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu).
+
+
+## Superior — grafiki sześciu wysp, 05.11.2026
+
+`art/production/superior-islands-v1/` zawiera 12 nowych oryginalnych arkuszy PNG
+1536×1024, 12 opisów atlasów w formacie ramek Phaser/TexturePacker, pełne prompty,
+rejestr sześciu wysp i pochodzenie. To **36 tekstur i 36 dekoracji w arkuszach**,
+a nie 72 osobne pliki obrazów. Źródła wygenerowano narzędziem OpenAI image_gen,
+bez referencji obrazkowych; dokładny model nie został zwrócony przez narzędzie.
+Oryginalne bajty PNG zachowano; nie wycinano ani nie przemalowywano ich skryptem.
+
+Wyspy mają osobne palety i materiały: polarna perła/akwamaryn, jadeit/źródła,
+ametyst/stare złoto, ciepły neutralny port, srebrzyste mokradła oraz bazalt/żar/szron.
+To propozycja kierunku oprawy zgodna z bieżącymi powinowactwami i koncepcjami wysp,
+nie zmiana ich położenia, biomów, nazw kanonicznych ani geometrii. Nazwy z księgi
+pozostają nazwami projektowymi.
+
+Podgląd galerii: `art/production/superior-islands-v1/preview.html` (pliki lokalne,
+bez CDN). Zestaw nie jest podpięty do gry. Ramki 512×512 są opisem pól arkusza;
+przed importem trzeba odebrać krawędzie/matowanie i marginesy dekoracji, rozmiar,
+punkt oparcia i footprint zgodny z kolizją. Kanał alfa jest obecny, ale miękkie
+piksele tła wymagają oceny na rzeczywistym podłożu. Tekstury nie mają jeszcze
+certyfikowanego powtarzania bez szwu. Arkusza nie wolno używać jako kompletnej mapy.
+Nie ładować wszystkich wysp jednocześnie: dwa aktywne arkusze to około 12 MiB
+surowego RGBA przed mipmapami, bez pomiaru wydajności telefonu.
+
+Kontrola plików: `python3 art/production/superior-islands-v1/validate.py`.
+[Wyniki, zakres i instrukcja](zmiany/2026-11-05/ZMIANY.md#grafiki-i-tekstury-sześciu-wysp-superior).

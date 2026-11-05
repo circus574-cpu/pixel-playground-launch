@@ -1,0 +1,62 @@
+{
+  "id": "island-3",
+  "projectName": "Wyspa Odwróconej Latarki",
+  "nameStatus": "project name from docs/FABULA-I-EKWIPUNEK.md, not a rename of world geometry",
+  "style": "Ametyst, różowy kwarc i stare złoto",
+  "worldAffinity": "aether",
+  "existingBiomeNames": [
+    "tarasy źródeł",
+    "święty gaj",
+    "lodowe szczyty",
+    "lodowce"
+  ],
+  "atlases": [
+    {
+      "kind": "terrain",
+      "image": "island-3/terrain.png",
+      "descriptor": "island-3/terrain.atlas.json",
+      "prompt": "island-3/terrain.prompt.txt",
+      "sha256": "f194e656ceeaf605cb8bab8f8b6c21105d7eba4533b58b6a88facd78731aa061",
+      "sourceImage": "exec-2ff2b76c-bbb1-4d32-8e92-f10988691651.png",
+      "bytes": 3149768,
+      "frames": [
+        "island-3.terrain.violet-moss",
+        "island-3.terrain.amethyst-rock",
+        "island-3.terrain.crystal-dust",
+        "island-3.terrain.lantern-paving",
+        "island-3.terrain.quartz-shore",
+        "island-3.terrain.indigo-water"
+      ],
+      "alpha": null
+    },
+    {
+      "kind": "props",
+      "image": "island-3/props.png",
+      "descriptor": "island-3/props.atlas.json",
+      "prompt": "island-3/props.prompt.txt",
+      "sha256": "b9af86734afcd0de54e23148519f69baf3f8934cbb318c5d601453c44b165de3",
+      "sourceImage": "exec-bec004d9-5f53-492c-be89-06097fa8c383.png",
+      "bytes": 2458510,
+      "frames": [
+        "island-3.props.violet-tree",
+        "island-3.props.rose-crystals",
+        "island-3.props.inverted-lantern",
+        "island-3.props.ritual-plinth",
+        "island-3.props.violet-arch",
+        "island-3.props.archive-chest"
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 254,
+        "zeroFraction": 0.3669884999593099,
+        "below16Fraction": 0.6220747629801432,
+        "cornerValues": [
+          1,
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  ]
+}

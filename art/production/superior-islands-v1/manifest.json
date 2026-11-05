@@ -1,0 +1,392 @@
+{
+  "format": "ki-superior-island-art-1",
+  "baseSha": "c099f607e64b308ac8bc3e27b599ed0b693af047",
+  "createdAtUtc": "2026-11-05T20:29:09.425948+00:00",
+  "status": "generated-source-atlases-not-installed",
+  "generator": "OpenAI image_gen tool; exact model/version not exposed",
+  "geographyModified": false,
+  "bindingPolicy": "Presentation candidates only. Keep current world geometry, collisions, spawns and saves. No production bindings installed by this delivery.",
+  "tilingStatus": "Candidate material textures; seamless edge repetition has not been certified in Phaser.",
+  "spriteStatus": "RGBA source sheets; frame padding, matte fringes, anchor, size and collision footprint need final importer/runtime review.",
+  "islands": [
+    {
+      "id": "island-1",
+      "projectName": "Wyspa Pierwszego Echa",
+      "nameStatus": "project name from docs/FABULA-I-EKWIPUNEK.md, not a rename of world geometry",
+      "style": "Polarna perła, lodowiec i akwamaryn",
+      "worldAffinity": "aether",
+      "existingBiomeNames": [
+        "tarasy źródeł",
+        "święty gaj",
+        "lodowe szczyty",
+        "lodowce"
+      ],
+      "atlases": [
+        {
+          "kind": "terrain",
+          "image": "island-1/terrain.png",
+          "descriptor": "island-1/terrain.atlas.json",
+          "prompt": "island-1/terrain.prompt.txt",
+          "sha256": "1d00abbdd42e6da27a57ed7389122a57dfe9eb31ae91ac9ebf7ca72a75d20a24",
+          "sourceImage": "exec-c585e1e1-a50c-45aa-a38e-346762ef3128.png",
+          "bytes": 2919785,
+          "frames": [
+            "island-1.terrain.snow",
+            "island-1.terrain.glacier-ice",
+            "island-1.terrain.pearl-stone",
+            "island-1.terrain.sacred-paving",
+            "island-1.terrain.frost-shore",
+            "island-1.terrain.polar-water"
+          ],
+          "alpha": null
+        },
+        {
+          "kind": "props",
+          "image": "island-1/props.png",
+          "descriptor": "island-1/props.atlas.json",
+          "prompt": "island-1/props.prompt.txt",
+          "sha256": "06997f670005b0cefb72f730b5f5e1a7ab76570051282f1da5864f9c5df29e07",
+          "sourceImage": "exec-e415a08d-7065-411a-bd70-5916ad257d6e.png",
+          "bytes": 2453157,
+          "frames": [
+            "island-1.props.polar-conifer",
+            "island-1.props.glacier-crystals",
+            "island-1.props.pearl-boulder",
+            "island-1.props.echo-altar",
+            "island-1.props.frost-arch",
+            "island-1.props.expedition-chest"
+          ],
+          "alpha": {
+            "min": 0,
+            "max": 253,
+            "zeroFraction": 0.1770025889078776,
+            "below16Fraction": 0.5835450490315756,
+            "cornerValues": [
+              1,
+              0,
+              1,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "island-2",
+      "projectName": "Wyspa Złamanej Pieczęci",
+      "nameStatus": "project name from docs/FABULA-I-EKWIPUNEK.md, not a rename of world geometry",
+      "style": "Jadeitowy ogród, źródła i stare pieczęcie",
+      "worldAffinity": "aether",
+      "existingBiomeNames": [
+        "tarasy źródeł",
+        "święty gaj",
+        "lodowe szczyty",
+        "lodowce"
+      ],
+      "atlases": [
+        {
+          "kind": "terrain",
+          "image": "island-2/terrain.png",
+          "descriptor": "island-2/terrain.atlas.json",
+          "prompt": "island-2/terrain.prompt.txt",
+          "sha256": "7f980f085e0186a7e1ea4b211a2c05907ec87f8d5a3f2cddbdbf7de5cbe5b6d1",
+          "sourceImage": "exec-ea95126c-7506-4dee-90b1-908d74980448.png",
+          "bytes": 3713722,
+          "frames": [
+            "island-2.terrain.jade-grass",
+            "island-2.terrain.limestone",
+            "island-2.terrain.moss-floor",
+            "island-2.terrain.seal-paving",
+            "island-2.terrain.spring-shore",
+            "island-2.terrain.jade-water"
+          ],
+          "alpha": null
+        },
+        {
+          "kind": "props",
+          "image": "island-2/props.png",
+          "descriptor": "island-2/props.atlas.json",
+          "prompt": "island-2/props.prompt.txt",
+          "sha256": "87ab52444eef4c01b4a0279d58a90ae9bb96f843db4c0b474b8fa60779459829",
+          "sourceImage": "exec-9e809e23-6117-43fe-9ab8-4be429507c4c.png",
+          "bytes": 2816108,
+          "frames": [
+            "island-2.props.ginkgo",
+            "island-2.props.fern",
+            "island-2.props.jade-boulder",
+            "island-2.props.broken-seal",
+            "island-2.props.archive-arch",
+            "island-2.props.jade-chest"
+          ],
+          "alpha": {
+            "min": 0,
+            "max": 253,
+            "zeroFraction": 0.0005385080973307291,
+            "below16Fraction": 0.4021778106689453,
+            "cornerValues": [
+              3,
+              1,
+              1,
+              2
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "island-3",
+      "projectName": "Wyspa Odwróconej Latarki",
+      "nameStatus": "project name from docs/FABULA-I-EKWIPUNEK.md, not a rename of world geometry",
+      "style": "Ametyst, różowy kwarc i stare złoto",
+      "worldAffinity": "aether",
+      "existingBiomeNames": [
+        "tarasy źródeł",
+        "święty gaj",
+        "lodowe szczyty",
+        "lodowce"
+      ],
+      "atlases": [
+        {
+          "kind": "terrain",
+          "image": "island-3/terrain.png",
+          "descriptor": "island-3/terrain.atlas.json",
+          "prompt": "island-3/terrain.prompt.txt",
+          "sha256": "f194e656ceeaf605cb8bab8f8b6c21105d7eba4533b58b6a88facd78731aa061",
+          "sourceImage": "exec-2ff2b76c-bbb1-4d32-8e92-f10988691651.png",
+          "bytes": 3149768,
+          "frames": [
+            "island-3.terrain.violet-moss",
+            "island-3.terrain.amethyst-rock",
+            "island-3.terrain.crystal-dust",
+            "island-3.terrain.lantern-paving",
+            "island-3.terrain.quartz-shore",
+            "island-3.terrain.indigo-water"
+          ],
+          "alpha": null
+        },
+        {
+          "kind": "props",
+          "image": "island-3/props.png",
+          "descriptor": "island-3/props.atlas.json",
+          "prompt": "island-3/props.prompt.txt",
+          "sha256": "b9af86734afcd0de54e23148519f69baf3f8934cbb318c5d601453c44b165de3",
+          "sourceImage": "exec-bec004d9-5f53-492c-be89-06097fa8c383.png",
+          "bytes": 2458510,
+          "frames": [
+            "island-3.props.violet-tree",
+            "island-3.props.rose-crystals",
+            "island-3.props.inverted-lantern",
+            "island-3.props.ritual-plinth",
+            "island-3.props.violet-arch",
+            "island-3.props.archive-chest"
+          ],
+          "alpha": {
+            "min": 0,
+            "max": 254,
+            "zeroFraction": 0.3669884999593099,
+            "below16Fraction": 0.6220747629801432,
+            "cornerValues": [
+              1,
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "island-4",
+      "projectName": "Wyspa Czterech Cum",
+      "nameStatus": "project name from docs/FABULA-I-EKWIPUNEK.md, not a rename of world geometry",
+      "style": "Ciepłe wybrzeże, oliwki i neutralny port",
+      "worldAffinity": "verdant",
+      "existingBiomeNames": [
+        "łąki",
+        "las",
+        "kamienne wzgórza",
+        "mokradła"
+      ],
+      "atlases": [
+        {
+          "kind": "terrain",
+          "image": "island-4/terrain.png",
+          "descriptor": "island-4/terrain.atlas.json",
+          "prompt": "island-4/terrain.prompt.txt",
+          "sha256": "35351e41075281da614b564cb01f8f7ff118870397d3c1cd7416bc718b1755e8",
+          "sourceImage": "exec-66a23f7d-300f-4493-a431-6d159c013568.png",
+          "bytes": 3268942,
+          "frames": [
+            "island-4.terrain.coastal-grass",
+            "island-4.terrain.terracotta-rock",
+            "island-4.terrain.olive-humus",
+            "island-4.terrain.harbour-paving",
+            "island-4.terrain.gold-sand",
+            "island-4.terrain.azure-water"
+          ],
+          "alpha": null
+        },
+        {
+          "kind": "props",
+          "image": "island-4/props.png",
+          "descriptor": "island-4/props.atlas.json",
+          "prompt": "island-4/props.prompt.txt",
+          "sha256": "9e722d59fd13e2a338e511d93cc6a5d6cbe5b141d7d50a676366b991994e9eeb",
+          "sourceImage": "exec-53cb148f-8313-4ac1-b9ba-1f85f2789ee2.png",
+          "bytes": 2814135,
+          "frames": [
+            "island-4.props.olive-tree",
+            "island-4.props.coastal-shrub",
+            "island-4.props.honey-boulder",
+            "island-4.props.moorings",
+            "island-4.props.harbour-arch",
+            "island-4.props.merchant-cargo"
+          ],
+          "alpha": {
+            "min": 0,
+            "max": 253,
+            "zeroFraction": 0.0018355051676432292,
+            "below16Fraction": 0.5393632253011068,
+            "cornerValues": [
+              2,
+              0,
+              2,
+              1
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "island-5",
+      "projectName": "Wyspa Milczącego Nieba",
+      "nameStatus": "project name from docs/FABULA-I-EKWIPUNEK.md, not a rename of world geometry",
+      "style": "Srebrzyste mokradła, łupek i milczące przekaźniki",
+      "worldAffinity": "verdant",
+      "existingBiomeNames": [
+        "łąki",
+        "las",
+        "kamienne wzgórza",
+        "mokradła"
+      ],
+      "atlases": [
+        {
+          "kind": "terrain",
+          "image": "island-5/terrain.png",
+          "descriptor": "island-5/terrain.atlas.json",
+          "prompt": "island-5/terrain.prompt.txt",
+          "sha256": "5c299ca4071a1352aefbaf298121a35349bb73c68da09f20a15eb257bae8fe47",
+          "sourceImage": "exec-c0244511-4edb-4bb2-be38-be4f02b1de1e.png",
+          "bytes": 3370914,
+          "frames": [
+            "island-5.terrain.silver-grass",
+            "island-5.terrain.wet-slate",
+            "island-5.terrain.marsh-peat",
+            "island-5.terrain.relay-path",
+            "island-5.terrain.silt-shore",
+            "island-5.terrain.petrol-water"
+          ],
+          "alpha": null
+        },
+        {
+          "kind": "props",
+          "image": "island-5/props.png",
+          "descriptor": "island-5/props.atlas.json",
+          "prompt": "island-5/props.prompt.txt",
+          "sha256": "d4ace9b3f4af32da43460b21c3f07121ac0a05a7323dcf3aef0c4d5c4d74b338",
+          "sourceImage": "exec-a33286e6-de92-402a-859f-435e63b5c0ce.png",
+          "bytes": 2713128,
+          "frames": [
+            "island-5.props.silver-willow",
+            "island-5.props.burgundy-fern",
+            "island-5.props.slate-boulder",
+            "island-5.props.broken-relay",
+            "island-5.props.wetland-arch",
+            "island-5.props.travel-chest"
+          ],
+          "alpha": {
+            "min": 0,
+            "max": 253,
+            "zeroFraction": 0.1827678680419922,
+            "below16Fraction": 0.5602181752522787,
+            "cornerValues": [
+              1,
+              0,
+              1,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "island-6",
+      "projectName": "Wyspa Ostatniego Tonu",
+      "nameStatus": "project name from docs/FABULA-I-EKWIPUNEK.md, not a rename of world geometry",
+      "style": "Obsydian, miedź, żar i polarny szron",
+      "worldAffinity": "pyra",
+      "existingBiomeNames": [
+        "popielne pola",
+        "bazalt",
+        "wulkany",
+        "kaniony"
+      ],
+      "atlases": [
+        {
+          "kind": "terrain",
+          "image": "island-6/terrain.png",
+          "descriptor": "island-6/terrain.atlas.json",
+          "prompt": "island-6/terrain.prompt.txt",
+          "sha256": "a5345cc1088f6b23756023c75047154eaf3faa3241ad03f8940e78ca15260241",
+          "sourceImage": "exec-13a4cd8f-78a8-47f2-9a69-840d44141df4.png",
+          "bytes": 3254727,
+          "frames": [
+            "island-6.terrain.volcanic-ash",
+            "island-6.terrain.obsidian",
+            "island-6.terrain.frost-gravel",
+            "island-6.terrain.core-paving",
+            "island-6.terrain.black-sand",
+            "island-6.terrain.ember-melt"
+          ],
+          "alpha": null
+        },
+        {
+          "kind": "props",
+          "image": "island-6/props.png",
+          "descriptor": "island-6/props.atlas.json",
+          "prompt": "island-6/props.prompt.txt",
+          "sha256": "a21a3eedb5a70da300ee3bff6ffc0b6193132434d2995ab4a6e2f0a884539ad0",
+          "sourceImage": "exec-f1e169dd-2f40-45b1-9a16-f46499a13d0d.png",
+          "bytes": 2591843,
+          "frames": [
+            "island-6.props.deadwood",
+            "island-6.props.ember-obsidian",
+            "island-6.props.copper-brazier",
+            "island-6.props.core-altar",
+            "island-6.props.basalt-arch",
+            "island-6.props.expedition-chest"
+          ],
+          "alpha": {
+            "min": 0,
+            "max": 252,
+            "zeroFraction": 1.0808308919270834e-05,
+            "below16Fraction": 0.286013921101888,
+            "cornerValues": [
+              4,
+              2,
+              4,
+              3
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "islands": 6,
+    "pngAtlases": 12,
+    "terrainFrames": 36,
+    "propFrames": 36,
+    "totalFrames": 72
+  }
+}

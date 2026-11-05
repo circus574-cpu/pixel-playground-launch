@@ -1,0 +1,212 @@
+{
+  "baseSha": "c099f607e64b308ac8bc3e27b599ed0b693af047",
+  "scope": "File decoding, image dimensions, alpha presence, frame bounds/counts and SHA-256; not a Phaser runtime or tiling acceptance test",
+  "result": "PASS",
+  "counts": {
+    "islands": 6,
+    "pngAtlases": 12,
+    "terrainFrames": 36,
+    "propFrames": 36,
+    "totalFrames": 72
+  },
+  "images": [
+    {
+      "island": 1,
+      "kind": "terrain",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "frameCount": 6,
+      "sha256": "1d00abbdd42e6da27a57ed7389122a57dfe9eb31ae91ac9ebf7ca72a75d20a24",
+      "alpha": null
+    },
+    {
+      "island": 1,
+      "kind": "props",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "frameCount": 6,
+      "sha256": "06997f670005b0cefb72f730b5f5e1a7ab76570051282f1da5864f9c5df29e07",
+      "alpha": {
+        "min": 0,
+        "max": 253,
+        "zeroFraction": 0.1770025889078776,
+        "below16Fraction": 0.5835450490315756,
+        "cornerValues": [
+          1,
+          0,
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "island": 2,
+      "kind": "terrain",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "frameCount": 6,
+      "sha256": "7f980f085e0186a7e1ea4b211a2c05907ec87f8d5a3f2cddbdbf7de5cbe5b6d1",
+      "alpha": null
+    },
+    {
+      "island": 2,
+      "kind": "props",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "frameCount": 6,
+      "sha256": "87ab52444eef4c01b4a0279d58a90ae9bb96f843db4c0b474b8fa60779459829",
+      "alpha": {
+        "min": 0,
+        "max": 253,
+        "zeroFraction": 0.0005385080973307291,
+        "below16Fraction": 0.4021778106689453,
+        "cornerValues": [
+          3,
+          1,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "island": 3,
+      "kind": "terrain",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "frameCount": 6,
+      "sha256": "f194e656ceeaf605cb8bab8f8b6c21105d7eba4533b58b6a88facd78731aa061",
+      "alpha": null
+    },
+    {
+      "island": 3,
+      "kind": "props",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "frameCount": 6,
+      "sha256": "b9af86734afcd0de54e23148519f69baf3f8934cbb318c5d601453c44b165de3",
+      "alpha": {
+        "min": 0,
+        "max": 254,
+        "zeroFraction": 0.3669884999593099,
+        "below16Fraction": 0.6220747629801432,
+        "cornerValues": [
+          1,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "island": 4,
+      "kind": "terrain",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "frameCount": 6,
+      "sha256": "35351e41075281da614b564cb01f8f7ff118870397d3c1cd7416bc718b1755e8",
+      "alpha": null
+    },
+    {
+      "island": 4,
+      "kind": "props",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "frameCount": 6,
+      "sha256": "9e722d59fd13e2a338e511d93cc6a5d6cbe5b141d7d50a676366b991994e9eeb",
+      "alpha": {
+        "min": 0,
+        "max": 253,
+        "zeroFraction": 0.0018355051676432292,
+        "below16Fraction": 0.5393632253011068,
+        "cornerValues": [
+          2,
+          0,
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "island": 5,
+      "kind": "terrain",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "frameCount": 6,
+      "sha256": "5c299ca4071a1352aefbaf298121a35349bb73c68da09f20a15eb257bae8fe47",
+      "alpha": null
+    },
+    {
+      "island": 5,
+      "kind": "props",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "frameCount": 6,
+      "sha256": "d4ace9b3f4af32da43460b21c3f07121ac0a05a7323dcf3aef0c4d5c4d74b338",
+      "alpha": {
+        "min": 0,
+        "max": 253,
+        "zeroFraction": 0.1827678680419922,
+        "below16Fraction": 0.5602181752522787,
+        "cornerValues": [
+          1,
+          0,
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "island": 6,
+      "kind": "terrain",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "frameCount": 6,
+      "sha256": "a5345cc1088f6b23756023c75047154eaf3faa3241ad03f8940e78ca15260241",
+      "alpha": null
+    },
+    {
+      "island": 6,
+      "kind": "props",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "frameCount": 6,
+      "sha256": "a21a3eedb5a70da300ee3bff6ffc0b6193132434d2995ab4a6e2f0a884539ad0",
+      "alpha": {
+        "min": 0,
+        "max": 252,
+        "zeroFraction": 1.0808308919270834e-05,
+        "below16Fraction": 0.286013921101888,
+        "cornerValues": [
+          4,
+          2,
+          4,
+          3
+        ]
+      }
+    }
+  ]
+}

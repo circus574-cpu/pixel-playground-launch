@@ -2,6 +2,10 @@
 
 Aktualizacja: **05.11.2026, po PR #121 (`main@555da1ea`, wdrożone na produkcję)**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
 
+**Nowa dostawa grafik wysp, osobna gałąź:** sześć różnych zestawów, 36 tekstur
+oraz 36 dekoracji w 12 arkuszach, bez integracji runtime.
+[Źródła i kontrole](zmiany/2026-11-05/ZMIANY.md#grafiki-i-tekstury-sześciu-wysp-superior).
+
 **Stan na 05.11.2026 (szczegóły i dowody w [dzienniku 05.11](zmiany/2026-11-05/ZMIANY.md)):**
 
 - Oprawa kontynentów Verdantia, Pyra i Aetheria jest **scalona (PR #118) i domyślnie włączona**; wyłączenie: `?preview=ki-<świat>-continent=0`. Nexus-9 ma tylko komplet materiałów graficznych, bez integracji w grze ([04.11](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu)).
