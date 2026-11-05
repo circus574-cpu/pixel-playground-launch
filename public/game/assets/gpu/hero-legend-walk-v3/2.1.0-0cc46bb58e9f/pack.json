@@ -1,45 +1,54 @@
 {
   "schemaVersion": 1,
   "id": "hero-legend-walk-v3",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "hero-legend-walk-v3-page-0",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.0.0-26a8b9ebec6d/hero-legend-walk-v3-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.0.0-26a8b9ebec6d/hero-legend-walk-v3-page-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-page-0.json",
       "width": 2048,
       "height": 2048
     },
     {
       "id": "hero-legend-walk-v3-idle-0",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.0.0-26a8b9ebec6d/hero-legend-walk-v3-idle-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.0.0-26a8b9ebec6d/hero-legend-walk-v3-idle-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-idle-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-idle-0.json",
       "width": 2048,
       "height": 2048
     },
     {
       "id": "hero-legend-walk-v3-fight-0",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.0.0-26a8b9ebec6d/hero-legend-walk-v3-fight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.0.0-26a8b9ebec6d/hero-legend-walk-v3-fight-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-fight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-fight-0.json",
       "width": 2048,
       "height": 1792
     },
     {
       "id": "hero-legend-walk-v3-fight-1",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.0.0-26a8b9ebec6d/hero-legend-walk-v3-fight-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.0.0-26a8b9ebec6d/hero-legend-walk-v3-fight-1.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-fight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-fight-1.json",
       "width": 2048,
       "height": 512
+    },
+    {
+      "id": "hero-legend-walk-v3-kiwalk-0",
+      "version": "2.1.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-kiwalk-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-kiwalk-0.json",
+      "width": 2048,
+      "height": 728
     }
   ],
   "actors": [
@@ -631,6 +640,93 @@
               "hero-legend/respawn/right/05",
               "hero-legend/respawn/right/06",
               "hero-legend/respawn/right/07"
+            ]
+          }
+        },
+        "kiwalk": {
+          "asset": "hero-legend-walk-v3-kiwalk-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-legend/kiwalk/down/00",
+              "hero-legend/kiwalk/down/01",
+              "hero-legend/kiwalk/down/02",
+              "hero-legend/kiwalk/down/03",
+              "hero-legend/kiwalk/down/04",
+              "hero-legend/kiwalk/down/05",
+              "hero-legend/kiwalk/down/06",
+              "hero-legend/kiwalk/down/07"
+            ],
+            "down-left": [
+              "hero-legend/kiwalk/down-left/00",
+              "hero-legend/kiwalk/down-left/01",
+              "hero-legend/kiwalk/down-left/02",
+              "hero-legend/kiwalk/down-left/03",
+              "hero-legend/kiwalk/down-left/04",
+              "hero-legend/kiwalk/down-left/05",
+              "hero-legend/kiwalk/down-left/06",
+              "hero-legend/kiwalk/down-left/07"
+            ],
+            "left": [
+              "hero-legend/kiwalk/down-left/00",
+              "hero-legend/kiwalk/down-left/01",
+              "hero-legend/kiwalk/down-left/02",
+              "hero-legend/kiwalk/down-left/03",
+              "hero-legend/kiwalk/down-left/04",
+              "hero-legend/kiwalk/down-left/05",
+              "hero-legend/kiwalk/down-left/06",
+              "hero-legend/kiwalk/down-left/07"
+            ],
+            "up-left": [
+              "hero-legend/kiwalk/down-left/00",
+              "hero-legend/kiwalk/down-left/01",
+              "hero-legend/kiwalk/down-left/02",
+              "hero-legend/kiwalk/down-left/03",
+              "hero-legend/kiwalk/down-left/04",
+              "hero-legend/kiwalk/down-left/05",
+              "hero-legend/kiwalk/down-left/06",
+              "hero-legend/kiwalk/down-left/07"
+            ],
+            "up": [
+              "hero-legend/kiwalk/up/00",
+              "hero-legend/kiwalk/up/01",
+              "hero-legend/kiwalk/up/02",
+              "hero-legend/kiwalk/up/03",
+              "hero-legend/kiwalk/up/04",
+              "hero-legend/kiwalk/up/05",
+              "hero-legend/kiwalk/up/06",
+              "hero-legend/kiwalk/up/07"
+            ],
+            "up-right": [
+              "hero-legend/kiwalk/up-right/00",
+              "hero-legend/kiwalk/up-right/01",
+              "hero-legend/kiwalk/up-right/02",
+              "hero-legend/kiwalk/up-right/03",
+              "hero-legend/kiwalk/up-right/04",
+              "hero-legend/kiwalk/up-right/05",
+              "hero-legend/kiwalk/up-right/06",
+              "hero-legend/kiwalk/up-right/07"
+            ],
+            "right": [
+              "hero-legend/kiwalk/up-right/00",
+              "hero-legend/kiwalk/up-right/01",
+              "hero-legend/kiwalk/up-right/02",
+              "hero-legend/kiwalk/up-right/03",
+              "hero-legend/kiwalk/up-right/04",
+              "hero-legend/kiwalk/up-right/05",
+              "hero-legend/kiwalk/up-right/06",
+              "hero-legend/kiwalk/up-right/07"
+            ],
+            "down-right": [
+              "hero-legend/kiwalk/up-right/00",
+              "hero-legend/kiwalk/up-right/01",
+              "hero-legend/kiwalk/up-right/02",
+              "hero-legend/kiwalk/up-right/03",
+              "hero-legend/kiwalk/up-right/04",
+              "hero-legend/kiwalk/up-right/05",
+              "hero-legend/kiwalk/up-right/06",
+              "hero-legend/kiwalk/up-right/07"
             ]
           }
         }

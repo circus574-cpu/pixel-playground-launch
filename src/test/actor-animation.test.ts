@@ -19,6 +19,38 @@ function rig() {
     ),
   };
 }
+describe("Tryb KI walk (kiwalk)", () => {
+  const withKi = () => {
+    const base = actorVisual("verdant", "hero", undefined, false, catalog);
+    const sprite = {
+      anims: { pause: vi.fn(), resume: vi.fn() },
+      play: vi.fn(),
+      stop: vi.fn(),
+      setTexture: vi.fn(),
+    };
+    return {
+      sprite,
+      animation: new ActorAnimation(sprite as unknown as Phaser.GameObjects.Sprite, base),
+    };
+  };
+  it("walks in the powered-up form only while Tryb KI is active and the hero moves", () => {
+    const { animation, sprite } = withKi();
+    animation.update(0, true, false, { x: 1, y: 0 }, false, false);
+    expect(animation.state).toBe("walk");
+    animation.update(100, true, false, { x: 1, y: 0 }, false, true);
+    expect(animation.state).toBe("kiwalk");
+    expect(String(sprite.play.mock.calls.at(-1)?.[0])).toContain("/kiwalk/");
+    animation.update(200, false, false, { x: 1, y: 0 }, false, true);
+    expect(animation.state).toBe("idle");
+    animation.update(300, true, false, { x: 1, y: 0 }, false, false);
+    expect(animation.state).toBe("walk");
+  });
+  it("falls back to the normal walk for a hero without a kiwalk clip", () => {
+    const { animation } = rig();
+    animation.update(0, true, false, { x: 1, y: 0 }, false, true);
+    expect(animation.state).toBe("walk");
+  });
+});
 describe("animation presentation remains separate from mechanical actions", () => {
   it("maps all eight real movement vectors and does not restart an unchanged clip", () => {
     const { sprite, animation } = rig();

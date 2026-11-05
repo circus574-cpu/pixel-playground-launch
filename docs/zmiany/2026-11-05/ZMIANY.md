@@ -55,15 +55,24 @@
 
 ## Materiały animacji ras
 
-### 4. Chód po transformacji (4 filmy Gemini, tylko zapis)
+### 4. Chód po transformacji w grze (4 rasy, Tryb KI)
 
-- Właściciel (05.11.2026) przekazał 4 filmy chodu postaci po transformacji, w innej formie niż chód bazowy. Zapisane bez obróbki w `art-wip/gemini-walk-videos/`
-  obok istniejących `*-walk`, `*-fight` i `*-transform`: `android-walk-transformed.mp4`, `legend-walk-transformed.mp4`, `sage-walk-transformed.mp4`,
-  `planetary-walk-transformed.mp4`.
-- Wszystkie: H.264 1280×720, 24 kl./s, 10 s, z dźwiękiem AAC; białe lub jasnoszare tło (nie przezroczyste), widok z boku.
-- Przypisanie do ras z wyglądu postaci, porównanego z istniejącymi filmami `*-fight` tych ras: Android (srebrne włosy, pancerz z niebieskimi obwodami),
-  Legenda (czerwony pancerz), Mędrzec (kobieta w turkusowej sukni), Planetar (zielono-biały strój z pomarańczowym szalem).
-- To materiał roboczy (`art-wip`): nie jest podpięty do gry ani wycięty na klatki. Wycięcie klatek z tłem na przezroczystość to osobny krok.
+- Właściciel (05.11.2026) przekazał 4 filmy chodu postaci po transformacji; poprawił mnie, że poprzednie filmy też cięliśmy na klipy w grze, więc te też mają trafić do gry.
+  Filmy zapisane bez obróbki w `art-wip/gemini-walk-videos/<rasa>-walk-transformed.mp4` (H.264 1280×720, 24 kl./s, 10 s, białe lub jasnoszare tło).
+- Nowy klip `kiwalk` (8 kierunków × 8 klatek, 256 px, 16 kl./s, pętla) w paczkach `hero-{android,legend,sage-painted,planetary-painted}-walk-v3`, wersja 2.0.0 → 2.1.0
+  (stare katalogi 2.0.0 usunięte). Gra wybiera go zamiast `walk` tylko przy ruchu i aktywnym bonusie `T` (Tryb KI, 20 s): nowy stan `kiwalk` w `STATES`,
+  `ActorAnimation.update(..., kiForm)`, `mountGame` podaje `session.kit.buffs.some((b) => b.id === "T")`. Bez klipu w paczce zostaje `walk`.
+- Wycinanie (powtarzalne: `scripts/anim/kiwalk_build.py`, `kiwalk_pack.py`): w filmach postać obraca się w miejscu przez wszystkie widoki. Dla każdego kierunku wybrano moment najlepszego widoku
+  (z podglądu, nie automatem: dopasowanie sylwetek nie odróżnia przodu od tyłu), jeden cykl kroku (okres wykryty z profilu: 16–30 klatek), 8 klatek, tło wycięte `rembg` (isnet-anime),
+  skala do wysokości istniejącego chodu rasy, stopy na tej samej linii. Lewa strona to lustro prawej tam, gdzie film pokazuje tylko jedną.
+- Legenda i Planetar obracają się w filmie zbyt szybko na stabilne ukosy (w pętli widać było obrót), więc ich ukosy to profil; Android i Mędrzec mają własne ukosy.
+- Budżet tekstur: pełny atlas 2048×2048 (16 MiB) przekraczał limit 128 MiB w Verdantii (Planetar). Klatki są więc przycięte do postaci i ciasno upakowane (klatki `trimmed` w atlasie Phaser,
+  akceptowane przez importer): Android 9,5, Mędrzec 7,7, Legenda 6,0, Planetar 3,8 MiB rozkodowane. Największy świat (Verdantia) ma teraz 123,7 MiB z 128.
+- Test w prawdziwej grze (build playtest, Chromium z programowym WebGL): atlasy ładują się, klip `kiwalk` gra w 4 kierunkach dla wszystkich ras, brak błędów w konsoli, skala postaci zgodna z bazową.
+  Flagę formy KI wymuszono w teście (przez `?ki-debug=1`), bo Tryb KI wymaga wszystkich trzech ostatecznych technik, a gra przycina więcej niż budżet punktów.
+- Testy: `src/test/actor-animation.test.ts` (wybór `kiwalk`, zapas bez klipu), `src/test/gpu-pipeline.test.ts` (osiem klipów, 480 odwołań, atlas `kiwalk`).
+- Nie zrobione: forma po transformacji dla stania, ataku, umiejętności, trafienia i śmierci (brak filmów; po transformacji stoi i walczy w formie bazowej, co przy zatrzymaniu daje widoczną zmianę formy).
+  Nie sprawdzono na fizycznym telefonie.
 
 ### 5. Prompty animacji (etapy 1-3) i filmy Legendy
 

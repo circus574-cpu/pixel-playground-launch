@@ -1,45 +1,54 @@
 {
   "schemaVersion": 1,
   "id": "hero-android-walk-v3",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "hero-android-walk-v3-page-0",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/2.0.0-fb146117b847/hero-android-walk-v3-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.0.0-fb146117b847/hero-android-walk-v3-page-0.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/2.1.0-af98e849f26b/hero-android-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.1.0-af98e849f26b/hero-android-walk-v3-page-0.json",
       "width": 2048,
       "height": 2048
     },
     {
       "id": "hero-android-walk-v3-idle-0",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/2.0.0-fb146117b847/hero-android-walk-v3-idle-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.0.0-fb146117b847/hero-android-walk-v3-idle-0.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/2.1.0-af98e849f26b/hero-android-walk-v3-idle-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.1.0-af98e849f26b/hero-android-walk-v3-idle-0.json",
       "width": 2048,
       "height": 2048
     },
     {
       "id": "hero-android-walk-v3-fight-0",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/2.0.0-fb146117b847/hero-android-walk-v3-fight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.0.0-fb146117b847/hero-android-walk-v3-fight-0.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/2.1.0-af98e849f26b/hero-android-walk-v3-fight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.1.0-af98e849f26b/hero-android-walk-v3-fight-0.json",
       "width": 2048,
       "height": 1792
     },
     {
       "id": "hero-android-walk-v3-fight-1",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/2.0.0-fb146117b847/hero-android-walk-v3-fight-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.0.0-fb146117b847/hero-android-walk-v3-fight-1.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/2.1.0-af98e849f26b/hero-android-walk-v3-fight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.1.0-af98e849f26b/hero-android-walk-v3-fight-1.json",
       "width": 2048,
       "height": 512
+    },
+    {
+      "id": "hero-android-walk-v3-kiwalk-0",
+      "version": "2.1.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-android-walk-v3/2.1.0-af98e849f26b/hero-android-walk-v3-kiwalk-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.1.0-af98e849f26b/hero-android-walk-v3-kiwalk-0.json",
+      "width": 2048,
+      "height": 1160
     }
   ],
   "actors": [
@@ -631,6 +640,93 @@
               "hero-android/respawn/right/05",
               "hero-android/respawn/right/06",
               "hero-android/respawn/right/07"
+            ]
+          }
+        },
+        "kiwalk": {
+          "asset": "hero-android-walk-v3-kiwalk-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-android/kiwalk/down/00",
+              "hero-android/kiwalk/down/01",
+              "hero-android/kiwalk/down/02",
+              "hero-android/kiwalk/down/03",
+              "hero-android/kiwalk/down/04",
+              "hero-android/kiwalk/down/05",
+              "hero-android/kiwalk/down/06",
+              "hero-android/kiwalk/down/07"
+            ],
+            "down-left": [
+              "hero-android/kiwalk/down-left/00",
+              "hero-android/kiwalk/down-left/01",
+              "hero-android/kiwalk/down-left/02",
+              "hero-android/kiwalk/down-left/03",
+              "hero-android/kiwalk/down-left/04",
+              "hero-android/kiwalk/down-left/05",
+              "hero-android/kiwalk/down-left/06",
+              "hero-android/kiwalk/down-left/07"
+            ],
+            "left": [
+              "hero-android/kiwalk/left/00",
+              "hero-android/kiwalk/left/01",
+              "hero-android/kiwalk/left/02",
+              "hero-android/kiwalk/left/03",
+              "hero-android/kiwalk/left/04",
+              "hero-android/kiwalk/left/05",
+              "hero-android/kiwalk/left/06",
+              "hero-android/kiwalk/left/07"
+            ],
+            "up-left": [
+              "hero-android/kiwalk/up-left/00",
+              "hero-android/kiwalk/up-left/01",
+              "hero-android/kiwalk/up-left/02",
+              "hero-android/kiwalk/up-left/03",
+              "hero-android/kiwalk/up-left/04",
+              "hero-android/kiwalk/up-left/05",
+              "hero-android/kiwalk/up-left/06",
+              "hero-android/kiwalk/up-left/07"
+            ],
+            "up": [
+              "hero-android/kiwalk/up/00",
+              "hero-android/kiwalk/up/01",
+              "hero-android/kiwalk/up/02",
+              "hero-android/kiwalk/up/03",
+              "hero-android/kiwalk/up/04",
+              "hero-android/kiwalk/up/05",
+              "hero-android/kiwalk/up/06",
+              "hero-android/kiwalk/up/07"
+            ],
+            "up-right": [
+              "hero-android/kiwalk/up-right/00",
+              "hero-android/kiwalk/up-right/01",
+              "hero-android/kiwalk/up-right/02",
+              "hero-android/kiwalk/up-right/03",
+              "hero-android/kiwalk/up-right/04",
+              "hero-android/kiwalk/up-right/05",
+              "hero-android/kiwalk/up-right/06",
+              "hero-android/kiwalk/up-right/07"
+            ],
+            "right": [
+              "hero-android/kiwalk/right/00",
+              "hero-android/kiwalk/right/01",
+              "hero-android/kiwalk/right/02",
+              "hero-android/kiwalk/right/03",
+              "hero-android/kiwalk/right/04",
+              "hero-android/kiwalk/right/05",
+              "hero-android/kiwalk/right/06",
+              "hero-android/kiwalk/right/07"
+            ],
+            "down-right": [
+              "hero-android/kiwalk/down-right/00",
+              "hero-android/kiwalk/down-right/01",
+              "hero-android/kiwalk/down-right/02",
+              "hero-android/kiwalk/down-right/03",
+              "hero-android/kiwalk/down-right/04",
+              "hero-android/kiwalk/down-right/05",
+              "hero-android/kiwalk/down-right/06",
+              "hero-android/kiwalk/down-right/07"
             ]
           }
         }
