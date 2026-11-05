@@ -19,6 +19,16 @@ import {
 } from "./pyraContinent";
 import { nexusGarden, nexusScenery, nexusWalkways } from "./nexusPainted";
 import {
+  nexusContinentEnabled,
+  nexusTerrainBindings,
+  nexusBiomeBindings,
+  nexusObjects,
+  nexusRoadside,
+  nexusBiomeAt,
+  nexusEffectFrame,
+  nexusEnergyCell,
+} from "./nexusContinent";
+import {
   verdantiaContinentEnabled,
   continentTerrainBindings,
   continentBiomeBindings,
@@ -123,22 +133,29 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   const pyraContinent = pyraContinentEnabled(source.loader.definition.feature);
   const verdantContinent = verdantiaContinentEnabled(source.loader.definition.feature);
   const aetheriaContinent = aetheriaContinentEnabled(source.loader.definition.feature);
-  const continent = verdantContinent || pyraContinent || aetheriaContinent;
-  const terrainBindings = aetheriaContinent
-    ? aetheriaTerrainBindings
-    : pyraContinent
-      ? pyraTerrainBindings
-      : continentTerrainBindings;
-  const biomeBindings = aetheriaContinent
-    ? aetheriaBiomeBindings
-    : pyraContinent
-      ? pyraBiomeBindings
-      : continentBiomeBindings;
-  const terrainPrefix = aetheriaContinent
-    ? "terrain.aetheria-continent."
-    : pyraContinent
-      ? "terrain.pyra-continent."
-      : "terrain.verdantia-continent.";
+  const nexusContinent = nexusContinentEnabled(source.loader.definition.feature);
+  const continent = verdantContinent || pyraContinent || aetheriaContinent || nexusContinent;
+  const terrainBindings = nexusContinent
+    ? nexusTerrainBindings
+    : aetheriaContinent
+      ? aetheriaTerrainBindings
+      : pyraContinent
+        ? pyraTerrainBindings
+        : continentTerrainBindings;
+  const biomeBindings = nexusContinent
+    ? nexusBiomeBindings
+    : aetheriaContinent
+      ? aetheriaBiomeBindings
+      : pyraContinent
+        ? pyraBiomeBindings
+        : continentBiomeBindings;
+  const terrainPrefix = nexusContinent
+    ? "terrain.nexus-continent."
+    : aetheriaContinent
+      ? "terrain.aetheria-continent."
+      : pyraContinent
+        ? "terrain.pyra-continent."
+        : "terrain.verdantia-continent.";
   const remapObjects = pyraContinent ? pyraObjects : continentObjects;
   const roadside = pyraContinent ? pyraRoadside : continentRoadside;
   const outside = source.outsideCities ?? (() => false);
@@ -486,6 +503,75 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         false,
       );
     }
+    if (nexusContinent) {
+      const dryLand = (i: number) => !!(flags[i]! & 16) && outside(cellPoint(i));
+      // Crystal crust creeps over the core wastes in slow bands.
+      texture(
+        pattern(terrainPrefix + "crystal-ground"),
+        0.85,
+        (i) => {
+          const p = cellPoint(i);
+          return dryLand(i) && biome[i] === 3 && Math.sin(p.x / 470) + Math.cos(p.y / 610) > 1.15;
+        },
+        false,
+      );
+      // Damp moss pools gather where the synthetic gardens hold water.
+      texture(
+        pattern(terrainPrefix + "damp-stone"),
+        0.6,
+        (i) => {
+          const p = cellPoint(i);
+          return dryLand(i) && biome[i] === 1 && Math.sin(p.x / 520) + Math.cos(p.y / 700) > 1.3;
+        },
+        false,
+      );
+      // Pale stone caps the plateau rims.
+      texture(
+        pattern(terrainPrefix + "moss-stone"),
+        0.7,
+        (i) => {
+          const p = cellPoint(i);
+          return dryLand(i) && biome[i] === 2 && Math.sin(p.x / 560) + Math.sin(p.y / 640) > 1.35;
+        },
+        false,
+      );
+      // Charged liquid stays on already impassable core cells.
+      texture(
+        pattern(terrainPrefix + "energy-liquid"),
+        1,
+        (i) => dryLand(i) && nexusEnergyCell(flags[i]!, biome[i]!),
+        false,
+      );
+      // A shallow glow rims every waterline outside the cities.
+      texture(
+        pattern(terrainPrefix + "shallow-water"),
+        0.7,
+        (i) =>
+          !(flags[i]! & 16) &&
+          outside(cellPoint(i)) &&
+          [i - 2, i + 2, i - cols * 2, i + cols * 2].some(
+            (j) => j >= 0 && j < flags.length && !!(flags[j]! & 16),
+          ),
+        false,
+      );
+      // Dry banks fringe the wastes where land meets water.
+      texture(
+        pattern(terrainPrefix + "dry-bank"),
+        0.6,
+        (i) => {
+          const p = cellPoint(i);
+          return (
+            dryLand(i) &&
+            biome[i] === 3 &&
+            Math.sin(p.x / 380) + Math.cos(p.y / 460) > 0.6 &&
+            [i - 2, i + 2, i - cols * 2, i + cols * 2].some(
+              (j) => j >= 0 && j < flags.length && !(flags[j]! & 16),
+            )
+          );
+        },
+        false,
+      );
+    }
     if (
       painted &&
       !paintedPyra &&
@@ -755,16 +841,22 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       const [data, art] = await Promise.all([source.loader.loadChunk(x, y), source.readArt(x, y)]);
       if (disposed || !wanted.has(id)) return;
       const originalItems = [...art, ...(staticGrid.get(id) ?? [])];
-      const biomeAt = aetheriaContinent ? aetheriaBiomeAt(data) : () => 0;
+      const biomeAt = aetheriaContinent
+        ? aetheriaBiomeAt(data)
+        : nexusContinent
+          ? nexusBiomeAt(data)
+          : () => 0;
       const items = aetheriaContinent
         ? aetheriaObjects(originalItems, outside, source.roads, biomeAt)
-        : continent
-          ? remapObjects(originalItems, outside, source.roads)
-          : originalItems;
+        : nexusContinent
+          ? nexusObjects(originalItems, outside, source.roads, biomeAt)
+          : continent
+            ? remapObjects(originalItems, outside, source.roads)
+            : originalItems;
       if (continent) {
         const flags = decodeRuns(data.terrain.flags, data.terrain.width * data.terrain.height);
         items.push(
-          ...(aetheriaContinent ? aetheriaRoadside : roadside)(
+          ...(nexusContinent ? nexusRoadside : aetheriaContinent ? aetheriaRoadside : roadside)(
             data.x,
             data.y,
             source.roads,
@@ -904,7 +996,8 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             (ref.asset.startsWith("verdantia-continent-") ||
               ref.asset.startsWith("verdantia-extra-") ||
               ref.asset.startsWith("pyra-continent-") ||
-              ref.asset.startsWith("aetheria-continent-"))
+              ref.asset.startsWith("aetheria-continent-") ||
+              ref.asset.startsWith("nexus-continent-"))
           ) {
             // A shared transparent sprite can straddle a chunk boundary without a cut shadow.
             tile.shadows.set(
@@ -917,8 +1010,10 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
           }
         }
         image.setAlpha(Math.min(occlusionAlpha(item, player), foliageAlpha(item, others)));
-        if (pyraContinent && item.kind === "ambient-effect") {
-          const frame = pyraEffectFrame(item, scene.time.now);
+        if ((pyraContinent || nexusContinent) && item.kind === "ambient-effect") {
+          const frame = nexusContinent
+            ? nexusEffectFrame(item, scene.time.now)
+            : pyraEffectFrame(item, scene.time.now);
           image.setPosition(frame.x, frame.y).setAlpha(frame.alpha);
           tile.shadows.get(item.id)?.setVisible(false);
         }
@@ -963,6 +1058,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     scene.game.canvas.dataset["verdantiaContinent"] = String(verdantContinent);
     scene.game.canvas.dataset["pyraContinent"] = String(pyraContinent);
     scene.game.canvas.dataset["aetheriaContinent"] = String(aetheriaContinent);
+    scene.game.canvas.dataset["nexusContinent"] = String(nexusContinent);
     scene.game.canvas.dataset["verdantiaExtra"] = String(verdantContinent && extraSceneryEnabled());
     scene.game.canvas.dataset["superiorGroundResolution"] = String(resolution);
     scene.game.canvas.dataset["superiorScenery"] = String(

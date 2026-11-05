@@ -6,6 +6,12 @@ import {
 } from "./aetheriaContinent";
 import { pyraContinentEnabled, pyraObjects, pyraTerrainBindings } from "./pyraContinent";
 import {
+  nexusContinentEnabled,
+  nexusObjects,
+  nexusTerrainBindings,
+  nexusBiomeAt,
+} from "./nexusContinent";
+import {
   buildSuperiorSimulationWorld,
   type SuperiorSimulationSource as Source,
 } from "./simulationWorld";
@@ -346,6 +352,15 @@ export async function prepareSuperior(options: {
           aetheriaBiomeAt(chunk),
         );
       }
+      if (nexusContinentEnabled(info.id)) {
+        const chunk = await loader.loadChunk(x, y);
+        value.objects = nexusObjects(
+          value.objects,
+          outsideCities,
+          source.roads,
+          nexusBiomeAt(chunk),
+        );
+      }
       const objects = arenaIndex
         ? value.objects.filter((o) => !clearsArena(arenaIndex, o))
         : value.objects;
@@ -376,6 +391,7 @@ export async function prepareSuperior(options: {
     for (const key of continentTerrainBindings) addBinding(key);
   if (pyraContinentEnabled(info.id)) for (const key of pyraTerrainBindings) addBinding(key);
   if (aetheriaContinentEnabled(info.id)) for (const key of aetheriaTerrainBindings) addBinding(key);
+  if (nexusContinentEnabled(info.id)) for (const key of nexusTerrainBindings) addBinding(key);
   for (const obj of [
     ...art.buildings,
     ...art.acceptedCityBuildings,

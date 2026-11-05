@@ -143,6 +143,8 @@ export function makeCatalog(
 export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   "ki-aetheria-continent": ["aetheria-continent-v2"],
   "ki-pyra-continent": ["pyra-continent-v2"],
+  /** Nexus-9 wilderness materials; opt-in via `?ki-nexus-continent=1` until the owner accepts. */
+  "ki-nexus-continent": ["nexus-continent-v2"],
   /** Verdantia wilderness materials; accepted city art is unchanged. */
   "ki-verdant-continent": ["verdantia-continent-v2", "verdantia-extra-runtime"],
   /** Painted cities (Verdantia, Aetheria, Nexus-9, Pyra) are public by default (owner decision 04.11.2026); `?ki-painted=0` restores the old look. */
