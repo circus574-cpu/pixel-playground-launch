@@ -64,8 +64,31 @@ Wspólne transakcje ćwiczą wszystkie stopnie oraz zachowanie danych czterech r
 Nowe testy serwerowe obejmują TA10/TA11/TA12 I i odtworzenie zatwierdzonych wyników.
 Kontrolery i transakcje sprawdzają także II/III; nie jest to odbiór II/III w przeglądarce.
 
-Pierwsza kontrola zakresu: **54 testy PASS**; pełny TypeScript PASS.
-Końcowe wyniki, logi i zrzuty zostaną dopisane po zakończeniu bieżącej regresji.
+Końcowa walidacja kodu `d9a30bbe` i scenariuszy `066e5fce` (niezmienność źródeł:
+`qa/memory-trials/sources.json`):
+
+| Kontrola | Wynik |
+| --- | --- |
+| Pełny TypeScript aplikacji / e2e / tools | PASS |
+| Pełne `npm test` | **1463 PASS / 0 FAIL / 10 SKIP**, 128 plików PASS / 1 SKIP |
+| Kontrolery nowej Pamięci, transakcje, serwer i poprawiony audyt | **54 PASS** |
+| `npm run lint` | 0 błędów, 15 wcześniejszych ostrzeżeń |
+| `npm run assets:check` | PASS |
+| `npm run build` | PASS |
+| Kontrola dokumentacji | PASS |
+| Canvas: TA10 / TA11 / TA12 I | **3 PASS**, zwykłe UI, nagroda, zasoby właściciela i reload |
+| Software WebGL: TA10 / TA11 / TA12 I | **3 PASS**, te same asercje i kontrola renderera |
+| Emulacja telefonu Canvas | **2 PASS**: TA12 I w 852×393 oraz regresja dotykowego Androida z osłoną portretową 390×844 i obrotem do 852×393 |
+
+Dziesięć pominiętych przypadków wymaga osobnego PostgreSQL QA. Nie pomijano nowych
+prób. Logi, katalog i screenshoty: `qa/memory-trials/`; podsumowanie `checks.json`.
+Pierwszy przebieg przeglądarkowy miał 3 PASS Canvas / 3 FAIL WebGL na gotowości menu.
+Po dodaniu jawnego oczekiwania na gotowość kolejny przebieg WebGL ukończył próbę
+i zapisał wynik, lecz przekroczył limit 180 s dopiero przy końcowym przeładowaniu.
+Nowe trzy pełne scenariusze mają limit 300 s (dwa rzeczywiste ładowania kontynentu
+oraz salę próby na CPU/SwiftShader); limit akcji 15 s, asercje i limity testów
+jednostkowych pozostają zachowane. Końcowe WebGL 3/3 PASS, bez retry i pageerror.
+Pierwotne logi niepowodzeń zachowano. To nie jest pomiar sprzętowego WebGL.
 
 ### Otwarte prace
 
