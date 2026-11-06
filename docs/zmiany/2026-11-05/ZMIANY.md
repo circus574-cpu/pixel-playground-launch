@@ -173,5 +173,7 @@
 
 ### 10. Kolejne filmy animacji w repo (06.11.2026)
 
+- Dodatkowo (tego samego dnia): `sage-etap2-reakcje.mp4` (SHA-256 `0c803c0af30c7845…`) i `sage-etap4-walka-po-transformacji.mp4` (`d95274ff5279db32…`). Trzeci przysłany plik (`352fd381…`) jest bajt w bajt identyczny z `sage-etap1-walka.mp4`, więc nie dodano go drugi raz. Przypisanie filmu z szarym tłem do Etapu 4 to wniosek z tła i kontekstu, nie potwierdzenie właściciela.
+
 - Zapisano bez obróbki w `art-wip/gemini-anim-stages/`: `sage-etap1-walka.mp4` (Mędrzec, Etap 1 w formie bazowej, 1280×720, 10 s, SHA-256 `8277c0226a15f410…`) i `legend-etap4-walka-po-transformacji.mp4` (Legenda, Etap 4, forma po transformacji, SHA-256 `6bcf9e5706febee5…`). Oceniono po 10 klatkach (co 1 s): oba pokrywają oś czasu Etapu 1 (ciosy, finisher, umiejętności A i B, unik, gard).
 - Opis i tabela plików: `art/pipeline/prompts/animacje/PROMPTY-ANIMACJE-v1.md`. Filmy nie są jeszcze wycięte na klatki ani wpięte w grę; po transformacji bohater nadal atakuje i ginie w formie bazowej.
