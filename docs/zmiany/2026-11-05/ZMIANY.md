@@ -244,3 +244,32 @@ odrębnym krokiem. Wczytywać tylko atlas aktywnej wyspy i zachować kolizje z d
   TypeScript PASS, `npm run test` 1210 przechodzi / 10 pominiętych, lint bez błędów.
 - Nie zweryfikowano: przebieg e2e w kontenerze agenta (programowy WebGL nie mieści się w
   budżetach czasu speców), odbiór na fizycznym telefonie, decyzja o włączeniu domyślnym.
+
+## Dekoracja dziczy — pomiar i decyzja
+
+### 10. Własne materiały wysp dają efekt, pieczona flora nie — flora wycofana
+
+Pomiar zrobiono różnicą pikseli (`sharp`, kadry 900×560, ten sam teleport, `pending=0`,
+12 s oddechu), nie opisem subiektywnym.
+
+| Zakres | Średnia różnica | Zmienione piksele |
+| ------ | --------------- | ----------------- |
+| island-1, baza → własne materiały | 29,64 | 69,3 % |
+| island-2 | 15,27 | 54,9 % |
+| island-3 | 28,55 | 69,2 % |
+| island-4 | 17,81 | 68,3 % |
+| island-5 | 25,39 | 69,3 % |
+| island-6 | 20,75 | 68,5 % |
+| flora pieczona, z → bez (4 wyspy) | 0,02–0,09 | 0,1–0,3 % |
+
+- **Materiały wysp są dowiedzione** — zmieniają ponad połowę kadra.
+- **Pieczona flora (`?ki-flora-bake=1`) jest pomiarowym no-opem.** Pierwotnie paleta miała
+  jedno wiązanie, bo kandydaci brali się z list dekoracji miasta; po poprawce (kandydaci z
+  `items` chunka, 12–15 wiązań pokrywy na krainę: island-2 15, island-6 12, Nexus 15)
+  różnica nadal wyszła 0,1–0,3 %. Przyczyna: drobna pokrywa jest za mała i za niska
+  kontrastowo wobec tekstury podłoża, która już niesie własny wzór, a wrysowana płasko nie
+  daje cienia kontaktowego ani zasłaniania.
+- **Decyzja właściciela: wycofać.** `git revert` commitów `c6af38a9` i `b57bf4c6`; historia
+  i pomiar zostają w gałęzi. Kod z flagą, który nic nie zmienia, jest gorszy niż brak kodu.
+- **Dźwignie pustki dziczy to gęstość obiektów scenicznych w danych (5–33 w kadrze wobec
+  104 w stolicy) i światło, nie podmiana palety.** Cykl dobowy pozostaje etapem A planu.

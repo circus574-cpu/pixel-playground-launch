@@ -19,8 +19,6 @@ import {
   pyraMoltenCell,
 } from "./pyraContinent";
 import { nexusGarden, nexusScenery, nexusWalkways } from "./nexusPainted";
-import { bakeFlora, floraBakeEnabled, floraCandidates } from "./floraBake";
-import { roadDistance } from "./verdantiaContinent";
 import {
   nexusContinentEnabled,
   nexusTerrainBindings,
@@ -172,7 +170,6 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   const nexusRoads = paintedNexus ? nexusWalkways(source.art) : [];
   const renderRoads = [...source.roads, ...nexusRoads];
   const resolution = painted || continent ? 1024 : 512;
-  const floraPerChunk = new Map<string, number>();
   const scale = resolution / CHUNK;
   const shadowKey = "verdantia-continent-contact-shadow";
   if (continent && !scene.textures.exists(shadowKey)) {
@@ -238,7 +235,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     live.delete(id);
     source.release(scene, id);
   };
-  const drawGround = (data: BrowserChunk, id: string, cover: string[]) => {
+  const drawGround = (data: BrowserChunk, id: string) => {
     const flags = decodeRuns(data.terrain.flags, data.terrain.width * data.terrain.height);
     const biome = decodeRuns(data.terrain.biome, flags.length);
     const key = "superior-ground:" + id;
@@ -782,36 +779,6 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       nc.drawImage(small, 0, 0, cols, rows, 0, 0, resolution, resolution);
       ctx.drawImage(natural, 0, 0);
     }
-    if (floraBakeEnabled()) {
-      const cell = data.terrain.cell;
-      const landAt = (p: Point) => {
-        const col = Math.floor((p.x - data.x) / cell),
-          row = Math.floor((p.y - data.y) / cell);
-        return (
-          col >= 0 &&
-          row >= 0 &&
-          col < data.terrain.width &&
-          row < data.terrain.height &&
-          !!(flags[row * data.terrain.width + col]! & 16)
-        );
-      };
-      const nearRoad = (p: Point) =>
-        source.roads.some((r) => roadDistance(p, r) < r.width / 2 + 30);
-      floraPerChunk.set(
-        id,
-        bakeFlora({
-          scene,
-          ctx,
-          data,
-          candidates: cover,
-          scale,
-          resolution,
-          outside,
-          land: landAt,
-          nearRoad,
-        }),
-      );
-    }
     if (paintedPyra && plaza) {
       const courts = document.createElement("canvas");
       courts.width = courts.height = resolution + 48;
@@ -965,16 +932,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         source.release(scene, id);
         return;
       }
-      const ground = drawGround(
-        data,
-        id,
-        floraCandidates([
-          ...items.map((o) => o.binding),
-          ...(source.art.acceptedCityScenery ?? []).map((o) => o.binding),
-          ...(source.art.resources ?? []).map((o) => o.binding),
-          ...(source.art.landmarks ?? []).map((o) => o.binding),
-        ]),
-      );
+      const ground = drawGround(data, id);
       live.set(id, {
         data,
         items,
@@ -1158,9 +1116,6 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     scene.game.canvas.dataset["superiorGroundResolution"] = String(resolution);
     scene.game.canvas.dataset["superiorScenery"] = String(
       [...live.values()].reduce((n, t) => n + t.images.size, 0),
-    );
-    scene.game.canvas.dataset["floraBaked"] = String(
-      [...live.keys()].reduce((n, id) => n + (floraPerChunk.get(id) ?? 0), 0),
     );
   };
   return {
