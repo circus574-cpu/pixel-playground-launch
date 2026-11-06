@@ -1,6 +1,11 @@
 # KI Legends — dokumentacja projektu
 
-**Najnowsza partia rozwoju — Bariery Mędrców:** TA04/TA05/TA06 w trzech
+**Kontynuacja 06.11 — Pamięć Mędrców:** TA10/TA11/TA12 w trzech stopniach.
+Katalog **27/48 prób, 81/144 stopni**; Mędrcy mają 9/12 prób. Wznowiono PR #90
+od `a9e44175` i zintegrowano `main@83165f5c` bez zmiany produkcji.
+[Zakres i kontrole](zmiany/2026-11-06/ZMIANY.md). Pełny rozwój pozostaje nieukończony.
+
+**Poprzednia partia rozwoju — Bariery Mędrców:** TA04/TA05/TA06 w trzech
 stopniach i `ma-barrier` po Barierach II. Katalog **24/48 prób, 72/144 stopni**;
 Mędrcy mają 6/12 prób. To połowa katalogu prób, nie połowa całego projektu.
 [Zakres i dowody](zmiany/2026-11-04/ZMIANY.md#bariery-mędrców--ta04-ta05-ta06).
@@ -63,6 +68,7 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-11-06](zmiany/2026-11-06/ZMIANY.md)
 - [2026-11-05](zmiany/2026-11-05/ZMIANY.md)
 - [2026-11-04](zmiany/2026-11-04/ZMIANY.md)
 - [2026-11-03](zmiany/2026-11-03/ZMIANY.md)

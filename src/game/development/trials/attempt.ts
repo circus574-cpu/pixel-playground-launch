@@ -9,7 +9,7 @@ import { distance, type Point } from "../../navigation";
 import type { ExamResult } from "../exams";
 import type { PracticeTarget } from "../targets";
 import { RestraintActivity } from "../heritage/restraint";
-import { trialDefinition, type TrialId, type TrialTier } from "./catalog";
+import { trialDefinition, MEMORY_TRIAL_RULES, type TrialId, type TrialTier } from "./catalog";
 import {
   publicPuzzle,
   trialPuzzles,
@@ -221,6 +221,7 @@ export class TrialAttempt {
   }
   instructions() {
     const k = this.definition.kind;
+    if (MEMORY_TRIAL_RULES[k]) return MEMORY_TRIAL_RULES[k]!;
     if (k === "barrier-waves")
       return `Osłoń rdzeń przed ${this.targetCount} falami, zachowując minimum 50% jego HP. Stań w zielonym punkcie między źródłem a rdzeniem i włącz Świetlistą Barierę B1 po zapowiedzi. Bariera zużywa prawdziwą pojemność i testowe KI; odnowienie działa normalnie. Nie nauczysz swojej postaci B1 przez tę próbę.`;
     if (k === "cover-windows")

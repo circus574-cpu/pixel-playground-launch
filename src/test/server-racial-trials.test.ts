@@ -163,7 +163,20 @@ it("server disposal discards an unfinished loan without changing its character",
   expect(s.session.player).toEqual(before);
 });
 
-it.each(["TV01", "TV02", "TV03", "TV07", "TV08", "TV09", "TA04", "TA05", "TA06"] as const)(
+it.each([
+  "TV01",
+  "TV02",
+  "TV03",
+  "TV07",
+  "TV08",
+  "TV09",
+  "TA04",
+  "TA05",
+  "TA06",
+  "TA10",
+  "TA11",
+  "TA12",
+] as const)(
   "server authoritatively completes %s and restores only the owned grade",
   async (id) => {
     const { record, simulation: s } = await fixture(id.startsWith("TA") ? "sage" : "planetary");
@@ -178,7 +191,7 @@ it.each(["TV01", "TV02", "TV03", "TV07", "TV08", "TV09", "TA04", "TA05", "TA06"]
       action("accept");
       expect(s.session.player).toEqual(before);
       action("ready");
-      if (["TV02", "TV07", "TV08", "TA05"].includes(id)) {
+      if (["TV02", "TV07", "TV08", "TA05", "TA10", "TA11", "TA12"].includes(id)) {
         const puzzles = trialPuzzles(a.definition, 1);
         for (let i = 0; i < puzzles.length; i++) {
           const target = a.currentPoint!;

@@ -200,6 +200,101 @@ export function trialPuzzles(def: TrialDefinition, tier: TrialTier): TrialPuzzle
   return Array.from({ length: count }, (_, i) => {
     const rotate = tier + i + def.id.charCodeAt(2);
     switch (def.kind) {
+      case "source-fragments": {
+        const sources = [
+          [
+            "Dziennik przewoźniczki",
+            "Na zachodnim pomoście zostawiłam dwie skrzynie na suchej ławie.",
+          ],
+          [
+            "Karta zielarza",
+            "Napar zebrano do ciemnego naczynia, aby światło nie zmieniło barwy liści.",
+          ],
+          [
+            "Protokół opiekuna pieczęci",
+            "Trzeci znak otworzył się dopiero po uspokojeniu przepływu.",
+          ],
+          ["List czytelniczki", "Oddaję tom z pustą kartą; nie uzupełniłam jej własnym domysłem."],
+          ["Rejestr kopisty", "Kopia zachowuje przerwany podpis i ślad wilgoci na dolnym brzegu."],
+        ].slice(0, count);
+        return question(
+          `Fragment ${i + 1}/${count}: „${sources[i]![1]}” Z którego źródła pochodzi?`,
+          "Materiały ćwiczebne, nie kronika kampanii.\n" +
+            [...sources]
+              .reverse()
+              .map(([name, text]) => `${name}: „${text}”`)
+              .join("\n"),
+          sources.map(([name]) => name!),
+          sources[i]![0]!,
+          rotate,
+        );
+      }
+      case "unsupported-claims": {
+        const records = [
+          {
+            documents:
+              "Dziennik: dwie skrzynie dotarły przed świtem. Potwierdzenie odbioru: opiekunka przejęła obie bez naruszenia plomb.",
+            known: ["Dostarczono dwie skrzynie", "Plomby były nienaruszone"],
+            unknown: "W obu skrzyniach były identyczne dokumenty",
+          },
+          {
+            documents:
+              "Karta czytelni: zachowano dwie osobne kopie. Notatka konserwatora: tylko pierwsza ma czytelny podpis; przy drugiej nie ustalono autora.",
+            known: ["Zachowano dwie kopie", "Pierwsza kopia ma czytelny podpis"],
+            unknown: "Obie kopie sporządziła ta sama osoba",
+          },
+          {
+            documents:
+              "Pomiar: przepływ wrócił po otwarciu zaworu. Protokół naprawy: żadna zachowana relacja nie opisuje stanu instalacji przed awarią.",
+            known: [
+              "Po otwarciu zaworu wrócił przepływ",
+              "Nie zachowano opisu instalacji sprzed awarii",
+            ],
+            unknown: "Awarię spowodowało celowe działanie",
+          },
+          {
+            documents:
+              "Zgoda świadka: kopię wolno udostępnić bez nazwiska. Rejestr: publiczny odpis zachowuje tę anonimizację; nie odnotowano zgody na ujawnienie imienia.",
+            known: [
+              "Świadek zgodził się na anonimową kopię",
+              "Publiczny odpis nie ujawnia nazwiska",
+            ],
+            unknown: "Świadek zgodził się na publikację swojego imienia",
+          },
+        ];
+        const record = records[i]!;
+        return question(
+          `Ocena ${i + 1}/${count}: którego twierdzenia źródła nie potwierdzają?`,
+          "Materiały ćwiczebne. Nie dopowiadaj brakujących danych.\n" + record.documents,
+          [...record.known, record.unknown],
+          record.unknown,
+          rotate,
+        );
+      }
+      case "memory-sequence": {
+        const known = [
+          "Odnalezienie pustej karty",
+          "Wykonanie kopii",
+          "Sprawdzenie pieczęci",
+          "Złożenie kopii w czytelni",
+        ].slice(0, count - 1);
+        const unknown = "Otwarcie rejestru — autor dopisku: nieustalony";
+        const events = [...known, unknown];
+        const relations = known.slice(1).map((event, j) => `${event} nastąpiło po: ${known[j]}.`);
+        return question(
+          `Kolejność ${i + 1}/${count}: wskaż następne zdarzenie, zachowując granice wiedzy.`,
+          "Ćwiczebna karta źródeł. Pierwsze było odnalezienie pustej karty.\n" +
+            [...relations].reverse().join("\n") +
+            `\nRejestr otwarto dopiero po: ${known.at(-1)}. W rejestrze jest dopisek, którego autora nie ustalono. Nie wolno przypisać go Sorze ani wymazać informacji o braku podpisu.`,
+          [
+            ...events,
+            "Otwarcie rejestru — autorką dopisku jest Sora",
+            "Otwarcie rejestru — usuń informację o nieznanym autorze",
+          ],
+          events[i]!,
+          rotate,
+        );
+      }
       case "tracks": {
         const signs = [
           "dwa równoległe nacięcia",

@@ -1327,3 +1327,32 @@ wyposażenia; `X + Y` równa się rzeczywistej wartości końcowej. Dzięki temu
 nie jest liczona wizualnie drugi raz. Końcowe nadpisanie GM wyświetla jedną
 ustaloną wartość, bez fikcyjnej premii przedmiotu. Wewnętrzne obliczenia i
 `statBreakdown` pozostają dostępne dla silnika; nie zmieniono balansu ani zapisów.
+
+
+## Pamięć Mędrców — kontynuacja PR #90, 06.11.2026
+
+TA10 **Fragment i źródło** wymaga przypisania 3/4/5 fragmentów do źródeł, które
+zawierają dane świadectwo. TA11 **Granice świadectwa** ocenia 2/3/4 twierdzenia
+niepotwierdzone dokumentami; brak potwierdzenia nie oznacza dowodu fałszu.
+TA12 **Kronika z niewiadomą** wymaga odtworzenia 3/4/5 zdarzeń w kolejności
+wynikającej z relacji i pozostawienia autora dopisku jako nieustalonego.
+Dopisanie autorstwa Sorze lub usunięcie informacji o niewiadomej przerywa próbę.
+
+Materiały są jawnie oznaczonymi kartami ćwiczebnymi, nie nowym kanonem katastrofy.
+Próby używają istniejących stanowisk, fizycznego podejścia, odczytu i zatwierdzania
+odpowiedzi z oczekiwaną rundą. Każda pomyłka kończy tę próbę; ponowienie jest bezpłatne.
+Stary/zdublowany numer rundy, odpowiedź z oddalenia lub w pauzie nie przyznaje postępu.
+Publiczny snapshot zawiera dokumenty i możliwości wyboru, bez wewnętrznego klucza odpowiedzi.
+
+Nowa dziedzina `source-memory` ma oddzielną rangę 0–3 i nazwę Pamięć, bez mieszania
+z Pamięcią Korzeni Planetarnych. Ranga wymaga wszystkich trzech prób na danym
+stopniu. Nie daje czwartego bonusu bojowego ani punktów drzewka. Pierwsze zaliczenie
+każdego stopnia daje 100/150/200 praktyki, raz na stabilny klucz i postać.
+Wynik przechodzi istniejący CAS klienta lub serwerowe intenty oraz wspólny ledger.
+Nie zmieniono struktur ani numerów kopert (rozwój 3, klasyczny 10, Superior 6);
+starszy runtime odrzuca nieznane ID prób zamiast usuwać je z zapisu.
+
+Katalog ma 27/48 prób i 81/144 stopni. Mędrcy mają 9/12 prób oraz 4050 praktyki
+z prób. Brakujące Skupienie to 1350 praktyki do katalogowego celu 17 800 dla rasy;
+późne wyprawy, funkcje dziedzin w terenie i pełny odbiór kampanii nadal są otwarte.
+[Wyniki i ograniczenia kontroli](zmiany/2026-11-06/ZMIANY.md).

@@ -19,6 +19,9 @@ export const TRIAL_IDS = [
   "TA04",
   "TA05",
   "TA06",
+  "TA10",
+  "TA11",
+  "TA12",
   "TN07",
   "TN08",
   "TN09",
@@ -29,6 +32,9 @@ export const TRIAL_IDS = [
 export type TrialId = (typeof TRIAL_IDS)[number];
 export type TrialTier = 1 | 2 | 3;
 export type TrialKind =
+  | "source-fragments"
+  | "unsupported-claims"
+  | "memory-sequence"
   | "barrier-waves"
   | "mirrors"
   | "cover-windows"
@@ -54,7 +60,15 @@ export type TrialKind =
   | "restraint"
   | "position";
 export type DomainId =
-  "care" | "trails" | "earth" | "memory" | "seals" | "barriers" | "construction" | "duel";
+  | "care"
+  | "trails"
+  | "earth"
+  | "memory"
+  | "source-memory"
+  | "seals"
+  | "barriers"
+  | "construction"
+  | "duel";
 export type TrialDefinition = {
   id: TrialId;
   race: RaceId;
@@ -67,6 +81,33 @@ export type TrialDefinition = {
 };
 // Only implemented controllers are exposed as playable; targets come from the owner specification.
 export const TRIALS: readonly TrialDefinition[] = [
+  {
+    id: "TA10",
+    race: "sage",
+    domain: "source-memory",
+    name: "Fragment i źródło",
+    kind: "source-fragments",
+    targets: [3, 4, 5],
+    maxErrors: 0,
+  },
+  {
+    id: "TA11",
+    race: "sage",
+    domain: "source-memory",
+    name: "Granice świadectwa",
+    kind: "unsupported-claims",
+    targets: [2, 3, 4],
+    maxErrors: 0,
+  },
+  {
+    id: "TA12",
+    race: "sage",
+    domain: "source-memory",
+    name: "Kronika z niewiadomą",
+    kind: "memory-sequence",
+    targets: [3, 4, 5],
+    maxErrors: 0,
+  },
   {
     id: "TA04",
     race: "sage",
@@ -290,10 +331,19 @@ export const DOMAIN_NAMES: Record<DomainId, string> = {
   trails: "Szlaki",
   earth: "Żywa Ziemia",
   memory: "Pamięć Korzeni",
+  "source-memory": "Pamięć",
   seals: "Pieczęcie",
   barriers: "Bariery",
   construction: "Konstrukcja",
   duel: "Pojedynek",
+};
+export const MEMORY_TRIAL_RULES: Partial<Record<TrialKind, string>> = {
+  "source-fragments":
+    "Dopasuj 3/4/5 fragmentów do ich źródeł. Wszystkie teksty są dostępne przy stanowiskach; podobny temat nie wystarcza do przypisania autorstwa.",
+  "unsupported-claims":
+    "Wskaż 2/3/4 twierdzenia, których podane źródła nie potwierdzają. Brak dowodu nie oznacza, że twierdzenie jest fałszywe. Oceniaj tylko dostępne materiały.",
+  "memory-sequence":
+    "Odtwórz 3/4/5 zdarzeń w kolejności wynikającej ze źródeł. Zachowaj oznaczenie nieustalonego autora dopisku; nie przypisuj go nikomu bez dowodu.",
 };
 export const trialDefinition = (id: string) => TRIALS.find((t) => t.id === id);
 export const trialReceipt = (id: TrialId, tier: TrialTier) => `trial:${id}:${tier}:v1`;

@@ -1,6 +1,23 @@
 # KI Legends — aktualny plan i zadania
 
-## Najnowsza partia — Bariery Mędrców, 04.11
+## Kontynuacja 06.11 — Pamięć Mędrców
+
+Wznowiono rzeczywistą gałąź Draft #90 (`a9e44175`), zintegrowano `main@83165f5c`
+i dodano TA10 Fragment i źródło, TA11 Granice świadectwa, TA12 Kronika z niewiadomą.
+Każda ma trzy stopnie i używa wspólnego kontrolera, wypożyczonej sesji, transakcji
+wyników oraz publicznych materiałów. Pamięć nie dodaje premii bojowej.
+
+Katalog: **27/48 prób, 81/144 stopni**. Planetarni 12/12, Mędrcy 9/12,
+Androidy i Legendy po 3/12. Pozostaje **21 prób / 63 stopnie**, pięć wariantów,
+trzy moduły, interakcje dziedzin w świecie, późne starcia, tytuły i pełny odbiór
+kampanii/balansu. Następna brakująca dziedzina Mędrców: Skupienie (TA07–TA09).
+Mędrcy mają 4050 praktyki z prób; teoretyczna suma ścieżki to 16 450, o 1350 mniej
+niż docelowe 17 800. Nie jest to dowód osiągalności całej kampanii.
+
+[Zakres i dowody](zmiany/2026-11-06/ZMIANY.md). Kontynuacja nie jest scalona ani
+opublikowana. Poniższe checkpointy opisują wcześniejsze partie i stan main.
+
+## Poprzednia partia — Bariery Mędrców, 04.11
 
 PR #90: TA04 Osłona archiwum, TA05 Droga zwierciadeł, TA06 Okna osłony,
 każda w trzech stopniach. Bariery II odblokowują istniejący `ma-barrier`.

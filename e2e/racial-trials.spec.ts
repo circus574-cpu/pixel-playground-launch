@@ -121,6 +121,9 @@ for (const [race, id, land] of [
   ["Mędrcy", "TA04", "aether"],
   ["Mędrcy", "TA05", "aether"],
   ["Mędrcy", "TA06", "aether"],
+  ["Mędrcy", "TA10", "aether"],
+  ["Mędrcy", "TA11", "aether"],
+  ["Mędrcy", "TA12", "aether"],
   ["Mędrcy", "TA01", "aether"],
   ["Androidy", "TN08", "nexus"],
   ["Legendy", "TP08", "pyra"],
@@ -133,6 +136,7 @@ for (const [race, id, land] of [
     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
     const canvas = page.locator(".ki-canvas").first();
     await expect(canvas).toHaveAttribute("data-player-x", /^\d/);
+    await expect(page.locator(".ki-loading-screen")).toHaveCount(0);
     await openHudTool(page, "Umiejętności");
     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).click();
     await page.getByRole("button", { name: "Podejdź do trenera", exact: true }).click();
@@ -332,11 +336,13 @@ for (const [race, id, land] of [
     } else {
       const rounds = ["TN08", "TV07", "TV08", "TA05"].includes(id)
         ? 1
-        : id === "TV04"
+        : id === "TA11"
           ? 2
-          : id === "TV06"
-            ? 6
-            : 3;
+          : id === "TV04"
+            ? 2
+            : id === "TV06"
+              ? 6
+              : 3;
       for (let i = 0; i < rounds; i++) {
         await walkToStation(page, false);
         await stage.getByRole("button", { name: "Zbadaj stanowisko", exact: true }).click();
@@ -388,7 +394,34 @@ for (const [race, id, land] of [
           // Read only the clues actually shown to the player, never internal answer IDs.
           const heading = await materials.getByRole("heading", { level: 2 }).innerText();
           let answer: string;
-          if (id === "TV02") {
+          if (id === "TA10") {
+            const fragment = heading.match(/„(.+)”/)![1]!;
+            answer = text
+              .join("\n")
+              .split("\n")
+              .find((line) => line.endsWith(`„${fragment}”`))!
+              .split(": „")[0]!
+              .trim();
+          } else if (id === "TA11") {
+            const sources = text.join(" ");
+            answer =
+              i === 0
+                ? "W obu skrzyniach były identyczne dokumenty"
+                : "Obie kopie sporządziła ta sama osoba";
+            expect(sources).toContain(i === 0 ? "dwie skrzynie" : "nie ustalono autora");
+          } else if (id === "TA12") {
+            const sources = text.join(" ");
+            if (i === 0) {
+              expect(sources).toContain("Pierwsze było odnalezienie pustej karty");
+              answer = "Odnalezienie pustej karty";
+            } else if (i === 1) {
+              expect(sources).toContain("Wykonanie kopii nastąpiło po: Odnalezienie pustej karty");
+              answer = "Wykonanie kopii";
+            } else {
+              expect(sources).toContain("autora nie ustalono");
+              answer = "Otwarcie rejestru — autor dopisku: nieustalony";
+            }
+          } else if (id === "TV02") {
             const sign = heading.split(": ")[1]!.split(". Którym")[0]!;
             answer = text
               .join(" ")
