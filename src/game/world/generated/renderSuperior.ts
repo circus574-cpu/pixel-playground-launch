@@ -135,6 +135,7 @@ const layerCanvas = (size = 512) => {
 export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   const feature = source.loader.definition.feature;
   const island = islandArtEnabled(feature);
+  const dress = dressEnabled();
   const materials = new Map<string, HTMLCanvasElement>();
   const painted = paintedMeadowEnabled(feature) || island;
   const pyraContinent = pyraContinentEnabled(source.loader.definition.feature);
@@ -890,7 +891,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         ? aetheriaBiomeAt(data)
         : nexusContinent
           ? nexusBiomeAt(data)
-          : continent
+          : continent && dress
             ? dressBiomeAt(data)
             : () => 0;
       const items = aetheriaContinent
@@ -917,7 +918,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             biomeAt,
           ),
         );
-        if (dressEnabled()) {
+        if (dress) {
           items.push(
             ...continentDress(feature, data.x, data.y, source.roads, outside, onLand, biomeAt),
           );
@@ -1125,12 +1126,16 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     scene.game.canvas.dataset["superiorScenery"] = String(
       [...live.values()].reduce((n, t) => n + t.images.size, 0),
     );
-    scene.game.canvas.dataset["dressScenery"] = String(
-      [...live.values()].reduce(
-        (n, t) => n + [...t.images.keys()].filter((k) => k.startsWith("dress-")).length,
-        0,
-      ),
-    );
+    if (dress)
+      scene.game.canvas.dataset["dressScenery"] = String(
+        [...live.values()].reduce(
+          (n, t) =>
+            n +
+            [...t.images.keys()].filter((k) => k.startsWith("dress-") || k.startsWith("town-dress-"))
+              .length,
+          0,
+        ),
+      );
   };
   return {
     terrainMode: "superior",
