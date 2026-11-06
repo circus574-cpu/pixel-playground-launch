@@ -7,7 +7,8 @@ import type { Point } from "../../navigation";
 type Road = { points: [number, number][]; width: number; kind: string };
 
 /**
- * World dressing, review switch `?ki-dress=1`.
+ * World dressing, on by default since 06.11.2026 (owner: no more flagging, every land works);
+ * `?ki-dress=0` restores the bare frame.
  *
  * Measured on the shipped data (window of a 900×560 frame at zoom 0.62, i.e. 1452×903 world
  * units): continent wilderness carries 6–12 authored props per frame while island wilderness
@@ -20,8 +21,8 @@ type Road = { points: [number, number][]; width: number; kind: string };
  * collision, navigation, quest anchors and saves read exactly the authored world.
  */
 export const dressEnabled = () =>
-  typeof window !== "undefined" &&
-  new URLSearchParams(window.location.search).get("ki-dress") === "1";
+  typeof window === "undefined" ||
+  new URLSearchParams(window.location.search).get("ki-dress") !== "0";
 
 const SIDE = 2048;
 /**

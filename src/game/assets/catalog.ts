@@ -144,7 +144,7 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
   "ki-islands-art": [1, 2, 3, 4, 5, 6].map((i) => `superior-island-${i}-art`),
   "ki-aetheria-continent": ["aetheria-continent-v2"],
   "ki-pyra-continent": ["pyra-continent-v2"],
-  /** Nexus-9 wilderness materials; opt-in via `?ki-nexus-continent=1` until the owner accepts. */
+  /** Nexus-9 wilderness materials; default on since 06.11.2026, `?ki-nexus-continent=0` opts out. */
   "ki-nexus-continent": ["nexus-continent-v2"],
   /** Verdantia wilderness materials; accepted city art is unchanged. */
   "ki-verdant-continent": ["verdantia-continent-v2", "verdantia-extra-runtime"],
@@ -273,6 +273,13 @@ const DEFAULT_ON_SWITCHES: ReadonlySet<string> = new Set([
   "ki-verdant-continent",
   "ki-pyra-continent",
   "ki-aetheria-continent",
+  // Owner decision 06.11.2026: no more flagging, every land works by default.
+  // Only packs marked `previewOnly` are gated here. The start-point packs (aether-sanctuary,
+  // nexus-start, pyra-start, pyra-smithy, verdant-start) are not previewOnly, so their URL
+  // flags never controlled installation and adding them here would be a no-op.
+  // `?ki-islands-art=0` and `?ki-nexus-continent=0` restore the previous look per land.
+  "ki-islands-art",
+  "ki-nexus-continent",
 ]);
 /** All four delivered heroes are active packs; legacy hero URL flags are harmless. */
 export function previewPacks(search: string): string[] {

@@ -806,9 +806,8 @@ identyfikatory autorowane (`nexus-lab`, `nexus-monolith`, `nexus-reactor`,
 `nexus-terminal`, obozowiska), roślinność przydrożna, efekty ambientowe i rozrzut
 dekoracyjny.
 
-**Włączanie:** `?ki-nexus-continent=1`. Pakiet NIE jest w `DEFAULT_ON_SWITCHES` —
-czeka na odbiór właściciela, zgodnie z zasadą, że domyślnie włącza się dopiero
-zaakceptowaną oprawę.
+**Włączanie:** domyślnie włączone od 06.11.2026 (decyzja właściciela: bez flagowania, wszystkie
+światy działają domyślnie); `?ki-nexus-continent=0` przywraca poprzedni wygląd.
 
 **Gęstość dziczy.** Dane autorowane niosą poza miastem 8–16 obiektów na kadr
 przeciw 104 w stolicy, więc sama paleta nie usuwa pustki. Rozrzut dokłada obiekty
@@ -818,9 +817,10 @@ playtest na programowym WebGL: 8 → 20, 13 → 23, 12 → 23, 16 → 33 dekorac
 błędów konsoli. Cząstki powietrzne są tylko w biomach ciepłych — gęstsze pole
 wymusiło wygasanie zrzutu.
 
-**Testy.** `src/test/nexus-continent.test.ts` (8): opt-in, brak nadpisania istniejących
-wiązań, aliasy, odczyt komórek biomu bez zmiany chunka, nienaruszalność miast i
-obiektów fizycznych, warianty koron według biomu, nieistotność rozrzutu i limit cząstek.
+**Testy.** `src/test/nexus-continent.test.ts` (8): domyślne włączenie i wyłącznik `=0`, brak
+nadpisania istniejących wiązań, aliasy, odczyt komórek biomu bez zmiany chunka,
+nienaruszalność miast i obiektów fizycznych, warianty koron według biomu, nieistotność
+rozrzutu i limit cząstek.
 `e2e/nexus-continent.spec.ts` w projekcie `software-webgl` (rejestracja w
 `playwright.config.ts`). **Nie wykonano go pomyślnie w kontenerze agenta**: pada na
 budżecie marszu 90 s przy tempie ~10,6 jednostki/s na programowym WebGL — identycznie
@@ -873,11 +873,12 @@ Odtworzenie: generator manifestów (port z PIL na `sharp`) tworzy
 `npm run assets:import -- art/production/superior-islands-v1/island-N/runtime-pack.json --install`.
 Digesty z instalacji: `ab61814f…`, `29d4cb44…`, `de4c05c6…`, `33fdccb6…`, `2cdf7913…`, `e72bce69…`.
 
-Włączanie: `?ki-islands-art=1`, poza `DEFAULT_ON_SWITCHES` do czasu odbioru właściciela.
+Włączanie: domyślnie od 06.11.2026 (decyzja właściciela: bez flagowania); `?ki-islands-art=0`
+przywraca materiały kontynentu macierzystego.
 Kolizje, footprinty, spawny i zapisy nie są zmieniane; rekwizyty overlayu są nieistotne
 fizycznie. Odbiór na fizycznym telefonie pozostaje otwarty.
 
-## Generator dekoracji świata — `?ki-dress=1` (06.11.2026)
+## Generator dekoracji świata — domyślnie od 06.11.2026 (`?ki-dress=0` wyłącza)
 
 Pomiar na danych `public/game/worlds/superior-v2`, okno kadru 1452 × 903 jednostek świata
 (900 × 560 px przy domyślnym zoomie 0,62): dzicz kontynentów ma **6–12 obiektów autorskich
@@ -905,10 +906,12 @@ zmian. Dlatego generator dokładuje **obiekty sceniczne**, nie paletę.
   nadal świat autorski. Dekoracja nie dokłada ani jednej pozycji katalogu ani bajta budżetu
   tekstur — używa pakietów już zainstalowanych.
 
-Włączanie: `?ki-dress=1`. **Nie włączono domyślnie.** Warstwy kontynentów Verdantia, Pyra i
-Aetheria są domyślnie włączone (decyzja właściciela 05.11.2026), więc ta dekoracja zmieniłaby
-kadr każdego gracza bez odbioru. Pieczona flora (`?ki-flora-bake=1`) została wycofana po
-pomiarze 0,1–0,3 % zmienionych pikseli — patrz dziennik 05.11.
+Włączanie: domyślnie od 06.11.2026 (decyzja właściciela: „wyłącz flagowanie. wszystkie światy
+mają działać domyślnie"); `?ki-dress=0` przywraca stan bez dekoracji. **Ryzyko, którego nie
+zmierzono:** dekoracja dokłada ok. 50–80 sprite'ów na kadr (z cieniami kontaktowymi), a pomiar
+wydajności na fizycznym telefonie nie został wykonany — w kontenerze agenta jest tylko
+programowy WebGL. Pieczona flora (`?ki-flora-bake=1`) została wycofana po pomiarze
+0,1–0,3 % zmienionych pikseli — patrz dziennik 05.11.
 
 Pomiar efektu: pary kadrów `dress-off` / `dress-on` na czternastu punktach (pusty i typowo
 pełny kadr na każdym kontynencie, plac osady na każdej wyspie) oraz różnica pikseli `sharp`.

@@ -1,14 +1,14 @@
 # KI Legends — dokumentacja projektu
 
-Aktualizacja: **05.11.2026, po PR #121 (`main@555da1ea`, wdrożone na produkcję)**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
+Aktualizacja: **06.11.2026**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
 
-**Nowa dostawa grafik wysp, osobna gałąź:** sześć różnych zestawów, 36 tekstur
-oraz 36 dekoracji w 12 arkuszach, bez integracji runtime.
-[Źródła i kontrole](zmiany/2026-11-05/ZMIANY.md#grafiki-i-tekstury-sześciu-wysp-superior).
+**Wyspy Superiora:** sześć własnych zestawów grafik (36 tekstur i 36 dekoracji w 12 arkuszach)
+jest zainstalowanych w rejestrze zasobów i podłączonych do runtime; od 06.11.2026 działają
+domyślnie. [Źródła i kontrole](zmiany/2026-11-05/ZMIANY.md#grafiki-i-tekstury-sześciu-wysp-superior).
 
-**Stan na 05.11.2026 (szczegóły i dowody w [dzienniku 05.11](zmiany/2026-11-05/ZMIANY.md)):**
+**Stan na 06.11.2026 (szczegóły i dowody w [dzienniku 06.11](zmiany/2026-11-06/ZMIANY.md)):**
 
-- Oprawa kontynentów Verdantia, Pyra i Aetheria jest **scalona (PR #118) i domyślnie włączona**; wyłączenie: `?preview=ki-<świat>-continent=0`. Nexus-9 ma zaimplementowaną integrację kontynentu (05.11.2026), ale **wyłącznie opt-in** przez `?ki-nexus-continent=1` — nie włączono domyślnie przed odbiorem właściciela ([04.11](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu)).
+- Oprawa kontynentów Verdantia, Pyra, Aetheria i **Nexus-9** jest **scalona i domyślnie włączona**; wyłączenie: `?ki-<świat>-continent=0` ([04.11](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu)). Domyślnie działają też własne materiały sześciu wysp (`?ki-islands-art=0` wyłącza) i generator dekoracji świata (`?ki-dress=0`) — decyzja właściciela z 06.11.2026: bez flagowania, wszystkie światy działają domyślnie.
 - Wielkości potworów z pomiaru ciała (PR #117), mapa 2D/globus (PR #119) i chód po transformacji `kiwalk` dla czterech ras, paczki bohaterów `2.1.0` (PR #120) są na `main`.
 - Malowane wnętrza budynków specjalnych (4 światy × 6 budynków, pokoje 1920×1280) są scalone (PR #121) i opublikowane.
 - Serwerowy zapis i rozgrywka PvE (PR #69), panel postaci w `/admin` i miejski depozyt są scalone i opublikowane (01.11). Backend produkcyjny nadal działa na dotychczasowym Supabase; cutover na własny PostgreSQL czeka na odbiór właściciela.

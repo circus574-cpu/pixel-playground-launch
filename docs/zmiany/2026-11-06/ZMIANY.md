@@ -14,8 +14,8 @@
 - **Pieczona flora wycofana przed scaleniem** (`?ki-flora-bake=1`): pomiar dał 0,1–0,3 %
   zmienionych pikseli, czyli funkcja nic nie zmieniała na ekranie. Uzasadnienie i liczby w
   [dzienniku 05.11](../2026-11-05/ZMIANY.md#dekoracja-dziczy--pomiar-i-decyzja).
-- Wyspy **nadal opt-in** przez `?ki-islands-art=1`. Scalenie kodu nie jest odbiorem wizualnym,
-  więc `DEFAULT_ON_SWITCHES` bez zmian do decyzji właściciela.
+- W momencie scalenia wyspy były jeszcze opt-in; tego samego dnia właściciel zarządził
+  wyłączenie flagowania — patrz §4.
 - Konflikt w dzienniku 05.11 był addytywny: obie strony dopisały sekcje na końcu pliku.
   Utrzymałem wpisy o wyspach i dekoracji oraz wpisy mapowe `origin/main`, tylko numery
   mapowych nagłówków przesunąłem z 8 i 9 na 11 i 12, bo plik miał już 8 (Nexus),
@@ -86,4 +86,23 @@
   `outside`/`onLand`/drogę, powietrze tylko przy realnych efektach, pierścień osady, omijanie
   budynków, brak motywów dla lądu, który ich nie ma, oraz zastąpienie zamglonych ramek.
 - Nie zweryfikowano: e2e w kontenerze (programowy WebGL nie mieści się w budżetach czasu
-  speców), wydajność na fizycznym telefonie, decyzja o włączeniu domyślnym.
+  speców), wydajność na fizycznym telefonie.
+
+### 4. Wyłączenie flagowania — wszystkie światy działają domyślnie
+
+- Decyzja właściciela (06.11.2026): „wprowadzaj wszystkie zmiany na main. wyłącz flagowanie.
+  wszystkie światy maja dzialac domyślnie." Cykl dobowy odrzucony jako zbędny.
+- `DEFAULT_ON_SWITCHES` dostało `ki-islands-art` i `ki-nexus-continent`; `dressEnabled()`
+  zwraca prawdę, dopóki URL nie powie `?ki-dress=0`. Zostaje wyłącznik na każdą warstwę,
+  bo to jedyna droga powrotu bez reimportu pakietów.
+- **Sprawdzone, a nie założone:** `ki-aether-art`, `ki-nexus-art`, `ki-pyra-art` i
+  `ki-smithy-art` **nie zostały przeniesione**, bo ich pakiety (`aether-sanctuary`,
+  `nexus-start`, `pyra-start`, `pyra-smithy`, `verdant-start`) nie mają `previewOnly` —
+  są instalowane zawsze, więc przełącznik nic by nie zmienił. `ki-verdant-art` to zamiennik
+  zaakceptowanej wsi Verdantii, nie jej brak, więc zostaje opt-in.
+- Testy: `src/test/world-art-defaults.test.ts` (3) pilnuje domyślnego włączenia wysp, Nexusa i
+  dekoracji oraz istnienia wyłączników; `src/test/nexus-continent.test.ts` zmieniony z
+  „zostaje opt-in" na „domyślnie włączone, `=0` wyłącza".
+- Ryzyko zapisane przed wdrożeniem: dekoracja dokłada ok. 50–80 sprite'ów na kadr, a pomiaru
+  wydajności na fizycznym telefonie nie wykonano. Jeśli telefon poda FPS, wyłącznikiem jest
+  `?ki-dress=0`, potem `?ki-islands-art=0`, potem `?ki-nexus-continent=0`.
