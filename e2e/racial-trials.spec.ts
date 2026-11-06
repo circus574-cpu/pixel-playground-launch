@@ -129,6 +129,9 @@ for (const [race, id, land] of [
   ["Legendy", "TP08", "pyra"],
 ] as const) {
   test(`${race}: real ${id}, one-time reward and reload`, async ({ page }, info) => {
+    // A complete new-memory scenario includes two real continent loads plus the loan room.
+    // SwiftShader uploads are slow on CPU-only runners; keep all state/renderer assertions.
+    if (["TA10", "TA11", "TA12"].includes(id)) test.setTimeout(300000);
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
     await page.goto("/scripts/playtest.html?ki-world-v2=1");
@@ -137,6 +140,8 @@ for (const [race, id, land] of [
     const canvas = page.locator(".ki-canvas").first();
     await expect(canvas).toHaveAttribute("data-player-x", /^\d/);
     await expect(page.locator(".ki-loading-screen")).toHaveCount(0);
+    if (info.project.name === "software-webgl")
+      await expect(page.getByRole("button", { name: "Umiejętności", exact: true })).toBeVisible();
     await openHudTool(page, "Umiejętności");
     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).click();
     await page.getByRole("button", { name: "Podejdź do trenera", exact: true }).click();
