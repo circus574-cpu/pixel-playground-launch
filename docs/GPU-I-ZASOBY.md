@@ -876,3 +876,41 @@ Digesty z instalacji: `ab61814f…`, `29d4cb44…`, `de4c05c6…`, `33fdccb6…`
 Włączanie: `?ki-islands-art=1`, poza `DEFAULT_ON_SWITCHES` do czasu odbioru właściciela.
 Kolizje, footprinty, spawny i zapisy nie są zmieniane; rekwizyty overlayu są nieistotne
 fizycznie. Odbiór na fizycznym telefonie pozostaje otwarty.
+
+## Generator dekoracji świata — `?ki-dress=1` (06.11.2026)
+
+Pomiar na danych `public/game/worlds/superior-v2`, okno kadru 1452 × 903 jednostek świata
+(900 × 560 px przy domyślnym zoomie 0,62): dzicz kontynentów ma **6–12 obiektów autorskich
+w kadrze**, dzicz wysp **30–79**, a 29 % chunków kontynentów nie ma ani jednego. Żadna osada
+nie ma dekoracji autorskiej w swoim obszarze, a wyspy nie mają ani jednej pozycji
+`acceptedCityScenery` (kontynenty 64–130). Podmiana materiałów tego nie zmienia: własne
+tekstury wysp przebudowały 55–69 % pikseli kadra, a liczba dekoracji w kadrze została bez
+zmian. Dlatego generator dokładuje **obiekty sceniczne**, nie paletę.
+
+`src/game/world/generated/worldDress.ts`:
+
+- `continentDress` — siatka co 150 j. świata z polem gęstości liczonym w komórkach 700 j.,
+  żeby wyszły gaje i polany zamiast kratki. Limit 130 obiektów na chunk. Zmierzone:
+  **108 obiektów na chunk, 36 w kadrze** na każdym z czterech kontynentów, czyli z 6–12 do
+  ok. 42–48. Miksy są wpisane jako pełne identyfikatory wiązań i filtrowane po
+  `catalog.renderBindings`, więc generator nie poprosi o grafikę, której nie ma w katalogu —
+  brak wiązania to twardy błąd „Brak grafiki świata", a nie ciche pominięcie.
+- `continentAir` — pył, dym i motylki tylko dla Nexusa i Pyry (+11 na chunk), bo tylko te
+  pakiety mają wiązania `fx-*`. Dla Verdantii i Aetherii zwraca pustkę; efekt z innego lądu
+  wymagałoby dociągnięcia jego pakietu.
+- `townDress` — pierścień 380–1700 j. wokół placu osady, omija obrysy budynków (+40 j.),
+  trakty (+50 j. od połowy szerokości) i ulice. Limit 320. Zmierzone: **154–172 dekoracje
+  na osadę, 25–28 w kadrze przybycia** (baza zero), z motywów `object.island-N.*`.
+- Wszystko `solid: false` i bez `footprint`, więc kolizje, nawigacja, questy i zapisy czytają
+  nadal świat autorski. Dekoracja nie dokłada ani jednej pozycji katalogu ani bajta budżetu
+  tekstur — używa pakietów już zainstalowanych.
+
+Włączanie: `?ki-dress=1`. **Nie włączono domyślnie.** Warstwy kontynentów Verdantia, Pyra i
+Aetheria są domyślnie włączone (decyzja właściciela 05.11.2026), więc ta dekoracja zmieniłaby
+kadr każdego gracza bez odbioru. Pieczona flora (`?ki-flora-bake=1`) została wycofana po
+pomiarze 0,1–0,3 % zmienionych pikseli — patrz dziennik 05.11.
+
+Pomiar efektu: pary kadrów `dress-off` / `dress-on` na czternastu punktach (pusty i typowo
+pełny kadr na każdym kontynencie, plac osady na każdej wyspie) oraz różnica pikseli `sharp`.
+Scenariusz e2e nie powstał — w kontenerze agenta programowy WebGL nie mieści się w budżetach
+czasu speców, więc dowodem są kadry i licznik `data-dress-scenery`, nie zielony test.

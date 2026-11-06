@@ -1,4 +1,5 @@
-import { islandFeatureArt, islandObjects } from "./islandArt";
+import { islandArtEnabled, islandFeatureArt, islandObjects } from "./islandArt";
+import { dressEnabled, townDress } from "./worldDress";
 import {
   aetheriaContinentEnabled,
   aetheriaObjects,
@@ -141,6 +142,19 @@ export async function prepareSuperior(options: {
     info.id,
     JSON.parse(new TextDecoder().decode(artBytes)) as FeatureArt,
   );
+  // Island settlements carry no authored city scenery at all (`acceptedCityScenery = 0`), so the
+  // first frame of every island is bare paving. Dress it with the island's own motifs; nothing
+  // here is solid and nothing has a footprint, so town collision stays exactly as authored.
+  if (dressEnabled() && islandArtEnabled(info.id))
+    art.acceptedCityScenery = [
+      ...(art.acceptedCityScenery ?? []),
+      ...townDress(
+        info.id,
+        source.settlements,
+        [...art.buildings, ...art.acceptedCityBuildings],
+        source.roads,
+      ),
+    ];
   // KI crystal nodes were bound to the Nexus machine crystal on every land. Outside Nexus they
   // show a natural crystal cluster; the node itself (position, kind) is unchanged.
   if (info.id !== "nexus")

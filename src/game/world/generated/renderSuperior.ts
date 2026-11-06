@@ -47,6 +47,7 @@ import {
   meadowBuildings,
   aetherLegacyScenery,
 } from "./paintedMeadow";
+import { continentAir, continentDress, dressBiomeAt, dressEnabled } from "./worldDress";
 import type Phaser from "phaser";
 import { catalog } from "../../assets/catalog";
 import { sizeScenery } from "../../assets/scenery";
@@ -889,7 +890,9 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         ? aetheriaBiomeAt(data)
         : nexusContinent
           ? nexusBiomeAt(data)
-          : () => 0;
+          : continent
+            ? dressBiomeAt(data)
+            : () => 0;
       const items = aetheriaContinent
         ? aetheriaObjects(originalItems, outside, source.roads, biomeAt)
         : nexusContinent
@@ -914,7 +917,12 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             biomeAt,
           ),
         );
-        if (nexusContinent) {
+        if (dressEnabled()) {
+          items.push(
+            ...continentDress(feature, data.x, data.y, source.roads, outside, onLand, biomeAt),
+          );
+          items.push(...continentAir(feature, data.x, data.y, outside, onLand));
+        } else if (nexusContinent) {
           items.push(...nexusScatter(data.x, data.y, source.roads, outside, onLand, biomeAt));
           items.push(...nexusAir(data.x, data.y, outside, onLand, biomeAt));
         }
@@ -1116,6 +1124,12 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     scene.game.canvas.dataset["superiorGroundResolution"] = String(resolution);
     scene.game.canvas.dataset["superiorScenery"] = String(
       [...live.values()].reduce((n, t) => n + t.images.size, 0),
+    );
+    scene.game.canvas.dataset["dressScenery"] = String(
+      [...live.values()].reduce(
+        (n, t) => n + [...t.images.keys()].filter((k) => k.startsWith("dress-")).length,
+        0,
+      ),
     );
   };
   return {
