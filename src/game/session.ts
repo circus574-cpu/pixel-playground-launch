@@ -70,6 +70,7 @@ import {
   type Kit,
   type KitPort,
   type ResourceInfo,
+  LEVEL_MAX,
 } from "./kit";
 import { MATERIALS, MATERIAL_IDS, isMaterial } from "./monsters/materials";
 import { getItemById, computePassiveEquipmentBonuses } from "./items";
@@ -222,7 +223,7 @@ export const PlayerSchema = z.object({
   race: z.enum(RACE_IDS),
   continent: z.enum(WORLD_IDS),
   startContinent: z.enum(WORLD_IDS),
-  level: z.number().int().min(1).max(100),
+  level: z.number().int().min(1).max(LEVEL_MAX),
   xp: finite(1000000).int(),
   hp: finite(100000),
   ki: finite(100000),
@@ -323,10 +324,11 @@ export type Command =
   | { type: "ability"; ability: Ability }
   | { type: "dodge" }
   | { type: "interact"; npc: NpcId }
-  | { type: "dialogue"; action: "close" | "accept" | "claim" | "upgrade" }
+  | { type: "dialogue"; action: "close" | "accept" | "claim" | "upgrade" | "rumors" | "boss_enter" }
   | { type: "equip"; item: string }
   | { type: "unequip"; slot: EquipmentSlot | "weapon" | "armor" }
   | { type: "trade"; item: string; buy: boolean }
+  | { type: "brew"; recipe: "hp" | "ki" | "antidote" }
   | { type: "loot"; id: string }
   | { type: "learn"; node: string }
   | { type: "respec" }
@@ -1246,17 +1248,18 @@ export class GameSession implements MonsterHost {
   private award(xp: number) {
     this.player.xp += xp;
     this.say("+" + xp + " XP");
-    while (this.player.level < 100 && this.player.xp >= xpNeeded(this.player.level)) {
+    while (this.player.level < LEVEL_MAX && this.player.xp >= xpNeeded(this.player.level)) {
       this.player.xp -= xpNeeded(this.player.level);
       this.player.level++;
       const s = this.kit.stats;
       this.player.hp = s.maxHp;
       this.player.ki = s.maxKi;
       this.emit({ type: "level", ...this.player, text: "Poziom " + this.player.level });
-      const gained = this.player.level <= 20 ? " Nowy punkt umiejętności." : "";
+      const gained = " Nowy punkt umiejętności.";
       this.say("Awans! Poziom " + this.player.level + "." + gained);
     }
-    if (this.player.level === 100) this.player.xp = Math.min(this.player.xp, xpNeeded(100) - 1);
+    if (this.player.level === LEVEL_MAX)
+      this.player.xp = Math.min(this.player.xp, xpNeeded(LEVEL_MAX) - 1);
   }
   private add(item: ItemId, n = 1) {
     if (
@@ -1390,6 +1393,8 @@ export class GameSession implements MonsterHost {
     this.player.interior = id;
     this.interiorEnteredAt = this.nowMs;
     this.nav = room ? new Navigation(room.width, room.height, room.obstacles) : this.outsideNav;
+    // The training dummy stands where the painted arena shows it.
+    if (room && id === "arena") Object.assign(this.dummy, room.dummy);
     Object.assign(this.player, this.nav.safe(room?.entry ?? previous?.door ?? this.world.spawn));
     this.dialogue = null;
     this.depotOpen = false;
@@ -1427,7 +1432,11 @@ export class GameSession implements MonsterHost {
   private transferDepotGold(amount: number, withdraw: boolean) {
     const p = this.player;
     ensurePlayerEquipment(p);
-    if (!this.depotOpen || p.interior !== "depot" || distance(p, cityRoom("depot").chest) > 115)
+    if (
+      !this.depotOpen ||
+      p.interior !== "depot" ||
+      distance(p, cityRoom("depot", this.world.id).chest) > 115
+    )
       return this.say("Otwórz swoją skrzynię w budynku depozytu.");
     if (!Number.isInteger(amount) || amount < 1) return;
     if (withdraw) {
@@ -1446,7 +1455,11 @@ export class GameSession implements MonsterHost {
   private transferDepot(item: string, quantity: number, withdraw: boolean) {
     const p = this.player;
     ensurePlayerEquipment(p);
-    if (!this.depotOpen || p.interior !== "depot" || distance(p, cityRoom("depot").chest) > 115)
+    if (
+      !this.depotOpen ||
+      p.interior !== "depot" ||
+      distance(p, cityRoom("depot", this.world.id).chest) > 115
+    )
       return this.say("Otwórz swoją skrzynię w budynku depozytu.");
     if (!Number.isInteger(quantity) || quantity < 1 || quantity > 99) return;
     const material = isMaterial(item);
@@ -1549,7 +1562,7 @@ export class GameSession implements MonsterHost {
       this.god = !this.god;
       this.say(this.god ? "Nieśmiertelność włączona." : "Nieśmiertelność wyłączona.");
     } else if (c.action === "level") {
-      if (p.level >= 100) return;
+      if (p.level >= LEVEL_MAX) return;
       p.level += 1;
       p.xp = 0;
       p.hp = this.kit.stats.maxHp;
@@ -2053,11 +2066,15 @@ export class GameSession implements MonsterHost {
       this.pendingNpc = null;
       this.pendingExit = false;
       this.pendingChest = true;
-      this.go(cityRoom("depot").chest);
+      this.go(cityRoom("depot", this.world.id).chest);
       return;
     }
     if (c.type === "rest") {
-      if (p.interior !== "inn" || this.nearbyNpc()?.id !== "innkeeper") return;
+      if (
+        (p.interior !== "inn" || this.nearbyNpc()?.id !== "innkeeper") &&
+        this.dialogue !== "innkeeper"
+      )
+        return;
       if (p.hp >= this.kit.stats.maxHp && p.ki >= this.kit.stats.maxKi)
         return this.say("Masz pełne życie i KI. Nic nie zapłacisz.");
       if (p.gold < 5) return this.say("Odpoczynek kosztuje 5 monet.");
@@ -2188,6 +2205,70 @@ export class GameSession implements MonsterHost {
         p.upgrade = 1;
         this.say("Ostrze ulepszone: +4 ataku.");
       }
+      if (c.action === "rumors") {
+        const RUMORS_BY_CONTINENT: Record<string, string> = {
+          verdant:
+            "Plotka: Drwale ostrzegają przed leżem Ygdrashy w głębi wschodniej puszczy. Jej korzenie więżą, a jad zatruwa, ale jej kora jest wrażliwa na ogień i skupione uderzenia Ki!",
+          aether:
+            "Plotka: Kronikarze donoszą o gnieździe Zephyrosa na Wichrowej Iglicy. Prąd wstępujący odpycha każdego, kto nie potrafi ustabilizować aury Ki!",
+          nexus:
+            "Plotka: Czujniki wykryły przegrzanie rdzenia Golema w komorze reaktora. Przed jego promieniem termicznym chronią tylko metalowe filary chłodzące!",
+          pyra: "Plotka: Władca Kharzul zbiera moc w lawowych kraterach południa. Atakuje niszczycielską szarżą — szybki uskok w bok to jedyny ratunek!",
+        };
+        this.say(
+          RUMORS_BY_CONTINENT[this.world.id] ??
+            "Na szlakach krążą groźne bestie. Dbaj o zapas mikstur i ekwipunek.",
+        );
+      }
+      if (c.action === "boss_enter") {
+        const dest = this.world.landmarks.find((l) => l.kind === "danger") ?? {
+          x: this.world.spawn.x + 800,
+          y: this.world.spawn.y + 200,
+        };
+        this.player.x = dest.x;
+        this.player.y = dest.y;
+        this.dialogue = null;
+        this.say("Strażnik otworzył wrota do sanktuarium bossa. Przygotuj się do walki!");
+      }
+      this.flush();
+      return;
+    }
+    if (c.type === "brew") {
+      const npc = this.nearbyNpc();
+      if (npc?.id !== "alchemist" && this.dialogue !== "alchemist")
+        return this.say("Porozmawiaj z alchemiczką, aby warzyć mikstury.");
+      const matKeys = Object.keys(p.materials);
+      if (matKeys.length === 0)
+        return this.say(
+          "Potrzebujesz przynajmniej jednego surowca (ziół, mchu lub kłów) do warzenia.",
+        );
+      const firstMat = matKeys[0]!;
+      if (c.recipe === "hp") {
+        if (p.gold < 5) return this.say("Warzenie Mikstury Zdrowia wymaga 5 monet i 1 materiału.");
+        p.gold -= 5;
+        p.materials[firstMat]!--;
+        if (!p.materials[firstMat]) delete p.materials[firstMat];
+        p.items.potion = Math.min(99, p.items.potion + 1);
+        this.say("Uwarzono Miksturę Zdrowia (+1 do mikstur). Masz teraz: " + p.items.potion);
+      } else if (c.recipe === "ki") {
+        if (p.gold < 8) return this.say("Warzenie Eliksiru KI wymaga 8 monet i 1 materiału.");
+        p.gold -= 8;
+        p.materials[firstMat]!--;
+        if (!p.materials[firstMat]) delete p.materials[firstMat];
+        p.ki = this.kit.stats.maxKi;
+        this.kit.addBuff({ id: "ki-focus", ms: 60000, dealtPct: 15 });
+        this.say("Wypito świeży Eliksir KI: pełne KI oraz +15% zadawanych obrażeń przez 60 s!");
+      } else if (c.recipe === "antidote") {
+        if (p.gold < 6) return this.say("Warzenie Antidotum wymaga 6 monet i 1 materiału.");
+        p.gold -= 6;
+        p.materials[firstMat]!--;
+        if (!p.materials[firstMat]) delete p.materials[firstMat];
+        p.hp = Math.min(this.kit.stats.maxHp, p.hp + 50);
+        this.fx.armor.ms = 0;
+        this.fx.weaken.ms = 0;
+        this.syncFxBuffs();
+        this.say("Zastosowano Antidotum: usunięto osłabienia i odzyskano 50 punktów życia!");
+      }
       this.flush();
       return;
     }
@@ -2205,7 +2286,24 @@ export class GameSession implements MonsterHost {
         this.flush();
         return;
       }
-      if (!(c.item in ITEMS)) return;
+      if (!(c.item in ITEMS)) {
+        if (!c.buy && p.bagItems && (p.bagItems[c.item] ?? 0) > 0) {
+          const def = getItemById(c.item);
+          if (def) {
+            const count = p.bagItems[c.item]!;
+            if (count <= 1) delete p.bagItems[c.item];
+            else p.bagItems[c.item] = count - 1;
+            const sellPrice = def.price
+              ? Math.max(1, Math.floor(def.price / 2))
+              : Math.max(5, (def.level || 1) * 8);
+            p.gold += sellPrice;
+            this.say(`Sprzedano: ${def.name} (+${sellPrice} złota).`);
+            this.flush();
+            return;
+          }
+        }
+        return;
+      }
       const id = c.item as ItemId;
       const item = ITEMS[id];
       if (c.buy) {
@@ -2711,7 +2809,11 @@ export class GameSession implements MonsterHost {
         return;
       }
     }
-    if (this.pendingChest && p.interior === "depot" && distance(p, cityRoom("depot").chest) <= 95) {
+    if (
+      this.pendingChest &&
+      p.interior === "depot" &&
+      distance(p, cityRoom("depot", this.world.id).chest) <= 95
+    ) {
       this.pendingChest = false;
       this.depotOpen = true;
       this.route = [];

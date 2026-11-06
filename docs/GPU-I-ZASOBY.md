@@ -1,5 +1,30 @@
 # KI Legends — GPU i zasoby
 
+## Verdantia — materiały kontynentu 04.11.2026
+
+Paczka `verdantia-continent-v2@1.0.1` jest domyślnie włączona od 05.11.2026 (`ki-verdant-continent=0` wyłącza):
+15 zasobów, około 4,37 MiB plików runtime i 15,95 MiB rozkodowanych pikseli.
+Miasta zachowują swoje zaakceptowane wiązania; nowe klucze mają przestrzeń
+`terrain.verdantia-continent.*` / `object.verdantia-continent.*`.
+Nie podniesiono limitu pamięci streamingu dla potworów.
+
+Źródła: pięć powierzchni z `art/world-verdantia-v2@00e15ad5`, cztery drogi
+i cztery przezroczyste obiekty z dwóch ZIP-ów właściciela na Dysku Google.
+Dodatkowo wygenerowano oddzielne drzewo liściaste bez wyspy podłoża i teksturę
+łąki przez narzędzie `image_gen`, na podstawie palety dostarczonego krzewu.
+Oryginalne PNG, dostępne prompty, SHA-256 i identyfikatory archiwów zachowano
+w [pakiecie źródłowym](../art/production/verdantia-continent-v2/).
+[Pochodzenie i ograniczenia](../art/production/verdantia-continent-v2/provenance.json).
+Nie uruchamiano ani nie zmieniano instancji GPU właściciela.
+
+Odtworzenie: `node art/production/verdantia-continent-v2/prepare.mjs`, następnie
+`npm run assets:import -- art/production/verdantia-continent-v2/manifest.json --install`.
+Przy ponownym imporcie istniejącej wersji dodać `--replace`. Zachowana alfa,
+przycięcie pustych marginesów i dopasowanie rozmiaru nie zmieniają fizycznych
+kotwic. Z ilustracji dróg wycięto pas samej nawierzchni; renderer nakłada go
+na maski istniejących tras, bez wklejania prostokątnych obrazków całej drogi.
+Piasek i woda korzystają z istniejącej maski lądu. [Dowody z gry](zmiany/2026-11-04/ZMIANY.md#verdantia--oprawa-kontynentu-na-osobnej-gałęzi).
+
 ## Aetheria — materiały właściciela 03.11.2026
 
 Pakiet `aether-painted-preview@1.0.0`, flaga `ki-aether-painted=1`: cztery
@@ -461,8 +486,26 @@ generatorze (jedna plansza 4:3 na potwora: 4 klatki chodu/lotu, 4 ataku, 4 śmie
   prawo lub lewo (góra i dół pokazują bok); `idle` = pierwsza klatka chodu, `hit` = pierwsza klatka
   śmierci, `respawn` = śmierć od końca. Pakiety zastępują `enemy-v2-<id>` tym samym kluczem aktora.
 - Włączenie: domyślnie; `?ki-monsters-anime=0` przywraca poprzednie wizerunki (`enemy-v2-*` zostają).
-- Gotowe: 35 z 40 potworów. Bez planszy zostają: verdant-lisciak-skrytobojca, aether-swietlik-pieczeci, nexus-pajak-spawalniczy, nexus-roj-nanitow, pyra-popielny-wilk.
-  Rój nanitów to chmura bez jednego ciała i wymaga innego ujęcia.
+- Gotowe: **40 z 40** potworów. Ostatnie pięć (04.11.2026): verdant-lisciak-skrytobojca, aether-swietlik-pieczeci
+  (latający, `--no-effects`), nexus-pajak-spawalniczy, nexus-roj-nanitow (chmura jako jedna zwarta masa, `--no-effects`)
+  i pyra-popielny-wilk. Test `monsters-anime-complete` pilnuje, że każdy potwór bestiariusza ma pakiet.
+
+## Generowanie świata z promptów — `gen_from_prompts.py` (04.11.2026)
+
+Bez płatnego API: tekstury, drogi, przejścia, przyroda, budynki i wnętrza powstają na własnym GPU z promptów w
+`art/pipeline/prompts/world/*.md` (256 kompletnych promptów: 4 kontynenty × 64). Skrypt `scripts/gpu/gen_from_prompts.py`
+używa tego samego silnika co `gen_terrain_textures.py` i `gen_nature_assets.py` (SDXL z
+`/workspace/ki-legends-gpu/models/checkpoints`, domyślnie DreamShaper XL Turbo, 8 kroków):
+
+- `tile` (teren, skrzyżowania) i `road` (drogi 2:1): kołowe dopełnienie splotów, bezszwowe krawędzie; `plain` (przejścia):
+  bez dopełnienia, bo połówki różnią się celowo.
+- `sprite` (drzewa, krzewy, skały, woda, ozdoby, budynki z zewnątrz): na czystej bieli, tło usuwa `rembg` (isnet-anime).
+- `room` (wnętrza): cały pokój 960:760, kuźnia Pyry pionowo 540:1100.
+- Długie prompty są pisane pod duże generatory; SDXL ma okno 77 tokenów, więc skrypt wycina z każdego opis (`Subject`)
+  i paletę, a styl i negatyw dokłada krótki, osobny na tryb.
+- Wyjście: `renders/prompts-<tag>/<plik>-v<i>.png`, `metadata.json` (seed, SHA-256, błąd szwu) i arkusz przeglądowy na grupę.
+- `--dry-run` pokazuje plan bez GPU. Skala 2× to zwykłe Lanczos; `--refine` (img2img) jest niesprawdzony.
+- Skrypt nie startuje ani nie zatrzymuje poda. Licencje modeli: nadal `ASSET-LICENSE-REGISTER.md`.
 
 ## Zestaw grafik do układania świata — kontrakt (23.10.2026)
 
@@ -511,8 +554,11 @@ Maszynowy opis: [`world-asset-kit.json`](world-asset-kit.json), generowany przez
 
 ### Czego nie ruszać
 
-- Wnętrze kuźni w Pyrze to **pionowa sala 540 × 1100** (`SMITHY_ROOM` w `src/game/city/room.ts`); jej
-  kolizje są dopasowane do grafik paczki `pyra-smithy`. Inne wnętrza mają układ 960 × 760.
+- Wnętrza sześciu budynków specjalnych (sala, sklep, arena, depozyt, kuźnia, gospoda) we wszystkich czterech
+  miastach to **malowane pokoje**: `src/game/city/paintedRooms.ts` (kolizje odczytane z obrazów), obrazy
+  `public/game/interiors/<świat>-<budynek>.webp` z `art/production/interiors/` (skrypt
+  `scripts/build_painted_rooms.py`). Wszystkie pokoje, także kuźnia Pyry, mają 1920 × 1280. Dawny pionowy obraz kuźni Pyry jest zachowany jako
+  `pyra-smithy-interior-portrait-v1.png`.
 - Miasto = strefa bezpieczna ~4000 × 2500 (`city.bounds`), poza nią walka. Nowe obiekty w mieście nie mogą
   zasłaniać drzwi budynków usługowych (muszą być osiągalne A* ze startu).
 - Nie edytować `imported.json` ręcznie ani plików `*.generated.ts`; paczki wchodzą przez
@@ -542,7 +588,7 @@ Orientacyjnie: kilkanaście części jednego zestawu to godzina pracy GPU plus p
 
 Decyzja właściciela (23.10.2026): cała planeta ma zostać wypełniona. Poprawki animacji i podłoża przy miastach robimy na końcu. Potrzebne jest bardzo zróżnicowane środowisko (skały, góry, wulkany) oraz **neutralne zwierzęta**, które dają pożywienie i inne surowce (osobno od potworów z bestiariusza, które pozostają przeciwnikami).
 
-Zasady wspólne: niezależne zasoby (tekstury `terrain.*`, obiekty `object.*`, aktor `fauna.*`), nigdy gotowa ilustracja świata jako podłoże; kolizje z danych regionów, nie z grafiki; opt-in przez `PREVIEW_SWITCHES` do akceptacji; budżet tekstur 128 MiB na aktywny świat (kontynent ładuje tylko własny zestaw biomów plus wspólne skały); prawa do referencji i checkpointów nadal nierozstrzygnięte (ASSET-LICENSE-REGISTER.md).
+Zasady wspólne: niezależne zasoby (tekstury `terrain.*`, obiekty `object.*`, aktor `fauna.*`), nigdy gotowa ilustracja świata jako podłoże; kolizje z danych regionów, nie z grafiki; nowe pakiety wchodzą przez `PREVIEW_SWITCHES` (opt-in) do akceptacji właściciela, po której trafiają do `DEFAULT_ON_SWITCHES` (`=0` wyłącza; tak są dziś Verdantia, Pyra, Aetheria, potwory anime i malowane miasta); budżet tekstur 128 MiB na aktywny świat (kontynent ładuje tylko własny zestaw biomów plus wspólne skały); prawa do referencji i checkpointów nadal nierozstrzygnięte (ASSET-LICENSE-REGISTER.md).
 
 ### 1. Krajobraz: tekstury podłoża (`terrain.*`)
 
@@ -642,3 +688,141 @@ Ikony surowców (17 typów × 2–3 warianty) i ikony przedmiotów z Księgi (br
 2. Gęstość świata: pełne pokrycie całego kontynentu od razu czy najpierw pas wokół miasta o promieniu ok. 15 000 j.
 3. Styl zwierząt: malowany jak potwory, czy prostszy (mniej klatek).
 4. Prawa do referencji i checkpointów oraz moment uruchomienia poda (po stronie właściciela).
+
+## Pyra — archiwum koncepcji 04.11.2026
+
+Na gałęzi `art/pyra-materials-2026-11-04` zachowano [10 plansz PNG, manifest z SHA-256 i dostępne prompty](../art/production/pyra-concepts-2026-11-04/): 52 wzory podłoży, dróg, roślin, form terenu, przejść, dekoracji, rekwizytów oraz statycznych efektów. To archiwum wygenerowanych koncepcji; nie jest paczką runtime. Wymaga wydzielenia elementów, oczyszczenia alfa/poświat, sprawdzenia kafelkowania i przygotowania animacji efektów przed importem do gry.
+
+## Verdantia — dodatkowe koncepcje 04.11.2026
+
+[Archiwum 4 plansz i promptów](../art/production/verdantia-extra-concepts-2026-11-04/) zawiera 26 nowych wzorów: 8 roślin podszytu, 6 drzew i elementów drewna, 6 form terenu oraz 6 rekwizytów eksploracji. Gałąź `art/verdantia-extra-2026-11-04`. To materiały koncepcyjne; przed importem wymagają wydzielenia, oczyszczenia tła/poświat i oceny skali oraz kotwic.
+
+## Verdantia — przygotowane dodatkowe grafiki runtime
+
+Pakiet [verdantia-extra-runtime](../art/production/verdantia-extra-runtime/) zawiera 26 osobnych sprite’ów wyciętych z przygotowanych przez `image_gen` wersji czterech plansz. Pierwotne koncepcje są zachowane. Wycięcia mają przezroczyste tło, puste marginesy i rozmiary 192/256/384/512 px; pełny pakiet ma 10,37 MiB rozkodowanych pikseli i około 3,18 MiB plików. Włącza go istniejąca opcja `ki-verdant-continent=1`, razem z podłożami i drogami. Przypisania mają osobne klucze `object.verdantia-extra.*`; miasta i statystyki nie są nadpisywane.
+
+Odtworzenie: `node art/production/verdantia-extra-runtime/prepare.mjs`, następnie `npm run assets:import -- art/production/verdantia-extra-runtime/manifest.json --install` (przy ponownej instalacji dodać `--replace`). Pochodzenie, źródła i SHA-256 są w tym samym pakiecie. Warianty drzew i podszytu są deterministyczne, a fizyczne footprinty, kotwice i położenia pozostają źródłowe.
+
+## Pyra — pakiet kontynentu runtime 04.11.2026
+
+Pakiet [pyra-continent-v2@1.0.0](../art/production/pyra-continent-v2/)
+wydziela 52 obrazy z dziesięciu zachowanych plansz: 14 materiałów powierzchni,
+33 obiekty oraz 5 efektów otoczenia. Pięć plansz (rośliny, dwa zestawy terenu,
+przejścia, rekwizyty) oczyszczono przez `image_gen`; oryginalne koncepcje
+pozostają w osobnym archiwum. `provenance.json` i `sources.sha256.json`
+zapisują pochodzenie oraz SHA-256. Importer stosuje osobne wiązania
+`terrain.pyra-continent.*` i `object.pyra-continent.*`, opt-in
+domyślnie włączone od 05.11.2026 (`ki-pyra-continent=0` wyłącza); nie zastępuje wcześniejszych kluczy katalogu.
+
+Odtworzenie: `node art/production/pyra-continent-v2/prepare.mjs`, następnie
+`npm run assets:import -- art/production/pyra-continent-v2/manifest.json --install`
+(przy ponownej instalacji dodać `--replace`). Przy wycinaniu usuwane są wyłącznie
+małe, odłączone fragmenty sąsiednich elementów dotykające krawędzi komórki.
+Sprite’y mają przezroczysty margines. Materiały dróg wycięto ze środkowego pasa,
+a brzegi z części stałego gruntu, żeby nie nakładać obrazu cieczy na szlak.
+
+Runtime: 7 773 994 bajty, 26,65 MiB rozkodowanych pikseli; pełny digest
+`55660ce18ae52d4d64d648e84920baa448b6923136142f42ed6e6edbcbaadd00`.
+Tylko najbliższe fragmenty świata i widoczne obiekty są streamowane.
+Koncepcje efektów mają animację transformacji/alfa; nie są pełnymi animacjami
+klatkowymi. Odbiór na fizycznym telefonie pozostaje otwarty.
+
+## Aetheria — pakiet kontynentu runtime 04.11.2026
+
+Pakiet [aetheria-continent-v2@1.0.0](../art/production/aetheria-continent-v2/)
+zawiera 36 osobnych obrazów: 14 powierzchni i 22 obiekty. Zachowano wszystkie
+20 materiałów źródłowych z gałęzi `art/world-verdantia-v2`, ich manifest oraz
+prompty; SHA-256 oryginalnych obrazów zweryfikowano przed przygotowaniem.
+Do runtime wybrano 10 istniejących materiałów powierzchni. Pozostałe cztery
+nawierzchnie i 22 obiekty przygotowano przez `image_gen`, aby zastąpić blade
+podłoża i obiekty z wodnymi/kamiennymi podstawkami.
+
+Cztery plansze generacji, trzy oczyszczone plansze obiektów, komplet użytych
+promptów i źródłowe SHA-256 są zachowane w `source/`, `provenance.json` oraz
+`sources.sha256.json`. Obróbka tła i marginesów korzysta z `image_gen`;
+`prepare.mjs` technicznie wydziela komórki, usuwa małe odłączone fragmenty
+sąsiednich obiektów przy krawędzi, skaluje i dodaje przezroczysty margines.
+Drogi i nurt wykorzystują środkowy pas obrazu, żeby nie namalować pozornej
+wody na przechodnim lądzie. Osiem niewykorzystanych starych obiektów oraz dwa
+stare podłoża pozostają w archiwum źródłowym.
+
+Odtworzenie: `node art/production/aetheria-continent-v2/prepare.mjs`, potem
+`npm run assets:import -- art/production/aetheria-continent-v2/manifest.json --install`
+(przy ponownej instalacji dodać `--replace`). Rejestr ma osobne wiązania
+`terrain.aetheria-continent.*` i `object.aetheria-continent.*`; istniejące klucze
+nie są nadpisywane. Domyślnie włączone od 05.11.2026; `ki-aetheria-continent=0` wyłącza.
+
+Runtime: 5 331 248 bajtów, 16,21 MiB rozkodowanych pikseli. Digest:
+`3117f4ea8b96a9ffc9cf799a03f519f78ef8928a4cb91c372127bcce58f4a931`.
+Gra korzysta ze streamingu i dotychczasowych budżetów. Odbiór płynności
+na fizycznym telefonie pozostaje otwarty; programowy WebGL sprawdza poprawność.
+
+## Nexus — komplet materiałów kontynentu 04.11.2026
+
+[Pakiet nexus-continent-v2](../art/production/nexus-continent-v2/) zawiera
+64 osobne obrazy WebP: 8 podłoży, 6 nawierzchni dróg, 8 roślin, 8 form terenu,
+10 rekwizytów, 6 struktur, 6 materiałów wody/brzegów, 6 statycznych nakładek
+VFX oraz 6 budynków/przejść. Łącznie 20 powierzchni, 38 obiektów i 6 efektów.
+Dwa budynki uzupełniają nowszą oprawę warsztatu i gospody/punktu regeneracji;
+cztery pozostałe budynki usługowe miasta mają już malowane zasoby. Ich stan
+oraz SHA-256 istniejących plików zapisuje `existing-city.json`.
+
+Wygenerowano dziewięć plansz przez `image_gen`, a cztery z nich dodatkowo
+oczyszczono edycją alfa i marginesów. Oryginały, oczyszczone wersje, wszystkie
+prompty i pochodzenie pozostają w `source/` i `provenance.json`. Przygotowanie:
+`node art/production/nexus-continent-v2/prepare.mjs`. Osobne bindingi
+`terrain.nexus-continent.*` oraz `object.nexus-continent.*` nie nadpisują miasta.
+Wielkość plików: 4 458 920 bajtów, 33,87 MiB rozkodowanych pikseli całego zestawu.
+
+Pakiet jest materiałem do integracji, `previewOnly: true`; nie wpisano go do
+aktywnego katalogu i nie włączono w grze. `coverage.json` wymienia grupy i dalsze
+prace: przypisania, maski lądu/wody, footprinty, skala/gęstość i odbiór w runtime.
+Efekty są pojedynczymi przezroczystymi obrazami do późniejszej animacji,
+a nie animowanymi sekwencjami. Ciągłość tekstur, maski brzegów i wydajność
+wymagają oceny podczas integracji. Bohaterowie, potwory, HUD i audio pozostają
+osobnymi istniejącymi zasobami. [Kontrole i podgląd](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu).
+
+## Nexus-9 — integracja oprawy kontynentu 05.11.2026
+
+Ten wpis zastępuje akapit „nie wpisano go do aktywnego katalogu" powyżej.
+
+Pakiet [nexus-continent-v2@1.0.0](../art/production/nexus-continent-v2/) jest
+zaimportowany do rejestru i podłączony do renderu świata. Rejestr po instalacji:
+11 319 728 bajtów, digest `74639393a0f03565c127b81ee164885c9ecd3128e687be49a138c8efb7df06d1`,
+katalog zasobów `public/game/assets/gpu/nexus-continent-v2/1.0.0-74639393a0f0/`.
+Dekodowane piksele zestawu 33,87 MiB; budżet dekodowany świata Nexus-9 po instalacji
+106 541 856 B (101,6 MiB) z limitu 128 MiB. Odtworzenie:
+`node art/production/nexus-continent-v2/prepare.mjs`, potem
+`npm run assets:import -- art/production/nexus-continent-v2/manifest.json --install`
+(przy ponownej instalacji dodać `--replace`).
+
+Wiązania są osobne: `terrain.nexus-continent.*` i `object.nexus-continent.*` nie
+nadpisują żadnego istniejącego klucza ni miasta. Blok generyczny renderera żąda pod
+prefiksem kontynentu nazw `sand`, `water` i `road1…roadN`, których pakiet nie używał
+(`dry-shore`, `ocean`, `road-paved`), dlatego manifest zawiera siedem aliasów na te
+same zasoby. Runtime: `src/game/world/generated/nexusContinent.ts` — cztery podłoża
+biomów mapowane 1:1 na `biomeNames` ze `world.json`, przepisanie scenerii na realne
+identyfikatory autorowane (`nexus-lab`, `nexus-monolith`, `nexus-reactor`,
+`nexus-terminal`, obozowiska), roślinność przydrożna, efekty ambientowe i rozrzut
+dekoracyjny.
+
+**Włączanie:** `?ki-nexus-continent=1`. Pakiet NIE jest w `DEFAULT_ON_SWITCHES` —
+czeka na odbiór właściciela, zgodnie z zasadą, że domyślnie włącza się dopiero
+zaakceptowaną oprawę.
+
+**Gęstość dziczy.** Dane autorowane niosą poza miastem 8–16 obiektów na kadr
+przeciw 104 w stolicy, więc sama paleta nie usuwa pustki. Rozrzut dokłada obiekty
+**nieistotne fizycznie** (bez `footprint`, `solid: false`) z limitem 40 na strumieniowany
+chunk; kolizje, nawigacja, spawny i zapisy pozostają bez zmian. Zmierzono w buildzie
+playtest na programowym WebGL: 8 → 20, 13 → 23, 12 → 23, 16 → 33 dekoracji, zero
+błędów konsoli. Cząstki powietrzne są tylko w biomach ciepłych — gęstsze pole
+wymusiło wygasanie zrzutu.
+
+**Testy.** `src/test/nexus-continent.test.ts` (8): opt-in, brak nadpisania istniejących
+wiązań, aliasy, odczyt komórek biomu bez zmiany chunka, nienaruszalność miast i
+obiektów fizycznych, warianty koron według biomu, nieistotność rozrzutu i limit cząstek.
+`e2e/nexus-continent.spec.ts` w projekcie `software-webgl` (rejestracja w
+`playwright.config.ts`). **Nie wykonano go pomyślnie w kontenerze agenta**: pada na
+budżecie marszu 90 s przy tempie ~10,6 jednostki/s na programowym WebGL — identycznie
+jak istniejący `aetheria-continent.spec.ts`, którego nie zmieniano. Odbiór na fizycznym
+telefonie pozostaje otwarty.

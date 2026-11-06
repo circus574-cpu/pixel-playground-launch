@@ -1,0 +1,11 @@
+{
+  "base": "7b5d49392b12070e63c8cc9e281b5dd6dbeff0f8",
+  "allIdentical": true,
+  "sha256": {
+    "world.json": "d945f0260c44f73a58461f59b69b41796e6c068747d0d3660195a3fca4e3276c",
+    "terrain.json": "4508e157a9706052d55511c04db0dbccfc25f90b556b7a7e60bb1e8b14996f9b",
+    "navigation.json": "783608167ec754d288b1e981f43875ffccb7eee9b8448e813aebe12702d6d59f",
+    "collision.json": "9d1f030830eb4d1a87a1f15e80b123d8fae4b23ec5d77d38ab141a6289bed549",
+    "spawns.json": "2e7f6a4e55a867448a872b749c5aa6ab412c892509f177e3398991708a3e2041"
+  }
+}

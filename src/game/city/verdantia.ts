@@ -213,6 +213,26 @@ export const CITY_NPCS: WorldNpc[] = [
     dialogue:
       "Zielona Przystań ma sześć dzielnic usługowych połączonych alejami. Kupcy są na północnym zachodzie, kuźnia na południowym zachodzie, a depozyt przy południowej alei. Gospoda i trening leżą na wschodzie.",
   },
+  {
+    id: "alchemist",
+    name: "Elowen",
+    role: "Zielarka i Alchemiczka",
+    x: 1450 + O.x,
+    y: 1120 + O.y,
+    tint: 0x88e088,
+    dialogue:
+      "Witaj w pracowni zielarskiej i alchemicznej. Warzę mikstury zdrowia, regenerujące eliksiry energii KI oraz odtrutki z leśnych surowców i ziół.",
+  },
+  {
+    id: "warden",
+    name: "Kaelen",
+    role: "Strażnik Leża Ygdrashy",
+    x: 2150 + O.x,
+    y: 1250 + O.y,
+    tint: 0xe08888,
+    dialogue:
+      "Stoisz przed matecznikiem puszczy. W głębi drzew czuwa Ygdrasha – pradawna matka korzeni. Jej pnącza więżą, a jad zatruwa nieuważnych. Używaj ognia i unikaj trujących kałuż! Zalecany poziom: 8+.",
+  },
 ];
 /** Wild boars live beyond the city bounds, on a ring around them. */
 export const VERDANT_BOARS = Array.from({ length: 20 }, (_, i) => {

@@ -1,0 +1,9 @@
+
+ RUN  v4.1.12 /tmp/ki-verdantia-continent
+
+
+ Test Files  3 passed (3)
+      Tests  13 passed (13)
+   Start at  16:45:21
+   Duration  4.82s (transform 1.14s, setup 226ms, import 2.71s, tests 178ms, environment 1.20s)
+

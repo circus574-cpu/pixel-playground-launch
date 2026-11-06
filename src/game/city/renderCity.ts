@@ -3,9 +3,8 @@ import { catalog, textureBinding } from "../assets/catalog";
 import { renderDepth } from "../assets/layers";
 import type { WorldDefinition } from "../world/types";
 import { cityRoom } from "./room";
-import type { TextureRef } from "../assets/schema";
-import type { BuildingId } from "./types";
-import { renderSmithy } from "./renderSmithy";
+import { BUILDING_IDS, type BuildingId } from "./types";
+import { isPaintedWorld, roomPicture } from "./paintedRooms";
 
 export function renderCityStreets(scene: Phaser.Scene, world: WorldDefinition) {
   if (!world.city) return;
@@ -99,126 +98,118 @@ export function renderCityStreets(scene: Phaser.Scene, world: WorldDefinition) {
   scene.events.once("destroy", release);
 }
 
+const roomKey = (worldId: string, id: BuildingId) => `room-${worldId}-${id}`;
+
+/**
+ * Downloads the picture of one room on entry (never with the world, so it does not count against the world's
+ * texture budget) and resolves once the texture exists, or false when it could not be loaded.
+ */
+function loadRoomTexture(scene: Phaser.Scene, worldId: string, id: BuildingId): Promise<boolean> {
+  const key = roomKey(worldId, id);
+  if (scene.textures.exists(key)) return Promise.resolve(true);
+  if (!isPaintedWorld(worldId)) return Promise.resolve(false);
+  return new Promise((resolve) => {
+    const done = () => resolve(scene.textures.exists(key));
+    scene.load.once("filecomplete-image-" + key, done);
+    scene.load.on("loaderror", function onError(file: { key: string }) {
+      if (file.key !== key) return;
+      scene.load.off("loaderror", onError);
+      resolve(false);
+    });
+    scene.load.image(key, roomPicture(worldId, id));
+    scene.load.start();
+  });
+}
+
+/** Warms the browser cache with the six room pictures of the world, so entering a building does not wait. */
+export function prefetchRooms(worldId: string) {
+  if (!isPaintedWorld(worldId) || typeof fetch !== "function") return;
+  const idle = (run: () => void) =>
+    typeof window !== "undefined" && "requestIdleCallback" in window
+      ? (window as unknown as { requestIdleCallback: (f: () => void) => void }).requestIdleCallback(
+          run,
+        )
+      : setTimeout(run, 4000);
+  idle(() => {
+    for (const id of BUILDING_IDS)
+      void fetch(roomPicture(worldId, id), { priority: "low" } as RequestInit).catch(
+        () => undefined,
+      );
+  });
+}
+
 /** Separate room presentation; the session owns all transitions and collision rules. */
-export function renderCityInterior(
-  scene: Phaser.Scene,
-  world: WorldDefinition,
-  id: BuildingId,
-  bindings: Readonly<Record<string, TextureRef>> = {},
-) {
+export function renderCityInterior(scene: Phaser.Scene, world: WorldDefinition, id: BuildingId) {
   const room = cityRoom(id, world.id),
     b = world.city!.buildings.find((b) => b.id === id)!;
-  if (id === "smithy" && world.id === "pyra") return renderSmithy(scene, world, room);
   const objects: (
     | Phaser.GameObjects.TileSprite
     | Phaser.GameObjects.Image
     | Phaser.GameObjects.Text
     | Phaser.GameObjects.Graphics
   )[] = [];
-  const floorKind = id === "arena" || id === "smithy" ? "stone" : "floor";
-  const floor = textureBinding(
-    "terrain." + world.id + ".interior-" + floorKind,
-    textureBinding("terrain.city-" + floorKind, { asset: "city-floor" }),
-  );
-  objects.push(
-    scene.add.tileSprite(80, 82, 800, 632, floor.asset, floor.frame).setOrigin(0).setDepth(-90000),
-  );
-  const walls = scene.add.graphics().setDepth(-80000);
-  walls.fillStyle(world.city?.palette?.wall ?? 0x162c27);
-  walls.fillRect(60, 40, 840, 72);
-  walls.fillStyle(world.city?.palette?.edge ?? 0x375446);
-  walls.fillRect(60, 95, 40, 620);
-  walls.fillRect(860, 95, 40, 620);
-  walls.fillStyle(world.city?.palette?.accent ?? 0x9b8051);
-  walls.fillRect(76, 104, 8, 590);
-  walls.fillRect(876, 104, 8, 590);
-  walls.lineStyle(3, 0xc2b17b, 0.5);
-  walls.lineBetween(90, 108, 872, 108);
-  walls.fillStyle(0x243d31);
-  walls.fillRect(60, 697, 345, 32);
-  walls.fillRect(555, 697, 345, 32);
-  walls.fillStyle(0xdac184, 0.75);
-  walls.fillRect(412, 696, 136, 13);
-  objects.push(walls);
-  const prop = (key: string, x: number, y: number, size = 150) => {
-    const ref =
-      bindings[key] ??
-      textureBinding(
-        "object." + world.id + ".interior." + key,
-        textureBinding("object.city." + key, { asset: "city-props", frame: 0 }),
+  let disposed = false;
+  const build = (painted: boolean) => {
+    if (disposed) return;
+    if (painted) {
+      objects.push(
+        scene.add
+          .image(0, 0, roomKey(world.id, id))
+          .setOrigin(0)
+          .setDisplaySize(room.width, room.height)
+          .setDepth(-90000),
       );
-    const image = scene.add
-      .image(x, y, ref.asset, ref.frame)
-      .setDisplaySize(size, size)
-      .setOrigin(0.5, 0.88)
-      .setDepth(y);
-    objects.push(image);
-  };
-  if (id !== "arena") {
-    prop("desk", 480, 220, 210);
-    prop("shelf", 190, 200, 155);
-    prop("shelf", 770, 200, 155);
-  }
-  if (id === "depot") prop("chest", room.chest.x, room.chest.y, 175);
-  if (id === "arena") {
-    const ring = scene.add.graphics().setDepth(-70000);
-    ring.lineStyle(5, 0xa8976a, 0.8);
-    ring.strokeCircle(room.dummy.x, room.dummy.y + 35, 145);
-    ring.lineStyle(2, 0xdacb97, 0.6);
-    ring.strokeCircle(room.dummy.x, room.dummy.y + 35, 120);
-    objects.push(ring);
-    prop("dummy", room.dummy.x, room.dummy.y, 175);
+    } else {
+      // The picture could not be loaded: a plain floor and wall keep the room usable.
+      const floor = textureBinding(
+        "terrain." + world.id + ".interior-floor",
+        textureBinding("terrain.city-floor", { asset: "city-floor" }),
+      );
+      objects.push(
+        scene.add
+          .tileSprite(0, 0, room.width, room.height, floor.asset, floor.frame)
+          .setOrigin(0)
+          .setDepth(-90000),
+      );
+      const wall = scene.add.graphics().setDepth(-80000);
+      wall.fillStyle(world.city?.palette?.wall ?? 0x162c27);
+      wall.fillRect(0, 0, room.width, room.obstacles[0]?.height ?? 400);
+      objects.push(wall);
+    }
     objects.push(
       scene.add
-        .text(room.dummy.x, room.dummy.y - 160, "MANEKIN · 0 OBRONY", {
+        .text(room.width / 2, 60, b.name, {
           fontFamily: "Arial",
-          fontSize: "17px",
-          color: "#eadca6",
-          stroke: "#203a2b",
-          strokeThickness: 4,
+          fontSize: "44px",
+          color: "#ecdfb0",
+          stroke: "#12281e",
+          strokeThickness: 7,
         })
         .setOrigin(0.5)
         .setResolution(2)
         .setDepth(1000),
     );
-  }
-  if (id === "smithy") {
-    prop("anvil", 650, 390, 180);
-    prop("chest", 730, 500, 120);
-  }
-  if (id === "inn") {
-    prop("bed", 660, 405, 220);
-    prop("desk", 220, 480, 130);
-  }
-  if (id === "shop") {
-    prop("chest", 660, 400, 135);
-    prop("shelf", 740, 500, 150);
-  }
-  objects.push(
-    scene.add
-      .text(480, 55, b.name, {
-        fontFamily: "Arial",
-        fontSize: "30px",
-        color: "#ecdfb0",
-        stroke: "#12281e",
-        strokeThickness: 5,
-      })
-      .setOrigin(0.5)
-      .setResolution(2)
-      .setDepth(1000),
-  );
-  objects.push(
-    scene.add
-      .text(room.exit.x, room.exit.y - 4, "↓  WYJŚCIE DO MIASTA", {
-        fontFamily: "Arial",
-        fontSize: "17px",
-        color: "#f4dfab",
-        backgroundColor: "#183a2dcc",
-        padding: { x: 10, y: 7 },
-      })
-      .setOrigin(0.5)
-      .setResolution(2)
-      .setDepth(1000),
-  );
-  return { dispose: () => objects.forEach((o) => o.destroy()) };
+    objects.push(
+      scene.add
+        .text(room.exit.x, room.exit.y + 18, "↓  WYJŚCIE DO MIASTA", {
+          fontFamily: "Arial",
+          fontSize: "22px",
+          color: "#f4dfab",
+          backgroundColor: "#183a2dcc",
+          padding: { x: 12, y: 8 },
+        })
+        .setOrigin(0.5)
+        .setResolution(2)
+        .setDepth(1000),
+    );
+  };
+  void loadRoomTexture(scene, world.id, id).then(build);
+  return {
+    dispose: () => {
+      disposed = true;
+      objects.forEach((o) => o.destroy());
+      const key = roomKey(world.id, id);
+      if (scene.textures.exists(key)) scene.textures.remove(key);
+    },
+  };
 }

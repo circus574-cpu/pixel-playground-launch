@@ -89,7 +89,8 @@ export function PlanetMap({
   });
   const [ready, setReady] = useState(false);
   const [hiRes, setHiRes] = useState(() => Boolean(decodedImage.cached?.(atlasHi)));
-  const [selected, setSelected] = useState<string | null>(current ?? null);
+  // Opened on the player's position (in-game): no description sheet, so the map and its controls stay free.
+  const [selected, setSelected] = useState<string | null>(focus ? null : (current ?? null));
   const [hovered, setHovered] = useState<string | null>(null);
   const [fog, setFog] = useState(false);
   /** Atlas point of the player when the map was opened from the game (world v2). */
@@ -679,7 +680,7 @@ export function PlanetMap({
       )}
 
       {onTeleport && ATLAS_V2 && (
-        <div className="pm-teleport-tools" style={{ top: notice ? 190 : 126 }}>
+        <div className="pm-teleport-tools">
           <Button
             type="button"
             aria-pressed={teleportArmed}

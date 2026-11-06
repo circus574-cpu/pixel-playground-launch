@@ -49,6 +49,10 @@ export default defineConfig({
     {
       name: "software-webgl",
       testMatch: [
+        "**/verdantia-continent.spec.ts",
+        "**/pyra-continent.spec.ts",
+        "**/aetheria-continent.spec.ts",
+        "**/nexus-continent.spec.ts",
         "**/development.spec.ts",
         "**/racial-trials.spec.ts",
         "**/verdant-painted-preview.spec.ts",

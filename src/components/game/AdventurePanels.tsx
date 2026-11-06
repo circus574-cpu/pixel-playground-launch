@@ -290,6 +290,10 @@ export function NpcDialogue({
       trainer: "Trenuj na manekinie.",
       innkeeper: "Odpocznij w gospodzie.",
       steward: "Poznaj dzielnice miasta.",
+      alchemist:
+        "Witaj w pracowni zielarskiej i alchemicznej. Warzę mikstury zdrowia, regenerujące eliksiry energii KI oraz odtrutki zebranych w terenie surowców.",
+      warden:
+        "Stoisz przed leżem regionalnego bossa. Przed wejściem upewnij się, że posiadasz odpowiedni ekwipunek i znasz taktykę walki.",
     }[npc.id];
   return (
     <div className="ki-modal-backdrop">
@@ -412,21 +416,89 @@ export function NpcDialogue({
             </button>
           )}
           {npc.id === "keeper" && (
-            <button onClick={() => send({ type: "chest" })}>Podejdź do swojej skrzyni</button>
+            <button onClick={() => send({ type: "chest" })}>Otwórz depozyt / Skrytkę</button>
           )}
           {npc.id === "trainer" && (
-            <button onClick={() => send({ type: "training", action: "start" })}>
-              Ćwicz na manekinie
-            </button>
+            <>
+              <button onClick={() => send({ type: "training", action: "start" })}>
+                Rozpocznij próbę bojową (Manekin treningowy)
+              </button>
+              <button disabled={p.skills.length <= 1} onClick={() => send({ type: "respec" })}>
+                Zresetuj węzły talentów KI (Odzyskaj punkty)
+              </button>
+            </>
           )}
           {npc.id === "innkeeper" && (
-            <button
-              disabled={p.gold < 5 || (p.hp >= state.stats.maxHp && p.ki >= state.stats.maxKi)}
-              onClick={() => send({ type: "rest" })}
-            >
-              Odpocznij · 5 monet
-            </button>
+            <>
+              <button
+                disabled={p.gold < 5 || (p.hp >= state.stats.maxHp && p.ki >= state.stats.maxKi)}
+                onClick={() => send({ type: "rest" })}
+              >
+                Odpocznij w gospodzie · 5 monet (Pełne HP i KI)
+              </button>
+              <button onClick={() => send({ type: "dialogue", action: "rumors" })}>
+                Zapytaj o lokalne plotki i wieści o bossach
+              </button>
+            </>
           )}
+
+          {npc.id === "alchemist" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", width: "100%" }}>
+              <p style={{ margin: "4px 0", fontSize: "0.9em" }}>
+                <strong>Dostępne surowce:</strong>{" "}
+                {Object.keys(p.materials).length > 0
+                  ? Object.entries(p.materials)
+                      .map(([k, v]) => `${MATERIALS[k]?.name ?? k}: ${v}`)
+                      .join(", ")
+                  : "Brak zebranych surowców (pokonuj bestie i zbieraj rośliny w terenie)"}
+              </p>
+              <button
+                disabled={Object.keys(p.materials).length === 0 || p.gold < 5}
+                onClick={() => send({ type: "brew", recipe: "hp" })}
+              >
+                Uwarz Miksturę Zdrowia (1 surowiec + 5 monet)
+              </button>
+              <button
+                disabled={Object.keys(p.materials).length === 0 || p.gold < 8}
+                onClick={() => send({ type: "brew", recipe: "ki" })}
+              >
+                Uwarz Eliksir KI (1 surowiec + 8 monet · +15% dmg)
+              </button>
+              <button
+                disabled={Object.keys(p.materials).length === 0 || p.gold < 6}
+                onClick={() => send({ type: "brew", recipe: "antidote" })}
+              >
+                Uwarz Antidotum Oczyszczające (1 surowiec + 6 monet)
+              </button>
+            </div>
+          )}
+          {npc.id === "warden" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", width: "100%" }}>
+              <div
+                style={{
+                  padding: "8px",
+                  background: "rgba(255,255,255,0.06)",
+                  borderRadius: "4px",
+                }}
+              >
+                <strong>Raport Taktyczny Strażnika:</strong>
+                <p style={{ margin: "4px 0", fontSize: "0.88em", lineHeight: "1.4" }}>
+                  {world.id === "verdant" &&
+                    "Ygdrasha (Poziom 8+): Prastara matka korzeni uderza falami toksycznego pyłu i pnączy. Używaj ognia i unikaj kałuż jadu!"}
+                  {world.id === "aether" &&
+                    "Zephyros (Poziom 12+): Władca Wichrów odpycha falami ciśnienia. Zachowaj KI na kontrataki w oknach spokoju!"}
+                  {world.id === "nexus" &&
+                    "Core Golem (Poziom 14+): Mechaniczny olbrzym strzela wiązką jonową. Chowaj się za filarami chłodzącymi!"}
+                  {world.id === "pyra" &&
+                    "Kharzul (Poziom 16+): Władca Popiołów wykonuje niszczycielską szarżę. Kluczowy jest unik w bok w ostatniej chwili!"}
+                </p>
+              </div>
+              <button onClick={() => send({ type: "dialogue", action: "boss_enter" })}>
+                Wejdź do Leża Bossa (Rozpocznij Wyzwanie)
+              </button>
+            </div>
+          )}
+
           {npc.id === "steward" && world.city && (
             <CityDirectory
               city={world.city}
@@ -454,17 +526,23 @@ const TYPE_LABEL: Record<string, string> = {
   ultimate: "Ostateczna",
   "ki-mode": "Tryb KI",
 };
-/** Skill tree of the player's race (owner annex 22.10.2026): 29 nodes, 3 branches, one point per level up to 20. */
+/**
+ * Skill tree of the player's race (owner annex 22.10.2026): 29 nodes, 3 branches, one point per level
+ * with no cap (owner 03.11.2026). Points can be put into a node again and again: its effect grows in
+ * direct proportion to its rank.
+ */
 export function SkillTree({ state, send }: { state: GameViewState; send: SendCommand }) {
   const p = state.player;
   const nodes = KIT_NODES[p.race];
   const names = BRANCH_NAMES[p.race];
   const learned = new Set(p.skills);
+  const rankOf = (id: string) => p.skills.filter((s) => s === id).length;
   const row = (id: string) => nodes.find((n) => n.id === id)!;
   const branch = (b: "A" | "B" | "C") => nodes.filter((n) => n.id.startsWith(b));
   const node = (id: string) => {
     const n = row(id);
     const have = learned.has(id);
+    const rank = rankOf(id);
     const check = canLearn(p.race, p.level, p.skills, id);
     const blocked = !have && n.excludes && learned.has(n.excludes);
     return (
@@ -482,16 +560,27 @@ export function SkillTree({ state, send }: { state: GameViewState; send: SendCom
           </small>
         </header>
         <p>{n.text}</p>
-        {have ? (
+        {have && id === "R" ? (
           <span className="ki-skill-state">Poznane</span>
         ) : (
-          <button
-            disabled={!check.ok}
-            title={check.ok ? "Poznaj za 1 punkt" : check.reason}
-            onClick={() => send({ type: "learn", node: id })}
-          >
-            {check.ok ? "Poznaj · 1 pkt" : check.reason}
-          </button>
+          <>
+            {have && (
+              <span className="ki-skill-state">
+                Ranga {rank} · efekt ×{rank}
+              </span>
+            )}
+            <button
+              disabled={!check.ok}
+              title={check.ok ? "Wydaj 1 punkt" : check.reason}
+              onClick={() => send({ type: "learn", node: id })}
+            >
+              {check.ok
+                ? have
+                  ? "Zwiększ rangę do " + (rank + 1) + " · 1 pkt"
+                  : "Poznaj · 1 pkt"
+                : check.reason}
+            </button>
+          </>
         )}
       </article>
     );
@@ -500,7 +589,7 @@ export function SkillTree({ state, send }: { state: GameViewState; send: SendCom
     <div className="ki-adventure-panel ki-skilltree">
       <p>
         <strong>Punkty umiejętności: {state.skillPoints}</strong> · poziom {p.level} (1 punkt na
-        poziom do 20.) · wykorzystane {p.skills.length}
+        poziom, bez limitu) · wykorzystane {p.skills.length}
       </p>
       <div className="ki-skill-root">{node("R")}</div>
       {(["A", "B", "C"] as const).map((b) => (
@@ -523,8 +612,9 @@ export function SkillTree({ state, send }: { state: GameViewState; send: SendCom
         {state.respecCost === 0 ? "pierwszy raz za darmo" : state.respecCost + " monet"}
       </button>
       <p className="ki-panel-caption">
-        Wymagany poprzednik, poziom i brak wykluczającego wyboru. Efekty i koszty Ki to wartości z
-        aneksu projektowego do testów i balansu.
+        Wymagany poprzednik, poziom i brak wykluczającego wyboru. Każdy dodatkowy punkt w węźle
+        zwiększa jego efekt wprost proporcjonalnie (ranga 2 = ×2, ranga 3 = ×3). Koszty Ki i czasy
+        odnowienia zostają bez zmian.
       </p>
     </div>
   );

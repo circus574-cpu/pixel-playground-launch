@@ -1,0 +1,575 @@
+{
+  "schemaVersion": 1,
+  "id": "aetheria-continent-v2",
+  "version": "1.0.0",
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "aetheria-continent-grass",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "grass.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "aetheria-continent-forest",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "forest.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "aetheria-continent-snow",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "snow.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "aetheria-continent-ice",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "ice.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "aetheria-continent-rockg",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "rockg.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "aetheria-continent-wet",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "wet.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "aetheria-continent-sand",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "sand.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "aetheria-continent-water",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "water.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "aetheria-continent-road1",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road1.webp",
+      "width": 512,
+      "height": 41
+    },
+    {
+      "id": "aetheria-continent-road2",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road2.webp",
+      "width": 512,
+      "height": 41
+    },
+    {
+      "id": "aetheria-continent-road3",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road3.webp",
+      "width": 512,
+      "height": 41
+    },
+    {
+      "id": "aetheria-continent-road4",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road4.webp",
+      "width": 512,
+      "height": 41
+    },
+    {
+      "id": "aetheria-continent-road5",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road5.webp",
+      "width": 512,
+      "height": 41
+    },
+    {
+      "id": "aetheria-continent-river",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "river.webp",
+      "width": 512,
+      "height": 41
+    },
+    {
+      "id": "aetheria-continent-cherry",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "cherry.webp",
+      "width": 385,
+      "height": 337
+    },
+    {
+      "id": "aetheria-continent-ginkgo",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "ginkgo.webp",
+      "width": 400,
+      "height": 298
+    },
+    {
+      "id": "aetheria-continent-cypress",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "cypress.webp",
+      "width": 149,
+      "height": 352
+    },
+    {
+      "id": "aetheria-continent-snow-pine",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "snow-pine.webp",
+      "width": 297,
+      "height": 351
+    },
+    {
+      "id": "aetheria-continent-bamboo",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "bamboo.webp",
+      "width": 272,
+      "height": 270
+    },
+    {
+      "id": "aetheria-continent-lavender",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "lavender.webp",
+      "width": 272,
+      "height": 233
+    },
+    {
+      "id": "aetheria-continent-reeds",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "reeds.webp",
+      "width": 272,
+      "height": 248
+    },
+    {
+      "id": "aetheria-continent-flowers",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "flowers.webp",
+      "width": 272,
+      "height": 185
+    },
+    {
+      "id": "aetheria-continent-hill",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "hill.webp",
+      "width": 370,
+      "height": 290
+    },
+    {
+      "id": "aetheria-continent-cliff",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "cliff.webp",
+      "width": 363,
+      "height": 403
+    },
+    {
+      "id": "aetheria-continent-peak",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "peak.webp",
+      "width": 377,
+      "height": 362
+    },
+    {
+      "id": "aetheria-continent-glacier-ridge",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "glacier-ridge.webp",
+      "width": 371,
+      "height": 353
+    },
+    {
+      "id": "aetheria-continent-arch",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "arch.webp",
+      "width": 402,
+      "height": 360
+    },
+    {
+      "id": "aetheria-continent-spring",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "spring.webp",
+      "width": 345,
+      "height": 367
+    },
+    {
+      "id": "aetheria-continent-camp",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "camp.webp",
+      "width": 272,
+      "height": 255
+    },
+    {
+      "id": "aetheria-continent-shrine",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "shrine.webp",
+      "width": 228,
+      "height": 272
+    },
+    {
+      "id": "aetheria-continent-ruin",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "ruin.webp",
+      "width": 348,
+      "height": 308
+    },
+    {
+      "id": "aetheria-continent-cave",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "cave.webp",
+      "width": 321,
+      "height": 295
+    },
+    {
+      "id": "aetheria-continent-chest",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "chest.webp",
+      "width": 272,
+      "height": 227
+    },
+    {
+      "id": "aetheria-continent-sign",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "sign.webp",
+      "width": 217,
+      "height": 272
+    },
+    {
+      "id": "aetheria-continent-log",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "log.webp",
+      "width": 272,
+      "height": 200
+    },
+    {
+      "id": "aetheria-continent-stump",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "stump.webp",
+      "width": 272,
+      "height": 244
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "terrain.aetheria-continent.grass": {
+      "asset": "aetheria-continent-grass",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.aetheria-continent.forest": {
+      "asset": "aetheria-continent-forest",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.aetheria-continent.snow": {
+      "asset": "aetheria-continent-snow",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.aetheria-continent.ice": {
+      "asset": "aetheria-continent-ice",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.aetheria-continent.rockg": {
+      "asset": "aetheria-continent-rockg",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.aetheria-continent.wet": {
+      "asset": "aetheria-continent-wet",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.aetheria-continent.sand": {
+      "asset": "aetheria-continent-sand",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.aetheria-continent.water": {
+      "asset": "aetheria-continent-water",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.aetheria-continent.road1": {
+      "asset": "aetheria-continent-road1",
+      "tileSize": [
+        896,
+        128
+      ]
+    },
+    "terrain.aetheria-continent.road2": {
+      "asset": "aetheria-continent-road2",
+      "tileSize": [
+        896,
+        128
+      ]
+    },
+    "terrain.aetheria-continent.road3": {
+      "asset": "aetheria-continent-road3",
+      "tileSize": [
+        896,
+        128
+      ]
+    },
+    "terrain.aetheria-continent.road4": {
+      "asset": "aetheria-continent-road4",
+      "tileSize": [
+        896,
+        128
+      ]
+    },
+    "terrain.aetheria-continent.road5": {
+      "asset": "aetheria-continent-road5",
+      "tileSize": [
+        896,
+        128
+      ]
+    },
+    "terrain.aetheria-continent.river": {
+      "asset": "aetheria-continent-river",
+      "tileSize": [
+        896,
+        128
+      ]
+    },
+    "object.aetheria-continent.cherry": {
+      "asset": "aetheria-continent-cherry",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.ginkgo": {
+      "asset": "aetheria-continent-ginkgo",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.cypress": {
+      "asset": "aetheria-continent-cypress",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.snow-pine": {
+      "asset": "aetheria-continent-snow-pine",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.bamboo": {
+      "asset": "aetheria-continent-bamboo",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.lavender": {
+      "asset": "aetheria-continent-lavender",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.reeds": {
+      "asset": "aetheria-continent-reeds",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.flowers": {
+      "asset": "aetheria-continent-flowers",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.hill": {
+      "asset": "aetheria-continent-hill",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.cliff": {
+      "asset": "aetheria-continent-cliff",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.peak": {
+      "asset": "aetheria-continent-peak",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.glacier-ridge": {
+      "asset": "aetheria-continent-glacier-ridge",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.arch": {
+      "asset": "aetheria-continent-arch",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.spring": {
+      "asset": "aetheria-continent-spring",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.camp": {
+      "asset": "aetheria-continent-camp",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.shrine": {
+      "asset": "aetheria-continent-shrine",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.ruin": {
+      "asset": "aetheria-continent-ruin",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.cave": {
+      "asset": "aetheria-continent-cave",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.chest": {
+      "asset": "aetheria-continent-chest",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.sign": {
+      "asset": "aetheria-continent-sign",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.log": {
+      "asset": "aetheria-continent-log",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.aetheria-continent.stump": {
+      "asset": "aetheria-continent-stump",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    }
+  },
+  "effects": {}
+}

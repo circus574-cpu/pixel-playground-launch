@@ -4,12 +4,18 @@
  */
 import type { GameViewState } from "../../game/session";
 import type { SendCommand } from "./AdventurePanels";
+import { gpuIcon } from "./gpuIcons";
 
 export function CombatPanel({ state, send }: { state: GameViewState; send: SendCommand }) {
   if (!state.foes.length) return null;
   return (
     <section className="ki-combat" aria-label="Walka">
-      <h3>Walka</h3>
+      <h3>
+        {gpuIcon("hud-combat") && (
+          <img className="ki-combat-icon" src={gpuIcon("hud-combat")} alt="" aria-hidden />
+        )}
+        Walka
+      </h3>
       <ul>
         {state.foes.map((f) => {
           const pct = Math.max(0, Math.min(100, (f.hp / f.maxHp) * 100));
@@ -26,7 +32,17 @@ export function CombatPanel({ state, send }: { state: GameViewState; send: SendC
                 onClick={() => send({ type: "target", id: f.id })}
               >
                 <span className="ki-combat-name">
-                  {selected && <b aria-hidden>◆ </b>}
+                  {selected &&
+                    (gpuIcon("hud-target") ? (
+                      <img
+                        className="ki-combat-icon"
+                        src={gpuIcon("hud-target")}
+                        alt=""
+                        aria-hidden
+                      />
+                    ) : (
+                      <b aria-hidden>◆ </b>
+                    ))}
                   {f.name}
                   <small> · {f.level}</small>
                 </span>

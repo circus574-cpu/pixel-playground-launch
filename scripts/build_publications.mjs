@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /**
  * Writes the publication log the /admin "Dziennik" tab shows: the latest changes on main (each one
  * reached production through the Aruba deploy and its quality gate) and the newest entries of the

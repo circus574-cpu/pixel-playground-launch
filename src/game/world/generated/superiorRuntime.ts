@@ -1,8 +1,26 @@
 import {
+  aetheriaContinentEnabled,
+  aetheriaObjects,
+  aetheriaTerrainBindings,
+  aetheriaBiomeAt,
+} from "./aetheriaContinent";
+import { pyraContinentEnabled, pyraObjects, pyraTerrainBindings } from "./pyraContinent";
+import {
+  nexusContinentEnabled,
+  nexusObjects,
+  nexusTerrainBindings,
+  nexusBiomeAt,
+} from "./nexusContinent";
+import {
   buildSuperiorSimulationWorld,
   type SuperiorSimulationSource as Source,
 } from "./simulationWorld";
 import { STREAM_TEXTURE_BUDGET_BYTES, streamTextureBytes } from "../../assets/streamBudget";
+import {
+  verdantiaContinentEnabled,
+  continentObjects,
+  continentTerrainBindings,
+} from "./verdantiaContinent";
 import type Phaser from "phaser";
 import type { OnlineClient } from "../../online/client";
 import { GameSession, type StoragePort } from "../../session";
@@ -36,6 +54,8 @@ import type { Obstacle } from "../../movement";
 import type { GameLoadingState } from "../../loading";
 import { loadBrowserFeature } from "./browserLoader";
 import { renderSuperior, type ArtObject, type FeatureArt } from "./renderSuperior";
+import { arenaClearingEnabled, buildArenaIndex, clearsArena } from "../combatArena";
+import { monsterFramePx, monsterSizesEnabled, type SizeClass } from "../../monsters/visualSize";
 import { WORLD_BASE, WORLD_V2 } from "./worldVersion";
 import { v2Places } from "../../worlds/v2Places";
 import { questsV2 } from "../../quests/v2Tracker";
@@ -285,6 +305,10 @@ export async function prepareSuperior(options: {
     addAsset(ref.asset);
   }
   const protectedAssets = new Set(initialAssets.keys());
+  // On by default (`?ki-clear-arenas=0` opts out): decoration only, collision never reads art objects.
+  const arenaIndex = arenaClearingEnabled(location.search)
+    ? buildArenaIndex(spawnData.overworld)
+    : null;
   const artCache = new Map<string, ArtObject[]>();
   const artRequests = new Map<string, Promise<ArtObject[]>>();
   const readArt = async (x: number, y: number) => {
@@ -315,9 +339,34 @@ export async function prepareSuperior(options: {
       if (info.id === "verdant")
         for (const o of value.objects)
           if (o.binding === "object.crystal") o.binding = "object.biome-forest.mossy-boulder";
-      artCache.set(id, value.objects);
+      if (verdantiaContinentEnabled(info.id))
+        value.objects = continentObjects(value.objects, outsideCities, source.roads);
+      if (pyraContinentEnabled(info.id))
+        value.objects = pyraObjects(value.objects, outsideCities, source.roads);
+      if (aetheriaContinentEnabled(info.id)) {
+        const chunk = await loader.loadChunk(x, y);
+        value.objects = aetheriaObjects(
+          value.objects,
+          outsideCities,
+          source.roads,
+          aetheriaBiomeAt(chunk),
+        );
+      }
+      if (nexusContinentEnabled(info.id)) {
+        const chunk = await loader.loadChunk(x, y);
+        value.objects = nexusObjects(
+          value.objects,
+          outsideCities,
+          source.roads,
+          nexusBiomeAt(chunk),
+        );
+      }
+      const objects = arenaIndex
+        ? value.objects.filter((o) => !clearsArena(arenaIndex, o))
+        : value.objects;
+      artCache.set(id, objects);
       if (artCache.size > 12) artCache.delete(artCache.keys().next().value!);
-      return value.objects;
+      return objects;
     })();
     artRequests.set(id, promise);
     try {
@@ -338,6 +387,11 @@ export async function prepareSuperior(options: {
   };
   for (const key of [...art.groundByBiome, art.water, art.road, art.plaza])
     if (key) addBinding(key);
+  if (verdantiaContinentEnabled(info.id))
+    for (const key of continentTerrainBindings) addBinding(key);
+  if (pyraContinentEnabled(info.id)) for (const key of pyraTerrainBindings) addBinding(key);
+  if (aetheriaContinentEnabled(info.id)) for (const key of aetheriaTerrainBindings) addBinding(key);
+  if (nexusContinentEnabled(info.id)) for (const key of nexusTerrainBindings) addBinding(key);
   for (const obj of [
     ...art.buildings,
     ...art.acceptedCityBuildings,
@@ -436,11 +490,17 @@ export async function prepareSuperior(options: {
   let activeScene: Phaser.Scene | undefined;
   // World v2 draws each creature at its bestiary size class (S/M/L = 0.62/0.8/0.98, an M creature
   // is as tall as the hero); presentation only — reach and collision stay in the monster rules.
+  // Body-measured sizes (default on, `?ki-monster-sizes=0` opts out): the old S/M/L frames made most creatures look alike.
+  const sizesByBody = monsterSizesEnabled(location.search);
   const enemyVisual = (kind: string) => {
     const visual = monsterVisual(kind);
+    if (kind.startsWith("boss:")) {
+      return { ...visual, size: [180, 180] as [number, number] };
+    }
     const size = MONSTER_BASE.find((b) => b.id === kind)?.size;
     if (!WORLD_V2 || !size) return visual;
-    const side = MONSTER_SIZE_PX[size] ?? visual.size[1];
+    const measured = sizesByBody ? monsterFramePx(kind, size as SizeClass) : undefined;
+    const side = measured ?? MONSTER_SIZE_PX[size] ?? visual.size[1];
     return { ...visual, size: [side, side] as [number, number] };
   };
   const monsterAssets = new Map<string, Set<string>>();
@@ -655,6 +715,7 @@ export async function prepareSuperior(options: {
         art,
         roads: source.roads,
         cityRoads: (source.acceptedSource?.city?.roads ?? []).map((r) => ({ ...r, ...shift(r) })),
+        outsideCities,
         readArt,
         acquire,
         release,

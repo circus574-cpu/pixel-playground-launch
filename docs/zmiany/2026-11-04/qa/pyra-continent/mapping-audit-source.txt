@@ -1,0 +1,22 @@
+import {readFileSync,readdirSync,writeFileSync,mkdirSync} from 'node:fs';
+import {pyraObjects,pyraPathScenery,pyraSceneryName} from './src/game/world/generated/pyraContinent';
+import type {ArtObject} from './src/game/world/generated/renderSuperior';
+const dir='public/game/worlds/superior-v2/pyra/';
+const world=JSON.parse(readFileSync(dir+'world.json','utf8'));
+const art=JSON.parse(readFileSync('public/game/worlds/superior-v2/art/pyra/feature.art.json','utf8'));
+const outside=(p:{x:number;y:number})=>world.settlements.every((s:{bounds:{x:number;y:number;width:number;height:number}})=>p.x<s.bounds.x-12||p.x>s.bounds.x+s.bounds.width+12||p.y<s.bounds.y-12||p.y>s.bounds.y+s.bounds.height+12);
+const counts:Record<string,number>={},examples:Record<string,unknown>={};
+const objects=Object.values(art).filter(Array.isArray).flat().filter(o=>o?.binding) as ArtObject[];
+for(const name of readdirSync('public/game/worlds/superior-v2/art/pyra/chunks')) if(name.endsWith('.art.json')) objects.push(...JSON.parse(readFileSync('public/game/worlds/superior-v2/art/pyra/chunks/'+name,'utf8')).objects);
+for(const item of objects) if(outside(item)){
+ const name=pyraSceneryName(item,world.roads);if(!name)continue;
+ for(const mapped of pyraObjects([item],outside,world.roads)) {
+ const key=mapped.binding.replace('object.pyra-continent.','');counts[key]=(counts[key]??0)+1;
+ if(!examples[key])examples[key]={id:item.id,x:item.x,y:item.y};
+ }
+}
+const passages=pyraPathScenery(world.roads,outside);
+for(const p of passages){const key=p.binding.replace('object.pyra-continent.','');counts[key]=(counts[key]??0)+1;examples[key]=p;}
+const path='docs/zmiany/2026-11-04/qa/pyra-continent';mkdirSync(path,{recursive:true});
+writeFileSync(path+'/mapping-audit.json',JSON.stringify({counts,objectBindings:Object.keys(counts).length,examples,passages},null,2)+'\n');
+console.log(JSON.stringify(counts,null,2));

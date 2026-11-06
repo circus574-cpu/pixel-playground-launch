@@ -1,33 +1,41 @@
 import { describe, expect, it } from "vitest";
-import { cityRoom, SMITHY_ROOM } from "../game/city/room";
+import { cityRoom } from "../game/city/room";
+import { PAINTED_WORLDS, ROOM_HEIGHT, ROOM_WIDTH, roomPicture } from "../game/city/paintedRooms";
+import { BUILDING_IDS } from "../game/city/types";
 import { Navigation } from "../game/navigation";
+import { existsSync } from "node:fs";
 
-describe("Pyra smithy portrait room", () => {
-  const room = cityRoom("smithy", "pyra");
-  const nav = new Navigation(room.width, room.height, room.obstacles);
-  it("is a portrait room only for the Pyra smithy", () => {
-    expect(room).toBe(SMITHY_ROOM);
-    expect(room.height).toBeGreaterThan(room.width * 1.8);
-    for (const id of ["aether", "nexus", "verdant"]) {
-      const other = cityRoom("smithy", id);
-      expect(other.width).toBe(960);
-      expect(other.height).toBe(760);
+describe("painted interiors of the special buildings", () => {
+  for (const world of PAINTED_WORLDS)
+    for (const id of BUILDING_IDS) {
+      const room = cityRoom(id, world);
+      const nav = new Navigation(room.width, room.height, room.obstacles);
+      it(`${world}/${id}: larger room, everything reachable, picture shipped`, () => {
+        // The old rooms were 960x760 (the Pyra smithy 540x1100).
+        expect(room.width).toBe(ROOM_WIDTH);
+        expect(room.height).toBe(ROOM_HEIGHT);
+        expect(room.width * room.height).toBeGreaterThan(960 * 760 * 3);
+        for (const p of [room.entry, room.exit, room.npc, room.chest, room.dummy])
+          expect(nav.walkable(p), JSON.stringify(p)).toBe(true);
+        for (const target of [room.exit, room.npc, room.chest, room.dummy])
+          expect(nav.path(room.entry, target).length, JSON.stringify(target)).toBeGreaterThan(0);
+        for (const o of room.obstacles) {
+          expect(o.x).toBeGreaterThanOrEqual(0);
+          expect(o.y).toBeGreaterThanOrEqual(0);
+          expect(o.x + o.width).toBeLessThanOrEqual(room.width);
+          expect(o.y + o.height).toBeLessThanOrEqual(room.height);
+        }
+        expect(existsSync("public" + roomPicture(world, id))).toBe(true);
+      });
     }
-    expect(cityRoom("depot", "pyra").width).toBe(960);
+  it("keeps the whole floor around the entrance walkable", () => {
+    const room = cityRoom("hall", "verdant");
+    const nav = new Navigation(room.width, room.height, room.obstacles);
+    for (const dx of [-200, 0, 200])
+      expect(nav.walkable({ x: room.entry.x + dx, y: room.entry.y })).toBe(true);
   });
-  it("keeps entry, exit and the smithy NPC reachable", () => {
-    expect(nav.walkable(room.entry)).toBe(true);
-    expect(nav.walkable(room.npc)).toBe(true);
-    expect(nav.walkable(room.exit)).toBe(true);
-    for (const target of [room.npc, room.exit])
-      expect(nav.path(room.entry, target).length).toBeGreaterThan(0);
-  });
-  it("keeps every footprint inside the room", () => {
-    for (const o of room.obstacles) {
-      expect(o.x).toBeGreaterThanOrEqual(0);
-      expect(o.y).toBeGreaterThanOrEqual(0);
-      expect(o.x + o.width).toBeLessThanOrEqual(room.width);
-      expect(o.y + o.height).toBeLessThanOrEqual(room.height);
-    }
+  it("falls back to the Verdantia room for an unknown world id", () => {
+    expect(cityRoom("inn", "nowhere")).toEqual(cityRoom("inn", "verdant"));
+    expect(cityRoom("inn")).toEqual(cityRoom("inn", "verdant"));
   });
 });

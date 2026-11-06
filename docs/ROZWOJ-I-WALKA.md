@@ -171,7 +171,6 @@ Poniższe checkpointy z 28–29.10 opisują historię implementacji.
 
 > **Audyt 28.10.2026, `main@30f7b8d5`:** Combat V3 scalono przez #48; w #51 scalono animacje HD czterech ras (klatki 256 px, skala wyświetlania zachowuje poprzednie proporcje). Nie jest to potwierdzenie płynnej, bezbłędnej walki. W pełnym Playwright PR #49 scenariusz Planetarnego w `e2e/three-races-pve.spec.ts:176` uzyskał 2 zamiast 3 zabójstw w 60 sekund (1 FAIL / 182 PASS). W nowszym WebGL #52 na `a4ee855e` stwierdzono 7 FAIL, wszystkie z timeoutem poszukiwania żywego przeciwnika przez `liveEnemy` w `e2e/fixtures.ts:223`; problem dotyczy m.in. Mędrców i Androidów. Przyczyny technicznej nie potwierdzono. **Nie zaliczać całego Combat V3; nie usuwać ani nie rozluźniać testów.** Dowody: [28.10](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52).
 
-
 ## Symulacje CPU — checkpoint 23.10.2026
 
 Wstępny przebieg rzeczywistego `GameSession` i AI potworów objął 1392 scenariusze,
@@ -197,9 +196,18 @@ katalog ekwipunku są [projektem fabularnym](FABULA-I-EKWIPUNEK.md), nie obecną
 - Baza + przyrost × (L−1), zaokrąglenie statystyk całkowitych do najbliższej, połówki w górę.
 - Obrażenia `max(1, ATK × mnożnik − DEF/2)`, bez zaokrąglania pojedynczego trafienia.
 - Ruch: baza × `(1 + 0.05 × (min(L,20)−1))`; odstęp ataków nie rośnie z poziomem.
-- Jeden punkt umiejętności na poziom 1–20, razem 20; korzeń kosztuje punkt.
+- Jeden punkt umiejętności na poziom, bez limitu 20 (decyzja właściciela 03.11.2026; limit 20 był punktem
+  startowym pod późniejszy rozwój drzewek); korzeń kosztuje punkt. Poziom nie ma limitu gry;
+  `LEVEL_MAX = 10 000` to bezpiecznik danych, nie reguła rozgrywki.
   29 węzłów na rasę, pary A7/A8, B7/B8, C7/C8 wykluczają się.
   Tryb KI: poziom 20 i dowolna zdolność ostateczna A9/B9/C9.
+- Rangi węzłów: punkt można wkładać w ten sam węzeł wielokrotnie (id powtórzone w `skills` = ranga, każda
+  ranga kosztuje punkt; korzeń zawsze ma jedną). Liczbowy efekt węzła rośnie wprost proporcjonalnie do rangi
+  (ranga 2 = ×2). Obrażenia, leczenie i tarcze zdolności aktywnych rosną z rangą zdolności. Koszty Ki,
+  czasy odnowienia zdolności i mechaniki przełączające (limit ładunku Androidów, wyłączenie przegrzewania,
+  „gwarantowany krytyk”, blokady ruchu bohatera) nie skalują się; ograniczenia bezpieczeństwa: szansa
+  odbicia, spowolnienie i osłabienie do 90%, ogłuszenie z węzła do 3 s, odnowienie nie niżej niż 10%.
+  Wzrost szybkości ruchu z poziomu nadal kończy się na 20.
 - Pierwszy reset do poziomu 10 darmowy; kolejne 50 × poziom monet.
 - Krytyk ×1,5; mikstura 40% maks. HP, cooldown 6 s; regeneracja poza walką 0,3% maks. HP/s.
 - Dzień modelu potworów 8 minut (ostatnie 3 to noc); nie jest to pełny zegar świata.
@@ -217,7 +225,7 @@ katalog ekwipunku są [projektem fabularnym](FABULA-I-EKWIPUNEK.md), nie obecną
 
 Obecne ulepszenie miecza: jednorazowo +4 ATK za 15 monet. Od 01.11.2026 wdrożono pełny 8-slotowy ekwipunek postaci (`head`, `weapon`, `armor`, `offhand`, `hands`, `ring`, `amulet`, `feet`) zintegrowany z panelem `DiabloInventory`, 40-slotową torbę podróżną (`bagItems`) oraz miejski depozyt (`DepotPanel`: skarbiec na złoto i skrzynia magazynowa na ekwipunek) obsługujący katalog przedmiotów V2 oraz przedmioty klasyczne.
 Nie zastępować tych liczb propozycjami z księgi przygody bez osobnego wdrożenia.
-XP do następnego poziomu: `100 + 60 × (L−1)`; dojście do 20: 12 160 XP.
+XP do następnego poziomu: `100 + 60 × (L−1)` (bez górnego limitu poziomu); dojście do 20: 12 160 XP.
 
 Klasyczny zapis v9 obejmuje umiejętności, materiały, resety, wnętrze, osobisty depozyt, rozwój ras, nowy trening i nadpisania GM. Wczytuje v1/v3/v4/v5/v6/v7/v8/v9; Superior zapisuje v5 i czyta v1–v5. Surowe kopie wcześniejszych zapisów pozostają zachowane, a walidacja chroni nieznane/nowsze dane, konflikt kart oraz przed usunięciem istniejącego rozwoju lub treningu. Szczegóły kluczy i testów: [integracja](#integracja-oczekujących-gałęzi--29102026).
 Depozyt jest prywatny dla lokalnego slotu na danej domenie, nie serwerowy.
@@ -405,6 +413,12 @@ Gałęzie: A — Ogień Walki, B — Żelazna Wola, C — Wybuch KI.
 | C9 / Ognisty Kataklizm        | ultimate |        16 | C7 lub C8        | Kolumna ognia w dużym obszarze ×4,5 i podpalenie na 5 s; 35 Ki; odn. 30 s.                                                             |
 | T / Forma Płomiennego Legendy | ki-mode  |        20 | A9 lub B9 lub C9 | 20 s: +30% Ataku, Żar utrzymuje się na 100; aura jako osobny efekt; 50 Ki; odn. 120 s.                                                 |
 
+## Tabele rozwoju ras 1–60 — przelicznik właściciela (05.11.2026)
+
+Źródło: [KI_Legends_Tabele_Rozwoju_Ras_1-60.xlsx](design/source-annexes/KI_Legends_Tabele_Rozwoju_Ras_1-60.xlsx), SHA-256 `b82984e26cc84e03ef849c45be866a669adc3ff4f8e3f2e47b31426b50ad4abb`. Arkusze: progi XP, cztery rasy, porównanie.
+Poziomy 1–20 przepisano z księgi (rozdz. 15); **poziomy 21–60 to ekstrapolacja oznaczona w arkuszu „DO BALANSU”**. Wzór: HP/KI/ATK/DEF = baza + stały krok na poziom; ruch i KI/s = baza × (1 + 5% × (poziom − 1)); krytyk = baza + krok; tempo ataku stałe na rasę (650/800/700/750 ms); XP do następnego poziomu = 100 + 60 × (L − 1); 1 punkt drzewka na poziom.
+Stan: tylko plik źródłowy i opis. Gra nadal kończy kampanię na poziomie 20, a generowane `base.generated.ts` nie zostały zmienione; wdrożenie poziomów 21–60 wymaga decyzji właściciela i testów balansu.
+
 ## Bestiariusz i ograniczenia
 
 Kanoniczne są 40 potworów właściciela z HTML i `roster.json`. Dawna alternatywna
@@ -444,6 +458,8 @@ Punkt stóp w masterze `(256,409.6)`, latające unoszą się o 36 px i lądują 
 Animacja jest deformacją obrazu, nie pełnym ruchem ręcznie animowanych kończyn.
 Kontrola raportu: 416 klatek, brak violations i pustej alfy, zgodne hashe/marginesy.
 Skala S/M/L: 0.62/0.80/0.98; shrink w raporcie przy zbyt małym marginesie.
+W świecie v2 rozmiar na ekranie nie wynika z tej skali (sprite'y wypełniają ramkę niezależnie od klasy), tylko z pomiaru ciała i
+mnożników w `src/game/monsters/visualSize.ts` (opt-out `?ki-monster-sizes=0`); szczegóły: `docs/zmiany/2026-11-05/ZMIANY.md`.
 Wiązanie `<świat>.enemy.<slug>`; pełna mapa `art/production/enemies/bindings.json`.
 Silnik danych/AI jest zaimplementowany. Wszystkie 40 istniejących dostaw
 zainstalowano na `feature/superior-runtime-20261023` po bezstratnym pakowaniu
@@ -1120,6 +1136,7 @@ wskazanych pól; pozostawienie pustego pola lub reset przywraca zwykłe obliczen
 Zakresy techniczne są w `src/game/characterStats.ts` (m.in. ruch 1–2000 jednostek/s,
 odstęp ataków 200–10000 ms). Zmiana szybkości nadal respektuje nawigację i kolizje.
 Opis zapisu i uprawnień: [architektura](ARCHITEKTURA-I-TESTY.md#coder-parametry-postaci-i-teleport-gm-z-atlasu--28102026).
+
 ## Rozwój ras — gałąź robocza 28.10.2026
 
 Nowe zlecenie właściciela zachowano bez zmian w
@@ -1175,7 +1192,6 @@ Pięć modułów ma efekty statystyczne/bojowe; skaner ma zarezerwowany identyfi
 a docelowe badanie instalacji pozostaje otwarte. Nie traktować zamkniętych kart
 w panelu jako ukończonej zawartości rasy. Dokładny zakres i testy: dziennik 28.10.
 
-
 ### Dziedzictwa — kolejny checkpoint roboczy PR #55
 
 `development/heritage/catalog.ts` zawiera 24 rozdziały i 24 projekty, po sześć na
@@ -1203,7 +1219,6 @@ nadal wymagają dalszego runtime oraz odbioru. Skaner jest odblokowywany przez H
 ale jego docelowe sprawdzanie instalacji nadal nie jest ukończone; chłodzenie ma
 warunek H-N02 + P-N1. Nie uznawać tego za całe mistrzostwo Androida.
 
-
 ### Pomiary i pierwszy projekt — kolejna partia PR #55
 
 Stanowisko P-N5 rejestruje rzeczywiste trafienia produkcyjnego kita w trzy odrębne
@@ -1225,7 +1240,6 @@ istniejąca ścieżka nagradzania. Bez tego przy XP=6039 nagroda 100 dawała XP=
 którego kolejny odczyt odmawiał. Paragon zachowuje nominalną nagrodę 100 XP;
 naprawa nie zmienia krzywej poziomów ani kanonicznych nagród.
 
-
 Skaner Androida ma teraz interaktywny odczyt stanu znanej instalacji projektu w
 bieżącej przestrzeni: widoczność do 650 j., odczyt po podejściu do 130 j. i LOS.
 Pokazuje rzeczywisty postęp/odbiór projektu, bez udawanych parametrów technicznych,
@@ -1233,7 +1247,6 @@ leczenia, praktyki lub odkrywania mapy. Jest to wdrożony lokalny zakres skanera
 pozostałe rodzaje instalacji i pełne próby diagnostyczne nadal wymagają pracy.
 Optyka używa wspólnego zasięgu R w kicie, podglądzie i rozpoczęciu ataku; nie
 rozciąga zasięgu aktywnych technik.
-
 
 ### Spokojne dostawy z punktami wznowienia — następna partia PR #55
 
@@ -1302,7 +1315,6 @@ na końcu. Dodano osiem przypadków migracji obu systemów i zachowania ustawie�
 PR55 pozostaje **częściowym zakresem funkcjonalnym**, nawet po technicznej integracji:
 brakuje późnych prób, rozdziałów i ochron/eskort bojowych wyszczególnionych w planie.
 Nie deklarujemy pełnej kampanii ani włączenia ataków na zwykłych NPC.
-
 
 ## Zwięzłe statystyki — korekta właściciela 29.10.2026
 

@@ -11,7 +11,7 @@ import {
   type Player,
   type StoragePort,
 } from "../../session";
-import { validLearned } from "../../kit";
+import { repairLearned, validLearned } from "../../kit";
 import { isMaterial } from "../../monsters/materials";
 import { RACES, type WorldId } from "../races";
 
@@ -113,6 +113,10 @@ export class SuperiorSaveStore extends SaveStore {
       if (Object.keys(value.spawns).length > 10000) throw Error("Oversized spawn ledger");
       const info = this.index.features.find((f) => f.id === value.feature);
       const p = value.player;
+      // Skills that exceed the level's points, level gates, prerequisites or exclusions (e.g. an old
+      // admin "unlock all") are trimmed to the allowed set instead of locking the character out.
+      if (!validLearned(p.race, p.level, p.skills))
+        p.skills = repairLearned(p.race, p.level, p.skills);
       if (
         !info ||
         value.geometry !== this.index.revision ||

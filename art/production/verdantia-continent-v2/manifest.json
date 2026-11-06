@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 1,
+  "id": "verdantia-continent-v2",
+  "version": "1.0.1",
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "verdantia-continent-grass",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "grass.webp",
+      "width": 768,
+      "height": 768
+    },
+    {
+      "id": "verdantia-continent-forest",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "forest.webp",
+      "width": 640,
+      "height": 640
+    },
+    {
+      "id": "verdantia-continent-rockg",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "rockg.webp",
+      "width": 640,
+      "height": 640
+    },
+    {
+      "id": "verdantia-continent-wet",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "wet.webp",
+      "width": 640,
+      "height": 640
+    },
+    {
+      "id": "verdantia-continent-sand",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "sand.webp",
+      "width": 640,
+      "height": 640
+    },
+    {
+      "id": "verdantia-continent-water",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "water.webp",
+      "width": 640,
+      "height": 640
+    },
+    {
+      "id": "verdantia-continent-road1",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "road1.webp",
+      "width": 768,
+      "height": 109
+    },
+    {
+      "id": "verdantia-continent-road2",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "road2.webp",
+      "width": 768,
+      "height": 109
+    },
+    {
+      "id": "verdantia-continent-road3",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "road3.webp",
+      "width": 768,
+      "height": 109
+    },
+    {
+      "id": "verdantia-continent-road4",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "road4.webp",
+      "width": 768,
+      "height": 109
+    },
+    {
+      "id": "verdantia-continent-oak",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "oak.webp",
+      "width": 503,
+      "height": 536
+    },
+    {
+      "id": "verdantia-continent-pine",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "pine.webp",
+      "width": 357,
+      "height": 536
+    },
+    {
+      "id": "verdantia-continent-bush",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "bush.webp",
+      "width": 536,
+      "height": 474
+    },
+    {
+      "id": "verdantia-continent-rocks",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "rocks.webp",
+      "width": 536,
+      "height": 477
+    },
+    {
+      "id": "verdantia-continent-flora",
+      "version": "1.0.1",
+      "kind": "image",
+      "url": "flora.webp",
+      "width": 536,
+      "height": 445
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "terrain.verdantia-continent.grass": {
+      "asset": "verdantia-continent-grass",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "terrain.verdantia-continent.forest": {
+      "asset": "verdantia-continent-forest",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "terrain.verdantia-continent.rockg": {
+      "asset": "verdantia-continent-rockg",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "terrain.verdantia-continent.wet": {
+      "asset": "verdantia-continent-wet",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "terrain.verdantia-continent.sand": {
+      "asset": "verdantia-continent-sand",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "terrain.verdantia-continent.water": {
+      "asset": "verdantia-continent-water",
+      "tileSize": [
+        1024,
+        1024
+      ]
+    },
+    "terrain.verdantia-continent.road1": {
+      "asset": "verdantia-continent-road1",
+      "tileSize": [
+        1024,
+        176
+      ]
+    },
+    "terrain.verdantia-continent.road2": {
+      "asset": "verdantia-continent-road2",
+      "tileSize": [
+        1024,
+        176
+      ]
+    },
+    "terrain.verdantia-continent.road3": {
+      "asset": "verdantia-continent-road3",
+      "tileSize": [
+        1024,
+        176
+      ]
+    },
+    "terrain.verdantia-continent.road4": {
+      "asset": "verdantia-continent-road4",
+      "tileSize": [
+        1024,
+        176
+      ]
+    },
+    "object.verdantia-continent.oak": {
+      "asset": "verdantia-continent-oak",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-continent.pine": {
+      "asset": "verdantia-continent-pine",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-continent.bush": {
+      "asset": "verdantia-continent-bush",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-continent.rocks": {
+      "asset": "verdantia-continent-rocks",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.verdantia-continent.flora": {
+      "asset": "verdantia-continent-flora",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    }
+  },
+  "effects": {}
+}

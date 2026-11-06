@@ -1,0 +1,27 @@
+{
+  "baseMain": "ec2b257859b3bda47f4360ce60f2ce5b269b9adc",
+  "branch": "preview/verdantia-continent-v2",
+  "codeDiffSha256": "00a9b982198cd373e694fd97518e23d594e6d7564e62fff148f099329ab8229f",
+  "assets": {
+    "images": 15,
+    "rgbaBytes": 16727552,
+    "digest": "d99a8af9857ba8a0a5e4cd638c252cd9b387affedde781400d00d722f7f7df12"
+  },
+  "checks": {
+    "typecheck": "PASS: app, e2e, tools",
+    "unit": "PASS: 13 tests in 3 files",
+    "assets": "PASS: production and all preview packs",
+    "lint": "PASS: 0 errors, 15 pre-existing warnings",
+    "build": "PASS: production Vite/Nitro build",
+    "documentation": "PASS: 10 manuals, 15 journals, 235 evidence and 346 protected source files",
+    "canvas": "PASS: desktop 1600x1000, four biomes, movement, reload, mobile, live PvE; final isolated run 1.0 minute",
+    "softwareWebGL": "PASS: 852x393, movement, reload and live PvE",
+    "coast": "PASS: desktop and portrait local captures; zero page errors and missing game assets"
+  },
+  "limits": [
+    "No production deployment or main merge.",
+    "Large 1600x1000 software WebGL was not accepted in an earlier pre-optimization run; final software check uses the phone viewport.",
+    "No physical-phone or hardware GPU acceptance.",
+    "Legacy logs, stumps, reeds, mushrooms, camps and resource crystals retained."
+  ]
+}

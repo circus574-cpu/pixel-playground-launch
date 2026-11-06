@@ -17,7 +17,7 @@ import { installRenderTelemetry } from "./assets/telemetry";
 import { RACES, type RaceId } from "./world/races";
 import { playtestSaveKey } from "./playtest";
 import { renderWorld } from "./world/renderWorld";
-import { renderCityStreets, renderCityInterior } from "./city/renderCity";
+import { renderCityStreets, renderCityInterior, prefetchRooms } from "./city/renderCity";
 import { cityRoom } from "./city/room";
 import type { BuildingId } from "./city/types";
 import { clampZoom, DEFAULT_ZOOM } from "./view";
@@ -58,6 +58,8 @@ type Actor = {
   kind: "hero" | "npc" | "enemy";
   body: Phaser.GameObjects.Container;
   sprite: Phaser.GameObjects.Sprite;
+  /** Four tinted copies behind the sprite: a thin cool rim that separates it from busy ground. */
+  rim?: Phaser.GameObjects.Sprite[] | undefined;
   bar: Phaser.GameObjects.Rectangle;
   name: Phaser.GameObjects.Text;
   track: Phaser.GameObjects.Rectangle;
@@ -372,6 +374,7 @@ export function mountKileGends(
       const rendering = runtimeRendering ?? renderWorld(this, world);
       this.runtimeVisible = runtimeRendering?.setVisible;
       if (!runtime) renderCityStreets(this, world);
+      prefetchRooms(world.id);
       this.outsideObjects = this.children.list.filter(
         (o): o is Phaser.GameObjects.GameObject & Phaser.GameObjects.Components.Visible =>
           !beforeWorld.has(o) && "setVisible" in o,
@@ -381,19 +384,14 @@ export function mountKileGends(
       releaseScene.push(rendering.dispose);
       if (runtime?.dispose) releaseScene.push(runtime.dispose);
       releaseScene.push(() => this.interiorView?.dispose());
-      this.hero = this.actor(
-        session.player,
-        "Ty · " + RACES[session.player.race].name,
-        "hero",
-        visual,
-      );
+      this.hero = this.actor(session.player, this.heroLabel(), "hero", visual);
       this.syncEnemies();
       for (const n of world.npcs) {
         const actor = this.actor(n, n.name, "npc", actorVisual(world.id, "npc", n.id));
         actor.npcId = n.id;
         if (actor.visual.tintable) actor.sprite.setTint(n.tint);
       }
-      this.selection = this.add.ellipse(0, 0, 85, 32).setStrokeStyle(3, 0xffdf86).setVisible(false);
+      this.selection = this.add.ellipse(0, 0, 85, 32).setStrokeStyle(3, 0x7defff).setVisible(false);
       const shieldArt = catalog.renderBindings["effect.shield"];
       this.shield = shieldArt
         ? this.add.sprite(0, 0, shieldArt.asset, shieldArt.frame).setDisplaySize(100, 112)
@@ -453,22 +451,16 @@ export function mountKileGends(
       const zoom = () => {
         this.cameras.main.setZoom(clampZoom(Number(parent.dataset["zoom"] ?? DEFAULT_ZOOM)));
         if (session.player.interior) {
+          // Painted rooms are larger than the screen: the whole width on a wide screen, a scrolling
+          // window on a phone, always following the hero inside the room.
           const room = cityRoom(session.player.interior, world.id);
           const cam = this.cameras.main;
-          if (room.height > room.width) {
-            // Portrait room: composed for a tall screen, shown whole. Wide screens fit its height; the
-            // walls beyond the room are drawn, never stretched.
-            const portraitScreen = this.scale.height >= this.scale.width;
-            if (portraitScreen) {
-              cam.setZoom(Math.max(this.scale.width / room.width, this.scale.height / room.height));
-              cam.setBounds(0, 0, room.width, room.height);
-              if (this.hero) cam.startFollow(this.hero.body, true, 0.12, 0.12);
-            } else {
-              cam.setZoom(this.scale.height / room.height);
-              cam.stopFollow().removeBounds();
-              cam.centerOn(room.width / 2, room.height / 2);
-            }
-          } else cam.centerOn(room.width / 2, room.height / 2);
+          cam.setZoom(Math.max(this.scale.width / room.width, 0.5));
+          cam.setBounds(0, 0, room.width, room.height);
+          if (this.hero) {
+            cam.startFollow(this.hero.body, true, 0.12, 0.12);
+            cam.centerOn(session.player.x, session.player.y);
+          }
         }
         // The resting joystick keeps its screen place and size at any zoom.
         if (this.stickBase && this.joystickId === null) this.resetStick();
@@ -558,7 +550,7 @@ export function mountKileGends(
                     ? { type: "loot", id: session.snapshot().nearbyLoot[0]?.id ?? "" }
                     : bound === "interact"
                       ? session.player.interior === "depot" &&
-                        distance(session.player, cityRoom("depot").chest) < 145
+                        distance(session.player, cityRoom("depot", world.id).chest) < 145
                         ? { type: "chest" }
                         : session.snapshot().nearbyBuilding &&
                             !session.npcs.some((n) => distance(n, session.player) < 140)
@@ -798,7 +790,8 @@ export function mountKileGends(
     private ring(p: Point, radius: number, color: number, ms: number, fill = 0.12) {
       const disc = this.add
         .ellipse(p.x, p.y, radius * 2, radius * 1.1, color, fill)
-        .setStrokeStyle(3, color, 0.8)
+        // Enemy danger zones keep the red fill but get a pale outline that reads on red ground.
+        .setStrokeStyle(3, color === 0xff5a4a ? 0xfff0d0 : color, 0.9)
         .setDepth(renderDepth("combat", p.y - 1));
       this.trackEffect(disc, color === 0xff5a4a);
       this.tweens.add({
@@ -886,15 +879,37 @@ export function mountKileGends(
         track.setVisible(false);
         bar.setVisible(false);
       }
+      // Hero and enemies get a thin cool rim (cyan for the hero, pale violet for enemies) so that a red
+      // character does not vanish in a red forest; NPCs keep the plain look.
+      const rim =
+        kind === "npc"
+          ? undefined
+          : (
+              [
+                [-3, 0],
+                [3, 0],
+                [0, -3],
+                [0, 3],
+              ] as const
+            ).map(([dx, dy]) =>
+              this.add
+                .sprite(dx, dy, clip.asset, first)
+                .setDisplaySize(...config.size)
+                .setOrigin(...config.origin)
+                .setTint(kind === "hero" ? 0xa8f4ff : 0xe6d2ff)
+                .setTintMode(Phaser.TintModes.FILL)
+                .setAlpha(0.85),
+            );
       const actor = {
         kind,
         visual: config,
         animation: new ActorAnimation(sprite, config),
         facing: { x: 0, y: 1 },
         body: this.add
-          .container(p.x, p.y, halo ? [halo, shadow, sprite] : [shadow, sprite])
+          .container(p.x, p.y, [...(halo ? [halo] : []), shadow, ...(rim ?? []), sprite])
           .setDepth(p.y),
         sprite,
+        rim,
         bar,
         name,
         track,
@@ -1219,6 +1234,11 @@ export function mountKileGends(
         this.texturedEffect("shield", event);
       }
     }
+    /** The player's own name as shown above the head: character name and level. */
+    private heroLabel() {
+      const p = session.player;
+      return (p.name || "Ty · " + RACES[p.race].name) + " [Lvl " + p.level + "]";
+    }
     private report() {
       let npcLabels = 0,
         enemyLabels = 0;
@@ -1347,18 +1367,12 @@ export function mountKileGends(
         this.input.keyboard?.resetKeys();
         if (session.player.interior) {
           this.outsideObjects.forEach((o) => o.setVisible(false));
-          this.interiorView = renderCityInterior(
-            this,
-            world,
-            session.player.interior,
-            runtime?.interiorBindings,
-          );
-          const room = cityRoom(session.player.interior, world.id);
+          this.interiorView = renderCityInterior(this, world, session.player.interior);
           this.cameras.main
             .stopFollow()
             .removeBounds()
             .setBackgroundColor(world.city?.palette?.background ?? "#101e1b");
-          this.cameras.main.centerOn(room.width / 2, room.height / 2);
+          // ki:zoom fits the room and follows the hero (see zoom() above).
           parent.dispatchEvent(new Event("ki:zoom"));
         } else {
           this.outsideObjects.forEach((o) => o.setVisible(true));
@@ -1423,13 +1437,14 @@ export function mountKileGends(
       this.hero.body
         .setPosition(session.player.x, session.player.y)
         .setDepth(session.player.y)
-        .setScale(world.id === "pyra" && session.player.interior === "smithy" ? 1.45 : 1);
+        .setScale(1);
       this.hero.animation.update(
         this.animationTime,
         session.moving,
         session.player.dead,
         session.facing,
         session.paused || !!session.dialogue,
+        session.kit.buffs.some((b) => b.id === "T"),
       );
       // Behind trees or buildings the hero shows as a light outline drawn over them (as in Diablo).
       const sprite = this.hero.sprite,
@@ -1549,7 +1564,25 @@ export function mountKileGends(
       }
       const quiet =
         !worldLabels || Boolean(session.dialogue) || session.paused || session.player.dead;
+      const ownLabel = this.heroLabel();
+      if (this.hero.name.text !== ownLabel) this.hero.name.setText(ownLabel);
       for (const a of this.actors) {
+        if (a.rim && a.body.visible)
+          for (const r of a.rim)
+            r.setTexture(a.sprite.texture.key, a.sprite.frame.name)
+              .setFlip(a.sprite.flipX, a.sprite.flipY)
+              .setDisplaySize(a.sprite.displayWidth, a.sprite.displayHeight)
+              .setAlpha(a.sprite.alpha * 0.85);
+        if (a.kind === "hero") {
+          // Player names (the own one and other players') always float above the head.
+          a.name
+            .setPosition(a.body.x, a.body.y - a.visual.size[1] * a.visual.origin[1] - 12)
+            .setScale(1 / this.cameras.main.zoom)
+            .setVisible(!quiet && a.body.visible);
+          a.track.setPosition(a.body.x, a.body.y - 76);
+          a.bar.setPosition(a.body.x - 32, a.body.y - 76);
+          continue;
+        }
         // Labels and bars follow a creature's height (sized by its bestiary class) from the 84 px baseline.
         const lift = a.kind === "enemy" ? (a.visual.size[1] - 84) * a.visual.origin[1] : 0;
         a.name.setPosition(a.body.x, a.body.y - 104 - lift).setScale(1 / this.cameras.main.zoom);

@@ -1,0 +1,218 @@
+[
+  {
+    "id": "aetheria-continent-grass",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044
+  },
+  {
+    "id": "aetheria-continent-forest",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044
+  },
+  {
+    "id": "aetheria-continent-snow",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044
+  },
+  {
+    "id": "aetheria-continent-ice",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044
+  },
+  {
+    "id": "aetheria-continent-rockg",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044
+  },
+  {
+    "id": "aetheria-continent-wet",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044
+  },
+  {
+    "id": "aetheria-continent-sand",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044
+  },
+  {
+    "id": "aetheria-continent-water",
+    "width": 512,
+    "height": 512,
+    "edgeNonzeroAlpha": 2044
+  },
+  {
+    "id": "aetheria-continent-road1",
+    "width": 512,
+    "height": 41,
+    "edgeNonzeroAlpha": 1102
+  },
+  {
+    "id": "aetheria-continent-road2",
+    "width": 512,
+    "height": 41,
+    "edgeNonzeroAlpha": 1102
+  },
+  {
+    "id": "aetheria-continent-road3",
+    "width": 512,
+    "height": 41,
+    "edgeNonzeroAlpha": 1102
+  },
+  {
+    "id": "aetheria-continent-road4",
+    "width": 512,
+    "height": 41,
+    "edgeNonzeroAlpha": 1102
+  },
+  {
+    "id": "aetheria-continent-road5",
+    "width": 512,
+    "height": 41,
+    "edgeNonzeroAlpha": 1102
+  },
+  {
+    "id": "aetheria-continent-river",
+    "width": 512,
+    "height": 41,
+    "edgeNonzeroAlpha": 1102
+  },
+  {
+    "id": "aetheria-continent-cherry",
+    "width": 385,
+    "height": 337,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-ginkgo",
+    "width": 400,
+    "height": 298,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-cypress",
+    "width": 149,
+    "height": 352,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-snow-pine",
+    "width": 297,
+    "height": 351,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-bamboo",
+    "width": 272,
+    "height": 270,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-lavender",
+    "width": 272,
+    "height": 233,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-reeds",
+    "width": 272,
+    "height": 248,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-flowers",
+    "width": 272,
+    "height": 185,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-hill",
+    "width": 370,
+    "height": 290,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-cliff",
+    "width": 363,
+    "height": 403,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-peak",
+    "width": 377,
+    "height": 362,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-glacier-ridge",
+    "width": 371,
+    "height": 353,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-arch",
+    "width": 402,
+    "height": 360,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-spring",
+    "width": 345,
+    "height": 367,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-camp",
+    "width": 272,
+    "height": 255,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-shrine",
+    "width": 228,
+    "height": 272,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-ruin",
+    "width": 348,
+    "height": 308,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-cave",
+    "width": 321,
+    "height": 295,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-chest",
+    "width": 272,
+    "height": 227,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-sign",
+    "width": 217,
+    "height": 272,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-log",
+    "width": 272,
+    "height": 200,
+    "edgeNonzeroAlpha": 0
+  },
+  {
+    "id": "aetheria-continent-stump",
+    "width": 272,
+    "height": 244,
+    "edgeNonzeroAlpha": 0
+  }
+]

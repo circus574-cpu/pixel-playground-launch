@@ -1,0 +1,32 @@
+
+Running 2 tests using 1 worker
+
+(node:20169) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [gameplay] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE (1.7m)
+(node:20432) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [software-webgl] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE (2.0m)
+
+
+  1) [gameplay] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE 
+
+    Error: browserContext.close: ENOENT: no such file or directory, open '/tmp/ki-verdantia-continent/test-results/.playwright-artifacts-0/traces/6c2d619356831754ab29-ef0f951929b6a928f152.trace'
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/verdantia-continent-Verdan-dece4-g-touch-reload-and-live-PvE-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/verdantia-continent-Verdan-dece4-g-touch-reload-and-live-PvE-gameplay/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/verdantia-continent-Verdan-dece4-g-touch-reload-and-live-PvE-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/verdantia-continent-Verdan-dece4-g-touch-reload-and-live-PvE-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [gameplay] › e2e/verdantia-continent.spec.ts:4:1 › Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE 
+  1 passed (3.7m)

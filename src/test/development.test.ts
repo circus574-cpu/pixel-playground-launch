@@ -1,3 +1,4 @@
+import { cityRoom } from "../game/city/room";
 import { describe, expect, it } from "vitest";
 import { createKit, type KitPort, type Hit, type Foe } from "../game/kit";
 import { RACE_IDS, type RaceId } from "../game/world/races";
@@ -56,8 +57,10 @@ function trainer(race: RaceId = "planetary") {
   save.load();
   const p = fundedPlayer(race);
   p.interior = "arena";
-  p.x = 300;
-  p.y = 330;
+  // Next to the trainer of the race's painted arena room.
+  const room = cityRoom("arena", p.continent);
+  p.x = room.npc.x;
+  p.y = room.npc.y;
   expect(save.save(p)).toBe(true);
   return { port, session: new GameSession(save, race) };
 }
@@ -519,8 +522,9 @@ describe("atomic character development and exam isolation", () => {
     }
     const first = new GameSession(new SaveStore(port, "planetary"));
     first.player.interior = "arena";
-    first.player.x = 300;
-    first.player.y = 330;
+    const arena = cityRoom("arena", first.player.continent);
+    first.player.x = arena.npc.x;
+    first.player.y = arena.npc.y;
     first.command({ type: "development", action: "train", discipline: "strength" });
     for (const race of RACE_IDS)
       expect(new SaveStore(port, race).load()!.development!.training.strength).toBe(

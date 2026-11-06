@@ -1,0 +1,108 @@
+{
+  "world": "pyra",
+  "date": "2026-11-04",
+  "model": "gpt-image-1-mini",
+  "quality": "medium",
+  "promptSource": "art/pipeline/prompts/world/PROMPTY-Pyra-v2.md",
+  "status": "próbki do odbioru właściciela; 12 z 20 (tekstury, ukształtowanie wody, drogi); 8 obiektów właściciel generuje z PROMPTY-OBIEKTY-v3.md",
+  "postprocess": "kafle i rzeka: szew zszyty na CPU (półprzesunięta kopia, maska sin²); drogi: tylko w poziomie",
+  "knownIssues": ["ścieżka leśna bardzo ciemna, słabo widoczna na tle"],
+  "images": [
+    {
+      "file": "pyra-grass.png",
+      "prompt": "pyra-grass.prompt.txt",
+      "title": "Trawa / step",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "sha256": "54d16cd3b3280d7120912dc584a6816b45017288ff67810af5b786163d8af287"
+    },
+    {
+      "file": "pyra-forest.png",
+      "prompt": "pyra-forest.prompt.txt",
+      "title": "Runo leśne",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "sha256": "14295a0d131b83b9aae5b31a207787b2907b485f8c4d15543e83713b2dbb18d1"
+    },
+    {
+      "file": "pyra-rockg.png",
+      "prompt": "pyra-rockg.prompt.txt",
+      "title": "Skała (podłoże górskie)",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "sha256": "ed28b084b33b707fac9e8fcdfa1b7e6ab96fed201498458c7a17ab9916fca07d"
+    },
+    {
+      "file": "pyra-wet.png",
+      "prompt": "pyra-wet.prompt.txt",
+      "title": "Mokradła",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "sha256": "4f48de64609b14e7abaedf47771b1a213569bd312d52b8bf19037433402c0f60"
+    },
+    {
+      "file": "pyra-sand.png",
+      "prompt": "pyra-sand.prompt.txt",
+      "title": "Piasek",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "sha256": "d1722ffc43eb6c20d37ef5ce8d63a09d677caf3f6d879c1d11237c8ebeebe681"
+    },
+    {
+      "file": "pyra-water.png",
+      "prompt": "pyra-water.prompt.txt",
+      "title": "Ocean (woda, kafel)",
+      "kind": "tile",
+      "generatedSize": "1024x1024",
+      "sha256": "1eb2b2928e4821ca3e74ab0310faace781af6abf940737b08cb478aee5c22c4c"
+    },
+    {
+      "file": "pyra-river.png",
+      "prompt": "pyra-river.prompt.txt",
+      "title": "Rzeka (pas poziomy, bezszwowy)",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "sha256": "364229c62f83c1de1c7348e5d0188b402b642ca46484d2b7303203ddd4411294"
+    },
+    {
+      "file": "pyra-road1.png",
+      "prompt": "pyra-road1.prompt.txt",
+      "title": "Główna droga bita",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "sha256": "f308fda884f1272b36e18fa8c4c403119efa044538fb5aa00653436c6661407b"
+    },
+    {
+      "file": "pyra-road2.png",
+      "prompt": "pyra-road2.prompt.txt",
+      "title": "Droga ziemna",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "sha256": "6408f1594a53cedf3e56cb77699e678f3d94772bb19d80780a71cb5f5f66e0be"
+    },
+    {
+      "file": "pyra-road3.png",
+      "prompt": "pyra-road3.prompt.txt",
+      "title": "Ścieżka leśna",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "sha256": "767ee5f740da5bbb6afbb229274d1d27b02673a680ee54a9fa7f451239a360d1"
+    },
+    {
+      "file": "pyra-road4.png",
+      "prompt": "pyra-road4.prompt.txt",
+      "title": "Ścieżka górska",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "sha256": "cbe0a0c8634f0924681c5644d19113cb26ec3f5a8cd7e0633ae4222ccb7cb253"
+    },
+    {
+      "file": "pyra-road5.png",
+      "prompt": "pyra-road5.prompt.txt",
+      "title": "Droga przybrzeżna",
+      "kind": "road",
+      "generatedSize": "1536x1024",
+      "sha256": "e56d5003f65decfa59a4477a9c69e656ee2046b23bd044def90229545aadfded"
+    }
+  ]
+}

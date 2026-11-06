@@ -1,0 +1,11 @@
+{
+  "landCellsByBiome": {
+    "1": 739126,
+    "0": 880749,
+    "3": 78488,
+    "2": 250584
+  },
+  "moltenEligibleCells": 1089,
+  "cellSize": 32,
+  "lavaRule": "land && !walkable && biome===2; presentation only"
+}

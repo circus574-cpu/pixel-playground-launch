@@ -1683,7 +1683,8 @@ export class MonsterSystem {
     const def = e.m.def;
     const out: DropRoll[] = [];
     for (const entry of def.loot) {
-      if (this.host.random() > entry.chance) continue;
+      const dropChance = entry.chance > 1 ? entry.chance / 100 : entry.chance;
+      if (this.host.random() > dropChance) continue;
       out.push({ item: entry.name === "tusk" ? "tusk" : slug(entry.name), quantity: 1, gold: 0 });
     }
     const [lo, hi] = def.gold;

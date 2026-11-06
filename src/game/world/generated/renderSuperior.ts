@@ -1,4 +1,43 @@
+import {
+  aetheriaContinentEnabled,
+  aetheriaTerrainBindings,
+  aetheriaBiomeBindings,
+  aetheriaObjects,
+  aetheriaRoadside,
+  aetheriaBiomeAt,
+  aetheriaNoise,
+} from "./aetheriaContinent";
+import {
+  pyraContinentEnabled,
+  pyraTerrainBindings,
+  pyraBiomeBindings,
+  pyraObjects,
+  pyraRoadside,
+  pyraPathScenery,
+  pyraEffectFrame,
+  pyraMoltenCell,
+} from "./pyraContinent";
 import { nexusGarden, nexusScenery, nexusWalkways } from "./nexusPainted";
+import {
+  nexusContinentEnabled,
+  nexusTerrainBindings,
+  nexusBiomeBindings,
+  nexusObjects,
+  nexusRoadside,
+  nexusBiomeAt,
+  nexusScatter,
+  nexusAir,
+  nexusEffectFrame,
+  nexusEnergyCell,
+} from "./nexusContinent";
+import {
+  verdantiaContinentEnabled,
+  continentTerrainBindings,
+  continentBiomeBindings,
+  continentRoadside,
+  continentObjects,
+  extraSceneryEnabled,
+} from "./verdantiaContinent";
 import {
   paintedMeadowEnabled,
   paintedPaths,
@@ -42,6 +81,7 @@ export type RenderSource = {
   art: FeatureArt;
   roads: readonly { points: [number, number][]; width: number; kind: string }[];
   cityRoads: readonly { x: number; y: number; width: number; height: number }[];
+  outsideCities?: (point: Point) => boolean;
   readArt: (x: number, y: number) => Promise<ArtObject[]>;
   acquire: (scene: Phaser.Scene, ids: Set<string>, owner: string) => Promise<void>;
   release: (scene: Phaser.Scene, owner: string) => void;
@@ -54,6 +94,7 @@ type Tile = {
   items: ArtObject[];
   ground: Phaser.GameObjects.Image;
   images: Map<string, Phaser.GameObjects.Image>;
+  shadows: Map<string, Phaser.GameObjects.Image>;
   key: string;
 };
 const intersects = (
@@ -91,12 +132,52 @@ const layerCanvas = (size = 512) => {
 /** Only streamed chunks have canvases; only nearby decorations have Phaser images. */
 export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   const painted = paintedMeadowEnabled(source.loader.definition.feature);
+  const pyraContinent = pyraContinentEnabled(source.loader.definition.feature);
+  const verdantContinent = verdantiaContinentEnabled(source.loader.definition.feature);
+  const aetheriaContinent = aetheriaContinentEnabled(source.loader.definition.feature);
+  const nexusContinent = nexusContinentEnabled(source.loader.definition.feature);
+  const continent = verdantContinent || pyraContinent || aetheriaContinent || nexusContinent;
+  const terrainBindings = nexusContinent
+    ? nexusTerrainBindings
+    : aetheriaContinent
+      ? aetheriaTerrainBindings
+      : pyraContinent
+        ? pyraTerrainBindings
+        : continentTerrainBindings;
+  const biomeBindings = nexusContinent
+    ? nexusBiomeBindings
+    : aetheriaContinent
+      ? aetheriaBiomeBindings
+      : pyraContinent
+        ? pyraBiomeBindings
+        : continentBiomeBindings;
+  const terrainPrefix = nexusContinent
+    ? "terrain.nexus-continent."
+    : aetheriaContinent
+      ? "terrain.aetheria-continent."
+      : pyraContinent
+        ? "terrain.pyra-continent."
+        : "terrain.verdantia-continent.";
+  const remapObjects = pyraContinent ? pyraObjects : continentObjects;
+  const roadside = pyraContinent ? pyraRoadside : continentRoadside;
+  const outside = source.outsideCities ?? (() => false);
   const paintedPyra = painted && source.loader.definition.feature === "pyra";
   const paintedNexus = painted && source.loader.definition.feature === "nexus";
   const nexusRoads = paintedNexus ? nexusWalkways(source.art) : [];
   const renderRoads = [...source.roads, ...nexusRoads];
-  const resolution = painted ? 1024 : 512;
+  const resolution = painted || continent ? 1024 : 512;
   const scale = resolution / CHUNK;
+  const shadowKey = "verdantia-continent-contact-shadow";
+  if (continent && !scene.textures.exists(shadowKey)) {
+    const texture = scene.textures.createCanvas(shadowKey, 64, 64)!;
+    const ctx = texture.getContext();
+    const shade = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    shade.addColorStop(0, "rgba(12,32,17,0.4)");
+    shade.addColorStop(1, "rgba(12,32,17,0)");
+    ctx.fillStyle = shade;
+    ctx.fillRect(0, 0, 64, 64);
+    texture.refresh();
+  }
   const live = new Map<string, Tile>();
   const pending = new Set<string>();
   let wanted = new Set<string>();
@@ -107,12 +188,20 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     doorsKey = "";
   const markers: (Phaser.GameObjects.Ellipse | Phaser.GameObjects.Text)[] = [];
   const staticItems = [
+    ...(pyraContinent ? pyraPathScenery(source.roads, outside) : []),
     ...(painted ? meadowBuildings(source.art.buildings) : source.art.buildings),
     ...(painted
       ? meadowBuildings(source.art.acceptedCityBuildings)
       : source.art.acceptedCityBuildings),
     ...(painted && source.loader.definition.feature === "aether"
-      ? aetherLegacyScenery(source.art.acceptedCityScenery ?? [])
+      ? aetheriaContinent
+        ? [
+            ...aetherLegacyScenery(
+              (source.art.acceptedCityScenery ?? []).filter((item) => !outside(item)),
+            ),
+            ...(source.art.acceptedCityScenery ?? []).filter(outside),
+          ]
+        : aetherLegacyScenery(source.art.acceptedCityScenery ?? [])
       : paintedNexus
         ? nexusScenery(source.art.acceptedCityScenery ?? [])
         : (source.art.acceptedCityScenery ?? [])),
@@ -136,6 +225,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     const tile = live.get(id);
     if (!tile) return;
     for (const image of tile.images.values()) image.destroy();
+    for (const shadow of tile.shadows.values()) shadow.destroy();
     tile.ground.destroy();
     scene.textures.remove(tile.key);
     live.delete(id);
@@ -192,11 +282,17 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     // into each other instead of showing the CPU cell grid as pasted square patches.
     const cols = data.terrain.width,
       rows = data.terrain.height;
+    const cellPoint = (i: number) => ({
+      x: data.x + (((i % cols) + 0.5) * CHUNK) / cols,
+      y: data.y + ((Math.floor(i / cols) + 0.5) * CHUNK) / rows,
+    });
+    let wilderness = continent;
     const small = cellCanvas(cols, rows),
       sctx = small.getContext("2d")!;
     const colors = sctx.createImageData(cols, rows);
     const biomes = new Set<number>();
     for (let i = 0; i < flags.length; i++) {
+      if (wilderness && !outside(cellPoint(i))) wilderness = false;
       const land = !!(flags[i]! & 16);
       if (land) biomes.add(biome[i]!);
       const hex = land
@@ -215,16 +311,27 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     // repeated pictures; each texture fades in through the same smoothed cell mask.
     const layer = layerCanvas(resolution),
       lctx = layer.getContext("2d")!;
-    const texture = (fill: CanvasPattern, alpha: number, inside: (i: number) => boolean) => {
+    const texture = (
+      fill: CanvasPattern,
+      alpha: number,
+      inside: (i: number) => boolean,
+      legacyTone = true,
+    ) => {
       const mask = sctx.createImageData(cols, rows);
-      for (let i = 0; i < flags.length; i++) mask.data[i * 4 + 3] = inside(i) ? 255 : 0;
+      let covered = false;
+      for (let i = 0; i < flags.length; i++)
+        if (inside(i)) {
+          mask.data[i * 4 + 3] = 255;
+          covered = true;
+        }
+      if (!covered) return;
       sctx.clearRect(0, 0, cols, rows);
       sctx.putImageData(mask, 0, 0);
       lctx.globalCompositeOperation = "source-over";
       lctx.clearRect(0, 0, resolution, resolution);
       lctx.fillStyle = fill;
       lctx.filter =
-        painted && !paintedPyra && !paintedNexus && fill !== water
+        legacyTone && painted && !paintedPyra && !paintedNexus && fill !== water
           ? "saturate(0.82) brightness(0.9)"
           : "none";
       lctx.fillRect(0, 0, resolution, resolution);
@@ -237,9 +344,10 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       ctx.drawImage(layer, 0, 0);
       ctx.globalAlpha = 1;
     };
-    for (const b of biomes)
-      texture(ground[b] ?? ground[0]!, groundAlpha, (i) => !!(flags[i]! & 16) && biome[i] === b);
-    if (painted) {
+    if (!wilderness)
+      for (const b of aetheriaContinent ? [...biomes].sort((a, b) => a - b) : biomes)
+        texture(ground[b] ?? ground[0]!, groundAlpha, (i) => !!(flags[i]! & 16) && biome[i] === b);
+    if (painted && !wilderness) {
       const shop = source.art.acceptedCityBuildings.find((b) => b.id === "accepted-city-shop");
       if (shop)
         texture(ground[0]!, 1, (i) => {
@@ -299,8 +407,180 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         return onCityLand(i) && inGarden(x, y);
       });
     }
-    texture(water, waterAlpha, (i) => !(flags[i]! & 16));
-    if (painted && !paintedPyra && !paintedNexus) meadowLight(ctx, data.x, data.y, scale);
+    if (!wilderness) texture(water, waterAlpha, (i) => !(flags[i]! & 16));
+    if (continent) {
+      for (const b of biomes)
+        texture(
+          pattern(biomeBindings[b] ?? biomeBindings[0]!),
+          1,
+          (i) => !!(flags[i]! & 16) && biome[i] === b && outside(cellPoint(i)),
+          false,
+        );
+      texture(
+        pattern(terrainPrefix + (pyraContinent ? "shore" : "sand")),
+        0.8,
+        (i) =>
+          !!(flags[i]! & 16) &&
+          biome[i] !== 2 &&
+          (!aetheriaContinent || biome[i]! < 2) &&
+          outside(cellPoint(i)) &&
+          [i - 2, i + 2, i - cols * 2, i + cols * 2].some(
+            (j) => j >= 0 && j < flags.length && !(flags[j]! & 16),
+          ),
+        false,
+      );
+      texture(
+        pattern(terrainPrefix + "water"),
+        1,
+        (i) => !(flags[i]! & 16) && outside(cellPoint(i)),
+        false,
+      );
+    }
+    if (aetheriaContinent) {
+      const dryLand = (i: number) => !!(flags[i]! & 16) && outside(cellPoint(i));
+      texture(
+        pattern(terrainPrefix + "snow"),
+        0.95,
+        (i) => {
+          const p = cellPoint(i);
+          return (
+            dryLand(i) &&
+            biome[i]! >= 2 &&
+            Math.sin(p.x / 510) + Math.cos(p.y / 670) > (biome[i] === 3 ? 0.75 : -0.3)
+          );
+        },
+        false,
+      );
+      texture(
+        pattern(terrainPrefix + "wet"),
+        0.65,
+        (i) => {
+          const p = cellPoint(i);
+          return dryLand(i) && biome[i] === 0 && Math.sin(p.x / 490) + Math.cos(p.y / 740) > 1.2;
+        },
+        false,
+      );
+      texture(
+        pattern(terrainPrefix + "river"),
+        0.65,
+        (i) =>
+          !(flags[i]! & 16) &&
+          outside(cellPoint(i)) &&
+          [i - 2, i + 2, i - cols * 2, i + cols * 2].some(
+            (j) => j >= 0 && j < flags.length && !!(flags[j]! & 16),
+          ),
+        false,
+      );
+    }
+    if (pyraContinent) {
+      const dryLand = (i: number) => !!(flags[i]! & 16) && outside(cellPoint(i));
+      texture(
+        pattern(terrainPrefix + "leaves"),
+        0.95,
+        (i) => {
+          const p = cellPoint(i);
+          return (
+            dryLand(i) &&
+            biome[i] === 0 &&
+            Math.sin(p.x / 550) + Math.sin(p.y / 720) + Math.sin((p.x + p.y) / 1100) > 0.55
+          );
+        },
+        false,
+      );
+      texture(pattern(terrainPrefix + "ash-rock"), 0.8, (i) => dryLand(i) && biome[i] === 3, false);
+      texture(
+        pattern(terrainPrefix + "sulfur"),
+        0.7,
+        (i) => {
+          const p = cellPoint(i);
+          return dryLand(i) && biome[i] === 3 && Math.sin(p.x / 430) + Math.cos(p.y / 600) > 1.25;
+        },
+        false,
+      );
+      // Molten material stays on already impassable volcanic cells.
+      texture(
+        pattern(terrainPrefix + "lava"),
+        1,
+        (i) => dryLand(i) && pyraMoltenCell(flags[i]!, biome[i]!),
+        false,
+      );
+    }
+    if (nexusContinent) {
+      const dryLand = (i: number) => !!(flags[i]! & 16) && outside(cellPoint(i));
+      // Crystal crust creeps over the core wastes in slow bands.
+      texture(
+        pattern(terrainPrefix + "crystal-ground"),
+        0.85,
+        (i) => {
+          const p = cellPoint(i);
+          return dryLand(i) && biome[i] === 3 && Math.sin(p.x / 470) + Math.cos(p.y / 610) > 1.15;
+        },
+        false,
+      );
+      // Damp moss pools gather where the synthetic gardens hold water.
+      texture(
+        pattern(terrainPrefix + "damp-stone"),
+        0.6,
+        (i) => {
+          const p = cellPoint(i);
+          return dryLand(i) && biome[i] === 1 && Math.sin(p.x / 520) + Math.cos(p.y / 700) > 1.3;
+        },
+        false,
+      );
+      // Pale stone caps the plateau rims.
+      texture(
+        pattern(terrainPrefix + "moss-stone"),
+        0.7,
+        (i) => {
+          const p = cellPoint(i);
+          return dryLand(i) && biome[i] === 2 && Math.sin(p.x / 560) + Math.sin(p.y / 640) > 1.35;
+        },
+        false,
+      );
+      // Charged liquid stays on already impassable core cells.
+      texture(
+        pattern(terrainPrefix + "energy-liquid"),
+        1,
+        (i) => dryLand(i) && nexusEnergyCell(flags[i]!, biome[i]!),
+        false,
+      );
+      // A shallow glow rims every waterline outside the cities.
+      texture(
+        pattern(terrainPrefix + "shallow-water"),
+        0.7,
+        (i) =>
+          !(flags[i]! & 16) &&
+          outside(cellPoint(i)) &&
+          [i - 2, i + 2, i - cols * 2, i + cols * 2].some(
+            (j) => j >= 0 && j < flags.length && !!(flags[j]! & 16),
+          ),
+        false,
+      );
+      // Dry banks fringe the wastes where land meets water.
+      texture(
+        pattern(terrainPrefix + "dry-bank"),
+        0.6,
+        (i) => {
+          const p = cellPoint(i);
+          return (
+            dryLand(i) &&
+            biome[i] === 3 &&
+            Math.sin(p.x / 380) + Math.cos(p.y / 460) > 0.6 &&
+            [i - 2, i + 2, i - cols * 2, i + cols * 2].some(
+              (j) => j >= 0 && j < flags.length && !(flags[j]! & 16),
+            )
+          );
+        },
+        false,
+      );
+    }
+    if (
+      painted &&
+      !paintedPyra &&
+      !paintedNexus &&
+      !(aetheriaContinent && wilderness && (biomes.has(2) || biomes.has(3)))
+    )
+      meadowLight(ctx, data.x, data.y, scale);
     const silhouette = painted ? document.createElement("canvas") : undefined;
     if (silhouette) silhouette.width = silhouette.height = resolution + 48;
     const pen = silhouette?.getContext("2d") ?? ctx;
@@ -309,11 +589,12 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       points: [number, number][],
       width: number,
       color: string | CanvasPattern,
+      target = pen,
     ) => {
       if (points.length < 2) return;
       const scaled = points.map(([x, y]) => ({ x: (x - data.x) * scale, y: (y - data.y) * scale }));
-      pen.beginPath();
-      pen.moveTo(scaled[0]!.x, scaled[0]!.y);
+      target.beginPath();
+      target.moveTo(scaled[0]!.x, scaled[0]!.y);
       for (let i = 1; i < scaled.length - 1; i++) {
         const prev = scaled[i - 1]!,
           p = scaled[i]!,
@@ -322,23 +603,23 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
           after = Math.hypot(next.x - p.x, next.y - p.y);
         const radius = Math.min(width * scale * 0.55, before / 3, after / 3);
         if (before < 0.01 || after < 0.01) continue;
-        pen.lineTo(
+        target.lineTo(
           p.x + ((prev.x - p.x) * radius) / before,
           p.y + ((prev.y - p.y) * radius) / before,
         );
-        pen.quadraticCurveTo(
+        target.quadraticCurveTo(
           p.x,
           p.y,
           p.x + ((next.x - p.x) * radius) / after,
           p.y + ((next.y - p.y) * radius) / after,
         );
       }
-      pen.lineTo(scaled.at(-1)!.x, scaled.at(-1)!.y);
-      pen.strokeStyle = color;
-      pen.lineWidth = width * scale;
-      pen.lineCap = "round";
-      pen.lineJoin = "round";
-      pen.stroke();
+      target.lineTo(scaled.at(-1)!.x, scaled.at(-1)!.y);
+      target.strokeStyle = color;
+      target.lineWidth = width * scale;
+      target.lineCap = "round";
+      target.lineJoin = "round";
+      target.stroke();
     };
     const roadFill = road;
     for (const road of renderRoads) {
@@ -370,7 +651,92 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       );
       pen.fill();
     }
-    if (silhouette && roadFill) paintedPaths(ctx, silhouette, roadFill, data.x, data.y, scale);
+    if (silhouette && roadFill && !wilderness)
+      paintedPaths(ctx, silhouette, roadFill, data.x, data.y, scale);
+    if (continent) {
+      const natural = document.createElement("canvas");
+      natural.width = natural.height = resolution;
+      const nc = natural.getContext("2d")!;
+      const createMask = () => {
+        const c = document.createElement("canvas");
+        c.width = c.height = resolution + 48;
+        const p = c.getContext("2d")!;
+        p.translate(24, 24);
+        return { c, p };
+      };
+      const masks: ({ c: HTMLCanvasElement; p: CanvasRenderingContext2D } | undefined)[] =
+        Array.from({ length: aetheriaContinent ? 5 : 4 });
+      for (const r of source.roads) {
+        // Split only the presentation stroke, keeping every original point and width.
+        for (let i = 1; i < r.points.length; i++) {
+          const a = r.points[i - 1]!,
+            b = r.points[i]!;
+          const mx = (a[0] + b[0]) / 2,
+            my = (a[1] + b[1]) / 2;
+          if (
+            Math.max(a[0], b[0]) + r.width < data.x ||
+            Math.min(a[0], b[0]) - r.width > data.x + CHUNK ||
+            Math.max(a[1], b[1]) + r.width < data.y ||
+            Math.min(a[1], b[1]) - r.width > data.y + CHUNK
+          )
+            continue;
+          const col = Math.max(0, Math.min(cols - 1, Math.floor(((mx - data.x) / CHUNK) * cols)));
+          const row = Math.max(0, Math.min(rows - 1, Math.floor(((my - data.y) / CHUNK) * rows)));
+          const nearWater =
+            aetheriaContinent &&
+            [
+              row * cols + col - 2,
+              row * cols + col + 2,
+              (row - 2) * cols + col,
+              (row + 2) * cols + col,
+            ].some((j) => j >= 0 && j < flags.length && !(flags[j]! & 16));
+          const kind = aetheriaContinent
+            ? biome[row * cols + col]! >= 2
+              ? 3
+              : nearWater
+                ? 4
+                : r.kind === "road" || r.kind === "city-path"
+                  ? 0
+                  : biome[row * cols + col] === 1
+                    ? 2
+                    : 1
+            : pyraContinent
+              ? biome[row * cols + col]! >= 2
+                ? 2
+                : r.kind.includes("trail")
+                  ? 3
+                  : r.kind === "road" || r.kind === "city-path"
+                    ? 0
+                    : 1
+              : biome[row * cols + col] === 2
+                ? 3
+                : r.kind === "road" || r.kind === "city-path"
+                  ? 0
+                  : r.kind.includes("trail")
+                    ? 2
+                    : 1;
+          const mask = (masks[kind] ??= createMask());
+          strokeRoad([a, b], r.width, "#fff", mask.p);
+        }
+      }
+      for (let i = 0; i < masks.length; i++)
+        if (masks[i])
+          paintedPaths(
+            nc,
+            masks[i]!.c,
+            pattern(terrainPrefix + "road" + (i + 1)),
+            data.x,
+            data.y,
+            scale,
+          );
+      const mask = sctx.createImageData(cols, rows);
+      for (let i = 0; i < flags.length; i++)
+        mask.data[i * 4 + 3] = outside(cellPoint(i)) && !!(flags[i]! & 16) ? 255 : 0;
+      sctx.putImageData(mask, 0, 0);
+      nc.globalCompositeOperation = "destination-in";
+      nc.drawImage(small, 0, 0, cols, rows, 0, 0, resolution, resolution);
+      ctx.drawImage(natural, 0, 0);
+    }
     if (paintedPyra && plaza) {
       const courts = document.createElement("canvas");
       courts.width = courts.height = resolution + 48;
@@ -453,10 +819,20 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     return {
       key,
       image: scene.add
-        .image(data.x, data.y, key)
+        // A one-unit bleed prevents subpixel cracks between wilderness tiles when zooming.
+        .image(
+          data.x - (aetheriaContinent && wilderness ? 1 : 0),
+          data.y - (aetheriaContinent && wilderness ? 1 : 0),
+          key,
+        )
         .setOrigin(0)
-        .setDisplaySize(CHUNK, CHUNK)
+        .setDisplaySize(
+          CHUNK + (aetheriaContinent && wilderness ? 2 : 0),
+          CHUNK + (aetheriaContinent && wilderness ? 2 : 0),
+        )
         .setDepth(renderDepth("ground"))
+        // Slightly darker, cooler ground and scenery keep the actors in the foreground.
+        .setTint(0xd0d4dc)
         .setVisible(visible),
     };
   };
@@ -466,13 +842,48 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     try {
       const [data, art] = await Promise.all([source.loader.loadChunk(x, y), source.readArt(x, y)]);
       if (disposed || !wanted.has(id)) return;
-      const items = [...art, ...(staticGrid.get(id) ?? [])];
+      const originalItems = [...art, ...(staticGrid.get(id) ?? [])];
+      const biomeAt = aetheriaContinent
+        ? aetheriaBiomeAt(data)
+        : nexusContinent
+          ? nexusBiomeAt(data)
+          : () => 0;
+      const items = aetheriaContinent
+        ? aetheriaObjects(originalItems, outside, source.roads, biomeAt)
+        : nexusContinent
+          ? nexusObjects(originalItems, outside, source.roads, biomeAt)
+          : continent
+            ? remapObjects(originalItems, outside, source.roads)
+            : originalItems;
+      if (continent) {
+        const flags = decodeRuns(data.terrain.flags, data.terrain.width * data.terrain.height);
+        const onLand = (p: Point) => {
+          const col = Math.floor(((p.x - data.x) / CHUNK) * data.terrain.width),
+            row = Math.floor(((p.y - data.y) / CHUNK) * data.terrain.height);
+          return !!(flags[row * data.terrain.width + col]! & 16);
+        };
+        items.push(
+          ...(nexusContinent ? nexusRoadside : aetheriaContinent ? aetheriaRoadside : roadside)(
+            data.x,
+            data.y,
+            source.roads,
+            outside,
+            onLand,
+            biomeAt,
+          ),
+        );
+        if (nexusContinent) {
+          items.push(...nexusScatter(data.x, data.y, source.roads, outside, onLand, biomeAt));
+          items.push(...nexusAir(data.x, data.y, outside, onLand, biomeAt));
+        }
+      }
       const ids = new Set(
         [...source.art.groundByBiome, source.art.water, source.art.road, source.art.plaza]
           .filter((b): b is string => !!b)
           .map(textureId),
       );
       if (paintedNexus) ids.add(textureId("terrain.nexus-painted-courtyard"));
+      if (continent) for (const key of terrainBindings) ids.add(textureId(key));
       for (const item of items) ids.add(textureId(item.binding));
       await source.acquire(scene, ids, id);
       if (disposed || !wanted.has(id)) {
@@ -480,7 +891,14 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         return;
       }
       const ground = drawGround(data, id);
-      live.set(id, { data, items, ground: ground.image, images: new Map(), key: ground.key });
+      live.set(id, {
+        data,
+        items,
+        ground: ground.image,
+        images: new Map(),
+        shadows: new Map(),
+        key: ground.key,
+      });
     } catch (error) {
       if (!disposed) {
         failed = true;
@@ -538,30 +956,74 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
           if (image) {
             image.destroy();
             tile.images.delete(item.id);
+            tile.shadows.get(item.id)?.destroy();
+            tile.shadows.delete(item.id);
           }
           continue;
         }
         if (!image) {
           const ref = catalog.renderBindings[item.binding]!;
+          const iceFormation =
+            aetheriaContinent && item.binding === "object.aetheria-continent.glacier-ridge";
+          const drawScale = iceFormation
+            ? 0.65 + aetheriaNoise(item.x + 11, item.y - 29) * 0.25
+            : 1;
           image = sizeScenery(
             scene.add.image(
               item.x,
               item.y,
               (paintedPyra && ref.asset.startsWith("pyra-painted-")) ||
-                (paintedNexus && ref.asset.startsWith("nexus-painted-"))
+                (paintedNexus && ref.asset.startsWith("nexus-painted-")) ||
+                ref.asset.startsWith("verdantia-continent-") ||
+                ref.asset.startsWith("verdantia-extra-") ||
+                ref.asset.startsWith("pyra-continent-") ||
+                ref.asset.startsWith("aetheria-continent-")
                 ? ref.asset
                 : blendedTexture(scene, ref.asset, ref.frame),
               ref.frame,
             ),
-            item.width,
-            item.height,
+            item.width * drawScale,
+            item.height * drawScale,
             ref.fit,
           )
             .setOrigin(item.anchorX, item.anchorY)
+            .setTint(
+              ref.asset.startsWith("verdantia-continent-") ||
+                ref.asset.startsWith("verdantia-extra-") ||
+                ref.asset.startsWith("pyra-continent-") ||
+                ref.asset.startsWith("aetheria-continent-")
+                ? 0xf5f2de
+                : 0xdfe2e8,
+            )
             .setDepth(renderDepth(item.layer ?? "objects", item.y));
+          if (iceFormation) image.setFlipX(aetheriaNoise(item.x, item.y) > 0.5);
           tile.images.set(item.id, image);
+          if (
+            item.kind !== "ambient-effect" &&
+            (ref.asset.startsWith("verdantia-continent-") ||
+              ref.asset.startsWith("verdantia-extra-") ||
+              ref.asset.startsWith("pyra-continent-") ||
+              ref.asset.startsWith("aetheria-continent-") ||
+              ref.asset.startsWith("nexus-continent-"))
+          ) {
+            // A shared transparent sprite can straddle a chunk boundary without a cut shadow.
+            tile.shadows.set(
+              item.id,
+              scene.add
+                .image(item.x + item.width * 0.08, item.y, shadowKey)
+                .setDisplaySize(item.width * drawScale * 0.84, item.width * drawScale * 0.35)
+                .setDepth(renderDepth("paths")),
+            );
+          }
         }
         image.setAlpha(Math.min(occlusionAlpha(item, player), foliageAlpha(item, others)));
+        if ((pyraContinent || nexusContinent) && item.kind === "ambient-effect") {
+          const frame = nexusContinent
+            ? nexusEffectFrame(item, scene.time.now)
+            : pyraEffectFrame(item, scene.time.now);
+          image.setPosition(frame.x, frame.y).setAlpha(frame.alpha);
+          tile.shadows.get(item.id)?.setVisible(false);
+        }
       }
     const doors = source.currentDoors(),
       nextKey = doors.map((d) => d.door.x + "," + d.door.y).join(";");
@@ -575,15 +1037,24 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             .setStrokeStyle(2, 0xd7c77d)
             .setDepth(renderDepth("below", d.door.y)),
         );
+        // The name floats above the building (its roof), not under the door. The building whose
+        // door this is gives the top edge; a door without a drawn building falls back to a spot above it.
+        const house = staticItems.find(
+          (i) => i.door && i.door.x === d.door.x && i.door.y === d.door.y,
+        );
+        // The art has an empty margin above the roof, so the label sits a tenth of the height inside it.
+        const top = house
+          ? house.y - house.height * house.anchorY + house.height * 0.1
+          : d.door.y - 150;
         markers.push(
           scene.add
-            .text(d.door.x, d.door.y + 30, d.name, {
+            .text(d.door.x, top, d.name, {
               fontSize: "20px",
               color: "#fff1cc",
               stroke: "#142a24",
               strokeThickness: 4,
             })
-            .setOrigin(0.5)
+            .setOrigin(0.5, 1)
             .setDepth(renderDepth("labels")),
         );
       }
@@ -591,6 +1062,11 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     scene.game.canvas.dataset["superiorChunks"] = String(live.size);
     scene.game.canvas.dataset["superiorPending"] = String(pending.size);
     scene.game.canvas.dataset["superiorPainted"] = String(painted);
+    scene.game.canvas.dataset["verdantiaContinent"] = String(verdantContinent);
+    scene.game.canvas.dataset["pyraContinent"] = String(pyraContinent);
+    scene.game.canvas.dataset["aetheriaContinent"] = String(aetheriaContinent);
+    scene.game.canvas.dataset["nexusContinent"] = String(nexusContinent);
+    scene.game.canvas.dataset["verdantiaExtra"] = String(verdantContinent && extraSceneryEnabled());
     scene.game.canvas.dataset["superiorGroundResolution"] = String(resolution);
     scene.game.canvas.dataset["superiorScenery"] = String(
       [...live.values()].reduce((n, t) => n + t.images.size, 0),
@@ -604,12 +1080,14 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       for (const tile of live.values()) {
         tile.ground.setVisible(value);
         for (const image of tile.images.values()) image.setVisible(value);
+        for (const shadow of tile.shadows.values()) shadow.setVisible(value);
       }
       for (const marker of markers) marker.setVisible(value);
     },
     dispose() {
       disposed = true;
       for (const id of [...live.keys()]) drop(id);
+      if (continent && scene.textures.exists(shadowKey)) scene.textures.remove(shadowKey);
       markers.splice(0).forEach((m) => m.destroy());
     },
   };

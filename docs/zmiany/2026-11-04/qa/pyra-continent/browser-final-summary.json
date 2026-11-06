@@ -1,0 +1,137 @@
+{
+  "checks": [
+    {
+      "title": "Pyra: real terrain, city, ambient graphics, streaming, reload and PvE",
+      "project": "gameplay",
+      "status": "passed",
+      "durationMs": 69103,
+      "runtime": {
+        "scenes": [
+          {
+            "name": "ash",
+            "x": 44048,
+            "y": "12528"
+          },
+          {
+            "name": "basalt",
+            "x": 47376,
+            "y": "15472"
+          },
+          {
+            "name": "volcanic",
+            "x": 46224,
+            "y": "11184"
+          },
+          {
+            "name": "canyon",
+            "x": 48784,
+            "y": "15472"
+          }
+        ],
+        "errors": [],
+        "missing": [],
+        "metrics": {
+          "sampleAtMs": 18227,
+          "fps": 21.73,
+          "frameP50Ms": 15.699999995529652,
+          "frameP95Ms": 223.10000000149012,
+          "frameMaxMs": 495.29999999701977,
+          "slowFrames": 2,
+          "objects": 525,
+          "activeObjects": 525,
+          "visibleObjects": 473,
+          "textures": 120,
+          "estimatedTextureBytes": 205318028,
+          "bakedTextureBytes": 0,
+          "jsHeapBytes": 296085889,
+          "renderer": "Canvas",
+          "drawCalls": null
+        }
+      }
+    },
+    {
+      "title": "Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE",
+      "project": "gameplay",
+      "status": "passed",
+      "durationMs": 65502,
+      "runtime": {
+        "metrics": {
+          "sampleAtMs": 13883,
+          "fps": 38.81,
+          "frameP50Ms": 21.700000002980232,
+          "frameP95Ms": 45.70000000298023,
+          "frameMaxMs": 95.19999999552965,
+          "slowFrames": 4,
+          "objects": 755,
+          "activeObjects": 755,
+          "visibleObjects": 701,
+          "textures": 116,
+          "estimatedTextureBytes": 219045128,
+          "bakedTextureBytes": 0,
+          "jsHeapBytes": 336073154,
+          "renderer": "Canvas",
+          "drawCalls": null
+        },
+        "errors": [],
+        "missing": []
+      }
+    },
+    {
+      "title": "Pyra: real terrain, city, ambient graphics, streaming, reload and PvE",
+      "project": "software-webgl",
+      "status": "passed",
+      "durationMs": 107260,
+      "runtime": {
+        "scenes": [],
+        "errors": [],
+        "missing": [],
+        "metrics": {
+          "sampleAtMs": 54353,
+          "fps": 26.66,
+          "frameP50Ms": 21.30000000447035,
+          "frameP95Ms": 140.60000000149012,
+          "frameMaxMs": 155.60000000149012,
+          "slowFrames": 10,
+          "objects": 713,
+          "activeObjects": 713,
+          "visibleObjects": 662,
+          "textures": 120,
+          "estimatedTextureBytes": 204212816,
+          "bakedTextureBytes": 0,
+          "jsHeapBytes": 304000000,
+          "renderer": "WebGL",
+          "drawCalls": null
+        }
+      }
+    },
+    {
+      "title": "Verdantia continent: actual city, wilderness streaming, touch, reload and live PvE",
+      "project": "software-webgl",
+      "status": "passed",
+      "durationMs": 90706,
+      "runtime": {
+        "metrics": {
+          "sampleAtMs": 39678,
+          "fps": 12.28,
+          "frameP50Ms": 82.89999999850988,
+          "frameP95Ms": 165.89999999850988,
+          "frameMaxMs": 165.89999999850988,
+          "slowFrames": 10,
+          "objects": 527,
+          "activeObjects": 527,
+          "visibleObjects": 474,
+          "textures": 111,
+          "estimatedTextureBytes": 218723208,
+          "bakedTextureBytes": 0,
+          "jsHeapBytes": 254000000,
+          "renderer": "WebGL",
+          "drawCalls": null
+        },
+        "errors": [],
+        "missing": []
+      }
+    }
+  ],
+  "allPassed": true,
+  "performanceScope": "Functional Canvas and software WebGL checks only. Physical phone/hardware GPU performance not validated."
+}

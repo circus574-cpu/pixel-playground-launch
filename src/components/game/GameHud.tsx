@@ -1,4 +1,5 @@
 import type { StartTrial } from "./TrialsPanel";
+import { PanelBoundary } from "./PanelBoundary";
 import { DevelopmentPanel, type StartExam } from "./DevelopmentPanel";
 import { CharacterStatsPanel } from "./CharacterStatsPanel";
 import { CombatQuestSummary } from "./CombatQuestSummary";
@@ -13,6 +14,7 @@ import {
   writeUiPreferences,
   CONTROL_IDS,
   CONTROL_SCALE,
+  UI_SCALE,
   type ControlLayout,
   type UiPreferences,
 } from "../../game/uiPreferences";
@@ -115,6 +117,9 @@ const iconNames = [
   "Umiejętności",
 ];
 const POTION_COOLDOWN = POTION.cooldown;
+/** Painted icon of a racial resource bar (Żar of the Legends, Ładunek Rdzenia of the Androids). */
+const resourceIcon = (label: string) =>
+  gpuIcon(label === "Żar" ? "hud-zar" : label === "Ładunek Rdzenia" ? "hud-rdzen" : "");
 const STATUS_NAMES: Record<string, string> = {
   slow: "Spowolnienie",
   root: "Unieruchomienie",
@@ -232,6 +237,22 @@ export function GameHud({
   onStaffTeleport,
 }: Props) {
   const [panel, setPanel] = useState<Panel>(null);
+  // The minimap can be folded into one small icon (owner proposal 04.11.2026); the choice is remembered per browser.
+  const [mapHidden, setMapHidden] = useState(() => {
+    try {
+      return localStorage.getItem("ki-minimap-hidden") === "1";
+    } catch {
+      return false;
+    }
+  });
+  const hideMap = (hidden: boolean) => {
+    setMapHidden(hidden);
+    try {
+      localStorage.setItem("ki-minimap-hidden", hidden ? "1" : "0");
+    } catch {
+      /* private mode: the choice just is not remembered */
+    }
+  };
   const [tab, setTab] = useState("System");
   const [chatOpen, setChatOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
@@ -317,6 +338,8 @@ export function GameHud({
   ]);
 
   const [preferences, setPreferences] = useState(readUiPreferences);
+  // While arranging the touch controls the HUD is shown unscaled, so handles match screen pixels.
+  const hudScale = arranging ? 1 : preferences.uiScale;
   const [hiddenSaveWarning, setHiddenSaveWarning] = useState("");
   const scope = panel
     ? "panel:" + panel
@@ -468,7 +491,7 @@ export function GameHud({
         className="ki-skill"
         data-ability={a.id}
         key={a.id}
-        style={a.id === "R" ? undefined : buttonStyle(preferences.controls, a.id)}
+        style={a.id === "R" ? undefined : buttonStyle(preferences.controls, a.id, hudScale)}
         title={
           a.name + (a.id === "R" ? "" : " · " + a.ki + " KI · " + a.cd / 1000 + " s odnowienia")
         }
@@ -505,7 +528,8 @@ export function GameHud({
       style={
         {
           "--ki-ui-image": `url("${uiTextureUrl()}")`,
-          ...controlStyle(preferences.controls),
+          "--ki-ui-scale": String(hudScale),
+          ...controlStyle(preferences.controls, hudScale),
         } as CSSProperties
       }
     >
@@ -552,6 +576,9 @@ export function GameHud({
           >
             <i style={{ width: (player.hp / state.stats.maxHp) * 100 + "%" }} />
             <span>
+              {gpuIcon("hud-hp") && (
+                <img className="ki-gpu-meter" src={gpuIcon("hud-hp")} alt="" aria-hidden />
+              )}
               {Math.ceil(player.hp)} / {state.stats.maxHp}
             </span>
           </div>
@@ -565,6 +592,9 @@ export function GameHud({
           >
             <i style={{ width: (player.ki / state.stats.maxKi) * 100 + "%" }} />
             <span>
+              {gpuIcon("hud-ki") && (
+                <img className="ki-gpu-meter" src={gpuIcon("hud-ki")} alt="" aria-hidden />
+              )}
               {Math.floor(player.ki)} / {state.stats.maxKi}
             </span>
           </div>
@@ -587,6 +617,14 @@ export function GameHud({
             >
               <i style={{ width: (state.resource.value / state.resource.max) * 100 + "%" }} />
               <span>
+                {resourceIcon(state.resource.label) && (
+                  <img
+                    className="ki-gpu-meter"
+                    src={resourceIcon(state.resource.label)}
+                    alt=""
+                    aria-hidden
+                  />
+                )}
                 {state.resource.label} {state.resource.value}
                 {state.resource.state === "overheat" ? " · PRZEGRZANIE" : ""}
               </span>
@@ -595,12 +633,25 @@ export function GameHud({
           {(state.statuses.length > 0 || state.buffs.length > 0 || state.shieldPoints > 0) && (
             <div className="ki-status-strip" aria-label="Efekty">
               {state.shieldPoints > 0 && (
-                <span className="ki-status-chip is-buff">Tarcza {state.shieldPoints}</span>
+                <span className="ki-status-chip is-buff">
+                  {gpuIcon("hud-shield") && (
+                    <img className="ki-gpu-status" src={gpuIcon("hud-shield")} alt="" aria-hidden />
+                  )}
+                  Tarcza {state.shieldPoints}
+                </span>
               )}
               {state.buffs
                 .filter((b) => !b.id.startsWith("fx-") && b.id !== "dodge")
                 .map((b) => (
                   <span key={b.id} className="ki-status-chip is-buff">
+                    {gpuIcon("buff-" + b.id) && (
+                      <img
+                        className="ki-gpu-status"
+                        src={gpuIcon("buff-" + b.id)}
+                        alt=""
+                        aria-hidden
+                      />
+                    )}
                     {b.id} · {(b.ms / 1000).toFixed(0)} s
                   </span>
                 ))}
@@ -615,7 +666,8 @@ export function GameHud({
                     />
                   )}
                   {STATUS_NAMES[s.id] ?? s.id}
-                  {s.stacks && s.stacks > 1 ? " ×" + s.stacks : ""} · {(s.ms / 1000).toFixed(0)} s
+                  {s.stacks && s.stacks > 1 ? " ×" + s.stacks : ""} ·{" "}
+                  {Math.max(1, Math.ceil(s.ms / 1000))} s
                 </span>
               ))}
             </div>
@@ -655,56 +707,75 @@ export function GameHud({
           continents={staffDestinations ?? []}
           current={planetLocation}
           onTravel={onStaffTravel}
-          style={buttonStyle(preferences.controls, "gm")}
+          style={buttonStyle(preferences.controls, "gm", hudScale)}
         />
       )}
-      <section
-        className={`ki-map ki-frame ${preferences.largeMinimap ? "ki-map-large" : ""}`}
-        aria-label="Minimapa"
-      >
-        <div className="ki-map-title" title={world.settlement}>
-          <span className="ki-dot" />
-          {world.settlement}
-        </div>
+      {mapHidden ? (
         <button
-          className="ki-map-image"
-          aria-label="Otwórz mapę świata"
-          onClick={() => {
-            // World v2: the minimap opens the flat continent map centred on the player.
-            setMapFocus(
-              WORLD_V2 && !state.building && !player.interior
-                ? { land: planetLocation ?? player.continent, x: state.x, y: state.y }
-                : undefined,
-            );
-            toggle(WORLD_V2 ? "planet" : "map");
-          }}
+          type="button"
+          className="ki-map-collapsed ki-frame"
+          aria-label="Pokaż minimapę"
+          onClick={() => hideMap(false)}
         >
-          {WORLD_V2 && !state.building ? (
-            <V2Minimap
-              land={state.player.continent}
-              at={{ x: state.x, y: state.y }}
-              projects={state.heritageProjects}
-            />
-          ) : (
-            <LocalMinimap
-              world={world}
-              at={state.building?.door ?? { x: state.x, y: state.y }}
-              inside={!!state.building}
-              projects={state.heritageProjects}
-            />
-          )}
-          {state.minimapJammed && <span className="ki-map-jam">ZAKŁÓCENIA</span>}
+          {gpuIcon("hud-map") ? <img src={gpuIcon("hud-map")} alt="" aria-hidden /> : "Mapa"}
         </button>
-        <div className="ki-map-footer">
-          <span>{world.name.toUpperCase()}</span>
+      ) : (
+        <section
+          className={`ki-map ki-frame ${preferences.largeMinimap ? "ki-map-large" : ""}`}
+          aria-label="Minimapa"
+        >
+          <div className="ki-map-title" title={world.settlement}>
+            <span className="ki-dot" />
+            {world.settlement}
+            <button
+              type="button"
+              className="ki-map-collapse"
+              aria-label="Ukryj minimapę"
+              onClick={() => hideMap(true)}
+            >
+              ×
+            </button>
+          </div>
           <button
-            onClick={() => changePreference("largeMinimap", !preferences.largeMinimap)}
-            aria-label={preferences.largeMinimap ? "Zmniejsz minimapę" : "Powiększ minimapę"}
+            className="ki-map-image"
+            aria-label="Otwórz mapę świata"
+            onClick={() => {
+              // World v2: the minimap opens the flat continent map centred on the player.
+              setMapFocus(
+                WORLD_V2 && !state.building && !player.interior
+                  ? { land: planetLocation ?? player.continent, x: state.x, y: state.y }
+                  : undefined,
+              );
+              toggle(WORLD_V2 ? "planet" : "map");
+            }}
           >
-            {preferences.largeMinimap ? "−" : "+"}
+            {WORLD_V2 && !state.building ? (
+              <V2Minimap
+                land={state.player.continent}
+                at={{ x: state.x, y: state.y }}
+                projects={state.heritageProjects}
+              />
+            ) : (
+              <LocalMinimap
+                world={world}
+                at={state.building?.door ?? { x: state.x, y: state.y }}
+                inside={!!state.building}
+                projects={state.heritageProjects}
+              />
+            )}
+            {state.minimapJammed && <span className="ki-map-jam">ZAKŁÓCENIA</span>}
           </button>
-        </div>
-      </section>
+          <div className="ki-map-footer">
+            <span>{world.name.toUpperCase()}</span>
+            <button
+              onClick={() => changePreference("largeMinimap", !preferences.largeMinimap)}
+              aria-label={preferences.largeMinimap ? "Zmniejsz minimapę" : "Powiększ minimapę"}
+            >
+              {preferences.largeMinimap ? "−" : "+"}
+            </button>
+          </div>
+        </section>
+      )}
       <button className="ki-quest" onClick={() => toggle("journal")}>
         <span className="ki-quest-diamond">◆</span>
         {state.heritageActivity ? (
@@ -832,7 +903,7 @@ export function GameHud({
             className="ki-skill ki-dodge"
             data-ability="dodge"
             key="dodge"
-            style={buttonStyle(preferences.controls, "dodge")}
+            style={buttonStyle(preferences.controls, "dodge", hudScale)}
             title="Unik · krótki zryw z chwilą nietykalności"
             aria-label="Unik"
             disabled={!state.ready || player.dead || panel !== null || Boolean(state.dialogue)}
@@ -887,6 +958,17 @@ export function GameHud({
       >
         {toolsOpen ? <span aria-hidden="true">×</span> : <MangaIcon symbol="map" />}
         <small>Widok</small>
+      </button>
+      <button
+        className="ki-chat-pill ki-frame"
+        aria-label="Czat lokalny"
+        onClick={() => {
+          setToolsOpen(false);
+          setChatOpen(true);
+        }}
+      >
+        <MangaIcon symbol="chat" />
+        <small>Czat lokalny</small>
       </button>
       <div ref={tools} id="ki-tools" className={`ki-tools ${toolsOpen ? "is-open" : ""}`}>
         <nav className="ki-view-controls ki-frame" aria-label="Widok mapy">
@@ -1083,25 +1165,30 @@ export function GameHud({
           aria-modal="true"
           aria-label="Mapa planety"
         >
-          <Suspense
-            fallback={
-              <div className="ki-planet-loading" role="status">
-                Wczytywanie mapy planety…
-              </div>
-            }
+          <PanelBoundary
+            label="Mapa planety"
+            onClose={() => (WORLD_V2 ? closeAndResume() : setPanel("map"))}
           >
-            <PlanetAtlas
-              onTeleport={
-                state.staff && !state.player.interior && !state.player.dead
-                  ? onStaffTeleport
-                  : undefined
+            <Suspense
+              fallback={
+                <div className="ki-planet-loading" role="status">
+                  Wczytywanie mapy planety…
+                </div>
               }
-              current={planetLocation ?? state.player.continent}
-              focus={mapFocus}
-              onTravel={onPlanetTravel}
-              onClose={() => (WORLD_V2 ? closeAndResume() : setPanel("map"))}
-            />
-          </Suspense>
+            >
+              <PlanetAtlas
+                onTeleport={
+                  state.staff && !state.player.interior && !state.player.dead
+                    ? onStaffTeleport
+                    : undefined
+                }
+                current={planetLocation ?? state.player.continent}
+                focus={mapFocus}
+                onTravel={onPlanetTravel}
+                onClose={() => (WORLD_V2 ? closeAndResume() : setPanel("map"))}
+              />
+            </Suspense>
+          </PanelBoundary>
         </div>
       )}
       {panel && panel !== "planet" && (
@@ -1208,6 +1295,20 @@ export function GameHud({
                   </button>
                 )}
                 <p>Pochodzenie: {RACES[player.race].name}</p>
+                <label>
+                  <span>Rozmiar interfejsu · {Math.round(preferences.uiScale * 100)}%</span>
+                  <input
+                    aria-label="Rozmiar interfejsu"
+                    type="range"
+                    min={UI_SCALE.min}
+                    max={UI_SCALE.max}
+                    step={0.02}
+                    value={preferences.uiScale}
+                    onChange={(e) =>
+                      setPreferences((current) => ({ ...current, uiScale: Number(e.target.value) }))
+                    }
+                  />
+                </label>
                 <label>
                   <span>Oddalenie mapy · {Math.round(zoom * 100)}%</span>
                   <input

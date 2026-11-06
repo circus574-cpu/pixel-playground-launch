@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-04",
+  "originalSourceRef": "00e15ad5ab6cefb3a890ffad24b1b970975bd560",
+  "originalSourceDirectory": "art/production/world/aetheria",
+  "generationTool": "image_gen",
+  "alphaCleanup": "Three object sheets edited with image_gen to remove backgrounds and add cell margins. Originals retained. Runtime extraction, resize and padding by prepare.mjs.",
+  "generatedSources": {
+    "generated-props.png": "02e6920406e06f234af88ee306ea92f906ea735d6ea99a278e3c080d10085cc7",
+    "generated-landforms.png": "af60f0127d76f1b67f4ee76bc41c8ab0c229edfc507c973a092446043f11cd5c",
+    "generated-plants.png": "8d190861ec5c9d283305fc93610a7022e61c494640b56f21ce04be1430728208",
+    "generated-surfaces.png": "b8e41db4d3f2fa3543bbb7055a7c0d3368b626817fcc0e07d88bd04dab88db6b",
+    "generated-props-original.png": "009ad2ade5967d9ac7d9ef310ab81e3ee0de9a539800d93778d25202618bd02f",
+    "generated-landforms-original.png": "bc760cd003ee15b8c89830583d3f5412ab1da8f8be43050e82bc9d8ce9e51727",
+    "generated-plants-original.png": "fc802f89263fc3d45a8054ba8bf588bd8be419a205f64fc2b32c036e4b7dd8b4"
+  }
+}

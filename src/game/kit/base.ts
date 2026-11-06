@@ -148,7 +148,26 @@ export abstract class Kit {
     learned: Iterable<string>,
   ) {
     this.nodes = KIT_NODES[race];
-    this.learned = new Set(learned);
+    this.learned = new Set();
+    this.setRanks(learned);
+  }
+  /** Points spent per node. The same id listed N times means rank N; every rank costs one point. */
+  private readonly ranks = new Map<string, number>();
+  private setRanks(ids: Iterable<string>) {
+    this.learned.clear();
+    this.ranks.clear();
+    for (const id of ids) {
+      this.learned.add(id);
+      this.ranks.set(id, (this.ranks.get(id) ?? 0) + 1);
+    }
+  }
+  /** 0 when the node is not learned, otherwise the number of points put into it. */
+  rank(id: string): number {
+    return this.ranks.get(id) ?? 0;
+  }
+  /** For an active ability that is being cast: it is learned, so its rank is at least 1. */
+  protected castRank(id: string): number {
+    return Math.max(1, this.rank(id));
   }
   /** Basic reach is distinct from skill reach: optics never extends A/B/C. */
   get basicRange() {
@@ -161,11 +180,11 @@ export abstract class Kit {
   protected refresh(): void {}
   learn(id: string) {
     this.learned.add(id);
+    this.ranks.set(id, (this.ranks.get(id) ?? 0) + 1);
     this.refresh();
   }
   forgetAll(ids: Iterable<string>) {
-    this.learned.clear();
-    for (const id of ids) this.learned.add(id);
+    this.setRanks(ids);
     this.cooldowns = {};
     this.techniqueRepeatUntil.clear();
     this.buffs = [];

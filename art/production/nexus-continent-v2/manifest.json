@@ -1,0 +1,1066 @@
+{
+  "schemaVersion": 1,
+  "id": "nexus-continent-v2",
+  "version": "1.0.0",
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "nexus-continent-circuit-plain",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "circuit-plain.webp",
+      "width": 443,
+      "height": 443
+    },
+    {
+      "id": "nexus-continent-synthetic-garden",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "synthetic-garden.webp",
+      "width": 443,
+      "height": 443
+    },
+    {
+      "id": "nexus-continent-plateau",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "plateau.webp",
+      "width": 443,
+      "height": 443
+    },
+    {
+      "id": "nexus-continent-core-waste",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "core-waste.webp",
+      "width": 443,
+      "height": 443
+    },
+    {
+      "id": "nexus-continent-moss-stone",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "moss-stone.webp",
+      "width": 443,
+      "height": 443
+    },
+    {
+      "id": "nexus-continent-pale-plaza",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "pale-plaza.webp",
+      "width": 443,
+      "height": 443
+    },
+    {
+      "id": "nexus-continent-crystal-ground",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "crystal-ground.webp",
+      "width": 443,
+      "height": 443
+    },
+    {
+      "id": "nexus-continent-damp-stone",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "damp-stone.webp",
+      "width": 443,
+      "height": 443
+    },
+    {
+      "id": "nexus-continent-road-paved",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road-paved.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nexus-continent-road-earth",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road-earth.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nexus-continent-road-forest",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road-forest.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nexus-continent-road-mountain",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road-mountain.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nexus-continent-road-channel",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road-channel.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nexus-continent-road-ruin",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "road-ruin.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nexus-continent-violet-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "violet-tree.webp",
+      "width": 349,
+      "height": 333
+    },
+    {
+      "id": "nexus-continent-cyan-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "cyan-tree.webp",
+      "width": 387,
+      "height": 313
+    },
+    {
+      "id": "nexus-continent-silver-cypress",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "silver-cypress.webp",
+      "width": 306,
+      "height": 347
+    },
+    {
+      "id": "nexus-continent-crystal-tree",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "crystal-tree.webp",
+      "width": 357,
+      "height": 309
+    },
+    {
+      "id": "nexus-continent-fern",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fern.webp",
+      "width": 272,
+      "height": 216
+    },
+    {
+      "id": "nexus-continent-violet-bush",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "violet-bush.webp",
+      "width": 272,
+      "height": 220
+    },
+    {
+      "id": "nexus-continent-luminous-grass",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "luminous-grass.webp",
+      "width": 272,
+      "height": 234
+    },
+    {
+      "id": "nexus-continent-mushrooms",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "mushrooms.webp",
+      "width": 272,
+      "height": 227
+    },
+    {
+      "id": "nexus-continent-hill",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "hill.webp",
+      "width": 419,
+      "height": 268
+    },
+    {
+      "id": "nexus-continent-cliff",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "cliff.webp",
+      "width": 374,
+      "height": 390
+    },
+    {
+      "id": "nexus-continent-peak",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "peak.webp",
+      "width": 410,
+      "height": 374
+    },
+    {
+      "id": "nexus-continent-basalt-ridge",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "basalt-ridge.webp",
+      "width": 387,
+      "height": 329
+    },
+    {
+      "id": "nexus-continent-crystal-outcrop",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "crystal-outcrop.webp",
+      "width": 389,
+      "height": 322
+    },
+    {
+      "id": "nexus-continent-stone-arch",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "stone-arch.webp",
+      "width": 404,
+      "height": 327
+    },
+    {
+      "id": "nexus-continent-spring",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "spring.webp",
+      "width": 396,
+      "height": 314
+    },
+    {
+      "id": "nexus-continent-chasm-rim",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "chasm-rim.webp",
+      "width": 389,
+      "height": 299
+    },
+    {
+      "id": "nexus-continent-rocks",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "rocks.webp",
+      "width": 272,
+      "height": 213
+    },
+    {
+      "id": "nexus-continent-crystals",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "crystals.webp",
+      "width": 270,
+      "height": 261
+    },
+    {
+      "id": "nexus-continent-log",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "log.webp",
+      "width": 272,
+      "height": 207
+    },
+    {
+      "id": "nexus-continent-stump",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "stump.webp",
+      "width": 272,
+      "height": 239
+    },
+    {
+      "id": "nexus-continent-camp",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "camp.webp",
+      "width": 272,
+      "height": 222
+    },
+    {
+      "id": "nexus-continent-energy-brazier",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "energy-brazier.webp",
+      "width": 203,
+      "height": 272
+    },
+    {
+      "id": "nexus-continent-chest",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "chest.webp",
+      "width": 272,
+      "height": 202
+    },
+    {
+      "id": "nexus-continent-sign",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "sign.webp",
+      "width": 187,
+      "height": 272
+    },
+    {
+      "id": "nexus-continent-supplies",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "supplies.webp",
+      "width": 272,
+      "height": 247
+    },
+    {
+      "id": "nexus-continent-ruin",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "ruin.webp",
+      "width": 272,
+      "height": 248
+    },
+    {
+      "id": "nexus-continent-field-lab",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "field-lab.webp",
+      "width": 375,
+      "height": 364
+    },
+    {
+      "id": "nexus-continent-reactor",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "reactor.webp",
+      "width": 334,
+      "height": 354
+    },
+    {
+      "id": "nexus-continent-terminal",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "terminal.webp",
+      "width": 333,
+      "height": 365
+    },
+    {
+      "id": "nexus-continent-monolith",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "monolith.webp",
+      "width": 317,
+      "height": 387
+    },
+    {
+      "id": "nexus-continent-relay",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "relay.webp",
+      "width": 246,
+      "height": 396
+    },
+    {
+      "id": "nexus-continent-transit-gate",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "transit-gate.webp",
+      "width": 386,
+      "height": 385
+    },
+    {
+      "id": "nexus-continent-ocean",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "ocean.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nexus-continent-river",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "river.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nexus-continent-shallow-water",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "shallow-water.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nexus-continent-dry-shore",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "dry-shore.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nexus-continent-dry-bank",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "dry-bank.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nexus-continent-energy-liquid",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "energy-liquid.webp",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "nexus-continent-fx-mist",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fx-mist.webp",
+      "width": 208,
+      "height": 109
+    },
+    {
+      "id": "nexus-continent-fx-fireflies",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fx-fireflies.webp",
+      "width": 207,
+      "height": 208
+    },
+    {
+      "id": "nexus-continent-fx-petals",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fx-petals.webp",
+      "width": 208,
+      "height": 152
+    },
+    {
+      "id": "nexus-continent-fx-energy",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fx-energy.webp",
+      "width": 208,
+      "height": 122
+    },
+    {
+      "id": "nexus-continent-fx-steam",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fx-steam.webp",
+      "width": 175,
+      "height": 208
+    },
+    {
+      "id": "nexus-continent-fx-dust",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "fx-dust.webp",
+      "width": 208,
+      "height": 206
+    },
+    {
+      "id": "nexus-continent-smithy",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "smithy.webp",
+      "width": 415,
+      "height": 399
+    },
+    {
+      "id": "nexus-continent-inn",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "inn.webp",
+      "width": 430,
+      "height": 373
+    },
+    {
+      "id": "nexus-continent-bridge",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "bridge.webp",
+      "width": 444,
+      "height": 270
+    },
+    {
+      "id": "nexus-continent-steps",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "steps.webp",
+      "width": 407,
+      "height": 298
+    },
+    {
+      "id": "nexus-continent-cave",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "cave.webp",
+      "width": 430,
+      "height": 359
+    },
+    {
+      "id": "nexus-continent-bunker",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "bunker.webp",
+      "width": 435,
+      "height": 356
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "terrain.nexus-continent.circuit-plain": {
+      "asset": "nexus-continent-circuit-plain",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.synthetic-garden": {
+      "asset": "nexus-continent-synthetic-garden",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.plateau": {
+      "asset": "nexus-continent-plateau",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.core-waste": {
+      "asset": "nexus-continent-core-waste",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.moss-stone": {
+      "asset": "nexus-continent-moss-stone",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.pale-plaza": {
+      "asset": "nexus-continent-pale-plaza",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.crystal-ground": {
+      "asset": "nexus-continent-crystal-ground",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.damp-stone": {
+      "asset": "nexus-continent-damp-stone",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.road-paved": {
+      "asset": "nexus-continent-road-paved",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.road-earth": {
+      "asset": "nexus-continent-road-earth",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.road-forest": {
+      "asset": "nexus-continent-road-forest",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.road-mountain": {
+      "asset": "nexus-continent-road-mountain",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.road-channel": {
+      "asset": "nexus-continent-road-channel",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.road-ruin": {
+      "asset": "nexus-continent-road-ruin",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "object.nexus-continent.violet-tree": {
+      "asset": "nexus-continent-violet-tree",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.cyan-tree": {
+      "asset": "nexus-continent-cyan-tree",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.silver-cypress": {
+      "asset": "nexus-continent-silver-cypress",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.crystal-tree": {
+      "asset": "nexus-continent-crystal-tree",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.fern": {
+      "asset": "nexus-continent-fern",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.violet-bush": {
+      "asset": "nexus-continent-violet-bush",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.luminous-grass": {
+      "asset": "nexus-continent-luminous-grass",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.mushrooms": {
+      "asset": "nexus-continent-mushrooms",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.hill": {
+      "asset": "nexus-continent-hill",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.cliff": {
+      "asset": "nexus-continent-cliff",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.peak": {
+      "asset": "nexus-continent-peak",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.basalt-ridge": {
+      "asset": "nexus-continent-basalt-ridge",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.crystal-outcrop": {
+      "asset": "nexus-continent-crystal-outcrop",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.stone-arch": {
+      "asset": "nexus-continent-stone-arch",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.spring": {
+      "asset": "nexus-continent-spring",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.chasm-rim": {
+      "asset": "nexus-continent-chasm-rim",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.rocks": {
+      "asset": "nexus-continent-rocks",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.crystals": {
+      "asset": "nexus-continent-crystals",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.log": {
+      "asset": "nexus-continent-log",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.stump": {
+      "asset": "nexus-continent-stump",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.camp": {
+      "asset": "nexus-continent-camp",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.energy-brazier": {
+      "asset": "nexus-continent-energy-brazier",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.chest": {
+      "asset": "nexus-continent-chest",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.sign": {
+      "asset": "nexus-continent-sign",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.supplies": {
+      "asset": "nexus-continent-supplies",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.ruin": {
+      "asset": "nexus-continent-ruin",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.field-lab": {
+      "asset": "nexus-continent-field-lab",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.reactor": {
+      "asset": "nexus-continent-reactor",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.terminal": {
+      "asset": "nexus-continent-terminal",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.monolith": {
+      "asset": "nexus-continent-monolith",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.relay": {
+      "asset": "nexus-continent-relay",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.transit-gate": {
+      "asset": "nexus-continent-transit-gate",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "terrain.nexus-continent.ocean": {
+      "asset": "nexus-continent-ocean",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.river": {
+      "asset": "nexus-continent-river",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.shallow-water": {
+      "asset": "nexus-continent-shallow-water",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.dry-shore": {
+      "asset": "nexus-continent-dry-shore",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.dry-bank": {
+      "asset": "nexus-continent-dry-bank",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.energy-liquid": {
+      "asset": "nexus-continent-energy-liquid",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "object.nexus-continent.fx-mist": {
+      "asset": "nexus-continent-fx-mist",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.fx-fireflies": {
+      "asset": "nexus-continent-fx-fireflies",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.fx-petals": {
+      "asset": "nexus-continent-fx-petals",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.fx-energy": {
+      "asset": "nexus-continent-fx-energy",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.fx-steam": {
+      "asset": "nexus-continent-fx-steam",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.fx-dust": {
+      "asset": "nexus-continent-fx-dust",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.smithy": {
+      "asset": "nexus-continent-smithy",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.inn": {
+      "asset": "nexus-continent-inn",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.bridge": {
+      "asset": "nexus-continent-bridge",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.steps": {
+      "asset": "nexus-continent-steps",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.cave": {
+      "asset": "nexus-continent-cave",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "object.nexus-continent.bunker": {
+      "asset": "nexus-continent-bunker",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92
+      ]
+    },
+    "terrain.nexus-continent.sand": {
+      "asset": "nexus-continent-dry-shore",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.water": {
+      "asset": "nexus-continent-ocean",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.road1": {
+      "asset": "nexus-continent-road-paved",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.road2": {
+      "asset": "nexus-continent-road-earth",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.road3": {
+      "asset": "nexus-continent-road-forest",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.road4": {
+      "asset": "nexus-continent-road-mountain",
+      "tileSize": [
+        896,
+        896
+      ]
+    },
+    "terrain.nexus-continent.road5": {
+      "asset": "nexus-continent-road-channel",
+      "tileSize": [
+        896,
+        896
+      ]
+    }
+  },
+  "effects": {}
+}

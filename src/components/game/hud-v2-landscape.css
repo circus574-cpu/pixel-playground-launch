@@ -289,12 +289,19 @@ html[data-ki-world-v2]:has(.ki-modal) .ki-staff {
   }
 }
 
-/* Computers: the GM button under the portrait card, clear of the (scaled) minimap. */
+/* Computers: the GM button under the portrait card, clear of the (scaled) minimap. The button
+   hugs the left edge, so its panel must open to the right of it (the default `right: 0` pushed it
+   off-screen to the left and cut off the coordinates). */
 @media (min-width: 900px) and (min-height: 600px) {
   html[data-ki-world-v2] .ki-staff {
     top: 210px;
     right: auto;
     left: 14px;
+  }
+  html[data-ki-world-v2] .ki-staff-panel {
+    right: auto;
+    left: 0;
+    max-height: calc(100dvh - 210px - 64px);
   }
 }
 
@@ -774,4 +781,113 @@ img.ki-gpu-item {
     min-height: 0;
     aspect-ratio: 4 / 3;
   }
+}
+
+/* Landscape phone HUD order (owner review 04.11.2026): statuses sit under the portrait, "Akcje" below
+   them, the "Walka" badge and the foe bars start right of the portrait and stop before the minimap,
+   and chat is a small pill at the bottom edge instead of a big button over the scene. */
+.ki-hud .ki-chat-pill {
+  display: none;
+}
+@media (max-height: 500px) and (max-width: 1100px) {
+  html[data-ki-world-v2] .ki-hud .ki-chat-pill {
+    position: absolute;
+    left: max(10px, env(safe-area-inset-left));
+    bottom: max(6px, env(safe-area-inset-bottom));
+    z-index: 12;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 34px;
+    padding: 0 10px;
+    border-radius: 3px 10px;
+    pointer-events: auto;
+  }
+  html[data-ki-world-v2] .ki-hud .ki-chat-pill .ki-manga-icon {
+    width: 18px;
+    height: 18px;
+  }
+  html[data-ki-world-v2] .ki-hud .ki-chat-pill small {
+    font-size: 11px;
+  }
+  html[data-ki-world-v2] .ki-hud .ki-tools .ki-menu-chat {
+    display: none;
+  }
+  html[data-ki-world-v2] .ki-hud .ki-status-strip {
+    flex-wrap: nowrap;
+    gap: 4px;
+    top: calc(100% + 6px);
+  }
+  html[data-ki-world-v2] .ki-hud .ki-status-chip {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-size: 10px;
+    line-height: 14px;
+    white-space: nowrap;
+  }
+  html[data-ki-world-v2] .ki-hud:has(.ki-status-strip) .ki-context-actions,
+  html[data-ki-world-v2]
+    .ki-hud:has(.ki-status-strip):has(.ki-secondary-skills:not(:empty))
+    .ki-context-actions {
+    top: calc(132px + env(safe-area-inset-top));
+    max-height: calc(100% - 132px - 160px);
+  }
+  html[data-ki-world-v2] .ki-combat {
+    left: calc(250px + env(safe-area-inset-left));
+    translate: none;
+    max-width: calc(100% - 474px - env(safe-area-inset-left) - env(safe-area-inset-right));
+    gap: 4px;
+  }
+  html[data-ki-world-v2] .ki-combat h3 {
+    padding: 2px 6px;
+    font-size: 10px;
+  }
+  html[data-ki-world-v2] .ki-hud .ki-combat-foe {
+    min-width: 92px;
+  }
+}
+.ki-gpu-meter {
+  width: 14px;
+  height: 14px;
+  margin-right: 3px;
+  vertical-align: middle;
+}
+.ki-combat-icon {
+  width: 14px;
+  height: 14px;
+  margin-right: 3px;
+  vertical-align: middle;
+}
+.ki-hud .ki-map-collapse {
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #d9dcc3;
+  font:
+    700 16px/16px Georgia,
+    serif;
+  cursor: pointer;
+}
+.ki-hud .ki-map-collapsed {
+  position: absolute;
+  top: max(10px, env(safe-area-inset-top));
+  right: max(10px, env(safe-area-inset-right));
+  width: 52px;
+  height: 52px;
+  padding: 3px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.ki-hud .ki-map-collapsed img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }

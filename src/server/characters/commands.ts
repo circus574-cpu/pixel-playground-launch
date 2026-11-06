@@ -240,7 +240,7 @@ export const OnlineCommandSchema = z.union([
   z
     .object({
       type: z.literal("dialogue"),
-      action: z.enum(["close", "accept", "claim", "upgrade"]),
+      action: z.enum(["close", "accept", "claim", "upgrade", "rumors", "boss_enter"]),
     })
     .strict(),
   z
@@ -251,6 +251,7 @@ export const OnlineCommandSchema = z.union([
     .strict(),
   z.object({ type: z.literal("unequip"), slot: z.enum(["weapon", "armor"]) }).strict(),
   z.object({ type: z.literal("trade"), item: id, buy: z.boolean() }).strict(),
+  z.object({ type: z.literal("brew"), recipe: z.enum(["hp", "ki", "antidote"]) }).strict(),
   z.object({ type: z.literal("loot"), id }).strict(),
   z.object({ type: z.literal("learn"), node: z.string().min(1).max(4) }).strict(),
   z.object({ type: z.literal("enter"), building: z.enum(BUILDING_IDS) }).strict(),

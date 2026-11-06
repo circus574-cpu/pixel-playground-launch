@@ -139,9 +139,15 @@ export function makeCatalog(
   }
   return { assets, actors, actorBindings, renderBindings, effects };
 }
-/** Packs enabled by each opt-in review switch (`?<param>=1`). */
+/** Packs enabled by each review switch (`?<param>=1`; the default-on ones need `=0` to turn off). */
 export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
-  /** One switch for every painted city (Verdantia, Aetheria, Nexus-9, Pyra); the per-city flags below still work. */
+  "ki-aetheria-continent": ["aetheria-continent-v2"],
+  "ki-pyra-continent": ["pyra-continent-v2"],
+  /** Nexus-9 wilderness materials; opt-in via `?ki-nexus-continent=1` until the owner accepts. */
+  "ki-nexus-continent": ["nexus-continent-v2"],
+  /** Verdantia wilderness materials; accepted city art is unchanged. */
+  "ki-verdant-continent": ["verdantia-continent-v2", "verdantia-extra-runtime"],
+  /** Painted cities (Verdantia, Aetheria, Nexus-9, Pyra) are public by default (owner decision 04.11.2026); `?ki-painted=0` restores the old look. */
   "ki-painted": [
     "verdant-painted-preview",
     "verdant-leaf-buildings",
@@ -202,6 +208,11 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
     "enemy-v3-verdant-puchacz-pylowy",
     "enemy-v3-verdant-skalny-jelen",
     "enemy-v3-verdant-straznik-ruin",
+    "enemy-v3-verdant-lisciak-skrytobojca",
+    "enemy-v3-aether-swietlik-pieczeci",
+    "enemy-v3-nexus-pajak-spawalniczy",
+    "enemy-v3-nexus-roj-nanitow",
+    "enemy-v3-pyra-popielny-wilk",
   ],
   /** World v2 preview: painted ground per biome and freestanding props for every continent. */
   "ki-world-v2": [
@@ -254,6 +265,14 @@ export const PREVIEW_SWITCHES: Record<string, readonly string[]> = {
     "enemy-v2-verdant-straznik-ruin",
   ],
 };
+/** Review switches that are on unless the URL says `=0`. */
+const DEFAULT_ON_SWITCHES: ReadonlySet<string> = new Set([
+  "ki-monsters-anime",
+  "ki-painted",
+  "ki-verdant-continent",
+  "ki-pyra-continent",
+  "ki-aetheria-continent",
+]);
 /** All four delivered heroes are active packs; legacy hero URL flags are harmless. */
 export function previewPacks(search: string): string[] {
   const params = new URLSearchParams(search);
@@ -262,7 +281,8 @@ export function previewPacks(search: string): string[] {
     param === "ki-world-v2"
       ? params.get("ki-world-v1") !== "1"
       : // Anime monsters accepted by the owner 02.11.2026: default on, `?ki-monsters-anime=0` restores the old ones.
-        param === "ki-monsters-anime"
+        // Continent art (Verdantia, Pyra, Aetheria) public by owner decision 05.11.2026: default on, `=0` opts out.
+        DEFAULT_ON_SWITCHES.has(param)
         ? params.get(param) !== "0"
         : params.get(param) === "1";
   return Object.entries(PREVIEW_SWITCHES).flatMap(([param, packs]) => (on(param) ? packs : []));
@@ -314,8 +334,30 @@ export function textureBinding(
 } {
   return source.renderBindings[id] ?? fallback;
 }
-/** Summoned small wasps share the existing wasp identity instead of becoming boars. */
+/** Summoned small wasps share the existing wasp identity; bosses use their continental apex guardian representation. */
 export function monsterVisual(kind: string, source = catalog): ActorVisual {
+  if (kind.startsWith("boss:")) {
+    const bossId = kind.slice(5);
+    const bossGuardianMap: Record<string, string> = {
+      ygdrasha: "verdant-straznik-ruin",
+      thorgar: "verdant-skalny-jelen",
+      "arcykaplan-pustki": "aether-marionetka-rytualu",
+      aurelith: "aether-lew-swiatyni",
+      "arbiter-zero": "nexus-straznik-rdzenia",
+      "hydra-rdzen": "nexus-latarnia-plazmowa",
+      kharzul: "pyra-skalny-berserker",
+      pyrrhax: "pyra-golem-ruin",
+    };
+    const guardian = bossGuardianMap[bossId];
+    if (guardian) {
+      const visual = monsterVisual(guardian, source);
+      return {
+        ...visual,
+        id: `boss-${bossId}`,
+        size: [180, 180],
+      };
+    }
+  }
   const visualKind = kind === "verdant-mala-osa" ? "verdant-bursztynowa-osa" : kind;
   const prefix = visualKind.split("-")[0] as WorldId;
   if (!(prefix in WORLDS)) return actorVisual("verdant", "enemy", undefined, false, source);

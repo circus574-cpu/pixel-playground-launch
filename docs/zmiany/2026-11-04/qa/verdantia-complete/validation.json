@@ -1,0 +1,19 @@
+{
+  "feature": "verdant",
+  "baseWorld": "cb7d5154",
+  "runtimePack": "verdantia-extra-runtime",
+  "version": "1.0.1",
+  "newSprites": 26,
+  "rgbaBytes": 10875776,
+  "worldGeometryUnchanged": true,
+  "checks": {
+    "typecheck": "PASS app/e2e/tools",
+    "unit": "15 PASS",
+    "assets": "PASS all production/preview",
+    "lint": "0 errors, 15 existing warnings",
+    "build": "PASS",
+    "browser": "2 PASS: desktop Canvas and mobile software WebGL",
+    "alpha": "26 sprites have transparent padded corners"
+  },
+  "deployment": "branch preview only; no main merge or domain publication"
+}

@@ -1,0 +1,147 @@
+{
+  "status": "Generated material pack; not installed or placed in the game.",
+  "biomes": [
+    "równiny obwodów",
+    "ogrody syntetyczne",
+    "płaskowyż",
+    "pustkowia rdzeni"
+  ],
+  "groups": [
+    {
+      "name": "grounds",
+      "count": 8,
+      "kind": "terrain",
+      "assets": [
+        "circuit-plain",
+        "synthetic-garden",
+        "plateau",
+        "core-waste",
+        "moss-stone",
+        "pale-plaza",
+        "crystal-ground",
+        "damp-stone"
+      ]
+    },
+    {
+      "name": "roads",
+      "count": 6,
+      "kind": "road",
+      "assets": [
+        "road-paved",
+        "road-earth",
+        "road-forest",
+        "road-mountain",
+        "road-channel",
+        "road-ruin"
+      ]
+    },
+    {
+      "name": "flora",
+      "count": 8,
+      "kind": "object",
+      "assets": [
+        "violet-tree",
+        "cyan-tree",
+        "silver-cypress",
+        "crystal-tree",
+        "fern",
+        "violet-bush",
+        "luminous-grass",
+        "mushrooms"
+      ]
+    },
+    {
+      "name": "landforms",
+      "count": 8,
+      "kind": "large",
+      "assets": [
+        "hill",
+        "cliff",
+        "peak",
+        "basalt-ridge",
+        "crystal-outcrop",
+        "stone-arch",
+        "spring",
+        "chasm-rim"
+      ]
+    },
+    {
+      "name": "props",
+      "count": 10,
+      "kind": "object",
+      "assets": [
+        "rocks",
+        "crystals",
+        "log",
+        "stump",
+        "camp",
+        "energy-brazier",
+        "chest",
+        "sign",
+        "supplies",
+        "ruin"
+      ]
+    },
+    {
+      "name": "structures",
+      "count": 6,
+      "kind": "large",
+      "assets": [
+        "field-lab",
+        "reactor",
+        "terminal",
+        "monolith",
+        "relay",
+        "transit-gate"
+      ]
+    },
+    {
+      "name": "liquids",
+      "count": 6,
+      "kind": "terrain",
+      "assets": [
+        "ocean",
+        "river",
+        "shallow-water",
+        "dry-shore",
+        "dry-bank",
+        "energy-liquid"
+      ]
+    },
+    {
+      "name": "effects",
+      "count": 6,
+      "kind": "fx",
+      "assets": [
+        "fx-mist",
+        "fx-fireflies",
+        "fx-petals",
+        "fx-energy",
+        "fx-steam",
+        "fx-dust"
+      ]
+    },
+    {
+      "name": "services-passages",
+      "count": 6,
+      "kind": "large",
+      "assets": [
+        "smithy",
+        "inn",
+        "bridge",
+        "steps",
+        "cave",
+        "bunker"
+      ]
+    }
+  ],
+  "existingCity": "existing-city.json",
+  "remainingIntegration": [
+    "semantic binding to existing objects and terrain",
+    "water/land masks, safe cities and footprint preservation",
+    "scale, anchors, density and texture-edge review in actual game",
+    "VFX opacity/movement; these are static source sprites",
+    "phone and hardware GPU performance review"
+  ],
+  "scope": "Environment art and two missing city service variants; existing heroes, monsters, HUD and audio remain separate existing assets."
+}

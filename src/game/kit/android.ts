@@ -25,33 +25,37 @@ export class AndroidKit extends Kit {
     this.refresh();
   }
   protected override refresh() {
-    this.defs["C1"] = { ...this.defs["C1"]!, ki: this.has("C6") ? 12 : 15 };
+    this.defs["C1"] = {
+      ...this.defs["C1"]!,
+      ki: Math.max(0, 15 - 3 * this.rank("C6")),
+    };
   }
   get maxCharge() {
     return this.has("C8") ? 70 : this.has("C7") ? 150 : 100;
   }
   protected override mods(): Mods {
     const m: Mods = {};
-    if (this.has("A2")) m.critAdd = (m.critAdd ?? 0) + 0.06;
-    if (this.has("A3")) m.rangePct = 0.15;
+    // Every effect grows in direct proportion to the points put into its node (rank).
+    if (this.has("A2")) m.critAdd = (m.critAdd ?? 0) + 0.06 * this.rank("A2");
+    if (this.has("A3")) m.rangePct = 0.15 * this.rank("A3");
     let interval = 0;
-    if (this.has("A6")) interval -= 0.08;
-    if (this.has("A7")) interval += 0.1;
+    if (this.has("A6")) interval -= 0.08 * this.rank("A6");
+    if (this.has("A7")) interval += 0.1 * this.rank("A7");
     if (interval) m.intervalPct = interval;
-    if (this.has("B2")) m.defPct = 0.08;
-    if (this.has("B6")) m.hpRegenAlways = 0.005;
-    if (this.has("C5")) m.kiPct = 0.12;
+    if (this.has("B2")) m.defPct = 0.08 * this.rank("B2");
+    if (this.has("B6")) m.hpRegenAlways = 0.005 * this.rank("B6");
+    if (this.has("C5")) m.kiPct = 0.12 * this.rank("C5");
     return m;
   }
   protected override cooldownOf(id: string) {
     const base = this.defs[id]?.cd ?? 0;
-    return id === "B1" && this.has("B8") ? base * 0.65 : base;
+    return id === "B1" && this.has("B8") ? base * Math.max(0.1, 1 - 0.35 * this.rank("B8")) : base;
   }
   protected override critVs(foe: Foe) {
-    return this.has("A1") && this.port.isMarked(foe) ? 15 : 0;
+    return this.has("A1") && this.port.isMarked(foe) ? 15 * this.rank("A1") : 0;
   }
   protected override dealtVs(foe: Foe) {
-    return this.has("A7") && this.port.isMarked(foe) ? 0.4 : 0;
+    return this.has("A7") && this.port.isMarked(foe) ? 0.4 * this.rank("A7") : 0;
   }
   private get overheatEnabled() {
     return !this.has("C8") && !this.buff("T");
@@ -68,10 +72,13 @@ export class AndroidKit extends Kit {
     };
   }
   private addCharge(n: number) {
-    this.charge = Math.min(this.maxCharge, this.charge + n * (this.has("C3") ? 0.85 : 1));
+    this.charge = Math.min(
+      this.maxCharge,
+      this.charge + n * Math.max(0.1, 1 - 0.15 * this.rank("C3")),
+    );
     this.lastShot = this.port.nowMs;
     if (this.charge >= this.maxCharge && this.overheatEnabled) {
-      this.overheatMs = this.has("C2") ? 1000 : 2000;
+      this.overheatMs = Math.max(0, 2000 - 1000 * this.rank("C2"));
       this.port.say("Przegrzanie rdzenia!");
     }
   }
@@ -81,7 +88,7 @@ export class AndroidKit extends Kit {
       if (this.overheatMs === 0) this.charge = Math.min(this.charge, this.maxCharge * 0.5);
     }
     if (this.port.nowMs - this.lastShot > 1000 && this.charge > 0) {
-      const rate = 6 * (this.has("C2") ? 1.5 : 1) * this.development.cooling;
+      const rate = 6 * (1 + 0.5 * this.rank("C2")) * this.development.cooling;
       this.charge = Math.max(0, this.charge - (rate * dt) / 1000);
     }
     if (this.charge > this.maxCharge) this.charge = this.maxCharge;
@@ -103,7 +110,11 @@ export class AndroidKit extends Kit {
         .sort((a, b) => this.dist(a, foe) - this.dist(b, foe))
         .slice(0, 2);
       for (const o of others)
-        this.strike(o, 0.4, { tags: ["electric"], ranged: true, ability: "R" });
+        this.strike(o, 0.4 * this.rank("A8"), {
+          tags: ["electric"],
+          ranged: true,
+          ability: "R",
+        });
     }
     this.addCharge(4);
     return { ok: true };
@@ -128,7 +139,7 @@ export class AndroidKit extends Kit {
           foe,
           6000 * (this.variant("mn-mark") ? 1.5 : 1),
           15,
-          this.has("A5") ? 0.1 : 0,
+          this.has("A5") ? Math.min(0.9, 0.1 * this.rank("A5")) : 0,
         );
         this.port.emit({
           type: "attack",
@@ -157,7 +168,11 @@ export class AndroidKit extends Kit {
               ability: "A4",
               to: { x: foe.x, y: foe.y },
             });
-            this.strike(foe, 2.2 / 3, { tags: ["electric"], ranged: true, ability: "A4" });
+            this.strike(foe, (2.2 / 3) * this.castRank("A4"), {
+              tags: ["electric"],
+              ranged: true,
+              ability: "A4",
+            });
           });
         return { ok: true };
       }
@@ -172,14 +187,19 @@ export class AndroidKit extends Kit {
           ability: "A9",
           to: { x: foe.x, y: foe.y },
         });
-        this.strike(foe, mult, { tags: ["electric"], ranged: true, ability: "A9" });
+        this.strike(foe, mult * this.castRank("A9"), {
+          tags: ["electric"],
+          ranged: true,
+          ability: "A9",
+        });
         return { ok: true };
       }
       case "B1": {
         const amount =
           s.maxHp *
           0.18 *
-          (this.has("B3") ? 1.25 : 1) *
+          this.castRank("B1") *
+          (1 + 0.25 * this.rank("B3")) *
           this.development.shieldCapacity *
           (this.variant("mn-barrier") ? 1.15 : 1);
         this.addShield({
@@ -187,8 +207,8 @@ export class AndroidKit extends Kit {
           ms: 5000 * this.development.shieldDuration * (this.variant("mn-barrier") ? 0.8 : 1),
           amount,
           max: amount,
-          reflectProjectile: this.has("B5") ? 0.25 : undefined,
-          reflectMelee: this.has("B7") ? 0.3 : undefined,
+          reflectProjectile: this.has("B5") ? Math.min(0.9, 0.25 * this.rank("B5")) : undefined,
+          reflectMelee: this.has("B7") ? Math.min(0.9, 0.3 * this.rank("B7")) : undefined,
         });
         return { ok: true };
       }
@@ -196,20 +216,24 @@ export class AndroidKit extends Kit {
         const foes = this.port.foesIn(p, 160);
         this.port.emit({ type: "burst", x: p.x, y: p.y, ability: "B4", radius: 160 });
         for (const f of foes) {
-          this.strike(f, 1.2, { tags: ["electric", "area", "stun"], ranged: true, ability: "B4" });
+          this.strike(f, 1.2 * this.castRank("B4"), {
+            tags: ["electric", "area", "stun"],
+            ranged: true,
+            ability: "B4",
+          });
           this.port.pushFoe(f, p, 120);
           this.port.stunFoe(f, 500);
         }
         return { ok: true };
       }
       case "B9": {
-        this.addBuff({ id: "B9", ms: 6000, defPct: 0.6, ccImmune: true });
+        this.addBuff({ id: "B9", ms: 6000, defPct: 0.6 * this.castRank("B9"), ccImmune: true });
         this.port.emit({ type: "buff", x: p.x, y: p.y, ability: "B9", text: "Fortyfikacja" });
         return { ok: true };
       }
       case "C1": {
         const used = Math.min(this.charge, this.maxCharge);
-        const mult = 1 + used / 50;
+        const mult = (1 + used / 50) * this.castRank("C1");
         const f = this.port.facing;
         const foes = this.port.foesIn(p, 360).filter((foe) => {
           const dx = foe.x - p.x;
@@ -239,12 +263,12 @@ export class AndroidKit extends Kit {
       case "C4": {
         this.charge = 0;
         this.overheatMs = 0;
-        this.port.heal(s.maxHp * 0.1);
+        this.port.heal(s.maxHp * 0.1 * this.castRank("C4"));
         this.port.emit({ type: "heal", x: p.x, y: p.y, ability: "C4", text: "Rozładowanie" });
         return { ok: true };
       }
       case "C9": {
-        this.addBuff({ id: "C9", ms: 6000, noKi: true, dealtPct: 0.4 });
+        this.addBuff({ id: "C9", ms: 6000, noKi: true, dealtPct: 0.4 * this.castRank("C9") });
         this.schedule(6000, () => {
           this.lockMs = 2000;
           this.port.say("Przeciążenie: układy wyłączone na 2 s.");
@@ -259,7 +283,8 @@ export class AndroidKit extends Kit {
         return { ok: true };
       }
       case "T": {
-        this.addBuff({ id: "T", ms: 20000, atkPct: 0.25, defPct: 0.15 });
+        const power = this.castRank("T");
+        this.addBuff({ id: "T", ms: 20000, atkPct: 0.25 * power, defPct: 0.15 * power });
         this.overheatMs = 0;
         this.port.emit({
           type: "buff",

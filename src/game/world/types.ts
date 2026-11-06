@@ -4,7 +4,16 @@ import type { WorldId, RaceId } from "./races";
 import type { ForestObject } from "./forest";
 import type { BuildingId, CityDefinition } from "../city/types";
 export type NpcRole =
-  "guide" | "hunter" | "merchant" | "smith" | "keeper" | "trainer" | "innkeeper" | "steward";
+  | "guide"
+  | "hunter"
+  | "merchant"
+  | "smith"
+  | "keeper"
+  | "trainer"
+  | "innkeeper"
+  | "steward"
+  | "alchemist"
+  | "warden";
 export type WorldNpc = Point & {
   id: NpcRole;
   name: string;

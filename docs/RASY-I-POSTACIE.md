@@ -1,6 +1,6 @@
 # KI Legends — rasy i postacie
 
-Stan bieżący: 29.10.2026, `main@5cea48da`. Integracja nie zmienia zatwierdzonych tożsamości, nazw kontynentów ani obecnych paczek bohaterów HD. Rozwój ras i nowe parametry treningu są w main, lecz dalsze rozdziały i próby pozostają nieukończone. Liczby, wyposażenie i zasady wzrostu: [rozwój i walka](ROZWOJ-I-WALKA.md). Historyczne checkpointy grafik poniżej zachowują własne daty i wersje.
+Stan bieżący: 05.11.2026 (`main@f2625549`); paczki bohaterów `2.1.0` z klipem `kiwalk` opisano niżej, reszta sekcji pochodzi z 29.10.2026. Integracja nie zmienia zatwierdzonych tożsamości, nazw kontynentów ani obecnych paczek bohaterów HD. Rozwój ras i nowe parametry treningu są w main, lecz dalsze rozdziały i próby pozostają nieukończone. Liczby, wyposażenie i zasady wzrostu: [rozwój i walka](ROZWOJ-I-WALKA.md). Historyczne checkpointy grafik poniżej zachowują własne daty i wersje.
 
 ## Cztery tożsamości
 
@@ -15,20 +15,30 @@ Oryginał właściciela: PDF w `docs/design/`, strony 4/5/6/7 odpowiednio dla ra
 strona 8 dla skali/świata. Ilustracje są referencjami, nie gotowymi animacjami ani
 potwierdzeniem komercyjnych praw. Szczegóły: [licencje](LICENCJE.md).
 
-## Aktualni bohaterowie runtime — 29.10.2026
+## Aktualni bohaterowie runtime — 29.10.2026 (paczki 2.1.0 od 05.11.2026)
 
-| Rasa | Aktor | Aktywna paczka / wersja |
-| --- | --- | --- |
-| Planetarni | `hero-planetary-painted` | `hero-planetary-painted-walk-v3` / `2.0.0` |
-| Mędrcy | `hero-sage-painted` | `hero-sage-painted-walk-v3` / `2.0.0` |
-| Androidy | `hero-android` | `hero-android-walk-v3` / `2.0.0` |
-| Legendy | `hero-legend` | `hero-legend-walk-v3` / `2.0.0` |
+| Rasa       | Aktor                    | Aktywna paczka / wersja                    |
+| ---------- | ------------------------ | ------------------------------------------ |
+| Planetarni | `hero-planetary-painted` | `hero-planetary-painted-walk-v3` / `2.1.0` |
+| Mędrcy     | `hero-sage-painted`      | `hero-sage-painted-walk-v3` / `2.1.0`      |
+| Androidy   | `hero-android`           | `hero-android-walk-v3` / `2.1.0`           |
+| Legendy    | `hero-legend`            | `hero-legend-walk-v3` / `2.1.0`            |
 
 Źródłem bieżących definicji jest `src/game/assets/imported.json`; `makeCatalog()`
 nakłada późniejsze aktywne definicje na te same identyfikatory aktorów.
-Każda z powyższych paczek ma 416 klatek w siedmiu stanach i ośmiu kierunkach,
-cztery zasoby atlasów, klatki HD 256 px. Klipy obejmują idle, walk, attack, skill,
-hit, death i respawn. Nie deklarujemy osobnej animacji run ani nowych klipów combo.
+Każda z powyższych paczek ma 480 odwołań do klatek w ośmiu klipach i ośmiu kierunkach,
+pięć zasobów atlasów, klatki HD 256 px. Klipy obejmują idle, walk, attack, skill,
+hit, death, respawn oraz `kiwalk`. Nie deklarujemy osobnej animacji run ani nowych klipów combo.
+
+`kiwalk` to chód po transformacji (filmy Gemini `*-walk-transformed.mp4`). Gra używa go
+zamiast `walk` tylko, gdy bohater się porusza i ma aktywny bonus Trybu KI (`T`, 20 s);
+bez klipu w paczce zostaje zwykły `walk`. Stoi, atakuje i ginie w formie bazowej, bo
+filmów tych stanów w formie po transformacji nie ma. Atlas `kiwalk` jest zapakowany jako
+klatki przycięte do postaci (Android 9,5 MiB, Mędrzec 7,7 MiB, Legenda 6,0 MiB,
+Planetar 3,8 MiB po rozkodowaniu), bo Verdantia ma już ok. 120 MiB z 128 MiB budżetu.
+Legenda i Planetar mają ukosy zbudowane z profilu (w filmach obracają się zbyt szybko
+na stabilne ukosy); Android i Mędrzec mają osobne klatki ukosów. Proces i skrypty:
+`scripts/anim/kiwalk_build.py`, `scripts/anim/kiwalk_pack.py`.
 
 `actorVisual()` skaluje prezentację tych bohaterów do **133×133 jednostek świata**,
 aby sylwetki z materiałów wideo zachowały rozmiar porównywalny z wcześniejszymi
@@ -79,7 +89,6 @@ Przy tworzeniu można wpisać nick 3–16 znaków (litery, cyfry, spacja, `_`, `
 Puste pole daje „Wędrowiec”. Nazwa jest przypisana do slotu, widoczna w HUD i wyborze
 postaci; nie zmienia rasy ani statystyk. Usunięcie postaci dotyczy wybranego lokalnego
 slotu, nie prywatnych szkiców i nie danych innej postaci.
-
 
 ## Prezentacja akcji podczas trafienia — 24.10.2026
 

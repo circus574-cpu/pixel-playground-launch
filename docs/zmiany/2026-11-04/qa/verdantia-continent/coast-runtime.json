@@ -1,0 +1,39 @@
+{
+  "fixture": "Valid local character save positioned on a CPU-navigation-checked authored coastal road; unchanged world and spawns.",
+  "point": {
+    "x": 37072,
+    "y": 57040
+  },
+  "errors": [],
+  "missing": [],
+  "metrics": {
+    "zoom": "0.62",
+    "worldLabels": "true",
+    "textureIds": "[\"ui-icons\",\"hero-planetary-painted-walk-v3-idle-0\",\"hero-planetary-painted-walk-v3-page-0\",\"hero-planetary-painted-walk-v3-fight-0\",\"hero-planetary-painted-walk-v3-fight-1\",\"hero-sheet\",\"city-floor\",\"city-stone\",\"interior-verdant-locked-chest\",\"interior-verdant-bed-with-blankets\",\"interior-verdant-tall-bookshelf\",\"interior-verdant-counter-with-a-shelf\",\"city-props\",\"verdant-painted-grass\",\"ki-v2-terrain-verdant-mountain-0\",\"ki-v2-terrain-verdant-wetland-0\",\"ki-v2-terrain-verdant-sea-0\",\"verdant-painted-road\",\"verdantia-continent-grass\",\"verdantia-continent-forest\",\"verdantia-continent-rockg\",\"verdantia-continent-wet\",\"verdantia-continent-sand\",\"verdantia-continent-water\",\"verdantia-continent-road1\",\"verdantia-continent-road2\",\"verdantia-continent-road3\",\"verdantia-continent-road4\",\"verdantia-continent-bush\",\"ki-v2-objects-verdant-mushrooms-5\",\"verdantia-continent-pine\",\"ki-v2-objects-verdant-reeds-5\",\"verdantia-continent-flora\",\"ki-v2-objects-verdant-reeds-2\",\"verdantia-continent-oak\",\"ki-v2-objects-verdant-reeds-1\",\"ki-v2-objects-verdant-mushrooms-1\",\"ki-v2-objects-verdant-reeds-3\"]",
+    "terrainMode": "superior",
+    "npcLabels": "0",
+    "enemyLabels": "0",
+    "world": "verdant",
+    "interior": "outside",
+    "actorVisual": "hero-planetary-painted",
+    "animationState": "idle",
+    "animationFrame": "hero-planetary-painted/idle/down/07",
+    "targetId": "",
+    "enemyVisuals": "[{\"id\":\"verdant-v2-wild-264\",\"visual\":\"enemy-v3-verdant-bursztynowa-osa\"}]",
+    "combatVisuals": "0",
+    "projectiles": "0",
+    "bossRewards": "[]",
+    "bosses": "[]",
+    "networkPlayers": "0",
+    "enemies": "[{\"id\":\"verdant-v2-wild-264\",\"x\":36750.30598562682,\"y\":56084.088195885255,\"hp\":238,\"mode\":\"patrol\",\"combat\":\"patrol\",\"kind\":\"verdant-bursztynowa-osa\"}]",
+    "cameraX": "36846.626410011275",
+    "cameraY": "56616.088852764755",
+    "cameraZoom": "0.62",
+    "joystickX": "0",
+    "joystickY": "0",
+    "playerX": "37072",
+    "playerY": "57040",
+    "loadMs": "630",
+    "metrics": "{\"sampleAtMs\":11778,\"fps\":27.86,\"frameP50Ms\":18,\"frameP95Ms\":159.30000000447035,\"frameMaxMs\":321.20000000298023,\"slowFrames\":7,\"objects\":164,\"activeObjects\":164,\"visibleObjects\":120,\"textures\":79,\"estimatedTextureBytes\":172596804,\"bakedTextureBytes\":0,\"jsHeapBytes\":378026590,\"renderer\":\"Canvas\",\"drawCalls\":null}"
+  }
+}

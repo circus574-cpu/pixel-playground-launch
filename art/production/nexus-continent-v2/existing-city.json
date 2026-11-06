@@ -1,0 +1,53 @@
+{
+  "note": "Existing city assets remain untouched. New smithy/inn variants supplied as materials only, not installed.",
+  "buildings": [
+    {
+      "binding": "object.ki-v2-buildings.nexus-hall",
+      "pack": "nexus-painted-preview",
+      "asset": "nexus-painted-hall",
+      "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-hall.webp",
+      "sha256": "869f0c7c1fe6302e72526828a0eceb870029586b3cbd4f7074dfaf5201008dd4",
+      "newMaterial": null
+    },
+    {
+      "binding": "object.ki-v2-buildings.nexus-market",
+      "pack": "nexus-painted-preview",
+      "asset": "nexus-painted-shop",
+      "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-shop.webp",
+      "sha256": "df876645248352998fb26f9e9921c1d5f4816592bc45969a195d8268a8ada755",
+      "newMaterial": null
+    },
+    {
+      "binding": "object.ki-v2-buildings.nexus-arena",
+      "pack": "nexus-painted-preview",
+      "asset": "nexus-painted-arena",
+      "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-arena.webp",
+      "sha256": "7263612f64bdefefa71d7d42860976b7c4302e61a13b931f134002bb4448feda",
+      "newMaterial": null
+    },
+    {
+      "binding": "object.ki-v2-buildings.nexus-smithy",
+      "pack": "ki-v2-buildings",
+      "asset": "ki-v2-buildings-nexus-smithy",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-nexus-smithy.webp",
+      "sha256": "b339289b29b110e0e0148a4c80149cc62f0e4c7da0c3d6fe74483dcc5f13dafe",
+      "newMaterial": "smithy"
+    },
+    {
+      "binding": "object.ki-v2-buildings.nexus-depot",
+      "pack": "nexus-painted-preview",
+      "asset": "nexus-painted-depot",
+      "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-depot.webp",
+      "sha256": "714a32011085c2547a459470bbf3ccf6a4b9dd1191b50ea3762098f1d6a113bc",
+      "newMaterial": null
+    },
+    {
+      "binding": "object.ki-v2-buildings.nexus-inn",
+      "pack": "ki-v2-buildings",
+      "asset": "ki-v2-buildings-nexus-inn",
+      "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-nexus-inn.webp",
+      "sha256": "2fde710a949a74b33a530a2b77244d71ecb05c2f0b107af544e8e96317ccce04",
+      "newMaterial": "inn"
+    }
+  ]
+}

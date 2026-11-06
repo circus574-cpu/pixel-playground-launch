@@ -19,6 +19,8 @@ import {
   type CombatTraining,
 } from "../game/combatTraining";
 import { BUILDING_IDS, type BuildingId } from "../game/city/types";
+import { itemFitsSlot } from "../game/items/slots";
+import { LEVEL_MAX, skillPointsAt, validLearned } from "../game/kit/progression";
 import type { CharacterStats } from "../game/characterStats";
 import type { RaceId, WorldId } from "../game/world/races";
 import { supabase } from "../integrations/supabase/client";
@@ -398,7 +400,7 @@ export async function updateServerCharacter(
     // Aplikacja zmian z patcha
     if (patch.name !== undefined) player.name = patch.name.trim();
     if (patch.level !== undefined)
-      player.level = Math.max(1, Math.min(20, Math.floor(patch.level)));
+      player.level = Math.max(1, Math.min(LEVEL_MAX, Math.floor(patch.level)));
     if (patch.xp !== undefined) player.xp = Math.max(0, Math.floor(patch.xp));
     if (patch.hp !== undefined) player.hp = Math.max(0, Math.round(patch.hp));
     if (patch.ki !== undefined) player.ki = Math.max(0, Math.round(patch.ki));
@@ -467,6 +469,8 @@ export async function updateServerCharacter(
         if (slot === "weaponUpgradeTier") {
           player.upgrade = Math.max(0, Math.min(1, Number(item ?? 0)));
         } else {
+          if (item && !itemFitsSlot(slot, String(item)))
+            throw new Error(`Przedmiot "${String(item)}" nie pasuje do slotu "${slot}".`);
           (player.equipment as Record<string, unknown>)[slot] = item || null;
           if (slot === "weapon") player.weapon = typeof item === "string" ? item : null;
           if (slot === "armor") player.armor = typeof item === "string" ? item : null;
@@ -497,9 +501,19 @@ export async function updateServerCharacter(
 
     // Drzewko umiejętności (skills - tablica unikalnych stringów z korzeniem "R")
     if (patch.skills !== undefined) {
-      const uniqueSkills = Array.from(new Set(["R", ...patch.skills]));
-      player.skills = uniqueSkills;
+      // Repeated ids are ranks (each costs a point); only the root is kept to a single point.
+      player.skills = ["R", ...patch.skills.filter((id) => id !== "R")];
     }
+
+    // A skill set the game would refuse must never be stored: the character could not open again.
+    if (
+      (patch.skills !== undefined || patch.level !== undefined) &&
+      !validLearned(player.race, player.level, player.skills)
+    )
+      throw new Error(
+        `Umiejętności nie pasują do poziomu ${player.level}: dostępne punkty ${skillPointsAt(player.level)}, ` +
+          "a każdy węzeł ma wymagany poziom, poprzedniki i wykluczenia. Użyj „Odblokuj dozwolone”.",
+      );
 
     // Trening bojowy (combatTraining: dodge, attackSpeed, technique)
     if (patch.combatTraining !== undefined) {
@@ -648,7 +662,7 @@ export async function executeLiveAdminAction(
       break;
     }
     case "setLevel": {
-      playerPatch.level = Math.max(1, Math.min(20, Math.floor(action.level)));
+      playerPatch.level = Math.max(1, Math.min(LEVEL_MAX, Math.floor(action.level)));
       break;
     }
     case "teleport": {
