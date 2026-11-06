@@ -238,7 +238,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     live.delete(id);
     source.release(scene, id);
   };
-  const drawGround = (data: BrowserChunk, id: string) => {
+  const drawGround = (data: BrowserChunk, id: string, cover: string[]) => {
     const flags = decodeRuns(data.terrain.flags, data.terrain.width * data.terrain.height);
     const biome = decodeRuns(data.terrain.biome, flags.length);
     const key = "superior-ground:" + id;
@@ -797,13 +797,6 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       };
       const nearRoad = (p: Point) =>
         source.roads.some((r) => roadDistance(p, r) < r.width / 2 + 30);
-      const cover = floraCandidates(
-        [
-          ...(source.art.acceptedCityScenery ?? []),
-          ...(source.art.resources ?? []),
-          ...(source.art.landmarks ?? []),
-        ].map((o) => o.binding),
-      );
       floraPerChunk.set(
         id,
         bakeFlora({
@@ -972,7 +965,16 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         source.release(scene, id);
         return;
       }
-      const ground = drawGround(data, id);
+      const ground = drawGround(
+        data,
+        id,
+        floraCandidates([
+          ...items.map((o) => o.binding),
+          ...(source.art.acceptedCityScenery ?? []).map((o) => o.binding),
+          ...(source.art.resources ?? []).map((o) => o.binding),
+          ...(source.art.landmarks ?? []).map((o) => o.binding),
+        ]),
+      );
       live.set(id, {
         data,
         items,
