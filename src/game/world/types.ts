@@ -20,6 +20,8 @@ export type WorldNpc = Point & {
   role: string;
   tint: number;
   dialogue?: string;
+  /** Catalogue key in `src/game/dialogue` (e.g. "npc-mei"); `id` stays the game role. */
+  dialogueId?: string;
   building?: BuildingId;
 };
 export type Landmark = Point & {

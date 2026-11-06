@@ -7,6 +7,7 @@ import {
   techniqueEffects,
 } from "./combatTraining";
 import { CharacterStatsSchema } from "./characterStats";
+import { getNpcDialogue } from "./dialogue";
 import { PracticeTargets, isPracticeId } from "./development/targets";
 import { heritageRaceConsistent } from "./development/heritage/state";
 import { equippedAttack, weaponConsistent } from "./development/heritage/equipment";
@@ -889,6 +890,8 @@ export class GameSession implements MonsterHost {
   loot: Loot[] = [];
   targetId: string | null = null;
   dialogue: NpcId | null = null;
+  /** How many conversations have been opened. Drives which catalogue greeting a NPC offers. */
+  dialogueTurn = 0;
   paused = false;
   autoAttack = false;
   notice = "Porozmawiaj z Airą. Klikaj postacie lub użyj przycisku Rozmowa.";
@@ -2084,6 +2087,10 @@ export class GameSession implements MonsterHost {
         this.say("Ostrze ulepszone: +4 ataku.");
       }
       if (c.action === "rumors") {
+        // The catalogue has three rumours per named NPC; the local quest progress decides which
+        // one, so the same conversation deepens instead of repeating one continent-wide hint.
+        const rozmówca = this.world.npcs.find((n) => n.id === this.dialogue);
+        const plotki = rozmówca ? getNpcDialogue(rozmówca.dialogueId ?? "")?.rumors : undefined;
         const RUMORS_BY_CONTINENT: Record<string, string> = {
           verdant:
             "Plotka: Drwale ostrzegają przed leżem Ygdrashy w głębi wschodniej puszczy. Jej korzenie więżą, a jad zatruwa, ale jej kora jest wrażliwa na ogień i skupione uderzenia Ki!",
@@ -2093,9 +2100,15 @@ export class GameSession implements MonsterHost {
             "Plotka: Czujniki wykryły przegrzanie rdzenia Golema w komorze reaktora. Przed jego promieniem termicznym chronią tylko metalowe filary chłodzące!",
           pyra: "Plotka: Władca Kharzul zbiera moc w lawowych kraterach południa. Atakuje niszczycielską szarżą — szybki uskok w bok to jedyny ratunek!",
         };
-        this.say(
+        const hint =
           RUMORS_BY_CONTINENT[this.world.id] ??
-            "Na szlakach krążą groźne bestie. Dbaj o zapas mikstur i ekwipunek.",
+          "Na szlakach krążą groźne bestie. Dbaj o zapas mikstur i ekwipunek.";
+        // Autorowany hint o bossie zostaje: bez niego przycisk traci wartość użytkową.
+        // Plotka rozmówcy dochodzi jako drugi, zależny od postępów akapit.
+        this.say(
+          plotki
+            ? `${plotki[p.quests.steps === "done" ? (p.quests.boars === "done" ? 2 : 1) : 0] ?? plotki[0]} ${hint}`
+            : hint,
         );
       }
       if (c.action === "boss_enter") {
@@ -2683,6 +2696,7 @@ export class GameSession implements MonsterHost {
       const npc = this.npcs.find((n) => n.id === this.pendingNpc)!;
       if (distance(p, npc) <= 100) {
         this.dialogue = npc.id;
+        this.dialogueTurn++;
         this.pendingNpc = null;
         this.route = [];
         this.say(npc.name + ": " + npc.role);
@@ -2816,6 +2830,7 @@ export class GameSession implements MonsterHost {
       defeated: this.player.kills,
       ready: true,
       dialogue: this.dialogue,
+      dialogueTurn: this.dialogueTurn,
       building: this.building ?? null,
       activeNpcs: this.npcs,
       heritage: this.practiceOnly ? [] : this.heritage.snapshot(),
@@ -3116,6 +3131,7 @@ export function initialView(player?: Player): GameViewState {
     defeated: 0,
     ready: false,
     dialogue: null,
+    dialogueTurn: 0,
     building: null,
     activeNpcs: WORLDS[p.continent].npcs.filter((n) => !n.building),
     heritage: [],

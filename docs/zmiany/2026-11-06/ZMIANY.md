@@ -106,3 +106,37 @@
 - Ryzyko zapisane przed wdrożeniem: dekoracja dokłada ok. 50–80 sprite'ów na kadr, a pomiaru
   wydajności na fizycznym telefonie nie wykonano. Jeśli telefon poda FPS, wyłącznikiem jest
   `?ki-dress=0`, potem `?ki-islands-art=0`, potem `?ki-nexus-continent=0`.
+
+### 5. NPC we wnętrzach, dialogi z katalogu i brak sylwetek
+
+- Zlecenie właściciela: „następna rzecz to npc. w budynkach. ze swoimi sylwetkami i dialogiem."
+- **Stan faktyczny po pomiarze (trzy wcześniejsze tezy okazały się moje, błędne):**
+  - NPC **są** we wnętrzach i **są rysowani**. Drzewo sceny Phasera w „Pawilonie Wymiany"
+    pokazuje kontener widoczny w `(960, 947)` z teksturą `hero-sheet`, a gracz wchodzi na
+    `entry (960, 1120)` — 180 j. dalej, więc postać jest w kadrze. Sonda, która stawiała gracza
+    60 j. od NPC (z pominięciem drzwi), sama ją zasłoniła; to nie jest wada gry.
+  - NPC **nie są** sprite'em gracza: używają wspólnego arkusza `human-v2` (`tintable: true`),
+    a nie malowanego bohatera rasy.
+  - Kapital v2 ma **autorskie zdanie** każdego NPC w danych (`acceptedSource.npcs`: `name`,
+    `role`, `building`, `tint`, `dialogue`), więc panel nie pokazuje samego sztywnego stringa.
+- **Realne luki:**
+  1. **Sylwetki.** Wiązanie `<świat>.npc.<rola>` jest już obsługiwane przez `actorVisual()`
+     (`catalog.ts:324-327`), ale w katalogu jest **zero** takich wiązań i zero aktorów
+     `profile: "npc"`; w całym repo nie ma grafiki NPC. Kod nie jest tu potrzebny — potrzebny
+     jest pakiet z grafikami.
+  2. **Głębokość rozmowy.** Katalog `src/game/dialogue` ma dla 28 NPC po 3 powitania, 3 plotki
+     i teksty na konkretne questy; gra używała co najwyżej jednego powitania, a przycisk
+     „Plotka" pokazywał 4 zdania kontynentowe.
+- **Zmiany:** `WorldNpc.dialogueId` (klucz katalogu obok roli), `dialogueId` uzupełniany w obu
+  gałęziach `buildSuperiorSimulationWorld` (kapital i miasta poza nim), licznik otwartych rozmów
+  `dialogueTurn` w sesji i w widoku, panel dokłada rotujące powitanie z katalogu pod zdaniem
+  autorskim, „Plotka" łączy hint o bossie z plotką rozmówcy zależną od postępów.
+  Priorytet: **zdanie autorskie wygrywa**, katalog tylko dopinguje — ta sama postać bywa
+  przypisana do dwóch ról (npc-mei = depozyt i kupiec), więc nadpisanie jej kontekstu byłoby
+  błędem.
+- Testy: `src/test/npc-dialogue-catalogue.test.ts` (5) — pełne pokrycie katalogiem (16 miast
+  v2, 28 NPC, 0 bez dialogu), powiązanie roli z kluczem, plotka z katalogu, niezmieniony hint
+  bez klucza, rosnący licznik rozmów. `src/test/npc-systems.test.ts` (5) nadal przechodzi.
+- Nie zweryfikowano: wygląd okna rozmowy na fizycznym telefonie; teksty questowe katalogu
+  (klucze O-V01, M09, IC-02…) należą do silnika questów v2, którego stan nie trafia do
+  widoku lokalnej symulacji — to osobna praca.
