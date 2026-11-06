@@ -14,9 +14,9 @@ const WYSYPY = [
 ];
 const SAVE = "ki-legends:adventure:v1:superior-world-v2";
 const arrival = (land: string) => {
-  const index = JSON.parse(
-    require("node:fs").readFileSync("public/game/worlds/superior-v2/index.json", "utf8"),
-  ) as { features: { id: string; arrival: { x: number; y: number } }[] };
+  const index = JSON.parse(readFileSync("public/game/worlds/superior-v2/index.json", "utf8")) as {
+    features: { id: string; arrival: { x: number; y: number } }[];
+  };
   return index.features.find((f) => f.id === land)!.arrival;
 };
 
