@@ -1,0 +1,10 @@
+
+Running 3 tests using 1 worker
+
+(node:3342) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/racial-trials.spec.ts:125:3 › Planetarni: real TV07, one-time reward and reload (27.0s)
+  ✓  2 [gameplay] › e2e/racial-trials.spec.ts:125:3 › Planetarni: real TV08, one-time reward and reload (36.7s)
+  ✓  3 [gameplay] › e2e/racial-trials.spec.ts:125:3 › Planetarni: real TV09, one-time reward and reload (1.3m)
+
+  3 passed (2.4m)

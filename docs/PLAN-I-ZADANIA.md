@@ -1,5 +1,99 @@
 # KI Legends — aktualny plan i zadania
 
+## Kontynuacja 06.11 — Pamięć Mędrców
+
+Wznowiono rzeczywistą gałąź Draft #90 (`a9e44175`), zintegrowano `main@83165f5c`
+i dodano TA10 Fragment i źródło, TA11 Granice świadectwa, TA12 Kronika z niewiadomą.
+Każda ma trzy stopnie i używa wspólnego kontrolera, wypożyczonej sesji, transakcji
+wyników oraz publicznych materiałów. Pamięć nie dodaje premii bojowej.
+
+Katalog: **27/48 prób, 81/144 stopni**. Planetarni 12/12, Mędrcy 9/12,
+Androidy i Legendy po 3/12. Pozostaje **21 prób / 63 stopnie**, pięć wariantów,
+trzy moduły, interakcje dziedzin w świecie, późne starcia, tytuły i pełny odbiór
+kampanii/balansu. Następna brakująca dziedzina Mędrców: Skupienie (TA07–TA09).
+Mędrcy mają 4050 praktyki z prób; teoretyczna suma ścieżki to 16 450, o 1350 mniej
+niż docelowe 17 800. Nie jest to dowód osiągalności całej kampanii.
+
+[Zakres i dowody](zmiany/2026-11-06/ZMIANY.md). Kontynuacja nie jest scalona ani
+opublikowana. Poniższe checkpointy opisują wcześniejsze partie i stan main.
+
+## Poprzednia partia — Bariery Mędrców, 04.11
+
+PR #90: TA04 Osłona archiwum, TA05 Droga zwierciadeł, TA06 Okna osłony,
+każda w trzech stopniach. Bariery II odblokowują istniejący `ma-barrier`.
+Katalog **24/48 prób, 72/144 stopni**; Mędrcy mają 6/12 prób i 2700 praktyki
+z prób. Pozostaje **24 próby / 72 stopnie**, pięć wariantów i trzy moduły,
+interakcje dziedzin w świecie, późne starcia, tytuły oraz pełny graf/budżet
+kampanii i odbiór UI. Połowa katalogu prób nie oznacza połowy całej aplikacji.
+Następne dziedziny Mędrców: Skupienie (TA07–TA09) i Pamięć (TA10–TA12).
+[Zakres i kontrole](zmiany/2026-11-04/ZMIANY.md#bariery-mędrców--ta04-ta05-ta06).
+To gałąź robocza bez scalenia i publikacji; niższe checkpointy są historyczne.
+
+
+## Poprzednia partia — Opieka Planetarnych, 04.11
+
+PR #90: TV07 Zapas dla wyprawy, TV08 Źródło dla dwóch osad, TV09 Ostatni obóz,
+każda w trzech stopniach. Opieka II odblokowuje istniejący `mv-root`.
+Łącznie **21/48 prób i 63/144 stopni**, Planetarni **12/12 prób**.
+To komplet prób tej rasy, nie komplet jej rozwoju. Pozostaje **27 prób / 81 stopni**
+pozostałych ras, sześć wariantów i trzy moduły, interakcje dziedzin w świecie,
+późne starcia, tytuły oraz pełny graf, budżet i odbiór kampanii.
+Planetarni mają 5400 praktyki z prób; teoretyczna suma katalogowa wynosi 17 800,
+ale wymaga jeszcze potwierdzenia osiągalności w całym przebiegu kampanii.
+[Zakres i dowody](zmiany/2026-11-04/ZMIANY.md#opieka--tv07-tv08-tv09).
+Gałąź robocza bez scalenia i publikacji. Poniższe checkpointy opisują historię.
+
+
+## Poprzednia partia — Szlaki Planetarnych
+
+PR #90 rozbudowano o TV01/TV02/TV03 i `mv-trail` po II stopniu Szlaków.
+Łącznie **18/48 prób, 54/144 stopni**. Pozostaje 30 prób / 90 stopni, siedem
+wariantów i trzy moduły, dziedziny w świecie, późne starcia, tytuły i pełny odbiór
+kampanii. Same próby w sali nie oznaczają ukończenia funkcjonalności dziedziny.
+[Zakres i dowody](zmiany/2026-11-03/ZMIANY.md#szlaki--tv01-tv02-tv03).
+Poniższe checkpointy 15/45 i 12/36 zachowano jako historię.
+
+## Kontynuacja 03.11 — Żywa Ziemia Planetarnych
+
+Do PR #90 dołączono aktualny `main@4ecba945`, zachowując oprawę czterech miast.
+Nowa partia: TV04/TV05/TV06, łącznie 3 próby / 9 stopni, ranga Żywej Ziemi
+oraz `mv-earth` po II stopniu wszystkich trzech prób. Katalog obejmuje teraz
+15 prób / 45 stopni; nadal brakuje **33 prób / 99 stopni**, 8 wariantów i 3 modułów,
+interakcji dziedzin w świecie, późnych wariantów starć oraz pełnego odbioru kampanii.
+[Kontrole i granice odbioru](zmiany/2026-11-03/ZMIANY.md#żywa-ziemia--tv04-tv05-tv06).
+Poniższe liczby 12/36 i 36/108 są wcześniejszym checkpointem, nie bieżącym stanem.
+
+## Próby rasowe — partia 03.11 na PR #90
+
+Dodano pierwsze 12 prób / 36 stopni dla czterech ras, trwałe wyniki, rangi
+i trzy odblokowania wariantów oraz moduł osłony. [Zakres i rzeczywiste kontrole](zmiany/2026-11-03/ZMIANY.md#próby-rasowe--pierwsze-12-kontrolerów-i-36-stopni).
+Pozostają 36 prób / 108 stopni, pozostałe 9 odblokowań wariantów i 3 modułów,
+interakcje dziedzin poza próbami, tytuły wymagające całego kompletu III,
+32 późne warianty przeciwników oraz pełny graf, budżet i odbiór kampanii.
+Ta gałąź nie jest opublikowana. Starsze checkpointy poniżej opisują historię.
+
+## Kontynuacja rozwoju — gałąź robocza 03.11.2026
+
+PR #90: naprawy wyposażenia, kontrolery eskort bojowych/ochrony i prywatna kronika.
+Sześć rozdziałów i projektów każdej rasy przechodzi w kontrolowanych testach silnika,
+a rzeczywiste dane Superior przechodzą testy bindingów tras. Nie jest to jeszcze
+odbiór całej kampanii w przeglądarce ani publikacja.
+Dalej: 48 prób / 144 stopnie, stopnie dziedzin, odblokowania wariantów/modułów,
+budżet 17 800 praktyki, tytuły i 32 warianty późnych starć, pełna regresja kont/urządzeń.
+[Dowody i granice odbioru](zmiany/2026-11-03/ZMIANY.md#domykanie-rozwoju--partia-2-eskorty-obrona-i-kronika).
+
+## Aktualizacja rozwoju — 03.11.2026
+
+Audyt `main@13983467` potwierdza częściową implementację. Do zamknięcia kolejno:
+bonusy przedmiotów w rzeczywistych statystykach, eskorty bojowe/ochrona (blokady
+H-V03/H-A05/H-N03/H-P06), 48 prób / 144 stopnie i normalne odblokowania 12 wariantów
+oraz 4 modułów, pełny budżet 17 800 praktyki, bronie/finały i treść poziomów 21–40.
+Komplet plików graficznych i audio Etapu 1 nie zamyka tych zadań.
+[Dowody, wyniki i dokładna lista](zmiany/2026-11-03/ZMIANY.md#audyt-kompletności-rozwoju-postaci--03112026).
+Starsze checkpointy poniżej zachowano jako historię. Ten audyt dotyczy rozwoju
+postaci, bez sprawdzania aktualnego wdrożenia produkcyjnego.
+
+
 ## Bieżący checkpoint — 05.11.2026
 
 Kod: `main@555da1ea`, opublikowany na produkcję (PR #117 wielkości potworów, #118 oprawa kontynentów Verdantia/Pyra/Aetheria domyślnie włączona, #119 mapa i globus, #120 chód po transformacji `kiwalk`, #121 malowane wnętrza budynków specjalnych). Hosting i bramka jakości bez zmian (poniżej, checkpoint 01.11). Dowody: [dziennik 05.11](zmiany/2026-11-05/ZMIANY.md), [04.11](zmiany/2026-11-04/ZMIANY.md).

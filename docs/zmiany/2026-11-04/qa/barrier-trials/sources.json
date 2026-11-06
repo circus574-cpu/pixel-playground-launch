@@ -1,0 +1,21 @@
+{
+  "base": "d4d7513bea33263f83e2c39ff7bb93a9e5e76d8e",
+  "sha256": {
+    "e2e/racial-trials.spec.ts": "0162aef185967e4bfbcb158eaff984f1f2fba8c172d1753e727d4fab4867eefd",
+    "src/components/game/MirrorPuzzle.tsx": "9b3db8c896651aa169582d5874d5824b83524f8d35958a9531334d446c120fbe",
+    "src/components/game/TrialRoom.tsx": "4712fcc6dae468408b39e16c9ff5d879b899dc8c8232b3f13b9dc4cc9d99cc17",
+    "src/components/game/TrialsPanel.tsx": "ed98b7d8b26916e4a622cfe10c0e3ddd3f3f92102b772c398f78109b976ed943",
+    "src/game/development/state.ts": "e5bfa7d4267efac5f8b7be9d33767724f064fd9557236d7696e2a285bc83e81e",
+    "src/game/development/trials/attempt.ts": "ee01282fb1c65b9314e224ee853ff87f561bda5b7160aa0b7cb5f29760bedbe4",
+    "src/game/development/trials/barriers.ts": "196cf50505b98a5be2d566ae8a25bdbda8e94a7b6fb81ea6a048d70fad3edd7f",
+    "src/game/development/trials/catalog.ts": "fa48fac06ea10fdcd97e4cd9b9e91b60197cc01e2a4e36ecb5c561b6fb09f59a",
+    "src/game/development/trials/mirrors.ts": "63c2ab16f88bfcf6988cca6aaf6de0669c6860903d41e28aa5e32230dcbdd93d",
+    "src/game/development/trials/puzzles.ts": "0f112735dcde15ab69e1fd2cbac29e2bcf410c0cacb97fb7b5fb386da6ef5ce9",
+    "src/game/development/trials/runtime.ts": "238dd36bbea71631ca366db683008ae23015db3e0f3b79c19161cad109e80d3a",
+    "src/game/session.ts": "4f893d270e7395f15782681d17ecd4fc8df9ba17e240c7c9ca52d05701061ead",
+    "src/test/barrier-trials.test.ts": "0aa392c141dbf233f2aeb1c22158e0afb7fdb02c1b587ef47ebe5a776cc8c116",
+    "src/test/helpers/racialTrials.ts": "f133b856550dcbb21ef658daee8810b0e119a29b6ef102f3de1c81b53b17ac5a",
+    "src/test/racial-trial-transactions.test.ts": "cbd3d2d23376f3e7f46d57666e6e16c77f8d066ba032521eaf2e77bd280defb1",
+    "src/test/server-racial-trials.test.ts": "c15cafc63ba5aa31d84bb5354be732c4026b24ae97a672108973af45f38253bb"
+  }
+}

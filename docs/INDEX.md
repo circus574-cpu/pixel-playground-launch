@@ -1,5 +1,44 @@
 # KI Legends — dokumentacja projektu
 
+**Kontynuacja 06.11 — Pamięć Mędrców:** TA10/TA11/TA12 w trzech stopniach.
+Katalog **27/48 prób, 81/144 stopni**; Mędrcy mają 9/12 prób. Wznowiono PR #90
+od `a9e44175` i zintegrowano `main@83165f5c` bez zmiany produkcji.
+[Zakres i kontrole](zmiany/2026-11-06/ZMIANY.md). Pełny rozwój pozostaje nieukończony.
+
+**Poprzednia partia rozwoju — Bariery Mędrców:** TA04/TA05/TA06 w trzech
+stopniach i `ma-barrier` po Barierach II. Katalog **24/48 prób, 72/144 stopni**;
+Mędrcy mają 6/12 prób. To połowa katalogu prób, nie połowa całego projektu.
+[Zakres i dowody](zmiany/2026-11-04/ZMIANY.md#bariery-mędrców--ta04-ta05-ta06).
+
+
+**Poprzednia partia rozwoju — Opieka Planetarnych:** TV07/TV08/TV09 i
+odblokowanie `mv-root` po Opiece II. Katalog **21/48 prób, 63/144 stopni**;
+Planetarni mają komplet 12 prób, ale pełny rozwój nadal nie jest ukończony.
+[Zakres i kontrole](zmiany/2026-11-04/ZMIANY.md#opieka--tv07-tv08-tv09).
+
+**Poprzednia partia rozwoju — Szlaki Planetarnych:** TV01/TV02/TV03, ranga Szlaków
+i odblokowanie `mv-trail`; katalog 18/48 prób, 54/144 stopni. Pełny rozwój pozostaje
+nieukończony. [Zakres i kontrole](zmiany/2026-11-03/ZMIANY.md#szlaki--tv01-tv02-tv03).
+
+**Poprzednia partia rozwoju — PR #90:** dodano trzy próby Żywej Ziemi Planetarnych i ich
+odblokowanie mistrzostwa. Katalog: 15/48 prób, 45/144 stopni; pełna kampania nadal
+nieukończona. [Bieżąca partia i dowody](zmiany/2026-11-03/ZMIANY.md#żywa-ziemia--tv04-tv05-tv06).
+
+
+**Kolejna partia PR #90:** 12 prób rasowych / 36 stopni, wyniki serwerowe, rangi i pierwsze odblokowania mistrzostwa. [Bieżący zakres i wyniki](zmiany/2026-11-03/ZMIANY.md#próby-rasowe--pierwsze-12-kontrolerów-i-36-stopni). Pełny system nadal wymaga dalszych prac.
+
+**Kontynuacja na gałęzi PR #90:** naprawiono bonusy wyposażenia, dodano kontrolery
+eskort bojowych/ochrony i kronikę odkrywanej historii. Cały rozwój nadal nie jest
+ukończony; [zakres i dowody](zmiany/2026-11-03/ZMIANY.md#domykanie-rozwoju--partia-2-eskorty-obrona-i-kronika).
+
+Gałąź PR #90 uwzględnia także [nowszy `main@e02c87b5`](zmiany/2026-11-03/ZMIANY.md#integracja-nowszego-main-z-gałęzią-domykania-rozwoju); cudze grafiki i poprawka ramek zostały zachowane.
+
+**Audyt rozwoju 03.11.2026:** pełne zlecenie czterech ras pozostaje nieukończone.
+Potwierdzone braki, blokady i błędy wyposażenia oraz aktualne wyniki testów są w
+[raporcie z 03.11](zmiany/2026-11-03/ZMIANY.md#audyt-kompletności-rozwoju-postaci--03112026).
+**Aetheria — próbna oprawa na osobnej gałęzi:** [lokalny zrzut i instrukcja](zmiany/2026-11-03/ZMIANY.md#aetheria--oprawa-z-materiałów-właściciela).
+
+
 Aktualizacja: **05.11.2026, po PR #121 (`main@555da1ea`, wdrożone na produkcję)**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
 
 **Stan na 05.11.2026 (szczegóły i dowody w [dzienniku 05.11](zmiany/2026-11-05/ZMIANY.md)):**
@@ -29,6 +68,7 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-11-06](zmiany/2026-11-06/ZMIANY.md)
 - [2026-11-05](zmiany/2026-11-05/ZMIANY.md)
 - [2026-11-04](zmiany/2026-11-04/ZMIANY.md)
 - [2026-11-03](zmiany/2026-11-03/ZMIANY.md)

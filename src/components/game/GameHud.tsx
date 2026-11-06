@@ -1,3 +1,4 @@
+import type { StartTrial } from "./TrialsPanel";
 import { PanelBoundary } from "./PanelBoundary";
 import { DevelopmentPanel, type StartExam } from "./DevelopmentPanel";
 import { CharacterStatsPanel } from "./CharacterStatsPanel";
@@ -69,6 +70,7 @@ import "./hud-v2-landscape.css";
 type Props = {
   authoritative?: boolean;
   onStartExam?: StartExam | undefined;
+  onStartTrial?: StartTrial | undefined;
   /** Continents a special staff character can travel to directly. */
   staffDestinations?: { id: string; name: string }[] | undefined;
   onStaffTeleport?:
@@ -216,6 +218,7 @@ function TechniqueBank({
 export function GameHud({
   authoritative = false,
   onStartExam,
+  onStartTrial,
   state,
   zoom,
   onZoom,
@@ -782,9 +785,11 @@ export function GameHud({
               {state.heritageActivity.target}
             </strong>
             <span>
-              {state.heritageActivity.message} ·{" "}
-              {Math.ceil(state.heritageActivity.remainingMs / 1000)} s · błędy{" "}
-              {state.heritageActivity.errors}
+              {state.heritageActivity.message}
+              {state.heritageActivity.remainingMs > 0 && (
+                <> · {Math.ceil(state.heritageActivity.remainingMs / 1000)} s</>
+              )}
+              {state.heritageActivity.errors > 0 && <> · błędy {state.heritageActivity.errors}</>}
             </span>
           </div>
         ) : WORLD_V2 && !tracked ? (
@@ -1234,6 +1239,7 @@ export function GameHud({
                 state={state}
                 send={onCommand}
                 startExam={onStartExam}
+                startTrial={onStartTrial}
                 close={closeAndResume}
               />
             )}

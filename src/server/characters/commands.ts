@@ -1,3 +1,4 @@
+import { TRIAL_IDS } from "../../game/development/trials/catalog";
 import { z } from "zod";
 import { FEATURE_IDS } from "../../game/world/generated/superiorSave";
 import { DISCIPLINES } from "../../game/development/training";
@@ -264,6 +265,53 @@ export const OnlineCommandSchema = z.union([
     .strict(),
 ]);
 export const ServerIntentSchema = z.union([
+  z
+    .object({
+      type: z.literal("trial-start"),
+      id: z.enum(TRIAL_IDS),
+      tier: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("trial-action"),
+      instanceId: id,
+      action: z.enum([
+        "ready",
+        "suspend",
+        "resume",
+        "inspect",
+        "close",
+        "retry",
+        "accept",
+        "leave",
+      ]),
+      suspended: z.boolean().optional(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("trial-answer"),
+      instanceId: id,
+      round: z.number().int().min(0).max(8),
+      answerId: z.string().max(80),
+      modules: z.array(z.enum(MODULE_IDS)).max(3).optional(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("trial-input"),
+      instanceId: id,
+      command: z.union([
+        z.object({ type: z.literal("move"), x: coord, y: coord }).strict(),
+        z.object({ type: z.literal("target"), id }).strict(),
+        z.object({ type: z.literal("ability"), ability: z.string().min(1).max(16) }).strict(),
+        simple("cancel"),
+        simple("dodge"),
+      ]),
+    })
+    .strict(),
+
   OnlineCommandSchema,
   z
     .object({

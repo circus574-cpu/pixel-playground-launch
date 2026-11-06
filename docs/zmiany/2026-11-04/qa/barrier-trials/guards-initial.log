@@ -1,0 +1,56 @@
+
+ RUN  v4.1.12 /workspace/ki-aruba
+
+ ❯ src/test/barrier-trials.test.ts (16 tests | 4 failed) 196ms
+     × terminates an optical loop without accepting all mirrors as success 10ms
+     × tier 1 really spends B1 capacity to preserve object HP 4ms
+     × tier 2 really spends B1 capacity to preserve object HP 1ms
+     × tier 3 really spends B1 capacity to preserve object HP 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/barrier-trials.test.ts > Barriers use borrowed shield capacity, optical routes and timed terrain cover > terminates an optical loop without accepting all mirrors as success
+AssertionError: expected 'outside' to be 'loop' // Object.is equality
+
+Expected: "loop"
+Received: "outside"
+
+ ❯ src/test/barrier-trials.test.ts:45:75
+     43|       ],
+     44|     };
+     45|     expect(traceMirrors(board, ["\\", "/", "\\", "/"].join(",")).outco…
+       |                                                                           ^
+     46|     expect(traceMirrors(board, ["\\", "/", "\\", "/"].join(",")).passe…
+     47|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/test/barrier-trials.test.ts > Barriers use borrowed shield capacity, optical routes and timed terrain cover > tier 1 really spends B1 capacity to preserve object HP
+ FAIL  src/test/barrier-trials.test.ts > Barriers use borrowed shield capacity, optical routes and timed terrain cover > tier 2 really spends B1 capacity to preserve object HP
+ FAIL  src/test/barrier-trials.test.ts > Barriers use borrowed shield capacity, optical routes and timed terrain cover > tier 3 really spends B1 capacity to preserve object HP
+AssertionError: expected [ 'R', 'B1' ] to deeply equal [ 'B1' ]
+
+- Expected
++ Received
+
+  [
++   "R",
+    "B1",
+  ]
+
+ ❯ src/test/barrier-trials.test.ts:61:37
+     59|     const initialKi = a.session.player.ki;
+     60|     expect(a.session.kit.has("B1")).toBe(true);
+     61|     expect(a.session.player.skills).toEqual(["B1"]);
+       |                                     ^
+     62|     completeTrial(a);
+     63|     expect(a.snapshot().waves!.object.hp).toBe(100);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  4 failed | 114 passed (118)
+   Start at  08:26:52
+   Duration  48.39s (transform 4.54s, setup 504ms, import 6.68s, tests 37.22s, environment 2.49s)
+

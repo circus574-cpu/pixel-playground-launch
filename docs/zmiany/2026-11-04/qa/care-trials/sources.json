@@ -1,0 +1,19 @@
+{
+  "base": "9d07993238d76f3336a3b4f573b0d27e437eb7c4",
+  "sha256": {
+    "e2e/racial-trials.spec.ts": "b584f20e4b15bdfaa645e4b496d59d7ef7b661addc2bf14ab7bef528afd395be",
+    "src/components/game/TrialRoom.tsx": "748ce06865a5b621a4a382218d75b9e4b20ac25e57d4e533c4b65f6f0eb94704",
+    "src/components/game/TrialsPanel.tsx": "7ff8318849e53b7ddf4f11ce0d78aec81c6183bbafed05fe28777a675c6b183d",
+    "src/game/development/state.ts": "a197b50cc5f3021d511936bf7eb3bfae102724dc9ed6d64fc4af16298a03babe",
+    "src/game/development/trials/attempt.ts": "7063cad2de7851eaf40b49e0d8f295702b45b1fb4c4ef449679e333f61c8ceaa",
+    "src/game/development/trials/catalog.ts": "ba8c7d32936a5277d86c3c2035ffc4938afbf1d94f844534c02728f143368ca9",
+    "src/game/development/trials/camp.ts": "cc0aa40333a4bc16e8c274da3dd0937e6bf216de270196d3d4e49f5789954bc5",
+    "src/game/development/trials/puzzles.ts": "f7220f09a6fc89f8ff4b4168716172f92b3b758c95b74ff32e29c8b0a29efd2b",
+    "src/game/development/trials/runtime.ts": "85de40a9f7d4b8c43f52ff6bef81fcc58c6532ba5f7605a9f6fb06513cd4112e",
+    "src/game/session.ts": "0a53e2687baf88f9d70657252c3e321879649de9c1a70dd55e00b632bce9d676",
+    "src/test/care-trials.test.ts": "89c1aee6f615dbb44d036d4f31f19ae4526edab0857d83369ccbade2dfc73cde",
+    "src/test/helpers/racialTrials.ts": "ab76f326165bb0bad2ea4cdb775bd6a0d5cb2bddd405e0ebbc7bfc84e49e1039",
+    "src/test/racial-trial-transactions.test.ts": "e6de270be2ebd172ef30779c6d102d5e6e6e396b799b2cd255b7adea6dfde2da",
+    "src/test/server-racial-trials.test.ts": "ea0086c17a850c6ae732c2effa03e96a2dcd30aef6fc4d4a05f9cdd38ee52a0e"
+  }
+}

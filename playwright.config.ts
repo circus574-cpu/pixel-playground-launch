@@ -1,5 +1,13 @@
 import { defineConfig } from "@playwright/test";
 import { existsSync } from "node:fs";
+const selectedExecutable =
+  process.env["PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH"] ??
+  [
+    "/usr/bin/chromium",
+    "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
+    "C:/Program Files/Microsoft/Edge/Application/msedge.exe",
+  ].find(existsSync);
+const browserExecutable = selectedExecutable ? { executablePath: selectedExecutable } : {};
 const canvasArgs = ["--no-sandbox", "--disable-webgl"];
 const webglArgs = [
   "--no-sandbox",
@@ -24,15 +32,7 @@ export default defineConfig({
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     launchOptions: {
-      ...(process.env["PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH"]
-        ? { executablePath: process.env["PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH"] }
-        : existsSync("/usr/bin/chromium")
-          ? { executablePath: "/usr/bin/chromium" }
-          : existsSync("C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe")
-            ? { executablePath: "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" }
-            : existsSync("C:/Program Files/Microsoft/Edge/Application/msedge.exe")
-              ? { executablePath: "C:/Program Files/Microsoft/Edge/Application/msedge.exe" }
-              : {}),
+      ...browserExecutable,
       args: process.env["KI_QA_WEBGL"] ? webglArgs : canvasArgs,
     },
   },
@@ -54,8 +54,10 @@ export default defineConfig({
         "**/aetheria-continent.spec.ts",
         "**/nexus-continent.spec.ts",
         "**/development.spec.ts",
+        "**/racial-trials.spec.ts",
         "**/verdant-painted-preview.spec.ts",
         "**/development-heritage.spec.ts",
+        "**/heritage-chronicle.spec.ts",
         "**/heritage-delivery.spec.ts",
         "**/development-combat-smoke.spec.ts",
         "**/city-webgl.spec.ts",
@@ -69,14 +71,14 @@ export default defineConfig({
         "**/world-rendering.spec.ts",
         "**/superior-world.spec.ts",
       ],
-      use: { launchOptions: { args: webglArgs } },
+      use: { launchOptions: { ...browserExecutable, args: webglArgs } },
     },
     {
       name: "application-canvas",
       testMatch: appTests,
       use: {
         baseURL: process.env["KI_QA_APP_URL"] ?? "http://127.0.0.1:4176",
-        launchOptions: { args: canvasArgs },
+        launchOptions: { ...browserExecutable, args: canvasArgs },
       },
     },
     {
@@ -88,7 +90,7 @@ export default defineConfig({
       ],
       use: {
         baseURL: process.env["KI_QA_APP_URL"] ?? "http://127.0.0.1:4176",
-        launchOptions: { args: webglArgs },
+        launchOptions: { ...browserExecutable, args: webglArgs },
       },
     },
   ],

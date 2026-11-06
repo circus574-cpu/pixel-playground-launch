@@ -1,3 +1,6 @@
+import { remoteTrial } from "../game/online/trial";
+import { TrialRoom } from "../components/game/TrialRoom";
+import type { TrialAttempt } from "../game/development/trials/attempt";
 import { remoteExam } from "../game/online/exam";
 import { OnlineClient } from "../game/online/client";
 import { accessToken } from "../game/account/vpsAuth";
@@ -285,6 +288,7 @@ export function GameScreen({
   onExit: (origins?: boolean) => void;
 }) {
   const mirroredExam = useRef<ReturnType<typeof remoteExam> | undefined>(undefined);
+  const mirroredTrial = useRef<ReturnType<typeof remoteTrial> | undefined>(undefined);
   const onlineConnection = useRef<OnlineClient | undefined>(undefined);
   const onlineAbort = useRef(new AbortController());
   useEffect(() => {
@@ -308,7 +312,8 @@ export function GameScreen({
   }, []);
   const [loading, setLoading] = useState<GameLoadingState>(preparingWorld);
   const [attempt, setAttempt] = useState(0);
-  const activeDevelopmentExam = useRef<ExamAttempt | null>(null);
+  const activeDevelopmentExam = useRef<ExamAttempt | TrialAttempt | null>(null);
+  const [racialTrial, setRacialTrial] = useState<TrialAttempt | null>(null);
   const [developmentExam, setDevelopmentExam] = useState<ExamAttempt | null>(null);
   const [worldRuntime, setWorldRuntime] = useState<SuperiorRuntime | null>(null);
   const [state, setState] = useState<GameViewState>(() => initialView(slot.player!));
@@ -400,6 +405,29 @@ export function GameScreen({
               if (next.feature !== frame.feature && !cancelled) setAttempt((n) => n + 1);
             });
             const applyExam = (next: import("../game/online/client").OnlineFrame) => {
+              if (next.trial) {
+                if (mirroredTrial.current?.attempt.instanceId !== next.trial.instanceId) {
+                  mirroredTrial.current = remoteTrial(connection!, next.trial);
+                  activeDevelopmentExam.current = mirroredTrial.current.attempt;
+                  setRacialTrial(mirroredTrial.current.attempt);
+                  mirroredExam.current = undefined;
+                  setDevelopmentExam(null);
+                  container.current?.dispatchEvent(
+                    new CustomEvent("ki:command", {
+                      detail: { type: "pause", value: true, suspendRendering: true },
+                    }),
+                  );
+                } else mirroredTrial.current.apply(next.trial);
+                return;
+              }
+              if (mirroredTrial.current) {
+                mirroredTrial.current = undefined;
+                activeDevelopmentExam.current = null;
+                setRacialTrial(null);
+                container.current?.dispatchEvent(
+                  new CustomEvent("ki:command", { detail: { type: "pause", value: false } }),
+                );
+              }
               if (next.exam) {
                 if (mirroredExam.current?.attempt.instanceId !== next.exam.instanceId) {
                   mirroredExam.current = remoteExam(connection!, next.exam);
@@ -503,6 +531,63 @@ export function GameScreen({
   }, [slot.id, slot.key, slot.player, attempt, online, tokenProvider]);
   return (
     <main ref={stage} className="ki-stage">
+      {racialTrial && (
+        <TrialRoom
+          key={racialTrial.instanceId}
+          attempt={racialTrial}
+          externalError={loading.phase === "error" ? loading.message : undefined}
+          retry={() => {
+            if (online) {
+              onlineConnection.current?.intent({
+                type: "trial-action",
+                instanceId: racialTrial.instanceId,
+                action: "retry",
+              });
+              return;
+            }
+            const next = worldRuntime?.session.retryRacialTrial(racialTrial);
+            if (next) {
+              activeDevelopmentExam.current = next;
+              setRacialTrial(next);
+            }
+          }}
+          accept={() => {
+            if (online) {
+              onlineConnection.current?.intent({
+                type: "trial-action",
+                instanceId: racialTrial.instanceId,
+                action: "accept",
+              });
+              return true;
+            }
+            if (!worldRuntime?.session.finishRacialTrial(racialTrial)) return false;
+            activeDevelopmentExam.current = null;
+            setRacialTrial(null);
+            sendCommand({ type: "pause", value: false });
+            return true;
+          }}
+          leave={() => {
+            if (online) {
+              if (loading.phase === "error") {
+                activeDevelopmentExam.current = null;
+                setRacialTrial(null);
+                onExit();
+                return;
+              }
+              onlineConnection.current?.intent({
+                type: "trial-action",
+                instanceId: racialTrial.instanceId,
+                action: "leave",
+              });
+              return;
+            }
+            worldRuntime?.session.leaveRacialTrial(racialTrial);
+            activeDevelopmentExam.current = null;
+            setRacialTrial(null);
+            sendCommand({ type: "pause", value: false });
+          }}
+        />
+      )}
       {developmentExam && (
         <DevelopmentExam
           key={developmentExam.instanceId}
@@ -542,10 +627,23 @@ export function GameScreen({
       )}
 
       <div ref={container} className="ki-canvas" aria-label="Ki Legends — ekran gry" />
-      {!developmentExam && <RotateNotice stage={stage.current} onCommand={sendOwnerCommand} />}
-      {!developmentExam && state.ready && loading.phase === "ready" && (
+      {!developmentExam && !racialTrial && (
+        <RotateNotice stage={stage.current} onCommand={sendOwnerCommand} />
+      )}
+      {!developmentExam && !racialTrial && state.ready && loading.phase === "ready" && (
         <GameHud
           authoritative={online}
+          onStartTrial={(id, tier) => {
+            if (online) {
+              onlineConnection.current?.intent({ type: "trial-start", id, tier });
+              return;
+            }
+            const trial = worldRuntime?.session.startRacialTrial(id, tier);
+            if (!trial) return displayMessage("Podejdź do trenera i sprawdź wymagania próby.");
+            activeDevelopmentExam.current = trial;
+            sendCommand({ type: "pause", value: true, suspendRendering: true });
+            setRacialTrial(trial);
+          }}
           onStartExam={(discipline, tier, rehearsal) => {
             if (online) {
               onlineConnection.current?.intent({

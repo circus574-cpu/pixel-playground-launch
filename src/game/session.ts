@@ -1,3 +1,15 @@
+import { TrialAttempt } from "./development/trials/attempt";
+import {
+  trialDefinition,
+  trialAvailable,
+  trialReceipt,
+  trialReward,
+  domainRank,
+  trialsRaceConsistent,
+  type TrialId,
+  type TrialTier,
+} from "./development/trials/catalog";
+import { heritageEnemy } from "./development/heritage/encounter";
 import {
   CombatTrainingSchema,
   advanceCombatTraining,
@@ -368,18 +380,20 @@ export function equipmentStats(
     equipment?: PlayerEquipment | undefined;
   },
 ) {
-  const gear = {
-    attack: equippedAttack(p),
-    defense: p.armor && p.armor in ITEMS ? ITEMS[p.armor as ItemId].defense : 0,
-    dodgeChance: 0,
-    technique: 0,
-    attackSpeedPct: 0,
-    moveSpeedPct: 0,
-  };
+  const gear: KitPort["gear"] & { dodgeChance: number; technique: number; attackSpeedPct: number } =
+    {
+      attack: equippedAttack(p),
+      defense: p.armor && p.armor in ITEMS ? ITEMS[p.armor as ItemId].defense : 0,
+      dodgeChance: 0,
+      technique: 0,
+      attackSpeedPct: 0,
+    };
   const equippedIds: string[] = [];
+  const seen = new Set<string>();
   if (p.equipment) {
     for (const [slot, id] of Object.entries(p.equipment) as [EquipmentSlot, string | null][]) {
-      if (!id || id === "heritage") continue;
+      if (!id || id === "heritage" || seen.has(id)) continue;
+      seen.add(id);
       if (id in ITEMS) {
         const legacy = ITEMS[id as ItemId];
         if (slot !== "weapon" && legacy.attack) gear.attack += legacy.attack;
@@ -399,9 +413,14 @@ export function equipmentStats(
             if (item.stats.atkBonus) gear.attack += item.stats.atkBonus;
           }
           if (item.stats.defBonus) gear.defense += item.stats.defBonus;
-          if (item.stats.critChancePercent) gear.technique += item.stats.critChancePercent;
-          if (item.stats.critChancePoints) gear.technique += item.stats.critChancePoints;
-          if (item.stats.moveSpeedPercent) gear.moveSpeedPct += item.stats.moveSpeedPercent;
+          // New percentage fields supersede the historical flat representation of the same stat.
+          if (item.stats.maxHpPercent === undefined)
+            gear.hpBonus = (gear.hpBonus ?? 0) + (item.stats.hpBonus ?? 0);
+          if (item.stats.maxKiPercent === undefined)
+            gear.kiBonus = (gear.kiBonus ?? 0) + (item.stats.kiBonus ?? 0);
+          gear.kiRegenBonus = (gear.kiRegenBonus ?? 0) + (item.stats.kiRegenBonus ?? 0);
+          if (item.stats.moveSpeedPercent === undefined)
+            gear.speedMultiplier = (gear.speedMultiplier ?? 1) * (item.stats.speedMultiplier ?? 1);
         }
       }
     }
@@ -419,18 +438,7 @@ export function equipmentStats(
   }
   if (equippedIds.length > 0) {
     const passives = computePassiveEquipmentBonuses(equippedIds);
-    if (passives.cappedTotals.atkPercent) {
-      gear.attack = Math.round(gear.attack * (1 + passives.cappedTotals.atkPercent / 100));
-    }
-    if (passives.cappedTotals.defPercent) {
-      gear.defense = Math.round(gear.defense * (1 + passives.cappedTotals.defPercent / 100));
-    }
-    if (passives.cappedTotals.critChancePoints) {
-      gear.technique += passives.cappedTotals.critChancePoints;
-    }
-    if (passives.cappedTotals.moveSpeedPercent) {
-      gear.moveSpeedPct += passives.cappedTotals.moveSpeedPercent;
-    }
+    Object.assign(gear, passives.cappedTotals);
   }
   return gear;
 }
@@ -683,7 +691,7 @@ const SaveSchema = z.discriminatedUnion("version", [
     .object({
       version: z.literal(7),
       revision: z.string(),
-      player: PlayerSchema.strict().extend({ development: CurrentDevelopmentSchema }),
+      player: PlayerSchema.strict().extend({ development: DevelopmentSchema }),
     })
     .strict(),
   z
@@ -697,6 +705,13 @@ const SaveSchema = z.discriminatedUnion("version", [
   z
     .object({
       version: z.literal(9),
+      revision: z.string(),
+      player: PlayerSchema.strict().extend({ development: DevelopmentSchema.optional() }),
+    })
+    .strict(),
+  z
+    .object({
+      version: z.literal(10),
       revision: z.string(),
       player: PlayerSchema.strict().extend({ development: CurrentDevelopmentSchema.optional() }),
     })
@@ -741,6 +756,7 @@ export class SaveStore {
         p.xp >= xpNeeded(p.level) ||
         !weaponConsistent(p, this.identity) ||
         !heritageRaceConsistent(p.development?.heritage, p.race) ||
+        !trialsRaceConsistent(p.development?.trials, p.race) ||
         (p.armor === "vest" && !p.items.vest) ||
         (p.quests.boars !== "locked" && p.quests.steps !== "done") ||
         // The equipment quest follows the hunt. Saves from the city-only stage (hunt still locked,
@@ -781,7 +797,7 @@ export class SaveStore {
     } catch {
       version = undefined;
     }
-    for (const target of [4, 5, 6, 7, 8, 9]) {
+    for (const target of [4, 5, 6, 7, 8, 9, 10]) {
       const key = "ki-legends:recovery:before-v" + target + ":" + this.key;
       if (typeof version === "number" && version < target && this.storage.getItem(key) === null)
         this.storage.setItem(key, this.expected);
@@ -802,15 +818,16 @@ export class SaveStore {
       }
       if (
         !weaponConsistent(p, this.identity) ||
-        !heritageRaceConsistent(p.development?.heritage, p.race)
+        !heritageRaceConsistent(p.development?.heritage, p.race) ||
+        !trialsRaceConsistent(p.development?.trials, p.race)
       )
         return false;
-      SaveSchema.parse({ version: 9, revision: "validation", player: p });
+      SaveSchema.parse({ version: 10, revision: "validation", player: p });
       if (this.expected && JSON.parse(this.expected)?.player?.combatTraining && !p.combatTraining)
         return false;
       this.backupBeforeUpgrade();
       const next = JSON.stringify({
-        version: 9,
+        version: 10,
         revision: Date.now().toString(36) + Math.random().toString(36).slice(2),
         player: p,
       });
@@ -850,6 +867,7 @@ export const NIGHT_FROM = 300000;
 export class GameSession implements MonsterHost {
   private readonly practiceOnly: boolean;
   private activeExam: ExamAttempt | undefined;
+  private activeTrial: TrialAttempt | undefined;
   private examRehearsal = false;
   private knowledgeIn = 0;
   /** A trace comes from an actually observed live attack, never from map loading. */
@@ -1111,6 +1129,15 @@ export class GameSession implements MonsterHost {
     return this.monsters.spawnBoss(id, at);
   }
   killed(e: Enemy) {
+    if (heritageEnemy(e, this.enemies)) {
+      this.kit.onKill(e); // Preserve canonical combat passives; only repeatable economic rewards are suppressed.
+      if (this.targetId === e.id) {
+        this.targetId = null;
+        this.autoAttack = false;
+        this.route = [];
+      }
+      return; // Repeatable quest attempts pay their chapter reward once, never farm loot/XP.
+    }
     if (e.boss) {
       if (!e.boss.lootRolled) {
         e.boss.lootRolled = true;
@@ -1246,20 +1273,25 @@ export class GameSession implements MonsterHost {
     this.player.items[item] += n;
     return true;
   }
+  /** Read-only capacity check, shared by ordinary loot and transactional personal-weapon swaps. */
+  canAddBagItem(id: string, n = 1) {
+    const p = this.player;
+    const have = p.bagItems?.[id] ?? 0;
+    const used =
+      ITEM_IDS.filter((i) => p.items[i] > 0).length +
+      Object.values(p.materials).filter((c) => c > 0).length +
+      Object.values(p.bagItems ?? {}).filter((c) => c > 0).length;
+    return Number.isInteger(n) && n > 0 && have + n <= 99 && (have > 0 || used < BAG_CELLS);
+  }
   /** Catalog item into the 40-cell bag (stack up to 99; a new stack needs a free cell). */
   private addBagItem(id: string, n: number) {
     const p = this.player;
     ensurePlayerEquipment(p);
-    const have = p.bagItems[id] ?? 0;
-    const used =
-      ITEM_IDS.filter((i) => p.items[i] > 0).length +
-      Object.values(p.materials).filter((c) => c > 0).length +
-      Object.values(p.bagItems).filter((c) => c > 0).length;
-    if (have + n > 99 || (!have && used >= BAG_CELLS)) {
+    if (!this.canAddBagItem(id, n)) {
       this.say("Brak miejsca w torbie lub pełny stos (99).");
       return false;
     }
-    p.bagItems[id] = have + n;
+    p.bagItems[id] = (p.bagItems[id] ?? 0) + n;
     return true;
   }
   private addMaterial(id: string, n: number) {
@@ -1692,6 +1724,7 @@ export class GameSession implements MonsterHost {
       this.say("Nie można zatwierdzić tej zmiany rozwoju.");
       return false;
     }
+    // Training, modules and equipment only clamp excess; increasing a maximum never restores it.
     // Evaluate the live kit (including temporary buffs), without replacing/resetting the kit.
     let limits;
     try {
@@ -1721,6 +1754,7 @@ export class GameSession implements MonsterHost {
     if (
       !this.developmentServiceReady ||
       this.activeExam ||
+      this.activeTrial ||
       !DISCIPLINES.includes(discipline) ||
       !Number.isInteger(tier) ||
       tier < 1 ||
@@ -1774,9 +1808,97 @@ export class GameSession implements MonsterHost {
     attempt.abandon();
     this.activeExam = undefined;
   }
+  startRacialTrial(id: TrialId, tier: TrialTier): TrialAttempt | undefined {
+    const def = trialDefinition(id),
+      state = this.player.development ?? emptyDevelopment();
+    if (
+      !def ||
+      def.race !== this.player.race ||
+      ![1, 2, 3].includes(tier) ||
+      !this.saves ||
+      !this.developmentServiceReady ||
+      this.activeExam ||
+      this.activeTrial ||
+      !trialAvailable(state.trials, id, tier)
+    )
+      return undefined;
+    this.heritage.cancelActivities();
+    return (this.activeTrial = new TrialAttempt(id, tier));
+  }
+  finishRacialTrial(attempt: TrialAttempt): boolean {
+    if (attempt !== this.activeTrial || !attempt.passed || attempt.race !== this.player.race)
+      return false;
+    const state = this.player.development ?? emptyDevelopment(),
+      key = trialReceipt(attempt.trialId, attempt.tier);
+    if (!trialAvailable(state.trials, attempt.trialId, attempt.tier)) return false;
+    if (state.rewardReceipts[key]) {
+      this.activeTrial = undefined;
+      return true;
+    }
+    const saved = this.commitDevelopment((next) => {
+      next.trials[attempt.trialId] = attempt.tier;
+      next.rewardReceipts[key] = { practice: trialReward(attempt.tier) };
+      next.practiceEarned += trialReward(attempt.tier);
+      if (
+        domainRank(next.trials, "planetary", "care") >= 2 &&
+        !next.unlockedVariants.includes("mv-root")
+      )
+        next.unlockedVariants.push("mv-root");
+      if (
+        domainRank(next.trials, "planetary", "trails") >= 2 &&
+        !next.unlockedVariants.includes("mv-trail")
+      )
+        next.unlockedVariants.push("mv-trail");
+      if (
+        domainRank(next.trials, "planetary", "earth") >= 2 &&
+        !next.unlockedVariants.includes("mv-earth")
+      )
+        next.unlockedVariants.push("mv-earth");
+      if (
+        domainRank(next.trials, "sage", "barriers") >= 2 &&
+        !next.unlockedVariants.includes("ma-barrier")
+      )
+        next.unlockedVariants.push("ma-barrier");
+      if (
+        domainRank(next.trials, "sage", "seals") >= 2 &&
+        !next.unlockedVariants.includes("ma-seal")
+      )
+        next.unlockedVariants.push("ma-seal");
+      if (domainRank(next.trials, "android", "construction") >= 2) {
+        if (!next.unlockedVariants.includes("mn-barrier")) next.unlockedVariants.push("mn-barrier");
+        if (!next.unlockedModules.includes("mn-shield")) next.unlockedModules.push("mn-shield");
+      }
+      if (
+        domainRank(next.trials, "legend", "duel") >= 2 &&
+        !next.unlockedVariants.includes("mp-cuts")
+      )
+        next.unlockedVariants.push("mp-cuts");
+    });
+    if (saved) {
+      this.activeTrial = undefined;
+      this.say("Próba zapisana. +" + trialReward(attempt.tier) + " praktyki.");
+    }
+    return saved;
+  }
+  retryRacialTrial(attempt: TrialAttempt) {
+    if (attempt !== this.activeTrial || attempt.snapshot().outcome !== "failed") return undefined;
+    this.activeTrial = undefined;
+    return this.startRacialTrial(attempt.trialId, attempt.tier);
+  }
+  leaveRacialTrial(attempt: TrialAttempt) {
+    if (attempt !== this.activeTrial) return;
+    attempt.abandon();
+    this.activeTrial = undefined;
+  }
   private developmentCommand(c: DevelopmentCommand) {
     if (c.action === "study" || c.action === "study-route") {
-      if (this.player.dead || this.practiceOnly || this.activeExam || !SPECIES_IDS.has(c.species))
+      if (
+        this.player.dead ||
+        this.practiceOnly ||
+        this.activeExam ||
+        this.activeTrial ||
+        !SPECIES_IDS.has(c.species)
+      )
         return;
       const point = this.researchTraces.get(c.species);
       if (!point || (this.player.development?.knowledge[c.species] ?? 0) < 2)
@@ -1800,7 +1922,7 @@ export class GameSession implements MonsterHost {
       }
       return;
     }
-    if (this.player.dead || this.combatIn > 0 || this.activeExam)
+    if (this.player.dead || this.combatIn > 0 || this.activeExam || this.activeTrial)
       return this.say("Zakończ walkę lub próbę przed zmianą rozwoju.");
     const state = this.player.development ?? emptyDevelopment();
     if (c.action === "train" || c.action === "reset-training") {
@@ -2203,6 +2325,11 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "equip") {
+      const clampResources = () => {
+        const afterGear = this.kit.stats;
+        p.hp = Math.min(p.hp, afterGear.maxHp);
+        p.ki = Math.min(p.ki, afterGear.maxKi);
+      };
       ensurePlayerEquipment(p);
       const equipment = p.equipment!;
       const bagItems = p.bagItems!;
@@ -2214,6 +2341,7 @@ export class GameSession implements MonsterHost {
         equipment.weapon = "sword";
         if (p.quests.gear === "active") p.quests.gear = "ready";
         this.say("Założono: " + ITEMS.sword.name);
+        clampResources();
         this.flush();
         return;
       }
@@ -2222,6 +2350,7 @@ export class GameSession implements MonsterHost {
         p.armor = "vest";
         equipment.armor = "vest";
         this.say("Założono: " + ITEMS.vest.name);
+        clampResources();
         this.flush();
         return;
       }
@@ -2238,6 +2367,7 @@ export class GameSession implements MonsterHost {
         const healHp = def.stats?.hpBonus ?? 50;
         makePort(this).heal(healHp);
         this.say("Użyto: " + def.name);
+        clampResources();
         this.flush();
         return;
       }
@@ -2256,7 +2386,8 @@ export class GameSession implements MonsterHost {
         } else if (previous === "vest") {
           p.armor = null;
         } else if (previous === "heritage") {
-          this.heritage.weaponCommand("unequip");
+          // One swap/flush below; a nested development transaction would replace our bag/slot references.
+          p.weapon = null;
         } else {
           bagItems[previous] = (bagItems[previous] ?? 0) + 1;
         }
@@ -2270,16 +2401,21 @@ export class GameSession implements MonsterHost {
       if (slot === "weapon") p.weapon = itemId;
       if (slot === "armor") p.armor = itemId;
       this.say("Założono: " + def.name);
+      clampResources();
       this.flush();
       return;
     }
     if (c.type === "unequip") {
+      const clampResources = () => {
+        const afterGear = this.kit.stats;
+        p.hp = Math.min(p.hp, afterGear.maxHp);
+        p.ki = Math.min(p.ki, afterGear.maxKi);
+      };
       ensurePlayerEquipment(p);
       const equipment = p.equipment!;
       const bagItems = p.bagItems!;
       const slot = c.slot as EquipmentSlot;
       if (slot === "weapon" && p.weapon === "heritage") {
-        equipment.weapon = null;
         return this.heritage.weaponCommand("unequip");
       }
       const equippedId =
@@ -2293,8 +2429,8 @@ export class GameSession implements MonsterHost {
       if (equippedId !== "sword" && equippedId !== "vest" && equippedId !== "heritage") {
         bagItems[equippedId] = (bagItems[equippedId] ?? 0) + 1;
       }
-      p.hp = Math.min(p.hp, this.kit.stats.maxHp);
       this.say("Zdjęto wyposażenie.");
+      clampResources();
       this.flush();
       return;
     }
@@ -2585,7 +2721,12 @@ export class GameSession implements MonsterHost {
     p.ki = Math.min(live.maxKi, p.ki + (live.kiRegen * dt) / 1000);
     p.hp = Math.min(
       live.maxHp,
-      p.hp + (live.maxHp * (this.kit.hpRegen() + (this.combatIn ? 0 : BASE_HP_REGEN)) * dt) / 1000,
+      p.hp +
+        (live.maxHp *
+          (this.kit.hpRegen() + (this.combatIn ? 0 : BASE_HP_REGEN)) *
+          (1 + (equipmentStats(p).hpRegenPercent ?? 0) / 100) *
+          dt) /
+          1000,
     );
     void s;
     if (this.fx.fearMs > 0 && this.fx.fearFrom) {

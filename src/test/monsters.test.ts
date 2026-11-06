@@ -583,7 +583,7 @@ describe("saves: version 5 with skills, materials and depot, older saves intact"
     g.player.materials["wegiel"] = 3;
     g.player.respecs = 2;
     g.flush();
-    expect(JSON.parse(store.getItem(SAVE_KEY)!).version).toBe(9);
+    expect(JSON.parse(store.getItem(SAVE_KEY)!).version).toBe(10);
     const again = new GameSession(new SaveStore(store));
     expect(again.player.skills).toEqual(["R", "A1"]);
     expect(again.kit.has("A1")).toBe(true);

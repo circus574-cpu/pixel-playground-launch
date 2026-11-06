@@ -112,6 +112,9 @@ export function computePassiveEquipmentBonuses(
         const val = item.stats[key];
         if (typeof val === "number") rawTotals[key] += val;
       }
+      // Historical percentage-point representation is a fallback, never a second bonus.
+      if (item.stats.critChancePoints === undefined)
+        rawTotals.critChancePoints += item.stats.critChancePercent ?? 0;
     }
     if (item.buff && item.buff.mode === "passive") {
       rawTotals[item.buff.effect] += item.buff.value;

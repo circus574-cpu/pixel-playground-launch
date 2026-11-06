@@ -3,7 +3,7 @@ import { registerActorAnimations } from "../../assets/phaserAssets";
 import { ActorAnimation } from "../../assets/actorAnimation";
 import type { ProjectView } from "./projects";
 import type Phaser from "phaser";
-import type { GameSession } from "../../session";
+import type { GameSession, GameViewState } from "../../session";
 import { distance } from "../../navigation";
 
 /** Small world contacts, culled and reused; no permanent overlay over the play area. */
@@ -11,6 +11,10 @@ export class HeritageMarkers {
   private readonly markers = new Map<string, Phaser.GameObjects.Container>();
   private nextUpdate = 0;
   private escortObject: Phaser.GameObjects.Container | null = null;
+  private nextActivityRead = 0;
+  private activity: GameViewState["heritageActivity"] = null;
+  private protectionObject: Phaser.GameObjects.Container | null = null;
+  private protectionHealth: Phaser.GameObjects.Graphics | null = null;
   private escortAnimation: ActorAnimation | null = null;
   private readonly practiceObjects = new Map<string, Phaser.GameObjects.Container>();
   private readonly animations = new Map<string, ActorAnimation>();
@@ -21,6 +25,8 @@ export class HeritageMarkers {
   constructor(
     private readonly scene: Phaser.Scene,
     private readonly session: GameSession,
+    private readonly readActivity: () => GameViewState["heritageActivity"] = () =>
+      session.heritage.activitySnapshot(),
   ) {}
   update(now: number, labels: boolean) {
     this.updateEscort(now);
@@ -131,8 +137,54 @@ export class HeritageMarkers {
       }
   }
   private updateEscort(now: number) {
-    const s = this.session,
-      activity = s.heritage.activitySnapshot();
+    const s = this.session;
+    if (now >= this.nextActivityRead) {
+      this.nextActivityRead = now + 100;
+      this.activity = this.readActivity();
+    }
+    const activity = this.activity;
+    const node = activity && "node" in activity ? activity.node : null;
+    if (!node || distance(node, s.player) > 900) {
+      this.protectionObject?.destroy();
+      this.protectionObject = null;
+      this.protectionHealth = null;
+    } else {
+      if (!this.protectionObject) {
+        const symbol = this.scene.add
+          .graphics()
+          .lineStyle(2, 0xe3c779)
+          .strokeEllipse(0, 0, 52, 28)
+          .fillStyle(0x246d7c, 0.9)
+          .beginPath()
+          .moveTo(0, -46)
+          .lineTo(16, -25)
+          .lineTo(0, -5)
+          .lineTo(-16, -25)
+          .closePath()
+          .fillPath()
+          .lineStyle(2, 0x9ce7ed)
+          .strokePath();
+        this.protectionHealth = this.scene.add.graphics();
+        const label = this.scene.add
+          .text(0, -68, "Węzeł ochronny", {
+            fontSize: "12px",
+            color: "#ffe3a0",
+            backgroundColor: "#10242bd9",
+          })
+          .setOrigin(0.5, 1);
+        this.protectionObject = this.scene.add.container(node.x, node.y, [
+          symbol,
+          this.protectionHealth,
+          label,
+        ]);
+      }
+      this.protectionObject.setPosition(node.x, node.y).setDepth(node.y);
+      this.protectionHealth!.clear()
+        .fillStyle(0x112a34)
+        .fillRect(-25, -61, 50, 5)
+        .fillStyle(node.healthFraction < 0.6 ? 0xf28565 : 0x7fdbc5)
+        .fillRect(-25, -61, 50 * node.healthFraction, 5);
+    }
     const actor =
       activity && "actor" in activity && activity.phase === "escort" ? activity.actor : null;
     if (!actor || distance(actor, s.player) > 900) {
@@ -246,6 +298,10 @@ export class HeritageMarkers {
     return object;
   }
   dispose() {
+    this.protectionObject?.destroy();
+    this.protectionObject = null;
+    this.protectionHealth = null;
+    this.activity = null;
     this.escortObject?.destroy();
     this.escortObject = null;
     this.escortAnimation = null;

@@ -1,5 +1,172 @@
 # KI Legends — rozwój i walka
 
+## Bariery Mędrców — kontynuacja PR #90, 04.11
+
+TA04/TA05/TA06 odpowiadają §7.5 zlecenia właściciela z 28.10.
+TA04 wymaga ochrony obiektu przed 3/4/5 falami, z minimum 50% HP. Wypożyczony
+profil poznaje wyłącznie B1 oprócz podstawowego R; nie uczy go właściciela postaci.
+Gracz staje w punkcie przechwycenia pomiędzy źródłem a rdzeniem i uruchamia B1
+po zapowiedzi. Ochrona jest równa rzeczywistemu ubytkowi pojemności B1 przez
+`kit.absorb`; sam unik/nietykalność ani tarcza użyta poza punktem nie chronią
+rdzenia. `ProtectedActor` obsługuje HP, zdarzenia trafień i śmierć, wyłącznie
+środowiskowo — bez rejestrowania obiektu jako celu AI potworów w mieście.
+Profil ćwiczebny: 100 HP rdzenia, fala 30 obrażeń, promień przechwycenia 40 j.,
+zapowiedź 1800 ms, przygotowanie pierwszej fali 1500 ms i kolejnych 11 s.
+To jawne parametry sali; zwykła pojemność, koszt KI, czas i cooldown B1 pozostają
+kanoniczne. Jedna nieosłonięta fala pozostawia 70 HP; dwie obniżają do 40 i przerywają próbę.
+
+TA05 ma planszę z 2/3/4 obracanymi zwierciadłami i jawnym podglądem promienia.
+Wspólny klientowi i serwerowi ray tracer odbija promień od / i \, sprawdza wszystkie
+zwierciadła, odbiornik, chroniony punkt, wyjście poza planszę i pętle. Warunkiem
+jest rzeczywista poprawna trasa, nie porównanie z ukrytym kodem odpowiedzi.
+Ustawienia idą istniejącym polem `answerId`, bez nowego RPC ani zmiany formatu zapisu.
+
+TA06 wymaga osłony w 3/4/5 oknach, w 1800/1500/1300 ms od zapowiedzi.
+Dwa punkty znajdują się za istniejącą ścianą względem naprzemiennych źródeł.
+W chwili rozstrzygnięcia gracz musi być w promieniu 50 j., mieć przerwaną linię
+widoczności do źródła oraz wykonać ruch co najmniej 30 j. po sygnale. Przygotowanie
+między oknami wynosi 1200 ms. Samo wcześniejsze zajęcie miejsca i AFK nie wystarcza.
+To profil terenowego ćwiczenia, bez nowego modelu obrażeń lub fal AI.
+Pauza zatrzymuje oba kontrolery, anulowanie usuwa przejściowy stan próby.
+
+Bariery II (minimum trzech wyników) odblokowują istniejący `ma-barrier`,
+bez zmiany kompromisu: czas ×1,50, pojemność ×0,80. Ledger wydaje praktykę
+100/150/200 tylko raz za stopień; zapis zachowuje formaty 10/6 i development v3.
+Katalog obejmuje **24/48 prób i 72/144 stopni**. Mędrcy mają 6/12 prób i 2700
+praktyki z prób; wcześniejsza teoretyczna suma wynosi 15 100, wciąż o 2700 mniej
+niż 17 800. Osiągalność/balans pełnej kampanii nie są jeszcze potwierdzone.
+[Dowody i ograniczenia](zmiany/2026-11-04/ZMIANY.md#bariery-mędrców--ta04-ta05-ta06).
+
+
+## Opieka Planetarnych — kontynuacja PR #90, 04.11
+
+TV07/TV08/TV09 implementują §6.5 specyfikacji właściciela. Zapas wymaga wybrania
+całego zestawu 3/4/5 różnych, prawidłowych składników z jawnej karty opisów.
+Brak, dodatek, duplikat lub obcy identyfikator nie zalicza zestawu. To wypożyczone
+materiały próby, bez nowych przedmiotów ani zużywania własnego ekwipunku.
+Źródło wymaga jawnego podziału 4/6/8 jednostek między obie osady, zachowania całej
+sumy i spełnienia obu zapotrzebowań. Kontroler odrzuca ułamki, ujemne wartości,
+nieprawidłowy format i tworzenie dodatkowej wody; każdy wariant ma rozwiązanie.
+
+Obóz to aktywne ćwiczenie z osłonami istniejącej sali i jej nawigacją/LOS.
+Gracz zabezpiecza 2/3/4 punkty przez pełne 45/60/75 aktywnych sekund.
+Profil ćwiczebny zmienia punkt co 10 s (ostatnie okno może być krótsze);
+w każdym oknie trzeba dojść w promień 60 j. i stanąć za rzeczywistą przeszkodą
+względem czerwonego źródła zagrożenia. Osiągnięcie osłony zalicza bieżące okno;
+nie trzeba stać w nim przez całe 10 s. Samo odwiedzenie wszystkich punktów przed
+upływem czasu nie kończy próby. Brak osłony w oknie oznacza porażkę, pauza
+zatrzymuje zegar. To ćwiczenie terenowe, bez fal potworów i nowego modelu obrażeń.
+10 s i promień 60 j. są profilem sali, nie nowymi statystykami ras lub potworów.
+
+Opieka II (minimum trzech wyników) odblokowuje istniejący `mv-root`, bez zmiany
+mnożników. Istniejące serwerowe intenty przesyłają wybór zestawu/podziału wody,
+a wynik oblicza kontroler. Ledger wydaje 100/150/200 praktyki tylko raz.
+Nie zmieniono formatów zapisu 10/6 i development v3, HUD, sterowania ani kontynentów.
+Katalog obejmuje **21/48 prób i 63/144 stopni**. Planetarni mają **12/12 prób**
+i 5400 praktyki z prób; wcześniejszy teoretyczny budżet sumuje się do 17 800.
+To nie potwierdza jeszcze pełnej osiągalności i balansu kampanii ani tytułu
+Strażnika Żywych Szlaków. Interakcje dziedzin poza salą i tytuły pozostają otwarte.
+[Kontrole i granice odbioru](zmiany/2026-11-04/ZMIANY.md#opieka--tv07-tv08-tv09).
+
+
+## Szlaki Planetarnych — kontynuacja PR #90
+
+W tej partii dodano TV01/TV02/TV03, każdy w trzech stopniach. Źródło liczb:
+`docs/design/racial-development-owner-2026-10-28.txt`, sekcja 6.5. Trasa wymaga
+4/6/8 kolejnych checkpointów w 180/210/240 aktywnych sekund, najwyżej dwóch
+wejść w jawnie oznaczone zagrożenie. Przebywanie w nim przez kilka klatek liczy
+się jako jedno wejście, a odwiedzenie dalszego checkpointu nie omija kolejności.
+Tropy wymagają 3/4/5 poprawnych odpowiedzi z 2/3/3 opcji, najwyżej jednej pomyłki;
+wszystkie wskazówki znajdują się w jawnej karcie stanowiska.
+
+Posłaniec korzysta z `EscortActivity` i nawigacji obecnej sali. Wymagane 2/3/4
+checkpointy i co najmniej 50% HP, obecność gracza przy zatwierdzaniu punktu,
+czekanie po odejściu gracza o ponad 220 j. Ciało `ProtectedActor` ma tu wyłącznie
+środowiskowe obrażenia, bez rejestracji jako cel AI. Domyślny tryb istniejących
+eskort bojowych i ochrona zwykłych NPC w miastach pozostają bez zmian.
+Lokalny profil sali to 100 HP, zapowiedź zagrożenia 1800 ms, promień 65 j.,
+20 obrażeń przy pozostaniu w nim po zapowiedzi, kolejna zapowiedź po 5 s.
+Są to parametry ćwiczenia, nie nowe statystyki ras lub potworów. Użyto istniejącego
+sprite'a i animacji NPC. Próba nie dodaje przeciwników ani nowych globalnych spawnów.
+
+Szlaki II odblokowują istniejący `mv-trail`; jego mnożniki i koszty nie są zmieniane.
+Wyniki i jednorazowe 100/150/200 praktyki idą przez istniejące intenty i ledger.
+Nie zmieniano formatów zapisu 10/6 ani development v3. Katalog obejmuje teraz
+18/48 prób i 54/144 stopni; Planetarni mają 9/12 prób i 4050 praktyki z prób.
+Wcześniejszy teoretyczny budżet Planetarnych to teraz 16 450, nadal o 1350 mniej
+niż 17 800. Pełnej osiągalności ani balansu kampanii nadal nie potwierdzono.
+Pozostaje implementacja interakcji dziedzin w kontynencie poza salą prób.
+[Kontrole tej partii](zmiany/2026-11-03/ZMIANY.md#szlaki--tv01-tv02-tv03).
+
+## Kontynuacja PR #90 — Żywa Ziemia, 03.11.2026
+
+Na gałęzi rozwoju (bez scalenia/publikacji) dodano TV04 Otwarty przepływ,
+TV05 Kamienny rytm i TV06 Granica skażenia, według specyfikacji właściciela
+28.10. TV04 wymaga kolejności 2/3/4 węzłów odczytanej ze strzałek. TV05
+sprawdza niezależnie 4/6/8 unikniętych uderzeń oraz 2/3/4 skuteczne kontry;
+trafienie przez zapowiedź nie zwiększa liczby uników. TV06 wymaga oznaczenia,
+a następnie oczyszczenia 3/4/5 miejsc według jawnych pomiarów. Zdrowych miejsc
+nie wolno dotykać, samo oznaczenie nie jest oczyszczeniem. Stanowiska znajdują
+się w rzeczywistej sali Phaser i używają istniejących interakcji/sterowania.
+To ćwiczenia na wypożyczonym profilu, nie nowe obiekty fabularne na kontynencie.
+
+Stopień dziedziny jest minimum wyników tych trzech prób; stopień II odblokowuje
+istniejący `mv-earth`, bez zmiany jego kanonicznych mnożników. Kontrolery wyniku,
+serwerowy intent i zapis używają wspólnego katalogu; jednorazowe nagrody pozostają
+100/150/200 praktyki. Walidator wymaga poprawnego ledgeru i odblokowania mistrzostwa.
+Nie zmieniano formatów zapisu 10/6 ani development v3. Panel pokazuje teraz obie
+zaimplementowane dziedziny Planetarnych zamiast podpisywać wszystkie próby jedną.
+Planetarni mogą zdobyć z 6 prób 2700 praktyki; przy poprzednich założeniach budżetu
+katalogowego nadal brakuje 2700 do 17 800. Inne rasy pozostają na 3 próbach/1350,
+z wcześniejszym niedoborem 4050. Nie jest to jeszcze pełny audyt osiągalności budżetu.
+[Dowody i pozostała praca](zmiany/2026-11-03/ZMIANY.md#żywa-ziemia--tv04-tv05-tv06).
+
+
+## Pierwsze próby rasowe — gałąź robocza 03.11.2026
+
+W PR #90 dodano 12 kontrolerów / 36 stopni: TV10–12, TA01–03, TN07–09 i TP07–09.
+Wynik wymaga faktycznych odpowiedzi, ruchu i trafień w sali wypożyczonego profilu,
+a zatwierdza go właściciel aktywnej próby. Stopień dziedziny jest minimum trzech prób.
+II Pieczęci odblokowuje `ma-seal`, II Konstrukcji `mn-barrier` + `mn-shield`,
+II Pojedynku `mp-cuts`; Pamięć nie dostaje niezatwierdzonej premii bojowej.
+To nie jest komplet 48 prób ani wszystkich interakcji dziedzin w świecie.
+[Implementacja, migracje, testy i granice odbioru](zmiany/2026-11-03/ZMIANY.md#próby-rasowe--pierwsze-12-kontrolerów-i-36-stopni).
+
+## Kontrolery fabuły i kronika — gałąź robocza 03.11.2026
+
+Na `feature/complete-character-development` działają eskorty bojowe i obrona punktów
+z rzeczywistymi obrażeniami, AI i zapisem punktów wznowienia. Integracje kontrolowane
+poziomu 40 przechodzą 24 rozdziały i 24 projekty oraz zapisują sześć etapów broni
+każdej rasy. Cztery testy rzeczywistej geometrii Superior potwierdzają bindingi i trasy.
+Kronika pokazuje zdobyte świadectwa, tło i rzeczywistą decyzję; komplet opowieści ma
+570–679 słów. Nie przyznaje brakujących jeszcze tytułów mistrzowskich.
+[Zakres, wyniki, warunki testowe i pozostałe braki](zmiany/2026-11-03/ZMIANY.md#domykanie-rozwoju--partia-2-eskorty-obrona-i-kronika).
+To gałąź robocza, bez scalenia i publikacji. W checkpointcie kontrolerów fabuły próby
+nie były jeszcze wdrożone; aktualną partię 12 prób opisuje sekcja wyżej.
+
+## Naprawy wyposażenia — gałąź robocza 03.11.2026
+
+`feature/complete-character-development` usuwa błędne mapowanie bonusów HP/KI,
+ruchu i krytyka oraz chroni przed leczeniem przez zmianę wyposażenia.
+Obowiązuje zasada z §3.1 zlecenia: wzrost maksimum nie zwiększa bieżącego HP/KI,
+a spadek jedynie przycina nadmiar. Wcześniejsza implementacja proporcji została
+skorygowana; [odtworzenie i regresje](zmiany/2026-11-03/ZMIANY.md#korekta-zasobów-wyposażenia--zgodność-z-zleceniem).
+To pierwsza partia domykania, bez publikacji i bez zamknięcia fabuł/prób.
+[Implementacja, testy i dalsze prace](zmiany/2026-11-03/ZMIANY.md#domykanie-rozwoju--partia-1-statystyki-wyposażenia).
+
+## Audyt kompletności — 03.11.2026
+
+Na `main@13983467` pełny zakres rozwoju czterech ras pozostaje **NIEUKOŃCZONY**.
+Późniejsze prace dostarczyły 46/46 grafik i 41 plików audio, ekwipunek/depozyt
+i administrację. Nadal brakuje 48 prób rasowych, odblokowania 12 wariantów oraz
+kontrolerów eskort bojowych/ochrony. Potwierdzono blokady H-V03, H-A05, H-N03
+i H-P06 oraz błędne naliczanie części bonusów nowych przedmiotów (HP/KI/ruch/krytyk).
+Pełny zestaw testów jednostkowych: 1088 PASS / 0 FAIL / 10 SKIP;
+nie potwierdza ukończenia brakujących ścieżek gry.
+[Raport, konkretne blokady, budżet praktyki i reprodukcja błędów](zmiany/2026-11-03/ZMIANY.md#audyt-kompletności-rozwoju-postaci--03112026).
+
+Poniższe checkpointy z 28–29.10 opisują historię implementacji.
+
 > **Stan po integracji 29.10.2026, `main@5cea48da`:** PR #55 i #61 są scalone przez #62 i opublikowane. Działają wspólny trening/egzaminy, częściowe dziedzictwa oraz nowe parametry Unik, szybkość ataku i Technika bez wzrostu za poziom. Portret otwiera rzeczywiste statystyki z prezentacją wartości i premii. Obowiązują formaty klasyczny9 i Superior5, opisane [w sekcji integracji](#integracja-oczekujących-gałęzi--29102026). Późne rozdziały i próby nie są ukończone, a pełna regresja walki nie ma zielonego odbioru. [Wyniki i publikacja](zmiany/2026-10-29/ZMIANY.md#stan-po-scaleniu-i-publikacji--aktualizacja-dokumentacji).
 
 > **Audyt 28.10.2026, `main@30f7b8d5`:** Combat V3 scalono przez #48; w #51 scalono animacje HD czterech ras (klatki 256 px, skala wyświetlania zachowuje poprzednie proporcje). Nie jest to potwierdzenie płynnej, bezbłędnej walki. W pełnym Playwright PR #49 scenariusz Planetarnego w `e2e/three-races-pve.spec.ts:176` uzyskał 2 zamiast 3 zabójstw w 60 sekund (1 FAIL / 182 PASS). W nowszym WebGL #52 na `a4ee855e` stwierdzono 7 FAIL, wszystkie z timeoutem poszukiwania żywego przeciwnika przez `liveEnemy` w `e2e/fixtures.ts:223`; problem dotyczy m.in. Mędrców i Androidów. Przyczyny technicznej nie potwierdzono. **Nie zaliczać całego Combat V3; nie usuwać ani nie rozluźniać testów.** Dowody: [28.10](zmiany/2026-10-28/ZMIANY.md#audyt-niezależny-28102026--stan-po-pr-52).
@@ -1160,3 +1327,32 @@ wyposażenia; `X + Y` równa się rzeczywistej wartości końcowej. Dzięki temu
 nie jest liczona wizualnie drugi raz. Końcowe nadpisanie GM wyświetla jedną
 ustaloną wartość, bez fikcyjnej premii przedmiotu. Wewnętrzne obliczenia i
 `statBreakdown` pozostają dostępne dla silnika; nie zmieniono balansu ani zapisów.
+
+
+## Pamięć Mędrców — kontynuacja PR #90, 06.11.2026
+
+TA10 **Fragment i źródło** wymaga przypisania 3/4/5 fragmentów do źródeł, które
+zawierają dane świadectwo. TA11 **Granice świadectwa** ocenia 2/3/4 twierdzenia
+niepotwierdzone dokumentami; brak potwierdzenia nie oznacza dowodu fałszu.
+TA12 **Kronika z niewiadomą** wymaga odtworzenia 3/4/5 zdarzeń w kolejności
+wynikającej z relacji i pozostawienia autora dopisku jako nieustalonego.
+Dopisanie autorstwa Sorze lub usunięcie informacji o niewiadomej przerywa próbę.
+
+Materiały są jawnie oznaczonymi kartami ćwiczebnymi, nie nowym kanonem katastrofy.
+Próby używają istniejących stanowisk, fizycznego podejścia, odczytu i zatwierdzania
+odpowiedzi z oczekiwaną rundą. Każda pomyłka kończy tę próbę; ponowienie jest bezpłatne.
+Stary/zdublowany numer rundy, odpowiedź z oddalenia lub w pauzie nie przyznaje postępu.
+Publiczny snapshot zawiera dokumenty i możliwości wyboru, bez wewnętrznego klucza odpowiedzi.
+
+Nowa dziedzina `source-memory` ma oddzielną rangę 0–3 i nazwę Pamięć, bez mieszania
+z Pamięcią Korzeni Planetarnych. Ranga wymaga wszystkich trzech prób na danym
+stopniu. Nie daje czwartego bonusu bojowego ani punktów drzewka. Pierwsze zaliczenie
+każdego stopnia daje 100/150/200 praktyki, raz na stabilny klucz i postać.
+Wynik przechodzi istniejący CAS klienta lub serwerowe intenty oraz wspólny ledger.
+Nie zmieniono struktur ani numerów kopert (rozwój 3, klasyczny 10, Superior 6);
+starszy runtime odrzuca nieznane ID prób zamiast usuwać je z zapisu.
+
+Katalog ma 27/48 prób i 81/144 stopni. Mędrcy mają 9/12 prób oraz 4050 praktyki
+z prób. Brakujące Skupienie to 1350 praktyki do katalogowego celu 17 800 dla rasy;
+późne wyprawy, funkcje dziedzin w terenie i pełny odbiór kampanii nadal są otwarte.
+[Wyniki i ograniczenia kontroli](zmiany/2026-11-06/ZMIANY.md).

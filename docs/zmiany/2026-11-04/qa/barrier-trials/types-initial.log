@@ -1,0 +1,8 @@
+
+> typecheck
+> tsc --noEmit && tsc --noEmit -p tsconfig.e2e.json && tsc --noEmit -p tsconfig.tools.json
+
+src/game/development/trials/runtime.ts(77,19): error TS2740: Type '{ x: number; y: number; }' is missing the following properties from type 'Vector2': clone, copy, setFromObject, set, and 35 more.
+src/game/development/trials/runtime.ts(78,19): error TS2740: Type '{ x: number; y: number; }' is missing the following properties from type 'Vector2': clone, copy, setFromObject, set, and 35 more.
+src/game/development/trials/runtime.ts(79,19): error TS2740: Type '{ x: number; y: number; }' is missing the following properties from type 'Vector2': clone, copy, setFromObject, set, and 35 more.
+src/game/development/trials/runtime.ts(80,19): error TS2740: Type '{ x: number; y: number; }' is missing the following properties from type 'Vector2': clone, copy, setFromObject, set, and 35 more.
