@@ -1131,8 +1131,9 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         [...live.values()].reduce(
           (n, t) =>
             n +
-            [...t.images.keys()].filter((k) => k.startsWith("dress-") || k.startsWith("town-dress-"))
-              .length,
+            [...t.images.keys()].filter(
+              (k) => k.startsWith("dress-") || k.startsWith("town-dress-"),
+            ).length,
           0,
         ),
       );

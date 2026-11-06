@@ -53,10 +53,32 @@
 - Zmierzone na realnym katalogu (`tsx`, import kodu projektu, bez reimplementacji):
   dzicz kontynentów **108 obiektów na chunk, 36 w kadrze** (baza 6–12), osady wysp
   **154–172 dekoracje, 25–28 w kadrze przybycia** (baza 0).
-- Testy `src/test/world-dress.test.ts` (9): odrzucenie motywów z pakietu, którego nie ma,
+- Kadry dowodowe (playtest, programowy WebGL, ten sam teleport, czekanie na
+  `data-superior-pending=0` i 15 s oddechu, zero błędów konsoli w obu przebiegach):
+
+  | Punkt | Sprite'ów bez | Sprite'ów z | Zmienione piksele |
+  | ----- | ------------- | ----------- | ----------------- |
+  | verdant, rzadki kadr | 1 | 62 | 8,1 % |
+  | pyra, rzadki kadr | 2 | 86 | 11,9 % |
+  | island-2, plac osady | 5 | 56 | 11,9 % |
+  | island-6, plac osady | 5 | 53 | 15,4 % |
+
+  Kontynent bez dekoracji: verdant 1, pyra 2, nexus 25 sprite'ów w kadrze. Po włączeniu:
+  62 / 86 / 81, z czego licznik `data-dress-scenery` przypisuje odpowiednio 61 / 84 / 80
+  wygenerowanym obiektom.
+- **Znaleziona wada materiałów, widoczna dopiero na kadrach z dekoracją:** ramki rekwizytów
+  island-6 nie mają czystego wycięcia. Mediana alfa paska 40 px wzdłuż krawędzi klatki
+  (`sharp` na `art/production/superior-islands-v1/island-N/props.png`): island-1 0–1,
+  island-3 0, island-4 2–4, island-5 0–1, island-2 2–15, **island-6 3–51**
+  (`deadwood` 47, `ember-obsidian` 51, `basalt-arch` 36). Halo jest obcięte granicą komórki,
+  więc nad ciemnym obsydianem rysuje szary prostokąt zamiast aureoli. Generator nie może tego
+  naprawić, więc dopóki atlas nie będzie wyeksportowany ponownie, trzy zamglone motywy island-6
+  idą zastępczo za czysty rekwizyt kontynentu macierzystego (`object.pyra-continent.*`).
+  **To jest wada dostawy, nie kodu:** te same ramki są używane przez dekorację autorską wysp,
+  więc dotykają też tego, co już jest w `main`.
+- Testy `src/test/world-dress.test.ts` (10): odrzucenie motywów z pakietu, którego nie ma,
   wypełnienie i limity, brak kolizji i footprintu, determinizm, wyłączanie przez
-  `outside`/`onLand`/drogę, powietrze tylko przy realnych efektach, pierścień osady i omijanie
-  budynków, brak motywów dla lądu, który ich nie ma.
+  `outside`/`onLand`/drogę, powietrze tylko przy realnych efektach, pierścień osady, omijanie
+  budynków, brak motywów dla lądu, który ich nie ma, oraz zastąpienie zamglonych ramek.
 - Nie zweryfikowano: e2e w kontenerze (programowy WebGL nie mieści się w budżetach czasu
-  speców), wydajność na fizycznym telefonie, decyzja o włączeniu domyślnym. Kadry dowodowe i
-  różnica pikseli są opisywane w `docs/GPU-I-ZASOBY.md`.
+  speców), wydajność na fizycznym telefonie, decyzja o włączeniu domyślnym.

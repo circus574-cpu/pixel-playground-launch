@@ -311,16 +311,34 @@ type Settlement = {
   bounds: { x: number; y: number; width: number; height: number };
 };
 
+/**
+ * Frames whose background is not a clean cutout, measured as the median alpha of a 40 px band
+ * along each cell edge (`sharp` over `art/production/superior-islands-v1/island-N/props.png`):
+ * island-1 0-1, island-3 0, island-4 2-4, island-5 0-1, island-2 2-15, island-6 3-51. Only the
+ * three island-6 frames above 30 are a problem: their glow is clipped by the cell border, so
+ * over dark obsidian it draws a grey rectangle instead of an aura. Until the atlas is re-exported,
+ * those motifs fall back to the parent continent's prop, which is installed and cleanly cut.
+ */
+const HAZY_FRAMES: Record<string, string> = {
+  "object.island-6.tree": "object.pyra-continent.maple",
+  "object.island-6.rock": "object.pyra-continent.rocks",
+  "object.island-6.arch": "object.pyra-continent.rock-arch",
+};
+
 const TOWN_MOTIFS: Record<string, Motif[]> = {};
 for (let i = 1; i <= 6; i++) {
   const f = `island-${i}`;
+  const motif = (name: string, weight: number, w: number, h: number, kind: Motif["kind"]) =>
+    m(HAZY_FRAMES[`object.${f}.${name}`] ?? `object.${f}.${name}`, weight, w, h, kind);
   TOWN_MOTIFS[f] = [
-    m(`object.${f}.flora`, 0.3, 96, 86, "bush"),
-    m(`object.${f}.rock`, 0.16, 120, 100, "rock"),
-    m(`object.${f}.tree`, 0.26, 250, 320, "tree"),
-    m(`object.${f}.cargo`, 0.12, 104, 92, "structure"),
-    m(`object.${f}.arch`, 0.08, 210, 190, "structure"),
-    m(`object.${f}.landmark`, 0.08, 200, 240, "structure"),
+    // Trees and rocks carry the frame: in the island-2 capture the 96 px ground cover was lost
+    // on a paving texture that already draws its own flowers — the same failure as baked flora.
+    motif("tree", 0.38, 250, 320, "tree"),
+    motif("flora", 0.18, 96, 86, "bush"),
+    motif("rock", 0.18, 120, 100, "rock"),
+    motif("cargo", 0.1, 104, 92, "structure"),
+    motif("arch", 0.08, 210, 190, "structure"),
+    motif("landmark", 0.08, 200, 240, "structure"),
   ];
 }
 
