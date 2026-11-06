@@ -78,15 +78,17 @@ Every clip is performed once, cleanly. No other motion.
 
 Do bloku otwierającego dopisz: `The character is in the powered-up transformed form (glowing aura, intensified outfit), as in the reference of the transformed form.` Oś czasu jak w Etapie 1. Bez sekwencji transformacji, bez chodu (są w grze).
 
-## Pliki gotowe (Legenda, forma bazowa)
+## Pliki gotowe (Legenda i Mędrzec)
 
 Zapisane bez obróbki w `art-wip/gemini-anim-stages/`:
 
-| Plik                       | Etap | Zgodność z osią czasu                                                          |
-| -------------------------- | ---- | ------------------------------------------------------------------------------ |
-| `legend-etap1-walka.mp4`   | 1    | zgodna; umiejętność B pokazana jako przysiad z pierścieniem ognia (skoku brak) |
-| `legend-etap2-reakcje.mp4` | 2    | zgodna                                                                         |
-| `legend-etap3-ruch.mp4`    | 3    | zgodna; interakcja bez widocznego przedmiotu                                   |
+| Plik                                      | Etap | Zgodność z osią czasu                                                                                             |
+| ----------------------------------------- | ---- | ----------------------------------------------------------------------------------------------------------------- |
+| `legend-etap1-walka.mp4`                  | 1    | zgodna; umiejętność B pokazana jako przysiad z pierścieniem ognia (skoku brak)                                    |
+| `legend-etap2-reakcje.mp4`                | 2    | zgodna                                                                                                            |
+| `legend-etap3-ruch.mp4`                   | 3    | zgodna; interakcja bez widocznego przedmiotu                                                                      |
+| `legend-etap4-walka-po-transformacji.mp4` | 4    | zgodna z osią Etapu 1 w formie po transformacji (odsłonięty tors, czerwona aura); skok i pierścień ognia widoczne |
+| `sage-etap1-walka.mp4`                    | 1    | Mędrzec, forma bazowa; uderzenia dłonią, pocisk, skok z kulą światła, unik, bariera                               |
 
 Ocena po 10–12 klatkach (co ok. 1 s), nie klatka po klatce.
-Pozostałe rasy: ten sam prompt z tabeli ras. Nazwy plików: `<rasa>-etapN-<nazwa>.mp4`.
+Brakuje jeszcze: Planetar, Android, reszta etapów Mędrca i etapy 2–4 pozostałych ras (stan 06.11.2026). Pozostałe rasy: ten sam prompt z tabeli ras. Nazwy plików: `<rasa>-etapN-<nazwa>.mp4`.
