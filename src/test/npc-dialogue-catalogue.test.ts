@@ -62,6 +62,8 @@ describe("katalog dialogów jest podłączony do NPC miast v2", () => {
     rozmowa(gra, "innkeeper");
     expect(gra.dialogueTurn).toBe(2);
     const ren = getNpcDialogue("npc-ren")!;
-    expect(ren.greetings[1 % ren.greetings.length]).not.toBe(ren.greetings[2 % ren.greetings.length]);
+    expect(ren.greetings[1 % ren.greetings.length]).not.toBe(
+      ren.greetings[2 % ren.greetings.length],
+    );
   });
 });
