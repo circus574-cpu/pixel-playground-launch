@@ -587,8 +587,10 @@
     bottom: max(14px, env(safe-area-inset-bottom));
     top: auto;
   }
+  /* The zoom controls stay reachable while a sheet is open: they move up, above the sheet. */
   .planet-map.has-panel .pm-controls {
-    display: none;
+    top: calc(max(10px, env(safe-area-inset-top)) + 62px);
+    bottom: auto;
   }
   .pm-settlement-name-hidden {
     display: none;
@@ -1055,4 +1057,10 @@ html[data-ki-world-v2] .pg-zone {
   border-radius: 8px;
   background: #101d20ed;
   font-size: 12px;
+}
+
+/* Staff teleport button: never on top of the region sheet ("Przybliż region" sits at the same corner). */
+.planet-map.has-panel .pm-teleport-tools {
+  top: calc(max(14px, env(safe-area-inset-top)) + 70px);
+  bottom: auto;
 }
