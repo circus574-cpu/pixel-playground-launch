@@ -133,15 +133,15 @@ describe("oprawa osad wysp", () => {
   });
   it("zastępuje zamglone ramki island-6 czystym rekwizytem kontynentu macierzystego", () => {
     const items = townDress("island-6", [settlement], [], []);
-    const nazwy = new Set(items.map((i) => i.binding.split(".").slice(1, -1).join(".")));
-    expect(nazwy.has("island-6")).toBe(true);
+    const krainy = new Set(items.map((i) => i.binding.split(".")[1] ?? ""));
+    expect(krainy.has("island-6")).toBe(true);
     for (const item of items) {
-      expect(["island-6", "pyra-continent"].includes(item.binding.split(".")[1])).toBe(true);
+      expect(["island-6", "pyra-continent"].includes(item.binding.split(".")[1] ?? "")).toBe(true);
       // Zamglone ramki to drzewo, skała i łuk — nigdy nie mogą trafić do kadru.
       expect(item.binding.endsWith(".tree")).toBe(false);
       expect(item.binding.endsWith(".rock")).toBe(false);
       expect(item.binding.endsWith(".arch")).toBe(false);
     }
-    expect([...nazwy].filter((n) => n === "pyra-continent").length).toBe(1);
+    expect([...krainy].filter((n) => n === "pyra-continent").length).toBe(1);
   });
 });

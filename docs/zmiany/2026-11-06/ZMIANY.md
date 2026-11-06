@@ -1,6 +1,8 @@
 # Dziennik zmian — 6 listopada 2026
 
-## Scalenie oprawy sześciu wysp Superiora do `main`
+## Świat: scalenie wysp, przegląd i generator dekoracji
+
+### 1. Scalenie oprawy sześciu wysp Superiora do `main`
 
 - Właściciel polecił scalać (`działaj dalej. scal.`) po otrzymaniu pomiaru: własne materiały
   wysp zmieniają **54,9–69,3 %** pikseli kadra (różnica pikseli `sharp`, kadry 900 × 560).
@@ -25,7 +27,7 @@
 - Bramka na scalonym stanie: TypeScript (3 konfiguracje) 0, `npm run test` 116 plików
   (1 pominięty) 0, lint 0 błędów / 15 ostrzeżeń, `check_documentation.py` PASS, build 0.
 
-## Przegląd świata i generator dekoracji
+### 2. Przegląd świata: gdzie naprawdę jest pustka
 
 - Audyt gęstości na danych `public/game/worlds/superior-v2` (okno kadru 1452 × 903 j. świata
   przy zoomie 0,62):
@@ -43,6 +45,9 @@
   wymiar tej samej luki: żadna osada nie ma dekoracji autorskich w swoim obszarze, a wyspy nie
   mają ani jednej pozycji `acceptedCityScenery`. 29 % chunków kontynentów nie ma ani jednej
   dekoracji autorskiej.
+
+### 3. Generator dekoracji świata `?ki-dress=1` i wada ramek island-6
+
 - Nowy `src/game/world/generated/worldDress.ts`, opt-in `?ki-dress=1`:
   `continentDress` (siatka 150 j. z polem gęstości w komórkach 700 j., miksy tylko z realnych
   wiązań danego lądu, limit 130), `continentAir` (efekty tylko dla Nexusa i Pyry, bo tylko te
@@ -61,7 +66,7 @@
   | verdant, rzadki kadr | 1 | 62 | 8,1 % |
   | pyra, rzadki kadr | 2 | 86 | 11,9 % |
   | island-2, plac osady | 5 | 56 | 11,9 % |
-  | island-6, plac osady | 5 | 53 | 15,4 % |
+  | island-6, plac osady | 5 | 53 | 12,3 % |
 
   Kontynent bez dekoracji: verdant 1, pyra 2, nexus 25 sprite'ów w kadrze. Po włączeniu:
   62 / 86 / 81, z czego licznik `data-dress-scenery` przypisuje odpowiednio 61 / 84 / 80
