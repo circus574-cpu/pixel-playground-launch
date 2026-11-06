@@ -917,3 +917,29 @@ Pomiar efektu: pary kadrów `dress-off` / `dress-on` na czternastu punktach (pus
 pełny kadr na każdym kontynencie, plac osady na każdej wyspie) oraz różnica pikseli `sharp`.
 Scenariusz e2e nie powstał — w kontenerze agenta programowy WebGL nie mieści się w budżetach
 czasu speców, więc dowodem są kadry i licznik `data-dress-scenery`, nie zielony test.
+
+## Klatki NPC od właściciela — `scripts/npc-frames.py`
+
+Dostawa animacji NPC przychodzi jako arkusz 8 × 8 (2048², komórka 256²) albo paczka pojedynczych
+klatek, z **płaskim nieprzezroczystym tłem** i postacią dochodzącą ~8 px do krawędzi komórki.
+Pakowaczka GPU wymaga ramki 512 × 512 RGBA oraz **2 px czystej krawędzi na klatce dostarczanej
+128 × 128, mierzonej PO jej własnym downskalu lanczos3** — a ten filtr sięga ~12 px w głąb
+źródła. Bez narzędzia 9 z 64 klatek było odrzucanych.
+
+`python3 scripts/npc-frames.py <arkusz.png|katalog> <wyjście> [--dirs …] [--idle arkusz] [--walk-only]`
+
+- Tło keyowane **wypełnianiem od brzegu komórki**, nie globalną odległością koloru: ciemny
+  materiał płaszcza bywa bliski szarości tła i keyowanie kolorem wyjadłoby dziury (zmierzone:
+  13 px dziur na 262 144 przy keyowaniu od brzegu).
+- Postać jest mieszona w ramkę z wymuszonym marginesem, a wynik sprawdzany tą samą operacją
+  downskalu, którą robi pakowaczka — skrypt nie twierdzi, że przejdzie, tylko to liczy.
+- `--dirs` to kolejność rzędów, nie opcja umilająca: arkusz idzie **zgodnie z ruchem wskazówek**
+  (`down, down-right, right, up-right, up, up-left, left, down-left`), a `DIRECTIONS` w repo jest
+  odwrotne. Zła mapa = NPC chodzący tyłem.
+- Bez dostarczonego `idle` skrypt podstawia klatkę kontaktową chodu i **głośno to zgłasza**:
+  `src/game/assets/schema.ts:76` wymaga klipów `idle` i `walk`, więc bez nich pakiet nie przejdzie
+  walidacji, a powtórzona klatka oznacza postać stojącą bez ruchu.
+
+Użycie: `npm run assets:pack -- <wyjście> <out> --id=<id> --world=<świat> --profile=npc`, potem
+import. Profil `npc` celowo nie wystawia `actorBindings` (`frame-layout.ts`) — rolę podpinamy
+przy instalacji jako `<świat>.npc.<rola>`, bo to czyta już `actorVisual()`.
