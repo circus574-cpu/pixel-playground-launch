@@ -6,7 +6,8 @@ import { dressEnabled } from "../game/world/generated/worldDress";
 describe("oprawa świata jest domyślnie włączona", () => {
   it("instaluje sześć pakietów wysp i kontynent Nexusa bez flagi w URL", () => {
     const domyslne = previewPacks("");
-    for (let i = 1; i <= 6; i++) expect(domyslne, `island-${i}`).toContain(`superior-island-${i}-art`);
+    for (let i = 1; i <= 6; i++)
+      expect(domyslne, `island-${i}`).toContain(`superior-island-${i}-art`);
     expect(domyslne).toContain("nexus-continent-v2");
   });
   it("każda z tych warstw nadal ma wyłącznik w URL", () => {
@@ -16,7 +17,9 @@ describe("oprawa świata jest domyślnie włączona", () => {
   });
   it("dekoracja świata działa bez flagi i gaśnie przez ?ki-dress=0", () => {
     const okno = (search: string) => {
-      (globalThis as { window?: { location: { search: string } } }).window = { location: { search } };
+      (globalThis as { window?: { location: { search: string } } }).window = {
+        location: { search },
+      };
       return dressEnabled();
     };
     expect(okno("?ki-world-v2=1")).toBe(true);
