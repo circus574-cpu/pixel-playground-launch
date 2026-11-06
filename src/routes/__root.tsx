@@ -8,7 +8,9 @@ import {
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
+
+import { installStaleChunkReload, isStaleChunkError, reloadForFreshBuild } from "../lib/staleChunk";
 
 import appCss from "../styles.css?url";
 
@@ -37,6 +39,10 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
+  const stale = isStaleChunkError(error);
+  useEffect(() => {
+    if (stale) reloadForFreshBuild();
+  }, [stale]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -50,6 +56,10 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
+              if (stale) {
+                window.location.reload();
+                return;
+              }
               router.invalidate();
               reset();
             }}
@@ -112,6 +122,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useEffect(() => installStaleChunkReload(), []);
 
   return (
     <QueryClientProvider client={queryClient}>

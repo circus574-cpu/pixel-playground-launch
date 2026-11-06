@@ -273,3 +273,20 @@ Pomiar zrobiono różnicą pikseli (`sharp`, kadry 900×560, ten sam teleport, `
   i pomiar zostają w gałęzi. Kod z flagą, który nic nie zmienia, jest gorszy niż brak kodu.
 - **Dźwignie pustki dziczy to gęstość obiektów scenicznych w danych (5–33 w kadrze wobec
   104 w stolicy) i światło, nie podmiana palety.** Cykl dobowy pozostaje etapem A planu.
+
+## Poprawki po zgłoszeniach
+
+### 11. Awaria po kliknięciu w mapę: ekran „This page didn't load” (05.11.2026, wieczór)
+
+- Zgłoszenie właściciela (zrzut z telefonu): po kliknięciu w mapę w grze pojawia się główny ekran błędu aplikacji.
+- Nie odtworzono w przeglądarce: minimapa → mapa 2D → globus 3D → kliknięcia przycisków i regionów (cztery rasy, telefon i komputer, serwer deweloperski), a także `/mapa` na produkcji. Brak błędów strony; brakujących fragmentów kodu na produkcji też nie ma.
+- Najbardziej prawdopodobna przyczyna (hipoteza, nie potwierdzona zapisem błędu z telefonu): karta gry otwarta przed wdrożeniami z 05.11. Mapa ładuje się leniwie z fragmentu o haszowanej nazwie, a po wdrożeniu stare fragmenty znikają. Ładowanie kończy się błędem, a przycisk „Try again” nie odświeżał strony.
+- Poprawka: błąd ładowania fragmentu po wdrożeniu odświeża stronę raz na minutę (`src/lib/staleChunk.ts`, także zdarzenie `vite:preloadError`); „Try again” w takim przypadku przeładowuje stronę; mapa planety w grze jest w osłonie `PanelBoundary`, więc jej awaria pokazuje komunikat z przyciskami „Odśwież” i „Wróć do gry” zamiast zrywać całą grę. Test: `src/test/stale-chunk.test.tsx`.
+- Jeśli awaria wróci po odświeżeniu strony, to jest inna przyczyna: potrzebny komunikat błędu z konsoli lub rasa, miejsce postaci i kroki.
+
+### 12. Mapa w grze: przycisk Teleportuj, zasłonięte sterowanie i opis regionu (06.11.2026)
+
+- Zgłoszenie właściciela: przy otwarciu mapy przycisk „Teleportuj” zasłania „Przybliż region”; na mapie 2D nie da się przesuwać mapy ani przybliżać innych kontynentów.
+- Przyczyny (odtworzone w grze, telefon 852×393 i komputer): (1) mapa otwierała się z automatycznie rozwiniętym opisem regionu gracza, który zajmuje dół ekranu; przycisk Teleportuj (konta GM) leży w tym samym rogu i przykrywał „Przybliż region”; (2) na ekranach do 900 px przy otwartym opisie ukrywał się cały panel sterowania (przybliż, oddal, cała planeta), więc nie dało się oddalić z powiększenia na pozycji gracza do innych kontynentów.
+- Poprawka: mapa otwarta w grze (na pozycji gracza) nie rozwija opisu; przy otwartym opisie panel sterowania przesuwa się nad arkusz zamiast znikać, a Teleportuj przesuwa się pod nagłówek (po lewej). Zmiana tylko w układzie mapy (`PlanetMap.tsx`, `planet-map.css`).
+- Zweryfikowano w przeglądarce: po wybraniu Aetherii z widoku całej planety przycisk Teleportuj (wstawiony do DOM jako atrapa) nie nachodzi na „Przybliż region”, „Przybliż region” zmienia widok, sterowanie jest widoczne. Przesuwanie myszą i dotykiem działało też przed zmianą w moim środowisku; nie odtworzono braku przesuwania, więc to zgłoszenie uznano za skutek ukrytego sterowania i otwartego arkusza, bez potwierdzenia na telefonie właściciela. Prawdziwy przycisk Teleportuj (konto GM) nie był uruchamiany.
