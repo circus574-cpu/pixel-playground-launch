@@ -1,6 +1,14 @@
 # KI Legends — dokumentacja projektu
 
-Aktualizacja: **06.11.2026**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
+Aktualizacja: **07.11.2026**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
+
+**Walka:** pomiar na żywym `GameSession` (22 272 walk) wykazał, że wynik starć był rozstrzygnięty zanim
+gracz cokolwiek zrobił — mediana `winRate` 1,000 w każdym profilu. Od 07.11.2026 każdy z 40 potworów
+nakłada co najmniej jeden efekt statusowy, statystyki bestiariusza idą w górę rampą od poziomu potwora
+(1–4 ×1,5/×1,3/×1,15 → 12–18 ×2,2/×2,3/×1,25), a pokonanie gracza kosztuje 10 % postępu do następnego
+poziomu. Po zmianach goły autoatak przegrywa większość starć (mediana 0,000), a sprzęt z umiejętnościami
+wygrywa 77 % — pojawił się gradient zależny od gracza. `xp` potworów bez zmian; tempo rozwoju spadło
+o 41 % i czeka na decyzję właściciela.
 
 **Wyspy Superiora:** sześć własnych zestawów grafik (36 tekstur i 36 dekoracji w 12 arkuszach)
 jest zainstalowanych w rejestrze zasobów i podłączonych do runtime; od 06.11.2026 działają
@@ -33,6 +41,7 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-11-07](zmiany/2026-11-07/ZMIANY.md)
 - [2026-11-06](zmiany/2026-11-06/ZMIANY.md)
 - [2026-11-05](zmiany/2026-11-05/ZMIANY.md)
 - [2026-11-04](zmiany/2026-11-04/ZMIANY.md)

@@ -439,6 +439,8 @@ export function equipmentStats(
 export const FOE_PANEL_RANGE = 900;
 export const AUTO_TARGET_RANGE = 650;
 export const xpNeeded = (level: number) => 100 + (level - 1) * 60;
+/** Fraction of the progress toward the next level that a defeat costs. Owner 07.11.2026. */
+export const DEATH_XP_LOSS = 0.1;
 
 const noop = () => {};
 /** A port that lets a kit compute statistics without a running game (saves, HUD at load time). */
@@ -1067,8 +1069,14 @@ export class GameSession implements MonsterHost {
     this.autoAttack = false;
     this.route = [];
     this.fx.clear();
+    const xpLost = Math.round(p.xp * DEATH_XP_LOSS);
+    if (xpLost > 0) p.xp -= xpLost;
     this.emit({ type: "death", x: p.x, y: p.y, target: "player" });
-    this.say("Zostałeś pokonany. Odrodzenie za 3 sekundy.");
+    this.say(
+      xpLost > 0
+        ? `Zostałeś pokonany. Tracisz ${xpLost} doświadczenia. Odrodzenie za 3 sekundy.`
+        : "Zostałeś pokonany. Odrodzenie za 3 sekundy.",
+    );
     this.flush();
   }
   applyPlayerFx(spec: FxSpec, from: Enemy) {

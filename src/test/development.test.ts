@@ -580,6 +580,9 @@ describe("earned practice and replay-safe exam rewards", () => {
     expect(session.player.development?.knowledge[species]).toBe(2);
     session.command({ type: "development", action: "study", species });
     expect(session.player.development?.knowledge[species]).toBe(3);
+    // The kill has to come from the player's basic attack — that is what ranks knowledge up to 4.
+    // How many hits the bestiary's HP takes is not what this test guards, so arm the finishing blow.
+    enemy.hp = 5;
     session.command({ type: "ability", ability: "R" });
     tick(100);
     expect(enemy.hp).toBe(0);

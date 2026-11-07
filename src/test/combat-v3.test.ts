@@ -142,6 +142,26 @@ describe("V3 bounded input and lifecycle", () => {
     tick(g, 1000);
     expect(g.player.hp).toBeLessThan(53);
   });
+  it("defeat costs 10% of the progress to the next level, and nothing when there is none", () => {
+    const g = arena(),
+      e = foe(g);
+    g.player.level = 5;
+    g.player.xp = 200;
+    g.hurtPlayer(1e6, e, "melee");
+    expect(g.player.dead).toBe(true);
+    expect(g.player.xp).toBe(180);
+    expect(g.notice).toContain("20 doświadczenia");
+    tick(g, 3000);
+    expect(g.player.level).toBe(5);
+    const s = arena(),
+      f = foe(s);
+    s.player.level = 3;
+    s.player.xp = 0;
+    s.hurtPlayer(1e6, f, "melee");
+    expect(s.player.dead).toBe(true);
+    expect(s.player.xp).toBe(0);
+    expect(s.notice).not.toContain("doświadczenia");
+  });
   it("skill cooldown and KI survive cancellation", () => {
     const g = arena();
     g.player.level = 3;
