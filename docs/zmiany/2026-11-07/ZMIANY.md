@@ -1,8 +1,17 @@
 # Dziennik zmian — 7 listopada 2026
 
+## Narzędzia
+
+### 1. Lokalny asystent AI na CPU (skrypt instalacyjny)
+
+- Prośba właściciela: lokalny asystent programisty na maszynie 16 rdzeni / 32 GB RAM bez GPU i bez kosztów.
+- Dodano `scripts/ops/local-ai-dev-install.sh` (llama.cpp, model Qwen3-Coder-30B-A3B Q4_K_M, usługa `llama-server` tylko na `127.0.0.1`, Qwen Code dla użytkownika `aidev`) oraz sekcję w [Architektura i testy](../../ARCHITEKTURA-I-TESTY.md#lokalny-asystent-ai-na-cpu--07112026).
+- Sprawdzono: składnię skryptu, tryb `DRY_RUN` i funkcję `smoke` na atrapie serwera; istnienie repozytorium modelu, pliku `Q4_K_M` oraz pakietu `@qwen-code/qwen-code`.
+- Nie sprawdzono: instalacji na docelowym serwerze, budowy llama.cpp, pobrania modelu ani rzeczywistej prędkości.
+
 ## Walka: kara śmierci, statusy potworów i ranga trudności
 
-### 1. Weryfikacja mechaniki walki: pomiar realnego wpływu gracza
+### 2. Weryfikacja mechaniki walki: pomiar realnego wpływu gracza
 
 - Właściciel polecił zweryfikować system walki i odpowiedzieć, jaki gracz ma na niego realny wpływ.
   Odpowiedź pochodzi z pomiaru, nie z lektury kodu: `scripts/combat/simulate-balance.ts` na żywym
@@ -29,7 +38,7 @@
   `basicFx`, cecha pokroju eksplozji). Wersja z jedną tylko drogą mylnie zgłaszała 21 potwory „bez
   statusu", poprawna liczba to 14.
 
-### 2. Pokonanie gracza kosztuje 10 % postępu do następnego poziomu
+### 3. Pokonanie gracza kosztuje 10 % postępu do następnego poziomu
 
 - Decyzja właściciela: „Smierc: Strata 10% doswiadczenia”. Zaimplementowane jako `DEATH_XP_LOSS = 0.1`
   w `src/game/session.ts`; kara liczona od `player.xp`, który jest licznikiem **wewnątrz** poziomu, więc
@@ -43,7 +52,7 @@
 - Wiadomo i zostawione świadomie: arena treningowa nie jest strefą bezpieczeństwa, więc śmierć od
   tarczy treningowej też teraz kosztuje. Do decyzji właściciela, czy to zmienić.
 
-### 3. Każdy potwór bestiariusza ma własny efekt statusowy
+### 4. Każdy potwór bestiariusza ma własny efekt statusowy
 
 - Właściciel: „Potwory musza miec jakies swoje umiejetnosci: spowalnianie, paraliz, oslepienie”.
   Wcześniej **14 z 40** potworów nie nakładało na gracza nic poza obrażeniami — w tym osiem z dziesięciu
@@ -63,7 +72,7 @@
   `cancelCombat()` i rozprasza potwory do domu. To nie jest obejście regresji — przedmiotem tych testów
   jest cykl potwora, nie utrzymanie gracza przy życiu.
 
-### 4. Ranga statystyk bestiariusza od poziomu potwora
+### 5. Ranga statystyk bestiariusza od poziomu potwora
 
 - Właściciel: „jesli gracz nie ma problemu z nimi to trzeba podkrecic statystyki potworow”. Zmiana poszła
   przez źródło, nie przez plik generowany (reguła z `AGENTS.md`): `art/production/enemies/roster.json` →
@@ -76,14 +85,14 @@
   obiecuje badanie **wzoru**. Podpięte pod `monsterDef(...).def/.atk/.hp`: wzór nadal jest pilnowany, a
   liczby ma pod opieką osobny test rostera. Bez tego każdy przyszły bilans wymagałby przepisania testów.
 
-### 5. Dokument tematyczny zsynchronizowany ze źródłem
+### 6. Dokument tematyczny zsynchronizowany ze źródłem
 
 - `docs/ROZWOJ-I-WALKA.md`: sekcje „Statystyki” i „Umiejętności” wszystkich 40 potworów przepisane z
   rostera (54 wiersze), więc opis nie minął się z regułami; do „Obowiązujących reguł” dodane dwie pozycje —
   kara śmierci i rampa bestiariusza z mnożnikami.
 - Pomocnik synchronizacji: `/workspace/.qwen/qa/synchronizuj-dokument-potwory.py` (poza repo, jednorazowy).
 
-### 6. Efekt pomierzony ponownie i konsekwencja, której nie zamiatam
+### 7. Efekt pomierzony ponownie i konsekwencja, której nie zamiatam
 
 - Ten sam zamiat, te same ziarna: **22 272 walk przed i po**.
 - `bare-basic`: mediana `winRate` 1,000 → **0,000**; scenariusze pewne wygranej 83 % → 44 %; śmierć gracza
