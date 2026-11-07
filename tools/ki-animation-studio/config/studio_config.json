@@ -1,0 +1,50 @@
+{
+  "studio_name": "KI Legends Animation Studio & Mocap Coordinator",
+  "version": "2.0.0",
+  "hardware_profile": {
+    "target_cpus": 16,
+    "worker_processes": 14,
+    "ffmpeg_threads": 16,
+    "blender_threads": 16,
+    "max_ram_gb": 32,
+    "chunk_batch_size": 16
+  },
+  "network": {
+    "host": "0.0.0.0",
+    "port": 8090,
+    "cors_origins": ["*"],
+    "max_upload_size_mb": 500
+  },
+  "ki_legends_contract": {
+    "master_frame_size": [512, 512],
+    "client_frame_size": [256, 256],
+    "legacy_frame_size": [128, 128],
+    "hero_world_size": [133, 133],
+    "hero_import_size": [96, 96],
+    "enemy_import_size": [84, 84],
+    "hero_feet_anchor": [0.5, 0.95],
+    "enemy_feet_anchor": [0.5, 0.80],
+    "safe_margin_px_512": 14,
+    "safe_margin_px_256": 8,
+    "atlas_max_size": [2048, 2048],
+    "directions": [
+      "down",
+      "down-left",
+      "left",
+      "up-left",
+      "up",
+      "up-right",
+      "right",
+      "down-right"
+    ],
+    "states": {
+      "idle": { "frames": 8, "fps": 6, "loop": true, "description": "Spokojny cykl oddechu i gotowości (1.33s)" },
+      "walk": { "frames": 8, "fps": 16, "loop": true, "description": "Cykl chodu / biegu bojowego (0.50s)" },
+      "attack": { "frames": 8, "fps": 16, "loop": false, "contact_frame": 0, "description": "Atak podstawowy — klatka kontaktu = 0 (0.50s)" },
+      "skill": { "frames": 8, "fps": 12, "loop": false, "contact_frame": 0, "description": "Technika KI / Umiejętność specjalna (0.67s)" },
+      "hit": { "frames": 4, "fps": 16, "loop": false, "description": "Krótka reakcja na obrażenia (0.25s)" },
+      "death": { "frames": 8, "fps": 10, "loop": false, "description": "Upadek i pokonanie postaci (0.80s)" },
+      "respawn": { "frames": 8, "fps": 12, "loop": false, "description": "Odrodzenie w strumieniu energii KI (0.67s)" }
+    }
+  }
+}

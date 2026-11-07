@@ -1,0 +1,112 @@
+{
+  "races": {
+    "verdant": {
+      "id": "hero-planetary-painted",
+      "name": "Planetarni (Verdantia)",
+      "world": "verdant",
+      "primary_hex": "#4f7a45",
+      "secondary_hex": "#bf611f",
+      "accent_hex": "#49d0e8",
+      "aura_rgb": [73, 224, 136],
+      "aura_secondary_rgb": [245, 179, 66],
+      "ink_hex": "#111812",
+      "color_grade": {
+        "hue_shift": 0,
+        "saturation": 1.15,
+        "contrast": 1.08,
+        "brightness": 1.02,
+        "tint_rgb": [79, 122, 69],
+        "tint_strength": 0.12
+      },
+      "transformation_preset": {
+        "name": "Przebudzenie Gai (Forma Planetarna)",
+        "aura_intensity": 0.85,
+        "aura_type": "emerald_wind",
+        "outline_glow": "#49e888",
+        "scale_boost": 1.06,
+        "lightning_sparks": true
+      }
+    },
+    "aether": {
+      "id": "hero-sage-painted",
+      "name": "Mędrcy (Aetheria)",
+      "world": "aether",
+      "primary_hex": "#e8e6d9",
+      "secondary_hex": "#1b9972",
+      "accent_hex": "#f0c44d",
+      "aura_rgb": [88, 235, 212],
+      "aura_secondary_rgb": [255, 224, 115],
+      "ink_hex": "#121a24",
+      "color_grade": {
+        "hue_shift": 5,
+        "saturation": 1.10,
+        "contrast": 1.06,
+        "brightness": 1.05,
+        "tint_rgb": [27, 153, 114],
+        "tint_strength": 0.10
+      },
+      "transformation_preset": {
+        "name": "Ascendencja Astralna (Krąg Światła)",
+        "aura_intensity": 0.90,
+        "aura_type": "celestial_rings",
+        "outline_glow": "#58ebd4",
+        "scale_boost": 1.04,
+        "lightning_sparks": false
+      }
+    },
+    "nexus": {
+      "id": "hero-android",
+      "name": "Androidy (Nexus-9)",
+      "world": "nexus",
+      "primary_hex": "#7f8c9a",
+      "secondary_hex": "#252c37",
+      "accent_hex": "#00d8ff",
+      "aura_rgb": [0, 216, 255],
+      "aura_secondary_rgb": [140, 82, 255],
+      "ink_hex": "#0b1017",
+      "color_grade": {
+        "hue_shift": -8,
+        "saturation": 1.12,
+        "contrast": 1.15,
+        "brightness": 1.0,
+        "tint_rgb": [0, 216, 255],
+        "tint_strength": 0.14
+      },
+      "transformation_preset": {
+        "name": "Przeciążenie Rdzenia (Overdrive V2)",
+        "aura_intensity": 0.95,
+        "aura_type": "cyber_plasma",
+        "outline_glow": "#00d8ff",
+        "scale_boost": 1.05,
+        "lightning_sparks": true
+      }
+    },
+    "pyra": {
+      "id": "hero-legend",
+      "name": "Legendy (Pyra)",
+      "world": "pyra",
+      "primary_hex": "#1e1b1d",
+      "secondary_hex": "#c91e32",
+      "accent_hex": "#ff7b1c",
+      "aura_rgb": [255, 62, 48],
+      "aura_secondary_rgb": [255, 185, 35],
+      "ink_hex": "#160a0c",
+      "color_grade": {
+        "hue_shift": 0,
+        "saturation": 1.25,
+        "contrast": 1.18,
+        "brightness": 1.02,
+        "tint_rgb": [201, 30, 50],
+        "tint_strength": 0.15
+      },
+      "transformation_preset": {
+        "name": "Furia Przodków (Szkarłatny Żar)",
+        "aura_intensity": 1.0,
+        "aura_type": "crimson_inferno",
+        "outline_glow": "#ff3e30",
+        "scale_boost": 1.08,
+        "lightning_sparks": true
+      }
+    }
+  }
+}

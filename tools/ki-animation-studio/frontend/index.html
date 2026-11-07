@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>KI Legends — Kombajn do Animacji & Koordynacji 16 CPU</title>
+  <link rel="stylesheet" href="css/studio.css" />
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="studio-header">
+    <div class="brand-box">
+      <div class="brand-logo">KI</div>
+      <div class="brand-title">
+        <h1>KI LEGENDS — KOMBAJN DO ANIMACJI 16 CPU</h1>
+        <p>System Ekstrakcji MP4 • Kombinacji Klatek • Efektów VFX • Transformacji Postaci • Blender & Phaser Atlas</p>
+      </div>
+    </div>
+    <div class="header-badges">
+      <span id="serverStatusBadge" class="badge badge-online">● Silnik Gotowy (Hybryda 16 CPU + WebGL)</span>
+      <span id="cpuBadge" class="badge badge-cpu">⚡ 16 vCPU Worker Pool</span>
+      <button class="btn btn-amber btn-sm" id="btnLoadDemoWarrior">⚔️ Wczytaj Demo Wojownika KI</button>
+    </div>
+  </header>
+
+  <!-- ================= NAVIGATION TABS ================= -->
+  <nav class="stage-tabs">
+    <button class="stage-tab active" data-stage="all">
+      <span class="stage-num">★</span> Pełny Widok Kombajnu
+    </button>
+    <button class="stage-tab" data-stage="stage1">
+      <span class="stage-num">1</span> Import MP4 & Rozbicie Klatek
+    </button>
+    <button class="stage-tab" data-stage="stage2">
+      <span class="stage-num">2</span> Kombinacje & 7 Stanów KI
+    </button>
+    <button class="stage-tab" data-stage="stage3">
+      <span class="stage-num">3</span> Wygląd, Efekty VFX & Transformacje
+    </button>
+    <button class="stage-tab" data-stage="stage4">
+      <span class="stage-num">4</span> Blender 3D & Eksport Paczki
+    </button>
+  </nav>
+
+  <!-- ================= MAIN WORKSPACE ================= -->
+  <main class="studio-workspace">
+
+    <!-- ==================== LEFT COLUMN: ETAP 1 & ETAP 2 ==================== -->
+    <div class="left-controls-col">
+
+      <!-- ETAP 1: IMPORT MP4 & EKSTRAKCJA KLATEK -->
+      <section class="panel-card stage-panel" data-panel="stage1">
+        <div class="panel-header">
+          <h2>🎬 1. Wrzutka MP4 & Ekstrakcja Klatek</h2>
+          <span class="badge" id="videoMetaBadge">Brak pliku</span>
+        </div>
+
+        <div class="upload-dropzone" id="dropzone">
+          <div class="upload-icon">📥</div>
+          <h3>Przeciągnij plik .MP4 / .WEBM / .GIF / Arkusz PNG</h3>
+          <p>lub dotknij tutaj z telefonu / komputera, aby wybrać wideo</p>
+          <input type="file" id="fileInput" accept="video/mp4,video/webm,video/quicktime,image/gif,image/png,image/jpeg,image/webp" style="display:none" />
+        </div>
+
+        <div class="grid-2">
+          <div class="control-group">
+            <div class="control-label">
+              <span>Liczba klatek z wideo</span>
+              <span class="control-value" id="valExtractCount">16 kl.</span>
+            </div>
+            <input type="range" id="rngExtractCount" min="4" max="64" step="2" value="16" />
+          </div>
+          <div class="control-group">
+            <div class="control-label">
+              <span>Rozmiar Master Canvas</span>
+            </div>
+            <select id="selCanvasSize">
+              <option value="512">512×512 px (Master HD)</option>
+              <option value="256" selected>256×256 px (Klient HD)</option>
+              <option value="128">128×128 px (Klient Lekki)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="control-group">
+            <div class="control-label">
+              <span>Początek nagrania (%)</span>
+              <span class="control-value" id="valTrimStart">0%</span>
+            </div>
+            <input type="range" id="rngTrimStart" min="0" max="90" step="1" value="0" />
+          </div>
+          <div class="control-group">
+            <div class="control-label">
+              <span>Koniec nagrania (%)</span>
+              <span class="control-value" id="valTrimEnd">100%</span>
+            </div>
+            <input type="range" id="rngTrimEnd" min="10" max="100" step="1" value="100" />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="control-group">
+            <div class="control-label"><span>Usuwanie Tła (Matting)</span></div>
+            <select id="selBgMode">
+              <option value="none">Brak (Zachowaj oryginał)</option>
+              <option value="auto_edge" selected>Auto-Krawędź KI (Ochrona konturu)</option>
+              <option value="white_studio">Białe Tło Studyjne</option>
+              <option value="chroma_green">Green Screen (Chroma Key)</option>
+              <option value="luma_dark">Czarne Tło (Luma Key)</option>
+              <option value="chroma_custom">Własny Kolor Kluczowania</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <div class="control-label">
+              <span>Tolerancja Tła</span>
+              <span class="control-value" id="valBgTol">38</span>
+            </div>
+            <input type="range" id="rngBgTol" min="5" max="120" step="1" value="38" />
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:10px;">
+          <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;">
+            <input type="checkbox" id="chkLockFeet" checked />
+            <span>Blokuj stopy (Anchor 0.5, 0.95)</span>
+          </label>
+          <div style="display:flex;align-items:center;gap:6px;justify-content:flex-end;">
+            <span style="font-size:11px;color:var(--text-muted);">Kolor klucza:</span>
+            <input type="color" id="clrCustomKey" value="#00ff00" style="width:32px;height:24px;border:none;background:none;cursor:pointer;" />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <button class="btn btn-primary btn-block" id="btnReExtract">🔄 Rozbij na Klatki Teraz</button>
+          <button class="btn btn-purple btn-block" id="btnServerExtract16CPU">⚡ Ekstrakcja Serwerowa 16 CPU</button>
+        </div>
+      </section>
+
+      <!-- ETAP 2: KOMBINACJE ANIMACJI & 7 STANÓW KI -->
+      <section class="panel-card stage-panel" data-panel="stage2">
+        <div class="panel-header">
+          <h2>🔀 2. Kombinacje Klatek & Sekwencer</h2>
+          <span class="badge" id="activeSeqCountBadge">0 klatek</span>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label"><span>Tryb Kombinacji Klatek (Generator Sekwencji)</span></div>
+          <select id="selComboMode">
+            <option value="forward">1. Klasyczna Progresja (0 → N)</option>
+            <option value="reverse">2. Odwrócona Czasowo (N → 0 — np. Respawn)</option>
+            <option value="ping_pong">3. Ping-Pong / Bumerang (0 → N → 0 — Oddech / Idle)</option>
+            <option value="seamless_loop">4. Płynna Pętla (Seamless Cross-Fade Loop)</option>
+            <option value="hit_stop">5. Hit-Stop Impact (Zamrożenie Ciosu + Wstrząs Bojowy)</option>
+            <option value="combo_flurry">6. Seria Bojowa (Wielokrotne Uderzenie Combo)</option>
+            <option value="even_step">7. Co Druga Klatka (Dynamiczny Skrót Anime)</option>
+            <option value="custom">8. Własny Wzorzec Indeksów (poniżej)</option>
+          </select>
+        </div>
+
+        <div class="grid-2">
+          <div class="control-group">
+            <div class="control-label"><span>Docelowa dł. klipu KI</span></div>
+            <select id="selTargetClipLen">
+              <option value="0">Bez zmiany (Wszystkie aktywne)</option>
+              <option value="4">4 klatki (Stan: HIT)</option>
+              <option value="8" selected>8 klatek (Standard KI: WALK/ATTACK/IDLE)</option>
+              <option value="12">12 klatek (Rozszerzony Boss)</option>
+              <option value="16">16 klatek (Płynny Ultra HD)</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <div class="control-label"><span>Krzywa Prędkości (Ramping)</span></div>
+            <select id="selSpeedCurve">
+              <option value="linear">Liniowa (Stały rytm)</option>
+              <option value="strike_snap">Strike Snap (Szybki Cios na klatce 0)</option>
+              <option value="ease_in">Ease-In (Rozpędzenie)</option>
+              <option value="ease_out">Ease-Out (Wyhamowanie)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="control-group">
+            <div class="control-label">
+              <span>Klatka Kontaktu (Hit-Stop)</span>
+              <span class="control-value" id="valHitStopIdx">0</span>
+            </div>
+            <input type="range" id="rngHitStopIdx" min="0" max="15" step="1" value="0" />
+          </div>
+          <div class="control-group">
+            <div class="control-label">
+              <span>Wstrząs Uderzenia (Shake)</span>
+              <span class="control-value" id="valHitShake">4 px</span>
+            </div>
+            <input type="range" id="rngHitShake" min="0" max="16" step="1" value="4" />
+          </div>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label"><span>Własna kolejność klatek (np. 0,1,2,2,3,4,1,0)</span></div>
+          <input type="text" id="txtCustomPattern" placeholder="Zostaw puste dla automatu lub wpisz np. 0,1,2,3,3,2,1,0" />
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 12px;">
+          <button class="btn btn-primary" id="btnApplyCombination">✨ Generuj Kombinację</button>
+          <button class="btn btn-purple" id="btnOpticalFlowServer">🌊 Płynny Optical Flow (16 CPU)</button>
+        </div>
+
+        <!-- BANK 7 STANÓW KI LEGENDS -->
+        <div style="border-top:1px solid var(--border-color);padding-top:10px;">
+          <div class="control-label">
+            <span>Przypisz bieżącą animację do stanu KI Legends:</span>
+            <button class="btn btn-sm btn-emerald" id="btnAutoFillAllStates">⚡ Auto-Wypełnij 7 Stanów</button>
+          </div>
+          <div class="state-slots-grid" id="stateSlotsContainer"></div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ==================== CENTER COLUMN: PODGLĄD NA ŻYWO & OŚ CZASU ==================== -->
+    <div class="center-viewport-col">
+
+      <section class="panel-card">
+        <div class="panel-header">
+          <h2>👁️ Scena Podglądu Na Żywo (60 FPS + Kotwica Stóp + 8 Kierunków)</h2>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-sm" id="btnToggleOnion">🧅 Onion Skin</button>
+            <button class="btn btn-sm" id="btnToggleGrid">📏 Siatka & Stopy</button>
+          </div>
+        </div>
+
+        <div class="viewport-stage">
+          <canvas id="previewCanvas" width="512" height="512"></canvas>
+
+          <div class="viewport-overlay-info" id="viewportHud">
+            KLATKA: 01 / 08 | FPS: 16 | KIERUNEK: DOWN | ANCHOR: (0.50, 0.95)
+          </div>
+
+          <!-- KOMPAS 8 KIERUNKÓW KI LEGENDS -->
+          <div class="direction-compass" title="Wybierz kierunek świata KI Legends">
+            <button class="compass-btn" data-dir="up-left">↖</button>
+            <button class="compass-btn" data-dir="up">↑</button>
+            <button class="compass-btn" data-dir="up-right">↗</button>
+            <button class="compass-btn" data-dir="left">←</button>
+            <button class="compass-btn active" data-dir="down">●</button>
+            <button class="compass-btn" data-dir="right">→</button>
+            <button class="compass-btn" data-dir="down-left">↙</button>
+            <button class="compass-btn" data-dir="down">↓</button>
+            <button class="compass-btn" data-dir="down-right">↘</button>
+          </div>
+        </div>
+
+        <!-- TRANSPORT BAR -->
+        <div class="transport-bar">
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-primary" id="btnPlayPause">⏸ Pauza</button>
+            <button class="btn" id="btnStepPrev">⏮ -1 Kl.</button>
+            <button class="btn" id="btnStepNext">⏭ +1 Kl.</button>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:8px;flex:1;max-width:260px;">
+            <span style="font-size:12px;color:var(--text-muted);white-space:nowrap;">FPS: <strong id="valPlaybackFps" style="color:var(--accent-cyan);">12</strong></span>
+            <input type="range" id="rngPlaybackFps" min="1" max="30" value="12" />
+          </div>
+
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-sm" id="btnDuplicateCurrentFrame" title="Duplikuj bieżącą klatkę">+ Duplikuj Kl.</button>
+            <button class="btn btn-sm" id="btnSetContactZero" title="Przesuń tę klatkę na pozycję 0 (klatka trafienia w KI Legends)">🎯 Ustaw jako Kl. 0</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- MATRYCA KLATEK (TIMELINE STRIP) -->
+      <section class="panel-card">
+        <div class="panel-header">
+          <h2>🎞️ Matryca Klatek (Kliknij klatkę aby edytować, prawy/dwuklik = włącz/wyłącz)</h2>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-sm" id="btnEnableAllFrames">Zaznacz Wszystkie</button>
+            <button class="btn btn-sm" id="btnReverseStrip">Odwróć Kolejność</button>
+          </div>
+        </div>
+        <div class="frames-strip" id="framesStrip"></div>
+      </section>
+
+    </div>
+
+    <!-- ==================== RIGHT COLUMN: ETAP 3 (WYGLĄD, VFX, TRANSFORMACJE) & ETAP 4 (EKSPORT) ==================== -->
+    <div class="right-fx-col">
+
+      <!-- ETAP 3: MODYFIKACJA WYGLĄDU, EFEKTY VFX & TRANSFORMACJE POSTACI -->
+      <section class="panel-card stage-panel" data-panel="stage3">
+        <div class="panel-header">
+          <h2>🔥 3. Wygląd, Efekty VFX & Transformacje Postaci</h2>
+          <button class="btn btn-sm" id="btnResetFX">Resetuj</button>
+        </div>
+
+        <!-- PRESETY 4 RAS KI LEGENDS + SUPER KI -->
+        <div class="control-label"><span>Szybka Transformacja Rasowa KI Legends:</span></div>
+        <div class="race-pills">
+          <button class="race-pill" data-race="verdant"><span class="dot" style="background:#38e58b;"></span> Planetarni (Gaja)</button>
+          <button class="race-pill" data-race="aether"><span class="dot" style="background:#58ebd4;"></span> Mędrcy (Astral)</button>
+          <button class="race-pill" data-race="nexus"><span class="dot" style="background:#00d8ff;"></span> Androidy (Rdzeń)</button>
+          <button class="race-pill" data-race="pyra"><span class="dot" style="background:#ff3e55;"></span> Legendy (Żar)</button>
+          <button class="race-pill" data-race="golden_ki" style="grid-column:1/-1;"><span class="dot" style="background:#ffcc00;"></span> ⚡ Złota Transformacja Super KI (Awans Mocy)</button>
+        </div>
+
+        <!-- A. STYLIZACJA WYGLĄDU KLATEK -->
+        <div class="grid-2">
+          <div class="control-group">
+            <div class="control-label">
+              <span>Obrys Tuszem (Ink Outline)</span>
+              <span class="control-value" id="valOutlinePx">0 px</span>
+            </div>
+            <input type="range" id="rngOutlinePx" min="0" max="8" step="1" value="0" />
+          </div>
+          <div class="control-group">
+            <div class="control-label">
+              <span>Cel-Shading (Anime Toon)</span>
+              <span class="control-value" id="valCelLevels">Wył.</span>
+            </div>
+            <input type="range" id="rngCelLevels" min="0" max="10" step="1" value="0" />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="control-group">
+            <div class="control-label">
+              <span>Barwa (Hue Shift)</span>
+              <span class="control-value" id="valHue">0°</span>
+            </div>
+            <input type="range" id="rngHue" min="-180" max="180" step="5" value="0" />
+          </div>
+          <div class="control-group">
+            <div class="control-label">
+              <span>Nasycenie / Kontrast</span>
+              <span class="control-value" id="valSat">100%</span>
+            </div>
+            <input type="range" id="rngSat" min="20" max="220" step="5" value="100" />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="control-group">
+            <div class="control-label">
+              <span>Światło NW (Rim Light)</span>
+              <span class="control-value" id="valRimLight">0%</span>
+            </div>
+            <input type="range" id="rngRimLight" min="0" max="100" step="5" value="0" />
+          </div>
+          <div class="control-group">
+            <div class="control-label">
+              <span>Siła Tintu Rasowego</span>
+              <span class="control-value" id="valTint">0%</span>
+            </div>
+            <input type="range" id="rngTint" min="0" max="80" step="5" value="0" />
+          </div>
+        </div>
+
+        <!-- B. EFEKTY ENERGII KI (VFX) -->
+        <div style="border-top:1px solid var(--border-color);padding-top:10px;margin-top:6px;">
+          <div class="grid-2">
+            <div class="control-group">
+              <div class="control-label">
+                <span>🔥 Moc Aury KI</span>
+                <span class="control-value" id="valAura">0%</span>
+              </div>
+              <input type="range" id="rngAura" min="0" max="100" step="5" value="0" />
+            </div>
+            <div class="control-group">
+              <div class="control-label">
+                <span>👻 Smuga Ruchu (Trail)</span>
+                <span class="control-value" id="valTrail">0%</span>
+              </div>
+              <input type="range" id="rngTrail" min="0" max="90" step="5" value="0" />
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-bottom:10px;">
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;">
+              <input type="checkbox" id="chkLightning" />
+              <span>⚡ Błyskawice KI</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;">
+              <input type="checkbox" id="chkShockwave" />
+              <span>💥 Fala Uderzeniowa</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;">
+              <input type="checkbox" id="chkShadow" checked />
+              <span>⚫ Cień Pod Stopami</span>
+            </label>
+            <div style="display:flex;align-items:center;gap:5px;">
+              <span style="font-size:11px;color:var(--text-muted);">Aura:</span>
+              <input type="color" id="clrAura" value="#00d8ff" style="width:28px;height:22px;border:none;background:none;" />
+              <span style="font-size:11px;color:var(--text-muted);">Obrys:</span>
+              <input type="color" id="clrInk" value="#11151b" style="width:28px;height:22px;border:none;background:none;" />
+            </div>
+          </div>
+        </div>
+
+        <!-- C. TRANSFORMACJE GEOMETRII & DANYCH POSTACI -->
+        <div style="border-top:1px solid var(--border-color);padding-top:10px;margin-top:6px;">
+          <div class="control-label"><span style="color:var(--accent-amber);">🦴 Transformacje Geometrii i Siatki Postaci:</span></div>
+          <div class="grid-2">
+            <div class="control-group">
+              <div class="control-label">
+                <span>Nachylenie Bojowe (Lean)</span>
+                <span class="control-value" id="valLean">0°</span>
+              </div>
+              <input type="range" id="rngLean" min="-25" max="25" step="1" value="0" />
+            </div>
+            <div class="control-group">
+              <div class="control-label">
+                <span>Squash & Stretch</span>
+                <span class="control-value" id="valSquash">0%</span>
+              </div>
+              <input type="range" id="rngSquash" min="0" max="25" step="1" value="0" />
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="control-group">
+              <div class="control-label">
+                <span>Wiatr Szat / Włosów</span>
+                <span class="control-value" id="valClothWave">0 px</span>
+              </div>
+              <input type="range" id="rngClothWave" min="0" max="15" step="1" value="0" />
+            </div>
+            <div class="control-group">
+              <div class="control-label">
+                <span>Wzrost Mocy (Grow%)</span>
+                <span class="control-value" id="valTransGrow">0%</span>
+              </div>
+              <input type="range" id="rngTransGrow" min="0" max="25" step="1" value="0" />
+            </div>
+          </div>
+
+          <button class="btn btn-purple btn-block" id="btnBakeFX16CPU">
+            ⚡ Wypal Efekty i Transformacje na 16 CPU
+          </button>
+        </div>
+      </section>
+
+      <!-- ETAP 4 & 5: EKSPORT PACZKI KI LEGENDS & BLENDER KOORDYNATOR -->
+      <section class="panel-card stage-panel" data-panel="stage4">
+        <div class="panel-header">
+          <h2>📦 4. Eksport Paczki KI Legends & Blender 3D</h2>
+        </div>
+
+        <div class="grid-2">
+          <div class="control-group">
+            <div class="control-label"><span>ID Aktora w Grze</span></div>
+            <input type="text" id="txtActorId" value="hero-planetary-v4" />
+          </div>
+          <div class="control-group">
+            <div class="control-label"><span>Świat / Kontynent</span></div>
+            <select id="selWorld">
+              <option value="verdant">Verdantia (verdant)</option>
+              <option value="aether">Aetheria (aether)</option>
+              <option value="nexus">Nexus-9 (nexus)</option>
+              <option value="pyra">Pyra (pyra)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:10px;">
+          <div class="control-group">
+            <div class="control-label"><span>Profil Jednostki</span></div>
+            <select id="selProfile">
+              <option value="hero">Bohater (96×96, anchor 0.95)</option>
+              <option value="enemy">Potwór (84×84, anchor 0.80)</option>
+              <option value="npc">NPC (96×96, 128 klatek)</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <div class="control-label"><span>Wersja Paczki</span></div>
+            <input type="text" id="txtPackVersion" value="2.0.0" />
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:8px;">
+          <button class="btn btn-emerald btn-block" id="btnExportKIPackZip">
+            📦 Pobierz Kompletną Paczkę KI (.ZIP)
+          </button>
+          <button class="btn btn-primary btn-block" id="btnExportSpritesheet">
+            🖼️ Pobierz Spritesheet (.PNG)
+          </button>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:12px;">
+          <button class="btn btn-amber btn-block" id="btnExportAnimatedGif">
+            🎞️ Eksportuj Animowany .GIF
+          </button>
+          <button class="btn btn-block" id="btnExportPhaserJson">
+            📄 Pobierz Phaser Atlas (.JSON)
+          </button>
+        </div>
+
+        <!-- BLENDER HEADLESS GENERATOR -->
+        <div style="border-top:1px solid var(--border-color);padding-top:10px;">
+          <div class="control-label"><span>Komenda Blender Headless (16 vCPU Turntable 416 klatek):</span></div>
+          <div class="code-box" id="blenderCmdBox">blender -b postac.blend -t 16 -P blender/blender_headless_turntable.py -- --out ./renders/hero-planetary-v4 --actor hero-planetary-v4 --threads 16</div>
+          <div class="grid-3" style="margin-top:8px;">
+            <a class="btn btn-sm" href="/api/blender-scripts/blender_headless_turntable.py" download>📥 Turntable.py</a>
+            <a class="btn btn-sm" href="/api/blender-scripts/blender_mocap_retarget.py" download>📥 MocapBVH.py</a>
+            <a class="btn btn-sm" href="/api/blender-scripts/blender_vfx_card_rig.py" download>📥 CardVFX.py</a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <div class="status-toast" id="statusToast"></div>
+
+  <script src="js/studio_app.js"></script>
+</body>
+</html>

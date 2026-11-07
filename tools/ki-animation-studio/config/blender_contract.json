@@ -1,0 +1,58 @@
+{
+  "version": 2,
+  "projection": "orthographic-top-down-with-visible-south-facade",
+  "camera": {
+    "type": "ORTHO",
+    "ortho_scale": 6.2,
+    "elevation_degrees": 60.0,
+    "roll_degrees": 0.0,
+    "distance": 14.0,
+    "target_z_offset": 2.6,
+    "locked_for_all_assets": true,
+    "direction_azimuths": {
+      "down": 0.0,
+      "down-left": 45.0,
+      "left": 90.0,
+      "up-left": 135.0,
+      "up": 180.0,
+      "up-right": 225.0,
+      "right": 270.0,
+      "down-right": 315.0
+    }
+  },
+  "lighting": {
+    "key_light": {
+      "direction": "north-west",
+      "azimuth_deg": -45.0,
+      "elevation_deg": 55.0,
+      "energy": 4.2,
+      "color": [1.0, 0.98, 0.94]
+    },
+    "fill_light": {
+      "azimuth_deg": 135.0,
+      "elevation_deg": 35.0,
+      "energy": 1.4,
+      "color": [0.82, 0.9, 1.0]
+    },
+    "rim_light": {
+      "azimuth_deg": 180.0,
+      "elevation_deg": 70.0,
+      "energy": 2.5,
+      "color": [0.95, 0.98, 1.0]
+    },
+    "baked_contact_shadow": false,
+    "aura_separate_layer": true
+  },
+  "render": {
+    "engine": "BLENDER_EEVEE_NEXT",
+    "fallback_engine": "CYCLES",
+    "cpu_threads": 16,
+    "resolution_x": 512,
+    "resolution_y": 512,
+    "color_mode": "RGBA",
+    "color_depth": "8",
+    "film_transparent": true,
+    "freestyle_ink_outline": true,
+    "freestyle_line_thickness": 1.8
+  }
+}
