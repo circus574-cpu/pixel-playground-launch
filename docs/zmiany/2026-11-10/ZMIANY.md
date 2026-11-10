@@ -60,3 +60,10 @@
 - Właściciel dostarczył powtórzony film etapu 2. Zapisano go bez obróbki jako `art-wip/gemini-anim-stages/android-etap2-reakcje-v2.mp4` (10 s, 720×1280, 24 kl./s, z dźwiękiem, SHA-256 `eca433fb1421fb7542f0d2c1d5ee47dd96b99b01b6b5a491a902d5806467e9dc`). Pierwsza wersja (`android-etap2-reakcje.mp4`) zostaje w repozytorium do porównania.
 - Zawartość (kontakt co 1 s): postawa spoczynkowa, drgnięcie po trafieniu, ruch z pyłem i iskrami, odrzut, upadek na ziemię, podniesienie się na kolano, powrót do postawy. Postać i pancerz spójne w całym filmie, tło białe.
 - Uwagi: iskry są pomarańczowe, a energia Androida niebieska; w kadrze pojawia się pył i cień na podłożu, które trzeba będzie usunąć przy wycinaniu klatek. Nie wycinano jeszcze klatek ani nie podpięto animacji w grze.
+
+### 9. Film Androida, etap 3 (ruch i ładowanie, forma bazowa)
+
+- Właściciel dostarczył film Androida z etapem 3. Zapisano go bez obróbki jako `art-wip/gemini-anim-stages/android-etap3-ruch.mp4` (10 s, 1280×720 poziomo, 24 kl./s, z dźwiękiem, SHA-256 `3eff1a2117d10948815707789f1eac1c0b39bed11facff2da17fce4d75559a07`).
+- Zawartość (kontakt co 1 s): ruch i unik z pyłem, ładowanie (niebieski błysk w dłoni), interakcja z kryształem w dłoni. Pancerz i postać spójne z etapami 1–2.
+- Wady: kadr bardzo niestabilny. W większości ujęć głowa albo nogi są ucięte, skala zmienia się z ujęcia na ujęcie (od całej postaci po sam korpus). Format poziomy zamiast pionowego. Do wycinania klatek nadaje się tylko część ujęć.
+- Tabela plików i lista braków w [Prompty animacji](../../../art/pipeline/prompts/animacje/PROMPTY-ANIMACJE-v1.md) zaktualizowane (dodano też wiersz etapu 2 v2): Android ma etapy 1–3, brakuje etapu 4. Nie wycinano klatek ani nie podpięto animacji w grze.
