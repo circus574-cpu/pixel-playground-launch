@@ -6,6 +6,9 @@ import {
   BOSS_SFX_DIR,
   cuesFor,
   monsterSfxFile,
+  monsterHurtFile,
+  monsterSkillFile,
+  statusSfxFile,
   stepFile,
   stepSurface,
   type StepSurface,
@@ -211,5 +214,39 @@ describe("monster, footstep and interface sounds", () => {
   });
   it("ships the interface click sound", () => {
     expect(existsSync("public/game/sfx/ui/click.mp3")).toBe(true);
+  });
+  it("plays hurt, skill, roar, status, shop and upgrade sounds that exist on disk", () => {
+    const files = [
+      monsterHurtFile(MONSTER_BASE[0]!.id),
+      monsterHurtFile("boss:" + BOSS_CATALOG[0]!.id),
+      monsterSkillFile("szarza"),
+      monsterSkillFile("roj"),
+      statusSfxFile("burn"),
+      statusSfxFile("root"),
+    ];
+    for (const f of files) {
+      expect(f).toBeDefined();
+      expect(existsSync("public" + f), String(f)).toBe(true);
+    }
+    expect(monsterSkillFile("nieznana")).toBeUndefined();
+    expect(statusSfxFile("fear")).toBeUndefined();
+    expect(monsterHurtFile(undefined)).toBeUndefined();
+  });
+  it("maps cues from events and status changes", () => {
+    const snap = { potions: 0, interior: null, noticeId: 1, notice: "", fx: [] as string[] };
+    const hit = cuesFor(
+      "sage",
+      [{ type: "hit", target: "x#1", species: MONSTER_BASE[0]!.id, text: "-5" } as never],
+      snap,
+      snap,
+    );
+    expect(hit.some((f) => f.includes("/generic/hurt-"))).toBe(true);
+    const tele = cuesFor("sage", [{ type: "telegraph", ability: "szarza" } as never], snap, snap);
+    expect(tele).toContain("/game/sfx/monsters/generic/charge.mp3");
+    const fx = cuesFor("sage", [], snap, { ...snap, fx: ["stun"] });
+    expect(fx).toContain("/game/sfx/status/stun.mp3");
+    expect(cuesFor("sage", [], { ...snap, fx: ["stun"] }, { ...snap, fx: ["stun"] })).not.toContain(
+      "/game/sfx/status/stun.mp3",
+    );
   });
 });

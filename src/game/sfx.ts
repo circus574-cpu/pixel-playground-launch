@@ -194,6 +194,69 @@ export function monsterSfxFile(
   return MONSTER_SFX_IDS.has(dir) ? "/game/sfx/monsters/" + dir + "/" + cue + ".mp3" : undefined;
 }
 
+const STONE_HURT = new Set([
+  "verdant-skalny-jelen",
+  "verdant-straznik-ruin",
+  "pyra-golem-ruin",
+  "pyra-skalny-berserker",
+  "pyra-magmowy-krab",
+]);
+/** Reaction to a hit: robots in Nexus-9, spirits and scribes in Aetheria, stone creatures, else animals. */
+export function monsterHurtFile(species: string | undefined): string | undefined {
+  if (!species) return undefined;
+  const dir = BOSS_SFX_DIR[species] ?? species;
+  if (!MONSTER_SFX_IDS.has(dir)) return undefined;
+  const kind = dir.startsWith("nexus-")
+    ? "robot"
+    : dir.startsWith("aether-")
+      ? "magic"
+      : STONE_HURT.has(dir)
+        ? "stone"
+        : "beast";
+  return "/game/sfx/monsters/generic/hurt-" + kind + ".mp3";
+}
+
+/** Monster skill ids (monsters/catalog.ts) that share a generic sound, played when the skill winds up. */
+const SKILL_SOUND: Record<string, string> = {
+  szarza: "charge",
+  taran: "charge",
+  nurkowanie: "charge",
+  skok: "charge",
+  tupniecie: "stomp",
+  mlot: "stomp",
+  miazdzenie: "stomp",
+  chmura: "poison",
+  pylek: "poison",
+  mgla: "poison",
+  oblok: "poison",
+  oplatanie: "web",
+  zadlo: "sting",
+  ukaszenie: "sting",
+  plwocina: "spit",
+  "wybuch-korzeni": "explosion",
+  "rozbicie-bariery": "explosion",
+  wyladowanie: "explosion",
+  odlamki: "explosion",
+  roj: "swarm",
+};
+export function monsterSkillFile(ability: string | undefined): string | undefined {
+  const name = ability ? SKILL_SOUND[ability] : undefined;
+  return name ? "/game/sfx/monsters/generic/" + name + ".mp3" : undefined;
+}
+
+/** Status effects monsters put on the hero that have a sound. */
+const STATUS_SOUND: Record<string, string> = {
+  burn: "burn",
+  poison: "poison",
+  slow: "slow",
+  stun: "stun",
+  root: "freeze",
+};
+export function statusSfxFile(id: string): string | undefined {
+  const name = STATUS_SOUND[id];
+  return name ? "/game/sfx/status/" + name + ".mp3" : undefined;
+}
+
 export type StepSurface =
   "grass" | "dirt" | "stone" | "sand" | "snow" | "wood" | "metal" | "ash" | "water";
 /** Milliseconds between two footsteps while the hero walks. */
@@ -258,6 +321,8 @@ export type SfxSnapshot = {
   interior: string | null;
   noticeId: number;
   notice: string;
+  /** Ids of the status effects currently on the hero (PlayerFx.active). */
+  fx?: readonly string[];
 };
 
 /** Which cues one frame's events and player snapshot call for. Pure, so it is unit tested. */
@@ -281,7 +346,10 @@ export function cuesFor(
       else if (e.target?.startsWith("practice-")) add(sfxFile("audio.development.target-hit"));
       else if (e.target === "training-dummy")
         add(sfxFile(e.crit ? "hit-crit" : "audio.development.dummy-hit"));
-      else if (e.text !== "Pudło") add(sfxFile(e.crit ? "hit-crit" : "hit"));
+      else if (e.text !== "Pudło") {
+        add(sfxFile(e.crit ? "hit-crit" : "hit"));
+        add(monsterHurtFile(e.species));
+      }
     } else if (e.type === "death")
       add(
         e.target === "player"
@@ -293,13 +361,16 @@ export function cuesFor(
       if (!e.target || e.target === "player") add(sfxFile("respawn"));
     } else if (e.type === "level") add(sfxFile("level-up"));
     else if (e.type === "loot") add(sfxFile(e.text?.endsWith("monet") ? "gold" : "loot"));
-    else if (e.type === "telegraph") add(sfxFile("boss-warning"));
+    else if (e.type === "telegraph") add(monsterSkillFile(e.ability) ?? sfxFile("boss-warning"));
+    else if (e.type === "status" && e.species && e.text?.startsWith("Faza"))
+      add(monsterSfxFile(e.species, "roar"));
     else if (e.ability === "dodge" && !e.source) add(sfxFile("dodge"));
     else if (e.ability === "combo" && !e.source) add(sfxFile("hit-crit"));
     else if (e.ability && !e.source && KIT_EVENTS.has(e.type))
       add(sfxFile({ race, ability: e.ability }));
   }
   if (before) {
+    for (const id of now.fx ?? []) if (!before.fx?.includes(id)) add(statusSfxFile(id));
     if (now.potions < before.potions) add(sfxFile("potion"));
     if (now.interior !== before.interior) add(sfxFile("door"));
     if (now.noticeId !== before.noticeId) {
@@ -317,6 +388,8 @@ export function cuesFor(
         add(sfxFile("audio.development.exam-success"));
       else if (/^(Zapisano nowy stopień treningu\.|.+ · trening \d+$)/.test(now.notice))
         add(sfxFile("level-up"));
+      else if (/^(Sprzedano:|Kupiono)/.test(now.notice)) add("/game/sfx/ui/buy-sell.mp3");
+      else if (/^Ostrze ulepszone/.test(now.notice)) add("/game/sfx/ui/upgrade-ok.mp3");
     }
   }
   return out;

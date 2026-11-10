@@ -375,19 +375,26 @@ export class MonsterSystem {
       m.guard -= absorbed;
       dmg -= absorbed;
       if (dmg <= 0) {
-        this.host.emit({ type: "hit", ...e, target: e.id, text: "Tarcza" });
+        this.host.emit({ type: "hit", ...e, target: e.id, species: e.kind, text: "Tarcza" });
         return 0;
       }
     }
     e.hp = Math.max(0, e.hp - dmg);
     if (updateBossPhase(e))
-      this.host.emit({ type: "status", ...e, target: e.id, text: "Faza " + e.boss!.phase });
+      this.host.emit({
+        type: "status",
+        ...e,
+        target: e.id,
+        species: e.kind,
+        text: "Faza " + e.boss!.phase,
+      });
     m.sinceHit = 0;
     this.host.emit({
       type: "hit",
       x: e.x,
       y: e.y,
       target: e.id,
+      species: e.kind,
       text: "-" + Math.round(dmg) + (hit.crit ? "!" : ""),
       crit: !!hit.crit,
     });

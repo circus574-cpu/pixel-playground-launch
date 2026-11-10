@@ -149,6 +149,7 @@ export function mountKileGends(
     /** Last frame's player snapshot for sound cues (potion used, door, notices). */
     private sfxSnapshot: Parameters<typeof cuesFor>[2] = null;
     private lastStepAt = 0;
+    private lastSurface = "";
     private visualBudget = new CombatVisualBudget();
     private trackEffect(object: Phaser.GameObjects.GameObject, critical = false) {
       const release = this.visualBudget.add(() => object.destroy(), critical);
@@ -1435,6 +1436,7 @@ export function mountKileGends(
         interior: session.player.interior,
         noticeId: session.noticeId,
         notice: session.notice,
+        fx: session.fx.active.map((a) => a.id),
       };
       for (const file of cuesFor(session.player.race, events, this.sfxSnapshot, snapshot))
         sfx.play(file);
@@ -1446,6 +1448,9 @@ export function mountKileGends(
           terrainAt(world, session.player),
           session.player.interior,
         );
+        if (surface === "water" && this.lastSurface !== "water")
+          sfx.play("/game/sfx/movement/water-enter.mp3");
+        this.lastSurface = surface;
         sfx.play(stepFile(surface), STEP_GAIN);
       }
       // In the painted smithy the hero is drawn larger, as in the mockup (about a fifth of the screen height).
