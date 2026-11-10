@@ -122,6 +122,10 @@ Wygenerowane w ElevenLabs Sound Effects v2 (`eleven_text_to_sound_v2`, po jednym
 | `steps/*.mp3`                   | Kroki na powierzchni: grass, dirt, stone, sand, snow, wood, metal, ash, water (jeden wariant, w grze losowa wysokość tonu) |
 | `ui/*.mp3`                      | Interfejs i świat (30): click, confirm, cancel, open, close, tab, toggle-on/off, error, notify, chat, map-open, inventory-open, equip, unequip, drop, item-place, buy-sell, upgrade-ok/fail, quest-accept/update, skill-learn/ready, teleport, portal, chest, locked, low-hp, miss |
 | `status/*.mp3`                  | Nałożenie statusu: burn, poison, freeze, stun, slow                                                 |
+| `monsters/generic/hurt-*.mp3`   | Reakcja potwora na trafienie: beast, magic, robot, stone                                            |
+| `movement/*.mp3`                | Ruch gracza: jump, land, water-enter, swim                                                          |
+| `crafting/*.mp3`                | Rzemiosło i zbieranie: craft, harvest-wood, harvest-ore                                             |
+| `ambience/{verdantia,aetheria,nexus,pyra,city,rain}.mp3` | Pętle otoczenia kontynentów, miasta i deszczu (20 s, mono 96 kb/s, −20 LUFS, generowane z flagą pętli; szwu pętli nie sprawdzano) |
 
 Znane ograniczenia: id bossów w nazwach katalogów odpowiadają `src/game/bosses/catalog.ts` poza `verdant-*`, `aether-*`, `nexus-*`, `pyra-*` (prefiks świata dodany dla porządku), a zdarzenia gry niosą id instancji potwora bez gatunku, więc podpięcie wymaga dodania pola gatunku do zdarzeń `attack` i `death`. Dźwięki, które model wygenerował zbyt długie (np. śmierć Lwa Świątyni 16 s), zostały ucięte do limitu i mogą nie zawierać swojego końca; do ponownego wygenerowania po odsłuchu.
 
