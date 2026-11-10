@@ -40,6 +40,8 @@ export type MonsterEvent = Point & {
   text?: string;
   target?: string;
   source?: string;
+  /** Monster definition id, set on `attack` and `death` events. */
+  species?: string;
   ability?: string;
   to?: Point;
   radius?: number;
@@ -484,7 +486,7 @@ export class MonsterSystem {
     m.basicWindup = undefined;
     this.paths.delete(e.id);
     this.burnWebs(e);
-    this.host.emit({ type: "death", x: e.x, y: e.y, target: e.id });
+    this.host.emit({ type: "death", x: e.x, y: e.y, target: e.id, species: e.kind });
     const t = def.traits;
     if (t.explode) {
       this.host.emit({
@@ -1122,6 +1124,7 @@ export class MonsterSystem {
       x: e.x,
       y: e.y,
       source: e.id,
+      species: e.kind,
       target: receiver.id,
       to: { x: aim.x, y: aim.y },
       kind,
@@ -1567,6 +1570,7 @@ export class MonsterSystem {
       x: e.x,
       y: e.y,
       source: e.id,
+      species: e.kind,
       target: this.receiver(e).id,
       to: { x: this.body(e).x, y: this.body(e).y },
       kind: "projectile",

@@ -119,6 +119,108 @@ export function developmentAmbienceFile(id: DevelopmentAmbienceId): string {
   return DEVELOPMENT_AMBIENCE_FILES[id];
 }
 
+/** Monster definition ids that have their own sounds (public/game/sfx/monsters/<id>/{atk,die}.mp3). */
+const MONSTER_SFX_IDS = new Set<string>([
+  "aether-duch-bibliotekarza",
+  "aether-krysztalowy-motyl",
+  "aether-lew-swiatyni",
+  "aether-marionetka-rytualu",
+  "aether-mgielny-zuraw",
+  "aether-oko-wiedzy",
+  "aether-pergaminowy-straznik",
+  "aether-swietlik-pieczeci",
+  "aether-szmaragdowy-waz",
+  "aether-zloty-skarabeusz",
+  "nexus-dron-zwiadowca",
+  "nexus-kruk-danych",
+  "nexus-latarnia-plazmowa",
+  "nexus-pajak-spawalniczy",
+  "nexus-pelzacz-serwisowy",
+  "nexus-pies-lowca",
+  "nexus-roj-nanitow",
+  "nexus-skaner-gasienicowy",
+  "nexus-straznik-rdzenia",
+  "nexus-wiezyczka-autonomiczna",
+  "pyra-byk-areny",
+  "pyra-golem-ruin",
+  "pyra-magmowy-krab",
+  "pyra-ognista-salamandra",
+  "pyra-plomien-duch",
+  "pyra-popielny-wilk",
+  "pyra-skalny-berserker",
+  "pyra-skorpion-obsydianowy",
+  "pyra-wegielek",
+  "pyra-zarowy-nietoperz",
+  "verdant-bursztynowa-osa",
+  "verdant-cierniowy-wilk",
+  "verdant-grzybowy-zarodnik",
+  "verdant-korzeniowy-pelzacz",
+  "verdant-lesny-pajak",
+  "verdant-lisciak-skrytobojca",
+  "verdant-mchowy-szlamak",
+  "verdant-puchacz-pylowy",
+  "verdant-skalny-jelen",
+  "verdant-straznik-ruin",
+  ...[
+    "verdant-ygdrasha",
+    "verdant-thorgar",
+    "aether-arcykaplan-pustki",
+    "aether-aurelith",
+    "nexus-arbiter-zero",
+    "nexus-hydra-rdzen",
+    "pyra-kharzul",
+    "pyra-pyrrhax",
+  ],
+]);
+/** Boss monsters are defined as "boss:<boss id>"; their sound folders carry the world prefix. */
+export const BOSS_SFX_DIR: Record<string, string> = {
+  "boss:ygdrasha": "verdant-ygdrasha",
+  "boss:thorgar": "verdant-thorgar",
+  "boss:arcykaplan-pustki": "aether-arcykaplan-pustki",
+  "boss:aurelith": "aether-aurelith",
+  "boss:arbiter-zero": "nexus-arbiter-zero",
+  "boss:hydra-rdzen": "nexus-hydra-rdzen",
+  "boss:kharzul": "pyra-kharzul",
+  "boss:pyrrhax": "pyra-pyrrhax",
+};
+
+/** Own sound of a monster species for an attack, death or (bosses) intro roar, if it has one. */
+export function monsterSfxFile(
+  species: string | undefined,
+  cue: "atk" | "die" | "roar",
+): string | undefined {
+  if (!species) return undefined;
+  const dir = BOSS_SFX_DIR[species] ?? species;
+  return MONSTER_SFX_IDS.has(dir) ? "/game/sfx/monsters/" + dir + "/" + cue + ".mp3" : undefined;
+}
+
+export type StepSurface =
+  "grass" | "dirt" | "stone" | "sand" | "snow" | "wood" | "metal" | "ash" | "water";
+/** Milliseconds between two footsteps while the hero walks. */
+export const STEP_INTERVAL_MS = 340;
+/** Footsteps are quieter than hits: they play all the time. */
+export const STEP_GAIN = 0.45;
+const WORLD_STEP_SURFACE: Record<string, StepSurface> = {
+  verdant: "grass",
+  aether: "stone",
+  nexus: "metal",
+  pyra: "ash",
+};
+/** Surface under the hero: indoors wood (metal in Nexus-9), Verdantia's river and rocks, else the world's default. */
+export function stepSurface(
+  world: string,
+  terrain: "forest" | "rock" | "water" | "open",
+  interior: string | null,
+): StepSurface {
+  if (interior) return world === "nexus" ? "metal" : "wood";
+  if (terrain === "water") return "water";
+  if (terrain === "rock") return "stone";
+  return WORLD_STEP_SURFACE[world] ?? "dirt";
+}
+export function stepFile(surface: StepSurface): string {
+  return "/game/sfx/steps/" + surface + ".mp3";
+}
+
 /** Event types a race kit emits for its own abilities (monsters also use "status" and "telegraph"). */
 const KIT_EVENTS = new Set(["attack", "buff", "burst", "heal", "shield", "circle", "channel"]);
 
@@ -181,7 +283,12 @@ export function cuesFor(
         add(sfxFile(e.crit ? "hit-crit" : "audio.development.dummy-hit"));
       else if (e.text !== "Pudło") add(sfxFile(e.crit ? "hit-crit" : "hit"));
     } else if (e.type === "death")
-      add(sfxFile(e.target === "player" ? "player-death" : "monster-death"));
+      add(
+        e.target === "player"
+          ? sfxFile("player-death")
+          : (monsterSfxFile(e.species, "die") ?? sfxFile("monster-death")),
+      );
+    else if (e.type === "attack" && e.source && e.species) add(monsterSfxFile(e.species, "atk"));
     else if (e.type === "respawn") {
       if (!e.target || e.target === "player") add(sfxFile("respawn"));
     } else if (e.type === "level") add(sfxFile("level-up"));
@@ -236,7 +343,7 @@ class SfxPlayer {
     if (this.gain) this.gain.gain.value = this.level();
   }
 
-  play(file: string) {
+  play(file: string, gain = 1) {
     if (this.muted || this.volume <= 0) return;
     const ctx = this.ensureContext();
     if (!ctx || !this.gain) return;
@@ -247,14 +354,19 @@ class SfxPlayer {
       this.retryOnGesture();
       return;
     }
-    const gain = this.gain;
+    const master = this.gain;
     void this.load(ctx, file).then((buffer) => {
       if (!buffer) return;
       const source = ctx.createBufferSource();
       source.buffer = buffer;
       // A slight random pitch keeps repeated hits from sounding mechanical.
       source.playbackRate.value = 0.94 + Math.random() * 0.12;
-      source.connect(gain);
+      if (gain === 1) source.connect(master);
+      else {
+        const own = ctx.createGain();
+        own.gain.value = gain;
+        source.connect(own).connect(master);
+      }
       source.start();
     });
   }
@@ -328,10 +440,24 @@ if (typeof window !== "undefined") {
   window.addEventListener("pointerdown", unlock, true);
 }
 export const sfx = {
-  play(file: string) {
-    (player ??= new SfxPlayer()).play(file);
+  play(file: string, gain = 1) {
+    (player ??= new SfxPlayer()).play(file, gain);
   },
   setVolume(volume: number, muted: boolean) {
     (player ??= new SfxPlayer()).setVolume(volume, muted);
   },
 };
+
+/** Soft tick on every button, tab and link press while the game is mounted. Opt out with data-no-ui-sound. */
+export function installUiClickSound(doc: Document = document): () => void {
+  const onClick = (event: Event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const control = target.closest('button, [role="button"], [role="tab"], a[href]');
+    if (!control || control.closest("[data-no-ui-sound]")) return;
+    if (control instanceof HTMLButtonElement && control.disabled) return;
+    sfx.play("/game/sfx/ui/click.mp3", 0.7);
+  };
+  doc.addEventListener("click", onClick, true);
+  return () => doc.removeEventListener("click", onClick, true);
+}

@@ -22,7 +22,16 @@ import { cityRoom } from "./city/room";
 import type { BuildingId } from "./city/types";
 import { clampZoom, DEFAULT_ZOOM } from "./view";
 import { WORLD_V2 } from "./world/generated/worldVersion";
-import { cuesFor, sfx } from "./sfx";
+import { terrainAt } from "./world/terrain";
+import {
+  cuesFor,
+  installUiClickSound,
+  sfx,
+  STEP_GAIN,
+  STEP_INTERVAL_MS,
+  stepFile,
+  stepSurface,
+} from "./sfx";
 import { actionFor, readKeyBindings, skillSlot } from "./keyBindings";
 import { focusOcclusion, heroOcclusion, type OcclusionFocus } from "./world/visibility";
 import {
@@ -139,6 +148,7 @@ export function mountKileGends(
     private heritageMarkers: HeritageMarkers | undefined;
     /** Last frame's player snapshot for sound cues (potion used, door, notices). */
     private sfxSnapshot: Parameters<typeof cuesFor>[2] = null;
+    private lastStepAt = 0;
     private visualBudget = new CombatVisualBudget();
     private trackEffect(object: Phaser.GameObjects.GameObject, critical = false) {
       const release = this.visualBudget.add(() => object.destroy(), critical);
@@ -1429,6 +1439,15 @@ export function mountKileGends(
       for (const file of cuesFor(session.player.race, events, this.sfxSnapshot, snapshot))
         sfx.play(file);
       this.sfxSnapshot = snapshot;
+      if (session.moving && !session.player.dead && time - this.lastStepAt > STEP_INTERVAL_MS) {
+        this.lastStepAt = time;
+        const surface = stepSurface(
+          world.id,
+          terrainAt(world, session.player),
+          session.player.interior,
+        );
+        sfx.play(stepFile(surface), STEP_GAIN);
+      }
       // In the painted smithy the hero is drawn larger, as in the mockup (about a fifth of the screen height).
       this.hero.body
         .setPosition(session.player.x, session.player.y)
@@ -1726,8 +1745,10 @@ export function mountKileGends(
       }
     }, 500);
   }
+  const removeUiClickSound = installUiClickSound();
   return () => {
     disposed = true;
+    removeUiClickSound();
     window.clearInterval(debugTimer);
     window.clearTimeout(benchStart);
     stopBench?.();

@@ -1,7 +1,14 @@
 import { existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { BOSS_CATALOG } from "../game/bosses/catalog";
+import { MONSTER_BASE } from "../game/monsters/base.generated";
 import {
+  BOSS_SFX_DIR,
   cuesFor,
+  monsterSfxFile,
+  stepFile,
+  stepSurface,
+  type StepSurface,
   DEVELOPMENT_AMBIENCE_FILES,
   DEVELOPMENT_SFX_DEDICATED,
   DEVELOPMENT_SFX_REUSE,
@@ -137,5 +144,72 @@ describe("sound effects", () => {
       expect(existsSync("public" + ambFile), `${id} -> ${ambFile}`).toBe(true);
       expect(sfxFile(id)).toBe(ambFile);
     }
+  });
+});
+
+describe("monster, footstep and interface sounds", () => {
+  it("has attack and death sounds for every bestiary monster", () => {
+    for (const m of MONSTER_BASE)
+      for (const cue of ["atk", "die"] as const) {
+        const file = monsterSfxFile(m.id, cue);
+        expect(file, m.id + " " + cue).toBeDefined();
+        expect(existsSync("public" + file), String(file)).toBe(true);
+      }
+  });
+  it("maps every boss to a folder with attack, death and roar sounds", () => {
+    for (const boss of BOSS_CATALOG) {
+      expect(BOSS_SFX_DIR["boss:" + boss.id], boss.id).toBeDefined();
+      for (const cue of ["atk", "die", "roar"] as const) {
+        const file = monsterSfxFile("boss:" + boss.id, cue);
+        expect(file, boss.id + " " + cue).toBeDefined();
+        expect(existsSync("public" + file), String(file)).toBe(true);
+      }
+    }
+  });
+  it("plays a monster's own attack and death sound and falls back for unknown species", () => {
+    expect(
+      cues([
+        {
+          type: "attack",
+          ...at,
+          source: "verdant-cierniowy-wilk#1",
+          species: "verdant-cierniowy-wilk",
+          target: "player",
+        },
+      ]),
+    ).toEqual(["/game/sfx/monsters/verdant-cierniowy-wilk/atk.mp3"]);
+    expect(
+      cues([{ type: "death", ...at, target: "boss:pyrrhax#2", species: "boss:pyrrhax" }]),
+    ).toEqual(["/game/sfx/monsters/pyra-pyrrhax/die.mp3"]);
+    expect(cues([{ type: "death", ...at, target: "boar#1", species: "boar" }])).toEqual([
+      "/game/sfx/common/monster-death.mp3",
+    ]);
+    expect(cues([{ type: "attack", ...at, source: "boar#1", species: "boar" }])).toEqual([]);
+  });
+  it("chooses the footstep surface from the world, terrain and interior", () => {
+    expect(stepSurface("verdant", "forest", null)).toBe("grass");
+    expect(stepSurface("verdant", "water", null)).toBe("water");
+    expect(stepSurface("verdant", "rock", null)).toBe("stone");
+    expect(stepSurface("aether", "open", null)).toBe("stone");
+    expect(stepSurface("nexus", "open", null)).toBe("metal");
+    expect(stepSurface("pyra", "open", null)).toBe("ash");
+    expect(stepSurface("verdant", "forest", "smithy")).toBe("wood");
+    expect(stepSurface("nexus", "open", "depot")).toBe("metal");
+    const surfaces: StepSurface[] = [
+      "grass",
+      "dirt",
+      "stone",
+      "sand",
+      "snow",
+      "wood",
+      "metal",
+      "ash",
+      "water",
+    ];
+    for (const surface of surfaces)
+      expect(existsSync("public" + stepFile(surface)), surface).toBe(true);
+  });
+  it("ships the interface click sound", () => {
+    expect(existsSync("public/game/sfx/ui/click.mp3")).toBe(true);
   });
 });
