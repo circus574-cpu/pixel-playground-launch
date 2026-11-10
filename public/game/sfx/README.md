@@ -108,3 +108,20 @@ Wygenerowane 01.11.2026 w ElevenLabs Sound Effects v2 (`eleven_text_to_sound_v2`
 | `ambience/sage.mp3`              | P3        | `audio.ambience.sage`              | Otoczenie dziedzińca treningowego — Aetheria     |
 | `ambience/android.mp3`           | P3        | `audio.ambience.android`           | Otoczenie warsztatu treningowego — Nexus-9       |
 | `ambience/legend.mp3`            | P3        | `audio.ambience.legend`            | Otoczenie dziedzińca treningowego — Pyra         |
+
+## Dźwięki potworów, kroków, interfejsu i statusów (10.11.2026)
+
+Wygenerowane w ElevenLabs Sound Effects v2 (`eleven_text_to_sound_v2`, po jednym wariancie na dźwięk), ten sam proces obróbki co wyżej (cisza ucięta, głośność −16 LUFS, mono 80 kb/s). Długość ucięta do: atak 1,5 s, śmierć 1,8 s (bossowie 3,5 s), ryk 3,5 s, krok 0,5 s, interfejs i statusy 1,5 s (kilka sygnałów do 2 s). **Pliki nie są jeszcze podpięte w kodzie** (`src/game/sfx.ts` ich nie czyta); brak odsłuchu przez właściciela.
+
+| Katalog                         | Zawartość                                                                                           |
+| ------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `monsters/<id>/atk.mp3`         | Atak potwora; `<id>` to id gatunku z `src/game/monsters/base.generated.ts` (40) albo bossa (8)      |
+| `monsters/<id>/die.mp3`         | Śmierć potwora (bossowie do 3,5 s)                                                                  |
+| `monsters/<id>/roar.mp3`        | Ryk wejścia bossa (8 bossów: `verdant-ygdrasha`, `verdant-thorgar`, `aether-arcykaplan-pustki`, `aether-aurelith`, `nexus-arbiter-zero`, `nexus-hydra-rdzen`, `pyra-kharzul`, `pyra-pyrrhax`) |
+| `monsters/generic/*.mp3`        | Uniwersalne odgłosy skilli potworów: charge, stomp, poison, web, sting, spit, explosion, swarm      |
+| `steps/*.mp3`                   | Kroki na powierzchni: grass, dirt, stone, sand, snow, wood, metal, ash, water (jeden wariant, w grze losowa wysokość tonu) |
+| `ui/*.mp3`                      | Interfejs i świat (30): click, confirm, cancel, open, close, tab, toggle-on/off, error, notify, chat, map-open, inventory-open, equip, unequip, drop, item-place, buy-sell, upgrade-ok/fail, quest-accept/update, skill-learn/ready, teleport, portal, chest, locked, low-hp, miss |
+| `status/*.mp3`                  | Nałożenie statusu: burn, poison, freeze, stun, slow                                                 |
+
+Znane ograniczenia: id bossów w nazwach katalogów odpowiadają `src/game/bosses/catalog.ts` poza `verdant-*`, `aether-*`, `nexus-*`, `pyra-*` (prefiks świata dodany dla porządku), a zdarzenia gry niosą id instancji potwora bez gatunku, więc podpięcie wymaga dodania pola gatunku do zdarzeń `attack` i `death`. Dźwięki, które model wygenerował zbyt długie (np. śmierć Lwa Świątyni 16 s), zostały ucięte do limitu i mogą nie zawierać swojego końca; do ponownego wygenerowania po odsłuchu.
+
