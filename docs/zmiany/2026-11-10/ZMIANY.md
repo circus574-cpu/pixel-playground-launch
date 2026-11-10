@@ -40,3 +40,17 @@
 - Sprawdzono: oś czasu na 20 klatkach (co 0,5 s) i 3 klatkach z bliska. Neutral, dwa ciosy, finisher, umiejętność A, skok z uderzeniem w ziemię, unik i garda zgadzają się z osią etapu 1.
 - Odchylenia od zasad promptu: format pionowy 912×1024 zamiast 1280×720; tło zmienia się z białego na szare podczas umiejętności; kamera zbliża się, a postać wypełnia ponad 60% wysokości kadru; podczas skoku (około 6,6 s) głowa wychodzi poza górną krawędź kadru; neutral frontalny.
 - Nie zrobiono: klatki nie są wycięte ani wpięte w grę. Nie sprawdzono każdej klatki.
+
+### 6. Film Androida, etap 1 (walka, forma bazowa)
+
+- Właściciel dostarczył film Androida. Zapisano go bez obróbki jako `art-wip/gemini-anim-stages/android-etap1-walka.mp4` (10 s, 512×640, 24 kl./s, SHA-256 `922fded48c0f6223d1db42b54d19fe2da99e5bde91098df69847141b454b81ae`).
+- Sprawdzono: 20 klatek (co 0,5 s). Oś czasu zgadza się z promptem: neutral, dwa ciosy (drugi jako kopnięcie z błyskiem), finisher z dużym wybuchem, neutral, umiejętność A (zbieranie energii i wiązka w prawo), umiejętność B (skok i fala uderzeniowa przy lądowaniu), unik ze smugą, garda z tarczą energii, neutral.
+- Odchylenia od zasad promptu: format pionowy 512×640 zamiast 1280×720; tło zmienia się z białego na szare podczas akcji; fala uderzeniowa i tarcza wychodzą poza kadr; kamera blisko (postać ponad 70% wysokości kadru); neutral frontalny.
+- Nie zrobiono: klatki nie są wycięte ani wpięte w grę. Nie sprawdzono każdej klatki.
+
+### 7. Film Androida, etap 2 (reakcje, forma bazowa)
+
+- Właściciel dostarczył film Androida z reakcjami. Zapisano go bez obróbki jako `art-wip/gemini-anim-stages/android-etap2-reakcje.mp4` (10 s, 512×640, 24 kl./s, SHA-256 `d02317a0f32d2e7fb28a6d72b203117dd3e62d91b2beb0500e25a2bc94b66997`).
+- Sprawdzono: 20 klatek (co 0,5 s). Kolejność zgadza się z osią: neutral, trafienie, mocne trafienie, śmierć (upadek i leżenie), wstawanie, gest zwycięstwa z aurą, neutral.
+- Odchylenia od zasad promptu: trafienia pokazane jako wielka wiązka energii, która przez około 2,5 s zasłania postać; w mocnym trafieniu (ok. 2 s) postać obraca się tyłem; podczas leżenia (ok. 5 s) głowa jest ucięta przy prawej krawędzi kadru; tło ciemnieje przy geście zwycięstwa; format 512×640; neutral frontalny.
+- Nie zrobiono: klatki nie są wycięte ani wpięte w grę. Nie sprawdzono każdej klatki.
