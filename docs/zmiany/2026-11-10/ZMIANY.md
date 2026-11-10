@@ -74,3 +74,10 @@
 - Zawartość (kontakt co 1 s): odsłonięty tors i niebieska aura, cios z wybuchem, wiązka energii, skok z niebieskim płomieniem, tarcza energii z odłamkami, bieg i pył.
 - Ocena: postać zgodna z formą po transformacji, w całości w kadrze, stała skala, tło jasnoszare. Wady: postać mała w poziomym kadrze, głowa przy górnej krawędzi na skoku (ok. 6 s), efekty (wybuch, wiązka) wychodzą poza prawą krawędź. Oglądano co 1 s, nie każdą klatkę.
 - Tabela plików i lista braków w [Prompty animacji](../../../art/pipeline/prompts/animacje/PROMPTY-ANIMACJE-v1.md) zaktualizowane: Android ma komplet etapów 1–4 (etap 3 do powtórzenia z powodu kadru). Nie wycinano klatek ani nie podpięto animacji w grze.
+
+### 11. Film Androida, etap 3 (ruch i ładowanie) — powtórzenie
+
+- Właściciel dostarczył powtórzony film etapu 3. Zapisano go bez obróbki jako `art-wip/gemini-anim-stages/android-etap3-ruch-v2.mp4` (10 s, 720×1280 pion, 24 kl./s, z dźwiękiem, SHA-256 `128429ef61e3b476369638dcaffd7347d46a08eabea6d9c3028b3e7c301d803c`). Pierwsza wersja zostaje do porównania.
+- Zawartość (kontakt co 1 s): postawa, bieg w miejscu, ładowanie z niebieskim wirem energii, unik z tarczą i warm-pomarańczowym pyłem, interakcja z kryształem w dłoni.
+- Ocena: wada kadru z pierwszej wersji naprawiona. Cała postać (głowa i buty) jest w kadrze w każdym ujęciu, skala stała, wiersz neutralnych pozycji między animacjami zachowany. Pozostałe uwagi: lekki szary cień na podłodze (zakaz cienia w prompcie), wir ładowania (ok. 5 s) i unik (ok. 7 s) dotykają lewej krawędzi. Oglądano co 1 s, nie każdą klatkę.
+- Tabela plików i lista braków w [Prompty animacji](../../../art/pipeline/prompts/animacje/PROMPTY-ANIMACJE-v1.md) zaktualizowane. Nie wycinano klatek ani nie podpięto animacji w grze.
