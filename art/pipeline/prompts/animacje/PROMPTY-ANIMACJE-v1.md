@@ -82,18 +82,20 @@ Do bloku otwierającego dopisz: `The character is in the powered-up transformed 
 
 Zapisane bez obróbki w `art-wip/gemini-anim-stages/`:
 
-| Plik                                      | Etap | Zgodność z osią czasu                                                                                                                                  |
-| ----------------------------------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `legend-etap1-walka.mp4`                  | 1    | zgodna; umiejętność B pokazana jako przysiad z pierścieniem ognia (skoku brak)                                                                         |
-| `legend-etap2-reakcje.mp4`                | 2    | zgodna                                                                                                                                                 |
-| `legend-etap3-ruch.mp4`                   | 3    | zgodna; interakcja bez widocznego przedmiotu                                                                                                           |
-| `legend-etap4-walka-po-transformacji.mp4` | 4    | zgodna z osią Etapu 1 w formie po transformacji (odsłonięty tors, czerwona aura); skok i pierścień ognia widoczne                                      |
-| `sage-etap2-reakcje.mp4`                  | 2    | Mędrzec, forma bazowa; trafienie, powalenie, leżenie, wstawanie, gest zwycięstwa (do potwierdzenia po pełnym przeglądzie klatek)                       |
-| `sage-etap4-walka-po-transformacji.mp4`   | 4    | Mędrzec, walka w szarym tle jak w filmie chodu po transformacji; przypisanie do Etapu 4 wynika z tła i kontekstu, bez widocznej aury, do potwierdzenia |
-| `sage-etap1-walka.mp4`                    | 1    | Mędrzec, forma bazowa; uderzenia dłonią, pocisk, skok z kulą światła, unik, bariera                                                                    |
-| `sage-etap3-ruch.mp4`                     | 3    | Mędrzec, forma bazowa; zgodna z osią; poza biegiem i C postać frontalnie, nie z profilu; wyzwolenie (ok. 6 s) wypełnia kadr; kryształ widoczny         |
-| `planetary-etap1-walka.mp4`               | 1    | Planetar, forma bazowa; zgodna z osią; szary cień na podłodze (zakaz w prompcie); neutral frontalnie; skok ucina rękę u góry kadru (6,1-6,3 s)         |
-| `planetary-etap2-reakcje.mp4`             | 2    | Planetar, forma bazowa; plik 20 s: 0-10 s powtarza etap 1, reakcje w 10-20 s; zgodna z osią; cień na podłodze; efekt przy górze kadru (18,5 s)         |
+| Plik                                         | Etap | Zgodność z osią czasu                                                                                                                                  |
+| -------------------------------------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `legend-etap1-walka.mp4`                     | 1    | zgodna; umiejętność B pokazana jako przysiad z pierścieniem ognia (skoku brak)                                                                         |
+| `legend-etap2-reakcje.mp4`                   | 2    | zgodna                                                                                                                                                 |
+| `legend-etap3-ruch.mp4`                      | 3    | zgodna; interakcja bez widocznego przedmiotu                                                                                                           |
+| `legend-etap4-walka-po-transformacji.mp4`    | 4    | zgodna z osią Etapu 1 w formie po transformacji (odsłonięty tors, czerwona aura); skok i pierścień ognia widoczne                                      |
+| `sage-etap2-reakcje.mp4`                     | 2    | Mędrzec, forma bazowa; trafienie, powalenie, leżenie, wstawanie, gest zwycięstwa (do potwierdzenia po pełnym przeglądzie klatek)                       |
+| `sage-etap4-walka-po-transformacji.mp4`      | 4    | Mędrzec, walka w szarym tle jak w filmie chodu po transformacji; przypisanie do Etapu 4 wynika z tła i kontekstu, bez widocznej aury, do potwierdzenia |
+| `sage-etap1-walka.mp4`                       | 1    | Mędrzec, forma bazowa; uderzenia dłonią, pocisk, skok z kulą światła, unik, bariera                                                                    |
+| `sage-etap3-ruch.mp4`                        | 3    | Mędrzec, forma bazowa; zgodna z osią; poza biegiem i C postać frontalnie, nie z profilu; wyzwolenie (ok. 6 s) wypełnia kadr; kryształ widoczny         |
+| `planetary-etap1-walka.mp4`                  | 1    | Planetar, forma bazowa; zgodna z osią; szary cień na podłodze (zakaz w prompcie); neutral frontalnie; skok ucina rękę u góry kadru (6,1-6,3 s)         |
+| `planetary-etap2-reakcje.mp4`                | 2    | Planetar, forma bazowa; plik 20 s: 0-10 s powtarza etap 1, reakcje w 10-20 s; zgodna z osią; cień na podłodze; efekt przy górze kadru (18,5 s)         |
+| `planetary-etap3-ruch.mp4`                   | 3    | Planetar, forma bazowa; plik 30 s: etap 1 (0-10 s), etap 2 (10-20 s), etap 3 w 20-30 s; zgodna z osią; cień na podłodze; neutral frontalny             |
+| `planetary-etap4-walka-po-transformacji.mp4` | 4    | Planetar po transformacji; 912x1024; zgodna z osią etapu 1; tło szarzeje, kamera zbliża się, głowa ucięta u góry kadru (ok. 6,6 s)                     |
 
 Ocena po 10–12 klatkach (co ok. 1 s), nie klatka po klatce.
-Brakuje jeszcze: Planetar etapy 3–4 i Android etapy 1–4 (stan 10.11.2026). Mędrzec ma komplet etapów 1–4, Planetar ma etapy 1–2. Pozostałe rasy: ten sam prompt z tabeli ras. Nazwy plików: `<rasa>-etapN-<nazwa>.mp4`.
+Brakuje jeszcze: Android etapy 1–4 (stan 10.11.2026). Mędrzec i Planetar mają komplet etapów 1–4. Pozostałe rasy: ten sam prompt z tabeli ras. Nazwy plików: `<rasa>-etapN-<nazwa>.mp4`.
