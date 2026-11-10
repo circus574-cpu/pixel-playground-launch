@@ -67,3 +67,10 @@
 - Zawartość (kontakt co 1 s): ruch i unik z pyłem, ładowanie (niebieski błysk w dłoni), interakcja z kryształem w dłoni. Pancerz i postać spójne z etapami 1–2.
 - Wady: kadr bardzo niestabilny. W większości ujęć głowa albo nogi są ucięte, skala zmienia się z ujęcia na ujęcie (od całej postaci po sam korpus). Format poziomy zamiast pionowego. Do wycinania klatek nadaje się tylko część ujęć.
 - Tabela plików i lista braków w [Prompty animacji](../../../art/pipeline/prompts/animacje/PROMPTY-ANIMACJE-v1.md) zaktualizowane (dodano też wiersz etapu 2 v2): Android ma etapy 1–3, brakuje etapu 4. Nie wycinano klatek ani nie podpięto animacji w grze.
+
+### 10. Film Androida, etap 4 (walka po transformacji)
+
+- Właściciel dostarczył film Androida z etapem 4. Zapisano go bez obróbki jako `art-wip/gemini-anim-stages/android-etap4-walka-po-transformacji.mp4` (10 s, 1280×720 poziomo, 24 kl./s, z dźwiękiem, SHA-256 `9d4607c8427202daf3664ada1799cfaa001eef96b1837d476b7aa44c62a3d999`).
+- Zawartość (kontakt co 1 s): odsłonięty tors i niebieska aura, cios z wybuchem, wiązka energii, skok z niebieskim płomieniem, tarcza energii z odłamkami, bieg i pył.
+- Ocena: postać zgodna z formą po transformacji, w całości w kadrze, stała skala, tło jasnoszare. Wady: postać mała w poziomym kadrze, głowa przy górnej krawędzi na skoku (ok. 6 s), efekty (wybuch, wiązka) wychodzą poza prawą krawędź. Oglądano co 1 s, nie każdą klatkę.
+- Tabela plików i lista braków w [Prompty animacji](../../../art/pipeline/prompts/animacje/PROMPTY-ANIMACJE-v1.md) zaktualizowane: Android ma komplet etapów 1–4 (etap 3 do powtórzenia z powodu kadru). Nie wycinano klatek ani nie podpięto animacji w grze.
