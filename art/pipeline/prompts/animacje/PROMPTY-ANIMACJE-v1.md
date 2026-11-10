@@ -93,6 +93,7 @@ Zapisane bez obróbki w `art-wip/gemini-anim-stages/`:
 | `sage-etap1-walka.mp4`                    | 1    | Mędrzec, forma bazowa; uderzenia dłonią, pocisk, skok z kulą światła, unik, bariera                                                                    |
 | `sage-etap3-ruch.mp4`                     | 3    | Mędrzec, forma bazowa; zgodna z osią; poza biegiem i C postać frontalnie, nie z profilu; wyzwolenie (ok. 6 s) wypełnia kadr; kryształ widoczny         |
 | `planetary-etap1-walka.mp4`               | 1    | Planetar, forma bazowa; zgodna z osią; szary cień na podłodze (zakaz w prompcie); neutral frontalnie; skok ucina rękę u góry kadru (6,1-6,3 s)         |
+| `planetary-etap2-reakcje.mp4`             | 2    | Planetar, forma bazowa; plik 20 s: 0-10 s powtarza etap 1, reakcje w 10-20 s; zgodna z osią; cień na podłodze; efekt przy górze kadru (18,5 s)         |
 
 Ocena po 10–12 klatkach (co ok. 1 s), nie klatka po klatce.
-Brakuje jeszcze: Planetar etapy 2–4 i Android etapy 1–4 (stan 10.11.2026). Mędrzec ma komplet etapów 1–4, Planetar ma etap 1. Pozostałe rasy: ten sam prompt z tabeli ras. Nazwy plików: `<rasa>-etapN-<nazwa>.mp4`.
+Brakuje jeszcze: Planetar etapy 3–4 i Android etapy 1–4 (stan 10.11.2026). Mędrzec ma komplet etapów 1–4, Planetar ma etapy 1–2. Pozostałe rasy: ten sam prompt z tabeli ras. Nazwy plików: `<rasa>-etapN-<nazwa>.mp4`.
