@@ -91,6 +91,7 @@ Zapisane bez obróbki w `art-wip/gemini-anim-stages/`:
 | `sage-etap2-reakcje.mp4`                  | 2    | Mędrzec, forma bazowa; trafienie, powalenie, leżenie, wstawanie, gest zwycięstwa (do potwierdzenia po pełnym przeglądzie klatek)                       |
 | `sage-etap4-walka-po-transformacji.mp4`   | 4    | Mędrzec, walka w szarym tle jak w filmie chodu po transformacji; przypisanie do Etapu 4 wynika z tła i kontekstu, bez widocznej aury, do potwierdzenia |
 | `sage-etap1-walka.mp4`                    | 1    | Mędrzec, forma bazowa; uderzenia dłonią, pocisk, skok z kulą światła, unik, bariera                                                                    |
+| `sage-etap3-ruch.mp4`                     | 3    | Mędrzec, forma bazowa; zgodna z osią; poza biegiem i C postać frontalnie, nie z profilu; wyzwolenie (ok. 6 s) wypełnia kadr; kryształ widoczny         |
 
 Ocena po 10–12 klatkach (co ok. 1 s), nie klatka po klatce.
-Brakuje jeszcze: Planetar, Android, Mędrzec etap 3 i etapy 2–4 pozostałych ras (stan 06.11.2026). Pozostałe rasy: ten sam prompt z tabeli ras. Nazwy plików: `<rasa>-etapN-<nazwa>.mp4`.
+Brakuje jeszcze: Planetar i Android, wszystkie etapy 1–4 (stan 10.11.2026). Mędrzec ma komplet etapów 1–4. Pozostałe rasy: ten sam prompt z tabeli ras. Nazwy plików: `<rasa>-etapN-<nazwa>.mp4`.
