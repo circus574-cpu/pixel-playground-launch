@@ -54,3 +54,9 @@
 - Sprawdzono: 20 klatek (co 0,5 s). Kolejność zgadza się z osią: neutral, trafienie, mocne trafienie, śmierć (upadek i leżenie), wstawanie, gest zwycięstwa z aurą, neutral.
 - Odchylenia od zasad promptu: trafienia pokazane jako wielka wiązka energii, która przez około 2,5 s zasłania postać; w mocnym trafieniu (ok. 2 s) postać obraca się tyłem; podczas leżenia (ok. 5 s) głowa jest ucięta przy prawej krawędzi kadru; tło ciemnieje przy geście zwycięstwa; format 512×640; neutral frontalny.
 - Nie zrobiono: klatki nie są wycięte ani wpięte w grę. Nie sprawdzono każdej klatki.
+
+### 8. Film Androida, etap 2 (reakcje) — nowa wersja
+
+- Właściciel dostarczył powtórzony film etapu 2. Zapisano go bez obróbki jako `art-wip/gemini-anim-stages/android-etap2-reakcje-v2.mp4` (10 s, 720×1280, 24 kl./s, z dźwiękiem, SHA-256 `eca433fb1421fb7542f0d2c1d5ee47dd96b99b01b6b5a491a902d5806467e9dc`). Pierwsza wersja (`android-etap2-reakcje.mp4`) zostaje w repozytorium do porównania.
+- Zawartość (kontakt co 1 s): postawa spoczynkowa, drgnięcie po trafieniu, ruch z pyłem i iskrami, odrzut, upadek na ziemię, podniesienie się na kolano, powrót do postawy. Postać i pancerz spójne w całym filmie, tło białe.
+- Uwagi: iskry są pomarańczowe, a energia Androida niebieska; w kadrze pojawia się pył i cień na podłożu, które trzeba będzie usunąć przy wycinaniu klatek. Nie wycinano jeszcze klatek ani nie podpięto animacji w grze.
