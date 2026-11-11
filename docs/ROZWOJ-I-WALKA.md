@@ -95,10 +95,18 @@ a nazwy krain i szybkość uwzględniają późniejsze decyzje właściciela.
 | KI        | 50 / +4 na poziom        | 80 / +7 na poziom        | 60 / +5 na poziom        | 40 / +3 na poziom        |
 | ATK       | 12 / +4 na poziom        | 14 / +4.6 na poziom      | 12 / +3.8 na poziom      | 14 / +4.6 na poziom      |
 | DEF       | 5 / +2.4 na poziom       | 3 / +1.6 na poziom       | 7 / +3 na poziom         | 4 / +2 na poziom         |
-| Ruch j./s | 185 / +5% bazy na poziom | 170 / +5% bazy na poziom | 175 / +5% bazy na poziom | 170 / +5% bazy na poziom |
+| Ruch j./s | 185 / wzrost schodkowy\* | 170 / wzrost schodkowy\* | 175 / wzrost schodkowy\* | 170 / wzrost schodkowy\* |
 | KI/s      | 1.0 / +0.05 na poziom    | 2.0 / +0.1 na poziom     | 1.2 / +0.06 na poziom    | 0.8 / +0.04 na poziom    |
 | Krytyk %  | 5 / +0.25 na poziom      | 5 / +0.2 na poziom       | 8 / +0.4 na poziom       | 6 / +0.3 na poziom       |
 | Odstęp ms | 650 / stały              | 800 / stały              | 700 / stały              | 750 / stały              |
+
+\* **Wzrost prędkości ruchu (decyzja właściciela 11.11.2026, zastępuje flat +5%/poziom z capem 20):**
+addytywny procent **bazy rasy** na poziom, schodkowo: **poziomy 2–9: +5%, 10–19: +4%, 20–29: +3,5%,
+30+: +3%**, **bez capu poziomu** (wzrost trwa dalej). Mnożnik: poz. 10 = ×1,44; poz. 20 = ×1,835;
+poz. 30 = ×2,18; poz. 60 = ×3,08. Końcowa prędkość (z bonusami ekwipunku/buffów) ma **twardy limit
+1200 j./s** (`MAX_MOVE_SPEED`, wspólny klient/serwer). Źródło: `src/game/kit/balance.ts`
+(`speedGrowth`, `SPEED_GROWTH_TIERS`, `MAX_MOVE_SPEED`); cap nakładany w `src/game/kit/base.ts`.
+Interwał ataku nadal nie rośnie z poziomem.
 
 ### Planetarni — Verdantia
 
