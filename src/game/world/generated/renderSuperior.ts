@@ -880,6 +880,21 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         .setVisible(visible),
     };
   };
+  // Baking a chunk ground (a 1024 px canvas) is one synchronous burst. When several chunks finish
+  // loading together (entering a world, teleporting, a wide view) they are baked one per frame so
+  // no single frame carries the whole bill.
+  let bakeTail: Promise<void> = Promise.resolve();
+  const bakeSlot = (): Promise<void> => {
+    const slot = bakeTail.then(
+      () =>
+        new Promise<void>((resolve) => {
+          if (typeof requestAnimationFrame === "function") requestAnimationFrame(() => resolve());
+          else setTimeout(resolve, 0);
+        }),
+    );
+    bakeTail = slot;
+    return slot;
+  };
   const load = async (x: number, y: number) => {
     const id = x + "-" + y;
     pending.add(id);
@@ -937,6 +952,11 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       if (continent) for (const key of terrainBindings) ids.add(textureId(key));
       for (const item of items) ids.add(textureId(item.binding));
       await source.acquire(scene, ids, id);
+      if (disposed || !wanted.has(id)) {
+        source.release(scene, id);
+        return;
+      }
+      await bakeSlot();
       if (disposed || !wanted.has(id)) {
         source.release(scene, id);
         return;

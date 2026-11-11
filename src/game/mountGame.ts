@@ -145,6 +145,9 @@ export function mountKileGends(
   const visual = actorVisual(RACES[session.player.race].world, "hero", undefined, preview);
   const assets = runtime?.assets ?? worldAssets(world.id, preview);
   const loadStarted = performance.now();
+  // Focus classification cache for the per-frame "is the player typing" check.
+  let typingFocus: Element | null | undefined;
+  let typingCached = false;
   class ForestScene extends Phaser.Scene {
     private actors: Actor[] = [];
     private heritageMarkers: HeritageMarkers | undefined;
@@ -565,10 +568,14 @@ export function mountKileGends(
                       ? session.player.interior === "depot" &&
                         distance(session.player, cityRoom("depot", world.id).chest) < 145
                         ? { type: "chest" }
-                        : session.snapshot().nearbyBuilding &&
-                            !session.npcs.some((n) => distance(n, session.player) < 140)
-                          ? { type: "enter", building: session.snapshot().nearbyBuilding!.id }
-                          : { type: "interact", npc: session.snapshot().nearestNpc }
+                        : (() => {
+                            // One snapshot per key press (each costs about a millisecond).
+                            const near = session.snapshot();
+                            return near.nearbyBuilding &&
+                              !session.npcs.some((n) => distance(n, session.player) < 140)
+                              ? { type: "enter" as const, building: near.nearbyBuilding.id }
+                              : { type: "interact" as const, npc: near.nearestNpc };
+                          })()
                       : slot
                         ? { type: "ability", ability: slot.id }
                         : undefined;
@@ -1414,10 +1421,15 @@ export function mountKileGends(
             actor.name.setText(npc.name);
           }
         }
+      // The DOM walk behind closest() runs only when the focused element changes, not every frame.
       const focused = document.activeElement;
-      const typing =
-        focused instanceof HTMLElement &&
-        Boolean(focused.closest("input,textarea,button,[role=dialog]"));
+      if (focused !== typingFocus) {
+        typingFocus = focused;
+        typingCached =
+          focused instanceof HTMLElement &&
+          Boolean(focused.closest("input,textarea,button,[role=dialog]"));
+      }
+      const typing = typingCached;
       const k = typing ? undefined : this.keys;
       const dx =
         Number(Boolean(k?.["D"]?.isDown || k?.["RIGHT"]?.isDown)) -
