@@ -10,3 +10,10 @@ Na zgłoszenie właściciela z nagrań ekranu (Intel UHD, Chromium): na mapie 2D
 - Ostrość globusa: komputery oceniane jako słabsze (`cores <= 4` albo mało pamięci) nie dostawały nigdy tekstury 3840 px. Teraz ładują ją, gdy kamera zbliży się poniżej 75% dystansu otwarcia (`hiResOnZoom`); telefony nadal nie.
 - Testy: nowe w `src/test/planet-map.test.ts` (zapętlenie, `wrapX`, `nearestX`, `wrapCopies`) i `src/test/planet-globe.test.ts` (`hiResOnZoom`).
 - Nie zrobiono / nie sprawdzono: ostrość mapy 2D przy dużym zbliżeniu zależy od rozdzielczości `map-hi.webp` (3985×3011 px na kontynent przy zbliżeniu do 2200%) i pozostaje rozmyta; po stronie zawinięcia widać słaby szew jasności atlasu; ostrość globusa na słabym komputerze nie była sprawdzana (środowisko testowe ma mocniejszy procesor).
+
+### 2. Przyciski umiejętności: przesuwanie także na komputerze
+
+- Zgłoszenie właściciela: brak możliwości zmiany położenia przycisków umiejętności. Edytor układu (`ControlEditor`, „Przesuń przyciski”) i style `--ctl-*` działały na wszystkich urządzeniach, ale sekcja ustawień z przyciskiem była pokazywana tylko na ekranie dotykowym (`touchJoystick`).
+- Sekcja „Przyciski umiejętności” (suwaki wielkości i „Przesuń przyciski”) jest teraz widoczna także na komputerze; suwak joysticka tylko na dotyku (`src/components/game/GameHud.tsx`). Zapis układu bez zmian (`ui-preferences`, `controls.buttons`).
+- Nie sprawdzono w przeglądarce: ekran gry wymaga zalogowanej postaci, której środowisko testowe nie ma; zmiana to wyłącznie warunek wyświetlania istniejącego edytora, który nie ma testu jednostkowego.
+
