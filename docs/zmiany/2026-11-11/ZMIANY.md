@@ -220,3 +220,12 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   świadomie zostawione na osobny ostrożny pass, żeby komparator nie pominął potrzebnego renderu.
 - Bramka: lint zmienionych plików exit 0, typecheck exit 0 (3 konfiguracje), testy drzewka 6 passed,
   testy HUD 16 passed; **pełny zestaw 1265 passed / 10 skipped (122 pliki), zero padnięć**.
+
+### Panel GM: opcja „Unlimited" (brak odnowień)
+
+- Nowy przycisk „Unlimited" w panelu GM/ADM obok „Nieśmiertelność": po włączeniu zdolności nie mają odnowień
+  (można je rzucać bez przerwy), a koszt KI nadal obowiązuje. Ponowne kliknięcie przywraca zwykłe odnowienia.
+- Implementacja: `Kit.noCooldowns` (pomija sprawdzenie odnowienia, nie ustawia go po rzucie i zeruje w `tick`),
+  `GameSession.unlimited` + komenda `staff/unlimited` (tylko dla GM/ADM, tak jak `god`), pole `unlimited` w
+  widoku HUD oraz wpis w schemacie komend serwera online (`staff` enum). Test `gm-unlimited.test.ts` dla czterech ras.
+- Dotyczy odnowień zdolności z paska (w tym Formy/Trybu KI); podstawowy atak i unik zachowują swoje tempo.
