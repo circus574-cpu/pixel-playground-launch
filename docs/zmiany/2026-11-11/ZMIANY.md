@@ -305,3 +305,29 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
 - **Uczciwie:** logikę i UI zweryfikowano w kontenerze (jsdom); **realny FPS zmierzy dopiero urządzenie
   właściciela** — po uruchomieniu diagnostyki raport pobiera się jako plik JSON i można go ocenić
   `npm run bench:gate`. Kontener nie ma fizycznego telefonu ani GPU.
+
+### 17. Balans: schodkowy wzrost prędkości ruchu + twardy limit 1200 j./s (decyzja właściciela)
+
+- Na polecenie właściciela: wzrost prędkości zmienia się z flat **+5%/poziom (cap 20)** na **schodkowy,
+  bez capu poziomu**: **poz. 2–9: +5%, 10–19: +4%, 20–29: +3,5%, 30+: +3%** (addytywny % bazy rasy).
+  Mnożniki: poz. 10 ×1,44; poz. 20 ×1,835; poz. 30 ×2,18; poz. 60 ×3,08.
+- **Twardy limit prędkości ruchu `MAX_MOVE_SPEED = 1200 j./s`** nakładany na końcową prędkość
+  (z bonusami ekwipunku/buffów), wspólny dla klienta i serwera — żeby wysokie poziomy nie przekraczały
+  limitu. Źródło: `src/game/kit/balance.ts` (`speedGrowth`, `SPEED_GROWTH_TIERS`, `MAX_MOVE_SPEED`),
+  cap w `src/game/kit/base.ts`. Interwał ataku nadal nie rośnie.
+- Dokumentacja: `docs/ROZWOJ-I-WALKA.md` (tabela „Ruch j./s" + przypis z progami i capem).
+- Weryfikacja: nowy `src/test/speed-growth.test.ts` **7/7** (progi, wartości na progach, brak capu,
+  monotoniczność, limit 1200) + `kit.test.ts` zaktualizowany (poz. 10/20/60) i nowy test capu **31/31**.
+
+### 18. Profil wydajności pieczenia podłoża (opt-in, Faza 5) — na zamrożenia przy wejściu w chunk
+
+- Pomiar właściciela (WebGL, Verdant) pokazał: stan ustalony ~30–33 FPS, ale **15 zamrożeń od pieczenia
+  chunków do 1603 ms**. Odpowiedź: **opt-in profil** `?ki-ground-res=512` (lub 768/1024) obniża sufit
+  rozdzielczości pieczenia (koszt ∝ res² → 1024→512 to ~4× taniej) + **adaptacyjne pieczenie**: po
+  wolnej pieczeniu (>100 ms) kolejka nie dokłada drugiej w tej klatce (`bakesPerFrame`).
+- **Domyślnie nic nie zmienia** (bez parametru `groundResolutionOverride` = null, limit 2/klatkę jak
+  wcześniej). Źródło: `src/game/assets/groundBudget.ts` + `renderSuperior.ts`. Testy **11/11** w
+  `ground-budget.test.ts`. Pełna bramka sekwencyjna: lint 0, typecheck 0, testy 0, build 0.
+- Do przetestowania na urządzeniu: `/?ki-diag=1&ki-ground-res=512` vs `/?ki-diag=1` (porównanie
+  zamrożeń w raporcie). Docelowe rozwiązanie (poza głównym wątkiem / pre-bake kafelków) wymaga osobnej
+  decyzji — ten profil jest bezpiecznym, odwracalnym krokiem pośrednim.
