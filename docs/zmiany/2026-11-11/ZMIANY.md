@@ -149,3 +149,12 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   na gęstej dziczy i mieście, na dużych obiektach z kotwicą poza kadrem i na pustym kadrze.
 - **Świadomie zostawione na Fazę 2:** cienie jako osobne GameObjecty, pieczenie blokujące wątek,
   `snapshot` 10×/s i brak memo w HUD. Wypiekanie cieni w podłoże zmienia obraz, więc czeka na decyzję.
+
+### Mapa 2D: przesuwanie na szerokim, niskim ekranie
+
+- Odtworzone w przeglądarce (telefon w poziomie 844×390, najmniejsze powiększenie): widok jest tam szerszy
+  niż mapa, a `clampView` przy takim widoku na sztywno ustawiał `cx` na środek, więc przeciągnięcie nie
+  robiło nic (zapętlone przesuwanie działało tylko po przybliżeniu albo na węższych ekranach).
+- `clampView` zawsze zawija długość geograficzną; `wrapCopies` liczy kopie mapy także dla widoku szerszego
+  niż mapa (trzy kopie), więc po bokach nie ma dziur. Test `planet-map.test.ts`: pełny obrót wraca do startu,
+  kopie pokrywają cały widoczny pas.
