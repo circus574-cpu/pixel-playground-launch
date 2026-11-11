@@ -91,7 +91,7 @@ to ~1000 porównań i nie boli — zostawione, z adnotacją co zrobić przy podn
 - Bramka: `eslint` na nowych i zmienionych plikach exit 0; `npm run typecheck` exit 0
   (limit cgroup wrócił do 4 GiB, więc bez flagi kopca).
 
-### Logowanie po edycji postaci w panelu (`COMMAND_REJECTED`)
+### 8. Logowanie po edycji postaci w panelu (`COMMAND_REJECTED`)
 
 - Przyczyna odczytana z logów serwera (workflow `game-server-logs.yml`, tylko odczyt):
   `Invalid server checkpoint: Nie można odczytać zapisu postaci.` — edycja z panelu zapisywała
@@ -105,3 +105,14 @@ to ~1000 porównań i nie boli — zostawione, z adnotacją co zrobić przy podn
   na kontynent edytowanej postaci i zapisuje to w logu (`[Online] Naprawiono pola postaci…`).
   Dotychczas zablokowane postacie otwierają się bez ręcznej interwencji w bazie.
 - Test `server-superior-simulation.test.ts`: postać ze wszystkimi powyższymi uszkodzeniami otwiera się.
+
+### 9. Przebudowa graficznego drzewka umiejętności (widok V2)
+
+Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano prawdziwe rozrysowanie rozgałęzień, przyciski dodawania umiejętności bezpośrednio przy węzłach oraz wyczerpujące opisy działań.
+
+- **Układ drzewa zamiast kolumny:** `GraphicSkillTree.tsx` rysuje krzywe ścieżki SVG odzwierciedlające faktyczne zależności z aneksu (A1 rozgałęzia się na pasywy A2 i A3, które schodzą się do A4, z A4 rozgałęziają się A5 i A6, a wybór A7/A8 oznaczono czerwoną linią i plakietką „albo” informującą o wzajemnym wykluczeniu).
+- **Dodawanie punktów przy rozgałęzieniu:** każdy odblokowany węzeł posiada bezpośredni przycisk `+` (`.ki-st-plus`) umieszczony przy ikonie zdolności, dzięki czemu gracz zwiększa rangę lub poznaje skill w miejscu rozgałęzienia bez schodzenia na dół panelu.
+- **Brak limitu rang:** zachowano zasadę braku ograniczenia liczby punktów w węźle; interfejs jasno prezentuje bieżący mnożnik rangi i prognozę po dodaniu kolejnego punktu (`ranga X -> x(X+1)`).
+- **Karty z opisami fabularnymi i parametrami działania:** moduł `skillTreeLore.ts` wprowadza fabularne cytaty dla każdego z 29 węzłów 4 ras, motto każdej z 3 gałęzi oraz analizator parametrów technicznych (`skillFacts`), który wyróżnia plakietkami mnożnik obrażeń, promień/zasięg, czas ogłuszenia/spowolnienia, czas trwania, koszt Ki i czas odnowienia.
+- **Układ responsywny i zachowanie kompatybilności:** wprowadzono dedykowane style w `skill-tree.css`. Na ekranach panoramicznych i komputerach karta opisu (`.ki-st-card.ki-gst-card`) znajduje się z prawej strony obok tablicy drzewka (`.ki-st-board.ki-gst-board`), spełniając asercje testów E2E, a na wąskich ekranach panel płynnie przełącza się w widok kolumnowy z zakładkami gałęzi.
+- **Weryfikacja:** dedykowany test `src/test/graphic-skill-tree.test.tsx` (5/5 PASS), pełny `npm run typecheck` exit 0, `python scripts/docs/check_documentation.py` PASS.
