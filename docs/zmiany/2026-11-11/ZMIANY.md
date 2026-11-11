@@ -90,3 +90,18 @@ to ~1000 porównań i nie boli — zostawione, z adnotacją co zrobić przy podn
 - Audyt **nie zmienia kodu gry**. Zmiany dotyczą wyłącznie narzędzi pomiarowych i harnessu.
 - Bramka: `eslint` na nowych i zmienionych plikach exit 0; `npm run typecheck` exit 0
   (limit cgroup wrócił do 4 GiB, więc bez flagi kopca).
+
+### Logowanie po edycji postaci w panelu (`COMMAND_REJECTED`)
+
+- Przyczyna odczytana z logów serwera (workflow `game-server-logs.yml`, tylko odczyt):
+  `Invalid server checkpoint: Nie można odczytać zapisu postaci.` — edycja z panelu zapisywała
+  postać, która łamała niezmienniki wczytania punktu zapisu (`SuperiorSaveStore.load`):
+  doświadczenie ≥ próg poziomu po zmianie poziomu, miecz/kamizelka w slocie bez posiadania,
+  zadanie ukończone bez poprzednika, teleport na inny kontynent przy starym `feature`, pozycja
+  poza światem lub w miejscu bez przejścia.
+- `src/server/characters/playerRepair.ts` — naprawa pól zachowująca intencję edycji (nadanie
+  przedmiotu, dokończenie poprzedników zadań, przycięcie XP poniżej progu, pozycja w granicach).
+- `prepareServerSimulation` naprawia postać przed wczytaniem punktu zapisu, przenosi punkt zapisu
+  na kontynent edytowanej postaci i zapisuje to w logu (`[Online] Naprawiono pola postaci…`).
+  Dotychczas zablokowane postacie otwierają się bez ręcznej interwencji w bazie.
+- Test `server-superior-simulation.test.ts`: postać ze wszystkimi powyższymi uszkodzeniami otwiera się.
