@@ -200,3 +200,23 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
 - Uwaga: FPS z programowego Canvas w tym kontenerze degraduje się w trakcie długich przebiegów
   (czas wejścia rośnie 22→33 s), więc per-światowe FPS nie jest wiarygodną miarą; wiarygodne są
   frameMax (zamrożenie) i pamięć, niezależne od tego dryfu. Miara docelowa = fizyczny telefon.
+
+### 13. Faza 2 (część 3): memoizacja HUD — drzewko i panel walki nie renderują się 10×/s
+
+- HUD odświeża się 10×/s (`report()` → `snapshot()` → `setState`), a panele dostają cały nowy obiekt
+  stanu za każdym razem. Bez memo kosztowne panele przerysowywały się przy każdym tyknięciu, nawet
+  gdy ich dane się nie zmieniły.
+- **`GraphicSkillTree`** owinięte w `React.memo` z komparatorem na polach, których faktycznie używa:
+  rasa, poziom, złoto, punkty, koszt respec i lista umiejętności (+ stabilne `send`). 29 węzłów
+  i ścieżki SVG nie przerysowują się, gdy gracz tylko się porusza. Nauka / respec / zmiana poziomu
+  przepuszczają render.
+- **`CombatPanel`** owinięte w `React.memo` z porównaniem treści listy wrogów (id, hp, maxHp, poziom,
+  nazwa, boss) i celu. W walce HP się zmienia, więc panel aktualizuje się na bieżąco; poza zmianą
+  wrogów/celu pomija re-render.
+- **Test dowodzący memo:** szpieg `canLearn` (wołany tylko podczas renderu drzewka) liczy wywołania —
+  przy niezmienionych polach drzewka 0 wywołań po re-renderze (memo pomija), przy nauce umiejętności
+  wywołania wracają. To realny dowód pominięcia, nie tylko „testy przechodzą".
+- Panele o złożonych zależnościach (Inventory, QuestJournal, CharacterStatsPanel — staty/buffy/heritage)
+  świadomie zostawione na osobny ostrożny pass, żeby komparator nie pominął potrzebnego renderu.
+- Bramka: lint zmienionych plików exit 0, typecheck exit 0 (3 konfiguracje), testy drzewka 6 passed,
+  testy HUD 16 passed. Pełny zestaw osobno.
