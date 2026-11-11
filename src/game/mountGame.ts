@@ -229,6 +229,11 @@ export function mountKileGends(
     private stickBase!: Phaser.GameObjects.Arc;
     private stickKnob!: Phaser.GameObjects.Arc;
     private lastReport = 0;
+    /** Flaga „gracz pisze w polu” z focusin/focusout — bez pytania DOM co klatkę (Faza 2). */
+    private typing = false;
+    /** Mapa NPC przebudowywana tylko przy zmianie listy, nie co klatkę (Faza 2). */
+    private npcMap = new Map<string, { id: string; name: string; x: number; y: number }>();
+    private npcMapSource: readonly unknown[] | null = null;
     private animationTime = 0;
     private suspended = false;
     private loadFailed = false;
@@ -555,6 +560,8 @@ export function mountKileGends(
               .abilities()
               .find((a) => a.key !== "" && skillSlot(a.key) === Number(bound.slice(5)))
           : undefined;
+        // Faza 2: jeden snapshot na naciśnięcie, nie trzy w gałęzi loot/interact.
+        const snap = bound === "loot" || bound === "interact" ? session.snapshot() : null;
         const action: Command | undefined =
           event.key === "Escape"
             ? { type: "cancel" }
@@ -565,15 +572,15 @@ export function mountKileGends(
                 : bound === "potion"
                   ? { type: "ability", ability: "potion" }
                   : bound === "loot"
-                    ? { type: "loot", id: session.snapshot().nearbyLoot[0]?.id ?? "" }
+                    ? { type: "loot", id: snap!.nearbyLoot[0]?.id ?? "" }
                     : bound === "interact"
                       ? session.player.interior === "depot" &&
                         distance(session.player, cityRoom("depot", world.id).chest) < 145
                         ? { type: "chest" }
-                        : session.snapshot().nearbyBuilding &&
+                        : snap!.nearbyBuilding &&
                             !session.npcs.some((n) => distance(n, session.player) < 140)
-                          ? { type: "enter", building: session.snapshot().nearbyBuilding!.id }
-                          : { type: "interact", npc: session.snapshot().nearestNpc }
+                          ? { type: "enter", building: snap!.nearbyBuilding!.id }
+                          : { type: "interact", npc: snap!.nearestNpc }
                       : slot
                         ? { type: "ability", ability: slot.id }
                         : undefined;
@@ -584,6 +591,18 @@ export function mountKileGends(
         }
       });
       this.input.addPointer(2);
+      // Faza 2: flaga pisania z zdarzeń focus, zamiast document.activeElement.closest() co klatkę.
+      const onFocusChange = () => {
+        const el = document.activeElement;
+        this.typing =
+          el instanceof HTMLElement && Boolean(el.closest("input,textarea,button,[role=dialog]"));
+      };
+      document.addEventListener("focusin", onFocusChange);
+      document.addEventListener("focusout", onFocusChange);
+      this.events.once(Phaser.Scenes.Events.DESTROY, () => {
+        document.removeEventListener("focusin", onFocusChange);
+        document.removeEventListener("focusout", onFocusChange);
+      });
       this.stickBase = this.add
         .circle(0, 0, 48, 0x183c48, 0.5)
         .setStrokeStyle(2, 0xb8f2df)
@@ -1410,20 +1429,21 @@ export function mountKileGends(
           foci.push({ id: "peer:" + id, x: entry.actor.body.x, y: entry.actor.body.y });
         this.updateVisibility?.(session.player, foci);
       }
-      const activeNpcs = new Map(session.npcs.map((n) => [n.id, n]));
+      // Faza 2: mapa NPC przebudowywana tylko przy zmianie listy; pozycje aktualizują się w miejscu.
+      if (this.npcMapSource !== session.npcs) {
+        this.npcMapSource = session.npcs;
+        this.npcMap.clear();
+        for (const n of session.npcs) this.npcMap.set(n.id, n);
+      }
       for (const actor of this.actors)
         if (actor.npcId) {
-          const npc = activeNpcs.get(actor.npcId);
+          const npc = this.npcMap.get(actor.npcId);
           if (npc) {
             actor.body.setPosition(npc.x, npc.y).setDepth(npc.y);
             actor.name.setText(npc.name);
           }
         }
-      const focused = document.activeElement;
-      const typing =
-        focused instanceof HTMLElement &&
-        Boolean(focused.closest("input,textarea,button,[role=dialog]"));
-      const k = typing ? undefined : this.keys;
+      const k = this.typing ? undefined : this.keys;
       const dx =
         Number(Boolean(k?.["D"]?.isDown || k?.["RIGHT"]?.isDown)) -
         Number(Boolean(k?.["A"]?.isDown || k?.["LEFT"]?.isDown)) +
@@ -1535,7 +1555,7 @@ export function mountKileGends(
         if (a.kind === "npc")
           a.body.setVisible(
             near &&
-              Boolean(a.npcId && activeNpcs.has(a.npcId)) &&
+              Boolean(a.npcId && this.npcMap.has(a.npcId)) &&
               !(
                 world.id === "pyra" &&
                 a.npcId === "smith" &&

@@ -86,4 +86,11 @@ describe("rate limiter", () => {
     expect([r.allow("k", 0), r.allow("k", 1), r.allow("k", 2)]).toEqual([true, true, false]);
     expect(r.allow("k", 1001)).toBe(true);
   });
+
+  it("forgets a key on reset, so a successful login clears earlier failed attempts", () => {
+    const r = new RateLimiter(2, 1000);
+    expect([r.allow("k", 0), r.allow("k", 1), r.allow("k", 2)]).toEqual([true, true, false]);
+    r.reset("k");
+    expect(r.allow("k", 3)).toBe(true);
+  });
 });

@@ -61,9 +61,22 @@ export function StaffTools({
             <button aria-pressed={state.god} onClick={() => send({ type: "staff", action: "god" })}>
               Nieśmiertelność {state.god ? "✓" : ""}
             </button>
+            <button
+              aria-pressed={state.unlimited}
+              onClick={() => send({ type: "staff", action: "unlimited" })}
+              title="Brak odnowień zdolności"
+            >
+              Unlimited {state.unlimited ? "✓" : ""}
+            </button>
             <button onClick={() => send({ type: "staff", action: "level" })}>+1 poziom</button>
             <button onClick={() => send({ type: "staff", action: "gold" })}>+1000 monet</button>
             <button onClick={() => send({ type: "staff", action: "potions" })}>+10 mikstur</button>
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent("ki:diag-start"))}
+              title="Autonomiczny pomiar gry przez 45 s i raport do pliku"
+            >
+              🩺 Diagnostyka 45 s
+            </button>
           </div>
           <h4>Teleport na współrzędne</h4>
           <form

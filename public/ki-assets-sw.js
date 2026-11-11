@@ -3,9 +3,25 @@
  * ~20 MB again. Versioned packs (/gpu/<pack>/<version>-<hash>/) never change: cache-first.
  * Other files under /game/ may be replaced in place: served from cache, refreshed in the background.
  * Range requests (music streaming) and everything outside /game/ go straight to the network.
+ *
+ * Faza 3 (11.11.2026): cache ma limit wpisów z przycinaniem najstarszych. Bez tego dziesięć lądów
+ * po ~50 MB rosło w nieskończoność i na telefonie potrafiło przepełnić storage, co zamiast
+ * przyspieszać — wyrzucało cache i spowalniało. Wersja podbita, żeby stary, nieograniczony cache
+ * został wyczyszczony przy aktywacji.
  */
-const CACHE = "ki-assets-v1";
+const CACHE = "ki-assets-v2";
 const IMMUTABLE = /\/game\/assets\/gpu\/[^/]+\/[^/]+-[0-9a-f]{12}\//;
+const MAX_ENTRIES = 800;
+const TRIM_EVERY = 40;
+let putsSinceTrim = 0;
+
+async function trim(cache) {
+  const keys = await cache.keys();
+  if (keys.length <= MAX_ENTRIES) return;
+  // keys() zwraca w kolejności wstawiania — usuwamy najstarsze, aż wrócimy poniżej limitu.
+  const excess = keys.length - MAX_ENTRIES;
+  await Promise.all(keys.slice(0, excess).map((k) => cache.delete(k)));
+}
 
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", (event) => {
@@ -28,7 +44,14 @@ self.addEventListener("fetch", (event) => {
       const hit = await cache.match(request);
       const refresh = () =>
         fetch(request).then((response) => {
-          if (response.status === 200) void cache.put(request, response.clone());
+          if (response.status === 200) {
+            void cache.put(request, response.clone()).then(() => {
+              if (++putsSinceTrim >= TRIM_EVERY) {
+                putsSinceTrim = 0;
+                void trim(cache).catch(() => undefined);
+              }
+            });
+          }
           return response;
         });
       if (!hit) return refresh();

@@ -5,6 +5,26 @@ SHA="${1:?release SHA}"
 UUID=xh4qbckykxsq1iofxdoe5t3h
 BASE="$HOME/ki-legends-aruba-staging"
 LIVE_URL="${KI_LIVE_SMOKE_URL:-https://kilegends.pl}"
+BASE_KEEP_PREV=$(cat "$BASE/coolify-live-release" 2>/dev/null || true)
+# Every release leaves two tagged images (ki-legends-web/app:staging-<sha>) plus build cache; without cleanup the
+# 128 GB host filled up (21:07 on 2026-11-11: "no space left on device" while exporting the images).
+# Keeps the release being built and the one that was live before it (manual rollback); docker itself refuses to remove
+# an image that a container still uses. Best effort: a failing cleanup never fails or rolls back a release.
+cleanup_images() {
+ local keep_a="$1" keep_b="$2" repo ref
+ for repo in ki-legends-web ki-legends-app; do
+  while read -r ref; do
+   [ -n "$ref" ] || continue
+   case "$ref" in *":staging-$keep_a"|*":staging-$keep_b") continue;; esac
+   docker rmi "$ref" >/dev/null 2>&1 || true
+  done < <(docker images --format '{{.Repository}}:{{.Tag}}' "$repo" 2>/dev/null | grep ':staging-' || true)
+ done
+ docker image prune -f >/dev/null 2>&1 || true
+ docker builder prune -f --filter 'until=48h' >/dev/null 2>&1 || true
+ echo "Disk after image cleanup:"; df -h / | tail -1
+}
+# Free the space first so the build below cannot run out of it, then clean again once the release is verified.
+cleanup_images "$SHA" "$BASE_KEEP_PREV"
 # Build and run HTTP checks in the separate, loopback-only candidate stack first.
 bash -s -- "$SHA" < "$BASE/deploy-candidate.sh"
 WEB="web-$UUID"; APP="app-$UUID"
@@ -47,5 +67,5 @@ wait_for_proxy
 bash "$BASE/releases/$SHA/deploy/scripts/smoke-test.sh" "$LIVE_URL" --staging
 trap - ERR
 printf '%s\n' "$SHA" > "$BASE/coolify-live-release"
-docker image prune -f >/dev/null 2>&1 || true
+cleanup_images "$SHA" "$BASE_KEEP_PREV"
 echo "COOLIFY RELEASE VERIFIED $SHA"
