@@ -219,4 +219,4 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
 - Panele o złożonych zależnościach (Inventory, QuestJournal, CharacterStatsPanel — staty/buffy/heritage)
   świadomie zostawione na osobny ostrożny pass, żeby komparator nie pominął potrzebnego renderu.
 - Bramka: lint zmienionych plików exit 0, typecheck exit 0 (3 konfiguracje), testy drzewka 6 passed,
-  testy HUD 16 passed. Pełny zestaw osobno.
+  testy HUD 16 passed; **pełny zestaw 1265 passed / 10 skipped (122 pliki), zero padnięć**.
