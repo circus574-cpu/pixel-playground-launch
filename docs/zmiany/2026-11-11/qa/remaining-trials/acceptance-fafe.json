@@ -1,0 +1,50 @@
+{
+  "codeSha": "fafe526eda7f1746eded33f1f66730789731a76c",
+  "integratedMain": "d586a2c5",
+  "pullRequest": "https://github.com/circus574-cpu/pixel-playground-launch/pull/145",
+  "typecheck": "PASS (app, e2e, tools)",
+  "unit": {
+    "passed": 1706,
+    "failed": 0,
+    "skipped": 10,
+    "filesPassed": 142,
+    "filesSkipped": 1
+  },
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 15
+  },
+  "assets": "PASS",
+  "build": "PASS",
+  "documentation": "PASS",
+  "browser": {
+    "canvasPassed": [
+      "TN01 I",
+      "TP03 I"
+    ],
+    "softwareWebglInitialFailed": [
+      "TN01: arena arrival timeout before trial",
+      "TP03: menu action timeout before trial"
+    ],
+    "isolatedRecheck": "pending"
+  },
+  "mobile": {
+    "passed": 2,
+    "failed": 0,
+    "scenarios": [
+      "touch TN08; 390x844 rotation guard and 852x393",
+      "TP03 I at 852x393"
+    ],
+    "physicalPhone": false,
+    "twoThumbSimultaneousInput": false
+  },
+  "notComplete": [
+    "world domain interactions",
+    "32 late encounter variants 21-40",
+    "whole campaign playthrough and balance",
+    "full project Playwright / CI"
+  ],
+  "mainMerged": false,
+  "published": false,
+  "gpuLifecycleChanged": false
+}

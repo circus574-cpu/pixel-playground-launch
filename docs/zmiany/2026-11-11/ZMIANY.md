@@ -396,3 +396,18 @@ podchodzi zwykłym WASD. Nie klika przycisku wyjścia, nie wstrzykuje wyników a
 stanu postaci. Używa rzeczywistych przycisków, pocisków, AI i trwałego zapisu.
 Konfiguracja odbioru zapisuje również filmy bezpośrednio z Playwrighta.
 Końcowe wyniki, SHA i zakres są w raporcie QA tej partii.
+
+
+Checkpoint kodu `fafe526eda7f1746eded33f1f66730789731a76c`,
+[Draft PR #145](https://github.com/circus574-cpu/pixel-playground-launch/pull/145).
+Końcowy na tym kodzie Vitest: **1706 PASS / 0 FAIL / 10 SKIP** (142 pliki PASS,
+1 SKIP), pełny TypeScript, lint 0/15, build, assets i dokumentacja PASS.
+Canvas TN01 I i TP03 I: **2 PASS**. Mobilny Canvas: **2 PASS** (dotykowy TN08
+z obrotem i TP03 I w 852×393). Filmy są nagraniami rzeczywistej aplikacji.
+Software WebGL: pierwszy przebieg **0 PASS / 2 FAIL**, przed wejściem do sali
+(dojście do areny i aktywacja menu) przy równoległej pracy CPU; kontrola bez
+innych testów jest w toku. Nie zwiększano timeoutów i nie usuwano asercji.
+[Raport z ograniczeniami](qa/remaining-trials/acceptance-fafe.json),
+[pełne jednostkowe](qa/remaining-trials/final-unit.txt),
+[odciski kodu](qa/remaining-trials/final-source-sha256.json).
+Nie jest to jeszcze PASS pełnego CI ani całej kampanii.
