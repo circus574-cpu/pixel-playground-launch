@@ -24,6 +24,10 @@ export class ActorAnimation {
   private startedAt = 0;
   private pending: { state: "attack" | "skill"; facing: Point; expires: number } | undefined;
   private lastKey = "";
+  /** Looping clip stepped by this class (see update): its state and the time it started, kept across facing changes. */
+  private loopState: AnimationState | undefined;
+  private loopStart = 0;
+  private loopFrame = "";
   /** Tryb KI was active at the last update: idle and basic attacks use the powered-up clips when the race has them. */
   private kiForm = false;
   private direction: Point = { x: 0, y: 1 };
@@ -111,6 +115,26 @@ export class ActorAnimation {
     const desired = facingDirection(this.direction, available);
     const dir = available.includes(desired) ? desired : available[0]!;
     const frames = clip.directions[dir]!;
+    if (clip.loop && frames.length > 1) {
+      // A looping clip (walk, kiwalk, idle, kiidle) is stepped from one clock that survives facing changes: restarting
+      // a Phaser animation on every new direction (joystick or path following flipping between neighbouring
+      // directions) kept the stride on its first frame and froze the legs.
+      if (this.loopState !== selected) {
+        this.loopState = selected;
+        this.loopStart = now;
+      }
+      const frame = frames[Math.floor(((now - this.loopStart) / 1000) * clip.fps) % frames.length]!;
+      const id = clip.asset + "/" + frame;
+      this.lastKey = "";
+      if (id !== this.loopFrame) {
+        this.loopFrame = id;
+        this.sprite.stop();
+        this.sprite.setTexture(clip.asset, frame);
+      }
+      return;
+    }
+    this.loopState = undefined;
+    this.loopFrame = "";
     const key = animationKey(this.visual, selected, dir);
     if (key === this.lastKey) return;
     this.lastKey = key;

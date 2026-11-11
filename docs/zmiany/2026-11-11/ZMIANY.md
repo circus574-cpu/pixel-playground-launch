@@ -272,3 +272,16 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   `kiidle` 00–05, `kiwalk` (prawo i lewo), `kiattack` 00–05 i `kiskill` 00–07 odtwarzają się kolejno; zero błędów w konsoli.
   Typecheck 3 konfiguracji i testy: `actor-animation`, `gpu-pipeline` (640 odwołań do klatek).
 
+### 16. Chód: nogi „blokowały się" przy zmianie kierunku (także bez transformacji)
+
+- Przyczyna: `ActorAnimation` uruchamiał `sprite.play(klucz)` przy każdej zmianie kierunku, a nowa animacja startuje od klatki 0
+  i zeruje zegar. Gdy kierunek przeskakiwał między sąsiednimi (joystick, chodzenie po ścieżce, ukosy) częściej niż co klatkę
+  (62,5 ms przy 16 kl./s), krok zostawał na klatce 00 — nogi stały w miejscu mimo ruchu postaci. Dotyczyło `walk` i `kiwalk` (oraz `idle`).
+- Naprawa: klipy zapętlone (`walk`, `kiwalk`, `idle`, `kiidle`) są ustawiane z jednego zegara, który przeżywa zmianę kierunku
+  (`loopStart`); zmiana stanu zaczyna krok od klatki 00. Klipy jednorazowe (atak, skill, hit, death) bez zmian.
+- Weryfikacja w grze (próbnik klatek, trzymane `w` i klepane `d` co 110 ms): przed — 28 z 29 zmian kierunku wracało na klatkę 00
+  (stały `up/00 up-right/00 …`); po — krok przechodzi 00–07 w kółko przez zmiany kierunku (Legenda, Android, Mędrzec, Planetar: 2–3
+  powroty na 00 w 45–69 krokach, czyli tylko naturalne zawinięcie pętli). Test `actor-animation.test.ts` (zmiana kierunku co 20 ms).
+- Ograniczenie źródeł (bez zmian): w widoku z przodu i z tyłu kroki Legendy i Planetara są w filmach bardzo płytkie; przebudowa
+  wymaga nowych filmów chodu (w repo brak źródeł `legend-walk.mp4` i `sage-walk.mp4`).
+
