@@ -331,3 +331,25 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
 - Do przetestowania na urządzeniu: `/?ki-diag=1&ki-ground-res=512` vs `/?ki-diag=1` (porównanie
   zamrożeń w raporcie). Docelowe rozwiązanie (poza głównym wątkiem / pre-bake kafelków) wymaga osobnej
   decyzji — ten profil jest bezpiecznym, odwracalnym krokiem pośrednim.
+
+### 19. Mapa 2D: przybliżanie pokazuje prawdziwy teren (lasy, góry, biomy) — styl „real"
+
+- Na polecenie właściciela: przy zoomie mapa ma pokazywać **prawdziwy świat — lasy, góry i to, co
+  rzeczywiscie jest**, a nie płaskie plamy koloru. Przyczyna: `render_v2_maps.py` malował mapy stylem
+  „calm" (średni kolor biomu + tylko 18% tekstury).
+- **Nowy styl `MAP_STYLE=real`** w `scripts/worldgen/v2/render_v2_maps.py`: pełna tekstura podłoża
+  (80% tekstury + 20% średniej), więc las/góra/bagno czytają się jak prawdziwy teren. Domyślny „calm"
+  bez zmian (opt-in przez env). Zachowane: grzbiety gór, wybrzeża, woda śródlądowa, drogi.
+- **Zregenerowano `map-hi.webp` wszystkich 10 lądów** stylem „real" w tej samej rozdzielczości
+  (kontynenty `MAP_WIDTH=8192 MAP_SUFFIX=-hi MAP_UPSAMPLE=2`, wyspy domyślne). **Wymiary `map-hi.json`
+  identyczne** (np. verdant 3985×3011) → kafelki overlay i projekcja świata bez zmian. `map.webp`
+  (mapa podstawowa) nietknięta.
+- **Weryfikacja liczbowa** (vision bridge niedostępny): średni kontrast sąsiednich pikseli (energia
+  tekstury) fragmentu verdant wzrósł **1,28 → 2,53 (~2×)** calm→real — potwierdza realną teksturę.
+  Warstwa `TerrainCanvas` (`WorldOverlay.tsx`) już ładuje `map-hi.webp` od zoom ≥ 3, więc prawdziwy
+  teren pokazuje się przy przybliżaniu bez zmian w kodzie klienta.
+- **Globus — uczciwie:** globus owija malowany atlas `atlas-v2-3840.webp` przez pipeline
+  `render_v2_planet_terrain.py` → `build_v2_atlas.py` (repaint GPU) → `build_globe_textures.py`,
+  a oba skrypty wymagają `scipy` (niedostępny, PEP 668 blokuje instalację). Pokazanie realnej tekstury
+  na globusie to osobny krok (scipy + pipeline atlasu) — nie ruszany bez zgody i narzędzi. Globus nadal
+  pokazuje realny układ biomów z orbity.
