@@ -289,3 +289,20 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   29 w tyle; krótkie odcinki Planetara: najdłuższy możliwy okres), próbkuje 8 klatek równomiernie na całym okresie i przebudowuje kierunki
   down, up i ukosy (idle z nich pochodzi tak samo jak wcześniej); boki (left/right) zostają z poprzedniej paczki. Paczki `2.5.0`
   (Legenda, Planetar); Android i Mędrzec bez zmian (Mędrzec: brak filmu chodu w repo).
+
+### 17. Etap 1 (walka, forma bazowa): kolejne ciosy, skill obszarowy, unik i gard — cztery rasy
+
+- Z filmów `<rasa>-etap1-walka.mp4` wycięto pięć nowych klipów (efekty z filmów zachowane, jak w Trybie KI): `attack2` (6 klatek, drugi cios),
+  `finisher` (8, ciężkie uderzenie z wybuchem), `skillb` (8, skok i fala uderzeniowa), `dodge` (6, 14 kl./s, odskok z poświatą) i
+  `guard` (6, 10 kl./s, gard/tarcza). Skrypt: `scripts/anim/fightform_build.py` (nowy atlas `<paczka>-fight-2`, 68 klatek, 9–13 MiB po rozkodowaniu).
+  Matowanie: `kimatte.py` wzbogacone o próg barwy (szum kompresji szarego tła Androida) i lokalizację efektów wokół postaci.
+- Silnik (`ActorAnimation`): stany `attack2`, `finisher`, `skillb`, `dodge`, `guard` (schema, `GPU_CONTRACT.optionalAnimations`). Podstawowy cios
+  tworzy łańcuch `attack → attack2 → finisher` (cios w ciągu 1,4 s od poprzedniego kontynuuje łańcuch, dłuższa przerwa zaczyna od `attack`);
+  w Trybie KI zostaje `kiattack`. `mountGame`: `burst` bohatera → `skillb` (w Trybie KI `kiskill`), unik (`buff` `dodge`) → `dodge`,
+  `shield` → `guard`.
+- Paczki hero `2.6.0` (stare usunięte). Najwyższy świat: Verdantia 123,3 z 128 MiB (Planetar z cache terenu) — mało zapasu;
+  następne atlasy bohatera Planetara wymagają kolejnego odchudzenia.
+- Weryfikacja w grze (arena treningowa, próbnik klatek): `attack 00–07 → attack2 00–05 → finisher 00–07` (Mędrzec), `skillb 00–07`
+  (Planetar, Mędrzec), `dodge 00–05` i `guard 00–05` (Android, Mędrzec), `dodge` (Legenda, Planetar); zero błędów w konsoli.
+  Legenda nie ma zdolności z tarczą, więc `guard` nie jest u niej wywoływany; skill A bohatera dalej gra istniejący klip `skill`.
+- Nie zrobione: etapy 2 (ciężkie trafienie, zwycięstwo) i 3 (bieg, ładowanie, skill C, interakcja); formy KI z etapu 4 dla ciosów 2–3, uniku i gardu.

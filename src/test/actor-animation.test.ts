@@ -123,6 +123,77 @@ describe("Tryb KI stance, basic attack and skill (kiidle, kiattack, kiskill)", (
     expect(animation.state).toBe("attack");
   });
 });
+describe("base-form combat clips (attack chain, area skill, dodge, guard)", () => {
+  const make = () => {
+    const base = actorVisual("verdant", "hero", undefined, false, catalog);
+    const sprite = {
+      anims: { pause: vi.fn(), resume: vi.fn() },
+      play: vi.fn(),
+      stop: vi.fn(),
+      setTexture: vi.fn(),
+    };
+    return {
+      base,
+      sprite,
+      animation: new ActorAnimation(sprite as unknown as Phaser.GameObjects.Sprite, base),
+    };
+  };
+  const played = (sprite: ReturnType<typeof make>["sprite"]) =>
+    String(sprite.play.mock.calls.at(-1)?.[0]);
+  it("ships the clips for every hero with the contract frame counts", () => {
+    for (const world of ["verdant", "aether", "nexus", "pyra"] as const) {
+      const hero = actorVisual(world, "hero", undefined, false, catalog);
+      for (const [clip, frames] of [
+        ["attack2", 6],
+        ["finisher", 8],
+        ["skillb", 8],
+        ["dodge", 6],
+        ["guard", 6],
+      ] as const) {
+        const c = hero.clips[clip]!;
+        expect(c, world + clip).toBeDefined();
+        expect(c.loop).toBe(false);
+        for (const names of Object.values(c.directions)) expect(names).toHaveLength(frames);
+      }
+    }
+  });
+  it("chains basic strikes attack, attack2, finisher within 1.4 s and starts over after a pause", () => {
+    const { animation, sprite } = make();
+    const f = { x: 1, y: 0 };
+    animation.trigger("attack", 0, f);
+    animation.update(10, false, false, f);
+    expect(played(sprite)).toContain("/attack/");
+    animation.trigger("attack", 800, f);
+    animation.update(810, false, false, f);
+    expect(played(sprite)).toContain("/attack2/");
+    animation.trigger("attack", 1600, f);
+    animation.update(1610, false, false, f);
+    expect(played(sprite)).toContain("/finisher/");
+    animation.trigger("attack", 2400, f);
+    animation.update(2410, false, false, f);
+    expect(played(sprite)).toContain("/attack/");
+    animation.trigger("attack", 6000, f);
+    animation.update(6010, false, false, f);
+    expect(played(sprite)).toContain("/attack/");
+  });
+  it("plays skillb, dodge and guard, and uses kiskill for skillb in Tryb KI", () => {
+    const { animation, sprite } = make();
+    const f = { x: 1, y: 0 };
+    animation.trigger("skillb", 0, f);
+    animation.update(10, false, false, f);
+    expect(played(sprite)).toContain("/skillb/");
+    animation.trigger("dodge", 2000, f);
+    animation.update(2010, false, false, f);
+    expect(played(sprite)).toContain("/dodge/");
+    animation.trigger("guard", 4000, f);
+    animation.update(4010, false, false, f);
+    expect(played(sprite)).toContain("/guard/");
+    animation.update(6000, false, false, f, false, true);
+    animation.trigger("skillb", 6100, f);
+    animation.update(6110, false, false, f, false, true);
+    expect(played(sprite)).toContain("/kiskill/");
+  });
+});
 describe("walk keeps its stride when only the facing changes", () => {
   const make = () => {
     const base = actorVisual("verdant", "hero", undefined, false, catalog);
