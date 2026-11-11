@@ -41,6 +41,7 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-11-10](zmiany/2026-11-10/ZMIANY.md)
 - [2026-11-07](zmiany/2026-11-07/ZMIANY.md)
 - [2026-11-06](zmiany/2026-11-06/ZMIANY.md)
 - [2026-11-05](zmiany/2026-11-05/ZMIANY.md)

@@ -236,6 +236,7 @@ export async function validatePackage(manifest: string) {
     for (const [state, clip] of Object.entries(actor.clips)) {
       const spec =
         GPU_CONTRACT.animations[state as keyof typeof GPU_CONTRACT.animations] ??
+        GPU_CONTRACT.optionalAnimations[state as keyof typeof GPU_CONTRACT.optionalAnimations] ??
         GPU_CONTRACT.animations.walk;
       if (!pack.technical)
         requireThat(

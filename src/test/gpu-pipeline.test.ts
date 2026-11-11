@@ -337,6 +337,8 @@ describe("four painted hero deliveries", () => {
         "death",
         "hit",
         "idle",
+        "kiattack",
+        "kiidle",
         "kiwalk",
         "respawn",
         "skill",
@@ -345,8 +347,9 @@ describe("four painted hero deliveries", () => {
       const frames = Object.values(hero.clips).flatMap((clip) =>
         Object.values(clip.directions).flat(),
       );
-      // 416 frame references of the walk/idle/fight clips plus 64 of the Tryb KI walk (kiwalk).
-      expect(frames).toHaveLength(480);
+      // 416 frame references of the walk/idle/fight clips, 64 of the Tryb KI walk (kiwalk), 8 of the
+      // Tryb KI stance (kiidle, one frame) and 48 of its basic attack (kiattack, six frames).
+      expect(frames).toHaveLength(536);
       // Side-view fight frames are shared: right-facing directions reuse one strip, left ones its mirror.
 
       for (const clip of Object.values(hero.clips))
@@ -362,6 +365,7 @@ describe("four painted hero deliveries", () => {
           walk + "-fight-0",
           walk + "-fight-1",
           walk + "-kiwalk-0",
+          walk + "-kifight-0",
         ]),
       );
       for (const other of Object.values(heroes))

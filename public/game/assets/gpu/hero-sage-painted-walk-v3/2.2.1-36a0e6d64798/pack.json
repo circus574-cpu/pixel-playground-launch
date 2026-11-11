@@ -1,54 +1,63 @@
 {
   "schemaVersion": 1,
   "id": "hero-sage-painted-walk-v3",
-  "version": "2.1.0",
+  "version": "2.2.1",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "hero-sage-painted-walk-v3-page-0",
-      "version": "2.1.0",
+      "version": "2.2.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-00cb9f3ca1d5/hero-sage-painted-walk-v3-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-00cb9f3ca1d5/hero-sage-painted-walk-v3-page-0.json",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-page-0.json",
       "width": 2048,
       "height": 2048
     },
     {
       "id": "hero-sage-painted-walk-v3-idle-0",
-      "version": "2.1.0",
+      "version": "2.2.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-00cb9f3ca1d5/hero-sage-painted-walk-v3-idle-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-00cb9f3ca1d5/hero-sage-painted-walk-v3-idle-0.json",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-idle-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-idle-0.json",
       "width": 2048,
       "height": 2048
     },
     {
       "id": "hero-sage-painted-walk-v3-fight-0",
-      "version": "2.1.0",
+      "version": "2.2.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-00cb9f3ca1d5/hero-sage-painted-walk-v3-fight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-00cb9f3ca1d5/hero-sage-painted-walk-v3-fight-0.json",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-fight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-fight-0.json",
       "width": 2048,
       "height": 1792
     },
     {
       "id": "hero-sage-painted-walk-v3-fight-1",
-      "version": "2.1.0",
+      "version": "2.2.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-00cb9f3ca1d5/hero-sage-painted-walk-v3-fight-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-00cb9f3ca1d5/hero-sage-painted-walk-v3-fight-1.json",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-fight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-fight-1.json",
       "width": 2048,
       "height": 512
     },
     {
       "id": "hero-sage-painted-walk-v3-kiwalk-0",
-      "version": "2.1.0",
+      "version": "2.2.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-00cb9f3ca1d5/hero-sage-painted-walk-v3-kiwalk-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.1.0-00cb9f3ca1d5/hero-sage-painted-walk-v3-kiwalk-0.json",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-kiwalk-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-kiwalk-0.json",
       "width": 2048,
       "height": 940
+    },
+    {
+      "id": "hero-sage-painted-walk-v3-kifight-0",
+      "version": "2.2.1",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-kifight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-kifight-0.json",
+      "width": 1269,
+      "height": 484
     }
   ],
   "actors": [
@@ -727,6 +736,108 @@
               "hero-sage-painted/kiwalk/down-right/05",
               "hero-sage-painted/kiwalk/down-right/06",
               "hero-sage-painted/kiwalk/down-right/07"
+            ]
+          }
+        },
+        "kiidle": {
+          "asset": "hero-sage-painted-walk-v3-kifight-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-sage-painted/kiidle/right/00"
+            ],
+            "down-left": [
+              "hero-sage-painted/kiidle/left/00"
+            ],
+            "left": [
+              "hero-sage-painted/kiidle/left/00"
+            ],
+            "up-left": [
+              "hero-sage-painted/kiidle/left/00"
+            ],
+            "up": [
+              "hero-sage-painted/kiidle/right/00"
+            ],
+            "up-right": [
+              "hero-sage-painted/kiidle/right/00"
+            ],
+            "right": [
+              "hero-sage-painted/kiidle/right/00"
+            ],
+            "down-right": [
+              "hero-sage-painted/kiidle/right/00"
+            ]
+          }
+        },
+        "kiattack": {
+          "asset": "hero-sage-painted-walk-v3-kifight-0",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-sage-painted/kiattack/right/00",
+              "hero-sage-painted/kiattack/right/01",
+              "hero-sage-painted/kiattack/right/02",
+              "hero-sage-painted/kiattack/right/03",
+              "hero-sage-painted/kiattack/right/04",
+              "hero-sage-painted/kiattack/right/05"
+            ],
+            "down-left": [
+              "hero-sage-painted/kiattack/left/00",
+              "hero-sage-painted/kiattack/left/01",
+              "hero-sage-painted/kiattack/left/02",
+              "hero-sage-painted/kiattack/left/03",
+              "hero-sage-painted/kiattack/left/04",
+              "hero-sage-painted/kiattack/left/05"
+            ],
+            "left": [
+              "hero-sage-painted/kiattack/left/00",
+              "hero-sage-painted/kiattack/left/01",
+              "hero-sage-painted/kiattack/left/02",
+              "hero-sage-painted/kiattack/left/03",
+              "hero-sage-painted/kiattack/left/04",
+              "hero-sage-painted/kiattack/left/05"
+            ],
+            "up-left": [
+              "hero-sage-painted/kiattack/left/00",
+              "hero-sage-painted/kiattack/left/01",
+              "hero-sage-painted/kiattack/left/02",
+              "hero-sage-painted/kiattack/left/03",
+              "hero-sage-painted/kiattack/left/04",
+              "hero-sage-painted/kiattack/left/05"
+            ],
+            "up": [
+              "hero-sage-painted/kiattack/right/00",
+              "hero-sage-painted/kiattack/right/01",
+              "hero-sage-painted/kiattack/right/02",
+              "hero-sage-painted/kiattack/right/03",
+              "hero-sage-painted/kiattack/right/04",
+              "hero-sage-painted/kiattack/right/05"
+            ],
+            "up-right": [
+              "hero-sage-painted/kiattack/right/00",
+              "hero-sage-painted/kiattack/right/01",
+              "hero-sage-painted/kiattack/right/02",
+              "hero-sage-painted/kiattack/right/03",
+              "hero-sage-painted/kiattack/right/04",
+              "hero-sage-painted/kiattack/right/05"
+            ],
+            "right": [
+              "hero-sage-painted/kiattack/right/00",
+              "hero-sage-painted/kiattack/right/01",
+              "hero-sage-painted/kiattack/right/02",
+              "hero-sage-painted/kiattack/right/03",
+              "hero-sage-painted/kiattack/right/04",
+              "hero-sage-painted/kiattack/right/05"
+            ],
+            "down-right": [
+              "hero-sage-painted/kiattack/right/00",
+              "hero-sage-painted/kiattack/right/01",
+              "hero-sage-painted/kiattack/right/02",
+              "hero-sage-painted/kiattack/right/03",
+              "hero-sage-painted/kiattack/right/04",
+              "hero-sage-painted/kiattack/right/05"
             ]
           }
         }
