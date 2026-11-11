@@ -105,3 +105,15 @@ to ~1000 porównań i nie boli — zostawione, z adnotacją co zrobić przy podn
   na kontynent edytowanej postaci i zapisuje to w logu (`[Online] Naprawiono pola postaci…`).
   Dotychczas zablokowane postacie otwierają się bez ręcznej interwencji w bazie.
 - Test `server-superior-simulation.test.ts`: postać ze wszystkimi powyższymi uszkodzeniami otwiera się.
+
+### Lag: pieczenie chunków po jednym na klatkę i tańsze skróty klawiszowe
+
+- Z audytu wydajności (zadanie „Lag w grze”): kilka chunków kończących ładowanie w tej samej klatce
+  było pieczonych synchronicznie, co dawało pojedyncze zacięcia. `renderSuperior.ts` ma teraz
+  kolejkę (`bakeSlot`): jeden chunk terenu na klatkę; chunk, który w międzyczasie przestał być
+  potrzebny, jest zwalniany bez pieczenia.
+- `mountGame.ts`: jeden `snapshot()` na naciśnięcie klawisza „interakcja” zamiast trzech;
+  klasyfikacja „gracz pisze” (`closest()` po DOM) liczona tylko przy zmianie zogniskowanego elementu,
+  a nie 60 razy na sekundę.
+- Bez zmian w zapisach i rozgrywce. Nie ruszano decyzji z fazy 5 audytu (szczegółowość na telefonie,
+  HUD pionowy, sufit pamięci tekstur, limit potworów) — czekają na zgodę właściciela.
