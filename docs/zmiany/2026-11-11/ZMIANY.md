@@ -255,3 +255,28 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   wejścia** do celu <5 s. Cel <5 s wymaga większej pracy: bundlowania JSON-ów chunków/art (dziś
   ~3872 pliki / ~51,6 MB na świat, 2 fetch/e chunk) + prefetch. To osobny, większy krok — nie
   ruszany bez zgody właściciela.
+
+### 15. Faza 4: bramka wydajności CI — pilnuje pamięci, zamrożenia i wejścia, nie surowego FPS
+
+- **`src/game/assets/perfGate.ts`** — czysta funkcja `evaluatePerfGate` (importuje realny
+  `STREAM_TEXTURE_BUDGET_BYTES`), czyta raport z `scripts/measure-game.ts`, nie uruchamia przeglądarki.
+  **`scripts/perf/bramka-wydajnosci.ts`** (`npm run bench:gate <raport.json>`, exit 0/1/2) + test
+  **`src/test/perf-gate.test.ts`** (11 testów: łapie każdy typ naruszenia, ignoruje FPS).
+- Progi (niezależne od renderera, skalibrowane na realnym pomiarze): **całkowita pamięć tekstur
+  ≤ 220 MiB**, **zamrożenie `frameMax` ≤ 3000 ms**, p95 ≤ 3000 ms (miękki), **wejście ≤ 60 s**, zero
+  błędów strony. Surowy FPS **nie jest** kryterium — programowy Canvas jest pesymistyczny i degraduje
+  się w biegu. Progi nadpisujesz `KI_PERF_TEXTURE_MB / FREEZE_MS / P95_MS / ENTER_MS`.
+- **Kluczowe rozróżnienie pamięci:** telemetryczne `estimatedTextureBytes` to CAŁOŚĆ (atlas + podłoże
+  + bohater + HUD + efekty), a budżet 192 MiB dotyczy tylko streamowanego podzbioru (osobno weryfikują
+  go testy stream-texture-budget / ground-budget). Pierwsza wersja bramki błędnie porównała całość do
+  192 i oblała aether/nexus — poprawione na sufit całości 220 MiB (budżet + 28 MiB na niestreamowane).
+- **Realny pomiar kalibracyjny** (harness, mobile 844×390, Canvas, 4 światy): tekstury verdant 176,6 /
+  aether 199,4 / nexus 206,9 / pyra 183,5 MiB (road-cache = 0); zamrożenie 780–2192 ms; wejście
+  10,3–15,3 s; FPS 15–34 (software, pominięty). Bramka na tym raporcie: **PASS**.
+- Bramka jakości **sekwencyjnie** (lekcja z cz. 1): lint 0 błędów (15 istniejących ostrzeżeń),
+  typecheck 0 (3 konfiguracje, CLI dodany do tsconfig.tools), **testy 1281 passed / 10 skipped (125
+  plików), zero padnięć**. Formatowanie nowych plików prettier (4 błędy auto-fix naprawione).
+- **Uczciwie:** to bramka regresji na wielkościach niezależnych od renderera, gotowa do CI. **Pomiar
+  FPS na fizycznym telefonie nadal wymaga urządzenia właściciela** — w grze jest `?ki-debug=bench`
+  (FPS / p95 / max / czas JS-GPU), a harness zapisuje raport, który ta bramka ocenia. Kontener nie ma
+  fizycznego telefonu ani GPU, więc nie podaje „FPS na telefonie" — podaje pamięć, zamrożenie i wejście.

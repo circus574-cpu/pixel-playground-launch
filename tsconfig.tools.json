@@ -12,6 +12,7 @@
     "scripts/export-gpu-targets.ts",
     "scripts/export-gpu-schema.ts",
     "scripts/measure-game.ts",
+    "scripts/perf/bramka-wydajnosci.ts",
     "scripts/pack-gpu-frames.ts",
     "scripts/city/**/*.ts",
     "scripts/combat/**/*.ts",
