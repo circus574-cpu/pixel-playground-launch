@@ -238,12 +238,31 @@ export function wholeView(cw: number, ch: number): View {
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
+/** Longitude wrap: any x as the equivalent map x in [0, MAP_W). */
+export function wrapX(x: number) {
+  return ((x % MAP_W) + MAP_W) % MAP_W;
+}
+
+/** The copy of `to` (one map width left or right) nearest to `from`, so animations take the short way round. */
+export function nearestX(from: number, to: number) {
+  return to + Math.round((from - to) / MAP_W) * MAP_W;
+}
+
+/** Whole map copies (index k = shift of k * MAP_W) that meet the visible width; [0] when the map is narrower than the view. */
+export function wrapCopies(cx: number, visibleWidth: number): number[] {
+  if (visibleWidth >= MAP_W) return [0];
+  const first = Math.floor((cx - visibleWidth / 2) / MAP_W);
+  const last = Math.floor((cx + visibleWidth / 2) / MAP_W);
+  return Array.from({ length: last - first + 1 }, (_, i) => first + i);
+}
+
 export function clampView(v: View, cw: number, ch: number): View {
   const fit = fitScale(cw, ch);
   const s = clamp(v.s, fit, fit * MAX_ZOOM);
   const hw = cw / (2 * s);
   const hh = ch / (2 * s);
-  const cx = hw * 2 >= MAP_W ? MAP_W / 2 : clamp(v.cx, hw, MAP_W - hw);
+  // The planet wraps around horizontally (longitude): panning never stops at a coast, it loops.
+  const cx = hw * 2 >= MAP_W ? MAP_W / 2 : wrapX(v.cx);
   const cy = hh * 2 >= MAP_H ? MAP_H / 2 : clamp(v.cy, hh, MAP_H - hh);
   return { cx, cy, s };
 }
