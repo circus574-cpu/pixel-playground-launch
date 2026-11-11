@@ -1,54 +1,63 @@
 {
   "schemaVersion": 1,
   "id": "hero-planetary-painted-walk-v3",
-  "version": "2.1.0",
+  "version": "2.2.1",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "hero-planetary-painted-walk-v3-page-0",
-      "version": "2.1.0",
+      "version": "2.2.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.1.0-543c3dd18600/hero-planetary-painted-walk-v3-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.1.0-543c3dd18600/hero-planetary-painted-walk-v3-page-0.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-page-0.json",
       "width": 2048,
       "height": 2048
     },
     {
       "id": "hero-planetary-painted-walk-v3-idle-0",
-      "version": "2.1.0",
+      "version": "2.2.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.1.0-543c3dd18600/hero-planetary-painted-walk-v3-idle-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.1.0-543c3dd18600/hero-planetary-painted-walk-v3-idle-0.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-idle-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-idle-0.json",
       "width": 2048,
       "height": 2048
     },
     {
       "id": "hero-planetary-painted-walk-v3-fight-0",
-      "version": "2.1.0",
+      "version": "2.2.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.1.0-543c3dd18600/hero-planetary-painted-walk-v3-fight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.1.0-543c3dd18600/hero-planetary-painted-walk-v3-fight-0.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-fight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-fight-0.json",
       "width": 2048,
       "height": 1792
     },
     {
       "id": "hero-planetary-painted-walk-v3-fight-1",
-      "version": "2.1.0",
+      "version": "2.2.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.1.0-543c3dd18600/hero-planetary-painted-walk-v3-fight-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.1.0-543c3dd18600/hero-planetary-painted-walk-v3-fight-1.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-fight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-fight-1.json",
       "width": 2048,
       "height": 512
     },
     {
       "id": "hero-planetary-painted-walk-v3-kiwalk-0",
-      "version": "2.1.0",
+      "version": "2.2.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.1.0-543c3dd18600/hero-planetary-painted-walk-v3-kiwalk-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.1.0-543c3dd18600/hero-planetary-painted-walk-v3-kiwalk-0.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-kiwalk-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-kiwalk-0.json",
       "width": 2048,
       "height": 468
+    },
+    {
+      "id": "hero-planetary-painted-walk-v3-kifight-0",
+      "version": "2.2.1",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-kifight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-kifight-0.json",
+      "width": 1007,
+      "height": 476
     }
   ],
   "actors": [
@@ -727,6 +736,108 @@
               "hero-planetary-painted/kiwalk/up-right/05",
               "hero-planetary-painted/kiwalk/up-right/06",
               "hero-planetary-painted/kiwalk/up-right/07"
+            ]
+          }
+        },
+        "kiidle": {
+          "asset": "hero-planetary-painted-walk-v3-kifight-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-planetary-painted/kiidle/right/00"
+            ],
+            "down-left": [
+              "hero-planetary-painted/kiidle/left/00"
+            ],
+            "left": [
+              "hero-planetary-painted/kiidle/left/00"
+            ],
+            "up-left": [
+              "hero-planetary-painted/kiidle/left/00"
+            ],
+            "up": [
+              "hero-planetary-painted/kiidle/right/00"
+            ],
+            "up-right": [
+              "hero-planetary-painted/kiidle/right/00"
+            ],
+            "right": [
+              "hero-planetary-painted/kiidle/right/00"
+            ],
+            "down-right": [
+              "hero-planetary-painted/kiidle/right/00"
+            ]
+          }
+        },
+        "kiattack": {
+          "asset": "hero-planetary-painted-walk-v3-kifight-0",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-planetary-painted/kiattack/right/00",
+              "hero-planetary-painted/kiattack/right/01",
+              "hero-planetary-painted/kiattack/right/02",
+              "hero-planetary-painted/kiattack/right/03",
+              "hero-planetary-painted/kiattack/right/04",
+              "hero-planetary-painted/kiattack/right/05"
+            ],
+            "down-left": [
+              "hero-planetary-painted/kiattack/left/00",
+              "hero-planetary-painted/kiattack/left/01",
+              "hero-planetary-painted/kiattack/left/02",
+              "hero-planetary-painted/kiattack/left/03",
+              "hero-planetary-painted/kiattack/left/04",
+              "hero-planetary-painted/kiattack/left/05"
+            ],
+            "left": [
+              "hero-planetary-painted/kiattack/left/00",
+              "hero-planetary-painted/kiattack/left/01",
+              "hero-planetary-painted/kiattack/left/02",
+              "hero-planetary-painted/kiattack/left/03",
+              "hero-planetary-painted/kiattack/left/04",
+              "hero-planetary-painted/kiattack/left/05"
+            ],
+            "up-left": [
+              "hero-planetary-painted/kiattack/left/00",
+              "hero-planetary-painted/kiattack/left/01",
+              "hero-planetary-painted/kiattack/left/02",
+              "hero-planetary-painted/kiattack/left/03",
+              "hero-planetary-painted/kiattack/left/04",
+              "hero-planetary-painted/kiattack/left/05"
+            ],
+            "up": [
+              "hero-planetary-painted/kiattack/right/00",
+              "hero-planetary-painted/kiattack/right/01",
+              "hero-planetary-painted/kiattack/right/02",
+              "hero-planetary-painted/kiattack/right/03",
+              "hero-planetary-painted/kiattack/right/04",
+              "hero-planetary-painted/kiattack/right/05"
+            ],
+            "up-right": [
+              "hero-planetary-painted/kiattack/right/00",
+              "hero-planetary-painted/kiattack/right/01",
+              "hero-planetary-painted/kiattack/right/02",
+              "hero-planetary-painted/kiattack/right/03",
+              "hero-planetary-painted/kiattack/right/04",
+              "hero-planetary-painted/kiattack/right/05"
+            ],
+            "right": [
+              "hero-planetary-painted/kiattack/right/00",
+              "hero-planetary-painted/kiattack/right/01",
+              "hero-planetary-painted/kiattack/right/02",
+              "hero-planetary-painted/kiattack/right/03",
+              "hero-planetary-painted/kiattack/right/04",
+              "hero-planetary-painted/kiattack/right/05"
+            ],
+            "down-right": [
+              "hero-planetary-painted/kiattack/right/00",
+              "hero-planetary-painted/kiattack/right/01",
+              "hero-planetary-painted/kiattack/right/02",
+              "hero-planetary-painted/kiattack/right/03",
+              "hero-planetary-painted/kiattack/right/04",
+              "hero-planetary-painted/kiattack/right/05"
             ]
           }
         }

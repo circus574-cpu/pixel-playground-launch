@@ -1,54 +1,63 @@
 {
   "schemaVersion": 1,
   "id": "hero-legend-walk-v3",
-  "version": "2.1.0",
+  "version": "2.2.1",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "hero-legend-walk-v3-page-0",
-      "version": "2.1.0",
+      "version": "2.2.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-page-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-page-0.json",
       "width": 2048,
       "height": 2048
     },
     {
       "id": "hero-legend-walk-v3-idle-0",
-      "version": "2.1.0",
+      "version": "2.2.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-idle-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-idle-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-idle-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-idle-0.json",
       "width": 2048,
       "height": 2048
     },
     {
       "id": "hero-legend-walk-v3-fight-0",
-      "version": "2.1.0",
+      "version": "2.2.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-fight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-fight-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-fight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-fight-0.json",
       "width": 2048,
       "height": 1792
     },
     {
       "id": "hero-legend-walk-v3-fight-1",
-      "version": "2.1.0",
+      "version": "2.2.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-fight-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-fight-1.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-fight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-fight-1.json",
       "width": 2048,
       "height": 512
     },
     {
       "id": "hero-legend-walk-v3-kiwalk-0",
-      "version": "2.1.0",
+      "version": "2.2.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-kiwalk-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.1.0-0cc46bb58e9f/hero-legend-walk-v3-kiwalk-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-kiwalk-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-kiwalk-0.json",
       "width": 2048,
       "height": 728
+    },
+    {
+      "id": "hero-legend-walk-v3-kifight-0",
+      "version": "2.2.1",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-kifight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-kifight-0.json",
+      "width": 1168,
+      "height": 484
     }
   ],
   "actors": [
@@ -727,6 +736,108 @@
               "hero-legend/kiwalk/up-right/05",
               "hero-legend/kiwalk/up-right/06",
               "hero-legend/kiwalk/up-right/07"
+            ]
+          }
+        },
+        "kiidle": {
+          "asset": "hero-legend-walk-v3-kifight-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-legend/kiidle/right/00"
+            ],
+            "down-left": [
+              "hero-legend/kiidle/left/00"
+            ],
+            "left": [
+              "hero-legend/kiidle/left/00"
+            ],
+            "up-left": [
+              "hero-legend/kiidle/left/00"
+            ],
+            "up": [
+              "hero-legend/kiidle/right/00"
+            ],
+            "up-right": [
+              "hero-legend/kiidle/right/00"
+            ],
+            "right": [
+              "hero-legend/kiidle/right/00"
+            ],
+            "down-right": [
+              "hero-legend/kiidle/right/00"
+            ]
+          }
+        },
+        "kiattack": {
+          "asset": "hero-legend-walk-v3-kifight-0",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-legend/kiattack/right/00",
+              "hero-legend/kiattack/right/01",
+              "hero-legend/kiattack/right/02",
+              "hero-legend/kiattack/right/03",
+              "hero-legend/kiattack/right/04",
+              "hero-legend/kiattack/right/05"
+            ],
+            "down-left": [
+              "hero-legend/kiattack/left/00",
+              "hero-legend/kiattack/left/01",
+              "hero-legend/kiattack/left/02",
+              "hero-legend/kiattack/left/03",
+              "hero-legend/kiattack/left/04",
+              "hero-legend/kiattack/left/05"
+            ],
+            "left": [
+              "hero-legend/kiattack/left/00",
+              "hero-legend/kiattack/left/01",
+              "hero-legend/kiattack/left/02",
+              "hero-legend/kiattack/left/03",
+              "hero-legend/kiattack/left/04",
+              "hero-legend/kiattack/left/05"
+            ],
+            "up-left": [
+              "hero-legend/kiattack/left/00",
+              "hero-legend/kiattack/left/01",
+              "hero-legend/kiattack/left/02",
+              "hero-legend/kiattack/left/03",
+              "hero-legend/kiattack/left/04",
+              "hero-legend/kiattack/left/05"
+            ],
+            "up": [
+              "hero-legend/kiattack/right/00",
+              "hero-legend/kiattack/right/01",
+              "hero-legend/kiattack/right/02",
+              "hero-legend/kiattack/right/03",
+              "hero-legend/kiattack/right/04",
+              "hero-legend/kiattack/right/05"
+            ],
+            "up-right": [
+              "hero-legend/kiattack/right/00",
+              "hero-legend/kiattack/right/01",
+              "hero-legend/kiattack/right/02",
+              "hero-legend/kiattack/right/03",
+              "hero-legend/kiattack/right/04",
+              "hero-legend/kiattack/right/05"
+            ],
+            "right": [
+              "hero-legend/kiattack/right/00",
+              "hero-legend/kiattack/right/01",
+              "hero-legend/kiattack/right/02",
+              "hero-legend/kiattack/right/03",
+              "hero-legend/kiattack/right/04",
+              "hero-legend/kiattack/right/05"
+            ],
+            "down-right": [
+              "hero-legend/kiattack/right/00",
+              "hero-legend/kiattack/right/01",
+              "hero-legend/kiattack/right/02",
+              "hero-legend/kiattack/right/03",
+              "hero-legend/kiattack/right/04",
+              "hero-legend/kiattack/right/05"
             ]
           }
         }

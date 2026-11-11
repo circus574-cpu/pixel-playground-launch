@@ -7,6 +7,8 @@ const PRIORITY: Record<AnimationState, number> = {
   idle: 0,
   walk: 1,
   kiwalk: 1,
+  kiidle: 0,
+  kiattack: 3,
   run: 2,
   attack: 3,
   skill: 4,
@@ -21,6 +23,8 @@ export class ActorAnimation {
   private startedAt = 0;
   private pending: { state: "attack" | "skill"; facing: Point; expires: number } | undefined;
   private lastKey = "";
+  /** Tryb KI was active at the last update: idle and basic attacks use the powered-up clips when the race has them. */
+  private kiForm = false;
   private direction: Point = { x: 0, y: 1 };
   private directions = new Map<AnimationState, Direction[]>();
   constructor(
@@ -29,6 +33,13 @@ export class ActorAnimation {
   ) {
     for (const [state, clip] of Object.entries(visual.clips))
       this.directions.set(state as AnimationState, Object.keys(clip.directions) as Direction[]);
+  }
+  /** Clip that presents a state: Tryb KI swaps idle and the basic attack for kiidle and kiattack when present. */
+  private clipState(state: AnimationState): AnimationState {
+    if (!this.kiForm) return state;
+    if (state === "idle" && this.visual.clips.kiidle) return "kiidle";
+    if (state === "attack" && this.visual.clips.kiattack) return "kiattack";
+    return state;
   }
   trigger(state: AnimationState, now: number, facing?: Point) {
     if (state === "death" || state === "respawn") this.pending = undefined;
@@ -52,7 +63,7 @@ export class ActorAnimation {
     this.state = state;
     this.startedAt = now;
     if (facing) this.direction = facing;
-    const clip = this.visual.clips[state];
+    const clip = this.visual.clips[this.clipState(state)];
     const frames = clip && Object.values(clip.directions)[0];
     this.until =
       state === "death"
@@ -74,6 +85,9 @@ export class ActorAnimation {
       return;
     }
     this.sprite.anims.resume();
+    const kiChanged = this.kiForm !== kiForm;
+    this.kiForm = kiForm;
+    if (kiChanged) this.lastKey = "";
     if (dead && this.state !== "death") this.trigger("death", now);
     if (!dead && this.state === "death") this.trigger("respawn", now);
     // Basic contact is resolved by simulation at command acceptance. Only its recovery
@@ -88,7 +102,8 @@ export class ActorAnimation {
         this.direction = facing;
       }
     }
-    const selected = this.visual.clips[this.state] ? this.state : "idle";
+    const wanted = this.clipState(this.state);
+    const selected = this.visual.clips[wanted] ? wanted : "idle";
     const clip = this.visual.clips[selected]!;
     const available = this.directions.get(selected)!;
     const desired = facingDirection(this.direction, available);
