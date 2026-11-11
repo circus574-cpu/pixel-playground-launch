@@ -1,0 +1,680 @@
+{
+  "config": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/workspace/ki-development-integration/node_modules/.bin/playwright",
+      "test",
+      "e2e/racial-trials.spec.ts",
+      "--grep",
+      "real TA(07|08|09|10|11|12),",
+      "--project=gameplay",
+      "--project=software-webgl"
+    ],
+    "configFile": "/workspace/ki-development-integration/playwright.config.ts",
+    "rootDir": "/workspace/ki-development-integration/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/workspace/ki-development-integration/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "gameplay",
+        "name": "gameplay",
+        "testDir": "/workspace/ki-development-integration/e2e",
+        "testIgnore": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/map-performance.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/city-webgl.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/ki-development-integration/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "software-webgl",
+        "name": "software-webgl",
+        "testDir": "/workspace/ki-development-integration/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/verdantia-continent.spec.ts",
+          "**/pyra-continent.spec.ts",
+          "**/aetheria-continent.spec.ts",
+          "**/nexus-continent.spec.ts",
+          "**/development.spec.ts",
+          "**/racial-trials.spec.ts",
+          "**/verdant-painted-preview.spec.ts",
+          "**/development-heritage.spec.ts",
+          "**/heritage-chronicle.spec.ts",
+          "**/heritage-delivery.spec.ts",
+          "**/development-combat-smoke.spec.ts",
+          "**/city-webgl.spec.ts",
+          "**/combat-bosses.spec.ts",
+          "**/combat-skills.spec.ts",
+          "**/combat-v3.spec.ts",
+          "**/combat-v3-superior.spec.ts",
+          "**/argon-mobile.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/hero-lifecycle.spec.ts",
+          "**/world-rendering.spec.ts",
+          "**/superior-world.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/ki-development-integration/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-canvas",
+        "name": "application-canvas",
+        "testDir": "/workspace/ki-development-integration/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/map-performance.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/workspace/ki-development-integration/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "application-webgl",
+        "name": "application-webgl",
+        "testDir": "/workspace/ki-development-integration/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/globe-handoff.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/map-performance.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/ki-development-integration/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "gameplay",
+        "testDir": "/workspace/ki-development-integration/e2e",
+        "snapshotDir": "/workspace/ki-development-integration/e2e",
+        "testIgnore": [
+          "**/globe-handoff.spec.ts",
+          "**/private-sketch.spec.ts",
+          "**/map-performance.spec.ts",
+          "**/globe-rendering.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/city-webgl.spec.ts"
+        ],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4194",
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          },
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure",
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-webgl"
+            ]
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "gameplay"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/ki-development-integration/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "software-webgl",
+        "testDir": "/workspace/ki-development-integration/e2e",
+        "snapshotDir": "/workspace/ki-development-integration/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/verdantia-continent.spec.ts",
+          "**/pyra-continent.spec.ts",
+          "**/aetheria-continent.spec.ts",
+          "**/nexus-continent.spec.ts",
+          "**/development.spec.ts",
+          "**/racial-trials.spec.ts",
+          "**/verdant-painted-preview.spec.ts",
+          "**/development-heritage.spec.ts",
+          "**/heritage-chronicle.spec.ts",
+          "**/heritage-delivery.spec.ts",
+          "**/development-combat-smoke.spec.ts",
+          "**/city-webgl.spec.ts",
+          "**/combat-bosses.spec.ts",
+          "**/combat-skills.spec.ts",
+          "**/combat-v3.spec.ts",
+          "**/combat-v3-superior.spec.ts",
+          "**/argon-mobile.spec.ts",
+          "**/gpu-webgl-smoke.spec.ts",
+          "**/hero-lifecycle.spec.ts",
+          "**/world-rendering.spec.ts",
+          "**/superior-world.spec.ts"
+        ],
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4194",
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          },
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure",
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--use-gl=angle",
+              "--use-angle=swiftshader",
+              "--enable-unsafe-swiftshader"
+            ]
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "software-webgl"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/stage3-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "racial-trials.spec.ts",
+      "file": "racial-trials.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Mędrcy: real TA07, one-time reward and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 49212,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T16:36:22.267Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9340043cc58aa0803253-ec9faaa71cb75c8b233b",
+          "file": "racial-trials.spec.ts",
+          "line": 140,
+          "column": 3
+        },
+        {
+          "title": "Mędrcy: real TA08, one-time reward and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 34876,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T16:37:12.181Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9340043cc58aa0803253-f890efef75050f1b7927",
+          "file": "racial-trials.spec.ts",
+          "line": 140,
+          "column": 3
+        },
+        {
+          "title": "Mędrcy: real TA09, one-time reward and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 72824,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T16:37:47.078Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9340043cc58aa0803253-3638adc9c8a0e58d8a33",
+          "file": "racial-trials.spec.ts",
+          "line": 140,
+          "column": 3
+        },
+        {
+          "title": "Mędrcy: real TA10, one-time reward and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 34719,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T16:38:59.919Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9340043cc58aa0803253-6cb626066d459aabe9b5",
+          "file": "racial-trials.spec.ts",
+          "line": 140,
+          "column": 3
+        },
+        {
+          "title": "Mędrcy: real TA11, one-time reward and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 32220,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T16:39:34.653Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9340043cc58aa0803253-74bfa904d55e14d7cf7c",
+          "file": "racial-trials.spec.ts",
+          "line": 140,
+          "column": 3
+        },
+        {
+          "title": "Mędrcy: real TA12, one-time reward and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gameplay",
+              "projectName": "gameplay",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 32714,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T16:40:06.887Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9340043cc58aa0803253-b0ae86fcc9251c9042b0",
+          "file": "racial-trials.spec.ts",
+          "line": 140,
+          "column": 3
+        },
+        {
+          "title": "Mędrcy: real TA07, one-time reward and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "software-webgl",
+              "projectName": "software-webgl",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 105516,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T16:40:40.362Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9340043cc58aa0803253-21a63bd2d5911c54aefa",
+          "file": "racial-trials.spec.ts",
+          "line": 140,
+          "column": 3
+        },
+        {
+          "title": "Mędrcy: real TA08, one-time reward and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "software-webgl",
+              "projectName": "software-webgl",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 92036,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T16:42:26.343Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9340043cc58aa0803253-5c48185ab86dc74586e0",
+          "file": "racial-trials.spec.ts",
+          "line": 140,
+          "column": 3
+        },
+        {
+          "title": "Mędrcy: real TA09, one-time reward and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "software-webgl",
+              "projectName": "software-webgl",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 128507,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T16:43:58.435Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9340043cc58aa0803253-e5a46374312921e24242",
+          "file": "racial-trials.spec.ts",
+          "line": 140,
+          "column": 3
+        },
+        {
+          "title": "Mędrcy: real TA10, one-time reward and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "software-webgl",
+              "projectName": "software-webgl",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 87278,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T16:46:07.012Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9340043cc58aa0803253-2f1a04acf6d76aee9b5d",
+          "file": "racial-trials.spec.ts",
+          "line": 140,
+          "column": 3
+        },
+        {
+          "title": "Mędrcy: real TA11, one-time reward and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "software-webgl",
+              "projectName": "software-webgl",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 84097,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T16:47:34.303Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9340043cc58aa0803253-5ce3f661b4b5edd8dd88",
+          "file": "racial-trials.spec.ts",
+          "line": 140,
+          "column": 3
+        },
+        {
+          "title": "Mędrcy: real TA12, one-time reward and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "software-webgl",
+              "projectName": "software-webgl",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 87782,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T16:48:58.426Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9340043cc58aa0803253-8bee722dbf8b311f086a",
+          "file": "racial-trials.spec.ts",
+          "line": 140,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-11T16:36:21.546Z",
+    "duration": 844933.233,
+    "expected": 12,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
