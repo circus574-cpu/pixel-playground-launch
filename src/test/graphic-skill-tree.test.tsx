@@ -34,7 +34,7 @@ function mockState(
     messages: [],
     notifications: [],
     inventory: [],
-    equipment: {} as unknown as GameViewState["equipment"],
+    equipment: {},
     quests: [],
     activeQuests: [],
   } as unknown as GameViewState;
