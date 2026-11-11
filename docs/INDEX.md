@@ -1,6 +1,13 @@
 # KI Legends — dokumentacja projektu
 
-Aktualizacja: **07.11.2026**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
+Aktualizacja: **11.11.2026**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
+
+**Wydajność:** audyt 11.11.2026 zmierzył, że wąskim gardłem nie jest symulacja (tick z 32 potworami
+0,79 ms), lecz **pamięć tekstur 198–240 MiB przy budżecie 192 MiB**, pętla widoczności iterująca
+3840 obiektów co klatkę (1,39 ms) i `snapshot()` za 1,10 ms liczony 10×/s. Budżet tekstur nie obejmuje
+upieczonych canvasów podłoża. Na telefonie pamięć jest **identyczna** jak na desktopie, choć FPS rośnie
+z 9,9 do 29,0 przy mniejszym kadrze. Pomiar: `scripts/perf/audyt-cpu.ts`, `scripts/perf/audyt-swiata.ts`
+i `scripts/measure-game.ts` (mobile poprawiony na 844×390, bo portrait blokuje `RotateNotice`).
 
 **Walka:** pomiar na żywym `GameSession` (22 272 walk) wykazał, że wynik starć był rozstrzygnięty zanim
 gracz cokolwiek zrobił — mediana `winRate` 1,000 w każdym profilu. Od 07.11.2026 każdy z 40 potworów
@@ -41,6 +48,7 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-11-11](zmiany/2026-11-11/ZMIANY.md)
 - [2026-11-07](zmiany/2026-11-07/ZMIANY.md)
 - [2026-11-06](zmiany/2026-11-06/ZMIANY.md)
 - [2026-11-05](zmiany/2026-11-05/ZMIANY.md)
