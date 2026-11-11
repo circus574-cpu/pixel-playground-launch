@@ -6,6 +6,7 @@ it("gives every world its own Trener (same figure, outfit colour per race) bound
     const trainer = actorVisual(world, "npc", "trainer");
     expect(trainer.id).toBe(`npc-${world}-trainer`);
     expect(trainer.profile).toBe("npc");
+    expect(trainer.size).toEqual([288, 288]); // three times a standard NPC (96)
     expect(Object.keys(trainer.clips).sort()).toEqual(["idle", "walk"]);
     for (const direction of [
       "down",
