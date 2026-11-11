@@ -61,6 +61,13 @@ export function StaffTools({
             <button aria-pressed={state.god} onClick={() => send({ type: "staff", action: "god" })}>
               Nieśmiertelność {state.god ? "✓" : ""}
             </button>
+            <button
+              aria-pressed={state.unlimited}
+              onClick={() => send({ type: "staff", action: "unlimited" })}
+              title="Brak odnowień zdolności"
+            >
+              Unlimited {state.unlimited ? "✓" : ""}
+            </button>
             <button onClick={() => send({ type: "staff", action: "level" })}>+1 poziom</button>
             <button onClick={() => send({ type: "staff", action: "gold" })}>+1000 monet</button>
             <button onClick={() => send({ type: "staff", action: "potions" })}>+10 mikstur</button>
