@@ -86778,5 +86778,220 @@
     "actorBindings": {},
     "renderBindings": {},
     "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-pyra-trainer",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-pyra-trainer-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-pyra-trainer/1.0.0-e2d1b38e73bb/npc-pyra-trainer-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-pyra-trainer/1.0.0-e2d1b38e73bb/npc-pyra-trainer-page-0.json",
+        "width": 812,
+        "height": 492
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-pyra-trainer",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-pyra-trainer-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-pyra-trainer/idle/down/00",
+                "npc-pyra-trainer/idle/down/01",
+                "npc-pyra-trainer/idle/down/02",
+                "npc-pyra-trainer/idle/down/03",
+                "npc-pyra-trainer/idle/down/04",
+                "npc-pyra-trainer/idle/down/05",
+                "npc-pyra-trainer/idle/down/06",
+                "npc-pyra-trainer/idle/down/07"
+              ],
+              "down-left": [
+                "npc-pyra-trainer/idle/down-left/00",
+                "npc-pyra-trainer/idle/down-left/01",
+                "npc-pyra-trainer/idle/down-left/02",
+                "npc-pyra-trainer/idle/down-left/03",
+                "npc-pyra-trainer/idle/down-left/04",
+                "npc-pyra-trainer/idle/down-left/05",
+                "npc-pyra-trainer/idle/down-left/06",
+                "npc-pyra-trainer/idle/down-left/07"
+              ],
+              "left": [
+                "npc-pyra-trainer/idle/left/00",
+                "npc-pyra-trainer/idle/left/01",
+                "npc-pyra-trainer/idle/left/02",
+                "npc-pyra-trainer/idle/left/03",
+                "npc-pyra-trainer/idle/left/04",
+                "npc-pyra-trainer/idle/left/05",
+                "npc-pyra-trainer/idle/left/06",
+                "npc-pyra-trainer/idle/left/07"
+              ],
+              "up-left": [
+                "npc-pyra-trainer/idle/up-left/00",
+                "npc-pyra-trainer/idle/up-left/01",
+                "npc-pyra-trainer/idle/up-left/02",
+                "npc-pyra-trainer/idle/up-left/03",
+                "npc-pyra-trainer/idle/up-left/04",
+                "npc-pyra-trainer/idle/up-left/05",
+                "npc-pyra-trainer/idle/up-left/06",
+                "npc-pyra-trainer/idle/up-left/07"
+              ],
+              "up": [
+                "npc-pyra-trainer/idle/up/00",
+                "npc-pyra-trainer/idle/up/01",
+                "npc-pyra-trainer/idle/up/02",
+                "npc-pyra-trainer/idle/up/03",
+                "npc-pyra-trainer/idle/up/04",
+                "npc-pyra-trainer/idle/up/05",
+                "npc-pyra-trainer/idle/up/06",
+                "npc-pyra-trainer/idle/up/07"
+              ],
+              "up-right": [
+                "npc-pyra-trainer/idle/up-right/00",
+                "npc-pyra-trainer/idle/up-right/01",
+                "npc-pyra-trainer/idle/up-right/02",
+                "npc-pyra-trainer/idle/up-right/03",
+                "npc-pyra-trainer/idle/up-right/04",
+                "npc-pyra-trainer/idle/up-right/05",
+                "npc-pyra-trainer/idle/up-right/06",
+                "npc-pyra-trainer/idle/up-right/07"
+              ],
+              "right": [
+                "npc-pyra-trainer/idle/right/00",
+                "npc-pyra-trainer/idle/right/01",
+                "npc-pyra-trainer/idle/right/02",
+                "npc-pyra-trainer/idle/right/03",
+                "npc-pyra-trainer/idle/right/04",
+                "npc-pyra-trainer/idle/right/05",
+                "npc-pyra-trainer/idle/right/06",
+                "npc-pyra-trainer/idle/right/07"
+              ],
+              "down-right": [
+                "npc-pyra-trainer/idle/down-right/00",
+                "npc-pyra-trainer/idle/down-right/01",
+                "npc-pyra-trainer/idle/down-right/02",
+                "npc-pyra-trainer/idle/down-right/03",
+                "npc-pyra-trainer/idle/down-right/04",
+                "npc-pyra-trainer/idle/down-right/05",
+                "npc-pyra-trainer/idle/down-right/06",
+                "npc-pyra-trainer/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-pyra-trainer-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-pyra-trainer/idle/down/00",
+                "npc-pyra-trainer/idle/down/01",
+                "npc-pyra-trainer/idle/down/02",
+                "npc-pyra-trainer/idle/down/03",
+                "npc-pyra-trainer/idle/down/04",
+                "npc-pyra-trainer/idle/down/05",
+                "npc-pyra-trainer/idle/down/06",
+                "npc-pyra-trainer/idle/down/07"
+              ],
+              "down-left": [
+                "npc-pyra-trainer/idle/down-left/00",
+                "npc-pyra-trainer/idle/down-left/01",
+                "npc-pyra-trainer/idle/down-left/02",
+                "npc-pyra-trainer/idle/down-left/03",
+                "npc-pyra-trainer/idle/down-left/04",
+                "npc-pyra-trainer/idle/down-left/05",
+                "npc-pyra-trainer/idle/down-left/06",
+                "npc-pyra-trainer/idle/down-left/07"
+              ],
+              "left": [
+                "npc-pyra-trainer/idle/left/00",
+                "npc-pyra-trainer/idle/left/01",
+                "npc-pyra-trainer/idle/left/02",
+                "npc-pyra-trainer/idle/left/03",
+                "npc-pyra-trainer/idle/left/04",
+                "npc-pyra-trainer/idle/left/05",
+                "npc-pyra-trainer/idle/left/06",
+                "npc-pyra-trainer/idle/left/07"
+              ],
+              "up-left": [
+                "npc-pyra-trainer/idle/up-left/00",
+                "npc-pyra-trainer/idle/up-left/01",
+                "npc-pyra-trainer/idle/up-left/02",
+                "npc-pyra-trainer/idle/up-left/03",
+                "npc-pyra-trainer/idle/up-left/04",
+                "npc-pyra-trainer/idle/up-left/05",
+                "npc-pyra-trainer/idle/up-left/06",
+                "npc-pyra-trainer/idle/up-left/07"
+              ],
+              "up": [
+                "npc-pyra-trainer/idle/up/00",
+                "npc-pyra-trainer/idle/up/01",
+                "npc-pyra-trainer/idle/up/02",
+                "npc-pyra-trainer/idle/up/03",
+                "npc-pyra-trainer/idle/up/04",
+                "npc-pyra-trainer/idle/up/05",
+                "npc-pyra-trainer/idle/up/06",
+                "npc-pyra-trainer/idle/up/07"
+              ],
+              "up-right": [
+                "npc-pyra-trainer/idle/up-right/00",
+                "npc-pyra-trainer/idle/up-right/01",
+                "npc-pyra-trainer/idle/up-right/02",
+                "npc-pyra-trainer/idle/up-right/03",
+                "npc-pyra-trainer/idle/up-right/04",
+                "npc-pyra-trainer/idle/up-right/05",
+                "npc-pyra-trainer/idle/up-right/06",
+                "npc-pyra-trainer/idle/up-right/07"
+              ],
+              "right": [
+                "npc-pyra-trainer/idle/right/00",
+                "npc-pyra-trainer/idle/right/01",
+                "npc-pyra-trainer/idle/right/02",
+                "npc-pyra-trainer/idle/right/03",
+                "npc-pyra-trainer/idle/right/04",
+                "npc-pyra-trainer/idle/right/05",
+                "npc-pyra-trainer/idle/right/06",
+                "npc-pyra-trainer/idle/right/07"
+              ],
+              "down-right": [
+                "npc-pyra-trainer/idle/down-right/00",
+                "npc-pyra-trainer/idle/down-right/01",
+                "npc-pyra-trainer/idle/down-right/02",
+                "npc-pyra-trainer/idle/down-right/03",
+                "npc-pyra-trainer/idle/down-right/04",
+                "npc-pyra-trainer/idle/down-right/05",
+                "npc-pyra-trainer/idle/down-right/06",
+                "npc-pyra-trainer/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "pyra.npc.trainer": "npc-pyra-trainer"
+    },
+    "renderBindings": {},
+    "effects": {}
   }
 ]

@@ -144,3 +144,18 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   na gęstej dziczy i mieście, na dużych obiektach z kotwicą poza kadrem i na pustym kadrze.
 - **Świadomie zostawione na Fazę 2:** cienie jako osobne GameObjecty, pieczenie blokujące wątek,
   `snapshot` 10×/s i brak memo w HUD. Wypiekanie cieni w podłoże zmienia obraz, więc czeka na decyzję.
+
+### NPC Trener (Pyra) z filmu obrotu
+
+- Wejście: film obrotu „Trener" (przód, ukosy, bok, tył, napis pod stopami). `scripts/anim/npc_trainer_build.py`
+  wycina po jednej pozie na kierunek (lewe ukosy to odbicia prawych), matuje rembg (isnet-anime),
+  zostawia tylko największy spójny kształt (napis „Trener" odpada) i skaluje wszystkie klatki jedną
+  wspólną skalą, stopy na linii kotwicy 0,95. Z każdej pozy powstaje 8-klatkowy oddech (0–1,5 %
+  rozciągnięcia pionowego od stóp). Klip `walk` wymagany przez kontrakt NPC używa tych samych nazw klatek
+  co `idle`, więc nie kosztuje pamięci tekstur.
+- Instalacja: `npc-pyra-trainer` 1.0.0, binding `pyra.npc.trainer`, atlas 812×492 (1,52 MiB), budżet
+  tekstur Pyry 113,3 z 128 MiB. Wizual dostaje NPC o id `trainer` (mistrz treningu w arenie).
+- `scripts/lib/gpu-import.ts`: klucz bindingu NPC przyjmuje dowolny slug roli (jak już wrogowie),
+  `pyra.npc.trainer` nie był dotąd dozwolony. Test `npc-trainer-visual.test.ts`.
+- Rasa filmu została przyjęta po kolorystyce stroju (Legendy/Pyra); pozostałe trzy rasy czekają na filmy.
+  Poza zakresem: dialogi i umiejscowienie NPC (bez zmian).

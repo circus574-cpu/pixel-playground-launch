@@ -276,7 +276,7 @@ export async function validatePackage(manifest: string) {
   }
   for (const [key, actor] of Object.entries(pack.actorBindings)) {
     requireThat(
-      /^(hero\.human-v2|enemy|npc|(verdant|aether|nexus|pyra)\.((hero|npc)(\.(default|guide|hunter|merchant|smith))?|enemy(\.(default|[a-z0-9]+(-[a-z0-9]+)*))?))$/.test(
+      /^(hero\.human-v2|enemy|npc|(verdant|aether|nexus|pyra)\.(hero(\.(default|guide|hunter|merchant|smith))?|npc(\.(default|[a-z0-9]+(-[a-z0-9]+)*))?|enemy(\.(default|[a-z0-9]+(-[a-z0-9]+)*))?))$/.test(
         key,
       ),
       "Unknown actor binding: " + key,
