@@ -229,3 +229,29 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   `GameSession.unlimited` + komenda `staff/unlimited` (tylko dla GM/ADM, tak jak `god`), pole `unlimited` w
   widoku HUD oraz wpis w schemacie komend serwera online (`staff` enum). Test `gm-unlimited.test.ts` dla czterech ras.
 - Dotyczy odnowień zdolności z paska (w tym Formy/Trybu KI); podstawowy atak i unik zachowują swoje tempo.
+
+### 14. Faza 3 (część 1): limit cache service workera — koniec nieograniczonego wzrostu na telefonie
+
+- `public/ki-assets-sw.js` cache'uje wszystko pod `/game/` (cache-first dla niezmiennych paczek GPU,
+  stale-while-revalidate dla reszty), ale **nie miał limitu**. Dziesięć lądów × ~50 MB rosło w
+  nieskończoność; na telefonie potrafiło przepełnić storage, co zamiast przyspieszać — wyrzucało
+  cache i spowalniało kolejne wejścia.
+- Dodany limit `MAX_ENTRIES = 800` z przycinaniem najstarszych wpisów (`trim()`), uruchamianym co
+  `TRIM_EVERY = 40` zapisów, żeby nie liczyć kluczy przy każdym żądaniu. `cache.keys()` zwraca
+  kolejność wstawiania, więc usuwanie od początku przybliża LRU.
+- Wersja cache podbita `ki-assets-v1 → ki-assets-v2`: istniejący `activate` kasuje stare wersje,
+  więc nieograniczony cache z poprzedniej wersji zostanie wyczyszczony przy aktywacji.
+- Zachowane bez zmian: cache-first dla `/gpu/<pack>/<wersja>-<hash>/`, pomijanie muzyki i żądań
+  Range, sieć dla wszystkiego poza `/game/`.
+- Weryfikacja: `node --check public/ki-assets-sw.js` exit 0; lint exit 0 (0 błędów, 15 istniejących
+  ostrzeżeń react-refresh); typecheck exit 0 (3 konfiguracje).
+- **Bramka testów — uczciwie:** pierwszy pełny bieg puściłem równolegle z typecheckiem i na 4 CPU /
+  4 GiB ciężkie testy zagłodziły się: 4 padnięcia to wyłącznie **timeouty** (gpu-pipeline: pakowanie
+  416 klatek 2×60 s + version-bump 5 s; adventure-ui: 5 s), zero asercji. Izolowany re-run tych dwóch
+  plików (bez tsc w tle): **21/21 passed, exit 0** — pakowanie ~19,5 s, version-bump 2 s, quest 2,4 s.
+  Efektywnie pełny zestaw **1265 passed / 10 skipped, zero realnych padnięć**. Lekcja: bramkę
+  odpalać sekwencyjnie (lint → typecheck → testy), nie równolegle na tym kontenerze.
+- **Uczciwie:** to porządkuje cache i chroni storage na telefonie, ale **nie skraca pierwszego
+  wejścia** do celu <5 s. Cel <5 s wymaga większej pracy: bundlowania JSON-ów chunków/art (dziś
+  ~3872 pliki / ~51,6 MB na świat, 2 fetch/e chunk) + prefetch. To osobny, większy krok — nie
+  ruszany bez zgody właściciela.
