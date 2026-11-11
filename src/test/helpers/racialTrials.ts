@@ -21,7 +21,56 @@ export function walkTrial(a: TrialAttempt, point: Point) {
 }
 export function completeTrial(a: TrialAttempt) {
   a.begin();
-  if (a.definition.kind === "power-targets") {
+  if (a.snapshot().resourceControl) {
+    walkTrial(a, a.currentPoint!);
+    for (let n = 0; n < 10000 && a.snapshot().outcome === "running"; n++) {
+      const r = a.snapshot().resourceControl!,
+        s = a.session;
+      s.command({ type: "cancel" });
+      s.command({ type: "target", id: r.targetId });
+      const performAction = (ability: "R" | "A1" | "C1" | "C4") => {
+        if (!s.kit.remaining(ability)) s.command({ type: "ability", ability });
+      };
+      if (r.kind === "ki-budget") performAction("A1");
+      else if (r.kind.endsWith("windows")) {
+        if (r.phase === "window") performAction(r.kind === "core-windows" ? "C1" : "C4");
+        else if (r.phase === "build" && r.value / r.max < 0.35) performAction("R");
+      } else if (r.kind === "core-sequence") {
+        if (r.discharges < r.dischargeTarget && r.value / r.max >= 0.3 && !s.kit.remaining("C1"))
+          performAction("C1");
+        else if (
+          (r.shots < r.shotTarget || r.discharges < r.dischargeTarget) &&
+          r.value / r.max < 0.6
+        )
+          performAction("R");
+      } else if (r.value / r.max < (r.kind === "core-band" ? 0.45 : 0.5)) performAction("R");
+      tickTrial(a);
+    }
+  } else if (a.snapshot().calibration) {
+    let moveKey = "";
+    for (let n = 0; n < 10000 && a.snapshot().outcome === "running"; n++) {
+      const r = a.snapshot().calibration!,
+        s = a.session,
+        point = r.point!;
+      if (distance(s.player, point) > 95 || !s.nav.visible(s.player, point)) {
+        const key = `${r.targetId}:${Math.floor(point.x / 75)}`;
+        if (key !== moveKey) {
+          moveKey = key;
+          s.command({ type: "move", x: point.x, y: point.y + 55 });
+        }
+      } else {
+        moveKey = "";
+        s.command({ type: "cancel" });
+        s.command({ type: "target", id: r.targetId! });
+        const target = s.practiceTargets.get(r.targetId!)!;
+        if (r.kind === "marked-shots" && target.markedUntil < s.nowMs + 500) {
+          if (!s.kit.remaining("A1")) s.command({ type: "ability", ability: "A1" });
+        } else if (!s.kit.remaining("R") && !s.projectiles.active.length)
+          s.command({ type: "ability", ability: "R" });
+      }
+      tickTrial(a);
+    }
+  } else if (a.definition.kind === "power-targets") {
     for (let i = 0; i < a.targetCount; i++) {
       walkTrial(a, a.currentPoint!);
       a.inspect();
@@ -142,5 +191,6 @@ export function completeTrial(a: TrialAttempt) {
       if (r.phase === "strike" && (a.snapshot().targets[0]?.hits ?? 0) > before) hitCycle = true;
     }
   }
+
   expect(a.snapshot().outcome, a.snapshot().reason).toBe("passed");
 }

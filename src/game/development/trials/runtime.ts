@@ -78,6 +78,15 @@ export function trialRuntime(attempt: TrialAttempt): GameRuntime {
                 node.y - 35,
               );
         }
+        if (result.calibration) {
+          for (const t of result.calibration.targets)
+            marks
+              .lineStyle(
+                3,
+                t.protected ? 0xff7272 : t.completed ? 0x597f73 : t.current ? 0xffdc8d : 0x75d9e6,
+              )
+              .strokeCircle(t.x, t.y, t.protected ? 30 : 25);
+        }
         const barrier = result.waves ?? result.cover;
         if (barrier) {
           marks

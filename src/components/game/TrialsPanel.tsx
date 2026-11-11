@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { GameViewState, Command } from "../../game/session";
 import {
   DOMAIN_NAMES,
-  MEMORY_TRIAL_RULES,
+  TRIAL_RULES,
   TRIALS,
   domainRank,
   trialAvailable,
@@ -84,7 +84,7 @@ export function TrialsPanel({
             {chosen.name} · stopień {selected.tier}
           </h4>
           <p>
-            {MEMORY_TRIAL_RULES[chosen.kind] ??
+            {TRIAL_RULES[chosen.kind] ??
               (chosen.kind === "focus-cycles"
                 ? "Ukończ 2/3/4 pełne kanały C1. Podejdź do stanowiska, poczekaj na sygnał 1500 ms i użyj Skupienia KI. Przerwanie kanału oznacza porażkę; normalne odnowienie pozostaje."
                 : chosen.kind === "power-targets"

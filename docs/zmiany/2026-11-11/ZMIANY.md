@@ -77,3 +77,37 @@ Użyto lokalnego preview na 4194 przez `KI_QA_BASE_URL` i pominięto aplikacyjny
 serwer QA przez `KI_QA_APP_URL`. JSON emulacji: `/tmp/development-mobile-results.json`.
 W odtwarzalnej konfiguracji ujednoznaczniono wyłącznie katalog wyjściowy, aby
 kolejne przebiegi nie zapisywały plików roboczych wewnątrz dokumentacji.
+
+## Domykanie rozwoju — kolejne próby
+
+### 5. Checkpoint Kalibracji, Termiki, Tożsamości i Kontroli Żaru
+
+Nowa gałąź od zapisanego `32ed1b9f`; nie zmieniono gałęzi PR #90 ani #138.
+Dodano TN01–TN06, TN10–TN12 i TP04–TP06, każdy w trzech stopniach.
+42/48 prób, 126/144 stopni. To nie koniec zadania; pozostało sześć prób Legend
+oraz pozostały zakres kampanii z planu.
+
+Kalibracja ma rzeczywiste cele/pociski/LOS, ruch 40/55/70 j./s i zakaz trafiania
+chronionych celów. Profil sali jest legalny i nie przechodzi do zapisu właściciela.
+Pierwszy sterownik testu nie przechodził narożnika: co tick nadpisywał trasę.
+Poprawiono wyłącznie planowanie ruchu sterownika, bez zmiany geometrii i warunków.
+Po poprawce Kalibracja i obieg transakcji: 25 PASS. Kontrola zasobów i transakcje:
+35 PASS. Tożsamość i transakcje: 23 PASS. Zestawy współdzielą 13 testów transakcji;
+nie należy sumować tych liczb jako liczby unikalnych testów.
+
+W sali nie dodaje się Ładunku, Żaru, darmowego KI ani resetów cooldownów.
+Zakresy i liczby z owner spec pozostają. Własne zasoby i statystyki nie są
+profilami sali. Porównanie podpisów ma jawny rejestr ćwiczebny, nie fikcyjną
+kryptografię. Ratunek jednostki przechodzi przez izolację obwodu, kopię i zasilanie
+z zachowaniem pamięci. Nie dodano premii bojowej za wybór tożsamości.
+
+Pełna regresja/browser tego checkpointu pozostaje do końca partii; wcześniejszych
+wyników 1501/15 nie przypisujemy nowemu kodowi. Nowe kontrole w folderze QA tej
+partii. Nie scalono do main, nie publikowano i nie zmieniono GPU ani danych świata.
+
+Checkpoint 42: pełny TypeScript app/e2e/tools PASS, zestaw prób i transakcji
+**187 PASS / 0 FAIL**, lint 0 błędów / 15 wcześniejszych ostrzeżeń.
+[Stan i ograniczenia](qa/remaining-trials/checkpoint42.json),
+[odciski źródeł](qa/remaining-trials/checkpoint42-source-sha256.json).
+W lincie nazwa lokalnego sterownika `use` była rozpoznana jako hook React;
+przemianowano ją na `performAction`, bez zmiany logiki ani asercji.

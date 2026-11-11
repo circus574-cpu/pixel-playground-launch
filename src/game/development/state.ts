@@ -219,6 +219,20 @@ export const CurrentDevelopmentSchema = Version2Base.extend({
   if (domainRank(s.trials, "sage", "seals") >= 2 && !s.unlockedVariants.includes("ma-seal"))
     fail("Missing seal mastery unlock");
   if (
+    domainRank(s.trials, "android", "thermals") >= 2 &&
+    (!s.unlockedVariants.includes("mn-discharge") || !s.unlockedModules.includes("mn-routing"))
+  )
+    fail("Missing thermal unlock");
+  if (domainRank(s.trials, "legend", "ember") >= 2 && !s.unlockedVariants.includes("mp-burst"))
+    fail("Missing ember unlock");
+  if (
+    domainRank(s.trials, "android", "calibration") >= 2 &&
+    (!s.unlockedVariants.includes("mn-mark") || !s.unlockedModules.includes("mn-optics"))
+  )
+    fail("Missing calibration unlock");
+  if ((s.trials.TN03 ?? 0) >= 2 && !s.unlockedModules.includes("mn-precision"))
+    fail("Missing precision unlock");
+  if (
     domainRank(s.trials, "android", "construction") >= 2 &&
     (!s.unlockedVariants.includes("mn-barrier") || !s.unlockedModules.includes("mn-shield"))
   )

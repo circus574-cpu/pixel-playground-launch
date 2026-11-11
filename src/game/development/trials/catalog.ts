@@ -25,9 +25,21 @@ export const TRIAL_IDS = [
   "TA10",
   "TA11",
   "TA12",
+  "TN01",
+  "TN02",
+  "TN03",
+  "TN04",
+  "TN05",
+  "TN06",
   "TN07",
   "TN08",
   "TN09",
+  "TN10",
+  "TN11",
+  "TN12",
+  "TP04",
+  "TP05",
+  "TP06",
   "TP07",
   "TP08",
   "TP09",
@@ -35,6 +47,18 @@ export const TRIAL_IDS = [
 export type TrialId = (typeof TRIAL_IDS)[number];
 export type TrialTier = 1 | 2 | 3;
 export type TrialKind =
+  | "log-signatures"
+  | "log-timeline"
+  | "manual-recovery"
+  | "core-sequence"
+  | "core-band"
+  | "core-windows"
+  | "ember-band"
+  | "ember-windows"
+  | "ki-budget"
+  | "ordered-shots"
+  | "moving-shots"
+  | "marked-shots"
   | "focus-cycles"
   | "power-targets"
   | "sustain-nodes"
@@ -74,6 +98,10 @@ export type DomainId =
   | "source-memory"
   | "seals"
   | "barriers"
+  | "thermals"
+  | "ember"
+  | "identity"
+  | "calibration"
   | "construction"
   | "duel";
 export type TrialDefinition = {
@@ -88,6 +116,114 @@ export type TrialDefinition = {
 };
 // Only implemented controllers are exposed as playable; targets come from the owner specification.
 export const TRIALS: readonly TrialDefinition[] = [
+  {
+    id: "TN10",
+    race: "android",
+    domain: "identity",
+    kind: "log-signatures",
+    name: "Tożsamość: podpisy logów",
+    targets: [3, 4, 5],
+    maxErrors: 0,
+  },
+  {
+    id: "TN11",
+    race: "android",
+    domain: "identity",
+    kind: "log-timeline",
+    name: "Tożsamość: chronologia",
+    targets: [3, 4, 5],
+    maxErrors: 0,
+  },
+  {
+    id: "TN12",
+    race: "android",
+    domain: "identity",
+    kind: "manual-recovery",
+    name: "Tożsamość: ratunek bez resetu",
+    targets: [2, 3, 4],
+    maxErrors: 0,
+  },
+  {
+    id: "TN04",
+    race: "android",
+    domain: "thermals",
+    kind: "core-sequence",
+    name: "Termika: sekwencja strzałów",
+    targets: [6, 9, 12],
+    maxErrors: 0,
+  },
+  {
+    id: "TN05",
+    race: "android",
+    domain: "thermals",
+    kind: "core-band",
+    name: "Termika: stabilny ładunek",
+    targets: [3, 4, 5],
+    maxErrors: 0,
+  },
+  {
+    id: "TN06",
+    race: "android",
+    domain: "thermals",
+    kind: "core-windows",
+    name: "Termika: okna rdzenia",
+    targets: [2, 3, 4],
+    maxErrors: 0,
+  },
+  {
+    id: "TP04",
+    race: "legend",
+    domain: "ember",
+    kind: "ember-band",
+    name: "Kontrola Żaru: stabilny żar",
+    targets: [3, 4, 5],
+    maxErrors: 0,
+  },
+  {
+    id: "TP05",
+    race: "legend",
+    domain: "ember",
+    kind: "ember-windows",
+    name: "Kontrola Żaru: okna zużycia",
+    targets: [1, 2, 3],
+    maxErrors: 0,
+  },
+  {
+    id: "TP06",
+    race: "legend",
+    domain: "ember",
+    kind: "ki-budget",
+    name: "Kontrola Żaru: budżet KI",
+    targets: [3, 4, 5],
+    maxErrors: 0,
+  },
+  {
+    id: "TN01",
+    race: "android",
+    domain: "calibration",
+    name: "Kalibracja: kolejność",
+    kind: "ordered-shots",
+    targets: [4, 6, 8],
+    maxErrors: 2,
+  },
+  {
+    id: "TN02",
+    race: "android",
+    domain: "calibration",
+    name: "Kalibracja: ruchome cele",
+    kind: "moving-shots",
+    targets: [3, 4, 5],
+    maxErrors: 2,
+  },
+  {
+    id: "TN03",
+    race: "android",
+    domain: "calibration",
+    name: "Kalibracja: właściwe oznaczenie",
+    kind: "marked-shots",
+    targets: [3, 4, 5],
+    maxErrors: 0,
+  },
   {
     id: "TA07",
     race: "sage",
@@ -369,6 +505,10 @@ export const DOMAIN_NAMES: Record<DomainId, string> = {
   focus: "Skupienie",
   seals: "Pieczęcie",
   barriers: "Bariery",
+  thermals: "Termika",
+  ember: "Kontrola Żaru",
+  identity: "Tożsamość",
+  calibration: "Kalibracja",
   construction: "Konstrukcja",
   duel: "Pojedynek",
 };
@@ -379,6 +519,33 @@ export const MEMORY_TRIAL_RULES: Partial<Record<TrialKind, string>> = {
     "Wskaż 2/3/4 twierdzenia, których podane źródła nie potwierdzają. Brak dowodu nie oznacza, że twierdzenie jest fałszywe. Oceniaj tylko dostępne materiały.",
   "memory-sequence":
     "Odtwórz 3/4/5 zdarzeń w kolejności wynikającej ze źródeł. Zachowaj oznaczenie nieustalonego autora dopisku; nie przypisuj go nikomu bez dowodu.",
+};
+export const TRIAL_RULES: Partial<Record<TrialKind, string>> = {
+  ...MEMORY_TRIAL_RULES,
+  "ordered-shots":
+    "Traf 4/6/8 ponumerowanych celów kolejno zwykłymi strzałami R. Najwyżej dwa chybienia; przeszkody blokują pociski.",
+  "moving-shots":
+    "Traf 3/4/5 różnych ruchomych celów. Prędkość 40/55/70 j./s; używaj prawdziwych pocisków i widoczności.",
+  "marked-shots":
+    "Oznacz A1 i traf R 3/4/5 właściwych celów. Nie trafiaj chronionego celu ani wabika. Samo oznaczenie nie wystarcza.",
+  "core-sequence":
+    "Wykonaj 6/9/12 celnych R i 1/2/3 wyładowania C1. Nie przegrzewaj rdzenia; zasób i koszty pochodzą z rzeczywistego profilu.",
+  "core-band":
+    "Utrzymuj Ładunek w 25–65% bieżącego maksimum przez 15/20/25 aktywnych sekund. Profile bazowy/C7/C8 mają maksimum 100/150/70.",
+  "core-windows":
+    "Zbuduj Ładunek i wykonaj 2/3/4 celne C1 w oznaczonych oknach. Zachowano koszt KI, zużycie zasobu i cooldown.",
+  "ember-band":
+    "Utrzymuj Żar 30–70 przez 15/20/25 aktywnych sekund. Bez T i bez zaliczania przez AFK.",
+  "ember-windows":
+    "Wykonaj 1/2/3 celne C4 w oznaczonych oknach z Żaru uzyskanego legalnymi trafieniami.",
+  "ki-budget":
+    "Traf 3/4/5 akcjami A1/B1/C1 w łącznym limicie 70/65/60% KI. Regeneracja nie odnawia budżetu; brak mikstur i darmowego zasilania.",
+  "log-signatures":
+    "Zweryfikuj podpisy 3/4/5 logów, porównując je z niezależnym rejestrem. Odróżnij niezgodność od braku dowodu.",
+  "log-timeline":
+    "Odtwórz 3/4/5 zdarzeń z logów i świadectw. Nie przypisuj brakujących danych konkretnemu autorowi.",
+  "manual-recovery":
+    "Wykonaj 2/3/4 ręczne działania na terminalu ratunkowym. Izoluj uszkodzenie i przywróć zasilanie, zachowując pamięć jednostki.",
 };
 export const trialDefinition = (id: string) => TRIALS.find((t) => t.id === id);
 export const trialReceipt = (id: TrialId, tier: TrialTier) => `trial:${id}:${tier}:v1`;

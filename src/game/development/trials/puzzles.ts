@@ -1,3 +1,4 @@
+import { RecoveryUnit } from "./recoveryUnit";
 import { mirrorBoard, type MirrorBoard } from "./mirrors";
 import { MODULE_ENERGY, type ModuleId } from "../state";
 import { MODULES } from "../modifiers";
@@ -201,6 +202,58 @@ export function trialPuzzles(def: TrialDefinition, tier: TrialTier): TrialPuzzle
   return Array.from({ length: count }, (_, i) => {
     const rotate = tier + i + def.id.charCodeAt(2);
     switch (def.kind) {
+      case "log-signatures": {
+        const known = "Podpis zgodny z niezależnym rejestrem",
+          bad = "Podpis niezgodny z rejestrem",
+          unknown = "Brak wzorca — nie można potwierdzić autora";
+        const unit = `Jednostka ćwiczebna ${i + 1}`,
+          reference = `znak-${100 + i}`;
+        const mode = i % 3;
+        return question(
+          `Zweryfikuj podpis logu ${i + 1}/${count}.`,
+          `Ćwiczenie porównania świadectw, nie certyfikat kryptograficzny ani kronika kampanii. Rejestr kontrolny: ${mode === 2 ? "brak wzorca tej jednostki" : `${unit}: ${reference}`}. Oryginalny log ma podpis: ${mode === 1 ? `znak-${200 + i}` : reference}. Nie wnioskuj o autorze z samej deklaracji logu.`,
+          [known, bad, unknown],
+          [known, bad, unknown][mode]!,
+          rotate,
+        );
+      }
+      case "log-timeline": {
+        const events = [
+          "Odłączono wadliwy kabel",
+          "Zapisano odczyt",
+          "Zabezpieczono kopię",
+          "Przełączono zasilanie",
+          "Otwarto komunikację",
+        ].slice(0, count);
+        const labels = events.map(
+          (e, j) => e + (j === count - 1 ? " — autor dopisku nieustalony" : " — wpis potwierdzony"),
+        );
+        return question(
+          `Odtwórz zdarzenie ${i + 1}/${count}, zachowując brakujące dane.`,
+          "Materiały ćwiczebne. Logi i niezależne świadectwo podają: " +
+            [...events]
+              .reverse()
+              .map((e, j) => `${10 + count - 1 - j}:00: ${e}`)
+              .join("; ") +
+            ". Przy ostatnim zdarzeniu brakuje podpisu autora dopisku; świadek potwierdza kolejność, lecz nie jego autorstwo.",
+          [...labels, events[count - 1] + " — autor: kierownik warsztatu"],
+          labels[i]!,
+          rotate,
+        );
+      }
+      case "manual-recovery": {
+        const unit = new RecoveryUnit(tier),
+          action = unit.steps[i]!;
+        return question(
+          `Ręczny ratunek: krok ${i + 1}/${count}. Wykonaj działanie na terminalu.`,
+          "Symulator jednostki ćwiczebnej. Pamięć jest chroniona i nie wolno jej resetować. Kolejność serwisowa: " +
+            unit.steps.join(" → ") +
+            ". Wynik zmienia stan obwodu, kopii i zasilania w sali; nie dotyka pamięci Twojej postaci.",
+          [...unit.steps, "RESETUJ PAMIĘĆ — brak uprawnienia", "Wymuś reset i pomiń kontrolę"],
+          action,
+          rotate,
+        );
+      }
       case "source-fragments": {
         const sources = [
           [

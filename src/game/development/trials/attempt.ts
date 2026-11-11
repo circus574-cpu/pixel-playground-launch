@@ -1,3 +1,6 @@
+import { RecoveryUnit } from "./recoveryUnit";
+import { ResourceControlTrial, resourceProfile, type ResourceTrialKind } from "./resourceControl";
+import { CalibrationTrial, type CalibrationKind } from "./calibration";
 import { FocusTrial, FOCUS_ROOM } from "./focus";
 import { BarrierWaves, CoverWindows } from "./barriers";
 import { traceMirrors } from "./mirrors";
@@ -10,7 +13,7 @@ import { distance, type Point } from "../../navigation";
 import type { ExamResult } from "../exams";
 import type { PracticeTarget } from "../targets";
 import { RestraintActivity } from "../heritage/restraint";
-import { trialDefinition, MEMORY_TRIAL_RULES, type TrialId, type TrialTier } from "./catalog";
+import { trialDefinition, TRIAL_RULES, type TrialId, type TrialTier } from "./catalog";
 import {
   publicPuzzle,
   trialPuzzles,
@@ -48,6 +51,9 @@ export class TrialAttempt {
   private waves: BarrierWaves | undefined;
   private cover: CoverWindows | undefined;
   private focus: FocusTrial | undefined;
+  private calibration: CalibrationTrial | undefined;
+  private resourceControl: ResourceControlTrial | undefined;
+  private recovery: RecoveryUnit | undefined;
   private escort: EscortActivity | undefined;
   private companion: ProtectedActor | undefined;
   private escortHazard: { x: number; y: number; until: number } | undefined;
@@ -88,6 +94,10 @@ export class TrialAttempt {
     this.session = loanSession(this.race);
     const p = this.session.player;
     p.level = 20;
+    if (definition.kind === "marked-shots") {
+      p.skills.push("A1");
+      this.session.kit.learn("A1");
+    }
     if (definition.kind === "focus-cycles") {
       p.skills.push("C1");
       this.session.kit.learn("C1");
@@ -96,13 +106,26 @@ export class TrialAttempt {
       p.skills.push("B1");
       this.session.kit.learn("B1");
     }
+    const resourceKind = [
+      "core-sequence",
+      "core-band",
+      "core-windows",
+      "ember-band",
+      "ember-windows",
+      "ki-budget",
+    ].includes(definition.kind);
+    if (resourceKind) resourceProfile(this.session, definition.kind as ResourceTrialKind, tier);
     p.items.potion = 0;
     p.hp = this.session.kit.stats.maxHp;
     p.ki = this.session.kit.stats.maxKi;
     const physical = ["counter", "earth-rhythm", "restraint", "position"].includes(definition.kind);
     this.puzzles =
+      resourceKind ||
       physical ||
       [
+        "ordered-shots",
+        "moving-shots",
+        "marked-shots",
         "wind-route",
         "messenger",
         "camp",
@@ -121,6 +144,24 @@ export class TrialAttempt {
     ) {
       this.focus = new FocusTrial(this.session, definition.kind, tier);
       this.phase = definition.kind === "power-targets" ? "read" : "focus";
+    }
+    if (["ordered-shots", "moving-shots", "marked-shots"].includes(definition.kind)) {
+      this.calibration = new CalibrationTrial(
+        this.session,
+        definition.kind as CalibrationKind,
+        tier,
+        this.instanceId,
+      );
+      this.phase = "calibration";
+    }
+    if (resourceKind) {
+      this.resourceControl = new ResourceControlTrial(
+        this.session,
+        definition.kind as ResourceTrialKind,
+        tier,
+        this.instanceId,
+      );
+      this.phase = "resource-control";
     }
     if (definition.kind === "barrier-waves") {
       this.waves = new BarrierWaves(this.session, tier);
@@ -222,6 +263,7 @@ export class TrialAttempt {
         this.until = 1200;
       }
     }
+    if (definition.kind === "manual-recovery") this.recovery = new RecoveryUnit(tier);
     this.session.paused = true;
     this.session.say(this.instructions());
   }
@@ -242,7 +284,13 @@ export class TrialAttempt {
   }
   instructions() {
     const k = this.definition.kind;
-    if (MEMORY_TRIAL_RULES[k]) return MEMORY_TRIAL_RULES[k]!;
+    if (this.resourceControl) {
+      const r = this.resourceControl.snapshot();
+      return `${TRIAL_RULES[k]} Limit sali 240 s. Okna: sygnał 1,5 s, działanie 3 s. Przerwa między aktywnymi trafieniami podczas utrzymania: najwyżej 8 s. Aktualne maksimum zasobu: ${r.max}, budżet KI ${r.budgetKi.toFixed(1)}. Wszystkie umiejętności zachowują zwykłe koszty i cooldowny; bez T. Własne zasoby postaci pozostają poza próbą.`;
+    }
+    if (this.calibration)
+      return `Kalibracja: ${this.targetCount} celów. ${k === "ordered-shots" ? "Trafiaj kolejno ponumerowane cele zwykłym R." : k === "moving-shots" ? `Traf różne ruchome cele; szybkość ${this.calibration.speed} j./s.` : "Trafiaj tylko cele zgodne z kartą: najpierw A1, potem R. Nie strzelaj do chronionego celu ani wabika."} Wszystkie strzały używają realnych pocisków i LOS; limit 240 s, maksymalnie ${this.definition.maxErrors} chybień.`;
+    if (TRIAL_RULES[k]) return TRIAL_RULES[k]!;
     if (k === "focus-cycles")
       return `Ukończ ${this.targetCount} pełne kanały C1 bez przerwania. Podejdź kolejno do stanowisk, poczekaj na koniec sygnału 1500 ms i użyj Skupienia KI. Ruch lub trafienie przerywa kanał. Normalny cooldown 15 s; 20 s na rozpoczęcie po sygnale. Testowe C1 nie przechodzi do własnej postaci.`;
     if (k === "power-targets")
@@ -286,6 +334,8 @@ export class TrialAttempt {
   }
   get currentPoint(): Point | undefined {
     if (this.result.outcome !== "running") return undefined;
+    if (this.resourceControl) return this.resourceControl.point;
+    if (this.calibration) return this.calibration.point;
     if (this.focus) return this.focus.point;
     if (this.waves) return this.waves.point;
     if (this.cover) return this.cover.snapshot().phase === "warning" ? this.cover.point : undefined;
@@ -361,6 +411,10 @@ export class TrialAttempt {
         this.finish("failed", "Błędne rozwiązanie. Ponów próbę i sprawdź dostępne materiały.");
       return;
     }
+    if (this.recovery && !this.recovery.execute(this.recovery.steps[this.round]!)) {
+      this.finish("failed", "Naruszono bezpieczny stan terminala ratunkowego.");
+      return;
+    }
     this.result.successes +=
       puzzle.pack || puzzle.allocation || puzzle.mirrors
         ? this.targetCount
@@ -378,6 +432,8 @@ export class TrialAttempt {
     this.result.reason = reason;
     this.session.paused = true;
     this.session.practiceTargets.removeOwner(this.instanceId);
+    this.resourceControl?.dispose();
+    this.calibration?.dispose();
     this.focus?.dispose();
     this.waves?.dispose();
     this.cover?.dispose();
@@ -417,6 +473,25 @@ export class TrialAttempt {
         "failed",
         "Profil testowy poległ. Oryginalna postać nie utraciła zasobów.",
       );
+    if (this.resourceControl) {
+      this.resourceControl.update();
+      const r = this.resourceControl.snapshot();
+      this.result.successes =
+        r.kind === "core-sequence" ? Math.min(r.shots, r.target) : r.completed;
+      if (r.phase === "failed") this.finish("failed", r.reason);
+      else if (r.phase === "passed")
+        this.finish("passed", "Cele kontroli zasobu wykonane. Zatwierdź wynik.");
+      return;
+    }
+    if (this.calibration) {
+      this.calibration.update();
+      const r = this.calibration.snapshot();
+      this.result.successes = r.completed;
+      this.result.errors = r.errors;
+      if (r.phase === "failed") this.finish("failed", r.reason);
+      else if (r.phase === "passed") this.checkEnd();
+      return;
+    }
     if (this.focus) {
       this.focus.update();
       this.syncFocus();
@@ -562,7 +637,13 @@ export class TrialAttempt {
       escort: this.escort
         ? `${this.escort.snapshot().message} HP: ${this.companion?.body.hp ?? 0}%`
         : "",
-      read: "Podejdź do stanowiska i zbadaj materiały.",
+      calibration: "Trafiaj cele zwykłym R. Oznaczanie: A1. Zwróć uwagę na numer i opis celu.",
+      "resource-control": this.resourceControl
+        ? `Faza: ${({ build: "budowanie", cue: "sygnał", window: "okno działania", hold: "utrzymanie", passed: "zaliczona", failed: "przerwana" } as const)[this.resourceControl.snapshot().phase]}. Zasób ${this.resourceControl.value.toFixed(1)}/${this.resourceControl.max}. Strzały ${this.resourceControl.snapshot().shots}; zużycia ${this.resourceControl.snapshot().discharges}. Utrzymano ${Math.floor(this.resourceControl.snapshot().heldMs / 1000)} s. KI ${this.resourceControl.snapshot().spentKi}/${this.resourceControl.budget.toFixed(1)}.`
+        : "",
+      read: this.recovery
+        ? `Terminal: pamięć ${this.recovery.snapshot().memoryIntact ? "nienaruszona" : "naruszona"}, obwód ${this.recovery.snapshot().isolated ? "odłączony" : "uszkodzony"}, kopia ${this.recovery.snapshot().backup ? "zabezpieczona" : "oczekuje"}, zasilanie ${this.recovery.snapshot().powered ? "bezpieczne" : "odłączone"}. Podejdź do stanowiska i wykonaj następne działanie.`
+        : "Podejdź do stanowiska i zbadaj materiały.",
       prepare: "Przygotuj się na zapowiedź.",
       warning: "Opuść czerwony krąg.",
       counter: "OKNO KONTRY — traf cel zwykłym atakiem.",
@@ -572,6 +653,9 @@ export class TrialAttempt {
     };
     return {
       ...this.result,
+      resourceControl: this.resourceControl?.snapshot() ?? null,
+      recovery: this.recovery?.snapshot() ?? null,
+      calibration: this.calibration?.snapshot() ?? null,
       focus: focus ?? null,
       waves: this.waves?.snapshot() ?? null,
       cover: this.cover?.snapshot() ?? null,

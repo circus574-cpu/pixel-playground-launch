@@ -1,5 +1,32 @@
 # KI Legends — aktualny plan i zadania
 
+## Domykanie rozwoju — checkpoint 42 prób, 11.11.2026
+
+Robocza kontynuacja `feature/development-remaining-trials-20261111` od `32ed1b9f`:
+Kalibracja TN01–TN03, Termika TN04–TN06, Tożsamość TN10–TN12,
+Kontrola Żaru TP04–TP06. Katalog ma 42/48 prób i 126/144 stopni; Planetarni,
+Mędrcy i Androidy po 12/12, Legendy 6/12. To checkpoint, nie odbiór pełnej kampanii.
+Pozostają Ciało TP01–TP03, Przysięga TP10–TP12 oraz interakcje dziedzin,
+późne wyprawy, tytuły, graf/budżet i pełna regresja.
+
+Kalibracja używa rzeczywistych, niehomingowych pocisków, oznaczenia A1,
+widoczności i limitu chybień. Termika używa legalnych profili bazowego/C7/C8
+(maksimum 100/150/70), bez ręcznego dodawania Ładunku. Kontrola Żaru korzysta
+z rzeczywistych trafień i zużycia C4. Budżet KI liczy każdy realny wydatek;
+regeneracja go nie odnawia. Stałe sali, nie kanonu: limit 240 s,
+sygnał 1,5 s, okno 3 s, maksymalna przerwa aktywności przy utrzymaniu 8 s.
+
+Tożsamość porównuje jawne materiały ćwiczebne z niezależnym rejestrem;
+nie udaje kryptograficznego dowodu. Terminal ratunkowy ma rzeczywiste stany
+izolacji, kopii, zasilania i łączności oraz chronioną pamięć. Nie zmienia
+pamięci postaci ani jej zapisów. Bez zmiany kanonu i istniejących statystyk.
+
+Kalibracja II odblokowuje `mn-mark` i `mn-optics`, TN03 II `mn-precision`,
+Termika II `mn-discharge` i `mn-routing`, Kontrola Żaru II `mp-burst`.
+To odblokowania istniejących efektów, bez automatycznego wyposażania modułów.
+Formaty zapisu pozostają 10/6 i development v3. Dane w kopercie własnej postaci,
+nagrody jednorazowe i CAS pozostają wspólne. Nie scalać do main ani publikować.
+
 ## Połączenie Skupienia i Pamięci — 11.11.2026
 
 Osobna gałąź `feature/development-focus-memory-20261111` łączy PR #90

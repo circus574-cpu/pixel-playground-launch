@@ -115,6 +115,7 @@ export function TrialRoom({
       ref={stage}
       className="ki-stage ki-exam-stage ki-trial-stage"
       aria-label="Sala prób rasowych"
+      data-calibration-target={result.calibration?.targetId ?? ""}
       data-trial-id={attempt.trialId}
       data-trial-tier={attempt.tier}
       data-trial-phase={result.phase}

@@ -1869,6 +1869,22 @@ export class GameSession implements MonsterHost {
         !next.unlockedVariants.includes("ma-seal")
       )
         next.unlockedVariants.push("ma-seal");
+      if (domainRank(next.trials, "android", "thermals") >= 2) {
+        if (!next.unlockedVariants.includes("mn-discharge"))
+          next.unlockedVariants.push("mn-discharge");
+        if (!next.unlockedModules.includes("mn-routing")) next.unlockedModules.push("mn-routing");
+      }
+      if (
+        domainRank(next.trials, "legend", "ember") >= 2 &&
+        !next.unlockedVariants.includes("mp-burst")
+      )
+        next.unlockedVariants.push("mp-burst");
+      if (domainRank(next.trials, "android", "calibration") >= 2) {
+        if (!next.unlockedVariants.includes("mn-mark")) next.unlockedVariants.push("mn-mark");
+        if (!next.unlockedModules.includes("mn-optics")) next.unlockedModules.push("mn-optics");
+      }
+      if ((next.trials.TN03 ?? 0) >= 2 && !next.unlockedModules.includes("mn-precision"))
+        next.unlockedModules.push("mn-precision");
       if (domainRank(next.trials, "android", "construction") >= 2) {
         if (!next.unlockedVariants.includes("mn-barrier")) next.unlockedVariants.push("mn-barrier");
         if (!next.unlockedModules.includes("mn-shield")) next.unlockedModules.push("mn-shield");

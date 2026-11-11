@@ -1,5 +1,9 @@
 # KI Legends — dokumentacja projektu
 
+**Domykanie rozwoju — roboczy checkpoint 42/48 prób:** Androidy mają kontrolery
+12 prób, Legendy 6. Trwa implementacja pozostałych sześciu i odbiór całości.
+Bez publikacji. [Kolejne partie](zmiany/2026-11-11/ZMIANY.md#domykanie-rozwoju--kolejne-próby).
+
 **Integracja rozwoju 11.11:** połączono Skupienie z Pamięcią na osobnej gałęzi.
 Katalog 30/48 prób i 90/144 stopni; Planetarni i Mędrcy po 12/12 prób.
 Brak scalenia do main i publikacji. [Stan i kontrole](zmiany/2026-11-11/ZMIANY.md).

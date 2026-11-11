@@ -60,7 +60,7 @@ describe("racial trial results are owned, atomic and finite", () => {
       }
       const d = s.player.development!;
       expect(domainRank(d.trials, race, TRIALS.find((t) => t.race === race)!.domain)).toBe(3);
-      expect(d.practiceEarned).toBe(race === "planetary" || race === "sage" ? 5400 : 1350);
+      expect(d.practiceEarned).toBe(race === "legend" ? 2700 : 5400);
       expect(DevelopmentSchema.safeParse(d).success).toBe(true);
       if (race === "planetary") {
         expect(d.unlockedVariants).toContain("mv-earth");
@@ -76,6 +76,9 @@ describe("racial trial results are owned, atomic and finite", () => {
       if (race === "android") {
         expect(d.unlockedVariants).toContain("mn-barrier");
         expect(d.unlockedModules).toContain("mn-shield");
+        expect(d.unlockedModules).toContain("mn-optics");
+        expect(d.unlockedModules).toContain("mn-precision");
+        expect(d.unlockedVariants).toContain("mn-mark");
       }
       const { development: _development, ...after } = s.player;
       expect(after).toEqual(original);
@@ -85,9 +88,7 @@ describe("racial trial results are owned, atomic and finite", () => {
       const again = s.startRacialTrial(TRIALS.find((t) => t.race === race)!.id, 1)!;
       completeTrial(again);
       expect(s.finishRacialTrial(again)).toBe(true);
-      expect(s.player.development!.practiceEarned).toBe(
-        race === "planetary" || race === "sage" ? 5400 : 1350,
-      );
+      expect(s.player.development!.practiceEarned).toBe(race === "legend" ? 2700 : 5400);
     },
   );
   it("refuses a constructed or foreign result and requires the physical trainer", () => {
