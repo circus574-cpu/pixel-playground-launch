@@ -195,7 +195,8 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   116 tekstur / 176,6 MiB i **zero błędów konsoli** — identycznie jak przed zmianą. Chunk chciany
   jest zawsze drenowany (pętla co klatkę), więc nie ma trwałych dziur; jest 1–2 klatki opóźnienia.
 - Bramka: typecheck exit 0, testy renderu (stale-chunk, scenery-stream, visibility-grid) 10 passed,
-  testy świata (spawns, save, dress, characters) 33 passed. Pełny zestaw osobno.
+  testy świata (spawns, save, dress, characters) 33 passed; **pełny zestaw 1264 passed / 10 skipped
+  (122 pliki), zero padnięć**.
 - Uwaga: FPS z programowego Canvas w tym kontenerze degraduje się w trakcie długich przebiegów
   (czas wejścia rośnie 22→33 s), więc per-światowe FPS nie jest wiarygodną miarą; wiarygodne są
   frameMax (zamrożenie) i pamięć, niezależne od tego dryfu. Miara docelowa = fizyczny telefon.
