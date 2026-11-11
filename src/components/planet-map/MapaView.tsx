@@ -107,6 +107,7 @@ export function MapaView({
       <Suspense fallback={<GlobeLoading />}>
         <PlanetGlobe
           current={current}
+          focus={focus}
           onClose={onClose}
           onTravel={onTravel}
           onShowFlat={() => setMode("flat")}

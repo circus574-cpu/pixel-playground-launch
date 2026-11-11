@@ -126,6 +126,20 @@ describe("/mapa globe render budget", () => {
     const q = globeQuality({ devicePixelRatio: 1, coarsePointer: false, width: 1600 });
     expect(q.maxDpr).toBe(1);
     expect(q.hiResColor).toBe(true);
+    expect(q.hiResOnZoom).toBe(true);
+  });
+
+  it("lets a weaker desktop load the sharp texture on zoom, but never a phone", () => {
+    const weak = globeQuality({
+      devicePixelRatio: 1.65,
+      coarsePointer: false,
+      width: 1906,
+      cores: 4,
+    });
+    expect(weak.hiResColor).toBe(false);
+    expect(weak.hiResOnZoom).toBe(true);
+    const phone = globeQuality({ devicePixelRatio: 3, coarsePointer: true, width: 390 });
+    expect(phone.hiResOnZoom).toBe(false);
   });
 });
 
