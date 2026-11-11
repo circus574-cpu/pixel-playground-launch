@@ -1,0 +1,55 @@
+{
+  "codeSha": "4380cf52cfcb23ca65262926946dca92ef21bfc6",
+  "baseMain": "8ede8d07df8530d4151e019af1ca9619fbac5760",
+  "pr": 145,
+  "typecheck": {
+    "app": "PASS",
+    "e2e": "PASS",
+    "tools": "PASS"
+  },
+  "targetedVitest": {
+    "passed": 445,
+    "failed": 0,
+    "skipped": 0,
+    "files": 23,
+    "uniqueTrialGradeCases": 144
+  },
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 15
+  },
+  "build": "PASS",
+  "documentation": "PASS",
+  "fullUnitPreviousCode": {
+    "codeSha": "fafe526eda7f1746eded33f1f66730789731a76c",
+    "passed": 1706,
+    "failed": 0,
+    "skipped": 10
+  },
+  "browserPreviousCode": {
+    "codeSha": "fafe526eda7f1746eded33f1f66730789731a76c",
+    "canvasPassed": 2,
+    "canvasFailed": 0,
+    "mobilePassed": 2,
+    "mobileFailed": 0,
+    "softwareWebglIsolatedPassed": 1,
+    "softwareWebglIsolatedFailed": 1,
+    "remainingFailure": "Pyra HUD skill-menu click before entering TP03"
+  },
+  "awaitingIndependentQA": [
+    "full CI and project Playwright on latest head",
+    "Software WebGL Pyra menu entry and combat",
+    "physical phone / simultaneous two-thumb input"
+  ],
+  "wholeCampaignNotComplete": [
+    "world domain interactions",
+    "32 late encounter variants 21-40",
+    "whole campaign playthrough and balance"
+  ],
+  "sourceSafety": {
+    "canonicalMonsterAndNodeFilesEqualBaseMain": true,
+    "mergedToMain": false,
+    "published": false,
+    "gpuLifecycleChanged": false
+  }
+}

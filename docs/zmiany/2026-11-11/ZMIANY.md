@@ -550,3 +550,12 @@ Fizyczny telefon i rzeczywisty multitouch dwóch kciuków nie są zweryfikowane.
 Cała kampania nadal wymaga interakcji dziedzin w świecie, 32 wariantów 21–40
 oraz pełnego przebiegu i balansu. Oddawany komplet tej partii to próby, ich
 nagrody/odblokowania, tytuły i bezpieczny obieg zapisu, nie cała kampania.
+
+
+Końcowy kod tej partii: `4380cf52cfcb23ca65262926946dca92ef21bfc6`. [Aktualny raport](qa/remaining-trials/acceptance-latest.json)
+rozróżnia 445 testów na ostatniej integracji od pełnych 1706 i browser na
+`fafe526e`. [Odciski aktualnych źródeł](qa/remaining-trials/latest-source-sha256.json).
+Ostatni commit raportowy dodaje wyłącznie te dowody, bez zmiany kodu gry.
+Nagrania: [Canvas — rzeczywista walka](qa/remaining-trials/desktop/racial-trials-Legendy-real-TP03-one-time-reward-and-reload-gameplay/video.webm)
+i [Software WebGL — rzeczywista kalibracja](qa/remaining-trials/software-webgl/racial-trials-Androidy-real-TN01-one-time-reward-and-reload-software-webgl/video.webm).
+Nie wykonano merge do main ani publikacji.
