@@ -149,7 +149,7 @@ def shelf_pack(width):
 
 # the narrowest-area shelf layout (decoded size is what the texture budget counts)
 widest = max(c.shape[1] for _, c, _, _ in items) + 2 * pad
-W, (place, H) = min(((w, shelf_pack(w)) for w in range(widest, 2049, 16)), key=lambda t: t[0] * t[1][1])
+W, (place, H) = min(((w, shelf_pack(w)) for w in range(widest, 2049, 16) if shelf_pack(w)[1] <= 2048), key=lambda t: (t[0] * t[1][1], max(t[0], t[1][1])))  # the importer allows at most 2048 px per side
 atlas = np.zeros((H, W, 4), np.uint8); meta = {}
 for name, crop, ox, oy in items:
     px, py, w, h, _, _ = place[name]; atlas[py:py + h, px:px + w] = crop

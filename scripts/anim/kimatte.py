@@ -1,3 +1,4 @@
+import os
 import numpy as np, cv2
 from PIL import Image
 
@@ -15,8 +16,10 @@ def fx_alpha(rgb, body_a, gate_lo=0.10, gate_hi=0.35):
     col = np.clip((c - (1 - a)[..., None]) / np.maximum(a, 1e-3)[..., None], 0, 1)
     chroma = col.max(2) - col.min(2)
     gate = np.clip((chroma - gate_lo) / (gate_hi - gate_lo), 0, 1)
+    # a real colour deviation from the background, not the amplified noise of a grey vignette
+    gate *= np.clip((c.max(2) - c.min(2) - 0.03) / 0.05, 0, 1)
     a = a * gate
-    a[a < 0.05] = 0
+    a[a < float(os.environ.get('KIMATTE_MIN_A', '0.07'))] = 0
     a = cv2.GaussianBlur(a, (0, 0), 0.7)
     return a, col
 

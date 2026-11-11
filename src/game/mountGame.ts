@@ -1108,11 +1108,13 @@ export function mountKileGends(
       if (event.type === "burst") {
         // Planetary melee skills (A9, B4, B9) emit a burst instead of an attack event: the hero still plays its skill pose.
         if (!event.source && event.ability && event.ability !== "R")
-          this.hero.animation.trigger("skill", this.animationTime, session.facing);
+          this.hero.animation.trigger("skillb", this.animationTime, session.facing);
         this.ring(event, event.radius ?? 100, 0xb2f4ff, event.ms ?? 450, 0.2);
         return;
       }
       if (event.type === "buff" && event.ability === "T" && !event.source) this.transform();
+      if (event.type === "buff" && event.ability === "dodge" && !event.source)
+        this.hero.animation.trigger("dodge", this.animationTime, session.facing);
       if (event.type === "status" || event.type === "buff" || event.type === "channel") {
         if (event.text)
           this.float(event, event.text, event.target === "player" ? "#ffa1a1" : "#c9f0ff");
@@ -1261,7 +1263,7 @@ export function mountKileGends(
         });
       }
       if (event.type === "shield") {
-        this.hero.animation.trigger("skill", this.animationTime);
+        this.hero.animation.trigger("guard", this.animationTime);
         this.texturedEffect("shield", event);
       }
     }

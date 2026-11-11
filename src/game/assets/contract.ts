@@ -29,5 +29,10 @@ export const GPU_CONTRACT = {
     kiidle: { frames: 6, fps: 6, loop: true },
     kiattack: { frames: 6, fps: 12, loop: false },
     kiskill: { frames: 8, fps: 12, loop: false },
+    attack2: { frames: 6, fps: 12, loop: false },
+    finisher: { frames: 8, fps: 12, loop: false },
+    skillb: { frames: 8, fps: 12, loop: false },
+    dodge: { frames: 6, fps: 14, loop: false },
+    guard: { frames: 6, fps: 10, loop: false },
   },
 } as const;
