@@ -1106,6 +1106,9 @@ export function mountKileGends(
         return;
       }
       if (event.type === "burst") {
+        // Planetary melee skills (A9, B4, B9) emit a burst instead of an attack event: the hero still plays its skill pose.
+        if (!event.source && event.ability && event.ability !== "R")
+          this.hero.animation.trigger("skill", this.animationTime, session.facing);
         this.ring(event, event.radius ?? 100, 0xb2f4ff, event.ms ?? 450, 0.2);
         return;
       }

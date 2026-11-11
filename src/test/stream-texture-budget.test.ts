@@ -12,7 +12,7 @@ import {
 } from "../game/assets/streamBudget";
 
 describe("HD hero and streamed creature texture budget", () => {
-  it("fits the exact resident set captured from the failing pristine Sage scenario plus its creature", () => {
+  it("fits the exact resident set captured from the once-failing pristine Sage scenario plus its creature", () => {
     const baseline = JSON.parse(
       readFileSync(
         "docs/zmiany/2026-10-28/qa/racial-development/baseline-sage-resident-textures.json",
@@ -30,11 +30,14 @@ describe("HD hero and streamed creature texture budget", () => {
       ...Object.values(monsterVisual("pyra-ognista-salamandra", catalog).clips).map((c) => c.asset),
     ];
     const bytes = streamTextureBytes(ids, catalog.assets);
-    expect(bytes).toBeGreaterThan(128 * 1024 * 1024);
+    // The hero atlases were repacked with trimmed frames (Tryb KI work, 11.11.2026): the same resident set that once
+    // exceeded 128 MiB now fits it.
+    expect(bytes).toBeLessThanOrEqual(128 * 1024 * 1024);
     expect(bytes).toBeLessThanOrEqual(STREAM_TEXTURE_BUDGET_BYTES);
     // 137.96 MB with the earlier salamander (two atlas pages); 132.47 MB with its anime redraw
     // (one 2048×1024 page, 02.11.2026).
-    expect(bytes / 1024 / 1024).toBeCloseTo(132.4708251953125);
+    // 109.62 MiB after the hero atlases were trimmed and the Tryb KI clips added (was 132.47 MiB).
+    expect(bytes / 1024 / 1024).toBeCloseTo(109.61746215820312);
   });
   it("retains a finite ceiling and reserves terrain, deduplicating reused atlases", () => {
     const assets = new Map([["atlas", { width: 2048, height: 2048 }]]);

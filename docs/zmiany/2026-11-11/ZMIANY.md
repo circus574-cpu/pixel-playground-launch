@@ -255,3 +255,20 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   wejścia** do celu <5 s. Cel <5 s wymaga większej pracy: bundlowania JSON-ów chunków/art (dziś
   ~3872 pliki / ~51,6 MB na świat, 2 fetch/e chunk) + prefetch. To osobny, większy krok — nie
   ruszany bez zgody właściciela.
+
+### 15. Tryb KI: chód, walka i wygląd po transformacji z filmów właściciela (4 rasy)
+
+- Powód: po transformacji postać wyglądała i walczyła niemal jak zwykła — w grze był tylko `kiwalk`, jednoklatkowy `kiidle`
+  i `kiattack` bez efektów (matowanie rembg usuwało poświatę, płomienie i wiązki z filmów).
+- Nowy klip `kiskill` (8 klatek, 12 kl./s) dla czterech ras: ładowanie i wystrzał energii; `kiidle` ma 6 klatek (pętla,
+  z poświatą), `kiattack` 6 klatek z efektem uderzenia. Wszystko z filmów `*-etap4-walka-po-transformacji.mp4`,
+  skrypt `scripts/anim/kiform_build.py` (zastępuje `kifight_build.py`) + `scripts/anim/kimatte.py` (matowanie z zachowaniem efektów).
+- Silnik: stan `kiskill` (schema, `GPU_CONTRACT.optionalAnimations`, `ActorAnimation.clipState`: `skill` → `kiskill` w Trybie KI);
+  zdarzenie `burst` bohatera uruchamia pozę `skill` (Planetar nie zgłaszał `attack` dla A9/B4/B9).
+- Pamięć tekstur: nowy `scripts/anim/repack_hero.py` przepakował atlasy bazowe czterech bohaterów na klatki przycięte
+  (identyczne piksele, 0/255 różnicy): −29 MiB na rasę; po dodaniu klatek KI najwyższy świat 104,1 z 128 MiB (wcześniej 125,5).
+  Paczki hero `2.4.0` (stare `2.2.1` usunięte, historia w git).
+- Weryfikacja w grze (Playwright, lokalny dev-serwer, próbnik klatek `dataset.animationFrame` + zrzuty sceny): dla każdej rasy
+  `kiidle` 00–05, `kiwalk` (prawo i lewo), `kiattack` 00–05 i `kiskill` 00–07 odtwarzają się kolejno; zero błędów w konsoli.
+  Typecheck 3 konfiguracji i testy: `actor-animation`, `gpu-pipeline` (640 odwołań do klatek).
+
