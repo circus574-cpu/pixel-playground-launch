@@ -9,6 +9,7 @@ const PRIORITY: Record<AnimationState, number> = {
   kiwalk: 1,
   kiidle: 0,
   kiattack: 3,
+  kiskill: 4,
   run: 2,
   attack: 3,
   skill: 4,
@@ -34,11 +35,12 @@ export class ActorAnimation {
     for (const [state, clip] of Object.entries(visual.clips))
       this.directions.set(state as AnimationState, Object.keys(clip.directions) as Direction[]);
   }
-  /** Clip that presents a state: Tryb KI swaps idle and the basic attack for kiidle and kiattack when present. */
+  /** Clip that presents a state: Tryb KI swaps idle, the basic attack and skills for kiidle, kiattack and kiskill when present. */
   private clipState(state: AnimationState): AnimationState {
     if (!this.kiForm) return state;
     if (state === "idle" && this.visual.clips.kiidle) return "kiidle";
     if (state === "attack" && this.visual.clips.kiattack) return "kiattack";
+    if (state === "skill" && this.visual.clips.kiskill) return "kiskill";
     return state;
   }
   trigger(state: AnimationState, now: number, facing?: Point) {

@@ -51,7 +51,7 @@ describe("Tryb KI walk (kiwalk)", () => {
     expect(animation.state).toBe("walk");
   });
 });
-describe("Tryb KI stance and basic attack (kiidle, kiattack)", () => {
+describe("Tryb KI stance, basic attack and skill (kiidle, kiattack, kiskill)", () => {
   const rigKi = () => {
     const base = actorVisual("verdant", "hero", undefined, false, catalog);
     const sprite = {
@@ -70,8 +70,9 @@ describe("Tryb KI stance and basic attack (kiidle, kiattack)", () => {
     for (const world of ["verdant", "aether", "nexus", "pyra"] as const) {
       const hero = actorVisual(world, "hero", undefined, false, catalog);
       for (const [clip, frames] of [
-        ["kiidle", 1],
+        ["kiidle", 6],
         ["kiattack", 6],
+        ["kiskill", 8],
       ] as const) {
         const c = hero.clips[clip]!;
         expect(c, world + clip).toBeDefined();
@@ -84,13 +85,12 @@ describe("Tryb KI stance and basic attack (kiidle, kiattack)", () => {
     const { animation, sprite, base } = rigKi();
     animation.update(0, false, false, { x: 1, y: 0 }, false, false);
     expect(animation.state).toBe("idle");
-    expect(sprite.setTexture).not.toHaveBeenCalledWith(base.clips.kiidle!.asset, expect.anything());
+    expect(String(sprite.play.mock.calls.at(-1)?.[0] ?? "")).not.toContain("kiidle");
     animation.update(100, false, false, { x: 1, y: 0 }, false, true);
     expect(animation.state).toBe("idle");
-    const frame = base.clips.kiidle!.directions.right![0];
-    expect(sprite.setTexture).toHaveBeenLastCalledWith(base.clips.kiidle!.asset, frame);
+    expect(base.clips.kiidle!.loop).toBe(true);
+    expect(String(sprite.play.mock.calls.at(-1)?.[0])).toContain("/kiidle/");
     animation.update(200, false, false, { x: 1, y: 0 }, false, false);
-    expect(sprite.stop).toHaveBeenCalled();
     expect(String(sprite.play.mock.calls.at(-1)?.[0] ?? "")).not.toContain("kiidle");
   });
   it("plays the powered-up basic attack only in Tryb KI and keeps the priority rules", () => {
@@ -103,13 +103,16 @@ describe("Tryb KI stance and basic attack (kiidle, kiattack)", () => {
     animation.trigger("skill", 30, { x: 1, y: 0 });
     animation.update(40, false, false, { x: 1, y: 0 }, false, true);
     expect(animation.state).toBe("skill");
-    expect(String(sprite.play.mock.calls.at(-1)?.[0])).not.toContain("kiattack");
-    // Without Tryb KI the same trigger uses the base attack clip.
+    expect(String(sprite.play.mock.calls.at(-1)?.[0])).toContain("/kiskill/");
+    // Without Tryb KI the same trigger uses the base attack and skill clips.
     const plain = rigKi();
     plain.animation.update(0, false, false, { x: 1, y: 0 }, false, false);
     plain.animation.trigger("attack", 10, { x: 1, y: 0 });
     plain.animation.update(20, false, false, { x: 1, y: 0 }, false, false);
     expect(String(plain.sprite.play.mock.calls.at(-1)?.[0])).not.toContain("kiattack");
+    plain.animation.trigger("skill", 400, { x: 1, y: 0 });
+    plain.animation.update(410, false, false, { x: 1, y: 0 }, false, false);
+    expect(String(plain.sprite.play.mock.calls.at(-1)?.[0])).not.toContain("kiskill");
   });
   it("falls back to the base idle and attack for a rig without the clips", () => {
     const { animation } = rig();
