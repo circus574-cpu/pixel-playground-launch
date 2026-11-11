@@ -16,4 +16,3 @@ Na zgłoszenie właściciela z nagrań ekranu (Intel UHD, Chromium): na mapie 2D
 - Zgłoszenie właściciela: brak możliwości zmiany położenia przycisków umiejętności. Edytor układu (`ControlEditor`, „Przesuń przyciski”) i style `--ctl-*` działały na wszystkich urządzeniach, ale sekcja ustawień z przyciskiem była pokazywana tylko na ekranie dotykowym (`touchJoystick`).
 - Sekcja „Przyciski umiejętności” (suwaki wielkości i „Przesuń przyciski”) jest teraz widoczna także na komputerze; suwak joysticka tylko na dotyku (`src/components/game/GameHud.tsx`). Zapis układu bez zmian (`ui-preferences`, `controls.buttons`).
 - Nie sprawdzono w przeglądarce: ekran gry wymaga zalogowanej postaci, której środowisko testowe nie ma; zmiana to wyłącznie warunek wyświetlania istniejącego edytora, który nie ma testu jednostkowego.
-
