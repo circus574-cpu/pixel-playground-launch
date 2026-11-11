@@ -24,6 +24,7 @@ import { RACES } from "../../game/world/races";
 import type { CharacterRecord, CharacterState } from "./repository";
 import { onlineCommand } from "./commands";
 import { captureCombat, restoreCombat } from "./transient";
+import { repairPlayerForLoad } from "./playerRepair";
 
 /** Filesystem fetcher for the SAME verified manifests/navigation as the browser. Never fetch
  * a URL supplied by a player and never select world v1 through a Node/window fallback. */
@@ -61,11 +62,22 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
     new Set(index.features.map((f) => f.id)).size !== 10
   )
     throw Error("Invalid server world index");
-  const feature = record.state.runtime["feature"] ?? RACES[record.state.player.race].world;
+  let feature = record.state.runtime["feature"] ?? RACES[record.state.player.race].world;
   if (typeof feature !== "string" || !FEATURE_IDS.includes(feature as FeatureId))
     throw Error("Invalid saved feature");
-  const info = index.features.find((f) => f.id === feature);
+  let info = index.features.find((f) => f.id === feature);
   if (!info) throw Error("Unknown saved feature");
+  // An administrator teleport can move the stored player to another continent while the saved
+  // feature (and its checkpoint) still name the old one; the stored player decides where it opens.
+  const continentChanged = info.affinity !== record.state.player.continent;
+  if (continentChanged) {
+    const home = index.features.find((f) => f.id === record.state.player.continent);
+    if (!home || home.affinity !== record.state.player.continent)
+      throw Error("Unknown continent of the stored player");
+    console.warn("[Online] Postać przeniesiona przez administratora na inny kontynent:", record.id);
+    feature = home.id;
+    info = home;
+  }
   const loader = await loadBrowserFeature(basePath, feature, { fetcher });
   const source = loader.definition as unknown as SuperiorSimulationSource;
   if (
@@ -101,6 +113,41 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
     };
     healed = true;
   }
+  // Edits made in the admin panel are brought back inside the checkpoint invariants (experience below
+  // the next level, owned equipment, finished quest prerequisites, position inside the world).
+  const stored: Player = JSON.parse(JSON.stringify(record.state.player)) as Player;
+  const checkpointTown =
+    envelope !== undefined &&
+    typeof envelope === "object" &&
+    envelope !== null &&
+    !Array.isArray(envelope) &&
+    !continentChanged &&
+    typeof envelope["town"] === "string"
+      ? envelope["town"]
+      : null;
+  const repaired = repairPlayerForLoad(stored, info, { town: checkpointTown });
+  // A teleport to a spot nobody can stand on would crash the session constructor.
+  if (!stored.interior && !loader.navigation.walkable(stored)) {
+    Object.assign(stored, loader.navigation.safe(info.arrival));
+    repaired.push("position");
+  }
+  if (repaired.length)
+    console.warn("[Online] Naprawiono pola postaci po edycji:", record.id, repaired.join(", "));
+  if (
+    envelope !== undefined &&
+    typeof envelope === "object" &&
+    envelope !== null &&
+    !Array.isArray(envelope) &&
+    (repaired.length || continentChanged)
+  ) {
+    envelope = {
+      ...envelope,
+      feature: info.id,
+      ...(continentChanged ? { town: null } : {}),
+      player: stored as unknown as typeof envelope,
+    };
+    healed = true;
+  }
   if (envelope !== undefined) data.set(record.id, JSON.stringify(envelope));
   const save = new SuperiorSaveStore(port, record.id, index, info.id);
   let restored = save.load();
@@ -113,7 +160,7 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
   )
     throw Error("Checkpoint/player mismatch");
   const initial: Player = restored ?? {
-    ...structuredClone(record.state.player),
+    ...structuredClone(stored),
     ...loader.navigation.safe(info.arrival),
   };
   const built = buildSuperiorSimulationWorld({
