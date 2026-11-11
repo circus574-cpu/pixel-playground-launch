@@ -51,13 +51,14 @@ describe("pętla widoczności Superior na siatce sceneryStream", () => {
         const items = dekoracje(cap, seed);
         const grid = buildSceneryGrid(items);
         const reach = sceneryReach(items);
-        for (const [left, top] of [
+        const origins: [number, number][] = [
           [0, 0],
           [600, 700],
           [1500, 1500],
           [-300, 900],
           [1900, -200],
-        ]) {
+        ];
+        for (const [left, top] of origins) {
           const view = { left, right: left + 1452, top, bottom: top + 903 };
           const near = new Set(sceneryNear(grid, view, 200 + reach));
           items.forEach((item, i) => {
