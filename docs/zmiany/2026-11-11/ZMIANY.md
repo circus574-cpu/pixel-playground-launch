@@ -132,9 +132,14 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   (własny `sceneryBuckets.ts` powstał, ale został usunięty jako duplikat). Komórki w kadrze są
   powiększone o `sceneryReach`, więc żaden widoczny obiekt nie wypada; obrazy obiektów poza
   kandydatami są gaszone po indeksie, nie po pełnym przejściu.
-- **Pomiar pamięci (renderer-independent):** Verdantia **210,8 → 176,6 MiB** (pod sufitem 192),
-  Aetheria **233,1 → 199,4 MiB**. Pomiar FPS z tego przebiegu jest niewiarygodny, bo w trakcie
-  szły równoległe testy i HMR przeładował stronę — czysty pomiar osobno.
+- **Pomiar pamięci (renderer-independent, czysty przebieg):** Verdantia **210,8 → 176,6 MiB**,
+  Aetheria **233,1 → 199,4**, Nexus **240,5 → 206,9**, Pyra **198,2 → 183,4**. Spadek ~34 MiB
+  wszędzie (podłoże 1024 → 512). Verdantia i Pyra schodzą pod sufit 192; Aetheria i Nexus nadal
+  ponad, bo ich atlasy są cięższe — to zostaje na Fazę 2/3.
+- **Pomiar FPS mobile (844×390, czysty przebieg, Canvas bez GPU):** Verdantia **21,7 → 30,4**,
+  Nexus **29,0 → 31,4**, Pyra **17,8 → 28,0** (p50 klatki 59,5 → 25,0 ms), Aetheria 26,1 → 21,9.
+  Trzy z czterech światów szybciej; Aetheria wymaga osobnego spojrzenia. FPS z programowego
+  Canvas jest szumny i pesymistyczny względem telefonu z GPU — pamięć jest tu pewnym wynikiem.
 - **Pomiar pętli (`scripts/perf/audyt-buckets.ts`, na prawdziwym `sceneryStream`):** kandydaci
   3840 → 730 (5,3× mniej), skan **1,55–1,95×** szybszy. Uczciwie: to nie 8×, jak szacował audyt —
   odrzucone obiekty kosztują mało, bo porównanie wychodzi wcześnie; zysk strukturalny rośnie na
