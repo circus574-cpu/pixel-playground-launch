@@ -1,0 +1,42 @@
+name: Game server logs (read only)
+on:
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "How far back to read logs (docker --since), e.g. 6h"
+        required: false
+        default: 6h
+permissions:
+  contents: read
+concurrency:
+  group: game-server-logs
+  cancel-in-progress: false
+jobs:
+  logs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Read game-server rejection reasons over authorized SSH (no restart, no changes)
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
+          SINCE: ${{ inputs.since }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [ -n "$SSH_PRIVATE_KEY" ] || { echo '::error::Missing COOLIFY_SSH_KEY'; exit 1; }
+          case "$SINCE" in *[!0-9smhd]*|"") echo '::error::Bad since value'; exit 1;; esac
+          umask 077
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$RUNNER_TEMP/key"
+          ssh -i "$RUNNER_TEMP/key" -o BatchMode=yes -o ConnectTimeout=15 \
+            -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/known_hosts" \
+            codex@85.235.150.189 "SINCE='$SINCE' bash -s" <<'REMOTE'
+          set -u
+          c=$(docker ps --format '{{.Names}}' | grep -i 'game-server' | head -1 || true)
+          if [ -z "$c" ]; then echo "Brak uruchomionego kontenera game-server. Kontenery:"; docker ps --format '{{.Names}}  {{.Status}}'; exit 0; fi
+          echo "== Kontener: $c"
+          docker inspect -f 'obraz={{.Config.Image}} utworzony={{.Created}} start={{.State.StartedAt}} stan={{.State.Status}}' "$c"
+          echo "== Odrzucone pakiety i rozjazdy stanu (ostatnie $SINCE, max 40 linii)"
+          docker logs --since "$SINCE" "$c" 2>&1 | grep -E "Odrzucono pakiet|mismatch|Checkpoint|rozjazd|INVALID|REJECTED" | cut -c1-300 | tail -40 || true
+          echo "== Ostatnie 25 linii błędów"
+          docker logs --since "$SINCE" "$c" 2>&1 | grep -i -E "error|warn|ostrze" | cut -c1-300 | tail -25 || true
+          REMOTE
