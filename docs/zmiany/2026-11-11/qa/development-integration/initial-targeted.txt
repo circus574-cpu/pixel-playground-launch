@@ -1,0 +1,33 @@
+
+ RUN  v4.1.12 /workspace/ki-development-integration
+
+ ❯ src/test/racial-trial-transactions.test.ts (11 tests | 1 failed) 443ms
+     × earns all three grades in its domain, keeps loan state out of the owner and reloads: sage 123ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/racial-trial-transactions.test.ts > racial trial results are owned, atomic and finite > earns all three grades in its domain, keeps loan state out of the owner and reloads: sage
+AssertionError: expected 5400 to be 4050 // Object.is equality
+
+- Expected
++ Received
+
+- 4050
++ 5400
+
+ ❯ src/test/racial-trial-transactions.test.ts:63:32
+     61|       const d = s.player.development!;
+     62|       expect(domainRank(d.trials, race, TRIALS.find((t) => t.race === …
+     63|       expect(d.practiceEarned).toBe(race === "planetary" ? 5400 : race…
+       |                                ^
+     64|       expect(DevelopmentSchema.safeParse(d).success).toBe(true);
+     65|       if (race === "planetary") {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  1 failed | 76 passed (77)
+   Start at  16:30:14
+   Duration  19.60s (transform 1.56s, setup 246ms, import 2.20s, tests 15.58s, environment 987ms)
+

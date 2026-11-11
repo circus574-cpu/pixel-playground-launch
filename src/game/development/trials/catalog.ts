@@ -19,6 +19,9 @@ export const TRIAL_IDS = [
   "TA04",
   "TA05",
   "TA06",
+  "TA07",
+  "TA08",
+  "TA09",
   "TA10",
   "TA11",
   "TA12",
@@ -32,6 +35,9 @@ export const TRIAL_IDS = [
 export type TrialId = (typeof TRIAL_IDS)[number];
 export type TrialTier = 1 | 2 | 3;
 export type TrialKind =
+  | "focus-cycles"
+  | "power-targets"
+  | "sustain-nodes"
   | "source-fragments"
   | "unsupported-claims"
   | "memory-sequence"
@@ -64,6 +70,7 @@ export type DomainId =
   | "trails"
   | "earth"
   | "memory"
+  | "focus"
   | "source-memory"
   | "seals"
   | "barriers"
@@ -81,6 +88,33 @@ export type TrialDefinition = {
 };
 // Only implemented controllers are exposed as playable; targets come from the owner specification.
 export const TRIALS: readonly TrialDefinition[] = [
+  {
+    id: "TA07",
+    race: "sage",
+    domain: "focus",
+    name: "Nieprzerwany przepływ",
+    kind: "focus-cycles",
+    targets: [2, 3, 4],
+    maxErrors: 0,
+  },
+  {
+    id: "TA08",
+    race: "sage",
+    domain: "focus",
+    name: "Oszczędne zasilanie",
+    kind: "power-targets",
+    targets: [3, 4, 5],
+    maxErrors: 0,
+  },
+  {
+    id: "TA09",
+    race: "sage",
+    domain: "focus",
+    name: "Sieć skupienia",
+    kind: "sustain-nodes",
+    targets: [2, 3, 4],
+    maxErrors: 0,
+  },
   {
     id: "TA10",
     race: "sage",
@@ -332,6 +366,7 @@ export const DOMAIN_NAMES: Record<DomainId, string> = {
   earth: "Żywa Ziemia",
   memory: "Pamięć Korzeni",
   "source-memory": "Pamięć",
+  focus: "Skupienie",
   seals: "Pieczęcie",
   barriers: "Bariery",
   construction: "Konstrukcja",

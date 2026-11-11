@@ -1,5 +1,9 @@
 # KI Legends — dokumentacja projektu
 
+**Integracja rozwoju 11.11:** połączono Skupienie z Pamięcią na osobnej gałęzi.
+Katalog 30/48 prób i 90/144 stopni; Planetarni i Mędrcy po 12/12 prób.
+Brak scalenia do main i publikacji. [Stan i kontrole](zmiany/2026-11-11/ZMIANY.md).
+
 **Kontynuacja 06.11 — Pamięć Mędrców:** TA10/TA11/TA12 w trzech stopniach.
 Katalog **27/48 prób, 81/144 stopni**; Mędrcy mają 9/12 prób. Wznowiono PR #90
 od `a9e44175` i zintegrowano `main@83165f5c` bez zmiany produkcji.
@@ -68,6 +72,7 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-11-11](zmiany/2026-11-11/ZMIANY.md)
 - [2026-11-06](zmiany/2026-11-06/ZMIANY.md)
 - [2026-11-05](zmiany/2026-11-05/ZMIANY.md)
 - [2026-11-04](zmiany/2026-11-04/ZMIANY.md)

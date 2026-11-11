@@ -1,0 +1,68 @@
+{
+  "trials": 30,
+  "tiers": 90,
+  "races": {
+    "planetary": {
+      "count": 12,
+      "ids": [
+        "TV07",
+        "TV08",
+        "TV09",
+        "TV01",
+        "TV02",
+        "TV03",
+        "TV04",
+        "TV05",
+        "TV06",
+        "TV10",
+        "TV11",
+        "TV12"
+      ]
+    },
+    "sage": {
+      "count": 12,
+      "ids": [
+        "TA07",
+        "TA08",
+        "TA09",
+        "TA10",
+        "TA11",
+        "TA12",
+        "TA04",
+        "TA05",
+        "TA06",
+        "TA01",
+        "TA02",
+        "TA03"
+      ]
+    },
+    "android": {
+      "count": 3,
+      "ids": [
+        "TN07",
+        "TN08",
+        "TN09"
+      ]
+    },
+    "legend": {
+      "count": 3,
+      "ids": [
+        "TP07",
+        "TP08",
+        "TP09"
+      ]
+    }
+  },
+  "domains": {
+    "care": "Opieka",
+    "trails": "Szlaki",
+    "earth": "Żywa Ziemia",
+    "memory": "Pamięć Korzeni",
+    "source-memory": "Pamięć",
+    "focus": "Skupienie",
+    "seals": "Pieczęcie",
+    "barriers": "Bariery",
+    "construction": "Konstrukcja",
+    "duel": "Pojedynek"
+  }
+}
