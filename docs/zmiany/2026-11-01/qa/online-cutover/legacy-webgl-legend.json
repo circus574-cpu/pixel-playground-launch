@@ -1,0 +1,37 @@
+{
+  "sourceSHA": "a32ba3ed68a2164c43965dd7b969678df988173c",
+  "run": 41320574198,
+  "test": "fresh legend: walk out and hit an actual streamed creature without save patches",
+  "viewport": [
+    1280,
+    900
+  ],
+  "errors": [
+    {
+      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m61\u001b[39m\nReceived:   \u001b[31m61\u001b[39m\n\nCall Log:\n- Timeout 60000ms exceeded while waiting on the predicate",
+      "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m61\u001b[39m\nReceived:   \u001b[31m61\u001b[39m\n\nCall Log:\n- Timeout 60000ms exceeded while waiting on the predicate\n    at /home/runner/work/pixel-playground-launch/pixel-playground-launch/e2e/development-combat-smoke.spec.ts:127:8"
+    }
+  ],
+  "console": [],
+  "player": {
+    "x": "45204.21597409154",
+    "y": "15011.87625484758",
+    "animation": "idle",
+    "target": ""
+  },
+  "measuredMetrics": {
+    "sampleAtMs": 186560,
+    "fps": 1.58,
+    "frameP50Ms": 667.1999999997206,
+    "frameP95Ms": 667.1999999997206,
+    "objects": 614,
+    "activeObjects": 614,
+    "visibleObjects": 564,
+    "textures": 122,
+    "estimatedTextureBytes": 194930064,
+    "bakedTextureBytes": 0,
+    "jsHeapBytes": 81400000,
+    "renderer": "WebGL",
+    "drawCalls": null
+  }
+}
