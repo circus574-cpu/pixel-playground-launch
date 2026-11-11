@@ -86782,18 +86782,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-pyra-trainer",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-pyra-trainer-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-pyra-trainer/1.0.0-e2d1b38e73bb/npc-pyra-trainer-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-pyra-trainer/1.0.0-e2d1b38e73bb/npc-pyra-trainer-page-0.json",
-        "width": 812,
-        "height": 492
+        "url": "/game/assets/gpu/npc-pyra-trainer/1.1.0-b8c6656366ab/npc-pyra-trainer-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-pyra-trainer/1.1.0-b8c6656366ab/npc-pyra-trainer-page-0.json",
+        "width": 1539,
+        "height": 244
       }
     ],
     "actors": [
@@ -86802,8 +86802,8 @@
         "profile": "npc",
         "presentation": "legacy",
         "size": [
-          96,
-          96
+          288,
+          288
         ],
         "origin": [
           0.5,
@@ -86997,18 +86997,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-verdant-trainer",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-verdant-trainer-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-verdant-trainer/1.0.0-d588539b8652/npc-verdant-trainer-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-verdant-trainer/1.0.0-d588539b8652/npc-verdant-trainer-page-0.json",
-        "width": 812,
-        "height": 492
+        "url": "/game/assets/gpu/npc-verdant-trainer/1.1.0-f437d486eba2/npc-verdant-trainer-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-verdant-trainer/1.1.0-f437d486eba2/npc-verdant-trainer-page-0.json",
+        "width": 1539,
+        "height": 244
       }
     ],
     "actors": [
@@ -87017,8 +87017,8 @@
         "profile": "npc",
         "presentation": "legacy",
         "size": [
-          96,
-          96
+          288,
+          288
         ],
         "origin": [
           0.5,
@@ -87212,18 +87212,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-aether-trainer",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-aether-trainer-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-aether-trainer/1.0.0-19eca8881295/npc-aether-trainer-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-aether-trainer/1.0.0-19eca8881295/npc-aether-trainer-page-0.json",
-        "width": 812,
-        "height": 492
+        "url": "/game/assets/gpu/npc-aether-trainer/1.1.0-395658256f0f/npc-aether-trainer-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-aether-trainer/1.1.0-395658256f0f/npc-aether-trainer-page-0.json",
+        "width": 1539,
+        "height": 244
       }
     ],
     "actors": [
@@ -87232,8 +87232,8 @@
         "profile": "npc",
         "presentation": "legacy",
         "size": [
-          96,
-          96
+          288,
+          288
         ],
         "origin": [
           0.5,
@@ -87427,18 +87427,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-nexus-trainer",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-nexus-trainer-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-nexus-trainer/1.0.0-d2a7d64716c2/npc-nexus-trainer-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-nexus-trainer/1.0.0-d2a7d64716c2/npc-nexus-trainer-page-0.json",
-        "width": 812,
-        "height": 492
+        "url": "/game/assets/gpu/npc-nexus-trainer/1.1.0-82271c658346/npc-nexus-trainer-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-nexus-trainer/1.1.0-82271c658346/npc-nexus-trainer-page-0.json",
+        "width": 1539,
+        "height": 244
       }
     ],
     "actors": [
@@ -87447,8 +87447,8 @@
         "profile": "npc",
         "presentation": "legacy",
         "size": [
-          96,
-          96
+          288,
+          288
         ],
         "origin": [
           0.5,

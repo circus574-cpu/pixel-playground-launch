@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
   "id": "npc-nexus-trainer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "npc-nexus-trainer-page-0",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/npc-nexus-trainer/1.0.0-d2a7d64716c2/npc-nexus-trainer-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/npc-nexus-trainer/1.0.0-d2a7d64716c2/npc-nexus-trainer-page-0.json",
-      "width": 812,
-      "height": 492
+      "url": "/game/assets/gpu/npc-nexus-trainer/1.1.0-82271c658346/npc-nexus-trainer-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-nexus-trainer/1.1.0-82271c658346/npc-nexus-trainer-page-0.json",
+      "width": 1539,
+      "height": 244
     }
   ],
   "actors": [
@@ -21,8 +21,8 @@
       "profile": "npc",
       "presentation": "legacy",
       "size": [
-        96,
-        96
+        288,
+        288
       ],
       "origin": [
         0.5,
