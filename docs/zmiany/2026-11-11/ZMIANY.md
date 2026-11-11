@@ -267,9 +267,9 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   błędów strony. Surowy FPS **nie jest** kryterium — programowy Canvas jest pesymistyczny i degraduje
   się w biegu. Progi nadpisujesz `KI_PERF_TEXTURE_MB / FREEZE_MS / P95_MS / ENTER_MS`.
 - **Kluczowe rozróżnienie pamięci:** telemetryczne `estimatedTextureBytes` to CAŁOŚĆ (atlas + podłoże
-  + bohater + HUD + efekty), a budżet 192 MiB dotyczy tylko streamowanego podzbioru (osobno weryfikują
-  go testy stream-texture-budget / ground-budget). Pierwsza wersja bramki błędnie porównała całość do
-  192 i oblała aether/nexus — poprawione na sufit całości 220 MiB (budżet + 28 MiB na niestreamowane).
+  - bohater + HUD + efekty), a budżet 192 MiB dotyczy tylko streamowanego podzbioru (osobno weryfikują
+    go testy stream-texture-budget / ground-budget). Pierwsza wersja bramki błędnie porównała całość do
+    192 i oblała aether/nexus — poprawione na sufit całości 220 MiB (budżet + 28 MiB na niestreamowane).
 - **Realny pomiar kalibracyjny** (harness, mobile 844×390, Canvas, 4 światy): tekstury verdant 176,6 /
   aether 199,4 / nexus 206,9 / pyra 183,5 MiB (road-cache = 0); zamrożenie 780–2192 ms; wejście
   10,3–15,3 s; FPS 15–34 (software, pominięty). Bramka na tym raporcie: **PASS**.
@@ -353,3 +353,15 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   a oba skrypty wymagają `scipy` (niedostępny, PEP 668 blokuje instalację). Pokazanie realnej tekstury
   na globusie to osobny krok (scipy + pipeline atlasu) — nie ruszany bez zgody i narzędzi. Globus nadal
   pokazuje realny układ biomów z orbity.
+
+### Zamrożenia na telefonie właściciela: adaptacyjna rozdzielczość podłoża i przyczyna w raporcie
+
+- Raport `ki-diagnostyka-pyra-2026-11-11T23-43-30` (Pyra, 763×360, DPR 3, 45 s marszu): ok. 50 kl./s, ale 8 z 40 sekund
+  ma zamrożenia 600–1760 ms (kl./s 1,7–18). Pamięć tekstur 197 MiB, 100–105 tekstur, sterta JS stabilna (109 MB).
+  Wzorzec (pojedyncze zamrożenia co kilka sekund w ruchu) pasuje do synchronicznego pieczenia chunku podłoża.
+- Zmiana (`renderSuperior.ts`, `groundBudget.ts`): bez ręcznego profilu `?ki-ground-res` urządzenie samo obniża rozdzielczość
+  pieczenia kolejnych chunków (1024→768→512, `nextGroundResolution`) po pieczeniu wolniejszym niż 200 ms i nie rośnie z powrotem;
+  po wolnym pieczeniu piecze się 1 chunk na klatkę (wcześniej zawsze do 2). Koszt pieczenia rośnie z kwadratem rozdzielczości.
+- Diagnostyka: raport zawiera teraz `bakes`, `bakeMaxMs`, `bakeResolution` na próbkę, więc następny pomiar pokaże, czy zamrożenia to
+  pieczenie (wtedy `bakeMaxMs` ≈ zamrożenie). **Nie potwierdzone na urządzeniu**: kontener nie ma telefonu; w testach lokalnych
+  (swiftshader) podłoże Pyry i tak startuje od 512 przez budżet tekstur, więc ścieżka adaptacji pokryta jest testem jednostkowym.

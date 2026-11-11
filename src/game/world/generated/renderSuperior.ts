@@ -1,4 +1,5 @@
 import { islandArtEnabled, islandMaterial } from "./islandArt";
+import { recordBake } from "../../assets/freezeProbe";
 import {
   aetheriaContinentEnabled,
   aetheriaTerrainBindings,
@@ -53,6 +54,7 @@ import { catalog } from "../../assets/catalog";
 import {
   bakesPerFrame,
   chooseGroundResolution,
+  nextGroundResolution,
   groundResolutionOverride,
 } from "../../assets/groundBudget";
 import { buildSceneryGrid, sceneryNear, sceneryReach } from "../sceneryStream";
@@ -190,11 +192,11 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   // pieczeń i krótsze zamrożenie. Bez parametru null → domyślna rozdzielczość bez zmian.
   const groundProfile = groundResolutionOverride(window.location.search);
   const preferredResolution = groundProfile ?? (painted || continent ? 1024 : 512);
-  const resolution =
+  // Rozdzielczość startowa; po wolnym pieczeniu spada (nextGroundResolution), więc drawGround czyta `adaptive`.
+  let adaptive =
     painted || continent
       ? chooseGroundResolution(source.residentAtlasBytes?.() ?? 0, preferredResolution)
       : preferredResolution;
-  const scale = resolution / CHUNK;
   const shadowKey = "verdantia-continent-contact-shadow";
   if (continent && !scene.textures.exists(shadowKey)) {
     const texture = scene.textures.createCanvas(shadowKey, 64, 64)!;
@@ -260,6 +262,8 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     source.release(scene, id);
   };
   const drawGround = (data: BrowserChunk, id: string) => {
+    const resolution = adaptive;
+    const scale = resolution / CHUNK;
     const flags = decodeRuns(data.terrain.flags, data.terrain.width * data.terrain.height);
     const biome = decodeRuns(data.terrain.biome, flags.length);
     const key = "superior-ground:" + id;
@@ -905,7 +909,6 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   // Faza 2: pieczenie chunku jest synchroniczne i drogie. Zamiast piec wszystkie naraz w jednej
   // klatce (zamrożenie przy wejściu do świata), kolejka drenuje maks. 2 chunki na klatkę.
   const bakeQueue: { data: BrowserChunk; id: string; items: ArtObject[] }[] = [];
-  const MAX_BAKES_PER_FRAME = 2;
   const finishChunk = (data: BrowserChunk, id: string, items: ArtObject[]) => {
     const ground = drawGround(data, id);
     const grid = buildSceneryGrid(items);
@@ -926,8 +929,8 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   const drainBakes = () => {
     let n = 0;
     // Profil wydajności: po wolnej pieczeniu nie dokładamy drugiej w tej klatce (najgorsze
-    // zamrożenie to 2 pieczenie naraz). Bez profilu limit pozostaje MAX_BAKES_PER_FRAME.
-    const cap = groundProfile !== null ? bakesPerFrame(lastBakeMs, true) : MAX_BAKES_PER_FRAME;
+    // zamrożenie to 2 pieczenie naraz). Po wolnym pieczeniu limit to 1 na klatkę (domyślnie, nie tylko w profilu).
+    const cap = bakesPerFrame(lastBakeMs, true);
     while (bakeQueue.length && n < cap) {
       const entry = bakeQueue.shift()!;
       pending.delete(entry.id);
@@ -938,6 +941,9 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       const bakeStart = performance.now();
       finishChunk(entry.data, entry.id, entry.items);
       lastBakeMs = performance.now() - bakeStart;
+      recordBake(lastBakeMs, adaptive);
+      // Bez ręcznego profilu (?ki-ground-res) urządzenie samo schodzi z rozdzielczością po wolnym pieczeniu.
+      if (groundProfile === null) adaptive = nextGroundResolution(adaptive, lastBakeMs);
       n++;
     }
   };
@@ -1196,7 +1202,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     scene.game.canvas.dataset["aetheriaContinent"] = String(aetheriaContinent);
     scene.game.canvas.dataset["nexusContinent"] = String(nexusContinent);
     scene.game.canvas.dataset["verdantiaExtra"] = String(verdantContinent && extraSceneryEnabled());
-    scene.game.canvas.dataset["superiorGroundResolution"] = String(resolution);
+    scene.game.canvas.dataset["superiorGroundResolution"] = String(adaptive);
     scene.game.canvas.dataset["superiorScenery"] = String(
       [...live.values()].reduce((n, t) => n + t.images.size, 0),
     );
