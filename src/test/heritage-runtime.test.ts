@@ -335,7 +335,7 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
       expect(new SaveStore(port, "other-slot").load()).toBeUndefined();
     },
   );
-  it("keeps a capped level-100 character readable after a legitimate chapter reward", () => {
+  it("advances an old level-100 character after a legitimate reward under the current level limit", () => {
     const { session: s, port } = harness("planetary", 100),
       id = finishFirst(s);
     s.command({
@@ -345,15 +345,15 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
       choiceId: HERITAGE_BY_ID.get(id)!.choices[0]!.id,
     });
     expect(entry(s, id).status, s.notice).toBe("done");
-    expect(s.player.level).toBe(100);
-    expect(s.player.xp).toBe(xpNeeded(100) - 1);
+    expect(s.player.level).toBe(101);
+    expect(s.player.xp).toBe(99);
     expect(s.player.development!.rewardReceipts[`heritage:${id}:v1`]).toEqual({
       practice: 150,
       xp: 100,
       gold: 30,
     });
     const restored = new SaveStore(port, "owned-slot").load();
-    expect(restored?.level).toBe(100);
+    expect(restored?.level).toBe(101);
     expect(restored?.development!.heritage.quests[id]!.status).toBe("done");
   });
   it("failed storage leaves ready chapter, XP, gold, practice and personal item unchanged; retry grants once", () => {
@@ -399,7 +399,14 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
   it("migrates foundation development v1 read-only, backs original v6 bytes before v7 and keeps unknown fields", () => {
     const port = storage(),
       p = newPlayer();
-    const { heritage: omitted, trials: omittedTrials, ...legacy } = emptyDevelopment();
+    const {
+      heritage: omitted,
+      trials: omittedTrials,
+      fieldwork: _fieldwork,
+      encounterKnowledge: _encounters,
+      completedExpeditions: _expeditions,
+      ...legacy
+    } = emptyDevelopment();
     void omitted;
     void omittedTrials;
     const bytes = JSON.stringify({
@@ -410,10 +417,10 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
     port.data.set("slot", bytes);
     const save = new SaveStore(port, "slot"),
       loaded = save.load()!;
-    expect(loaded.development!.version).toBe(3);
+    expect(loaded.development!.version).toBe(4);
     expect(port.getItem("slot")).toBe(bytes);
     expect(save.save(loaded)).toBe(true);
-    expect(JSON.parse(port.getItem("slot")!).version).toBe(10);
+    expect(JSON.parse(port.getItem("slot")!).version).toBe(11);
     expect(port.getItem("ki-legends:recovery:before-v7:slot")).toBe(bytes);
     const raw = JSON.parse(port.getItem("slot")!);
     raw.player.development.heritage.future = 1;

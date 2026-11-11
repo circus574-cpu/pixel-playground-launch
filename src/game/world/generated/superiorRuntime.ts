@@ -1,3 +1,5 @@
+import { reconcileEncounterAssets } from "../../development/encounterAssets";
+import { mirrorDevelopmentTargets } from "../../online/development";
 import { islandArtEnabled, islandFeatureArt, islandObjects } from "./islandArt";
 import { dressEnabled, townDress } from "./worldDress";
 import {
@@ -488,10 +490,12 @@ export async function prepareSuperior(options: {
         return promise;
       }),
     );
+    // A short-lived encounter may have been cancelled while its PNGs were loading.
+    if (owners.get(owner) !== ids) release(scene, owner, ids);
   };
-  const release = (scene: Phaser.Scene, owner: string) => {
-    const ids = owners.get(owner);
-    owners.delete(owner);
+  const release = (scene: Phaser.Scene, owner: string, orphanIds?: Set<string>) => {
+    const ids = orphanIds ?? owners.get(owner);
+    if (!orphanIds) owners.delete(owner);
     const candidates = owners.size > 0 ? new Set([...(ids ?? []), ...owned]) : (ids ?? []);
     for (const id of candidates)
       if (owned.has(id) && ![...owners.values()].some((keys) => keys.has(id))) {
@@ -578,6 +582,7 @@ export async function prepareSuperior(options: {
           (id) => client.intent({ type: "quest-start", id }),
         );
       session.player = structuredClone(frame.view.player);
+      mirrorDevelopmentTargets(session, frame.view);
       const town = (frame.checkpoint.runtime["superior"] as { town?: string } | undefined)?.town;
       const current = town && cities.get(town);
       if (current) {
@@ -783,6 +788,16 @@ export async function prepareSuperior(options: {
         }
         return;
       }
+      if (activeScene) {
+        reconcileEncounterAssets(
+          session.enemies.filter((e) => !!e.encounterOwner).map((e) => e.kind),
+          owners.keys(),
+          (kind, owner) => {
+            void acquire(activeScene!, neededByMonster(kind), owner).catch(error);
+          },
+          (owner) => release(activeScene!, owner),
+        );
+      }
       spawnStream.update();
       if (!WORLD_V2) return;
       const p = session.player;
@@ -818,6 +833,8 @@ export async function prepareSuperior(options: {
       }
     },
     dispose() {
+      session.fieldwork.dispose();
+      session.expeditions.cancel();
       stopOnline();
       if (options.online) questsV2.detach();
       stopRewards();

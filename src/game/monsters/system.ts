@@ -1,3 +1,7 @@
+import {
+  DEVELOPMENT_ENCOUNTER_BY_ID,
+  developmentMonster,
+} from "../development/expeditions/catalog";
 import type { MonsterReceiver } from "./receivers";
 import { Projectiles, segmentContact } from "../combat/projectiles";
 import { inSafeCity } from "../city/types";
@@ -282,6 +286,15 @@ export class MonsterSystem {
   // --- spawning -----------------------------------------------------------------------------
   spawn(kind: string, at: Point, id?: string): Enemy {
     return this.spawnDefinition(monsterDef(kind), at, id);
+  }
+  spawnDevelopment(variantId: string, at: Point, id?: string): Enemy {
+    const variant = DEVELOPMENT_ENCOUNTER_BY_ID.get(variantId);
+    if (!variant || variant.world !== this.host.world.id)
+      throw Error("Nieznany lokalny wariant wyprawy.");
+    if (!this.hasCapacity) throw Error("Budżet przeciwników jest pełny.");
+    const enemy = this.spawnDefinition(developmentMonster(variant), at, id);
+    enemy.developmentVariant = variant.id;
+    return enemy;
   }
   spawnBoss(id: string, at: Point): Enemy {
     const definition = bossDefinition(id);

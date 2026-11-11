@@ -502,7 +502,7 @@ describe("atomic character development and exam isolation", () => {
     expect(migrated.load()).toBeDefined();
     p.development = emptyDevelopment();
     expect(migrated.save(p)).toBe(true);
-    expect(JSON.parse(port.getItem("slot")!).version).toBe(6);
+    expect(JSON.parse(port.getItem("slot")!).version).toBe(7);
     expect(port.getItem("ki-legends:recovery:before-superior-v2:slot")).toBe(old);
     const future = JSON.parse(port.getItem("slot")!);
     future.player.development.futureField = true;

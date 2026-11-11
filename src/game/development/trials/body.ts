@@ -113,14 +113,15 @@ export class BreakWindows {
     private readonly session: GameSession,
     tier: TrialTier,
     private readonly owner: string,
+    private readonly location = { x: 600, y: 300 },
   ) {
     this.goal = tier + 2;
     this.previousNow = session.nowMs;
     this.target = session.practiceTargets.add(
       owner,
       "Osłona przełamania — użyj B1 w oknie",
-      { x: 600, y: 300 },
-      null,
+      this.location,
+      session.player.interior,
       session.nowMs,
       (c) => {
         if (this.phase === "passed" || this.phase === "failed" || session.paused || c.hit.indirect)
@@ -153,7 +154,7 @@ export class BreakWindows {
     }
   }
   get point() {
-    return { x: 540, y: 300 };
+    return this.session.nav.safe({ x: this.location.x - 60, y: this.location.y });
   }
   update() {
     const s = this.session,

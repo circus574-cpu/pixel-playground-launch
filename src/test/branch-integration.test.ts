@@ -25,6 +25,9 @@ describe("pending-branch save integration", () => {
       const legacyPlayer = JSON.parse(JSON.stringify(p));
       if (legacyPlayer.development) {
         delete legacyPlayer.development.trials;
+        delete legacyPlayer.development.fieldwork;
+        delete legacyPlayer.development.encounterKnowledge;
+        delete legacyPlayer.development.completedExpeditions;
         legacyPlayer.development.version = 2;
       }
       const original = JSON.stringify({
@@ -45,7 +48,7 @@ describe("pending-branch save integration", () => {
       expect(restored.development).toEqual(loaded.development);
       expect(restored.combatTraining).toEqual(loaded.combatTraining);
       expect(restored.statOverrides?.attack).toBe(99);
-      expect(JSON.parse(values.get(SAVE_KEY)!).version).toBe(10);
+      expect(JSON.parse(values.get(SAVE_KEY)!).version).toBe(11);
       expect([...values.values()]).toContain(original);
       const without = structuredClone(restored);
       delete without.development;
@@ -66,6 +69,9 @@ describe("pending-branch save integration", () => {
       legacy.version = version;
       if (legacy.player.development) {
         delete legacy.player.development.trials;
+        delete legacy.player.development.fieldwork;
+        delete legacy.player.development.encounterKnowledge;
+        delete legacy.player.development.completedExpeditions;
         legacy.player.development.version = 2;
       }
       values.set("expedition", JSON.stringify(legacy));
@@ -81,6 +87,6 @@ describe("pending-branch save integration", () => {
       expect(next.save(restored)).toBe(true);
       expect(restored.combatTraining?.dodge.rank).toBe(8);
       expect(restored.development).toEqual(loaded.development);
-      expect(JSON.parse(values.get("expedition")!).version).toBe(6);
+      expect(JSON.parse(values.get("expedition")!).version).toBe(7);
     });
 });

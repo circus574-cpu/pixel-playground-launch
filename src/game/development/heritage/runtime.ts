@@ -1,3 +1,4 @@
+import { advanceExperience } from "../../experience";
 import { ProtectionActivity } from "./protection";
 import { combatGround } from "./encounter";
 import { EscortActivity, escortRoute } from "./escort";
@@ -144,6 +145,10 @@ export class HeritageRuntime {
       s.command({ type: "enter", building: target.interior });
       this.pendingRoute = { target, phase: "enter" };
     }
+  }
+  /** Shared physical routing for local development contacts, without quest/reward shortcuts. */
+  goTo(target: HeritageTarget) {
+    this.routeTo(target);
   }
   private updateRoute() {
     const route = this.pendingRoute,
@@ -573,14 +578,8 @@ export class HeritageRuntime {
         };
         d.practiceEarned += def.reward.practice;
         if ("xp" in def.reward) {
-          candidate.xp += def.reward.xp;
+          advanceExperience(candidate, def.reward.xp);
           candidate.gold += def.reward.gold;
-          while (candidate.level < 100 && candidate.xp >= 100 + (candidate.level - 1) * 60) {
-            candidate.xp -= 100 + (candidate.level - 1) * 60;
-            candidate.level++;
-          }
-          if (candidate.level === 100)
-            candidate.xp = Math.min(candidate.xp, 100 + (candidate.level - 1) * 60 - 1);
         }
         const androidCooling =
           h.quests["H-N02"]?.status === "done" && h.projects["P-N1"]?.status === "done";

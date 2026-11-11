@@ -1460,3 +1460,51 @@ Katalog ma 27/48 prób i 81/144 stopni. Mędrcy mają 9/12 prób oraz 4050 prakt
 z prób. Brakujące Skupienie to 1350 praktyki do katalogowego celu 17 800 dla rasy;
 późne wyprawy, funkcje dziedzin w terenie i pełny odbiór kampanii nadal są otwarte.
 [Wyniki i ograniczenia kontroli](zmiany/2026-11-06/ZMIANY.md).
+
+
+## Dziedziny w terenie i późne wyprawy — kontynuacja 11.11.2026
+
+Na gałęzi PR #145, poza kompletem 48 prób / 144 stopni, działają:
+
+- **48 zastosowań w świecie**: po trzy stopnie czterech dziedzin każdej rasy.
+  Dostęp wymaga faktycznej rangi dziedziny i wcześniejszego etapu pracy.
+  Kontakty wskazuje Rozwój → Świat; polecenie „Podejdź” prowadzi zwykłą nawigacją
+  do obiektu albo przez drzwi do istniejącego budynku.
+- Szlaki/znaczniki, miejscowe układy i rozdział zasobów, odczyt poznanych źródeł,
+  pomiary faktycznych trafień i konfiguracji, pełne kanały C1, kontrola Ładunku/Żaru,
+  przełamania, powstrzymanie ciosu oraz bojowe eskorty/ochrona. Obiekty korzystają
+  z własnej postaci, kosztów i cooldownów; nie wypożyczają profilu sali prób.
+  Stan etapów i niewielkich miejscowych obiektów odtwarza zapis; nie ma dodatkowej
+  praktyki, ukrytych statystyk ani generowania nowych kontynentów.
+- **Księga Zrozumienia**: 12 fragmentów w czterech rozdziałach. Wpis wymaga
+  zakończonego celu źródłowego i zapisanej decyzji rozdziału Mędrców. Nie ma
+  losowego dropu ani ujawniania tekstów przyszłych rozdziałów.
+- **32 osobne warianty** ośmiu istniejących gatunków na poziomach 22/28/34/40.
+  Statystyki wariantów są kopiami na spotkanie według wzorów §10.2 źródła
+  właściciela. Kanonicznych 40 definicji nie nadpisano. Wariant ma osobny wpis
+  poznania/pokonania i nie przyznaje ponownie 50 praktyki za gatunek.
+- **48 wypraw**: cztery zalecane poziomy × trzy układy × cztery rasy. Układy:
+  ciężki przeciwnik, para uzupełniających się przeciwników, trzy fale przy
+  chronionym punkcie. Wymagane rozdziały IV/V, bez twardej bramki poziomu.
+  Pokonania przyznają zwykły XP, atomowo z wpisem wariantu; cel nie daje
+  dodatkowej nagrody. Po przerwaniu znikają wyłącznie aktorzy tej wyprawy.
+  Chroniony punkt ma prototypowe HP ×4 względem ciężkiego wariantu i wymaga
+  zachowania 50% HP; jest to konfiguracja nowej aktywności, nie zmiana bestiariusza.
+
+Aktywny cel i okna działań pokazuje istniejący pasek celu, również na poziomym
+telefonie. Escortowane postacie używają nawigacji z wyłączeniem miast.
+Atlasy tymczasowych przeciwników mają dzierżawy w istniejącym streamingu;
+renderer oczekuje na gotowe klatki, nie przerywając symulacji. Nie powstał drugi
+silnik walki ani nowe instancje GPU.
+
+Zmieniony format: **rozwój 4, zapis klasyczny 11, Superior 7**. Odczyt starszych
+wersji nie nadpisuje bajtów. Pierwszy poprawny zapis tworzy kopię sprzed migracji;
+nowe pola zaczynają puste. Zachowano CAS, odmowę zapisu nieznanych wersji/pól,
+postacie, ekwipunek, umiejętności, wybory, geometrię i rejestr spawnów. Wspólna
+funkcja XP usuwa dawny osobny limit poziomu 100 w nagrodach dziedzictwa i używa
+już zatwierdzonego technicznego limitu 10 000, bez zmiany krzywej doświadczenia.
+
+Test integracji z zadeklarowanym poziomem/rangami nie jest dowodem zdobycia
+całej kampanii od poziomu 1. Pomiary balansu nie określają czasu ludzkiego
+czytania ani nie potwierdzają jeszcze celów 25–35 / 40–60 / 60–90 godzin.
+Aktualny odbiór i rozróżnienie tych dowodów: [dziennik 11.11](zmiany/2026-11-11/ZMIANY.md#19-dziedziny-w-świecie-i-późne-wyprawy).

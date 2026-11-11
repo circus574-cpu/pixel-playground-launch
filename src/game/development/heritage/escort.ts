@@ -1,4 +1,4 @@
-import { HeritageEncounter, combatGround } from "./encounter";
+import { HeritageEncounter, combatGround, combatNavigation } from "./encounter";
 import type { GameSession } from "../../session";
 import { distance, type Navigation, type Point } from "../../navigation";
 import type { HeritageGoal } from "./types";
@@ -66,6 +66,7 @@ export class EscortActivity {
   private path: Point[] = [];
   private reason = "";
   private moving = false;
+  private readonly navigation: Navigation;
   private facing = { x: 0, y: 1 };
   constructor(
     private readonly session: GameSession,
@@ -83,6 +84,7 @@ export class EscortActivity {
       completed >= route.length
     )
       throw Error("Invalid peaceful escort");
+    this.navigation = goal.combat ? combatNavigation(session) : session.nav;
     this.completed = completed;
     this.actor = { ...(completed ? route[completed - 1]! : base.point) };
     this.lastNow = session.nowMs;
@@ -171,13 +173,13 @@ export class EscortActivity {
       return;
     }
     if (s.nowMs >= this.repathAt || !this.path.length) {
-      this.path = s.nav.path(this.actor, next);
+      this.path = this.navigation.path(this.actor, next);
       this.repathAt = s.nowMs + 750;
     }
     const waypoint = this.path[0];
     if (!waypoint) return;
     const before = { ...this.actor },
-      position = s.nav.step(
+      position = this.navigation.step(
         this.actor,
         waypoint,
         (100 * (this.encounter?.actor.fx.speedMul ?? 1) * dt) / 1000,

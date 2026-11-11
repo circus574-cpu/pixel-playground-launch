@@ -1,5 +1,11 @@
 # KI Legends — dokumentacja projektu
 
+**Kontynuacja rozwoju 11.11 — PR #145:** do kompletu prób dochodzą 48 zastosowań
+dziedzin przy obiektach świata, 12 fragmentów Księgi Zrozumienia, 32 późne
+warianty i 48 wypraw. Weryfikacja końcowa trwa; poziom/rangi zadeklarowane w
+fixture'ach nie potwierdzają zdobycia całej kampanii. [Zakres i odbiór](zmiany/2026-11-11/ZMIANY.md#19-dziedziny-w-świecie-i-późne-wyprawy).
+
+
 **Domykanie rozwoju — 48/48 kontrolerów prób, 144 stopnie (11.11):** dodano
 pozostałe sześć prób Legend: obciążenie, przełamania, fale, ratunek i odwrót.
 Odblokowania i walidacja zapisu korzystają ze wspólnego rejestru. Tytuły czterech

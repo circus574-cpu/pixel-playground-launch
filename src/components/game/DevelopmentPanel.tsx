@@ -1,3 +1,5 @@
+import { ExpeditionPanel } from "./ExpeditionPanel";
+import { FieldworkPanel } from "./FieldworkPanel";
 import {
   developmentCompletion,
   developmentPracticeBudget,
@@ -44,8 +46,15 @@ export function DevelopmentPanel({
   close: () => void;
 }) {
   const [tab, setTab] = useState<
-    "training" | "knowledge" | "mastery" | "heritage" | "chronicle" | "trials"
-  >("training");
+    | "training"
+    | "knowledge"
+    | "mastery"
+    | "heritage"
+    | "chronicle"
+    | "trials"
+    | "fieldwork"
+    | "expeditions"
+  >(state.fieldwork?.active ? "fieldwork" : state.expeditions?.active ? "expeditions" : "training");
   const [instructions, setInstructions] = useState<{ discipline: Discipline; tier: number } | null>(
     null,
   );
@@ -76,6 +85,8 @@ export function DevelopmentPanel({
             ["knowledge", "Wiedza"],
             ["mastery", "Mistrzostwo"],
             ["trials", "Próby"],
+            ["fieldwork", "Świat"],
+            ["expeditions", "Wyprawy"],
             ["heritage", "Dziedzictwo"],
             ["chronicle", "Kronika"],
           ] as const
@@ -85,6 +96,8 @@ export function DevelopmentPanel({
           </button>
         ))}
       </div>
+      {tab === "expeditions" && <ExpeditionPanel state={state} send={send} close={close} />}
+      {tab === "fieldwork" && <FieldworkPanel state={state} send={send} close={close} />}
       {tab === "trials" && (
         <TrialsPanel state={state} startTrial={startTrial} send={send} close={close} />
       )}

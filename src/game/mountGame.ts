@@ -658,8 +658,12 @@ export function mountKileGends(
         this,
         session,
         options?.runtime?.authoritative ? () => session.snapshot().heritageActivity : undefined,
+        options?.runtime?.authoritative ? () => session.snapshot().fieldwork : undefined,
+        options?.runtime?.authoritative ? () => session.snapshot().expeditions : undefined,
       );
       const releaseHeritage = () => {
+        session.fieldwork.cancel();
+        session.expeditions.cancel();
         this.heritageMarkers?.dispose();
         this.heritageMarkers = undefined;
       };
@@ -814,16 +818,22 @@ export function mountKileGends(
       for (const e of session.enemies) {
         if (this.enemies.has(e.id)) continue;
         const role = e.kind === "boar" ? undefined : e.kind.replace(world.id + "-", "");
-        this.enemies.set(
-          e.id,
-          this.actor(
-            e,
-            e.m.def.name,
-            "enemy",
-            (e.boss ? actorVisual(world.id, "enemy") : runtime?.enemyVisual?.(e.kind)) ??
-              actorVisual(world.id, "enemy", role),
-          ),
-        );
+        const visual =
+          (e.boss ? actorVisual(world.id, "enemy") : runtime?.enemyVisual?.(e.kind)) ??
+          actorVisual(world.id, "enemy", role);
+        // Runtime-created encounter actors may precede their asynchronous atlas. Keep the scene
+        // running and create the sprite only after every clip texture is prepared.
+        if (
+          Object.values(visual.clips).some(
+            (clip) =>
+              !this.textures.exists(clip.asset) ||
+              Object.values(clip.directions)
+                .flatMap((frames) => frames ?? [])
+                .some((frame) => !this.textures.get(clip.asset).has(String(frame))),
+          )
+        )
+          continue;
+        this.enemies.set(e.id, this.actor(e, e.m.def.name, "enemy", visual));
       }
       for (const [id, actor] of this.enemies)
         if (!session.enemies.some((e) => e.id === id)) {
@@ -1329,6 +1339,11 @@ export function mountKileGends(
         })),
       );
       // Read-only camera telemetry lets QA click moving sprites at their actual screen position.
+      parent.dataset["practiceTargets"] = JSON.stringify(
+        session.practiceTargets
+          .list(session.player.interior)
+          .map(({ id, x, y, hits }) => ({ id, x, y, hits })),
+      );
       parent.dataset["keyboardEnabled"] = String(this.input.keyboard?.manager.enabled ?? false);
       parent.dataset["typing"] = String(this.typing);
       parent.dataset["paused"] = String(session.paused);
@@ -1530,7 +1545,8 @@ export function mountKileGends(
           .setScale(sprite.scaleX * holder.scaleX, sprite.scaleY * holder.scaleY)
           .setFlip(sprite.flipX, sprite.flipY);
       for (const e of session.enemies) {
-        const a = this.enemies.get(e.id)!;
+        const a = this.enemies.get(e.id);
+        if (!a) continue;
         a.body.setVisible(!e.m.hidden && !session.player.interior);
         const vx = e.x - a.body.x,
           vy = e.y - a.body.y;

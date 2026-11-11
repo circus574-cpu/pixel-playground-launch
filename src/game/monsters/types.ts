@@ -289,6 +289,8 @@ export type MonsterState = {
 };
 
 export type Enemy = Point & {
+  /** Separate late-game variant; art and the canonical species ID remain unchanged. */
+  developmentVariant?: string;
   /** Ephemeral chapter encounter, inherited by summons; never a persistent world spawn. */
   encounterOwner?: string;
   boss?: import("../bosses/runtime").BossRuntime;

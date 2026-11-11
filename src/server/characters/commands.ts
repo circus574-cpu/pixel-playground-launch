@@ -177,6 +177,17 @@ export const OnlineCommandSchema = z.union([
       choiceId: id.nullable(),
     })
     .strict(),
+  z
+    .object({
+      type: z.literal("fieldwork"),
+      action: z.enum(["go", "start", "act", "leave"]),
+      id,
+      answer: z.string().max(300).optional(),
+    })
+    .strict(),
+  z
+    .object({ type: z.literal("expedition"), action: z.enum(["go", "start", "leave"]), id })
+    .strict(),
   z.object({ type: z.literal("quest-start"), id }).strict(),
   z.object({ type: z.literal("travel"), destination: z.enum(FEATURE_IDS) }).strict(),
   z

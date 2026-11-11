@@ -1,6 +1,6 @@
 import { COMBAT_BUDGET } from "../../combatBudget";
 import type { GameSession } from "../../session";
-import { distance, type Point } from "../../navigation";
+import { Navigation, distance, type Point } from "../../navigation";
 import { inSafeCity } from "../../city/types";
 import { MONSTER_BASE } from "../../monsters/base.generated";
 import type { Enemy } from "../../monsters/types";
@@ -38,6 +38,17 @@ export function combatGround(session: GameSession, point: Point) {
     (session.enemyPositionAllowed?.(point) ?? true)
   );
 }
+/** Combat companions use enemy walkability, including city exclusions. Small legacy fixtures may not supply it. */
+export function combatNavigation(s: GameSession) {
+  return (
+    s.enemyNavigation ??
+    new Navigation(s.world.width, s.world.height, [
+      ...s.world.obstacles,
+      ...(s.world.safeAreas ?? []),
+      ...(s.world.city?.bounds ? [s.world.city.bounds] : []),
+    ])
+  );
+}
 /** A bounded quest encounter on existing geometry and AI; no loot/XP on repeatable attempts. */
 export class HeritageEncounter {
   readonly actor: ProtectedActor;
@@ -58,10 +69,13 @@ export class HeritageEncounter {
     // Fixed chapter profile, independent of character level/equipment and of global spawns.
     const match = goalId.match(/^H-[VANP]0([1-6]):/);
     const trial = goalId.match(/^trial:TP(03|10|11|12):([123])$/);
-    if (!match && !trial) throw Error("Nieznany profil bojowy rozdziału lub próby.");
-    const level = trial
-      ? TRIAL_BATTLE_LEVELS[Number(trial[2]) - 1]!
-      : CHAPTER_ENCOUNTER_LEVELS[Number(match![1]) - 1]!;
+    const field = goalId.match(/^field:F-[VANP]-[a-z-]+-([123])$/);
+    if (!match && !trial && !field) throw Error("Nieznany profil bojowy rozdziału lub próby.");
+    const level = field
+      ? [4, 8, 12][Number(field[1]) - 1]!
+      : trial
+        ? TRIAL_BATTLE_LEVELS[Number(trial[2]) - 1]!
+        : CHAPTER_ENCOUNTER_LEVELS[Number(match![1]) - 1]!;
     const definition = encounterMonsterKind(session.world.id, level);
     this.kind = definition.id;
     this.actor = new ProtectedActor(

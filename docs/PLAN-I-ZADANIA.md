@@ -7,7 +7,22 @@ ras są wyliczane z finału, sześciu projektów i kompletu prób III, bez premi
 statystyk. Budżet z aktywnych katalogów: 17 800 praktyki na rasę.
 To komplet katalogu prób, nie odbiór całej kampanii. [Wyniki i dalszy zakres](zmiany/2026-11-11/ZMIANY.md#6-komplet-prób-i-warunki-tytułów).
 
-## Domykanie rozwoju — checkpoint 42 prób, 11.11.2026
+## Kontynuacja — funkcje dziedzin i późne wyprawy, 11.11.2026
+
+PR #145 dodaje 48 zastosowań dziedzin przy obiektach świata, Księgę Zrozumienia,
+32 późne warianty przeciwników i 48 wypraw z realnymi walkami. Nowe funkcje
+korzystają z dotychczasowych kontrolerów, AI, wejść i wspólnego zapisu; ich
+etapy nie mają przycisku administracyjnego „zalicz”. Migracja rozwoju 3→4
+zachowuje stare bajty i wprowadza puste pola nowych aktywności.
+
+Pozostają do odbioru: pełne wyniki końcowego SHA i niezależna regresja,
+fizyczny telefon oraz decyzje dotyczące wykrytych różnic balansu mocnych
+konfiguracji. Nie wolno utożsamiać kontrolowanych fixture'ów z ukończoną
+od początku kampanią ani deklarować docelowej liczby godzin na ich podstawie.
+Scalanie i publikacja wymagają osobnej decyzji. Szczegóły aktualnej dostawy:
+[dziennik 11.11](zmiany/2026-11-11/ZMIANY.md#19-dziedziny-w-świecie-i-późne-wyprawy).
+
+## Historyczny checkpoint 42 prób, 11.11.2026
 
 Robocza kontynuacja `feature/development-remaining-trials-20261111` od `32ed1b9f`:
 Kalibracja TN01–TN03, Termika TN04–TN06, Tożsamość TN10–TN12,

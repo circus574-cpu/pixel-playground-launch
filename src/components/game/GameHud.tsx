@@ -1,3 +1,4 @@
+import { DevelopmentActivitySummary } from "./DevelopmentActivitySummary";
 import type { StartTrial } from "./TrialsPanel";
 import { PanelBoundary } from "./PanelBoundary";
 import { DevelopmentPanel, type StartExam } from "./DevelopmentPanel";
@@ -778,9 +779,19 @@ export function GameHud({
           </div>
         </section>
       )}
-      <button className="ki-quest" onClick={() => toggle("journal")}>
+      <button
+        className={
+          "ki-quest" +
+          (state.fieldwork?.active || state.expeditions?.active ? " ki-development-objective" : "")
+        }
+        onClick={() =>
+          toggle(state.fieldwork?.active || state.expeditions?.active ? "development" : "journal")
+        }
+      >
         <span className="ki-quest-diamond">◆</span>
-        {state.heritageActivity ? (
+        {state.fieldwork?.active || state.expeditions?.active ? (
+          <DevelopmentActivitySummary state={state} />
+        ) : state.heritageActivity ? (
           <div>
             <strong>
               {state.heritageActivity.title} · {state.heritageActivity.windows}/

@@ -1,3 +1,6 @@
+import { FIELDWORK_BY_ID, previousField } from "./fieldwork/catalog";
+import { DEVELOPMENT_ENCOUNTER_BY_ID, EXPEDITION_BY_ID } from "./expeditions/catalog";
+import { domainRank } from "./trials/catalog";
 import { requiredTrialUnlocks } from "./trials/unlocks";
 import {
   TRIAL_IDS,
@@ -180,10 +183,11 @@ const Version2DevelopmentSchema = Version2Base.superRefine((s, ctx) => {
       message: "Legacy development cannot own trial rewards",
     });
 });
-export const CurrentDevelopmentSchema = Version2Base.extend({
+const Version3Base = Version2Base.extend({
   version: z.literal(3),
   trials: z.record(z.enum(TRIAL_IDS), z.union([z.literal(1), z.literal(2), z.literal(3)])),
-}).superRefine((s, ctx) => {
+});
+function validateTrials(s: Omit<z.infer<typeof Version3Base>, "version">, ctx: z.RefinementCtx) {
   validateHeritage(s, ctx);
   const fail = (message: string) => ctx.addIssue({ code: z.ZodIssueCode.custom, message });
   for (const def of TRIALS) {
@@ -211,25 +215,83 @@ export const CurrentDevelopmentSchema = Version2Base.extend({
     fail("Missing trial mastery unlock");
   if (required.modules.some((m) => !s.unlockedModules.includes(m)))
     fail("Missing trial module unlock");
+}
+const Version3DevelopmentSchema = Version3Base.superRefine(validateTrials);
+const fieldState = z.object({ step: z.number().int().min(0).max(8), done: z.boolean() }).strict();
+const NewWorldProgress = {
+  fieldwork: z.record(
+    z.string().refine((id) => FIELDWORK_BY_ID.has(id)),
+    fieldState,
+  ),
+  encounterKnowledge: z.record(
+    z.string().refine((id) => DEVELOPMENT_ENCOUNTER_BY_ID.has(id)),
+    z.enum(["seen", "defeated"]),
+  ),
+  completedExpeditions: z.record(
+    z.string().refine((id) => EXPEDITION_BY_ID.has(id)),
+    z.literal(true),
+  ),
+};
+export const emptyWorldProgress = (): {
+  fieldwork: Record<string, { step: number; done: boolean }>;
+  encounterKnowledge: Record<string, "seen" | "defeated">;
+  completedExpeditions: Record<string, true>;
+} => ({
+  fieldwork: {},
+  encounterKnowledge: {},
+  completedExpeditions: {},
+});
+export const CurrentDevelopmentSchema = Version3Base.extend({
+  version: z.literal(4),
+  ...NewWorldProgress,
+}).superRefine((s, ctx) => {
+  validateTrials(s, ctx);
+  const fail = (message: string) => ctx.addIssue({ code: z.ZodIssueCode.custom, message });
+  for (const [id, progress] of Object.entries(s.fieldwork)) {
+    const d = FIELDWORK_BY_ID.get(id)!;
+    if (!d) continue;
+    const previous = previousField(d);
+    if (
+      domainRank(s.trials, d.race, d.domain) < d.tier ||
+      progress.step > d.steps ||
+      progress.done !== (progress.step === d.steps) ||
+      (previous && !s.fieldwork[previous]?.done)
+    )
+      fail("Invalid fieldwork progress");
+  }
+  for (const id of Object.keys(s.completedExpeditions)) {
+    const d = EXPEDITION_BY_ID.get(id)!;
+    if (!d) continue;
+    if (s.heritage.quests[d.prerequisite]?.status !== "done")
+      fail("Missing expedition prerequisite");
+  }
 });
 export const DevelopmentSchema = z.union([
   CurrentDevelopmentSchema,
+  Version3DevelopmentSchema.transform((s) => ({
+    ...s,
+    version: 4 as const,
+    ...emptyWorldProgress(),
+  })),
   Version2DevelopmentSchema.transform((s) => ({
     ...s,
-    version: 3 as const,
+    version: 4 as const,
     trials: {} as TrialGrades,
+    ...emptyWorldProgress(),
   })),
   LegacyDevelopmentSchema.transform((s) => ({
     ...s,
-    version: 3 as const,
+    version: 4 as const,
     trials: {} as TrialGrades,
     heritage: emptyHeritage(),
+    ...emptyWorldProgress(),
   })),
 ]);
 export type DevelopmentState = z.infer<typeof DevelopmentSchema>;
 export function emptyDevelopment(): DevelopmentState {
   return {
-    version: 3,
+    version: 4,
+    ...emptyWorldProgress(),
     trials: {},
     heritage: emptyHeritage(),
     practiceEarned: 0,

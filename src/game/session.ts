@@ -1,3 +1,7 @@
+import { ExpeditionRuntime, type ExpeditionCommand } from "./development/expeditions/runtime";
+import { advanceExperience, xpNeeded } from "./experience";
+export { xpNeeded } from "./experience";
+import { FieldworkRuntime, type FieldworkCommand } from "./development/fieldwork/runtime";
 import { developmentCompletion } from "./development/completion";
 import { requiredTrialUnlocks } from "./development/trials/unlocks";
 import { TrialAttempt } from "./development/trials/attempt";
@@ -322,6 +326,8 @@ export type DevelopmentCommand =
 export type Command =
   | DevelopmentCommand
   | HeritageCommand
+  | FieldworkCommand
+  | ExpeditionCommand
   | { type: "heritage-weapon"; action: "equip" | "deposit" | "withdraw" }
   | { type: "move"; x: number; y: number }
   | { type: "target"; id: string }
@@ -449,7 +455,6 @@ export function equipmentStats(
 /** Reach of the Walka panel and of picking the nearest monster when attacking with no target. */
 export const FOE_PANEL_RANGE = 900;
 export const AUTO_TARGET_RANGE = 650;
-export const xpNeeded = (level: number) => 100 + (level - 1) * 60;
 /** Fraction of the progress toward the next level that a defeat costs. Owner 07.11.2026. */
 export const DEATH_XP_LOSS = 0.1;
 
@@ -717,9 +722,16 @@ const SaveSchema = z.discriminatedUnion("version", [
     .strict(),
   z
     .object({
-      version: z.literal(10),
+      version: z.literal(11),
       revision: z.string(),
       player: PlayerSchema.strict().extend({ development: CurrentDevelopmentSchema.optional() }),
+    })
+    .strict(),
+  z
+    .object({
+      version: z.literal(10),
+      revision: z.string(),
+      player: PlayerSchema.strict().extend({ development: DevelopmentSchema.optional() }),
     })
     .strict(),
 ]);
@@ -803,7 +815,7 @@ export class SaveStore {
     } catch {
       version = undefined;
     }
-    for (const target of [4, 5, 6, 7, 8, 9, 10]) {
+    for (const target of [4, 5, 6, 7, 8, 9, 10, 11]) {
       const key = "ki-legends:recovery:before-v" + target + ":" + this.key;
       if (typeof version === "number" && version < target && this.storage.getItem(key) === null)
         this.storage.setItem(key, this.expected);
@@ -828,12 +840,12 @@ export class SaveStore {
         !trialsRaceConsistent(p.development?.trials, p.race)
       )
         return false;
-      SaveSchema.parse({ version: 10, revision: "validation", player: p });
+      SaveSchema.parse({ version: 11, revision: "validation", player: p });
       if (this.expected && JSON.parse(this.expected)?.player?.combatTraining && !p.combatTraining)
         return false;
       this.backupBeforeUpgrade();
       const next = JSON.stringify({
-        version: 10,
+        version: 11,
         revision: Date.now().toString(36) + Math.random().toString(36).slice(2),
         player: p,
       });
@@ -909,6 +921,8 @@ export class GameSession implements MonsterHost {
   }
   readonly practiceTargets = new PracticeTargets();
   readonly heritage: HeritageRuntime;
+  readonly fieldwork: FieldworkRuntime;
+  readonly expeditions: ExpeditionRuntime;
   readonly monsters: MonsterSystem;
   readonly kit: Kit;
   readonly fx = new PlayerFx();
@@ -992,6 +1006,20 @@ export class GameSession implements MonsterHost {
     this.heritage = new HeritageRuntime(
       this,
       (fn) => this.commitDevelopment(fn),
+      options.featureId ?? this.world.id,
+      options.heritageHome ?? this.world,
+      this.outsideNav,
+    );
+    this.fieldwork = new FieldworkRuntime(
+      this,
+      (fn) => this.commitDevelopment(fn),
+      options.featureId ?? this.world.id,
+      options.heritageHome ?? this.world,
+      this.outsideNav,
+    );
+    this.expeditions = new ExpeditionRuntime(
+      this,
+      (fn) => this.commitDevelopment(fn, true),
       options.featureId ?? this.world.id,
       options.heritageHome ?? this.world,
       this.outsideNav,
@@ -1082,6 +1110,8 @@ export class GameSession implements MonsterHost {
     p.dead = true;
     this.practiceTargets.clear();
     this.heritage.cancelActivities();
+    this.fieldwork?.cancel();
+    this.expeditions?.interrupt("Wyprawę przerwano przez zmianę miejsca lub stanu postaci.");
     this.pendingTraining = undefined;
     this.bufferedAction = undefined;
     this.kit.cancelActions();
@@ -1145,6 +1175,16 @@ export class GameSession implements MonsterHost {
     return this.monsters.spawnBoss(id, at);
   }
   killed(e: Enemy) {
+    if (e.developmentVariant) {
+      this.expeditions.killed(e);
+      this.kit.onKill(e);
+      if (this.targetId === e.id) {
+        this.targetId = null;
+        this.autoAttack = false;
+        this.route = [];
+      }
+      return;
+    }
     if (heritageEnemy(e, this.enemies)) {
       this.kit.onKill(e); // Preserve canonical combat passives; only repeatable economic rewards are suppressed.
       if (this.targetId === e.id) {
@@ -1233,6 +1273,7 @@ export class GameSession implements MonsterHost {
       const foe = this.enemies.find((e) => e.id === event.source && e.hp > 0);
       if (
         foe &&
+        !foe.developmentVariant &&
         SPECIES_IDS.has(foe.kind) &&
         distance(foe, this.player) <= 650 &&
         this.nav.visible(this.player, foe)
@@ -1262,21 +1303,16 @@ export class GameSession implements MonsterHost {
     this.flush();
   }
   private award(xp: number) {
-    this.player.xp += xp;
     this.say("+" + xp + " XP");
-    while (this.player.level < LEVEL_MAX && this.player.xp >= xpNeeded(this.player.level)) {
-      this.player.xp -= xpNeeded(this.player.level);
-      this.player.level++;
-      const s = this.kit.stats;
-      this.player.hp = s.maxHp;
-      this.player.ki = s.maxKi;
+    advanceExperience(this.player, xp, () => {
+      const current = this.kit.stats;
+      this.player.hp = current.maxHp;
+      this.player.ki = current.maxKi;
       this.emit({ type: "level", ...this.player, text: "Poziom " + this.player.level });
-      const gained = " Nowy punkt umiejętności.";
-      this.say("Awans! Poziom " + this.player.level + "." + gained);
-    }
-    if (this.player.level === LEVEL_MAX)
-      this.player.xp = Math.min(this.player.xp, xpNeeded(LEVEL_MAX) - 1);
+      this.say("Awans! Poziom " + this.player.level + ". Nowy punkt umiejętności.");
+    });
   }
+
   private add(item: ItemId, n = 1) {
     if (
       this.player.items[item] + n > 99 ||
@@ -1400,6 +1436,8 @@ export class GameSession implements MonsterHost {
   private switchInterior(id: BuildingId | null) {
     this.practiceTargets.clear();
     this.heritage.cancelActivities(false);
+    this.fieldwork?.cancel();
+    this.expeditions?.interrupt("Wyprawę przerwano przez zmianę miejsca lub stanu postaci.");
     this.bufferedAction = undefined;
     this.kit.cancelActions();
     this.projectiles.cancel();
@@ -1733,7 +1771,10 @@ export class GameSession implements MonsterHost {
     );
   }
   /** One synchronous whole-character CAS; no reward or snapshot is published on failure. */
-  private commitDevelopment(change: (state: DevelopmentState, candidate: Player) => void): boolean {
+  private commitDevelopment(
+    change: (state: DevelopmentState, candidate: Player) => void,
+    healOnLevel = false,
+  ): boolean {
     const original = this.player;
     const candidate = structuredClone(original);
     candidate.development ??= emptyDevelopment();
@@ -1754,8 +1795,14 @@ export class GameSession implements MonsterHost {
     } finally {
       this.player = original;
     }
-    candidate.hp = Math.min(candidate.hp, limits.maxHp);
-    candidate.ki = Math.min(candidate.ki, limits.maxKi);
+    candidate.hp =
+      healOnLevel && !candidate.dead && candidate.level > original.level
+        ? limits.maxHp
+        : Math.min(candidate.hp, limits.maxHp);
+    candidate.ki =
+      healOnLevel && !candidate.dead && candidate.level > original.level
+        ? limits.maxKi
+        : Math.min(candidate.ki, limits.maxKi);
     if (!this.saves || !this.saves.save(candidate)) {
       this.say(
         this.saves?.warning || "Rozwój wymaga działającego zapisu postaci. Nic nie przyznano.",
@@ -1788,6 +1835,8 @@ export class GameSession implements MonsterHost {
       return undefined;
     }
     const attempt = new ExamAttempt(this.player.race, discipline, tier, rehearsal);
+    this.fieldwork.cancel();
+    this.expeditions.interrupt("Rozpoczęto egzamin.");
     this.activeExam = attempt;
     this.examRehearsal = rehearsal;
     return attempt;
@@ -1844,6 +1893,8 @@ export class GameSession implements MonsterHost {
     )
       return undefined;
     this.heritage.cancelActivities();
+    this.fieldwork?.cancel();
+    this.expeditions?.interrupt("Wyprawę przerwano przez zmianę miejsca lub stanu postaci.");
     return (this.activeTrial = new TrialAttempt(id, tier));
   }
   finishRacialTrial(attempt: TrialAttempt): boolean {
@@ -1989,6 +2040,8 @@ export class GameSession implements MonsterHost {
 
     if (c.type === "development") return this.developmentCommand(c);
     if (c.type === "heritage") return this.heritage.command(c);
+    if (c.type === "fieldwork") return this.fieldwork.command(c);
+    if (c.type === "expedition") return this.expeditions.command(c);
     if (c.type === "heritage-weapon") return this.heritage.weaponCommand(c.action);
     if (c.type === "staff") {
       this.staffCommand(c);
@@ -2652,7 +2705,11 @@ export class GameSession implements MonsterHost {
       return;
     }
     this.nowMs += dt;
-    if (!this.practiceOnly) this.heritage.tick(dt);
+    if (!this.practiceOnly) {
+      this.heritage.tick(dt);
+      this.fieldwork.tick();
+      this.expeditions.tick();
+    }
     this.knowledgeIn += dt;
     if (this.knowledgeIn >= 1000 && !this.practiceOnly && this.saves && !this.player.dead) {
       this.knowledgeIn = 0;
@@ -2661,6 +2718,7 @@ export class GameSession implements MonsterHost {
         (e) =>
           e.hp > 0 &&
           !e.m.hidden &&
+          !e.developmentVariant &&
           SPECIES_IDS.has(e.kind) &&
           distance(e, this.player) <= 650 &&
           this.nav.visible(this.player, e),
@@ -2975,6 +3033,11 @@ export class GameSession implements MonsterHost {
       building: this.building ?? null,
       activeNpcs: this.npcs,
       heritage: this.practiceOnly ? [] : this.heritage.snapshot(),
+      practiceTargets: this.practiceTargets
+        .list(this.player.interior)
+        .map(({ onHit: _onHit, ...target }) => target),
+      fieldwork: this.practiceOnly ? null : this.fieldwork.snapshot(),
+      expeditions: this.practiceOnly ? null : this.expeditions.snapshot(),
       heritageActivity: this.practiceOnly ? null : this.heritage.activitySnapshot(),
       heritageScanner: this.practiceOnly ? null : this.heritage.scanner.snapshot(),
       heritageProjects: this.practiceOnly
@@ -3280,6 +3343,9 @@ export function initialView(player?: Player): GameViewState {
     building: null,
     activeNpcs: WORLDS[p.continent].npcs.filter((n) => !n.building),
     heritage: [],
+    practiceTargets: [] as Omit<import("./development/targets").PracticeTarget, "onHit">[],
+    fieldwork: null,
+    expeditions: null,
     heritageProjects: [],
     heritageActivity: null,
     heritageScanner: null,

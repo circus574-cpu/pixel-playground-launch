@@ -196,3 +196,30 @@
     padding: 0.35rem;
   }
 }
+
+/* Active racial tasks need their cues while the menu is closed on a phone. */
+@media (max-height: 500px) and (min-width: 480px) {
+  .ki-hud .ki-quest.ki-development-objective {
+    display: flex;
+    top: calc(72px + env(safe-area-inset-top));
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: min(360px, calc(100% - 400px));
+    min-height: 44px;
+    max-height: 90px;
+    overflow: hidden;
+    padding: 5px 8px;
+  }
+  .ki-hud .ki-quest.ki-development-objective div > span {
+    display: block;
+    font-size: 10px;
+    line-height: 1.3;
+  }
+}
+
+@media (max-height: 500px) and (max-width: 700px) {
+  .ki-hud .ki-quest.ki-development-objective {
+    top: calc(96px + env(safe-area-inset-top));
+  }
+}

@@ -12,10 +12,14 @@ export class HeritageMarkers {
   private nextUpdate = 0;
   private escortObject: Phaser.GameObjects.Container | null = null;
   private nextActivityRead = 0;
-  private activity: GameViewState["heritageActivity"] = null;
+  private activity:
+    | GameViewState["heritageActivity"]
+    | NonNullable<NonNullable<GameViewState["fieldwork"]>["active"]>["activity"] = null;
+  private expedition: NonNullable<GameViewState["expeditions"]>["active"] = null;
   private protectionObject: Phaser.GameObjects.Container | null = null;
   private protectionHealth: Phaser.GameObjects.Graphics | null = null;
   private escortAnimation: ActorAnimation | null = null;
+  private readonly fieldObjects = new Map<string, Phaser.GameObjects.Container>();
   private readonly practiceObjects = new Map<string, Phaser.GameObjects.Container>();
   private readonly animations = new Map<string, ActorAnimation>();
   private readonly projectObjects = new Map<
@@ -27,6 +31,10 @@ export class HeritageMarkers {
     private readonly session: GameSession,
     private readonly readActivity: () => GameViewState["heritageActivity"] = () =>
       session.heritage.activitySnapshot(),
+    private readonly readFieldwork: () => GameViewState["fieldwork"] = () =>
+      session.fieldwork.snapshot(),
+    private readonly readExpeditions: () => GameViewState["expeditions"] = () =>
+      session.expeditions.snapshot(),
   ) {}
   update(now: number, labels: boolean) {
     this.updateEscort(now);
@@ -34,8 +42,12 @@ export class HeritageMarkers {
     this.nextUpdate = now + 250;
     const live = new Set<string>(),
       s = this.session;
-    const points = s.heritage
-      .markers()
+    const field = this.readFieldwork();
+    const points = [
+      ...s.heritage.markers(),
+      ...(field?.active ? [field.active.target] : s.fieldwork.markers()),
+      ...s.expeditions.markers(),
+    ]
       .filter((t) => distance(t.point, s.player) < 750)
       .slice(0, 20);
     for (const target of points) {
@@ -91,6 +103,31 @@ export class HeritageMarkers {
         this.markers.delete(id);
         this.animations.delete(id);
       }
+    const fieldProps = s.fieldwork.props();
+    const fieldLive = new Set(fieldProps.map((p) => p.id));
+    for (const p of fieldProps) {
+      let object = this.fieldObjects.get(p.id);
+      if (!object) {
+        const shape = this.scene.add.graphics();
+        object = this.scene.add
+          .container(p.target.point.x, p.target.point.y, [shape])
+          .setDepth(p.target.point.y - 1);
+        this.fieldObjects.set(p.id, object);
+      }
+      const shape = object.list[0] as Phaser.GameObjects.Graphics;
+      shape.clear().lineStyle(3, p.completed ? 0x8ae3a4 : 0xedb56b);
+      if (p.gate) shape.fillStyle(0x825b41).fillRect(55, -16, 40, 32).strokeRect(55, -16, 40, 32);
+      else
+        shape
+          .fillStyle(p.completed ? 0x4e997b : 0x5b6674, 0.7)
+          .fillCircle(0, -10, 16)
+          .strokeCircle(0, -10, 18);
+    }
+    for (const [id, object] of this.fieldObjects)
+      if (!fieldLive.has(id)) {
+        object.destroy();
+        this.fieldObjects.delete(id);
+      }
     const targets = s.practiceTargets
       .list(s.player.interior)
       .filter((t) => distance(t, s.player) < 900);
@@ -140,10 +177,20 @@ export class HeritageMarkers {
     const s = this.session;
     if (now >= this.nextActivityRead) {
       this.nextActivityRead = now + 100;
-      this.activity = this.readActivity();
+      this.activity = this.readFieldwork()?.active?.activity ?? this.readActivity();
+      this.expedition = this.readExpeditions()?.active ?? null;
     }
     const activity = this.activity;
-    const node = activity && "node" in activity ? activity.node : null;
+    const protectedPoint = this.expedition?.protected;
+    const node =
+      activity && "node" in activity
+        ? activity.node
+        : protectedPoint
+          ? {
+              ...protectedPoint,
+              healthFraction: protectedPoint.hp / protectedPoint.maxHp,
+            }
+          : null;
     if (!node || distance(node, s.player) > 900) {
       this.protectionObject?.destroy();
       this.protectionObject = null;
@@ -298,6 +345,8 @@ export class HeritageMarkers {
     return object;
   }
   dispose() {
+    for (const object of this.fieldObjects.values()) object.destroy();
+    this.fieldObjects.clear();
     this.protectionObject?.destroy();
     this.protectionObject = null;
     this.protectionHealth = null;

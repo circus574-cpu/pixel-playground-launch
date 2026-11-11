@@ -330,7 +330,7 @@ describe("versioned persistence", () => {
       game.player.gold = 7;
       game.flush();
       const backupKey = "ki-legends:recovery:before-v4:" + SAVE_KEY;
-      expect(JSON.parse(storage.getItem(SAVE_KEY)!).version).toBe(10);
+      expect(JSON.parse(storage.getItem(SAVE_KEY)!).version).toBe(11);
       expect(storage.getItem(backupKey)).toBe(raw);
       game.player.gold = 8;
       game.flush();

@@ -65,6 +65,7 @@ export class ResourceControlTrial {
     readonly kind: ResourceTrialKind,
     readonly tier: TrialTier,
     private readonly owner: string,
+    private readonly location = { x: 600, y: 300 },
   ) {
     this.target =
       kind === "core-sequence"
@@ -81,8 +82,8 @@ export class ResourceControlTrial {
     this.targetBody = session.practiceTargets.add(
       owner,
       "Manekin kontroli zasobu — realne trafienia",
-      { x: 600, y: 300 },
-      null,
+      this.location,
+      session.player.interior,
       session.nowMs,
       (contact) => {
         if (
@@ -154,7 +155,7 @@ export class ResourceControlTrial {
     return this.session.kit.resource()?.max ?? 100;
   }
   get point() {
-    return { x: 540, y: 300 };
+    return this.session.nav.safe({ x: this.location.x - 60, y: this.location.y });
   }
   private fail(reason: string) {
     this.phase = "failed";

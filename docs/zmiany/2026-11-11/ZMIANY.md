@@ -559,3 +559,44 @@ Ostatni commit raportowy dodaje wyłącznie te dowody, bez zmiany kodu gry.
 Nagrania: [Canvas — rzeczywista walka](qa/remaining-trials/desktop/racial-trials-Legendy-real-TP03-one-time-reward-and-reload-gameplay/video.webm)
 i [Software WebGL — rzeczywista kalibracja](qa/remaining-trials/software-webgl/racial-trials-Androidy-real-TN01-one-time-reward-and-reload-software-webgl/video.webm).
 Nie wykonano merge do main ani publikacji.
+
+
+### 19. Dziedziny w świecie i późne wyprawy
+
+Kontynuacja na `feature/development-remaining-trials-20261111`, PR #145.
+Wdrożono 48 zastosowań dziedzin (16 × trzy stopnie), Księgę Zrozumienia
+12/4, 32 warianty poziomów 22/28/34/40 oraz 48 wypraw: samotny przeciwnik,
+para i obrona trzech fal. Używają istniejących `GameSession`, kitów, AI,
+obrażeń, pocisków, chronionych aktorów, nawigacji i usług w budynkach.
+Nie zmieniano geometrii, generatorów, zasobów ani kanonicznych liczb ras,
+29 węzłów i 40 potworów.
+
+| Funkcja | Stan przed | Zmiana | Dowód / zakres kontroli |
+| --- | --- | --- | --- |
+| Dziedziny w terenie | Rangi i próby, brak pełnego zastosowania w świecie | 48 fizycznych interakcji, checkpointy, źródła, konfiguracja, eskorty i obrona | Testy prawdziwych poleceń, ruchu, trafień, kanałów i zapisów każdego zastosowania |
+| Późne potwory | Brak oddzielnego katalogu wariantów | 32 kopie na spotkanie; bazowe gatunki zachowane | Wzory źródłowe, kopie niemutujące bazy, realne AI i oddzielne wpisy poznania |
+| Wyprawy | Brak 48 układów | Lokalne, osiągalne cele IV/V; zwykły XP za pokonania, zero praktyki za powtórkę | Wszystkie 48 układów przez rzeczywistą walkę na kontrolowanej mapie; osobny test kontaktów na czterech prawdziwych kontynentach |
+| Księga Zrozumienia | Niepełne źródła w terenie | 12 odkrywanych fragmentów i zapisane decyzje | Brak ujawniania przyszłych/niezatwierdzonych świadectw |
+| Zapis | Rozwój 3 / klasyczny 10 / Superior 6 | Rozwój 4 / klasyczny 11 / Superior 7 | Round-trip, dokładne kopie bajtów, starsze wersje, CAS i blokada nowszych/obcych danych |
+| Prezentacja | Atlas tymczasowego gatunku mógł nie być w pamięci | Dzierżawy istniejącego streamingu, oczekiwanie na klatki, sprzątanie po anulowanym ładowaniu | Błąd odtworzono w prawdziwym Canvas; poprawkę sprawdza scenariusz z kontrolą widocznego atlasu |
+| Chronione postacie | Trasa gracza mogła skrócić narożnik miasta | Nawigacja z wyłączeniem bezpiecznych miast | Rzeczywista eskorta, sprawdzanie pozycji NPC i istniejące testy eskort/ochrony |
+| HUD | Brak wskazówek nowych działań po zamknięciu menu | Bieżący cel w istniejącym pasku, widoczny na poziomym telefonie | Zmiana w `GameHud.tsx` ograniczona do celu; paneli ekwipunku/drzewka/dziennika v2 nie zmieniano |
+
+Kontrolowane prewarunki poziomu 40, ukończonych rozdziałów i rang służą
+izolacji nowych interakcji. **Nie są dowodem zdobycia kampanii od poziomu 1.**
+Nowe wyniki interakcji/wypraw w testach przeglądarkowych powstają wyłącznie
+przez runtime. Istniejące testy przechodzą sześć rozdziałów, sześć projektów,
+wybory, komponenty, rozwój broni i wznowienia czterech ras, również z jawnie
+zadeklarowanym poziomem początkowym. Fizyczny telefon pozostaje niezweryfikowany.
+
+Balans sprawdzany przez `scripts/combat/simulate-development.ts` w rzeczywistym
+silniku: rasy × poziomy 1/10/20/30/40 × trening 0/40/90 stopni × gałęzie A/B/C
+× trzy wyposażenia × pobliscy przeciwnicy, w tym wszystkie 32 nowe warianty.
+1944 profile, po dwie deterministyczne walki. Regeneracja, podróż 15/30/60 s
+i interakcja 5 s są jawnymi składnikami analizy wrażliwości, nie pomiarem czasu
+czytania przez człowieka. Wyniki wykrywają zbyt silne konfiguracje przy legalnym
+wielokrotnym inwestowaniu punktów w węzły; nie zmieniono tego kanonu samodzielnie.
+Nie potwierdzono na tej podstawie docelowych godzin całej kampanii.
+
+Końcowe wyniki, SHA, materiały z przeglądarki i zalecenia balansu zostaną dopisane
+po zakończeniu bieżącej regresji. Niczego nie scalono ani nie opublikowano.

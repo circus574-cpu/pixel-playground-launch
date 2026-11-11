@@ -60,6 +60,7 @@ const envelope = z
       z.literal(4),
       z.literal(5),
       z.literal(6),
+      z.literal(7),
     ]),
     revision: z.string(),
     geometry: z.string(),
@@ -72,7 +73,7 @@ const envelope = z
   .refine(
     (value) =>
       (![2, 3].includes(value.version) || value.player.development !== undefined) &&
-      (value.version !== 3 || value.player.development?.version === 3),
+      (value.version !== 3 || value.player.development?.version === 4),
     "Development envelope requires development data",
   );
 export type SpawnRecord = z.infer<typeof spawnRecord>;
@@ -174,7 +175,7 @@ export class SuperiorSaveStore extends SaveStore {
       }
       if (this.previous !== null) {
         const oldVersion = JSON.parse(this.previous)?.version;
-        for (const target of [2, 3, 4, 5, 6]) {
+        for (const target of [2, 3, 4, 5, 6, 7]) {
           const key = "ki-legends:recovery:before-superior-v" + target + ":" + this.expeditionKey;
           if (oldVersion < target && this.port.getItem(key) === null)
             this.port.setItem(key, this.previous);
@@ -194,7 +195,7 @@ export class SuperiorSaveStore extends SaveStore {
       }
       const value = envelope.parse({
         format: "superior-character",
-        version: 6,
+        version: 7,
         revision: crypto.randomUUID(),
         geometry: this.index.revision,
         feature: this.feature,

@@ -416,6 +416,8 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
       if (exam) session.leaveDevelopmentExam(exam);
       stream.dispose();
       session.heritage.cancelActivities();
+      session.fieldwork.dispose();
+      session.expeditions.cancel();
     },
   };
 }

@@ -161,7 +161,13 @@ describe("racial trial results are owned, atomic and finite", () => {
   it("schema migration preserves old development and exact old bytes before writer upgrades", () => {
     const { data, port, s } = fixture("sage");
     const old = emptyDevelopment();
-    const { trials: _trials, ...v2 } = old;
+    const {
+      trials: _trials,
+      fieldwork: _fieldwork,
+      encounterKnowledge: _encounters,
+      completedExpeditions: _expeditions,
+      ...v2
+    } = old;
     const prior = JSON.stringify({
       version: 9,
       revision: "old-writer",
@@ -170,13 +176,13 @@ describe("racial trial results are owned, atomic and finite", () => {
     data.set("sage", prior);
     const save = new SaveStore(port, "sage"),
       loaded = save.load()!;
-    expect(loaded.development!.version).toBe(3);
+    expect(loaded.development!.version).toBe(4);
     expect(loaded.development!.trials).toEqual({});
     expect(data.get("sage")).toBe(prior);
     expect(save.save(loaded)).toBe(true);
-    expect(JSON.parse(data.get("sage")!).version).toBe(10);
-    expect(data.get("ki-legends:recovery:before-v10:sage")).toBe(prior);
-    const newer = JSON.stringify({ ...JSON.parse(data.get("sage")!), version: 11 });
+    expect(JSON.parse(data.get("sage")!).version).toBe(11);
+    expect(data.get("ki-legends:recovery:before-v11:sage")).toBe(prior);
+    const newer = JSON.stringify({ ...JSON.parse(data.get("sage")!), version: 12 });
     data.set("sage", newer);
     const guard = new SaveStore(port, "sage");
     expect(guard.load()).toBeUndefined();
