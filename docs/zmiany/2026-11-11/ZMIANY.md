@@ -282,6 +282,10 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
 - Weryfikacja w grze (próbnik klatek, trzymane `w` i klepane `d` co 110 ms): przed — 28 z 29 zmian kierunku wracało na klatkę 00
   (stały `up/00 up-right/00 …`); po — krok przechodzi 00–07 w kółko przez zmiany kierunku (Legenda, Android, Mędrzec, Planetar: 2–3
   powroty na 00 w 45–69 krokach, czyli tylko naturalne zawinięcie pętli). Test `actor-animation.test.ts` (zmiana kierunku co 20 ms).
-- Ograniczenie źródeł (bez zmian): w widoku z przodu i z tyłu kroki Legendy i Planetara są w filmach bardzo płytkie; przebudowa
-  wymaga nowych filmów chodu (w repo brak źródeł `legend-walk.mp4` i `sage-walk.mp4`).
-
+- Drugi powód płytkich kroków (Legenda, Planetar): pierwszy cięcie chodu (`hdcut.py`) wybierało pętlę jako parę klatek o najbardziej
+  podobnej sylwetce w odległości 12–44 klatek. W widoku z przodu i z tyłu to wybiera odcinek prawie bez ruchu nóg albo pół cyklu.
+  Filmy chodu (Legenda: przód 0–79, tył 80–157, bok 158–239; Planetar: przód 0–30, tył 35–56, 3/4 przód 118–178, 3/4 tył 178–239)
+  mają pełne kroki. `scripts/anim/walk_rebuild.py` bierze okres chodu z różnicy RGB dolnej części ciała (Legenda: 30 klatek w przodzie,
+  29 w tyle; krótkie odcinki Planetara: najdłuższy możliwy okres), próbkuje 8 klatek równomiernie na całym okresie i przebudowuje kierunki
+  down, up i ukosy (idle z nich pochodzi tak samo jak wcześniej); boki (left/right) zostają z poprzedniej paczki. Paczki `2.5.0`
+  (Legenda, Planetar); Android i Mędrzec bez zmian (Mędrzec: brak filmu chodu w repo).

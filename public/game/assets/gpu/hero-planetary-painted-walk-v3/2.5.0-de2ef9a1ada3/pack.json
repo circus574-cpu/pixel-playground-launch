@@ -1,61 +1,61 @@
 {
   "schemaVersion": 1,
   "id": "hero-planetary-painted-walk-v3",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "hero-planetary-painted-walk-v3-page-0",
-      "version": "2.4.0",
+      "version": "2.5.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.4.0-9ca45fdf3fe6/hero-planetary-painted-walk-v3-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.4.0-9ca45fdf3fe6/hero-planetary-painted-walk-v3-page-0.json",
-      "width": 1904,
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.5.0-de2ef9a1ada3/hero-planetary-painted-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.5.0-de2ef9a1ada3/hero-planetary-painted-walk-v3-page-0.json",
+      "width": 1872,
       "height": 920
     },
     {
       "id": "hero-planetary-painted-walk-v3-idle-0",
-      "version": "2.4.0",
+      "version": "2.5.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.4.0-9ca45fdf3fe6/hero-planetary-painted-walk-v3-idle-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.4.0-9ca45fdf3fe6/hero-planetary-painted-walk-v3-idle-0.json",
-      "width": 1863,
-      "height": 936
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.5.0-de2ef9a1ada3/hero-planetary-painted-walk-v3-idle-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.5.0-de2ef9a1ada3/hero-planetary-painted-walk-v3-idle-0.json",
+      "width": 1960,
+      "height": 928
     },
     {
       "id": "hero-planetary-painted-walk-v3-fight-0",
-      "version": "2.4.0",
+      "version": "2.5.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.4.0-9ca45fdf3fe6/hero-planetary-painted-walk-v3-fight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.4.0-9ca45fdf3fe6/hero-planetary-painted-walk-v3-fight-0.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.5.0-de2ef9a1ada3/hero-planetary-painted-walk-v3-fight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.5.0-de2ef9a1ada3/hero-planetary-painted-walk-v3-fight-0.json",
       "width": 1521,
       "height": 1316
     },
     {
       "id": "hero-planetary-painted-walk-v3-fight-1",
-      "version": "2.4.0",
+      "version": "2.5.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.4.0-9ca45fdf3fe6/hero-planetary-painted-walk-v3-fight-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.4.0-9ca45fdf3fe6/hero-planetary-painted-walk-v3-fight-1.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.5.0-de2ef9a1ada3/hero-planetary-painted-walk-v3-fight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.5.0-de2ef9a1ada3/hero-planetary-painted-walk-v3-fight-1.json",
       "width": 698,
       "height": 836
     },
     {
       "id": "hero-planetary-painted-walk-v3-kiwalk-0",
-      "version": "2.4.0",
+      "version": "2.5.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.4.0-9ca45fdf3fe6/hero-planetary-painted-walk-v3-kiwalk-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.4.0-9ca45fdf3fe6/hero-planetary-painted-walk-v3-kiwalk-0.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.5.0-de2ef9a1ada3/hero-planetary-painted-walk-v3-kiwalk-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.5.0-de2ef9a1ada3/hero-planetary-painted-walk-v3-kiwalk-0.json",
       "width": 1883,
       "height": 464
     },
     {
       "id": "hero-planetary-painted-walk-v3-kifight-0",
-      "version": "2.4.0",
+      "version": "2.5.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.4.0-9ca45fdf3fe6/hero-planetary-painted-walk-v3-kifight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.4.0-9ca45fdf3fe6/hero-planetary-painted-walk-v3-kifight-0.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.5.0-de2ef9a1ada3/hero-planetary-painted-walk-v3-kifight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.5.0-de2ef9a1ada3/hero-planetary-painted-walk-v3-kifight-0.json",
       "width": 1607,
       "height": 1232
     }
