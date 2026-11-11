@@ -321,3 +321,51 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
 - Weryfikacja: `bash -n`; logika funkcji sprawdzona na makiecie `docker` (zostają dwa wskazane tagi i tag `latest`,
   reszta `staging-*` usunięta; przy pustym drugim tagu zostaje tylko budowany). **Nie sprawdzone na serwerze** —
   zadziała przy najbliższym wdrożeniu po scaleniu; wynik `df -h /` będzie widać w logu kroku wdrożenia.
+
+### 17. Balans: schodkowy wzrost prędkości ruchu + twardy limit 1200 j./s (decyzja właściciela)
+
+- Na polecenie właściciela: wzrost prędkości zmienia się z flat **+5%/poziom (cap 20)** na **schodkowy,
+  bez capu poziomu**: **poz. 2–9: +5%, 10–19: +4%, 20–29: +3,5%, 30+: +3%** (addytywny % bazy rasy).
+  Mnożniki: poz. 10 ×1,44; poz. 20 ×1,835; poz. 30 ×2,18; poz. 60 ×3,08.
+- **Twardy limit prędkości ruchu `MAX_MOVE_SPEED = 1200 j./s`** nakładany na końcową prędkość
+  (z bonusami ekwipunku/buffów), wspólny dla klienta i serwera — żeby wysokie poziomy nie przekraczały
+  limitu. Źródło: `src/game/kit/balance.ts` (`speedGrowth`, `SPEED_GROWTH_TIERS`, `MAX_MOVE_SPEED`),
+  cap w `src/game/kit/base.ts`. Interwał ataku nadal nie rośnie.
+- Dokumentacja: `docs/ROZWOJ-I-WALKA.md` (tabela „Ruch j./s" + przypis z progami i capem).
+- Weryfikacja: nowy `src/test/speed-growth.test.ts` **7/7** (progi, wartości na progach, brak capu,
+  monotoniczność, limit 1200) + `kit.test.ts` zaktualizowany (poz. 10/20/60) i nowy test capu **31/31**.
+
+### 18. Profil wydajności pieczenia podłoża (opt-in, Faza 5) — na zamrożenia przy wejściu w chunk
+
+- Pomiar właściciela (WebGL, Verdant) pokazał: stan ustalony ~30–33 FPS, ale **15 zamrożeń od pieczenia
+  chunków do 1603 ms**. Odpowiedź: **opt-in profil** `?ki-ground-res=512` (lub 768/1024) obniża sufit
+  rozdzielczości pieczenia (koszt ∝ res² → 1024→512 to ~4× taniej) + **adaptacyjne pieczenie**: po
+  wolnej pieczeniu (>100 ms) kolejka nie dokłada drugiej w tej klatce (`bakesPerFrame`).
+- **Domyślnie nic nie zmienia** (bez parametru `groundResolutionOverride` = null, limit 2/klatkę jak
+  wcześniej). Źródło: `src/game/assets/groundBudget.ts` + `renderSuperior.ts`. Testy **11/11** w
+  `ground-budget.test.ts`. Pełna bramka sekwencyjna: lint 0, typecheck 0, testy 0, build 0.
+- Do przetestowania na urządzeniu: `/?ki-diag=1&ki-ground-res=512` vs `/?ki-diag=1` (porównanie
+  zamrożeń w raporcie). Docelowe rozwiązanie (poza głównym wątkiem / pre-bake kafelków) wymaga osobnej
+  decyzji — ten profil jest bezpiecznym, odwracalnym krokiem pośrednim.
+
+### 19. Mapa 2D: przybliżanie pokazuje prawdziwy teren (lasy, góry, biomy) — styl „real"
+
+- Na polecenie właściciela: przy zoomie mapa ma pokazywać **prawdziwy świat — lasy, góry i to, co
+  rzeczywiscie jest**, a nie płaskie plamy koloru. Przyczyna: `render_v2_maps.py` malował mapy stylem
+  „calm" (średni kolor biomu + tylko 18% tekstury).
+- **Nowy styl `MAP_STYLE=real`** w `scripts/worldgen/v2/render_v2_maps.py`: pełna tekstura podłoża
+  (80% tekstury + 20% średniej), więc las/góra/bagno czytają się jak prawdziwy teren. Domyślny „calm"
+  bez zmian (opt-in przez env). Zachowane: grzbiety gór, wybrzeża, woda śródlądowa, drogi.
+- **Zregenerowano `map-hi.webp` wszystkich 10 lądów** stylem „real" w tej samej rozdzielczości
+  (kontynenty `MAP_WIDTH=8192 MAP_SUFFIX=-hi MAP_UPSAMPLE=2`, wyspy domyślne). **Wymiary `map-hi.json`
+  identyczne** (np. verdant 3985×3011) → kafelki overlay i projekcja świata bez zmian. `map.webp`
+  (mapa podstawowa) nietknięta.
+- **Weryfikacja liczbowa** (vision bridge niedostępny): średni kontrast sąsiednich pikseli (energia
+  tekstury) fragmentu verdant wzrósł **1,28 → 2,53 (~2×)** calm→real — potwierdza realną teksturę.
+  Warstwa `TerrainCanvas` (`WorldOverlay.tsx`) już ładuje `map-hi.webp` od zoom ≥ 3, więc prawdziwy
+  teren pokazuje się przy przybliżaniu bez zmian w kodzie klienta.
+- **Globus — uczciwie:** globus owija malowany atlas `atlas-v2-3840.webp` przez pipeline
+  `render_v2_planet_terrain.py` → `build_v2_atlas.py` (repaint GPU) → `build_globe_textures.py`,
+  a oba skrypty wymagają `scipy` (niedostępny, PEP 668 blokuje instalację). Pokazanie realnej tekstury
+  na globusie to osobny krok (scipy + pipeline atlasu) — nie ruszany bez zgody i narzędzi. Globus nadal
+  pokazuje realny układ biomów z orbity.

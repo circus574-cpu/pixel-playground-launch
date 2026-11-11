@@ -3,7 +3,7 @@ import { applyCharacterStats } from "../characterStats";
 import { activeVariant, developmentModifiers } from "../development/modifiers";
 import { combatTarget } from "../combat/targeting";
 import type { RaceId } from "../world/races";
-import { speedGrowth } from "./balance";
+import { MAX_MOVE_SPEED, speedGrowth } from "./balance";
 import { RACE_BASE, KIT_NODES } from "./nodes.generated";
 import type {
   AbilityInfo,
@@ -298,10 +298,12 @@ export abstract class Kit {
             (v("defense") + gear.defense) * (1 + defPct) + v("defense") * 0.004 * t.defense,
           ),
         ),
-        speed:
+        speed: Math.min(
+          MAX_MOVE_SPEED,
           b.base.speed *
-          speedGrowth(level) *
-          (1 + (m.speedPct ?? 0) + sum("speedPct") + (gear.moveSpeedPct ?? 0) / 100),
+            speedGrowth(level) *
+            (1 + (m.speedPct ?? 0) + sum("speedPct") + (gear.moveSpeedPct ?? 0) / 100),
+        ),
         kiRegen: v("kiRegen") * (1 + (m.kiRegenPct ?? 0)),
         crit:
           v("criticalChancePercent") +

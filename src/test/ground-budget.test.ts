@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
+  BAKE_FRAME_BUDGET_MS,
   GROUND_CHUNK_LIMIT,
   GROUND_RESOLUTIONS,
+  bakesPerFrame,
   chooseGroundResolution,
+  groundResolutionOverride,
   groundTextureBytes,
 } from "../game/assets/groundBudget";
 import { STREAM_TEXTURE_BUDGET_BYTES } from "../game/assets/streamBudget";
@@ -49,5 +52,40 @@ describe("budżet warstwy podłoża (audyt 11.11.2026)", () => {
     const atlasBytes = 170 * MiB;
     const res = chooseGroundResolution(atlasBytes, 1024);
     expect(atlasBytes + groundTextureBytes(res)).toBeLessThanOrEqual(STREAM_TEXTURE_BUDGET_BYTES);
+  });
+});
+
+describe("profil wydajności pieczenia (opt-in, Faza 5)", () => {
+  it("bez parametru nie zmienia rozdzielczości (null)", () => {
+    expect(groundResolutionOverride("")).toBeNull();
+    expect(groundResolutionOverride("?ki-world-v2=1")).toBeNull();
+  });
+
+  it("przyjmuje tylko rozdzielczości z listy kandydatów", () => {
+    expect(groundResolutionOverride("?ki-ground-res=512")).toBe(512);
+    expect(groundResolutionOverride("?ki-ground-res=768")).toBe(768);
+    expect(groundResolutionOverride("?ki-ground-res=1024")).toBe(1024);
+    expect(groundResolutionOverride("?ki-ground-res=999")).toBeNull();
+    expect(groundResolutionOverride("?ki-ground-res=abc")).toBeNull();
+    expect(groundResolutionOverride("?ki-ground-res=")).toBeNull();
+  });
+
+  it("niższy profil mieści się w budżecie i jest tańszy w pieczeniu", () => {
+    const full = groundTextureBytes(1024);
+    const low = groundTextureBytes(512);
+    expect(low).toBe(full / 4); // koszt ∝ rozdzielczość² → 1024→512 to 4×
+    expect(chooseGroundResolution(0, 512)).toBe(512);
+  });
+
+  it("bez profilu zawsze 2 pieczenie na klatkę (domyślne zachowanie)", () => {
+    expect(bakesPerFrame(0, false)).toBe(2);
+    expect(bakesPerFrame(5000, false)).toBe(2);
+  });
+
+  it("z profilem po wolnej pieczeniu schodzi do 1 na klatkę", () => {
+    expect(bakesPerFrame(0, true)).toBe(2);
+    expect(bakesPerFrame(BAKE_FRAME_BUDGET_MS, true)).toBe(2);
+    expect(bakesPerFrame(BAKE_FRAME_BUDGET_MS + 1, true)).toBe(1);
+    expect(bakesPerFrame(1600, true)).toBe(1);
   });
 });

@@ -12,6 +12,7 @@ import {
   type KitPort,
 } from "../game/kit";
 import { RACE_IDS, type RaceId } from "../game/world/races";
+import { MAX_MOVE_SPEED } from "../game/kit/balance";
 
 type TestFoe = Foe & {
   def: number;
@@ -162,12 +163,18 @@ describe("owner annex 22.10.2026: stats and tree data", () => {
       expect(a.kiRegen).toBeCloseTo(e.regen10, 2);
       expect(a.crit).toBeCloseTo(e.crit10, 2);
       expect(b.crit).toBeCloseTo(e.crit20, 2);
-      expect(a.speed).toBeCloseTo(e.speed * 1.45, 6);
-      expect(b.speed).toBeCloseTo(e.speed * 1.95, 6);
-      expect(harness(race, 60, ["R"]).kit.stats.speed).toBeCloseTo(e.speed * 1.95, 6);
+      expect(a.speed).toBeCloseTo(e.speed * 1.44, 6);
+      expect(b.speed).toBeCloseTo(e.speed * 1.835, 6);
+      expect(harness(race, 60, ["R"]).kit.stats.speed).toBeCloseTo(e.speed * 3.08, 6);
       expect(harness(race, 1, ["R"]).kit.stats.speed).toBe(e.speed);
       expect(a.attackInterval).toBe(e.interval);
     }
+  });
+  it("prędkość ma twardy limit 1200 j/s na wysokim poziomie", () => {
+    // Bez capu poziomu wzrost dalej rośnie, ale końcowa prędkość nie przekracza MAX_MOVE_SPEED.
+    expect(harness("planetary", 200, ["R"]).kit.stats.speed).toBe(MAX_MOVE_SPEED);
+    expect(harness("planetary", 60, ["R"]).kit.stats.speed).toBeLessThan(MAX_MOVE_SPEED);
+    expect(MAX_MOVE_SPEED).toBe(1200);
   });
   it("generated nodes equal the annex JSON (ids, names, levels, requirements, text)", () => {
     for (const race of RACE_IDS) {
