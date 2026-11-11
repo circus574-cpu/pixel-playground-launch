@@ -5,7 +5,7 @@
  * learnable nodes carry their own "+" and the description card opens right beside the chosen node,
  * not under the board. Ranks have no cap (owner 03.11.2026 and 11.11.2026).
  */
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { BRANCH_NAMES, KIT_NODES, canLearn } from "../../game/kit";
 import type { KitNodeData } from "../../game/kit/types";
 import type { GameViewState } from "../../game/session";
@@ -48,7 +48,7 @@ const SLOT: Record<string, [number, number]> = {
 
 type Pos = { x: number; y: number };
 
-export function GraphicSkillTree({ state, send }: { state: GameViewState; send: SendCommand }) {
+function GraphicSkillTreeImpl({ state, send }: { state: GameViewState; send: SendCommand }) {
   const p = state.player;
   const nodes = KIT_NODES[p.race];
   const names = BRANCH_NAMES[p.race];
@@ -400,3 +400,21 @@ export function GraphicSkillTree({ state, send }: { state: GameViewState; send: 
     </div>
   );
 }
+
+/**
+ * Faza 2 (memo HUD): drzewko zużywa tylko rasę, poziom, złoto, punkty, koszt respec i listę
+ * umiejętności. HUD odświeża się 10×/s, ale te pola zmieniają się rzadko — bez memo 29 węzłów
+ * i ścieżki SVG przerysowywały się przy każdym tyknięciu. Komparator pomija re-render, dopóki
+ * któryś z tych pól (lub stabilne `send`) się nie zmieni.
+ */
+export const GraphicSkillTree = memo(
+  GraphicSkillTreeImpl,
+  (a, b) =>
+    a.send === b.send &&
+    a.state.player.race === b.state.player.race &&
+    a.state.player.level === b.state.player.level &&
+    a.state.player.gold === b.state.player.gold &&
+    a.state.skillPoints === b.state.skillPoints &&
+    a.state.respecCost === b.state.respecCost &&
+    a.state.player.skills.join(",") === b.state.player.skills.join(","),
+);
