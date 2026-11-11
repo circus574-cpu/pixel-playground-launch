@@ -1,13 +1,26 @@
 import { expect, it } from "vitest";
-it("shows the Trener turnaround for the Pyra training NPC and keeps the other roles on their defaults", async () => {
+it("gives every world its own Trener (same figure, outfit colour per race) bound to the trainer NPC", async () => {
   const { actorVisual } = await import("../game/assets/catalog");
-  const trainer = actorVisual("pyra", "npc", "trainer");
-  expect(trainer.id).toBe("npc-pyra-trainer");
-  expect(trainer.profile).toBe("npc");
-  expect(Object.keys(trainer.clips).sort()).toEqual(["idle", "walk"]);
-  expect(trainer.clips["idle"]!.directions["left"]).toHaveLength(8);
-  expect(actorVisual("pyra", "npc", "trainer").id).not.toBe(
-    actorVisual("pyra", "npc", "npc-rokan").id,
-  );
-  expect(actorVisual("verdant", "npc", "trainer").id).not.toBe("npc-pyra-trainer");
+  const ids = new Set<string>();
+  for (const world of ["verdant", "aether", "nexus", "pyra"] as const) {
+    const trainer = actorVisual(world, "npc", "trainer");
+    expect(trainer.id).toBe(`npc-${world}-trainer`);
+    expect(trainer.profile).toBe("npc");
+    expect(Object.keys(trainer.clips).sort()).toEqual(["idle", "walk"]);
+    for (const direction of [
+      "down",
+      "down-left",
+      "left",
+      "up-left",
+      "up",
+      "up-right",
+      "right",
+      "down-right",
+    ] as const)
+      expect(trainer.clips["idle"]!.directions[direction]).toHaveLength(8);
+    ids.add(trainer.id);
+    // other NPC roles keep their own visuals
+    expect(actorVisual(world, "npc", "npc-rokan").id).not.toBe(trainer.id);
+  }
+  expect(ids.size).toBe(4);
 });

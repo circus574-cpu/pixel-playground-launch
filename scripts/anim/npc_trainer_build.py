@@ -12,6 +12,9 @@ and an 8-frame breathing cycle is derived from each pose (a 0..1.5 % vertical st
 The `walk` clip required by the NPC contract reuses the idle frame names, so it costs no texture memory.
 Contract (scripts/lib/gpu-import.ts): profile npc, size 96, origin .5/.95, 128 px source cells, idle 8 @ 6 fps loop,
 walk 8 @ 16 fps loop, 8 directions. Frames are trimmed and shelf-packed into the smallest atlas.
+Other races reuse the same figure with a recoloured outfit: NPC_HUE=<degrees> shifts the saturated sash/trim and tints the
+dark cloth (skin, hair, beard and boots keep their colours). Defaults per world: pyra keeps the original red, verdant 125,
+aether 190, nexus 225.
 Needs: ffmpeg, rembg (isnet-anime), opencv-python, numpy, pillow.
 """
 import os, sys, json, subprocess
@@ -61,6 +64,33 @@ for k, n in enumerate(need):
     rgba[:, :, 3] = np.where(lab == biggest, rgba[:, :, 3], 0)
     ys, xs = np.where(rgba[:, :, 3] > 20)
     mats[n] = rgba[ys.min():ys.max() + 1, xs.min():xs.max() + 1].copy()   # crop to the figure
+
+HUES = {'pyra': None, 'verdant': 125.0, 'aether': 190.0, 'nexus': 225.0}
+HUE = float(os.environ['NPC_HUE']) if os.environ.get('NPC_HUE') else HUES[WORLD]
+
+def recolor(rgba, hue):
+    """Recolour outfit only: sash/trim (saturated warm) get the new hue, dark cloth is tinted; head and skin/boots stay."""
+    out = rgba.copy()
+    rgb = rgba[:, :, :3].astype(np.float32) / 255.0
+    hsv = cv2.cvtColor(rgb, cv2.COLOR_RGB2HSV)
+    h, sat, val = hsv[:, :, 0], hsv[:, :, 1], hsv[:, :, 2]
+    rows = np.arange(rgba.shape[0])[:, None] / rgba.shape[0]
+    body = (rgba[:, :, 3] > 0) & (rows > 0.16)                      # never touch the head (hair, beard, face)
+    warm = (h < 45) | (h > 340)
+    trim = body & warm & (sat > 0.52) & (val > 0.30) & (rows < 0.86)   # red-orange sash and embroidery
+    cloth = body & ~trim & (val < 0.34) & (rows < 0.86)   # black vest and trousers (boots keep their leather)
+    nh = hsv.copy()
+    nh[:, :, 0] = np.where(trim, (hue + (np.where(h > 180, h - 360, h) - 15) * 0.35) % 360, h)
+    nh[:, :, 0] = np.where(cloth, hue, nh[:, :, 0])
+    nh[:, :, 1] = np.where(cloth, np.maximum(sat, 0.42), sat)
+    nh[:, :, 2] = np.where(cloth, np.minimum(1.0, val * 1.35 + 0.02), val)
+    res = cv2.cvtColor(nh, cv2.COLOR_HSV2RGB)
+    out[:, :, :3] = np.clip(res * 255.0, 0, 255).astype(np.uint8)
+    return out
+
+if HUE is not None:
+    for n in list(mats): mats[n] = recolor(mats[n], HUE)
+    print('outfit recoloured to hue', HUE)
 
 front = mats[PICKS['down'][0]]
 scale = FIG_H / front.shape[0]
