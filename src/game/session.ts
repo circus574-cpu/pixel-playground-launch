@@ -1,10 +1,11 @@
+import { developmentCompletion } from "./development/completion";
+import { requiredTrialUnlocks } from "./development/trials/unlocks";
 import { TrialAttempt } from "./development/trials/attempt";
 import {
   trialDefinition,
   trialAvailable,
   trialReceipt,
   trialReward,
-  domainRank,
   trialsRaceConsistent,
   type TrialId,
   type TrialTier,
@@ -1839,61 +1840,11 @@ export class GameSession implements MonsterHost {
       next.trials[attempt.trialId] = attempt.tier;
       next.rewardReceipts[key] = { practice: trialReward(attempt.tier) };
       next.practiceEarned += trialReward(attempt.tier);
-      if (
-        domainRank(next.trials, "planetary", "care") >= 2 &&
-        !next.unlockedVariants.includes("mv-root")
-      )
-        next.unlockedVariants.push("mv-root");
-      if (
-        domainRank(next.trials, "planetary", "trails") >= 2 &&
-        !next.unlockedVariants.includes("mv-trail")
-      )
-        next.unlockedVariants.push("mv-trail");
-      if (
-        domainRank(next.trials, "planetary", "earth") >= 2 &&
-        !next.unlockedVariants.includes("mv-earth")
-      )
-        next.unlockedVariants.push("mv-earth");
-      if (
-        domainRank(next.trials, "sage", "focus") >= 2 &&
-        !next.unlockedVariants.includes("ma-focus")
-      )
-        next.unlockedVariants.push("ma-focus");
-      if (
-        domainRank(next.trials, "sage", "barriers") >= 2 &&
-        !next.unlockedVariants.includes("ma-barrier")
-      )
-        next.unlockedVariants.push("ma-barrier");
-      if (
-        domainRank(next.trials, "sage", "seals") >= 2 &&
-        !next.unlockedVariants.includes("ma-seal")
-      )
-        next.unlockedVariants.push("ma-seal");
-      if (domainRank(next.trials, "android", "thermals") >= 2) {
-        if (!next.unlockedVariants.includes("mn-discharge"))
-          next.unlockedVariants.push("mn-discharge");
-        if (!next.unlockedModules.includes("mn-routing")) next.unlockedModules.push("mn-routing");
-      }
-      if (
-        domainRank(next.trials, "legend", "ember") >= 2 &&
-        !next.unlockedVariants.includes("mp-burst")
-      )
-        next.unlockedVariants.push("mp-burst");
-      if (domainRank(next.trials, "android", "calibration") >= 2) {
-        if (!next.unlockedVariants.includes("mn-mark")) next.unlockedVariants.push("mn-mark");
-        if (!next.unlockedModules.includes("mn-optics")) next.unlockedModules.push("mn-optics");
-      }
-      if ((next.trials.TN03 ?? 0) >= 2 && !next.unlockedModules.includes("mn-precision"))
-        next.unlockedModules.push("mn-precision");
-      if (domainRank(next.trials, "android", "construction") >= 2) {
-        if (!next.unlockedVariants.includes("mn-barrier")) next.unlockedVariants.push("mn-barrier");
-        if (!next.unlockedModules.includes("mn-shield")) next.unlockedModules.push("mn-shield");
-      }
-      if (
-        domainRank(next.trials, "legend", "duel") >= 2 &&
-        !next.unlockedVariants.includes("mp-cuts")
-      )
-        next.unlockedVariants.push("mp-cuts");
+      const unlocks = requiredTrialUnlocks(next.trials);
+      for (const variant of unlocks.variants)
+        if (!next.unlockedVariants.includes(variant)) next.unlockedVariants.push(variant);
+      for (const module of unlocks.modules)
+        if (!next.unlockedModules.includes(module)) next.unlockedModules.push(module);
     });
     if (saved) {
       this.activeTrial = undefined;
@@ -2847,7 +2798,11 @@ export class GameSession implements MonsterHost {
         this.dialogue = npc.id;
         this.pendingNpc = null;
         this.route = [];
-        this.say(npc.name + ": " + npc.role);
+        const title =
+          npc.id === "guide" || npc.id === "trainer"
+            ? developmentCompletion(p.race, p.development).greeting
+            : null;
+        this.say(title ? `${npc.name}: ${title}` : npc.name + ": " + npc.role);
         this.flush();
         return;
       }
@@ -3199,10 +3154,13 @@ function makePort(s: GameSession): KitPort {
       f.id === "training-dummy" || isPracticeId(f.id)
         ? undefined
         : s.monsters.weaken(f as Enemy, pct, ms),
-    breakFoeShield: (f) =>
-      f.id === "training-dummy" || isPracticeId(f.id)
-        ? undefined
-        : s.monsters.breakShield(f as Enemy),
+    breakFoeShield: (f) => {
+      if (isPracticeId(f.id)) {
+        s.practiceTargets.breakShield(f);
+        return;
+      }
+      return f.id === "training-dummy" ? undefined : s.monsters.breakShield(f as Enemy);
+    },
     isSealed: (f) =>
       isPracticeId(f.id)
         ? (s.practiceTargets.get(f.id)?.sealedUntil ?? 0) > s.nowMs

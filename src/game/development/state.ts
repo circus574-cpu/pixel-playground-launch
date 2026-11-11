@@ -1,7 +1,7 @@
+import { requiredTrialUnlocks } from "./trials/unlocks";
 import {
   TRIAL_IDS,
   TRIALS,
-  domainRank,
   parseTrialReceipt,
   trialReceipt,
   trialReward,
@@ -206,39 +206,11 @@ export const CurrentDevelopmentSchema = Version2Base.extend({
     )
       fail("Invalid trial receipt");
   }
-  if (domainRank(s.trials, "planetary", "care") >= 2 && !s.unlockedVariants.includes("mv-root"))
-    fail("Missing care mastery unlock");
-  if (domainRank(s.trials, "planetary", "trails") >= 2 && !s.unlockedVariants.includes("mv-trail"))
-    fail("Missing trail mastery unlock");
-  if (domainRank(s.trials, "planetary", "earth") >= 2 && !s.unlockedVariants.includes("mv-earth"))
-    fail("Missing earth mastery unlock");
-  if (domainRank(s.trials, "sage", "focus") >= 2 && !s.unlockedVariants.includes("ma-focus"))
-    fail("Missing focus mastery unlock");
-  if (domainRank(s.trials, "sage", "barriers") >= 2 && !s.unlockedVariants.includes("ma-barrier"))
-    fail("Missing barrier mastery unlock");
-  if (domainRank(s.trials, "sage", "seals") >= 2 && !s.unlockedVariants.includes("ma-seal"))
-    fail("Missing seal mastery unlock");
-  if (
-    domainRank(s.trials, "android", "thermals") >= 2 &&
-    (!s.unlockedVariants.includes("mn-discharge") || !s.unlockedModules.includes("mn-routing"))
-  )
-    fail("Missing thermal unlock");
-  if (domainRank(s.trials, "legend", "ember") >= 2 && !s.unlockedVariants.includes("mp-burst"))
-    fail("Missing ember unlock");
-  if (
-    domainRank(s.trials, "android", "calibration") >= 2 &&
-    (!s.unlockedVariants.includes("mn-mark") || !s.unlockedModules.includes("mn-optics"))
-  )
-    fail("Missing calibration unlock");
-  if ((s.trials.TN03 ?? 0) >= 2 && !s.unlockedModules.includes("mn-precision"))
-    fail("Missing precision unlock");
-  if (
-    domainRank(s.trials, "android", "construction") >= 2 &&
-    (!s.unlockedVariants.includes("mn-barrier") || !s.unlockedModules.includes("mn-shield"))
-  )
-    fail("Missing construction unlock");
-  if (domainRank(s.trials, "legend", "duel") >= 2 && !s.unlockedVariants.includes("mp-cuts"))
-    fail("Missing duel mastery unlock");
+  const required = requiredTrialUnlocks(s.trials);
+  if (required.variants.some((v) => !s.unlockedVariants.includes(v)))
+    fail("Missing trial mastery unlock");
+  if (required.modules.some((m) => !s.unlockedModules.includes(m)))
+    fail("Missing trial module unlock");
 });
 export const DevelopmentSchema = z.union([
   CurrentDevelopmentSchema,

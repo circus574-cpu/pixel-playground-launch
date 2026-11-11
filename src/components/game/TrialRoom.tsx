@@ -118,6 +118,14 @@ export function TrialRoom({
       data-calibration-target={result.calibration?.targetId ?? ""}
       data-trial-id={attempt.trialId}
       data-trial-tier={attempt.tier}
+      data-controller-state={JSON.stringify({
+        combat: result.combat,
+        body: result.body,
+        resourceControl: result.resourceControl,
+        calibration: result.calibration,
+      })}
+      data-combat-phase={result.combat?.phase}
+      data-combat-enemies={JSON.stringify(result.combat?.enemies ?? [])}
       data-trial-phase={result.phase}
       data-focus-phase={result.focus?.phase}
       data-focus-remaining={result.focus?.remainingMs}

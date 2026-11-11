@@ -62,6 +62,8 @@ export function remoteTrial(client: OnlineClient, initial: NonNullable<OnlineFra
     s.targetId = frame.view.targetId;
     s.paused = frame.suspended || !frame.started || frame.result.outcome !== "running";
     s.practiceTargets.mirror(frame.result.targets);
+    // Presentation-only copy, as in the exam adapter; local tick/AI remain disabled.
+    s.enemies.splice(0, s.enemies.length, ...structuredClone(frame.enemies ?? []));
     s.events.push(...frame.events);
   };
   apply(initial);

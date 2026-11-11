@@ -1,3 +1,4 @@
+import { completeNewTrial } from "./helpers/remainingTrials";
 import { test, expect, openHudTool, type Page } from "./fixtures";
 
 test.use({ actionTimeout: 15_000 });
@@ -134,6 +135,12 @@ for (const [race, id, land] of [
   ["Mędrcy", "TA11", "aether"],
   ["Mędrcy", "TA12", "aether"],
   ["Mędrcy", "TA01", "aether"],
+  ...(["TN01", "TN02", "TN03", "TN04", "TN05", "TN06", "TN10", "TN11", "TN12"] as const).map(
+    (id) => ["Androidy", id, "nexus"] as const,
+  ),
+  ...(["TP01", "TP02", "TP03", "TP04", "TP05", "TP06", "TP10", "TP11", "TP12"] as const).map(
+    (id) => ["Legendy", id, "pyra"] as const,
+  ),
   ["Androidy", "TN08", "nexus"],
   ["Legendy", "TP08", "pyra"],
 ] as const) {
@@ -174,7 +181,30 @@ for (const [race, id, land] of [
         return metrics ? JSON.parse(metrics).renderer : null;
       })
       .toBe(info.project.name === "software-webgl" ? "WebGL" : "Canvas");
-    if (id === "TA07") {
+    if (
+      [
+        "TN01",
+        "TN02",
+        "TN03",
+        "TN04",
+        "TN05",
+        "TN06",
+        "TN10",
+        "TN11",
+        "TN12",
+        "TP01",
+        "TP02",
+        "TP03",
+        "TP04",
+        "TP05",
+        "TP06",
+        "TP10",
+        "TP11",
+        "TP12",
+      ].includes(id)
+    ) {
+      await completeNewTrial(page, id, (point, wait) => walkToStation(page, false, point, wait));
+    } else if (id === "TA07") {
       for (let i = 0; i < 2; i++) {
         await walkToStation(page, false);
         await expect(stage).toHaveAttribute("data-focus-phase", "ready");

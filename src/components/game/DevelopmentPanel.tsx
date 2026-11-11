@@ -1,3 +1,7 @@
+import {
+  developmentCompletion,
+  developmentPracticeBudget,
+} from "../../game/development/completion";
 import { TrialsPanel, type StartTrial } from "./TrialsPanel";
 import { ChroniclePanel } from "./ChroniclePanel";
 import { HeritagePanel } from "./HeritagePanel";
@@ -48,6 +52,8 @@ export function DevelopmentPanel({
   const p = state.player;
   const development = p.development ?? emptyDevelopment();
   const available = development.practiceEarned - development.practiceSpent;
+  const completion = developmentCompletion(p.race, p.development);
+  const practiceBudget = developmentPracticeBudget(p.race);
   const nearTrainer =
     p.interior === "arena" &&
     state.activeNpcs.some((n) => n.id === "trainer" && Math.hypot(n.x - p.x, n.y - p.y) <= 180);
@@ -56,6 +62,12 @@ export function DevelopmentPanel({
       <p>
         {RACES[p.race].name} · Praktyka: <strong>{available}</strong> · Przydzielone stopnie:{" "}
         <strong>{DISCIPLINES.reduce((n, d) => n + development.training[d], 0)}/90</strong>
+      </p>
+      <p aria-label="Ścieżka rozwoju">
+        {completion.earned
+          ? `◆ ${completion.name}`
+          : `Dziedzictwo: ${completion.chapters}/6 rozdziałów · ${completion.projects}/6 projektów · ${completion.trials}/12 prób III`}
+        {" · "}Gwarantowany budżet praktyki całej ścieżki: {practiceBudget.total}.
       </p>
       <div className="ki-development-tabs" role="tablist" aria-label="Dziedziny rozwoju">
         {(

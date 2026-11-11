@@ -1,10 +1,11 @@
+import type { WorldDefinition } from "../world/types";
 import { GameSession } from "../session";
 import { Navigation } from "../navigation";
 import { WORLDS } from "../world/worlds";
 import { RACES, type RaceId } from "../world/races";
 /** Shared in-memory room. No save port, world spawns, borrowed player state or persistent rewards. */
-export function loanSession(race: RaceId) {
-  const world = {
+export function loanSession(race: RaceId, combat = false) {
+  const world: WorldDefinition = {
     ...WORLDS[RACES[race].world],
     settlement: "Sala egzaminacyjna",
     width: 960,
@@ -27,6 +28,8 @@ export function loanSession(race: RaceId) {
     safeAreas: [],
   };
   delete world.terrain;
+  // This isolated combat room is not a safe city. Real cities and their bounds are unchanged.
+  if (combat) delete world.city;
   return new GameSession(undefined, race, {
     world,
     navigation: new Navigation(960, 760, world.obstacles),

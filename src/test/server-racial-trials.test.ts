@@ -1,4 +1,5 @@
 // @vitest-environment node
+import { RemainingTrialPilot, REMAINING_TRIAL_IDS } from "./helpers/remainingTrialPilot";
 import { expect, it } from "vitest";
 import path from "node:path";
 import { prepareServerSimulation } from "../server/characters/superiorSimulation";
@@ -304,6 +305,55 @@ it.each([
       try {
         expect(restored.session.player.development).toEqual(s.session.player.development);
         expect(restored.trial).toBeUndefined();
+      } finally {
+        restored.dispose();
+      }
+    } finally {
+      s.dispose();
+    }
+  },
+  60000,
+);
+
+it.each(REMAINING_TRIAL_IDS)(
+  "server completes %s through normal intentions, awards once and restores its grade",
+  async (id) => {
+    const { record, simulation: s } = await fixture(id.startsWith("TN") ? "android" : "legend");
+    try {
+      const before = structuredClone(s.session.player);
+      s.command({ type: "trial-start", id, tier: 1 });
+      const a = s.trial!;
+      expect(a).toBeDefined();
+      const action = (action: string) =>
+        s.command({ type: "trial-action", instanceId: a.instanceId, action });
+      const pilot = new RemainingTrialPilot(a, {
+        input: (command) => s.command({ type: "trial-input", instanceId: a.instanceId, command }),
+        inspect: () => action("inspect"),
+        answer: (round, answerId) =>
+          s.command({ type: "trial-answer", instanceId: a.instanceId, round, answerId }),
+      });
+      action("accept");
+      action("ready");
+      for (let n = 0; n < 16000 && a.snapshot().outcome === "running"; n++) {
+        pilot.step();
+        await s.tick(50);
+      }
+      expect(a.snapshot().outcome, a.snapshot().reason).toBe("passed");
+      expect(s.session.player).toEqual(before);
+      action("accept");
+      action("accept");
+      expect(s.session.player.development!.trials[id]).toBe(1);
+      expect(s.session.player.development!.practiceEarned).toBe(100);
+      const state = s.capture();
+      expect(StoredCharacter.safeParse(state).success).toBe(true);
+      expect(JSON.stringify(state.runtime)).not.toContain(a.instanceId);
+      const restored = await prepareServerSimulation(
+        { ...record, revision: 2, state },
+        path.resolve("public"),
+      );
+      try {
+        expect(restored.trial).toBeUndefined();
+        expect(restored.session.player.development).toEqual(s.session.player.development);
       } finally {
         restored.dispose();
       }

@@ -37,16 +37,28 @@ export const TRIAL_IDS = [
   "TN10",
   "TN11",
   "TN12",
+  "TP01",
+  "TP02",
+  "TP03",
   "TP04",
   "TP05",
   "TP06",
   "TP07",
   "TP08",
   "TP09",
+  "TP10",
+  "TP11",
+  "TP12",
 ] as const;
 export type TrialId = (typeof TRIAL_IDS)[number];
 export type TrialTier = 1 | 2 | 3;
 export type TrialKind =
+  | "combat-waves"
+  | "rescue-escort"
+  | "retreat-defense"
+  | "rescue-return"
+  | "burden-route"
+  | "break-windows"
   | "log-signatures"
   | "log-timeline"
   | "manual-recovery"
@@ -98,6 +110,8 @@ export type DomainId =
   | "source-memory"
   | "seals"
   | "barriers"
+  | "oath"
+  | "body"
   | "thermals"
   | "ember"
   | "identity"
@@ -116,6 +130,60 @@ export type TrialDefinition = {
 };
 // Only implemented controllers are exposed as playable; targets come from the owner specification.
 export const TRIALS: readonly TrialDefinition[] = [
+  {
+    id: "TP03",
+    race: "legend",
+    domain: "body",
+    kind: "combat-waves",
+    name: "Ciało: fale przeciwników",
+    targets: [2, 3, 4],
+    maxErrors: 0,
+  },
+  {
+    id: "TP10",
+    race: "legend",
+    domain: "oath",
+    kind: "rescue-escort",
+    name: "Przysięga: ratunek podopiecznych",
+    targets: [1, 2, 3],
+    maxErrors: 0,
+  },
+  {
+    id: "TP11",
+    race: "legend",
+    domain: "oath",
+    kind: "retreat-defense",
+    name: "Przysięga: punkty odwrotu",
+    targets: [2, 3, 4],
+    maxErrors: 0,
+  },
+  {
+    id: "TP12",
+    race: "legend",
+    domain: "oath",
+    kind: "rescue-return",
+    name: "Przysięga: przerwanie pościgu",
+    targets: [2, 3, 4],
+    maxErrors: 0,
+  },
+  {
+    id: "TP01",
+    race: "legend",
+    domain: "body",
+    kind: "burden-route",
+    name: "Ciało: trasa z obciążeniem",
+    targets: [4, 6, 8],
+    maxErrors: 0,
+  },
+  {
+    id: "TP02",
+    race: "legend",
+    domain: "body",
+    kind: "break-windows",
+    name: "Ciało: skuteczne przełamania",
+    targets: [3, 4, 5],
+    maxErrors: 2,
+  },
   {
     id: "TN10",
     race: "android",
@@ -505,6 +573,8 @@ export const DOMAIN_NAMES: Record<DomainId, string> = {
   focus: "Skupienie",
   seals: "Pieczęcie",
   barriers: "Bariery",
+  oath: "Przysięga",
+  body: "Ciało",
   thermals: "Termika",
   ember: "Kontrola Żaru",
   identity: "Tożsamość",
@@ -522,6 +592,18 @@ export const MEMORY_TRIAL_RULES: Partial<Record<TrialKind, string>> = {
 };
 export const TRIAL_RULES: Partial<Record<TrialKind, string>> = {
   ...MEMORY_TRIAL_RULES,
+  "combat-waves":
+    "Pokonaj 2/3/4 fale prawdziwych przeciwników testowych. Przerwy 5 s; jedna standardowa mikstura na całą próbę, bez resetów cooldownów.",
+  "rescue-escort":
+    "Ocal 1/2/3 podopiecznych, prowadząc każdego przez dwa checkpointy. Pokonaj zagrożenia i zachowaj minimum 50% zdrowia podopiecznego. Walki są wyłącznie w odizolowanej sali, poza miastem.",
+  "retreat-defense":
+    "Utrzymaj 2/3/4 punkty odwrotu przez łącznie 45/60/75 aktywnych sekund. Pokonaj fale przy punktach; każdy obiekt musi zachować minimum 50% HP.",
+  "rescue-return":
+    "Wykonaj 2/3/4 kroki ratunku: eskortuj podopiecznego, wybierz przerwanie pościgu i fizycznie wróć za osłonę. Sam wybór nie zalicza zadania.",
+  "burden-route":
+    "Przejdź 4/6/8 odcinków z obciążeniem w 180/210/240 s. Zakończ z minimum 30% HP. Obciążenie sali spowalnia ruch o 20%; czerwone strefy są niebezpieczne.",
+  "break-windows":
+    "Wykonaj 3/4/5 rzeczywistych przełamań osłony B1 w otwartym oknie. Maksymalnie 2 błędy; R nie zastępuje przełamania. Zachowano koszt i cooldown B1.",
   "ordered-shots":
     "Traf 4/6/8 ponumerowanych celów kolejno zwykłymi strzałami R. Najwyżej dwa chybienia; przeszkody blokują pociski.",
   "moving-shots":

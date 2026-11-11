@@ -1,3 +1,6 @@
+import { CombatTrial, type CombatTrialKind } from "./combat";
+import { grantLoanSkills } from "./resourceControl";
+import { BurdenRoute, BreakWindows } from "./body";
 import { RecoveryUnit } from "./recoveryUnit";
 import { ResourceControlTrial, resourceProfile, type ResourceTrialKind } from "./resourceControl";
 import { CalibrationTrial, type CalibrationKind } from "./calibration";
@@ -54,6 +57,9 @@ export class TrialAttempt {
   private calibration: CalibrationTrial | undefined;
   private resourceControl: ResourceControlTrial | undefined;
   private recovery: RecoveryUnit | undefined;
+  private bodyRoute: BurdenRoute | undefined;
+  private breakWindows: BreakWindows | undefined;
+  private combat: CombatTrial | undefined;
   private escort: EscortActivity | undefined;
   private companion: ProtectedActor | undefined;
   private escortHazard: { x: number; y: number; until: number } | undefined;
@@ -91,7 +97,13 @@ export class TrialAttempt {
     this.definition = definition;
     this.race = definition.race;
     this.targetCount = definition.targets[tier - 1]!;
-    this.session = loanSession(this.race);
+    const combatKind = [
+      "combat-waves",
+      "rescue-escort",
+      "retreat-defense",
+      "rescue-return",
+    ].includes(definition.kind);
+    this.session = loanSession(this.race, combatKind);
     const p = this.session.player;
     p.level = 20;
     if (definition.kind === "marked-shots") {
@@ -115,17 +127,22 @@ export class TrialAttempt {
       "ki-budget",
     ].includes(definition.kind);
     if (resourceKind) resourceProfile(this.session, definition.kind as ResourceTrialKind, tier);
+    if (definition.kind === "break-windows") grantLoanSkills(this.session, ["B1"]);
+    if (combatKind) grantLoanSkills(this.session, ["A1", "B1", "C1"]);
     p.items.potion = 0;
     p.hp = this.session.kit.stats.maxHp;
     p.ki = this.session.kit.stats.maxKi;
     const physical = ["counter", "earth-rhythm", "restraint", "position"].includes(definition.kind);
     this.puzzles =
+      combatKind ||
       resourceKind ||
       physical ||
       [
         "ordered-shots",
         "moving-shots",
         "marked-shots",
+        "burden-route",
+        "break-windows",
         "wind-route",
         "messenger",
         "camp",
@@ -153,6 +170,23 @@ export class TrialAttempt {
         this.instanceId,
       );
       this.phase = "calibration";
+    }
+    if (definition.kind === "burden-route") {
+      this.bodyRoute = new BurdenRoute(this.session, tier);
+      this.phase = "body";
+    }
+    if (definition.kind === "break-windows") {
+      this.breakWindows = new BreakWindows(this.session, tier, this.instanceId);
+      this.phase = "body";
+    }
+    if (combatKind) {
+      this.combat = new CombatTrial(
+        this.session,
+        definition.kind as CombatTrialKind,
+        tier,
+        this.instanceId,
+      );
+      this.phase = "combat";
     }
     if (resourceKind) {
       this.resourceControl = new ResourceControlTrial(
@@ -284,6 +318,10 @@ export class TrialAttempt {
   }
   instructions() {
     const k = this.definition.kind;
+    if (this.combat)
+      return `${TRIAL_RULES[k]} Jawny profil sali: przeciwnik poziomu ${[8, 12, 16][this.tier - 1]}, limit 480 s i jedna standardowa mikstura. Nie zmienia to poziomów ani spawnów świata.`;
+    if (this.breakWindows)
+      return `${TRIAL_RULES[k]} Sygnał 1,5 s, okno 4 s; limit sali 240 s. B1 musi trafić i rzeczywiście rozbić osłonę.`;
     if (this.resourceControl) {
       const r = this.resourceControl.snapshot();
       return `${TRIAL_RULES[k]} Limit sali 240 s. Okna: sygnał 1,5 s, działanie 3 s. Przerwa między aktywnymi trafieniami podczas utrzymania: najwyżej 8 s. Aktualne maksimum zasobu: ${r.max}, budżet KI ${r.budgetKi.toFixed(1)}. Wszystkie umiejętności zachowują zwykłe koszty i cooldowny; bez T. Własne zasoby postaci pozostają poza próbą.`;
@@ -334,6 +372,9 @@ export class TrialAttempt {
   }
   get currentPoint(): Point | undefined {
     if (this.result.outcome !== "running") return undefined;
+    if (this.combat) return this.combat.point;
+    if (this.bodyRoute) return this.bodyRoute.point;
+    if (this.breakWindows) return this.breakWindows.point;
     if (this.resourceControl) return this.resourceControl.point;
     if (this.calibration) return this.calibration.point;
     if (this.focus) return this.focus.point;
@@ -365,7 +406,9 @@ export class TrialAttempt {
       this.ready &&
       !this.session.paused &&
       this.result.outcome === "running" &&
-      (this.puzzles[this.round] || this.focus?.kind === "power-targets") &&
+      (this.puzzles[this.round] ||
+        this.focus?.kind === "power-targets" ||
+        this.combat?.canDecide) &&
       this.near()
     )
       this.reading = true;
@@ -383,6 +426,11 @@ export class TrialAttempt {
       round !== this.round
     )
       return;
+    if (this.combat?.canDecide) {
+      if (!modules) this.combat.choose(answerId);
+      this.reading = false;
+      return;
+    }
     if (this.focus?.kind === "power-targets") {
       if (modules || !this.focus.feed(answerId)) {
         this.syncFocus();
@@ -432,6 +480,9 @@ export class TrialAttempt {
     this.result.reason = reason;
     this.session.paused = true;
     this.session.practiceTargets.removeOwner(this.instanceId);
+    this.combat?.dispose();
+    this.bodyRoute?.dispose();
+    this.breakWindows?.dispose();
     this.resourceControl?.dispose();
     this.calibration?.dispose();
     this.focus?.dispose();
@@ -473,6 +524,25 @@ export class TrialAttempt {
         "failed",
         "Profil testowy poległ. Oryginalna postać nie utraciła zasobów.",
       );
+    if (this.combat) {
+      this.combat.update();
+      const r = this.combat.snapshot();
+      this.result.successes = r.completed;
+      if (r.phase === "failed") this.finish("failed", r.reason);
+      else if (r.phase === "passed")
+        this.finish("passed", "Cele bojowe i ratunkowe wykonane. Zatwierdź wynik.");
+      return;
+    }
+    const body = this.bodyRoute ?? this.breakWindows;
+    if (body) {
+      body.update();
+      const r = body.snapshot();
+      this.result.successes = r.completed;
+      if (r.kind === "break-windows") this.result.errors = r.errors;
+      if (r.phase === "failed") this.finish("failed", r.reason);
+      else if (r.phase === "passed") this.finish("passed", "Cele Ciała wykonane. Zatwierdź wynik.");
+      return;
+    }
     if (this.resourceControl) {
       this.resourceControl.update();
       const r = this.resourceControl.snapshot();
@@ -618,6 +688,7 @@ export class TrialAttempt {
   snapshot() {
     const r = this.restraint?.snapshot();
     const focus = this.focus?.snapshot();
+    const combat = this.combat?.snapshot();
     const messages: Record<string, string> = {
       focus: focus
         ? this.definition.kind === "sustain-nodes"
@@ -641,6 +712,12 @@ export class TrialAttempt {
       "resource-control": this.resourceControl
         ? `Faza: ${({ build: "budowanie", cue: "sygnał", window: "okno działania", hold: "utrzymanie", passed: "zaliczona", failed: "przerwana" } as const)[this.resourceControl.snapshot().phase]}. Zasób ${this.resourceControl.value.toFixed(1)}/${this.resourceControl.max}. Strzały ${this.resourceControl.snapshot().shots}; zużycia ${this.resourceControl.snapshot().discharges}. Utrzymano ${Math.floor(this.resourceControl.snapshot().heldMs / 1000)} s. KI ${this.resourceControl.snapshot().spentKi}/${this.resourceControl.budget.toFixed(1)}.`
         : "",
+      body: this.bodyRoute
+        ? `Obciążenie 20%. Pozostało ${Math.ceil(this.bodyRoute.snapshot().remainingMs / 1000)} s. HP ${Math.floor(this.bodyRoute.snapshot().healthFraction * 100)}%; wymagane 30%.`
+        : this.breakWindows
+          ? `Przełamania: ${this.breakWindows.snapshot().completed}/${this.targetCount}. ${this.breakWindows.snapshot().phase === "window" ? "TERAZ — B1" : "Czekaj na sygnał."} ${Math.ceil(this.breakWindows.snapshot().remainingMs)} ms.`
+          : "",
+      combat: combat?.message ?? "",
       read: this.recovery
         ? `Terminal: pamięć ${this.recovery.snapshot().memoryIntact ? "nienaruszona" : "naruszona"}, obwód ${this.recovery.snapshot().isolated ? "odłączony" : "uszkodzony"}, kopia ${this.recovery.snapshot().backup ? "zabezpieczona" : "oczekuje"}, zasilanie ${this.recovery.snapshot().powered ? "bezpieczne" : "odłączone"}. Podejdź do stanowiska i wykonaj następne działanie.`
         : "Podejdź do stanowiska i zbadaj materiały.",
@@ -653,6 +730,8 @@ export class TrialAttempt {
     };
     return {
       ...this.result,
+      combat: combat ?? null,
+      body: this.bodyRoute?.snapshot() ?? this.breakWindows?.snapshot() ?? null,
       resourceControl: this.resourceControl?.snapshot() ?? null,
       recovery: this.recovery?.snapshot() ?? null,
       calibration: this.calibration?.snapshot() ?? null,
@@ -661,14 +740,16 @@ export class TrialAttempt {
       cover: this.cover?.snapshot() ?? null,
       camp: this.camp?.snapshot() ?? null,
       escort:
-        this.escort && this.companion
+        combat?.companion ??
+        (this.escort && this.companion
           ? {
               ...this.escort.snapshot().actor,
               hp: this.companion.body.hp,
               maxHp: this.companion.maxHp,
             }
-          : null,
-      routeHazards: this.definition.kind === "wind-route" ? this.routeHazards : [],
+          : null),
+      routeHazards:
+        this.bodyRoute?.hazards ?? (this.definition.kind === "wind-route" ? this.routeHazards : []),
       escortDanger: this.escortHazard ?? null,
       dodges: this.dodges,
       dodgeTarget: this.definition.dodgeTargets?.[this.tier - 1] ?? 0,
@@ -684,28 +765,43 @@ export class TrialAttempt {
       target: this.targetCount,
       point: this.currentPoint ?? null,
       puzzle: this.reading
-        ? focus?.kind === "power-targets"
+        ? combat?.canDecide
           ? publicPuzzle({
-              prompt: `Zasil cel ${this.round + 1}/${this.targetCount}`,
+              prompt: "Podopieczny uratowany. Co robisz z pościgiem?",
               documents: [
                 {
-                  title: "Budżet testowego KI",
-                  text: `Zużyto ${focus.spentKi.toFixed(1)} / ${focus.budgetKi.toFixed(1)} KI. Regeneracja nie odnawia tego limitu. Wybrany przepływ naprawdę pobiera KI z wypożyczonego profilu.`,
+                  title: "Zasada ratunku",
+                  text: "Celem jest ochrona jednostki, nie pościg. Wybierz odwrót, przerwij ataki i wróć do wskazanej rzeczywistej osłony. Cel zostanie zaliczony dopiero po fizycznym ukryciu przez 1 s.",
                 },
               ],
               options: [
-                {
-                  id: "precise",
-                  label: `Precyzyjny przepływ · ${(focus.maxKi * FOCUS_ROOM.preciseCost).toFixed(1)} KI`,
-                },
-                {
-                  id: "wide",
-                  label: `Szeroki przepływ · ${(focus.maxKi * FOCUS_ROOM.wideCost).toFixed(1)} KI`,
-                },
+                { id: "disengage", label: "Przerwij pościg i wróć do osłony" },
+                { id: "pursue", label: "Kontynuuj pościg" },
               ],
-              answer: "",
+              answer: "disengage",
             })
-          : publicPuzzle(this.puzzles[this.round])
+          : focus?.kind === "power-targets"
+            ? publicPuzzle({
+                prompt: `Zasil cel ${this.round + 1}/${this.targetCount}`,
+                documents: [
+                  {
+                    title: "Budżet testowego KI",
+                    text: `Zużyto ${focus.spentKi.toFixed(1)} / ${focus.budgetKi.toFixed(1)} KI. Regeneracja nie odnawia tego limitu. Wybrany przepływ naprawdę pobiera KI z wypożyczonego profilu.`,
+                  },
+                ],
+                options: [
+                  {
+                    id: "precise",
+                    label: `Precyzyjny przepływ · ${(focus.maxKi * FOCUS_ROOM.preciseCost).toFixed(1)} KI`,
+                  },
+                  {
+                    id: "wide",
+                    label: `Szeroki przepływ · ${(focus.maxKi * FOCUS_ROOM.wideCost).toFixed(1)} KI`,
+                  },
+                ],
+                answer: "",
+              })
+            : publicPuzzle(this.puzzles[this.round])
         : null,
       targets: this.session.practiceTargets
         .list(null)

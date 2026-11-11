@@ -23,6 +23,7 @@ it("a remote trial only mirrors server facts and sends instance-bound intentions
     facing: owner.session.facing,
     moving: owner.session.moving,
     events: [],
+    enemies: structuredClone(owner.session.enemies),
     nowMs: owner.session.nowMs,
   });
   const mirror = remoteTrial(client, frame());
@@ -49,4 +50,37 @@ it("a remote trial only mirrors server facts and sends instance-bound intentions
   mirror.apply(frame());
   expect(mirror.attempt.passed).toBe(true);
   expect(mirror.attempt.session.practiceTargets.list(null)).toHaveLength(0);
+});
+
+it("combat mirror displays authoritative foes without advancing local AI", () => {
+  const owner = new TrialAttempt("TP03", 1);
+  owner.begin();
+  owner.session.tick(50);
+  owner.update();
+  const client = { intent: () => {}, direction: () => {} } as unknown as OnlineClient;
+  const frame = (): NonNullable<OnlineFrame["trial"]> => ({
+    instanceId: owner.instanceId,
+    id: owner.trialId,
+    tier: owner.tier,
+    started: owner.started,
+    suspended: owner.session.paused,
+    result: owner.snapshot(),
+    view: owner.session.snapshot(),
+    facing: owner.session.facing,
+    moving: owner.session.moving,
+    events: [],
+    enemies: structuredClone(owner.session.enemies),
+    nowMs: owner.session.nowMs,
+  });
+  const mirror = remoteTrial(client, frame());
+  expect(mirror.attempt.session.enemies.length).toBeGreaterThan(0);
+  expect(mirror.attempt.session.enemies[0]).not.toBe(owner.session.enemies[0]);
+  const before = structuredClone(mirror.attempt.session.enemies);
+  mirror.attempt.session.tick(5000);
+  mirror.attempt.update();
+  expect(mirror.attempt.session.enemies).toEqual(before);
+  completeTrial(owner);
+  mirror.apply(frame());
+  expect(mirror.attempt.session.enemies).toHaveLength(0);
+  expect(mirror.attempt.passed).toBe(true);
 });

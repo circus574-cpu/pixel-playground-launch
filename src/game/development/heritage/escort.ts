@@ -205,6 +205,7 @@ export class EscortActivity {
               "%"
             : "Prowadź towarzysza do kolejnego punktu. Czeka, gdy odejdziesz."
           : this.reason,
+      healthFraction: this.encounter?.healthFraction ?? 1,
       actor: {
         ...this.actor,
         name: this.goal.actor,

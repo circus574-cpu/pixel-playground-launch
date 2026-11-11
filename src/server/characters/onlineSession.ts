@@ -210,6 +210,7 @@ export class OnlineSession {
             facing: { ...t.session.facing },
             moving: t.session.moving,
             events: t.session.events.splice(0),
+            enemies: structuredClone(t.session.enemies),
             nowMs: t.session.nowMs,
           }
         : null,

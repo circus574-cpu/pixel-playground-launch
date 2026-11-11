@@ -1,4 +1,4 @@
-import { actorVisual, catalog } from "../../assets/catalog";
+import { actorVisual, catalog, monsterVisual } from "../../assets/catalog";
 import { registerActorAnimations } from "../../assets/phaserAssets";
 import { ActorAnimation } from "../../assets/actorAnimation";
 import type { GameRuntime } from "../../mountGame";
@@ -7,17 +7,26 @@ import type { TrialAttempt } from "./attempt";
 
 /** Uses the existing Phaser mount, actors, controls and combat; only room markers are added. */
 export function trialRuntime(attempt: TrialAttempt): GameRuntime {
-  const npc =
-    attempt.definition.kind === "messenger"
-      ? actorVisual(attempt.session.world.id, "npc", "hunter")
-      : null;
+  const npc = ["messenger", "rescue-escort", "rescue-return"].includes(attempt.definition.kind)
+    ? actorVisual(attempt.session.world.id, "npc", "hunter")
+    : null;
   const assets = examAssets(attempt.race);
   if (npc)
     for (const clip of Object.values(npc.clips)) {
       const asset = catalog.assets.get(clip.asset);
       if (asset && !assets.some((a) => a.id === asset.id)) assets.push(asset);
     }
+  const encounter = attempt.snapshot().combat;
+  if (encounter) {
+    const visual = monsterVisual(encounter.enemyKind);
+    for (const clip of Object.values(visual.clips)) {
+      const asset = catalog.assets.get(clip.asset);
+      if (!asset) throw Error("Brak grafiki przeciwnika próby: " + encounter.enemyKind);
+      if (!assets.some((a) => a.id === asset.id)) assets.push(asset);
+    }
+  }
   return {
+    enemyVisual: monsterVisual,
     authoritative: attempt.authoritative,
     session: attempt.session,
     assets,
@@ -57,6 +66,7 @@ export function trialRuntime(attempt: TrialAttempt): GameRuntime {
         next = now + 100;
         const result = attempt.snapshot();
         marks.clear();
+        health.setVisible(!!result.escort || !!result.waves || !!result.combat?.object);
         if (result.focus) {
           for (const danger of result.focus.dangers)
             marks
@@ -87,6 +97,10 @@ export function trialRuntime(attempt: TrialAttempt): GameRuntime {
               )
               .strokeCircle(t.x, t.y, t.protected ? 30 : 25);
         }
+        if (result.body?.kind === "break-windows")
+          marks
+            .lineStyle(4, result.body.phase === "window" ? 0x8ae3a4 : 0xedb56b)
+            .strokeCircle(600, 300, result.body.shielded ? 38 : 25);
         const barrier = result.waves ?? result.cover;
         if (barrier) {
           marks
@@ -143,6 +157,23 @@ export function trialRuntime(attempt: TrialAttempt): GameRuntime {
             .fillStyle(0xa42c36, 0.25)
             .fillCircle(h.x, h.y, h.radius)
             .strokeCircle(h.x, h.y, h.radius);
+        if (result.combat?.object) {
+          const object = result.combat.object;
+          marks
+            .fillStyle(0x64dcf5)
+            .fillCircle(object.x, object.y, 24)
+            .lineStyle(3, 0xe5d28b)
+            .strokeCircle(object.x, object.y, 30);
+          health
+            .setVisible(true)
+            .setPosition(object.x, object.y - 40)
+            .setText(`${object.name} · ${Math.ceil((object.hp / object.maxHp) * 100)}% HP`);
+        }
+        if (result.combat?.cover && result.combat.phase === "return")
+          marks
+            .lineStyle(4, 0x8ae3a4)
+            .strokeRect(result.combat.cover.x - 40, result.combat.cover.y - 40, 80, 80);
+        companion?.setVisible(!!result.escort);
         if (result.escort && companion) {
           companion.setPosition(result.escort.x, result.escort.y).setDepth(result.escort.y);
           animation?.update(
@@ -156,7 +187,7 @@ export function trialRuntime(attempt: TrialAttempt): GameRuntime {
             .setPosition(result.escort.x, result.escort.y - 100)
             .setDepth(result.escort.y + 1)
             .setText(
-              `Posłaniec · ${Math.round((result.escort.hp / result.escort.maxHp) * 100)}% HP`,
+              `${result.combat ? "Podopieczny" : "Posłaniec"} · ${Math.round((result.escort.hp / result.escort.maxHp) * 100)}% HP`,
             );
         }
         label.setVisible(!!result.point);
@@ -181,7 +212,10 @@ export function trialRuntime(attempt: TrialAttempt): GameRuntime {
           title.setVisible(visible);
           label.setVisible(visible);
           companion?.setVisible(visible);
-          health.setVisible(visible && (!!companion || !!attempt.snapshot().waves));
+          health.setVisible(
+            visible &&
+              (!!companion || !!attempt.snapshot().waves || !!attempt.snapshot().combat?.object),
+          );
         },
         dispose: () => {
           scene.events.off("update", draw);

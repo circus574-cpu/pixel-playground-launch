@@ -1,3 +1,4 @@
+import { developmentCompletion } from "../../game/development/completion";
 import type { Player } from "../../game/session";
 import { heritageChronicle } from "../../game/development/heritage/chronicle";
 import { RACES } from "../../game/world/races";
@@ -5,9 +6,21 @@ import { RACES } from "../../game/world/races";
 /** Private, earned story. It reads character progress and never issues reward commands. */
 export function ChroniclePanel({ player }: { player: Pick<Player, "race" | "development"> }) {
   const entries = heritageChronicle(player);
+  const completion = developmentCompletion(player.race, player.development);
   return (
     <div aria-label="Prywatna kronika">
       <h3>{RACES[player.race].name} · Kronika pochodzenia</h3>
+      <section aria-label="Tytuł dziedzictwa">
+        <h4>
+          {completion.earned ? "◆ " : "◇ "}
+          {completion.name}
+        </h4>
+        <p>
+          {completion.greeting ??
+            `Postęp: rozdziały ${completion.chapters}/6 · projekty ${completion.projects}/6 · próby III ${completion.trials}/12.`}
+        </p>
+        <p>Tytuł potwierdza dokonania. Nie dodaje statystyk ani kolejnej nagrody.</p>
+      </section>
       <p>
         {RACES[player.race].title}. Odkryte rozdziały: {entries.length}/6.
       </p>

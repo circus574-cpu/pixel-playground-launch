@@ -1,5 +1,12 @@
 # KI Legends — dokumentacja projektu
 
+**Domykanie rozwoju — 48/48 kontrolerów prób, 144 stopnie (11.11):** dodano
+pozostałe sześć prób Legend: obciążenie, przełamania, fale, ratunek i odwrót.
+Odblokowania i walidacja zapisu korzystają ze wspólnego rejestru. Tytuły czterech
+ras są wyliczane z finału, sześciu projektów i kompletu prób III, bez premii
+statystyk. Budżet z aktywnych katalogów: 17 800 praktyki na rasę.
+To komplet katalogu prób, nie odbiór całej kampanii. [Wyniki i dalszy zakres](zmiany/2026-11-11/ZMIANY.md#6-komplet-prób-i-warunki-tytułów).
+
 **Domykanie rozwoju — roboczy checkpoint 42/48 prób:** Androidy mają kontrolery
 12 prób, Legendy 6. Trwa implementacja pozostałych sześciu i odbiór całości.
 Bez publikacji. [Kolejne partie](zmiany/2026-11-11/ZMIANY.md#domykanie-rozwoju--kolejne-próby).

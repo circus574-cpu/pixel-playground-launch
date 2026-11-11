@@ -8,6 +8,15 @@ import { ProtectedActor } from "./protectedActor";
 
 const CHAPTER_ENCOUNTER_LEVELS = [1, 4, 8, 12, 16, 20] as const;
 const PROTECTED_HEALTH_MULTIPLIER = 4;
+/** Explicit loan profiles, not scaling of the world or edits to canonical species. */
+export const TRIAL_BATTLE_LEVELS = [8, 12, 16] as const;
+export function encounterMonsterKind(world: string, level: number) {
+  const definition = MONSTER_BASE.filter((m) => m.world === world && m.level <= level).sort(
+    (a, b) => b.level - a.level || a.id.localeCompare(b.id),
+  )[0];
+  if (!definition) throw Error("Brak lokalnego profilu przeciwnika próby.");
+  return definition;
+}
 
 export const HERITAGE_ENEMY_PREFIX = "heritage-encounter:";
 /** Explicit quest-owned opponents, including their summons. Never claim ordinary world spawns. */
@@ -48,13 +57,12 @@ export class HeritageEncounter {
       throw Error("Próba bojowa wymaga osiągalnego terenu poza miastem.");
     // Fixed chapter profile, independent of character level/equipment and of global spawns.
     const match = goalId.match(/^H-[VANP]0([1-6]):/);
-    if (!match) throw Error("Nieznany profil bojowy rozdziału.");
-    const chapter = Number(match[1]);
-    const level = CHAPTER_ENCOUNTER_LEVELS[chapter - 1]!;
-    const definition = MONSTER_BASE.filter(
-      (m) => m.world === session.world.id && m.level <= level,
-    ).sort((a, b) => b.level - a.level || a.id.localeCompare(b.id))[0];
-    if (!definition) throw Error("Brak lokalnego profilu przeciwnika próby.");
+    const trial = goalId.match(/^trial:TP(03|10|11|12):([123])$/);
+    if (!match && !trial) throw Error("Nieznany profil bojowy rozdziału lub próby.");
+    const level = trial
+      ? TRIAL_BATTLE_LEVELS[Number(trial[2]) - 1]!
+      : CHAPTER_ENCOUNTER_LEVELS[Number(match![1]) - 1]!;
+    const definition = encounterMonsterKind(session.world.id, level);
     this.kind = definition.id;
     this.actor = new ProtectedActor(
       session,

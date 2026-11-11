@@ -111,3 +111,42 @@ Checkpoint 42: pełny TypeScript app/e2e/tools PASS, zestaw prób i transakcji
 [odciski źródeł](qa/remaining-trials/checkpoint42-source-sha256.json).
 W lincie nazwa lokalnego sterownika `use` była rozpoznana jako hook React;
 przemianowano ją na `performAction`, bez zmiany logiki ani asercji.
+
+### 6. Komplet prób i warunki tytułów
+
+Dodano TP01–TP03 oraz TP10–TP12. Katalog: **48/48 prób, 144 stopnie**.
+TP01 zmniejsza prędkość wypożyczonego profilu i mierzy rzeczywistą trasę/HP.
+TP02 wymaga trafienia B1 oraz wywołania prawdziwego portu niszczenia tarczy.
+TP03 to 2/3/4 fale z przerwami 5 s. Próby ratunkowe korzystają z istniejącego
+AI, eskorty i odbiorców obrażeń. TP12 wymaga wyboru odwrotu, fizycznego powrotu
+za przeszkodę i braku LOS od pościgu; sam przycisk nie zalicza zadania.
+Profil przeciwników sali 8/12/16 i limit 480 s są jawne, nie skalują świata.
+Jedna standardowa mikstura nie przechodzi do własnej postaci. Miejska ochrona
+pozostaje; tylko odrębna kopia świata sali bojowej nie jest miastem.
+
+Do istniejącego mirroru online dodano aktualne ciała przeciwników próby, aby
+Phaser wyświetlał serwerową walkę, nie uruchamiając lokalnego AI. Klient wysyła
+wyłącznie intencje przypisane do instancji. Zapis nie zawiera obiektów sali.
+Nagrody i wymagania zapisu mają wspólną politykę odblokowań. Test pełnego obiegu
+wykrył pominięte przyznanie `mp-break`; usunięto rozbieżność zamiast osłabiać
+walidację. Wszystkie rasy mają z prób 5400 praktyki, trzy warianty i właściwe moduły.
+
+Dodano pochodne warunki czterech kanonicznych tytułów, odznaczenie w panelu,
+wpis kroniki i powitanie przewodnika/trenera. Wymagają sześciu ukończonych
+rozdziałów, sześciu projektów i wszystkich 12 prób III. Tytuł nie ma osobnego
+flaga zapisu, nagrody ani premii bojowej. Budżet obliczany z katalogów:
+1700+1200+5400+7500+2000 = 17 800; najdroższe dozwolone 90 stopni kosztuje 17 550.
+Test warunków tytułu używa jawnej fixture logiki, nie udaje ukończenia kampanii.
+
+Kontrole kontrolerów/transakcji/mirroru/serwera: **355 PASS / 0 FAIL**.
+Pełny zestaw przed dodatkiem interfejsu tytułów: **1639 PASS / 0 FAIL / 10 SKIP**,
+134 pliki PASS i 1 SKIP (PostgreSQL). Po tytułach uruchomiono osobne kontrole.
+Pierwszy browser ma błędy sterownika: oczekiwanie na trafienie mimo nieaktywnego
+przycisku R oraz odczyt materiałów przed renderem dialogu. Poprawiono sterownik;
+nie zmieniono warunków sukcesu, liczby trafień ani asercji ochrony postaci.
+Browser i integracja z nowszym main nie są jeszcze odebrane w tym checkpointcie.
+[Stan](qa/remaining-trials/checkpoint48.json).
+
+Nadal otwarte: realne interakcje dziedzin poza salą, późne warianty 21–40,
+pełny przebieg kampanii i balans oraz końcowy Canvas/Software WebGL/mobile.
+Zachowano development v3 i formaty 10/6, stare zapisy i CAS. Bez publikacji.
