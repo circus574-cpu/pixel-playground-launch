@@ -31,12 +31,16 @@ jobs:
             -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/known_hosts" \
             codex@85.235.150.189 "SINCE='$SINCE' bash -s" <<'REMOTE'
           set -u
-          c=$(docker ps --format '{{.Names}}' | grep -i 'game-server' | head -1 || true)
-          if [ -z "$c" ]; then echo "Brak uruchomionego kontenera game-server. Kontenery:"; docker ps --format '{{.Names}}  {{.Status}}'; exit 0; fi
-          echo "== Kontener: $c"
-          docker inspect -f 'obraz={{.Config.Image}} utworzony={{.Created}} start={{.State.StartedAt}} stan={{.State.Status}}' "$c"
-          echo "== Odrzucone pakiety i rozjazdy stanu (ostatnie $SINCE, max 40 linii)"
-          docker logs --since "$SINCE" "$c" 2>&1 | grep -E "Odrzucono pakiet|mismatch|Checkpoint|rozjazd|INVALID|REJECTED" | cut -c1-300 | tail -40 || true
-          echo "== Ostatnie 25 linii błędów"
-          docker logs --since "$SINCE" "$c" 2>&1 | grep -i -E "error|warn|ostrze" | cut -c1-300 | tail -25 || true
+          echo "== Kontenery (nazwa | obraz | stan)"
+          docker ps --format '{{.Names}} | {{.Image}} | {{.Status}}'
+          for c in $(docker ps --format '{{.Names}}'); do
+            n=$(docker logs --since "$SINCE" "$c" 2>&1 | grep -c -E "\\[Online\\]" || true)
+            [ "${n:-0}" -gt 0 ] || continue
+            echo "== Kontener z logami [Online]: $c ($n linii)"
+            docker inspect -f 'obraz={{.Config.Image}} start={{.State.StartedAt}}' "$c"
+            echo "-- Odrzucone pakiety (ostatnie $SINCE)"
+            docker logs --since "$SINCE" "$c" 2>&1 | grep -E "Odrzucono pakiet|SESSION_BUSY|mismatch|REJECTED|INVALID" | cut -c1-300 | tail -40 || true
+            echo "-- Ostatnie linie [Online]"
+            docker logs --since "$SINCE" "$c" 2>&1 | grep -E "\\[Online\\]" | cut -c1-300 | tail -30 || true
+          done
           REMOTE
