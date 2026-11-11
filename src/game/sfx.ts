@@ -257,6 +257,26 @@ export function statusSfxFile(id: string): string | undefined {
   return name ? "/game/sfx/status/" + name + ".mp3" : undefined;
 }
 
+/** Notices that say an action was refused: a short error tick. */
+const UI_REFUSAL =
+  /^(Brak |Nie masz |Nie ma |Nie można |Nie możesz |Nie jest |Tego przedmiotu nie|Najpierw |W mieście nie walczysz|Limit |W skarbcu nie ma|Wybierz dostępne|Teleport działa tylko)/;
+export function uiRefusalNotice(text: string): boolean {
+  return UI_REFUSAL.test(text);
+}
+
+/** Looping ambience: the city inside safe walls, otherwise the world's own bed. */
+const WORLD_AMBIENCE: Record<string, string> = {
+  verdant: "verdantia",
+  aether: "aetheria",
+  nexus: "nexus",
+  pyra: "pyra",
+};
+export function ambienceFile(world: string, safe: boolean): string | undefined {
+  if (safe) return "/game/sfx/ambience/city.mp3";
+  const name = WORLD_AMBIENCE[world];
+  return name ? "/game/sfx/ambience/" + name + ".mp3" : undefined;
+}
+
 export type StepSurface =
   "grass" | "dirt" | "stone" | "sand" | "snow" | "wood" | "metal" | "ash" | "water";
 /** Milliseconds between two footsteps while the hero walks. */
@@ -390,6 +410,11 @@ export function cuesFor(
         add(sfxFile("level-up"));
       else if (/^(Sprzedano:|Kupiono)/.test(now.notice)) add("/game/sfx/ui/buy-sell.mp3");
       else if (/^Ostrze ulepszone/.test(now.notice)) add("/game/sfx/ui/upgrade-ok.mp3");
+      else if (/^Uwarzono/.test(now.notice)) add("/game/sfx/crafting/craft.mp3");
+      else if (/^Poznano:/.test(now.notice)) add("/game/sfx/ui/skill-learn.mp3");
+      else if (/^Teleport:/.test(now.notice)) add("/game/sfx/ui/teleport.mp3");
+      else if (/^Strażnik otworzył wrota/.test(now.notice)) add("/game/sfx/ui/portal.mp3");
+      else if (UI_REFUSAL.test(now.notice)) add("/game/sfx/ui/error.mp3");
     }
   }
   return out;
@@ -408,6 +433,48 @@ class SfxPlayer {
     const prefs = readUiPreferences();
     this.volume = prefs.sfxVolume;
     this.muted = prefs.sfxMuted;
+  }
+
+  private ambienceFile: string | null = null;
+  private ambienceSource: AudioBufferSourceNode | null = null;
+  private ambienceGain: GainNode | null = null;
+
+  /** Plays one looping ambience bed at a time; null stops it. Safe to call every frame. */
+  setAmbience(file: string | null, gain = 0.3) {
+    if (file === this.ambienceFile) return;
+    this.ambienceFile = file;
+    const ctx = this.ensureContext();
+    if (!ctx || !this.gain) return;
+    const old = { source: this.ambienceSource, gain: this.ambienceGain };
+    this.ambienceSource = null;
+    this.ambienceGain = null;
+    if (old.source && old.gain) {
+      const t = ctx.currentTime;
+      old.gain.gain.setValueAtTime(old.gain.gain.value, t);
+      old.gain.gain.linearRampToValueAtTime(0, t + 1.2);
+      old.source.stop(t + 1.3);
+    }
+    if (!file || this.muted || this.volume <= 0 || ctx.state === "suspended") {
+      if (file && ctx.state === "suspended") {
+        this.retryOnGesture();
+        this.ambienceFile = null; // retry from the next frame once audio is allowed
+      }
+      return;
+    }
+    const master = this.gain;
+    void this.load(ctx, file).then((buffer) => {
+      if (!buffer || this.ambienceFile !== file) return;
+      const source = ctx.createBufferSource();
+      source.buffer = buffer;
+      source.loop = true;
+      const own = ctx.createGain();
+      own.gain.setValueAtTime(0, ctx.currentTime);
+      own.gain.linearRampToValueAtTime(gain, ctx.currentTime + 1.5);
+      source.connect(own).connect(master);
+      source.start();
+      this.ambienceSource = source;
+      this.ambienceGain = own;
+    });
   }
 
   setVolume(volume: number, muted: boolean) {
@@ -519,7 +586,25 @@ export const sfx = {
   setVolume(volume: number, muted: boolean) {
     (player ??= new SfxPlayer()).setVolume(volume, muted);
   },
+  setAmbience(file: string | null, gain = 0.3) {
+    (player ??= new SfxPlayer()).setAmbience(file, gain);
+  },
 };
+
+/** Opening and closing of panels (role=dialog) while the game is mounted. */
+export function installDialogSounds(doc: Document = document): () => void {
+  if (typeof MutationObserver === "undefined") return () => {};
+  const isDialog = (n: Node) =>
+    n instanceof Element && (n.matches('[role="dialog"]') || !!n.querySelector('[role="dialog"]'));
+  const observer = new MutationObserver((records) => {
+    for (const r of records) {
+      if ([...r.addedNodes].some(isDialog)) sfx.play("/game/sfx/ui/open.mp3", 0.6);
+      else if ([...r.removedNodes].some(isDialog)) sfx.play("/game/sfx/ui/close.mp3", 0.6);
+    }
+  });
+  observer.observe(doc.body, { childList: true, subtree: true });
+  return () => observer.disconnect();
+}
 
 /** Soft tick on every button, tab and link press while the game is mounted. Opt out with data-no-ui-sound. */
 export function installUiClickSound(doc: Document = document): () => void {

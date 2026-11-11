@@ -6,6 +6,8 @@ import {
   BOSS_SFX_DIR,
   cuesFor,
   monsterSfxFile,
+  ambienceFile,
+  uiRefusalNotice,
   monsterHurtFile,
   monsterSkillFile,
   statusSfxFile,
@@ -248,5 +250,34 @@ describe("monster, footstep and interface sounds", () => {
     expect(cuesFor("sage", [], { ...snap, fx: ["stun"] }, { ...snap, fx: ["stun"] })).not.toContain(
       "/game/sfx/status/stun.mp3",
     );
+  });
+  it("maps ambience beds, refusals and crafting notices to files that exist", () => {
+    for (const [w, safe] of [
+      ["verdant", false],
+      ["aether", false],
+      ["nexus", false],
+      ["pyra", false],
+      ["verdant", true],
+    ] as const) {
+      const f = ambienceFile(w, safe);
+      expect(f, w + String(safe)).toBeDefined();
+      expect(existsSync("public" + f), String(f)).toBe(true);
+    }
+    expect(ambienceFile("unknown", false)).toBeUndefined();
+    expect(uiRefusalNotice("Brak mikstury. Kup ją u Mio.")).toBe(true);
+    expect(uiRefusalNotice("Kupiono: Miecz")).toBe(false);
+    const snap = { potions: 0, interior: null, noticeId: 1, notice: "", fx: [] as string[] };
+    const next = (notice: string) => ({ ...snap, noticeId: 2, notice });
+    expect(cuesFor("sage", [], snap, next("Uwarzono Miksturę Zdrowia (+1)"))).toContain(
+      "/game/sfx/crafting/craft.mp3",
+    );
+    expect(cuesFor("sage", [], snap, next("Brak mikstury. Kup ją u Mio."))).toContain(
+      "/game/sfx/ui/error.mp3",
+    );
+    expect(cuesFor("sage", [], snap, next("Teleport: Miasto"))).toContain(
+      "/game/sfx/ui/teleport.mp3",
+    );
+    for (const f of ["movement/swim", "ui/open", "ui/close", "ui/error", "ui/teleport"])
+      expect(existsSync("public/game/sfx/" + f + ".mp3"), f).toBe(true);
   });
 });
