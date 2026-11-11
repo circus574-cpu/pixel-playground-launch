@@ -7,9 +7,9 @@
    "name": "Mchowy Szlamak",
    "level": 1,
    "stats": {
-    "hp": 73,
-    "atk": 5,
-    "def": 4,
+    "hp": 110,
+    "atk": 6,
+    "def": 5,
     "xp": 16
    },
    "speed": 0.5,
@@ -33,9 +33,9 @@
    "name": "Cierniowy Wilk",
    "level": 2,
    "stats": {
-    "hp": 67,
-    "atk": 12,
-    "def": 4,
+    "hp": 100,
+    "atk": 16,
+    "def": 5,
     "xp": 24
    },
    "speed": 1.2,
@@ -43,7 +43,7 @@
    "agro": 400,
    "behavior": "Poluje w grupach po 2–3. Okrąża cel i atakuje z flanki; przy HP poniżej 25% wycofuje się na 4 s.",
    "skills": [
-    "Skok na cel (CD 6 s): 120% ATK",
+    "Skok na cel (CD 6 s): 120% ATK; krwawienie 12% ATK/s przez 4 s",
     "Wycie (1× na walkę): wzywa 1 sojusznika z okolicy"
    ],
    "weakness": "Obrażenia obszarowe (grupa)",
@@ -60,9 +60,9 @@
    "name": "Liściak Skrytobójca",
    "level": 4,
    "stats": {
-    "hp": 95,
-    "atk": 23,
-    "def": 4,
+    "hp": 142,
+    "atk": 30,
+    "def": 5,
     "xp": 42
    },
    "speed": 1.1,
@@ -87,9 +87,9 @@
    "name": "Korzeniowy Pełzacz",
    "level": 6,
    "stats": {
-    "hp": 255,
-    "atk": 20,
-    "def": 13,
+    "hp": 484,
+    "atk": 36,
+    "def": 16,
     "xp": 60
    },
    "speed": 0.4,
@@ -114,9 +114,9 @@
    "name": "Grzybowy Zarodnik",
    "level": 8,
    "stats": {
-    "hp": 370,
-    "atk": 23,
-    "def": 11,
+    "hp": 703,
+    "atk": 41,
+    "def": 13,
     "xp": 76
    },
    "speed": 0,
@@ -141,9 +141,9 @@
    "name": "Bursztynowa Osa",
    "level": 10,
    "stats": {
-    "hp": 238,
-    "atk": 39,
-    "def": 10,
+    "hp": 452,
+    "atk": 70,
+    "def": 12,
     "xp": 80
    },
    "speed": 1.4,
@@ -168,9 +168,9 @@
    "name": "Skalny Jeleń",
    "level": 12,
    "stats": {
-    "hp": 594,
-    "atk": 39,
-    "def": 28,
+    "hp": 1307,
+    "atk": 90,
+    "def": 35,
     "xp": 118
    },
    "speed": 1,
@@ -195,9 +195,9 @@
    "name": "Leśny Pająk",
    "level": 14,
    "stats": {
-    "hp": 516,
-    "atk": 48,
-    "def": 21,
+    "hp": 1135,
+    "atk": 110,
+    "def": 26,
     "xp": 119
    },
    "speed": 0.9,
@@ -222,9 +222,9 @@
    "name": "Puchacz Pyłowy",
    "level": 16,
    "stats": {
-    "hp": 554,
-    "atk": 63,
-    "def": 18,
+    "hp": 1219,
+    "atk": 145,
+    "def": 22,
     "xp": 140
    },
    "speed": 1.3,
@@ -249,9 +249,9 @@
    "name": "Strażnik Ruin",
    "level": 18,
    "stats": {
-    "hp": 1448,
-    "atk": 60,
-    "def": 58,
+    "hp": 3186,
+    "atk": 138,
+    "def": 72,
     "xp": 218
    },
    "speed": 0.6,
@@ -259,7 +259,7 @@
    "agro": 300,
    "behavior": "Patroluje stałą trasę w ruinach. Po wykryciu blokuje ścieżkę; nie opuszcza obszaru (leash 500 j.).",
    "skills": [
-    "Cios młotem (CD 6 s, telegraf 1 s): 180% ATK",
+    "Cios młotem (CD 6 s, telegraf 1 s): 180% ATK; ogłuszenie 0,7 s",
     "Kamienna skóra (CD 20 s): −40% obrażeń przez 4 s"
    ],
    "weakness": "Obrażenia KI +25%",
@@ -276,8 +276,8 @@
    "name": "Świetlik Pieczęci",
    "level": 1,
    "stats": {
-    "hp": 43,
-    "atk": 6,
+    "hp": 64,
+    "atk": 8,
     "def": 2,
     "xp": 13
    },
@@ -286,7 +286,7 @@
    "agro": 300,
    "behavior": "Dryfuje wokół wyznaczonej pieczęci. Strzela iskrą z dystansu i utrzymuje odległość, nie opuszcza strefy pieczęci.",
    "skills": [
-    "Iskra (CD 2,5 s): obrażenia KI"
+    "Iskra (CD 2,5 s): obrażenia KI; oślepienie: −20% celności na 3 s"
    ],
    "weakness": "Obrażenia fizyczne +20%",
    "loot": "Pył światła",
@@ -302,9 +302,9 @@
    "name": "Pergaminowy Strażnik",
    "level": 2,
    "stats": {
-    "hp": 84,
-    "atk": 10,
-    "def": 4,
+    "hp": 126,
+    "atk": 13,
+    "def": 5,
     "xp": 24
    },
    "speed": 0.8,
@@ -329,9 +329,9 @@
    "name": "Kryształowy Motyl",
    "level": 4,
    "stats": {
-    "hp": 82,
-    "atk": 12,
-    "def": 10,
+    "hp": 123,
+    "atk": 16,
+    "def": 12,
     "xp": 27
    },
    "speed": 1.2,
@@ -356,9 +356,9 @@
    "name": "Szmaragdowy Wąż",
    "level": 6,
    "stats": {
-    "hp": 196,
-    "atk": 24,
-    "def": 10,
+    "hp": 372,
+    "atk": 43,
+    "def": 12,
     "xp": 57
    },
    "speed": 1,
@@ -383,9 +383,9 @@
    "name": "Duch Bibliotekarza",
    "level": 8,
    "stats": {
-    "hp": 211,
-    "atk": 25,
-    "def": 4,
+    "hp": 401,
+    "atk": 45,
+    "def": 5,
     "xp": 59
    },
    "speed": 0.9,
@@ -410,9 +410,9 @@
    "name": "Złoty Skarabeusz",
    "level": 10,
    "stats": {
-    "hp": 510,
-    "atk": 30,
-    "def": 31,
+    "hp": 969,
+    "atk": 54,
+    "def": 37,
     "xp": 100
    },
    "speed": 0.7,
@@ -437,9 +437,9 @@
    "name": "Lew Świątyni",
    "level": 12,
    "stats": {
-    "hp": 678,
-    "atk": 46,
-    "def": 30,
+    "hp": 1492,
+    "atk": 106,
+    "def": 38,
     "xp": 136
    },
    "speed": 1,
@@ -464,9 +464,9 @@
    "name": "Oko Wiedzy",
    "level": 14,
    "stats": {
-    "hp": 464,
-    "atk": 40,
-    "def": 18,
+    "hp": 1021,
+    "atk": 92,
+    "def": 22,
     "xp": 103
    },
    "speed": 0.5,
@@ -492,9 +492,9 @@
    "name": "Marionetka Rytuału",
    "level": 16,
    "stats": {
-    "hp": 739,
-    "atk": 59,
-    "def": 26,
+    "hp": 1626,
+    "atk": 136,
+    "def": 32,
     "xp": 153
    },
    "speed": 0.9,
@@ -519,9 +519,9 @@
    "name": "Mgielny Żuraw",
    "level": 18,
    "stats": {
-    "hp": 724,
-    "atk": 65,
-    "def": 26,
+    "hp": 1593,
+    "atk": 150,
+    "def": 32,
     "xp": 156
    },
    "speed": 1.1,
@@ -546,8 +546,8 @@
    "name": "Dron Zwiadowca",
    "level": 1,
    "stats": {
-    "hp": 37,
-    "atk": 6,
+    "hp": 56,
+    "atk": 8,
     "def": 2,
     "xp": 12
    },
@@ -556,7 +556,7 @@
    "agro": 450,
    "behavior": "Patroluje stałą trasę. Po wykryciu gracza piszczy i wzywa 1 sojusznika, następnie strzela krótkimi seriami.",
    "skills": [
-    "Wiązka (CD 3 s)",
+    "Wiązka (CD 3 s); oznacza cel: +12% otrzymywanych obrażeń na 6 s",
     "Alarm (1× na walkę)"
    ],
    "weakness": "Obrażenia elektryczne +30%",
@@ -573,9 +573,9 @@
    "name": "Pełzacz Serwisowy",
    "level": 2,
    "stats": {
-    "hp": 76,
-    "atk": 7,
-    "def": 5,
+    "hp": 114,
+    "atk": 9,
+    "def": 6,
     "xp": 19
    },
    "speed": 0.7,
@@ -584,7 +584,7 @@
    "behavior": "Trzyma się innych maszyn i naprawia je. Sam atakuje tylko wtedy, gdy nie ma kogo naprawiać.",
    "skills": [
     "Naprawa (CD 6 s): 5% HP/s sojusznikom w 200 j.",
-    "Kleszcze"
+    "Kleszcze; osłabienie: −12% obrażeń gracza na 5 s"
    ],
    "weakness": "Priorytetowy cel; elektryczne +30%",
    "loot": "Zestaw naprawczy",
@@ -600,9 +600,9 @@
    "name": "Skaner Gąsienicowy",
    "level": 4,
    "stats": {
-    "hp": 177,
-    "atk": 15,
-    "def": 10,
+    "hp": 266,
+    "atk": 20,
+    "def": 12,
     "xp": 44
    },
    "speed": 0.5,
@@ -610,7 +610,7 @@
    "agro": 450,
    "behavior": "Wolny. Utrzymuje dystans 300 j. i cofa się, gdy gracz podejdzie.",
    "skills": [
-    "Wiązka skanująca (CD 5 s): rosnące obrażenia przy kolejnych trafieniach",
+    "Wiązka skanująca (CD 5 s): rosnące obrażenia przy kolejnych trafieniach; oślepienie: −25% celności na 4 s",
     "Namierzenie: +20% obrażeń następnego ataku"
    ],
    "weakness": "Martwy kąt z tyłu +25%",
@@ -627,9 +627,9 @@
    "name": "Pająk Spawalniczy",
    "level": 6,
    "stats": {
-    "hp": 196,
-    "atk": 26,
-    "def": 10,
+    "hp": 372,
+    "atk": 47,
+    "def": 12,
     "xp": 60
    },
    "speed": 1,
@@ -637,7 +637,7 @@
    "agro": 350,
    "behavior": "Wspina się po konstrukcjach i spada na cel. Zostawia strefy gorącego metalu.",
    "skills": [
-    "Łuk spawalniczy (CD 5 s)",
+    "Łuk spawalniczy (CD 5 s); podpalenie: 12% ATK/s przez 3 s",
     "Strefa żaru: obrażenia przez 4 s"
    ],
    "weakness": "Obrażenia elektryczne +20%",
@@ -654,9 +654,9 @@
    "name": "Wieżyczka Autonomiczna",
    "level": 8,
    "stats": {
-    "hp": 396,
-    "atk": 35,
-    "def": 21,
+    "hp": 752,
+    "atk": 63,
+    "def": 25,
     "xp": 96
    },
    "speed": 0,
@@ -664,7 +664,7 @@
    "agro": 500,
    "behavior": "Nieruchoma. Obraca się 90°/s, więc można ją obejść z flanki. Strzela seriami; po 12 strzałach przegrzewa się.",
    "skills": [
-    "Seria 3 pocisków (CD 4 s)",
+    "Seria 3 pocisków (CD 4 s); spowolnienie −20% na 3 s",
     "Przegrzanie: wyłączona na 3 s"
    ],
    "weakness": "Flankowanie i przegrzanie",
@@ -681,9 +681,9 @@
    "name": "Rój Nanitów",
    "level": 10,
    "stats": {
-    "hp": 272,
-    "atk": 30,
-    "def": 10,
+    "hp": 517,
+    "atk": 54,
+    "def": 12,
     "xp": 72
    },
    "speed": 1.2,
@@ -707,9 +707,9 @@
    "name": "Pies Łowca",
    "level": 12,
    "stats": {
-    "hp": 424,
-    "atk": 49,
-    "def": 18,
+    "hp": 933,
+    "atk": 113,
+    "def": 22,
     "xp": 113
    },
    "speed": 1.4,
@@ -718,7 +718,7 @@
    "behavior": "Wybiera cel z najniższym HP w grupie i goni go do końca; ignoruje innych.",
    "skills": [
     "Skok (CD 6 s)",
-    "Szarpnięcie: 120% ATK"
+    "Szarpnięcie: 120% ATK; krwawienie 15% ATK/s przez 4 s"
    ],
    "weakness": "Ogłuszenia i spowolnienia",
    "loot": "Siłownik, Czujnik",
@@ -734,9 +734,9 @@
    "name": "Strażnik Rdzenia",
    "level": 14,
    "stats": {
-    "hp": 877,
-    "atk": 52,
-    "def": 41,
+    "hp": 1929,
+    "atk": 120,
+    "def": 51,
     "xp": 162
    },
    "speed": 0.8,
@@ -745,7 +745,7 @@
    "behavior": "Chroni wyznaczony obiekt; nie goni dalej niż 500 j. Poniżej 50% HP aktywuje tarczę plazmową.",
    "skills": [
     "Tarcza plazmowa (CD 25 s): absorbuje 25% max HP",
-    "Cios impulsowy (CD 6 s)"
+    "Cios impulsowy (CD 6 s); ogłuszenie 0,5 s"
    ],
    "weakness": "Obrażenia elektryczne zdejmują tarczę 2× szybciej",
    "loot": "Rdzeń energii, Płyta pancerna",
@@ -761,9 +761,9 @@
    "name": "Latarnia Plazmowa",
    "level": 16,
    "stats": {
-    "hp": 616,
-    "atk": 72,
-    "def": 21,
+    "hp": 1355,
+    "atk": 166,
+    "def": 26,
     "xp": 159
    },
    "speed": 0.3,
@@ -771,7 +771,7 @@
    "agro": 500,
    "behavior": "Wolno dryfuje. Ładuje wyładowanie przez 2,5 s (widoczne ostrzeżenie), które trzeba przerwać lub uniknąć.",
    "skills": [
-    "Wyładowanie plazmy (CD 9 s): 250% ATK, obszar",
+    "Wyładowanie plazmy (CD 9 s): 250% ATK, obszar; uciszenie: blokuje zdolności na 5 s",
     "Iskra"
    ],
    "weakness": "Przerwanie ładowania ogłusza ją na 2 s",
@@ -788,9 +788,9 @@
    "name": "Kruk Danych",
    "level": 18,
    "stats": {
-    "hp": 579,
-    "atk": 60,
-    "def": 23,
+    "hp": 1274,
+    "atk": 138,
+    "def": 29,
     "xp": 136
    },
    "speed": 1.3,
@@ -815,8 +815,8 @@
    "name": "Węgielek",
    "level": 1,
    "stats": {
-    "hp": 61,
-    "atk": 7,
+    "hp": 92,
+    "atk": 9,
     "def": 3,
     "xp": 16
    },
@@ -842,8 +842,8 @@
    "name": "Ognista Salamandra",
    "level": 2,
    "stats": {
-    "hp": 67,
-    "atk": 12,
+    "hp": 100,
+    "atk": 16,
     "def": 3,
     "xp": 24
    },
@@ -869,9 +869,9 @@
    "name": "Popielny Wilk",
    "level": 4,
    "stats": {
-    "hp": 122,
-    "atk": 18,
-    "def": 6,
+    "hp": 183,
+    "atk": 23,
+    "def": 7,
     "xp": 40
    },
    "speed": 1.2,
@@ -896,9 +896,9 @@
    "name": "Skalny Berserker",
    "level": 6,
    "stats": {
-    "hp": 255,
-    "atk": 28,
-    "def": 11,
+    "hp": 484,
+    "atk": 50,
+    "def": 13,
     "xp": 70
    },
    "speed": 1,
@@ -906,7 +906,7 @@
    "agro": 350,
    "behavior": "Atakuje bez wycofania. Im mniej HP, tym więcej obrażeń (do +40% poniżej 30% HP).",
    "skills": [
-    "Młot (CD 5 s)",
+    "Młot (CD 5 s); kruszy obronę: −10% DEF (2 warstwy) na 6 s",
     "Wściekłość (poniżej 50% HP): +20% szybkości ataku"
    ],
    "weakness": "Ogłuszenia; zabić szybko",
@@ -923,9 +923,9 @@
    "name": "Magmowy Krab",
    "level": 8,
    "stats": {
-    "hp": 396,
-    "atk": 25,
-    "def": 28,
+    "hp": 752,
+    "atk": 45,
+    "def": 34,
     "xp": 83
    },
    "speed": 0.6,
@@ -934,7 +934,7 @@
    "behavior": "Ustawia się bokiem. Od frontu przyjmuje −60% obrażeń, z tyłu i boków jest podatny.",
    "skills": [
     "Kleszcze (CD 5 s)",
-    "Zalew magmą: strefa 4 s"
+    "Zalew magmą: strefa 4 s; przyklejona magma: −30% szybkości na 4 s"
    ],
    "weakness": "Atak z tyłu +40%; woda",
    "loot": "Magmowy pancerz",
@@ -950,9 +950,9 @@
    "name": "Żarowy Nietoperz",
    "level": 10,
    "stats": {
-    "hp": 238,
-    "atk": 36,
-    "def": 10,
+    "hp": 452,
+    "atk": 65,
+    "def": 12,
     "xp": 76
    },
    "speed": 1.4,
@@ -977,9 +977,9 @@
    "name": "Golem Ruin",
    "level": 12,
    "stats": {
-    "hp": 848,
-    "atk": 53,
-    "def": 40,
+    "hp": 1866,
+    "atk": 122,
+    "def": 50,
     "xp": 165
    },
    "speed": 0.5,
@@ -987,7 +987,7 @@
    "agro": 300,
    "behavior": "Powolny, ciosy telegrafowane 1,5 s. Poniżej 50% HP odrzuca odłamki w obszarze.",
    "skills": [
-    "Miażdżenie (CD 7 s): 220% ATK",
+    "Miażdżenie (CD 7 s): 220% ATK; powalenie: ogłuszenie 0,9 s",
     "Odłamki (obszar)"
    ],
    "weakness": "Obrażenia KI +20%",
@@ -1004,9 +1004,9 @@
    "name": "Płomień-Duch",
    "level": 14,
    "stats": {
-    "hp": 413,
-    "atk": 60,
-    "def": 12,
+    "hp": 909,
+    "atk": 138,
+    "def": 15,
     "xp": 124
    },
    "speed": 0.8,
@@ -1031,9 +1031,9 @@
    "name": "Byk Areny",
    "level": 16,
    "stats": {
-    "hp": 1109,
-    "atk": 68,
-    "def": 36,
+    "hp": 2440,
+    "atk": 156,
+    "def": 45,
     "xp": 201
    },
    "speed": 1,
@@ -1058,9 +1058,9 @@
    "name": "Skorpion Obsydianowy",
    "level": 18,
    "stats": {
-    "hp": 869,
-    "atk": 75,
-    "def": 44,
+    "hp": 1912,
+    "atk": 172,
+    "def": 55,
     "xp": 184
    },
    "speed": 1,

@@ -33,6 +33,7 @@ export type TrialPilotPort = {
 export class RemainingTrialPilot {
   private moveKey = "";
   private selected = "";
+  private evadeUntil = 0;
   constructor(
     private readonly a: TrialAttempt,
     private readonly port: TrialPilotPort,
@@ -67,13 +68,37 @@ export class RemainingTrialPilot {
       } else {
         const enemy = s.enemies.find((e) => e.encounterOwner && e.hp > 0 && e.mode !== "dead");
         if (enemy) {
+          // Read a real telegraph and walk out of its committed area/charge line.
+          if (enemy.m.cast && this.evadeUntil <= s.nowMs) {
+            const dx = s.player.x - enemy.x,
+              dy = s.player.y - enemy.y;
+            const len = Math.hypot(dx, dy) || 1;
+            const points = [1, -1].map((sign) =>
+              s.nav.safe({
+                x: s.player.x - ((sign * dy) / len) * 220,
+                y: s.player.y + ((sign * dx) / len) * 220,
+              }),
+            );
+            const point = points.find(
+              (p) => distance(p, s.player) > 140 && s.nav.visible(p, s.player),
+            );
+            if (point) {
+              this.port.input({ type: "cancel" });
+              this.move(point, `evade:${s.nowMs}`);
+              this.evadeUntil = s.nowMs + enemy.m.cast.ms + 350;
+              this.selected = "";
+            }
+          }
+          if (s.nowMs < this.evadeUntil || enemy.m.charge) return;
           this.moveKey = "";
-          if (this.selected !== enemy.id) {
+          if (this.selected !== enemy.id || s.targetId !== enemy.id) {
             this.selected = enemy.id;
             this.port.input({ type: "target", id: enemy.id });
           }
           if (distance(s.player, enemy) <= s.kit.basicRange + 10) {
+            this.cast("B4");
             this.cast("B1");
+            this.cast("C1");
             this.cast("A1");
           }
           if (s.player.hp < s.kit.stats.maxHp * 0.5 && s.player.items.potion > 0)

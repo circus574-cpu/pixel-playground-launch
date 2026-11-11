@@ -26,6 +26,9 @@ import {
   QUEST_ISLANDS,
   REGIONS,
   clampView,
+  nearestX,
+  wrapCopies,
+  wrapX,
   fitScale,
   focusOn,
   initialView,
@@ -131,8 +134,10 @@ export function PlanetMap({
       const e = 1 - Math.pow(1 - t, 3);
       setView((current) => {
         from ??= current;
+        // Take the short way round the planet, and land on the canonical copy.
+        const toX = nearestX(from.cx, target.cx);
         return {
-          cx: from.cx + (target.cx - from.cx) * e,
+          cx: t < 1 ? from.cx + (toX - from.cx) * e : wrapX(toX),
           cy: from.cy + (target.cy - from.cy) * e,
           s: Math.exp(Math.log(from.s) + (Math.log(target.s) - Math.log(from.s)) * e),
         };
@@ -401,6 +406,7 @@ export function PlanetMap({
   const legendClass = legendOpen ? " is-open" : " is-closed";
 
   const showSpot = Boolean(selectedRegion && (!ATLAS_V2 || zoom < 2.5));
+  const copies = wrapCopies(view.cx, size.w / view.s);
 
   const atlasImage = useMemo(
     () => (
@@ -495,158 +501,178 @@ export function PlanetMap({
             )}
           </defs>
 
-          {atlasImage}
+          {copies.map((k) => (
+            <g
+              key={k}
+              className={k === 0 ? undefined : "pm-wrap-copy"}
+              transform={k === 0 ? undefined : `translate(${k * MAP_W} 0)`}
+              aria-hidden={k === 0 ? undefined : true}
+            >
+              {atlasImage}
 
-          {fog && (
-            <g mask="url(#pm-fog-mask)" className="pm-fog" aria-hidden>
-              <image
-                href={atlasLo}
-                width={MAP_W}
-                height={MAP_H}
-                preserveAspectRatio="none"
-                filter="url(#pm-fog-filter)"
-              />
-              <rect width={MAP_W} height={MAP_H} />
-            </g>
-          )}
+              {fog && (
+                <g mask="url(#pm-fog-mask)" className="pm-fog" aria-hidden>
+                  <image
+                    href={atlasLo}
+                    width={MAP_W}
+                    height={MAP_H}
+                    preserveAspectRatio="none"
+                    filter="url(#pm-fog-filter)"
+                  />
+                  <rect width={MAP_W} height={MAP_H} />
+                </g>
+              )}
 
-          {showSpot && (
-            <rect
-              width={MAP_W}
-              height={MAP_H}
-              mask="url(#pm-spot-mask)"
-              className="pm-spot"
-              aria-hidden
-            />
-          )}
-          <rect width={MAP_W} height={MAP_H} fill="url(#pm-vignette)" className="pm-vig" />
-          <rect width={MAP_W} height={MAP_H} fill="url(#pm-edge-fade)" className="pm-vig" />
+              {showSpot && (
+                <rect
+                  width={MAP_W}
+                  height={MAP_H}
+                  mask="url(#pm-spot-mask)"
+                  className="pm-spot"
+                  aria-hidden
+                />
+              )}
+              <rect width={MAP_W} height={MAP_H} fill="url(#pm-edge-fade)" className="pm-vig" />
 
-          <g className="pm-hits">
-            {REGIONS.map((region) => (
-              <path
-                key={region.id}
-                d={PATHS[region.id]}
-                data-region={region.id}
-                tabIndex={0}
-                role="button"
-                aria-pressed={selected === region.id}
-                aria-label={
-                  region.kind === "continent"
-                    ? `${region.name} — kontynent ${region.people}`
-                    : `${region.name} — przyszła wyspa questowa`
-                }
-                className={`pm-hit pm-${region.kind}${selected === region.id ? " is-selected" : ""}${hovered === region.id ? " is-hovered" : ""}`}
-                vectorEffect="non-scaling-stroke"
-                onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(region.id)}
-                onPointerLeave={() => setHovered((h) => (h === region.id ? null : h))}
-                onFocus={() => setHovered(region.id)}
-                onBlur={() => setHovered(null)}
-              />
-            ))}
-          </g>
+              <g className="pm-hits">
+                {REGIONS.map((region) => (
+                  <path
+                    key={region.id}
+                    d={PATHS[region.id]}
+                    data-region={region.id}
+                    tabIndex={k === 0 ? 0 : -1}
+                    role="button"
+                    aria-pressed={selected === region.id}
+                    aria-label={
+                      region.kind === "continent"
+                        ? `${region.name} — kontynent ${region.people}`
+                        : `${region.name} — przyszła wyspa questowa`
+                    }
+                    className={`pm-hit pm-${region.kind}${selected === region.id ? " is-selected" : ""}${hovered === region.id ? " is-hovered" : ""}`}
+                    vectorEffect="non-scaling-stroke"
+                    onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(region.id)}
+                    onPointerLeave={() => setHovered((h) => (h === region.id ? null : h))}
+                    onFocus={() => setHovered(region.id)}
+                    onBlur={() => setHovered(null)}
+                  />
+                ))}
+              </g>
 
-          {CONTINENTS.map((c) =>
-            c.settlementPoint && (showSettlements || selected === c.id || current === c.id) ? (
-              <g
-                key={`set-${c.id}`}
-                className={`pm-settlement${current === c.id ? " is-current" : ""}`}
-                aria-hidden
-              >
-                {current === c.id && (
+              {CONTINENTS.map((c) =>
+                c.settlementPoint && (showSettlements || selected === c.id || current === c.id) ? (
+                  <g
+                    key={`set-${c.id}`}
+                    className={`pm-settlement${current === c.id ? " is-current" : ""}`}
+                    aria-hidden
+                  >
+                    {current === c.id && (
+                      <circle
+                        className="pm-here-ring"
+                        cx={c.settlementPoint.x}
+                        cy={c.settlementPoint.y}
+                        r={px(16)}
+                        vectorEffect="non-scaling-stroke"
+                      />
+                    )}
+                    <rect
+                      x={c.settlementPoint.x - px(4.5)}
+                      y={c.settlementPoint.y - px(4.5)}
+                      width={px(9)}
+                      height={px(9)}
+                      transform={`rotate(45 ${c.settlementPoint.x} ${c.settlementPoint.y})`}
+                      vectorEffect="non-scaling-stroke"
+                    />
+                    <text
+                      className={
+                        zoom < 3 && current !== c.id ? "pm-settlement-name-hidden" : undefined
+                      }
+                      x={c.settlementPoint.x}
+                      y={c.settlementPoint.y + px(20)}
+                      fontSize={px(12)}
+                      strokeWidth={px(3)}
+                    >
+                      {current === c.id ? "Tu jesteś · " + c.settlement : c.settlement}
+                    </text>
+                  </g>
+                ) : null,
+              )}
+
+              {ATLAS_V2 && (
+                <WorldOverlay
+                  zoom={zoom}
+                  px={px}
+                  bounds={[
+                    view.cx - size.w / view.s / 2 - 20 - k * MAP_W,
+                    view.cy - size.h / view.s / 2 - 20,
+                    view.cx + size.w / view.s / 2 + 20 - k * MAP_W,
+                    view.cy + size.h / view.s / 2 + 20,
+                  ]}
+                />
+              )}
+              {playerAt && (
+                <g className="pm-player" aria-label="Twoja pozycja">
+                  <circle cx={playerAt.x} cy={playerAt.y} r={px(13)} className="pm-player-halo" />
+                  <circle cx={playerAt.x} cy={playerAt.y} r={px(6)} className="pm-player-dot" />
+                </g>
+              )}
+
+              {ZONES.filter(
+                (z) => z.region === selected || z.region === current || zoom >= 2.5,
+              ).map((z) => (
+                <g key={z.id} className="pm-zone" aria-hidden>
                   <circle
-                    className="pm-here-ring"
-                    cx={c.settlementPoint.x}
-                    cy={c.settlementPoint.y}
-                    r={px(16)}
+                    cx={z.point.x}
+                    cy={z.point.y}
+                    r={px(4)}
                     vectorEffect="non-scaling-stroke"
                   />
-                )}
-                <rect
-                  x={c.settlementPoint.x - px(4.5)}
-                  y={c.settlementPoint.y - px(4.5)}
-                  width={px(9)}
-                  height={px(9)}
-                  transform={`rotate(45 ${c.settlementPoint.x} ${c.settlementPoint.y})`}
-                  vectorEffect="non-scaling-stroke"
-                />
-                <text
-                  className={zoom < 3 && current !== c.id ? "pm-settlement-name-hidden" : undefined}
-                  x={c.settlementPoint.x}
-                  y={c.settlementPoint.y + px(20)}
-                  fontSize={px(12)}
-                  strokeWidth={px(3)}
-                >
-                  {current === c.id ? "Tu jesteś · " + c.settlement : c.settlement}
-                </text>
-              </g>
-            ) : null,
-          )}
+                  <text
+                    x={z.point.x}
+                    y={z.point.y + px(15)}
+                    fontSize={px(10.5)}
+                    strokeWidth={px(3)}
+                  >
+                    {z.name}
+                  </text>
+                </g>
+              ))}
 
-          {ATLAS_V2 && (
-            <WorldOverlay
-              zoom={zoom}
-              px={px}
-              bounds={[
-                view.cx - size.w / view.s / 2 - 20,
-                view.cy - size.h / view.s / 2 - 20,
-                view.cx + size.w / view.s / 2 + 20,
-                view.cy + size.h / view.s / 2 + 20,
-              ]}
-            />
-          )}
-          {playerAt && (
-            <g className="pm-player" aria-label="Twoja pozycja">
-              <circle cx={playerAt.x} cy={playerAt.y} r={px(13)} className="pm-player-halo" />
-              <circle cx={playerAt.x} cy={playerAt.y} r={px(6)} className="pm-player-dot" />
+              <g className="pm-labels" aria-hidden>
+                {CONTINENTS.map((c) => (
+                  <text
+                    key={c.id}
+                    x={c.label.x}
+                    y={c.label.y}
+                    fontSize={px(labelPx)}
+                    strokeWidth={px(4)}
+                    className={`pm-label${isRevealed(c.id) ? "" : " is-fogged"}`}
+                  >
+                    {c.name.toUpperCase()}
+                    <tspan
+                      x={c.label.x}
+                      dy={px(labelPx * 0.95)}
+                      fontSize={px(labelPx * 0.52)}
+                      className="pm-sub"
+                    >
+                      {c.people}
+                    </tspan>
+                  </text>
+                ))}
+                {QUEST_ISLANDS.map((i) => (
+                  <text
+                    key={i.id}
+                    x={i.label.x}
+                    y={i.label.y}
+                    fontSize={px(labelPx * 0.72)}
+                    strokeWidth={px(3.5)}
+                    className="pm-label pm-island-label"
+                  >
+                    {i.numeral}
+                  </text>
+                ))}
+              </g>
             </g>
-          )}
-
-          {ZONES.filter((z) => z.region === selected || z.region === current || zoom >= 2.5).map(
-            (z) => (
-              <g key={z.id} className="pm-zone" aria-hidden>
-                <circle cx={z.point.x} cy={z.point.y} r={px(4)} vectorEffect="non-scaling-stroke" />
-                <text x={z.point.x} y={z.point.y + px(15)} fontSize={px(10.5)} strokeWidth={px(3)}>
-                  {z.name}
-                </text>
-              </g>
-            ),
-          )}
-
-          <g className="pm-labels" aria-hidden>
-            {CONTINENTS.map((c) => (
-              <text
-                key={c.id}
-                x={c.label.x}
-                y={c.label.y}
-                fontSize={px(labelPx)}
-                strokeWidth={px(4)}
-                className={`pm-label${isRevealed(c.id) ? "" : " is-fogged"}`}
-              >
-                {c.name.toUpperCase()}
-                <tspan
-                  x={c.label.x}
-                  dy={px(labelPx * 0.95)}
-                  fontSize={px(labelPx * 0.52)}
-                  className="pm-sub"
-                >
-                  {c.people}
-                </tspan>
-              </text>
-            ))}
-            {QUEST_ISLANDS.map((i) => (
-              <text
-                key={i.id}
-                x={i.label.x}
-                y={i.label.y}
-                fontSize={px(labelPx * 0.72)}
-                strokeWidth={px(3.5)}
-                className="pm-label pm-island-label"
-              >
-                {i.numeral}
-              </text>
-            ))}
-          </g>
+          ))}
         </svg>
       </div>
 

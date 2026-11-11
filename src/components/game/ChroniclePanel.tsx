@@ -17,7 +17,7 @@ export function ChroniclePanel({ player }: { player: Pick<Player, "race" | "deve
         </h4>
         <p>
           {completion.greeting ??
-            `Postęp: rozdziały ${completion.chapters}/6 · projekty ${completion.projects}/6 · próby III ${completion.trials}/12.`}
+            `Do tytułu: ${completion.chapters} z 6 rozdziałów · ${completion.projects} z 6 projektów · ${completion.trials} z 12 prób III.`}
         </p>
         <p>Tytuł potwierdza dokonania. Nie dodaje statystyk ani kolejnej nagrody.</p>
       </section>

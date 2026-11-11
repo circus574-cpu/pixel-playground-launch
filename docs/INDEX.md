@@ -7,58 +7,33 @@ ras są wyliczane z finału, sześciu projektów i kompletu prób III, bez premi
 statystyk. Budżet z aktywnych katalogów: 17 800 praktyki na rasę.
 To komplet katalogu prób, nie odbiór całej kampanii. [Wyniki i dalszy zakres](zmiany/2026-11-11/ZMIANY.md#6-komplet-prób-i-warunki-tytułów).
 
-**Domykanie rozwoju — roboczy checkpoint 42/48 prób:** Androidy mają kontrolery
-12 prób, Legendy 6. Trwa implementacja pozostałych sześciu i odbiór całości.
-Bez publikacji. [Kolejne partie](zmiany/2026-11-11/ZMIANY.md#domykanie-rozwoju--kolejne-próby).
 
-**Integracja rozwoju 11.11:** połączono Skupienie z Pamięcią na osobnej gałęzi.
-Katalog 30/48 prób i 90/144 stopni; Planetarni i Mędrcy po 12/12 prób.
-Brak scalenia do main i publikacji. [Stan i kontrole](zmiany/2026-11-11/ZMIANY.md).
+**Gałąź rozwoju 11.11:** połączone Skupienie i Pamięć Mędrców oraz pozostałe próby Androidów i Legend; pełna kampania pozostaje w realizacji. [Historia i wyniki](zmiany/2026-11-11/ZMIANY.md).
 
-**Kontynuacja 06.11 — Pamięć Mędrców:** TA10/TA11/TA12 w trzech stopniach.
-Katalog **27/48 prób, 81/144 stopni**; Mędrcy mają 9/12 prób. Wznowiono PR #90
-od `a9e44175` i zintegrowano `main@83165f5c` bez zmiany produkcji.
-[Zakres i kontrole](zmiany/2026-11-06/ZMIANY.md). Pełny rozwój pozostaje nieukończony.
+Aktualizacja: **11.11.2026**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
 
-**Poprzednia partia rozwoju — Bariery Mędrców:** TA04/TA05/TA06 w trzech
-stopniach i `ma-barrier` po Barierach II. Katalog **24/48 prób, 72/144 stopni**;
-Mędrcy mają 6/12 prób. To połowa katalogu prób, nie połowa całego projektu.
-[Zakres i dowody](zmiany/2026-11-04/ZMIANY.md#bariery-mędrców--ta04-ta05-ta06).
+**Wydajność:** audyt 11.11.2026 zmierzył, że wąskim gardłem nie jest symulacja (tick z 32 potworami
+0,79 ms), lecz **pamięć tekstur 198–240 MiB przy budżecie 192 MiB**, pętla widoczności iterująca
+3840 obiektów co klatkę (1,39 ms) i `snapshot()` za 1,10 ms liczony 10×/s. Budżet tekstur nie obejmuje
+upieczonych canvasów podłoża. Na telefonie pamięć jest **identyczna** jak na desktopie, choć FPS rośnie
+z 9,9 do 29,0 przy mniejszym kadrze. Pomiar: `scripts/perf/audyt-cpu.ts`, `scripts/perf/audyt-swiata.ts`
+i `scripts/measure-game.ts` (mobile poprawiony na 844×390, bo portrait blokuje `RotateNotice`).
 
+**Walka:** pomiar na żywym `GameSession` (22 272 walk) wykazał, że wynik starć był rozstrzygnięty zanim
+gracz cokolwiek zrobił — mediana `winRate` 1,000 w każdym profilu. Od 07.11.2026 każdy z 40 potworów
+nakłada co najmniej jeden efekt statusowy, statystyki bestiariusza idą w górę rampą od poziomu potwora
+(1–4 ×1,5/×1,3/×1,15 → 12–18 ×2,2/×2,3/×1,25), a pokonanie gracza kosztuje 10 % postępu do następnego
+poziomu. Po zmianach goły autoatak przegrywa większość starć (mediana 0,000), a sprzęt z umiejętnościami
+wygrywa 77 % — pojawił się gradient zależny od gracza. `xp` potworów bez zmian; tempo rozwoju spadło
+o 41 % i czeka na decyzję właściciela.
 
-**Poprzednia partia rozwoju — Opieka Planetarnych:** TV07/TV08/TV09 i
-odblokowanie `mv-root` po Opiece II. Katalog **21/48 prób, 63/144 stopni**;
-Planetarni mają komplet 12 prób, ale pełny rozwój nadal nie jest ukończony.
-[Zakres i kontrole](zmiany/2026-11-04/ZMIANY.md#opieka--tv07-tv08-tv09).
+**Wyspy Superiora:** sześć własnych zestawów grafik (36 tekstur i 36 dekoracji w 12 arkuszach)
+jest zainstalowanych w rejestrze zasobów i podłączonych do runtime; od 06.11.2026 działają
+domyślnie. [Źródła i kontrole](zmiany/2026-11-05/ZMIANY.md#grafiki-i-tekstury-sześciu-wysp-superior).
 
-**Poprzednia partia rozwoju — Szlaki Planetarnych:** TV01/TV02/TV03, ranga Szlaków
-i odblokowanie `mv-trail`; katalog 18/48 prób, 54/144 stopni. Pełny rozwój pozostaje
-nieukończony. [Zakres i kontrole](zmiany/2026-11-03/ZMIANY.md#szlaki--tv01-tv02-tv03).
+**Stan na 06.11.2026 (szczegóły i dowody w [dzienniku 06.11](zmiany/2026-11-06/ZMIANY.md)):**
 
-**Poprzednia partia rozwoju — PR #90:** dodano trzy próby Żywej Ziemi Planetarnych i ich
-odblokowanie mistrzostwa. Katalog: 15/48 prób, 45/144 stopni; pełna kampania nadal
-nieukończona. [Bieżąca partia i dowody](zmiany/2026-11-03/ZMIANY.md#żywa-ziemia--tv04-tv05-tv06).
-
-
-**Kolejna partia PR #90:** 12 prób rasowych / 36 stopni, wyniki serwerowe, rangi i pierwsze odblokowania mistrzostwa. [Bieżący zakres i wyniki](zmiany/2026-11-03/ZMIANY.md#próby-rasowe--pierwsze-12-kontrolerów-i-36-stopni). Pełny system nadal wymaga dalszych prac.
-
-**Kontynuacja na gałęzi PR #90:** naprawiono bonusy wyposażenia, dodano kontrolery
-eskort bojowych/ochrony i kronikę odkrywanej historii. Cały rozwój nadal nie jest
-ukończony; [zakres i dowody](zmiany/2026-11-03/ZMIANY.md#domykanie-rozwoju--partia-2-eskorty-obrona-i-kronika).
-
-Gałąź PR #90 uwzględnia także [nowszy `main@e02c87b5`](zmiany/2026-11-03/ZMIANY.md#integracja-nowszego-main-z-gałęzią-domykania-rozwoju); cudze grafiki i poprawka ramek zostały zachowane.
-
-**Audyt rozwoju 03.11.2026:** pełne zlecenie czterech ras pozostaje nieukończone.
-Potwierdzone braki, blokady i błędy wyposażenia oraz aktualne wyniki testów są w
-[raporcie z 03.11](zmiany/2026-11-03/ZMIANY.md#audyt-kompletności-rozwoju-postaci--03112026).
-**Aetheria — próbna oprawa na osobnej gałęzi:** [lokalny zrzut i instrukcja](zmiany/2026-11-03/ZMIANY.md#aetheria--oprawa-z-materiałów-właściciela).
-
-
-Aktualizacja: **05.11.2026, po PR #121 (`main@555da1ea`, wdrożone na produkcję)**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
-
-**Stan na 05.11.2026 (szczegóły i dowody w [dzienniku 05.11](zmiany/2026-11-05/ZMIANY.md)):**
-
-- Oprawa kontynentów Verdantia, Pyra i Aetheria jest **scalona (PR #118) i domyślnie włączona**; wyłączenie: `?preview=ki-<świat>-continent=0`. Nexus-9 ma zaimplementowaną integrację kontynentu (05.11.2026), ale **wyłącznie opt-in** przez `?ki-nexus-continent=1` — nie włączono domyślnie przed odbiorem właściciela ([04.11](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu)).
+- Oprawa kontynentów Verdantia, Pyra, Aetheria i **Nexus-9** jest **scalona i domyślnie włączona**; wyłączenie: `?ki-<świat>-continent=0` ([04.11](zmiany/2026-11-04/ZMIANY.md#nexus--komplet-materiałów-kontynentu)). Domyślnie działają też własne materiały sześciu wysp (`?ki-islands-art=0` wyłącza) i generator dekoracji świata (`?ki-dress=0`) — decyzja właściciela z 06.11.2026: bez flagowania, wszystkie światy działają domyślnie.
 - Wielkości potworów z pomiaru ciała (PR #117), mapa 2D/globus (PR #119) i chód po transformacji `kiwalk` dla czterech ras, paczki bohaterów `2.1.0` (PR #120) są na `main`.
 - Malowane wnętrza budynków specjalnych (4 światy × 6 budynków, pokoje 1920×1280) są scalone (PR #121) i opublikowane.
 - Serwerowy zapis i rozgrywka PvE (PR #69), panel postaci w `/admin` i miejski depozyt są scalone i opublikowane (01.11). Backend produkcyjny nadal działa na dotychczasowym Supabase; cutover na własny PostgreSQL czeka na odbiór właściciela.
@@ -84,6 +59,8 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 ## Historia — jeden dziennik na dzień
 
 - [2026-11-11](zmiany/2026-11-11/ZMIANY.md)
+- [2026-11-10](zmiany/2026-11-10/ZMIANY.md)
+- [2026-11-07](zmiany/2026-11-07/ZMIANY.md)
 - [2026-11-06](zmiany/2026-11-06/ZMIANY.md)
 - [2026-11-05](zmiany/2026-11-05/ZMIANY.md)
 - [2026-11-04](zmiany/2026-11-04/ZMIANY.md)

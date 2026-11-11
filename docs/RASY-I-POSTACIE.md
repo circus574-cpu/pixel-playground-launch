@@ -26,14 +26,21 @@ potwierdzeniem komercyjnych praw. Szczegóły: [licencje](LICENCJE.md).
 
 Źródłem bieżących definicji jest `src/game/assets/imported.json`; `makeCatalog()`
 nakłada późniejsze aktywne definicje na te same identyfikatory aktorów.
-Każda z powyższych paczek ma 480 odwołań do klatek w ośmiu klipach i ośmiu kierunkach,
-pięć zasobów atlasów, klatki HD 256 px. Klipy obejmują idle, walk, attack, skill,
-hit, death, respawn oraz `kiwalk`. Nie deklarujemy osobnej animacji run ani nowych klipów combo.
+Każda z powyższych paczek ma 536 odwołań do klatek w dziesięciu klipach i ośmiu kierunkach,
+sześć zasobów atlasów, klatki HD 256 px. Klipy obejmują idle, walk, attack, skill,
+hit, death, respawn oraz klipy Trybu KI: `kiwalk`, `kiidle` i `kiattack`. Nie deklarujemy osobnej animacji run ani nowych klipów combo.
 
 `kiwalk` to chód po transformacji (filmy Gemini `*-walk-transformed.mp4`). Gra używa go
 zamiast `walk` tylko, gdy bohater się porusza i ma aktywny bonus Trybu KI (`T`, 20 s);
-bez klipu w paczce zostaje zwykły `walk`. Stoi, atakuje i ginie w formie bazowej, bo
-filmów tych stanów w formie po transformacji nie ma. Atlas `kiwalk` jest zapakowany jako
+bez klipu w paczce zostaje zwykły `walk`. W Trybie KI bohater stoi w klipie `kiidle` (jedna klatka, neutralna postawa z filmu etapu 4) i
+atakuje podstawowym ciosem w klipie `kiattack` (6 klatek, 12 kl./s, jak 0,5 s ataku bazowego);
+umiejętności, trafienie i śmierć zostają w formie bazowej, bo filmów tych stanów w formie po
+transformacji nie ma. Klatki wycina `scripts/anim/kifight_build.py` z filmów
+`art-wip/gemini-anim-stages/<rasa>-etap4-walka-po-transformacji.mp4` (jedna stała transformacja
+kamery na rasę, skala do wysokości chodu, stopy na tej samej linii; kierunki w prawo używają profilu,
+w lewo jego lustra). Wybór klipu robi `ActorAnimation` (`clipState`), a stan i priorytety
+zostają bez zmian. Specyfikacja klipów: `GPU_CONTRACT.optionalAnimations`. Atlasy `kifight`
+mają 1,9–2,5 MiB po rozkodowaniu (najwyższe światy po zmianie: 111,8 z 128 MiB). Atlas `kiwalk` jest zapakowany jako
 klatki przycięte do postaci (Android 9,5 MiB, Mędrzec 7,7 MiB, Legenda 6,0 MiB,
 Planetar 3,8 MiB po rozkodowaniu), bo Verdantia ma już ok. 120 MiB z 128 MiB budżetu.
 Legenda i Planetar mają ukosy zbudowane z profilu (w filmach obracają się zbyt szybko

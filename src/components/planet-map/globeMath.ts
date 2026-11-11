@@ -171,6 +171,8 @@ export type GlobeQuality = {
   maxDpr: number;
   /** Load the 3840 px colour texture after the first frame. */
   hiResColor: boolean;
+  /** Desktop-class machines that skip the 3840 px texture at start still load it when the camera comes close. */
+  hiResOnZoom: boolean;
   /** Sphere width segments (height is half). */
   segments: number;
   antialias: boolean;
@@ -185,6 +187,7 @@ export function globeQuality(env: GlobeEnv): GlobeQuality {
   return {
     maxDpr: Math.min(dpr, cap),
     hiResColor: !mobile && !lowEnd,
+    hiResOnZoom: !mobile,
     segments: mobile || lowEnd ? 96 : 160,
     antialias: !mobile || dpr < 2,
   };

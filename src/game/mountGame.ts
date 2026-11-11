@@ -22,7 +22,18 @@ import { cityRoom } from "./city/room";
 import type { BuildingId } from "./city/types";
 import { clampZoom, DEFAULT_ZOOM } from "./view";
 import { WORLD_V2 } from "./world/generated/worldVersion";
-import { cuesFor, sfx } from "./sfx";
+import { terrainAt } from "./world/terrain";
+import {
+  ambienceFile,
+  cuesFor,
+  installDialogSounds,
+  installUiClickSound,
+  sfx,
+  STEP_GAIN,
+  STEP_INTERVAL_MS,
+  stepFile,
+  stepSurface,
+} from "./sfx";
 import { actionFor, readKeyBindings, skillSlot } from "./keyBindings";
 import { focusOcclusion, heroOcclusion, type OcclusionFocus } from "./world/visibility";
 import {
@@ -70,6 +81,8 @@ type Actor = {
 
 /** Phaser is the rendering/input adapter; game rules live in GameSession. */
 export type GameRuntime = {
+  /** Center small instanced rooms within a larger viewport; never changes world navigation. */
+  centerSmallWorld?: boolean;
   authoritative?: boolean;
   networkPlayers?: () => NetworkPlayerState[];
   session: GameSession;
@@ -139,6 +152,8 @@ export function mountKileGends(
     private heritageMarkers: HeritageMarkers | undefined;
     /** Last frame's player snapshot for sound cues (potion used, door, notices). */
     private sfxSnapshot: Parameters<typeof cuesFor>[2] = null;
+    private lastStepAt = 0;
+    private lastSurface = "";
     private visualBudget = new CombatVisualBudget();
     private trackEffect(object: Phaser.GameObjects.GameObject, critical = false) {
       const release = this.visualBudget.add(() => object.destroy(), critical);
@@ -211,6 +226,11 @@ export function mountKileGends(
     private stickBase!: Phaser.GameObjects.Arc;
     private stickKnob!: Phaser.GameObjects.Arc;
     private lastReport = 0;
+    /** Flaga „gracz pisze w polu” z focusin/focusout — bez pytania DOM co klatkę (Faza 2). */
+    private typing = false;
+    /** Mapa NPC przebudowywana tylko przy zmianie listy, nie co klatkę (Faza 2). */
+    private npcMap = new Map<string, { id: string; name: string; x: number; y: number }>();
+    private npcMapSource: readonly unknown[] | null = null;
     private animationTime = 0;
     private suspended = false;
     private loadFailed = false;
@@ -450,6 +470,12 @@ export function mountKileGends(
       this.cameras.main.startFollow(this.hero.body, true, 0.12, 0.12);
       const zoom = () => {
         this.cameras.main.setZoom(clampZoom(Number(parent.dataset["zoom"] ?? DEFAULT_ZOOM)));
+        if (runtime?.centerSmallWorld && !session.player.interior) {
+          const cam = this.cameras.main;
+          const x = Math.max(0, (this.scale.width / cam.zoom - world.width) / 2);
+          const y = Math.max(0, (this.scale.height / cam.zoom - world.height) / 2);
+          cam.setBounds(-x, -y, world.width + 2 * x, world.height + 2 * y);
+        }
         if (session.player.interior) {
           // Painted rooms are larger than the screen: the whole width on a wide screen, a scrolling
           // window on a phone, always following the hero inside the room.
@@ -484,11 +510,19 @@ export function mountKileGends(
         const action = (event as CustomEvent<Command>).detail;
         session.command(action);
         if (action.type === "pause") {
-          if (action.value && action.suspendRendering) this.game.loop.sleep();
-          else if (!this.game.loop.running) {
-            // Time spent looking at the map is paused time, never a catch-up simulation tick.
-            this.game.loop.resetDelta();
-            this.game.loop.wake();
+          if (action.value && action.suspendRendering) {
+            // A sleeping world must release keyboard capture to the active trial/exam game.
+            // Phaser's manager otherwise prevents the event before the second game receives it.
+            if (this.input.keyboard) this.input.keyboard.manager.enabled = false;
+            this.input.keyboard?.resetKeys();
+            this.game.loop.sleep();
+          } else {
+            if (this.input.keyboard) this.input.keyboard.manager.enabled = true;
+            if (!this.game.loop.running) {
+              // Paused time is never a catch-up simulation tick.
+              this.game.loop.resetDelta();
+              this.game.loop.wake();
+            }
           }
         }
         // A right-thumb action must not release the left-thumb movement pointer.
@@ -537,6 +571,8 @@ export function mountKileGends(
               .abilities()
               .find((a) => a.key !== "" && skillSlot(a.key) === Number(bound.slice(5)))
           : undefined;
+        // Faza 2: jeden snapshot na naciśnięcie, nie trzy w gałęzi loot/interact.
+        const snap = bound === "loot" || bound === "interact" ? session.snapshot() : null;
         const action: Command | undefined =
           event.key === "Escape"
             ? { type: "cancel" }
@@ -547,15 +583,15 @@ export function mountKileGends(
                 : bound === "potion"
                   ? { type: "ability", ability: "potion" }
                   : bound === "loot"
-                    ? { type: "loot", id: session.snapshot().nearbyLoot[0]?.id ?? "" }
+                    ? { type: "loot", id: snap!.nearbyLoot[0]?.id ?? "" }
                     : bound === "interact"
                       ? session.player.interior === "depot" &&
                         distance(session.player, cityRoom("depot", world.id).chest) < 145
                         ? { type: "chest" }
-                        : session.snapshot().nearbyBuilding &&
+                        : snap!.nearbyBuilding &&
                             !session.npcs.some((n) => distance(n, session.player) < 140)
-                          ? { type: "enter", building: session.snapshot().nearbyBuilding!.id }
-                          : { type: "interact", npc: session.snapshot().nearestNpc }
+                          ? { type: "enter", building: snap!.nearbyBuilding!.id }
+                          : { type: "interact", npc: snap!.nearestNpc }
                       : slot
                         ? { type: "ability", ability: slot.id }
                         : undefined;
@@ -566,6 +602,18 @@ export function mountKileGends(
         }
       });
       this.input.addPointer(2);
+      // Faza 2: flaga pisania z zdarzeń focus, zamiast document.activeElement.closest() co klatkę.
+      const onFocusChange = (event: FocusEvent) => {
+        const el = event.type === "focusout" ? event.relatedTarget : event.target;
+        this.typing =
+          el instanceof HTMLElement && Boolean(el.closest("input,textarea,button,[role=dialog]"));
+      };
+      document.addEventListener("focusin", onFocusChange);
+      document.addEventListener("focusout", onFocusChange);
+      this.events.once(Phaser.Scenes.Events.DESTROY, () => {
+        document.removeEventListener("focusin", onFocusChange);
+        document.removeEventListener("focusout", onFocusChange);
+      });
       this.stickBase = this.add
         .circle(0, 0, 48, 0x183c48, 0.5)
         .setStrokeStyle(2, 0xb8f2df)
@@ -1281,6 +1329,9 @@ export function mountKileGends(
         })),
       );
       // Read-only camera telemetry lets QA click moving sprites at their actual screen position.
+      parent.dataset["keyboardEnabled"] = String(this.input.keyboard?.manager.enabled ?? false);
+      parent.dataset["typing"] = String(this.typing);
+      parent.dataset["paused"] = String(session.paused);
       parent.dataset["cameraX"] = String(this.cameras.main.scrollX);
       parent.dataset["cameraY"] = String(this.cameras.main.scrollY);
       parent.dataset["cameraZoom"] = String(this.cameras.main.zoom);
@@ -1396,20 +1447,21 @@ export function mountKileGends(
           foci.push({ id: "peer:" + id, x: entry.actor.body.x, y: entry.actor.body.y });
         this.updateVisibility?.(session.player, foci);
       }
-      const activeNpcs = new Map(session.npcs.map((n) => [n.id, n]));
+      // Faza 2: mapa NPC przebudowywana tylko przy zmianie listy; pozycje aktualizują się w miejscu.
+      if (this.npcMapSource !== session.npcs) {
+        this.npcMapSource = session.npcs;
+        this.npcMap.clear();
+        for (const n of session.npcs) this.npcMap.set(n.id, n);
+      }
       for (const actor of this.actors)
         if (actor.npcId) {
-          const npc = activeNpcs.get(actor.npcId);
+          const npc = this.npcMap.get(actor.npcId);
           if (npc) {
             actor.body.setPosition(npc.x, npc.y).setDepth(npc.y);
             actor.name.setText(npc.name);
           }
         }
-      const focused = document.activeElement;
-      const typing =
-        focused instanceof HTMLElement &&
-        Boolean(focused.closest("input,textarea,button,[role=dialog]"));
-      const k = typing ? undefined : this.keys;
+      const k = this.typing ? undefined : this.keys;
       const dx =
         Number(Boolean(k?.["D"]?.isDown || k?.["RIGHT"]?.isDown)) -
         Number(Boolean(k?.["A"]?.isDown || k?.["LEFT"]?.isDown)) +
@@ -1429,10 +1481,25 @@ export function mountKileGends(
         interior: session.player.interior,
         noticeId: session.noticeId,
         notice: session.notice,
+        fx: session.fx.active.map((a) => a.id),
       };
       for (const file of cuesFor(session.player.race, events, this.sfxSnapshot, snapshot))
         sfx.play(file);
       this.sfxSnapshot = snapshot;
+      sfx.setAmbience(ambienceFile(world.id, session.safe) ?? null);
+      if (session.moving && !session.player.dead && time - this.lastStepAt > STEP_INTERVAL_MS) {
+        this.lastStepAt = time;
+        const surface = stepSurface(
+          world.id,
+          terrainAt(world, session.player),
+          session.player.interior,
+        );
+        if (surface === "water" && this.lastSurface !== "water")
+          sfx.play("/game/sfx/movement/water-enter.mp3");
+        this.lastSurface = surface;
+        if (surface === "water") sfx.play("/game/sfx/movement/swim.mp3", STEP_GAIN);
+        else sfx.play(stepFile(surface), STEP_GAIN);
+      }
       // In the painted smithy the hero is drawn larger, as in the mockup (about a fifth of the screen height).
       this.hero.body
         .setPosition(session.player.x, session.player.y)
@@ -1506,7 +1573,7 @@ export function mountKileGends(
         if (a.kind === "npc")
           a.body.setVisible(
             near &&
-              Boolean(a.npcId && activeNpcs.has(a.npcId)) &&
+              Boolean(a.npcId && this.npcMap.has(a.npcId)) &&
               !(
                 world.id === "pyra" &&
                 a.npcId === "smith" &&
@@ -1730,8 +1797,13 @@ export function mountKileGends(
       }
     }, 500);
   }
+  const removeUiClickSound = installUiClickSound();
+  const removeDialogSounds = installDialogSounds();
   return () => {
     disposed = true;
+    removeUiClickSound();
+    removeDialogSounds();
+    sfx.setAmbience(null);
     window.clearInterval(debugTimer);
     window.clearTimeout(benchStart);
     stopBench?.();

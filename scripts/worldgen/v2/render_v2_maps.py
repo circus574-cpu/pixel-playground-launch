@@ -128,7 +128,11 @@ for f in index['features']:
         img = img * (1 - alpha) + np.array([196, 168, 118], np.float32) * alpha
     else:
         img = np.where(road[..., None], np.array([196, 168, 118], np.float32), img)
-    img = np.where(safe[..., None], img * .8 + 255 * .2, img)
+    # The safe-city zones were tinted with a hard-edged white square. In the zoomed atlas (MAP_UPSAMPLE>1) that
+    # showed as light rotated rectangles over the terrain, so the tint is off there; cities are marked by the
+    # atlas overlay's place glyphs. MAP_SAFE_TINT=1 forces the tint, MAP_SAFE_TINT=0 removes it (the island maps).
+    if os.environ.get('MAP_SAFE_TINT', '1' if UP <= 1 else '0') == '1':
+        img = np.where(safe[..., None], img * .8 + 255 * .2, img)
     edge = np.asarray(Image.fromarray((land * 255).astype(np.uint8)).filter(ImageFilter.FIND_EDGES)) > 0
     img[edge] = [40, 30, 22]
     Image.fromarray(np.clip(img, 0, 255).astype(np.uint8)).save(WORLD / land_id / f'map{SUFFIX}.webp', quality=86, method=6)

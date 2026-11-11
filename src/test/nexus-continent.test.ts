@@ -27,9 +27,10 @@ const tree: ArtObject = {
   footprint: { width: 50, height: 50 },
 };
 describe("Nexus-9 presentation safety", () => {
-  it("stays opt-in until the owner accepts and never replaces a previous binding", () => {
-    expect(previewPacks("")).not.toContain("nexus-continent-v2");
+  it("is default on since 06.11.2026 and never replaces a previous binding", () => {
+    expect(previewPacks("")).toContain("nexus-continent-v2");
     expect(previewPacks("?ki-nexus-continent=1")).toContain("nexus-continent-v2");
+    expect(previewPacks("?ki-nexus-continent=0")).not.toContain("nexus-continent-v2");
     const packs = imported.map((p) => PackSchema.parse(p)),
       pack = packs.find((p) => p.id === "nexus-continent-v2")!;
     expect(pack.assets).toHaveLength(64);

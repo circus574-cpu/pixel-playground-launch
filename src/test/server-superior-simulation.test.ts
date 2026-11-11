@@ -197,3 +197,44 @@ it.each(RACE_IDS)(
   },
   60000,
 );
+
+it("opens characters whose admin edits broke checkpoint invariants (xp, equipment, quests, continent)", async () => {
+  const seed: CharacterRecord = {
+    id: "admin-edit-invariants",
+    revision: 1,
+    state: { format: "server-character-1", player: newPlayer("planetary"), runtime: {} },
+  };
+  const first = await prepareServerSimulation(seed, path.resolve("public"));
+  const state = first.capture();
+  first.dispose();
+  // What the admin panel can store: lowered level with the old experience, an equipped sword and
+  // vest that were never owned, a finished quest without its prerequisites, another continent.
+  state.player.level = 1;
+  state.player.xp = 5000;
+  state.player.weapon = "sword";
+  state.player.items.sword = 0;
+  state.player.armor = "vest";
+  state.player.items.vest = 0;
+  state.player.quests.gear = "done";
+  state.player.quests.boars = "locked";
+  state.player.quests.steps = "locked";
+  const other = state.player.continent === "pyra" ? "verdant" : "pyra";
+  state.player.continent = other;
+  state.player.x = 999999;
+  const reopened = await prepareServerSimulation(
+    { ...seed, revision: 2, state },
+    path.resolve("public"),
+  );
+  try {
+    const p = reopened.session.player;
+    expect(p.xp).toBeLessThan(100);
+    expect(p.items.sword).toBeGreaterThan(0);
+    expect(p.items.vest).toBeGreaterThan(0);
+    expect(p.quests.boars).toBe("done");
+    expect(p.quests.steps).toBe("done");
+    expect(p.continent).toBe(other);
+    expect(p.x).toBeLessThan(999999);
+  } finally {
+    reopened.dispose();
+  }
+}, 60000);

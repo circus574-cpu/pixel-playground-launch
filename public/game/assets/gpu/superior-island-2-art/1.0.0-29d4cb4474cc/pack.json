@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "superior-island-2-art",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "island-2-terrain",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/superior-island-2-art/1.0.0-29d4cb4474cc/island-2-terrain.webp",
+      "atlasUrl": "/game/assets/gpu/superior-island-2-art/1.0.0-29d4cb4474cc/island-2-terrain.json",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "id": "island-2-props",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/superior-island-2-art/1.0.0-29d4cb4474cc/island-2-props.webp",
+      "atlasUrl": "/game/assets/gpu/superior-island-2-art/1.0.0-29d4cb4474cc/island-2-props.json",
+      "width": 1536,
+      "height": 1024
+    }
+  ],
+  "actors": [],
+  "actorBindings": {},
+  "renderBindings": {
+    "terrain.island-2.biome-0": {
+      "asset": "island-2-terrain",
+      "frame": "island-2.terrain.jade-grass",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-2.biome-1": {
+      "asset": "island-2-terrain",
+      "frame": "island-2.terrain.moss-floor",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-2.biome-2": {
+      "asset": "island-2-terrain",
+      "frame": "island-2.terrain.limestone",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-2.biome-3": {
+      "asset": "island-2-terrain",
+      "frame": "island-2.terrain.moss-floor",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-2.road": {
+      "asset": "island-2-terrain",
+      "frame": "island-2.terrain.seal-paving",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-2.plaza": {
+      "asset": "island-2-terrain",
+      "frame": "island-2.terrain.seal-paving",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-2.shore": {
+      "asset": "island-2-terrain",
+      "frame": "island-2.terrain.spring-shore",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-2.water": {
+      "asset": "island-2-terrain",
+      "frame": "island-2.terrain.jade-water",
+      "fit": "contain",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "object.island-2.tree": {
+      "asset": "island-2-props",
+      "frame": "island-2.props.ginkgo",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.92578125
+      ]
+    },
+    "object.island-2.flora": {
+      "asset": "island-2-props",
+      "frame": "island-2.props.fern",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.84765625
+      ]
+    },
+    "object.island-2.rock": {
+      "asset": "island-2-props",
+      "frame": "island-2.props.jade-boulder",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.830078125
+      ]
+    },
+    "object.island-2.landmark": {
+      "asset": "island-2-props",
+      "frame": "island-2.props.broken-seal",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.765625
+      ]
+    },
+    "object.island-2.arch": {
+      "asset": "island-2-props",
+      "frame": "island-2.props.archive-arch",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.890625
+      ]
+    },
+    "object.island-2.cargo": {
+      "asset": "island-2-props",
+      "frame": "island-2.props.jade-chest",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.751953125
+      ]
+    }
+  },
+  "effects": {}
+}

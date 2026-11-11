@@ -1,0 +1,62 @@
+{
+  "id": "island-4",
+  "projectName": "Wyspa Czterech Cum",
+  "nameStatus": "project name from docs/FABULA-I-EKWIPUNEK.md, not a rename of world geometry",
+  "style": "Ciepłe wybrzeże, oliwki i neutralny port",
+  "worldAffinity": "verdant",
+  "existingBiomeNames": [
+    "łąki",
+    "las",
+    "kamienne wzgórza",
+    "mokradła"
+  ],
+  "atlases": [
+    {
+      "kind": "terrain",
+      "image": "island-4/terrain.png",
+      "descriptor": "island-4/terrain.atlas.json",
+      "prompt": "island-4/terrain.prompt.txt",
+      "sha256": "35351e41075281da614b564cb01f8f7ff118870397d3c1cd7416bc718b1755e8",
+      "sourceImage": "exec-66a23f7d-300f-4493-a431-6d159c013568.png",
+      "bytes": 3268942,
+      "frames": [
+        "island-4.terrain.coastal-grass",
+        "island-4.terrain.terracotta-rock",
+        "island-4.terrain.olive-humus",
+        "island-4.terrain.harbour-paving",
+        "island-4.terrain.gold-sand",
+        "island-4.terrain.azure-water"
+      ],
+      "alpha": null
+    },
+    {
+      "kind": "props",
+      "image": "island-4/props.png",
+      "descriptor": "island-4/props.atlas.json",
+      "prompt": "island-4/props.prompt.txt",
+      "sha256": "9e722d59fd13e2a338e511d93cc6a5d6cbe5b141d7d50a676366b991994e9eeb",
+      "sourceImage": "exec-53cb148f-8313-4ac1-b9ba-1f85f2789ee2.png",
+      "bytes": 2814135,
+      "frames": [
+        "island-4.props.olive-tree",
+        "island-4.props.coastal-shrub",
+        "island-4.props.honey-boulder",
+        "island-4.props.moorings",
+        "island-4.props.harbour-arch",
+        "island-4.props.merchant-cargo"
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 253,
+        "zeroFraction": 0.0018355051676432292,
+        "below16Fraction": 0.5393632253011068,
+        "cornerValues": [
+          2,
+          0,
+          2,
+          1
+        ]
+      }
+    }
+  ]
+}

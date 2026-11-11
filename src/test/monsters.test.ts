@@ -33,6 +33,13 @@ function put(g: GameSession, kind: string, dx = 120, dy = 0): Enemy {
 function ticks(g: GameSession, ms: number, step = 50) {
   for (let t = 0; t < ms; t += step) g.tick(step);
 }
+/** A dead player cancels combat and sends monsters home, so behaviour probes must keep them standing. */
+function ticksAlive(g: GameSession, ms: number, step = 50) {
+  for (let t = 0; t < ms; t += step) {
+    g.player.hp = g.kit.stats.maxHp;
+    g.tick(step);
+  }
+}
 const physical = { tags: ["physical"] };
 
 describe("bestiary: 40 monsters from the owner document", () => {
@@ -133,8 +140,9 @@ describe("player damage model and weaknesses", () => {
     const b = put(g, "verdant-mchowy-szlamak", 0, 120);
     const phys = g.monsters.damage(a, 20, { tags: ["physical"] });
     const fire = g.monsters.damage(b, 20, { tags: ["physical", "fire"] });
-    expect(phys).toBeCloseTo(20 - 4 / 2, 6);
-    expect(fire).toBeCloseTo(20 * 1.3 - 4 / 2, 6);
+    const pancerz = monsterDef("verdant-mchowy-szlamak").def;
+    expect(phys).toBeCloseTo(20 - pancerz / 2, 6);
+    expect(fire).toBeCloseTo(20 * 1.3 - pancerz / 2, 6);
     expect(g.monsters.damage(put(g, "verdant-mchowy-szlamak"), 0.1, physical)).toBe(1);
   });
   it("magmowy krab takes less from the front and more from behind", () => {
@@ -144,8 +152,9 @@ describe("player damage model and weaknesses", () => {
     const front = g.monsters.damage(crab, 100, physical);
     crab.m.facing = { x: 1, y: 0 }; // turns its back
     const back = g.monsters.damage(crab, 100, physical);
-    expect(front).toBeCloseTo(100 * 0.4 - 28 / 2, 6);
-    expect(back).toBeCloseTo(100 * 1.4 - 28 / 2, 6);
+    const pancerzKrab = monsterDef("pyra-magmowy-krab").def;
+    expect(front).toBeCloseTo(100 * 0.4 - pancerzKrab / 2, 6);
+    expect(back).toBeCloseTo(100 * 1.4 - pancerzKrab / 2, 6);
   });
   it("złoty skarabeusz curls after three hits: physical −70%, KI unaffected", () => {
     const g = arena("sage");
@@ -154,8 +163,9 @@ describe("player damage model and weaknesses", () => {
     expect(s.m.curlMs).toBeGreaterThan(0);
     const phys = g.monsters.damage(s, 200, physical);
     const ki = g.monsters.damage(s, 200, { tags: ["ki"] });
-    expect(phys).toBeCloseTo(200 * 0.3 - 31 / 2, 6);
-    expect(ki).toBeCloseTo(200 * 1.3 - 31 / 2, 6);
+    const pancerzOwon = monsterDef("aether-zloty-skarabeusz").def;
+    expect(phys).toBeCloseTo(200 * 0.3 - pancerzOwon / 2, 6);
+    expect(ki).toBeCloseTo(200 * 1.3 - pancerzOwon / 2, 6);
   });
   it("kryształowy motyl reflects physical damage but not KI", () => {
     const g = arena("sage");
@@ -181,13 +191,13 @@ describe("player damage model and weaknesses", () => {
     const swarm = put(n, "nexus-roj-nanitow");
     n.monsters.damage(swarm, 10, { tags: ["electric"] });
     expect(n.enemies).toHaveLength(2);
-    expect(swarm.maxHp).toBe(Math.round(272 * 0.4));
+    expect(swarm.maxHp).toBe(Math.round(monsterDef("nexus-roj-nanitow").hp * 0.4));
     for (let i = 0; i < 124; i++) {
       n.player.hp = n.kit.stats.maxHp;
       n.tick(50);
     }
     expect(n.enemies).toHaveLength(1);
-    expect(swarm.maxHp).toBe(272);
+    expect(swarm.maxHp).toBe(monsterDef("nexus-roj-nanitow").hp);
   });
   it("węgielek explodes on death and hurts a nearby player for 40% ATK", () => {
     const g = arena("legend");
@@ -196,7 +206,10 @@ describe("player damage model and weaknesses", () => {
     g.monsters.damage(coal, 1e5, physical);
     expect(coal.mode).toBe("dead");
     expect(g.player.hp).toBeLessThan(hp);
-    expect(hp - g.player.hp).toBeCloseTo(Math.max(1, 7 * 0.4 - g.kit.stats.defense / 2), 6);
+    expect(hp - g.player.hp).toBeCloseTo(
+      Math.max(1, monsterDef("pyra-wegielek").atk * 0.4 - g.kit.stats.defense / 2),
+      6,
+    );
   });
 });
 
@@ -248,12 +261,12 @@ describe("monster behaviour", () => {
     g.player.hp = g.kit.stats.maxHp;
     const root = put(g, "verdant-korzeniowy-pelzacz", 200, 0);
     expect(root.m.hidden).toBe(true);
-    ticks(g, 400);
+    ticksAlive(g, 400);
     expect(root.m.cast).toBeDefined();
-    ticks(g, 600);
+    ticksAlive(g, 600);
     expect(root.m.hidden).toBe(false);
     expect(g.fx.rootMs).toBeGreaterThan(0);
-    ticks(g, 4200);
+    ticksAlive(g, 4200);
     expect(["under", "hidden"]).toContain(root.m.phase);
     expect(g.monsters.damage(root, 100, physical)).toBe(0);
   });
@@ -300,13 +313,13 @@ describe("monster behaviour", () => {
     wasp.m.engaged = true;
     wasp.mode = "chase";
     wasp.hp = wasp.maxHp * 0.35;
-    ticks(g, 400);
+    ticksAlive(g, 400);
     expect(g.enemies.filter((e) => e.kind === "verdant-mala-osa")).toHaveLength(2);
-    ticks(g, 2000);
+    ticksAlive(g, 2000);
     expect(g.enemies.filter((e) => e.kind === "verdant-mala-osa")).toHaveLength(2);
     for (const minion of g.enemies.filter((e) => e.kind === "verdant-mala-osa"))
       g.monsters.damage(minion, 1e5, physical);
-    ticks(g, 1200);
+    ticksAlive(g, 1200);
     expect(g.enemies.filter((e) => e.kind === "verdant-mala-osa")).toHaveLength(0);
   });
   it("puchacz pyłowy only dives at a hurt player and has a smaller radius by day", () => {
@@ -338,6 +351,7 @@ describe("monster behaviour", () => {
     );
     let hot = false;
     for (let i = 0; i < 400 && !hot; i++) {
+      g.player.hp = g.kit.stats.maxHp;
       g.tick(50);
       hot = turret.m.heatMs > 0;
     }

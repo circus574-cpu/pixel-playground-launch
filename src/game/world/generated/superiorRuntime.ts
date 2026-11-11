@@ -1,3 +1,5 @@
+import { islandArtEnabled, islandFeatureArt, islandObjects } from "./islandArt";
+import { dressEnabled, townDress } from "./worldDress";
 import {
   aetheriaContinentEnabled,
   aetheriaObjects,
@@ -16,6 +18,7 @@ import {
   type SuperiorSimulationSource as Source,
 } from "./simulationWorld";
 import { STREAM_TEXTURE_BUDGET_BYTES, streamTextureBytes } from "../../assets/streamBudget";
+import { chooseGroundResolution, groundTextureBytes } from "../../assets/groundBudget";
 import {
   verdantiaContinentEnabled,
   continentObjects,
@@ -136,7 +139,23 @@ export async function prepareSuperior(options: {
   const artBytes = await artResponse.arrayBuffer();
   if ((await bytesHash(artBytes)) !== artManifest[save.feature + "/feature.art.json"])
     throw Error("Błędna suma oprawy lądu");
-  const art = JSON.parse(new TextDecoder().decode(artBytes)) as FeatureArt;
+  const art = islandFeatureArt(
+    info.id,
+    JSON.parse(new TextDecoder().decode(artBytes)) as FeatureArt,
+  );
+  // Island settlements carry no authored city scenery at all (`acceptedCityScenery = 0`), so the
+  // first frame of every island is bare paving. Dress it with the island's own motifs; nothing
+  // here is solid and nothing has a footprint, so town collision stays exactly as authored.
+  if (dressEnabled() && islandArtEnabled(info.id))
+    art.acceptedCityScenery = [
+      ...(art.acceptedCityScenery ?? []),
+      ...townDress(
+        info.id,
+        source.settlements,
+        [...art.buildings, ...art.acceptedCityBuildings],
+        source.roads,
+      ),
+    ];
   // KI crystal nodes were bound to the Nexus machine crystal on every land. Outside Nexus they
   // show a natural crystal cluster; the node itself (position, kind) is unchanged.
   if (info.id !== "nexus")
@@ -334,6 +353,7 @@ export async function prepareSuperior(options: {
       const value = JSON.parse(text) as { format: string; objects: ArtObject[] };
       if (value.format !== "superior-art-overlay-1" || !Array.isArray(value.objects))
         throw Error("Błędne dekoracje");
+      value.objects = islandObjects(info.id, value.objects);
       // The generator scattered Nexus machine crystals through Verdantia's forests as decoration;
       // show a mossy forest boulder there instead. Positions and collision stay as authored.
       if (info.id === "verdant")
@@ -520,12 +540,14 @@ export async function prepareSuperior(options: {
   };
   const spawnStream = streamSpawns(session, save, spawnData.overworld, {
     canAcquire(slot) {
-      // Reserve twelve ground canvases plus 8 MiB for an incoming scenery chunk.
+      // Audyt 11.11.2026: stała rezerwy nie pokrywała podłoża (12 × 1024² × 4 = 48 MiB, nie 20).
+      // Liczymy podłoże jawnie, po rozdzielczości, którą renderer naprawdę dobierze do tych atlasów.
       const ids = new Set([...protectedAssets, ...owned, ...neededByMonster(slot.kind)]);
       for (const keys of owners.values()) for (const id of keys) ids.add(id);
-      return (
-        !!activeScene && streamTextureBytes(ids, catalog.assets) <= STREAM_TEXTURE_BUDGET_BYTES
-      );
+      if (!activeScene) return false;
+      const atlasBytes = streamTextureBytes(ids, catalog.assets);
+      const ground = groundTextureBytes(chooseGroundResolution(atlasBytes, 1024));
+      return atlasBytes + ground <= STREAM_TEXTURE_BUDGET_BYTES;
     },
     async acquire(slot) {
       if (!activeScene || disposed) throw Error("World is not mounted");
@@ -721,6 +743,11 @@ export async function prepareSuperior(options: {
         release,
         error,
         currentDoors: () => [...(world.city?.buildings ?? [])],
+        residentAtlasBytes: () => {
+          const ids = new Set([...protectedAssets, ...owned]);
+          for (const keys of owners.values()) for (const id of keys) ids.add(id);
+          return streamTextureBytes(ids, catalog.assets);
+        },
       });
     },
     afterTick() {

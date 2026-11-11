@@ -50,7 +50,15 @@ const BEHAVIOUR: Record<string, Behaviour> = {
     traits: { leash: 520, pack: [2, 3], flank: true, retreat: { below: 0.25, ms: 4000 } },
     skills: [
       { id: "wycie", name: "Wycie", mode: "self", cd: 1000, range: 600, call: 1, once: true },
-      { id: "skok", name: "Skok na cel", mode: "leap", cd: 6000, range: 220, dmg: 1.2 },
+      {
+        id: "skok",
+        name: "Skok na cel",
+        mode: "leap",
+        cd: 6000,
+        range: 220,
+        dmg: 1.2,
+        fx: [bleed(0.12, 4000)],
+      },
     ],
   },
   "verdant-lisciak-skrytobojca": {
@@ -255,6 +263,7 @@ const BEHAVIOUR: Record<string, Behaviour> = {
         range: 130,
         dmg: 1.8,
         telegraph: 1000,
+        fx: [{ k: "stun", ms: 700 }],
       },
     ],
   },
@@ -262,6 +271,7 @@ const BEHAVIOUR: Record<string, Behaviour> = {
     weak: { physical: 1.2 },
     basic: "ranged",
     attackCd: 2500,
+    basicFx: [{ k: "blind", pct: 0.2, ms: 3000 }],
     traits: { fly: true, guard: true, keep: 220, leash: 250 },
   },
   "aether-pergaminowy-straznik": {
@@ -471,7 +481,16 @@ const BEHAVIOUR: Record<string, Behaviour> = {
     },
     skills: [
       { id: "alarm", name: "Alarm", mode: "self", cd: 1000, range: 600, call: 1, once: true },
-      { id: "wiazka", name: "Wiązka", mode: "ranged", cd: 3000, range: 260, dmg: 0.6, volley: 2 },
+      {
+        id: "wiazka",
+        name: "Wiązka",
+        mode: "ranged",
+        cd: 3000,
+        range: 260,
+        dmg: 0.6,
+        volley: 2,
+        fx: [{ k: "mark", pct: 0.12, ms: 6000 }],
+      },
     ],
   },
   "nexus-pelzacz-serwisowy": {
@@ -486,13 +505,22 @@ const BEHAVIOUR: Record<string, Behaviour> = {
         range: 200,
         heal: { pct: 0.05, ms: 4000 },
       },
-      { id: "kleszcze", name: "Kleszcze", mode: "melee", cd: 2000, range: 90, dmg: 1 },
+      {
+        id: "kleszcze",
+        name: "Kleszcze",
+        mode: "melee",
+        cd: 2000,
+        range: 90,
+        dmg: 1,
+        fx: [{ k: "weaken", pct: 0.12, ms: 5000 }],
+      },
     ],
   },
   "nexus-skaner-gasienicowy": {
     basic: "ranged",
     attackCd: 5000,
     traits: { machine: true, keep: 300, leash: 450, ramp: 0.25, backBonus: 0.25 },
+    basicFx: [{ k: "blind", pct: 0.25, ms: 4000 }],
     skills: [
       {
         id: "namierzenie",
@@ -508,7 +536,15 @@ const BEHAVIOUR: Record<string, Behaviour> = {
     weak: { electric: 1.2 },
     traits: { machine: true, leash: 450 },
     skills: [
-      { id: "luk", name: "Łuk spawalniczy", mode: "ranged", cd: 5000, range: 220, dmg: 1 },
+      {
+        id: "luk",
+        name: "Łuk spawalniczy",
+        mode: "ranged",
+        cd: 5000,
+        range: 220,
+        dmg: 1,
+        fx: [burn(0.12, 3000)],
+      },
       {
         id: "zar",
         name: "Strefa żaru",
@@ -541,6 +577,7 @@ const BEHAVIOUR: Record<string, Behaviour> = {
         dmg: 0.5,
         volley: 3,
         aimed: true,
+        fx: [{ k: "slow", pct: 0.2, ms: 3000 }],
       },
     ],
   },
@@ -554,7 +591,15 @@ const BEHAVIOUR: Record<string, Behaviour> = {
     traits: { machine: true, leash: 700 },
     skills: [
       { id: "skok", name: "Skok", mode: "leap", cd: 6000, range: 260, dmg: 1 },
-      { id: "szarpniecie", name: "Szarpnięcie", mode: "melee", cd: 2200, range: 100, dmg: 1.2 },
+      {
+        id: "szarpniecie",
+        name: "Szarpnięcie",
+        mode: "melee",
+        cd: 2200,
+        range: 100,
+        dmg: 1.2,
+        fx: [bleed(0.15, 4000)],
+      },
     ],
   },
   "nexus-straznik-rdzenia": {
@@ -580,6 +625,7 @@ const BEHAVIOUR: Record<string, Behaviour> = {
         radius: 130,
         telegraph: 600,
         centred: true,
+        fx: [{ k: "stun", ms: 500 }],
       },
     ],
   },
@@ -597,6 +643,7 @@ const BEHAVIOUR: Record<string, Behaviour> = {
         dmg: 2.5,
         radius: 180,
         telegraph: 2500,
+        fx: [{ k: "silence", ms: 5000 }],
       },
     ],
   },
@@ -662,7 +709,16 @@ const BEHAVIOUR: Record<string, Behaviour> = {
     weak: { stun: 1.25 },
     traits: { leash: 450, rage: { dmg: 0.4, below: 0.5, speed: 0.2 } },
     skills: [
-      { id: "mlot", name: "Młot", mode: "melee", cd: 5000, range: 100, dmg: 1.4, telegraph: 500 },
+      {
+        id: "mlot",
+        name: "Młot",
+        mode: "melee",
+        cd: 5000,
+        range: 100,
+        dmg: 1.4,
+        telegraph: 500,
+        fx: [{ k: "armorDown", pct: 0.1, ms: 6000, stacks: 2 }],
+      },
     ],
   },
   "pyra-magmowy-krab": {
@@ -679,6 +735,7 @@ const BEHAVIOUR: Record<string, Behaviour> = {
         dmg: 0.3,
         radius: 120,
         telegraph: 700,
+        fx: [{ k: "slow", pct: 0.3, ms: 4000 }],
         zone: { kind: "lava", ms: 4000, radius: 120, dps: 0.3, fx: [burn(0.15, 2000)] },
       },
     ],
@@ -722,6 +779,7 @@ const BEHAVIOUR: Record<string, Behaviour> = {
         range: 130,
         dmg: 2.2,
         telegraph: 1500,
+        fx: [{ k: "stun", ms: 900 }],
       },
     ],
   },

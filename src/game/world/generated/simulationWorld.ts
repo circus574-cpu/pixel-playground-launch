@@ -85,7 +85,10 @@ export function buildSuperiorSimulationWorld(options: {
         buildings: capital.city.buildings.map((b) => ({ ...b, door: shift(b.door) })),
         roads: [],
       };
-      npcs = capital.npcs.map((n) => ({ ...n, ...shift(n) }));
+      npcs = capital.npcs.map((n) => {
+        const named = boundTownNpc(info.affinity, town.id, places, n.id);
+        return { ...n, ...shift(n), ...(named ? { dialogueId: named.id } : {}) };
+      });
       market = { ...capital.market, ...shift(capital.market) };
     } else {
       const buildings = source.buildings.filter(
@@ -111,6 +114,7 @@ export function buildSuperiorSimulationWorld(options: {
           ...n,
           name: named ? named.name : town.name + " · " + n.role,
           ...(named?.greeting ? { dialogue: named.greeting } : {}),
+          ...(named ? { dialogueId: named.id } : {}),
           x: town.x + (n.id === "hunter" ? -120 : 120),
           y: town.y + 180,
         };

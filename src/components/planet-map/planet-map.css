@@ -1064,3 +1064,12 @@ html[data-ki-world-v2] .pg-zone {
   top: calc(max(14px, env(safe-area-inset-top)) + 70px);
   bottom: auto;
 }
+
+/* The planet wraps horizontally, so the radial vignette lives on the viewport, not inside each map copy. */
+.pm-viewport::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 50%, transparent 62%, rgba(3, 10, 18, 0.62) 100%);
+}

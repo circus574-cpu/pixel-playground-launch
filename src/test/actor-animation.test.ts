@@ -51,6 +51,75 @@ describe("Tryb KI walk (kiwalk)", () => {
     expect(animation.state).toBe("walk");
   });
 });
+describe("Tryb KI stance and basic attack (kiidle, kiattack)", () => {
+  const rigKi = () => {
+    const base = actorVisual("verdant", "hero", undefined, false, catalog);
+    const sprite = {
+      anims: { pause: vi.fn(), resume: vi.fn() },
+      play: vi.fn(),
+      stop: vi.fn(),
+      setTexture: vi.fn(),
+    };
+    return {
+      sprite,
+      base,
+      animation: new ActorAnimation(sprite as unknown as Phaser.GameObjects.Sprite, base),
+    };
+  };
+  it("ships both clips for every hero with the contract frame counts", () => {
+    for (const world of ["verdant", "aether", "nexus", "pyra"] as const) {
+      const hero = actorVisual(world, "hero", undefined, false, catalog);
+      for (const [clip, frames] of [
+        ["kiidle", 1],
+        ["kiattack", 6],
+      ] as const) {
+        const c = hero.clips[clip]!;
+        expect(c, world + clip).toBeDefined();
+        expect(Object.keys(c.directions).sort()).toEqual([...DIRECTIONS].sort());
+        for (const names of Object.values(c.directions)) expect(names).toHaveLength(frames);
+      }
+    }
+  });
+  it("stands in the powered-up stance only while Tryb KI is active", () => {
+    const { animation, sprite, base } = rigKi();
+    animation.update(0, false, false, { x: 1, y: 0 }, false, false);
+    expect(animation.state).toBe("idle");
+    expect(sprite.setTexture).not.toHaveBeenCalledWith(base.clips.kiidle!.asset, expect.anything());
+    animation.update(100, false, false, { x: 1, y: 0 }, false, true);
+    expect(animation.state).toBe("idle");
+    const frame = base.clips.kiidle!.directions.right![0];
+    expect(sprite.setTexture).toHaveBeenLastCalledWith(base.clips.kiidle!.asset, frame);
+    animation.update(200, false, false, { x: 1, y: 0 }, false, false);
+    expect(sprite.stop).toHaveBeenCalled();
+    expect(String(sprite.play.mock.calls.at(-1)?.[0] ?? "")).not.toContain("kiidle");
+  });
+  it("plays the powered-up basic attack only in Tryb KI and keeps the priority rules", () => {
+    const { animation, sprite } = rigKi();
+    animation.update(0, false, false, { x: 1, y: 0 }, false, true);
+    animation.trigger("attack", 10, { x: 1, y: 0 });
+    animation.update(20, false, false, { x: 1, y: 0 }, false, true);
+    expect(animation.state).toBe("attack");
+    expect(String(sprite.play.mock.calls.at(-1)?.[0])).toContain("/kiattack/");
+    animation.trigger("skill", 30, { x: 1, y: 0 });
+    animation.update(40, false, false, { x: 1, y: 0 }, false, true);
+    expect(animation.state).toBe("skill");
+    expect(String(sprite.play.mock.calls.at(-1)?.[0])).not.toContain("kiattack");
+    // Without Tryb KI the same trigger uses the base attack clip.
+    const plain = rigKi();
+    plain.animation.update(0, false, false, { x: 1, y: 0 }, false, false);
+    plain.animation.trigger("attack", 10, { x: 1, y: 0 });
+    plain.animation.update(20, false, false, { x: 1, y: 0 }, false, false);
+    expect(String(plain.sprite.play.mock.calls.at(-1)?.[0])).not.toContain("kiattack");
+  });
+  it("falls back to the base idle and attack for a rig without the clips", () => {
+    const { animation } = rig();
+    animation.update(0, false, false, { x: 1, y: 0 }, false, true);
+    expect(animation.state).toBe("idle");
+    animation.trigger("attack", 10, { x: 1, y: 0 });
+    animation.update(20, false, false, { x: 1, y: 0 }, false, true);
+    expect(animation.state).toBe("attack");
+  });
+});
 describe("animation presentation remains separate from mechanical actions", () => {
   it("maps all eight real movement vectors and does not restart an unchanged clip", () => {
     const { sprite, animation } = rig();

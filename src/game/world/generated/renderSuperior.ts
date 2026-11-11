@@ -1,3 +1,4 @@
+import { islandArtEnabled, islandMaterial } from "./islandArt";
 import {
   aetheriaContinentEnabled,
   aetheriaTerrainBindings,
@@ -46,8 +47,11 @@ import {
   meadowBuildings,
   aetherLegacyScenery,
 } from "./paintedMeadow";
+import { continentAir, continentDress, dressBiomeAt, dressEnabled } from "./worldDress";
 import type Phaser from "phaser";
 import { catalog } from "../../assets/catalog";
+import { chooseGroundResolution } from "../../assets/groundBudget";
+import { buildSceneryGrid, sceneryNear, sceneryReach } from "../sceneryStream";
 import { sizeScenery } from "../../assets/scenery";
 import { renderDepth } from "../../assets/layers";
 import { blendedTexture } from "../../assets/blendPlates";
@@ -87,14 +91,21 @@ export type RenderSource = {
   release: (scene: Phaser.Scene, owner: string) => void;
   error: (error: unknown) => void;
   currentDoors: () => { id: string; name: string; door: Point }[];
+  /** Bajty atlasów już rezydujących w scenie; podłoże dobiera rozdzielczość do reszty budżetu. */
+  residentAtlasBytes?: () => number;
 };
 const CHUNK = 2048;
+
 type Tile = {
   data: BrowserChunk;
   items: ArtObject[];
   ground: Phaser.GameObjects.Image;
   images: Map<string, Phaser.GameObjects.Image>;
   shadows: Map<string, Phaser.GameObjects.Image>;
+  /** Siatka przestrzenna z renderera v1: pętla widoczności chodzi tylko po komórkach w kadrze. */
+  grid: Map<number, number[]>;
+  reach: number;
+  index: Map<string, number>;
   key: string;
 };
 const intersects = (
@@ -131,7 +142,11 @@ const layerCanvas = (size = 512) => {
 };
 /** Only streamed chunks have canvases; only nearby decorations have Phaser images. */
 export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
-  const painted = paintedMeadowEnabled(source.loader.definition.feature);
+  const feature = source.loader.definition.feature;
+  const island = islandArtEnabled(feature);
+  const dress = dressEnabled();
+  const materials = new Map<string, HTMLCanvasElement>();
+  const painted = paintedMeadowEnabled(feature) || island;
   const pyraContinent = pyraContinentEnabled(source.loader.definition.feature);
   const verdantContinent = verdantiaContinentEnabled(source.loader.definition.feature);
   const aetheriaContinent = aetheriaContinentEnabled(source.loader.definition.feature);
@@ -165,7 +180,13 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   const paintedNexus = painted && source.loader.definition.feature === "nexus";
   const nexusRoads = paintedNexus ? nexusWalkways(source.art) : [];
   const renderRoads = [...source.roads, ...nexusRoads];
-  const resolution = painted || continent ? 1024 : 512;
+  // Audyt 11.11.2026: podłoże było poza budżetem tekstur. Dobieramy rozdzielczość do reszty
+  // budżetu po atlasach, zamiast zawsze piec 1024 i przekraczać sufit o 28–48 MiB.
+  const preferredResolution = painted || continent ? 1024 : 512;
+  const resolution =
+    painted || continent
+      ? chooseGroundResolution(source.residentAtlasBytes?.() ?? 0, preferredResolution)
+      : preferredResolution;
   const scale = resolution / CHUNK;
   const shadowKey = "verdantia-continent-contact-shadow";
   if (continent && !scene.textures.exists(shadowKey)) {
@@ -210,7 +231,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     ...source.art.dungeonEntrances,
     ...(paintedNexus
       ? nexusGarden(source.art)
-      : painted
+      : painted && !island
         ? meadowScenery(source.art, source.cityRoads)
         : []),
   ];
@@ -240,7 +261,25 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     if (!tex) throw Error("Nie można przygotować terenu");
     const ctx = tex.getContext();
     const pattern = (binding: string) => {
-      const image = scene.textures.get(textureId(binding)).getSourceImage() as HTMLImageElement;
+      const texture = scene.textures.get(textureId(binding));
+      const ref = catalog.renderBindings[binding]!;
+      let image = texture.getSourceImage() as HTMLImageElement | HTMLCanvasElement;
+      if (island && ref.frame !== undefined) {
+        const frame = texture.get(ref.frame);
+        const materialKey = ref.asset + ":" + ref.frame;
+        let material = materials.get(materialKey);
+        if (!material) {
+          material = islandMaterial(
+            frame.source.image as CanvasImageSource,
+            frame.cutX,
+            frame.cutY,
+            frame.cutWidth,
+            frame.cutHeight,
+          );
+          materials.set(materialKey, material);
+        }
+        image = material;
+      }
       const tile = ctx.createPattern(image, "repeat")!;
       const size = catalog.renderBindings[binding]?.tileSize ?? [256, 256];
       // Preserve texture scale relative to the world footprint at either bake resolution.
@@ -331,7 +370,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       lctx.clearRect(0, 0, resolution, resolution);
       lctx.fillStyle = fill;
       lctx.filter =
-        legacyTone && painted && !paintedPyra && !paintedNexus && fill !== water
+        legacyTone && painted && !island && !paintedPyra && !paintedNexus && fill !== water
           ? "saturate(0.82) brightness(0.9)"
           : "none";
       lctx.fillRect(0, 0, resolution, resolution);
@@ -347,7 +386,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     if (!wilderness)
       for (const b of aetheriaContinent ? [...biomes].sort((a, b) => a - b) : biomes)
         texture(ground[b] ?? ground[0]!, groundAlpha, (i) => !!(flags[i]! & 16) && biome[i] === b);
-    if (painted && !wilderness) {
+    if (painted && !island && !wilderness) {
       const shop = source.art.acceptedCityBuildings.find((b) => b.id === "accepted-city-shop");
       if (shop)
         texture(ground[0]!, 1, (i) => {
@@ -408,6 +447,25 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       });
     }
     if (!wilderness) texture(water, waterAlpha, (i) => !(flags[i]! & 16));
+    if (island) {
+      texture(
+        pattern(`terrain.${feature}.shore`),
+        0.85,
+        (i) =>
+          !!(flags[i]! & 16) &&
+          [i - 2, i + 2, i - cols * 2, i + cols * 2].some(
+            (j) => j >= 0 && j < flags.length && !(flags[j]! & 16),
+          ),
+        false,
+      );
+      if (feature === "island-6")
+        texture(
+          pattern(`terrain.${feature}.lava`),
+          0.8,
+          (i) => !!(flags[i]! & 16) && !(flags[i]! & 1) && biome[i] === 3,
+          false,
+        );
+    }
     if (continent) {
       for (const b of biomes)
         texture(
@@ -576,6 +634,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     }
     if (
       painted &&
+      !island &&
       !paintedPyra &&
       !paintedNexus &&
       !(aetheriaContinent && wilderness && (biomes.has(2) || biomes.has(3)))
@@ -836,18 +895,56 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         .setVisible(visible),
     };
   };
+  // Faza 2: pieczenie chunku jest synchroniczne i drogie. Zamiast piec wszystkie naraz w jednej
+  // klatce (zamrożenie przy wejściu do świata), kolejka drenuje maks. 2 chunki na klatkę.
+  const bakeQueue: { data: BrowserChunk; id: string; items: ArtObject[] }[] = [];
+  const MAX_BAKES_PER_FRAME = 2;
+  const finishChunk = (data: BrowserChunk, id: string, items: ArtObject[]) => {
+    const ground = drawGround(data, id);
+    const grid = buildSceneryGrid(items);
+    const index = new Map(items.map((item, i) => [item.id, i] as const));
+    live.set(id, {
+      data,
+      items,
+      ground: ground.image,
+      images: new Map(),
+      shadows: new Map(),
+      grid,
+      reach: sceneryReach(items),
+      index,
+      key: ground.key,
+    });
+  };
+  const drainBakes = () => {
+    let n = 0;
+    while (bakeQueue.length && n < MAX_BAKES_PER_FRAME) {
+      const entry = bakeQueue.shift()!;
+      pending.delete(entry.id);
+      if (disposed || failed || !wanted.has(entry.id)) {
+        source.release(scene, entry.id);
+        continue;
+      }
+      finishChunk(entry.data, entry.id, entry.items);
+      n++;
+    }
+  };
   const load = async (x: number, y: number) => {
     const id = x + "-" + y;
     pending.add(id);
     try {
       const [data, art] = await Promise.all([source.loader.loadChunk(x, y), source.readArt(x, y)]);
-      if (disposed || !wanted.has(id)) return;
+      if (disposed || !wanted.has(id)) {
+        pending.delete(id);
+        return;
+      }
       const originalItems = [...art, ...(staticGrid.get(id) ?? [])];
       const biomeAt = aetheriaContinent
         ? aetheriaBiomeAt(data)
         : nexusContinent
           ? nexusBiomeAt(data)
-          : () => 0;
+          : continent && dress
+            ? dressBiomeAt(data)
+            : () => 0;
       const items = aetheriaContinent
         ? aetheriaObjects(originalItems, outside, source.roads, biomeAt)
         : nexusContinent
@@ -872,7 +969,12 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             biomeAt,
           ),
         );
-        if (nexusContinent) {
+        if (dress) {
+          items.push(
+            ...continentDress(feature, data.x, data.y, source.roads, outside, onLand, biomeAt),
+          );
+          items.push(...continentAir(feature, data.x, data.y, outside, onLand));
+        } else if (nexusContinent) {
           items.push(...nexusScatter(data.x, data.y, source.roads, outside, onLand, biomeAt));
           items.push(...nexusAir(data.x, data.y, outside, onLand, biomeAt));
         }
@@ -888,28 +990,22 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       await source.acquire(scene, ids, id);
       if (disposed || !wanted.has(id)) {
         source.release(scene, id);
+        pending.delete(id);
         return;
       }
-      const ground = drawGround(data, id);
-      live.set(id, {
-        data,
-        items,
-        ground: ground.image,
-        images: new Map(),
-        shadows: new Map(),
-        key: ground.key,
-      });
+      // Faza 2: bake odkładany do kolejki drenowanej po maks. 2 na klatkę, nie tu synchronicznie.
+      bakeQueue.push({ data, id, items });
     } catch (error) {
+      pending.delete(id);
       if (!disposed) {
         failed = true;
         source.error(error);
       }
-    } finally {
-      pending.delete(id);
     }
   };
   const updateVisibility = (player: Point, others: readonly OcclusionFocus[] = []) => {
     if (disposed || failed || !visible) return;
+    drainBakes();
     const view = scene.cameras.main.worldView;
     const maxX = Math.ceil(source.loader.definition.geometry.width / CHUNK) - 1;
     const maxY = Math.ceil(source.loader.definition.geometry.height / CHUNK) - 1;
@@ -949,8 +1045,23 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       const [x, y] = id.split("-").map(Number);
       void load(x!, y!);
     }
-    for (const tile of live.values())
-      for (const item of tile.items) {
+    for (const tile of live.values()) {
+      // Audyt 11.11.2026: pętla szła po wszystkich obiektach wszystkich chunków co klatkę
+      // (3840 obiektów w mieście). Siatka z renderera v1 wybiera tylko komórki w kadrze,
+      // powiększone o zasięg największego obiektu, więc żaden widoczny nie wypada.
+      const near = sceneryNear(tile.grid, view, 200 + tile.reach);
+      const candidates = new Set(near);
+      // Obraz, którego obiekt wyszedł poza kandydatów, na pewno nie jest już widoczny.
+      for (const [id, image] of tile.images) {
+        const at = tile.index.get(id);
+        if (at !== undefined && candidates.has(at)) continue;
+        image.destroy();
+        tile.images.delete(id);
+        tile.shadows.get(id)?.destroy();
+        tile.shadows.delete(id);
+      }
+      for (const at of near) {
+        const item = tile.items[at]!;
         let image = tile.images.get(item.id);
         if (!intersects(item, view, 200)) {
           if (image) {
@@ -986,7 +1097,10 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             item.height * drawScale,
             ref.fit,
           )
-            .setOrigin(item.anchorX, item.anchorY)
+            .setOrigin(
+              island && ref.origin ? ref.origin[0] : item.anchorX,
+              island && ref.origin ? ref.origin[1] : item.anchorY,
+            )
             .setTint(
               ref.asset.startsWith("verdantia-continent-") ||
                 ref.asset.startsWith("verdantia-extra-") ||
@@ -1025,6 +1139,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
           tile.shadows.get(item.id)?.setVisible(false);
         }
       }
+    }
     const doors = source.currentDoors(),
       nextKey = doors.map((d) => d.door.x + "," + d.door.y).join(";");
     if (nextKey !== doorsKey) {
@@ -1059,6 +1174,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         );
       }
     }
+    scene.game.canvas.dataset["islandArt"] = island ? feature : "off";
     scene.game.canvas.dataset["superiorChunks"] = String(live.size);
     scene.game.canvas.dataset["superiorPending"] = String(pending.size);
     scene.game.canvas.dataset["superiorPainted"] = String(painted);
@@ -1071,6 +1187,17 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     scene.game.canvas.dataset["superiorScenery"] = String(
       [...live.values()].reduce((n, t) => n + t.images.size, 0),
     );
+    if (dress)
+      scene.game.canvas.dataset["dressScenery"] = String(
+        [...live.values()].reduce(
+          (n, t) =>
+            n +
+            [...t.images.keys()].filter(
+              (k) => k.startsWith("dress-") || k.startsWith("town-dress-"),
+            ).length,
+          0,
+        ),
+      );
   };
   return {
     terrainMode: "superior",
@@ -1088,6 +1215,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       disposed = true;
       for (const id of [...live.keys()]) drop(id);
       if (continent && scene.textures.exists(shadowKey)) scene.textures.remove(shadowKey);
+      materials.clear();
       markers.splice(0).forEach((m) => m.destroy());
     },
   };

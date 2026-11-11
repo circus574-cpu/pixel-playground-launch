@@ -26,6 +26,7 @@ export function trialRuntime(attempt: TrialAttempt): GameRuntime {
     }
   }
   return {
+    centerSmallWorld: true,
     enemyVisual: monsterVisual,
     authoritative: attempt.authoritative,
     session: attempt.session,

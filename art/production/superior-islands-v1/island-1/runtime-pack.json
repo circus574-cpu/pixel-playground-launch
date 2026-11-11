@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "id": "superior-island-1-art",
+  "version": "1.0.0",
+  "previewOnly": true,
+  "assets": [
+    {
+      "id": "island-1-terrain",
+      "kind": "atlas",
+      "version": "1.0.0",
+      "url": "terrain.png",
+      "atlasUrl": "terrain.atlas.json",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "id": "island-1-props",
+      "kind": "atlas",
+      "version": "1.0.0",
+      "url": "props.png",
+      "atlasUrl": "props.atlas.json",
+      "width": 1536,
+      "height": 1024
+    }
+  ],
+  "renderBindings": {
+    "terrain.island-1.biome-0": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.snow",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-1.biome-1": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.snow",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-1.biome-2": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.pearl-stone",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-1.biome-3": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.glacier-ice",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-1.road": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.sacred-paving",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-1.plaza": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.sacred-paving",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-1.shore": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.frost-shore",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "terrain.island-1.water": {
+      "asset": "island-1-terrain",
+      "frame": "island-1.terrain.polar-water",
+      "tileSize": [
+        512,
+        512
+      ]
+    },
+    "object.island-1.tree": {
+      "asset": "island-1-props",
+      "frame": "island-1.props.polar-conifer",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.935546875
+      ]
+    },
+    "object.island-1.flora": {
+      "asset": "island-1-props",
+      "frame": "island-1.props.glacier-crystals",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.8984375
+      ]
+    },
+    "object.island-1.rock": {
+      "asset": "island-1-props",
+      "frame": "island-1.props.pearl-boulder",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.84765625
+      ]
+    },
+    "object.island-1.landmark": {
+      "asset": "island-1-props",
+      "frame": "island-1.props.echo-altar",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.84375
+      ]
+    },
+    "object.island-1.arch": {
+      "asset": "island-1-props",
+      "frame": "island-1.props.frost-arch",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.8515625
+      ]
+    },
+    "object.island-1.cargo": {
+      "asset": "island-1-props",
+      "frame": "island-1.props.expedition-chest",
+      "fit": "contain",
+      "origin": [
+        0.5,
+        0.798828125
+      ]
+    }
+  }
+}

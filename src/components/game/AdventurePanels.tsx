@@ -4,6 +4,7 @@ import { HeritageWeaponCard } from "./HeritageWeaponCard";
 import type { ReactNode } from "react";
 import { gpuIcon } from "./gpuIcons";
 import { isCityStage } from "../../game/city/types";
+import { getNpcDialogue } from "../../game/dialogue";
 import { CityDirectory } from "./CityPanels";
 import { QuestsV2Journal } from "./QuestsV2Journal";
 import { WORLD_V2 } from "../../game/world/generated/worldVersion";
@@ -270,8 +271,12 @@ export function NpcDialogue({
     (npc.id === "hunter" || isCityStage(world)
       ? p.quests.steps === "done"
       : p.quests.boars === "done");
+  // Autorowane zdanie z danych świata wygrywa: ta sama postać bywa przypisana do dwóch ról
+  // (npc-mei obsługuje depozyt i kupiec), a katalog nie rozróżnia ich kontekstem.
+  const katalog = getNpcDialogue(npc.dialogueId ?? "");
   const text =
     npc.dialogue ??
+    katalog?.greetings[0] ??
     {
       guide:
         "Witaj, wędrowcze. Klikaj ziemię, aby iść. Na telefonie możesz też przeciągać palcem w lewym dolnym obszarze. " +
@@ -318,6 +323,7 @@ export function NpcDialogue({
         {feedback}
         <div className="ki-adventure-panel">
           <p>{text}</p>
+          {katalog && <p>{katalog.greetings[state.dialogueTurn % katalog.greetings.length]}</p>}
           {["guide", "hunter", "smith"].includes(npc.id) &&
             !(isCityStage(world) && npc.id === "hunter" && q !== "ready") && (
               <>

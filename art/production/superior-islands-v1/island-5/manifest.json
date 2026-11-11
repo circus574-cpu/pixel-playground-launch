@@ -1,0 +1,62 @@
+{
+  "id": "island-5",
+  "projectName": "Wyspa Milczącego Nieba",
+  "nameStatus": "project name from docs/FABULA-I-EKWIPUNEK.md, not a rename of world geometry",
+  "style": "Srebrzyste mokradła, łupek i milczące przekaźniki",
+  "worldAffinity": "verdant",
+  "existingBiomeNames": [
+    "łąki",
+    "las",
+    "kamienne wzgórza",
+    "mokradła"
+  ],
+  "atlases": [
+    {
+      "kind": "terrain",
+      "image": "island-5/terrain.png",
+      "descriptor": "island-5/terrain.atlas.json",
+      "prompt": "island-5/terrain.prompt.txt",
+      "sha256": "5c299ca4071a1352aefbaf298121a35349bb73c68da09f20a15eb257bae8fe47",
+      "sourceImage": "exec-c0244511-4edb-4bb2-be38-be4f02b1de1e.png",
+      "bytes": 3370914,
+      "frames": [
+        "island-5.terrain.silver-grass",
+        "island-5.terrain.wet-slate",
+        "island-5.terrain.marsh-peat",
+        "island-5.terrain.relay-path",
+        "island-5.terrain.silt-shore",
+        "island-5.terrain.petrol-water"
+      ],
+      "alpha": null
+    },
+    {
+      "kind": "props",
+      "image": "island-5/props.png",
+      "descriptor": "island-5/props.atlas.json",
+      "prompt": "island-5/props.prompt.txt",
+      "sha256": "d4ace9b3f4af32da43460b21c3f07121ac0a05a7323dcf3aef0c4d5c4d74b338",
+      "sourceImage": "exec-a33286e6-de92-402a-859f-435e63b5c0ce.png",
+      "bytes": 2713128,
+      "frames": [
+        "island-5.props.silver-willow",
+        "island-5.props.burgundy-fern",
+        "island-5.props.slate-boulder",
+        "island-5.props.broken-relay",
+        "island-5.props.wetland-arch",
+        "island-5.props.travel-chest"
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 253,
+        "zeroFraction": 0.1827678680419922,
+        "below16Fraction": 0.5602181752522787,
+        "cornerValues": [
+          1,
+          0,
+          1,
+          0
+        ]
+      }
+    }
+  ]
+}

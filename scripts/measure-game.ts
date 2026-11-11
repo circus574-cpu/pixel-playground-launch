@@ -30,12 +30,14 @@ type Sample = {
   renderer: string;
 };
 try {
-  for (const viewport of webgl
-    ? [{ width: 640, height: 480 }]
-    : [
-        { width: 1280, height: 900 },
-        { width: 390, height: 844 },
-      ])
+  // The game blocks portrait on coarse pointers (RotateNotice), so a portrait phone viewport
+  // never reaches the HUD. Emulate the orientation the game actually runs in.
+  const mobile = { width: 844, height: 390 };
+  const desktop = { width: 1280, height: 900 };
+  const only = process.env["KI_BENCH_VIEWPORT"];
+  const kandydaci = webgl ? [{ width: 640, height: 480 }] : [desktop, mobile];
+  const viewporty = only === "mobile" ? [mobile] : only === "desktop" ? [desktop] : kandydaci;
+  for (const viewport of viewporty)
     for (const [race, world] of [
       ["Planetarni", "verdant"],
       ["Mędrcy", "aether"],
@@ -44,8 +46,8 @@ try {
     ] as const) {
       const context = await browser.newContext({
         viewport,
-        hasTouch: viewport.width < 700,
-        isMobile: viewport.width < 700,
+        hasTouch: viewport === mobile,
+        isMobile: viewport === mobile,
       });
       const page = await context.newPage(),
         errors: string[] = [],
@@ -88,10 +90,15 @@ try {
       const loading = performance.now();
       await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
       const canvas = page.locator(".ki-canvas");
-      await expect(page.locator(".ki-hud")).toBeVisible();
-      await expect(canvas).toHaveAttribute("data-world", world);
+      // World entry streams thousands of JSON files; 5 s (the expect default) is shorter than a
+      // cold load on a software renderer, so the harness must wait for the world, not guess.
+      const hudTimeout = Number(process.env["KI_BENCH_HUD_TIMEOUT_MS"] ?? 180000);
+      await expect(page.locator(".ki-hud")).toBeVisible({ timeout: hudTimeout });
+      await expect(canvas).toHaveAttribute("data-world", world, { timeout: hudTimeout });
       const enterWorldMs = performance.now() - loading;
-      await expect.poll(() => canvas.getAttribute("data-metrics")).not.toBeNull();
+      await expect
+        .poll(() => canvas.getAttribute("data-metrics"), { timeout: hudTimeout })
+        .not.toBeNull();
       const phaserLoadMs = Number(await canvas.getAttribute("data-load-ms"));
       expect(headers.some((h) => h.includes(webgl ? "WebGL" : "Canvas"))).toBe(true);
       await page.evaluate(() => {

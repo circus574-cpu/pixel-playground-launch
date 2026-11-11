@@ -128,7 +128,7 @@ export class TrialAttempt {
     ].includes(definition.kind);
     if (resourceKind) resourceProfile(this.session, definition.kind as ResourceTrialKind, tier);
     if (definition.kind === "break-windows") grantLoanSkills(this.session, ["B1"]);
-    if (combatKind) grantLoanSkills(this.session, ["A1", "B1", "C1"]);
+    if (combatKind) grantLoanSkills(this.session, ["A3", "A5", "A8", "B2", "B3", "B8", "C1", "C3"]);
     p.items.potion = 0;
     p.hp = this.session.kit.stats.maxHp;
     p.ki = this.session.kit.stats.maxKi;
@@ -319,7 +319,7 @@ export class TrialAttempt {
   instructions() {
     const k = this.definition.kind;
     if (this.combat)
-      return `${TRIAL_RULES[k]} Jawny profil sali: przeciwnik poziomu ${[8, 12, 16][this.tier - 1]}, limit 480 s i jedna standardowa mikstura. Nie zmienia to poziomów ani spawnów świata.`;
+      return `${TRIAL_RULES[k]} Jawny profil sali: przeciwnik poziomu ${[8, 12, 16][this.tier - 1]}, limit 480 s i jedna standardowa mikstura. Legalny profil poziomu 20: Pojedynkowicz, Kontrolowany Żar, Szał B4 i Wybuch C1; 14 z 19 punktów, z pasywnym leczeniem 3% po pokonaniu wroga. Nie zmienia to poziomów ani spawnów świata.`;
     if (this.breakWindows)
       return `${TRIAL_RULES[k]} Sygnał 1,5 s, okno 4 s; limit sali 240 s. B1 musi trafić i rzeczywiście rozbić osłonę.`;
     if (this.resourceControl) {

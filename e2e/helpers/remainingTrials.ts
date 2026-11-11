@@ -10,7 +10,7 @@ type State = Pick<
 export async function completeNewTrial(
   page: Page,
   id: string,
-  walk: (point: Point | undefined, wait: boolean) => Promise<void>,
+  navigate: (point: Point | undefined, wait: boolean) => Promise<void>,
 ) {
   const stage = page.locator(".ki-trial-stage"),
     canvas = stage.locator(".ki-canvas");
@@ -25,6 +25,42 @@ export async function completeNewTrial(
     x: Number(await canvas.getAttribute("data-player-x")),
     y: Number(await canvas.getAttribute("data-player-y")),
   });
+  const walk = async (point: Point | undefined, wait: boolean) => {
+    const goal = point ?? {
+      x: Number(await stage.getAttribute("data-trial-x")),
+      y: Number(await stage.getAttribute("data-trial-y")),
+    };
+    for (let n = 0; n < 25; n++) {
+      const canvasHit = await canvas.evaluate((el, target) => {
+        const b = el.getBoundingClientRect(),
+          d = (el as HTMLElement).dataset;
+        const z = Number(d["cameraZoom"]);
+        const x = b.x + (target.x - Number(d["cameraX"]) - b.width / 2) * z + b.width / 2;
+        const y = b.y + (target.y - Number(d["cameraY"]) - b.height / 2) * z + b.height / 2;
+        return !!document.elementFromPoint(x, y)?.closest(".ki-canvas");
+      }, goal);
+      if (canvasHit) return navigate(point, wait);
+      // A destination under HUD is approached with ordinary WASD, never by clicking an exit/menu.
+      const p = await position();
+      const keys = [
+        Math.abs(goal.x - p.x) > 15 ? (goal.x > p.x ? "d" : "a") : "",
+        Math.abs(goal.y - p.y) > 15 ? (goal.y > p.y ? "s" : "w") : "",
+      ].filter(Boolean);
+      if (!keys.length) throw Error("Trial destination is covered by HUD at the player's feet");
+      for (const key of keys) await page.keyboard.down(key);
+      await page.waitForTimeout(150);
+      for (const key of keys) await page.keyboard.up(key);
+    }
+    throw Error(
+      "Trial destination stayed covered by HUD after walking: " +
+        JSON.stringify(
+          await canvas.evaluate((el) => ({
+            ...(el as HTMLElement).dataset,
+            active: document.activeElement?.tagName,
+          })),
+        ),
+    );
+  };
   const near = (a: Point, b: Point, radius: number) => Math.hypot(a.x - b.x, a.y - b.y) <= radius;
   let route = "",
     selected = "",
@@ -61,13 +97,15 @@ export async function completeNewTrial(
             await walk(enemy, false);
           }
           if (near(p, enemy, 100)) {
+            await cast("B4");
             await cast("B1");
+            await cast("C1");
             await cast("A1");
           }
           const potion = stage.locator('[data-ability="potion"]');
           // A borrowed potion still uses its real HUD activation and cooldown.
           const hp = await stage
-            .locator(".ki-hp")
+            .getByRole("meter", { name: "Zdrowie", exact: true })
             .textContent()
             .catch(() => "");
           if (hp?.includes("/")) {

@@ -1,0 +1,62 @@
+{
+  "id": "island-6",
+  "projectName": "Wyspa Ostatniego Tonu",
+  "nameStatus": "project name from docs/FABULA-I-EKWIPUNEK.md, not a rename of world geometry",
+  "style": "Obsydian, miedź, żar i polarny szron",
+  "worldAffinity": "pyra",
+  "existingBiomeNames": [
+    "popielne pola",
+    "bazalt",
+    "wulkany",
+    "kaniony"
+  ],
+  "atlases": [
+    {
+      "kind": "terrain",
+      "image": "island-6/terrain.png",
+      "descriptor": "island-6/terrain.atlas.json",
+      "prompt": "island-6/terrain.prompt.txt",
+      "sha256": "a5345cc1088f6b23756023c75047154eaf3faa3241ad03f8940e78ca15260241",
+      "sourceImage": "exec-13a4cd8f-78a8-47f2-9a69-840d44141df4.png",
+      "bytes": 3254727,
+      "frames": [
+        "island-6.terrain.volcanic-ash",
+        "island-6.terrain.obsidian",
+        "island-6.terrain.frost-gravel",
+        "island-6.terrain.core-paving",
+        "island-6.terrain.black-sand",
+        "island-6.terrain.ember-melt"
+      ],
+      "alpha": null
+    },
+    {
+      "kind": "props",
+      "image": "island-6/props.png",
+      "descriptor": "island-6/props.atlas.json",
+      "prompt": "island-6/props.prompt.txt",
+      "sha256": "a21a3eedb5a70da300ee3bff6ffc0b6193132434d2995ab4a6e2f0a884539ad0",
+      "sourceImage": "exec-f1e169dd-2f40-45b1-9a16-f46499a13d0d.png",
+      "bytes": 2591843,
+      "frames": [
+        "island-6.props.deadwood",
+        "island-6.props.ember-obsidian",
+        "island-6.props.copper-brazier",
+        "island-6.props.core-altar",
+        "island-6.props.basalt-arch",
+        "island-6.props.expedition-chest"
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 252,
+        "zeroFraction": 1.0808308919270834e-05,
+        "below16Fraction": 0.286013921101888,
+        "cornerValues": [
+          4,
+          2,
+          4,
+          3
+        ]
+      }
+    }
+  ]
+}

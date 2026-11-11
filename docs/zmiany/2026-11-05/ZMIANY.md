@@ -154,9 +154,129 @@
   `DEFAULT_ON_SWITCHES`; gęstość dziczy nadal zależy od danych autorowanych,
   rozrzut jest limitem 40 obiektów na chunk, nie rozwiązaniem docelowym.
 
+## Grafiki i tekstury sześciu wysp Superior
+
+### Nowe zestawy dla wszystkich sześciu wysp — osobna gałąź artystyczna
+
+Gałąź `art/superior-islands-20261105`, baza aktualnego main
+`c099f607e64b308ac8bc3e27b599ed0b693af047`. Nie zmieniono istniejących zasobów,
+świata, biomów, kolizji, questów, zapisów, walki, HUD-u ani infrastruktury GPU.
+Prace rozwoju ras pozostały na osobnej gałęzi/PR #122.
+
+| ID       | Projektowa nazwa z księgi | Osobny kierunek graficzny                                         |
+| -------- | ------------------------- | ----------------------------------------------------------------- |
+| island-1 | Wyspa Pierwszego Echa     | Polarna perła, akwamaryn, lodowce, śnieg i jasne sanktuaria       |
+| island-2 | Wyspa Złamanej Pieczęci   | Jadeit, kwitnące ogrody, jasny wapień i źródła                    |
+| island-3 | Wyspa Odwróconej Latarki  | Ametyst, różowy kwarc, indygo i stare złoto                       |
+| island-4 | Wyspa Czterech Cum        | Złoty piasek, oliwki, ciepły kamień i neutralny port              |
+| island-5 | Wyspa Milczącego Nieba    | Srebrzyste trawy, ciemny łupek, mokradła i zniszczone przekaźniki |
+| island-6 | Wyspa Ostatniego Tonu     | Obsydian, wulkaniczny popiół, miedź, żar i polarny szron          |
+
+Każda wyspa otrzymała sześć powierzchni: miękkie podłoże, skałę, trzeci lokalny
+materiał, nawierzchnię traktu/ruin, brzeg i wodę lub wulkaniczny materiał płynny.
+Lawa island-6 jest kandydatem dekoracji, nie zmianą oceanu ani nawigacji.
+Do każdej są też sześć osobnych motywów otoczenia: drzewo/pień, roślinność lub
+kryształ, skała, wyróżniający obiekt wyspy, łuk ruin i skrzynia/ładunek.
+Nie są to przemalowane kopie istniejącego arkusza.
+
+Wynik: **12 arkuszy PNG 1536×1024, 36 tekstur i 36 dekoracji w polach 512×512**.
+Źródła, prompty, manifesty, deskryptory ramek i galeria są w
+`art/production/superior-islands-v1/`. Oryginalne wygenerowane pliki zachowano bez
+edycji pikseli; rejestr pochodzenia zawiera SHA-256 i jawny brak identyfikatora
+modelu w odpowiedzi narzędzia. Nie wystawiano samodzielnej gwarancji prawnej.
+
+Kontrola dekodowania, wymiarów, unikalności, SHA-256, kanału alfa i granic 72 ramek
+PASS. Raporty w `qa/superior-islands/`. To grafiki źródłowe do odbioru/importu,
+nie wdrożenie do gry. Bez testu powtarzania szwów, krawędzi matowania i marginesów
+sprite'ów w Phaserze. Galeria jest podglądem źródeł, nie zrzutem gry. Nie wykonano
+odbioru wydajności ani fizycznego telefonu. Żaden test runtime nie jest tu oznaczony PASS.
+Nie scalono ani nie opublikowano.
+
+### Podgląd i pobranie paczki wysp
+
+[Galeria źródeł](qa/superior-islands/gallery.png) pokazuje wszystkie sześć zestawów;
+nie jest zrzutem z gry. Sprawdzono przez lokalny HTTP: 12 obrazów dekoduje się,
+sześć kart wysp, brak błędów pageerror i przepełnienia poziomego. Pierwsze otwarcie
+file:// zablokowała polityka Chromium; użyto zwykłego lokalnego HTTP.
+Pełny TypeScript aplikacji/e2e/tools i bieżące assets:check PASS.
+Nie uruchamiano pełnego Vitest/Playwright gry dla niezainstalowanych grafik.
+
+Archiwum do pobrania: `deliveries/superior-islands-20261105/art-pack.zip`,
+SHA-256 i liczba plików w delivery.json obok. CRC archiwum sprawdzone.
+Po rozpakowaniu otworzyć superior-islands-v1/preview.html; import do Phasera jest
+odrębnym krokiem. Wczytywać tylko atlas aktywnej wyspy i zachować kolizje z danych świata.
+
+## Wyspy Superiora
+
+### 9. Własne materiały sześciu wysp (05.11.2026, gałąź `feat/superior-islands-art`)
+
+- Zlecenie właściciela: wszystkie wyspy mają być ładne. Materiały zostawił Codex na gałęzi
+  `feature/superior-islands-art-integration` wraz z pakietem odzyskania
+  `docs/zmiany/2026-11-05/qa/island-art-integration/recovery.json` (status
+  `ENVIRONMENT_UNAVAILABLE_INTEGRATION_NOT_DELIVERED`).
+- **Diagnoza przyczyny, nie objawu:** dane świata prosiły o wiązania kontynentu
+  macierzystego (`terrain.ki-v2-aether-*` dla wysp 1–3, `verdant` dla 4–5, `pyra` dla 6),
+  więc każda wyspa wyglądała jak odłamek swojego kontynentu.
+- Zastosowano recepturę odzyskania mechanicznie: 16 podmian z twardym licznikiem
+  wystąpień (`expectedOccurrences`), przerwą przy jakimkolwiek rozjeździe i dwoma plikami
+  w oryginalnych bajtach (`src/game/world/generated/islandArt.ts`,
+  `src/test/island-art.test.ts`). Nowe wiązania: `terrain.island-N.*`, `object.island-N.*`.
+- Kafle składane toroidalnie (16 przesuniętych połówek ramki z miękkim zanikiem alfa),
+  bo `manifest.json` dostawy wprost ostrzega: „seamless edge repetition has not been
+  certified in Phaser".
+- Generator manifestów przeportowany ze skryptu PIL na `sharp`, ponieważ Pillow nie jest
+  dostępne w kontenerze agenta; indeksy klatek i originy z progowanej alfa zachowują
+  semantykę oryginału. Wygenerowano 6 × `runtime-pack.json` (14 wiązań na wyspę, 84 razem),
+  zaimportowano 6 pakietów: katalog 177 → 184 pozycji.
+- Włączanie: `?ki-islands-art=1`. **Nie włączono domyślnie** — czeka na odbiór właściciela.
+  Geometria, kolizje, miasta, usługi i zapisy bez zmian.
+- Pomiar wizualny: dwanaście kadrów (sześć wysp × baza i po zmianie), ten sam teleport do
+  punktu przybycia, czekanie na `pending=0` i 12 s oddechu, **zero błędów konsoli w obu
+  przebiegach**. Widoczna zmiana: płaska trawa i szare bruki z prostokątnymi szwami →
+  gęstsze podłoże z własnym wzorem nawierzchni (m.in. turkusowe łuki na płycie), mniej
+  czytelne szwy kafli.
+- **Czego to NIE naprawiło (uczciwie):** liczba dekoracji w kadrze pozostała **5** w obu
+  wariantach — własne materiały nie dodają treści. Wyspy nadal są ubogie w obiekty, a
+  `acceptedScenery` dla nich to 0. HUD i minimapa pokazują surowy identyfikator osady
+  („Przystań island-2") zamiast nazwy własnej.
+- Testy: `src/test/island-art.test.ts` (8) przechodzi; `e2e/island-art.spec.ts` napisany
+  od nowa, bo pakiet odzyskania oznacza go jako zgubiony razem z workspace. Pełny
+  TypeScript PASS, `npm run test` 1210 przechodzi / 10 pominiętych, lint bez błędów.
+- Nie zweryfikowano: przebieg e2e w kontenerze agenta (programowy WebGL nie mieści się w
+  budżetach czasu speców), odbiór na fizycznym telefonie, decyzja o włączeniu domyślnym.
+
+## Dekoracja dziczy — pomiar i decyzja
+
+### 10. Własne materiały wysp dają efekt, pieczona flora nie — flora wycofana
+
+Pomiar zrobiono różnicą pikseli (`sharp`, kadry 900×560, ten sam teleport, `pending=0`,
+12 s oddechu), nie opisem subiektywnym.
+
+| Zakres | Średnia różnica | Zmienione piksele |
+| ------ | --------------- | ----------------- |
+| island-1, baza → własne materiały | 29,64 | 69,3 % |
+| island-2 | 15,27 | 54,9 % |
+| island-3 | 28,55 | 69,2 % |
+| island-4 | 17,81 | 68,3 % |
+| island-5 | 25,39 | 69,3 % |
+| island-6 | 20,75 | 68,5 % |
+| flora pieczona, z → bez (4 wyspy) | 0,02–0,09 | 0,1–0,3 % |
+
+- **Materiały wysp są dowiedzione** — zmieniają ponad połowę kadra.
+- **Pieczona flora (`?ki-flora-bake=1`) jest pomiarowym no-opem.** Pierwotnie paleta miała
+  jedno wiązanie, bo kandydaci brali się z list dekoracji miasta; po poprawce (kandydaci z
+  `items` chunka, 12–15 wiązań pokrywy na krainę: island-2 15, island-6 12, Nexus 15)
+  różnica nadal wyszła 0,1–0,3 %. Przyczyna: drobna pokrywa jest za mała i za niska
+  kontrastowo wobec tekstury podłoża, która już niesie własny wzór, a wrysowana płasko nie
+  daje cienia kontaktowego ani zasłaniania.
+- **Decyzja właściciela: wycofać.** `git revert` commitów `c6af38a9` i `b57bf4c6`; historia
+  i pomiar zostają w gałęzi. Kod z flagą, który nic nie zmienia, jest gorszy niż brak kodu.
+- **Dźwignie pustki dziczy to gęstość obiektów scenicznych w danych (5–33 w kadrze wobec
+  104 w stolicy) i światło, nie podmiana palety.** Cykl dobowy pozostaje etapem A planu.
+
 ## Poprawki po zgłoszeniach
 
-### 8. Awaria po kliknięciu w mapę: ekran „This page didn't load” (05.11.2026, wieczór)
+### 11. Awaria po kliknięciu w mapę: ekran „This page didn't load” (05.11.2026, wieczór)
 
 - Zgłoszenie właściciela (zrzut z telefonu): po kliknięciu w mapę w grze pojawia się główny ekran błędu aplikacji.
 - Nie odtworzono w przeglądarce: minimapa → mapa 2D → globus 3D → kliknięcia przycisków i regionów (cztery rasy, telefon i komputer, serwer deweloperski), a także `/mapa` na produkcji. Brak błędów strony; brakujących fragmentów kodu na produkcji też nie ma.
@@ -164,7 +284,7 @@
 - Poprawka: błąd ładowania fragmentu po wdrożeniu odświeża stronę raz na minutę (`src/lib/staleChunk.ts`, także zdarzenie `vite:preloadError`); „Try again” w takim przypadku przeładowuje stronę; mapa planety w grze jest w osłonie `PanelBoundary`, więc jej awaria pokazuje komunikat z przyciskami „Odśwież” i „Wróć do gry” zamiast zrywać całą grę. Test: `src/test/stale-chunk.test.tsx`.
 - Jeśli awaria wróci po odświeżeniu strony, to jest inna przyczyna: potrzebny komunikat błędu z konsoli lub rasa, miejsce postaci i kroki.
 
-### 9. Mapa w grze: przycisk Teleportuj, zasłonięte sterowanie i opis regionu (06.11.2026)
+### 12. Mapa w grze: przycisk Teleportuj, zasłonięte sterowanie i opis regionu (06.11.2026)
 
 - Zgłoszenie właściciela: przy otwarciu mapy przycisk „Teleportuj” zasłania „Przybliż region”; na mapie 2D nie da się przesuwać mapy ani przybliżać innych kontynentów.
 - Przyczyny (odtworzone w grze, telefon 852×393 i komputer): (1) mapa otwierała się z automatycznie rozwiniętym opisem regionu gracza, który zajmuje dół ekranu; przycisk Teleportuj (konta GM) leży w tym samym rogu i przykrywał „Przybliż region”; (2) na ekranach do 900 px przy otwartym opisie ukrywał się cały panel sterowania (przybliż, oddal, cała planeta), więc nie dało się oddalić z powiększenia na pozycji gracza do innych kontynentów.
@@ -234,3 +354,10 @@ zlecenia. Nie zmieniać kanonicznych liczb; nie scalać/publikować automatyczni
 Przy późniejszej integracji z main połączyć ten dziennik z istniejącym dziennikiem
 05.11 na main, zachowując obie historie zmian. Gałąź nie zawiera ostatnich zmian
 świata/grafik z main i nie jest samodzielnym kandydatem do publikacji.
+
+### 10. Kolejne filmy animacji w repo (06.11.2026)
+
+- Dodatkowo (tego samego dnia): `sage-etap2-reakcje.mp4` (SHA-256 `0c803c0af30c7845…`) i `sage-etap4-walka-po-transformacji.mp4` (`d95274ff5279db32…`). Trzeci przysłany plik (`352fd381…`) jest bajt w bajt identyczny z `sage-etap1-walka.mp4`, więc nie dodano go drugi raz. Przypisanie filmu z szarym tłem do Etapu 4 to wniosek z tła i kontekstu, nie potwierdzenie właściciela.
+
+- Zapisano bez obróbki w `art-wip/gemini-anim-stages/`: `sage-etap1-walka.mp4` (Mędrzec, Etap 1 w formie bazowej, 1280×720, 10 s, SHA-256 `8277c0226a15f410…`) i `legend-etap4-walka-po-transformacji.mp4` (Legenda, Etap 4, forma po transformacji, SHA-256 `6bcf9e5706febee5…`). Oceniono po 10 klatkach (co 1 s): oba pokrywają oś czasu Etapu 1 (ciosy, finisher, umiejętności A i B, unik, gard).
+- Opis i tabela plików: `art/pipeline/prompts/animacje/PROMPTY-ANIMACJE-v1.md`. Filmy nie są jeszcze wycięte na klatki ani wpięte w grę; po transformacji bohater nadal atakuje i ginie w formie bazowej.

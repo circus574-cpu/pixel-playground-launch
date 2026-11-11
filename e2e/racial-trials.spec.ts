@@ -203,6 +203,7 @@ for (const [race, id, land] of [
         "TP12",
       ].includes(id)
     ) {
+      if (id === "TP03") await page.screenshot({ path: info.outputPath("combat-wave-active.png") });
       await completeNewTrial(page, id, (point, wait) => walkToStation(page, false, point, wait));
     } else if (id === "TA07") {
       for (let i = 0; i < 2; i++) {

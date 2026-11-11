@@ -20,6 +20,7 @@ import {
   techniqueEffects,
 } from "./combatTraining";
 import { CharacterStatsSchema } from "./characterStats";
+import { getNpcDialogue } from "./dialogue";
 import { PracticeTargets, isPracticeId } from "./development/targets";
 import { heritageRaceConsistent } from "./development/heritage/state";
 import { equippedAttack, weaponConsistent } from "./development/heritage/equipment";
@@ -303,6 +304,8 @@ export type GameEvent = Point & {
   text?: string;
   target?: string;
   source?: string;
+  /** Monster definition id on monster `attack` and `death` events (drives per-species sounds). */
+  species?: string;
   ability?: string;
   to?: Point;
   radius?: number;
@@ -447,6 +450,8 @@ export function equipmentStats(
 export const FOE_PANEL_RANGE = 900;
 export const AUTO_TARGET_RANGE = 650;
 export const xpNeeded = (level: number) => 100 + (level - 1) * 60;
+/** Fraction of the progress toward the next level that a defeat costs. Owner 07.11.2026. */
+export const DEATH_XP_LOSS = 0.1;
 
 const noop = () => {};
 /** A port that lets a kit compute statistics without a running game (saves, HUD at load time). */
@@ -908,6 +913,8 @@ export class GameSession implements MonsterHost {
   loot: Loot[] = [];
   targetId: string | null = null;
   dialogue: NpcId | null = null;
+  /** How many conversations have been opened. Drives which catalogue greeting a NPC offers. */
+  dialogueTurn = 0;
   paused = false;
   autoAttack = false;
   notice = "Porozmawiaj z Airą. Klikaj postacie lub użyj przycisku Rozmowa.";
@@ -1083,8 +1090,14 @@ export class GameSession implements MonsterHost {
     this.autoAttack = false;
     this.route = [];
     this.fx.clear();
+    const xpLost = Math.round(p.xp * DEATH_XP_LOSS);
+    if (xpLost > 0) p.xp -= xpLost;
     this.emit({ type: "death", x: p.x, y: p.y, target: "player" });
-    this.say("Zostałeś pokonany. Odrodzenie za 3 sekundy.");
+    this.say(
+      xpLost > 0
+        ? `Zostałeś pokonany. Tracisz ${xpLost} doświadczenia. Odrodzenie za 3 sekundy.`
+        : "Zostałeś pokonany. Odrodzenie za 3 sekundy.",
+    );
     this.flush();
   }
   applyPlayerFx(spec: FxSpec, from: Enemy) {
@@ -2178,6 +2191,10 @@ export class GameSession implements MonsterHost {
         this.say("Ostrze ulepszone: +4 ataku.");
       }
       if (c.action === "rumors") {
+        // The catalogue has three rumours per named NPC; the local quest progress decides which
+        // one, so the same conversation deepens instead of repeating one continent-wide hint.
+        const rozmówca = this.world.npcs.find((n) => n.id === this.dialogue);
+        const plotki = rozmówca ? getNpcDialogue(rozmówca.dialogueId ?? "")?.rumors : undefined;
         const RUMORS_BY_CONTINENT: Record<string, string> = {
           verdant:
             "Plotka: Drwale ostrzegają przed leżem Ygdrashy w głębi wschodniej puszczy. Jej korzenie więżą, a jad zatruwa, ale jej kora jest wrażliwa na ogień i skupione uderzenia Ki!",
@@ -2187,9 +2204,15 @@ export class GameSession implements MonsterHost {
             "Plotka: Czujniki wykryły przegrzanie rdzenia Golema w komorze reaktora. Przed jego promieniem termicznym chronią tylko metalowe filary chłodzące!",
           pyra: "Plotka: Władca Kharzul zbiera moc w lawowych kraterach południa. Atakuje niszczycielską szarżą — szybki uskok w bok to jedyny ratunek!",
         };
-        this.say(
+        const hint =
           RUMORS_BY_CONTINENT[this.world.id] ??
-            "Na szlakach krążą groźne bestie. Dbaj o zapas mikstur i ekwipunek.",
+          "Na szlakach krążą groźne bestie. Dbaj o zapas mikstur i ekwipunek.";
+        // Autorowany hint o bossie zostaje: bez niego przycisk traci wartość użytkową.
+        // Plotka rozmówcy dochodzi jako drugi, zależny od postępów akapit.
+        this.say(
+          plotki
+            ? `${plotki[p.quests.steps === "done" ? (p.quests.boars === "done" ? 2 : 1) : 0] ?? plotki[0]} ${hint}`
+            : hint,
         );
       }
       if (c.action === "boss_enter") {
@@ -2796,6 +2819,7 @@ export class GameSession implements MonsterHost {
       const npc = this.npcs.find((n) => n.id === this.pendingNpc)!;
       if (distance(p, npc) <= 100) {
         this.dialogue = npc.id;
+        this.dialogueTurn++;
         this.pendingNpc = null;
         this.route = [];
         const title =
@@ -2874,6 +2898,7 @@ export class GameSession implements MonsterHost {
   }
   snapshot() {
     const live = this.kit.stats;
+    const kit = this.kit;
     const target = this.target;
     const abilities: AbilityInfo[] = this.kit.abilities();
     return {
@@ -2884,7 +2909,11 @@ export class GameSession implements MonsterHost {
       staff: this.staff,
       god: this.god,
       player: structuredClone(this.player),
-      statBreakdown: this.kit.statBreakdown,
+      // Faza 2: leniwy getter — statBreakdown (6× deriveStats) liczy się tylko, gdy panel
+      // statystyk go czyta, a nie przy każdym odświeżeniu HUD 10×/s.
+      get statBreakdown() {
+        return kit.statBreakdown;
+      },
       trainingDiscipline: this.trainingDiscipline ?? null,
       stats: {
         dodgeChance: live.dodgeChance,
@@ -2933,6 +2962,7 @@ export class GameSession implements MonsterHost {
       defeated: this.player.kills,
       ready: true,
       dialogue: this.dialogue,
+      dialogueTurn: this.dialogueTurn,
       building: this.building ?? null,
       activeNpcs: this.npcs,
       heritage: this.practiceOnly ? [] : this.heritage.snapshot(),
@@ -3236,6 +3266,7 @@ export function initialView(player?: Player): GameViewState {
     defeated: 0,
     ready: false,
     dialogue: null,
+    dialogueTurn: 0,
     building: null,
     activeNpcs: WORLDS[p.continent].npcs.filter((n) => !n.building),
     heritage: [],

@@ -806,9 +806,8 @@ identyfikatory autorowane (`nexus-lab`, `nexus-monolith`, `nexus-reactor`,
 `nexus-terminal`, obozowiska), roślinność przydrożna, efekty ambientowe i rozrzut
 dekoracyjny.
 
-**Włączanie:** `?ki-nexus-continent=1`. Pakiet NIE jest w `DEFAULT_ON_SWITCHES` —
-czeka na odbiór właściciela, zgodnie z zasadą, że domyślnie włącza się dopiero
-zaakceptowaną oprawę.
+**Włączanie:** domyślnie włączone od 06.11.2026 (decyzja właściciela: bez flagowania, wszystkie
+światy działają domyślnie); `?ki-nexus-continent=0` przywraca poprzedni wygląd.
 
 **Gęstość dziczy.** Dane autorowane niosą poza miastem 8–16 obiektów na kadr
 przeciw 104 w stolicy, więc sama paleta nie usuwa pustki. Rozrzut dokłada obiekty
@@ -818,11 +817,129 @@ playtest na programowym WebGL: 8 → 20, 13 → 23, 12 → 23, 16 → 33 dekorac
 błędów konsoli. Cząstki powietrzne są tylko w biomach ciepłych — gęstsze pole
 wymusiło wygasanie zrzutu.
 
-**Testy.** `src/test/nexus-continent.test.ts` (8): opt-in, brak nadpisania istniejących
-wiązań, aliasy, odczyt komórek biomu bez zmiany chunka, nienaruszalność miast i
-obiektów fizycznych, warianty koron według biomu, nieistotność rozrzutu i limit cząstek.
+**Testy.** `src/test/nexus-continent.test.ts` (8): domyślne włączenie i wyłącznik `=0`, brak
+nadpisania istniejących wiązań, aliasy, odczyt komórek biomu bez zmiany chunka,
+nienaruszalność miast i obiektów fizycznych, warianty koron według biomu, nieistotność
+rozrzutu i limit cząstek.
 `e2e/nexus-continent.spec.ts` w projekcie `software-webgl` (rejestracja w
 `playwright.config.ts`). **Nie wykonano go pomyślnie w kontenerze agenta**: pada na
 budżecie marszu 90 s przy tempie ~10,6 jednostki/s na programowym WebGL — identycznie
 jak istniejący `aetheria-continent.spec.ts`, którego nie zmieniano. Odbiór na fizycznym
 telefonie pozostaje otwarty.
+
+## Superior — grafiki sześciu wysp, 05.11.2026
+
+`art/production/superior-islands-v1/` zawiera 12 nowych oryginalnych arkuszy PNG
+1536×1024, 12 opisów atlasów w formacie ramek Phaser/TexturePacker, pełne prompty,
+rejestr sześciu wysp i pochodzenie. To **36 tekstur i 36 dekoracji w arkuszach**,
+a nie 72 osobne pliki obrazów. Źródła wygenerowano narzędziem OpenAI image_gen,
+bez referencji obrazkowych; dokładny model nie został zwrócony przez narzędzie.
+Oryginalne bajty PNG zachowano; nie wycinano ani nie przemalowywano ich skryptem.
+
+Wyspy mają osobne palety i materiały: polarna perła/akwamaryn, jadeit/źródła,
+ametyst/stare złoto, ciepły neutralny port, srebrzyste mokradła oraz bazalt/żar/szron.
+To propozycja kierunku oprawy zgodna z bieżącymi powinowactwami i koncepcjami wysp,
+nie zmiana ich położenia, biomów, nazw kanonicznych ani geometrii. Nazwy z księgi
+pozostają nazwami projektowymi.
+
+Podgląd galerii: `art/production/superior-islands-v1/preview.html` (pliki lokalne,
+bez CDN). Zestaw nie jest podpięty do gry. Ramki 512×512 są opisem pól arkusza;
+przed importem trzeba odebrać krawędzie/matowanie i marginesy dekoracji, rozmiar,
+punkt oparcia i footprint zgodny z kolizją. Kanał alfa jest obecny, ale miękkie
+piksele tła wymagają oceny na rzeczywistym podłożu. Tekstury nie mają jeszcze
+certyfikowanego powtarzania bez szwu. Arkusza nie wolno używać jako kompletnej mapy.
+Nie ładować wszystkich wysp jednocześnie: dwa aktywne arkusze to około 12 MiB
+surowego RGBA przed mipmapami, bez pomiaru wydajności telefonu.
+
+Kontrola plików: `python3 art/production/superior-islands-v1/validate.py`.
+[Wyniki, zakres i instrukcja](zmiany/2026-11-05/ZMIANY.md#grafiki-i-tekstury-sześciu-wysp-superior).
+
+## Wyspy Superiora — integracja własnych materiałów 05.11.2026
+
+Dostawa `art/production/superior-islands-v1/` (12 atlasów PNG 1536 × 1024, 36 klatek
+podłoży i 36 rekwizytów, po 6 na wyspę; `status: generated-source-atlases-not-installed`)
+została zainstalowana w rejestrze jako sześć pakietów `superior-island-{1..6}-art@1.0.0`,
+każdy `previewOnly: true` z dwoma zasobami typu `atlas` i 14 wiązaniami.
+
+Wiązania: `terrain.island-N.biome-{0..3}`, `terrain.island-N.{road,plaza,shore,water}`
+(wyspa 6 ma `lava` zamiast `water`) oraz `object.island-N.{tree,flora,rock,landmark,arch,cargo}`.
+Poprzednio dane świata prosiły o wiązania kontynentu macierzystego, więc wyspy nie miały
+własnego wyglądu. Runtime: `src/game/world/generated/islandArt.ts` — przepisanie `FeatureArt`
+i obiektów scenerii oraz składanie kafli toroidalnie, bo dostawa nie certyfikowała
+bezszwowości w Phaser.
+
+Odtworzenie: generator manifestów (port z PIL na `sharp`) tworzy
+`island-N/runtime-pack.json`, potem sześć razy
+`npm run assets:import -- art/production/superior-islands-v1/island-N/runtime-pack.json --install`.
+Digesty z instalacji: `ab61814f…`, `29d4cb44…`, `de4c05c6…`, `33fdccb6…`, `2cdf7913…`, `e72bce69…`.
+
+Włączanie: domyślnie od 06.11.2026 (decyzja właściciela: bez flagowania); `?ki-islands-art=0`
+przywraca materiały kontynentu macierzystego.
+Kolizje, footprinty, spawny i zapisy nie są zmieniane; rekwizyty overlayu są nieistotne
+fizycznie. Odbiór na fizycznym telefonie pozostaje otwarty.
+
+## Generator dekoracji świata — domyślnie od 06.11.2026 (`?ki-dress=0` wyłącza)
+
+Pomiar na danych `public/game/worlds/superior-v2`, okno kadru 1452 × 903 jednostek świata
+(900 × 560 px przy domyślnym zoomie 0,62): dzicz kontynentów ma **6–12 obiektów autorskich
+w kadrze**, dzicz wysp **30–79**, a 29 % chunków kontynentów nie ma ani jednego. Żadna osada
+nie ma dekoracji autorskiej w swoim obszarze, a wyspy nie mają ani jednej pozycji
+`acceptedCityScenery` (kontynenty 64–130). Podmiana materiałów tego nie zmienia: własne
+tekstury wysp przebudowały 55–69 % pikseli kadra, a liczba dekoracji w kadrze została bez
+zmian. Dlatego generator dokładuje **obiekty sceniczne**, nie paletę.
+
+`src/game/world/generated/worldDress.ts`:
+
+- `continentDress` — siatka co 150 j. świata z polem gęstości liczonym w komórkach 700 j.,
+  żeby wyszły gaje i polany zamiast kratki. Limit 130 obiektów na chunk. Zmierzone:
+  **108 obiektów na chunk, 36 w kadrze** na każdym z czterech kontynentów, czyli z 6–12 do
+  ok. 42–48. Miksy są wpisane jako pełne identyfikatory wiązań i filtrowane po
+  `catalog.renderBindings`, więc generator nie poprosi o grafikę, której nie ma w katalogu —
+  brak wiązania to twardy błąd „Brak grafiki świata", a nie ciche pominięcie.
+- `continentAir` — pył, dym i motylki tylko dla Nexusa i Pyry (+11 na chunk), bo tylko te
+  pakiety mają wiązania `fx-*`. Dla Verdantii i Aetherii zwraca pustkę; efekt z innego lądu
+  wymagałoby dociągnięcia jego pakietu.
+- `townDress` — pierścień 380–1700 j. wokół placu osady, omija obrysy budynków (+40 j.),
+  trakty (+50 j. od połowy szerokości) i ulice. Limit 320. Zmierzone: **154–172 dekoracje
+  na osadę, 25–28 w kadrze przybycia** (baza zero), z motywów `object.island-N.*`.
+- Wszystko `solid: false` i bez `footprint`, więc kolizje, nawigacja, questy i zapisy czytają
+  nadal świat autorski. Dekoracja nie dokłada ani jednej pozycji katalogu ani bajta budżetu
+  tekstur — używa pakietów już zainstalowanych.
+
+Włączanie: domyślnie od 06.11.2026 (decyzja właściciela: „wyłącz flagowanie. wszystkie światy
+mają działać domyślnie"); `?ki-dress=0` przywraca stan bez dekoracji. **Ryzyko, którego nie
+zmierzono:** dekoracja dokłada ok. 50–80 sprite'ów na kadr (z cieniami kontaktowymi), a pomiar
+wydajności na fizycznym telefonie nie został wykonany — w kontenerze agenta jest tylko
+programowy WebGL. Pieczona flora (`?ki-flora-bake=1`) została wycofana po pomiarze
+0,1–0,3 % zmienionych pikseli — patrz dziennik 05.11.
+
+Pomiar efektu: pary kadrów `dress-off` / `dress-on` na czternastu punktach (pusty i typowo
+pełny kadr na każdym kontynencie, plac osady na każdej wyspie) oraz różnica pikseli `sharp`.
+Scenariusz e2e nie powstał — w kontenerze agenta programowy WebGL nie mieści się w budżetach
+czasu speców, więc dowodem są kadry i licznik `data-dress-scenery`, nie zielony test.
+
+## Klatki NPC od właściciela — `scripts/npc-frames.py`
+
+Dostawa animacji NPC przychodzi jako arkusz 8 × 8 (2048², komórka 256²) albo paczka pojedynczych
+klatek, z **płaskim nieprzezroczystym tłem** i postacią dochodzącą ~8 px do krawędzi komórki.
+Pakowaczka GPU wymaga ramki 512 × 512 RGBA oraz **2 px czystej krawędzi na klatce dostarczanej
+128 × 128, mierzonej PO jej własnym downskalu lanczos3** — a ten filtr sięga ~12 px w głąb
+źródła. Bez narzędzia 9 z 64 klatek było odrzucanych.
+
+`python3 scripts/npc-frames.py <arkusz.png|katalog> <wyjście> [--dirs …] [--idle arkusz] [--walk-only]`
+
+- Tło keyowane **wypełnianiem od brzegu komórki**, nie globalną odległością koloru: ciemny
+  materiał płaszcza bywa bliski szarości tła i keyowanie kolorem wyjadłoby dziury (zmierzone:
+  13 px dziur na 262 144 przy keyowaniu od brzegu).
+- Postać jest mieszona w ramkę z wymuszonym marginesem, a wynik sprawdzany tą samą operacją
+  downskalu, którą robi pakowaczka — skrypt nie twierdzi, że przejdzie, tylko to liczy.
+- `--dirs` to kolejność rzędów, nie opcja umilająca: arkusz idzie **zgodnie z ruchem wskazówek**
+  (`down, down-right, right, up-right, up, up-left, left, down-left`), a `DIRECTIONS` w repo jest
+  odwrotne. Zła mapa = NPC chodzący tyłem.
+- Bez dostarczonego `idle` skrypt podstawia klatkę kontaktową chodu i **głośno to zgłasza**:
+  `src/game/assets/schema.ts:76` wymaga klipów `idle` i `walk`, więc bez nich pakiet nie przejdzie
+  walidacji, a powtórzona klatka oznacza postać stojącą bez ruchu.
+
+Użycie: `npm run assets:pack -- <wyjście> <out> --id=<id> --world=<świat> --profile=npc`, potem
+import. Profil `npc` celowo nie wystawia `actorBindings` (`frame-layout.ts`) — rolę podpinamy
+przy instalacji jako `<świat>.npc.<rola>`, bo to czyta już `actorVisual()`.

@@ -1,0 +1,62 @@
+{
+  "id": "island-2",
+  "projectName": "Wyspa Złamanej Pieczęci",
+  "nameStatus": "project name from docs/FABULA-I-EKWIPUNEK.md, not a rename of world geometry",
+  "style": "Jadeitowy ogród, źródła i stare pieczęcie",
+  "worldAffinity": "aether",
+  "existingBiomeNames": [
+    "tarasy źródeł",
+    "święty gaj",
+    "lodowe szczyty",
+    "lodowce"
+  ],
+  "atlases": [
+    {
+      "kind": "terrain",
+      "image": "island-2/terrain.png",
+      "descriptor": "island-2/terrain.atlas.json",
+      "prompt": "island-2/terrain.prompt.txt",
+      "sha256": "7f980f085e0186a7e1ea4b211a2c05907ec87f8d5a3f2cddbdbf7de5cbe5b6d1",
+      "sourceImage": "exec-ea95126c-7506-4dee-90b1-908d74980448.png",
+      "bytes": 3713722,
+      "frames": [
+        "island-2.terrain.jade-grass",
+        "island-2.terrain.limestone",
+        "island-2.terrain.moss-floor",
+        "island-2.terrain.seal-paving",
+        "island-2.terrain.spring-shore",
+        "island-2.terrain.jade-water"
+      ],
+      "alpha": null
+    },
+    {
+      "kind": "props",
+      "image": "island-2/props.png",
+      "descriptor": "island-2/props.atlas.json",
+      "prompt": "island-2/props.prompt.txt",
+      "sha256": "87ab52444eef4c01b4a0279d58a90ae9bb96f843db4c0b474b8fa60779459829",
+      "sourceImage": "exec-9e809e23-6117-43fe-9ab8-4be429507c4c.png",
+      "bytes": 2816108,
+      "frames": [
+        "island-2.props.ginkgo",
+        "island-2.props.fern",
+        "island-2.props.jade-boulder",
+        "island-2.props.broken-seal",
+        "island-2.props.archive-arch",
+        "island-2.props.jade-chest"
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 253,
+        "zeroFraction": 0.0005385080973307291,
+        "below16Fraction": 0.4021778106689453,
+        "cornerValues": [
+          3,
+          1,
+          1,
+          2
+        ]
+      }
+    }
+  ]
+}

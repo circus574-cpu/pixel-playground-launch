@@ -1130,3 +1130,14 @@ W drugim terminalu: `node scripts/qa-admin-catalog.mjs`. Osobny dokument
 ani zmianą autoryzacji `/admin`. Build nie kopiuje całego public; symlink służy
 jedynie lokalnemu odczytowi istniejących obrazów. Wyniki i zrzuty:
 [QA katalogu](zmiany/2026-11-01/qa/admin-catalog/results.json).
+
+## Lokalny asystent AI na CPU — 07.11.2026
+
+Cel: darmowy asystent programisty na osobnej maszynie bez GPU (16 rdzeni, 32 GB RAM), niezależny od płatnych API. Skrypt `scripts/ops/local-ai-dev-install.sh` (Debian/Ubuntu, wymaga roota) instaluje llama.cpp zbudowany pod ten procesor, pobiera model GGUF i rejestruje usługę `llama-server`. Użytkownik `aidev` dostaje Qwen Code skierowany na lokalny serwer. `DRY_RUN=1` tylko wypisuje kroki; `smoke` mierzy prędkość działającej usługi.
+
+- **Model domyślny:** `unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF`, plik `Q4_K_M` (ok. 18 GB). To model MoE: liczone jest ok. 3 mld parametrów na token, więc na CPU jest używalny. Zapasowo mniejszy model gęsty (zmienne `MODEL_REPO`, `MODEL_FILE`). Przed pobraniem sprawdzić, czy nie ma nowszego następcy.
+- **Serwer:** tylko `127.0.0.1:8080` (dostęp z zewnątrz wyłącznie tunelem SSH), kontekst 32 768 tokenów, jedno zapytanie naraz, limit pamięci 28 GB, niski priorytet. Liczba wątków domyślnie równa liczbie rdzeni; na VPS z wątkami logicznymi sprawdzić mniejszą wartość (`THREADS`) pomiarem `smoke`.
+- **Czego nie zweryfikowano:** skrypt przeszedł kontrolę składni i tryb `DRY_RUN`, a funkcja `smoke` test na atrapie serwera. Nie uruchomiono go na docelowej maszynie, nie zbudowano llama.cpp ani nie pobrano modelu (ok. 18 GB), więc prędkości w tej sekcji nie mają pomiaru. Spodziewać się rzędu kilkunastu tokenów na sekundę przy generowaniu i minut na wczytanie długiego kontekstu (szacunek).
+- **Granice jakości:** dobry do małych zadań (testy, dokumentacja, zmiany w jednym pliku, proste refaktory), słaby przy zmianach przekrojowych, potoku grafik i trudnym debugowaniu. Nie zastępuje przeglądu człowieka.
+- **Zasady pracy agenta:** osobny użytkownik Linuxa bez sudo, własny klon repozytorium, osobny token GitHub tylko do tego repo (gałęzie i PR), bez dostępu do sekretów produkcji. Obowiązuje `AGENTS.md`: bez scalania PR, publikacji, zmian konfiguracji produkcji i sterowania podem GPU bez zgody właściciela. Zmiany przechodzą bramkę jakości CI.
+- **Nie uruchamiać na maszynie produkcyjnej gry:** model zajmuje ok. 18 GB RAM i wszystkie rdzenie podczas generowania.

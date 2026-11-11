@@ -13,6 +13,8 @@ export const STATES = [
   "idle",
   "walk",
   "kiwalk",
+  "kiidle",
+  "kiattack",
   "run",
   "attack",
   "skill",

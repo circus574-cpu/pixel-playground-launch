@@ -52,6 +52,7 @@ import {
 import {
   cameraFor,
   clampDistance,
+  fitDistance,
   globeFov,
   globeQuality,
   horizonFade,
@@ -70,6 +71,7 @@ import { prefersReducedMotion } from "./webgl";
 import "./planet-map.css";
 import "./globe.css";
 import { loadWorldOverlay } from "./preload";
+import { worldToAtlas } from "./worldToAtlas";
 
 /** Decode in Three's shared loader cache, without creating an extra GPU context. */
 export async function preloadGlobeTextures() {
@@ -406,6 +408,13 @@ function Planet({
   ]) as [THREE.Texture, THREE.Texture, THREE.Texture, THREE.Texture];
   const cloudRef = useRef<THREE.Mesh>(null);
   const hoverId = useRef<string | null>(null);
+  // Weaker desktops start on the light texture; zooming in loads the sharp one so the surface does not stay blurry.
+  const camera = useThree((st) => st.camera);
+  const [zoomedIn, setZoomedIn] = useState(false);
+  useFrame(() => {
+    if (zoomedIn || quality.hiResColor || !quality.hiResOnZoom) return;
+    if (camera.position.length() < fitDistance(aspect()) * 0.75) setZoomedIn(true);
+  });
 
   const material = useMemo(() => {
     configure(color, gl, true);
@@ -470,7 +479,7 @@ function Planet({
 
   // Sharper colour for large screens once the first frame is up.
   useEffect(() => {
-    if (!quality.hiResColor) return;
+    if (!quality.hiResColor && !zoomedIn) return;
     let alive = true;
     let hi: THREE.Texture | null = null;
     const timer = setTimeout(() => {
@@ -490,7 +499,7 @@ function Planet({
       clearTimeout(timer);
       hi?.dispose();
     };
-  }, [gl, invalidate, material, quality.hiResColor]);
+  }, [gl, invalidate, material, quality.hiResColor, zoomedIn]);
 
   useFrame((_, dt) => {
     if (cloudRef.current && !reduced) cloudRef.current.rotation.y += Math.min(dt, 0.05) * 0.006;
@@ -681,7 +690,15 @@ const MARKERS = [
   ...ZONES.map((z) => ({ id: z.id, pos: mapToSphere(z.point, 1.02) })),
 ];
 
-function MarkerProjector({ els }: { els: MutableRefObject<Map<string, HTMLElement>> }) {
+const PLAYER_MARKER_ID = "player-here";
+
+function MarkerProjector({
+  els,
+  extra,
+}: {
+  els: MutableRefObject<Map<string, HTMLElement>>;
+  extra: readonly { id: string; pos: Vec3 }[];
+}) {
   const camera = useThree((s) => s.camera);
   const size = useThree((s) => s.size);
   const v = useMemo(() => new THREE.Vector3(), []);
@@ -689,7 +706,7 @@ function MarkerProjector({ els }: { els: MutableRefObject<Map<string, HTMLElemen
   useFrame(() => {
     camera.updateMatrixWorld();
     const cam: Vec3 = [camera.position.x, camera.position.y, camera.position.z];
-    for (const m of MARKERS) {
+    for (const m of extra.length ? [...MARKERS, ...extra] : MARKERS) {
       const el = els.current.get(m.id);
       if (!el) continue;
       const fade = horizonFade(m.pos, cam);
@@ -725,6 +742,7 @@ export default function PlanetGlobe({
   current,
   onClose,
   onTravel,
+  focus,
 }: GameLink & {
   onShowFlat: () => void;
   onFail: (reason: GlobeFailure) => void;
@@ -748,6 +766,29 @@ export default function PlanetGlobe({
   const zoomRef = useRef<HTMLOutputElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const markerEls = useRef(new Map<string, HTMLElement>());
+  /** The player's own spot on the sphere (opened from the game on world v2), not just the continent label. */
+  const [playerPos, setPlayerPos] = useState<Vec3 | null>(null);
+  useEffect(() => {
+    if (!focus) return;
+    let live = true;
+    const place = (data: Parameters<typeof worldToAtlas>[0]) => {
+      const at = worldToAtlas(data, focus.land, focus.x, focus.y);
+      if (live && at) setPlayerPos(mapToSphere(at, 1.012));
+    };
+    const cached = loadWorldOverlay.cached?.();
+    if (cached) place(cached);
+    else
+      void loadWorldOverlay()
+        .then(place)
+        .catch(() => undefined);
+    return () => {
+      live = false;
+    };
+  }, [focus]);
+  const extraMarkers = useMemo(
+    () => (playerPos ? [{ id: PLAYER_MARKER_ID, pos: playerPos }] : []),
+    [playerPos],
+  );
   /** Unmounting disposes the renderer, which fires an expected context loss. */
   const leaving = useRef(false);
   const releaseRenderer = useRef<(() => void) | null>(null);
@@ -888,10 +929,24 @@ export default function PlanetGlobe({
               <RegionOutline region={hoveredRegion} color="#f0d79a" width={1.6} opacity={0.65} />
             )}
           </Suspense>
-          <MarkerProjector els={markerEls} />
+          <MarkerProjector els={markerEls} extra={extraMarkers} />
         </Canvas>
 
         <div className="pg-markers">
+          {playerPos && (
+            <span
+              ref={(el) => {
+                if (el) markerEls.current.set(PLAYER_MARKER_ID, el);
+                else markerEls.current.delete(PLAYER_MARKER_ID);
+              }}
+              className="pg-player"
+              role="img"
+              aria-label="Twoja pozycja"
+            >
+              <span className="pg-player-halo" aria-hidden />
+              <span className="pg-player-dot" aria-hidden />
+            </span>
+          )}
           {ZONES.filter((z) => z.region === selected).map((z) => (
             <span
               key={z.id}

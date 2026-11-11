@@ -159,6 +159,12 @@ wejścia, wnętrza i usługi. Dawne opisy „dane gotowe, mechanik brak” są n
 `/mapa` i mapa w grze korzystają z jednego `MapaView`, `planetLayout`, obrysów i atlasu.
 Globus WebGL ładowany leniwie; wersja 2D i brak WebGL zachowują te same hitboxy i wybór.
 Nie zmieniać atlasu bez odtworzenia obrysów, minimap i tekstur globusa.
+Mapa 2D zapętla się w poziomie (długość geograficzna): przesuwanie nie zatrzymuje się na
+krawędzi atlasu, a widok rysuje kopie mapy przesunięte o `MAP_W` (`wrapX`, `wrapCopies`
+w `mapData.ts`); w pionie widok nadal kończy się na biegunach. Globus pokazuje punkt gracza
+(złota kropka), gdy mapa jest otwarta z gry w świecie v2. Mapy szczegółowe
+`public/game/worlds/superior-v2/<kraina>/map-hi.webp` powstają bez jasnych prostokątów stref
+bezpiecznych (`render_v2_maps.py`, `MAP_SAFE_TINT`); miasta oznaczają znaczniki nakładki atlasu.
 Plan czterech miast na kontynent jest dalszym rozwojem; dziś jest jedna lokalna
 stolica na rasę z rozdzielonymi usługami. Podróże i sześć wysp z księgi są projektem.
 

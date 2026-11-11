@@ -11,6 +11,7 @@ describe("Legend combat and rescue are real engine encounters", () => {
         const a = new TrialAttempt(id, tier);
         expect(isCityStage(a.session.world)).toBe(false);
         expect(validLearned(a.race, 20, a.session.player.skills)).toBe(true);
+        expect(a.session.skillPoints).toBe(5);
         const before = { gold: a.session.player.gold, xp: a.session.player.xp };
         completeTrial(a);
         expect(a.snapshot().successes).toBe(a.targetCount);

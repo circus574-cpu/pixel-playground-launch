@@ -24,4 +24,9 @@ export const GPU_CONTRACT = {
     death: { frames: 8, fps: 10, loop: false },
     respawn: { frames: 8, fps: 12, loop: false },
   },
+  /** Optional hero clips outside the 416-frame render delivery (Tryb KI, cut from the stage 4 videos). */
+  optionalAnimations: {
+    kiidle: { frames: 1, fps: 6, loop: true },
+    kiattack: { frames: 6, fps: 12, loop: false },
+  },
 } as const;
