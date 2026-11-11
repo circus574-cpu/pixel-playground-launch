@@ -149,3 +149,26 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   na gęstej dziczy i mieście, na dużych obiektach z kotwicą poza kadrem i na pustym kadrze.
 - **Świadomie zostawione na Fazę 2:** cienie jako osobne GameObjecty, pieczenie blokujące wątek,
   `snapshot` 10×/s i brak memo w HUD. Wypiekanie cieni w podłoże zmienia obraz, więc czeka na decyzję.
+
+### 11. Faza 2 (część 1): tani HUD i koniec alokacji co klatkę
+
+- Właściciel: „Ruszaj Fazę 2, nie ma czasu". Zakres: bezpieczne, mierzalne zmiany bez ruszania
+  obrazu świata. Pieczenie w porcjach i pełna memoizacja HUD zostają na kolejny podkrok (ryzyko
+  wizualne / duży refactor), żeby nie wdrażać ich na ślepo.
+- **Leniwy `statBreakdown` w snapshocie.** Zużywa go wyłącznie `CharacterStatsPanel` otwierany na
+  żądanie, a był liczony (6× `deriveStats`, 0,25 ms) przy każdym odświeżeniu HUD 10×/s. Teraz to
+  getter: liczy się tylko, gdy panel go czyta — 0×/s przy zamkniętym panelu. Snapshot bez czytania
+  breakdown: 1,10 → 0,95 ms.
+- **Jeden snapshot na naciśnięcie klawisza.** Gałąź `loot`/`interact` wołała `session.snapshot()`
+  do trzech razy pod rząd w jednym handlerze; teraz jeden, współdzielony.
+- **Flaga „typing" z `focusin`/`focusout`.** Zamiast `document.activeElement.closest(...)` co klatkę
+  (60 zapytań DOM/s), flaga ustawiana zdarzeniami focus i sprzątana przy DESTROY sceny.
+- **Mapa NPC przebudowywana tylko przy zmianie listy.** Zamiast `new Map(session.npcs.map(...))`
+  co klatkę; pozycje NPC aktualizują się w miejscu, więc mapa pozostaje ważna.
+- **Naprawione dwa błędy typechecka istniejące na HEAD:** `superior-visibility-grid.test.ts`
+  (tablica współrzędnych jako `[number, number][]` przy `noUncheckedIndexedAccess`) oraz
+  `graphic-skill-tree.test.tsx` (nieistniejący typ `GameViewState["equipment"]` w mocku, po merge'u
+  innego agenta). Uwaga: wcześniejszy „typecheck 0" Fazy 1 był kodem wyjścia `head` w potoku, nie
+  `tsc` — błąd mojego testu przeoczyłem; teraz bramka liczona bez potoku maskującego.
+- Bramka: `npm run typecheck` exit 0 (wszystkie 3 konfiguracje), `eslint` zmienionych plików exit 0,
+  testy sesji/HUD/drzewka/siatki 73 passed. Pełny zestaw i pomiar end-to-end osobno.

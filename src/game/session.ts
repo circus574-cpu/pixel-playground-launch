@@ -2781,6 +2781,7 @@ export class GameSession implements MonsterHost {
   }
   snapshot() {
     const live = this.kit.stats;
+    const kit = this.kit;
     const target = this.target;
     const abilities: AbilityInfo[] = this.kit.abilities();
     return {
@@ -2791,7 +2792,11 @@ export class GameSession implements MonsterHost {
       staff: this.staff,
       god: this.god,
       player: structuredClone(this.player),
-      statBreakdown: this.kit.statBreakdown,
+      // Faza 2: leniwy getter — statBreakdown (6× deriveStats) liczy się tylko, gdy panel
+      // statystyk go czyta, a nie przy każdym odświeżeniu HUD 10×/s.
+      get statBreakdown() {
+        return kit.statBreakdown;
+      },
       trainingDiscipline: this.trainingDiscipline ?? null,
       stats: {
         dodgeChance: live.dodgeChance,
