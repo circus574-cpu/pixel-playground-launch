@@ -39,7 +39,7 @@ const when = (iso: string | null) => (iso ? new Date(iso).toLocaleString("pl-PL"
 function AdminPage() {
   const account = useAccount();
   const [tab, setTab] = useState<
-    "server-chars" | "players" | "monitoring" | "audit" | "content" | "coder"
+    "server-chars" | "players" | "monitoring" | "audit" | "content" | "coder" | "diagnostyka"
   >("server-chars");
   if (!account.ready) return <main className="ki-account">Wczytywanie…</main>;
   if (!account.session || account.roles.length === 0)
@@ -70,6 +70,7 @@ function AdminPage() {
               ["content", "Świat i zawartość"],
               ["audit", "Dziennik"],
               ["coder", "Postacie lokalne"],
+              ["diagnostyka", "Diagnostyka urządzenia"],
             ] as const
           ).map(([id, label]) => (
             <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)}>
@@ -110,8 +111,38 @@ function AdminPage() {
             <CoderAdminPanel />
           </Suspense>
         )}
+        {tab === "diagnostyka" && <DeviceDiagnostics />}
       </div>
     </main>
+  );
+}
+
+/** Uruchamia grę w trybie diagnostyki na urządzeniu administratora (telefon / przeglądarka). */
+function DeviceDiagnostics() {
+  return (
+    <section className="ki-admin-panel">
+      <h3>Diagnostyka urządzenia</h3>
+      <p>
+        Uruchamia grę w trybie pomiarowym: postać przez <b>45 sekund</b> sama chodzi i wykonuje
+        polecenia (marsz, walka, unik, leczenie) — <b>bez Twojego udziału</b>. Działa na telefonie i
+        w przeglądarce. Na koniec pobiera <b>raport JSON</b> z FPS, p95, zamrożeniem, pamięcią
+        tekstur i czasem wejścia, wraz z danymi urządzenia.
+      </p>
+      <p className="ki-section-hint">
+        Otwórz link na urządzeniu, które chcesz zmierzyć, i zaloguj się na postać administratora /
+        GM. Diagnostyka startuje sama po wejściu do świata (adres z <code>?ki-diag=1</code>). Możesz
+        ją też uruchomić w grze z panelu GM → „Diagnostyka 45 s”.
+      </p>
+      <div className="ki-account-actions">
+        <a className="ki-account-primary" href="/?ki-diag=1" target="_blank" rel="noreferrer">
+          Uruchom diagnostykę w grze (45 s)
+        </a>
+      </div>
+      <p className="ki-section-hint">
+        Zapisany plik ocenisz bramką wydajności: <code>npm run bench:gate &lt;plik.json&gt;</code>.
+        FPS zależy od GPU urządzenia; pamięć i zamrożenie są niezależne od renderera.
+      </p>
+    </section>
   );
 }
 

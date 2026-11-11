@@ -280,3 +280,28 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   FPS na fizycznym telefonie nadal wymaga urządzenia właściciela** — w grze jest `?ki-debug=bench`
   (FPS / p95 / max / czas JS-GPU), a harness zapisuje raport, który ta bramka ocenia. Kontener nie ma
   fizycznego telefonu ani GPU, więc nie podaje „FPS na telefonie" — podaje pamięć, zamrożenie i wejście.
+
+### 16. Tryb diagnostyczny urządzenia — autonomiczny pomiar 45 s z raportem do pliku (na telefonie właściciela)
+
+- Na polecenie właściciela: z panelu admina uruchamiana gra w trybie diagnostyki, postać **chodzi
+  i wykonuje polecenia sama przez 45 s** (bez udziału gracza), a na koniec **zapisuje raport do pliku**.
+  Działa na fizycznym telefonie i w przeglądarce — to domyka Fazę 4 o realny pomiar na urządzeniu.
+- **`src/game/diagnostics.ts`** — rdzeń (czysty, testowalny): `startDiagnostics` wydaje autonomicznie
+  `move` (pętla waypointów wokół startu), `target`+`ability` przy wrogach, `dodge`, `heal`, włącza
+  nieśmiertelność staff na czas pomiaru i przywraca ją po; próbkuje telemetrię `data-metrics` co 0,5 s;
+  po czasie buduje raport. `diagWaypoints`, `buildDiagReport`, `diagSummary`, `downloadDiagReport`
+  (pobieranie JSON). Raport jest zgodny z bramką `npm run bench:gate` (kształt `PerfReport`).
+- **`src/components/game/DiagnosticsPanel.tsx`** + `diagnostics.css` — panel staff: przycisk
+  „Diagnostyka 45 s", nakładka z odliczaniem / paskiem postępu / FPS / pamięcią / fazą na żywo,
+  podsumowanie i ponowne pobranie raportu. Start przez przycisk, zdarzenie `ki:diag-start` albo `?ki-diag=1`.
+- **Wejścia:** zakładka „Diagnostyka urządzenia" w `/admin` (link `/?ki-diag=1` otwiera grę w trybie
+  pomiarowym) + przycisk „Diagnostyka 45 s" w panelu GM (`StaffTools`). Render w `GameHud` dla staff.
+- Raport niesie: FPS śr./min, p95, zamrożenie `frameMax`, pamięć tekstur, czas wejścia, liczbę próbek,
+  błędy strony oraz dane urządzenia (userAgent, viewport, DPR, rdzenie, pamięć, touch, renderer).
+- Weryfikacja: testy rdzenia **7/7** (waypointy, raport zgodny z bramką, podsumowanie, autonomiczny
+  przebieg na fake-timerach, przerwanie) + test komponentu **3/3** (przycisk → nakładka → raport
+  i pobranie; przerwanie; brak renderu dla non-staff). Bramka **sekwencyjnie**: lint 0 błędów,
+  typecheck 0, **testy 1291 passed / 10 skipped (127 plików)**, **build produkcyjny 0**.
+- **Uczciwie:** logikę i UI zweryfikowano w kontenerze (jsdom); **realny FPS zmierzy dopiero urządzenie
+  właściciela** — po uruchomieniu diagnostyki raport pobiera się jako plik JSON i można go ocenić
+  `npm run bench:gate`. Kontener nie ma fizycznego telefonu ani GPU.
