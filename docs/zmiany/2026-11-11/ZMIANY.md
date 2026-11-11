@@ -173,7 +173,7 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
 
 - Wnętrza to jeden malowany obraz (1920×1280) z dużymi meblami, a postacie miały skalę świata zewnętrznego,
   więc ławka czy poducha były większe od bohatera. W pomieszczeniu postacie są rysowane większe:
-  bohater ×1,5, zwykli NPC ×2,4 (wyżsi od bohatera), a NPC z dużego zasobu (Trener, 192) ×1,4, czyli
-  ok. 1,3 raza wyższy od bohatera i wyższy od zwykłych NPC (zmniejszony z 3× na 2× na prośbę właściciela). Skala jest na kontenerze postaci (cień, obrys i halo rosną razem),
+  bohater ×1,5, zwykli NPC ×1,6, a NPC z dużego zasobu (Trener, 192) ×1,4, czyli
+  ok. 1,3 raza wyższy od bohatera i wyraźnie wyższy od zwykłych NPC (zmniejszony z 3× na 2× na prośbę właściciela). Skala jest na kontenerze postaci (cień, obrys i halo rosną razem),
   a podpisy nad głową podnoszą się o tyle samo (`interiorScale` w `mountGame.ts`). Na zewnątrz bez zmian.
-- Zwykli NPC powiększeni ×2,4 z komórek 128 px są nieco miękcy; ostre pozostają bohater (256 px) i Trener (256 px).
+- Zwykli NPC powiększeni ×1,6 z komórek 128 px są lekko miękcy; ostre pozostają bohater i Trener (256 px).
