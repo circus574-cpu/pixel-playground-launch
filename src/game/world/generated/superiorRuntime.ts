@@ -18,6 +18,7 @@ import {
   type SuperiorSimulationSource as Source,
 } from "./simulationWorld";
 import { STREAM_TEXTURE_BUDGET_BYTES, streamTextureBytes } from "../../assets/streamBudget";
+import { chooseGroundResolution, groundTextureBytes } from "../../assets/groundBudget";
 import {
   verdantiaContinentEnabled,
   continentObjects,
@@ -539,12 +540,14 @@ export async function prepareSuperior(options: {
   };
   const spawnStream = streamSpawns(session, save, spawnData.overworld, {
     canAcquire(slot) {
-      // Reserve twelve ground canvases plus 8 MiB for an incoming scenery chunk.
+      // Audyt 11.11.2026: stała rezerwy nie pokrywała podłoża (12 × 1024² × 4 = 48 MiB, nie 20).
+      // Liczymy podłoże jawnie, po rozdzielczości, którą renderer naprawdę dobierze do tych atlasów.
       const ids = new Set([...protectedAssets, ...owned, ...neededByMonster(slot.kind)]);
       for (const keys of owners.values()) for (const id of keys) ids.add(id);
-      return (
-        !!activeScene && streamTextureBytes(ids, catalog.assets) <= STREAM_TEXTURE_BUDGET_BYTES
-      );
+      if (!activeScene) return false;
+      const atlasBytes = streamTextureBytes(ids, catalog.assets);
+      const ground = groundTextureBytes(chooseGroundResolution(atlasBytes, 1024));
+      return atlasBytes + ground <= STREAM_TEXTURE_BUDGET_BYTES;
     },
     async acquire(slot) {
       if (!activeScene || disposed) throw Error("World is not mounted");
@@ -740,6 +743,11 @@ export async function prepareSuperior(options: {
         release,
         error,
         currentDoors: () => [...(world.city?.buildings ?? [])],
+        residentAtlasBytes: () => {
+          const ids = new Set([...protectedAssets, ...owned]);
+          for (const keys of owners.values()) for (const id of keys) ids.add(id);
+          return streamTextureBytes(ids, catalog.assets);
+        },
       });
     },
     afterTick() {

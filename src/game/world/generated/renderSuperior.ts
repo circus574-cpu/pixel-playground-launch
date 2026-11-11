@@ -50,6 +50,8 @@ import {
 import { continentAir, continentDress, dressBiomeAt, dressEnabled } from "./worldDress";
 import type Phaser from "phaser";
 import { catalog } from "../../assets/catalog";
+import { chooseGroundResolution } from "../../assets/groundBudget";
+import { buildSceneryGrid, sceneryNear, sceneryReach } from "../sceneryStream";
 import { sizeScenery } from "../../assets/scenery";
 import { renderDepth } from "../../assets/layers";
 import { blendedTexture } from "../../assets/blendPlates";
@@ -89,14 +91,21 @@ export type RenderSource = {
   release: (scene: Phaser.Scene, owner: string) => void;
   error: (error: unknown) => void;
   currentDoors: () => { id: string; name: string; door: Point }[];
+  /** Bajty atlasów już rezydujących w scenie; podłoże dobiera rozdzielczość do reszty budżetu. */
+  residentAtlasBytes?: () => number;
 };
 const CHUNK = 2048;
+
 type Tile = {
   data: BrowserChunk;
   items: ArtObject[];
   ground: Phaser.GameObjects.Image;
   images: Map<string, Phaser.GameObjects.Image>;
   shadows: Map<string, Phaser.GameObjects.Image>;
+  /** Siatka przestrzenna z renderera v1: pętla widoczności chodzi tylko po komórkach w kadrze. */
+  grid: Map<number, number[]>;
+  reach: number;
+  index: Map<string, number>;
   key: string;
 };
 const intersects = (
@@ -171,7 +180,13 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   const paintedNexus = painted && source.loader.definition.feature === "nexus";
   const nexusRoads = paintedNexus ? nexusWalkways(source.art) : [];
   const renderRoads = [...source.roads, ...nexusRoads];
-  const resolution = painted || continent ? 1024 : 512;
+  // Audyt 11.11.2026: podłoże było poza budżetem tekstur. Dobieramy rozdzielczość do reszty
+  // budżetu po atlasach, zamiast zawsze piec 1024 i przekraczać sufit o 28–48 MiB.
+  const preferredResolution = painted || continent ? 1024 : 512;
+  const resolution =
+    painted || continent
+      ? chooseGroundResolution(source.residentAtlasBytes?.() ?? 0, preferredResolution)
+      : preferredResolution;
   const scale = resolution / CHUNK;
   const shadowKey = "verdantia-continent-contact-shadow";
   if (continent && !scene.textures.exists(shadowKey)) {
@@ -942,12 +957,17 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         return;
       }
       const ground = drawGround(data, id);
+      const grid = buildSceneryGrid(items);
+      const index = new Map(items.map((item, i) => [item.id, i] as const));
       live.set(id, {
         data,
         items,
         ground: ground.image,
         images: new Map(),
         shadows: new Map(),
+        grid,
+        reach: sceneryReach(items),
+        index,
         key: ground.key,
       });
     } catch (error) {
@@ -1000,8 +1020,23 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       const [x, y] = id.split("-").map(Number);
       void load(x!, y!);
     }
-    for (const tile of live.values())
-      for (const item of tile.items) {
+    for (const tile of live.values()) {
+      // Audyt 11.11.2026: pętla szła po wszystkich obiektach wszystkich chunków co klatkę
+      // (3840 obiektów w mieście). Siatka z renderera v1 wybiera tylko komórki w kadrze,
+      // powiększone o zasięg największego obiektu, więc żaden widoczny nie wypada.
+      const near = sceneryNear(tile.grid, view, 200 + tile.reach);
+      const candidates = new Set(near);
+      // Obraz, którego obiekt wyszedł poza kandydatów, na pewno nie jest już widoczny.
+      for (const [id, image] of tile.images) {
+        const at = tile.index.get(id);
+        if (at !== undefined && candidates.has(at)) continue;
+        image.destroy();
+        tile.images.delete(id);
+        tile.shadows.get(id)?.destroy();
+        tile.shadows.delete(id);
+      }
+      for (const at of near) {
+        const item = tile.items[at]!;
         let image = tile.images.get(item.id);
         if (!intersects(item, view, 200)) {
           if (image) {
@@ -1079,6 +1114,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
           tile.shadows.get(item.id)?.setVisible(false);
         }
       }
+    }
     const doors = source.currentDoors(),
       nextKey = doors.map((d) => d.door.x + "," + d.door.y).join(";");
     if (nextKey !== doorsKey) {

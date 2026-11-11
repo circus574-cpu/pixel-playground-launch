@@ -90,3 +90,31 @@ to ~1000 porównań i nie boli — zostawione, z adnotacją co zrobić przy podn
 - Audyt **nie zmienia kodu gry**. Zmiany dotyczą wyłącznie narzędzi pomiarowych i harnessu.
 - Bramka: `eslint` na nowych i zmienionych plikach exit 0; `npm run typecheck` exit 0
   (limit cgroup wrócił do 4 GiB, więc bez flagi kopca).
+
+### 8. Faza 1 wdrożona: budżet podłoża i pętla widoczności na istniejącej siatce
+
+- Właściciel: „Lagi są bardzo nie wyobrażalne na komputerze a nie chcę widzieć tego na telefonie.
+  Działaj etapami. Od fazy pierwszej". Zakres: pamięć i pętla, bez ruszania rozgrywki ani zapisów.
+- **Budżet tekstur domknięty o podłoże.** Nowy `src/game/assets/groundBudget.ts` liczy koszt
+  upieczonych canvasów (`12 × res² × 4`) i dobiera rozdzielczość pieczenia do reszty budżetu po
+  atlasach (`chooseGroundResolution`, kandydaci 1024 → 768 → 512). Renderer Superior dostaje realny
+  koszt rezydujących atlasów (`residentAtlasBytes` z `superiorRuntime`), a bramka spawnu dolicza
+  podłoże zamiast ufać stałej `STREAM_RESERVED_BYTES = 20 MiB`, która pokrywała tylko 20 z 48 MiB
+  podłoża przy 1024. Degradacja idzie po rozdzielczości, nie po treści.
+- **Pętla widoczności na istniejącej siatce.** Renderer Superior nie używał `sceneryStream.ts`,
+  który już istniał i był używany przez renderer v1. Podpiąłem go zamiast pisać własny moduł
+  (własny `sceneryBuckets.ts` powstał, ale został usunięty jako duplikat). Komórki w kadrze są
+  powiększone o `sceneryReach`, więc żaden widoczny obiekt nie wypada; obrazy obiektów poza
+  kandydatami są gaszone po indeksie, nie po pełnym przejściu.
+- **Pomiar pamięci (renderer-independent):** Verdantia **210,8 → 176,6 MiB** (pod sufitem 192),
+  Aetheria **233,1 → 199,4 MiB**. Pomiar FPS z tego przebiegu jest niewiarygodny, bo w trakcie
+  szły równoległe testy i HMR przeładował stronę — czysty pomiar osobno.
+- **Pomiar pętli (`scripts/perf/audyt-buckets.ts`, na prawdziwym `sceneryStream`):** kandydaci
+  3840 → 730 (5,3× mniej), skan **1,55–1,95×** szybszy. Uczciwie: to nie 8×, jak szacował audyt —
+  odrzucone obiekty kosztują mało, bo porównanie wychodzi wcześnie; zysk strukturalny rośnie na
+  wolniejszym CPU telefonu.
+- **Testy:** `ground-budget.test.ts` (6) pilnuje sufitu i doboru rozdzielczości;
+  `superior-visibility-grid.test.ts` (4) pilnuje niezmiennika „żaden widoczny obiekt nie wypada"
+  na gęstej dziczy i mieście, na dużych obiektach z kotwicą poza kadrem i na pustym kadrze.
+- **Świadomie zostawione na Fazę 2:** cienie jako osobne GameObjecty, pieczenie blokujące wątek,
+  `snapshot` 10×/s i brak memo w HUD. Wypiekanie cieni w podłoże zmienia obraz, więc czeka na decyzję.
