@@ -147,9 +147,9 @@ export function mountKileGends(
   const loadStarted = performance.now();
   // Interior rooms are one painted picture drawn for a camera that makes its furniture large, so people
   // are drawn bigger inside buildings: the hero a little, ordinary NPCs more (they stand taller than the
-  // hero) and landmark NPCs such as the Trener (asset size 288) far taller than anybody, as an authority.
+  // hero) and landmark NPCs such as the Trener (asset size 192) far taller than anybody, as an authority.
   const interiorScale = (a: { kind: string; visual: { size: readonly number[] } }): number =>
-    a.kind === "hero" ? 1.5 : a.kind === "npc" ? ((a.visual.size[1] ?? 0) >= 288 ? 1.4 : 2.4) : 1;
+    a.kind === "hero" ? 1.5 : a.kind === "npc" ? ((a.visual.size[1] ?? 0) >= 192 ? 1.4 : 2.4) : 1;
   class ForestScene extends Phaser.Scene {
     private actors: Actor[] = [];
     private heritageMarkers: HeritageMarkers | undefined;

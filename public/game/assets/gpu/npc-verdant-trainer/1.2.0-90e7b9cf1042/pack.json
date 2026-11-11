@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "id": "npc-verdant-trainer",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "npc-verdant-trainer-page-0",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "kind": "atlas",
-      "url": "/game/assets/gpu/npc-verdant-trainer/1.1.0-f437d486eba2/npc-verdant-trainer-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/npc-verdant-trainer/1.1.0-f437d486eba2/npc-verdant-trainer-page-0.json",
+      "url": "/game/assets/gpu/npc-verdant-trainer/1.2.0-90e7b9cf1042/npc-verdant-trainer-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-verdant-trainer/1.2.0-90e7b9cf1042/npc-verdant-trainer-page-0.json",
       "width": 1539,
       "height": 244
     }
@@ -21,8 +21,8 @@
       "profile": "npc",
       "presentation": "legacy",
       "size": [
-        288,
-        288
+        192,
+        192
       ],
       "origin": [
         0.5,

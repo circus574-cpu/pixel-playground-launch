@@ -10,7 +10,7 @@ The figure is matted with rembg (isnet-anime), only its largest connected piece 
 caption), one camera transform (scale + feet baseline) is shared by every frame so the NPC never pops in size,
 and a breathing cycle is derived from each pose (rest and a 1.2 % vertical stretch anchored at the feet, 8 idle frames reusing the 2 poses).
 The `walk` clip required by the NPC contract reuses the idle frame names, so it costs no texture memory.
-Contract (scripts/lib/gpu-import.ts, contract.npcLarge): profile npc, size 288 (3x), origin .5/.95, 256 px source cells, idle 8 @ 6 fps loop,
+Contract (scripts/lib/gpu-import.ts, contract.npcLarge): profile npc, size 192 (2x), origin .5/.95, 256 px source cells, idle 8 @ 6 fps loop,
 walk 8 @ 16 fps loop, 8 directions. Frames are trimmed and shelf-packed into the smallest atlas.
 Other races reuse the same figure with a recoloured outfit: NPC_HUE=<degrees> shifts the saturated sash/trim and tints the
 dark cloth (skin, hair, beard and boots keep their colours). Defaults per world: pyra keeps the original red, verdant 125,
@@ -42,7 +42,7 @@ if os.environ.get('NPC_PICKS'):  # e.g. "down=0,left=36,down-right=24m"
         d, v = part.split('=')
         PICKS[d] = (int(v.rstrip('m')), v.endswith('m'))
 CELL, FIG_H, FEET_Y = 256, 232, 243   # source cell, figure height in it, feet row (origin .95 * 256 = 243.2)
-SIZE = [288, 288]                    # drawn size: three times the standard NPC (96); contract.npcLarge
+SIZE = [192, 192]                    # drawn size: twice the standard NPC (96); contract.npcLarge
 # two poses per facing (rest, inhale); the 8 idle frame names reuse the same atlas rectangles, which keeps the texture small
 POSES = [1.0, 1.012]
 BREATH = [0, 0, 1, 1, 1, 1, 0, 0]   # pose index of each of the 8 idle frames

@@ -86782,16 +86782,16 @@
   {
     "schemaVersion": 1,
     "id": "npc-pyra-trainer",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-pyra-trainer-page-0",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-pyra-trainer/1.1.0-b8c6656366ab/npc-pyra-trainer-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-pyra-trainer/1.1.0-b8c6656366ab/npc-pyra-trainer-page-0.json",
+        "url": "/game/assets/gpu/npc-pyra-trainer/1.2.0-0ffd0c33e21a/npc-pyra-trainer-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-pyra-trainer/1.2.0-0ffd0c33e21a/npc-pyra-trainer-page-0.json",
         "width": 1539,
         "height": 244
       }
@@ -86802,8 +86802,8 @@
         "profile": "npc",
         "presentation": "legacy",
         "size": [
-          288,
-          288
+          192,
+          192
         ],
         "origin": [
           0.5,
@@ -86997,16 +86997,16 @@
   {
     "schemaVersion": 1,
     "id": "npc-verdant-trainer",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-verdant-trainer-page-0",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-verdant-trainer/1.1.0-f437d486eba2/npc-verdant-trainer-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-verdant-trainer/1.1.0-f437d486eba2/npc-verdant-trainer-page-0.json",
+        "url": "/game/assets/gpu/npc-verdant-trainer/1.2.0-90e7b9cf1042/npc-verdant-trainer-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-verdant-trainer/1.2.0-90e7b9cf1042/npc-verdant-trainer-page-0.json",
         "width": 1539,
         "height": 244
       }
@@ -87017,8 +87017,8 @@
         "profile": "npc",
         "presentation": "legacy",
         "size": [
-          288,
-          288
+          192,
+          192
         ],
         "origin": [
           0.5,
@@ -87212,16 +87212,16 @@
   {
     "schemaVersion": 1,
     "id": "npc-aether-trainer",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-aether-trainer-page-0",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-aether-trainer/1.1.0-395658256f0f/npc-aether-trainer-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-aether-trainer/1.1.0-395658256f0f/npc-aether-trainer-page-0.json",
+        "url": "/game/assets/gpu/npc-aether-trainer/1.2.0-c0268800f2fb/npc-aether-trainer-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-aether-trainer/1.2.0-c0268800f2fb/npc-aether-trainer-page-0.json",
         "width": 1539,
         "height": 244
       }
@@ -87232,8 +87232,8 @@
         "profile": "npc",
         "presentation": "legacy",
         "size": [
-          288,
-          288
+          192,
+          192
         ],
         "origin": [
           0.5,
@@ -87427,16 +87427,16 @@
   {
     "schemaVersion": 1,
     "id": "npc-nexus-trainer",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-nexus-trainer-page-0",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-nexus-trainer/1.1.0-82271c658346/npc-nexus-trainer-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-nexus-trainer/1.1.0-82271c658346/npc-nexus-trainer-page-0.json",
+        "url": "/game/assets/gpu/npc-nexus-trainer/1.2.0-9c8ec80366dc/npc-nexus-trainer-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-nexus-trainer/1.2.0-9c8ec80366dc/npc-nexus-trainer-page-0.json",
         "width": 1539,
         "height": 244
       }
@@ -87447,8 +87447,8 @@
         "profile": "npc",
         "presentation": "legacy",
         "size": [
-          288,
-          288
+          192,
+          192
         ],
         "origin": [
           0.5,
