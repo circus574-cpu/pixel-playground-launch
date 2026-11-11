@@ -22,7 +22,18 @@ import { cityRoom } from "./city/room";
 import type { BuildingId } from "./city/types";
 import { clampZoom, DEFAULT_ZOOM } from "./view";
 import { WORLD_V2 } from "./world/generated/worldVersion";
-import { cuesFor, sfx } from "./sfx";
+import { terrainAt } from "./world/terrain";
+import {
+  ambienceFile,
+  cuesFor,
+  installDialogSounds,
+  installUiClickSound,
+  sfx,
+  STEP_GAIN,
+  STEP_INTERVAL_MS,
+  stepFile,
+  stepSurface,
+} from "./sfx";
 import { actionFor, readKeyBindings, skillSlot } from "./keyBindings";
 import { focusOcclusion, heroOcclusion, type OcclusionFocus } from "./world/visibility";
 import {
@@ -139,6 +150,8 @@ export function mountKileGends(
     private heritageMarkers: HeritageMarkers | undefined;
     /** Last frame's player snapshot for sound cues (potion used, door, notices). */
     private sfxSnapshot: Parameters<typeof cuesFor>[2] = null;
+    private lastStepAt = 0;
+    private lastSurface = "";
     private visualBudget = new CombatVisualBudget();
     private trackEffect(object: Phaser.GameObjects.GameObject, critical = false) {
       const release = this.visualBudget.add(() => object.destroy(), critical);
@@ -1425,10 +1438,25 @@ export function mountKileGends(
         interior: session.player.interior,
         noticeId: session.noticeId,
         notice: session.notice,
+        fx: session.fx.active.map((a) => a.id),
       };
       for (const file of cuesFor(session.player.race, events, this.sfxSnapshot, snapshot))
         sfx.play(file);
       this.sfxSnapshot = snapshot;
+      sfx.setAmbience(ambienceFile(world.id, session.safe) ?? null);
+      if (session.moving && !session.player.dead && time - this.lastStepAt > STEP_INTERVAL_MS) {
+        this.lastStepAt = time;
+        const surface = stepSurface(
+          world.id,
+          terrainAt(world, session.player),
+          session.player.interior,
+        );
+        if (surface === "water" && this.lastSurface !== "water")
+          sfx.play("/game/sfx/movement/water-enter.mp3");
+        this.lastSurface = surface;
+        if (surface === "water") sfx.play("/game/sfx/movement/swim.mp3", STEP_GAIN);
+        else sfx.play(stepFile(surface), STEP_GAIN);
+      }
       // In the painted smithy the hero is drawn larger, as in the mockup (about a fifth of the screen height).
       this.hero.body
         .setPosition(session.player.x, session.player.y)
@@ -1726,8 +1754,13 @@ export function mountKileGends(
       }
     }, 500);
   }
+  const removeUiClickSound = installUiClickSound();
+  const removeDialogSounds = installDialogSounds();
   return () => {
     disposed = true;
+    removeUiClickSound();
+    removeDialogSounds();
+    sfx.setAmbience(null);
     window.clearInterval(debugTimer);
     window.clearTimeout(benchStart);
     stopBench?.();

@@ -119,6 +119,191 @@ export function developmentAmbienceFile(id: DevelopmentAmbienceId): string {
   return DEVELOPMENT_AMBIENCE_FILES[id];
 }
 
+/** Monster definition ids that have their own sounds (public/game/sfx/monsters/<id>/{atk,die}.mp3). */
+const MONSTER_SFX_IDS = new Set<string>([
+  "aether-duch-bibliotekarza",
+  "aether-krysztalowy-motyl",
+  "aether-lew-swiatyni",
+  "aether-marionetka-rytualu",
+  "aether-mgielny-zuraw",
+  "aether-oko-wiedzy",
+  "aether-pergaminowy-straznik",
+  "aether-swietlik-pieczeci",
+  "aether-szmaragdowy-waz",
+  "aether-zloty-skarabeusz",
+  "nexus-dron-zwiadowca",
+  "nexus-kruk-danych",
+  "nexus-latarnia-plazmowa",
+  "nexus-pajak-spawalniczy",
+  "nexus-pelzacz-serwisowy",
+  "nexus-pies-lowca",
+  "nexus-roj-nanitow",
+  "nexus-skaner-gasienicowy",
+  "nexus-straznik-rdzenia",
+  "nexus-wiezyczka-autonomiczna",
+  "pyra-byk-areny",
+  "pyra-golem-ruin",
+  "pyra-magmowy-krab",
+  "pyra-ognista-salamandra",
+  "pyra-plomien-duch",
+  "pyra-popielny-wilk",
+  "pyra-skalny-berserker",
+  "pyra-skorpion-obsydianowy",
+  "pyra-wegielek",
+  "pyra-zarowy-nietoperz",
+  "verdant-bursztynowa-osa",
+  "verdant-cierniowy-wilk",
+  "verdant-grzybowy-zarodnik",
+  "verdant-korzeniowy-pelzacz",
+  "verdant-lesny-pajak",
+  "verdant-lisciak-skrytobojca",
+  "verdant-mchowy-szlamak",
+  "verdant-puchacz-pylowy",
+  "verdant-skalny-jelen",
+  "verdant-straznik-ruin",
+  ...[
+    "verdant-ygdrasha",
+    "verdant-thorgar",
+    "aether-arcykaplan-pustki",
+    "aether-aurelith",
+    "nexus-arbiter-zero",
+    "nexus-hydra-rdzen",
+    "pyra-kharzul",
+    "pyra-pyrrhax",
+  ],
+]);
+/** Boss monsters are defined as "boss:<boss id>"; their sound folders carry the world prefix. */
+export const BOSS_SFX_DIR: Record<string, string> = {
+  "boss:ygdrasha": "verdant-ygdrasha",
+  "boss:thorgar": "verdant-thorgar",
+  "boss:arcykaplan-pustki": "aether-arcykaplan-pustki",
+  "boss:aurelith": "aether-aurelith",
+  "boss:arbiter-zero": "nexus-arbiter-zero",
+  "boss:hydra-rdzen": "nexus-hydra-rdzen",
+  "boss:kharzul": "pyra-kharzul",
+  "boss:pyrrhax": "pyra-pyrrhax",
+};
+
+/** Own sound of a monster species for an attack, death or (bosses) intro roar, if it has one. */
+export function monsterSfxFile(
+  species: string | undefined,
+  cue: "atk" | "die" | "roar",
+): string | undefined {
+  if (!species) return undefined;
+  const dir = BOSS_SFX_DIR[species] ?? species;
+  return MONSTER_SFX_IDS.has(dir) ? "/game/sfx/monsters/" + dir + "/" + cue + ".mp3" : undefined;
+}
+
+const STONE_HURT = new Set([
+  "verdant-skalny-jelen",
+  "verdant-straznik-ruin",
+  "pyra-golem-ruin",
+  "pyra-skalny-berserker",
+  "pyra-magmowy-krab",
+]);
+/** Reaction to a hit: robots in Nexus-9, spirits and scribes in Aetheria, stone creatures, else animals. */
+export function monsterHurtFile(species: string | undefined): string | undefined {
+  if (!species) return undefined;
+  const dir = BOSS_SFX_DIR[species] ?? species;
+  if (!MONSTER_SFX_IDS.has(dir)) return undefined;
+  const kind = dir.startsWith("nexus-")
+    ? "robot"
+    : dir.startsWith("aether-")
+      ? "magic"
+      : STONE_HURT.has(dir)
+        ? "stone"
+        : "beast";
+  return "/game/sfx/monsters/generic/hurt-" + kind + ".mp3";
+}
+
+/** Monster skill ids (monsters/catalog.ts) that share a generic sound, played when the skill winds up. */
+const SKILL_SOUND: Record<string, string> = {
+  szarza: "charge",
+  taran: "charge",
+  nurkowanie: "charge",
+  skok: "charge",
+  tupniecie: "stomp",
+  mlot: "stomp",
+  miazdzenie: "stomp",
+  chmura: "poison",
+  pylek: "poison",
+  mgla: "poison",
+  oblok: "poison",
+  oplatanie: "web",
+  zadlo: "sting",
+  ukaszenie: "sting",
+  plwocina: "spit",
+  "wybuch-korzeni": "explosion",
+  "rozbicie-bariery": "explosion",
+  wyladowanie: "explosion",
+  odlamki: "explosion",
+  roj: "swarm",
+};
+export function monsterSkillFile(ability: string | undefined): string | undefined {
+  const name = ability ? SKILL_SOUND[ability] : undefined;
+  return name ? "/game/sfx/monsters/generic/" + name + ".mp3" : undefined;
+}
+
+/** Status effects monsters put on the hero that have a sound. */
+const STATUS_SOUND: Record<string, string> = {
+  burn: "burn",
+  poison: "poison",
+  slow: "slow",
+  stun: "stun",
+  root: "freeze",
+};
+export function statusSfxFile(id: string): string | undefined {
+  const name = STATUS_SOUND[id];
+  return name ? "/game/sfx/status/" + name + ".mp3" : undefined;
+}
+
+/** Notices that say an action was refused: a short error tick. */
+const UI_REFUSAL =
+  /^(Brak |Nie masz |Nie ma |Nie można |Nie możesz |Nie jest |Tego przedmiotu nie|Najpierw |W mieście nie walczysz|Limit |W skarbcu nie ma|Wybierz dostępne|Teleport działa tylko)/;
+export function uiRefusalNotice(text: string): boolean {
+  return UI_REFUSAL.test(text);
+}
+
+/** Looping ambience: the city inside safe walls, otherwise the world's own bed. */
+const WORLD_AMBIENCE: Record<string, string> = {
+  verdant: "verdantia",
+  aether: "aetheria",
+  nexus: "nexus",
+  pyra: "pyra",
+};
+export function ambienceFile(world: string, safe: boolean): string | undefined {
+  if (safe) return "/game/sfx/ambience/city.mp3";
+  const name = WORLD_AMBIENCE[world];
+  return name ? "/game/sfx/ambience/" + name + ".mp3" : undefined;
+}
+
+export type StepSurface =
+  "grass" | "dirt" | "stone" | "sand" | "snow" | "wood" | "metal" | "ash" | "water";
+/** Milliseconds between two footsteps while the hero walks. */
+export const STEP_INTERVAL_MS = 340;
+/** Footsteps are quieter than hits: they play all the time. */
+export const STEP_GAIN = 0.45;
+const WORLD_STEP_SURFACE: Record<string, StepSurface> = {
+  verdant: "grass",
+  aether: "stone",
+  nexus: "metal",
+  pyra: "ash",
+};
+/** Surface under the hero: indoors wood (metal in Nexus-9), Verdantia's river and rocks, else the world's default. */
+export function stepSurface(
+  world: string,
+  terrain: "forest" | "rock" | "water" | "open",
+  interior: string | null,
+): StepSurface {
+  if (interior) return world === "nexus" ? "metal" : "wood";
+  if (terrain === "water") return "water";
+  if (terrain === "rock") return "stone";
+  return WORLD_STEP_SURFACE[world] ?? "dirt";
+}
+export function stepFile(surface: StepSurface): string {
+  return "/game/sfx/steps/" + surface + ".mp3";
+}
+
 /** Event types a race kit emits for its own abilities (monsters also use "status" and "telegraph"). */
 const KIT_EVENTS = new Set(["attack", "buff", "burst", "heal", "shield", "circle", "channel"]);
 
@@ -156,6 +341,8 @@ export type SfxSnapshot = {
   interior: string | null;
   noticeId: number;
   notice: string;
+  /** Ids of the status effects currently on the hero (PlayerFx.active). */
+  fx?: readonly string[];
 };
 
 /** Which cues one frame's events and player snapshot call for. Pure, so it is unit tested. */
@@ -179,20 +366,31 @@ export function cuesFor(
       else if (e.target?.startsWith("practice-")) add(sfxFile("audio.development.target-hit"));
       else if (e.target === "training-dummy")
         add(sfxFile(e.crit ? "hit-crit" : "audio.development.dummy-hit"));
-      else if (e.text !== "Pudło") add(sfxFile(e.crit ? "hit-crit" : "hit"));
+      else if (e.text !== "Pudło") {
+        add(sfxFile(e.crit ? "hit-crit" : "hit"));
+        add(monsterHurtFile(e.species));
+      }
     } else if (e.type === "death")
-      add(sfxFile(e.target === "player" ? "player-death" : "monster-death"));
+      add(
+        e.target === "player"
+          ? sfxFile("player-death")
+          : (monsterSfxFile(e.species, "die") ?? sfxFile("monster-death")),
+      );
+    else if (e.type === "attack" && e.source && e.species) add(monsterSfxFile(e.species, "atk"));
     else if (e.type === "respawn") {
       if (!e.target || e.target === "player") add(sfxFile("respawn"));
     } else if (e.type === "level") add(sfxFile("level-up"));
     else if (e.type === "loot") add(sfxFile(e.text?.endsWith("monet") ? "gold" : "loot"));
-    else if (e.type === "telegraph") add(sfxFile("boss-warning"));
+    else if (e.type === "telegraph") add(monsterSkillFile(e.ability) ?? sfxFile("boss-warning"));
+    else if (e.type === "status" && e.species && e.text?.startsWith("Faza"))
+      add(monsterSfxFile(e.species, "roar"));
     else if (e.ability === "dodge" && !e.source) add(sfxFile("dodge"));
     else if (e.ability === "combo" && !e.source) add(sfxFile("hit-crit"));
     else if (e.ability && !e.source && KIT_EVENTS.has(e.type))
       add(sfxFile({ race, ability: e.ability }));
   }
   if (before) {
+    for (const id of now.fx ?? []) if (!before.fx?.includes(id)) add(statusSfxFile(id));
     if (now.potions < before.potions) add(sfxFile("potion"));
     if (now.interior !== before.interior) add(sfxFile("door"));
     if (now.noticeId !== before.noticeId) {
@@ -210,6 +408,13 @@ export function cuesFor(
         add(sfxFile("audio.development.exam-success"));
       else if (/^(Zapisano nowy stopień treningu\.|.+ · trening \d+$)/.test(now.notice))
         add(sfxFile("level-up"));
+      else if (/^(Sprzedano:|Kupiono)/.test(now.notice)) add("/game/sfx/ui/buy-sell.mp3");
+      else if (/^Ostrze ulepszone/.test(now.notice)) add("/game/sfx/ui/upgrade-ok.mp3");
+      else if (/^Uwarzono/.test(now.notice)) add("/game/sfx/crafting/craft.mp3");
+      else if (/^Poznano:/.test(now.notice)) add("/game/sfx/ui/skill-learn.mp3");
+      else if (/^Teleport:/.test(now.notice)) add("/game/sfx/ui/teleport.mp3");
+      else if (/^Strażnik otworzył wrota/.test(now.notice)) add("/game/sfx/ui/portal.mp3");
+      else if (UI_REFUSAL.test(now.notice)) add("/game/sfx/ui/error.mp3");
     }
   }
   return out;
@@ -230,13 +435,55 @@ class SfxPlayer {
     this.muted = prefs.sfxMuted;
   }
 
+  private ambienceFile: string | null = null;
+  private ambienceSource: AudioBufferSourceNode | null = null;
+  private ambienceGain: GainNode | null = null;
+
+  /** Plays one looping ambience bed at a time; null stops it. Safe to call every frame. */
+  setAmbience(file: string | null, gain = 0.3) {
+    if (file === this.ambienceFile) return;
+    this.ambienceFile = file;
+    const ctx = this.ensureContext();
+    if (!ctx || !this.gain) return;
+    const old = { source: this.ambienceSource, gain: this.ambienceGain };
+    this.ambienceSource = null;
+    this.ambienceGain = null;
+    if (old.source && old.gain) {
+      const t = ctx.currentTime;
+      old.gain.gain.setValueAtTime(old.gain.gain.value, t);
+      old.gain.gain.linearRampToValueAtTime(0, t + 1.2);
+      old.source.stop(t + 1.3);
+    }
+    if (!file || this.muted || this.volume <= 0 || ctx.state === "suspended") {
+      if (file && ctx.state === "suspended") {
+        this.retryOnGesture();
+        this.ambienceFile = null; // retry from the next frame once audio is allowed
+      }
+      return;
+    }
+    const master = this.gain;
+    void this.load(ctx, file).then((buffer) => {
+      if (!buffer || this.ambienceFile !== file) return;
+      const source = ctx.createBufferSource();
+      source.buffer = buffer;
+      source.loop = true;
+      const own = ctx.createGain();
+      own.gain.setValueAtTime(0, ctx.currentTime);
+      own.gain.linearRampToValueAtTime(gain, ctx.currentTime + 1.5);
+      source.connect(own).connect(master);
+      source.start();
+      this.ambienceSource = source;
+      this.ambienceGain = own;
+    });
+  }
+
   setVolume(volume: number, muted: boolean) {
     this.volume = Math.min(1, Math.max(0, volume));
     this.muted = muted;
     if (this.gain) this.gain.gain.value = this.level();
   }
 
-  play(file: string) {
+  play(file: string, gain = 1) {
     if (this.muted || this.volume <= 0) return;
     const ctx = this.ensureContext();
     if (!ctx || !this.gain) return;
@@ -247,14 +494,19 @@ class SfxPlayer {
       this.retryOnGesture();
       return;
     }
-    const gain = this.gain;
+    const master = this.gain;
     void this.load(ctx, file).then((buffer) => {
       if (!buffer) return;
       const source = ctx.createBufferSource();
       source.buffer = buffer;
       // A slight random pitch keeps repeated hits from sounding mechanical.
       source.playbackRate.value = 0.94 + Math.random() * 0.12;
-      source.connect(gain);
+      if (gain === 1) source.connect(master);
+      else {
+        const own = ctx.createGain();
+        own.gain.value = gain;
+        source.connect(own).connect(master);
+      }
       source.start();
     });
   }
@@ -328,10 +580,42 @@ if (typeof window !== "undefined") {
   window.addEventListener("pointerdown", unlock, true);
 }
 export const sfx = {
-  play(file: string) {
-    (player ??= new SfxPlayer()).play(file);
+  play(file: string, gain = 1) {
+    (player ??= new SfxPlayer()).play(file, gain);
   },
   setVolume(volume: number, muted: boolean) {
     (player ??= new SfxPlayer()).setVolume(volume, muted);
   },
+  setAmbience(file: string | null, gain = 0.3) {
+    (player ??= new SfxPlayer()).setAmbience(file, gain);
+  },
 };
+
+/** Opening and closing of panels (role=dialog) while the game is mounted. */
+export function installDialogSounds(doc: Document = document): () => void {
+  if (typeof MutationObserver === "undefined") return () => {};
+  const isDialog = (n: Node) =>
+    n instanceof Element && (n.matches('[role="dialog"]') || !!n.querySelector('[role="dialog"]'));
+  const observer = new MutationObserver((records) => {
+    for (const r of records) {
+      if ([...r.addedNodes].some(isDialog)) sfx.play("/game/sfx/ui/open.mp3", 0.6);
+      else if ([...r.removedNodes].some(isDialog)) sfx.play("/game/sfx/ui/close.mp3", 0.6);
+    }
+  });
+  observer.observe(doc.body, { childList: true, subtree: true });
+  return () => observer.disconnect();
+}
+
+/** Soft tick on every button, tab and link press while the game is mounted. Opt out with data-no-ui-sound. */
+export function installUiClickSound(doc: Document = document): () => void {
+  const onClick = (event: Event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const control = target.closest('button, [role="button"], [role="tab"], a[href]');
+    if (!control || control.closest("[data-no-ui-sound]")) return;
+    if (control instanceof HTMLButtonElement && control.disabled) return;
+    sfx.play("/game/sfx/ui/click.mp3", 0.7);
+  };
+  doc.addEventListener("click", onClick, true);
+  return () => doc.removeEventListener("click", onClick, true);
+}
