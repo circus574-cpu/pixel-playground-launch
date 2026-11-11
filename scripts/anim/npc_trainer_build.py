@@ -8,9 +8,9 @@ The video is a turnaround of a standing character on a plain background with a p
 One frame is picked per facing (NPC_PICKS, "frame:mirror"); left-facing mirrors are generated, never hand drawn.
 The figure is matted with rembg (isnet-anime), only its largest connected piece is kept (this drops the
 caption), one camera transform (scale + feet baseline) is shared by every frame so the NPC never pops in size,
-and an 8-frame breathing cycle is derived from each pose (a 0..1.5 % vertical stretch anchored at the feet).
+and a breathing cycle is derived from each pose (rest and a 1.2 % vertical stretch anchored at the feet, 8 idle frames reusing the 2 poses).
 The `walk` clip required by the NPC contract reuses the idle frame names, so it costs no texture memory.
-Contract (scripts/lib/gpu-import.ts): profile npc, size 96, origin .5/.95, 128 px source cells, idle 8 @ 6 fps loop,
+Contract (scripts/lib/gpu-import.ts, contract.npcLarge): profile npc, size 288 (3x), origin .5/.95, 256 px source cells, idle 8 @ 6 fps loop,
 walk 8 @ 16 fps loop, 8 directions. Frames are trimmed and shelf-packed into the smallest atlas.
 Other races reuse the same figure with a recoloured outfit: NPC_HUE=<degrees> shifts the saturated sash/trim and tints the
 dark cloth (skin, hair, beard and boots keep their colours). Defaults per world: pyra keeps the original red, verdant 125,
@@ -41,8 +41,11 @@ if os.environ.get('NPC_PICKS'):  # e.g. "down=0,left=36,down-right=24m"
     for part in os.environ['NPC_PICKS'].split(','):
         d, v = part.split('=')
         PICKS[d] = (int(v.rstrip('m')), v.endswith('m'))
-CELL, FIG_H, FEET_Y = 128, 116, 121   # source cell, figure height in it, feet row (origin .95 * 128 = 121.6)
-BREATH = [1.0, 1.004, 1.009, 1.013, 1.015, 1.013, 1.009, 1.004]   # 8 idle frames
+CELL, FIG_H, FEET_Y = 256, 232, 243   # source cell, figure height in it, feet row (origin .95 * 256 = 243.2)
+SIZE = [288, 288]                    # drawn size: three times the standard NPC (96); contract.npcLarge
+# two poses per facing (rest, inhale); the 8 idle frame names reuse the same atlas rectangles, which keeps the texture small
+POSES = [1.0, 1.012]
+BREATH = [0, 0, 1, 1, 1, 1, 0, 0]   # pose index of each of the 8 idle frames
 ACTOR = f'npc-{WORLD}-trainer'
 ASSET = f'{ACTOR}-page-0'
 
@@ -111,17 +114,23 @@ def render(crop, mirror, factor):
     cell[y0:y0 + min(nh, FEET_Y + 1)] [:, x0:x0 + nw] = r[max(0, nh - (FEET_Y + 1)):]
     return cell
 
-items = []   # (name, rgba, ox, oy)
+items = []   # unique frames: (name, rgba, ox, oy)
 names = {d: [] for d in DIRS}
+alias = {}   # frame name -> unique frame it shares pixels with
 for d in DIRS:
     n, mirror = PICKS[d]
-    for i, f in enumerate(BREATH):
+    uniq = []
+    for k, f in enumerate(POSES):
         cell = render(mats[n], mirror, f)
-        name = f'{ACTOR}/idle/{d}/{i:02d}'
-        names[d].append(name)
+        name = f'{ACTOR}/idle/{d}/{k:02d}'
+        uniq.append(name)
         ys, xs = np.where(cell[:, :, 3] > 0)
         y0, y1, x0, x1 = max(0, ys.min() - 1), min(CELL - 1, ys.max() + 1), max(0, xs.min() - 1), min(CELL - 1, xs.max() + 1)
         items.append((name, cell[y0:y1 + 1, x0:x1 + 1].copy(), int(x0), int(y0)))
+    for i, pose in enumerate(BREATH):
+        name = f'{ACTOR}/idle/{d}/{i:02d}'
+        names[d].append(name)
+        alias[name] = uniq[pose]
 clipped = sum(1 for _, c, _, _ in items if c[0, :, 3].max() > 10 or c[:, 0, 3].max() > 10 or c[:, -1, 3].max() > 10)
 print('frames', len(items), 'touching the cell side', clipped)
 
@@ -137,10 +146,15 @@ def shelf_pack(width):
 widest = max(c.shape[1] for _, c, _, _ in items) + 2 * pad
 W, (place, H) = min(((w, shelf_pack(w)) for w in range(widest, 2049, 8)), key=lambda t: t[0] * t[1][1])
 atlas = np.zeros((H, W, 4), np.uint8); meta = {}
+def entry(px, py, w, h, ox, oy):
+    return {'frame': {'x': px, 'y': py, 'w': w, 'h': h}, 'rotated': False, 'trimmed': True,
+            'sourceSize': {'w': CELL, 'h': CELL}, 'spriteSourceSize': {'x': ox, 'y': oy, 'w': w, 'h': h}}
+info = {}
 for name, crop, ox, oy in items:
     px, py, w, h, _, _ = place[name]; atlas[py:py + h, px:px + w] = crop
-    meta[name] = {'frame': {'x': px, 'y': py, 'w': w, 'h': h}, 'rotated': False, 'trimmed': True,
-                  'sourceSize': {'w': CELL, 'h': CELL}, 'spriteSourceSize': {'x': ox, 'y': oy, 'w': w, 'h': h}}
+    info[name] = (px, py, w, h, ox, oy)
+for name in [n for d in DIRS for n in names[d]]:
+    meta[name] = entry(*info[alias[name]])
 print('atlas', W, H, 'decoded MiB', round(W * H * 4 / 2**20, 2))
 
 dst = f'pkg/{WORLD}'
@@ -153,7 +167,7 @@ pack = {
     'schemaVersion': 1, 'id': ACTOR, 'version': VER, 'technical': False, 'previewOnly': False,
     'assets': [{'id': ASSET, 'version': VER, 'kind': 'atlas', 'url': ASSET + '.webp', 'atlasUrl': ASSET + '.json', 'width': W, 'height': H}],
     'actors': [{
-        'id': ACTOR, 'profile': 'npc', 'presentation': 'legacy', 'size': [96, 96], 'origin': [0.5, 0.95], 'tintable': False,
+        'id': ACTOR, 'profile': 'npc', 'presentation': 'legacy', 'size': SIZE, 'origin': [0.5, 0.95], 'tintable': False,
         'clips': {
             'idle': {'asset': ASSET, 'fps': 6, 'loop': True, 'directions': {d: names[d] for d in DIRS}},
             'walk': {'asset': ASSET, 'fps': 16, 'loop': True, 'directions': {d: names[d] for d in DIRS}},
