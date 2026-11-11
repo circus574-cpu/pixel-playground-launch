@@ -305,3 +305,19 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
 - **Uczciwie:** logikę i UI zweryfikowano w kontenerze (jsdom); **realny FPS zmierzy dopiero urządzenie
   właściciela** — po uruchomieniu diagnostyki raport pobiera się jako plik JSON i można go ocenić
   `npm run bench:gate`. Kontener nie ma fizycznego telefonu ani GPU.
+
+### Wdrożenie: czyszczenie obrazów dockera na serwerze Aruba (koniec „no space left on device")
+
+- Awaria 11.11.2026 ok. 21:07: wdrożenie `8ede8d07` padło na kroku „Deploy tested candidate…" z
+  `write … no space left on device` (eksport obrazów dockera), a bazy i usługi na serwerze zrestartowały się.
+  Przyczyna: każde wdrożenie buduje na serwerze dwa obrazy `ki-legends-web/app:staging-<sha>` i cache budowania;
+  `docker image prune -f` na końcu skryptu usuwał tylko obrazy bez tagu, więc otagowane obrazy poprzednich wydań
+  zostawały na zawsze (dziś ok. 17 wdrożeń).
+- `deploy/scripts/promote-coolify-release.sh`: funkcja `cleanup_images` usuwa obrazy `staging-*` wszystkich wydań poza
+  budowanym i poprzednio działającym (zostaje na ręczny rollback), potem `docker image prune -f` i
+  `docker builder prune --filter until=48h`; wypisuje `df -h /`. Uruchamiana **przed** budową (żeby kolejne wdrożenie
+  nie zabrakło miejsca) i po zweryfikowanym wydaniu. Docker nie usuwa obrazów używanych przez działające
+  kontenery, a błąd sprzątania nie przerywa i nie cofa wydania (`|| true`).
+- Weryfikacja: `bash -n`; logika funkcji sprawdzona na makiecie `docker` (zostają dwa wskazane tagi i tag `latest`,
+  reszta `staging-*` usunięta; przy pustym drugim tagu zostaje tylko budowany). **Nie sprawdzone na serwerze** —
+  zadziała przy najbliższym wdrożeniu po scaleniu; wynik `df -h /` będzie widać w logu kroku wdrożenia.
