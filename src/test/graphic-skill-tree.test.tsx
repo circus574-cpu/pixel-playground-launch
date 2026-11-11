@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
+import * as kit from "../game/kit";
 import { GraphicSkillTree } from "../components/game/GraphicSkillTree";
 import type { GameViewState } from "../game/session";
 import type { RaceId } from "../game/world/races";
@@ -121,5 +122,30 @@ describe("GraphicSkillTree Component", () => {
       const { unmount } = render(<GraphicSkillTree state={state} send={send} />);
       unmount();
     }
+  });
+
+  it("memo pomija re-render przy niezmienionych polach drzewka, a przepuszcza naukę", () => {
+    const send = vi.fn();
+    // canLearn jest wołane tylko podczas renderu drzewka — licznik jego wywołań mierzy re-render.
+    const spy = vi.spyOn(kit, "canLearn");
+    const base = mockState("planetary", 10, ["R", "A1"]);
+    const { rerender } = render(<GraphicSkillTree state={base} send={send} />);
+    expect(spy.mock.calls.length).toBeGreaterThan(0);
+    spy.mockClear();
+    // Nowy obiekt stanu, ale pola drzewka identyczne — memo ma pominąć render (0 wywołań).
+    const unrelated = {
+      ...base,
+      player: { ...base.player, pos: { x: 999, y: 999 } },
+    } as GameViewState;
+    rerender(<GraphicSkillTree state={unrelated} send={send} />);
+    expect(spy.mock.calls.length).toBe(0);
+    // Nauka zmienia skills — memo musi przepuścić i policzyć węzły od nowa.
+    const learned = {
+      ...base,
+      player: { ...base.player, skills: ["R", "A1", "A2"] },
+    } as GameViewState;
+    rerender(<GraphicSkillTree state={learned} send={send} />);
+    expect(spy.mock.calls.length).toBeGreaterThan(0);
+    spy.mockRestore();
   });
 });

@@ -56,6 +56,7 @@ import {
 } from "../../game/keyBindings";
 import { CONTROL_LABEL, ControlEditor, buttonStyle, controlStyle } from "./ControlEditor";
 import { StaffTools } from "./StaffTools";
+import { DiagnosticsPanel } from "./DiagnosticsPanel";
 import { CombatPanel } from "./CombatPanel";
 import { MultiplayerWorldOverlay } from "./MultiplayerWorldOverlay";
 import { multiplayerClient } from "../../game/multiplayer/MultiplayerClient";
@@ -710,6 +711,7 @@ export function GameHud({
           style={buttonStyle(preferences.controls, "gm", hudScale)}
         />
       )}
+      {state.staff && <DiagnosticsPanel state={state} send={onCommand} />}
       {mapHidden ? (
         <button
           type="button"

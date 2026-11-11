@@ -1,0 +1,157 @@
+/* Diagnostyka urządzenia: panel staff, autonomiczny pomiar 45 s. Paleta GM (amber na ciemnym tle). */
+.ki-diag-trigger {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 41;
+  min-height: 40px;
+  padding: 6px 12px;
+  border: 1px solid #ff8a3c;
+  border-radius: 8px;
+  background: #3a1606e6;
+  color: #ffc58f;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 2px 10px #00000066;
+}
+.ki-diag-trigger:hover {
+  border-color: #ffb36b;
+  color: #ffe0bd;
+}
+
+.ki-diag {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  width: min(360px, calc(100vw - 24px));
+  padding: 14px;
+  border: 1px solid #ff8a3c;
+  border-radius: 12px;
+  background: #160f0cf5;
+  color: #f6e3c8;
+  font-size: 13px;
+  pointer-events: auto;
+  box-shadow:
+    0 8px 30px #000000aa,
+    0 0 0 1px #ff8a3c22 inset;
+  backdrop-filter: blur(3px);
+}
+.ki-diag header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.ki-diag header b {
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  color: #ffd29f;
+  text-transform: uppercase;
+}
+.ki-diag header small {
+  opacity: 0.7;
+}
+.ki-diag-count {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  font-size: 20px;
+  color: #ff8a3c;
+}
+
+.ki-diag-bar {
+  height: 8px;
+  border-radius: 5px;
+  background: #2a1a12;
+  overflow: hidden;
+  border: 1px solid #6b4a32;
+}
+.ki-diag-bar i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #ff8a3c, #ffd29f);
+  transition: width 0.4s ease;
+}
+
+.ki-diag dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 12px 0;
+}
+.ki-diag dl > div {
+  padding: 7px 9px;
+  border: 1px solid #6b4a32;
+  border-radius: 8px;
+  background: #2a1a12;
+}
+.ki-diag dt {
+  font-size: 11px;
+  opacity: 0.7;
+  letter-spacing: 0.04em;
+}
+.ki-diag dd {
+  margin: 2px 0 0;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #ffe0bd;
+}
+
+.ki-diag-hint {
+  margin: 8px 0;
+  font-size: 12px;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+.ki-diag-hint code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #2a1a12;
+  border: 1px solid #6b4a32;
+  font-size: 11px;
+}
+
+.ki-diag button {
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid #6b4a32;
+  border-radius: 7px;
+  background: #2a1a12;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.ki-diag button:hover {
+  border-color: #ffb36b;
+  color: #ffd29f;
+}
+.ki-diag-stop {
+  width: 100%;
+  border-color: #ff8a3c;
+  color: #ffc58f;
+  font-weight: 700;
+}
+.ki-diag-actions {
+  display: flex;
+  gap: 8px;
+}
+.ki-diag-actions button {
+  flex: 1;
+}
+
+@media (max-width: 600px) {
+  .ki-diag-trigger {
+    top: auto;
+    bottom: 12px;
+    left: 12px;
+  }
+  .ki-diag {
+    top: auto;
+    bottom: 60px;
+  }
+}

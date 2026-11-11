@@ -2,11 +2,12 @@
  * Walka: the monsters within reach, nearest first, with name, level and health. Tapping one makes it
  * the target, so the basic attack and every skill aim at it (owner 26.10.2026).
  */
+import { memo } from "react";
 import type { GameViewState } from "../../game/session";
 import type { SendCommand } from "./AdventurePanels";
 import { gpuIcon } from "./gpuIcons";
 
-export function CombatPanel({ state, send }: { state: GameViewState; send: SendCommand }) {
+function CombatPanelImpl({ state, send }: { state: GameViewState; send: SendCommand }) {
   if (!state.foes.length) return null;
   return (
     <section className="ki-combat" aria-label="Walka">
@@ -60,3 +61,29 @@ export function CombatPanel({ state, send }: { state: GameViewState; send: SendC
     </section>
   );
 }
+
+/**
+ * Faza 2 (memo HUD): panel walki zależy tylko od listy wrogów (id, hp, maxHp, poziom, nazwa, boss)
+ * i celu. Snapshot tworzy nowe obiekty co 10×/s, ale gdy HP wrogów i cel się nie zmieniają,
+ * porównanie treści pomija re-render. W walce HP się zmienia, więc panel aktualizuje się na bieżąco.
+ */
+export const CombatPanel = memo(CombatPanelImpl, (a, b) => {
+  if (a.send !== b.send || a.state.targetId !== b.state.targetId) return false;
+  const fa = a.state.foes,
+    fb = b.state.foes;
+  if (fa.length !== fb.length) return false;
+  for (let i = 0; i < fa.length; i++) {
+    const x = fa[i]!,
+      y = fb[i]!;
+    if (
+      x.id !== y.id ||
+      x.hp !== y.hp ||
+      x.maxHp !== y.maxHp ||
+      x.level !== y.level ||
+      x.name !== y.name ||
+      x.boss !== y.boss
+    )
+      return false;
+  }
+  return true;
+});

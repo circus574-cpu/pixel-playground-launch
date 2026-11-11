@@ -350,7 +350,7 @@ export type Command =
 /** Tools of a special administrator or game-master character; ignored for everyone else. */
 export type StaffCommand =
   | { type: "staff"; action: "teleport"; x: number; y: number }
-  | { type: "staff"; action: "heal" | "god" | "level" | "gold" | "potions" }
+  | { type: "staff"; action: "heal" | "god" | "unlimited" | "level" | "gold" | "potions" }
   | { type: "staff"; action: "setLevel"; level: number }
   | { type: "staff"; action: "setGold"; gold: number }
   | { type: "staff"; action: "setXp"; xp: number }
@@ -902,6 +902,8 @@ export class GameSession implements MonsterHost {
   staff: StaffRole | null = null;
   /** Staff invulnerability: incoming damage is ignored. */
   god = false;
+  /** GM "unlimited": no ability cooldowns. */
+  unlimited = false;
   get safe() {
     return inSafeCity(this.world, this.player, this.player.interior);
   }
@@ -1575,6 +1577,11 @@ export class GameSession implements MonsterHost {
     } else if (c.action === "god") {
       this.god = !this.god;
       this.say(this.god ? "Nieśmiertelność włączona." : "Nieśmiertelność wyłączona.");
+    } else if (c.action === "unlimited") {
+      this.unlimited = !this.unlimited;
+      this.kit.noCooldowns = this.unlimited;
+      if (this.unlimited) this.kit.cooldowns = {};
+      this.say(this.unlimited ? "Unlimited: brak odnowień." : "Unlimited wyłączone.");
     } else if (c.action === "level") {
       if (p.level >= LEVEL_MAX) return;
       p.level += 1;
@@ -2689,6 +2696,7 @@ export class GameSession implements MonsterHost {
     }
     this.projectiles.tick(dt);
     if (p.dead) return;
+    this.kit.noCooldowns = this.unlimited;
     this.kit.tick(dt, wasMoving);
     if (p.dead) return;
     const buffered = this.bufferedAction;
@@ -2908,6 +2916,7 @@ export class GameSession implements MonsterHost {
       inCity: this.safe,
       staff: this.staff,
       god: this.god,
+      unlimited: this.unlimited,
       player: structuredClone(this.player),
       // Faza 2: leniwy getter — statBreakdown (6× deriveStats) liczy się tylko, gdy panel
       // statystyk go czyta, a nie przy każdym odświeżeniu HUD 10×/s.
@@ -3243,6 +3252,7 @@ export function initialView(player?: Player): GameViewState {
     inCity: true,
     staff: null,
     god: false,
+    unlimited: false,
     foes: [],
     targetId: null,
     player: p,

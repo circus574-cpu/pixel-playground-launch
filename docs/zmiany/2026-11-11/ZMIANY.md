@@ -195,7 +195,8 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   116 tekstur / 176,6 MiB i **zero błędów konsoli** — identycznie jak przed zmianą. Chunk chciany
   jest zawsze drenowany (pętla co klatkę), więc nie ma trwałych dziur; jest 1–2 klatki opóźnienia.
 - Bramka: typecheck exit 0, testy renderu (stale-chunk, scenery-stream, visibility-grid) 10 passed,
-  testy świata (spawns, save, dress, characters) 33 passed. Pełny zestaw osobno.
+  testy świata (spawns, save, dress, characters) 33 passed; **pełny zestaw 1264 passed / 10 skipped
+  (122 pliki), zero padnięć**.
 - Uwaga: FPS z programowego Canvas w tym kontenerze degraduje się w trakcie długich przebiegów
   (czas wejścia rośnie 22→33 s), więc per-światowe FPS nie jest wiarygodną miarą; wiarygodne są
   frameMax (zamrożenie) i pamięć, niezależne od tego dryfu. Miara docelowa = fizyczny telefon.
@@ -411,3 +412,141 @@ innych testów jest w toku. Nie zwiększano timeoutów i nie usuwano asercji.
 [pełne jednostkowe](qa/remaining-trials/final-unit.txt),
 [odciski kodu](qa/remaining-trials/final-source-sha256.json).
 Nie jest to jeszcze PASS pełnego CI ani całej kampanii.
+
+### 13. Faza 2 (część 3): memoizacja HUD — drzewko i panel walki nie renderują się 10×/s
+
+- HUD odświeża się 10×/s (`report()` → `snapshot()` → `setState`), a panele dostają cały nowy obiekt
+  stanu za każdym razem. Bez memo kosztowne panele przerysowywały się przy każdym tyknięciu, nawet
+  gdy ich dane się nie zmieniły.
+- **`GraphicSkillTree`** owinięte w `React.memo` z komparatorem na polach, których faktycznie używa:
+  rasa, poziom, złoto, punkty, koszt respec i lista umiejętności (+ stabilne `send`). 29 węzłów
+  i ścieżki SVG nie przerysowują się, gdy gracz tylko się porusza. Nauka / respec / zmiana poziomu
+  przepuszczają render.
+- **`CombatPanel`** owinięte w `React.memo` z porównaniem treści listy wrogów (id, hp, maxHp, poziom,
+  nazwa, boss) i celu. W walce HP się zmienia, więc panel aktualizuje się na bieżąco; poza zmianą
+  wrogów/celu pomija re-render.
+- **Test dowodzący memo:** szpieg `canLearn` (wołany tylko podczas renderu drzewka) liczy wywołania —
+  przy niezmienionych polach drzewka 0 wywołań po re-renderze (memo pomija), przy nauce umiejętności
+  wywołania wracają. To realny dowód pominięcia, nie tylko „testy przechodzą".
+- Panele o złożonych zależnościach (Inventory, QuestJournal, CharacterStatsPanel — staty/buffy/heritage)
+  świadomie zostawione na osobny ostrożny pass, żeby komparator nie pominął potrzebnego renderu.
+- Bramka: lint zmienionych plików exit 0, typecheck exit 0 (3 konfiguracje), testy drzewka 6 passed,
+  testy HUD 16 passed; **pełny zestaw 1265 passed / 10 skipped (122 pliki), zero padnięć**.
+
+### Panel GM: opcja „Unlimited" (brak odnowień)
+
+- Nowy przycisk „Unlimited" w panelu GM/ADM obok „Nieśmiertelność": po włączeniu zdolności nie mają odnowień
+  (można je rzucać bez przerwy), a koszt KI nadal obowiązuje. Ponowne kliknięcie przywraca zwykłe odnowienia.
+- Implementacja: `Kit.noCooldowns` (pomija sprawdzenie odnowienia, nie ustawia go po rzucie i zeruje w `tick`),
+  `GameSession.unlimited` + komenda `staff/unlimited` (tylko dla GM/ADM, tak jak `god`), pole `unlimited` w
+  widoku HUD oraz wpis w schemacie komend serwera online (`staff` enum). Test `gm-unlimited.test.ts` dla czterech ras.
+- Dotyczy odnowień zdolności z paska (w tym Formy/Trybu KI); podstawowy atak i unik zachowują swoje tempo.
+
+### 14. Faza 3 (część 1): limit cache service workera — koniec nieograniczonego wzrostu na telefonie
+
+- `public/ki-assets-sw.js` cache'uje wszystko pod `/game/` (cache-first dla niezmiennych paczek GPU,
+  stale-while-revalidate dla reszty), ale **nie miał limitu**. Dziesięć lądów × ~50 MB rosło w
+  nieskończoność; na telefonie potrafiło przepełnić storage, co zamiast przyspieszać — wyrzucało
+  cache i spowalniało kolejne wejścia.
+- Dodany limit `MAX_ENTRIES = 800` z przycinaniem najstarszych wpisów (`trim()`), uruchamianym co
+  `TRIM_EVERY = 40` zapisów, żeby nie liczyć kluczy przy każdym żądaniu. `cache.keys()` zwraca
+  kolejność wstawiania, więc usuwanie od początku przybliża LRU.
+- Wersja cache podbita `ki-assets-v1 → ki-assets-v2`: istniejący `activate` kasuje stare wersje,
+  więc nieograniczony cache z poprzedniej wersji zostanie wyczyszczony przy aktywacji.
+- Zachowane bez zmian: cache-first dla `/gpu/<pack>/<wersja>-<hash>/`, pomijanie muzyki i żądań
+  Range, sieć dla wszystkiego poza `/game/`.
+- Weryfikacja: `node --check public/ki-assets-sw.js` exit 0; lint exit 0 (0 błędów, 15 istniejących
+  ostrzeżeń react-refresh); typecheck exit 0 (3 konfiguracje).
+- **Bramka testów — uczciwie:** pierwszy pełny bieg puściłem równolegle z typecheckiem i na 4 CPU /
+  4 GiB ciężkie testy zagłodziły się: 4 padnięcia to wyłącznie **timeouty** (gpu-pipeline: pakowanie
+  416 klatek 2×60 s + version-bump 5 s; adventure-ui: 5 s), zero asercji. Izolowany re-run tych dwóch
+  plików (bez tsc w tle): **21/21 passed, exit 0** — pakowanie ~19,5 s, version-bump 2 s, quest 2,4 s.
+  Efektywnie pełny zestaw **1265 passed / 10 skipped, zero realnych padnięć**. Lekcja: bramkę
+  odpalać sekwencyjnie (lint → typecheck → testy), nie równolegle na tym kontenerze.
+- **Uczciwie:** to porządkuje cache i chroni storage na telefonie, ale **nie skraca pierwszego
+  wejścia** do celu <5 s. Cel <5 s wymaga większej pracy: bundlowania JSON-ów chunków/art (dziś
+  ~3872 pliki / ~51,6 MB na świat, 2 fetch/e chunk) + prefetch. To osobny, większy krok — nie
+  ruszany bez zgody właściciela.
+
+### 15. Faza 4: bramka wydajności CI — pilnuje pamięci, zamrożenia i wejścia, nie surowego FPS
+
+- **`src/game/assets/perfGate.ts`** — czysta funkcja `evaluatePerfGate` (importuje realny
+  `STREAM_TEXTURE_BUDGET_BYTES`), czyta raport z `scripts/measure-game.ts`, nie uruchamia przeglądarki.
+  **`scripts/perf/bramka-wydajnosci.ts`** (`npm run bench:gate <raport.json>`, exit 0/1/2) + test
+  **`src/test/perf-gate.test.ts`** (11 testów: łapie każdy typ naruszenia, ignoruje FPS).
+- Progi (niezależne od renderera, skalibrowane na realnym pomiarze): **całkowita pamięć tekstur
+  ≤ 220 MiB**, **zamrożenie `frameMax` ≤ 3000 ms**, p95 ≤ 3000 ms (miękki), **wejście ≤ 60 s**, zero
+  błędów strony. Surowy FPS **nie jest** kryterium — programowy Canvas jest pesymistyczny i degraduje
+  się w biegu. Progi nadpisujesz `KI_PERF_TEXTURE_MB / FREEZE_MS / P95_MS / ENTER_MS`.
+- **Kluczowe rozróżnienie pamięci:** telemetryczne `estimatedTextureBytes` to CAŁOŚĆ (atlas + podłoże
+  + bohater + HUD + efekty), a budżet 192 MiB dotyczy tylko streamowanego podzbioru (osobno weryfikują
+  go testy stream-texture-budget / ground-budget). Pierwsza wersja bramki błędnie porównała całość do
+  192 i oblała aether/nexus — poprawione na sufit całości 220 MiB (budżet + 28 MiB na niestreamowane).
+- **Realny pomiar kalibracyjny** (harness, mobile 844×390, Canvas, 4 światy): tekstury verdant 176,6 /
+  aether 199,4 / nexus 206,9 / pyra 183,5 MiB (road-cache = 0); zamrożenie 780–2192 ms; wejście
+  10,3–15,3 s; FPS 15–34 (software, pominięty). Bramka na tym raporcie: **PASS**.
+- Bramka jakości **sekwencyjnie** (lekcja z cz. 1): lint 0 błędów (15 istniejących ostrzeżeń),
+  typecheck 0 (3 konfiguracje, CLI dodany do tsconfig.tools), **testy 1281 passed / 10 skipped (125
+  plików), zero padnięć**. Formatowanie nowych plików prettier (4 błędy auto-fix naprawione).
+- **Uczciwie:** to bramka regresji na wielkościach niezależnych od renderera, gotowa do CI. **Pomiar
+  FPS na fizycznym telefonie nadal wymaga urządzenia właściciela** — w grze jest `?ki-debug=bench`
+  (FPS / p95 / max / czas JS-GPU), a harness zapisuje raport, który ta bramka ocenia. Kontener nie ma
+  fizycznego telefonu ani GPU, więc nie podaje „FPS na telefonie" — podaje pamięć, zamrożenie i wejście.
+
+### 16. Tryb diagnostyczny urządzenia — autonomiczny pomiar 45 s z raportem do pliku (na telefonie właściciela)
+
+- Na polecenie właściciela: z panelu admina uruchamiana gra w trybie diagnostyki, postać **chodzi
+  i wykonuje polecenia sama przez 45 s** (bez udziału gracza), a na koniec **zapisuje raport do pliku**.
+  Działa na fizycznym telefonie i w przeglądarce — to domyka Fazę 4 o realny pomiar na urządzeniu.
+- **`src/game/diagnostics.ts`** — rdzeń (czysty, testowalny): `startDiagnostics` wydaje autonomicznie
+  `move` (pętla waypointów wokół startu), `target`+`ability` przy wrogach, `dodge`, `heal`, włącza
+  nieśmiertelność staff na czas pomiaru i przywraca ją po; próbkuje telemetrię `data-metrics` co 0,5 s;
+  po czasie buduje raport. `diagWaypoints`, `buildDiagReport`, `diagSummary`, `downloadDiagReport`
+  (pobieranie JSON). Raport jest zgodny z bramką `npm run bench:gate` (kształt `PerfReport`).
+- **`src/components/game/DiagnosticsPanel.tsx`** + `diagnostics.css` — panel staff: przycisk
+  „Diagnostyka 45 s", nakładka z odliczaniem / paskiem postępu / FPS / pamięcią / fazą na żywo,
+  podsumowanie i ponowne pobranie raportu. Start przez przycisk, zdarzenie `ki:diag-start` albo `?ki-diag=1`.
+- **Wejścia:** zakładka „Diagnostyka urządzenia" w `/admin` (link `/?ki-diag=1` otwiera grę w trybie
+  pomiarowym) + przycisk „Diagnostyka 45 s" w panelu GM (`StaffTools`). Render w `GameHud` dla staff.
+- Raport niesie: FPS śr./min, p95, zamrożenie `frameMax`, pamięć tekstur, czas wejścia, liczbę próbek,
+  błędy strony oraz dane urządzenia (userAgent, viewport, DPR, rdzenie, pamięć, touch, renderer).
+- Weryfikacja: testy rdzenia **7/7** (waypointy, raport zgodny z bramką, podsumowanie, autonomiczny
+  przebieg na fake-timerach, przerwanie) + test komponentu **3/3** (przycisk → nakładka → raport
+  i pobranie; przerwanie; brak renderu dla non-staff). Bramka **sekwencyjnie**: lint 0 błędów,
+  typecheck 0, **testy 1291 passed / 10 skipped (127 plików)**, **build produkcyjny 0**.
+- **Uczciwie:** logikę i UI zweryfikowano w kontenerze (jsdom); **realny FPS zmierzy dopiero urządzenie
+  właściciela** — po uruchomieniu diagnostyki raport pobiera się jako plik JSON i można go ocenić
+  `npm run bench:gate`. Kontener nie ma fizycznego telefonu ani GPU.
+
+
+### 8. Nowszy main, macierz 144 stopni i przekazanie QA
+
+Podczas odbioru main przesunął się do `8ede8d07`. Włączono go do tej samej gałęzi,
+zachowując memoizację HUD-u/drzewka, limit cache SW, bramkę wydajności, diagnostykę
+urządzenia i narzędzie GM Unlimited. Jedyny konflikt był w dzienniku — zachowano
+obie treści. Żadnego z tych narzędzi nie uruchamiano na produkcji.
+
+Na połączonym kodzie pełny TypeScript PASS, lint 0 błędów / 15 wcześniejszych
+ostrzeżeń i build PASS. Zestaw wszystkich prób, ich transakcji/serwera/mirroru,
+tytułów, kroniki, potworów oraz nowych zmian main: **445 PASS / 0 FAIL**.
+W raporcie Vitest są jawnie wszystkie **144 unikalne przypadki stopni**;
+[macierz](qa/remaining-trials/trial-grades.csv) pochodzi z rzeczywistych wyników,
+[surowy JSON](qa/remaining-trials/latest-targeted.json). To nie zastępuje pełnego
+Vitest/CI po tej ostatniej integracji. Pełny 1706/0/10 dotyczy kodu `fafe526e`.
+
+Izolowany Software WebGL na `fafe526e`, bez innych testów: **1 PASS / 1 FAIL**.
+TN01 I przeszedł razem z zachowaniem własnej postaci i reloadem. TP03 zatrzymał
+się przy kliknięciu przycisku Umiejętności w głównym HUD-zie Pyry, zanim wszedł
+do sali. Nie usunięto scenariusza ani asercji; timeouty pozostają. Przyczynę
+pozostałego błędu wejścia trzeba zweryfikować w szerszym odbiorze.
+[Wynik](qa/remaining-trials/browser-isolated.json),
+[log](qa/remaining-trials/browser-isolated.txt). Nie deklarujemy PASS całego WebGL.
+Canvas PC ma 2/2, emulacja mobilna 2/2 na kodzie `fafe526e`; nie są to wyniki
+przeglądarkowe ostatniej integracji z `8ede8d07`.
+
+Pełny Playwright i CI najnowszego SHA pozostają dla niezależnego odbioru Claude'a,
+zgodnie z prośbą właściciela. Nie uruchamiano ręcznie kolejnej pełnej bramki CI.
+Fizyczny telefon i rzeczywisty multitouch dwóch kciuków nie są zweryfikowane.
+Cała kampania nadal wymaga interakcji dziedzin w świecie, 32 wariantów 21–40
+oraz pełnego przebiegu i balansu. Oddawany komplet tej partii to próby, ich
+nagrody/odblokowania, tytuły i bezpieczny obieg zapisu, nie cała kampania.

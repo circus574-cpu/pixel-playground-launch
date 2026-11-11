@@ -29,7 +29,16 @@ const staffSchema = z.union([
   z
     .object({
       type: z.literal("staff"),
-      action: z.enum(["heal", "god", "level", "gold", "potions", "resetSkills", "killTarget"]),
+      action: z.enum([
+        "heal",
+        "god",
+        "unlimited",
+        "level",
+        "gold",
+        "potions",
+        "resetSkills",
+        "killTarget",
+      ]),
     })
     .strict(),
   z

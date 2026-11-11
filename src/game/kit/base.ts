@@ -103,6 +103,8 @@ export abstract class Kit {
   readonly nodes: KitNodeData[];
   readonly learned: Set<string>;
   cooldowns: Record<string, number> = {};
+  /** GM "unlimited": abilities have no cooldown (KI costs still apply). */
+  noCooldowns = false;
   buffs: Buff[] = [];
   shields: Shield[] = [];
   circles: Circle[] = [];
@@ -615,7 +617,7 @@ export abstract class Kit {
     }
     const def = this.defs[id];
     if (!def || !this.has(id)) return { ok: false, reason: "Nie znasz tej zdolności." };
-    const left = this.cooldowns[id] ?? 0;
+    const left = this.noCooldowns ? 0 : (this.cooldowns[id] ?? 0);
     if (left > 0) return { ok: false, reason: "Odnowienie: " + Math.ceil(left / 1000) + " s." };
     const cost = this.abilityCost(id);
     if (this.port.player.ki < cost) return { ok: false, reason: "Za mało KI (" + cost + ")." };
@@ -646,7 +648,7 @@ export abstract class Kit {
         ability: id,
         text: "Technika · ponowienie",
       });
-    } else this.cooldowns[id] = cooldown;
+    } else this.cooldowns[id] = this.noCooldowns ? 0 : cooldown;
     return r;
   }
   /** Runtime actions cannot survive death or a world transition. Cooldowns stay paid. */
@@ -664,7 +666,7 @@ export abstract class Kit {
   }
   tick(dt: number, moving: boolean) {
     for (const key of Object.keys(this.cooldowns))
-      this.cooldowns[key] = Math.max(0, (this.cooldowns[key] ?? 0) - dt);
+      this.cooldowns[key] = this.noCooldowns ? 0 : Math.max(0, (this.cooldowns[key] ?? 0) - dt);
     this.lockMs = Math.max(0, this.lockMs - dt);
     for (const b of this.buffs) b.ms -= dt;
     this.buffs = this.buffs.filter((b) => b.ms > 0);
