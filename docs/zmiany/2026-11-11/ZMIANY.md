@@ -171,4 +171,12 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   innego agenta). Uwaga: wcześniejszy „typecheck 0" Fazy 1 był kodem wyjścia `head` w potoku, nie
   `tsc` — błąd mojego testu przeoczyłem; teraz bramka liczona bez potoku maskującego.
 - Bramka: `npm run typecheck` exit 0 (wszystkie 3 konfiguracje), `eslint` zmienionych plików exit 0,
-  testy sesji/HUD/drzewka/siatki 73 passed. Pełny zestaw i pomiar end-to-end osobno.
+  testy sesji/HUD/drzewka/siatki 73 passed; pełny zestaw 1259 passed / 10 skipped (dwa pozorne
+  padnięcia: test siatki z wersją sprzed merge'a i timeout `gpu-pipeline` przy konkurencji CPU —
+  oba ponowione czysto, 21 passed).
+- **Pomiar end-to-end (mobile 844×390, Canvas bez GPU):** pamięć identyczna jak po Fazie 1
+  (176,6 / 199,4 / 206,9 / 179,5 MiB) — Faza 2 nie rusza tekstur. FPS z tego przebiegu **nie jest
+  wiarygodny per-świat**: spada monotonicznie w trakcie biegu (29,5 → 17,1 → 13,8 → 13,7) przy
+  rosnącym czasie wejścia (22 → 31 s), czyli środowisko pomiaru degraduje się w trakcie, a kod Fazy 2
+  tylko zmniejsza pracę. Pewny wynik Fazy 2 to mikrobenchmark CPU: snapshot 1,10 → 0,95 ms
+  i `statBreakdown` 0×/s przy zamkniętym panelu. Miara docelowa = fizyczny telefon.
