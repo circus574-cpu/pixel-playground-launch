@@ -1,0 +1,9 @@
+
+ RUN  v4.1.12 /workspace/pixel-playground-launch
+
+
+ Test Files  4 passed (4)
+      Tests  42 passed (42)
+   Start at  17:50:00
+   Duration  18.31s (transform 1.63s, setup 231ms, import 2.17s, tests 14.55s, environment 909ms)
+

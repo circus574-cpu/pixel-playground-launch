@@ -1,3 +1,4 @@
+import { FocusTrial, FOCUS_ROOM } from "./focus";
 import { BarrierWaves, CoverWindows } from "./barriers";
 import { traceMirrors } from "./mirrors";
 import { CampTrial } from "./camp";
@@ -46,6 +47,7 @@ export class TrialAttempt {
   private camp: CampTrial | undefined;
   private waves: BarrierWaves | undefined;
   private cover: CoverWindows | undefined;
+  private focus: FocusTrial | undefined;
   private escort: EscortActivity | undefined;
   private companion: ProtectedActor | undefined;
   private escortHazard: { x: number; y: number; until: number } | undefined;
@@ -86,6 +88,10 @@ export class TrialAttempt {
     this.session = loanSession(this.race);
     const p = this.session.player;
     p.level = 20;
+    if (definition.kind === "focus-cycles") {
+      p.skills.push("C1");
+      this.session.kit.learn("C1");
+    }
     if (definition.kind === "barrier-waves") {
       p.skills.push("B1");
       this.session.kit.learn("B1");
@@ -96,11 +102,26 @@ export class TrialAttempt {
     const physical = ["counter", "earth-rhythm", "restraint", "position"].includes(definition.kind);
     this.puzzles =
       physical ||
-      ["wind-route", "messenger", "camp", "barrier-waves", "cover-windows"].includes(
-        definition.kind,
-      )
+      [
+        "wind-route",
+        "messenger",
+        "camp",
+        "barrier-waves",
+        "cover-windows",
+        "focus-cycles",
+        "power-targets",
+        "sustain-nodes",
+      ].includes(definition.kind)
         ? []
         : trialPuzzles(definition, tier);
+    if (
+      definition.kind === "focus-cycles" ||
+      definition.kind === "power-targets" ||
+      definition.kind === "sustain-nodes"
+    ) {
+      this.focus = new FocusTrial(this.session, definition.kind, tier);
+      this.phase = definition.kind === "power-targets" ? "read" : "focus";
+    }
     if (definition.kind === "barrier-waves") {
       this.waves = new BarrierWaves(this.session, tier);
       this.phase = "barrier-waves";
@@ -222,6 +243,12 @@ export class TrialAttempt {
   instructions() {
     const k = this.definition.kind;
     if (MEMORY_TRIAL_RULES[k]) return MEMORY_TRIAL_RULES[k]!;
+    if (k === "focus-cycles")
+      return `Ukończ ${this.targetCount} pełne kanały C1 bez przerwania. Podejdź kolejno do stanowisk, poczekaj na koniec sygnału 1500 ms i użyj Skupienia KI. Ruch lub trafienie przerywa kanał. Normalny cooldown 15 s; 20 s na rozpoczęcie po sygnale. Testowe C1 nie przechodzi do własnej postaci.`;
+    if (k === "power-targets")
+      return `Zasil ${this.targetCount} celów w limicie ${[70, 65, 60][this.tier - 1]}% testowego KI. Precyzyjny przepływ kosztuje 10% maksimum, szeroki 25%. Wybierz przepływ przy każdym stanowisku. Regeneracja nie odnawia łącznego budżetu. Nie używasz własnych zasobów.`;
+    if (k === "sustain-nodes")
+      return `Utrzymaj ${this.targetCount} węzły przez ${this.focus!.duration / 1000} s. Odwiedzaj je kolejno i utrzymaj pozycję przez 0,5 s; każdy wymaga odnowienia przed wygaśnięciem. Nie wchodź do czerwonego zagrożenia. Samo czekanie nie zalicza próby.`;
     if (k === "barrier-waves")
       return `Osłoń rdzeń przed ${this.targetCount} falami, zachowując minimum 50% jego HP. Stań w zielonym punkcie między źródłem a rdzeniem i włącz Świetlistą Barierę B1 po zapowiedzi. Bariera zużywa prawdziwą pojemność i testowe KI; odnowienie działa normalnie. Nie nauczysz swojej postaci B1 przez tę próbę.`;
     if (k === "cover-windows")
@@ -259,6 +286,7 @@ export class TrialAttempt {
   }
   get currentPoint(): Point | undefined {
     if (this.result.outcome !== "running") return undefined;
+    if (this.focus) return this.focus.point;
     if (this.waves) return this.waves.point;
     if (this.cover) return this.cover.snapshot().phase === "warning" ? this.cover.point : undefined;
     if (this.camp) return this.camp.point;
@@ -287,7 +315,7 @@ export class TrialAttempt {
       this.ready &&
       !this.session.paused &&
       this.result.outcome === "running" &&
-      this.puzzles[this.round] &&
+      (this.puzzles[this.round] || this.focus?.kind === "power-targets") &&
       this.near()
     )
       this.reading = true;
@@ -305,6 +333,16 @@ export class TrialAttempt {
       round !== this.round
     )
       return;
+    if (this.focus?.kind === "power-targets") {
+      if (modules || !this.focus.feed(answerId)) {
+        this.syncFocus();
+        return;
+      }
+      this.round++;
+      this.reading = false;
+      this.syncFocus();
+      return;
+    }
     const puzzle = this.puzzles[this.round];
     if (!puzzle) return;
     const valid = puzzle.modules
@@ -340,6 +378,7 @@ export class TrialAttempt {
     this.result.reason = reason;
     this.session.paused = true;
     this.session.practiceTargets.removeOwner(this.instanceId);
+    this.focus?.dispose();
     this.waves?.dispose();
     this.cover?.dispose();
     this.camp?.dispose();
@@ -359,6 +398,14 @@ export class TrialAttempt {
     )
       this.finish("passed", "Próba ukończona. Zatwierdź wynik, aby bezpiecznie zapisać postęp.");
   }
+  private syncFocus() {
+    if (!this.focus) return;
+    const r = this.focus.snapshot();
+    this.result.successes = r.completed;
+    if (r.phase === "failed") this.finish("failed", r.reason);
+    else if (r.phase === "passed")
+      this.finish("passed", "Wszystkie cele Skupienia wykonane. Zatwierdź wynik.");
+  }
   update() {
     const s = this.session,
       dt = s.nowMs - this.previousNow;
@@ -370,6 +417,11 @@ export class TrialAttempt {
         "failed",
         "Profil testowy poległ. Oryginalna postać nie utraciła zasobów.",
       );
+    if (this.focus) {
+      this.focus.update();
+      this.syncFocus();
+      return;
+    }
     const barrier = this.waves ?? this.cover;
     if (barrier) {
       barrier.update();
@@ -490,7 +542,13 @@ export class TrialAttempt {
   }
   snapshot() {
     const r = this.restraint?.snapshot();
+    const focus = this.focus?.snapshot();
     const messages: Record<string, string> = {
+      focus: focus
+        ? this.definition.kind === "sustain-nodes"
+          ? `Pozostało ${Math.ceil(focus.remainingMs / 1000)} s. Odwiedzaj świecące węzły; unikaj czerwonej strefy.`
+          : `${focus.phase === "ready" ? "TERAZ — użyj C1." : focus.phase === "channel" ? "Nie przerywaj kanału C1." : focus.phase === "cue" ? "Poczekaj na koniec sygnału." : "Podejdź do następnego stanowiska."} ${Math.ceil(focus.remainingMs / 1000)} s.`
+        : "",
       "barrier-waves": this.waves
         ? `Rdzeń: ${Math.ceil(this.waves.actor.body.hp)}% HP. ${this.waves.snapshot().phase === "warning" ? "FALA — zajmij zielony punkt i użyj B1." : "Przygotuj się na kolejną falę."}`
         : "",
@@ -514,6 +572,7 @@ export class TrialAttempt {
     };
     return {
       ...this.result,
+      focus: focus ?? null,
       waves: this.waves?.snapshot() ?? null,
       cover: this.cover?.snapshot() ?? null,
       camp: this.camp?.snapshot() ?? null,
@@ -540,7 +599,30 @@ export class TrialAttempt {
       round: this.round,
       target: this.targetCount,
       point: this.currentPoint ?? null,
-      puzzle: this.reading ? publicPuzzle(this.puzzles[this.round]) : null,
+      puzzle: this.reading
+        ? focus?.kind === "power-targets"
+          ? publicPuzzle({
+              prompt: `Zasil cel ${this.round + 1}/${this.targetCount}`,
+              documents: [
+                {
+                  title: "Budżet testowego KI",
+                  text: `Zużyto ${focus.spentKi.toFixed(1)} / ${focus.budgetKi.toFixed(1)} KI. Regeneracja nie odnawia tego limitu. Wybrany przepływ naprawdę pobiera KI z wypożyczonego profilu.`,
+                },
+              ],
+              options: [
+                {
+                  id: "precise",
+                  label: `Precyzyjny przepływ · ${(focus.maxKi * FOCUS_ROOM.preciseCost).toFixed(1)} KI`,
+                },
+                {
+                  id: "wide",
+                  label: `Szeroki przepływ · ${(focus.maxKi * FOCUS_ROOM.wideCost).toFixed(1)} KI`,
+                },
+              ],
+              answer: "",
+            })
+          : publicPuzzle(this.puzzles[this.round])
+        : null,
       targets: this.session.practiceTargets
         .list(null)
         .map(({ onHit: _onHit, ...target }) => target),

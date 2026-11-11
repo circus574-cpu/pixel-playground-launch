@@ -1,0 +1,20 @@
+{
+  "status": "BROWSER_VERIFICATION_PENDING",
+  "basePR90": "77dfb0e70a3a09729daa87e831af9781f46884fd",
+  "focusPR122": "871183693b4d038a5e2d17100ce22200d75660aa",
+  "unit": {
+    "passed": 1501,
+    "failed": 0,
+    "skipped": 10,
+    "skipReason": "Separate PostgreSQL QA"
+  },
+  "typecheck": "PASS: app/e2e/tools",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 15
+  },
+  "assets": "PASS",
+  "browser": "PENDING",
+  "sourceHashes": "source-sha256.json",
+  "scope": "Integration of 30 trials / 90 grades; not a completed campaign, not a current-main integration, no production deployment"
+}

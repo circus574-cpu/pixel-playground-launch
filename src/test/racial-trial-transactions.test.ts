@@ -60,7 +60,7 @@ describe("racial trial results are owned, atomic and finite", () => {
       }
       const d = s.player.development!;
       expect(domainRank(d.trials, race, TRIALS.find((t) => t.race === race)!.domain)).toBe(3);
-      expect(d.practiceEarned).toBe(race === "planetary" ? 5400 : race === "sage" ? 4050 : 1350);
+      expect(d.practiceEarned).toBe(race === "planetary" || race === "sage" ? 5400 : 1350);
       expect(DevelopmentSchema.safeParse(d).success).toBe(true);
       if (race === "planetary") {
         expect(d.unlockedVariants).toContain("mv-earth");
@@ -70,6 +70,7 @@ describe("racial trial results are owned, atomic and finite", () => {
       if (race === "sage") {
         expect(d.unlockedVariants).toContain("ma-seal");
         expect(d.unlockedVariants).toContain("ma-barrier");
+        expect(d.unlockedVariants).toContain("ma-focus");
       }
       if (race === "legend") expect(d.unlockedVariants).toContain("mp-cuts");
       if (race === "android") {
@@ -85,7 +86,7 @@ describe("racial trial results are owned, atomic and finite", () => {
       completeTrial(again);
       expect(s.finishRacialTrial(again)).toBe(true);
       expect(s.player.development!.practiceEarned).toBe(
-        race === "planetary" ? 5400 : race === "sage" ? 4050 : 1350,
+        race === "planetary" || race === "sage" ? 5400 : 1350,
       );
     },
   );
@@ -194,4 +195,40 @@ describe("racial trial results are owned, atomic and finite", () => {
     s.leaveRacialTrial(a);
     expect(s.player.development!.unlockedVariants).not.toContain("ma-seal");
   });
+  it.each([true, false])(
+    "preserves both Sage domains across saves in either order: memory first=%s",
+    (memoryFirst) => {
+      const f = fixture("sage");
+      let s = f.s;
+      const order = memoryFirst ? ["source-memory", "focus"] : ["focus", "source-memory"];
+      let expectedPractice = 0;
+      const preserved: Record<string, number> = {};
+      for (const domain of order) {
+        for (const def of TRIALS.filter((t) => t.race === "sage" && t.domain === domain)) {
+          for (const tier of [1, 2] as const) {
+            const a = s.startRacialTrial(def.id, tier)!;
+            completeTrial(a);
+            expect(s.finishRacialTrial(a)).toBe(true);
+            expectedPractice += tier === 1 ? 100 : 150;
+          }
+          preserved[def.id] = 2;
+        }
+        s = new GameSession(new SaveStore(f.port, "sage"), "sage");
+        expect(s.player.development!.trials).toEqual(preserved);
+        expect(s.player.development!.practiceEarned).toBe(expectedPractice);
+        expect(
+          domainRank(s.player.development!.trials, "sage", domain as "focus" | "source-memory"),
+        ).toBe(2);
+        expect(s.player.development!.unlockedVariants.includes("ma-focus")).toBe(
+          order.indexOf("focus") <= order.indexOf(domain),
+        );
+      }
+      expect(s.player.development!.unlockedVariants).toContain("ma-focus");
+      expect(Object.keys(s.player.development!.trials)).toHaveLength(6);
+      const again = s.startRacialTrial("TA10", 1)!;
+      completeTrial(again);
+      expect(s.finishRacialTrial(again)).toBe(true);
+      expect(s.player.development!.practiceEarned).toBe(expectedPractice);
+    },
+  );
 });

@@ -1,5 +1,28 @@
 # KI Legends — aktualny plan i zadania
 
+## Połączenie Skupienia i Pamięci — 11.11.2026
+
+Osobna gałąź `feature/development-focus-memory-20261111` łączy PR #90
+(`77dfb0e7`) z PR #122 (`87118369`), zachowując oba rodzaje prób.
+Katalog: **30/48 prób, 90/144 stopni**. Planetarni i Mędrcy po 12/12,
+Androidy i Legendy po 3/12. To komplet katalogu prób dwóch ras, nie odbiór ich
+pełnej kampanii. Pozostaje **18 prób / 54 stopnie**, cztery warianty, trzy moduły,
+interakcje dziedzin w świecie, późne starcia, tytuły, graf i balans.
+
+Mędrcy mają w katalogu 5400 praktyki z prób; przy niezmienionych pozostałych
+źródłach arytmetyczny budżet wynosi 17 800. Nie potwierdza to jeszcze osiągalności
+wszystkich źródeł w kampanii. Pamięć nie dodaje premii bojowej; Skupienie II
+nadal wymaga minimum II wszystkich trzech prób i odblokowuje `ma-focus`.
+
+Formaty development v3 / klasyczny v10 / Superior v6 pozostają bez zmian.
+Zachowano odrębne identyfikatory i stare nagrody, transakcje, ochronę przed
+nadpisaniem w drugiej karcie i migracje. Dodano testy odczytu po przejściu obu
+dziedzin w obu kolejnościach oraz ochrony przed ponowną nagrodą.
+
+Nie scalono do main ani nie publikowano. Baza jest kontynuacją #90, nie bieżącym
+main; przed przyszłym wydaniem potrzebna jest osobna integracja nowszego main.
+[Zmiany i wyniki kontroli](zmiany/2026-11-11/ZMIANY.md).
+
 ## Kontynuacja 06.11 — Pamięć Mędrców
 
 Wznowiono rzeczywistą gałąź Draft #90 (`a9e44175`), zintegrowano `main@83165f5c`

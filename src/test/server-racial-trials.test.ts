@@ -173,6 +173,9 @@ it.each([
   "TA04",
   "TA05",
   "TA06",
+  "TA07",
+  "TA08",
+  "TA09",
   "TA10",
   "TA11",
   "TA12",
@@ -191,7 +194,35 @@ it.each([
       action("accept");
       expect(s.session.player).toEqual(before);
       action("ready");
-      if (["TV02", "TV07", "TV08", "TA05", "TA10", "TA11", "TA12"].includes(id)) {
+      if (id === "TA08") {
+        for (let i = 0; i < a.targetCount; i++) {
+          const point = a.currentPoint!;
+          input({ type: "move", ...point });
+          for (let n = 0; n < 1000 && distance(a.session.player, point) > 12; n++) await s.tick(50);
+          action("inspect");
+          s.command({
+            type: "trial-answer",
+            instanceId: a.instanceId,
+            round: i,
+            answerId: "precise",
+          });
+        }
+      } else if (id === "TA07" || id === "TA09") {
+        let previous = "";
+        for (let n = 0; n < 6000 && a.snapshot().outcome === "running"; n++) {
+          const point = a.currentPoint!,
+            key = `${point.x},${point.y}`;
+          if (key !== previous) {
+            previous = key;
+            input({ type: "move", ...point });
+          }
+          if (a.snapshot().focus?.phase === "ready" && !a.session.kit.remaining("C1")) {
+            input({ type: "cancel" });
+            input({ type: "ability", ability: "C1" });
+          }
+          await s.tick(50);
+        }
+      } else if (["TV02", "TV07", "TV08", "TA05", "TA10", "TA11", "TA12"].includes(id)) {
         const puzzles = trialPuzzles(a.definition, 1);
         for (let i = 0; i < puzzles.length; i++) {
           const target = a.currentPoint!;

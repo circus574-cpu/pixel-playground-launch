@@ -1,0 +1,54 @@
+
+ RUN  v4.1.12 /workspace/pixel-playground-launch
+
+ ❯ src/test/focus-trials.test.ts (23 tests | 2 failed) 168ms
+     × signals for at least 1500 ms before accepting a channel 6ms
+     × move interruption on the final channel tick cannot become completion 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/focus-trials.test.ts > Skupienie uses real channels, cumulative KI and actively maintained nodes > signals for at least 1500 ms before accepting a channel
+AssertionError: expected 'running' to be 'failed' // Object.is equality
+
+Expected: "failed"
+Received: "running"
+
+ ❯ src/test/focus-trials.test.ts:51:34
+     49|     a.session.command({ type: "ability", ability: "C1" });
+     50|     tickTrial(a);
+     51|     expect(a.snapshot().outcome).toBe("failed");
+       |                                  ^
+     52|     expect(a.snapshot().successes).toBe(0);
+     53|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/test/focus-trials.test.ts > Skupienie uses real channels, cumulative KI and actively maintained nodes > move interruption on the final channel tick cannot become completion
+AssertionError: expected { Object (serial, id, ...) } to match object { id: 'C1', completed: false }
+(1 matching property omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "completed": false,
++   "completed": true,
+    "id": "C1",
+  }
+
+ ❯ src/test/focus-trials.test.ts:65:43
+     63|       else a.session.kit.interruptChannel("other");
+     64|       tickTrial(a);
+     65|       expect(a.session.kit.channelResult).toMatchObject({ id: "C1", co…
+       |                                           ^
+     66|       expect(a.snapshot().outcome).toBe("failed");
+     67|       expect(a.snapshot().successes).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 21 passed (23)
+   Start at  17:53:13
+   Duration  1.37s (transform 657ms, setup 56ms, import 776ms, tests 168ms, environment 263ms)
+
