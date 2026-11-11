@@ -180,3 +180,22 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   rosnącym czasie wejścia (22 → 31 s), czyli środowisko pomiaru degraduje się w trakcie, a kod Fazy 2
   tylko zmniejsza pracę. Pewny wynik Fazy 2 to mikrobenchmark CPU: snapshot 1,10 → 0,95 ms
   i `statBreakdown` 0×/s przy zamkniętym panelu. Miara docelowa = fizyczny telefon.
+
+### 12. Faza 2 (część 2): pieczenie chunków w kolejce — koniec zamrożeń przy wejściu
+
+- Właściciel: „nie ma czasu". Wybrano największe lagi: synchroniczne pieczenie wszystkich chunków
+  naraz w jednej klatce. `drawGround` jest krytyczny wizualnie, więc zamiast refactoru na maszynę
+  stanów (ryzyko obrazu) użyto bezpiecznego odroczenia: `load()` liczy pozycje i akwizycję assetów,
+  a bake trafia do `bakeQueue`, drenowanej w `updateVisibility` po **maks. 2 chunki na klatkę**.
+- **Zamrożenie (najdłuższa klatka, desktop 1280×900) spada ~76%:** Verdantia **4908 → 1138 ms**,
+  Aetheria **11916 → 2825 ms**, Pyra **10085 → 2391 ms**. Nexus 308 → 1482 ms (i tak najniższy).
+  Łączny czas wejścia bez zmian (~26–33 s w tym środowisku), ale rozłożony na klatki zamiast jednej
+  blokady — gracz widzi płynny obraz, nie zamrożenie.
+- **Render bez dziur i błędów:** po ustabilizowaniu Verdantia ma 270 obiektów / 232 widoczne /
+  116 tekstur / 176,6 MiB i **zero błędów konsoli** — identycznie jak przed zmianą. Chunk chciany
+  jest zawsze drenowany (pętla co klatkę), więc nie ma trwałych dziur; jest 1–2 klatki opóźnienia.
+- Bramka: typecheck exit 0, testy renderu (stale-chunk, scenery-stream, visibility-grid) 10 passed,
+  testy świata (spawns, save, dress, characters) 33 passed. Pełny zestaw osobno.
+- Uwaga: FPS z programowego Canvas w tym kontenerze degraduje się w trakcie długich przebiegów
+  (czas wejścia rośnie 22→33 s), więc per-światowe FPS nie jest wiarygodną miarą; wiarygodne są
+  frameMax (zamrożenie) i pamięć, niezależne od tego dryfu. Miara docelowa = fizyczny telefon.

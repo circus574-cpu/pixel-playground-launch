@@ -895,12 +895,48 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         .setVisible(visible),
     };
   };
+  // Faza 2: pieczenie chunku jest synchroniczne i drogie. Zamiast piec wszystkie naraz w jednej
+  // klatce (zamrożenie przy wejściu do świata), kolejka drenuje maks. 2 chunki na klatkę.
+  const bakeQueue: { data: BrowserChunk; id: string; items: ArtObject[] }[] = [];
+  const MAX_BAKES_PER_FRAME = 2;
+  const finishChunk = (data: BrowserChunk, id: string, items: ArtObject[]) => {
+    const ground = drawGround(data, id);
+    const grid = buildSceneryGrid(items);
+    const index = new Map(items.map((item, i) => [item.id, i] as const));
+    live.set(id, {
+      data,
+      items,
+      ground: ground.image,
+      images: new Map(),
+      shadows: new Map(),
+      grid,
+      reach: sceneryReach(items),
+      index,
+      key: ground.key,
+    });
+  };
+  const drainBakes = () => {
+    let n = 0;
+    while (bakeQueue.length && n < MAX_BAKES_PER_FRAME) {
+      const entry = bakeQueue.shift()!;
+      pending.delete(entry.id);
+      if (disposed || failed || !wanted.has(entry.id)) {
+        source.release(scene, entry.id);
+        continue;
+      }
+      finishChunk(entry.data, entry.id, entry.items);
+      n++;
+    }
+  };
   const load = async (x: number, y: number) => {
     const id = x + "-" + y;
     pending.add(id);
     try {
       const [data, art] = await Promise.all([source.loader.loadChunk(x, y), source.readArt(x, y)]);
-      if (disposed || !wanted.has(id)) return;
+      if (disposed || !wanted.has(id)) {
+        pending.delete(id);
+        return;
+      }
       const originalItems = [...art, ...(staticGrid.get(id) ?? [])];
       const biomeAt = aetheriaContinent
         ? aetheriaBiomeAt(data)
@@ -954,33 +990,22 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       await source.acquire(scene, ids, id);
       if (disposed || !wanted.has(id)) {
         source.release(scene, id);
+        pending.delete(id);
         return;
       }
-      const ground = drawGround(data, id);
-      const grid = buildSceneryGrid(items);
-      const index = new Map(items.map((item, i) => [item.id, i] as const));
-      live.set(id, {
-        data,
-        items,
-        ground: ground.image,
-        images: new Map(),
-        shadows: new Map(),
-        grid,
-        reach: sceneryReach(items),
-        index,
-        key: ground.key,
-      });
+      // Faza 2: bake odkładany do kolejki drenowanej po maks. 2 na klatkę, nie tu synchronicznie.
+      bakeQueue.push({ data, id, items });
     } catch (error) {
+      pending.delete(id);
       if (!disposed) {
         failed = true;
         source.error(error);
       }
-    } finally {
-      pending.delete(id);
     }
   };
   const updateVisibility = (player: Point, others: readonly OcclusionFocus[] = []) => {
     if (disposed || failed || !visible) return;
+    drainBakes();
     const view = scene.cameras.main.worldView;
     const maxX = Math.ceil(source.loader.definition.geometry.width / CHUNK) - 1;
     const maxY = Math.ceil(source.loader.definition.geometry.height / CHUNK) - 1;
