@@ -255,3 +255,43 @@
     pointer-events: none !important;
   }
 }
+
+/* The player's own spot: a gold dot with a pulsing halo (same look as the flat atlas). */
+.pg-player {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.pg-player-halo,
+.pg-player-dot {
+  position: absolute;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.pg-player-halo {
+  width: 30px;
+  height: 30px;
+  background: #ffe9a066;
+  border: 1px solid #fff4cf;
+  animation: pg-player-pulse 1.6s ease-in-out infinite;
+}
+.pg-player-dot {
+  width: 12px;
+  height: 12px;
+  background: #ffd257;
+  border: 2px solid #2a1a00;
+}
+@keyframes pg-player-pulse {
+  50% {
+    transform: translate(-50%, -50%) scale(1.35);
+    opacity: 0.6;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pg-player-halo {
+    animation: none;
+  }
+}
