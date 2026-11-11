@@ -255,3 +255,17 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   wejścia** do celu <5 s. Cel <5 s wymaga większej pracy: bundlowania JSON-ów chunków/art (dziś
   ~3872 pliki / ~51,6 MB na świat, 2 fetch/e chunk) + prefetch. To osobny, większy krok — nie
   ruszany bez zgody właściciela.
+
+### Tryb KI: widoczna aura formy
+
+- Zgłoszenie: po transformacji postać „jest normalna", zwłaszcza w ruchu. Sprawdzone w grze: forma KI działa
+  (scena transformacji, kiidle w spoczynku, odpowiednie buffy), ale w ruchu gra `kiwalk`, który wygląda prawie
+  jak zwykły chód (ten sam pancerz, odsłonięta klatka piersiowa), a obiecana w opisie węzła „aura jako osobny
+  efekt" nie była w ogóle rysowana: pliki `public/game/vfx-v3/<rasa>/aura.webp` istniały, lecz kod ładował
+  tylko `impact` i `ring`.
+- `mountGame.ts`: aura ładowana jak pozostałe pętle i rysowana przez cały czas buffa `T`: trzy płomienie
+  (środkowy wysoki, dwa boczne odchylone) za bohaterem, mieszanie addytywne, na każdej klatce w ruchu i w spoczynku.
+  Sprawdzone zrzutami w grze dla wszystkich czterech ras (Legendy pomarańczowa, Mędrcy biało-złota,
+  Androidy błękitna, Planetarni zielona).
+- Nie zmienia animacji `kiwalk`: sam chód po transformacji pozostaje subtelny, bo tak wygląda film źródłowy.
+  Wyraźniejszy chód wymaga nowego filmu chodu formy (do decyzji właściciela).

@@ -51,7 +51,7 @@ import { NetworkClient } from "./multiplayer/networkClient";
 import type { NetworkPlayerState } from "./multiplayer/protocol";
 import type { FeatureId } from "./world/generated/superiorSave";
 import type { WorldId } from "./world/races";
-const RACE_VFX = ["impact", "ring"] as const;
+const RACE_VFX = ["impact", "ring", "aura"] as const;
 const TRANSFORM_URL = (race: string) => "/game/transform/" + race + ".webp";
 
 /** Ground glow of a dropped catalog item by rarity. */
@@ -318,6 +318,47 @@ export function mountKileGends(
       this.load.spritesheet(key, TRANSFORM_URL(race), { frameWidth: 384, frameHeight: 384 });
       this.load.once("complete", play);
       this.load.start();
+    }
+    /** Tryb KI aura: looping painted flames behind the hero (one centred, two at the sides) while the form lasts. */
+    private kiAura: Phaser.GameObjects.Sprite[] = [];
+    private updateKiAura(on: boolean, x: number, y: number, k: number) {
+      if (!on || !this.textures.exists("vfx3-aura")) {
+        for (const a of this.kiAura) a.setVisible(false);
+        return;
+      }
+      if (!this.anims.exists("vfx3-aura-loop"))
+        this.anims.create({
+          key: "vfx3-aura-loop",
+          frames: this.anims.generateFrameNumbers("vfx3-aura"),
+          frameRate: 12,
+          repeat: -1,
+        });
+      if (!this.kiAura.length)
+        for (let i = 0; i < 3; i++) {
+          const sprite = this.add
+            .sprite(x, y, "vfx3-aura")
+            .setOrigin(0.5, 0.9)
+            .setBlendMode(Phaser.BlendModes.ADD)
+            .setAlpha(i === 0 ? 0.95 : 0.7)
+            .setFlipX(i === 2);
+          sprite.play({ key: "vfx3-aura-loop", startFrame: i * 3 });
+          this.kiAura.push(sprite);
+        }
+      // Centre flame is tall; the side flames lean away from the body.
+      const layout = [
+        { dx: 0, scale: 2.1, angle: 0 },
+        { dx: -26, scale: 1.5, angle: -10 },
+        { dx: 26, scale: 1.5, angle: 10 },
+      ];
+      this.kiAura.forEach((sprite, i) => {
+        const l = layout[i]!;
+        sprite
+          .setVisible(true)
+          .setPosition(x + l.dx * k, y + 8)
+          .setScale(l.scale * k)
+          .setAngle(l.angle)
+          .setDepth(y - 0.5);
+      });
     }
     /** Plays one painted race effect; silently skipped when its strip failed to load. */
     private raceVfx(kind: (typeof RACE_VFX)[number], p: Point, scale: number) {
@@ -1489,6 +1530,12 @@ export function mountKileGends(
         session.facing,
         session.paused || !!session.dialogue,
         session.kit.buffs.some((b) => b.id === "T"),
+      );
+      this.updateKiAura(
+        session.kit.buffs.some((b) => b.id === "T"),
+        session.player.x,
+        session.player.y,
+        1,
       );
       // Behind trees or buildings the hero shows as a light outline drawn over them (as in Diablo).
       const sprite = this.hero.sprite,
