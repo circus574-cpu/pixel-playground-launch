@@ -1,7 +1,19 @@
 import { existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { BOSS_CATALOG } from "../game/bosses/catalog";
+import { MONSTER_BASE } from "../game/monsters/base.generated";
 import {
+  BOSS_SFX_DIR,
   cuesFor,
+  monsterSfxFile,
+  ambienceFile,
+  uiRefusalNotice,
+  monsterHurtFile,
+  monsterSkillFile,
+  statusSfxFile,
+  stepFile,
+  stepSurface,
+  type StepSurface,
   DEVELOPMENT_AMBIENCE_FILES,
   DEVELOPMENT_SFX_DEDICATED,
   DEVELOPMENT_SFX_REUSE,
@@ -137,5 +149,135 @@ describe("sound effects", () => {
       expect(existsSync("public" + ambFile), `${id} -> ${ambFile}`).toBe(true);
       expect(sfxFile(id)).toBe(ambFile);
     }
+  });
+});
+
+describe("monster, footstep and interface sounds", () => {
+  it("has attack and death sounds for every bestiary monster", () => {
+    for (const m of MONSTER_BASE)
+      for (const cue of ["atk", "die"] as const) {
+        const file = monsterSfxFile(m.id, cue);
+        expect(file, m.id + " " + cue).toBeDefined();
+        expect(existsSync("public" + file), String(file)).toBe(true);
+      }
+  });
+  it("maps every boss to a folder with attack, death and roar sounds", () => {
+    for (const boss of BOSS_CATALOG) {
+      expect(BOSS_SFX_DIR["boss:" + boss.id], boss.id).toBeDefined();
+      for (const cue of ["atk", "die", "roar"] as const) {
+        const file = monsterSfxFile("boss:" + boss.id, cue);
+        expect(file, boss.id + " " + cue).toBeDefined();
+        expect(existsSync("public" + file), String(file)).toBe(true);
+      }
+    }
+  });
+  it("plays a monster's own attack and death sound and falls back for unknown species", () => {
+    expect(
+      cues([
+        {
+          type: "attack",
+          ...at,
+          source: "verdant-cierniowy-wilk#1",
+          species: "verdant-cierniowy-wilk",
+          target: "player",
+        },
+      ]),
+    ).toEqual(["/game/sfx/monsters/verdant-cierniowy-wilk/atk.mp3"]);
+    expect(
+      cues([{ type: "death", ...at, target: "boss:pyrrhax#2", species: "boss:pyrrhax" }]),
+    ).toEqual(["/game/sfx/monsters/pyra-pyrrhax/die.mp3"]);
+    expect(cues([{ type: "death", ...at, target: "boar#1", species: "boar" }])).toEqual([
+      "/game/sfx/common/monster-death.mp3",
+    ]);
+    expect(cues([{ type: "attack", ...at, source: "boar#1", species: "boar" }])).toEqual([]);
+  });
+  it("chooses the footstep surface from the world, terrain and interior", () => {
+    expect(stepSurface("verdant", "forest", null)).toBe("grass");
+    expect(stepSurface("verdant", "water", null)).toBe("water");
+    expect(stepSurface("verdant", "rock", null)).toBe("stone");
+    expect(stepSurface("aether", "open", null)).toBe("stone");
+    expect(stepSurface("nexus", "open", null)).toBe("metal");
+    expect(stepSurface("pyra", "open", null)).toBe("ash");
+    expect(stepSurface("verdant", "forest", "smithy")).toBe("wood");
+    expect(stepSurface("nexus", "open", "depot")).toBe("metal");
+    const surfaces: StepSurface[] = [
+      "grass",
+      "dirt",
+      "stone",
+      "sand",
+      "snow",
+      "wood",
+      "metal",
+      "ash",
+      "water",
+    ];
+    for (const surface of surfaces)
+      expect(existsSync("public" + stepFile(surface)), surface).toBe(true);
+  });
+  it("ships the interface click sound", () => {
+    expect(existsSync("public/game/sfx/ui/click.mp3")).toBe(true);
+  });
+  it("plays hurt, skill, roar, status, shop and upgrade sounds that exist on disk", () => {
+    const files = [
+      monsterHurtFile(MONSTER_BASE[0]!.id),
+      monsterHurtFile("boss:" + BOSS_CATALOG[0]!.id),
+      monsterSkillFile("szarza"),
+      monsterSkillFile("roj"),
+      statusSfxFile("burn"),
+      statusSfxFile("root"),
+    ];
+    for (const f of files) {
+      expect(f).toBeDefined();
+      expect(existsSync("public" + f), String(f)).toBe(true);
+    }
+    expect(monsterSkillFile("nieznana")).toBeUndefined();
+    expect(statusSfxFile("fear")).toBeUndefined();
+    expect(monsterHurtFile(undefined)).toBeUndefined();
+  });
+  it("maps cues from events and status changes", () => {
+    const snap = { potions: 0, interior: null, noticeId: 1, notice: "", fx: [] as string[] };
+    const hit = cuesFor(
+      "sage",
+      [{ type: "hit", target: "x#1", species: MONSTER_BASE[0]!.id, text: "-5" } as never],
+      snap,
+      snap,
+    );
+    expect(hit.some((f) => f.includes("/generic/hurt-"))).toBe(true);
+    const tele = cuesFor("sage", [{ type: "telegraph", ability: "szarza" } as never], snap, snap);
+    expect(tele).toContain("/game/sfx/monsters/generic/charge.mp3");
+    const fx = cuesFor("sage", [], snap, { ...snap, fx: ["stun"] });
+    expect(fx).toContain("/game/sfx/status/stun.mp3");
+    expect(cuesFor("sage", [], { ...snap, fx: ["stun"] }, { ...snap, fx: ["stun"] })).not.toContain(
+      "/game/sfx/status/stun.mp3",
+    );
+  });
+  it("maps ambience beds, refusals and crafting notices to files that exist", () => {
+    for (const [w, safe] of [
+      ["verdant", false],
+      ["aether", false],
+      ["nexus", false],
+      ["pyra", false],
+      ["verdant", true],
+    ] as const) {
+      const f = ambienceFile(w, safe);
+      expect(f, w + String(safe)).toBeDefined();
+      expect(existsSync("public" + f), String(f)).toBe(true);
+    }
+    expect(ambienceFile("unknown", false)).toBeUndefined();
+    expect(uiRefusalNotice("Brak mikstury. Kup ją u Mio.")).toBe(true);
+    expect(uiRefusalNotice("Kupiono: Miecz")).toBe(false);
+    const snap = { potions: 0, interior: null, noticeId: 1, notice: "", fx: [] as string[] };
+    const next = (notice: string) => ({ ...snap, noticeId: 2, notice });
+    expect(cuesFor("sage", [], snap, next("Uwarzono Miksturę Zdrowia (+1)"))).toContain(
+      "/game/sfx/crafting/craft.mp3",
+    );
+    expect(cuesFor("sage", [], snap, next("Brak mikstury. Kup ją u Mio."))).toContain(
+      "/game/sfx/ui/error.mp3",
+    );
+    expect(cuesFor("sage", [], snap, next("Teleport: Miasto"))).toContain(
+      "/game/sfx/ui/teleport.mp3",
+    );
+    for (const f of ["movement/swim", "ui/open", "ui/close", "ui/error", "ui/teleport"])
+      expect(existsSync("public/game/sfx/" + f + ".mp3"), f).toBe(true);
   });
 });

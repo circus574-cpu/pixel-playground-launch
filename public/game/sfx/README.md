@@ -108,3 +108,24 @@ Wygenerowane 01.11.2026 w ElevenLabs Sound Effects v2 (`eleven_text_to_sound_v2`
 | `ambience/sage.mp3`              | P3        | `audio.ambience.sage`              | Otoczenie dziedzińca treningowego — Aetheria     |
 | `ambience/android.mp3`           | P3        | `audio.ambience.android`           | Otoczenie warsztatu treningowego — Nexus-9       |
 | `ambience/legend.mp3`            | P3        | `audio.ambience.legend`            | Otoczenie dziedzińca treningowego — Pyra         |
+
+## Dźwięki potworów, kroków, interfejsu i statusów (10.11.2026)
+
+Wygenerowane w ElevenLabs Sound Effects v2 (`eleven_text_to_sound_v2`, po jednym wariancie na dźwięk), ten sam proces obróbki co wyżej (cisza ucięta, głośność −16 LUFS, mono 80 kb/s). Długość ucięta do: atak 1,5 s, śmierć 1,8 s (bossowie 3,5 s), ryk 3,5 s, krok 0,5 s, interfejs i statusy 1,5 s (kilka sygnałów do 2 s). **Podpięte w grze (`src/game/sfx.ts`, `src/game/mountGame.ts`):** `monsters/<id>/atk.mp3` i `die.mp3` (zdarzenia `attack` i `death` niosą pole `species` z id gatunku; bossy mapowane z `boss:<id>` przez `BOSS_SFX_DIR`, nieznane gatunki mają dotychczasowy dźwięk śmierci albo ciszę), `steps/*.mp3` (co 340 ms podczas ruchu, ciszej; powierzchnia z `stepSurface`: wnętrza drewno, w Nexus-9 metal, rzeka i skały Verdantii z `terrainAt`, poza tym domyślna dla świata) oraz `ui/click.mp3` (każdy przycisk, zakładka i link, gdy gra jest zamontowana; wyłączenie atrybutem `data-no-ui-sound`). Druga partia: `roar.mp3` bossów (zmiana fazy), `monsters/generic/hurt-*` (trafienie potwora) i pozostałe `monsters/generic/*` (zapowiedź skilla), `status/*` (pojawienie się efektu na bohaterze), `movement/water-enter.mp3`, `ui/buy-sell.mp3`, `ui/upgrade-ok.mp3`. Trzecia partia: pętle `ambience/{verdantia,aetheria,nexus,pyra,city}` (według świata i bezpiecznego miasta), `ui/open` i `ui/close` (panele `role="dialog"`), `movement/swim`, `crafting/craft`, `ui/skill-learn`, `ui/teleport`, `ui/portal`, `ui/error` (odmowy). **Jeszcze niepodpięte:** `movement/{jump,land}` (brak skoku w grze), `ambience/rain` (brak pogody), `crafting/harvest-*` (brak zbierania), reszta `ui/*` (ekwipunek, mapa, czat, zadania, skrzynia). Brak odsłuchu przez właściciela.
+
+| Katalog                         | Zawartość                                                                                           |
+| ------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `monsters/<id>/atk.mp3`         | Atak potwora; `<id>` to id gatunku z `src/game/monsters/base.generated.ts` (40) albo bossa (8)      |
+| `monsters/<id>/die.mp3`         | Śmierć potwora (bossowie do 3,5 s)                                                                  |
+| `monsters/<id>/roar.mp3`        | Ryk wejścia bossa (8 bossów: `verdant-ygdrasha`, `verdant-thorgar`, `aether-arcykaplan-pustki`, `aether-aurelith`, `nexus-arbiter-zero`, `nexus-hydra-rdzen`, `pyra-kharzul`, `pyra-pyrrhax`) |
+| `monsters/generic/*.mp3`        | Uniwersalne odgłosy skilli potworów: charge, stomp, poison, web, sting, spit, explosion, swarm      |
+| `steps/*.mp3`                   | Kroki na powierzchni: grass, dirt, stone, sand, snow, wood, metal, ash, water (jeden wariant, w grze losowa wysokość tonu) |
+| `ui/*.mp3`                      | Interfejs i świat (30): click, confirm, cancel, open, close, tab, toggle-on/off, error, notify, chat, map-open, inventory-open, equip, unequip, drop, item-place, buy-sell, upgrade-ok/fail, quest-accept/update, skill-learn/ready, teleport, portal, chest, locked, low-hp, miss |
+| `status/*.mp3`                  | Nałożenie statusu: burn, poison, freeze, stun, slow                                                 |
+| `monsters/generic/hurt-*.mp3`   | Reakcja potwora na trafienie: beast, magic, robot, stone                                            |
+| `movement/*.mp3`                | Ruch gracza: jump, land, water-enter, swim                                                          |
+| `crafting/*.mp3`                | Rzemiosło i zbieranie: craft, harvest-wood, harvest-ore                                             |
+| `ambience/{verdantia,aetheria,nexus,pyra,city,rain}.mp3` | Pętle otoczenia kontynentów, miasta i deszczu (20 s, mono 96 kb/s, −20 LUFS, generowane z flagą pętli; szwu pętli nie sprawdzano) |
+
+Znane ograniczenia: id bossów w nazwach katalogów odpowiadają `src/game/bosses/catalog.ts` poza prefiksem świata (`verdant-*`, `aether-*`, `nexus-*`, `pyra-*`), który mapuje `BOSS_SFX_DIR`. Dźwięki, które model wygenerował zbyt długie (np. śmierć Lwa Świątyni 16 s), zostały ucięte do limitu i mogą nie zawierać swojego końca; do ponownego wygenerowania po odsłuchu.
+

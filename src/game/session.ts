@@ -291,6 +291,8 @@ export type GameEvent = Point & {
   text?: string;
   target?: string;
   source?: string;
+  /** Monster definition id on monster `attack` and `death` events (drives per-species sounds). */
+  species?: string;
   ability?: string;
   to?: Point;
   radius?: number;

@@ -40,6 +40,8 @@ export type MonsterEvent = Point & {
   text?: string;
   target?: string;
   source?: string;
+  /** Monster definition id, set on `attack` and `death` events. */
+  species?: string;
   ability?: string;
   to?: Point;
   radius?: number;
@@ -373,19 +375,26 @@ export class MonsterSystem {
       m.guard -= absorbed;
       dmg -= absorbed;
       if (dmg <= 0) {
-        this.host.emit({ type: "hit", ...e, target: e.id, text: "Tarcza" });
+        this.host.emit({ type: "hit", ...e, target: e.id, species: e.kind, text: "Tarcza" });
         return 0;
       }
     }
     e.hp = Math.max(0, e.hp - dmg);
     if (updateBossPhase(e))
-      this.host.emit({ type: "status", ...e, target: e.id, text: "Faza " + e.boss!.phase });
+      this.host.emit({
+        type: "status",
+        ...e,
+        target: e.id,
+        species: e.kind,
+        text: "Faza " + e.boss!.phase,
+      });
     m.sinceHit = 0;
     this.host.emit({
       type: "hit",
       x: e.x,
       y: e.y,
       target: e.id,
+      species: e.kind,
       text: "-" + Math.round(dmg) + (hit.crit ? "!" : ""),
       crit: !!hit.crit,
     });
@@ -484,7 +493,7 @@ export class MonsterSystem {
     m.basicWindup = undefined;
     this.paths.delete(e.id);
     this.burnWebs(e);
-    this.host.emit({ type: "death", x: e.x, y: e.y, target: e.id });
+    this.host.emit({ type: "death", x: e.x, y: e.y, target: e.id, species: e.kind });
     const t = def.traits;
     if (t.explode) {
       this.host.emit({
@@ -1122,6 +1131,7 @@ export class MonsterSystem {
       x: e.x,
       y: e.y,
       source: e.id,
+      species: e.kind,
       target: receiver.id,
       to: { x: aim.x, y: aim.y },
       kind,
@@ -1567,6 +1577,7 @@ export class MonsterSystem {
       x: e.x,
       y: e.y,
       source: e.id,
+      species: e.kind,
       target: this.receiver(e).id,
       to: { x: this.body(e).x, y: this.body(e).y },
       kind: "projectile",
