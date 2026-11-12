@@ -666,6 +666,19 @@ Pełny TypeScript aplikacji/e2e/tools PASS. [Kontrole integracyjne i SHA wejść
   `moving: false`. Test pada na poprzednim kodzie (`expected false to be true`) i przechodzi z poprawką; testy online,
   serwera i postaci (17 plików, 122 testy) zielone; pełny typecheck, eslint i prettier czyste.
 
+### 21. Aetheria i Nexus-9: budynki miast w rozdzielczości dopasowanej do ekranu (−20,4 i −17,9 MiB tekstur)
+
+- Ten sam zabieg co w Verdantii (wpis 19). Nowe narzędzie `scripts/assets/downscale_pack_images.py` kopiuje zainstalowaną
+  paczkę, zmniejsza wskazane obrazy proporcjonalnie (Lanczos, bez przycinania), zapisuje je bezstratnie i podnosi wersję.
+- `aether-painted-preview` 1.1.0: depozyt, sala, sklep, kuźnia, gospoda → 720 px na dłuższym boku.
+  `nexus-painted-preview` 1.2.0: sklep, depozyt, sala, arena → 672 px. `ki-v2-buildings` 1.2.0: gospoda (388 × 420) i kuźnia
+  (420 × 392) Nexusa. Stare wersje tych trzech paczek usunięte.
+- Pomiar w grze (start w mieście): Aetheria 201,7 → **181,3 MiB**, Nexus-9 208,0 → **190,1 MiB**. Pyra — budynki już małe,
+  bez zmian.
+- Porównanie zrzutów przed i po w grze przy zoomie 1,0 (największe zbliżenie): depozyt Aetherii i magazyn Nexusa bez
+  widocznej różnicy.
+- Testy powiązane z paczkami (12 plików, 98 testów) zielone; `assets:check` przechodzi.
+
 ### 22. Tryb KI: bieg, kanał, umiejętność C i interakcja w formie KI (filmy 5B, cztery rasy)
 
 - Z filmów `<rasa>-etap5b-ruch-ki.mp4` (Mędrzec, Planetar, Android, Legenda) wycięto cztery klipy formy KI: `kirun`
