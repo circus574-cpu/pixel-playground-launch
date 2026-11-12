@@ -366,16 +366,21 @@ describe("four painted hero deliveries", () => {
         ...(world === "verdant" ? [] : ["kifinisher"]),
       ];
       const kiReactions = ["kideath", "kihit", "kihitheavy", "kirespawn", "kivictory"];
-      expect(Object.keys(hero.clips).sort()).toEqual([...base, ...kiCombat, ...kiReactions].sort());
+      const kiMovement = ["kichannel", "kiinteract", "kirun", "kiskillc"];
+      expect(Object.keys(hero.clips).sort()).toEqual(
+        [...base, ...kiCombat, ...kiReactions, ...kiMovement].sort(),
+      );
       const frames = Object.values(hero.clips).flatMap((clip) =>
         Object.values(clip.directions).flat(),
       );
       // 1280 frame references of the base form and the earlier Tryb KI clips (see the stage 1-3 notes), plus the Tryb KI
       // combat clips (kiattack2 6, kifinisher 8, kiskillb 8, kidodge 6, kiguard 6 frames, eight directions each; Planetary has
-      // no kifinisher) and the KI reactions (kihit 6, kihitheavy 8, kideath 8, kirespawn 8, kivictory 8, all four races).
+      // no kifinisher), the KI reactions (kihit 6, kihitheavy 8, kideath 8, kirespawn 8, kivictory 8, all four races) and
+      // the KI movement clips of the stage 5B videos (kirun 8, kichannel 8, kiskillc 8, kiinteract 6).
       const combatFrames = (6 + (world === "verdant" ? 0 : 8) + 8 + 6 + 6) * 8;
       const reactionFrames = (6 + 8 + 8 + 8 + 8) * 8;
-      expect(frames).toHaveLength(1280 + combatFrames + reactionFrames);
+      const movementFrames = (8 + 8 + 8 + 6) * 8;
+      expect(frames).toHaveLength(1280 + combatFrames + reactionFrames + movementFrames);
       // Side-view fight frames are shared: right-facing directions reuse one strip, left ones its mirror.
 
       for (const clip of Object.values(hero.clips))
@@ -396,6 +401,7 @@ describe("four painted hero deliveries", () => {
           walk + "-fight-3",
           walk + "-fight-4",
           walk + "-kifight-1",
+          walk + "-kimove-1",
         ]),
       );
       for (const other of Object.values(heroes))

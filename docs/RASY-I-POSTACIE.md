@@ -68,6 +68,15 @@ w Trybie KI zostają w formie KI). Każdy film ma własną transformację (skala
 leżące ciało szersze niż komórka 256 px jest zmniejszane do szerokości komórki, na tej samej linii podłoża, a wygaszanie
 przy brzegu komórki dotyczy tylko efektów, nie postaci. Klatki początkowe filmu Legendy (zbliżenie na tors) pominięto.
 
+**Tryb KI — ruch (etap 5B, 12.11.2026, paczki `3.1.1`).** `MOVE_KI=1 scripts/anim/moveform_build.py` wycina z filmów
+`<rasa>-etap5b-ruch-ki.mp4` (ten sam układ czasu u czterech ras: bieg 0,6–3,2 s, kanał 4,4–5,8, umiejętność C 6,9–8,1,
+interakcja 8,8–9,8) klipy formy KI do atlasu `<paczka>-kimove-1`: `kirun` (8 klatek, 16 kl./s, pętla jednego pełnego
+cyklu kroku: Mędrzec, Android i Planetar 21 klatek filmu, Legenda 17 z równego biegu 1,3–3,2 s; `MOVE_RUN_LAGS` i
+`MOVE_RUN_WINDOW` zawężają wyszukiwanie, gdy automat trafi na pół cyklu albo na rozpędzanie), `kichannel` (8, 10, pętla),
+`kiskillc` (8, 12), `kiinteract` (6, 10). Zapisywane są tylko klatki w prawo; lewe kierunki są w polu `mirrored`.
+W Trybie KI: szybki ruch → `kirun` (wolniejszy → `kiwalk`), kanał → `kichannel`, umiejętność C → `kiskillc` (wcześniej
+`kiskill`), podniesienie łupu → `kiinteract`.
+
 Etap 3 (ruch, forma bazowa) wycina `scripts/anim/moveform_build.py` z filmów `<rasa>-etap3-ruch.mp4`
 (Android `-v2` pionowy, Planetar w sekundach 20–30) do atlasu `<paczka>-fight-4`:
 `run` (8 klatek, 16 kl./s, pętla: jeden okres kroku znaleziony z różnicy dolnej części ciała, Legenda 10,

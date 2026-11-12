@@ -355,7 +355,7 @@ describe("base-form movement clips (run, channel, skill C, interact)", () => {
       }
     }
   });
-  it("runs instead of walking only when fast, and keeps the walk in Tryb KI", () => {
+  it("runs instead of walking only when fast, and runs in the KI form in Tryb KI", () => {
     const { animation, sprite } = make();
     const f = { x: 1, y: 0 };
     animation.update(0, true, false, f);
@@ -364,6 +364,9 @@ describe("base-form movement clips (run, channel, skill C, interact)", () => {
     expect(animation.state).toBe("run");
     expect(shown(sprite)).toContain("/run/");
     animation.update(200, true, false, f, false, true, true);
+    expect(animation.state).toBe("kirun");
+    expect(shown(sprite)).toContain("/kirun/");
+    animation.update(300, true, false, f, false, true, false);
     expect(animation.state).toBe("kiwalk");
   });
   it("holds the channel pose for the channel time and drops it when the hero moves", () => {
@@ -379,7 +382,7 @@ describe("base-form movement clips (run, channel, skill C, interact)", () => {
     animation.update(4100, true, false, f);
     expect(animation.state).toBe("walk");
   });
-  it("plays skill C and the pick-up gesture, and uses kiskill for skill C in Tryb KI", () => {
+  it("plays skill C and the pick-up gesture, and their KI-form clips in Tryb KI", () => {
     const { animation, sprite } = make();
     const f = { x: -1, y: 0 };
     animation.trigger("skillc", 0, f);
@@ -391,7 +394,36 @@ describe("base-form movement clips (run, channel, skill C, interact)", () => {
     animation.update(4000, false, false, f, false, true);
     animation.trigger("skillc", 4100, f);
     animation.update(4110, false, false, f, false, true);
-    expect(played(sprite)).toContain("/kiskill/");
+    expect(played(sprite)).toContain("/kiskillc/");
+    animation.trigger("interact", 6000, f);
+    animation.update(6010, false, false, f, false, true);
+    expect(played(sprite)).toContain("/kiinteract/");
+  });
+  it("ships the Tryb KI movement clips for every hero, drawn mirrored to the left", () => {
+    for (const world of ["verdant", "aether", "nexus", "pyra"] as const) {
+      const hero = actorVisual(world, "hero", undefined, false, catalog);
+      for (const [clip, frames, loop] of [
+        ["kirun", 8, true],
+        ["kichannel", 8, true],
+        ["kiskillc", 8, false],
+        ["kiinteract", 6, false],
+      ] as const) {
+        const c = hero.clips[clip]!;
+        expect(c, world + clip).toBeDefined();
+        expect(c.loop).toBe(loop);
+        expect(c.mirrored).toEqual(["down-left", "left", "up-left"]);
+        for (const names of Object.values(c.directions)) expect(names).toHaveLength(frames);
+      }
+    }
+  });
+  it("holds the KI channel in the KI form", () => {
+    const { animation, sprite } = make();
+    const f = { x: 1, y: 0 };
+    animation.update(0, false, false, f, false, true);
+    animation.trigger("channel", 100, f, 3000);
+    animation.update(2500, false, false, f, false, true);
+    expect(animation.state).toBe("channel");
+    expect(shown(sprite)).toContain("/kichannel/");
   });
   it("keeps a charge on screen when the same cast also raises a shield", () => {
     const { animation, sprite } = make();

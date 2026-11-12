@@ -1,108 +1,117 @@
 {
   "schemaVersion": 1,
   "id": "hero-planetary-painted-walk-v3",
-  "version": "3.0.2",
+  "version": "3.1.1",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "hero-planetary-painted-walk-v3-page-0",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-page-0.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-page-0.json",
       "width": 1632,
       "height": 920
     },
     {
       "id": "hero-planetary-painted-walk-v3-idle-0",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-idle-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-idle-0.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-idle-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-idle-0.json",
       "width": 1960,
       "height": 928
     },
     {
       "id": "hero-planetary-painted-walk-v3-fight-0",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-fight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-fight-0.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-fight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-fight-0.json",
       "width": 945,
       "height": 1096
     },
     {
       "id": "hero-planetary-painted-walk-v3-fight-1",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-fight-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-fight-1.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-fight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-fight-1.json",
       "width": 346,
       "height": 836
     },
     {
       "id": "hero-planetary-painted-walk-v3-kiwalk-0",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-kiwalk-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-kiwalk-0.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-kiwalk-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-kiwalk-0.json",
       "width": 1883,
       "height": 464
     },
     {
       "id": "hero-planetary-painted-walk-v3-kifight-0",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-kifight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-kifight-0.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-kifight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-kifight-0.json",
       "width": 1367,
       "height": 740
     },
     {
       "id": "hero-planetary-painted-walk-v3-fight-2",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-fight-2.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-fight-2.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-fight-2.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-fight-2.json",
       "width": 1924,
       "height": 924
     },
     {
       "id": "hero-planetary-painted-walk-v3-fight-3",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-fight-3.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-fight-3.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-fight-3.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-fight-3.json",
       "width": 1364,
       "height": 756
     },
     {
       "id": "hero-planetary-painted-walk-v3-fight-4",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-fight-4.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-fight-4.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-fight-4.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-fight-4.json",
       "width": 1316,
       "height": 1152
     },
     {
       "id": "hero-planetary-painted-walk-v3-kifight-1",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-kifight-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-kifight-1.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-kifight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-kifight-1.json",
       "width": 1284,
       "height": 916
     },
     {
       "id": "hero-planetary-painted-walk-v3-kifight-2",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-kifight-2.webp",
-      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.0.2-07438e81fb13/hero-planetary-painted-walk-v3-kifight-2.json",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-kifight-2.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-kifight-2.json",
       "width": 1125,
       "height": 976
+    },
+    {
+      "id": "hero-planetary-painted-walk-v3-kimove-1",
+      "version": "3.1.1",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-kimove-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.1.1-2bb6047b4813/hero-planetary-painted-walk-v3-kimove-1.json",
+      "width": 1188,
+      "height": 1136
     }
   ],
   "actors": [
@@ -2760,6 +2769,358 @@
               "hero-planetary-painted/kivictory/right/05",
               "hero-planetary-painted/kivictory/right/06",
               "hero-planetary-painted/kivictory/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kirun": {
+          "asset": "hero-planetary-painted-walk-v3-kimove-1",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-planetary-painted/kirun/right/00",
+              "hero-planetary-painted/kirun/right/01",
+              "hero-planetary-painted/kirun/right/02",
+              "hero-planetary-painted/kirun/right/03",
+              "hero-planetary-painted/kirun/right/04",
+              "hero-planetary-painted/kirun/right/05",
+              "hero-planetary-painted/kirun/right/06",
+              "hero-planetary-painted/kirun/right/07"
+            ],
+            "down-left": [
+              "hero-planetary-painted/kirun/right/00",
+              "hero-planetary-painted/kirun/right/01",
+              "hero-planetary-painted/kirun/right/02",
+              "hero-planetary-painted/kirun/right/03",
+              "hero-planetary-painted/kirun/right/04",
+              "hero-planetary-painted/kirun/right/05",
+              "hero-planetary-painted/kirun/right/06",
+              "hero-planetary-painted/kirun/right/07"
+            ],
+            "left": [
+              "hero-planetary-painted/kirun/right/00",
+              "hero-planetary-painted/kirun/right/01",
+              "hero-planetary-painted/kirun/right/02",
+              "hero-planetary-painted/kirun/right/03",
+              "hero-planetary-painted/kirun/right/04",
+              "hero-planetary-painted/kirun/right/05",
+              "hero-planetary-painted/kirun/right/06",
+              "hero-planetary-painted/kirun/right/07"
+            ],
+            "up-left": [
+              "hero-planetary-painted/kirun/right/00",
+              "hero-planetary-painted/kirun/right/01",
+              "hero-planetary-painted/kirun/right/02",
+              "hero-planetary-painted/kirun/right/03",
+              "hero-planetary-painted/kirun/right/04",
+              "hero-planetary-painted/kirun/right/05",
+              "hero-planetary-painted/kirun/right/06",
+              "hero-planetary-painted/kirun/right/07"
+            ],
+            "up": [
+              "hero-planetary-painted/kirun/right/00",
+              "hero-planetary-painted/kirun/right/01",
+              "hero-planetary-painted/kirun/right/02",
+              "hero-planetary-painted/kirun/right/03",
+              "hero-planetary-painted/kirun/right/04",
+              "hero-planetary-painted/kirun/right/05",
+              "hero-planetary-painted/kirun/right/06",
+              "hero-planetary-painted/kirun/right/07"
+            ],
+            "up-right": [
+              "hero-planetary-painted/kirun/right/00",
+              "hero-planetary-painted/kirun/right/01",
+              "hero-planetary-painted/kirun/right/02",
+              "hero-planetary-painted/kirun/right/03",
+              "hero-planetary-painted/kirun/right/04",
+              "hero-planetary-painted/kirun/right/05",
+              "hero-planetary-painted/kirun/right/06",
+              "hero-planetary-painted/kirun/right/07"
+            ],
+            "right": [
+              "hero-planetary-painted/kirun/right/00",
+              "hero-planetary-painted/kirun/right/01",
+              "hero-planetary-painted/kirun/right/02",
+              "hero-planetary-painted/kirun/right/03",
+              "hero-planetary-painted/kirun/right/04",
+              "hero-planetary-painted/kirun/right/05",
+              "hero-planetary-painted/kirun/right/06",
+              "hero-planetary-painted/kirun/right/07"
+            ],
+            "down-right": [
+              "hero-planetary-painted/kirun/right/00",
+              "hero-planetary-painted/kirun/right/01",
+              "hero-planetary-painted/kirun/right/02",
+              "hero-planetary-painted/kirun/right/03",
+              "hero-planetary-painted/kirun/right/04",
+              "hero-planetary-painted/kirun/right/05",
+              "hero-planetary-painted/kirun/right/06",
+              "hero-planetary-painted/kirun/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kichannel": {
+          "asset": "hero-planetary-painted-walk-v3-kimove-1",
+          "fps": 10,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-planetary-painted/kichannel/right/00",
+              "hero-planetary-painted/kichannel/right/01",
+              "hero-planetary-painted/kichannel/right/02",
+              "hero-planetary-painted/kichannel/right/03",
+              "hero-planetary-painted/kichannel/right/04",
+              "hero-planetary-painted/kichannel/right/05",
+              "hero-planetary-painted/kichannel/right/06",
+              "hero-planetary-painted/kichannel/right/07"
+            ],
+            "down-left": [
+              "hero-planetary-painted/kichannel/right/00",
+              "hero-planetary-painted/kichannel/right/01",
+              "hero-planetary-painted/kichannel/right/02",
+              "hero-planetary-painted/kichannel/right/03",
+              "hero-planetary-painted/kichannel/right/04",
+              "hero-planetary-painted/kichannel/right/05",
+              "hero-planetary-painted/kichannel/right/06",
+              "hero-planetary-painted/kichannel/right/07"
+            ],
+            "left": [
+              "hero-planetary-painted/kichannel/right/00",
+              "hero-planetary-painted/kichannel/right/01",
+              "hero-planetary-painted/kichannel/right/02",
+              "hero-planetary-painted/kichannel/right/03",
+              "hero-planetary-painted/kichannel/right/04",
+              "hero-planetary-painted/kichannel/right/05",
+              "hero-planetary-painted/kichannel/right/06",
+              "hero-planetary-painted/kichannel/right/07"
+            ],
+            "up-left": [
+              "hero-planetary-painted/kichannel/right/00",
+              "hero-planetary-painted/kichannel/right/01",
+              "hero-planetary-painted/kichannel/right/02",
+              "hero-planetary-painted/kichannel/right/03",
+              "hero-planetary-painted/kichannel/right/04",
+              "hero-planetary-painted/kichannel/right/05",
+              "hero-planetary-painted/kichannel/right/06",
+              "hero-planetary-painted/kichannel/right/07"
+            ],
+            "up": [
+              "hero-planetary-painted/kichannel/right/00",
+              "hero-planetary-painted/kichannel/right/01",
+              "hero-planetary-painted/kichannel/right/02",
+              "hero-planetary-painted/kichannel/right/03",
+              "hero-planetary-painted/kichannel/right/04",
+              "hero-planetary-painted/kichannel/right/05",
+              "hero-planetary-painted/kichannel/right/06",
+              "hero-planetary-painted/kichannel/right/07"
+            ],
+            "up-right": [
+              "hero-planetary-painted/kichannel/right/00",
+              "hero-planetary-painted/kichannel/right/01",
+              "hero-planetary-painted/kichannel/right/02",
+              "hero-planetary-painted/kichannel/right/03",
+              "hero-planetary-painted/kichannel/right/04",
+              "hero-planetary-painted/kichannel/right/05",
+              "hero-planetary-painted/kichannel/right/06",
+              "hero-planetary-painted/kichannel/right/07"
+            ],
+            "right": [
+              "hero-planetary-painted/kichannel/right/00",
+              "hero-planetary-painted/kichannel/right/01",
+              "hero-planetary-painted/kichannel/right/02",
+              "hero-planetary-painted/kichannel/right/03",
+              "hero-planetary-painted/kichannel/right/04",
+              "hero-planetary-painted/kichannel/right/05",
+              "hero-planetary-painted/kichannel/right/06",
+              "hero-planetary-painted/kichannel/right/07"
+            ],
+            "down-right": [
+              "hero-planetary-painted/kichannel/right/00",
+              "hero-planetary-painted/kichannel/right/01",
+              "hero-planetary-painted/kichannel/right/02",
+              "hero-planetary-painted/kichannel/right/03",
+              "hero-planetary-painted/kichannel/right/04",
+              "hero-planetary-painted/kichannel/right/05",
+              "hero-planetary-painted/kichannel/right/06",
+              "hero-planetary-painted/kichannel/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kiskillc": {
+          "asset": "hero-planetary-painted-walk-v3-kimove-1",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-planetary-painted/kiskillc/right/00",
+              "hero-planetary-painted/kiskillc/right/01",
+              "hero-planetary-painted/kiskillc/right/02",
+              "hero-planetary-painted/kiskillc/right/03",
+              "hero-planetary-painted/kiskillc/right/04",
+              "hero-planetary-painted/kiskillc/right/05",
+              "hero-planetary-painted/kiskillc/right/06",
+              "hero-planetary-painted/kiskillc/right/07"
+            ],
+            "down-left": [
+              "hero-planetary-painted/kiskillc/right/00",
+              "hero-planetary-painted/kiskillc/right/01",
+              "hero-planetary-painted/kiskillc/right/02",
+              "hero-planetary-painted/kiskillc/right/03",
+              "hero-planetary-painted/kiskillc/right/04",
+              "hero-planetary-painted/kiskillc/right/05",
+              "hero-planetary-painted/kiskillc/right/06",
+              "hero-planetary-painted/kiskillc/right/07"
+            ],
+            "left": [
+              "hero-planetary-painted/kiskillc/right/00",
+              "hero-planetary-painted/kiskillc/right/01",
+              "hero-planetary-painted/kiskillc/right/02",
+              "hero-planetary-painted/kiskillc/right/03",
+              "hero-planetary-painted/kiskillc/right/04",
+              "hero-planetary-painted/kiskillc/right/05",
+              "hero-planetary-painted/kiskillc/right/06",
+              "hero-planetary-painted/kiskillc/right/07"
+            ],
+            "up-left": [
+              "hero-planetary-painted/kiskillc/right/00",
+              "hero-planetary-painted/kiskillc/right/01",
+              "hero-planetary-painted/kiskillc/right/02",
+              "hero-planetary-painted/kiskillc/right/03",
+              "hero-planetary-painted/kiskillc/right/04",
+              "hero-planetary-painted/kiskillc/right/05",
+              "hero-planetary-painted/kiskillc/right/06",
+              "hero-planetary-painted/kiskillc/right/07"
+            ],
+            "up": [
+              "hero-planetary-painted/kiskillc/right/00",
+              "hero-planetary-painted/kiskillc/right/01",
+              "hero-planetary-painted/kiskillc/right/02",
+              "hero-planetary-painted/kiskillc/right/03",
+              "hero-planetary-painted/kiskillc/right/04",
+              "hero-planetary-painted/kiskillc/right/05",
+              "hero-planetary-painted/kiskillc/right/06",
+              "hero-planetary-painted/kiskillc/right/07"
+            ],
+            "up-right": [
+              "hero-planetary-painted/kiskillc/right/00",
+              "hero-planetary-painted/kiskillc/right/01",
+              "hero-planetary-painted/kiskillc/right/02",
+              "hero-planetary-painted/kiskillc/right/03",
+              "hero-planetary-painted/kiskillc/right/04",
+              "hero-planetary-painted/kiskillc/right/05",
+              "hero-planetary-painted/kiskillc/right/06",
+              "hero-planetary-painted/kiskillc/right/07"
+            ],
+            "right": [
+              "hero-planetary-painted/kiskillc/right/00",
+              "hero-planetary-painted/kiskillc/right/01",
+              "hero-planetary-painted/kiskillc/right/02",
+              "hero-planetary-painted/kiskillc/right/03",
+              "hero-planetary-painted/kiskillc/right/04",
+              "hero-planetary-painted/kiskillc/right/05",
+              "hero-planetary-painted/kiskillc/right/06",
+              "hero-planetary-painted/kiskillc/right/07"
+            ],
+            "down-right": [
+              "hero-planetary-painted/kiskillc/right/00",
+              "hero-planetary-painted/kiskillc/right/01",
+              "hero-planetary-painted/kiskillc/right/02",
+              "hero-planetary-painted/kiskillc/right/03",
+              "hero-planetary-painted/kiskillc/right/04",
+              "hero-planetary-painted/kiskillc/right/05",
+              "hero-planetary-painted/kiskillc/right/06",
+              "hero-planetary-painted/kiskillc/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kiinteract": {
+          "asset": "hero-planetary-painted-walk-v3-kimove-1",
+          "fps": 10,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-planetary-painted/kiinteract/right/00",
+              "hero-planetary-painted/kiinteract/right/01",
+              "hero-planetary-painted/kiinteract/right/02",
+              "hero-planetary-painted/kiinteract/right/03",
+              "hero-planetary-painted/kiinteract/right/04",
+              "hero-planetary-painted/kiinteract/right/05"
+            ],
+            "down-left": [
+              "hero-planetary-painted/kiinteract/right/00",
+              "hero-planetary-painted/kiinteract/right/01",
+              "hero-planetary-painted/kiinteract/right/02",
+              "hero-planetary-painted/kiinteract/right/03",
+              "hero-planetary-painted/kiinteract/right/04",
+              "hero-planetary-painted/kiinteract/right/05"
+            ],
+            "left": [
+              "hero-planetary-painted/kiinteract/right/00",
+              "hero-planetary-painted/kiinteract/right/01",
+              "hero-planetary-painted/kiinteract/right/02",
+              "hero-planetary-painted/kiinteract/right/03",
+              "hero-planetary-painted/kiinteract/right/04",
+              "hero-planetary-painted/kiinteract/right/05"
+            ],
+            "up-left": [
+              "hero-planetary-painted/kiinteract/right/00",
+              "hero-planetary-painted/kiinteract/right/01",
+              "hero-planetary-painted/kiinteract/right/02",
+              "hero-planetary-painted/kiinteract/right/03",
+              "hero-planetary-painted/kiinteract/right/04",
+              "hero-planetary-painted/kiinteract/right/05"
+            ],
+            "up": [
+              "hero-planetary-painted/kiinteract/right/00",
+              "hero-planetary-painted/kiinteract/right/01",
+              "hero-planetary-painted/kiinteract/right/02",
+              "hero-planetary-painted/kiinteract/right/03",
+              "hero-planetary-painted/kiinteract/right/04",
+              "hero-planetary-painted/kiinteract/right/05"
+            ],
+            "up-right": [
+              "hero-planetary-painted/kiinteract/right/00",
+              "hero-planetary-painted/kiinteract/right/01",
+              "hero-planetary-painted/kiinteract/right/02",
+              "hero-planetary-painted/kiinteract/right/03",
+              "hero-planetary-painted/kiinteract/right/04",
+              "hero-planetary-painted/kiinteract/right/05"
+            ],
+            "right": [
+              "hero-planetary-painted/kiinteract/right/00",
+              "hero-planetary-painted/kiinteract/right/01",
+              "hero-planetary-painted/kiinteract/right/02",
+              "hero-planetary-painted/kiinteract/right/03",
+              "hero-planetary-painted/kiinteract/right/04",
+              "hero-planetary-painted/kiinteract/right/05"
+            ],
+            "down-right": [
+              "hero-planetary-painted/kiinteract/right/00",
+              "hero-planetary-painted/kiinteract/right/01",
+              "hero-planetary-painted/kiinteract/right/02",
+              "hero-planetary-painted/kiinteract/right/03",
+              "hero-planetary-painted/kiinteract/right/04",
+              "hero-planetary-painted/kiinteract/right/05"
             ]
           },
           "mirrored": [

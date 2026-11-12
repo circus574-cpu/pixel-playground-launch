@@ -1,108 +1,117 @@
 {
   "schemaVersion": 1,
   "id": "hero-android-walk-v3",
-  "version": "3.0.2",
+  "version": "3.1.1",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "hero-android-walk-v3-page-0",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-page-0.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-page-0.json",
       "width": 1436,
       "height": 1148
     },
     {
       "id": "hero-android-walk-v3-idle-0",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-idle-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-idle-0.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-idle-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-idle-0.json",
       "width": 1654,
       "height": 1164
     },
     {
       "id": "hero-android-walk-v3-fight-0",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-0.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-0.json",
       "width": 1685,
       "height": 672
     },
     {
       "id": "hero-android-walk-v3-fight-1",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-1.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-1.json",
       "width": 168,
       "height": 1520
     },
     {
       "id": "hero-android-walk-v3-kiwalk-0",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kiwalk-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kiwalk-0.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kiwalk-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kiwalk-0.json",
       "width": 1551,
       "height": 1376
     },
     {
       "id": "hero-android-walk-v3-kifight-0",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kifight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kifight-0.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kifight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kifight-0.json",
       "width": 1380,
       "height": 712
     },
     {
       "id": "hero-android-walk-v3-fight-2",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-2.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-2.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-2.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-2.json",
       "width": 1584,
       "height": 956
     },
     {
       "id": "hero-android-walk-v3-fight-3",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-3.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-3.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-3.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-3.json",
       "width": 541,
       "height": 1184
     },
     {
       "id": "hero-android-walk-v3-fight-4",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-4.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-4.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-4.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-4.json",
       "width": 1156,
       "height": 896
     },
     {
       "id": "hero-android-walk-v3-kifight-1",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kifight-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kifight-1.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kifight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kifight-1.json",
       "width": 1716,
       "height": 940
     },
     {
       "id": "hero-android-walk-v3-kifight-2",
-      "version": "3.0.2",
+      "version": "3.1.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kifight-2.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kifight-2.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kifight-2.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kifight-2.json",
       "width": 1622,
       "height": 988
+    },
+    {
+      "id": "hero-android-walk-v3-kimove-1",
+      "version": "3.1.1",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kimove-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kimove-1.json",
+      "width": 1572,
+      "height": 900
     }
   ],
   "actors": [
@@ -2852,6 +2861,358 @@
               "hero-android/kivictory/right/05",
               "hero-android/kivictory/right/06",
               "hero-android/kivictory/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kirun": {
+          "asset": "hero-android-walk-v3-kimove-1",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-android/kirun/right/00",
+              "hero-android/kirun/right/01",
+              "hero-android/kirun/right/02",
+              "hero-android/kirun/right/03",
+              "hero-android/kirun/right/04",
+              "hero-android/kirun/right/05",
+              "hero-android/kirun/right/06",
+              "hero-android/kirun/right/07"
+            ],
+            "down-left": [
+              "hero-android/kirun/right/00",
+              "hero-android/kirun/right/01",
+              "hero-android/kirun/right/02",
+              "hero-android/kirun/right/03",
+              "hero-android/kirun/right/04",
+              "hero-android/kirun/right/05",
+              "hero-android/kirun/right/06",
+              "hero-android/kirun/right/07"
+            ],
+            "left": [
+              "hero-android/kirun/right/00",
+              "hero-android/kirun/right/01",
+              "hero-android/kirun/right/02",
+              "hero-android/kirun/right/03",
+              "hero-android/kirun/right/04",
+              "hero-android/kirun/right/05",
+              "hero-android/kirun/right/06",
+              "hero-android/kirun/right/07"
+            ],
+            "up-left": [
+              "hero-android/kirun/right/00",
+              "hero-android/kirun/right/01",
+              "hero-android/kirun/right/02",
+              "hero-android/kirun/right/03",
+              "hero-android/kirun/right/04",
+              "hero-android/kirun/right/05",
+              "hero-android/kirun/right/06",
+              "hero-android/kirun/right/07"
+            ],
+            "up": [
+              "hero-android/kirun/right/00",
+              "hero-android/kirun/right/01",
+              "hero-android/kirun/right/02",
+              "hero-android/kirun/right/03",
+              "hero-android/kirun/right/04",
+              "hero-android/kirun/right/05",
+              "hero-android/kirun/right/06",
+              "hero-android/kirun/right/07"
+            ],
+            "up-right": [
+              "hero-android/kirun/right/00",
+              "hero-android/kirun/right/01",
+              "hero-android/kirun/right/02",
+              "hero-android/kirun/right/03",
+              "hero-android/kirun/right/04",
+              "hero-android/kirun/right/05",
+              "hero-android/kirun/right/06",
+              "hero-android/kirun/right/07"
+            ],
+            "right": [
+              "hero-android/kirun/right/00",
+              "hero-android/kirun/right/01",
+              "hero-android/kirun/right/02",
+              "hero-android/kirun/right/03",
+              "hero-android/kirun/right/04",
+              "hero-android/kirun/right/05",
+              "hero-android/kirun/right/06",
+              "hero-android/kirun/right/07"
+            ],
+            "down-right": [
+              "hero-android/kirun/right/00",
+              "hero-android/kirun/right/01",
+              "hero-android/kirun/right/02",
+              "hero-android/kirun/right/03",
+              "hero-android/kirun/right/04",
+              "hero-android/kirun/right/05",
+              "hero-android/kirun/right/06",
+              "hero-android/kirun/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kichannel": {
+          "asset": "hero-android-walk-v3-kimove-1",
+          "fps": 10,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-android/kichannel/right/00",
+              "hero-android/kichannel/right/01",
+              "hero-android/kichannel/right/02",
+              "hero-android/kichannel/right/03",
+              "hero-android/kichannel/right/04",
+              "hero-android/kichannel/right/05",
+              "hero-android/kichannel/right/06",
+              "hero-android/kichannel/right/07"
+            ],
+            "down-left": [
+              "hero-android/kichannel/right/00",
+              "hero-android/kichannel/right/01",
+              "hero-android/kichannel/right/02",
+              "hero-android/kichannel/right/03",
+              "hero-android/kichannel/right/04",
+              "hero-android/kichannel/right/05",
+              "hero-android/kichannel/right/06",
+              "hero-android/kichannel/right/07"
+            ],
+            "left": [
+              "hero-android/kichannel/right/00",
+              "hero-android/kichannel/right/01",
+              "hero-android/kichannel/right/02",
+              "hero-android/kichannel/right/03",
+              "hero-android/kichannel/right/04",
+              "hero-android/kichannel/right/05",
+              "hero-android/kichannel/right/06",
+              "hero-android/kichannel/right/07"
+            ],
+            "up-left": [
+              "hero-android/kichannel/right/00",
+              "hero-android/kichannel/right/01",
+              "hero-android/kichannel/right/02",
+              "hero-android/kichannel/right/03",
+              "hero-android/kichannel/right/04",
+              "hero-android/kichannel/right/05",
+              "hero-android/kichannel/right/06",
+              "hero-android/kichannel/right/07"
+            ],
+            "up": [
+              "hero-android/kichannel/right/00",
+              "hero-android/kichannel/right/01",
+              "hero-android/kichannel/right/02",
+              "hero-android/kichannel/right/03",
+              "hero-android/kichannel/right/04",
+              "hero-android/kichannel/right/05",
+              "hero-android/kichannel/right/06",
+              "hero-android/kichannel/right/07"
+            ],
+            "up-right": [
+              "hero-android/kichannel/right/00",
+              "hero-android/kichannel/right/01",
+              "hero-android/kichannel/right/02",
+              "hero-android/kichannel/right/03",
+              "hero-android/kichannel/right/04",
+              "hero-android/kichannel/right/05",
+              "hero-android/kichannel/right/06",
+              "hero-android/kichannel/right/07"
+            ],
+            "right": [
+              "hero-android/kichannel/right/00",
+              "hero-android/kichannel/right/01",
+              "hero-android/kichannel/right/02",
+              "hero-android/kichannel/right/03",
+              "hero-android/kichannel/right/04",
+              "hero-android/kichannel/right/05",
+              "hero-android/kichannel/right/06",
+              "hero-android/kichannel/right/07"
+            ],
+            "down-right": [
+              "hero-android/kichannel/right/00",
+              "hero-android/kichannel/right/01",
+              "hero-android/kichannel/right/02",
+              "hero-android/kichannel/right/03",
+              "hero-android/kichannel/right/04",
+              "hero-android/kichannel/right/05",
+              "hero-android/kichannel/right/06",
+              "hero-android/kichannel/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kiskillc": {
+          "asset": "hero-android-walk-v3-kimove-1",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-android/kiskillc/right/00",
+              "hero-android/kiskillc/right/01",
+              "hero-android/kiskillc/right/02",
+              "hero-android/kiskillc/right/03",
+              "hero-android/kiskillc/right/04",
+              "hero-android/kiskillc/right/05",
+              "hero-android/kiskillc/right/06",
+              "hero-android/kiskillc/right/07"
+            ],
+            "down-left": [
+              "hero-android/kiskillc/right/00",
+              "hero-android/kiskillc/right/01",
+              "hero-android/kiskillc/right/02",
+              "hero-android/kiskillc/right/03",
+              "hero-android/kiskillc/right/04",
+              "hero-android/kiskillc/right/05",
+              "hero-android/kiskillc/right/06",
+              "hero-android/kiskillc/right/07"
+            ],
+            "left": [
+              "hero-android/kiskillc/right/00",
+              "hero-android/kiskillc/right/01",
+              "hero-android/kiskillc/right/02",
+              "hero-android/kiskillc/right/03",
+              "hero-android/kiskillc/right/04",
+              "hero-android/kiskillc/right/05",
+              "hero-android/kiskillc/right/06",
+              "hero-android/kiskillc/right/07"
+            ],
+            "up-left": [
+              "hero-android/kiskillc/right/00",
+              "hero-android/kiskillc/right/01",
+              "hero-android/kiskillc/right/02",
+              "hero-android/kiskillc/right/03",
+              "hero-android/kiskillc/right/04",
+              "hero-android/kiskillc/right/05",
+              "hero-android/kiskillc/right/06",
+              "hero-android/kiskillc/right/07"
+            ],
+            "up": [
+              "hero-android/kiskillc/right/00",
+              "hero-android/kiskillc/right/01",
+              "hero-android/kiskillc/right/02",
+              "hero-android/kiskillc/right/03",
+              "hero-android/kiskillc/right/04",
+              "hero-android/kiskillc/right/05",
+              "hero-android/kiskillc/right/06",
+              "hero-android/kiskillc/right/07"
+            ],
+            "up-right": [
+              "hero-android/kiskillc/right/00",
+              "hero-android/kiskillc/right/01",
+              "hero-android/kiskillc/right/02",
+              "hero-android/kiskillc/right/03",
+              "hero-android/kiskillc/right/04",
+              "hero-android/kiskillc/right/05",
+              "hero-android/kiskillc/right/06",
+              "hero-android/kiskillc/right/07"
+            ],
+            "right": [
+              "hero-android/kiskillc/right/00",
+              "hero-android/kiskillc/right/01",
+              "hero-android/kiskillc/right/02",
+              "hero-android/kiskillc/right/03",
+              "hero-android/kiskillc/right/04",
+              "hero-android/kiskillc/right/05",
+              "hero-android/kiskillc/right/06",
+              "hero-android/kiskillc/right/07"
+            ],
+            "down-right": [
+              "hero-android/kiskillc/right/00",
+              "hero-android/kiskillc/right/01",
+              "hero-android/kiskillc/right/02",
+              "hero-android/kiskillc/right/03",
+              "hero-android/kiskillc/right/04",
+              "hero-android/kiskillc/right/05",
+              "hero-android/kiskillc/right/06",
+              "hero-android/kiskillc/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kiinteract": {
+          "asset": "hero-android-walk-v3-kimove-1",
+          "fps": 10,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-android/kiinteract/right/00",
+              "hero-android/kiinteract/right/01",
+              "hero-android/kiinteract/right/02",
+              "hero-android/kiinteract/right/03",
+              "hero-android/kiinteract/right/04",
+              "hero-android/kiinteract/right/05"
+            ],
+            "down-left": [
+              "hero-android/kiinteract/right/00",
+              "hero-android/kiinteract/right/01",
+              "hero-android/kiinteract/right/02",
+              "hero-android/kiinteract/right/03",
+              "hero-android/kiinteract/right/04",
+              "hero-android/kiinteract/right/05"
+            ],
+            "left": [
+              "hero-android/kiinteract/right/00",
+              "hero-android/kiinteract/right/01",
+              "hero-android/kiinteract/right/02",
+              "hero-android/kiinteract/right/03",
+              "hero-android/kiinteract/right/04",
+              "hero-android/kiinteract/right/05"
+            ],
+            "up-left": [
+              "hero-android/kiinteract/right/00",
+              "hero-android/kiinteract/right/01",
+              "hero-android/kiinteract/right/02",
+              "hero-android/kiinteract/right/03",
+              "hero-android/kiinteract/right/04",
+              "hero-android/kiinteract/right/05"
+            ],
+            "up": [
+              "hero-android/kiinteract/right/00",
+              "hero-android/kiinteract/right/01",
+              "hero-android/kiinteract/right/02",
+              "hero-android/kiinteract/right/03",
+              "hero-android/kiinteract/right/04",
+              "hero-android/kiinteract/right/05"
+            ],
+            "up-right": [
+              "hero-android/kiinteract/right/00",
+              "hero-android/kiinteract/right/01",
+              "hero-android/kiinteract/right/02",
+              "hero-android/kiinteract/right/03",
+              "hero-android/kiinteract/right/04",
+              "hero-android/kiinteract/right/05"
+            ],
+            "right": [
+              "hero-android/kiinteract/right/00",
+              "hero-android/kiinteract/right/01",
+              "hero-android/kiinteract/right/02",
+              "hero-android/kiinteract/right/03",
+              "hero-android/kiinteract/right/04",
+              "hero-android/kiinteract/right/05"
+            ],
+            "down-right": [
+              "hero-android/kiinteract/right/00",
+              "hero-android/kiinteract/right/01",
+              "hero-android/kiinteract/right/02",
+              "hero-android/kiinteract/right/03",
+              "hero-android/kiinteract/right/04",
+              "hero-android/kiinteract/right/05"
             ]
           },
           "mirrored": [

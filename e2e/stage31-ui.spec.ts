@@ -67,7 +67,7 @@ test("real Phaser progress is held by an actual resource request, then opens the
   let release!: () => void;
   const gate = new Promise<void>((resolve) => (release = resolve));
   let requested = false;
-  await page.route("**/hero-walk-v2.webp", async (route) => {
+  await page.route("**/hero-walk-v2-640.webp", async (route) => {
     requested = true;
     await gate;
     await route.continue();
@@ -110,7 +110,7 @@ test("failed real resource shows retry and reuses the same saved character", asy
   let failing = true;
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
-  await page.route("**/hero-walk-v2.webp", async (route) => {
+  await page.route("**/hero-walk-v2-640.webp", async (route) => {
     requests++;
     if (failing) await route.abort("failed");
     else await route.continue();
