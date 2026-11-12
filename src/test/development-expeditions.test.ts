@@ -93,14 +93,26 @@ describe("bounded level-22–40 expeditions in the existing combat engine", () =
       const observed = new Map<string, { xp: number; body: (typeof s.enemies)[number] }>();
       let attacks = 0;
       for (let n = 0; n < 12000 && s.expeditions.snapshot().active?.phase === "running"; n++) {
-        const enemy = s.enemies.find(
-          (e) => e.developmentVariant && e.hp > 0 && e.mode !== "dead" && !e.m.hidden,
-        );
+        const enemy = s.enemies
+          .filter((e) => e.developmentVariant && e.hp > 0 && e.mode !== "dead" && !e.m.hidden)
+          .sort((a, b) => a.hp - b.hp)[0];
         for (const e of s.enemies)
           if (e.developmentVariant) observed.set(e.id, { xp: e.m.def.xp, body: e });
         if (enemy) {
           if (!s.kit.channel) {
-            if (distance(s.player, enemy) > Math.min(80, s.kit.basicRange * 0.75))
+            const ranged = s.player.race === "sage" || s.player.race === "android";
+            const desired = ranged ? s.kit.basicRange * 0.8 : Math.min(80, s.kit.basicRange * 0.75);
+            if (ranged && distance(s.player, enemy) < s.kit.basicRange * 0.5) {
+              const dx = s.player.x - enemy.x,
+                dy = s.player.y - enemy.y,
+                len = Math.hypot(dx, dy) || 1;
+              const at = s.nav.safe({
+                x: enemy.x + (dx / len) * desired,
+                y: enemy.y + (dy / len) * desired,
+              });
+              s.command({ type: "move", ...at });
+            }
+            if (distance(s.player, enemy) > desired)
               s.command({ type: "move", x: enemy.x, y: enemy.y });
             else {
               if (s.targetId !== enemy.id) s.command({ type: "target", id: enemy.id });

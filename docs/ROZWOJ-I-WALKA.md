@@ -306,13 +306,20 @@ katalog ekwipunku są [projektem fabularnym](FABULA-I-EKWIPUNEK.md), nie obecną
   `LEVEL_MAX = 10 000` to bezpiecznik danych, nie reguła rozgrywki.
   29 węzłów na rasę, pary A7/A8, B7/B8, C7/C8 wykluczają się.
   Tryb KI: poziom 20 i dowolna zdolność ostateczna A9/B9/C9.
-- Rangi węzłów: punkt można wkładać w ten sam węzeł wielokrotnie (id powtórzone w `skills` = ranga, każda
-  ranga kosztuje punkt; korzeń zawsze ma jedną). Liczbowy efekt węzła rośnie wprost proporcjonalnie do rangi
-  (ranga 2 = ×2). Obrażenia, leczenie i tarcze zdolności aktywnych rosną z rangą zdolności. Koszty Ki,
-  czasy odnowienia zdolności i mechaniki przełączające (limit ładunku Androidów, wyłączenie przegrzewania,
-  „gwarantowany krytyk”, blokady ruchu bohatera) nie skalują się; ograniczenia bezpieczeństwa: szansa
-  odbicia, spowolnienie i osłabienie do 90%, ogłuszenie z węzła do 3 s, odnowienie nie niżej niż 10%.
-  Wzrost szybkości ruchu z poziomu nadal kończy się na 20.
+- Rangi węzłów: ID powtórzone w `skills` oznacza kolejny wydany punkt; korzeń ma jedną rangę.
+  **Decyzja właściciela 12.11.2026 na gałęzi bilansu:** pierwsza premia węzła wynosi połowę
+  poprzedniej, każdy następny punkt dodaje 10% tej nowej bazy. Dla starego bonusu `B`:
+  `B(r) = B × 0,5 × (1 + 0,1 × (r−1))`, a nie procent składany. Przykład: 10% → 5%, 5,5%, 6%.
+  Wartości historycznego aneksu i `nodes.generated.ts` pozostają źródłem sprzed tej decyzji;
+  aktualne skalowanie obsługuje wspólny `rankScaling.ts`, opisy obu drzewek `nodePresentation.ts`.
+  Zwykły atak pozostaje odniesieniem ×1: dla sumy obrażeń zdolności `D≥1` bonus jest liczony
+  jako `1 + (D−1) × 0,5 × (1 + 0,1 × (r−1))`; serie dzielą tę sumę na istniejącą liczbę trafień.
+  Leczenie, tarcze, DOT i dodatkowe trafienia są bonusami liczonymi od zera. Zachowano punkty,
+  poprzedników, wykluczenia, warunek KI, bazowe koszty/odnowienia i bazowe statystyki ras.
+  Stała geometria, podstawowe efekty zdolności i dwustanowe wybory (np. limit ładunku,
+  wyłączenie przegrzania, gwarantowany krytyk) nie stają się premiami procentowymi.
+  Odbicie/spowolnienie/osłabienie nadal mają limit 90%, ogłuszenie bonusowe 3 s, cooldown minimum 10%.
+  [Decyzja i pomiary](zmiany/2026-11-12/ZMIANY.md#2-nowe-skalowanie-premii-drzewka--decyzja-i-pomiar).
 - Pierwszy reset do poziomu 10 darmowy; kolejne 50 × poziom monet.
 - Krytyk ×1,5; mikstura 40% maks. HP, cooldown 6 s; regeneracja poza walką 0,3% maks. HP/s.
 - Dzień modelu potworów 8 minut (ostatnie 3 to noc); nie jest to pełny zegar świata.

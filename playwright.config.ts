@@ -62,6 +62,7 @@ export default defineConfig({
         "**/heritage-delivery.spec.ts",
         "**/development-combat-smoke.spec.ts",
         "**/development-world.spec.ts",
+        "**/skill-rank-balance.spec.ts",
         "**/city-webgl.spec.ts",
         "**/combat-bosses.spec.ts",
         "**/combat-skills.spec.ts",

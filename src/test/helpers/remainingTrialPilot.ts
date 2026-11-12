@@ -53,6 +53,8 @@ export class RemainingTrialPilot {
       r = a.snapshot();
     if (r.combat) {
       const c = r.combat;
+      // Recovery must remain usable while reacting to a real telegraph.
+      if (s.player.hp < s.kit.stats.maxHp * 0.5 && s.player.items.potion > 0) this.cast("potion");
       if (c.phase === "decision") {
         if (distance(s.player, c.point) > 65) this.move(c.point, "decision");
         else {
@@ -69,9 +71,10 @@ export class RemainingTrialPilot {
         const enemy = s.enemies.find((e) => e.encounterOwner && e.hp > 0 && e.mode !== "dead");
         if (enemy) {
           // Read a real telegraph and walk out of its committed area/charge line.
-          if (enemy.m.cast && this.evadeUntil <= s.nowMs) {
-            const dx = s.player.x - enemy.x,
-              dy = s.player.y - enemy.y;
+          const threat = s.enemies.find((e) => e.encounterOwner && e.hp > 0 && e.m.cast) ?? enemy;
+          if (threat.m.cast && this.evadeUntil <= s.nowMs) {
+            const dx = s.player.x - threat.x,
+              dy = s.player.y - threat.y;
             const len = Math.hypot(dx, dy) || 1;
             const points = [1, -1].map((sign) =>
               s.nav.safe({
@@ -85,17 +88,21 @@ export class RemainingTrialPilot {
             if (point) {
               this.port.input({ type: "cancel" });
               this.move(point, `evade:${s.nowMs}`);
-              this.evadeUntil = s.nowMs + enemy.m.cast.ms + 350;
+              this.evadeUntil = s.nowMs + threat.m.cast.ms + 350;
               this.selected = "";
             }
           }
           if (s.nowMs < this.evadeUntil || enemy.m.charge) return;
+          // Use the ordinary, cooldown-limited dash to meet an imminent basic strike.
+          if (enemy.attackIn <= 100 && distance(s.player, enemy) <= enemy.m.def.range + 15)
+            this.port.input({ type: "dodge" });
           this.moveKey = "";
           if (this.selected !== enemy.id || s.targetId !== enemy.id) {
             this.selected = enemy.id;
             this.port.input({ type: "target", id: enemy.id });
           }
           if (distance(s.player, enemy) <= s.kit.basicRange + 10) {
+            this.cast("R");
             this.cast("B4");
             this.cast("B1");
             this.cast("C1");

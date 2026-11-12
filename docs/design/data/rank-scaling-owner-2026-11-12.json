@@ -1,0 +1,14 @@
+{
+  "source": "Owner instructions in the current conversation, 2026-11-12",
+  "owner_quote": "Dobra zmniejsza bonusy wszystkich ras przy pierwszym punkcie o połowę. Kazdy kolejny punkt ma dawać 10% tego co baza. Np. baza daje +5% atk kolejny punkt daje 0.5% i tak wszędzie",
+  "goal_quote": "żeby ekwipunek też dawał coś w tej grze. ekwipunek już robi ktoś inny. działaj",
+  "timing_goal": "Owner requested results first, without a target fight duration",
+  "first_bonus_fraction_of_previous": 0.5,
+  "extra_point_fraction_of_new_first_bonus": 0.1,
+  "formula": "oldBonus * 0.5 * (1 + 0.1 * (rank - 1))",
+  "interpretation": {
+    "direct_damage": "one ordinary attack as reference; scale extra damage above 1.0; total of a multi-hit ability before division",
+    "owner_explicitly_selected_direct_damage_option": false,
+    "unchanged": "racial base statistics, point counts, prerequisites, choices, fixed geometry, binary mechanics, base KI costs and cooldowns, item catalog"
+  }
+}

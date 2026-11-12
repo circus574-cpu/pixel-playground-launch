@@ -27,7 +27,7 @@ export class AndroidKit extends Kit {
   protected override refresh() {
     this.defs["C1"] = {
       ...this.defs["C1"]!,
-      ki: Math.max(0, 15 - 3 * this.rank("C6")),
+      ki: Math.max(0, 15 - 3 * this.bonusRank("C6")),
     };
   }
   get maxCharge() {
@@ -35,27 +35,29 @@ export class AndroidKit extends Kit {
   }
   protected override mods(): Mods {
     const m: Mods = {};
-    // Every effect grows in direct proportion to the points put into its node (rank).
-    if (this.has("A2")) m.critAdd = (m.critAdd ?? 0) + 0.06 * this.rank("A2");
-    if (this.has("A3")) m.rangePct = 0.15 * this.rank("A3");
+    // Owner 12.11: half the first bonus, then +10% of that base per extra point.
+    if (this.has("A2")) m.critAdd = (m.critAdd ?? 0) + 0.06 * this.bonusRank("A2");
+    if (this.has("A3")) m.rangePct = 0.15 * this.bonusRank("A3");
     let interval = 0;
-    if (this.has("A6")) interval -= 0.08 * this.rank("A6");
-    if (this.has("A7")) interval += 0.1 * this.rank("A7");
+    if (this.has("A6")) interval -= 0.08 * this.bonusRank("A6");
+    if (this.has("A7")) interval += 0.1 * this.bonusRank("A7");
     if (interval) m.intervalPct = interval;
-    if (this.has("B2")) m.defPct = 0.08 * this.rank("B2");
-    if (this.has("B6")) m.hpRegenAlways = 0.005 * this.rank("B6");
-    if (this.has("C5")) m.kiPct = 0.12 * this.rank("C5");
+    if (this.has("B2")) m.defPct = 0.08 * this.bonusRank("B2");
+    if (this.has("B6")) m.hpRegenAlways = 0.005 * this.bonusRank("B6");
+    if (this.has("C5")) m.kiPct = 0.12 * this.bonusRank("C5");
     return m;
   }
   protected override cooldownOf(id: string) {
     const base = this.defs[id]?.cd ?? 0;
-    return id === "B1" && this.has("B8") ? base * Math.max(0.1, 1 - 0.35 * this.rank("B8")) : base;
+    return id === "B1" && this.has("B8")
+      ? base * Math.max(0.1, 1 - 0.35 * this.bonusRank("B8"))
+      : base;
   }
   protected override critVs(foe: Foe) {
-    return this.has("A1") && this.port.isMarked(foe) ? 15 * this.rank("A1") : 0;
+    return this.has("A1") && this.port.isMarked(foe) ? 15 * this.bonusRank("A1") : 0;
   }
   protected override dealtVs(foe: Foe) {
-    return this.has("A7") && this.port.isMarked(foe) ? 0.4 * this.rank("A7") : 0;
+    return this.has("A7") && this.port.isMarked(foe) ? 0.4 * this.bonusRank("A7") : 0;
   }
   private get overheatEnabled() {
     return !this.has("C8") && !this.buff("T");
@@ -74,11 +76,11 @@ export class AndroidKit extends Kit {
   private addCharge(n: number) {
     this.charge = Math.min(
       this.maxCharge,
-      this.charge + n * Math.max(0.1, 1 - 0.15 * this.rank("C3")),
+      this.charge + n * Math.max(0.1, 1 - 0.15 * this.bonusRank("C3")),
     );
     this.lastShot = this.port.nowMs;
     if (this.charge >= this.maxCharge && this.overheatEnabled) {
-      this.overheatMs = Math.max(0, 2000 - 1000 * this.rank("C2"));
+      this.overheatMs = Math.max(0, 2000 - 1000 * this.bonusRank("C2"));
       this.port.say("Przegrzanie rdzenia!");
     }
   }
@@ -88,7 +90,7 @@ export class AndroidKit extends Kit {
       if (this.overheatMs === 0) this.charge = Math.min(this.charge, this.maxCharge * 0.5);
     }
     if (this.port.nowMs - this.lastShot > 1000 && this.charge > 0) {
-      const rate = 6 * (1 + 0.5 * this.rank("C2")) * this.development.cooling;
+      const rate = 6 * (1 + 0.5 * this.bonusRank("C2")) * this.development.cooling;
       this.charge = Math.max(0, this.charge - (rate * dt) / 1000);
     }
     if (this.charge > this.maxCharge) this.charge = this.maxCharge;
@@ -110,7 +112,7 @@ export class AndroidKit extends Kit {
         .sort((a, b) => this.dist(a, foe) - this.dist(b, foe))
         .slice(0, 2);
       for (const o of others)
-        this.strike(o, 0.4 * this.rank("A8"), {
+        this.strike(o, 0.4 * this.bonusRank("A8"), {
           tags: ["electric"],
           ranged: true,
           ability: "R",
@@ -139,7 +141,7 @@ export class AndroidKit extends Kit {
           foe,
           6000 * (this.variant("mn-mark") ? 1.5 : 1),
           15,
-          this.has("A5") ? Math.min(0.9, 0.1 * this.rank("A5")) : 0,
+          this.has("A5") ? Math.min(0.9, 0.1 * this.bonusRank("A5")) : 0,
         );
         this.port.emit({
           type: "attack",
@@ -168,7 +170,7 @@ export class AndroidKit extends Kit {
               ability: "A4",
               to: { x: foe.x, y: foe.y },
             });
-            this.strike(foe, (2.2 / 3) * this.castRank("A4"), {
+            this.strike(foe, this.castDamage("A4", 2.2) / 3, {
               tags: ["electric"],
               ranged: true,
               ability: "A4",
@@ -187,7 +189,7 @@ export class AndroidKit extends Kit {
           ability: "A9",
           to: { x: foe.x, y: foe.y },
         });
-        this.strike(foe, mult * this.castRank("A9"), {
+        this.strike(foe, this.castDamage("A9", mult), {
           tags: ["electric"],
           ranged: true,
           ability: "A9",
@@ -199,7 +201,7 @@ export class AndroidKit extends Kit {
           s.maxHp *
           0.18 *
           this.castRank("B1") *
-          (1 + 0.25 * this.rank("B3")) *
+          (1 + 0.25 * this.bonusRank("B3")) *
           this.development.shieldCapacity *
           (this.variant("mn-barrier") ? 1.15 : 1);
         this.addShield({
@@ -207,8 +209,10 @@ export class AndroidKit extends Kit {
           ms: 5000 * this.development.shieldDuration * (this.variant("mn-barrier") ? 0.8 : 1),
           amount,
           max: amount,
-          reflectProjectile: this.has("B5") ? Math.min(0.9, 0.25 * this.rank("B5")) : undefined,
-          reflectMelee: this.has("B7") ? Math.min(0.9, 0.3 * this.rank("B7")) : undefined,
+          reflectProjectile: this.has("B5")
+            ? Math.min(0.9, 0.25 * this.bonusRank("B5"))
+            : undefined,
+          reflectMelee: this.has("B7") ? Math.min(0.9, 0.3 * this.bonusRank("B7")) : undefined,
         });
         return { ok: true };
       }
@@ -216,7 +220,7 @@ export class AndroidKit extends Kit {
         const foes = this.port.foesIn(p, 160);
         this.port.emit({ type: "burst", x: p.x, y: p.y, ability: "B4", radius: 160 });
         for (const f of foes) {
-          this.strike(f, 1.2 * this.castRank("B4"), {
+          this.strike(f, this.castDamage("B4", 1.2), {
             tags: ["electric", "area", "stun"],
             ranged: true,
             ability: "B4",
@@ -233,7 +237,7 @@ export class AndroidKit extends Kit {
       }
       case "C1": {
         const used = Math.min(this.charge, this.maxCharge);
-        const mult = (1 + used / 50) * this.castRank("C1");
+        const mult = this.castDamage("C1", 1 + used / 50);
         const f = this.port.facing;
         const foes = this.port.foesIn(p, 360).filter((foe) => {
           const dx = foe.x - p.x;

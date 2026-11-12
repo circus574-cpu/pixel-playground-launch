@@ -1,0 +1,5575 @@
+{
+  "format": "ki-rank-measurement-report-1",
+  "profiles": 2304,
+  "fights": 21888,
+  "sources": [
+    {
+      "sourceSha": "2378c3948c34a8d3ac7a8ade770cd4f58e0a7756",
+      "engineSha": "2378c3948c34a8d3ac7a8ade770cd4f58e0a7756",
+      "dirty": false,
+      "toolSha256": "8401901c1d5af8cc9388e86e3bb62f863c4af6a6498253464b9e314d00a05b76",
+      "stage": "screen",
+      "shard": 0,
+      "shards": 3,
+      "trials": 8,
+      "sourceHashes": {
+        "src/game/kit/base.ts": "9b8e5b92868f417598dfbd0a6b2ea95ed96f02ba0d99efb417b953f9cbf94454",
+        "src/game/kit/planetary.ts": "d538cfda5621a6420eead814a8df4ff7257e9eedae7183471cab66da89ab19e0",
+        "src/game/kit/sage.ts": "6130abb8f6e6f91324565fb7d3fbfe6e31ae6b953f408fd7eeb0ae3b5db30b84",
+        "src/game/kit/android.ts": "c9ffc4c70d777b94b348da6d392549feeadbe5eacb80ccae7939de4060112e83",
+        "src/game/kit/legend.ts": "9f7f64e1c4099c5afff6da5961d119c60a995cb4b99a231597811868dd5d0bd6",
+        "src/game/session.ts": "9db325562781557cf7e88b3f69a87332d14f72fff6ab814fe25aee766ed86457",
+        "src/game/monsters/system.ts": "13c7c21f87569fabbbee1e271d46669eb114ebc8cc96fc5c8c42d0bba97e123b",
+        "src/game/items/catalog.ts": "663c97ca0eb18e871952e03e85a140cdd6521312648781f9a2b15122a9b02da8"
+      }
+    },
+    {
+      "sourceSha": "2378c3948c34a8d3ac7a8ade770cd4f58e0a7756",
+      "engineSha": "2378c3948c34a8d3ac7a8ade770cd4f58e0a7756",
+      "dirty": false,
+      "toolSha256": "8401901c1d5af8cc9388e86e3bb62f863c4af6a6498253464b9e314d00a05b76",
+      "stage": "screen",
+      "shard": 1,
+      "shards": 3,
+      "trials": 8,
+      "sourceHashes": {
+        "src/game/kit/base.ts": "9b8e5b92868f417598dfbd0a6b2ea95ed96f02ba0d99efb417b953f9cbf94454",
+        "src/game/kit/planetary.ts": "d538cfda5621a6420eead814a8df4ff7257e9eedae7183471cab66da89ab19e0",
+        "src/game/kit/sage.ts": "6130abb8f6e6f91324565fb7d3fbfe6e31ae6b953f408fd7eeb0ae3b5db30b84",
+        "src/game/kit/android.ts": "c9ffc4c70d777b94b348da6d392549feeadbe5eacb80ccae7939de4060112e83",
+        "src/game/kit/legend.ts": "9f7f64e1c4099c5afff6da5961d119c60a995cb4b99a231597811868dd5d0bd6",
+        "src/game/session.ts": "9db325562781557cf7e88b3f69a87332d14f72fff6ab814fe25aee766ed86457",
+        "src/game/monsters/system.ts": "13c7c21f87569fabbbee1e271d46669eb114ebc8cc96fc5c8c42d0bba97e123b",
+        "src/game/items/catalog.ts": "663c97ca0eb18e871952e03e85a140cdd6521312648781f9a2b15122a9b02da8"
+      }
+    },
+    {
+      "sourceSha": "2378c3948c34a8d3ac7a8ade770cd4f58e0a7756",
+      "engineSha": "2378c3948c34a8d3ac7a8ade770cd4f58e0a7756",
+      "dirty": false,
+      "toolSha256": "8401901c1d5af8cc9388e86e3bb62f863c4af6a6498253464b9e314d00a05b76",
+      "stage": "screen",
+      "shard": 2,
+      "shards": 3,
+      "trials": 8,
+      "sourceHashes": {
+        "src/game/kit/base.ts": "9b8e5b92868f417598dfbd0a6b2ea95ed96f02ba0d99efb417b953f9cbf94454",
+        "src/game/kit/planetary.ts": "d538cfda5621a6420eead814a8df4ff7257e9eedae7183471cab66da89ab19e0",
+        "src/game/kit/sage.ts": "6130abb8f6e6f91324565fb7d3fbfe6e31ae6b953f408fd7eeb0ae3b5db30b84",
+        "src/game/kit/android.ts": "c9ffc4c70d777b94b348da6d392549feeadbe5eacb80ccae7939de4060112e83",
+        "src/game/kit/legend.ts": "9f7f64e1c4099c5afff6da5961d119c60a995cb4b99a231597811868dd5d0bd6",
+        "src/game/session.ts": "9db325562781557cf7e88b3f69a87332d14f72fff6ab814fe25aee766ed86457",
+        "src/game/monsters/system.ts": "13c7c21f87569fabbbee1e271d46669eb114ebc8cc96fc5c8c42d0bba97e123b",
+        "src/game/items/catalog.ts": "663c97ca0eb18e871952e03e85a140cdd6521312648781f9a2b15122a9b02da8"
+      }
+    },
+    {
+      "sourceSha": "2378c3948c34a8d3ac7a8ade770cd4f58e0a7756",
+      "engineSha": "2378c3948c34a8d3ac7a8ade770cd4f58e0a7756",
+      "dirty": false,
+      "toolSha256": "8401901c1d5af8cc9388e86e3bb62f863c4af6a6498253464b9e314d00a05b76",
+      "stage": "stress",
+      "shard": 0,
+      "shards": 3,
+      "trials": 32,
+      "sourceHashes": {
+        "src/game/kit/base.ts": "9b8e5b92868f417598dfbd0a6b2ea95ed96f02ba0d99efb417b953f9cbf94454",
+        "src/game/kit/planetary.ts": "d538cfda5621a6420eead814a8df4ff7257e9eedae7183471cab66da89ab19e0",
+        "src/game/kit/sage.ts": "6130abb8f6e6f91324565fb7d3fbfe6e31ae6b953f408fd7eeb0ae3b5db30b84",
+        "src/game/kit/android.ts": "c9ffc4c70d777b94b348da6d392549feeadbe5eacb80ccae7939de4060112e83",
+        "src/game/kit/legend.ts": "9f7f64e1c4099c5afff6da5961d119c60a995cb4b99a231597811868dd5d0bd6",
+        "src/game/session.ts": "9db325562781557cf7e88b3f69a87332d14f72fff6ab814fe25aee766ed86457",
+        "src/game/monsters/system.ts": "13c7c21f87569fabbbee1e271d46669eb114ebc8cc96fc5c8c42d0bba97e123b",
+        "src/game/items/catalog.ts": "663c97ca0eb18e871952e03e85a140cdd6521312648781f9a2b15122a9b02da8"
+      }
+    },
+    {
+      "sourceSha": "2378c3948c34a8d3ac7a8ade770cd4f58e0a7756",
+      "engineSha": "2378c3948c34a8d3ac7a8ade770cd4f58e0a7756",
+      "dirty": false,
+      "toolSha256": "8401901c1d5af8cc9388e86e3bb62f863c4af6a6498253464b9e314d00a05b76",
+      "stage": "stress",
+      "shard": 1,
+      "shards": 3,
+      "trials": 32,
+      "sourceHashes": {
+        "src/game/kit/base.ts": "9b8e5b92868f417598dfbd0a6b2ea95ed96f02ba0d99efb417b953f9cbf94454",
+        "src/game/kit/planetary.ts": "d538cfda5621a6420eead814a8df4ff7257e9eedae7183471cab66da89ab19e0",
+        "src/game/kit/sage.ts": "6130abb8f6e6f91324565fb7d3fbfe6e31ae6b953f408fd7eeb0ae3b5db30b84",
+        "src/game/kit/android.ts": "c9ffc4c70d777b94b348da6d392549feeadbe5eacb80ccae7939de4060112e83",
+        "src/game/kit/legend.ts": "9f7f64e1c4099c5afff6da5961d119c60a995cb4b99a231597811868dd5d0bd6",
+        "src/game/session.ts": "9db325562781557cf7e88b3f69a87332d14f72fff6ab814fe25aee766ed86457",
+        "src/game/monsters/system.ts": "13c7c21f87569fabbbee1e271d46669eb114ebc8cc96fc5c8c42d0bba97e123b",
+        "src/game/items/catalog.ts": "663c97ca0eb18e871952e03e85a140cdd6521312648781f9a2b15122a9b02da8"
+      }
+    },
+    {
+      "sourceSha": "2378c3948c34a8d3ac7a8ade770cd4f58e0a7756",
+      "engineSha": "2378c3948c34a8d3ac7a8ade770cd4f58e0a7756",
+      "dirty": false,
+      "toolSha256": "8401901c1d5af8cc9388e86e3bb62f863c4af6a6498253464b9e314d00a05b76",
+      "stage": "stress",
+      "shard": 2,
+      "shards": 3,
+      "trials": 32,
+      "sourceHashes": {
+        "src/game/kit/base.ts": "9b8e5b92868f417598dfbd0a6b2ea95ed96f02ba0d99efb417b953f9cbf94454",
+        "src/game/kit/planetary.ts": "d538cfda5621a6420eead814a8df4ff7257e9eedae7183471cab66da89ab19e0",
+        "src/game/kit/sage.ts": "6130abb8f6e6f91324565fb7d3fbfe6e31ae6b953f408fd7eeb0ae3b5db30b84",
+        "src/game/kit/android.ts": "c9ffc4c70d777b94b348da6d392549feeadbe5eacb80ccae7939de4060112e83",
+        "src/game/kit/legend.ts": "9f7f64e1c4099c5afff6da5961d119c60a995cb4b99a231597811868dd5d0bd6",
+        "src/game/session.ts": "9db325562781557cf7e88b3f69a87332d14f72fff6ab814fe25aee766ed86457",
+        "src/game/monsters/system.ts": "13c7c21f87569fabbbee1e271d46669eb114ebc8cc96fc5c8c42d0bba97e123b",
+        "src/game/items/catalog.ts": "663c97ca0eb18e871952e03e85a140cdd6521312648781f9a2b15122a9b02da8"
+      }
+    }
+  ],
+  "paired": [
+    {
+      "key": "screen|planetary|10|A|bare|verdant-bursztynowa-osa",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.75
+    },
+    {
+      "key": "screen|planetary|10|A|bare|verdant-grzybowy-zarodnik",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.7000000000000002
+    },
+    {
+      "key": "screen|planetary|10|A|reference|verdant-bursztynowa-osa",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.125
+    },
+    {
+      "key": "screen|planetary|10|A|reference|verdant-grzybowy-zarodnik",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.7000000000000002
+    },
+    {
+      "key": "screen|planetary|10|A|catalog|verdant-bursztynowa-osa",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.15
+    },
+    {
+      "key": "screen|planetary|10|A|catalog|verdant-grzybowy-zarodnik",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.7000000000000002
+    },
+    {
+      "key": "screen|planetary|10|B|bare|verdant-bursztynowa-osa",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.8999999999999995
+    },
+    {
+      "key": "screen|planetary|10|B|bare|verdant-grzybowy-zarodnik",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.75
+    },
+    {
+      "key": "screen|planetary|10|B|reference|verdant-bursztynowa-osa",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.75
+    },
+    {
+      "key": "screen|planetary|10|B|reference|verdant-grzybowy-zarodnik",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.55
+    },
+    {
+      "key": "screen|planetary|10|B|catalog|verdant-bursztynowa-osa",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.75
+    },
+    {
+      "key": "screen|planetary|10|B|catalog|verdant-grzybowy-zarodnik",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.875
+    },
+    {
+      "key": "screen|planetary|10|C|bare|verdant-bursztynowa-osa",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|10|C|bare|verdant-grzybowy-zarodnik",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|10|C|reference|verdant-bursztynowa-osa",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|10|C|reference|verdant-grzybowy-zarodnik",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|10|C|catalog|verdant-bursztynowa-osa",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|10|C|catalog|verdant-grzybowy-zarodnik",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|20|A|bare|verdant-straznik-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.45
+    },
+    {
+      "key": "screen|planetary|20|A|bare|verdant-lesny-pajak@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.9
+    },
+    {
+      "key": "screen|planetary|20|A|reference|verdant-straznik-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.1
+    },
+    {
+      "key": "screen|planetary|20|A|reference|verdant-lesny-pajak@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.75
+    },
+    {
+      "key": "screen|planetary|20|A|catalog|verdant-straznik-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.175
+    },
+    {
+      "key": "screen|planetary|20|A|catalog|verdant-lesny-pajak@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.75
+    },
+    {
+      "key": "screen|planetary|20|B|bare|verdant-straznik-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.7749999999999995
+    },
+    {
+      "key": "screen|planetary|20|B|bare|verdant-lesny-pajak@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.25
+    },
+    {
+      "key": "screen|planetary|20|B|reference|verdant-straznik-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.225
+    },
+    {
+      "key": "screen|planetary|20|B|reference|verdant-lesny-pajak@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.25
+    },
+    {
+      "key": "screen|planetary|20|B|catalog|verdant-straznik-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.85
+    },
+    {
+      "key": "screen|planetary|20|B|catalog|verdant-lesny-pajak@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.25
+    },
+    {
+      "key": "screen|planetary|20|C|bare|verdant-straznik-ruin@22",
+      "trials": 8,
+      "winsLost": 7,
+      "winsGained": 0,
+      "bothWin": 1,
+      "medianTtkDifferenceAmongPairedWins": 0.8000000000000007
+    },
+    {
+      "key": "screen|planetary|20|C|bare|verdant-lesny-pajak@22",
+      "trials": 8,
+      "winsLost": 2,
+      "winsGained": 0,
+      "bothWin": 1,
+      "medianTtkDifferenceAmongPairedWins": -34.5
+    },
+    {
+      "key": "screen|planetary|20|C|reference|verdant-straznik-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.5
+    },
+    {
+      "key": "screen|planetary|20|C|reference|verdant-lesny-pajak@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|20|C|catalog|verdant-straznik-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.25
+    },
+    {
+      "key": "screen|planetary|20|C|catalog|verdant-lesny-pajak@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|28|A|bare|verdant-straznik-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 9.5
+    },
+    {
+      "key": "screen|planetary|28|A|bare|verdant-lesny-pajak@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.8000000000000003
+    },
+    {
+      "key": "screen|planetary|28|A|reference|verdant-straznik-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 8.55
+    },
+    {
+      "key": "screen|planetary|28|A|reference|verdant-lesny-pajak@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.65
+    },
+    {
+      "key": "screen|planetary|28|A|catalog|verdant-straznik-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 8.049999999999999
+    },
+    {
+      "key": "screen|planetary|28|A|catalog|verdant-lesny-pajak@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.675
+    },
+    {
+      "key": "screen|planetary|28|B|bare|verdant-straznik-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 9.549999999999999
+    },
+    {
+      "key": "screen|planetary|28|B|bare|verdant-lesny-pajak@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.25
+    },
+    {
+      "key": "screen|planetary|28|B|reference|verdant-straznik-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.950000000000001
+    },
+    {
+      "key": "screen|planetary|28|B|reference|verdant-lesny-pajak@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.35
+    },
+    {
+      "key": "screen|planetary|28|B|catalog|verdant-straznik-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.500000000000001
+    },
+    {
+      "key": "screen|planetary|28|B|catalog|verdant-lesny-pajak@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.1
+    },
+    {
+      "key": "screen|planetary|28|C|bare|verdant-straznik-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.9000000000000004
+    },
+    {
+      "key": "screen|planetary|28|C|bare|verdant-lesny-pajak@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|28|C|reference|verdant-straznik-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.25
+    },
+    {
+      "key": "screen|planetary|28|C|reference|verdant-lesny-pajak@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|28|C|catalog|verdant-straznik-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.25
+    },
+    {
+      "key": "screen|planetary|28|C|catalog|verdant-lesny-pajak@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|34|A|bare|verdant-straznik-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 9.8
+    },
+    {
+      "key": "screen|planetary|34|A|bare|verdant-lesny-pajak@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.8000000000000003
+    },
+    {
+      "key": "screen|planetary|34|A|reference|verdant-straznik-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 8.6
+    },
+    {
+      "key": "screen|planetary|34|A|reference|verdant-lesny-pajak@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.65
+    },
+    {
+      "key": "screen|planetary|34|A|catalog|verdant-straznik-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 8.1
+    },
+    {
+      "key": "screen|planetary|34|A|catalog|verdant-lesny-pajak@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.65
+    },
+    {
+      "key": "screen|planetary|34|B|bare|verdant-straznik-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 9.649999999999999
+    },
+    {
+      "key": "screen|planetary|34|B|bare|verdant-lesny-pajak@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.25
+    },
+    {
+      "key": "screen|planetary|34|B|reference|verdant-straznik-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 8.0
+    },
+    {
+      "key": "screen|planetary|34|B|reference|verdant-lesny-pajak@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.1
+    },
+    {
+      "key": "screen|planetary|34|B|catalog|verdant-straznik-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.5
+    },
+    {
+      "key": "screen|planetary|34|B|catalog|verdant-lesny-pajak@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.1
+    },
+    {
+      "key": "screen|planetary|34|C|bare|verdant-straznik-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.7999999999999989
+    },
+    {
+      "key": "screen|planetary|34|C|bare|verdant-lesny-pajak@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|34|C|reference|verdant-straznik-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.8749999999999991
+    },
+    {
+      "key": "screen|planetary|34|C|reference|verdant-lesny-pajak@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|34|C|catalog|verdant-straznik-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.7999999999999989
+    },
+    {
+      "key": "screen|planetary|34|C|catalog|verdant-lesny-pajak@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|40|A|bare|verdant-straznik-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 10.05
+    },
+    {
+      "key": "screen|planetary|40|A|bare|verdant-lesny-pajak@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.55
+    },
+    {
+      "key": "screen|planetary|40|A|reference|verdant-straznik-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 8.6
+    },
+    {
+      "key": "screen|planetary|40|A|reference|verdant-lesny-pajak@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.65
+    },
+    {
+      "key": "screen|planetary|40|A|catalog|verdant-straznik-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 8.6
+    },
+    {
+      "key": "screen|planetary|40|A|catalog|verdant-lesny-pajak@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.65
+    },
+    {
+      "key": "screen|planetary|40|B|bare|verdant-straznik-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 9.649999999999999
+    },
+    {
+      "key": "screen|planetary|40|B|bare|verdant-lesny-pajak@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.5999999999999999
+    },
+    {
+      "key": "screen|planetary|40|B|reference|verdant-straznik-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 8.0
+    },
+    {
+      "key": "screen|planetary|40|B|reference|verdant-lesny-pajak@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.0999999999999999
+    },
+    {
+      "key": "screen|planetary|40|B|catalog|verdant-straznik-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.5
+    },
+    {
+      "key": "screen|planetary|40|B|catalog|verdant-lesny-pajak@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.0999999999999999
+    },
+    {
+      "key": "screen|planetary|40|C|bare|verdant-straznik-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.8749999999999991
+    },
+    {
+      "key": "screen|planetary|40|C|bare|verdant-lesny-pajak@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|40|C|reference|verdant-straznik-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.7999999999999989
+    },
+    {
+      "key": "screen|planetary|40|C|reference|verdant-lesny-pajak@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|planetary|40|C|catalog|verdant-straznik-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.7999999999999998
+    },
+    {
+      "key": "screen|planetary|40|C|catalog|verdant-lesny-pajak@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|10|A|bare|aether-zloty-skarabeusz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.624999999999999
+    },
+    {
+      "key": "screen|sage|10|A|bare|aether-duch-bibliotekarza",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|10|A|reference|aether-zloty-skarabeusz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.050000000000001
+    },
+    {
+      "key": "screen|sage|10|A|reference|aether-duch-bibliotekarza",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.5
+    },
+    {
+      "key": "screen|sage|10|A|catalog|aether-zloty-skarabeusz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.125000000000001
+    },
+    {
+      "key": "screen|sage|10|A|catalog|aether-duch-bibliotekarza",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.5
+    },
+    {
+      "key": "screen|sage|10|B|bare|aether-zloty-skarabeusz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|10|B|bare|aether-duch-bibliotekarza",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|10|B|reference|aether-zloty-skarabeusz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|10|B|reference|aether-duch-bibliotekarza",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|10|B|catalog|aether-zloty-skarabeusz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|10|B|catalog|aether-duch-bibliotekarza",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|10|C|bare|aether-zloty-skarabeusz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|10|C|bare|aether-duch-bibliotekarza",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|10|C|reference|aether-zloty-skarabeusz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|10|C|reference|aether-duch-bibliotekarza",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|10|C|catalog|aether-zloty-skarabeusz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|10|C|catalog|aether-duch-bibliotekarza",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|20|A|bare|aether-lew-swiatyni@22",
+      "trials": 8,
+      "winsLost": 5,
+      "winsGained": 0,
+      "bothWin": 3,
+      "medianTtkDifferenceAmongPairedWins": 8.4
+    },
+    {
+      "key": "screen|sage|20|A|bare|aether-marionetka-rytualu@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.0
+    },
+    {
+      "key": "screen|sage|20|A|reference|aether-lew-swiatyni@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.6499999999999995
+    },
+    {
+      "key": "screen|sage|20|A|reference|aether-marionetka-rytualu@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.475
+    },
+    {
+      "key": "screen|sage|20|A|catalog|aether-lew-swiatyni@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.2
+    },
+    {
+      "key": "screen|sage|20|A|catalog|aether-marionetka-rytualu@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.45
+    },
+    {
+      "key": "screen|sage|20|B|bare|aether-lew-swiatyni@22",
+      "trials": 8,
+      "winsLost": 8,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|sage|20|B|bare|aether-marionetka-rytualu@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.024999999999999467
+    },
+    {
+      "key": "screen|sage|20|B|reference|aether-lew-swiatyni@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": -0.5
+    },
+    {
+      "key": "screen|sage|20|B|reference|aether-marionetka-rytualu@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|20|B|catalog|aether-lew-swiatyni@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": -0.5999999999999979
+    },
+    {
+      "key": "screen|sage|20|B|catalog|aether-marionetka-rytualu@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": -0.049999999999998934
+    },
+    {
+      "key": "screen|sage|20|C|bare|aether-lew-swiatyni@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|sage|20|C|bare|aether-marionetka-rytualu@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.8499999999999996
+    },
+    {
+      "key": "screen|sage|20|C|reference|aether-lew-swiatyni@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.75
+    },
+    {
+      "key": "screen|sage|20|C|reference|aether-marionetka-rytualu@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.000000000000001
+    },
+    {
+      "key": "screen|sage|20|C|catalog|aether-lew-swiatyni@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.1
+    },
+    {
+      "key": "screen|sage|20|C|catalog|aether-marionetka-rytualu@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.0
+    },
+    {
+      "key": "screen|sage|28|A|bare|aether-lew-swiatyni@28",
+      "trials": 8,
+      "winsLost": 6,
+      "winsGained": 0,
+      "bothWin": 2,
+      "medianTtkDifferenceAmongPairedWins": 7.4
+    },
+    {
+      "key": "screen|sage|28|A|bare|aether-marionetka-rytualu@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.75
+    },
+    {
+      "key": "screen|sage|28|A|reference|aether-lew-swiatyni@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.1
+    },
+    {
+      "key": "screen|sage|28|A|reference|aether-marionetka-rytualu@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.5999999999999996
+    },
+    {
+      "key": "screen|sage|28|A|catalog|aether-lew-swiatyni@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.85
+    },
+    {
+      "key": "screen|sage|28|A|catalog|aether-marionetka-rytualu@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.3
+    },
+    {
+      "key": "screen|sage|28|B|bare|aether-lew-swiatyni@28",
+      "trials": 8,
+      "winsLost": 8,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|sage|28|B|bare|aether-marionetka-rytualu@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|28|B|reference|aether-lew-swiatyni@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": -0.5
+    },
+    {
+      "key": "screen|sage|28|B|reference|aether-marionetka-rytualu@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.05000000000000071
+    },
+    {
+      "key": "screen|sage|28|B|catalog|aether-lew-swiatyni@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": -0.45000000000000284
+    },
+    {
+      "key": "screen|sage|28|B|catalog|aether-marionetka-rytualu@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.04999999999999982
+    },
+    {
+      "key": "screen|sage|28|C|bare|aether-lew-swiatyni@28",
+      "trials": 8,
+      "winsLost": 8,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|sage|28|C|bare|aether-marionetka-rytualu@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.250000000000001
+    },
+    {
+      "key": "screen|sage|28|C|reference|aether-lew-swiatyni@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 9.099999999999998
+    },
+    {
+      "key": "screen|sage|28|C|reference|aether-marionetka-rytualu@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.4
+    },
+    {
+      "key": "screen|sage|28|C|catalog|aether-lew-swiatyni@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 8.250000000000002
+    },
+    {
+      "key": "screen|sage|28|C|catalog|aether-marionetka-rytualu@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.9500000000000002
+    },
+    {
+      "key": "screen|sage|34|A|bare|aether-lew-swiatyni@34",
+      "trials": 8,
+      "winsLost": 3,
+      "winsGained": 0,
+      "bothWin": 5,
+      "medianTtkDifferenceAmongPairedWins": 7.1
+    },
+    {
+      "key": "screen|sage|34|A|bare|aether-marionetka-rytualu@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.025
+    },
+    {
+      "key": "screen|sage|34|A|reference|aether-lew-swiatyni@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.875
+    },
+    {
+      "key": "screen|sage|34|A|reference|aether-marionetka-rytualu@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.0
+    },
+    {
+      "key": "screen|sage|34|A|catalog|aether-lew-swiatyni@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.65
+    },
+    {
+      "key": "screen|sage|34|A|catalog|aether-marionetka-rytualu@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.0
+    },
+    {
+      "key": "screen|sage|34|B|bare|aether-lew-swiatyni@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": -0.4499999999999993
+    },
+    {
+      "key": "screen|sage|34|B|bare|aether-marionetka-rytualu@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|34|B|reference|aether-lew-swiatyni@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": -0.4499999999999993
+    },
+    {
+      "key": "screen|sage|34|B|reference|aether-marionetka-rytualu@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|34|B|catalog|aether-lew-swiatyni@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": -0.5
+    },
+    {
+      "key": "screen|sage|34|B|catalog|aether-marionetka-rytualu@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|34|C|bare|aether-lew-swiatyni@34",
+      "trials": 8,
+      "winsLost": 8,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|sage|34|C|bare|aether-marionetka-rytualu@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.425
+    },
+    {
+      "key": "screen|sage|34|C|reference|aether-lew-swiatyni@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 10.35
+    },
+    {
+      "key": "screen|sage|34|C|reference|aether-marionetka-rytualu@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.35
+    },
+    {
+      "key": "screen|sage|34|C|catalog|aether-lew-swiatyni@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 9.549999999999999
+    },
+    {
+      "key": "screen|sage|34|C|catalog|aether-marionetka-rytualu@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.4
+    },
+    {
+      "key": "screen|sage|40|A|bare|aether-lew-swiatyni@40",
+      "trials": 8,
+      "winsLost": 2,
+      "winsGained": 0,
+      "bothWin": 6,
+      "medianTtkDifferenceAmongPairedWins": 6.8999999999999995
+    },
+    {
+      "key": "screen|sage|40|A|bare|aether-marionetka-rytualu@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.5
+    },
+    {
+      "key": "screen|sage|40|A|reference|aether-lew-swiatyni@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 8.3
+    },
+    {
+      "key": "screen|sage|40|A|reference|aether-marionetka-rytualu@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.125
+    },
+    {
+      "key": "screen|sage|40|A|catalog|aether-lew-swiatyni@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.625
+    },
+    {
+      "key": "screen|sage|40|A|catalog|aether-marionetka-rytualu@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.1500000000000004
+    },
+    {
+      "key": "screen|sage|40|B|bare|aether-lew-swiatyni@40",
+      "trials": 8,
+      "winsLost": 1,
+      "winsGained": 0,
+      "bothWin": 7,
+      "medianTtkDifferenceAmongPairedWins": -0.29999999999999716
+    },
+    {
+      "key": "screen|sage|40|B|bare|aether-marionetka-rytualu@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": -0.049999999999998934
+    },
+    {
+      "key": "screen|sage|40|B|reference|aether-lew-swiatyni@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": -0.34999999999999787
+    },
+    {
+      "key": "screen|sage|40|B|reference|aether-marionetka-rytualu@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": -0.05000000000000071
+    },
+    {
+      "key": "screen|sage|40|B|catalog|aether-lew-swiatyni@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": -0.25
+    },
+    {
+      "key": "screen|sage|40|B|catalog|aether-marionetka-rytualu@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|sage|40|C|bare|aether-lew-swiatyni@40",
+      "trials": 8,
+      "winsLost": 1,
+      "winsGained": 0,
+      "bothWin": 7,
+      "medianTtkDifferenceAmongPairedWins": 10.350000000000001
+    },
+    {
+      "key": "screen|sage|40|C|bare|aether-marionetka-rytualu@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.0
+    },
+    {
+      "key": "screen|sage|40|C|reference|aether-lew-swiatyni@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 9.549999999999999
+    },
+    {
+      "key": "screen|sage|40|C|reference|aether-marionetka-rytualu@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.75
+    },
+    {
+      "key": "screen|sage|40|C|catalog|aether-lew-swiatyni@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.65
+    },
+    {
+      "key": "screen|sage|40|C|catalog|aether-marionetka-rytualu@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.8499999999999996
+    },
+    {
+      "key": "screen|android|10|A|bare|nexus-roj-nanitow",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.4499999999999993
+    },
+    {
+      "key": "screen|android|10|A|bare|nexus-pies-lowca",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|android|10|A|reference|nexus-roj-nanitow",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.8000000000000003
+    },
+    {
+      "key": "screen|android|10|A|reference|nexus-pies-lowca",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|android|10|A|catalog|nexus-roj-nanitow",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.8000000000000003
+    },
+    {
+      "key": "screen|android|10|A|catalog|nexus-pies-lowca",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|android|10|B|bare|nexus-roj-nanitow",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|android|10|B|bare|nexus-pies-lowca",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|android|10|B|reference|nexus-roj-nanitow",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|android|10|B|reference|nexus-pies-lowca",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|android|10|B|catalog|nexus-roj-nanitow",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|android|10|B|catalog|nexus-pies-lowca",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|android|10|C|bare|nexus-roj-nanitow",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|android|10|C|bare|nexus-pies-lowca",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|android|10|C|reference|nexus-roj-nanitow",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|android|10|C|reference|nexus-pies-lowca",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|android|10|C|catalog|nexus-roj-nanitow",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|android|10|C|catalog|nexus-pies-lowca",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|android|20|A|bare|nexus-straznik-rdzenia@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 10.95
+    },
+    {
+      "key": "screen|android|20|A|bare|nexus-pies-lowca@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.1499999999999995
+    },
+    {
+      "key": "screen|android|20|A|reference|nexus-straznik-rdzenia@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 9.450000000000001
+    },
+    {
+      "key": "screen|android|20|A|reference|nexus-pies-lowca@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.8499999999999999
+    },
+    {
+      "key": "screen|android|20|A|catalog|nexus-straznik-rdzenia@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.65
+    },
+    {
+      "key": "screen|android|20|A|catalog|nexus-pies-lowca@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.75
+    },
+    {
+      "key": "screen|android|20|B|bare|nexus-straznik-rdzenia@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 33.825
+    },
+    {
+      "key": "screen|android|20|B|bare|nexus-pies-lowca@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.5999999999999996
+    },
+    {
+      "key": "screen|android|20|B|reference|nexus-straznik-rdzenia@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.5
+    },
+    {
+      "key": "screen|android|20|B|reference|nexus-pies-lowca@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.5999999999999996
+    },
+    {
+      "key": "screen|android|20|B|catalog|nexus-straznik-rdzenia@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.7999999999999998
+    },
+    {
+      "key": "screen|android|20|B|catalog|nexus-pies-lowca@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.5
+    },
+    {
+      "key": "screen|android|20|C|bare|nexus-straznik-rdzenia@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.9750000000000005
+    },
+    {
+      "key": "screen|android|20|C|bare|nexus-pies-lowca@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.3999999999999995
+    },
+    {
+      "key": "screen|android|20|C|reference|nexus-straznik-rdzenia@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.25
+    },
+    {
+      "key": "screen|android|20|C|reference|nexus-pies-lowca@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.8999999999999995
+    },
+    {
+      "key": "screen|android|20|C|catalog|nexus-straznik-rdzenia@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.424999999999999
+    },
+    {
+      "key": "screen|android|20|C|catalog|nexus-pies-lowca@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.5
+    },
+    {
+      "key": "screen|android|28|A|bare|nexus-straznik-rdzenia@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 9.5
+    },
+    {
+      "key": "screen|android|28|A|bare|nexus-pies-lowca@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.8499999999999999
+    },
+    {
+      "key": "screen|android|28|A|reference|nexus-straznik-rdzenia@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.7
+    },
+    {
+      "key": "screen|android|28|A|reference|nexus-pies-lowca@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.75
+    },
+    {
+      "key": "screen|android|28|A|catalog|nexus-straznik-rdzenia@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.75
+    },
+    {
+      "key": "screen|android|28|A|catalog|nexus-pies-lowca@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.3
+    },
+    {
+      "key": "screen|android|28|B|bare|nexus-straznik-rdzenia@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.7
+    },
+    {
+      "key": "screen|android|28|B|bare|nexus-pies-lowca@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.05
+    },
+    {
+      "key": "screen|android|28|B|reference|nexus-straznik-rdzenia@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.950000000000001
+    },
+    {
+      "key": "screen|android|28|B|reference|nexus-pies-lowca@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.3
+    },
+    {
+      "key": "screen|android|28|B|catalog|nexus-straznik-rdzenia@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.1500000000000004
+    },
+    {
+      "key": "screen|android|28|B|catalog|nexus-pies-lowca@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.049999999999999
+    },
+    {
+      "key": "screen|android|28|C|bare|nexus-straznik-rdzenia@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 9.600000000000001
+    },
+    {
+      "key": "screen|android|28|C|bare|nexus-pies-lowca@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.199999999999999
+    },
+    {
+      "key": "screen|android|28|C|reference|nexus-straznik-rdzenia@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.75
+    },
+    {
+      "key": "screen|android|28|C|reference|nexus-pies-lowca@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.5999999999999996
+    },
+    {
+      "key": "screen|android|28|C|catalog|nexus-straznik-rdzenia@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.0
+    },
+    {
+      "key": "screen|android|28|C|catalog|nexus-pies-lowca@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.5999999999999996
+    },
+    {
+      "key": "screen|android|34|A|bare|nexus-straznik-rdzenia@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 8.799999999999999
+    },
+    {
+      "key": "screen|android|34|A|bare|nexus-pies-lowca@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.75
+    },
+    {
+      "key": "screen|android|34|A|reference|nexus-straznik-rdzenia@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.9
+    },
+    {
+      "key": "screen|android|34|A|reference|nexus-pies-lowca@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.3
+    },
+    {
+      "key": "screen|android|34|A|catalog|nexus-straznik-rdzenia@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.65
+    },
+    {
+      "key": "screen|android|34|A|catalog|nexus-pies-lowca@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.04999999999999999
+    },
+    {
+      "key": "screen|android|34|B|bare|nexus-straznik-rdzenia@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.449999999999999
+    },
+    {
+      "key": "screen|android|34|B|bare|nexus-pies-lowca@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.05
+    },
+    {
+      "key": "screen|android|34|B|reference|nexus-straznik-rdzenia@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.875
+    },
+    {
+      "key": "screen|android|34|B|reference|nexus-pies-lowca@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.3
+    },
+    {
+      "key": "screen|android|34|B|catalog|nexus-straznik-rdzenia@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.6999999999999993
+    },
+    {
+      "key": "screen|android|34|B|catalog|nexus-pies-lowca@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.9499999999999997
+    },
+    {
+      "key": "screen|android|34|C|bare|nexus-straznik-rdzenia@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 10.575
+    },
+    {
+      "key": "screen|android|34|C|bare|nexus-pies-lowca@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.95
+    },
+    {
+      "key": "screen|android|34|C|reference|nexus-straznik-rdzenia@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 8.100000000000001
+    },
+    {
+      "key": "screen|android|34|C|reference|nexus-pies-lowca@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.6
+    },
+    {
+      "key": "screen|android|34|C|catalog|nexus-straznik-rdzenia@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.699999999999999
+    },
+    {
+      "key": "screen|android|34|C|catalog|nexus-pies-lowca@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.5999999999999996
+    },
+    {
+      "key": "screen|android|40|A|bare|nexus-straznik-rdzenia@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 8.225
+    },
+    {
+      "key": "screen|android|40|A|bare|nexus-pies-lowca@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.75
+    },
+    {
+      "key": "screen|android|40|A|reference|nexus-straznik-rdzenia@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.35
+    },
+    {
+      "key": "screen|android|40|A|reference|nexus-pies-lowca@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.22499999999999998
+    },
+    {
+      "key": "screen|android|40|A|catalog|nexus-straznik-rdzenia@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.65
+    },
+    {
+      "key": "screen|android|40|A|catalog|nexus-pies-lowca@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.04999999999999999
+    },
+    {
+      "key": "screen|android|40|B|bare|nexus-straznik-rdzenia@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.6
+    },
+    {
+      "key": "screen|android|40|B|bare|nexus-pies-lowca@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.1
+    },
+    {
+      "key": "screen|android|40|B|reference|nexus-straznik-rdzenia@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.9499999999999993
+    },
+    {
+      "key": "screen|android|40|B|reference|nexus-pies-lowca@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.75
+    },
+    {
+      "key": "screen|android|40|B|catalog|nexus-straznik-rdzenia@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.050000000000001
+    },
+    {
+      "key": "screen|android|40|B|catalog|nexus-pies-lowca@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.3999999999999995
+    },
+    {
+      "key": "screen|android|40|C|bare|nexus-straznik-rdzenia@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 10.05
+    },
+    {
+      "key": "screen|android|40|C|bare|nexus-pies-lowca@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.5
+    },
+    {
+      "key": "screen|android|40|C|reference|nexus-straznik-rdzenia@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 8.100000000000001
+    },
+    {
+      "key": "screen|android|40|C|reference|nexus-pies-lowca@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.6
+    },
+    {
+      "key": "screen|android|40|C|catalog|nexus-straznik-rdzenia@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.825000000000001
+    },
+    {
+      "key": "screen|android|40|C|catalog|nexus-pies-lowca@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.9
+    },
+    {
+      "key": "screen|legend|10|A|bare|pyra-zarowy-nietoperz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.9
+    },
+    {
+      "key": "screen|legend|10|A|bare|pyra-golem-ruin",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|legend|10|A|reference|pyra-zarowy-nietoperz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.45
+    },
+    {
+      "key": "screen|legend|10|A|reference|pyra-golem-ruin",
+      "trials": 8,
+      "winsLost": 8,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|legend|10|A|catalog|pyra-zarowy-nietoperz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.3
+    },
+    {
+      "key": "screen|legend|10|A|catalog|pyra-golem-ruin",
+      "trials": 8,
+      "winsLost": 4,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|legend|10|B|bare|pyra-zarowy-nietoperz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.7000000000000002
+    },
+    {
+      "key": "screen|legend|10|B|bare|pyra-golem-ruin",
+      "trials": 8,
+      "winsLost": 1,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|legend|10|B|reference|pyra-zarowy-nietoperz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.3
+    },
+    {
+      "key": "screen|legend|10|B|reference|pyra-golem-ruin",
+      "trials": 8,
+      "winsLost": 8,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|legend|10|B|catalog|pyra-zarowy-nietoperz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.5999999999999996
+    },
+    {
+      "key": "screen|legend|10|B|catalog|pyra-golem-ruin",
+      "trials": 8,
+      "winsLost": 8,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|legend|10|C|bare|pyra-zarowy-nietoperz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.15
+    },
+    {
+      "key": "screen|legend|10|C|bare|pyra-golem-ruin",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|legend|10|C|reference|pyra-zarowy-nietoperz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.45
+    },
+    {
+      "key": "screen|legend|10|C|reference|pyra-golem-ruin",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|legend|10|C|catalog|pyra-zarowy-nietoperz",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.6
+    },
+    {
+      "key": "screen|legend|10|C|catalog|pyra-golem-ruin",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "screen|legend|20|A|bare|pyra-golem-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.5
+    },
+    {
+      "key": "screen|legend|20|A|bare|pyra-byk-areny@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.7000000000000002
+    },
+    {
+      "key": "screen|legend|20|A|reference|pyra-golem-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.7
+    },
+    {
+      "key": "screen|legend|20|A|reference|pyra-byk-areny@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.7000000000000001
+    },
+    {
+      "key": "screen|legend|20|A|catalog|pyra-golem-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.25
+    },
+    {
+      "key": "screen|legend|20|A|catalog|pyra-byk-areny@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.7000000000000001
+    },
+    {
+      "key": "screen|legend|20|B|bare|pyra-golem-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.9000000000000004
+    },
+    {
+      "key": "screen|legend|20|B|bare|pyra-byk-areny@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.95
+    },
+    {
+      "key": "screen|legend|20|B|reference|pyra-golem-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.9000000000000004
+    },
+    {
+      "key": "screen|legend|20|B|reference|pyra-byk-areny@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.9499999999999997
+    },
+    {
+      "key": "screen|legend|20|B|catalog|pyra-golem-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.1500000000000004
+    },
+    {
+      "key": "screen|legend|20|B|catalog|pyra-byk-areny@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.9499999999999997
+    },
+    {
+      "key": "screen|legend|20|C|bare|pyra-golem-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 7.949999999999999
+    },
+    {
+      "key": "screen|legend|20|C|bare|pyra-byk-areny@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.7000000000000002
+    },
+    {
+      "key": "screen|legend|20|C|reference|pyra-golem-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.75
+    },
+    {
+      "key": "screen|legend|20|C|reference|pyra-byk-areny@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.1
+    },
+    {
+      "key": "screen|legend|20|C|catalog|pyra-golem-ruin@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.0
+    },
+    {
+      "key": "screen|legend|20|C|catalog|pyra-byk-areny@22",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.7000000000000001
+    },
+    {
+      "key": "screen|legend|28|A|bare|pyra-golem-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.4
+    },
+    {
+      "key": "screen|legend|28|A|bare|pyra-byk-areny@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.7000000000000001
+    },
+    {
+      "key": "screen|legend|28|A|reference|pyra-golem-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.825
+    },
+    {
+      "key": "screen|legend|28|A|reference|pyra-byk-areny@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.5
+    },
+    {
+      "key": "screen|legend|28|A|catalog|pyra-golem-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.55
+    },
+    {
+      "key": "screen|legend|28|A|catalog|pyra-byk-areny@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.42500000000000004
+    },
+    {
+      "key": "screen|legend|28|B|bare|pyra-golem-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.5
+    },
+    {
+      "key": "screen|legend|28|B|bare|pyra-byk-areny@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.95
+    },
+    {
+      "key": "screen|legend|28|B|reference|pyra-golem-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.9000000000000004
+    },
+    {
+      "key": "screen|legend|28|B|reference|pyra-byk-areny@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.9
+    },
+    {
+      "key": "screen|legend|28|B|catalog|pyra-golem-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.9000000000000004
+    },
+    {
+      "key": "screen|legend|28|B|catalog|pyra-byk-areny@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.9
+    },
+    {
+      "key": "screen|legend|28|C|bare|pyra-golem-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.425000000000001
+    },
+    {
+      "key": "screen|legend|28|C|bare|pyra-byk-areny@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.7000000000000001
+    },
+    {
+      "key": "screen|legend|28|C|reference|pyra-golem-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.45
+    },
+    {
+      "key": "screen|legend|28|C|reference|pyra-byk-areny@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.35000000000000003
+    },
+    {
+      "key": "screen|legend|28|C|catalog|pyra-golem-ruin@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.8500000000000005
+    },
+    {
+      "key": "screen|legend|28|C|catalog|pyra-byk-areny@28",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|legend|34|A|bare|pyra-golem-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.075000000000001
+    },
+    {
+      "key": "screen|legend|34|A|bare|pyra-byk-areny@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.7000000000000001
+    },
+    {
+      "key": "screen|legend|34|A|reference|pyra-golem-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.5500000000000003
+    },
+    {
+      "key": "screen|legend|34|A|reference|pyra-byk-areny@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.55
+    },
+    {
+      "key": "screen|legend|34|A|catalog|pyra-golem-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.3
+    },
+    {
+      "key": "screen|legend|34|A|catalog|pyra-byk-areny@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.45000000000000007
+    },
+    {
+      "key": "screen|legend|34|B|bare|pyra-golem-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.95
+    },
+    {
+      "key": "screen|legend|34|B|bare|pyra-byk-areny@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.65
+    },
+    {
+      "key": "screen|legend|34|B|reference|pyra-golem-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.9
+    },
+    {
+      "key": "screen|legend|34|B|reference|pyra-byk-areny@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.9
+    },
+    {
+      "key": "screen|legend|34|B|catalog|pyra-golem-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.6
+    },
+    {
+      "key": "screen|legend|34|B|catalog|pyra-byk-areny@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.9
+    },
+    {
+      "key": "screen|legend|34|C|bare|pyra-golem-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 6.050000000000001
+    },
+    {
+      "key": "screen|legend|34|C|bare|pyra-byk-areny@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.7000000000000001
+    },
+    {
+      "key": "screen|legend|34|C|reference|pyra-golem-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.25
+    },
+    {
+      "key": "screen|legend|34|C|reference|pyra-byk-areny@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|legend|34|C|catalog|pyra-golem-ruin@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.8500000000000005
+    },
+    {
+      "key": "screen|legend|34|C|catalog|pyra-byk-areny@34",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|legend|40|A|bare|pyra-golem-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.7
+    },
+    {
+      "key": "screen|legend|40|A|bare|pyra-byk-areny@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.55
+    },
+    {
+      "key": "screen|legend|40|A|reference|pyra-golem-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.45
+    },
+    {
+      "key": "screen|legend|40|A|reference|pyra-byk-areny@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.425
+    },
+    {
+      "key": "screen|legend|40|A|catalog|pyra-golem-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.1750000000000003
+    },
+    {
+      "key": "screen|legend|40|A|catalog|pyra-byk-areny@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.375
+    },
+    {
+      "key": "screen|legend|40|B|bare|pyra-golem-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.25
+    },
+    {
+      "key": "screen|legend|40|B|bare|pyra-byk-areny@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 2.6500000000000004
+    },
+    {
+      "key": "screen|legend|40|B|reference|pyra-golem-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.2
+    },
+    {
+      "key": "screen|legend|40|B|reference|pyra-byk-areny@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.9000000000000001
+    },
+    {
+      "key": "screen|legend|40|B|catalog|pyra-golem-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.9
+    },
+    {
+      "key": "screen|legend|40|B|catalog|pyra-byk-areny@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 1.9000000000000001
+    },
+    {
+      "key": "screen|legend|40|C|bare|pyra-golem-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 5.25
+    },
+    {
+      "key": "screen|legend|40|C|bare|pyra-byk-areny@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.7
+    },
+    {
+      "key": "screen|legend|40|C|reference|pyra-golem-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 4.050000000000001
+    },
+    {
+      "key": "screen|legend|40|C|reference|pyra-byk-areny@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "screen|legend|40|C|catalog|pyra-golem-ruin@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 3.6
+    },
+    {
+      "key": "screen|legend|40|C|catalog|pyra-byk-areny@40",
+      "trials": 8,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 8,
+      "medianTtkDifferenceAmongPairedWins": 0.0
+    },
+    {
+      "key": "stress|planetary|20|A|reference|verdant-straznik-ruin@22|verdant-lesny-pajak@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 5.824999999999999
+    },
+    {
+      "key": "stress|planetary|20|A|catalog|verdant-straznik-ruin@22|verdant-lesny-pajak@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 5.550000000000001
+    },
+    {
+      "key": "stress|planetary|20|B|reference|verdant-straznik-ruin@22|verdant-lesny-pajak@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 9.100000000000001
+    },
+    {
+      "key": "stress|planetary|20|B|catalog|verdant-straznik-ruin@22|verdant-lesny-pajak@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 9.325
+    },
+    {
+      "key": "stress|planetary|20|C|reference|verdant-straznik-ruin@22|verdant-lesny-pajak@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 0.34999999999999964
+    },
+    {
+      "key": "stress|planetary|20|C|catalog|verdant-straznik-ruin@22|verdant-lesny-pajak@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 0.25
+    },
+    {
+      "key": "stress|planetary|40|A|reference|verdant-straznik-ruin@40|verdant-lesny-pajak@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 11.9
+    },
+    {
+      "key": "stress|planetary|40|A|catalog|verdant-straznik-ruin@40|verdant-lesny-pajak@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 11.299999999999999
+    },
+    {
+      "key": "stress|planetary|40|B|reference|verdant-straznik-ruin@40|verdant-lesny-pajak@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 9.925
+    },
+    {
+      "key": "stress|planetary|40|B|catalog|verdant-straznik-ruin@40|verdant-lesny-pajak@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 9.3
+    },
+    {
+      "key": "stress|planetary|40|C|reference|verdant-straznik-ruin@40|verdant-lesny-pajak@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 0.8499999999999996
+    },
+    {
+      "key": "stress|planetary|40|C|catalog|verdant-straznik-ruin@40|verdant-lesny-pajak@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 0.6499999999999986
+    },
+    {
+      "key": "stress|sage|20|A|reference|aether-lew-swiatyni@22|aether-marionetka-rytualu@22",
+      "trials": 32,
+      "winsLost": 32,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "stress|sage|20|A|catalog|aether-lew-swiatyni@22|aether-marionetka-rytualu@22",
+      "trials": 32,
+      "winsLost": 32,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "stress|sage|20|B|reference|aether-lew-swiatyni@22|aether-marionetka-rytualu@22",
+      "trials": 32,
+      "winsLost": 32,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "stress|sage|20|B|catalog|aether-lew-swiatyni@22|aether-marionetka-rytualu@22",
+      "trials": 32,
+      "winsLost": 32,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "stress|sage|20|C|reference|aether-lew-swiatyni@22|aether-marionetka-rytualu@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "stress|sage|20|C|catalog|aether-lew-swiatyni@22|aether-marionetka-rytualu@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "stress|sage|40|A|reference|aether-lew-swiatyni@40|aether-marionetka-rytualu@40",
+      "trials": 32,
+      "winsLost": 31,
+      "winsGained": 0,
+      "bothWin": 1,
+      "medianTtkDifferenceAmongPairedWins": 8.700000000000001
+    },
+    {
+      "key": "stress|sage|40|A|catalog|aether-lew-swiatyni@40|aether-marionetka-rytualu@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 8.450000000000001
+    },
+    {
+      "key": "stress|sage|40|B|reference|aether-lew-swiatyni@40|aether-marionetka-rytualu@40",
+      "trials": 32,
+      "winsLost": 32,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "stress|sage|40|B|catalog|aether-lew-swiatyni@40|aether-marionetka-rytualu@40",
+      "trials": 32,
+      "winsLost": 30,
+      "winsGained": 0,
+      "bothWin": 2,
+      "medianTtkDifferenceAmongPairedWins": -0.3999999999999986
+    },
+    {
+      "key": "stress|sage|40|C|reference|aether-lew-swiatyni@40|aether-marionetka-rytualu@40",
+      "trials": 32,
+      "winsLost": 17,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "stress|sage|40|C|catalog|aether-lew-swiatyni@40|aether-marionetka-rytualu@40",
+      "trials": 32,
+      "winsLost": 32,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "stress|android|20|A|reference|nexus-straznik-rdzenia@22|nexus-pies-lowca@22",
+      "trials": 32,
+      "winsLost": 1,
+      "winsGained": 0,
+      "bothWin": 31,
+      "medianTtkDifferenceAmongPairedWins": 8.15
+    },
+    {
+      "key": "stress|android|20|A|catalog|nexus-straznik-rdzenia@22|nexus-pies-lowca@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 4.5
+    },
+    {
+      "key": "stress|android|20|B|reference|nexus-straznik-rdzenia@22|nexus-pies-lowca@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 10.75
+    },
+    {
+      "key": "stress|android|20|B|catalog|nexus-straznik-rdzenia@22|nexus-pies-lowca@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 7.149999999999999
+    },
+    {
+      "key": "stress|android|20|C|reference|nexus-straznik-rdzenia@22|nexus-pies-lowca@22",
+      "trials": 32,
+      "winsLost": 32,
+      "winsGained": 0,
+      "bothWin": 0,
+      "medianTtkDifferenceAmongPairedWins": null
+    },
+    {
+      "key": "stress|android|20|C|catalog|nexus-straznik-rdzenia@22|nexus-pies-lowca@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 6.5
+    },
+    {
+      "key": "stress|android|40|A|reference|nexus-straznik-rdzenia@40|nexus-pies-lowca@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 4.1499999999999995
+    },
+    {
+      "key": "stress|android|40|A|catalog|nexus-straznik-rdzenia@40|nexus-pies-lowca@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 3.3499999999999996
+    },
+    {
+      "key": "stress|android|40|B|reference|nexus-straznik-rdzenia@40|nexus-pies-lowca@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 8.599999999999998
+    },
+    {
+      "key": "stress|android|40|B|catalog|nexus-straznik-rdzenia@40|nexus-pies-lowca@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 9.2
+    },
+    {
+      "key": "stress|android|40|C|reference|nexus-straznik-rdzenia@40|nexus-pies-lowca@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 10.6
+    },
+    {
+      "key": "stress|android|40|C|catalog|nexus-straznik-rdzenia@40|nexus-pies-lowca@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 10.350000000000001
+    },
+    {
+      "key": "stress|legend|20|A|reference|pyra-golem-ruin@22|pyra-byk-areny@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 5.675000000000001
+    },
+    {
+      "key": "stress|legend|20|A|catalog|pyra-golem-ruin@22|pyra-byk-areny@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 4.9
+    },
+    {
+      "key": "stress|legend|20|B|reference|pyra-golem-ruin@22|pyra-byk-areny@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 3.8999999999999995
+    },
+    {
+      "key": "stress|legend|20|B|catalog|pyra-golem-ruin@22|pyra-byk-areny@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 3.8999999999999995
+    },
+    {
+      "key": "stress|legend|20|C|reference|pyra-golem-ruin@22|pyra-byk-areny@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 7.25
+    },
+    {
+      "key": "stress|legend|20|C|catalog|pyra-golem-ruin@22|pyra-byk-areny@22",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 6.65
+    },
+    {
+      "key": "stress|legend|40|A|reference|pyra-golem-ruin@40|pyra-byk-areny@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 6.4
+    },
+    {
+      "key": "stress|legend|40|A|catalog|pyra-golem-ruin@40|pyra-byk-areny@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 5.95
+    },
+    {
+      "key": "stress|legend|40|B|reference|pyra-golem-ruin@40|pyra-byk-areny@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 4.750000000000001
+    },
+    {
+      "key": "stress|legend|40|B|catalog|pyra-golem-ruin@40|pyra-byk-areny@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 4.7
+    },
+    {
+      "key": "stress|legend|40|C|reference|pyra-golem-ruin@40|pyra-byk-areny@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 5.4
+    },
+    {
+      "key": "stress|legend|40|C|catalog|pyra-golem-ruin@40|pyra-byk-areny@40",
+      "trials": 32,
+      "winsLost": 0,
+      "winsGained": 0,
+      "bothWin": 32,
+      "medianTtkDifferenceAmongPairedWins": 4.8
+    }
+  ],
+  "summary": [
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "bare",
+      "model": "current",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 145,
+      "deaths": 47,
+      "timeouts": 0,
+      "winRate": 0.7552083333333334,
+      "ttkMedian": 6,
+      "ttkP10": 0.35,
+      "ttkP90": 16.4,
+      "kiSpentMean": 30.5625,
+      "potionsMean": 0.6197916666666666
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "bare",
+      "model": "first-only",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 144,
+      "deaths": 48,
+      "timeouts": 0,
+      "winRate": 0.75,
+      "ttkMedian": 6.725,
+      "ttkP10": 1.85,
+      "ttkP90": 16.4,
+      "kiSpentMean": 32.682291666666664,
+      "potionsMean": 0.78125
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "bare",
+      "model": "owner-bonus",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 144,
+      "deaths": 48,
+      "timeouts": 0,
+      "winRate": 0.75,
+      "ttkMedian": 7.6,
+      "ttkP10": 2.4,
+      "ttkP90": 16.4,
+      "kiSpentMean": 33.5,
+      "potionsMean": 0.8697916666666666
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "bare",
+      "model": "owner-full",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 144,
+      "deaths": 48,
+      "timeouts": 0,
+      "winRate": 0.75,
+      "ttkMedian": 7.6,
+      "ttkP10": 3.15,
+      "ttkP90": 16.4,
+      "kiSpentMean": 33.854166666666664,
+      "potionsMean": 0.8854166666666666
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "bare",
+      "model": "owner-stats",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 145,
+      "deaths": 47,
+      "timeouts": 0,
+      "winRate": 0.7552083333333334,
+      "ttkMedian": 6,
+      "ttkP10": 0.45,
+      "ttkP90": 16.4,
+      "kiSpentMean": 30.5625,
+      "potionsMean": 0.6145833333333334
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "bare",
+      "model": "stats-05pp",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 145,
+      "deaths": 47,
+      "timeouts": 0,
+      "winRate": 0.7552083333333334,
+      "ttkMedian": 6,
+      "ttkP10": 0.45,
+      "ttkP90": 16.4,
+      "kiSpentMean": 30.5625,
+      "potionsMean": 0.625
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "catalog",
+      "model": "current",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 156,
+      "deaths": 36,
+      "timeouts": 0,
+      "winRate": 0.8125,
+      "ttkMedian": 5.35,
+      "ttkP10": 0.25,
+      "ttkP90": 11.5,
+      "kiSpentMean": 29.078125,
+      "potionsMean": 0.453125
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "catalog",
+      "model": "first-only",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 144,
+      "deaths": 48,
+      "timeouts": 0,
+      "winRate": 0.75,
+      "ttkMedian": 6.0,
+      "ttkP10": 1.85,
+      "ttkP90": 13.2,
+      "kiSpentMean": 31.796875,
+      "potionsMean": 0.5833333333333334
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "catalog",
+      "model": "owner-bonus",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 144,
+      "deaths": 48,
+      "timeouts": 0,
+      "winRate": 0.75,
+      "ttkMedian": 6.300000000000001,
+      "ttkP10": 1.85,
+      "ttkP90": 13.2,
+      "kiSpentMean": 31.78125,
+      "potionsMean": 0.625
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "catalog",
+      "model": "owner-full",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 144,
+      "deaths": 48,
+      "timeouts": 0,
+      "winRate": 0.75,
+      "ttkMedian": 6.45,
+      "ttkP10": 2.4,
+      "ttkP90": 13.2,
+      "kiSpentMean": 32.46875,
+      "potionsMean": 0.6302083333333334
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "catalog",
+      "model": "owner-stats",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 152,
+      "deaths": 40,
+      "timeouts": 0,
+      "winRate": 0.7916666666666666,
+      "ttkMedian": 4.9,
+      "ttkP10": 0.35,
+      "ttkP90": 11.5,
+      "kiSpentMean": 29.078125,
+      "potionsMean": 0.4791666666666667
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "catalog",
+      "model": "stats-05pp",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 152,
+      "deaths": 40,
+      "timeouts": 0,
+      "winRate": 0.7916666666666666,
+      "ttkMedian": 4.9,
+      "ttkP10": 0.35,
+      "ttkP90": 11.5,
+      "kiSpentMean": 29.078125,
+      "potionsMean": 0.453125
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "reference",
+      "model": "current",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 160,
+      "deaths": 32,
+      "timeouts": 0,
+      "winRate": 0.8333333333333334,
+      "ttkMedian": 5.5,
+      "ttkP10": 0.25,
+      "ttkP90": 11.5,
+      "kiSpentMean": 29.359375,
+      "potionsMean": 0.4166666666666667
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "reference",
+      "model": "first-only",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 144,
+      "deaths": 48,
+      "timeouts": 0,
+      "winRate": 0.75,
+      "ttkMedian": 6.0,
+      "ttkP10": 2.1,
+      "ttkP90": 13.2,
+      "kiSpentMean": 32.515625,
+      "potionsMean": 0.5572916666666666
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "reference",
+      "model": "owner-bonus",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 144,
+      "deaths": 48,
+      "timeouts": 0,
+      "winRate": 0.75,
+      "ttkMedian": 6.300000000000001,
+      "ttkP10": 2.7,
+      "ttkP90": 13.2,
+      "kiSpentMean": 33.03125,
+      "potionsMean": 0.5833333333333334
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "reference",
+      "model": "owner-full",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 144,
+      "deaths": 48,
+      "timeouts": 0,
+      "winRate": 0.75,
+      "ttkMedian": 6.425000000000001,
+      "ttkP10": 2.7,
+      "ttkP90": 13.2,
+      "kiSpentMean": 33.3984375,
+      "potionsMean": 0.5833333333333334
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "reference",
+      "model": "owner-stats",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 160,
+      "deaths": 32,
+      "timeouts": 0,
+      "winRate": 0.8333333333333334,
+      "ttkMedian": 5.5,
+      "ttkP10": 0.35,
+      "ttkP90": 11.5,
+      "kiSpentMean": 29.828125,
+      "potionsMean": 0.4166666666666667
+    },
+    {
+      "stage": "screen",
+      "level": 10,
+      "gear": "reference",
+      "model": "stats-05pp",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 160,
+      "deaths": 32,
+      "timeouts": 0,
+      "winRate": 0.8333333333333334,
+      "ttkMedian": 5.5,
+      "ttkP10": 0.35,
+      "ttkP90": 11.5,
+      "kiSpentMean": 29.546875,
+      "potionsMean": 0.4166666666666667
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "bare",
+      "model": "current",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 179,
+      "deaths": 8,
+      "timeouts": 5,
+      "winRate": 0.9322916666666666,
+      "ttkMedian": 3.65,
+      "ttkP10": 0.4,
+      "ttkP90": 15.15,
+      "kiSpentMean": 76.515625,
+      "potionsMean": 0.14583333333333334
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "bare",
+      "model": "first-only",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 168,
+      "deaths": 24,
+      "timeouts": 0,
+      "winRate": 0.875,
+      "ttkMedian": 7.15,
+      "ttkP10": 0.95,
+      "ttkP90": 16.3,
+      "kiSpentMean": 85.77604166666667,
+      "potionsMean": 0.8645833333333334
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "bare",
+      "model": "owner-bonus",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 157,
+      "deaths": 35,
+      "timeouts": 0,
+      "winRate": 0.8177083333333334,
+      "ttkMedian": 8.2,
+      "ttkP10": 2.1,
+      "ttkP90": 16.3,
+      "kiSpentMean": 83.57291666666667,
+      "potionsMean": 1.0520833333333333
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "bare",
+      "model": "owner-full",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 153,
+      "deaths": 39,
+      "timeouts": 0,
+      "winRate": 0.796875,
+      "ttkMedian": 8.4,
+      "ttkP10": 2.7,
+      "ttkP90": 13.95,
+      "kiSpentMean": 85.60416666666667,
+      "potionsMean": 1.1145833333333333
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "bare",
+      "model": "owner-stats",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 179,
+      "deaths": 8,
+      "timeouts": 5,
+      "winRate": 0.9322916666666666,
+      "ttkMedian": 3.65,
+      "ttkP10": 0.4,
+      "ttkP90": 15.15,
+      "kiSpentMean": 77.24479166666667,
+      "potionsMean": 0.14583333333333334
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "bare",
+      "model": "stats-05pp",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 179,
+      "deaths": 8,
+      "timeouts": 5,
+      "winRate": 0.9322916666666666,
+      "ttkMedian": 3.65,
+      "ttkP10": 0.4,
+      "ttkP90": 15.15,
+      "kiSpentMean": 77.24479166666667,
+      "potionsMean": 0.14583333333333334
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "catalog",
+      "model": "current",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 3.05,
+      "ttkP10": 0.4,
+      "ttkP90": 12.1,
+      "kiSpentMean": 56.28125,
+      "potionsMean": 0.11979166666666667
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "catalog",
+      "model": "first-only",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 5.6,
+      "ttkP10": 0.75,
+      "ttkP90": 14,
+      "kiSpentMean": 62.895833333333336,
+      "potionsMean": 0.22395833333333334
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "catalog",
+      "model": "owner-bonus",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 6.675000000000001,
+      "ttkP10": 1.1,
+      "ttkP90": 14,
+      "kiSpentMean": 65.375,
+      "potionsMean": 0.375
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "catalog",
+      "model": "owner-full",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 7.15,
+      "ttkP10": 2.1,
+      "ttkP90": 15.1,
+      "kiSpentMean": 66.79166666666667,
+      "potionsMean": 0.4166666666666667
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "catalog",
+      "model": "owner-stats",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 3.05,
+      "ttkP10": 0.4,
+      "ttkP90": 12.1,
+      "kiSpentMean": 56.28125,
+      "potionsMean": 0.11979166666666667
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "catalog",
+      "model": "stats-05pp",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 3.05,
+      "ttkP10": 0.4,
+      "ttkP90": 12.1,
+      "kiSpentMean": 56.28125,
+      "potionsMean": 0.11979166666666667
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "reference",
+      "model": "current",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 3.3,
+      "ttkP10": 0.4,
+      "ttkP90": 12.55,
+      "kiSpentMean": 58.4375,
+      "potionsMean": 0.125
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "reference",
+      "model": "first-only",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 188,
+      "deaths": 4,
+      "timeouts": 0,
+      "winRate": 0.9791666666666666,
+      "ttkMedian": 5.8,
+      "ttkP10": 0.75,
+      "ttkP90": 16.45,
+      "kiSpentMean": 65.01041666666667,
+      "potionsMean": 0.3333333333333333
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "reference",
+      "model": "owner-bonus",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 8.05,
+      "ttkP10": 2.05,
+      "ttkP90": 18.5,
+      "kiSpentMean": 68.36458333333333,
+      "potionsMean": 0.4375
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "reference",
+      "model": "owner-full",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 8.2,
+      "ttkP10": 2.8,
+      "ttkP90": 19.25,
+      "kiSpentMean": 70.203125,
+      "potionsMean": 0.5
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "reference",
+      "model": "owner-stats",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 3.3,
+      "ttkP10": 0.4,
+      "ttkP90": 12.55,
+      "kiSpentMean": 58.4375,
+      "potionsMean": 0.125
+    },
+    {
+      "stage": "screen",
+      "level": 20,
+      "gear": "reference",
+      "model": "stats-05pp",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 3.3,
+      "ttkP10": 0.4,
+      "ttkP90": 12.55,
+      "kiSpentMean": 58.4375,
+      "potionsMean": 0.125
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "bare",
+      "model": "current",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 1.7,
+      "ttkP10": 0.3,
+      "ttkP90": 12.3,
+      "kiSpentMean": 57.005208333333336,
+      "potionsMean": 0.041666666666666664
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "bare",
+      "model": "first-only",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 184,
+      "deaths": 8,
+      "timeouts": 0,
+      "winRate": 0.9583333333333334,
+      "ttkMedian": 6.15,
+      "ttkP10": 0.6,
+      "ttkP90": 15.55,
+      "kiSpentMean": 66.53125,
+      "potionsMean": 0.4947916666666667
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "bare",
+      "model": "owner-bonus",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 170,
+      "deaths": 22,
+      "timeouts": 0,
+      "winRate": 0.8854166666666666,
+      "ttkMedian": 7.4,
+      "ttkP10": 1.75,
+      "ttkP90": 15.55,
+      "kiSpentMean": 68.64583333333333,
+      "potionsMean": 0.6510416666666666
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "bare",
+      "model": "owner-full",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 168,
+      "deaths": 24,
+      "timeouts": 0,
+      "winRate": 0.875,
+      "ttkMedian": 7.625,
+      "ttkP10": 2.1,
+      "ttkP90": 16.25,
+      "kiSpentMean": 69.58333333333333,
+      "potionsMean": 0.6979166666666666
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "bare",
+      "model": "owner-stats",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 1.7,
+      "ttkP10": 0.3,
+      "ttkP90": 12.3,
+      "kiSpentMean": 57.552083333333336,
+      "potionsMean": 0.041666666666666664
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "bare",
+      "model": "stats-05pp",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 1.7,
+      "ttkP10": 0.3,
+      "ttkP90": 12.3,
+      "kiSpentMean": 57.552083333333336,
+      "potionsMean": 0.041666666666666664
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "catalog",
+      "model": "current",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 0.9,
+      "ttkP10": 0.3,
+      "ttkP90": 8.5,
+      "kiSpentMean": 53.072916666666664,
+      "potionsMean": 0
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "catalog",
+      "model": "first-only",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 4.8,
+      "ttkP10": 0.45,
+      "ttkP90": 12.1,
+      "kiSpentMean": 61.1875,
+      "potionsMean": 0.17708333333333334
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "catalog",
+      "model": "owner-bonus",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 5.6,
+      "ttkP10": 0.9,
+      "ttkP90": 12.1,
+      "kiSpentMean": 62.395833333333336,
+      "potionsMean": 0.21354166666666666
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "catalog",
+      "model": "owner-full",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 5.8,
+      "ttkP10": 1.05,
+      "ttkP90": 12.6,
+      "kiSpentMean": 62.942708333333336,
+      "potionsMean": 0.21354166666666666
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "catalog",
+      "model": "owner-stats",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 0.9,
+      "ttkP10": 0.3,
+      "ttkP90": 8.5,
+      "kiSpentMean": 53.255208333333336,
+      "potionsMean": 0
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "catalog",
+      "model": "stats-05pp",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 0.9,
+      "ttkP10": 0.3,
+      "ttkP90": 8.5,
+      "kiSpentMean": 53.255208333333336,
+      "potionsMean": 0
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "reference",
+      "model": "current",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 1.6749999999999998,
+      "ttkP10": 0.3,
+      "ttkP90": 10.2,
+      "kiSpentMean": 53.848958333333336,
+      "potionsMean": 0.03125
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "reference",
+      "model": "first-only",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 5.25,
+      "ttkP10": 0.6,
+      "ttkP90": 14,
+      "kiSpentMean": 61.84375,
+      "potionsMean": 0.19791666666666666
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "reference",
+      "model": "owner-bonus",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 6.225,
+      "ttkP10": 1.05,
+      "ttkP90": 14.5,
+      "kiSpentMean": 63.416666666666664,
+      "potionsMean": 0.2552083333333333
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "reference",
+      "model": "owner-full",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 6.3,
+      "ttkP10": 2.05,
+      "ttkP90": 15.05,
+      "kiSpentMean": 63.90625,
+      "potionsMean": 0.265625
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "reference",
+      "model": "owner-stats",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 1.6749999999999998,
+      "ttkP10": 0.3,
+      "ttkP90": 10.2,
+      "kiSpentMean": 53.848958333333336,
+      "potionsMean": 0.03125
+    },
+    {
+      "stage": "screen",
+      "level": 28,
+      "gear": "reference",
+      "model": "stats-05pp",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 1.6749999999999998,
+      "ttkP10": 0.3,
+      "ttkP90": 10.2,
+      "kiSpentMean": 53.848958333333336,
+      "potionsMean": 0.03125
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "bare",
+      "model": "current",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 1.125,
+      "ttkP10": 0.3,
+      "ttkP90": 12.25,
+      "kiSpentMean": 56.296875,
+      "potionsMean": 0.041666666666666664
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "bare",
+      "model": "first-only",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 185,
+      "deaths": 7,
+      "timeouts": 0,
+      "winRate": 0.9635416666666666,
+      "ttkMedian": 6.15,
+      "ttkP10": 0.75,
+      "ttkP90": 15.55,
+      "kiSpentMean": 64.671875,
+      "potionsMean": 0.4583333333333333
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "bare",
+      "model": "owner-bonus",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 181,
+      "deaths": 11,
+      "timeouts": 0,
+      "winRate": 0.9427083333333334,
+      "ttkMedian": 7.2,
+      "ttkP10": 1.05,
+      "ttkP90": 16.25,
+      "kiSpentMean": 67.05208333333333,
+      "potionsMean": 0.5885416666666666
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "bare",
+      "model": "owner-full",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 178,
+      "deaths": 14,
+      "timeouts": 0,
+      "winRate": 0.9270833333333334,
+      "ttkMedian": 7.75,
+      "ttkP10": 2.1,
+      "ttkP90": 16.25,
+      "kiSpentMean": 68.109375,
+      "potionsMean": 0.640625
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "bare",
+      "model": "owner-stats",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 1.125,
+      "ttkP10": 0.3,
+      "ttkP90": 12.25,
+      "kiSpentMean": 56.84375,
+      "potionsMean": 0.041666666666666664
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "bare",
+      "model": "stats-05pp",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 1.125,
+      "ttkP10": 0.3,
+      "ttkP90": 12.25,
+      "kiSpentMean": 56.479166666666664,
+      "potionsMean": 0.041666666666666664
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "catalog",
+      "model": "current",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 0.9,
+      "ttkP10": 0.25,
+      "ttkP90": 9.15,
+      "kiSpentMean": 52.494791666666664,
+      "potionsMean": 0
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "catalog",
+      "model": "first-only",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 4.625,
+      "ttkP10": 0.45,
+      "ttkP90": 12.25,
+      "kiSpentMean": 61.28125,
+      "potionsMean": 0.140625
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "catalog",
+      "model": "owner-bonus",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 5.2,
+      "ttkP10": 0.8,
+      "ttkP90": 12.25,
+      "kiSpentMean": 62.114583333333336,
+      "potionsMean": 0.203125
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "catalog",
+      "model": "owner-full",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 5.6,
+      "ttkP10": 1.05,
+      "ttkP90": 13.25,
+      "kiSpentMean": 62.942708333333336,
+      "potionsMean": 0.203125
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "catalog",
+      "model": "owner-stats",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 0.9,
+      "ttkP10": 0.25,
+      "ttkP90": 9.15,
+      "kiSpentMean": 52.859375,
+      "potionsMean": 0
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "catalog",
+      "model": "stats-05pp",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 0.9,
+      "ttkP10": 0.25,
+      "ttkP90": 9.15,
+      "kiSpentMean": 52.859375,
+      "potionsMean": 0
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "reference",
+      "model": "current",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 0.9,
+      "ttkP10": 0.3,
+      "ttkP90": 10.15,
+      "kiSpentMean": 53.609375,
+      "potionsMean": 0
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "reference",
+      "model": "first-only",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 4.9,
+      "ttkP10": 0.55,
+      "ttkP90": 13.25,
+      "kiSpentMean": 61.71875,
+      "potionsMean": 0.18229166666666666
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "reference",
+      "model": "owner-bonus",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 5.6,
+      "ttkP10": 0.9,
+      "ttkP90": 13.75,
+      "kiSpentMean": 62.776041666666664,
+      "potionsMean": 0.234375
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "reference",
+      "model": "owner-full",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 6.175,
+      "ttkP10": 1.05,
+      "ttkP90": 14.45,
+      "kiSpentMean": 63.729166666666664,
+      "potionsMean": 0.23958333333333334
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "reference",
+      "model": "owner-stats",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 0.9,
+      "ttkP10": 0.3,
+      "ttkP90": 10.15,
+      "kiSpentMean": 53.515625,
+      "potionsMean": 0
+    },
+    {
+      "stage": "screen",
+      "level": 34,
+      "gear": "reference",
+      "model": "stats-05pp",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 0.9,
+      "ttkP10": 0.3,
+      "ttkP90": 10.15,
+      "kiSpentMean": 53.515625,
+      "potionsMean": 0
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "bare",
+      "model": "current",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 1.05,
+      "ttkP10": 0.25,
+      "ttkP90": 11.4,
+      "kiSpentMean": 51.885416666666664,
+      "potionsMean": 0.041666666666666664
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "bare",
+      "model": "first-only",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 186,
+      "deaths": 6,
+      "timeouts": 0,
+      "winRate": 0.96875,
+      "ttkMedian": 6.05,
+      "ttkP10": 0.55,
+      "ttkP90": 14.15,
+      "kiSpentMean": 64.80729166666667,
+      "potionsMean": 0.421875
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "bare",
+      "model": "owner-bonus",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 188,
+      "deaths": 4,
+      "timeouts": 0,
+      "winRate": 0.9791666666666666,
+      "ttkMedian": 6.975,
+      "ttkP10": 1,
+      "ttkP90": 15.55,
+      "kiSpentMean": 66.33333333333333,
+      "potionsMean": 0.5416666666666666
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "bare",
+      "model": "owner-full",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 185,
+      "deaths": 7,
+      "timeouts": 0,
+      "winRate": 0.9635416666666666,
+      "ttkMedian": 7.4,
+      "ttkP10": 2.1,
+      "ttkP90": 15.55,
+      "kiSpentMean": 67.55729166666667,
+      "potionsMean": 0.5677083333333334
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "bare",
+      "model": "owner-stats",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 1.05,
+      "ttkP10": 0.25,
+      "ttkP90": 11.4,
+      "kiSpentMean": 52.432291666666664,
+      "potionsMean": 0.041666666666666664
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "bare",
+      "model": "stats-05pp",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 1.05,
+      "ttkP10": 0.25,
+      "ttkP90": 11.4,
+      "kiSpentMean": 52.432291666666664,
+      "potionsMean": 0.041666666666666664
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "catalog",
+      "model": "current",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 0.375,
+      "ttkP10": 0.25,
+      "ttkP90": 8,
+      "kiSpentMean": 49.979166666666664,
+      "potionsMean": 0
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "catalog",
+      "model": "first-only",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 4.7,
+      "ttkP10": 0.4,
+      "ttkP90": 12.05,
+      "kiSpentMean": 61.125,
+      "potionsMean": 0.15104166666666666
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "catalog",
+      "model": "owner-bonus",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 4.9,
+      "ttkP10": 0.65,
+      "ttkP90": 12.05,
+      "kiSpentMean": 62.005208333333336,
+      "potionsMean": 0.203125
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "catalog",
+      "model": "owner-full",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 5.25,
+      "ttkP10": 1,
+      "ttkP90": 12.05,
+      "kiSpentMean": 62.921875,
+      "potionsMean": 0.203125
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "catalog",
+      "model": "owner-stats",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 0.375,
+      "ttkP10": 0.25,
+      "ttkP90": 8,
+      "kiSpentMean": 50.526041666666664,
+      "potionsMean": 0
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "catalog",
+      "model": "stats-05pp",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 0.375,
+      "ttkP10": 0.25,
+      "ttkP90": 8,
+      "kiSpentMean": 50.161458333333336,
+      "potionsMean": 0
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "reference",
+      "model": "current",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 0.9,
+      "ttkP10": 0.25,
+      "ttkP90": 9.55,
+      "kiSpentMean": 50.291666666666664,
+      "potionsMean": 0
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "reference",
+      "model": "first-only",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 4.9,
+      "ttkP10": 0.5,
+      "ttkP90": 12.55,
+      "kiSpentMean": 61.65625,
+      "potionsMean": 0.1875
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "reference",
+      "model": "owner-bonus",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 6.0,
+      "ttkP10": 0.75,
+      "ttkP90": 13.2,
+      "kiSpentMean": 63.296875,
+      "potionsMean": 0.23958333333333334
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "reference",
+      "model": "owner-full",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 6.05,
+      "ttkP10": 1,
+      "ttkP90": 13.75,
+      "kiSpentMean": 63.380208333333336,
+      "potionsMean": 0.25
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "reference",
+      "model": "owner-stats",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 0.9,
+      "ttkP10": 0.25,
+      "ttkP90": 9.55,
+      "kiSpentMean": 50.838541666666664,
+      "potionsMean": 0
+    },
+    {
+      "stage": "screen",
+      "level": 40,
+      "gear": "reference",
+      "model": "stats-05pp",
+      "profiles": 24,
+      "trials": 192,
+      "wins": 192,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 0.9,
+      "ttkP10": 0.25,
+      "ttkP90": 9.55,
+      "kiSpentMean": 50.838541666666664,
+      "potionsMean": 0
+    },
+    {
+      "stage": "stress",
+      "level": 20,
+      "gear": "catalog",
+      "model": "current",
+      "profiles": 12,
+      "trials": 384,
+      "wins": 352,
+      "deaths": 32,
+      "timeouts": 0,
+      "winRate": 0.9166666666666666,
+      "ttkMedian": 8.65,
+      "ttkP10": 1.75,
+      "ttkP90": 19.05,
+      "kiSpentMean": 72.16666666666667,
+      "potionsMean": 0.4270833333333333
+    },
+    {
+      "stage": "stress",
+      "level": 20,
+      "gear": "catalog",
+      "model": "owner-bonus",
+      "profiles": 12,
+      "trials": 384,
+      "wins": 288,
+      "deaths": 96,
+      "timeouts": 0,
+      "winRate": 0.75,
+      "ttkMedian": 13.65,
+      "ttkP10": 8.6,
+      "ttkP90": 20.05,
+      "kiSpentMean": 76.78971354166667,
+      "potionsMean": 1.3229166666666667
+    },
+    {
+      "stage": "stress",
+      "level": 20,
+      "gear": "catalog",
+      "model": "owner-stats",
+      "profiles": 12,
+      "trials": 384,
+      "wins": 352,
+      "deaths": 32,
+      "timeouts": 0,
+      "winRate": 0.9166666666666666,
+      "ttkMedian": 8.65,
+      "ttkP10": 1.75,
+      "ttkP90": 19.05,
+      "kiSpentMean": 72.16666666666667,
+      "potionsMean": 0.4973958333333333
+    },
+    {
+      "stage": "stress",
+      "level": 20,
+      "gear": "reference",
+      "model": "current",
+      "profiles": 12,
+      "trials": 384,
+      "wins": 352,
+      "deaths": 32,
+      "timeouts": 0,
+      "winRate": 0.9166666666666666,
+      "ttkMedian": 9.4,
+      "ttkP10": 1.85,
+      "ttkP90": 19.8,
+      "kiSpentMean": 72.453125,
+      "potionsMean": 0.7473958333333334
+    },
+    {
+      "stage": "stress",
+      "level": 20,
+      "gear": "reference",
+      "model": "owner-bonus",
+      "profiles": 12,
+      "trials": 384,
+      "wins": 255,
+      "deaths": 129,
+      "timeouts": 0,
+      "winRate": 0.6640625,
+      "ttkMedian": 14.75,
+      "ttkP10": 9.2,
+      "ttkP90": 23.3,
+      "kiSpentMean": 77.92447916666667,
+      "potionsMean": 1.6458333333333333
+    },
+    {
+      "stage": "stress",
+      "level": 20,
+      "gear": "reference",
+      "model": "owner-stats",
+      "profiles": 12,
+      "trials": 384,
+      "wins": 352,
+      "deaths": 32,
+      "timeouts": 0,
+      "winRate": 0.9166666666666666,
+      "ttkMedian": 9.4,
+      "ttkP10": 1.85,
+      "ttkP90": 19.8,
+      "kiSpentMean": 72.453125,
+      "potionsMean": 0.7916666666666666
+    },
+    {
+      "stage": "stress",
+      "level": 40,
+      "gear": "catalog",
+      "model": "current",
+      "profiles": 12,
+      "trials": 384,
+      "wins": 384,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 5.65,
+      "ttkP10": 1.05,
+      "ttkP90": 15.35,
+      "kiSpentMean": 65.00520833333333,
+      "potionsMean": 0.16666666666666666
+    },
+    {
+      "stage": "stress",
+      "level": 40,
+      "gear": "catalog",
+      "model": "owner-bonus",
+      "profiles": 12,
+      "trials": 384,
+      "wins": 322,
+      "deaths": 62,
+      "timeouts": 0,
+      "winRate": 0.8385416666666666,
+      "ttkMedian": 11.5,
+      "ttkP10": 7.05,
+      "ttkP90": 17.2,
+      "kiSpentMean": 76.828125,
+      "potionsMean": 0.8333333333333334
+    },
+    {
+      "stage": "stress",
+      "level": 40,
+      "gear": "catalog",
+      "model": "owner-stats",
+      "profiles": 12,
+      "trials": 384,
+      "wins": 384,
+      "deaths": 0,
+      "timeouts": 0,
+      "winRate": 1.0,
+      "ttkMedian": 5.65,
+      "ttkP10": 1.05,
+      "ttkP90": 15.35,
+      "kiSpentMean": 65.00520833333333,
+      "potionsMean": 0.16666666666666666
+    },
+    {
+      "stage": "stress",
+      "level": 40,
+      "gear": "reference",
+      "model": "current",
+      "profiles": 12,
+      "trials": 384,
+      "wins": 369,
+      "deaths": 15,
+      "timeouts": 0,
+      "winRate": 0.9609375,
+      "ttkMedian": 5.6,
+      "ttkP10": 1.05,
+      "ttkP90": 16.35,
+      "kiSpentMean": 67.17708333333333,
+      "potionsMean": 0.2526041666666667
+    },
+    {
+      "stage": "stress",
+      "level": 40,
+      "gear": "reference",
+      "model": "owner-bonus",
+      "profiles": 12,
+      "trials": 384,
+      "wins": 289,
+      "deaths": 95,
+      "timeouts": 0,
+      "winRate": 0.7526041666666666,
+      "ttkMedian": 12.2,
+      "ttkP10": 7.05,
+      "ttkP90": 18.9,
+      "kiSpentMean": 77.35416666666667,
+      "potionsMean": 1.2005208333333333
+    },
+    {
+      "stage": "stress",
+      "level": 40,
+      "gear": "reference",
+      "model": "owner-stats",
+      "profiles": 12,
+      "trials": 384,
+      "wins": 369,
+      "deaths": 15,
+      "timeouts": 0,
+      "winRate": 0.9609375,
+      "ttkMedian": 5.6,
+      "ttkP10": 1.05,
+      "ttkP90": 16.35,
+      "kiSpentMean": 67.17708333333333,
+      "potionsMean": 0.2526041666666667
+    }
+  ],
+  "notes": [
+    "Real production GameSession/Kit/MonsterSystem; per-instance experimental adapters only.",
+    "Training/mastery/modules disabled to isolate ranks and equipment; learned point budgets remain legal.",
+    "Reference gear: highest available level, common/uncommon only, continent restricted; catalog: any rarity. Ties by rarity then id. Fixed across rank policies; not a natural-acquisition or optimal-gear claim.",
+    "Three HP potions per isolated trial; no supply/economy model. Transformation T not used.",
+    "Identical seeded initial conditions across policies; RNG consumption may diverge when actions change.",
+    "Enemy level is closest available at/near player level. Old level-18 monsters are not used against level-40 players.",
+    "Scripted close-range attacker uses actual movement/LOS with a 300 ms chase-command cadence, basic attack, ready abilities and potions. No perfect human dodge/aim model.",
+    "Stress uses a real navigation obstacle and both opponent roles simultaneously. It is a controlled arena, not a full campaign.",
+    "A zero-gain rank measures rounded max-stat deltas at fixed level, not every secondary effect.",
+    "Wilson intervals describe conditional seed variation for each fixed profile, not a random sample of all players."
+  ],
+  "roundingAtLevel10": [
+    {
+      "race": "planetary",
+      "level": 10,
+      "model": "current",
+      "node": "C2",
+      "stat": "maxHp",
+      "rank": 8,
+      "base": 449,
+      "value": 808,
+      "zeroGainExtraRanks": 0,
+      "extraRanks": 7,
+      "milestones": [
+        {
+          "rank": 1,
+          "value": 494,
+          "delta": 45
+        },
+        {
+          "rank": 2,
+          "value": 539,
+          "delta": 45
+        },
+        {
+          "rank": 3,
+          "value": 584,
+          "delta": 45
+        },
+        {
+          "rank": 4,
+          "value": 629,
+          "delta": 45
+        },
+        {
+          "rank": 5,
+          "value": 674,
+          "delta": 45
+        },
+        {
+          "rank": 6,
+          "value": 718,
+          "delta": 44
+        },
+        {
+          "rank": 7,
+          "value": 763,
+          "delta": 45
+        },
+        {
+          "rank": 8,
+          "value": 808,
+          "delta": 45
+        }
+      ]
+    },
+    {
+      "race": "planetary",
+      "level": 10,
+      "model": "owner-bonus",
+      "node": "C2",
+      "stat": "maxHp",
+      "rank": 8,
+      "base": 449,
+      "value": 487,
+      "zeroGainExtraRanks": 0,
+      "extraRanks": 7,
+      "milestones": [
+        {
+          "rank": 1,
+          "value": 471,
+          "delta": 22
+        },
+        {
+          "rank": 2,
+          "value": 474,
+          "delta": 3
+        },
+        {
+          "rank": 3,
+          "value": 476,
+          "delta": 2
+        },
+        {
+          "rank": 4,
+          "value": 478,
+          "delta": 2
+        },
+        {
+          "rank": 5,
+          "value": 480,
+          "delta": 2
+        },
+        {
+          "rank": 6,
+          "value": 483,
+          "delta": 3
+        },
+        {
+          "rank": 7,
+          "value": 485,
+          "delta": 2
+        },
+        {
+          "rank": 8,
+          "value": 487,
+          "delta": 2
+        }
+      ]
+    },
+    {
+      "race": "sage",
+      "level": 10,
+      "model": "current",
+      "node": "C2",
+      "stat": "maxKi",
+      "rank": 8,
+      "base": 143,
+      "value": 315,
+      "zeroGainExtraRanks": 0,
+      "extraRanks": 7,
+      "milestones": [
+        {
+          "rank": 1,
+          "value": 164,
+          "delta": 21
+        },
+        {
+          "rank": 2,
+          "value": 186,
+          "delta": 22
+        },
+        {
+          "rank": 3,
+          "value": 207,
+          "delta": 21
+        },
+        {
+          "rank": 4,
+          "value": 229,
+          "delta": 22
+        },
+        {
+          "rank": 5,
+          "value": 250,
+          "delta": 21
+        },
+        {
+          "rank": 6,
+          "value": 272,
+          "delta": 22
+        },
+        {
+          "rank": 7,
+          "value": 293,
+          "delta": 21
+        },
+        {
+          "rank": 8,
+          "value": 315,
+          "delta": 22
+        }
+      ]
+    },
+    {
+      "race": "sage",
+      "level": 10,
+      "model": "owner-bonus",
+      "node": "C2",
+      "stat": "maxKi",
+      "rank": 8,
+      "base": 143,
+      "value": 161,
+      "zeroGainExtraRanks": 0,
+      "extraRanks": 7,
+      "milestones": [
+        {
+          "rank": 1,
+          "value": 154,
+          "delta": 11
+        },
+        {
+          "rank": 2,
+          "value": 155,
+          "delta": 1
+        },
+        {
+          "rank": 3,
+          "value": 156,
+          "delta": 1
+        },
+        {
+          "rank": 4,
+          "value": 157,
+          "delta": 1
+        },
+        {
+          "rank": 5,
+          "value": 158,
+          "delta": 1
+        },
+        {
+          "rank": 6,
+          "value": 159,
+          "delta": 1
+        },
+        {
+          "rank": 7,
+          "value": 160,
+          "delta": 1
+        },
+        {
+          "rank": 8,
+          "value": 161,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "race": "android",
+      "level": 10,
+      "model": "current",
+      "node": "B2",
+      "stat": "defense",
+      "rank": 8,
+      "base": 34,
+      "value": 56,
+      "zeroGainExtraRanks": 0,
+      "extraRanks": 7,
+      "milestones": [
+        {
+          "rank": 1,
+          "value": 37,
+          "delta": 3
+        },
+        {
+          "rank": 2,
+          "value": 39,
+          "delta": 2
+        },
+        {
+          "rank": 3,
+          "value": 42,
+          "delta": 3
+        },
+        {
+          "rank": 4,
+          "value": 45,
+          "delta": 3
+        },
+        {
+          "rank": 5,
+          "value": 48,
+          "delta": 3
+        },
+        {
+          "rank": 6,
+          "value": 50,
+          "delta": 2
+        },
+        {
+          "rank": 7,
+          "value": 53,
+          "delta": 3
+        },
+        {
+          "rank": 8,
+          "value": 56,
+          "delta": 3
+        }
+      ]
+    },
+    {
+      "race": "android",
+      "level": 10,
+      "model": "owner-bonus",
+      "node": "B2",
+      "stat": "defense",
+      "rank": 8,
+      "base": 34,
+      "value": 36,
+      "zeroGainExtraRanks": 6,
+      "extraRanks": 7,
+      "milestones": [
+        {
+          "rank": 1,
+          "value": 35,
+          "delta": 1
+        },
+        {
+          "rank": 2,
+          "value": 35,
+          "delta": 0
+        },
+        {
+          "rank": 3,
+          "value": 36,
+          "delta": 1
+        },
+        {
+          "rank": 4,
+          "value": 36,
+          "delta": 0
+        },
+        {
+          "rank": 5,
+          "value": 36,
+          "delta": 0
+        },
+        {
+          "rank": 6,
+          "value": 36,
+          "delta": 0
+        },
+        {
+          "rank": 7,
+          "value": 36,
+          "delta": 0
+        },
+        {
+          "rank": 8,
+          "value": 36,
+          "delta": 0
+        }
+      ]
+    },
+    {
+      "race": "legend",
+      "level": 10,
+      "model": "current",
+      "node": "B3",
+      "stat": "maxHp",
+      "rank": 8,
+      "base": 518,
+      "value": 932,
+      "zeroGainExtraRanks": 0,
+      "extraRanks": 7,
+      "milestones": [
+        {
+          "rank": 1,
+          "value": 570,
+          "delta": 52
+        },
+        {
+          "rank": 2,
+          "value": 622,
+          "delta": 52
+        },
+        {
+          "rank": 3,
+          "value": 673,
+          "delta": 51
+        },
+        {
+          "rank": 4,
+          "value": 725,
+          "delta": 52
+        },
+        {
+          "rank": 5,
+          "value": 777,
+          "delta": 52
+        },
+        {
+          "rank": 6,
+          "value": 829,
+          "delta": 52
+        },
+        {
+          "rank": 7,
+          "value": 881,
+          "delta": 52
+        },
+        {
+          "rank": 8,
+          "value": 932,
+          "delta": 51
+        }
+      ]
+    },
+    {
+      "race": "legend",
+      "level": 10,
+      "model": "owner-bonus",
+      "node": "B3",
+      "stat": "maxHp",
+      "rank": 8,
+      "base": 518,
+      "value": 562,
+      "zeroGainExtraRanks": 0,
+      "extraRanks": 7,
+      "milestones": [
+        {
+          "rank": 1,
+          "value": 544,
+          "delta": 26
+        },
+        {
+          "rank": 2,
+          "value": 546,
+          "delta": 2
+        },
+        {
+          "rank": 3,
+          "value": 549,
+          "delta": 3
+        },
+        {
+          "rank": 4,
+          "value": 552,
+          "delta": 3
+        },
+        {
+          "rank": 5,
+          "value": 554,
+          "delta": 2
+        },
+        {
+          "rank": 6,
+          "value": 557,
+          "delta": 3
+        },
+        {
+          "rank": 7,
+          "value": 559,
+          "delta": 2
+        },
+        {
+          "rank": 8,
+          "value": 562,
+          "delta": 3
+        }
+      ]
+    }
+  ]
+}

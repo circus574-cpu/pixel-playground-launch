@@ -229,15 +229,15 @@ describe("production kit stats and mastery effects", () => {
     earth.tick(500);
     expect(earth.state.radius).toBe(144);
     expect(earth.state.raw).toHaveLength(2);
-    expect(earth.state.raw[0]!.raw / earth.kit.stats.attack).toBeCloseTo(1.4 * 0.9);
-    expect(earth.state.raw[1]!.raw / earth.kit.stats.attack).toBeCloseTo(1.4 * 0.6 * 0.9);
+    expect(earth.state.raw[0]!.raw / earth.kit.stats.attack).toBeCloseTo(1.2 * 0.9);
+    expect(earth.state.raw[1]!.raw / earth.kit.stats.attack).toBeCloseTo(1.2 * 0.3 * 0.9);
     const heal = harness("planetary", "mv-root");
     heal.kit.use("C1");
     heal.tick(4000);
     const partial = heal.state.heals;
     heal.tick(2000);
     expect(partial).toBeLessThan(heal.state.heals);
-    expect(heal.state.heals).toBeCloseTo(heal.kit.stats.maxHp * 0.12 * 1.1);
+    expect(heal.state.heals).toBeCloseTo(heal.kit.stats.maxHp * 0.06 * 1.1);
   });
   it("Sage variants preserve total ticks and apply shield and seal tradeoffs", () => {
     const h = harness("sage", "ma-seal");
@@ -251,12 +251,12 @@ describe("production kit stats and mastery effects", () => {
     b.kit.learn("B3");
     b.kit.learn("B7");
     b.kit.use("B1");
-    expect(b.kit.shields[0]!.ms).toBe(9000);
-    expect(b.kit.shieldPoints).toBeCloseTo(b.kit.stats.maxHp * 0.15 * 1.3 * 0.8);
+    expect(b.kit.shields[0]!.ms).toBe(7500);
+    expect(b.kit.shieldPoints).toBeCloseTo(b.kit.stats.maxHp * 0.075 * 1.15 * 0.8);
     const focus = harness("sage", "ma-focus");
     focus.kit.use("C1");
     focus.tick(4500);
-    expect(focus.state.ki).toBeCloseTo(focus.kit.stats.maxKi * 0.3 * 1.2);
+    expect(focus.state.ki).toBeCloseTo(focus.kit.stats.maxKi * 0.15 * 1.2);
     expect(focus.kit.channel).toBeUndefined();
   });
   it("Android module effects commute, affect neither R/T cooldowns nor core limits", () => {
@@ -345,7 +345,7 @@ describe("production kit stats and mastery effects", () => {
     shield.d.equippedModuleIds = ["mn-shield"];
     shield.kit.use("B1");
     expect(shield.kit.shields[0]!.ms).toBe(3600);
-    expect(shield.kit.shieldPoints).toBeCloseTo(shield.kit.stats.maxHp * 0.18 * 1.15 * 1.1);
+    expect(shield.kit.shieldPoints).toBeCloseTo(shield.kit.stats.maxHp * 0.09 * 1.15 * 1.1);
     const beam = harness("android", "mn-discharge");
     beam.foe.y = 60;
     beam.kit.use("C1");
@@ -370,7 +370,7 @@ describe("production kit stats and mastery effects", () => {
     const b = harness("legend", "mp-break");
     b.kit.use("B1");
     expect(b.state.stun).toBe(1500);
-    expect(b.state.raw[0]!.raw).toBeCloseTo(b.kit.stats.attack * 1.5 * 0.9);
+    expect(b.state.raw[0]!.raw).toBeCloseTo(b.kit.stats.attack * 1.25 * 0.9);
     const c = harness("legend", "mp-burst");
     c.foe.x = 175;
     c.kit.use("C1");

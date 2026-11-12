@@ -83,7 +83,7 @@ describe("Barriers use borrowed shield capacity, optical routes and timed terrai
     a.session.command({ type: "ability", ability: "B1" });
     tickTrial(a, 36);
     expect(a.snapshot().waves!.object.hp).toBe(70);
-    expect(a.session.kit.shieldPoints).toBe(a.session.kit.stats.maxHp * 0.15);
+    expect(a.session.kit.shieldPoints).toBe(a.session.kit.stats.maxHp * 0.075);
   });
   it("a bare-body interception or invulnerability cannot replace spent B1 capacity", () => {
     for (const invulnerable of [false, true]) {

@@ -325,7 +325,7 @@ describe("Planetarni", () => {
     base.kit.use("R");
     const hit = h2.state.hits.at(-1)!;
     expect(hit.hit.crit).toBe(true);
-    expect(hit.raw).toBeCloseTo(base.state.hits.at(-1)!.raw * 1.25 * 1.5, 4);
+    expect(hit.raw).toBeCloseTo(base.state.hits.at(-1)!.raw * 1.125 * 1.5, 4);
   });
   it("Impuls Ziemi hits in an area, slows and Rezonans strikes again after 0.5 s", () => {
     const a = foe("a", 60, 0);
@@ -340,25 +340,25 @@ describe("Planetarni", () => {
     expect(first).toBe(2);
     h.step(550);
     expect(h.state.hits.length).toBe(4);
-    expect(h.state.hits[2]!.raw).toBeCloseTo(h.state.hits[0]!.raw * 0.6, 5);
-    expect(h.state.player.ki).toBe(kiBefore - 10 + 10);
+    expect(h.state.hits[2]!.raw).toBeCloseTo(h.state.hits[0]!.raw * 0.3, 5);
+    expect(h.state.player.ki).toBe(kiBefore - 10 + 5);
   });
   it("Adaptacja gives terrain bonuses", () => {
     const h = harness("planetary", 4, ["R", "A1", "B1", "B2"]);
     const base = h.kit.stats;
     h.state.terrain = "forest";
-    expect(h.kit.stats.kiRegen / base.kiRegen).toBeCloseTo(1.3);
+    expect(h.kit.stats.kiRegen / base.kiRegen).toBeCloseTo(1.15);
     h.state.terrain = "rock";
     expect(h.kit.stats.defense).toBeGreaterThan(base.defense);
     h.state.terrain = "water";
-    expect(h.kit.stats.speed / base.speed).toBeCloseTo(1.08);
+    expect(h.kit.stats.speed / base.speed).toBeCloseTo(1.04);
   });
-  it("Tarcza Liści absorbs 18% max HP and reflects melee with Strażnik Gaju", () => {
+  it("Tarcza Liści absorbs 9% max HP and reflects melee with Strażnik Gaju", () => {
     const attacker = foe("m", 30, 0, 500);
     const h = harness("planetary", 13, ["R", "C1", "C4", "C7"], [attacker]);
     // C4 requires C2|C3 in the tree, but the runtime accepts any learned set
     expect(h.kit.use("C4").ok).toBe(true);
-    const cap = h.kit.stats.maxHp * 0.18;
+    const cap = h.kit.stats.maxHp * 0.09;
     expect(h.kit.shieldPoints).toBeCloseTo(cap);
     expect(h.kit.absorb(50, "melee", attacker)).toBe(0);
     expect(attacker.hp).toBeLessThan(500);
@@ -367,7 +367,7 @@ describe("Planetarni", () => {
 });
 
 describe("Mędrcy", () => {
-  it("Pieczęć Energii explodes after 3 s for ×2.0 and A8 returns Ki", () => {
+  it("Pieczęć Energii explodes after 3 s for ×1.5 and A8 returns Ki", () => {
     const f = foe("f", 200, 0);
     const h = harness("sage", 13, ["R", "A1", "A8"], [f]);
     h.state.target = f;
@@ -377,25 +377,25 @@ describe("Mędrcy", () => {
     h.step(3050);
     expect(h.state.hits).toHaveLength(1);
     const attack = h.kit.stats.attack;
-    expect(h.state.hits[0]!.raw).toBeCloseTo(attack * 2, 3);
-    expect(h.state.player.ki).toBe(ki + 15);
+    expect(h.state.hits[0]!.raw).toBeCloseTo(attack * 1.5, 3);
+    expect(h.state.player.ki).toBe(ki + 7.5);
   });
-  it("Strumień Ki channels six ticks of ×0.4", () => {
+  it("Strumień Ki channels six ticks totalling ×1.7", () => {
     const f = foe("f", 200, 0);
     const h = harness("sage", 7, ["R", "A4"], [f]);
     h.state.target = f;
     h.kit.use("A4");
     h.step(3100);
     expect(h.state.hits).toHaveLength(6);
-    expect(h.state.hits.reduce((n, x) => n + x.raw, 0)).toBeCloseTo(h.kit.stats.attack * 2.4, 3);
+    expect(h.state.hits.reduce((n, x) => n + x.raw, 0)).toBeCloseTo(h.kit.stats.attack * 1.7, 3);
     expect(h.kit.channel).toBeUndefined();
   });
-  it("Skupienie KI restores 30% and is interrupted by moving unless Skupienie Mistrza", () => {
+  it("Skupienie KI restores 15% and is interrupted by moving unless Skupienie Mistrza", () => {
     const h = harness("sage", 13, ["R", "C1"]);
     h.state.player.ki = 0;
     h.kit.use("C1");
     h.step(3100);
-    expect(h.state.player.ki).toBeCloseTo(h.kit.stats.maxKi * 0.3, 3);
+    expect(h.state.player.ki).toBeCloseTo(h.kit.stats.maxKi * 0.15, 3);
     const g = harness("sage", 13, ["R", "C1"]);
     g.state.player.ki = 0;
     g.kit.use("C1");
@@ -415,7 +415,7 @@ describe("Mędrcy", () => {
     expect(attacker.hp).toBe(500 - 40);
     const k = harness("sage", 13, ["R", "B1", "B7"]);
     k.kit.use("B1");
-    expect(k.kit.shieldPoints).toBeCloseTo(k.kit.stats.maxHp * 0.15 * 1.3);
+    expect(k.kit.shieldPoints).toBeCloseTo(k.kit.stats.maxHp * 0.075 * 1.15);
   });
   it("Pełnia Skupienia removes Ki costs", () => {
     const h = harness("sage", 16, ["R", "A1", "C9"]);
@@ -456,15 +456,15 @@ describe("Androidy", () => {
     (h.kit as unknown as { charge: number }).charge = 100;
     h.kit.use("C1");
     const raw = h.state.hits.at(-1)!.raw;
-    expect(raw).toBeCloseTo(h.kit.stats.attack * 3, 3);
+    expect(raw).toBeCloseTo(h.kit.stats.attack * 2, 3);
     expect((h.kit as unknown as { charge: number }).charge).toBe(0);
   });
-  it("Przeciążony Rdzeń lifts the cap to 150 (×4.0) and Stabilny Rdzeń never overheats", () => {
+  it("Przeciążony Rdzeń lifts the cap to 150 (first-rank ×2.5) and Stabilny Rdzeń never overheats", () => {
     const f = foe("f", 200, 0, 1e6);
     const h = harness("android", 13, ["R", "C1", "C7"], [f]);
     (h.kit as unknown as { charge: number }).charge = 150;
     h.kit.use("C1");
-    expect(h.state.hits.at(-1)!.raw).toBeCloseTo(h.kit.stats.attack * 4, 3);
+    expect(h.state.hits.at(-1)!.raw).toBeCloseTo(h.kit.stats.attack * 2.5, 3);
     const s = harness("android", 13, ["R", "C8"], [foe("g", 200, 0, 1e6)]);
     s.state.target = s.foes[0];
     for (let i = 0; i < 40; i++) {
@@ -474,7 +474,7 @@ describe("Androidy", () => {
     expect(s.kit.resource()!.max).toBe(70);
     expect(s.kit.resource()!.state).not.toBe("overheat");
   });
-  it("marks: Salwa and Egzekucja need a mark, Egzekucja deals ×6 below 30% HP", () => {
+  it("marks: Salwa and Egzekucja need a mark, Egzekucja deals ×3.5 below 30% HP", () => {
     const f = foe("f", 200, 0, 1000);
     const h = harness("android", 16, ["R", "A1", "A4", "A9"], [f]);
     h.state.target = f;
@@ -482,11 +482,11 @@ describe("Androidy", () => {
     expect(h.kit.use("A1").ok).toBe(true);
     expect(f.marked).toBe(true);
     expect(h.kit.use("A9").ok).toBe(true);
-    expect(h.state.hits.at(-1)!.raw).toBeCloseTo(h.kit.stats.attack * 4 * (1 + 0), -1);
+    expect(h.state.hits.at(-1)!.raw).toBeCloseTo(h.kit.stats.attack * 2.5 * (1 + 0), -1);
     f.hp = 200;
     h.step(31000);
     h.kit.use("A9");
-    expect(h.state.hits.at(-1)!.raw / h.kit.stats.attack).toBeGreaterThan(5.5);
+    expect(h.state.hits.at(-1)!.raw / h.kit.stats.attack).toBeCloseTo(3.5, 5);
   });
   it("Przeciążenie Systemu: free abilities, then a 2 s shutdown", () => {
     const h = harness("android", 16, ["R", "C9"]);
@@ -515,7 +515,7 @@ describe("Legendy", () => {
     h.step(2000);
     expect(h.kit.resource()!.value).toBeCloseTo(90, 0);
   });
-  it("Ogniste Cięcie: 3 cuts totalling ×1.8, Taniec Płomieni 5 cuts ×2.6, ignition", () => {
+  it("Ogniste Cięcie: 3 cuts totalling ×1.4, Taniec Płomieni 5 cuts, ignition", () => {
     const f = foe("f", 40, 0, 1e6);
     const h = harness("legend", 10, ["R", "A1", "A2"], [f]);
     h.state.target = f;
@@ -535,7 +535,7 @@ describe("Legendy", () => {
     const h = harness("legend", 10, ["R", "C1", "C4"], [f]);
     (h.kit as unknown as { ember: number }).ember = 100;
     h.kit.use("C4");
-    expect(h.state.hits.at(-1)!.raw / h.kit.stats.attack).toBeGreaterThanOrEqual(3 * 0.999);
+    expect(h.state.hits.at(-1)!.raw / h.kit.stats.attack).toBeCloseTo(2.2, 5);
     expect(h.kit.resource()!.value).toBe(0);
     const g = harness("legend", 16, ["R", "B9"]);
     expect(g.kit.saveFromDeath()).toBe(false);
@@ -548,7 +548,7 @@ describe("Legendy", () => {
     const b = h.kit.stats;
     h.kit.use("B4");
     const s = h.kit.stats;
-    expect(s.attack).toBeGreaterThan(b.attack * 1.25);
+    expect(s.attack).toBeGreaterThan(b.attack * 1.1);
     expect(s.defense).toBeLessThan(b.defense);
     const k = harness("legend", 16, ["R", "B4", "B8"]);
     const kb = k.kit.stats;
