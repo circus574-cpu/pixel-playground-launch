@@ -420,3 +420,48 @@ Do odbioru pozostają wygląd i wygoda na fizycznym telefonie oraz końcowe Acti
 na SHA gałęzi. Części niepodłączone w samej grze pozostają oznaczonymi danymi;
 przegląd nie implementuje za nie podziemi, świata ani questów.
 Nie scalano ani nie publikowano.
+
+**Aktualizacja do bieżącego `main`, PR #154.** Własną gałąź uzupełniono o
+`main@3ea92dbd`, zachowując historię i zmiany innych autorów. Nie scalano PR do
+`main`. Finalny kod przeglądu: **`5d410482fab958ff9221c343efb9e0fc7fc2e75b`**.
+Powyższe dowody dla `fb77189b` pozostają historyczne; bieżący odbiór znajduje się
+w podfolderze `current-main`.
+
+| Funkcja | Stan przed | Zmiana | Dowód działania |
+| --- | --- | --- | --- |
+| Rozwój ras i spotkania późnych poziomów | Nowe funkcje na main nie miały warstwy w przeglądzie | 192 aktywności, 629 rzeczywistych kontaktów/etapów, w tym zagraniczny cel H-N04; 32 warianty wypraw jako spotkania warunkowe | 23 testy modułu, zgodność SHA źródeł/geometrii i przeglądarkowy podgląd wyprawy w obu profilach |
+
+Dane rozwoju wyprowadza `scripts/lib/build-world-development.ts` z izolowanych
+produkcyjnych `GameSession`: bez portu zapisu, ticków i poleceń gry. Liczniki
+etapów służą wyłącznie odczytaniu kontaktów; nie są postępem konta ani dowodem
+ukończenia kampanii. Próby pokazują wejście przez trenera do odrębnej sali;
+wyprawy pokazują obszar aktywacji i politykę doboru pozycji przez nawigację,
+nie fikcyjne stałe spawny. Liczba stałych slotów nadal wynosi **8752**.
+
+**Końcowe kontrole tego kodu:** pełny TypeScript aplikacji/e2e/tools PASS,
+Vitest **1962 PASS / 0 FAIL / 10 SKIP** (oddzielny PostgreSQL), lint **0 błędów /
+15 zastanych ostrzeżeń**, zasoby, dokumentacja, format zmienianego kodu oraz
+produkcyjny build PASS. Przeglądarka **18/18 PASS**, bez pominięć i niestabilnych
+przypadków: Canvas oraz Software WebGL, 1280×900, 390×844, 320×568 i 852×393.
+W trakcie pierwszego równoległego podejścia system przerwał lokalny serwer przy
+presji pamięci; ten przebieg odrzucono i ponowiono po zakończeniu ciężkich kontroli.
+Końcowe 18/18 pochodzi z pełnego ponowienia na działającym serwerze.
+
+Dowody aktualnego kodu:
+[odbiór](qa/admin-world-overview/current-main/acceptance.json),
+[inwentaryzacja na czystym SHA](qa/admin-world-overview/current-main/inventory.json),
+[Vitest](qa/admin-world-overview/current-main/vitest.json.gz),
+[Playwright](qa/admin-world-overview/current-main/playwright.json.gz),
+[pełny log przeglądarki](qa/admin-world-overview/current-main/playwright.txt),
+[cała planeta](qa/admin-world-overview/current-main/canvas-whole-planet.png),
+[warunkowa wyprawa](qa/admin-world-overview/current-main/canvas-conditional-expedition.png),
+[wnętrze na 320 px](qa/admin-world-overview/current-main/webgl-npc-interior-320.png),
+[nagranie](qa/admin-world-overview/current-main/desktop-canvas.webm),
+[SHA-256 dowodów](qa/admin-world-overview/current-main/evidence-sha256.json).
+
+[PR #154](https://github.com/circus574-cpu/pixel-playground-launch/pull/154)
+pozostaje Draft, bez scalenia i publikacji. Autoryzacja i rewizja serwera są
+fixture'ami lokalnego transportu QA, natomiast świat, dane i UI są rzeczywiste.
+Nie zweryfikowano fizycznego telefonu ani sesji produkcyjnej; nie deklarujemy
+przejścia pełnego Playwright całej gry. Wynik Actions należy odczytać dla
+aktualnego SHA PR; lokalnych wyników nie utożsamiamy z wynikiem CI.
