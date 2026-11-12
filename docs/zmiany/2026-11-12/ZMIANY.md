@@ -64,7 +64,7 @@
 - Decyzja właściciela: słabsze przedmioty do kupna za wygórowane ceny (trzeba pograć, zanim się kupi),
   słabsze też z rzadkiego dropu, a cały lepszy sprzęt z rozbudowanego craftu. Wdrożone do `GameSession`
   (nie tylko specyfikacja). Pełny opis z formułami i pomiarem:
-  [design/EKONOMIA-PRZEDMIOTOW-2026-11-12.md](../../FABULA-I-EKWIPUNEK.md#ekonomia-wdrożona--12112026).
+  [Fabuła i ekwipunek — ekonomia przedmiotów](../../FABULA-I-EKWIPUNEK.md#ekonomia-przedmiotów--drop-sklep-i-crafting-wdrożone-12112026).
 - **Drop:** `DROP_RARITIES = [common, uncommon]`, `DROP_CHANCE = 0.02` (było 0.08 i wszystkie rzadkości).
   Pula słabych przedmiotów z kontynentu potwora w oknie `[poziom−3, +5]`, ważone rzadkością; minione nie
   losują. Lepszy sprzęt (rare/epic/legendary) nigdy nie dropi. 16 z 40 potworów ma pustą pulę (słabe
@@ -342,7 +342,62 @@ Zrzuty i nagrania pochodzą z rzeczywistej aplikacji, wykresy z zapisanych prób
 Nie scalano do main i nie publikowano gry. Błąd starej sceny pozostaje otwarty;
 nie zmieniano świata, assetów, sprzętu, zadań ani infrastruktury GPU.
 
-### 8. Świat — przegląd Superior v2 w panelu administratora
+### 8. Mędrzec: reakcje formy KI (film 5A) w grze
+
+- Film `sage-etap5a-reakcje-ki.mp4` (SHA-256 e82a6042…f1e8) i film ruchu `sage-etap5b-ruch-ki.mp4` (SHA-256 869c1151…a211) są w `art-wip/gemini-anim-stages/`.
+  Z 5A wycięto `kihit` (6 klatek, 14 kl./s), `kihitheavy` (8, 12), `kideath` (8, 10: upadek i leżenie), `kirespawn` (8, 12: podpiera się, wstaje)
+  i `kivictory` (8, 10) w `scripts/anim/kicombat_build.py` (atlas `hero-sage-painted-walk-v3-kifight-2`, 76 klatek po usunięciu lustrzanych kopii).
+  Film jest na jasnoszarym tle z cieniem pod stopami; matowanie dało czyste klatki, także dla leżącej postaci.
+- Paczka bohatera Mędrca `3.0.3`; Aetheria 113,7 z 128 MiB tekstur (była 103,9).
+- Film 5B (bieg, kanał, skill C, interakcja w formie KI) jest zapisany, ale **jeszcze niewycięty**: silnik nie ma stanów klipów KI dla tych czynności.
+- Weryfikacja w grze (Playwright, próbnik klatek, Mędrzec, poziom 20, po rzucie `T`): `kihit`, `kihitheavy`, `kideath` 00–07, `kirespawn` 00–07 i
+  `kivictory` 00–07 grają w Trybie KI; klatki obejrzane (klęknięcie, upadek do leżenia, wstawanie, uniesiona ręka); zero błędów konsoli.
+  Trafienie, ciężkie trafienie i zwycięstwo wywołane bezpośrednio z kodu animacji, śmierć wymuszona parametrem `dead`.
+- Testy: `actor-animation` i `gpu-pipeline` zaktualizowane (Mędrzec ma teraz klipy reakcji KI jak pozostałe rasy).
+
+### 9. Systemy NPC: handel V2 i crafting dostępne dla gracza (Etap 1 rozbudowy NPC)
+
+- Audyt wszystkich systemów NPC (agent Explore, very thorough) wykazał, że połowa ekonomii
+  przedmiotów była martwa: silnik `craft` i sklep V2 działały, ale **nie miały UI** — gracz nie miał
+  jak kupić 85 słabych przedmiotów ani wytworzyć lepszego sprzętu (265 receptur).
+- **Panel sklepu V2** (`src/components/game/ShopV2Panel.tsx`): kupno słabych przedmiotów z katalogu
+  (`isShopItem`/`shopPrice`) z wyszukiwarką i filtrem kategorii oraz sprzedaż przedmiotów z torby
+  (cena skupu zgodna z gałęzią V2 w `GameSession`). Otwierany z rozmowy z kupcem.
+- **Panel craftingu** (`src/components/game/CraftingPanel.tsx`): zakładki stacji (Kuźnia/Alchemia/Runy/
+  Fabrykator/Księgi), wyszukiwarka, lista receptur z rzadkością, wymaganym poziomem, kosztem i
+  składnikami (posiadane/wymagane, kolorowane). Przycisk „Wytwórz" blokowany bez poziomu/monet/składników.
+  Otwierany z rozmowy z kowalem (forge) i alchemikiem (alchemy).
+- Integracja w `NpcDialogue` (`AdventurePanels.tsx`): podwidoki sklep/crafting, przyciski u kupca/kowala/
+  alchemika. Style w `adventure.css`.
+- Testy: `src/test/npc-commerce-ui.test.tsx` (4) — kupno i sprzedaż V2 u kupca (nawigacja mapą),
+  wytworzenie z receptury forge i blokada bez składników. **4/4 PASS**; typecheck 0, lint 0 błędów.
+- Nie zrobiono / nie sprawdzono: crafting nie wymaga bliskości stacji (handler pozostaje permisywny,
+  bramką jest rozmowa z NPC); panele nie były oglądane na fizycznym telefonie (test jsdom). Kolejne
+  etapy rozbudowy NPC (dialogi/questy od NPC, usługi, online, bossowie) w toku.
+
+### 10. Systemy NPC: parytet komend online — crafting, handel V2, equip V2, alchemik/strażnik (Etap 2)
+
+- Bez tego panele z etapu 1 działały tylko offline: serwer odrzucał komendy nieobecne w schemacie
+  `OnlineCommandSchema` (`src/server/characters/commands.ts`). Naprawiono parytet online:
+  - **`craft`** dodany do schematu — panel wytwarzania działa na serwerze (produkcja).
+  - **`interact`** rozszerzony o role `alchemist` i `warden` (było 8 ról, kliknięcie alchemika/strażnika
+    online było odrzucane).
+  - **`depot-gold`** dodany — skarbiec złota w depozycie działa online.
+  - **`equip`** przyjmuje dowolny przedmiot z katalogu (było tylko 4 legacy), **`unequip`** wszystkie
+    sloty V2 (`EQUIPMENT_SLOTS`: head/weapon/armor/offhand/hands/ring/amulet/feet, było weapon/armor).
+    Lokalny handler `equip` już obsługiwał sprzęt V2 (`getSlotForItem`/`equipment[slot]`) — brakowało
+    tylko wejścia online.
+- Serwer przekazuje sparsowaną komendę wprost do `session.command` (`superiorSimulation.ts`), więc
+  rozszerzenie schematu wystarcza; `ServerIntentSchema` zawiera `OnlineCommandSchema`.
+- Testy: `src/test/online-npc-commands.test.ts` (7) — craft/interact/depot-gold/trade V2/equip V2
+  przyjmowane, błędne pakiety odrzucane. **7/7 PASS**.
+- Nie zrobiono / nie sprawdzono: pełna ścieżka online nie była testowana na żywym serwerze (test
+  schematu + lokalny handler); dialogi/questy od NPC, emitter `deliver`, wybór materiału w brew,
+  kowal V2 i realne leża bossów pozostają do rozbudowy.
+
+<a id="8-świat--przegląd-superior-v2-w-panelu-administratora"></a>
+
+### 11. Świat — przegląd Superior v2 w panelu administratora
 
 - Osobna gałąź `feat/admin-world-overview`, od `origin/main@9177b5c0`.
 - `/admin?view=world-overview`: nowa zakładka administratora, leniwie ładowana przez
@@ -465,3 +520,22 @@ fixture'ami lokalnego transportu QA, natomiast świat, dane i UI są rzeczywiste
 Nie zweryfikowano fizycznego telefonu ani sesji produkcyjnej; nie deklarujemy
 przejścia pełnego Playwright całej gry. Wynik Actions należy odczytać dla
 aktualnego SHA PR; lokalnych wyników nie utożsamiamy z wynikiem CI.
+
+### 12. Publikacja mapy administratora — zgoda właściciela
+
+Właściciel polecił „To scalaj i wdrażaj” 12.11.2026. PR #154 jest przygotowany do
+scalenia zwykłym merge, bez przepisywania historii. Gałąź uzupełniono o
+`main@370d4a76` (nowe panele/usługi NPC i reakcje KI Mędrca); zachowano obie
+historie dokumentacji i kanoniczną segregację ekonomii z PR #152. Dodano alias
+starego odnośnika ekonomii, aby dowody przeglądu pozostały dostępne.
+
+Oba rejestry mapy zregenerowano z obecnego kodu: pliki pozostały identyczne,
+współrzędne i liczby nie zmieniły się. Testy przeglądu, interfejsu NPC i schematu
+komend online: **34/34 PASS**. Wdrożenie prowadzi istniejący workflow
+`aruba-production.yml`: pełna bramka jakości, kandydat, smoke HTTP i promocja
+Coolify z zachowaniem poprzednich obrazów do rollbacku. Faktyczny wynik i SHA
+publikacji należy odczytać w Actions oraz `/publications.json`; niniejszy wpis
+nie stanowi deklaracji, że publikacja już się zakończyła. Nie zmieniano
+konfiguracji produkcji, zapisów, GPU ani mechaniki gry.
+
+Pełny TypeScript aplikacji/e2e/tools PASS. [Kontrole integracyjne i SHA wejść](qa/admin-world-release/pre-merge-checks.json), [testy 34/34](qa/admin-world-release/targeted-tests.txt). Przeglądarkowa regresja mapy oraz pełna bramka CI są ponawiane przed scaleniem.

@@ -245,7 +245,7 @@ Docelowe koszty usług: gospoda 5 monet (obecny mechanizm miasta); rejsy 10–30
 ## System ekonomii przedmiotów — wdrożone 12.11.2026
 
 ŹRÓDŁO: decyzja właściciela 12.11.2026, wdrożone do `GameSession` (nie tylko propozycja). Pełny opis z
-formułami i pomiarem: [Ekonomia przedmiotów](#ekonomia-wdrożona--12112026). Trzy filary:
+formułami i pomiarem: [Ekonomia przedmiotów](#ekonomia-przedmiotów--drop-sklep-i-crafting-wdrożone-12112026). Trzy filary:
 
 - **Drop — tylko słabe, rzadki.** Z potworów (nie-minionów) dropią wyłącznie przedmioty common/uncommon
   i to z szansą **2% na kill** (`DROP_CHANCE`, było 8% i wszystkie rzadkości). Pula dobiera słabe
@@ -2998,7 +2998,9 @@ wydają własną broń, zaś pełna legalna ścieżka stopni 2–6 nadal wymaga 
 późniejszych etapów. Transfer wymaga własnej otwartej skrzyni i rzeczywistej
 bliskości. Nie wolno wczytać cudzej broni do innego slotu.
 
-## Ekonomia wdrożona — 12.11.2026
+<a id="ekonomia-wdrożona--12112026"></a>
+
+## Ekonomia przedmiotów — drop, sklep i crafting (wdrożone 12.11.2026)
 
 **Status: wdrożone do runtime (`GameSession`), nie tylko specyfikacja.** Decyzja właściciela z
 12.11.2026: *„słabsze przedmioty do kupna w sklepie za wygórowane ceny, by trzeba było trochę pograć,
@@ -3006,10 +3008,6 @@ bliskości. Nie wolno wczytać cudzej broni do innego slotu.
 przedmiotów z craftu rozbudowanego”*. Ten dokument opisuje cały system: zasady, liczby, formuły,
 pliki i sposób regeneracji. Liczby pochodzą z pomiaru kodu (`tsx`, import `src/game/items/*`), nie z
 szacunku.
-
-Powiązane: [katalog 366 przedmiotów V2](katalog-przedmiotow-v2/README.md),
-[Fabuła i ekwipunek §05 i §12–14](FABULA-I-EKWIPUNEK.md),
-[dziennik 12.11.2026](zmiany/2026-11-12/ZMIANY.md).
 
 ---
 
@@ -3197,3 +3195,5 @@ uruchom testy ekonomii i pełną bramkę.
   albo osobną pulę — to decyzja projektowa, nie błąd.
 - Ceny sklepu (4×, min poziom×60) i `DROP_CHANCE` (2%) to parametry startowe; balans do korekty po
   zabawie właściciela. Stałe są w jednym miejscu (`loot.ts`), więc zmiana jest punktowa.
+
+Powiązane: [katalog 366 przedmiotów V2](katalog-przedmiotow-v2/README.md), [dziennik 12.11.2026](zmiany/2026-11-12/ZMIANY.md).

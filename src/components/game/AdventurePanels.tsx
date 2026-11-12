@@ -1,12 +1,14 @@
 import { nodeDescription, rankBasePercent } from "../../game/kit/nodePresentation";
-import { getItemById } from "../../game/items";
+import { getItemById, type CraftingStation } from "../../game/items";
 import { equippedName } from "../../game/development/heritage/equipment";
 import { HeritageWeaponCard } from "./HeritageWeaponCard";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { gpuIcon } from "./gpuIcons";
 import { isCityStage } from "../../game/city/types";
 import { getNpcDialogue } from "../../game/dialogue";
 import { CityDirectory } from "./CityPanels";
+import { CraftingPanel } from "./CraftingPanel";
+import { ShopV2Panel } from "./ShopV2Panel";
 import { QuestsV2Journal } from "./QuestsV2Journal";
 import { WORLD_V2 } from "../../game/world/generated/worldVersion";
 import { WORLDS } from "../../game/world/worlds";
@@ -261,9 +263,22 @@ export function NpcDialogue({
   feedback?: ReactNode;
   authoritative?: boolean;
 }) {
+  const [subView, setSubView] = useState<null | "craft" | "shop">(null);
+  const [craftStation, setCraftStation] = useState<CraftingStation>("forge");
   const world = worldOverride ?? WORLDS[state.player.continent];
   const npc = world.npcs.find((n) => n.id === state.dialogue);
   if (!npc) return null;
+  if (subView === "craft")
+    return (
+      <CraftingPanel
+        state={state}
+        send={send}
+        initialStation={craftStation}
+        onClose={() => setSubView(null)}
+      />
+    );
+  if (subView === "shop")
+    return <ShopV2Panel state={state} send={send} onClose={() => setSubView(null)} />;
   const p = state.player;
   const quest = npc.id === "guide" ? "steps" : npc.id === "hunter" ? "boars" : "gear";
   const q = p.quests[quest];
@@ -360,6 +375,9 @@ export function NpcDialogue({
               <p>
                 <strong>{p.gold} monet</strong>
               </p>
+              <button onClick={() => setSubView("shop")}>
+                Przeglądaj towary kupca (katalog) — kupno i sprzedaż
+              </button>
               {ITEM_IDS.map((id) => (
                 <article key={id} className="ki-item-row" aria-label={ITEMS[id].name}>
                   <ItemIcon item={id} />
@@ -415,12 +433,22 @@ export function NpcDialogue({
             </>
           )}
           {npc.id === "smith" && (
-            <button
-              disabled={p.weapon !== "sword" || Boolean(p.upgrade) || p.gold < 15}
-              onClick={() => send({ type: "dialogue", action: "upgrade" })}
-            >
-              Ulepsz ostrze · 15 monet {p.upgrade ? "(wykonano)" : ""}
-            </button>
+            <>
+              <button
+                onClick={() => {
+                  setCraftStation("forge");
+                  setSubView("craft");
+                }}
+              >
+                Otwórz warsztat kowalski (wytwarzanie sprzętu)
+              </button>
+              <button
+                disabled={p.weapon !== "sword" || Boolean(p.upgrade) || p.gold < 15}
+                onClick={() => send({ type: "dialogue", action: "upgrade" })}
+              >
+                Ulepsz ostrze · 15 monet {p.upgrade ? "(wykonano)" : ""}
+              </button>
+            </>
           )}
           {npc.id === "keeper" && (
             <button onClick={() => send({ type: "chest" })}>Otwórz depozyt / Skrytkę</button>
@@ -451,6 +479,14 @@ export function NpcDialogue({
 
           {npc.id === "alchemist" && (
             <div style={{ display: "flex", flexDirection: "column", gap: "8px", width: "100%" }}>
+              <button
+                onClick={() => {
+                  setCraftStation("alchemy");
+                  setSubView("craft");
+                }}
+              >
+                Otwórz pracownię alchemiczną (wytwarzanie)
+              </button>
               <p style={{ margin: "4px 0", fontSize: "0.9em" }}>
                 <strong>Dostępne surowce:</strong>{" "}
                 {Object.keys(p.materials).length > 0

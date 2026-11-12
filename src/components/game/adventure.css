@@ -1075,3 +1075,65 @@
   border: 2px solid #fff;
   box-shadow: 0 0 8px #4ff0ff;
 }
+
+/* Crafting & shop V2 panels (system ekonomii 12.11.2026). */
+.ki-crafting-panel,
+.ki-shop-panel {
+  max-width: 620px;
+}
+.ki-craft-stations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+.ki-craft-stations button {
+  min-height: 34px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+.ki-craft-stations button.is-active {
+  border-color: #f3d27a;
+  background: linear-gradient(#c98a2a, #7a4a14);
+  color: #fff3d1;
+  font-weight: 700;
+}
+.ki-craft-search {
+  width: 100%;
+  margin: 6px 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #a7e3d288;
+  background: #123340ee;
+  color: #f1fff8;
+  font: 13px system-ui;
+}
+.ki-craft-list {
+  max-height: 46dvh;
+  overflow-y: auto;
+  display: grid;
+  gap: 2px;
+  padding: 4px 0;
+}
+.ki-craft-row {
+  align-items: flex-start;
+}
+.ki-craft-info {
+  flex: 1;
+  min-width: 0;
+}
+.ki-craft-ingredients {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  font-size: 11px;
+}
+.ki-craft-ingredients li.is-ok {
+  color: #9fe8b0;
+}
+.ki-craft-ingredients li.is-missing {
+  color: #ff9885;
+}
