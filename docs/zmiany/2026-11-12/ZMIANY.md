@@ -628,3 +628,15 @@ Pełny TypeScript aplikacji/e2e/tools PASS. [Kontrole integracyjne i SHA wejść
   urządzeniu; łup bossa zapisuje się przez istniejący `bossRewards` (bez zmian). Pełna bramka ma środowiskowe
   timeouty ciężkich testów (admin-world-overview, npc-trainer-visual, racial-trial) — przechodzą osobno
   lub są niezależne od tej zmiany; lint 0, typecheck 0, build 0.
+
+### 18. Tryb online: forma KI i bieg bohatera nie były widoczne (wszystkie rasy)
+
+- Przyczyna: w trybie online (produkcja) klient przepisywał z ramki serwera pozycję, kierunek, ruch, dialogi i łup, ale nie
+  aktywne buffy ani flagę biegu. Animacja wybiera formę KI, gdy w `session.kit.buffs` jest buff `T`, a bieg według
+  `session.running`; w trybie online te pola zostawały puste. Pasek statusów pokazywał `T · … s` (z danych serwera), a
+  bohater rysował się w zwykłym stroju. Tryb lokalny (playtest) działał, dlatego wcześniejsze sprawdzenia tego nie wykryły.
+- Poprawka: `mirrorPresentationState` w `superiorRuntime.ts` przepisuje buffy i `running` przy każdej ramce;
+  `OnlineSession.view()` wysyła `running` (starszy serwer bez pola = chód).
+- Test `online-ki-form` (3 testy) pada bez poprawki i przechodzi z nią; testy online, sesji i animacji (66) zielone;
+  typecheck, eslint i prettier czyste.
+- Nie sprawdzono w przeglądarce w trybie online (wymaga konta i serwera gry), tylko na poziomie kodu i testów.

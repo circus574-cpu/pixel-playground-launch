@@ -241,6 +241,7 @@ export class OnlineSession {
       loot: structuredClone(s.loot),
       facing: { ...s.facing },
       moving: s.moving,
+      running: s.running,
       events: s.events.splice(0),
       checkpoint: this.record.state,
       targetId: s.targetId,

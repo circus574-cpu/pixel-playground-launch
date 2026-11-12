@@ -88,6 +88,19 @@ export type SuperiorRuntime = GameRuntime & {
   staffTeleport: (destination: FeatureId, point: Point, signal?: AbortSignal) => Promise<boolean>;
 };
 
+/**
+ * Online, the server owns the kit: the client only mirrors what presentation reads from it. The hero
+ * draws the Tryb KI form while buff "T" is active and the run clip while `running`; without mirroring
+ * both, the hero never looked transformed (nor ran) online although the HUD listed "T".
+ */
+export function mirrorPresentationState(
+  session: Pick<GameSession, "running" | "kit">,
+  frame: { running?: boolean; view: { buffs: readonly { id: string; ms: number }[] } },
+) {
+  session.running = frame.running ?? false;
+  session.kit.buffs = frame.view.buffs.map((b) => ({ id: b.id, ms: b.ms }));
+}
+
 export async function prepareSuperior(options: {
   race: RaceId;
   online?: OnlineClient;
@@ -598,6 +611,7 @@ export async function prepareSuperior(options: {
       Object.assign(session.training, frame.view.training);
       session.facing = { ...frame.facing };
       session.moving = frame.moving;
+      mirrorPresentationState(session, frame);
       session.targetId = frame.targetId;
       session.nowMs = frame.nowMs;
       session.dialogue = frame.view.dialogue;
