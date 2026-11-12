@@ -8,7 +8,7 @@
 > Liczba receptur w runtime wzrosła ze 140 bazowych do **265** (140 bazowych + 125 wygenerowanych
 > `rec-gen-*`, pokrywających wszystkie 226 lepszych przedmiotów). Plik CSV „140 receptur" pozostaje
 > źródłowym zbiorem bazowym — dodatkowe 125 powstaje z `scripts/gen-item-recipes.ts`. Pełny opis:
-> [Ekonomia przedmiotów](../design/EKONOMIA-PRZEDMIOTOW-2026-11-12.md).
+> [Ekonomia przedmiotów](../FABULA-I-EKWIPUNEK.md#ekonomia-wdrożona--12112026).
 
 ## Dostępne dane (zatwierdzona decyzja właściciela o pasywnych buffach)
 

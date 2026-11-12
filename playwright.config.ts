@@ -8,6 +8,7 @@ const webglArgs = [
   "--enable-unsafe-swiftshader",
 ];
 const appTests = [
+  "**/admin-world-overview.spec.ts",
   "**/globe-handoff.spec.ts",
   "**/private-sketch.spec.ts",
   "**/map-performance.spec.ts",
@@ -83,6 +84,7 @@ export default defineConfig({
     {
       name: "application-webgl",
       testMatch: [
+        "**/admin-world-overview.spec.ts",
         "**/globe-handoff.spec.ts",
         "**/globe-rendering.spec.ts",
         "**/map-performance.spec.ts",

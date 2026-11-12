@@ -424,3 +424,49 @@ prac oraz dostępne istniejące sylwetki rozmówców. Nie są to nowe modele/ani
 Ukończone projekty dostają znaczniki na istniejącej minimapie; wpisy anonimowe nie
 ujawniają nazwiska na odbudowanej tablicy. Pełne przejście wszystkich 24 projektów,
 funkcje stacji i ich odbiór wizualny nadal są otwarte, zwłaszcza cele ochrony i eskorty.
+
+## Świat — przegląd Superior v2 w panelu administratora
+
+Osobna gałąź `feat/admin-world-overview`, od `origin/main@9177b5c0`.
+Nowa zakładka `/admin` → **Świat — przegląd**, także bezpośrednio
+`/admin?view=world-overview`, jest dostępna dla roli administratora przez istniejący
+mechanizm konta. Nie dodaje operacji edycji, publikowania ani teleportowania.
+
+Mapa odczytuje indeks i zweryfikowane manifestami dane **Superior v2**: wszystkie
+cztery kontynenty i sześć wysp. Na tej bazie znajdują się 8752 punkty spawnów,
+212 pozycji NPC w 22 osadach, 1715 dróg/ścieżek, 106 questów V2 oraz trzy wspólne
+zadania wstępne `GameSession`. Wnętrza 132 budynków usługowych używają tych samych
+`cityRoom` i lokalnych współrzędnych co gra. NPC znajdujący się we wnętrzu jest na
+planecie oznaczany przy drzwiach budynku; jego współrzędne pokoju nie stają się
+współrzędnymi kontynentu.
+
+Widok planety korzysta z obecnego atlasu i `worldToAtlas`. Zbliżenia lądów pokazują
+natywną mapę terenu oraz rzeczywiste współrzędne świata. Warstwy obejmują spawny,
+NPC, questy, miasta/strefy bezpieczne, budynki i drzwi, zasoby, sekrety, drogi,
+wejścia do podziemi, kolizje i zapisane dekoracje. Dostępne są wyszukiwanie,
+filtr gatunku/poziomu/questa, inspektor danych, eksport JSON, przesuwanie,
+zoom, gest dwóch palców i sterowanie klawiaturą. Lista wyników ma strony po 40;
+znaczniki rysuje jeden Canvas zamiast tysięcy elementów DOM.
+
+Źródło można przełączyć między opublikowaną rewizją serwera, danymi bazowymi
+oraz lokalnym szkicem edytora. Przegląd nie wywołuje `applyAdminWorldOverridesToRuntime`,
+nie zmienia globalnych katalogów ani zapisów postaci. Korzysta z odrębnej kopii
+katalogów generowanej poleceniem `npx tsx scripts/lib/build-world-overview.ts`.
+Po zmianie questów, NPC, bestiariusza lub ekonomii należy ją odświeżyć; test porównuje
+kopię z aktualnymi definicjami runtime, aby wykryć rozjazd.
+
+**Definicje nie są stanem żywej sesji.** Punkt spawnu nie oznacza żywego potwora;
+postęp konta, dynamiczne patrole i efekty klatki gry nie są tu śledzone. Surowe
+adnotacje geografii, niepodłączone zasoby i domy oraz zarezerwowane wejścia mają
+osobny status „Dane / plan”. W danych jest **22 wejścia do 18 zarezerwowanych
+instancji podziemi** — nie 22 działające lochy. Cele bez wiązania V2 są wymienione
+jawnie; nie przypisuje się im starych współrzędnych ani umownego środka miasta.
+
+Warstwa dekoracji odczytuje najwyżej 12 widocznych chunków, po zbliżeniu lądu;
+anuluje stare żądania i usuwa dane fragmentów opuszczających kadr. To inspekcja
+obiektów paczek oprawy, nie drugi renderer Phaser: przerzedzanie koron,
+dodatkowa roślinność proceduralna i bieżące VFX pozostają zadaniem renderera gry.
+Rejestry bossów bez spawnów, wydarzeń i dróg fabularnych bez geometrii V2 są
+widoczne w katalogu niepowiązanych danych, bez wymyślonych znaczników.
+
+Wyniki i materiały odbioru: [dziennik 12.11](zmiany/2026-11-12/ZMIANY.md).

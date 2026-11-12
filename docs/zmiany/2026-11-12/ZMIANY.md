@@ -64,7 +64,7 @@
 - Decyzja właściciela: słabsze przedmioty do kupna za wygórowane ceny (trzeba pograć, zanim się kupi),
   słabsze też z rzadkiego dropu, a cały lepszy sprzęt z rozbudowanego craftu. Wdrożone do `GameSession`
   (nie tylko specyfikacja). Pełny opis z formułami i pomiarem:
-  [design/EKONOMIA-PRZEDMIOTOW-2026-11-12.md](../../design/EKONOMIA-PRZEDMIOTOW-2026-11-12.md).
+  [design/EKONOMIA-PRZEDMIOTOW-2026-11-12.md](../../FABULA-I-EKWIPUNEK.md#ekonomia-wdrożona--12112026).
 - **Drop:** `DROP_RARITIES = [common, uncommon]`, `DROP_CHANCE = 0.02` (było 0.08 i wszystkie rzadkości).
   Pula słabych przedmiotów z kontynentu potwora w oknie `[poziom−3, +5]`, ważone rzadkością; minione nie
   losują. Lepszy sprzęt (rare/epic/legendary) nigdy nie dropi. 16 z 40 potworów ma pustą pulę (słabe
@@ -91,3 +91,37 @@
   zabawą na telefonie właściciela; handler `craft` nie wymaga bliskości stacji (`station` to atrybut
   receptury); brak pomiaru w przeglądarce na urządzeniu docelowym (zmiany logiki, nie oprawy). Drzewka
   umiejętności (CODEX) i wzmocnienie potworów (wstrzymane) poza tym systemem.
+
+### 5. Świat — przegląd Superior v2 w panelu administratora
+
+- Osobna gałąź `feat/admin-world-overview`, od `origin/main@9177b5c0`.
+- `/admin?view=world-overview`: nowa zakładka administratora, leniwie ładowana przez
+  istniejącą kontrolę konta/roli. Zwykły użytkownik i GM nie otrzymują tego widoku.
+- Planeta, dziesięć natywnych map lądów oraz wnętrza budynków; wyszukiwanie, warstwy,
+  filtry spawnu/poziomu/questa, dokładne współrzędne, promień powrotu, odnowienie,
+  statystyki, łupy, dialogi, warunki questów i eksport JSON.
+- Odczyt aktualnego indeksu V2 i kontrola SHA-256 świata, spawnów, terenu, nawigacji,
+  kolizji i chunków oprawy. NPC/drzwi/wnętrza są sprawdzane przeciw współdzielonemu
+  `buildSuperiorSimulationWorld`, nawigacji i `cityRoom`, a nie szkicowane ręcznie.
+- 8752 sloty spawnów, 212 pozycji NPC, 22 osady, 132 wnętrza usług, 1715 dróg,
+  106 questów V2 oraz trzy zadania wstępne. 143 znaczniki sekretów zawierają także
+  adnotacje projektowe, jawnie oznaczone. 22 wejścia odnoszą się do 18 instancji
+  podziemi zapisanych jako niepodłączone. 27 celów/zleceniodawców bez jednoznacznego
+  wiązania jest wymienionych osobno; nie podstawiamy fikcyjnych współrzędnych.
+- Trzy źródła: opublikowana rewizja serwera / dane bazowe / lokalny szkic. Bez zapisów,
+  publikowania zmian, globalnego nadpisywania katalogów i poleceń gry.
+- Jeden Canvas dla znaczników, stronicowanie listy po 40, najwyżej 12 doczytanych
+  fragmentów dekoracji. Oprawa to obiekty zapisanych paczek; nie jest symulacją
+  aktualnego stanu renderera, patrolu ani prywatnego postępu gracza.
+- Niezmienione: świat/generatory/asset packi, ochrona `/test`, systemy walki,
+  questów i zapisu, infrastruktura GPU oraz konfiguracja produkcji.
+
+Zastany błąd `main`: osobny podręcznik ekonomii w `docs/design` łamał regułę dziesięciu
+dokumentów i blokował checker. Całą treść przeniesiono do istniejącego podręcznika
+[Fabuła i ekwipunek](../../FABULA-I-EKWIPUNEK.md#ekonomia-wdrożona--12112026), z poprawionymi
+odnośnikami i bez zmiany liczb. [Oryginał bajt w bajt, gzip](qa/admin-world-overview/economy-source.md.gz)
+oraz [SHA i mapa przeniesienia](qa/admin-world-overview/documentation-relocation.json) pozostają dowodem.
+Nie rozszerzono wyjątków checkera i nie edytowano kodu przedmiotów.
+
+Końcowe wyniki kontroli, SHA, zrzuty i nagrania zostaną dopisane po zamrożeniu
+kodu i zakończeniu przebiegów. Nie scalano ani nie publikowano.

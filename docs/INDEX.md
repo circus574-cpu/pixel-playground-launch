@@ -1,5 +1,9 @@
 # KI Legends — dokumentacja projektu
 
+**Świat — przegląd, 12.11:** osobna gałąź mapy administratora Superior v2: wszystkie
+10 lądów, spawny, NPC, questy i wnętrza. Widok tylko do odczytu; nie jest jeszcze
+scalony ani opublikowany. [Zakres i dowody](zmiany/2026-11-12/ZMIANY.md).
+
 Aktualizacja: **11.11.2026**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
 
 **Wydajność:** audyt 11.11.2026 zmierzył, że wąskim gardłem nie jest symulacja (tick z 32 potworami
@@ -105,4 +109,4 @@ scalenie i publikacja to różne stany. Nie wpisujemy PASS bez wyniku na podanym
 ## Katalog przedmiotów KI Legends V2 (projekt 29.10.2026, wdrożenie do `src/game/items` 31.10.2026, ekonomia 12.11.2026)
 
 - [Katalog 366 przedmiotów, 140 receptur bazowych i pasywnych buffów artefaktów](katalog-przedmiotow-v2/README.md) — źródłowe pliki JSON, CSV, PDF, 15 plansz JPG i zasady balansu. Dane katalogowe, receptury i kalkulator pasywnych zestawów (`computePassiveEquipmentBonuses`) wdrożono do `src/game/items/*` (zob. [dziennik 31.10](zmiany/2026-10-31/ZMIANY.md)).
-- [Ekonomia przedmiotów — drop, sklep i crafting (12.11.2026)](design/EKONOMIA-PRZEDMIOTOW-2026-11-12.md) — wdrożony system: drop tylko słabe (2%), sklep tylko słabe (4×, min poziom×60), lepszy sprzęt wyłącznie z craftu (**265 receptur** = 140 bazowych + 125 wygenerowanych, pokrycie 226/226). Formuły, liczby z pomiaru, regeneracja i weryfikacja.
+- [Ekonomia przedmiotów — drop, sklep i crafting (12.11.2026)](FABULA-I-EKWIPUNEK.md#ekonomia-wdrożona--12112026) — wdrożony system: drop tylko słabe (2%), sklep tylko słabe (4×, min poziom×60), lepszy sprzęt wyłącznie z craftu (**265 receptur** = 140 bazowych + 125 wygenerowanych, pokrycie 226/226). Formuły, liczby z pomiaru, regeneracja i weryfikacja.
