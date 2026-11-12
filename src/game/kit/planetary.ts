@@ -167,7 +167,7 @@ export class PlanetaryKit extends Kit {
         this.port.dash(foe, gap);
         const q = this.port.player;
         const foes = this.port.foesIn(q, 100);
-        this.port.emit({ type: "burst", x: q.x, y: q.y, ability: "B4", radius: 100 });
+        this.port.emit({ type: "burst", x: q.x, y: q.y, ability: "B4", radius: 100, charge: true });
         for (const x of foes) {
           this.strike(x, 2 * this.castRank("B4"), {
             tags: ["physical", "area", "stun"],

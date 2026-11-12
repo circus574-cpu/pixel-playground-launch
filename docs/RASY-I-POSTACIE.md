@@ -26,9 +26,10 @@ potwierdzeniem komercyjnych praw. Szczegóły: [licencje](LICENCJE.md).
 
 Źródłem bieżących definicji jest `src/game/assets/imported.json`; `makeCatalog()`
 nakłada późniejsze aktywne definicje na te same identyfikatory aktorów.
-Każda z powyższych paczek ma 640 odwołań do klatek w jedenastu klipach i ośmiu kierunkach,
-sześć zasobów atlasów, klatki HD 256 px. Klipy obejmują idle, walk, attack, skill,
-hit, death, respawn oraz klipy Trybu KI: `kiwalk`, `kiidle`, `kiattack` i `kiskill`. Nie deklarujemy osobnej animacji run ani nowych klipów combo.
+Każda z powyższych paczek (`2.9.1`, 12.11.2026) ma 1280 odwołań do klatek w 22 klipach i ośmiu kierunkach,
+dziewięć zasobów atlasów, klatki HD 256 px. Klipy: idle, walk, attack, skill, hit, death, respawn; Tryb KI:
+`kiwalk`, `kiidle`, `kiattack`, `kiskill`; etap 1 (walka): `attack2`, `finisher`, `skillb`, `dodge`, `guard`;
+etap 2 (reakcje): `hitheavy`, `victory`; etap 3 (ruch): `run`, `channel`, `skillc`, `interact`.
 
 `kiwalk` to chód po transformacji (filmy Gemini `*-walk-transformed.mp4`). Gra używa go
 zamiast `walk` tylko, gdy bohater się porusza i ma aktywny bonus Trybu KI (`T`, 20 s);
@@ -53,6 +54,36 @@ Planetar 3,3 MiB po rozkodowaniu).
 Legenda i Planetar mają ukosy zbudowane z profilu (w filmach obracają się zbyt szybko
 na stabilne ukosy); Android i Mędrzec mają osobne klatki ukosów. Proces i skrypty:
 `scripts/anim/kiwalk_build.py`, `scripts/anim/kiwalk_pack.py`, `scripts/anim/kiform_build.py`.
+
+**Tryb KI — walka i reakcje (12.11.2026).** W Trybie KI postać zostaje w formie KI w każdej czynności; gra nie podstawia
+zwykłego stroju, jeśli dla rasy jest klip formy KI. `scripts/anim/kicombat_build.py` wycina klipy do atlasów
+`<paczka>-kifight-1` (z filmów etapu 4) i `-kifight-2` (z filmów reakcji formy KI `<rasa>-etap5a-reakcje-ki.mp4`):
+`kiattack2` (6 klatek, 12 kl./s), `kifinisher` (8, 12; Planetar bez: jego trzeci cios to błysk na cały kadr),
+`kiskillb` (8, 12; Planetar: samo lądowanie), `kidodge` (6, 14), `kiguard` (6, 10) oraz reakcje `kihit` (6, 14),
+`kihitheavy` (8, 12), `kideath` (8, 10: odrzut, upadek, leżenie), `kirespawn` (8, 12: podpiera się, wstaje),
+`kivictory` (8, 10). Reakcje formy KI są dla Androida, Legendy i Planetara; Mędrzec nie ma jeszcze filmu reakcji, więc
+jego trafienie, śmierć, wstawanie i zwycięstwo w Trybie KI pokazują klipy formy bazowej (brak klipu nie jest zastępowany
+niczym innym). Łańcuch ciosów w Trybie KI: `kiattack2` → `kifinisher` → `kiattack` (silny cios z filmu) w 1,4 s.
+Klip jednorazowy zostaje w formie, w której go uruchomiono, nawet gdy buff `T` skończy się w trakcie (śmierć i wstawanie
+w Trybie KI zostają w formie KI). Każdy film ma własną transformację (skala z jego neutralnej klatki, stopy na linii chodu);
+leżące ciało szersze niż komórka 256 px jest zmniejszane do szerokości komórki, na tej samej linii podłoża, a wygaszanie
+przy brzegu komórki dotyczy tylko efektów, nie postaci. Klatki początkowe filmu Legendy (zbliżenie na tors) pominięto.
+
+Etap 3 (ruch, forma bazowa) wycina `scripts/anim/moveform_build.py` z filmów `<rasa>-etap3-ruch.mp4`
+(Android `-v2` pionowy, Planetar w sekundach 20–30) do atlasu `<paczka>-fight-4`:
+`run` (8 klatek, 16 kl./s, pętla: jeden okres kroku znaleziony z różnicy dolnej części ciała, Legenda 10,
+Android 19, Mędrzec 41, Planetar 17 klatek filmu; każda klatka wyśrodkowana na tułowiu), `channel` (8 klatek,
+10 kl./s, pętla tam i z powrotem po 5 próbkach zbierania KI, bez końcowego wybuchu), `skillc` (8 klatek, 12 kl./s,
+szarża lub wystrzał) i `interact` (6 klatek, 10 kl./s, sięgnięcie po kryształ). Gra (`ActorAnimation`, `mountGame`):
+bohater **biegnie** zamiast iść, gdy jego prędkość to co najmniej 1,5× prędkości rasy z poziomu 1
+(`RUN_SPEED_RATIO`; sam wzrost z poziomem daje to od poziomu 12, wcześniej z węzłami, ekwipunkiem lub buffami;
+w Trybie KI zostaje `kiwalk`); **kanał** (`channel` z kitu, dziś techniki Mędrca A4 i C1) trzyma pozę przez czas
+kanałowania i znika, gdy bohater ruszy; **skill C** grają techniki drzewka C z atakiem (zdarzenia `attack`
+i `burst`) oraz szarże do wroga oznaczone polem prezentacyjnym `charge` (Legenda A4, Planetar B4); drzewko C
+Planetara (leczenie, tarcze) zostaje przy `skill`/`guard`; **interakcja** gra przy podniesieniu łupu. Tarcza
+dodana jako skutek uboczny techniki (Planetar B7 przy B4) nie przerywa jej pozy. W Trybie KI skill C to `kiskill`.
+Ostre krawędzie z filmu usuwa: wygaszanie przy bocznych krawędziach kadru (pionowy film Androida jest węższy
+od komórki) i kolor→alfa dla białych smug dalej niż 4 px od kolorowej postaci.
 
 `actorVisual()` skaluje prezentację tych bohaterów do **133×133 jednostek świata**,
 aby sylwetki z materiałów wideo zachowały rozmiar porównywalny z wcześniejszymi

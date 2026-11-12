@@ -1111,15 +1111,28 @@ export function mountKileGends(
         return;
       }
       if (event.type === "burst") {
-        // Planetary melee skills (A9, B4, B9) emit a burst instead of an attack event: the hero still plays its skill pose.
+        // Area skills (Planetary A9, B4, B9; Legend C1) emit a burst instead of an attack event: the hero still plays
+        // its skill pose, the skill C clip (charge) for tree-C techniques and charges at a foe.
         if (!event.source && event.ability && event.ability !== "R")
-          this.hero.animation.trigger("skillb", this.animationTime, session.facing);
+          this.hero.animation.trigger(
+            event.charge || event.ability.startsWith("C") ? "skillc" : "skillb",
+            this.animationTime,
+            session.facing,
+          );
         this.ring(event, event.radius ?? 100, 0xb2f4ff, event.ms ?? 450, 0.2);
         return;
       }
       if (event.type === "buff" && event.ability === "T" && !event.source) this.transform();
       if (event.type === "buff" && event.ability === "dodge" && !event.source)
         this.hero.animation.trigger("dodge", this.animationTime, session.facing);
+      // The hero's own channel (only the hero channels): the gathering pose is held for the channel time.
+      if (event.type === "channel" && !event.source)
+        this.hero.animation.trigger(
+          "channel",
+          this.animationTime,
+          session.facing,
+          event.ms ?? 1000,
+        );
       if (event.type === "status" || event.type === "buff" || event.type === "channel") {
         if (event.text)
           this.float(event, event.text, event.target === "player" ? "#ffa1a1" : "#c9f0ff");
@@ -1154,7 +1167,13 @@ export function mountKileGends(
         );
       if (event.type === "hit" && actor) {
         if (event.target !== "player") this.raceVfx("impact", event, event.crit ? 0.6 : 0.4);
-        actor.animation.trigger("hit", this.animationTime);
+        // A blow taking at least 15% of the hero's life plays the heavy reaction (stumble, knee) instead of the flinch.
+        const damage = Math.abs(Number.parseFloat(event.text ?? ""));
+        const heavy =
+          event.target === "player" &&
+          Number.isFinite(damage) &&
+          damage >= 0.15 * Math.max(1, session.kit.stats.maxHp);
+        actor.animation.trigger(heavy ? "hitheavy" : "hit", this.animationTime);
         this.texturedEffect("hit", event);
         actor.sprite
           .setTint(event.target === "player" ? 0xff7777 : 0xffefd0)
@@ -1185,8 +1204,14 @@ export function mountKileGends(
       }
       if (event.type === "attack") {
         if (event.ability && event.ability !== "R") this.raceVfx("ring", event, 0.55);
+        // Tree-C techniques (C1…C9) and charges at a foe play the race's skill C clip (races without it keep the skill
+        // pose).
         this.hero.animation.trigger(
-          event.ability === "R" ? "attack" : "skill",
+          event.ability === "R"
+            ? "attack"
+            : event.charge || event.ability?.startsWith("C")
+              ? "skillc"
+              : "skill",
           this.animationTime,
           session.facing,
         );
@@ -1253,6 +1278,8 @@ export function mountKileGends(
       }
       if (event.type === "level" || event.type === "heal" || event.type === "loot") {
         if (event.type === "heal") this.hero.animation.trigger("skill", this.animationTime);
+        if (event.type === "level") this.hero.animation.trigger("victory", this.animationTime);
+        if (event.type === "loot") this.hero.animation.trigger("interact", this.animationTime);
         if (this.texturedEffect(event.type, event)) return;
         const ring = this.add
           .ellipse(event.x, event.y, 40, 20)
@@ -1499,6 +1526,7 @@ export function mountKileGends(
         session.facing,
         session.paused || !!session.dialogue,
         session.kit.buffs.some((b) => b.id === "T"),
+        session.running,
       );
       // Behind trees or buildings the hero shows as a light outline drawn over them (as in Diablo).
       const sprite = this.hero.sprite,
