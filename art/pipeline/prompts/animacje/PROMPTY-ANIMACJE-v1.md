@@ -78,6 +78,79 @@ Every clip is performed once, cleanly. No other motion.
 
 Do bloku otwierającego dopisz: `The character is in the powered-up transformed form (glowing aura, intensified outfit), as in the reference of the transformed form.` Oś czasu jak w Etapie 1. Bez sekwencji transformacji, bez chodu (są w grze).
 
+## Etap 5: forma KI — reakcje i ruch (brakujące czynności po transformacji)
+
+W formie KI w grze są: chód, stanie, cios, umiejętność; z filmów etapu 4 da się wyciąć drugi i trzeci cios, skok,
+unik i gardę. Brakuje ujęć formy KI dla: trafienia, ciężkiego trafienia, śmierci, wstawania, zwycięstwa, biegu,
+ładowania KI, szarży (skill C) i interakcji. Dwa filmy po 10 s na rasę (5A reakcje, 5B ruch); Planetar także 5C.
+Kilka 10-sekundowych filmów można oddać sklejonych w jeden plik (jak plik Planetara z etapami 1–3).
+
+**Obraz referencyjny:** forma KI z przodu `art-wip/ki-reference/<rasa>-forma-ki-przod.png` (z filmu chodu po transformacji) i z filmu etapu 4 `art-wip/ki-reference/<rasa>-forma-ki.png`
+(nie obraz formy bazowej). Postać przez cały film jest w formie KI, bez sekwencji transformacji.
+
+Wnioski z etapu 4 dopisane do zasad: kadr poziomy 1280×720 (Android oddał pion), tło białe przez cały film
+(u Planetara szarzało przy umiejętności), kamera bez zbliżeń, błysk uderzenia nie zalewa kadru, przy skoku głowa
+zostaje w kadrze.
+
+### Opis formy KI ({POSTAĆ KI})
+
+| Rasa     | {POSTAĆ KI}                                                                                                                                                                                                                                                           |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Legenda  | muscular man, messy spiky black hair, glowing red eyes, bare muscular chest with glowing golden ember cracks across the skin, one large red spiked shoulder pad on the left shoulder only, red armored forearm guards, baggy black trousers, red sash, dark red boots |
+| Android  | muscular young man, spiky silver hair, glowing cyan eyes, bare muscular chest with a glowing cyan star mark in its center and thin glowing cyan veins, cyan-glowing armored forearm gauntlets, silver plate leg armor, long torn dark-blue cape, grey armored boots   |
+| Mędrzec  | elegant woman, long wavy blonde hair with gold hair ornaments, teal silk dress with high slit, gold ornaments, sheer white sleeves, glowing blue eyes                                                                                                                 |
+| Planetar | muscular young man, spiky brown hair, white headband, long orange scarf, torn sleeveless white and green martial-arts outfit, wrist wraps, dark brown boots, faint green sparkles around the body                                                                     |
+
+{MOC} i {RUCHY} jak w tabeli ras.
+
+### Blok otwierający etapu 5
+
+```
+Hand-painted anime-fantasy JRPG character animation. The character is in the powered-up transformed KI form: {POSTAĆ KI}. Exactly the same transformed design as the reference image in every frame, the character never returns to the normal outfit, no transformation sequence, no redesign. Locked static camera, orthographic strict 90-degree side view, character facing RIGHT, centered, full body always fully inside the frame with a wide margin on every side including the head during jumps, the character fills at most 60 percent of the frame height. Landscape 1280x720. Pure flat white #FFFFFF background in every frame of the whole video, it never turns grey, no floor, no cast shadow, no ground shadow, no gradient, no vignette, no text, no camera movement, no zoom, no cuts. Impact flashes stay small around the hit and never fill the frame. 24 fps, clean silhouette, exaggerated anime motion, sharp readable poses. Fighting style: {RUCHY}. Power color: {MOC}. Smoke and dust are warm orange-tinted, never grey. The character stays in place in the center of the frame. Every clip starts and ends in the same NEUTRAL pose: feet shoulder-width apart, guard hands low, relaxed ready stance, held still for 0.4 s between clips.
+```
+
+### Film 5A: reakcje w formie KI (10 s)
+
+```
+0.0-0.4  NEUTRAL hold.
+0.4-1.3  HIT FROM THE FRONT: head snaps back, flinch, small stagger back, recover.
+1.3-1.7  NEUTRAL hold.
+1.7-3.0  HEAVY HIT: knocked back, one step of stumbling, drops to one knee for a moment, rises.
+3.0-3.4  NEUTRAL hold.
+3.4-5.4  DEATH: takes the final hit, falls to the ground in 1.2 s, lies completely still for the rest, still in the transformed form.
+5.4-7.4  STAND UP: lifts slowly, pushes up from the ground, rises with determination to NEUTRAL.
+7.4-7.8  NEUTRAL hold.
+7.8-9.6  VICTORY: confident pose, fist raise or triumphant gesture in the character's style, holds the pose for 0.6 s.
+9.6-10.0 NEUTRAL hold.
+```
+
+### Film 5B: ruch w formie KI (10 s)
+
+```
+0.0-0.4  NEUTRAL hold.
+0.4-3.4  RUN: fast run cycle IN PLACE, long strides, torso leaning forward, clothes and hair streaming back, seamless loop of 6 strides.
+3.4-3.8  NEUTRAL hold.
+3.8-6.4  CHANNEL: legs wide, {MOC} energy gathers and swirls upward around the body, hair and clothes lift, trembling, builds; no explosion at the end, energy fades back.
+6.4-6.8  NEUTRAL hold.
+6.8-8.3  SKILL C: a dash-strike forward and back to the same place, motion trail in {MOC}.
+8.3-8.7  NEUTRAL hold.
+8.7-10.0 INTERACT: reaches forward and takes an item, looks at it, nods. The item is a small glowing orange crystal clearly visible in the hand.
+```
+
+### Film 5C: tylko Planetar — trzeci cios i skok w kadrze (10 s)
+
+```
+0.0-0.4  NEUTRAL hold.
+0.4-1.9  FINISHER: long wind-up, a step forward, very heavy palm strike with a small green energy burst at the hand only, strong follow-through, return.
+1.9-2.3  NEUTRAL hold.
+2.3-3.8  SKILL B (area): low jump straight up, the head always stays well inside the frame, slam down with a hard landing, a green shockwave ring expands around the feet, settle.
+3.8-4.2  NEUTRAL hold.
+4.2-5.7  FINISHER again, the same motion.
+5.7-6.1  NEUTRAL hold.
+6.1-7.6  SKILL B again, the same motion.
+7.6-10.0 NEUTRAL hold, breathing only.
+```
+
 ## Pliki gotowe (Legenda i Mędrzec)
 
 Zapisane bez obróbki w `art-wip/gemini-anim-stages/`:
@@ -88,6 +161,9 @@ Zapisane bez obróbki w `art-wip/gemini-anim-stages/`:
 | `legend-etap2-reakcje.mp4`                   | 2    | zgodna                                                                                                                                                                                                                                                                           |
 | `legend-etap3-ruch.mp4`                      | 3    | zgodna; interakcja bez widocznego przedmiotu                                                                                                                                                                                                                                     |
 | `legend-etap4-walka-po-transformacji.mp4`    | 4    | zgodna z osią Etapu 1 w formie po transformacji (odsłonięty tors, czerwona aura); skok i pierścień ognia widoczne                                                                                                                                                                |
+| `android-etap5a-reakcje-ki.mp4`              | 5A   | Android, forma KI; profil w prawo, 16:9, tło jednolite; trafienie, ciężkie trafienie, śmierć, wstawanie, zwycięstwo (0,5–9,2 s); szary cień pod stopami; w wycięciu użyte                                                                                                        |
+| `legend-etap5a-reakcje-ki.mp4`               | 5A   | Legenda, forma KI; profil, 16:9; pierwsze 0,5 s to zbliżenie na tors (pominięte); trafienie, ciężkie trafienie, śmierć, wstawanie, zwycięstwo; w wycięciu użyte                                                                                                                  |
+| `planetary-etap5a-reakcje-ki.mp4`            | 5A   | Planetar, forma KI; profil, 16:9, białe tło; trafienie, ciężkie trafienie, śmierć, wstawanie, zwycięstwo; w wycięciu użyte                                                                                                                                                       |
 | `sage-etap2-reakcje.mp4`                     | 2    | Mędrzec, forma bazowa; trafienie, powalenie, leżenie, wstawanie, gest zwycięstwa (do potwierdzenia po pełnym przeglądzie klatek)                                                                                                                                                 |
 | `sage-etap4-walka-po-transformacji.mp4`      | 4    | Mędrzec, walka w szarym tle jak w filmie chodu po transformacji; przypisanie do Etapu 4 wynika z tła i kontekstu, bez widocznej aury, do potwierdzenia                                                                                                                           |
 | `sage-etap1-walka.mp4`                       | 1    | Mędrzec, forma bazowa; uderzenia dłonią, pocisk, skok z kulą światła, unik, bariera                                                                                                                                                                                              |

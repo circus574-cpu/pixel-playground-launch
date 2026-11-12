@@ -161,6 +161,7 @@ export class LegendKit extends Kit {
           x: p.x,
           y: p.y,
           ability: "A4",
+          charge: true,
           to: { x: foe.x, y: foe.y },
         });
         this.strike(foe, 2.2 * this.castRank("A4"), {

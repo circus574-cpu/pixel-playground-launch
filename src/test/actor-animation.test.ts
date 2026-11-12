@@ -10,6 +10,10 @@ function rig() {
     play: vi.fn(),
     stop: vi.fn(),
     setTexture: vi.fn(),
+    flipX: false,
+    setFlipX: vi.fn(function (this: { flipX: boolean }, v: boolean) {
+      this.flipX = v;
+    }),
   };
   return {
     sprite,
@@ -27,6 +31,10 @@ describe("Tryb KI walk (kiwalk)", () => {
       play: vi.fn(),
       stop: vi.fn(),
       setTexture: vi.fn(),
+      flipX: false,
+      setFlipX: vi.fn(function (this: { flipX: boolean }, v: boolean) {
+        this.flipX = v;
+      }),
     };
     return {
       sprite,
@@ -59,6 +67,10 @@ describe("Tryb KI stance, basic attack and skill (kiidle, kiattack, kiskill)", (
       play: vi.fn(),
       stop: vi.fn(),
       setTexture: vi.fn(),
+      flipX: false,
+      setFlipX: vi.fn(function (this: { flipX: boolean }, v: boolean) {
+        this.flipX = v;
+      }),
     };
     return {
       sprite,
@@ -99,7 +111,8 @@ describe("Tryb KI stance, basic attack and skill (kiidle, kiattack, kiskill)", (
     animation.trigger("attack", 10, { x: 1, y: 0 });
     animation.update(20, false, false, { x: 1, y: 0 }, false, true);
     expect(animation.state).toBe("attack");
-    expect(String(sprite.play.mock.calls.at(-1)?.[0])).toContain("/kiattack/");
+    // The KI strikes chain kiattack2, kifinisher, kiattack: the first one is the light strike.
+    expect(String(sprite.play.mock.calls.at(-1)?.[0])).toContain("/kiattack2/");
     animation.trigger("skill", 30, { x: 1, y: 0 });
     animation.update(40, false, false, { x: 1, y: 0 }, false, true);
     expect(animation.state).toBe("skill");
@@ -131,6 +144,10 @@ describe("base-form combat clips (attack chain, area skill, dodge, guard)", () =
       play: vi.fn(),
       stop: vi.fn(),
       setTexture: vi.fn(),
+      flipX: false,
+      setFlipX: vi.fn(function (this: { flipX: boolean }, v: boolean) {
+        this.flipX = v;
+      }),
     };
     return {
       base,
@@ -176,7 +193,7 @@ describe("base-form combat clips (attack chain, area skill, dodge, guard)", () =
     animation.update(6010, false, false, f);
     expect(played(sprite)).toContain("/attack/");
   });
-  it("plays skillb, dodge and guard, and uses kiskill for skillb in Tryb KI", () => {
+  it("plays skillb, dodge and guard, and uses kiskillb for skillb in Tryb KI", () => {
     const { animation, sprite } = make();
     const f = { x: 1, y: 0 };
     animation.trigger("skillb", 0, f);
@@ -191,7 +208,210 @@ describe("base-form combat clips (attack chain, area skill, dodge, guard)", () =
     animation.update(6000, false, false, f, false, true);
     animation.trigger("skillb", 6100, f);
     animation.update(6110, false, false, f, false, true);
+    expect(played(sprite)).toContain("/kiskillb/");
+  });
+});
+describe("Tryb KI combat and reactions use the form's own clips", () => {
+  const make = (world: "verdant" | "aether" | "nexus" | "pyra" = "nexus") => {
+    const visual = actorVisual(world, "hero", undefined, false, catalog);
+    const sprite = {
+      anims: { pause: vi.fn(), resume: vi.fn() },
+      play: vi.fn(),
+      stop: vi.fn(),
+      setTexture: vi.fn(),
+      flipX: false,
+      setFlipX: vi.fn(function (this: { flipX: boolean }, v: boolean) {
+        this.flipX = v;
+      }),
+    };
+    return {
+      visual,
+      sprite,
+      animation: new ActorAnimation(sprite as unknown as Phaser.GameObjects.Sprite, visual),
+    };
+  };
+  const played = (sprite: ReturnType<typeof make>["sprite"]) =>
+    String(sprite.play.mock.calls.at(-1)?.[0]);
+  const f = { x: 1, y: 0 };
+  it("ships the clips with the contract frame counts (Android has every one, all races have the combat clips)", () => {
+    const combat = [
+      ["kiattack2", 6],
+      ["kifinisher", 8],
+      ["kiskillb", 8],
+      ["kidodge", 6],
+      ["kiguard", 6],
+    ] as const;
+    const reactions = [
+      ["kihit", 6],
+      ["kihitheavy", 8],
+      ["kideath", 8],
+      ["kirespawn", 8],
+      ["kivictory", 8],
+    ] as const;
+    for (const world of ["verdant", "aether", "nexus", "pyra"] as const) {
+      const hero = actorVisual(world, "hero", undefined, false, catalog);
+      for (const [clip, frames] of combat) {
+        if (world === "verdant" && clip === "kifinisher") continue; // Planetary's video has no third strike
+        expect(hero.clips[clip], world + clip).toBeDefined();
+        for (const names of Object.values(hero.clips[clip]!.directions))
+          expect(names).toHaveLength(frames);
+      }
+      for (const [clip, frames] of reactions) {
+        const c = hero.clips[clip];
+        if (world === "aether") expect(c, world + clip).toBeUndefined();
+        else {
+          expect(c, world + clip).toBeDefined();
+          for (const names of Object.values(c!.directions)) expect(names).toHaveLength(frames);
+        }
+      }
+    }
+  });
+  it("chains the KI strikes kiattack2, kifinisher, kiattack within 1.4 s", () => {
+    const { animation, sprite } = make();
+    animation.update(0, false, false, f, false, true);
+    animation.trigger("attack", 100, f);
+    animation.update(110, false, false, f, false, true);
+    expect(played(sprite)).toContain("/kiattack2/");
+    animation.trigger("attack", 900, f);
+    animation.update(910, false, false, f, false, true);
+    expect(played(sprite)).toContain("/kifinisher/");
+    animation.trigger("attack", 1700, f);
+    animation.update(1710, false, false, f, false, true);
+    expect(played(sprite)).toContain("/kiattack/");
+  });
+  it("plays the KI skill B, dodge, guard, hit, heavy hit and victory instead of the base clips", () => {
+    const { animation, sprite } = make();
+    animation.update(0, false, false, f, false, true);
+    let t = 100;
+    for (const [state, clip] of [
+      ["skillb", "kiskillb"],
+      ["dodge", "kidodge"],
+      ["guard", "kiguard"],
+      ["hit", "kihit"],
+      ["hitheavy", "kihitheavy"],
+      ["victory", "kivictory"],
+    ] as const) {
+      t += 3000;
+      animation.trigger(state, t, f);
+      animation.update(t + 10, false, false, f, false, true);
+      expect(played(sprite), state).toContain("/" + clip + "/");
+    }
+  });
+  it("falls and gets up in the KI form even when the buff ends meanwhile", () => {
+    const { animation, sprite } = make();
+    animation.update(0, false, false, f, false, true);
+    animation.trigger("death", 100, f);
+    animation.update(110, false, true, f, false, true);
+    expect(played(sprite)).toContain("/kideath/");
+    animation.update(500, false, true, f, false, false);
+    expect(animation.state).toBe("death");
+    animation.update(600, false, false, f, false, false);
+    expect(animation.state).toBe("respawn");
+    expect(played(sprite)).toContain("/kirespawn/");
+  });
+  it("keeps the base clip for a state the race has no KI clip for, and the base form untouched", () => {
+    const sage = make("aether");
+    sage.animation.update(0, false, false, f, false, true);
+    sage.animation.trigger("hit", 100, f);
+    sage.animation.update(110, false, false, f, false, true);
+    expect(played(sage.sprite)).toContain("/hit/");
+    const base = make();
+    base.animation.update(0, false, false, f, false, false);
+    base.animation.trigger("hit", 100, f);
+    base.animation.update(110, false, false, f, false, false);
+    expect(played(base.sprite)).toContain("/hit/");
+    base.animation.trigger("attack", 3000, f);
+    base.animation.update(3010, false, false, f, false, false);
+    expect(played(base.sprite)).toContain("/attack/");
+  });
+});
+describe("base-form movement clips (run, channel, skill C, interact)", () => {
+  const make = () => {
+    const base = actorVisual("verdant", "hero", undefined, false, catalog);
+    const sprite = {
+      anims: { pause: vi.fn(), resume: vi.fn() },
+      play: vi.fn(),
+      stop: vi.fn(),
+      setTexture: vi.fn(),
+      flipX: false,
+      setFlipX: vi.fn(function (this: { flipX: boolean }, v: boolean) {
+        this.flipX = v;
+      }),
+    };
+    return {
+      sprite,
+      animation: new ActorAnimation(sprite as unknown as Phaser.GameObjects.Sprite, base),
+    };
+  };
+  const shown = (sprite: ReturnType<typeof make>["sprite"]) =>
+    String(sprite.setTexture.mock.calls.at(-1)?.[1] ?? "");
+  const played = (sprite: ReturnType<typeof make>["sprite"]) =>
+    String(sprite.play.mock.calls.at(-1)?.[0]);
+  it("ships the clips for every hero with the contract frame counts", () => {
+    for (const world of ["verdant", "aether", "nexus", "pyra"] as const) {
+      const hero = actorVisual(world, "hero", undefined, false, catalog);
+      for (const [clip, frames, loop] of [
+        ["run", 8, true],
+        ["channel", 8, true],
+        ["skillc", 8, false],
+        ["interact", 6, false],
+      ] as const) {
+        const c = hero.clips[clip]!;
+        expect(c, world + clip).toBeDefined();
+        expect(c.loop).toBe(loop);
+        for (const names of Object.values(c.directions)) expect(names).toHaveLength(frames);
+      }
+    }
+  });
+  it("runs instead of walking only when fast, and keeps the walk in Tryb KI", () => {
+    const { animation, sprite } = make();
+    const f = { x: 1, y: 0 };
+    animation.update(0, true, false, f);
+    expect(animation.state).toBe("walk");
+    animation.update(100, true, false, f, false, false, true);
+    expect(animation.state).toBe("run");
+    expect(shown(sprite)).toContain("/run/");
+    animation.update(200, true, false, f, false, true, true);
+    expect(animation.state).toBe("kiwalk");
+  });
+  it("holds the channel pose for the channel time and drops it when the hero moves", () => {
+    const { animation, sprite } = make();
+    const f = { x: 1, y: 0 };
+    animation.trigger("channel", 0, f, 3000);
+    animation.update(2500, false, false, f);
+    expect(animation.state).toBe("channel");
+    expect(shown(sprite)).toContain("/channel/");
+    animation.update(3100, false, false, f);
+    expect(animation.state).toBe("idle");
+    animation.trigger("channel", 4000, f, 3000);
+    animation.update(4100, true, false, f);
+    expect(animation.state).toBe("walk");
+  });
+  it("plays skill C and the pick-up gesture, and uses kiskill for skill C in Tryb KI", () => {
+    const { animation, sprite } = make();
+    const f = { x: -1, y: 0 };
+    animation.trigger("skillc", 0, f);
+    animation.update(10, false, false, f);
+    expect(played(sprite)).toContain("/skillc/");
+    animation.trigger("interact", 2000, f);
+    animation.update(2010, false, false, f);
+    expect(played(sprite)).toContain("/interact/");
+    animation.update(4000, false, false, f, false, true);
+    animation.trigger("skillc", 4100, f);
+    animation.update(4110, false, false, f, false, true);
     expect(played(sprite)).toContain("/kiskill/");
+  });
+  it("keeps a charge on screen when the same cast also raises a shield", () => {
+    const { animation, sprite } = make();
+    const f = { x: 1, y: 0 };
+    animation.trigger("skillc", 0, f);
+    animation.trigger("guard", 0);
+    animation.update(10, false, false, f);
+    expect(played(sprite)).toContain("/skillc/");
+    animation.update(2000, false, false, f);
+    animation.trigger("guard", 2000);
+    animation.update(2010, false, false, f);
+    expect(played(sprite)).toContain("/guard/");
   });
 });
 describe("walk keeps its stride when only the facing changes", () => {
@@ -202,6 +422,10 @@ describe("walk keeps its stride when only the facing changes", () => {
       play: vi.fn(),
       stop: vi.fn(),
       setTexture: vi.fn(),
+      flipX: false,
+      setFlipX: vi.fn(function (this: { flipX: boolean }, v: boolean) {
+        this.flipX = v;
+      }),
     };
     return {
       base,
@@ -308,6 +532,10 @@ describe("animation presentation remains separate from mechanical actions", () =
       play: vi.fn(),
       stop: vi.fn(),
       setTexture: vi.fn(),
+      flipX: false,
+      setFlipX: vi.fn(function (this: { flipX: boolean }, v: boolean) {
+        this.flipX = v;
+      }),
     };
     const animation = new ActorAnimation(
       sprite as unknown as Phaser.GameObjects.Sprite,

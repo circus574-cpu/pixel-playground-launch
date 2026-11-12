@@ -172,6 +172,10 @@ export abstract class Kit {
     return Math.max(1, this.rank(id));
   }
   /** Basic reach is distinct from skill reach: optics never extends A/B/C. */
+  /** The race's level-1 movement speed (before level growth, nodes, gear and buffs). */
+  get baseSpeed() {
+    return RACE_BASE[this.race].base.speed;
+  }
   get basicRange() {
     return this.stats.range * this.development.basicRange;
   }
