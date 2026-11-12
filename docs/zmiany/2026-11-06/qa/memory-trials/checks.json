@@ -1,0 +1,63 @@
+{
+  "gameplayCommit": "d9a30bbe3dd9faea64792cc16049c2cb242464fe",
+  "e2eCommit": "066e5fce",
+  "unit": {
+    "command": "npm test",
+    "passed": 1463,
+    "failed": 0,
+    "skipped": 10,
+    "filesPassed": 128,
+    "filesSkipped": 1
+  },
+  "targeted": {
+    "passed": 54,
+    "failed": 0
+  },
+  "typecheck": {
+    "command": "npm run typecheck",
+    "status": "PASS"
+  },
+  "lint": {
+    "command": "npm run lint",
+    "errors": 0,
+    "existingWarnings": 15
+  },
+  "assets": {
+    "command": "npm run assets:check",
+    "status": "PASS"
+  },
+  "build": {
+    "command": "npm run build",
+    "status": "PASS"
+  },
+  "docs": {
+    "command": "python3 scripts/docs/check_documentation.py",
+    "status": "PASS"
+  },
+  "webgl": {
+    "passed": 3,
+    "failed": 0,
+    "scope": "TA10/TA11/TA12 I, ordinary UI, reward, owner resources, reload",
+    "command": "KI_QA_BASE_URL=http://127.0.0.1:4184 KI_QA_APP_URL=http://127.0.0.1:4184 npx playwright test e2e/racial-trials.spec.ts --project=software-webgl -g \"real TA1[012]\" --output=/tmp/ki-memory-webgl-final"
+  },
+  "remaining": [
+    "21 trials / 63 tiers",
+    "physical phone",
+    "hardware WebGL",
+    "whole campaign and balance",
+    "production WebSocket/PostgreSQL"
+  ],
+  "mobile": {
+    "passed": 2,
+    "failed": 0,
+    "scope": "Canvas 852x393: TA12 I; Android touch regression with portrait guard 390x844 and landscape 852x393",
+    "command": "KI_QA_BASE_URL=http://127.0.0.1:4184 KI_QA_APP_URL=http://127.0.0.1:4184 npx playwright test --config=docs/zmiany/2026-11-06/qa/memory-trials/mobile.config.ts -g \"real TA12|portrait guard\" --output=/tmp/ki-memory-mobile"
+  },
+  "canvas": {
+    "passed": 3,
+    "failed": 0,
+    "scope": "TA10/TA11/TA12 I, ordinary UI, owner resources, reward and reload",
+    "command": "KI_QA_BASE_URL=http://127.0.0.1:4184 KI_QA_APP_URL=http://127.0.0.1:4184 npx playwright test e2e/racial-trials.spec.ts --project=gameplay -g \"real TA1[012]\" --reporter=list --output=/tmp/ki-memory-canvas-final"
+  },
+  "browserSetup": "npm run build:playtest; npx vite preview --config scripts/playtest.vite.ts --host 127.0.0.1 --port 4184"
+}

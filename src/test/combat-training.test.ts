@@ -80,7 +80,7 @@ describe("train-only character parameters", () => {
     expect(saves.save(restored)).toBe(true);
     expect(new SaveStore(storage).load()?.combatTraining?.technique.rank).toBe(7);
     expect([...data.values()]).toContain(old);
-    expect(JSON.parse(data.get(SAVE_KEY)!).version).toBe(9);
+    expect(JSON.parse(data.get(SAVE_KEY)!).version).toBe(11);
   });
   it("has bounded Technique effects and zero bonuses for untrained characters", () => {
     expect(trainedBonuses()).toEqual({ dodgeChance: 0, attackSpeedPct: 0, technique: 0 });

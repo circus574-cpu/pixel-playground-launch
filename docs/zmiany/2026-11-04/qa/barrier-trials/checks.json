@@ -1,0 +1,167 @@
+{
+  "date": "2026-11-04",
+  "branch": "feature/complete-character-development",
+  "base": "d4d7513bea33263f83e2c39ff7bb93a9e5e76d8e",
+  "scope": {
+    "trials": [
+      "TA04",
+      "TA05",
+      "TA06"
+    ],
+    "tiers": [
+      1,
+      2,
+      3
+    ],
+    "catalogTrials": 24,
+    "plannedTrials": 48,
+    "catalogTiers": 72,
+    "plannedTiers": 144,
+    "sageTrials": 6,
+    "sageTrialPractice": 2700,
+    "unlock": "ma-barrier at Barriers II",
+    "merged": false,
+    "deployed": false
+  },
+  "commands": [
+    {
+      "command": "NODE_OPTIONS=--max-old-space-size=2048 npm test",
+      "exitCode": 0,
+      "pass": 1317,
+      "fail": 0,
+      "skip": 10,
+      "filesPassed": 109,
+      "filesSkipped": 1,
+      "durationSeconds": 132.44,
+      "log": "full-final.log",
+      "concurrentHeavyChecks": false
+    },
+    {
+      "command": "npx vitest run src/test/barrier-trials.test.ts",
+      "exitCode": 0,
+      "pass": 16,
+      "fail": 0,
+      "log": "behavior.log"
+    },
+    {
+      "command": "npx vitest run src/test/gpu-pipeline.test.ts",
+      "exitCode": 0,
+      "pass": 17,
+      "fail": 0,
+      "log": "import-recheck.log"
+    },
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "configs": [
+        "application",
+        "e2e",
+        "tools"
+      ],
+      "log": "types.log"
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "errors": 0,
+      "existingWarnings": 15,
+      "log": "lint.log"
+    },
+    {
+      "command": "npm run assets:check",
+      "exitCode": 0,
+      "log": "assets.log"
+    },
+    {
+      "command": "NODE_OPTIONS=--max-old-space-size=3072 npm run build",
+      "exitCode": 0,
+      "log": "build.log",
+      "output": "/tmp/ki-development-build-output through ignored .output symlink"
+    },
+    {
+      "command": "KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4176 npx playwright test e2e/racial-trials.spec.ts --project=gameplay --grep 'real TA0[456],' --output=/tmp/barriers-canvas-final --reporter=list --trace=off",
+      "exitCode": 0,
+      "pass": 3,
+      "fail": 0,
+      "log": "canvas-final.log"
+    },
+    {
+      "command": "KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4176 npx playwright test e2e/racial-trials.spec.ts --project=software-webgl --grep 'real TA0[456],' --output=/tmp/barriers-webgl --reporter=list --trace=off",
+      "exitCode": 0,
+      "pass": 3,
+      "fail": 0,
+      "log": "webgl.log"
+    },
+    {
+      "command": "python3 scripts/docs/check_documentation.py",
+      "exitCode": 0,
+      "log": "documentation.log"
+    }
+  ],
+  "previousRuns": [
+    {
+      "command": "npx vitest run src/test/racial-trials.test.ts src/test/racial-trial-transactions.test.ts",
+      "exitCode": 0,
+      "pass": 87,
+      "log": "guards-first.log"
+    },
+    {
+      "command": "npx vitest run src/test/barrier-trials.test.ts src/test/racial-trials.test.ts src/test/racial-trial-transactions.test.ts src/test/server-racial-trials.test.ts src/test/remote-racial-trial.test.ts",
+      "exitCode": 1,
+      "pass": 114,
+      "fail": 4,
+      "log": "guards-initial.log",
+      "cause": "New fixtures omitted basic R and started an optical loop outside the closed cycle. Corrected fixtures; no gameplay thresholds relaxed."
+    },
+    {
+      "command": "npm run typecheck",
+      "exitCode": 2,
+      "log": "types-initial.log",
+      "cause": "Phaser fillPoints expects Vector2, replaced the diamond with two typed fillTriangle calls."
+    },
+    {
+      "command": "Canvas TA04/TA05/TA06",
+      "exitCode": 0,
+      "pass": 3,
+      "fail": 0,
+      "log": "canvas-first.log",
+      "note": "Typed diamond rendering corrected while this first run was active. All three browser scenarios repeated on final sources."
+    },
+    {
+      "command": "npm test",
+      "exitCode": 1,
+      "pass": 1316,
+      "fail": 1,
+      "skip": 10,
+      "log": "full-initial.log",
+      "cause": "Unchanged gpu-pipeline test exceeded its 5000ms limit while heavy checks ran concurrently. Limit and assertions preserved; importer and then full suite passed on rerun."
+    }
+  ],
+  "browserAssertions": [
+    "actual renderer",
+    "normal movement and B1 button",
+    "visible optical board and mirror controls",
+    "object HP >= 50%",
+    "one-time +100 practice",
+    "owned HP/KI/equipment/skills preserved",
+    "grade and practice survive reload",
+    "zero pageerror"
+  ],
+  "serverAssertions": [
+    "trial-input and trial-answer intents",
+    "no early reward",
+    "accept once",
+    "validated snapshot",
+    "server restore without transient trial"
+  ],
+  "notVerified": [
+    "physical phone",
+    "hardware WebGL",
+    "audio playback",
+    "all tiers through browser UI",
+    "full application e2e",
+    "published WebSocket/PostgreSQL session",
+    "full campaign reachability and balance"
+  ],
+  "sourceHashes": "sources.json"
+}

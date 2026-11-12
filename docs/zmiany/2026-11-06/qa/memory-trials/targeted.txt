@@ -1,0 +1,9 @@
+
+ RUN  v4.1.12 /workspace/ki-racial-continuation
+
+
+ Test Files  4 passed (4)
+      Tests  54 passed (54)
+   Start at  06:35:15
+   Duration  34.44s (transform 5.37s, setup 260ms, import 7.71s, tests 24.54s, environment 1.13s)
+

@@ -26,18 +26,18 @@ export class LegendKit extends Kit {
   }
   protected override mods(): Mods {
     const m: Mods = {};
-    // Every effect grows in direct proportion to the points put into its node (rank).
-    if (this.has("A5")) m.atkPct = 0.08 * this.rank("A5");
-    if (this.has("A6")) m.critAdd = 0.06 * this.rank("A6");
-    if (this.has("B2")) m.defPct = 0.08 * this.rank("B2");
-    if (this.has("B3")) m.hpPct = 0.1 * this.rank("B3");
-    if (this.has("C6") && this.ember >= 100) m.kiRegenPct = 0.5 * this.rank("C6");
+    // Owner 12.11: half the first bonus, then +10% of that base per extra point.
+    if (this.has("A5")) m.atkPct = 0.08 * this.bonusRank("A5");
+    if (this.has("A6")) m.critAdd = 0.06 * this.bonusRank("A6");
+    if (this.has("B2")) m.defPct = 0.08 * this.bonusRank("B2");
+    if (this.has("B3")) m.hpPct = 0.1 * this.bonusRank("B3");
+    if (this.has("C6") && this.ember >= 100) m.kiRegenPct = 0.5 * this.bonusRank("C6");
     return m;
   }
   protected override dealtVs(_foe: Foe) {
     let bonus = Math.min(0.1, this.ember * 0.001);
     if (this.has("A8") && this.port.foesIn(this.port.player, 200).length === 1)
-      bonus += 0.25 * this.rank("A8");
+      bonus += 0.25 * this.bonusRank("A8");
     return bonus;
   }
   override resource(): ResourceInfo {
@@ -49,7 +49,7 @@ export class LegendKit extends Kit {
     };
   }
   private gainEmber(n: number) {
-    this.ember = Math.min(100, this.ember + n * (1 + 0.5 * this.rank("C2")));
+    this.ember = Math.min(100, this.ember + n * (1 + 0.5 * this.bonusRank("C2")));
   }
   protected override strike(foe: Foe, mult: number, hit: Hit, extra = 0, forceCrit = false) {
     const dealt = super.strike(foe, mult, hit, extra, forceCrit);
@@ -60,7 +60,7 @@ export class LegendKit extends Kit {
       this.lastHitAt = now;
       if (this.has("A3") && this.streak >= 3) {
         this.streak = 0;
-        this.addBuff({ id: "A3", ms: 4000, intervalPct: -0.1 * this.rank("A3") });
+        this.addBuff({ id: "A3", ms: 4000, intervalPct: -0.1 * this.bonusRank("A3") });
       }
     }
     return dealt;
@@ -70,7 +70,7 @@ export class LegendKit extends Kit {
     if (this.buff("T")) this.ember = 100;
     else if (inCombat && !this.wasInCombat && this.has("C5")) this.ember = Math.max(this.ember, 20);
     else if (!inCombat)
-      this.ember = Math.max(0, this.ember - ((5 / (1 + this.rank("C2"))) * dt) / 1000);
+      this.ember = Math.max(0, this.ember - ((5 / (1 + this.bonusRank("C2"))) * dt) / 1000);
     this.wasInCombat = inCombat;
   }
   protected override lethalSave() {
@@ -82,7 +82,7 @@ export class LegendKit extends Kit {
     return true;
   }
   override onKill(_foe: Foe) {
-    if (this.has("B6")) this.port.heal(this.stats.maxHp * 0.03 * this.rank("B6"));
+    if (this.has("B6")) this.port.heal(this.stats.maxHp * 0.03 * this.bonusRank("B6"));
   }
   private ignite(foe: Foe, totalAtk: number, ms: number) {
     this.port.burnFoe(foe, (this.stats.attack * totalAtk) / (ms / 1000), ms);
@@ -142,11 +142,11 @@ export class LegendKit extends Kit {
           "A1",
           foe,
           five ? 5 : 3,
-          (five ? 1.8 + 0.8 * this.rank("A7") : 1.8) *
-            this.castRank("A1") *
+          (this.castDamage("A1", 1.8) +
+            (five ? 0.8 * this.bonusRank("A7") * this.castGrowth("A1") : 0)) *
             (this.variant("mp-cuts") ? 1.1 : 1),
           150,
-          this.has("A2") ? [0.3 * this.rank("A2"), 3000] : undefined,
+          this.has("A2") ? [0.3 * this.bonusRank("A2"), 3000] : undefined,
         );
         return { ok: true };
       }
@@ -164,7 +164,7 @@ export class LegendKit extends Kit {
           charge: true,
           to: { x: foe.x, y: foe.y },
         });
-        this.strike(foe, 2.2 * this.castRank("A4"), {
+        this.strike(foe, this.castDamage("A4", 2.2), {
           tags: ["physical", "fire"],
           melee: true,
           ability: "A4",
@@ -174,7 +174,7 @@ export class LegendKit extends Kit {
       case "A9": {
         const foe = near();
         if (typeof foe === "string") return { ok: false, reason: foe };
-        this.cuts("A9", foe, 8, 4.2 * this.castRank("A9"), 120);
+        this.cuts("A9", foe, 8, this.castDamage("A9", 4.2), 120);
         return { ok: true };
       }
       case "B1": {
@@ -187,7 +187,7 @@ export class LegendKit extends Kit {
           ability: "B1",
           to: { x: foe.x, y: foe.y },
         });
-        this.strike(foe, 1.5 * this.castRank("B1") * (this.variant("mp-break") ? 0.9 : 1), {
+        this.strike(foe, this.castDamage("B1", 1.5) * (this.variant("mp-break") ? 0.9 : 1), {
           tags: ["physical", "stun"],
           melee: true,
           ability: "B1",
@@ -199,8 +199,8 @@ export class LegendKit extends Kit {
       case "B4": {
         this.addBuff({
           id: "B4",
-          ms: 8000 + 4000 * this.rank("B7"),
-          atkPct: 0.3 * this.castRank("B4") + 0.1 * this.rank("B7"),
+          ms: 8000 + 4000 * this.bonusRank("B7"),
+          atkPct: 0.3 * this.castRank("B4") + 0.1 * this.bonusRank("B7"),
           defPct: this.has("B8") ? 0 : -0.2 * this.castRank("B4"),
           stunImmune: this.has("B5") ? true : undefined,
         });
@@ -217,24 +217,25 @@ export class LegendKit extends Kit {
         const foes = this.port.foesIn(p, radius);
         this.port.emit({ type: "burst", x: p.x, y: p.y, ability: "C1", radius });
         for (const f of foes) {
-          this.strike(f, 1.8 * this.castRank("C1") * (this.variant("mp-burst") ? 0.9 : 1), {
+          this.strike(f, this.castDamage("C1", 1.8) * (this.variant("mp-burst") ? 0.9 : 1), {
             tags: ["fire", "area"],
             melee: true,
             ability: "C1",
           });
-          if (this.has("C3")) this.ignite(f, 0.4 * this.rank("C3"), 4000);
+          if (this.has("C3")) this.ignite(f, 0.4 * this.bonusRank("C3"), 4000);
         }
         return { ok: true };
       }
       case "C4": {
         const mult =
-          (1 + Math.min(100, this.ember) / 50) * this.castRank("C4") * (1 + 0.25 * this.rank("C8"));
+          this.castDamage("C4", 1 + Math.min(100, this.ember) / 50) *
+          (1 + 0.25 * this.bonusRank("C8"));
         const radius =
           160 *
           (this.has("C7")
-            ? 1 + 0.5 * this.rank("C7")
+            ? 1 + 0.5 * this.bonusRank("C7")
             : this.has("C8")
-              ? Math.max(0.3, 1 - 0.2 * this.rank("C8"))
+              ? Math.max(0.3, 1 - 0.2 * this.bonusRank("C8"))
               : 1);
         const foes = this.port.foesIn(p, radius);
         this.port.emit({ type: "burst", x: p.x, y: p.y, ability: "C4", radius });
@@ -250,7 +251,7 @@ export class LegendKit extends Kit {
         const foes = this.port.foesIn(at, 240);
         this.port.emit({ type: "burst", x: at.x, y: at.y, ability: "C9", radius: 240 });
         for (const x of foes) {
-          this.strike(x, 4.5 * this.castRank("C9"), {
+          this.strike(x, this.castDamage("C9", 4.5), {
             tags: ["fire", "area"],
             melee: true,
             ability: "C9",

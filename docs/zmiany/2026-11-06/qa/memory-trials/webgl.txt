@@ -1,0 +1,12 @@
+
+Running 3 tests using 1 worker
+
+(node:11543) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [software-webgl] › e2e/racial-trials.spec.ts:131:3 › Mędrcy: real TA10, one-time reward and reload (2.8m)
+  ✓  2 [software-webgl] › e2e/racial-trials.spec.ts:131:3 › Mędrcy: real TA11, one-time reward and reload (2.5m)
+  ✓  3 [software-webgl] › e2e/racial-trials.spec.ts:131:3 › Mędrcy: real TA12, one-time reward and reload (1.7m)
+
+  Slow test file: [software-webgl] › e2e/racial-trials.spec.ts (7.0m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  3 passed (7.0m)

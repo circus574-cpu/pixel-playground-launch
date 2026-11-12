@@ -1,0 +1,167 @@
+{
+  "recordedAtUtc": "2026-11-03T10:12:05.011874+00:00",
+  "branch": "feature/complete-character-development",
+  "baselineMain": "139834679f4618fdfc343c93060f479b1b98b71d",
+  "previousCommit": "b7d41ffedc58f4a1527340e936a3d9f5b6592dbf",
+  "testedState": "Working tree after previousCommit. The following SHA-256 values identify the actual tested sources. This manifest is committed together with them; no invented post-commit test SHA.",
+  "sourceSha256": {
+    "e2e/development-heritage.spec.ts": "cc292de769cd618aabdbab8bffe81b7d20e1afcec0e04011ae2ac0d43faf664d",
+    "e2e/heritage-chronicle.spec.ts": "9c5190337f8efe29bb90560dfccb05d2335bf868802a7a967599a4bcc452618a",
+    "playwright.config.ts": "a09ea2f3191bcb3e43a5751b8db9cba6bc57aff6e5f168b16612ae9d02e6120e",
+    "src/components/game/ChroniclePanel.tsx": "4b984d284d70462d1c2bf28938b1467325055072c116f750c108a2f13a10294e",
+    "src/components/game/DevelopmentPanel.tsx": "915c2574d16e214e1578e1005bd918b9cb0a43a6d22992edf69a2fc8fe9d0b35",
+    "src/components/game/GameHud.tsx": "ce397e71c5d3d49dfe3913015e92c942a54d3dc4a178e5a0e9123c379061b26a",
+    "src/components/game/HeritagePanel.tsx": "9563751f6bbf300b0d9ae6a596256e8c0454eb18f94f0694e34f74d1c922447e",
+    "src/game/development/heritage/bindings.ts": "fc2f256c347d871856a5873c0ff512dd7e1b5ea98d5e6599640eb14887b36c41",
+    "src/game/development/heritage/chronicle.ts": "d23806ee462be50f2bba91bf4cc1fe1f35b62e9af5c6d0e50978a7f068e9e397",
+    "src/game/development/heritage/encounter.ts": "fe19b983f60f2f6792b3e429e280df4b12bca6cf0f5a9ef3c4af43a962a5e5be",
+    "src/game/development/heritage/escort.ts": "09e82661333bda55ad747babde12340768841f8cd28d3b1c950efb106d1b6d45",
+    "src/game/development/heritage/protection.ts": "17ecbe17dc2a083929879768c37dac2f7adbcbda3432240e5876f0614187c62c",
+    "src/game/development/heritage/reducer.ts": "74672ee2e7a6bac018403d405bd7284568e4a1d08a148fd637ab14828491d1eb",
+    "src/game/development/heritage/render.ts": "f9fda3b6b663d8b161bbef561d5552a684262ede883cb325d0b480274b478893",
+    "src/game/development/heritage/runtime.ts": "94e0bc4b4ca1ad30ba265f86dc3f518d5344648906134e857392e8e009e6d27f",
+    "src/game/development/heritage/state.ts": "627c3609c178ad81c7749f39bf3d815f9d63c3991f23d363a52ddc6696a02245",
+    "src/game/monsters/system.ts": "c8614eb4a6b5ae7a525b6163cbc2d571729cb739b167228b4b2c666d043d49a9",
+    "src/game/monsters/types.ts": "ab3aefaa999b5a8640aa22153c24abdc1bccd039b3d42e79614d79783ae2f276",
+    "src/game/mountGame.ts": "cc30e87c6d0b07bde5a809af4eeeb5f5674251a475031a73f449092884459450",
+    "src/game/session.ts": "a0826f88e8b2177e934e8fcbf6728300b1d16002a382e640936deccfbc9f079a",
+    "src/game/world/generated/superiorRuntime.ts": "16e58ae3b959344f080e2df9155071fb7bb9341efca9f9effeb7151ac29d58c8",
+    "src/server/characters/superiorSimulation.ts": "e5e0a98b676098cdcfefe3c973411100e591bb6f9fd317e5bff1ab0f16dc2b1b",
+    "src/test/heritage-battle.test.ts": "140573746680e8950b4680a2330a66edc2e40e7a4341ec5482a6651cf62a6c93",
+    "src/test/heritage-chronicle.test.tsx": "422acd9bab4965ad4140d724b762157d775c67553c5a7f10abbcb385ed0eb5d8",
+    "src/test/heritage-runtime.test.ts": "771c597b3c534c56b186d3c7af96c6a040ac6d678a9066c7a996eeaf4c37ee14",
+    "src/test/protected-combat.test.ts": "4e5bd061fe848053e019874e87a2b2a8362eca22066e5d08d79431c6e226818b",
+    "src/test/server-superior-simulation.test.ts": "66eb325da5b270f35c0e96c8303288d85c480d0fb9942038d6ba2cad2e363dba"
+  },
+  "ownerSpecificationSha256": "03ea87f725815adab2d74cba84da87a52adfc5cd650600c6a3202f68742359ed",
+  "checks": [
+    {
+      "command": "npm test",
+      "result": "PASS",
+      "passed": 1143,
+      "failed": 0,
+      "skipped": 10,
+      "filesPassed": 99,
+      "filesSkipped": 1,
+      "log": "unit-tests.txt",
+      "skipReason": "PostgreSQL accounts integration needs KI_ACCOUNTS_TEST_DATABASE_URL; no extra database started. Existing jsdom HTMLMediaElement.play warnings are preserved in the log."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "PASS",
+      "configs": [
+        "tsconfig.json",
+        "tsconfig.e2e.json",
+        "tsconfig.tools.json"
+      ],
+      "log": "typecheck.txt"
+    },
+    {
+      "command": "npm run lint",
+      "result": "PASS with existing warnings",
+      "errors": 0,
+      "warnings": 15,
+      "log": "lint.txt"
+    },
+    {
+      "command": "npx eslint e2e/heritage-chronicle.spec.ts playwright.config.ts",
+      "result": "PASS",
+      "log": "e2e-lint.txt"
+    },
+    {
+      "command": "npm run build",
+      "result": "PASS",
+      "log": "build.txt"
+    },
+    {
+      "command": "KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4174 npx playwright test e2e/heritage-chronicle.spec.ts --project=gameplay --output=/tmp/ki-chronicle-canvas --reporter=list --trace=off",
+      "result": "PASS",
+      "passed": 4,
+      "renderer": "Canvas",
+      "log": "chronicle-canvas.txt"
+    },
+    {
+      "command": "KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4174 npx playwright test e2e/heritage-chronicle.spec.ts --project=software-webgl --output=/tmp/ki-chronicle-webgl-pass --reporter=list --trace=off",
+      "result": "PASS",
+      "passed": 4,
+      "renderer": "WebGL (SwiftShader)",
+      "log": "chronicle-webgl.txt"
+    },
+    {
+      "command": "KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4174 npx playwright test e2e/development-heritage.spec.ts --project=gameplay --grep planetary --output=/tmp/ki-heritage-canvas-verified --reporter=list --trace=off",
+      "result": "PASS",
+      "passed": 1,
+      "renderer": "Canvas",
+      "log": "earned-chronicle-canvas.txt",
+      "scope": "Actual old prologue, chapter 1, project 1, personal weapon, earned decision in chronicle, reload. No injected game progress."
+    },
+    {
+      "command": "npm run assets:check",
+      "result": "PASS",
+      "exitCode": 0,
+      "log": "assets.txt"
+    },
+    {
+      "command": "python3 scripts/docs/check_documentation.py",
+      "result": "PASS",
+      "log": "documentation.txt"
+    },
+    {
+      "command": "git diff --cached --check",
+      "result": "PASS"
+    }
+  ],
+  "controlledIntegration": {
+    "races": 4,
+    "chapters": 24,
+    "projects": 24,
+    "personalWeaponStagesPerRace": 6,
+    "heritagePractice": 2900,
+    "realWorldGeometryCases": 4,
+    "chronicleCases": 12,
+    "conditions": "Level 40 fixture, deterministic randomness, controlled campaign geometry. Actual production commands, damage/AI and transactional checkpoints. Android cross-world travel uses a world-loader session reload, not an end-to-end portal. Not a level 1–40 campaign."
+  },
+  "browserFailuresPreserved": [
+    {
+      "log": "interrupted-browser.txt",
+      "result": "INTERRUPTED",
+      "reason": "Runtime edited during dev-server test; HMR closed modal. Not a game bug or PASS. Full raw trace exhausted disk; own generated trace/build deleted after extracting call metadata/screenshot."
+    },
+    {
+      "log": "browser-selector-failure.txt",
+      "result": "FAIL (test selector)",
+      "reason": "Exact selector omitted visible prefix Twój zapis:. Corrected full exact string, then actual first-chapter test passed."
+    },
+    {
+      "log": "renderer-expectation-failure.txt",
+      "result": "4 FAIL (test expectation)",
+      "reason": "Test expected Canvas under software-webgl project; actual telemetry was WebGL. Project-aware expectation corrected; standard project passed 4/4."
+    },
+    {
+      "log": "preview-connection-failure.txt",
+      "result": "4 FAIL (environment unavailable)",
+      "reason": "Local preview port 4174 was no longer listening after session continuation. Restarted only local Vite, then standard WebGL project passed 4/4."
+    },
+    {
+      "log": "weapon-swap-before.txt",
+      "result": "4 FAIL (confirmed game defect)",
+      "reason": "Personal weapon desynchronized catalog slot/bag and resources. Production swap fixed; expanded targeted suite passed 49 tests, then full suite 1143."
+    }
+  ],
+  "notPerformed": [
+    "Full repository Playwright suite",
+    "Physical Android/iOS testing",
+    "All four complete late campaigns in Phaser",
+    "Level 1–40 campaign and timing/balance acceptance",
+    "Production account and actual Android quest portal travel",
+    "GPU operations, merge, production deployment"
+  ],
+  "remaining": [
+    "48 racial trials / 144 tiers",
+    "Domain ranks and ordinary unlocks of 12 mastery variants and 4 remaining Android modules",
+    "Final titles requiring tier III trials",
+    "32 explicit encounter variants at levels 22/28/34/40",
+    "Full canonical progression graph and 17800-practice budget acceptance"
+  ],
+  "evidenceNotes": "Text logs have trailing whitespace and surrounding blank lines normalized; test content unchanged. Screenshots are original PNGs. No full trace retained for interrupted run."
+}

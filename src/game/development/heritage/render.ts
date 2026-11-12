@@ -3,7 +3,7 @@ import { registerActorAnimations } from "../../assets/phaserAssets";
 import { ActorAnimation } from "../../assets/actorAnimation";
 import type { ProjectView } from "./projects";
 import type Phaser from "phaser";
-import type { GameSession } from "../../session";
+import type { GameSession, GameViewState } from "../../session";
 import { distance } from "../../navigation";
 
 /** Small world contacts, culled and reused; no permanent overlay over the play area. */
@@ -11,7 +11,15 @@ export class HeritageMarkers {
   private readonly markers = new Map<string, Phaser.GameObjects.Container>();
   private nextUpdate = 0;
   private escortObject: Phaser.GameObjects.Container | null = null;
+  private nextActivityRead = 0;
+  private activity:
+    | GameViewState["heritageActivity"]
+    | NonNullable<NonNullable<GameViewState["fieldwork"]>["active"]>["activity"] = null;
+  private expedition: NonNullable<GameViewState["expeditions"]>["active"] = null;
+  private protectionObject: Phaser.GameObjects.Container | null = null;
+  private protectionHealth: Phaser.GameObjects.Graphics | null = null;
   private escortAnimation: ActorAnimation | null = null;
+  private readonly fieldObjects = new Map<string, Phaser.GameObjects.Container>();
   private readonly practiceObjects = new Map<string, Phaser.GameObjects.Container>();
   private readonly animations = new Map<string, ActorAnimation>();
   private readonly projectObjects = new Map<
@@ -21,6 +29,12 @@ export class HeritageMarkers {
   constructor(
     private readonly scene: Phaser.Scene,
     private readonly session: GameSession,
+    private readonly readActivity: () => GameViewState["heritageActivity"] = () =>
+      session.heritage.activitySnapshot(),
+    private readonly readFieldwork: () => GameViewState["fieldwork"] = () =>
+      session.fieldwork.snapshot(),
+    private readonly readExpeditions: () => GameViewState["expeditions"] = () =>
+      session.expeditions.snapshot(),
   ) {}
   update(now: number, labels: boolean) {
     this.updateEscort(now);
@@ -28,8 +42,12 @@ export class HeritageMarkers {
     this.nextUpdate = now + 250;
     const live = new Set<string>(),
       s = this.session;
-    const points = s.heritage
-      .markers()
+    const field = this.readFieldwork();
+    const points = [
+      ...s.heritage.markers(),
+      ...(field?.active ? [field.active.target] : s.fieldwork.markers()),
+      ...s.expeditions.markers(),
+    ]
       .filter((t) => distance(t.point, s.player) < 750)
       .slice(0, 20);
     for (const target of points) {
@@ -85,6 +103,31 @@ export class HeritageMarkers {
         this.markers.delete(id);
         this.animations.delete(id);
       }
+    const fieldProps = s.fieldwork.props();
+    const fieldLive = new Set(fieldProps.map((p) => p.id));
+    for (const p of fieldProps) {
+      let object = this.fieldObjects.get(p.id);
+      if (!object) {
+        const shape = this.scene.add.graphics();
+        object = this.scene.add
+          .container(p.target.point.x, p.target.point.y, [shape])
+          .setDepth(p.target.point.y - 1);
+        this.fieldObjects.set(p.id, object);
+      }
+      const shape = object.list[0] as Phaser.GameObjects.Graphics;
+      shape.clear().lineStyle(3, p.completed ? 0x8ae3a4 : 0xedb56b);
+      if (p.gate) shape.fillStyle(0x825b41).fillRect(55, -16, 40, 32).strokeRect(55, -16, 40, 32);
+      else
+        shape
+          .fillStyle(p.completed ? 0x4e997b : 0x5b6674, 0.7)
+          .fillCircle(0, -10, 16)
+          .strokeCircle(0, -10, 18);
+    }
+    for (const [id, object] of this.fieldObjects)
+      if (!fieldLive.has(id)) {
+        object.destroy();
+        this.fieldObjects.delete(id);
+      }
     const targets = s.practiceTargets
       .list(s.player.interior)
       .filter((t) => distance(t, s.player) < 900);
@@ -131,8 +174,64 @@ export class HeritageMarkers {
       }
   }
   private updateEscort(now: number) {
-    const s = this.session,
-      activity = s.heritage.activitySnapshot();
+    const s = this.session;
+    if (now >= this.nextActivityRead) {
+      this.nextActivityRead = now + 100;
+      this.activity = this.readFieldwork()?.active?.activity ?? this.readActivity();
+      this.expedition = this.readExpeditions()?.active ?? null;
+    }
+    const activity = this.activity;
+    const protectedPoint = this.expedition?.protected;
+    const node =
+      activity && "node" in activity
+        ? activity.node
+        : protectedPoint
+          ? {
+              ...protectedPoint,
+              healthFraction: protectedPoint.hp / protectedPoint.maxHp,
+            }
+          : null;
+    if (!node || distance(node, s.player) > 900) {
+      this.protectionObject?.destroy();
+      this.protectionObject = null;
+      this.protectionHealth = null;
+    } else {
+      if (!this.protectionObject) {
+        const symbol = this.scene.add
+          .graphics()
+          .lineStyle(2, 0xe3c779)
+          .strokeEllipse(0, 0, 52, 28)
+          .fillStyle(0x246d7c, 0.9)
+          .beginPath()
+          .moveTo(0, -46)
+          .lineTo(16, -25)
+          .lineTo(0, -5)
+          .lineTo(-16, -25)
+          .closePath()
+          .fillPath()
+          .lineStyle(2, 0x9ce7ed)
+          .strokePath();
+        this.protectionHealth = this.scene.add.graphics();
+        const label = this.scene.add
+          .text(0, -68, "Węzeł ochronny", {
+            fontSize: "12px",
+            color: "#ffe3a0",
+            backgroundColor: "#10242bd9",
+          })
+          .setOrigin(0.5, 1);
+        this.protectionObject = this.scene.add.container(node.x, node.y, [
+          symbol,
+          this.protectionHealth,
+          label,
+        ]);
+      }
+      this.protectionObject.setPosition(node.x, node.y).setDepth(node.y);
+      this.protectionHealth!.clear()
+        .fillStyle(0x112a34)
+        .fillRect(-25, -61, 50, 5)
+        .fillStyle(node.healthFraction < 0.6 ? 0xf28565 : 0x7fdbc5)
+        .fillRect(-25, -61, 50 * node.healthFraction, 5);
+    }
     const actor =
       activity && "actor" in activity && activity.phase === "escort" ? activity.actor : null;
     if (!actor || distance(actor, s.player) > 900) {
@@ -246,6 +345,12 @@ export class HeritageMarkers {
     return object;
   }
   dispose() {
+    for (const object of this.fieldObjects.values()) object.destroy();
+    this.fieldObjects.clear();
+    this.protectionObject?.destroy();
+    this.protectionObject = null;
+    this.protectionHealth = null;
+    this.activity = null;
     this.escortObject?.destroy();
     this.escortObject = null;
     this.escortAnimation = null;

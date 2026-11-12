@@ -20,6 +20,22 @@ export type PracticeTarget = Foe & {
 /** Ephemeral technical targets share the production kits and projectile collision. No XP, loot or save port. */
 export class PracticeTargets {
   private readonly targets = new Map<string, PracticeTarget>();
+  private readonly shields = new Map<string, () => void>();
+  armShield(target: PracticeTarget, broken: () => void) {
+    if (!this.has(target)) throw Error("Unknown technical shield target");
+    this.shields.set(target.id, broken);
+  }
+  shielded(target: PracticeTarget) {
+    return this.has(target) && this.shields.has(target.id);
+  }
+  breakShield(foe: Foe) {
+    if (!this.has(foe)) return false;
+    const broken = this.shields.get(foe.id);
+    if (!broken) return false;
+    this.shields.delete(foe.id);
+    broken();
+    return true;
+  }
   add(
     owner: string,
     name: string,
@@ -74,11 +90,27 @@ export class PracticeTargets {
       if (target.owner === owner) {
         target.hp = 0;
         this.targets.delete(id);
+        this.shields.delete(id);
+      }
+  }
+  /** Presentation-only mirror of trusted server targets; never used to approve an outcome. */
+  mirror(values: readonly Omit<PracticeTarget, "onHit">[]) {
+    const live = new Set(values.map((t) => t.id));
+    for (const t of values) {
+      const previous = this.targets.get(t.id);
+      if (previous) Object.assign(previous, t);
+      else this.targets.set(t.id, { ...t, onHit: () => {} });
+    }
+    for (const id of this.targets.keys())
+      if (!live.has(id)) {
+        this.targets.delete(id);
+        this.shields.delete(id);
       }
   }
   clear() {
     for (const target of this.targets.values()) target.hp = 0;
     this.targets.clear();
+    this.shields.clear();
   }
 }
 export const isPracticeId = (id: string) => id.startsWith("practice-target:");

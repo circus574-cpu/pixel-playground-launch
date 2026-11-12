@@ -90,7 +90,7 @@ aby sylwetki z materiałów wideo zachowały rozmiar porównywalny z wcześniejs
 malowanymi aktorami 160×160. Kontrakt importu ma nadal 96×96 i kotwicę stóp
 `(0.5, 0.95)`, fizyka pozostaje niezależna od tekstury. Nie stosować starszego
 rozmiaru 160 globalnie do bieżących bohaterów ani do wszystkich NPC/potworów.
-Mieszkańcy nadal korzystają ze wspólnego `human-v2`; to grafika zastępcza.
+Mieszkańcy bez własnego filmu (myśliwy, alchemik) nadal korzystają ze wspólnego `human-v2`; to grafika zastępcza. Przewodnik, handlarz, kowal, depozytariusz, karczmarz, zarządca i strażnik mają własne postaci (klatki 256 px, rysowane 150) z filmów obrotu w czterech wersjach kolorystycznych (12.11.2026, `scripts/anim/npc_role_build.py`), a Trener własną większą.
 
 Historyczne dostawy z 22–23.10 (`hero-planetary-painted-1.0.0`,
 `hero-sage-painted-1.0.0`, `hero-android-1.0.0`, `hero-legend-1.0.0`)

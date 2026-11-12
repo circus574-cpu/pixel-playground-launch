@@ -1,0 +1,49 @@
+
+> build:playtest
+> vite build --config scripts/playtest.vite.ts
+
+vite v8.1.5 building client environment for production...
+[2K
+transforming...✓ 2165 modules transformed.
+rendering chunks...
+computing gzip size...
+.playtest-dist/scripts/playtest.html                           0.86 kB │ gzip:   0.45 kB
+.playtest-dist/assets/globe-lights-2048-GxlCLdQI.webp         14.46 kB
+.playtest-dist/assets/v2-globe-lights-2048-BNCwHcRY.webp      17.92 kB
+.playtest-dist/assets/globe-surface-2048-DgErZuqt.webp        69.67 kB
+.playtest-dist/assets/v2-globe-surface-2048-CFQtUHAl.webp     94.62 kB
+.playtest-dist/assets/globe-clouds-2048-D4kKIQXb.webp        188.70 kB
+.playtest-dist/assets/space-HEvV20ml.jpg                     198.76 kB
+.playtest-dist/assets/v2-globe-color-1920-BbTF3sRd.webp      217.49 kB
+.playtest-dist/assets/globe-color-1920-Ch9gVdr6.webp         230.17 kB
+.playtest-dist/assets/atlas-1920-Dl3d8o1-.webp               298.50 kB
+.playtest-dist/assets/atlas-v2-1920-Cr9wzsWl.webp            304.74 kB
+.playtest-dist/assets/globe-color-3840-HOUfVboF.webp         729.71 kB
+.playtest-dist/assets/v2-globe-color-3840-CSEoMcpm.webp      802.34 kB
+.playtest-dist/assets/atlas-3840-BF0NjDLS.webp               960.98 kB
+.playtest-dist/assets/atlas-v2-3840-DvHQxxxG.webp          1,260.72 kB
+.playtest-dist/assets/globe-CnpsjOyo.css                      20.01 kB │ gzip:   5.07 kB
+.playtest-dist/assets/playtest-zcDJFjsn.css                  119.19 kB │ gzip:  25.79 kB
+.playtest-dist/assets/sceneryStream-synwACwT.js                2.05 kB │ gzip:   1.01 kB
+.playtest-dist/assets/playtest-DB_NrHfa.js                    19.77 kB │ gzip:   7.11 kB
+.playtest-dist/assets/MapaView-DHiFmiMD.js                    23.16 kB │ gzip:   8.66 kB
+.playtest-dist/assets/preload-BiCcRyoO.js                     35.48 kB │ gzip:  14.87 kB
+.playtest-dist/assets/globe-CtNcEzI2.js                       38.15 kB │ gzip:  13.12 kB
+.playtest-dist/assets/superiorRuntime-D4RwN9VB.js             94.00 kB │ gzip:  30.84 kB
+.playtest-dist/assets/worldOverlay.v2-DTQVm5ZZ.js            528.76 kB │ gzip: 109.76 kB
+.playtest-dist/assets/playtest-B3QBX5TL.js                   881.78 kB │ gzip: 251.86 kB
+.playtest-dist/assets/PlanetGlobe-D3SxfS1U.js                970.82 kB │ gzip: 258.86 kB
+.playtest-dist/assets/mountGame-VXGftiQP.js                1,452.45 kB │ gzip: 384.33 kB
+.playtest-dist/assets/worldVersion-Dl4TCphd.js             3,728.74 kB │ gzip: 419.18 kB
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugins. Here is a breakdown:
+  - vite:prepare-out-dir (59%)
+  - vite:css (9%)
+See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 8.43s

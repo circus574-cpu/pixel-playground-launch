@@ -127,6 +127,77 @@ it("opens a character whose stored player was edited by an administrator after t
   }
 }, 60000);
 
+it.each(RACE_IDS)(
+  "%s: chapter battle bindings and routes stay on actual Superior land outside cities",
+  async (race) => {
+    const { HeritageBindings } = await import("../game/development/heritage/bindings");
+    const { HERITAGE_QUESTS } = await import("../game/development/heritage/catalog");
+    const { HeritageEncounter, combatGround } =
+      await import("../game/development/heritage/encounter");
+    const { escortRoute } = await import("../game/development/heritage/escort");
+    const simulation = await prepareServerSimulation(
+      {
+        id: "battle-binding",
+        revision: 1,
+        state: { format: "server-character-1", player: newPlayer(race), runtime: {} },
+      },
+      path.resolve("public"),
+    );
+    const s = simulation.session,
+      nav = s.enemyNavigation ?? s.nav;
+    const bindings = new HeritageBindings(s.world, s.world, nav);
+    try {
+      for (const def of HERITAGE_QUESTS.filter((d) => d.race === race))
+        for (const goal of def.goals) {
+          if (goal.kind !== "protect" && !(goal.kind === "escort" && goal.combat)) continue;
+          expect(() =>
+            simulation.command({
+              type: "heritage",
+              action: "act",
+              id: def.id,
+              goalId: goal.id,
+              targetId: "",
+              revision: 0,
+              interaction: { kind: "activity", result: "passed", healthFraction: 1 },
+            }),
+          ).toThrow();
+          const base = bindings.resolve(goal, def.world)[0]!;
+          expect(base, goal.id).toBeDefined();
+          expect(combatGround(s, base.point), goal.id).toBe(true);
+          const points = escortRoute(
+            nav,
+            base.point,
+            goal.kind === "escort" ? goal.checkpoints : goal.points - 1,
+            goal.id,
+            (p) => combatGround(s, p),
+          );
+          expect(
+            points.every((p) => combatGround(s, p)),
+            goal.id,
+          ).toBe(true);
+          const encounter = new HeritageEncounter(
+            s,
+            goal.id,
+            "Cel zadania",
+            base.point,
+            goal.kind === "escort",
+          );
+          encounter.startWave(0);
+          expect(s.enemies.filter((e) => e.encounterOwner)).toHaveLength(1);
+          const state = simulation.capture();
+          expect(StoredCharacter.safeParse(state).success).toBe(true);
+          // Ephemeral chapter actors/opponents must never enter persistent authored spawn slots.
+          expect(JSON.stringify(state.runtime)).not.toContain("heritage-encounter:");
+          encounter.dispose();
+          expect(s.enemies.filter((e) => e.encounterOwner)).toHaveLength(0);
+        }
+    } finally {
+      simulation.dispose();
+    }
+  },
+  60000,
+);
+
 it("opens characters whose admin edits broke checkpoint invariants (xp, equipment, quests, continent)", async () => {
   const seed: CharacterRecord = {
     id: "admin-edit-invariants",

@@ -1,0 +1,121 @@
+Running 4 tests using 1 worker
+
+(node:18227) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › planetary: private chronicle opens by touch without revealing unearned history (1.5m)
+(node:18455) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › sage: private chronicle opens by touch without revealing unearned history (1.2m)
+(node:18606) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › android: private chronicle opens by touch without revealing unearned history (1.2m)
+(node:18714) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › legend: private chronicle opens by touch without revealing unearned history (1.2m)
+
+
+  1) [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › planetary: private chronicle opens by touch without revealing unearned history
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "Canvas"
+    Received: "WebGL"
+
+    Call Log:
+    - Timeout 60000ms exceeded while waiting on the predicate
+
+      22 |         return metrics ? JSON.parse(metrics).renderer : null;
+      23 |       })
+    > 24 |       .toBe(process.env["KI_QA_WEBGL"] ? "WebGL" : "Canvas");
+         |        ^
+      25 |     await openHudTool(page, "Umiejętności");
+      26 |     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).tap();
+      27 |     await page.getByRole("tab", { name: "Kronika", exact: true }).tap();
+        at /workspace/ki-aruba/e2e/heritage-chronicle.spec.ts:24:8
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-chronicle-webgl-verified/heritage-chronicle-planeta-9dec1--revealing-unearned-history-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-chronicle-webgl-verified/heritage-chronicle-planeta-9dec1--revealing-unearned-history-software-webgl/error-context.md
+
+  2) [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › sage: private chronicle opens by touch without revealing unearned history
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "Canvas"
+    Received: "WebGL"
+
+    Call Log:
+    - Timeout 60000ms exceeded while waiting on the predicate
+
+      22 |         return metrics ? JSON.parse(metrics).renderer : null;
+      23 |       })
+    > 24 |       .toBe(process.env["KI_QA_WEBGL"] ? "WebGL" : "Canvas");
+         |        ^
+      25 |     await openHudTool(page, "Umiejętności");
+      26 |     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).tap();
+      27 |     await page.getByRole("tab", { name: "Kronika", exact: true }).tap();
+        at /workspace/ki-aruba/e2e/heritage-chronicle.spec.ts:24:8
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-chronicle-webgl-verified/heritage-chronicle-sage-pr-e5297--revealing-unearned-history-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-chronicle-webgl-verified/heritage-chronicle-sage-pr-e5297--revealing-unearned-history-software-webgl/error-context.md
+
+  3) [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › android: private chronicle opens by touch without revealing unearned history
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "Canvas"
+    Received: "WebGL"
+
+    Call Log:
+    - Timeout 60000ms exceeded while waiting on the predicate
+
+      22 |         return metrics ? JSON.parse(metrics).renderer : null;
+      23 |       })
+    > 24 |       .toBe(process.env["KI_QA_WEBGL"] ? "WebGL" : "Canvas");
+         |        ^
+      25 |     await openHudTool(page, "Umiejętności");
+      26 |     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).tap();
+      27 |     await page.getByRole("tab", { name: "Kronika", exact: true }).tap();
+        at /workspace/ki-aruba/e2e/heritage-chronicle.spec.ts:24:8
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-chronicle-webgl-verified/heritage-chronicle-android-6c525--revealing-unearned-history-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-chronicle-webgl-verified/heritage-chronicle-android-6c525--revealing-unearned-history-software-webgl/error-context.md
+
+  4) [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › legend: private chronicle opens by touch without revealing unearned history
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "Canvas"
+    Received: "WebGL"
+
+    Call Log:
+    - Timeout 60000ms exceeded while waiting on the predicate
+
+      22 |         return metrics ? JSON.parse(metrics).renderer : null;
+      23 |       })
+    > 24 |       .toBe(
+         |        ^
+      25 |         process.env["KI_QA_WEBGL"] || info.project.name === "software-webgl" ? "WebGL" : "Canvas",
+      26 |       );
+      27 |     await openHudTool(page, "Umiejętności");
+        at /workspace/ki-aruba/e2e/heritage-chronicle.spec.ts:24:8
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-chronicle-webgl-verified/heritage-chronicle-legend--a9b06--revealing-unearned-history-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-chronicle-webgl-verified/heritage-chronicle-legend--a9b06--revealing-unearned-history-software-webgl/error-context.md
+
+  4 failed
+    [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › planetary: private chronicle opens by touch without revealing unearned history
+    [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › sage: private chronicle opens by touch without revealing unearned history
+    [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › android: private chronicle opens by touch without revealing unearned history
+    [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › legend: private chronicle opens by touch without revealing unearned history

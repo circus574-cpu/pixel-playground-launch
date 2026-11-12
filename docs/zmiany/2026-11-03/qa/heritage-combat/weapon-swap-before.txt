@@ -1,0 +1,34 @@
+RUN  v4.1.12 /workspace/ki-aruba
+
+ ❯ src/test/heritage-runtime.test.ts (25 tests | 4 failed | 21 skipped) 130ms
+   × personal weapon swaps keep equipment, bag and HP/KI consistent: planetary 59ms
+   × personal weapon swaps keep equipment, bag and HP/KI consistent: sage 20ms
+   × personal weapon swaps keep equipment, bag and HP/KI consistent: android 25ms
+   × personal weapon swaps keep equipment, bag and HP/KI consistent: legend 24ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/heritage-runtime.test.ts > personal weapon swaps keep equipment, bag and HP/KI consistent: planetary
+ FAIL  src/test/heritage-runtime.test.ts > personal weapon swaps keep equipment, bag and HP/KI consistent: sage
+ FAIL  src/test/heritage-runtime.test.ts > personal weapon swaps keep equipment, bag and HP/KI consistent: android
+ FAIL  src/test/heritage-runtime.test.ts > personal weapon swaps keep equipment, bag and HP/KI consistent: legend
+AssertionError: expected 'W-V2' to be 'heritage' // Object.is equality
+
+Expected: "heritage"
+Received: "W-V2"
+
+ ❯ src/test/heritage-runtime.test.ts:992:42
+    990|       s.command({ type: "heritage-weapon", action: "equip" });
+    991|       expect(s.player.weapon).toBe("heritage");
+    992|       expect(s.player.equipment!.weapon).toBe("heritage");
+       |                                          ^
+    993|       expect(s.player.bagItems![id]).toBe(1);
+    994|       expect(s.player.hp / s.kit.stats.maxHp).toBeCloseTo(0.4, 10);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 21 skipped (25)
+   Start at  06:31:35
+   Duration  1.42s (transform 707ms, setup 58ms, import 828ms, tests 130ms, environment 280ms)

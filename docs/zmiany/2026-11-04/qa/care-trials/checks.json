@@ -1,0 +1,119 @@
+{
+  "date": "2026-11-04",
+  "base": "9d07993238d76f3336a3b4f573b0d27e437eb7c4",
+  "branch": "feature/complete-character-development",
+  "scope": {
+    "trials": [
+      "TV07",
+      "TV08",
+      "TV09"
+    ],
+    "tiers": [
+      1,
+      2,
+      3
+    ],
+    "implementedTotal": 21,
+    "plannedTotal": 48,
+    "planetaryTrials": 12,
+    "planetaryTrialPractice": 5400,
+    "deployed": false
+  },
+  "commands": [
+    {
+      "command": "NODE_OPTIONS=--max-old-space-size=2048 npm test",
+      "exitCode": 0,
+      "pass": 1289,
+      "fail": 0,
+      "skip": 10,
+      "log": "full-tests.log"
+    },
+    {
+      "command": "npx vitest run src/test/care-trials.test.ts src/test/racial-trials.test.ts src/test/racial-trial-transactions.test.ts",
+      "exitCode": 0,
+      "pass": 91,
+      "fail": 0,
+      "log": "guards.log"
+    },
+    {
+      "command": "npx vitest run src/test/server-racial-trials.test.ts src/test/remote-racial-trial.test.ts",
+      "exitCode": 0,
+      "pass": 12,
+      "fail": 0,
+      "log": "authority.log"
+    },
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "configs": [
+        "application",
+        "e2e",
+        "tools"
+      ],
+      "log": "types-final.log"
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "errors": 0,
+      "existingWarnings": 15,
+      "log": "lint-final.log"
+    },
+    {
+      "command": "npm run assets:check",
+      "exitCode": 0,
+      "log": "assets.log"
+    },
+    {
+      "command": "NODE_OPTIONS=--max-old-space-size=3072 npm run build",
+      "exitCode": 0,
+      "log": "build.log",
+      "output": "/tmp/ki-development-build-output through ignored .output symlink"
+    },
+    {
+      "command": "KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4176 npx playwright test e2e/racial-trials.spec.ts --project=gameplay --grep 'real TV0[789],' --output=/tmp/care-canvas-final --reporter=list --trace=off",
+      "exitCode": 0,
+      "pass": 3,
+      "fail": 0,
+      "log": "canvas-final.log"
+    },
+    {
+      "command": "KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4176 npx playwright test e2e/racial-trials.spec.ts --project=software-webgl --grep 'real TV0[789],' --output=/tmp/care-webgl --reporter=list --trace=off",
+      "exitCode": 0,
+      "pass": 3,
+      "fail": 0,
+      "log": "webgl.log"
+    },
+    {
+      "command": "python3 scripts/docs/check_documentation.py",
+      "exitCode": 0,
+      "log": "documentation.log"
+    }
+  ],
+  "initialBrowserRun": {
+    "exitCode": 1,
+    "pass": 2,
+    "fail": 1,
+    "log": "canvas-initial.log",
+    "cause": "TV09 finished successfully; robot read removed objective as (0,0). Corrected atomic optional objective read in e2e, no gameplay rule changes."
+  },
+  "browserAssertions": [
+    "actual renderer",
+    "visible clues and normal clicks",
+    "full active camp time",
+    "owned resources preserved",
+    "one-time +100 practice",
+    "grade and practice survive reload",
+    "zero pageerror"
+  ],
+  "notVerified": [
+    "physical phone",
+    "hardware WebGL",
+    "audio playback",
+    "all tiers through browser UI",
+    "full application e2e",
+    "published WebSocket/PostgreSQL session",
+    "full campaign reachability and balance"
+  ],
+  "sourceHashes": "sources.json"
+}

@@ -1,0 +1,43 @@
+{
+  "base": "a9e44175946fc11f85f823879da535de2deb3e83",
+  "unitRuntimeSha": "ac3a79e96d455264a986a28ef3cd7534a2b72a31",
+  "browserSha": "85e0ab67a7414c0968bcaf70c69c5e3ae78b01d8",
+  "runtimeUnchangedSinceUnitRun": true,
+  "unit": {
+    "passed": 1353,
+    "failed": 0,
+    "skipped": 10,
+    "skipReason": "Separate PostgreSQL QA required"
+  },
+  "behavior": {
+    "passed": 24,
+    "failed": 0
+  },
+  "serverKit": {
+    "passed": 287,
+    "failed": 0
+  },
+  "typecheck": "PASS: application, e2e, tools",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 15
+  },
+  "assets": "PASS",
+  "build": "PASS",
+  "playtestBuild": "PASS",
+  "documentation": "PASS",
+  "canvas": {
+    "passed": 3,
+    "failed": 0
+  },
+  "softwareWebGL": {
+    "passed": 3,
+    "failed": 0
+  },
+  "browserScope": "TA07/TA08/TA09 I, real Phaser inputs, renderer, one-time reward, original character resources, reload and no pageerror. II/III tested through controllers and server transactions.",
+  "fullProjectPlaywright": "NOT_RUN; handoff to Claude",
+  "physicalAndroid": "NOT_VERIFIED",
+  "physicaliOS": "NOT_VERIFIED",
+  "hardwareWebGL": "NOT_VERIFIED",
+  "publishedWebSocketPostgreSQL": "NOT_VERIFIED"
+}

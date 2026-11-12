@@ -5,6 +5,7 @@ import { combatTarget } from "../combat/targeting";
 import type { RaceId } from "../world/races";
 import { MAX_MOVE_SPEED, speedGrowth } from "./balance";
 import { RACE_BASE, KIT_NODES } from "./nodes.generated";
+import { rankBonusPower, rankedAttackMultiplier } from "./rankScaling";
 import type {
   AbilityInfo,
   Buff,
@@ -109,6 +110,9 @@ export abstract class Kit {
   shields: Shield[] = [];
   circles: Circle[] = [];
   channel: Channel | undefined;
+  /** Ephemeral completion receipt; not persisted and independent of the renderer. */
+  channelResult: { serial: number; id: string; completed: boolean } | undefined;
+  private channelSerial = 0;
   /** Time during which the player can do nothing (Przeciążenie Systemu shutdown, overheating is separate). */
   lockMs = 0;
   protected timers: { ms: number; fn: () => void }[] = [];
@@ -167,9 +171,20 @@ export abstract class Kit {
   rank(id: string): number {
     return this.ranks.get(id) ?? 0;
   }
-  /** For an active ability that is being cast: it is learned, so its rank is at least 1. */
+  /** Raw ranks remain integer point counts; this factor only scales their numerical bonuses. */
+  protected bonusRank(id: string): number {
+    return rankBonusPower(this.rank(id));
+  }
+  /** Numerical power of a learned active bonus; the raw point count stays unchanged. */
   protected castRank(id: string): number {
-    return Math.max(1, this.rank(id));
+    return this.bonusRank(id);
+  }
+  protected castDamage(id: string, firstTotal: number): number {
+    return rankedAttackMultiplier(firstTotal, this.castRank(id));
+  }
+  /** Growth relative to the new first rank, for flat upgrades attached to another attack. */
+  protected castGrowth(id: string): number {
+    return this.castRank(id) / rankBonusPower(1);
   }
   /** Basic reach is distinct from skill reach: optics never extends A/B/C. */
   /** The race's level-1 movement speed (before level growth, nodes, gear and buffs). */
@@ -255,7 +270,7 @@ export abstract class Kit {
     const dev = developmentModifiers(layer >= 1 ? this.port.development : undefined, this.race);
     const t = dev.training;
     const trained = trainedBonuses(layer >= 1 ? this.port.player.combatTraining : undefined);
-    const gear = layer >= 3 ? this.port.gear : { attack: 0, defense: 0 };
+    const gear: KitPort["gear"] = layer >= 3 ? this.port.gear : { attack: 0, defense: 0 };
     const buffs = layer >= 4 ? this.buffs : [];
     const sum = (field: (typeof BONUS_FIELDS)[number]) => (layer >= 4 ? this.buffSum(field) : 0);
     const technique = Math.max(
@@ -285,35 +300,55 @@ export abstract class Kit {
               buffs.reduce((n, b) => n + (b.dodgeAdd ?? 0), 0),
           ),
         ),
-        maxHp: roundHalfUp(v("hp") * (1 + (m.hpPct ?? 0)) + v("hp") * 0.005 * t.endurance),
+        maxHp: roundHalfUp(
+          (v("hp") * (1 + (m.hpPct ?? 0)) + v("hp") * 0.005 * t.endurance) *
+            (1 + (gear.maxHpPercent ?? 0) / 100) +
+            (gear.hpBonus ?? 0),
+        ),
         maxKi: roundHalfUp(
-          (v("ki") * (1 + (m.kiPct ?? 0)) + v("ki") * 0.005 * t.kiCapacity) * dev.maxKi,
+          ((v("ki") * (1 + (m.kiPct ?? 0)) + v("ki") * 0.005 * t.kiCapacity) *
+            (1 + (gear.maxKiPercent ?? 0) / 100) +
+            (gear.kiBonus ?? 0)) *
+            dev.maxKi,
         ),
         attack: Math.max(
           1,
           roundHalfUp(
-            ((v("attack") + gear.attack) * (1 + atkPct) + v("attack") * 0.004 * t.strength) *
+            ((v("attack") * (1 + atkPct) + v("attack") * 0.004 * t.strength) *
+              (1 + (gear.atkPercent ?? 0) / 100) +
+              gear.attack * (1 + atkPct)) *
               dev.attack,
           ),
         ),
         defense: Math.max(
           0,
           roundHalfUp(
-            (v("defense") + gear.defense) * (1 + defPct) + v("defense") * 0.004 * t.defense,
+            (v("defense") * (1 + defPct) + v("defense") * 0.004 * t.defense) *
+              (1 + (gear.defPercent ?? 0) / 100) +
+              gear.defense * (1 + defPct),
           ),
         ),
         speed: Math.min(
           MAX_MOVE_SPEED,
           b.base.speed *
             speedGrowth(level) *
-            (1 + (m.speedPct ?? 0) + sum("speedPct") + (gear.moveSpeedPct ?? 0) / 100),
+            (1 +
+              (m.speedPct ?? 0) +
+              sum("speedPct") +
+              (gear.moveSpeedPercent === undefined ? (gear.moveSpeedPct ?? 0) / 100 : 0)) *
+            (gear.speedMultiplier ?? 1) *
+            (1 + (gear.moveSpeedPercent ?? 0) / 100),
         ),
-        kiRegen: v("kiRegen") * (1 + (m.kiRegenPct ?? 0)),
+        kiRegen:
+          (v("kiRegen") * (1 + (m.kiRegenPct ?? 0)) + (gear.kiRegenBonus ?? 0)) *
+          (1 + (gear.kiRegenPercent ?? 0) / 100),
+
         crit:
           v("criticalChancePercent") +
           (m.critAdd ?? 0) * 100 +
           dev.crit +
-          techniqueEffects(technique).crit,
+          techniqueEffects(technique).crit +
+          (gear.critChancePoints ?? 0),
         attackInterval: Math.max(
           200,
           (b.base.attackIntervalMs * (1 + (m.intervalPct ?? 0) + sum("intervalPct"))) /
@@ -324,7 +359,14 @@ export abstract class Kit {
         kiCostMul:
           layer >= 4 && this.hasBuff("noKi")
             ? 0
-            : Math.max(0, 1 + (m.kiCostPct ?? 0) - 0.002 * t.kiControl - dev.kiReduction),
+            : Math.max(
+                0,
+                1 +
+                  (m.kiCostPct ?? 0) -
+                  0.002 * t.kiControl -
+                  dev.kiReduction -
+                  (gear.kiCostReductionPercent ?? 0) / 100,
+              ),
         ccMul: layer >= 4 && this.hasBuff("ccImmune") ? 0 : Math.max(0, 1 + (m.ccPct ?? 0)),
         range: this.baseRange * (1 + (m.rangePct ?? 0)),
       },
@@ -424,6 +466,7 @@ export abstract class Kit {
     if (!c) return;
     if ((reason === "move" && !c.breakOnMove) || (reason === "hit" && !c.breakOnHit)) return;
     this.channel = undefined;
+    this.channelResult = { serial: ++this.channelSerial, id: c.id, completed: false };
     c.onEnd(false);
   }
 
@@ -481,7 +524,7 @@ export abstract class Kit {
     if (this.hasBuff("invulnerable")) return 0;
     this.onHurt(amount);
     this.interruptChannel("hit");
-    let left = amount;
+    let left = amount * (1 - (this.port.gear.damageReductionPercent ?? 0) / 100);
     for (const sh of this.shields) {
       if (sh.amount <= 0) continue;
       if (sh.mirror) {
@@ -687,8 +730,9 @@ export abstract class Kit {
           c.next += c.every;
           c.onTick();
         }
-        if (c.ms <= 0) {
+        if (c.ms <= 0 && this.channel === c) {
           this.channel = undefined;
+          this.channelResult = { serial: ++this.channelSerial, id: c.id, completed: true };
           c.onEnd(true);
         }
       }

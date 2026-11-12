@@ -1,0 +1,10 @@
+{
+  "toolSourceSha": "2378c3948c34a8d3ac7a8ade770cd4f58e0a7756",
+  "originalEngineSha": "ad646c75734641c0698295f56abf439172bb669e",
+  "workingTreeClean": true,
+  "comparedProfilePairs": 216,
+  "trialsPerProfilePerEngine": 1,
+  "identicalSamplePairs": 216,
+  "differences": 0,
+  "note": "Each sample covers outcome, duration, HP, KI, casts and potions. The original engine is independent of the adapter implementation; source hashes are retained."
+}

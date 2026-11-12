@@ -1,0 +1,110 @@
+
+Running 4 tests using 1 worker
+
+(node:24510) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/racial-trials.spec.ts:147:3 › Androidy: real TN01, one-time reward and reload (48.8s)
+  ✓  2 [gameplay] › e2e/racial-trials.spec.ts:147:3 › Legendy: real TP03, one-time reward and reload (59.2s)
+(node:24960) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [software-webgl] › e2e/racial-trials.spec.ts:147:3 › Androidy: real TN01, one-time reward and reload (2.5m)
+(node:25636) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [software-webgl] › e2e/racial-trials.spec.ts:147:3 › Legendy: real TP03, one-time reward and reload (1.1m)
+
+
+  1) [software-webgl] › e2e/racial-trials.spec.ts:147:3 › Androidy: real TN01, one-time reward and reload 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('.ki-canvas').first()
+    Expected: "arena"
+    Received: "outside"
+    Timeout:  60000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.ki-canvas').first() with timeout 60000ms
+      - waiting for locator('.ki-canvas').first()
+        9 × locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-world="nexus" data-npc-labels="0" data-typing="false" data-paused="false" data-joystick-x="0" data-joystick-y="0" data-projectiles="0" data-load-ms="12108" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="idle" data-terrain-mode="superior" d…>…</div>
+          - unexpected value "outside"
+        57 × locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-world="nexus" data-npc-labels="0" data-typing="false" data-paused="false" data-joystick-x="0" data-joystick-y="0" data-projectiles="0" data-load-ms="12108" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" d…>…</div>
+           - unexpected value "outside"
+        22 × locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-world="nexus" data-npc-labels="1" data-typing="false" data-paused="false" data-joystick-x="0" data-joystick-y="0" data-projectiles="0" data-load-ms="12108" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" d…>…</div>
+           - unexpected value "outside"
+        9 × locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-world="nexus" data-npc-labels="0" data-typing="false" data-paused="false" data-joystick-x="0" data-joystick-y="0" data-projectiles="0" data-load-ms="12108" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="walk" data-terrain-mode="superior" d…>…</div>
+          - unexpected value "outside"
+        3 × locator resolved to <div data-zoom="0.62" data-bosses="[]" class="ki-canvas" data-target-id="" data-enemies="[]" data-world="nexus" data-npc-labels="0" data-typing="false" data-paused="false" data-joystick-x="0" data-joystick-y="0" data-projectiles="0" data-load-ms="12108" data-enemy-labels="0" data-boss-rewards="[]" data-interior="outside" data-enemy-visuals="[]" data-combat-visuals="0" data-camera-zoom="0.62" data-world-labels="true" data-network-players="0" data-animation-state="idle" data-terrain-mode="superior" d…>…</div>
+          - unexpected value "outside"
+
+
+      162 |     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).click();
+      163 |     await page.getByRole("button", { name: "Podejdź do trenera", exact: true }).click();
+    > 164 |     await expect(canvas).toHaveAttribute("data-interior", "arena");
+          |                          ^
+      165 |     await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+      166 |     const before = await owner(page);
+      167 |     await openHudTool(page, "Umiejętności");
+        at /workspace/ki-development-integration/e2e/racial-trials.spec.ts:164:26
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results-development-final/racial-trials-Androidy-real-TN01-one-time-reward-and-reload-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results-development-final/racial-trials-Androidy-real-TN01-one-time-reward-and-reload-software-webgl/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results-development-final/racial-trials-Androidy-real-TN01-one-time-reward-and-reload-software-webgl/error-context.md
+
+    attachment #6: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results-development-final/racial-trials-Androidy-real-TN01-one-time-reward-and-reload-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results-development-final/racial-trials-Androidy-real-TN01-one-time-reward-and-reload-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [software-webgl] › e2e/racial-trials.spec.ts:147:3 › Legendy: real TP03, one-time reward and reload 
+
+    TimeoutError: locator.click: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Umiejętności', exact: true })
+        - locator resolved to <button title="Umiejętności" aria-pressed="false" aria-label="Umiejętności" class="ki-menu-button ki-frame ">…</button>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+
+
+       at fixtures.ts:108
+
+      106 |   }
+      107 |   if (input === "touch") await button.tap();
+    > 108 |   else await button.click();
+          |                     ^
+      109 |   const toggle = page.getByRole("button", { name: "Menu gry", exact: true });
+      110 |   if (
+      111 |     (name === "Oddal mapę" || name === "Przybliż mapę") &&
+        at openHudTool (/workspace/ki-development-integration/e2e/fixtures.ts:108:21)
+        at /workspace/ki-development-integration/e2e/racial-trials.spec.ts:161:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results-development-final/racial-trials-Legendy-real-TP03-one-time-reward-and-reload-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results-development-final/racial-trials-Legendy-real-TP03-one-time-reward-and-reload-software-webgl/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results-development-final/racial-trials-Legendy-real-TP03-one-time-reward-and-reload-software-webgl/error-context.md
+
+    attachment #6: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results-development-final/racial-trials-Legendy-real-TP03-one-time-reward-and-reload-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results-development-final/racial-trials-Legendy-real-TP03-one-time-reward-and-reload-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [software-webgl] › e2e/racial-trials.spec.ts:147:3 › Androidy: real TN01, one-time reward and reload 
+    [software-webgl] › e2e/racial-trials.spec.ts:147:3 › Legendy: real TP03, one-time reward and reload 
+  2 passed (6.0m)

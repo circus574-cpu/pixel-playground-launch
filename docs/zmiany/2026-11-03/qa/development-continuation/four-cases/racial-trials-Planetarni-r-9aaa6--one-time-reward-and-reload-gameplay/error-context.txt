@@ -1,0 +1,298 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: racial-trials.spec.ts >> Planetarni: real TV05, one-time reward and reload
+- Location: e2e/racial-trials.spec.ts:119:3
+
+# Error details
+
+```
+Error: expect(received).toBeLessThan(expected)
+
+Expected: < 45
+Received:   150.2716150000004
+
+Call Log:
+- Timeout 60000ms exceeded while waiting on the predicate
+```
+
+# Page snapshot
+
+```yaml
+- main [ref=e3]:
+  - region "Sala prób rasowych" [ref=e4]:
+    - generic "Ki Legends — próba rasowa" [ref=e5]
+    - generic:
+      - region "Postać gracza":
+        - button "Pokaż statystyki postaci" [ref=e7] [cursor=pointer]:
+          - generic [ref=e8]:
+            - 'img "Portret: Planetarni"'
+          - generic [ref=e9]: "20"
+        - generic:
+          - generic:
+            - text: Wędrowiec
+            - generic: PLANETARNI
+          - meter "Zdrowie":
+            - generic: 5 / 809
+          - meter "Energia KI":
+            - generic: 126 / 126
+          - generic "Doświadczenie 0/1240"
+      - generic:
+        - generic "Powiadomienia gry"
+      - region "Minimapa":
+        - generic "Sala egzaminacyjna"
+        - button "Otwórz mapę świata" [ref=e10] [cursor=pointer]:
+          - generic [ref=e11]:
+            - generic "Zielona Przystań" [ref=e13]
+            - generic "Przystań Trzech Mostów" [ref=e14]
+            - generic "Kamienny Sad" [ref=e15]
+            - generic "Latarnia Korzeni" [ref=e16]
+      - button "◆ Pierwsze kroki Porozmawiaj z Airy przy miejscu startowym ›" [ref=e18] [cursor=pointer]:
+        - generic [ref=e19]: ◆
+        - generic [ref=e20]:
+          - strong [ref=e21]: Pierwsze kroki
+          - generic [ref=e22]: Porozmawiaj z Airy przy miejscu startowym
+        - generic [ref=e23]: ›
+      - generic:
+        - img "KI LEGENDS":
+          - generic [aria-hidden]:
+            - strong: KI LEGENDS
+        - strong: Sala egzaminacyjna
+        - text: Verdantia
+      - text: ☷
+      - navigation "Umiejętności":
+        - button "Cios Szlaku" [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]: Spacja
+        - button "Unik" [ref=e26] [cursor=pointer]:
+          - generic [ref=e27]: Shift
+        - button "Mikstura życia" [disabled] [ref=e28]:
+          - generic [ref=e29]: Q
+          - generic [ref=e30]: "0"
+      - button "Menu gry" [ref=e31] [cursor=pointer]:
+        - generic [ref=e32]: Widok
+      - navigation "Menu gry":
+        - button "Ekwipunek" [ref=e33] [cursor=pointer]
+        - button "Dziennik" [ref=e35] [cursor=pointer]:
+          - generic [ref=e36]: Zadania
+        - button "Umiejętności" [ref=e37] [cursor=pointer]:
+          - generic "19 punktów umiejętności" [ref=e39]: "19"
+        - button "Ustawienia" [ref=e40] [cursor=pointer]
+      - generic "Akcje":
+        - button "Plan miasta" [ref=e42] [cursor=pointer]
+    - generic:
+      - generic: "Profil testowy · Kamienny rytm · stopień 1 · 0/2 · błędy 18 otrzymanych trafieńUniki: 1/4 · Kontry: 0/2. Opuść czerwony krąg."
+      - button "Wyjdź z próby" [ref=e43]
+  - generic "Ki Legends — ekran gry" [ref=e44]
+```
+
+# Test source
+
+```ts
+  79  | });
+  80  | 
+  81  | async function walkToStation(page: Page, touch: boolean) {
+  82  |   const stage = page.locator(".ki-trial-stage");
+  83  |   const x = Number(await stage.getAttribute("data-trial-x"));
+  84  |   const y = Number(await stage.getAttribute("data-trial-y"));
+  85  |   const canvas = stage.locator(".ki-canvas");
+  86  |   const point = await canvas.evaluate(
+  87  |     (el, target) => {
+  88  |       const node = el as HTMLElement,
+  89  |         b = node.getBoundingClientRect();
+  90  |       const zoom = Number(node.dataset["cameraZoom"]);
+  91  |       return {
+  92  |         x: b.x + (target.x - Number(node.dataset["cameraX"]) - b.width / 2) * zoom + b.width / 2,
+  93  |         y: b.y + (target.y - Number(node.dataset["cameraY"]) - b.height / 2) * zoom + b.height / 2,
+  94  |       };
+  95  |     },
+  96  |     { x, y },
+  97  |   );
+  98  |   if (touch) await page.touchscreen.tap(point.x, point.y);
+  99  |   else await page.mouse.click(point.x, point.y);
+  100 |   await expect
+  101 |     .poll(async () =>
+  102 |       Math.hypot(
+  103 |         Number(await canvas.getAttribute("data-player-x")) - x,
+  104 |         Number(await canvas.getAttribute("data-player-y")) - y,
+  105 |       ),
+  106 |     )
+  107 |     .toBeLessThan(65);
+  108 | }
+  109 | 
+  110 | for (const [race, id, land] of [
+  111 |   ["Planetarni", "TV10", "verdant"],
+  112 |   ["Planetarni", "TV04", "verdant"],
+  113 |   ["Planetarni", "TV05", "verdant"],
+  114 |   ["Planetarni", "TV06", "verdant"],
+  115 |   ["Mędrcy", "TA01", "aether"],
+  116 |   ["Androidy", "TN08", "nexus"],
+  117 |   ["Legendy", "TP08", "pyra"],
+  118 | ] as const) {
+  119 |   test(`${race}: real ${id}, one-time reward and reload`, async ({ page }, info) => {
+  120 |     const errors: string[] = [];
+  121 |     page.on("pageerror", (e) => errors.push(e.message));
+  122 |     await page.goto("/scripts/playtest.html?ki-world-v2=1");
+  123 |     await page.getByRole("button", { name: `Wybierz: ${race}`, exact: true }).click();
+  124 |     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+  125 |     const canvas = page.locator(".ki-canvas").first();
+  126 |     await expect(canvas).toHaveAttribute("data-player-x", /^\d/);
+  127 |     await openHudTool(page, "Umiejętności");
+  128 |     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).click();
+  129 |     await page.getByRole("button", { name: "Podejdź do trenera", exact: true }).click();
+  130 |     await expect(canvas).toHaveAttribute("data-interior", "arena");
+  131 |     await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+  132 |     const before = await owner(page);
+  133 |     await openHudTool(page, "Umiejętności");
+  134 |     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).click();
+  135 |     await page.getByRole("tab", { name: "Próby", exact: true }).click();
+  136 |     const card = page.locator(".ki-development-card").filter({
+  137 |       has: page.getByRole("heading", { name: new RegExp(`^${id} ·`) }),
+  138 |     });
+  139 |     await card.getByRole("button", { name: "Instrukcja · 1", exact: true }).click();
+  140 |     await page.getByRole("button", { name: "Rozpocznij próbę rasową", exact: true }).click();
+  141 |     const stage = page.locator(".ki-trial-stage");
+  142 |     await expect(stage.locator(".ki-canvas")).toHaveAttribute("data-player-x", /^\d/);
+  143 |     await expect(stage.locator('[data-ability="R"]')).toBeVisible();
+  144 |     await expect
+  145 |       .poll(async () => {
+  146 |         const metrics = await stage.locator(".ki-canvas").getAttribute("data-metrics");
+  147 |         return metrics ? JSON.parse(metrics).renderer : null;
+  148 |       })
+  149 |       .toBe(info.project.name === "software-webgl" ? "WebGL" : "Canvas");
+  150 |     if (id === "TV05") {
+  151 |       const result = page.getByRole("dialog", { name: "Wynik próby rasowej", exact: true });
+  152 |       for (let cycle = 0; cycle < 8 && !(await result.count()); cycle++) {
+  153 |         await expect.poll(async () => await stage.getAttribute("data-trial-phase")).toBe("warning");
+  154 |         const canvas = stage.locator(".ki-canvas");
+  155 |         const point = await canvas.evaluate((el) => {
+  156 |           const d = (el as HTMLElement).dataset,
+  157 |             b = el.getBoundingClientRect(),
+  158 |             z = Number(d["cameraZoom"]);
+  159 |           const x = Number(d["playerX"]),
+  160 |             y = Number(d["playerY"]);
+  161 |           const targetY = y + (y > 400 ? -155 : 155);
+  162 |           return {
+  163 |             x: b.x + (x - Number(d["cameraX"]) - b.width / 2) * z + b.width / 2,
+  164 |             y: b.y + (targetY - Number(d["cameraY"]) - b.height / 2) * z + b.height / 2,
+  165 |           };
+  166 |         });
+  167 |         await page.mouse.click(point.x, point.y);
+  168 |         await expect
+  169 |           .poll(async () => await stage.getAttribute("data-trial-phase"))
+  170 |           .not.toBe("warning");
+  171 |         if ((await stage.getAttribute("data-trial-phase")) === "counter") {
+  172 |           // Clicking near the dummy selects a target; approach using the existing PC movement.
+  173 |           const currentY = Number(await canvas.getAttribute("data-player-y"));
+  174 |           const key = currentY > 350 ? "w" : "s";
+  175 |           await page.keyboard.down(key);
+  176 |           try {
+  177 |             await expect
+  178 |               .poll(async () => Math.abs(Number(await canvas.getAttribute("data-player-y")) - 350))
+> 179 |               .toBeLessThan(45);
+      |                ^ Error: expect(received).toBeLessThan(expected)
+  180 |           } finally {
+  181 |             await page.keyboard.up(key);
+  182 |           }
+  183 |           await stage.locator('[data-ability="R"]').click();
+  184 |           await expect
+  185 |             .poll(async () => await stage.getAttribute("data-trial-phase"))
+  186 |             .not.toBe("counter");
+  187 |         }
+  188 |       }
+  189 |     } else if (id === "TP08") {
+  190 |       await page.screenshot({ path: info.outputPath("pyra-trial-before-attack.png") });
+  191 |       await info.attach("attack-preflight", {
+  192 |         contentType: "application/json",
+  193 |         body: JSON.stringify(
+  194 |           await stage.locator('[data-ability="R"]').evaluate((button) => {
+  195 |             const b = button.getBoundingClientRect();
+  196 |             return {
+  197 |               x: b.x,
+  198 |               y: b.y,
+  199 |               width: b.width,
+  200 |               height: b.height,
+  201 |               blockedBy: document.elementFromPoint(b.x + b.width / 2, b.y + b.height / 2)
+  202 |                 ?.outerHTML,
+  203 |               canvas: {
+  204 |                 ...(document.querySelector<HTMLElement>(".ki-trial-stage .ki-canvas")?.dataset ??
+  205 |                   {}),
+  206 |               },
+  207 |             };
+  208 |           }),
+  209 |         ),
+  210 |       });
+  211 |       for (let i = 0; i < 3; i++) {
+  212 |         await expect(stage).toHaveAttribute("data-trial-phase", "strike");
+  213 |         await stage.locator('[data-ability="R"]').click();
+  214 |         await expect(stage).toHaveAttribute("data-trial-phase", "hold");
+  215 |       }
+  216 |     } else {
+  217 |       const rounds = id === "TN08" ? 1 : id === "TV04" ? 2 : id === "TV06" ? 6 : 3;
+  218 |       for (let i = 0; i < rounds; i++) {
+  219 |         await walkToStation(page, false);
+  220 |         await stage.getByRole("button", { name: "Zbadaj stanowisko", exact: true }).click();
+  221 |         const materials = page.getByRole("dialog", { name: "Materiały próby", exact: true });
+  222 |         await expect(materials).toBeVisible();
+  223 |         if (i === 0)
+  224 |           await page.screenshot({ path: info.outputPath(`${land}-trial-materials.png`) });
+  225 |         const text = await materials.locator(".ki-trial-document").allTextContents();
+  226 |         if (id === "TN08") {
+  227 |           await materials
+  228 |             .getByRole("checkbox", { name: "Skaner · 2 energii", exact: true })
+  229 |             .check();
+  230 |           await materials
+  231 |             .getByRole("checkbox", { name: "Precyzja · 3 energii", exact: true })
+  232 |             .check();
+  233 |           await materials.getByRole("button", { name: "Sprawdź konstrukcję", exact: true }).click();
+  234 |         } else {
+  235 |           // Read only the clues actually shown to the player, never internal answer IDs.
+  236 |           const heading = await materials.getByRole("heading", { level: 2 }).innerText();
+  237 |           let answer: string;
+  238 |           if (id === "TV04") {
+  239 |             answer = text.join(" ").split("strzałki: ")[1]!.split(".")[0]!.split(" → ")[i]!.trim();
+  240 |           } else if (id === "TV06") {
+  241 |             const location = text.join(" ").match(/(Północ|Brzeg|Polana): 82/)![1]!;
+  242 |             answer = `${i % 2 === 0 ? "Oznacz" : "Oczyść"} ${location}`;
+  243 |           } else if (id === "TV10") {
+  244 |             answer = text
+  245 |               .join(" ")
+  246 |               .match(new RegExp(`${i + 1}\\.\\s*([^→.]+)`))![1]!
+  247 |               .trim();
+  248 |           } else {
+  249 |             const glyph = heading.match(/symbol: (.+)\./)![1]!;
+  250 |             answer = text
+  251 |               .join(" ")
+  252 |               .split("; ")
+  253 |               .find((v) => v.includes(`${glyph} = `))!
+  254 |               .split(" = ")[1]!
+  255 |               .replace(/\.$/, "")
+  256 |               .trim();
+  257 |           }
+  258 |           await materials.getByRole("button", { name: answer, exact: true }).click();
+  259 |         }
+  260 |         await expect(materials).toHaveCount(0);
+  261 |       }
+  262 |     }
+  263 |     const result = page.getByRole("dialog", { name: "Wynik próby rasowej", exact: true });
+  264 |     await expect(result).toContainText("Próba ukończona");
+  265 |     await page.screenshot({ path: info.outputPath(`${land}-trial-passed.png`) });
+  266 |     await result.getByRole("button", { name: "Zatwierdź wynik i wróć", exact: true }).click();
+  267 |     await expect(stage).toHaveCount(0);
+  268 |     await expect.poll(async () => (await owner(page)).development?.trials?.[id]).toBe(1);
+  269 |     const after = await owner(page);
+  270 |     expect(after.development.practiceEarned - (before.development?.practiceEarned ?? 0)).toBe(100);
+  271 |     for (const field of [
+  272 |       "hp",
+  273 |       "ki",
+  274 |       "xp",
+  275 |       "gold",
+  276 |       "equipment",
+  277 |       "bagItems",
+  278 |       "items",
+  279 |       "materials",
+```

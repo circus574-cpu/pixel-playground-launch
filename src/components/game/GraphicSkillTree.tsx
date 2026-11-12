@@ -7,6 +7,7 @@
  */
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { BRANCH_NAMES, KIT_NODES, canLearn } from "../../game/kit";
+import { nodeDescription, rankBasePercent } from "../../game/kit/nodePresentation";
 import type { KitNodeData } from "../../game/kit/types";
 import type { GameViewState } from "../../game/session";
 import type { SendCommand } from "./AdventurePanels";
@@ -197,7 +198,8 @@ function GraphicSkillTreeImpl({ state, send }: { state: GameViewState; send: Sen
     const rank = rankOf(n.id);
     const have = learned.has(n.id);
     const check = canLearn(p.race, p.level, p.skills, n.id);
-    const facts = skillFacts(n.text);
+    const description = nodeDescription(p.race, n.id, p.skills);
+    const facts = skillFacts(description);
     const cw = Math.min(300, width - 16);
     const gap = node / 2 + 12;
     let left: number;
@@ -247,18 +249,24 @@ function GraphicSkillTreeImpl({ state, send }: { state: GameViewState; send: Sen
               ))}
             </ul>
           )}
-          <p>{n.text}</p>
+          <p>{description}</p>
         </section>
         {n.id !== "R" && (
           <p className="ki-st-rankline">
             {have ? (
               <>
-                Ranga <b>{rank}</b> · siła efektu <b>×{rank}</b> → po dodaniu <b>×{rank + 1}</b>
+                Ranga <b>{rank}</b> · premia <b>{rankBasePercent(rank)}%</b> wartości pierwszego
+                punktu → po dodaniu <b>{rankBasePercent(rank + 1)}%</b>
               </>
             ) : (
-              <>Każdy kolejny punkt mnoży siłę efektu: ranga 2 = ×2, ranga 3 = ×3…</>
+              <>
+                Pierwszy punkt daje premię opisaną powyżej. Każdy kolejny dodaje 10% jej początkowej
+                wartości.
+              </>
             )}
-            <small>Koszt Ki i odnowienie bez zmian. Bez limitu rang.</small>
+            <small>
+              Koszt punktu: 1. Bez limitu rang. Wykluczenia i stałe mechaniki pozostają takie same.
+            </small>
           </p>
         )}
         {(reqNames.length > 0 || excl) && (

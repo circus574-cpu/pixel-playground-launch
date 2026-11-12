@@ -322,7 +322,7 @@ describe("V3 geometry, groups and canonical skill lifetimes", () => {
     g.player.level = 3;
     g.kit.learn("B1");
     g.command({ type: "ability", ability: "B1" });
-    expect(near.hp).toBeCloseTo(near.maxHp - g.kit.stats.attack * 1.4);
+    expect(near.hp).toBeCloseTo(near.maxHp - g.kit.stats.attack * 1.2);
     expect(blocked.hp).toBe(blocked.maxHp);
     expect(far.hp).toBe(far.maxHp);
     expect(blocked.fx.slow.ms).toBe(0);
