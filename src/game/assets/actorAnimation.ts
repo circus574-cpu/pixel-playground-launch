@@ -17,6 +17,16 @@ const PRIORITY: Record<AnimationState, number> = {
   guard: 4,
   hitheavy: 5,
   victory: 2,
+  kiattack2: 3,
+  kifinisher: 3,
+  kiskillb: 4,
+  kidodge: 4,
+  kiguard: 4,
+  kihit: 5,
+  kihitheavy: 5,
+  kideath: 7,
+  kirespawn: 6,
+  kivictory: 2,
   channel: 4,
   skillc: 4,
   interact: 2,
@@ -28,6 +38,16 @@ const PRIORITY: Record<AnimationState, number> = {
   death: 7,
 };
 type Action = "attack" | "skill" | "skillb" | "skillc";
+/** Tryb KI clip of a one-shot state, when the race has one. */
+const KI_CLIP = {
+  dodge: "kidodge",
+  guard: "kiguard",
+  hit: "kihit",
+  hitheavy: "kihitheavy",
+  death: "kideath",
+  respawn: "kirespawn",
+  victory: "kivictory",
+} as const;
 const ACTIONS = new Set<AnimationState>(["attack", "skill", "skillb", "skillc"]);
 /** Presentation only: no damage, movement, cooldown, AI or save mutations. */
 export class ActorAnimation {
@@ -46,6 +66,9 @@ export class ActorAnimation {
   private loopFrame = "";
   /** Tryb KI was active at the last update: idle and basic attacks use the powered-up clips when the race has them. */
   private kiForm = false;
+  /** Tryb KI when the current one-shot state was triggered: the clip stays in that form even if the buff ends meanwhile
+   * (a hero that dies in Tryb KI falls and rises in it). */
+  private stateKi = false;
   private direction: Point = { x: 0, y: 1 };
   private directions = new Map<AnimationState, Direction[]>();
   constructor(
@@ -62,13 +85,24 @@ export class ActorAnimation {
    */
   private clipState(state: AnimationState): AnimationState {
     const clips = this.visual.clips;
-    if (this.kiForm) {
-      if (state === "idle" && clips.kiidle) return "kiidle";
-      if (state === "attack" && clips.kiattack) return "kiattack";
-      if ((state === "skill" || state === "skillb" || state === "skillc") && clips.kiskill)
-        return "kiskill";
+    if (this.kiForm && state === "idle" && clips.kiidle) return "kiidle";
+    if (this.stateKi) {
+      // The form's own clips; a state the race has no KI clip for keeps the base clip (never invented).
+      const ki = KI_CLIP[state as keyof typeof KI_CLIP];
+      if (state === "attack") {
+        if (clips[this.attackClip] && this.attackClip.startsWith("ki")) return this.attackClip;
+        if (clips.kiattack) return "kiattack";
+      } else if (state === "skillb") {
+        if (clips.kiskillb) return "kiskillb";
+        if (clips.kiskill) return "kiskill";
+      } else if (state === "skill" || state === "skillc") {
+        if (clips.kiskill) return "kiskill";
+      } else if (ki && clips[ki]) return ki;
     }
-    if (state === "attack") return clips[this.attackClip] ? this.attackClip : "attack";
+    if (state === "attack")
+      return clips[this.attackClip] && !this.attackClip.startsWith("ki")
+        ? this.attackClip
+        : "attack";
     if (state === "skillb") return clips.skillb ? "skillb" : "skill";
     if (state === "skillc") return clips.skillc ? "skillc" : "skill";
     if (state === "run") return clips.run ? "run" : "walk";
@@ -76,9 +110,13 @@ export class ActorAnimation {
     return state;
   }
   private advanceAttack(now: number) {
-    const chain = (["attack", "attack2", "finisher"] as const).filter((c) => this.visual.clips[c]);
+    const chain = (
+      this.kiForm
+        ? (["kiattack2", "kifinisher", "kiattack"] as const)
+        : (["attack", "attack2", "finisher"] as const)
+    ).filter((c) => this.visual.clips[c]);
     this.attackStep = now - this.lastAttackAt <= 1400 ? (this.attackStep + 1) % chain.length : 0;
-    this.attackClip = chain[this.attackStep] ?? "attack";
+    this.attackClip = chain[this.attackStep] ?? (this.kiForm ? "kiattack" : "attack");
     this.lastAttackAt = now;
   }
   /** holdMs keeps a looping state (channel) on screen for that long instead of one pass of its clip. */
@@ -110,6 +148,8 @@ export class ActorAnimation {
     }
     if (ACTIONS.has(state)) this.pending = undefined;
     if (state === "attack") this.advanceAttack(now);
+    // Getting up keeps the form the hero fell in; every other state takes the current one.
+    if (state !== "respawn") this.stateKi = this.kiForm;
     this.state = state;
     this.startedAt = now;
     if (facing) this.direction = facing;

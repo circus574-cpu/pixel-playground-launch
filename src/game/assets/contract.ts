@@ -38,6 +38,17 @@ export const GPU_CONTRACT = {
     guard: { frames: 6, fps: 10, loop: false },
     hitheavy: { frames: 8, fps: 12, loop: false },
     victory: { frames: 8, fps: 10, loop: false },
+    /** Tryb KI combat (stage 4 videos) and reactions (KI-form reaction videos): the form's own clips, never the base outfit. */
+    kiattack2: { frames: 6, fps: 12, loop: false },
+    kifinisher: { frames: 8, fps: 12, loop: false },
+    kiskillb: { frames: 8, fps: 12, loop: false },
+    kidodge: { frames: 6, fps: 14, loop: false },
+    kiguard: { frames: 6, fps: 10, loop: false },
+    kihit: { frames: 6, fps: 14, loop: false },
+    kihitheavy: { frames: 8, fps: 12, loop: false },
+    kideath: { frames: 8, fps: 10, loop: false },
+    kirespawn: { frames: 8, fps: 12, loop: false },
+    kivictory: { frames: 8, fps: 10, loop: false },
     /** Base-form movement clips cut from the stage 3 videos. */
     run: { frames: 8, fps: 16, loop: true },
     channel: { frames: 8, fps: 10, loop: true },
