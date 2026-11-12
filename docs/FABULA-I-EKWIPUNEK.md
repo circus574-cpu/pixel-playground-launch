@@ -242,6 +242,29 @@ Jedna waluta: monety. Brak osobnej płatnej waluty rozwoju. Nowe towary sprzedaj
 
 Docelowe koszty usług: gospoda 5 monet (obecny mechanizm miasta); rejsy 10–30; otwarcie depozytu bez opłaty; naprawa fabularna darmowa; kosmetyka 50–200. Nie wprowadzamy trwałości niszczącej przedmioty. Śmierć nie usuwa waluty, wyposażenia ani kluczy zadania. Surowce zbierane do obowiązkowych napraw nie mają losowego warunku dropu.
 
+## System ekonomii przedmiotów — wdrożone 12.11.2026
+
+ŹRÓDŁO: decyzja właściciela 12.11.2026, wdrożone do `GameSession` (nie tylko propozycja). Pełny opis z
+formułami i pomiarem: [Ekonomia przedmiotów](design/EKONOMIA-PRZEDMIOTOW-2026-11-12.md). Trzy filary:
+
+- **Drop — tylko słabe, rzadki.** Z potworów (nie-minionów) dropią wyłącznie przedmioty common/uncommon
+  i to z szansą **2% na kill** (`DROP_CHANCE`, było 8% i wszystkie rzadkości). Pula dobiera słabe
+  przedmioty z kontynentu potwora w oknie poziomów `[poziom−3, +5]`, ważone rzadkością. Lepszy sprzęt
+  (rare/epic/legendary) **nigdy nie dropi**. Materiały z potworów (57) dropią osobno i służą sprzedaży
+  oraz craftowi.
+- **Sklep — tylko słabe, wygórowana cena.** Kupiec sprzedaje wyłącznie słabe przedmioty (bez materiałów
+  i kluczy fabularnych) po cenie **4× katalogowa, min. poziom×60 monet** (`shopPrice`). Na słabą rzecz
+  trzeba odgrać kilka–kilkanaście walk. Cztery przedmioty legacy (mikstura, kieł, miecz, kamizelka)
+  zachowują dotychczasowe ceny. Lepszy sprzęt w sklepie niedostępny.
+- **Crafting — cały lepszy sprzęt.** Rare/epic/legendary (226 przedmiotów) zdobywa się wyłącznie z
+  **265 receptur** (140 bazowych + 125 wygenerowanych, pokrycie 226/226). Craft zużywa materiały i
+  monety, wymaga poziomu receptury; przy pełnym plecaku zwraca składniki i złoto. Koszt craftu rośnie z
+  rzadkością i poziomem (rare 50, epic 150, legendary 400 + poziom×10).
+
+Skutek: drop jest bonusem, sklep podstawami za wysiłek, a crafting główną osią progresji ekwipunku.
+Parametry (`DROP_CHANCE`, `SHOP_MARKUP`) są w `src/game/items/loot.ts` do punktowej korekty balansu.
+Drzewka umiejętności (przebudowa CODEX) i balans potworów pozostają poza tym systemem.
+
 ---
 
 # 06. Prologi czterech ras — 24 zadania

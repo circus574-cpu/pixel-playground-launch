@@ -59,7 +59,40 @@
   (bohater w teście nie ginął od potwora).
 - Testy: `actor-animation` (łańcuch KI, klipy formy KI, śmierć po końcu buffa, brak klipu = klip bazowy), `gpu-pipeline`; typecheck i eslint czyste.
 
-### 4. NPC dla czterech ras: przewodnik, handlarz, kowal, depozytariusz, karczmarz, zarządca i strażnik
+### 4. Ekonomia przedmiotów: drop tylko słabe (2%), sklep słabe 4×, lepszy sprzęt z craftu (265 receptur)
+
+- Decyzja właściciela: słabsze przedmioty do kupna za wygórowane ceny (trzeba pograć, zanim się kupi),
+  słabsze też z rzadkiego dropu, a cały lepszy sprzęt z rozbudowanego craftu. Wdrożone do `GameSession`
+  (nie tylko specyfikacja). Pełny opis z formułami i pomiarem:
+  [design/EKONOMIA-PRZEDMIOTOW-2026-11-12.md](../../design/EKONOMIA-PRZEDMIOTOW-2026-11-12.md).
+- **Drop:** `DROP_RARITIES = [common, uncommon]`, `DROP_CHANCE = 0.02` (było 0.08 i wszystkie rzadkości).
+  Pula słabych przedmiotów z kontynentu potwora w oknie `[poziom−3, +5]`, ważone rzadkością; minione nie
+  losują. Lepszy sprzęt (rare/epic/legendary) nigdy nie dropi. 16 z 40 potworów ma pustą pulę (słabe
+  przedmioty są niskopoziomowe) — celowe. `src/game/items/loot.ts`.
+- **Sklep:** kupiec sprzedaje tylko słabe (`isShopItem`, bez materiałów i questów) po
+  `shopPrice = max(ceil(cena×4), poziom×60)` (`SHOP_MARKUP = 4`); zakres 60–840 monet. 4 przedmioty legacy
+  (mikstura/kieł/miecz/kamizelka) zachowują ceny. Lepszy sprzęt odrzucony komunikatem. Gałąź kupna V2 w
+  `src/game/session.ts`.
+- **Crafting:** `CRAFTING_RECIPES = 140 bazowych + 125 generowanych = 265`; wygenerowane `rec-gen-*`
+  pokrywają wszystkie 226 lepszych przedmiotów (226/226). Handler `craft` waliduje poziom, składniki
+  (materiały z `p.materials`, reszta z `p.bagItems`) i złoto, zużywa je i wydaje wynik; przy pełnym plecaku
+  zwraca składniki i monety. Koszt: rare 50 / epic 150 / legendary 400 + poziom×10; składniki 2/3/4.
+  `recipes.ts` + `recipes.extra.ts` (generowane) + `scripts/gen-item-recipes.ts`.
+- **Liczby z pomiaru** (`tsx` importujący kod): katalog 366 (202 ze statami), słabe dropiące 128, słabe
+  w sklepie 85, lepsze tylko z craftu 226, materiały z potworów 57. Złoto za kill `[poziom, 3×poziom]`,
+  sprzedaż materiału `round(2 + 1.5×poziom)`.
+- **Dokumentacja:** nowy dokument projektowy ekonomii, sekcja „wdrożone 12.11.2026" w FABULA §05,
+  aktualizacja INDEX (366 przedmiotów / 265 receptur zamiast 177/94) i README katalogu V2.
+- Testy: nowe `src/test/item-economy.test.ts` (10), `catalog-loot.test.ts` przepisany na słabe (12),
+  `items.test.ts` receptury `>=140`. Bramka pełna: **lint 0, typecheck 0, test 0, build 0**; testy ekonomii
+  30/30. Scalono z `origin/main` (animacje CODEX, PR#149) — `session.ts` bez konfliktu (craft/handel vs
+  `running`/`charge` w innych regionach).
+- Nie zrobiono / nie sprawdzono: balans (2%, 4×, min poziom×60) to parametry startowe, nie były strojone
+  zabawą na telefonie właściciela; handler `craft` nie wymaga bliskości stacji (`station` to atrybut
+  receptury); brak pomiaru w przeglądarce na urządzeniu docelowym (zmiany logiki, nie oprawy). Drzewka
+  umiejętności (CODEX) i wzmocnienie potworów (wstrzymane) poza tym systemem.
+
+### 5. NPC dla czterech ras: przewodnik, handlarz, kowal, depozytariusz, karczmarz, zarządca i strażnik
 
 - Z filmów obrotu dostarczonych przez właściciela (`art-wip/gemini-anim-stages/npc-<rola>-<nazwa>-obrot.mp4`) powstało siedem nowych
   postaci: Przewodniczka (`guide`), Handlarka (`merchant`), Kowal (`smith`), Depozytariuszka (`keeper`), Karczmarka (`innkeeper`),
@@ -77,3 +110,4 @@
 - Weryfikacja w grze (Playwright): załadowane tekstury `npc-<świat>-{guide,innkeeper,keeper,merchant,smith,steward,trainer,warden}`, zmierzone
   wysokości, zero błędów konsoli; zrzut startu Pyry z Przewodniczką Kaeną. Test `npc-roles-visual` (7 ról × 4 światy, 8 kierunków, rozmiar 150) i
   `stream-texture-budget` zielone.
+

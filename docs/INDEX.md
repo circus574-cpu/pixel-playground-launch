@@ -42,12 +42,13 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 | [Świat i miasta](SWIAT-I-MIASTA.md)             | Kontynenty, globus, geometria, cztery miasta, budynki, NPC i usługi.       |
 | [GPU i zasoby](GPU-I-ZASOBY.md)                 | Produkcja grafik, kontrakt paczek, import, kolejka i odtwarzanie narzędzi. |
 | [Architektura i testy](ARCHITEKTURA-I-TESTY.md) | Kod, moduły, polecenia, QA, wydajność i diagnoza usterek.                  |
-| [Fabuła i ekwipunek](FABULA-I-EKWIPUNEK.md)     | Pełny projekt przygody: 98 zadań, 177 przedmiotów, 94 receptury.           |
+| [Fabuła i ekwipunek](FABULA-I-EKWIPUNEK.md)     | Pełny projekt przygody: 98 zadań, 366 przedmiotów, 265 receptur; ekonomia drop/sklep/craft. |
 | [Licencje](LICENCJE.md)                         | Grafiki, modele, zależności, notices, dowody i nierozstrzygnięte prawa.    |
 | [Plan i zadania](PLAN-I-ZADANIA.md)             | Aktualny stan, otwarte prace i warunki odbioru.                            |
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-11-12](zmiany/2026-11-12/ZMIANY.md)
 - [2026-11-11](zmiany/2026-11-11/ZMIANY.md)
 - [2026-11-10](zmiany/2026-11-10/ZMIANY.md)
 - [2026-11-07](zmiany/2026-11-07/ZMIANY.md)
@@ -101,6 +102,7 @@ scalenie i publikacja to różne stany. Nie wpisujemy PASS bez wyniku na podanym
   Obecność źródła nie stanowi potwierdzenia pełnego wdrożenia; realizację rozróżnia
   [aktualny plan](PLAN-I-ZADANIA.md#nowe-zlecenie-rozwoju-czterech-ras--28102026-w-realizacji).
 
-## Katalog przedmiotów KI Legends V2 (projekt 29.10.2026, wdrożenie do `src/game/items` 31.10.2026)
+## Katalog przedmiotów KI Legends V2 (projekt 29.10.2026, wdrożenie do `src/game/items` 31.10.2026, ekonomia 12.11.2026)
 
-- [Katalog 366 przedmiotów, 140 receptur i pasywnych buffów artefaktów](katalog-przedmiotow-v2/README.md) — źródłowe pliki JSON, CSV, PDF, 15 plansz JPG i zasady balansu. Dane katalogowe, receptury i kalkulator pasywnych zestawów (`computePassiveEquipmentBonuses`) wdrożono do `src/game/items/*` (zob. [dziennik 31.10](zmiany/2026-10-31/ZMIANY.md)).
+- [Katalog 366 przedmiotów, 140 receptur bazowych i pasywnych buffów artefaktów](katalog-przedmiotow-v2/README.md) — źródłowe pliki JSON, CSV, PDF, 15 plansz JPG i zasady balansu. Dane katalogowe, receptury i kalkulator pasywnych zestawów (`computePassiveEquipmentBonuses`) wdrożono do `src/game/items/*` (zob. [dziennik 31.10](zmiany/2026-10-31/ZMIANY.md)).
+- [Ekonomia przedmiotów — drop, sklep i crafting (12.11.2026)](design/EKONOMIA-PRZEDMIOTOW-2026-11-12.md) — wdrożony system: drop tylko słabe (2%), sklep tylko słabe (4×, min poziom×60), lepszy sprzęt wyłącznie z craftu (**265 receptur** = 140 bazowych + 125 wygenerowanych, pokrycie 226/226). Formuły, liczby z pomiaru, regeneracja i weryfikacja.
