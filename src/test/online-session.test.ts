@@ -93,6 +93,21 @@ it("exclusive session, bounded movement, acknowledged persistence and durable re
     await second.close();
   }
 }, 60000);
+it("keyboard and joystick movement is reported as moving, so the walk clip plays online", async () => {
+  const f = fixture();
+  const session = await OnlineSession.open(f.repository, owner, f.id, path.resolve("public"));
+  try {
+    expect((await session.tick()).moving).toBe(false);
+    session.setDirection(1, 0);
+    const walking = await session.tick();
+    expect(walking.moving).toBe(true);
+    expect(walking.facing.x).toBeGreaterThan(0.9);
+    for (let i = 0; i < 6; i++) await session.tick();
+    expect(session.view().moving).toBe(false);
+  } finally {
+    await session.close();
+  }
+}, 60000);
 it("a failed database commit stops the simulation and cannot emit a successful new frame", async () => {
   const f = fixture();
   const session = await OnlineSession.open(f.repository, owner, f.id, path.resolve("public"));

@@ -178,12 +178,15 @@ export class OnlineSession {
     z.number().finite().min(1).max(250).parse(dt);
     return this.serialize(async () => {
       this.elapsed += dt;
+      // Same order as the local game loop (tick, then manual input): the simulation step clears
+      // `moving`, so manual movement applied after it is what the frame reports and the walk
+      // clip plays for keyboard and joystick input, not only for tap routes.
+      await this.simulation.tick(dt);
       if (
         this.direction.until >= this.elapsed &&
         Math.hypot(this.direction.x, this.direction.y) > 0
       )
         this.simulation.activeSession.manual(this.direction.x, this.direction.y, dt);
-      await this.simulation.tick(dt);
       // Fixed server tick: written on a fixed period; a failed write still stops the session.
       if (performance.now() - this.lastCheckpointAt >= OnlineSession.checkpointEveryMs)
         await this.checkpoint(randomUUID(), commandDigest({ serverTick: ++this.sequence }), true);

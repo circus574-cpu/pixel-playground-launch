@@ -654,3 +654,14 @@ Pełny TypeScript aplikacji/e2e/tools PASS. [Kontrole integracyjne i SHA wejść
 - Testy: `gpu-pipeline`, `stream-texture-budget`, testy miast, katalogu i Verdantii (100 testów) zielone; `assets:check` przechodzi.
 - Nie sprawdzono: ekrany o gęstości 2× (gra renderuje dziś w 1×; zadanie ostrości DPR jest osobne). Przy 2× i zoomie 1,0 budynki
   mogą być minimalnie miękkie.
+
+### 20. Tryb online: nogi bohatera nie ruszały się przy chodzeniu klawiaturą i joystickiem (wszystkie rasy)
+
+- Przyczyna: serwer gry (`OnlineSession.tick`) najpierw wykonywał ruch z klawiatury/joysticka, a potem krok symulacji,
+  który na początku zeruje `moving`. Ramka wysyłana do klienta miała więc `moving: false` mimo przesuwania postaci —
+  bohater sunął w pozie spoczynku. Ruch po kliknięciu (trasa liczona wewnątrz kroku) działał, stąd „rusza nogami tylko
+  po kliknięciu”. Lokalna pętla gry ma odwrotną kolejność (krok, potem ruch ręczny), dlatego testy lokalne tego nie łapały.
+- Poprawka: serwer wykonuje krok symulacji, potem ruch ręczny, potem zapis i ramkę — ta sama kolejność co lokalnie.
+- Test w `online-session.test.ts`: ruch kierunkiem daje `moving: true` i kierunek w ramce, po wygaśnięciu kierunku
+  `moving: false`. Test pada na poprzednim kodzie (`expected false to be true`) i przechodzi z poprawką; testy online,
+  serwera i postaci (17 plików, 122 testy) zielone; pełny typecheck, eslint i prettier czyste.
