@@ -341,3 +341,16 @@ Zrzuty i nagrania pochodzą z rzeczywistej aplikacji, wykresy z zapisanych prób
 
 Nie scalano do main i nie publikowano gry. Błąd starej sceny pozostaje otwarty;
 nie zmieniano świata, assetów, sprzętu, zadań ani infrastruktury GPU.
+
+### 8. Mędrzec: reakcje formy KI (film 5A) w grze
+
+- Film `sage-etap5a-reakcje-ki.mp4` (SHA-256 e82a6042…f1e8) i film ruchu `sage-etap5b-ruch-ki.mp4` (SHA-256 869c1151…a211) są w `art-wip/gemini-anim-stages/`.
+  Z 5A wycięto `kihit` (6 klatek, 14 kl./s), `kihitheavy` (8, 12), `kideath` (8, 10: upadek i leżenie), `kirespawn` (8, 12: podpiera się, wstaje)
+  i `kivictory` (8, 10) w `scripts/anim/kicombat_build.py` (atlas `hero-sage-painted-walk-v3-kifight-2`, 76 klatek po usunięciu lustrzanych kopii).
+  Film jest na jasnoszarym tle z cieniem pod stopami; matowanie dało czyste klatki, także dla leżącej postaci.
+- Paczka bohatera Mędrca `3.0.3`; Aetheria 113,7 z 128 MiB tekstur (była 103,9).
+- Film 5B (bieg, kanał, skill C, interakcja w formie KI) jest zapisany, ale **jeszcze niewycięty**: silnik nie ma stanów klipów KI dla tych czynności.
+- Weryfikacja w grze (Playwright, próbnik klatek, Mędrzec, poziom 20, po rzucie `T`): `kihit`, `kihitheavy`, `kideath` 00–07, `kirespawn` 00–07 i
+  `kivictory` 00–07 grają w Trybie KI; klatki obejrzane (klęknięcie, upadek do leżenia, wstawanie, uniesiona ręka); zero błędów konsoli.
+  Trafienie, ciężkie trafienie i zwycięstwo wywołane bezpośrednio z kodu animacji, śmierć wymuszona parametrem `dead`.
+- Testy: `actor-animation` i `gpu-pipeline` zaktualizowane (Mędrzec ma teraz klipy reakcji KI jak pozostałe rasy).
