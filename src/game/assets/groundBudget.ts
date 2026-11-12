@@ -33,3 +33,27 @@ export function chooseGroundResolution(
   }
   return GROUND_RESOLUTIONS[GROUND_RESOLUTIONS.length - 1]!;
 }
+
+/**
+ * Opt-in profil wydajności (Faza 5): `?ki-ground-res=512` (albo 768 / 1024) obniża sufit pieczenia
+ * podłoża. Koszt pieczenia rośnie z kwadratem rozdzielczości, więc 1024→512 to ~4× tańsza pieczeń
+ * i krótsze zamrożenie przy wejściu w chunk. Bez parametru zwraca null — domyślne zachowanie bez zmian.
+ * Wartość spoza listy kandydatów jest ignorowana (null), żeby nie piec w przypadkowej rozdzielczości.
+ */
+export function groundResolutionOverride(search: string): number | null {
+  const raw = new URLSearchParams(search).get("ki-ground-res");
+  if (!raw) return null;
+  const value = Number(raw);
+  return (GROUND_RESOLUTIONS as readonly number[]).includes(value) ? value : null;
+}
+
+/**
+ * Adaptacyjne pieczenie w profilu wydajności. Gdy pojedyncza pieczeń przekracza budżet klatki,
+ * nie dokładamy drugiej w tej samej klatce (najgorsze zamrożenie = 2 pieczenie naraz). Bez profilu
+ * zawsze 2, żeby domyślne zachowanie zostało nietknięte. Raz wykryta wolna pieczeń utrzymuje 1/klatkę.
+ */
+export const BAKE_FRAME_BUDGET_MS = 100;
+export function bakesPerFrame(lastBakeMs: number, profileActive: boolean): number {
+  if (!profileActive) return 2;
+  return lastBakeMs > BAKE_FRAME_BUDGET_MS ? 1 : 2;
+}

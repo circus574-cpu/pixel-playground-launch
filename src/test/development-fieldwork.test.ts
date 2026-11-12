@@ -192,7 +192,18 @@ it.each(
     for (let n = 0; n < 6000 && !field(s, def.id).progress.done; n++) {
       const active = s.fieldwork.snapshot().active;
       if (!active) break;
-      lastActive = active;
+      lastActive = {
+        ...active,
+        heroFx: s.fx.active,
+        hero: { x: s.player.x, y: s.player.y },
+        enemies: s.enemies.map((e) => ({
+          kind: e.kind,
+          x: e.x,
+          y: e.y,
+          hp: e.hp,
+          phase: e.m.phase,
+        })),
+      };
       const a = active.activity,
         cast = (ability: "R" | "C1" | "C4" | "B1") => {
           if (!s.kit.remaining(ability)) s.command({ type: "ability", ability });

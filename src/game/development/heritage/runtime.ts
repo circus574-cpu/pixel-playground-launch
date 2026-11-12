@@ -1,6 +1,6 @@
 import { advanceExperience } from "../../experience";
 import { ProtectionActivity } from "./protection";
-import { combatGround } from "./encounter";
+import { combatGround, combatNavigation } from "./encounter";
 import { EscortActivity, escortRoute } from "./escort";
 import { InstallationScanner } from "./scanner";
 import { MeasurementActivity } from "./measurement";
@@ -77,12 +77,8 @@ export class HeritageRuntime {
           ? [start]
           : [
               start,
-              ...escortRoute(
-                this.session.enemyNavigation ?? this.outside,
-                start,
-                goal.points - 1,
-                goal.id,
-                (p) => combatGround(this.session, p),
+              ...escortRoute(combatNavigation(this.session), start, goal.points - 1, goal.id, (p) =>
+                combatGround(this.session, p),
               ),
             ];
       this.escortRoutes.set(goal.id, points);
@@ -93,7 +89,7 @@ export class HeritageRuntime {
     let route = this.escortRoutes.get(goal.id);
     if (!route) {
       route = escortRoute(
-        goal.combat ? (this.session.enemyNavigation ?? this.outside) : this.outside,
+        goal.combat ? combatNavigation(this.session) : this.outside,
         start,
         goal.checkpoints,
         goal.id,

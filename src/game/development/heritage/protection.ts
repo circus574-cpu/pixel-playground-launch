@@ -3,7 +3,7 @@ import { distance, type Point } from "../../navigation";
 import type { HeritageTarget } from "./bindings";
 import type { HeritageGoal } from "./types";
 import type { ApprovedActivity } from "./reducer";
-import { HeritageEncounter, combatGround } from "./encounter";
+import { HeritageEncounter, combatGround, combatNavigation } from "./encounter";
 import { escortRoute } from "./escort";
 
 type ProtectionGoal = Extract<HeritageGoal, { kind: "protect" }>;
@@ -42,7 +42,7 @@ export class ProtectionActivity {
         : [
             base.point,
             ...escortRoute(
-              session.enemyNavigation ?? session.nav,
+              combatNavigation(session),
               base.point,
               Math.max(1, goal.points - 1),
               goal.id,

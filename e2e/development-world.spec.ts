@@ -9,7 +9,7 @@ test.use({
   hasTouch: true,
   isMobile: true,
   viewport: { width: 852, height: 393 },
-  video: "retain-on-failure",
+  video: "on",
 });
 async function saved(page: Page) {
   return page.evaluate(() => {

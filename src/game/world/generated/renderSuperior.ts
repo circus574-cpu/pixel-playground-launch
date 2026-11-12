@@ -50,7 +50,11 @@ import {
 import { continentAir, continentDress, dressBiomeAt, dressEnabled } from "./worldDress";
 import type Phaser from "phaser";
 import { catalog } from "../../assets/catalog";
-import { chooseGroundResolution } from "../../assets/groundBudget";
+import {
+  bakesPerFrame,
+  chooseGroundResolution,
+  groundResolutionOverride,
+} from "../../assets/groundBudget";
 import { buildSceneryGrid, sceneryNear, sceneryReach } from "../sceneryStream";
 import { sizeScenery } from "../../assets/scenery";
 import { renderDepth } from "../../assets/layers";
@@ -182,7 +186,10 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   const renderRoads = [...source.roads, ...nexusRoads];
   // Audyt 11.11.2026: podłoże było poza budżetem tekstur. Dobieramy rozdzielczość do reszty
   // budżetu po atlasach, zamiast zawsze piec 1024 i przekraczać sufit o 28–48 MiB.
-  const preferredResolution = painted || continent ? 1024 : 512;
+  // Opt-in profil wydajności (?ki-ground-res=512/768/1024): niższy sufit pieczenia = ~4× tańsza
+  // pieczeń i krótsze zamrożenie. Bez parametru null → domyślna rozdzielczość bez zmian.
+  const groundProfile = groundResolutionOverride(window.location.search);
+  const preferredResolution = groundProfile ?? (painted || continent ? 1024 : 512);
   const resolution =
     painted || continent
       ? chooseGroundResolution(source.residentAtlasBytes?.() ?? 0, preferredResolution)
@@ -915,16 +922,22 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       key: ground.key,
     });
   };
+  let lastBakeMs = 0;
   const drainBakes = () => {
     let n = 0;
-    while (bakeQueue.length && n < MAX_BAKES_PER_FRAME) {
+    // Profil wydajności: po wolnej pieczeniu nie dokładamy drugiej w tej klatce (najgorsze
+    // zamrożenie to 2 pieczenie naraz). Bez profilu limit pozostaje MAX_BAKES_PER_FRAME.
+    const cap = groundProfile !== null ? bakesPerFrame(lastBakeMs, true) : MAX_BAKES_PER_FRAME;
+    while (bakeQueue.length && n < cap) {
       const entry = bakeQueue.shift()!;
       pending.delete(entry.id);
       if (disposed || failed || !wanted.has(entry.id)) {
         source.release(scene, entry.id);
         continue;
       }
+      const bakeStart = performance.now();
       finishChunk(entry.data, entry.id, entry.items);
+      lastBakeMs = performance.now() - bakeStart;
       n++;
     }
   };
