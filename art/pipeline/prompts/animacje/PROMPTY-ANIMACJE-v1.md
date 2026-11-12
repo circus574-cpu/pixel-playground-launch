@@ -85,7 +85,7 @@ unik i gardę. Brakuje ujęć formy KI dla: trafienia, ciężkiego trafienia, ś
 ładowania KI, szarży (skill C) i interakcji. Dwa filmy po 10 s na rasę (5A reakcje, 5B ruch); Planetar także 5C.
 Kilka 10-sekundowych filmów można oddać sklejonych w jeden plik (jak plik Planetara z etapami 1–3).
 
-**Obraz referencyjny:** klatka formy KI z filmu etapu 4 tej rasy, `art-wip/ki-reference/<rasa>-forma-ki.png`
+**Obraz referencyjny:** forma KI z przodu `art-wip/ki-reference/<rasa>-forma-ki-przod.png` (z filmu chodu po transformacji) i z filmu etapu 4 `art-wip/ki-reference/<rasa>-forma-ki.png`
 (nie obraz formy bazowej). Postać przez cały film jest w formie KI, bez sekwencji transformacji.
 
 Wnioski z etapu 4 dopisane do zasad: kadr poziomy 1280×720 (Android oddał pion), tło białe przez cały film
@@ -96,8 +96,8 @@ zostaje w kadrze.
 
 | Rasa     | {POSTAĆ KI} |
 | -------- | ----------- |
-| Legenda  | muscular man, messy spiky black hair, bare muscular chest, one large red spiked shoulder pad on the left shoulder only, red armored forearm guards, baggy black trousers, red sash, dark red boots |
-| Android  | muscular young man, spiky silver hair, bare muscular chest with a glowing cyan star mark in its center, cyan-glowing armored forearm gauntlets, silver plate leg armor, long torn dark-blue cape, grey armored boots |
+| Legenda  | muscular man, messy spiky black hair, glowing red eyes, bare muscular chest with glowing golden ember cracks across the skin, one large red spiked shoulder pad on the left shoulder only, red armored forearm guards, baggy black trousers, red sash, dark red boots |
+| Android  | muscular young man, spiky silver hair, glowing cyan eyes, bare muscular chest with a glowing cyan star mark in its center and thin glowing cyan veins, cyan-glowing armored forearm gauntlets, silver plate leg armor, long torn dark-blue cape, grey armored boots |
 | Mędrzec  | elegant woman, long wavy blonde hair with gold hair ornaments, teal silk dress with high slit, gold ornaments, sheer white sleeves, glowing blue eyes |
 | Planetar | muscular young man, spiky brown hair, white headband, long orange scarf, torn sleeveless white and green martial-arts outfit, wrist wraps, dark brown boots, faint green sparkles around the body |
 
