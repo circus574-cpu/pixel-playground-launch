@@ -1,0 +1,387 @@
+{
+  "format": "ki-admin-world-overview-1",
+  "sourceSha": "5d410482fab958ff9221c343efb9e0fc7fc2e75b",
+  "dirty": false,
+  "world": "superior-v2",
+  "worldRevision": "b4f66ea66d6ea3206d9d7be0fec510dda6ae485a5e4a71960bfd5e5a4ad0bc17",
+  "sourceHashes": {
+    "src/components/admin/AdminWorldOverview.tsx": "d58782213b9a1ea75b7bda2bfb792bcba682d70dad749dd33219f7fd3bbf574f",
+    "src/components/admin/world-overview/model.ts": "38867c8de0bb0ecd755a4f9ceef92ac154ddb0e759a86dfae39a540f6e4600be",
+    "src/components/admin/world-overview/loader.ts": "847d2b56d017436fe182cbd769518bd2db5b360b462bfff71f60fa69687812a5",
+    "src/components/admin/world-overview/OverviewCanvas.tsx": "3d257f2191c7f55e1df2b66b895ca16dfb8f2a2757e96936088f0596ef6d33ee",
+    "src/components/admin/world-overview/PointFacts.tsx": "7653fd76d6074eeb41242790f73cdace92987d3ad582742c9db694a03f1e18ea",
+    "src/components/admin/world-overview/overview.css": "ca16e09f3afdc8f85d5d86e8e8a66c5370a0b0db3fb4cb08a1d76a612cf742b4",
+    "src/game/admin/worldOverviewCatalog.generated.json": "1dbfb4aa9804ba101055abf2a6d562b794f52be91d44bc2c623bbf0f57091b49",
+    "src/game/admin/worldDevelopment.generated.json": "9a47effbd99fd66d51fe8fea80ea46f46f5e4ad7122304dea5b55f328eb49d60",
+    "scripts/lib/build-world-development.ts": "31b2a38cff5fd134baf4d870a3b6ab4543bbfe9a4c6748911b0a8788c1d7d699",
+    "src/routes/admin.tsx": "9cd9e6e57b51880bde1fd48371886c11f049592bfdeddc5de2d6cebfc4f5aca5",
+    "e2e/admin-world-overview.spec.ts": "78e3f5ca50ad0ce8078321a6a77a65a879cb0b7e5eddd991a4bb9d737d44f310"
+  },
+  "counts": {
+    "lands": 10,
+    "spawns": 8752,
+    "npcs": 212,
+    "questsV2": 106,
+    "nativeQuestTypes": 3,
+    "secrets": 143,
+    "dungeonEntrances": 22,
+    "uniqueReservedDungeonInstances": 18,
+    "questMarkers": 18070,
+    "unmappedQuestTargets": 27,
+    "developmentActivities": 192,
+    "developmentMarkers": 629,
+    "items": 366,
+    "recipes": 265,
+    "dialogues": 28
+  },
+  "lands": [
+    {
+      "id": "aether",
+      "name": "Aetheria",
+      "width": 70208,
+      "height": 53440,
+      "worldSha256": "189172c92c1437094adce081f516d6d3873503e74f2c8c0819d05f0f4cd3182c",
+      "counts": {
+        "spawns": 2043,
+        "places": 131,
+        "towns": 4,
+        "buildings": 131,
+        "npcs": 38,
+        "quests": 16,
+        "secrets": 20,
+        "resources": 1478,
+        "dungeons": 4,
+        "roads": 298,
+        "development": 146
+      },
+      "rejectedSpawns": []
+    },
+    {
+      "id": "island-1",
+      "name": "Wyspa 1",
+      "width": 13024,
+      "height": 8224,
+      "worldSha256": "a4fdc1d8d309ab444eb975fdda4e0adbc08bfe69502a893732fe31767dfa1449",
+      "counts": {
+        "spawns": 118,
+        "places": 25,
+        "towns": 1,
+        "buildings": 32,
+        "npcs": 10,
+        "quests": 4,
+        "secrets": 10,
+        "resources": 127,
+        "dungeons": 1,
+        "roads": 91
+      },
+      "rejectedSpawns": []
+    },
+    {
+      "id": "island-2",
+      "name": "Wyspa 2",
+      "width": 15936,
+      "height": 10400,
+      "worldSha256": "2fed6502a320cdbb4cc935ff8d72fc6172907f6bb7792927c604122eb01a8c8b",
+      "counts": {
+        "spawns": 166,
+        "places": 25,
+        "towns": 1,
+        "buildings": 32,
+        "npcs": 10,
+        "quests": 4,
+        "secrets": 10,
+        "resources": 178,
+        "dungeons": 1,
+        "roads": 88
+      },
+      "rejectedSpawns": []
+    },
+    {
+      "id": "island-3",
+      "name": "Wyspa 3",
+      "width": 12704,
+      "height": 10016,
+      "worldSha256": "a074745c85ff6b2a14686e6879f7347b5e59364803ca6abfd7244fc6e9fd4e99",
+      "counts": {
+        "spawns": 125,
+        "places": 25,
+        "towns": 1,
+        "buildings": 31,
+        "npcs": 10,
+        "quests": 4,
+        "secrets": 10,
+        "resources": 134,
+        "dungeons": 1,
+        "roads": 89
+      },
+      "rejectedSpawns": []
+    },
+    {
+      "id": "island-4",
+      "name": "Wyspa 4",
+      "width": 13760,
+      "height": 11712,
+      "worldSha256": "d6fb2e2d4fba16a5b7fa09d594410504e742292d28679775f5a25285c246188e",
+      "counts": {
+        "spawns": 173,
+        "places": 25,
+        "towns": 1,
+        "buildings": 32,
+        "npcs": 10,
+        "quests": 4,
+        "secrets": 11,
+        "resources": 186,
+        "dungeons": 1,
+        "roads": 89
+      },
+      "rejectedSpawns": []
+    },
+    {
+      "id": "island-5",
+      "name": "Wyspa 5",
+      "width": 14080,
+      "height": 8960,
+      "worldSha256": "d34e6ad1a34c658fc222a28747cd1e4f720cdfa8651b3ff3e5e2bbe4641354a2",
+      "counts": {
+        "spawns": 128,
+        "places": 25,
+        "towns": 1,
+        "buildings": 31,
+        "npcs": 10,
+        "quests": 4,
+        "secrets": 11,
+        "resources": 137,
+        "dungeons": 1,
+        "roads": 85
+      },
+      "rejectedSpawns": []
+    },
+    {
+      "id": "island-6",
+      "name": "Wyspa 6",
+      "width": 13952,
+      "height": 10528,
+      "worldSha256": "e81c278021964f5adde9367da7f1486bd526a5db63b409e37ec0e8b714bb43e8",
+      "counts": {
+        "spawns": 116,
+        "places": 25,
+        "towns": 1,
+        "buildings": 31,
+        "npcs": 10,
+        "quests": 4,
+        "secrets": 10,
+        "resources": 125,
+        "dungeons": 1,
+        "roads": 86
+      },
+      "rejectedSpawns": []
+    },
+    {
+      "id": "nexus",
+      "name": "Nexus-9",
+      "width": 63168,
+      "height": 49728,
+      "worldSha256": "65dfd586eb6770060ce85ddddad2f96b18880608412a28939153273539dbcaa9",
+      "counts": {
+        "spawns": 1798,
+        "places": 130,
+        "towns": 4,
+        "buildings": 131,
+        "npcs": 38,
+        "quests": 16,
+        "secrets": 20,
+        "resources": 1219,
+        "dungeons": 4,
+        "roads": 295,
+        "development": 159
+      },
+      "rejectedSpawns": []
+    },
+    {
+      "id": "pyra",
+      "name": "Pyra",
+      "width": 65600,
+      "height": 42304,
+      "worldSha256": "d945f0260c44f73a58461f59b69b41796e6c068747d0d3660195a3fca4e3276c",
+      "counts": {
+        "spawns": 1733,
+        "places": 128,
+        "towns": 4,
+        "buildings": 132,
+        "npcs": 38,
+        "quests": 16,
+        "secrets": 20,
+        "resources": 1133,
+        "dungeons": 4,
+        "roads": 299,
+        "development": 149
+      },
+      "rejectedSpawns": []
+    },
+    {
+      "id": "verdant",
+      "name": "Verdantia",
+      "width": 77504,
+      "height": 58560,
+      "worldSha256": "10dad1222f4d5e47f4eb2f66c2c20bbb70f1d5e91493a2b12bdcbcba2d387cfb",
+      "counts": {
+        "spawns": 2352,
+        "places": 128,
+        "towns": 4,
+        "buildings": 132,
+        "npcs": 38,
+        "quests": 16,
+        "secrets": 21,
+        "resources": 1794,
+        "dungeons": 4,
+        "roads": 295,
+        "development": 175
+      },
+      "rejectedSpawns": []
+    }
+  ],
+  "unmappedQuestTargets": [
+    {
+      "quest": "O-V05",
+      "target": "verdant-latarnia-korzeni",
+      "description": "Dotrzyj do Latarni Korzeni (x:1492, y:418)"
+    },
+    {
+      "quest": "S-V02",
+      "target": "fence-286",
+      "description": "Odwiedź przyczółek przy płocie (x:840, y:1490)"
+    },
+    {
+      "quest": "S-V09",
+      "target": "rock-250",
+      "description": "Zbadaj głaz rock-250 (x:975, y:1255)"
+    },
+    {
+      "quest": "S-V11",
+      "target": "rock-261",
+      "description": "Dotrzyj do głazu rock-261 (x:373, y:1617)"
+    },
+    {
+      "quest": "H-V02",
+      "target": "rock-250",
+      "description": "Zbadaj skrytkę przy rock-250 (x:975, y:1255)"
+    },
+    {
+      "quest": "S-P09",
+      "target": "basalt-5",
+      "description": "Odwiedź kolumnę basalt-5 (x:410, y:580)"
+    },
+    {
+      "quest": "S-P11",
+      "target": "basalt-6",
+      "description": "Odwiedź basalt-6 (x:2040, y:460)"
+    },
+    {
+      "quest": "H-P03",
+      "target": "basalt-7",
+      "description": "Zbadaj bazalt basalt-7 (x:700, y:1630)"
+    },
+    {
+      "quest": "O-A02",
+      "target": "potion",
+      "description": "Przekaż miksturę konserwującą (potion) dla Enso"
+    },
+    {
+      "quest": "O-A03",
+      "target": "aether-tarasy-switu",
+      "description": "Dotrzyj do Tarasów Świtu (aether-tarasy-switu)"
+    },
+    {
+      "quest": "O-A04",
+      "target": "aether-biala-przystan",
+      "description": "Odwiedź Białą Przystań (aether-biala-przystan)"
+    },
+    {
+      "quest": "O-A05",
+      "target": "aether-archiwum-nad-chmurami",
+      "description": "Odwiedź Archiwum Nad Chmurami (aether-archiwum-nad-chmurami)"
+    },
+    {
+      "quest": "O-A05",
+      "target": "tusk",
+      "description": "Przekaż odłamek pryzmatu (tusk) Talenowi"
+    },
+    {
+      "quest": "S-A06",
+      "target": "potion",
+      "description": "Przekaż miksturę (potion) Talenowi"
+    },
+    {
+      "quest": "S-A08",
+      "target": "aether-tarasy-switu",
+      "description": "Odwiedź Tarasy Świtu"
+    },
+    {
+      "quest": "S-A08",
+      "target": "aether-biala-przystan",
+      "description": "Odwiedź Białą Przystań"
+    },
+    {
+      "quest": "S-A08",
+      "target": "aether-archiwum-nad-chmurami",
+      "description": "Odwiedź Archiwum Nad Chmurami"
+    },
+    {
+      "quest": "S-A11",
+      "target": "tusk",
+      "description": "Przekaż materiały (tusk) Kaelowi"
+    },
+    {
+      "quest": "O-N02",
+      "target": "potion",
+      "description": "Dostarcz chłodziwo (potion) do HEF-4"
+    },
+    {
+      "quest": "O-N03",
+      "target": "nexus-stacja-meridian",
+      "description": "Odwiedź Stację Meridian (nexus-stacja-meridian)"
+    },
+    {
+      "quest": "O-N04",
+      "target": "nexus-kuznia-obwodow",
+      "description": "Odwiedź Kuźnię Obwodów (nexus-kuznia-obwodow)"
+    },
+    {
+      "quest": "O-N05",
+      "target": "nexus-port-zerowy",
+      "description": "Odwiedź Port Zerowy (nexus-port-zerowy)"
+    },
+    {
+      "quest": "O-N05",
+      "target": "tusk",
+      "description": "Przekaż izolator (tusk) dla VEX-3"
+    },
+    {
+      "quest": "S-N03",
+      "target": "potion",
+      "description": "Dostarcz chłodziwo (potion) do Eko-0"
+    },
+    {
+      "quest": "S-N07",
+      "target": "nexus-stacja-meridian",
+      "description": "Odwiedź Stację Meridian"
+    },
+    {
+      "quest": "S-N07",
+      "target": "nexus-kuznia-obwodow",
+      "description": "Odwiedź Kuźnię Obwodów"
+    },
+    {
+      "quest": "S-N07",
+      "target": "nexus-port-zerowy",
+      "description": "Odwiedź Port Zerowy"
+    }
+  ],
+  "notes": [
+    "Static authored points and published/draft definition overlays; not live actors or an account quest state.",
+    "Room-local coordinates never projected directly onto the planet; outdoor building doors anchor interior NPC markers.",
+    "Reserved dungeon entrances and raw geographic/resource annotations are data-only. No dungeon travel is implied.",
+    "Chunk scenery is a bounded view of authored package objects, not a duplicate Phaser renderer or particle simulation.",
+    "The catalogue snapshot is regenerated by scripts/lib/build-world-overview.ts and checked against runtime definitions in unit tests."
+  ]
+}

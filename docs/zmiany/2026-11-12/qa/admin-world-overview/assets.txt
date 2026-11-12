@@ -1,0 +1,50 @@
+
+> assets:check
+> tsx scripts/check-game-assets.ts
+
+{
+  "production": {
+    "verdant": {
+      "textures": 27,
+      "rgbaBytes": 102282880,
+      "terrainCacheBytes": 25165824
+    },
+    "aether": {
+      "textures": 48,
+      "rgbaBytes": 108903808,
+      "terrainCacheBytes": 0
+    },
+    "nexus": {
+      "textures": 43,
+      "rgbaBytes": 104050000,
+      "terrainCacheBytes": 0
+    },
+    "pyra": {
+      "textures": 57,
+      "rgbaBytes": 107425936,
+      "terrainCacheBytes": 0
+    }
+  },
+  "preview": {
+    "verdant": {
+      "textures": 27,
+      "rgbaBytes": 102282880,
+      "terrainCacheBytes": 25165824
+    },
+    "aether": {
+      "textures": 48,
+      "rgbaBytes": 108903808,
+      "terrainCacheBytes": 0
+    },
+    "nexus": {
+      "textures": 43,
+      "rgbaBytes": 104050000,
+      "terrainCacheBytes": 0
+    },
+    "pyra": {
+      "textures": 57,
+      "rgbaBytes": 107425936,
+      "terrainCacheBytes": 0
+    }
+  }
+}

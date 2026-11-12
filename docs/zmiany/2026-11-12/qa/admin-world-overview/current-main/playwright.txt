@@ -1,0 +1,27 @@
+
+Running 18 tests using 1 worker
+
+(node:98368) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [application-canvas] › e2e/admin-world-overview.spec.ts:67:1 › anonymous visitors cannot open the complete administrator atlas (16.5s)
+  ✓   2 [application-canvas] › e2e/admin-world-overview.spec.ts:77:1 › GM cannot see the owner-only overview (3.8s)
+  ✓   3 [application-canvas] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 1280x900 (16.0s)
+  ✓   4 [application-canvas] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 390x844 (14.2s)
+  ✓   5 [application-canvas] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 320x568 (12.4s)
+  ✓   6 [application-canvas] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 852x393 (13.6s)
+  ✓   7 [application-canvas] › e2e/admin-world-overview.spec.ts:163:1 › source errors are explicit and retry loads the verified world (9.0s)
+  ✓   8 [application-canvas] › e2e/admin-world-overview.spec.ts:176:1 › tools: bounded scenery, coordinates export, pan, pinch and cancellation (10.1s)
+  ✓   9 [application-canvas] › e2e/admin-world-overview.spec.ts:239:1 › development activities expose conditional expedition areas rather than permanent spawns (9.1s)
+(node:99231) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [application-webgl] › e2e/admin-world-overview.spec.ts:67:1 › anonymous visitors cannot open the complete administrator atlas (4.8s)
+  ✓  11 [application-webgl] › e2e/admin-world-overview.spec.ts:77:1 › GM cannot see the owner-only overview (5.1s)
+  ✓  12 [application-webgl] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 1280x900 (20.5s)
+  ✓  13 [application-webgl] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 390x844 (15.2s)
+  ✓  14 [application-webgl] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 320x568 (14.7s)
+  ✓  15 [application-webgl] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 852x393 (16.3s)
+  ✓  16 [application-webgl] › e2e/admin-world-overview.spec.ts:163:1 › source errors are explicit and retry loads the verified world (11.1s)
+  ✓  17 [application-webgl] › e2e/admin-world-overview.spec.ts:176:1 › tools: bounded scenery, coordinates export, pan, pinch and cancellation (14.4s)
+  ✓  18 [application-webgl] › e2e/admin-world-overview.spec.ts:239:1 › development activities expose conditional expedition areas rather than permanent spawns (11.4s)
+
+  18 passed (3.7m)

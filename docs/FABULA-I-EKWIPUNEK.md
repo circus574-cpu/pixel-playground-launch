@@ -2998,6 +2998,8 @@ wydają własną broń, zaś pełna legalna ścieżka stopni 2–6 nadal wymaga 
 późniejszych etapów. Transfer wymaga własnej otwartej skrzyni i rzeczywistej
 bliskości. Nie wolno wczytać cudzej broni do innego slotu.
 
+<a id="ekonomia-wdrożona--12112026"></a>
+
 ## Ekonomia przedmiotów — drop, sklep i crafting (wdrożone 12.11.2026)
 
 **Status: wdrożone do runtime (`GameSession`), nie tylko specyfikacja.** Decyzja właściciela z

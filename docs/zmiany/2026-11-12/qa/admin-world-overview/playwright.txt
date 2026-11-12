@@ -1,0 +1,25 @@
+
+Running 16 tests using 1 worker
+
+(node:90003) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [application-canvas] › e2e/admin-world-overview.spec.ts:67:1 › anonymous visitors cannot open the complete administrator atlas (6.1s)
+  ✓   2 [application-canvas] › e2e/admin-world-overview.spec.ts:77:1 › GM cannot see the owner-only overview (5.3s)
+  ✓   3 [application-canvas] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 1280x900 (17.4s)
+  ✓   4 [application-canvas] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 390x844 (19.3s)
+  ✓   5 [application-canvas] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 320x568 (11.7s)
+  ✓   6 [application-canvas] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 852x393 (12.5s)
+  ✓   7 [application-canvas] › e2e/admin-world-overview.spec.ts:162:1 › source errors are explicit and retry loads the verified world (8.0s)
+  ✓   8 [application-canvas] › e2e/admin-world-overview.spec.ts:175:1 › tools: bounded scenery, coordinates export, pan, pinch and cancellation (9.1s)
+(node:90514) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [application-webgl] › e2e/admin-world-overview.spec.ts:67:1 › anonymous visitors cannot open the complete administrator atlas (3.3s)
+  ✓  10 [application-webgl] › e2e/admin-world-overview.spec.ts:77:1 › GM cannot see the owner-only overview (2.9s)
+  ✓  11 [application-webgl] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 1280x900 (16.8s)
+  ✓  12 [application-webgl] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 390x844 (12.8s)
+  ✓  13 [application-webgl] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 320x568 (12.1s)
+  ✓  14 [application-webgl] › e2e/admin-world-overview.spec.ts:92:3 › real /admin atlas: complete V2 data, exact points and rooms 852x393 (12.8s)
+  ✓  15 [application-webgl] › e2e/admin-world-overview.spec.ts:162:1 › source errors are explicit and retry loads the verified world (9.1s)
+  ✓  16 [application-webgl] › e2e/admin-world-overview.spec.ts:175:1 › tools: bounded scenery, coordinates export, pan, pinch and cancellation (10.4s)
+
+  16 passed (2.9m)
