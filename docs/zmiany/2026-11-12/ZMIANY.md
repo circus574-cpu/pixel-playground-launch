@@ -64,7 +64,7 @@
 - Decyzja właściciela: słabsze przedmioty do kupna za wygórowane ceny (trzeba pograć, zanim się kupi),
   słabsze też z rzadkiego dropu, a cały lepszy sprzęt z rozbudowanego craftu. Wdrożone do `GameSession`
   (nie tylko specyfikacja). Pełny opis z formułami i pomiarem:
-  [design/EKONOMIA-PRZEDMIOTOW-2026-11-12.md](../../design/EKONOMIA-PRZEDMIOTOW-2026-11-12.md).
+  [Fabuła i ekwipunek — ekonomia przedmiotów](../../FABULA-I-EKWIPUNEK.md#ekonomia-przedmiotów--drop-sklep-i-crafting-wdrożone-12112026).
 - **Drop:** `DROP_RARITIES = [common, uncommon]`, `DROP_CHANCE = 0.02` (było 0.08 i wszystkie rzadkości).
   Pula słabych przedmiotów z kontynentu potwora w oknie `[poziom−3, +5]`, ważone rzadkością; minione nie
   losują. Lepszy sprzęt (rare/epic/legendary) nigdy nie dropi. 16 z 40 potworów ma pustą pulę (słabe
