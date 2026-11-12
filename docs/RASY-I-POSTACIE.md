@@ -61,9 +61,8 @@ zwykłego stroju, jeśli dla rasy jest klip formy KI. `scripts/anim/kicombat_bui
 `kiattack2` (6 klatek, 12 kl./s), `kifinisher` (8, 12; Planetar bez: jego trzeci cios to błysk na cały kadr),
 `kiskillb` (8, 12; Planetar: samo lądowanie), `kidodge` (6, 14), `kiguard` (6, 10) oraz reakcje `kihit` (6, 14),
 `kihitheavy` (8, 12), `kideath` (8, 10: odrzut, upadek, leżenie), `kirespawn` (8, 12: podpiera się, wstaje),
-`kivictory` (8, 10). Reakcje formy KI są dla Androida, Legendy i Planetara; Mędrzec nie ma jeszcze filmu reakcji, więc
-jego trafienie, śmierć, wstawanie i zwycięstwo w Trybie KI pokazują klipy formy bazowej (brak klipu nie jest zastępowany
-niczym innym). Łańcuch ciosów w Trybie KI: `kiattack2` → `kifinisher` → `kiattack` (silny cios z filmu) w 1,4 s.
+`kivictory` (8, 10). Reakcje formy KI są dla wszystkich czterech ras (Mędrzec od paczki `3.0.3`, z filmu `sage-etap5a-reakcje-ki.mp4`).
+Brak klipu dla stanu nie jest zastępowany niczym innym niż klipem formy bazowej. Łańcuch ciosów w Trybie KI: `kiattack2` → `kifinisher` → `kiattack` (silny cios z filmu) w 1,4 s.
 Klip jednorazowy zostaje w formie, w której go uruchomiono, nawet gdy buff `T` skończy się w trakcie (śmierć i wstawanie
 w Trybie KI zostają w formie KI). Każdy film ma własną transformację (skala z jego neutralnej klatki, stopy na linii chodu);
 leżące ciało szersze niż komórka 256 px jest zmniejszane do szerokości komórki, na tej samej linii podłoża, a wygaszanie
