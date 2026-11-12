@@ -611,3 +611,17 @@ Pełny TypeScript aplikacji/e2e/tools PASS. [Kontrole integracyjne i SHA wejść
 - Nie zrobiono / nie sprawdzono: pełna bramka w tym przebiegu miała środowiskowe timeouty ciężkich testów
   (admin-world-overview, gpu-pipeline, racial-trial) pod obciążeniem — przechodzą osobno; pomiar zysku
   memo na fizycznym telefonie nie był wykonany.
+
+### 17. Verdantia: budynki miasta w rozdzielczości dopasowanej do ekranu (−26,5 MiB tekstur)
+
+- Sześć malowanych budynków Zielonej Przystani (`verdant-leaf-buildings`: sala, arena, depozyt, sklep, gospoda, kuźnia) miało
+  obrazy ok. 1280 × 1270 px, a gra rysuje je na ok. 520–560 jednostkach świata. Przy maksymalnym zoomie 1,0 i renderowaniu 1×
+  potrzeba ok. 560 px. Obrazy zmniejszone proporcjonalnie (Lanczos, bez przycinania, bo powiązanie `fit: contain` liczy się
+  od proporcji) do 672 px na dłuższym boku, zapisane bezstratnie; paczka `1.1.0`. Pliki: ok. 1,6 MB → ok. 0,55 MB każdy.
+- Pomiar w grze (Planetarni, start w mieście): tekstury w pamięci 178,5 → **152,0 MiB**, budynki 36,6 → 10,1 MiB.
+- Porównanie zrzutów przed i po w grze przy zoomie 0,62 i 1,0: wielkość, położenie i wygląd budynku bez widocznej różnicy.
+- Uwaga: limit świata w importerze (`assets:check`) nie liczy tej paczki (oznaczona `previewOnly`, a włącza ją domyślny
+  przełącznik `ki-painted`), dlatego jego wynik dla Verdantii się nie zmienia. Pamięć mierzona w grze jest większa niż ten limit.
+- Testy: `gpu-pipeline`, `stream-texture-budget`, testy miast, katalogu i Verdantii (100 testów) zielone; `assets:check` przechodzi.
+- Nie sprawdzono: ekrany o gęstości 2× (gra renderuje dziś w 1×; zadanie ostrości DPR jest osobne). Przy 2× i zoomie 1,0 budynki
+  mogą być minimalnie miękkie.
