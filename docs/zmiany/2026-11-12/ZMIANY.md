@@ -14,3 +14,27 @@
 - Weryfikacja w grze (arena, próbnik klatek, bohater zwrócony w lewo): `hitheavy 00–07` i `victory 00–07` dla czterech ras,
   klipy etapu 1 (`skillb`, `dodge`, `guard`) po odbiciu stoją na swoim cieniu i patrzą w stronę celu; zero błędów konsoli.
   Wywołanie z gry (cios ≥ 15% życia, awans) sprawdzone kodem i testem typów, w przeglądarce klipy uruchomiono bezpośrednio.
+
+### 2. Animacje etapu 3 (ruch) — bieg, kanał, skill C, interakcja — cztery rasy
+
+- Z filmów `<rasa>-etap3-ruch.mp4` (Android: `-v2`, Planetar: sekundy 20–30) skrypt `scripts/anim/moveform_build.py`
+  wycina do atlasu `<paczka>-fight-4`: `run` (8 klatek, 16 kl./s, pętla jednego okresu kroku: Legenda 10, Android 19,
+  Mędrzec 41, Planetar 17 klatek filmu), `channel` (8 klatek, 10 kl./s, pętla tam i z powrotem bez końcowego wybuchu),
+  `skillc` (8 klatek, 12 kl./s) i `interact` (6 klatek, 10 kl./s). Lustrzane kopie usunięte (`dedupe_mirror.py`).
+  Paczki bohaterów `2.9.1`; Verdantia 112,9 z 128 MiB.
+- Poprawki matowania w tym skrypcie: wygaszanie przy bocznych krawędziach kadru (pionowy film Androida jest węższy
+  od komórki 256 px, błysk i kurz były ucięte prostą krawędzią) i kolor→alfa dla białych smug ruchu dalej niż 4 px od
+  kolorowej postaci (skok Androida miał biały prostokąt). Kanał Androida i Mędrca kończy się przed wybuchem.
+- Silnik: `session.running` (prędkość ≥ 1,5× prędkości rasy z poziomu 1, `RUN_SPEED_RATIO`; sam poziom daje to od 12)
+  wybiera `run` zamiast `walk` (Tryb KI zostaje przy `kiwalk`); zdarzenie `channel` bohatera trzyma `channel` przez
+  czas kanału (ruch je kończy); techniki drzewka C z atakiem (`attack`, `burst`) i szarże do wroga z polem
+  prezentacyjnym `charge` (Legenda A4, Planetar B4) grają `skillc` (w Trybie KI `kiskill`); podniesienie łupu gra
+  `interact`; `guard` z tarczy dodanej przez technikę (Planetar B7 przy B4) nie przerywa jej pozy.
+- Weryfikacja w grze (próbnik klatek, poziom 20): bieg klawiszami w prawo `run/right 01–05`, w lewo ten sam pasek
+  rysowany lustrem, ciągły cykl 00–07 — cztery rasy; polecenia z gry: Legenda C1 i A4 → `skillc 00–07`, Android C1 →
+  `skillc 00–07`, Mędrzec C1 → `channel` 00–07 w pętli przez kanał, Planetar B4 → `skillc 00–07` (wcześniej nadpisywał
+  go `guard`), Planetar C1 (leczenie) → `skill`; `channel` (wywołany z czasem 1,5 s) i `interact` 00–05 dla czterech
+  ras; zero błędów konsoli. Podniesienie łupu nie było klikane w przeglądarce (sprawdzone kodem i testem typów).
+- Testy: `actor-animation` (bieg, kanał z czasem i ruchem, skill C, tarcza przy szarży), `gpu-pipeline` (22 klipy,
+  1280 odwołań do klatek, atlas `-fight-4`); `npm run typecheck`, eslint czyste; pełny vitest 1317 zielonych,
+  2 czerwone w `development-etap1-assets` (sumy SHA-256 plików `art/production`, czerwone także bez tej zmiany).

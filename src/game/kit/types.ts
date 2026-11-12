@@ -172,6 +172,8 @@ export type KitPort = {
     x: number;
     y: number;
     ability?: string;
+    /** Presentation only: the technique charges at the foe (the hero plays its skill C clip). */
+    charge?: boolean;
     text?: string;
     to?: Point;
     radius?: number;

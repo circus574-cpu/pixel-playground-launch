@@ -1,81 +1,90 @@
 {
   "schemaVersion": 1,
   "id": "hero-legend-walk-v3",
-  "version": "2.8.1",
+  "version": "2.9.1",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "hero-legend-walk-v3-page-0",
-      "version": "2.8.1",
+      "version": "2.9.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-page-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-page-0.json",
       "width": 875,
       "height": 1844
     },
     {
       "id": "hero-legend-walk-v3-idle-0",
-      "version": "2.8.1",
+      "version": "2.9.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-idle-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-idle-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-idle-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-idle-0.json",
       "width": 1082,
       "height": 1640
     },
     {
       "id": "hero-legend-walk-v3-fight-0",
-      "version": "2.8.1",
+      "version": "2.9.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-fight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-fight-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-0.json",
       "width": 1007,
       "height": 820
     },
     {
       "id": "hero-legend-walk-v3-fight-1",
-      "version": "2.8.1",
+      "version": "2.9.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-fight-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-fight-1.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-1.json",
       "width": 397,
       "height": 616
     },
     {
       "id": "hero-legend-walk-v3-kiwalk-0",
-      "version": "2.8.1",
+      "version": "2.9.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-kiwalk-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-kiwalk-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-kiwalk-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-kiwalk-0.json",
       "width": 1432,
       "height": 720
     },
     {
       "id": "hero-legend-walk-v3-kifight-0",
-      "version": "2.8.1",
+      "version": "2.9.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-kifight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-kifight-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-kifight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-kifight-0.json",
       "width": 1987,
       "height": 504
     },
     {
       "id": "hero-legend-walk-v3-fight-2",
-      "version": "2.8.1",
+      "version": "2.9.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-fight-2.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-fight-2.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-2.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-2.json",
       "width": 948,
       "height": 1292
     },
     {
       "id": "hero-legend-walk-v3-fight-3",
-      "version": "2.8.1",
+      "version": "2.9.1",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-fight-3.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.8.1-48c955bd100b/hero-legend-walk-v3-fight-3.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-3.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-3.json",
       "width": 2035,
       "height": 232
+    },
+    {
+      "id": "hero-legend-walk-v3-fight-4",
+      "version": "2.9.1",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-4.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-4.json",
+      "width": 1443,
+      "height": 876
     }
   ],
   "actors": [
@@ -1617,6 +1626,358 @@
               "hero-legend/victory/right/05",
               "hero-legend/victory/right/06",
               "hero-legend/victory/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "run": {
+          "asset": "hero-legend-walk-v3-fight-4",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-legend/run/right/00",
+              "hero-legend/run/right/01",
+              "hero-legend/run/right/02",
+              "hero-legend/run/right/03",
+              "hero-legend/run/right/04",
+              "hero-legend/run/right/05",
+              "hero-legend/run/right/06",
+              "hero-legend/run/right/07"
+            ],
+            "down-left": [
+              "hero-legend/run/right/00",
+              "hero-legend/run/right/01",
+              "hero-legend/run/right/02",
+              "hero-legend/run/right/03",
+              "hero-legend/run/right/04",
+              "hero-legend/run/right/05",
+              "hero-legend/run/right/06",
+              "hero-legend/run/right/07"
+            ],
+            "left": [
+              "hero-legend/run/right/00",
+              "hero-legend/run/right/01",
+              "hero-legend/run/right/02",
+              "hero-legend/run/right/03",
+              "hero-legend/run/right/04",
+              "hero-legend/run/right/05",
+              "hero-legend/run/right/06",
+              "hero-legend/run/right/07"
+            ],
+            "up-left": [
+              "hero-legend/run/right/00",
+              "hero-legend/run/right/01",
+              "hero-legend/run/right/02",
+              "hero-legend/run/right/03",
+              "hero-legend/run/right/04",
+              "hero-legend/run/right/05",
+              "hero-legend/run/right/06",
+              "hero-legend/run/right/07"
+            ],
+            "up": [
+              "hero-legend/run/right/00",
+              "hero-legend/run/right/01",
+              "hero-legend/run/right/02",
+              "hero-legend/run/right/03",
+              "hero-legend/run/right/04",
+              "hero-legend/run/right/05",
+              "hero-legend/run/right/06",
+              "hero-legend/run/right/07"
+            ],
+            "up-right": [
+              "hero-legend/run/right/00",
+              "hero-legend/run/right/01",
+              "hero-legend/run/right/02",
+              "hero-legend/run/right/03",
+              "hero-legend/run/right/04",
+              "hero-legend/run/right/05",
+              "hero-legend/run/right/06",
+              "hero-legend/run/right/07"
+            ],
+            "right": [
+              "hero-legend/run/right/00",
+              "hero-legend/run/right/01",
+              "hero-legend/run/right/02",
+              "hero-legend/run/right/03",
+              "hero-legend/run/right/04",
+              "hero-legend/run/right/05",
+              "hero-legend/run/right/06",
+              "hero-legend/run/right/07"
+            ],
+            "down-right": [
+              "hero-legend/run/right/00",
+              "hero-legend/run/right/01",
+              "hero-legend/run/right/02",
+              "hero-legend/run/right/03",
+              "hero-legend/run/right/04",
+              "hero-legend/run/right/05",
+              "hero-legend/run/right/06",
+              "hero-legend/run/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "channel": {
+          "asset": "hero-legend-walk-v3-fight-4",
+          "fps": 10,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-legend/channel/right/00",
+              "hero-legend/channel/right/01",
+              "hero-legend/channel/right/02",
+              "hero-legend/channel/right/03",
+              "hero-legend/channel/right/04",
+              "hero-legend/channel/right/05",
+              "hero-legend/channel/right/06",
+              "hero-legend/channel/right/07"
+            ],
+            "down-left": [
+              "hero-legend/channel/right/00",
+              "hero-legend/channel/right/01",
+              "hero-legend/channel/right/02",
+              "hero-legend/channel/right/03",
+              "hero-legend/channel/right/04",
+              "hero-legend/channel/right/05",
+              "hero-legend/channel/right/06",
+              "hero-legend/channel/right/07"
+            ],
+            "left": [
+              "hero-legend/channel/right/00",
+              "hero-legend/channel/right/01",
+              "hero-legend/channel/right/02",
+              "hero-legend/channel/right/03",
+              "hero-legend/channel/right/04",
+              "hero-legend/channel/right/05",
+              "hero-legend/channel/right/06",
+              "hero-legend/channel/right/07"
+            ],
+            "up-left": [
+              "hero-legend/channel/right/00",
+              "hero-legend/channel/right/01",
+              "hero-legend/channel/right/02",
+              "hero-legend/channel/right/03",
+              "hero-legend/channel/right/04",
+              "hero-legend/channel/right/05",
+              "hero-legend/channel/right/06",
+              "hero-legend/channel/right/07"
+            ],
+            "up": [
+              "hero-legend/channel/right/00",
+              "hero-legend/channel/right/01",
+              "hero-legend/channel/right/02",
+              "hero-legend/channel/right/03",
+              "hero-legend/channel/right/04",
+              "hero-legend/channel/right/05",
+              "hero-legend/channel/right/06",
+              "hero-legend/channel/right/07"
+            ],
+            "up-right": [
+              "hero-legend/channel/right/00",
+              "hero-legend/channel/right/01",
+              "hero-legend/channel/right/02",
+              "hero-legend/channel/right/03",
+              "hero-legend/channel/right/04",
+              "hero-legend/channel/right/05",
+              "hero-legend/channel/right/06",
+              "hero-legend/channel/right/07"
+            ],
+            "right": [
+              "hero-legend/channel/right/00",
+              "hero-legend/channel/right/01",
+              "hero-legend/channel/right/02",
+              "hero-legend/channel/right/03",
+              "hero-legend/channel/right/04",
+              "hero-legend/channel/right/05",
+              "hero-legend/channel/right/06",
+              "hero-legend/channel/right/07"
+            ],
+            "down-right": [
+              "hero-legend/channel/right/00",
+              "hero-legend/channel/right/01",
+              "hero-legend/channel/right/02",
+              "hero-legend/channel/right/03",
+              "hero-legend/channel/right/04",
+              "hero-legend/channel/right/05",
+              "hero-legend/channel/right/06",
+              "hero-legend/channel/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "skillc": {
+          "asset": "hero-legend-walk-v3-fight-4",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-legend/skillc/right/00",
+              "hero-legend/skillc/right/01",
+              "hero-legend/skillc/right/02",
+              "hero-legend/skillc/right/03",
+              "hero-legend/skillc/right/04",
+              "hero-legend/skillc/right/05",
+              "hero-legend/skillc/right/06",
+              "hero-legend/skillc/right/07"
+            ],
+            "down-left": [
+              "hero-legend/skillc/right/00",
+              "hero-legend/skillc/right/01",
+              "hero-legend/skillc/right/02",
+              "hero-legend/skillc/right/03",
+              "hero-legend/skillc/right/04",
+              "hero-legend/skillc/right/05",
+              "hero-legend/skillc/right/06",
+              "hero-legend/skillc/right/07"
+            ],
+            "left": [
+              "hero-legend/skillc/right/00",
+              "hero-legend/skillc/right/01",
+              "hero-legend/skillc/right/02",
+              "hero-legend/skillc/right/03",
+              "hero-legend/skillc/right/04",
+              "hero-legend/skillc/right/05",
+              "hero-legend/skillc/right/06",
+              "hero-legend/skillc/right/07"
+            ],
+            "up-left": [
+              "hero-legend/skillc/right/00",
+              "hero-legend/skillc/right/01",
+              "hero-legend/skillc/right/02",
+              "hero-legend/skillc/right/03",
+              "hero-legend/skillc/right/04",
+              "hero-legend/skillc/right/05",
+              "hero-legend/skillc/right/06",
+              "hero-legend/skillc/right/07"
+            ],
+            "up": [
+              "hero-legend/skillc/right/00",
+              "hero-legend/skillc/right/01",
+              "hero-legend/skillc/right/02",
+              "hero-legend/skillc/right/03",
+              "hero-legend/skillc/right/04",
+              "hero-legend/skillc/right/05",
+              "hero-legend/skillc/right/06",
+              "hero-legend/skillc/right/07"
+            ],
+            "up-right": [
+              "hero-legend/skillc/right/00",
+              "hero-legend/skillc/right/01",
+              "hero-legend/skillc/right/02",
+              "hero-legend/skillc/right/03",
+              "hero-legend/skillc/right/04",
+              "hero-legend/skillc/right/05",
+              "hero-legend/skillc/right/06",
+              "hero-legend/skillc/right/07"
+            ],
+            "right": [
+              "hero-legend/skillc/right/00",
+              "hero-legend/skillc/right/01",
+              "hero-legend/skillc/right/02",
+              "hero-legend/skillc/right/03",
+              "hero-legend/skillc/right/04",
+              "hero-legend/skillc/right/05",
+              "hero-legend/skillc/right/06",
+              "hero-legend/skillc/right/07"
+            ],
+            "down-right": [
+              "hero-legend/skillc/right/00",
+              "hero-legend/skillc/right/01",
+              "hero-legend/skillc/right/02",
+              "hero-legend/skillc/right/03",
+              "hero-legend/skillc/right/04",
+              "hero-legend/skillc/right/05",
+              "hero-legend/skillc/right/06",
+              "hero-legend/skillc/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "interact": {
+          "asset": "hero-legend-walk-v3-fight-4",
+          "fps": 10,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-legend/interact/right/00",
+              "hero-legend/interact/right/01",
+              "hero-legend/interact/right/02",
+              "hero-legend/interact/right/03",
+              "hero-legend/interact/right/04",
+              "hero-legend/interact/right/05"
+            ],
+            "down-left": [
+              "hero-legend/interact/right/00",
+              "hero-legend/interact/right/01",
+              "hero-legend/interact/right/02",
+              "hero-legend/interact/right/03",
+              "hero-legend/interact/right/04",
+              "hero-legend/interact/right/05"
+            ],
+            "left": [
+              "hero-legend/interact/right/00",
+              "hero-legend/interact/right/01",
+              "hero-legend/interact/right/02",
+              "hero-legend/interact/right/03",
+              "hero-legend/interact/right/04",
+              "hero-legend/interact/right/05"
+            ],
+            "up-left": [
+              "hero-legend/interact/right/00",
+              "hero-legend/interact/right/01",
+              "hero-legend/interact/right/02",
+              "hero-legend/interact/right/03",
+              "hero-legend/interact/right/04",
+              "hero-legend/interact/right/05"
+            ],
+            "up": [
+              "hero-legend/interact/right/00",
+              "hero-legend/interact/right/01",
+              "hero-legend/interact/right/02",
+              "hero-legend/interact/right/03",
+              "hero-legend/interact/right/04",
+              "hero-legend/interact/right/05"
+            ],
+            "up-right": [
+              "hero-legend/interact/right/00",
+              "hero-legend/interact/right/01",
+              "hero-legend/interact/right/02",
+              "hero-legend/interact/right/03",
+              "hero-legend/interact/right/04",
+              "hero-legend/interact/right/05"
+            ],
+            "right": [
+              "hero-legend/interact/right/00",
+              "hero-legend/interact/right/01",
+              "hero-legend/interact/right/02",
+              "hero-legend/interact/right/03",
+              "hero-legend/interact/right/04",
+              "hero-legend/interact/right/05"
+            ],
+            "down-right": [
+              "hero-legend/interact/right/00",
+              "hero-legend/interact/right/01",
+              "hero-legend/interact/right/02",
+              "hero-legend/interact/right/03",
+              "hero-legend/interact/right/04",
+              "hero-legend/interact/right/05"
             ]
           },
           "mirrored": [

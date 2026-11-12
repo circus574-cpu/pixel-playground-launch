@@ -210,6 +210,95 @@ describe("base-form combat clips (attack chain, area skill, dodge, guard)", () =
     expect(played(sprite)).toContain("/kiskill/");
   });
 });
+describe("base-form movement clips (run, channel, skill C, interact)", () => {
+  const make = () => {
+    const base = actorVisual("verdant", "hero", undefined, false, catalog);
+    const sprite = {
+      anims: { pause: vi.fn(), resume: vi.fn() },
+      play: vi.fn(),
+      stop: vi.fn(),
+      setTexture: vi.fn(),
+      flipX: false,
+      setFlipX: vi.fn(function (this: { flipX: boolean }, v: boolean) {
+        this.flipX = v;
+      }),
+    };
+    return {
+      sprite,
+      animation: new ActorAnimation(sprite as unknown as Phaser.GameObjects.Sprite, base),
+    };
+  };
+  const shown = (sprite: ReturnType<typeof make>["sprite"]) =>
+    String(sprite.setTexture.mock.calls.at(-1)?.[1] ?? "");
+  const played = (sprite: ReturnType<typeof make>["sprite"]) =>
+    String(sprite.play.mock.calls.at(-1)?.[0]);
+  it("ships the clips for every hero with the contract frame counts", () => {
+    for (const world of ["verdant", "aether", "nexus", "pyra"] as const) {
+      const hero = actorVisual(world, "hero", undefined, false, catalog);
+      for (const [clip, frames, loop] of [
+        ["run", 8, true],
+        ["channel", 8, true],
+        ["skillc", 8, false],
+        ["interact", 6, false],
+      ] as const) {
+        const c = hero.clips[clip]!;
+        expect(c, world + clip).toBeDefined();
+        expect(c.loop).toBe(loop);
+        for (const names of Object.values(c.directions)) expect(names).toHaveLength(frames);
+      }
+    }
+  });
+  it("runs instead of walking only when fast, and keeps the walk in Tryb KI", () => {
+    const { animation, sprite } = make();
+    const f = { x: 1, y: 0 };
+    animation.update(0, true, false, f);
+    expect(animation.state).toBe("walk");
+    animation.update(100, true, false, f, false, false, true);
+    expect(animation.state).toBe("run");
+    expect(shown(sprite)).toContain("/run/");
+    animation.update(200, true, false, f, false, true, true);
+    expect(animation.state).toBe("kiwalk");
+  });
+  it("holds the channel pose for the channel time and drops it when the hero moves", () => {
+    const { animation, sprite } = make();
+    const f = { x: 1, y: 0 };
+    animation.trigger("channel", 0, f, 3000);
+    animation.update(2500, false, false, f);
+    expect(animation.state).toBe("channel");
+    expect(shown(sprite)).toContain("/channel/");
+    animation.update(3100, false, false, f);
+    expect(animation.state).toBe("idle");
+    animation.trigger("channel", 4000, f, 3000);
+    animation.update(4100, true, false, f);
+    expect(animation.state).toBe("walk");
+  });
+  it("plays skill C and the pick-up gesture, and uses kiskill for skill C in Tryb KI", () => {
+    const { animation, sprite } = make();
+    const f = { x: -1, y: 0 };
+    animation.trigger("skillc", 0, f);
+    animation.update(10, false, false, f);
+    expect(played(sprite)).toContain("/skillc/");
+    animation.trigger("interact", 2000, f);
+    animation.update(2010, false, false, f);
+    expect(played(sprite)).toContain("/interact/");
+    animation.update(4000, false, false, f, false, true);
+    animation.trigger("skillc", 4100, f);
+    animation.update(4110, false, false, f, false, true);
+    expect(played(sprite)).toContain("/kiskill/");
+  });
+  it("keeps a charge on screen when the same cast also raises a shield", () => {
+    const { animation, sprite } = make();
+    const f = { x: 1, y: 0 };
+    animation.trigger("skillc", 0, f);
+    animation.trigger("guard", 0);
+    animation.update(10, false, false, f);
+    expect(played(sprite)).toContain("/skillc/");
+    animation.update(2000, false, false, f);
+    animation.trigger("guard", 2000);
+    animation.update(2010, false, false, f);
+    expect(played(sprite)).toContain("/guard/");
+  });
+});
 describe("walk keeps its stride when only the facing changes", () => {
   const make = () => {
     const base = actorVisual("verdant", "hero", undefined, false, catalog);

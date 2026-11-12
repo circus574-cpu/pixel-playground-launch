@@ -335,6 +335,7 @@ describe("four painted hero deliveries", () => {
       expect(Object.keys(hero.clips).sort()).toEqual([
         "attack",
         "attack2",
+        "channel",
         "death",
         "dodge",
         "finisher",
@@ -342,13 +343,16 @@ describe("four painted hero deliveries", () => {
         "hit",
         "hitheavy",
         "idle",
+        "interact",
         "kiattack",
         "kiidle",
         "kiskill",
         "kiwalk",
         "respawn",
+        "run",
         "skill",
         "skillb",
+        "skillc",
         "victory",
         "walk",
       ]);
@@ -359,8 +363,9 @@ describe("four painted hero deliveries", () => {
       // Tryb KI stance (kiidle, six frames), 48 of its basic attack (kiattack, six frames) and 64 of
       // its skill (kiskill, eight frames), and 272 of the base-form combat clips cut from the stage 1 videos
       // (attack2 6, finisher 8, skillb 8, dodge 6, guard 6 frames, eight directions each).
-      // plus 128 of the stage 2 reactions (hitheavy and victory, eight frames, eight directions).
-      expect(frames).toHaveLength(1040);
+      // plus 128 of the stage 2 reactions (hitheavy and victory, eight frames, eight directions)
+      // and 240 of the stage 3 movement clips (run, channel, skillc eight frames, interact six; eight directions).
+      expect(frames).toHaveLength(1280);
       // Side-view fight frames are shared: right-facing directions reuse one strip, left ones its mirror.
 
       for (const clip of Object.values(hero.clips))
@@ -379,6 +384,7 @@ describe("four painted hero deliveries", () => {
           walk + "-kifight-0",
           walk + "-fight-2",
           walk + "-fight-3",
+          walk + "-fight-4",
         ]),
       );
       for (const other of Object.values(heroes))

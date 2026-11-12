@@ -38,5 +38,10 @@ export const GPU_CONTRACT = {
     guard: { frames: 6, fps: 10, loop: false },
     hitheavy: { frames: 8, fps: 12, loop: false },
     victory: { frames: 8, fps: 10, loop: false },
+    /** Base-form movement clips cut from the stage 3 videos. */
+    run: { frames: 8, fps: 16, loop: true },
+    channel: { frames: 8, fps: 10, loop: true },
+    skillc: { frames: 8, fps: 12, loop: false },
+    interact: { frames: 6, fps: 10, loop: false },
   },
 } as const;

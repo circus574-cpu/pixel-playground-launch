@@ -294,6 +294,8 @@ export type GameEvent = Point & {
   /** Monster definition id on monster `attack` and `death` events (drives per-species sounds). */
   species?: string;
   ability?: string;
+  /** Presentation only: the hero's technique charges at the foe (drawn with the race's skill C clip). */
+  charge?: boolean;
   to?: Point;
   radius?: number;
   ms?: number;
@@ -710,6 +712,9 @@ const SaveSchema = z.discriminatedUnion("version", [
 export type StoragePort = Pick<Storage, "getItem" | "setItem">;
 
 /** Dedicated local demo save. Invalid/newer saves and other tabs are never overwritten. */
+/** Movement speed (relative to the race's level-1 speed) from which the hero is drawn running instead of walking. */
+export const RUN_SPEED_RATIO = 1.5;
+
 export class SaveStore {
   private expected: string | null = null;
   private writable = true;
@@ -905,6 +910,8 @@ export class GameSession implements MonsterHost {
   log: string[] = [];
   events: GameEvent[] = [];
   moving = false;
+  /** Presentation only: the hero moves at least RUN_SPEED_RATIO × the race's level-1 speed and is drawn running. */
+  running = false;
   facing: Point = { x: 0, y: 1 };
   nowMs = 0;
   route: Point[] = [];
@@ -2515,6 +2522,7 @@ export class GameSession implements MonsterHost {
     const next = this.nav.step(before, to, (speed * dt) / 1000);
     Object.assign(this.player, next);
     this.moving = distance(before, next) > 0.01;
+    this.running = this.moving && speed >= RUN_SPEED_RATIO * this.kit.baseSpeed;
     if (this.moving) {
       const d = distance(before, next);
       this.facing = { x: (next.x - before.x) / d, y: (next.y - before.y) / d };
@@ -2539,6 +2547,7 @@ export class GameSession implements MonsterHost {
   private stepSimulation(dt: number, manualMovement: boolean) {
     const wasMoving = manualMovement || this.moving;
     this.moving = false;
+    this.running = false;
     if (this.dialogue || this.depotOpen || this.paused) {
       this.bufferedAction = undefined;
       return;

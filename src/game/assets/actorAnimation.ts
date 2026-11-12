@@ -17,20 +17,24 @@ const PRIORITY: Record<AnimationState, number> = {
   guard: 4,
   hitheavy: 5,
   victory: 2,
-  run: 2,
+  channel: 4,
+  skillc: 4,
+  interact: 2,
+  run: 1,
   attack: 3,
   skill: 4,
   hit: 5,
   respawn: 6,
   death: 7,
 };
+type Action = "attack" | "skill" | "skillb" | "skillc";
+const ACTIONS = new Set<AnimationState>(["attack", "skill", "skillb", "skillc"]);
 /** Presentation only: no damage, movement, cooldown, AI or save mutations. */
 export class ActorAnimation {
   state: AnimationState = "idle";
   private until = 0;
   private startedAt = 0;
-  private pending:
-    { state: "attack" | "skill" | "skillb"; facing: Point; expires: number } | undefined;
+  private pending: { state: Action; facing: Point; expires: number } | undefined;
   /** Chain of basic strikes: a hit within 1.4 s of the previous one continues attack → attack2 → finisher. */
   private attackClip: AnimationState = "attack";
   private attackStep = 0;
@@ -53,17 +57,22 @@ export class ActorAnimation {
   }
   /**
    * Clip that presents a state. Tryb KI swaps idle, the basic attack and skills for kiidle, kiattack and kiskill when
-   * present; the base form chains its basic strikes (attack, attack2, finisher) and plays the area skill (skillb).
+   * present; the base form chains its basic strikes (attack, attack2, finisher) and plays the area skill (skillb) and
+   * the tree-C technique (skillc). Races without a movement clip fall back to walk, skill or idle.
    */
   private clipState(state: AnimationState): AnimationState {
     const clips = this.visual.clips;
     if (this.kiForm) {
       if (state === "idle" && clips.kiidle) return "kiidle";
       if (state === "attack" && clips.kiattack) return "kiattack";
-      if ((state === "skill" || state === "skillb") && clips.kiskill) return "kiskill";
+      if ((state === "skill" || state === "skillb" || state === "skillc") && clips.kiskill)
+        return "kiskill";
     }
     if (state === "attack") return clips[this.attackClip] ? this.attackClip : "attack";
     if (state === "skillb") return clips.skillb ? "skillb" : "skill";
+    if (state === "skillc") return clips.skillc ? "skillc" : "skill";
+    if (state === "run") return clips.run ? "run" : "walk";
+    if (state === "channel") return clips.channel ? "channel" : "skill";
     return state;
   }
   private advanceAttack(now: number) {
@@ -72,25 +81,34 @@ export class ActorAnimation {
     this.attackClip = chain[this.attackStep] ?? "attack";
     this.lastAttackAt = now;
   }
-  trigger(state: AnimationState, now: number, facing?: Point) {
+  /** holdMs keeps a looping state (channel) on screen for that long instead of one pass of its clip. */
+  trigger(state: AnimationState, now: number, facing?: Point, holdMs?: number) {
     if (state === "death" || state === "respawn") this.pending = undefined;
     if (
       state === "attack" &&
       (this.state === "hit" || this.state === "hitheavy") &&
-      (this.pending?.state === "skill" || this.pending?.state === "skillb") &&
+      (this.pending?.state === "skill" ||
+        this.pending?.state === "skillb" ||
+        this.pending?.state === "skillc") &&
       now <= this.pending.expires
     )
       return;
+    // A shield granted as a side effect of a technique (e.g. Planetary B7 on B4) keeps that technique's pose.
+    if (state === "guard" && now < this.until && PRIORITY[this.state] >= PRIORITY.guard) return;
     if (state !== "respawn" && now < this.until && PRIORITY[state] < PRIORITY[this.state]) {
       if (
         (this.state === "hit" || this.state === "hitheavy") &&
-        (state === "attack" || state === "skill" || state === "skillb") &&
+        ACTIONS.has(state) &&
         (!this.pending || PRIORITY[state] >= PRIORITY[this.pending.state])
       )
-        this.pending = { state, facing: { ...(facing ?? this.direction) }, expires: now + 500 };
+        this.pending = {
+          state: state as Action,
+          facing: { ...(facing ?? this.direction) },
+          expires: now + 500,
+        };
       return;
     }
-    if (state === "attack" || state === "skill" || state === "skillb") this.pending = undefined;
+    if (ACTIONS.has(state)) this.pending = undefined;
     if (state === "attack") this.advanceAttack(now);
     this.state = state;
     this.startedAt = now;
@@ -100,7 +118,10 @@ export class ActorAnimation {
     this.until =
       state === "death"
         ? Infinity
-        : now + (clip && frames ? (frames.length / clip.fps) * 1000 : state === "hit" ? 130 : 240);
+        : holdMs !== undefined
+          ? now + holdMs
+          : now +
+            (clip && frames ? (frames.length / clip.fps) * 1000 : state === "hit" ? 130 : 240);
     this.lastKey = "";
   }
   update(
@@ -111,6 +132,8 @@ export class ActorAnimation {
     paused = false,
     /** Tryb KI is active: a moving hero walks in the powered-up form when the race has that clip. */
     kiForm = false,
+    /** The hero moves fast enough to be drawn running (base form, races with a run clip). */
+    running = false,
   ) {
     if (paused) {
       this.sprite.anims.pause();
@@ -125,12 +148,21 @@ export class ActorAnimation {
     // Basic contact is resolved by simulation at command acceptance. Only its recovery
     // presentation yields to movement; this never changes the paid cooldown or applies a hit.
     if (!dead && moving && this.state === "attack" && now - this.startedAt >= 160) this.until = now;
+    // Moving breaks a channel (the simulation interrupts it too) and ends the pick-up gesture.
+    if (!dead && moving && (this.state === "channel" || this.state === "interact"))
+      this.until = now;
     if (!dead && now >= this.until) {
       const pending = this.pending;
       this.pending = undefined;
       if (pending && now <= pending.expires) this.trigger(pending.state, now, pending.facing);
       else {
-        this.state = moving ? (kiForm && this.visual.clips.kiwalk ? "kiwalk" : "walk") : "idle";
+        this.state = moving
+          ? kiForm && this.visual.clips.kiwalk
+            ? "kiwalk"
+            : running && this.visual.clips.run
+              ? "run"
+              : "walk"
+          : "idle";
         this.direction = facing;
       }
     }
