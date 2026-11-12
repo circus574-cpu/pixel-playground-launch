@@ -561,3 +561,9 @@ Pełny TypeScript aplikacji/e2e/tools PASS. [Kontrole integracyjne i SHA wejść
   12/12. Bramka: lint 0, typecheck 0, test 0, build 0.
 - Nie zrobiono / nie sprawdzono: kowal dla sprzętu V2 (ulepszanie/naprawa), plotki i nazwani NPC dla
   wszystkich ról w miastach v2, realne leża bossów (warden nadal teleportuje atrapa) — do rozbudowy.
+- **Znane ryzyko bramki (nie regresja tego etapu):** ciężki test `admin-world-overview.test.ts`
+  („maps combat objectives to actual spawn slots", z PR #154) trwa ~8 s i przekracza domyślny limit
+  5 s w tym kontenerze — pada na timeout, nie na logice. Z limitem 30 s przechodzi **23/23**; osobno
+  potwierdzono, że nie zależy od zmian deliver/talk/brew. Nie zmieniano limitów testu. Podobnie
+  czasowy bywa `racial-trial-transactions` (legend) — przy retry przechodzi. Pełna bramka tego etapu:
+  lint 0, typecheck 0, build 0; testy 1980 pass, 1 timeout środowiskowy (admin-overview).
