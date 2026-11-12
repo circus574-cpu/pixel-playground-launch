@@ -341,3 +341,23 @@ Zrzuty i nagrania pochodzą z rzeczywistej aplikacji, wykresy z zapisanych prób
 
 Nie scalano do main i nie publikowano gry. Błąd starej sceny pozostaje otwarty;
 nie zmieniano świata, assetów, sprzętu, zadań ani infrastruktury GPU.
+
+### 8. Systemy NPC: handel V2 i crafting dostępne dla gracza (Etap 1 rozbudowy NPC)
+
+- Audyt wszystkich systemów NPC (agent Explore, very thorough) wykazał, że połowa ekonomii
+  przedmiotów była martwa: silnik `craft` i sklep V2 działały, ale **nie miały UI** — gracz nie miał
+  jak kupić 85 słabych przedmiotów ani wytworzyć lepszego sprzętu (265 receptur).
+- **Panel sklepu V2** (`src/components/game/ShopV2Panel.tsx`): kupno słabych przedmiotów z katalogu
+  (`isShopItem`/`shopPrice`) z wyszukiwarką i filtrem kategorii oraz sprzedaż przedmiotów z torby
+  (cena skupu zgodna z gałęzią V2 w `GameSession`). Otwierany z rozmowy z kupcem.
+- **Panel craftingu** (`src/components/game/CraftingPanel.tsx`): zakładki stacji (Kuźnia/Alchemia/Runy/
+  Fabrykator/Księgi), wyszukiwarka, lista receptur z rzadkością, wymaganym poziomem, kosztem i
+  składnikami (posiadane/wymagane, kolorowane). Przycisk „Wytwórz" blokowany bez poziomu/monet/składników.
+  Otwierany z rozmowy z kowalem (forge) i alchemikiem (alchemy).
+- Integracja w `NpcDialogue` (`AdventurePanels.tsx`): podwidoki sklep/crafting, przyciski u kupca/kowala/
+  alchemika. Style w `adventure.css`.
+- Testy: `src/test/npc-commerce-ui.test.tsx` (4) — kupno i sprzedaż V2 u kupca (nawigacja mapą),
+  wytworzenie z receptury forge i blokada bez składników. **4/4 PASS**; typecheck 0, lint 0 błędów.
+- Nie zrobiono / nie sprawdzono: crafting nie wymaga bliskości stacji (handler pozostaje permisywny,
+  bramką jest rozmowa z NPC); panele nie były oglądane na fizycznym telefonie (test jsdom). Kolejne
+  etapy rozbudowy NPC (dialogi/questy od NPC, usługi, online, bossowie) w toku.
