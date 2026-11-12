@@ -126,8 +126,25 @@ describe("/mapa planet Superior preview", () => {
     expect(nearestX(900, 1100)).toBe(1100);
   });
 
-  it("draws the map copies that meet the visible width, one when the whole map fits", () => {
-    expect(wrapCopies(1000, MAP_W + 1)).toEqual([0]);
+  it("keeps panning on a wide, short screen at the lowest zoom (view wider than the map)", () => {
+    const [cw, ch] = [844, 390];
+    const fit = { cx: MAP_W / 2, cy: MAP_H / 2, s: fitScale(cw, ch) };
+    expect(cw / fit.s).toBeGreaterThan(MAP_W);
+    const moved = panBy(fit, -120, 0, cw, ch);
+    expect(moved.cx).toBeGreaterThan(MAP_W / 2);
+    // Dragging all the way round returns to the start.
+    let v = fit;
+    for (let i = 0; i < 20; i++) v = panBy(v, -(MAP_W * fit.s) / 20, 0, cw, ch);
+    expect(v.cx).toBeCloseTo(fit.cx, 3);
+    // The whole visible strip is covered by map copies.
+    const copies = wrapCopies(moved.cx, cw / moved.s);
+    expect(copies.length).toBeGreaterThanOrEqual(2);
+    expect(Math.min(...copies) * MAP_W).toBeLessThanOrEqual(moved.cx - cw / moved.s / 2);
+    expect((Math.max(...copies) + 1) * MAP_W).toBeGreaterThanOrEqual(moved.cx + cw / moved.s / 2);
+  });
+
+  it("draws the map copies that meet the visible width", () => {
+    expect(wrapCopies(1000, MAP_W + 1)).toEqual([-1, 0, 1]);
     expect(wrapCopies(1000, 400)).toEqual([0]);
     expect(wrapCopies(100, 400)).toEqual([-1, 0]);
     expect(wrapCopies(MAP_W - 100, 400)).toEqual([0, 1]);

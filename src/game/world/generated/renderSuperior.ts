@@ -1,4 +1,5 @@
 import { islandArtEnabled, islandMaterial } from "./islandArt";
+import { recordBake } from "../../assets/freezeProbe";
 import {
   aetheriaContinentEnabled,
   aetheriaTerrainBindings,
@@ -50,7 +51,11 @@ import {
 import { continentAir, continentDress, dressBiomeAt, dressEnabled } from "./worldDress";
 import type Phaser from "phaser";
 import { catalog } from "../../assets/catalog";
-import { chooseGroundResolution, groundResolutionOverride } from "../../assets/groundBudget";
+import {
+  chooseGroundResolution,
+  nextGroundResolution,
+  groundResolutionOverride,
+} from "../../assets/groundBudget";
 import { buildSceneryGrid, sceneryNear, sceneryReach } from "../sceneryStream";
 import { sizeScenery } from "../../assets/scenery";
 import { renderDepth } from "../../assets/layers";
@@ -188,11 +193,11 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
   // Domyślnie 512: przy pieczeniu przyrostowym każdy krok jest tani (~25 ms), więc wejście w chunk
   // nie zamraża gry. ?ki-ground-res=1024/768 podnosi ostrość kosztem dłuższych kroków.
   const preferredResolution = groundProfile ?? 512;
-  const resolution =
+  // Rozdzielczość startowa; po wolnym pieczeniu spada (nextGroundResolution), więc drawGround czyta `adaptive`.
+  let adaptive =
     painted || continent
       ? chooseGroundResolution(source.residentAtlasBytes?.() ?? 0, preferredResolution)
       : preferredResolution;
-  const scale = resolution / CHUNK;
   const shadowKey = "verdantia-continent-contact-shadow";
   if (continent && !scene.textures.exists(shadowKey)) {
     const texture = scene.textures.createCanvas(shadowKey, 64, 64)!;
@@ -257,11 +262,13 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     live.delete(id);
     source.release(scene, id);
   };
-  // Faza 5: pieczenie przyrostowe. drawGround jest generatorem — rejestruje warstwy tekstur,
-  // a potem wykonuje je po jednej z `yield`, żeby kolejka mogła rozłożyć pieczenie na klatki
-  // (koniec zamrożeń 600–1759 ms przy wejściu w chunk). Rendering jest pixel-identical.
+  // Faza 5: pieczenie przyrostowe. drawGround jest generatorem — rejestruje warstwy tekstur i wykonuje
+  // je po jednej z `yield`, żeby kolejka rozłożyła pieczenie na klatki (koniec zamrożeń 600–1760 ms).
+  // Rendering jest pixel-identical; adaptacyjna rozdzielczość (adaptive) i recordBake zostają.
   type GroundResult = { key: string; image: Phaser.GameObjects.Image };
   function* drawGround(data: BrowserChunk, id: string): Generator<void, GroundResult, unknown> {
+    const resolution = adaptive;
+    const scale = resolution / CHUNK;
     const flags = decodeRuns(data.terrain.flags, data.terrain.width * data.terrain.height);
     const biome = decodeRuns(data.terrain.biome, flags.length);
     const key = "superior-ground:" + id;
@@ -923,15 +930,17 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         .setVisible(visible),
     };
   }
-  // Faza 5: pieczenie przyrostowe. Zamiast synchronicznego drawGround (zamrożenie 600–1759 ms),
-  // kolejka prowadzi generator warstwa po warstwie z budżetem czasu na klatkę. Jeden chunk jest
-  // pieczony na raz (współdzielone płótna robocze), ale jego koszt rozkłada się na wiele klatek.
+  // Faza 5: pieczenie przyrostowe. Zamiast synchronicznego drawGround (zamrożenie 600–1760 ms),
+  // kolejka prowadzi generator warstwa po warstwie z budżetem czasu na klatkę. Jeden chunk naraz
+  // (współdzielone płótna robocze), ale jego koszt rozkłada się na wiele klatek. Adaptacyjna
+  // rozdzielczość (nextGroundResolution) i telemetria (recordBake) reagują na najwolniejszy krok.
   const bakeQueue: { data: BrowserChunk; id: string; items: ArtObject[] }[] = [];
   type ActiveBake = {
     data: BrowserChunk;
     id: string;
     items: ArtObject[];
     gen: Generator<void, GroundResult, unknown>;
+    maxStepMs: number;
   };
   let activeBake: ActiveBake | null = null;
   const BAKE_BUDGET_MS = 8;
@@ -950,6 +959,9 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       key: ground.key,
     });
     pending.delete(bake.id);
+    recordBake(bake.maxStepMs, adaptive);
+    // Bez ręcznego profilu (?ki-ground-res) urządzenie samo schodzi z rozdzielczością, gdy krok jest wolny.
+    if (groundProfile === null) adaptive = nextGroundResolution(adaptive, bake.maxStepMs);
   };
   const cancelBake = (bake: ActiveBake) => {
     scene.textures.remove("superior-ground:" + bake.id);
@@ -965,7 +977,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         source.release(scene, entry.id);
         continue;
       }
-      activeBake = { ...entry, gen: drawGround(entry.data, entry.id) };
+      activeBake = { ...entry, gen: drawGround(entry.data, entry.id), maxStepMs: 0 };
     }
     if (!activeBake) return;
     if (disposed || failed || !wanted.has(activeBake.id)) {
@@ -975,7 +987,10 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     }
     // Co najmniej jeden krok na klatkę; kolejne tylko jeśli mieszczą się w budżecie czasu.
     do {
+      const stepStart = performance.now();
       const step = activeBake.gen.next();
+      const stepMs = performance.now() - stepStart;
+      if (stepMs > activeBake.maxStepMs) activeBake.maxStepMs = stepMs;
       if (step.done) {
         finalizeBake(activeBake, step.value);
         activeBake = null;
@@ -1238,7 +1253,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     scene.game.canvas.dataset["aetheriaContinent"] = String(aetheriaContinent);
     scene.game.canvas.dataset["nexusContinent"] = String(nexusContinent);
     scene.game.canvas.dataset["verdantiaExtra"] = String(verdantContinent && extraSceneryEnabled());
-    scene.game.canvas.dataset["superiorGroundResolution"] = String(resolution);
+    scene.game.canvas.dataset["superiorGroundResolution"] = String(adaptive);
     scene.game.canvas.dataset["superiorScenery"] = String(
       [...live.values()].reduce((n, t) => n + t.images.size, 0),
     );

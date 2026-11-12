@@ -334,22 +334,30 @@ describe("four painted hero deliveries", () => {
       expect(actorVisual(world as keyof typeof heroes, "npc").size).toEqual([96, 96]);
       expect(Object.keys(hero.clips).sort()).toEqual([
         "attack",
+        "attack2",
         "death",
+        "dodge",
+        "finisher",
+        "guard",
         "hit",
         "idle",
         "kiattack",
         "kiidle",
+        "kiskill",
         "kiwalk",
         "respawn",
         "skill",
+        "skillb",
         "walk",
       ]);
       const frames = Object.values(hero.clips).flatMap((clip) =>
         Object.values(clip.directions).flat(),
       );
-      // 416 frame references of the walk/idle/fight clips, 64 of the Tryb KI walk (kiwalk), 8 of the
-      // Tryb KI stance (kiidle, one frame) and 48 of its basic attack (kiattack, six frames).
-      expect(frames).toHaveLength(536);
+      // 416 frame references of the walk/idle/fight clips, 64 of the Tryb KI walk (kiwalk), 48 of the
+      // Tryb KI stance (kiidle, six frames), 48 of its basic attack (kiattack, six frames) and 64 of
+      // its skill (kiskill, eight frames), and 272 of the base-form combat clips cut from the stage 1 videos
+      // (attack2 6, finisher 8, skillb 8, dodge 6, guard 6 frames, eight directions each).
+      expect(frames).toHaveLength(912);
       // Side-view fight frames are shared: right-facing directions reuse one strip, left ones its mirror.
 
       for (const clip of Object.values(hero.clips))
@@ -366,6 +374,7 @@ describe("four painted hero deliveries", () => {
           walk + "-fight-1",
           walk + "-kiwalk-0",
           walk + "-kifight-0",
+          walk + "-fight-2",
         ]),
       );
       for (const other of Object.values(heroes))

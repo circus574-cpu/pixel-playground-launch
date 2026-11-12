@@ -1,4 +1,5 @@
 import type Phaser from "phaser";
+import { takeBakeStats } from "./freezeProbe";
 /** Read-only diagnostics, updated once/second. No frame-sized allocations or HUD overlay. */
 export function installRenderTelemetry(scene: Phaser.Scene, parent: HTMLElement) {
   const samples = new Float64Array(240);
@@ -60,6 +61,8 @@ export function installRenderTelemetry(scene: Phaser.Scene, parent: HTMLElement)
       jsHeapBytes: memory?.usedJSHeapSize ?? null,
       renderer: scene.game.renderer.type === 2 ? "WebGL" : "Canvas",
       drawCalls: null,
+      // Co zamraża: najdłuższe pieczenie chunku podłoża w tej sekundzie i jego rozdzielczość.
+      ...takeBakeStats(),
     });
     start = now;
     count = cursor = 0;
