@@ -123,5 +123,50 @@ odnośnikami i bez zmiany liczb. [Oryginał bajt w bajt, gzip](qa/admin-world-ov
 oraz [SHA i mapa przeniesienia](qa/admin-world-overview/documentation-relocation.json) pozostają dowodem.
 Nie rozszerzono wyjątków checkera i nie edytowano kodu przedmiotów.
 
-Końcowe wyniki kontroli, SHA, zrzuty i nagrania zostaną dopisane po zamrożeniu
-kodu i zakończeniu przebiegów. Nie scalano ani nie publikowano.
+**Kod funkcji: `fb77189b6ed234012c4e184b09c260cd638a5273`.** Inwentaryzację
+wykonano na tym SHA przy czystym drzewie, a jej manifest zawiera SHA-256 plików
+modułu i świata. Kolejny commit zawiera wyłącznie raport oraz dowody.
+
+| Funkcja | Stan przed | Zmiana | Dowód działania |
+| --- | --- | --- | --- |
+| Mapa administracyjna | Podstawowy atlas w edytorze | Oddzielny przegląd całej planety i natywnych map 10 lądów | Screenshot z prawdziwego `/admin`, 1715 dróg i 8752 sloty |
+| NPC i usługi | Brak dokładnego rejestru na mapie | 212 pozycji, 22 osady, 132 wnętrza; lokalne współrzędne pomieszczeń | Porównanie wszystkich lądów z konstruktorami runtime oraz wejście do sklepu Mio |
+| Questy i sekrety | Przybliżony punkt miasta | Fizyczni zleceniodawcy, cele lokalizacyjne i wszystkie spawny gatunków celu | 18 070 wiązań V2, 143 punkty sekretów/adnotacji, jawne 27 brakujących wiązań |
+| Szczegóły | Uproszczona nazwa znacznika | Parametry spawnu, statystyki i łupy potwora, dialog NPC, etapy/warunki/nagrody questa | Inspektor oraz eksport rzeczywistych X/Y wybranego spawnu |
+| Dostęp i bezpieczeństwo | Dotychczasowy panel konta | Nowa zakładka tylko dla admina; odczyt bazowej/publikowanej/lokalnej definicji | Odmowa widoku dla gościa i GM, brak zapisów świata i niezmieniony sentinel zapisu |
+| Duże dane | Brak szczegółowego streamingu dekoracji | Jeden Canvas, lista po 40, najwyżej 12 fragmentów oprawy w kadrze | Test rzeczywistych żądań chunków, gestów, `pointercancel` i eksportu |
+
+**Kontrole lokalne:** pełny TypeScript aplikacji/e2e/tools PASS; Vitest **1356 PASS /
+0 FAIL / 10 SKIP** (osobny PostgreSQL); lint **0 błędów / 15 zastanych ostrzeżeń**;
+kontrakt zasobów, dokumentacja oraz produkcyjny build PASS. Nie usuwano ani nie
+osłabiano istniejących testów. Dodano 21 przypadków jednostkowych przeglądu.
+
+**Przeglądarka: 16/16 PASS** — osiem scenariuszy w dwóch profilach Chromium:
+Canvas i Software WebGL. Mapa sama używa Canvas 2D w obu profilach. Sprawdzono
+1280×900, 390×844, 320×568 i 852×393: faktyczny route `/admin`, wszystkie dane V2,
+wyszukiwanie spawnu, NPC we wnętrzu, wyspę, quest, katalog brakujących powiązań,
+zmianę źródła, brak poziomego przepełnienia, obsługę błędu 503 i ponowienia,
+limit żądań oprawy, eksport X/Y, pan, pinch i anulowanie wskaźnika.
+Autoryzacja oraz rewizja 7 są lokalnym fixture'em transportu QA; geometria,
+spawny, katalogi, sumy i interfejs pochodzą z rzeczywistych plików/aplikacji.
+Nie używano produkcyjnych kont. Fizyczny telefon i produkcyjna sesja serwera
+nie są tym przebiegiem zweryfikowane. Nie deklarujemy pełnego Playwright gry.
+
+Dowody: [manifest odbioru](qa/admin-world-overview/acceptance.json),
+[inwentaryzacja i sumy źródeł](qa/admin-world-overview/inventory.json),
+[Vitest JSON](qa/admin-world-overview/vitest.json.gz),
+[Playwright JSON](qa/admin-world-overview/playwright.json.gz),
+[log przeglądarki](qa/admin-world-overview/playwright.txt),
+[cała planeta — Canvas](qa/admin-world-overview/canvas-whole-planet.png),
+[cała planeta — Software WebGL](qa/admin-world-overview/webgl-whole-planet.png),
+[wnętrze na 390 px](qa/admin-world-overview/canvas-npc-interior-390.png),
+[nagranie desktop Canvas](qa/admin-world-overview/desktop-canvas.webm),
+[nagranie desktop Software WebGL](qa/admin-world-overview/desktop-webgl.webm).
+Zrzuty i wideo są nagraniem działającej aplikacji, nie generowaną ilustracją.
+Odtworzenie inwentaryzacji: `npx tsx scripts/lib/audit-world-overview.ts /tmp/inventory.json`.
+Odświeżenie kopii katalogów: `npx tsx scripts/lib/build-world-overview.ts`.
+
+Do odbioru pozostają wygląd i wygoda na fizycznym telefonie oraz końcowe Actions
+na SHA gałęzi. Części niepodłączone w samej grze pozostają oznaczonymi danymi;
+przegląd nie implementuje za nie podziemi, świata ani questów.
+Nie scalano ani nie publikowano.
