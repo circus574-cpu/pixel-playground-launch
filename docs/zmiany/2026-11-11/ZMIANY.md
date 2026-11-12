@@ -469,3 +469,21 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
 - Diagnostyka: raport zawiera teraz `bakes`, `bakeMaxMs`, `bakeResolution` na próbkę, więc następny pomiar pokaże, czy zamrożenia to
   pieczenie (wtedy `bakeMaxMs` ≈ zamrożenie). **Nie potwierdzone na urządzeniu**: kontener nie ma telefonu; w testach lokalnych
   (swiftshader) podłoże Pyry i tak startuje od 512 przez budżet tekstur, więc ścieżka adaptacji pokryta jest testem jednostkowym.
+
+### 20. Pieczenie przyrostowe — koniec zamrożeń chunków (generator warstw z budżetem czasu na klatkę)
+
+- Adaptacyjna rozdzielczość (sekcja wyżej) zmniejsza koszt pieczenia, ale `drawGround` wciąż był **synchroniczny** — pojedynczy
+  chunk 512² potrafi zająć ~400 ms i zamrozić klatkę. Ta zmiana rozkłada pieczenie na wiele klatek.
+- **`renderSuperior.ts`: `drawGround` jest generatorem.** Warstwy tekstur są rejestrowane (`texture()` zbiera operacje),
+  a potem wykonywane po jednej z `yield`; baza terenu to osobny krok. Kolejka (`drainBakes`) prowadzi **jeden chunk naraz**
+  (współdzielone płótna robocze) z budżetem `BAKE_BUDGET_MS = 8` ms na klatkę — co najmniej jeden krok, kolejne tylko jeśli
+  się mieszczą. Rendering jest **pixel-identical** (te same operacje, ta sama kolejność, tylko rozłożone w czasie).
+- **Zachowana adaptacja i telemetria z PR #146:** `recordBake` i `nextGroundResolution` dostają **najwolniejszy krok**
+  (`maxStepMs`), więc rozdzielczość dalej spada na słabych urządzeniach. Domyślna rozdzielczość startowa **512**
+  (krok ~25 ms → płynnie); `?ki-ground-res=1024/768` podnosi ostrość kosztem dłuższych kroków.
+- **Pomiar runtime (kontener, software Canvas, Verdant, 22 s marszu wywołującego pieczenie):** `frameMax` w ruchu
+  **30–109 ms** (wcześniej 600–1760 ms), stan ustalony **55–60 kl./s**, **0 błędów**, teren renderuje się poprawnie
+  (zrzut: zieleń/brąz biomów, 678 unikalnych kolorów). Jedyny skok ~645 ms to pierwsze wejście (cold start).
+- Bramka: lint 0, typecheck 0, testy 0, build 0. Scalone z `origin/main` (PR #146 adaptacja) — konflikt `renderSuperior.ts`
+  rozwiązany połączeniem obu podejść. **Globus zostawiony** zgodnie z poleceniem właściciela (hybryda zbudowana lokalnie,
+  nie wdrożona; atlas produkcyjny nietknięty).
