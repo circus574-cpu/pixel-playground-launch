@@ -281,6 +281,8 @@ export const PlayerSchema = z.object({
     feet: null,
   }),
   bagItems: z.record(z.string().max(80), finite(99).int()).default({}),
+  /** Poziom ulepszenia sprzętu V2 na slocie (kowal). Broń maks. 3, pancerz maks. 2. */
+  equipmentUpgrades: z.record(z.string().max(20), z.number().int().min(0).max(3)).default({}),
 });
 export type Player = z.infer<typeof PlayerSchema>;
 export type NpcId = NpcRole;
@@ -344,6 +346,7 @@ export type Command =
   | { type: "brew"; recipe: "hp" | "ki" | "antidote"; material?: string | undefined }
   | { type: "craft"; recipe: string }
   | { type: "quest-deliver"; item: string }
+  | { type: "upgrade-gear"; slot: EquipmentSlot }
   | { type: "loot"; id: string }
   | { type: "learn"; node: string }
   | { type: "respec" }
@@ -390,9 +393,27 @@ export type StaffCommand =
   | { type: "staff"; action: "killTarget" }
   | { type: "staff"; action: "killAllNearby"; radius?: number };
 export type StaffRole = "admin" | "gm";
+/** Ulepszanie sprzętu V2 u kowala (FABULA §12): broń +2 ATK/stopień (maks. 3), pancerz +1 DEF/stopień (maks. 2). */
+export const GEAR_UPGRADE_MAX: Partial<Record<EquipmentSlot, number>> = {
+  weapon: 3,
+  armor: 2,
+  head: 2,
+  offhand: 2,
+  hands: 2,
+  feet: 2,
+};
+export const GEAR_UPGRADE_COST: Partial<Record<EquipmentSlot, number[]>> = {
+  weapon: [40, 100, 180],
+  armor: [30, 80],
+  head: [30, 80],
+  offhand: [30, 80],
+  hands: [30, 80],
+  feet: [30, 80],
+};
 export function equipmentStats(
   p: Pick<Player, "weapon" | "armor" | "upgrade" | "development"> & {
     equipment?: PlayerEquipment | undefined;
+    equipmentUpgrades?: Record<string, number> | undefined;
   },
 ) {
   const gear: KitPort["gear"] & { dodgeChance: number; technique: number; attackSpeedPct: number } =
@@ -436,6 +457,11 @@ export function equipmentStats(
           gear.kiRegenBonus = (gear.kiRegenBonus ?? 0) + (item.stats.kiRegenBonus ?? 0);
           if (item.stats.moveSpeedPercent === undefined)
             gear.speedMultiplier = (gear.speedMultiplier ?? 1) * (item.stats.speedMultiplier ?? 1);
+        }
+        const upLevel = p.equipmentUpgrades?.[slot] ?? 0;
+        if (upLevel > 0) {
+          if (slot === "weapon") gear.attack += 2 * upLevel;
+          else if (slot !== "ring" && slot !== "amulet") gear.defense += upLevel;
         }
       }
     }
@@ -641,6 +667,7 @@ export function newPlayer(race: RaceId = "planetary"): Player {
       feet: null,
     },
     bagItems: {},
+    equipmentUpgrades: {},
   };
 }
 /** Moves a position saved on an older map layout into the enlarged open world. */
@@ -2419,6 +2446,29 @@ export class GameSession implements MonsterHost {
       p.items[itemId] = have - amount;
       this.questTracker.deliver(itemId, amount);
       this.say(`Przekazano: ${ITEMS[itemId].name} ×${amount}.`);
+      this.flush();
+      return;
+    }
+    if (c.type === "upgrade-gear") {
+      if (this.nearbyNpc()?.id !== "smith" && this.dialogue !== "smith")
+        return this.say("Porozmawiaj z kowalem, aby ulepszać sprzęt.");
+      const slot = c.slot;
+      const max = GEAR_UPGRADE_MAX[slot];
+      if (!max) return this.say("Biżuterii nie można ulepszać.");
+      ensurePlayerEquipment(p);
+      const itemId = p.equipment![slot];
+      if (!itemId || itemId === "heritage" || itemId in ITEMS)
+        return this.say("Na tym slocie nie ma sprzętu V2 do ulepszenia.");
+      const level = p.equipmentUpgrades?.[slot] ?? 0;
+      if (level >= max) return this.say("Ten przedmiot jest już maksymalnie ulepszony.");
+      const cost = GEAR_UPGRADE_COST[slot]![level]!;
+      if (p.gold < cost) return this.say(`Ulepszenie kosztuje ${cost} monet.`);
+      p.gold -= cost;
+      p.equipmentUpgrades = { ...(p.equipmentUpgrades ?? {}), [slot]: level + 1 };
+      const name = getItemById(itemId)?.name ?? itemId;
+      this.say(
+        `Ulepszono: ${name} na +${level + 1} (${slot === "weapon" ? "+2 ATK" : "+1 DEF"} za stopień).`,
+      );
       this.flush();
       return;
     }

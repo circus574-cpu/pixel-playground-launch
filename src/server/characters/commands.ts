@@ -282,6 +282,7 @@ export const OnlineCommandSchema = z.union([
     .strict(),
   z.object({ type: z.literal("craft"), recipe: id }).strict(),
   z.object({ type: z.literal("quest-deliver"), item: id }).strict(),
+  z.object({ type: z.literal("upgrade-gear"), slot: z.enum(EQUIPMENT_SLOTS) }).strict(),
   z.object({ type: z.literal("loot"), id }).strict(),
   z.object({ type: z.literal("learn"), node: z.string().min(1).max(4) }).strict(),
   z.object({ type: z.literal("enter"), building: z.enum(BUILDING_IDS) }).strict(),

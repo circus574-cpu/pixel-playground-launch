@@ -18,6 +18,9 @@ import {
   ITEM_IDS,
   MATERIALS,
   xpNeeded,
+  EQUIPMENT_SLOTS,
+  GEAR_UPGRADE_MAX,
+  GEAR_UPGRADE_COST,
   type Command,
   type GameViewState,
   type ItemId,
@@ -528,6 +531,25 @@ export function NpcDialogue({
               >
                 Ulepsz ostrze · 15 monet {p.upgrade ? "(wykonano)" : ""}
               </button>
+              {EQUIPMENT_SLOTS.map((slot) => {
+                const id = p.equipment?.[slot];
+                if (!id || id === "heritage" || id in ITEMS) return null;
+                const max = GEAR_UPGRADE_MAX[slot];
+                if (!max) return null;
+                const level = p.equipmentUpgrades?.[slot] ?? 0;
+                const cost = level < max ? GEAR_UPGRADE_COST[slot]?.[level] : undefined;
+                const item = getItemById(id);
+                return (
+                  <button
+                    key={slot}
+                    disabled={level >= max || p.gold < (cost ?? Infinity)}
+                    onClick={() => send({ type: "upgrade-gear", slot })}
+                  >
+                    Ulepsz {item?.name ?? id} (+{level}/{max})
+                    {cost !== undefined ? ` · ${cost} monet` : " (maks.)"}
+                  </button>
+                );
+              })}
             </>
           )}
           {npc.id === "keeper" && (

@@ -567,3 +567,18 @@ Pełny TypeScript aplikacji/e2e/tools PASS. [Kontrole integracyjne i SHA wejść
   potwierdzono, że nie zależy od zmian deliver/talk/brew. Nie zmieniano limitów testu. Podobnie
   czasowy bywa `racial-trial-transactions` (legend) — przy retry przechodzi. Pełna bramka tego etapu:
   lint 0, typecheck 0, build 0; testy 1980 pass, 1 timeout środowiskowy (admin-overview).
+
+### 14. Systemy NPC: kowal ulepsza sprzęt V2 (Etap 4 rozbudowy NPC)
+
+- Kowal ulepszał dotąd tylko legacy Ostrze strażnika. Teraz ulepsza **sprzęt V2** na slotach
+  (broń/pancerz/hełm/tarcza/rękawice/buty), zgodnie z FABULA §12: broń **+2 ATK/stopień, maks. 3**
+  (koszty 40/100/180), pancerz **+1 DEF/stopień, maks. 2** (koszty 30/80). Biżuteria bez ulepszeń.
+- Nowe pole zapisu `equipmentUpgrades` (slot → stopień) w `PlayerSchema` z `.default({})` — stare
+  zapisy dostają pustą mapę, bez migracji. Bonus doliczany w `equipmentStats` (gear ATK/DEF).
+- Komenda `upgrade-gear { slot }` (sesja + schemat online); wymaga kowala w zasięgu, sprzętu V2 na
+  slocie, monet i stopnia < maks. Przyciski „Ulepsz [przedmiot] (+n/maks) · koszt" w rozmowie z kowalem.
+- Testy: `gear-upgrade.test.ts` (5) — bonus ATK/DEF, rosnący koszt, limit 3, odmowa biżuterii/pustego
+  slotu, schemat online. **5/5 PASS**.
+- Nie zrobiono / nie sprawdzono: ulepszanie nie było oglądane na fizycznym telefonie; naprawa
+  sprzętu (osobna usługa) nie istnieje — przedmioty nie mają trwałości. Pozostałe do rozbudowy:
+  plotki/nazwani NPC dla wszystkich ról w miastach v2 oraz realne leża bossów (warden — atrapa).
