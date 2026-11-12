@@ -1,0 +1,23 @@
+{
+  "branch": "feat/admin-world-overview",
+  "testedFeatureParent": "d11853014b2aa5fc68778078ca2c0c8daba1c87b",
+  "mergedMain": "370d4a761b03cfb1210b23f221afe8759fab74ce",
+  "checks": {
+    "typecheck": "PASS (app/e2e/tools)",
+    "targetedVitest": {
+      "passed": 34,
+      "failed": 0
+    },
+    "snapshotRegeneration": "Both catalogue/contact snapshots unchanged"
+  },
+  "sourceHashes": {
+    "src/components/admin/AdminWorldOverview.tsx": "d58782213b9a1ea75b7bda2bfb792bcba682d70dad749dd33219f7fd3bbf574f",
+    "src/components/admin/world-overview/model.ts": "38867c8de0bb0ecd755a4f9ceef92ac154ddb0e759a86dfae39a540f6e4600be",
+    "src/game/admin/worldOverviewCatalog.generated.json": "1dbfb4aa9804ba101055abf2a6d562b794f52be91d44bc2c623bbf0f57091b49",
+    "src/game/admin/worldDevelopment.generated.json": "9a47effbd99fd66d51fe8fea80ea46f46f5e4ad7122304dea5b55f328eb49d60",
+    "src/server/characters/commands.ts": "8d035b92cc4e29a7e7f2635722118c2dbde62be96fa237b5e76740684c2588a1",
+    "src/components/game/AdventurePanels.tsx": "9978e067d847bdeee095570f0c7cfaab0bb365049268eb59a916e250534a7d31"
+  },
+  "deploymentAuthorizedByOwner": "To scalaj i wdrażaj",
+  "productionStatus": "Not yet deployed; workflow result is authoritative"
+}

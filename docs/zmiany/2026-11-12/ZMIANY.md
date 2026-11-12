@@ -395,7 +395,152 @@ nie zmieniano świata, assetów, sprzętu, zadań ani infrastruktury GPU.
   schematu + lokalny handler); dialogi/questy od NPC, emitter `deliver`, wybór materiału w brew,
   kowal V2 i realne leża bossów pozostają do rozbudowy.
 
-### 11. Systemy NPC: questy deliver, przyjmowanie zadań z rozmowy i wybór surowca w alchemii (Etap 3)
+<a id="8-świat--przegląd-superior-v2-w-panelu-administratora"></a>
+
+### 11. Świat — przegląd Superior v2 w panelu administratora
+
+- Osobna gałąź `feat/admin-world-overview`, od `origin/main@9177b5c0`.
+- `/admin?view=world-overview`: nowa zakładka administratora, leniwie ładowana przez
+  istniejącą kontrolę konta/roli. Zwykły użytkownik i GM nie otrzymują tego widoku.
+- Planeta, dziesięć natywnych map lądów oraz wnętrza budynków; wyszukiwanie, warstwy,
+  filtry spawnu/poziomu/questa, dokładne współrzędne, promień powrotu, odnowienie,
+  statystyki, łupy, dialogi, warunki questów i eksport JSON.
+- Odczyt aktualnego indeksu V2 i kontrola SHA-256 świata, spawnów, terenu, nawigacji,
+  kolizji i chunków oprawy. NPC/drzwi/wnętrza są sprawdzane przeciw współdzielonemu
+  `buildSuperiorSimulationWorld`, nawigacji i `cityRoom`, a nie szkicowane ręcznie.
+- 8752 sloty spawnów, 212 pozycji NPC, 22 osady, 132 wnętrza usług, 1715 dróg,
+  106 questów V2 oraz trzy zadania wstępne. 143 znaczniki sekretów zawierają także
+  adnotacje projektowe, jawnie oznaczone. 22 wejścia odnoszą się do 18 instancji
+  podziemi zapisanych jako niepodłączone. 27 celów/zleceniodawców bez jednoznacznego
+  wiązania jest wymienionych osobno; nie podstawiamy fikcyjnych współrzędnych.
+- Trzy źródła: opublikowana rewizja serwera / dane bazowe / lokalny szkic. Bez zapisów,
+  publikowania zmian, globalnego nadpisywania katalogów i poleceń gry.
+- Jeden Canvas dla znaczników, stronicowanie listy po 40, najwyżej 12 doczytanych
+  fragmentów dekoracji. Oprawa to obiekty zapisanych paczek; nie jest symulacją
+  aktualnego stanu renderera, patrolu ani prywatnego postępu gracza.
+- Niezmienione: świat/generatory/asset packi, ochrona `/test`, systemy walki,
+  questów i zapisu, infrastruktura GPU oraz konfiguracja produkcji.
+
+Zastany błąd `main`: osobny podręcznik ekonomii w `docs/design` łamał regułę dziesięciu
+dokumentów i blokował checker. Całą treść przeniesiono do istniejącego podręcznika
+[Fabuła i ekwipunek](../../FABULA-I-EKWIPUNEK.md#ekonomia-wdrożona--12112026), z poprawionymi
+odnośnikami i bez zmiany liczb. [Oryginał bajt w bajt, gzip](qa/admin-world-overview/economy-source.md.gz)
+oraz [SHA i mapa przeniesienia](qa/admin-world-overview/documentation-relocation.json) pozostają dowodem.
+Nie rozszerzono wyjątków checkera i nie edytowano kodu przedmiotów.
+
+**Kod funkcji: `fb77189b6ed234012c4e184b09c260cd638a5273`.** Inwentaryzację
+wykonano na tym SHA przy czystym drzewie, a jej manifest zawiera SHA-256 plików
+modułu i świata. Kolejny commit zawiera wyłącznie raport oraz dowody.
+
+| Funkcja | Stan przed | Zmiana | Dowód działania |
+| --- | --- | --- | --- |
+| Mapa administracyjna | Podstawowy atlas w edytorze | Oddzielny przegląd całej planety i natywnych map 10 lądów | Screenshot z prawdziwego `/admin`, 1715 dróg i 8752 sloty |
+| NPC i usługi | Brak dokładnego rejestru na mapie | 212 pozycji, 22 osady, 132 wnętrza; lokalne współrzędne pomieszczeń | Porównanie wszystkich lądów z konstruktorami runtime oraz wejście do sklepu Mio |
+| Questy i sekrety | Przybliżony punkt miasta | Fizyczni zleceniodawcy, cele lokalizacyjne i wszystkie spawny gatunków celu | 18 070 wiązań V2, 143 punkty sekretów/adnotacji, jawne 27 brakujących wiązań |
+| Szczegóły | Uproszczona nazwa znacznika | Parametry spawnu, statystyki i łupy potwora, dialog NPC, etapy/warunki/nagrody questa | Inspektor oraz eksport rzeczywistych X/Y wybranego spawnu |
+| Dostęp i bezpieczeństwo | Dotychczasowy panel konta | Nowa zakładka tylko dla admina; odczyt bazowej/publikowanej/lokalnej definicji | Odmowa widoku dla gościa i GM, brak zapisów świata i niezmieniony sentinel zapisu |
+| Duże dane | Brak szczegółowego streamingu dekoracji | Jeden Canvas, lista po 40, najwyżej 12 fragmentów oprawy w kadrze | Test rzeczywistych żądań chunków, gestów, `pointercancel` i eksportu |
+
+**Kontrole lokalne:** pełny TypeScript aplikacji/e2e/tools PASS; Vitest **1356 PASS /
+0 FAIL / 10 SKIP** (osobny PostgreSQL); lint **0 błędów / 15 zastanych ostrzeżeń**;
+kontrakt zasobów, dokumentacja oraz produkcyjny build PASS. Nie usuwano ani nie
+osłabiano istniejących testów. Dodano 21 przypadków jednostkowych przeglądu.
+
+**Przeglądarka: 16/16 PASS** — osiem scenariuszy w dwóch profilach Chromium:
+Canvas i Software WebGL. Mapa sama używa Canvas 2D w obu profilach. Sprawdzono
+1280×900, 390×844, 320×568 i 852×393: faktyczny route `/admin`, wszystkie dane V2,
+wyszukiwanie spawnu, NPC we wnętrzu, wyspę, quest, katalog brakujących powiązań,
+zmianę źródła, brak poziomego przepełnienia, obsługę błędu 503 i ponowienia,
+limit żądań oprawy, eksport X/Y, pan, pinch i anulowanie wskaźnika.
+Autoryzacja oraz rewizja 7 są lokalnym fixture'em transportu QA; geometria,
+spawny, katalogi, sumy i interfejs pochodzą z rzeczywistych plików/aplikacji.
+Nie używano produkcyjnych kont. Fizyczny telefon i produkcyjna sesja serwera
+nie są tym przebiegiem zweryfikowane. Nie deklarujemy pełnego Playwright gry.
+
+Dowody: [manifest odbioru](qa/admin-world-overview/acceptance.json),
+[inwentaryzacja i sumy źródeł](qa/admin-world-overview/inventory.json),
+[Vitest JSON](qa/admin-world-overview/vitest.json.gz),
+[Playwright JSON](qa/admin-world-overview/playwright.json.gz),
+[log przeglądarki](qa/admin-world-overview/playwright.txt),
+[cała planeta — Canvas](qa/admin-world-overview/canvas-whole-planet.png),
+[cała planeta — Software WebGL](qa/admin-world-overview/webgl-whole-planet.png),
+[wnętrze na 390 px](qa/admin-world-overview/canvas-npc-interior-390.png),
+[nagranie desktop Canvas](qa/admin-world-overview/desktop-canvas.webm),
+[nagranie desktop Software WebGL](qa/admin-world-overview/desktop-webgl.webm).
+Zrzuty i wideo są nagraniem działającej aplikacji, nie generowaną ilustracją.
+Odtworzenie inwentaryzacji: `npx tsx scripts/lib/audit-world-overview.ts /tmp/inventory.json`.
+Odświeżenie kopii katalogów: `npx tsx scripts/lib/build-world-overview.ts`.
+
+Do odbioru pozostają wygląd i wygoda na fizycznym telefonie oraz końcowe Actions
+na SHA gałęzi. Części niepodłączone w samej grze pozostają oznaczonymi danymi;
+przegląd nie implementuje za nie podziemi, świata ani questów.
+Nie scalano ani nie publikowano.
+
+**Aktualizacja do bieżącego `main`, PR #154.** Własną gałąź uzupełniono o
+`main@3ea92dbd`, zachowując historię i zmiany innych autorów. Nie scalano PR do
+`main`. Finalny kod przeglądu: **`5d410482fab958ff9221c343efb9e0fc7fc2e75b`**.
+Powyższe dowody dla `fb77189b` pozostają historyczne; bieżący odbiór znajduje się
+w podfolderze `current-main`.
+
+| Funkcja | Stan przed | Zmiana | Dowód działania |
+| --- | --- | --- | --- |
+| Rozwój ras i spotkania późnych poziomów | Nowe funkcje na main nie miały warstwy w przeglądzie | 192 aktywności, 629 rzeczywistych kontaktów/etapów, w tym zagraniczny cel H-N04; 32 warianty wypraw jako spotkania warunkowe | 23 testy modułu, zgodność SHA źródeł/geometrii i przeglądarkowy podgląd wyprawy w obu profilach |
+
+Dane rozwoju wyprowadza `scripts/lib/build-world-development.ts` z izolowanych
+produkcyjnych `GameSession`: bez portu zapisu, ticków i poleceń gry. Liczniki
+etapów służą wyłącznie odczytaniu kontaktów; nie są postępem konta ani dowodem
+ukończenia kampanii. Próby pokazują wejście przez trenera do odrębnej sali;
+wyprawy pokazują obszar aktywacji i politykę doboru pozycji przez nawigację,
+nie fikcyjne stałe spawny. Liczba stałych slotów nadal wynosi **8752**.
+
+**Końcowe kontrole tego kodu:** pełny TypeScript aplikacji/e2e/tools PASS,
+Vitest **1962 PASS / 0 FAIL / 10 SKIP** (oddzielny PostgreSQL), lint **0 błędów /
+15 zastanych ostrzeżeń**, zasoby, dokumentacja, format zmienianego kodu oraz
+produkcyjny build PASS. Przeglądarka **18/18 PASS**, bez pominięć i niestabilnych
+przypadków: Canvas oraz Software WebGL, 1280×900, 390×844, 320×568 i 852×393.
+W trakcie pierwszego równoległego podejścia system przerwał lokalny serwer przy
+presji pamięci; ten przebieg odrzucono i ponowiono po zakończeniu ciężkich kontroli.
+Końcowe 18/18 pochodzi z pełnego ponowienia na działającym serwerze.
+
+Dowody aktualnego kodu:
+[odbiór](qa/admin-world-overview/current-main/acceptance.json),
+[inwentaryzacja na czystym SHA](qa/admin-world-overview/current-main/inventory.json),
+[Vitest](qa/admin-world-overview/current-main/vitest.json.gz),
+[Playwright](qa/admin-world-overview/current-main/playwright.json.gz),
+[pełny log przeglądarki](qa/admin-world-overview/current-main/playwright.txt),
+[cała planeta](qa/admin-world-overview/current-main/canvas-whole-planet.png),
+[warunkowa wyprawa](qa/admin-world-overview/current-main/canvas-conditional-expedition.png),
+[wnętrze na 320 px](qa/admin-world-overview/current-main/webgl-npc-interior-320.png),
+[nagranie](qa/admin-world-overview/current-main/desktop-canvas.webm),
+[SHA-256 dowodów](qa/admin-world-overview/current-main/evidence-sha256.json).
+
+[PR #154](https://github.com/circus574-cpu/pixel-playground-launch/pull/154)
+pozostaje Draft, bez scalenia i publikacji. Autoryzacja i rewizja serwera są
+fixture'ami lokalnego transportu QA, natomiast świat, dane i UI są rzeczywiste.
+Nie zweryfikowano fizycznego telefonu ani sesji produkcyjnej; nie deklarujemy
+przejścia pełnego Playwright całej gry. Wynik Actions należy odczytać dla
+aktualnego SHA PR; lokalnych wyników nie utożsamiamy z wynikiem CI.
+
+### 12. Publikacja mapy administratora — zgoda właściciela
+
+Właściciel polecił „To scalaj i wdrażaj” 12.11.2026. PR #154 jest przygotowany do
+scalenia zwykłym merge, bez przepisywania historii. Gałąź uzupełniono o
+`main@370d4a76` (nowe panele/usługi NPC i reakcje KI Mędrca); zachowano obie
+historie dokumentacji i kanoniczną segregację ekonomii z PR #152. Dodano alias
+starego odnośnika ekonomii, aby dowody przeglądu pozostały dostępne.
+
+Oba rejestry mapy zregenerowano z obecnego kodu: pliki pozostały identyczne,
+współrzędne i liczby nie zmieniły się. Testy przeglądu, interfejsu NPC i schematu
+komend online: **34/34 PASS**. Wdrożenie prowadzi istniejący workflow
+`aruba-production.yml`: pełna bramka jakości, kandydat, smoke HTTP i promocja
+Coolify z zachowaniem poprzednich obrazów do rollbacku. Faktyczny wynik i SHA
+publikacji należy odczytać w Actions oraz `/publications.json`; niniejszy wpis
+nie stanowi deklaracji, że publikacja już się zakończyła. Nie zmieniano
+konfiguracji produkcji, zapisów, GPU ani mechaniki gry.
+
+Pełny TypeScript aplikacji/e2e/tools PASS. [Kontrole integracyjne i SHA wejść](qa/admin-world-release/pre-merge-checks.json), [testy 34/34](qa/admin-world-release/targeted-tests.txt). Przeglądarkowa regresja mapy oraz pełna bramka CI są ponawiane przed scaleniem.
+
+### 13. Systemy NPC: questy deliver, przyjmowanie zadań z rozmowy i wybór surowca w alchemii (Etap 3)
 
 - **Questy „deliver" były nie do ukończenia** (9 zadań, w tym ogniwa głównych łańcuchów). Naprawione:
   - Silnik (`engine.ts`) zużywa przedmiot na cel deliver; cele skierowane do NPC (npc-mio/npc-lina)

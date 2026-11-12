@@ -1,0 +1,52 @@
+
+ RUN  v4.1.12 /workspace/ki-admin-world
+
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-admin-world/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-admin-world/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-admin-world/src/game/music.ts:120:36)
+    at /workspace/ki-admin-world/src/components/game/GameHud.tsx:400:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-admin-world/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-admin-world/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-admin-world/src/game/music.ts:120:36)
+    at /workspace/ki-admin-world/src/components/game/GameHud.tsx:400:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-admin-world/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-admin-world/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-admin-world/src/game/music.ts:120:36)
+    at /workspace/ki-admin-world/src/components/game/GameHud.tsx:400:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-admin-world/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-admin-world/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-admin-world/src/game/music.ts:120:36)
+    at /workspace/ki-admin-world/src/components/game/GameHud.tsx:400:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+
+ Test Files  3 passed (3)
+      Tests  34 passed (34)
+   Start at  16:12:19
+   Duration  22.97s (transform 7.16s, setup 265ms, import 10.43s, tests 10.36s, environment 1.26s)

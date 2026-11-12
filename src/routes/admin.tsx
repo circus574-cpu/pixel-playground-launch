@@ -33,14 +33,30 @@ const AdminWorldEditor = lazy(() =>
   })),
 );
 
+const AdminWorldOverview = lazy(() =>
+  import("@/components/admin/AdminWorldOverview").then((m) => ({ default: m.AdminWorldOverview })),
+);
+
 const ROLE_NAME: Record<AppRole, string> = { admin: "administrator", gm: "game master" };
 const when = (iso: string | null) => (iso ? new Date(iso).toLocaleString("pl-PL") : "—");
 
 function AdminPage() {
   const account = useAccount();
   const [tab, setTab] = useState<
-    "server-chars" | "players" | "monitoring" | "audit" | "content" | "coder" | "diagnostyka"
-  >("server-chars");
+    | "server-chars"
+    | "players"
+    | "monitoring"
+    | "audit"
+    | "content"
+    | "coder"
+    | "diagnostyka"
+    | "world-overview"
+  >(() =>
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).get("view") === "world-overview"
+      ? "world-overview"
+      : "server-chars",
+  );
   if (!account.ready) return <main className="ki-account">Wczytywanie…</main>;
   if (!account.session || account.roles.length === 0)
     return (
@@ -68,6 +84,7 @@ function AdminPage() {
               ["players", "Konta i role"],
               ["monitoring", "Serwer"],
               ["content", "Świat i zawartość"],
+              ...(isAdmin ? [["world-overview", "Świat — przegląd"] as const] : []),
               ["audit", "Dziennik"],
               ["coder", "Postacie lokalne"],
               ["diagnostyka", "Diagnostyka urządzenia"],
@@ -100,6 +117,11 @@ function AdminPage() {
               <Audit />
             </section>
           </>
+        )}
+        {tab === "world-overview" && isAdmin && (
+          <Suspense fallback={<p role="status">Wczytywanie przeglądu świata…</p>}>
+            <AdminWorldOverview />
+          </Suspense>
         )}
         {tab === "content" && (
           <Suspense fallback={<p role="status">Wczytywanie edytora zawartości…</p>}>

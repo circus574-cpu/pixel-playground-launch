@@ -1,0 +1,46 @@
+{
+  "sourceSha": "fb77189b6ed234012c4e184b09c260cd638a5273",
+  "baseMain": "9177b5c038df78dd531b9da8db6280925f82b152",
+  "unit": {
+    "passed": 1356,
+    "failed": 0,
+    "skipped": 10,
+    "skipReason": "Optional PostgreSQL integration tests"
+  },
+  "browser": {
+    "passed": 16,
+    "failed": 0,
+    "projects": [
+      "application-canvas",
+      "application-webgl"
+    ],
+    "viewports": [
+      [
+        1280,
+        900
+      ],
+      [
+        390,
+        844
+      ],
+      [
+        320,
+        568
+      ],
+      [
+        852,
+        393
+      ]
+    ],
+    "auth": "Local QA transport fixture for admin/GM sessions; real /admin route, real V2 files and SHA-256 verification. No production accounts used.",
+    "physicalPhoneVerified": false
+  },
+  "staticChecks": {
+    "typecheck": "PASS (app/e2e/tools)",
+    "lint": "PASS (0 errors, 15 existing warnings)",
+    "assets": "PASS",
+    "build": "PASS",
+    "documentation": "PASS"
+  },
+  "scope": "Read-only world definition overview; live actors and account progress are not tracked."
+}

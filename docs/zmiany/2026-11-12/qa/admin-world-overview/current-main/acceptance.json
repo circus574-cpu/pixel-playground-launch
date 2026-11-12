@@ -1,0 +1,32 @@
+{
+  "sourceSha": "5d410482fab958ff9221c343efb9e0fc7fc2e75b",
+  "baseMain": "3ea92dbdde7897f13b557951debd5db5f88d6cab",
+  "unit": {
+    "passed": 1962,
+    "failed": 0,
+    "skipped": 10
+  },
+  "browser": {
+    "startTime": "2026-11-12T11:55:26.033Z",
+    "duration": 220742.356,
+    "expected": 18,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "checks": {
+    "typecheck": "PASS",
+    "lint": "PASS (15 existing warnings)",
+    "assets": "PASS",
+    "documentation": "PASS",
+    "build": "PASS",
+    "format": "PASS"
+  },
+  "notes": [
+    "Actual local SSR /admin and actual Superior v2 data. Only authentication refresh and published revision API use QA fixtures.",
+    "Canvas and Software WebGL browser profiles; the overview itself uses Canvas 2D. Physical phones and production server sessions unverified.",
+    "The first concurrent browser attempt was interrupted when the local dev server was killed by host memory pressure. The final independent retry is the evidence recorded here.",
+    "Read-only generated development contacts are conditional definition snapshots, not current player progress or proof of completing activities.",
+    "Historical QA in the parent directory refers to fb77189b and is preserved as historical evidence."
+  ]
+}
