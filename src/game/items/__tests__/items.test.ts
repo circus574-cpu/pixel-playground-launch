@@ -54,8 +54,9 @@ describe("Item Catalog & Recipes Tests", () => {
     expect(getItemById("shield")).toBeDefined();
   });
 
-  it("should have all 140 V2 crafting recipes with no duplicate recipe IDs", () => {
-    expect(CRAFTING_RECIPES.length).toBe(140);
+  it("should have the V2 crafting recipes (140 base + generated for better gear) with no duplicate IDs", () => {
+    // System ekonomii 12.11.2026: 140 bazowych + wygenerowane dla lepszych przedmiotów bez receptury.
+    expect(CRAFTING_RECIPES.length).toBeGreaterThanOrEqual(140);
 
     const ids = new Set<string>();
     for (const recipe of CRAFTING_RECIPES) {

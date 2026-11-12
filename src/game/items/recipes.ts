@@ -1,6 +1,7 @@
 import { CraftingRecipe } from "./types";
+import { EXTRA_RECIPES } from "./recipes.extra";
 
-export const CRAFTING_RECIPES: CraftingRecipe[] = [
+const BASE_RECIPES: CraftingRecipe[] = [
   {
     id: "rec-potion-basic",
     name: "Warzenie Mikstury Życia",
@@ -2743,6 +2744,9 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
     source: "book",
   },
 ];
+
+/** System ekonomii 12.11.2026: bazowe receptury + wygenerowane dla lepszych przedmiotów bez receptury. */
+export const CRAFTING_RECIPES: CraftingRecipe[] = [...BASE_RECIPES, ...EXTRA_RECIPES];
 
 export const RECIPE_BY_ID: Record<string, CraftingRecipe> = Object.fromEntries(
   CRAFTING_RECIPES.map((recipe) => [recipe.id, recipe]),

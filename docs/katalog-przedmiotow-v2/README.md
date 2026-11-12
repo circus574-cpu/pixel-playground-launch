@@ -2,6 +2,14 @@
 
 **Status: specyfikacja do wdrożenia, nie stan funkcjonalny produkcyjnej gry.** Aktualny silnik `GameSession` zachowuje własny prosty ekwipunek i handel; ten katalog nie zmienia runtime, zapisów graczy, mechanik ani wdrożenia.
 
+> **Aktualizacja 12.11.2026 — ekonomia przedmiotów wdrożona.** Dane katalogowe (366) i receptury
+> działają w runtime, a od 12.11.2026 obowiązuje system ekonomii: **drop tylko słabe** (common/uncommon,
+> 2% na kill), **sklep tylko słabe** (4× cena, min poziom×60), **lepszy sprzęt wyłącznie z craftu**.
+> Liczba receptur w runtime wzrosła ze 140 bazowych do **265** (140 bazowych + 125 wygenerowanych
+> `rec-gen-*`, pokrywających wszystkie 226 lepszych przedmiotów). Plik CSV „140 receptur" pozostaje
+> źródłowym zbiorem bazowym — dodatkowe 125 powstaje z `scripts/gen-item-recipes.ts`. Pełny opis:
+> [Ekonomia przedmiotów](../design/EKONOMIA-PRZEDMIOTOW-2026-11-12.md).
+
 ## Dostępne dane (zatwierdzona decyzja właściciela o pasywnych buffach)
 
 - [366 przedmiotów — pełne dane JSON](KI_LEGENDS_366_PRZEDMIOTOW_V2.json) — 139 pozycji katalogu istniejącego, 116 wariantów starszej księgi, 6 odrębnych materiałów bestiariusza, 70 pozycji z plansz wyposażenia i 35 specjalnych artefaktów.

@@ -18,13 +18,17 @@ const sequence = (values: number[]) => {
   return () => values[i++ % values.length]!;
 };
 
-describe("catalog loot tables", () => {
-  it("every catalog item except story keys has at least one random drop source", () => {
+describe("catalog loot tables (system ekonomii 12.11.2026: drop tylko słabe, rzadki)", () => {
+  it("every weak item (common/uncommon, non-quest) has at least one random drop source", () => {
     const missing = ITEM_CATALOG.filter((i) => isLootable(i) && !itemDropChances(i.id).length);
     expect(missing.map((i) => i.id)).toEqual([]);
-    expect(ITEM_CATALOG.filter(isLootable).length).toBe(
-      ITEM_CATALOG.filter((i) => i.category !== "quest").length,
-    );
+  });
+
+  it("only weak items are lootable; better gear (rare/epic/legendary) is crafting-only", () => {
+    for (const item of ITEM_CATALOG.filter(isLootable))
+      expect(["common", "uncommon"]).toContain(item.rarity);
+    for (const item of ITEM_CATALOG.filter((i) => ["rare", "epic", "legendary"].includes(i.rarity)))
+      expect(itemDropChances(item.id)).toEqual([]);
   });
 
   it("story keys (quest items) never drop", () => {
@@ -32,12 +36,13 @@ describe("catalog loot tables", () => {
       expect(itemDropChances(item.id)).toEqual([]);
   });
 
-  it("pools respect the item continent and a level window around the item level", () => {
+  it("pools respect continent + level window and contain only weak items", () => {
     for (const monster of LOOT_MONSTERS) {
       const pool = LOOT_POOLS[monster.id]!;
-      expect(pool.ids.length).toBeGreaterThan(0);
+      // Wysokopoziomowe potwory mogą mieć pustą pulę (słabe przedmioty są niskopoziomowe).
       pool.ids.forEach((id, i) => {
         const item = getItemById(id)!;
+        expect(["common", "uncommon"]).toContain(item.rarity);
         expect(pool.weights[i]).toBe(RARITY_WEIGHT[item.rarity]);
         const c = item.sourceContinent;
         if (c && c !== "all" && c !== "neutral") expect(monster.world).toBe(c);
@@ -45,6 +50,8 @@ describe("catalog loot tables", () => {
         expect(monster.level).toBeLessThanOrEqual(lootLevel(item) + 5);
       });
     }
+    // Co najmniej jeden potwór ma niepustą pulę słabych przedmiotów.
+    expect(LOOT_MONSTERS.some((m) => LOOT_POOLS[m.id]!.ids.length > 0)).toBe(true);
   });
 
   it("minions do not roll catalog drops", () => {
@@ -60,12 +67,13 @@ describe("catalog loot tables", () => {
     expect(rollCatalogDrop("unknown-monster", sequence([0, 0]))).toBeNull();
   });
 
-  it("per-item chances of each monster sum to the drop chance", () => {
+  it("per-item chances of each monster with a pool sum to the drop chance", () => {
     const sums = new Map<string, number>();
     for (const item of ITEM_CATALOG)
       for (const { monster, chance } of itemDropChances(item.id))
         sums.set(monster.id, (sums.get(monster.id) ?? 0) + chance);
-    expect(sums.size).toBe(LOOT_MONSTERS.length);
+    const withPool = LOOT_MONSTERS.filter((m) => LOOT_POOLS[m.id]!.ids.length > 0);
+    expect(sums.size).toBe(withPool.length);
     for (const sum of sums.values()) expect(sum).toBeCloseTo(DROP_CHANCE, 10);
   });
 

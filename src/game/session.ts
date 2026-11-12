@@ -62,7 +62,8 @@ import {
   LEVEL_MAX,
 } from "./kit";
 import { MATERIALS, MATERIAL_IDS, isMaterial } from "./monsters/materials";
-import { getItemById, computePassiveEquipmentBonuses } from "./items";
+import { getItemById, getRecipeById, computePassiveEquipmentBonuses } from "./items";
+import { isShopItem, shopPrice } from "./items/loot";
 import {
   MonsterSystem,
   type HurtKind,
@@ -320,6 +321,7 @@ export type Command =
   | { type: "unequip"; slot: EquipmentSlot | "weapon" | "armor" }
   | { type: "trade"; item: string; buy: boolean }
   | { type: "brew"; recipe: "hp" | "ki" | "antidote" }
+  | { type: "craft"; recipe: string }
   | { type: "loot"; id: string }
   | { type: "learn"; node: string }
   | { type: "respec" }
@@ -2180,6 +2182,58 @@ export class GameSession implements MonsterHost {
       this.flush();
       return;
     }
+    if (c.type === "craft") {
+      // Crafting (system ekonomii 12.11.2026): lepszy sprzęt powstaje z materiałów i przedmiotów.
+      const recipe = getRecipeById(c.recipe);
+      if (!recipe) return this.say("Nieznana receptura.");
+      if (p.level < recipe.requiredLevel)
+        return this.say(`Ta receptura wymaga poziomu ${recipe.requiredLevel}.`);
+      for (const ing of recipe.ingredients) {
+        const have = isMaterial(ing.itemId)
+          ? (p.materials[ing.itemId] ?? 0)
+          : (p.bagItems?.[ing.itemId] ?? 0);
+        if (have < ing.count) {
+          const name = isMaterial(ing.itemId)
+            ? MATERIALS[ing.itemId]!.name
+            : (getItemById(ing.itemId)?.name ?? ing.itemId);
+          return this.say(`Brakuje składnika: ${name} (${have}/${ing.count}).`);
+        }
+      }
+      if (p.gold < recipe.craftingCostCoins)
+        return this.say(`Wytworzenie wymaga ${recipe.craftingCostCoins} monet.`);
+      for (const ing of recipe.ingredients) {
+        if (isMaterial(ing.itemId)) {
+          p.materials[ing.itemId] = (p.materials[ing.itemId] ?? 0) - ing.count;
+          if (!p.materials[ing.itemId]) delete p.materials[ing.itemId];
+        } else {
+          ensurePlayerEquipment(p);
+          const cur = p.bagItems![ing.itemId] ?? 0;
+          if (cur <= ing.count) delete p.bagItems![ing.itemId];
+          else p.bagItems![ing.itemId] = cur - ing.count;
+        }
+      }
+      p.gold -= recipe.craftingCostCoins;
+      const resultId = recipe.resultItemId;
+      const given =
+        resultId in ITEMS
+          ? this.add(resultId as ItemId, recipe.resultCount)
+          : this.addBagItem(resultId, recipe.resultCount);
+      if (!given) {
+        for (const ing of recipe.ingredients) {
+          if (isMaterial(ing.itemId))
+            p.materials[ing.itemId] = (p.materials[ing.itemId] ?? 0) + ing.count;
+          else {
+            ensurePlayerEquipment(p);
+            p.bagItems![ing.itemId] = (p.bagItems![ing.itemId] ?? 0) + ing.count;
+          }
+        }
+        p.gold += recipe.craftingCostCoins;
+        return this.say("Brak miejsca na wynik craftu — składniki i monety zwrócone.");
+      }
+      this.say(`Wytworzono: ${getItemById(resultId)?.name ?? resultId} ×${recipe.resultCount}.`);
+      this.flush();
+      return;
+    }
     if (c.type === "trade") {
       if (this.nearbyNpc()?.id !== "merchant")
         return this.say("Porozmawiaj z kupcem, aby handlować.");
@@ -2195,20 +2249,33 @@ export class GameSession implements MonsterHost {
         return;
       }
       if (!(c.item in ITEMS)) {
-        if (!c.buy && p.bagItems && (p.bagItems[c.item] ?? 0) > 0) {
-          const def = getItemById(c.item);
-          if (def) {
-            const count = p.bagItems[c.item]!;
-            if (count <= 1) delete p.bagItems[c.item];
-            else p.bagItems[c.item] = count - 1;
-            const sellPrice = def.price
-              ? Math.max(1, Math.floor(def.price / 2))
-              : Math.max(5, (def.level || 1) * 8);
-            p.gold += sellPrice;
-            this.say(`Sprzedano: ${def.name} (+${sellPrice} złota).`);
-            this.flush();
-            return;
-          }
+        const def = getItemById(c.item);
+        if (c.buy) {
+          // Sklep V2 (12.11.2026): kupiec sprzedaje tylko słabe przedmioty po wygórowanej cenie.
+          if (!def) return;
+          if (!isShopItem(def))
+            return this.say(
+              "Kupiec oferuje tylko podstawowe przedmioty. Lepsze wytworzysz w craftingu.",
+            );
+          const price = shopPrice(def);
+          if (p.gold < price) return this.say(`Potrzeba ${price} monet, by kupić ${def.name}.`);
+          if (!this.addBagItem(c.item, 1)) return;
+          p.gold -= price;
+          this.say(`Kupiono: ${def.name} za ${price} monet.`);
+          this.flush();
+          return;
+        }
+        if (p.bagItems && (p.bagItems[c.item] ?? 0) > 0 && def) {
+          const count = p.bagItems[c.item]!;
+          if (count <= 1) delete p.bagItems[c.item];
+          else p.bagItems[c.item] = count - 1;
+          const sellPrice = def.price
+            ? Math.max(1, Math.floor(def.price / 2))
+            : Math.max(5, (def.level || 1) * 8);
+          p.gold += sellPrice;
+          this.say(`Sprzedano: ${def.name} (+${sellPrice} złota).`);
+          this.flush();
+          return;
         }
         return;
       }

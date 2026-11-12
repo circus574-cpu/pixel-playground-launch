@@ -4,16 +4,20 @@ import { ITEM_CATALOG } from "./catalog";
 import type { ItemDefinition, ItemRarity } from "./types";
 
 /**
- * Random catalog drops. Every catalog item except story keys (category "quest") can drop from at
- * least one monster on its continent ("all"/"neutral" items: every continent) whose level is near
- * the item's level. Each kill drops one catalog item with chance DROP_CHANCE; the item is picked
- * from the monster's pool weighted by rarity, so a legendary is rarer than a common of the same
- * pool. Deterministic through `random()`.
+ * Random catalog drops — system ekonomii przedmiotów (właściciel 12.11.2026).
+ * Z potworów dropią WYŁĄCZNIE słabe przedmioty (common/uncommon) i to RZADKO (DROP_CHANCE).
+ * Lepszy sprzęt (rare/epic/legendary) nie dropi — zdobywa się go craftingiem. Dzięki temu drop jest
+ * miłym bonusem, a nie głównym źródłem ekwipunku; progresja idzie przez craft i sklep.
+ * Każdy nie-minion potwór ma pulę słabych przedmiotów ze swojego kontynentu w oknie poziomów
+ * [poziom przedmiotu - BELOW, + ABOVE]; wybór ważony rzadkością. Deterministyczne przez `random()`.
  */
 export const RARITIES: readonly ItemRarity[] = ["legendary", "epic", "rare", "uncommon", "common"];
 
-/** Chance per kill (of a non-minion monster) to drop one catalog item. */
-export const DROP_CHANCE = 0.08;
+/** Rzadkość dropu: tylko słabe przedmioty (właściciel 12.11.2026). Lepsze — wyłącznie craft. */
+export const DROP_RARITIES: readonly ItemRarity[] = ["common", "uncommon"];
+
+/** Szansa na kill (nie-miniona) na jeden słaby przedmiot z katalogu. Rzadki drop (było 0.08). */
+export const DROP_CHANCE = 0.02;
 
 /** Relative pick weight of an item of this rarity inside one monster's pool. */
 export const RARITY_WEIGHT: Record<ItemRarity, number> = {
@@ -40,7 +44,9 @@ const ABOVE = 5;
 const WORLDS = ["verdant", "aether", "nexus", "pyra"] as const;
 const MAX_MONSTER_LEVEL = Math.max(...MONSTERS.map((m) => m.level));
 
-export const isLootable = (item: ItemDefinition) => item.category !== "quest";
+/** Dropi tylko słabe przedmioty (common/uncommon), bez kluczy fabularnych. Lepsze — wyłącznie craft. */
+export const isLootable = (item: ItemDefinition) =>
+  item.category !== "quest" && (DROP_RARITIES as readonly string[]).includes(item.rarity);
 
 /** Level the drop pools use for an item (clamped to the highest monster level). */
 export function lootLevel(item: ItemDefinition): number {
@@ -101,4 +107,20 @@ export function itemDropChances(itemId: string): { monster: MonsterDef; chance: 
     if (at >= 0) out.push({ monster, chance: (DROP_CHANCE * pool.weights[at]!) / pool.total });
   }
   return out;
+}
+
+/**
+ * Sklep kupca (system ekonomii 12.11.2026): sprzedaje WYŁĄCZNIE słabe przedmioty (common/uncommon,
+ * bez materiałów i kluczy fabularnych) po WYGÓROWANEJ cenie, żeby trzeba było pograć, zanim się kupi.
+ * Lepszy sprzęt — wyłącznie crafting. Cena = SHOP_MARKUP × cena katalogowa, min. poziom×60 monet.
+ */
+export const SHOP_MARKUP = 4;
+export const isShopItem = (item: ItemDefinition) =>
+  (DROP_RARITIES as readonly string[]).includes(item.rarity) &&
+  item.category !== "quest" &&
+  item.category !== "material";
+export function shopPrice(item: ItemDefinition): number {
+  const level = lootLevel(item);
+  const base = item.price || level * 20;
+  return Math.max(Math.ceil(base * SHOP_MARKUP), level * 60);
 }
