@@ -611,3 +611,20 @@ Pełny TypeScript aplikacji/e2e/tools PASS. [Kontrole integracyjne i SHA wejść
 - Nie zrobiono / nie sprawdzono: pełna bramka w tym przebiegu miała środowiskowe timeouty ciężkich testów
   (admin-world-overview, gpu-pipeline, racial-trial) pod obciążeniem — przechodzą osobno; pomiar zysku
   memo na fizycznym telefonie nie był wykonany.
+
+### 17. Systemy NPC: realne leże bossa u warden'a (koniec atrapy)
+
+- `boss_enter` była atrapą: teleport przy spawnie bez przywołania bossa (w świecie v2 nie ma landmarków
+  `danger`). Teraz warden **przywołuje realnego bossa kontynentu** w jego leżu:
+  - Boss wybierany z `BOSS_CATALOG` po `continent === world.id` (Ygdrasha/Thorgar/Arbiter/Kharzul itd.).
+  - Leże = `associatedLocationId` bossa → współrzędne z `v2Places().famousById`; fallback landmark
+    `danger`, potem punkt poza spawnem. Gracz teleportowany do leża (`nav.safe`), `interior=null`.
+  - Jeśli leże wciąż w bezpiecznym mieście — komunikat, by wyjść poza nie; inaczej `monsters.spawnBoss`
+    przywołuje bossa obok gracza (z łupem i fazami jak w istniejącym systemie bossów).
+- Testy: `warden-boss.test.ts` (2) — przywołanie bossa kontynentu w leżu / wskazanie leża; przeniesienie
+  gracza do leża. **2/2 PASS**. Zaktualizowano `npc-systems.test.ts` (test 4) do nowego zachowania
+  (realne leże zamiast atrapy „sanktuarium bossa"). Wszystkie testy NPC razem: **33/33 PASS** (9 plików).
+- Nie zrobiono / nie sprawdzono: walka z bossem po przywołaniu nie była testowana end-to-end na fizycznym
+  urządzeniu; łup bossa zapisuje się przez istniejący `bossRewards` (bez zmian). Pełna bramka ma środowiskowe
+  timeouty ciężkich testów (admin-world-overview, npc-trainer-visual, racial-trial) — przechodzą osobno
+  lub są niezależne od tej zmiany; lint 0, typecheck 0, build 0.
