@@ -231,9 +231,11 @@ for (const race of RACE_IDS)
                   (e) => e.hp > 0 && e.mode !== "dead" && !e.m.hidden && !e.m.invulnerable,
                 );
                 if (foe && !s.kit.channel) {
-                  if (distance(s.player, foe) > Math.min(80, s.kit.basicRange * 0.75))
-                    s.command({ type: "move", x: foe.x, y: foe.y });
-                  else {
+                  if (distance(s.player, foe) > Math.min(80, s.kit.basicRange * 0.75)) {
+                    // Allow the actual A* route to advance instead of resetting its first waypoint
+                    // every tick. Re-aim at moving targets at a deliberate 300 ms input cadence.
+                    if (elapsed % 300 === 0) s.command({ type: "move", x: foe.x, y: foe.y });
+                  } else {
                     s.command({ type: "target", id: foe.id });
                     s.command({ type: "ability", ability: "R" });
                     for (const a of s.kit.abilities()) {
@@ -394,7 +396,7 @@ writeFileSync(
         "Three HP potions per isolated trial; no supply/economy model. Transformation T not used.",
         "Identical seeded initial conditions across policies; RNG consumption may diverge when actions change.",
         "Enemy level is closest available at/near player level. Old level-18 monsters are not used against level-40 players.",
-        "Scripted close-range attacker uses actual movement/LOS, basic attack, ready abilities and potions. No perfect human dodge/aim model.",
+        "Scripted close-range attacker uses actual movement/LOS with a 300 ms chase-command cadence, basic attack, ready abilities and potions. No perfect human dodge/aim model.",
         "Stress uses a real navigation obstacle and both opponent roles simultaneously. It is a controlled arena, not a full campaign.",
         "A zero-gain rank measures rounded max-stat deltas at fixed level, not every secondary effect.",
         "Wilson intervals describe conditional seed variation for each fixed profile, not a random sample of all players.",
