@@ -30,7 +30,7 @@ from PIL import Image
 from rembg import remove, new_session
 
 assert WORLD in ('verdant', 'aether', 'nexus', 'pyra'), WORLD
-assert ROLE in ('trainer', 'keeper', 'innkeeper', 'guide', 'smith', 'warden', 'steward'), ROLE
+assert ROLE in ('trainer', 'keeper', 'innkeeper', 'guide', 'smith', 'warden', 'steward', 'merchant'), ROLE
 DIRS = ['down', 'down-left', 'left', 'up-left', 'up', 'up-right', 'right', 'down-right']
 # direction -> (video frame number, mirror). Frame numbers at 24 fps of the owner's Trener turnaround.
 PICKS = {
@@ -70,21 +70,29 @@ PICKS = {
         'down': (132, False), 'down-right': (24, False), 'right': (48, False), 'up-right': (60, False),
         'up': (84, False), 'up-left': (96, False), 'left': (108, False), 'down-left': (120, False),
     },
+    # Handlarka turnaround (193 frames, caption under the feet in every frame)
+    'merchant': {
+        'down': (180, False), 'down-right': (20, False), 'right': (60, False), 'up-right': (90, False),
+        'up': (100, False), 'up-left': (120, False), 'left': (140, False), 'down-left': (160, False),
+    },
 }[ROLE]
 if os.environ.get('NPC_PICKS'):  # e.g. "down=0,left=36,down-right=24m"
     for part in os.environ['NPC_PICKS'].split(','):
         d, v = part.split('=')
         PICKS[d] = (int(v.rstrip('m')), v.endswith('m'))
-# The trainer is a landmark NPC drawn twice the size from 256 px cells (contract.npcLarge); every other role is a standard NPC:
-# 128 px cells drawn 96 (the importer requires exactly that for a non-large NPC).
-LARGE = ROLE == 'trainer'
-CELL = 256 if LARGE else 128
-FIG_H = 232 if LARGE else 116        # figure height in the cell
-FEET_Y = 243 if LARGE else 121       # feet row (origin .95 * cell)
-SIZE = [192, 192] if LARGE else [96, 96]
+# Every NPC is cut at 256 px so it stays sharp when drawn big. The trainer is a landmark NPC drawn twice the size (contract.npcLarge,
+# 192); the other roles keep the standard contract size 96 in the pack and are drawn 150 by catalog.ts (`enlargedNpcs`), taller than the
+# hero (133) but shorter than the trainer, like the heroes are enlarged from their 96 contract size.
+CELL = 256
+FIG_H = 232                          # figure height in the cell
+FEET_Y = 243                         # feet row (origin .95 * cell)
+SIZE = [192, 192] if ROLE == 'trainer' else [96, 96]
 # two poses per facing (rest, inhale); the 8 idle frame names reuse the same atlas rectangles, which keeps the texture small
 POSES = [1.0, 1.012]
 BREATH = [0, 0, 1, 1, 1, 1, 0, 0]   # pose index of each of the 8 idle frames
+if ROLE != 'trainer':   # 256 px cells cost memory (Verdantia is at the texture budget): the residents stand on one pose, no breathing
+    POSES = [1.0]
+    BREATH = [0] * 8
 ACTOR = f'npc-{WORLD}-{ROLE}'
 ASSET = f'{ACTOR}-page-0'
 
@@ -109,7 +117,7 @@ for k, n in enumerate(need):
 
 HUES = {'pyra': None, 'verdant': 125.0, 'aether': 190.0, 'nexus': 225.0}
 HUE = float(os.environ['NPC_HUE']) if os.environ.get('NPC_HUE') else HUES[WORLD]
-HEAD_ROWS = {'keeper': 0.16, 'innkeeper': 0.2, 'guide': 0.16, 'smith': 0.2}.get(ROLE, 0.16)
+HEAD_ROWS = {'keeper': 0.16, 'innkeeper': 0.2, 'guide': 0.16, 'smith': 0.2, 'merchant': 0.2}.get(ROLE, 0.16)
 DARK_ONLY = ROLE in ('guide', 'warden', 'steward')   # long auburn hair and orange trim look like the cloak's warm colours: only the dark cloth is recoloured   # the top of the figure (face, hair) is never recoloured
 
 def recolor(rgba, hue):

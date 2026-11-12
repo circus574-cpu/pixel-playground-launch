@@ -95173,18 +95173,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-pyra-keeper",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-pyra-keeper-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-pyra-keeper/1.0.0-a1bef5bcff20/npc-pyra-keeper-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-pyra-keeper/1.0.0-a1bef5bcff20/npc-pyra-keeper-page-0.json",
-        "width": 425,
-        "height": 248
+        "url": "/game/assets/gpu/npc-pyra-keeper/1.2.0-010f1d2a3f1a/npc-pyra-keeper-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-pyra-keeper/1.2.0-010f1d2a3f1a/npc-pyra-keeper-page-0.json",
+        "width": 788,
+        "height": 244
       }
     ],
     "actors": [
@@ -95388,18 +95388,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-verdant-keeper",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-verdant-keeper-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-verdant-keeper/1.0.0-704b6939fdce/npc-verdant-keeper-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-verdant-keeper/1.0.0-704b6939fdce/npc-verdant-keeper-page-0.json",
-        "width": 425,
-        "height": 248
+        "url": "/game/assets/gpu/npc-verdant-keeper/1.2.0-ef602ca6f8ec/npc-verdant-keeper-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-verdant-keeper/1.2.0-ef602ca6f8ec/npc-verdant-keeper-page-0.json",
+        "width": 788,
+        "height": 244
       }
     ],
     "actors": [
@@ -95603,18 +95603,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-aether-keeper",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-aether-keeper-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-aether-keeper/1.0.0-6b28cd5774b4/npc-aether-keeper-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-aether-keeper/1.0.0-6b28cd5774b4/npc-aether-keeper-page-0.json",
-        "width": 425,
-        "height": 248
+        "url": "/game/assets/gpu/npc-aether-keeper/1.2.0-b84436cb94de/npc-aether-keeper-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-aether-keeper/1.2.0-b84436cb94de/npc-aether-keeper-page-0.json",
+        "width": 788,
+        "height": 244
       }
     ],
     "actors": [
@@ -95818,18 +95818,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-nexus-keeper",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-nexus-keeper-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-nexus-keeper/1.0.0-534a37bfcb3c/npc-nexus-keeper-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-nexus-keeper/1.0.0-534a37bfcb3c/npc-nexus-keeper-page-0.json",
-        "width": 425,
-        "height": 248
+        "url": "/game/assets/gpu/npc-nexus-keeper/1.2.0-f186dc557577/npc-nexus-keeper-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-nexus-keeper/1.2.0-f186dc557577/npc-nexus-keeper-page-0.json",
+        "width": 788,
+        "height": 244
       }
     ],
     "actors": [
@@ -96033,18 +96033,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-pyra-innkeeper",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-pyra-innkeeper-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-pyra-innkeeper/1.0.0-4bc0f76273da/npc-pyra-innkeeper-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-pyra-innkeeper/1.0.0-4bc0f76273da/npc-pyra-innkeeper-page-0.json",
-        "width": 539,
-        "height": 244
+        "url": "/game/assets/gpu/npc-pyra-innkeeper/1.2.0-ac7fe82314c8/npc-pyra-innkeeper-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-pyra-innkeeper/1.2.0-ac7fe82314c8/npc-pyra-innkeeper-page-0.json",
+        "width": 1032,
+        "height": 240
       }
     ],
     "actors": [
@@ -96248,18 +96248,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-verdant-innkeeper",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-verdant-innkeeper-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-verdant-innkeeper/1.0.0-0d149c87805a/npc-verdant-innkeeper-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-verdant-innkeeper/1.0.0-0d149c87805a/npc-verdant-innkeeper-page-0.json",
-        "width": 539,
-        "height": 244
+        "url": "/game/assets/gpu/npc-verdant-innkeeper/1.2.0-0e7ea59eab11/npc-verdant-innkeeper-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-verdant-innkeeper/1.2.0-0e7ea59eab11/npc-verdant-innkeeper-page-0.json",
+        "width": 1032,
+        "height": 240
       }
     ],
     "actors": [
@@ -96463,18 +96463,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-aether-innkeeper",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-aether-innkeeper-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-aether-innkeeper/1.0.0-956538c08ef9/npc-aether-innkeeper-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-aether-innkeeper/1.0.0-956538c08ef9/npc-aether-innkeeper-page-0.json",
-        "width": 539,
-        "height": 244
+        "url": "/game/assets/gpu/npc-aether-innkeeper/1.2.0-1ff4997848a3/npc-aether-innkeeper-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-aether-innkeeper/1.2.0-1ff4997848a3/npc-aether-innkeeper-page-0.json",
+        "width": 1032,
+        "height": 240
       }
     ],
     "actors": [
@@ -96678,18 +96678,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-nexus-innkeeper",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-nexus-innkeeper-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-nexus-innkeeper/1.0.0-785e70790b66/npc-nexus-innkeeper-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-nexus-innkeeper/1.0.0-785e70790b66/npc-nexus-innkeeper-page-0.json",
-        "width": 539,
-        "height": 244
+        "url": "/game/assets/gpu/npc-nexus-innkeeper/1.2.0-c75e3ec3b4a4/npc-nexus-innkeeper-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-nexus-innkeeper/1.2.0-c75e3ec3b4a4/npc-nexus-innkeeper-page-0.json",
+        "width": 1032,
+        "height": 240
       }
     ],
     "actors": [
@@ -96893,17 +96893,17 @@
   {
     "schemaVersion": 1,
     "id": "npc-pyra-guide",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-pyra-guide-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-pyra-guide/1.0.0-df1326c25841/npc-pyra-guide-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-pyra-guide/1.0.0-df1326c25841/npc-pyra-guide-page-0.json",
-        "width": 554,
+        "url": "/game/assets/gpu/npc-pyra-guide/1.2.0-5e75a76385d9/npc-pyra-guide-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-pyra-guide/1.2.0-5e75a76385d9/npc-pyra-guide-page-0.json",
+        "width": 1046,
         "height": 248
       }
     ],
@@ -97108,17 +97108,17 @@
   {
     "schemaVersion": 1,
     "id": "npc-verdant-guide",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-verdant-guide-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-verdant-guide/1.0.0-ba0751fcfb38/npc-verdant-guide-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-verdant-guide/1.0.0-ba0751fcfb38/npc-verdant-guide-page-0.json",
-        "width": 554,
+        "url": "/game/assets/gpu/npc-verdant-guide/1.2.0-ff6842a909d9/npc-verdant-guide-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-verdant-guide/1.2.0-ff6842a909d9/npc-verdant-guide-page-0.json",
+        "width": 1046,
         "height": 248
       }
     ],
@@ -97323,17 +97323,17 @@
   {
     "schemaVersion": 1,
     "id": "npc-aether-guide",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-aether-guide-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-aether-guide/1.0.0-535488a11115/npc-aether-guide-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-aether-guide/1.0.0-535488a11115/npc-aether-guide-page-0.json",
-        "width": 554,
+        "url": "/game/assets/gpu/npc-aether-guide/1.2.0-b31c650a21c2/npc-aether-guide-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-aether-guide/1.2.0-b31c650a21c2/npc-aether-guide-page-0.json",
+        "width": 1046,
         "height": 248
       }
     ],
@@ -97538,17 +97538,17 @@
   {
     "schemaVersion": 1,
     "id": "npc-nexus-guide",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-nexus-guide-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-nexus-guide/1.0.0-1a13bfa59e8c/npc-nexus-guide-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-nexus-guide/1.0.0-1a13bfa59e8c/npc-nexus-guide-page-0.json",
-        "width": 554,
+        "url": "/game/assets/gpu/npc-nexus-guide/1.2.0-7818d075d8a4/npc-nexus-guide-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-nexus-guide/1.2.0-7818d075d8a4/npc-nexus-guide-page-0.json",
+        "width": 1046,
         "height": 248
       }
     ],
@@ -97753,18 +97753,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-pyra-smith",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-pyra-smith-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-pyra-smith/1.0.0-5b19e30591ee/npc-pyra-smith-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-pyra-smith/1.0.0-5b19e30591ee/npc-pyra-smith-page-0.json",
-        "width": 1066,
-        "height": 128
+        "url": "/game/assets/gpu/npc-pyra-smith/1.2.0-cbb63c850b74/npc-pyra-smith-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-pyra-smith/1.2.0-cbb63c850b74/npc-pyra-smith-page-0.json",
+        "width": 1029,
+        "height": 252
       }
     ],
     "actors": [
@@ -97968,18 +97968,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-verdant-smith",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-verdant-smith-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-verdant-smith/1.0.0-e75a8c1216a7/npc-verdant-smith-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-verdant-smith/1.0.0-e75a8c1216a7/npc-verdant-smith-page-0.json",
-        "width": 1066,
-        "height": 128
+        "url": "/game/assets/gpu/npc-verdant-smith/1.2.0-b4d6ca846ff1/npc-verdant-smith-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-verdant-smith/1.2.0-b4d6ca846ff1/npc-verdant-smith-page-0.json",
+        "width": 1029,
+        "height": 252
       }
     ],
     "actors": [
@@ -98183,18 +98183,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-aether-smith",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-aether-smith-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-aether-smith/1.0.0-eb8712e98e65/npc-aether-smith-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-aether-smith/1.0.0-eb8712e98e65/npc-aether-smith-page-0.json",
-        "width": 1066,
-        "height": 128
+        "url": "/game/assets/gpu/npc-aether-smith/1.2.0-b74f60543da8/npc-aether-smith-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-aether-smith/1.2.0-b74f60543da8/npc-aether-smith-page-0.json",
+        "width": 1029,
+        "height": 252
       }
     ],
     "actors": [
@@ -98398,18 +98398,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-nexus-smith",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-nexus-smith-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-nexus-smith/1.0.0-ce5d70cd90c0/npc-nexus-smith-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-nexus-smith/1.0.0-ce5d70cd90c0/npc-nexus-smith-page-0.json",
-        "width": 1066,
-        "height": 128
+        "url": "/game/assets/gpu/npc-nexus-smith/1.2.0-7b366689e3b7/npc-nexus-smith-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-nexus-smith/1.2.0-7b366689e3b7/npc-nexus-smith-page-0.json",
+        "width": 1029,
+        "height": 252
       }
     ],
     "actors": [
@@ -98613,18 +98613,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-pyra-warden",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-pyra-warden-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-pyra-warden/1.0.0-3345a3429c86/npc-pyra-warden-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-pyra-warden/1.0.0-3345a3429c86/npc-pyra-warden-page-0.json",
-        "width": 447,
-        "height": 232
+        "url": "/game/assets/gpu/npc-pyra-warden/1.2.0-536bdfb03f98/npc-pyra-warden-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-pyra-warden/1.2.0-536bdfb03f98/npc-pyra-warden-page-0.json",
+        "width": 432,
+        "height": 452
       }
     ],
     "actors": [
@@ -98828,18 +98828,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-verdant-warden",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-verdant-warden-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-verdant-warden/1.0.0-c3e142d1ca04/npc-verdant-warden-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-verdant-warden/1.0.0-c3e142d1ca04/npc-verdant-warden-page-0.json",
-        "width": 447,
-        "height": 232
+        "url": "/game/assets/gpu/npc-verdant-warden/1.2.0-e927a37a582b/npc-verdant-warden-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-verdant-warden/1.2.0-e927a37a582b/npc-verdant-warden-page-0.json",
+        "width": 432,
+        "height": 452
       }
     ],
     "actors": [
@@ -99043,18 +99043,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-aether-warden",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-aether-warden-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-aether-warden/1.0.0-92f44234b79e/npc-aether-warden-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-aether-warden/1.0.0-92f44234b79e/npc-aether-warden-page-0.json",
-        "width": 447,
-        "height": 232
+        "url": "/game/assets/gpu/npc-aether-warden/1.2.0-bf627f579579/npc-aether-warden-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-aether-warden/1.2.0-bf627f579579/npc-aether-warden-page-0.json",
+        "width": 432,
+        "height": 452
       }
     ],
     "actors": [
@@ -99258,18 +99258,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-nexus-warden",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-nexus-warden-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-nexus-warden/1.0.0-a2d18db7b417/npc-nexus-warden-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-nexus-warden/1.0.0-a2d18db7b417/npc-nexus-warden-page-0.json",
-        "width": 447,
-        "height": 232
+        "url": "/game/assets/gpu/npc-nexus-warden/1.2.0-1767b4aa581e/npc-nexus-warden-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-nexus-warden/1.2.0-1767b4aa581e/npc-nexus-warden-page-0.json",
+        "width": 432,
+        "height": 452
       }
     ],
     "actors": [
@@ -99473,18 +99473,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-pyra-steward",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-pyra-steward-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-pyra-steward/1.0.0-c2d709edbf2c/npc-pyra-steward-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-pyra-steward/1.0.0-c2d709edbf2c/npc-pyra-steward-page-0.json",
-        "width": 503,
-        "height": 244
+        "url": "/game/assets/gpu/npc-pyra-steward/1.2.0-9282710a8036/npc-pyra-steward-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-pyra-steward/1.2.0-9282710a8036/npc-pyra-steward-page-0.json",
+        "width": 968,
+        "height": 240
       }
     ],
     "actors": [
@@ -99688,18 +99688,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-verdant-steward",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-verdant-steward-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-verdant-steward/1.0.0-b4ad3fa0c42e/npc-verdant-steward-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-verdant-steward/1.0.0-b4ad3fa0c42e/npc-verdant-steward-page-0.json",
-        "width": 503,
-        "height": 244
+        "url": "/game/assets/gpu/npc-verdant-steward/1.2.0-5f5abf577d12/npc-verdant-steward-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-verdant-steward/1.2.0-5f5abf577d12/npc-verdant-steward-page-0.json",
+        "width": 968,
+        "height": 240
       }
     ],
     "actors": [
@@ -99903,18 +99903,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-aether-steward",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-aether-steward-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-aether-steward/1.0.0-b5b84ee50ae9/npc-aether-steward-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-aether-steward/1.0.0-b5b84ee50ae9/npc-aether-steward-page-0.json",
-        "width": 503,
-        "height": 244
+        "url": "/game/assets/gpu/npc-aether-steward/1.2.0-6f2acb5908f2/npc-aether-steward-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-aether-steward/1.2.0-6f2acb5908f2/npc-aether-steward-page-0.json",
+        "width": 968,
+        "height": 240
       }
     ],
     "actors": [
@@ -100118,18 +100118,18 @@
   {
     "schemaVersion": 1,
     "id": "npc-nexus-steward",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "npc-nexus-steward-page-0",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/npc-nexus-steward/1.0.0-a3b8b890956b/npc-nexus-steward-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/npc-nexus-steward/1.0.0-a3b8b890956b/npc-nexus-steward-page-0.json",
-        "width": 503,
-        "height": 244
+        "url": "/game/assets/gpu/npc-nexus-steward/1.2.0-5d61bcb744f6/npc-nexus-steward-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-nexus-steward/1.2.0-5d61bcb744f6/npc-nexus-steward-page-0.json",
+        "width": 968,
+        "height": 240
       }
     ],
     "actors": [
@@ -100326,6 +100326,866 @@
     ],
     "actorBindings": {
       "nexus.npc.steward": "npc-nexus-steward"
+    },
+    "renderBindings": {},
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-pyra-merchant",
+    "version": "1.2.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-pyra-merchant-page-0",
+        "version": "1.2.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-pyra-merchant/1.2.0-30260e18df8b/npc-pyra-merchant-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-pyra-merchant/1.2.0-30260e18df8b/npc-pyra-merchant-page-0.json",
+        "width": 826,
+        "height": 240
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-pyra-merchant",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-pyra-merchant-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-pyra-merchant/idle/down/00",
+                "npc-pyra-merchant/idle/down/01",
+                "npc-pyra-merchant/idle/down/02",
+                "npc-pyra-merchant/idle/down/03",
+                "npc-pyra-merchant/idle/down/04",
+                "npc-pyra-merchant/idle/down/05",
+                "npc-pyra-merchant/idle/down/06",
+                "npc-pyra-merchant/idle/down/07"
+              ],
+              "down-left": [
+                "npc-pyra-merchant/idle/down-left/00",
+                "npc-pyra-merchant/idle/down-left/01",
+                "npc-pyra-merchant/idle/down-left/02",
+                "npc-pyra-merchant/idle/down-left/03",
+                "npc-pyra-merchant/idle/down-left/04",
+                "npc-pyra-merchant/idle/down-left/05",
+                "npc-pyra-merchant/idle/down-left/06",
+                "npc-pyra-merchant/idle/down-left/07"
+              ],
+              "left": [
+                "npc-pyra-merchant/idle/left/00",
+                "npc-pyra-merchant/idle/left/01",
+                "npc-pyra-merchant/idle/left/02",
+                "npc-pyra-merchant/idle/left/03",
+                "npc-pyra-merchant/idle/left/04",
+                "npc-pyra-merchant/idle/left/05",
+                "npc-pyra-merchant/idle/left/06",
+                "npc-pyra-merchant/idle/left/07"
+              ],
+              "up-left": [
+                "npc-pyra-merchant/idle/up-left/00",
+                "npc-pyra-merchant/idle/up-left/01",
+                "npc-pyra-merchant/idle/up-left/02",
+                "npc-pyra-merchant/idle/up-left/03",
+                "npc-pyra-merchant/idle/up-left/04",
+                "npc-pyra-merchant/idle/up-left/05",
+                "npc-pyra-merchant/idle/up-left/06",
+                "npc-pyra-merchant/idle/up-left/07"
+              ],
+              "up": [
+                "npc-pyra-merchant/idle/up/00",
+                "npc-pyra-merchant/idle/up/01",
+                "npc-pyra-merchant/idle/up/02",
+                "npc-pyra-merchant/idle/up/03",
+                "npc-pyra-merchant/idle/up/04",
+                "npc-pyra-merchant/idle/up/05",
+                "npc-pyra-merchant/idle/up/06",
+                "npc-pyra-merchant/idle/up/07"
+              ],
+              "up-right": [
+                "npc-pyra-merchant/idle/up-right/00",
+                "npc-pyra-merchant/idle/up-right/01",
+                "npc-pyra-merchant/idle/up-right/02",
+                "npc-pyra-merchant/idle/up-right/03",
+                "npc-pyra-merchant/idle/up-right/04",
+                "npc-pyra-merchant/idle/up-right/05",
+                "npc-pyra-merchant/idle/up-right/06",
+                "npc-pyra-merchant/idle/up-right/07"
+              ],
+              "right": [
+                "npc-pyra-merchant/idle/right/00",
+                "npc-pyra-merchant/idle/right/01",
+                "npc-pyra-merchant/idle/right/02",
+                "npc-pyra-merchant/idle/right/03",
+                "npc-pyra-merchant/idle/right/04",
+                "npc-pyra-merchant/idle/right/05",
+                "npc-pyra-merchant/idle/right/06",
+                "npc-pyra-merchant/idle/right/07"
+              ],
+              "down-right": [
+                "npc-pyra-merchant/idle/down-right/00",
+                "npc-pyra-merchant/idle/down-right/01",
+                "npc-pyra-merchant/idle/down-right/02",
+                "npc-pyra-merchant/idle/down-right/03",
+                "npc-pyra-merchant/idle/down-right/04",
+                "npc-pyra-merchant/idle/down-right/05",
+                "npc-pyra-merchant/idle/down-right/06",
+                "npc-pyra-merchant/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-pyra-merchant-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-pyra-merchant/idle/down/00",
+                "npc-pyra-merchant/idle/down/01",
+                "npc-pyra-merchant/idle/down/02",
+                "npc-pyra-merchant/idle/down/03",
+                "npc-pyra-merchant/idle/down/04",
+                "npc-pyra-merchant/idle/down/05",
+                "npc-pyra-merchant/idle/down/06",
+                "npc-pyra-merchant/idle/down/07"
+              ],
+              "down-left": [
+                "npc-pyra-merchant/idle/down-left/00",
+                "npc-pyra-merchant/idle/down-left/01",
+                "npc-pyra-merchant/idle/down-left/02",
+                "npc-pyra-merchant/idle/down-left/03",
+                "npc-pyra-merchant/idle/down-left/04",
+                "npc-pyra-merchant/idle/down-left/05",
+                "npc-pyra-merchant/idle/down-left/06",
+                "npc-pyra-merchant/idle/down-left/07"
+              ],
+              "left": [
+                "npc-pyra-merchant/idle/left/00",
+                "npc-pyra-merchant/idle/left/01",
+                "npc-pyra-merchant/idle/left/02",
+                "npc-pyra-merchant/idle/left/03",
+                "npc-pyra-merchant/idle/left/04",
+                "npc-pyra-merchant/idle/left/05",
+                "npc-pyra-merchant/idle/left/06",
+                "npc-pyra-merchant/idle/left/07"
+              ],
+              "up-left": [
+                "npc-pyra-merchant/idle/up-left/00",
+                "npc-pyra-merchant/idle/up-left/01",
+                "npc-pyra-merchant/idle/up-left/02",
+                "npc-pyra-merchant/idle/up-left/03",
+                "npc-pyra-merchant/idle/up-left/04",
+                "npc-pyra-merchant/idle/up-left/05",
+                "npc-pyra-merchant/idle/up-left/06",
+                "npc-pyra-merchant/idle/up-left/07"
+              ],
+              "up": [
+                "npc-pyra-merchant/idle/up/00",
+                "npc-pyra-merchant/idle/up/01",
+                "npc-pyra-merchant/idle/up/02",
+                "npc-pyra-merchant/idle/up/03",
+                "npc-pyra-merchant/idle/up/04",
+                "npc-pyra-merchant/idle/up/05",
+                "npc-pyra-merchant/idle/up/06",
+                "npc-pyra-merchant/idle/up/07"
+              ],
+              "up-right": [
+                "npc-pyra-merchant/idle/up-right/00",
+                "npc-pyra-merchant/idle/up-right/01",
+                "npc-pyra-merchant/idle/up-right/02",
+                "npc-pyra-merchant/idle/up-right/03",
+                "npc-pyra-merchant/idle/up-right/04",
+                "npc-pyra-merchant/idle/up-right/05",
+                "npc-pyra-merchant/idle/up-right/06",
+                "npc-pyra-merchant/idle/up-right/07"
+              ],
+              "right": [
+                "npc-pyra-merchant/idle/right/00",
+                "npc-pyra-merchant/idle/right/01",
+                "npc-pyra-merchant/idle/right/02",
+                "npc-pyra-merchant/idle/right/03",
+                "npc-pyra-merchant/idle/right/04",
+                "npc-pyra-merchant/idle/right/05",
+                "npc-pyra-merchant/idle/right/06",
+                "npc-pyra-merchant/idle/right/07"
+              ],
+              "down-right": [
+                "npc-pyra-merchant/idle/down-right/00",
+                "npc-pyra-merchant/idle/down-right/01",
+                "npc-pyra-merchant/idle/down-right/02",
+                "npc-pyra-merchant/idle/down-right/03",
+                "npc-pyra-merchant/idle/down-right/04",
+                "npc-pyra-merchant/idle/down-right/05",
+                "npc-pyra-merchant/idle/down-right/06",
+                "npc-pyra-merchant/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "pyra.npc.merchant": "npc-pyra-merchant"
+    },
+    "renderBindings": {},
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-verdant-merchant",
+    "version": "1.2.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-verdant-merchant-page-0",
+        "version": "1.2.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-verdant-merchant/1.2.0-952989ffeab4/npc-verdant-merchant-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-verdant-merchant/1.2.0-952989ffeab4/npc-verdant-merchant-page-0.json",
+        "width": 826,
+        "height": 240
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-verdant-merchant",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-verdant-merchant-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-verdant-merchant/idle/down/00",
+                "npc-verdant-merchant/idle/down/01",
+                "npc-verdant-merchant/idle/down/02",
+                "npc-verdant-merchant/idle/down/03",
+                "npc-verdant-merchant/idle/down/04",
+                "npc-verdant-merchant/idle/down/05",
+                "npc-verdant-merchant/idle/down/06",
+                "npc-verdant-merchant/idle/down/07"
+              ],
+              "down-left": [
+                "npc-verdant-merchant/idle/down-left/00",
+                "npc-verdant-merchant/idle/down-left/01",
+                "npc-verdant-merchant/idle/down-left/02",
+                "npc-verdant-merchant/idle/down-left/03",
+                "npc-verdant-merchant/idle/down-left/04",
+                "npc-verdant-merchant/idle/down-left/05",
+                "npc-verdant-merchant/idle/down-left/06",
+                "npc-verdant-merchant/idle/down-left/07"
+              ],
+              "left": [
+                "npc-verdant-merchant/idle/left/00",
+                "npc-verdant-merchant/idle/left/01",
+                "npc-verdant-merchant/idle/left/02",
+                "npc-verdant-merchant/idle/left/03",
+                "npc-verdant-merchant/idle/left/04",
+                "npc-verdant-merchant/idle/left/05",
+                "npc-verdant-merchant/idle/left/06",
+                "npc-verdant-merchant/idle/left/07"
+              ],
+              "up-left": [
+                "npc-verdant-merchant/idle/up-left/00",
+                "npc-verdant-merchant/idle/up-left/01",
+                "npc-verdant-merchant/idle/up-left/02",
+                "npc-verdant-merchant/idle/up-left/03",
+                "npc-verdant-merchant/idle/up-left/04",
+                "npc-verdant-merchant/idle/up-left/05",
+                "npc-verdant-merchant/idle/up-left/06",
+                "npc-verdant-merchant/idle/up-left/07"
+              ],
+              "up": [
+                "npc-verdant-merchant/idle/up/00",
+                "npc-verdant-merchant/idle/up/01",
+                "npc-verdant-merchant/idle/up/02",
+                "npc-verdant-merchant/idle/up/03",
+                "npc-verdant-merchant/idle/up/04",
+                "npc-verdant-merchant/idle/up/05",
+                "npc-verdant-merchant/idle/up/06",
+                "npc-verdant-merchant/idle/up/07"
+              ],
+              "up-right": [
+                "npc-verdant-merchant/idle/up-right/00",
+                "npc-verdant-merchant/idle/up-right/01",
+                "npc-verdant-merchant/idle/up-right/02",
+                "npc-verdant-merchant/idle/up-right/03",
+                "npc-verdant-merchant/idle/up-right/04",
+                "npc-verdant-merchant/idle/up-right/05",
+                "npc-verdant-merchant/idle/up-right/06",
+                "npc-verdant-merchant/idle/up-right/07"
+              ],
+              "right": [
+                "npc-verdant-merchant/idle/right/00",
+                "npc-verdant-merchant/idle/right/01",
+                "npc-verdant-merchant/idle/right/02",
+                "npc-verdant-merchant/idle/right/03",
+                "npc-verdant-merchant/idle/right/04",
+                "npc-verdant-merchant/idle/right/05",
+                "npc-verdant-merchant/idle/right/06",
+                "npc-verdant-merchant/idle/right/07"
+              ],
+              "down-right": [
+                "npc-verdant-merchant/idle/down-right/00",
+                "npc-verdant-merchant/idle/down-right/01",
+                "npc-verdant-merchant/idle/down-right/02",
+                "npc-verdant-merchant/idle/down-right/03",
+                "npc-verdant-merchant/idle/down-right/04",
+                "npc-verdant-merchant/idle/down-right/05",
+                "npc-verdant-merchant/idle/down-right/06",
+                "npc-verdant-merchant/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-verdant-merchant-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-verdant-merchant/idle/down/00",
+                "npc-verdant-merchant/idle/down/01",
+                "npc-verdant-merchant/idle/down/02",
+                "npc-verdant-merchant/idle/down/03",
+                "npc-verdant-merchant/idle/down/04",
+                "npc-verdant-merchant/idle/down/05",
+                "npc-verdant-merchant/idle/down/06",
+                "npc-verdant-merchant/idle/down/07"
+              ],
+              "down-left": [
+                "npc-verdant-merchant/idle/down-left/00",
+                "npc-verdant-merchant/idle/down-left/01",
+                "npc-verdant-merchant/idle/down-left/02",
+                "npc-verdant-merchant/idle/down-left/03",
+                "npc-verdant-merchant/idle/down-left/04",
+                "npc-verdant-merchant/idle/down-left/05",
+                "npc-verdant-merchant/idle/down-left/06",
+                "npc-verdant-merchant/idle/down-left/07"
+              ],
+              "left": [
+                "npc-verdant-merchant/idle/left/00",
+                "npc-verdant-merchant/idle/left/01",
+                "npc-verdant-merchant/idle/left/02",
+                "npc-verdant-merchant/idle/left/03",
+                "npc-verdant-merchant/idle/left/04",
+                "npc-verdant-merchant/idle/left/05",
+                "npc-verdant-merchant/idle/left/06",
+                "npc-verdant-merchant/idle/left/07"
+              ],
+              "up-left": [
+                "npc-verdant-merchant/idle/up-left/00",
+                "npc-verdant-merchant/idle/up-left/01",
+                "npc-verdant-merchant/idle/up-left/02",
+                "npc-verdant-merchant/idle/up-left/03",
+                "npc-verdant-merchant/idle/up-left/04",
+                "npc-verdant-merchant/idle/up-left/05",
+                "npc-verdant-merchant/idle/up-left/06",
+                "npc-verdant-merchant/idle/up-left/07"
+              ],
+              "up": [
+                "npc-verdant-merchant/idle/up/00",
+                "npc-verdant-merchant/idle/up/01",
+                "npc-verdant-merchant/idle/up/02",
+                "npc-verdant-merchant/idle/up/03",
+                "npc-verdant-merchant/idle/up/04",
+                "npc-verdant-merchant/idle/up/05",
+                "npc-verdant-merchant/idle/up/06",
+                "npc-verdant-merchant/idle/up/07"
+              ],
+              "up-right": [
+                "npc-verdant-merchant/idle/up-right/00",
+                "npc-verdant-merchant/idle/up-right/01",
+                "npc-verdant-merchant/idle/up-right/02",
+                "npc-verdant-merchant/idle/up-right/03",
+                "npc-verdant-merchant/idle/up-right/04",
+                "npc-verdant-merchant/idle/up-right/05",
+                "npc-verdant-merchant/idle/up-right/06",
+                "npc-verdant-merchant/idle/up-right/07"
+              ],
+              "right": [
+                "npc-verdant-merchant/idle/right/00",
+                "npc-verdant-merchant/idle/right/01",
+                "npc-verdant-merchant/idle/right/02",
+                "npc-verdant-merchant/idle/right/03",
+                "npc-verdant-merchant/idle/right/04",
+                "npc-verdant-merchant/idle/right/05",
+                "npc-verdant-merchant/idle/right/06",
+                "npc-verdant-merchant/idle/right/07"
+              ],
+              "down-right": [
+                "npc-verdant-merchant/idle/down-right/00",
+                "npc-verdant-merchant/idle/down-right/01",
+                "npc-verdant-merchant/idle/down-right/02",
+                "npc-verdant-merchant/idle/down-right/03",
+                "npc-verdant-merchant/idle/down-right/04",
+                "npc-verdant-merchant/idle/down-right/05",
+                "npc-verdant-merchant/idle/down-right/06",
+                "npc-verdant-merchant/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "verdant.npc.merchant": "npc-verdant-merchant"
+    },
+    "renderBindings": {},
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-aether-merchant",
+    "version": "1.2.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-aether-merchant-page-0",
+        "version": "1.2.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-aether-merchant/1.2.0-3979e698e749/npc-aether-merchant-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-aether-merchant/1.2.0-3979e698e749/npc-aether-merchant-page-0.json",
+        "width": 826,
+        "height": 240
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-aether-merchant",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-aether-merchant-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-aether-merchant/idle/down/00",
+                "npc-aether-merchant/idle/down/01",
+                "npc-aether-merchant/idle/down/02",
+                "npc-aether-merchant/idle/down/03",
+                "npc-aether-merchant/idle/down/04",
+                "npc-aether-merchant/idle/down/05",
+                "npc-aether-merchant/idle/down/06",
+                "npc-aether-merchant/idle/down/07"
+              ],
+              "down-left": [
+                "npc-aether-merchant/idle/down-left/00",
+                "npc-aether-merchant/idle/down-left/01",
+                "npc-aether-merchant/idle/down-left/02",
+                "npc-aether-merchant/idle/down-left/03",
+                "npc-aether-merchant/idle/down-left/04",
+                "npc-aether-merchant/idle/down-left/05",
+                "npc-aether-merchant/idle/down-left/06",
+                "npc-aether-merchant/idle/down-left/07"
+              ],
+              "left": [
+                "npc-aether-merchant/idle/left/00",
+                "npc-aether-merchant/idle/left/01",
+                "npc-aether-merchant/idle/left/02",
+                "npc-aether-merchant/idle/left/03",
+                "npc-aether-merchant/idle/left/04",
+                "npc-aether-merchant/idle/left/05",
+                "npc-aether-merchant/idle/left/06",
+                "npc-aether-merchant/idle/left/07"
+              ],
+              "up-left": [
+                "npc-aether-merchant/idle/up-left/00",
+                "npc-aether-merchant/idle/up-left/01",
+                "npc-aether-merchant/idle/up-left/02",
+                "npc-aether-merchant/idle/up-left/03",
+                "npc-aether-merchant/idle/up-left/04",
+                "npc-aether-merchant/idle/up-left/05",
+                "npc-aether-merchant/idle/up-left/06",
+                "npc-aether-merchant/idle/up-left/07"
+              ],
+              "up": [
+                "npc-aether-merchant/idle/up/00",
+                "npc-aether-merchant/idle/up/01",
+                "npc-aether-merchant/idle/up/02",
+                "npc-aether-merchant/idle/up/03",
+                "npc-aether-merchant/idle/up/04",
+                "npc-aether-merchant/idle/up/05",
+                "npc-aether-merchant/idle/up/06",
+                "npc-aether-merchant/idle/up/07"
+              ],
+              "up-right": [
+                "npc-aether-merchant/idle/up-right/00",
+                "npc-aether-merchant/idle/up-right/01",
+                "npc-aether-merchant/idle/up-right/02",
+                "npc-aether-merchant/idle/up-right/03",
+                "npc-aether-merchant/idle/up-right/04",
+                "npc-aether-merchant/idle/up-right/05",
+                "npc-aether-merchant/idle/up-right/06",
+                "npc-aether-merchant/idle/up-right/07"
+              ],
+              "right": [
+                "npc-aether-merchant/idle/right/00",
+                "npc-aether-merchant/idle/right/01",
+                "npc-aether-merchant/idle/right/02",
+                "npc-aether-merchant/idle/right/03",
+                "npc-aether-merchant/idle/right/04",
+                "npc-aether-merchant/idle/right/05",
+                "npc-aether-merchant/idle/right/06",
+                "npc-aether-merchant/idle/right/07"
+              ],
+              "down-right": [
+                "npc-aether-merchant/idle/down-right/00",
+                "npc-aether-merchant/idle/down-right/01",
+                "npc-aether-merchant/idle/down-right/02",
+                "npc-aether-merchant/idle/down-right/03",
+                "npc-aether-merchant/idle/down-right/04",
+                "npc-aether-merchant/idle/down-right/05",
+                "npc-aether-merchant/idle/down-right/06",
+                "npc-aether-merchant/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-aether-merchant-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-aether-merchant/idle/down/00",
+                "npc-aether-merchant/idle/down/01",
+                "npc-aether-merchant/idle/down/02",
+                "npc-aether-merchant/idle/down/03",
+                "npc-aether-merchant/idle/down/04",
+                "npc-aether-merchant/idle/down/05",
+                "npc-aether-merchant/idle/down/06",
+                "npc-aether-merchant/idle/down/07"
+              ],
+              "down-left": [
+                "npc-aether-merchant/idle/down-left/00",
+                "npc-aether-merchant/idle/down-left/01",
+                "npc-aether-merchant/idle/down-left/02",
+                "npc-aether-merchant/idle/down-left/03",
+                "npc-aether-merchant/idle/down-left/04",
+                "npc-aether-merchant/idle/down-left/05",
+                "npc-aether-merchant/idle/down-left/06",
+                "npc-aether-merchant/idle/down-left/07"
+              ],
+              "left": [
+                "npc-aether-merchant/idle/left/00",
+                "npc-aether-merchant/idle/left/01",
+                "npc-aether-merchant/idle/left/02",
+                "npc-aether-merchant/idle/left/03",
+                "npc-aether-merchant/idle/left/04",
+                "npc-aether-merchant/idle/left/05",
+                "npc-aether-merchant/idle/left/06",
+                "npc-aether-merchant/idle/left/07"
+              ],
+              "up-left": [
+                "npc-aether-merchant/idle/up-left/00",
+                "npc-aether-merchant/idle/up-left/01",
+                "npc-aether-merchant/idle/up-left/02",
+                "npc-aether-merchant/idle/up-left/03",
+                "npc-aether-merchant/idle/up-left/04",
+                "npc-aether-merchant/idle/up-left/05",
+                "npc-aether-merchant/idle/up-left/06",
+                "npc-aether-merchant/idle/up-left/07"
+              ],
+              "up": [
+                "npc-aether-merchant/idle/up/00",
+                "npc-aether-merchant/idle/up/01",
+                "npc-aether-merchant/idle/up/02",
+                "npc-aether-merchant/idle/up/03",
+                "npc-aether-merchant/idle/up/04",
+                "npc-aether-merchant/idle/up/05",
+                "npc-aether-merchant/idle/up/06",
+                "npc-aether-merchant/idle/up/07"
+              ],
+              "up-right": [
+                "npc-aether-merchant/idle/up-right/00",
+                "npc-aether-merchant/idle/up-right/01",
+                "npc-aether-merchant/idle/up-right/02",
+                "npc-aether-merchant/idle/up-right/03",
+                "npc-aether-merchant/idle/up-right/04",
+                "npc-aether-merchant/idle/up-right/05",
+                "npc-aether-merchant/idle/up-right/06",
+                "npc-aether-merchant/idle/up-right/07"
+              ],
+              "right": [
+                "npc-aether-merchant/idle/right/00",
+                "npc-aether-merchant/idle/right/01",
+                "npc-aether-merchant/idle/right/02",
+                "npc-aether-merchant/idle/right/03",
+                "npc-aether-merchant/idle/right/04",
+                "npc-aether-merchant/idle/right/05",
+                "npc-aether-merchant/idle/right/06",
+                "npc-aether-merchant/idle/right/07"
+              ],
+              "down-right": [
+                "npc-aether-merchant/idle/down-right/00",
+                "npc-aether-merchant/idle/down-right/01",
+                "npc-aether-merchant/idle/down-right/02",
+                "npc-aether-merchant/idle/down-right/03",
+                "npc-aether-merchant/idle/down-right/04",
+                "npc-aether-merchant/idle/down-right/05",
+                "npc-aether-merchant/idle/down-right/06",
+                "npc-aether-merchant/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "aether.npc.merchant": "npc-aether-merchant"
+    },
+    "renderBindings": {},
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-nexus-merchant",
+    "version": "1.2.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-nexus-merchant-page-0",
+        "version": "1.2.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-nexus-merchant/1.2.0-5db9912fa537/npc-nexus-merchant-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-nexus-merchant/1.2.0-5db9912fa537/npc-nexus-merchant-page-0.json",
+        "width": 826,
+        "height": 240
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-nexus-merchant",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-nexus-merchant-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-nexus-merchant/idle/down/00",
+                "npc-nexus-merchant/idle/down/01",
+                "npc-nexus-merchant/idle/down/02",
+                "npc-nexus-merchant/idle/down/03",
+                "npc-nexus-merchant/idle/down/04",
+                "npc-nexus-merchant/idle/down/05",
+                "npc-nexus-merchant/idle/down/06",
+                "npc-nexus-merchant/idle/down/07"
+              ],
+              "down-left": [
+                "npc-nexus-merchant/idle/down-left/00",
+                "npc-nexus-merchant/idle/down-left/01",
+                "npc-nexus-merchant/idle/down-left/02",
+                "npc-nexus-merchant/idle/down-left/03",
+                "npc-nexus-merchant/idle/down-left/04",
+                "npc-nexus-merchant/idle/down-left/05",
+                "npc-nexus-merchant/idle/down-left/06",
+                "npc-nexus-merchant/idle/down-left/07"
+              ],
+              "left": [
+                "npc-nexus-merchant/idle/left/00",
+                "npc-nexus-merchant/idle/left/01",
+                "npc-nexus-merchant/idle/left/02",
+                "npc-nexus-merchant/idle/left/03",
+                "npc-nexus-merchant/idle/left/04",
+                "npc-nexus-merchant/idle/left/05",
+                "npc-nexus-merchant/idle/left/06",
+                "npc-nexus-merchant/idle/left/07"
+              ],
+              "up-left": [
+                "npc-nexus-merchant/idle/up-left/00",
+                "npc-nexus-merchant/idle/up-left/01",
+                "npc-nexus-merchant/idle/up-left/02",
+                "npc-nexus-merchant/idle/up-left/03",
+                "npc-nexus-merchant/idle/up-left/04",
+                "npc-nexus-merchant/idle/up-left/05",
+                "npc-nexus-merchant/idle/up-left/06",
+                "npc-nexus-merchant/idle/up-left/07"
+              ],
+              "up": [
+                "npc-nexus-merchant/idle/up/00",
+                "npc-nexus-merchant/idle/up/01",
+                "npc-nexus-merchant/idle/up/02",
+                "npc-nexus-merchant/idle/up/03",
+                "npc-nexus-merchant/idle/up/04",
+                "npc-nexus-merchant/idle/up/05",
+                "npc-nexus-merchant/idle/up/06",
+                "npc-nexus-merchant/idle/up/07"
+              ],
+              "up-right": [
+                "npc-nexus-merchant/idle/up-right/00",
+                "npc-nexus-merchant/idle/up-right/01",
+                "npc-nexus-merchant/idle/up-right/02",
+                "npc-nexus-merchant/idle/up-right/03",
+                "npc-nexus-merchant/idle/up-right/04",
+                "npc-nexus-merchant/idle/up-right/05",
+                "npc-nexus-merchant/idle/up-right/06",
+                "npc-nexus-merchant/idle/up-right/07"
+              ],
+              "right": [
+                "npc-nexus-merchant/idle/right/00",
+                "npc-nexus-merchant/idle/right/01",
+                "npc-nexus-merchant/idle/right/02",
+                "npc-nexus-merchant/idle/right/03",
+                "npc-nexus-merchant/idle/right/04",
+                "npc-nexus-merchant/idle/right/05",
+                "npc-nexus-merchant/idle/right/06",
+                "npc-nexus-merchant/idle/right/07"
+              ],
+              "down-right": [
+                "npc-nexus-merchant/idle/down-right/00",
+                "npc-nexus-merchant/idle/down-right/01",
+                "npc-nexus-merchant/idle/down-right/02",
+                "npc-nexus-merchant/idle/down-right/03",
+                "npc-nexus-merchant/idle/down-right/04",
+                "npc-nexus-merchant/idle/down-right/05",
+                "npc-nexus-merchant/idle/down-right/06",
+                "npc-nexus-merchant/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-nexus-merchant-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-nexus-merchant/idle/down/00",
+                "npc-nexus-merchant/idle/down/01",
+                "npc-nexus-merchant/idle/down/02",
+                "npc-nexus-merchant/idle/down/03",
+                "npc-nexus-merchant/idle/down/04",
+                "npc-nexus-merchant/idle/down/05",
+                "npc-nexus-merchant/idle/down/06",
+                "npc-nexus-merchant/idle/down/07"
+              ],
+              "down-left": [
+                "npc-nexus-merchant/idle/down-left/00",
+                "npc-nexus-merchant/idle/down-left/01",
+                "npc-nexus-merchant/idle/down-left/02",
+                "npc-nexus-merchant/idle/down-left/03",
+                "npc-nexus-merchant/idle/down-left/04",
+                "npc-nexus-merchant/idle/down-left/05",
+                "npc-nexus-merchant/idle/down-left/06",
+                "npc-nexus-merchant/idle/down-left/07"
+              ],
+              "left": [
+                "npc-nexus-merchant/idle/left/00",
+                "npc-nexus-merchant/idle/left/01",
+                "npc-nexus-merchant/idle/left/02",
+                "npc-nexus-merchant/idle/left/03",
+                "npc-nexus-merchant/idle/left/04",
+                "npc-nexus-merchant/idle/left/05",
+                "npc-nexus-merchant/idle/left/06",
+                "npc-nexus-merchant/idle/left/07"
+              ],
+              "up-left": [
+                "npc-nexus-merchant/idle/up-left/00",
+                "npc-nexus-merchant/idle/up-left/01",
+                "npc-nexus-merchant/idle/up-left/02",
+                "npc-nexus-merchant/idle/up-left/03",
+                "npc-nexus-merchant/idle/up-left/04",
+                "npc-nexus-merchant/idle/up-left/05",
+                "npc-nexus-merchant/idle/up-left/06",
+                "npc-nexus-merchant/idle/up-left/07"
+              ],
+              "up": [
+                "npc-nexus-merchant/idle/up/00",
+                "npc-nexus-merchant/idle/up/01",
+                "npc-nexus-merchant/idle/up/02",
+                "npc-nexus-merchant/idle/up/03",
+                "npc-nexus-merchant/idle/up/04",
+                "npc-nexus-merchant/idle/up/05",
+                "npc-nexus-merchant/idle/up/06",
+                "npc-nexus-merchant/idle/up/07"
+              ],
+              "up-right": [
+                "npc-nexus-merchant/idle/up-right/00",
+                "npc-nexus-merchant/idle/up-right/01",
+                "npc-nexus-merchant/idle/up-right/02",
+                "npc-nexus-merchant/idle/up-right/03",
+                "npc-nexus-merchant/idle/up-right/04",
+                "npc-nexus-merchant/idle/up-right/05",
+                "npc-nexus-merchant/idle/up-right/06",
+                "npc-nexus-merchant/idle/up-right/07"
+              ],
+              "right": [
+                "npc-nexus-merchant/idle/right/00",
+                "npc-nexus-merchant/idle/right/01",
+                "npc-nexus-merchant/idle/right/02",
+                "npc-nexus-merchant/idle/right/03",
+                "npc-nexus-merchant/idle/right/04",
+                "npc-nexus-merchant/idle/right/05",
+                "npc-nexus-merchant/idle/right/06",
+                "npc-nexus-merchant/idle/right/07"
+              ],
+              "down-right": [
+                "npc-nexus-merchant/idle/down-right/00",
+                "npc-nexus-merchant/idle/down-right/01",
+                "npc-nexus-merchant/idle/down-right/02",
+                "npc-nexus-merchant/idle/down-right/03",
+                "npc-nexus-merchant/idle/down-right/04",
+                "npc-nexus-merchant/idle/down-right/05",
+                "npc-nexus-merchant/idle/down-right/06",
+                "npc-nexus-merchant/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "nexus.npc.merchant": "npc-nexus-merchant"
     },
     "renderBindings": {},
     "effects": {}

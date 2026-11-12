@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "id": "npc-aether-keeper",
+  "version": "1.2.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "npc-aether-keeper-page-0",
+      "version": "1.2.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/npc-aether-keeper/1.2.0-b84436cb94de/npc-aether-keeper-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-aether-keeper/1.2.0-b84436cb94de/npc-aether-keeper-page-0.json",
+      "width": 788,
+      "height": 244
+    }
+  ],
+  "actors": [
+    {
+      "id": "npc-aether-keeper",
+      "profile": "npc",
+      "presentation": "legacy",
+      "size": [
+        96,
+        96
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "npc-aether-keeper-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-aether-keeper/idle/down/00",
+              "npc-aether-keeper/idle/down/01",
+              "npc-aether-keeper/idle/down/02",
+              "npc-aether-keeper/idle/down/03",
+              "npc-aether-keeper/idle/down/04",
+              "npc-aether-keeper/idle/down/05",
+              "npc-aether-keeper/idle/down/06",
+              "npc-aether-keeper/idle/down/07"
+            ],
+            "down-left": [
+              "npc-aether-keeper/idle/down-left/00",
+              "npc-aether-keeper/idle/down-left/01",
+              "npc-aether-keeper/idle/down-left/02",
+              "npc-aether-keeper/idle/down-left/03",
+              "npc-aether-keeper/idle/down-left/04",
+              "npc-aether-keeper/idle/down-left/05",
+              "npc-aether-keeper/idle/down-left/06",
+              "npc-aether-keeper/idle/down-left/07"
+            ],
+            "left": [
+              "npc-aether-keeper/idle/left/00",
+              "npc-aether-keeper/idle/left/01",
+              "npc-aether-keeper/idle/left/02",
+              "npc-aether-keeper/idle/left/03",
+              "npc-aether-keeper/idle/left/04",
+              "npc-aether-keeper/idle/left/05",
+              "npc-aether-keeper/idle/left/06",
+              "npc-aether-keeper/idle/left/07"
+            ],
+            "up-left": [
+              "npc-aether-keeper/idle/up-left/00",
+              "npc-aether-keeper/idle/up-left/01",
+              "npc-aether-keeper/idle/up-left/02",
+              "npc-aether-keeper/idle/up-left/03",
+              "npc-aether-keeper/idle/up-left/04",
+              "npc-aether-keeper/idle/up-left/05",
+              "npc-aether-keeper/idle/up-left/06",
+              "npc-aether-keeper/idle/up-left/07"
+            ],
+            "up": [
+              "npc-aether-keeper/idle/up/00",
+              "npc-aether-keeper/idle/up/01",
+              "npc-aether-keeper/idle/up/02",
+              "npc-aether-keeper/idle/up/03",
+              "npc-aether-keeper/idle/up/04",
+              "npc-aether-keeper/idle/up/05",
+              "npc-aether-keeper/idle/up/06",
+              "npc-aether-keeper/idle/up/07"
+            ],
+            "up-right": [
+              "npc-aether-keeper/idle/up-right/00",
+              "npc-aether-keeper/idle/up-right/01",
+              "npc-aether-keeper/idle/up-right/02",
+              "npc-aether-keeper/idle/up-right/03",
+              "npc-aether-keeper/idle/up-right/04",
+              "npc-aether-keeper/idle/up-right/05",
+              "npc-aether-keeper/idle/up-right/06",
+              "npc-aether-keeper/idle/up-right/07"
+            ],
+            "right": [
+              "npc-aether-keeper/idle/right/00",
+              "npc-aether-keeper/idle/right/01",
+              "npc-aether-keeper/idle/right/02",
+              "npc-aether-keeper/idle/right/03",
+              "npc-aether-keeper/idle/right/04",
+              "npc-aether-keeper/idle/right/05",
+              "npc-aether-keeper/idle/right/06",
+              "npc-aether-keeper/idle/right/07"
+            ],
+            "down-right": [
+              "npc-aether-keeper/idle/down-right/00",
+              "npc-aether-keeper/idle/down-right/01",
+              "npc-aether-keeper/idle/down-right/02",
+              "npc-aether-keeper/idle/down-right/03",
+              "npc-aether-keeper/idle/down-right/04",
+              "npc-aether-keeper/idle/down-right/05",
+              "npc-aether-keeper/idle/down-right/06",
+              "npc-aether-keeper/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "npc-aether-keeper-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-aether-keeper/idle/down/00",
+              "npc-aether-keeper/idle/down/01",
+              "npc-aether-keeper/idle/down/02",
+              "npc-aether-keeper/idle/down/03",
+              "npc-aether-keeper/idle/down/04",
+              "npc-aether-keeper/idle/down/05",
+              "npc-aether-keeper/idle/down/06",
+              "npc-aether-keeper/idle/down/07"
+            ],
+            "down-left": [
+              "npc-aether-keeper/idle/down-left/00",
+              "npc-aether-keeper/idle/down-left/01",
+              "npc-aether-keeper/idle/down-left/02",
+              "npc-aether-keeper/idle/down-left/03",
+              "npc-aether-keeper/idle/down-left/04",
+              "npc-aether-keeper/idle/down-left/05",
+              "npc-aether-keeper/idle/down-left/06",
+              "npc-aether-keeper/idle/down-left/07"
+            ],
+            "left": [
+              "npc-aether-keeper/idle/left/00",
+              "npc-aether-keeper/idle/left/01",
+              "npc-aether-keeper/idle/left/02",
+              "npc-aether-keeper/idle/left/03",
+              "npc-aether-keeper/idle/left/04",
+              "npc-aether-keeper/idle/left/05",
+              "npc-aether-keeper/idle/left/06",
+              "npc-aether-keeper/idle/left/07"
+            ],
+            "up-left": [
+              "npc-aether-keeper/idle/up-left/00",
+              "npc-aether-keeper/idle/up-left/01",
+              "npc-aether-keeper/idle/up-left/02",
+              "npc-aether-keeper/idle/up-left/03",
+              "npc-aether-keeper/idle/up-left/04",
+              "npc-aether-keeper/idle/up-left/05",
+              "npc-aether-keeper/idle/up-left/06",
+              "npc-aether-keeper/idle/up-left/07"
+            ],
+            "up": [
+              "npc-aether-keeper/idle/up/00",
+              "npc-aether-keeper/idle/up/01",
+              "npc-aether-keeper/idle/up/02",
+              "npc-aether-keeper/idle/up/03",
+              "npc-aether-keeper/idle/up/04",
+              "npc-aether-keeper/idle/up/05",
+              "npc-aether-keeper/idle/up/06",
+              "npc-aether-keeper/idle/up/07"
+            ],
+            "up-right": [
+              "npc-aether-keeper/idle/up-right/00",
+              "npc-aether-keeper/idle/up-right/01",
+              "npc-aether-keeper/idle/up-right/02",
+              "npc-aether-keeper/idle/up-right/03",
+              "npc-aether-keeper/idle/up-right/04",
+              "npc-aether-keeper/idle/up-right/05",
+              "npc-aether-keeper/idle/up-right/06",
+              "npc-aether-keeper/idle/up-right/07"
+            ],
+            "right": [
+              "npc-aether-keeper/idle/right/00",
+              "npc-aether-keeper/idle/right/01",
+              "npc-aether-keeper/idle/right/02",
+              "npc-aether-keeper/idle/right/03",
+              "npc-aether-keeper/idle/right/04",
+              "npc-aether-keeper/idle/right/05",
+              "npc-aether-keeper/idle/right/06",
+              "npc-aether-keeper/idle/right/07"
+            ],
+            "down-right": [
+              "npc-aether-keeper/idle/down-right/00",
+              "npc-aether-keeper/idle/down-right/01",
+              "npc-aether-keeper/idle/down-right/02",
+              "npc-aether-keeper/idle/down-right/03",
+              "npc-aether-keeper/idle/down-right/04",
+              "npc-aether-keeper/idle/down-right/05",
+              "npc-aether-keeper/idle/down-right/06",
+              "npc-aether-keeper/idle/down-right/07"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "actorBindings": {
+    "aether.npc.keeper": "npc-aether-keeper"
+  },
+  "renderBindings": {},
+  "effects": {}
+}

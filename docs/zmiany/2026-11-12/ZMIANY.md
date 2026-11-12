@@ -59,18 +59,21 @@
   (bohater w teście nie ginął od potwora).
 - Testy: `actor-animation` (łańcuch KI, klipy formy KI, śmierć po końcu buffa, brak klipu = klip bazowy), `gpu-pipeline`; typecheck i eslint czyste.
 
-### 4. NPC dla czterech ras: przewodnik, kowal, depozytariusz, karczmarz, zarządca i strażnik
+### 4. NPC dla czterech ras: przewodnik, handlarz, kowal, depozytariusz, karczmarz, zarządca i strażnik
 
-- Z filmów obrotu dostarczonych przez właściciela (zapisane w `art-wip/gemini-anim-stages/npc-<rola>-<nazwa>-obrot.mp4`) powstało sześć
-  nowych postaci: Przewodniczka (`guide`), Kowal (`smith`), Depozytariuszka (`keeper`), Karczmarka (`innkeeper`), Zarządca (`steward`)
-  i Strażnik (`warden`). Skrypt `scripts/anim/npc_role_build.py` (uogólniony `npc_trainer_build.py`): po jednej pozie na kierunek z filmu
-  (filmy naprawdę obracają się w obie strony, więc lewe strony to prawdziwe klatki, nie lustra), matowanie rembg, jedna skala na postać, oddech
-  z dwóch póz w 8 klatkach idle, `walk` na tych samych klatkach. Napis spod stóp w filmach odpada (zostaje tylko największy kształt).
+- Z filmów obrotu dostarczonych przez właściciela (`art-wip/gemini-anim-stages/npc-<rola>-<nazwa>-obrot.mp4`) powstało siedem nowych
+  postaci: Przewodniczka (`guide`), Handlarka (`merchant`), Kowal (`smith`), Depozytariuszka (`keeper`), Karczmarka (`innkeeper`),
+  Zarządca (`steward`) i Strażnik (`warden`). Skrypt `scripts/anim/npc_role_build.py` (uogólniony `npc_trainer_build.py`): po jednej pozie na
+  kierunek z filmu (filmy obracają się w obie strony, więc lewe strony to prawdziwe klatki, nie lustra), matowanie rembg, jedna skala na postać,
+  `walk` na tych samych klatkach co `idle`. Napis spod stóp w filmach odpada (zostaje największy kształt).
 - Każda postać ma cztery wersje: Pyra (Legendy) w oryginalnych kolorach z filmu, Verdantia zielona, Aetheria turkusowa, Nexus-9 niebieska
-  (przekolorowanie ubioru; skóra, włosy, buty i zbroja zostają; Przewodniczka, Strażnik i Zarządca zmieniają tylko ciemny materiał peleryny/szaty,
-  Kowal skórę i fartuch). Zwykły NPC: komórki 128 px, rozmiar 96 (kontrakt importu; tylko Trener jest rysowany 2× z komórek 256 px).
-  Paczki `npc-<świat>-<rola>` 1.0.0, binding `<świat>.npc.<rola>`, atlas ok. 0,4 MiB.
-- Role bez filmu (`hunter`, `merchant`, `alchemist`) zostają wspólną postacią zastępczą `human-v2`. Trener bez zmian.
-- Weryfikacja w grze (Playwright, start w każdym z czterech światów): załadowane tekstury `npc-<świat>-{guide,innkeeper,keeper,smith,steward,trainer,warden}`,
-  zero błędów konsoli; zrzut startu Pyry z Przewodniczką Kaeną. Test `npc-roles-visual` (6 ról × 4 światy, 8 kierunków, rozmiar 96) i
+  (przekolorowanie ubioru; skóra, włosy, buty i zbroja zostają; Przewodniczka, Strażnik i Zarządca zmieniają tylko ciemny materiał).
+- **Większe i ostrzejsze (uwaga właściciela):** klatki 256 px (wcześniej 128), rysowane 150 jednostek (`enlargedNpcs` w `catalog.ts`, jak
+  powiększeni bohaterowie): wyższe od bohatera (133), niższe od Trenera (192); we wnętrzach ×1,6. Paczka zachowuje rozmiar kontraktu 96;
+  importer (`gpu-import.ts`) dopuszcza dla NPC komórki 128 albo 256. Zmierzone w grze: 150 / bohater 133 / Trener 192.
+- Pamięć: komórki 256 px kosztują ok. 0,7–1 MiB na postać, więc NPC stoją na jednej pozie (bez oddechu; oddech ma tylko Trener). Atlasy
+  `npc-<świat>-<rola>` 1.2.0. **Verdantia ma 127,6 z 128 MiB tekstur** (zapas 0,4 MiB): kolejne duże zasoby w tym świecie wymagają odchudzenia.
+- Role bez filmu (`hunter`, `alchemist`) zostają wspólną postacią zastępczą `human-v2`. Trener bez zmian.
+- Weryfikacja w grze (Playwright): załadowane tekstury `npc-<świat>-{guide,innkeeper,keeper,merchant,smith,steward,trainer,warden}`, zmierzone
+  wysokości, zero błędów konsoli; zrzut startu Pyry z Przewodniczką Kaeną. Test `npc-roles-visual` (7 ról × 4 światy, 8 kierunków, rozmiar 150) i
   `stream-texture-budget` zielone.
