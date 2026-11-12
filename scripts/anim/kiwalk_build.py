@@ -70,9 +70,9 @@ atl=json.load(open(G+BASE+'.json')); img=np.array(Image.open(G+BASE+'.webp').con
 hs,bs=[],[]
 for name,fr in atl['frames'].items():
     if name.split('/')[1]!='walk': continue
-    f=fr['frame']; a=img[f['y']:f['y']+f['h'],f['x']:f['x']+f['w'],3]>128
+    f=fr['frame']; oy=fr.get('spriteSourceSize',{'y':0})['y']; a=img[f['y']:f['y']+f['h'],f['x']:f['x']+f['w'],3]>128  # frames are trimmed: add their offset
     ys,xs=np.where(a)
-    if len(ys): hs.append(ys.max()-ys.min()+1); bs.append(ys.max())
+    if len(ys): hs.append(ys.max()-ys.min()+1); bs.append(ys.max()+oy)
 baseH=float(np.median(hs)); baseBottom=float(np.median(bs))
 print('base height',baseH,'bottom',baseBottom)
 # full-res frames + matting

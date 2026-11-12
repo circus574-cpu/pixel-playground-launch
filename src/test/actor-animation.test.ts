@@ -39,7 +39,7 @@ describe("Tryb KI walk (kiwalk)", () => {
     expect(animation.state).toBe("walk");
     animation.update(100, true, false, { x: 1, y: 0 }, false, true);
     expect(animation.state).toBe("kiwalk");
-    expect(String(sprite.play.mock.calls.at(-1)?.[0])).toContain("/kiwalk/");
+    expect(String(sprite.setTexture.mock.calls.at(-1)?.[1])).toContain("/kiwalk/");
     animation.update(200, false, false, { x: 1, y: 0 }, false, true);
     expect(animation.state).toBe("idle");
     animation.update(300, true, false, { x: 1, y: 0 }, false, false);
@@ -51,7 +51,7 @@ describe("Tryb KI walk (kiwalk)", () => {
     expect(animation.state).toBe("walk");
   });
 });
-describe("Tryb KI stance and basic attack (kiidle, kiattack)", () => {
+describe("Tryb KI stance, basic attack and skill (kiidle, kiattack, kiskill)", () => {
   const rigKi = () => {
     const base = actorVisual("verdant", "hero", undefined, false, catalog);
     const sprite = {
@@ -70,8 +70,9 @@ describe("Tryb KI stance and basic attack (kiidle, kiattack)", () => {
     for (const world of ["verdant", "aether", "nexus", "pyra"] as const) {
       const hero = actorVisual(world, "hero", undefined, false, catalog);
       for (const [clip, frames] of [
-        ["kiidle", 1],
+        ["kiidle", 6],
         ["kiattack", 6],
+        ["kiskill", 8],
       ] as const) {
         const c = hero.clips[clip]!;
         expect(c, world + clip).toBeDefined();
@@ -84,14 +85,13 @@ describe("Tryb KI stance and basic attack (kiidle, kiattack)", () => {
     const { animation, sprite, base } = rigKi();
     animation.update(0, false, false, { x: 1, y: 0 }, false, false);
     expect(animation.state).toBe("idle");
-    expect(sprite.setTexture).not.toHaveBeenCalledWith(base.clips.kiidle!.asset, expect.anything());
+    expect(String(sprite.setTexture.mock.calls.at(-1)?.[1] ?? "")).not.toContain("kiidle");
     animation.update(100, false, false, { x: 1, y: 0 }, false, true);
     expect(animation.state).toBe("idle");
-    const frame = base.clips.kiidle!.directions.right![0];
-    expect(sprite.setTexture).toHaveBeenLastCalledWith(base.clips.kiidle!.asset, frame);
+    expect(base.clips.kiidle!.loop).toBe(true);
+    expect(String(sprite.setTexture.mock.calls.at(-1)?.[1])).toContain("/kiidle/");
     animation.update(200, false, false, { x: 1, y: 0 }, false, false);
-    expect(sprite.stop).toHaveBeenCalled();
-    expect(String(sprite.play.mock.calls.at(-1)?.[0] ?? "")).not.toContain("kiidle");
+    expect(String(sprite.setTexture.mock.calls.at(-1)?.[1] ?? "")).not.toContain("kiidle");
   });
   it("plays the powered-up basic attack only in Tryb KI and keeps the priority rules", () => {
     const { animation, sprite } = rigKi();
@@ -103,13 +103,16 @@ describe("Tryb KI stance and basic attack (kiidle, kiattack)", () => {
     animation.trigger("skill", 30, { x: 1, y: 0 });
     animation.update(40, false, false, { x: 1, y: 0 }, false, true);
     expect(animation.state).toBe("skill");
-    expect(String(sprite.play.mock.calls.at(-1)?.[0])).not.toContain("kiattack");
-    // Without Tryb KI the same trigger uses the base attack clip.
+    expect(String(sprite.play.mock.calls.at(-1)?.[0])).toContain("/kiskill/");
+    // Without Tryb KI the same trigger uses the base attack and skill clips.
     const plain = rigKi();
     plain.animation.update(0, false, false, { x: 1, y: 0 }, false, false);
     plain.animation.trigger("attack", 10, { x: 1, y: 0 });
     plain.animation.update(20, false, false, { x: 1, y: 0 }, false, false);
     expect(String(plain.sprite.play.mock.calls.at(-1)?.[0])).not.toContain("kiattack");
+    plain.animation.trigger("skill", 400, { x: 1, y: 0 });
+    plain.animation.update(410, false, false, { x: 1, y: 0 }, false, false);
+    expect(String(plain.sprite.play.mock.calls.at(-1)?.[0])).not.toContain("kiskill");
   });
   it("falls back to the base idle and attack for a rig without the clips", () => {
     const { animation } = rig();
@@ -120,18 +123,135 @@ describe("Tryb KI stance and basic attack (kiidle, kiattack)", () => {
     expect(animation.state).toBe("attack");
   });
 });
+describe("base-form combat clips (attack chain, area skill, dodge, guard)", () => {
+  const make = () => {
+    const base = actorVisual("verdant", "hero", undefined, false, catalog);
+    const sprite = {
+      anims: { pause: vi.fn(), resume: vi.fn() },
+      play: vi.fn(),
+      stop: vi.fn(),
+      setTexture: vi.fn(),
+    };
+    return {
+      base,
+      sprite,
+      animation: new ActorAnimation(sprite as unknown as Phaser.GameObjects.Sprite, base),
+    };
+  };
+  const played = (sprite: ReturnType<typeof make>["sprite"]) =>
+    String(sprite.play.mock.calls.at(-1)?.[0]);
+  it("ships the clips for every hero with the contract frame counts", () => {
+    for (const world of ["verdant", "aether", "nexus", "pyra"] as const) {
+      const hero = actorVisual(world, "hero", undefined, false, catalog);
+      for (const [clip, frames] of [
+        ["attack2", 6],
+        ["finisher", 8],
+        ["skillb", 8],
+        ["dodge", 6],
+        ["guard", 6],
+      ] as const) {
+        const c = hero.clips[clip]!;
+        expect(c, world + clip).toBeDefined();
+        expect(c.loop).toBe(false);
+        for (const names of Object.values(c.directions)) expect(names).toHaveLength(frames);
+      }
+    }
+  });
+  it("chains basic strikes attack, attack2, finisher within 1.4 s and starts over after a pause", () => {
+    const { animation, sprite } = make();
+    const f = { x: 1, y: 0 };
+    animation.trigger("attack", 0, f);
+    animation.update(10, false, false, f);
+    expect(played(sprite)).toContain("/attack/");
+    animation.trigger("attack", 800, f);
+    animation.update(810, false, false, f);
+    expect(played(sprite)).toContain("/attack2/");
+    animation.trigger("attack", 1600, f);
+    animation.update(1610, false, false, f);
+    expect(played(sprite)).toContain("/finisher/");
+    animation.trigger("attack", 2400, f);
+    animation.update(2410, false, false, f);
+    expect(played(sprite)).toContain("/attack/");
+    animation.trigger("attack", 6000, f);
+    animation.update(6010, false, false, f);
+    expect(played(sprite)).toContain("/attack/");
+  });
+  it("plays skillb, dodge and guard, and uses kiskill for skillb in Tryb KI", () => {
+    const { animation, sprite } = make();
+    const f = { x: 1, y: 0 };
+    animation.trigger("skillb", 0, f);
+    animation.update(10, false, false, f);
+    expect(played(sprite)).toContain("/skillb/");
+    animation.trigger("dodge", 2000, f);
+    animation.update(2010, false, false, f);
+    expect(played(sprite)).toContain("/dodge/");
+    animation.trigger("guard", 4000, f);
+    animation.update(4010, false, false, f);
+    expect(played(sprite)).toContain("/guard/");
+    animation.update(6000, false, false, f, false, true);
+    animation.trigger("skillb", 6100, f);
+    animation.update(6110, false, false, f, false, true);
+    expect(played(sprite)).toContain("/kiskill/");
+  });
+});
+describe("walk keeps its stride when only the facing changes", () => {
+  const make = () => {
+    const base = actorVisual("verdant", "hero", undefined, false, catalog);
+    const sprite = {
+      anims: { pause: vi.fn(), resume: vi.fn() },
+      play: vi.fn(),
+      stop: vi.fn(),
+      setTexture: vi.fn(),
+    };
+    return {
+      base,
+      sprite,
+      animation: new ActorAnimation(sprite as unknown as Phaser.GameObjects.Sprite, base),
+    };
+  };
+  it("advances with one clock while the facing flips between neighbouring directions every tick", () => {
+    const { animation, sprite, base } = make();
+    const walk = base.clips.walk!;
+    const flips = [
+      ["right", { x: 1, y: 0 }],
+      ["down-right", { x: 1, y: 1 }],
+    ] as const;
+    const shown: string[] = [];
+    // A new facing every 20 ms (faster than one 62.5 ms frame): restarting the animation would never leave frame 0.
+    for (let t = 0; t <= 500; t += 20) {
+      const [dir, facing] = flips[(t / 20) % 2]!;
+      animation.update(t, true, false, facing, false, false);
+      const frame = String(sprite.setTexture.mock.calls.at(-1)?.[1]);
+      expect(walk.directions[dir]).toContain(frame);
+      shown.push(frame.split("/").at(-1)!);
+    }
+    expect(new Set(shown).size).toBe(walk.directions.right!.length);
+    expect(sprite.play).not.toHaveBeenCalled();
+  });
+  it("starts the stride from its first frame when the state changes to walking", () => {
+    const { animation, sprite, base } = make();
+    animation.update(0, false, false, { x: 1, y: 0 }, false, false);
+    animation.update(1000, true, false, { x: 1, y: 0 }, false, false);
+    expect(sprite.setTexture).toHaveBeenLastCalledWith(
+      base.clips.walk!.asset,
+      base.clips.walk!.directions.right![0],
+    );
+  });
+});
 describe("animation presentation remains separate from mechanical actions", () => {
   it("maps all eight real movement vectors and does not restart an unchanged clip", () => {
     const { sprite, animation } = rig();
+    const walk = technicalPack.actors[0]!.clips.walk!;
     for (const [i, dir] of DIRECTIONS.entries()) {
       const angle = Math.PI / 2 + (i * Math.PI) / 4;
       animation.update(i * 100, true, false, { x: Math.cos(angle), y: Math.sin(angle) });
-      expect(sprite.play).toHaveBeenLastCalledWith(`technical-mannequin/walk/${dir}`);
+      const frame = String(sprite.setTexture.mock.calls.at(-1)?.[1]);
+      expect(walk.directions[dir]).toContain(frame);
     }
-    const count = sprite.play.mock.calls.length;
+    const count = sprite.setTexture.mock.calls.length;
     animation.update(1000, true, false, { x: 1, y: 1 });
-    animation.update(1100, true, false, { x: 1, y: 1 });
-    expect(sprite.play.mock.calls.length).toBeLessThanOrEqual(count + 1);
+    animation.update(1001, true, false, { x: 1, y: 1 });
+    expect(sprite.setTexture.mock.calls.length).toBeLessThanOrEqual(count + 1);
   });
   it("prioritizes death/hit over attacks and resumes walking only after event animation", () => {
     const { animation } = rig();

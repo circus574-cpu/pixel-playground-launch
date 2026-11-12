@@ -83382,63 +83382,72 @@
   {
     "schemaVersion": 1,
     "id": "hero-legend-walk-v3",
-    "version": "2.2.1",
+    "version": "2.6.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "hero-legend-walk-v3-page-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/hero-legend-walk-v3/2.6.0-517b702853d4/hero-legend-walk-v3-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.6.0-517b702853d4/hero-legend-walk-v3-page-0.json",
+        "width": 1115,
+        "height": 1616
       },
       {
         "id": "hero-legend-walk-v3-idle-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-idle-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-idle-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/hero-legend-walk-v3/2.6.0-517b702853d4/hero-legend-walk-v3-idle-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.6.0-517b702853d4/hero-legend-walk-v3-idle-0.json",
+        "width": 1082,
+        "height": 1640
       },
       {
         "id": "hero-legend-walk-v3-fight-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-fight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-fight-0.json",
-        "width": 2048,
-        "height": 1792
+        "url": "/game/assets/gpu/hero-legend-walk-v3/2.6.0-517b702853d4/hero-legend-walk-v3-fight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.6.0-517b702853d4/hero-legend-walk-v3-fight-0.json",
+        "width": 1023,
+        "height": 1556
       },
       {
         "id": "hero-legend-walk-v3-fight-1",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-fight-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-fight-1.json",
-        "width": 2048,
-        "height": 512
+        "url": "/game/assets/gpu/hero-legend-walk-v3/2.6.0-517b702853d4/hero-legend-walk-v3-fight-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.6.0-517b702853d4/hero-legend-walk-v3-fight-1.json",
+        "width": 781,
+        "height": 616
       },
       {
         "id": "hero-legend-walk-v3-kiwalk-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-kiwalk-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-kiwalk-0.json",
-        "width": 2048,
-        "height": 728
+        "url": "/game/assets/gpu/hero-legend-walk-v3/2.6.0-517b702853d4/hero-legend-walk-v3-kiwalk-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.6.0-517b702853d4/hero-legend-walk-v3-kiwalk-0.json",
+        "width": 1432,
+        "height": 720
       },
       {
         "id": "hero-legend-walk-v3-kifight-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-kifight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.2.1-3f1720fbad30/hero-legend-walk-v3-kifight-0.json",
-        "width": 1168,
-        "height": 484
+        "url": "/game/assets/gpu/hero-legend-walk-v3/2.6.0-517b702853d4/hero-legend-walk-v3-kifight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.6.0-517b702853d4/hero-legend-walk-v3-kifight-0.json",
+        "width": 1635,
+        "height": 1244
+      },
+      {
+        "id": "hero-legend-walk-v3-fight-2",
+        "version": "2.6.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/hero-legend-walk-v3/2.6.0-517b702853d4/hero-legend-walk-v3-fight-2.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.6.0-517b702853d4/hero-legend-walk-v3-fight-2.json",
+        "width": 1588,
+        "height": 1508
       }
     ],
     "actors": [
@@ -84126,28 +84135,68 @@
             "loop": true,
             "directions": {
               "down": [
-                "hero-legend/kiidle/right/00"
+                "hero-legend/kiidle/right/00",
+                "hero-legend/kiidle/right/01",
+                "hero-legend/kiidle/right/02",
+                "hero-legend/kiidle/right/03",
+                "hero-legend/kiidle/right/04",
+                "hero-legend/kiidle/right/05"
               ],
               "down-left": [
-                "hero-legend/kiidle/left/00"
+                "hero-legend/kiidle/left/00",
+                "hero-legend/kiidle/left/01",
+                "hero-legend/kiidle/left/02",
+                "hero-legend/kiidle/left/03",
+                "hero-legend/kiidle/left/04",
+                "hero-legend/kiidle/left/05"
               ],
               "left": [
-                "hero-legend/kiidle/left/00"
+                "hero-legend/kiidle/left/00",
+                "hero-legend/kiidle/left/01",
+                "hero-legend/kiidle/left/02",
+                "hero-legend/kiidle/left/03",
+                "hero-legend/kiidle/left/04",
+                "hero-legend/kiidle/left/05"
               ],
               "up-left": [
-                "hero-legend/kiidle/left/00"
+                "hero-legend/kiidle/left/00",
+                "hero-legend/kiidle/left/01",
+                "hero-legend/kiidle/left/02",
+                "hero-legend/kiidle/left/03",
+                "hero-legend/kiidle/left/04",
+                "hero-legend/kiidle/left/05"
               ],
               "up": [
-                "hero-legend/kiidle/right/00"
+                "hero-legend/kiidle/right/00",
+                "hero-legend/kiidle/right/01",
+                "hero-legend/kiidle/right/02",
+                "hero-legend/kiidle/right/03",
+                "hero-legend/kiidle/right/04",
+                "hero-legend/kiidle/right/05"
               ],
               "up-right": [
-                "hero-legend/kiidle/right/00"
+                "hero-legend/kiidle/right/00",
+                "hero-legend/kiidle/right/01",
+                "hero-legend/kiidle/right/02",
+                "hero-legend/kiidle/right/03",
+                "hero-legend/kiidle/right/04",
+                "hero-legend/kiidle/right/05"
               ],
               "right": [
-                "hero-legend/kiidle/right/00"
+                "hero-legend/kiidle/right/00",
+                "hero-legend/kiidle/right/01",
+                "hero-legend/kiidle/right/02",
+                "hero-legend/kiidle/right/03",
+                "hero-legend/kiidle/right/04",
+                "hero-legend/kiidle/right/05"
               ],
               "down-right": [
-                "hero-legend/kiidle/right/00"
+                "hero-legend/kiidle/right/00",
+                "hero-legend/kiidle/right/01",
+                "hero-legend/kiidle/right/02",
+                "hero-legend/kiidle/right/03",
+                "hero-legend/kiidle/right/04",
+                "hero-legend/kiidle/right/05"
               ]
             }
           },
@@ -84221,6 +84270,480 @@
                 "hero-legend/kiattack/right/05"
               ]
             }
+          },
+          "kiskill": {
+            "asset": "hero-legend-walk-v3-kifight-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-legend/kiskill/right/00",
+                "hero-legend/kiskill/right/01",
+                "hero-legend/kiskill/right/02",
+                "hero-legend/kiskill/right/03",
+                "hero-legend/kiskill/right/04",
+                "hero-legend/kiskill/right/05",
+                "hero-legend/kiskill/right/06",
+                "hero-legend/kiskill/right/07"
+              ],
+              "down-left": [
+                "hero-legend/kiskill/left/00",
+                "hero-legend/kiskill/left/01",
+                "hero-legend/kiskill/left/02",
+                "hero-legend/kiskill/left/03",
+                "hero-legend/kiskill/left/04",
+                "hero-legend/kiskill/left/05",
+                "hero-legend/kiskill/left/06",
+                "hero-legend/kiskill/left/07"
+              ],
+              "left": [
+                "hero-legend/kiskill/left/00",
+                "hero-legend/kiskill/left/01",
+                "hero-legend/kiskill/left/02",
+                "hero-legend/kiskill/left/03",
+                "hero-legend/kiskill/left/04",
+                "hero-legend/kiskill/left/05",
+                "hero-legend/kiskill/left/06",
+                "hero-legend/kiskill/left/07"
+              ],
+              "up-left": [
+                "hero-legend/kiskill/left/00",
+                "hero-legend/kiskill/left/01",
+                "hero-legend/kiskill/left/02",
+                "hero-legend/kiskill/left/03",
+                "hero-legend/kiskill/left/04",
+                "hero-legend/kiskill/left/05",
+                "hero-legend/kiskill/left/06",
+                "hero-legend/kiskill/left/07"
+              ],
+              "up": [
+                "hero-legend/kiskill/right/00",
+                "hero-legend/kiskill/right/01",
+                "hero-legend/kiskill/right/02",
+                "hero-legend/kiskill/right/03",
+                "hero-legend/kiskill/right/04",
+                "hero-legend/kiskill/right/05",
+                "hero-legend/kiskill/right/06",
+                "hero-legend/kiskill/right/07"
+              ],
+              "up-right": [
+                "hero-legend/kiskill/right/00",
+                "hero-legend/kiskill/right/01",
+                "hero-legend/kiskill/right/02",
+                "hero-legend/kiskill/right/03",
+                "hero-legend/kiskill/right/04",
+                "hero-legend/kiskill/right/05",
+                "hero-legend/kiskill/right/06",
+                "hero-legend/kiskill/right/07"
+              ],
+              "right": [
+                "hero-legend/kiskill/right/00",
+                "hero-legend/kiskill/right/01",
+                "hero-legend/kiskill/right/02",
+                "hero-legend/kiskill/right/03",
+                "hero-legend/kiskill/right/04",
+                "hero-legend/kiskill/right/05",
+                "hero-legend/kiskill/right/06",
+                "hero-legend/kiskill/right/07"
+              ],
+              "down-right": [
+                "hero-legend/kiskill/right/00",
+                "hero-legend/kiskill/right/01",
+                "hero-legend/kiskill/right/02",
+                "hero-legend/kiskill/right/03",
+                "hero-legend/kiskill/right/04",
+                "hero-legend/kiskill/right/05",
+                "hero-legend/kiskill/right/06",
+                "hero-legend/kiskill/right/07"
+              ]
+            }
+          },
+          "attack2": {
+            "asset": "hero-legend-walk-v3-fight-2",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-legend/attack2/right/00",
+                "hero-legend/attack2/right/01",
+                "hero-legend/attack2/right/02",
+                "hero-legend/attack2/right/03",
+                "hero-legend/attack2/right/04",
+                "hero-legend/attack2/right/05"
+              ],
+              "down-left": [
+                "hero-legend/attack2/left/00",
+                "hero-legend/attack2/left/01",
+                "hero-legend/attack2/left/02",
+                "hero-legend/attack2/left/03",
+                "hero-legend/attack2/left/04",
+                "hero-legend/attack2/left/05"
+              ],
+              "left": [
+                "hero-legend/attack2/left/00",
+                "hero-legend/attack2/left/01",
+                "hero-legend/attack2/left/02",
+                "hero-legend/attack2/left/03",
+                "hero-legend/attack2/left/04",
+                "hero-legend/attack2/left/05"
+              ],
+              "up-left": [
+                "hero-legend/attack2/left/00",
+                "hero-legend/attack2/left/01",
+                "hero-legend/attack2/left/02",
+                "hero-legend/attack2/left/03",
+                "hero-legend/attack2/left/04",
+                "hero-legend/attack2/left/05"
+              ],
+              "up": [
+                "hero-legend/attack2/right/00",
+                "hero-legend/attack2/right/01",
+                "hero-legend/attack2/right/02",
+                "hero-legend/attack2/right/03",
+                "hero-legend/attack2/right/04",
+                "hero-legend/attack2/right/05"
+              ],
+              "up-right": [
+                "hero-legend/attack2/right/00",
+                "hero-legend/attack2/right/01",
+                "hero-legend/attack2/right/02",
+                "hero-legend/attack2/right/03",
+                "hero-legend/attack2/right/04",
+                "hero-legend/attack2/right/05"
+              ],
+              "right": [
+                "hero-legend/attack2/right/00",
+                "hero-legend/attack2/right/01",
+                "hero-legend/attack2/right/02",
+                "hero-legend/attack2/right/03",
+                "hero-legend/attack2/right/04",
+                "hero-legend/attack2/right/05"
+              ],
+              "down-right": [
+                "hero-legend/attack2/right/00",
+                "hero-legend/attack2/right/01",
+                "hero-legend/attack2/right/02",
+                "hero-legend/attack2/right/03",
+                "hero-legend/attack2/right/04",
+                "hero-legend/attack2/right/05"
+              ]
+            }
+          },
+          "finisher": {
+            "asset": "hero-legend-walk-v3-fight-2",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-legend/finisher/right/00",
+                "hero-legend/finisher/right/01",
+                "hero-legend/finisher/right/02",
+                "hero-legend/finisher/right/03",
+                "hero-legend/finisher/right/04",
+                "hero-legend/finisher/right/05",
+                "hero-legend/finisher/right/06",
+                "hero-legend/finisher/right/07"
+              ],
+              "down-left": [
+                "hero-legend/finisher/left/00",
+                "hero-legend/finisher/left/01",
+                "hero-legend/finisher/left/02",
+                "hero-legend/finisher/left/03",
+                "hero-legend/finisher/left/04",
+                "hero-legend/finisher/left/05",
+                "hero-legend/finisher/left/06",
+                "hero-legend/finisher/left/07"
+              ],
+              "left": [
+                "hero-legend/finisher/left/00",
+                "hero-legend/finisher/left/01",
+                "hero-legend/finisher/left/02",
+                "hero-legend/finisher/left/03",
+                "hero-legend/finisher/left/04",
+                "hero-legend/finisher/left/05",
+                "hero-legend/finisher/left/06",
+                "hero-legend/finisher/left/07"
+              ],
+              "up-left": [
+                "hero-legend/finisher/left/00",
+                "hero-legend/finisher/left/01",
+                "hero-legend/finisher/left/02",
+                "hero-legend/finisher/left/03",
+                "hero-legend/finisher/left/04",
+                "hero-legend/finisher/left/05",
+                "hero-legend/finisher/left/06",
+                "hero-legend/finisher/left/07"
+              ],
+              "up": [
+                "hero-legend/finisher/right/00",
+                "hero-legend/finisher/right/01",
+                "hero-legend/finisher/right/02",
+                "hero-legend/finisher/right/03",
+                "hero-legend/finisher/right/04",
+                "hero-legend/finisher/right/05",
+                "hero-legend/finisher/right/06",
+                "hero-legend/finisher/right/07"
+              ],
+              "up-right": [
+                "hero-legend/finisher/right/00",
+                "hero-legend/finisher/right/01",
+                "hero-legend/finisher/right/02",
+                "hero-legend/finisher/right/03",
+                "hero-legend/finisher/right/04",
+                "hero-legend/finisher/right/05",
+                "hero-legend/finisher/right/06",
+                "hero-legend/finisher/right/07"
+              ],
+              "right": [
+                "hero-legend/finisher/right/00",
+                "hero-legend/finisher/right/01",
+                "hero-legend/finisher/right/02",
+                "hero-legend/finisher/right/03",
+                "hero-legend/finisher/right/04",
+                "hero-legend/finisher/right/05",
+                "hero-legend/finisher/right/06",
+                "hero-legend/finisher/right/07"
+              ],
+              "down-right": [
+                "hero-legend/finisher/right/00",
+                "hero-legend/finisher/right/01",
+                "hero-legend/finisher/right/02",
+                "hero-legend/finisher/right/03",
+                "hero-legend/finisher/right/04",
+                "hero-legend/finisher/right/05",
+                "hero-legend/finisher/right/06",
+                "hero-legend/finisher/right/07"
+              ]
+            }
+          },
+          "skillb": {
+            "asset": "hero-legend-walk-v3-fight-2",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-legend/skillb/right/00",
+                "hero-legend/skillb/right/01",
+                "hero-legend/skillb/right/02",
+                "hero-legend/skillb/right/03",
+                "hero-legend/skillb/right/04",
+                "hero-legend/skillb/right/05",
+                "hero-legend/skillb/right/06",
+                "hero-legend/skillb/right/07"
+              ],
+              "down-left": [
+                "hero-legend/skillb/left/00",
+                "hero-legend/skillb/left/01",
+                "hero-legend/skillb/left/02",
+                "hero-legend/skillb/left/03",
+                "hero-legend/skillb/left/04",
+                "hero-legend/skillb/left/05",
+                "hero-legend/skillb/left/06",
+                "hero-legend/skillb/left/07"
+              ],
+              "left": [
+                "hero-legend/skillb/left/00",
+                "hero-legend/skillb/left/01",
+                "hero-legend/skillb/left/02",
+                "hero-legend/skillb/left/03",
+                "hero-legend/skillb/left/04",
+                "hero-legend/skillb/left/05",
+                "hero-legend/skillb/left/06",
+                "hero-legend/skillb/left/07"
+              ],
+              "up-left": [
+                "hero-legend/skillb/left/00",
+                "hero-legend/skillb/left/01",
+                "hero-legend/skillb/left/02",
+                "hero-legend/skillb/left/03",
+                "hero-legend/skillb/left/04",
+                "hero-legend/skillb/left/05",
+                "hero-legend/skillb/left/06",
+                "hero-legend/skillb/left/07"
+              ],
+              "up": [
+                "hero-legend/skillb/right/00",
+                "hero-legend/skillb/right/01",
+                "hero-legend/skillb/right/02",
+                "hero-legend/skillb/right/03",
+                "hero-legend/skillb/right/04",
+                "hero-legend/skillb/right/05",
+                "hero-legend/skillb/right/06",
+                "hero-legend/skillb/right/07"
+              ],
+              "up-right": [
+                "hero-legend/skillb/right/00",
+                "hero-legend/skillb/right/01",
+                "hero-legend/skillb/right/02",
+                "hero-legend/skillb/right/03",
+                "hero-legend/skillb/right/04",
+                "hero-legend/skillb/right/05",
+                "hero-legend/skillb/right/06",
+                "hero-legend/skillb/right/07"
+              ],
+              "right": [
+                "hero-legend/skillb/right/00",
+                "hero-legend/skillb/right/01",
+                "hero-legend/skillb/right/02",
+                "hero-legend/skillb/right/03",
+                "hero-legend/skillb/right/04",
+                "hero-legend/skillb/right/05",
+                "hero-legend/skillb/right/06",
+                "hero-legend/skillb/right/07"
+              ],
+              "down-right": [
+                "hero-legend/skillb/right/00",
+                "hero-legend/skillb/right/01",
+                "hero-legend/skillb/right/02",
+                "hero-legend/skillb/right/03",
+                "hero-legend/skillb/right/04",
+                "hero-legend/skillb/right/05",
+                "hero-legend/skillb/right/06",
+                "hero-legend/skillb/right/07"
+              ]
+            }
+          },
+          "dodge": {
+            "asset": "hero-legend-walk-v3-fight-2",
+            "fps": 14,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-legend/dodge/right/00",
+                "hero-legend/dodge/right/01",
+                "hero-legend/dodge/right/02",
+                "hero-legend/dodge/right/03",
+                "hero-legend/dodge/right/04",
+                "hero-legend/dodge/right/05"
+              ],
+              "down-left": [
+                "hero-legend/dodge/left/00",
+                "hero-legend/dodge/left/01",
+                "hero-legend/dodge/left/02",
+                "hero-legend/dodge/left/03",
+                "hero-legend/dodge/left/04",
+                "hero-legend/dodge/left/05"
+              ],
+              "left": [
+                "hero-legend/dodge/left/00",
+                "hero-legend/dodge/left/01",
+                "hero-legend/dodge/left/02",
+                "hero-legend/dodge/left/03",
+                "hero-legend/dodge/left/04",
+                "hero-legend/dodge/left/05"
+              ],
+              "up-left": [
+                "hero-legend/dodge/left/00",
+                "hero-legend/dodge/left/01",
+                "hero-legend/dodge/left/02",
+                "hero-legend/dodge/left/03",
+                "hero-legend/dodge/left/04",
+                "hero-legend/dodge/left/05"
+              ],
+              "up": [
+                "hero-legend/dodge/right/00",
+                "hero-legend/dodge/right/01",
+                "hero-legend/dodge/right/02",
+                "hero-legend/dodge/right/03",
+                "hero-legend/dodge/right/04",
+                "hero-legend/dodge/right/05"
+              ],
+              "up-right": [
+                "hero-legend/dodge/right/00",
+                "hero-legend/dodge/right/01",
+                "hero-legend/dodge/right/02",
+                "hero-legend/dodge/right/03",
+                "hero-legend/dodge/right/04",
+                "hero-legend/dodge/right/05"
+              ],
+              "right": [
+                "hero-legend/dodge/right/00",
+                "hero-legend/dodge/right/01",
+                "hero-legend/dodge/right/02",
+                "hero-legend/dodge/right/03",
+                "hero-legend/dodge/right/04",
+                "hero-legend/dodge/right/05"
+              ],
+              "down-right": [
+                "hero-legend/dodge/right/00",
+                "hero-legend/dodge/right/01",
+                "hero-legend/dodge/right/02",
+                "hero-legend/dodge/right/03",
+                "hero-legend/dodge/right/04",
+                "hero-legend/dodge/right/05"
+              ]
+            }
+          },
+          "guard": {
+            "asset": "hero-legend-walk-v3-fight-2",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-legend/guard/right/00",
+                "hero-legend/guard/right/01",
+                "hero-legend/guard/right/02",
+                "hero-legend/guard/right/03",
+                "hero-legend/guard/right/04",
+                "hero-legend/guard/right/05"
+              ],
+              "down-left": [
+                "hero-legend/guard/left/00",
+                "hero-legend/guard/left/01",
+                "hero-legend/guard/left/02",
+                "hero-legend/guard/left/03",
+                "hero-legend/guard/left/04",
+                "hero-legend/guard/left/05"
+              ],
+              "left": [
+                "hero-legend/guard/left/00",
+                "hero-legend/guard/left/01",
+                "hero-legend/guard/left/02",
+                "hero-legend/guard/left/03",
+                "hero-legend/guard/left/04",
+                "hero-legend/guard/left/05"
+              ],
+              "up-left": [
+                "hero-legend/guard/left/00",
+                "hero-legend/guard/left/01",
+                "hero-legend/guard/left/02",
+                "hero-legend/guard/left/03",
+                "hero-legend/guard/left/04",
+                "hero-legend/guard/left/05"
+              ],
+              "up": [
+                "hero-legend/guard/right/00",
+                "hero-legend/guard/right/01",
+                "hero-legend/guard/right/02",
+                "hero-legend/guard/right/03",
+                "hero-legend/guard/right/04",
+                "hero-legend/guard/right/05"
+              ],
+              "up-right": [
+                "hero-legend/guard/right/00",
+                "hero-legend/guard/right/01",
+                "hero-legend/guard/right/02",
+                "hero-legend/guard/right/03",
+                "hero-legend/guard/right/04",
+                "hero-legend/guard/right/05"
+              ],
+              "right": [
+                "hero-legend/guard/right/00",
+                "hero-legend/guard/right/01",
+                "hero-legend/guard/right/02",
+                "hero-legend/guard/right/03",
+                "hero-legend/guard/right/04",
+                "hero-legend/guard/right/05"
+              ],
+              "down-right": [
+                "hero-legend/guard/right/00",
+                "hero-legend/guard/right/01",
+                "hero-legend/guard/right/02",
+                "hero-legend/guard/right/03",
+                "hero-legend/guard/right/04",
+                "hero-legend/guard/right/05"
+              ]
+            }
           }
         }
       }
@@ -84232,63 +84755,72 @@
   {
     "schemaVersion": 1,
     "id": "hero-android-walk-v3",
-    "version": "2.2.1",
+    "version": "2.6.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "hero-android-walk-v3-page-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/2.2.1-ab122379117b/hero-android-walk-v3-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.2.1-ab122379117b/hero-android-walk-v3-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/hero-android-walk-v3/2.6.0-2c0a0d184478/hero-android-walk-v3-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.6.0-2c0a0d184478/hero-android-walk-v3-page-0.json",
+        "width": 2028,
+        "height": 916
       },
       {
         "id": "hero-android-walk-v3-idle-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/2.2.1-ab122379117b/hero-android-walk-v3-idle-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.2.1-ab122379117b/hero-android-walk-v3-idle-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/hero-android-walk-v3/2.6.0-2c0a0d184478/hero-android-walk-v3-idle-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.6.0-2c0a0d184478/hero-android-walk-v3-idle-0.json",
+        "width": 1654,
+        "height": 1164
       },
       {
         "id": "hero-android-walk-v3-fight-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/2.2.1-ab122379117b/hero-android-walk-v3-fight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.2.1-ab122379117b/hero-android-walk-v3-fight-0.json",
-        "width": 2048,
-        "height": 1792
+        "url": "/game/assets/gpu/hero-android-walk-v3/2.6.0-2c0a0d184478/hero-android-walk-v3-fight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.6.0-2c0a0d184478/hero-android-walk-v3-fight-0.json",
+        "width": 1157,
+        "height": 1880
       },
       {
         "id": "hero-android-walk-v3-fight-1",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/2.2.1-ab122379117b/hero-android-walk-v3-fight-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.2.1-ab122379117b/hero-android-walk-v3-fight-1.json",
-        "width": 2048,
-        "height": 512
+        "url": "/game/assets/gpu/hero-android-walk-v3/2.6.0-2c0a0d184478/hero-android-walk-v3-fight-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.6.0-2c0a0d184478/hero-android-walk-v3-fight-1.json",
+        "width": 840,
+        "height": 592
       },
       {
         "id": "hero-android-walk-v3-kiwalk-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/2.2.1-ab122379117b/hero-android-walk-v3-kiwalk-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.2.1-ab122379117b/hero-android-walk-v3-kiwalk-0.json",
-        "width": 2048,
-        "height": 1160
+        "url": "/game/assets/gpu/hero-android-walk-v3/2.6.0-2c0a0d184478/hero-android-walk-v3-kiwalk-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.6.0-2c0a0d184478/hero-android-walk-v3-kiwalk-0.json",
+        "width": 1551,
+        "height": 1376
       },
       {
         "id": "hero-android-walk-v3-kifight-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/2.2.1-ab122379117b/hero-android-walk-v3-kifight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.2.1-ab122379117b/hero-android-walk-v3-kifight-0.json",
-        "width": 1358,
-        "height": 464
+        "url": "/game/assets/gpu/hero-android-walk-v3/2.6.0-2c0a0d184478/hero-android-walk-v3-kifight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.6.0-2c0a0d184478/hero-android-walk-v3-kifight-0.json",
+        "width": 1236,
+        "height": 1640
+      },
+      {
+        "id": "hero-android-walk-v3-fight-2",
+        "version": "2.6.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/hero-android-walk-v3/2.6.0-2c0a0d184478/hero-android-walk-v3-fight-2.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/2.6.0-2c0a0d184478/hero-android-walk-v3-fight-2.json",
+        "width": 1632,
+        "height": 1860
       }
     ],
     "actors": [
@@ -84976,28 +85508,68 @@
             "loop": true,
             "directions": {
               "down": [
-                "hero-android/kiidle/right/00"
+                "hero-android/kiidle/right/00",
+                "hero-android/kiidle/right/01",
+                "hero-android/kiidle/right/02",
+                "hero-android/kiidle/right/03",
+                "hero-android/kiidle/right/04",
+                "hero-android/kiidle/right/05"
               ],
               "down-left": [
-                "hero-android/kiidle/left/00"
+                "hero-android/kiidle/left/00",
+                "hero-android/kiidle/left/01",
+                "hero-android/kiidle/left/02",
+                "hero-android/kiidle/left/03",
+                "hero-android/kiidle/left/04",
+                "hero-android/kiidle/left/05"
               ],
               "left": [
-                "hero-android/kiidle/left/00"
+                "hero-android/kiidle/left/00",
+                "hero-android/kiidle/left/01",
+                "hero-android/kiidle/left/02",
+                "hero-android/kiidle/left/03",
+                "hero-android/kiidle/left/04",
+                "hero-android/kiidle/left/05"
               ],
               "up-left": [
-                "hero-android/kiidle/left/00"
+                "hero-android/kiidle/left/00",
+                "hero-android/kiidle/left/01",
+                "hero-android/kiidle/left/02",
+                "hero-android/kiidle/left/03",
+                "hero-android/kiidle/left/04",
+                "hero-android/kiidle/left/05"
               ],
               "up": [
-                "hero-android/kiidle/right/00"
+                "hero-android/kiidle/right/00",
+                "hero-android/kiidle/right/01",
+                "hero-android/kiidle/right/02",
+                "hero-android/kiidle/right/03",
+                "hero-android/kiidle/right/04",
+                "hero-android/kiidle/right/05"
               ],
               "up-right": [
-                "hero-android/kiidle/right/00"
+                "hero-android/kiidle/right/00",
+                "hero-android/kiidle/right/01",
+                "hero-android/kiidle/right/02",
+                "hero-android/kiidle/right/03",
+                "hero-android/kiidle/right/04",
+                "hero-android/kiidle/right/05"
               ],
               "right": [
-                "hero-android/kiidle/right/00"
+                "hero-android/kiidle/right/00",
+                "hero-android/kiidle/right/01",
+                "hero-android/kiidle/right/02",
+                "hero-android/kiidle/right/03",
+                "hero-android/kiidle/right/04",
+                "hero-android/kiidle/right/05"
               ],
               "down-right": [
-                "hero-android/kiidle/right/00"
+                "hero-android/kiidle/right/00",
+                "hero-android/kiidle/right/01",
+                "hero-android/kiidle/right/02",
+                "hero-android/kiidle/right/03",
+                "hero-android/kiidle/right/04",
+                "hero-android/kiidle/right/05"
               ]
             }
           },
@@ -85071,6 +85643,480 @@
                 "hero-android/kiattack/right/05"
               ]
             }
+          },
+          "kiskill": {
+            "asset": "hero-android-walk-v3-kifight-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-android/kiskill/right/00",
+                "hero-android/kiskill/right/01",
+                "hero-android/kiskill/right/02",
+                "hero-android/kiskill/right/03",
+                "hero-android/kiskill/right/04",
+                "hero-android/kiskill/right/05",
+                "hero-android/kiskill/right/06",
+                "hero-android/kiskill/right/07"
+              ],
+              "down-left": [
+                "hero-android/kiskill/left/00",
+                "hero-android/kiskill/left/01",
+                "hero-android/kiskill/left/02",
+                "hero-android/kiskill/left/03",
+                "hero-android/kiskill/left/04",
+                "hero-android/kiskill/left/05",
+                "hero-android/kiskill/left/06",
+                "hero-android/kiskill/left/07"
+              ],
+              "left": [
+                "hero-android/kiskill/left/00",
+                "hero-android/kiskill/left/01",
+                "hero-android/kiskill/left/02",
+                "hero-android/kiskill/left/03",
+                "hero-android/kiskill/left/04",
+                "hero-android/kiskill/left/05",
+                "hero-android/kiskill/left/06",
+                "hero-android/kiskill/left/07"
+              ],
+              "up-left": [
+                "hero-android/kiskill/left/00",
+                "hero-android/kiskill/left/01",
+                "hero-android/kiskill/left/02",
+                "hero-android/kiskill/left/03",
+                "hero-android/kiskill/left/04",
+                "hero-android/kiskill/left/05",
+                "hero-android/kiskill/left/06",
+                "hero-android/kiskill/left/07"
+              ],
+              "up": [
+                "hero-android/kiskill/right/00",
+                "hero-android/kiskill/right/01",
+                "hero-android/kiskill/right/02",
+                "hero-android/kiskill/right/03",
+                "hero-android/kiskill/right/04",
+                "hero-android/kiskill/right/05",
+                "hero-android/kiskill/right/06",
+                "hero-android/kiskill/right/07"
+              ],
+              "up-right": [
+                "hero-android/kiskill/right/00",
+                "hero-android/kiskill/right/01",
+                "hero-android/kiskill/right/02",
+                "hero-android/kiskill/right/03",
+                "hero-android/kiskill/right/04",
+                "hero-android/kiskill/right/05",
+                "hero-android/kiskill/right/06",
+                "hero-android/kiskill/right/07"
+              ],
+              "right": [
+                "hero-android/kiskill/right/00",
+                "hero-android/kiskill/right/01",
+                "hero-android/kiskill/right/02",
+                "hero-android/kiskill/right/03",
+                "hero-android/kiskill/right/04",
+                "hero-android/kiskill/right/05",
+                "hero-android/kiskill/right/06",
+                "hero-android/kiskill/right/07"
+              ],
+              "down-right": [
+                "hero-android/kiskill/right/00",
+                "hero-android/kiskill/right/01",
+                "hero-android/kiskill/right/02",
+                "hero-android/kiskill/right/03",
+                "hero-android/kiskill/right/04",
+                "hero-android/kiskill/right/05",
+                "hero-android/kiskill/right/06",
+                "hero-android/kiskill/right/07"
+              ]
+            }
+          },
+          "attack2": {
+            "asset": "hero-android-walk-v3-fight-2",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-android/attack2/right/00",
+                "hero-android/attack2/right/01",
+                "hero-android/attack2/right/02",
+                "hero-android/attack2/right/03",
+                "hero-android/attack2/right/04",
+                "hero-android/attack2/right/05"
+              ],
+              "down-left": [
+                "hero-android/attack2/left/00",
+                "hero-android/attack2/left/01",
+                "hero-android/attack2/left/02",
+                "hero-android/attack2/left/03",
+                "hero-android/attack2/left/04",
+                "hero-android/attack2/left/05"
+              ],
+              "left": [
+                "hero-android/attack2/left/00",
+                "hero-android/attack2/left/01",
+                "hero-android/attack2/left/02",
+                "hero-android/attack2/left/03",
+                "hero-android/attack2/left/04",
+                "hero-android/attack2/left/05"
+              ],
+              "up-left": [
+                "hero-android/attack2/left/00",
+                "hero-android/attack2/left/01",
+                "hero-android/attack2/left/02",
+                "hero-android/attack2/left/03",
+                "hero-android/attack2/left/04",
+                "hero-android/attack2/left/05"
+              ],
+              "up": [
+                "hero-android/attack2/right/00",
+                "hero-android/attack2/right/01",
+                "hero-android/attack2/right/02",
+                "hero-android/attack2/right/03",
+                "hero-android/attack2/right/04",
+                "hero-android/attack2/right/05"
+              ],
+              "up-right": [
+                "hero-android/attack2/right/00",
+                "hero-android/attack2/right/01",
+                "hero-android/attack2/right/02",
+                "hero-android/attack2/right/03",
+                "hero-android/attack2/right/04",
+                "hero-android/attack2/right/05"
+              ],
+              "right": [
+                "hero-android/attack2/right/00",
+                "hero-android/attack2/right/01",
+                "hero-android/attack2/right/02",
+                "hero-android/attack2/right/03",
+                "hero-android/attack2/right/04",
+                "hero-android/attack2/right/05"
+              ],
+              "down-right": [
+                "hero-android/attack2/right/00",
+                "hero-android/attack2/right/01",
+                "hero-android/attack2/right/02",
+                "hero-android/attack2/right/03",
+                "hero-android/attack2/right/04",
+                "hero-android/attack2/right/05"
+              ]
+            }
+          },
+          "finisher": {
+            "asset": "hero-android-walk-v3-fight-2",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-android/finisher/right/00",
+                "hero-android/finisher/right/01",
+                "hero-android/finisher/right/02",
+                "hero-android/finisher/right/03",
+                "hero-android/finisher/right/04",
+                "hero-android/finisher/right/05",
+                "hero-android/finisher/right/06",
+                "hero-android/finisher/right/07"
+              ],
+              "down-left": [
+                "hero-android/finisher/left/00",
+                "hero-android/finisher/left/01",
+                "hero-android/finisher/left/02",
+                "hero-android/finisher/left/03",
+                "hero-android/finisher/left/04",
+                "hero-android/finisher/left/05",
+                "hero-android/finisher/left/06",
+                "hero-android/finisher/left/07"
+              ],
+              "left": [
+                "hero-android/finisher/left/00",
+                "hero-android/finisher/left/01",
+                "hero-android/finisher/left/02",
+                "hero-android/finisher/left/03",
+                "hero-android/finisher/left/04",
+                "hero-android/finisher/left/05",
+                "hero-android/finisher/left/06",
+                "hero-android/finisher/left/07"
+              ],
+              "up-left": [
+                "hero-android/finisher/left/00",
+                "hero-android/finisher/left/01",
+                "hero-android/finisher/left/02",
+                "hero-android/finisher/left/03",
+                "hero-android/finisher/left/04",
+                "hero-android/finisher/left/05",
+                "hero-android/finisher/left/06",
+                "hero-android/finisher/left/07"
+              ],
+              "up": [
+                "hero-android/finisher/right/00",
+                "hero-android/finisher/right/01",
+                "hero-android/finisher/right/02",
+                "hero-android/finisher/right/03",
+                "hero-android/finisher/right/04",
+                "hero-android/finisher/right/05",
+                "hero-android/finisher/right/06",
+                "hero-android/finisher/right/07"
+              ],
+              "up-right": [
+                "hero-android/finisher/right/00",
+                "hero-android/finisher/right/01",
+                "hero-android/finisher/right/02",
+                "hero-android/finisher/right/03",
+                "hero-android/finisher/right/04",
+                "hero-android/finisher/right/05",
+                "hero-android/finisher/right/06",
+                "hero-android/finisher/right/07"
+              ],
+              "right": [
+                "hero-android/finisher/right/00",
+                "hero-android/finisher/right/01",
+                "hero-android/finisher/right/02",
+                "hero-android/finisher/right/03",
+                "hero-android/finisher/right/04",
+                "hero-android/finisher/right/05",
+                "hero-android/finisher/right/06",
+                "hero-android/finisher/right/07"
+              ],
+              "down-right": [
+                "hero-android/finisher/right/00",
+                "hero-android/finisher/right/01",
+                "hero-android/finisher/right/02",
+                "hero-android/finisher/right/03",
+                "hero-android/finisher/right/04",
+                "hero-android/finisher/right/05",
+                "hero-android/finisher/right/06",
+                "hero-android/finisher/right/07"
+              ]
+            }
+          },
+          "skillb": {
+            "asset": "hero-android-walk-v3-fight-2",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-android/skillb/right/00",
+                "hero-android/skillb/right/01",
+                "hero-android/skillb/right/02",
+                "hero-android/skillb/right/03",
+                "hero-android/skillb/right/04",
+                "hero-android/skillb/right/05",
+                "hero-android/skillb/right/06",
+                "hero-android/skillb/right/07"
+              ],
+              "down-left": [
+                "hero-android/skillb/left/00",
+                "hero-android/skillb/left/01",
+                "hero-android/skillb/left/02",
+                "hero-android/skillb/left/03",
+                "hero-android/skillb/left/04",
+                "hero-android/skillb/left/05",
+                "hero-android/skillb/left/06",
+                "hero-android/skillb/left/07"
+              ],
+              "left": [
+                "hero-android/skillb/left/00",
+                "hero-android/skillb/left/01",
+                "hero-android/skillb/left/02",
+                "hero-android/skillb/left/03",
+                "hero-android/skillb/left/04",
+                "hero-android/skillb/left/05",
+                "hero-android/skillb/left/06",
+                "hero-android/skillb/left/07"
+              ],
+              "up-left": [
+                "hero-android/skillb/left/00",
+                "hero-android/skillb/left/01",
+                "hero-android/skillb/left/02",
+                "hero-android/skillb/left/03",
+                "hero-android/skillb/left/04",
+                "hero-android/skillb/left/05",
+                "hero-android/skillb/left/06",
+                "hero-android/skillb/left/07"
+              ],
+              "up": [
+                "hero-android/skillb/right/00",
+                "hero-android/skillb/right/01",
+                "hero-android/skillb/right/02",
+                "hero-android/skillb/right/03",
+                "hero-android/skillb/right/04",
+                "hero-android/skillb/right/05",
+                "hero-android/skillb/right/06",
+                "hero-android/skillb/right/07"
+              ],
+              "up-right": [
+                "hero-android/skillb/right/00",
+                "hero-android/skillb/right/01",
+                "hero-android/skillb/right/02",
+                "hero-android/skillb/right/03",
+                "hero-android/skillb/right/04",
+                "hero-android/skillb/right/05",
+                "hero-android/skillb/right/06",
+                "hero-android/skillb/right/07"
+              ],
+              "right": [
+                "hero-android/skillb/right/00",
+                "hero-android/skillb/right/01",
+                "hero-android/skillb/right/02",
+                "hero-android/skillb/right/03",
+                "hero-android/skillb/right/04",
+                "hero-android/skillb/right/05",
+                "hero-android/skillb/right/06",
+                "hero-android/skillb/right/07"
+              ],
+              "down-right": [
+                "hero-android/skillb/right/00",
+                "hero-android/skillb/right/01",
+                "hero-android/skillb/right/02",
+                "hero-android/skillb/right/03",
+                "hero-android/skillb/right/04",
+                "hero-android/skillb/right/05",
+                "hero-android/skillb/right/06",
+                "hero-android/skillb/right/07"
+              ]
+            }
+          },
+          "dodge": {
+            "asset": "hero-android-walk-v3-fight-2",
+            "fps": 14,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-android/dodge/right/00",
+                "hero-android/dodge/right/01",
+                "hero-android/dodge/right/02",
+                "hero-android/dodge/right/03",
+                "hero-android/dodge/right/04",
+                "hero-android/dodge/right/05"
+              ],
+              "down-left": [
+                "hero-android/dodge/left/00",
+                "hero-android/dodge/left/01",
+                "hero-android/dodge/left/02",
+                "hero-android/dodge/left/03",
+                "hero-android/dodge/left/04",
+                "hero-android/dodge/left/05"
+              ],
+              "left": [
+                "hero-android/dodge/left/00",
+                "hero-android/dodge/left/01",
+                "hero-android/dodge/left/02",
+                "hero-android/dodge/left/03",
+                "hero-android/dodge/left/04",
+                "hero-android/dodge/left/05"
+              ],
+              "up-left": [
+                "hero-android/dodge/left/00",
+                "hero-android/dodge/left/01",
+                "hero-android/dodge/left/02",
+                "hero-android/dodge/left/03",
+                "hero-android/dodge/left/04",
+                "hero-android/dodge/left/05"
+              ],
+              "up": [
+                "hero-android/dodge/right/00",
+                "hero-android/dodge/right/01",
+                "hero-android/dodge/right/02",
+                "hero-android/dodge/right/03",
+                "hero-android/dodge/right/04",
+                "hero-android/dodge/right/05"
+              ],
+              "up-right": [
+                "hero-android/dodge/right/00",
+                "hero-android/dodge/right/01",
+                "hero-android/dodge/right/02",
+                "hero-android/dodge/right/03",
+                "hero-android/dodge/right/04",
+                "hero-android/dodge/right/05"
+              ],
+              "right": [
+                "hero-android/dodge/right/00",
+                "hero-android/dodge/right/01",
+                "hero-android/dodge/right/02",
+                "hero-android/dodge/right/03",
+                "hero-android/dodge/right/04",
+                "hero-android/dodge/right/05"
+              ],
+              "down-right": [
+                "hero-android/dodge/right/00",
+                "hero-android/dodge/right/01",
+                "hero-android/dodge/right/02",
+                "hero-android/dodge/right/03",
+                "hero-android/dodge/right/04",
+                "hero-android/dodge/right/05"
+              ]
+            }
+          },
+          "guard": {
+            "asset": "hero-android-walk-v3-fight-2",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-android/guard/right/00",
+                "hero-android/guard/right/01",
+                "hero-android/guard/right/02",
+                "hero-android/guard/right/03",
+                "hero-android/guard/right/04",
+                "hero-android/guard/right/05"
+              ],
+              "down-left": [
+                "hero-android/guard/left/00",
+                "hero-android/guard/left/01",
+                "hero-android/guard/left/02",
+                "hero-android/guard/left/03",
+                "hero-android/guard/left/04",
+                "hero-android/guard/left/05"
+              ],
+              "left": [
+                "hero-android/guard/left/00",
+                "hero-android/guard/left/01",
+                "hero-android/guard/left/02",
+                "hero-android/guard/left/03",
+                "hero-android/guard/left/04",
+                "hero-android/guard/left/05"
+              ],
+              "up-left": [
+                "hero-android/guard/left/00",
+                "hero-android/guard/left/01",
+                "hero-android/guard/left/02",
+                "hero-android/guard/left/03",
+                "hero-android/guard/left/04",
+                "hero-android/guard/left/05"
+              ],
+              "up": [
+                "hero-android/guard/right/00",
+                "hero-android/guard/right/01",
+                "hero-android/guard/right/02",
+                "hero-android/guard/right/03",
+                "hero-android/guard/right/04",
+                "hero-android/guard/right/05"
+              ],
+              "up-right": [
+                "hero-android/guard/right/00",
+                "hero-android/guard/right/01",
+                "hero-android/guard/right/02",
+                "hero-android/guard/right/03",
+                "hero-android/guard/right/04",
+                "hero-android/guard/right/05"
+              ],
+              "right": [
+                "hero-android/guard/right/00",
+                "hero-android/guard/right/01",
+                "hero-android/guard/right/02",
+                "hero-android/guard/right/03",
+                "hero-android/guard/right/04",
+                "hero-android/guard/right/05"
+              ],
+              "down-right": [
+                "hero-android/guard/right/00",
+                "hero-android/guard/right/01",
+                "hero-android/guard/right/02",
+                "hero-android/guard/right/03",
+                "hero-android/guard/right/04",
+                "hero-android/guard/right/05"
+              ]
+            }
           }
         }
       }
@@ -85082,63 +86128,72 @@
   {
     "schemaVersion": 1,
     "id": "hero-sage-painted-walk-v3",
-    "version": "2.2.1",
+    "version": "2.6.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "hero-sage-painted-walk-v3-page-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.6.0-8da47ed3154b/hero-sage-painted-walk-v3-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.6.0-8da47ed3154b/hero-sage-painted-walk-v3-page-0.json",
+        "width": 1817,
+        "height": 1152
       },
       {
         "id": "hero-sage-painted-walk-v3-idle-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-idle-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-idle-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.6.0-8da47ed3154b/hero-sage-painted-walk-v3-idle-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.6.0-8da47ed3154b/hero-sage-painted-walk-v3-idle-0.json",
+        "width": 1714,
+        "height": 1164
       },
       {
         "id": "hero-sage-painted-walk-v3-fight-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-fight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-fight-0.json",
-        "width": 2048,
-        "height": 1792
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.6.0-8da47ed3154b/hero-sage-painted-walk-v3-fight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.6.0-8da47ed3154b/hero-sage-painted-walk-v3-fight-0.json",
+        "width": 1324,
+        "height": 1708
       },
       {
         "id": "hero-sage-painted-walk-v3-fight-1",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-fight-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-fight-1.json",
-        "width": 2048,
-        "height": 512
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.6.0-8da47ed3154b/hero-sage-painted-walk-v3-fight-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.6.0-8da47ed3154b/hero-sage-painted-walk-v3-fight-1.json",
+        "width": 1584,
+        "height": 484
       },
       {
         "id": "hero-sage-painted-walk-v3-kiwalk-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-kiwalk-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-kiwalk-0.json",
-        "width": 2048,
-        "height": 940
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.6.0-8da47ed3154b/hero-sage-painted-walk-v3-kiwalk-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.6.0-8da47ed3154b/hero-sage-painted-walk-v3-kiwalk-0.json",
+        "width": 1562,
+        "height": 1160
       },
       {
         "id": "hero-sage-painted-walk-v3-kifight-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-kifight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.2.1-36a0e6d64798/hero-sage-painted-walk-v3-kifight-0.json",
-        "width": 1269,
-        "height": 484
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.6.0-8da47ed3154b/hero-sage-painted-walk-v3-kifight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.6.0-8da47ed3154b/hero-sage-painted-walk-v3-kifight-0.json",
+        "width": 1439,
+        "height": 1236
+      },
+      {
+        "id": "hero-sage-painted-walk-v3-fight-2",
+        "version": "2.6.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/2.6.0-8da47ed3154b/hero-sage-painted-walk-v3-fight-2.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/2.6.0-8da47ed3154b/hero-sage-painted-walk-v3-fight-2.json",
+        "width": 1828,
+        "height": 1868
       }
     ],
     "actors": [
@@ -85826,28 +86881,68 @@
             "loop": true,
             "directions": {
               "down": [
-                "hero-sage-painted/kiidle/right/00"
+                "hero-sage-painted/kiidle/right/00",
+                "hero-sage-painted/kiidle/right/01",
+                "hero-sage-painted/kiidle/right/02",
+                "hero-sage-painted/kiidle/right/03",
+                "hero-sage-painted/kiidle/right/04",
+                "hero-sage-painted/kiidle/right/05"
               ],
               "down-left": [
-                "hero-sage-painted/kiidle/left/00"
+                "hero-sage-painted/kiidle/left/00",
+                "hero-sage-painted/kiidle/left/01",
+                "hero-sage-painted/kiidle/left/02",
+                "hero-sage-painted/kiidle/left/03",
+                "hero-sage-painted/kiidle/left/04",
+                "hero-sage-painted/kiidle/left/05"
               ],
               "left": [
-                "hero-sage-painted/kiidle/left/00"
+                "hero-sage-painted/kiidle/left/00",
+                "hero-sage-painted/kiidle/left/01",
+                "hero-sage-painted/kiidle/left/02",
+                "hero-sage-painted/kiidle/left/03",
+                "hero-sage-painted/kiidle/left/04",
+                "hero-sage-painted/kiidle/left/05"
               ],
               "up-left": [
-                "hero-sage-painted/kiidle/left/00"
+                "hero-sage-painted/kiidle/left/00",
+                "hero-sage-painted/kiidle/left/01",
+                "hero-sage-painted/kiidle/left/02",
+                "hero-sage-painted/kiidle/left/03",
+                "hero-sage-painted/kiidle/left/04",
+                "hero-sage-painted/kiidle/left/05"
               ],
               "up": [
-                "hero-sage-painted/kiidle/right/00"
+                "hero-sage-painted/kiidle/right/00",
+                "hero-sage-painted/kiidle/right/01",
+                "hero-sage-painted/kiidle/right/02",
+                "hero-sage-painted/kiidle/right/03",
+                "hero-sage-painted/kiidle/right/04",
+                "hero-sage-painted/kiidle/right/05"
               ],
               "up-right": [
-                "hero-sage-painted/kiidle/right/00"
+                "hero-sage-painted/kiidle/right/00",
+                "hero-sage-painted/kiidle/right/01",
+                "hero-sage-painted/kiidle/right/02",
+                "hero-sage-painted/kiidle/right/03",
+                "hero-sage-painted/kiidle/right/04",
+                "hero-sage-painted/kiidle/right/05"
               ],
               "right": [
-                "hero-sage-painted/kiidle/right/00"
+                "hero-sage-painted/kiidle/right/00",
+                "hero-sage-painted/kiidle/right/01",
+                "hero-sage-painted/kiidle/right/02",
+                "hero-sage-painted/kiidle/right/03",
+                "hero-sage-painted/kiidle/right/04",
+                "hero-sage-painted/kiidle/right/05"
               ],
               "down-right": [
-                "hero-sage-painted/kiidle/right/00"
+                "hero-sage-painted/kiidle/right/00",
+                "hero-sage-painted/kiidle/right/01",
+                "hero-sage-painted/kiidle/right/02",
+                "hero-sage-painted/kiidle/right/03",
+                "hero-sage-painted/kiidle/right/04",
+                "hero-sage-painted/kiidle/right/05"
               ]
             }
           },
@@ -85921,6 +87016,480 @@
                 "hero-sage-painted/kiattack/right/05"
               ]
             }
+          },
+          "kiskill": {
+            "asset": "hero-sage-painted-walk-v3-kifight-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-sage-painted/kiskill/right/00",
+                "hero-sage-painted/kiskill/right/01",
+                "hero-sage-painted/kiskill/right/02",
+                "hero-sage-painted/kiskill/right/03",
+                "hero-sage-painted/kiskill/right/04",
+                "hero-sage-painted/kiskill/right/05",
+                "hero-sage-painted/kiskill/right/06",
+                "hero-sage-painted/kiskill/right/07"
+              ],
+              "down-left": [
+                "hero-sage-painted/kiskill/left/00",
+                "hero-sage-painted/kiskill/left/01",
+                "hero-sage-painted/kiskill/left/02",
+                "hero-sage-painted/kiskill/left/03",
+                "hero-sage-painted/kiskill/left/04",
+                "hero-sage-painted/kiskill/left/05",
+                "hero-sage-painted/kiskill/left/06",
+                "hero-sage-painted/kiskill/left/07"
+              ],
+              "left": [
+                "hero-sage-painted/kiskill/left/00",
+                "hero-sage-painted/kiskill/left/01",
+                "hero-sage-painted/kiskill/left/02",
+                "hero-sage-painted/kiskill/left/03",
+                "hero-sage-painted/kiskill/left/04",
+                "hero-sage-painted/kiskill/left/05",
+                "hero-sage-painted/kiskill/left/06",
+                "hero-sage-painted/kiskill/left/07"
+              ],
+              "up-left": [
+                "hero-sage-painted/kiskill/left/00",
+                "hero-sage-painted/kiskill/left/01",
+                "hero-sage-painted/kiskill/left/02",
+                "hero-sage-painted/kiskill/left/03",
+                "hero-sage-painted/kiskill/left/04",
+                "hero-sage-painted/kiskill/left/05",
+                "hero-sage-painted/kiskill/left/06",
+                "hero-sage-painted/kiskill/left/07"
+              ],
+              "up": [
+                "hero-sage-painted/kiskill/right/00",
+                "hero-sage-painted/kiskill/right/01",
+                "hero-sage-painted/kiskill/right/02",
+                "hero-sage-painted/kiskill/right/03",
+                "hero-sage-painted/kiskill/right/04",
+                "hero-sage-painted/kiskill/right/05",
+                "hero-sage-painted/kiskill/right/06",
+                "hero-sage-painted/kiskill/right/07"
+              ],
+              "up-right": [
+                "hero-sage-painted/kiskill/right/00",
+                "hero-sage-painted/kiskill/right/01",
+                "hero-sage-painted/kiskill/right/02",
+                "hero-sage-painted/kiskill/right/03",
+                "hero-sage-painted/kiskill/right/04",
+                "hero-sage-painted/kiskill/right/05",
+                "hero-sage-painted/kiskill/right/06",
+                "hero-sage-painted/kiskill/right/07"
+              ],
+              "right": [
+                "hero-sage-painted/kiskill/right/00",
+                "hero-sage-painted/kiskill/right/01",
+                "hero-sage-painted/kiskill/right/02",
+                "hero-sage-painted/kiskill/right/03",
+                "hero-sage-painted/kiskill/right/04",
+                "hero-sage-painted/kiskill/right/05",
+                "hero-sage-painted/kiskill/right/06",
+                "hero-sage-painted/kiskill/right/07"
+              ],
+              "down-right": [
+                "hero-sage-painted/kiskill/right/00",
+                "hero-sage-painted/kiskill/right/01",
+                "hero-sage-painted/kiskill/right/02",
+                "hero-sage-painted/kiskill/right/03",
+                "hero-sage-painted/kiskill/right/04",
+                "hero-sage-painted/kiskill/right/05",
+                "hero-sage-painted/kiskill/right/06",
+                "hero-sage-painted/kiskill/right/07"
+              ]
+            }
+          },
+          "attack2": {
+            "asset": "hero-sage-painted-walk-v3-fight-2",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-sage-painted/attack2/right/00",
+                "hero-sage-painted/attack2/right/01",
+                "hero-sage-painted/attack2/right/02",
+                "hero-sage-painted/attack2/right/03",
+                "hero-sage-painted/attack2/right/04",
+                "hero-sage-painted/attack2/right/05"
+              ],
+              "down-left": [
+                "hero-sage-painted/attack2/left/00",
+                "hero-sage-painted/attack2/left/01",
+                "hero-sage-painted/attack2/left/02",
+                "hero-sage-painted/attack2/left/03",
+                "hero-sage-painted/attack2/left/04",
+                "hero-sage-painted/attack2/left/05"
+              ],
+              "left": [
+                "hero-sage-painted/attack2/left/00",
+                "hero-sage-painted/attack2/left/01",
+                "hero-sage-painted/attack2/left/02",
+                "hero-sage-painted/attack2/left/03",
+                "hero-sage-painted/attack2/left/04",
+                "hero-sage-painted/attack2/left/05"
+              ],
+              "up-left": [
+                "hero-sage-painted/attack2/left/00",
+                "hero-sage-painted/attack2/left/01",
+                "hero-sage-painted/attack2/left/02",
+                "hero-sage-painted/attack2/left/03",
+                "hero-sage-painted/attack2/left/04",
+                "hero-sage-painted/attack2/left/05"
+              ],
+              "up": [
+                "hero-sage-painted/attack2/right/00",
+                "hero-sage-painted/attack2/right/01",
+                "hero-sage-painted/attack2/right/02",
+                "hero-sage-painted/attack2/right/03",
+                "hero-sage-painted/attack2/right/04",
+                "hero-sage-painted/attack2/right/05"
+              ],
+              "up-right": [
+                "hero-sage-painted/attack2/right/00",
+                "hero-sage-painted/attack2/right/01",
+                "hero-sage-painted/attack2/right/02",
+                "hero-sage-painted/attack2/right/03",
+                "hero-sage-painted/attack2/right/04",
+                "hero-sage-painted/attack2/right/05"
+              ],
+              "right": [
+                "hero-sage-painted/attack2/right/00",
+                "hero-sage-painted/attack2/right/01",
+                "hero-sage-painted/attack2/right/02",
+                "hero-sage-painted/attack2/right/03",
+                "hero-sage-painted/attack2/right/04",
+                "hero-sage-painted/attack2/right/05"
+              ],
+              "down-right": [
+                "hero-sage-painted/attack2/right/00",
+                "hero-sage-painted/attack2/right/01",
+                "hero-sage-painted/attack2/right/02",
+                "hero-sage-painted/attack2/right/03",
+                "hero-sage-painted/attack2/right/04",
+                "hero-sage-painted/attack2/right/05"
+              ]
+            }
+          },
+          "finisher": {
+            "asset": "hero-sage-painted-walk-v3-fight-2",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-sage-painted/finisher/right/00",
+                "hero-sage-painted/finisher/right/01",
+                "hero-sage-painted/finisher/right/02",
+                "hero-sage-painted/finisher/right/03",
+                "hero-sage-painted/finisher/right/04",
+                "hero-sage-painted/finisher/right/05",
+                "hero-sage-painted/finisher/right/06",
+                "hero-sage-painted/finisher/right/07"
+              ],
+              "down-left": [
+                "hero-sage-painted/finisher/left/00",
+                "hero-sage-painted/finisher/left/01",
+                "hero-sage-painted/finisher/left/02",
+                "hero-sage-painted/finisher/left/03",
+                "hero-sage-painted/finisher/left/04",
+                "hero-sage-painted/finisher/left/05",
+                "hero-sage-painted/finisher/left/06",
+                "hero-sage-painted/finisher/left/07"
+              ],
+              "left": [
+                "hero-sage-painted/finisher/left/00",
+                "hero-sage-painted/finisher/left/01",
+                "hero-sage-painted/finisher/left/02",
+                "hero-sage-painted/finisher/left/03",
+                "hero-sage-painted/finisher/left/04",
+                "hero-sage-painted/finisher/left/05",
+                "hero-sage-painted/finisher/left/06",
+                "hero-sage-painted/finisher/left/07"
+              ],
+              "up-left": [
+                "hero-sage-painted/finisher/left/00",
+                "hero-sage-painted/finisher/left/01",
+                "hero-sage-painted/finisher/left/02",
+                "hero-sage-painted/finisher/left/03",
+                "hero-sage-painted/finisher/left/04",
+                "hero-sage-painted/finisher/left/05",
+                "hero-sage-painted/finisher/left/06",
+                "hero-sage-painted/finisher/left/07"
+              ],
+              "up": [
+                "hero-sage-painted/finisher/right/00",
+                "hero-sage-painted/finisher/right/01",
+                "hero-sage-painted/finisher/right/02",
+                "hero-sage-painted/finisher/right/03",
+                "hero-sage-painted/finisher/right/04",
+                "hero-sage-painted/finisher/right/05",
+                "hero-sage-painted/finisher/right/06",
+                "hero-sage-painted/finisher/right/07"
+              ],
+              "up-right": [
+                "hero-sage-painted/finisher/right/00",
+                "hero-sage-painted/finisher/right/01",
+                "hero-sage-painted/finisher/right/02",
+                "hero-sage-painted/finisher/right/03",
+                "hero-sage-painted/finisher/right/04",
+                "hero-sage-painted/finisher/right/05",
+                "hero-sage-painted/finisher/right/06",
+                "hero-sage-painted/finisher/right/07"
+              ],
+              "right": [
+                "hero-sage-painted/finisher/right/00",
+                "hero-sage-painted/finisher/right/01",
+                "hero-sage-painted/finisher/right/02",
+                "hero-sage-painted/finisher/right/03",
+                "hero-sage-painted/finisher/right/04",
+                "hero-sage-painted/finisher/right/05",
+                "hero-sage-painted/finisher/right/06",
+                "hero-sage-painted/finisher/right/07"
+              ],
+              "down-right": [
+                "hero-sage-painted/finisher/right/00",
+                "hero-sage-painted/finisher/right/01",
+                "hero-sage-painted/finisher/right/02",
+                "hero-sage-painted/finisher/right/03",
+                "hero-sage-painted/finisher/right/04",
+                "hero-sage-painted/finisher/right/05",
+                "hero-sage-painted/finisher/right/06",
+                "hero-sage-painted/finisher/right/07"
+              ]
+            }
+          },
+          "skillb": {
+            "asset": "hero-sage-painted-walk-v3-fight-2",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-sage-painted/skillb/right/00",
+                "hero-sage-painted/skillb/right/01",
+                "hero-sage-painted/skillb/right/02",
+                "hero-sage-painted/skillb/right/03",
+                "hero-sage-painted/skillb/right/04",
+                "hero-sage-painted/skillb/right/05",
+                "hero-sage-painted/skillb/right/06",
+                "hero-sage-painted/skillb/right/07"
+              ],
+              "down-left": [
+                "hero-sage-painted/skillb/left/00",
+                "hero-sage-painted/skillb/left/01",
+                "hero-sage-painted/skillb/left/02",
+                "hero-sage-painted/skillb/left/03",
+                "hero-sage-painted/skillb/left/04",
+                "hero-sage-painted/skillb/left/05",
+                "hero-sage-painted/skillb/left/06",
+                "hero-sage-painted/skillb/left/07"
+              ],
+              "left": [
+                "hero-sage-painted/skillb/left/00",
+                "hero-sage-painted/skillb/left/01",
+                "hero-sage-painted/skillb/left/02",
+                "hero-sage-painted/skillb/left/03",
+                "hero-sage-painted/skillb/left/04",
+                "hero-sage-painted/skillb/left/05",
+                "hero-sage-painted/skillb/left/06",
+                "hero-sage-painted/skillb/left/07"
+              ],
+              "up-left": [
+                "hero-sage-painted/skillb/left/00",
+                "hero-sage-painted/skillb/left/01",
+                "hero-sage-painted/skillb/left/02",
+                "hero-sage-painted/skillb/left/03",
+                "hero-sage-painted/skillb/left/04",
+                "hero-sage-painted/skillb/left/05",
+                "hero-sage-painted/skillb/left/06",
+                "hero-sage-painted/skillb/left/07"
+              ],
+              "up": [
+                "hero-sage-painted/skillb/right/00",
+                "hero-sage-painted/skillb/right/01",
+                "hero-sage-painted/skillb/right/02",
+                "hero-sage-painted/skillb/right/03",
+                "hero-sage-painted/skillb/right/04",
+                "hero-sage-painted/skillb/right/05",
+                "hero-sage-painted/skillb/right/06",
+                "hero-sage-painted/skillb/right/07"
+              ],
+              "up-right": [
+                "hero-sage-painted/skillb/right/00",
+                "hero-sage-painted/skillb/right/01",
+                "hero-sage-painted/skillb/right/02",
+                "hero-sage-painted/skillb/right/03",
+                "hero-sage-painted/skillb/right/04",
+                "hero-sage-painted/skillb/right/05",
+                "hero-sage-painted/skillb/right/06",
+                "hero-sage-painted/skillb/right/07"
+              ],
+              "right": [
+                "hero-sage-painted/skillb/right/00",
+                "hero-sage-painted/skillb/right/01",
+                "hero-sage-painted/skillb/right/02",
+                "hero-sage-painted/skillb/right/03",
+                "hero-sage-painted/skillb/right/04",
+                "hero-sage-painted/skillb/right/05",
+                "hero-sage-painted/skillb/right/06",
+                "hero-sage-painted/skillb/right/07"
+              ],
+              "down-right": [
+                "hero-sage-painted/skillb/right/00",
+                "hero-sage-painted/skillb/right/01",
+                "hero-sage-painted/skillb/right/02",
+                "hero-sage-painted/skillb/right/03",
+                "hero-sage-painted/skillb/right/04",
+                "hero-sage-painted/skillb/right/05",
+                "hero-sage-painted/skillb/right/06",
+                "hero-sage-painted/skillb/right/07"
+              ]
+            }
+          },
+          "dodge": {
+            "asset": "hero-sage-painted-walk-v3-fight-2",
+            "fps": 14,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-sage-painted/dodge/right/00",
+                "hero-sage-painted/dodge/right/01",
+                "hero-sage-painted/dodge/right/02",
+                "hero-sage-painted/dodge/right/03",
+                "hero-sage-painted/dodge/right/04",
+                "hero-sage-painted/dodge/right/05"
+              ],
+              "down-left": [
+                "hero-sage-painted/dodge/left/00",
+                "hero-sage-painted/dodge/left/01",
+                "hero-sage-painted/dodge/left/02",
+                "hero-sage-painted/dodge/left/03",
+                "hero-sage-painted/dodge/left/04",
+                "hero-sage-painted/dodge/left/05"
+              ],
+              "left": [
+                "hero-sage-painted/dodge/left/00",
+                "hero-sage-painted/dodge/left/01",
+                "hero-sage-painted/dodge/left/02",
+                "hero-sage-painted/dodge/left/03",
+                "hero-sage-painted/dodge/left/04",
+                "hero-sage-painted/dodge/left/05"
+              ],
+              "up-left": [
+                "hero-sage-painted/dodge/left/00",
+                "hero-sage-painted/dodge/left/01",
+                "hero-sage-painted/dodge/left/02",
+                "hero-sage-painted/dodge/left/03",
+                "hero-sage-painted/dodge/left/04",
+                "hero-sage-painted/dodge/left/05"
+              ],
+              "up": [
+                "hero-sage-painted/dodge/right/00",
+                "hero-sage-painted/dodge/right/01",
+                "hero-sage-painted/dodge/right/02",
+                "hero-sage-painted/dodge/right/03",
+                "hero-sage-painted/dodge/right/04",
+                "hero-sage-painted/dodge/right/05"
+              ],
+              "up-right": [
+                "hero-sage-painted/dodge/right/00",
+                "hero-sage-painted/dodge/right/01",
+                "hero-sage-painted/dodge/right/02",
+                "hero-sage-painted/dodge/right/03",
+                "hero-sage-painted/dodge/right/04",
+                "hero-sage-painted/dodge/right/05"
+              ],
+              "right": [
+                "hero-sage-painted/dodge/right/00",
+                "hero-sage-painted/dodge/right/01",
+                "hero-sage-painted/dodge/right/02",
+                "hero-sage-painted/dodge/right/03",
+                "hero-sage-painted/dodge/right/04",
+                "hero-sage-painted/dodge/right/05"
+              ],
+              "down-right": [
+                "hero-sage-painted/dodge/right/00",
+                "hero-sage-painted/dodge/right/01",
+                "hero-sage-painted/dodge/right/02",
+                "hero-sage-painted/dodge/right/03",
+                "hero-sage-painted/dodge/right/04",
+                "hero-sage-painted/dodge/right/05"
+              ]
+            }
+          },
+          "guard": {
+            "asset": "hero-sage-painted-walk-v3-fight-2",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-sage-painted/guard/right/00",
+                "hero-sage-painted/guard/right/01",
+                "hero-sage-painted/guard/right/02",
+                "hero-sage-painted/guard/right/03",
+                "hero-sage-painted/guard/right/04",
+                "hero-sage-painted/guard/right/05"
+              ],
+              "down-left": [
+                "hero-sage-painted/guard/left/00",
+                "hero-sage-painted/guard/left/01",
+                "hero-sage-painted/guard/left/02",
+                "hero-sage-painted/guard/left/03",
+                "hero-sage-painted/guard/left/04",
+                "hero-sage-painted/guard/left/05"
+              ],
+              "left": [
+                "hero-sage-painted/guard/left/00",
+                "hero-sage-painted/guard/left/01",
+                "hero-sage-painted/guard/left/02",
+                "hero-sage-painted/guard/left/03",
+                "hero-sage-painted/guard/left/04",
+                "hero-sage-painted/guard/left/05"
+              ],
+              "up-left": [
+                "hero-sage-painted/guard/left/00",
+                "hero-sage-painted/guard/left/01",
+                "hero-sage-painted/guard/left/02",
+                "hero-sage-painted/guard/left/03",
+                "hero-sage-painted/guard/left/04",
+                "hero-sage-painted/guard/left/05"
+              ],
+              "up": [
+                "hero-sage-painted/guard/right/00",
+                "hero-sage-painted/guard/right/01",
+                "hero-sage-painted/guard/right/02",
+                "hero-sage-painted/guard/right/03",
+                "hero-sage-painted/guard/right/04",
+                "hero-sage-painted/guard/right/05"
+              ],
+              "up-right": [
+                "hero-sage-painted/guard/right/00",
+                "hero-sage-painted/guard/right/01",
+                "hero-sage-painted/guard/right/02",
+                "hero-sage-painted/guard/right/03",
+                "hero-sage-painted/guard/right/04",
+                "hero-sage-painted/guard/right/05"
+              ],
+              "right": [
+                "hero-sage-painted/guard/right/00",
+                "hero-sage-painted/guard/right/01",
+                "hero-sage-painted/guard/right/02",
+                "hero-sage-painted/guard/right/03",
+                "hero-sage-painted/guard/right/04",
+                "hero-sage-painted/guard/right/05"
+              ],
+              "down-right": [
+                "hero-sage-painted/guard/right/00",
+                "hero-sage-painted/guard/right/01",
+                "hero-sage-painted/guard/right/02",
+                "hero-sage-painted/guard/right/03",
+                "hero-sage-painted/guard/right/04",
+                "hero-sage-painted/guard/right/05"
+              ]
+            }
           }
         }
       }
@@ -85932,63 +87501,72 @@
   {
     "schemaVersion": 1,
     "id": "hero-planetary-painted-walk-v3",
-    "version": "2.2.1",
+    "version": "2.6.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "hero-planetary-painted-walk-v3-page-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.6.0-0106cdc67840/hero-planetary-painted-walk-v3-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.6.0-0106cdc67840/hero-planetary-painted-walk-v3-page-0.json",
+        "width": 1872,
+        "height": 920
       },
       {
         "id": "hero-planetary-painted-walk-v3-idle-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-idle-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-idle-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.6.0-0106cdc67840/hero-planetary-painted-walk-v3-idle-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.6.0-0106cdc67840/hero-planetary-painted-walk-v3-idle-0.json",
+        "width": 1960,
+        "height": 928
       },
       {
         "id": "hero-planetary-painted-walk-v3-fight-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-fight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-fight-0.json",
-        "width": 2048,
-        "height": 1792
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.6.0-0106cdc67840/hero-planetary-painted-walk-v3-fight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.6.0-0106cdc67840/hero-planetary-painted-walk-v3-fight-0.json",
+        "width": 1521,
+        "height": 1316
       },
       {
         "id": "hero-planetary-painted-walk-v3-fight-1",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-fight-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-fight-1.json",
-        "width": 2048,
-        "height": 512
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.6.0-0106cdc67840/hero-planetary-painted-walk-v3-fight-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.6.0-0106cdc67840/hero-planetary-painted-walk-v3-fight-1.json",
+        "width": 698,
+        "height": 836
       },
       {
         "id": "hero-planetary-painted-walk-v3-kiwalk-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-kiwalk-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-kiwalk-0.json",
-        "width": 2048,
-        "height": 468
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.6.0-0106cdc67840/hero-planetary-painted-walk-v3-kiwalk-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.6.0-0106cdc67840/hero-planetary-painted-walk-v3-kiwalk-0.json",
+        "width": 1883,
+        "height": 464
       },
       {
         "id": "hero-planetary-painted-walk-v3-kifight-0",
-        "version": "2.2.1",
+        "version": "2.6.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-kifight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.2.1-4c416e1a81d0/hero-planetary-painted-walk-v3-kifight-0.json",
-        "width": 1007,
-        "height": 476
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.6.0-0106cdc67840/hero-planetary-painted-walk-v3-kifight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.6.0-0106cdc67840/hero-planetary-painted-walk-v3-kifight-0.json",
+        "width": 1607,
+        "height": 1232
+      },
+      {
+        "id": "hero-planetary-painted-walk-v3-fight-2",
+        "version": "2.6.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.6.0-0106cdc67840/hero-planetary-painted-walk-v3-fight-2.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/2.6.0-0106cdc67840/hero-planetary-painted-walk-v3-fight-2.json",
+        "width": 1716,
+        "height": 2036
       }
     ],
     "actors": [
@@ -86676,28 +88254,68 @@
             "loop": true,
             "directions": {
               "down": [
-                "hero-planetary-painted/kiidle/right/00"
+                "hero-planetary-painted/kiidle/right/00",
+                "hero-planetary-painted/kiidle/right/01",
+                "hero-planetary-painted/kiidle/right/02",
+                "hero-planetary-painted/kiidle/right/03",
+                "hero-planetary-painted/kiidle/right/04",
+                "hero-planetary-painted/kiidle/right/05"
               ],
               "down-left": [
-                "hero-planetary-painted/kiidle/left/00"
+                "hero-planetary-painted/kiidle/left/00",
+                "hero-planetary-painted/kiidle/left/01",
+                "hero-planetary-painted/kiidle/left/02",
+                "hero-planetary-painted/kiidle/left/03",
+                "hero-planetary-painted/kiidle/left/04",
+                "hero-planetary-painted/kiidle/left/05"
               ],
               "left": [
-                "hero-planetary-painted/kiidle/left/00"
+                "hero-planetary-painted/kiidle/left/00",
+                "hero-planetary-painted/kiidle/left/01",
+                "hero-planetary-painted/kiidle/left/02",
+                "hero-planetary-painted/kiidle/left/03",
+                "hero-planetary-painted/kiidle/left/04",
+                "hero-planetary-painted/kiidle/left/05"
               ],
               "up-left": [
-                "hero-planetary-painted/kiidle/left/00"
+                "hero-planetary-painted/kiidle/left/00",
+                "hero-planetary-painted/kiidle/left/01",
+                "hero-planetary-painted/kiidle/left/02",
+                "hero-planetary-painted/kiidle/left/03",
+                "hero-planetary-painted/kiidle/left/04",
+                "hero-planetary-painted/kiidle/left/05"
               ],
               "up": [
-                "hero-planetary-painted/kiidle/right/00"
+                "hero-planetary-painted/kiidle/right/00",
+                "hero-planetary-painted/kiidle/right/01",
+                "hero-planetary-painted/kiidle/right/02",
+                "hero-planetary-painted/kiidle/right/03",
+                "hero-planetary-painted/kiidle/right/04",
+                "hero-planetary-painted/kiidle/right/05"
               ],
               "up-right": [
-                "hero-planetary-painted/kiidle/right/00"
+                "hero-planetary-painted/kiidle/right/00",
+                "hero-planetary-painted/kiidle/right/01",
+                "hero-planetary-painted/kiidle/right/02",
+                "hero-planetary-painted/kiidle/right/03",
+                "hero-planetary-painted/kiidle/right/04",
+                "hero-planetary-painted/kiidle/right/05"
               ],
               "right": [
-                "hero-planetary-painted/kiidle/right/00"
+                "hero-planetary-painted/kiidle/right/00",
+                "hero-planetary-painted/kiidle/right/01",
+                "hero-planetary-painted/kiidle/right/02",
+                "hero-planetary-painted/kiidle/right/03",
+                "hero-planetary-painted/kiidle/right/04",
+                "hero-planetary-painted/kiidle/right/05"
               ],
               "down-right": [
-                "hero-planetary-painted/kiidle/right/00"
+                "hero-planetary-painted/kiidle/right/00",
+                "hero-planetary-painted/kiidle/right/01",
+                "hero-planetary-painted/kiidle/right/02",
+                "hero-planetary-painted/kiidle/right/03",
+                "hero-planetary-painted/kiidle/right/04",
+                "hero-planetary-painted/kiidle/right/05"
               ]
             }
           },
@@ -86769,6 +88387,480 @@
                 "hero-planetary-painted/kiattack/right/03",
                 "hero-planetary-painted/kiattack/right/04",
                 "hero-planetary-painted/kiattack/right/05"
+              ]
+            }
+          },
+          "kiskill": {
+            "asset": "hero-planetary-painted-walk-v3-kifight-0",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-planetary-painted/kiskill/right/00",
+                "hero-planetary-painted/kiskill/right/01",
+                "hero-planetary-painted/kiskill/right/02",
+                "hero-planetary-painted/kiskill/right/03",
+                "hero-planetary-painted/kiskill/right/04",
+                "hero-planetary-painted/kiskill/right/05",
+                "hero-planetary-painted/kiskill/right/06",
+                "hero-planetary-painted/kiskill/right/07"
+              ],
+              "down-left": [
+                "hero-planetary-painted/kiskill/left/00",
+                "hero-planetary-painted/kiskill/left/01",
+                "hero-planetary-painted/kiskill/left/02",
+                "hero-planetary-painted/kiskill/left/03",
+                "hero-planetary-painted/kiskill/left/04",
+                "hero-planetary-painted/kiskill/left/05",
+                "hero-planetary-painted/kiskill/left/06",
+                "hero-planetary-painted/kiskill/left/07"
+              ],
+              "left": [
+                "hero-planetary-painted/kiskill/left/00",
+                "hero-planetary-painted/kiskill/left/01",
+                "hero-planetary-painted/kiskill/left/02",
+                "hero-planetary-painted/kiskill/left/03",
+                "hero-planetary-painted/kiskill/left/04",
+                "hero-planetary-painted/kiskill/left/05",
+                "hero-planetary-painted/kiskill/left/06",
+                "hero-planetary-painted/kiskill/left/07"
+              ],
+              "up-left": [
+                "hero-planetary-painted/kiskill/left/00",
+                "hero-planetary-painted/kiskill/left/01",
+                "hero-planetary-painted/kiskill/left/02",
+                "hero-planetary-painted/kiskill/left/03",
+                "hero-planetary-painted/kiskill/left/04",
+                "hero-planetary-painted/kiskill/left/05",
+                "hero-planetary-painted/kiskill/left/06",
+                "hero-planetary-painted/kiskill/left/07"
+              ],
+              "up": [
+                "hero-planetary-painted/kiskill/right/00",
+                "hero-planetary-painted/kiskill/right/01",
+                "hero-planetary-painted/kiskill/right/02",
+                "hero-planetary-painted/kiskill/right/03",
+                "hero-planetary-painted/kiskill/right/04",
+                "hero-planetary-painted/kiskill/right/05",
+                "hero-planetary-painted/kiskill/right/06",
+                "hero-planetary-painted/kiskill/right/07"
+              ],
+              "up-right": [
+                "hero-planetary-painted/kiskill/right/00",
+                "hero-planetary-painted/kiskill/right/01",
+                "hero-planetary-painted/kiskill/right/02",
+                "hero-planetary-painted/kiskill/right/03",
+                "hero-planetary-painted/kiskill/right/04",
+                "hero-planetary-painted/kiskill/right/05",
+                "hero-planetary-painted/kiskill/right/06",
+                "hero-planetary-painted/kiskill/right/07"
+              ],
+              "right": [
+                "hero-planetary-painted/kiskill/right/00",
+                "hero-planetary-painted/kiskill/right/01",
+                "hero-planetary-painted/kiskill/right/02",
+                "hero-planetary-painted/kiskill/right/03",
+                "hero-planetary-painted/kiskill/right/04",
+                "hero-planetary-painted/kiskill/right/05",
+                "hero-planetary-painted/kiskill/right/06",
+                "hero-planetary-painted/kiskill/right/07"
+              ],
+              "down-right": [
+                "hero-planetary-painted/kiskill/right/00",
+                "hero-planetary-painted/kiskill/right/01",
+                "hero-planetary-painted/kiskill/right/02",
+                "hero-planetary-painted/kiskill/right/03",
+                "hero-planetary-painted/kiskill/right/04",
+                "hero-planetary-painted/kiskill/right/05",
+                "hero-planetary-painted/kiskill/right/06",
+                "hero-planetary-painted/kiskill/right/07"
+              ]
+            }
+          },
+          "attack2": {
+            "asset": "hero-planetary-painted-walk-v3-fight-2",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-planetary-painted/attack2/right/00",
+                "hero-planetary-painted/attack2/right/01",
+                "hero-planetary-painted/attack2/right/02",
+                "hero-planetary-painted/attack2/right/03",
+                "hero-planetary-painted/attack2/right/04",
+                "hero-planetary-painted/attack2/right/05"
+              ],
+              "down-left": [
+                "hero-planetary-painted/attack2/left/00",
+                "hero-planetary-painted/attack2/left/01",
+                "hero-planetary-painted/attack2/left/02",
+                "hero-planetary-painted/attack2/left/03",
+                "hero-planetary-painted/attack2/left/04",
+                "hero-planetary-painted/attack2/left/05"
+              ],
+              "left": [
+                "hero-planetary-painted/attack2/left/00",
+                "hero-planetary-painted/attack2/left/01",
+                "hero-planetary-painted/attack2/left/02",
+                "hero-planetary-painted/attack2/left/03",
+                "hero-planetary-painted/attack2/left/04",
+                "hero-planetary-painted/attack2/left/05"
+              ],
+              "up-left": [
+                "hero-planetary-painted/attack2/left/00",
+                "hero-planetary-painted/attack2/left/01",
+                "hero-planetary-painted/attack2/left/02",
+                "hero-planetary-painted/attack2/left/03",
+                "hero-planetary-painted/attack2/left/04",
+                "hero-planetary-painted/attack2/left/05"
+              ],
+              "up": [
+                "hero-planetary-painted/attack2/right/00",
+                "hero-planetary-painted/attack2/right/01",
+                "hero-planetary-painted/attack2/right/02",
+                "hero-planetary-painted/attack2/right/03",
+                "hero-planetary-painted/attack2/right/04",
+                "hero-planetary-painted/attack2/right/05"
+              ],
+              "up-right": [
+                "hero-planetary-painted/attack2/right/00",
+                "hero-planetary-painted/attack2/right/01",
+                "hero-planetary-painted/attack2/right/02",
+                "hero-planetary-painted/attack2/right/03",
+                "hero-planetary-painted/attack2/right/04",
+                "hero-planetary-painted/attack2/right/05"
+              ],
+              "right": [
+                "hero-planetary-painted/attack2/right/00",
+                "hero-planetary-painted/attack2/right/01",
+                "hero-planetary-painted/attack2/right/02",
+                "hero-planetary-painted/attack2/right/03",
+                "hero-planetary-painted/attack2/right/04",
+                "hero-planetary-painted/attack2/right/05"
+              ],
+              "down-right": [
+                "hero-planetary-painted/attack2/right/00",
+                "hero-planetary-painted/attack2/right/01",
+                "hero-planetary-painted/attack2/right/02",
+                "hero-planetary-painted/attack2/right/03",
+                "hero-planetary-painted/attack2/right/04",
+                "hero-planetary-painted/attack2/right/05"
+              ]
+            }
+          },
+          "finisher": {
+            "asset": "hero-planetary-painted-walk-v3-fight-2",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-planetary-painted/finisher/right/00",
+                "hero-planetary-painted/finisher/right/01",
+                "hero-planetary-painted/finisher/right/02",
+                "hero-planetary-painted/finisher/right/03",
+                "hero-planetary-painted/finisher/right/04",
+                "hero-planetary-painted/finisher/right/05",
+                "hero-planetary-painted/finisher/right/06",
+                "hero-planetary-painted/finisher/right/07"
+              ],
+              "down-left": [
+                "hero-planetary-painted/finisher/left/00",
+                "hero-planetary-painted/finisher/left/01",
+                "hero-planetary-painted/finisher/left/02",
+                "hero-planetary-painted/finisher/left/03",
+                "hero-planetary-painted/finisher/left/04",
+                "hero-planetary-painted/finisher/left/05",
+                "hero-planetary-painted/finisher/left/06",
+                "hero-planetary-painted/finisher/left/07"
+              ],
+              "left": [
+                "hero-planetary-painted/finisher/left/00",
+                "hero-planetary-painted/finisher/left/01",
+                "hero-planetary-painted/finisher/left/02",
+                "hero-planetary-painted/finisher/left/03",
+                "hero-planetary-painted/finisher/left/04",
+                "hero-planetary-painted/finisher/left/05",
+                "hero-planetary-painted/finisher/left/06",
+                "hero-planetary-painted/finisher/left/07"
+              ],
+              "up-left": [
+                "hero-planetary-painted/finisher/left/00",
+                "hero-planetary-painted/finisher/left/01",
+                "hero-planetary-painted/finisher/left/02",
+                "hero-planetary-painted/finisher/left/03",
+                "hero-planetary-painted/finisher/left/04",
+                "hero-planetary-painted/finisher/left/05",
+                "hero-planetary-painted/finisher/left/06",
+                "hero-planetary-painted/finisher/left/07"
+              ],
+              "up": [
+                "hero-planetary-painted/finisher/right/00",
+                "hero-planetary-painted/finisher/right/01",
+                "hero-planetary-painted/finisher/right/02",
+                "hero-planetary-painted/finisher/right/03",
+                "hero-planetary-painted/finisher/right/04",
+                "hero-planetary-painted/finisher/right/05",
+                "hero-planetary-painted/finisher/right/06",
+                "hero-planetary-painted/finisher/right/07"
+              ],
+              "up-right": [
+                "hero-planetary-painted/finisher/right/00",
+                "hero-planetary-painted/finisher/right/01",
+                "hero-planetary-painted/finisher/right/02",
+                "hero-planetary-painted/finisher/right/03",
+                "hero-planetary-painted/finisher/right/04",
+                "hero-planetary-painted/finisher/right/05",
+                "hero-planetary-painted/finisher/right/06",
+                "hero-planetary-painted/finisher/right/07"
+              ],
+              "right": [
+                "hero-planetary-painted/finisher/right/00",
+                "hero-planetary-painted/finisher/right/01",
+                "hero-planetary-painted/finisher/right/02",
+                "hero-planetary-painted/finisher/right/03",
+                "hero-planetary-painted/finisher/right/04",
+                "hero-planetary-painted/finisher/right/05",
+                "hero-planetary-painted/finisher/right/06",
+                "hero-planetary-painted/finisher/right/07"
+              ],
+              "down-right": [
+                "hero-planetary-painted/finisher/right/00",
+                "hero-planetary-painted/finisher/right/01",
+                "hero-planetary-painted/finisher/right/02",
+                "hero-planetary-painted/finisher/right/03",
+                "hero-planetary-painted/finisher/right/04",
+                "hero-planetary-painted/finisher/right/05",
+                "hero-planetary-painted/finisher/right/06",
+                "hero-planetary-painted/finisher/right/07"
+              ]
+            }
+          },
+          "skillb": {
+            "asset": "hero-planetary-painted-walk-v3-fight-2",
+            "fps": 12,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-planetary-painted/skillb/right/00",
+                "hero-planetary-painted/skillb/right/01",
+                "hero-planetary-painted/skillb/right/02",
+                "hero-planetary-painted/skillb/right/03",
+                "hero-planetary-painted/skillb/right/04",
+                "hero-planetary-painted/skillb/right/05",
+                "hero-planetary-painted/skillb/right/06",
+                "hero-planetary-painted/skillb/right/07"
+              ],
+              "down-left": [
+                "hero-planetary-painted/skillb/left/00",
+                "hero-planetary-painted/skillb/left/01",
+                "hero-planetary-painted/skillb/left/02",
+                "hero-planetary-painted/skillb/left/03",
+                "hero-planetary-painted/skillb/left/04",
+                "hero-planetary-painted/skillb/left/05",
+                "hero-planetary-painted/skillb/left/06",
+                "hero-planetary-painted/skillb/left/07"
+              ],
+              "left": [
+                "hero-planetary-painted/skillb/left/00",
+                "hero-planetary-painted/skillb/left/01",
+                "hero-planetary-painted/skillb/left/02",
+                "hero-planetary-painted/skillb/left/03",
+                "hero-planetary-painted/skillb/left/04",
+                "hero-planetary-painted/skillb/left/05",
+                "hero-planetary-painted/skillb/left/06",
+                "hero-planetary-painted/skillb/left/07"
+              ],
+              "up-left": [
+                "hero-planetary-painted/skillb/left/00",
+                "hero-planetary-painted/skillb/left/01",
+                "hero-planetary-painted/skillb/left/02",
+                "hero-planetary-painted/skillb/left/03",
+                "hero-planetary-painted/skillb/left/04",
+                "hero-planetary-painted/skillb/left/05",
+                "hero-planetary-painted/skillb/left/06",
+                "hero-planetary-painted/skillb/left/07"
+              ],
+              "up": [
+                "hero-planetary-painted/skillb/right/00",
+                "hero-planetary-painted/skillb/right/01",
+                "hero-planetary-painted/skillb/right/02",
+                "hero-planetary-painted/skillb/right/03",
+                "hero-planetary-painted/skillb/right/04",
+                "hero-planetary-painted/skillb/right/05",
+                "hero-planetary-painted/skillb/right/06",
+                "hero-planetary-painted/skillb/right/07"
+              ],
+              "up-right": [
+                "hero-planetary-painted/skillb/right/00",
+                "hero-planetary-painted/skillb/right/01",
+                "hero-planetary-painted/skillb/right/02",
+                "hero-planetary-painted/skillb/right/03",
+                "hero-planetary-painted/skillb/right/04",
+                "hero-planetary-painted/skillb/right/05",
+                "hero-planetary-painted/skillb/right/06",
+                "hero-planetary-painted/skillb/right/07"
+              ],
+              "right": [
+                "hero-planetary-painted/skillb/right/00",
+                "hero-planetary-painted/skillb/right/01",
+                "hero-planetary-painted/skillb/right/02",
+                "hero-planetary-painted/skillb/right/03",
+                "hero-planetary-painted/skillb/right/04",
+                "hero-planetary-painted/skillb/right/05",
+                "hero-planetary-painted/skillb/right/06",
+                "hero-planetary-painted/skillb/right/07"
+              ],
+              "down-right": [
+                "hero-planetary-painted/skillb/right/00",
+                "hero-planetary-painted/skillb/right/01",
+                "hero-planetary-painted/skillb/right/02",
+                "hero-planetary-painted/skillb/right/03",
+                "hero-planetary-painted/skillb/right/04",
+                "hero-planetary-painted/skillb/right/05",
+                "hero-planetary-painted/skillb/right/06",
+                "hero-planetary-painted/skillb/right/07"
+              ]
+            }
+          },
+          "dodge": {
+            "asset": "hero-planetary-painted-walk-v3-fight-2",
+            "fps": 14,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-planetary-painted/dodge/right/00",
+                "hero-planetary-painted/dodge/right/01",
+                "hero-planetary-painted/dodge/right/02",
+                "hero-planetary-painted/dodge/right/03",
+                "hero-planetary-painted/dodge/right/04",
+                "hero-planetary-painted/dodge/right/05"
+              ],
+              "down-left": [
+                "hero-planetary-painted/dodge/left/00",
+                "hero-planetary-painted/dodge/left/01",
+                "hero-planetary-painted/dodge/left/02",
+                "hero-planetary-painted/dodge/left/03",
+                "hero-planetary-painted/dodge/left/04",
+                "hero-planetary-painted/dodge/left/05"
+              ],
+              "left": [
+                "hero-planetary-painted/dodge/left/00",
+                "hero-planetary-painted/dodge/left/01",
+                "hero-planetary-painted/dodge/left/02",
+                "hero-planetary-painted/dodge/left/03",
+                "hero-planetary-painted/dodge/left/04",
+                "hero-planetary-painted/dodge/left/05"
+              ],
+              "up-left": [
+                "hero-planetary-painted/dodge/left/00",
+                "hero-planetary-painted/dodge/left/01",
+                "hero-planetary-painted/dodge/left/02",
+                "hero-planetary-painted/dodge/left/03",
+                "hero-planetary-painted/dodge/left/04",
+                "hero-planetary-painted/dodge/left/05"
+              ],
+              "up": [
+                "hero-planetary-painted/dodge/right/00",
+                "hero-planetary-painted/dodge/right/01",
+                "hero-planetary-painted/dodge/right/02",
+                "hero-planetary-painted/dodge/right/03",
+                "hero-planetary-painted/dodge/right/04",
+                "hero-planetary-painted/dodge/right/05"
+              ],
+              "up-right": [
+                "hero-planetary-painted/dodge/right/00",
+                "hero-planetary-painted/dodge/right/01",
+                "hero-planetary-painted/dodge/right/02",
+                "hero-planetary-painted/dodge/right/03",
+                "hero-planetary-painted/dodge/right/04",
+                "hero-planetary-painted/dodge/right/05"
+              ],
+              "right": [
+                "hero-planetary-painted/dodge/right/00",
+                "hero-planetary-painted/dodge/right/01",
+                "hero-planetary-painted/dodge/right/02",
+                "hero-planetary-painted/dodge/right/03",
+                "hero-planetary-painted/dodge/right/04",
+                "hero-planetary-painted/dodge/right/05"
+              ],
+              "down-right": [
+                "hero-planetary-painted/dodge/right/00",
+                "hero-planetary-painted/dodge/right/01",
+                "hero-planetary-painted/dodge/right/02",
+                "hero-planetary-painted/dodge/right/03",
+                "hero-planetary-painted/dodge/right/04",
+                "hero-planetary-painted/dodge/right/05"
+              ]
+            }
+          },
+          "guard": {
+            "asset": "hero-planetary-painted-walk-v3-fight-2",
+            "fps": 10,
+            "loop": false,
+            "directions": {
+              "down": [
+                "hero-planetary-painted/guard/right/00",
+                "hero-planetary-painted/guard/right/01",
+                "hero-planetary-painted/guard/right/02",
+                "hero-planetary-painted/guard/right/03",
+                "hero-planetary-painted/guard/right/04",
+                "hero-planetary-painted/guard/right/05"
+              ],
+              "down-left": [
+                "hero-planetary-painted/guard/left/00",
+                "hero-planetary-painted/guard/left/01",
+                "hero-planetary-painted/guard/left/02",
+                "hero-planetary-painted/guard/left/03",
+                "hero-planetary-painted/guard/left/04",
+                "hero-planetary-painted/guard/left/05"
+              ],
+              "left": [
+                "hero-planetary-painted/guard/left/00",
+                "hero-planetary-painted/guard/left/01",
+                "hero-planetary-painted/guard/left/02",
+                "hero-planetary-painted/guard/left/03",
+                "hero-planetary-painted/guard/left/04",
+                "hero-planetary-painted/guard/left/05"
+              ],
+              "up-left": [
+                "hero-planetary-painted/guard/left/00",
+                "hero-planetary-painted/guard/left/01",
+                "hero-planetary-painted/guard/left/02",
+                "hero-planetary-painted/guard/left/03",
+                "hero-planetary-painted/guard/left/04",
+                "hero-planetary-painted/guard/left/05"
+              ],
+              "up": [
+                "hero-planetary-painted/guard/right/00",
+                "hero-planetary-painted/guard/right/01",
+                "hero-planetary-painted/guard/right/02",
+                "hero-planetary-painted/guard/right/03",
+                "hero-planetary-painted/guard/right/04",
+                "hero-planetary-painted/guard/right/05"
+              ],
+              "up-right": [
+                "hero-planetary-painted/guard/right/00",
+                "hero-planetary-painted/guard/right/01",
+                "hero-planetary-painted/guard/right/02",
+                "hero-planetary-painted/guard/right/03",
+                "hero-planetary-painted/guard/right/04",
+                "hero-planetary-painted/guard/right/05"
+              ],
+              "right": [
+                "hero-planetary-painted/guard/right/00",
+                "hero-planetary-painted/guard/right/01",
+                "hero-planetary-painted/guard/right/02",
+                "hero-planetary-painted/guard/right/03",
+                "hero-planetary-painted/guard/right/04",
+                "hero-planetary-painted/guard/right/05"
+              ],
+              "down-right": [
+                "hero-planetary-painted/guard/right/00",
+                "hero-planetary-painted/guard/right/01",
+                "hero-planetary-painted/guard/right/02",
+                "hero-planetary-painted/guard/right/03",
+                "hero-planetary-painted/guard/right/04",
+                "hero-planetary-painted/guard/right/05"
               ]
             }
           }
