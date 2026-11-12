@@ -38,3 +38,23 @@
 - Testy: `actor-animation` (bieg, kanał z czasem i ruchem, skill C, tarcza przy szarży), `gpu-pipeline` (22 klipy,
   1280 odwołań do klatek, atlas `-fight-4`); `npm run typecheck`, eslint czyste; pełny vitest 1317 zielonych,
   2 czerwone w `development-etap1-assets` (sumy SHA-256 plików `art/production`, czerwone także bez tej zmiany).
+
+### 3. Tryb KI: walka i reakcje w formie KI (Android, Legenda, Planetar, Mędrzec)
+
+- Powód: w Trybie KI postać pokazywała w uniku, gardzie, trafieniu, śmierci i zwycięstwie zwykły strój. Teraz każda czynność ma klip formy KI,
+  jeśli rasa go ma. Filmy: etap 4 (`<rasa>-etap4-walka-po-transformacji.mp4`) dla ciosów 2–3, skoku, uniku i gardy oraz nowe filmy reakcji formy KI
+  (`android-`, `legend-`, `planetary-etap5a-reakcje-ki.mp4`; SHA-256 w repo: Android `ef4b9e46…0340`, Legenda `0b211bda…8405`, Planetar `561ef79e…a11b`).
+- Nowe klipy (`scripts/anim/kicombat_build.py`, atlasy `-kifight-1` i `-kifight-2`): `kiattack2`, `kifinisher` (nie Planetar), `kiskillb`, `kidodge`,
+  `kiguard` dla czterech ras; `kihit`, `kihitheavy`, `kideath`, `kirespawn`, `kivictory` dla Androida, Legendy i Planetara. Mędrzec nie ma filmu
+  reakcji: jego trafienie, śmierć, wstawanie i zwycięstwo w Trybie KI zostają klipami formy bazowej (nic ich nie zastępuje po cichu).
+- Silnik: łańcuch ciosów w Trybie KI `kiattack2` → `kifinisher` → `kiattack`; klip jednorazowy zostaje w formie, w której go uruchomiono
+  (śmierć i wstawanie w Trybie KI zostają w formie KI nawet po końcu buffa `T`); skill B gra `kiskillb`.
+- Matowanie: dla klatek w powietrzu zmniejszenie względem linii podłoża (głowa nie jest ucięta); leżące ciało szersze niż komórka mieści się w niej
+  i nie blednie przy brzegu; zabezpieczenie, gdy matowanie anime gubi leżącą postać (maska ogólna). Pierwsze 0,5 s filmu Legendy (zbliżenie) pominięto.
+- Paczki bohaterów `3.0.2`. Verdantia (Planetar): 121,5 z 128 MiB tekstur, Aetheria 103,9, Nexus 99,2, Pyra 102,4.
+- Weryfikacja w grze (Playwright, próbnik klatek, poziom 20, po rzucie `T`): łańcuch ciosów `kiattack2 > kifinisher > kiattack` (Planetar:
+  `kiattack2 > kiattack`); unik wywołany poleceniem gry `kidodge`; `kiskillb`, `kiguard`, `kihit`, `kihitheavy`, `kideath`, `kirespawn`, `kivictory` dla
+  Androida, Legendy i Planetara; Mędrzec: `kidodge`, `kiskillb`, `kiguard` formy KI, a `hit`, `hitheavy`, `death`, `respawn`, `victory` bazowe; zero błędów
+  konsoli. Trafienie, ciężkie trafienie, skill B, garda i zwycięstwo wywołane bezpośrednio z kodu animacji, a śmierć wymuszona parametrem `dead`
+  (bohater w teście nie ginął od potwora).
+- Testy: `actor-animation` (łańcuch KI, klipy formy KI, śmierć po końcu buffa, brak klipu = klip bazowy), `gpu-pipeline`; typecheck i eslint czyste.

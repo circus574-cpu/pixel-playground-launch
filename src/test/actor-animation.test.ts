@@ -111,7 +111,8 @@ describe("Tryb KI stance, basic attack and skill (kiidle, kiattack, kiskill)", (
     animation.trigger("attack", 10, { x: 1, y: 0 });
     animation.update(20, false, false, { x: 1, y: 0 }, false, true);
     expect(animation.state).toBe("attack");
-    expect(String(sprite.play.mock.calls.at(-1)?.[0])).toContain("/kiattack/");
+    // The KI strikes chain kiattack2, kifinisher, kiattack: the first one is the light strike.
+    expect(String(sprite.play.mock.calls.at(-1)?.[0])).toContain("/kiattack2/");
     animation.trigger("skill", 30, { x: 1, y: 0 });
     animation.update(40, false, false, { x: 1, y: 0 }, false, true);
     expect(animation.state).toBe("skill");
@@ -192,7 +193,7 @@ describe("base-form combat clips (attack chain, area skill, dodge, guard)", () =
     animation.update(6010, false, false, f);
     expect(played(sprite)).toContain("/attack/");
   });
-  it("plays skillb, dodge and guard, and uses kiskill for skillb in Tryb KI", () => {
+  it("plays skillb, dodge and guard, and uses kiskillb for skillb in Tryb KI", () => {
     const { animation, sprite } = make();
     const f = { x: 1, y: 0 };
     animation.trigger("skillb", 0, f);
@@ -207,7 +208,7 @@ describe("base-form combat clips (attack chain, area skill, dodge, guard)", () =
     animation.update(6000, false, false, f, false, true);
     animation.trigger("skillb", 6100, f);
     animation.update(6110, false, false, f, false, true);
-    expect(played(sprite)).toContain("/kiskill/");
+    expect(played(sprite)).toContain("/kiskillb/");
   });
 });
 describe("Tryb KI combat and reactions use the form's own clips", () => {

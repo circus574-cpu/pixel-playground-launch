@@ -332,7 +332,9 @@ describe("four painted hero deliveries", () => {
       // Runtime presentation must not mutate the validated delivery or its anchor.
       expect(catalog.actors.get(id)!.size).toEqual([96, 96]);
       expect(actorVisual(world as keyof typeof heroes, "npc").size).toEqual([96, 96]);
-      expect(Object.keys(hero.clips).sort()).toEqual([
+      // Base form (22 clips cut from the stage 1-3 videos and the Tryb KI walk/stance/strike/skill) plus the Tryb KI combat
+      // clips of the stage 4 videos; the KI reactions exist for the races with a KI-form reaction film (not Sage yet).
+      const base = [
         "attack",
         "attack2",
         "channel",
@@ -355,17 +357,26 @@ describe("four painted hero deliveries", () => {
         "skillc",
         "victory",
         "walk",
-      ]);
+      ];
+      const kiCombat = [
+        "kiattack2",
+        "kidodge",
+        "kiguard",
+        "kiskillb",
+        ...(world === "verdant" ? [] : ["kifinisher"]),
+      ];
+      const kiReactions =
+        world === "aether" ? [] : ["kideath", "kihit", "kihitheavy", "kirespawn", "kivictory"];
+      expect(Object.keys(hero.clips).sort()).toEqual([...base, ...kiCombat, ...kiReactions].sort());
       const frames = Object.values(hero.clips).flatMap((clip) =>
         Object.values(clip.directions).flat(),
       );
-      // 416 frame references of the walk/idle/fight clips, 64 of the Tryb KI walk (kiwalk), 48 of the
-      // Tryb KI stance (kiidle, six frames), 48 of its basic attack (kiattack, six frames) and 64 of
-      // its skill (kiskill, eight frames), and 272 of the base-form combat clips cut from the stage 1 videos
-      // (attack2 6, finisher 8, skillb 8, dodge 6, guard 6 frames, eight directions each).
-      // plus 128 of the stage 2 reactions (hitheavy and victory, eight frames, eight directions)
-      // and 240 of the stage 3 movement clips (run, channel, skillc eight frames, interact six; eight directions).
-      expect(frames).toHaveLength(1280);
+      // 1280 frame references of the base form and the earlier Tryb KI clips (see the stage 1-3 notes), plus the Tryb KI
+      // combat clips (kiattack2 6, kifinisher 8, kiskillb 8, kidodge 6, kiguard 6 frames, eight directions each; Planetary has
+      // no kifinisher) and the KI reactions (kihit 6, kihitheavy 8, kideath 8, kirespawn 8, kivictory 8; none for Sage).
+      const combatFrames = (6 + (world === "verdant" ? 0 : 8) + 8 + 6 + 6) * 8;
+      const reactionFrames = world === "aether" ? 0 : (6 + 8 + 8 + 8 + 8) * 8;
+      expect(frames).toHaveLength(1280 + combatFrames + reactionFrames);
       // Side-view fight frames are shared: right-facing directions reuse one strip, left ones its mirror.
 
       for (const clip of Object.values(hero.clips))
@@ -385,6 +396,7 @@ describe("four painted hero deliveries", () => {
           walk + "-fight-2",
           walk + "-fight-3",
           walk + "-fight-4",
+          walk + "-kifight-1",
         ]),
       );
       for (const other of Object.values(heroes))

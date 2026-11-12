@@ -22,7 +22,8 @@ PID = {'android': 'hero-android-walk-v3', 'legend': 'hero-legend-walk-v3', 'sage
        'planetary': 'hero-planetary-painted-walk-v3'}[R]
 VER = os.environ.get('MIRROR_VERSION', '2.7.0')
 LEFT = {'left': 'right', 'up-left': 'up-right', 'down-left': 'down-right'}
-src = Path(sorted(glob.glob(str(ROOT / 'public/game/assets/gpu' / PID / '*')))[-1])
+# SRC_PACK (a directory with pack.json) dedupes a freshly built pack before it is installed (the importer checks the budget)
+src = Path(os.environ['SRC_PACK']) if os.environ.get('SRC_PACK') else Path(sorted(glob.glob(str(ROOT / 'public/game/assets/gpu' / PID / '*')))[-1])
 dst = WORK / 'pkg' / R
 shutil.rmtree(dst, ignore_errors=True)
 os.makedirs(dst)

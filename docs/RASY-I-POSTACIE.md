@@ -55,6 +55,20 @@ Legenda i Planetar mają ukosy zbudowane z profilu (w filmach obracają się zby
 na stabilne ukosy); Android i Mędrzec mają osobne klatki ukosów. Proces i skrypty:
 `scripts/anim/kiwalk_build.py`, `scripts/anim/kiwalk_pack.py`, `scripts/anim/kiform_build.py`.
 
+**Tryb KI — walka i reakcje (12.11.2026).** W Trybie KI postać zostaje w formie KI w każdej czynności; gra nie podstawia
+zwykłego stroju, jeśli dla rasy jest klip formy KI. `scripts/anim/kicombat_build.py` wycina klipy do atlasów
+`<paczka>-kifight-1` (z filmów etapu 4) i `-kifight-2` (z filmów reakcji formy KI `<rasa>-etap5a-reakcje-ki.mp4`):
+`kiattack2` (6 klatek, 12 kl./s), `kifinisher` (8, 12; Planetar bez: jego trzeci cios to błysk na cały kadr),
+`kiskillb` (8, 12; Planetar: samo lądowanie), `kidodge` (6, 14), `kiguard` (6, 10) oraz reakcje `kihit` (6, 14),
+`kihitheavy` (8, 12), `kideath` (8, 10: odrzut, upadek, leżenie), `kirespawn` (8, 12: podpiera się, wstaje),
+`kivictory` (8, 10). Reakcje formy KI są dla Androida, Legendy i Planetara; Mędrzec nie ma jeszcze filmu reakcji, więc
+jego trafienie, śmierć, wstawanie i zwycięstwo w Trybie KI pokazują klipy formy bazowej (brak klipu nie jest zastępowany
+niczym innym). Łańcuch ciosów w Trybie KI: `kiattack2` → `kifinisher` → `kiattack` (silny cios z filmu) w 1,4 s.
+Klip jednorazowy zostaje w formie, w której go uruchomiono, nawet gdy buff `T` skończy się w trakcie (śmierć i wstawanie
+w Trybie KI zostają w formie KI). Każdy film ma własną transformację (skala z jego neutralnej klatki, stopy na linii chodu);
+leżące ciało szersze niż komórka 256 px jest zmniejszane do szerokości komórki, na tej samej linii podłoża, a wygaszanie
+przy brzegu komórki dotyczy tylko efektów, nie postaci. Klatki początkowe filmu Legendy (zbliżenie na tors) pominięto.
+
 Etap 3 (ruch, forma bazowa) wycina `scripts/anim/moveform_build.py` z filmów `<rasa>-etap3-ruch.mp4`
 (Android `-v2` pionowy, Planetar w sekundach 20–30) do atlasu `<paczka>-fight-4`:
 `run` (8 klatek, 16 kl./s, pętla: jeden okres kroku znaleziony z różnicy dolnej części ciała, Legenda 10,

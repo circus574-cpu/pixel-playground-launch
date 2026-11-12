@@ -92,6 +92,13 @@ for key, (vid, neutral_t) in VIDEOS.items():
         if not os.path.exists(p):
             im = Image.open(f'full-{key}/f_{k + 1:03d}.png').convert('RGB'); rgb = np.array(im)
             body = np.array(remove(im, session=sess_a)); gen = np.array(remove(im, session=sess_g))[..., 3]
+            # the anime matting can lose a lying body (a wide, horizontal figure): trust the general mask there
+            gy, gx = np.where(gen > 128)
+            # (the reaction films have no big effects, so a body mask far smaller than the general one is a matting failure too)
+            lost = key == 'r5' and len(gy) and (body[..., 3] > 128).sum() < 0.6 * len(gy)
+            if len(gy) and (lost or ((gx.max() - gx.min() + 1) > 1.6 * (gy.max() - gy.min() + 1) and (body[..., 3] > 128).sum() < 0.8 * len(gy))):
+                body[..., 3] = np.maximum(body[..., 3], gen)
+                print('lying frame', i, 'body mask taken from the general matting')
             Image.fromarray(kimatte.composite(rgb, body, gen)).save(p)
             Image.fromarray(body[..., 3]).save(f'mat-{key}/{i:03d}-body.png')
         mats[i] = np.array(Image.open(p).convert('RGBA')); anime[i] = np.array(Image.open(f'mat-{key}/{i:03d}-body.png'))
@@ -141,11 +148,23 @@ def cell(key, i, mirror):
         r = render(localized(v, i, v['scale']), scale)
         bb = bbox(render(np.concatenate([np.zeros_like(v['anime'][i])[..., None].repeat(3, 2), v['anime'][i][..., None]], 2), scale)[..., 3])
         ddx = int(round(128 - (bb[2] + bb[3]) / 2)); ddy = int(round(baseBottom - bb[1]))
+    top = bb[0] + ddy
+    if top < 4:  # airborne frame taller than the cell (the head would be cut): shrink about the ground point so it fits
+        k = (baseBottom - 4.0) / (baseBottom - top)
+        scale = scale * k
+        r = render(localized(v, i, v['scale']), scale)
+        bb = bbox(render(np.concatenate([np.zeros_like(v['anime'][i])[..., None].repeat(3, 2), v['anime'][i][..., None]], 2), scale)[..., 3])
+        ddy = int(round(baseBottom * (1 - k) + ddy * k)); ddx = int(round(128 * (1 - k) + ddx * k))
     c = np.zeros((256, 256, 4), np.uint8); h, w = r.shape[:2]
     sy0, sx0 = max(0, -ddy), max(0, -ddx); dy0, dx0 = max(0, ddy), max(0, ddx)
     hh = min(h - sy0, 256 - dy0); ww = min(w - sx0, 256 - dx0)
     if hh > 0 and ww > 0: c[dy0:dy0 + hh, dx0:dx0 + ww] = r[sy0:sy0 + hh, sx0:sx0 + ww]
-    c[:, :, 3] = (c[:, :, 3] * edge).astype(np.uint8)
+    # the fade towards the cell border is for effects only: the figure itself (a lying body fills the cell) stays opaque
+    bodym = np.zeros((256, 256), np.float32)
+    bm = render(np.concatenate([np.zeros_like(v['anime'][i])[..., None].repeat(3, 2), v['anime'][i][..., None]], 2), scale)[..., 3]
+    bh, bw = bm.shape
+    if hh > 0 and ww > 0: bodym[dy0:dy0 + hh, dx0:dx0 + ww] = (bm[sy0:sy0 + hh, sx0:sx0 + ww] > 128).astype(np.float32)
+    c[:, :, 3] = (c[:, :, 3] * np.maximum(edge, bodym)).astype(np.uint8)
     return c[:, ::-1].copy() if mirror else c
 
 CLIPS = SEQ

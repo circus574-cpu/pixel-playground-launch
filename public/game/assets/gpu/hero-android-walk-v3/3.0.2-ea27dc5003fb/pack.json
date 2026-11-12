@@ -1,108 +1,108 @@
 {
   "schemaVersion": 1,
   "id": "hero-android-walk-v3",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "hero-android-walk-v3-page-0",
-      "version": "3.0.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-page-0.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-page-0.json",
       "width": 1436,
       "height": 1148
     },
     {
       "id": "hero-android-walk-v3-idle-0",
-      "version": "3.0.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-idle-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-idle-0.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-idle-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-idle-0.json",
       "width": 1654,
       "height": 1164
     },
     {
       "id": "hero-android-walk-v3-fight-0",
-      "version": "3.0.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-fight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-fight-0.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-0.json",
       "width": 1685,
       "height": 672
     },
     {
       "id": "hero-android-walk-v3-fight-1",
-      "version": "3.0.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-fight-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-fight-1.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-1.json",
       "width": 168,
       "height": 1520
     },
     {
       "id": "hero-android-walk-v3-kiwalk-0",
-      "version": "3.0.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-kiwalk-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-kiwalk-0.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kiwalk-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kiwalk-0.json",
       "width": 1551,
       "height": 1376
     },
     {
       "id": "hero-android-walk-v3-kifight-0",
-      "version": "3.0.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-kifight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-kifight-0.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kifight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kifight-0.json",
       "width": 1380,
       "height": 712
     },
     {
       "id": "hero-android-walk-v3-fight-2",
-      "version": "3.0.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-fight-2.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-fight-2.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-2.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-2.json",
       "width": 1584,
       "height": 956
     },
     {
       "id": "hero-android-walk-v3-fight-3",
-      "version": "3.0.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-fight-3.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-fight-3.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-3.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-3.json",
       "width": 541,
       "height": 1184
     },
     {
       "id": "hero-android-walk-v3-fight-4",
-      "version": "3.0.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-fight-4.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-fight-4.json",
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-4.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-fight-4.json",
       "width": 1156,
       "height": 896
     },
     {
       "id": "hero-android-walk-v3-kifight-1",
-      "version": "3.0.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-kifight-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-kifight-1.json",
-      "width": 1380,
-      "height": 1164
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kifight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kifight-1.json",
+      "width": 1716,
+      "height": 940
     },
     {
       "id": "hero-android-walk-v3-kifight-2",
-      "version": "3.0.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-kifight-2.webp",
-      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.1-055e5829fe71/hero-android-walk-v3-kifight-2.json",
-      "width": 829,
-      "height": 1936
+      "url": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kifight-2.webp",
+      "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.0.2-ea27dc5003fb/hero-android-walk-v3-kifight-2.json",
+      "width": 1622,
+      "height": 988
     }
   ],
   "actors": [

@@ -1,90 +1,108 @@
 {
   "schemaVersion": 1,
   "id": "hero-legend-walk-v3",
-  "version": "2.9.1",
+  "version": "3.0.2",
   "technical": false,
   "previewOnly": false,
   "assets": [
     {
       "id": "hero-legend-walk-v3-page-0",
-      "version": "2.9.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-page-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-page-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-page-0.json",
       "width": 875,
       "height": 1844
     },
     {
       "id": "hero-legend-walk-v3-idle-0",
-      "version": "2.9.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-idle-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-idle-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-idle-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-idle-0.json",
       "width": 1082,
       "height": 1640
     },
     {
       "id": "hero-legend-walk-v3-fight-0",
-      "version": "2.9.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-fight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-fight-0.json",
       "width": 1007,
       "height": 820
     },
     {
       "id": "hero-legend-walk-v3-fight-1",
-      "version": "2.9.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-1.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-1.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-fight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-fight-1.json",
       "width": 397,
       "height": 616
     },
     {
       "id": "hero-legend-walk-v3-kiwalk-0",
-      "version": "2.9.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-kiwalk-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-kiwalk-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-kiwalk-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-kiwalk-0.json",
       "width": 1432,
       "height": 720
     },
     {
       "id": "hero-legend-walk-v3-kifight-0",
-      "version": "2.9.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-kifight-0.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-kifight-0.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-kifight-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-kifight-0.json",
       "width": 1987,
       "height": 504
     },
     {
       "id": "hero-legend-walk-v3-fight-2",
-      "version": "2.9.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-2.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-2.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-fight-2.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-fight-2.json",
       "width": 948,
       "height": 1292
     },
     {
       "id": "hero-legend-walk-v3-fight-3",
-      "version": "2.9.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-3.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-3.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-fight-3.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-fight-3.json",
       "width": 2035,
       "height": 232
     },
     {
       "id": "hero-legend-walk-v3-fight-4",
-      "version": "2.9.1",
+      "version": "3.0.2",
       "kind": "atlas",
-      "url": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-4.webp",
-      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/2.9.1-e08f3a78f6ac/hero-legend-walk-v3-fight-4.json",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-fight-4.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-fight-4.json",
       "width": 1443,
       "height": 876
+    },
+    {
+      "id": "hero-legend-walk-v3-kifight-1",
+      "version": "3.0.2",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-kifight-1.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-kifight-1.json",
+      "width": 1540,
+      "height": 1176
+    },
+    {
+      "id": "hero-legend-walk-v3-kifight-2",
+      "version": "3.0.2",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-kifight-2.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.0.2-3c86549f2874/hero-legend-walk-v3-kifight-2.json",
+      "width": 1398,
+      "height": 772
     }
   ],
   "actors": [
@@ -1978,6 +1996,862 @@
               "hero-legend/interact/right/03",
               "hero-legend/interact/right/04",
               "hero-legend/interact/right/05"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kiattack2": {
+          "asset": "hero-legend-walk-v3-kifight-1",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-legend/kiattack2/right/00",
+              "hero-legend/kiattack2/right/01",
+              "hero-legend/kiattack2/right/02",
+              "hero-legend/kiattack2/right/03",
+              "hero-legend/kiattack2/right/04",
+              "hero-legend/kiattack2/right/05"
+            ],
+            "down-left": [
+              "hero-legend/kiattack2/right/00",
+              "hero-legend/kiattack2/right/01",
+              "hero-legend/kiattack2/right/02",
+              "hero-legend/kiattack2/right/03",
+              "hero-legend/kiattack2/right/04",
+              "hero-legend/kiattack2/right/05"
+            ],
+            "left": [
+              "hero-legend/kiattack2/right/00",
+              "hero-legend/kiattack2/right/01",
+              "hero-legend/kiattack2/right/02",
+              "hero-legend/kiattack2/right/03",
+              "hero-legend/kiattack2/right/04",
+              "hero-legend/kiattack2/right/05"
+            ],
+            "up-left": [
+              "hero-legend/kiattack2/right/00",
+              "hero-legend/kiattack2/right/01",
+              "hero-legend/kiattack2/right/02",
+              "hero-legend/kiattack2/right/03",
+              "hero-legend/kiattack2/right/04",
+              "hero-legend/kiattack2/right/05"
+            ],
+            "up": [
+              "hero-legend/kiattack2/right/00",
+              "hero-legend/kiattack2/right/01",
+              "hero-legend/kiattack2/right/02",
+              "hero-legend/kiattack2/right/03",
+              "hero-legend/kiattack2/right/04",
+              "hero-legend/kiattack2/right/05"
+            ],
+            "up-right": [
+              "hero-legend/kiattack2/right/00",
+              "hero-legend/kiattack2/right/01",
+              "hero-legend/kiattack2/right/02",
+              "hero-legend/kiattack2/right/03",
+              "hero-legend/kiattack2/right/04",
+              "hero-legend/kiattack2/right/05"
+            ],
+            "right": [
+              "hero-legend/kiattack2/right/00",
+              "hero-legend/kiattack2/right/01",
+              "hero-legend/kiattack2/right/02",
+              "hero-legend/kiattack2/right/03",
+              "hero-legend/kiattack2/right/04",
+              "hero-legend/kiattack2/right/05"
+            ],
+            "down-right": [
+              "hero-legend/kiattack2/right/00",
+              "hero-legend/kiattack2/right/01",
+              "hero-legend/kiattack2/right/02",
+              "hero-legend/kiattack2/right/03",
+              "hero-legend/kiattack2/right/04",
+              "hero-legend/kiattack2/right/05"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kifinisher": {
+          "asset": "hero-legend-walk-v3-kifight-1",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-legend/kifinisher/right/00",
+              "hero-legend/kifinisher/right/01",
+              "hero-legend/kifinisher/right/02",
+              "hero-legend/kifinisher/right/03",
+              "hero-legend/kifinisher/right/04",
+              "hero-legend/kifinisher/right/05",
+              "hero-legend/kifinisher/right/06",
+              "hero-legend/kifinisher/right/07"
+            ],
+            "down-left": [
+              "hero-legend/kifinisher/right/00",
+              "hero-legend/kifinisher/right/01",
+              "hero-legend/kifinisher/right/02",
+              "hero-legend/kifinisher/right/03",
+              "hero-legend/kifinisher/right/04",
+              "hero-legend/kifinisher/right/05",
+              "hero-legend/kifinisher/right/06",
+              "hero-legend/kifinisher/right/07"
+            ],
+            "left": [
+              "hero-legend/kifinisher/right/00",
+              "hero-legend/kifinisher/right/01",
+              "hero-legend/kifinisher/right/02",
+              "hero-legend/kifinisher/right/03",
+              "hero-legend/kifinisher/right/04",
+              "hero-legend/kifinisher/right/05",
+              "hero-legend/kifinisher/right/06",
+              "hero-legend/kifinisher/right/07"
+            ],
+            "up-left": [
+              "hero-legend/kifinisher/right/00",
+              "hero-legend/kifinisher/right/01",
+              "hero-legend/kifinisher/right/02",
+              "hero-legend/kifinisher/right/03",
+              "hero-legend/kifinisher/right/04",
+              "hero-legend/kifinisher/right/05",
+              "hero-legend/kifinisher/right/06",
+              "hero-legend/kifinisher/right/07"
+            ],
+            "up": [
+              "hero-legend/kifinisher/right/00",
+              "hero-legend/kifinisher/right/01",
+              "hero-legend/kifinisher/right/02",
+              "hero-legend/kifinisher/right/03",
+              "hero-legend/kifinisher/right/04",
+              "hero-legend/kifinisher/right/05",
+              "hero-legend/kifinisher/right/06",
+              "hero-legend/kifinisher/right/07"
+            ],
+            "up-right": [
+              "hero-legend/kifinisher/right/00",
+              "hero-legend/kifinisher/right/01",
+              "hero-legend/kifinisher/right/02",
+              "hero-legend/kifinisher/right/03",
+              "hero-legend/kifinisher/right/04",
+              "hero-legend/kifinisher/right/05",
+              "hero-legend/kifinisher/right/06",
+              "hero-legend/kifinisher/right/07"
+            ],
+            "right": [
+              "hero-legend/kifinisher/right/00",
+              "hero-legend/kifinisher/right/01",
+              "hero-legend/kifinisher/right/02",
+              "hero-legend/kifinisher/right/03",
+              "hero-legend/kifinisher/right/04",
+              "hero-legend/kifinisher/right/05",
+              "hero-legend/kifinisher/right/06",
+              "hero-legend/kifinisher/right/07"
+            ],
+            "down-right": [
+              "hero-legend/kifinisher/right/00",
+              "hero-legend/kifinisher/right/01",
+              "hero-legend/kifinisher/right/02",
+              "hero-legend/kifinisher/right/03",
+              "hero-legend/kifinisher/right/04",
+              "hero-legend/kifinisher/right/05",
+              "hero-legend/kifinisher/right/06",
+              "hero-legend/kifinisher/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kiskillb": {
+          "asset": "hero-legend-walk-v3-kifight-1",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-legend/kiskillb/right/00",
+              "hero-legend/kiskillb/right/01",
+              "hero-legend/kiskillb/right/02",
+              "hero-legend/kiskillb/right/03",
+              "hero-legend/kiskillb/right/04",
+              "hero-legend/kiskillb/right/05",
+              "hero-legend/kiskillb/right/06",
+              "hero-legend/kiskillb/right/07"
+            ],
+            "down-left": [
+              "hero-legend/kiskillb/right/00",
+              "hero-legend/kiskillb/right/01",
+              "hero-legend/kiskillb/right/02",
+              "hero-legend/kiskillb/right/03",
+              "hero-legend/kiskillb/right/04",
+              "hero-legend/kiskillb/right/05",
+              "hero-legend/kiskillb/right/06",
+              "hero-legend/kiskillb/right/07"
+            ],
+            "left": [
+              "hero-legend/kiskillb/right/00",
+              "hero-legend/kiskillb/right/01",
+              "hero-legend/kiskillb/right/02",
+              "hero-legend/kiskillb/right/03",
+              "hero-legend/kiskillb/right/04",
+              "hero-legend/kiskillb/right/05",
+              "hero-legend/kiskillb/right/06",
+              "hero-legend/kiskillb/right/07"
+            ],
+            "up-left": [
+              "hero-legend/kiskillb/right/00",
+              "hero-legend/kiskillb/right/01",
+              "hero-legend/kiskillb/right/02",
+              "hero-legend/kiskillb/right/03",
+              "hero-legend/kiskillb/right/04",
+              "hero-legend/kiskillb/right/05",
+              "hero-legend/kiskillb/right/06",
+              "hero-legend/kiskillb/right/07"
+            ],
+            "up": [
+              "hero-legend/kiskillb/right/00",
+              "hero-legend/kiskillb/right/01",
+              "hero-legend/kiskillb/right/02",
+              "hero-legend/kiskillb/right/03",
+              "hero-legend/kiskillb/right/04",
+              "hero-legend/kiskillb/right/05",
+              "hero-legend/kiskillb/right/06",
+              "hero-legend/kiskillb/right/07"
+            ],
+            "up-right": [
+              "hero-legend/kiskillb/right/00",
+              "hero-legend/kiskillb/right/01",
+              "hero-legend/kiskillb/right/02",
+              "hero-legend/kiskillb/right/03",
+              "hero-legend/kiskillb/right/04",
+              "hero-legend/kiskillb/right/05",
+              "hero-legend/kiskillb/right/06",
+              "hero-legend/kiskillb/right/07"
+            ],
+            "right": [
+              "hero-legend/kiskillb/right/00",
+              "hero-legend/kiskillb/right/01",
+              "hero-legend/kiskillb/right/02",
+              "hero-legend/kiskillb/right/03",
+              "hero-legend/kiskillb/right/04",
+              "hero-legend/kiskillb/right/05",
+              "hero-legend/kiskillb/right/06",
+              "hero-legend/kiskillb/right/07"
+            ],
+            "down-right": [
+              "hero-legend/kiskillb/right/00",
+              "hero-legend/kiskillb/right/01",
+              "hero-legend/kiskillb/right/02",
+              "hero-legend/kiskillb/right/03",
+              "hero-legend/kiskillb/right/04",
+              "hero-legend/kiskillb/right/05",
+              "hero-legend/kiskillb/right/06",
+              "hero-legend/kiskillb/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kidodge": {
+          "asset": "hero-legend-walk-v3-kifight-1",
+          "fps": 14,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-legend/kidodge/right/00",
+              "hero-legend/kidodge/right/01",
+              "hero-legend/kidodge/right/02",
+              "hero-legend/kidodge/right/03",
+              "hero-legend/kidodge/right/04",
+              "hero-legend/kidodge/right/05"
+            ],
+            "down-left": [
+              "hero-legend/kidodge/right/00",
+              "hero-legend/kidodge/right/01",
+              "hero-legend/kidodge/right/02",
+              "hero-legend/kidodge/right/03",
+              "hero-legend/kidodge/right/04",
+              "hero-legend/kidodge/right/05"
+            ],
+            "left": [
+              "hero-legend/kidodge/right/00",
+              "hero-legend/kidodge/right/01",
+              "hero-legend/kidodge/right/02",
+              "hero-legend/kidodge/right/03",
+              "hero-legend/kidodge/right/04",
+              "hero-legend/kidodge/right/05"
+            ],
+            "up-left": [
+              "hero-legend/kidodge/right/00",
+              "hero-legend/kidodge/right/01",
+              "hero-legend/kidodge/right/02",
+              "hero-legend/kidodge/right/03",
+              "hero-legend/kidodge/right/04",
+              "hero-legend/kidodge/right/05"
+            ],
+            "up": [
+              "hero-legend/kidodge/right/00",
+              "hero-legend/kidodge/right/01",
+              "hero-legend/kidodge/right/02",
+              "hero-legend/kidodge/right/03",
+              "hero-legend/kidodge/right/04",
+              "hero-legend/kidodge/right/05"
+            ],
+            "up-right": [
+              "hero-legend/kidodge/right/00",
+              "hero-legend/kidodge/right/01",
+              "hero-legend/kidodge/right/02",
+              "hero-legend/kidodge/right/03",
+              "hero-legend/kidodge/right/04",
+              "hero-legend/kidodge/right/05"
+            ],
+            "right": [
+              "hero-legend/kidodge/right/00",
+              "hero-legend/kidodge/right/01",
+              "hero-legend/kidodge/right/02",
+              "hero-legend/kidodge/right/03",
+              "hero-legend/kidodge/right/04",
+              "hero-legend/kidodge/right/05"
+            ],
+            "down-right": [
+              "hero-legend/kidodge/right/00",
+              "hero-legend/kidodge/right/01",
+              "hero-legend/kidodge/right/02",
+              "hero-legend/kidodge/right/03",
+              "hero-legend/kidodge/right/04",
+              "hero-legend/kidodge/right/05"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kiguard": {
+          "asset": "hero-legend-walk-v3-kifight-1",
+          "fps": 10,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-legend/kiguard/right/00",
+              "hero-legend/kiguard/right/01",
+              "hero-legend/kiguard/right/02",
+              "hero-legend/kiguard/right/03",
+              "hero-legend/kiguard/right/04",
+              "hero-legend/kiguard/right/05"
+            ],
+            "down-left": [
+              "hero-legend/kiguard/right/00",
+              "hero-legend/kiguard/right/01",
+              "hero-legend/kiguard/right/02",
+              "hero-legend/kiguard/right/03",
+              "hero-legend/kiguard/right/04",
+              "hero-legend/kiguard/right/05"
+            ],
+            "left": [
+              "hero-legend/kiguard/right/00",
+              "hero-legend/kiguard/right/01",
+              "hero-legend/kiguard/right/02",
+              "hero-legend/kiguard/right/03",
+              "hero-legend/kiguard/right/04",
+              "hero-legend/kiguard/right/05"
+            ],
+            "up-left": [
+              "hero-legend/kiguard/right/00",
+              "hero-legend/kiguard/right/01",
+              "hero-legend/kiguard/right/02",
+              "hero-legend/kiguard/right/03",
+              "hero-legend/kiguard/right/04",
+              "hero-legend/kiguard/right/05"
+            ],
+            "up": [
+              "hero-legend/kiguard/right/00",
+              "hero-legend/kiguard/right/01",
+              "hero-legend/kiguard/right/02",
+              "hero-legend/kiguard/right/03",
+              "hero-legend/kiguard/right/04",
+              "hero-legend/kiguard/right/05"
+            ],
+            "up-right": [
+              "hero-legend/kiguard/right/00",
+              "hero-legend/kiguard/right/01",
+              "hero-legend/kiguard/right/02",
+              "hero-legend/kiguard/right/03",
+              "hero-legend/kiguard/right/04",
+              "hero-legend/kiguard/right/05"
+            ],
+            "right": [
+              "hero-legend/kiguard/right/00",
+              "hero-legend/kiguard/right/01",
+              "hero-legend/kiguard/right/02",
+              "hero-legend/kiguard/right/03",
+              "hero-legend/kiguard/right/04",
+              "hero-legend/kiguard/right/05"
+            ],
+            "down-right": [
+              "hero-legend/kiguard/right/00",
+              "hero-legend/kiguard/right/01",
+              "hero-legend/kiguard/right/02",
+              "hero-legend/kiguard/right/03",
+              "hero-legend/kiguard/right/04",
+              "hero-legend/kiguard/right/05"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kihit": {
+          "asset": "hero-legend-walk-v3-kifight-2",
+          "fps": 14,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-legend/kihit/right/00",
+              "hero-legend/kihit/right/01",
+              "hero-legend/kihit/right/02",
+              "hero-legend/kihit/right/03",
+              "hero-legend/kihit/right/04",
+              "hero-legend/kihit/right/05"
+            ],
+            "down-left": [
+              "hero-legend/kihit/right/00",
+              "hero-legend/kihit/right/01",
+              "hero-legend/kihit/right/02",
+              "hero-legend/kihit/right/03",
+              "hero-legend/kihit/right/04",
+              "hero-legend/kihit/right/05"
+            ],
+            "left": [
+              "hero-legend/kihit/right/00",
+              "hero-legend/kihit/right/01",
+              "hero-legend/kihit/right/02",
+              "hero-legend/kihit/right/03",
+              "hero-legend/kihit/right/04",
+              "hero-legend/kihit/right/05"
+            ],
+            "up-left": [
+              "hero-legend/kihit/right/00",
+              "hero-legend/kihit/right/01",
+              "hero-legend/kihit/right/02",
+              "hero-legend/kihit/right/03",
+              "hero-legend/kihit/right/04",
+              "hero-legend/kihit/right/05"
+            ],
+            "up": [
+              "hero-legend/kihit/right/00",
+              "hero-legend/kihit/right/01",
+              "hero-legend/kihit/right/02",
+              "hero-legend/kihit/right/03",
+              "hero-legend/kihit/right/04",
+              "hero-legend/kihit/right/05"
+            ],
+            "up-right": [
+              "hero-legend/kihit/right/00",
+              "hero-legend/kihit/right/01",
+              "hero-legend/kihit/right/02",
+              "hero-legend/kihit/right/03",
+              "hero-legend/kihit/right/04",
+              "hero-legend/kihit/right/05"
+            ],
+            "right": [
+              "hero-legend/kihit/right/00",
+              "hero-legend/kihit/right/01",
+              "hero-legend/kihit/right/02",
+              "hero-legend/kihit/right/03",
+              "hero-legend/kihit/right/04",
+              "hero-legend/kihit/right/05"
+            ],
+            "down-right": [
+              "hero-legend/kihit/right/00",
+              "hero-legend/kihit/right/01",
+              "hero-legend/kihit/right/02",
+              "hero-legend/kihit/right/03",
+              "hero-legend/kihit/right/04",
+              "hero-legend/kihit/right/05"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kihitheavy": {
+          "asset": "hero-legend-walk-v3-kifight-2",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-legend/kihitheavy/right/00",
+              "hero-legend/kihitheavy/right/01",
+              "hero-legend/kihitheavy/right/02",
+              "hero-legend/kihitheavy/right/03",
+              "hero-legend/kihitheavy/right/04",
+              "hero-legend/kihitheavy/right/05",
+              "hero-legend/kihitheavy/right/06",
+              "hero-legend/kihitheavy/right/07"
+            ],
+            "down-left": [
+              "hero-legend/kihitheavy/right/00",
+              "hero-legend/kihitheavy/right/01",
+              "hero-legend/kihitheavy/right/02",
+              "hero-legend/kihitheavy/right/03",
+              "hero-legend/kihitheavy/right/04",
+              "hero-legend/kihitheavy/right/05",
+              "hero-legend/kihitheavy/right/06",
+              "hero-legend/kihitheavy/right/07"
+            ],
+            "left": [
+              "hero-legend/kihitheavy/right/00",
+              "hero-legend/kihitheavy/right/01",
+              "hero-legend/kihitheavy/right/02",
+              "hero-legend/kihitheavy/right/03",
+              "hero-legend/kihitheavy/right/04",
+              "hero-legend/kihitheavy/right/05",
+              "hero-legend/kihitheavy/right/06",
+              "hero-legend/kihitheavy/right/07"
+            ],
+            "up-left": [
+              "hero-legend/kihitheavy/right/00",
+              "hero-legend/kihitheavy/right/01",
+              "hero-legend/kihitheavy/right/02",
+              "hero-legend/kihitheavy/right/03",
+              "hero-legend/kihitheavy/right/04",
+              "hero-legend/kihitheavy/right/05",
+              "hero-legend/kihitheavy/right/06",
+              "hero-legend/kihitheavy/right/07"
+            ],
+            "up": [
+              "hero-legend/kihitheavy/right/00",
+              "hero-legend/kihitheavy/right/01",
+              "hero-legend/kihitheavy/right/02",
+              "hero-legend/kihitheavy/right/03",
+              "hero-legend/kihitheavy/right/04",
+              "hero-legend/kihitheavy/right/05",
+              "hero-legend/kihitheavy/right/06",
+              "hero-legend/kihitheavy/right/07"
+            ],
+            "up-right": [
+              "hero-legend/kihitheavy/right/00",
+              "hero-legend/kihitheavy/right/01",
+              "hero-legend/kihitheavy/right/02",
+              "hero-legend/kihitheavy/right/03",
+              "hero-legend/kihitheavy/right/04",
+              "hero-legend/kihitheavy/right/05",
+              "hero-legend/kihitheavy/right/06",
+              "hero-legend/kihitheavy/right/07"
+            ],
+            "right": [
+              "hero-legend/kihitheavy/right/00",
+              "hero-legend/kihitheavy/right/01",
+              "hero-legend/kihitheavy/right/02",
+              "hero-legend/kihitheavy/right/03",
+              "hero-legend/kihitheavy/right/04",
+              "hero-legend/kihitheavy/right/05",
+              "hero-legend/kihitheavy/right/06",
+              "hero-legend/kihitheavy/right/07"
+            ],
+            "down-right": [
+              "hero-legend/kihitheavy/right/00",
+              "hero-legend/kihitheavy/right/01",
+              "hero-legend/kihitheavy/right/02",
+              "hero-legend/kihitheavy/right/03",
+              "hero-legend/kihitheavy/right/04",
+              "hero-legend/kihitheavy/right/05",
+              "hero-legend/kihitheavy/right/06",
+              "hero-legend/kihitheavy/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kideath": {
+          "asset": "hero-legend-walk-v3-kifight-2",
+          "fps": 10,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-legend/kideath/right/00",
+              "hero-legend/kideath/right/01",
+              "hero-legend/kideath/right/02",
+              "hero-legend/kideath/right/03",
+              "hero-legend/kideath/right/04",
+              "hero-legend/kideath/right/05",
+              "hero-legend/kideath/right/06",
+              "hero-legend/kideath/right/07"
+            ],
+            "down-left": [
+              "hero-legend/kideath/right/00",
+              "hero-legend/kideath/right/01",
+              "hero-legend/kideath/right/02",
+              "hero-legend/kideath/right/03",
+              "hero-legend/kideath/right/04",
+              "hero-legend/kideath/right/05",
+              "hero-legend/kideath/right/06",
+              "hero-legend/kideath/right/07"
+            ],
+            "left": [
+              "hero-legend/kideath/right/00",
+              "hero-legend/kideath/right/01",
+              "hero-legend/kideath/right/02",
+              "hero-legend/kideath/right/03",
+              "hero-legend/kideath/right/04",
+              "hero-legend/kideath/right/05",
+              "hero-legend/kideath/right/06",
+              "hero-legend/kideath/right/07"
+            ],
+            "up-left": [
+              "hero-legend/kideath/right/00",
+              "hero-legend/kideath/right/01",
+              "hero-legend/kideath/right/02",
+              "hero-legend/kideath/right/03",
+              "hero-legend/kideath/right/04",
+              "hero-legend/kideath/right/05",
+              "hero-legend/kideath/right/06",
+              "hero-legend/kideath/right/07"
+            ],
+            "up": [
+              "hero-legend/kideath/right/00",
+              "hero-legend/kideath/right/01",
+              "hero-legend/kideath/right/02",
+              "hero-legend/kideath/right/03",
+              "hero-legend/kideath/right/04",
+              "hero-legend/kideath/right/05",
+              "hero-legend/kideath/right/06",
+              "hero-legend/kideath/right/07"
+            ],
+            "up-right": [
+              "hero-legend/kideath/right/00",
+              "hero-legend/kideath/right/01",
+              "hero-legend/kideath/right/02",
+              "hero-legend/kideath/right/03",
+              "hero-legend/kideath/right/04",
+              "hero-legend/kideath/right/05",
+              "hero-legend/kideath/right/06",
+              "hero-legend/kideath/right/07"
+            ],
+            "right": [
+              "hero-legend/kideath/right/00",
+              "hero-legend/kideath/right/01",
+              "hero-legend/kideath/right/02",
+              "hero-legend/kideath/right/03",
+              "hero-legend/kideath/right/04",
+              "hero-legend/kideath/right/05",
+              "hero-legend/kideath/right/06",
+              "hero-legend/kideath/right/07"
+            ],
+            "down-right": [
+              "hero-legend/kideath/right/00",
+              "hero-legend/kideath/right/01",
+              "hero-legend/kideath/right/02",
+              "hero-legend/kideath/right/03",
+              "hero-legend/kideath/right/04",
+              "hero-legend/kideath/right/05",
+              "hero-legend/kideath/right/06",
+              "hero-legend/kideath/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kirespawn": {
+          "asset": "hero-legend-walk-v3-kifight-2",
+          "fps": 12,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-legend/kirespawn/right/00",
+              "hero-legend/kirespawn/right/01",
+              "hero-legend/kirespawn/right/02",
+              "hero-legend/kirespawn/right/03",
+              "hero-legend/kirespawn/right/04",
+              "hero-legend/kirespawn/right/05",
+              "hero-legend/kirespawn/right/06",
+              "hero-legend/kirespawn/right/07"
+            ],
+            "down-left": [
+              "hero-legend/kirespawn/right/00",
+              "hero-legend/kirespawn/right/01",
+              "hero-legend/kirespawn/right/02",
+              "hero-legend/kirespawn/right/03",
+              "hero-legend/kirespawn/right/04",
+              "hero-legend/kirespawn/right/05",
+              "hero-legend/kirespawn/right/06",
+              "hero-legend/kirespawn/right/07"
+            ],
+            "left": [
+              "hero-legend/kirespawn/right/00",
+              "hero-legend/kirespawn/right/01",
+              "hero-legend/kirespawn/right/02",
+              "hero-legend/kirespawn/right/03",
+              "hero-legend/kirespawn/right/04",
+              "hero-legend/kirespawn/right/05",
+              "hero-legend/kirespawn/right/06",
+              "hero-legend/kirespawn/right/07"
+            ],
+            "up-left": [
+              "hero-legend/kirespawn/right/00",
+              "hero-legend/kirespawn/right/01",
+              "hero-legend/kirespawn/right/02",
+              "hero-legend/kirespawn/right/03",
+              "hero-legend/kirespawn/right/04",
+              "hero-legend/kirespawn/right/05",
+              "hero-legend/kirespawn/right/06",
+              "hero-legend/kirespawn/right/07"
+            ],
+            "up": [
+              "hero-legend/kirespawn/right/00",
+              "hero-legend/kirespawn/right/01",
+              "hero-legend/kirespawn/right/02",
+              "hero-legend/kirespawn/right/03",
+              "hero-legend/kirespawn/right/04",
+              "hero-legend/kirespawn/right/05",
+              "hero-legend/kirespawn/right/06",
+              "hero-legend/kirespawn/right/07"
+            ],
+            "up-right": [
+              "hero-legend/kirespawn/right/00",
+              "hero-legend/kirespawn/right/01",
+              "hero-legend/kirespawn/right/02",
+              "hero-legend/kirespawn/right/03",
+              "hero-legend/kirespawn/right/04",
+              "hero-legend/kirespawn/right/05",
+              "hero-legend/kirespawn/right/06",
+              "hero-legend/kirespawn/right/07"
+            ],
+            "right": [
+              "hero-legend/kirespawn/right/00",
+              "hero-legend/kirespawn/right/01",
+              "hero-legend/kirespawn/right/02",
+              "hero-legend/kirespawn/right/03",
+              "hero-legend/kirespawn/right/04",
+              "hero-legend/kirespawn/right/05",
+              "hero-legend/kirespawn/right/06",
+              "hero-legend/kirespawn/right/07"
+            ],
+            "down-right": [
+              "hero-legend/kirespawn/right/00",
+              "hero-legend/kirespawn/right/01",
+              "hero-legend/kirespawn/right/02",
+              "hero-legend/kirespawn/right/03",
+              "hero-legend/kirespawn/right/04",
+              "hero-legend/kirespawn/right/05",
+              "hero-legend/kirespawn/right/06",
+              "hero-legend/kirespawn/right/07"
+            ]
+          },
+          "mirrored": [
+            "down-left",
+            "left",
+            "up-left"
+          ]
+        },
+        "kivictory": {
+          "asset": "hero-legend-walk-v3-kifight-2",
+          "fps": 10,
+          "loop": false,
+          "directions": {
+            "down": [
+              "hero-legend/kivictory/right/00",
+              "hero-legend/kivictory/right/01",
+              "hero-legend/kivictory/right/02",
+              "hero-legend/kivictory/right/03",
+              "hero-legend/kivictory/right/04",
+              "hero-legend/kivictory/right/05",
+              "hero-legend/kivictory/right/06",
+              "hero-legend/kivictory/right/07"
+            ],
+            "down-left": [
+              "hero-legend/kivictory/right/00",
+              "hero-legend/kivictory/right/01",
+              "hero-legend/kivictory/right/02",
+              "hero-legend/kivictory/right/03",
+              "hero-legend/kivictory/right/04",
+              "hero-legend/kivictory/right/05",
+              "hero-legend/kivictory/right/06",
+              "hero-legend/kivictory/right/07"
+            ],
+            "left": [
+              "hero-legend/kivictory/right/00",
+              "hero-legend/kivictory/right/01",
+              "hero-legend/kivictory/right/02",
+              "hero-legend/kivictory/right/03",
+              "hero-legend/kivictory/right/04",
+              "hero-legend/kivictory/right/05",
+              "hero-legend/kivictory/right/06",
+              "hero-legend/kivictory/right/07"
+            ],
+            "up-left": [
+              "hero-legend/kivictory/right/00",
+              "hero-legend/kivictory/right/01",
+              "hero-legend/kivictory/right/02",
+              "hero-legend/kivictory/right/03",
+              "hero-legend/kivictory/right/04",
+              "hero-legend/kivictory/right/05",
+              "hero-legend/kivictory/right/06",
+              "hero-legend/kivictory/right/07"
+            ],
+            "up": [
+              "hero-legend/kivictory/right/00",
+              "hero-legend/kivictory/right/01",
+              "hero-legend/kivictory/right/02",
+              "hero-legend/kivictory/right/03",
+              "hero-legend/kivictory/right/04",
+              "hero-legend/kivictory/right/05",
+              "hero-legend/kivictory/right/06",
+              "hero-legend/kivictory/right/07"
+            ],
+            "up-right": [
+              "hero-legend/kivictory/right/00",
+              "hero-legend/kivictory/right/01",
+              "hero-legend/kivictory/right/02",
+              "hero-legend/kivictory/right/03",
+              "hero-legend/kivictory/right/04",
+              "hero-legend/kivictory/right/05",
+              "hero-legend/kivictory/right/06",
+              "hero-legend/kivictory/right/07"
+            ],
+            "right": [
+              "hero-legend/kivictory/right/00",
+              "hero-legend/kivictory/right/01",
+              "hero-legend/kivictory/right/02",
+              "hero-legend/kivictory/right/03",
+              "hero-legend/kivictory/right/04",
+              "hero-legend/kivictory/right/05",
+              "hero-legend/kivictory/right/06",
+              "hero-legend/kivictory/right/07"
+            ],
+            "down-right": [
+              "hero-legend/kivictory/right/00",
+              "hero-legend/kivictory/right/01",
+              "hero-legend/kivictory/right/02",
+              "hero-legend/kivictory/right/03",
+              "hero-legend/kivictory/right/04",
+              "hero-legend/kivictory/right/05",
+              "hero-legend/kivictory/right/06",
+              "hero-legend/kivictory/right/07"
             ]
           },
           "mirrored": [

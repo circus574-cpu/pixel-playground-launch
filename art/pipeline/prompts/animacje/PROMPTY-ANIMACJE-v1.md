@@ -94,12 +94,12 @@ zostaje w kadrze.
 
 ### Opis formy KI ({POSTAĆ KI})
 
-| Rasa     | {POSTAĆ KI} |
-| -------- | ----------- |
+| Rasa     | {POSTAĆ KI}                                                                                                                                                                                                                                                           |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Legenda  | muscular man, messy spiky black hair, glowing red eyes, bare muscular chest with glowing golden ember cracks across the skin, one large red spiked shoulder pad on the left shoulder only, red armored forearm guards, baggy black trousers, red sash, dark red boots |
-| Android  | muscular young man, spiky silver hair, glowing cyan eyes, bare muscular chest with a glowing cyan star mark in its center and thin glowing cyan veins, cyan-glowing armored forearm gauntlets, silver plate leg armor, long torn dark-blue cape, grey armored boots |
-| Mędrzec  | elegant woman, long wavy blonde hair with gold hair ornaments, teal silk dress with high slit, gold ornaments, sheer white sleeves, glowing blue eyes |
-| Planetar | muscular young man, spiky brown hair, white headband, long orange scarf, torn sleeveless white and green martial-arts outfit, wrist wraps, dark brown boots, faint green sparkles around the body |
+| Android  | muscular young man, spiky silver hair, glowing cyan eyes, bare muscular chest with a glowing cyan star mark in its center and thin glowing cyan veins, cyan-glowing armored forearm gauntlets, silver plate leg armor, long torn dark-blue cape, grey armored boots   |
+| Mędrzec  | elegant woman, long wavy blonde hair with gold hair ornaments, teal silk dress with high slit, gold ornaments, sheer white sleeves, glowing blue eyes                                                                                                                 |
+| Planetar | muscular young man, spiky brown hair, white headband, long orange scarf, torn sleeveless white and green martial-arts outfit, wrist wraps, dark brown boots, faint green sparkles around the body                                                                     |
 
 {MOC} i {RUCHY} jak w tabeli ras.
 
@@ -161,6 +161,9 @@ Zapisane bez obróbki w `art-wip/gemini-anim-stages/`:
 | `legend-etap2-reakcje.mp4`                   | 2    | zgodna                                                                                                                                                                                                                                                                           |
 | `legend-etap3-ruch.mp4`                      | 3    | zgodna; interakcja bez widocznego przedmiotu                                                                                                                                                                                                                                     |
 | `legend-etap4-walka-po-transformacji.mp4`    | 4    | zgodna z osią Etapu 1 w formie po transformacji (odsłonięty tors, czerwona aura); skok i pierścień ognia widoczne                                                                                                                                                                |
+| `android-etap5a-reakcje-ki.mp4`              | 5A   | Android, forma KI; profil w prawo, 16:9, tło jednolite; trafienie, ciężkie trafienie, śmierć, wstawanie, zwycięstwo (0,5–9,2 s); szary cień pod stopami; w wycięciu użyte                                                                                                        |
+| `legend-etap5a-reakcje-ki.mp4`               | 5A   | Legenda, forma KI; profil, 16:9; pierwsze 0,5 s to zbliżenie na tors (pominięte); trafienie, ciężkie trafienie, śmierć, wstawanie, zwycięstwo; w wycięciu użyte                                                                                                                  |
+| `planetary-etap5a-reakcje-ki.mp4`            | 5A   | Planetar, forma KI; profil, 16:9, białe tło; trafienie, ciężkie trafienie, śmierć, wstawanie, zwycięstwo; w wycięciu użyte                                                                                                                                                       |
 | `sage-etap2-reakcje.mp4`                     | 2    | Mędrzec, forma bazowa; trafienie, powalenie, leżenie, wstawanie, gest zwycięstwa (do potwierdzenia po pełnym przeglądzie klatek)                                                                                                                                                 |
 | `sage-etap4-walka-po-transformacji.mp4`      | 4    | Mędrzec, walka w szarym tle jak w filmie chodu po transformacji; przypisanie do Etapu 4 wynika z tła i kontekstu, bez widocznej aury, do potwierdzenia                                                                                                                           |
 | `sage-etap1-walka.mp4`                       | 1    | Mędrzec, forma bazowa; uderzenia dłonią, pocisk, skok z kulą światła, unik, bariera                                                                                                                                                                                              |
