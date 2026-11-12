@@ -1,0 +1,36 @@
+
+Running 1 test using 1 worker
+
+(node:33110) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [gameplay] › e2e/racial-trials.spec.ts:119:3 › Planetarni: real TV05, one-time reward and reload (1.5m)
+
+
+  1) [gameplay] › e2e/racial-trials.spec.ts:119:3 › Planetarni: real TV05, one-time reward and reload 
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 65
+    Received:   150.30167749999967
+
+    Call Log:
+    - Timeout 60000ms exceeded while waiting on the predicate
+
+      105 |       ),
+      106 |     )
+    > 107 |     .toBeLessThan(65);
+          |      ^
+      108 | }
+      109 |
+      110 | for (const [race, id, land] of [
+        at walkToStation (/workspace/ki-aruba/e2e/racial-trials.spec.ts:107:6)
+        at /workspace/ki-aruba/e2e/racial-trials.spec.ts:172:11
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ki-earth-rhythm/racial-trials-Planetarni-r-9aaa6--one-time-reward-and-reload-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ki-earth-rhythm/racial-trials-Planetarni-r-9aaa6--one-time-reward-and-reload-gameplay/error-context.md
+
+  1 failed
+    [gameplay] › e2e/racial-trials.spec.ts:119:3 › Planetarni: real TV05, one-time reward and reload 

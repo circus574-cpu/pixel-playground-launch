@@ -1,0 +1,41 @@
+{
+  "base": "01225e9cb8b4bd69cb95eff9f4f55a5d50909f99",
+  "sourceManifest": "source-sha256.json",
+  "unit": {
+    "command": "NODE_OPTIONS=--max-old-space-size=2048 npm test",
+    "exit": 0,
+    "passed": 1242,
+    "failed": 0,
+    "skipped": 10
+  },
+  "targeted": {
+    "passed": 70,
+    "failed": 0
+  },
+  "browser": {
+    "uniquePassed": 6,
+    "scope": "TV04/TV05/TV06 tier I; Canvas and Software WebGL; collected across runs, earlier failures preserved",
+    "physicalPhone": false
+  },
+  "typecheck": {
+    "command": "NODE_OPTIONS=--max-old-space-size=3072 npm run typecheck",
+    "exit": 0
+  },
+  "lint": {
+    "exit": 0,
+    "errors": 0,
+    "warnings": 15
+  },
+  "assets": {
+    "exit": 0
+  },
+  "build": {
+    "exit": 0,
+    "output": "/tmp/ki-development-build-output via ignored .output symlink",
+    "previousFailure": "ENOSPC"
+  },
+  "documentation": {
+    "exit": 0
+  },
+  "productionDeployed": false
+}

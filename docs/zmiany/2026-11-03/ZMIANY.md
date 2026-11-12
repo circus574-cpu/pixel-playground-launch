@@ -49,6 +49,457 @@ optymalizacji tabel, które nie istnieją w schemacie.
   błąd, a nie dane z martwej chmury.
 - Usunięto panel „Status optymalizacji bazy" (opisywał tabele, których nie ma).
 
+
+## Audyt kompletności rozwoju postaci — 03.11.2026
+
+### Wniosek i zakres
+
+**Pełne zlecenie rozwoju czterech ras nie jest ukończone.** Zweryfikowano
+`main@139834679f4618fdfc343c93060f479b1b98b71d` oraz źródło właściciela
+`docs/design/racial-development-owner-2026-10-28.txt`, SHA-256
+`03ea87f725815adab2d74cba84da87a52adfc5cd650600c6a3202f68742359ed`.
+Raport rozróżnia implementację, definicje w katalogu i rzeczywiście wykonane testy.
+Audyt nie zmienia gry, balansu, zapisów graczy, hostingu ani GPU.
+
+### Co powstało wcześniej i co później uzupełniono
+
+Wcześniejsza implementacja rozwoju: `5e4faedc` (trening/egzaminy), `c2dc70f0`
+(dziedzictwa/bronie), `a6a68d38` (pomiary/projekty), `56a1fb66` (skaner),
+`924ff66f` (spokojne dostawy), `b63e1f51` (odbiorcy obrażeń), `c9360483`
+(Unik / szybkość ataku / Technika), integracja `5cea48da` / PR #62.
+
+Późniejsze dostawy innych wykonawców obejmują `43ea5862`, `078dfdba`,
+`c7c3e2a0`, `f60dde70`, `492bc2f8`, `f8dff1d8` (grafiki treningu),
+`2866499c` (audio), `93d38fc2` / `99dd12e1` (ekwipunek/depozyt) oraz
+`4110e52e` / `2b0e4d3a` (panel postaci/statystyki). Prace serwerowe PR #69 oraz
+późniejsze PR #76/77/79/86 zapewniają nowszy kontekst kont, zapisów i administracji;
+nie dostarczają brakujących prób rasowych. Nie przypisano sobie tych dostaw.
+Historia `src/game/development/heritage/runtime.ts` nadal kończy się na implementacji
+spokojnych dostaw z 28.10. Nie znaleziono późniejszego wdrożenia kompletnego
+systemu rozwoju na końcówkach przejrzanych gałęzi. Gałąź
+`origin/docs/development-plan-20261101` (`80bdf119`) zawiera plan dokumentacyjny,
+a nie implementację brakującego systemu.
+
+### Wymagania a obecny kod
+
+| Obszar | Potwierdzony stan |
+| --- | --- |
+| 5 dyscyplin, stopnie 0–30, suma 90 | Koszty, limity, reset i wpływ na statystyki istnieją. Pełna osiągalność 90 stopni ma blokadę ekonomii opisaną poniżej. |
+| 30 egzaminów wspólnych | 30 definicji, 5 rodzajów aktywności i izolowane `GameSession`. Nie wykonano świeżego E2E wszystkich 30 progów dla 4 ras. To osobny system od 48 prób rasowych. |
+| Unik, szybkość ataku, Technika | Trening, skutki w walce i podgląd parametrów istnieją. Nie rosną automatycznie od poziomu. Integracja bonusów przedmiotów ma potwierdzone błędy. |
+| Dziedzictwo | 24 definicje rozdziałów i 24 projektów, transakcje, wybory, efekty lokalne, pierwsze rozdziały i spokojne dostawy. Pełne ścieżki zawierają nieobsługiwane cele. |
+| Próby rasowe | Brak kompletu TV/TA/TN/TP01–12, kontrolerów 144 stopni i zapisu ich wyników/nagród. Stan rozwoju ma 30 ID egzaminów, ale nie ma wyników prób rasowych ani stopni dziedzin. |
+| 12 mistrzowskich wariantów | Efekty, kompromisy i przełączanie istnieją. Brak normalnej ścieżki odblokowania: `unlockedVariants` jest domyślnie puste, runtime nie dodaje wariantów. |
+| 6 modułów Androida | 6 definicji, efekty, limity 3 gniazd / 10 energii. Odblokowywane są tylko skaner (H-N01) i chłodzenie (H-N02 + P-N1). Brakuje odblokowań optyki, osłony, precyzji i przekierowania. |
+| 4 bronie osobiste | Jest instancja/właściciel, ATK 8/10/12/14/16/18, nazwanie, wyposażanie i depozyt. Pełna droga do etapu 6 jest zablokowana w każdej rasie. |
+| Bestiariusz 40 gatunków | Jest widoczność, obserwacja ataku, ślad, zabójstwo i jednorazowe 50 praktyki. Brak kompletu indywidualnych wyzwań gatunków i późnych wypraw z pierwotnego zakresu. |
+| Treść poziomów 21–40 | Brak osobnego zestawu `developmentEncounters` z 32 nowymi wariantami i pełnych późnych wypraw. Istniejący bossowie i labirynty nie zastępują tego wymagania. |
+| Narracja i zakończenia | Są dialogi, dokumenty i zapisy wyborów w katalogu. Brak kompletnego systemu 4 biografii po 500–800 słów, odkrywanych kronik, stopni dziedzin i finałowych tytułów zależnych od prób III. |
+| Oprawa Etapu 1 | Potwierdzono 46 grafik i 41 plików audio oraz ich sumy SHA-256. Grafiki treningowe nadal wymagają `?ki-dev-art=1`; test oczekuje wyłączenia przy pustym URL. Część podstawowych dźwięków ma starsze odpowiedniki, więc nie oznacza to wyłączenia całego audio. Nie wykonano pełnego odsłuchu i odbioru artystycznego. |
+
+Główne źródła kodu:
+
+- [trening i egzaminy](../../../src/game/development/training.ts),
+  [aktywny egzamin](../../../src/game/development/exams.ts);
+- [stan i walidacja](../../../src/game/development/state.ts),
+  [modyfikatory wariantów/modułów](../../../src/game/development/modifiers.ts);
+- [katalog rozdziałów i projektów](../../../src/game/development/heritage/catalog.ts),
+  [kontroler aktywności](../../../src/game/development/heritage/runtime.ts),
+  [wymagane dowody ukończenia](../../../src/game/development/heritage/reducer.ts);
+- [statystyki i komendy sesji](../../../src/game/session.ts),
+  [kontrakt wyposażenia](../../../src/game/kit/types.ts);
+- [przełącznik oprawy](../../../src/game/development/developmentAssets.ts),
+  [test plików i sum kontrolnych](../../../src/test/development-etap1-assets.test.ts).
+
+### Konkretne blokady każdej rasy
+
+| Rasa | Pierwszy pewny nieobsługiwany cel | Konsekwencja |
+| --- | --- | --- |
+| Planetarni | `H-V03:messenger` — eskorta bojowa | Rozdział 3 i kolejne oraz pełna broń na etapie 6 są nieosiągalne zwykłą ścieżką. |
+| Mędrcy | `H-A05:handoff` — eskorta bojowa | Rozdział 5 i finał zablokowane; H-A06 ma także cel ochrony. |
+| Androidy | `H-N03:escort` — eskorta bojowa | Rozdział 3 i kolejne oraz późne projekty niezamknięte. |
+| Legendy | `H-P06:retreat` — ochrona | Finał i broń na etapie 6 zablokowane. |
+
+`HeritageRuntime.command()` tworzy `MeasurementActivity`, `EscortActivity` tylko z
+`combat=false` i `RestraintActivity`. Dla pozostałych aktywności zwraca komunikat
+o innym rodzaju próby. Reducer wymaga zatwierdzonego wyniku ochrony/eskorty bojowej,
+którego runtime nie wytwarza. `ProtectedActor` jest fundamentem odbioru obrażeń;
+poza swoim modułem ma użycia jedynie w testach. Brakuje podłączenia kontrolera
+fal/ochrony dedykowanych aktorów zadania. Nie oznacza to, że zwykłe miejskie NPC
+powinny być celami potworów.
+
+Brak tej konkretnej blokady we wcześniejszym rozdziale nie jest dowodem, że cały
+rozdział został ukończony w aktualnej przeglądarce. Tabela wskazuje pewne blokady,
+a nie zaliczenie wszystkich wcześniejszych etapów.
+
+### Skutek dla ekonomii praktyki
+
+Zlecenie przewiduje 17 800 praktyki; maksymalizacja trzech dyscyplin kosztuje 17 550.
+Brak 12 prób po 3 stopnie usuwa 5400 praktyki z przewidzianej ścieżki jednej rasy.
+Nawet suma wszystkich istniejących definicji rozdziałów/projektów, wszystkich
+30 egzaminów i 40 badań wynosi tylko 12 400. Nie wszystkie definicje są osiągalne.
+
+Statyczny graf zależności, uwzględniający powyższe blokady, daje optymistyczne
+pułapy: Planetarni 10 250, Mędrcy 11 200, Androidy 10 250, Legendy 11 950 praktyki.
+To górne granice, zakładające sukces wszystkich pozostałych aktywności;
+nie są wynikiem przejścia kampanii. Najtańszy dowolny rozkład 90 stopni
+(5 × 18) kosztuje 12 150. Nawet te optymistyczne pułapy nie zapewniają 90 stopni.
+Dalsze przeszkody mogą je obniżyć. Nie odnaleziono dodatkowego normalnego źródła
+praktyki poza egzaminami, wiedzą i dziedzictwem.
+Szczegóły: [graf i liczby](qa/progression-audit/catalogue-and-blockers.json).
+Obliczenia można powtórzyć:
+`npx tsx docs/zmiany/2026-11-03/qa/progression-audit/audit-catalogue.mjs`
+([skrypt](qa/progression-audit/audit-catalogue.mjs)).
+
+### Nowe potwierdzone błędy bonusów wyposażenia
+
+Odtworzono przez produkcyjną klasę `GameSession` i polecenie `equip`, z jawnymi
+warunkami izolowanego testu: przedmiot w torbie i wymagany poziom postaci.
+Nie manipulowano kontem ani zapisem produkcyjnym; to test naliczania bonusu,
+nie zdobycia przedmiotu.
+
+- **A-V1 Kamizelka Leśnego Pąka:** deklaruje `hpBonus: 40` i `maxHpPercent: 8`;
+  rzeczywista zmiana maksymalnego HP wynosi **0**.
+- **A-A1 Szata Ucznia Chmur:** `kiBonus: 50` / `maxKiPercent: 7`;
+  rzeczywista zmiana maksymalnego KI wynosi **0**.
+- **A-V3 Płaszcz Zielonego Wędrowca:** `moveSpeedPercent: 2`; ruch bez zmiany,
+  `attackSpeedPct` wzrasta o **4** (bonus dodany wprost i ponownie z kalkulatora).
+- **U-W03 Pryzmat Archiwum Wiatru:** pola krytyka trafiają do Techniki (**+12**),
+  wzrost szansy krytyka wynosi **0,6 p.p.** Dodatkowo uruchamia to skutki Techniki
+  dla obrażeń KI i ponowienia umiejętności bez cooldownu.
+
+Przyczyna: `session.ts/equipmentStats()` i ograniczony kontrakt `KitPort.gear`.
+HP/KI i inne bonusy katalogu nie docierają do obliczeń; ruch i krytyk trafiają do
+innych parametrów. W audycie nie zmieniano wzorów ani balansu.
+
+Reprodukcja:
+`npx tsx docs/zmiany/2026-11-03/qa/progression-audit/reproduce-item-statistics.mjs`.
+[Skrypt](qa/progression-audit/reproduce-item-statistics.mjs) i
+[wynik](qa/progression-audit/item-stats-observation.json).
+
+### Weryfikacja wykonana 03.11
+
+- `npm run typecheck`: **PASS**, wszystkie 3 konfiguracje na `13983467`.
+- `npm test`: **1088 PASS / 0 FAIL / 10 SKIP**,
+  96 plików zaliczonych / 1 pominięty. 10 testów kont wymaga
+  `KI_ACCOUNTS_TEST_DATABASE_URL`; nie uruchamiano dodatkowej bazy.
+  Log zawiera istniejące komunikaty jsdom o nieobsługiwanym `HTMLMediaElement.play`;
+  testy jednostkowe nie są potwierdzeniem poprawnego audio w przeglądarce.
+- Celowane testy rozwoju/dziedzictwa/serwera/statystyk: **136 PASS w 11 plikach**,
+  na pierwszej bazie `c2ff3202`; nowszy `13983467` nie zmienił kodu rozwoju i został
+  objęty powyższym pełnym testem.
+- `npx vitest run src/test/development-etap1-assets.test.ts`:
+  **4 PASS** na `13983467` (pliki, pochodzenie, sumy SHA-256).
+- Cztery odtwarzalne przypadki błędnego bonusu: potwierdzone, pozostają otwarte.
+- **NIEWYKONANE:** pełna kampania, 48 prób / 144 stopnie, finały 4 ras w Playwright,
+  fizyczny Android/iOS, pomiary czasu rozwoju 1–40 i pełnego balansu.
+  Brakujące kontrolery nie pozwalają potwierdzić ukończenia tych ścieżek.
+- Build i lint całej gry nie były powtarzane dla tej zmiany dokumentacyjnej;
+  nie zmieniono kodu runtime. Kontrola dokumentacji jest zapisana w dowodach audytu.
+
+[Metadane kontroli](qa/progression-audit/verification.json),
+[log jednostkowych](qa/progression-audit/unit-tests.log),
+[log typów](qa/progression-audit/typecheck.log).
+
+### Kolejność domknięcia
+
+1. Naprawić przekazywanie bonusów przedmiotów do prawdziwych statystyk;
+   dodać regresje HP/KI/ruch/krytyk, bez cichej zmiany kanonu ras.
+2. Podłączyć eskorty bojowe, ochronę i fale do istniejących odbiorców obrażeń;
+   wykonać zwykłymi komendami przejścia blokowanych rozdziałów każdej rasy.
+3. Wdrożyć 48 prób ze 144 ocenami, zapis wyników i jednorazowych nagród,
+   odblokowania dziedzin, wszystkich 12 wariantów i brakujących 4 modułów;
+   zamknąć budżet 17 800 praktyki.
+4. Zakończyć bronie na etapie 6, projekty, biografie/kroniki/tytuły
+   i 32 późne warianty starć.
+5. Wykonać E2E początku i finału 4 ras bez obchodzenia rozgrywki, pełny graf
+   osiągalności i pomiary balansu/czasu. Dopiero te wyniki mogą zamknąć zlecenie.
+
+## Domykanie rozwoju — partia 1: statystyki wyposażenia
+
+Gałąź `feature/complete-character-development`, baza kodu `main@13983467`
+i audyt `c7e08168`. Właściciel zlecił domknięcie całego systemu rozwoju, fabuł
+oraz oprawy. Ta partia naprawia naliczanie wyposażenia; **nie jest ukończeniem
+całego zlecenia**. Pozostałe blokady z audytu nadal wymagają implementacji.
+Nie opublikowano gry ani nie scalono gałęzi.
+
+### Implementacja
+
+- Rozszerzono `KitPort.gear` o istniejący kontrakt `ItemStats`. HP, KI,
+  regeneracja, ruch, koszty KI i redukcja obrażeń docierają do prawdziwego kitu.
+- Capped procenty ATK/DEF są liczone od rasy/poziomu/drzewka/treningu,
+  nie tylko od wartości samej broni/pancerza. Kanoniczne pliki ras nie zmieniają się.
+- Prędkość ruchu nie zmienia szybkości ataku. Krytyk daje punkty procentowe,
+  nie Techniki; nie przyznaje przy okazji obrażeń KI ani ponowienia umiejętności.
+- Obowiązują procenty i limity istniejącego kalkulatora pasywnego. Dla HP/KI,
+  ruchu i krytyka obecność nowego pola zastępuje historyczną reprezentację tej
+  samej premii, zapobiegając podwójnemu doliczeniu. Historyczne płaskie HP/KI
+  i mnożnik ruchu pozostają fallbackiem, gdy nowego pola nie ma.
+- Unikalne ID wyposażenia są liczone raz. Bonus regeneracji HP zwiększa tempo
+  regeneracji, a nie dodaje procentu pełnego zdrowia na sekundę.
+- Zakładanie, zmiana i zdejmowanie sprzętu zachowują proporcję HP/KI.
+  Nie można odzyskiwać zasobów przez powtarzanie zmiany pancerza/szaty.
+- Podgląd statystyk korzysta z tych samych obliczeń: premia przedmiotu jest
+  osobną różnicą pomiędzy warstwami, zgodnie z dotychczasowym układem panelu.
+- Bez zmiany formatu zapisów, sterowania, geometrii, cen, plików generated i GPU.
+
+### Dowody i ograniczenia
+
+Dodano 20 regresji (5 scenariuszy dla każdej rasy): HP, KI/regeneracja,
+ruch/szybkość ataku, krytyk/Technika oraz 12 cykli zmiany wyposażenia bez leczenia.
+Jawne warunki jednostkowe zapewniają przedmiot i wymagany poziom; testy nie są
+przejściem kampanii ani dowodem zdobycia przedmiotu przez gracza.
+
+- [Wyniki po naprawie](qa/progression-equipment/item-statistics-after.json).
+- [TypeScript](qa/progression-equipment/typecheck.txt): PASS, wszystkie 3 konfiguracje.
+- [Testy celowane](qa/progression-equipment/targeted-tests.txt): 76 PASS.
+- [Pełny zestaw jednostkowy](qa/progression-equipment/unit-tests.txt):
+  1108 PASS / 0 FAIL / 10 SKIP (testowa baza PostgreSQL niedostępna).
+  [Metadane i SHA-256 testowanych źródeł](qa/progression-equipment/verification.json).
+- [Lint całego projektu](qa/progression-equipment/lint.txt): 0 błędów / 15 istniejących ostrzeżeń.
+- [Build produkcyjny](qa/progression-equipment/build.txt): PASS.
+- [Canvas — okno statystyk](qa/progression-equipment/browser-canvas.txt): 4 PASS,
+  wszystkie rasy, otwarcie/zamknięcie i odświeżenie, emulacja dotyku;
+  widoki 1280×720, 390×844, 360×800 i 852×393 (z obecną wymaganą rotacją pionu).
+- [Software WebGL — okno statystyk](qa/progression-equipment/browser-webgl.txt):
+  4 PASS dla tych samych ras i widoków, SwiftShader.
+- To nie jest test na fizycznym telefonie ani odbiór całej kampanii.
+
+### Dalsza realizacja
+
+Następna partia musi usunąć blokady eskort bojowych i ochrony H-V03/H-A05/H-N03/H-P06,
+korzystając z `ProtectedActor`, faktycznych obrażeń, nawigacji poza miastami,
+punktów wznowienia i czyszczenia aktorów/przeciwników przy śmierci/zmianie świata.
+Nie zastępować tych celów kliknięciem „zalicz”. Dalej: 48 prób / 144 stopnie,
+zapis dowodów i jednorazowych nagród, odblokowania, budżet praktyki, zakończenia,
+biografie i kronika. Zamówienie pozostaje otwarte do pełnego odbioru tych ścieżek.
+
+## Domykanie rozwoju — partia 2: eskorty, obrona i kronika
+
+Kontynuacja na `feature/complete-character-development`, po `b7d41ffe`, PR #90.
+**Nie jest to zamknięcie całego systemu mistrzostwa.** Wdrożono brakujące kontrolery
+rozdziałów i prywatną kronikę. Próby rasowe, dziedziny, ich odblokowania i późne
+warianty starć pozostają oddzielnymi, niezrealizowanymi wymaganiami.
+Bez scalenia, publikacji, zmian produkcyjnej bazy ani używania GPU.
+Przyszłe wdrożenie musi objąć klienta i proces serwera gry z tego samego wydania;
+sam nowy frontend nie doda kontrolerów do starego serwera. Nie potrzeba migracji DDL.
+
+### Rzeczywiste aktywności bojowe
+
+- `HeritageEncounter` tworzy ograniczone spotkanie na istniejącej nawigacji i AI.
+  To osobny aktor zadania `ProtectedActor`, a nie zwykły NPC miejski.
+  Rejestracja i punkty trasy wymagają terenu poza miastem i aktualnych kolizji.
+- `EscortActivity` obsługuje teraz eskortę bojową. Przed kolejnym odcinkiem trzeba
+  pokonać rzeczywistą falę, a podopieczny musi zachować minimum zdrowia z definicji.
+  Punkt wymaga fizycznej obecności gracza, widoczności i zatwierdzonego wyniku walki.
+  Samo czekanie, dojście do celu lub kliknięcie nie zalicza walki.
+- `ProtectionActivity` broni kolejnych węzłów. Liczba punktów/fal i próg HP pochodzą
+  z katalogu zadań. Każdy ukończony punkt zapisuje się transakcyjnie i można go wznowić
+  po ponownym wczytaniu. Nie dodano pola ani numeru wersji zapisu.
+- Odebranie nagrody nadal przechodzi przez istniejące jednorazowe receipts rozdziału.
+  Tymczasowi przeciwnicy nie dają powtarzalnego XP/łupów ani postępu innych zadań;
+  kanoniczne bojowe pasywy `kit.onKill` pozostają aktywne.
+- Przeciwnicy i ich przywołane jednostki mają znacznik właściciela spotkania.
+  Są usuwani razem z rejestracją celu i efektami przy przerwaniu, śmierci lub zmianie
+  świata. Nie trafiają do zapisanych slotów zwykłych spawnów Superior.
+- Profile spotkań są stałe dla rozdziału, korzystają z istniejących potworów
+  poziomów 1/4/8/12/16/20. Trwałość celu: 4 × HP wybranego profilu, jego DEF.
+  To jawny profil techniczny aktywności, bez zmiany bazowych ras/potworów.
+  **Nie zastępuje wymaganych 32 nowych wariantów poziomów 22/28/34/40 ani odbioru balansu finałów.**
+
+### Naprawy wykryte podczas przejść
+
+1. Finał Legend H-P06 zaczyna się sprawdzaniem projektów, które nie miało fizycznego
+   miejsca przyjęcia. Binding instruktażu wskazuje teraz rzeczywistego przewodnika.
+   Zachowano kolejność celów i indeksy już zapisanych postępów.
+2. Śmierć przeciwnika zadania czyści trasę pościgu, tak samo jak zwykła walka.
+   Postać przestaje odchodzić w stronę poprzedniego celu po jego pokonaniu.
+3. Przycisk podejścia do celu działa również podczas walki. Nie umożliwia wtedy
+   rzemiosła, odbioru nagrody ani tworzenia dowodu ukończenia.
+4. Bezpieczne miasto chroni gracza, lecz nie zamraża AI atakującego chroniony obiekt
+   poza miastem. Test sprawdza rzeczywiste obrażenia podopiecznego i bezpieczeństwo bohatera.
+5. Ruch podopiecznego uwzględnia kolizje, korzenie/ogłuszenia i spowolnienia.
+6. Po zaliczeniu eskorty/obrony znika panel aktywności; zostaje krótki komunikat
+   istniejącego systemu powiadomień, zamiast trwałej podpowiedzi nad światem.
+7. Osobista broń synchronizuje teraz pole broni, slot ekwipunku i torbę. Zamiana
+   zachowuje proporcję HP/KI, a awaria zapisu nie zmienia gracza. Pełna torba blokuje
+   zamianę bez utraty przedmiotu; zdjęcie osobistej broni odzyskuje także zwykły
+   przedmiot pozostawiony w slocie przez starszy błąd. Usunięto zagnieżdżoną transakcję
+   przy powrocie do zwykłej broni, która odłączała aktualne referencje torby/slotu.
+   [Odtworzenie: 4 FAIL przed naprawą](qa/heritage-combat/weapon-swap-before.txt),
+   [regresja po naprawie](qa/heritage-combat/weapon-swap-after.txt).
+
+### Historia dostępna w grze
+
+Zakładka **Kronika** jest częścią istniejącego okna rozwoju. Czyta zapis postaci,
+nie przyznaje nagród. Pokazuje tylko ukończone własne rozdziały, świadectwa rozmówców
+oraz faktycznie wybraną decyzję. Fragmenty tła odblokowują się po rozdziałach 2/4/6.
+Tło jest niezmienionym tekstem właściciela z sekcji 6.1–9.1 źródła 28.10;
+świadectwa i zakończenia pochodzą z kanonicznego katalogu dziedzictwa.
+Nie ujawnia się finału nowej postaci ani nie przyznaje tytułu wymagającego prób III.
+
+Łączna odblokowana opowieść (tło + wstępy + świadectwa + zapisane decyzje), bez
+liczenia etykiet UI, obejmuje dla każdej kombinacji wyborów:
+
+| Rasa | Liczba słów |
+| --- | --- |
+| Planetarni | 659–679 |
+| Mędrcy | 571–585 |
+| Androidy | 570–576 |
+| Legendy | 619–632 |
+
+Nie utworzono nowych ilustracji: zachowano istniejące postacie i zasoby.
+Towarzysz używa obecnej animacji NPC; węzeł ma tymczasowy symbol KI z paskiem HP.
+Renderer odczytuje aktywność serwera, buforuje odczyt przez 100 ms, stosuje culling
+900 jednostek i ponownie wykorzystuje obiekty. Nie zmieniono sterowania ani pozycji HUD.
+Ukryto jedynie pozorne „0 s” dla aktywności bez timera.
+
+### Dowody, zakres testów i ograniczenia
+
+- Kontrolowane integracje `GameSession`: **24 rozdziały + 24 projekty**, sześć etapów
+  broni każdej rasy, 2900 praktyki dziedzictwa, zapis/odczyt kroniki i wznowienia
+  eskorty/ochrony po pierwszym zapisanym punkcie.
+- Warunki tych testów to jawny profil poziomu 40 i kontrolowana geometria.
+  Android odwiedza Verdantię przez kontrolowany adapter ponownego załadowania świata.
+  **To nie jest przejście poziomów 1–40 ani test podróży przez rzeczywisty portal w przeglądarce.**
+- Cztery integracje z prawdziwymi danymi Superior weryfikują teren, kolizje, trasy,
+  możliwość utworzenia fali, odrzucenie podrobionego wyniku i brak zapisu tymczasowych
+  przeciwników w trwałych spawnach serwera.
+- 12 testów kroniki sprawdza brak spoilerów, zgodność zapisanej decyzji, brak mutacji,
+  pochodzenie tekstu i zakres 500–800 słów przy dowolnej kombinacji wyborów.
+- Pełne wyniki, polecenia, ograniczenia i sumy testowanych źródeł:
+  [metadane](qa/heritage-combat/verification.json).
+- [Jednostkowe](qa/heritage-combat/unit-tests.txt),
+  [typy](qa/heritage-combat/typecheck.txt), [lint](qa/heritage-combat/lint.txt),
+  [build](qa/heritage-combat/build.txt).
+- [Dotykowa kronika Canvas](qa/heritage-combat/chronicle-canvas.txt),
+  [Software WebGL](qa/heritage-combat/chronicle-webgl.txt): rzeczywisty typ renderera
+  sprawdzany przez telemetrię. To emulacja dotyku w Chromium, nie fizyczny Android/iOS.
+
+Przykładowe rzeczywiste zrzuty kroniki nowej postaci:
+[Planetarni](qa/heritage-combat/planetary-chronicle.png),
+[Mędrcy](qa/heritage-combat/sage-chronicle.png),
+[Androidy](qa/heritage-combat/android-chronicle.png),
+[Legendy](qa/heritage-combat/legend-chronicle.png).
+
+Pierwsza próba starszego E2E dziedzictwa została przerwana po HMR zamykającym okno
+lokalnego podglądu. Nie uznano jej za PASS ani dowód błędu gry. Zachowano
+[wyciąg zdarzeń](qa/heritage-combat/interrupted-call-log.json) i
+[zrzut](qa/heritage-combat/interrupted-browser.png). Surowe zasoby trace zajęły
+1,1 GiB i wyczerpały dysk; usunięto wyłącznie własne wygenerowane trace oraz build
+po zapisaniu wyników. Ponowna próba używa logów i screenshotów, bez pełnego trace.
+Pierwsza powtórka wykryła błąd nowego selektora testu: dokładny tekst decyzji
+pomijał widoczny prefiks „Twój zapis:”. Na zrzucie gra pokazywała właściwą decyzję.
+Selektor sprawdza teraz pełny dokładny tekst wraz z prefiksem; nie osłabiono
+sprawdzania treści. [Log](qa/heritage-combat/browser-selector-failure.txt),
+[zrzut](qa/heritage-combat/earned-chronicle-selector-failure.png).
+
+Końcowe kontrole tej partii: **1143 PASS / 0 FAIL / 10 SKIP** w `npm test`.
+Dziesięć pominiętych testów wymaga osobnej testowej bazy PostgreSQL
+(`KI_ACCOUNTS_TEST_DATABASE_URL`); nie uruchamiano dodatkowej infrastruktury.
+Pełny TypeScript (trzy konfiguracje), build i lint zaliczone; lint zachowuje
+15 wcześniejszych ostrzeżeń, bez błędów. Ostatnie zmiany testu/configu przeszły
+dodatkowo osobne wywołanie ESLint.
+
+W przeglądarce zaliczono **9 scenariuszy**: cztery kroniki nowych postaci Canvas,
+cztery Software WebGL oraz rzeczywisty pierwszy rozdział/projekt/założenie broni,
+odkrytą decyzję w kronice i odświeżenie Planetarnego
+([log](qa/heritage-combat/earned-chronicle-canvas.txt),
+[odkryta kronika](qa/heritage-combat/planetary-earned-chronicle.png),
+[wyposażenie](qa/heritage-combat/planetary-equipped-heritage.png)).
+Wszystkie te scenariusze sprawdzają również brak `pageerror`.
+Pełny Playwright repozytorium nie został wykonany. Testy źródeł sprzed commita
+identyfikują sumy SHA-256 w metadanych, zamiast nieistniejącego SHA przyszłego commita.
+
+Powtórka standardowego projektu `software-webgl` ujawniła też błędne oczekiwanie
+testu (Canvas przy rzeczywistym WebGL). Poprawiono sprawdzanie nazwy projektu,
+zachowując asercję rzeczywistego renderera
+([niezaliczony log](qa/heritage-combat/renderer-expectation-failure.txt)).
+Kolejna próba po wznowieniu sesji miała niedostępny lokalny Vite
+([log](qa/heritage-combat/preview-connection-failure.txt)); uruchomienie lokalnego
+podglądu przywróciło testy. Końcowy standardowy przebieg Software WebGL: **4/4 PASS**.
+Nie zmieniano w tych powtórkach logiki gry i nie zaliczano awarii środowiska jako PASS.
+
+### Co dalej
+
+Kontrolery usuwają wskazane blokady H-V03/H-A05/H-N03/H-P06. Ukończenie wszystkich
+zdefiniowanych rozdziałów/projektów dostarcza 2900 praktyki. Przy założeniu wszystkich
+30 egzaminów i 40 badań katalogowy budżet bez prób rasowych wynosi 12 400;
+brakuje 5400 do wymaganych 17 800. Nie obowiązują już wcześniejsze pułapy wynikające
+z braku kontrolerów. Nadal brakuje 48 prób / 144 stopni, stopni dziedzin,
+normalnych odblokowań 12 wariantów i 4 modułów, tytułów za próby III oraz późnych
+wariantów starć. Pełna kampania na produkcyjnym koncie, balanse/czas rozwoju,
+fizyczne telefony i odbiór wszystkich finałów w Phaserze pozostają do sprawdzenia.
+
+
+## Korekta zasobów wyposażenia — zgodność z zleceniem
+
+Kontrola po `a547cc8b` wykryła błąd mojej wcześniejszej implementacji: zachowanie
+**procentu** HP/KI zapobiegało powtarzalnemu odzyskiwaniu po pełnym cyklu zmiany,
+lecz samo założenie przedmiotu podnosiło bieżący zasób wraz z maksimum. To było
+niezgodne z §3.1 niezmienionego zlecenia właściciela:
+
+> Przy spadku maksimum jedynie ogranicz aktualny zasób do nowego maksimum;
+> wzrost maksimum nie podnosi aktualnego zasobu.
+
+Ta sekcja koryguje wcześniejsze deklaracje o proporcjach w partiach 1 i 2; nie
+zmienia historii tych commitów. Nowe testy odtwarzają **24 FAIL** w czterech rasach:
+HP i KI zranione/pełne, spadek maksimum i ponowne założenie. Poszerzony zestaw
+z wcześniej istniejącymi testami: **36 FAIL / 33 PASS** przed korektą.
+[24 przypadki](qa/resource-policy/before-24.txt),
+[pełna reprodukcja](qa/resource-policy/before-expanded.txt).
+
+Implementacja stosuje wyłącznie `min(bieżący zasób, nowe maksimum)` zarówno przy
+zwykłej zmianie sprzętu, jak i transakcyjnej zmianie osobistej broni. Nie skaluje
+bieżącego zasobu, nie odnawia HP/KI ani nie resetuje kitu i jego cooldownów.
+Istniejące testy sprawdzają teraz dokładną bieżącą wartość z wymagania, zamiast
+niewłaściwie przyjętej proporcji. Nie zmieniono kanonicznych statystyk ani procentów
+przedmiotów. Wyników tej korekty nie należy utożsamiać z odbiorem całego rozwoju.
+
+Dla wcześniejszego commita `a547cc8bc4dee279d05d3004b42d0012e6463894` pełna
+[bramka GitHub Actions](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41617618111)
+zakończyła się sukcesem. Nie jest to dowód zgodności z wymaganiem, którego wtedy
+nie sprawdzał test — dlatego dodano powyższe regresje.
+
+
+Po korekcie celowany zestaw: **69 PASS / 0 FAIL**
+([wynik](qa/resource-policy/targeted-after.txt)). Pełne `npm test`:
+**1167 PASS / 0 FAIL / 10 SKIP**, 100 plików zaliczonych, jeden pominięty.
+Pominięcia dotyczą testowej bazy PostgreSQL, bez dodatkowej infrastruktury.
+[Log jednostkowych](qa/resource-policy/unit-tests.txt),
+[TypeScript — trzy konfiguracje](qa/resource-policy/typecheck.txt),
+[lint — 0 błędów / 15 wcześniejszych ostrzeżeń](qa/resource-policy/lint.txt),
+[build](qa/resource-policy/build.txt). Nie zmieniono zasobów względem zaliczonej
+kontroli `assets:check` z partii 2. Metadane testowanego kodu:
+[sumy źródeł i polecenia](qa/resource-policy/verification.json).
+
+
+Końcowy Playwright na kodzie z korektą zasobów: **8 PASS / 0 FAIL**:
+
+- Cztery pełne pierwsze rozdziały/projekty osobistych dziedzictw Canvas, po jednym
+  na rasę, z prawdziwym prologiem, odbiorem nagród, założeniem osobistej broni,
+  odczytem wybranej decyzji w kronice i reloadem. Bez wstrzykiwania postępu.
+  [Log](qa/resource-policy/first-chapters-canvas.txt).
+- Cztery dotykowe wejścia do kroniki nowych postaci Software WebGL z rzeczywistym
+  sprawdzeniem renderera oraz braku nieodkrytej historii.
+  [Log](qa/resource-policy/chronicle-webgl.txt).
+- Brak `pageerror` w tych scenariuszach. To lokalny Phaser i emulacja dotyku,
+  nie fizyczny Android/iOS ani odbiór całej kampanii lub kont produkcyjnych.
+
+Oryginalne screenshoty odkrytej kroniki:
+[Planetarni](qa/resource-policy/planetary-earned-chronicle.png),
+[Mędrcy](qa/resource-policy/sage-earned-chronicle.png),
+[Androidy](qa/resource-policy/android-earned-chronicle.png),
+[Legendy](qa/resource-policy/legend-earned-chronicle.png).
+W tym samym katalogu są obrazy założonej broni i nowych kronik w WebGL.
+Starszy dodatkowy przebieg Mędrca/Androida/Legendy, sprzed korekty HP/KI,
+miał 3 PASS i pozostaje [oddzielnym dowodem](qa/resource-policy/other-first-chapters-before-correction.txt).
+Nie doliczamy go do ośmiu końcowych scenariuszy.
+
+Pozostały zakres pełnego zlecenia jest niezmieniony: próby rasowe i stopnie dziedzin,
+odblokowania, tytuły, późne warianty starć, pełny graf i odbiór legalnego balansu.
+Ta partia nie scala PR #90 i nie zmienia produkcji.
+
 ## Potwory anime: 30 z 40
 
 ### 5. Kolejne pięć potworów
@@ -92,6 +543,265 @@ pikseli). Zostaje 5 potworów: świetlik pieczęci, pająk spawalniczy, rój nan
 skrytobójca.
 
 
+## Integracja nowszego main z gałęzią domykania rozwoju
+
+Po wysłaniu `f9e1d5b5` sprawdzono zdalny `main`, który w międzyczasie przeszedł
+z `13983467` do `e02c87b5ea9ad654f17d450464d13c36083f058b`. Zawiera cudze prace:
+35/40 potworów anime i poprawkę `revision/seq` ramek serwera z PR #91 oraz
+`fix/frame-order`. Nie przypisujemy ich autorstwa tej gałęzi.
+
+Wykonano `git merge --no-commit --no-ff e02c87b5ea9ad654f17d450464d13c36083f058b`
+**do gałęzi `feature/complete-character-development`**, żeby nie utracić tych zmian
+przy późniejszym odbiorze PR #90. Nie scalono PR do `main`, nie przepisano historii,
+nie zmieniono gałęzi innych wykonawców i nie opublikowano gry.
+
+Jedyny konflikt był w niniejszym dzienniku. Zachowano pełną treść obu wkładów;
+47 pozostałych plików nowszego `main` ma identyczne bajty
+([wykaz i sumy](qa/main-integration/preserved-upstream.json)). Nie zmieniano nowych
+atlasów, skryptu importu ani poprawki ramek. Ponownie wykonywane kontrole
+połączonego kodu identyfikuje [manifest](qa/main-integration/verification.json).
+
+
+Kontrole po integracji: TypeScript (trzy konfiguracje), lint (0 błędów,
+15 wcześniejszych ostrzeżeń), build oraz kontrakt zasobów zaliczone. Software
+WebGL nowych kronik czterech ras: **4 PASS / 0 FAIL**, bez błędów `pageerror`.
+Wcześniejsze rzeczywiste pierwsze rozdziały czterech ras Canvas pozostają dowodem
+na `f9e1d5b5`; po integracji nowszych atlasów wykonano osobno powyższy WebGL.
+Nie deklarujemy ponownego przejścia wszystkich rozdziałów w przeglądarce po merge.
+
+Kontrola środowiska po `git merge` ujawniła ponowne pominięcie źródeł poza zakresem
+lokalnego sparse checkout: pięciu śledzonych plików `deliveries/` (31 077 049 bajtów) oraz
+136 plików `art/production/development/v001/` (71 205 040 bajtów).
+Pierwsza kontrola dokumentacji miała brak lokalnego archiwum, a pierwsze pełne
+jednostkowe: **2 FAIL / 1167 PASS / 10 SKIP** w testach pochodzenia grafik/audio.
+To rzeczywiście niezaliczone próby, zachowane w
+[logu dokumentacji](qa/main-integration/documentation-before-restore.txt) i
+[logu jednostkowych](qa/main-integration/unit-before-restore.txt).
+
+Odtworzono tylko brakujące pliki, bezpośrednio z ich bieżących blobów indeksu Git;
+nie nadpisano istniejących plików i nie zmieniono kodu, źródeł ani manifestów.
+Nie pobierano modeli ani nie korzystano z GPU. Po przywróceniu: kontrola dokumentacji
+PASS, pochodzenie grafik/audio **4/4 PASS**
+([log](qa/main-integration/provenance-after-restore.txt)). Pełną regresję powtórzono
+oddzielnie; wynik zostaje zapisany poniżej. Baza produkcyjna nie była używana.
+
+CI dla `f9e1d5b5428eab9968622a059e8f98606c913a75`:
+[SUCCESS](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41619749800).
+To wynik przed niniejszą integracją, a nie wynik przyszłego commita merge.
+
+
+Pełna regresja po przywróceniu źródeł: **1169 PASS / 0 FAIL / 10 SKIP**,
+100 plików zaliczonych / 1 pominięty. Przyrost dwóch testów pochodzi z przejętej
+poprawki ramek, a nie z nowej mechaniki rozwoju. Brakująca testowa baza PostgreSQL
+jest powodem 10 SKIP. [Końcowy log](qa/main-integration/unit-tests.txt).
+Pozostałe logi: [typy](qa/main-integration/typecheck.txt),
+[lint](qa/main-integration/lint.txt), [build](qa/main-integration/build.txt),
+[zasoby](qa/main-integration/assets.txt), [dokumentacja](qa/main-integration/documentation.txt),
+[Software WebGL](qa/main-integration/chronicle-webgl.txt).
+Wyniki odnoszą się do źródeł o sumach w manifeście połączonych rodziców
+`f9e1d5b5` + `e02c87b5`; commit merge powstaje dopiero po tych kontrolach.
+Stan niewdrożonych prób, dziedzin, odblokowań i późnych starć pozostaje otwarty.
+
+
+## Próby rasowe — pierwsze 12 kontrolerów i 36 stopni
+
+Kontynuacja `feature/complete-character-development`, PR #90, po `c19207a9`.
+Zakres to trzy próby w każdej z czterech dziedzin, nie komplet całego zlecenia:
+
+| Rasa / dziedzina | Próby | Działanie |
+| --- | --- | --- |
+| Planetarni / Pamięć Korzeni | TV10–12 | Kolejność motywów, dopasowanie śladów do osad i rozpoznanie sprzeczności w jawnych materiałach ćwiczebnych |
+| Mędrcy / Pieczęcie | TA01–03 | Klucz symboli, zmienione elementy kopii, zależności aktywacji; TA03 dopuszcza jedną pomyłkę |
+| Androidy / Konstrukcja | TN07–09 | Obwód, diagnoza pomiarów oraz dobór unikalnych modułów do 2/3/3 gniazd i budżetów 6/8/10 |
+| Legendy / Pojedynek | TP07–09 | Faktyczny unik zapowiedzi i cios w oknie kontry, powstrzymanie ciosu i poddanie, pozycja → trafienie → odwrót |
+
+### Mechanika i trwałość
+
+- Każda próba ma trzy stopnie z wymaganym niższym stopniem i jednorazową praktyką
+  100/150/200. Powtórka zaliczonego stopnia nie dodaje nagrody ani nie obniża wyniku.
+- Trzy próby na tym samym stopniu dają stopień dziedziny. II Pieczęci odblokowuje
+  `ma-seal`, II Konstrukcji `mn-barrier` i `mn-shield`, II Pojedynku `mp-cuts`.
+  Odkrycie nie uczy kanonicznego węzła i nie zakłada wariantu automatycznie.
+- Wspólna sala `loanSession` zachowuje dotychczasową geometrię egzaminów.
+  Używa rzeczywistego GameSession, nawigacji, hitów kitów i istniejącego RestraintActivity.
+  Wypożyczony profil poziomu 20 ma tylko R, bez sprzętu/mikstur; nie ma writer portu,
+  XP ani łupów. Oryginalna postać, jej pozycja i cooldowny są zachowane.
+- Przeglądarka wysyła intencje. Gotowość, pauza, odpowiedź, ruch i zatwierdzenie są
+  przypisane do konkretnej instancji. Nie przyjmuje się wyniku, postępu ani czasu od klienta.
+  Ready blokuje zegar podczas pobierania zasobów; suspend/resume blokuje czas sali.
+  Interfejs rozróżnia pauzę HUD, obrotu telefonu, fokusu, ukrytej karty i ładowania.
+- Sala ma obecny ekran ładowania Phaser, obsługę błędu/powtórki i ręczne wyjście.
+  Dotychczasowe globalne sterowanie, HUD, geometria i kanoniczne statystyki nie zmieniły się.
+  Wykorzystano istniejące zasoby; nie generowano nowych grafik i nie używano GPU.
+- Development v3 dodaje wyniki i kontrolę receipts. Migracje v1/v2 zachowują postęp.
+  Writer klasyczny 10 i Superior 6 chronią nowy zapis przed starszym klientem,
+  zachowując kopie przed migracją, CAS i odrzucanie nieznanych przyszłych pól/wersji.
+  Nie ma migracji SQL ani zmian produkcyjnej konfiguracji.
+- `scripts/playtest-entry.tsx` importuje rzeczywisty LegacyIndex: nowa integracja
+  jest wspólna z trasą aplikacji, nie została dodana wyłącznie do demonstratora.
+
+### Przerwanie środowiska i wyniki wznowienia
+
+Dwie awarie exec-server przerwały poprzednie próby. Lokalny WIP odzyskano w całości;
+notatkę wznowienia wcześniej zapisano w opisie PR #90. Nie ogłoszono pushu ani PASS
+niewykonanych kontroli. Tymczasowe logi `/tmp` utracono; ponowione logi są teraz
+zachowywane w `/workspace`, a wyniki po kontroli trafiają do QA w tym dzienniku.
+Nie ustalono przyczyny awarii. Po odzyskaniu cgroup miał limit 8 GiB i liczniki OOM 0.
+Ciężkie kontrole wznowiono z limitem sterty Node 3 GiB, bez równoległego serwera podglądu.
+
+Potwierdzone przed przygotowaniem checkpointu:
+
+- Pełny TypeScript (trzy konfiguracje) PASS po poprawieniu opcjonalnego onRetry.
+- Celowany zestaw rozwoju, dziedzictw i prób: 120/120 PASS.
+- Kontrolery, transakcje, intencje serwera czterech ras i mirror: 57/57 PASS.
+  Te zestawy się pokrywają; nie sumujemy ich jako unikalnej liczby przypadków.
+- Nowe testy obejmują 36 stopni, ruch/trafienia, błędne/stare/zdalne odpowiedzi,
+  budżety modułów, brak zaliczenia AFK, stopnie w kolejności, receipts,
+  powtórki, fałszywy wynik i instancję, awarię zapisu i konflikt dwóch kart,
+  migrację, pauzę serwera, reload i brak przenoszenia zasobów profilu.
+- Screenshoty i odbiór przeglądarkowy tej nowej partii nie są jeszcze zaliczone
+  w pierwszym checkpoincie; pozostają obowiązkowe przed uznaniem partii za odebraną.
+
+### Pozostały zakres
+
+Pozostało 36 prób / 108 stopni, dziewięć odblokowań wariantów, trzech modułów,
+interakcje dziedzin w świecie poza próbami i końcowe tytuły. Nie dodano 32 późnych
+wariantów starć. Ta część daje 1350 praktyki na rasę: przy hipotetycznym wykonaniu
+wszystkich 30 egzaminów i 40 badań budżet katalogowy wynosi 13 750, wciąż o 4050
+mniej niż wymagane 17 800. Nie ogłasza się pełnej osiągalności/balansu kampanii.
+Nie scalono PR i nie opublikowano gry.
+
+### Kontrole checkpointu prób
+
+- `NODE_OPTIONS=--max-old-space-size=3072 npm test`: **1226 PASS / 0 FAIL / 10 SKIP**,
+  104 pliki zaliczone, jeden pominięty. Dziesięć przypadków PostgreSQL wymaga
+  osobnej bazy QA (`accounts-service`, `world-overrides`); nie uruchamiano produkcyjnej bazy.
+- Pierwsze pełne uruchomienie miało 11 FAIL: stare asercje nadal oczekiwały writerów
+  9/5 zamiast nowych 10/6. Zaktualizowano wyłącznie kontrakt wersji, zachowując
+  kontrole danych i kopii. Fixture integracyjny dawnych zapisów używa teraz
+  rzeczywistego development v2 bez pola trials. Ponowienie całego zestawu jest zielone.
+- `NODE_OPTIONS=--max-old-space-size=3072 npm run typecheck`: **PASS**, aplikacja/e2e/tools.
+- `NODE_OPTIONS=--max-old-space-size=3072 npm run build`: **PASS**.
+- [Pełne wyniki](qa/racial-trials/unit-final.log),
+  [pierwotne niezgodne asercje](qa/racial-trials/unit-full.log),
+  [TypeScript](qa/racial-trials/types-checkpoint.log),
+  [build](qa/racial-trials/build.log).
+- Nowy `e2e/racial-trials.spec.ts` przechodzi przez rzeczywisty ekran rozwoju
+  i wypożyczoną salę oraz czyta widoczne wskazówki. W chwili checkpointu pozostaje
+  **NIEWYKONANY**; nie stanowi jeszcze dowodu odbioru przeglądarkowego.
+
+- `npm run lint`: **PASS**, 0 błędów / 15 wcześniejszych ostrzeżeń;
+  `npm run assets:check`: **PASS**. [Lint](qa/racial-trials/lint-final.log),
+  [zasoby](qa/racial-trials/assets.log), [sumy źródeł checkpointu](qa/racial-trials/checkpoint-sources.json).
+
+### Odbiór przeglądarkowy — odtworzona przeszkoda interfejsu
+
+Checkpoint implementacyjny `653116d71f2b731b7f2baf488088728353c0039e` jest na GitHubie.
+[GitHub Actions 41634475944](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41634475944)
+ma **SUCCESS** na tym SHA (typecheck, jednostkowe/integracje, lint, zasoby, docs, build).
+
+Pierwszą próbę Planetarnych przerwano po wykryciu błędnego selektora testu:
+zakładka ma rolę `tab`, a scenariusz szukał `button`. Nie uznano tego za błąd gry.
+Poprawiono także odczyt testowy na rzeczywisty `practiceEarned` i pola wyposażenia.
+[Zapis przerwania](qa/racial-trials/canvas-first.log).
+
+Następna seria Canvas: **3 PASS / 1 FAIL**. Planetarni TV10, Mędrcy TA01 i Androidy
+TN08 rzeczywiście ukończyli próbę I, dostali +100 praktyki i zachowali wynik po reload.
+Legendy TP08: brak ciosu w pierwszym oknie 4 s. Odtworzenie z ograniczeniem czasu
+kliknięcia pokazało przyczynę: `.ki-exam-toolbar` przechwytywał pointer events nad
+przyciskiem R. Screenshot sprzed ataku oraz log zawierają ten fakt — nie omijano
+interfejsu przez force-click ani sterowanie stanem.
+[Seria](qa/racial-trials/canvas-2.log), [diagnoza kliknięcia](qa/racial-trials/legend-diag.log).
+
+Poprawka dotyczy tylko nowego paska sali prób: nad środkową częścią świata, z osobnym
+wariantem niskiego ekranu; tekst przepuszcza dotyk/kliknięcia, aktywne pozostają jego
+przyciski. Nie przesunięto HUD-u, joysticka ani przycisków walki. Nie osłabiono czasu
+okien, limitów błędów, wymaganych trafień ani asercji zaliczenia.
+
+Celowane ponowienie: **2 PASS / 0 FAIL**, Legendy TP08 oraz Androidy z prawdziwymi
+zdarzeniami dotykowymi Chromium: wybór w pionie 390×844, gra 852×393, ponowny obrót
+podczas próby, nawigacja dotykiem, moduły, +100 praktyki i reload.
+[Log ponowienia](qa/racial-trials/fixed-smoke.log). To emulacja, nie fizyczny Android/iOS.
+Końcowa pełna seria nowego pliku w Canvas i Software WebGL trwa; jej wyniku nie
+zastępują powyższe częściowe rezultaty. Pełnego zestawu wszystkich e2e nie wykonano.
+
+### Końcowa seria nowych prób — 10/10
+
+`KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4174 npx playwright test e2e/racial-trials.spec.ts --project=gameplay --project=software-webgl --output=/workspace/ki-trials-final --reporter=list --trace=off`
+
+**10 PASS / 0 FAIL / 0 SKIP**, 9,2 min. Po pięć scenariuszy Canvas i Software WebGL:
+cztery rasy TV10/TA01/TN08/TP08 oraz Androidy dotykiem. Cztery scenariusze rasowe
+w każdym projekcie jawnie sprawdzają rzeczywisty renderer przez metrics; sama nazwa
+projektu nie jest dowodem. Testy czytają jedynie widoczne wskazówki i zapis;
+nie zmieniają localStorage ani stanu sesji, nie używają force-click.
+
+- Wszystkie rasy: wejście u trenera, instrukcja, uruchomienie sali, wykonanie próby I,
+  +100 praktyki, grade=1, zachowane HP/KI/XP/złoto, osiem slotów, torba, przedmioty,
+  materiały, depozyt, umiejętności, rasa i kontynent, potem reload z tym samym wynikiem.
+- TV10/TA01: fizyczne stanowiska i odpowiedzi z jawnych materiałów.
+  TN08: prawdziwe kontrolki modułów i budżet. TP08: trzy rzeczywiste ciosy w kolejnych
+  dozwolonych oknach, brak ciosów w STOP i po poddaniu, bez zmiany reguł próby.
+- Dotyk: pion 390×844, poziom 852×393, osłona obrotu również w sali,
+  nawigacja dotykowa, kontrolki modułów, nagroda i odświeżenie. Brak poziomego overflow.
+- Wszystkie scenariusze: **0 pageerror**. To nie jest odsłuch audio, test fizycznego
+  telefonu, sprzętowego WebGL ani benchmark FPS. Czas całego e2e obejmuje start i reload,
+  więc nie jest pomiarem czasu ładowania. Software WebGL jest tu renderowane na CPU.
+- Stopnie II/III i pozostałe osiem prób są sprawdzone kontrolerami/symulacją serwera,
+  nie pełnym przejściem UI wszystkich 36 stopni. Powtórki bez nagrody i awarie zapisu
+  sprawdzają testy transakcyjne. Przeglądarka używa lokalnego harnessu rzeczywistej trasy;
+  nie testowano wdrożenia tej partii ani sesji produkcyjnego WebSocket/PostgreSQL.
+
+[Log całej serii](qa/racial-trials/browser-final.log),
+[sumy przetestowanych źródeł](qa/racial-trials/browser-sources.json),
+[indeks screenshotów z SHA-256](qa/racial-trials/screenshots.json).
+Przykłady: [Planetarni — materiały](qa/racial-trials/browser-final/racial-trials-Planetarni-r-b46e5--one-time-reward-and-reload-gameplay/verdant-trial-materials.png),
+[Legendy — dostępny atak po poprawce](qa/racial-trials/browser-final/racial-trials-Legendy-real-TP08-one-time-reward-and-reload-gameplay/pyra-trial-before-attack.png),
+[Legendy — zaliczenie](qa/racial-trials/browser-final/racial-trials-Legendy-real-TP08-one-time-reward-and-reload-gameplay/pyra-trial-passed.png).
+Trace był jawnie wyłączony (`--trace=off`) ze względu na ograniczony dysk;
+pozostają logi i screenshoty, w tym odtworzone niepowodzenie.
+
+### Regresja wcześniejszego egzaminu i sterowania
+
+`KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4174 npx playwright test e2e/development.spec.ts --project=gameplay --grep 'endurance route: Planetarni|portrait selection, landscape training and simultaneous' --output=/workspace/ki-trials-exam-regression --reporter=list --trace=off`
+
+**2 PASS / 0 FAIL / 0 SKIP**, Canvas, 40,9 s. Starszy egzamin wytrzymałości
+Planetarnych wymaga rzeczywistego przejścia czterech punktów; zatwierdzenie ćwiczebne
+nie zmienia bajtów zapisu właściciela. Drugi przypadek używa równoczesnych dwóch
+palców CDP na joysticku i ataku, wykrywa realny ruch i trafienie zwykłym atakiem, wraca do postaci.
+Po dodaniu współdzielonej `loanSession` i nowego paska sala starego egzaminu działa.
+Nie zmieniano tego scenariusza, jego asercji ani sterowania, aby uzyskać PASS.
+[Log regresji](qa/racial-trials/exam-regression.log).
+
+Łącznie bieżący odbiór przeglądarkowy: **12 PASS / 0 FAIL / 0 SKIP** (10 nowych + 2 regresje).
+Pełny katalog e2e projektu pozostaje **NIEWYKONANY**; zakres filtrowania jest jawny.
+Nie sprawdzono fizycznego telefonu, sprzętowego WebGL, audio ani produkcyjnego wdrożenia.
+
+### Końcowe kontrole przed zapisem poprawki i dowodów
+
+Po zakończeniu przeglądarek zatrzymano wyłącznie lokalny Vite (bez kontaktu z GPU).
+Na niezmienionych od odbioru przeglądarkowego źródłach ponowiono kolejno:
+
+| Kontrola | Wynik |
+| --- | --- |
+| `NODE_OPTIONS=--max-old-space-size=3072 npm run typecheck` | PASS, wszystkie trzy konfiguracje |
+| `NODE_OPTIONS=--max-old-space-size=3072 npm test` | 1226 PASS / 0 FAIL / 10 SKIP |
+| `NODE_OPTIONS=--max-old-space-size=3072 npm run lint` | PASS, 0 błędów / 15 wcześniejszych ostrzeżeń |
+| `NODE_OPTIONS=--max-old-space-size=3072 npm run assets:check` | PASS |
+| `NODE_OPTIONS=--max-old-space-size=3072 npm run build` | PASS |
+
+[Polecenia, kody wyjścia i czasy](qa/racial-trials/release-checks.json),
+[pełny końcowy zestaw jednostkowy](qa/racial-trials/release-unit.log),
+[końcowy TypeScript](qa/racial-trials/release-typecheck.log),
+[końcowy build](qa/racial-trials/release-build.log).
+JSDOM nadal loguje brak implementacji HTMLMediaElement.play; nie jest to test odsłuchu.
+Dziesięć przypadków PostgreSQL pozostaje pominiętych bez bazy QA.
+Kontrola dokumentów była zielona po dodaniu screenshotów; uruchamiana ponownie po tej adnotacji.
+Bieżący `main` sprawdzony przez GitHub pozostaje `e02c87b5ea9ad654f17d450464d13c36083f058b`.
+Nie scalano i nie publikowano. Dalsze wdrożenie wymaga zgodnego wydania klienta i serwera.
+
+Nowa uwaga właściciela „Jest zadanie na próbę” wymaga wskazania konkretnego zadania/NPC:
+w katalogu jest kilka różnych prób fabularnych, które nie muszą być próbami rasowymi.
+Nie podpinano ich automatycznie ani nie zmieniano warunków questów na podstawie niejednoznacznego opisu.
 ## Próba malowanej Verdantii — gałąź podglądowa
 
 Gałąź: `preview/verdantia-painted-terrain`, baza `e02c87b5ea9ad654f17d450464d13c36083f058b`.
@@ -332,6 +1042,160 @@ Dodano `?ki-painted=1`: włącza naraz paczki Verdantii (teren i budynki z liśc
 Flagi pojedynczych miast (`ki-verdant-painted`, `ki-aether-painted`, `ki-nexus-painted`, `ki-pyra-painted`)
 nadal działają. Bez flagi gra wygląda jak dotychczas; paczki pozostają `previewOnly`.
 Test: `src/test/painted-flag.test.ts`. Nie mierzono FPS ani pamięci na telefonie.
+
+## Wznowienie rozwoju — integracja main
+
+Na polecenie właściciela wznowiono PR #90. Do gałęzi rozwoju połączono
+`origin/main@4ecba945`; zachowano integrację wszystkich miast i flagę `ki-painted`.
+Konflikty INDEX/dziennika rozwiązano zachowując obie treści, w Playwright zachowano
+obie listy prób rasowych, kroniki i testów grafiki. Nie scalano do main ani nie publikowano.
+`npm run typecheck`: PASS. Pełne `npm test`: 1227 PASS, 2 FAIL, 10 SKIP;
+oba błędy dotyczyły niewypakowanego przez sparse checkout `art/production/development`.
+Po odtworzeniu źródeł z Git `npx vitest run src/test/development-etap1-assets.test.ts`:
+4 PASS. Kontrola dokumentacji PASS. To rozliczenie pełnej serii i celowanej powtórki,
+nie deklaracja drugiego pełnego zielonego uruchomienia.
+Logi: [pełna seria](qa/development-continuation/development-merge-tests.log),
+[typy](qa/development-continuation/development-merge-types.log),
+[ponowienie zasobów](qa/development-continuation/development-merge-assets-retry.log).
+
+## Żywa Ziemia — TV04, TV05, TV06
+
+Kontynuacja PR #90 po integracji `main@4ecba945` w `01225e9c`.
+Dodano trzy próby / dziewięć stopni według źródła właściciela z 28.10:
+TV04 naprawa 2/3/4 węzłów w odczytanej kolejności, TV05 osobno 4/6/8
+unikniętych zapowiedzi i 2/3/4 kontry, TV06 oznaczenie i oczyszczenie 3/4/5
+skażonych miejsc bez naruszania zdrowych. Stanowiska TV04/TV06 są interakcjami
+sali i jawnymi pomiarami — nie jest to jeszcze system skażenia na kontynencie.
+
+Zapis, nagrody i walidacja są podłączone do istniejących transakcji `GameSession`
+i intentów serwera. Wyniki nie wyciekają z wypożyczonego profilu do HP/KI/XP
+postaci. Stopień II całej Żywej Ziemi odblokowuje istniejący `mv-earth`.
+Panel wyświetla każdą dziedzinę osobno; toolbar TV05 pokazuje otrzymane trafienia
+bez sugerowania nieistniejącego limitu 0. Nie zmieniano kanonu parametrów,
+HUD-u głównej gry, joysticka, przypisań ani formatów zapisu.
+
+Katalog: 15/48 prób, 45/144 stopni. Pozostało 33/99, osiem wariantów i trzy moduły,
+interakcje dziedzin poza salami, późne starcia, tytuły i pełny odbiór kampanii.
+Planetarni mają 2700 praktyki z sześciu prób; pozostałe rasy po 1350 z trzech.
+Budżet katalogowy nadal nie zamyka wymaganych 17 800; niedobór Planetarnych
+wynosi 2700, innych ras 4050 przy wcześniejszych założeniach badań/egzaminów.
+
+### Kontrole i odtworzone przeszkody
+
+- Pełne `NODE_OPTIONS=--max-old-space-size=2048 npm test`: **1242 PASS / 0 FAIL / 10 SKIP**, 106 plików PASS i jeden SKIP. Pominięte przypadki wymagają osobnej bazy QA; nie używano produkcji.
+- Nowe i powiązane testy kontrolerów, transakcji i serwera: **70 PASS**. Pierwsza seria miała 3 FAIL: robot testowy po kolejnych unikach szedł stale na południe poza salę. Poprawiono wybór osiągalnego kierunku robota, bez zmiany limitów próby i asercji.
+- Pierwszy odbiór TV04/TV06 w przeglądarce: **2 Canvas PASS / 2 Software WebGL FAIL**. Błędy były timeoutami kliknięć w menu przed rozpoczęciem próby; zachowano logi.
+- Wspólny wybór binarnego Chromium był nadpisywany przez projekt Software WebGL w `playwright.config.ts`. Teraz każdy projekt zachowuje ten sam zweryfikowany executable. Nadal wymaga się rzeczywistego WebGL w metrics; nie poluzowano asercji.
+- Pierwszy TV05 Canvas FAIL: test klikał w pobliżu manekina, co wybierało cel zamiast ruszać postać. Podejście zmieniono na rzeczywiste klawisze W/S, bez force-click i wstrzykiwania stanu.
+- `npm run lint`: 0 błędów, 15 wcześniejszych ostrzeżeń. `npm run assets:check`: PASS.
+- Pierwszy `npm run build`: FAIL `ENOSPC` przy kopiowaniu zasobów. Usunięto wyłącznie nieudany, ignorowany `.output` tego uruchomienia. Wynik ponowienia skierowano symlinkiem `.output` do `/tmp/ki-development-build-output` na odrębnym wolnym filesystemie. `npm run build`: PASS. To lokalny, nietrwały output, nie kopia zasobów źródłowych ani wdrożenie. Nie zmieniano konfiguracji builda/hostingu.
+
+Logi i zrzuty tej partii są w [QA kontynuacji](qa/development-continuation/).
+Pełny zestaw wszystkich e2e, fizyczny Android/iOS i produkcyjny WebSocket/PostgreSQL:
+NIEWYKONANE. Nie scalano do main, nie publikowano i nie dotykano GPU.
+
+W TV05 podejście W/S również nie dało zaliczenia scenariusza. Kod silnika
+blokuje klawisze przy fokusie przycisku, ale tej konkretnej przyczyny nie potwierdzono odczytem fokusu w nieudanej próbie.
+Zachowano tę próbę w logu; nie zmieniono kontroli fokusu gry. Scenariusz używa
+ostatecznie normalnego kliknięcia osiągalnego gruntu (600,390), poza promieniem
+45 j. wyboru manekina (600,315), a w zasięgu zwykłego ciosu. Sprawdza dojście
+z tolerancją 20 j., potem rzeczywiste trafienie — bez force-click i mutacji sesji.
+
+### Końcowy odbiór tej partii
+
+Zaliczono **6 unikalnych scenariuszy**: TV04, TV05 i TV06 na I stopniu,
+każdy w Canvas i Software WebGL. Pozytywne wyniki pochodzą z kolejnych uruchomień:
+TV04/TV06 Canvas i TV04 WebGL z serii `browser-final`, TV05 Canvas z
+`rhythm-fixed`, TV05/TV06 WebGL z `webgl-release`. To nie deklaracja jednej
+zielonej serii 6/6. W `browser-final` były także 1 FAIL, 1 INTERRUPTED i 1 NOT RUN:
+przerwano znaną błędną wersję scenariusza TV05 przed ponowieniem poprawionego.
+Każdy pozytywny przypadek wymaga rzeczywistego renderera, ukończenia działań,
++100 praktyki, zachowania własnych zasobów i wyniku po reload; `pageerror` = 0.
+II/III stopnie są sprawdzone testami kontrolerów/transakcji, nie całym przejściem UI.
+Nowych prób nie testowano na fizycznym telefonie ani dotykiem; nie podmieniano
+sterowania na potrzeby testu. Build na końcowych źródłach UI ponowiono: PASS.
+Przed commitem ponowiono pełny TypeScript. Logi, niepowodzenia, screenshoty
+oraz sumy SHA-256 końcowych źródeł zapisano w QA tej partii.
+Publikacja wymaga zgodnego wydania klienta i serwera; tej partii nie wdrażano.
+
+
+## Szlaki — TV01, TV02, TV03
+
+Kontynuacja tej samej gałęzi PR #90 od `f26d3adb`. Dodano trzy próby / dziewięć
+stopni według specyfikacji właściciela z 28.10: TV01 kolejna trasa 4/6/8 punktów
+w 180/210/240 aktywnych sekund z najwyżej dwoma wejściami w zagrożenie;
+TV02 rozpoznanie 3/4/5 tropów z 2/3/3 opcji i jedną dozwoloną pomyłką;
+TV03 eskorta przez 2/3/4 punkty z minimum 50% HP posłańca.
+
+Posłaniec używa istniejącego `EscortActivity`, nawigacji sali i animacji NPC.
+Środowiskowy `ProtectedActor` dostaje obrażenia przez wspólne HP/eventy/śmierć,
+bez rejestrowania jako cel potworów. Dotychczasowe eskorty bojowe zachowują
+rejestrację i zabezpieczenie miast. Zagrożenia są tylko w sali; nie dodano
+agresji zwykłych potworów na NPC. Profil ćwiczebny: 100 HP, zapowiedź 1800 ms,
+promień 65 j., 20 obrażeń przy pozostaniu w kręgu, kolejny cykl po 5 s.
+Stanowiska i kolizje kontynentów, HUD, joystick i skróty klawiszowe bez zmian.
+
+Pierwsza seria kontrolerów miała 7 FAIL: rejestracja ciała w bezpiecznej sali
+została słusznie odrzucona przez ochronę NPC, a robot testowy stale ponawiał
+`move`, resetując drogę przy przeszkodzie. Rozwiązania: tryb wyłącznie
+środowiskowy dla posłańca oraz polecenia ruchu robota tylko przy zmianie celu,
+z wracaniem do posłańca, gdy odstęp przekracza 190 j. Nie usunięto osłon sali,
+nie osłabiono progów ani asercji. Zaliczenie eskorty nie następuje od samej
+obecności gracza na końcu ani od upływu czasu. Pierwszy TypeScript wykrył
+odczyty pól DOM przez kropkę w e2e; poprawiono je na zapis indeksowy.
+
+Stopień Szlaków II odblokowuje istniejący `mv-trail`. Nagrody i trwałość idą
+przez wspólne transakcje/serwerowe intenty, z ledgerem 100/150/200 praktyki.
+Walidacja wymaga odblokowania po uzyskaniu rangi. Nie zmieniono mnożników
+wariantu ani formatów zapisu. Katalog ma teraz 18/48 prób i 54/144 stopni;
+pozostaje 30/90, siedem wariantów, trzy moduły i reszta odbioru kampanii.
+Planetarni mają 4050 praktyki z prób; pozostałe rasy po 1350. Nadal pozostaje
+niedobór 1350 do 17 800 w wcześniejszym teoretycznym budżecie Planetarnych.
+
+[Dowody tej partii](qa/trail-trials/). Scenariusze przeglądarkowe używają
+rzeczywistej trasy, widocznych pomiarów/tropów i pozycji posłańca, normalnych
+kliknięć i czasu ruchu; bez mutacji localStorage lub instancji silnika.
+Sprawdzają nagrodę, własne HP/KI/XP/ekwipunek i wynik po odświeżeniu.
+Fizyczny Android/iOS, pełna regresja całego e2e, odsłuch oraz produkcyjna
+sesja WebSocket/PostgreSQL: NIEWYKONANE. Wyższe stopnie są weryfikowane
+kontrolerami i transakcjami, a nie całym przejściem UI każdej trudności.
+Nie scalano do main, nie publikowano i nie używano GPU.
+
+
+### Kontrole partii Szlaków
+
+- `NODE_OPTIONS=--max-old-space-size=2048 npm test`: **1261 PASS / 0 FAIL / 10 SKIP**,
+  107 plików PASS i jeden SKIP. Pominięte przypadki nadal wymagają osobnej PostgreSQL QA.
+- `npx vitest run src/test/trail-trials.test.ts src/test/racial-trials.test.ts src/test/racial-trial-transactions.test.ts src/test/heritage-battle.test.ts`:
+  **89 PASS / 0 FAIL**. Obejmuje wyższe stopnie, błędy, limity, anulowanie,
+  nagrody, reload oraz regresję wcześniejszych eskort bojowych.
+- Po tej pełnej serii dopisano trzy jawne scenariusze serwerowe TV01/TV02/TV03.
+  `npx vitest run src/test/server-racial-trials.test.ts src/test/remote-racial-trial.test.ts`:
+  **9 PASS / 0 FAIL**. Rzeczywiste intenty do `prepareServerSimulation`, brak nagrody
+  przed wynikiem, pojedyncze zatwierdzenie, poprawny snapshot i odtworzenie serwera.
+  Nie powtarzano całego `npm test` tylko z powodu dopisania tych testów;
+  liczba 1261 nie obejmuje trzech dopisanych przypadków i nie jest deklaracją 1264 w jednej serii.
+- Pełny TypeScript aplikacja/e2e/tools: PASS, ponowiony przed commitem po dodaniu testów.
+- Lint: PASS, 0 błędów / 15 wcześniejszych ostrzeżeń. `npm run assets:check`: PASS.
+- `NODE_OPTIONS=--max-old-space-size=3072 npm run build`: PASS; output w
+  `/tmp/ki-development-build-output` przez ignorowany `.output`, jak w poprzedniej partii.
+- Canvas: TV01/TV02/TV03 I **3 PASS / 0 FAIL**. Każdy przypadek jawnie sprawdza renderer,
+  działania, własne zasoby, nagrodę i zachowanie wyniku po reload. `pageerror` = 0.
+- Fizyczny telefon, audio oraz sesja na opublikowanym serwerze: NIEWYKONANE.
+
+Polecenia browser: `KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4174 npx playwright test e2e/racial-trials.spec.ts --project=gameplay --grep 'real TV01|real TV02|real TV03' --output=/workspace/ki-trails-canvas --reporter=list --trace=off`,
+analogicznie `--project=software-webgl --output=/workspace/ki-trails-webgl`.
+Logi pierwszych niepowodzeń, ponowień i pozytywnych wyników zachowano w QA.
+Baza `f26d3adb` plus źródła opisane sumami SHA-256 tej partii.
+
+
+Software WebGL: TV01/TV02/TV03 I **3 PASS / 0 FAIL**, 4,3 min.
+Łącznie z osobną serią Canvas zaliczono sześć scenariuszy nowych prób, po jednym
+na próbę i renderer. Asercje sprawdzają faktyczny renderer przez metrics oraz
+brak błędów JavaScript. Potwierdzono animowanego posłańca, jego zdrowie >=50%,
+zapis nagrody i brak utraty własnych zasobów po odświeżeniu. Nie jest to test
+fizycznego telefonu ani całego katalogu e2e. Wyższe stopnie pozostają pokryte
+kontrolerami i transakcjami. Publikacja wymaga zgodnego klienta i serwera.
 
 ## Admin: zmiany w panelu nie psują postaci
 

@@ -1,0 +1,13 @@
+{
+  "src/game/development/trials/catalog.ts": "27c2f0ba5d2035a40e1879859b6022c76cfcfd751a9333fc61a44927749438b1",
+  "src/game/development/trials/puzzles.ts": "35887c5dcd082c90e2a9d7b044e81bded76749f63542ba3eeaba6a8f76e86254",
+  "src/game/development/trials/attempt.ts": "f3cc31e6bb0af42e8fc7bba5cadb03685b6bb85934728a6ee4553a4d5b9ba1fa",
+  "src/game/development/state.ts": "b471b0349fac4c2d5ade483a768bcd9cebbfc5baea7ab312b8ba675b5ad549ae",
+  "src/game/session.ts": "074f327798862f4517a45bd43e95158b63e19e6634aaff698ed64467d76e539c",
+  "src/components/game/TrialsPanel.tsx": "7035fc40239c40576ca7554855705be736fe1cf10a1d6887b6be5959d514d15c",
+  "src/components/game/TrialRoom.tsx": "bee3669e827d99f221cb073b1677a99dc5fef1fce6f4a37b4e81aa98422c99d2",
+  "e2e/racial-trials.spec.ts": "3cbff30c0a23b4080396aed5bba9287c8d1ba73d6c28e81bdc05338a091e3260",
+  "playwright.config.ts": "ece972f93d9d7d0e85f1ef8ca61ecbaa53aea6dd04de4903091633911898189f",
+  "src/test/earth-trials.test.ts": "a6655c51bd5a42b08e79000798c3c0d3dbe8ed998d82c43962b287537063e256",
+  "src/test/helpers/racialTrials.ts": "b8d4cabed992843f255eeb51facb3642407b22d83d24e724409d97725dcecdca"
+}

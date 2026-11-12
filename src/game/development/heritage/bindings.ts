@@ -54,6 +54,24 @@ export class HeritageBindings {
   resolve(goal: HeritageGoal, world: WorldId): HeritageTarget[] {
     if (goal.world && goal.world !== this.world.id) return [];
     if (world !== this.world.id) return [];
+    if (goal.kind === "projects") {
+      // A prerequisite-only opening still needs a real briefing contact. No goal order or saved index changes.
+      return this.resolve(
+        {
+          id: goal.id + ":briefing",
+          label: "Instruktaż",
+          site: "mentor",
+          documents: [],
+          kind: "talk",
+          speaker: "Przewodnik",
+          existingRole: "guide",
+          targets: ["Przewodnik · instruktaż"],
+          lines: [],
+          responses: [],
+        },
+        world,
+      );
+    }
     const cached = this.cache.get(goal.id);
     if (cached) return cached;
     const role = goal.kind === "talk" ? goal.existingRole : undefined;

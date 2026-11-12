@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "id": "npc-nexus-merchant",
+  "version": "1.2.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "npc-nexus-merchant-page-0",
+      "version": "1.2.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/npc-nexus-merchant/1.2.0-5db9912fa537/npc-nexus-merchant-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-nexus-merchant/1.2.0-5db9912fa537/npc-nexus-merchant-page-0.json",
+      "width": 826,
+      "height": 240
+    }
+  ],
+  "actors": [
+    {
+      "id": "npc-nexus-merchant",
+      "profile": "npc",
+      "presentation": "legacy",
+      "size": [
+        96,
+        96
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "npc-nexus-merchant-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-nexus-merchant/idle/down/00",
+              "npc-nexus-merchant/idle/down/01",
+              "npc-nexus-merchant/idle/down/02",
+              "npc-nexus-merchant/idle/down/03",
+              "npc-nexus-merchant/idle/down/04",
+              "npc-nexus-merchant/idle/down/05",
+              "npc-nexus-merchant/idle/down/06",
+              "npc-nexus-merchant/idle/down/07"
+            ],
+            "down-left": [
+              "npc-nexus-merchant/idle/down-left/00",
+              "npc-nexus-merchant/idle/down-left/01",
+              "npc-nexus-merchant/idle/down-left/02",
+              "npc-nexus-merchant/idle/down-left/03",
+              "npc-nexus-merchant/idle/down-left/04",
+              "npc-nexus-merchant/idle/down-left/05",
+              "npc-nexus-merchant/idle/down-left/06",
+              "npc-nexus-merchant/idle/down-left/07"
+            ],
+            "left": [
+              "npc-nexus-merchant/idle/left/00",
+              "npc-nexus-merchant/idle/left/01",
+              "npc-nexus-merchant/idle/left/02",
+              "npc-nexus-merchant/idle/left/03",
+              "npc-nexus-merchant/idle/left/04",
+              "npc-nexus-merchant/idle/left/05",
+              "npc-nexus-merchant/idle/left/06",
+              "npc-nexus-merchant/idle/left/07"
+            ],
+            "up-left": [
+              "npc-nexus-merchant/idle/up-left/00",
+              "npc-nexus-merchant/idle/up-left/01",
+              "npc-nexus-merchant/idle/up-left/02",
+              "npc-nexus-merchant/idle/up-left/03",
+              "npc-nexus-merchant/idle/up-left/04",
+              "npc-nexus-merchant/idle/up-left/05",
+              "npc-nexus-merchant/idle/up-left/06",
+              "npc-nexus-merchant/idle/up-left/07"
+            ],
+            "up": [
+              "npc-nexus-merchant/idle/up/00",
+              "npc-nexus-merchant/idle/up/01",
+              "npc-nexus-merchant/idle/up/02",
+              "npc-nexus-merchant/idle/up/03",
+              "npc-nexus-merchant/idle/up/04",
+              "npc-nexus-merchant/idle/up/05",
+              "npc-nexus-merchant/idle/up/06",
+              "npc-nexus-merchant/idle/up/07"
+            ],
+            "up-right": [
+              "npc-nexus-merchant/idle/up-right/00",
+              "npc-nexus-merchant/idle/up-right/01",
+              "npc-nexus-merchant/idle/up-right/02",
+              "npc-nexus-merchant/idle/up-right/03",
+              "npc-nexus-merchant/idle/up-right/04",
+              "npc-nexus-merchant/idle/up-right/05",
+              "npc-nexus-merchant/idle/up-right/06",
+              "npc-nexus-merchant/idle/up-right/07"
+            ],
+            "right": [
+              "npc-nexus-merchant/idle/right/00",
+              "npc-nexus-merchant/idle/right/01",
+              "npc-nexus-merchant/idle/right/02",
+              "npc-nexus-merchant/idle/right/03",
+              "npc-nexus-merchant/idle/right/04",
+              "npc-nexus-merchant/idle/right/05",
+              "npc-nexus-merchant/idle/right/06",
+              "npc-nexus-merchant/idle/right/07"
+            ],
+            "down-right": [
+              "npc-nexus-merchant/idle/down-right/00",
+              "npc-nexus-merchant/idle/down-right/01",
+              "npc-nexus-merchant/idle/down-right/02",
+              "npc-nexus-merchant/idle/down-right/03",
+              "npc-nexus-merchant/idle/down-right/04",
+              "npc-nexus-merchant/idle/down-right/05",
+              "npc-nexus-merchant/idle/down-right/06",
+              "npc-nexus-merchant/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "npc-nexus-merchant-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-nexus-merchant/idle/down/00",
+              "npc-nexus-merchant/idle/down/01",
+              "npc-nexus-merchant/idle/down/02",
+              "npc-nexus-merchant/idle/down/03",
+              "npc-nexus-merchant/idle/down/04",
+              "npc-nexus-merchant/idle/down/05",
+              "npc-nexus-merchant/idle/down/06",
+              "npc-nexus-merchant/idle/down/07"
+            ],
+            "down-left": [
+              "npc-nexus-merchant/idle/down-left/00",
+              "npc-nexus-merchant/idle/down-left/01",
+              "npc-nexus-merchant/idle/down-left/02",
+              "npc-nexus-merchant/idle/down-left/03",
+              "npc-nexus-merchant/idle/down-left/04",
+              "npc-nexus-merchant/idle/down-left/05",
+              "npc-nexus-merchant/idle/down-left/06",
+              "npc-nexus-merchant/idle/down-left/07"
+            ],
+            "left": [
+              "npc-nexus-merchant/idle/left/00",
+              "npc-nexus-merchant/idle/left/01",
+              "npc-nexus-merchant/idle/left/02",
+              "npc-nexus-merchant/idle/left/03",
+              "npc-nexus-merchant/idle/left/04",
+              "npc-nexus-merchant/idle/left/05",
+              "npc-nexus-merchant/idle/left/06",
+              "npc-nexus-merchant/idle/left/07"
+            ],
+            "up-left": [
+              "npc-nexus-merchant/idle/up-left/00",
+              "npc-nexus-merchant/idle/up-left/01",
+              "npc-nexus-merchant/idle/up-left/02",
+              "npc-nexus-merchant/idle/up-left/03",
+              "npc-nexus-merchant/idle/up-left/04",
+              "npc-nexus-merchant/idle/up-left/05",
+              "npc-nexus-merchant/idle/up-left/06",
+              "npc-nexus-merchant/idle/up-left/07"
+            ],
+            "up": [
+              "npc-nexus-merchant/idle/up/00",
+              "npc-nexus-merchant/idle/up/01",
+              "npc-nexus-merchant/idle/up/02",
+              "npc-nexus-merchant/idle/up/03",
+              "npc-nexus-merchant/idle/up/04",
+              "npc-nexus-merchant/idle/up/05",
+              "npc-nexus-merchant/idle/up/06",
+              "npc-nexus-merchant/idle/up/07"
+            ],
+            "up-right": [
+              "npc-nexus-merchant/idle/up-right/00",
+              "npc-nexus-merchant/idle/up-right/01",
+              "npc-nexus-merchant/idle/up-right/02",
+              "npc-nexus-merchant/idle/up-right/03",
+              "npc-nexus-merchant/idle/up-right/04",
+              "npc-nexus-merchant/idle/up-right/05",
+              "npc-nexus-merchant/idle/up-right/06",
+              "npc-nexus-merchant/idle/up-right/07"
+            ],
+            "right": [
+              "npc-nexus-merchant/idle/right/00",
+              "npc-nexus-merchant/idle/right/01",
+              "npc-nexus-merchant/idle/right/02",
+              "npc-nexus-merchant/idle/right/03",
+              "npc-nexus-merchant/idle/right/04",
+              "npc-nexus-merchant/idle/right/05",
+              "npc-nexus-merchant/idle/right/06",
+              "npc-nexus-merchant/idle/right/07"
+            ],
+            "down-right": [
+              "npc-nexus-merchant/idle/down-right/00",
+              "npc-nexus-merchant/idle/down-right/01",
+              "npc-nexus-merchant/idle/down-right/02",
+              "npc-nexus-merchant/idle/down-right/03",
+              "npc-nexus-merchant/idle/down-right/04",
+              "npc-nexus-merchant/idle/down-right/05",
+              "npc-nexus-merchant/idle/down-right/06",
+              "npc-nexus-merchant/idle/down-right/07"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "actorBindings": {
+    "nexus.npc.merchant": "npc-nexus-merchant"
+  },
+  "renderBindings": {},
+  "effects": {}
+}

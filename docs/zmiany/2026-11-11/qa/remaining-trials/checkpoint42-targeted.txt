@@ -1,0 +1,9 @@
+
+ RUN  v4.1.12 /workspace/ki-development-integration
+
+
+ Test Files  5 passed (5)
+      Tests  187 passed (187)
+   Start at  17:20:44
+   Duration  4.74s (transform 657ms, setup 272ms, import 1.26s, tests 1.42s, environment 1.25s)
+

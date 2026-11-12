@@ -1,0 +1,6082 @@
+{
+  "reason": "Agent interrupted browser test after source HMR invalidated the open development modal; no gameplay PASS inferred. Resources/screencasts from this interrupted run were removed to recover disk space.",
+  "calls": [
+    {
+      "type": "before",
+      "callId": "hiaj@48",
+      "method": "newPage"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@48"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@53",
+      "method": "goto"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@53",
+      "message": "navigating to \"http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1\", waiting until \"load\""
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@53"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@55",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@55",
+      "message": "waiting for getByRole('button', { name: 'Wybierz: Planetarni', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@55",
+      "message": "  locator resolved to <button class=\"ki-race-choose\" aria-label=\"Wybierz: Planetarni\">…</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@55",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@55",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@55",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@55",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@55",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@55",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@55",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@55",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@55",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@55"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@57",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "waiting for getByRole('button', { name: 'Rozpocznij przygodę', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  locator resolved to <button class=\"ki-origin-primary\">…</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  element is not stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "retrying click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  element is not stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "retrying click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  waiting 20ms"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  element is not stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "retrying click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  waiting 100ms"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@57",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@57"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@59",
+      "method": "expect"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "Expect \"toHaveAttribute\" locator('.ki-canvas').first() with timeout 60000ms"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" aria-label=\"Ki Legends — ekran gry\"></div>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  unexpected value \"null\""
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" aria-label=\"Ki Legends — ekran gry\"></div>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  unexpected value \"null\""
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" aria-label=\"Ki Legends — ekran gry\"></div>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  unexpected value \"null\""
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" aria-label=\"Ki Legends — ekran gry\"></div>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  unexpected value \"null\""
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" aria-label=\"Ki Legends — ekran gry\"></div>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  unexpected value \"null\""
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" aria-label=\"Ki Legends — ekran gry\"></div>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  unexpected value \"null\""
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" aria-label=\"Ki Legends — ekran gry\"></div>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  unexpected value \"null\""
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" aria-label=\"Ki Legends — ekran gry\"></div>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  unexpected value \"null\""
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" aria-label=\"Ki Legends — ekran gry\"></div>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  unexpected value \"null\""
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" aria-label=\"Ki Legends — ekran gry\"></div>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  unexpected value \"null\""
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" aria-label=\"Ki Legends — ekran gry\"></div>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  unexpected value \"null\""
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" data-world-labels=\"true\" aria-label=\"Ki Legends — ekran gry\">…</div>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  unexpected value \"null\""
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" data-world-labels=\"true\" aria-label=\"Ki Legends — ekran gry\">…</div>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  unexpected value \"null\""
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" data-world-labels=\"true\" aria-label=\"Ki Legends — ekran gry\">…</div>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  unexpected value \"null\""
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" data-world-labels=\"true\" aria-label=\"Ki Legends — ekran gry\">…</div>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  unexpected value \"null\""
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@59",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2991\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-camera-x=\"48391.06261\" data-player-x=\"49031.06261\" data-terrain-…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@59"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@61",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@61",
+      "message": "waiting for getByRole('button', { name: /^Rozmowa ·/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@61",
+      "message": "  locator resolved to <button>…</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@61",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@61",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@61",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@61",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@61",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@61",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@61",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@61",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@61",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@61"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@63",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@63",
+      "message": "waiting for getByRole('button', { name: 'Przyjmij zadanie', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@63",
+      "message": "  locator resolved to <button>Przyjmij zadanie</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@63",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@63",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@63",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@63",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@63",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@63",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@63",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@63",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@63",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@63"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@65",
+      "method": "expect"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@65",
+      "message": "Expect \"toBeVisible\" getByRole('dialog').getByRole('button', { name: /^Podejdź/ }) with timeout 60000ms"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@65",
+      "message": "waiting for getByRole('dialog').getByRole('button', { name: /^Podejdź/ })"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@65"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@67",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@67",
+      "message": "waiting for getByRole('dialog').getByRole('button', { name: /^Podejdź/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@67",
+      "message": "  locator resolved to <button>Podejdź do rynku</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@67",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@67",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@67",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@67",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@67",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@67",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@67",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@67",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@67",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@67"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@70",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@70"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@73",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@73"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@76",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@76"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@79",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@79"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@82",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@82"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@85",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@85"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@88",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@88"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@91",
+      "method": "isVisible"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@91",
+      "message": "  checking visibility of getByRole('button', { name: 'Dziennik', exact: true })"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@91"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@93",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@93",
+      "message": "waiting for getByRole('button', { name: 'Dziennik', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@93",
+      "message": "  locator resolved to <button title=\"Dziennik\" aria-pressed=\"false\" aria-label=\"Dziennik\" class=\"ki-menu-button ki-frame \">…</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@93",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@93",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@93",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@93",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@93",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@93",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@93",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@93",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@93",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@93"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@95",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@95",
+      "message": "waiting for locator('.ki-adventure-panel').getByRole('button', { name: /^Idź do/ }).first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@95",
+      "message": "  locator resolved to <button class=\"ki-qv2-accept\">Idź do Airy</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@95",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@95",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@95",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@95",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@95",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@95",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@95",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@95",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@95",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@95"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@97",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@97",
+      "message": "waiting for getByRole('button', { name: 'Odbierz nagrodę', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@97",
+      "message": "  locator resolved to <button>Odbierz nagrodę</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@97",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@97",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@97",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@97",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@97",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@97",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@97",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@97",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@97",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@97"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@99",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@99",
+      "message": "waiting for getByRole('button', { name: 'Zamknij rozmowę', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@99",
+      "message": "  locator resolved to <button aria-label=\"Zamknij rozmowę\">×</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@99",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@99",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@99",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@99",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@99",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@99",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@99",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@99",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@99",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@99"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@101",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@101"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@104",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@104"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@106",
+      "method": "isVisible"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@106",
+      "message": "  checking visibility of getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@106"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@108",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@108",
+      "message": "waiting for getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@108",
+      "message": "  locator resolved to <button title=\"Umiejętności\" aria-pressed=\"false\" aria-label=\"Umiejętności\" class=\"ki-menu-button ki-frame \">…</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@108",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@108",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@108",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@108",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@108",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@108",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@108",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@108",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@108",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@108"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@110",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@110",
+      "message": "waiting for getByRole('button', { name: 'Rozwój · trening i wiedza', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@110",
+      "message": "  locator resolved to <button class=\"ki-fullscreen-setting\">Rozwój · trening i wiedza</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@110",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@110",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@110",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@110",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@110",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@110",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@110",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@110",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@110",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@110"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@112",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@112",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@112",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@112"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@114",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@114",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@114",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@114",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@114",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@114",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@114",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@114",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@114",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@114",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@114",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@114",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@114"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@116",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@116"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@118",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@118",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@118",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"true\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@118"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@120",
+      "method": "isDisabled"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@120",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@120",
+      "message": "  locator resolved to <button disabled>Podejdź: Aira</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@120"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@122",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@122",
+      "message": "waiting for getByRole('button', { name: 'Przyjmij zlecenie', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@122",
+      "message": "  locator resolved to <button>Przyjmij zlecenie</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@122",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@122",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@122",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@122",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@122",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@122",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@122",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@122",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@122",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@122"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@125",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@125"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@128",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@128"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@131",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@131"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@133",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@133",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@133",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"true\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@133"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@135",
+      "method": "isDisabled"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@135",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@135",
+      "message": "  locator resolved to <button disabled>Podejdź: Aira</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@135"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@137",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@137",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: 'Zapiszę świadectwo bez dopisywania brakujących faktów.', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@137",
+      "message": "  locator resolved to <button>Zapiszę świadectwo bez dopisywania brakujących fa…</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@137",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@137",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@137",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@137",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@137",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@137",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@137",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@137",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@137",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@137"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@140",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@140"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@143",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@143"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@146",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@146"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@148",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@148",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@148",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"true\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@148"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@150",
+      "method": "isDisabled"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@150",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@150",
+      "message": "  locator resolved to <button>Podejdź: Rodzinna skrzynia</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@150"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@152",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@152",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@152",
+      "message": "  locator resolved to <section class=\"ki-development-target\" data-target-interior=\"outside\" data-target-x=\"48708.90536872613\" data-target-y=\"34328.937605317944\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@152"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@154",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@154",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@154",
+      "message": "  locator resolved to <section class=\"ki-development-target\" data-target-interior=\"outside\" data-target-x=\"48708.90536872613\" data-target-y=\"34328.937605317944\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@154"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@156",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@156",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@156",
+      "message": "  locator resolved to <section class=\"ki-development-target\" data-target-interior=\"outside\" data-target-x=\"48708.90536872613\" data-target-y=\"34328.937605317944\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@156"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@158",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@158",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@158",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2991\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-player-x=\"49128\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-player-y=\"34869.66235\" data-terrain-mode=\"…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@158"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@160",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@160",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@160",
+      "message": "  locator resolved to <button>Podejdź: Rodzinna skrzynia</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@160",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@160",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@160",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@160",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@160",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@160",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@160",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@160",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@160",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@160"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@163",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@163",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@163",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2991\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-player-x=\"49128\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-player-y=\"34774.15185\" data-terrain-mode=\"…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@163"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@165",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@165",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@165",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" aria-label=\"Ki Legends — ekran gry\"></div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@165"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@167",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@167",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@167",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" aria-label=\"Ki Legends — ekran gry\"></div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@167"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@170",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@170",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@170",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" class=\"ki-canvas\" aria-label=\"Ki Legends — ekran gry\"></div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@170"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@173",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@173"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@175",
+      "method": "isVisible"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@175",
+      "message": "  checking visibility of getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@175"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@177",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@177",
+      "message": "waiting for getByRole('button', { name: 'Menu gry', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@177",
+      "message": "  locator resolved to <button aria-label=\"Menu gry\" aria-expanded=\"false\" aria-controls=\"ki-tools\" class=\"ki-tools-toggle ki-frame\">…</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@177",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@177",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@177",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@177",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@177",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@177",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@177",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@177",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@177",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@177"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@179",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@179",
+      "message": "waiting for getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@179",
+      "message": "  locator resolved to <button title=\"Umiejętności\" aria-pressed=\"false\" aria-label=\"Umiejętności\" class=\"ki-menu-button ki-frame \">…</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@179",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@179",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@179",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@179",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@179",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@179",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@179",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@179",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@179",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@179"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@181",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@181",
+      "message": "waiting for getByRole('button', { name: 'Rozwój · trening i wiedza', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@181",
+      "message": "  locator resolved to <button class=\"ki-fullscreen-setting\">Rozwój · trening i wiedza</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@181",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@181",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@181",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@181",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@181",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@181",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@181",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@181",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@181",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@181"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@183",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@183",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@183",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@183"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@185",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@185",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@185",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@185",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@185",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@185",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@185",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@185",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@185",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@185",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@185",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@185",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@185"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@187",
+      "method": "isDisabled"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@187",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@187",
+      "message": "  locator resolved to <button>Podejdź: Rodzinna skrzynia</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@187"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@189",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@189",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@189",
+      "message": "  locator resolved to <section class=\"ki-development-target\" data-target-interior=\"outside\" data-target-x=\"48708.90536872613\" data-target-y=\"34328.937605317944\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@189"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@191",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@191",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@191",
+      "message": "  locator resolved to <section class=\"ki-development-target\" data-target-interior=\"outside\" data-target-x=\"48708.90536872613\" data-target-y=\"34328.937605317944\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@191"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@193",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@193",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@193",
+      "message": "  locator resolved to <section class=\"ki-development-target\" data-target-interior=\"outside\" data-target-x=\"48708.90536872613\" data-target-y=\"34328.937605317944\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@193"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@195",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@195",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@195",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-camera-x=\"48488\" data-player-x=\"49128\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-camera-y=\"34305.6518…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@195"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@197",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@197",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@197",
+      "message": "  locator resolved to <button>Podejdź: Rodzinna skrzynia</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@197",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@197",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@197",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@197",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@197",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@197",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@197",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@197",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@197",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@197"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@200",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@200",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@200",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-camera-x=\"48488\" data-player-x=\"49128\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superi…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@200"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@202",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@202",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@202",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-camera-x=\"48488\" data-player-x=\"49128\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superi…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@202"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@204",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@204",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@204",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-camera-x=\"48488\" data-player-x=\"49128\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superi…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@204"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@207",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@207",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@207",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-camera-x=\"48488\" data-player-x=\"49128\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superi…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@207"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@209",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@209",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@209",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-camera-x=\"48488\" data-player-x=\"49128\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superi…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@209"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@211",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@211",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@211",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-camera-x=\"48488\" data-player-x=\"49128\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superi…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@211"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@214",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@214",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@214",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-camera-x=\"48488\" data-player-x=\"49128\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superi…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@214"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@216",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@216",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@216",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-camera-x=\"48488\" data-player-x=\"49128\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superi…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@216"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@218",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@218",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@218",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-camera-x=\"48488\" data-player-x=\"49128\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superi…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@218"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@221",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@221",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@221",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"48473.57241930147\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@221"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@223",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@223",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@223",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-player-x=\"49092.38926624762\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@223"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@225",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@225",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@225",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-y=\"34174.71771413544\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@225"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@228",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@228",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@228",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"48329.14001211873\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@228"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@230",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@230",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@230",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"48316.04484332231\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@230"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@232",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@232",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@232",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-y=\"34007.80638037324\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@232"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@235",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@235",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@235",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-player-x=\"48712\" data-player-y=\"34328\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superi…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@235"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@237",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@237",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@237",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-camera-y=\"33900.54829683489\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@237"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@239",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@239",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@239",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-camera-y=\"33893.66468648738\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@239"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@242",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@242"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@244",
+      "method": "isVisible"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@244",
+      "message": "  checking visibility of getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@244"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@246",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@246",
+      "message": "waiting for getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@246",
+      "message": "  locator resolved to <button title=\"Umiejętności\" aria-pressed=\"false\" aria-label=\"Umiejętności\" class=\"ki-menu-button ki-frame \">…</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@246",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@246",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@246",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@246",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@246",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@246",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@246",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@246",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@246",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@246"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@248",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@248",
+      "message": "waiting for getByRole('button', { name: 'Rozwój · trening i wiedza', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@248",
+      "message": "  locator resolved to <button class=\"ki-fullscreen-setting\">Rozwój · trening i wiedza</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@248",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@248",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@248",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@248",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@248",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@248",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@248",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@248",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@248",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@248"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@250",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@250",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@250",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@250"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@252",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@252",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@252",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@252",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@252",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@252",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@252",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@252",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@252",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@252",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@252",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@252",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@252"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@254",
+      "method": "isDisabled"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@254",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@254",
+      "message": "  locator resolved to <button disabled>Podejdź: Rodzinna skrzynia</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@254"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@256",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@256",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: 'Zbadaj znak lub przedmiot', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@256",
+      "message": "  locator resolved to <button>Zbadaj znak lub przedmiot</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@256",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@256",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@256",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@256",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@256",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@256",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@256",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@256",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@256",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@256"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@259",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@259"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@262",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@262"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@265",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@265"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@267",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@267",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@267",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"true\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@267"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@269",
+      "method": "isDisabled"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@269",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@269",
+      "message": "  locator resolved to <button>Podejdź: Znak domu nad nurtem</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@269"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@271",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@271",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@271",
+      "message": "  locator resolved to <section class=\"ki-development-target\" data-target-interior=\"outside\" data-target-y=\"34711.57454217026\" data-target-x=\"48586.435302417936\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@271"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@273",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@273",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@273",
+      "message": "  locator resolved to <section class=\"ki-development-target\" data-target-interior=\"outside\" data-target-y=\"34711.57454217026\" data-target-x=\"48586.435302417936\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@273"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@275",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@275",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@275",
+      "message": "  locator resolved to <section class=\"ki-development-target\" data-target-interior=\"outside\" data-target-y=\"34711.57454217026\" data-target-x=\"48586.435302417936\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@275"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@277",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@277",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@277",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-camera-x=\"48069.52852485731\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@277"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@279",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@279",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@279",
+      "message": "  locator resolved to <button>Podejdź: Znak domu nad nurtem</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@279",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@279",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@279",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@279",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@279",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@279",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@279",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@279",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@279",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@279"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@282",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@282",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@282",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"48069.38794083412\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@282"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@284",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@284",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@284",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"48069.38794083412\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@284"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@286",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@286",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@286",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"48068.47281363913\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@286"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@289",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@289",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@289",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-y=\"33902.79888187949\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@289"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@291",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@291",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@291",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"48054.90221800186\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@291"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@293",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@293",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@293",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"48039.41824826289\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@293"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@296",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@296",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@296",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"48015.89649942089\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@296"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@298",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@298",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@298",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-y=\"34078.9950816264\" data-ca…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@298"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@300",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@300",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@300",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-y=\"34130.77419996609\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@300"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@303",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@303"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@305",
+      "method": "isVisible"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@305",
+      "message": "  checking visibility of getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@305"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@307",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@307",
+      "message": "waiting for getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@307",
+      "message": "  locator resolved to <button title=\"Umiejętności\" aria-pressed=\"false\" aria-label=\"Umiejętności\" class=\"ki-menu-button ki-frame \">…</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@307",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@307",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@307",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@307",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@307",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@307",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@307",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@307",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@307",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@307"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@309",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@309",
+      "message": "waiting for getByRole('button', { name: 'Rozwój · trening i wiedza', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@309",
+      "message": "  locator resolved to <button class=\"ki-fullscreen-setting\">Rozwój · trening i wiedza</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@309",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@309",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@309",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@309",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@309",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@309",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@309",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@309",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@309",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@309"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@311",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@311",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@311",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@311"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@313",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@313",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@313",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@313",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@313",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@313",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@313",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@313",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@313",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@313",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@313",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@313",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@313"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@315",
+      "method": "isDisabled"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@315",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@315",
+      "message": "  locator resolved to <button disabled>Podejdź: Znak domu nad nurtem</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@315"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@317",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@317",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: 'Zbadaj znak lub przedmiot', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@317",
+      "message": "  locator resolved to <button>Zbadaj znak lub przedmiot</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@317",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@317",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@317",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@317",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@317",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@317",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@317",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@317",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@317",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@317"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@320",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@320"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@323",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@323"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@326",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@326"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@328",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@328",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@328",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"true\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@328"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@330",
+      "method": "isDisabled"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@330",
+      "message": "waiting for locator('.ki-development-target').nth(1).getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@330",
+      "message": "  locator resolved to <button>Podejdź: Znak domu przy wierzbie</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@330"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@332",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@332",
+      "message": "waiting for locator('.ki-development-target').nth(1)"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@332",
+      "message": "  locator resolved to <section class=\"ki-development-target\" data-target-interior=\"outside\" data-target-x=\"48726.99941792202\" data-target-y=\"34599.03626786995\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@332"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@334",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@334",
+      "message": "waiting for locator('.ki-development-target').nth(1)"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@334",
+      "message": "  locator resolved to <section class=\"ki-development-target\" data-target-interior=\"outside\" data-target-x=\"48726.99941792202\" data-target-y=\"34599.03626786995\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@334"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@336",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@336",
+      "message": "waiting for locator('.ki-development-target').nth(1)"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@336",
+      "message": "  locator resolved to <section class=\"ki-development-target\" data-target-interior=\"outside\" data-target-x=\"48726.99941792202\" data-target-y=\"34599.03626786995\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@336"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@338",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@338",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@338",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-camera-x=\"47947.8365811583\" data-ca…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@338"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@340",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@340",
+      "message": "waiting for locator('.ki-development-target').nth(1).getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@340",
+      "message": "  locator resolved to <button>Podejdź: Znak domu przy wierzbie</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@340",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@340",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@340",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@340",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@340",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@340",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@340",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@340",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@340",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@340"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@343",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@343",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@343",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"47947.45037380551\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@343"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@345",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@345",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@345",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"47947.45037380551\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@345"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@347",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@347",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@347",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"47947.45037380551\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@347"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@350",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@350",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@350",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-y=\"34247.32275677208\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@350"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@352",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@352",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@352",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"47990.71694835771\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@352"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@354",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@354",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@354",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-camera-y=\"34201.15381856857\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@354"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@357",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@357"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@359",
+      "method": "isVisible"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@359",
+      "message": "  checking visibility of getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@359"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@361",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@361",
+      "message": "waiting for getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@361",
+      "message": "  locator resolved to <button title=\"Umiejętności\" aria-pressed=\"false\" aria-label=\"Umiejętności\" class=\"ki-menu-button ki-frame \">…</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@361",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@361",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@361",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@361",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@361",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@361",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@361",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@361",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@361",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@361"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@363",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@363",
+      "message": "waiting for getByRole('button', { name: 'Rozwój · trening i wiedza', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@363",
+      "message": "  locator resolved to <button class=\"ki-fullscreen-setting\">Rozwój · trening i wiedza</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@363",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@363",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@363",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@363",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@363",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@363",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@363",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@363",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@363",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@363"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@365",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@365",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@365",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@365"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@367",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@367",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@367",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@367",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@367",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@367",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@367",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@367",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@367",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@367",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@367",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@367",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@367"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@369",
+      "method": "isDisabled"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@369",
+      "message": "waiting for locator('.ki-development-target').nth(1).getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@369",
+      "message": "  locator resolved to <button disabled>Podejdź: Znak domu przy wierzbie</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@369"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@371",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@371",
+      "message": "waiting for locator('.ki-development-target').nth(1).getByRole('button', { name: 'Zbadaj znak lub przedmiot', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@371",
+      "message": "  locator resolved to <button>Zbadaj znak lub przedmiot</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@371",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@371",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@371",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@371",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@371",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@371",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@371",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@371",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@371",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@371"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@374",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@374"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@377",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@377"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@380",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@380"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@382",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@382",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@382",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"true\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@382"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@384",
+      "method": "isDisabled"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@384",
+      "message": "waiting for locator('.ki-development-target').nth(2).getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@384",
+      "message": "  locator resolved to <button>Podejdź: Znak domu pod skałą</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@384"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@386",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@386",
+      "message": "waiting for locator('.ki-development-target').nth(2)"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@386",
+      "message": "  locator resolved to <section class=\"ki-development-target\" data-target-interior=\"outside\" data-target-x=\"48644.028682914824\" data-target-y=\"34935.343080738916\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@386"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@388",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@388",
+      "message": "waiting for locator('.ki-development-target').nth(2)"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@388",
+      "message": "  locator resolved to <section class=\"ki-development-target\" data-target-interior=\"outside\" data-target-x=\"48644.028682914824\" data-target-y=\"34935.343080738916\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@388"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@390",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@390",
+      "message": "waiting for locator('.ki-development-target').nth(2)"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@390",
+      "message": "  locator resolved to <section class=\"ki-development-target\" data-target-interior=\"outside\" data-target-x=\"48644.028682914824\" data-target-y=\"34935.343080738916\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@390"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@392",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@392",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@392",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-camera-y=\"34150.68829108366\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@392"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@394",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@394",
+      "message": "waiting for locator('.ki-development-target').nth(2).getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@394",
+      "message": "  locator resolved to <button>Podejdź: Znak domu pod skałą</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@394",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@394",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@394",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@394",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@394",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@394",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@394",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@394",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@394",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@394"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@397",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@397",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@397",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-camera-x=\"48085.57126628758\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@397"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@399",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@399",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@399",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-camera-x=\"48085.57126628758\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@399"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@401",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@401",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@401",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-camera-x=\"48085.57126628758\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@401"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@404",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@404",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@404",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"48085.57126628758\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@404"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@406",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@406",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@406",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"48085.57126628758\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@406"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@408",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@408",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@408",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"48085.57126628758\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@408"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@411",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@411",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@411",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-y=\"34183.99954369439\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@411"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@413",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@413",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@413",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"48069.10875964392\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@413"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@415",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@415",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@415",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"48059.75528465917\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@415"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@418",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@418",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@418",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-camera-y=\"34404.84367534\" data-came…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@418"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@420",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@420",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@420",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-camera-x=\"48019.54635841317\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@420"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@422",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@422",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@422",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-camera-x=\"48016.22003215755\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@422"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@425",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@425"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@427",
+      "method": "isVisible"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@427",
+      "message": "  checking visibility of getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@427"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@429",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@429",
+      "message": "waiting for getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@429",
+      "message": "  locator resolved to <button title=\"Umiejętności\" aria-pressed=\"false\" aria-label=\"Umiejętności\" class=\"ki-menu-button ki-frame \">…</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@429",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@429",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@429",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@429",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@429",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@429",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@429",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@429",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@429",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@429"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@431",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@431",
+      "message": "waiting for getByRole('button', { name: 'Rozwój · trening i wiedza', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@431",
+      "message": "  locator resolved to <button class=\"ki-fullscreen-setting\">Rozwój · trening i wiedza</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@431",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@431",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@431",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@431",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@431",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@431",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@431",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@431",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@431",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@431"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@433",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@433",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@433",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@433"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@435",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@435",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@435",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@435",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@435",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@435",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@435",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@435",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@435",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@435",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@435",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@435",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@435"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@437",
+      "method": "isDisabled"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@437",
+      "message": "waiting for locator('.ki-development-target').nth(2).getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@437",
+      "message": "  locator resolved to <button disabled>Podejdź: Znak domu pod skałą</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@437"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@439",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@439",
+      "message": "waiting for locator('.ki-development-target').nth(2).getByRole('button', { name: 'Zbadaj znak lub przedmiot', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@439",
+      "message": "  locator resolved to <button>Zbadaj znak lub przedmiot</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@439",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@439",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@439",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@439",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@439",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@439",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@439",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@439",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@439",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@439"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@442",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@442"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@445",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@445"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@448",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@448"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@450",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@450",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@450",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"true\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@450"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@452",
+      "method": "isDisabled"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@452",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@452",
+      "message": "  locator resolved to <button>Podejdź: H-V01:map:device:0</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@452"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@454",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@454",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@454",
+      "message": "  locator resolved to <section data-target-interior=\"hall\" class=\"ki-development-target\" data-target-x=\"524.5503262094184\" data-target-y=\"457.30047501302266\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@454"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@456",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@456",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@456",
+      "message": "  locator resolved to <section data-target-interior=\"hall\" class=\"ki-development-target\" data-target-x=\"524.5503262094184\" data-target-y=\"457.30047501302266\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@456"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@458",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@458",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@458",
+      "message": "  locator resolved to <section data-target-interior=\"hall\" class=\"ki-development-target\" data-target-x=\"524.5503262094184\" data-target-y=\"457.30047501302266\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@458"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@460",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@460",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@460",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-camera-y=\"34481.43245799721\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@460"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@462",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@462",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@462",
+      "message": "  locator resolved to <button>Podejdź: H-V01:map:device:0</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@462",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@462",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@462",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@462",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@462",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@462",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@462",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@462",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@462",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@462"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@465",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@465",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@465",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"idle\" data-terrain-mode=\"superior\" data-camera-y=\"34481.67966894944\" data-p…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@465"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@468",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@468",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@468",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-player-x=\"48653.9179803769\" data-ca…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@468"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@471",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@471",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@471",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-player-x=\"48714.1483625691\" data-ca…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@471"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@474",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@474",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@474",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-player-x=\"48759.0338301571\" data-ca…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@474"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@477",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@477",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@477",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-player-y=\"34446.1505225641\" data-ca…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@477"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@480",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@480",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@480",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-camera-y=\"-70\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-interior=\"hall\" data-projectiles=\"0\" data-camera-x=\"-160\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" da…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@480"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@483",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@483"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@485",
+      "method": "isVisible"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@485",
+      "message": "  checking visibility of getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@485"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@487",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@487",
+      "message": "waiting for getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@487",
+      "message": "  locator resolved to <button title=\"Umiejętności\" aria-pressed=\"false\" aria-label=\"Umiejętności\" class=\"ki-menu-button ki-frame \">…</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@487",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@487",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@487",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@487",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@487",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@487",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@487",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@487",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@487",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@487"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@489",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@489",
+      "message": "waiting for getByRole('button', { name: 'Rozwój · trening i wiedza', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@489",
+      "message": "  locator resolved to <button class=\"ki-fullscreen-setting\">Rozwój · trening i wiedza</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@489",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@489",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@489",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@489",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@489",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@489",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@489",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@489",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@489",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@489"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@491",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@491",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@491",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@491"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@493",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@493",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@493",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@493",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@493",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@493",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@493",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@493",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@493",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@493",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@493",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@493",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@493"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@495",
+      "method": "isDisabled"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@495",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@495",
+      "message": "  locator resolved to <button disabled>Podejdź: H-V01:map:device:0</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@495"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@497",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@497",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: 'Mapa nie obejmuje trzech potwierdzonych domów.', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@497",
+      "message": "  locator resolved to <button>Mapa nie obejmuje trzech potwierdzonych domów.</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@497",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@497",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@497",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@497",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@497",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@497",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@497",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@497",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@497",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@497"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@500",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@500"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@503",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@503"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@506",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@506"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@508",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@508",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@508",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"true\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@508"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@510",
+      "method": "isDisabled"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@510",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@510",
+      "message": "  locator resolved to <button>Podejdź: Taro</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@510"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@512",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@512",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@512",
+      "message": "  locator resolved to <section data-target-x=\"300\" data-target-y=\"330\" class=\"ki-development-target\" data-target-interior=\"smithy\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@512"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@514",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@514",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@514",
+      "message": "  locator resolved to <section data-target-x=\"300\" data-target-y=\"330\" class=\"ki-development-target\" data-target-interior=\"smithy\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@514"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@516",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@516",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@516",
+      "message": "  locator resolved to <section data-target-x=\"300\" data-target-y=\"330\" class=\"ki-development-target\" data-target-interior=\"smithy\">…</section>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@516"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@518",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@518",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@518",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-camera-y=\"-70\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-interior=\"hall\" data-projectiles=\"0\" data-camera-x=\"-160\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" da…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@518"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@520",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@520",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@520",
+      "message": "  locator resolved to <button>Podejdź: Taro</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@520",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@520",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@520",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@520",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@520",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@520",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@520",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@520",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@520",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@520"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@523",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@523",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@523",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-camera-y=\"-70\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-interior=\"hall\" data-projectiles=\"0\" data-camera-x=\"-160\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" da…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@523"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@526",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@526",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@526",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-camera-y=\"-70\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-interior=\"hall\" data-projectiles=\"0\" data-camera-x=\"-160\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" da…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@526"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@529",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@529",
+      "message": "waiting for locator('.ki-canvas').first()"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@529",
+      "message": "  locator resolved to <div data-zoom=\"0.62\" data-bosses=\"[]\" class=\"ki-canvas\" data-target-id=\"\" data-enemies=\"[]\" data-npc-labels=\"0\" data-joystick-x=\"0\" data-joystick-y=\"0\" data-load-ms=\"2325\" data-world=\"verdant\" data-projectiles=\"0\" data-enemy-labels=\"0\" data-boss-rewards=\"[]\" data-interior=\"outside\" data-enemy-visuals=\"[]\" data-combat-visuals=\"0\" data-camera-zoom=\"0.62\" data-world-labels=\"true\" data-network-players=\"0\" data-animation-state=\"walk\" data-terrain-mode=\"superior\" data-camera-x=\"48296.05562160847\" data-c…>…</div>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@529"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@532",
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@532"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@534",
+      "method": "isVisible"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@534",
+      "message": "  checking visibility of getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@534"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@536",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@536",
+      "message": "waiting for getByRole('button', { name: 'Umiejętności', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@536",
+      "message": "  locator resolved to <button title=\"Umiejętności\" aria-pressed=\"false\" aria-label=\"Umiejętności\" class=\"ki-menu-button ki-frame \">…</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@536",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@536",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@536",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@536",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@536",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@536",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@536",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@536",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@536",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@536"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@538",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@538",
+      "message": "waiting for getByRole('button', { name: 'Rozwój · trening i wiedza', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@538",
+      "message": "  locator resolved to <button class=\"ki-fullscreen-setting\">Rozwój · trening i wiedza</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@538",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@538",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@538",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@538",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@538",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@538",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@538",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@538",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@538",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@538"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@540",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@540",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@540",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@540"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@542",
+      "method": "click"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@542",
+      "message": "waiting for getByRole('tab', { name: 'Dziedzictwo', exact: true })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@542",
+      "message": "  locator resolved to <button role=\"tab\" aria-selected=\"false\">Dziedzictwo</button>"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@542",
+      "message": "attempting click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@542",
+      "message": "  waiting for element to be visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@542",
+      "message": "  element is visible, enabled and stable"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@542",
+      "message": "  scrolling into view if needed"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@542",
+      "message": "  done scrolling"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@542",
+      "message": "  performing click action"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@542",
+      "message": "  click action done"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@542",
+      "message": "  waiting for scheduled navigations to finish"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@542",
+      "message": "  navigations have finished"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@542"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@544",
+      "method": "isDisabled"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@544",
+      "message": "waiting for locator('.ki-development-target').first().getByRole('button', { name: /^Podejdź:/ })"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@544",
+      "message": "  locator resolved to <button>Podejdź: Taro</button>"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@544"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@546",
+      "method": "getAttribute"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@546",
+      "message": "waiting for locator('.ki-development-target').first()"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@551",
+      "method": "evaluateExpression"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@551"
+    },
+    {
+      "type": "before",
+      "callId": "hiaj@554",
+      "method": "screenshot"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@554",
+      "message": "taking page screenshot"
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@554",
+      "message": "waiting for fonts to load..."
+    },
+    {
+      "type": "log",
+      "callId": "hiaj@554",
+      "message": "fonts loaded"
+    },
+    {
+      "type": "after",
+      "callId": "hiaj@554"
+    }
+  ]
+}

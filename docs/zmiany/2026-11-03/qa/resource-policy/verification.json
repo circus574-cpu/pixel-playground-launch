@@ -1,0 +1,167 @@
+{
+  "branch": "feature/complete-character-development",
+  "baseCommit": "a547cc8bc4dee279d05d3004b42d0012e6463894",
+  "testedState": "Working tree after baseCommit; sourceSha256 identifies the runtime, tests and browser configuration. No merge, deployment, reset or GPU operations.",
+  "sourceSha256": {
+    "e2e/development-heritage.spec.ts": "cc292de769cd618aabdbab8bffe81b7d20e1afcec0e04011ae2ac0d43faf664d",
+    "e2e/heritage-chronicle.spec.ts": "9c5190337f8efe29bb90560dfccb05d2335bf868802a7a967599a4bcc452618a",
+    "playwright.config.ts": "a09ea2f3191bcb3e43a5751b8db9cba6bc57aff6e5f168b16612ae9d02e6120e",
+    "src/components/game/ChroniclePanel.tsx": "4b984d284d70462d1c2bf28938b1467325055072c116f750c108a2f13a10294e",
+    "src/components/game/DevelopmentPanel.tsx": "915c2574d16e214e1578e1005bd918b9cb0a43a6d22992edf69a2fc8fe9d0b35",
+    "src/components/game/GameHud.tsx": "ce397e71c5d3d49dfe3913015e92c942a54d3dc4a178e5a0e9123c379061b26a",
+    "src/components/game/HeritagePanel.tsx": "9563751f6bbf300b0d9ae6a596256e8c0454eb18f94f0694e34f74d1c922447e",
+    "src/game/development/heritage/bindings.ts": "fc2f256c347d871856a5873c0ff512dd7e1b5ea98d5e6599640eb14887b36c41",
+    "src/game/development/heritage/chronicle.ts": "d23806ee462be50f2bba91bf4cc1fe1f35b62e9af5c6d0e50978a7f068e9e397",
+    "src/game/development/heritage/encounter.ts": "fe19b983f60f2f6792b3e429e280df4b12bca6cf0f5a9ef3c4af43a962a5e5be",
+    "src/game/development/heritage/escort.ts": "09e82661333bda55ad747babde12340768841f8cd28d3b1c950efb106d1b6d45",
+    "src/game/development/heritage/protection.ts": "17ecbe17dc2a083929879768c37dac2f7adbcbda3432240e5876f0614187c62c",
+    "src/game/development/heritage/reducer.ts": "74672ee2e7a6bac018403d405bd7284568e4a1d08a148fd637ab14828491d1eb",
+    "src/game/development/heritage/render.ts": "f9fda3b6b663d8b161bbef561d5552a684262ede883cb325d0b480274b478893",
+    "src/game/development/heritage/runtime.ts": "94e0bc4b4ca1ad30ba265f86dc3f518d5344648906134e857392e8e009e6d27f",
+    "src/game/development/heritage/state.ts": "627c3609c178ad81c7749f39bf3d815f9d63c3991f23d363a52ddc6696a02245",
+    "src/game/monsters/system.ts": "c8614eb4a6b5ae7a525b6163cbc2d571729cb739b167228b4b2c666d043d49a9",
+    "src/game/monsters/types.ts": "ab3aefaa999b5a8640aa22153c24abdc1bccd039b3d42e79614d79783ae2f276",
+    "src/game/mountGame.ts": "cc30e87c6d0b07bde5a809af4eeeb5f5674251a475031a73f449092884459450",
+    "src/game/session.ts": "866394d2fcd8bb87201e673b5f7db8a0914d63d5c4ef8048c36e054bbf2bb5ba",
+    "src/game/world/generated/superiorRuntime.ts": "16e58ae3b959344f080e2df9155071fb7bb9341efca9f9effeb7151ac29d58c8",
+    "src/server/characters/superiorSimulation.ts": "e5e0a98b676098cdcfefe3c973411100e591bb6f9fd317e5bff1ab0f16dc2b1b",
+    "src/test/equipment-resource-policy.test.ts": "e406ab3f5c4a9a33e0df251c8e9df0c462358b0dc33eec490be95d376942ea89",
+    "src/test/equipment-stat-integration.test.ts": "808eb1ac2a4d28e72bdacaf595538f1f9894e68927d3e0bf55e2f1a55f91ab37",
+    "src/test/heritage-battle.test.ts": "140573746680e8950b4680a2330a66edc2e40e7a4341ec5482a6651cf62a6c93",
+    "src/test/heritage-chronicle.test.tsx": "422acd9bab4965ad4140d724b762157d775c67553c5a7f10abbcb385ed0eb5d8",
+    "src/test/heritage-runtime.test.ts": "f6a1c5554622693f55f7e86ef22a31a3a823867a862177460f15e44e1f69f639",
+    "src/test/protected-combat.test.ts": "4e5bd061fe848053e019874e87a2b2a8362eca22066e5d08d79431c6e226818b",
+    "src/test/server-superior-simulation.test.ts": "66eb325da5b270f35c0e96c8303288d85c480d0fb9942038d6ba2cad2e363dba"
+  },
+  "ownerContract": {
+    "file": "docs/design/racial-development-owner-2026-10-28.txt",
+    "section": "3.1",
+    "quote": "Przy spadku maksimum jedynie ogranicz aktualny zasób do nowego maksimum; wzrost maksimum nie podnosi aktualnego zasobu."
+  },
+  "reproduction": {
+    "focusedBefore": {
+      "failed": 24,
+      "passed": 0,
+      "log": "before-24.txt"
+    },
+    "expandedBefore": {
+      "failed": 36,
+      "passed": 33,
+      "log": "before-expanded.txt"
+    },
+    "after": {
+      "command": "npx vitest run src/test/equipment-resource-policy.test.ts src/test/equipment-stat-integration.test.ts src/test/heritage-runtime.test.ts",
+      "passed": 69,
+      "failed": 0,
+      "log": "targeted-after.txt"
+    }
+  },
+  "previousCommitChecks": {
+    "commit": "a547cc8bc4dee279d05d3004b42d0012e6463894",
+    "githubActions": "https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/41617618111",
+    "result": "SUCCESS",
+    "additionalBrowserCases": {
+      "passed": 3,
+      "failed": 0,
+      "races": [
+        "sage",
+        "android",
+        "legend"
+      ],
+      "log": "other-first-chapters-before-correction.txt",
+      "command": "KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4174 npx playwright test e2e/development-heritage.spec.ts --project=gameplay --grep 'sage|android|legend' --output=/tmp/ki-other-heritage-canvas --reporter=list --trace=off"
+    }
+  },
+  "finalChecks": [
+    {
+      "command": "npm test",
+      "result": "PASS",
+      "passed": 1167,
+      "failed": 0,
+      "skipped": 10,
+      "filesPassed": 100,
+      "filesSkipped": 1,
+      "skipReason": "KI_ACCOUNTS_TEST_DATABASE_URL is not configured; no additional database started",
+      "log": "unit-tests.txt"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "PASS",
+      "configurations": 3,
+      "log": "typecheck.txt"
+    },
+    {
+      "command": "npm run lint",
+      "result": "PASS with existing warnings",
+      "errors": 0,
+      "warnings": 15,
+      "log": "lint.txt"
+    },
+    {
+      "command": "npm run build",
+      "result": "PASS",
+      "log": "build.txt"
+    },
+    {
+      "command": "KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4174 npx playwright test e2e/heritage-chronicle.spec.ts --project=software-webgl --output=/tmp/ki-chronicle-resource-final --reporter=list --trace=off",
+      "result": "PASS",
+      "passed": 4,
+      "failed": 0,
+      "renderer": "WebGL / SwiftShader, checked from actual runtime telemetry",
+      "log": "chronicle-webgl.txt"
+    },
+    {
+      "command": "KI_QA_BASE_URL=http://127.0.0.1:4174 KI_QA_APP_URL=http://127.0.0.1:4174 npx playwright test e2e/development-heritage.spec.ts --project=gameplay --output=/tmp/ki-four-heritage-final --reporter=list --trace=off",
+      "result": "PASS",
+      "passed": 4,
+      "failed": 0,
+      "renderer": "Canvas",
+      "log": "first-chapters-canvas.txt",
+      "scope": "Actual old prologue, chapter 1, project 1, personal weapon, saved choice in chronicle and reload for all four races; no injected progress."
+    },
+    {
+      "command": "python3 scripts/docs/check_documentation.py",
+      "result": "PASS",
+      "log": "documentation.txt"
+    },
+    {
+      "command": "git diff --cached --check",
+      "result": "PASS"
+    }
+  ],
+  "recordedAtUtc": "2026-11-03T10:29:01.199903+00:00",
+  "notPerformed": [
+    "Full repository Playwright suite",
+    "Physical Android/iOS tests",
+    "Level 1–40 campaigns",
+    "Late chapters and all projects in actual browser or production account",
+    "Mastery trials, domain unlocks, titles or late 32 encounter variants",
+    "Merge, deployment or GPU operations"
+  ],
+  "notes": "Eight final browser scenarios passed (four first chapters Canvas, four touch chronicles Software WebGL). Earlier Canvas chronicle checks are in the previous batch. Full unit tests emit existing jsdom media/canvas warnings; browser tests check no pageerror. No resource or attack balance changes.",
+  "evidenceSha256": {
+    "android-earned-chronicle.png": "223342282e1471421205291e084c84d7bf1f946e8b5e70e288fed4322a8f75e6",
+    "android-equipped-heritage.png": "b90b6bb38853ca7175029a2b1f3ec9714a5dca955218c82f74819ca19974678c",
+    "before-24.txt": "983b463d019a3380b884f4cb46a89606ead24fb369c109d48da8fc4c1c990da0",
+    "before-expanded.txt": "3fcbbdea1a1b3acb03d046a7fb7fb791d36580e06183361e581bfe7822c515b8",
+    "build.txt": "c5f97927548636a54fff80fb50a31922ce2bbc394e1964c12bfe6bc7d4fa9ef3",
+    "chronicle-webgl.txt": "95db0f294f39097e4626abd90d1da8c6ebac1be0ab576861cbc662e333adc6cc",
+    "first-chapters-canvas.txt": "318086f170176f54720a5688b3e6d11a40c54cb40f5b3b647f85b4646d554a0f",
+    "legend-earned-chronicle.png": "14c6c077bb1a69e0b1f95286cea632ff348eecb7321dcb6de2d12ecb79a552d5",
+    "legend-equipped-heritage.png": "4ebc13c7d2187093e20ecbcf919c1e66004d94726484b3a0be1bc1f6d9b32807",
+    "lint.txt": "26b3cf328220622375f70c2db815fe80dddb0f9c990c35dd14bed87876fb826a",
+    "other-first-chapters-before-correction.txt": "5a961d194b10f045c27d66e3159376c26a50553c29d710708e00e29cc30bff6f",
+    "planetary-earned-chronicle.png": "3e4500b5462c4f5087a0cf6b96489d177fceb6a7a609a6b1caf502ccd48d94ce",
+    "planetary-equipped-heritage.png": "b55651a2fec887514d48246a33e33dce2a4a0808b1ae02b3bcc6c8cfa1fe1d71",
+    "sage-earned-chronicle.png": "68c3dc993eb615c94d4b1b4df9c63d871eb3568349751f6da88ee7882e68b4c6",
+    "sage-equipped-heritage.png": "5541e54e753d89a6adda2ee4fadea3074598804854f2312a2e1778a2d81357e8",
+    "targeted-after.txt": "ed5d4ea5f9954a8b11b1ed6dd30739a8865d5e94f742d755e03b5f1c9ef39cc2",
+    "typecheck.txt": "cb22e9a7f443f3f8af04f204380860a9d30a050d9c8f9351f21d7857ac274cc4",
+    "unit-tests.txt": "4ea7e903cf7fac849be3880ceec606220143734f73e98c8a33546d4a8a5f7421",
+    "webgl-android-chronicle.png": "198bcf68aedbbb7e3f09598500de329c2fa9ea2dc39663a156a740cf0ba1e4da",
+    "webgl-legend-chronicle.png": "545a02d936466380021d0cf01304f89e56ebb421d12bfe6369a1531b3f685ad1",
+    "webgl-planetary-chronicle.png": "5684a766ed915cdf54bc557b43adbfd0898052d4d75c0d1dbe324194b44b39ff",
+    "webgl-sage-chronicle.png": "8cace44f636d98decd027ed26f8eb59ca79b26fafcb7368bad1a81a64f2afaed",
+    "documentation.txt": "4e23af009052b9553b4f004fab4383f6ea5be270e6dfea0aa4a531f7fa04d095"
+  }
+}

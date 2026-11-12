@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "id": "npc-aether-guide",
+  "version": "1.2.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "npc-aether-guide-page-0",
+      "version": "1.2.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/npc-aether-guide/1.2.0-b31c650a21c2/npc-aether-guide-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-aether-guide/1.2.0-b31c650a21c2/npc-aether-guide-page-0.json",
+      "width": 1046,
+      "height": 248
+    }
+  ],
+  "actors": [
+    {
+      "id": "npc-aether-guide",
+      "profile": "npc",
+      "presentation": "legacy",
+      "size": [
+        96,
+        96
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "npc-aether-guide-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-aether-guide/idle/down/00",
+              "npc-aether-guide/idle/down/01",
+              "npc-aether-guide/idle/down/02",
+              "npc-aether-guide/idle/down/03",
+              "npc-aether-guide/idle/down/04",
+              "npc-aether-guide/idle/down/05",
+              "npc-aether-guide/idle/down/06",
+              "npc-aether-guide/idle/down/07"
+            ],
+            "down-left": [
+              "npc-aether-guide/idle/down-left/00",
+              "npc-aether-guide/idle/down-left/01",
+              "npc-aether-guide/idle/down-left/02",
+              "npc-aether-guide/idle/down-left/03",
+              "npc-aether-guide/idle/down-left/04",
+              "npc-aether-guide/idle/down-left/05",
+              "npc-aether-guide/idle/down-left/06",
+              "npc-aether-guide/idle/down-left/07"
+            ],
+            "left": [
+              "npc-aether-guide/idle/left/00",
+              "npc-aether-guide/idle/left/01",
+              "npc-aether-guide/idle/left/02",
+              "npc-aether-guide/idle/left/03",
+              "npc-aether-guide/idle/left/04",
+              "npc-aether-guide/idle/left/05",
+              "npc-aether-guide/idle/left/06",
+              "npc-aether-guide/idle/left/07"
+            ],
+            "up-left": [
+              "npc-aether-guide/idle/up-left/00",
+              "npc-aether-guide/idle/up-left/01",
+              "npc-aether-guide/idle/up-left/02",
+              "npc-aether-guide/idle/up-left/03",
+              "npc-aether-guide/idle/up-left/04",
+              "npc-aether-guide/idle/up-left/05",
+              "npc-aether-guide/idle/up-left/06",
+              "npc-aether-guide/idle/up-left/07"
+            ],
+            "up": [
+              "npc-aether-guide/idle/up/00",
+              "npc-aether-guide/idle/up/01",
+              "npc-aether-guide/idle/up/02",
+              "npc-aether-guide/idle/up/03",
+              "npc-aether-guide/idle/up/04",
+              "npc-aether-guide/idle/up/05",
+              "npc-aether-guide/idle/up/06",
+              "npc-aether-guide/idle/up/07"
+            ],
+            "up-right": [
+              "npc-aether-guide/idle/up-right/00",
+              "npc-aether-guide/idle/up-right/01",
+              "npc-aether-guide/idle/up-right/02",
+              "npc-aether-guide/idle/up-right/03",
+              "npc-aether-guide/idle/up-right/04",
+              "npc-aether-guide/idle/up-right/05",
+              "npc-aether-guide/idle/up-right/06",
+              "npc-aether-guide/idle/up-right/07"
+            ],
+            "right": [
+              "npc-aether-guide/idle/right/00",
+              "npc-aether-guide/idle/right/01",
+              "npc-aether-guide/idle/right/02",
+              "npc-aether-guide/idle/right/03",
+              "npc-aether-guide/idle/right/04",
+              "npc-aether-guide/idle/right/05",
+              "npc-aether-guide/idle/right/06",
+              "npc-aether-guide/idle/right/07"
+            ],
+            "down-right": [
+              "npc-aether-guide/idle/down-right/00",
+              "npc-aether-guide/idle/down-right/01",
+              "npc-aether-guide/idle/down-right/02",
+              "npc-aether-guide/idle/down-right/03",
+              "npc-aether-guide/idle/down-right/04",
+              "npc-aether-guide/idle/down-right/05",
+              "npc-aether-guide/idle/down-right/06",
+              "npc-aether-guide/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "npc-aether-guide-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-aether-guide/idle/down/00",
+              "npc-aether-guide/idle/down/01",
+              "npc-aether-guide/idle/down/02",
+              "npc-aether-guide/idle/down/03",
+              "npc-aether-guide/idle/down/04",
+              "npc-aether-guide/idle/down/05",
+              "npc-aether-guide/idle/down/06",
+              "npc-aether-guide/idle/down/07"
+            ],
+            "down-left": [
+              "npc-aether-guide/idle/down-left/00",
+              "npc-aether-guide/idle/down-left/01",
+              "npc-aether-guide/idle/down-left/02",
+              "npc-aether-guide/idle/down-left/03",
+              "npc-aether-guide/idle/down-left/04",
+              "npc-aether-guide/idle/down-left/05",
+              "npc-aether-guide/idle/down-left/06",
+              "npc-aether-guide/idle/down-left/07"
+            ],
+            "left": [
+              "npc-aether-guide/idle/left/00",
+              "npc-aether-guide/idle/left/01",
+              "npc-aether-guide/idle/left/02",
+              "npc-aether-guide/idle/left/03",
+              "npc-aether-guide/idle/left/04",
+              "npc-aether-guide/idle/left/05",
+              "npc-aether-guide/idle/left/06",
+              "npc-aether-guide/idle/left/07"
+            ],
+            "up-left": [
+              "npc-aether-guide/idle/up-left/00",
+              "npc-aether-guide/idle/up-left/01",
+              "npc-aether-guide/idle/up-left/02",
+              "npc-aether-guide/idle/up-left/03",
+              "npc-aether-guide/idle/up-left/04",
+              "npc-aether-guide/idle/up-left/05",
+              "npc-aether-guide/idle/up-left/06",
+              "npc-aether-guide/idle/up-left/07"
+            ],
+            "up": [
+              "npc-aether-guide/idle/up/00",
+              "npc-aether-guide/idle/up/01",
+              "npc-aether-guide/idle/up/02",
+              "npc-aether-guide/idle/up/03",
+              "npc-aether-guide/idle/up/04",
+              "npc-aether-guide/idle/up/05",
+              "npc-aether-guide/idle/up/06",
+              "npc-aether-guide/idle/up/07"
+            ],
+            "up-right": [
+              "npc-aether-guide/idle/up-right/00",
+              "npc-aether-guide/idle/up-right/01",
+              "npc-aether-guide/idle/up-right/02",
+              "npc-aether-guide/idle/up-right/03",
+              "npc-aether-guide/idle/up-right/04",
+              "npc-aether-guide/idle/up-right/05",
+              "npc-aether-guide/idle/up-right/06",
+              "npc-aether-guide/idle/up-right/07"
+            ],
+            "right": [
+              "npc-aether-guide/idle/right/00",
+              "npc-aether-guide/idle/right/01",
+              "npc-aether-guide/idle/right/02",
+              "npc-aether-guide/idle/right/03",
+              "npc-aether-guide/idle/right/04",
+              "npc-aether-guide/idle/right/05",
+              "npc-aether-guide/idle/right/06",
+              "npc-aether-guide/idle/right/07"
+            ],
+            "down-right": [
+              "npc-aether-guide/idle/down-right/00",
+              "npc-aether-guide/idle/down-right/01",
+              "npc-aether-guide/idle/down-right/02",
+              "npc-aether-guide/idle/down-right/03",
+              "npc-aether-guide/idle/down-right/04",
+              "npc-aether-guide/idle/down-right/05",
+              "npc-aether-guide/idle/down-right/06",
+              "npc-aether-guide/idle/down-right/07"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "actorBindings": {
+    "aether.npc.guide": "npc-aether-guide"
+  },
+  "renderBindings": {},
+  "effects": {}
+}

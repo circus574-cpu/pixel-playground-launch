@@ -1,0 +1,52 @@
+{
+  "sourceSHA": "139834679f4618fdfc343c93060f479b1b98b71d",
+  "date": "2026-11-03",
+  "sourceSpecification": "docs/design/racial-development-owner-2026-10-28.txt",
+  "specificationSHA256": "03ea87f725815adab2d74cba84da87a52adfc5cd650600c6a3202f68742359ed",
+  "checks": {
+    "typecheck": "PASS (tsconfig, e2e, tools)",
+    "unitTests": {
+      "passed": 1088,
+      "failed": 0,
+      "skipped": 10,
+      "filesPassed": 96,
+      "filesSkipped": 1,
+      "skippedReason": "10 PostgreSQL account integration tests require KI_ACCOUNTS_TEST_DATABASE_URL; no external database started for this audit",
+      "command": "npm test",
+      "knownLogWarning": "jsdom HTMLMediaElement.prototype.play not implemented; no browser audio acceptance implied"
+    },
+    "focusedTests": {
+      "passed": 136,
+      "failed": 0,
+      "files": 11,
+      "sourceSHA": "c2ff3202c971d4068e945d6aa2e2b48fef46f264",
+      "command": "npx vitest run src/test/development.test.ts src/test/heritage-runtime.test.ts src/test/heritage-content.test.ts src/test/heritage-escort.test.ts src/test/heritage-restraint.test.ts src/test/heritage-measurement.test.ts src/test/protected-combat.test.ts src/test/combat-training.test.ts src/test/server-superior-simulation.test.ts src/test/online-session.test.ts src/test/character-statistics-ui.test.tsx"
+    },
+    "assetProvenanceTests": {
+      "passed": 4,
+      "failed": 0,
+      "command": "npx vitest run src/test/development-etap1-assets.test.ts"
+    },
+    "fullCampaignPlaywright": "NOT EXECUTED; missing activity handlers and racial-trial system make full completion unavailable",
+    "physicalAndroidIOS": "NOT EXECUTED",
+    "productionReadWrite": "NOT EXECUTED; repository audit only",
+    "typecheckCommand": "npm run typecheck",
+    "catalogueReproduction": "PASS: npx tsx docs/zmiany/2026-11-03/qa/progression-audit/audit-catalogue.mjs; compared counts, graph and budget against archived observations",
+    "equipmentReproduction": "PASS: npx tsx docs/zmiany/2026-11-03/qa/progression-audit/reproduce-item-statistics.mjs; output exactly matches archived item-stats-observation.json; four defects remain open",
+    "build": "NOT EXECUTED; documentation and audit scripts only, no runtime changes",
+    "wholeProjectLint": "NOT EXECUTED for this documentation change",
+    "documentation": {
+      "command": "python3 scripts/docs/check_documentation.py",
+      "result": "PASS: 10 thematic manuals, 14 daily journals, local links, 235 unchanged evidence files and 346 protected source/evidence files"
+    },
+    "changedScriptsLint": {
+      "command": "npx eslint docs/zmiany/2026-11-03/qa/progression-audit/*.mjs",
+      "result": "PASS"
+    },
+    "typecheckRepeatedBeforeCommit": "PASS; npm run typecheck after preparing audit documents"
+  },
+  "conclusion": "INCOMPLETE: missing racial trials, natural variant/module unlocks, combat escort/protect activities, late encounters/narrative and confirmed incorrect item-stat application",
+  "changedGameplay": false,
+  "deployed": false,
+  "evidenceLogNormalization": "Trailing empty lines removed; test output and counts otherwise preserved."
+}

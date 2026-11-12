@@ -1,0 +1,18 @@
+{
+  "src/components/game/TrialRoom.tsx": "8642254a48b5d81aabcab11e80262084eb9c5dec4cd9f2a69a0d56dff078be73",
+  "src/components/game/TrialsPanel.tsx": "5f7d3573434d912996bf81f248999904a5fbd3bd0e41d4ea45da1eb3b382def6",
+  "src/game/development/state.ts": "708905eb8a4f5b99778ac7e49fd7358198a2196d82a5b87615939a6ff7316913",
+  "src/game/development/trials/attempt.ts": "68b0c6a80e7643710e7ec1f7901e1b782ffed6aad7b33172f5d290dc168d1b8d",
+  "src/game/development/trials/calibration.ts": "042017d08c841ea9f4f304bfb2d5a4770e46146835551d6b9c7988836205b945",
+  "src/game/development/trials/catalog.ts": "cfd660dc998380987dec7ddd2aec6679af86e7c6f739f247cc7b378c71ae0264",
+  "src/game/development/trials/puzzles.ts": "0ad28b202ca0720701247e7432dd784aaf2817d8c2c1f66bd1499844026ef7f7",
+  "src/game/development/trials/recoveryUnit.ts": "723e9e47ac72af64ac2dac2fed27f15b0afefbee5415697466a83e7876ade588",
+  "src/game/development/trials/resourceControl.ts": "e325172e1220a47e2ef4b9f43299fa877d5a143af3c5b51fa7eb1418197fb632",
+  "src/game/development/trials/runtime.ts": "c3fa48a928d1dc88efe67296981b250d49084bb0bd6950f61732bd13542fb62a",
+  "src/game/session.ts": "b65a148cf1a6648a073076f5b84e58d401725b62eeb92cc601d499387d1a35ed",
+  "src/test/calibration-trials.test.ts": "3be634546630e822069ddbad565065b95846c7fda4f6190341b78f1d4a42014d",
+  "src/test/helpers/racialTrials.ts": "d7ff53116f488015e3bbb9c9b6b17f589400425e3e87e1c7a8abeaec783c589a",
+  "src/test/identity-trials.test.ts": "072083286e176a1a91de7a95a69f755d1c2d0360440a7c23e02ee51353a78dca",
+  "src/test/racial-trial-transactions.test.ts": "d8590fae822e1b1befcb94622abc36d0d6e0fea615e682ab789a7603d4046c88",
+  "src/test/resource-trials.test.ts": "5400b635520e809a462af0cec2158b70bfe96960bf0f7f0cf9b6289c50254b09"
+}

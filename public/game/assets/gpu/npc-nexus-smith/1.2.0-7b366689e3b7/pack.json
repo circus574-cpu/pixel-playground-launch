@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "id": "npc-nexus-smith",
+  "version": "1.2.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "npc-nexus-smith-page-0",
+      "version": "1.2.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/npc-nexus-smith/1.2.0-7b366689e3b7/npc-nexus-smith-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-nexus-smith/1.2.0-7b366689e3b7/npc-nexus-smith-page-0.json",
+      "width": 1029,
+      "height": 252
+    }
+  ],
+  "actors": [
+    {
+      "id": "npc-nexus-smith",
+      "profile": "npc",
+      "presentation": "legacy",
+      "size": [
+        96,
+        96
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "npc-nexus-smith-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-nexus-smith/idle/down/00",
+              "npc-nexus-smith/idle/down/01",
+              "npc-nexus-smith/idle/down/02",
+              "npc-nexus-smith/idle/down/03",
+              "npc-nexus-smith/idle/down/04",
+              "npc-nexus-smith/idle/down/05",
+              "npc-nexus-smith/idle/down/06",
+              "npc-nexus-smith/idle/down/07"
+            ],
+            "down-left": [
+              "npc-nexus-smith/idle/down-left/00",
+              "npc-nexus-smith/idle/down-left/01",
+              "npc-nexus-smith/idle/down-left/02",
+              "npc-nexus-smith/idle/down-left/03",
+              "npc-nexus-smith/idle/down-left/04",
+              "npc-nexus-smith/idle/down-left/05",
+              "npc-nexus-smith/idle/down-left/06",
+              "npc-nexus-smith/idle/down-left/07"
+            ],
+            "left": [
+              "npc-nexus-smith/idle/left/00",
+              "npc-nexus-smith/idle/left/01",
+              "npc-nexus-smith/idle/left/02",
+              "npc-nexus-smith/idle/left/03",
+              "npc-nexus-smith/idle/left/04",
+              "npc-nexus-smith/idle/left/05",
+              "npc-nexus-smith/idle/left/06",
+              "npc-nexus-smith/idle/left/07"
+            ],
+            "up-left": [
+              "npc-nexus-smith/idle/up-left/00",
+              "npc-nexus-smith/idle/up-left/01",
+              "npc-nexus-smith/idle/up-left/02",
+              "npc-nexus-smith/idle/up-left/03",
+              "npc-nexus-smith/idle/up-left/04",
+              "npc-nexus-smith/idle/up-left/05",
+              "npc-nexus-smith/idle/up-left/06",
+              "npc-nexus-smith/idle/up-left/07"
+            ],
+            "up": [
+              "npc-nexus-smith/idle/up/00",
+              "npc-nexus-smith/idle/up/01",
+              "npc-nexus-smith/idle/up/02",
+              "npc-nexus-smith/idle/up/03",
+              "npc-nexus-smith/idle/up/04",
+              "npc-nexus-smith/idle/up/05",
+              "npc-nexus-smith/idle/up/06",
+              "npc-nexus-smith/idle/up/07"
+            ],
+            "up-right": [
+              "npc-nexus-smith/idle/up-right/00",
+              "npc-nexus-smith/idle/up-right/01",
+              "npc-nexus-smith/idle/up-right/02",
+              "npc-nexus-smith/idle/up-right/03",
+              "npc-nexus-smith/idle/up-right/04",
+              "npc-nexus-smith/idle/up-right/05",
+              "npc-nexus-smith/idle/up-right/06",
+              "npc-nexus-smith/idle/up-right/07"
+            ],
+            "right": [
+              "npc-nexus-smith/idle/right/00",
+              "npc-nexus-smith/idle/right/01",
+              "npc-nexus-smith/idle/right/02",
+              "npc-nexus-smith/idle/right/03",
+              "npc-nexus-smith/idle/right/04",
+              "npc-nexus-smith/idle/right/05",
+              "npc-nexus-smith/idle/right/06",
+              "npc-nexus-smith/idle/right/07"
+            ],
+            "down-right": [
+              "npc-nexus-smith/idle/down-right/00",
+              "npc-nexus-smith/idle/down-right/01",
+              "npc-nexus-smith/idle/down-right/02",
+              "npc-nexus-smith/idle/down-right/03",
+              "npc-nexus-smith/idle/down-right/04",
+              "npc-nexus-smith/idle/down-right/05",
+              "npc-nexus-smith/idle/down-right/06",
+              "npc-nexus-smith/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "npc-nexus-smith-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-nexus-smith/idle/down/00",
+              "npc-nexus-smith/idle/down/01",
+              "npc-nexus-smith/idle/down/02",
+              "npc-nexus-smith/idle/down/03",
+              "npc-nexus-smith/idle/down/04",
+              "npc-nexus-smith/idle/down/05",
+              "npc-nexus-smith/idle/down/06",
+              "npc-nexus-smith/idle/down/07"
+            ],
+            "down-left": [
+              "npc-nexus-smith/idle/down-left/00",
+              "npc-nexus-smith/idle/down-left/01",
+              "npc-nexus-smith/idle/down-left/02",
+              "npc-nexus-smith/idle/down-left/03",
+              "npc-nexus-smith/idle/down-left/04",
+              "npc-nexus-smith/idle/down-left/05",
+              "npc-nexus-smith/idle/down-left/06",
+              "npc-nexus-smith/idle/down-left/07"
+            ],
+            "left": [
+              "npc-nexus-smith/idle/left/00",
+              "npc-nexus-smith/idle/left/01",
+              "npc-nexus-smith/idle/left/02",
+              "npc-nexus-smith/idle/left/03",
+              "npc-nexus-smith/idle/left/04",
+              "npc-nexus-smith/idle/left/05",
+              "npc-nexus-smith/idle/left/06",
+              "npc-nexus-smith/idle/left/07"
+            ],
+            "up-left": [
+              "npc-nexus-smith/idle/up-left/00",
+              "npc-nexus-smith/idle/up-left/01",
+              "npc-nexus-smith/idle/up-left/02",
+              "npc-nexus-smith/idle/up-left/03",
+              "npc-nexus-smith/idle/up-left/04",
+              "npc-nexus-smith/idle/up-left/05",
+              "npc-nexus-smith/idle/up-left/06",
+              "npc-nexus-smith/idle/up-left/07"
+            ],
+            "up": [
+              "npc-nexus-smith/idle/up/00",
+              "npc-nexus-smith/idle/up/01",
+              "npc-nexus-smith/idle/up/02",
+              "npc-nexus-smith/idle/up/03",
+              "npc-nexus-smith/idle/up/04",
+              "npc-nexus-smith/idle/up/05",
+              "npc-nexus-smith/idle/up/06",
+              "npc-nexus-smith/idle/up/07"
+            ],
+            "up-right": [
+              "npc-nexus-smith/idle/up-right/00",
+              "npc-nexus-smith/idle/up-right/01",
+              "npc-nexus-smith/idle/up-right/02",
+              "npc-nexus-smith/idle/up-right/03",
+              "npc-nexus-smith/idle/up-right/04",
+              "npc-nexus-smith/idle/up-right/05",
+              "npc-nexus-smith/idle/up-right/06",
+              "npc-nexus-smith/idle/up-right/07"
+            ],
+            "right": [
+              "npc-nexus-smith/idle/right/00",
+              "npc-nexus-smith/idle/right/01",
+              "npc-nexus-smith/idle/right/02",
+              "npc-nexus-smith/idle/right/03",
+              "npc-nexus-smith/idle/right/04",
+              "npc-nexus-smith/idle/right/05",
+              "npc-nexus-smith/idle/right/06",
+              "npc-nexus-smith/idle/right/07"
+            ],
+            "down-right": [
+              "npc-nexus-smith/idle/down-right/00",
+              "npc-nexus-smith/idle/down-right/01",
+              "npc-nexus-smith/idle/down-right/02",
+              "npc-nexus-smith/idle/down-right/03",
+              "npc-nexus-smith/idle/down-right/04",
+              "npc-nexus-smith/idle/down-right/05",
+              "npc-nexus-smith/idle/down-right/06",
+              "npc-nexus-smith/idle/down-right/07"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "actorBindings": {
+    "nexus.npc.smith": "npc-nexus-smith"
+  },
+  "renderBindings": {},
+  "effects": {}
+}

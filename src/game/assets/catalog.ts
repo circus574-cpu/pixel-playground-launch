@@ -310,6 +310,21 @@ const enlargedHeroes = new Set([
   "hero-android",
   "hero-legend",
 ]);
+/** NPCs cut from 256 px film turnarounds: drawn taller than the hero (133) and sharper than the old 128 px residents. */
+const ENLARGED_NPC_ROLES = [
+  "guide",
+  "smith",
+  "keeper",
+  "innkeeper",
+  "steward",
+  "warden",
+  "merchant",
+];
+const enlargedNpcs = new Set(
+  (["verdant", "aether", "nexus", "pyra"] as const).flatMap((w) =>
+    ENLARGED_NPC_ROLES.map((r) => `npc-${w}-${r}`),
+  ),
+);
 export function actorVisual(
   world: WorldId,
   kind: "hero" | "npc" | "enemy",
@@ -328,6 +343,7 @@ export function actorVisual(
   // The Gemini-video heroes fill more of their frame than the old painted sheets; 133 keeps the
   // figure at the height the 160 px painted heroes had, so monsters keep their relative size.
   if (kind === "hero" && enlargedHeroes.has(actor.id)) return { ...actor, size: [133, 133] };
+  if (kind === "npc" && enlargedNpcs.has(actor.id)) return { ...actor, size: [150, 150] };
   return actor;
 }
 export function textureBinding(

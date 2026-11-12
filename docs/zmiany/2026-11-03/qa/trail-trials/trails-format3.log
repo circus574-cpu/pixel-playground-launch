@@ -1,0 +1,3 @@
+src/game/development/trials/attempt.ts 142ms
+src/components/game/TrialRoom.tsx 36ms (unchanged)
+e2e/racial-trials.spec.ts 66ms

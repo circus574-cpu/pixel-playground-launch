@@ -1,0 +1,55 @@
+{
+  "format": "ki-development-balance-1",
+  "sourceSha": "02cf8bb9ceb0e478e6a189a032f305b5f1f6079c",
+  "dirty": false,
+  "runtimeMs": 227996,
+  "seed": "sha256(profile:trial) + LCG",
+  "inputs": {
+    "training": {
+      "none": 0,
+      "mid": 8,
+      "max": 18
+    },
+    "trainingTotalRanks": {
+      "none": 0,
+      "mid": 40,
+      "max": 90
+    },
+    "gear": [
+      "bare",
+      "starter",
+      "highest catalog score within actual level/continent restrictions"
+    ],
+    "skills": "one canonical branch A/B/C, valid prerequisites and exclusions; remaining legal points become ranks",
+    "supplies": "three HP potions at the start of each isolated fight; not a sustainable supply/economy model"
+  },
+  "stepMs": 50,
+  "profiles": 1944,
+  "trials": 8,
+  "notes": [
+    "Controlled prerequisites and gear, not earned campaign saves.",
+    "No render timing and no human reading-time claims.",
+    "Travel 15/30/60 s, interaction 5 s and 0.3% HP/s recovery are sensitivity assumptions, not a measured human campaign duration.",
+    "Fixed practice per repeat is zero. Ordinary kill XP is the opponent catalog value.",
+    "Combat movement and skills use actual GameSession/Kit/MonsterSystem; healing and travel remain separately declared estimates.",
+    "Normal monster and canonical racial/skill numbers are unchanged."
+  ],
+  "xp": {
+    "oneTo20": 12160,
+    "twentyTo40": 36200
+  },
+  "slices": [
+    {
+      "range": "1–20",
+      "cases": 864,
+      "winRateMedian": 1,
+      "fightSecondsMedian": 3.15
+    },
+    {
+      "range": "20–40",
+      "cases": 1080,
+      "winRateMedian": 1,
+      "fightSecondsMedian": 1
+    }
+  ]
+}

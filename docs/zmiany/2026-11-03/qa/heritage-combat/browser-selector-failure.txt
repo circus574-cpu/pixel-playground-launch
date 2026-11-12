@@ -1,0 +1,38 @@
+Running 1 test using 1 worker
+
+(node:14112) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [gameplay] › e2e/development-heritage.spec.ts:76:3 › actual first heritage chapter, project, personal weapon and reload: planetary (2.1m)
+
+
+  1) [gameplay] › e2e/development-heritage.spec.ts:76:3 › actual first heritage chapter, project, personal weapon and reload: planetary
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('Prywatna kronika', { exact: true }).getByText('Mapa otrzymała jawny wykaz luk. Rodziny zaproszono do dopisania własnych świadectw.', { exact: true })
+    Expected: visible
+    Timeout: 60000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByLabel('Prywatna kronika', { exact: true }).getByText('Mapa otrzymała jawny wykaz luk. Rodziny zaproszono do dopisania własnych świadectw.', { exact: true }) with timeout 60000ms
+      - waiting for getByLabel('Prywatna kronika', { exact: true }).getByText('Mapa otrzymała jawny wykaz luk. Rodziny zaproszono do dopisania własnych świadectw.', { exact: true })
+
+
+      164 |     await expect(
+      165 |       chronicle.getByText(definition.choices[0]!.chronicle, { exact: true }),
+    > 166 |     ).toBeVisible();
+          |       ^
+      167 |     await page.screenshot({ path: info.outputPath(race + "-earned-chronicle.png") });
+      168 |     await page.getByRole("tab", { name: "Dziedzictwo", exact: true }).click();
+      169 |     const w = (await saved(page)).development!.heritage.weapon!;
+        at /workspace/ki-aruba/e2e/development-heritage.spec.ts:166:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-heritage-canvas/development-heritage-actua-3c3cd-weapon-and-reload-planetary-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-heritage-canvas/development-heritage-actua-3c3cd-weapon-and-reload-planetary-gameplay/error-context.md
+
+  1 failed
+    [gameplay] › e2e/development-heritage.spec.ts:76:3 › actual first heritage chapter, project, personal weapon and reload: planetary

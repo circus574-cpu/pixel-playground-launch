@@ -1,3 +1,4 @@
+import developmentData from "@/game/admin/worldDevelopment.generated.json";
 import rawCatalog from "@/game/admin/worldOverviewCatalog.generated.json";
 import type { NpcDialogueDefinition } from "@/game/dialogue/types";
 import type { QuestDefinition } from "@/game/quests/types";
@@ -42,6 +43,7 @@ export const overviewCatalog = rawCatalog as unknown as {
 export type Point = { x: number; y: number };
 export type Scope = { land: string; room?: string };
 export type Layer =
+  | "development"
   | "spawns"
   | "npcs"
   | "quests"
@@ -55,6 +57,7 @@ export type Layer =
   | "collision"
   | "scenery";
 export const LAYERS: Record<Layer, { name: string; color: string; symbol: string }> = {
+  development: { name: "Rozwój, dziedzictwa i wyprawy", color: "#a5e1be", symbol: "✶" },
   spawns: { name: "Spawny potworów", color: "#ff786b", symbol: "◆" },
   npcs: { name: "NPC i rozmowy", color: "#80e8e0", symbol: "●" },
   quests: { name: "Questy i cele", color: "#f9d56d", symbol: "!" },
@@ -462,6 +465,15 @@ export function buildLandEntries(
       radius: (overrides.hiddenPlaces[id]?.radius ?? h?.radius ?? 0) + 200,
       details: h ?? p,
     });
+  }
+  const development = developmentData as unknown as {
+    worldHashes: Record<string, string>;
+    entries: Omit<Entry, "search">[];
+  };
+  if (development.worldHashes[info.id]) {
+    if (development.worldHashes[info.id] !== info.worldSha256)
+      throw Error("Odśwież indeks rozwoju dla aktualnej geometrii: " + info.id);
+    for (const e of development.entries.filter((e) => e.land === info.id)) add(e);
   }
   return { entries, rejected };
 }

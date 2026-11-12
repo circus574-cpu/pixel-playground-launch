@@ -129,7 +129,7 @@ export function AdminWorldOverview() {
           matches(e, query) &&
           (!kind || e.kind === kind || e.layer !== "spawns") &&
           (e.layer !== "spawns" || ((e.level ?? 1) >= minLevel && (e.level ?? 1) <= maxLevel)) &&
-          (!quest || e.layer !== "quests" || e.sourceId === quest) &&
+          (!quest || !["quests", "development"].includes(e.layer) || e.sourceId === quest) &&
           (e.layer !== "quests" ||
             quest ||
             (e.details as { target?: { type?: string } }).target?.type !== "combat"),
@@ -275,6 +275,12 @@ export function AdminWorldOverview() {
         <span>
           <b>{allEntries.filter((e) => e.layer === "secrets").length}</b> sekretów
         </span>
+        <span>
+          <b>
+            {new Set(anchors.filter((e) => e.layer === "development").map((e) => e.sourceId)).size}
+          </b>{" "}
+          aktywności rozwoju
+        </span>
         <span className="ki-overview-source">
           {mode === "published"
             ? `Serwer · rewizja ${revision ?? "…"}`
@@ -373,6 +379,15 @@ export function AdminWorldOverview() {
               {Object.entries(overviewCatalog.tutorialQuests).map(([id, name]) => (
                 <option key={id} value={"tutorial:" + id}>
                   {name} · zadanie wstępne
+                </option>
+              ))}
+              {Array.from(
+                new Map(
+                  anchors.filter((e) => e.layer === "development").map((e) => [e.sourceId, e]),
+                ).values(),
+              ).map((e) => (
+                <option key={e.sourceId} value={e.sourceId}>
+                  {e.sourceId} · {e.name}
                 </option>
               ))}
               {joined.quests.map((q) => (
@@ -584,7 +599,8 @@ export function AdminWorldOverview() {
                     <strong>{e.name}</strong>
                     <small>
                       {e.land} · {fmt(e.x)}, {fmt(e.y)}
-                      {e.room ? " · wnętrze" : ""} · {statusName[e.status]}
+                      {e.room ? " · wnętrze" : ""} ·{" "}
+                      {e.layer === "development" ? "W grze · warunkowo" : statusName[e.status]}
                     </small>
                   </span>
                 </button>
@@ -609,7 +625,10 @@ export function AdminWorldOverview() {
               {selected ? (
                 <>
                   <span className="ki-overview-eyebrow">
-                    {LAYERS[selected.layer].name} · {statusName[selected.status]}
+                    {LAYERS[selected.layer].name} ·{" "}
+                    {selected.layer === "development"
+                      ? "W grze · warunkowo"
+                      : statusName[selected.status]}
                   </span>
                   <h3>{selected.name}</h3>
                   <dl>

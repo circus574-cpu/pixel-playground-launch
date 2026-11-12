@@ -1,0 +1,47 @@
+
+Running 3 tests using 1 worker
+
+(node:1109) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/racial-trials.spec.ts:125:3 › Planetarni: real TV07, one-time reward and reload (51.0s)
+  ✓  2 [gameplay] › e2e/racial-trials.spec.ts:125:3 › Planetarni: real TV08, one-time reward and reload (1.0m)
+  ✘  3 [gameplay] › e2e/racial-trials.spec.ts:125:3 › Planetarni: real TV09, one-time reward and reload (2.7m)
+
+
+  1) [gameplay] › e2e/racial-trials.spec.ts:125:3 › Planetarni: real TV09, one-time reward and reload 
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 65
+    Received:   403.5194851810841
+
+    Call Log:
+    - Timeout 60000ms exceeded while waiting on the predicate
+
+      105 |       ),
+      106 |     )
+    > 107 |     .toBeLessThan(65);
+          |      ^
+      108 | }
+      109 |
+      110 | for (const [race, id, land] of [
+        at walkToStation (/workspace/ki-aruba/e2e/racial-trials.spec.ts:107:6)
+        at /workspace/ki-aruba/e2e/racial-trials.spec.ts:163:11
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/care-canvas/racial-trials-Planetarni-r-3b845--one-time-reward-and-reload-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/care-canvas/racial-trials-Planetarni-r-3b845--one-time-reward-and-reload-gameplay/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/care-canvas/racial-trials-Planetarni-r-3b845--one-time-reward-and-reload-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/care-canvas/racial-trials-Planetarni-r-3b845--one-time-reward-and-reload-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [gameplay] › e2e/racial-trials.spec.ts:125:3 › Planetarni: real TV09, one-time reward and reload 
+  2 passed (4.7m)

@@ -1,6 +1,7 @@
 import { beforeAll, afterAll, describe, it, expect, vi } from "vitest";
 import { readFileSync } from "node:fs";
-import { webcrypto } from "node:crypto";
+import development from "../game/admin/worldDevelopment.generated.json";
+import { webcrypto, createHash } from "node:crypto";
 import { loadOverview, OVERVIEW_INDEX, jsonFile } from "../components/admin/world-overview/loader";
 import {
   buildLandEntries,
@@ -219,5 +220,47 @@ describe("Administrator sees actual Superior v2 contents", () => {
     await expect(
       jsonFile("/game/worlds/superior-v2/index.json", new AbortController().signal, "0".repeat(64)),
     ).rejects.toThrow("Niezgodna suma");
+  });
+});
+
+describe("Read-only development contacts from production runtime snapshots", () => {
+  it("covers all 192 activities, including the foreign Android chapter contact", () => {
+    const entries = lands.flatMap((l) => l.entries.filter((e) => e.layer === "development"));
+    expect(entries).toHaveLength(629);
+    expect(new Set(entries.map((e) => e.id)).size).toBe(629);
+    expect(new Set(entries.map((e) => e.sourceId)).size).toBe(192);
+    expect(entries.some((e) => e.sourceId === "H-N04" && e.land === "verdant")).toBe(true);
+    expect(development.unmapped).toEqual([]);
+    const counts = new Map<string, Set<string>>();
+    for (const e of entries) {
+      const details = e.details as {
+        conditional: boolean;
+        definition: { kind: string; variants?: { encounterId: string }[] };
+      };
+      expect(details.conditional).toBe(true);
+      expect(Number.isFinite(e.x) && Number.isFinite(e.y)).toBe(true);
+      const kind = details.definition.kind;
+      if (!counts.has(kind)) counts.set(kind, new Set());
+      counts.get(kind)!.add(e.sourceId);
+    }
+    expect(Object.fromEntries([...counts].map(([k, v]) => [k, v.size]))).toEqual({
+      heritage: 24,
+      project: 24,
+      fieldwork: 48,
+      expedition: 48,
+      trial: 48,
+    });
+    const variants = entries.flatMap(
+      (e) =>
+        (e.details as { definition: { variants?: { encounterId: string }[] } }).definition
+          .variants ?? [],
+    );
+    expect(new Set(variants.map((v) => v.encounterId)).size).toBe(32);
+  });
+  it("rejects stale derived contact data after runtime or geometry changes", () => {
+    for (const [file, hash] of Object.entries(development.sourceHashes))
+      expect(createHash("sha256").update(readFileSync(file)).digest("hex"), file).toBe(hash);
+    for (const [land, hash] of Object.entries(development.worldHashes))
+      expect(OVERVIEW_INDEX.features.find((f) => f.id === land)!.worldSha256).toBe(hash);
   });
 });

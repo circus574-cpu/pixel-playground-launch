@@ -27,6 +27,8 @@ async function main() {
     "src/components/admin/world-overview/PointFacts.tsx",
     "src/components/admin/world-overview/overview.css",
     "src/game/admin/worldOverviewCatalog.generated.json",
+    "src/game/admin/worldDevelopment.generated.json",
+    "scripts/lib/build-world-development.ts",
     "src/routes/admin.tsx",
     "e2e/admin-world-overview.spec.ts",
   ];
@@ -52,6 +54,10 @@ async function main() {
       ).size,
       questMarkers: q.entries.length,
       unmappedQuestTargets: q.unmapped.length,
+      developmentActivities: new Set(
+        entries.filter((e) => e.layer === "development").map((e) => e.sourceId),
+      ).size,
+      developmentMarkers: entries.filter((e) => e.layer === "development").length,
       items: overviewCatalog.items.length,
       recipes: overviewCatalog.recipes.length,
       dialogues: Object.keys(overviewCatalog.dialogues).length,

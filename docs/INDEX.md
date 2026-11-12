@@ -4,7 +4,18 @@
 10 lądów, spawny, NPC, questy i wnętrza. Widok tylko do odczytu; nie jest jeszcze
 scalony ani opublikowany. [Zakres i dowody](zmiany/2026-11-12/ZMIANY.md).
 
-Aktualizacja: **11.11.2026**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
+
+**Skalowanie drzewka — 12.11:** na osobnej gałęzi bilansu (PR #151) wdrożono decyzję:
+pierwsza premia o połowę mniejsza, kolejne punkty +10% tej nowej bazy.
+[Reguła, zakres i pomiar](zmiany/2026-11-12/ZMIANY.md#2-nowe-skalowanie-premii-drzewka--decyzja-i-pomiar).
+
+**Rozwój czterech ras — PR #145, 12.11:** komplet 48 prób / 144 stopni,
+48 zastosowań dziedzin w świecie, 12 fragmentów Księgi Zrozumienia, 32 późne
+warianty i 48 wypraw. Kod i postęp są podłączone do gry; niezależny odbiór,
+fizyczny telefon i balans całej kampanii pozostają otwarte.
+[Wyniki i dowody](zmiany/2026-11-12/ZMIANY.md).
+
+Aktualizacja: **12.11.2026**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
 
 **Wydajność:** audyt 11.11.2026 zmierzył, że wąskim gardłem nie jest symulacja (tick z 32 potworami
 0,79 ms), lecz **pamięć tekstur 198–240 MiB przy budżecie 192 MiB**, pętla widoczności iterująca

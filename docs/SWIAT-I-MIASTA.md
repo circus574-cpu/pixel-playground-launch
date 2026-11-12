@@ -427,7 +427,8 @@ funkcje stacji i ich odbiór wizualny nadal są otwarte, zwłaszcza cele ochrony
 
 ## Świat — przegląd Superior v2 w panelu administratora
 
-Osobna gałąź `feat/admin-world-overview`, od `origin/main@9177b5c0`.
+Osobna gałąź `feat/admin-world-overview`, od `origin/main@9177b5c0`,
+zaktualizowana o bieżący `main@3ea92dbd` bez scalenia PR do głównej.
 Nowa zakładka `/admin` → **Świat — przegląd**, także bezpośrednio
 `/admin?view=world-overview`, jest dostępna dla roli administratora przez istniejący
 mechanizm konta. Nie dodaje operacji edycji, publikowania ani teleportowania.
@@ -435,7 +436,11 @@ mechanizm konta. Nie dodaje operacji edycji, publikowania ani teleportowania.
 Mapa odczytuje indeks i zweryfikowane manifestami dane **Superior v2**: wszystkie
 cztery kontynenty i sześć wysp. Na tej bazie znajdują się 8752 punkty spawnów,
 212 pozycji NPC w 22 osadach, 1715 dróg/ścieżek, 106 questów V2 oraz trzy wspólne
-zadania wstępne `GameSession`. Wnętrza 132 budynków usługowych używają tych samych
+zadania wstępne `GameSession`. Osobna warstwa zawiera również 192 aktywności
+rozwoju: 24 dziedzictwa, 24 projekty, po 48 prac terenowych, wypraw i prób;
+629 kontaktów i celów etapów pochodzi z publicznych snapshotów rzeczywistych
+runtime. 32 warianty przeciwników wypraw są opisane jako spotkania warunkowe,
+z obszarem aktywacji; nie zwiększają liczby stałych spawnów. Wnętrza 132 budynków usługowych używają tych samych
 `cityRoom` i lokalnych współrzędnych co gra. NPC znajdujący się we wnętrzu jest na
 planecie oznaczany przy drzwiach budynku; jego współrzędne pokoju nie stają się
 współrzędnymi kontynentu.
@@ -453,7 +458,10 @@ oraz lokalnym szkicem edytora. Przegląd nie wywołuje `applyAdminWorldOverrides
 nie zmienia globalnych katalogów ani zapisów postaci. Korzysta z odrębnej kopii
 katalogów generowanej poleceniem `npx tsx scripts/lib/build-world-overview.ts`.
 Po zmianie questów, NPC, bestiariusza lub ekonomii należy ją odświeżyć; test porównuje
-kopię z aktualnymi definicjami runtime, aby wykryć rozjazd.
+kopię z aktualnymi definicjami runtime, aby wykryć rozjazd. Kontakty rozwoju odświeża
+`npx tsx scripts/lib/build-world-development.ts`: izolowane sesje bez portu zapisu,
+bez ticków i poleceń gry. Ustawiane liczniki etapów służą tylko odczytaniu lokalizacji,
+nie są dowodem ukończenia kampanii. Testy sprawdzają SHA źródeł i geometrii.
 
 **Definicje nie są stanem żywej sesji.** Punkt spawnu nie oznacza żywego potwora;
 postęp konta, dynamiczne patrole i efekty klatki gry nie są tu śledzone. Surowe

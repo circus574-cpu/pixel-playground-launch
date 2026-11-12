@@ -1,0 +1,17 @@
+{
+  "base": "32ed1b9f325d5ec2a037f76999e4474a3cb8483a",
+  "catalogTrials": 42,
+  "grades": 126,
+  "targeted": {
+    "passed": 187,
+    "failed": 0
+  },
+  "typecheck": "PASS app/e2e/tools",
+  "lint": {
+    "errors": 0,
+    "priorWarnings": 15
+  },
+  "fullRegression": "PENDING completion of six Legend trials",
+  "browser": "NOT_RUN on checkpoint42",
+  "production": "NOT_DEPLOYED"
+}

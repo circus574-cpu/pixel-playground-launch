@@ -1,0 +1,304 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: racial-trials.spec.ts >> Mędrcy: real TA09, one-time reward and reload
+- Location: e2e/racial-trials.spec.ts:131:3
+
+# Error details
+
+```
+Error: expect(received).toBeLessThan(expected)
+
+Expected: < 65
+Received:   108.21280441488788
+
+Call Log:
+- Timeout 60000ms exceeded while waiting on the predicate
+```
+
+# Page snapshot
+
+```yaml
+- main [ref=e3]:
+  - region "Sala prób rasowych" [ref=e4]:
+    - generic "Ki Legends — próba rasowa" [ref=e5]
+    - generic:
+      - region "Postać gracza":
+        - button "Pokaż statystyki postaci" [ref=e7] [cursor=pointer]:
+          - generic [ref=e8]:
+            - 'img "Portret: Mędrcy"'
+          - generic [ref=e9]: "20"
+        - generic:
+          - generic:
+            - text: Wędrowiec
+            - generic: MĘDRCY
+          - meter "Zdrowie":
+            - generic: 632 / 632
+          - meter "Energia KI":
+            - generic: 213 / 213
+          - generic "Doświadczenie 0/1240"
+      - generic:
+        - generic "Powiadomienia gry"
+      - region "Minimapa":
+        - generic "Sala egzaminacyjna"
+        - button "Otwórz mapę świata" [ref=e10] [cursor=pointer]:
+          - generic [ref=e11]:
+            - generic "Sanktuarium Tysiąca Źródeł" [ref=e13]
+            - generic "Tarasy Świtu" [ref=e14]
+            - generic "Biała Przystań" [ref=e15]
+            - generic "Archiwum Nad Chmurami" [ref=e16]
+      - button "◆ Pierwsze kroki Porozmawiaj z guide przy miejscu startowym ›" [ref=e18] [cursor=pointer]:
+        - generic [ref=e19]: ◆
+        - generic [ref=e20]:
+          - strong [ref=e21]: Pierwsze kroki
+          - generic [ref=e22]: Porozmawiaj z guide przy miejscu startowym
+        - generic [ref=e23]: ›
+      - generic:
+        - img "KI LEGENDS":
+          - generic [aria-hidden]:
+            - strong: KI LEGENDS
+        - strong: Sala egzaminacyjna
+        - text: Aetheria
+      - text: ☷
+      - navigation "Umiejętności":
+        - button "Pocisk Ki" [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]: Spacja
+        - button "Unik" [ref=e26] [cursor=pointer]:
+          - generic [ref=e27]: Shift
+        - button "Mikstura życia" [disabled] [ref=e28]:
+          - generic [ref=e29]: Q
+          - generic [ref=e30]: "0"
+      - button "Menu gry" [ref=e31] [cursor=pointer]:
+        - generic [ref=e32]: Widok
+      - navigation "Menu gry":
+        - button "Ekwipunek" [ref=e33] [cursor=pointer]
+        - button "Dziennik" [ref=e35] [cursor=pointer]:
+          - generic [ref=e36]: Zadania
+        - button "Umiejętności" [ref=e37] [cursor=pointer]:
+          - generic "19 punktów umiejętności" [ref=e39]: "19"
+        - button "Ustawienia" [ref=e40] [cursor=pointer]
+      - generic "Akcje":
+        - button "Plan miasta" [ref=e42] [cursor=pointer]
+    - generic:
+      - generic: Profil testowy · Sieć skupienia · stopień 1 · 2/2 · błędy 0/0Wszystkie cele Skupienia wykonane. Zatwierdź wynik.
+      - button "Wyjdź z próby" [ref=e43]
+    - dialog "Wynik próby rasowej" [ref=e44]:
+      - heading "Próba ukończona" [level=2] [ref=e45]
+      - paragraph [ref=e46]: Wszystkie cele Skupienia wykonane. Zatwierdź wynik.
+      - paragraph [ref=e47]: "Wynik: 2/2 · błędy 0 · aktywny czas 45.0 s"
+      - button "Zatwierdź wynik i wróć" [ref=e48] [cursor=pointer]
+      - button "Wróć bez nagrody" [ref=e49] [cursor=pointer]
+  - generic "Ki Legends — ekran gry" [ref=e50]
+```
+
+# Test source
+
+```ts
+  7   |     for (const [key, value] of Object.entries(localStorage)) {
+  8   |       if (key.includes("recovery")) continue;
+  9   |       try {
+  10  |         const save = JSON.parse(value);
+  11  |         if (save.format === "superior-character") return save.player;
+  12  |       } catch {
+  13  |         /* A different browser preference. */
+  14  |       }
+  15  |     }
+  16  |     throw new Error("No active Superior character save");
+  17  |   });
+  18  | }
+  19  | 
+  20  | test.describe("touch racial trial", () => {
+  21  |   test.use({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 } });
+  22  |   test("Androidy: portrait guard, touch navigation and module construction", async ({
+  23  |     page,
+  24  |   }, info) => {
+  25  |     const errors: string[] = [];
+  26  |     page.on("pageerror", (e) => errors.push(e.message));
+  27  |     await page.goto("/scripts/playtest.html?ki-world-v2=1");
+  28  |     await page.getByRole("button", { name: "Wybierz: Androidy", exact: true }).tap();
+  29  |     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).tap();
+  30  |     await expect(page.getByText("Obróć telefon poziomo", { exact: true })).toBeVisible();
+  31  |     await page.setViewportSize({ width: 852, height: 393 });
+  32  |     const canvas = page.locator(".ki-canvas").first();
+  33  |     await expect(canvas).toHaveAttribute("data-player-x", /^\d/);
+  34  |     await openHudTool(page, "Umiejętności", "touch");
+  35  |     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).tap();
+  36  |     await page.getByRole("button", { name: "Podejdź do trenera", exact: true }).tap();
+  37  |     await expect(canvas).toHaveAttribute("data-interior", "arena");
+  38  |     await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).tap();
+  39  |     const before = await owner(page);
+  40  |     await openHudTool(page, "Umiejętności", "touch");
+  41  |     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).tap();
+  42  |     await page.getByRole("tab", { name: "Próby", exact: true }).tap();
+  43  |     const card = page.locator(".ki-development-card").filter({
+  44  |       has: page.getByRole("heading", { name: /^TN08 ·/ }),
+  45  |     });
+  46  |     await card.getByRole("button", { name: "Instrukcja · 1", exact: true }).tap();
+  47  |     await page.getByRole("button", { name: "Rozpocznij próbę rasową", exact: true }).tap();
+  48  |     const stage = page.locator(".ki-trial-stage");
+  49  |     await expect(stage.locator(".ki-canvas")).toHaveAttribute("data-player-x", /^\d/);
+  50  |     await expect(stage.locator('[data-ability="R"]')).toBeVisible();
+  51  |     await page.setViewportSize({ width: 390, height: 844 });
+  52  |     await expect(stage.getByText("Obróć telefon poziomo", { exact: true })).toBeVisible();
+  53  |     await page.screenshot({ path: info.outputPath("touch-portrait-trial-guard.png") });
+  54  |     await page.setViewportSize({ width: 852, height: 393 });
+  55  |     await expect(stage.getByText("Obróć telefon poziomo", { exact: true })).not.toBeVisible();
+  56  |     await walkToStation(page, true);
+  57  |     await stage.getByRole("button", { name: "Zbadaj stanowisko", exact: true }).tap();
+  58  |     const materials = page.getByRole("dialog", { name: "Materiały próby", exact: true });
+  59  |     await materials.getByRole("checkbox", { name: "Skaner · 2 energii", exact: true }).tap();
+  60  |     await materials.getByRole("checkbox", { name: "Precyzja · 3 energii", exact: true }).tap();
+  61  |     await page.screenshot({ path: info.outputPath("touch-modules.png") });
+  62  |     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+  63  |       true,
+  64  |     );
+  65  |     await materials.getByRole("button", { name: "Sprawdź konstrukcję", exact: true }).tap();
+  66  |     const result = page.getByRole("dialog", { name: "Wynik próby rasowej", exact: true });
+  67  |     await expect(result).toContainText("Próba ukończona");
+  68  |     await page.screenshot({ path: info.outputPath("touch-trial-passed.png") });
+  69  |     await result.getByRole("button", { name: "Zatwierdź wynik i wróć", exact: true }).tap();
+  70  |     await expect(stage).toHaveCount(0);
+  71  |     const after = await owner(page);
+  72  |     expect(after.development.trials.TN08).toBe(1);
+  73  |     expect(after.development.practiceEarned - (before.development?.practiceEarned ?? 0)).toBe(100);
+  74  |     await page.reload();
+  75  |     await expect(canvas).toHaveAttribute("data-interior", "arena");
+  76  |     expect((await owner(page)).development.trials.TN08).toBe(1);
+  77  |     expect(errors).toEqual([]);
+  78  |   });
+  79  | });
+  80  | 
+  81  | async function walkToStation(page: Page, touch: boolean, target?: { x: number; y: number }) {
+  82  |   const stage = page.locator(".ki-trial-stage");
+  83  |   const x = target?.x ?? Number(await stage.getAttribute("data-trial-x"));
+  84  |   const y = target?.y ?? Number(await stage.getAttribute("data-trial-y"));
+  85  |   const canvas = stage.locator(".ki-canvas");
+  86  |   const point = await canvas.evaluate(
+  87  |     (el, target) => {
+  88  |       const node = el as HTMLElement,
+  89  |         b = node.getBoundingClientRect();
+  90  |       const zoom = Number(node.dataset["cameraZoom"]);
+  91  |       return {
+  92  |         x: b.x + (target.x - Number(node.dataset["cameraX"]) - b.width / 2) * zoom + b.width / 2,
+  93  |         y: b.y + (target.y - Number(node.dataset["cameraY"]) - b.height / 2) * zoom + b.height / 2,
+  94  |       };
+  95  |     },
+  96  |     { x, y },
+  97  |   );
+  98  |   if (touch) await page.touchscreen.tap(point.x, point.y);
+  99  |   else await page.mouse.click(point.x, point.y);
+  100 |   await expect
+  101 |     .poll(async () =>
+  102 |       Math.hypot(
+  103 |         Number(await canvas.getAttribute("data-player-x")) - x,
+  104 |         Number(await canvas.getAttribute("data-player-y")) - y,
+  105 |       ),
+  106 |     )
+> 107 |     .toBeLessThan(65);
+      |      ^ Error: expect(received).toBeLessThan(expected)
+  108 | }
+  109 | 
+  110 | for (const [race, id, land] of [
+  111 |   ["Planetarni", "TV07", "verdant"],
+  112 |   ["Planetarni", "TV08", "verdant"],
+  113 |   ["Planetarni", "TV09", "verdant"],
+  114 |   ["Planetarni", "TV10", "verdant"],
+  115 |   ["Planetarni", "TV01", "verdant"],
+  116 |   ["Planetarni", "TV02", "verdant"],
+  117 |   ["Planetarni", "TV03", "verdant"],
+  118 |   ["Planetarni", "TV04", "verdant"],
+  119 |   ["Planetarni", "TV05", "verdant"],
+  120 |   ["Planetarni", "TV06", "verdant"],
+  121 |   ["Mędrcy", "TA07", "aether"],
+  122 |   ["Mędrcy", "TA08", "aether"],
+  123 |   ["Mędrcy", "TA09", "aether"],
+  124 |   ["Mędrcy", "TA04", "aether"],
+  125 |   ["Mędrcy", "TA05", "aether"],
+  126 |   ["Mędrcy", "TA06", "aether"],
+  127 |   ["Mędrcy", "TA01", "aether"],
+  128 |   ["Androidy", "TN08", "nexus"],
+  129 |   ["Legendy", "TP08", "pyra"],
+  130 | ] as const) {
+  131 |   test(`${race}: real ${id}, one-time reward and reload`, async ({ page }, info) => {
+  132 |     const errors: string[] = [];
+  133 |     page.on("pageerror", (e) => errors.push(e.message));
+  134 |     await page.goto("/scripts/playtest.html?ki-world-v2=1");
+  135 |     await page.getByRole("button", { name: `Wybierz: ${race}`, exact: true }).click();
+  136 |     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+  137 |     const canvas = page.locator(".ki-canvas").first();
+  138 |     await expect(canvas).toHaveAttribute("data-player-x", /^\d/);
+  139 |     await openHudTool(page, "Umiejętności");
+  140 |     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).click();
+  141 |     await page.getByRole("button", { name: "Podejdź do trenera", exact: true }).click();
+  142 |     await expect(canvas).toHaveAttribute("data-interior", "arena");
+  143 |     await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+  144 |     const before = await owner(page);
+  145 |     await openHudTool(page, "Umiejętności");
+  146 |     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).click();
+  147 |     await page.getByRole("tab", { name: "Próby", exact: true }).click();
+  148 |     const card = page.locator(".ki-development-card").filter({
+  149 |       has: page.getByRole("heading", { name: new RegExp(`^${id} ·`) }),
+  150 |     });
+  151 |     await card.getByRole("button", { name: "Instrukcja · 1", exact: true }).click();
+  152 |     await page.getByRole("button", { name: "Rozpocznij próbę rasową", exact: true }).click();
+  153 |     const stage = page.locator(".ki-trial-stage");
+  154 |     await expect(stage.locator(".ki-canvas")).toHaveAttribute("data-player-x", /^\d/);
+  155 |     await expect(stage.locator('[data-ability="R"]')).toBeVisible();
+  156 |     await expect
+  157 |       .poll(async () => {
+  158 |         const metrics = await stage.locator(".ki-canvas").getAttribute("data-metrics");
+  159 |         return metrics ? JSON.parse(metrics).renderer : null;
+  160 |       })
+  161 |       .toBe(info.project.name === "software-webgl" ? "WebGL" : "Canvas");
+  162 |     if (id === "TA07") {
+  163 |       for (let i = 0; i < 2; i++) {
+  164 |         await walkToStation(page, false);
+  165 |         await expect(stage).toHaveAttribute("data-focus-phase", "ready");
+  166 |         const skill = stage.locator('[data-ability="C1"]');
+  167 |         await expect(skill).toBeEnabled();
+  168 |         await skill.click();
+  169 |         await expect(stage).toHaveAttribute("data-focus-phase", "channel");
+  170 |         if (i === 0) await page.screenshot({ path: info.outputPath("focus-channel-c1.png") });
+  171 |         await expect(stage).toHaveAttribute("data-trial-successes", String(i + 1));
+  172 |       }
+  173 |     } else if (id === "TA08") {
+  174 |       for (let i = 0; i < 3; i++) {
+  175 |         await walkToStation(page, false);
+  176 |         await stage.getByRole("button", { name: "Zbadaj stanowisko", exact: true }).click();
+  177 |         const materials = page.getByRole("dialog", { name: "Materiały próby", exact: true });
+  178 |         await expect(materials).toContainText("Regeneracja nie odnawia");
+  179 |         if (i === 0) await page.screenshot({ path: info.outputPath("focus-ki-budget.png") });
+  180 |         await materials.getByRole("button", { name: /^Precyzyjny przepływ/ }).click();
+  181 |         await expect(stage).toHaveAttribute("data-trial-successes", String(i + 1));
+  182 |       }
+  183 |       expect(Number(await stage.getAttribute("data-focus-spent"))).toBeLessThanOrEqual(
+  184 |         Number(await stage.getAttribute("data-focus-budget")),
+  185 |       );
+  186 |     } else if (id === "TA09") {
+  187 |       const result = page.getByRole("dialog", { name: "Wynik próby rasowej", exact: true });
+  188 |       let previous = "";
+  189 |       for (let i = 0; i < 1000 && !(await result.count()); i++) {
+  190 |         const d = await stage.evaluate((el) => ({ ...el.dataset }));
+  191 |         if (d["trialX"] !== undefined && d["trialY"] !== undefined) {
+  192 |           const key = `${d["trialX"]},${d["trialY"]}`;
+  193 |           if (key !== previous) {
+  194 |             previous = key;
+  195 |             await walkToStation(page, false);
+  196 |             if (i === 0) await page.screenshot({ path: info.outputPath("focus-active-nodes.png") });
+  197 |           }
+  198 |         }
+  199 |         await page.waitForTimeout(100);
+  200 |       }
+  201 |       expect(Number(await stage.getAttribute("data-focus-remaining"))).toBe(0);
+  202 |     } else if (id === "TA04" || id === "TA06") {
+  203 |       const result = page.getByRole("dialog", { name: "Wynik próby rasowej", exact: true });
+  204 |       let previous = "";
+  205 |       for (let i = 0; i < 1500 && !(await result.count()); i++) {
+  206 |         const d = await stage.evaluate((el) => ({ ...el.dataset }));
+  207 |         if (
+```

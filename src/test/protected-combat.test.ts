@@ -290,3 +290,17 @@ describe("registered protected receivers in the existing monster AI", () => {
     expect(s.monsters.setCombatTarget(e, a.port.id)).toBe(false);
   });
 });
+
+it("a hero inside a safe city does not freeze attacks on a registered ally outside it", () => {
+  const { s, tick } = fixture();
+  s.player.x = 100;
+  s.player.y = 100;
+  expect(s.safe).toBe(true);
+  const friendly = new ProtectedActor(s, "Podopieczny", { x: 280, y: 150 }, 1000, 0, true);
+  const enemy = s.monsters.spawn("nexus-pelzacz-serwisowy", { x: 310, y: 150 });
+  expect(s.monsters.setCombatTarget(enemy, friendly.id)).toBe(true);
+  tick(4000);
+  expect(friendly.body.hp).toBeLessThan(1000);
+  expect(s.player.hp).toBe(s.kit.stats.maxHp);
+  friendly.dispose();
+});

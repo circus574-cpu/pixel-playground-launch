@@ -111,6 +111,7 @@ for (const viewport of [
     const overview = page.getByRole("region", { name: "Świat — przegląd", exact: true });
     await expect(overview.locator(".ki-overview-stats")).toContainText(/8\s?752/);
     await expect(overview.locator(".ki-overview-stats")).toContainText("rewizja 7");
+    await expect(overview.locator(".ki-overview-stats")).toContainText("192");
     const canvas = page.getByTestId("world-overview-canvas");
     await expect(canvas).toHaveAttribute("data-background-loaded", "1");
     await expect(canvas).toHaveAttribute("data-road-count", "1715");
@@ -136,7 +137,7 @@ for (const viewport of [
     await page.getByRole("combobox", { name: "Ląd na mapie" }).selectOption("island-3");
     await expect(canvas).toHaveAttribute("data-scope", "island-3");
     await expect(canvas).toHaveAttribute("data-background-loaded", "1");
-    await page.getByRole("combobox", { name: "Quest na mapie" }).selectOption({ index: 4 });
+    await page.getByRole("combobox", { name: "Quest na mapie" }).selectOption("O-V01");
     await expect(overview.locator(".ki-overview-quest")).toBeVisible();
     await expect(overview.locator(".ki-overview-quest")).toContainText("XP");
     await page.getByRole("tab", { name: /Bez pozycji/ }).click();
@@ -233,4 +234,24 @@ test("tools: bounded scenery, coordinates export, pan, pinch and cancellation", 
   await cdp.send("Input.dispatchTouchEvent", { type: "touchCancel", touchPoints: [] });
   await expect.poll(async () => Number(await canvas.getAttribute("data-zoom"))).toBeGreaterThan(z);
   await cdp.detach();
+});
+
+test("development activities expose conditional expedition areas rather than permanent spawns", async ({
+  page,
+}, info) => {
+  await session(page, ["admin"]);
+  await page.goto("/admin?view=world-overview");
+  await expect(page.getByText("10/10", { exact: true })).toBeVisible();
+  const overview = page.getByRole("region", { name: "Świat — przegląd", exact: true });
+  await page.getByRole("textbox", { name: "Szukaj na mapie świata" }).fill("E-aether-22-single");
+  await overview
+    .locator('[data-entry-layer="development"][data-entry-id="E-aether-22-single"]')
+    .click();
+  await expect(page.getByTestId("world-overview-canvas")).toHaveAttribute("data-scope", "aether");
+  await expect(overview.locator(".ki-overview-detail")).toContainText("W grze · warunkowo");
+  await expect(overview.locator(".ki-overview-detail")).toContainText(
+    "Aktorzy powstają dopiero po starcie wyprawy",
+  );
+  await expect(overview.locator(".ki-overview-facts")).toContainText("HP");
+  await overview.screenshot({ path: info.outputPath("conditional-expedition.png") });
 });

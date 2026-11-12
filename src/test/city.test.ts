@@ -301,7 +301,7 @@ describe("personal depot, conservation and guarded saves", () => {
     expect(loaded.interior).toBeNull();
     expect(storage.getItem("slot")).toBe(raw);
     expect(save.save(loaded)).toBe(true);
-    expect(JSON.parse(storage.getItem("slot")!).version).toBe(9);
+    expect(JSON.parse(storage.getItem("slot")!).version).toBe(11);
   });
   it.each(["future", "unknown-material", "foreign-interior", "invalid-upgrade"])(
     "preserves the original %s save",

@@ -57,6 +57,7 @@ export function examAssets(race: RaceId): AssetDefinition[] {
 /** Presentation adapter only. The pure session/attempt never imports the graphics catalog. */
 export function examRuntime(attempt: ExamAttempt): GameRuntime {
   return {
+    centerSmallWorld: true,
     authoritative: attempt.authoritative,
     session: attempt.session,
     assets: examAssets(attempt.race),

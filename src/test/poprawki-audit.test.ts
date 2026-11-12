@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { monsterVisual } from "../game/assets/catalog";
-import { equipmentStats } from "../game/session";
+import { GameSession, equipmentStats } from "../game/session";
 import { WORLDS } from "../game/world/worlds";
 import aetherSpawns from "../../public/game/worlds/superior-v2/aether/spawns.json" with { type: "json" };
 import nexusSpawns from "../../public/game/worlds/superior-v2/nexus/spawns.json" with { type: "json" };
@@ -25,7 +25,7 @@ describe("POPRAWKI - Weryfikacja poprawek z audytu technicznego", () => {
     expect(visual.id).not.toBe("boar-v1");
   });
 
-  it("Błąd 3: bonus do szybkości ruchu (moveSpeedPercent) trafia do moveSpeedPct, a nie attackSpeedPct", () => {
+  it("Błąd 3: bonus do szybkości ruchu (moveSpeedPercent) zmienia rzeczywisty ruch, bez zmiany odstępu ataków", () => {
     // Przedmiot z bonusem moveSpeedPercent w slocie feet
     const stats = equipmentStats({
       weapon: null,
@@ -39,11 +39,26 @@ describe("POPRAWKI - Weryfikacja poprawek z audytu technicznego", () => {
         ring: null,
         offhand: null,
         hands: null,
-        feet: "BUTY-15-01",
+        feet: "ZEST-04-04",
       },
     });
-    // moveSpeedPct powinno zawierać bonus szybkości biegu
-    expect(stats.moveSpeedPct).toBeGreaterThanOrEqual(0);
+    // PR #90 uses the catalog's percentage field directly, preserving actual movement.
+    expect(stats.moveSpeedPercent).toBeGreaterThan(0);
+    const session = new GameSession(undefined, "planetary");
+    session.player.level = 15;
+    const before = session.kit.stats;
+    session.player.equipment = {
+      head: null,
+      weapon: null,
+      armor: null,
+      amulet: null,
+      ring: null,
+      offhand: null,
+      hands: null,
+      feet: "ZEST-04-04",
+    };
+    expect(session.kit.stats.speed).toBeCloseTo(before.speed * (1 + stats.moveSpeedPercent! / 100));
+    expect(session.kit.stats.attackInterval).toBe(before.attackInterval);
     // attackSpeedPct nie powinno być sztucznie zawyżone przez szybkość biegu
     expect(stats.attackSpeedPct).toBe(0);
   });

@@ -149,3 +149,72 @@
   box-shadow: 0 0 0 1px #143130;
   transform: translate(-50%, -50%) rotate(45deg);
 }
+
+.ki-trial-document {
+  white-space: pre-line;
+  line-height: 1.7;
+}
+.ki-trial-module {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.5rem;
+}
+.ki-trial-stage .ki-exam-toolbar {
+  top: 110px;
+  bottom: auto;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  max-width: min(480px, 56vw);
+  flex-wrap: wrap;
+  pointer-events: none;
+}
+.ki-trial-stage .ki-exam-toolbar button {
+  pointer-events: auto;
+}
+@media (max-height: 500px) {
+  .ki-trial-stage .ki-exam-toolbar {
+    top: 76px;
+    max-width: 52vw;
+    font-size: 0.72rem;
+    padding: 0.3rem;
+  }
+}
+.ki-trial-stage .ki-exam-result {
+  inset: 8% 10%;
+}
+@media (max-width: 600px) {
+  .ki-trial-stage .ki-exam-result {
+    inset: 8px;
+    padding: 0.8rem;
+  }
+  .ki-trial-stage .ki-exam-toolbar {
+    max-width: 65vw;
+    font-size: 0.75rem;
+    padding: 0.35rem;
+  }
+}
+
+/* Active racial tasks need their cues while the menu is closed on a phone. */
+@media (max-height: 500px) and (min-width: 480px) {
+  .ki-hud .ki-quest.ki-development-objective {
+    display: flex;
+    top: auto;
+    bottom: calc(8px + env(safe-area-inset-bottom));
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: min(360px, calc(100% - 400px));
+    min-height: 44px;
+    max-height: 90px;
+    overflow: hidden;
+    padding: 5px 8px;
+  }
+  .ki-hud .ki-quest.ki-development-objective div > span {
+    display: block;
+    font-size: 10px;
+    line-height: 1.3;
+  }
+}

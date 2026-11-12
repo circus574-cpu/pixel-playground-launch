@@ -1,3 +1,4 @@
+import { HeritageEncounter, combatGround, combatNavigation } from "./encounter";
 import type { GameSession } from "../../session";
 import { distance, type Navigation, type Point } from "../../navigation";
 import type { HeritageGoal } from "./types";
@@ -11,9 +12,16 @@ export type EscortCheckpoint = {
   actor: Point;
   player: Point;
   healthFraction: number;
+  combatCleared?: boolean;
 };
 /** Stable local route; every leg is checked against the existing navigation. */
-export function escortRoute(nav: Navigation, start: Point, count: number, id: string): Point[] {
+export function escortRoute(
+  nav: Navigation,
+  start: Point,
+  count: number,
+  id: string,
+  allowed: (point: Point) => boolean = () => true,
+): Point[] {
   if (!Number.isInteger(count) || count < 1 || count > 8) throw Error("Invalid escort route");
   const angle = ([...id].reduce((n, c) => n + c.charCodeAt(0), 0) * Math.PI) / 180;
   const points: Point[] = [];
@@ -28,6 +36,8 @@ export function escortRoute(nav: Navigation, start: Point, count: number, id: st
       });
       const path = nav.path(previous, point);
       if (
+        allowed(point) &&
+        path.every(allowed) &&
         distance(previous, point) >= 140 &&
         path.length &&
         distance(path.at(-1)!, point) < 20 &&
@@ -44,10 +54,11 @@ export function escortRoute(nav: Navigation, start: Point, count: number, id: st
   }
   return points;
 }
-/** Non-combat delivery only. Combat escorts must use actual protected-actor damage, not this controller. */
+/** Checkpointed escort, optionally guarded by a genuine protected actor and quest-owned AI. */
 export class EscortActivity {
   readonly id = "escort:" + crypto.randomUUID();
   readonly actor: Point;
+  private encounter: HeritageEncounter | null = null;
   private phase: "escort" | "passed" | "failed" = "escort";
   private completed: number;
   private lastNow: number;
@@ -55,6 +66,7 @@ export class EscortActivity {
   private path: Point[] = [];
   private reason = "";
   private moving = false;
+  private readonly navigation: Navigation;
   private facing = { x: 0, y: 1 };
   constructor(
     private readonly session: GameSession,
@@ -66,16 +78,22 @@ export class EscortActivity {
     private readonly confirm: (proof: EscortCheckpoint) => boolean,
   ) {
     if (
-      goal.combat ||
       route.length !== goal.checkpoints ||
       !Number.isInteger(completed) ||
       completed < 0 ||
       completed >= route.length
     )
       throw Error("Invalid peaceful escort");
+    this.navigation = goal.combat ? combatNavigation(session) : session.nav;
     this.completed = completed;
     this.actor = { ...(completed ? route[completed - 1]! : base.point) };
     this.lastNow = session.nowMs;
+    if (goal.combat) {
+      if (base.interior || ![this.actor, ...route].every((p) => combatGround(session, p)))
+        throw Error("Trasa bojowa opuszcza bezpieczny teren wyprawy.");
+      this.encounter = new HeritageEncounter(session, goal.id, goal.actor, this.actor, true);
+      this.actor = this.encounter.actor.body;
+    }
   }
   nextTarget(): HeritageTarget {
     return {
@@ -104,10 +122,34 @@ export class EscortActivity {
     ) {
       this.phase = "failed";
       this.reason = "Eskortę przerwano. Ostatni zapisany punkt pozostaje do wznowienia.";
+      this.encounter?.dispose();
+      return;
+    }
+    this.encounter?.update(dt);
+    if (
+      this.encounter &&
+      (!combatGround(s, this.actor) ||
+        !this.encounter.actor.valid() ||
+        this.encounter.healthFraction < this.goal.minHealthFraction)
+    ) {
+      this.phase = "failed";
+      this.reason = "Podopieczny utracił wymagane zdrowie. Wróć do ostatniego zapisanego punktu.";
+      this.encounter.dispose();
       return;
     }
     // A companion waits for the player. Time alone never completes a checkpoint.
     if (distance(s.player, this.actor) > 220) return;
+    if (this.encounter) {
+      try {
+        this.encounter.startWave(this.completed);
+      } catch (error) {
+        this.phase = "failed";
+        this.reason = error instanceof Error ? error.message : "Nie udało się rozpocząć fali.";
+        this.encounter.dispose();
+        return;
+      }
+      if (!this.encounter.cleared || this.encounter.actor.fx.cannotMove) return;
+    }
     const next = this.route[this.completed]!;
     if (distance(this.actor, next) < 20) {
       if (distance(s.player, next) > 130 || !s.nav.visible(s.player, next)) return;
@@ -117,25 +159,31 @@ export class EscortActivity {
         checkpoint: this.completed + 1,
         actor: { ...this.actor },
         player: { x: s.player.x, y: s.player.y },
-        healthFraction: 1,
+        healthFraction: this.encounter?.healthFraction ?? 1,
+        combatCleared: !!this.encounter?.cleared,
       };
       if (!this.confirm(proof)) return;
       this.completed++;
       this.path = [];
       if (this.completed === this.route.length) {
         this.phase = "passed";
-        this.reason = "Dostawa dotarła do celu. Punkty zapisano.";
+        this.reason = "Podopieczny dotarł do celu. Punkty zapisano.";
+        this.encounter?.dispose();
       }
       return;
     }
     if (s.nowMs >= this.repathAt || !this.path.length) {
-      this.path = s.nav.path(this.actor, next);
+      this.path = this.navigation.path(this.actor, next);
       this.repathAt = s.nowMs + 750;
     }
     const waypoint = this.path[0];
     if (!waypoint) return;
     const before = { ...this.actor },
-      position = s.nav.step(this.actor, waypoint, (100 * dt) / 1000);
+      position = this.navigation.step(
+        this.actor,
+        waypoint,
+        (100 * (this.encounter?.actor.fx.speedMul ?? 1) * dt) / 1000,
+      );
     Object.assign(this.actor, position);
     this.moving = distance(before, position) > 0.01;
     if (this.moving) this.facing = { x: position.x - before.x, y: position.y - before.y };
@@ -145,7 +193,7 @@ export class EscortActivity {
     return {
       id: this.id,
       goalId: this.goal.id,
-      title: "Eskorta dostawy",
+      title: this.goal.combat ? "Eskorta bojowa" : "Eskorta dostawy",
       phase: this.phase,
       windows: this.completed,
       target: this.goal.checkpoints,
@@ -153,8 +201,13 @@ export class EscortActivity {
       remainingMs: 0,
       message:
         this.phase === "escort"
-          ? "Prowadź towarzysza do kolejnego punktu. Czeka, gdy odejdziesz."
+          ? this.encounter && !this.encounter.cleared
+            ? "Osłoń podopiecznego: pokonaj przeciwnika. Zdrowie: " +
+              Math.ceil(this.encounter.healthFraction * 100) +
+              "%"
+            : "Prowadź towarzysza do kolejnego punktu. Czeka, gdy odejdziesz."
           : this.reason,
+      healthFraction: this.encounter?.healthFraction ?? 1,
       actor: {
         ...this.actor,
         name: this.goal.actor,
@@ -166,5 +219,6 @@ export class EscortActivity {
   dispose() {
     this.phase = "failed";
     this.path = [];
+    this.encounter?.dispose();
   }
 }

@@ -1,0 +1,39 @@
+{
+  "trials": 27,
+  "tiers": 81,
+  "races": [
+    {
+      "race": "planetary",
+      "trials": 12,
+      "tiers": 36,
+      "practice": 5400,
+      "theoreticalTotal": 17800,
+      "remainingTo17800": 0
+    },
+    {
+      "race": "sage",
+      "trials": 9,
+      "tiers": 27,
+      "practice": 4050,
+      "theoreticalTotal": 16450,
+      "remainingTo17800": 1350
+    },
+    {
+      "race": "android",
+      "trials": 3,
+      "tiers": 9,
+      "practice": 1350,
+      "theoreticalTotal": 13750,
+      "remainingTo17800": 4050
+    },
+    {
+      "race": "legend",
+      "trials": 3,
+      "tiers": 9,
+      "practice": 1350,
+      "theoreticalTotal": 13750,
+      "remainingTo17800": 4050
+    }
+  ],
+  "scope": "catalog arithmetic, not campaign reachability"
+}

@@ -1,0 +1,57 @@
+{
+  "status": "TARGETED_INTEGRATION_VERIFIED",
+  "basePR90": "77dfb0e70a3a09729daa87e831af9781f46884fd",
+  "focusPR122": "871183693b4d038a5e2d17100ce22200d75660aa",
+  "unit": {
+    "passed": 1501,
+    "failed": 0,
+    "skipped": 10,
+    "skipReason": "Separate PostgreSQL QA"
+  },
+  "typecheck": "PASS: app/e2e/tools",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 15
+  },
+  "assets": "PASS",
+  "browser": {
+    "passed": 12,
+    "failed": 0,
+    "canvas": 6,
+    "softwareWebGL": 6,
+    "durationMinutes": 14.1,
+    "scope": "TA07-TA12 grade I, real Phaser controls, owner resources, one-time award and reload; grades II/III through controllers and transactions"
+  },
+  "sourceHashes": "source-sha256.json",
+  "scope": "Integration of 30 trials / 90 grades; not a completed campaign, not a current-main integration, no production deployment",
+  "runtimeSha": "67b49179290a37ce171d401544f8e4e47aff8a37",
+  "fullProjectPlaywright": "NOT_RUN: targeted real TA07-TA12 only",
+  "physicalAndroid": "NOT_VERIFIED",
+  "physicaliOS": "NOT_VERIFIED",
+  "hardwareWebGL": "NOT_VERIFIED",
+  "productionDeployment": "NOT_PERFORMED",
+  "ci": "Not automatically triggered: stacked PR targets feature/complete-character-development, quality workflow filters main; full CI handoff remains",
+  "build": "PASS",
+  "playtestBuild": "PASS",
+  "documentation": "PASS",
+  "versions": {
+    "node": "v24.19.0",
+    "npm": "11.9.0"
+  },
+  "mobile": {
+    "passed": 3,
+    "failed": 0,
+    "viewport": [
+      852,
+      393
+    ],
+    "androidTouch": "Portrait guard 390x844 -> landscape, taps and module trial",
+    "sageLayout": [
+      "TA08 I",
+      "TA12 I"
+    ],
+    "renderer": "Canvas",
+    "physicalDevice": false
+  },
+  "runtimeUnchangedSinceTests": true
+}

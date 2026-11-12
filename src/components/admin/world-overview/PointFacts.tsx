@@ -48,6 +48,27 @@ export function PointFacts({ entry }: { entry: Entry }) {
       </div>
     );
   }
+  if (entry.layer === "development") {
+    const d = entry.details as {
+      note: string;
+      definition: {
+        kind: string;
+        spawnPolicy?: string;
+        variants?: { encounterId: string; name: string; level: number; hp: number }[];
+      };
+    };
+    return (
+      <div className="ki-overview-facts">
+        <p>{d.note}</p>
+        {d.definition.spawnPolicy && <p>{d.definition.spawnPolicy}</p>}
+        {d.definition.variants?.map((v) => (
+          <p key={v.encounterId}>
+            <b>{v.name}</b> · poziom {v.level} · HP {v.hp} · {v.encounterId}
+          </p>
+        ))}
+      </div>
+    );
+  }
   if (entry.layer === "npcs") {
     const npc = entry.details as {
       role: string;
