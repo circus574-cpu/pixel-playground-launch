@@ -1,0 +1,121 @@
+
+Running 16 tests using 1 worker
+
+(node:73150) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni (1.4m)
+(node:73475) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Mędrcy (26.5s)
+  ✓   3 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Androidy (22.9s)
+  ✓   4 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Legendy (23.5s)
+(node:73856) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [gameplay] › e2e/skill-rank-balance.spec.ts:12:3 › owner bonus rule persists and matches actual HUD: planetary (49.9s)
+  ✓   6 [gameplay] › e2e/skill-rank-balance.spec.ts:12:3 › owner bonus rule persists and matches actual HUD: sage (1.1m)
+  ✓   7 [gameplay] › e2e/skill-rank-balance.spec.ts:12:3 › owner bonus rule persists and matches actual HUD: android (59.4s)
+  ✓   8 [gameplay] › e2e/skill-rank-balance.spec.ts:12:3 › owner bonus rule persists and matches actual HUD: legend (41.2s)
+(node:74623) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni (1.6m)
+(node:74850) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Mędrcy (42.7s)
+  ✓  11 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Androidy (33.4s)
+  ✓  12 [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Legendy (32.5s)
+(node:75208) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [software-webgl] › e2e/skill-rank-balance.spec.ts:12:3 › owner bonus rule persists and matches actual HUD: planetary (1.3m)
+  ✓  14 [software-webgl] › e2e/skill-rank-balance.spec.ts:12:3 › owner bonus rule persists and matches actual HUD: sage (2.7m)
+  ✓  15 [software-webgl] › e2e/skill-rank-balance.spec.ts:12:3 › owner bonus rule persists and matches actual HUD: android (1.8m)
+  ✓  16 [software-webgl] › e2e/skill-rank-balance.spec.ts:12:3 › owner bonus rule persists and matches actual HUD: legend (55.1s)
+
+
+  1) [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni ─────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.ki-hud')
+    Expected: visible
+    Timeout: 60000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.ki-hud') with timeout 60000ms
+      - waiting for locator('.ki-hud')
+
+
+       at fixtures.ts:292
+
+      290 | async function base_expectHud(page: import("@playwright/test").Page) {
+      291 |   const { expect } = await import("@playwright/test");
+    > 292 |   await expect(page.locator(".ki-hud")).toBeVisible();
+          |                                         ^
+      293 | }
+      294 | /** Learns a skill-tree node through the real "Umiejętności" panel. */
+      295 | export async function learnSkill(page: import("@playwright/test").Page, name: string) {
+        at base_expectHud (/workspace/ki-skill-balance/e2e/fixtures.ts:292:41)
+        at patchActiveCharacter (/workspace/ki-skill-balance/e2e/fixtures.ts:288:3)
+        at /workspace/ki-skill-balance/e2e/combat-skills.spec.ts:30:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-rank-sha-browser/combat-skills-canonical-skill-in-real-PvE-Planetarni-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-rank-sha-browser/combat-skills-canonical-skill-in-real-PvE-Planetarni-gameplay/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-rank-sha-browser/combat-skills-canonical-skill-in-real-PvE-Planetarni-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-rank-sha-browser/combat-skills-canonical-skill-in-real-PvE-Planetarni-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni ───
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.ki-hud')
+    Expected: visible
+    Timeout: 60000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.ki-hud') with timeout 60000ms
+      - waiting for locator('.ki-hud')
+
+
+       at fixtures.ts:292
+
+      290 | async function base_expectHud(page: import("@playwright/test").Page) {
+      291 |   const { expect } = await import("@playwright/test");
+    > 292 |   await expect(page.locator(".ki-hud")).toBeVisible();
+          |                                         ^
+      293 | }
+      294 | /** Learns a skill-tree node through the real "Umiejętności" panel. */
+      295 | export async function learnSkill(page: import("@playwright/test").Page, name: string) {
+        at base_expectHud (/workspace/ki-skill-balance/e2e/fixtures.ts:292:41)
+        at patchActiveCharacter (/workspace/ki-skill-balance/e2e/fixtures.ts:288:3)
+        at /workspace/ki-skill-balance/e2e/combat-skills.spec.ts:30:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-rank-sha-browser/combat-skills-canonical-skill-in-real-PvE-Planetarni-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-rank-sha-browser/combat-skills-canonical-skill-in-real-PvE-Planetarni-software-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-rank-sha-browser/combat-skills-canonical-skill-in-real-PvE-Planetarni-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-rank-sha-browser/combat-skills-canonical-skill-in-real-PvE-Planetarni-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Slow test file: [software-webgl] › e2e/skill-rank-balance.spec.ts (6.7m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  2 failed
+    [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni ──────────
+    [software-webgl] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni ────
+  14 passed (16.9m)

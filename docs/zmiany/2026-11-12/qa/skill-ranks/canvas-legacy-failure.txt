@@ -1,0 +1,175 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: combat-skills.spec.ts >> canonical skill in real PvE: Planetarni
+- Location: e2e/combat-skills.spec.ts:16:3
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: locator('.ki-hud')
+Expected: visible
+Timeout: 60000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" locator('.ki-hud') with timeout 60000ms
+  - waiting for locator('.ki-hud')
+
+```
+
+```yaml
+- main:
+  - alert "Ładowanie Ki Legends":
+    - img "KI LEGENDS"
+    - paragraph: Cztery światy. Jedna legenda.
+    - text: Verdantia
+    - heading "Nie udało się otworzyć świata" [level=1]
+    - paragraph: Nie udało się wczytać fragmentu świata. Postęp pozostaje zachowany; ponów próbę.
+    - button "Ponów próbę"
+    - button "Wróć do postaci"
+    - text: Żywa energia ziemi · adaptacja KI LEGENDS
+```
+
+# Test source
+
+```ts
+  192 |  * Temporary QA aid: the playtest page's `?ki-test-spawn=<kind>` places a defeat-capable creature
+  193 |  * just outside the starting town (never in the published game).
+  194 |  */
+  195 | export function testCreature(land: string) {
+  196 |   // One steady, single creature for every land (the QA spawn need not be native): strong enough
+  197 |   // to defeat a first-level hero, not so strong that the potion and skill clips are skipped.
+  198 |   const kind = "pyra-ognista-salamandra";
+  199 |   return { id: land + "-test-spawn", kind, query: "?ki-test-spawn=" + kind };
+  200 | }
+  201 | /** Whether a point lies beyond every safe settlement of the land (combat is allowed there). */
+  202 | export function outsideTowns(land: string, p: { x: number; y: number }, margin = 16) {
+  203 |   const { settlements } = JSON.parse(
+  204 |     readFileSync(`public/game/worlds/superior-v1/${land}/world.json`, "utf8"),
+  205 |   ) as { settlements: { bounds: { x: number; y: number; width: number; height: number } }[] };
+  206 |   return settlements.every(
+  207 |     ({ bounds: b }) =>
+  208 |       p.x < b.x - margin ||
+  209 |       p.x > b.x + b.width + margin ||
+  210 |       p.y < b.y - margin ||
+  211 |       p.y > b.y + b.height + margin,
+  212 |   );
+  213 | }
+  214 | /**
+  215 |  * Arrow key that walks the hero into open ground from `from`. The safe arrival may sit right
+  216 |  * beside a building, and the city guide stands a step beside it, blocking like a wall.
+  217 |  */
+  218 | export function openDirection(land: string, from: { x: number; y: number }) {
+  219 |   const { nav, npcs } = superiorLand(land);
+  220 |   const steps = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowDown: [0, 1], ArrowUp: [0, -1] };
+  221 |   return (Object.keys(steps) as (keyof typeof steps)[]).find((key) =>
+  222 |     [1, 2, 3, 4, 5, 6, 7, 8].every((n) => {
+  223 |       const q = { x: from.x + steps[key][0]! * n * 12, y: from.y + steps[key][1]! * n * 12 };
+  224 |       return nav.walkable(q) && npcs.every((npc) => Math.hypot(npc.x - q.x, npc.y - q.y) > 70);
+  225 |     }),
+  226 |   )!;
+  227 | }
+  228 | /** Live position of a streamed enemy once the game has activated it. */
+  229 | export async function liveEnemy(canvas: import("@playwright/test").Locator, id: string) {
+  230 |   const { expect } = await import("@playwright/test");
+  231 |   let found: { x: number; y: number } | undefined;
+  232 |   await expect
+  233 |     .poll(
+  234 |       async () => {
+  235 |         const list = JSON.parse((await canvas.getAttribute("data-enemies")) ?? "[]") as {
+  236 |           id: string;
+  237 |           x: number;
+  238 |           y: number;
+  239 |         }[];
+  240 |         found = list.find((e) => e.id === id);
+  241 |         return Boolean(found);
+  242 |       },
+  243 |       { timeout: 60_000 },
+  244 |     )
+  245 |     .toBe(true);
+  246 |   return found!;
+  247 | }
+  248 | /** The nearest creature that notices and chases a hero on its own (not a provoked-only slime). */
+  249 | export function nearestHunter(land: string) {
+  250 |   return spawnsByDistance(land).find((s) => steady(s.kind, ["provoked"]))!;
+  251 | }
+  252 | /** The nearest distinct first-level creatures a new hero can defeat for the hunt quest. */
+  253 | export function huntTargets(land: string, count: number) {
+  254 |   const base = new Map(MONSTER_BASE.map((m) => [m.id, m]));
+  255 |   return spawnsByDistance(land)
+  256 |     .filter((s) => (base.get(s.kind)?.level ?? 99) <= 1 && steady(s.kind, ["pack"]))
+  257 |     .slice(0, count);
+  258 | }
+  259 | /** Basic attack of the active race (Cios Szlaku, Pocisk Ki, Strzał Impulsowy, Uderzenie Żaru). */
+  260 | export const basicAttack = (page: import("@playwright/test").Page) =>
+  261 |   page.locator('button[data-ability="R"]');
+  262 | /** Current maximum HP shown by the HUD (it depends on the race and level). */
+  263 | export async function maxHp(page: import("@playwright/test").Page) {
+  264 |   return String(
+  265 |     await page.getByRole("meter", { name: "Zdrowie", exact: true }).getAttribute("aria-valuemax"),
+  266 |   );
+  267 | }
+  268 | /**
+  269 |  * Rewrites fields of the active character's save and reloads, so the game reads an ordinary save.
+  270 |  * The specs use this for states that need many minutes of play (a learned skill needs a level);
+  271 |  * the old tab refuses to overwrite a save that changed behind its back, so the patch survives.
+  272 |  */
+  273 | export async function patchActiveCharacter(
+  274 |   page: import("@playwright/test").Page,
+  275 |   patch: Record<string, unknown>,
+  276 |   save: string = WORLD_SAVE,
+  277 | ) {
+  278 |   await page.evaluate(
+  279 |     ({ base, patch }) => {
+  280 |       const key = base + ":character:" + localStorage.getItem(base + ":active-character");
+  281 |       const raw = JSON.parse(localStorage.getItem(key)!);
+  282 |       Object.assign(raw.player, patch);
+  283 |       localStorage.setItem(key, JSON.stringify(raw));
+  284 |     },
+  285 |     { base: save, patch },
+  286 |   );
+  287 |   await page.reload();
+  288 |   await base_expectHud(page);
+  289 | }
+  290 | async function base_expectHud(page: import("@playwright/test").Page) {
+  291 |   const { expect } = await import("@playwright/test");
+> 292 |   await expect(page.locator(".ki-hud")).toBeVisible();
+      |                                         ^ Error: expect(locator).toBeVisible() failed
+  293 | }
+  294 | /** Learns a skill-tree node through the real "Umiejętności" panel. */
+  295 | export async function learnSkill(page: import("@playwright/test").Page, name: string) {
+  296 |   await openHudTool(page, "Umiejętności");
+  297 |   await page
+  298 |     .getByRole("article", { name, exact: true })
+  299 |     .getByRole("button", { name: /Poznaj/ })
+  300 |     .click();
+  301 |   await page.getByRole("button", { name: "Zamknij okno", exact: true }).click();
+  302 | }
+  303 |
+  304 | /** Nothing hostile may stand inside a safe settlement; wild creatures live beyond its border. */
+  305 | export async function expectCityClear(canvas: import("@playwright/test").Locator) {
+  306 |   const { expect } = await import("@playwright/test");
+  307 |   const land = (await canvas.getAttribute("data-world")) ?? "verdant";
+  308 |   const world = JSON.parse(
+  309 |     readFileSync(`public/game/worlds/superior-v1/${land}/world.json`, "utf8"),
+  310 |   ) as { settlements: { bounds: { x: number; y: number; width: number; height: number } }[] };
+  311 |   const list = JSON.parse((await canvas.getAttribute("data-enemies")) ?? "[]") as {
+  312 |     x: number;
+  313 |     y: number;
+  314 |   }[];
+  315 |   const inside = (e: { x: number; y: number }) =>
+  316 |     world.settlements.some(
+  317 |       ({ bounds: b }) => e.x >= b.x && e.x <= b.x + b.width && e.y >= b.y && e.y <= b.y + b.height,
+  318 |     );
+  319 |   expect(list.filter(inside)).toEqual([]);
+  320 | }
+  321 |
+```

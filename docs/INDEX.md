@@ -1,6 +1,6 @@
 # KI Legends — dokumentacja projektu
 
-**Skalowanie drzewka — 12.11:** na osobnej gałęzi bilansu wdrażana jest decyzja:
+**Skalowanie drzewka — 12.11:** na osobnej gałęzi bilansu (PR #151) wdrożono decyzję:
 pierwsza premia o połowę mniejsza, kolejne punkty +10% tej nowej bazy.
 [Reguła, zakres i pomiar](zmiany/2026-11-12/ZMIANY.md#2-nowe-skalowanie-premii-drzewka--decyzja-i-pomiar).
 
