@@ -1,57 +1,57 @@
 {
   "schemaVersion": 1,
   "id": "verdant-leaf-buildings",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "technical": false,
   "previewOnly": true,
   "assets": [
     {
       "id": "verdant-leaf-hall",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
-      "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-hall.webp",
-      "width": 1280,
-      "height": 1272
+      "url": "/game/assets/gpu/verdant-leaf-buildings/1.1.0-36c8a1273224/verdant-leaf-hall.webp",
+      "width": 672,
+      "height": 668
     },
     {
       "id": "verdant-leaf-arena",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
-      "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-arena.webp",
-      "width": 1279,
-      "height": 1248
+      "url": "/game/assets/gpu/verdant-leaf-buildings/1.1.0-36c8a1273224/verdant-leaf-arena.webp",
+      "width": 672,
+      "height": 656
     },
     {
       "id": "verdant-leaf-depot",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
-      "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-depot.webp",
-      "width": 1279,
-      "height": 1276
+      "url": "/game/assets/gpu/verdant-leaf-buildings/1.1.0-36c8a1273224/verdant-leaf-depot.webp",
+      "width": 672,
+      "height": 670
     },
     {
       "id": "verdant-leaf-shop",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
-      "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-shop.webp",
-      "width": 1276,
-      "height": 1182
+      "url": "/game/assets/gpu/verdant-leaf-buildings/1.1.0-36c8a1273224/verdant-leaf-shop.webp",
+      "width": 672,
+      "height": 622
     },
     {
       "id": "verdant-leaf-inn",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
-      "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-inn.webp",
-      "width": 1278,
-      "height": 1258
+      "url": "/game/assets/gpu/verdant-leaf-buildings/1.1.0-36c8a1273224/verdant-leaf-inn.webp",
+      "width": 672,
+      "height": 661
     },
     {
       "id": "verdant-leaf-smithy",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "kind": "image",
-      "url": "/game/assets/gpu/verdant-leaf-buildings/1.0.0-247e42302abe/verdant-leaf-smithy.webp",
-      "width": 1273,
-      "height": 1275
+      "url": "/game/assets/gpu/verdant-leaf-buildings/1.1.0-36c8a1273224/verdant-leaf-smithy.webp",
+      "width": 671,
+      "height": 672
     }
   ],
   "actors": [],
