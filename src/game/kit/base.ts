@@ -5,6 +5,7 @@ import { combatTarget } from "../combat/targeting";
 import type { RaceId } from "../world/races";
 import { MAX_MOVE_SPEED, speedGrowth } from "./balance";
 import { RACE_BASE, KIT_NODES } from "./nodes.generated";
+import { rankBonusPower, rankedAttackMultiplier } from "./rankScaling";
 import type {
   AbilityInfo,
   Buff,
@@ -170,9 +171,20 @@ export abstract class Kit {
   rank(id: string): number {
     return this.ranks.get(id) ?? 0;
   }
-  /** For an active ability that is being cast: it is learned, so its rank is at least 1. */
+  /** Raw ranks remain integer point counts; this factor only scales their numerical bonuses. */
+  protected bonusRank(id: string): number {
+    return rankBonusPower(this.rank(id));
+  }
+  /** Numerical power of a learned active bonus; the raw point count stays unchanged. */
   protected castRank(id: string): number {
-    return Math.max(1, this.rank(id));
+    return this.bonusRank(id);
+  }
+  protected castDamage(id: string, firstTotal: number): number {
+    return rankedAttackMultiplier(firstTotal, this.castRank(id));
+  }
+  /** Growth relative to the new first rank, for flat upgrades attached to another attack. */
+  protected castGrowth(id: string): number {
+    return this.castRank(id) / rankBonusPower(1);
   }
   /** Basic reach is distinct from skill reach: optics never extends A/B/C. */
   get basicRange() {

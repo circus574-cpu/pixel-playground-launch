@@ -117,3 +117,37 @@ Testy przeglądarkowe nowych treści używają jawnego fixture'a poziomu 40 i ra
 jako warunków wejściowych. Nowe aktywności i wyprawy zaczynają puste; ich wyniki
 muszą pochodzić z rzeczywistej gry i przetrwać reload. Nie przedstawiamy tego jako
 pełnego przejścia kampanii ani jako testu fizycznego telefonu.
+
+## 2. Nowe skalowanie premii drzewka — decyzja i pomiar
+
+Osobna gałąź `feat/skill-rank-balance-20261112`, od `ad646c75` (PR #145).
+Właściciel 12.11 zmienił regułę: połowa dotychczasowej premii za pierwszy punkt,
+następne punkty po 10% wartości tej nowej bazy. [Zapis decyzji](../../design/data/rank-scaling-owner-2026-11-12.json).
+Wymaganiem jest większa rola sprzętu; definicji, liczb i interfejsu ekwipunku nie zmieniano,
+ponieważ pracuje nad nimi inny autor. Nie przyjęto docelowego czasu walki — właściciel chce
+najpierw zobaczyć pomiar.
+
+Wspólna reguła obsługuje cztery kity, bonusy statystyk, krytyka, regeneracji, kosztów,
+tarcz, leczenia i zdolności. Dla obrażeń zachowano odniesienie do zwykłego ataku:
+×1,8 staje się ×1,4, a serie dzielą nową sumę pomiędzy te same trafienia. Jest to
+jawna interpretacja premii ponad podstawowy atak, przyjęta po odpowiedzi o roli sprzętu;
+właściciel nie wybrał literalnie jednego z dwóch zaproponowanych mnożników.
+Nie przepisano historycznego aneksu/generowanych danych. Nie ma resetu ani migracji
+punktów; zapis nadal przechowuje te same całkowite rangi i ten sam ekwipunek.
+
+Egzamin obrony zachowuje wcześniejszy stosunek siły ogłoszonego ciosu do tarczy
+pierwszej rangi. Nie zmieniono jego okien, liczby sukcesów ani zasad przyznawania wyniku.
+Testowy pilot walki wykonuje podstawowy atak i zwykły dash przez normalne polecenia;
+nie zmienia HP, cooldownów, wyników ani przeciwników. Test wypraw wybiera słabszego
+wroga jako pierwszy cel i utrzymuje dystans dla ras dystansowych. Wszystkie asercje
+ukończenia, liczby pokonań, nagród i zapisu pozostają.
+
+Pomiar używa prawdziwych `GameSession`, kitów, AI, kolizji i efektów, ze stałym krokiem
+50 ms. Zestawy, punkty i początkowe ziarna są jednakowe między porównywanymi regułami.
+Postacie 30–40 nie są porównywane ze starymi przeciwnikami poziomu 18; używa się
+najbliższych poziomem późnych wariantów. Oddzielono scenę otwartą i próbę grupową
+z przeszkodą. Rozkłady czasów, porażki, KI, mikstury i zaokrąglenia punktów są liczone
+osobno; wynik automatu nie jest deklaracją czasu ludzkiej kampanii ani testem telefonu.
+
+Końcowe wyniki kontroli i surowe dane zostaną dopisane po zakończeniu przebiegów
+na zamrożonym SHA. Nie scalano do main i nie publikowano gry.

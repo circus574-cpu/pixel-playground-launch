@@ -1,5 +1,9 @@
 # KI Legends — dokumentacja projektu
 
+**Skalowanie drzewka — 12.11:** na osobnej gałęzi bilansu wdrażana jest decyzja:
+pierwsza premia o połowę mniejsza, kolejne punkty +10% tej nowej bazy.
+[Reguła, zakres i pomiar](zmiany/2026-11-12/ZMIANY.md#2-nowe-skalowanie-premii-drzewka--decyzja-i-pomiar).
+
 **Rozwój czterech ras — PR #145, 12.11:** komplet 48 prób / 144 stopni,
 48 zastosowań dziedzin w świecie, 12 fragmentów Księgi Zrozumienia, 32 późne
 warianty i 48 wypraw. Kod i postęp są podłączone do gry; niezależny odbiór,

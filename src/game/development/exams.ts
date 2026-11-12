@@ -1,3 +1,4 @@
+import { rankBonusPower } from "../kit/rankScaling";
 import { loanSession } from "./loan";
 import { GameSession } from "../session";
 import { distance, type Point } from "../navigation";
@@ -235,7 +236,7 @@ export class ExamAttempt {
       ) {
         const inside = distance(p, this.danger) < 110;
         const damage = inside
-          ? this.session.kit.absorb(this.session.kit.stats.maxHp * 0.1, "other")
+          ? this.session.kit.absorb(this.session.kit.stats.maxHp * 0.1 * rankBonusPower(1), "other")
           : 0;
         if (damage > 0) {
           p.hp = Math.max(0, p.hp - damage);

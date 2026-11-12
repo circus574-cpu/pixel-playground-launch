@@ -1,3 +1,4 @@
+import { nodeDescription, rankBasePercent } from "../../game/kit/nodePresentation";
 import { getItemById } from "../../game/items";
 import { equippedName } from "../../game/development/heritage/equipment";
 import { HeritageWeaponCard } from "./HeritageWeaponCard";
@@ -565,14 +566,14 @@ export function SkillTree({ state, send }: { state: GameViewState; send: SendCom
             {TYPE_LABEL[n.type]} · poz. {n.minLevel}
           </small>
         </header>
-        <p>{n.text}</p>
+        <p>{nodeDescription(p.race, id, p.skills)}</p>
         {have && id === "R" ? (
           <span className="ki-skill-state">Poznane</span>
         ) : (
           <>
             {have && (
               <span className="ki-skill-state">
-                Ranga {rank} · efekt ×{rank}
+                Ranga {rank} · {rankBasePercent(rank)}% premii pierwszego punktu
               </span>
             )}
             <button
@@ -619,8 +620,8 @@ export function SkillTree({ state, send }: { state: GameViewState; send: SendCom
       </button>
       <p className="ki-panel-caption">
         Wymagany poprzednik, poziom i brak wykluczającego wyboru. Każdy dodatkowy punkt w węźle
-        zwiększa jego efekt wprost proporcjonalnie (ranga 2 = ×2, ranga 3 = ×3). Koszty Ki i czasy
-        odnowienia zostają bez zmian.
+        dodaje 10% premii pierwszego punktu (ranga 2 = 110%, ranga 3 = 120% tej premii). Koszty Ki i
+        czasy odnowienia zostają bez zmian.
       </p>
     </div>
   );
