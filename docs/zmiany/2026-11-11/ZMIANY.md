@@ -487,3 +487,22 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
 - Bramka: lint 0, typecheck 0, testy 0, build 0. Scalone z `origin/main` (PR #146 adaptacja) — konflikt `renderSuperior.ts`
   rozwiązany połączeniem obu podejść. **Globus zostawiony** zgodnie z poleceniem właściciela (hybryda zbudowana lokalnie,
   nie wdrożona; atlas produkcyjny nietknięty).
+
+### 21. Globus: hybryda — realna tekstura terenu na malowanym atlasie (wybór właściciela, wdrożone)
+
+- Właściciel wybrał **hybrydę** (zachować malowany styl + dodać prawdziwy teren) i dał zgodę na `scipy`/`cv2`
+  (zainstalowane przez apt, dopisane do `bootstrap.sh`).
+- **`render_v2_planet_terrain.py`: tryb `PLANET_REAL=1`** — zamiast płaskich średnich biomów próbkuje realne
+  tekstury podłoża per piksel (lasy/góry/bagna). **`build_globe_hybrid.py`** (nowy): nakłada detal realnej tekstury
+  na malowany atlas metodą transferu detalu `hybrid = painted × (real / blur(real))^0.85`, maskowane do lądu
+  (ocean zostaje malowany). Źródło: `deliveries/world-v2-art/maps/globe-hybrid.webp` (4096×2048).
+- **`build_v2_atlas.py`: `GLOBE_PAINTED` env** wybiera źródło atlasu (domyślnie malowany, bez zmian). Przebudowano
+  `atlas-v2-{1920,3840}.webp` z hybrydy + `build_globe_textures.py --v2` → `v2-globe-color/surface/lights`.
+- **Kontury i etykiety (`atlasRegions.v2.json`, `planetLayout.v2.json`) przywrócone do oryginału** — etykiety sfery
+  się nie zmieniły, a hybryda zachowuje malowane wybrzeża; drobne różnice w konturach wysp były artefaktem wersji cv2.
+- **Weryfikacja:** energia tekstury na lądzie (pełna rozdzielczość, 4 regiony) **wzrosła 3–7×** (np. 0,45→3,16;
+  1,52→9,92) — realny detal terenu, nie szum; ocean nietknięty. Render w przeglądarce (WebGL/SwiftShader):
+  **`globeReady: true`**, `v2-globe-color-3840/1920.webp` HTTP 200. Jedyny warning to istniejąca wcześniej niezgodność
+  hydratacji SSR atrybutu `data-ki-world-v2` (niezwiązana z teksturami). Bramka: lint 0, testy 128 plików ✓, build 0.
+- **Uczciwie:** efektu nie obejrzałem gołym okiem (vision bridge kontenera niedostępny) — potwierdzony liczbowo
+  (wzrost detalu) i renderem bez błędów. Ocenę wizualną („wow") zostawiam właścicielowi na kilku kadrach globusa.

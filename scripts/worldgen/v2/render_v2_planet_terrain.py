@@ -6,11 +6,15 @@ roads skipped) so the globe and the 2D atlas match the world. Output feeds the G
 Each spherical land pixel is projected into its land's local map (inverse azimuthal projection,
 the same one landscape.py uses) and takes the colour of the cell found there.
 """
-import json, sys
+import json, os, sys
 from pathlib import Path
 import numpy as np
 from PIL import Image, ImageFilter
 from scipy import ndimage
+
+# PLANET_REAL=1 samples the actual ground textures per pixel (forests/mountains read as real terrain)
+# instead of flat biome averages. Used by the globe hybrid to lay real detail over the painted atlas.
+REAL = os.environ.get('PLANET_REAL', '0') == '1'
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -48,6 +52,9 @@ for lab, key in enumerate(IDS, 1):
         biome[y:y + tt['height'], x:x + tt['width']] = decode(tt['biome'], tt['width'], tt['height'])
     pal = np.array([colour(f'{aff}-{k}-0') for k in ['grass', 'forest', 'mountain', 'wetland']])
     pal[2] = pal[2] * 0.7 + np.array([235, 235, 230.]) * 0.3  # ranges read lighter from orbit
+    if REAL:
+        T = 128
+        tex = [np.asarray(Image.open(TEX / f'ki-v2-terrain-{aff}-{k}-0.webp').convert('RGB').resize((T, T), Image.LANCZOS), np.float32) for k in ['grass', 'forest', 'mountain', 'wetland']]
     ys, xs = np.nonzero(labels == lab)
     for s in range(0, len(ys), 400000):
         yy, xx = ys[s:s + 400000], xs[s:s + 400000]
@@ -57,7 +64,18 @@ for lab, key in enumerate(IDS, 1):
         cx = np.clip(((anchor['x'] + xy[:, 0]) // 32).astype(int), 0, cw - 1)
         cy = np.clip(((anchor['y'] - xy[:, 1]) // 32).astype(int), 0, ch - 1)
         fl = flags[cy, cx]; b = np.minimum(biome[cy, cx], 3)
-        col = pal[b]
+        if REAL:
+            wx = anchor['x'] + xy[:, 0]; wy = anchor['y'] - xy[:, 1]
+            tx = np.clip(((wx / 4) % T).astype(int), 0, T - 1)
+            ty = np.clip(((wy / 4) % T).astype(int), 0, T - 1)
+            col = np.zeros((len(yy), 3), np.float32)
+            for k in range(4):
+                mk = b == k
+                col[mk] = tex[k][ty[mk], tx[mk]]
+            mtn = b == 2
+            col[mtn] = col[mtn] * 0.7 + np.array([235, 235, 230.]) * 0.3
+        else:
+            col = pal[b]
         col[(fl & 16) == 0] = [40, 120, 160]
         col[((fl & 16) > 0) & ((fl & 1) == 0)] = [70, 140, 190]
         out[yy, xx] = col
