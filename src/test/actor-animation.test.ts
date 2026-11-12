@@ -10,6 +10,10 @@ function rig() {
     play: vi.fn(),
     stop: vi.fn(),
     setTexture: vi.fn(),
+    flipX: false,
+    setFlipX: vi.fn(function (this: { flipX: boolean }, v: boolean) {
+      this.flipX = v;
+    }),
   };
   return {
     sprite,
@@ -27,6 +31,10 @@ describe("Tryb KI walk (kiwalk)", () => {
       play: vi.fn(),
       stop: vi.fn(),
       setTexture: vi.fn(),
+      flipX: false,
+      setFlipX: vi.fn(function (this: { flipX: boolean }, v: boolean) {
+        this.flipX = v;
+      }),
     };
     return {
       sprite,
@@ -59,6 +67,10 @@ describe("Tryb KI stance, basic attack and skill (kiidle, kiattack, kiskill)", (
       play: vi.fn(),
       stop: vi.fn(),
       setTexture: vi.fn(),
+      flipX: false,
+      setFlipX: vi.fn(function (this: { flipX: boolean }, v: boolean) {
+        this.flipX = v;
+      }),
     };
     return {
       sprite,
@@ -131,6 +143,10 @@ describe("base-form combat clips (attack chain, area skill, dodge, guard)", () =
       play: vi.fn(),
       stop: vi.fn(),
       setTexture: vi.fn(),
+      flipX: false,
+      setFlipX: vi.fn(function (this: { flipX: boolean }, v: boolean) {
+        this.flipX = v;
+      }),
     };
     return {
       base,
@@ -202,6 +218,10 @@ describe("walk keeps its stride when only the facing changes", () => {
       play: vi.fn(),
       stop: vi.fn(),
       setTexture: vi.fn(),
+      flipX: false,
+      setFlipX: vi.fn(function (this: { flipX: boolean }, v: boolean) {
+        this.flipX = v;
+      }),
     };
     return {
       base,
@@ -308,6 +328,10 @@ describe("animation presentation remains separate from mechanical actions", () =
       play: vi.fn(),
       stop: vi.fn(),
       setTexture: vi.fn(),
+      flipX: false,
+      setFlipX: vi.fn(function (this: { flipX: boolean }, v: boolean) {
+        this.flipX = v;
+      }),
     };
     const animation = new ActorAnimation(
       sprite as unknown as Phaser.GameObjects.Sprite,

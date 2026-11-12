@@ -15,6 +15,8 @@ const PRIORITY: Record<AnimationState, number> = {
   skillb: 4,
   dodge: 4,
   guard: 4,
+  hitheavy: 5,
+  victory: 2,
   run: 2,
   attack: 3,
   skill: 4,
@@ -74,14 +76,14 @@ export class ActorAnimation {
     if (state === "death" || state === "respawn") this.pending = undefined;
     if (
       state === "attack" &&
-      this.state === "hit" &&
+      (this.state === "hit" || this.state === "hitheavy") &&
       (this.pending?.state === "skill" || this.pending?.state === "skillb") &&
       now <= this.pending.expires
     )
       return;
     if (state !== "respawn" && now < this.until && PRIORITY[state] < PRIORITY[this.state]) {
       if (
-        this.state === "hit" &&
+        (this.state === "hit" || this.state === "hitheavy") &&
         (state === "attack" || state === "skill" || state === "skillb") &&
         (!this.pending || PRIORITY[state] >= PRIORITY[this.pending.state])
       )
@@ -139,6 +141,13 @@ export class ActorAnimation {
     const desired = facingDirection(this.direction, available);
     const dir = available.includes(desired) ? desired : available[0]!;
     const frames = clip.directions[dir]!;
+    // Side-view clips store one strip; the other side is the same frames drawn mirrored.
+    const flip = !!clip.mirrored?.includes(dir);
+    if (this.sprite.flipX !== flip) {
+      this.sprite.setFlipX(flip);
+      this.lastKey = "";
+      this.loopFrame = "";
+    }
     if (clip.loop && frames.length > 1) {
       // A looping clip (walk, kiwalk, idle, kiidle) is stepped from one clock that survives facing changes: restarting
       // a Phaser animation on every new direction (joystick or path following flipping between neighbouring

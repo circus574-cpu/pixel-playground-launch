@@ -21,6 +21,8 @@ export const STATES = [
   "skillb",
   "dodge",
   "guard",
+  "hitheavy",
+  "victory",
   "run",
   "attack",
   "skill",
@@ -68,6 +70,8 @@ export const ClipSchema = z
     fps: positive.max(60),
     loop: z.boolean(),
     directions: z.record(z.enum(DIRECTIONS), z.array(frame).min(1).max(64)),
+    /** Directions drawn as the horizontal mirror of their frames (sprite flipX), so side views store one strip. */
+    mirrored: z.array(z.enum(DIRECTIONS)).optional(),
   })
   .strict();
 export const ActorSchema = z

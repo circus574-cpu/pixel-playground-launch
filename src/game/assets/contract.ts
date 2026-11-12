@@ -36,5 +36,7 @@ export const GPU_CONTRACT = {
     skillb: { frames: 8, fps: 12, loop: false },
     dodge: { frames: 6, fps: 14, loop: false },
     guard: { frames: 6, fps: 10, loop: false },
+    hitheavy: { frames: 8, fps: 12, loop: false },
+    victory: { frames: 8, fps: 10, loop: false },
   },
 } as const;

@@ -1154,7 +1154,13 @@ export function mountKileGends(
         );
       if (event.type === "hit" && actor) {
         if (event.target !== "player") this.raceVfx("impact", event, event.crit ? 0.6 : 0.4);
-        actor.animation.trigger("hit", this.animationTime);
+        // A blow taking at least 15% of the hero's life plays the heavy reaction (stumble, knee) instead of the flinch.
+        const damage = Math.abs(Number.parseFloat(event.text ?? ""));
+        const heavy =
+          event.target === "player" &&
+          Number.isFinite(damage) &&
+          damage >= 0.15 * Math.max(1, session.kit.stats.maxHp);
+        actor.animation.trigger(heavy ? "hitheavy" : "hit", this.animationTime);
         this.texturedEffect("hit", event);
         actor.sprite
           .setTint(event.target === "player" ? 0xff7777 : 0xffefd0)
@@ -1253,6 +1259,7 @@ export function mountKileGends(
       }
       if (event.type === "level" || event.type === "heal" || event.type === "loot") {
         if (event.type === "heal") this.hero.animation.trigger("skill", this.animationTime);
+        if (event.type === "level") this.hero.animation.trigger("victory", this.animationTime);
         if (this.texturedEffect(event.type, event)) return;
         const ring = this.add
           .ellipse(event.x, event.y, 40, 20)
