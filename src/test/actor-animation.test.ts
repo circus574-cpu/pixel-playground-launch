@@ -258,11 +258,8 @@ describe("Tryb KI combat and reactions use the form's own clips", () => {
       }
       for (const [clip, frames] of reactions) {
         const c = hero.clips[clip];
-        if (world === "aether") expect(c, world + clip).toBeUndefined();
-        else {
-          expect(c, world + clip).toBeDefined();
-          for (const names of Object.values(c!.directions)) expect(names).toHaveLength(frames);
-        }
+        expect(c, world + clip).toBeDefined();
+        for (const names of Object.values(c!.directions)) expect(names).toHaveLength(frames);
       }
     }
   });
@@ -309,12 +306,7 @@ describe("Tryb KI combat and reactions use the form's own clips", () => {
     expect(animation.state).toBe("respawn");
     expect(played(sprite)).toContain("/kirespawn/");
   });
-  it("keeps the base clip for a state the race has no KI clip for, and the base form untouched", () => {
-    const sage = make("aether");
-    sage.animation.update(0, false, false, f, false, true);
-    sage.animation.trigger("hit", 100, f);
-    sage.animation.update(110, false, false, f, false, true);
-    expect(played(sage.sprite)).toContain("/hit/");
+  it("leaves the base form untouched: its own hit and attack clips play", () => {
     const base = make();
     base.animation.update(0, false, false, f, false, false);
     base.animation.trigger("hit", 100, f);

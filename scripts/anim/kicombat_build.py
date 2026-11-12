@@ -9,7 +9,7 @@ Sources (art-wip/gemini-anim-stages/):
  - <race>-etap4-walka-po-transformacji.mp4: the strikes already used for `kiattack` are the strongest one; the others become
    kiattack2 (6 frames, 12 fps) and kifinisher (8, 12; Planetary has none: its third strike is a flash over the whole frame),
    kiskillb (8, 12: jump and ground slam; Planetary: the landing only), kidodge (6, 14), kiguard (6, 10);
- - android-etap5a-reakcje-ki.mp4 (the only race with a KI-form reaction film so far): kihit (6, 14), kihitheavy (8, 12),
+ - <race>-etap5a-reakcje-ki.mp4 (Android, Legend, Planetary, Sage): kihit (6, 14), kihitheavy (8, 12),
    kideath (8, 10: flight, fall, lying), kirespawn (8, 12: sits up, rises), kivictory (8, 10).
 Each video has its own transform (scale from its neutral frame, feet on the walk baseline); a figure wider than the cell
 (a lying body) is scaled down to fit and rests on the same baseline. Same matting and trimmed lossless atlas as
@@ -46,11 +46,12 @@ CLIPS_CFG = {
                'kihit': ('r5', (0.6, 1.1), 6, 14), 'kihitheavy': ('r5', (2.0, 3.0), 8, 12), 'kideath': ('r5', (3.8, 4.8), 8, 10), 'kirespawn': ('r5', (6.0, 7.0), 8, 12), 'kivictory': ('r5', (8.1, 9.1), 8, 10)},
     'android': {'kiattack2': ('s4', (0.6, 1.2), 6, 12), 'kifinisher': ('s4', (1.5, 2.2), 8, 12), 'kiskillb': ('s4', (6.0, 7.2), 8, 12), 'kidodge': ('s4', (8.0, 8.6), 6, 14), 'kiguard': ('s4', (8.6, 9.6), 6, 10),
                 'kihit': ('r5', (0.5, 1.2), 6, 14), 'kihitheavy': ('r5', (1.8, 3.0), 8, 12), 'kideath': ('r5', (3.9, 4.8), 8, 10), 'kirespawn': ('r5', (6.0, 6.9), 8, 12), 'kivictory': ('r5', (8.2, 9.2), 8, 10)},
-    'sage': {'kiattack2': ('s4', (0.4, 1.2), 6, 12), 'kifinisher': ('s4', (1.6, 2.2), 8, 12), 'kiskillb': ('s4', (6.0, 7.2), 8, 12), 'kidodge': ('s4', (7.8, 8.6), 6, 14), 'kiguard': ('s4', (8.6, 9.4), 6, 10)},
+    'sage': {'kiattack2': ('s4', (0.4, 1.2), 6, 12), 'kifinisher': ('s4', (1.6, 2.2), 8, 12), 'kiskillb': ('s4', (6.0, 7.2), 8, 12), 'kidodge': ('s4', (7.8, 8.6), 6, 14), 'kiguard': ('s4', (8.6, 9.4), 6, 10),
+             'kihit': ('r5', (0.55, 1.3), 6, 14), 'kihitheavy': ('r5', (1.85, 2.9), 8, 12), 'kideath': ('r5', (3.8, 4.7), 8, 10), 'kirespawn': ('r5', (5.4, 6.6), 8, 12), 'kivictory': ('r5', (7.9, 9.0), 8, 10)},
     'planetary': {'kiattack2': ('s4', (2.0, 2.9), 6, 12), 'kiskillb': ('s4', (6.8, 7.6), 8, 12), 'kidodge': ('s4', (8.0, 8.6), 6, 14), 'kiguard': ('s4', (8.8, 9.6), 6, 10),
                   'kihit': ('r5', (0.6, 1.1), 6, 14), 'kihitheavy': ('r5', (2.0, 3.0), 8, 12), 'kideath': ('r5', (3.8, 4.8), 8, 10), 'kirespawn': ('r5', (5.8, 7.2), 8, 12), 'kivictory': ('r5', (8.1, 9.1), 8, 10)},
 }[R]
-if any(v[0] == 'r5' for v in CLIPS_CFG.values()): VIDEOS['r5'] = (R5, {'android': 0.2, 'legend': 1.2, 'planetary': 1.4}[R])
+if any(v[0] == 'r5' for v in CLIPS_CFG.values()): VIDEOS['r5'] = (R5, {'android': 0.2, 'legend': 1.2, 'sage': 0.25, 'planetary': 1.4}[R])
 LOOP = set()
 def window(w, n): return [int(round((w[0] + (w[1] - w[0]) * j / (n - 1)) * FPS_VIDEO)) for j in range(n)]
 SEQ = {c: (v[0], window(v[1], v[2])) for c, v in CLIPS_CFG.items()}

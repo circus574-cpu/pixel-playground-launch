@@ -365,17 +365,16 @@ describe("four painted hero deliveries", () => {
         "kiskillb",
         ...(world === "verdant" ? [] : ["kifinisher"]),
       ];
-      const kiReactions =
-        world === "aether" ? [] : ["kideath", "kihit", "kihitheavy", "kirespawn", "kivictory"];
+      const kiReactions = ["kideath", "kihit", "kihitheavy", "kirespawn", "kivictory"];
       expect(Object.keys(hero.clips).sort()).toEqual([...base, ...kiCombat, ...kiReactions].sort());
       const frames = Object.values(hero.clips).flatMap((clip) =>
         Object.values(clip.directions).flat(),
       );
       // 1280 frame references of the base form and the earlier Tryb KI clips (see the stage 1-3 notes), plus the Tryb KI
       // combat clips (kiattack2 6, kifinisher 8, kiskillb 8, kidodge 6, kiguard 6 frames, eight directions each; Planetary has
-      // no kifinisher) and the KI reactions (kihit 6, kihitheavy 8, kideath 8, kirespawn 8, kivictory 8; none for Sage).
+      // no kifinisher) and the KI reactions (kihit 6, kihitheavy 8, kideath 8, kirespawn 8, kivictory 8, all four races).
       const combatFrames = (6 + (world === "verdant" ? 0 : 8) + 8 + 6 + 6) * 8;
-      const reactionFrames = world === "aether" ? 0 : (6 + 8 + 8 + 8 + 8) * 8;
+      const reactionFrames = (6 + 8 + 8 + 8 + 8) * 8;
       expect(frames).toHaveLength(1280 + combatFrames + reactionFrames);
       // Side-view fight frames are shared: right-facing directions reuse one strip, left ones its mirror.
 
