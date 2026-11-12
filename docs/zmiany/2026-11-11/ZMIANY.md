@@ -150,6 +150,34 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
 - **Świadomie zostawione na Fazę 2:** cienie jako osobne GameObjecty, pieczenie blokujące wątek,
   `snapshot` 10×/s i brak memo w HUD. Wypiekanie cieni w podłoże zmienia obraz, więc czeka na decyzję.
 
+### NPC Trener dla czterech ras z filmu obrotu
+
+- Wejście: film obrotu „Trener" (przód, ukosy, bok, tył, napis pod stopami). `scripts/anim/npc_trainer_build.py`
+  wycina po jednej pozie na kierunek (lewe ukosy to odbicia prawych), matuje rembg (isnet-anime),
+  zostawia tylko największy spójny kształt (napis „Trener" odpada) i skaluje wszystkie klatki jedną
+  wspólną skalą, stopy na linii kotwicy 0,95. Z każdej pozy powstaje 8-klatkowy oddech (0–1,5 %
+  rozciągnięcia pionowego od stóp). Klip `walk` wymagany przez kontrakt NPC używa tych samych nazw klatek
+  co `idle`, więc nie kosztuje pamięci tekstur.
+- Cztery rasy to ta sama postać: skrypt przekolorowuje wyłącznie ubiór (czerwono-pomarańczowy pas i
+  hafty dostają barwę rasy, ciemny materiał jest lekko podbarwiony); głowa, skóra, włosy i buty
+  zostają bez zmian. Barwy: Pyra (Legendy) oryginał czerwień, Verdantia (Planetarni) zieleń 125°,
+  Aetheria (Mędrcy) turkus 190°, Nexus-9 (Androidy) błękit 225° (`NPC_HUE` zmienia odcień).
+- Instalacja: `npc-<świat>-trainer` 1.2.0, binding `<świat>.npc.trainer`, rozmiar 192 (2× zwykły NPC, `contract.npcLarge`),
+  klatki 256 px, dwie pozy oddechu użyte w 8 klatkach idle (te same prostokąty atlasu), atlas 1539×244 (1,43 MiB)
+  na świat. Budżet tekstur: Verdantia 126,9, Aetheria 112,6, Nexus-9 105,4, Pyra 113,2 z 128 MiB. Wizual dostaje NPC o id `trainer` (mistrz treningu w arenie).
+- `scripts/lib/gpu-import.ts`: klucz bindingu NPC przyjmuje dowolny slug roli (jak już wrogowie),
+  `<świat>.npc.trainer` nie był dotąd dozwolony. Test `npc-trainer-visual.test.ts` obejmuje cztery światy.
+- Barwy ras dobrane z dominujących kolorów bohaterów; dialogi i umiejscowienie NPC bez zmian.
+
+### Postacie w pomieszczeniach większe, NPC większy od bohatera, Trener jako autorytet
+
+- Wnętrza to jeden malowany obraz (1920×1280) z dużymi meblami, a postacie miały skalę świata zewnętrznego,
+  więc ławka czy poducha były większe od bohatera. W pomieszczeniu postacie są rysowane większe:
+  bohater ×1,5, zwykli NPC ×1,6, a NPC z dużego zasobu (Trener, 192) ×1,4, czyli
+  ok. 1,3 raza wyższy od bohatera i wyraźnie wyższy od zwykłych NPC (zmniejszony z 3× na 2× na prośbę właściciela). Skala jest na kontenerze postaci (cień, obrys i halo rosną razem),
+  a podpisy nad głową podnoszą się o tyle samo (`interiorScale` w `mountGame.ts`). Na zewnątrz bez zmian.
+- Zwykli NPC powiększeni ×1,6 z komórek 128 px są lekko miękcy; ostre pozostają bohater i Trener (256 px).
+
 ### Mapa 2D: przesuwanie na szerokim, niskim ekranie
 
 - Odtworzone w przeglądarce (telefon w poziomie 844×390, najmniejsze powiększenie): widok jest tam szerszy

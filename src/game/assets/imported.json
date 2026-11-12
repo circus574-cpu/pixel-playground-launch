@@ -88870,5 +88870,865 @@
     "actorBindings": {},
     "renderBindings": {},
     "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-pyra-trainer",
+    "version": "1.2.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-pyra-trainer-page-0",
+        "version": "1.2.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-pyra-trainer/1.2.0-0ffd0c33e21a/npc-pyra-trainer-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-pyra-trainer/1.2.0-0ffd0c33e21a/npc-pyra-trainer-page-0.json",
+        "width": 1539,
+        "height": 244
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-pyra-trainer",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          192,
+          192
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-pyra-trainer-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-pyra-trainer/idle/down/00",
+                "npc-pyra-trainer/idle/down/01",
+                "npc-pyra-trainer/idle/down/02",
+                "npc-pyra-trainer/idle/down/03",
+                "npc-pyra-trainer/idle/down/04",
+                "npc-pyra-trainer/idle/down/05",
+                "npc-pyra-trainer/idle/down/06",
+                "npc-pyra-trainer/idle/down/07"
+              ],
+              "down-left": [
+                "npc-pyra-trainer/idle/down-left/00",
+                "npc-pyra-trainer/idle/down-left/01",
+                "npc-pyra-trainer/idle/down-left/02",
+                "npc-pyra-trainer/idle/down-left/03",
+                "npc-pyra-trainer/idle/down-left/04",
+                "npc-pyra-trainer/idle/down-left/05",
+                "npc-pyra-trainer/idle/down-left/06",
+                "npc-pyra-trainer/idle/down-left/07"
+              ],
+              "left": [
+                "npc-pyra-trainer/idle/left/00",
+                "npc-pyra-trainer/idle/left/01",
+                "npc-pyra-trainer/idle/left/02",
+                "npc-pyra-trainer/idle/left/03",
+                "npc-pyra-trainer/idle/left/04",
+                "npc-pyra-trainer/idle/left/05",
+                "npc-pyra-trainer/idle/left/06",
+                "npc-pyra-trainer/idle/left/07"
+              ],
+              "up-left": [
+                "npc-pyra-trainer/idle/up-left/00",
+                "npc-pyra-trainer/idle/up-left/01",
+                "npc-pyra-trainer/idle/up-left/02",
+                "npc-pyra-trainer/idle/up-left/03",
+                "npc-pyra-trainer/idle/up-left/04",
+                "npc-pyra-trainer/idle/up-left/05",
+                "npc-pyra-trainer/idle/up-left/06",
+                "npc-pyra-trainer/idle/up-left/07"
+              ],
+              "up": [
+                "npc-pyra-trainer/idle/up/00",
+                "npc-pyra-trainer/idle/up/01",
+                "npc-pyra-trainer/idle/up/02",
+                "npc-pyra-trainer/idle/up/03",
+                "npc-pyra-trainer/idle/up/04",
+                "npc-pyra-trainer/idle/up/05",
+                "npc-pyra-trainer/idle/up/06",
+                "npc-pyra-trainer/idle/up/07"
+              ],
+              "up-right": [
+                "npc-pyra-trainer/idle/up-right/00",
+                "npc-pyra-trainer/idle/up-right/01",
+                "npc-pyra-trainer/idle/up-right/02",
+                "npc-pyra-trainer/idle/up-right/03",
+                "npc-pyra-trainer/idle/up-right/04",
+                "npc-pyra-trainer/idle/up-right/05",
+                "npc-pyra-trainer/idle/up-right/06",
+                "npc-pyra-trainer/idle/up-right/07"
+              ],
+              "right": [
+                "npc-pyra-trainer/idle/right/00",
+                "npc-pyra-trainer/idle/right/01",
+                "npc-pyra-trainer/idle/right/02",
+                "npc-pyra-trainer/idle/right/03",
+                "npc-pyra-trainer/idle/right/04",
+                "npc-pyra-trainer/idle/right/05",
+                "npc-pyra-trainer/idle/right/06",
+                "npc-pyra-trainer/idle/right/07"
+              ],
+              "down-right": [
+                "npc-pyra-trainer/idle/down-right/00",
+                "npc-pyra-trainer/idle/down-right/01",
+                "npc-pyra-trainer/idle/down-right/02",
+                "npc-pyra-trainer/idle/down-right/03",
+                "npc-pyra-trainer/idle/down-right/04",
+                "npc-pyra-trainer/idle/down-right/05",
+                "npc-pyra-trainer/idle/down-right/06",
+                "npc-pyra-trainer/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-pyra-trainer-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-pyra-trainer/idle/down/00",
+                "npc-pyra-trainer/idle/down/01",
+                "npc-pyra-trainer/idle/down/02",
+                "npc-pyra-trainer/idle/down/03",
+                "npc-pyra-trainer/idle/down/04",
+                "npc-pyra-trainer/idle/down/05",
+                "npc-pyra-trainer/idle/down/06",
+                "npc-pyra-trainer/idle/down/07"
+              ],
+              "down-left": [
+                "npc-pyra-trainer/idle/down-left/00",
+                "npc-pyra-trainer/idle/down-left/01",
+                "npc-pyra-trainer/idle/down-left/02",
+                "npc-pyra-trainer/idle/down-left/03",
+                "npc-pyra-trainer/idle/down-left/04",
+                "npc-pyra-trainer/idle/down-left/05",
+                "npc-pyra-trainer/idle/down-left/06",
+                "npc-pyra-trainer/idle/down-left/07"
+              ],
+              "left": [
+                "npc-pyra-trainer/idle/left/00",
+                "npc-pyra-trainer/idle/left/01",
+                "npc-pyra-trainer/idle/left/02",
+                "npc-pyra-trainer/idle/left/03",
+                "npc-pyra-trainer/idle/left/04",
+                "npc-pyra-trainer/idle/left/05",
+                "npc-pyra-trainer/idle/left/06",
+                "npc-pyra-trainer/idle/left/07"
+              ],
+              "up-left": [
+                "npc-pyra-trainer/idle/up-left/00",
+                "npc-pyra-trainer/idle/up-left/01",
+                "npc-pyra-trainer/idle/up-left/02",
+                "npc-pyra-trainer/idle/up-left/03",
+                "npc-pyra-trainer/idle/up-left/04",
+                "npc-pyra-trainer/idle/up-left/05",
+                "npc-pyra-trainer/idle/up-left/06",
+                "npc-pyra-trainer/idle/up-left/07"
+              ],
+              "up": [
+                "npc-pyra-trainer/idle/up/00",
+                "npc-pyra-trainer/idle/up/01",
+                "npc-pyra-trainer/idle/up/02",
+                "npc-pyra-trainer/idle/up/03",
+                "npc-pyra-trainer/idle/up/04",
+                "npc-pyra-trainer/idle/up/05",
+                "npc-pyra-trainer/idle/up/06",
+                "npc-pyra-trainer/idle/up/07"
+              ],
+              "up-right": [
+                "npc-pyra-trainer/idle/up-right/00",
+                "npc-pyra-trainer/idle/up-right/01",
+                "npc-pyra-trainer/idle/up-right/02",
+                "npc-pyra-trainer/idle/up-right/03",
+                "npc-pyra-trainer/idle/up-right/04",
+                "npc-pyra-trainer/idle/up-right/05",
+                "npc-pyra-trainer/idle/up-right/06",
+                "npc-pyra-trainer/idle/up-right/07"
+              ],
+              "right": [
+                "npc-pyra-trainer/idle/right/00",
+                "npc-pyra-trainer/idle/right/01",
+                "npc-pyra-trainer/idle/right/02",
+                "npc-pyra-trainer/idle/right/03",
+                "npc-pyra-trainer/idle/right/04",
+                "npc-pyra-trainer/idle/right/05",
+                "npc-pyra-trainer/idle/right/06",
+                "npc-pyra-trainer/idle/right/07"
+              ],
+              "down-right": [
+                "npc-pyra-trainer/idle/down-right/00",
+                "npc-pyra-trainer/idle/down-right/01",
+                "npc-pyra-trainer/idle/down-right/02",
+                "npc-pyra-trainer/idle/down-right/03",
+                "npc-pyra-trainer/idle/down-right/04",
+                "npc-pyra-trainer/idle/down-right/05",
+                "npc-pyra-trainer/idle/down-right/06",
+                "npc-pyra-trainer/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "pyra.npc.trainer": "npc-pyra-trainer"
+    },
+    "renderBindings": {},
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-verdant-trainer",
+    "version": "1.2.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-verdant-trainer-page-0",
+        "version": "1.2.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-verdant-trainer/1.2.0-90e7b9cf1042/npc-verdant-trainer-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-verdant-trainer/1.2.0-90e7b9cf1042/npc-verdant-trainer-page-0.json",
+        "width": 1539,
+        "height": 244
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-verdant-trainer",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          192,
+          192
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-verdant-trainer-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-verdant-trainer/idle/down/00",
+                "npc-verdant-trainer/idle/down/01",
+                "npc-verdant-trainer/idle/down/02",
+                "npc-verdant-trainer/idle/down/03",
+                "npc-verdant-trainer/idle/down/04",
+                "npc-verdant-trainer/idle/down/05",
+                "npc-verdant-trainer/idle/down/06",
+                "npc-verdant-trainer/idle/down/07"
+              ],
+              "down-left": [
+                "npc-verdant-trainer/idle/down-left/00",
+                "npc-verdant-trainer/idle/down-left/01",
+                "npc-verdant-trainer/idle/down-left/02",
+                "npc-verdant-trainer/idle/down-left/03",
+                "npc-verdant-trainer/idle/down-left/04",
+                "npc-verdant-trainer/idle/down-left/05",
+                "npc-verdant-trainer/idle/down-left/06",
+                "npc-verdant-trainer/idle/down-left/07"
+              ],
+              "left": [
+                "npc-verdant-trainer/idle/left/00",
+                "npc-verdant-trainer/idle/left/01",
+                "npc-verdant-trainer/idle/left/02",
+                "npc-verdant-trainer/idle/left/03",
+                "npc-verdant-trainer/idle/left/04",
+                "npc-verdant-trainer/idle/left/05",
+                "npc-verdant-trainer/idle/left/06",
+                "npc-verdant-trainer/idle/left/07"
+              ],
+              "up-left": [
+                "npc-verdant-trainer/idle/up-left/00",
+                "npc-verdant-trainer/idle/up-left/01",
+                "npc-verdant-trainer/idle/up-left/02",
+                "npc-verdant-trainer/idle/up-left/03",
+                "npc-verdant-trainer/idle/up-left/04",
+                "npc-verdant-trainer/idle/up-left/05",
+                "npc-verdant-trainer/idle/up-left/06",
+                "npc-verdant-trainer/idle/up-left/07"
+              ],
+              "up": [
+                "npc-verdant-trainer/idle/up/00",
+                "npc-verdant-trainer/idle/up/01",
+                "npc-verdant-trainer/idle/up/02",
+                "npc-verdant-trainer/idle/up/03",
+                "npc-verdant-trainer/idle/up/04",
+                "npc-verdant-trainer/idle/up/05",
+                "npc-verdant-trainer/idle/up/06",
+                "npc-verdant-trainer/idle/up/07"
+              ],
+              "up-right": [
+                "npc-verdant-trainer/idle/up-right/00",
+                "npc-verdant-trainer/idle/up-right/01",
+                "npc-verdant-trainer/idle/up-right/02",
+                "npc-verdant-trainer/idle/up-right/03",
+                "npc-verdant-trainer/idle/up-right/04",
+                "npc-verdant-trainer/idle/up-right/05",
+                "npc-verdant-trainer/idle/up-right/06",
+                "npc-verdant-trainer/idle/up-right/07"
+              ],
+              "right": [
+                "npc-verdant-trainer/idle/right/00",
+                "npc-verdant-trainer/idle/right/01",
+                "npc-verdant-trainer/idle/right/02",
+                "npc-verdant-trainer/idle/right/03",
+                "npc-verdant-trainer/idle/right/04",
+                "npc-verdant-trainer/idle/right/05",
+                "npc-verdant-trainer/idle/right/06",
+                "npc-verdant-trainer/idle/right/07"
+              ],
+              "down-right": [
+                "npc-verdant-trainer/idle/down-right/00",
+                "npc-verdant-trainer/idle/down-right/01",
+                "npc-verdant-trainer/idle/down-right/02",
+                "npc-verdant-trainer/idle/down-right/03",
+                "npc-verdant-trainer/idle/down-right/04",
+                "npc-verdant-trainer/idle/down-right/05",
+                "npc-verdant-trainer/idle/down-right/06",
+                "npc-verdant-trainer/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-verdant-trainer-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-verdant-trainer/idle/down/00",
+                "npc-verdant-trainer/idle/down/01",
+                "npc-verdant-trainer/idle/down/02",
+                "npc-verdant-trainer/idle/down/03",
+                "npc-verdant-trainer/idle/down/04",
+                "npc-verdant-trainer/idle/down/05",
+                "npc-verdant-trainer/idle/down/06",
+                "npc-verdant-trainer/idle/down/07"
+              ],
+              "down-left": [
+                "npc-verdant-trainer/idle/down-left/00",
+                "npc-verdant-trainer/idle/down-left/01",
+                "npc-verdant-trainer/idle/down-left/02",
+                "npc-verdant-trainer/idle/down-left/03",
+                "npc-verdant-trainer/idle/down-left/04",
+                "npc-verdant-trainer/idle/down-left/05",
+                "npc-verdant-trainer/idle/down-left/06",
+                "npc-verdant-trainer/idle/down-left/07"
+              ],
+              "left": [
+                "npc-verdant-trainer/idle/left/00",
+                "npc-verdant-trainer/idle/left/01",
+                "npc-verdant-trainer/idle/left/02",
+                "npc-verdant-trainer/idle/left/03",
+                "npc-verdant-trainer/idle/left/04",
+                "npc-verdant-trainer/idle/left/05",
+                "npc-verdant-trainer/idle/left/06",
+                "npc-verdant-trainer/idle/left/07"
+              ],
+              "up-left": [
+                "npc-verdant-trainer/idle/up-left/00",
+                "npc-verdant-trainer/idle/up-left/01",
+                "npc-verdant-trainer/idle/up-left/02",
+                "npc-verdant-trainer/idle/up-left/03",
+                "npc-verdant-trainer/idle/up-left/04",
+                "npc-verdant-trainer/idle/up-left/05",
+                "npc-verdant-trainer/idle/up-left/06",
+                "npc-verdant-trainer/idle/up-left/07"
+              ],
+              "up": [
+                "npc-verdant-trainer/idle/up/00",
+                "npc-verdant-trainer/idle/up/01",
+                "npc-verdant-trainer/idle/up/02",
+                "npc-verdant-trainer/idle/up/03",
+                "npc-verdant-trainer/idle/up/04",
+                "npc-verdant-trainer/idle/up/05",
+                "npc-verdant-trainer/idle/up/06",
+                "npc-verdant-trainer/idle/up/07"
+              ],
+              "up-right": [
+                "npc-verdant-trainer/idle/up-right/00",
+                "npc-verdant-trainer/idle/up-right/01",
+                "npc-verdant-trainer/idle/up-right/02",
+                "npc-verdant-trainer/idle/up-right/03",
+                "npc-verdant-trainer/idle/up-right/04",
+                "npc-verdant-trainer/idle/up-right/05",
+                "npc-verdant-trainer/idle/up-right/06",
+                "npc-verdant-trainer/idle/up-right/07"
+              ],
+              "right": [
+                "npc-verdant-trainer/idle/right/00",
+                "npc-verdant-trainer/idle/right/01",
+                "npc-verdant-trainer/idle/right/02",
+                "npc-verdant-trainer/idle/right/03",
+                "npc-verdant-trainer/idle/right/04",
+                "npc-verdant-trainer/idle/right/05",
+                "npc-verdant-trainer/idle/right/06",
+                "npc-verdant-trainer/idle/right/07"
+              ],
+              "down-right": [
+                "npc-verdant-trainer/idle/down-right/00",
+                "npc-verdant-trainer/idle/down-right/01",
+                "npc-verdant-trainer/idle/down-right/02",
+                "npc-verdant-trainer/idle/down-right/03",
+                "npc-verdant-trainer/idle/down-right/04",
+                "npc-verdant-trainer/idle/down-right/05",
+                "npc-verdant-trainer/idle/down-right/06",
+                "npc-verdant-trainer/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "verdant.npc.trainer": "npc-verdant-trainer"
+    },
+    "renderBindings": {},
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-aether-trainer",
+    "version": "1.2.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-aether-trainer-page-0",
+        "version": "1.2.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-aether-trainer/1.2.0-c0268800f2fb/npc-aether-trainer-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-aether-trainer/1.2.0-c0268800f2fb/npc-aether-trainer-page-0.json",
+        "width": 1539,
+        "height": 244
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-aether-trainer",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          192,
+          192
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-aether-trainer-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-aether-trainer/idle/down/00",
+                "npc-aether-trainer/idle/down/01",
+                "npc-aether-trainer/idle/down/02",
+                "npc-aether-trainer/idle/down/03",
+                "npc-aether-trainer/idle/down/04",
+                "npc-aether-trainer/idle/down/05",
+                "npc-aether-trainer/idle/down/06",
+                "npc-aether-trainer/idle/down/07"
+              ],
+              "down-left": [
+                "npc-aether-trainer/idle/down-left/00",
+                "npc-aether-trainer/idle/down-left/01",
+                "npc-aether-trainer/idle/down-left/02",
+                "npc-aether-trainer/idle/down-left/03",
+                "npc-aether-trainer/idle/down-left/04",
+                "npc-aether-trainer/idle/down-left/05",
+                "npc-aether-trainer/idle/down-left/06",
+                "npc-aether-trainer/idle/down-left/07"
+              ],
+              "left": [
+                "npc-aether-trainer/idle/left/00",
+                "npc-aether-trainer/idle/left/01",
+                "npc-aether-trainer/idle/left/02",
+                "npc-aether-trainer/idle/left/03",
+                "npc-aether-trainer/idle/left/04",
+                "npc-aether-trainer/idle/left/05",
+                "npc-aether-trainer/idle/left/06",
+                "npc-aether-trainer/idle/left/07"
+              ],
+              "up-left": [
+                "npc-aether-trainer/idle/up-left/00",
+                "npc-aether-trainer/idle/up-left/01",
+                "npc-aether-trainer/idle/up-left/02",
+                "npc-aether-trainer/idle/up-left/03",
+                "npc-aether-trainer/idle/up-left/04",
+                "npc-aether-trainer/idle/up-left/05",
+                "npc-aether-trainer/idle/up-left/06",
+                "npc-aether-trainer/idle/up-left/07"
+              ],
+              "up": [
+                "npc-aether-trainer/idle/up/00",
+                "npc-aether-trainer/idle/up/01",
+                "npc-aether-trainer/idle/up/02",
+                "npc-aether-trainer/idle/up/03",
+                "npc-aether-trainer/idle/up/04",
+                "npc-aether-trainer/idle/up/05",
+                "npc-aether-trainer/idle/up/06",
+                "npc-aether-trainer/idle/up/07"
+              ],
+              "up-right": [
+                "npc-aether-trainer/idle/up-right/00",
+                "npc-aether-trainer/idle/up-right/01",
+                "npc-aether-trainer/idle/up-right/02",
+                "npc-aether-trainer/idle/up-right/03",
+                "npc-aether-trainer/idle/up-right/04",
+                "npc-aether-trainer/idle/up-right/05",
+                "npc-aether-trainer/idle/up-right/06",
+                "npc-aether-trainer/idle/up-right/07"
+              ],
+              "right": [
+                "npc-aether-trainer/idle/right/00",
+                "npc-aether-trainer/idle/right/01",
+                "npc-aether-trainer/idle/right/02",
+                "npc-aether-trainer/idle/right/03",
+                "npc-aether-trainer/idle/right/04",
+                "npc-aether-trainer/idle/right/05",
+                "npc-aether-trainer/idle/right/06",
+                "npc-aether-trainer/idle/right/07"
+              ],
+              "down-right": [
+                "npc-aether-trainer/idle/down-right/00",
+                "npc-aether-trainer/idle/down-right/01",
+                "npc-aether-trainer/idle/down-right/02",
+                "npc-aether-trainer/idle/down-right/03",
+                "npc-aether-trainer/idle/down-right/04",
+                "npc-aether-trainer/idle/down-right/05",
+                "npc-aether-trainer/idle/down-right/06",
+                "npc-aether-trainer/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-aether-trainer-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-aether-trainer/idle/down/00",
+                "npc-aether-trainer/idle/down/01",
+                "npc-aether-trainer/idle/down/02",
+                "npc-aether-trainer/idle/down/03",
+                "npc-aether-trainer/idle/down/04",
+                "npc-aether-trainer/idle/down/05",
+                "npc-aether-trainer/idle/down/06",
+                "npc-aether-trainer/idle/down/07"
+              ],
+              "down-left": [
+                "npc-aether-trainer/idle/down-left/00",
+                "npc-aether-trainer/idle/down-left/01",
+                "npc-aether-trainer/idle/down-left/02",
+                "npc-aether-trainer/idle/down-left/03",
+                "npc-aether-trainer/idle/down-left/04",
+                "npc-aether-trainer/idle/down-left/05",
+                "npc-aether-trainer/idle/down-left/06",
+                "npc-aether-trainer/idle/down-left/07"
+              ],
+              "left": [
+                "npc-aether-trainer/idle/left/00",
+                "npc-aether-trainer/idle/left/01",
+                "npc-aether-trainer/idle/left/02",
+                "npc-aether-trainer/idle/left/03",
+                "npc-aether-trainer/idle/left/04",
+                "npc-aether-trainer/idle/left/05",
+                "npc-aether-trainer/idle/left/06",
+                "npc-aether-trainer/idle/left/07"
+              ],
+              "up-left": [
+                "npc-aether-trainer/idle/up-left/00",
+                "npc-aether-trainer/idle/up-left/01",
+                "npc-aether-trainer/idle/up-left/02",
+                "npc-aether-trainer/idle/up-left/03",
+                "npc-aether-trainer/idle/up-left/04",
+                "npc-aether-trainer/idle/up-left/05",
+                "npc-aether-trainer/idle/up-left/06",
+                "npc-aether-trainer/idle/up-left/07"
+              ],
+              "up": [
+                "npc-aether-trainer/idle/up/00",
+                "npc-aether-trainer/idle/up/01",
+                "npc-aether-trainer/idle/up/02",
+                "npc-aether-trainer/idle/up/03",
+                "npc-aether-trainer/idle/up/04",
+                "npc-aether-trainer/idle/up/05",
+                "npc-aether-trainer/idle/up/06",
+                "npc-aether-trainer/idle/up/07"
+              ],
+              "up-right": [
+                "npc-aether-trainer/idle/up-right/00",
+                "npc-aether-trainer/idle/up-right/01",
+                "npc-aether-trainer/idle/up-right/02",
+                "npc-aether-trainer/idle/up-right/03",
+                "npc-aether-trainer/idle/up-right/04",
+                "npc-aether-trainer/idle/up-right/05",
+                "npc-aether-trainer/idle/up-right/06",
+                "npc-aether-trainer/idle/up-right/07"
+              ],
+              "right": [
+                "npc-aether-trainer/idle/right/00",
+                "npc-aether-trainer/idle/right/01",
+                "npc-aether-trainer/idle/right/02",
+                "npc-aether-trainer/idle/right/03",
+                "npc-aether-trainer/idle/right/04",
+                "npc-aether-trainer/idle/right/05",
+                "npc-aether-trainer/idle/right/06",
+                "npc-aether-trainer/idle/right/07"
+              ],
+              "down-right": [
+                "npc-aether-trainer/idle/down-right/00",
+                "npc-aether-trainer/idle/down-right/01",
+                "npc-aether-trainer/idle/down-right/02",
+                "npc-aether-trainer/idle/down-right/03",
+                "npc-aether-trainer/idle/down-right/04",
+                "npc-aether-trainer/idle/down-right/05",
+                "npc-aether-trainer/idle/down-right/06",
+                "npc-aether-trainer/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "aether.npc.trainer": "npc-aether-trainer"
+    },
+    "renderBindings": {},
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-nexus-trainer",
+    "version": "1.2.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-nexus-trainer-page-0",
+        "version": "1.2.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-nexus-trainer/1.2.0-9c8ec80366dc/npc-nexus-trainer-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-nexus-trainer/1.2.0-9c8ec80366dc/npc-nexus-trainer-page-0.json",
+        "width": 1539,
+        "height": 244
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-nexus-trainer",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          192,
+          192
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-nexus-trainer-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-nexus-trainer/idle/down/00",
+                "npc-nexus-trainer/idle/down/01",
+                "npc-nexus-trainer/idle/down/02",
+                "npc-nexus-trainer/idle/down/03",
+                "npc-nexus-trainer/idle/down/04",
+                "npc-nexus-trainer/idle/down/05",
+                "npc-nexus-trainer/idle/down/06",
+                "npc-nexus-trainer/idle/down/07"
+              ],
+              "down-left": [
+                "npc-nexus-trainer/idle/down-left/00",
+                "npc-nexus-trainer/idle/down-left/01",
+                "npc-nexus-trainer/idle/down-left/02",
+                "npc-nexus-trainer/idle/down-left/03",
+                "npc-nexus-trainer/idle/down-left/04",
+                "npc-nexus-trainer/idle/down-left/05",
+                "npc-nexus-trainer/idle/down-left/06",
+                "npc-nexus-trainer/idle/down-left/07"
+              ],
+              "left": [
+                "npc-nexus-trainer/idle/left/00",
+                "npc-nexus-trainer/idle/left/01",
+                "npc-nexus-trainer/idle/left/02",
+                "npc-nexus-trainer/idle/left/03",
+                "npc-nexus-trainer/idle/left/04",
+                "npc-nexus-trainer/idle/left/05",
+                "npc-nexus-trainer/idle/left/06",
+                "npc-nexus-trainer/idle/left/07"
+              ],
+              "up-left": [
+                "npc-nexus-trainer/idle/up-left/00",
+                "npc-nexus-trainer/idle/up-left/01",
+                "npc-nexus-trainer/idle/up-left/02",
+                "npc-nexus-trainer/idle/up-left/03",
+                "npc-nexus-trainer/idle/up-left/04",
+                "npc-nexus-trainer/idle/up-left/05",
+                "npc-nexus-trainer/idle/up-left/06",
+                "npc-nexus-trainer/idle/up-left/07"
+              ],
+              "up": [
+                "npc-nexus-trainer/idle/up/00",
+                "npc-nexus-trainer/idle/up/01",
+                "npc-nexus-trainer/idle/up/02",
+                "npc-nexus-trainer/idle/up/03",
+                "npc-nexus-trainer/idle/up/04",
+                "npc-nexus-trainer/idle/up/05",
+                "npc-nexus-trainer/idle/up/06",
+                "npc-nexus-trainer/idle/up/07"
+              ],
+              "up-right": [
+                "npc-nexus-trainer/idle/up-right/00",
+                "npc-nexus-trainer/idle/up-right/01",
+                "npc-nexus-trainer/idle/up-right/02",
+                "npc-nexus-trainer/idle/up-right/03",
+                "npc-nexus-trainer/idle/up-right/04",
+                "npc-nexus-trainer/idle/up-right/05",
+                "npc-nexus-trainer/idle/up-right/06",
+                "npc-nexus-trainer/idle/up-right/07"
+              ],
+              "right": [
+                "npc-nexus-trainer/idle/right/00",
+                "npc-nexus-trainer/idle/right/01",
+                "npc-nexus-trainer/idle/right/02",
+                "npc-nexus-trainer/idle/right/03",
+                "npc-nexus-trainer/idle/right/04",
+                "npc-nexus-trainer/idle/right/05",
+                "npc-nexus-trainer/idle/right/06",
+                "npc-nexus-trainer/idle/right/07"
+              ],
+              "down-right": [
+                "npc-nexus-trainer/idle/down-right/00",
+                "npc-nexus-trainer/idle/down-right/01",
+                "npc-nexus-trainer/idle/down-right/02",
+                "npc-nexus-trainer/idle/down-right/03",
+                "npc-nexus-trainer/idle/down-right/04",
+                "npc-nexus-trainer/idle/down-right/05",
+                "npc-nexus-trainer/idle/down-right/06",
+                "npc-nexus-trainer/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-nexus-trainer-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-nexus-trainer/idle/down/00",
+                "npc-nexus-trainer/idle/down/01",
+                "npc-nexus-trainer/idle/down/02",
+                "npc-nexus-trainer/idle/down/03",
+                "npc-nexus-trainer/idle/down/04",
+                "npc-nexus-trainer/idle/down/05",
+                "npc-nexus-trainer/idle/down/06",
+                "npc-nexus-trainer/idle/down/07"
+              ],
+              "down-left": [
+                "npc-nexus-trainer/idle/down-left/00",
+                "npc-nexus-trainer/idle/down-left/01",
+                "npc-nexus-trainer/idle/down-left/02",
+                "npc-nexus-trainer/idle/down-left/03",
+                "npc-nexus-trainer/idle/down-left/04",
+                "npc-nexus-trainer/idle/down-left/05",
+                "npc-nexus-trainer/idle/down-left/06",
+                "npc-nexus-trainer/idle/down-left/07"
+              ],
+              "left": [
+                "npc-nexus-trainer/idle/left/00",
+                "npc-nexus-trainer/idle/left/01",
+                "npc-nexus-trainer/idle/left/02",
+                "npc-nexus-trainer/idle/left/03",
+                "npc-nexus-trainer/idle/left/04",
+                "npc-nexus-trainer/idle/left/05",
+                "npc-nexus-trainer/idle/left/06",
+                "npc-nexus-trainer/idle/left/07"
+              ],
+              "up-left": [
+                "npc-nexus-trainer/idle/up-left/00",
+                "npc-nexus-trainer/idle/up-left/01",
+                "npc-nexus-trainer/idle/up-left/02",
+                "npc-nexus-trainer/idle/up-left/03",
+                "npc-nexus-trainer/idle/up-left/04",
+                "npc-nexus-trainer/idle/up-left/05",
+                "npc-nexus-trainer/idle/up-left/06",
+                "npc-nexus-trainer/idle/up-left/07"
+              ],
+              "up": [
+                "npc-nexus-trainer/idle/up/00",
+                "npc-nexus-trainer/idle/up/01",
+                "npc-nexus-trainer/idle/up/02",
+                "npc-nexus-trainer/idle/up/03",
+                "npc-nexus-trainer/idle/up/04",
+                "npc-nexus-trainer/idle/up/05",
+                "npc-nexus-trainer/idle/up/06",
+                "npc-nexus-trainer/idle/up/07"
+              ],
+              "up-right": [
+                "npc-nexus-trainer/idle/up-right/00",
+                "npc-nexus-trainer/idle/up-right/01",
+                "npc-nexus-trainer/idle/up-right/02",
+                "npc-nexus-trainer/idle/up-right/03",
+                "npc-nexus-trainer/idle/up-right/04",
+                "npc-nexus-trainer/idle/up-right/05",
+                "npc-nexus-trainer/idle/up-right/06",
+                "npc-nexus-trainer/idle/up-right/07"
+              ],
+              "right": [
+                "npc-nexus-trainer/idle/right/00",
+                "npc-nexus-trainer/idle/right/01",
+                "npc-nexus-trainer/idle/right/02",
+                "npc-nexus-trainer/idle/right/03",
+                "npc-nexus-trainer/idle/right/04",
+                "npc-nexus-trainer/idle/right/05",
+                "npc-nexus-trainer/idle/right/06",
+                "npc-nexus-trainer/idle/right/07"
+              ],
+              "down-right": [
+                "npc-nexus-trainer/idle/down-right/00",
+                "npc-nexus-trainer/idle/down-right/01",
+                "npc-nexus-trainer/idle/down-right/02",
+                "npc-nexus-trainer/idle/down-right/03",
+                "npc-nexus-trainer/idle/down-right/04",
+                "npc-nexus-trainer/idle/down-right/05",
+                "npc-nexus-trainer/idle/down-right/06",
+                "npc-nexus-trainer/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "nexus.npc.trainer": "npc-nexus-trainer"
+    },
+    "renderBindings": {},
+    "effects": {}
   }
 ]
