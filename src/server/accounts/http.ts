@@ -21,6 +21,10 @@ export class RateLimiter {
     private readonly limit: number,
     private readonly windowMs: number,
   ) {}
+  /** Forgets a key, e.g. after a successful login, so a person who got in is not locked out by earlier typos. */
+  reset(key: string) {
+    this.hits.delete(key);
+  }
   allow(key: string, now = Date.now()) {
     const entry = this.hits.get(key);
     if (!entry || entry.until <= now) {
@@ -34,7 +38,7 @@ export class RateLimiter {
 }
 
 const perIp = new RateLimiter(30, 60_000);
-const perEmail = new RateLimiter(5, 15 * 60_000);
+const perEmail = new RateLimiter(10, 15 * 60_000);
 
 const clientIp = (request: IncomingMessage) =>
   String(request.headers["x-forwarded-for"] ?? request.socket.remoteAddress ?? "")
@@ -128,12 +132,15 @@ export async function accountHttp(
           ok: true,
           message: "Jeśli konto czeka na aktywację, wysłaliśmy nowy link.",
         });
-      case "/login":
+      case "/login": {
         limitEmail(b["email"]);
-        return send(
-          200,
-          await service.login({ email: b["email"], password: b["password"] }, userAgent),
+        const session = await service.login(
+          { email: b["email"], password: b["password"] },
+          userAgent,
         );
+        if (typeof b["email"] === "string") perEmail.reset(b["email"].trim().toLowerCase());
+        return send(200, session);
+      }
       case "/refresh":
         return send(200, await service.refresh(b["refreshToken"], userAgent));
       case "/logout":

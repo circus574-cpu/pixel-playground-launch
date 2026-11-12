@@ -150,6 +150,15 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
 - **Świadomie zostawione na Fazę 2:** cienie jako osobne GameObjecty, pieczenie blokujące wątek,
   `snapshot` 10×/s i brak memo w HUD. Wypiekanie cieni w podłoże zmienia obraz, więc czeka na decyzję.
 
+### Mapa 2D: przesuwanie na szerokim, niskim ekranie
+
+- Odtworzone w przeglądarce (telefon w poziomie 844×390, najmniejsze powiększenie): widok jest tam szerszy
+  niż mapa, a `clampView` przy takim widoku na sztywno ustawiał `cx` na środek, więc przeciągnięcie nie
+  robiło nic (zapętlone przesuwanie działało tylko po przybliżeniu albo na węższych ekranach).
+- `clampView` zawsze zawija długość geograficzną; `wrapCopies` liczy kopie mapy także dla widoku szerszego
+  niż mapa (trzy kopie), więc po bokach nie ma dziur. Test `planet-map.test.ts`: pełny obrót wraca do startu,
+  kopie pokrywają cały widoczny pas.
+
 ### 11. Faza 2 (część 1): tani HUD i koniec alokacji co klatkę
 
 - Właściciel: „Ruszaj Fazę 2, nie ma czasu". Zakres: bezpieczne, mierzalne zmiany bez ruszania
@@ -306,3 +315,117 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   (Planetar, Mędrzec), `dodge 00–05` i `guard 00–05` (Android, Mędrzec), `dodge` (Legenda, Planetar); zero błędów w konsoli.
   Legenda nie ma zdolności z tarczą, więc `guard` nie jest u niej wywoływany; skill A bohatera dalej gra istniejący klip `skill`.
 - Nie zrobione: etapy 2 (ciężkie trafienie, zwycięstwo) i 3 (bieg, ładowanie, skill C, interakcja); formy KI z etapu 4 dla ciosów 2–3, uniku i gardu.
+
+### 15. Faza 4: bramka wydajności CI — pilnuje pamięci, zamrożenia i wejścia, nie surowego FPS
+
+- **`src/game/assets/perfGate.ts`** — czysta funkcja `evaluatePerfGate` (importuje realny
+  `STREAM_TEXTURE_BUDGET_BYTES`), czyta raport z `scripts/measure-game.ts`, nie uruchamia przeglądarki.
+  **`scripts/perf/bramka-wydajnosci.ts`** (`npm run bench:gate <raport.json>`, exit 0/1/2) + test
+  **`src/test/perf-gate.test.ts`** (11 testów: łapie każdy typ naruszenia, ignoruje FPS).
+- Progi (niezależne od renderera, skalibrowane na realnym pomiarze): **całkowita pamięć tekstur
+  ≤ 220 MiB**, **zamrożenie `frameMax` ≤ 3000 ms**, p95 ≤ 3000 ms (miękki), **wejście ≤ 60 s**, zero
+  błędów strony. Surowy FPS **nie jest** kryterium — programowy Canvas jest pesymistyczny i degraduje
+  się w biegu. Progi nadpisujesz `KI_PERF_TEXTURE_MB / FREEZE_MS / P95_MS / ENTER_MS`.
+- **Kluczowe rozróżnienie pamięci:** telemetryczne `estimatedTextureBytes` to CAŁOŚĆ (atlas + podłoże
+  - bohater + HUD + efekty), a budżet 192 MiB dotyczy tylko streamowanego podzbioru (osobno weryfikują
+    go testy stream-texture-budget / ground-budget). Pierwsza wersja bramki błędnie porównała całość do
+    192 i oblała aether/nexus — poprawione na sufit całości 220 MiB (budżet + 28 MiB na niestreamowane).
+- **Realny pomiar kalibracyjny** (harness, mobile 844×390, Canvas, 4 światy): tekstury verdant 176,6 /
+  aether 199,4 / nexus 206,9 / pyra 183,5 MiB (road-cache = 0); zamrożenie 780–2192 ms; wejście
+  10,3–15,3 s; FPS 15–34 (software, pominięty). Bramka na tym raporcie: **PASS**.
+- Bramka jakości **sekwencyjnie** (lekcja z cz. 1): lint 0 błędów (15 istniejących ostrzeżeń),
+  typecheck 0 (3 konfiguracje, CLI dodany do tsconfig.tools), **testy 1281 passed / 10 skipped (125
+  plików), zero padnięć**. Formatowanie nowych plików prettier (4 błędy auto-fix naprawione).
+- **Uczciwie:** to bramka regresji na wielkościach niezależnych od renderera, gotowa do CI. **Pomiar
+  FPS na fizycznym telefonie nadal wymaga urządzenia właściciela** — w grze jest `?ki-debug=bench`
+  (FPS / p95 / max / czas JS-GPU), a harness zapisuje raport, który ta bramka ocenia. Kontener nie ma
+  fizycznego telefonu ani GPU, więc nie podaje „FPS na telefonie" — podaje pamięć, zamrożenie i wejście.
+
+### 16. Tryb diagnostyczny urządzenia — autonomiczny pomiar 45 s z raportem do pliku (na telefonie właściciela)
+
+- Na polecenie właściciela: z panelu admina uruchamiana gra w trybie diagnostyki, postać **chodzi
+  i wykonuje polecenia sama przez 45 s** (bez udziału gracza), a na koniec **zapisuje raport do pliku**.
+  Działa na fizycznym telefonie i w przeglądarce — to domyka Fazę 4 o realny pomiar na urządzeniu.
+- **`src/game/diagnostics.ts`** — rdzeń (czysty, testowalny): `startDiagnostics` wydaje autonomicznie
+  `move` (pętla waypointów wokół startu), `target`+`ability` przy wrogach, `dodge`, `heal`, włącza
+  nieśmiertelność staff na czas pomiaru i przywraca ją po; próbkuje telemetrię `data-metrics` co 0,5 s;
+  po czasie buduje raport. `diagWaypoints`, `buildDiagReport`, `diagSummary`, `downloadDiagReport`
+  (pobieranie JSON). Raport jest zgodny z bramką `npm run bench:gate` (kształt `PerfReport`).
+- **`src/components/game/DiagnosticsPanel.tsx`** + `diagnostics.css` — panel staff: przycisk
+  „Diagnostyka 45 s", nakładka z odliczaniem / paskiem postępu / FPS / pamięcią / fazą na żywo,
+  podsumowanie i ponowne pobranie raportu. Start przez przycisk, zdarzenie `ki:diag-start` albo `?ki-diag=1`.
+- **Wejścia:** zakładka „Diagnostyka urządzenia" w `/admin` (link `/?ki-diag=1` otwiera grę w trybie
+  pomiarowym) + przycisk „Diagnostyka 45 s" w panelu GM (`StaffTools`). Render w `GameHud` dla staff.
+- Raport niesie: FPS śr./min, p95, zamrożenie `frameMax`, pamięć tekstur, czas wejścia, liczbę próbek,
+  błędy strony oraz dane urządzenia (userAgent, viewport, DPR, rdzenie, pamięć, touch, renderer).
+- Weryfikacja: testy rdzenia **7/7** (waypointy, raport zgodny z bramką, podsumowanie, autonomiczny
+  przebieg na fake-timerach, przerwanie) + test komponentu **3/3** (przycisk → nakładka → raport
+  i pobranie; przerwanie; brak renderu dla non-staff). Bramka **sekwencyjnie**: lint 0 błędów,
+  typecheck 0, **testy 1291 passed / 10 skipped (127 plików)**, **build produkcyjny 0**.
+- **Uczciwie:** logikę i UI zweryfikowano w kontenerze (jsdom); **realny FPS zmierzy dopiero urządzenie
+  właściciela** — po uruchomieniu diagnostyki raport pobiera się jako plik JSON i można go ocenić
+  `npm run bench:gate`. Kontener nie ma fizycznego telefonu ani GPU.
+
+### Wdrożenie: czyszczenie obrazów dockera na serwerze Aruba (koniec „no space left on device")
+
+- Awaria 11.11.2026 ok. 21:07: wdrożenie `8ede8d07` padło na kroku „Deploy tested candidate…" z
+  `write … no space left on device` (eksport obrazów dockera), a bazy i usługi na serwerze zrestartowały się.
+  Przyczyna: każde wdrożenie buduje na serwerze dwa obrazy `ki-legends-web/app:staging-<sha>` i cache budowania;
+  `docker image prune -f` na końcu skryptu usuwał tylko obrazy bez tagu, więc otagowane obrazy poprzednich wydań
+  zostawały na zawsze (dziś ok. 17 wdrożeń).
+- `deploy/scripts/promote-coolify-release.sh`: funkcja `cleanup_images` usuwa obrazy `staging-*` wszystkich wydań poza
+  budowanym i poprzednio działającym (zostaje na ręczny rollback), potem `docker image prune -f` i
+  `docker builder prune --filter until=48h`; wypisuje `df -h /`. Uruchamiana **przed** budową (żeby kolejne wdrożenie
+  nie zabrakło miejsca) i po zweryfikowanym wydaniu. Docker nie usuwa obrazów używanych przez działające
+  kontenery, a błąd sprzątania nie przerywa i nie cofa wydania (`|| true`).
+- Weryfikacja: `bash -n`; logika funkcji sprawdzona na makiecie `docker` (zostają dwa wskazane tagi i tag `latest`,
+  reszta `staging-*` usunięta; przy pustym drugim tagu zostaje tylko budowany). **Nie sprawdzone na serwerze** —
+  zadziała przy najbliższym wdrożeniu po scaleniu; wynik `df -h /` będzie widać w logu kroku wdrożenia.
+
+### 17. Balans: schodkowy wzrost prędkości ruchu + twardy limit 1200 j./s (decyzja właściciela)
+
+- Na polecenie właściciela: wzrost prędkości zmienia się z flat **+5%/poziom (cap 20)** na **schodkowy,
+  bez capu poziomu**: **poz. 2–9: +5%, 10–19: +4%, 20–29: +3,5%, 30+: +3%** (addytywny % bazy rasy).
+  Mnożniki: poz. 10 ×1,44; poz. 20 ×1,835; poz. 30 ×2,18; poz. 60 ×3,08.
+- **Twardy limit prędkości ruchu `MAX_MOVE_SPEED = 1200 j./s`** nakładany na końcową prędkość
+  (z bonusami ekwipunku/buffów), wspólny dla klienta i serwera — żeby wysokie poziomy nie przekraczały
+  limitu. Źródło: `src/game/kit/balance.ts` (`speedGrowth`, `SPEED_GROWTH_TIERS`, `MAX_MOVE_SPEED`),
+  cap w `src/game/kit/base.ts`. Interwał ataku nadal nie rośnie.
+- Dokumentacja: `docs/ROZWOJ-I-WALKA.md` (tabela „Ruch j./s" + przypis z progami i capem).
+- Weryfikacja: nowy `src/test/speed-growth.test.ts` **7/7** (progi, wartości na progach, brak capu,
+  monotoniczność, limit 1200) + `kit.test.ts` zaktualizowany (poz. 10/20/60) i nowy test capu **31/31**.
+
+### 18. Profil wydajności pieczenia podłoża (opt-in, Faza 5) — na zamrożenia przy wejściu w chunk
+
+- Pomiar właściciela (WebGL, Verdant) pokazał: stan ustalony ~30–33 FPS, ale **15 zamrożeń od pieczenia
+  chunków do 1603 ms**. Odpowiedź: **opt-in profil** `?ki-ground-res=512` (lub 768/1024) obniża sufit
+  rozdzielczości pieczenia (koszt ∝ res² → 1024→512 to ~4× taniej) + **adaptacyjne pieczenie**: po
+  wolnej pieczeniu (>100 ms) kolejka nie dokłada drugiej w tej klatce (`bakesPerFrame`).
+- **Domyślnie nic nie zmienia** (bez parametru `groundResolutionOverride` = null, limit 2/klatkę jak
+  wcześniej). Źródło: `src/game/assets/groundBudget.ts` + `renderSuperior.ts`. Testy **11/11** w
+  `ground-budget.test.ts`. Pełna bramka sekwencyjna: lint 0, typecheck 0, testy 0, build 0.
+- Do przetestowania na urządzeniu: `/?ki-diag=1&ki-ground-res=512` vs `/?ki-diag=1` (porównanie
+  zamrożeń w raporcie). Docelowe rozwiązanie (poza głównym wątkiem / pre-bake kafelków) wymaga osobnej
+  decyzji — ten profil jest bezpiecznym, odwracalnym krokiem pośrednim.
+
+### 19. Mapa 2D: przybliżanie pokazuje prawdziwy teren (lasy, góry, biomy) — styl „real"
+
+- Na polecenie właściciela: przy zoomie mapa ma pokazywać **prawdziwy świat — lasy, góry i to, co
+  rzeczywiscie jest**, a nie płaskie plamy koloru. Przyczyna: `render_v2_maps.py` malował mapy stylem
+  „calm" (średni kolor biomu + tylko 18% tekstury).
+- **Nowy styl `MAP_STYLE=real`** w `scripts/worldgen/v2/render_v2_maps.py`: pełna tekstura podłoża
+  (80% tekstury + 20% średniej), więc las/góra/bagno czytają się jak prawdziwy teren. Domyślny „calm"
+  bez zmian (opt-in przez env). Zachowane: grzbiety gór, wybrzeża, woda śródlądowa, drogi.
+- **Zregenerowano `map-hi.webp` wszystkich 10 lądów** stylem „real" w tej samej rozdzielczości
+  (kontynenty `MAP_WIDTH=8192 MAP_SUFFIX=-hi MAP_UPSAMPLE=2`, wyspy domyślne). **Wymiary `map-hi.json`
+  identyczne** (np. verdant 3985×3011) → kafelki overlay i projekcja świata bez zmian. `map.webp`
+  (mapa podstawowa) nietknięta.
+- **Weryfikacja liczbowa** (vision bridge niedostępny): średni kontrast sąsiednich pikseli (energia
+  tekstury) fragmentu verdant wzrósł **1,28 → 2,53 (~2×)** calm→real — potwierdza realną teksturę.
+  Warstwa `TerrainCanvas` (`WorldOverlay.tsx`) już ładuje `map-hi.webp` od zoom ≥ 3, więc prawdziwy
+  teren pokazuje się przy przybliżaniu bez zmian w kodzie klienta.
+- **Globus — uczciwie:** globus owija malowany atlas `atlas-v2-3840.webp` przez pipeline
+  `render_v2_planet_terrain.py` → `build_v2_atlas.py` (repaint GPU) → `build_globe_textures.py`,
+  a oba skrypty wymagają `scipy` (niedostępny, PEP 668 blokuje instalację). Pokazanie realnej tekstury
+  na globusie to osobny krok (scipy + pipeline atlasu) — nie ruszany bez zgody i narzędzi. Globus nadal
+  pokazuje realny układ biomów z orbity.

@@ -93,18 +93,22 @@ for f in index['features']:
     kk = max(1, round(scale)) if UP > 1 else 1  # filter radii are in pixels: keep them in world units
     size = 96 * kk
     layers = {k: tile(tex(f'{affinity}-{k}-0', size), h, w) for k in ['grass', 'forest', 'mountain', 'wetland', 'sea', 'shore', 'road']}
-    # Map style: each ground's average colour with a faint texture, soft borders between biomes.
-    calm = lambda k: layers[k].mean((0, 1)) * .82 + (layers[k] - layers[k].mean((0, 1))) * .18 + layers[k].mean((0, 1)) * .18
-    flat = np.zeros((h, w, 3), np.float32) + calm('sea') * .9
+    # Map style: "calm" = average colour with a faint texture (stylized atlas). "real" = the actual
+    # ground texture so forests/mountains read as the true terrain when zoomed in (owner 11.11.2026).
+    if os.environ.get('MAP_STYLE', 'calm') == 'real':
+        paint = lambda k: layers[k] * .8 + layers[k].mean((0, 1)) * .2
+    else:
+        paint = lambda k: layers[k].mean((0, 1)) + (layers[k] - layers[k].mean((0, 1))) * .18
+    flat = np.zeros((h, w, 3), np.float32) + paint('sea') * .9
     for b, k in enumerate(['grass', 'forest', 'mountain', 'wetland']):
-        flat = np.where(((bi == b) & land)[..., None], calm(k), flat)
+        flat = np.where(((bi == b) & land)[..., None], paint(k), flat)
     soft = np.asarray(Image.fromarray(np.clip(flat, 0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(2 * kk)), np.float32)
     img = np.where(land[..., None], soft, flat)
     mountain = (bi == 2) & land
     ridge = np.asarray(Image.fromarray((mountain * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(3 * kk)), np.float32) / 255
     img = img * (1 - .25 * ridge[..., None]) + np.array([235, 230, 220]) * (.25 * ridge ** 3)[..., None]
     coast = np.asarray(Image.fromarray((land * 255).astype(np.uint8)).filter(ImageFilter.MinFilter(4 * kk + 1))) == 0
-    img = np.where((land & coast & walk)[..., None], calm('shore'), img)
+    img = np.where((land & coast & walk)[..., None], paint('shore'), img)
     inland_water = np.asarray(Image.fromarray(((land & ~walk) * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(2 * kk + 1))) > 0
     img = np.where((inland_water & land)[..., None], np.array([70, 140, 190], np.float32), img)
     if UP > 1:

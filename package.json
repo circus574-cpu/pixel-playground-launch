@@ -24,6 +24,7 @@
     "assets:targets": "tsx scripts/export-gpu-targets.ts",
     "assets:schema": "tsx scripts/export-gpu-schema.ts",
     "bench:game": "tsx scripts/measure-game.ts",
+    "bench:gate": "tsx scripts/perf/bramka-wydajnosci.ts",
     "assets:pack": "tsx scripts/pack-gpu-frames.ts"
   },
   "overrides": {
