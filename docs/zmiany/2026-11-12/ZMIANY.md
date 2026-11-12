@@ -597,4 +597,17 @@ Pełny TypeScript aplikacji/e2e/tools PASS. [Kontrole integracyjne i SHA wejść
 - Nie zrobiono / nie sprawdzono: pełne **nazwanie** wszystkich ról w miastach v2 (dziś 6/10 generycznych)
   wymaga dodań wiązań w `worlds/*.ts` + katalogu dialogów (sprzężone z testem „7 NPC/kontynent") i zmian
   w `boundTownNpc` — współdzielone z innymi agentami, ryzykowne, zostawione jako osobny etap. Realne
-  leża bossów (warden — atrapa) nadal do rozbudowy.
+  leża bossów (warden — atrapa) nadal do rozbudowy. Uwaga: test `town-npc-names` celowo zakłada, że
+  nazwani są tylko NPC zleceniodawcy questów (12), a pozostałe role mają nazwę ogólną — to zamierzony
+  projekt, nie luka.
+
+### 16. Wydajność: memo Inventory/QuestJournal (redukcja re-renderów HUD)
+
+- `Inventory` i `QuestJournal` (AdventurePanels) owinięte w `React.memo` z komparatorami porównującymi
+  tylko pola, które panel renderuje (items/materials/equipment/gold/hp/weapon/armor/upgrade + staty;
+  questy po id/status/name/text). Snapshot jest klonowany co klatkę, więc bez tego panele re-renderowały
+  się 10×/s mimo niezmienionych danych.
+- Testy: adventure-ui + npc-commerce-ui **8/8 PASS** (osobno). Bramka: lint 0, typecheck 0.
+- Nie zrobiono / nie sprawdzono: pełna bramka w tym przebiegu miała środowiskowe timeouty ciężkich testów
+  (admin-world-overview, gpu-pipeline, racial-trial) pod obciążeniem — przechodzą osobno; pomiar zysku
+  memo na fizycznym telefonie nie był wykonany.

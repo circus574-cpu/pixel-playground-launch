@@ -2,7 +2,7 @@ import { nodeDescription, rankBasePercent } from "../../game/kit/nodePresentatio
 import { getItemById, type CraftingStation } from "../../game/items";
 import { equippedName } from "../../game/development/heritage/equipment";
 import { HeritageWeaponCard } from "./HeritageWeaponCard";
-import { useState, useSyncExternalStore, type ReactNode } from "react";
+import { memo, useState, useSyncExternalStore, type ReactNode } from "react";
 import { gpuIcon } from "./gpuIcons";
 import { isCityStage } from "../../game/city/types";
 import { getNpcDialogue, getNpcQuestDialogue } from "../../game/dialogue";
@@ -37,7 +37,45 @@ export function ItemIcon({ item }: { item: ItemId }) {
     />
   );
 }
-export function Inventory({
+/** Płytka równość obiektów o prymitywnych wartościach (items/materials/equipment). */
+function shallowEq(a: unknown, b: unknown): boolean {
+  if (a === b) return true;
+  if (!a || !b || typeof a !== "object" || typeof b !== "object") return false;
+  const ka = Object.keys(a as object);
+  const kb = Object.keys(b as object);
+  if (ka.length !== kb.length) return false;
+  for (const k of ka) {
+    if ((a as Record<string, unknown>)[k] !== (b as Record<string, unknown>)[k]) return false;
+  }
+  return true;
+}
+
+type InventoryProps = { state: GameViewState; send: SendCommand; authoritative?: boolean };
+/** Snapshot jest klonowany co klatkę, więc memo porównuje pola, które panel faktycznie renderuje. */
+function inventoryPropsEqual(a: InventoryProps, b: InventoryProps): boolean {
+  const pa = a.state.player;
+  const pb = b.state.player;
+  return (
+    a.authoritative === b.authoritative &&
+    pa.level === pb.level &&
+    pa.xp === pb.xp &&
+    pa.gold === pb.gold &&
+    pa.hp === pb.hp &&
+    pa.weapon === pb.weapon &&
+    pa.armor === pb.armor &&
+    pa.upgrade === pb.upgrade &&
+    shallowEq(pa.items, pb.items) &&
+    shallowEq(pa.materials, pb.materials) &&
+    shallowEq(pa.equipment, pb.equipment) &&
+    shallowEq(pa.development?.heritage.weapon, pb.development?.heritage.weapon) &&
+    a.state.stats.attack === b.state.stats.attack &&
+    a.state.stats.defense === b.state.stats.defense &&
+    a.state.stats.maxHp === b.state.stats.maxHp &&
+    a.state.potion.remaining === b.state.potion.remaining
+  );
+}
+
+function InventoryImpl({
   state,
   send,
   authoritative = false,
@@ -154,7 +192,36 @@ export function Inventory({
     </div>
   );
 }
-export function QuestJournal({
+export const Inventory = memo(InventoryImpl, inventoryPropsEqual);
+
+type QuestJournalProps = {
+  worldOverride?: import("../../game/world/types").WorldDefinition | undefined;
+  state: GameViewState;
+  send: SendCommand;
+  close: () => void;
+};
+function questJournalPropsEqual(a: QuestJournalProps, b: QuestJournalProps): boolean {
+  if (a.worldOverride !== b.worldOverride) return false;
+  if (a.state.player.continent !== b.state.player.continent) return false;
+  const qa = a.state.quests;
+  const qb = b.state.quests;
+  if (qa.length !== qb.length) return false;
+  for (let i = 0; i < qa.length; i++) {
+    const qaItem = qa[i];
+    const qbItem = qb[i];
+    if (!qaItem || !qbItem) return false;
+    if (
+      qaItem.id !== qbItem.id ||
+      qaItem.status !== qbItem.status ||
+      qaItem.name !== qbItem.name ||
+      qaItem.text !== qbItem.text
+    )
+      return false;
+  }
+  return true;
+}
+
+function QuestJournalImpl({
   state,
   send,
   close,
@@ -254,6 +321,7 @@ export function QuestJournal({
     </div>
   );
 }
+export const QuestJournal = memo(QuestJournalImpl, questJournalPropsEqual);
 
 /** Zadania V2, których zleceniodawcą jest ten NPC — przyjmowanie prosto z rozmowy. */
 function NpcQuestOffers({
