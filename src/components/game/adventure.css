@@ -1137,3 +1137,19 @@
 .ki-craft-ingredients li.is-missing {
   color: #ff9885;
 }
+.ki-quest-deliver {
+  display: grid;
+  gap: 6px;
+  margin: 8px 0;
+  padding: 8px;
+  border: 1px solid #b4ded633;
+  border-radius: 8px;
+}
+.ki-quest-deliver p {
+  margin: 0 0 4px;
+}
+.ki-npc-quests {
+  display: grid;
+  gap: 8px;
+  margin: 8px 0;
+}

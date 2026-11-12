@@ -516,13 +516,21 @@ export function recordQuestObjectiveEvent(
       if (current >= obj.targetCount) continue;
 
       if (type === "deliver") {
-        const itemKey = obj.targetId as CanonicalItemId;
-        const available = updatedInventory[itemKey] ?? 0;
-        const needed = obj.targetCount - current;
-        const toConsume = Math.min(available, needed, amount);
-        if (toConsume <= 0) continue;
-        updatedInventory[itemKey] = available - toConsume;
-        updatedProgress[obj.id] = current + toConsume;
+        const isItem = (["potion", "tusk", "sword", "vest"] as const).includes(
+          obj.targetId as CanonicalItemId,
+        );
+        if (isItem) {
+          const itemKey = obj.targetId as CanonicalItemId;
+          const available = updatedInventory[itemKey] ?? 0;
+          const needed = obj.targetCount - current;
+          const toConsume = Math.min(available, needed, amount);
+          if (toConsume <= 0) continue;
+          updatedInventory[itemKey] = available - toConsume;
+          updatedProgress[obj.id] = current + toConsume;
+        } else {
+          // Cel „deliver do NPC" (np. npc-mio): postęp po rozmowie/dostarczeniu, bez zużywania przedmiotu.
+          updatedProgress[obj.id] = Math.min(obj.targetCount, current + amount);
+        }
         stageModified = true;
       } else {
         updatedProgress[obj.id] = Math.min(obj.targetCount, current + amount);

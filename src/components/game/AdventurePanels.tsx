@@ -2,14 +2,15 @@ import { nodeDescription, rankBasePercent } from "../../game/kit/nodePresentatio
 import { getItemById, type CraftingStation } from "../../game/items";
 import { equippedName } from "../../game/development/heritage/equipment";
 import { HeritageWeaponCard } from "./HeritageWeaponCard";
-import { useState, type ReactNode } from "react";
+import { useState, useSyncExternalStore, type ReactNode } from "react";
 import { gpuIcon } from "./gpuIcons";
 import { isCityStage } from "../../game/city/types";
-import { getNpcDialogue } from "../../game/dialogue";
+import { getNpcDialogue, getNpcQuestDialogue } from "../../game/dialogue";
 import { CityDirectory } from "./CityPanels";
 import { CraftingPanel } from "./CraftingPanel";
 import { ShopV2Panel } from "./ShopV2Panel";
 import { QuestsV2Journal } from "./QuestsV2Journal";
+import { questsV2 } from "../../game/quests/v2Tracker";
 import { WORLD_V2 } from "../../game/world/generated/worldVersion";
 import { WORLDS } from "../../game/world/worlds";
 import {
@@ -250,6 +251,61 @@ export function QuestJournal({
     </div>
   );
 }
+
+/** Zadania V2, których zleceniodawcą jest ten NPC — przyjmowanie prosto z rozmowy. */
+function NpcQuestOffers({
+  dialogueId,
+  continent,
+}: {
+  dialogueId?: string | undefined;
+  continent: string;
+}) {
+  useSyncExternalStore(
+    questsV2.subscribe,
+    () => questsV2.save,
+    () => questsV2.save,
+  );
+  if (!WORLD_V2 || !dialogueId) return null;
+  const entries = questsV2
+    .journal(continent)
+    .filter((e) => e.quest.giverNpcId === dialogueId && e.state !== "completed");
+  if (entries.length === 0) return null;
+  return (
+    <div className="ki-npc-quests">
+      {entries.map(({ quest, state }) => {
+        const talk = getNpcQuestDialogue(quest.giverNpcId, quest.id);
+        const said = state === "active" ? talk?.during : talk?.before;
+        return (
+          <article key={quest.id} className={"ki-qv2-card is-" + state}>
+            <h3>{quest.title}</h3>
+            <div className="ki-qv2-meta">
+              <span className={"ki-qv2-badge is-" + state}>
+                {state === "active" ? "W toku" : "Do przyjęcia"}
+              </span>
+              <span>poz. {quest.recommendedLevel}</span>
+              <span className="ki-qv2-reward">
+                +{quest.reward.xp} XP
+                {quest.reward.coins ? " · " + quest.reward.coins + " monet" : ""}
+              </span>
+            </div>
+            {said && <p className="ki-qv2-story">{said}</p>}
+            {state === "available" && (
+              <button className="ki-qv2-accept" onClick={() => questsV2.start(quest.id)}>
+                Przyjmij zadanie
+              </button>
+            )}
+            {state === "active" && (
+              <small className="ki-panel-caption">
+                Postęp celu znajdziesz w dzienniku przygód.
+              </small>
+            )}
+          </article>
+        );
+      })}
+    </div>
+  );
+}
+
 export function NpcDialogue({
   authoritative = false,
   state,
@@ -265,6 +321,7 @@ export function NpcDialogue({
 }) {
   const [subView, setSubView] = useState<null | "craft" | "shop">(null);
   const [craftStation, setCraftStation] = useState<CraftingStation>("forge");
+  const [brewMaterial, setBrewMaterial] = useState<string>("");
   const world = worldOverride ?? WORLDS[state.player.continent];
   const npc = world.npcs.find((n) => n.id === state.dialogue);
   if (!npc) return null;
@@ -340,6 +397,29 @@ export function NpcDialogue({
         <div className="ki-adventure-panel">
           <p>{text}</p>
           {katalog && <p>{katalog.greetings[state.dialogueTurn % katalog.greetings.length]}</p>}
+          {(() => {
+            const actionable = questsV2
+              .deliveries()
+              .map((d) => ({ ...d, have: p.items[d.itemId as ItemId] ?? 0 }))
+              .filter((d) => d.have > 0);
+            if (actionable.length === 0) return null;
+            return (
+              <div className="ki-quest-deliver">
+                <p>
+                  <strong>Przekaż przedmioty na zadania:</strong>
+                </p>
+                {actionable.map((d) => (
+                  <button
+                    key={d.itemId}
+                    onClick={() => send({ type: "quest-deliver", item: d.itemId })}
+                  >
+                    Przekaż {ITEMS[d.itemId as ItemId].name} ×{Math.min(d.have, d.needed)}
+                  </button>
+                ))}
+              </div>
+            );
+          })()}
+          <NpcQuestOffers dialogueId={npc.dialogueId} continent={state.player.continent} />
           {["guide", "hunter", "smith"].includes(npc.id) &&
             !(isCityStage(world) && npc.id === "hunter" && q !== "ready") && (
               <>
@@ -495,21 +575,40 @@ export function NpcDialogue({
                       .join(", ")
                   : "Brak zebranych surowców (pokonuj bestie i zbieraj rośliny w terenie)"}
               </p>
+              <select
+                value={brewMaterial}
+                aria-label="Wybierz surowiec do warzenia"
+                onChange={(e) => setBrewMaterial(e.target.value)}
+                className="ki-craft-search"
+              >
+                <option value="">Dowolny surowiec (pierwszy z listy)</option>
+                {Object.entries(p.materials).map(([k, v]) => (
+                  <option key={k} value={k}>
+                    {MATERIALS[k]?.name ?? k} ({v})
+                  </option>
+                ))}
+              </select>
               <button
                 disabled={Object.keys(p.materials).length === 0 || p.gold < 5}
-                onClick={() => send({ type: "brew", recipe: "hp" })}
+                onClick={() =>
+                  send({ type: "brew", recipe: "hp", material: brewMaterial || undefined })
+                }
               >
                 Uwarz Miksturę Zdrowia (1 surowiec + 5 monet)
               </button>
               <button
                 disabled={Object.keys(p.materials).length === 0 || p.gold < 8}
-                onClick={() => send({ type: "brew", recipe: "ki" })}
+                onClick={() =>
+                  send({ type: "brew", recipe: "ki", material: brewMaterial || undefined })
+                }
               >
                 Uwarz Eliksir KI (1 surowiec + 8 monet · +15% dmg)
               </button>
               <button
                 disabled={Object.keys(p.materials).length === 0 || p.gold < 6}
-                onClick={() => send({ type: "brew", recipe: "antidote" })}
+                onClick={() =>
+                  send({ type: "brew", recipe: "antidote", material: brewMaterial || undefined })
+                }
               >
                 Uwarz Antidotum Oczyszczające (1 surowiec + 6 monet)
               </button>

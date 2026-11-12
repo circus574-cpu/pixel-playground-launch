@@ -394,3 +394,25 @@ nie zmieniano świata, assetów, sprzętu, zadań ani infrastruktury GPU.
 - Nie zrobiono / nie sprawdzono: pełna ścieżka online nie była testowana na żywym serwerze (test
   schematu + lokalny handler); dialogi/questy od NPC, emitter `deliver`, wybór materiału w brew,
   kowal V2 i realne leża bossów pozostają do rozbudowy.
+
+### 11. Systemy NPC: questy deliver, przyjmowanie zadań z rozmowy i wybór surowca w alchemii (Etap 3)
+
+- **Questy „deliver" były nie do ukończenia** (9 zadań, w tym ogniwa głównych łańcuchów). Naprawione:
+  - Silnik (`engine.ts`) zużywa przedmiot na cel deliver; cele skierowane do NPC (npc-mio/npc-lina)
+    postępują bez zużywania przedmiotu (walidacja już dopuszczała NPC jako target).
+  - Tracker (`v2Tracker.ts`): `deliveries()` (aktywne cele) i `deliver(itemId, amount)`; `talk()`
+    emituje też deliver do NPC, więc „dostarcz do NPC" postępuje rozmową.
+  - Sesja: komenda `quest-deliver` odejmuje przedmiot z ekwipunku i przekazuje do trackera
+    (wstrzyknięty `setQuestTracker` — lokalnie `questsV2`, na serwerze jego tracker). Nic nie ginie
+    ani się nie dubluje (amount <= potrzebne).
+  - UI: przyciski „Przekaż [przedmiot]" w rozmowie z NPC, gdy aktywny cel deliver i gracz ma przedmiot.
+  - Online: `quest-deliver` w schemacie komend.
+- **Przyjmowanie questów V2 z rozmowy NPC** (`NpcQuestOffers`): zadania, których zleceniodawcą jest
+  dany NPC (`giverNpcId === npc.dialogueId`), z tekstem before/during i przyciskiem „Przyjmij zadanie"
+  (`questsV2.start`, online routowane do serwera). Wcześniej tylko z dziennika.
+- **Alchemia: wybór surowca** — brew przyjmuje opcjonalny `material`; UI ma listę wyboru surowca
+  (domyślnie pierwszy). Wcześniej zużywał pierwszy materiał bez pytania. Online: `material` w schemacie.
+- Testy: `quest-deliver.test.ts` (4) i `brew-material.test.ts` (4) — **8/8 PASS**; regresja questów
+  12/12. Bramka: lint 0, typecheck 0, test 0, build 0.
+- Nie zrobiono / nie sprawdzono: kowal dla sprzętu V2 (ulepszanie/naprawa), plotki i nazwani NPC dla
+  wszystkich ról w miastach v2, realne leża bossów (warden nadal teleportuje atrapa) — do rozbudowy.

@@ -241,6 +241,7 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
       "przygoda Argona",
     ),
   );
+  session.setQuestTracker(quests);
   quests.enterTown(info.affinity, loadedStore.town ?? "");
   let previousDialogue: string | null = null;
   const deaths = new WeakSet<object>();

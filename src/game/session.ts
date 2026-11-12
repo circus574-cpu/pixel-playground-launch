@@ -341,8 +341,9 @@ export type Command =
   | { type: "equip"; item: string }
   | { type: "unequip"; slot: EquipmentSlot | "weapon" | "armor" }
   | { type: "trade"; item: string; buy: boolean }
-  | { type: "brew"; recipe: "hp" | "ki" | "antidote" }
+  | { type: "brew"; recipe: "hp" | "ki" | "antidote"; material?: string | undefined }
   | { type: "craft"; recipe: string }
+  | { type: "quest-deliver"; item: string }
   | { type: "loot"; id: string }
   | { type: "learn"; node: string }
   | { type: "respec" }
@@ -938,6 +939,17 @@ export class GameSession implements MonsterHost {
   dialogue: NpcId | null = null;
   /** How many conversations have been opened. Drives which catalogue greeting a NPC offers. */
   dialogueTurn = 0;
+  /** Silnik questów V2 wstrzykiwany przez runtime (lokalnie questsV2, na serwerze jego tracker). */
+  private questTracker: {
+    deliveries(): { itemId: string; needed: number }[];
+    deliver(itemId: string, amount: number): void;
+  } | null = null;
+  setQuestTracker(tracker: {
+    deliveries(): { itemId: string; needed: number }[];
+    deliver(itemId: string, amount: number): void;
+  }) {
+    this.questTracker = tracker;
+  }
   paused = false;
   autoAttack = false;
   notice = "Porozmawiaj z Airą. Klikaj postacie lub użyj przycisku Rozmowa.";
@@ -2306,7 +2318,7 @@ export class GameSession implements MonsterHost {
         return this.say(
           "Potrzebujesz przynajmniej jednego surowca (ziół, mchu lub kłów) do warzenia.",
         );
-      const firstMat = matKeys[0]!;
+      const firstMat = c.material && p.materials[c.material] ? c.material : matKeys[0]!;
       if (c.recipe === "hp") {
         if (p.gold < 5) return this.say("Warzenie Mikstury Zdrowia wymaga 5 monet i 1 materiału.");
         p.gold -= 5;
@@ -2385,6 +2397,28 @@ export class GameSession implements MonsterHost {
         return this.say("Brak miejsca na wynik craftu — składniki i monety zwrócone.");
       }
       this.say(`Wytworzono: ${getItemById(resultId)?.name ?? resultId} ×${recipe.resultCount}.`);
+      this.flush();
+      return;
+    }
+    if (c.type === "quest-deliver") {
+      const itemId = c.item as ItemId;
+      if (!(itemId in ITEMS)) return this.say("Tego przedmiotu nie można przekazać.");
+      if (!this.questTracker) return this.say("Przekazywanie przedmiotów jest teraz niedostępne.");
+      const needed = this.questTracker
+        .deliveries()
+        .filter((d) => d.itemId === itemId)
+        .reduce((a, d) => a + d.needed, 0);
+      const have = p.items[itemId] ?? 0;
+      const amount = Math.min(have, needed);
+      if (amount <= 0)
+        return this.say(
+          needed > 0
+            ? "Nie masz tego przedmiotu do przekazania."
+            : "Żadne aktywne zadanie nie wymaga tego przedmiotu.",
+        );
+      p.items[itemId] = have - amount;
+      this.questTracker.deliver(itemId, amount);
+      this.say(`Przekazano: ${ITEMS[itemId].name} ×${amount}.`);
       this.flush();
       return;
     }

@@ -120,6 +120,10 @@ export function createQuestTracker(
       let s = recordQuestObjectiveEvent(current(), "talk", binding);
       for (const npc of ALL_CITIES_V2.find((c) => c.id === city)?.npcs ?? [])
         if (npc.bindingId === binding) s = recordQuestObjectiveEvent(s, "talk", npc.id);
+      // Cele „deliver do NPC" (np. npc-mio/npc-lina) postępują rozmową z tym NPC.
+      s = recordQuestObjectiveEvent(s, "deliver", binding);
+      for (const npc of ALL_CITIES_V2.find((c) => c.id === city)?.npcs ?? [])
+        if (npc.bindingId === binding) s = recordQuestObjectiveEvent(s, "deliver", npc.id);
       commit(s);
     },
     /** Called every tick with the player position; discovers places within reach once. */
@@ -139,6 +143,38 @@ export function createQuestTracker(
     },
     defeated(monsterKind: string) {
       commit(recordQuestObjectiveEvent(current(), "combat", monsterKind));
+    },
+    /** Aktywne cele „deliver" bieżących etapów: ile jakiego przedmiotu jeszcze trzeba przekazać. */
+    deliveries(): { itemId: string; needed: number }[] {
+      const s = current();
+      const out: { itemId: string; needed: number }[] = [];
+      for (const q of ALL_QUESTS_V2) {
+        const rec = s.quests[q.id];
+        if (!rec || rec.state !== "active") continue;
+        const stage = q.stages[rec.currentStageIndex];
+        if (!stage) continue;
+        for (const obj of stage.objectives) {
+          if (obj.type !== "deliver") continue;
+          const needed = obj.targetCount - (rec.objectiveProgress[obj.id] ?? 0);
+          if (needed > 0) out.push({ itemId: obj.targetId, needed });
+        }
+      }
+      return out;
+    },
+    /**
+     * Przekazanie przedmiotu na cel „deliver": przedmiot trafia do inventory V5, a silnik zużywa go
+     * na postępujący cel. Wołane z komendy sesji `quest-deliver`, która najpierw odejmuje przedmiot
+     * z ekwipunku gracza (amount <= potrzebne), więc nic nie ginie ani się nie dubluje.
+     */
+    deliver(itemId: string, amount: number) {
+      if (amount <= 0) return;
+      const s = current();
+      const key = itemId as keyof typeof s.inventory;
+      const credited = {
+        ...s,
+        inventory: { ...s.inventory, [key]: (s.inventory[key] ?? 0) + amount },
+      };
+      commit(recordQuestObjectiveEvent(credited, "deliver", itemId, amount));
     },
   };
 }

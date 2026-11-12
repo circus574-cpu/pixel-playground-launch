@@ -279,6 +279,7 @@ export async function prepareSuperior(options: {
           ),
         )
       : () => false;
+  if (WORLD_V2 && !options.online) session.setQuestTracker(questsV2);
   const initialAssets = new Map<string, import("../../assets/schema").AssetDefinition>();
   // Diagnostic art is available only on the isolated local playtest document (as in mountGame).
   const preview =
