@@ -1,7 +1,8 @@
+import { rankBonusPower } from "../kit/rankScaling";
+import { loanSession } from "./loan";
 import { GameSession } from "../session";
-import { Navigation, distance, type Point } from "../navigation";
-import { WORLDS } from "../world/worlds";
-import { RACES, type RaceId } from "../world/races";
+import { distance, type Point } from "../navigation";
+import { type RaceId } from "../world/races";
 import { type Discipline } from "./training";
 
 export type ExamResult = {
@@ -91,35 +92,7 @@ export class ExamAttempt {
   ) {
     this.race = race;
     this.spec = examSpec(discipline, tier);
-    const world = {
-      ...WORLDS[RACES[race].world],
-      settlement: "Sala egzaminacyjna",
-      width: 960,
-      height: 760,
-      spawn: { x: 480, y: 550 },
-      npcs: [],
-      enemies: [],
-      monsters: [],
-      objects: [],
-      landmarks: [],
-      obstacles: [
-        { x: 0, y: 0, width: 960, height: 55 },
-        { x: 0, y: 0, width: 55, height: 760 },
-        { x: 905, y: 0, width: 55, height: 760 },
-        { x: 0, y: 705, width: 960, height: 55 },
-        { x: 340, y: 190, width: 40, height: 260 },
-        { x: 700, y: 360, width: 40, height: 210 },
-      ],
-      city: { name: "Sala egzaminacyjna", buildings: [], roads: [] },
-      safeAreas: [],
-    };
-    delete world.terrain;
-    this.session = new GameSession(undefined, race, {
-      world,
-      navigation: new Navigation(960, 760, world.obstacles),
-      practiceOnly: true,
-      random: () => 0.99,
-    });
+    this.session = loanSession(race);
     const p = this.session.player;
     p.level = 20;
     // A legal, deliberately small profile. No copied gear, training, variant or racial resource.
@@ -263,7 +236,7 @@ export class ExamAttempt {
       ) {
         const inside = distance(p, this.danger) < 110;
         const damage = inside
-          ? this.session.kit.absorb(this.session.kit.stats.maxHp * 0.1, "other")
+          ? this.session.kit.absorb(this.session.kit.stats.maxHp * 0.1 * rankBonusPower(1), "other")
           : 0;
         if (damage > 0) {
           p.hp = Math.max(0, p.hp - damage);

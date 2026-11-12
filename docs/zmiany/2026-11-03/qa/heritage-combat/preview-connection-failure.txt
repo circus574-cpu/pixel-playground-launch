@@ -1,0 +1,121 @@
+Running 4 tests using 1 worker
+
+(node:19266) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › planetary: private chronicle opens by touch without revealing unearned history (571ms)
+(node:19350) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › sage: private chronicle opens by touch without revealing unearned history (384ms)
+(node:19440) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › android: private chronicle opens by touch without revealing unearned history (469ms)
+(node:19547) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › legend: private chronicle opens by touch without revealing unearned history (401ms)
+
+
+  1) [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › planetary: private chronicle opens by touch without revealing unearned history
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1
+    Call log:
+      - navigating to "http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1", waiting until "load"
+
+
+       at fixtures.ts:25
+
+      23 |             path + (path!.includes("?") ? "&" : "?") + "ki-world-v1=1" + (hash ? "#" + hash : "");
+      24 |         }
+    > 25 |         return goto(url, options);
+         |                ^
+      26 |       };
+      27 |       await use();
+      28 |     },
+        at _Page.goto (/workspace/ki-aruba/e2e/fixtures.ts:25:16)
+        at /workspace/ki-aruba/e2e/heritage-chronicle.spec.ts:14:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-chronicle-webgl-final/heritage-chronicle-planeta-9dec1--revealing-unearned-history-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-chronicle-webgl-final/heritage-chronicle-planeta-9dec1--revealing-unearned-history-software-webgl/error-context.md
+
+  2) [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › sage: private chronicle opens by touch without revealing unearned history
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1
+    Call log:
+      - navigating to "http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1", waiting until "load"
+
+
+       at fixtures.ts:25
+
+      23 |             path + (path!.includes("?") ? "&" : "?") + "ki-world-v1=1" + (hash ? "#" + hash : "");
+      24 |         }
+    > 25 |         return goto(url, options);
+         |                ^
+      26 |       };
+      27 |       await use();
+      28 |     },
+        at _Page.goto (/workspace/ki-aruba/e2e/fixtures.ts:25:16)
+        at /workspace/ki-aruba/e2e/heritage-chronicle.spec.ts:14:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-chronicle-webgl-final/heritage-chronicle-sage-pr-e5297--revealing-unearned-history-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-chronicle-webgl-final/heritage-chronicle-sage-pr-e5297--revealing-unearned-history-software-webgl/error-context.md
+
+  3) [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › android: private chronicle opens by touch without revealing unearned history
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1
+    Call log:
+      - navigating to "http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1", waiting until "load"
+
+
+       at fixtures.ts:25
+
+      23 |             path + (path!.includes("?") ? "&" : "?") + "ki-world-v1=1" + (hash ? "#" + hash : "");
+      24 |         }
+    > 25 |         return goto(url, options);
+         |                ^
+      26 |       };
+      27 |       await use();
+      28 |     },
+        at _Page.goto (/workspace/ki-aruba/e2e/fixtures.ts:25:16)
+        at /workspace/ki-aruba/e2e/heritage-chronicle.spec.ts:14:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-chronicle-webgl-final/heritage-chronicle-android-6c525--revealing-unearned-history-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-chronicle-webgl-final/heritage-chronicle-android-6c525--revealing-unearned-history-software-webgl/error-context.md
+
+  4) [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › legend: private chronicle opens by touch without revealing unearned history
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1
+    Call log:
+      - navigating to "http://127.0.0.1:4174/scripts/playtest.html?ki-world-v2=1", waiting until "load"
+
+
+       at fixtures.ts:25
+
+      23 |             path + (path!.includes("?") ? "&" : "?") + "ki-world-v1=1" + (hash ? "#" + hash : "");
+      24 |         }
+    > 25 |         return goto(url, options);
+         |                ^
+      26 |       };
+      27 |       await use();
+      28 |     },
+        at _Page.goto (/workspace/ki-aruba/e2e/fixtures.ts:25:16)
+        at /workspace/ki-aruba/e2e/heritage-chronicle.spec.ts:14:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-chronicle-webgl-final/heritage-chronicle-legend--a9b06--revealing-unearned-history-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-chronicle-webgl-final/heritage-chronicle-legend--a9b06--revealing-unearned-history-software-webgl/error-context.md
+
+  4 failed
+    [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › planetary: private chronicle opens by touch without revealing unearned history
+    [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › sage: private chronicle opens by touch without revealing unearned history
+    [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › android: private chronicle opens by touch without revealing unearned history
+    [software-webgl] › e2e/heritage-chronicle.spec.ts:8:3 › legend: private chronicle opens by touch without revealing unearned history

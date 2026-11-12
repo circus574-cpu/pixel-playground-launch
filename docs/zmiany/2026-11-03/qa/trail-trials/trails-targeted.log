@@ -1,0 +1,74 @@
+
+ RUN  v4.1.12 /workspace/ki-aruba
+
+ ❯ src/test/racial-trials.test.ts (58 tests | 6 failed) 714ms
+     × TV01 completes tier 1 through production commands 233ms
+     × TV01 completes tier 2 through production commands 140ms
+     × TV01 completes tier 3 through production commands 144ms
+     × TV03 completes tier 1 through production commands 7ms
+     × TV03 completes tier 2 through production commands 1ms
+     × TV03 completes tier 3 through production commands 1ms
+ ❯ src/test/racial-trial-transactions.test.ts (11 tests | 1 failed) 501ms
+     × earns all three grades in its domain, keeps loan state out of the owner and reloads: planetary 263ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/racial-trial-transactions.test.ts > racial trial results are owned, atomic and finite > earns all three grades in its domain, keeps loan state out of the owner and reloads: planetary
+AssertionError: Przekroczono limit czasu trasy.: expected 'failed' to be 'passed' // Object.is equality
+
+Expected: "passed"
+Received: "failed"
+
+ ❯ completeTrial src/test/helpers/racialTrials.ts:79:53
+     77|     }
+     78|   }
+     79|   expect(a.snapshot().outcome, a.snapshot().reason).toBe("passed");
+       |                                                     ^
+     80| }
+     81|
+ ❯ src/test/racial-trial-transactions.test.ts:55:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  src/test/racial-trials.test.ts > racial trials use actual navigation, kit hits and explicit puzzles > TV01 completes tier 1 through production commands
+ FAIL  src/test/racial-trials.test.ts > racial trials use actual navigation, kit hits and explicit puzzles > TV01 completes tier 2 through production commands
+ FAIL  src/test/racial-trials.test.ts > racial trials use actual navigation, kit hits and explicit puzzles > TV01 completes tier 3 through production commands
+AssertionError: Przekroczono limit czasu trasy.: expected 'failed' to be 'passed' // Object.is equality
+
+Expected: "passed"
+Received: "failed"
+
+ ❯ completeTrial src/test/helpers/racialTrials.ts:79:53
+     77|     }
+     78|   }
+     79|   expect(a.snapshot().outcome, a.snapshot().reason).toBe("passed");
+       |                                                     ^
+     80| }
+     81|
+ ❯ src/test/racial-trials.test.ts:13:9
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  src/test/racial-trials.test.ts > racial trials use actual navigation, kit hits and explicit puzzles > TV03 completes tier 1 through production commands
+ FAIL  src/test/racial-trials.test.ts > racial trials use actual navigation, kit hits and explicit puzzles > TV03 completes tier 2 through production commands
+ FAIL  src/test/racial-trials.test.ts > racial trials use actual navigation, kit hits and explicit puzzles > TV03 completes tier 3 through production commands
+Error: Invalid protected combat target
+ ❯ MonsterSystem.registerCombatTarget src/game/monsters/system.ts:197:13
+    195|       !receiver.valid()
+    196|     )
+    197|       throw Error("Invalid protected combat target");
+       |             ^
+    198|     this.receivers.set(receiver.id, receiver);
+    199|     this.recipients = [this.heroReceiver, ...this.receivers.values()];
+ ❯ new ProtectedActor src/game/development/heritage/protectedActor.ts:31:22
+ ❯ new TrialAttempt src/game/development/trials/attempt.ts:88:24
+ ❯ src/test/racial-trials.test.ts:12:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+
+ Test Files  2 failed | 1 passed (3)
+      Tests  7 failed | 67 passed (74)
+   Start at  23:44:29
+   Duration  12.39s (transform 2.52s, setup 248ms, import 3.27s, tests 7.12s, environment 1.06s)
+

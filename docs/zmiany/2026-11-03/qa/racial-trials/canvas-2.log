@@ -1,0 +1,24 @@
+
+Running 4 tests using 1 worker
+
+(node:5123) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/racial-trials.spec.ts:53:3 › Planetarni: real TV10, one-time reward and reload (24.9s)
+  ✓  2 [gameplay] › e2e/racial-trials.spec.ts:53:3 › Mędrcy: real TA01, one-time reward and reload (27.3s)
+  ✓  3 [gameplay] › e2e/racial-trials.spec.ts:53:3 › Androidy: real TN08, one-time reward and reload (22.1s)
+  ✘  4 [gameplay] › e2e/racial-trials.spec.ts:53:3 › Legendy: real TP08, one-time reward and reload (3.0m)
+
+
+  1) [gameplay] › e2e/racial-trials.spec.ts:53:3 › Legendy: real TP08, one-time reward and reload ──
+
+    Test timeout of 180000ms exceeded.
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ki-trials-canvas-2/racial-trials-Legendy-real-TP08-one-time-reward-and-reload-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ki-trials-canvas-2/racial-trials-Legendy-real-TP08-one-time-reward-and-reload-gameplay/error-context.md
+
+  1 failed
+    [gameplay] › e2e/racial-trials.spec.ts:53:3 › Legendy: real TP08, one-time reward and reload ───
+  3 passed (4.3m)

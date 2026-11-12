@@ -1,0 +1,42 @@
+{
+  "scope": "Equipment-statistics implementation, first batch; full racial progression remains incomplete",
+  "baseMainSHA": "139834679f4618fdfc343c93060f479b1b98b71d",
+  "branch": "feature/complete-character-development",
+  "sourceFilesSHA256": {
+    "src/game/session.ts": "176a164464ac24790dcceb410ffc0bfd627e04b562b3d69ef67d8a0d1f6de042",
+    "src/game/kit/base.ts": "02f1a9adf6a974543524177ef9fad23b0e039dfc3b1c670cc029f342d91731ca",
+    "src/game/kit/types.ts": "0328832bd42b40c27509f5e8df6c0b0b1bef25d73f215a2184ffa1f8f3b6ebb9",
+    "src/game/items/index.ts": "73c5f07df97791f32e68b43875e63bc51c8dc7cdedb15d0150a24c484bac0cb3",
+    "src/test/equipment-stat-integration.test.ts": "b650d33361431396db2fd3e19c751bead32239659f7f4ebad72ef5f83a5f3a19"
+  },
+  "checks": {
+    "typecheck": "PASS: npm run typecheck (all 3 configurations)",
+    "unitTests": {
+      "command": "npm test",
+      "passed": 1108,
+      "failed": 0,
+      "skipped": 10,
+      "skipReason": "PostgreSQL account integration tests require KI_ACCOUNTS_TEST_DATABASE_URL"
+    },
+    "targeted": {
+      "command": "npx vitest run src/test/equipment-stat-integration.test.ts src/test/combat-training.test.ts src/test/development.test.ts src/test/character-statistics-ui.test.tsx",
+      "passed": 76
+    },
+    "lint": "PASS: npm run lint; 0 errors, 15 pre-existing warnings",
+    "build": "PASS: npm run build",
+    "browserCanvas": "PASS: 4 character-statistics scenarios, four races, real UI + reload",
+    "physicalPhones": "NOT EXECUTED",
+    "wholeCampaign": "NOT IMPLEMENTED / NOT EXECUTED",
+    "browserWebGL": "PASS: 4 character-statistics scenarios, four races, SwiftShader, UI + reload; not physical GPU/device testing",
+    "documentation": "PASS: python3 scripts/docs/check_documentation.py"
+  },
+  "gamePublished": false,
+  "gpuUsed": false,
+  "knownOpen": [
+    "combat escorts and protection",
+    "48 racial trials / 144 tiers",
+    "normal variant and remaining module unlocks",
+    "practice budget",
+    "complete biographies, chronicle, final titles and late encounters"
+  ]
+}

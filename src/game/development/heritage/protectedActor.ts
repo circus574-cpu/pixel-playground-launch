@@ -19,6 +19,7 @@ export class ProtectedActor implements MonsterReceiver {
     readonly maxHp: number,
     readonly defense: number,
     readonly mobile: boolean,
+    private readonly combatTarget = true,
   ) {
     if (
       !name ||
@@ -28,7 +29,7 @@ export class ProtectedActor implements MonsterReceiver {
     )
       throw Error("Invalid protected actor");
     this.body = { ...point, hp: maxHp, dead: false };
-    session.monsters.registerCombatTarget(this);
+    if (combatTarget) session.monsters.registerCombatTarget(this);
   }
   valid() {
     return this.active && !this.body.dead;
@@ -44,6 +45,10 @@ export class ProtectedActor implements MonsterReceiver {
     const dealt = this.takeDamage(Math.max(1, amount));
     void kind;
     return { dealt, evaded: false };
+  }
+  /** Local, telegraphed environmental hazards use the same HP/event/death accounting. */
+  hurtEnvironment(amount: number) {
+    return Number.isFinite(amount) && amount > 0 ? this.takeDamage(amount) : 0;
   }
   private takeDamage(amount: number) {
     if (!this.valid()) return 0;
@@ -99,6 +104,6 @@ export class ProtectedActor implements MonsterReceiver {
     this.active = false;
     this.fx.clear();
     this.dotCarry = 0;
-    this.session.monsters.unregisterCombatTarget(this.id);
+    if (this.combatTarget) this.session.monsters.unregisterCombatTarget(this.id);
   }
 }

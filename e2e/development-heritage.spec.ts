@@ -157,6 +157,15 @@ for (const race of RACE_IDS) {
     await expect
       .poll(async () => (await saved(page)).development!.heritage.quests[id]!.status)
       .toBe("done");
+    await page.getByRole("tab", { name: "Kronika", exact: true }).click();
+    const chronicle = page.getByLabel("Prywatna kronika", { exact: true });
+    await expect(chronicle).toContainText("1/6");
+    await expect(chronicle.getByText(definition.introduction, { exact: true })).toBeVisible();
+    await expect(
+      chronicle.getByText("Twój zapis: " + definition.choices[0]!.chronicle, { exact: true }),
+    ).toBeVisible();
+    await page.screenshot({ path: info.outputPath(race + "-earned-chronicle.png") });
+    await page.getByRole("tab", { name: "Dziedzictwo", exact: true }).click();
     const w = (await saved(page)).development!.heritage.weapon!;
     expect(w.stage).toBe(1);
     expect(w.history).toEqual([id]);

@@ -1,0 +1,11 @@
+
+Running 2 tests using 1 worker
+
+(node:56506) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/development-world.spec.ts:134:3 › controlled late-game prerequisites, real world activity and expedition: planetary (50.7s)
+(node:56687) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [software-webgl] › e2e/development-world.spec.ts:134:3 › controlled late-game prerequisites, real world activity and expedition: planetary (1.4m)
+
+  2 passed (2.3m)

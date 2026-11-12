@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { GameSession } from "../game/session";
 import { Navigation } from "../game/navigation";
+import { RACE_BASE } from "../game/kit/nodes.generated";
 import { canLearn, freePoints, validLearned } from "../game/kit/progression";
 import type { RaceId } from "../game/world/races";
 import { WORLDS } from "../game/world/worlds";
@@ -40,15 +41,19 @@ const CASES: [RaceId, string, "maxHp" | "maxKi" | "defense" | "attack"][] = [
 
 describe("rangi węzłów drzewka", () => {
   for (const [race, node, stat] of CASES)
-    it(`${race}: efekt węzła ${node} rośnie wprost proporcjonalnie do rangi`, () => {
-      const base = withSkills(race, ["R"]).kit.stats[stat];
-      const r1 = withSkills(race, ["R", node]).kit.stats[stat] - base;
-      const r2 = withSkills(race, ["R", node, node]).kit.stats[stat] - base;
-      const r3 = withSkills(race, ["R", node, node, node]).kit.stats[stat] - base;
-      expect(r1).toBeGreaterThan(0);
-      // Stats are rounded to whole numbers, so allow one unit per rank of rounding.
-      expect(Math.abs(r2 - 2 * r1)).toBeLessThanOrEqual(2);
-      expect(Math.abs(r3 - 3 * r1)).toBeLessThanOrEqual(3);
+    it(`${race}: ${node} has half its first bonus and +10% of that base per point`, () => {
+      const coefficient = race === "sage" ? 0.15 : race === "planetary" ? 0.1 : 0.08;
+      const key = stat === "maxHp" ? "hp" : stat === "maxKi" ? "ki" : stat;
+      const raw = RACE_BASE[race].base[key] + 19 * RACE_BASE[race].perLevel[key];
+      for (const [rank, factor] of [
+        [1, 0.5],
+        [2, 0.55],
+        [3, 0.6],
+        [8, 0.85],
+      ] as const) {
+        const actual = withSkills(race, ["R", ...Array<string>(rank).fill(node)]).kit.stats[stat];
+        expect(actual).toBe(Math.floor(raw * (1 + coefficient * factor) + 0.5));
+      }
     });
 
   it("kit zna rangę każdego węzła (0 gdy nie poznany)", () => {

@@ -1,0 +1,28 @@
+
+Running 1 test using 1 worker
+
+(node:10033) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [software-webgl] › e2e/racial-trials.spec.ts:131:3 › Mędrcy: real TA10, one-time reward and reload (3.3m)
+
+
+  1) [software-webgl] › e2e/racial-trials.spec.ts:131:3 › Mędrcy: real TA10, one-time reward and reload 
+
+    Test timeout of 180000ms exceeded.
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-memory-webgl-ready/racial-trials-Mędrcy-real-TA10-one-time-reward-and-reload-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-memory-webgl-ready/racial-trials-Mędrcy-real-TA10-one-time-reward-and-reload-software-webgl/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-memory-webgl-ready/racial-trials-Mędrcy-real-TA10-one-time-reward-and-reload-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-memory-webgl-ready/racial-trials-Mędrcy-real-TA10-one-time-reward-and-reload-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [software-webgl] › e2e/racial-trials.spec.ts:131:3 › Mędrcy: real TA10, one-time reward and reload 

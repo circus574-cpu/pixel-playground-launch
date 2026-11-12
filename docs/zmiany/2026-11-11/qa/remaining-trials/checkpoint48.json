@@ -1,0 +1,24 @@
+{
+  "branch": "feature/development-remaining-trials-20261111",
+  "parent": "9859ac67",
+  "trials": 48,
+  "grades": 144,
+  "targetedTests": {
+    "passed": 355,
+    "failed": 0
+  },
+  "fullUnitBeforeTitleUI": {
+    "passed": 1639,
+    "failed": 0,
+    "skipped": 10
+  },
+  "browser": "in progress; initial driver bugs in TN01 cooldown wait and TN12 material render have been corrected; not accepted yet",
+  "publication": false,
+  "mainMerged": false,
+  "remaining": [
+    "integration with latest main",
+    "final browser verification",
+    "world domain interactions",
+    "late encounter variants and campaign acceptance"
+  ]
+}

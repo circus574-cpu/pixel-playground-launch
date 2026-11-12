@@ -1,0 +1,237 @@
+
+> test
+> vitest run
+
+
+ RUN  v4.1.12 /workspace/ki-racial-continuation
+
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at draw (/workspace/ki-racial-continuation/src/components/planet-map/WorldOverlay.tsx:99:28)
+    at /workspace/ki-racial-continuation/src/components/planet-map/WorldOverlay.tsx:170:9 undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+ ❯ src/test/poprawki-audit.test.ts (4 tests | 1 failed) 77ms
+     × Błąd 3: bonus do szybkości ruchu (moveSpeedPercent) trafia do moveSpeedPct, a nie attackSpeedPct 5ms
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:52:12)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+Error: Not implemented: HTMLMediaElement.prototype.play
+    at module.exports (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLAudioElementImpl.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:118:5)
+    at HTMLAudioElement.play (/workspace/pixel-playground-launch/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:148:60)
+    at MusicPlayer.start (/workspace/ki-racial-continuation/src/game/music.ts:74:29)
+    at MusicPlayer.play (/workspace/ki-racial-continuation/src/game/music.ts:61:10)
+    at Object.play (/workspace/ki-racial-continuation/src/game/music.ts:120:36)
+    at /workspace/ki-racial-continuation/src/components/game/GameHud.tsx:398:11
+    at Object.react_stack_bottom_frame (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:28656:20)
+    at runWithFiberInDEV (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13)
+    at commitHookEffectListMount (/workspace/pixel-playground-launch/node_modules/react-dom/cjs/react-dom-client.development.js:13748:29) undefined
+(node:6139) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/poprawki-audit.test.ts > POPRAWKI - Weryfikacja poprawek z audytu technicznego > Błąd 3: bonus do szybkości ruchu (moveSpeedPercent) trafia do moveSpeedPct, a nie attackSpeedPct
+TypeError: actual value must be number or bigint, received "undefined"
+ ❯ src/test/poprawki-audit.test.ts:46:32
+     44|     });
+     45|     // PR #90 uses the catalog's percentage field directly, preserving…
+     46|     expect(stats.moveSpeedPercent).toBeGreaterThan(0);
+       |                                ^
+     47|     const session = new GameSession(undefined, "planetary");
+     48|     session.player.level = 15;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 126 passed | 1 skipped (128)
+      Tests  1 failed | 1428 passed | 10 skipped (1439)
+   Start at  06:30:01
+   Duration  164.24s (transform 9.35s, setup 5.71s, import 38.05s, tests 60.70s, environment 39.36s)
+

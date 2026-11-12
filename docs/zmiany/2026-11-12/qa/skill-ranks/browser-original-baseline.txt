@@ -1,0 +1,51 @@
+
+Running 1 test using 1 worker
+
+(node:74122) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni (1.6m)
+
+
+  1) [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni ─────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.ki-hud')
+    Expected: visible
+    Timeout: 60000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.ki-hud') with timeout 60000ms
+      - waiting for locator('.ki-hud')
+
+
+       at fixtures.ts:292
+
+      290 | async function base_expectHud(page: import("@playwright/test").Page) {
+      291 |   const { expect } = await import("@playwright/test");
+    > 292 |   await expect(page.locator(".ki-hud")).toBeVisible();
+          |                                         ^
+      293 | }
+      294 | /** Learns a skill-tree node through the real "Umiejętności" panel. */
+      295 | export async function learnSkill(page: import("@playwright/test").Page, name: string) {
+        at base_expectHud (/workspace/ki-development-final/e2e/fixtures.ts:292:41)
+        at patchActiveCharacter (/workspace/ki-development-final/e2e/fixtures.ts:288:3)
+        at /workspace/ki-development-final/e2e/combat-skills.spec.ts:30:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/ki-rank-baseline-browser/combat-skills-canonical-skill-in-real-PvE-Planetarni-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/ki-rank-baseline-browser/combat-skills-canonical-skill-in-real-PvE-Planetarni-gameplay/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/ki-rank-baseline-browser/combat-skills-canonical-skill-in-real-PvE-Planetarni-gameplay/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/ki-rank-baseline-browser/combat-skills-canonical-skill-in-real-PvE-Planetarni-gameplay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [gameplay] › e2e/combat-skills.spec.ts:16:3 › canonical skill in real PvE: Planetarni ──────────

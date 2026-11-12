@@ -1,0 +1,19 @@
+
+Running 8 tests using 1 worker
+
+(node:52206) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/development-world.spec.ts:134:3 › controlled late-game prerequisites, real world activity and expedition: planetary (46.4s)
+  ✓  2 [gameplay] › e2e/development-world.spec.ts:134:3 › controlled late-game prerequisites, real world activity and expedition: sage (1.1m)
+  ✓  3 [gameplay] › e2e/development-world.spec.ts:134:3 › controlled late-game prerequisites, real world activity and expedition: android (1.1m)
+  ✓  4 [gameplay] › e2e/development-world.spec.ts:134:3 › controlled late-game prerequisites, real world activity and expedition: legend (40.5s)
+(node:53843) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [software-webgl] › e2e/development-world.spec.ts:134:3 › controlled late-game prerequisites, real world activity and expedition: planetary (1.7m)
+  ✓  6 [software-webgl] › e2e/development-world.spec.ts:134:3 › controlled late-game prerequisites, real world activity and expedition: sage (2.1m)
+  ✓  7 [software-webgl] › e2e/development-world.spec.ts:134:3 › controlled late-game prerequisites, real world activity and expedition: android (1.9m)
+  ✓  8 [software-webgl] › e2e/development-world.spec.ts:134:3 › controlled late-game prerequisites, real world activity and expedition: legend (1.4m)
+
+  Slow test file: [software-webgl] › e2e/development-world.spec.ts (7.0m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  8 passed (10.7m)

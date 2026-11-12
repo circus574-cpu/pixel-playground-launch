@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/workspace/ki-aruba/scripts/docs/check_documentation.py", line 38, in <module>
+    assert linked.exists(), (rel_posix, target)
+           ^^^^^^^^^^^^^^^
+AssertionError: ('ARCHITEKTURA-I-TESTY.md', '../deliveries/cpu-game-content-20261023/cpu-game-content.tar.gz')

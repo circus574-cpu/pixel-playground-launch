@@ -1,0 +1,36 @@
+{
+  "base": "f26d3adb2dfee3db97f345c0973b65ce635877ec",
+  "sourceManifest": "source-sha256.json",
+  "unit": {
+    "passed": 1261,
+    "failed": 0,
+    "skipped": 10,
+    "note": "Full run before adding 3 extra server-only tests; application source unchanged"
+  },
+  "guards": {
+    "passed": 89,
+    "failed": 0
+  },
+  "serverAndAdapter": {
+    "passed": 9,
+    "failed": 0,
+    "includesNewServerTrials": 3
+  },
+  "browserCanvas": {
+    "passed": 3,
+    "failed": 0
+  },
+  "browserSoftwareWebGL": {
+    "passed": 3,
+    "failed": 0
+  },
+  "typecheck": "PASS, full app/e2e/tools",
+  "lint": {
+    "errors": 0,
+    "warnings": 15
+  },
+  "assets": "PASS",
+  "build": "PASS, temporary local output; no deployment",
+  "physicalPhone": "NOT RUN",
+  "productionDeployment": false
+}

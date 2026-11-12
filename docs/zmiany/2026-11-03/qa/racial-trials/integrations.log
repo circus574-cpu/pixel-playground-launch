@@ -1,0 +1,9 @@
+
+ RUN  v4.1.12 /workspace/ki-aruba
+
+
+ Test Files  4 passed (4)
+      Tests  120 passed (120)
+   Start at  11:43:39
+   Duration  9.47s (transform 1.12s, setup 356ms, import 1.91s, tests 4.27s, environment 2.15s)
+

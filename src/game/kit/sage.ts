@@ -22,23 +22,25 @@ export class SageKit extends Kit {
   }
   protected override mods(): Mods {
     const m: Mods = {};
-    // Every effect grows in direct proportion to the points put into its node (rank).
-    if (this.has("A6")) m.critAdd = 0.08 * this.rank("A6");
-    if (this.has("C2")) m.kiPct = 0.15 * this.rank("C2");
-    if (this.has("C3")) m.kiCostPct = -0.08 * this.rank("C3");
-    if (this.has("C5")) m.ccPct = -0.25 * this.rank("C5");
+    // Owner 12.11: half the first bonus, then +10% of that base per extra point.
+    if (this.has("A6")) m.critAdd = 0.08 * this.bonusRank("A6");
+    if (this.has("C2")) m.kiPct = 0.15 * this.bonusRank("C2");
+    if (this.has("C3")) m.kiCostPct = -0.08 * this.bonusRank("C3");
+    if (this.has("C5")) m.ccPct = -0.25 * this.bonusRank("C5");
     return m;
   }
   protected override cooldownOf(id: string) {
     const base = this.defs[id]?.cd ?? 0;
-    return id === "A1" && this.has("A3") ? base * Math.max(0.1, 1 - 0.2 * this.rank("A3")) : base;
+    return id === "A1" && this.has("A3")
+      ? base * Math.max(0.1, 1 - 0.2 * this.bonusRank("A3"))
+      : base;
   }
   /** Bonus for the next damaging ability after Skupienie KI (C6). */
   private abilityBonus() {
     const b = this.buff("C6");
     if (!b) return 0;
     this.removeBuff("C6");
-    return 0.25 * this.rank("C6");
+    return 0.25 * this.bonusRank("C6");
   }
   protected override basic(): UseResult {
     const s = this.stats;
@@ -61,8 +63,8 @@ export class SageKit extends Kit {
       radius,
       ms: 5000,
       kind: "light",
-      defPct: 0.1 * this.rank("B2"),
-      weaken: this.has("B6") ? Math.min(0.9, 0.1 * this.rank("B6")) : undefined,
+      defPct: 0.1 * this.bonusRank("B2"),
+      weaken: this.has("B6") ? Math.min(0.9, 0.1 * this.bonusRank("B6")) : undefined,
     });
   }
   private explodeSeal(foe: Foe, id: string, bonus: number) {
@@ -70,14 +72,14 @@ export class SageKit extends Kit {
     this.port.emit({ type: "burst", x: foe.x, y: foe.y, ability: id, radius: 120 });
     this.strike(
       foe,
-      2 * this.castRank(id),
+      this.castDamage(id, 2),
       { tags: ["ki", "area"], ranged: true, ability: id },
       bonus,
     );
     if (this.has("A5"))
       for (const other of this.port.foesIn(foe, 150))
         if (other !== foe)
-          this.strike(other, this.rank("A5"), {
+          this.strike(other, this.bonusRank("A5"), {
             tags: ["ki", "area"],
             ranged: true,
             ability: id,
@@ -90,9 +92,9 @@ export class SageKit extends Kit {
         radius: 120,
         ms: 3000,
         kind: "light",
-        dps: 0.4 * this.rank("A7"),
+        dps: 0.4 * this.bonusRank("A7"),
       });
-    if (this.has("A8")) this.port.addKi(15 * this.rank("A8"));
+    if (this.has("A8")) this.port.addKi(15 * this.bonusRank("A8"));
   }
   override use(id: string): UseResult {
     const result = super.use(id);
@@ -108,7 +110,11 @@ export class SageKit extends Kit {
         if (!foe) return { ok: false, reason: "Wybierz cel." };
         if (this.dist(p, foe) > s.range) return { ok: false, reason: "Cel poza zasięgiem." };
         const delay = 3000 * (this.variant("ma-seal") ? 0.8 : 1);
-        this.port.sealFoe(foe, delay, this.has("A2") ? Math.min(0.9, 0.1 * this.rank("A2")) : 0);
+        this.port.sealFoe(
+          foe,
+          delay,
+          this.has("A2") ? Math.min(0.9, 0.1 * this.bonusRank("A2")) : 0,
+        );
         this.port.emit({
           type: "attack",
           x: p.x,
@@ -147,7 +153,7 @@ export class SageKit extends Kit {
             });
             this.strike(
               foe,
-              0.4 * this.castRank("A4"),
+              this.castDamage("A4", 2.4) / 6,
               { tags: ["ki"], ranged: true, ability: "A4" },
               bonus,
             );
@@ -167,7 +173,7 @@ export class SageKit extends Kit {
           for (const f of this.port.foesIn(at, 200))
             this.strike(
               f,
-              4.2 * this.castRank("A9"),
+              this.castDamage("A9", 4.2),
               { tags: ["ki", "area"], ranged: true, ability: "A9" },
               bonus,
             );
@@ -179,14 +185,16 @@ export class SageKit extends Kit {
           s.maxHp *
           0.15 *
           this.castRank("B1") *
-          (1 + 0.3 * this.rank("B7")) *
+          (1 + 0.3 * this.bonusRank("B7")) *
           (this.variant("ma-barrier") ? 0.8 : 1);
         this.addShield({
           id: "B1",
-          ms: (4000 + 2000 * this.rank("B3")) * (this.variant("ma-barrier") ? 1.5 : 1),
+          ms: (4000 + 2000 * this.bonusRank("B3")) * (this.variant("ma-barrier") ? 1.5 : 1),
           amount,
           max: amount,
-          reflectProjectile: this.has("B5") ? Math.min(0.9, 0.15 * this.rank("B5")) : undefined,
+          reflectProjectile: this.has("B5")
+            ? Math.min(0.9, 0.15 * this.bonusRank("B5"))
+            : undefined,
           mirror: this.has("B8") ? true : undefined,
         });
         return { ok: true };
@@ -203,7 +211,7 @@ export class SageKit extends Kit {
           ms: 5000,
           kind: "slow",
           slow: Math.min(0.9, 0.4 * this.castRank("B4")),
-          weaken: this.has("B6") ? Math.min(0.9, 0.1 * this.rank("B6")) : undefined,
+          weaken: this.has("B6") ? Math.min(0.9, 0.1 * this.bonusRank("B6")) : undefined,
         });
         return { ok: true };
       }
@@ -217,7 +225,7 @@ export class SageKit extends Kit {
           kind: "temple",
           slow: Math.min(0.9, 0.3 * this.castRank("B9")),
           defPct: 0.3 * this.castRank("B9"),
-          weaken: this.has("B6") ? Math.min(0.9, 0.1 * this.rank("B6")) : undefined,
+          weaken: this.has("B6") ? Math.min(0.9, 0.1 * this.bonusRank("B6")) : undefined,
         });
         return { ok: true };
       }
@@ -238,7 +246,7 @@ export class SageKit extends Kit {
         return { ok: true };
       }
       case "C4": {
-        const share = (1 + 0.5 * this.rank("C7")) * 0.2 * this.castRank("C4");
+        const share = (1 + 0.5 * this.bonusRank("C7")) * 0.2 * this.castRank("C4");
         this.startChannel({
           id: "C4",
           ms: 3000,

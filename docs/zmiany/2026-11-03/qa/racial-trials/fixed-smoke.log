@@ -1,0 +1,9 @@
+
+Running 2 tests using 1 worker
+
+(node:5850) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/racial-trials.spec.ts:22:3 › touch racial trial › Androidy: portrait guard, touch navigation and module construction (20.1s)
+  ✓  2 [gameplay] › e2e/racial-trials.spec.ts:116:3 › Legendy: real TP08, one-time reward and reload (37.4s)
+
+  2 passed (58.5s)

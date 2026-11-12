@@ -1,0 +1,68 @@
+
+Running 4 tests using 1 worker
+
+(node:30805) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [gameplay] › e2e/racial-trials.spec.ts:118:3 › Planetarni: real TV04, one-time reward and reload (42.7s)
+  ✓  2 [gameplay] › e2e/racial-trials.spec.ts:118:3 › Planetarni: real TV06, one-time reward and reload (55.6s)
+(node:31232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [software-webgl] › e2e/racial-trials.spec.ts:118:3 › Planetarni: real TV04, one-time reward and reload (50.6s)
+(node:31771) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [software-webgl] › e2e/racial-trials.spec.ts:118:3 › Planetarni: real TV06, one-time reward and reload (50.9s)
+
+
+  1) [software-webgl] › e2e/racial-trials.spec.ts:118:3 › Planetarni: real TV04, one-time reward and reload 
+
+    TimeoutError: locator.click: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Umiejętności', exact: true })
+        - locator resolved to <button title="Umiejętności" aria-pressed="false" aria-label="Umiejętności" class="ki-menu-button ki-frame ">…</button>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - performing click action
+
+
+       at fixtures.ts:89
+
+      87 |   }
+      88 |   if (input === "touch") await button.tap();
+    > 89 |   else await button.click();
+         |                     ^
+      90 |   const toggle = page.getByRole("button", { name: "Menu gry", exact: true });
+      91 |   if (
+      92 |     (name === "Oddal mapę" || name === "Przybliż mapę") &&
+        at openHudTool (/workspace/ki-aruba/e2e/fixtures.ts:89:21)
+        at /workspace/ki-aruba/e2e/racial-trials.spec.ts:126:5
+
+    Error Context: ../ki-earth-browser/racial-trials-Planetarni-r-7236d--one-time-reward-and-reload-software-webgl/error-context.md
+
+  2) [software-webgl] › e2e/racial-trials.spec.ts:118:3 › Planetarni: real TV06, one-time reward and reload 
+
+    TimeoutError: locator.click: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Menu gry', exact: true })
+
+
+       at fixtures.ts:86
+
+      84 |     const menu = page.getByRole("button", { name: "Menu gry", exact: true });
+      85 |     if (input === "touch") await menu.tap();
+    > 86 |     else await menu.click();
+         |                     ^
+      87 |   }
+      88 |   if (input === "touch") await button.tap();
+      89 |   else await button.click();
+        at openHudTool (/workspace/ki-aruba/e2e/fixtures.ts:86:21)
+        at /workspace/ki-aruba/e2e/racial-trials.spec.ts:126:5
+
+    Error Context: ../ki-earth-browser/racial-trials-Planetarni-r-908ed--one-time-reward-and-reload-software-webgl/error-context.md
+
+  2 failed
+    [software-webgl] › e2e/racial-trials.spec.ts:118:3 › Planetarni: real TV04, one-time reward and reload 
+    [software-webgl] › e2e/racial-trials.spec.ts:118:3 › Planetarni: real TV06, one-time reward and reload 
+  2 passed (3.7m)

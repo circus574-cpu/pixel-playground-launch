@@ -1,0 +1,10 @@
+src/game/development/trials/attempt.ts 153ms
+src/game/development/trials/catalog.ts 20ms
+src/game/development/trials/puzzles.ts 36ms
+src/game/development/trials/runtime.ts 14ms
+src/game/development/heritage/protectedActor.ts 15ms (unchanged)
+src/game/development/state.ts 50ms
+src/game/session.ts 399ms
+src/components/game/TrialsPanel.tsx 24ms
+src/test/helpers/racialTrials.ts 8ms
+src/test/racial-trial-transactions.test.ts 34ms

@@ -1,0 +1,7 @@
+src/game/development/trials/attempt.ts 131ms
+src/game/development/trials/catalog.ts 36ms
+src/game/development/trials/puzzles.ts 52ms
+src/game/development/state.ts 45ms
+src/game/session.ts 428ms
+src/components/game/TrialsPanel.tsx 22ms
+src/test/helpers/racialTrials.ts 8ms (unchanged)

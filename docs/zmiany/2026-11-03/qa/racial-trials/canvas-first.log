@@ -1,0 +1,34 @@
+
+Running 1 test using 1 worker
+
+(node:4771) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [gameplay] › e2e/racial-trials.spec.ts:53:3 › Planetarni: real TV10, one-time reward and reload (1.2m)
+
+
+  1) [gameplay] › e2e/racial-trials.spec.ts:53:3 › Planetarni: real TV10, one-time reward and reload 
+
+    Test was interrupted.
+
+    Error: locator.click: Test ended.
+    Call log:
+      - waiting for getByRole('button', { name: 'Próby', exact: true })
+
+
+      67 |     await openHudTool(page, "Umiejętności");
+      68 |     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).click();
+    > 69 |     await page.getByRole("tab", { name: "Próby", exact: true }).click();
+         |                                                                    ^
+      70 |     const card = page.locator(".ki-development-card").filter({
+      71 |       has: page.getByRole("heading", { name: new RegExp(`^${id} ·`) }),
+      72 |     });
+        at /workspace/ki-aruba/e2e/racial-trials.spec.ts:69:68
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ki-trials-canvas/racial-trials-Planetarni-r-b46e5--one-time-reward-and-reload-gameplay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ki-trials-canvas/racial-trials-Planetarni-r-b46e5--one-time-reward-and-reload-gameplay/error-context.md
+
+  1 interrupted
+    [gameplay] › e2e/racial-trials.spec.ts:53:3 › Planetarni: real TV10, one-time reward and reload 

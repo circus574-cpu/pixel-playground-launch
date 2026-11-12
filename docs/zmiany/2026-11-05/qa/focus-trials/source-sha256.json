@@ -1,0 +1,24 @@
+{
+  "base": "a9e44175946fc11f85f823879da535de2deb3e83",
+  "implementationSha": "85e0ab67a7414c0968bcaf70c69c5e3ae78b01d8",
+  "protectedFilesChanged": [],
+  "sources": {
+    "e2e/racial-trials.spec.ts": "5d345deb26d0f5684c9ee91e60488a77f1fb4df4a8205e40ef1aee0ce6ed34f7",
+    "src/components/game/TrialRoom.tsx": "24c8922c5470685efcefe104d640b67488fb9f242d52bbe2411ff90e1a9ebc7e",
+    "src/components/game/TrialsPanel.tsx": "adf2c0205f0b812628b5a9e4c953d8570742d9d0b009ed28bd160edda007fbf6",
+    "src/game/development/state.ts": "1915eae91d4ab9a9c32bf63acaf8e74323706e6566345657c564296452d6365a",
+    "src/game/development/trials/attempt.ts": "e2cb75067e65500c6f2c2156775fdaeedf9a8bc0ab575e9fd4caa7e260367fac",
+    "src/game/development/trials/catalog.ts": "74879e547ab4d67eb77ef917cf270ec8e7f3d302b1408d1c91c21cc371b0577a",
+    "src/game/development/trials/focus.ts": "71c49a299270c3936058cd3fe125f3d440c1b35e7b621250d637511ce23b6b76",
+    "src/game/development/trials/puzzles.ts": "ca34f9a6e2cbb20b472f60b6726ab63b07987da2cf172933067f3a3de3696cf7",
+    "src/game/development/trials/runtime.ts": "811a18161263e89fdfab95b42a2ae0f655140f8aa7d3c4a839da725c3c113b95",
+    "src/game/kit/base.ts": "4712d8714d94e145a3dbe07dd25ccf0956ec8b06cc8cc4b6cb782d46b8ee5f9b",
+    "src/game/session.ts": "676dde1838796838487fc352ac3e32aea06815adf91b61ab7dcf1794525e5acc",
+    "src/test/focus-trials.test.ts": "aaa198cb7f8db2aff5a173b416216f7584a5f8da9fa3087bf8174d9dc4ebc6f9",
+    "src/test/helpers/racialTrials.ts": "5c42d6ad6516d2f88d1a4e88b93c5cdcf146a574b5844eb9b198386f4d548775",
+    "src/test/racial-trial-transactions.test.ts": "e51bebac1c9a5cb7efabe8906cf10cf1b31790728f8f951d165bc77afcfb7a1b",
+    "src/test/server-racial-trials.test.ts": "0158462b8b8537eba3074fe64e74c06cd95545c4790835b8be1ab5d3b32eea35"
+  },
+  "unitRuntimeSha": "ac3a79e96d455264a986a28ef3cd7534a2b72a31",
+  "browserDriverOnlyChange": "85e0ab67"
+}

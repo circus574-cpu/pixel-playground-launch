@@ -1,3 +1,6 @@
+import { ITEM_CATALOG } from "../game/items/catalog";
+import { heritageChronicle } from "../game/development/heritage/chronicle";
+import { heritageDefinition } from "../game/development/heritage/state";
 import { SuperiorSaveStore, type SuperiorIndex } from "../game/world/generated/superiorSave";
 import { readFileSync } from "node:fs";
 import { describe, it, expect } from "vitest";
@@ -5,7 +8,12 @@ import { GameSession, SaveStore, newPlayer, xpNeeded } from "../game/session";
 import { RACE_IDS, type RaceId } from "../game/world/races";
 import { WORLDS } from "../game/world/worlds";
 import { HERITAGE_BY_ID, PROJECT_BY_ID } from "../game/development/heritage/catalog";
-import { projectId, questId, type HeritageContentId } from "../game/development/heritage/types";
+import {
+  CHAPTERS,
+  projectId,
+  questId,
+  type HeritageContentId,
+} from "../game/development/heritage/types";
 import { forgeProcedure } from "../game/development/heritage/reducer";
 import { emptyDevelopment, DevelopmentSchema } from "../game/development/state";
 import type { HeritageInteraction } from "../game/development/heritage/runtime";
@@ -28,7 +36,7 @@ function storage() {
     },
   };
 }
-function harness(race: RaceId, level = 1) {
+function harness(race: RaceId, level = 1, boundedCity = false) {
   const port = storage(),
     save = new SaveStore(port, "owned-slot"),
     p = newPlayer(race);
@@ -53,6 +61,7 @@ function harness(race: RaceId, level = 1) {
     spawn: { x: 300, y: 500 },
     city: {
       name: "Controlled integration fixture",
+      ...(boundedCity ? { bounds: { x: 40, y: 40, width: 100, height: 100 } } : {}),
       roads: [],
       buildings: BUILDING_IDS.map((id, i) => ({
         id,
@@ -69,7 +78,15 @@ function harness(race: RaceId, level = 1) {
     ],
     market: { ...base.market, x: 600, y: 550 },
   };
-  const session = new GameSession(save, race, { world });
+  const session = new GameSession(save, race, {
+    world,
+    ...(boundedCity ? { random: () => 0.99 } : {}),
+  });
+  if (boundedCity) {
+    session.player.hp = session.kit.stats.maxHp;
+    session.player.ki = session.kit.stats.maxKi;
+    save.save(session.player);
+  }
   return { port, save, session };
 }
 function entry(s: GameSession, id: HeritageContentId) {
@@ -318,7 +335,7 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
       expect(new SaveStore(port, "other-slot").load()).toBeUndefined();
     },
   );
-  it("keeps a capped level-100 character readable after a legitimate chapter reward", () => {
+  it("advances an old level-100 character after a legitimate reward under the current level limit", () => {
     const { session: s, port } = harness("planetary", 100),
       id = finishFirst(s);
     s.command({
@@ -328,15 +345,15 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
       choiceId: HERITAGE_BY_ID.get(id)!.choices[0]!.id,
     });
     expect(entry(s, id).status, s.notice).toBe("done");
-    expect(s.player.level).toBe(100);
-    expect(s.player.xp).toBe(xpNeeded(100) - 1);
+    expect(s.player.level).toBe(101);
+    expect(s.player.xp).toBe(99);
     expect(s.player.development!.rewardReceipts[`heritage:${id}:v1`]).toEqual({
       practice: 150,
       xp: 100,
       gold: 30,
     });
     const restored = new SaveStore(port, "owned-slot").load();
-    expect(restored?.level).toBe(100);
+    expect(restored?.level).toBe(101);
     expect(restored?.development!.heritage.quests[id]!.status).toBe("done");
   });
   it("failed storage leaves ready chapter, XP, gold, practice and personal item unchanged; retry grants once", () => {
@@ -382,8 +399,16 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
   it("migrates foundation development v1 read-only, backs original v6 bytes before v7 and keeps unknown fields", () => {
     const port = storage(),
       p = newPlayer();
-    const { heritage: omitted, ...legacy } = emptyDevelopment();
+    const {
+      heritage: omitted,
+      trials: omittedTrials,
+      fieldwork: _fieldwork,
+      encounterKnowledge: _encounters,
+      completedExpeditions: _expeditions,
+      ...legacy
+    } = emptyDevelopment();
     void omitted;
+    void omittedTrials;
     const bytes = JSON.stringify({
       version: 6,
       revision: "foundation",
@@ -392,10 +417,10 @@ describe("heritage session transactions (controlled map fixtures, not browser ac
     port.data.set("slot", bytes);
     const save = new SaveStore(port, "slot"),
       loaded = save.load()!;
-    expect(loaded.development!.version).toBe(2);
+    expect(loaded.development!.version).toBe(4);
     expect(port.getItem("slot")).toBe(bytes);
     expect(save.save(loaded)).toBe(true);
-    expect(JSON.parse(port.getItem("slot")!).version).toBe(9);
+    expect(JSON.parse(port.getItem("slot")!).version).toBe(11);
     expect(port.getItem("ki-legends:recovery:before-v7:slot")).toBe(bytes);
     const raw = JSON.parse(port.getItem("slot")!);
     raw.player.development.heritage.future = 1;
@@ -684,4 +709,332 @@ describe("first projects of all four cultures through real session actions", () 
       if (race === "android") expect(s.player.development!.unlockedModules).toContain("mn-cooling");
     },
   );
+});
+
+it.each(RACE_IDS)(
+  "completes six heritage chapters and six projects through commands (level-40 controlled fixture): %s",
+  (race) => {
+    let { session: s } = harness(race, 40, true);
+    const advance = (ms: number) => {
+      for (let n = 0; n < ms; n += 50) s.tick(Math.min(50, ms - n));
+    };
+    const completing = new Set<HeritageContentId>();
+    const resumed = new Set<string>();
+    function complete(id: HeritageContentId) {
+      if (entry(s, id).status === "done") return;
+      if (completing.has(id)) throw Error("Circular story prerequisite: " + id);
+      completing.add(id);
+      const definition = heritageDefinition(id)!;
+      if (definition.prerequisite) complete(definition.prerequisite);
+      advance(5000);
+      reach(s, id, entry(s, id).targets[0]!.id);
+      s.command({ type: "heritage", action: "start", id });
+      for (let action = 0; entry(s, id).status === "active" && action < 120; action++) {
+        if (s.combatIn > 0) {
+          for (let t = 0; t < 6000 && s.combatIn > 0; t++) {
+            const enemy = s.enemies.find(
+              (e) =>
+                !e.encounterOwner &&
+                e.hp > 0 &&
+                e.mode !== "dead" &&
+                Math.hypot(e.x - s.player.x, e.y - s.player.y) < 650,
+            );
+            if (enemy) {
+              if (
+                Math.hypot(enemy.x - s.player.x, enemy.y - s.player.y) >
+                Math.min(60, s.kit.basicRange * 0.75)
+              )
+                s.command({ type: "move", x: enemy.x, y: enemy.y });
+              else {
+                s.command({ type: "target", id: enemy.id });
+                s.command({ type: "ability", ability: "R" });
+              }
+            }
+            advance(50);
+          }
+        }
+        const e = entry(s, id),
+          goal = e.goal,
+          progress = e.progress!;
+        const affinity = goal.world ?? definition.world;
+        if (s.world.id !== affinity) {
+          if (s.player.interior) s.command({ type: "exit" });
+          s.saves!.save(s.player);
+          const world = {
+            ...s.world,
+            id: affinity,
+            npcs: s.world.npcs.map((n) => ({
+              ...n,
+              name: WORLDS[affinity].npcs.find((other) => other.id === n.id)?.name ?? n.name,
+            })),
+          };
+          s.heritage.cancelActivities();
+          s = new GameSession(s.saves, race, { world, random: () => 0.99 });
+          continue; // Controlled world-loader fixture; actual portal travel is a separate browser scenario.
+        }
+        if (goal.kind === "projects") {
+          for (const project of goal.required) complete(project);
+          advance(1000);
+          continue;
+        }
+        if (goal.kind === "observe") {
+          if (s.player.interior) s.command({ type: "exit" });
+          const point = s.nav.safe({ x: s.player.x + 150, y: s.player.y });
+          s.monsters.spawn(goal.species, point);
+          advance(1000);
+          expect(
+            entry(s, id).progress!.step,
+            goal.id +
+              ": " +
+              s.notice +
+              ": " +
+              JSON.stringify(
+                s.practiceTargets
+                  .list(s.player.interior)
+                  .map((t) => ({ x: t.x, y: t.y, hp: t.hp })),
+              ) +
+              ": " +
+              JSON.stringify({
+                x: s.player.x,
+                y: s.player.y,
+                dead: s.player.dead,
+                resource: s.kit.resource(),
+              }),
+          ).toBeGreaterThan(progress.step);
+          continue;
+        }
+        const target =
+          e.targets.find((t) => !progress.goal.completedTargetIds.includes(t.id)) ?? e.targets[0]!;
+        reach(s, id, target.id);
+        if (goal.kind === "escort" || goal.kind === "protect") {
+          s.command({ type: "heritage", action: "activity-start", id });
+          expect(s.heritage.activitySnapshot()?.goalId, s.notice).toBe(goal.id);
+          for (let tick = 0; tick < 6000 && entry(s, id).progress!.step === progress.step; tick++) {
+            const foe = s.enemies.find((x) => x.encounterOwner && x.hp > 0 && x.mode !== "dead");
+            if (foe) {
+              if (Math.hypot(s.player.x - foe.x, s.player.y - foe.y) > s.kit.basicRange * 0.75)
+                s.command({ type: "move", x: foe.x, y: foe.y });
+              else {
+                s.command({ type: "target", id: foe.id });
+                s.command({ type: "ability", ability: "R" });
+              }
+            } else {
+              const next = entry(s, id).targets[0]!;
+              s.command({ type: "heritage", action: "go", id, targetId: next.id });
+            }
+            advance(50);
+            const checkpoint = entry(s, id).progress!;
+            if (
+              (goal.kind === "protect" || goal.combat) &&
+              checkpoint.step === progress.step &&
+              checkpoint.goal.sequence === 1 &&
+              !resumed.has(goal.id)
+            ) {
+              expect(
+                s.saves!.load()!.development!.heritage[id.startsWith("H-") ? "quests" : "projects"][
+                  id
+                ]!.goal.sequence,
+              ).toBe(1);
+              const saved = s.saves!,
+                world = s.world;
+              s.heritage.cancelActivities();
+              expect(s.enemies.filter((e) => e.encounterOwner)).toHaveLength(0);
+              s = new GameSession(saved, race, { world, random: () => 0.99 });
+              expect(entry(s, id).progress!.goal.sequence).toBe(1);
+              advance(5000);
+              reach(s, id, entry(s, id).targets[0]!.id);
+              s.command({ type: "heritage", action: "activity-start", id });
+              expect(s.heritage.activitySnapshot()?.windows).toBe(1);
+              resumed.add(goal.id);
+            }
+            if (s.heritage.activitySnapshot()?.phase === "failed")
+              throw Error(
+                goal.id +
+                  ": " +
+                  s.heritage.activitySnapshot()!.message +
+                  " " +
+                  JSON.stringify({
+                    player: {
+                      x: s.player.x,
+                      y: s.player.y,
+                      hp: s.player.hp,
+                      dead: s.player.dead,
+                      interior: s.player.interior,
+                    },
+                    activity: s.heritage.activitySnapshot(),
+                    enemies: s.enemies.map((e) => ({ kind: e.kind, x: e.x, y: e.y, hp: e.hp })),
+                  }),
+              );
+          }
+          expect(entry(s, id).progress!.step, goal.id + ": " + s.notice).toBeGreaterThan(
+            progress.step,
+          );
+          expect(s.heritage.activitySnapshot()).toBeNull(); // Completed hints must not cover the world indefinitely.
+          advance(5000);
+          continue;
+        }
+        if (goal.kind === "restraint") {
+          s.command({ type: "heritage", action: "activity-start", id });
+          advance(500);
+          for (let cycle = 0; cycle < goal.windows; cycle++) {
+            s.command({ type: "ability", ability: "R" });
+            for (let n = 0; n < 100 && s.heritage.activitySnapshot()?.phase === "strike"; n++)
+              advance(50);
+            expect(s.heritage.activitySnapshot()?.phase, s.notice).toBe("hold");
+            advance(2000);
+          }
+          if (goal.surrender) advance(2000);
+          s.command({ type: "heritage", action: "activity-finish", id });
+          advance(5000);
+          continue;
+        }
+        if (goal.kind === "measure") {
+          s.command({ type: "heritage", action: "activity-start", id });
+          for (let n = 0; n < 1000 && entry(s, id).progress!.step === progress.step; n++) {
+            const t = s.practiceTargets.list(s.player.interior).find((t) => t.hp > 0);
+            if (!t) break;
+            if (
+              Math.hypot(s.player.x - t.x, s.player.y - t.y) > Math.min(60, s.kit.basicRange * 0.75)
+            )
+              s.command({ type: "move", x: t.x, y: t.y });
+            else {
+              s.command({ type: "target", id: t.id });
+              s.command({ type: "ability", ability: "R" });
+            }
+            advance(50);
+          }
+          expect(
+            entry(s, id).progress!.step,
+            goal.id +
+              ": " +
+              s.notice +
+              ": " +
+              JSON.stringify(
+                s.practiceTargets
+                  .list(s.player.interior)
+                  .map((t) => ({ x: t.x, y: t.y, hp: t.hp })),
+              ) +
+              ": " +
+              JSON.stringify({
+                x: s.player.x,
+                y: s.player.y,
+                dead: s.player.dead,
+                resource: s.kit.resource(),
+              }),
+          ).toBeGreaterThan(progress.step);
+          advance(5000);
+          continue;
+        }
+        let interaction: HeritageInteraction;
+        if (goal.kind === "talk") interaction = { kind: "talk", responseId: goal.responses[0]!.id };
+        else if (goal.kind === "inspect") interaction = { kind: "inspect" };
+        else if (goal.kind === "solve")
+          interaction = { kind: "solve", answerId: goal.puzzles[progress.goal.sequence]!.answerId };
+        else if (goal.kind === "recover") interaction = { kind: "recover" };
+        else if (goal.kind === "craft") interaction = { kind: "craft" };
+        else if (goal.kind === "consent")
+          interaction = { kind: "consent", granted: true, mode: "anonymous" };
+        else if (goal.kind === "name-weapon")
+          interaction = { kind: "name-weapon", name: "Świadectwo Szlaku" };
+        else if (goal.kind === "forge")
+          interaction = {
+            kind: "forge",
+            operationId: forgeProcedure(goal, race)[progress.goal.sequence]!.id,
+          };
+        else throw Error("Unhandled heritage interaction");
+        s.command({
+          type: "heritage",
+          action: "act",
+          id,
+          goalId: goal.id,
+          targetId: target.id,
+          revision: progress.goal.revision,
+          interaction,
+        });
+      }
+      expect(entry(s, id).status, id + ": " + s.notice).toBe("ready");
+      const def = "choices" in definition ? definition : null;
+      reach(s, id, entry(s, id).targets[0]!.id);
+      s.command({ type: "heritage", action: "claim", id, choiceId: def?.choices[0]?.id ?? null });
+      expect(entry(s, id).status, id + ": " + s.notice).toBe("done");
+      completing.delete(id);
+    }
+    for (const chapter of CHAPTERS) {
+      complete(questId(race, chapter));
+      complete(projectId(race, chapter));
+    }
+    expect(s.player.development!.practiceEarned).toBe(2900);
+    expect(heritageChronicle(s.player)).toHaveLength(6);
+    expect(heritageChronicle(s.player).filter((entry) => entry.background)).toHaveLength(3);
+    expect(heritageChronicle(s.saves!.load()!)).toEqual(heritageChronicle(s.player));
+    expect(s.player.development!.heritage.weapon!.stage).toBe(6);
+    expect(s.player.development!.heritage.weapon!.history).toHaveLength(6);
+    expect(
+      Object.values(s.player.development!.heritage.quests).filter((q) => q.status === "done"),
+    ).toHaveLength(6);
+    expect(
+      Object.values(s.player.development!.heritage.projects).filter((q) => q.status === "done"),
+    ).toHaveLength(6);
+    expect(DevelopmentSchema.safeParse(s.player.development).success).toBe(true);
+    expect(s.saves!.load()!.development!.heritage.weapon!.stage).toBe(6);
+  },
+  60000,
+);
+
+it.each(RACE_IDS)("personal weapon swaps keep equipment, bag and HP/KI consistent: %s", (race) => {
+  const { session: s, port } = harness(race, 40);
+  const chapter = finishFirst(s);
+  s.command({
+    type: "heritage",
+    action: "claim",
+    id: chapter,
+    choiceId: HERITAGE_BY_ID.get(chapter)!.choices[0]!.id,
+  });
+  for (const id of ["W-V2", "W-A1"]) {
+    s.player.bagItems![id] = 1; // Explicit inventory precondition for a swap regression, not a campaign drop.
+    s.command({ type: "equip", item: id });
+    s.player.hp = s.kit.stats.maxHp * 0.4;
+    s.player.ki = s.kit.stats.maxKi * 0.3;
+    for (let cycle = 0; cycle < 3; cycle++) {
+      const hp = s.player.hp,
+        ki = s.player.ki;
+      s.command({ type: "heritage-weapon", action: "equip" });
+      expect(s.player.weapon).toBe("heritage");
+      expect(s.player.equipment!.weapon).toBe("heritage");
+      expect(s.player.bagItems![id]).toBe(1);
+      expect(s.player.hp).toBe(hp);
+      expect(s.player.ki).toBe(ki);
+      s.command({ type: "equip", item: id });
+      expect(s.player.equipment!.weapon).toBe(id);
+      expect(s.player.bagItems![id]).toBeUndefined();
+      expect(s.player.hp).toBe(hp);
+      expect(s.player.ki).toBe(ki);
+    }
+    const before = structuredClone(s.player);
+    port.fail = true;
+    s.command({ type: "heritage-weapon", action: "equip" });
+    expect(s.player).toEqual(before);
+    port.fail = false;
+    s.command({ type: "unequip", slot: "weapon" });
+  }
+  s.command({ type: "equip", item: "W-V2" });
+  const originalBag = structuredClone(s.player.bagItems!);
+  const available = ITEM_CATALOG.filter(
+    (i) => i.id !== "W-V2" && !["potion", "sword", "vest", "tusk"].includes(i.id),
+  ).slice(0, 39);
+  s.player.bagItems = Object.fromEntries(available.map((i) => [i.id, 1])); // 39 stacks + the existing potion stack = 40.
+  const full = structuredClone(s.player);
+  s.command({ type: "heritage-weapon", action: "equip" });
+  expect(s.player).toEqual(full);
+  s.player.bagItems = originalBag;
+  // Historical wire state: p.weapon changed but the old catalog slot remained occupied.
+  s.player.weapon = "heritage";
+  const hp = s.player.hp,
+    ki = s.player.ki;
+  s.command({ type: "unequip", slot: "weapon" });
+  expect(s.player.weapon).toBeNull();
+  expect(s.player.equipment!.weapon).toBeNull();
+  expect(s.player.bagItems!["W-V2"]).toBe(1);
+  expect(s.player.hp).toBe(Math.min(hp, s.kit.stats.maxHp));
+  expect(s.player.ki).toBe(Math.min(ki, s.kit.stats.maxKi));
 });

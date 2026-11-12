@@ -1,0 +1,405 @@
+{
+  "scope": "Static catalogue audit. Reachable counts are an upper bound, not proof of runtime completion. Blocker list is based on confirmed missing protect/combat-escort activity constructors.",
+  "counts": {
+    "disciplines": 5,
+    "exams": 30,
+    "chapters": 24,
+    "projects": 24,
+    "variants": 12,
+    "moduleIds": 6,
+    "bestiary": 40
+  },
+  "budget": {
+    "rank30": 5850,
+    "rank90": 17550,
+    "requiredGuarantee": 17800,
+    "withoutRacialTrialsCatalogueOnly": 12400,
+    "missingRacialTrialPractice": 5400,
+    "minimumForAny90Ranks": 12150
+  },
+  "races": [
+    {
+      "race": "planetary",
+      "chapters": [
+        {
+          "id": "H-V01",
+          "name": "Mapa zatopionych domów",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "H-V02",
+          "name": "Rzeka, która zawróciła",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "H-V03",
+          "name": "Las nie rozpoznaje swoich",
+          "structurallyUnblocked": false,
+          "directBlockers": [
+            {
+              "id": "H-V03:messenger",
+              "kind": "escort",
+              "combat": true
+            }
+          ]
+        },
+        {
+          "id": "H-V04",
+          "name": "Pieśń bez ostatniej zwrotki",
+          "structurallyUnblocked": false,
+          "directBlockers": []
+        },
+        {
+          "id": "H-V05",
+          "name": "Korzenie pamiętają",
+          "structurallyUnblocked": false,
+          "directBlockers": [
+            {
+              "id": "H-V05:witnesses",
+              "kind": "escort",
+              "combat": true
+            }
+          ]
+        },
+        {
+          "id": "H-V06",
+          "name": "Nowy szlak",
+          "structurallyUnblocked": false,
+          "directBlockers": [
+            {
+              "id": "H-V06:convoy",
+              "kind": "escort",
+              "combat": true
+            }
+          ]
+        }
+      ],
+      "projects": [
+        {
+          "id": "P-V1",
+          "name": "Przepust Doliny",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "P-V2",
+          "name": "Most Wędrowców",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "P-V3",
+          "name": "Ogród Powrotu",
+          "structurallyUnblocked": false,
+          "directBlockers": []
+        },
+        {
+          "id": "P-V4",
+          "name": "Przystań Świadków",
+          "structurallyUnblocked": false,
+          "directBlockers": []
+        },
+        {
+          "id": "P-V5",
+          "name": "Latarnia Szlaku",
+          "structurallyUnblocked": false,
+          "directBlockers": []
+        },
+        {
+          "id": "P-V6",
+          "name": "Dom Pamięci Dolin",
+          "structurallyUnblocked": false,
+          "directBlockers": []
+        }
+      ],
+      "staticPracticeUpperBound": 10250,
+      "optimisticTrainingRankUpperBound": 81
+    },
+    {
+      "race": "sage",
+      "chapters": [
+        {
+          "id": "H-A01",
+          "name": "Biała strona",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "H-A02",
+          "name": "Źródło dwóch wspomnień",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "H-A03",
+          "name": "Archiwista bez imienia",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "H-A04",
+          "name": "Biblioteka pod ogrodem",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "H-A05",
+          "name": "Cena ujawnienia",
+          "structurallyUnblocked": false,
+          "directBlockers": [
+            {
+              "id": "H-A05:handoff",
+              "kind": "escort",
+              "combat": true
+            }
+          ]
+        },
+        {
+          "id": "H-A06",
+          "name": "Kronika z pustym miejscem",
+          "structurallyUnblocked": false,
+          "directBlockers": [
+            {
+              "id": "H-A06:archive",
+              "kind": "protect",
+              "combat": false
+            }
+          ]
+        }
+      ],
+      "projects": [
+        {
+          "id": "P-A1",
+          "name": "Źródło Porównania",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "P-A2",
+          "name": "Czytelnia Imion",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "P-A3",
+          "name": "Pieczęć Opiekuna",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "P-A4",
+          "name": "Pokój Świadków",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "P-A5",
+          "name": "Kopia dla Sąsiadów",
+          "structurallyUnblocked": false,
+          "directBlockers": []
+        },
+        {
+          "id": "P-A6",
+          "name": "Ogród Pamięci",
+          "structurallyUnblocked": false,
+          "directBlockers": []
+        }
+      ],
+      "staticPracticeUpperBound": 11200,
+      "optimisticTrainingRankUpperBound": 85
+    },
+    {
+      "race": "android",
+      "chapters": [
+        {
+          "id": "H-N01",
+          "name": "Pakiet bez nadawcy",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "H-N02",
+          "name": "Warsztat, którego nie ma",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "H-N03",
+          "name": "Jednostka poza listą",
+          "structurallyUnblocked": false,
+          "directBlockers": [
+            {
+              "id": "H-N03:escort",
+              "kind": "escort",
+              "combat": true
+            }
+          ]
+        },
+        {
+          "id": "H-N04",
+          "name": "Rozkaz w pamięci",
+          "structurallyUnblocked": false,
+          "directBlockers": []
+        },
+        {
+          "id": "H-N05",
+          "name": "Prawo do odmowy",
+          "structurallyUnblocked": false,
+          "directBlockers": []
+        },
+        {
+          "id": "H-N06",
+          "name": "Pierwszy zapis własny",
+          "structurallyUnblocked": false,
+          "directBlockers": []
+        }
+      ],
+      "projects": [
+        {
+          "id": "P-N1",
+          "name": "Przywrócone Zasilanie",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "P-N2",
+          "name": "Stół Własnej Konstrukcji",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "P-N3",
+          "name": "Archiwum Podpisów",
+          "structurallyUnblocked": false,
+          "directBlockers": []
+        },
+        {
+          "id": "P-N4",
+          "name": "Stacja Dobrowolnej Regeneracji",
+          "structurallyUnblocked": false,
+          "directBlockers": []
+        },
+        {
+          "id": "P-N5",
+          "name": "Stanowisko Testów",
+          "structurallyUnblocked": false,
+          "directBlockers": []
+        },
+        {
+          "id": "P-N6",
+          "name": "Otwarty Warsztat",
+          "structurallyUnblocked": false,
+          "directBlockers": []
+        }
+      ],
+      "staticPracticeUpperBound": 10250,
+      "optimisticTrainingRankUpperBound": 81
+    },
+    {
+      "race": "legend",
+      "chapters": [
+        {
+          "id": "H-P01",
+          "name": "Imię pod popiołem",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "H-P02",
+          "name": "Próba przerwania ciosu",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "H-P03",
+          "name": "Kowadło po mistrzu",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "H-P04",
+          "name": "Ci, którzy zawrócili",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "H-P05",
+          "name": "Pojedynek bez widowni",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "H-P06",
+          "name": "Przysięga dla jutra",
+          "structurallyUnblocked": false,
+          "directBlockers": [
+            {
+              "id": "H-P06:retreat",
+              "kind": "protect",
+              "combat": false
+            }
+          ]
+        }
+      ],
+      "projects": [
+        {
+          "id": "P-P1",
+          "name": "Plac Opanowania",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "P-P2",
+          "name": "Rodzinne Kowadło",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "P-P3",
+          "name": "Szlak Dawnej Straży",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "P-P4",
+          "name": "Tablica Uratowanych",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "P-P5",
+          "name": "Schronienie na Trakcie",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        },
+        {
+          "id": "P-P6",
+          "name": "Dziewiąte Palenisko",
+          "structurallyUnblocked": true,
+          "directBlockers": []
+        }
+      ],
+      "staticPracticeUpperBound": 11950,
+      "optimisticTrainingRankUpperBound": 89
+    }
+  ],
+  "auditedSHA": "139834679f4618fdfc343c93060f479b1b98b71d",
+  "date": "2026-11-03",
+  "ownerSourceSHA256": "03ea87f725815adab2d74cba84da87a52adfc5cd650600c6a3202f68742359ed",
+  "confirmedMissing": {
+    "racialTrialControllers": 48,
+    "racialTrialTiers": 144,
+    "normalPlayVariantUnlocks": 12,
+    "normalPlayModuleUnlocks": [
+      "mn-optics",
+      "mn-shield",
+      "mn-precision",
+      "mn-routing"
+    ],
+    "encounterVariants21to40": 32,
+    "fullRaceBiographyAndFinalTitleSystem": true
+  },
+  "scopeLimit": "Static upper bounds assume all mechanically supported goals, all 30 exams and all 40 species can be completed. They do not certify physical navigation, later chapters or full runtime playability. No production state was changed."
+}

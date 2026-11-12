@@ -1,0 +1,55 @@
+
+Running 2 tests using 1 worker
+
+(node:27734) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [software-webgl] › e2e/racial-trials.spec.ts:147:3 › Androidy: real TN01, one-time reward and reload (1.4m)
+  ✘  2 [software-webgl] › e2e/racial-trials.spec.ts:147:3 › Legendy: real TP03, one-time reward and reload (34.9s)
+
+
+  1) [software-webgl] › e2e/racial-trials.spec.ts:147:3 › Legendy: real TP03, one-time reward and reload 
+
+    TimeoutError: locator.click: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Umiejętności', exact: true })
+        - locator resolved to <button title="Umiejętności" aria-pressed="false" aria-label="Umiejętności" class="ki-menu-button ki-frame ">…</button>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+
+
+       at fixtures.ts:108
+
+      106 |   }
+      107 |   if (input === "touch") await button.tap();
+    > 108 |   else await button.click();
+          |                     ^
+      109 |   const toggle = page.getByRole("button", { name: "Menu gry", exact: true });
+      110 |   if (
+      111 |     (name === "Oddal mapę" || name === "Przybliż mapę") &&
+        at openHudTool (/workspace/ki-development-integration/e2e/fixtures.ts:108:21)
+        at /workspace/ki-development-integration/e2e/racial-trials.spec.ts:161:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results-development-webgl-isolated/racial-trials-Legendy-real-TP03-one-time-reward-and-reload-software-webgl/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results-development-webgl-isolated/racial-trials-Legendy-real-TP03-one-time-reward-and-reload-software-webgl/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results-development-webgl-isolated/racial-trials-Legendy-real-TP03-one-time-reward-and-reload-software-webgl/error-context.md
+
+    attachment #6: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results-development-webgl-isolated/racial-trials-Legendy-real-TP03-one-time-reward-and-reload-software-webgl/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results-development-webgl-isolated/racial-trials-Legendy-real-TP03-one-time-reward-and-reload-software-webgl/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [software-webgl] › e2e/racial-trials.spec.ts:147:3 › Legendy: real TP03, one-time reward and reload 
+  1 passed (2.1m)

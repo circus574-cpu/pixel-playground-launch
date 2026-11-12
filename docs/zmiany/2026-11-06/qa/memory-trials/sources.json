@@ -1,0 +1,20 @@
+{
+  "gameplayCommit": "d9a30bbe3dd9faea64792cc16049c2cb242464fe",
+  "testCommit": "066e5fce1bff737a5ce362b7550e0a80e9c8ff9c",
+  "continuedFrom": "a9e44175946fc11f85f823879da535de2deb3e83",
+  "integratedMain": "83165f5c",
+  "sha256": {
+    "src/game/development/trials/catalog.ts": "2b68c836d5e3802d54c541a2a7f842d8a44540e3abddc24ee4b5ce66da2f37d1",
+    "src/game/development/trials/puzzles.ts": "c97a918c10ba73665a2bf9bc4c700712134d717f80dd25e045782b9f49ce8459",
+    "src/game/development/trials/attempt.ts": "94a120e3846896600e29deec88e1273e4e9b6e82a46f171b01c9d9b90e3356b8",
+    "src/game/development/trials/runtime.ts": "238dd36bbea71631ca366db683008ae23015db3e0f3b79c19161cad109e80d3a",
+    "src/game/development/state.ts": "e5bfa7d4267efac5f8b7be9d33767724f064fd9557236d7696e2a285bc83e81e",
+    "src/game/session.ts": "5120e6f9d6843c92f6804a74934418991230bcf06db54655ed7330a9e126f019",
+    "src/game/kit/base.ts": "f4cf98646d21ed102b8ad66eb7cef57559bfce746acdb368aed7d29c245a052a",
+    "src/components/game/TrialsPanel.tsx": "8c3eabd70c4e34a9822ef63039a1dbba699ae02c056e2cd965afde70e20aea2a",
+    "src/test/memory-trials.test.ts": "958f4164ca6ebca313c1827b3d1bd00ac7333b36382707849040d4e88c9accb4",
+    "src/test/racial-trial-transactions.test.ts": "520fd32251dc690d3d41ec83922c96bb85189d5ca7b4365af5d6c7d653fcd50b",
+    "src/test/server-racial-trials.test.ts": "1ca57ea46dcc2d5c18373dfaf977ac45f059d90aef3fbdfab5ed68f0753ab2d6",
+    "e2e/racial-trials.spec.ts": "973197676b9ec7a9354efce30dc663afefa63dd7c649182479b89e2716b07fee"
+  }
+}

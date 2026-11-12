@@ -1,0 +1,310 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: racial-trials.spec.ts >> Legendy: real TP08, one-time reward and reload
+- Location: e2e/racial-trials.spec.ts:116:3
+
+# Error details
+
+```
+TimeoutError: locator.click: Timeout 15000ms exceeded.
+Call log:
+  - waiting for locator('.ki-trial-stage').locator('[data-ability="R"]')
+    - locator resolved to <button class="ki-skill" data-ability="R" title="Uderzenie Żaru" aria-label="Uderzenie Żaru">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div aria-live="polite" class="ki-exam-toolbar">…</div> intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div aria-live="polite" class="ki-exam-toolbar">…</div> intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    3 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div aria-live="polite" class="ki-exam-toolbar">…</div> intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+    25 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div role="dialog" aria-label="Wynik próby rasowej" class="ki-exam-result ki-development">…</div> intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+
+```
+
+# Page snapshot
+
+```yaml
+- main [ref=e3]:
+  - region "Sala prób rasowych" [ref=e4]:
+    - generic "Ki Legends — próba rasowa" [ref=e5]
+    - generic:
+      - region "Postać gracza":
+        - button "Pokaż statystyki postaci" [ref=e7] [cursor=pointer]:
+          - generic [ref=e8]:
+            - 'img "Portret: Legendy"'
+          - generic [ref=e9]: "20"
+        - generic:
+          - generic:
+            - text: Wędrowiec
+            - generic: LEGENDY
+          - meter "Zdrowie":
+            - generic: 938 / 938
+          - meter "Energia KI":
+            - generic: 97 / 97
+          - generic "Doświadczenie 0/1240"
+          - meter "Żar":
+            - generic: Żar 0
+      - generic:
+        - generic "Powiadomienia gry"
+      - region "Minimapa":
+        - generic "Sala egzaminacyjna"
+        - button "Otwórz mapę świata" [ref=e10] [cursor=pointer]:
+          - generic [ref=e11]:
+            - generic "Twierdza Popiołu" [ref=e13]
+            - generic "Żarowy Trakt" [ref=e14]
+            - generic "Cytadela Kowadeł" [ref=e15]
+            - generic "Port Czerwonych Żagli" [ref=e16]
+      - button "◆ Pierwsze kroki Porozmawiaj z guide przy miejscu startowym ›" [ref=e18] [cursor=pointer]:
+        - generic [ref=e19]: ◆
+        - generic [ref=e20]:
+          - strong [ref=e21]: Pierwsze kroki
+          - generic [ref=e22]: Porozmawiaj z guide przy miejscu startowym
+        - generic [ref=e23]: ›
+      - generic:
+        - img "KI LEGENDS":
+          - generic [aria-hidden]:
+            - strong: KI LEGENDS
+        - strong: Sala egzaminacyjna
+        - text: Pyra
+      - text: ☷
+      - navigation "Umiejętności":
+        - button "Uderzenie Żaru" [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]: Spacja
+        - button "Unik" [ref=e26] [cursor=pointer]:
+          - generic [ref=e27]: Shift
+        - button "Mikstura życia" [disabled] [ref=e28]:
+          - generic [ref=e29]: Q
+          - generic [ref=e30]: "0"
+      - button "Menu gry" [ref=e31] [cursor=pointer]:
+        - generic [ref=e32]: Widok
+      - navigation "Menu gry":
+        - button "Ekwipunek" [ref=e33] [cursor=pointer]
+        - button "Dziennik" [ref=e35] [cursor=pointer]:
+          - generic [ref=e36]: Zadania
+        - button "Umiejętności" [ref=e37] [cursor=pointer]:
+          - generic "19 punktów umiejętności" [ref=e39]: "19"
+        - button "Ustawienia" [ref=e40] [cursor=pointer]
+      - generic "Akcje":
+        - button "Plan miasta" [ref=e42] [cursor=pointer]
+    - generic [ref=e43]:
+      - generic [ref=e44]: Profil testowy · Powstrzymany cios · stopień 1 · 0/3 · błędy 1/0Zabrakło celnego ciosu między oknami zatrzymania.
+      - button "Wyjdź z próby" [ref=e45]
+    - dialog "Wynik próby rasowej" [ref=e46]:
+      - heading "Próba zakończona" [level=2] [ref=e47]
+      - paragraph [ref=e48]: Zabrakło celnego ciosu między oknami zatrzymania.
+      - paragraph [ref=e49]: "Wynik: 0/3 · błędy 1 · aktywny czas 4.0 s"
+      - button "Powtórz próbę" [ref=e50] [cursor=pointer]
+      - button "Wróć bez nagrody" [ref=e51] [cursor=pointer]
+  - generic "Ki Legends — ekran gry" [ref=e52]
+```
+
+# Test source
+
+```ts
+  71  |     const after = await owner(page);
+  72  |     expect(after.development.trials.TN08).toBe(1);
+  73  |     expect(after.development.practiceEarned - (before.development?.practiceEarned ?? 0)).toBe(100);
+  74  |     await page.reload();
+  75  |     await expect(canvas).toHaveAttribute("data-interior", "arena");
+  76  |     expect((await owner(page)).development.trials.TN08).toBe(1);
+  77  |     expect(errors).toEqual([]);
+  78  |   });
+  79  | });
+  80  | 
+  81  | async function walkToStation(page: Page, touch: boolean) {
+  82  |   const stage = page.locator(".ki-trial-stage");
+  83  |   const x = Number(await stage.getAttribute("data-trial-x"));
+  84  |   const y = Number(await stage.getAttribute("data-trial-y"));
+  85  |   const canvas = stage.locator(".ki-canvas");
+  86  |   const point = await canvas.evaluate(
+  87  |     (el, target) => {
+  88  |       const node = el as HTMLElement,
+  89  |         b = node.getBoundingClientRect();
+  90  |       const zoom = Number(node.dataset["cameraZoom"]);
+  91  |       return {
+  92  |         x: b.x + (target.x - Number(node.dataset["cameraX"]) - b.width / 2) * zoom + b.width / 2,
+  93  |         y: b.y + (target.y - Number(node.dataset["cameraY"]) - b.height / 2) * zoom + b.height / 2,
+  94  |       };
+  95  |     },
+  96  |     { x, y },
+  97  |   );
+  98  |   if (touch) await page.touchscreen.tap(point.x, point.y);
+  99  |   else await page.mouse.click(point.x, point.y);
+  100 |   await expect
+  101 |     .poll(async () =>
+  102 |       Math.hypot(
+  103 |         Number(await canvas.getAttribute("data-player-x")) - x,
+  104 |         Number(await canvas.getAttribute("data-player-y")) - y,
+  105 |       ),
+  106 |     )
+  107 |     .toBeLessThan(65);
+  108 | }
+  109 | 
+  110 | for (const [race, id, land] of [
+  111 |   ["Planetarni", "TV10", "verdant"],
+  112 |   ["Mędrcy", "TA01", "aether"],
+  113 |   ["Androidy", "TN08", "nexus"],
+  114 |   ["Legendy", "TP08", "pyra"],
+  115 | ] as const) {
+  116 |   test(`${race}: real ${id}, one-time reward and reload`, async ({ page }, info) => {
+  117 |     const errors: string[] = [];
+  118 |     page.on("pageerror", (e) => errors.push(e.message));
+  119 |     await page.goto("/scripts/playtest.html?ki-world-v2=1");
+  120 |     await page.getByRole("button", { name: `Wybierz: ${race}`, exact: true }).click();
+  121 |     await page.getByRole("button", { name: "Rozpocznij przygodę", exact: true }).click();
+  122 |     const canvas = page.locator(".ki-canvas").first();
+  123 |     await expect(canvas).toHaveAttribute("data-player-x", /^\d/);
+  124 |     await openHudTool(page, "Umiejętności");
+  125 |     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).click();
+  126 |     await page.getByRole("button", { name: "Podejdź do trenera", exact: true }).click();
+  127 |     await expect(canvas).toHaveAttribute("data-interior", "arena");
+  128 |     await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+  129 |     const before = await owner(page);
+  130 |     await openHudTool(page, "Umiejętności");
+  131 |     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).click();
+  132 |     await page.getByRole("tab", { name: "Próby", exact: true }).click();
+  133 |     const card = page.locator(".ki-development-card").filter({
+  134 |       has: page.getByRole("heading", { name: new RegExp(`^${id} ·`) }),
+  135 |     });
+  136 |     await card.getByRole("button", { name: "Instrukcja · 1", exact: true }).click();
+  137 |     await page.getByRole("button", { name: "Rozpocznij próbę rasową", exact: true }).click();
+  138 |     const stage = page.locator(".ki-trial-stage");
+  139 |     await expect(stage.locator(".ki-canvas")).toHaveAttribute("data-player-x", /^\d/);
+  140 |     await expect(stage.locator('[data-ability="R"]')).toBeVisible();
+  141 |     await expect
+  142 |       .poll(async () => {
+  143 |         const metrics = await stage.locator(".ki-canvas").getAttribute("data-metrics");
+  144 |         return metrics ? JSON.parse(metrics).renderer : null;
+  145 |       })
+  146 |       .toBe(info.project.name === "software-webgl" ? "WebGL" : "Canvas");
+  147 |     if (id === "TP08") {
+  148 |       await page.screenshot({ path: info.outputPath("pyra-trial-before-attack.png") });
+  149 |       await info.attach("attack-preflight", {
+  150 |         contentType: "application/json",
+  151 |         body: JSON.stringify(
+  152 |           await stage.locator('[data-ability="R"]').evaluate((button) => {
+  153 |             const b = button.getBoundingClientRect();
+  154 |             return {
+  155 |               x: b.x,
+  156 |               y: b.y,
+  157 |               width: b.width,
+  158 |               height: b.height,
+  159 |               blockedBy: document.elementFromPoint(b.x + b.width / 2, b.y + b.height / 2)
+  160 |                 ?.outerHTML,
+  161 |               canvas: {
+  162 |                 ...(document.querySelector<HTMLElement>(".ki-trial-stage .ki-canvas")?.dataset ??
+  163 |                   {}),
+  164 |               },
+  165 |             };
+  166 |           }),
+  167 |         ),
+  168 |       });
+  169 |       for (let i = 0; i < 3; i++) {
+  170 |         await expect(stage).toHaveAttribute("data-trial-phase", "strike");
+> 171 |         await stage.locator('[data-ability="R"]').click();
+      |                                                   ^ TimeoutError: locator.click: Timeout 15000ms exceeded.
+  172 |         await expect(stage).toHaveAttribute("data-trial-phase", "hold");
+  173 |       }
+  174 |     } else {
+  175 |       const rounds = id === "TN08" ? 1 : 3;
+  176 |       for (let i = 0; i < rounds; i++) {
+  177 |         await walkToStation(page, false);
+  178 |         await stage.getByRole("button", { name: "Zbadaj stanowisko", exact: true }).click();
+  179 |         const materials = page.getByRole("dialog", { name: "Materiały próby", exact: true });
+  180 |         await expect(materials).toBeVisible();
+  181 |         if (i === 0)
+  182 |           await page.screenshot({ path: info.outputPath(`${land}-trial-materials.png`) });
+  183 |         const text = await materials.locator(".ki-trial-document").allTextContents();
+  184 |         if (id === "TN08") {
+  185 |           await materials
+  186 |             .getByRole("checkbox", { name: "Skaner · 2 energii", exact: true })
+  187 |             .check();
+  188 |           await materials
+  189 |             .getByRole("checkbox", { name: "Precyzja · 3 energii", exact: true })
+  190 |             .check();
+  191 |           await materials.getByRole("button", { name: "Sprawdź konstrukcję", exact: true }).click();
+  192 |         } else {
+  193 |           // Read only the clues actually shown to the player, never internal answer IDs.
+  194 |           const heading = await materials.getByRole("heading", { level: 2 }).innerText();
+  195 |           let answer: string;
+  196 |           if (id === "TV10") {
+  197 |             answer = text
+  198 |               .join(" ")
+  199 |               .match(new RegExp(`${i + 1}\\.\\s*([^→.]+)`))![1]!
+  200 |               .trim();
+  201 |           } else {
+  202 |             const glyph = heading.match(/symbol: (.+)\./)![1]!;
+  203 |             answer = text
+  204 |               .join(" ")
+  205 |               .split("; ")
+  206 |               .find((v) => v.includes(`${glyph} = `))!
+  207 |               .split(" = ")[1]!
+  208 |               .replace(/\.$/, "")
+  209 |               .trim();
+  210 |           }
+  211 |           await materials.getByRole("button", { name: answer, exact: true }).click();
+  212 |         }
+  213 |         await expect(materials).toHaveCount(0);
+  214 |       }
+  215 |     }
+  216 |     const result = page.getByRole("dialog", { name: "Wynik próby rasowej", exact: true });
+  217 |     await expect(result).toContainText("Próba ukończona");
+  218 |     await page.screenshot({ path: info.outputPath(`${land}-trial-passed.png`) });
+  219 |     await result.getByRole("button", { name: "Zatwierdź wynik i wróć", exact: true }).click();
+  220 |     await expect(stage).toHaveCount(0);
+  221 |     await expect.poll(async () => (await owner(page)).development?.trials?.[id]).toBe(1);
+  222 |     const after = await owner(page);
+  223 |     expect(after.development.practiceEarned - (before.development?.practiceEarned ?? 0)).toBe(100);
+  224 |     for (const field of [
+  225 |       "hp",
+  226 |       "ki",
+  227 |       "xp",
+  228 |       "gold",
+  229 |       "equipment",
+  230 |       "bagItems",
+  231 |       "items",
+  232 |       "materials",
+  233 |       "depot",
+  234 |       "skills",
+  235 |       "level",
+  236 |       "race",
+  237 |       "continent",
+  238 |     ])
+  239 |       expect(after[field], field).toEqual(before[field]);
+  240 |     await page.reload();
+  241 |     await expect(canvas).toHaveAttribute("data-interior", "arena");
+  242 |     const reloaded = await owner(page);
+  243 |     expect(reloaded.development.trials[id]).toBe(1);
+  244 |     expect(reloaded.development.practiceEarned).toBe(after.development.practiceEarned);
+  245 |     expect(errors).toEqual([]);
+  246 |   });
+  247 | }
+  248 | 
+```

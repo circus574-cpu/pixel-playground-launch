@@ -81,6 +81,8 @@ type Actor = {
 
 /** Phaser is the rendering/input adapter; game rules live in GameSession. */
 export type GameRuntime = {
+  /** Center small instanced rooms within a larger viewport; never changes world navigation. */
+  centerSmallWorld?: boolean;
   authoritative?: boolean;
   networkPlayers?: () => NetworkPlayerState[];
   session: GameSession;
@@ -473,6 +475,12 @@ export function mountKileGends(
       this.cameras.main.startFollow(this.hero.body, true, 0.12, 0.12);
       const zoom = () => {
         this.cameras.main.setZoom(clampZoom(Number(parent.dataset["zoom"] ?? DEFAULT_ZOOM)));
+        if (runtime?.centerSmallWorld && !session.player.interior) {
+          const cam = this.cameras.main;
+          const x = Math.max(0, (this.scale.width / cam.zoom - world.width) / 2);
+          const y = Math.max(0, (this.scale.height / cam.zoom - world.height) / 2);
+          cam.setBounds(-x, -y, world.width + 2 * x, world.height + 2 * y);
+        }
         if (session.player.interior) {
           // Painted rooms are larger than the screen: the whole width on a wide screen, a scrolling
           // window on a phone, always following the hero inside the room.
@@ -507,11 +515,19 @@ export function mountKileGends(
         const action = (event as CustomEvent<Command>).detail;
         session.command(action);
         if (action.type === "pause") {
-          if (action.value && action.suspendRendering) this.game.loop.sleep();
-          else if (!this.game.loop.running) {
-            // Time spent looking at the map is paused time, never a catch-up simulation tick.
-            this.game.loop.resetDelta();
-            this.game.loop.wake();
+          if (action.value && action.suspendRendering) {
+            // A sleeping world must release keyboard capture to the active trial/exam game.
+            // Phaser's manager otherwise prevents the event before the second game receives it.
+            if (this.input.keyboard) this.input.keyboard.manager.enabled = false;
+            this.input.keyboard?.resetKeys();
+            this.game.loop.sleep();
+          } else {
+            if (this.input.keyboard) this.input.keyboard.manager.enabled = true;
+            if (!this.game.loop.running) {
+              // Paused time is never a catch-up simulation tick.
+              this.game.loop.resetDelta();
+              this.game.loop.wake();
+            }
           }
         }
         // A right-thumb action must not release the left-thumb movement pointer.
@@ -592,8 +608,8 @@ export function mountKileGends(
       });
       this.input.addPointer(2);
       // Faza 2: flaga pisania z zdarzeń focus, zamiast document.activeElement.closest() co klatkę.
-      const onFocusChange = () => {
-        const el = document.activeElement;
+      const onFocusChange = (event: FocusEvent) => {
+        const el = event.type === "focusout" ? event.relatedTarget : event.target;
         this.typing =
           el instanceof HTMLElement && Boolean(el.closest("input,textarea,button,[role=dialog]"));
       };
@@ -643,8 +659,16 @@ export function mountKileGends(
           if (tap && !pointer.wasCanceled) this.interactAt(tap);
         }
       });
-      this.heritageMarkers = new HeritageMarkers(this, session);
+      this.heritageMarkers = new HeritageMarkers(
+        this,
+        session,
+        options?.runtime?.authoritative ? () => session.snapshot().heritageActivity : undefined,
+        options?.runtime?.authoritative ? () => session.snapshot().fieldwork : undefined,
+        options?.runtime?.authoritative ? () => session.snapshot().expeditions : undefined,
+      );
       const releaseHeritage = () => {
+        session.fieldwork.cancel();
+        session.expeditions.cancel();
         this.heritageMarkers?.dispose();
         this.heritageMarkers = undefined;
       };
@@ -799,16 +823,22 @@ export function mountKileGends(
       for (const e of session.enemies) {
         if (this.enemies.has(e.id)) continue;
         const role = e.kind === "boar" ? undefined : e.kind.replace(world.id + "-", "");
-        this.enemies.set(
-          e.id,
-          this.actor(
-            e,
-            e.m.def.name,
-            "enemy",
-            (e.boss ? actorVisual(world.id, "enemy") : runtime?.enemyVisual?.(e.kind)) ??
-              actorVisual(world.id, "enemy", role),
-          ),
-        );
+        const visual =
+          (e.boss ? actorVisual(world.id, "enemy") : runtime?.enemyVisual?.(e.kind)) ??
+          actorVisual(world.id, "enemy", role);
+        // Runtime-created encounter actors may precede their asynchronous atlas. Keep the scene
+        // running and create the sprite only after every clip texture is prepared.
+        if (
+          Object.values(visual.clips).some(
+            (clip) =>
+              !this.textures.exists(clip.asset) ||
+              Object.values(clip.directions)
+                .flatMap((frames) => frames ?? [])
+                .some((frame) => !this.textures.get(clip.asset).has(String(frame))),
+          )
+        )
+          continue;
+        this.enemies.set(e.id, this.actor(e, e.m.def.name, "enemy", visual));
       }
       for (const [id, actor] of this.enemies)
         if (!session.enemies.some((e) => e.id === id)) {
@@ -1346,6 +1376,14 @@ export function mountKileGends(
         })),
       );
       // Read-only camera telemetry lets QA click moving sprites at their actual screen position.
+      parent.dataset["practiceTargets"] = JSON.stringify(
+        session.practiceTargets
+          .list(session.player.interior)
+          .map(({ id, x, y, hits }) => ({ id, x, y, hits })),
+      );
+      parent.dataset["keyboardEnabled"] = String(this.input.keyboard?.manager.enabled ?? false);
+      parent.dataset["typing"] = String(this.typing);
+      parent.dataset["paused"] = String(session.paused);
       parent.dataset["cameraX"] = String(this.cameras.main.scrollX);
       parent.dataset["cameraY"] = String(this.cameras.main.scrollY);
       parent.dataset["cameraZoom"] = String(this.cameras.main.zoom);
@@ -1545,7 +1583,8 @@ export function mountKileGends(
           .setScale(sprite.scaleX * holder.scaleX, sprite.scaleY * holder.scaleY)
           .setFlip(sprite.flipX, sprite.flipY);
       for (const e of session.enemies) {
-        const a = this.enemies.get(e.id)!;
+        const a = this.enemies.get(e.id);
+        if (!a) continue;
         a.body.setVisible(!e.m.hidden && !session.player.interior);
         const vx = e.x - a.body.x,
           vy = e.y - a.body.y;
