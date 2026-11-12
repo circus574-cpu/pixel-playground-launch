@@ -1,22 +1,12 @@
 # KI Legends — dokumentacja projektu
 
-**Kontynuacja rozwoju 11.11 — PR #145:** do kompletu prób dochodzą 48 zastosowań
-dziedzin przy obiektach świata, 12 fragmentów Księgi Zrozumienia, 32 późne
-warianty i 48 wypraw. Weryfikacja końcowa trwa; poziom/rangi zadeklarowane w
-fixture'ach nie potwierdzają zdobycia całej kampanii. [Zakres i odbiór](zmiany/2026-11-11/ZMIANY.md#19-dziedziny-w-świecie-i-późne-wyprawy).
+**Rozwój czterech ras — PR #145, 12.11:** komplet 48 prób / 144 stopni,
+48 zastosowań dziedzin w świecie, 12 fragmentów Księgi Zrozumienia, 32 późne
+warianty i 48 wypraw. Kod i postęp są podłączone do gry; niezależny odbiór,
+fizyczny telefon i balans całej kampanii pozostają otwarte.
+[Wyniki i dowody](zmiany/2026-11-12/ZMIANY.md).
 
-
-**Domykanie rozwoju — 48/48 kontrolerów prób, 144 stopnie (11.11):** dodano
-pozostałe sześć prób Legend: obciążenie, przełamania, fale, ratunek i odwrót.
-Odblokowania i walidacja zapisu korzystają ze wspólnego rejestru. Tytuły czterech
-ras są wyliczane z finału, sześciu projektów i kompletu prób III, bez premii
-statystyk. Budżet z aktywnych katalogów: 17 800 praktyki na rasę.
-To komplet katalogu prób, nie odbiór całej kampanii. [Wyniki i dalszy zakres](zmiany/2026-11-11/ZMIANY.md#6-komplet-prób-i-warunki-tytułów).
-
-
-**Gałąź rozwoju 11.11:** połączone Skupienie i Pamięć Mędrców oraz pozostałe próby Androidów i Legend; pełna kampania pozostaje w realizacji. [Historia i wyniki](zmiany/2026-11-11/ZMIANY.md).
-
-Aktualizacja: **11.11.2026**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
+Aktualizacja: **12.11.2026**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
 
 **Wydajność:** audyt 11.11.2026 zmierzył, że wąskim gardłem nie jest symulacja (tick z 32 potworami
 0,79 ms), lecz **pamięć tekstur 198–240 MiB przy budżecie 192 MiB**, pętla widoczności iterująca
@@ -63,6 +53,8 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 | [Plan i zadania](PLAN-I-ZADANIA.md)             | Aktualny stan, otwarte prace i warunki odbioru.                            |
 
 ## Historia — jeden dziennik na dzień
+
+- [2026-11-12](zmiany/2026-11-12/ZMIANY.md)
 
 - [2026-11-11](zmiany/2026-11-11/ZMIANY.md)
 - [2026-11-10](zmiany/2026-11-10/ZMIANY.md)

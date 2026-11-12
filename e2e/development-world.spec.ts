@@ -224,6 +224,10 @@ for (const race of RACE_IDS)
       menuBox = (await page.locator("nav.ki-menu").boundingBox())!;
     expect(objectiveBox.y).toBeGreaterThanOrEqual(menuBox.y + menuBox.height);
     expect(objectiveBox.width).toBeGreaterThanOrEqual(44);
+    const foes = page.getByRole("region", { name: "Walka", exact: true });
+    await expect(foes).toBeVisible();
+    const foesBox = (await foes.boundingBox())!;
+    expect(objectiveBox.y).toBeGreaterThanOrEqual(foesBox.y + foesBox.height + 4);
     const renderer = info.project.name === "software-webgl" ? "WebGL" : "Canvas";
     await expect
       .poll(async () => JSON.parse((await canvas.getAttribute("data-metrics")) ?? "{}").renderer)

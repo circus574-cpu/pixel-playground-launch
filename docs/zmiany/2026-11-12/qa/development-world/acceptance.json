@@ -1,0 +1,174 @@
+{
+  "format": "ki-development-world-acceptance-1",
+  "date": "2026-11-12",
+  "sourceSha": "02cf8bb9ceb0e478e6a189a032f305b5f1f6079c",
+  "baseMain": "f0c5b4c81c30d9540dfddeb8e5af5e4e3ba2c47e",
+  "unit": {
+    "numPassedTests": 1878,
+    "numFailedTests": 0,
+    "numPendingTests": 10
+  },
+  "unitFiles": 154,
+  "positiveCases": {
+    "fieldwork": 48,
+    "expeditions": 48,
+    "trialGrades": 144
+  },
+  "balance": {
+    "profiles": 1944,
+    "trialsPerProfile": 8,
+    "fights": 15552,
+    "productionTuning": false
+  },
+  "physicalPhone": "unverified",
+  "naturalCampaignFromLevel1": "unverified",
+  "multitouchOnPhysicalDevice": "unverified",
+  "screenshotsAndVideos": "actual local application; declared level/rank prerequisites",
+  "sourceHashes": {
+    "src/game/development/expeditions/runtime.ts": "7cc8051ae0224a3c4c582cf597de58e6b074ecaebcf6569774d616633a100cf6",
+    "src/components/game/ExpeditionPanel.tsx": "bfff2943b5a3bf53bfe7cec62e498583b6b97ada41a256fb4e5846dbae2b2ac5",
+    "e2e/development-world.spec.ts": "c37583b77cb0e65d62ca253afb9652198814358f361cd212013acca946125585",
+    "src/test/development-expeditions.test.ts": "fd8cebec48c805d9c8a20a7378d26eb2a46331154fe70783ac5ead90975cd0d3",
+    "docs/design/racial-development-owner-2026-10-28.txt": "03ea87f725815adab2d74cba84da87a52adfc5cd650600c6a3202f68742359ed",
+    "src/game/kit/nodes.generated.ts": "6a74889bf6a9dd798a996dd82649a9835c2512a3c84fd6002275be027d8d1c19",
+    "src/game/monsters/base.generated.ts": "7ff146ef3efa4fc965cad247bca3489c675272307013f8d04376727e53c84829"
+  },
+  "subsequentMainImport": {
+    "sha": "6105d450368e5da89a92233f9649b155a6244367",
+    "scope": "globe assets/generator and historical journal; no gameplay source changes"
+  },
+  "unitSkippedReason": "10 conditional PostgreSQL integration cases; no KI_ACCOUNTS_TEST_DATABASE_URL",
+  "browserBaseline": {
+    "sourceSha": "02cf8bb9ceb0e478e6a189a032f305b5f1f6079c",
+    "expected": 8,
+    "unexpected": 0,
+    "flaky": 0,
+    "canvas": 4,
+    "softwareWebGL": 4,
+    "viewport": {
+      "width": 852,
+      "height": 393
+    },
+    "pageErrors": 0,
+    "layoutIssueFoundAfterward": "nearby monster chips overlapped the objective; corrected by subsequent CSS regression"
+  },
+  "captures": [
+    {
+      "race": "legend",
+      "renderer": "canvas",
+      "file": "baseline-legend-canvas.png",
+      "sha256": "54b621a4df84eb27cc4c3c9ba33ebe3ee7f2779bf09e409675dda17e6e9f1387",
+      "baselineCode": "02cf8bb9ceb0e478e6a189a032f305b5f1f6079c"
+    },
+    {
+      "race": "legend",
+      "renderer": "webgl",
+      "file": "baseline-legend-webgl.png",
+      "sha256": "7b899361db56f3d818dcb469c1f91fc1b03d7ddb9632a0ae5a3f8c67568af74c",
+      "baselineCode": "02cf8bb9ceb0e478e6a189a032f305b5f1f6079c"
+    },
+    {
+      "race": "planetary",
+      "renderer": "canvas",
+      "file": "baseline-planetary-canvas.png",
+      "sha256": "1a649cef8defc239bc3b03805ae9ef640d612557e10f59d9129a0058f069666f",
+      "baselineCode": "02cf8bb9ceb0e478e6a189a032f305b5f1f6079c"
+    },
+    {
+      "race": "planetary",
+      "renderer": "webgl",
+      "file": "baseline-planetary-webgl.png",
+      "sha256": "92b7d6ec9d6b843361d00e8bef0c710b4eace57e1afbb105b58cb9d3eb9c4f29",
+      "baselineCode": "02cf8bb9ceb0e478e6a189a032f305b5f1f6079c"
+    },
+    {
+      "race": "android",
+      "renderer": "canvas",
+      "file": "baseline-android-canvas.png",
+      "sha256": "c641a3dffd1fdfe556dd8f07d685963618554dcce56169a5cdc725a9e7676274",
+      "baselineCode": "02cf8bb9ceb0e478e6a189a032f305b5f1f6079c"
+    },
+    {
+      "race": "android",
+      "renderer": "webgl",
+      "file": "baseline-android-webgl.png",
+      "sha256": "f26165c02300d5b5a0c817e2cf02e1e8eb9a52584a673aba702b9138cf3ebedc",
+      "baselineCode": "02cf8bb9ceb0e478e6a189a032f305b5f1f6079c"
+    },
+    {
+      "race": "sage",
+      "renderer": "canvas",
+      "file": "baseline-sage-canvas.png",
+      "sha256": "e55e26841499f0bc714cdd3ec745caf677a1ffb28eb7003c30c75f9ac571b2ec",
+      "baselineCode": "02cf8bb9ceb0e478e6a189a032f305b5f1f6079c"
+    },
+    {
+      "race": "sage",
+      "renderer": "webgl",
+      "file": "baseline-sage-webgl.png",
+      "sha256": "64ef09381b82834795393bd88d610267d30975fc3a4b95b1516ba73362e40e22",
+      "baselineCode": "02cf8bb9ceb0e478e6a189a032f305b5f1f6079c"
+    },
+    {
+      "race": "planetary",
+      "renderer": "webgl",
+      "file": "planetary-webgl.png",
+      "sha256": "767ab19aba0b9d5913e5131f273e808a2a02dffa651afda06c5f88dc6a9ba1f8",
+      "source": "final CSS and scenario hashes in browserFinalLayout"
+    },
+    {
+      "race": "planetary",
+      "renderer": "canvas",
+      "file": "planetary-canvas.png",
+      "sha256": "b2b66ef8ab57f74e36b9d6fb40fb24965c022b2fa4a16b966e72fdc4eea4c05e",
+      "source": "final CSS and scenario hashes in browserFinalLayout"
+    }
+  ],
+  "browserFinalLayout": {
+    "expected": 2,
+    "unexpected": 0,
+    "flaky": 0,
+    "race": "planetary",
+    "renderers": [
+      "Canvas",
+      "Software WebGL"
+    ],
+    "viewport": {
+      "width": 852,
+      "height": 393
+    },
+    "assertions": [
+      "menu does not cover objective",
+      "foe panel does not cover objective",
+      "44px objective target",
+      "actual fieldwork outcome",
+      "actual kill and expedition outcome",
+      "persisted outcome after reload",
+      "zero page errors"
+    ],
+    "sourceHashes": {
+      "src/components/game/development.css": "c984689f70244ef3937d57f0e5abad891c2020e263ee6847e42525bf09624794",
+      "e2e/development-world.spec.ts": "a24c23aeab0624d6768c69ec28c985bd4f19c58fd2b68d0672ce3aa7df9c9ffa"
+    }
+  },
+  "legacyTrialTP03": {
+    "expected": 1,
+    "unexpected": 0,
+    "renderer": "Software WebGL",
+    "assertions": "original unmodified test: actual TP03, one-time reward, original character restoration, reload"
+  },
+  "sourceShaMeaning": "Clean baseline of gameplay/unit/simulation/full eight browser cases; final CSS-only presentation and stronger browser assertions identified separately by file hashes.",
+  "laterGameplaySourceChanges": [],
+  "staticChecks": {
+    "typecheck": "pass (application, e2e, tools)",
+    "lint": {
+      "errors": 0,
+      "existingWarnings": 15
+    },
+    "assets": "pass",
+    "documentation": "pass; 10 manuals, 21 journals",
+    "playtestBuild": "pass",
+    "productionBuild": "pass"
+  },
+  "canonicalSourcesUnchangedFromMain": true
+}

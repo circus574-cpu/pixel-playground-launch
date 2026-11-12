@@ -1,5 +1,12 @@
 # KI Legends — rozwój i walka
 
+**Bieżący zakres PR #145, 12.11:** 48 prób / 144 stopni oraz 48 fizycznych
+zastosowań dziedzin, 12 fragmentów Księgi, 32 późne warianty i 48 wypraw
+są zintegrowane z istniejącą grą. Rozwój v4, klasyczny zapis v11, Superior v7.
+[Wyniki i ograniczenia odbioru](zmiany/2026-11-12/ZMIANY.md).
+Niżej zachowano wcześniejsze checkpointy; ich liczby opisują ówczesny stan.
+
+
 **Domykanie rozwoju — 48/48 kontrolerów prób, 144 stopnie (11.11):** dodano
 pozostałe sześć prób Legend: obciążenie, przełamania, fale, ratunek i odwrót.
 Odblokowania i walidacja zapisu korzystają ze wspólnego rejestru. Tytuły czterech
@@ -7,7 +14,7 @@ ras są wyliczane z finału, sześciu projektów i kompletu prób III, bez premi
 statystyk. Budżet z aktywnych katalogów: 17 800 praktyki na rasę.
 To komplet katalogu prób, nie odbiór całej kampanii. [Wyniki i dalszy zakres](zmiany/2026-11-11/ZMIANY.md#6-komplet-prób-i-warunki-tytułów).
 
-## Domykanie rozwoju — checkpoint 42 prób, 11.11.2026
+## Historyczny checkpoint 42 prób, 11.11.2026
 
 Robocza kontynuacja `feature/development-remaining-trials-20261111` od `32ed1b9f`:
 Kalibracja TN01–TN03, Termika TN04–TN06, Tożsamość TN10–TN12,

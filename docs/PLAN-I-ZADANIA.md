@@ -7,7 +7,7 @@ ras są wyliczane z finału, sześciu projektów i kompletu prób III, bez premi
 statystyk. Budżet z aktywnych katalogów: 17 800 praktyki na rasę.
 To komplet katalogu prób, nie odbiór całej kampanii. [Wyniki i dalszy zakres](zmiany/2026-11-11/ZMIANY.md#6-komplet-prób-i-warunki-tytułów).
 
-## Kontynuacja — funkcje dziedzin i późne wyprawy, 11.11.2026
+## Funkcje dziedzin i późne wyprawy — dostawa 12.11.2026
 
 PR #145 dodaje 48 zastosowań dziedzin przy obiektach świata, Księgę Zrozumienia,
 32 późne warianty przeciwników i 48 wypraw z realnymi walkami. Nowe funkcje
@@ -15,7 +15,8 @@ korzystają z dotychczasowych kontrolerów, AI, wejść i wspólnego zapisu; ich
 etapy nie mają przycisku administracyjnego „zalicz”. Migracja rozwoju 3→4
 zachowuje stare bajty i wprowadza puste pola nowych aktywności.
 
-Pozostają do odbioru: pełne wyniki końcowego SHA i niezależna regresja,
+Wyniki lokalnej końcowej regresji zapisano w [dzienniku 12.11](zmiany/2026-11-12/ZMIANY.md).
+Pozostają do odbioru: niezależna pełna regresja i Actions końcowego SHA,
 fizyczny telefon oraz decyzje dotyczące wykrytych różnic balansu mocnych
 konfiguracji. Nie wolno utożsamiać kontrolowanych fixture'ów z ukończoną
 od początku kampanią ani deklarować docelowej liczby godzin na ich podstawie.
