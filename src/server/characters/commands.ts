@@ -4,7 +4,7 @@ import { FEATURE_IDS } from "../../game/world/generated/superiorSave";
 import { DISCIPLINES } from "../../game/development/training";
 import { VARIANT_IDS, MODULE_IDS } from "../../game/development/state";
 import { BUILDING_IDS } from "../../game/city/types";
-import { ITEM_IDS, PlayerSchema } from "../../game/session";
+import { EQUIPMENT_SLOTS, ITEM_IDS, PlayerSchema } from "../../game/session";
 
 const id = z.string().min(1).max(180);
 const coord = z.number().finite().min(0).max(131072);
@@ -239,6 +239,8 @@ export const OnlineCommandSchema = z.union([
         "trainer",
         "innkeeper",
         "steward",
+        "alchemist",
+        "warden",
       ]),
     })
     .strict(),
@@ -266,12 +268,13 @@ export const OnlineCommandSchema = z.union([
   z
     .object({
       type: z.literal("equip"),
-      item: z.enum(ITEM_IDS as ["potion", "tusk", "sword", "vest"]),
+      item: id,
     })
     .strict(),
-  z.object({ type: z.literal("unequip"), slot: z.enum(["weapon", "armor"]) }).strict(),
+  z.object({ type: z.literal("unequip"), slot: z.enum(EQUIPMENT_SLOTS) }).strict(),
   z.object({ type: z.literal("trade"), item: id, buy: z.boolean() }).strict(),
   z.object({ type: z.literal("brew"), recipe: z.enum(["hp", "ki", "antidote"]) }).strict(),
+  z.object({ type: z.literal("craft"), recipe: id }).strict(),
   z.object({ type: z.literal("loot"), id }).strict(),
   z.object({ type: z.literal("learn"), node: z.string().min(1).max(4) }).strict(),
   z.object({ type: z.literal("enter"), building: z.enum(BUILDING_IDS) }).strict(),
@@ -280,6 +283,13 @@ export const OnlineCommandSchema = z.union([
       type: z.literal("depot"),
       item: id,
       quantity: z.number().int().min(1).max(99),
+      withdraw: z.boolean(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("depot-gold"),
+      amount: z.number().int().min(1).max(1000000),
       withdraw: z.boolean(),
     })
     .strict(),

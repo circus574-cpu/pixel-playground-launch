@@ -374,3 +374,23 @@ nie zmieniano świata, assetów, sprzętu, zadań ani infrastruktury GPU.
 - Nie zrobiono / nie sprawdzono: crafting nie wymaga bliskości stacji (handler pozostaje permisywny,
   bramką jest rozmowa z NPC); panele nie były oglądane na fizycznym telefonie (test jsdom). Kolejne
   etapy rozbudowy NPC (dialogi/questy od NPC, usługi, online, bossowie) w toku.
+
+### 10. Systemy NPC: parytet komend online — crafting, handel V2, equip V2, alchemik/strażnik (Etap 2)
+
+- Bez tego panele z etapu 1 działały tylko offline: serwer odrzucał komendy nieobecne w schemacie
+  `OnlineCommandSchema` (`src/server/characters/commands.ts`). Naprawiono parytet online:
+  - **`craft`** dodany do schematu — panel wytwarzania działa na serwerze (produkcja).
+  - **`interact`** rozszerzony o role `alchemist` i `warden` (było 8 ról, kliknięcie alchemika/strażnika
+    online było odrzucane).
+  - **`depot-gold`** dodany — skarbiec złota w depozycie działa online.
+  - **`equip`** przyjmuje dowolny przedmiot z katalogu (było tylko 4 legacy), **`unequip`** wszystkie
+    sloty V2 (`EQUIPMENT_SLOTS`: head/weapon/armor/offhand/hands/ring/amulet/feet, było weapon/armor).
+    Lokalny handler `equip` już obsługiwał sprzęt V2 (`getSlotForItem`/`equipment[slot]`) — brakowało
+    tylko wejścia online.
+- Serwer przekazuje sparsowaną komendę wprost do `session.command` (`superiorSimulation.ts`), więc
+  rozszerzenie schematu wystarcza; `ServerIntentSchema` zawiera `OnlineCommandSchema`.
+- Testy: `src/test/online-npc-commands.test.ts` (7) — craft/interact/depot-gold/trade V2/equip V2
+  przyjmowane, błędne pakiety odrzucane. **7/7 PASS**.
+- Nie zrobiono / nie sprawdzono: pełna ścieżka online nie była testowana na żywym serwerze (test
+  schematu + lokalny handler); dialogi/questy od NPC, emitter `deliver`, wybór materiału w brew,
+  kowal V2 i realne leża bossów pozostają do rozbudowy.
