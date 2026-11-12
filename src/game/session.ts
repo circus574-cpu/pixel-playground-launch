@@ -55,6 +55,8 @@ import {
 } from "./development/state";
 import { Projectiles } from "./combat/projectiles";
 import { rollBossLoot, type BossReward } from "./bosses/runtime";
+import { BOSS_CATALOG } from "./bosses/catalog";
+import { v2Places } from "./worlds/v2Places";
 import { isValidNick } from "./nickname";
 import { z } from "zod";
 import { WORLDS, worldObstacles } from "./world/worlds";
@@ -2371,14 +2373,39 @@ export class GameSession implements MonsterHost {
         this.say(source ? `${source[progressIndex % source.length] ?? source[0]} ${hint}` : hint);
       }
       if (c.action === "boss_enter") {
-        const dest = this.world.landmarks.find((l) => l.kind === "danger") ?? {
-          x: this.world.spawn.x + 800,
-          y: this.world.spawn.y + 200,
-        };
+        const boss = BOSS_CATALOG.find((b) => b.continent === this.world.id);
+        if (!boss) {
+          this.say("Strażnik nie zna żadnego bossa w tej krainie.");
+          this.flush();
+          return;
+        }
+        const places = v2Places(this.world.id);
+        const lair = (boss.associatedLocationId
+          ? places?.famousById[boss.associatedLocationId]
+          : undefined) ??
+          this.world.landmarks.find((l) => l.kind === "danger") ?? {
+            x: this.world.spawn.x + 800,
+            y: this.world.spawn.y + 200,
+          };
+        const dest = this.nav.safe({ x: lair.x, y: lair.y });
         this.player.x = dest.x;
         this.player.y = dest.y;
+        this.player.interior = null;
         this.dialogue = null;
-        this.say("Strażnik otworzył wrota do sanktuarium bossa. Przygotuj się do walki!");
+        if (this.safe) {
+          this.say(
+            `Strażnik wskazał ${boss.locationName}, ale leże jest poza bezpiecznym miastem. Wyjdź poza nie, by stawić czoła ${boss.name}.`,
+          );
+        } else {
+          try {
+            const e = this.monsters.spawnBoss(boss.id, { x: dest.x + 160, y: dest.y + 40 });
+            this.say(
+              `Strażnik otworzył wrota do ${boss.locationName}. ${e.m.def.name} czeka na walkę!`,
+            );
+          } catch {
+            this.say(`Strażnik otworzył wrota do ${boss.locationName}. Przygotuj się do walki!`);
+          }
+        }
       }
       this.flush();
       return;

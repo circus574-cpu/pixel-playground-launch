@@ -612,7 +612,36 @@ Pełny TypeScript aplikacji/e2e/tools PASS. [Kontrole integracyjne i SHA wejść
   (admin-world-overview, gpu-pipeline, racial-trial) pod obciążeniem — przechodzą osobno; pomiar zysku
   memo na fizycznym telefonie nie był wykonany.
 
-### 17. Verdantia: budynki miasta w rozdzielczości dopasowanej do ekranu (−26,5 MiB tekstur)
+### 17. Systemy NPC: realne leże bossa u warden'a (koniec atrapy)
+
+- `boss_enter` była atrapą: teleport przy spawnie bez przywołania bossa (w świecie v2 nie ma landmarków
+  `danger`). Teraz warden **przywołuje realnego bossa kontynentu** w jego leżu:
+  - Boss wybierany z `BOSS_CATALOG` po `continent === world.id` (Ygdrasha/Thorgar/Arbiter/Kharzul itd.).
+  - Leże = `associatedLocationId` bossa → współrzędne z `v2Places().famousById`; fallback landmark
+    `danger`, potem punkt poza spawnem. Gracz teleportowany do leża (`nav.safe`), `interior=null`.
+  - Jeśli leże wciąż w bezpiecznym mieście — komunikat, by wyjść poza nie; inaczej `monsters.spawnBoss`
+    przywołuje bossa obok gracza (z łupem i fazami jak w istniejącym systemie bossów).
+- Testy: `warden-boss.test.ts` (2) — przywołanie bossa kontynentu w leżu / wskazanie leża; przeniesienie
+  gracza do leża. **2/2 PASS**. Zaktualizowano `npc-systems.test.ts` (test 4) do nowego zachowania
+  (realne leże zamiast atrapy „sanktuarium bossa"). Wszystkie testy NPC razem: **33/33 PASS** (9 plików).
+- Nie zrobiono / nie sprawdzono: walka z bossem po przywołaniu nie była testowana end-to-end na fizycznym
+  urządzeniu; łup bossa zapisuje się przez istniejący `bossRewards` (bez zmian). Pełna bramka ma środowiskowe
+  timeouty ciężkich testów (admin-world-overview, npc-trainer-visual, racial-trial) — przechodzą osobno
+  lub są niezależne od tej zmiany; lint 0, typecheck 0, build 0.
+
+### 18. Tryb online: forma KI i bieg bohatera nie były widoczne (wszystkie rasy)
+
+- Przyczyna: w trybie online (produkcja) klient przepisywał z ramki serwera pozycję, kierunek, ruch, dialogi i łup, ale nie
+  aktywne buffy ani flagę biegu. Animacja wybiera formę KI, gdy w `session.kit.buffs` jest buff `T`, a bieg według
+  `session.running`; w trybie online te pola zostawały puste. Pasek statusów pokazywał `T · … s` (z danych serwera), a
+  bohater rysował się w zwykłym stroju. Tryb lokalny (playtest) działał, dlatego wcześniejsze sprawdzenia tego nie wykryły.
+- Poprawka: `mirrorPresentationState` w `superiorRuntime.ts` przepisuje buffy i `running` przy każdej ramce;
+  `OnlineSession.view()` wysyła `running` (starszy serwer bez pola = chód).
+- Test `online-ki-form` (3 testy) pada bez poprawki i przechodzi z nią; testy online, sesji i animacji (66) zielone;
+  typecheck, eslint i prettier czyste.
+- Nie sprawdzono w przeglądarce w trybie online (wymaga konta i serwera gry), tylko na poziomie kodu i testów.
+
+### 19. Verdantia: budynki miasta w rozdzielczości dopasowanej do ekranu (−26,5 MiB tekstur)
 
 - Sześć malowanych budynków Zielonej Przystani (`verdant-leaf-buildings`: sala, arena, depozyt, sklep, gospoda, kuźnia) miało
   obrazy ok. 1280 × 1270 px, a gra rysuje je na ok. 520–560 jednostkach świata. Przy maksymalnym zoomie 1,0 i renderowaniu 1×
