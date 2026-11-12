@@ -17,6 +17,9 @@ export type DiagSample = {
   frameP95Ms?: number | null;
   frameMaxMs?: number | null;
   slowFrames?: number;
+  bakes?: number;
+  bakeMaxMs?: number;
+  bakeResolution?: number;
   objects?: number;
   visibleObjects?: number;
   estimatedTextureBytes?: number;

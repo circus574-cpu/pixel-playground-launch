@@ -9,6 +9,12 @@ const PRIORITY: Record<AnimationState, number> = {
   kiwalk: 1,
   kiidle: 0,
   kiattack: 3,
+  kiskill: 4,
+  attack2: 3,
+  finisher: 3,
+  skillb: 4,
+  dodge: 4,
+  guard: 4,
   run: 2,
   attack: 3,
   skill: 4,
@@ -21,8 +27,17 @@ export class ActorAnimation {
   state: AnimationState = "idle";
   private until = 0;
   private startedAt = 0;
-  private pending: { state: "attack" | "skill"; facing: Point; expires: number } | undefined;
+  private pending:
+    { state: "attack" | "skill" | "skillb"; facing: Point; expires: number } | undefined;
+  /** Chain of basic strikes: a hit within 1.4 s of the previous one continues attack → attack2 → finisher. */
+  private attackClip: AnimationState = "attack";
+  private attackStep = 0;
+  private lastAttackAt = -1e9;
   private lastKey = "";
+  /** Looping clip stepped by this class (see update): its state and the time it started, kept across facing changes. */
+  private loopState: AnimationState | undefined;
+  private loopStart = 0;
+  private loopFrame = "";
   /** Tryb KI was active at the last update: idle and basic attacks use the powered-up clips when the race has them. */
   private kiForm = false;
   private direction: Point = { x: 0, y: 1 };
@@ -34,32 +49,47 @@ export class ActorAnimation {
     for (const [state, clip] of Object.entries(visual.clips))
       this.directions.set(state as AnimationState, Object.keys(clip.directions) as Direction[]);
   }
-  /** Clip that presents a state: Tryb KI swaps idle and the basic attack for kiidle and kiattack when present. */
+  /**
+   * Clip that presents a state. Tryb KI swaps idle, the basic attack and skills for kiidle, kiattack and kiskill when
+   * present; the base form chains its basic strikes (attack, attack2, finisher) and plays the area skill (skillb).
+   */
   private clipState(state: AnimationState): AnimationState {
-    if (!this.kiForm) return state;
-    if (state === "idle" && this.visual.clips.kiidle) return "kiidle";
-    if (state === "attack" && this.visual.clips.kiattack) return "kiattack";
+    const clips = this.visual.clips;
+    if (this.kiForm) {
+      if (state === "idle" && clips.kiidle) return "kiidle";
+      if (state === "attack" && clips.kiattack) return "kiattack";
+      if ((state === "skill" || state === "skillb") && clips.kiskill) return "kiskill";
+    }
+    if (state === "attack") return clips[this.attackClip] ? this.attackClip : "attack";
+    if (state === "skillb") return clips.skillb ? "skillb" : "skill";
     return state;
+  }
+  private advanceAttack(now: number) {
+    const chain = (["attack", "attack2", "finisher"] as const).filter((c) => this.visual.clips[c]);
+    this.attackStep = now - this.lastAttackAt <= 1400 ? (this.attackStep + 1) % chain.length : 0;
+    this.attackClip = chain[this.attackStep] ?? "attack";
+    this.lastAttackAt = now;
   }
   trigger(state: AnimationState, now: number, facing?: Point) {
     if (state === "death" || state === "respawn") this.pending = undefined;
     if (
       state === "attack" &&
       this.state === "hit" &&
-      this.pending?.state === "skill" &&
+      (this.pending?.state === "skill" || this.pending?.state === "skillb") &&
       now <= this.pending.expires
     )
       return;
     if (state !== "respawn" && now < this.until && PRIORITY[state] < PRIORITY[this.state]) {
       if (
         this.state === "hit" &&
-        (state === "attack" || state === "skill") &&
+        (state === "attack" || state === "skill" || state === "skillb") &&
         (!this.pending || PRIORITY[state] >= PRIORITY[this.pending.state])
       )
         this.pending = { state, facing: { ...(facing ?? this.direction) }, expires: now + 500 };
       return;
     }
-    if (state === "attack" || state === "skill") this.pending = undefined;
+    if (state === "attack" || state === "skill" || state === "skillb") this.pending = undefined;
+    if (state === "attack") this.advanceAttack(now);
     this.state = state;
     this.startedAt = now;
     if (facing) this.direction = facing;
@@ -109,6 +139,26 @@ export class ActorAnimation {
     const desired = facingDirection(this.direction, available);
     const dir = available.includes(desired) ? desired : available[0]!;
     const frames = clip.directions[dir]!;
+    if (clip.loop && frames.length > 1) {
+      // A looping clip (walk, kiwalk, idle, kiidle) is stepped from one clock that survives facing changes: restarting
+      // a Phaser animation on every new direction (joystick or path following flipping between neighbouring
+      // directions) kept the stride on its first frame and froze the legs.
+      if (this.loopState !== selected) {
+        this.loopState = selected;
+        this.loopStart = now;
+      }
+      const frame = frames[Math.floor(((now - this.loopStart) / 1000) * clip.fps) % frames.length]!;
+      const id = clip.asset + "/" + frame;
+      this.lastKey = "";
+      if (id !== this.loopFrame) {
+        this.loopFrame = id;
+        this.sprite.stop();
+        this.sprite.setTexture(clip.asset, frame);
+      }
+      return;
+    }
+    this.loopState = undefined;
+    this.loopFrame = "";
     const key = animationKey(this.visual, selected, dir);
     if (key === this.lastKey) return;
     this.lastKey = key;

@@ -15,6 +15,8 @@ export const GPU_CONTRACT = {
   // Fixed 45° skeletal camera: room below the ground anchor for a real stride.
   groundedHero: { size: [128, 128], origin: [0.5, 0.75], footRadius: 12 },
   enemy: { size: [84, 84], origin: [0.5, 0.8] },
+  /** Landmark NPCs (the Trener) are drawn twice the standard NPC size from 256 px source frames. */
+  npcLarge: { size: [192, 192], origin: [0.5, 0.95] },
   animations: {
     idle: { frames: 8, fps: 6, loop: true },
     walk: { frames: 8, fps: 16, loop: true },
@@ -26,7 +28,13 @@ export const GPU_CONTRACT = {
   },
   /** Optional hero clips outside the 416-frame render delivery (Tryb KI, cut from the stage 4 videos). */
   optionalAnimations: {
-    kiidle: { frames: 1, fps: 6, loop: true },
+    kiidle: { frames: 6, fps: 6, loop: true },
     kiattack: { frames: 6, fps: 12, loop: false },
+    kiskill: { frames: 8, fps: 12, loop: false },
+    attack2: { frames: 6, fps: 12, loop: false },
+    finisher: { frames: 8, fps: 12, loop: false },
+    skillb: { frames: 8, fps: 12, loop: false },
+    dodge: { frames: 6, fps: 14, loop: false },
+    guard: { frames: 6, fps: 10, loop: false },
   },
 } as const;

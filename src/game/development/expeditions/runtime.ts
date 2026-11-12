@@ -405,6 +405,10 @@ export class ExpeditionRuntime {
   snapshot() {
     const a = this.active;
     return {
+      startBlocked:
+        this.s.combatIn > 0
+          ? "Zakończ bieżącą walkę przed rozpoczęciem wyprawy. Zamknij menu, aby wrócić do gry."
+          : "",
       active: a
         ? {
             id: a.definition.id,

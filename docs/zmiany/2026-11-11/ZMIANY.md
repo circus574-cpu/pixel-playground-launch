@@ -150,6 +150,43 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
 - **Świadomie zostawione na Fazę 2:** cienie jako osobne GameObjecty, pieczenie blokujące wątek,
   `snapshot` 10×/s i brak memo w HUD. Wypiekanie cieni w podłoże zmienia obraz, więc czeka na decyzję.
 
+### NPC Trener dla czterech ras z filmu obrotu
+
+- Wejście: film obrotu „Trener" (przód, ukosy, bok, tył, napis pod stopami). `scripts/anim/npc_trainer_build.py`
+  wycina po jednej pozie na kierunek (lewe ukosy to odbicia prawych), matuje rembg (isnet-anime),
+  zostawia tylko największy spójny kształt (napis „Trener" odpada) i skaluje wszystkie klatki jedną
+  wspólną skalą, stopy na linii kotwicy 0,95. Z każdej pozy powstaje 8-klatkowy oddech (0–1,5 %
+  rozciągnięcia pionowego od stóp). Klip `walk` wymagany przez kontrakt NPC używa tych samych nazw klatek
+  co `idle`, więc nie kosztuje pamięci tekstur.
+- Cztery rasy to ta sama postać: skrypt przekolorowuje wyłącznie ubiór (czerwono-pomarańczowy pas i
+  hafty dostają barwę rasy, ciemny materiał jest lekko podbarwiony); głowa, skóra, włosy i buty
+  zostają bez zmian. Barwy: Pyra (Legendy) oryginał czerwień, Verdantia (Planetarni) zieleń 125°,
+  Aetheria (Mędrcy) turkus 190°, Nexus-9 (Androidy) błękit 225° (`NPC_HUE` zmienia odcień).
+- Instalacja: `npc-<świat>-trainer` 1.2.0, binding `<świat>.npc.trainer`, rozmiar 192 (2× zwykły NPC, `contract.npcLarge`),
+  klatki 256 px, dwie pozy oddechu użyte w 8 klatkach idle (te same prostokąty atlasu), atlas 1539×244 (1,43 MiB)
+  na świat. Budżet tekstur: Verdantia 126,9, Aetheria 112,6, Nexus-9 105,4, Pyra 113,2 z 128 MiB. Wizual dostaje NPC o id `trainer` (mistrz treningu w arenie).
+- `scripts/lib/gpu-import.ts`: klucz bindingu NPC przyjmuje dowolny slug roli (jak już wrogowie),
+  `<świat>.npc.trainer` nie był dotąd dozwolony. Test `npc-trainer-visual.test.ts` obejmuje cztery światy.
+- Barwy ras dobrane z dominujących kolorów bohaterów; dialogi i umiejscowienie NPC bez zmian.
+
+### Postacie w pomieszczeniach większe, NPC większy od bohatera, Trener jako autorytet
+
+- Wnętrza to jeden malowany obraz (1920×1280) z dużymi meblami, a postacie miały skalę świata zewnętrznego,
+  więc ławka czy poducha były większe od bohatera. W pomieszczeniu postacie są rysowane większe:
+  bohater ×1,5, zwykli NPC ×1,6, a NPC z dużego zasobu (Trener, 192) ×1,4, czyli
+  ok. 1,3 raza wyższy od bohatera i wyraźnie wyższy od zwykłych NPC (zmniejszony z 3× na 2× na prośbę właściciela). Skala jest na kontenerze postaci (cień, obrys i halo rosną razem),
+  a podpisy nad głową podnoszą się o tyle samo (`interiorScale` w `mountGame.ts`). Na zewnątrz bez zmian.
+- Zwykli NPC powiększeni ×1,6 z komórek 128 px są lekko miękcy; ostre pozostają bohater i Trener (256 px).
+
+### Mapa 2D: przesuwanie na szerokim, niskim ekranie
+
+- Odtworzone w przeglądarce (telefon w poziomie 844×390, najmniejsze powiększenie): widok jest tam szerszy
+  niż mapa, a `clampView` przy takim widoku na sztywno ustawiał `cx` na środek, więc przeciągnięcie nie
+  robiło nic (zapętlone przesuwanie działało tylko po przybliżeniu albo na węższych ekranach).
+- `clampView` zawsze zawija długość geograficzną; `wrapCopies` liczy kopie mapy także dla widoku szerszego
+  niż mapa (trzy kopie), więc po bokach nie ma dziur. Test `planet-map.test.ts`: pełny obrót wraca do startu,
+  kopie pokrywają cały widoczny pas.
+
 ### 11. Faza 2 (część 1): tani HUD i koniec alokacji co klatkę
 
 - Właściciel: „Ruszaj Fazę 2, nie ma czasu". Zakres: bezpieczne, mierzalne zmiany bez ruszania
@@ -468,6 +505,57 @@ Nie jest to jeszcze PASS pełnego CI ani całej kampanii.
   ~3872 pliki / ~51,6 MB na świat, 2 fetch/e chunk) + prefetch. To osobny, większy krok — nie
   ruszany bez zgody właściciela.
 
+### 15. Tryb KI: chód, walka i wygląd po transformacji z filmów właściciela (4 rasy)
+
+- Powód: po transformacji postać wyglądała i walczyła niemal jak zwykła — w grze był tylko `kiwalk`, jednoklatkowy `kiidle`
+  i `kiattack` bez efektów (matowanie rembg usuwało poświatę, płomienie i wiązki z filmów).
+- Nowy klip `kiskill` (8 klatek, 12 kl./s) dla czterech ras: ładowanie i wystrzał energii; `kiidle` ma 6 klatek (pętla,
+  z poświatą), `kiattack` 6 klatek z efektem uderzenia. Wszystko z filmów `*-etap4-walka-po-transformacji.mp4`,
+  skrypt `scripts/anim/kiform_build.py` (zastępuje `kifight_build.py`) + `scripts/anim/kimatte.py` (matowanie z zachowaniem efektów).
+- Silnik: stan `kiskill` (schema, `GPU_CONTRACT.optionalAnimations`, `ActorAnimation.clipState`: `skill` → `kiskill` w Trybie KI);
+  zdarzenie `burst` bohatera uruchamia pozę `skill` (Planetar nie zgłaszał `attack` dla A9/B4/B9).
+- Pamięć tekstur: nowy `scripts/anim/repack_hero.py` przepakował atlasy bazowe czterech bohaterów na klatki przycięte
+  (identyczne piksele, 0/255 różnicy): −29 MiB na rasę; po dodaniu klatek KI najwyższy świat 104,1 z 128 MiB (wcześniej 125,5).
+  Paczki hero `2.4.0` (stare `2.2.1` usunięte, historia w git).
+- Weryfikacja w grze (Playwright, lokalny dev-serwer, próbnik klatek `dataset.animationFrame` + zrzuty sceny): dla każdej rasy
+  `kiidle` 00–05, `kiwalk` (prawo i lewo), `kiattack` 00–05 i `kiskill` 00–07 odtwarzają się kolejno; zero błędów w konsoli.
+  Typecheck 3 konfiguracji i testy: `actor-animation`, `gpu-pipeline` (640 odwołań do klatek).
+
+### 16. Chód: nogi „blokowały się" przy zmianie kierunku (także bez transformacji)
+
+- Przyczyna: `ActorAnimation` uruchamiał `sprite.play(klucz)` przy każdej zmianie kierunku, a nowa animacja startuje od klatki 0
+  i zeruje zegar. Gdy kierunek przeskakiwał między sąsiednimi (joystick, chodzenie po ścieżce, ukosy) częściej niż co klatkę
+  (62,5 ms przy 16 kl./s), krok zostawał na klatce 00 — nogi stały w miejscu mimo ruchu postaci. Dotyczyło `walk` i `kiwalk` (oraz `idle`).
+- Naprawa: klipy zapętlone (`walk`, `kiwalk`, `idle`, `kiidle`) są ustawiane z jednego zegara, który przeżywa zmianę kierunku
+  (`loopStart`); zmiana stanu zaczyna krok od klatki 00. Klipy jednorazowe (atak, skill, hit, death) bez zmian.
+- Weryfikacja w grze (próbnik klatek, trzymane `w` i klepane `d` co 110 ms): przed — 28 z 29 zmian kierunku wracało na klatkę 00
+  (stały `up/00 up-right/00 …`); po — krok przechodzi 00–07 w kółko przez zmiany kierunku (Legenda, Android, Mędrzec, Planetar: 2–3
+  powroty na 00 w 45–69 krokach, czyli tylko naturalne zawinięcie pętli). Test `actor-animation.test.ts` (zmiana kierunku co 20 ms).
+- Drugi powód płytkich kroków (Legenda, Planetar): pierwszy cięcie chodu (`hdcut.py`) wybierało pętlę jako parę klatek o najbardziej
+  podobnej sylwetce w odległości 12–44 klatek. W widoku z przodu i z tyłu to wybiera odcinek prawie bez ruchu nóg albo pół cyklu.
+  Filmy chodu (Legenda: przód 0–79, tył 80–157, bok 158–239; Planetar: przód 0–30, tył 35–56, 3/4 przód 118–178, 3/4 tył 178–239)
+  mają pełne kroki. `scripts/anim/walk_rebuild.py` bierze okres chodu z różnicy RGB dolnej części ciała (Legenda: 30 klatek w przodzie,
+  29 w tyle; krótkie odcinki Planetara: najdłuższy możliwy okres), próbkuje 8 klatek równomiernie na całym okresie i przebudowuje kierunki
+  down, up i ukosy (idle z nich pochodzi tak samo jak wcześniej); boki (left/right) zostają z poprzedniej paczki. Paczki `2.5.0`
+  (Legenda, Planetar); Android i Mędrzec bez zmian (Mędrzec: brak filmu chodu w repo).
+
+### 17. Etap 1 (walka, forma bazowa): kolejne ciosy, skill obszarowy, unik i gard — cztery rasy
+
+- Z filmów `<rasa>-etap1-walka.mp4` wycięto pięć nowych klipów (efekty z filmów zachowane, jak w Trybie KI): `attack2` (6 klatek, drugi cios),
+  `finisher` (8, ciężkie uderzenie z wybuchem), `skillb` (8, skok i fala uderzeniowa), `dodge` (6, 14 kl./s, odskok z poświatą) i
+  `guard` (6, 10 kl./s, gard/tarcza). Skrypt: `scripts/anim/fightform_build.py` (nowy atlas `<paczka>-fight-2`, 68 klatek, 9–13 MiB po rozkodowaniu).
+  Matowanie: `kimatte.py` wzbogacone o próg barwy (szum kompresji szarego tła Androida) i lokalizację efektów wokół postaci.
+- Silnik (`ActorAnimation`): stany `attack2`, `finisher`, `skillb`, `dodge`, `guard` (schema, `GPU_CONTRACT.optionalAnimations`). Podstawowy cios
+  tworzy łańcuch `attack → attack2 → finisher` (cios w ciągu 1,4 s od poprzedniego kontynuuje łańcuch, dłuższa przerwa zaczyna od `attack`);
+  w Trybie KI zostaje `kiattack`. `mountGame`: `burst` bohatera → `skillb` (w Trybie KI `kiskill`), unik (`buff` `dodge`) → `dodge`,
+  `shield` → `guard`.
+- Paczki hero `2.6.0` (stare usunięte). Najwyższy świat: Verdantia 123,3 z 128 MiB (Planetar z cache terenu) — mało zapasu;
+  następne atlasy bohatera Planetara wymagają kolejnego odchudzenia.
+- Weryfikacja w grze (arena treningowa, próbnik klatek): `attack 00–07 → attack2 00–05 → finisher 00–07` (Mędrzec), `skillb 00–07`
+  (Planetar, Mędrzec), `dodge 00–05` i `guard 00–05` (Android, Mędrzec), `dodge` (Legenda, Planetar); zero błędów w konsoli.
+  Legenda nie ma zdolności z tarczą, więc `guard` nie jest u niej wywoływany; skill A bohatera dalej gra istniejący klip `skill`.
+- Nie zrobione: etapy 2 (ciężkie trafienie, zwycięstwo) i 3 (bieg, ładowanie, skill C, interakcja); formy KI z etapu 4 dla ciosów 2–3, uniku i gardu.
+
 ### 15. Faza 4: bramka wydajności CI — pilnuje pamięci, zamrożenia i wejścia, nie surowego FPS
 
 - **`src/game/assets/perfGate.ts`** — czysta funkcja `evaluatePerfGate` (importuje realny
@@ -479,9 +567,9 @@ Nie jest to jeszcze PASS pełnego CI ani całej kampanii.
   błędów strony. Surowy FPS **nie jest** kryterium — programowy Canvas jest pesymistyczny i degraduje
   się w biegu. Progi nadpisujesz `KI_PERF_TEXTURE_MB / FREEZE_MS / P95_MS / ENTER_MS`.
 - **Kluczowe rozróżnienie pamięci:** telemetryczne `estimatedTextureBytes` to CAŁOŚĆ (atlas + podłoże
-  + bohater + HUD + efekty), a budżet 192 MiB dotyczy tylko streamowanego podzbioru (osobno weryfikują
-  go testy stream-texture-budget / ground-budget). Pierwsza wersja bramki błędnie porównała całość do
-  192 i oblała aether/nexus — poprawione na sufit całości 220 MiB (budżet + 28 MiB na niestreamowane).
+  - bohater + HUD + efekty), a budżet 192 MiB dotyczy tylko streamowanego podzbioru (osobno weryfikują
+    go testy stream-texture-budget / ground-budget). Pierwsza wersja bramki błędnie porównała całość do
+    192 i oblała aether/nexus — poprawione na sufit całości 220 MiB (budżet + 28 MiB na niestreamowane).
 - **Realny pomiar kalibracyjny** (harness, mobile 844×390, Canvas, 4 światy): tekstury verdant 176,6 /
   aether 199,4 / nexus 206,9 / pyra 183,5 MiB (road-cache = 0); zamrożenie 780–2192 ms; wejście
   10,3–15,3 s; FPS 15–34 (software, pominięty). Bramka na tym raporcie: **PASS**.
@@ -517,8 +605,6 @@ Nie jest to jeszcze PASS pełnego CI ani całej kampanii.
 - **Uczciwie:** logikę i UI zweryfikowano w kontenerze (jsdom); **realny FPS zmierzy dopiero urządzenie
   właściciela** — po uruchomieniu diagnostyki raport pobiera się jako plik JSON i można go ocenić
   `npm run bench:gate`. Kontener nie ma fizycznego telefonu ani GPU.
-
-
 
 ### 8. Nowszy main, macierz 144 stopni i przekazanie QA
 
@@ -561,6 +647,22 @@ Nagrania: [Canvas — rzeczywista walka](qa/remaining-trials/desktop/racial-tria
 i [Software WebGL — rzeczywista kalibracja](qa/remaining-trials/software-webgl/racial-trials-Androidy-real-TN01-one-time-reward-and-reload-software-webgl/video.webm).
 Nie wykonano merge do main ani publikacji.
 
+### Wdrożenie: czyszczenie obrazów dockera na serwerze Aruba (koniec „no space left on device")
+
+- Awaria 11.11.2026 ok. 21:07: wdrożenie `8ede8d07` padło na kroku „Deploy tested candidate…" z
+  `write … no space left on device` (eksport obrazów dockera), a bazy i usługi na serwerze zrestartowały się.
+  Przyczyna: każde wdrożenie buduje na serwerze dwa obrazy `ki-legends-web/app:staging-<sha>` i cache budowania;
+  `docker image prune -f` na końcu skryptu usuwał tylko obrazy bez tagu, więc otagowane obrazy poprzednich wydań
+  zostawały na zawsze (dziś ok. 17 wdrożeń).
+- `deploy/scripts/promote-coolify-release.sh`: funkcja `cleanup_images` usuwa obrazy `staging-*` wszystkich wydań poza
+  budowanym i poprzednio działającym (zostaje na ręczny rollback), potem `docker image prune -f` i
+  `docker builder prune --filter until=48h`; wypisuje `df -h /`. Uruchamiana **przed** budową (żeby kolejne wdrożenie
+  nie zabrakło miejsca) i po zweryfikowanym wydaniu. Docker nie usuwa obrazów używanych przez działające
+  kontenery, a błąd sprzątania nie przerywa i nie cofa wydania (`|| true`).
+- Weryfikacja: `bash -n`; logika funkcji sprawdzona na makiecie `docker` (zostają dwa wskazane tagi i tag `latest`,
+  reszta `staging-*` usunięta; przy pustym drugim tagu zostaje tylko budowany). **Nie sprawdzone na serwerze** —
+  zadziała przy najbliższym wdrożeniu po scaleniu; wynik `df -h /` będzie widać w logu kroku wdrożenia.
+
 ### 17. Balans: schodkowy wzrost prędkości ruchu + twardy limit 1200 j./s (decyzja właściciela)
 
 - Na polecenie właściciela: wzrost prędkości zmienia się z flat **+5%/poziom (cap 20)** na **schodkowy,
@@ -586,6 +688,58 @@ Nie wykonano merge do main ani publikacji.
 - Do przetestowania na urządzeniu: `/?ki-diag=1&ki-ground-res=512` vs `/?ki-diag=1` (porównanie
   zamrożeń w raporcie). Docelowe rozwiązanie (poza głównym wątkiem / pre-bake kafelków) wymaga osobnej
   decyzji — ten profil jest bezpiecznym, odwracalnym krokiem pośrednim.
+
+### 19. Mapa 2D: przybliżanie pokazuje prawdziwy teren (lasy, góry, biomy) — styl „real"
+
+- Na polecenie właściciela: przy zoomie mapa ma pokazywać **prawdziwy świat — lasy, góry i to, co
+  rzeczywiscie jest**, a nie płaskie plamy koloru. Przyczyna: `render_v2_maps.py` malował mapy stylem
+  „calm" (średni kolor biomu + tylko 18% tekstury).
+- **Nowy styl `MAP_STYLE=real`** w `scripts/worldgen/v2/render_v2_maps.py`: pełna tekstura podłoża
+  (80% tekstury + 20% średniej), więc las/góra/bagno czytają się jak prawdziwy teren. Domyślny „calm"
+  bez zmian (opt-in przez env). Zachowane: grzbiety gór, wybrzeża, woda śródlądowa, drogi.
+- **Zregenerowano `map-hi.webp` wszystkich 10 lądów** stylem „real" w tej samej rozdzielczości
+  (kontynenty `MAP_WIDTH=8192 MAP_SUFFIX=-hi MAP_UPSAMPLE=2`, wyspy domyślne). **Wymiary `map-hi.json`
+  identyczne** (np. verdant 3985×3011) → kafelki overlay i projekcja świata bez zmian. `map.webp`
+  (mapa podstawowa) nietknięta.
+- **Weryfikacja liczbowa** (vision bridge niedostępny): średni kontrast sąsiednich pikseli (energia
+  tekstury) fragmentu verdant wzrósł **1,28 → 2,53 (~2×)** calm→real — potwierdza realną teksturę.
+  Warstwa `TerrainCanvas` (`WorldOverlay.tsx`) już ładuje `map-hi.webp` od zoom ≥ 3, więc prawdziwy
+  teren pokazuje się przy przybliżaniu bez zmian w kodzie klienta.
+- **Globus — uczciwie:** globus owija malowany atlas `atlas-v2-3840.webp` przez pipeline
+  `render_v2_planet_terrain.py` → `build_v2_atlas.py` (repaint GPU) → `build_globe_textures.py`,
+  a oba skrypty wymagają `scipy` (niedostępny, PEP 668 blokuje instalację). Pokazanie realnej tekstury
+  na globusie to osobny krok (scipy + pipeline atlasu) — nie ruszany bez zgody i narzędzi. Globus nadal
+  pokazuje realny układ biomów z orbity.
+
+### Zamrożenia na telefonie właściciela: adaptacyjna rozdzielczość podłoża i przyczyna w raporcie
+
+- Raport `ki-diagnostyka-pyra-2026-11-11T23-43-30` (Pyra, 763×360, DPR 3, 45 s marszu): ok. 50 kl./s, ale 8 z 40 sekund
+  ma zamrożenia 600–1760 ms (kl./s 1,7–18). Pamięć tekstur 197 MiB, 100–105 tekstur, sterta JS stabilna (109 MB).
+  Wzorzec (pojedyncze zamrożenia co kilka sekund w ruchu) pasuje do synchronicznego pieczenia chunku podłoża.
+- Zmiana (`renderSuperior.ts`, `groundBudget.ts`): bez ręcznego profilu `?ki-ground-res` urządzenie samo obniża rozdzielczość
+  pieczenia kolejnych chunków (1024→768→512, `nextGroundResolution`) po pieczeniu wolniejszym niż 200 ms i nie rośnie z powrotem;
+  po wolnym pieczeniu piecze się 1 chunk na klatkę (wcześniej zawsze do 2). Koszt pieczenia rośnie z kwadratem rozdzielczości.
+- Diagnostyka: raport zawiera teraz `bakes`, `bakeMaxMs`, `bakeResolution` na próbkę, więc następny pomiar pokaże, czy zamrożenia to
+  pieczenie (wtedy `bakeMaxMs` ≈ zamrożenie). **Nie potwierdzone na urządzeniu**: kontener nie ma telefonu; w testach lokalnych
+  (swiftshader) podłoże Pyry i tak startuje od 512 przez budżet tekstur, więc ścieżka adaptacji pokryta jest testem jednostkowym.
+
+### 20. Pieczenie przyrostowe — koniec zamrożeń chunków (generator warstw z budżetem czasu na klatkę)
+
+- Adaptacyjna rozdzielczość (sekcja wyżej) zmniejsza koszt pieczenia, ale `drawGround` wciąż był **synchroniczny** — pojedynczy
+  chunk 512² potrafi zająć ~400 ms i zamrozić klatkę. Ta zmiana rozkłada pieczenie na wiele klatek.
+- **`renderSuperior.ts`: `drawGround` jest generatorem.** Warstwy tekstur są rejestrowane (`texture()` zbiera operacje),
+  a potem wykonywane po jednej z `yield`; baza terenu to osobny krok. Kolejka (`drainBakes`) prowadzi **jeden chunk naraz**
+  (współdzielone płótna robocze) z budżetem `BAKE_BUDGET_MS = 8` ms na klatkę — co najmniej jeden krok, kolejne tylko jeśli
+  się mieszczą. Rendering jest **pixel-identical** (te same operacje, ta sama kolejność, tylko rozłożone w czasie).
+- **Zachowana adaptacja i telemetria z PR #146:** `recordBake` i `nextGroundResolution` dostają **najwolniejszy krok**
+  (`maxStepMs`), więc rozdzielczość dalej spada na słabych urządzeniach. Domyślna rozdzielczość startowa **512**
+  (krok ~25 ms → płynnie); `?ki-ground-res=1024/768` podnosi ostrość kosztem dłuższych kroków.
+- **Pomiar runtime (kontener, software Canvas, Verdant, 22 s marszu wywołującego pieczenie):** `frameMax` w ruchu
+  **30–109 ms** (wcześniej 600–1760 ms), stan ustalony **55–60 kl./s**, **0 błędów**, teren renderuje się poprawnie
+  (zrzut: zieleń/brąz biomów, 678 unikalnych kolorów). Jedyny skok ~645 ms to pierwsze wejście (cold start).
+- Bramka: lint 0, typecheck 0, testy 0, build 0. Scalone z `origin/main` (PR #146 adaptacja) — konflikt `renderSuperior.ts`
+  rozwiązany połączeniem obu podejść. **Globus zostawiony** zgodnie z poleceniem właściciela (hybryda zbudowana lokalnie,
+  nie wdrożona; atlas produkcyjny nietknięty).
 
 ### 19. Dziedziny w świecie i późne wyprawy
 

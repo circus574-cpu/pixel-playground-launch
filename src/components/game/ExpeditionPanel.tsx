@@ -14,7 +14,8 @@ export function ExpeditionPanel({
   const command = (id: string, action: "go" | "start" | "leave") =>
     send({ type: "expedition", id, action });
   return (
-    <section aria-label="Późne wyprawy">
+    <section aria-label="Późne wyprawy" data-start-blocked={view.startBlocked ? "1" : "0"}>
+      {view.startBlocked && <p role="status">{view.startBlocked}</p>}
       <p>
         Po rozdziałach IV i V: cztery zalecane poziomy, samotny strażnik, para przeciwników i trzy
         fale obrony. Nie ma wymaganego poziomu wejścia. Wyprawy korzystają z Twojego wyposażenia, KI
@@ -74,7 +75,9 @@ export function ExpeditionPanel({
             Podejdź do punktu wyprawy
           </button>
           <button
-            disabled={!!e.locked || !e.near || view.active?.phase === "running"}
+            disabled={
+              !!e.locked || !!view.startBlocked || !e.near || view.active?.phase === "running"
+            }
             onClick={() => {
               close();
               command(e.id, "start");

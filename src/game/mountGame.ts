@@ -147,6 +147,11 @@ export function mountKileGends(
   const visual = actorVisual(RACES[session.player.race].world, "hero", undefined, preview);
   const assets = runtime?.assets ?? worldAssets(world.id, preview);
   const loadStarted = performance.now();
+  // Interior rooms are one painted picture drawn for a camera that makes its furniture large, so people
+  // are drawn bigger inside buildings: the hero a little, ordinary NPCs more (they stand taller than the
+  // hero) and landmark NPCs such as the Trener (asset size 192) far taller than anybody, as an authority.
+  const interiorScale = (a: { kind: string; visual: { size: readonly number[] } }): number =>
+    a.kind === "hero" ? 1.5 : a.kind === "npc" ? ((a.visual.size[1] ?? 0) >= 192 ? 1.4 : 1.6) : 1;
   class ForestScene extends Phaser.Scene {
     private actors: Actor[] = [];
     private heritageMarkers: HeritageMarkers | undefined;
@@ -1136,10 +1141,15 @@ export function mountKileGends(
         return;
       }
       if (event.type === "burst") {
+        // Planetary melee skills (A9, B4, B9) emit a burst instead of an attack event: the hero still plays its skill pose.
+        if (!event.source && event.ability && event.ability !== "R")
+          this.hero.animation.trigger("skillb", this.animationTime, session.facing);
         this.ring(event, event.radius ?? 100, 0xb2f4ff, event.ms ?? 450, 0.2);
         return;
       }
       if (event.type === "buff" && event.ability === "T" && !event.source) this.transform();
+      if (event.type === "buff" && event.ability === "dodge" && !event.source)
+        this.hero.animation.trigger("dodge", this.animationTime, session.facing);
       if (event.type === "status" || event.type === "buff" || event.type === "channel") {
         if (event.text)
           this.float(event, event.text, event.target === "player" ? "#ffa1a1" : "#c9f0ff");
@@ -1288,7 +1298,7 @@ export function mountKileGends(
         });
       }
       if (event.type === "shield") {
-        this.hero.animation.trigger("skill", this.animationTime);
+        this.hero.animation.trigger("guard", this.animationTime);
         this.texturedEffect("shield", event);
       }
     }
@@ -1650,6 +1660,8 @@ export function mountKileGends(
       const ownLabel = this.heroLabel();
       if (this.hero.name.text !== ownLabel) this.hero.name.setText(ownLabel);
       for (const a of this.actors) {
+        const k = session.player.interior ? interiorScale(a) : 1;
+        if (a.body.scaleX !== k) a.body.setScale(k);
         if (a.rim && a.body.visible)
           for (const r of a.rim)
             r.setTexture(a.sprite.texture.key, a.sprite.frame.name)
@@ -1659,7 +1671,7 @@ export function mountKileGends(
         if (a.kind === "hero") {
           // Player names (the own one and other players') always float above the head.
           a.name
-            .setPosition(a.body.x, a.body.y - a.visual.size[1] * a.visual.origin[1] - 12)
+            .setPosition(a.body.x, a.body.y - a.visual.size[1] * a.visual.origin[1] * k - 12)
             .setScale(1 / this.cameras.main.zoom)
             .setVisible(!quiet && a.body.visible);
           a.track.setPosition(a.body.x, a.body.y - 76);
@@ -1667,7 +1679,12 @@ export function mountKileGends(
           continue;
         }
         // Labels and bars follow a creature's height (sized by its bestiary class) from the 84 px baseline.
-        const lift = a.kind === "enemy" ? (a.visual.size[1] - 84) * a.visual.origin[1] : 0;
+        const lift =
+          a.kind === "enemy"
+            ? (a.visual.size[1] - 84) * a.visual.origin[1]
+            : a.kind === "npc"
+              ? a.visual.size[1] * a.visual.origin[1] * k - 91
+              : 0;
         a.name.setPosition(a.body.x, a.body.y - 104 - lift).setScale(1 / this.cameras.main.zoom);
         // A name is less important than the hero's silhouette. Never paint it over the body.
         const left = a.name.x - a.name.displayWidth / 2,

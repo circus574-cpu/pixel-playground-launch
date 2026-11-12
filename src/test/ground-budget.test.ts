@@ -4,6 +4,7 @@ import {
   GROUND_CHUNK_LIMIT,
   GROUND_RESOLUTIONS,
   bakesPerFrame,
+  nextGroundResolution,
   chooseGroundResolution,
   groundResolutionOverride,
   groundTextureBytes,
@@ -87,5 +88,18 @@ describe("profil wydajności pieczenia (opt-in, Faza 5)", () => {
     expect(bakesPerFrame(BAKE_FRAME_BUDGET_MS, true)).toBe(2);
     expect(bakesPerFrame(BAKE_FRAME_BUDGET_MS + 1, true)).toBe(1);
     expect(bakesPerFrame(1600, true)).toBe(1);
+  });
+});
+
+describe("adaptacja rozdzielczości podłoża do szybkości pieczenia", () => {
+  it("zostaje przy szybkim pieczeniu i schodzi o stopień po wolnym, aż do podłogi 512", () => {
+    expect(nextGroundResolution(1024, 80)).toBe(1024);
+    expect(nextGroundResolution(1024, 600)).toBe(768);
+    expect(nextGroundResolution(768, 700)).toBe(512);
+    expect(nextGroundResolution(512, 1700)).toBe(512);
+  });
+  it("nie rośnie z powrotem po szybkim pieczeniu", () => {
+    expect(nextGroundResolution(512, 10)).toBe(512);
+    expect(nextGroundResolution(768, 10)).toBe(768);
   });
 });

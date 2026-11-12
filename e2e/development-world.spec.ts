@@ -75,6 +75,61 @@ async function clickWorld(page: Page, p: { x: number; y: number }) {
   }, p);
   await page.touchscreen.tap(screen.x, screen.y);
 }
+/** Respect the production out-of-combat admission rule; clear actual streamed foes first. */
+async function startExpedition(page: Page, id: string) {
+  const canvas = page.locator(".ki-canvas").first();
+  for (let retry = 0; retry < 8; retry++) {
+    const card = await approach(page, "expedition", id),
+      start = card.getByRole("button", { name: "Rozpocznij wyprawę", exact: true });
+    if (await start.isEnabled()) {
+      await start.tap();
+      return;
+    }
+    await expect(page.getByRole("region", { name: "Późne wyprawy" })).toHaveAttribute(
+      "data-start-blocked",
+      "1",
+    );
+    await page.getByRole("button", { name: "Zamknij okno", exact: true }).tap();
+    for (let n = 0; n < 40; n++) {
+      const enemies = JSON.parse((await canvas.getAttribute("data-enemies")) ?? "[]") as {
+        id: string;
+        x: number;
+        y: number;
+        hp: number;
+        mode: string;
+      }[];
+      const enemy = enemies.find(
+        (e) => e.hp > 0 && e.mode === "chase" && !e.id.startsWith("development-expedition:"),
+      );
+      if (!enemy) break;
+      const visible = await canvas.evaluate((el, p) => {
+        const b = el.getBoundingClientRect(),
+          d = (el as HTMLElement).dataset,
+          z = Number(d["cameraZoom"]),
+          x = (p.x - Number(d["cameraX"]) - b.width / 2) * z + b.width / 2,
+          y = (p.y - Number(d["cameraY"]) - b.height / 2) * z + b.height / 2;
+        return x > 5 && x < b.width - 5 && y > 80 && y < b.height - 5;
+      }, enemy);
+      if (visible) {
+        await clickWorld(page, enemy);
+        await basicAttack(page).tap();
+      } else
+        await canvas.evaluate(
+          (node, p) =>
+            node.dispatchEvent(
+              new CustomEvent("ki:command", { detail: { type: "move", x: p.x, y: p.y } }),
+            ),
+          enemy,
+        );
+      await page.waitForTimeout(250);
+    }
+    // Canonical combat admission expires after 4.5 seconds of simulation with no new hit.
+    await page.waitForTimeout(5000);
+  }
+  throw Error(
+    "Could not leave the current PvE fight and enter the expedition through ordinary input.",
+  );
+}
 for (const race of RACE_IDS)
   test(`controlled late-game prerequisites, real world activity and expedition: ${race}`, async ({
     page,
@@ -158,8 +213,7 @@ for (const race of RACE_IDS)
     }
     expect((await saved(page))!.value.player.development!.fieldwork[def.id]?.done).toBe(true);
     const exp = `E-${RACES[race].world}-22-single`;
-    card = await approach(page, "expedition", exp);
-    await card.getByRole("button", { name: "Rozpocznij wyprawę", exact: true }).tap();
+    await startExpedition(page, exp);
     const variant = DEVELOPMENT_ENCOUNTERS.find(
       (d) => d.race === race && d.level === 22 && d.role === "heavy",
     )!;

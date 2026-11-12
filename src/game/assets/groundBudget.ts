@@ -57,3 +57,17 @@ export function bakesPerFrame(lastBakeMs: number, profileActive: boolean): numbe
   if (!profileActive) return 2;
   return lastBakeMs > BAKE_FRAME_BUDGET_MS ? 1 : 2;
 }
+
+/** Pieczenie wolniejsze niż to obniża rozdzielczość podłoża kolejnych chunków (adaptacja domyślna, bez parametru w adresie). */
+export const BAKE_SLOW_MS = 200;
+/**
+ * Adaptacja do urządzenia: raport z telefonu właściciela (11.11.2026) pokazał zamrożenia 600–1760 ms co kilka
+ * sekund marszu, czyli pojedyncze pieczenie chunku 1024×1024 na słabszym GPU/CPU. Po wolnym pieczeniu następne chunki
+ * dostają o stopień niższą rozdzielczość (1024→768→512; koszt rośnie z kwadratem), aż pieczenie zmieści się w budżecie.
+ * Rozdzielczość nigdy nie rośnie z powrotem, żeby nie wpadać w pętlę zamrożeń.
+ */
+export function nextGroundResolution(current: number, lastBakeMs: number): number {
+  if (lastBakeMs <= BAKE_SLOW_MS) return current;
+  const lower = GROUND_RESOLUTIONS.filter((r) => r < current);
+  return lower.length ? lower[0]! : current;
+}

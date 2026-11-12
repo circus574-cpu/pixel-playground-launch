@@ -238,3 +238,23 @@ describe("bounded level-22–40 expeditions in the existing combat engine", () =
     expect(() => advanceExperience(p, -1)).toThrow();
   });
 });
+
+it("exposes the admission guard and never starts a second encounter during a real fight", () => {
+  const { s } = developmentWorld("android");
+  const d = EXPEDITIONS.find((d) => d.race === "android" && d.layout === "single")!;
+  start(s, d.id);
+  s.command({ type: "expedition", action: "leave", id: d.id });
+  const boar = s.monsters.spawn("boar", { x: s.player.x + 20, y: s.player.y });
+  s.command({ type: "target", id: boar.id });
+  s.command({ type: "ability", ability: "R" });
+  advanceWorld(s, 100);
+  expect(s.combatIn).toBeGreaterThan(0);
+  expect(s.expeditions.snapshot().startBlocked).toContain("Zakończ");
+  s.command({ type: "expedition", action: "start", id: d.id });
+  expect(s.expeditions.snapshot().active).toBeNull();
+  advanceWorld(s, 5000);
+  expect(s.expeditions.snapshot().startBlocked).toBe("");
+  s.command({ type: "expedition", action: "start", id: d.id });
+  expect(s.expeditions.snapshot().active?.phase).toBe("running");
+  s.expeditions.cancel();
+});
