@@ -293,6 +293,57 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   ~3872 pliki / ~51,6 MB na świat, 2 fetch/e chunk) + prefetch. To osobny, większy krok — nie
   ruszany bez zgody właściciela.
 
+### 15. Tryb KI: chód, walka i wygląd po transformacji z filmów właściciela (4 rasy)
+
+- Powód: po transformacji postać wyglądała i walczyła niemal jak zwykła — w grze był tylko `kiwalk`, jednoklatkowy `kiidle`
+  i `kiattack` bez efektów (matowanie rembg usuwało poświatę, płomienie i wiązki z filmów).
+- Nowy klip `kiskill` (8 klatek, 12 kl./s) dla czterech ras: ładowanie i wystrzał energii; `kiidle` ma 6 klatek (pętla,
+  z poświatą), `kiattack` 6 klatek z efektem uderzenia. Wszystko z filmów `*-etap4-walka-po-transformacji.mp4`,
+  skrypt `scripts/anim/kiform_build.py` (zastępuje `kifight_build.py`) + `scripts/anim/kimatte.py` (matowanie z zachowaniem efektów).
+- Silnik: stan `kiskill` (schema, `GPU_CONTRACT.optionalAnimations`, `ActorAnimation.clipState`: `skill` → `kiskill` w Trybie KI);
+  zdarzenie `burst` bohatera uruchamia pozę `skill` (Planetar nie zgłaszał `attack` dla A9/B4/B9).
+- Pamięć tekstur: nowy `scripts/anim/repack_hero.py` przepakował atlasy bazowe czterech bohaterów na klatki przycięte
+  (identyczne piksele, 0/255 różnicy): −29 MiB na rasę; po dodaniu klatek KI najwyższy świat 104,1 z 128 MiB (wcześniej 125,5).
+  Paczki hero `2.4.0` (stare `2.2.1` usunięte, historia w git).
+- Weryfikacja w grze (Playwright, lokalny dev-serwer, próbnik klatek `dataset.animationFrame` + zrzuty sceny): dla każdej rasy
+  `kiidle` 00–05, `kiwalk` (prawo i lewo), `kiattack` 00–05 i `kiskill` 00–07 odtwarzają się kolejno; zero błędów w konsoli.
+  Typecheck 3 konfiguracji i testy: `actor-animation`, `gpu-pipeline` (640 odwołań do klatek).
+
+### 16. Chód: nogi „blokowały się" przy zmianie kierunku (także bez transformacji)
+
+- Przyczyna: `ActorAnimation` uruchamiał `sprite.play(klucz)` przy każdej zmianie kierunku, a nowa animacja startuje od klatki 0
+  i zeruje zegar. Gdy kierunek przeskakiwał między sąsiednimi (joystick, chodzenie po ścieżce, ukosy) częściej niż co klatkę
+  (62,5 ms przy 16 kl./s), krok zostawał na klatce 00 — nogi stały w miejscu mimo ruchu postaci. Dotyczyło `walk` i `kiwalk` (oraz `idle`).
+- Naprawa: klipy zapętlone (`walk`, `kiwalk`, `idle`, `kiidle`) są ustawiane z jednego zegara, który przeżywa zmianę kierunku
+  (`loopStart`); zmiana stanu zaczyna krok od klatki 00. Klipy jednorazowe (atak, skill, hit, death) bez zmian.
+- Weryfikacja w grze (próbnik klatek, trzymane `w` i klepane `d` co 110 ms): przed — 28 z 29 zmian kierunku wracało na klatkę 00
+  (stały `up/00 up-right/00 …`); po — krok przechodzi 00–07 w kółko przez zmiany kierunku (Legenda, Android, Mędrzec, Planetar: 2–3
+  powroty na 00 w 45–69 krokach, czyli tylko naturalne zawinięcie pętli). Test `actor-animation.test.ts` (zmiana kierunku co 20 ms).
+- Drugi powód płytkich kroków (Legenda, Planetar): pierwszy cięcie chodu (`hdcut.py`) wybierało pętlę jako parę klatek o najbardziej
+  podobnej sylwetce w odległości 12–44 klatek. W widoku z przodu i z tyłu to wybiera odcinek prawie bez ruchu nóg albo pół cyklu.
+  Filmy chodu (Legenda: przód 0–79, tył 80–157, bok 158–239; Planetar: przód 0–30, tył 35–56, 3/4 przód 118–178, 3/4 tył 178–239)
+  mają pełne kroki. `scripts/anim/walk_rebuild.py` bierze okres chodu z różnicy RGB dolnej części ciała (Legenda: 30 klatek w przodzie,
+  29 w tyle; krótkie odcinki Planetara: najdłuższy możliwy okres), próbkuje 8 klatek równomiernie na całym okresie i przebudowuje kierunki
+  down, up i ukosy (idle z nich pochodzi tak samo jak wcześniej); boki (left/right) zostają z poprzedniej paczki. Paczki `2.5.0`
+  (Legenda, Planetar); Android i Mędrzec bez zmian (Mędrzec: brak filmu chodu w repo).
+
+### 17. Etap 1 (walka, forma bazowa): kolejne ciosy, skill obszarowy, unik i gard — cztery rasy
+
+- Z filmów `<rasa>-etap1-walka.mp4` wycięto pięć nowych klipów (efekty z filmów zachowane, jak w Trybie KI): `attack2` (6 klatek, drugi cios),
+  `finisher` (8, ciężkie uderzenie z wybuchem), `skillb` (8, skok i fala uderzeniowa), `dodge` (6, 14 kl./s, odskok z poświatą) i
+  `guard` (6, 10 kl./s, gard/tarcza). Skrypt: `scripts/anim/fightform_build.py` (nowy atlas `<paczka>-fight-2`, 68 klatek, 9–13 MiB po rozkodowaniu).
+  Matowanie: `kimatte.py` wzbogacone o próg barwy (szum kompresji szarego tła Androida) i lokalizację efektów wokół postaci.
+- Silnik (`ActorAnimation`): stany `attack2`, `finisher`, `skillb`, `dodge`, `guard` (schema, `GPU_CONTRACT.optionalAnimations`). Podstawowy cios
+  tworzy łańcuch `attack → attack2 → finisher` (cios w ciągu 1,4 s od poprzedniego kontynuuje łańcuch, dłuższa przerwa zaczyna od `attack`);
+  w Trybie KI zostaje `kiattack`. `mountGame`: `burst` bohatera → `skillb` (w Trybie KI `kiskill`), unik (`buff` `dodge`) → `dodge`,
+  `shield` → `guard`.
+- Paczki hero `2.6.0` (stare usunięte). Najwyższy świat: Verdantia 123,3 z 128 MiB (Planetar z cache terenu) — mało zapasu;
+  następne atlasy bohatera Planetara wymagają kolejnego odchudzenia.
+- Weryfikacja w grze (arena treningowa, próbnik klatek): `attack 00–07 → attack2 00–05 → finisher 00–07` (Mędrzec), `skillb 00–07`
+  (Planetar, Mędrzec), `dodge 00–05` i `guard 00–05` (Android, Mędrzec), `dodge` (Legenda, Planetar); zero błędów w konsoli.
+  Legenda nie ma zdolności z tarczą, więc `guard` nie jest u niej wywoływany; skill A bohatera dalej gra istniejący klip `skill`.
+- Nie zrobione: etapy 2 (ciężkie trafienie, zwycięstwo) i 3 (bieg, ładowanie, skill C, interakcja); formy KI z etapu 4 dla ciosów 2–3, uniku i gardu.
+
 ### 15. Faza 4: bramka wydajności CI — pilnuje pamięci, zamrożenia i wejścia, nie surowego FPS
 
 - **`src/game/assets/perfGate.ts`** — czysta funkcja `evaluatePerfGate` (importuje realny

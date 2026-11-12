@@ -26,26 +26,33 @@ potwierdzeniem komercyjnych praw. Szczegóły: [licencje](LICENCJE.md).
 
 Źródłem bieżących definicji jest `src/game/assets/imported.json`; `makeCatalog()`
 nakłada późniejsze aktywne definicje na te same identyfikatory aktorów.
-Każda z powyższych paczek ma 536 odwołań do klatek w dziesięciu klipach i ośmiu kierunkach,
+Każda z powyższych paczek ma 640 odwołań do klatek w jedenastu klipach i ośmiu kierunkach,
 sześć zasobów atlasów, klatki HD 256 px. Klipy obejmują idle, walk, attack, skill,
-hit, death, respawn oraz klipy Trybu KI: `kiwalk`, `kiidle` i `kiattack`. Nie deklarujemy osobnej animacji run ani nowych klipów combo.
+hit, death, respawn oraz klipy Trybu KI: `kiwalk`, `kiidle`, `kiattack` i `kiskill`. Nie deklarujemy osobnej animacji run ani nowych klipów combo.
 
 `kiwalk` to chód po transformacji (filmy Gemini `*-walk-transformed.mp4`). Gra używa go
 zamiast `walk` tylko, gdy bohater się porusza i ma aktywny bonus Trybu KI (`T`, 20 s);
-bez klipu w paczce zostaje zwykły `walk`. W Trybie KI bohater stoi w klipie `kiidle` (jedna klatka, neutralna postawa z filmu etapu 4) i
-atakuje podstawowym ciosem w klipie `kiattack` (6 klatek, 12 kl./s, jak 0,5 s ataku bazowego);
-umiejętności, trafienie i śmierć zostają w formie bazowej, bo filmów tych stanów w formie po
-transformacji nie ma. Klatki wycina `scripts/anim/kifight_build.py` z filmów
+bez klipu w paczce zostaje zwykły `walk`. W Trybie KI (`ActorAnimation.clipState`):
+postawa to `kiidle` (6 klatek, 6 kl./s, pętla: cztery klatki z filmu etapu 4 grane w przód i w tył, z poświatą),
+podstawowy cios to `kiattack` (6 klatek, 12 kl./s, z własnym efektem uderzenia z filmu), a każda umiejętność
+bohatera to `kiskill` (8 klatek, 12 kl./s: ładowanie i wystrzał energii z filmu). Trafienie i śmierć zostają
+w formie bazowej, bo filmów tych stanów po transformacji nie ma. Umiejętności Planetara (A9, B4, B9) zgłaszają
+zdarzenie `burst` zamiast `attack`, więc `mountGame` uruchamia dla nich pozę `skill` także z tego zdarzenia.
+Klatki wycina `scripts/anim/kiform_build.py` z filmów
 `art-wip/gemini-anim-stages/<rasa>-etap4-walka-po-transformacji.mp4` (jedna stała transformacja
 kamery na rasę, skala do wysokości chodu, stopy na tej samej linii; kierunki w prawo używają profilu,
-w lewo jego lustra). Wybór klipu robi `ActorAnimation` (`clipState`), a stan i priorytety
-zostają bez zmian. Specyfikacja klipów: `GPU_CONTRACT.optionalAnimations`. Atlasy `kifight`
-mają 1,9–2,5 MiB po rozkodowaniu (najwyższe światy po zmianie: 111,8 z 128 MiB). Atlas `kiwalk` jest zapakowany jako
-klatki przycięte do postaci (Android 9,5 MiB, Mędrzec 7,7 MiB, Legenda 6,0 MiB,
-Planetar 3,8 MiB po rozkodowaniu), bo Verdantia ma już ok. 120 MiB z 128 MiB budżetu.
+w lewo jego lustra). Matowanie zachowuje efekty z filmu (poświata, płomienie, wiązki, kurz): postać z rembg
+(isnet-anime, uzupełniona isnet-general-use za jasnym efektem), efekty z „color-to-alpha” względem tła filmu
+(`scripts/anim/kimatte.py`); komórka 256 px wygasa przy brzegu, więc długie wiązki są ucinane łagodnie.
+Specyfikacja klipów: `GPU_CONTRACT.optionalAnimations`. Atlasy `kifight` mają 6,8–7,8 MiB po rozkodowaniu.
+Atlasy bazowe (`page`, `idle`, `fight-0/1`) przepakował `scripts/anim/repack_hero.py` na klatki przycięte do postaci
+(bez zmiany pikseli, różnica 0/255), co zmniejszyło każdą rasę z ok. 57–62 do ok. 28–36 MiB; najwyższy świat
+(Verdantia, z cache terenu) ma po zmianie 104,1 z 128 MiB. Atlas `kiwalk` jest zapakowany jako
+klatki przycięte do postaci (Android 8,1 MiB, Mędrzec 6,9 MiB, Legenda 3,9 MiB,
+Planetar 3,3 MiB po rozkodowaniu).
 Legenda i Planetar mają ukosy zbudowane z profilu (w filmach obracają się zbyt szybko
 na stabilne ukosy); Android i Mędrzec mają osobne klatki ukosów. Proces i skrypty:
-`scripts/anim/kiwalk_build.py`, `scripts/anim/kiwalk_pack.py`.
+`scripts/anim/kiwalk_build.py`, `scripts/anim/kiwalk_pack.py`, `scripts/anim/kiform_build.py`.
 
 `actorVisual()` skaluje prezentację tych bohaterów do **133×133 jednostek świata**,
 aby sylwetki z materiałów wideo zachowały rozmiar porównywalny z wcześniejszymi
