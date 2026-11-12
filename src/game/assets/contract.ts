@@ -15,6 +15,8 @@ export const GPU_CONTRACT = {
   // Fixed 45° skeletal camera: room below the ground anchor for a real stride.
   groundedHero: { size: [128, 128], origin: [0.5, 0.75], footRadius: 12 },
   enemy: { size: [84, 84], origin: [0.5, 0.8] },
+  /** Landmark NPCs (the Trener) are drawn twice the standard NPC size from 256 px source frames. */
+  npcLarge: { size: [192, 192], origin: [0.5, 0.95] },
   animations: {
     idle: { frames: 8, fps: 6, loop: true },
     walk: { frames: 8, fps: 16, loop: true },
