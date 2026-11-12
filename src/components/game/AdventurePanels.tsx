@@ -566,17 +566,12 @@ export function NpcDialogue({
             </>
           )}
           {npc.id === "innkeeper" && (
-            <>
-              <button
-                disabled={p.gold < 5 || (p.hp >= state.stats.maxHp && p.ki >= state.stats.maxKi)}
-                onClick={() => send({ type: "rest" })}
-              >
-                Odpocznij w gospodzie · 5 monet (Pełne HP i KI)
-              </button>
-              <button onClick={() => send({ type: "dialogue", action: "rumors" })}>
-                Zapytaj o lokalne plotki i wieści o bossach
-              </button>
-            </>
+            <button
+              disabled={p.gold < 5 || (p.hp >= state.stats.maxHp && p.ki >= state.stats.maxKi)}
+              onClick={() => send({ type: "rest" })}
+            >
+              Odpocznij w gospodzie · 5 monet (Pełne HP i KI)
+            </button>
           )}
 
           {npc.id === "alchemist" && (
@@ -670,6 +665,9 @@ export function NpcDialogue({
               close={() => send({ type: "dialogue", action: "close" })}
             />
           )}
+          <button onClick={() => send({ type: "dialogue", action: "rumors" })}>
+            Zapytaj o plotki i wieści
+          </button>
           <p className="ki-panel-caption">
             {authoritative
               ? "Zamknij okno, aby wrócić do gry. Świat na serwerze pozostaje aktywny."

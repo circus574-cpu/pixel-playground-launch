@@ -582,3 +582,19 @@ Pełny TypeScript aplikacji/e2e/tools PASS. [Kontrole integracyjne i SHA wejść
 - Nie zrobiono / nie sprawdzono: ulepszanie nie było oglądane na fizycznym telefonie; naprawa
   sprzętu (osobna usługa) nie istnieje — przedmioty nie mają trwałości. Pozostałe do rozbudowy:
   plotki/nazwani NPC dla wszystkich ról w miastach v2 oraz realne leża bossów (warden — atrapa).
+
+### 15. Systemy NPC: plotki dla wszystkich ról + uniwersalny przycisk (Etap 5 rozbudowy NPC)
+
+- Plotki były martwe: przycisk miał tylko innkeeper, a bez `dialogueId` zostawał sam hint o bossie.
+  Teraz **każda z 10 ról** ma własne plotki (`ROLE_RUMORS` w handlerze `rumors`), dopasowane do roli
+  (przewodnik, łowca, kupiec, kowal, depozytariusz, trener, karczmarz, zarządca, alchemik, strażnik).
+- Koleżność źródeł: katalog imienny (`getNpcDialogue`) → plotki roli → hint kontynentalny o bossie.
+  Akapit pogłębia się wraz z postępem zadań (steps/boars), jak wcześniej.
+- Przycisk „Zapytaj o plotki i wieści" jest teraz w rozmowie z **każdym** NPC (na dole panelu);
+  usunięto duplikat przycisku u innkeepera.
+- Testy: `npc-rumors.test.ts` (2) — każda rola daje plotkę roli (nie tylko hint), pogłębianie z postępem.
+  **2/2 PASS**. Bramka: lint 0, typecheck 0, build 0.
+- Nie zrobiono / nie sprawdzono: pełne **nazwanie** wszystkich ról w miastach v2 (dziś 6/10 generycznych)
+  wymaga dodań wiązań w `worlds/*.ts` + katalogu dialogów (sprzężone z testem „7 NPC/kontynent") i zmian
+  w `boundTownNpc` — współdzielone z innymi agentami, ryzykowne, zostawione jako osobny etap. Realne
+  leża bossów (warden — atrapa) nadal do rozbudowy.

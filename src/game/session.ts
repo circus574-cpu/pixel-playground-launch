@@ -25,6 +25,7 @@ import {
 } from "./combatTraining";
 import { CharacterStatsSchema } from "./characterStats";
 import { getNpcDialogue } from "./dialogue";
+import { WORLD_V2 } from "./world/generated/worldVersion";
 import { PracticeTargets, isPracticeId } from "./development/targets";
 import { heritageRaceConsistent } from "./development/heritage/state";
 import { equippedAttack, weaponConsistent } from "./development/heritage/equipment";
@@ -2303,6 +2304,49 @@ export class GameSession implements MonsterHost {
         // one, so the same conversation deepens instead of repeating one continent-wide hint.
         const rozmówca = this.world.npcs.find((n) => n.id === this.dialogue);
         const plotki = rozmówca ? getNpcDialogue(rozmówca.dialogueId ?? "")?.rumors : undefined;
+        // Plotki zależne od roli: każdy NPC ma coś do powiedzenia, nawet bez katalogu imiennego.
+        const ROLE_RUMORS: Record<string, string[]> = {
+          guide: [
+            "Mówią, że stare mapy ewakuacyjne celowo oznaczyły zamieszkane doliny jako puste. Ktoś nie chciał, byśmy tam wrócili.",
+            "Podobno cztery głosy Superior wciąż rozbrzmiewają w ruinach — każdy innej prawdzie. Uważaj, której zaufasz.",
+          ],
+          hunter: [
+            "Zwiadowcy donoszą, że bestie przy szlakach stają się agresywniejsze po zmroku. Trzymaj się ognia i otwartych przestrzeni.",
+            "Podobno warianty potworów z dalekich krain są silniejsze od tutejszych. Nie oceniaj wroga po wyglądzie.",
+          ],
+          merchant: [
+            "Ceny rosną, odkąd szlaki stały się niebezpieczne. Podobno lepszy sprzęt kupisz tylko u rzemieślników, nie u kupców.",
+            "Ktoś skupuje surowce po zawyżonych cenach. Mówią, że na czymś mu zależy — może na tym, co z nich wytworzysz.",
+          ],
+          smith: [
+            "Stare ostrza hartowane w rzece podobno nie pękają nawet po latach. Sekret tkwi w temperaturze i cierpliwości.",
+            "Podobno najlepszy ekwipunek nie pochodzi z łupów, lecz z warsztatu. Materiały i monety — reszta to robota rąk.",
+          ],
+          keeper: [
+            "W depozycie giną czasem drobiazgi. Mówią, że to nie szczury, lecz ktoś, kto szuka czegoś konkretnego.",
+            "Podobno skarbiec złota w depozycie jest bezpieczniejszy niż sakwa. Nikt jeszcze nie włamał się do środka.",
+          ],
+          trainer: [
+            "Manekin treningowy podobno pamięta każdy cios. Im więcej ćwiczysz, tym lepiej rozumiesz swój styl walki.",
+            "Mówią, że technika i szybkość ataku znaczą więcej niż sama siła. Trening czyni mistrza.",
+          ],
+          innkeeper: [
+            "Podróżnicy opowiadają, że odpoczynek w gospodzie leczy nie tylko ciało, ale i sny. Podobno śni się tu prawdziwie.",
+            "Ktoś zostawił w karczmie starą monetę z wyrytym symbolem. Mówią, że to klucz do czegoś, co dawno zaginęło.",
+          ],
+          steward: [
+            "Dzielnice miasta skrywają więcej, niż pokazują mapy. Podobno każdy budynek ma swoją historię i sekret.",
+            "Podobno zarządca wie o każdym przybyszu, zanim ten przekroczy bramy. Warto mieć go po swojej stronie.",
+          ],
+          alchemist: [
+            "Mchowa galaretka i zioła lecznicze podobno tracą moc, jeśli zbierać je po deszczu. Najlepsze są o świcie.",
+            "Mówią, że eliksir KI potrafi wzmocnić cios na krótką metę. Ale wszystko ma swoją cenę — i swój surowiec.",
+          ],
+          warden: [
+            "Strażnicy ostrzegają: leża bossów to nie miejsce dla słabych. Podobno każdy boss ma swoją słabość — trzeba ją znaleźć.",
+            "Podobno bossowie budzą się, gdy ktoś zakłóci ich spokój. Zanim wejdziesz, upewnij się, że masz plan i mikstury.",
+          ],
+        };
         const RUMORS_BY_CONTINENT: Record<string, string> = {
           verdant:
             "Plotka: Drwale ostrzegają przed leżem Ygdrashy w głębi wschodniej puszczy. Jej korzenie więżą, a jad zatruwa, ale jej kora jest wrażliwa na ogień i skupione uderzenia Ki!",
@@ -2316,12 +2360,15 @@ export class GameSession implements MonsterHost {
           RUMORS_BY_CONTINENT[this.world.id] ??
           "Na szlakach krążą groźne bestie. Dbaj o zapas mikstur i ekwipunek.";
         // Autorowany hint o bossie zostaje: bez niego przycisk traci wartość użytkową.
-        // Plotka rozmówcy dochodzi jako drugi, zależny od postępów akapit.
-        this.say(
-          plotki
-            ? `${plotki[p.quests.steps === "done" ? (p.quests.boars === "done" ? 2 : 1) : 0] ?? plotki[0]} ${hint}`
-            : hint,
-        );
+        // Plotka rozmówcy (katalog albo rola) dochodzi jako pierwszy, zależny od postępów akapit.
+        const progressIndex = p.quests.steps === "done" ? (p.quests.boars === "done" ? 2 : 1) : 0;
+        // Plotki roli to wzbogacenie świata v2 (i serwera); stary świat v1 zostaje bez zmian.
+        const rolePlotki =
+          (WORLD_V2 || typeof window === "undefined") && rozmówca
+            ? ROLE_RUMORS[rozmówca.id]
+            : undefined;
+        const source = plotki ?? rolePlotki;
+        this.say(source ? `${source[progressIndex % source.length] ?? source[0]} ${hint}` : hint);
       }
       if (c.action === "boss_enter") {
         const dest = this.world.landmarks.find((l) => l.kind === "danger") ?? {
