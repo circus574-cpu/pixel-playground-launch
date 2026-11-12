@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "id": "npc-pyra-steward",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "npc-pyra-steward-page-0",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/npc-pyra-steward/1.0.0-c2d709edbf2c/npc-pyra-steward-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-pyra-steward/1.0.0-c2d709edbf2c/npc-pyra-steward-page-0.json",
+      "width": 503,
+      "height": 244
+    }
+  ],
+  "actors": [
+    {
+      "id": "npc-pyra-steward",
+      "profile": "npc",
+      "presentation": "legacy",
+      "size": [
+        96,
+        96
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "npc-pyra-steward-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-pyra-steward/idle/down/00",
+              "npc-pyra-steward/idle/down/01",
+              "npc-pyra-steward/idle/down/02",
+              "npc-pyra-steward/idle/down/03",
+              "npc-pyra-steward/idle/down/04",
+              "npc-pyra-steward/idle/down/05",
+              "npc-pyra-steward/idle/down/06",
+              "npc-pyra-steward/idle/down/07"
+            ],
+            "down-left": [
+              "npc-pyra-steward/idle/down-left/00",
+              "npc-pyra-steward/idle/down-left/01",
+              "npc-pyra-steward/idle/down-left/02",
+              "npc-pyra-steward/idle/down-left/03",
+              "npc-pyra-steward/idle/down-left/04",
+              "npc-pyra-steward/idle/down-left/05",
+              "npc-pyra-steward/idle/down-left/06",
+              "npc-pyra-steward/idle/down-left/07"
+            ],
+            "left": [
+              "npc-pyra-steward/idle/left/00",
+              "npc-pyra-steward/idle/left/01",
+              "npc-pyra-steward/idle/left/02",
+              "npc-pyra-steward/idle/left/03",
+              "npc-pyra-steward/idle/left/04",
+              "npc-pyra-steward/idle/left/05",
+              "npc-pyra-steward/idle/left/06",
+              "npc-pyra-steward/idle/left/07"
+            ],
+            "up-left": [
+              "npc-pyra-steward/idle/up-left/00",
+              "npc-pyra-steward/idle/up-left/01",
+              "npc-pyra-steward/idle/up-left/02",
+              "npc-pyra-steward/idle/up-left/03",
+              "npc-pyra-steward/idle/up-left/04",
+              "npc-pyra-steward/idle/up-left/05",
+              "npc-pyra-steward/idle/up-left/06",
+              "npc-pyra-steward/idle/up-left/07"
+            ],
+            "up": [
+              "npc-pyra-steward/idle/up/00",
+              "npc-pyra-steward/idle/up/01",
+              "npc-pyra-steward/idle/up/02",
+              "npc-pyra-steward/idle/up/03",
+              "npc-pyra-steward/idle/up/04",
+              "npc-pyra-steward/idle/up/05",
+              "npc-pyra-steward/idle/up/06",
+              "npc-pyra-steward/idle/up/07"
+            ],
+            "up-right": [
+              "npc-pyra-steward/idle/up-right/00",
+              "npc-pyra-steward/idle/up-right/01",
+              "npc-pyra-steward/idle/up-right/02",
+              "npc-pyra-steward/idle/up-right/03",
+              "npc-pyra-steward/idle/up-right/04",
+              "npc-pyra-steward/idle/up-right/05",
+              "npc-pyra-steward/idle/up-right/06",
+              "npc-pyra-steward/idle/up-right/07"
+            ],
+            "right": [
+              "npc-pyra-steward/idle/right/00",
+              "npc-pyra-steward/idle/right/01",
+              "npc-pyra-steward/idle/right/02",
+              "npc-pyra-steward/idle/right/03",
+              "npc-pyra-steward/idle/right/04",
+              "npc-pyra-steward/idle/right/05",
+              "npc-pyra-steward/idle/right/06",
+              "npc-pyra-steward/idle/right/07"
+            ],
+            "down-right": [
+              "npc-pyra-steward/idle/down-right/00",
+              "npc-pyra-steward/idle/down-right/01",
+              "npc-pyra-steward/idle/down-right/02",
+              "npc-pyra-steward/idle/down-right/03",
+              "npc-pyra-steward/idle/down-right/04",
+              "npc-pyra-steward/idle/down-right/05",
+              "npc-pyra-steward/idle/down-right/06",
+              "npc-pyra-steward/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "npc-pyra-steward-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-pyra-steward/idle/down/00",
+              "npc-pyra-steward/idle/down/01",
+              "npc-pyra-steward/idle/down/02",
+              "npc-pyra-steward/idle/down/03",
+              "npc-pyra-steward/idle/down/04",
+              "npc-pyra-steward/idle/down/05",
+              "npc-pyra-steward/idle/down/06",
+              "npc-pyra-steward/idle/down/07"
+            ],
+            "down-left": [
+              "npc-pyra-steward/idle/down-left/00",
+              "npc-pyra-steward/idle/down-left/01",
+              "npc-pyra-steward/idle/down-left/02",
+              "npc-pyra-steward/idle/down-left/03",
+              "npc-pyra-steward/idle/down-left/04",
+              "npc-pyra-steward/idle/down-left/05",
+              "npc-pyra-steward/idle/down-left/06",
+              "npc-pyra-steward/idle/down-left/07"
+            ],
+            "left": [
+              "npc-pyra-steward/idle/left/00",
+              "npc-pyra-steward/idle/left/01",
+              "npc-pyra-steward/idle/left/02",
+              "npc-pyra-steward/idle/left/03",
+              "npc-pyra-steward/idle/left/04",
+              "npc-pyra-steward/idle/left/05",
+              "npc-pyra-steward/idle/left/06",
+              "npc-pyra-steward/idle/left/07"
+            ],
+            "up-left": [
+              "npc-pyra-steward/idle/up-left/00",
+              "npc-pyra-steward/idle/up-left/01",
+              "npc-pyra-steward/idle/up-left/02",
+              "npc-pyra-steward/idle/up-left/03",
+              "npc-pyra-steward/idle/up-left/04",
+              "npc-pyra-steward/idle/up-left/05",
+              "npc-pyra-steward/idle/up-left/06",
+              "npc-pyra-steward/idle/up-left/07"
+            ],
+            "up": [
+              "npc-pyra-steward/idle/up/00",
+              "npc-pyra-steward/idle/up/01",
+              "npc-pyra-steward/idle/up/02",
+              "npc-pyra-steward/idle/up/03",
+              "npc-pyra-steward/idle/up/04",
+              "npc-pyra-steward/idle/up/05",
+              "npc-pyra-steward/idle/up/06",
+              "npc-pyra-steward/idle/up/07"
+            ],
+            "up-right": [
+              "npc-pyra-steward/idle/up-right/00",
+              "npc-pyra-steward/idle/up-right/01",
+              "npc-pyra-steward/idle/up-right/02",
+              "npc-pyra-steward/idle/up-right/03",
+              "npc-pyra-steward/idle/up-right/04",
+              "npc-pyra-steward/idle/up-right/05",
+              "npc-pyra-steward/idle/up-right/06",
+              "npc-pyra-steward/idle/up-right/07"
+            ],
+            "right": [
+              "npc-pyra-steward/idle/right/00",
+              "npc-pyra-steward/idle/right/01",
+              "npc-pyra-steward/idle/right/02",
+              "npc-pyra-steward/idle/right/03",
+              "npc-pyra-steward/idle/right/04",
+              "npc-pyra-steward/idle/right/05",
+              "npc-pyra-steward/idle/right/06",
+              "npc-pyra-steward/idle/right/07"
+            ],
+            "down-right": [
+              "npc-pyra-steward/idle/down-right/00",
+              "npc-pyra-steward/idle/down-right/01",
+              "npc-pyra-steward/idle/down-right/02",
+              "npc-pyra-steward/idle/down-right/03",
+              "npc-pyra-steward/idle/down-right/04",
+              "npc-pyra-steward/idle/down-right/05",
+              "npc-pyra-steward/idle/down-right/06",
+              "npc-pyra-steward/idle/down-right/07"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "actorBindings": {
+    "pyra.npc.steward": "npc-pyra-steward"
+  },
+  "renderBindings": {},
+  "effects": {}
+}

@@ -58,3 +58,19 @@
   konsoli. Trafienie, ciężkie trafienie, skill B, garda i zwycięstwo wywołane bezpośrednio z kodu animacji, a śmierć wymuszona parametrem `dead`
   (bohater w teście nie ginął od potwora).
 - Testy: `actor-animation` (łańcuch KI, klipy formy KI, śmierć po końcu buffa, brak klipu = klip bazowy), `gpu-pipeline`; typecheck i eslint czyste.
+
+### 4. NPC dla czterech ras: przewodnik, kowal, depozytariusz, karczmarz, zarządca i strażnik
+
+- Z filmów obrotu dostarczonych przez właściciela (zapisane w `art-wip/gemini-anim-stages/npc-<rola>-<nazwa>-obrot.mp4`) powstało sześć
+  nowych postaci: Przewodniczka (`guide`), Kowal (`smith`), Depozytariuszka (`keeper`), Karczmarka (`innkeeper`), Zarządca (`steward`)
+  i Strażnik (`warden`). Skrypt `scripts/anim/npc_role_build.py` (uogólniony `npc_trainer_build.py`): po jednej pozie na kierunek z filmu
+  (filmy naprawdę obracają się w obie strony, więc lewe strony to prawdziwe klatki, nie lustra), matowanie rembg, jedna skala na postać, oddech
+  z dwóch póz w 8 klatkach idle, `walk` na tych samych klatkach. Napis spod stóp w filmach odpada (zostaje tylko największy kształt).
+- Każda postać ma cztery wersje: Pyra (Legendy) w oryginalnych kolorach z filmu, Verdantia zielona, Aetheria turkusowa, Nexus-9 niebieska
+  (przekolorowanie ubioru; skóra, włosy, buty i zbroja zostają; Przewodniczka, Strażnik i Zarządca zmieniają tylko ciemny materiał peleryny/szaty,
+  Kowal skórę i fartuch). Zwykły NPC: komórki 128 px, rozmiar 96 (kontrakt importu; tylko Trener jest rysowany 2× z komórek 256 px).
+  Paczki `npc-<świat>-<rola>` 1.0.0, binding `<świat>.npc.<rola>`, atlas ok. 0,4 MiB.
+- Role bez filmu (`hunter`, `merchant`, `alchemist`) zostają wspólną postacią zastępczą `human-v2`. Trener bez zmian.
+- Weryfikacja w grze (Playwright, start w każdym z czterech światów): załadowane tekstury `npc-<świat>-{guide,innkeeper,keeper,smith,steward,trainer,warden}`,
+  zero błędów konsoli; zrzut startu Pyry z Przewodniczką Kaeną. Test `npc-roles-visual` (6 ról × 4 światy, 8 kierunków, rozmiar 96) i
+  `stream-texture-budget` zielone.
