@@ -178,6 +178,15 @@ Na polecenie właściciela: usunięto wrażenie nieczytelnej kolumny, dodano pra
   a podpisy nad głową podnoszą się o tyle samo (`interiorScale` w `mountGame.ts`). Na zewnątrz bez zmian.
 - Zwykli NPC powiększeni ×1,6 z komórek 128 px są lekko miękcy; ostre pozostają bohater i Trener (256 px).
 
+### Mapa 2D: przesuwanie na szerokim, niskim ekranie
+
+- Odtworzone w przeglądarce (telefon w poziomie 844×390, najmniejsze powiększenie): widok jest tam szerszy
+  niż mapa, a `clampView` przy takim widoku na sztywno ustawiał `cx` na środek, więc przeciągnięcie nie
+  robiło nic (zapętlone przesuwanie działało tylko po przybliżeniu albo na węższych ekranach).
+- `clampView` zawsze zawija długość geograficzną; `wrapCopies` liczy kopie mapy także dla widoku szerszego
+  niż mapa (trzy kopie), więc po bokach nie ma dziur. Test `planet-map.test.ts`: pełny obrót wraca do startu,
+  kopie pokrywają cały widoczny pas.
+
 ### 11. Faza 2 (część 1): tani HUD i koniec alokacji co klatkę
 
 - Właściciel: „Ruszaj Fazę 2, nie ma czasu". Zakres: bezpieczne, mierzalne zmiany bez ruszania
