@@ -61256,231 +61256,231 @@
   {
     "schemaVersion": 1,
     "id": "ki-v2-buildings",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "ki-v2-buildings-aether-arena",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-aether-arena.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-aether-arena.webp",
         "width": 738,
         "height": 673
       },
       {
         "id": "ki-v2-buildings-aether-depot",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-aether-depot.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-aether-depot.webp",
         "width": 738,
         "height": 721
       },
       {
         "id": "ki-v2-buildings-aether-hall",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-aether-hall.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-aether-hall.webp",
         "width": 738,
         "height": 683
       },
       {
         "id": "ki-v2-buildings-aether-house",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-aether-house.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-aether-house.webp",
         "width": 257,
         "height": 245
       },
       {
         "id": "ki-v2-buildings-aether-inn",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-aether-inn.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-aether-inn.webp",
         "width": 737,
         "height": 742
       },
       {
         "id": "ki-v2-buildings-aether-market",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-aether-market.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-aether-market.webp",
         "width": 738,
         "height": 702
       },
       {
         "id": "ki-v2-buildings-aether-smithy",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-aether-smithy.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-aether-smithy.webp",
         "width": 738,
         "height": 692
       },
       {
         "id": "ki-v2-buildings-nexus-arena",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-nexus-arena.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-nexus-arena.webp",
         "width": 738,
         "height": 679
       },
       {
         "id": "ki-v2-buildings-nexus-depot",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-nexus-depot.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-nexus-depot.webp",
         "width": 738,
         "height": 737
       },
       {
         "id": "ki-v2-buildings-nexus-hall",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-nexus-hall.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-nexus-hall.webp",
         "width": 738,
         "height": 705
       },
       {
         "id": "ki-v2-buildings-nexus-house",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-nexus-house.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-nexus-house.webp",
         "width": 257,
         "height": 240
       },
       {
         "id": "ki-v2-buildings-nexus-inn",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-nexus-inn.webp",
-        "width": 738,
-        "height": 799
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-nexus-inn.webp",
+        "width": 388,
+        "height": 420
       },
       {
         "id": "ki-v2-buildings-nexus-market",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-nexus-market.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-nexus-market.webp",
         "width": 738,
         "height": 714
       },
       {
         "id": "ki-v2-buildings-nexus-smithy",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-nexus-smithy.webp",
-        "width": 738,
-        "height": 688
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-nexus-smithy.webp",
+        "width": 420,
+        "height": 392
       },
       {
         "id": "ki-v2-buildings-pyra-arena",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-pyra-arena.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-pyra-arena.webp",
         "width": 738,
         "height": 685
       },
       {
         "id": "ki-v2-buildings-pyra-depot",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-pyra-depot.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-pyra-depot.webp",
         "width": 738,
         "height": 713
       },
       {
         "id": "ki-v2-buildings-pyra-hall",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-pyra-hall.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-pyra-hall.webp",
         "width": 855,
         "height": 831
       },
       {
         "id": "ki-v2-buildings-pyra-house",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-pyra-house.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-pyra-house.webp",
         "width": 257,
         "height": 240
       },
       {
         "id": "ki-v2-buildings-pyra-inn",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-pyra-inn.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-pyra-inn.webp",
         "width": 738,
         "height": 789
       },
       {
         "id": "ki-v2-buildings-pyra-market",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-pyra-market.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-pyra-market.webp",
         "width": 738,
         "height": 716
       },
       {
         "id": "ki-v2-buildings-pyra-smithy",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-pyra-smithy.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-pyra-smithy.webp",
         "width": 738,
         "height": 789
       },
       {
         "id": "ki-v2-buildings-verdant-arena",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-verdant-arena.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-verdant-arena.webp",
         "width": 738,
         "height": 789
       },
       {
         "id": "ki-v2-buildings-verdant-depot",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-verdant-depot.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-verdant-depot.webp",
         "width": 738,
         "height": 775
       },
       {
         "id": "ki-v2-buildings-verdant-hall",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-verdant-hall.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-verdant-hall.webp",
         "width": 750,
         "height": 738
       },
       {
         "id": "ki-v2-buildings-verdant-house",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-verdant-house.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-verdant-house.webp",
         "width": 257,
         "height": 238
       },
       {
         "id": "ki-v2-buildings-verdant-inn",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-verdant-inn.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-verdant-inn.webp",
         "width": 739,
         "height": 788
       },
       {
         "id": "ki-v2-buildings-verdant-market",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-verdant-market.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-verdant-market.webp",
         "width": 750,
         "height": 699
       },
       {
         "id": "ki-v2-buildings-verdant-smithy",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/ki-v2-buildings/1.1.0-92dd38ab42e3/ki-v2-buildings-verdant-smithy.webp",
+        "url": "/game/assets/gpu/ki-v2-buildings/1.2.0-5b3473709d23/ki-v2-buildings-verdant-smithy.webp",
         "width": 750,
         "height": 737
       }
@@ -76534,96 +76534,96 @@
   {
     "schemaVersion": 1,
     "id": "aether-painted-preview",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "aether-painted-grass",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-grass.webp",
+        "url": "/game/assets/gpu/aether-painted-preview/1.1.0-117c50037998/aether-painted-grass.webp",
         "width": 1254,
         "height": 1254
       },
       {
         "id": "aether-painted-forest",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-forest.webp",
+        "url": "/game/assets/gpu/aether-painted-preview/1.1.0-117c50037998/aether-painted-forest.webp",
         "width": 1254,
         "height": 1254
       },
       {
         "id": "aether-painted-road",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-road.webp",
+        "url": "/game/assets/gpu/aether-painted-preview/1.1.0-117c50037998/aether-painted-road.webp",
         "width": 1254,
         "height": 1254
       },
       {
         "id": "aether-painted-plaza",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-plaza.webp",
+        "url": "/game/assets/gpu/aether-painted-preview/1.1.0-117c50037998/aether-painted-plaza.webp",
         "width": 1254,
         "height": 1254
       },
       {
         "id": "aether-painted-shop",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-shop.webp",
-        "width": 1366,
-        "height": 1010
+        "url": "/game/assets/gpu/aether-painted-preview/1.1.0-117c50037998/aether-painted-shop.webp",
+        "width": 720,
+        "height": 532
       },
       {
         "id": "aether-painted-hall",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-hall.webp",
-        "width": 1383,
-        "height": 1011
+        "url": "/game/assets/gpu/aether-painted-preview/1.1.0-117c50037998/aether-painted-hall.webp",
+        "width": 720,
+        "height": 526
       },
       {
         "id": "aether-painted-inn",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-inn.webp",
-        "width": 1310,
-        "height": 1017
+        "url": "/game/assets/gpu/aether-painted-preview/1.1.0-117c50037998/aether-painted-inn.webp",
+        "width": 720,
+        "height": 559
       },
       {
         "id": "aether-painted-arena",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-arena.webp",
+        "url": "/game/assets/gpu/aether-painted-preview/1.1.0-117c50037998/aether-painted-arena.webp",
         "width": 1484,
         "height": 1024
       },
       {
         "id": "aether-painted-smithy",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-smithy.webp",
-        "width": 1341,
-        "height": 1016
+        "url": "/game/assets/gpu/aether-painted-preview/1.1.0-117c50037998/aether-painted-smithy.webp",
+        "width": 720,
+        "height": 546
       },
       {
         "id": "aether-painted-depot",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "image",
-        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-depot.webp",
-        "width": 1424,
-        "height": 1024
+        "url": "/game/assets/gpu/aether-painted-preview/1.1.0-117c50037998/aether-painted-depot.webp",
+        "width": 720,
+        "height": 518
       },
       {
         "id": "aether-painted-props",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-props.webp",
-        "atlasUrl": "/game/assets/gpu/aether-painted-preview/1.0.0-132c2b614ce1/aether-painted-props.json",
+        "url": "/game/assets/gpu/aether-painted-preview/1.1.0-117c50037998/aether-painted-props.webp",
+        "atlasUrl": "/game/assets/gpu/aether-painted-preview/1.1.0-117c50037998/aether-painted-props.json",
         "width": 1536,
         "height": 1024
       }
@@ -76954,96 +76954,96 @@
   {
     "schemaVersion": 1,
     "id": "nexus-painted-preview",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "nexus-painted-props",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-props.webp",
-        "atlasUrl": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-props.json",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.2.0-6349573f1715/nexus-painted-props.webp",
+        "atlasUrl": "/game/assets/gpu/nexus-painted-preview/1.2.0-6349573f1715/nexus-painted-props.json",
         "width": 1536,
         "height": 1024
       },
       {
         "id": "nexus-painted-arena",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-arena.webp",
-        "width": 1289,
-        "height": 1154
+        "url": "/game/assets/gpu/nexus-painted-preview/1.2.0-6349573f1715/nexus-painted-arena.webp",
+        "width": 672,
+        "height": 602
       },
       {
         "id": "nexus-painted-depot",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-depot.webp",
-        "width": 1292,
-        "height": 1169
+        "url": "/game/assets/gpu/nexus-painted-preview/1.2.0-6349573f1715/nexus-painted-depot.webp",
+        "width": 672,
+        "height": 608
       },
       {
         "id": "nexus-painted-forest",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-forest.webp",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.2.0-6349573f1715/nexus-painted-forest.webp",
         "width": 1254,
         "height": 1254
       },
       {
         "id": "nexus-painted-road",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-road.webp",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.2.0-6349573f1715/nexus-painted-road.webp",
         "width": 1254,
         "height": 1254
       },
       {
         "id": "nexus-painted-plaza",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-plaza.webp",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.2.0-6349573f1715/nexus-painted-plaza.webp",
         "width": 1254,
         "height": 1254
       },
       {
         "id": "nexus-painted-grass",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-grass.webp",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.2.0-6349573f1715/nexus-painted-grass.webp",
         "width": 1254,
         "height": 1254
       },
       {
         "id": "nexus-painted-stone",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-stone.webp",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.2.0-6349573f1715/nexus-painted-stone.webp",
         "width": 1254,
         "height": 1254
       },
       {
         "id": "nexus-painted-hall",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-hall.webp",
-        "width": 1292,
-        "height": 1158
+        "url": "/game/assets/gpu/nexus-painted-preview/1.2.0-6349573f1715/nexus-painted-hall.webp",
+        "width": 672,
+        "height": 602
       },
       {
         "id": "nexus-painted-shop",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-shop.webp",
-        "width": 1290,
-        "height": 1172
+        "url": "/game/assets/gpu/nexus-painted-preview/1.2.0-6349573f1715/nexus-painted-shop.webp",
+        "width": 672,
+        "height": 611
       },
       {
         "id": "nexus-painted-courtyard",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "kind": "image",
-        "url": "/game/assets/gpu/nexus-painted-preview/1.1.0-52e306dd144f/nexus-painted-courtyard.webp",
+        "url": "/game/assets/gpu/nexus-painted-preview/1.2.0-6349573f1715/nexus-painted-courtyard.webp",
         "width": 1254,
         "height": 1254
       }
