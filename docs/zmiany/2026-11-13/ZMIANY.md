@@ -44,3 +44,19 @@
   w jednostkach 256 px (sprawdzone: wysokość i linia stóp zgodne ze starą paczką co do 0,7 px); nowe klipy przed
   importem przechodzą przez `downscale_hero_pack.py`. Test budżetu strumieniowania: zestaw Mędrca 93,93 → 85,08 MiB.
 - Nie sprawdzono: wygląd na ekranach o gęstości 2× przy pełnym zbliżeniu (gra renderuje dziś w 1×).
+
+### 4. Legenda: po śmierci postać znikała (zwykła forma)
+
+- Własny przegląd wszystkich 36 klipów czterech ras (struktura, odtwarzanie w grze, plansza klatek każdego klipu) wykrył
+  błąd istniejący od początku: w klipie `death` Legendy klatki 5–8 są prawie puste (kilka czerwonych drobin, 66–245 pikseli
+  zamiast ok. 6000). Silnik zatrzymuje się na ostatniej klatce śmierci, więc martwa Legenda była niewidoczna. Ten sam
+  stan w wersji sprzed optymalizacji z 13.11 — optymalizacje go nie spowodowały. Pozostałe rasy i klipy bez takich klatek
+  (skan wszystkich klipów: tylko to jedno miejsce).
+- Poprawka (paczka `3.2.1`): klatki 5–8 wskazują w atlasie tę samą ramkę co klatka 4 (leżąca poza), więc ciało zostaje
+  widoczne po śmierci; nazwy klatek i obraz bez zmian. W grze: ostatnia klatka śmierci to leżąca Legenda, śmierć → wstawanie
+  → stanie działa.
+- Test `hero-clips-visible`: w każdym klipie każdej rasy (kierunki w prawo, w dół, w górę) żadna klatka nie może mieć
+  mniej niż 20% pikseli mediany klipu. Na starej paczce Legendy pada (12 pustych klatek), na naprawionej przechodzi.
+- Zakres własnej weryfikacji z tego dnia: struktura (36 klipów × 8 kierunków, każda klatka istnieje), odtwarzanie każdego
+  stanu w formie zwykłej i KI (46 sprawdzeń na rasę), chód w 8 kierunkach i bieg, śmierć i wstawanie, wygląd klatek
+  wszystkich klipów. Nie sprawdzono: tryb online z prawdziwą przemianą.
