@@ -423,6 +423,10 @@ export async function importPackage(
     requireThat(previous.version !== pack.version, "Content changed without a version bump");
   }
   const others = current.filter((p) => p.id !== pack.id);
+  // A replaced pack keeps its place: later packs override earlier bindings, so moving it to the end would change
+  // which look wins (e.g. an old monster pack overriding the accepted anime one).
+  const at = current.findIndex((p) => p.id === pack.id);
+  const ordered = at < 0 ? [...others, pack] : [...others.slice(0, at), pack, ...others.slice(at)];
   for (const other of others)
     for (const asset of pack.assets)
       requireThat(
@@ -430,7 +434,7 @@ export async function importPackage(
         "Asset ID owned by another package: " + asset.id,
       );
   // Validate links and the complete replacement catalogue before touching active files.
-  const combined = makeCatalog([...others, pack], true);
+  const combined = makeCatalog(ordered, true);
   for (const actor of combined.actors.values())
     for (const clip of Object.values(actor.clips))
       requireThat(combined.assets.has(clip.asset), "Clip references unknown asset: " + clip.asset);
@@ -484,7 +488,7 @@ export async function importPackage(
       await rename(staging, target);
     }
     const next = path.join(path.dirname(registry), "imported.tmp-" + process.pid + ".json");
-    await writeFile(next, JSON.stringify([...others, pack], null, 2) + "\n");
+    await writeFile(next, JSON.stringify(ordered, null, 2) + "\n");
     await rename(next, registry);
   } finally {
     await rm(staging, { recursive: true, force: true });

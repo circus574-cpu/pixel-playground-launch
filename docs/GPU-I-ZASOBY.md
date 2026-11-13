@@ -489,6 +489,13 @@ generatorze (jedna plansza 4:3 na potwora: 4 klatki chodu/lotu, 4 ataku, 4 śmie
 - Gotowe: **40 z 40** potworów. Ostatnie pięć (04.11.2026): verdant-lisciak-skrytobojca, aether-swietlik-pieczeci
   (latający, `--no-effects`), nexus-pajak-spawalniczy, nexus-roj-nanitow (chmura jako jedna zwarta masa, `--no-effects`)
   i pyra-popielny-wilk. Test `monsters-anime-complete` pilnuje, że każdy potwór bestiariusza ma pakiet.
+- Przycięcie klatek (13.11.2026, wersje `1.1.0`): `scripts/assets/trim_atlas_pack.py` przycina każdą klatkę atlasu do
+  sylwetki (z 1 px oryginalnego otoczenia), zapisuje identyczne klatki raz i pakuje ciasno, bez strat (WebP `exact`);
+  JSON zachowuje nazwy klatek, `sourceSize` i położenie (`spriteSourceSize`), więc gra rysuje je w tym samym miejscu
+  i rozmiarze. `enemy-v3-*` (domyślne): 320 → 130 MiB łącznie, `enemy-v2-*`: 1040 → 177 MiB. Paczki `enemy-v3-*` są
+  instalowane poza importerem (jak w `ingest_creature_sheet.py`): `--install-direct` podmienia wpis w rejestrze w tym
+  samym miejscu. Kolejność w `imported.json` decyduje, która paczka wygrywa przypisanie (v3 jest po v2); importer przy
+  `--replace` zachowuje teraz miejsce paczki (wcześniej przenosił ją na koniec).
 
 ## Generowanie świata z promptów — `gen_from_prompts.py` (04.11.2026)
 

@@ -80,6 +80,27 @@ describe("GPU import validates actual pixels, frames and immutable publication",
     );
     expect(await readFile(registry, "utf8")).toBe(before);
   });
+  it("keeps a replaced pack at its place in the registry (later packs override earlier bindings)", async () => {
+    const f = await delivery(),
+      root = await app(f.root);
+    await importPackage(f.manifest, { root, install: true });
+    const registry = path.join(root, "src/game/assets/imported.json");
+    const installed = JSON.parse(await readFile(registry, "utf8"));
+    // a second installed pack after it: the same files under other ids, no bindings
+    const later = JSON.parse(
+      JSON.stringify(installed[0])
+        .replaceAll("technical-rig", "zz-rig")
+        .replaceAll("technical-mannequin", "zz-mannequin"),
+    );
+    later.actorBindings = {};
+    await writeFile(registry, JSON.stringify([...installed, later], null, 2) + "\n");
+    f.pack.version = f.pack.version.replace(/\d+$/, (n: string) => String(Number(n) + 1));
+    for (const asset of f.pack.assets) asset.version = f.pack.version;
+    await f.save();
+    await importPackage(f.manifest, { root, install: true, replace: true });
+    const ids = JSON.parse(await readFile(registry, "utf8")).map((p: { id: string }) => p.id);
+    expect(ids).toEqual(["technical-rig", "zz-rig"]);
+  }, 20000);
   it("rejects missing, corrupt, mismatched and out-of-atlas images", async () => {
     const f = await delivery();
     f.pack.assets[0].width = 900;
