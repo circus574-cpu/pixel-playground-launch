@@ -38,7 +38,8 @@ describe("HD hero and streamed creature texture budget", () => {
     // (one 2048×1024 page, 02.11.2026).
     // 102.79 MiB with mirrored side views drawn by flipX (109.62 before; 132.47 originally).
     // 98.36 MiB with the legacy fallback hero sheet stored at 640 px instead of 1254 px (12.11.2026).
-    expect(bytes / 1024 / 1024).toBeCloseTo(98.3572998046875);
+    // 93.93 MiB with the salamander's frames trimmed to the figure and repacked (13.11.2026).
+    expect(bytes / 1024 / 1024).toBeCloseTo(93.9315185546875);
   });
   it("retains a finite ceiling and reserves terrain, deduplicating reused atlases", () => {
     const assets = new Map([["atlas", { width: 2048, height: 2048 }]]);

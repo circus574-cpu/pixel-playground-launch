@@ -34024,27 +34024,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-aether-duch-bibliotekarza",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-aether-duch-bibliotekarza-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-duch-bibliotekarza/1.0.0-a6e8bbf5faa7/enemy-v2-aether-duch-bibliotekarza-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-duch-bibliotekarza/1.0.0-a6e8bbf5faa7/enemy-v2-aether-duch-bibliotekarza-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-aether-duch-bibliotekarza/1.1.0-ff972687fe9e/enemy-v2-aether-duch-bibliotekarza-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-duch-bibliotekarza/1.1.0-ff972687fe9e/enemy-v2-aether-duch-bibliotekarza-page-0.json",
+        "width": 1636,
+        "height": 1040
       },
       {
         "id": "enemy-v2-aether-duch-bibliotekarza-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-duch-bibliotekarza/1.0.0-a6e8bbf5faa7/enemy-v2-aether-duch-bibliotekarza-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-duch-bibliotekarza/1.0.0-a6e8bbf5faa7/enemy-v2-aether-duch-bibliotekarza-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-aether-duch-bibliotekarza/1.1.0-ff972687fe9e/enemy-v2-aether-duch-bibliotekarza-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-duch-bibliotekarza/1.1.0-ff972687fe9e/enemy-v2-aether-duch-bibliotekarza-page-1.json",
+        "width": 1295,
+        "height": 700
       }
     ],
     "actors": [
@@ -34651,27 +34651,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-aether-krysztalowy-motyl",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-aether-krysztalowy-motyl-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-krysztalowy-motyl/1.0.0-9a4ce5a764aa/enemy-v2-aether-krysztalowy-motyl-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-krysztalowy-motyl/1.0.0-9a4ce5a764aa/enemy-v2-aether-krysztalowy-motyl-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-aether-krysztalowy-motyl/1.1.0-1cd392369e0b/enemy-v2-aether-krysztalowy-motyl-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-krysztalowy-motyl/1.1.0-1cd392369e0b/enemy-v2-aether-krysztalowy-motyl-page-0.json",
+        "width": 1964,
+        "height": 204
       },
       {
         "id": "enemy-v2-aether-krysztalowy-motyl-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-krysztalowy-motyl/1.0.0-9a4ce5a764aa/enemy-v2-aether-krysztalowy-motyl-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-krysztalowy-motyl/1.0.0-9a4ce5a764aa/enemy-v2-aether-krysztalowy-motyl-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-aether-krysztalowy-motyl/1.1.0-1cd392369e0b/enemy-v2-aether-krysztalowy-motyl-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-krysztalowy-motyl/1.1.0-1cd392369e0b/enemy-v2-aether-krysztalowy-motyl-page-1.json",
+        "width": 561,
+        "height": 456
       }
     ],
     "actors": [
@@ -35278,27 +35278,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-aether-lew-swiatyni",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-aether-lew-swiatyni-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-lew-swiatyni/1.0.0-f78661cfbc76/enemy-v2-aether-lew-swiatyni-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-lew-swiatyni/1.0.0-f78661cfbc76/enemy-v2-aether-lew-swiatyni-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-aether-lew-swiatyni/1.1.0-d2d7603cce0b/enemy-v2-aether-lew-swiatyni-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-lew-swiatyni/1.1.0-d2d7603cce0b/enemy-v2-aether-lew-swiatyni-page-0.json",
+        "width": 1374,
+        "height": 348
       },
       {
         "id": "enemy-v2-aether-lew-swiatyni-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-lew-swiatyni/1.0.0-f78661cfbc76/enemy-v2-aether-lew-swiatyni-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-lew-swiatyni/1.0.0-f78661cfbc76/enemy-v2-aether-lew-swiatyni-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-aether-lew-swiatyni/1.1.0-d2d7603cce0b/enemy-v2-aether-lew-swiatyni-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-lew-swiatyni/1.1.0-d2d7603cce0b/enemy-v2-aether-lew-swiatyni-page-1.json",
+        "width": 1079,
+        "height": 384
       }
     ],
     "actors": [
@@ -35905,27 +35905,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-aether-marionetka-rytualu",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-aether-marionetka-rytualu-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-marionetka-rytualu/1.0.0-5f458f3838f7/enemy-v2-aether-marionetka-rytualu-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-marionetka-rytualu/1.0.0-5f458f3838f7/enemy-v2-aether-marionetka-rytualu-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-aether-marionetka-rytualu/1.1.0-34b7b3dd17a6/enemy-v2-aether-marionetka-rytualu-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-marionetka-rytualu/1.1.0-34b7b3dd17a6/enemy-v2-aether-marionetka-rytualu-page-0.json",
+        "width": 1304,
+        "height": 944
       },
       {
         "id": "enemy-v2-aether-marionetka-rytualu-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-marionetka-rytualu/1.0.0-5f458f3838f7/enemy-v2-aether-marionetka-rytualu-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-marionetka-rytualu/1.0.0-5f458f3838f7/enemy-v2-aether-marionetka-rytualu-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-aether-marionetka-rytualu/1.1.0-34b7b3dd17a6/enemy-v2-aether-marionetka-rytualu-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-marionetka-rytualu/1.1.0-34b7b3dd17a6/enemy-v2-aether-marionetka-rytualu-page-1.json",
+        "width": 1201,
+        "height": 772
       }
     ],
     "actors": [
@@ -36532,27 +36532,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-aether-mgielny-zuraw",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-aether-mgielny-zuraw-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-mgielny-zuraw/1.0.0-d6c24bd58623/enemy-v2-aether-mgielny-zuraw-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-mgielny-zuraw/1.0.0-d6c24bd58623/enemy-v2-aether-mgielny-zuraw-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-aether-mgielny-zuraw/1.1.0-99e9e9454a72/enemy-v2-aether-mgielny-zuraw-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-mgielny-zuraw/1.1.0-99e9e9454a72/enemy-v2-aether-mgielny-zuraw-page-0.json",
+        "width": 1408,
+        "height": 280
       },
       {
         "id": "enemy-v2-aether-mgielny-zuraw-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-mgielny-zuraw/1.0.0-d6c24bd58623/enemy-v2-aether-mgielny-zuraw-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-mgielny-zuraw/1.0.0-d6c24bd58623/enemy-v2-aether-mgielny-zuraw-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-aether-mgielny-zuraw/1.1.0-99e9e9454a72/enemy-v2-aether-mgielny-zuraw-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-mgielny-zuraw/1.1.0-99e9e9454a72/enemy-v2-aether-mgielny-zuraw-page-1.json",
+        "width": 523,
+        "height": 440
       }
     ],
     "actors": [
@@ -37159,27 +37159,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-aether-pergaminowy-straznik",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-aether-pergaminowy-straznik-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-pergaminowy-straznik/1.0.0-22cd00c5b67c/enemy-v2-aether-pergaminowy-straznik-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-pergaminowy-straznik/1.0.0-22cd00c5b67c/enemy-v2-aether-pergaminowy-straznik-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-aether-pergaminowy-straznik/1.1.0-419974dd118a/enemy-v2-aether-pergaminowy-straznik-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-pergaminowy-straznik/1.1.0-419974dd118a/enemy-v2-aether-pergaminowy-straznik-page-0.json",
+        "width": 1144,
+        "height": 1324
       },
       {
         "id": "enemy-v2-aether-pergaminowy-straznik-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-pergaminowy-straznik/1.0.0-22cd00c5b67c/enemy-v2-aether-pergaminowy-straznik-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-pergaminowy-straznik/1.0.0-22cd00c5b67c/enemy-v2-aether-pergaminowy-straznik-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-aether-pergaminowy-straznik/1.1.0-419974dd118a/enemy-v2-aether-pergaminowy-straznik-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-pergaminowy-straznik/1.1.0-419974dd118a/enemy-v2-aether-pergaminowy-straznik-page-1.json",
+        "width": 933,
+        "height": 1016
       }
     ],
     "actors": [
@@ -37786,27 +37786,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-aether-swietlik-pieczeci",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-aether-swietlik-pieczeci-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-swietlik-pieczeci/1.0.0-f052eefcbf8d/enemy-v2-aether-swietlik-pieczeci-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-swietlik-pieczeci/1.0.0-f052eefcbf8d/enemy-v2-aether-swietlik-pieczeci-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-aether-swietlik-pieczeci/1.1.0-dc49a6ac15e2/enemy-v2-aether-swietlik-pieczeci-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-swietlik-pieczeci/1.1.0-dc49a6ac15e2/enemy-v2-aether-swietlik-pieczeci-page-0.json",
+        "width": 1442,
+        "height": 476
       },
       {
         "id": "enemy-v2-aether-swietlik-pieczeci-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-swietlik-pieczeci/1.0.0-f052eefcbf8d/enemy-v2-aether-swietlik-pieczeci-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-swietlik-pieczeci/1.0.0-f052eefcbf8d/enemy-v2-aether-swietlik-pieczeci-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-aether-swietlik-pieczeci/1.1.0-dc49a6ac15e2/enemy-v2-aether-swietlik-pieczeci-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-swietlik-pieczeci/1.1.0-dc49a6ac15e2/enemy-v2-aether-swietlik-pieczeci-page-1.json",
+        "width": 1702,
+        "height": 604
       }
     ],
     "actors": [
@@ -38413,27 +38413,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-aether-szmaragdowy-waz",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-aether-szmaragdowy-waz-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-szmaragdowy-waz/1.0.0-51a4ea15db1a/enemy-v2-aether-szmaragdowy-waz-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-szmaragdowy-waz/1.0.0-51a4ea15db1a/enemy-v2-aether-szmaragdowy-waz-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-aether-szmaragdowy-waz/1.1.0-7f3c4018b147/enemy-v2-aether-szmaragdowy-waz-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-szmaragdowy-waz/1.1.0-7f3c4018b147/enemy-v2-aether-szmaragdowy-waz-page-0.json",
+        "width": 540,
+        "height": 1316
       },
       {
         "id": "enemy-v2-aether-szmaragdowy-waz-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-szmaragdowy-waz/1.0.0-51a4ea15db1a/enemy-v2-aether-szmaragdowy-waz-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-szmaragdowy-waz/1.0.0-51a4ea15db1a/enemy-v2-aether-szmaragdowy-waz-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-aether-szmaragdowy-waz/1.1.0-7f3c4018b147/enemy-v2-aether-szmaragdowy-waz-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-szmaragdowy-waz/1.1.0-7f3c4018b147/enemy-v2-aether-szmaragdowy-waz-page-1.json",
+        "width": 556,
+        "height": 628
       }
     ],
     "actors": [
@@ -39040,27 +39040,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-aether-zloty-skarabeusz",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-aether-zloty-skarabeusz-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-zloty-skarabeusz/1.0.0-1ba19ecc4f0a/enemy-v2-aether-zloty-skarabeusz-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-zloty-skarabeusz/1.0.0-1ba19ecc4f0a/enemy-v2-aether-zloty-skarabeusz-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-aether-zloty-skarabeusz/1.1.0-7b5c058f2092/enemy-v2-aether-zloty-skarabeusz-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-zloty-skarabeusz/1.1.0-7b5c058f2092/enemy-v2-aether-zloty-skarabeusz-page-0.json",
+        "width": 400,
+        "height": 760
       },
       {
         "id": "enemy-v2-aether-zloty-skarabeusz-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-zloty-skarabeusz/1.0.0-1ba19ecc4f0a/enemy-v2-aether-zloty-skarabeusz-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-zloty-skarabeusz/1.0.0-1ba19ecc4f0a/enemy-v2-aether-zloty-skarabeusz-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-aether-zloty-skarabeusz/1.1.0-7b5c058f2092/enemy-v2-aether-zloty-skarabeusz-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-zloty-skarabeusz/1.1.0-7b5c058f2092/enemy-v2-aether-zloty-skarabeusz-page-1.json",
+        "width": 417,
+        "height": 388
       }
     ],
     "actors": [
@@ -39667,27 +39667,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-nexus-dron-zwiadowca",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-nexus-dron-zwiadowca-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-dron-zwiadowca/1.0.0-673ca4caccc4/enemy-v2-nexus-dron-zwiadowca-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-dron-zwiadowca/1.0.0-673ca4caccc4/enemy-v2-nexus-dron-zwiadowca-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-nexus-dron-zwiadowca/1.1.0-62ab28fa7c28/enemy-v2-nexus-dron-zwiadowca-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-dron-zwiadowca/1.1.0-62ab28fa7c28/enemy-v2-nexus-dron-zwiadowca-page-0.json",
+        "width": 1808,
+        "height": 428
       },
       {
         "id": "enemy-v2-nexus-dron-zwiadowca-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-dron-zwiadowca/1.0.0-673ca4caccc4/enemy-v2-nexus-dron-zwiadowca-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-dron-zwiadowca/1.0.0-673ca4caccc4/enemy-v2-nexus-dron-zwiadowca-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-nexus-dron-zwiadowca/1.1.0-62ab28fa7c28/enemy-v2-nexus-dron-zwiadowca-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-dron-zwiadowca/1.1.0-62ab28fa7c28/enemy-v2-nexus-dron-zwiadowca-page-1.json",
+        "width": 906,
+        "height": 700
       }
     ],
     "actors": [
@@ -40294,27 +40294,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-nexus-kruk-danych",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-nexus-kruk-danych-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-kruk-danych/1.0.0-f5d7a782e0d6/enemy-v2-nexus-kruk-danych-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-kruk-danych/1.0.0-f5d7a782e0d6/enemy-v2-nexus-kruk-danych-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-nexus-kruk-danych/1.1.0-a7cfccf4c729/enemy-v2-nexus-kruk-danych-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-kruk-danych/1.1.0-a7cfccf4c729/enemy-v2-nexus-kruk-danych-page-0.json",
+        "width": 1542,
+        "height": 284
       },
       {
         "id": "enemy-v2-nexus-kruk-danych-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-kruk-danych/1.0.0-f5d7a782e0d6/enemy-v2-nexus-kruk-danych-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-kruk-danych/1.0.0-f5d7a782e0d6/enemy-v2-nexus-kruk-danych-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-nexus-kruk-danych/1.1.0-a7cfccf4c729/enemy-v2-nexus-kruk-danych-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-kruk-danych/1.1.0-a7cfccf4c729/enemy-v2-nexus-kruk-danych-page-1.json",
+        "width": 583,
+        "height": 460
       }
     ],
     "actors": [
@@ -40921,27 +40921,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-nexus-latarnia-plazmowa",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-nexus-latarnia-plazmowa-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-latarnia-plazmowa/1.0.0-b063e3a03c83/enemy-v2-nexus-latarnia-plazmowa-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-latarnia-plazmowa/1.0.0-b063e3a03c83/enemy-v2-nexus-latarnia-plazmowa-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-nexus-latarnia-plazmowa/1.1.0-cf7ab0c2c2ad/enemy-v2-nexus-latarnia-plazmowa-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-latarnia-plazmowa/1.1.0-cf7ab0c2c2ad/enemy-v2-nexus-latarnia-plazmowa-page-0.json",
+        "width": 1008,
+        "height": 672
       },
       {
         "id": "enemy-v2-nexus-latarnia-plazmowa-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-latarnia-plazmowa/1.0.0-b063e3a03c83/enemy-v2-nexus-latarnia-plazmowa-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-latarnia-plazmowa/1.0.0-b063e3a03c83/enemy-v2-nexus-latarnia-plazmowa-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-nexus-latarnia-plazmowa/1.1.0-cf7ab0c2c2ad/enemy-v2-nexus-latarnia-plazmowa-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-latarnia-plazmowa/1.1.0-cf7ab0c2c2ad/enemy-v2-nexus-latarnia-plazmowa-page-1.json",
+        "width": 626,
+        "height": 436
       }
     ],
     "actors": [
@@ -41548,27 +41548,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-nexus-pajak-spawalniczy",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-nexus-pajak-spawalniczy-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-pajak-spawalniczy/1.0.0-79c64e462b94/enemy-v2-nexus-pajak-spawalniczy-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-pajak-spawalniczy/1.0.0-79c64e462b94/enemy-v2-nexus-pajak-spawalniczy-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-nexus-pajak-spawalniczy/1.1.0-1126e5c54276/enemy-v2-nexus-pajak-spawalniczy-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-pajak-spawalniczy/1.1.0-1126e5c54276/enemy-v2-nexus-pajak-spawalniczy-page-0.json",
+        "width": 720,
+        "height": 488
       },
       {
         "id": "enemy-v2-nexus-pajak-spawalniczy-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-pajak-spawalniczy/1.0.0-79c64e462b94/enemy-v2-nexus-pajak-spawalniczy-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-pajak-spawalniczy/1.0.0-79c64e462b94/enemy-v2-nexus-pajak-spawalniczy-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-nexus-pajak-spawalniczy/1.1.0-1126e5c54276/enemy-v2-nexus-pajak-spawalniczy-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-pajak-spawalniczy/1.1.0-1126e5c54276/enemy-v2-nexus-pajak-spawalniczy-page-1.json",
+        "width": 556,
+        "height": 332
       }
     ],
     "actors": [
@@ -42175,27 +42175,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-nexus-pelzacz-serwisowy",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-nexus-pelzacz-serwisowy-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-pelzacz-serwisowy/1.0.0-bd56f937ae42/enemy-v2-nexus-pelzacz-serwisowy-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-pelzacz-serwisowy/1.0.0-bd56f937ae42/enemy-v2-nexus-pelzacz-serwisowy-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-nexus-pelzacz-serwisowy/1.1.0-827b82e7ac46/enemy-v2-nexus-pelzacz-serwisowy-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-pelzacz-serwisowy/1.1.0-827b82e7ac46/enemy-v2-nexus-pelzacz-serwisowy-page-0.json",
+        "width": 448,
+        "height": 784
       },
       {
         "id": "enemy-v2-nexus-pelzacz-serwisowy-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-pelzacz-serwisowy/1.0.0-bd56f937ae42/enemy-v2-nexus-pelzacz-serwisowy-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-pelzacz-serwisowy/1.0.0-bd56f937ae42/enemy-v2-nexus-pelzacz-serwisowy-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-nexus-pelzacz-serwisowy/1.1.0-827b82e7ac46/enemy-v2-nexus-pelzacz-serwisowy-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-pelzacz-serwisowy/1.1.0-827b82e7ac46/enemy-v2-nexus-pelzacz-serwisowy-page-1.json",
+        "width": 664,
+        "height": 268
       }
     ],
     "actors": [
@@ -42802,27 +42802,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-nexus-pies-lowca",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-nexus-pies-lowca-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-pies-lowca/1.0.0-1389800f044b/enemy-v2-nexus-pies-lowca-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-pies-lowca/1.0.0-1389800f044b/enemy-v2-nexus-pies-lowca-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-nexus-pies-lowca/1.1.0-a49a270b930b/enemy-v2-nexus-pies-lowca-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-pies-lowca/1.1.0-a49a270b930b/enemy-v2-nexus-pies-lowca-page-0.json",
+        "width": 1252,
+        "height": 484
       },
       {
         "id": "enemy-v2-nexus-pies-lowca-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-pies-lowca/1.0.0-1389800f044b/enemy-v2-nexus-pies-lowca-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-pies-lowca/1.0.0-1389800f044b/enemy-v2-nexus-pies-lowca-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-nexus-pies-lowca/1.1.0-a49a270b930b/enemy-v2-nexus-pies-lowca-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-pies-lowca/1.1.0-a49a270b930b/enemy-v2-nexus-pies-lowca-page-1.json",
+        "width": 961,
+        "height": 264
       }
     ],
     "actors": [
@@ -43429,27 +43429,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-nexus-roj-nanitow",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-nexus-roj-nanitow-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-roj-nanitow/1.0.0-03cc73cfbef7/enemy-v2-nexus-roj-nanitow-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-roj-nanitow/1.0.0-03cc73cfbef7/enemy-v2-nexus-roj-nanitow-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-nexus-roj-nanitow/1.1.0-085677fad5b4/enemy-v2-nexus-roj-nanitow-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-roj-nanitow/1.1.0-085677fad5b4/enemy-v2-nexus-roj-nanitow-page-0.json",
+        "width": 639,
+        "height": 920
       },
       {
         "id": "enemy-v2-nexus-roj-nanitow-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-roj-nanitow/1.0.0-03cc73cfbef7/enemy-v2-nexus-roj-nanitow-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-roj-nanitow/1.0.0-03cc73cfbef7/enemy-v2-nexus-roj-nanitow-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-nexus-roj-nanitow/1.1.0-085677fad5b4/enemy-v2-nexus-roj-nanitow-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-roj-nanitow/1.1.0-085677fad5b4/enemy-v2-nexus-roj-nanitow-page-1.json",
+        "width": 308,
+        "height": 836
       }
     ],
     "actors": [
@@ -44056,27 +44056,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-nexus-skaner-gasienicowy",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-nexus-skaner-gasienicowy-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-skaner-gasienicowy/1.0.0-14420fe6ebea/enemy-v2-nexus-skaner-gasienicowy-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-skaner-gasienicowy/1.0.0-14420fe6ebea/enemy-v2-nexus-skaner-gasienicowy-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-nexus-skaner-gasienicowy/1.1.0-8b7586908edf/enemy-v2-nexus-skaner-gasienicowy-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-skaner-gasienicowy/1.1.0-8b7586908edf/enemy-v2-nexus-skaner-gasienicowy-page-0.json",
+        "width": 1188,
+        "height": 1028
       },
       {
         "id": "enemy-v2-nexus-skaner-gasienicowy-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-skaner-gasienicowy/1.0.0-14420fe6ebea/enemy-v2-nexus-skaner-gasienicowy-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-skaner-gasienicowy/1.0.0-14420fe6ebea/enemy-v2-nexus-skaner-gasienicowy-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-nexus-skaner-gasienicowy/1.1.0-8b7586908edf/enemy-v2-nexus-skaner-gasienicowy-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-skaner-gasienicowy/1.1.0-8b7586908edf/enemy-v2-nexus-skaner-gasienicowy-page-1.json",
+        "width": 1050,
+        "height": 860
       }
     ],
     "actors": [
@@ -44683,27 +44683,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-nexus-straznik-rdzenia",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-nexus-straznik-rdzenia-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-straznik-rdzenia/1.0.0-dc3fd8eaeacc/enemy-v2-nexus-straznik-rdzenia-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-straznik-rdzenia/1.0.0-dc3fd8eaeacc/enemy-v2-nexus-straznik-rdzenia-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-nexus-straznik-rdzenia/1.1.0-c692c02f1820/enemy-v2-nexus-straznik-rdzenia-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-straznik-rdzenia/1.1.0-c692c02f1820/enemy-v2-nexus-straznik-rdzenia-page-0.json",
+        "width": 530,
+        "height": 920
       },
       {
         "id": "enemy-v2-nexus-straznik-rdzenia-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-straznik-rdzenia/1.0.0-dc3fd8eaeacc/enemy-v2-nexus-straznik-rdzenia-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-straznik-rdzenia/1.0.0-dc3fd8eaeacc/enemy-v2-nexus-straznik-rdzenia-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-nexus-straznik-rdzenia/1.1.0-c692c02f1820/enemy-v2-nexus-straznik-rdzenia-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-straznik-rdzenia/1.1.0-c692c02f1820/enemy-v2-nexus-straznik-rdzenia-page-1.json",
+        "width": 714,
+        "height": 472
       }
     ],
     "actors": [
@@ -45310,27 +45310,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-nexus-wiezyczka-autonomiczna",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-nexus-wiezyczka-autonomiczna-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-wiezyczka-autonomiczna/1.0.0-156c4371193b/enemy-v2-nexus-wiezyczka-autonomiczna-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-wiezyczka-autonomiczna/1.0.0-156c4371193b/enemy-v2-nexus-wiezyczka-autonomiczna-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-nexus-wiezyczka-autonomiczna/1.1.0-fb6cfb866a25/enemy-v2-nexus-wiezyczka-autonomiczna-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-wiezyczka-autonomiczna/1.1.0-fb6cfb866a25/enemy-v2-nexus-wiezyczka-autonomiczna-page-0.json",
+        "width": 1684,
+        "height": 584
       },
       {
         "id": "enemy-v2-nexus-wiezyczka-autonomiczna-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-nexus-wiezyczka-autonomiczna/1.0.0-156c4371193b/enemy-v2-nexus-wiezyczka-autonomiczna-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-wiezyczka-autonomiczna/1.0.0-156c4371193b/enemy-v2-nexus-wiezyczka-autonomiczna-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-nexus-wiezyczka-autonomiczna/1.1.0-fb6cfb866a25/enemy-v2-nexus-wiezyczka-autonomiczna-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-nexus-wiezyczka-autonomiczna/1.1.0-fb6cfb866a25/enemy-v2-nexus-wiezyczka-autonomiczna-page-1.json",
+        "width": 1871,
+        "height": 436
       }
     ],
     "actors": [
@@ -45937,27 +45937,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-pyra-byk-areny",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-pyra-byk-areny-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-byk-areny/1.0.0-590ad9357e57/enemy-v2-pyra-byk-areny-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-byk-areny/1.0.0-590ad9357e57/enemy-v2-pyra-byk-areny-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-pyra-byk-areny/1.1.0-c702494ad8cb/enemy-v2-pyra-byk-areny-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-byk-areny/1.1.0-c702494ad8cb/enemy-v2-pyra-byk-areny-page-0.json",
+        "width": 1092,
+        "height": 544
       },
       {
         "id": "enemy-v2-pyra-byk-areny-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-byk-areny/1.0.0-590ad9357e57/enemy-v2-pyra-byk-areny-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-byk-areny/1.0.0-590ad9357e57/enemy-v2-pyra-byk-areny-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-pyra-byk-areny/1.1.0-c702494ad8cb/enemy-v2-pyra-byk-areny-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-byk-areny/1.1.0-c702494ad8cb/enemy-v2-pyra-byk-areny-page-1.json",
+        "width": 666,
+        "height": 392
       }
     ],
     "actors": [
@@ -46564,27 +46564,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-pyra-golem-ruin",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-pyra-golem-ruin-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-golem-ruin/1.0.0-e591f7b6805f/enemy-v2-pyra-golem-ruin-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-golem-ruin/1.0.0-e591f7b6805f/enemy-v2-pyra-golem-ruin-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-pyra-golem-ruin/1.1.0-d90e7f5f4e69/enemy-v2-pyra-golem-ruin-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-golem-ruin/1.1.0-d90e7f5f4e69/enemy-v2-pyra-golem-ruin-page-0.json",
+        "width": 686,
+        "height": 844
       },
       {
         "id": "enemy-v2-pyra-golem-ruin-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-golem-ruin/1.0.0-e591f7b6805f/enemy-v2-pyra-golem-ruin-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-golem-ruin/1.0.0-e591f7b6805f/enemy-v2-pyra-golem-ruin-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-pyra-golem-ruin/1.1.0-d90e7f5f4e69/enemy-v2-pyra-golem-ruin-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-golem-ruin/1.1.0-d90e7f5f4e69/enemy-v2-pyra-golem-ruin-page-1.json",
+        "width": 627,
+        "height": 780
       }
     ],
     "actors": [
@@ -47191,27 +47191,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-pyra-magmowy-krab",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-pyra-magmowy-krab-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-magmowy-krab/1.0.0-ce805e0f1f92/enemy-v2-pyra-magmowy-krab-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-magmowy-krab/1.0.0-ce805e0f1f92/enemy-v2-pyra-magmowy-krab-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-pyra-magmowy-krab/1.1.0-c4bcd0677bbc/enemy-v2-pyra-magmowy-krab-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-magmowy-krab/1.1.0-c4bcd0677bbc/enemy-v2-pyra-magmowy-krab-page-0.json",
+        "width": 1066,
+        "height": 436
       },
       {
         "id": "enemy-v2-pyra-magmowy-krab-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-magmowy-krab/1.0.0-ce805e0f1f92/enemy-v2-pyra-magmowy-krab-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-magmowy-krab/1.0.0-ce805e0f1f92/enemy-v2-pyra-magmowy-krab-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-pyra-magmowy-krab/1.1.0-c4bcd0677bbc/enemy-v2-pyra-magmowy-krab-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-magmowy-krab/1.1.0-c4bcd0677bbc/enemy-v2-pyra-magmowy-krab-page-1.json",
+        "width": 973,
+        "height": 284
       }
     ],
     "actors": [
@@ -47818,27 +47818,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-pyra-ognista-salamandra",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-pyra-ognista-salamandra-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-ognista-salamandra/1.0.0-3940760f573c/enemy-v2-pyra-ognista-salamandra-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-ognista-salamandra/1.0.0-3940760f573c/enemy-v2-pyra-ognista-salamandra-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-pyra-ognista-salamandra/1.1.0-461810051527/enemy-v2-pyra-ognista-salamandra-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-ognista-salamandra/1.1.0-461810051527/enemy-v2-pyra-ognista-salamandra-page-0.json",
+        "width": 1408,
+        "height": 552
       },
       {
         "id": "enemy-v2-pyra-ognista-salamandra-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-ognista-salamandra/1.0.0-3940760f573c/enemy-v2-pyra-ognista-salamandra-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-ognista-salamandra/1.0.0-3940760f573c/enemy-v2-pyra-ognista-salamandra-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-pyra-ognista-salamandra/1.1.0-461810051527/enemy-v2-pyra-ognista-salamandra-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-ognista-salamandra/1.1.0-461810051527/enemy-v2-pyra-ognista-salamandra-page-1.json",
+        "width": 1225,
+        "height": 400
       }
     ],
     "actors": [
@@ -48445,27 +48445,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-pyra-plomien-duch",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-pyra-plomien-duch-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-plomien-duch/1.0.0-a51a6cfecfd9/enemy-v2-pyra-plomien-duch-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-plomien-duch/1.0.0-a51a6cfecfd9/enemy-v2-pyra-plomien-duch-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-pyra-plomien-duch/1.1.0-03f0d3b90b65/enemy-v2-pyra-plomien-duch-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-plomien-duch/1.1.0-03f0d3b90b65/enemy-v2-pyra-plomien-duch-page-0.json",
+        "width": 1424,
+        "height": 484
       },
       {
         "id": "enemy-v2-pyra-plomien-duch-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-plomien-duch/1.0.0-a51a6cfecfd9/enemy-v2-pyra-plomien-duch-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-plomien-duch/1.0.0-a51a6cfecfd9/enemy-v2-pyra-plomien-duch-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-pyra-plomien-duch/1.1.0-03f0d3b90b65/enemy-v2-pyra-plomien-duch-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-plomien-duch/1.1.0-03f0d3b90b65/enemy-v2-pyra-plomien-duch-page-1.json",
+        "width": 1868,
+        "height": 352
       }
     ],
     "actors": [
@@ -49072,27 +49072,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-pyra-popielny-wilk",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-pyra-popielny-wilk-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-popielny-wilk/1.0.0-f79cc8e896fc/enemy-v2-pyra-popielny-wilk-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-popielny-wilk/1.0.0-f79cc8e896fc/enemy-v2-pyra-popielny-wilk-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-pyra-popielny-wilk/1.1.0-25af5c78c083/enemy-v2-pyra-popielny-wilk-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-popielny-wilk/1.1.0-25af5c78c083/enemy-v2-pyra-popielny-wilk-page-0.json",
+        "width": 946,
+        "height": 544
       },
       {
         "id": "enemy-v2-pyra-popielny-wilk-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-popielny-wilk/1.0.0-f79cc8e896fc/enemy-v2-pyra-popielny-wilk-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-popielny-wilk/1.0.0-f79cc8e896fc/enemy-v2-pyra-popielny-wilk-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-pyra-popielny-wilk/1.1.0-25af5c78c083/enemy-v2-pyra-popielny-wilk-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-popielny-wilk/1.1.0-25af5c78c083/enemy-v2-pyra-popielny-wilk-page-1.json",
+        "width": 881,
+        "height": 264
       }
     ],
     "actors": [
@@ -49699,27 +49699,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-pyra-skalny-berserker",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-pyra-skalny-berserker-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-skalny-berserker/1.0.0-0fb908088784/enemy-v2-pyra-skalny-berserker-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-skalny-berserker/1.0.0-0fb908088784/enemy-v2-pyra-skalny-berserker-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-pyra-skalny-berserker/1.1.0-84eeead9c5c3/enemy-v2-pyra-skalny-berserker-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-skalny-berserker/1.1.0-84eeead9c5c3/enemy-v2-pyra-skalny-berserker-page-0.json",
+        "width": 1586,
+        "height": 476
       },
       {
         "id": "enemy-v2-pyra-skalny-berserker-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-skalny-berserker/1.0.0-0fb908088784/enemy-v2-pyra-skalny-berserker-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-skalny-berserker/1.0.0-0fb908088784/enemy-v2-pyra-skalny-berserker-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-pyra-skalny-berserker/1.1.0-84eeead9c5c3/enemy-v2-pyra-skalny-berserker-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-skalny-berserker/1.1.0-84eeead9c5c3/enemy-v2-pyra-skalny-berserker-page-1.json",
+        "width": 794,
+        "height": 940
       }
     ],
     "actors": [
@@ -50326,27 +50326,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-pyra-skorpion-obsydianowy",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-pyra-skorpion-obsydianowy-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-skorpion-obsydianowy/1.0.0-75d799aeedc6/enemy-v2-pyra-skorpion-obsydianowy-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-skorpion-obsydianowy/1.0.0-75d799aeedc6/enemy-v2-pyra-skorpion-obsydianowy-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-pyra-skorpion-obsydianowy/1.1.0-efa9af967151/enemy-v2-pyra-skorpion-obsydianowy-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-skorpion-obsydianowy/1.1.0-efa9af967151/enemy-v2-pyra-skorpion-obsydianowy-page-0.json",
+        "width": 486,
+        "height": 784
       },
       {
         "id": "enemy-v2-pyra-skorpion-obsydianowy-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-skorpion-obsydianowy/1.0.0-75d799aeedc6/enemy-v2-pyra-skorpion-obsydianowy-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-skorpion-obsydianowy/1.0.0-75d799aeedc6/enemy-v2-pyra-skorpion-obsydianowy-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-pyra-skorpion-obsydianowy/1.1.0-efa9af967151/enemy-v2-pyra-skorpion-obsydianowy-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-skorpion-obsydianowy/1.1.0-efa9af967151/enemy-v2-pyra-skorpion-obsydianowy-page-1.json",
+        "width": 291,
+        "height": 672
       }
     ],
     "actors": [
@@ -50953,27 +50953,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-pyra-wegielek",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-pyra-wegielek-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-wegielek/1.0.0-66ef5c4314ff/enemy-v2-pyra-wegielek-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-wegielek/1.0.0-66ef5c4314ff/enemy-v2-pyra-wegielek-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-pyra-wegielek/1.1.0-2d4c082913fb/enemy-v2-pyra-wegielek-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-wegielek/1.1.0-2d4c082913fb/enemy-v2-pyra-wegielek-page-0.json",
+        "width": 1637,
+        "height": 732
       },
       {
         "id": "enemy-v2-pyra-wegielek-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-wegielek/1.0.0-66ef5c4314ff/enemy-v2-pyra-wegielek-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-wegielek/1.0.0-66ef5c4314ff/enemy-v2-pyra-wegielek-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-pyra-wegielek/1.1.0-2d4c082913fb/enemy-v2-pyra-wegielek-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-wegielek/1.1.0-2d4c082913fb/enemy-v2-pyra-wegielek-page-1.json",
+        "width": 940,
+        "height": 524
       }
     ],
     "actors": [
@@ -51580,27 +51580,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-pyra-zarowy-nietoperz",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-pyra-zarowy-nietoperz-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-zarowy-nietoperz/1.0.0-7933fe3621b8/enemy-v2-pyra-zarowy-nietoperz-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-zarowy-nietoperz/1.0.0-7933fe3621b8/enemy-v2-pyra-zarowy-nietoperz-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-pyra-zarowy-nietoperz/1.1.0-ab61cff8409f/enemy-v2-pyra-zarowy-nietoperz-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-zarowy-nietoperz/1.1.0-ab61cff8409f/enemy-v2-pyra-zarowy-nietoperz-page-0.json",
+        "width": 712,
+        "height": 636
       },
       {
         "id": "enemy-v2-pyra-zarowy-nietoperz-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-pyra-zarowy-nietoperz/1.0.0-7933fe3621b8/enemy-v2-pyra-zarowy-nietoperz-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-zarowy-nietoperz/1.0.0-7933fe3621b8/enemy-v2-pyra-zarowy-nietoperz-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-pyra-zarowy-nietoperz/1.1.0-ab61cff8409f/enemy-v2-pyra-zarowy-nietoperz-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-pyra-zarowy-nietoperz/1.1.0-ab61cff8409f/enemy-v2-pyra-zarowy-nietoperz-page-1.json",
+        "width": 292,
+        "height": 892
       }
     ],
     "actors": [
@@ -52207,27 +52207,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-verdant-bursztynowa-osa",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-verdant-bursztynowa-osa-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-bursztynowa-osa/1.0.0-1909f59af705/enemy-v2-verdant-bursztynowa-osa-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-bursztynowa-osa/1.0.0-1909f59af705/enemy-v2-verdant-bursztynowa-osa-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-verdant-bursztynowa-osa/1.1.0-03ade38aa41f/enemy-v2-verdant-bursztynowa-osa-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-bursztynowa-osa/1.1.0-03ade38aa41f/enemy-v2-verdant-bursztynowa-osa-page-0.json",
+        "width": 1928,
+        "height": 284
       },
       {
         "id": "enemy-v2-verdant-bursztynowa-osa-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-bursztynowa-osa/1.0.0-1909f59af705/enemy-v2-verdant-bursztynowa-osa-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-bursztynowa-osa/1.0.0-1909f59af705/enemy-v2-verdant-bursztynowa-osa-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-verdant-bursztynowa-osa/1.1.0-03ade38aa41f/enemy-v2-verdant-bursztynowa-osa-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-bursztynowa-osa/1.1.0-03ade38aa41f/enemy-v2-verdant-bursztynowa-osa-page-1.json",
+        "width": 1179,
+        "height": 280
       }
     ],
     "actors": [
@@ -52834,27 +52834,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-verdant-cierniowy-wilk",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-verdant-cierniowy-wilk-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-cierniowy-wilk/1.0.0-e65f6b7e1742/enemy-v2-verdant-cierniowy-wilk-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-cierniowy-wilk/1.0.0-e65f6b7e1742/enemy-v2-verdant-cierniowy-wilk-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-verdant-cierniowy-wilk/1.1.0-3c2f9c8a7af7/enemy-v2-verdant-cierniowy-wilk-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-cierniowy-wilk/1.1.0-3c2f9c8a7af7/enemy-v2-verdant-cierniowy-wilk-page-0.json",
+        "width": 1833,
+        "height": 348
       },
       {
         "id": "enemy-v2-verdant-cierniowy-wilk-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-cierniowy-wilk/1.0.0-e65f6b7e1742/enemy-v2-verdant-cierniowy-wilk-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-cierniowy-wilk/1.0.0-e65f6b7e1742/enemy-v2-verdant-cierniowy-wilk-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-verdant-cierniowy-wilk/1.1.0-3c2f9c8a7af7/enemy-v2-verdant-cierniowy-wilk-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-cierniowy-wilk/1.1.0-3c2f9c8a7af7/enemy-v2-verdant-cierniowy-wilk-page-1.json",
+        "width": 1282,
+        "height": 204
       }
     ],
     "actors": [
@@ -53461,27 +53461,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-verdant-grzybowy-zarodnik",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-verdant-grzybowy-zarodnik-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-grzybowy-zarodnik/1.0.0-f225d9f192e9/enemy-v2-verdant-grzybowy-zarodnik-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-grzybowy-zarodnik/1.0.0-f225d9f192e9/enemy-v2-verdant-grzybowy-zarodnik-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-verdant-grzybowy-zarodnik/1.1.0-287246e135bd/enemy-v2-verdant-grzybowy-zarodnik-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-grzybowy-zarodnik/1.1.0-287246e135bd/enemy-v2-verdant-grzybowy-zarodnik-page-0.json",
+        "width": 1218,
+        "height": 664
       },
       {
         "id": "enemy-v2-verdant-grzybowy-zarodnik-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-grzybowy-zarodnik/1.0.0-f225d9f192e9/enemy-v2-verdant-grzybowy-zarodnik-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-grzybowy-zarodnik/1.0.0-f225d9f192e9/enemy-v2-verdant-grzybowy-zarodnik-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-verdant-grzybowy-zarodnik/1.1.0-287246e135bd/enemy-v2-verdant-grzybowy-zarodnik-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-grzybowy-zarodnik/1.1.0-287246e135bd/enemy-v2-verdant-grzybowy-zarodnik-page-1.json",
+        "width": 478,
+        "height": 1028
       }
     ],
     "actors": [
@@ -54088,27 +54088,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-verdant-lesny-pajak",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-verdant-lesny-pajak-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-lesny-pajak/1.0.0-7cc55864ff7d/enemy-v2-verdant-lesny-pajak-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-lesny-pajak/1.0.0-7cc55864ff7d/enemy-v2-verdant-lesny-pajak-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-verdant-lesny-pajak/1.1.0-09473a395f54/enemy-v2-verdant-lesny-pajak-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-lesny-pajak/1.1.0-09473a395f54/enemy-v2-verdant-lesny-pajak-page-0.json",
+        "width": 457,
+        "height": 756
       },
       {
         "id": "enemy-v2-verdant-lesny-pajak-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-lesny-pajak/1.0.0-7cc55864ff7d/enemy-v2-verdant-lesny-pajak-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-lesny-pajak/1.0.0-7cc55864ff7d/enemy-v2-verdant-lesny-pajak-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-verdant-lesny-pajak/1.1.0-09473a395f54/enemy-v2-verdant-lesny-pajak-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-lesny-pajak/1.1.0-09473a395f54/enemy-v2-verdant-lesny-pajak-page-1.json",
+        "width": 271,
+        "height": 644
       }
     ],
     "actors": [
@@ -54715,27 +54715,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-verdant-lisciak-skrytobojca",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-verdant-lisciak-skrytobojca-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-lisciak-skrytobojca/1.0.0-9724777bdf99/enemy-v2-verdant-lisciak-skrytobojca-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-lisciak-skrytobojca/1.0.0-9724777bdf99/enemy-v2-verdant-lisciak-skrytobojca-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-verdant-lisciak-skrytobojca/1.1.0-adf3ba05976b/enemy-v2-verdant-lisciak-skrytobojca-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-lisciak-skrytobojca/1.1.0-adf3ba05976b/enemy-v2-verdant-lisciak-skrytobojca-page-0.json",
+        "width": 466,
+        "height": 744
       },
       {
         "id": "enemy-v2-verdant-lisciak-skrytobojca-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-lisciak-skrytobojca/1.0.0-9724777bdf99/enemy-v2-verdant-lisciak-skrytobojca-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-lisciak-skrytobojca/1.0.0-9724777bdf99/enemy-v2-verdant-lisciak-skrytobojca-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-verdant-lisciak-skrytobojca/1.1.0-adf3ba05976b/enemy-v2-verdant-lisciak-skrytobojca-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-lisciak-skrytobojca/1.1.0-adf3ba05976b/enemy-v2-verdant-lisciak-skrytobojca-page-1.json",
+        "width": 878,
+        "height": 196
       }
     ],
     "actors": [
@@ -55342,27 +55342,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-verdant-puchacz-pylowy",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-verdant-puchacz-pylowy-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-puchacz-pylowy/1.0.0-ed5b4e82b56a/enemy-v2-verdant-puchacz-pylowy-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-puchacz-pylowy/1.0.0-ed5b4e82b56a/enemy-v2-verdant-puchacz-pylowy-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-verdant-puchacz-pylowy/1.1.0-657e1d5ed6c9/enemy-v2-verdant-puchacz-pylowy-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-puchacz-pylowy/1.1.0-657e1d5ed6c9/enemy-v2-verdant-puchacz-pylowy-page-0.json",
+        "width": 948,
+        "height": 460
       },
       {
         "id": "enemy-v2-verdant-puchacz-pylowy-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-puchacz-pylowy/1.0.0-ed5b4e82b56a/enemy-v2-verdant-puchacz-pylowy-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-puchacz-pylowy/1.0.0-ed5b4e82b56a/enemy-v2-verdant-puchacz-pylowy-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-verdant-puchacz-pylowy/1.1.0-657e1d5ed6c9/enemy-v2-verdant-puchacz-pylowy-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-puchacz-pylowy/1.1.0-657e1d5ed6c9/enemy-v2-verdant-puchacz-pylowy-page-1.json",
+        "width": 478,
+        "height": 592
       }
     ],
     "actors": [
@@ -55969,27 +55969,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-verdant-skalny-jelen",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-verdant-skalny-jelen-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-skalny-jelen/1.0.0-f0c667363034/enemy-v2-verdant-skalny-jelen-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-skalny-jelen/1.0.0-f0c667363034/enemy-v2-verdant-skalny-jelen-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-verdant-skalny-jelen/1.1.0-896ba2e04545/enemy-v2-verdant-skalny-jelen-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-skalny-jelen/1.1.0-896ba2e04545/enemy-v2-verdant-skalny-jelen-page-0.json",
+        "width": 344,
+        "height": 1208
       },
       {
         "id": "enemy-v2-verdant-skalny-jelen-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-skalny-jelen/1.0.0-f0c667363034/enemy-v2-verdant-skalny-jelen-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-skalny-jelen/1.0.0-f0c667363034/enemy-v2-verdant-skalny-jelen-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-verdant-skalny-jelen/1.1.0-896ba2e04545/enemy-v2-verdant-skalny-jelen-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-skalny-jelen/1.1.0-896ba2e04545/enemy-v2-verdant-skalny-jelen-page-1.json",
+        "width": 489,
+        "height": 440
       }
     ],
     "actors": [
@@ -56596,27 +56596,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-verdant-straznik-ruin",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-verdant-straznik-ruin-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-straznik-ruin/1.0.0-615baeff7dab/enemy-v2-verdant-straznik-ruin-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-straznik-ruin/1.0.0-615baeff7dab/enemy-v2-verdant-straznik-ruin-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-verdant-straznik-ruin/1.1.0-603568279a59/enemy-v2-verdant-straznik-ruin-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-straznik-ruin/1.1.0-603568279a59/enemy-v2-verdant-straznik-ruin-page-0.json",
+        "width": 1374,
+        "height": 664
       },
       {
         "id": "enemy-v2-verdant-straznik-ruin-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-straznik-ruin/1.0.0-615baeff7dab/enemy-v2-verdant-straznik-ruin-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-straznik-ruin/1.0.0-615baeff7dab/enemy-v2-verdant-straznik-ruin-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-verdant-straznik-ruin/1.1.0-603568279a59/enemy-v2-verdant-straznik-ruin-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-straznik-ruin/1.1.0-603568279a59/enemy-v2-verdant-straznik-ruin-page-1.json",
+        "width": 1269,
+        "height": 624
       }
     ],
     "actors": [
@@ -57223,27 +57223,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-aether-oko-wiedzy",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-aether-oko-wiedzy-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-oko-wiedzy/1.0.0-1f7bfbe08e1e/enemy-v2-aether-oko-wiedzy-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-oko-wiedzy/1.0.0-1f7bfbe08e1e/enemy-v2-aether-oko-wiedzy-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-aether-oko-wiedzy/1.1.0-c8630bbfb86a/enemy-v2-aether-oko-wiedzy-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-oko-wiedzy/1.1.0-c8630bbfb86a/enemy-v2-aether-oko-wiedzy-page-0.json",
+        "width": 2013,
+        "height": 928
       },
       {
         "id": "enemy-v2-aether-oko-wiedzy-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-aether-oko-wiedzy/1.0.0-1f7bfbe08e1e/enemy-v2-aether-oko-wiedzy-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-oko-wiedzy/1.0.0-1f7bfbe08e1e/enemy-v2-aether-oko-wiedzy-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-aether-oko-wiedzy/1.1.0-c8630bbfb86a/enemy-v2-aether-oko-wiedzy-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-aether-oko-wiedzy/1.1.0-c8630bbfb86a/enemy-v2-aether-oko-wiedzy-page-1.json",
+        "width": 1241,
+        "height": 856
       }
     ],
     "actors": [
@@ -58056,27 +58056,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-verdant-korzeniowy-pelzacz",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-verdant-korzeniowy-pelzacz-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-korzeniowy-pelzacz/1.0.0-7ec386d21c18/enemy-v2-verdant-korzeniowy-pelzacz-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-korzeniowy-pelzacz/1.0.0-7ec386d21c18/enemy-v2-verdant-korzeniowy-pelzacz-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-verdant-korzeniowy-pelzacz/1.1.0-968a226d5d59/enemy-v2-verdant-korzeniowy-pelzacz-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-korzeniowy-pelzacz/1.1.0-968a226d5d59/enemy-v2-verdant-korzeniowy-pelzacz-page-0.json",
+        "width": 520,
+        "height": 1304
       },
       {
         "id": "enemy-v2-verdant-korzeniowy-pelzacz-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-korzeniowy-pelzacz/1.0.0-7ec386d21c18/enemy-v2-verdant-korzeniowy-pelzacz-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-korzeniowy-pelzacz/1.0.0-7ec386d21c18/enemy-v2-verdant-korzeniowy-pelzacz-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-verdant-korzeniowy-pelzacz/1.1.0-968a226d5d59/enemy-v2-verdant-korzeniowy-pelzacz-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-korzeniowy-pelzacz/1.1.0-968a226d5d59/enemy-v2-verdant-korzeniowy-pelzacz-page-1.json",
+        "width": 336,
+        "height": 992
       }
     ],
     "actors": [
@@ -58683,27 +58683,27 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v2-verdant-mchowy-szlamak",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v2-verdant-mchowy-szlamak-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-mchowy-szlamak/1.0.0-c68fed464147/enemy-v2-verdant-mchowy-szlamak-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-mchowy-szlamak/1.0.0-c68fed464147/enemy-v2-verdant-mchowy-szlamak-page-0.json",
-        "width": 2048,
-        "height": 2048
+        "url": "/game/assets/gpu/enemy-v2-verdant-mchowy-szlamak/1.1.0-12f4ba94a6de/enemy-v2-verdant-mchowy-szlamak-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-mchowy-szlamak/1.1.0-12f4ba94a6de/enemy-v2-verdant-mchowy-szlamak-page-0.json",
+        "width": 1924,
+        "height": 472
       },
       {
         "id": "enemy-v2-verdant-mchowy-szlamak-page-1",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v2-verdant-mchowy-szlamak/1.0.0-c68fed464147/enemy-v2-verdant-mchowy-szlamak-page-1.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-mchowy-szlamak/1.0.0-c68fed464147/enemy-v2-verdant-mchowy-szlamak-page-1.json",
-        "width": 2048,
-        "height": 1280
+        "url": "/game/assets/gpu/enemy-v2-verdant-mchowy-szlamak/1.1.0-12f4ba94a6de/enemy-v2-verdant-mchowy-szlamak-page-1.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v2-verdant-mchowy-szlamak/1.1.0-12f4ba94a6de/enemy-v2-verdant-mchowy-szlamak-page-1.json",
+        "width": 788,
+        "height": 960
       }
     ],
     "actors": [
@@ -63218,18 +63218,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-verdant-cierniowy-wilk",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-verdant-cierniowy-wilk-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-verdant-cierniowy-wilk/1.0.0-6b6bfe378fdf/enemy-v3-verdant-cierniowy-wilk-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-cierniowy-wilk/1.0.0-6b6bfe378fdf/enemy-v3-verdant-cierniowy-wilk-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-verdant-cierniowy-wilk/1.1.0-f5435f5afeb9/enemy-v3-verdant-cierniowy-wilk-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-cierniowy-wilk/1.1.0-f5435f5afeb9/enemy-v3-verdant-cierniowy-wilk-page-0.json",
+        "width": 712,
+        "height": 1676
       }
     ],
     "actors": [
@@ -63604,18 +63604,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-aether-lew-swiatyni",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-aether-lew-swiatyni-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-aether-lew-swiatyni/1.0.0-f3a1033403d8/enemy-v3-aether-lew-swiatyni-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-lew-swiatyni/1.0.0-f3a1033403d8/enemy-v3-aether-lew-swiatyni-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-aether-lew-swiatyni/1.1.0-ef22cec805d3/enemy-v3-aether-lew-swiatyni-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-lew-swiatyni/1.1.0-ef22cec805d3/enemy-v3-aether-lew-swiatyni-page-0.json",
+        "width": 1200,
+        "height": 844
       }
     ],
     "actors": [
@@ -63982,18 +63982,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-pyra-golem-ruin",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-pyra-golem-ruin-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-pyra-golem-ruin/1.0.0-98ae62fd8374/enemy-v3-pyra-golem-ruin-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-golem-ruin/1.0.0-98ae62fd8374/enemy-v3-pyra-golem-ruin-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-pyra-golem-ruin/1.1.0-fb4124b387c0/enemy-v3-pyra-golem-ruin-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-golem-ruin/1.1.0-fb4124b387c0/enemy-v3-pyra-golem-ruin-page-0.json",
+        "width": 1061,
+        "height": 892
       }
     ],
     "actors": [
@@ -64360,18 +64360,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-verdant-mchowy-szlamak",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-verdant-mchowy-szlamak-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-verdant-mchowy-szlamak/1.0.0-62264248c681/enemy-v3-verdant-mchowy-szlamak-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-mchowy-szlamak/1.0.0-62264248c681/enemy-v3-verdant-mchowy-szlamak-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-verdant-mchowy-szlamak/1.1.0-133edb53ac59/enemy-v3-verdant-mchowy-szlamak-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-mchowy-szlamak/1.1.0-133edb53ac59/enemy-v3-verdant-mchowy-szlamak-page-0.json",
+        "width": 1464,
+        "height": 436
       }
     ],
     "actors": [
@@ -64738,18 +64738,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-nexus-skaner-gasienicowy",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-nexus-skaner-gasienicowy-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-nexus-skaner-gasienicowy/1.0.0-4e56746000a9/enemy-v3-nexus-skaner-gasienicowy-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-skaner-gasienicowy/1.0.0-4e56746000a9/enemy-v3-nexus-skaner-gasienicowy-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-nexus-skaner-gasienicowy/1.1.0-26090b32a0c2/enemy-v3-nexus-skaner-gasienicowy-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-skaner-gasienicowy/1.1.0-26090b32a0c2/enemy-v3-nexus-skaner-gasienicowy-page-0.json",
+        "width": 1486,
+        "height": 616
       }
     ],
     "actors": [
@@ -65116,18 +65116,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-nexus-pies-lowca",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-nexus-pies-lowca-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-nexus-pies-lowca/1.0.0-9ccd8938ff17/enemy-v3-nexus-pies-lowca-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-pies-lowca/1.0.0-9ccd8938ff17/enemy-v3-nexus-pies-lowca-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-nexus-pies-lowca/1.1.0-4ba0f87a9ff3/enemy-v3-nexus-pies-lowca-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-pies-lowca/1.1.0-4ba0f87a9ff3/enemy-v3-nexus-pies-lowca-page-0.json",
+        "width": 496,
+        "height": 2016
       }
     ],
     "actors": [
@@ -65494,18 +65494,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-pyra-ognista-salamandra",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-pyra-ognista-salamandra-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-pyra-ognista-salamandra/1.0.0-03ff02958e37/enemy-v3-pyra-ognista-salamandra-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-ognista-salamandra/1.0.0-03ff02958e37/enemy-v3-pyra-ognista-salamandra-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-pyra-ognista-salamandra/1.1.0-3c3b1deabf3a/enemy-v3-pyra-ognista-salamandra-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-ognista-salamandra/1.1.0-3c3b1deabf3a/enemy-v3-pyra-ognista-salamandra-page-0.json",
+        "width": 960,
+        "height": 976
       }
     ],
     "actors": [
@@ -65872,18 +65872,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-verdant-grzybowy-zarodnik",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-verdant-grzybowy-zarodnik-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-verdant-grzybowy-zarodnik/1.0.0-459bb882e22f/enemy-v3-verdant-grzybowy-zarodnik-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-grzybowy-zarodnik/1.0.0-459bb882e22f/enemy-v3-verdant-grzybowy-zarodnik-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-verdant-grzybowy-zarodnik/1.1.0-e1623039439e/enemy-v3-verdant-grzybowy-zarodnik-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-grzybowy-zarodnik/1.1.0-e1623039439e/enemy-v3-verdant-grzybowy-zarodnik-page-0.json",
+        "width": 831,
+        "height": 944
       }
     ],
     "actors": [
@@ -66250,18 +66250,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-verdant-bursztynowa-osa",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-verdant-bursztynowa-osa-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-verdant-bursztynowa-osa/1.0.0-9d961de37560/enemy-v3-verdant-bursztynowa-osa-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-bursztynowa-osa/1.0.0-9d961de37560/enemy-v3-verdant-bursztynowa-osa-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-verdant-bursztynowa-osa/1.1.0-a675deb85621/enemy-v3-verdant-bursztynowa-osa-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-bursztynowa-osa/1.1.0-a675deb85621/enemy-v3-verdant-bursztynowa-osa-page-0.json",
+        "width": 604,
+        "height": 1432
       }
     ],
     "actors": [
@@ -66628,18 +66628,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-aether-szmaragdowy-waz",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-aether-szmaragdowy-waz-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-aether-szmaragdowy-waz/1.0.0-c3f801446bce/enemy-v3-aether-szmaragdowy-waz-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-szmaragdowy-waz/1.0.0-c3f801446bce/enemy-v3-aether-szmaragdowy-waz-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-aether-szmaragdowy-waz/1.1.0-e4ab6697c542/enemy-v3-aether-szmaragdowy-waz-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-szmaragdowy-waz/1.1.0-e4ab6697c542/enemy-v3-aether-szmaragdowy-waz-page-0.json",
+        "width": 952,
+        "height": 664
       }
     ],
     "actors": [
@@ -67006,18 +67006,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-aether-zloty-skarabeusz",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-aether-zloty-skarabeusz-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-aether-zloty-skarabeusz/1.0.0-3cf433d1ffb3/enemy-v3-aether-zloty-skarabeusz-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-zloty-skarabeusz/1.0.0-3cf433d1ffb3/enemy-v3-aether-zloty-skarabeusz-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-aether-zloty-skarabeusz/1.1.0-50cbc2766fe2/enemy-v3-aether-zloty-skarabeusz-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-zloty-skarabeusz/1.1.0-50cbc2766fe2/enemy-v3-aether-zloty-skarabeusz-page-0.json",
+        "width": 1653,
+        "height": 488
       }
     ],
     "actors": [
@@ -67384,18 +67384,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-nexus-kruk-danych",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-nexus-kruk-danych-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-nexus-kruk-danych/1.0.0-de984f237917/enemy-v3-nexus-kruk-danych-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-kruk-danych/1.0.0-de984f237917/enemy-v3-nexus-kruk-danych-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-nexus-kruk-danych/1.1.0-210cc96dcbe2/enemy-v3-nexus-kruk-danych-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-kruk-danych/1.1.0-210cc96dcbe2/enemy-v3-nexus-kruk-danych-page-0.json",
+        "width": 656,
+        "height": 1164
       }
     ],
     "actors": [
@@ -67762,18 +67762,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-pyra-magmowy-krab",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-pyra-magmowy-krab-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-pyra-magmowy-krab/1.0.0-41c93bc14653/enemy-v3-pyra-magmowy-krab-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-magmowy-krab/1.0.0-41c93bc14653/enemy-v3-pyra-magmowy-krab-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-pyra-magmowy-krab/1.1.0-596b91b35dd2/enemy-v3-pyra-magmowy-krab-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-magmowy-krab/1.1.0-596b91b35dd2/enemy-v3-pyra-magmowy-krab-page-0.json",
+        "width": 1640,
+        "height": 424
       }
     ],
     "actors": [
@@ -68140,18 +68140,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-verdant-puchacz-pylowy",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-verdant-puchacz-pylowy-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-verdant-puchacz-pylowy/1.0.0-12b9a4a70f6a/enemy-v3-verdant-puchacz-pylowy-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-puchacz-pylowy/1.0.0-12b9a4a70f6a/enemy-v3-verdant-puchacz-pylowy-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-verdant-puchacz-pylowy/1.1.0-3c0f82ed1661/enemy-v3-verdant-puchacz-pylowy-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-puchacz-pylowy/1.1.0-3c0f82ed1661/enemy-v3-verdant-puchacz-pylowy-page-0.json",
+        "width": 1674,
+        "height": 536
       }
     ],
     "actors": [
@@ -68518,18 +68518,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-verdant-straznik-ruin",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-verdant-straznik-ruin-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-verdant-straznik-ruin/1.0.0-79aea0686266/enemy-v3-verdant-straznik-ruin-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-straznik-ruin/1.0.0-79aea0686266/enemy-v3-verdant-straznik-ruin-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-verdant-straznik-ruin/1.1.0-9d738ea3ffa2/enemy-v3-verdant-straznik-ruin-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-straznik-ruin/1.1.0-9d738ea3ffa2/enemy-v3-verdant-straznik-ruin-page-0.json",
+        "width": 625,
+        "height": 1184
       }
     ],
     "actors": [
@@ -68896,18 +68896,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-aether-mgielny-zuraw",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-aether-mgielny-zuraw-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-aether-mgielny-zuraw/1.0.0-c9be62985bbb/enemy-v3-aether-mgielny-zuraw-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-mgielny-zuraw/1.0.0-c9be62985bbb/enemy-v3-aether-mgielny-zuraw-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-aether-mgielny-zuraw/1.1.0-1b1679fa3fcc/enemy-v3-aether-mgielny-zuraw-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-mgielny-zuraw/1.1.0-1b1679fa3fcc/enemy-v3-aether-mgielny-zuraw-page-0.json",
+        "width": 1177,
+        "height": 672
       }
     ],
     "actors": [
@@ -69274,18 +69274,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-aether-krysztalowy-motyl",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-aether-krysztalowy-motyl-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-aether-krysztalowy-motyl/1.0.0-feed5977d1e3/enemy-v3-aether-krysztalowy-motyl-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-krysztalowy-motyl/1.0.0-feed5977d1e3/enemy-v3-aether-krysztalowy-motyl-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-aether-krysztalowy-motyl/1.1.0-7a9bc1ee1be9/enemy-v3-aether-krysztalowy-motyl-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-krysztalowy-motyl/1.1.0-7a9bc1ee1be9/enemy-v3-aether-krysztalowy-motyl-page-0.json",
+        "width": 1640,
+        "height": 556
       }
     ],
     "actors": [
@@ -69652,18 +69652,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-nexus-pelzacz-serwisowy",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-nexus-pelzacz-serwisowy-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-nexus-pelzacz-serwisowy/1.0.0-4598f16b4034/enemy-v3-nexus-pelzacz-serwisowy-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-pelzacz-serwisowy/1.0.0-4598f16b4034/enemy-v3-nexus-pelzacz-serwisowy-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-nexus-pelzacz-serwisowy/1.1.0-5273536fabeb/enemy-v3-nexus-pelzacz-serwisowy-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-pelzacz-serwisowy/1.1.0-5273536fabeb/enemy-v3-nexus-pelzacz-serwisowy-page-0.json",
+        "width": 880,
+        "height": 820
       }
     ],
     "actors": [
@@ -70030,18 +70030,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-nexus-dron-zwiadowca",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-nexus-dron-zwiadowca-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-nexus-dron-zwiadowca/1.0.0-7d8eee766316/enemy-v3-nexus-dron-zwiadowca-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-dron-zwiadowca/1.0.0-7d8eee766316/enemy-v3-nexus-dron-zwiadowca-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-nexus-dron-zwiadowca/1.1.0-358f01362e56/enemy-v3-nexus-dron-zwiadowca-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-dron-zwiadowca/1.1.0-358f01362e56/enemy-v3-nexus-dron-zwiadowca-page-0.json",
+        "width": 1336,
+        "height": 676
       }
     ],
     "actors": [
@@ -70408,18 +70408,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-pyra-skorpion-obsydianowy",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-pyra-skorpion-obsydianowy-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-pyra-skorpion-obsydianowy/1.0.0-bb6f979bdc28/enemy-v3-pyra-skorpion-obsydianowy-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-skorpion-obsydianowy/1.0.0-bb6f979bdc28/enemy-v3-pyra-skorpion-obsydianowy-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-pyra-skorpion-obsydianowy/1.1.0-064596d481fb/enemy-v3-pyra-skorpion-obsydianowy-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-skorpion-obsydianowy/1.1.0-064596d481fb/enemy-v3-pyra-skorpion-obsydianowy-page-0.json",
+        "width": 1280,
+        "height": 708
       }
     ],
     "actors": [
@@ -70786,18 +70786,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-verdant-lesny-pajak",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-verdant-lesny-pajak-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-verdant-lesny-pajak/1.0.0-f715000b7ffb/enemy-v3-verdant-lesny-pajak-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-lesny-pajak/1.0.0-f715000b7ffb/enemy-v3-verdant-lesny-pajak-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-verdant-lesny-pajak/1.1.0-7b10d003737e/enemy-v3-verdant-lesny-pajak-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-lesny-pajak/1.1.0-7b10d003737e/enemy-v3-verdant-lesny-pajak-page-0.json",
+        "width": 685,
+        "height": 1292
       }
     ],
     "actors": [
@@ -71164,18 +71164,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-verdant-skalny-jelen",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-verdant-skalny-jelen-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-verdant-skalny-jelen/1.0.0-0a9d2f685640/enemy-v3-verdant-skalny-jelen-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-skalny-jelen/1.0.0-0a9d2f685640/enemy-v3-verdant-skalny-jelen-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-verdant-skalny-jelen/1.1.0-2a4b678447e5/enemy-v3-verdant-skalny-jelen-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-skalny-jelen/1.1.0-2a4b678447e5/enemy-v3-verdant-skalny-jelen-page-0.json",
+        "width": 1461,
+        "height": 604
       }
     ],
     "actors": [
@@ -71542,18 +71542,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-pyra-skalny-berserker",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-pyra-skalny-berserker-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-pyra-skalny-berserker/1.0.0-beda863edb07/enemy-v3-pyra-skalny-berserker-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-skalny-berserker/1.0.0-beda863edb07/enemy-v3-pyra-skalny-berserker-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-pyra-skalny-berserker/1.1.0-c5612f4a3faa/enemy-v3-pyra-skalny-berserker-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-skalny-berserker/1.1.0-c5612f4a3faa/enemy-v3-pyra-skalny-berserker-page-0.json",
+        "width": 797,
+        "height": 1044
       }
     ],
     "actors": [
@@ -71920,18 +71920,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-pyra-zarowy-nietoperz",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-pyra-zarowy-nietoperz-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-pyra-zarowy-nietoperz/1.0.0-e17afe68ba94/enemy-v3-pyra-zarowy-nietoperz-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-zarowy-nietoperz/1.0.0-e17afe68ba94/enemy-v3-pyra-zarowy-nietoperz-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-pyra-zarowy-nietoperz/1.1.0-097aee5c5b8f/enemy-v3-pyra-zarowy-nietoperz-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-zarowy-nietoperz/1.1.0-097aee5c5b8f/enemy-v3-pyra-zarowy-nietoperz-page-0.json",
+        "width": 1640,
+        "height": 460
       }
     ],
     "actors": [
@@ -72298,18 +72298,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-pyra-byk-areny",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-pyra-byk-areny-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-pyra-byk-areny/1.0.0-3c39beed814c/enemy-v3-pyra-byk-areny-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-byk-areny/1.0.0-3c39beed814c/enemy-v3-pyra-byk-areny-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-pyra-byk-areny/1.1.0-1c20ee78c635/enemy-v3-pyra-byk-areny-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-byk-areny/1.1.0-1c20ee78c635/enemy-v3-pyra-byk-areny-page-0.json",
+        "width": 464,
+        "height": 1768
       }
     ],
     "actors": [
@@ -72676,18 +72676,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-nexus-latarnia-plazmowa",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-nexus-latarnia-plazmowa-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-nexus-latarnia-plazmowa/1.0.0-e4d26cead734/enemy-v3-nexus-latarnia-plazmowa-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-latarnia-plazmowa/1.0.0-e4d26cead734/enemy-v3-nexus-latarnia-plazmowa-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-nexus-latarnia-plazmowa/1.1.0-6b14746e64da/enemy-v3-nexus-latarnia-plazmowa-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-latarnia-plazmowa/1.1.0-6b14746e64da/enemy-v3-nexus-latarnia-plazmowa-page-0.json",
+        "width": 2021,
+        "height": 404
       }
     ],
     "actors": [
@@ -73054,18 +73054,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-aether-pergaminowy-straznik",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-aether-pergaminowy-straznik-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-aether-pergaminowy-straznik/1.0.0-1428e2b7e01d/enemy-v3-aether-pergaminowy-straznik-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-pergaminowy-straznik/1.0.0-1428e2b7e01d/enemy-v3-aether-pergaminowy-straznik-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-aether-pergaminowy-straznik/1.1.0-c8d372ff28af/enemy-v3-aether-pergaminowy-straznik-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-pergaminowy-straznik/1.1.0-c8d372ff28af/enemy-v3-aether-pergaminowy-straznik-page-0.json",
+        "width": 832,
+        "height": 1108
       }
     ],
     "actors": [
@@ -73432,18 +73432,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-aether-oko-wiedzy",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-aether-oko-wiedzy-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-aether-oko-wiedzy/1.0.0-354b0bdf7b91/enemy-v3-aether-oko-wiedzy-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-oko-wiedzy/1.0.0-354b0bdf7b91/enemy-v3-aether-oko-wiedzy-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-aether-oko-wiedzy/1.1.0-39d6b60ae272/enemy-v3-aether-oko-wiedzy-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-oko-wiedzy/1.1.0-39d6b60ae272/enemy-v3-aether-oko-wiedzy-page-0.json",
+        "width": 1231,
+        "height": 792
       }
     ],
     "actors": [
@@ -73810,18 +73810,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-aether-marionetka-rytualu",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-aether-marionetka-rytualu-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-aether-marionetka-rytualu/1.0.0-e72549ea6830/enemy-v3-aether-marionetka-rytualu-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-marionetka-rytualu/1.0.0-e72549ea6830/enemy-v3-aether-marionetka-rytualu-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-aether-marionetka-rytualu/1.1.0-030f7b849e9c/enemy-v3-aether-marionetka-rytualu-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-marionetka-rytualu/1.1.0-030f7b849e9c/enemy-v3-aether-marionetka-rytualu-page-0.json",
+        "width": 1969,
+        "height": 412
       }
     ],
     "actors": [
@@ -74188,18 +74188,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-aether-duch-bibliotekarza",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-aether-duch-bibliotekarza-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-aether-duch-bibliotekarza/1.0.0-deaedde39098/enemy-v3-aether-duch-bibliotekarza-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-duch-bibliotekarza/1.0.0-deaedde39098/enemy-v3-aether-duch-bibliotekarza-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-aether-duch-bibliotekarza/1.1.0-54dae5323707/enemy-v3-aether-duch-bibliotekarza-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-duch-bibliotekarza/1.1.0-54dae5323707/enemy-v3-aether-duch-bibliotekarza-page-0.json",
+        "width": 1253,
+        "height": 796
       }
     ],
     "actors": [
@@ -74566,18 +74566,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-verdant-korzeniowy-pelzacz",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-verdant-korzeniowy-pelzacz-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-verdant-korzeniowy-pelzacz/1.0.0-279b5a0ae7b7/enemy-v3-verdant-korzeniowy-pelzacz-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-korzeniowy-pelzacz/1.0.0-279b5a0ae7b7/enemy-v3-verdant-korzeniowy-pelzacz-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-verdant-korzeniowy-pelzacz/1.1.0-0e95c3793a2c/enemy-v3-verdant-korzeniowy-pelzacz-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-korzeniowy-pelzacz/1.1.0-0e95c3793a2c/enemy-v3-verdant-korzeniowy-pelzacz-page-0.json",
+        "width": 968,
+        "height": 824
       }
     ],
     "actors": [
@@ -74944,18 +74944,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-pyra-wegielek",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-pyra-wegielek-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-pyra-wegielek/1.0.0-16495c4760ef/enemy-v3-pyra-wegielek-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-wegielek/1.0.0-16495c4760ef/enemy-v3-pyra-wegielek-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-pyra-wegielek/1.1.0-90f4e9198ff0/enemy-v3-pyra-wegielek-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-wegielek/1.1.0-90f4e9198ff0/enemy-v3-pyra-wegielek-page-0.json",
+        "width": 938,
+        "height": 940
       }
     ],
     "actors": [
@@ -75322,18 +75322,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-pyra-plomien-duch",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-pyra-plomien-duch-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-pyra-plomien-duch/1.0.0-f89c54c12552/enemy-v3-pyra-plomien-duch-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-plomien-duch/1.0.0-f89c54c12552/enemy-v3-pyra-plomien-duch-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-pyra-plomien-duch/1.1.0-8343e4a2a32c/enemy-v3-pyra-plomien-duch-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-plomien-duch/1.1.0-8343e4a2a32c/enemy-v3-pyra-plomien-duch-page-0.json",
+        "width": 1846,
+        "height": 404
       }
     ],
     "actors": [
@@ -75700,18 +75700,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-nexus-wiezyczka-autonomiczna",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-nexus-wiezyczka-autonomiczna-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-nexus-wiezyczka-autonomiczna/1.0.0-fa5202a0c618/enemy-v3-nexus-wiezyczka-autonomiczna-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-wiezyczka-autonomiczna/1.0.0-fa5202a0c618/enemy-v3-nexus-wiezyczka-autonomiczna-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-nexus-wiezyczka-autonomiczna/1.1.0-17d3f245d041/enemy-v3-nexus-wiezyczka-autonomiczna-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-wiezyczka-autonomiczna/1.1.0-17d3f245d041/enemy-v3-nexus-wiezyczka-autonomiczna-page-0.json",
+        "width": 1656,
+        "height": 592
       }
     ],
     "actors": [
@@ -76078,18 +76078,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-nexus-straznik-rdzenia",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-nexus-straznik-rdzenia-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-nexus-straznik-rdzenia/1.0.0-ad92ddd2b4f7/enemy-v3-nexus-straznik-rdzenia-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-straznik-rdzenia/1.0.0-ad92ddd2b4f7/enemy-v3-nexus-straznik-rdzenia-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-nexus-straznik-rdzenia/1.1.0-a0eb70f711d7/enemy-v3-nexus-straznik-rdzenia-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-straznik-rdzenia/1.1.0-a0eb70f711d7/enemy-v3-nexus-straznik-rdzenia-page-0.json",
+        "width": 867,
+        "height": 1000
       }
     ],
     "actors": [
@@ -77220,18 +77220,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-pyra-popielny-wilk",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-pyra-popielny-wilk-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-pyra-popielny-wilk/1.0.0-40826f84b7bb/enemy-v3-pyra-popielny-wilk-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-popielny-wilk/1.0.0-40826f84b7bb/enemy-v3-pyra-popielny-wilk-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-pyra-popielny-wilk/1.1.0-041e28e3b4b4/enemy-v3-pyra-popielny-wilk-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-pyra-popielny-wilk/1.1.0-041e28e3b4b4/enemy-v3-pyra-popielny-wilk-page-0.json",
+        "width": 512,
+        "height": 1540
       }
     ],
     "actors": [
@@ -77598,18 +77598,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-nexus-roj-nanitow",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-nexus-roj-nanitow-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-nexus-roj-nanitow/1.0.0-6c1f70fdaf08/enemy-v3-nexus-roj-nanitow-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-roj-nanitow/1.0.0-6c1f70fdaf08/enemy-v3-nexus-roj-nanitow-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-nexus-roj-nanitow/1.1.0-a1f768c141cf/enemy-v3-nexus-roj-nanitow-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-roj-nanitow/1.1.0-a1f768c141cf/enemy-v3-nexus-roj-nanitow-page-0.json",
+        "width": 696,
+        "height": 1132
       }
     ],
     "actors": [
@@ -77976,18 +77976,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-nexus-pajak-spawalniczy",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-nexus-pajak-spawalniczy-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-nexus-pajak-spawalniczy/1.0.0-365e583bbf31/enemy-v3-nexus-pajak-spawalniczy-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-pajak-spawalniczy/1.0.0-365e583bbf31/enemy-v3-nexus-pajak-spawalniczy-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-nexus-pajak-spawalniczy/1.1.0-d93a713d9af0/enemy-v3-nexus-pajak-spawalniczy-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-nexus-pajak-spawalniczy/1.1.0-d93a713d9af0/enemy-v3-nexus-pajak-spawalniczy-page-0.json",
+        "width": 1832,
+        "height": 488
       }
     ],
     "actors": [
@@ -78354,18 +78354,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-aether-swietlik-pieczeci",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-aether-swietlik-pieczeci-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-aether-swietlik-pieczeci/1.0.0-0b4f1e757a7a/enemy-v3-aether-swietlik-pieczeci-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-swietlik-pieczeci/1.0.0-0b4f1e757a7a/enemy-v3-aether-swietlik-pieczeci-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-aether-swietlik-pieczeci/1.1.0-10a97c0d4607/enemy-v3-aether-swietlik-pieczeci-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-aether-swietlik-pieczeci/1.1.0-10a97c0d4607/enemy-v3-aether-swietlik-pieczeci-page-0.json",
+        "width": 1563,
+        "height": 580
       }
     ],
     "actors": [
@@ -78732,18 +78732,18 @@
   {
     "schemaVersion": 1,
     "id": "enemy-v3-verdant-lisciak-skrytobojca",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "technical": false,
     "previewOnly": true,
     "assets": [
       {
         "id": "enemy-v3-verdant-lisciak-skrytobojca-page-0",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/enemy-v3-verdant-lisciak-skrytobojca/1.0.0-3becfaf1fd3e/enemy-v3-verdant-lisciak-skrytobojca-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-lisciak-skrytobojca/1.0.0-3becfaf1fd3e/enemy-v3-verdant-lisciak-skrytobojca-page-0.json",
-        "width": 2048,
-        "height": 1024
+        "url": "/game/assets/gpu/enemy-v3-verdant-lisciak-skrytobojca/1.1.0-41bc9f452026/enemy-v3-verdant-lisciak-skrytobojca-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/enemy-v3-verdant-lisciak-skrytobojca/1.1.0-41bc9f452026/enemy-v3-verdant-lisciak-skrytobojca-page-0.json",
+        "width": 1032,
+        "height": 724
       }
     ],
     "actors": [
