@@ -60,3 +60,25 @@
 - Zakres własnej weryfikacji z tego dnia: struktura (36 klipów × 8 kierunków, każda klatka istnieje), odtwarzanie każdego
   stanu w formie zwykłej i KI (46 sprawdzeń na rasę), chód w 8 kierunkach i bieg, śmierć i wstawanie, wygląd klatek
   wszystkich klipów. Nie sprawdzono: tryb online z prawdziwą przemianą.
+
+### 5. Androidy i Legendy: chód z przodu i z tyłu z filmów właściciela
+
+- Filmy `art-wip/gemini-anim-stages/android-chod-przod-tyl.mp4` i `legend-chod-przod-tyl.mp4` (10 s, 24 kl./s) zastępują
+  dotychczasowy chód z przodu i z tyłu obu ras. Każdy film pokazuje chód od przodu, potem od tyłu, powtórzony drugi raz;
+  Android ma dodatkowo odcinek z lekkim obrotem 3/4 (twarz w lewo).
+- `scripts/anim/walk_rebuild.py` obsługuje teraz `android` i `CELL=200` (paczki zapisane w komórce 200 px: nowe klatki są
+  budowane na 256 px i skalowane w całości, pozostałe klatki paczki zostają bez zmian). Nowa zmienna `WALK_LOOPS`
+  (`widok=klatka_startowa:okres`) ustawia pętlę kroku ręcznie, bo automatyczny wybór okresu na tych filmach trafia w złą
+  wartość (Android z przodu: wybrał pętlę 44 klatek zamiast 35, czyli ze skokiem na złączeniu pętli). Okres mierzony z
+  wysokości stóp (różnica najniższego piksela lewej i prawej połowy sylwetki zmienia znak co krok): Android przód 35 (start
+  9), tył 32 (start 88), przód 3/4 28 (start 139); Legenda przód 29 (start 25), tył 31 (start 86).
+- Mapowanie kierunków: Android: dół = przód, góra = tył, dół-lewo = przód 3/4 (bez lustra), dół-prawo = przód 3/4 z lustrem,
+  góra-lewo i góra-prawo = tył (z lustrem); Legenda: jak dotąd z przodu i z tyłu. Boki (lewo, prawo) bez zmian. Idle
+  (oddychanie) przeliczone z nowych klatek. Paczki bohaterów `3.3.0` (Android i Legenda), stare katalogi usunięte, pozycje
+  paczek w rejestrze bez zmian.
+- Własna weryfikacja: plansza klatek 8 kierunków × 8 klatek obu ras (rozmiar i ustawienie spójne, nogi się zmieniają,
+  pętla zamknięta); w grze (Playwright, SwiftShader) chód we wszystkich 8 kierunkach: każdy kierunek gra własne klatki
+  `walk/<kierunek>` (boczne w lewo: klatki `right` z flipX), bez błędów w konsoli; zrzuty ekranu Androida i Legendy
+  z przodu, z tyłu i po skosie. Testy `hero-clips-visible`, `gpu-pipeline`, `actor-animation`, `stream-texture-budget`
+  przechodzą. Nie sprawdzono: tryb online z prawdziwą przemianą, ostrość przy DPR 2×.
+- Nadal brakuje: chód NPC, osobny film chodu Mędrca, osobny klip umiejętności A (jest jeden wspólny `skill`).
