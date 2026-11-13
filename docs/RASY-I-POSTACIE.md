@@ -58,10 +58,12 @@ na stabilne ukosy); Android i Mędrzec mają osobne klatki ukosów. Proces i skr
 **Tryb KI — walka i reakcje (12.11.2026).** W Trybie KI postać zostaje w formie KI w każdej czynności; gra nie podstawia
 zwykłego stroju, jeśli dla rasy jest klip formy KI. `scripts/anim/kicombat_build.py` wycina klipy do atlasów
 `<paczka>-kifight-1` (z filmów etapu 4) i `-kifight-2` (z filmów reakcji formy KI `<rasa>-etap5a-reakcje-ki.mp4`):
-`kiattack2` (6 klatek, 12 kl./s), `kifinisher` (8, 12; Planetar bez: jego trzeci cios to błysk na cały kadr),
-`kiskillb` (8, 12; Planetar: samo lądowanie), `kidodge` (6, 14), `kiguard` (6, 10) oraz reakcje `kihit` (6, 14),
+`kiattack2` (6 klatek, 12 kl./s), `kifinisher` (8, 12), `kiskillb` (8, 12), `kidodge` (6, 14), `kiguard` (6, 10) oraz reakcje `kihit` (6, 14),
 `kihitheavy` (8, 12), `kideath` (8, 10: odrzut, upadek, leżenie), `kirespawn` (8, 12: podpiera się, wstaje),
 `kivictory` (8, 10). Reakcje formy KI są dla wszystkich czterech ras (Mędrzec od paczki `3.0.3`, z filmu `sage-etap5a-reakcje-ki.mp4`).
+Planetar (paczka `3.2.0`): `kifinisher` (ciężki cios dłonią) i pełny `kiskillb` (skok i uderzenie w ziemię) pochodzą z filmu
+`planetary-etap5c-cios-skok-ki.mp4` (atlas `-kifight-3`; w filmie etapu 4 trzeci cios był błyskiem na cały kadr, a skok
+miał uciętą głowę), wycięte `KICOMBAT_ONLY=s4,s5c KICOMBAT_RIGHT=1` (tylko klatki w prawo, reakcje bez zmian).
 Brak klipu dla stanu nie jest zastępowany niczym innym niż klipem formy bazowej. Łańcuch ciosów w Trybie KI: `kiattack2` → `kifinisher` → `kiattack` (silny cios z filmu) w 1,4 s.
 Klip jednorazowy zostaje w formie, w której go uruchomiono, nawet gdy buff `T` skończy się w trakcie (śmierć i wstawanie
 w Trybie KI zostają w formie KI). Każdy film ma własną transformację (skala z jego neutralnej klatki, stopy na linii chodu);

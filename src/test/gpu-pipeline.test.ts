@@ -358,13 +358,7 @@ describe("four painted hero deliveries", () => {
         "victory",
         "walk",
       ];
-      const kiCombat = [
-        "kiattack2",
-        "kidodge",
-        "kiguard",
-        "kiskillb",
-        ...(world === "verdant" ? [] : ["kifinisher"]),
-      ];
+      const kiCombat = ["kiattack2", "kidodge", "kiguard", "kiskillb", "kifinisher"];
       const kiReactions = ["kideath", "kihit", "kihitheavy", "kirespawn", "kivictory"];
       const kiMovement = ["kichannel", "kiinteract", "kirun", "kiskillc"];
       expect(Object.keys(hero.clips).sort()).toEqual(
@@ -374,10 +368,10 @@ describe("four painted hero deliveries", () => {
         Object.values(clip.directions).flat(),
       );
       // 1280 frame references of the base form and the earlier Tryb KI clips (see the stage 1-3 notes), plus the Tryb KI
-      // combat clips (kiattack2 6, kifinisher 8, kiskillb 8, kidodge 6, kiguard 6 frames, eight directions each; Planetary has
-      // no kifinisher), the KI reactions (kihit 6, kihitheavy 8, kideath 8, kirespawn 8, kivictory 8, all four races) and
+      // combat clips (kiattack2 6, kifinisher 8, kiskillb 8, kidodge 6, kiguard 6 frames, eight directions each; Planetary's
+      // kifinisher and full kiskillb come from its stage 5C video), the KI reactions (kihit 6, kihitheavy 8, kideath 8, kirespawn 8, kivictory 8, all four races) and
       // the KI movement clips of the stage 5B videos (kirun 8, kichannel 8, kiskillc 8, kiinteract 6).
-      const combatFrames = (6 + (world === "verdant" ? 0 : 8) + 8 + 6 + 6) * 8;
+      const combatFrames = (6 + 8 + 8 + 6 + 6) * 8;
       const reactionFrames = (6 + 8 + 8 + 8 + 8) * 8;
       const movementFrames = (8 + 8 + 8 + 6) * 8;
       expect(frames).toHaveLength(1280 + combatFrames + reactionFrames + movementFrames);

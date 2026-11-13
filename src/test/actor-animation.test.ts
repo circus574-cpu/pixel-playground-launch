@@ -251,7 +251,6 @@ describe("Tryb KI combat and reactions use the form's own clips", () => {
     for (const world of ["verdant", "aether", "nexus", "pyra"] as const) {
       const hero = actorVisual(world, "hero", undefined, false, catalog);
       for (const [clip, frames] of combat) {
-        if (world === "verdant" && clip === "kifinisher") continue; // Planetary's video has no third strike
         expect(hero.clips[clip], world + clip).toBeDefined();
         for (const names of Object.values(hero.clips[clip]!.directions))
           expect(names).toHaveLength(frames);

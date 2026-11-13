@@ -700,3 +700,15 @@ Pełny TypeScript aplikacji/e2e/tools PASS. [Kontrole integracyjne i SHA wejść
 - W przeglądarce (gra lokalna, forma KI wymuszona w animacji): u czterech ras chód KI, bieg KI w prawo i w lewo (lustro),
   kanał KI, umiejętność C KI i interakcja KI pokazują swoje klatki (8/8/8/6), 0 błędów strony. Nie sprawdzono w trybie
   online z prawdziwym buffem `T` i przyspieszeniem (bieg pojawia się tylko przy prędkości ≥ 1,5× bazowej).
+
+### 23. Planetar w Trybie KI: trzeci cios i pełny skok (film 5C)
+
+- Z filmu `planetary-etap5c-cios-skok-ki.mp4` wycięto `kifinisher` (8 klatek: zamach, krok, ciężki cios dłonią z małym
+  zielonym wybuchem przy dłoni, powrót; 0,6–1,8 s) i `kiskillb` (8 klatek: wybicie, lot z głową w kadrze, uderzenie
+  w ziemię z falą; 2,5–3,7 s). Dotąd Planetar nie miał trzeciego ciosu w formie KI, a skok był samym lądowaniem.
+- `kicombat_build.py`: źródło `s5c` dla Planetara, `KICOMBAT_ONLY` (przebudowa wybranych filmów, reszta paczki bez zmian),
+  `KICOMBAT_RIGHT` (tylko klatki w prawo). Paczka Planetara `3.2.0`: atlas `-kifight-1` przebudowany bez starego
+  lądowania, nowy `-kifight-3`. Verdantia: 125,1 z 128 MiB.
+- W przeglądarce (forma KI wymuszona): trzy ciosy pod rząd grają `kiattack2` → `kifinisher` → `kiattack`, skok gra 8 klatek
+  `kiskillb`, w lewo lustrem, 0 błędów. Testy `gpu-pipeline` i `actor-animation`: Planetar ma teraz te same klipy walki KI co
+  pozostałe rasy.
