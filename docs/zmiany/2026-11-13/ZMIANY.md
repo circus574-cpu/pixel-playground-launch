@@ -27,3 +27,20 @@
   nieodróżnialne). W grze: potwory v3 rysują się z przyciętych klatek, rozmiary wyświetlania bez zmian, 0 błędów.
 - Bez zmian: bohaterowie (atlasy już przycięte: przepakowanie dałoby 2,5%), obrazy budynków i obiektów (przycięcie
   marginesów: ok. 14 MiB w całej grze, rozproszone), atlas obiektów lasu (przepakowanie: 2,2 MiB).
+
+### 3. Bohaterowie: klatki zapisane w 200 px zamiast 256 px (decyzja właściciela)
+
+- Właściciel zgodził się na zmniejszenie rozdzielczości klatek bohaterów (rozmiar na ekranie bez zmian). Nowe narzędzie
+  `scripts/assets/downscale_hero_pack.py`: pełna komórka 256 px → 200 px (Lanczos, przezroczystość przemnożona),
+  przycięcie i ciasne upakowanie, nazwy klatek i listy `mirrored` bez zmian. Kontrakt: `heroFrameCompact: 200`,
+  importer dopuszcza komórkę 200 dla bohaterów i NPC.
+- Paczki: Mędrzec 59,8 → 35,6 MiB (`3.2.0`), Planetar 56,5 → 33,2 (`3.3.0`), Android 60,7 → 36,0 (`3.2.0`), Legenda
+  52,1 → 29,0 (`3.2.0`). Budżety światów (importer, z pamięcią terenu Verdantii): Verdantia 126,8 → 103,5,
+  Aetheria 111,6 → 87,4, Nexus 103,5 → 78,8, Pyra 106,3 → 83,2 MiB.
+- Sprawdzone: w grze u czterech ras bohater ma 133 × 133 na ekranie (jak przed zmianą), chód gra 8 klatek, 0 błędów;
+  porównanie starej i nowej klatki w silniku w 133 i 200 px — ten sam rozmiar i położenie, bez widocznej różnicy.
+  Przypisania grafik bez zmian (porównanie z `main`).
+- Skrypty wycinania klipów (`fightform`, `kicombat`, `kiform`, `kiwalk`, `moveform`, `reactform`) mierzą zainstalowany chód
+  w jednostkach 256 px (sprawdzone: wysokość i linia stóp zgodne ze starą paczką co do 0,7 px); nowe klipy przed
+  importem przechodzą przez `downscale_hero_pack.py`. Test budżetu strumieniowania: zestaw Mędrca 93,93 → 85,08 MiB.
+- Nie sprawdzono: wygląd na ekranach o gęstości 2× przy pełnym zbliżeniu (gra renderuje dziś w 1×).

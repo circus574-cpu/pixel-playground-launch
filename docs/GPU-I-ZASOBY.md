@@ -237,6 +237,13 @@ Nie uruchamiać go do zwykłej korekty rozmiaru postaci ani walidacji paczki.
 
 ## Obecny pipeline malowanych postaci
 
+**Komórka bohatera 200 px (13.11.2026, decyzja właściciela).** Paczki `hero-*-walk-v3` są zapisane w komórce 200 px
+(wcześniej 256): `scripts/assets/downscale_hero_pack.py` składa każdą klatkę w pełnej komórce, skaluje ją w całości
+(Lanczos, przezroczystość przemnożona) i pakuje przyciętą. Gra rysuje bohatera w rozmiarze kontraktu (133 jednostki,
+`setDisplaySize`), więc na ekranie nic się nie zmienia; kontrakt i importer dopuszczają komórkę 200 (`heroFrameCompact`).
+Skrypty `scripts/anim/*_build.py` mierzą zainstalowany chód w jednostkach 256 px i nadal zapisują nowe klipy w 256 px:
+przed importem trzeba uruchomić `downscale_hero_pack.py` na ich `pkg/<rasa>` (skaluje tylko klatki większe niż 200).
+
 1. `android_pose_keypoints.py` / `planetary_pose_keypoints.py`: osiem kierunków pozy.
 2. `painted_views.py`: ControlNet OpenPose + IP-Adapter SDXL + Animagine XL 3.1;
    wejściem zaakceptowany kandydat, nie nowa postać z każdego promptu.

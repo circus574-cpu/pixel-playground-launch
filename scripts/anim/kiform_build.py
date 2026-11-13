@@ -16,6 +16,8 @@ rembg (isnet-anime, completed with isnet-general-use behind bright effects) and 
 against the video background (scripts/anim/kimatte.py). The 256 px cell fades out at its border. Frames are trimmed and
 shelf-packed into the smallest lossless atlas. Needs: ffmpeg, rembg (isnet-anime and isnet-general-use models),
 opencv-python, numpy, pillow.
+Hero packs are stored at a 200 px cell (scripts/assets/downscale_hero_pack.py): this builder measures the installed
+walk in 256 px units and writes 256 px cells, so run downscale_hero_pack.py on its pkg/<race> before importing it.
 """
 import os, sys, json, glob, shutil, subprocess
 from pathlib import Path
@@ -63,7 +65,8 @@ for name, fr in atl['frames'].items():
     f = fr['frame']; oy = fr.get('spriteSourceSize', {'y': 0})['y']
     a = img[f['y']:f['y'] + f['h'], f['x']:f['x'] + f['w'], 3] > 128
     ys, xs = np.where(a)
-    if len(ys): hs.append(ys.max() - ys.min() + 1); bs.append(ys.max() + oy)
+    k = 256.0 / fr.get('sourceSize', {'w': 256})['w']  # the installed pack may be stored at a 200 px cell
+    if len(ys): hs.append((ys.max() - ys.min() + 1) * k); bs.append((ys.max() + oy + 1) * k - 1)
 baseH = float(np.median(hs)); baseBottom = float(np.median(bs))
 print('base height', baseH, 'bottom', baseBottom)
 
