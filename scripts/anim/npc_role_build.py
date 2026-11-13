@@ -30,7 +30,7 @@ from PIL import Image
 from rembg import remove, new_session
 
 assert WORLD in ('verdant', 'aether', 'nexus', 'pyra'), WORLD
-assert ROLE in ('trainer', 'keeper', 'innkeeper', 'guide', 'smith', 'warden', 'steward', 'merchant'), ROLE
+assert ROLE in ('trainer', 'keeper', 'innkeeper', 'guide', 'smith', 'warden', 'steward', 'merchant', 'hunter', 'alchemist'), ROLE
 DIRS = ['down', 'down-left', 'left', 'up-left', 'up', 'up-right', 'right', 'down-right']
 # direction -> (video frame number, mirror). Frame numbers at 24 fps of the owner's Trener turnaround.
 PICKS = {
@@ -74,6 +74,16 @@ PICKS = {
     'merchant': {
         'down': (180, False), 'down-right': (20, False), 'right': (60, False), 'up-right': (90, False),
         'up': (100, False), 'up-left': (120, False), 'left': (140, False), 'down-left': (160, False),
+    },
+    # Mysliwy turnaround (193 frames, caption under the feet in every frame): he turns to the right first
+    'hunter': {
+        'down': (0, False), 'down-right': (24, False), 'right': (56, False), 'up-right': (88, False),
+        'up': (104, False), 'up-left': (120, False), 'left': (144, False), 'down-left': (168, False),
+    },
+    # Alchemik turnaround (193 frames, caption under the feet): long front hold, then a quick turn through the sides
+    'alchemist': {
+        'down': (0, False), 'down-right': (72, False), 'right': (81, False), 'up-right': (87, False),
+        'up': (104, False), 'up-left': (141, False), 'left': (156, False), 'down-left': (162, False),
     },
 }[ROLE]
 if os.environ.get('NPC_PICKS'):  # e.g. "down=0,left=36,down-right=24m"

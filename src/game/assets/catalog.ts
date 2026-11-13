@@ -313,7 +313,14 @@ const enlargedHeroes = new Set([
   "hero-legend",
 ]);
 /** NPCs cut from 256 px film turnarounds: drawn taller than the hero (133) and sharper than the old 128 px residents. */
+/**
+ * Escorted and witness NPCs (heritage, trials) walk next to the hero: they keep the default NPC look with a real walk
+ * cycle. The city hunter's turnaround pack has standing poses only, so it would glide without moving its legs.
+ */
+export const ESCORT_NPC_ROLE = "escort";
 const ENLARGED_NPC_ROLES = [
+  "hunter",
+  "alchemist",
   "guide",
   "smith",
   "keeper",
@@ -398,7 +405,8 @@ export function worldAssets(
   const world = WORLDS[worldId],
     used = new Set<string>(["ui-icons"]);
   const add = (ref: TextureRef) => used.add(ref.asset);
-  for (const role of [undefined, ...world.npcs.map((n) => n.id)]) {
+  // The escort look is loaded with every world: heritage and trial escorts are drawn only when their texture exists.
+  for (const role of [undefined, ESCORT_NPC_ROLE, ...world.npcs.map((n) => n.id)]) {
     const visual = actorVisual(worldId, role ? "npc" : "hero", role, preview, source);
     for (const clip of Object.values(visual.clips)) used.add(clip.asset);
   }

@@ -712,3 +712,18 @@ Pełny TypeScript aplikacji/e2e/tools PASS. [Kontrole integracyjne i SHA wejść
 - W przeglądarce (forma KI wymuszona): trzy ciosy pod rząd grają `kiattack2` → `kifinisher` → `kiattack`, skok gra 8 klatek
   `kiskillb`, w lewo lustrem, 0 błędów. Testy `gpu-pipeline` i `actor-animation`: Planetar ma teraz te same klipy walki KI co
   pozostałe rasy.
+
+### 24. NPC Myśliwy i Alchemik: własne postaci w czterech miastach
+
+- Z filmów obrotu `npc-hunter-mysliwy-obrot.mp4` i `npc-alchemist-alchemik-obrot.mp4` zbudowano paczki
+  `npc-<świat>-hunter` i `npc-<świat>-alchemist` (8 kierunków, klatki 256 px, rysowane 150, kolor stroju per świat jak
+  u pozostałych ról; po ok. 0,84 i 0,89 MiB). Klatki kierunków wybrane ręcznie z arkusza klatek (Alchemiczka długo stoi
+  przodem i szybko obraca się bokiem). Dotąd obie role rysowały się wspólną grafiką zastępczą `human-v2`.
+- Eskortowani NPC (Dziedzictwo, próby) używali roli `hunter`; postać z filmu obrotu ma tylko pozy stojące, więc eskorta
+  sunęłaby bez ruchu nóg. Eskorta dostała jawną rolę `ESCORT_NPC_ROLE` (ten sam wygląd z cyklem chodu co dotąd),
+  a jej tekstura jest dodana do zasobów każdego świata (`worldAssets`, `superiorRuntime`) — inaczej, gdy żaden NPC miasta
+  nie używa już grafiki zastępczej, eskorta byłaby niewidoczna.
+- W przeglądarce: Myśliwy z nową grafiką w kadrze startowym czterech miast; tekstury Alchemiczki i eskorty załadowane;
+  0 błędów. Budżety: Verdantia 126,8, Aetheria 111,6, Nexus 103,5, Pyra 106,3 z 128 MiB.
+- Test `npc-roles-visual`: dziewięć ról z własną postacią w czterech światach; eskorta ma prawdziwy cykl chodu i jest
+  w zasobach świata.

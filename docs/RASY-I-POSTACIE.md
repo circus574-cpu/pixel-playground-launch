@@ -100,7 +100,7 @@ aby sylwetki z materiałów wideo zachowały rozmiar porównywalny z wcześniejs
 malowanymi aktorami 160×160. Kontrakt importu ma nadal 96×96 i kotwicę stóp
 `(0.5, 0.95)`, fizyka pozostaje niezależna od tekstury. Nie stosować starszego
 rozmiaru 160 globalnie do bieżących bohaterów ani do wszystkich NPC/potworów.
-Mieszkańcy bez własnego filmu (myśliwy, alchemik) nadal korzystają ze wspólnego `human-v2`; to grafika zastępcza. Przewodnik, handlarz, kowal, depozytariusz, karczmarz, zarządca i strażnik mają własne postaci (klatki 256 px, rysowane 150) z filmów obrotu w czterech wersjach kolorystycznych (12.11.2026, `scripts/anim/npc_role_build.py`), a Trener własną większą.
+Przewodnik, handlarz, kowal, depozytariusz, karczmarz, zarządca, strażnik, myśliwy i alchemik (dwa ostatnie od 12.11.2026, filmy `npc-hunter-mysliwy-obrot.mp4` i `npc-alchemist-alchemik-obrot.mp4`) mają własne postaci (klatki 256 px, rysowane 150) z filmów obrotu w czterech wersjach kolorystycznych (12.11.2026, `scripts/anim/npc_role_build.py`), a Trener własną większą. Wspólny `human-v2` (prawdziwy cykl chodu) zostaje tylko dla NPC eskortowanych w Dziedzictwie i próbach (`ESCORT_NPC_ROLE`): postaci z filmów obrotu mają same pozy stojące i sunęłyby bez ruchu nóg; jego tekstura jest ładowana z każdym światem.
 
 Historyczne dostawy z 22–23.10 (`hero-planetary-painted-1.0.0`,
 `hero-sage-painted-1.0.0`, `hero-android-1.0.0`, `hero-legend-1.0.0`)

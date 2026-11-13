@@ -1,4 +1,4 @@
-import { actorVisual } from "../../assets/catalog";
+import { actorVisual, ESCORT_NPC_ROLE } from "../../assets/catalog";
 import { registerActorAnimations } from "../../assets/phaserAssets";
 import { ActorAnimation } from "../../assets/actorAnimation";
 import type { ProjectView } from "./projects";
@@ -69,7 +69,7 @@ export class HeritageMarkers {
           .container(target.point.x, target.point.y, [ring, label])
           .setDepth(target.point.y - 1);
         if (target.witness) {
-          const config = actorVisual(s.world.id, "npc", "hunter"),
+          const config = actorVisual(s.world.id, "npc", ESCORT_NPC_ROLE),
             clip = config.clips.idle!;
           if (this.scene.textures.exists(clip.asset)) {
             registerActorAnimations(this.scene, config);
@@ -243,7 +243,7 @@ export class HeritageMarkers {
     if (!this.escortObject) {
       const ring = this.scene.add.ellipse(0, 0, 30, 16, 0x7fdbc5, 0.35).setStrokeStyle(2, 0x7fdbc5);
       const object = this.scene.add.container(actor.x, actor.y, [ring]);
-      const config = actorVisual(s.world.id, "npc", "hunter"),
+      const config = actorVisual(s.world.id, "npc", ESCORT_NPC_ROLE),
         clip = config.clips.idle!;
       if (this.scene.textures.exists(clip.asset)) {
         registerActorAnimations(this.scene, config);

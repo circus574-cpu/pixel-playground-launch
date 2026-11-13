@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "id": "npc-aether-hunter",
+  "version": "1.0.0",
+  "technical": false,
+  "previewOnly": false,
+  "assets": [
+    {
+      "id": "npc-aether-hunter-page-0",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/npc-aether-hunter/1.0.0-ef752eb9ae07/npc-aether-hunter-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-aether-hunter/1.0.0-ef752eb9ae07/npc-aether-hunter-page-0.json",
+      "width": 913,
+      "height": 240
+    }
+  ],
+  "actors": [
+    {
+      "id": "npc-aether-hunter",
+      "profile": "npc",
+      "presentation": "legacy",
+      "size": [
+        96,
+        96
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "npc-aether-hunter-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-aether-hunter/idle/down/00",
+              "npc-aether-hunter/idle/down/01",
+              "npc-aether-hunter/idle/down/02",
+              "npc-aether-hunter/idle/down/03",
+              "npc-aether-hunter/idle/down/04",
+              "npc-aether-hunter/idle/down/05",
+              "npc-aether-hunter/idle/down/06",
+              "npc-aether-hunter/idle/down/07"
+            ],
+            "down-left": [
+              "npc-aether-hunter/idle/down-left/00",
+              "npc-aether-hunter/idle/down-left/01",
+              "npc-aether-hunter/idle/down-left/02",
+              "npc-aether-hunter/idle/down-left/03",
+              "npc-aether-hunter/idle/down-left/04",
+              "npc-aether-hunter/idle/down-left/05",
+              "npc-aether-hunter/idle/down-left/06",
+              "npc-aether-hunter/idle/down-left/07"
+            ],
+            "left": [
+              "npc-aether-hunter/idle/left/00",
+              "npc-aether-hunter/idle/left/01",
+              "npc-aether-hunter/idle/left/02",
+              "npc-aether-hunter/idle/left/03",
+              "npc-aether-hunter/idle/left/04",
+              "npc-aether-hunter/idle/left/05",
+              "npc-aether-hunter/idle/left/06",
+              "npc-aether-hunter/idle/left/07"
+            ],
+            "up-left": [
+              "npc-aether-hunter/idle/up-left/00",
+              "npc-aether-hunter/idle/up-left/01",
+              "npc-aether-hunter/idle/up-left/02",
+              "npc-aether-hunter/idle/up-left/03",
+              "npc-aether-hunter/idle/up-left/04",
+              "npc-aether-hunter/idle/up-left/05",
+              "npc-aether-hunter/idle/up-left/06",
+              "npc-aether-hunter/idle/up-left/07"
+            ],
+            "up": [
+              "npc-aether-hunter/idle/up/00",
+              "npc-aether-hunter/idle/up/01",
+              "npc-aether-hunter/idle/up/02",
+              "npc-aether-hunter/idle/up/03",
+              "npc-aether-hunter/idle/up/04",
+              "npc-aether-hunter/idle/up/05",
+              "npc-aether-hunter/idle/up/06",
+              "npc-aether-hunter/idle/up/07"
+            ],
+            "up-right": [
+              "npc-aether-hunter/idle/up-right/00",
+              "npc-aether-hunter/idle/up-right/01",
+              "npc-aether-hunter/idle/up-right/02",
+              "npc-aether-hunter/idle/up-right/03",
+              "npc-aether-hunter/idle/up-right/04",
+              "npc-aether-hunter/idle/up-right/05",
+              "npc-aether-hunter/idle/up-right/06",
+              "npc-aether-hunter/idle/up-right/07"
+            ],
+            "right": [
+              "npc-aether-hunter/idle/right/00",
+              "npc-aether-hunter/idle/right/01",
+              "npc-aether-hunter/idle/right/02",
+              "npc-aether-hunter/idle/right/03",
+              "npc-aether-hunter/idle/right/04",
+              "npc-aether-hunter/idle/right/05",
+              "npc-aether-hunter/idle/right/06",
+              "npc-aether-hunter/idle/right/07"
+            ],
+            "down-right": [
+              "npc-aether-hunter/idle/down-right/00",
+              "npc-aether-hunter/idle/down-right/01",
+              "npc-aether-hunter/idle/down-right/02",
+              "npc-aether-hunter/idle/down-right/03",
+              "npc-aether-hunter/idle/down-right/04",
+              "npc-aether-hunter/idle/down-right/05",
+              "npc-aether-hunter/idle/down-right/06",
+              "npc-aether-hunter/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "npc-aether-hunter-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-aether-hunter/idle/down/00",
+              "npc-aether-hunter/idle/down/01",
+              "npc-aether-hunter/idle/down/02",
+              "npc-aether-hunter/idle/down/03",
+              "npc-aether-hunter/idle/down/04",
+              "npc-aether-hunter/idle/down/05",
+              "npc-aether-hunter/idle/down/06",
+              "npc-aether-hunter/idle/down/07"
+            ],
+            "down-left": [
+              "npc-aether-hunter/idle/down-left/00",
+              "npc-aether-hunter/idle/down-left/01",
+              "npc-aether-hunter/idle/down-left/02",
+              "npc-aether-hunter/idle/down-left/03",
+              "npc-aether-hunter/idle/down-left/04",
+              "npc-aether-hunter/idle/down-left/05",
+              "npc-aether-hunter/idle/down-left/06",
+              "npc-aether-hunter/idle/down-left/07"
+            ],
+            "left": [
+              "npc-aether-hunter/idle/left/00",
+              "npc-aether-hunter/idle/left/01",
+              "npc-aether-hunter/idle/left/02",
+              "npc-aether-hunter/idle/left/03",
+              "npc-aether-hunter/idle/left/04",
+              "npc-aether-hunter/idle/left/05",
+              "npc-aether-hunter/idle/left/06",
+              "npc-aether-hunter/idle/left/07"
+            ],
+            "up-left": [
+              "npc-aether-hunter/idle/up-left/00",
+              "npc-aether-hunter/idle/up-left/01",
+              "npc-aether-hunter/idle/up-left/02",
+              "npc-aether-hunter/idle/up-left/03",
+              "npc-aether-hunter/idle/up-left/04",
+              "npc-aether-hunter/idle/up-left/05",
+              "npc-aether-hunter/idle/up-left/06",
+              "npc-aether-hunter/idle/up-left/07"
+            ],
+            "up": [
+              "npc-aether-hunter/idle/up/00",
+              "npc-aether-hunter/idle/up/01",
+              "npc-aether-hunter/idle/up/02",
+              "npc-aether-hunter/idle/up/03",
+              "npc-aether-hunter/idle/up/04",
+              "npc-aether-hunter/idle/up/05",
+              "npc-aether-hunter/idle/up/06",
+              "npc-aether-hunter/idle/up/07"
+            ],
+            "up-right": [
+              "npc-aether-hunter/idle/up-right/00",
+              "npc-aether-hunter/idle/up-right/01",
+              "npc-aether-hunter/idle/up-right/02",
+              "npc-aether-hunter/idle/up-right/03",
+              "npc-aether-hunter/idle/up-right/04",
+              "npc-aether-hunter/idle/up-right/05",
+              "npc-aether-hunter/idle/up-right/06",
+              "npc-aether-hunter/idle/up-right/07"
+            ],
+            "right": [
+              "npc-aether-hunter/idle/right/00",
+              "npc-aether-hunter/idle/right/01",
+              "npc-aether-hunter/idle/right/02",
+              "npc-aether-hunter/idle/right/03",
+              "npc-aether-hunter/idle/right/04",
+              "npc-aether-hunter/idle/right/05",
+              "npc-aether-hunter/idle/right/06",
+              "npc-aether-hunter/idle/right/07"
+            ],
+            "down-right": [
+              "npc-aether-hunter/idle/down-right/00",
+              "npc-aether-hunter/idle/down-right/01",
+              "npc-aether-hunter/idle/down-right/02",
+              "npc-aether-hunter/idle/down-right/03",
+              "npc-aether-hunter/idle/down-right/04",
+              "npc-aether-hunter/idle/down-right/05",
+              "npc-aether-hunter/idle/down-right/06",
+              "npc-aether-hunter/idle/down-right/07"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "actorBindings": {
+    "aether.npc.hunter": "npc-aether-hunter"
+  },
+  "renderBindings": {},
+  "effects": {}
+}

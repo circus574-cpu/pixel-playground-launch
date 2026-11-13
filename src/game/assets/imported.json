@@ -103187,5 +103187,1725 @@
     "actorBindings": {},
     "renderBindings": {},
     "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-verdant-hunter",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-verdant-hunter-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-verdant-hunter/1.0.0-315b833976e0/npc-verdant-hunter-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-verdant-hunter/1.0.0-315b833976e0/npc-verdant-hunter-page-0.json",
+        "width": 913,
+        "height": 240
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-verdant-hunter",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-verdant-hunter-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-verdant-hunter/idle/down/00",
+                "npc-verdant-hunter/idle/down/01",
+                "npc-verdant-hunter/idle/down/02",
+                "npc-verdant-hunter/idle/down/03",
+                "npc-verdant-hunter/idle/down/04",
+                "npc-verdant-hunter/idle/down/05",
+                "npc-verdant-hunter/idle/down/06",
+                "npc-verdant-hunter/idle/down/07"
+              ],
+              "down-left": [
+                "npc-verdant-hunter/idle/down-left/00",
+                "npc-verdant-hunter/idle/down-left/01",
+                "npc-verdant-hunter/idle/down-left/02",
+                "npc-verdant-hunter/idle/down-left/03",
+                "npc-verdant-hunter/idle/down-left/04",
+                "npc-verdant-hunter/idle/down-left/05",
+                "npc-verdant-hunter/idle/down-left/06",
+                "npc-verdant-hunter/idle/down-left/07"
+              ],
+              "left": [
+                "npc-verdant-hunter/idle/left/00",
+                "npc-verdant-hunter/idle/left/01",
+                "npc-verdant-hunter/idle/left/02",
+                "npc-verdant-hunter/idle/left/03",
+                "npc-verdant-hunter/idle/left/04",
+                "npc-verdant-hunter/idle/left/05",
+                "npc-verdant-hunter/idle/left/06",
+                "npc-verdant-hunter/idle/left/07"
+              ],
+              "up-left": [
+                "npc-verdant-hunter/idle/up-left/00",
+                "npc-verdant-hunter/idle/up-left/01",
+                "npc-verdant-hunter/idle/up-left/02",
+                "npc-verdant-hunter/idle/up-left/03",
+                "npc-verdant-hunter/idle/up-left/04",
+                "npc-verdant-hunter/idle/up-left/05",
+                "npc-verdant-hunter/idle/up-left/06",
+                "npc-verdant-hunter/idle/up-left/07"
+              ],
+              "up": [
+                "npc-verdant-hunter/idle/up/00",
+                "npc-verdant-hunter/idle/up/01",
+                "npc-verdant-hunter/idle/up/02",
+                "npc-verdant-hunter/idle/up/03",
+                "npc-verdant-hunter/idle/up/04",
+                "npc-verdant-hunter/idle/up/05",
+                "npc-verdant-hunter/idle/up/06",
+                "npc-verdant-hunter/idle/up/07"
+              ],
+              "up-right": [
+                "npc-verdant-hunter/idle/up-right/00",
+                "npc-verdant-hunter/idle/up-right/01",
+                "npc-verdant-hunter/idle/up-right/02",
+                "npc-verdant-hunter/idle/up-right/03",
+                "npc-verdant-hunter/idle/up-right/04",
+                "npc-verdant-hunter/idle/up-right/05",
+                "npc-verdant-hunter/idle/up-right/06",
+                "npc-verdant-hunter/idle/up-right/07"
+              ],
+              "right": [
+                "npc-verdant-hunter/idle/right/00",
+                "npc-verdant-hunter/idle/right/01",
+                "npc-verdant-hunter/idle/right/02",
+                "npc-verdant-hunter/idle/right/03",
+                "npc-verdant-hunter/idle/right/04",
+                "npc-verdant-hunter/idle/right/05",
+                "npc-verdant-hunter/idle/right/06",
+                "npc-verdant-hunter/idle/right/07"
+              ],
+              "down-right": [
+                "npc-verdant-hunter/idle/down-right/00",
+                "npc-verdant-hunter/idle/down-right/01",
+                "npc-verdant-hunter/idle/down-right/02",
+                "npc-verdant-hunter/idle/down-right/03",
+                "npc-verdant-hunter/idle/down-right/04",
+                "npc-verdant-hunter/idle/down-right/05",
+                "npc-verdant-hunter/idle/down-right/06",
+                "npc-verdant-hunter/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-verdant-hunter-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-verdant-hunter/idle/down/00",
+                "npc-verdant-hunter/idle/down/01",
+                "npc-verdant-hunter/idle/down/02",
+                "npc-verdant-hunter/idle/down/03",
+                "npc-verdant-hunter/idle/down/04",
+                "npc-verdant-hunter/idle/down/05",
+                "npc-verdant-hunter/idle/down/06",
+                "npc-verdant-hunter/idle/down/07"
+              ],
+              "down-left": [
+                "npc-verdant-hunter/idle/down-left/00",
+                "npc-verdant-hunter/idle/down-left/01",
+                "npc-verdant-hunter/idle/down-left/02",
+                "npc-verdant-hunter/idle/down-left/03",
+                "npc-verdant-hunter/idle/down-left/04",
+                "npc-verdant-hunter/idle/down-left/05",
+                "npc-verdant-hunter/idle/down-left/06",
+                "npc-verdant-hunter/idle/down-left/07"
+              ],
+              "left": [
+                "npc-verdant-hunter/idle/left/00",
+                "npc-verdant-hunter/idle/left/01",
+                "npc-verdant-hunter/idle/left/02",
+                "npc-verdant-hunter/idle/left/03",
+                "npc-verdant-hunter/idle/left/04",
+                "npc-verdant-hunter/idle/left/05",
+                "npc-verdant-hunter/idle/left/06",
+                "npc-verdant-hunter/idle/left/07"
+              ],
+              "up-left": [
+                "npc-verdant-hunter/idle/up-left/00",
+                "npc-verdant-hunter/idle/up-left/01",
+                "npc-verdant-hunter/idle/up-left/02",
+                "npc-verdant-hunter/idle/up-left/03",
+                "npc-verdant-hunter/idle/up-left/04",
+                "npc-verdant-hunter/idle/up-left/05",
+                "npc-verdant-hunter/idle/up-left/06",
+                "npc-verdant-hunter/idle/up-left/07"
+              ],
+              "up": [
+                "npc-verdant-hunter/idle/up/00",
+                "npc-verdant-hunter/idle/up/01",
+                "npc-verdant-hunter/idle/up/02",
+                "npc-verdant-hunter/idle/up/03",
+                "npc-verdant-hunter/idle/up/04",
+                "npc-verdant-hunter/idle/up/05",
+                "npc-verdant-hunter/idle/up/06",
+                "npc-verdant-hunter/idle/up/07"
+              ],
+              "up-right": [
+                "npc-verdant-hunter/idle/up-right/00",
+                "npc-verdant-hunter/idle/up-right/01",
+                "npc-verdant-hunter/idle/up-right/02",
+                "npc-verdant-hunter/idle/up-right/03",
+                "npc-verdant-hunter/idle/up-right/04",
+                "npc-verdant-hunter/idle/up-right/05",
+                "npc-verdant-hunter/idle/up-right/06",
+                "npc-verdant-hunter/idle/up-right/07"
+              ],
+              "right": [
+                "npc-verdant-hunter/idle/right/00",
+                "npc-verdant-hunter/idle/right/01",
+                "npc-verdant-hunter/idle/right/02",
+                "npc-verdant-hunter/idle/right/03",
+                "npc-verdant-hunter/idle/right/04",
+                "npc-verdant-hunter/idle/right/05",
+                "npc-verdant-hunter/idle/right/06",
+                "npc-verdant-hunter/idle/right/07"
+              ],
+              "down-right": [
+                "npc-verdant-hunter/idle/down-right/00",
+                "npc-verdant-hunter/idle/down-right/01",
+                "npc-verdant-hunter/idle/down-right/02",
+                "npc-verdant-hunter/idle/down-right/03",
+                "npc-verdant-hunter/idle/down-right/04",
+                "npc-verdant-hunter/idle/down-right/05",
+                "npc-verdant-hunter/idle/down-right/06",
+                "npc-verdant-hunter/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "verdant.npc.hunter": "npc-verdant-hunter"
+    },
+    "renderBindings": {},
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-aether-hunter",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-aether-hunter-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-aether-hunter/1.0.0-ef752eb9ae07/npc-aether-hunter-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-aether-hunter/1.0.0-ef752eb9ae07/npc-aether-hunter-page-0.json",
+        "width": 913,
+        "height": 240
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-aether-hunter",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-aether-hunter-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-aether-hunter/idle/down/00",
+                "npc-aether-hunter/idle/down/01",
+                "npc-aether-hunter/idle/down/02",
+                "npc-aether-hunter/idle/down/03",
+                "npc-aether-hunter/idle/down/04",
+                "npc-aether-hunter/idle/down/05",
+                "npc-aether-hunter/idle/down/06",
+                "npc-aether-hunter/idle/down/07"
+              ],
+              "down-left": [
+                "npc-aether-hunter/idle/down-left/00",
+                "npc-aether-hunter/idle/down-left/01",
+                "npc-aether-hunter/idle/down-left/02",
+                "npc-aether-hunter/idle/down-left/03",
+                "npc-aether-hunter/idle/down-left/04",
+                "npc-aether-hunter/idle/down-left/05",
+                "npc-aether-hunter/idle/down-left/06",
+                "npc-aether-hunter/idle/down-left/07"
+              ],
+              "left": [
+                "npc-aether-hunter/idle/left/00",
+                "npc-aether-hunter/idle/left/01",
+                "npc-aether-hunter/idle/left/02",
+                "npc-aether-hunter/idle/left/03",
+                "npc-aether-hunter/idle/left/04",
+                "npc-aether-hunter/idle/left/05",
+                "npc-aether-hunter/idle/left/06",
+                "npc-aether-hunter/idle/left/07"
+              ],
+              "up-left": [
+                "npc-aether-hunter/idle/up-left/00",
+                "npc-aether-hunter/idle/up-left/01",
+                "npc-aether-hunter/idle/up-left/02",
+                "npc-aether-hunter/idle/up-left/03",
+                "npc-aether-hunter/idle/up-left/04",
+                "npc-aether-hunter/idle/up-left/05",
+                "npc-aether-hunter/idle/up-left/06",
+                "npc-aether-hunter/idle/up-left/07"
+              ],
+              "up": [
+                "npc-aether-hunter/idle/up/00",
+                "npc-aether-hunter/idle/up/01",
+                "npc-aether-hunter/idle/up/02",
+                "npc-aether-hunter/idle/up/03",
+                "npc-aether-hunter/idle/up/04",
+                "npc-aether-hunter/idle/up/05",
+                "npc-aether-hunter/idle/up/06",
+                "npc-aether-hunter/idle/up/07"
+              ],
+              "up-right": [
+                "npc-aether-hunter/idle/up-right/00",
+                "npc-aether-hunter/idle/up-right/01",
+                "npc-aether-hunter/idle/up-right/02",
+                "npc-aether-hunter/idle/up-right/03",
+                "npc-aether-hunter/idle/up-right/04",
+                "npc-aether-hunter/idle/up-right/05",
+                "npc-aether-hunter/idle/up-right/06",
+                "npc-aether-hunter/idle/up-right/07"
+              ],
+              "right": [
+                "npc-aether-hunter/idle/right/00",
+                "npc-aether-hunter/idle/right/01",
+                "npc-aether-hunter/idle/right/02",
+                "npc-aether-hunter/idle/right/03",
+                "npc-aether-hunter/idle/right/04",
+                "npc-aether-hunter/idle/right/05",
+                "npc-aether-hunter/idle/right/06",
+                "npc-aether-hunter/idle/right/07"
+              ],
+              "down-right": [
+                "npc-aether-hunter/idle/down-right/00",
+                "npc-aether-hunter/idle/down-right/01",
+                "npc-aether-hunter/idle/down-right/02",
+                "npc-aether-hunter/idle/down-right/03",
+                "npc-aether-hunter/idle/down-right/04",
+                "npc-aether-hunter/idle/down-right/05",
+                "npc-aether-hunter/idle/down-right/06",
+                "npc-aether-hunter/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-aether-hunter-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-aether-hunter/idle/down/00",
+                "npc-aether-hunter/idle/down/01",
+                "npc-aether-hunter/idle/down/02",
+                "npc-aether-hunter/idle/down/03",
+                "npc-aether-hunter/idle/down/04",
+                "npc-aether-hunter/idle/down/05",
+                "npc-aether-hunter/idle/down/06",
+                "npc-aether-hunter/idle/down/07"
+              ],
+              "down-left": [
+                "npc-aether-hunter/idle/down-left/00",
+                "npc-aether-hunter/idle/down-left/01",
+                "npc-aether-hunter/idle/down-left/02",
+                "npc-aether-hunter/idle/down-left/03",
+                "npc-aether-hunter/idle/down-left/04",
+                "npc-aether-hunter/idle/down-left/05",
+                "npc-aether-hunter/idle/down-left/06",
+                "npc-aether-hunter/idle/down-left/07"
+              ],
+              "left": [
+                "npc-aether-hunter/idle/left/00",
+                "npc-aether-hunter/idle/left/01",
+                "npc-aether-hunter/idle/left/02",
+                "npc-aether-hunter/idle/left/03",
+                "npc-aether-hunter/idle/left/04",
+                "npc-aether-hunter/idle/left/05",
+                "npc-aether-hunter/idle/left/06",
+                "npc-aether-hunter/idle/left/07"
+              ],
+              "up-left": [
+                "npc-aether-hunter/idle/up-left/00",
+                "npc-aether-hunter/idle/up-left/01",
+                "npc-aether-hunter/idle/up-left/02",
+                "npc-aether-hunter/idle/up-left/03",
+                "npc-aether-hunter/idle/up-left/04",
+                "npc-aether-hunter/idle/up-left/05",
+                "npc-aether-hunter/idle/up-left/06",
+                "npc-aether-hunter/idle/up-left/07"
+              ],
+              "up": [
+                "npc-aether-hunter/idle/up/00",
+                "npc-aether-hunter/idle/up/01",
+                "npc-aether-hunter/idle/up/02",
+                "npc-aether-hunter/idle/up/03",
+                "npc-aether-hunter/idle/up/04",
+                "npc-aether-hunter/idle/up/05",
+                "npc-aether-hunter/idle/up/06",
+                "npc-aether-hunter/idle/up/07"
+              ],
+              "up-right": [
+                "npc-aether-hunter/idle/up-right/00",
+                "npc-aether-hunter/idle/up-right/01",
+                "npc-aether-hunter/idle/up-right/02",
+                "npc-aether-hunter/idle/up-right/03",
+                "npc-aether-hunter/idle/up-right/04",
+                "npc-aether-hunter/idle/up-right/05",
+                "npc-aether-hunter/idle/up-right/06",
+                "npc-aether-hunter/idle/up-right/07"
+              ],
+              "right": [
+                "npc-aether-hunter/idle/right/00",
+                "npc-aether-hunter/idle/right/01",
+                "npc-aether-hunter/idle/right/02",
+                "npc-aether-hunter/idle/right/03",
+                "npc-aether-hunter/idle/right/04",
+                "npc-aether-hunter/idle/right/05",
+                "npc-aether-hunter/idle/right/06",
+                "npc-aether-hunter/idle/right/07"
+              ],
+              "down-right": [
+                "npc-aether-hunter/idle/down-right/00",
+                "npc-aether-hunter/idle/down-right/01",
+                "npc-aether-hunter/idle/down-right/02",
+                "npc-aether-hunter/idle/down-right/03",
+                "npc-aether-hunter/idle/down-right/04",
+                "npc-aether-hunter/idle/down-right/05",
+                "npc-aether-hunter/idle/down-right/06",
+                "npc-aether-hunter/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "aether.npc.hunter": "npc-aether-hunter"
+    },
+    "renderBindings": {},
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-nexus-hunter",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-nexus-hunter-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-nexus-hunter/1.0.0-49d62afd8968/npc-nexus-hunter-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-nexus-hunter/1.0.0-49d62afd8968/npc-nexus-hunter-page-0.json",
+        "width": 913,
+        "height": 240
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-nexus-hunter",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-nexus-hunter-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-nexus-hunter/idle/down/00",
+                "npc-nexus-hunter/idle/down/01",
+                "npc-nexus-hunter/idle/down/02",
+                "npc-nexus-hunter/idle/down/03",
+                "npc-nexus-hunter/idle/down/04",
+                "npc-nexus-hunter/idle/down/05",
+                "npc-nexus-hunter/idle/down/06",
+                "npc-nexus-hunter/idle/down/07"
+              ],
+              "down-left": [
+                "npc-nexus-hunter/idle/down-left/00",
+                "npc-nexus-hunter/idle/down-left/01",
+                "npc-nexus-hunter/idle/down-left/02",
+                "npc-nexus-hunter/idle/down-left/03",
+                "npc-nexus-hunter/idle/down-left/04",
+                "npc-nexus-hunter/idle/down-left/05",
+                "npc-nexus-hunter/idle/down-left/06",
+                "npc-nexus-hunter/idle/down-left/07"
+              ],
+              "left": [
+                "npc-nexus-hunter/idle/left/00",
+                "npc-nexus-hunter/idle/left/01",
+                "npc-nexus-hunter/idle/left/02",
+                "npc-nexus-hunter/idle/left/03",
+                "npc-nexus-hunter/idle/left/04",
+                "npc-nexus-hunter/idle/left/05",
+                "npc-nexus-hunter/idle/left/06",
+                "npc-nexus-hunter/idle/left/07"
+              ],
+              "up-left": [
+                "npc-nexus-hunter/idle/up-left/00",
+                "npc-nexus-hunter/idle/up-left/01",
+                "npc-nexus-hunter/idle/up-left/02",
+                "npc-nexus-hunter/idle/up-left/03",
+                "npc-nexus-hunter/idle/up-left/04",
+                "npc-nexus-hunter/idle/up-left/05",
+                "npc-nexus-hunter/idle/up-left/06",
+                "npc-nexus-hunter/idle/up-left/07"
+              ],
+              "up": [
+                "npc-nexus-hunter/idle/up/00",
+                "npc-nexus-hunter/idle/up/01",
+                "npc-nexus-hunter/idle/up/02",
+                "npc-nexus-hunter/idle/up/03",
+                "npc-nexus-hunter/idle/up/04",
+                "npc-nexus-hunter/idle/up/05",
+                "npc-nexus-hunter/idle/up/06",
+                "npc-nexus-hunter/idle/up/07"
+              ],
+              "up-right": [
+                "npc-nexus-hunter/idle/up-right/00",
+                "npc-nexus-hunter/idle/up-right/01",
+                "npc-nexus-hunter/idle/up-right/02",
+                "npc-nexus-hunter/idle/up-right/03",
+                "npc-nexus-hunter/idle/up-right/04",
+                "npc-nexus-hunter/idle/up-right/05",
+                "npc-nexus-hunter/idle/up-right/06",
+                "npc-nexus-hunter/idle/up-right/07"
+              ],
+              "right": [
+                "npc-nexus-hunter/idle/right/00",
+                "npc-nexus-hunter/idle/right/01",
+                "npc-nexus-hunter/idle/right/02",
+                "npc-nexus-hunter/idle/right/03",
+                "npc-nexus-hunter/idle/right/04",
+                "npc-nexus-hunter/idle/right/05",
+                "npc-nexus-hunter/idle/right/06",
+                "npc-nexus-hunter/idle/right/07"
+              ],
+              "down-right": [
+                "npc-nexus-hunter/idle/down-right/00",
+                "npc-nexus-hunter/idle/down-right/01",
+                "npc-nexus-hunter/idle/down-right/02",
+                "npc-nexus-hunter/idle/down-right/03",
+                "npc-nexus-hunter/idle/down-right/04",
+                "npc-nexus-hunter/idle/down-right/05",
+                "npc-nexus-hunter/idle/down-right/06",
+                "npc-nexus-hunter/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-nexus-hunter-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-nexus-hunter/idle/down/00",
+                "npc-nexus-hunter/idle/down/01",
+                "npc-nexus-hunter/idle/down/02",
+                "npc-nexus-hunter/idle/down/03",
+                "npc-nexus-hunter/idle/down/04",
+                "npc-nexus-hunter/idle/down/05",
+                "npc-nexus-hunter/idle/down/06",
+                "npc-nexus-hunter/idle/down/07"
+              ],
+              "down-left": [
+                "npc-nexus-hunter/idle/down-left/00",
+                "npc-nexus-hunter/idle/down-left/01",
+                "npc-nexus-hunter/idle/down-left/02",
+                "npc-nexus-hunter/idle/down-left/03",
+                "npc-nexus-hunter/idle/down-left/04",
+                "npc-nexus-hunter/idle/down-left/05",
+                "npc-nexus-hunter/idle/down-left/06",
+                "npc-nexus-hunter/idle/down-left/07"
+              ],
+              "left": [
+                "npc-nexus-hunter/idle/left/00",
+                "npc-nexus-hunter/idle/left/01",
+                "npc-nexus-hunter/idle/left/02",
+                "npc-nexus-hunter/idle/left/03",
+                "npc-nexus-hunter/idle/left/04",
+                "npc-nexus-hunter/idle/left/05",
+                "npc-nexus-hunter/idle/left/06",
+                "npc-nexus-hunter/idle/left/07"
+              ],
+              "up-left": [
+                "npc-nexus-hunter/idle/up-left/00",
+                "npc-nexus-hunter/idle/up-left/01",
+                "npc-nexus-hunter/idle/up-left/02",
+                "npc-nexus-hunter/idle/up-left/03",
+                "npc-nexus-hunter/idle/up-left/04",
+                "npc-nexus-hunter/idle/up-left/05",
+                "npc-nexus-hunter/idle/up-left/06",
+                "npc-nexus-hunter/idle/up-left/07"
+              ],
+              "up": [
+                "npc-nexus-hunter/idle/up/00",
+                "npc-nexus-hunter/idle/up/01",
+                "npc-nexus-hunter/idle/up/02",
+                "npc-nexus-hunter/idle/up/03",
+                "npc-nexus-hunter/idle/up/04",
+                "npc-nexus-hunter/idle/up/05",
+                "npc-nexus-hunter/idle/up/06",
+                "npc-nexus-hunter/idle/up/07"
+              ],
+              "up-right": [
+                "npc-nexus-hunter/idle/up-right/00",
+                "npc-nexus-hunter/idle/up-right/01",
+                "npc-nexus-hunter/idle/up-right/02",
+                "npc-nexus-hunter/idle/up-right/03",
+                "npc-nexus-hunter/idle/up-right/04",
+                "npc-nexus-hunter/idle/up-right/05",
+                "npc-nexus-hunter/idle/up-right/06",
+                "npc-nexus-hunter/idle/up-right/07"
+              ],
+              "right": [
+                "npc-nexus-hunter/idle/right/00",
+                "npc-nexus-hunter/idle/right/01",
+                "npc-nexus-hunter/idle/right/02",
+                "npc-nexus-hunter/idle/right/03",
+                "npc-nexus-hunter/idle/right/04",
+                "npc-nexus-hunter/idle/right/05",
+                "npc-nexus-hunter/idle/right/06",
+                "npc-nexus-hunter/idle/right/07"
+              ],
+              "down-right": [
+                "npc-nexus-hunter/idle/down-right/00",
+                "npc-nexus-hunter/idle/down-right/01",
+                "npc-nexus-hunter/idle/down-right/02",
+                "npc-nexus-hunter/idle/down-right/03",
+                "npc-nexus-hunter/idle/down-right/04",
+                "npc-nexus-hunter/idle/down-right/05",
+                "npc-nexus-hunter/idle/down-right/06",
+                "npc-nexus-hunter/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "nexus.npc.hunter": "npc-nexus-hunter"
+    },
+    "renderBindings": {},
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-pyra-hunter",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-pyra-hunter-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-pyra-hunter/1.0.0-7fba97a2a62f/npc-pyra-hunter-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-pyra-hunter/1.0.0-7fba97a2a62f/npc-pyra-hunter-page-0.json",
+        "width": 913,
+        "height": 240
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-pyra-hunter",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-pyra-hunter-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-pyra-hunter/idle/down/00",
+                "npc-pyra-hunter/idle/down/01",
+                "npc-pyra-hunter/idle/down/02",
+                "npc-pyra-hunter/idle/down/03",
+                "npc-pyra-hunter/idle/down/04",
+                "npc-pyra-hunter/idle/down/05",
+                "npc-pyra-hunter/idle/down/06",
+                "npc-pyra-hunter/idle/down/07"
+              ],
+              "down-left": [
+                "npc-pyra-hunter/idle/down-left/00",
+                "npc-pyra-hunter/idle/down-left/01",
+                "npc-pyra-hunter/idle/down-left/02",
+                "npc-pyra-hunter/idle/down-left/03",
+                "npc-pyra-hunter/idle/down-left/04",
+                "npc-pyra-hunter/idle/down-left/05",
+                "npc-pyra-hunter/idle/down-left/06",
+                "npc-pyra-hunter/idle/down-left/07"
+              ],
+              "left": [
+                "npc-pyra-hunter/idle/left/00",
+                "npc-pyra-hunter/idle/left/01",
+                "npc-pyra-hunter/idle/left/02",
+                "npc-pyra-hunter/idle/left/03",
+                "npc-pyra-hunter/idle/left/04",
+                "npc-pyra-hunter/idle/left/05",
+                "npc-pyra-hunter/idle/left/06",
+                "npc-pyra-hunter/idle/left/07"
+              ],
+              "up-left": [
+                "npc-pyra-hunter/idle/up-left/00",
+                "npc-pyra-hunter/idle/up-left/01",
+                "npc-pyra-hunter/idle/up-left/02",
+                "npc-pyra-hunter/idle/up-left/03",
+                "npc-pyra-hunter/idle/up-left/04",
+                "npc-pyra-hunter/idle/up-left/05",
+                "npc-pyra-hunter/idle/up-left/06",
+                "npc-pyra-hunter/idle/up-left/07"
+              ],
+              "up": [
+                "npc-pyra-hunter/idle/up/00",
+                "npc-pyra-hunter/idle/up/01",
+                "npc-pyra-hunter/idle/up/02",
+                "npc-pyra-hunter/idle/up/03",
+                "npc-pyra-hunter/idle/up/04",
+                "npc-pyra-hunter/idle/up/05",
+                "npc-pyra-hunter/idle/up/06",
+                "npc-pyra-hunter/idle/up/07"
+              ],
+              "up-right": [
+                "npc-pyra-hunter/idle/up-right/00",
+                "npc-pyra-hunter/idle/up-right/01",
+                "npc-pyra-hunter/idle/up-right/02",
+                "npc-pyra-hunter/idle/up-right/03",
+                "npc-pyra-hunter/idle/up-right/04",
+                "npc-pyra-hunter/idle/up-right/05",
+                "npc-pyra-hunter/idle/up-right/06",
+                "npc-pyra-hunter/idle/up-right/07"
+              ],
+              "right": [
+                "npc-pyra-hunter/idle/right/00",
+                "npc-pyra-hunter/idle/right/01",
+                "npc-pyra-hunter/idle/right/02",
+                "npc-pyra-hunter/idle/right/03",
+                "npc-pyra-hunter/idle/right/04",
+                "npc-pyra-hunter/idle/right/05",
+                "npc-pyra-hunter/idle/right/06",
+                "npc-pyra-hunter/idle/right/07"
+              ],
+              "down-right": [
+                "npc-pyra-hunter/idle/down-right/00",
+                "npc-pyra-hunter/idle/down-right/01",
+                "npc-pyra-hunter/idle/down-right/02",
+                "npc-pyra-hunter/idle/down-right/03",
+                "npc-pyra-hunter/idle/down-right/04",
+                "npc-pyra-hunter/idle/down-right/05",
+                "npc-pyra-hunter/idle/down-right/06",
+                "npc-pyra-hunter/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-pyra-hunter-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-pyra-hunter/idle/down/00",
+                "npc-pyra-hunter/idle/down/01",
+                "npc-pyra-hunter/idle/down/02",
+                "npc-pyra-hunter/idle/down/03",
+                "npc-pyra-hunter/idle/down/04",
+                "npc-pyra-hunter/idle/down/05",
+                "npc-pyra-hunter/idle/down/06",
+                "npc-pyra-hunter/idle/down/07"
+              ],
+              "down-left": [
+                "npc-pyra-hunter/idle/down-left/00",
+                "npc-pyra-hunter/idle/down-left/01",
+                "npc-pyra-hunter/idle/down-left/02",
+                "npc-pyra-hunter/idle/down-left/03",
+                "npc-pyra-hunter/idle/down-left/04",
+                "npc-pyra-hunter/idle/down-left/05",
+                "npc-pyra-hunter/idle/down-left/06",
+                "npc-pyra-hunter/idle/down-left/07"
+              ],
+              "left": [
+                "npc-pyra-hunter/idle/left/00",
+                "npc-pyra-hunter/idle/left/01",
+                "npc-pyra-hunter/idle/left/02",
+                "npc-pyra-hunter/idle/left/03",
+                "npc-pyra-hunter/idle/left/04",
+                "npc-pyra-hunter/idle/left/05",
+                "npc-pyra-hunter/idle/left/06",
+                "npc-pyra-hunter/idle/left/07"
+              ],
+              "up-left": [
+                "npc-pyra-hunter/idle/up-left/00",
+                "npc-pyra-hunter/idle/up-left/01",
+                "npc-pyra-hunter/idle/up-left/02",
+                "npc-pyra-hunter/idle/up-left/03",
+                "npc-pyra-hunter/idle/up-left/04",
+                "npc-pyra-hunter/idle/up-left/05",
+                "npc-pyra-hunter/idle/up-left/06",
+                "npc-pyra-hunter/idle/up-left/07"
+              ],
+              "up": [
+                "npc-pyra-hunter/idle/up/00",
+                "npc-pyra-hunter/idle/up/01",
+                "npc-pyra-hunter/idle/up/02",
+                "npc-pyra-hunter/idle/up/03",
+                "npc-pyra-hunter/idle/up/04",
+                "npc-pyra-hunter/idle/up/05",
+                "npc-pyra-hunter/idle/up/06",
+                "npc-pyra-hunter/idle/up/07"
+              ],
+              "up-right": [
+                "npc-pyra-hunter/idle/up-right/00",
+                "npc-pyra-hunter/idle/up-right/01",
+                "npc-pyra-hunter/idle/up-right/02",
+                "npc-pyra-hunter/idle/up-right/03",
+                "npc-pyra-hunter/idle/up-right/04",
+                "npc-pyra-hunter/idle/up-right/05",
+                "npc-pyra-hunter/idle/up-right/06",
+                "npc-pyra-hunter/idle/up-right/07"
+              ],
+              "right": [
+                "npc-pyra-hunter/idle/right/00",
+                "npc-pyra-hunter/idle/right/01",
+                "npc-pyra-hunter/idle/right/02",
+                "npc-pyra-hunter/idle/right/03",
+                "npc-pyra-hunter/idle/right/04",
+                "npc-pyra-hunter/idle/right/05",
+                "npc-pyra-hunter/idle/right/06",
+                "npc-pyra-hunter/idle/right/07"
+              ],
+              "down-right": [
+                "npc-pyra-hunter/idle/down-right/00",
+                "npc-pyra-hunter/idle/down-right/01",
+                "npc-pyra-hunter/idle/down-right/02",
+                "npc-pyra-hunter/idle/down-right/03",
+                "npc-pyra-hunter/idle/down-right/04",
+                "npc-pyra-hunter/idle/down-right/05",
+                "npc-pyra-hunter/idle/down-right/06",
+                "npc-pyra-hunter/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "pyra.npc.hunter": "npc-pyra-hunter"
+    },
+    "renderBindings": {},
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-verdant-alchemist",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-verdant-alchemist-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-verdant-alchemist/1.0.0-c4046c84de6c/npc-verdant-alchemist-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-verdant-alchemist/1.0.0-c4046c84de6c/npc-verdant-alchemist-page-0.json",
+        "width": 975,
+        "height": 240
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-verdant-alchemist",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-verdant-alchemist-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-verdant-alchemist/idle/down/00",
+                "npc-verdant-alchemist/idle/down/01",
+                "npc-verdant-alchemist/idle/down/02",
+                "npc-verdant-alchemist/idle/down/03",
+                "npc-verdant-alchemist/idle/down/04",
+                "npc-verdant-alchemist/idle/down/05",
+                "npc-verdant-alchemist/idle/down/06",
+                "npc-verdant-alchemist/idle/down/07"
+              ],
+              "down-left": [
+                "npc-verdant-alchemist/idle/down-left/00",
+                "npc-verdant-alchemist/idle/down-left/01",
+                "npc-verdant-alchemist/idle/down-left/02",
+                "npc-verdant-alchemist/idle/down-left/03",
+                "npc-verdant-alchemist/idle/down-left/04",
+                "npc-verdant-alchemist/idle/down-left/05",
+                "npc-verdant-alchemist/idle/down-left/06",
+                "npc-verdant-alchemist/idle/down-left/07"
+              ],
+              "left": [
+                "npc-verdant-alchemist/idle/left/00",
+                "npc-verdant-alchemist/idle/left/01",
+                "npc-verdant-alchemist/idle/left/02",
+                "npc-verdant-alchemist/idle/left/03",
+                "npc-verdant-alchemist/idle/left/04",
+                "npc-verdant-alchemist/idle/left/05",
+                "npc-verdant-alchemist/idle/left/06",
+                "npc-verdant-alchemist/idle/left/07"
+              ],
+              "up-left": [
+                "npc-verdant-alchemist/idle/up-left/00",
+                "npc-verdant-alchemist/idle/up-left/01",
+                "npc-verdant-alchemist/idle/up-left/02",
+                "npc-verdant-alchemist/idle/up-left/03",
+                "npc-verdant-alchemist/idle/up-left/04",
+                "npc-verdant-alchemist/idle/up-left/05",
+                "npc-verdant-alchemist/idle/up-left/06",
+                "npc-verdant-alchemist/idle/up-left/07"
+              ],
+              "up": [
+                "npc-verdant-alchemist/idle/up/00",
+                "npc-verdant-alchemist/idle/up/01",
+                "npc-verdant-alchemist/idle/up/02",
+                "npc-verdant-alchemist/idle/up/03",
+                "npc-verdant-alchemist/idle/up/04",
+                "npc-verdant-alchemist/idle/up/05",
+                "npc-verdant-alchemist/idle/up/06",
+                "npc-verdant-alchemist/idle/up/07"
+              ],
+              "up-right": [
+                "npc-verdant-alchemist/idle/up-right/00",
+                "npc-verdant-alchemist/idle/up-right/01",
+                "npc-verdant-alchemist/idle/up-right/02",
+                "npc-verdant-alchemist/idle/up-right/03",
+                "npc-verdant-alchemist/idle/up-right/04",
+                "npc-verdant-alchemist/idle/up-right/05",
+                "npc-verdant-alchemist/idle/up-right/06",
+                "npc-verdant-alchemist/idle/up-right/07"
+              ],
+              "right": [
+                "npc-verdant-alchemist/idle/right/00",
+                "npc-verdant-alchemist/idle/right/01",
+                "npc-verdant-alchemist/idle/right/02",
+                "npc-verdant-alchemist/idle/right/03",
+                "npc-verdant-alchemist/idle/right/04",
+                "npc-verdant-alchemist/idle/right/05",
+                "npc-verdant-alchemist/idle/right/06",
+                "npc-verdant-alchemist/idle/right/07"
+              ],
+              "down-right": [
+                "npc-verdant-alchemist/idle/down-right/00",
+                "npc-verdant-alchemist/idle/down-right/01",
+                "npc-verdant-alchemist/idle/down-right/02",
+                "npc-verdant-alchemist/idle/down-right/03",
+                "npc-verdant-alchemist/idle/down-right/04",
+                "npc-verdant-alchemist/idle/down-right/05",
+                "npc-verdant-alchemist/idle/down-right/06",
+                "npc-verdant-alchemist/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-verdant-alchemist-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-verdant-alchemist/idle/down/00",
+                "npc-verdant-alchemist/idle/down/01",
+                "npc-verdant-alchemist/idle/down/02",
+                "npc-verdant-alchemist/idle/down/03",
+                "npc-verdant-alchemist/idle/down/04",
+                "npc-verdant-alchemist/idle/down/05",
+                "npc-verdant-alchemist/idle/down/06",
+                "npc-verdant-alchemist/idle/down/07"
+              ],
+              "down-left": [
+                "npc-verdant-alchemist/idle/down-left/00",
+                "npc-verdant-alchemist/idle/down-left/01",
+                "npc-verdant-alchemist/idle/down-left/02",
+                "npc-verdant-alchemist/idle/down-left/03",
+                "npc-verdant-alchemist/idle/down-left/04",
+                "npc-verdant-alchemist/idle/down-left/05",
+                "npc-verdant-alchemist/idle/down-left/06",
+                "npc-verdant-alchemist/idle/down-left/07"
+              ],
+              "left": [
+                "npc-verdant-alchemist/idle/left/00",
+                "npc-verdant-alchemist/idle/left/01",
+                "npc-verdant-alchemist/idle/left/02",
+                "npc-verdant-alchemist/idle/left/03",
+                "npc-verdant-alchemist/idle/left/04",
+                "npc-verdant-alchemist/idle/left/05",
+                "npc-verdant-alchemist/idle/left/06",
+                "npc-verdant-alchemist/idle/left/07"
+              ],
+              "up-left": [
+                "npc-verdant-alchemist/idle/up-left/00",
+                "npc-verdant-alchemist/idle/up-left/01",
+                "npc-verdant-alchemist/idle/up-left/02",
+                "npc-verdant-alchemist/idle/up-left/03",
+                "npc-verdant-alchemist/idle/up-left/04",
+                "npc-verdant-alchemist/idle/up-left/05",
+                "npc-verdant-alchemist/idle/up-left/06",
+                "npc-verdant-alchemist/idle/up-left/07"
+              ],
+              "up": [
+                "npc-verdant-alchemist/idle/up/00",
+                "npc-verdant-alchemist/idle/up/01",
+                "npc-verdant-alchemist/idle/up/02",
+                "npc-verdant-alchemist/idle/up/03",
+                "npc-verdant-alchemist/idle/up/04",
+                "npc-verdant-alchemist/idle/up/05",
+                "npc-verdant-alchemist/idle/up/06",
+                "npc-verdant-alchemist/idle/up/07"
+              ],
+              "up-right": [
+                "npc-verdant-alchemist/idle/up-right/00",
+                "npc-verdant-alchemist/idle/up-right/01",
+                "npc-verdant-alchemist/idle/up-right/02",
+                "npc-verdant-alchemist/idle/up-right/03",
+                "npc-verdant-alchemist/idle/up-right/04",
+                "npc-verdant-alchemist/idle/up-right/05",
+                "npc-verdant-alchemist/idle/up-right/06",
+                "npc-verdant-alchemist/idle/up-right/07"
+              ],
+              "right": [
+                "npc-verdant-alchemist/idle/right/00",
+                "npc-verdant-alchemist/idle/right/01",
+                "npc-verdant-alchemist/idle/right/02",
+                "npc-verdant-alchemist/idle/right/03",
+                "npc-verdant-alchemist/idle/right/04",
+                "npc-verdant-alchemist/idle/right/05",
+                "npc-verdant-alchemist/idle/right/06",
+                "npc-verdant-alchemist/idle/right/07"
+              ],
+              "down-right": [
+                "npc-verdant-alchemist/idle/down-right/00",
+                "npc-verdant-alchemist/idle/down-right/01",
+                "npc-verdant-alchemist/idle/down-right/02",
+                "npc-verdant-alchemist/idle/down-right/03",
+                "npc-verdant-alchemist/idle/down-right/04",
+                "npc-verdant-alchemist/idle/down-right/05",
+                "npc-verdant-alchemist/idle/down-right/06",
+                "npc-verdant-alchemist/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "verdant.npc.alchemist": "npc-verdant-alchemist"
+    },
+    "renderBindings": {},
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-aether-alchemist",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-aether-alchemist-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-aether-alchemist/1.0.0-1addf28fcf26/npc-aether-alchemist-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-aether-alchemist/1.0.0-1addf28fcf26/npc-aether-alchemist-page-0.json",
+        "width": 975,
+        "height": 240
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-aether-alchemist",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-aether-alchemist-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-aether-alchemist/idle/down/00",
+                "npc-aether-alchemist/idle/down/01",
+                "npc-aether-alchemist/idle/down/02",
+                "npc-aether-alchemist/idle/down/03",
+                "npc-aether-alchemist/idle/down/04",
+                "npc-aether-alchemist/idle/down/05",
+                "npc-aether-alchemist/idle/down/06",
+                "npc-aether-alchemist/idle/down/07"
+              ],
+              "down-left": [
+                "npc-aether-alchemist/idle/down-left/00",
+                "npc-aether-alchemist/idle/down-left/01",
+                "npc-aether-alchemist/idle/down-left/02",
+                "npc-aether-alchemist/idle/down-left/03",
+                "npc-aether-alchemist/idle/down-left/04",
+                "npc-aether-alchemist/idle/down-left/05",
+                "npc-aether-alchemist/idle/down-left/06",
+                "npc-aether-alchemist/idle/down-left/07"
+              ],
+              "left": [
+                "npc-aether-alchemist/idle/left/00",
+                "npc-aether-alchemist/idle/left/01",
+                "npc-aether-alchemist/idle/left/02",
+                "npc-aether-alchemist/idle/left/03",
+                "npc-aether-alchemist/idle/left/04",
+                "npc-aether-alchemist/idle/left/05",
+                "npc-aether-alchemist/idle/left/06",
+                "npc-aether-alchemist/idle/left/07"
+              ],
+              "up-left": [
+                "npc-aether-alchemist/idle/up-left/00",
+                "npc-aether-alchemist/idle/up-left/01",
+                "npc-aether-alchemist/idle/up-left/02",
+                "npc-aether-alchemist/idle/up-left/03",
+                "npc-aether-alchemist/idle/up-left/04",
+                "npc-aether-alchemist/idle/up-left/05",
+                "npc-aether-alchemist/idle/up-left/06",
+                "npc-aether-alchemist/idle/up-left/07"
+              ],
+              "up": [
+                "npc-aether-alchemist/idle/up/00",
+                "npc-aether-alchemist/idle/up/01",
+                "npc-aether-alchemist/idle/up/02",
+                "npc-aether-alchemist/idle/up/03",
+                "npc-aether-alchemist/idle/up/04",
+                "npc-aether-alchemist/idle/up/05",
+                "npc-aether-alchemist/idle/up/06",
+                "npc-aether-alchemist/idle/up/07"
+              ],
+              "up-right": [
+                "npc-aether-alchemist/idle/up-right/00",
+                "npc-aether-alchemist/idle/up-right/01",
+                "npc-aether-alchemist/idle/up-right/02",
+                "npc-aether-alchemist/idle/up-right/03",
+                "npc-aether-alchemist/idle/up-right/04",
+                "npc-aether-alchemist/idle/up-right/05",
+                "npc-aether-alchemist/idle/up-right/06",
+                "npc-aether-alchemist/idle/up-right/07"
+              ],
+              "right": [
+                "npc-aether-alchemist/idle/right/00",
+                "npc-aether-alchemist/idle/right/01",
+                "npc-aether-alchemist/idle/right/02",
+                "npc-aether-alchemist/idle/right/03",
+                "npc-aether-alchemist/idle/right/04",
+                "npc-aether-alchemist/idle/right/05",
+                "npc-aether-alchemist/idle/right/06",
+                "npc-aether-alchemist/idle/right/07"
+              ],
+              "down-right": [
+                "npc-aether-alchemist/idle/down-right/00",
+                "npc-aether-alchemist/idle/down-right/01",
+                "npc-aether-alchemist/idle/down-right/02",
+                "npc-aether-alchemist/idle/down-right/03",
+                "npc-aether-alchemist/idle/down-right/04",
+                "npc-aether-alchemist/idle/down-right/05",
+                "npc-aether-alchemist/idle/down-right/06",
+                "npc-aether-alchemist/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-aether-alchemist-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-aether-alchemist/idle/down/00",
+                "npc-aether-alchemist/idle/down/01",
+                "npc-aether-alchemist/idle/down/02",
+                "npc-aether-alchemist/idle/down/03",
+                "npc-aether-alchemist/idle/down/04",
+                "npc-aether-alchemist/idle/down/05",
+                "npc-aether-alchemist/idle/down/06",
+                "npc-aether-alchemist/idle/down/07"
+              ],
+              "down-left": [
+                "npc-aether-alchemist/idle/down-left/00",
+                "npc-aether-alchemist/idle/down-left/01",
+                "npc-aether-alchemist/idle/down-left/02",
+                "npc-aether-alchemist/idle/down-left/03",
+                "npc-aether-alchemist/idle/down-left/04",
+                "npc-aether-alchemist/idle/down-left/05",
+                "npc-aether-alchemist/idle/down-left/06",
+                "npc-aether-alchemist/idle/down-left/07"
+              ],
+              "left": [
+                "npc-aether-alchemist/idle/left/00",
+                "npc-aether-alchemist/idle/left/01",
+                "npc-aether-alchemist/idle/left/02",
+                "npc-aether-alchemist/idle/left/03",
+                "npc-aether-alchemist/idle/left/04",
+                "npc-aether-alchemist/idle/left/05",
+                "npc-aether-alchemist/idle/left/06",
+                "npc-aether-alchemist/idle/left/07"
+              ],
+              "up-left": [
+                "npc-aether-alchemist/idle/up-left/00",
+                "npc-aether-alchemist/idle/up-left/01",
+                "npc-aether-alchemist/idle/up-left/02",
+                "npc-aether-alchemist/idle/up-left/03",
+                "npc-aether-alchemist/idle/up-left/04",
+                "npc-aether-alchemist/idle/up-left/05",
+                "npc-aether-alchemist/idle/up-left/06",
+                "npc-aether-alchemist/idle/up-left/07"
+              ],
+              "up": [
+                "npc-aether-alchemist/idle/up/00",
+                "npc-aether-alchemist/idle/up/01",
+                "npc-aether-alchemist/idle/up/02",
+                "npc-aether-alchemist/idle/up/03",
+                "npc-aether-alchemist/idle/up/04",
+                "npc-aether-alchemist/idle/up/05",
+                "npc-aether-alchemist/idle/up/06",
+                "npc-aether-alchemist/idle/up/07"
+              ],
+              "up-right": [
+                "npc-aether-alchemist/idle/up-right/00",
+                "npc-aether-alchemist/idle/up-right/01",
+                "npc-aether-alchemist/idle/up-right/02",
+                "npc-aether-alchemist/idle/up-right/03",
+                "npc-aether-alchemist/idle/up-right/04",
+                "npc-aether-alchemist/idle/up-right/05",
+                "npc-aether-alchemist/idle/up-right/06",
+                "npc-aether-alchemist/idle/up-right/07"
+              ],
+              "right": [
+                "npc-aether-alchemist/idle/right/00",
+                "npc-aether-alchemist/idle/right/01",
+                "npc-aether-alchemist/idle/right/02",
+                "npc-aether-alchemist/idle/right/03",
+                "npc-aether-alchemist/idle/right/04",
+                "npc-aether-alchemist/idle/right/05",
+                "npc-aether-alchemist/idle/right/06",
+                "npc-aether-alchemist/idle/right/07"
+              ],
+              "down-right": [
+                "npc-aether-alchemist/idle/down-right/00",
+                "npc-aether-alchemist/idle/down-right/01",
+                "npc-aether-alchemist/idle/down-right/02",
+                "npc-aether-alchemist/idle/down-right/03",
+                "npc-aether-alchemist/idle/down-right/04",
+                "npc-aether-alchemist/idle/down-right/05",
+                "npc-aether-alchemist/idle/down-right/06",
+                "npc-aether-alchemist/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "aether.npc.alchemist": "npc-aether-alchemist"
+    },
+    "renderBindings": {},
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-nexus-alchemist",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-nexus-alchemist-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-nexus-alchemist/1.0.0-952f309bcca1/npc-nexus-alchemist-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-nexus-alchemist/1.0.0-952f309bcca1/npc-nexus-alchemist-page-0.json",
+        "width": 975,
+        "height": 240
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-nexus-alchemist",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-nexus-alchemist-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-nexus-alchemist/idle/down/00",
+                "npc-nexus-alchemist/idle/down/01",
+                "npc-nexus-alchemist/idle/down/02",
+                "npc-nexus-alchemist/idle/down/03",
+                "npc-nexus-alchemist/idle/down/04",
+                "npc-nexus-alchemist/idle/down/05",
+                "npc-nexus-alchemist/idle/down/06",
+                "npc-nexus-alchemist/idle/down/07"
+              ],
+              "down-left": [
+                "npc-nexus-alchemist/idle/down-left/00",
+                "npc-nexus-alchemist/idle/down-left/01",
+                "npc-nexus-alchemist/idle/down-left/02",
+                "npc-nexus-alchemist/idle/down-left/03",
+                "npc-nexus-alchemist/idle/down-left/04",
+                "npc-nexus-alchemist/idle/down-left/05",
+                "npc-nexus-alchemist/idle/down-left/06",
+                "npc-nexus-alchemist/idle/down-left/07"
+              ],
+              "left": [
+                "npc-nexus-alchemist/idle/left/00",
+                "npc-nexus-alchemist/idle/left/01",
+                "npc-nexus-alchemist/idle/left/02",
+                "npc-nexus-alchemist/idle/left/03",
+                "npc-nexus-alchemist/idle/left/04",
+                "npc-nexus-alchemist/idle/left/05",
+                "npc-nexus-alchemist/idle/left/06",
+                "npc-nexus-alchemist/idle/left/07"
+              ],
+              "up-left": [
+                "npc-nexus-alchemist/idle/up-left/00",
+                "npc-nexus-alchemist/idle/up-left/01",
+                "npc-nexus-alchemist/idle/up-left/02",
+                "npc-nexus-alchemist/idle/up-left/03",
+                "npc-nexus-alchemist/idle/up-left/04",
+                "npc-nexus-alchemist/idle/up-left/05",
+                "npc-nexus-alchemist/idle/up-left/06",
+                "npc-nexus-alchemist/idle/up-left/07"
+              ],
+              "up": [
+                "npc-nexus-alchemist/idle/up/00",
+                "npc-nexus-alchemist/idle/up/01",
+                "npc-nexus-alchemist/idle/up/02",
+                "npc-nexus-alchemist/idle/up/03",
+                "npc-nexus-alchemist/idle/up/04",
+                "npc-nexus-alchemist/idle/up/05",
+                "npc-nexus-alchemist/idle/up/06",
+                "npc-nexus-alchemist/idle/up/07"
+              ],
+              "up-right": [
+                "npc-nexus-alchemist/idle/up-right/00",
+                "npc-nexus-alchemist/idle/up-right/01",
+                "npc-nexus-alchemist/idle/up-right/02",
+                "npc-nexus-alchemist/idle/up-right/03",
+                "npc-nexus-alchemist/idle/up-right/04",
+                "npc-nexus-alchemist/idle/up-right/05",
+                "npc-nexus-alchemist/idle/up-right/06",
+                "npc-nexus-alchemist/idle/up-right/07"
+              ],
+              "right": [
+                "npc-nexus-alchemist/idle/right/00",
+                "npc-nexus-alchemist/idle/right/01",
+                "npc-nexus-alchemist/idle/right/02",
+                "npc-nexus-alchemist/idle/right/03",
+                "npc-nexus-alchemist/idle/right/04",
+                "npc-nexus-alchemist/idle/right/05",
+                "npc-nexus-alchemist/idle/right/06",
+                "npc-nexus-alchemist/idle/right/07"
+              ],
+              "down-right": [
+                "npc-nexus-alchemist/idle/down-right/00",
+                "npc-nexus-alchemist/idle/down-right/01",
+                "npc-nexus-alchemist/idle/down-right/02",
+                "npc-nexus-alchemist/idle/down-right/03",
+                "npc-nexus-alchemist/idle/down-right/04",
+                "npc-nexus-alchemist/idle/down-right/05",
+                "npc-nexus-alchemist/idle/down-right/06",
+                "npc-nexus-alchemist/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-nexus-alchemist-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-nexus-alchemist/idle/down/00",
+                "npc-nexus-alchemist/idle/down/01",
+                "npc-nexus-alchemist/idle/down/02",
+                "npc-nexus-alchemist/idle/down/03",
+                "npc-nexus-alchemist/idle/down/04",
+                "npc-nexus-alchemist/idle/down/05",
+                "npc-nexus-alchemist/idle/down/06",
+                "npc-nexus-alchemist/idle/down/07"
+              ],
+              "down-left": [
+                "npc-nexus-alchemist/idle/down-left/00",
+                "npc-nexus-alchemist/idle/down-left/01",
+                "npc-nexus-alchemist/idle/down-left/02",
+                "npc-nexus-alchemist/idle/down-left/03",
+                "npc-nexus-alchemist/idle/down-left/04",
+                "npc-nexus-alchemist/idle/down-left/05",
+                "npc-nexus-alchemist/idle/down-left/06",
+                "npc-nexus-alchemist/idle/down-left/07"
+              ],
+              "left": [
+                "npc-nexus-alchemist/idle/left/00",
+                "npc-nexus-alchemist/idle/left/01",
+                "npc-nexus-alchemist/idle/left/02",
+                "npc-nexus-alchemist/idle/left/03",
+                "npc-nexus-alchemist/idle/left/04",
+                "npc-nexus-alchemist/idle/left/05",
+                "npc-nexus-alchemist/idle/left/06",
+                "npc-nexus-alchemist/idle/left/07"
+              ],
+              "up-left": [
+                "npc-nexus-alchemist/idle/up-left/00",
+                "npc-nexus-alchemist/idle/up-left/01",
+                "npc-nexus-alchemist/idle/up-left/02",
+                "npc-nexus-alchemist/idle/up-left/03",
+                "npc-nexus-alchemist/idle/up-left/04",
+                "npc-nexus-alchemist/idle/up-left/05",
+                "npc-nexus-alchemist/idle/up-left/06",
+                "npc-nexus-alchemist/idle/up-left/07"
+              ],
+              "up": [
+                "npc-nexus-alchemist/idle/up/00",
+                "npc-nexus-alchemist/idle/up/01",
+                "npc-nexus-alchemist/idle/up/02",
+                "npc-nexus-alchemist/idle/up/03",
+                "npc-nexus-alchemist/idle/up/04",
+                "npc-nexus-alchemist/idle/up/05",
+                "npc-nexus-alchemist/idle/up/06",
+                "npc-nexus-alchemist/idle/up/07"
+              ],
+              "up-right": [
+                "npc-nexus-alchemist/idle/up-right/00",
+                "npc-nexus-alchemist/idle/up-right/01",
+                "npc-nexus-alchemist/idle/up-right/02",
+                "npc-nexus-alchemist/idle/up-right/03",
+                "npc-nexus-alchemist/idle/up-right/04",
+                "npc-nexus-alchemist/idle/up-right/05",
+                "npc-nexus-alchemist/idle/up-right/06",
+                "npc-nexus-alchemist/idle/up-right/07"
+              ],
+              "right": [
+                "npc-nexus-alchemist/idle/right/00",
+                "npc-nexus-alchemist/idle/right/01",
+                "npc-nexus-alchemist/idle/right/02",
+                "npc-nexus-alchemist/idle/right/03",
+                "npc-nexus-alchemist/idle/right/04",
+                "npc-nexus-alchemist/idle/right/05",
+                "npc-nexus-alchemist/idle/right/06",
+                "npc-nexus-alchemist/idle/right/07"
+              ],
+              "down-right": [
+                "npc-nexus-alchemist/idle/down-right/00",
+                "npc-nexus-alchemist/idle/down-right/01",
+                "npc-nexus-alchemist/idle/down-right/02",
+                "npc-nexus-alchemist/idle/down-right/03",
+                "npc-nexus-alchemist/idle/down-right/04",
+                "npc-nexus-alchemist/idle/down-right/05",
+                "npc-nexus-alchemist/idle/down-right/06",
+                "npc-nexus-alchemist/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "nexus.npc.alchemist": "npc-nexus-alchemist"
+    },
+    "renderBindings": {},
+    "effects": {}
+  },
+  {
+    "schemaVersion": 1,
+    "id": "npc-pyra-alchemist",
+    "version": "1.0.0",
+    "technical": false,
+    "previewOnly": false,
+    "assets": [
+      {
+        "id": "npc-pyra-alchemist-page-0",
+        "version": "1.0.0",
+        "kind": "atlas",
+        "url": "/game/assets/gpu/npc-pyra-alchemist/1.0.0-016e81ce1bd5/npc-pyra-alchemist-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/npc-pyra-alchemist/1.0.0-016e81ce1bd5/npc-pyra-alchemist-page-0.json",
+        "width": 975,
+        "height": 240
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc-pyra-alchemist",
+        "profile": "npc",
+        "presentation": "legacy",
+        "size": [
+          96,
+          96
+        ],
+        "origin": [
+          0.5,
+          0.95
+        ],
+        "tintable": false,
+        "clips": {
+          "idle": {
+            "asset": "npc-pyra-alchemist-page-0",
+            "fps": 6,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-pyra-alchemist/idle/down/00",
+                "npc-pyra-alchemist/idle/down/01",
+                "npc-pyra-alchemist/idle/down/02",
+                "npc-pyra-alchemist/idle/down/03",
+                "npc-pyra-alchemist/idle/down/04",
+                "npc-pyra-alchemist/idle/down/05",
+                "npc-pyra-alchemist/idle/down/06",
+                "npc-pyra-alchemist/idle/down/07"
+              ],
+              "down-left": [
+                "npc-pyra-alchemist/idle/down-left/00",
+                "npc-pyra-alchemist/idle/down-left/01",
+                "npc-pyra-alchemist/idle/down-left/02",
+                "npc-pyra-alchemist/idle/down-left/03",
+                "npc-pyra-alchemist/idle/down-left/04",
+                "npc-pyra-alchemist/idle/down-left/05",
+                "npc-pyra-alchemist/idle/down-left/06",
+                "npc-pyra-alchemist/idle/down-left/07"
+              ],
+              "left": [
+                "npc-pyra-alchemist/idle/left/00",
+                "npc-pyra-alchemist/idle/left/01",
+                "npc-pyra-alchemist/idle/left/02",
+                "npc-pyra-alchemist/idle/left/03",
+                "npc-pyra-alchemist/idle/left/04",
+                "npc-pyra-alchemist/idle/left/05",
+                "npc-pyra-alchemist/idle/left/06",
+                "npc-pyra-alchemist/idle/left/07"
+              ],
+              "up-left": [
+                "npc-pyra-alchemist/idle/up-left/00",
+                "npc-pyra-alchemist/idle/up-left/01",
+                "npc-pyra-alchemist/idle/up-left/02",
+                "npc-pyra-alchemist/idle/up-left/03",
+                "npc-pyra-alchemist/idle/up-left/04",
+                "npc-pyra-alchemist/idle/up-left/05",
+                "npc-pyra-alchemist/idle/up-left/06",
+                "npc-pyra-alchemist/idle/up-left/07"
+              ],
+              "up": [
+                "npc-pyra-alchemist/idle/up/00",
+                "npc-pyra-alchemist/idle/up/01",
+                "npc-pyra-alchemist/idle/up/02",
+                "npc-pyra-alchemist/idle/up/03",
+                "npc-pyra-alchemist/idle/up/04",
+                "npc-pyra-alchemist/idle/up/05",
+                "npc-pyra-alchemist/idle/up/06",
+                "npc-pyra-alchemist/idle/up/07"
+              ],
+              "up-right": [
+                "npc-pyra-alchemist/idle/up-right/00",
+                "npc-pyra-alchemist/idle/up-right/01",
+                "npc-pyra-alchemist/idle/up-right/02",
+                "npc-pyra-alchemist/idle/up-right/03",
+                "npc-pyra-alchemist/idle/up-right/04",
+                "npc-pyra-alchemist/idle/up-right/05",
+                "npc-pyra-alchemist/idle/up-right/06",
+                "npc-pyra-alchemist/idle/up-right/07"
+              ],
+              "right": [
+                "npc-pyra-alchemist/idle/right/00",
+                "npc-pyra-alchemist/idle/right/01",
+                "npc-pyra-alchemist/idle/right/02",
+                "npc-pyra-alchemist/idle/right/03",
+                "npc-pyra-alchemist/idle/right/04",
+                "npc-pyra-alchemist/idle/right/05",
+                "npc-pyra-alchemist/idle/right/06",
+                "npc-pyra-alchemist/idle/right/07"
+              ],
+              "down-right": [
+                "npc-pyra-alchemist/idle/down-right/00",
+                "npc-pyra-alchemist/idle/down-right/01",
+                "npc-pyra-alchemist/idle/down-right/02",
+                "npc-pyra-alchemist/idle/down-right/03",
+                "npc-pyra-alchemist/idle/down-right/04",
+                "npc-pyra-alchemist/idle/down-right/05",
+                "npc-pyra-alchemist/idle/down-right/06",
+                "npc-pyra-alchemist/idle/down-right/07"
+              ]
+            }
+          },
+          "walk": {
+            "asset": "npc-pyra-alchemist-page-0",
+            "fps": 16,
+            "loop": true,
+            "directions": {
+              "down": [
+                "npc-pyra-alchemist/idle/down/00",
+                "npc-pyra-alchemist/idle/down/01",
+                "npc-pyra-alchemist/idle/down/02",
+                "npc-pyra-alchemist/idle/down/03",
+                "npc-pyra-alchemist/idle/down/04",
+                "npc-pyra-alchemist/idle/down/05",
+                "npc-pyra-alchemist/idle/down/06",
+                "npc-pyra-alchemist/idle/down/07"
+              ],
+              "down-left": [
+                "npc-pyra-alchemist/idle/down-left/00",
+                "npc-pyra-alchemist/idle/down-left/01",
+                "npc-pyra-alchemist/idle/down-left/02",
+                "npc-pyra-alchemist/idle/down-left/03",
+                "npc-pyra-alchemist/idle/down-left/04",
+                "npc-pyra-alchemist/idle/down-left/05",
+                "npc-pyra-alchemist/idle/down-left/06",
+                "npc-pyra-alchemist/idle/down-left/07"
+              ],
+              "left": [
+                "npc-pyra-alchemist/idle/left/00",
+                "npc-pyra-alchemist/idle/left/01",
+                "npc-pyra-alchemist/idle/left/02",
+                "npc-pyra-alchemist/idle/left/03",
+                "npc-pyra-alchemist/idle/left/04",
+                "npc-pyra-alchemist/idle/left/05",
+                "npc-pyra-alchemist/idle/left/06",
+                "npc-pyra-alchemist/idle/left/07"
+              ],
+              "up-left": [
+                "npc-pyra-alchemist/idle/up-left/00",
+                "npc-pyra-alchemist/idle/up-left/01",
+                "npc-pyra-alchemist/idle/up-left/02",
+                "npc-pyra-alchemist/idle/up-left/03",
+                "npc-pyra-alchemist/idle/up-left/04",
+                "npc-pyra-alchemist/idle/up-left/05",
+                "npc-pyra-alchemist/idle/up-left/06",
+                "npc-pyra-alchemist/idle/up-left/07"
+              ],
+              "up": [
+                "npc-pyra-alchemist/idle/up/00",
+                "npc-pyra-alchemist/idle/up/01",
+                "npc-pyra-alchemist/idle/up/02",
+                "npc-pyra-alchemist/idle/up/03",
+                "npc-pyra-alchemist/idle/up/04",
+                "npc-pyra-alchemist/idle/up/05",
+                "npc-pyra-alchemist/idle/up/06",
+                "npc-pyra-alchemist/idle/up/07"
+              ],
+              "up-right": [
+                "npc-pyra-alchemist/idle/up-right/00",
+                "npc-pyra-alchemist/idle/up-right/01",
+                "npc-pyra-alchemist/idle/up-right/02",
+                "npc-pyra-alchemist/idle/up-right/03",
+                "npc-pyra-alchemist/idle/up-right/04",
+                "npc-pyra-alchemist/idle/up-right/05",
+                "npc-pyra-alchemist/idle/up-right/06",
+                "npc-pyra-alchemist/idle/up-right/07"
+              ],
+              "right": [
+                "npc-pyra-alchemist/idle/right/00",
+                "npc-pyra-alchemist/idle/right/01",
+                "npc-pyra-alchemist/idle/right/02",
+                "npc-pyra-alchemist/idle/right/03",
+                "npc-pyra-alchemist/idle/right/04",
+                "npc-pyra-alchemist/idle/right/05",
+                "npc-pyra-alchemist/idle/right/06",
+                "npc-pyra-alchemist/idle/right/07"
+              ],
+              "down-right": [
+                "npc-pyra-alchemist/idle/down-right/00",
+                "npc-pyra-alchemist/idle/down-right/01",
+                "npc-pyra-alchemist/idle/down-right/02",
+                "npc-pyra-alchemist/idle/down-right/03",
+                "npc-pyra-alchemist/idle/down-right/04",
+                "npc-pyra-alchemist/idle/down-right/05",
+                "npc-pyra-alchemist/idle/down-right/06",
+                "npc-pyra-alchemist/idle/down-right/07"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "actorBindings": {
+      "pyra.npc.alchemist": "npc-pyra-alchemist"
+    },
+    "renderBindings": {},
+    "effects": {}
   }
 ]

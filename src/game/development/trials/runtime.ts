@@ -1,4 +1,4 @@
-import { actorVisual, catalog, monsterVisual } from "../../assets/catalog";
+import { actorVisual, catalog, ESCORT_NPC_ROLE, monsterVisual } from "../../assets/catalog";
 import { registerActorAnimations } from "../../assets/phaserAssets";
 import { ActorAnimation } from "../../assets/actorAnimation";
 import type { GameRuntime } from "../../mountGame";
@@ -8,7 +8,7 @@ import type { TrialAttempt } from "./attempt";
 /** Uses the existing Phaser mount, actors, controls and combat; only room markers are added. */
 export function trialRuntime(attempt: TrialAttempt): GameRuntime {
   const npc = ["messenger", "rescue-escort", "rescue-return"].includes(attempt.definition.kind)
-    ? actorVisual(attempt.session.world.id, "npc", "hunter")
+    ? actorVisual(attempt.session.world.id, "npc", ESCORT_NPC_ROLE)
     : null;
   const assets = examAssets(attempt.race);
   if (npc)

@@ -32,6 +32,7 @@ import { GameSession, type StoragePort } from "../../session";
 import type { GameRuntime } from "../../mountGame";
 import {
   actorVisual,
+  ESCORT_NPC_ROLE,
   catalog,
   textureBinding,
   monsterVisual,
@@ -309,6 +310,8 @@ export async function prepareSuperior(options: {
   for (const visual of [
     actorVisual(RACES[session.player.race].world, "hero", undefined, preview),
     ...base.npcs.map((n) => actorVisual(info.affinity, "npc", n.id)),
+    // heritage and trial escorts are drawn only when their texture exists (see ESCORT_NPC_ROLE)
+    actorVisual(info.affinity, "npc", ESCORT_NPC_ROLE),
   ])
     for (const clip of Object.values(visual.clips)) addAsset(clip.asset);
   for (const [key, effect] of Object.entries(catalog.effects))
