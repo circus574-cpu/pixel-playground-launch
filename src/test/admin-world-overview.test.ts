@@ -120,6 +120,7 @@ describe("Administrator sees actual Superior v2 contents", () => {
       true,
     );
   });
+  // Heavy: maps every quest objective of every land to spawn slots.
   it("maps combat objectives to actual spawn slots and reports targets without a v2 binding", () => {
     const q = questEntries(lands, emptyAdminWorldOverrides()),
       base = lands.flatMap((l) => l.entries);
@@ -130,7 +131,7 @@ describe("Administrator sees actual Superior v2 contents", () => {
       expect(target).toBeDefined();
       expect([e.x, e.y, e.land, e.room]).toEqual([target.x, target.y, target.land, target.room]);
     }
-  });
+  }, 30_000); // walks every quest objective of all lands: ~3.5 s alone, over 5 s under the full parallel suite in CI
   it("applies custom spawns without mutation and rejects water/city positions as the game does", () => {
     const land = lands.find((l) => l.info.id === "verdant")!,
       authored = data("verdant", "spawns.json").overworld,
