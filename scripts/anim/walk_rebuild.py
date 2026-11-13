@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Rebuild the front/back-derived walk directions of a hero from the owner's walk-turnaround video with a full gait cycle.
 
-    python3 scripts/anim/walk_rebuild.py <legend|planetary> <video.mp4> <work-dir>
+    python3 scripts/anim/walk_rebuild.py <legend|planetary|android> <video.mp4> <work-dir>
+    (CELL=200 for packs stored at the 200 px hero cell, see scripts/assets/downscale_hero_pack.py)
     npm run assets:import -- <work-dir>/pkg/<race>/pack.json --install --replace      (WALK_VERSION bumps the pack)
 
 The first walk cut chose each loop as the pair of frames with the most similar silhouette (12..44 frames apart). In the
@@ -25,21 +26,30 @@ import numpy as np, cv2
 from PIL import Image
 from rembg import remove, new_session
 
-ACTOR = {'legend': 'hero-legend', 'planetary': 'hero-planetary-painted'}[R]
-PID = {'legend': 'hero-legend-walk-v3', 'planetary': 'hero-planetary-painted-walk-v3'}[R]
+ACTOR = {'legend': 'hero-legend', 'planetary': 'hero-planetary-painted', 'android': 'hero-android'}[R]
+PID = {'legend': 'hero-legend-walk-v3', 'planetary': 'hero-planetary-painted-walk-v3', 'android': 'hero-android-walk-v3'}[R]
 G = str(ROOT / 'public/game/assets/gpu') + '/'
-F, FOOT, H_TARGET = 256, 248, 240
+# the figure is placed on a 256 px cell (feet on y=248, 240 px tall); a pack stored at a smaller cell (CELL=200) gets the
+# new frames scaled down as a whole (premultiplied Lanczos) and keeps its other frames untouched
+B, FOOT, H_TARGET = 256, 248, 240
+F = int(os.environ.get('CELL', B))
 DIRS = ['down', 'down-left', 'left', 'up-left', 'up', 'up-right', 'right', 'down-right']
 # view segments of the video (frame ranges) and which directions use them: direction -> (view, mirrored)
 VIEWS = {
-    'legend': {'front': (0, 79), 'back': (80, 157)},
+    # Legend: second walk film (13.11.2026): front 0-58, back 60-118 (frames 128-178 / 180-239 repeat the same walk)
+    'legend': {'front': (0, 58), 'back': (60, 118)},
     'planetary': {'front': (0, 30), 'back': (35, 56), 'front34': (118, 178), 'back34': (178, 239)},
+    # Android (13.11.2026): front 0-61, back 68-120, front 3/4 (turned to the viewer's left) 133-176; the 3/4 back part
+    # (189-239) turns to a plain back view after a few frames, so the back diagonals use the plain back
+    'android': {'front': (0, 61), 'back': (68, 120), 'front34': (133, 176)},
 }[R]
 MAP = {
     'legend': {'down': ('front', 0), 'down-left': ('front', 0), 'down-right': ('front', 1),
                'up': ('back', 0), 'up-left': ('back', 0), 'up-right': ('back', 1)},
     'planetary': {'down': ('front', 0), 'up': ('back', 0), 'down-left': ('front34', 1), 'down-right': ('front34', 0),
                   'up-left': ('back34', 1), 'up-right': ('back34', 0)},
+    'android': {'down': ('front', 0), 'up': ('back', 0), 'down-left': ('front34', 0), 'down-right': ('front34', 1),
+                'up-left': ('back', 0), 'up-right': ('back', 1)},
 }[R]
 
 os.makedirs('raw', exist_ok=True)
@@ -106,13 +116,18 @@ def place(a):
     img = Image.fromarray(a)
     img = img.resize((round(img.width * SC), round(img.height * SC)), Image.LANCZOS)
     x, y = F // 2 - round(cx * SC), FOOT - round(foot * SC)
-    tmp = Image.new('RGBA', (F, F)); tmp.paste(img, (x, y), img)
+    tmp = Image.new('RGBA', (B, B)); tmp.paste(img, (x, y), img)
+    if F != B:
+        tmp = tmp.convert('RGBa').resize((F, F), Image.LANCZOS).convert('RGBA')
     return tmp
 
 
 strips = {}
+# WALK_LOOPS="front=9:35,back=88:32" fixes a view's gait loop (absolute start frame : period) when the automatic pick is
+# wrong; measure it from the feet (left-minus-right lowest foot pixel changes sign every step)
+LOOPS = {k: tuple(map(int, v.split(':'))) for k, v in (e.split('=') for e in os.environ.get('WALK_LOOPS', '').split(',') if e)}
 for view, (s0, s1) in VIEWS.items():
-    a0, L = pick_loop(s0, s1)
+    a0, L = LOOPS[view] if view in LOOPS else pick_loop(s0, s1)
     idx = [a0 + round(k * L / 8) for k in range(8)]
     print(view, 'frames', idx)
     strips[view] = [place(matte(i)) for i in idx]
