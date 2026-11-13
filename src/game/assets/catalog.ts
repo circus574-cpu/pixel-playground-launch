@@ -60,21 +60,23 @@ const baseAssets: AssetDefinition[] = [
   },
   {
     id: human.key,
-    version: "legacy-2",
+    // Drawn at 96 px: stored at 640 px (160 px cells), half the size of the original 1254 px sheet.
+    version: "legacy-3",
     kind: "image",
     url: human.url,
-    width: 1254,
-    height: 1254,
+    width: 640,
+    height: 640,
     grid: { columns: human.columns, rows: human.directions.length },
   },
   {
     id: SHARED_ASSETS.creatures.key,
-    version: "legacy-1",
+    // The boar (drawn at 84 px) is the only crop used: the sheet is stored at half its original 1254 px size.
+    version: "legacy-2",
     kind: "image",
     url: SHARED_ASSETS.creatures.url,
-    width: 1254,
-    height: 1254,
-    crops: [{ name: "boar", x: 646.59375, y: 685.78125, width: 607.40625, height: 568.21875 }],
+    width: 627,
+    height: 627,
+    crops: [{ name: "boar", x: 323.296875, y: 342.890625, width: 303.703125, height: 284.109375 }],
   },
   {
     id: SHARED_ASSETS.ui.key,
@@ -311,7 +313,14 @@ const enlargedHeroes = new Set([
   "hero-legend",
 ]);
 /** NPCs cut from 256 px film turnarounds: drawn taller than the hero (133) and sharper than the old 128 px residents. */
+/**
+ * Escorted and witness NPCs (heritage, trials) walk next to the hero: they keep the default NPC look with a real walk
+ * cycle. The city hunter's turnaround pack has standing poses only, so it would glide without moving its legs.
+ */
+export const ESCORT_NPC_ROLE = "escort";
 const ENLARGED_NPC_ROLES = [
+  "hunter",
+  "alchemist",
   "guide",
   "smith",
   "keeper",
@@ -396,7 +405,8 @@ export function worldAssets(
   const world = WORLDS[worldId],
     used = new Set<string>(["ui-icons"]);
   const add = (ref: TextureRef) => used.add(ref.asset);
-  for (const role of [undefined, ...world.npcs.map((n) => n.id)]) {
+  // The escort look is loaded with every world: heritage and trial escorts are drawn only when their texture exists.
+  for (const role of [undefined, ESCORT_NPC_ROLE, ...world.npcs.map((n) => n.id)]) {
     const visual = actorVisual(worldId, role ? "npc" : "hero", role, preview, source);
     for (const clip of Object.values(visual.clips)) used.add(clip.asset);
   }

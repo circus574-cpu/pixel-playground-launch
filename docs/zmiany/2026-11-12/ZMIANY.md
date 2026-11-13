@@ -678,3 +678,52 @@ Pełny TypeScript aplikacji/e2e/tools PASS. [Kontrole integracyjne i SHA wejść
 - Porównanie zrzutów przed i po w grze przy zoomie 1,0 (największe zbliżenie): depozyt Aetherii i magazyn Nexusa bez
   widocznej różnicy.
 - Testy powiązane z paczkami (12 plików, 98 testów) zielone; `assets:check` przechodzi.
+
+### 22. Tryb KI: bieg, kanał, umiejętność C i interakcja w formie KI (filmy 5B, cztery rasy)
+
+- Z filmów `<rasa>-etap5b-ruch-ki.mp4` (Mędrzec, Planetar, Android, Legenda) wycięto cztery klipy formy KI: `kirun`
+  (8 klatek, pętla jednego pełnego cyklu kroku), `kichannel` (8, pętla), `kiskillc` (8), `kiinteract` (6). Paczki
+  bohaterów `3.1.1`, nowy atlas `<paczka>-kimove-1`, tylko klatki w prawo (lewo rysowane lustrem). Okres kroku
+  sprawdzony na klatkach filmu: Planetar i Legenda przy automacie trafiały na pół cyklu / rozpędzanie, więc wyszukiwanie
+  zawężono do pełnego cyklu (`MOVE_RUN_LAGS`, `MOVE_RUN_WINDOW` w `moveform_build.py`).
+- Silnik animacji: nowe stany w schemacie i kontrakcie; w Trybie KI szybki ruch gra `kirun`, kanał `kichannel`,
+  umiejętność C `kiskillc` (wcześniej `kiskill`), podniesienie łupu `kiinteract`. Brak klipu = klip formy bazowej.
+- Budżet tekstur Verdantii (importer, 128 MiB) nie mieścił biegu KI Planetara (127,6 MiB przed). Dwie stare grafiki
+  zapasowe świata v1 rysowane w 96/84 px były zapisane w 1254 px: arkusz zastępczego bohatera (NPC bez własnej paczki)
+  zapisany w 640 px (`hero-walk-v2-640.webp`), arkusz dzika w 627 px (`world-v1-627.webp`, wycinek przeliczony ×0,5).
+  Nowe nazwy plików, bo `/game/*` jest buforowane przez service worker. Verdantia po zmianie: 123,8 z 128 MiB; Aetheria
+  109,8, Nexus 101,7, Pyra 104,6 MiB (bez pamięci terenu).
+- Testy: `actor-animation` (nowe: klipy KI ruchu u 4 ras, `kirun`, `kichannel`, `kiskillc`, `kiinteract`),
+  `gpu-pipeline` (lista klipów i liczba klatek), `stream-texture-budget` (zestaw Mędrca 102,79 → 98,36 MiB po zmniejszeniu
+  arkusza zastępczego). Pełny `vitest`: 1990 zielonych; 2 pliki czerwone także na czystym `main` w tej kopii (brak
+  `art/production` w kopii roboczej, test klienta sieciowego) — w CI przechodzą. Typecheck, eslint, `assets:check` czyste.
+- W przeglądarce (gra lokalna, forma KI wymuszona w animacji): u czterech ras chód KI, bieg KI w prawo i w lewo (lustro),
+  kanał KI, umiejętność C KI i interakcja KI pokazują swoje klatki (8/8/8/6), 0 błędów strony. Nie sprawdzono w trybie
+  online z prawdziwym buffem `T` i przyspieszeniem (bieg pojawia się tylko przy prędkości ≥ 1,5× bazowej).
+
+### 23. Planetar w Trybie KI: trzeci cios i pełny skok (film 5C)
+
+- Z filmu `planetary-etap5c-cios-skok-ki.mp4` wycięto `kifinisher` (8 klatek: zamach, krok, ciężki cios dłonią z małym
+  zielonym wybuchem przy dłoni, powrót; 0,6–1,8 s) i `kiskillb` (8 klatek: wybicie, lot z głową w kadrze, uderzenie
+  w ziemię z falą; 2,5–3,7 s). Dotąd Planetar nie miał trzeciego ciosu w formie KI, a skok był samym lądowaniem.
+- `kicombat_build.py`: źródło `s5c` dla Planetara, `KICOMBAT_ONLY` (przebudowa wybranych filmów, reszta paczki bez zmian),
+  `KICOMBAT_RIGHT` (tylko klatki w prawo). Paczka Planetara `3.2.0`: atlas `-kifight-1` przebudowany bez starego
+  lądowania, nowy `-kifight-3`. Verdantia: 125,1 z 128 MiB.
+- W przeglądarce (forma KI wymuszona): trzy ciosy pod rząd grają `kiattack2` → `kifinisher` → `kiattack`, skok gra 8 klatek
+  `kiskillb`, w lewo lustrem, 0 błędów. Testy `gpu-pipeline` i `actor-animation`: Planetar ma teraz te same klipy walki KI co
+  pozostałe rasy.
+
+### 24. NPC Myśliwy i Alchemik: własne postaci w czterech miastach
+
+- Z filmów obrotu `npc-hunter-mysliwy-obrot.mp4` i `npc-alchemist-alchemik-obrot.mp4` zbudowano paczki
+  `npc-<świat>-hunter` i `npc-<świat>-alchemist` (8 kierunków, klatki 256 px, rysowane 150, kolor stroju per świat jak
+  u pozostałych ról; po ok. 0,84 i 0,89 MiB). Klatki kierunków wybrane ręcznie z arkusza klatek (Alchemiczka długo stoi
+  przodem i szybko obraca się bokiem). Dotąd obie role rysowały się wspólną grafiką zastępczą `human-v2`.
+- Eskortowani NPC (Dziedzictwo, próby) używali roli `hunter`; postać z filmu obrotu ma tylko pozy stojące, więc eskorta
+  sunęłaby bez ruchu nóg. Eskorta dostała jawną rolę `ESCORT_NPC_ROLE` (ten sam wygląd z cyklem chodu co dotąd),
+  a jej tekstura jest dodana do zasobów każdego świata (`worldAssets`, `superiorRuntime`) — inaczej, gdy żaden NPC miasta
+  nie używa już grafiki zastępczej, eskorta byłaby niewidoczna.
+- W przeglądarce: Myśliwy z nową grafiką w kadrze startowym czterech miast; tekstury Alchemiczki i eskorty załadowane;
+  0 błędów. Budżety: Verdantia 126,8, Aetheria 111,6, Nexus 103,5, Pyra 106,3 z 128 MiB.
+- Test `npc-roles-visual`: dziewięć ról z własną postacią w czterech światach; eskorta ma prawdziwy cykl chodu i jest
+  w zasobach świata.

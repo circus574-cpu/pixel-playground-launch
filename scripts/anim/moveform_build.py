@@ -13,6 +13,10 @@
  - skillc   8 frames, 12 fps: the tree-C technique (dash strike or blast),
  - interact 6 frames, 10 fps: reaching out to pick something up.
 Same camera, matting and trimmed lossless atlas as scripts/anim/reactform_build.py; new asset `<pack>-fight-4`.
+
+MOVE_KI=1 cuts the same four clips in the Tryb KI form from <race>-etap5b-ruch-ki.mp4 (same timeline in all four
+videos) as kirun, kichannel, kiskillc and kiinteract into the asset `<pack>-kimove-1`, right-facing frames only (the
+left directions are listed in the clip's `mirrored` field and drawn flipped, as after scripts/anim/dedupe_mirror.py).
 """
 import os, sys, json, glob, shutil, subprocess
 from pathlib import Path
@@ -32,7 +36,8 @@ if R == 'android': os.environ.setdefault('KIMATTE_MIN_A', '0.22')  # its small g
 ACTOR = {'android': 'hero-android', 'legend': 'hero-legend', 'sage': 'hero-sage-painted', 'planetary': 'hero-planetary-painted'}[R]
 PID = {'android': 'hero-android-walk-v3', 'legend': 'hero-legend-walk-v3', 'sage': 'hero-sage-painted-walk-v3', 'planetary': 'hero-planetary-painted-walk-v3'}[R]
 G = str(ROOT / 'public/game/assets/gpu') + '/'
-VID = str(ROOT / ('art-wip/gemini-anim-stages/' + R + '-etap3-ruch' + ('-v2' if R == 'android' else '') + '.mp4'))
+KI = os.environ.get('MOVE_KI') == '1'
+VID = str(ROOT / ('art-wip/gemini-anim-stages/' + R + ('-etap5b-ruch-ki' if KI else '-etap3-ruch' + ('-v2' if R == 'android' else '')) + '.mp4'))
 DIRS = ['down', 'down-left', 'left', 'up-left', 'up', 'up-right', 'right', 'down-right']
 FLIPPED = {'left', 'up-left', 'down-left'}
 FPS_VIDEO = 24
@@ -43,6 +48,8 @@ CFG = {
     'sage': {'neutral': 0.2, 'run': (0.8, 3.2), 'channel': (4.4, 5.6), 'skillc': (7.2, 8.0), 'interact': (9.0, 9.8)},
     'planetary': {'neutral': 20.2, 'run': (20.6, 22.2), 'channel': (24.4, 25.8), 'skillc': (27.0, 27.8), 'interact': (28.8, 29.8)},
 }[R]
+if KI: CFG = {'neutral': 0.2, 'run': (0.6, 3.2), 'channel': (4.4, 5.8), 'skillc': (6.9, 8.1), 'interact': (8.8, 9.8)}
+if os.environ.get('MOVE_RUN_WINDOW'): CFG['run'] = tuple(map(float, os.environ['MOVE_RUN_WINDOW'].split('-')))  # steady run only
 COUNTS = {'run': 8, 'channel': 8, 'skillc': 8, 'interact': 6}
 def window(w, n): return [int(round((w[0] + (w[1] - w[0]) * j / (n - 1)) * FPS_VIDEO)) for j in range(n)]
 
@@ -62,10 +69,14 @@ def run_cycle(w, n):
         return cv2.resize(im[y0:y1, x0:cx + 60], (60, 40))
     lo = [low(im) for im in ims]; m = len(lo)
     lags = list(range(8, m - 4))
+    # MOVE_RUN_LAGS="18-26" limits the search to a full stride (two steps) when the automatic pick lands on a half
+    # stride (the legs would swap at the loop seam) or on several strides (too few samples per step)
+    if os.environ.get('MOVE_RUN_LAGS'):
+        lo_l, hi_l = map(int, os.environ['MOVE_RUN_LAGS'].split('-')); lags = [L for L in lags if lo_l <= L <= hi_l]
     D = {L: float(np.mean([np.abs(lo[i] - lo[i + L]).mean() for i in range(m - L)])) for L in lags}
     med = float(np.median(list(D.values())))
     cand = [L for L in lags if D[L] < 0.6 * med and D[L] <= D.get(L - 1, 1e9) and D[L] <= D.get(L + 1, 1e9)]
-    L = cand[0] if cand else min(lags, key=lambda k: D[k])
+    L = cand[0] if cand and not os.environ.get('MOVE_RUN_LAGS') else min(lags, key=lambda k: D[k])
     a0 = min(range(0, m - L), key=lambda i: float(np.abs(lo[i] - lo[i + L]).mean()))
     print('run period', L, 'frames from', s0 + a0, 'D', round(D[L], 1), 'median', round(med, 1))
     return [s0 + a0 + int(round(k * L / n)) for k in range(n)]
@@ -164,17 +175,18 @@ def cell(i, mirror):
     return c[:, ::-1].copy() if mirror else c
 
 CLIPS = SEQ
+PRE = 'ki' if KI else ''
 unique = []  # (name, rgba256)
 names = {c: {} for c in CLIPS}
-for mirror in (False, True):
+for mirror in ((False,) if KI else (False, True)):  # Tryb KI: the game flips the right strip (clip `mirrored`)
     tag = 'left' if mirror else 'right'
     per = {}
     for clip, seq in CLIPS.items():
         per[clip] = []
         for j, i in enumerate(seq):
-            nm = f'{ACTOR}/{clip}/{tag}/{j:02d}'; per[clip].append(nm); unique.append((nm, cell(i, mirror)))
+            nm = f'{ACTOR}/{PRE}{clip}/{tag}/{j:02d}'; per[clip].append(nm); unique.append((nm, cell(i, mirror)))
     for d in DIRS:
-        if (d in FLIPPED) == mirror:
+        if (d in FLIPPED) == mirror or KI:
             for clip in CLIPS: names[clip][d] = per[clip]
 
 clip_n = 0
@@ -214,12 +226,12 @@ print('atlas', W, H, 'decoded MiB', round(W * H * 4 / 2**20, 2), 'webp bytes', o
 
 # package: the installed walk pack plus the movement atlas and its clips
 dst = f'pkg/{R}'; shutil.rmtree(dst, ignore_errors=True); os.makedirs(dst)
-aid = f'{PID}-fight-4'  # re-running on an installed pack replaces this atlas and its clips
+aid = f'{PID}-kimove-1' if KI else f'{PID}-fight-4'  # re-running on an installed pack replaces this atlas and its clips
 for f in os.listdir(walk_pack):
     if f != 'pack.json' and not f.startswith(aid + '.'): shutil.copy(os.path.join(walk_pack, f), dst)
 pack = json.load(open(walk_pack + '/pack.json'))
 pack['assets'] = [a for a in pack['assets'] if a['id'] != aid]
-for c in CLIPS: pack['actors'][0]['clips'].pop(c, None)
+for c in CLIPS: pack['actors'][0]['clips'].pop(PRE + c, None)
 VER = os.environ.get('MOVE_VERSION', '2.9.0'); pack['version'] = VER
 for a in pack['assets']:
     a['version'] = VER; a['url'] = os.path.basename(a['url'])
@@ -230,6 +242,7 @@ pack['assets'].append({'id': aid, 'version': VER, 'kind': 'atlas', 'url': aid + 
 actor = pack['actors'][0]
 SPEC = {'run': (16, True), 'channel': (10, True), 'skillc': (12, False), 'interact': (10, False)}
 for c, (fps, loop) in SPEC.items():
-    actor['clips'][c] = {'asset': aid, 'fps': fps, 'loop': loop, 'directions': {d: names[c][d] for d in DIRS}}
+    actor['clips'][PRE + c] = {'asset': aid, 'fps': fps, 'loop': loop, 'directions': {d: names[c][d] for d in DIRS}}
+    if KI: actor['clips'][PRE + c]['mirrored'] = sorted(FLIPPED)
 json.dump(pack, open(f'{dst}/pack.json', 'w'), indent=2)
 print(R, 'pack ready', actor['id'], sorted(actor['clips']))

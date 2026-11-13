@@ -31,6 +31,10 @@ const PRIORITY: Record<AnimationState, number> = {
   skillc: 4,
   interact: 2,
   run: 1,
+  kirun: 1,
+  kichannel: 4,
+  kiskillc: 4,
+  kiinteract: 2,
   attack: 3,
   skill: 4,
   hit: 5,
@@ -47,6 +51,8 @@ const KI_CLIP = {
   death: "kideath",
   respawn: "kirespawn",
   victory: "kivictory",
+  channel: "kichannel",
+  interact: "kiinteract",
 } as const;
 const ACTIONS = new Set<AnimationState>(["attack", "skill", "skillb", "skillc"]);
 /** Presentation only: no damage, movement, cooldown, AI or save mutations. */
@@ -95,6 +101,8 @@ export class ActorAnimation {
       } else if (state === "skillb") {
         if (clips.kiskillb) return "kiskillb";
         if (clips.kiskill) return "kiskill";
+      } else if (state === "skillc" && clips.kiskillc) {
+        return "kiskillc";
       } else if (state === "skill" || state === "skillc") {
         if (clips.kiskill) return "kiskill";
       } else if (ki && clips[ki]) return ki;
@@ -172,7 +180,7 @@ export class ActorAnimation {
     paused = false,
     /** Tryb KI is active: a moving hero walks in the powered-up form when the race has that clip. */
     kiForm = false,
-    /** The hero moves fast enough to be drawn running (base form, races with a run clip). */
+    /** The hero moves fast enough to be drawn running (run, or kirun in Tryb KI, when the race has the clip). */
     running = false,
   ) {
     if (paused) {
@@ -197,11 +205,13 @@ export class ActorAnimation {
       if (pending && now <= pending.expires) this.trigger(pending.state, now, pending.facing);
       else {
         this.state = moving
-          ? kiForm && this.visual.clips.kiwalk
-            ? "kiwalk"
-            : running && this.visual.clips.run
-              ? "run"
-              : "walk"
+          ? kiForm && running && this.visual.clips.kirun
+            ? "kirun"
+            : kiForm && this.visual.clips.kiwalk
+              ? "kiwalk"
+              : running && this.visual.clips.run
+                ? "run"
+                : "walk"
           : "idle";
         this.direction = facing;
       }

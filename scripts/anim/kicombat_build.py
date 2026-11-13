@@ -11,6 +11,10 @@ Sources (art-wip/gemini-anim-stages/):
    kiskillb (8, 12: jump and ground slam; Planetary: the landing only), kidodge (6, 14), kiguard (6, 10);
  - <race>-etap5a-reakcje-ki.mp4 (Android, Legend, Planetary, Sage): kihit (6, 14), kihitheavy (8, 12),
    kideath (8, 10: flight, fall, lying), kirespawn (8, 12: sits up, rises), kivictory (8, 10).
+ - planetary-etap5c-cios-skok-ki.mp4 (Planetary only): kifinisher (8, 12: heavy palm strike) and kiskillb (8, 12: the
+   full jump and ground slam), replacing the stage 4 landing; asset `<pack>-kifight-3`.
+KICOMBAT_ONLY=s4,s5c rebuilds only those videos' atlases (the others and their clips stay as installed);
+KICOMBAT_RIGHT=1 stores the right-facing frames only (the left directions are listed in the clip's `mirrored` field).
 Each video has its own transform (scale from its neutral frame, feet on the walk baseline); a figure wider than the cell
 (a lying body) is scaled down to fit and rests on the same baseline. Same matting and trimmed lossless atlas as
 scripts/anim/moveform_build.py; new asset `<pack>-kifight-1`.
@@ -48,9 +52,15 @@ CLIPS_CFG = {
                 'kihit': ('r5', (0.5, 1.2), 6, 14), 'kihitheavy': ('r5', (1.8, 3.0), 8, 12), 'kideath': ('r5', (3.9, 4.8), 8, 10), 'kirespawn': ('r5', (6.0, 6.9), 8, 12), 'kivictory': ('r5', (8.2, 9.2), 8, 10)},
     'sage': {'kiattack2': ('s4', (0.4, 1.2), 6, 12), 'kifinisher': ('s4', (1.6, 2.2), 8, 12), 'kiskillb': ('s4', (6.0, 7.2), 8, 12), 'kidodge': ('s4', (7.8, 8.6), 6, 14), 'kiguard': ('s4', (8.6, 9.4), 6, 10),
              'kihit': ('r5', (0.55, 1.3), 6, 14), 'kihitheavy': ('r5', (1.85, 2.9), 8, 12), 'kideath': ('r5', (3.8, 4.7), 8, 10), 'kirespawn': ('r5', (5.4, 6.6), 8, 12), 'kivictory': ('r5', (7.9, 9.0), 8, 10)},
-    'planetary': {'kiattack2': ('s4', (2.0, 2.9), 6, 12), 'kiskillb': ('s4', (6.8, 7.6), 8, 12), 'kidodge': ('s4', (8.0, 8.6), 6, 14), 'kiguard': ('s4', (8.8, 9.6), 6, 10),
+    'planetary': {'kiattack2': ('s4', (2.0, 2.9), 6, 12), 'kifinisher': ('s5c', (0.6, 1.8), 8, 12), 'kiskillb': ('s5c', (2.5, 3.7), 8, 12), 'kidodge': ('s4', (8.0, 8.6), 6, 14), 'kiguard': ('s4', (8.8, 9.6), 6, 10),
                   'kihit': ('r5', (0.6, 1.1), 6, 14), 'kihitheavy': ('r5', (2.0, 3.0), 8, 12), 'kideath': ('r5', (3.8, 4.8), 8, 10), 'kirespawn': ('r5', (5.8, 7.2), 8, 12), 'kivictory': ('r5', (8.1, 9.1), 8, 10)},
 }[R]
+ONLY = set(filter(None, os.environ.get('KICOMBAT_ONLY', '').split(',')))
+if ONLY: CLIPS_CFG = {c: v for c, v in CLIPS_CFG.items() if v[0] in ONLY}
+RIGHT = os.environ.get('KICOMBAT_RIGHT') == '1'
+if any(v[0] == 's5c' for v in CLIPS_CFG.values()):
+    VIDEOS['s5c'] = (str(ROOT / 'art-wip/gemini-anim-stages/planetary-etap5c-cios-skok-ki.mp4'), 0.2)
+if not any(v[0] == 's4' for v in CLIPS_CFG.values()): VIDEOS.pop('s4')
 if any(v[0] == 'r5' for v in CLIPS_CFG.values()): VIDEOS['r5'] = (R5, {'android': 0.2, 'legend': 1.2, 'sage': 0.25, 'planetary': 1.4}[R])
 LOOP = set()
 def window(w, n): return [int(round((w[0] + (w[1] - w[0]) * j / (n - 1)) * FPS_VIDEO)) for j in range(n)]
@@ -171,7 +181,7 @@ def cell(key, i, mirror):
 CLIPS = SEQ
 unique = []  # (name, rgba256)
 names = {c: {} for c in CLIPS}
-for mirror in (False, True):
+for mirror in ((False,) if RIGHT else (False, True)):
     tag = 'left' if mirror else 'right'
     per = {}
     for clip, (key, seq) in CLIPS.items():
@@ -179,7 +189,7 @@ for mirror in (False, True):
         for j, i in enumerate(seq):
             nm = f'{ACTOR}/{clip}/{tag}/{j:02d}'; per[clip].append(nm); unique.append((nm, cell(key, i, mirror)))
     for d in DIRS:
-        if (d in FLIPPED) == mirror:
+        if (d in FLIPPED) == mirror or RIGHT:
             for clip in CLIPS: names[clip][d] = per[clip]
 
 clip_n = 0
@@ -220,7 +230,8 @@ def pack_atlas(sub, aid):
 
 # package: the installed walk pack plus the Tryb KI atlases (strikes and skills; reactions) and their clips
 dst = f'pkg/{R}'; shutil.rmtree(dst, ignore_errors=True); os.makedirs(dst)
-AIDS = {'s4': f'{PID}-kifight-1', 'r5': f'{PID}-kifight-2'}  # re-running on an installed pack replaces these atlases and clips
+AIDS = {'s4': f'{PID}-kifight-1', 'r5': f'{PID}-kifight-2', 's5c': f'{PID}-kifight-3'}
+if ONLY: AIDS = {k: a for k, a in AIDS.items() if k in ONLY}  # re-running on an installed pack replaces these atlases and clips
 for f in os.listdir(walk_pack):
     if f != 'pack.json' and not any(f.startswith(a + '.') for a in AIDS.values()): shutil.copy(os.path.join(walk_pack, f), dst)
 pack = json.load(open(walk_pack + '/pack.json'))
@@ -243,5 +254,6 @@ actor = pack['actors'][0]
 SPEC = {c: (v[3], False) for c, v in CLIPS_CFG.items()}
 for c, (fps, loop) in SPEC.items():
     actor['clips'][c] = {'asset': atlas_of[c], 'fps': fps, 'loop': loop, 'directions': {d: names[c][d] for d in DIRS}}
+    if RIGHT: actor['clips'][c]['mirrored'] = sorted(FLIPPED)
 json.dump(pack, open(f'{dst}/pack.json', 'w'), indent=2)
 print(R, 'pack ready', actor['id'], sorted(actor['clips']))

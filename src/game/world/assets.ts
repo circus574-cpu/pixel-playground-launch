@@ -5,7 +5,7 @@ export const CHARACTER_VISUALS: Record<"human-v2", CharacterVisual> = {
   "human-v2": {
     kind: "sheet",
     key: "hero-sheet",
-    url: "/game/assets/hero-walk-v2.webp",
+    url: "/game/assets/hero-walk-v2-640.webp",
     columns: 4,
     directions: ["down", "left", "right", "up"],
     frames: 4,
@@ -17,7 +17,7 @@ export const CHARACTER_VISUALS: Record<"human-v2", CharacterVisual> = {
   },
 } as const;
 export const SHARED_ASSETS = {
-  creatures: { key: "world-atlas", url: "/game/assets/world-v1.webp" },
+  creatures: { key: "world-atlas", url: "/game/assets/world-v1-627.webp" },
   ui: {
     key: "ui-icons",
     url: "/game/assets/anime-forest-v1/ui.webp",

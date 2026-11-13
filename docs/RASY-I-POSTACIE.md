@@ -58,15 +58,26 @@ na stabilne ukosy); Android i Mędrzec mają osobne klatki ukosów. Proces i skr
 **Tryb KI — walka i reakcje (12.11.2026).** W Trybie KI postać zostaje w formie KI w każdej czynności; gra nie podstawia
 zwykłego stroju, jeśli dla rasy jest klip formy KI. `scripts/anim/kicombat_build.py` wycina klipy do atlasów
 `<paczka>-kifight-1` (z filmów etapu 4) i `-kifight-2` (z filmów reakcji formy KI `<rasa>-etap5a-reakcje-ki.mp4`):
-`kiattack2` (6 klatek, 12 kl./s), `kifinisher` (8, 12; Planetar bez: jego trzeci cios to błysk na cały kadr),
-`kiskillb` (8, 12; Planetar: samo lądowanie), `kidodge` (6, 14), `kiguard` (6, 10) oraz reakcje `kihit` (6, 14),
+`kiattack2` (6 klatek, 12 kl./s), `kifinisher` (8, 12), `kiskillb` (8, 12), `kidodge` (6, 14), `kiguard` (6, 10) oraz reakcje `kihit` (6, 14),
 `kihitheavy` (8, 12), `kideath` (8, 10: odrzut, upadek, leżenie), `kirespawn` (8, 12: podpiera się, wstaje),
 `kivictory` (8, 10). Reakcje formy KI są dla wszystkich czterech ras (Mędrzec od paczki `3.0.3`, z filmu `sage-etap5a-reakcje-ki.mp4`).
+Planetar (paczka `3.2.0`): `kifinisher` (ciężki cios dłonią) i pełny `kiskillb` (skok i uderzenie w ziemię) pochodzą z filmu
+`planetary-etap5c-cios-skok-ki.mp4` (atlas `-kifight-3`; w filmie etapu 4 trzeci cios był błyskiem na cały kadr, a skok
+miał uciętą głowę), wycięte `KICOMBAT_ONLY=s4,s5c KICOMBAT_RIGHT=1` (tylko klatki w prawo, reakcje bez zmian).
 Brak klipu dla stanu nie jest zastępowany niczym innym niż klipem formy bazowej. Łańcuch ciosów w Trybie KI: `kiattack2` → `kifinisher` → `kiattack` (silny cios z filmu) w 1,4 s.
 Klip jednorazowy zostaje w formie, w której go uruchomiono, nawet gdy buff `T` skończy się w trakcie (śmierć i wstawanie
 w Trybie KI zostają w formie KI). Każdy film ma własną transformację (skala z jego neutralnej klatki, stopy na linii chodu);
 leżące ciało szersze niż komórka 256 px jest zmniejszane do szerokości komórki, na tej samej linii podłoża, a wygaszanie
 przy brzegu komórki dotyczy tylko efektów, nie postaci. Klatki początkowe filmu Legendy (zbliżenie na tors) pominięto.
+
+**Tryb KI — ruch (etap 5B, 12.11.2026, paczki `3.1.1`).** `MOVE_KI=1 scripts/anim/moveform_build.py` wycina z filmów
+`<rasa>-etap5b-ruch-ki.mp4` (ten sam układ czasu u czterech ras: bieg 0,6–3,2 s, kanał 4,4–5,8, umiejętność C 6,9–8,1,
+interakcja 8,8–9,8) klipy formy KI do atlasu `<paczka>-kimove-1`: `kirun` (8 klatek, 16 kl./s, pętla jednego pełnego
+cyklu kroku: Mędrzec, Android i Planetar 21 klatek filmu, Legenda 17 z równego biegu 1,3–3,2 s; `MOVE_RUN_LAGS` i
+`MOVE_RUN_WINDOW` zawężają wyszukiwanie, gdy automat trafi na pół cyklu albo na rozpędzanie), `kichannel` (8, 10, pętla),
+`kiskillc` (8, 12), `kiinteract` (6, 10). Zapisywane są tylko klatki w prawo; lewe kierunki są w polu `mirrored`.
+W Trybie KI: szybki ruch → `kirun` (wolniejszy → `kiwalk`), kanał → `kichannel`, umiejętność C → `kiskillc` (wcześniej
+`kiskill`), podniesienie łupu → `kiinteract`.
 
 Etap 3 (ruch, forma bazowa) wycina `scripts/anim/moveform_build.py` z filmów `<rasa>-etap3-ruch.mp4`
 (Android `-v2` pionowy, Planetar w sekundach 20–30) do atlasu `<paczka>-fight-4`:
@@ -89,7 +100,7 @@ aby sylwetki z materiałów wideo zachowały rozmiar porównywalny z wcześniejs
 malowanymi aktorami 160×160. Kontrakt importu ma nadal 96×96 i kotwicę stóp
 `(0.5, 0.95)`, fizyka pozostaje niezależna od tekstury. Nie stosować starszego
 rozmiaru 160 globalnie do bieżących bohaterów ani do wszystkich NPC/potworów.
-Mieszkańcy bez własnego filmu (myśliwy, alchemik) nadal korzystają ze wspólnego `human-v2`; to grafika zastępcza. Przewodnik, handlarz, kowal, depozytariusz, karczmarz, zarządca i strażnik mają własne postaci (klatki 256 px, rysowane 150) z filmów obrotu w czterech wersjach kolorystycznych (12.11.2026, `scripts/anim/npc_role_build.py`), a Trener własną większą.
+Przewodnik, handlarz, kowal, depozytariusz, karczmarz, zarządca, strażnik, myśliwy i alchemik (dwa ostatnie od 12.11.2026, filmy `npc-hunter-mysliwy-obrot.mp4` i `npc-alchemist-alchemik-obrot.mp4`) mają własne postaci (klatki 256 px, rysowane 150) z filmów obrotu w czterech wersjach kolorystycznych (12.11.2026, `scripts/anim/npc_role_build.py`), a Trener własną większą. Wspólny `human-v2` (prawdziwy cykl chodu) zostaje tylko dla NPC eskortowanych w Dziedzictwie i próbach (`ESCORT_NPC_ROLE`): postaci z filmów obrotu mają same pozy stojące i sunęłyby bez ruchu nóg; jego tekstura jest ładowana z każdym światem.
 
 Historyczne dostawy z 22–23.10 (`hero-planetary-painted-1.0.0`,
 `hero-sage-painted-1.0.0`, `hero-android-1.0.0`, `hero-legend-1.0.0`)
