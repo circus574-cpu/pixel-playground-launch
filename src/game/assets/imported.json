@@ -90262,117 +90262,117 @@
   {
     "schemaVersion": 1,
     "id": "hero-sage-painted-walk-v3",
-    "version": "3.1.1",
+    "version": "3.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "hero-sage-painted-walk-v3-page-0",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-page-0.json",
-        "width": 1945,
-        "height": 924
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-page-0.json",
+        "width": 1593,
+        "height": 744
       },
       {
         "id": "hero-sage-painted-walk-v3-idle-0",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-idle-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-idle-0.json",
-        "width": 1714,
-        "height": 1164
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-idle-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-idle-0.json",
+        "width": 1097,
+        "height": 752
       },
       {
         "id": "hero-sage-painted-walk-v3-fight-0",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-fight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-fight-0.json",
-        "width": 1004,
-        "height": 1148
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-fight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-fight-0.json",
+        "width": 808,
+        "height": 928
       },
       {
         "id": "hero-sage-painted-walk-v3-fight-1",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-fight-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-fight-1.json",
-        "width": 1568,
-        "height": 244
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-fight-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-fight-1.json",
+        "width": 644,
+        "height": 384
       },
       {
         "id": "hero-sage-painted-walk-v3-kiwalk-0",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-kiwalk-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-kiwalk-0.json",
-        "width": 1562,
-        "height": 1160
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-kiwalk-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-kiwalk-0.json",
+        "width": 1622,
+        "height": 744
       },
       {
         "id": "hero-sage-painted-walk-v3-kifight-0",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-kifight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-kifight-0.json",
-        "width": 623,
-        "height": 1468
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-kifight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-kifight-0.json",
+        "width": 648,
+        "height": 788
       },
       {
         "id": "hero-sage-painted-walk-v3-fight-2",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-fight-2.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-fight-2.json",
-        "width": 1204,
-        "height": 1408
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-fight-2.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-fight-2.json",
+        "width": 1852,
+        "height": 568
       },
       {
         "id": "hero-sage-painted-walk-v3-fight-3",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-fight-3.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-fight-3.json",
-        "width": 901,
-        "height": 692
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-fight-3.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-fight-3.json",
+        "width": 734,
+        "height": 548
       },
       {
         "id": "hero-sage-painted-walk-v3-fight-4",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-fight-4.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-fight-4.json",
-        "width": 1332,
-        "height": 1180
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-fight-4.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-fight-4.json",
+        "width": 804,
+        "height": 1112
       },
       {
         "id": "hero-sage-painted-walk-v3-kifight-1",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-kifight-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-kifight-1.json",
-        "width": 788,
-        "height": 1796
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-kifight-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-kifight-1.json",
+        "width": 1580,
+        "height": 556
       },
       {
         "id": "hero-sage-painted-walk-v3-kifight-2",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-kifight-2.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-kifight-2.json",
-        "width": 1079,
-        "height": 916
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-kifight-2.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-kifight-2.json",
+        "width": 733,
+        "height": 884
       },
       {
         "id": "hero-sage-painted-walk-v3-kimove-1",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-kimove-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.1.1-96e78630b11b/hero-sage-painted-walk-v3-kimove-1.json",
-        "width": 1892,
-        "height": 704
+        "url": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-kimove-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-sage-painted-walk-v3/3.2.0-ccb4c0c66715/hero-sage-painted-walk-v3-kimove-1.json",
+        "width": 1964,
+        "height": 376
       }
     ],
     "actors": [
@@ -93492,117 +93492,117 @@
   {
     "schemaVersion": 1,
     "id": "hero-android-walk-v3",
-    "version": "3.1.1",
+    "version": "3.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "hero-android-walk-v3-page-0",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-page-0.json",
-        "width": 1436,
-        "height": 1148
+        "url": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-page-0.json",
+        "width": 1175,
+        "height": 920
       },
       {
         "id": "hero-android-walk-v3-idle-0",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-idle-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-idle-0.json",
-        "width": 1654,
-        "height": 1164
+        "url": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-idle-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-idle-0.json",
+        "width": 1394,
+        "height": 560
       },
       {
         "id": "hero-android-walk-v3-fight-0",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-0.json",
-        "width": 1685,
-        "height": 672
+        "url": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-fight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-fight-0.json",
+        "width": 1056,
+        "height": 696
       },
       {
         "id": "hero-android-walk-v3-fight-1",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-1.json",
-        "width": 168,
-        "height": 1520
+        "url": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-fight-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-fight-1.json",
+        "width": 136,
+        "height": 1232
       },
       {
         "id": "hero-android-walk-v3-kiwalk-0",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kiwalk-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kiwalk-0.json",
-        "width": 1551,
-        "height": 1376
+        "url": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-kiwalk-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-kiwalk-0.json",
+        "width": 1867,
+        "height": 736
       },
       {
         "id": "hero-android-walk-v3-kifight-0",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kifight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kifight-0.json",
-        "width": 1380,
-        "height": 712
+        "url": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-kifight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-kifight-0.json",
+        "width": 1036,
+        "height": 564
       },
       {
         "id": "hero-android-walk-v3-fight-2",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-2.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-2.json",
-        "width": 1584,
-        "height": 956
+        "url": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-fight-2.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-fight-2.json",
+        "width": 988,
+        "height": 944
       },
       {
         "id": "hero-android-walk-v3-fight-3",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-3.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-3.json",
-        "width": 541,
-        "height": 1184
+        "url": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-fight-3.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-fight-3.json",
+        "width": 718,
+        "height": 576
       },
       {
         "id": "hero-android-walk-v3-fight-4",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-4.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-fight-4.json",
-        "width": 1156,
-        "height": 896
+        "url": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-fight-4.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-fight-4.json",
+        "width": 662,
+        "height": 884
       },
       {
         "id": "hero-android-walk-v3-kifight-1",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kifight-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kifight-1.json",
-        "width": 1716,
-        "height": 940
+        "url": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-kifight-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-kifight-1.json",
+        "width": 1732,
+        "height": 560
       },
       {
         "id": "hero-android-walk-v3-kifight-2",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kifight-2.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kifight-2.json",
-        "width": 1622,
-        "height": 988
+        "url": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-kifight-2.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-kifight-2.json",
+        "width": 1540,
+        "height": 668
       },
       {
         "id": "hero-android-walk-v3-kimove-1",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kimove-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.1.1-1db820ef0ca6/hero-android-walk-v3-kimove-1.json",
-        "width": 1572,
-        "height": 900
+        "url": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-kimove-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-android-walk-v3/3.2.0-09575e638153/hero-android-walk-v3-kimove-1.json",
+        "width": 1452,
+        "height": 544
       }
     ],
     "actors": [
@@ -96722,117 +96722,117 @@
   {
     "schemaVersion": 1,
     "id": "hero-legend-walk-v3",
-    "version": "3.1.1",
+    "version": "3.2.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "hero-legend-walk-v3-page-0",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-page-0.json",
-        "width": 875,
-        "height": 1844
+        "url": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-page-0.json",
+        "width": 1969,
+        "height": 376
       },
       {
         "id": "hero-legend-walk-v3-idle-0",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-idle-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-idle-0.json",
-        "width": 1082,
-        "height": 1640
+        "url": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-idle-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-idle-0.json",
+        "width": 1436,
+        "height": 384
       },
       {
         "id": "hero-legend-walk-v3-fight-0",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-fight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-fight-0.json",
-        "width": 1007,
-        "height": 820
+        "url": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-fight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-fight-0.json",
+        "width": 819,
+        "height": 660
       },
       {
         "id": "hero-legend-walk-v3-fight-1",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-fight-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-fight-1.json",
-        "width": 397,
-        "height": 616
+        "url": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-fight-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-fight-1.json",
+        "width": 326,
+        "height": 496
       },
       {
         "id": "hero-legend-walk-v3-kiwalk-0",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-kiwalk-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-kiwalk-0.json",
-        "width": 1432,
-        "height": 720
+        "url": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-kiwalk-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-kiwalk-0.json",
+        "width": 1725,
+        "height": 384
       },
       {
         "id": "hero-legend-walk-v3-kifight-0",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-kifight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-kifight-0.json",
-        "width": 1987,
-        "height": 504
+        "url": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-kifight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-kifight-0.json",
+        "width": 1467,
+        "height": 396
       },
       {
         "id": "hero-legend-walk-v3-fight-2",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-fight-2.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-fight-2.json",
-        "width": 948,
-        "height": 1292
+        "url": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-fight-2.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-fight-2.json",
+        "width": 756,
+        "height": 1024
       },
       {
         "id": "hero-legend-walk-v3-fight-3",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-fight-3.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-fight-3.json",
-        "width": 2035,
-        "height": 232
+        "url": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-fight-3.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-fight-3.json",
+        "width": 1656,
+        "height": 184
       },
       {
         "id": "hero-legend-walk-v3-fight-4",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-fight-4.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-fight-4.json",
-        "width": 1443,
-        "height": 876
+        "url": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-fight-4.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-fight-4.json",
+        "width": 1331,
+        "height": 524
       },
       {
         "id": "hero-legend-walk-v3-kifight-1",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-kifight-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-kifight-1.json",
-        "width": 1540,
-        "height": 1176
+        "url": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-kifight-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-kifight-1.json",
+        "width": 1204,
+        "height": 940
       },
       {
         "id": "hero-legend-walk-v3-kifight-2",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-kifight-2.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-kifight-2.json",
-        "width": 1398,
-        "height": 772
+        "url": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-kifight-2.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-kifight-2.json",
+        "width": 588,
+        "height": 1200
       },
       {
         "id": "hero-legend-walk-v3-kimove-1",
-        "version": "3.1.1",
+        "version": "3.2.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-kimove-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.1.1-b64b3a421e77/hero-legend-walk-v3-kimove-1.json",
-        "width": 1924,
-        "height": 688
+        "url": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-kimove-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.2.0-3c134827a5b5/hero-legend-walk-v3-kimove-1.json",
+        "width": 612,
+        "height": 1224
       }
     ],
     "actors": [
@@ -99952,126 +99952,126 @@
   {
     "schemaVersion": 1,
     "id": "hero-planetary-painted-walk-v3",
-    "version": "3.2.0",
+    "version": "3.3.0",
     "technical": false,
     "previewOnly": false,
     "assets": [
       {
         "id": "hero-planetary-painted-walk-v3-page-0",
-        "version": "3.2.0",
+        "version": "3.3.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-page-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-page-0.json",
-        "width": 1632,
-        "height": 920
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-page-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-page-0.json",
+        "width": 1774,
+        "height": 556
       },
       {
         "id": "hero-planetary-painted-walk-v3-idle-0",
-        "version": "3.2.0",
+        "version": "3.3.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-idle-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-idle-0.json",
-        "width": 1960,
-        "height": 928
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-idle-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-idle-0.json",
+        "width": 1975,
+        "height": 376
       },
       {
         "id": "hero-planetary-painted-walk-v3-fight-0",
-        "version": "3.2.0",
+        "version": "3.3.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-fight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-fight-0.json",
-        "width": 945,
-        "height": 1096
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-fight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-fight-0.json",
+        "width": 1812,
+        "height": 368
       },
       {
         "id": "hero-planetary-painted-walk-v3-fight-1",
-        "version": "3.2.0",
+        "version": "3.3.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-fight-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-fight-1.json",
-        "width": 346,
-        "height": 836
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-fight-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-fight-1.json",
+        "width": 287,
+        "height": 676
       },
       {
         "id": "hero-planetary-painted-walk-v3-kiwalk-0",
-        "version": "3.2.0",
+        "version": "3.3.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-kiwalk-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-kiwalk-0.json",
-        "width": 1883,
-        "height": 464
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-kiwalk-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-kiwalk-0.json",
+        "width": 1534,
+        "height": 372
       },
       {
         "id": "hero-planetary-painted-walk-v3-kifight-0",
-        "version": "3.2.0",
+        "version": "3.3.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-kifight-0.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-kifight-0.json",
-        "width": 1367,
-        "height": 740
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-kifight-0.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-kifight-0.json",
+        "width": 1440,
+        "height": 400
       },
       {
         "id": "hero-planetary-painted-walk-v3-fight-2",
-        "version": "3.2.0",
+        "version": "3.3.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-fight-2.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-fight-2.json",
-        "width": 1924,
-        "height": 924
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-fight-2.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-fight-2.json",
+        "width": 1972,
+        "height": 556
       },
       {
         "id": "hero-planetary-painted-walk-v3-fight-3",
-        "version": "3.2.0",
+        "version": "3.3.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-fight-3.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-fight-3.json",
-        "width": 1364,
-        "height": 756
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-fight-3.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-fight-3.json",
+        "width": 1020,
+        "height": 596
       },
       {
         "id": "hero-planetary-painted-walk-v3-fight-4",
-        "version": "3.2.0",
+        "version": "3.3.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-fight-4.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-fight-4.json",
-        "width": 1316,
-        "height": 1152
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-fight-4.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-fight-4.json",
+        "width": 1540,
+        "height": 560
       },
       {
         "id": "hero-planetary-painted-walk-v3-kifight-2",
-        "version": "3.2.0",
+        "version": "3.3.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-kifight-2.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-kifight-2.json",
-        "width": 1125,
-        "height": 976
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-kifight-2.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-kifight-2.json",
+        "width": 884,
+        "height": 792
       },
       {
         "id": "hero-planetary-painted-walk-v3-kimove-1",
-        "version": "3.2.0",
+        "version": "3.3.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-kimove-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-kimove-1.json",
-        "width": 1188,
-        "height": 1136
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-kimove-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-kimove-1.json",
+        "width": 1052,
+        "height": 712
       },
       {
         "id": "hero-planetary-painted-walk-v3-kifight-1",
-        "version": "3.2.0",
+        "version": "3.3.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-kifight-1.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-kifight-1.json",
-        "width": 1652,
-        "height": 472
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-kifight-1.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-kifight-1.json",
+        "width": 1308,
+        "height": 372
       },
       {
         "id": "hero-planetary-painted-walk-v3-kifight-3",
-        "version": "3.2.0",
+        "version": "3.3.0",
         "kind": "atlas",
-        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-kifight-3.webp",
-        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.2.0-b0ce6161ebc6/hero-planetary-painted-walk-v3-kifight-3.json",
-        "width": 1620,
-        "height": 452
+        "url": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-kifight-3.webp",
+        "atlasUrl": "/game/assets/gpu/hero-planetary-painted-walk-v3/3.3.0-fd45882dba95/hero-planetary-painted-walk-v3-kifight-3.json",
+        "width": 1284,
+        "height": 360
       }
     ],
     "actors": [

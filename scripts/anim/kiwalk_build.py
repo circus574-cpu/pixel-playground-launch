@@ -11,6 +11,8 @@ profile. Each direction is one gait cycle (period detected from the profile), 8 
 scaled to the height of the race's existing walk, feet on the same baseline, trimmed and shelf-packed into one atlas
 (trimmed Phaser frames keep it far below the 128 MiB world texture budget; Verdantia has only ~8 MiB left).
 Needs: ffmpeg, rembg (isnet-anime model), opencv-python, numpy, pillow.
+Hero packs are stored at a 200 px cell (scripts/assets/downscale_hero_pack.py): this builder measures the installed
+walk in 256 px units and writes 256 px cells, so run downscale_hero_pack.py on its pkg/<race> before importing it.
 """
 import os
 from pathlib import Path
@@ -72,7 +74,8 @@ for name,fr in atl['frames'].items():
     if name.split('/')[1]!='walk': continue
     f=fr['frame']; oy=fr.get('spriteSourceSize',{'y':0})['y']; a=img[f['y']:f['y']+f['h'],f['x']:f['x']+f['w'],3]>128  # frames are trimmed: add their offset
     ys,xs=np.where(a)
-    if len(ys): hs.append(ys.max()-ys.min()+1); bs.append(ys.max()+oy)
+    k=256.0/fr.get('sourceSize',{'w':256})['w']  # the installed pack may be stored at a 200 px cell
+    if len(ys): hs.append((ys.max()-ys.min()+1)*k); bs.append((ys.max()+oy+1)*k-1)
 baseH=float(np.median(hs)); baseBottom=float(np.median(bs))
 print('base height',baseH,'bottom',baseBottom)
 # full-res frames + matting

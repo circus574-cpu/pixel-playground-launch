@@ -266,12 +266,16 @@ export async function validatePackage(manifest: string) {
               actor.profile === "hero" ||
               actor.profile === "npc" ||
               actor.size[0] === GPU_CONTRACT.npcLarge.size[0]
-                ? [GPU_CONTRACT.deliveryFrame, GPU_CONTRACT.heroFrame]
+                ? [
+                    GPU_CONTRACT.deliveryFrame,
+                    GPU_CONTRACT.heroFrameCompact,
+                    GPU_CONTRACT.heroFrame,
+                  ]
                 : [GPU_CONTRACT.deliveryFrame];
             side ??= frame.width;
             requireThat(
               sizes.includes(frame.width) && frame.height === frame.width && frame.width === side,
-              "Actor sourceSize must be 128x128 (heroes: one of 128/256): " + actor.id,
+              "Actor sourceSize must be 128x128 (heroes and NPCs: one of 128/200/256): " + actor.id,
             );
           }
         }

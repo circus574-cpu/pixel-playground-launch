@@ -9,6 +9,8 @@ export const GPU_CONTRACT = {
   deliveryFrame: 128,
   /** Hero sheets cut from video may use double-resolution frames; one actor uses one side. */
   heroFrame: 256,
+  /** Hero packs stored at a 200 px cell (scripts/assets/downscale_hero_pack.py): drawn at most 133 px at zoom 1. */
+  heroFrameCompact: 200,
   maxAtlasSide: 2048,
   maxWorldTextureBytes: 128 * 1024 * 1024,
   hero: { size: [96, 96], origin: [0.5, 0.95], footRadius: 12 },
