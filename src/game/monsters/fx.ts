@@ -76,6 +76,20 @@ export class PlayerFx {
     this.fearFrom = undefined;
   }
   /**
+   * Removes every harmful effect a potion can cure: damage over time, slow, root, silence, blind, fog, jam, mark, armor
+   * break and weaken. Stun and fear stay (the player cannot drink while under them, and they are not "weakening" effects).
+   */
+  cleanse() {
+    this.slow = { pct: 0, ms: 0 };
+    this.rootMs = this.silenceMs = this.jamMs = 0;
+    this.blind = { pct: 0, ms: 0 };
+    this.fog = { pct: 0, ms: 0 };
+    this.mark = { pct: 0, ms: 0, machine: false };
+    this.armor = { pct: 0, ms: 0, stacks: 0 };
+    this.weaken = { pct: 0, ms: 0 };
+    this.dots = [];
+  }
+  /**
    * Applies one effect. `cc` scales control durations (Korzenie Odporności, Czysty Umysł); 0 means immune.
    * `stunImmune` ignores stuns only. `atk` is the attacker's ATK for damage over time.
    */
