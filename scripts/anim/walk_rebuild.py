@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Rebuild the front/back-derived walk directions of a hero from the owner's walk-turnaround video with a full gait cycle.
 
-    python3 scripts/anim/walk_rebuild.py <legend|planetary|android> <video.mp4> <work-dir>
+    python3 scripts/anim/walk_rebuild.py <legend|planetary|android|sage> <video.mp4> <work-dir>
     (CELL=200 for packs stored at the 200 px hero cell, see scripts/assets/downscale_hero_pack.py)
     npm run assets:import -- <work-dir>/pkg/<race>/pack.json --install --replace      (WALK_VERSION bumps the pack)
 
@@ -26,8 +26,8 @@ import numpy as np, cv2
 from PIL import Image
 from rembg import remove, new_session
 
-ACTOR = {'legend': 'hero-legend', 'planetary': 'hero-planetary-painted', 'android': 'hero-android'}[R]
-PID = {'legend': 'hero-legend-walk-v3', 'planetary': 'hero-planetary-painted-walk-v3', 'android': 'hero-android-walk-v3'}[R]
+ACTOR = {'legend': 'hero-legend', 'planetary': 'hero-planetary-painted', 'android': 'hero-android', 'sage': 'hero-sage-painted'}[R]
+PID = {'legend': 'hero-legend-walk-v3', 'planetary': 'hero-planetary-painted-walk-v3', 'android': 'hero-android-walk-v3', 'sage': 'hero-sage-painted-walk-v3'}[R]
 G = str(ROOT / 'public/game/assets/gpu') + '/'
 # the figure is placed on a 256 px cell (feet on y=248, 240 px tall); a pack stored at a smaller cell (CELL=200) gets the
 # new frames scaled down as a whole (premultiplied Lanczos) and keeps its other frames untouched
@@ -42,6 +42,8 @@ VIEWS = {
     # Android (13.11.2026): front 0-61, back 68-120, front 3/4 (turned to the viewer's left) 133-176; the 3/4 back part
     # (189-239) turns to a plain back view after a few frames, so the back diagonals use the plain back
     'android': {'front': (0, 61), 'back': (68, 120), 'front34': (133, 176)},
+    # Sage (14.11.2026): front 0-78, turn, back 92-158, then a turn to the side (side kept from the installed pack)
+    'sage': {'front': (0, 78), 'back': (92, 158)},
 }[R]
 MAP = {
     'legend': {'down': ('front', 0), 'down-left': ('front', 0), 'down-right': ('front', 1),
@@ -50,6 +52,8 @@ MAP = {
                   'up-left': ('back34', 1), 'up-right': ('back34', 0)},
     'android': {'down': ('front', 0), 'up': ('back', 0), 'down-left': ('front34', 0), 'down-right': ('front34', 1),
                 'up-left': ('back', 0), 'up-right': ('back', 1)},
+    'sage': {'down': ('front', 0), 'down-left': ('front', 0), 'down-right': ('front', 1),
+             'up': ('back', 0), 'up-left': ('back', 0), 'up-right': ('back', 1)},
 }[R]
 
 os.makedirs('raw', exist_ok=True)

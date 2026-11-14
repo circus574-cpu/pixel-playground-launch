@@ -39,8 +39,9 @@ describe("HD hero and streamed creature texture budget", () => {
     // 102.79 MiB with mirrored side views drawn by flipX (109.62 before; 132.47 originally).
     // 98.36 MiB with the legacy fallback hero sheet stored at 640 px instead of 1254 px (12.11.2026).
     // 93.93 MiB with the salamander's frames trimmed to the figure and repacked (13.11.2026).
-    // 85.08 MiB with the Sage hero pack stored at a 200 px cell instead of 256 px (13.11.2026).
-    expect(bytes / 1024 / 1024).toBeCloseTo(85.08064270019531);
+    // 85.08 MiB with the Sage hero pack stored at a 200 px cell instead of 256 px (13.11.2026); 86.74 MiB after the walk front/back
+    // rebuilt from the owner's walk film (pack 3.3.0, 14.11.2026): 8 distinct frames per direction instead of fewer.
+    expect(bytes / 1024 / 1024).toBeCloseTo(86.74348449707031);
   });
   it("retains a finite ceiling and reserves terrain, deduplicating reused atlases", () => {
     const assets = new Map([["atlas", { width: 2048, height: 2048 }]]);

@@ -23,3 +23,18 @@ Sprawdzone i nie poprawiane:
   fabularnych, więc czeka na właściciela. `SettlementLife` jest podłączony tylko w testach (decyzja o integracji).
 - Bramki z audytu wymagające decyzji właściciela (łup potworów poz. 12–18, pauza dialogu w trybie online, ograniczenie
   craftingu do stacji, łup bossów w zapisie) nie ruszane.
+
+### 3. Mędrcy: chód z przodu i z tyłu z filmu właściciela
+
+- Film `art-wip/gemini-anim-stages/sage-chod-przod-tyl.mp4` (10 s, 24 kl./s: przód, obrót, tył, obrót w bok) zastępuje
+  dotychczasowy chód Mędrczyni z przodu i z tyłu (kierunki dół, góra i skosy; boki bez zmian). Paczka bohatera `3.3.0`,
+  komórka 200 px; idle (oddychanie) przeliczony z nowych klatek.
+- `scripts/anim/walk_rebuild.py` obsługuje `sage` (widoki przód 0–78 i tył 92–158, mapowanie jak u Legendy). Okres kroku
+  zmierzony z różnicy dolnej części ciała (długa szata zasłania stopy, więc pomiar ze stóp był zbyt słaby): przód 32 klatki
+  (minimum różnicy 11,6 przy typowej wartości ok. 40), tył 38 (25 przy ok. 45); `WALK_LOOPS="front=18:32,back=100:38"`.
+- Budżet tekstur: zbiór rezydentny sceny Mędrca 85,08 → 86,74 MiB (limit 128); test `stream-texture-budget` zaktualizowany.
+- Własna weryfikacja: plansza 8 kierunków × 8 klatek (rozmiar stały, przód i tył z ruchem szaty); w grze (Playwright)
+  chód we wszystkich 8 kierunkach gra własne klatki `walk/<kierunek>` (boczne w lewo: `right` z flipX), 0 błędów
+  w konsoli; testy `hero-clips-visible`, `gpu-pipeline`, `actor-animation`, `stream-texture-budget` przechodzą.
+  Nie sprawdzono: online z przemianą KI, ostrość przy DPR 2×.
+- Nadal brakuje: chód NPC (NPC w mieście i tak się nie poruszają) i osobny klip umiejętności A.
