@@ -30,7 +30,8 @@ import { BrandMark } from "./BrandMark";
 import { WORLDS } from "../../game/world/worlds";
 import { RACES } from "../../game/world/races";
 import { minimapPercent, OPEN_WORLDS } from "../../game/world/zoneMap";
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { KIT_NODES } from "../../game/kit";
 import type { CSSProperties, ReactNode } from "react";
 import { clampZoom, DEFAULT_ZOOM } from "../../game/view";
 import type { GameViewState } from "../../game/mountGame";
@@ -137,6 +138,12 @@ const STATUS_NAMES: Record<string, string> = {
   poison: "Trucizna",
   burn: "Podpalenie",
   bleed: "Krwawienie",
+};
+const BUFF_NAMES: Record<string, string> = {
+  "ki-focus": "Skupienie KI",
+  T: "Tryb KI",
+  combo: "Finał serii",
+  "trial-burden": "Obciążenie",
 };
 /** Ranged races keep an energy symbol for their actual basic attack. */
 const abilitySymbol = (id: string, race: string): MangaSymbol =>
@@ -291,6 +298,12 @@ export function GameHud({
     if (messageLog.current) messageLog.current.scrollTop = messageLog.current.scrollHeight;
   }, [state.noticeId, tab, chatOpen, messages]);
   // Non-intrusive multiplayer background sync (Dual-Mode)
+  const initialPos = useMemo(
+    () => ({ x: state.x, y: state.y }),
+    // Captured on identity/world change so movement updates go via sendPosition only.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [state.player.name, state.player.race, state.player.continent, planetLocation],
+  );
   useEffect(() => {
     if (authoritative || typeof window === "undefined") return;
     const cid = state.player.name ? `char-${state.player.name}` : `char-${state.player.race}`;
@@ -301,8 +314,8 @@ export function GameHud({
       race: state.player.race,
       level: state.player.level,
       worldId: (planetLocation || state.player.continent || "verdant") as FeatureId,
-      x: state.x,
-      y: state.y,
+      x: initialPos.x,
+      y: initialPos.y,
     });
   }, [
     authoritative,
@@ -311,8 +324,7 @@ export function GameHud({
     state.player.name,
     state.player.continent,
     planetLocation,
-    state.x,
-    state.y,
+    initialPos,
   ]);
 
   useEffect(() => {
@@ -535,7 +547,9 @@ export function GameHud({
         } as CSSProperties
       }
     >
-      {WORLD_V2 && panel === null && <CombatPanel state={state} send={onCommand} />}
+      {WORLD_V2 && panel === null && !state.dialogue && !state.depotOpen && (
+        <CombatPanel state={state} send={onCommand} />
+      )}
       <MultiplayerWorldOverlay localX={state.x} localY={state.y} worldId={state.player.continent} />
       {arranging && (
         <ControlEditor
@@ -644,19 +658,25 @@ export function GameHud({
               )}
               {state.buffs
                 .filter((b) => !b.id.startsWith("fx-") && b.id !== "dodge")
-                .map((b) => (
-                  <span key={b.id} className="ki-status-chip is-buff">
-                    {gpuIcon("buff-" + b.id) && (
-                      <img
-                        className="ki-gpu-status"
-                        src={gpuIcon("buff-" + b.id)}
-                        alt=""
-                        aria-hidden
-                      />
-                    )}
-                    {b.id} · {(b.ms / 1000).toFixed(0)} s
-                  </span>
-                ))}
+                .map((b) => {
+                  const label =
+                    BUFF_NAMES[b.id] ??
+                    KIT_NODES[player.race]?.find((n) => n.id === b.id)?.name ??
+                    b.id;
+                  return (
+                    <span key={b.id} className="ki-status-chip is-buff">
+                      {gpuIcon("buff-" + b.id) && (
+                        <img
+                          className="ki-gpu-status"
+                          src={gpuIcon("buff-" + b.id)}
+                          alt=""
+                          aria-hidden
+                        />
+                      )}
+                      {label} · {Math.max(1, Math.ceil(b.ms / 1000))} s
+                    </span>
+                  );
+                })}
               {state.statuses.map((s) => (
                 <span key={s.id + (s.stacks ?? "")} className="ki-status-chip">
                   {gpuIcon("status-" + s.id) && (
@@ -930,7 +950,9 @@ export function GameHud({
           className="ki-skill"
           data-ability="potion"
           key="potion"
-          title={"Mikstura życia · " + POTION_COOLDOWN / 1000 + " s odnowienia"}
+          title={
+            "Mikstura życia · Przywraca 40% maks. HP · " + POTION_COOLDOWN / 1000 + " s odnowienia"
+          }
           aria-label="Mikstura życia"
           disabled={
             !state.ready ||
@@ -1122,7 +1144,7 @@ export function GameHud({
                     ? { land: planetLocation ?? player.continent, x: state.x, y: state.y }
                     : undefined,
                 );
-                toggle(WORLD_V2 ? "planet" : "map");
+                toggle("map");
               }}
             >
               Plan miasta

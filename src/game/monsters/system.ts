@@ -514,6 +514,9 @@ export class MonsterSystem {
     m.charge = undefined;
     m.volley = undefined;
     m.basicWindup = undefined;
+    m.regen = 0;
+    m.regenMs = 0;
+    e.fx.dots = [];
     this.paths.delete(e.id);
     this.burnWebs(e);
     this.host.emit({ type: "death", x: e.x, y: e.y, target: e.id, species: e.kind });
@@ -764,7 +767,8 @@ export class MonsterSystem {
     if (m.buffMs > 0 && (m.buffMs -= dt) <= 0) m.buff = 0;
     if (m.regenMs > 0) {
       m.regenMs -= dt;
-      e.hp = Math.min(e.maxHp, e.hp + (e.maxHp * m.regen * dt) / 1000);
+      if (e.mode !== "dead" && e.hp > 0)
+        e.hp = Math.min(e.maxHp, e.hp + (e.maxHp * m.regen * dt) / 1000);
     }
     if (m.curlMs > 0) m.curlMs -= dt;
     if (m.exposedMs > 0) m.exposedMs -= dt;
@@ -1208,7 +1212,7 @@ export class MonsterSystem {
   }
   private allies(e: Enemy, range: number) {
     return this.host.enemies.filter(
-      (x) => x !== e && x.mode !== "dead" && !x.m.hidden && distance(x, e) <= range,
+      (x) => x !== e && x.mode !== "dead" && x.hp > 0 && !x.m.hidden && distance(x, e) <= range,
     );
   }
   private stepEngaged(e: Enemy, dt: number, d: number) {

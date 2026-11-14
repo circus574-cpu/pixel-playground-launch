@@ -90,6 +90,7 @@ export function bakeRoads(
     const p = ctx.createPattern(tile, "repeat")!;
     const [tw, th] = ref.tileSize ?? [frame.cutWidth, frame.cutHeight];
     p.setTransform?.(new DOMMatrix().scale(tw! / frame.cutWidth, th! / frame.cutHeight));
+    tile.width = tile.height = 0;
     return p;
   };
   const shapes = [
@@ -215,19 +216,23 @@ export function bakeRoads(
     frame++;
     const view = scene.cameras.main.worldView;
     const wanted: { x: number; y: number; d: number }[] = [];
-    for (let y = 0; y < size.height; y += ROAD_CHUNK_SIDE)
-      for (let x = 0; x < size.width; x += ROAD_CHUNK_SIDE) {
-        const inView =
-          x < view.right + 128 &&
-          x + ROAD_CHUNK_SIDE > view.left - 128 &&
-          y < view.bottom + 128 &&
-          y + ROAD_CHUNK_SIDE > view.top - 128;
+    for (const chunk of chunks.values()) {
+      const inView =
+        chunk.x < view.right + 128 &&
+        chunk.x + ROAD_CHUNK_SIDE > view.left - 128 &&
+        chunk.y < view.bottom + 128 &&
+        chunk.y + ROAD_CHUNK_SIDE > view.top - 128;
+      chunk.image.setVisible(inView);
+      if (inView) chunk.seen = frame;
+    }
+    const x0 = Math.max(0, Math.floor((view.left - 128) / ROAD_CHUNK_SIDE) * ROAD_CHUNK_SIDE),
+      x1 = Math.min(size.width, view.right + 128);
+    const y0 = Math.max(0, Math.floor((view.top - 128) / ROAD_CHUNK_SIDE) * ROAD_CHUNK_SIDE),
+      y1 = Math.min(size.height, view.bottom + 128);
+    for (let y = y0; y < y1; y += ROAD_CHUNK_SIDE)
+      for (let x = x0; x < x1; x += ROAD_CHUNK_SIDE) {
         const key = `road-cache:${worldId}:${x}:${y}`;
-        const chunk = chunks.get(key);
-        if (chunk) {
-          chunk.image.setVisible(inView);
-          if (inView) chunk.seen = frame;
-        } else if (inView) {
+        if (!chunks.has(key)) {
           const w = Math.min(ROAD_CHUNK_SIDE, size.width - x),
             h = Math.min(ROAD_CHUNK_SIDE, size.height - y);
           if (

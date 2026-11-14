@@ -154,7 +154,7 @@ export function createQuestTracker(
         const stage = q.stages[rec.currentStageIndex];
         if (!stage) continue;
         for (const obj of stage.objectives) {
-          if (obj.type !== "deliver") continue;
+          if (obj.type !== "deliver" || obj.targetId.startsWith("npc-")) continue;
           const needed = obj.targetCount - (rec.objectiveProgress[obj.id] ?? 0);
           if (needed > 0) out.push({ itemId: obj.targetId, needed });
         }

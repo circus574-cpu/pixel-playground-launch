@@ -37,10 +37,12 @@ export function catalogSellPrice(id: string): number {
 }
 
 export function ShopV2Panel({
+  authoritative = false,
   state,
   send,
   onClose,
 }: {
+  authoritative?: boolean;
   state: GameViewState;
   send: SendCommand;
   onClose: () => void;
@@ -78,6 +80,7 @@ export function ShopV2Panel({
         role="dialog"
         aria-modal="true"
         aria-label="Sklep kupca"
+        data-race={p.race}
         className="ki-modal ki-frame ki-shop-panel"
       >
         <header>
@@ -180,7 +183,9 @@ export function ShopV2Panel({
             )}
           </div>
           <p className="ki-panel-caption">
-            Rozmowa zatrzymuje lokalną symulację. Zamknij okno, aby wrócić do gry.
+            {authoritative
+              ? "Rozmowa nie zatrzymuje czasu na serwerze. Zamknij okno, aby wrócić do gry."
+              : "Rozmowa zatrzymuje lokalną symulację. Zamknij okno, aby wrócić do gry."}
           </p>
           <button onClick={onClose}>Wróć do rozmowy</button>
         </div>

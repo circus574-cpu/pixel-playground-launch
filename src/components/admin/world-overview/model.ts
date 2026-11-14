@@ -296,7 +296,7 @@ export function buildLandEntries(
     const templates = capital?.city
       ? capital.npcs
       : (overviewCatalog.npcTemplates[info.affinity] ?? []);
-    for (const base of templates) {
+    for (const [idx, base] of templates.entries()) {
       const named = city?.npcs.find((n) => n.bindingId === info.affinity + ".npc." + base.id);
       const nov = capital?.city ? undefined : overrides.continents[info.affinity]?.npcs?.[base.id];
       const npc = {
@@ -305,9 +305,14 @@ export function buildLandEntries(
         name: capital?.city ? base.name : (named?.name ?? name + " · " + (nov?.role ?? base.role)),
         ...(named ? { dialogueId: named.id } : {}),
       };
+      const col = (idx % 4) - 1.5;
+      const row = Math.floor(idx / 4);
       const at = capital?.city
         ? { x: base.x + offset.x, y: base.y + offset.y }
-        : { x: town.x + (base.id === "hunter" ? -120 : 120), y: town.y + 180 };
+        : {
+            x: town.x + (base.id === "hunter" ? -160 : Math.round(col * 90)),
+            y: town.y + 140 + row * 70,
+          };
       const p = npc.building ? cityRoom(npc.building, info.affinity).npc : nav.safe(at);
       add({
         ...p,

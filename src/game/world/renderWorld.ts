@@ -46,6 +46,8 @@ function softenGround(scene: Phaser.Scene, asset: string, frame?: string | numbe
   octx.fillRect(0, 0, w * 3, h * 3);
   octx.globalAlpha = 1;
   ctx.drawImage(out, w, h, w, h, 0, 0, w, h);
+  big.width = big.height = 0;
+  out.width = out.height = 0;
   tex.refresh();
   return key;
 }
@@ -102,6 +104,7 @@ function featheredArea(
   m.fillRect(pad, pad, area.width, area.height);
   ctx.globalCompositeOperation = "destination-in";
   ctx.drawImage(mask, 0, 0);
+  mask.width = mask.height = 0;
   ctx.globalCompositeOperation = "source-over";
   tex.refresh();
   return scene.add

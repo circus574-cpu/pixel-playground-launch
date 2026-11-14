@@ -107,7 +107,7 @@ function describe(entry: BagEntry): ItemDescription {
         : item.defense
           ? "+" + item.defense + " obrony · pancerz"
           : entry.id === "potion"
-            ? "Przywraca do 65 HP · kliknij, aby wypić"
+            ? "Przywraca 40% maks. HP · kliknij, aby wypić"
             : "Materiał · sprzedaż " + item.sell + " monet",
     };
   }
@@ -146,7 +146,13 @@ function describeEquipped(slotId: EquipmentSlot, itemId: string, p: Player): Ite
   const def = getItemById(itemId);
   if (def) {
     const d = describe({ kind: "bagItem", id: itemId, count: 1 });
-    return { name: d.name, info: d.info + " · kliknij, aby zdjąć" };
+    const upg = p.equipmentUpgrades?.[slotId] ?? 0;
+    const upgNote =
+      upg > 0 ? ` · +${upg} (${slotId === "weapon" ? `+${upg * 2} ataku` : `+${upg} obrony`})` : "";
+    return {
+      name: upg > 0 ? `${d.name} +${upg}` : d.name,
+      info: d.info + upgNote + " · kliknij, aby zdjąć",
+    };
   }
   return { name: itemId, info: "Wyposażenie · kliknij, aby zdjąć" };
 }
@@ -206,6 +212,10 @@ export function DiabloInventory({ state, send }: { state: GameViewState; send: S
           const item = equipped(slot.id as EquipmentSlot);
           const personal = slot.id === "weapon" && p.weapon === "heritage";
           const desc = item ? describeEquipped(slot.id as EquipmentSlot, item, p) : null;
+          const v2Upgrade =
+            item && !(item in ITEMS) && item !== "heritage"
+              ? (p.equipmentUpgrades?.[slot.id as EquipmentSlot] ?? 0)
+              : 0;
           return (
             <button
               key={slot.id}
@@ -241,6 +251,7 @@ export function DiabloInventory({ state, send }: { state: GameViewState; send: S
               {item === "sword" && slot.id === "weapon" && p.upgrade > 0 && (
                 <b className="ki-dinv-plus">+{p.upgrade}</b>
               )}
+              {v2Upgrade > 0 && <b className="ki-dinv-plus">+{v2Upgrade}</b>}
             </button>
           );
         })}

@@ -342,7 +342,11 @@ export type Command =
   | { type: "ability"; ability: Ability }
   | { type: "dodge" }
   | { type: "interact"; npc: NpcId }
-  | { type: "dialogue"; action: "close" | "accept" | "claim" | "upgrade" | "rumors" | "boss_enter" }
+  | {
+      type: "dialogue";
+      action: "close" | "accept" | "claim" | "upgrade" | "rumors" | "boss_enter";
+      bossId?: string | undefined;
+    }
   | { type: "equip"; item: string }
   | { type: "unequip"; slot: EquipmentSlot | "weapon" | "armor" }
   | { type: "trade"; item: string; buy: boolean }
@@ -935,13 +939,22 @@ export class GameSession implements MonsterHost {
   readonly enemyPositionAllowed: ((p: Point) => boolean) | undefined;
   private readonly outsideNav: Navigation;
   readonly world: WorldDefinition;
+  private cachedNpcsKey = "";
+  private cachedNpcsSource: unknown = null;
+  private cachedNpcs: typeof NPCS = [];
   get npcs(): typeof NPCS {
-    return this.world.npcs
-      .filter((n) => (n.building ?? null) === this.player.interior)
-      .map((n) => ({
-        ...n,
-        ...(n.building ? cityRoom(n.building, this.world.id).npc : this.outsideNav.safe(n)),
-      }));
+    const key = `${this.world.id}:${this.player.interior ?? ""}`;
+    if (this.cachedNpcsSource !== this.world.npcs || this.cachedNpcsKey !== key) {
+      this.cachedNpcsSource = this.world.npcs;
+      this.cachedNpcsKey = key;
+      this.cachedNpcs = this.world.npcs
+        .filter((n) => (n.building ?? null) === this.player.interior)
+        .map((n) => ({
+          ...n,
+          ...(n.building ? cityRoom(n.building, this.world.id).npc : this.outsideNav.safe(n)),
+        }));
+    }
+    return this.cachedNpcs;
   }
   enemies: Enemy[] = [];
   /** No combat here: inside a building, on a city-stage map, or within the city bounds. */
@@ -1598,11 +1611,23 @@ export class GameSession implements MonsterHost {
     }
     if ((source[item] ?? 0) - reserved < quantity)
       return this.say("Brak tylu wolnych przedmiotów. Zdejmij wyposażenie przed odłożeniem.");
+    const bagCellsUsed =
+      withdraw && !material && !isLegacyItem
+        ? ITEM_IDS.filter((i) => p.items[i] > 0).length +
+          Object.values(p.materials).filter((c) => c > 0).length +
+          Object.values(p.bagItems ?? {}).filter((c) => c > 0).length
+        : 0;
     if (
       (destination[item] ?? 0) + quantity > 99 ||
       (material &&
         !destination[item] &&
-        Object.values(destination).filter((n) => n > 0).length >= MATERIAL_CAPACITY)
+        Object.values(destination).filter((n) => n > 0).length >= MATERIAL_CAPACITY) ||
+      (withdraw && !material && !isLegacyItem && !destination[item] && bagCellsUsed >= BAG_CELLS) ||
+      (!withdraw &&
+        !material &&
+        !isLegacyItem &&
+        !destination[item] &&
+        Object.keys(destination).length >= 200)
     )
       return this.say("Brak miejsca lub pełny stos (99). Nic nie przeniesiono.");
 
@@ -1714,10 +1739,14 @@ export class GameSession implements MonsterHost {
       } else {
         p.items[c.item] = count;
         if (c.item === "sword" && count === 0) {
-          p.weapon = null;
+          if (p.weapon === "sword") p.weapon = null;
+          if (p.equipment?.weapon === "sword") p.equipment.weapon = null;
           p.upgrade = 0;
         }
-        if (c.item === "vest" && count === 0) p.armor = null;
+        if (c.item === "vest" && count === 0) {
+          if (p.armor === "vest") p.armor = null;
+          if (p.equipment?.armor === "vest") p.equipment.armor = null;
+        }
       }
       this.say(`${ITEMS[c.item].name}: ${count}`);
     } else if (c.action === "setMaterial") {
@@ -1734,6 +1763,22 @@ export class GameSession implements MonsterHost {
         store[c.id] = count;
       }
       this.say(`${MATERIALS[c.id]?.name ?? c.id}: ${count}`);
+    } else if (c.action === "setBagItem") {
+      const def = getItemById(c.id);
+      if (!def) return;
+      ensurePlayerEquipment(p);
+      const count = Math.max(0, Math.min(99, Math.round(c.count)));
+      const store = c.depot ? p.depot.bagItems : p.bagItems;
+      if (count === 0) {
+        delete store[c.id];
+      } else {
+        store[c.id] = count;
+      }
+      this.say(`${def.name}: ${count}`);
+    } else if (c.action === "setDepotGold") {
+      ensurePlayerEquipment(p);
+      p.depot.gold = Math.max(0, Math.min(10_000_000, Math.round(c.gold)));
+      this.say("Skarbiec: " + p.depot.gold + " monet.");
     } else if (c.action === "setEquipment") {
       if (c.weapon !== undefined) {
         if (c.weapon === "sword" && p.items.sword < 1) p.items.sword = 1;
@@ -2373,7 +2418,10 @@ export class GameSession implements MonsterHost {
         this.say(source ? `${source[progressIndex % source.length] ?? source[0]} ${hint}` : hint);
       }
       if (c.action === "boss_enter") {
-        const boss = BOSS_CATALOG.find((b) => b.continent === this.world.id);
+        const boss =
+          (c.bossId
+            ? BOSS_CATALOG.find((b) => b.id === c.bossId && b.continent === this.world.id)
+            : undefined) ?? BOSS_CATALOG.find((b) => b.continent === this.world.id);
         if (!boss) {
           this.say("Strażnik nie zna żadnego bossa w tej krainie.");
           this.flush();
@@ -2387,10 +2435,13 @@ export class GameSession implements MonsterHost {
             x: this.world.spawn.x + 800,
             y: this.world.spawn.y + 200,
           };
-        const dest = this.nav.safe({ x: lair.x, y: lair.y });
+        this.clearDestinations();
+        this.route = [];
+        this.player.interior = null;
+        this.nav = this.outsideNav;
+        const dest = this.outsideNav.safe({ x: lair.x, y: lair.y });
         this.player.x = dest.x;
         this.player.y = dest.y;
-        this.player.interior = null;
         this.dialogue = null;
         if (this.safe) {
           this.say(
@@ -2398,7 +2449,15 @@ export class GameSession implements MonsterHost {
           );
         } else {
           try {
-            const e = this.monsters.spawnBoss(boss.id, { x: dest.x + 160, y: dest.y + 40 });
+            const existing = this.enemies.find(
+              (en) => en.boss?.definition.id === boss.id && en.hp > 0 && en.mode !== "dead",
+            );
+            const e =
+              existing ??
+              this.monsters.spawnBoss(
+                boss.id,
+                this.outsideNav.safe({ x: dest.x + 160, y: dest.y + 40 }),
+              );
             this.say(
               `Strażnik otworzył wrota do ${boss.locationName}. ${e.m.def.name} czeka na walkę!`,
             );
@@ -2414,13 +2473,14 @@ export class GameSession implements MonsterHost {
       const npc = this.nearbyNpc();
       if (npc?.id !== "alchemist" && this.dialogue !== "alchemist")
         return this.say("Porozmawiaj z alchemiczką, aby warzyć mikstury.");
-      const matKeys = Object.keys(p.materials);
+      const matKeys = Object.keys(p.materials).filter((k) => (p.materials[k] ?? 0) > 0);
       if (matKeys.length === 0)
         return this.say(
           "Potrzebujesz przynajmniej jednego surowca (ziół, mchu lub kłów) do warzenia.",
         );
-      const firstMat = c.material && p.materials[c.material] ? c.material : matKeys[0]!;
+      const firstMat = c.material && (p.materials[c.material] ?? 0) > 0 ? c.material : matKeys[0]!;
       if (c.recipe === "hp") {
+        if (p.items.potion >= 99) return this.say("Masz już pełny zapas mikstur (99).");
         if (p.gold < 5) return this.say("Warzenie Mikstury Zdrowia wymaga 5 monet i 1 materiału.");
         p.gold -= 5;
         p.materials[firstMat]!--;
@@ -2433,7 +2493,7 @@ export class GameSession implements MonsterHost {
         p.materials[firstMat]!--;
         if (!p.materials[firstMat]) delete p.materials[firstMat];
         p.ki = this.kit.stats.maxKi;
-        this.kit.addBuff({ id: "ki-focus", ms: 60000, dealtPct: 15 });
+        this.kit.addBuff({ id: "ki-focus", ms: 60000, dealtPct: 0.15 });
         this.say("Wypito świeży Eliksir KI: pełne KI oraz +15% zadawanych obrażeń przez 60 s!");
       } else if (c.recipe === "antidote") {
         if (p.gold < 6) return this.say("Warzenie Antidotum wymaga 6 monet i 1 materiału.");
@@ -2441,8 +2501,7 @@ export class GameSession implements MonsterHost {
         p.materials[firstMat]!--;
         if (!p.materials[firstMat]) delete p.materials[firstMat];
         p.hp = Math.min(this.kit.stats.maxHp, p.hp + 50);
-        this.fx.armor.ms = 0;
-        this.fx.weaken.ms = 0;
+        this.fx.clearDebuffs();
         this.syncFxBuffs();
         this.say("Zastosowano Antidotum: usunięto osłabienia i odzyskano 50 punktów życia!");
       }
@@ -2502,14 +2561,22 @@ export class GameSession implements MonsterHost {
       return;
     }
     if (c.type === "quest-deliver") {
-      const itemId = c.item as ItemId;
-      if (!(itemId in ITEMS)) return this.say("Tego przedmiotu nie można przekazać.");
+      const itemId = c.item;
+      const isLegacy = itemId in ITEMS;
+      const isMat = isMaterial(itemId);
+      const v2Def = !isLegacy && !isMat ? getItemById(itemId) : undefined;
+      if (!isLegacy && !isMat && !v2Def) return this.say("Tego przedmiotu nie można przekazać.");
       if (!this.questTracker) return this.say("Przekazywanie przedmiotów jest teraz niedostępne.");
       const needed = this.questTracker
         .deliveries()
         .filter((d) => d.itemId === itemId)
         .reduce((a, d) => a + d.needed, 0);
-      const have = p.items[itemId] ?? 0;
+      ensurePlayerEquipment(p);
+      const have = isLegacy
+        ? (p.items[itemId as ItemId] ?? 0)
+        : isMat
+          ? (p.materials[itemId] ?? 0)
+          : (p.bagItems[itemId] ?? 0);
       const amount = Math.min(have, needed);
       if (amount <= 0)
         return this.say(
@@ -2517,9 +2584,32 @@ export class GameSession implements MonsterHost {
             ? "Nie masz tego przedmiotu do przekazania."
             : "Żadne aktywne zadanie nie wymaga tego przedmiotu.",
         );
-      p.items[itemId] = have - amount;
+      if (isLegacy) {
+        const legacyId = itemId as ItemId;
+        p.items[legacyId] = have - amount;
+        if (legacyId === "sword" && p.items.sword === 0) {
+          if (p.weapon === "sword") p.weapon = null;
+          if (p.equipment.weapon === "sword") p.equipment.weapon = null;
+          p.upgrade = 0;
+        }
+        if (legacyId === "vest" && p.items.vest === 0) {
+          if (p.armor === "vest") p.armor = null;
+          if (p.equipment.armor === "vest") p.equipment.armor = null;
+        }
+      } else if (isMat) {
+        if (have <= amount) delete p.materials[itemId];
+        else p.materials[itemId] = have - amount;
+      } else {
+        if (have <= amount) delete p.bagItems[itemId];
+        else p.bagItems[itemId] = have - amount;
+      }
       this.questTracker.deliver(itemId, amount);
-      this.say(`Przekazano: ${ITEMS[itemId].name} ×${amount}.`);
+      const label = isLegacy
+        ? ITEMS[itemId as ItemId].name
+        : isMat
+          ? (MATERIALS[itemId]?.name ?? itemId)
+          : (v2Def?.name ?? itemId);
+      this.say(`Przekazano: ${label} ×${amount}.`);
       this.flush();
       return;
     }
@@ -2624,6 +2714,10 @@ export class GameSession implements MonsterHost {
       if (itemId === "potion") return this.use("potion");
       if (itemId === "sword") {
         if (!p.items.sword) return this.say("Nie masz tego przedmiotu.");
+        const prevWep = equipment.weapon;
+        if (prevWep && prevWep !== "sword" && prevWep !== "heritage") {
+          if (!this.addBagItem(prevWep, 1)) return;
+        }
         p.weapon = "sword";
         equipment.weapon = "sword";
         if (p.quests.gear === "active") p.quests.gear = "ready";
@@ -2634,6 +2728,10 @@ export class GameSession implements MonsterHost {
       }
       if (itemId === "vest") {
         if (!p.items.vest) return this.say("Nie masz tego przedmiotu.");
+        const prevArmor = equipment.armor;
+        if (prevArmor && prevArmor !== "vest") {
+          if (!this.addBagItem(prevArmor, 1)) return;
+        }
         p.armor = "vest";
         equipment.armor = "vest";
         this.say("Założono: " + ITEMS.vest.name);
@@ -2667,6 +2765,23 @@ export class GameSession implements MonsterHost {
       if (cur <= 0) return this.say("Nie masz tego przedmiotu w torbie.");
 
       const previous = equipment[slot];
+      if (
+        previous &&
+        previous !== "sword" &&
+        previous !== "vest" &&
+        previous !== "heritage" &&
+        previous !== itemId
+      ) {
+        const prevHave = bagItems[previous] ?? 0;
+        const usedCells =
+          ITEM_IDS.filter((i) => p.items[i] > 0).length +
+          Object.values(p.materials).filter((cnt) => cnt > 0).length +
+          Object.values(bagItems).filter((cnt) => cnt > 0).length;
+        const freesCell = cur <= 1;
+        if (prevHave + 1 > 99 || (prevHave === 0 && !freesCell && usedCells >= BAG_CELLS)) {
+          return this.say("Brak miejsca w torbie lub pełny stos (99).");
+        }
+      }
       if (previous) {
         if (previous === "sword") {
           p.weapon = null;
@@ -2709,13 +2824,16 @@ export class GameSession implements MonsterHost {
         equipment[slot] ?? (slot === "weapon" ? p.weapon : slot === "armor" ? p.armor : null);
       if (!equippedId) return this.say("Nic nie jest założone w tym miejscu.");
 
+      if (equippedId !== "sword" && equippedId !== "vest" && equippedId !== "heritage") {
+        if (!this.canAddBagItem(equippedId, 1)) {
+          return this.say("Brak miejsca w torbie lub pełny stos (99).");
+        }
+        bagItems[equippedId] = (bagItems[equippedId] ?? 0) + 1;
+      }
       equipment[slot] = null;
       if (slot === "weapon") p.weapon = null;
       if (slot === "armor") p.armor = null;
 
-      if (equippedId !== "sword" && equippedId !== "vest" && equippedId !== "heritage") {
-        bagItems[equippedId] = (bagItems[equippedId] ?? 0) + 1;
-      }
       this.say("Zdjęto wyposażenie.");
       clampResources();
       this.flush();
@@ -2967,8 +3085,7 @@ export class GameSession implements MonsterHost {
         });
       }
     }
-    const p = this.player,
-      s = this.kit.stats;
+    const p = this.player;
     this.potionIn = Math.max(0, this.potionIn - dt);
     this.combatIn = Math.max(0, this.combatIn - dt);
     if (p.dead) {
@@ -3023,7 +3140,6 @@ export class GameSession implements MonsterHost {
           dt) /
           1000,
     );
-    void s;
     if (this.fx.fearMs > 0 && this.fx.fearFrom) {
       const from = this.fx.fearFrom;
       const d = distance(from, p) || 1;

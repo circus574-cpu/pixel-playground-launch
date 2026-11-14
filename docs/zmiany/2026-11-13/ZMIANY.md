@@ -82,3 +82,30 @@
   z przodu, z tyłu i po skosie. Testy `hero-clips-visible`, `gpu-pipeline`, `actor-animation`, `stream-texture-budget`
   przechodzą. Nie sprawdzono: tryb online z prawdziwą przemianą, ostrość przy DPR 2×.
 - Nadal brakuje: chód NPC, osobny film chodu Mędrca, osobny klip umiejętności A (jest jeden wspólny `skill`).
+
+### 6. Audyt SWARM: architektura, wydajność CPU/Phaser, walka/rozgrywka i UI/UX
+
+- **Architektura, zapis i tryb online:**
+  - `SuperiorSaveStore` (`src/game/world/generated/superiorSave.ts`) wywołuje teraz `ensurePlayerEquipment(p)` przed walidacją i nie odrzuca zapisów z założonym pancerzem V2 bez `items.vest` (`p.armor === "vest" && !p.items.vest`); analogiczna naprawa w `repairPlayerForLoad` (`src/server/characters/playerRepair.ts`).
+  - `OnlineCommandSchema` (`src/server/characters/commands.ts`) uzupełniona o komendy GM `setBagItem` i `setDepotGold` oraz opcjonalny `bossId` w akcji `dialogue`.
+  - Synchronizacja prób rasowych i egzaminów (`src/server/characters/onlineSession.ts`, `src/game/online/trial.ts`, `src/game/online/exam.ts`) przekazuje teraz stan sprintu `running` oraz klonuje obiekt `facing`.
+- **Wydajność CPU i renderera Phaser:**
+  - `Kit.abilities()` (`src/game/kit/base.ts`) wylicza `stats`, `development` i `activeVariant(...)` raz na wywołanie zamiast w pętli po każdym węźle drzewka.
+  - `GameSession` (`src/game/session.ts`) cache'uje getter `npcs` po kluczu `world.id:interior` i referencji `world.npcs` oraz usuwa zbędne `this.kit.stats` z pętli `stepSimulation`.
+  - `mountGame.ts`: wczesne zwalnianie przy re-mouncie (`runtime.dispose`), usuwanie elementów `#ki-debug` / `#ki-bench` przy odmontowaniu, czyszczenie listenerów fokusa przez `releaseScene` i `SHUTDOWN`, brak duplikacji `this.report()` przy dotyku, culling ognisk przesłaniania (`foci`) do `worldView`, aktualizacja tekstu NPC dopiero przy zmianie, aktualizacja obrysu `rim` dopiero przy zmianie klatki/flipu/rozmiaru/alfa oraz poprawne sprawdzenie brakującego klipu `attackClip`/`skill`.
+  - `renderSuperior.ts`, `renderRoads.ts`, `renderWorld.ts`: zerowanie pomocniczych canvasów po wypieku (`width = height = 0`), anulowanie kolejki i aktywnego wypieku w `dispose()` (`renderSuperior.ts`), ograniczenie pętli `update()` dróg do zakresu `cameras.main.worldView` (`renderRoads.ts`) i zliczanie telemetrii bez alokacji tablic pośrednich.
+  - Pomiar `npx tsx scripts/perf/audyt-cpu.ts` (Race: Planetar, przed → po): `kit.abilities()` **0,0611 → 0,0051 ms/wywołanie** (~12× szybciej), `session.snapshot()` **0,4606 → 0,0866 ms/wywołanie** (~5,3× szybciej; `report 10×/s`: **4,61 → 0,87 ms/s**), `session.tick(16,7 ms) · 32 potworów` **0,1442 → 0,0926 ms/wywołanie** (`60×/s`: **8,65 → 5,56 ms/s**).
+- **Rozgrywka, walka, alchemia, zadania i bossowie:**
+  - `MonsterSystem` (`src/game/monsters/system.ts`, `src/game/monsters/fx.ts`): śmierć potwora zeruje `m.regen`, `m.regenMs` i `fx.dots`, regeneracja w `decay()` sprawdza `e.mode !== "dead" && e.hp > 0`, a `allies()` pomija martwe potwory (`x.hp > 0`); `PlayerFx.clearDebuffs()` czyści wszystkie osłabienia (m.in. `slow`, `rootMs`, `silenceMs`, `blind`, `armor`, `weaken`, `dots`).
+  - `GameSession` (`src/game/session.ts`): alchemia — Eliksir KI nakłada właściwy mnożnik `dealtPct: 0.15` (+15% zamiast 1500%), receptura HP sprawdza limit 99 przed pobraniem złota/składnika, Antidotum używa `clearDebuffs()`. Komenda `quest-deliver` obsługuje przedmioty klasyczne (`ITEMS`), materiały (`MATERIALS`) i ekwipunek V2 (`bagItems`) oraz zdejmuje przekazane `sword`/`vest`; `questsV2.deliveries()` (`src/game/quests/v2Tracker.ts`) odfiltrowuje cele `npc-*`.
+  - Zakładanie/zdejmowanie ekwipunku (`equip`/`unequip`) i depozyt (`depot`): zachowanie nadpisanego wyposażenia V2 przy powrocie do `sword`/`vest`, twardy limit `BAG_CELLS` (40 zajętych pól) i stosu 99 przed zdjęciem/podmianą/odbiorem; `boss_enter` wspiera `bossId`, opuszcza wnętrza i przełącza `nav` na `outsideNav` oraz nie dubluje żywego bossa (`en.boss?.definition.id === boss.id`). `simulationWorld.ts` i `src/components/admin/world-overview/model.ts` rozkładają NPC miast pobocznych na siatce współrzędnych zamiast jednego punktu.
+- **UI/UX:**
+  - `game-messages.css`: podniesiono `z-index` okna `.ki-hud .ki-modal-backdrop` (`20 → 60`) ponad nakładki informacyjne i powiadomienia.
+  - `GameHud.tsx`: zlokalizowane nazwy premii (`BUFF_NAMES` + węzły `KIT_NODES`) w pasku statusów, opis „Przywraca 40% maks. HP” w podpowiedzi mikstury, ukrywanie `<CombatPanel />` podczas dialogu i skrzyni (`state.dialogue || state.depotOpen`), stabilny `initialPos` przez `useMemo`, przycisk „Plan miasta” otwiera katalog usług miasta (`toggle("map")`) również w World V2.
+  - `RotateNotice.tsx`: automatyczne wznowienie po powrocie do poziomu tylko wtedy, gdy nie jest otwarty żaden modal (`.ki-modal-backdrop, .ki-planet-overlay`).
+  - `AdventurePanels.tsx`, `DiabloInventory.tsx`, `CityPanels.tsx`, `CraftingPanel.tsx`, `ShopV2Panel.tsx`: spójny `data-race`, komunikaty trybu autorytatywnego, wyświetlanie ulepszeń V2 (`+1..+3`), opis leczenia mikstury 40%, przyciski przekazywania przedmiotów V2/materiałów oraz lista wszystkich regionalnych bossów z `BOSS_CATALOG` w oknie Strażnika.
+- **Weryfikacja i zakres:**
+  - Dodano regresje jednostkowe i UI w `src/test/swarm-audit-regressions.test.ts` (8 testów) i `src/test/swarm-audit-ui.test.tsx` (2 testy).
+  - Pełna weryfikacja bramki uruchomiona po wszystkich zmianach: `npm run typecheck`, `npm run lint`, `npm test`, `npm run assets:check`, `npm run build`, `python3 scripts/docs/check_documentation.py`.
+  - Nie wykonano w tej VM: uruchomienia testów E2E Playwright w przeglądarce (brak pobranych binariów przeglądarek w cache VM; specyfikacje E2E przeszły `tsc -p tsconfig.e2e.json`) ani ręcznego testu na fizycznym telefonie i żywym połączeniu VPS.
+

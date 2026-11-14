@@ -4,6 +4,7 @@ import { heritageRaceConsistent } from "../../development/heritage/state";
 import { weaponConsistent } from "../../development/heritage/equipment";
 import { z } from "zod";
 import {
+  ensurePlayerEquipment,
   PlayerSchema,
   SaveStore,
   stats,
@@ -114,6 +115,7 @@ export class SuperiorSaveStore extends SaveStore {
       if (Object.keys(value.spawns).length > 10000) throw Error("Oversized spawn ledger");
       const info = this.index.features.find((f) => f.id === value.feature);
       const p = value.player;
+      ensurePlayerEquipment(p);
       // Skills that exceed the level's points, level gates, prerequisites or exclusions (e.g. an old
       // admin "unlock all") are trimmed to the allowed set instead of locking the character out.
       if (!validLearned(p.race, p.level, p.skills))
@@ -129,7 +131,7 @@ export class SuperiorSaveStore extends SaveStore {
         !weaponConsistent(p, this.identity) ||
         !heritageRaceConsistent(p.development?.heritage, p.race) ||
         !trialsRaceConsistent(p.development?.trials, p.race) ||
-        (p.armor && !p.items.vest) ||
+        (p.armor === "vest" && !p.items.vest) ||
         !validLearned(p.race, p.level, p.skills) ||
         !p.skills.includes("R") ||
         Object.keys(p.materials).some((k) => !isMaterial(k)) ||

@@ -125,6 +125,7 @@ export function mountKileGends(
   const runtime = bossMode ? undefined : options?.runtime;
   // The caller may already have prepared a streamed world; release it before the isolated arena.
   if (bossMode) options?.runtime?.dispose?.();
+  if (runtime?.dispose) releaseScene.push(runtime.dispose);
   const session =
     (bossMode
       ? createBossPlaytest(
@@ -407,7 +408,6 @@ export function mountKileGends(
       this.updateVisibility = rendering.updateVisibility;
       parent.dataset["terrainMode"] = rendering.terrainMode;
       releaseScene.push(rendering.dispose);
-      if (runtime?.dispose) releaseScene.push(runtime.dispose);
       releaseScene.push(() => this.interiorView?.dispose());
       this.hero = this.actor(session.player, this.heroLabel(), "hero", visual);
       this.syncEnemies();
@@ -569,7 +569,11 @@ export function mountKileGends(
         Record<string, Phaser.Input.Keyboard.Key> | undefined;
       this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
         const el = document.activeElement;
-        if (el instanceof HTMLElement && el.closest("input,textarea,button,[role=dialog]")) return;
+        if (
+          el instanceof HTMLElement &&
+          el.closest("input,textarea,select,[contenteditable=true],[role=dialog]")
+        )
+          return;
         const bound = actionFor(readKeyBindings(), event.key);
         const slot = bound?.startsWith("skill")
           ? session.kit
@@ -611,14 +615,18 @@ export function mountKileGends(
       const onFocusChange = (event: FocusEvent) => {
         const el = event.type === "focusout" ? event.relatedTarget : event.target;
         this.typing =
-          el instanceof HTMLElement && Boolean(el.closest("input,textarea,button,[role=dialog]"));
+          el instanceof HTMLElement &&
+          Boolean(el.closest("input,textarea,select,[contenteditable=true],[role=dialog]"));
       };
       document.addEventListener("focusin", onFocusChange);
       document.addEventListener("focusout", onFocusChange);
-      this.events.once(Phaser.Scenes.Events.DESTROY, () => {
+      const releaseFocus = () => {
         document.removeEventListener("focusin", onFocusChange);
         document.removeEventListener("focusout", onFocusChange);
-      });
+      };
+      releaseScene.push(releaseFocus);
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, releaseFocus);
+      this.events.once(Phaser.Scenes.Events.DESTROY, releaseFocus);
       this.stickBase = this.add
         .circle(0, 0, 48, 0x183c48, 0.5)
         .setStrokeStyle(2, 0xb8f2df)
@@ -716,8 +724,8 @@ export function mountKileGends(
           this.joystickStart.set(pointer.x, pointer.y);
           this.pendingTouch = { x: pos.x, y: pos.y };
           this.joystickDragging = false;
+          this.report();
         } else this.interactAt(pos);
-        this.report();
       });
       this.report();
     }
@@ -1236,20 +1244,18 @@ export function mountKileGends(
         if (event.ability && event.ability !== "R") this.raceVfx("ring", event, 0.55);
         // Tree-C techniques (C1…C9) and charges at a foe play the race's skill C clip (races without it keep the skill
         // pose).
-        this.hero.animation.trigger(
+        const attackClip =
           event.ability === "R"
             ? "attack"
             : event.charge || event.ability?.startsWith("C")
               ? "skillc"
-              : "skill",
-          this.animationTime,
-          session.facing,
-        );
+              : "skill";
+        this.hero.animation.trigger(attackClip, this.animationTime, session.facing);
         const dir = session.facing,
           sprite = this.hero.sprite;
         this.tweens.killTweensOf(sprite);
         sprite.setPosition(0, 0).setAngle(0);
-        if (!this.hero.visual.clips[event.ability === "R" ? "attack" : "skill"])
+        if (!this.hero.visual.clips[attackClip] && !this.hero.visual.clips.skill)
           this.tweens.add({
             targets: sprite,
             x: dir.x * 13,
@@ -1487,16 +1493,27 @@ export function mountKileGends(
           parent.dispatchEvent(new Event("ki:zoom"));
         }
       }
+      const view = this.cameras.main.worldView,
+        pad = 220;
       heroOcclusion.reset();
       focusOcclusion.reset();
       if (!session.player.interior) {
-        // Everything that must stay visible behind foliage: monsters, villagers, other players.
+        // Everything that must stay visible behind foliage: monsters, villagers, other players near the camera.
         const foci: OcclusionFocus[] = [];
+        const focusPad = pad + 140;
+        const inFocusView = (x: number, y: number) =>
+          x >= view.left - focusPad &&
+          x <= view.right + focusPad &&
+          y >= view.top - focusPad &&
+          y <= view.bottom + focusPad;
         for (const e of session.enemies)
-          if (e.hp > 0 && !e.m.hidden) foci.push({ id: "enemy:" + e.id, x: e.x, y: e.y });
-        for (const n of session.npcs) foci.push({ id: "npc:" + n.id, x: n.x, y: n.y });
+          if (e.hp > 0 && !e.m.hidden && inFocusView(e.x, e.y))
+            foci.push({ id: "enemy:" + e.id, x: e.x, y: e.y });
+        for (const n of session.npcs)
+          if (inFocusView(n.x, n.y)) foci.push({ id: "npc:" + n.id, x: n.x, y: n.y });
         for (const [id, entry] of this.networkPlayers)
-          foci.push({ id: "peer:" + id, x: entry.actor.body.x, y: entry.actor.body.y });
+          if (inFocusView(entry.actor.body.x, entry.actor.body.y))
+            foci.push({ id: "peer:" + id, x: entry.actor.body.x, y: entry.actor.body.y });
         this.updateVisibility?.(session.player, foci);
       }
       // Faza 2: mapa NPC przebudowywana tylko przy zmianie listy; pozycje aktualizują się w miejscu.
@@ -1510,7 +1527,7 @@ export function mountKileGends(
           const npc = this.npcMap.get(actor.npcId);
           if (npc) {
             actor.body.setPosition(npc.x, npc.y).setDepth(npc.y);
-            actor.name.setText(npc.name);
+            if (actor.name.text !== npc.name) actor.name.setText(npc.name);
           }
         }
       const k = this.typing ? undefined : this.keys;
@@ -1615,8 +1632,6 @@ export function mountKileGends(
       }
       // Containers are never culled by the camera, and every visible one costs a separate GPU batch.
       // Drawing only actors near the view cuts the draw calls from dozens to a handful.
-      const view = this.cameras.main.worldView,
-        pad = 220;
       for (const a of this.actors) {
         if (a.kind === "hero") continue;
         const near =
@@ -1690,12 +1705,22 @@ export function mountKileGends(
       for (const a of this.actors) {
         const k = session.player.interior ? interiorScale(a) : 1;
         if (a.body.scaleX !== k) a.body.setScale(k);
-        if (a.rim && a.body.visible)
-          for (const r of a.rim)
-            r.setTexture(a.sprite.texture.key, a.sprite.frame.name)
-              .setFlip(a.sprite.flipX, a.sprite.flipY)
-              .setDisplaySize(a.sprite.displayWidth, a.sprite.displayHeight)
-              .setAlpha(a.sprite.alpha * 0.85);
+        if (a.rim && a.body.visible) {
+          const r0 = a.rim[0];
+          if (
+            r0 &&
+            (r0.frame.name !== a.sprite.frame.name ||
+              r0.flipX !== a.sprite.flipX ||
+              r0.displayWidth !== a.sprite.displayWidth ||
+              Math.abs(r0.alpha - a.sprite.alpha * 0.85) > 0.01)
+          ) {
+            for (const r of a.rim)
+              r.setTexture(a.sprite.texture.key, a.sprite.frame.name)
+                .setFlip(a.sprite.flipX, a.sprite.flipY)
+                .setDisplaySize(a.sprite.displayWidth, a.sprite.displayHeight)
+                .setAlpha(a.sprite.alpha * 0.85);
+          }
+        }
         if (a.kind === "hero") {
           // Player names (the own one and other players') always float above the head.
           a.name
@@ -1790,12 +1815,15 @@ export function mountKileGends(
   });
   // `?ki-debug=1` shows renderer, FPS and scene size so slowdowns can be diagnosed from a phone.
   let debugTimer = 0;
+  let debugBadge: HTMLDivElement | undefined;
+  let debugPanel: HTMLDivElement | undefined;
   const debugMode = new URLSearchParams(window.location.search).get("ki-debug");
   let stopBench: (() => void) | undefined;
   let benchStart = 0;
   if (debugMode === "1" || debugMode === "bench") {
     (window as unknown as { __kiGame?: Phaser.Game }).__kiGame = game;
     const badge = document.createElement("div");
+    debugBadge = badge;
     badge.setAttribute("data-testid", "ki-debug");
     badge.style.cssText =
       "position:absolute;left:6px;bottom:96px;z-index:40;padding:4px 8px;border-radius:4px;" +
@@ -1803,6 +1831,7 @@ export function mountKileGends(
     parent.appendChild(badge);
     if (debugMode === "bench") {
       const panel = document.createElement("div");
+      debugPanel = panel;
       panel.setAttribute("data-testid", "ki-bench");
       panel.style.cssText =
         "position:absolute;left:6px;top:140px;z-index:41;padding:6px 10px;border-radius:4px;" +
@@ -1868,6 +1897,8 @@ export function mountKileGends(
     window.clearInterval(debugTimer);
     window.clearTimeout(benchStart);
     stopBench?.();
+    debugBadge?.remove();
+    debugPanel?.remove();
     for (const release of releaseScene.splice(0)) release();
     session.flush();
     game.destroy(true);

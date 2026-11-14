@@ -137,7 +137,7 @@
   z-index: 10;
 }
 .ki-hud .ki-modal-backdrop {
-  z-index: 20;
+  z-index: 60;
 }
 .ki-death-overlay {
   z-index: 15;

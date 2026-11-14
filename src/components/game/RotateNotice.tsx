@@ -26,7 +26,9 @@ export function RotateNotice({
         onCommand({ type: "pause", value: true });
       } else if (!query.matches && pausedByUs.current) {
         pausedByUs.current = false;
-        onCommand({ type: "pause", value: false });
+        if (!document.querySelector(".ki-modal-backdrop, .ki-planet-overlay")) {
+          onCommand({ type: "pause", value: false });
+        }
       }
     };
     apply();

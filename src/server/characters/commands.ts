@@ -109,6 +109,22 @@ const staffSchema = z.union([
   z
     .object({
       type: z.literal("staff"),
+      action: z.literal("setBagItem"),
+      id,
+      count: z.number().int().min(0).max(99999),
+      depot: z.boolean().optional(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("staff"),
+      action: z.literal("setDepotGold"),
+      gold: z.number().int().min(0).max(10_000_000),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("staff"),
       action: z.literal("setEquipment"),
       weapon: z.literal("sword").nullable().optional(),
       armor: z.literal("vest").nullable().optional(),
@@ -263,6 +279,7 @@ export const OnlineCommandSchema = z.union([
     .object({
       type: z.literal("dialogue"),
       action: z.enum(["close", "accept", "claim", "upgrade", "rumors", "boss_enter"]),
+      bossId: id.optional(),
     })
     .strict(),
   z

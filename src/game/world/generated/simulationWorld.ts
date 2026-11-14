@@ -108,15 +108,17 @@ export function buildSuperiorSimulationWorld(options: {
           description: names[b.service as BuildingId],
         })),
       };
-      npcs = base.npcs.map((n) => {
+      npcs = base.npcs.map((n, idx) => {
         const named = boundTownNpc(info.affinity, town.id, places, n.id);
+        const col = (idx % 4) - 1.5;
+        const row = Math.floor(idx / 4);
         return {
           ...n,
           name: named ? named.name : town.name + " · " + n.role,
           ...(named?.greeting ? { dialogue: named.greeting } : {}),
           ...(named ? { dialogueId: named.id } : {}),
-          x: town.x + (n.id === "hunter" ? -120 : 120),
-          y: town.y + 180,
+          x: town.x + (n.id === "hunter" ? -160 : Math.round(col * 90)),
+          y: town.y + 140 + row * 70,
         };
       });
       market = { ...base.market, x: town.x, y: town.y };

@@ -13,10 +13,11 @@ import { QuestsV2Journal } from "./QuestsV2Journal";
 import { questsV2 } from "../../game/quests/v2Tracker";
 import { WORLD_V2 } from "../../game/world/generated/worldVersion";
 import { WORLDS } from "../../game/world/worlds";
+import { BOSS_CATALOG } from "../../game/bosses";
+import { MATERIALS, isMaterial } from "../../game/monsters/materials";
 import {
   ITEMS,
   ITEM_IDS,
-  MATERIALS,
   xpNeeded,
   EQUIPMENT_SLOTS,
   GEAR_UPGRADE_MAX,
@@ -132,7 +133,7 @@ function InventoryImpl({
                     : item.defense
                       ? "+" + item.defense + " obrony"
                       : id === "potion"
-                        ? "Przywraca do 65 HP"
+                        ? "Przywraca 40% maks. HP"
                         : "Materiał · sprzedaż za 5 monet"}
                 </small>
               </div>
@@ -399,6 +400,7 @@ export function NpcDialogue({
   if (subView === "craft")
     return (
       <CraftingPanel
+        authoritative={authoritative}
         state={state}
         send={send}
         initialStation={craftStation}
@@ -406,7 +408,14 @@ export function NpcDialogue({
       />
     );
   if (subView === "shop")
-    return <ShopV2Panel state={state} send={send} onClose={() => setSubView(null)} />;
+    return (
+      <ShopV2Panel
+        authoritative={authoritative}
+        state={state}
+        send={send}
+        onClose={() => setSubView(null)}
+      />
+    );
   const p = state.player;
   const quest = npc.id === "guide" ? "steps" : npc.id === "hunter" ? "boars" : "gear";
   const q = p.quests[quest];
@@ -450,6 +459,7 @@ export function NpcDialogue({
         role="dialog"
         aria-modal="true"
         aria-label={"Rozmowa: " + npc.name}
+        data-race={p.race}
         className="ki-modal ki-frame ki-npc-dialogue"
       >
         <header>
@@ -471,7 +481,21 @@ export function NpcDialogue({
           {(() => {
             const actionable = questsV2
               .deliveries()
-              .map((d) => ({ ...d, have: p.items[d.itemId as ItemId] ?? 0 }))
+              .map((d) => {
+                const isLegacy = d.itemId in ITEMS;
+                const isMat = isMaterial(d.itemId);
+                const have = isLegacy
+                  ? (p.items[d.itemId as ItemId] ?? 0)
+                  : isMat
+                    ? (p.materials[d.itemId] ?? 0)
+                    : (p.bagItems?.[d.itemId] ?? 0);
+                const label = isLegacy
+                  ? ITEMS[d.itemId as ItemId].name
+                  : isMat
+                    ? (MATERIALS[d.itemId]?.name ?? d.itemId)
+                    : (getItemById(d.itemId)?.name ?? d.itemId);
+                return { ...d, have, label };
+              })
               .filter((d) => d.have > 0);
             if (actionable.length === 0) return null;
             return (
@@ -484,7 +508,7 @@ export function NpcDialogue({
                     key={d.itemId}
                     onClick={() => send({ type: "quest-deliver", item: d.itemId })}
                   >
-                    Przekaż {ITEMS[d.itemId as ItemId].name} ×{Math.min(d.have, d.needed)}
+                    Przekaż {d.label} ×{Math.min(d.have, d.needed)}
                   </button>
                 ))}
               </div>
@@ -701,28 +725,40 @@ export function NpcDialogue({
           )}
           {npc.id === "warden" && (
             <div style={{ display: "flex", flexDirection: "column", gap: "8px", width: "100%" }}>
-              <div
-                style={{
-                  padding: "8px",
-                  background: "rgba(255,255,255,0.06)",
-                  borderRadius: "4px",
-                }}
-              >
-                <strong>Raport Taktyczny Strażnika:</strong>
-                <p style={{ margin: "4px 0", fontSize: "0.88em", lineHeight: "1.4" }}>
-                  {world.id === "verdant" &&
-                    "Ygdrasha (Poziom 8+): Prastara matka korzeni uderza falami toksycznego pyłu i pnączy. Używaj ognia i unikaj kałuż jadu!"}
-                  {world.id === "aether" &&
-                    "Zephyros (Poziom 12+): Władca Wichrów odpycha falami ciśnienia. Zachowaj KI na kontrataki w oknach spokoju!"}
-                  {world.id === "nexus" &&
-                    "Core Golem (Poziom 14+): Mechaniczny olbrzym strzela wiązką jonową. Chowaj się za filarami chłodzącymi!"}
-                  {world.id === "pyra" &&
-                    "Kharzul (Poziom 16+): Władca Popiołów wykonuje niszczycielską szarżę. Kluczowy jest unik w bok w ostatniej chwili!"}
-                </p>
-              </div>
-              <button onClick={() => send({ type: "dialogue", action: "boss_enter" })}>
-                Wejdź do Leża Bossa (Rozpocznij Wyzwanie)
-              </button>
+              {(() => {
+                const regionBosses = BOSS_CATALOG.filter((b) => b.continent === world.id);
+                if (regionBosses.length === 0)
+                  return <p>Strażnik nie odnotował aktywnych bossów w tej krainie.</p>;
+                return regionBosses.map((boss) => (
+                  <div
+                    key={boss.id}
+                    style={{
+                      padding: "8px",
+                      background: "rgba(255,255,255,0.06)",
+                      borderRadius: "4px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "4px",
+                    }}
+                  >
+                    <strong>
+                      {boss.name} (Poz. {boss.level}+)
+                    </strong>
+                    <small>{boss.locationName}</small>
+                    <p style={{ margin: "2px 0", fontSize: "0.88em", lineHeight: "1.4" }}>
+                      {boss.behavior}
+                    </p>
+                    <small>Słabość: {boss.weakness}</small>
+                    <button
+                      onClick={() =>
+                        send({ type: "dialogue", action: "boss_enter", bossId: boss.id })
+                      }
+                    >
+                      Wejdź do Leża: {boss.name}
+                    </button>
+                  </div>
+                ));
+              })()}
             </div>
           )}
 

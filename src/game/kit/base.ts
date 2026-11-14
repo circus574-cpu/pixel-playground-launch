@@ -557,13 +557,16 @@ export abstract class Kit {
   abilities(): AbilityInfo[] {
     const out: AbilityInfo[] = [];
     let n = 1;
+    const s = this.stats;
+    const dev = this.development;
+    const variant = activeVariant(this.port.development, this.race, this.learned);
     const basicNode = this.node("R")!;
     out.push({
       id: "R",
       name: basicNode.name,
       type: "starting",
       ki: 0,
-      cd: Math.round(this.stats.attackInterval),
+      cd: Math.round(s.attackInterval),
       remaining: Math.max(0, this.nextBasicAt - this.port.nowMs),
       channel: false,
       key: "",
@@ -578,8 +581,8 @@ export abstract class Kit {
         id: node.id,
         name: node.name,
         type: node.type,
-        ki: this.abilityCost(node.id),
-        cd: this.abilityCooldown(node.id),
+        ki: this.abilityCost(node.id, s.kiCostMul, variant),
+        cd: this.abilityCooldown(node.id, s.cooldownMul, dev.activeCooldown),
         remaining,
         channel: !!def.channel,
         key: n <= 9 ? String(n) : n === 10 ? "0" : "",
@@ -590,20 +593,23 @@ export abstract class Kit {
     }
     return out;
   }
-  private abilityCost(id: string) {
-    const variant = activeVariant(this.port.development, this.race, this.learned);
+  private abilityCost(
+    id: string,
+    kiCostMul = this.stats.kiCostMul,
+    variant = activeVariant(this.port.development, this.race, this.learned),
+  ) {
     const surcharge =
       variant && ["mv-trail", "ma-seal", "mn-mark", "mp-cuts"].includes(variant) && id === "A1"
         ? 1.25
         : 1;
-    return Math.round((this.defs[id]?.ki ?? 0) * this.stats.kiCostMul * surcharge);
+    return Math.round((this.defs[id]?.ki ?? 0) * kiCostMul * surcharge);
   }
-  private abilityCooldown(id: string) {
-    return Math.round(
-      this.cooldownOf(id) *
-        this.stats.cooldownMul *
-        (id === "T" ? 1 : this.development.activeCooldown),
-    );
+  private abilityCooldown(
+    id: string,
+    cooldownMul = this.stats.cooldownMul,
+    activeCooldown = this.development.activeCooldown,
+  ) {
+    return Math.round(this.cooldownOf(id) * cooldownMul * (id === "T" ? 1 : activeCooldown));
   }
   use(id: string): UseResult {
     if (id === "T" && (this.port.player.level < 20 || !["A9", "B9", "C9"].some((n) => this.has(n))))

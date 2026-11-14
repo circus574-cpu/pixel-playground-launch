@@ -37,6 +37,7 @@ export function remoteExam(client: OnlineClient, initial: NonNullable<OnlineFram
     s.player = structuredClone(frame.view.player);
     s.facing = { ...frame.facing };
     s.moving = frame.moving;
+    s.running = frame.running ?? false;
     s.nowMs = frame.nowMs;
     s.targetId = frame.view.targetId;
     s.enemies.splice(0, s.enemies.length, ...structuredClone(frame.enemies));

@@ -42,11 +42,13 @@ export function recipeReady(p: GameViewState["player"], r: CraftingRecipe): bool
 }
 
 export function CraftingPanel({
+  authoritative = false,
   state,
   send,
   initialStation = "forge",
   onClose,
 }: {
+  authoritative?: boolean;
   state: GameViewState;
   send: SendCommand;
   initialStation?: CraftingStation;
@@ -77,6 +79,7 @@ export function CraftingPanel({
         role="dialog"
         aria-modal="true"
         aria-label="Crafting"
+        data-race={p.race}
         className="ki-modal ki-frame ki-crafting-panel"
       >
         <header>
@@ -146,7 +149,7 @@ export function CraftingPanel({
                     <button
                       disabled={!ready}
                       onClick={() => send({ type: "craft", recipe: r.id })}
-                      title={ready ? "Wytworz przedmiot" : "Brakuje poziomu, monet lub składników"}
+                      title={ready ? "Wytwórz przedmiot" : "Brakuje poziomu, monet lub składników"}
                     >
                       Wytwórz · {r.craftingCostCoins} monet
                     </button>
@@ -156,7 +159,9 @@ export function CraftingPanel({
             })}
           </div>
           <p className="ki-panel-caption">
-            Rozmowa zatrzymuje lokalną symulację. Zamknij okno, aby wrócić do gry.
+            {authoritative
+              ? "Rozmowa nie zatrzymuje czasu na serwerze. Zamknij okno, aby wrócić do gry."
+              : "Rozmowa zatrzymuje lokalną symulację. Zamknij okno, aby wrócić do gry."}
           </p>
           <button onClick={onClose}>Wróć do rozmowy</button>
         </div>

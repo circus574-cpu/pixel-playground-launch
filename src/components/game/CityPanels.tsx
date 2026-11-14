@@ -123,6 +123,7 @@ export function DepotPanel({
         role="dialog"
         aria-modal="true"
         aria-label="Twoja skrzynia"
+        data-race={p.race}
         className="ki-modal ki-frame ki-depot-panel"
       >
         <header>

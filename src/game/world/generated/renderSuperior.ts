@@ -814,7 +814,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         }
       }
       for (let i = 0; i < masks.length; i++)
-        if (masks[i])
+        if (masks[i]) {
           paintedPaths(
             nc,
             masks[i]!.c,
@@ -823,6 +823,8 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
             data.y,
             scale,
           );
+          masks[i]!.c.width = masks[i]!.c.height = 0;
+        }
       const mask = sctx.createImageData(cols, rows);
       for (let i = 0; i < flags.length; i++)
         mask.data[i * 4 + 3] = outside(cellPoint(i)) && !!(flags[i]! & 16) ? 255 : 0;
@@ -830,6 +832,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       nc.globalCompositeOperation = "destination-in";
       nc.drawImage(small, 0, 0, cols, rows, 0, 0, resolution, resolution);
       ctx.drawImage(natural, 0, 0);
+      natural.width = natural.height = 0;
     }
     if (paintedPyra && plaza) {
       const courts = document.createElement("canvas");
@@ -855,6 +858,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         courtPen.fill();
       }
       paintedPaths(ctx, courts, plaza, data.x, data.y, scale);
+      courts.width = courts.height = 0;
     }
     if (paintedNexus && silhouette) {
       const edge = document.createElement("canvas");
@@ -892,6 +896,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         edgeCtx.fillRect(0, 0, resolution, resolution);
         ctx.drawImage(edge, 0, 0);
       }
+      edge.width = edge.height = 0;
     }
     if (paintedNexus && plaza) {
       const hall = source.art.acceptedCityBuildings.find((b) => b.binding.endsWith(".nexus-hall"));
@@ -907,8 +912,10 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
           280 * scale,
         );
         paintedPaths(ctx, apron, plaza, data.x, data.y, scale);
+        apron.width = apron.height = 0;
       }
     }
+    if (silhouette) silhouette.width = silhouette.height = 0;
     tex.refresh();
     return {
       key,
@@ -1254,20 +1261,17 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     scene.game.canvas.dataset["nexusContinent"] = String(nexusContinent);
     scene.game.canvas.dataset["verdantiaExtra"] = String(verdantContinent && extraSceneryEnabled());
     scene.game.canvas.dataset["superiorGroundResolution"] = String(adaptive);
-    scene.game.canvas.dataset["superiorScenery"] = String(
-      [...live.values()].reduce((n, t) => n + t.images.size, 0),
-    );
-    if (dress)
-      scene.game.canvas.dataset["dressScenery"] = String(
-        [...live.values()].reduce(
-          (n, t) =>
-            n +
-            [...t.images.keys()].filter(
-              (k) => k.startsWith("dress-") || k.startsWith("town-dress-"),
-            ).length,
-          0,
-        ),
-      );
+    let sceneryCount = 0;
+    let dressCount = 0;
+    for (const t of live.values()) {
+      sceneryCount += t.images.size;
+      if (dress) {
+        for (const k of t.images.keys())
+          if (k.startsWith("dress-") || k.startsWith("town-dress-")) dressCount++;
+      }
+    }
+    scene.game.canvas.dataset["superiorScenery"] = String(sceneryCount);
+    if (dress) scene.game.canvas.dataset["dressScenery"] = String(dressCount);
   };
   return {
     terrainMode: "superior",
@@ -1283,6 +1287,14 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     },
     dispose() {
       disposed = true;
+      if (activeBake) {
+        cancelBake(activeBake);
+        activeBake = null;
+      }
+      for (const entry of bakeQueue.splice(0)) {
+        pending.delete(entry.id);
+        source.release(scene, entry.id);
+      }
       for (const id of [...live.keys()]) drop(id);
       if (continent && scene.textures.exists(shadowKey)) scene.textures.remove(shadowKey);
       materials.clear();

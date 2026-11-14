@@ -30,7 +30,7 @@ export function repairPlayerForLoad(
     player.items.sword = 1;
     note("items.sword");
   }
-  if (player.armor && !player.items.vest) {
+  if (player.armor === "vest" && !player.items.vest) {
     player.items.vest = 1;
     note("items.vest");
   }
