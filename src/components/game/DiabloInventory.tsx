@@ -107,7 +107,7 @@ function describe(entry: BagEntry): ItemDescription {
         : item.defense
           ? "+" + item.defense + " obrony · pancerz"
           : entry.id === "potion"
-            ? "Przywraca do 65 HP · kliknij, aby wypić"
+            ? "Przywraca 40% maks. HP · kliknij, aby wypić"
             : "Materiał · sprzedaż " + item.sell + " monet",
     };
   }

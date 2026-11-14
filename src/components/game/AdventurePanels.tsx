@@ -132,7 +132,7 @@ function InventoryImpl({
                     : item.defense
                       ? "+" + item.defense + " obrony"
                       : id === "potion"
-                        ? "Przywraca do 65 HP"
+                        ? "Przywraca 40% maks. HP"
                         : "Materiał · sprzedaż za 5 monet"}
                 </small>
               </div>
