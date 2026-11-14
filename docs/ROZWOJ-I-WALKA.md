@@ -558,15 +558,20 @@ Nie wszystkie słabości mają wykonalny typ ataku (np. woda/zimno).
 Źródło: `src/game/items/loot.ts`, wywołanie w `MonsterSystem.rollLoot` (ten sam kod w
 przeglądarce i w autorytatywnym serwerze `/ws/online`), testy `src/test/catalog-loot.test.ts`.
 
-- Każdy z 354 przedmiotów katalogu poza 12 kluczami fabularnymi (`category: "quest"`,
-  K-01…K-12 — nagrody kampanii) ma co najmniej jedno źródło losowego dropu.
+- Losowo wypadają tylko słabe przedmioty: pospolite i niepospolite (`DROP_RARITIES` w `loot.ts`).
+  Przedmioty rzadkie, epickie i legendarne nie mają losowego źródła u potworów, podobnie jak 12 kluczy
+  fabularnych (`category: "quest"`, K-01…K-12 — nagrody kampanii). Pierwotna wersja z 01.11.2026 dawała
+  każdemu przedmiotowi katalogu źródło dropu; została zawężona do słabych przedmiotów.
 - Pula potwora: przedmioty jego kontynentu (`sourceContinent`; „all”/„neutral” — każdy
   kontynent), których poziom mieści się w oknie [poziom − 3, poziom + 5] względem poziomu
   potwora. Przedmiot bez poziomu dostaje poziom z rzadkości (pospolity 1, niepospolity 5,
   rzadki 9, epicki 13, legendarny 17); poziom powyżej 18 liczy się jako 18.
-- Każde zabicie potwora (bez przywołańców i klonów) daje 8% szansy na jeden przedmiot.
-  Wybór w puli jest ważony rzadkością: pospolity 50, niepospolity 25, rzadki 10, epicki 4,
-  legendarny 1,5. Dotychczasowe materiały potworów i złoto losują się jak wcześniej.
+- Każde zabicie potwora (bez przywołańców i klonów) daje 2% szansy (`DROP_CHANCE`, wcześniej 8%) na jeden
+  przedmiot. Wybór w puli jest ważony rzadkością: pospolity 50, niepospolity 25. Dotychczasowe materiały
+  potworów i złoto losują się jak wcześniej.
+- Potwory wysokich poziomów (okno [poziom − 3, poziom + 5] nie obejmuje żadnego słabego przedmiotu) mają
+  pustą pulę i nie gubią przedmiotów z katalogu; test `catalog-loot` zakłada to jawnie. Czy tak ma zostać,
+  czeka na decyzję właściciela.
 - Przedmiot trafia do 40-polowej torby (`bagItems`, stos do 99); przy pełnej torbie
   zostaje na ziemi. Na ziemi świeci kolorem rzadkości.
 - Panel `/admin` (katalog przedmiotów) pokazuje dla każdego przedmiotu potwory, poziom i

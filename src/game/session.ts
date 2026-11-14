@@ -2398,10 +2398,10 @@ export class GameSession implements MonsterHost {
           verdant:
             "Plotka: Drwale ostrzegają przed leżem Ygdrashy w głębi wschodniej puszczy. Jej korzenie więżą, a jad zatruwa, ale jej kora jest wrażliwa na ogień i skupione uderzenia Ki!",
           aether:
-            "Plotka: Kronikarze donoszą o gnieździe Zephyrosa na Wichrowej Iglicy. Prąd wstępujący odpycha każdego, kto nie potrafi ustabilizować aury Ki!",
+            "Plotka: Kronikarze donoszą o Arcykapłanie Pustki (poz. 15) i Aurelicie, Smoku Sanktuarium (poz. 20). Arcykapłan zamyka walkę barierami, które pochłaniają większość obrażeń, więc najpierw trzeba je przełamać!",
           nexus:
-            "Plotka: Czujniki wykryły przegrzanie rdzenia Golema w komorze reaktora. Przed jego promieniem termicznym chronią tylko metalowe filary chłodzące!",
-          pyra: "Plotka: Władca Kharzul zbiera moc w lawowych kraterach południa. Atakuje niszczycielską szarżą — szybki uskok w bok to jedyny ratunek!",
+            "Plotka: Czujniki wykryły Arbitera Zero (poz. 15) i Hydrę-Rdzeń (poz. 20). Arbiter osłania się Tarczą Polaryzacyjną, a Hydra uderza trzema głowicami naraz: Alfa, Beta i Gamma!",
+          pyra: "Plotka: Kharzul, Mistrz Areny (poz. 15), i Pyrrhax, Smok Wulkanu (poz. 20), zbierają moc w lawowych kraterach południa. Kharzul przełamuje pancerz, a Pyrrhax zsyła Deszcz Lawy i Falę Żaru!",
         };
         const hint =
           RUMORS_BY_CONTINENT[this.world.id] ??
