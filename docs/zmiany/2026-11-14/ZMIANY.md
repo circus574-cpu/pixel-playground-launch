@@ -23,3 +23,21 @@ Sprawdzone i nie poprawiane:
   fabularnych, więc czeka na właściciela. `SettlementLife` jest podłączony tylko w testach (decyzja o integracji).
 - Bramki z audytu wymagające decyzji właściciela (łup potworów poz. 12–18, pauza dialogu w trybie online, ograniczenie
   craftingu do stacji, łup bossów w zapisie) nie ruszane.
+
+### 2. Plan napraw z audytu: reszta po scaleniu pracy agentów swarm
+
+Po PR #165 na `main` weszły commity agentów swarm (`SWARM audit`, dziennik 13.11, pkt 6), które zrobiły większość listy
+z zewnętrznego planu: Eliksir KI i Antidotum (scalone z poprawką z #165, `clearDebuffs()` woła `cleanse()`),
+`quest-deliver` dla przedmiotów V2 i materiałów, `bossId` w `boss_enter` i lista bossów Strażnika z `BOSS_CATALOG`,
+rozmieszczenie NPC w osadach drugiego rzędu w siatce, tekst mikstury. Reszta sprawdzona na `main@44c4dc2` i poprawiona:
+
+- **Plotki i dialog Strażnika:** w `RUMORS_BY_CONTINENT` (Aetheria, Nexus, Pyra) i w dialogu Sorana w `aether.json` stały
+  nieistniejące postacie (Zephyros, Golem, „Władca Kharzul”, poziom 12+). Teraz nazwy, poziomy (15 i 20) i ataki pochodzą
+  z `BOSS_CATALOG`: Arcykapłan Pustki i Aurelith, Arbiter Zero i Hydra-Rdzeń, Kharzul i Pyrrhax.
+- **Dokumentacja łupu (`ROZWOJ-I-WALKA.md`):** opis mówił o 8% szansy i o dropie wszystkich 354 przedmiotów, a kod ma
+  `DROP_CHANCE = 0.02` i tylko pospolite i niepospolite (`DROP_RARITIES`). Opis poprawiony, puste pule potworów wysokich
+  poziomów opisane jako stan zamierzony do decyzji właściciela. `INDEX.md`: PR #151 jest scalony, nie „osobna gałąź”.
+
+Nie ruszane (decyzje właściciela): łup potworów poz. 12–18, pauza dialogu i depozytu w trybie online, ograniczenie
+craftingu do stacji, łup bossów w zapisie, integracja `SettlementLife`. Nie wykonano: przepisania specyfikacji e2e `city`
+i `manga-hud` (nie uruchamiano e2e w przeglądarce w tej sesji).

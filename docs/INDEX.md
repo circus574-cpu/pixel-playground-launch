@@ -4,7 +4,7 @@
 spawny, NPC, questy, wnętrza i rozwój ras. Właściciel 12.11 zatwierdził scalenie
 i wdrożenie; [raport oraz dowody](zmiany/2026-11-12/ZMIANY.md#11-świat--przegląd-superior-v2-w-panelu-administratora).
 
-**Skalowanie drzewka — 12.11:** na osobnej gałęzi bilansu (PR #151) wdrożono decyzję:
+**Skalowanie drzewka — 12.11:** w PR #151 (scalony do `main`) wdrożono decyzję:
 pierwsza premia o połowę mniejsza, kolejne punkty +10% tej nowej bazy.
 [Reguła, zakres i pomiar](zmiany/2026-11-12/ZMIANY.md#2-nowe-skalowanie-premii-drzewka--decyzja-i-pomiar).
 
