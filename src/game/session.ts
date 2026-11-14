@@ -2493,6 +2493,7 @@ export class GameSession implements MonsterHost {
         p.materials[firstMat]!--;
         if (!p.materials[firstMat]) delete p.materials[firstMat];
         p.ki = this.kit.stats.maxKi;
+        // dealtPct is a fraction (deriveStats: 1 + dealtPct): 15 would have been x16 damage, 0.15 is the +15% the text promises
         this.kit.addBuff({ id: "ki-focus", ms: 60000, dealtPct: 0.15 });
         this.say("Wypito świeży Eliksir KI: pełne KI oraz +15% zadawanych obrażeń przez 60 s!");
       } else if (c.recipe === "antidote") {
@@ -2501,7 +2502,7 @@ export class GameSession implements MonsterHost {
         p.materials[firstMat]!--;
         if (!p.materials[firstMat]) delete p.materials[firstMat];
         p.hp = Math.min(this.kit.stats.maxHp, p.hp + 50);
-        this.fx.clearDebuffs();
+        this.fx.cleanse();
         this.syncFxBuffs();
         this.say("Zastosowano Antidotum: usunięto osłabienia i odzyskano 50 punktów życia!");
       }

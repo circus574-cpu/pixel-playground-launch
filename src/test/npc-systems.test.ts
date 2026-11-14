@@ -42,14 +42,23 @@ describe("Working NPC Systems (Działające systemy NPC)", () => {
     expect(p.gold).toBe(37);
     expect(p.ki).toBe(game.kit.stats.maxKi);
     expect(game.notice).toContain("Wypito świeży Eliksir KI");
+    // +15% damage (a fraction in deriveStats), not x16: the buff once carried the percentage point count 15
+    expect(game.kit.stats.dealt).toBeCloseTo(1.15, 5);
 
-    // Craft Antidote (requires 1 material + 6 gold)
+    // Craft Antidote (requires 1 material + 6 gold); it cures damage over time, slow and weaken as well
+    const fxOpts = { cc: 1, stunImmune: false, atk: 10, machine: false };
+    game.fx.apply({ k: "dot", id: "poison", atkPct: 0.5, ms: 8000 }, fxOpts);
+    game.fx.apply({ k: "dot", id: "burn", atkPct: 0.5, ms: 8000 }, fxOpts);
+    game.fx.apply({ k: "slow", pct: 0.4, ms: 8000 }, fxOpts);
+    game.fx.apply({ k: "weaken", pct: 0.2, ms: 8000 }, fxOpts);
+    expect(game.fx.active.map((e) => e.id).sort()).toEqual(["burn", "poison", "slow", "weaken"]);
     p.hp = 20;
     game.command({ type: "brew", recipe: "antidote" });
     expect(p.materials["mchowa-galaretka"]).toBeUndefined();
     expect(p.gold).toBe(31);
     expect(p.hp).toBe(70);
     expect(game.notice).toContain("Zastosowano Antidotum");
+    expect(game.fx.active).toEqual([]);
 
     // Cannot brew without materials
     game.command({ type: "brew", recipe: "hp" });
