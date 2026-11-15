@@ -203,6 +203,13 @@ Konto jest opcjonalne; bez logowania gra zapisuje postacie tylko w przeglądarce
   narzędzia zmieniają wyłącznie zapis tej postaci.
 - Nie dotyczy przestrzeni szkiców `/test` (osobna sesja z hasłem) ani multiplayera (NET-01).
 
+## Otwarte pola, szwy mapy i obrót globusa — 15.11.2026
+
+Narzędzia w `scripts/worldgen/v2/`: `open_fields.py` (przesuwa ciasne spawny na wolne pola i zapisuje `paths.json`
+ze ścieżkami do spawnów; aktualizuje `spawns.json` i `manifest.json`) oraz `seam.py` (uszczelnia szew lewej i prawej
+krawędzi atlasu 2D; `build_v2_atlas.py` woła go przy generowaniu). Szczegóły i wyniki:
+[dziennik 15.11](zmiany/2026-11-15/ZMIANY.md).
+
 ## Odbiór i dowody
 
 CI: bramka jakości `verify` (pełny `npm run typecheck`, `npm run test`, `npm run lint`,
@@ -595,8 +602,13 @@ a dopiero tap/klik wybiera punkt; pan, pinch i pointercancel nie teleportują.
 Nie zmienia geometrii. Przerwanie/zamknięcie mapy anuluje oczekujący wybór.
 
 `SuperiorRuntime.staffTeleport` ponownie sprawdza rolę sesji, stan postaci,
-sygnał anulowania i rzeczywistą nawigację/kolizje miejsca. Dla innego lądu najpierw
-weryfikuje jego dane i przejezdność, a dopiero potem zapisuje podróż ze wskazanymi
+sygnał anulowania i nawigację miejsca. **Od 15.11.2026 dla GM nie ma miejsc niebezpiecznych:**
+`Navigation.staffSpot` odmawia tylko wody (morze, jeziora, rzeki; bit lądu w terenie) i punktu poza mapą,
+a punkt na drzewie, budynku lub skale przenosi na najbliższe miejsce do stania (do 4000 j.), bo postać
+niemożliwa do postawienia nie wczytałaby się. Ta sama zasada działa w sesji (`staffCommand`), w
+runtime przeglądarki, na serwerze (`travel` z punktem) i przy wczytaniu postaci po edycji w panelu
+(najbliższe miejsce zamiast powrotu do arrival). Dla innego lądu najpierw
+weryfikuje jego dane, a dopiero potem zapisuje podróż ze wskazanymi
 współrzędnymi. `SuperiorSaveStore.travel` zachowuje dotychczasowy CAS i blokadę
 nadpisania przez outgoing scene. Bezpieczne zwykłe podróże nadal domyślnie używają
 arrival. Rolę sesji ustala istniejące `verifiedStaffRole` przy wejściu; nie dodano

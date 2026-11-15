@@ -126,5 +126,13 @@ export function browserNavigation(
         if (blockedAt(p.x, p.y, index.get(x + ":" + y) ?? [])) return false;
     return true;
   };
-  return new Navigation(width, height, [], { cell: 16, blocked, walkable });
+  // Bit 0 of a terrain cell is dry ground; sea and inland water have it clear, a bridge sets it again.
+  const water = (p: Point) => {
+    const x = Math.floor(p.x / 32),
+      y = Math.floor(p.y / 32);
+    return x < 0 || y < 0 || x >= terrain.width || y >= terrain.height
+      ? true
+      : !(flags[y * terrain.width + x]! & 1);
+  };
+  return new Navigation(width, height, [], { cell: 16, blocked, walkable, water });
 }

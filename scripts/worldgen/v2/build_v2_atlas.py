@@ -16,11 +16,14 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from geometry import read, IDS  # noqa: E402
 from migration_preview import decode  # noqa: E402
+from seam import seal  # noqa: E402
 
 P = ROOT / 'public/game/worlds/superior-v2-prototype'
 ASSETS = ROOT / 'src/assets/planet-map'
 MW, MH = 2000, 1000
 src = Image.open(ROOT / os.environ.get('GLOBE_PAINTED', 'deliveries/world-v2-art/maps/globe-painted.webp')).convert('RGB')
+# The flat map repeats the atlas sideways: make x = 0 and x = W meet without a visible line (seam.py).
+src = seal(src)
 src.resize((3840, 1920), Image.LANCZOS).save(ASSETS / 'atlas-v2-3840.webp', 'WEBP', quality=88, method=6)
 src.resize((1920, 960), Image.LANCZOS).save(ASSETS / 'atlas-v2-1920.webp', 'WEBP', quality=86, method=6)
 m = read(P / 'sphere-chunks.json'); labels = np.zeros((m['height'], m['width']), np.uint8)

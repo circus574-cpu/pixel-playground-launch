@@ -59,6 +59,7 @@ import type { Point } from "../../navigation";
 import type { Obstacle } from "../../movement";
 import type { GameLoadingState } from "../../loading";
 import { loadBrowserFeature } from "./browserLoader";
+import { thinScenery } from "../sceneryThinning";
 import { renderSuperior, type ArtObject, type FeatureArt } from "./renderSuperior";
 import { arenaClearingEnabled, buildArenaIndex, clearsArena } from "../combatArena";
 import { monsterFramePx, monsterSizesEnabled, type SizeClass } from "../../monsters/visualSize";
@@ -400,6 +401,7 @@ export async function prepareSuperior(options: {
           nexusBiomeAt(chunk),
         );
       }
+      value.objects = thinScenery(value.objects);
       const objects = arenaIndex
         ? value.objects.filter((o) => !clearsArena(arenaIndex, o))
         : value.objects;
@@ -694,15 +696,32 @@ export async function prepareSuperior(options: {
       return !!next && destination !== info.id && allowed && save.travel(session.player, next);
     },
     async staffTeleport(destination, point, signal) {
+      // No ground is "unsafe" for staff. The jump is refused only for water (and a point off the map); a point on a tree or
+      // a rock lands on the nearest place a character can stand. The online server receives the already-chosen spot.
+      const standingSpot = async () => {
+        const nav =
+          destination === info.id
+            ? loader.navigation
+            : (await loadBrowserFeature(BASE, destination, { signal: abort.signal })).navigation;
+        return nav.staffSpot(point);
+      };
       if (options.online) {
+        let spot: { x: number; y: number } | null;
+        try {
+          spot = await standingSpot();
+        } catch {
+          return false;
+        }
+        if (!spot || signal?.aborted) return false;
+        const target = spot;
         if (destination === info.id)
-          options.online.command({ type: "staff", action: "teleport", ...point });
-        else options.online.intent({ type: "staff-travel", destination, point });
+          options.online.command({ type: "staff", action: "teleport", ...target });
+        else options.online.intent({ type: "staff-travel", destination, point: target });
         return new Promise<boolean>((resolve) => {
           const stop = options.online!.subscribe((frame) => {
             if (
               frame.feature === destination &&
-              Math.hypot(frame.view.x - point.x, frame.view.y - point.y) < 32
+              Math.hypot(frame.view.x - target.x, frame.view.y - target.y) < 32
             ) {
               clearTimeout(timeout);
               stop();
@@ -728,25 +747,22 @@ export async function prepareSuperior(options: {
       const next = index.features.find((f) => f.id === destination);
       if (!next) return false;
       try {
-        const nav =
-          destination === info.id
-            ? loader.navigation
-            : (await loadBrowserFeature(BASE, destination, { signal: abort.signal })).navigation;
+        const spot = await standingSpot();
         if (
           signal?.aborted ||
           disposed ||
           !session.staff ||
           session.player.interior ||
           session.player.dead ||
-          !nav.walkable(point)
+          !spot
         )
           return false;
         if (destination === info.id) {
-          session.command({ type: "staff", action: "teleport", ...point });
+          session.command({ type: "staff", action: "teleport", ...spot });
           session.flush();
           return true;
         }
-        return save.travel(session.player, next, point);
+        return save.travel(session.player, next, spot);
       } catch {
         return false;
       }

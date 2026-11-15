@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState, useRef } from "react";
 import { decodedImage, loadWorldOverlay } from "./preload";
 import { meets, visiblePlaces, type Box, type Place } from "./labelLayout";
 import { REGIONS } from "./mapData";
+import { buildMesh, drawCell } from "./terrainMesh";
 import type { OverlayLands, OverlayTile } from "./worldToAtlas";
 
 type Road = { id: string; land: string; kind: string; width: number; points: [number, number][] };
@@ -83,6 +84,7 @@ function TerrainCanvas({
   const ref = useRef<HTMLCanvasElement>(null);
   const [x0, y0, x1, y1] = bounds;
   const unitsPerPixel = px(1);
+  const mesh = useMemo(() => buildMesh(tiles), [tiles]);
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
@@ -122,17 +124,8 @@ function TerrainCanvas({
           }
           for (const tile of visible) {
             if (tile.land !== land) continue;
-            const [a, b, c, d, e, f] = tile.m as [number, number, number, number, number, number];
-            const [x, y, w, h] = tile.crop as [number, number, number, number];
-            ctx.setTransform(
-              a * scale,
-              b * scale,
-              c * scale,
-              d * scale,
-              (e - x0) * scale,
-              (f - y0) * scale,
-            );
-            ctx.drawImage(image, x, y, w, h, x, y, w + 0.6, h + 0.6);
+            const cell = mesh.get(tile);
+            if (cell) drawCell(ctx, image, cell, scale, x0, y0);
           }
           ctx.restore();
         }
@@ -174,7 +167,7 @@ function TerrainCanvas({
       live = false;
       cancelAnimationFrame(frame);
     };
-  }, [tiles, boxes, x0, y0, x1, y1, unitsPerPixel]);
+  }, [tiles, boxes, mesh, x0, y0, x1, y1, unitsPerPixel]);
   return (
     <foreignObject
       x={x0}

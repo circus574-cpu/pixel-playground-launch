@@ -9,6 +9,8 @@ export type NavigationField = {
   cell: number;
   blocked: Uint8Array;
   walkable: (p: Point) => boolean;
+  /** Sea, lakes and rivers of the generated terrain (a bridge over water is not water). */
+  water?: (p: Point) => boolean;
 };
 
 /**
@@ -105,6 +107,36 @@ export class Navigation {
       p.y <= this.height - WORLD_EDGE_MARGIN &&
       !blockedAt(p.x, p.y, this.obstacles, FOOT_RADIUS)
     );
+  }
+  isWater(p: Point): boolean {
+    return this.field?.water?.(p) ?? false;
+  }
+  /**
+   * Where a game master teleport to `p` lands. There is no "unsafe" ground for staff: the spot is `p` itself, or, when `p`
+   * lies on a tree, building or rock, the nearest place a character can stand (a character that cannot stand where it was
+   * saved does not load). Only water refuses the jump, as does a point off the map: null.
+   */
+  staffSpot(p: Point, radius = 4000): Point | null {
+    if (
+      !Number.isFinite(p.x) ||
+      !Number.isFinite(p.y) ||
+      p.x < 0 ||
+      p.y < 0 ||
+      p.x >= this.width ||
+      p.y >= this.height ||
+      this.isWater(p)
+    )
+      return null;
+    if (this.walkable(p)) return { x: p.x, y: p.y };
+    for (let r = this.cell; r <= radius; r += this.cell)
+      for (let angle = 0; angle < 24; angle++) {
+        const q = {
+          x: p.x + Math.cos((angle * Math.PI) / 12) * r,
+          y: p.y + Math.sin((angle * Math.PI) / 12) * r,
+        };
+        if (!this.isWater(q) && this.walkable(q)) return q;
+      }
+    return null;
   }
   visible(a: Point, b: Point): boolean {
     if (this.localObstacles.length && !clearSight(a.x, a.y, b.x, b.y, this.localObstacles))

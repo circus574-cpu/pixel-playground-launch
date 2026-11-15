@@ -1669,18 +1669,23 @@ export class GameSession implements MonsterHost {
     if (!this.staff) return;
     if (c.action === "teleport") {
       if (!Number.isFinite(c.x) || !Number.isFinite(c.y)) {
-        this.say("Wybierz dostępne miejsce na lądzie, poza przeszkodami.");
+        this.say("Wybierz miejsce na lądzie.");
         return;
       }
       if (p.interior || p.dead) {
         this.say("Teleport działa tylko na otwartym terenie.");
         return;
       }
+      const spot = this.nav.staffSpot({ x: c.x, y: c.y });
+      if (!spot) {
+        this.say("Do wody ani poza mapę nie można się teleportować. Wybierz ląd.");
+        return;
+      }
       this.clearDestinations();
       this.targetId = null;
       this.autoAttack = false;
       this.route = [];
-      Object.assign(p, this.nav.safe({ x: c.x, y: c.y }));
+      Object.assign(p, spot);
       this.say("Teleport: " + Math.round(p.x) + ", " + Math.round(p.y));
     } else if (c.action === "heal") {
       const s = this.kit.stats;
