@@ -291,7 +291,24 @@ export const PlayerSchema = z.object({
 export type Player = z.infer<typeof PlayerSchema>;
 export type NpcId = NpcRole;
 export const NPCS = WORLDS.verdant.npcs;
-export type Loot = Point & { id: string; item: string; quantity: number; gold: number };
+/** `drop` łączy wpisy jednego upadku z jednego pokonanego przeciwnika: otwiera się je razem. */
+export type Loot = Point & {
+  id: string;
+  item: string;
+  quantity: number;
+  gold: number;
+  drop: string;
+};
+/** Jedna pozycja w zawartości otwartego łupu; `kept: false` znaczy, że zabrakło miejsca w plecaku. */
+export type LootLine = {
+  item: string;
+  name: string;
+  quantity: number;
+  rarity?: import("./items/types").ItemRarity;
+  kept: boolean;
+};
+/** Co było w ostatnio otwartym łupie. Interfejs pokazuje to krótko w małym panelu po otwarciu. */
+export type LootReceipt = { id: number; x: number; y: number; lines: LootLine[]; gold: number };
 export type GameEventType =
   | "projectile"
   | "projectile-end"
@@ -492,6 +509,8 @@ export function equipmentStats(
   return gear;
 }
 /** Reach of the Walka panel and of picking the nearest monster when attacking with no target. */
+/** Najdalej od rozmówcy, jak można odejść, nie kończąc rozmowy (otwiera się w 100 jedn.; zapas, żeby nie migotała). */
+export const DIALOGUE_LEAVE_DISTANCE = 220;
 export const FOE_PANEL_RANGE = 900;
 export const AUTO_TARGET_RANGE = 650;
 /** Fraction of the progress toward the next level that a defeat costs. Owner 07.11.2026. */
@@ -979,6 +998,9 @@ export class GameSession implements MonsterHost {
   readonly kit: Kit;
   readonly fx = new PlayerFx();
   loot: Loot[] = [];
+  /** Zawartość ostatnio otwartego łupu (tylko do pokazania w interfejsie, nie jest zapisywana). */
+  lootReceipt: LootReceipt | null = null;
+  private lootOpened = 0;
   targetId: string | null = null;
   dialogue: NpcId | null = null;
   /** How many conversations have been opened. Drives which catalogue greeting a NPC offers. */
@@ -1291,14 +1313,17 @@ export class GameSession implements MonsterHost {
       this.autoAttack = false;
       this.route = [];
     }
+    // Wszystko z jednego przeciwnika to jeden łup: leży w jednym miejscu i otwiera się jednym działaniem.
+    const dropId = "drop-" + ++this.counter;
     for (const drop of this.monsters.rollLoot(e)) {
       this.loot.push({
         id: "loot-" + ++this.counter,
-        x: e.x + (this.counter % 3) * 8,
-        y: e.y + (this.counter % 2) * 6,
+        x: e.x,
+        y: e.y,
         item: drop.item,
         quantity: drop.quantity,
         gold: drop.gold,
+        drop: dropId,
       });
     }
     if (
@@ -1378,12 +1403,16 @@ export class GameSession implements MonsterHost {
     });
   }
 
+  /** Czy zwykły przedmiot (mikstura itp.) zmieści się w plecaku; nic nie zmienia. */
+  private canAddItem(item: ItemId, n = 1) {
+    const have = this.player.items[item] ?? 0;
+    return (
+      have + n <= 99 &&
+      (have > 0 || ITEM_IDS.filter((id) => this.player.items[id] > 0).length < BAG_CAPACITY)
+    );
+  }
   private add(item: ItemId, n = 1) {
-    if (
-      this.player.items[item] + n > 99 ||
-      (!this.player.items[item] &&
-        ITEM_IDS.filter((id) => this.player.items[id] > 0).length >= BAG_CAPACITY)
-    ) {
+    if (!this.canAddItem(item, n)) {
       this.say("Brak miejsca w plecaku lub pełny stos (99).");
       return false;
     }
@@ -1411,10 +1440,15 @@ export class GameSession implements MonsterHost {
     p.bagItems[id] = (p.bagItems[id] ?? 0) + n;
     return true;
   }
+  private canAddMaterial(id: string, n: number) {
+    const mats = this.player.materials;
+    const have = mats[id] ?? 0;
+    return have + n <= 99 && (have > 0 || Object.keys(mats).length < MATERIAL_CAPACITY);
+  }
   private addMaterial(id: string, n: number) {
     const mats = this.player.materials;
     const have = mats[id] ?? 0;
-    if (have + n > 99 || (!have && Object.keys(mats).length >= MATERIAL_CAPACITY)) {
+    if (!this.canAddMaterial(id, n)) {
       this.say("Brak miejsca na materiały lub pełny stos (99).");
       return false;
     }
@@ -1423,6 +1457,16 @@ export class GameSession implements MonsterHost {
   }
   private nearbyNpc() {
     return this.npcs.find((n) => n.id === this.dialogue && distance(n, this.player) <= 115);
+  }
+  /**
+   * Rozmowa trwa, dopóki gracz jest blisko rozmówcy. Gdy odejdzie, rozmówca zniknie z listy (wyjście z budynku) albo
+   * gracz zginie, rozmowa kończy się sama, więc usługi (handel, wypoczynek, warzenie) nie działają z odległości.
+   */
+  private closeDialogueOutOfReach() {
+    if (!this.dialogue) return;
+    const npc = this.npcs.find((n) => n.id === this.dialogue);
+    if (!npc || this.player.dead || distance(npc, this.player) > DIALOGUE_LEAVE_DISTANCE)
+      this.dialogue = null;
   }
   private clearDestinations() {
     this.pendingNpc = null;
@@ -2852,8 +2896,9 @@ export class GameSession implements MonsterHost {
       this.flush();
       return;
     }
-    if (this.dialogue || this.depotOpen || this.paused)
-      return this.say("Zamknij okno, aby kontynuować.");
+    // Rozmowa nie blokuje gry: postać mówi dymkami, a gracz może iść, walczyć i używać umiejętności. Wstrzymują ją
+    // tylko panele (pauza) i skrzynia depozytu.
+    if (this.depotOpen || this.paused) return this.say("Zamknij okno, aby kontynuować.");
     if (c.type === "ability") return this.use(c.ability);
     if (c.type === "dodge") {
       if (this.fx.cannotAct || p.dead) return;
@@ -2944,33 +2989,68 @@ export class GameSession implements MonsterHost {
         this.go(loot);
         return;
       }
-      let name = "";
-      if (loot.quantity > 0) {
-        if (isMaterial(loot.item)) {
-          if (!this.addMaterial(loot.item, loot.quantity)) return;
-          name = MATERIALS[loot.item]!.name;
-        } else if (!(loot.item in ITEMS) && getItemById(loot.item)) {
-          if (!this.addBagItem(loot.item, loot.quantity)) return;
-          name = getItemById(loot.item)!.name;
-        } else {
-          if (!this.add(loot.item as ItemId, loot.quantity)) return;
-          name = ITEMS[loot.item as ItemId].name;
-        }
-      }
-      p.gold += loot.gold;
-      this.loot = this.loot.filter((l) => l.id !== loot.id);
-      this.pendingLoot = null;
-      this.emit({
-        type: "loot",
-        x: loot.x,
-        y: loot.y,
-        text: name ? "+" + loot.quantity + " " + name : "+" + loot.gold + " monet",
-      });
-      this.say(
-        name ? "Łup: " + name + ", +" + loot.gold + " monet." : "Łup: +" + loot.gold + " monet.",
-      );
-      this.flush();
+      this.openLoot(loot);
     }
+  }
+  /**
+   * Otwiera cały łup, do którego należy `entry`: zabiera wszystko, co mieści się w plecaku, i monety, a zawartość
+   * zapisuje w `lootReceipt`, żeby interfejs pokazał, co wypadło. Pozycje bez miejsca zostają w łupie.
+   */
+  private openLoot(entry: Loot) {
+    const p = this.player;
+    const group = this.loot.filter((l) => l.drop === entry.drop);
+    const lines: LootLine[] = [];
+    let gold = 0;
+    const left = new Set<string>();
+    for (const l of group) {
+      gold += l.gold;
+      l.gold = 0;
+      if (l.quantity <= 0) continue;
+      const material = isMaterial(l.item);
+      const catalog = !material && !(l.item in ITEMS) && getItemById(l.item);
+      const fits = material
+        ? this.canAddMaterial(l.item, l.quantity)
+        : catalog
+          ? this.canAddBagItem(l.item, l.quantity)
+          : this.canAddItem(l.item as ItemId, l.quantity);
+      const name = material
+        ? MATERIALS[l.item]!.name
+        : catalog
+          ? catalog.name
+          : (ITEMS[l.item as ItemId]?.name ?? l.item);
+      const rarity = catalog ? catalog.rarity : undefined;
+      const line: LootLine = { item: l.item, name, quantity: l.quantity, kept: fits };
+      if (rarity) line.rarity = rarity;
+      lines.push(line);
+      if (!fits) {
+        left.add(l.id);
+        continue;
+      }
+      if (material) this.addMaterial(l.item, l.quantity);
+      else if (catalog) this.addBagItem(l.item, l.quantity);
+      else this.add(l.item as ItemId, l.quantity);
+    }
+    p.gold += gold;
+    this.loot = this.loot.filter((l) => l.drop !== entry.drop || left.has(l.id));
+    this.pendingLoot = null;
+    this.lootReceipt = { id: ++this.lootOpened, x: entry.x, y: entry.y, lines, gold };
+    const taken = lines.filter((l) => l.kept);
+    this.emit({
+      type: "loot",
+      x: entry.x,
+      y: entry.y,
+      text:
+        taken.length === 1 && !gold
+          ? "+" + taken[0]!.quantity + " " + taken[0]!.name
+          : taken.length
+            ? "Łup"
+            : gold
+              ? "+" + gold + " monet"
+              : "Łup",
+    });
+    if (left.size)
+      this.say("Brak miejsca w plecaku na część łupu. Zrób miejsce i otwórz go ponownie.");
+    this.flush();
   }
   /** Basic attack, tree abilities and the potion. */
   private use(id: Ability) {
@@ -3016,8 +3096,7 @@ export class GameSession implements MonsterHost {
     if (id !== "R") this.flush();
   }
   manual(dx: number, dy: number, dt: number) {
-    if (this.paused || this.dialogue || this.depotOpen || this.player.dead || this.fx.cannotAct)
-      return;
+    if (this.paused || this.depotOpen || this.player.dead || this.fx.cannotAct) return;
     this.heritage.cancelRoute();
     this.clearDestinations();
     this.route = [];
@@ -3065,10 +3144,11 @@ export class GameSession implements MonsterHost {
     const wasMoving = manualMovement || this.moving;
     this.moving = false;
     this.running = false;
-    if (this.dialogue || this.depotOpen || this.paused) {
+    if (this.depotOpen || this.paused) {
       this.bufferedAction = undefined;
       return;
     }
+    this.closeDialogueOutOfReach();
     this.nowMs += dt;
     if (!this.practiceOnly) {
       this.heritage.tick(dt);
@@ -3255,7 +3335,9 @@ export class GameSession implements MonsterHost {
           npc.id === "guide" || npc.id === "trainer"
             ? developmentCompletion(p.race, p.development).greeting
             : null;
-        this.say(title ? `${npc.name}: ${title}` : npc.name + ": " + npc.role);
+        // Imię i rolę rozmówcy pokazuje pasek rozmowy i etykieta nad postacią, więc zwykłe otwarcie rozmowy nie wywołuje
+        // już komunikatu; zostaje tylko tytuł zależny od postępów rozwoju (przewodniczka, trener).
+        if (title) this.say(`${npc.name}: ${title}`);
         this.flush();
         return;
       }
@@ -3427,6 +3509,7 @@ export class GameSession implements MonsterHost {
         text: this.questText(id),
       })),
       nearbyLoot: this.loot.filter((l) => distance(l, this.player) < 140).map((l) => ({ ...l })),
+      lootReceipt: this.lootReceipt,
       nearestNpc:
         [...this.npcs].sort((a, b) => distance(a, this.player) - distance(b, this.player))[0]?.id ??
         ("guide" as NpcId),
@@ -3723,6 +3806,7 @@ export function initialView(player?: Player): GameViewState {
     saveWarning: "",
     quests: [],
     nearbyLoot: [],
+    lootReceipt: null,
     nearestNpc: "guide",
     autoAttack: false,
     abilities: [],

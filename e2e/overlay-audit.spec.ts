@@ -111,15 +111,16 @@ for (const [width, height] of [
       await page.waitForTimeout(300);
       await expect(message).toHaveCount(0);
       await page.getByRole("button", { name: /Rozmowa · Kaena/ }).click();
-      await expect(page.getByRole("dialog", { name: "Rozmowa: Kaena", exact: true })).toBeVisible();
+      await expect(page.getByRole("group", { name: "Rozmowa: Kaena", exact: true })).toBeVisible();
       await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
-      await expect(page.locator(".ki-npc-dialogue .ki-game-feedback")).toBeVisible();
-      await expect(page.locator(".ki-notification-rail")).toHaveCount(0);
+      // Rozmowa nie jest oknem: komunikat o przyjętym zadaniu pokazuje zwykła szyna powiadomień nad światem.
+      await expect(page.locator(".ki-notification-rail .ki-game-feedback")).toBeVisible();
+      await expect(page.locator(".ki-npc-dialogue")).toHaveCount(0);
       await page.screenshot({ path: evidence() + "/dialogue-" + width + ".png" });
-      await expect(page.locator(".ki-npc-dialogue .ki-game-feedback")).toHaveCount(0, {
+      await expect(page.locator(".ki-notification-rail .ki-game-feedback")).toHaveCount(0, {
         timeout: 6500,
       });
-      await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+      await page.getByRole("button", { name: "Do zobaczenia", exact: true }).click();
       await expect(message).toHaveCount(0);
       await settings(page);
       await page.getByRole("checkbox", { name: "Komunikaty w grze", exact: true }).uncheck();

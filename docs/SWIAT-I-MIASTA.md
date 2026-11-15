@@ -398,6 +398,55 @@ prowadzące do spawnów.
 - Powtórzenie: `python3 scripts/worldgen/v2/open_fields.py` (deterministyczne; na własnym wyniku nic nie zmienia).
   Testy: `open-fields.test.ts` (prawdziwe dane Verdantii i wyspy), `scenery-thinning.test.ts`.
 
+## Przewodniczka i rozmowy w świecie — 15.11.2026
+
+Na polecenie właściciela: na początku gry przewodniczka podchodzi do gracza i opowiada, gdzie jest który budynek, w
+mieście każdej z czterech ras, a rozmowy z NPC toczą się w świecie, bez okienek i bez blokowania gry.
+
+**Rozmowa.** NPC mówi dymkami nad głową (dymek nigdy nie zasłania bohatera: gdy wisiałby na nim, przesuwa się na bok albo nad niego), a kolejne kwestie następują same w tempie czytania (ok. 15 znaków na sekundę,
+od 2,4 do 9 s na dymek). Gracz cały czas steruje postacią. Wybory (przyjęcie zadania, odbiór nagrody, przekazanie
+przedmiotów, plotki, „Do zobaczenia”) są w pasku przy dolnej krawędzi, bez tła i bez blokady. Rozmowa trwa, dopóki gracz
+jest w zasięgu 220 jedn. od rozmówcy (otwiera się w 100 jedn.); po odejściu, wejściu do budynku albo śmierci kończy się
+sama. Usługi nadal wymagają bliskości: handel u kupca działa tylko w 115 jedn. od niego. Okno zostaje tylko tam, gdzie
+trzeba przeglądać listy: handel, kuźnia i ulepszenia, pracownia alchemiczna, leża bossów, plan miasta. Otwiera się na
+prośbę gracza i wstrzymuje grę jak każdy panel. Strażnik depozytu, trener i karczmarz działają jednym przyciskiem.
+
+**Oprowadzanie nowej postaci.** Rusza samo dla postaci poz. 1, która nie przyjęła jeszcze zadania „Pierwsze kroki”, w
+pierwszym mieście (nie wcześniej niż 1,8 s po pierwszej klatce), i zapamiętuje się osobno dla postaci i miasta
+(`ki.tour.v1:<postać>:<miasto>` w pamięci przeglądarki). Przewodniczka (Aira, Sora, LYRA-7, Kaena) od pierwszej klatki
+czeka przy drzwiach sali zgromadzeń, potem idzie do gracza (230 jedn./s), wita się i prowadzi po sześciu budynkach w
+kolejności „najbliższy z pozostałych”, a na końcu do punktu pierwszego zadania (Rynek, Źródło Pamięci, Rdzeń
+Świadomości, Arena Dziedzictwa). Przy każdym punkcie: ogłasza go z kierunkiem i czasem marszu („na północny wschód,
+ok. 15 s drogi”), na jego drzwiach pojawia się pulsujący złoty pierścień z nazwą, prowadzi tam (150 jedn./s, ścieżką
+nawigacji świata, z cyklem chodu 8-kierunkowym) i opisuje na miejscu (opis z danych budynku albo wspólny opis usługi
+plus zdanie o kulturze). Gracz może iść własnym tempem: gdy zostanie dalej niż 700 jedn., przewodniczka staje, po 3,5 s
+woła, a gdy dogoni ją w 450 jedn., rusza dalej. Po 90 s łącznego czekania sama kończy. Na końcu wraca na posterunek.
+Cała trasa trwa ok. 3 min (170–180 s przy graczu idącym za nią). Przycisk „Pomiń oprowadzanie” jest cały czas na
+ekranie; powtórkę w dowolnym mieście daje „Oprowadź mnie po mieście” w rozmowie z przewodniczką. Kierunki i czas marszu
+liczone są z prawdziwych współrzędnych drzwi; teksty czterech kultur mają osobne głosy
+(`src/game/talk/voices.ts`, do przeglądu właściciela).
+
+**Granice.** Oprowadzanie to wyłącznie prezentacja: nie zmienia stanu gry ani serwera, więc działa tak samo lokalnie i
+online. Przewodniczka jest rysowana poza posterunkiem z danych świata, dlatego kliknięcie jej w trakcie trasy jest
+przechwytywane (odpowiada, że prowadzi), a zagadnięcie jej dawnego miejsca przed startem przywołuje ją. Miasta poza
+stolicą mają ogólne nazwy budynków (z danych), więc opisy tam są krótsze; trasa działa w każdym z 16 miast (test na
+prawdziwych danych).
+
+## Napisy w świecie i wejścia do budynków — 15.11.2026
+
+**Napisy bez teł.** Dymki rozmów, nazwy budynków i postaci, znacznik oprowadzania i liczby obrażeń mają jeden styl
+(`src/game/typography/worldText.ts`): Cinzel Bold dla nazw i znaczników, Alegreya SemiBold Italic dla mowy, kremowa litera
+z ciemnobrązowym obrysem i miękkim cieniem, **bez tła i ramki**. Licencje krojów (SIL OFL 1.1): [Licencje](LICENCJE.md).
+Napisy w interfejsie (komunikaty gry, nazwa rozmówcy, napis oprowadzania) mają ten sam krój i obrys w CSS.
+
+**Mniej napisów naraz.** Nazwa budynku jest pełna w 750 jedn. od bohatera i znika płynnie do 1250 jedn. (miasto v2 i v1);
+rozmiar nazwy na ekranie jest stały. Jednocześnie widać jeden dymek (ostatnia kwestia). Własnej nazwy bohatera nie
+rysujemy; nazwy innych graczy tak.
+
+**Wejścia.** Przy drzwiach każdego budynku jest na ziemi złoty krąg światła (176 × 62 jedn.) z falą od środka, strzałkami
+wędrującymi do budynku i iskrami (`src/game/world/entranceMarker.ts`); przy bohaterze świeci mocniej. To oprawa: kolizje
+i zasięg przycisku „Wejdź” bez zmian.
+
 ## Superior v2 — decyzja właściciela 24.10.2026
 
 Nowy cel zastępuje ograniczenie skali 0,5: 45% lądu / 55% oceanów na sferze

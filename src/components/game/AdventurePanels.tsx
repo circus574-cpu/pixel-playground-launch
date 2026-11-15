@@ -319,6 +319,47 @@ function QuestJournalImpl({
 export const QuestJournal = memo(QuestJournalImpl, questJournalPropsEqual);
 
 /** Zadania V2, których zleceniodawcą jest ten NPC — przyjmowanie prosto z rozmowy. */
+/** Przedmioty z plecaka, które gracz może przekazać na aktywne zadania wybranego rozmówcy. */
+export function QuestDeliveries({ state, send }: { state: GameViewState; send: SendCommand }) {
+  const p = state.player;
+  useSyncExternalStore(
+    questsV2.subscribe,
+    () => questsV2.save,
+    () => questsV2.save,
+  );
+  const actionable = questsV2
+    .deliveries()
+    .map((d) => {
+      const isLegacy = d.itemId in ITEMS;
+      const isMat = isMaterial(d.itemId);
+      const have = isLegacy
+        ? (p.items[d.itemId as ItemId] ?? 0)
+        : isMat
+          ? (p.materials[d.itemId] ?? 0)
+          : (p.bagItems?.[d.itemId] ?? 0);
+      const label = isLegacy
+        ? ITEMS[d.itemId as ItemId].name
+        : isMat
+          ? (MATERIALS[d.itemId]?.name ?? d.itemId)
+          : (getItemById(d.itemId)?.name ?? d.itemId);
+      return { ...d, have, label };
+    })
+    .filter((d) => d.have > 0);
+  if (actionable.length === 0) return null;
+  return (
+    <div className="ki-quest-deliver">
+      <p>
+        <strong>Przekaż przedmioty na zadania:</strong>
+      </p>
+      {actionable.map((d) => (
+        <button key={d.itemId} onClick={() => send({ type: "quest-deliver", item: d.itemId })}>
+          Przekaż {d.label} ×{Math.min(d.have, d.needed)}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function NpcQuestOffers({
   dialogueId,
   continent,
@@ -378,12 +419,21 @@ export function NpcDialogue({
   send,
   feedback,
   worldOverride,
+  servicesOnly = false,
+  onClose,
 }: {
   worldOverride?: import("../../game/world/types").WorldDefinition | undefined;
   state: GameViewState;
   send: SendCommand;
   feedback?: ReactNode;
   authoritative?: boolean;
+  /**
+   * Tylko usługi (handel, kuźnia, alchemia, leża bossów, plan miasta). Sama rozmowa toczy się w świecie (`NpcTalk`),
+   * a to okno otwiera się na prośbę gracza i wstrzymuje grę jak każdy panel. Bez tej flagi okno zawiera całą rozmowę.
+   */
+  servicesOnly?: boolean;
+  /** Zamknięcie okna usług (powrót do rozmowy), gdy `servicesOnly`. */
+  onClose?: () => void;
 }) {
   const [subView, setSubView] = useState<null | "craft" | "shop">(null);
   const [craftStation, setCraftStation] = useState<CraftingStation>("forge");
@@ -411,6 +461,7 @@ export function NpcDialogue({
       />
     );
   const p = state.player;
+  const closeWindow = () => (onClose ? onClose() : send({ type: "dialogue", action: "close" }));
   const quest = npc.id === "guide" ? "steps" : npc.id === "hunter" ? "boars" : "gear";
   const q = p.quests[quest];
   const unlocked =
@@ -452,7 +503,7 @@ export function NpcDialogue({
       <section
         role="dialog"
         aria-modal="true"
-        aria-label={"Rozmowa: " + npc.name}
+        aria-label={(servicesOnly ? "Usługi: " : "Rozmowa: ") + npc.name}
         data-race={p.race}
         className="ki-modal ki-frame ki-npc-dialogue"
       >
@@ -462,54 +513,24 @@ export function NpcDialogue({
           </h2>
           <button
             autoFocus
-            aria-label="Zamknij rozmowę"
-            onClick={() => send({ type: "dialogue", action: "close" })}
+            aria-label={servicesOnly ? "Zamknij usługi" : "Zamknij rozmowę"}
+            onClick={closeWindow}
           >
             ×
           </button>
         </header>
         {feedback}
         <div className="ki-adventure-panel">
-          <p>{text}</p>
-          {katalog && <p>{katalog.greetings[state.dialogueTurn % katalog.greetings.length]}</p>}
-          {(() => {
-            const actionable = questsV2
-              .deliveries()
-              .map((d) => {
-                const isLegacy = d.itemId in ITEMS;
-                const isMat = isMaterial(d.itemId);
-                const have = isLegacy
-                  ? (p.items[d.itemId as ItemId] ?? 0)
-                  : isMat
-                    ? (p.materials[d.itemId] ?? 0)
-                    : (p.bagItems?.[d.itemId] ?? 0);
-                const label = isLegacy
-                  ? ITEMS[d.itemId as ItemId].name
-                  : isMat
-                    ? (MATERIALS[d.itemId]?.name ?? d.itemId)
-                    : (getItemById(d.itemId)?.name ?? d.itemId);
-                return { ...d, have, label };
-              })
-              .filter((d) => d.have > 0);
-            if (actionable.length === 0) return null;
-            return (
-              <div className="ki-quest-deliver">
-                <p>
-                  <strong>Przekaż przedmioty na zadania:</strong>
-                </p>
-                {actionable.map((d) => (
-                  <button
-                    key={d.itemId}
-                    onClick={() => send({ type: "quest-deliver", item: d.itemId })}
-                  >
-                    Przekaż {d.label} ×{Math.min(d.have, d.needed)}
-                  </button>
-                ))}
-              </div>
-            );
-          })()}
-          <NpcQuestOffers dialogueId={npc.dialogueId} continent={state.player.continent} />
-          {["guide", "hunter", "smith"].includes(npc.id) &&
+          {!servicesOnly && <p>{text}</p>}
+          {!servicesOnly && katalog && (
+            <p>{katalog.greetings[state.dialogueTurn % katalog.greetings.length]}</p>
+          )}
+          {!servicesOnly && <QuestDeliveries state={state} send={send} />}
+          {!servicesOnly && (
+            <NpcQuestOffers dialogueId={npc.dialogueId} continent={state.player.continent} />
+          )}
+          {!servicesOnly &&
+            ["guide", "hunter", "smith"].includes(npc.id) &&
             !(isCityStage(world) && npc.id === "hunter" && q !== "ready") && (
               <>
                 <p>{state.quests.find((x) => x.id === quest)?.text}</p>
@@ -638,10 +659,10 @@ export function NpcDialogue({
               })}
             </>
           )}
-          {npc.id === "keeper" && (
+          {!servicesOnly && npc.id === "keeper" && (
             <button onClick={() => send({ type: "chest" })}>Otwórz depozyt / Skrytkę</button>
           )}
-          {npc.id === "trainer" && (
+          {!servicesOnly && npc.id === "trainer" && (
             <>
               <button onClick={() => send({ type: "training", action: "start" })}>
                 Rozpocznij próbę bojową (Manekin treningowy)
@@ -651,7 +672,7 @@ export function NpcDialogue({
               </button>
             </>
           )}
-          {npc.id === "innkeeper" && (
+          {!servicesOnly && npc.id === "innkeeper" && (
             <button
               disabled={p.gold < 5 || (p.hp >= state.stats.maxHp && p.ki >= state.stats.maxKi)}
               onClick={() => send({ type: "rest" })}
@@ -757,21 +778,25 @@ export function NpcDialogue({
           )}
 
           {npc.id === "steward" && world.city && (
-            <CityDirectory
-              city={world.city}
-              send={send}
-              close={() => send({ type: "dialogue", action: "close" })}
-            />
+            <CityDirectory city={world.city} send={send} close={closeWindow} />
           )}
-          <button onClick={() => send({ type: "dialogue", action: "rumors" })}>
-            Zapytaj o plotki i wieści
-          </button>
-          <p className="ki-panel-caption">
-            {authoritative
-              ? "Zamknij okno, aby wrócić do gry. Świat na serwerze pozostaje aktywny."
-              : "Rozmowa zatrzymuje lokalną symulację. Zamknij okno, aby wrócić do gry."}
-          </p>
-          <button onClick={() => send({ type: "dialogue", action: "close" })}>Do zobaczenia</button>
+          {servicesOnly ? (
+            <button onClick={closeWindow}>Wróć do rozmowy</button>
+          ) : (
+            <>
+              <button onClick={() => send({ type: "dialogue", action: "rumors" })}>
+                Zapytaj o plotki i wieści
+              </button>
+              <p className="ki-panel-caption">
+                {authoritative
+                  ? "Zamknij okno, aby wrócić do gry. Świat na serwerze pozostaje aktywny."
+                  : "Zamknij okno, aby wrócić do gry."}
+              </p>
+              <button onClick={() => send({ type: "dialogue", action: "close" })}>
+                Do zobaczenia
+              </button>
+            </>
+          )}
         </div>
       </section>
     </div>

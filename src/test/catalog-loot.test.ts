@@ -113,7 +113,15 @@ describe("catalog loot tables (system ekonomii 12.11.2026: drop tylko słabe, rz
 
 describe("catalog loot in the session", () => {
   const ground = (g: GameSession, item: string) => {
-    g.loot.push({ id: "drop", x: g.player.x, y: g.player.y, item, quantity: 1, gold: 0 });
+    g.loot.push({
+      id: "drop",
+      x: g.player.x,
+      y: g.player.y,
+      item,
+      quantity: 1,
+      gold: 0,
+      drop: "drop-1",
+    });
     g.command({ type: "loot", id: "drop" });
   };
 

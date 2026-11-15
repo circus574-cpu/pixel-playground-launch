@@ -30,7 +30,7 @@ import { BrandMark } from "./BrandMark";
 import { WORLDS } from "../../game/world/worlds";
 import { RACES } from "../../game/world/races";
 import { minimapPercent, OPEN_WORLDS } from "../../game/world/zoneMap";
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { KIT_NODES } from "../../game/kit";
 import type { CSSProperties, ReactNode } from "react";
 import { clampZoom, DEFAULT_ZOOM } from "../../game/view";
@@ -39,6 +39,8 @@ import "./game-hud.css";
 import "./anime-hud.css";
 import { POTION, xpNeeded, type Command } from "../../game/session";
 import { Inventory, QuestJournal, NpcDialogue, SkillTree } from "./AdventurePanels";
+import { NpcTalk } from "./NpcTalk";
+import { talkStore } from "../../game/talk/store";
 import { CityDirectory, DepotPanel } from "./CityPanels";
 import "./city.css";
 import { LocalMinimap } from "./LocalMinimap";
@@ -68,8 +70,11 @@ import "./adventure.css";
 import "./game-messages.css";
 import "./hud-layout.css";
 import { npcNameCase } from "../../game/npcNames";
+import { LootHud } from "./LootHud";
 import "./manga-hud.css";
 import "./hud-v2-landscape.css";
+import "./world-text.css";
+import "../../game/typography/fonts.css";
 
 type Props = {
   authoritative?: boolean;
@@ -247,6 +252,13 @@ export function GameHud({
   onStaffTeleport,
 }: Props) {
   const [panel, setPanel] = useState<Panel>(null);
+  /** Okno usług rozmówcy (handel, kuźnia…); sama rozmowa nie jest oknem i nie wstrzymuje gry. */
+  const [services, setServices] = useState(false);
+  const talk = useSyncExternalStore(
+    talkStore.subscribe,
+    talkStore.getSnapshot,
+    talkStore.getSnapshot,
+  );
   // The minimap can be folded into one small icon (owner proposal 04.11.2026); the choice is remembered per browser.
   const [mapHidden, setMapHidden] = useState(() => {
     try {
@@ -438,7 +450,10 @@ export function GameHud({
   const world = worldOverride ?? WORLDS[state.player.continent];
   const npcs = world.npcs;
   const nearbyNpc = state.activeNpcs.find(
-    (n) => n.id === state.nearestNpc && Math.hypot(n.x - state.x, n.y - state.y) <= 180,
+    (n) =>
+      n.id === state.nearestNpc &&
+      Math.hypot(n.x - state.x, n.y - state.y) <= 180 &&
+      !(n.id === "guide" && talk.tour.displaced),
   );
   const { left: x, top: y } = minimapPercent(
     worldOverride ? "" : world.id,
@@ -450,6 +465,7 @@ export function GameHud({
     setChatOpen(false);
     if (state.dialogue) onCommand({ type: "dialogue", action: "close" });
     if (state.depotOpen) onCommand({ type: "storage-close" });
+    setServices(false);
     const nextPanel = panel === next ? null : next;
     onCommand({
       type: "pause",
@@ -460,9 +476,17 @@ export function GameHud({
   }
   const player = state.player;
   useEffect(() => {
-    onCommand({ type: "pause", value: panel !== null, suspendRendering: panel === "planet" });
+    onCommand({
+      type: "pause",
+      value: panel !== null || services,
+      suspendRendering: panel === "planet",
+    });
     return () => onCommand({ type: "pause", value: false });
-  }, [panel, onCommand]);
+  }, [panel, services, onCommand]);
+  // Okno usług zamyka się razem z rozmową (Esc, odejście, wejście do budynku).
+  useEffect(() => {
+    if (!state.dialogue) setServices(false);
+  }, [state.dialogue]);
   useEffect(() => {
     const close = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -474,6 +498,7 @@ export function GameHud({
         )
           document.activeElement.blur();
         setPanel(null);
+        setServices(false);
         onCommand({ type: "dialogue", action: "close" });
         onCommand({ type: "storage-close" });
       }
@@ -492,7 +517,7 @@ export function GameHud({
     const blocked =
       !state.ready ||
       player.dead ||
-      Boolean(state.dialogue) ||
+      services ||
       state.depotOpen ||
       panel !== null ||
       state.locked ||
@@ -548,7 +573,7 @@ export function GameHud({
         } as CSSProperties
       }
     >
-      {WORLD_V2 && panel === null && !state.dialogue && !state.depotOpen && (
+      {WORLD_V2 && panel === null && !services && !state.depotOpen && (
         <CombatPanel state={state} send={onCommand} />
       )}
       <MultiplayerWorldOverlay localX={state.x} localY={state.y} worldId={state.player.continent} />
@@ -717,7 +742,7 @@ export function GameHud({
             </div>
           </section>
         )}
-        {!panel && !state.dialogue && !state.depotOpen && (
+        {!panel && !services && !state.depotOpen && (
           <div className="ki-notification-rail" aria-label="Powiadomienia gry">
             {feedback}
           </div>
@@ -940,7 +965,7 @@ export function GameHud({
             style={buttonStyle(preferences.controls, "dodge", hudScale)}
             title="Unik · krótki zryw z chwilą nietykalności"
             aria-label="Unik"
-            disabled={!state.ready || player.dead || panel !== null || Boolean(state.dialogue)}
+            disabled={!state.ready || player.dead || panel !== null || services}
             onActivate={() => onCommand({ type: "dodge" })}
           >
             <MangaIcon symbol="energy" />
@@ -958,7 +983,7 @@ export function GameHud({
           disabled={
             !state.ready ||
             player.dead ||
-            Boolean(state.dialogue) ||
+            services ||
             state.depotOpen ||
             panel !== null ||
             state.potion.remaining > 0 ||
@@ -1084,14 +1109,35 @@ export function GameHud({
           !
         </span>
       )}
-      {!panel && state.dialogue && (
+      {!panel && state.dialogue && !services && (
+        <NpcTalk
+          authoritative={authoritative}
+          world={world}
+          state={state}
+          send={onCommand}
+          onServices={() => setServices(true)}
+        />
+      )}
+      {!panel && state.dialogue && services && (
         <NpcDialogue
+          servicesOnly
+          onClose={() => setServices(false)}
           authoritative={authoritative}
           worldOverride={worldOverride}
           state={state}
           send={onCommand}
           feedback={<div className="ki-inline-messages">{feedback}</div>}
         />
+      )}
+      {talk.tour.active && (
+        <div className="ki-tour" role="status" aria-label="Oprowadzanie po mieście">
+          <span>
+            Oprowadzanie · {Math.max(1, talk.tour.step)}/{talk.tour.steps}
+          </span>
+          {/* Dymki są rysowane na płótnie, więc kwestie przewodniczki czytają też czytniki ekranu. */}
+          <span className="ki-sr">{talk.speech["guide"]?.text}</span>
+          <button onClick={() => talkStore.skipTour()}>Pomiń oprowadzanie</button>
+        </div>
       )}
       {!panel && state.depotOpen && (
         <DepotPanel
@@ -1183,12 +1229,13 @@ export function GameHud({
           )}
           {state.nearbyLoot[0] && (
             <button onClick={() => onCommand({ type: "loot", id: state.nearbyLoot[0]!.id })}>
-              Podnieś łup <kbd>{keyLabel(keys.loot)}</kbd>
+              Otwórz łup <kbd>{keyLabel(keys.loot)}</kbd>
             </button>
           )}
         </div>
       )}
 
+      <LootHud receipt={state.lootReceipt} />
       {player.dead && (
         <div className="ki-death-overlay" role="status">
           Zostałeś pokonany · odrodzenie za chwilę

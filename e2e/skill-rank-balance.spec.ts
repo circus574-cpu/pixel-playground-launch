@@ -35,7 +35,7 @@ for (const [race, node, pre, name, first, last, max] of [
       })
       .not.toBe("");
     await patchActiveCharacter(page, { level: 10, xp: 0, skills: ["R", pre] }, saveBase);
-    const close = page.getByRole("button", { name: "Zamknij rozmowę", exact: true });
+    const close = page.getByRole("button", { name: "Do zobaczenia", exact: true });
     if (await close.isVisible()) await close.tap();
     await openHudTool(page, "Umiejętności", "touch");
     await page

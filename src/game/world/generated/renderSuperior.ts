@@ -51,6 +51,8 @@ import {
 import { continentAir, continentDress, dressBiomeAt, dressEnabled } from "./worldDress";
 import type Phaser from "phaser";
 import { catalog } from "../../assets/catalog";
+import { labelFade, screenTextScale, worldTextStyle } from "../../typography/worldText";
+import { createEntranceMarker, type EntranceMarker } from "../entranceMarker";
 import {
   chooseGroundResolution,
   nextGroundResolution,
@@ -218,7 +220,8 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     visible = true,
     lastCells = "",
     doorsKey = "";
-  const markers: (Phaser.GameObjects.Ellipse | Phaser.GameObjects.Text)[] = [];
+  const markers: Phaser.GameObjects.Text[] = [];
+  const entrances: { marker: EntranceMarker; x: number; y: number }[] = [];
   const staticItems = [
     ...(pyraContinent ? pyraPathScenery(source.roads, outside) : []),
     ...(painted ? meadowBuildings(source.art.buildings) : source.art.buildings),
@@ -1091,6 +1094,17 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     if (disposed || failed || !visible) return;
     drainBakes();
     const view = scene.cameras.main.worldView;
+    // Nazwy budynków mają stały rozmiar na ekranie niezależnie od przybliżenia.
+    const labelScale = screenTextScale(scene.cameras.main.zoom);
+    for (const e of entrances)
+      e.marker.update(scene.time.now, Math.hypot(player.x - e.x, player.y - e.y));
+    for (const m of markers) {
+      // Nazwa pojawia się, gdy bohater jest przy budynku; z daleka ekran nie jest zasypany napisami.
+      const fade = labelFade(Math.hypot(player.x - m.x, player.y - (m.getData("doorY") as number)));
+      m.setScale(labelScale)
+        .setAlpha(fade)
+        .setVisible(fade > 0.02);
+    }
     const maxX = Math.ceil(source.loader.definition.geometry.width / CHUNK) - 1;
     const maxY = Math.ceil(source.loader.definition.geometry.height / CHUNK) - 1;
     const x0 = Math.max(0, Math.floor(view.left / CHUNK) - 1),
@@ -1229,13 +1243,13 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
     if (nextKey !== doorsKey) {
       doorsKey = nextKey;
       markers.splice(0).forEach((m) => m.destroy());
+      entrances.splice(0).forEach((e) => e.marker.destroy());
       for (const d of doors) {
-        markers.push(
-          scene.add
-            .ellipse(d.door.x, d.door.y, 90, 30, 0xe5ca79, 0.2)
-            .setStrokeStyle(2, 0xd7c77d)
-            .setDepth(renderDepth("below", d.door.y)),
-        );
+        entrances.push({
+          marker: createEntranceMarker(scene, d.door.x, d.door.y),
+          x: d.door.x,
+          y: d.door.y,
+        });
         // The name floats above the building (its roof), not under the door. The building whose
         // door this is gives the top edge; a door without a drawn building falls back to a spot above it.
         const house = staticItems.find(
@@ -1247,13 +1261,11 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
           : d.door.y - 150;
         markers.push(
           scene.add
-            .text(d.door.x, top, d.name, {
-              fontSize: "20px",
-              color: "#fff1cc",
-              stroke: "#142a24",
-              strokeThickness: 4,
-            })
+            .text(d.door.x, top, d.name, worldTextStyle("building"))
             .setOrigin(0.5, 1)
+            .setResolution(2)
+            .setScale(screenTextScale(scene.cameras.main.zoom))
+            .setData("doorY", d.door.y)
             .setDepth(renderDepth("labels")),
         );
       }
@@ -1291,6 +1303,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
         for (const shadow of tile.shadows.values()) shadow.setVisible(value);
       }
       for (const marker of markers) marker.setVisible(value);
+      for (const e of entrances) e.marker.setVisible(value);
     },
     dispose() {
       disposed = true;
@@ -1306,6 +1319,7 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
       if (continent && scene.textures.exists(shadowKey)) scene.textures.remove(shadowKey);
       materials.clear();
       markers.splice(0).forEach((m) => m.destroy());
+      entrances.splice(0).forEach((e) => e.marker.destroy());
     },
   };
 }

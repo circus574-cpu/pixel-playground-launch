@@ -1,0 +1,170 @@
+/*
+ * Rozmowa w świecie: pasek wyborów przy dolnej krawędzi i przycisk oprowadzania. Żadne z nich nie ma tła ani blokady:
+ * kontener nie przechwytuje myszy (w `.ki-hud` klikalne są tylko przyciski), a gra pod spodem działa dalej.
+ */
+.ki-talk {
+  position: absolute;
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%);
+  width: min(680px, calc(100% - 20px));
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  pointer-events: none;
+  z-index: 6;
+}
+.ki-talk-who {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: #0f2a35d9;
+  border: 1px solid #a7e3d255;
+  color: #f1fff8;
+  font: 600 12px/1.3 system-ui;
+}
+.ki-talk-who small {
+  font-weight: 400;
+  opacity: 0.75;
+}
+/* Napis bieżącej kwestii: widoczną mową jest dymek nad rozmówcą, więc tu zostaje tylko dla czytników ekranu. */
+.ki-talk-line {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.ki-talk-choices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.ki-talk-choices button {
+  border: 1px solid #a7e3d288;
+  border-radius: 999px;
+  background: #285f70f0;
+  color: #f1fff8;
+  padding: 7px 13px;
+  min-height: 34px;
+  font: 12px/1.3 system-ui;
+  white-space: normal;
+  text-align: center;
+}
+.ki-talk-choices button:hover:not(:disabled),
+.ki-talk-choices button:focus-visible {
+  background: #367a8f;
+  outline: 2px solid #ffe08a;
+  outline-offset: 1px;
+}
+.ki-talk-choices button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.ki-talk-choices button small {
+  opacity: 0.75;
+  margin-left: 4px;
+}
+.ki-talk-choices .ki-talk-bye {
+  background: #3a4a52e8;
+}
+.ki-talk-note {
+  align-self: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #0b1f28cc;
+  color: #ffe9a8;
+  font: 12px/1.3 system-ui;
+}
+.ki-talk .ki-quest-deliver {
+  display: contents;
+}
+.ki-talk .ki-quest-deliver p {
+  display: none;
+}
+
+/* Oprowadzanie: mała pigułka pod panelem gracza (nie zasłania nazwy miasta u góry ani minimapy po prawej);
+   jedyny element, który trzeba mieć pod ręką, żeby przerwać trasę. */
+.ki-tour {
+  position: absolute;
+  top: max(136px, calc(env(safe-area-inset-top) + 128px));
+  left: max(14px, env(safe-area-inset-left));
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 6px 4px 14px;
+  border-radius: 999px;
+  background: #0f2a35e6;
+  border: 1px solid #ffe08a88;
+  color: #fff3c9;
+  font: 600 12px/1.3 system-ui;
+  pointer-events: none;
+  z-index: 6;
+}
+.ki-tour button {
+  border: 1px solid #a7e3d288;
+  border-radius: 999px;
+  background: #285f70f0;
+  color: #f1fff8;
+  padding: 5px 12px;
+  font: 12px/1.3 system-ui;
+}
+.ki-tour button:hover,
+.ki-tour button:focus-visible {
+  background: #367a8f;
+  outline: 2px solid #ffe08a;
+  outline-offset: 1px;
+}
+
+/* Stos komunikatów i celu zaczyna się pod napisem oprowadzania, żeby ich nie zakrywać. */
+.ki-hud:has(.ki-tour) .ki-status-stack {
+  top: 186px;
+}
+@media (max-width: 760px), (max-height: 500px) and (max-width: 1100px) {
+  .ki-hud:has(.ki-tour) .ki-status-stack {
+    top: 130px;
+  }
+}
+@media (max-height: 500px) {
+  .ki-hud:has(.ki-tour) .ki-status-stack {
+    top: 120px;
+  }
+}
+@media (max-width: 760px), (max-height: 500px) and (max-width: 1100px) {
+  .ki-tour {
+    /* Na wąskim ekranie górna lewa strona jest zajęta (panel gracza, akcje): pigułka idzie na dół, na środek. */
+    top: auto;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .ki-talk {
+    bottom: 86px;
+    gap: 4px;
+  }
+  .ki-talk-choices button {
+    padding: 6px 10px;
+    min-height: 32px;
+    font-size: 11px;
+  }
+}
+
+/* Tekst tylko dla czytników ekranu. */
+.ki-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -28,7 +28,7 @@ export const KEY_ACTION_LABEL: Record<KeyAction, string> = {
   dodge: "Unik",
   potion: "Mikstura",
   interact: "Rozmowa / wejście",
-  loot: "Podnieś łup",
+  loot: "Otwórz łup",
   skill1: "Umiejętność 1",
   skill2: "Umiejętność 2",
   skill3: "Umiejętność 3",

@@ -36,7 +36,7 @@ test.describe("touch racial trial", () => {
     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).tap();
     await page.getByRole("button", { name: "Podejdź do trenera", exact: true }).tap();
     await expect(canvas).toHaveAttribute("data-interior", "arena");
-    await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).tap();
+    await page.getByRole("button", { name: "Do zobaczenia", exact: true }).tap();
     const before = await owner(page);
     await openHudTool(page, "Umiejętności", "touch");
     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).tap();
@@ -162,7 +162,7 @@ for (const [race, id, land] of [
     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).click();
     await page.getByRole("button", { name: "Podejdź do trenera", exact: true }).click();
     await expect(canvas).toHaveAttribute("data-interior", "arena");
-    await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+    await page.getByRole("button", { name: "Do zobaczenia", exact: true }).click();
     const before = await owner(page);
     await openHudTool(page, "Umiejętności");
     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).click();

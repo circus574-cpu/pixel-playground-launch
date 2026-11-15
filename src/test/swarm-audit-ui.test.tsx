@@ -20,7 +20,7 @@ afterEach(() => {
 });
 
 describe("SWARM audit UI/UX regressions", () => {
-  it("localizes buff chips, shows 40% heal in potion tooltip, and hides CombatPanel during dialogue", () => {
+  it("localizes buff chips, shows 40% heal in potion tooltip, and keeps CombatPanel while talking (talk is not a window)", () => {
     const s = new GameSession();
     s.kit.addBuff({ id: "ki-focus", ms: 60000, dealtPct: 0.15 });
     s.kit.addBuff({ id: "T", ms: 20000, atkPct: 0.25 });
@@ -61,7 +61,7 @@ describe("SWARM audit UI/UX regressions", () => {
         onCommand={() => {}}
       />,
     );
-    expect(screen.queryByRole("region", { name: "Walka" })).toBeNull();
+    expect(screen.getByRole("region", { name: "Walka" })).toBeInTheDocument();
 
     rerender(
       <GameHud

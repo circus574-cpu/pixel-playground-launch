@@ -48,9 +48,12 @@ describe("HUD and actual rules integration", () => {
       ui = mountSession(session);
     fireEvent.click(screen.getByRole("button", { name: /Rozmowa · Aira/ }));
     ui.advance(() => session.dialogue === "guide");
-    expect(screen.getByRole("dialog", { name: "Rozmowa: Aira" })).toBeVisible();
+    // Rozmowa toczy się w świecie: pasek wyborów, bez okna i bez zatrzymania gry.
+    expect(screen.getByRole("group", { name: "Rozmowa: Aira" })).toBeVisible();
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(session.paused).toBe(false);
     fireEvent.click(screen.getByRole("button", { name: "Przyjmij zadanie" }));
-    fireEvent.click(screen.getByRole("button", { name: "Zamknij rozmowę" }));
+    fireEvent.click(screen.getByRole("button", { name: "Do zobaczenia" }));
     fireEvent.click(screen.getByRole("button", { name: "Dziennik" }));
     expect(session.paused).toBe(true);
     fireEvent.click(screen.getByRole("button", { name: "Idź na rynek" }));
@@ -72,7 +75,7 @@ describe("HUD and actual rules integration", () => {
     fireEvent.click(screen.getByRole("button", { name: /Rozmowa · Aira/ }));
     ui.advance(() => session.dialogue === "guide");
     fireEvent.click(screen.getByRole("button", { name: "Przyjmij zadanie" }));
-    fireEvent.click(screen.getByRole("button", { name: "Zamknij rozmowę" }));
+    fireEvent.click(screen.getByRole("button", { name: "Do zobaczenia" }));
     fireEvent.click(screen.getByRole("button", { name: "Podejdź do rynku" }));
     ui.advance(() => session.player.quests.steps === "ready");
     expect(session.paused).toBe(false);
@@ -86,7 +89,7 @@ describe("HUD and actual rules integration", () => {
     fireEvent.click(screen.getByRole("button", { name: /Rozmowa · Aira/ }));
     ui.advance(() => session.dialogue === "guide");
     fireEvent.click(screen.getByRole("button", { name: "Przyjmij zadanie" }));
-    fireEvent.click(screen.getByRole("button", { name: "Zamknij rozmowę" }));
+    fireEvent.click(screen.getByRole("button", { name: "Do zobaczenia" }));
     fireEvent.click(screen.getByRole("button", { name: "Podejdź do rynku" }));
     const walk = sent.filter((c) => c.type === "move");
     expect(walk).toHaveLength(1);
@@ -120,10 +123,18 @@ describe("HUD and actual rules integration", () => {
     fireEvent.click(screen.getByRole("button", { name: "Otwórz mapę świata" }));
     fireEvent.click(screen.getByRole("button", { name: "Idź do Mio · Kupczyni" }));
     ui.advance(() => session.dialogue === "merchant");
+    // Handel to okno usług (wstrzymuje grę jak panel); sama rozmowa nim nie jest.
+    expect(screen.queryByRole("dialog")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Handel: kupno i sprzedaż" }));
+    expect(screen.getByRole("dialog", { name: "Usługi: Mio" })).toBeVisible();
+    expect(session.paused).toBe(true);
     fireEvent.click(screen.getByRole("button", { name: "Kup · 8" }));
     expect(session.player.gold).toBe(12);
     expect(session.player.items.potion).toBe(4);
     expect(screen.getByRole("button", { name: "Kup · 40" })).toBeDisabled();
+    fireEvent.click(screen.getByRole("button", { name: "Wróć do rozmowy" }));
+    expect(session.paused).toBe(false);
+    expect(session.dialogue).toBe("merchant");
     fireEvent.click(screen.getByRole("button", { name: "Do zobaczenia" }));
     expect(session.dialogue).toBeNull();
   });
