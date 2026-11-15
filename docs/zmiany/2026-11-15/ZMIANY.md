@@ -175,3 +175,87 @@ w zasięgu 97% spawnów), `scenery-thinning.test.ts`.
 - Nowe testy: `navigation-staff-spot`, rozszerzony `staff-map-runtime`, `scenery-thinning`, `open-fields`, trzy w
   `map-terrain-canvas`.
 - Zrzuty w grze (lokalny serwer na PostgreSQL, nie produkcja): `qa/mapa-swiat/`.
+
+### 8. Pierwsza próba KI Legends w Godot 4 na Androida — miasto Pyry
+
+Zlecenie właściciela: rozpocząć próbę przenoszenia KI Legends do Godot 4 na Androida,
+na początek samo miasto, np. Pyra. Powstał izolowany port **Twierdzy Popiołu** na gałęzi
+`feat/godot-pyra-android-20261115`, od `main@0b69c28e4b45a59f32251f5ac6d54e1365660d98`.
+Projekt `ports/godot-pyra/project.godot`, Godot **4.6.3**, GDScript i Compatibility.
+Nie scalono do `main`, nie wdrożono do gry WWW ani Google Play.
+
+| Element | Stan przed | Zmiana | Dowód |
+| --- | --- | --- | --- |
+| Miasto | Istniejące definicje Pyry w Phaser | Natywna scena Godot z 53 obiektami i źródłowymi kolizjami | Zrzuty rzeczywistego viewportu i przejście postaci do sali |
+| Grafika | Atlasy WWW i osobne tekstury | Eksport z przyciętych atlasów z zachowaniem sourceSize/origin/mirrored; 44 współdzielone tekstury | SHA-256 45 plików źródłowych i 6 testów porównania danych |
+| Postać | Legenda w grze WWW | Osiem kierunków idle/walk, szybkość 170 z aneksu, fizyka stóp i budynków | Kolizja na oryginalnym footprint, ruch przy limitach 30/120 FPS |
+| Android/dotyk | Brak projektu Godot | Joystick 360°, osobny palec interakcji, cancel/fokus, safe area, układ poziomy | Wstrzykiwane zdarzenia ScreenTouch przez rzeczywisty viewport i trzy rozmiary okna |
+| NPC i wnętrza | 8 NPC / 6 budynków w źródle | Rozmowy, wejścia i powroty, oryginalne pokoje 1920×1280 | Próba wszystkich sześciu drzwi, dojście do NPC wewnątrz |
+| Zapis | Zapisy kont gry WWW | Osobny lokalny checkpoint v1, bez konta i bez importu zapisów WWW | Round-trip oraz ochrona nowszego nieznanego pliku |
+| Paczka | Brak APK | Samodzielny debug APK ARM64, Android 7+, target 36, osobny package ID | Podpis v2/v3, CRC ZIP, wyrównanie 16 KiB, manifest i biblioteka Godot |
+
+#### Paczki do próby
+
+- [APK Android ARM64](../../../deliveries/godot-pyra-android-20261115/ki-legends-pyra-debug.apk) —
+  **46 783 250 bajtów**, SHA-256 `39d152bc4d0b595320e1273004c10b71a747993872693464e886893c34c114ed`.
+- [Projekt Godot ZIP](../../../deliveries/godot-pyra-android-20261115/ki-legends-pyra-godot-project.zip) —
+  otworzyć `godot-pyra/project.godot` w Godot 4.6.3; bez `.godot`, buildów i kluczy.
+- [Manifest paczek](../../../deliveries/godot-pyra-android-20261115/manifest.json).
+- [Uruchomienie, eksport i architektura](../../ARCHITEKTURA-I-TESTY.md#próba-migracji-godot-4--android--miasto-pyry-15112026).
+
+APK jest podpisany lokalnym certyfikatem debug; klucz pozostaje poza Git.
+Nie żąda internetu ani dostępu do pamięci zewnętrznej. Package `pl.kilegends.godot.pyra`,
+min SDK 24, target SDK 36, orientacja pozioma `USER_LANDSCAPE`.
+W eksporcie znalazły się rzeczywiste `libgodot_android.so`, dane miasta i zasoby;
+wykluczono testy oraz surowy zrzut źródeł. Wyeksportowany program Linux również
+uruchomiono z zasobów wbudowanych w paczkę, bez odwołań do edytora.
+
+#### Sprawdzenia
+
+- Godot headless: **52 PASS / 0 FAIL**.
+- Natywny Godot X11, Compatibility, Mesa llvmpipe: **52 PASS / 0 FAIL**;
+  zrzuty i nagranie pochodzą z silnika, nie z generatora obrazów ani makiety WWW.
+- Viewporty: **854×480, 1280×720, 1600×720**. Przy ruchu 170 j./s i limitach
+  renderowania 30/120 FPS zmierzono zbliżony dystans, z tolerancją pojedynczych kroków fizyki.
+- Pełny TypeScript aplikacji/e2e/tools PASS, Vitest **2112 PASS / 0 FAIL / 12 SKIP**
+  (zastane testy PostgreSQL bez osobnej bazy), lint **0 błędów / 17 zastanych ostrzeżeń**,
+  kontrola zasobów oraz build WWW PASS. Sześć nowych testów dotyczy mostu danych.
+- Parser Godot, eksport APK i podpis v2/v3 PASS, CRC paczki PASS, wyrównanie 16 KiB PASS.
+- Wczesne próby ujawniły osierocone etykiety przy zwalnianiu bohatera,
+  pomylenie współrzędnych fizycznego okna headless 64×64 z logicznym viewportem,
+  niedozwolone nadpisanie SDK bez Gradle oraz wymagany znacznik importu ETC2/ASTC.
+  Poprawiono przyczyny; obecne wyniki pochodzą z pełnego ponowienia.
+- **Fizyczny Android niezweryfikowany:** brak podłączonego urządzenia. Podpisana paczka
+  i próba desktopowa nie stanowią testu instalacji, GPU, baterii ani FPS na telefonie.
+
+Szacunkowy budżet pikseli tekstur widoku miasta to **75,05 MiB RGBA** dla aktywnych
+materiałów i postaci. Nie obejmuje viewportu, UI, pamięci silnika ani przejściowych
+alokacji; nie jest całkowitym zużyciem RAM na Androidzie.
+
+#### Materiały odbioru
+
+[Manifest wyników](qa/godot-pyra/acceptance.json),
+[hash wejść portu](qa/godot-pyra/source-inputs.json),
+[headless JSON](qa/godot-pyra/headless-results.json),
+[natywny JSON](qa/godot-pyra/native-results.json),
+[Vitest JSON](qa/godot-pyra/vitest.json.gz),
+[miasto](qa/godot-pyra/city-spawn.png),
+[miasto na 854×480](qa/godot-pyra/city-854x480.png),
+[rozmowa w sali](qa/godot-pyra/hall-dialog.png),
+[kuźnia](qa/godot-pyra/room-smithy.png),
+[depozyt](qa/godot-pyra/room-depot.png),
+[nagranie natywnego autotestu](qa/godot-pyra/native-gameplay.mp4),
+[manifest SHA-256 dowodów](qa/godot-pyra/evidence-sha256.json).
+
+Workflow `Godot Pyra city prototype` pobiera przypięty binarny Godot 4.6.3
+(z kontrolą SHA-256), wykonuje parser/import, testy headless i prawdziwy render
+OpenGL przez Xvfb, a wyniki zachowuje jako artefakt. Nie publikuje produkcji.
+Wynik CI należy przypisywać do SHA faktycznie przetestowanego w Actions.
+
+#### Pozostało poza tą próbą
+
+Pełny kontynent i streaming, walka/umiejętności, zadania i postęp,
+handel/crafting/przedmioty depozytu, audio oraz konta/zapisy serwerowe.
+Dialogi zawierają tekst z gry, ale nie przyznają nagród ani postępu Godot.
+Nie migrowano postaci, nie resetowano danych, nie zmieniano statystyk,
+generatorów świata, geometrii Superiora, infrastruktury GPU ani produkcji.

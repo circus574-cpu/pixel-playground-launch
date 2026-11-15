@@ -1,0 +1,60 @@
+name: Godot Pyra city prototype
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ports/godot-pyra/**
+      - scripts/godot/**
+      - src/test/godot-pyra-export.test.ts
+      - .github/workflows/godot-pyra.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: godot-pyra-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Godot 4.6.3
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 2 -o "$RUNNER_TEMP/godot.zip" https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_linux.x86_64.zip
+          printf '%s  %s\n' d0bc2113065e481c9c2c2b2c37daa4e8be3fe9e27f0ab9ab0b6096e9a37907f3 "$RUNNER_TEMP/godot.zip" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/godot"
+          unzip -q "$RUNNER_TEMP/godot.zip" -d "$RUNNER_TEMP/godot"
+          mv "$RUNNER_TEMP/godot/Godot_v4.6.3-stable_linux.x86_64" "$RUNNER_TEMP/godot/godot"
+          echo "$RUNNER_TEMP/godot" >> "$GITHUB_PATH"
+          sudo apt-get update
+          sudo apt-get install -y xvfb libgl1-mesa-dri
+      - name: Import actual city assets and scripts
+        run: |
+          mkdir -p godot-qa
+          godot --headless --editor --path ports/godot-pyra --import > godot-qa/import.txt 2>&1
+          if grep -E 'SCRIPT ERROR:|^ERROR:' godot-qa/import.txt; then exit 1; fi
+      - name: Headless physics and input integration
+        run: timeout 180s godot --headless --audio-driver Dummy --path ports/godot-pyra --script res://tests/smoke.gd -- --fresh --qa-output "$GITHUB_WORKSPACE/godot-qa/headless" > godot-qa/headless.txt 2>&1
+      - name: Actual Godot OpenGL render and gameplay
+        run: timeout 180s xvfb-run -a -s '-screen 0 1600x900x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --audio-driver Dummy --path ports/godot-pyra --rendering-method gl_compatibility --script res://tests/smoke.gd -- --fresh --qa-output "$GITHUB_WORKSPACE/godot-qa/native" > godot-qa/native.txt 2>&1
+      - name: Validate result files and engine errors
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, pathlib
+          for mode in ['headless','native']:
+              r=json.loads(pathlib.Path('godot-qa',mode,'result.json').read_text())
+              assert r['failed']==0 and r['checks']>=48, r
+          for f in pathlib.Path('godot-qa').glob('*.txt'):
+              assert 'SCRIPT ERROR:' not in f.read_text() and '\nERROR:' not in f.read_text(), str(f)
+          assert list(pathlib.Path('godot-qa/native').glob('*.png'))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: godot-pyra-${{ github.sha }}
+          path: godot-qa
+          retention-days: 14

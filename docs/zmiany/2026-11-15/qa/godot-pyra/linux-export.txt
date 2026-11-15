@@ -1,0 +1,119 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+Unable to open Android 'build-tools' directory.
+[   0% ] first_scan_filesystem | Started Project initialization (5 steps)
+[   0% ] first_scan_filesystem | Scanning file structure...
+[  16% ] first_scan_filesystem | Loading global class names...
+[  33% ] first_scan_filesystem | Verifying GDExtensions...
+[  50% ] first_scan_filesystem | Creating autoload scripts...
+[  66% ] first_scan_filesystem | Initializing plugins...
+[  83% ] first_scan_filesystem | Starting file scan...
+[ DONE ] first_scan_filesystem
+
+[   0% ] savepack | Started Packing (102 steps)
+[   1% ] savepack | Storing File: res://.godot/imported/guide-idle-0.png-540fa342f59e2d95192ebb7f7507bac2.ctex
+[   1% ] savepack | Storing File: res://assets/actors/guide-idle-0.png.import
+[   2% ] savepack | Storing File: res://.godot/imported/hero-idle-0.png-e8d7f5f1b7e037afde804c69d22fec6c.ctex
+[   2% ] savepack | Storing File: res://assets/actors/hero-idle-0.png.import
+[   4% ] savepack | Storing File: res://.godot/imported/hero-walk-0.png-9e13936724d7ceb4f069888d98e4ba50.ctex
+[   4% ] savepack | Storing File: res://assets/actors/hero-walk-0.png.import
+[   6% ] savepack | Storing File: res://.godot/imported/hunter-idle-0.png-52b30e0416e4f70c9682e0c1f3aa846d.ctex
+[   6% ] savepack | Storing File: res://assets/actors/hunter-idle-0.png.import
+[   8% ] savepack | Storing File: res://.godot/imported/innkeeper-idle-0.png-f1c4b0e10e571aa3007a264205e82bda.ctex
+[   8% ] savepack | Storing File: res://assets/actors/innkeeper-idle-0.png.import
+[  10% ] savepack | Storing File: res://.godot/imported/keeper-idle-0.png-fc9cc48eec01f2939b9f112e1d8df899.ctex
+[  10% ] savepack | Storing File: res://assets/actors/keeper-idle-0.png.import
+[  12% ] savepack | Storing File: res://.godot/imported/merchant-idle-0.png-e5972a4715bebbee850fdeb21aafe619.ctex
+[  12% ] savepack | Storing File: res://assets/actors/merchant-idle-0.png.import
+[  14% ] savepack | Storing File: res://.godot/imported/smith-idle-0.png-4d0c711f2266d030bed824a24c9fff97.ctex
+[  14% ] savepack | Storing File: res://assets/actors/smith-idle-0.png.import
+[  16% ] savepack | Storing File: res://.godot/imported/steward-idle-0.png-325a23d0dc81cc7a7e5e02b2ac0f07d8.ctex
+[  16% ] savepack | Storing File: res://assets/actors/steward-idle-0.png.import
+[  18% ] savepack | Storing File: res://.godot/imported/trainer-idle-0.png-d8d94c8c3799b4b33fa7acd45f6d05d7.ctex
+[  18% ] savepack | Storing File: res://assets/actors/trainer-idle-0.png.import
+[  20% ] savepack | Storing File: res://.godot/imported/0-0.png-d62c5dc7e01360b230592b78ecb40213.ctex
+[  20% ] savepack | Storing File: res://assets/floor/0-0.png.import
+[  22% ] savepack | Storing File: res://.godot/imported/0-512.png-20f82633ec1b04919099c90d3e866ddb.ctex
+[  22% ] savepack | Storing File: res://assets/floor/0-512.png.import
+[  24% ] savepack | Storing File: res://.godot/imported/0-1024.png-38185c2525776c281002fe364b2a7738.ctex
+[  24% ] savepack | Storing File: res://assets/floor/0-1024.png.import
+[  26% ] savepack | Storing File: res://.godot/imported/0-1536.png-32efb99b260dddd515b15876b65ae453.ctex
+[  26% ] savepack | Storing File: res://assets/floor/0-1536.png.import
+[  27% ] savepack | Storing File: res://.godot/imported/512-0.png-4da764ebe07dc033dd5a19e1c07c03b6.ctex
+[  27% ] savepack | Storing File: res://assets/floor/512-0.png.import
+[  29% ] savepack | Storing File: res://.godot/imported/512-512.png-3467b2b0e93cd27a8d5623dd3d81d769.ctex
+[  29% ] savepack | Storing File: res://assets/floor/512-512.png.import
+[  31% ] savepack | Storing File: res://.godot/imported/512-1024.png-7394d4b9c7e78d3cb0b513d4b85eb228.ctex
+[  31% ] savepack | Storing File: res://assets/floor/512-1024.png.import
+[  33% ] savepack | Storing File: res://.godot/imported/512-1536.png-ace21c58fb832cb31d318386a10381e4.ctex
+[  33% ] savepack | Storing File: res://assets/floor/512-1536.png.import
+[  34% ] savepack | Storing File: res://.godot/imported/1024-0.png-6b9b7895fa18c005dd19ec1b39252c66.ctex
+[  34% ] savepack | Storing File: res://assets/floor/1024-0.png.import
+[  36% ] savepack | Storing File: res://.godot/imported/1024-512.png-a1be7bb4d226ad49ee2926c17811937e.ctex
+[  36% ] savepack | Storing File: res://assets/floor/1024-512.png.import
+[  38% ] savepack | Storing File: res://.godot/imported/1024-1024.png-221e7b7c7e07b849c70bf202ed9dfe3f.ctex
+[  38% ] savepack | Storing File: res://assets/floor/1024-1024.png.import
+[  40% ] savepack | Storing File: res://.godot/imported/1024-1536.png-d08a2b61a70bf009936a56fcd775ac2b.ctex
+[  40% ] savepack | Storing File: res://assets/floor/1024-1536.png.import
+[  42% ] savepack | Storing File: res://.godot/imported/1536-0.png-0cddde1ccc68f702c12913787c83bf36.ctex
+[  42% ] savepack | Storing File: res://assets/floor/1536-0.png.import
+[  44% ] savepack | Storing File: res://.godot/imported/1536-512.png-bd1aae3104a97a2ba1f2ce5f4ca61666.ctex
+[  44% ] savepack | Storing File: res://assets/floor/1536-512.png.import
+[  46% ] savepack | Storing File: res://.godot/imported/1536-1024.png-c22f18238ae89383619396467b91cf2e.ctex
+[  46% ] savepack | Storing File: res://assets/floor/1536-1024.png.import
+[  48% ] savepack | Storing File: res://.godot/imported/1536-1536.png-ef89a8cf46d83ac61d320c0cf12a4e05.ctex
+[  48% ] savepack | Storing File: res://assets/floor/1536-1536.png.import
+[  50% ] savepack | Storing File: res://.godot/imported/nature-obj-basalt-columns-216cdfb637.png-9383d620ce3e52c1893d2f22d0907c14.ctex
+[  50% ] savepack | Storing File: res://assets/objects/nature-obj-basalt-columns-216cdfb637.png.import
+[  51% ] savepack | Storing File: res://.godot/imported/nature-obj-boulder-group-ce146c6815.png-4dd5787d1c901c175941b82faaa2d293.ctex
+[  51% ] savepack | Storing File: res://assets/objects/nature-obj-boulder-group-ce146c6815.png.import
+[  53% ] savepack | Storing File: res://.godot/imported/nature-obj-cliff-outcrop-ef733c85df.png-43b82f41f286c8e33a37c44b02a5aaba.ctex
+[  53% ] savepack | Storing File: res://assets/objects/nature-obj-cliff-outcrop-ef733c85df.png.import
+[  55% ] savepack | Storing File: res://.godot/imported/nature-obj-lava-rocks-60ab3cb785.png-77be1126a9a3bb042cd1ea3d1c996091.ctex
+[  55% ] savepack | Storing File: res://assets/objects/nature-obj-lava-rocks-60ab3cb785.png.import
+[  57% ] savepack | Storing File: res://.godot/imported/nature-obj-mountain-peak-a904dd4285.png-6a734e280d9d952a5d77172945f02fd1.ctex
+[  57% ] savepack | Storing File: res://assets/objects/nature-obj-mountain-peak-a904dd4285.png.import
+[  59% ] savepack | Storing File: res://.godot/imported/nature-obj-volcano-active-46d644819a.png-0a583a0f923b1de5926ccab36a2e7531.ctex
+[  59% ] savepack | Storing File: res://assets/objects/nature-obj-volcano-active-46d644819a.png.import
+[  61% ] savepack | Storing File: res://.godot/imported/nature-obj-volcano-dormant-ba050a47c6.png-6dd11194620157f0459ade93b74cd73e.ctex
+[  61% ] savepack | Storing File: res://assets/objects/nature-obj-volcano-dormant-ba050a47c6.png.import
+[  63% ] savepack | Storing File: res://.godot/imported/pyra-art-basalt-ab0eb4fb40.png-f809b1e82467f809f399d8edf3204a8e.ctex
+[  63% ] savepack | Storing File: res://assets/objects/pyra-art-basalt-ab0eb4fb40.png.import
+[  65% ] savepack | Storing File: res://.godot/imported/pyra-art-clan-banner-8948b6e89b.png-e0e204ad2f586051f9009689f7eb141a.ctex
+[  65% ] savepack | Storing File: res://assets/objects/pyra-art-clan-banner-8948b6e89b.png.import
+[  66% ] savepack | Storing File: res://.godot/imported/pyra-art-fortress-d42396dbd1.png-b6a94942adaf0b85ca64d035d4c01ec7.ctex
+[  66% ] savepack | Storing File: res://assets/objects/pyra-art-fortress-d42396dbd1.png.import
+[  68% ] savepack | Storing File: res://.godot/imported/pyra-art-statue-b5f4b8af0c.png-4d951f613a157454488db90d504cefae.ctex
+[  68% ] savepack | Storing File: res://assets/objects/pyra-art-statue-b5f4b8af0c.png.import
+[  70% ] savepack | Storing File: res://.godot/imported/pyra-art-war-shrine-69d28510d6.png-e765750787ff1a21e55100a9dcb2627c.ctex
+[  70% ] savepack | Storing File: res://assets/objects/pyra-art-war-shrine-69d28510d6.png.import
+[  72% ] savepack | Storing File: res://.godot/imported/arena.webp-918f30635422e679b5cb0b4c0f6cc475.ctex
+[  72% ] savepack | Storing File: res://assets/rooms/arena.webp.import
+[  74% ] savepack | Storing File: res://.godot/imported/depot.webp-a725b31e59b2e2439b2b8b4cc60a33d0.ctex
+[  74% ] savepack | Storing File: res://assets/rooms/depot.webp.import
+[  75% ] savepack | Storing File: res://.godot/imported/hall.webp-67c8965a95a6c2417c98ea54a4e4a7f5.ctex
+[  75% ] savepack | Storing File: res://assets/rooms/hall.webp.import
+[  77% ] savepack | Storing File: res://.godot/imported/inn.webp-ba9ddee61b426aaebc93b59795c8f205.ctex
+[  77% ] savepack | Storing File: res://assets/rooms/inn.webp.import
+[  79% ] savepack | Storing File: res://.godot/imported/shop.webp-3ae968308fa548abe4e3351bcd81bb51.ctex
+[  79% ] savepack | Storing File: res://assets/rooms/shop.webp.import
+[  81% ] savepack | Storing File: res://.godot/imported/smithy.webp-fc30d06d68f1f7ae1d7255eaa137dc99.ctex
+[  81% ] savepack | Storing File: res://assets/rooms/smithy.webp.import
+[  83% ] savepack | Storing File: res://data/city.generated.json
+[  85% ] savepack | Storing File: res://data/provenance.json
+[  87% ] savepack | Storing File: res://scripts/touch_controls.gdc
+[  89% ] savepack | Storing File: res://.godot/exported/133200997/export-7b8116972f02310e38890beab32cb20b-city.scn
+[  91% ] savepack | Storing File: res://scripts/actor_view.gdc
+[  93% ] savepack | Storing File: res://scripts/city_game.gdc
+[  95% ] savepack | Storing File: res://scripts/hud.gdc
+[  97% ] savepack | Storing File: res://scripts/player.gdc
+[  97% ] savepack | Storing File: res://scripts/touch_controls.gd.remap
+[  97% ] savepack | Storing File: res://scenes/city.tscn.remap
+[  97% ] savepack | Storing File: res://scripts/actor_view.gd.remap
+[  97% ] savepack | Storing File: res://scripts/city_game.gd.remap
+[  97% ] savepack | Storing File: res://scripts/hud.gd.remap
+[  97% ] savepack | Storing File: res://scripts/player.gd.remap
+[  97% ] savepack | Storing File: res://.godot/global_script_class_cache.cfg
+[  97% ] savepack | Storing File: res://.godot/uid_cache.bin
+[  97% ] savepack | Storing File: res://project.binary
+[ DONE ] savepack

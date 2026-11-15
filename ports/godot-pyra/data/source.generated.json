@@ -1,0 +1,4083 @@
+{
+  "format": "ki-godot-pyra-source-1",
+  "sourceCommit": "0b69c28e4b45a59f32251f5ac6d54e1365660d98",
+  "sourceWorld": {
+    "path": "public/game/worlds/superior-v2/pyra/world.json",
+    "sha256": "d945f0260c44f73a58461f59b69b41796e6c068747d0d3660195a3fca4e3276c",
+    "superiorOffset": {
+      "x": 43470.28602700001,
+      "y": 11602.471948999999
+    }
+  },
+  "city": {
+    "id": "pyra-capital",
+    "name": "Twierdza Popiołu",
+    "bounds": {
+      "height": 1750,
+      "width": 2050,
+      "x": 1350,
+      "y": 950
+    },
+    "crop": {
+      "x": 1094,
+      "y": 566,
+      "width": 2562,
+      "height": 2390
+    },
+    "spawn": {
+      "x": 2380,
+      "y": 2230
+    },
+    "movementSpeed": 170,
+    "buildings": [
+      {
+        "description": "Serce Twierdzy Popiołu. Tu składa się przysięgę, przyjmuje zadania i poznaje historię klanów.",
+        "district": "Bramy Twierdzy",
+        "door": {
+          "x": 2400,
+          "y": 1285
+        },
+        "id": "hall",
+        "name": "Sala Przysięgi",
+        "objectId": "fortress-0"
+      },
+      {
+        "description": "Kupcy klanów wymieniają kły na monety, mikstury i pancerze.",
+        "district": "Targ Klanowy",
+        "door": {
+          "x": 3100,
+          "y": 1572
+        },
+        "id": "shop",
+        "name": "Targ Klanów",
+        "objectId": "city-shrine-shop"
+      },
+      {
+        "description": "Plac z manekinem treningowym. Sprawdzaj prawdziwe zdolności bez ryzyka i nagród.",
+        "district": "Pole Treningowe",
+        "door": {
+          "x": 3100,
+          "y": 2325
+        },
+        "id": "arena",
+        "name": "Plac Ćwiczeń Klanów",
+        "objectId": "war-shrine-2"
+      },
+      {
+        "description": "Kowale żaru hartują i wzmacniają ostrza w ogniu szczelin.",
+        "district": "Palenisko",
+        "door": {
+          "x": 2400,
+          "y": 2582
+        },
+        "id": "smithy",
+        "name": "Kuźnia Żaru",
+        "objectId": "city-shrine-smithy"
+      },
+      {
+        "description": "Strzeżony skarbiec z osobistą skrzynią na przedmioty każdej postaci.",
+        "district": "Skarbce",
+        "door": {
+          "x": 1650,
+          "y": 2512
+        },
+        "id": "depot",
+        "name": "Skarbiec Klanu",
+        "objectId": "city-shrine-depot"
+      },
+      {
+        "description": "Ciepła gospoda przy ognisku, gdzie można odpocząć i odzyskać siły.",
+        "district": "Ostoja",
+        "door": {
+          "x": 1700,
+          "y": 1572
+        },
+        "id": "inn",
+        "name": "Gospoda Pod Żarem",
+        "objectId": "war-shrine-1"
+      }
+    ],
+    "npcs": [
+      {
+        "dialogue": "Witaj w Twierdzy Popiołu. Tutaj hartuje się stal i męstwo, a słabość spala się w płomieniach.",
+        "id": "guide",
+        "name": "Kaena",
+        "role": "Strażniczka przysięgi",
+        "tint": 11071695,
+        "x": 2470,
+        "y": 2230,
+        "dialogueId": "npc-kaena"
+      },
+      {
+        "dialogue": "Blizny na ciele to mapa przebytych walk. Ile z nich nosisz ty, przybyszu?",
+        "id": "hunter",
+        "name": "Rokan",
+        "role": "Mistrz polowania",
+        "tint": 16762788,
+        "x": 2660,
+        "y": 1750,
+        "dialogueId": "npc-rokan"
+      },
+      {
+        "building": "hall",
+        "dialogue": "Sala stoi otworem. Przysięga złożona w popiele trwa dłużej niż ta spisana atramentem.",
+        "id": "steward",
+        "name": "Tsubasa",
+        "role": "Zarządca Sali Przysięgi",
+        "tint": 15390133,
+        "x": 2400,
+        "y": 1285,
+        "dialogueId": null
+      },
+      {
+        "building": "shop",
+        "dialogue": "Potrzebujesz ostrzałki, pyłu lawowego czy solidnych pasów? U Yumi kupisz ekwipunek, który nie stopi się w walce.",
+        "id": "merchant",
+        "name": "Yumi",
+        "role": "Kupczyni klanów",
+        "tint": 14070783,
+        "x": 3100,
+        "y": 1572,
+        "dialogueId": "npc-yumi"
+      },
+      {
+        "building": "arena",
+        "dialogue": "Manekin nie oddaje ciosów i nie płaci nagród. Użyj każdej zdolności i zapamiętaj, jak działa.",
+        "id": "trainer",
+        "name": "Kenzo",
+        "role": "Mistrz ćwiczeń",
+        "tint": 16755370,
+        "x": 3100,
+        "y": 2325,
+        "dialogueId": null
+      },
+      {
+        "building": "depot",
+        "dialogue": "Skrzynia jest twoja i tylko twoja. Klan strzeże jej jak własnego ognia.",
+        "id": "keeper",
+        "name": "Mitsu",
+        "role": "Strażniczka skarbca",
+        "tint": 12116191,
+        "x": 1650,
+        "y": 2512,
+        "dialogueId": null
+      },
+      {
+        "building": "smithy",
+        "dialogue": "Dźwięk uderzenia młota to najwspanialsza muzyka na tej planecie. Co chcesz wykuć, wojowniku?",
+        "id": "smith",
+        "name": "Goro",
+        "role": "Kowal żaru",
+        "tint": 10802687,
+        "x": 2400,
+        "y": 2582,
+        "dialogueId": "npc-goro"
+      },
+      {
+        "building": "inn",
+        "dialogue": "Usiądź przy ogniu. Zmęczony wojownik to martwy wojownik, a ja nie lubię pustych ław.",
+        "id": "innkeeper",
+        "name": "Akane",
+        "role": "Gospodyni ogniska",
+        "tint": 16766139,
+        "x": 1700,
+        "y": 1572,
+        "dialogueId": null
+      }
+    ],
+    "obstacles": [
+      {
+        "height": 110,
+        "width": 4800,
+        "x": 0,
+        "y": 0
+      },
+      {
+        "height": 3482,
+        "width": 140,
+        "x": 0,
+        "y": 110
+      },
+      {
+        "height": 3482,
+        "width": 140,
+        "x": 4660,
+        "y": 110
+      },
+      {
+        "height": 100,
+        "width": 4520,
+        "x": 140,
+        "y": 3492
+      },
+      {
+        "height": 80,
+        "width": 310,
+        "x": 2640,
+        "y": 2390
+      },
+      {
+        "height": 160,
+        "width": 470,
+        "x": 2165,
+        "y": 1070
+      },
+      {
+        "height": 135,
+        "width": 260,
+        "x": 1570,
+        "y": 1382.5
+      },
+      {
+        "height": 140,
+        "width": 270,
+        "x": 2965,
+        "y": 2130
+      },
+      {
+        "height": 65,
+        "width": 80,
+        "x": 2020,
+        "y": 1637.5
+      },
+      {
+        "height": 65,
+        "width": 80,
+        "x": 2700,
+        "y": 1637.5
+      },
+      {
+        "height": 79,
+        "width": 220,
+        "x": 807,
+        "y": 608.5
+      },
+      {
+        "height": 79,
+        "width": 220,
+        "x": 3888,
+        "y": 628.5
+      },
+      {
+        "height": 79,
+        "width": 220,
+        "x": 3168,
+        "y": 565.5
+      },
+      {
+        "height": 79,
+        "width": 220,
+        "x": 1588,
+        "y": 567.5
+      },
+      {
+        "height": 77,
+        "width": 215,
+        "x": 3768.5,
+        "y": 1248.5
+      },
+      {
+        "height": 77,
+        "width": 215,
+        "x": 4247.5,
+        "y": 1163.5
+      },
+      {
+        "height": 135,
+        "width": 260,
+        "x": 2970,
+        "y": 1382.5
+      },
+      {
+        "height": 135,
+        "width": 260,
+        "x": 2270,
+        "y": 2392.5
+      },
+      {
+        "height": 135,
+        "width": 260,
+        "x": 1520,
+        "y": 2322.5
+      }
+    ],
+    "objects": [
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "fortress",
+        "footprint": {
+          "height": 160,
+          "width": 470
+        },
+        "height": 390,
+        "id": "fortress-0",
+        "kind": "fortress",
+        "solid": true,
+        "width": 570,
+        "x": 2400,
+        "y": 1150,
+        "binding": {
+          "asset": "pyra-art-fortress",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.8
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "war-shrine",
+        "footprint": {
+          "height": 135,
+          "width": 260
+        },
+        "height": 340,
+        "id": "war-shrine-1",
+        "kind": "war-shrine",
+        "solid": true,
+        "width": 340,
+        "x": 1700,
+        "y": 1450,
+        "binding": {
+          "asset": "pyra-art-war-shrine",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.8
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "war-shrine",
+        "footprint": {
+          "height": 140,
+          "width": 270
+        },
+        "height": 340,
+        "id": "war-shrine-2",
+        "kind": "war-shrine",
+        "solid": true,
+        "width": 350,
+        "x": 3100,
+        "y": 2200,
+        "binding": {
+          "asset": "pyra-art-war-shrine",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.8
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "statue",
+        "footprint": {
+          "height": 65,
+          "width": 80
+        },
+        "height": 240,
+        "id": "statue-3",
+        "kind": "statue",
+        "solid": true,
+        "width": 160,
+        "x": 2060,
+        "y": 1670,
+        "binding": {
+          "asset": "pyra-art-statue",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.87
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "statue",
+        "footprint": {
+          "height": 65,
+          "width": 80
+        },
+        "height": 240,
+        "id": "statue-4",
+        "kind": "statue",
+        "solid": true,
+        "width": 160,
+        "x": 2740,
+        "y": 1670,
+        "binding": {
+          "asset": "pyra-art-statue",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.87
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "nature.patch-volcano-active",
+        "height": 420,
+        "id": "detail-volcano-9",
+        "kind": "patch-volcano-active",
+        "solid": false,
+        "width": 420,
+        "x": 1650,
+        "y": 1230,
+        "binding": {
+          "asset": "nature-obj-volcano-active",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "nature.patch-volcano-dormant",
+        "height": 420,
+        "id": "detail-volcano-10",
+        "kind": "patch-volcano-dormant",
+        "solid": false,
+        "width": 420,
+        "x": 3170,
+        "y": 1230,
+        "binding": {
+          "asset": "nature-obj-volcano-dormant",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "detail-clan-banner-11",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 2130,
+        "y": 2080,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "detail-clan-banner-12",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 2710,
+        "y": 2060,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "detail-clan-banner-13",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 1890,
+        "y": 2220,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "detail-clan-banner-14",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 3000,
+        "y": 2260,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "detail-clan-banner-15",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 2130,
+        "y": 1450,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "detail-clan-banner-16",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 2680,
+        "y": 1450,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "basalt",
+        "height": 140,
+        "id": "detail-basalt-17",
+        "kind": "basalt",
+        "solid": false,
+        "width": 140,
+        "x": 1480,
+        "y": 2070,
+        "binding": {
+          "asset": "pyra-art-basalt",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.86
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "basalt",
+        "height": 140,
+        "id": "detail-basalt-18",
+        "kind": "basalt",
+        "solid": false,
+        "width": 140,
+        "x": 3380,
+        "y": 1880,
+        "binding": {
+          "asset": "pyra-art-basalt",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.86
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "basalt",
+        "height": 140,
+        "id": "detail-basalt-19",
+        "kind": "basalt",
+        "solid": false,
+        "width": 140,
+        "x": 2700,
+        "y": 2560,
+        "binding": {
+          "asset": "pyra-art-basalt",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.86
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "basalt",
+        "height": 140,
+        "id": "detail-basalt-20",
+        "kind": "basalt",
+        "solid": false,
+        "width": 140,
+        "x": 2080,
+        "y": 1370,
+        "binding": {
+          "asset": "pyra-art-basalt",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.86
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "nature.patch-lava-rocks",
+        "height": 200,
+        "id": "nature-patch-lava-rocks-21",
+        "kind": "patch-lava-rocks",
+        "solid": false,
+        "width": 200,
+        "x": 2939,
+        "y": 1503,
+        "binding": {
+          "asset": "nature-obj-lava-rocks",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "nature.patch-boulder-group",
+        "height": 200,
+        "id": "nature-patch-boulder-group-22",
+        "kind": "patch-boulder-group",
+        "solid": false,
+        "width": 200,
+        "x": 2805,
+        "y": 1249,
+        "binding": {
+          "asset": "nature-obj-boulder-group",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-volcano-active",
+        "footprint": {
+          "height": 79,
+          "offsetY": -18,
+          "width": 220
+        },
+        "height": 440,
+        "id": "zone-north-patch-volcano-active-0",
+        "kind": "patch-volcano-active",
+        "solid": true,
+        "width": 440,
+        "x": 917,
+        "y": 666,
+        "binding": {
+          "asset": "nature-obj-volcano-active",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-volcano-dormant",
+        "footprint": {
+          "height": 79,
+          "offsetY": -18,
+          "width": 220
+        },
+        "height": 440,
+        "id": "zone-north-patch-volcano-dormant-1",
+        "kind": "patch-volcano-dormant",
+        "solid": true,
+        "width": 440,
+        "x": 3998,
+        "y": 686,
+        "binding": {
+          "asset": "nature-obj-volcano-dormant",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-lava-rocks",
+        "height": 240,
+        "id": "zone-north-patch-lava-rocks-2",
+        "kind": "patch-lava-rocks",
+        "solid": false,
+        "width": 240,
+        "x": 2826,
+        "y": 454,
+        "binding": {
+          "asset": "nature-obj-lava-rocks",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-volcano-active",
+        "footprint": {
+          "height": 79,
+          "offsetY": -18,
+          "width": 220
+        },
+        "height": 440,
+        "id": "zone-north-patch-volcano-active-3",
+        "kind": "patch-volcano-active",
+        "solid": true,
+        "width": 440,
+        "x": 3278,
+        "y": 623,
+        "binding": {
+          "asset": "nature-obj-volcano-active",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-volcano-dormant",
+        "footprint": {
+          "height": 79,
+          "offsetY": -18,
+          "width": 220
+        },
+        "height": 440,
+        "id": "zone-north-patch-volcano-dormant-4",
+        "kind": "patch-volcano-dormant",
+        "solid": true,
+        "width": 440,
+        "x": 1698,
+        "y": 625,
+        "binding": {
+          "asset": "nature-obj-volcano-dormant",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-lava-rocks",
+        "height": 260,
+        "id": "zone-south-patch-lava-rocks-0",
+        "kind": "patch-lava-rocks",
+        "solid": false,
+        "width": 260,
+        "x": 3583,
+        "y": 3197,
+        "binding": {
+          "asset": "nature-obj-lava-rocks",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-basalt-columns",
+        "height": 260,
+        "id": "zone-south-patch-basalt-columns-1",
+        "kind": "patch-basalt-columns",
+        "solid": false,
+        "width": 260,
+        "x": 3086,
+        "y": 3180,
+        "binding": {
+          "asset": "nature-obj-basalt-columns",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-boulder-group",
+        "height": 220,
+        "id": "zone-south-patch-boulder-group-2",
+        "kind": "patch-boulder-group",
+        "solid": false,
+        "width": 220,
+        "x": 3849,
+        "y": 3150,
+        "binding": {
+          "asset": "nature-obj-boulder-group",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-basalt-columns",
+        "height": 260,
+        "id": "zone-south-patch-basalt-columns-4",
+        "kind": "patch-basalt-columns",
+        "solid": false,
+        "width": 260,
+        "x": 2101,
+        "y": 2901,
+        "binding": {
+          "asset": "nature-obj-basalt-columns",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-boulder-group",
+        "height": 220,
+        "id": "zone-south-patch-boulder-group-5",
+        "kind": "patch-boulder-group",
+        "solid": false,
+        "width": 220,
+        "x": 2575,
+        "y": 2914,
+        "binding": {
+          "asset": "nature-obj-boulder-group",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-lava-rocks",
+        "height": 260,
+        "id": "zone-south-patch-lava-rocks-6",
+        "kind": "patch-lava-rocks",
+        "solid": false,
+        "width": 260,
+        "x": 987,
+        "y": 3069,
+        "binding": {
+          "asset": "nature-obj-lava-rocks",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-basalt-columns",
+        "height": 260,
+        "id": "zone-south-patch-basalt-columns-7",
+        "kind": "patch-basalt-columns",
+        "solid": false,
+        "width": 260,
+        "x": 1610,
+        "y": 3168,
+        "binding": {
+          "asset": "nature-obj-basalt-columns",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-boulder-group",
+        "height": 220,
+        "id": "zone-south-patch-boulder-group-8",
+        "kind": "patch-boulder-group",
+        "solid": false,
+        "width": 220,
+        "x": 1267,
+        "y": 3118,
+        "binding": {
+          "asset": "nature-obj-boulder-group",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-basalt-columns",
+        "height": 260,
+        "id": "zone-south-patch-basalt-columns-10",
+        "kind": "patch-basalt-columns",
+        "solid": false,
+        "width": 260,
+        "x": 3094,
+        "y": 2886,
+        "binding": {
+          "asset": "nature-obj-basalt-columns",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "nature.mountain-peak",
+        "footprint": {
+          "height": 77,
+          "offsetY": -17,
+          "width": 215
+        },
+        "height": 430,
+        "id": "zone-east-mountain-peak-1",
+        "kind": "mountain-peak",
+        "solid": true,
+        "width": 430,
+        "x": 3876,
+        "y": 1304,
+        "binding": {
+          "asset": "nature-obj-mountain-peak",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-cliff-outcrop",
+        "height": 300,
+        "id": "zone-west-patch-cliff-outcrop-2",
+        "kind": "patch-cliff-outcrop",
+        "solid": false,
+        "width": 300,
+        "x": 937,
+        "y": 2483,
+        "binding": {
+          "asset": "nature-obj-cliff-outcrop",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-lava-rocks",
+        "height": 240,
+        "id": "zone-west-patch-lava-rocks-4",
+        "kind": "patch-lava-rocks",
+        "solid": false,
+        "width": 240,
+        "x": 929,
+        "y": 1395,
+        "binding": {
+          "asset": "nature-obj-lava-rocks",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-lava-rocks",
+        "height": 240,
+        "id": "zone-west-patch-lava-rocks-7",
+        "kind": "patch-lava-rocks",
+        "solid": false,
+        "width": 240,
+        "x": 976,
+        "y": 2064,
+        "binding": {
+          "asset": "nature-obj-lava-rocks",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.6,
+        "asset": "nature.patch-cliff-outcrop",
+        "height": 300,
+        "id": "zone-west-patch-cliff-outcrop-8",
+        "kind": "patch-cliff-outcrop",
+        "solid": false,
+        "width": 300,
+        "x": 1009,
+        "y": 1086,
+        "binding": {
+          "asset": "nature-obj-cliff-outcrop",
+          "fit": "contain"
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "war-shrine",
+        "footprint": {
+          "height": 135,
+          "width": 260
+        },
+        "height": 340,
+        "id": "city-shrine-shop",
+        "kind": "war-shrine",
+        "solid": true,
+        "width": 340,
+        "x": 3100,
+        "y": 1450,
+        "binding": {
+          "asset": "pyra-art-war-shrine",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.8
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "war-shrine",
+        "footprint": {
+          "height": 135,
+          "width": 260
+        },
+        "height": 340,
+        "id": "city-shrine-smithy",
+        "kind": "war-shrine",
+        "solid": true,
+        "width": 340,
+        "x": 2400,
+        "y": 2460,
+        "binding": {
+          "asset": "pyra-art-war-shrine",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.8
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "war-shrine",
+        "footprint": {
+          "height": 135,
+          "width": 260
+        },
+        "height": 340,
+        "id": "city-shrine-depot",
+        "kind": "war-shrine",
+        "solid": true,
+        "width": 340,
+        "x": 1650,
+        "y": 2390,
+        "binding": {
+          "asset": "pyra-art-war-shrine",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.8
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "city-banner-0-0",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 2215,
+        "y": 1375,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "city-banner-0-1",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 2585,
+        "y": 1375,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "city-banner-1-0",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 2915,
+        "y": 1662,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "city-banner-1-1",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 3285,
+        "y": 1662,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "city-banner-2-0",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 2915,
+        "y": 2415,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "city-banner-2-1",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 3285,
+        "y": 2415,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "city-banner-3-0",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 2215,
+        "y": 2672,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "city-banner-3-1",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 2585,
+        "y": 2672,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "city-banner-4-0",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 1465,
+        "y": 2602,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "city-banner-4-1",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 1835,
+        "y": 2602,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "city-banner-5-0",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 1515,
+        "y": 1662,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      },
+      {
+        "anchorX": 0.5,
+        "anchorY": 0.92,
+        "asset": "clan-banner",
+        "height": 180,
+        "id": "city-banner-5-1",
+        "kind": "clan-banner",
+        "solid": false,
+        "width": 110,
+        "x": 1885,
+        "y": 1662,
+        "binding": {
+          "asset": "pyra-art-clan-banner",
+          "fit": "contain",
+          "origin": [
+            0.5,
+            0.92
+          ]
+        }
+      }
+    ],
+    "terrain": {
+      "ground": "pyra-ground",
+      "path": "pyra-path",
+      "paths": [
+        {
+          "height": 1000,
+          "width": 240,
+          "x": 2280,
+          "y": 1350
+        },
+        {
+          "height": 160,
+          "width": 1190,
+          "x": 1850,
+          "y": 2120
+        },
+        {
+          "height": 500,
+          "width": 170,
+          "x": 1710,
+          "y": 1770
+        },
+        {
+          "height": 500,
+          "width": 170,
+          "x": 2890,
+          "y": 1750
+        }
+      ],
+      "plaza": "pyra-plaza",
+      "plazas": [
+        {
+          "height": 420,
+          "width": 800,
+          "x": 2000,
+          "y": 1510
+        },
+        {
+          "height": 320,
+          "width": 520,
+          "x": 2160,
+          "y": 2080
+        }
+      ],
+      "roads": [
+        {
+          "points": [
+            [
+              2400,
+              920
+            ],
+            [
+              2344,
+              827
+            ],
+            [
+              2338,
+              753
+            ],
+            [
+              2360,
+              606
+            ],
+            [
+              2400,
+              515
+            ]
+          ],
+          "width": 130
+        },
+        {
+          "points": [
+            [
+              2400,
+              2672
+            ],
+            [
+              2337,
+              2793
+            ],
+            [
+              2326,
+              2914
+            ],
+            [
+              2324,
+              2985
+            ],
+            [
+              2400,
+              3077
+            ]
+          ],
+          "width": 130
+        },
+        {
+          "points": [
+            [
+              1220,
+              1796
+            ],
+            [
+              1116,
+              1800
+            ],
+            [
+              1013,
+              1858
+            ],
+            [
+              805,
+              1827
+            ],
+            [
+              665,
+              1796
+            ]
+          ],
+          "width": 130
+        },
+        {
+          "points": [
+            [
+              3580,
+              1796
+            ],
+            [
+              3736,
+              1819
+            ],
+            [
+              3947,
+              1777
+            ],
+            [
+              4030,
+              1781
+            ],
+            [
+              4135,
+              1796
+            ]
+          ],
+          "width": 130
+        },
+        {
+          "city": true,
+          "points": [
+            [
+              2400,
+              1285
+            ],
+            [
+              2382,
+              1338
+            ],
+            [
+              2400,
+              1390
+            ]
+          ],
+          "width": 110
+        },
+        {
+          "city": true,
+          "points": [
+            [
+              3100,
+              1572
+            ],
+            [
+              3042,
+              1681
+            ],
+            [
+              3020,
+              1790
+            ]
+          ],
+          "width": 110
+        },
+        {
+          "city": true,
+          "points": [
+            [
+              3100,
+              2325
+            ],
+            [
+              3032,
+              2282
+            ],
+            [
+              3000,
+              2240
+            ]
+          ],
+          "width": 110
+        },
+        {
+          "city": true,
+          "points": [
+            [
+              2400,
+              2582
+            ],
+            [
+              2382,
+              2471
+            ],
+            [
+              2400,
+              2360
+            ]
+          ],
+          "width": 110
+        },
+        {
+          "city": true,
+          "points": [
+            [
+              1650,
+              2512
+            ],
+            [
+              1718,
+              2371
+            ],
+            [
+              1750,
+              2230
+            ]
+          ],
+          "width": 110
+        },
+        {
+          "city": true,
+          "points": [
+            [
+              1700,
+              1572
+            ],
+            [
+              1743,
+              1691
+            ],
+            [
+              1750,
+              1810
+            ]
+          ],
+          "width": 110
+        }
+      ],
+      "zones": [
+        {
+          "id": "north",
+          "points": [
+            [
+              60,
+              60
+            ],
+            [
+              300,
+              60
+            ],
+            [
+              540,
+              60
+            ],
+            [
+              780,
+              60
+            ],
+            [
+              1020,
+              60
+            ],
+            [
+              1260,
+              60
+            ],
+            [
+              1500,
+              60
+            ],
+            [
+              1740,
+              60
+            ],
+            [
+              1980,
+              60
+            ],
+            [
+              2220,
+              60
+            ],
+            [
+              2460,
+              60
+            ],
+            [
+              2700,
+              60
+            ],
+            [
+              2940,
+              60
+            ],
+            [
+              3180,
+              60
+            ],
+            [
+              3420,
+              60
+            ],
+            [
+              3660,
+              60
+            ],
+            [
+              3900,
+              60
+            ],
+            [
+              4140,
+              60
+            ],
+            [
+              4380,
+              60
+            ],
+            [
+              4620,
+              60
+            ],
+            [
+              4740,
+              60
+            ],
+            [
+              4740,
+              300
+            ],
+            [
+              4740,
+              540
+            ],
+            [
+              4740,
+              780
+            ],
+            [
+              4740,
+              1007
+            ],
+            [
+              4500,
+              1001
+            ],
+            [
+              4260,
+              936
+            ],
+            [
+              4020,
+              1032
+            ],
+            [
+              3780,
+              966
+            ],
+            [
+              3540,
+              940
+            ],
+            [
+              3300,
+              1000
+            ],
+            [
+              3060,
+              944
+            ],
+            [
+              2820,
+              964
+            ],
+            [
+              2580,
+              936
+            ],
+            [
+              2340,
+              921
+            ],
+            [
+              2100,
+              978
+            ],
+            [
+              1860,
+              918
+            ],
+            [
+              1620,
+              953
+            ],
+            [
+              1380,
+              936
+            ],
+            [
+              1140,
+              959
+            ],
+            [
+              900,
+              939
+            ],
+            [
+              660,
+              987
+            ],
+            [
+              420,
+              1019
+            ],
+            [
+              180,
+              995
+            ],
+            [
+              60,
+              970
+            ],
+            [
+              60,
+              730
+            ],
+            [
+              60,
+              490
+            ],
+            [
+              60,
+              250
+            ]
+          ],
+          "texture": "nature-lava-crust"
+        },
+        {
+          "id": "south",
+          "points": [
+            [
+              60,
+              2681
+            ],
+            [
+              300,
+              2629
+            ],
+            [
+              540,
+              2602
+            ],
+            [
+              780,
+              2643
+            ],
+            [
+              1020,
+              2556
+            ],
+            [
+              1260,
+              2644
+            ],
+            [
+              1500,
+              2589
+            ],
+            [
+              1740,
+              2656
+            ],
+            [
+              1980,
+              2581
+            ],
+            [
+              2220,
+              2556
+            ],
+            [
+              2460,
+              2653
+            ],
+            [
+              2700,
+              2571
+            ],
+            [
+              2940,
+              2602
+            ],
+            [
+              3180,
+              2625
+            ],
+            [
+              3420,
+              2661
+            ],
+            [
+              3660,
+              2578
+            ],
+            [
+              3900,
+              2674
+            ],
+            [
+              4140,
+              2553
+            ],
+            [
+              4380,
+              2671
+            ],
+            [
+              4620,
+              2565
+            ],
+            [
+              4740,
+              2622
+            ],
+            [
+              4740,
+              2862
+            ],
+            [
+              4740,
+              3102
+            ],
+            [
+              4740,
+              3342
+            ],
+            [
+              4740,
+              3532
+            ],
+            [
+              4500,
+              3532
+            ],
+            [
+              4260,
+              3532
+            ],
+            [
+              4020,
+              3532
+            ],
+            [
+              3780,
+              3532
+            ],
+            [
+              3540,
+              3532
+            ],
+            [
+              3300,
+              3532
+            ],
+            [
+              3060,
+              3532
+            ],
+            [
+              2820,
+              3532
+            ],
+            [
+              2580,
+              3532
+            ],
+            [
+              2340,
+              3532
+            ],
+            [
+              2100,
+              3532
+            ],
+            [
+              1860,
+              3532
+            ],
+            [
+              1620,
+              3532
+            ],
+            [
+              1380,
+              3532
+            ],
+            [
+              1140,
+              3532
+            ],
+            [
+              900,
+              3532
+            ],
+            [
+              660,
+              3532
+            ],
+            [
+              420,
+              3532
+            ],
+            [
+              180,
+              3532
+            ],
+            [
+              60,
+              3532
+            ],
+            [
+              60,
+              3292
+            ],
+            [
+              60,
+              3052
+            ],
+            [
+              60,
+              2812
+            ]
+          ],
+          "texture": "nature-basalt-columns"
+        },
+        {
+          "id": "east",
+          "points": [
+            [
+              3530,
+              796
+            ],
+            [
+              3770,
+              773
+            ],
+            [
+              4010,
+              815
+            ],
+            [
+              4250,
+              857
+            ],
+            [
+              4490,
+              830
+            ],
+            [
+              4730,
+              865
+            ],
+            [
+              4740,
+              810
+            ],
+            [
+              4740,
+              1050
+            ],
+            [
+              4740,
+              1290
+            ],
+            [
+              4740,
+              1530
+            ],
+            [
+              4740,
+              1770
+            ],
+            [
+              4740,
+              2010
+            ],
+            [
+              4740,
+              2250
+            ],
+            [
+              4740,
+              2490
+            ],
+            [
+              4740,
+              2730
+            ],
+            [
+              4740,
+              2832
+            ],
+            [
+              4500,
+              2741
+            ],
+            [
+              4260,
+              2787
+            ],
+            [
+              4020,
+              2794
+            ],
+            [
+              3780,
+              2804
+            ],
+            [
+              3540,
+              2834
+            ],
+            [
+              3510,
+              2782
+            ],
+            [
+              3500,
+              2542
+            ],
+            [
+              3529,
+              2302
+            ],
+            [
+              3588,
+              2062
+            ],
+            [
+              3525,
+              1822
+            ],
+            [
+              3462,
+              1582
+            ],
+            [
+              3507,
+              1342
+            ],
+            [
+              3508,
+              1102
+            ],
+            [
+              3588,
+              862
+            ]
+          ],
+          "texture": "nature-cliff-rock"
+        },
+        {
+          "id": "west",
+          "points": [
+            [
+              60,
+              773
+            ],
+            [
+              300,
+              863
+            ],
+            [
+              540,
+              741
+            ],
+            [
+              780,
+              824
+            ],
+            [
+              1020,
+              822
+            ],
+            [
+              1260,
+              826
+            ],
+            [
+              1336,
+              810
+            ],
+            [
+              1298,
+              1050
+            ],
+            [
+              1283,
+              1290
+            ],
+            [
+              1246,
+              1530
+            ],
+            [
+              1269,
+              1770
+            ],
+            [
+              1206,
+              2010
+            ],
+            [
+              1283,
+              2250
+            ],
+            [
+              1286,
+              2490
+            ],
+            [
+              1338,
+              2730
+            ],
+            [
+              1270,
+              2798
+            ],
+            [
+              1030,
+              2794
+            ],
+            [
+              790,
+              2763
+            ],
+            [
+              550,
+              2717
+            ],
+            [
+              310,
+              2717
+            ],
+            [
+              70,
+              2714
+            ],
+            [
+              60,
+              2782
+            ],
+            [
+              60,
+              2542
+            ],
+            [
+              60,
+              2302
+            ],
+            [
+              60,
+              2062
+            ],
+            [
+              60,
+              1822
+            ],
+            [
+              60,
+              1582
+            ],
+            [
+              60,
+              1342
+            ],
+            [
+              60,
+              1102
+            ],
+            [
+              60,
+              862
+            ]
+          ],
+          "texture": "nature-ash-ground"
+        }
+      ],
+      "bindings": {
+        "ground": {
+          "asset": "pyra-terrain-v2-ground",
+          "fit": "stretch",
+          "tileSize": [
+            320,
+            320
+          ]
+        },
+        "path": {
+          "asset": "pyra-terrain-v2-path",
+          "fit": "stretch",
+          "tileSize": [
+            208,
+            208
+          ]
+        },
+        "plaza": {
+          "asset": "pyra-terrain-v2-plaza",
+          "fit": "stretch",
+          "tileSize": [
+            288,
+            288
+          ]
+        },
+        "nature-lava-crust": {
+          "asset": "nature-tex-lava-crust",
+          "fit": "stretch",
+          "tileSize": [
+            256,
+            256
+          ]
+        },
+        "nature-basalt-columns": {
+          "asset": "nature-tex-basalt-columns",
+          "fit": "stretch",
+          "tileSize": [
+            256,
+            256
+          ]
+        },
+        "nature-cliff-rock": {
+          "asset": "nature-tex-cliff-rock",
+          "fit": "stretch",
+          "tileSize": [
+            256,
+            256
+          ]
+        },
+        "nature-ash-ground": {
+          "asset": "nature-tex-ash-ground",
+          "fit": "stretch",
+          "tileSize": [
+            256,
+            256
+          ]
+        }
+      }
+    }
+  },
+  "rooms": {
+    "hall": {
+      "width": 1920,
+      "height": 1280,
+      "entry": {
+        "x": 960,
+        "y": 1120
+      },
+      "exit": {
+        "x": 960,
+        "y": 1210
+      },
+      "npc": {
+        "x": 922,
+        "y": 819
+      },
+      "chest": {
+        "x": 922,
+        "y": 819
+      },
+      "dummy": {
+        "x": 922,
+        "y": 819
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 576
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "width": 86,
+          "height": 1280
+        },
+        {
+          "x": 1834,
+          "y": 0,
+          "width": 86,
+          "height": 1280
+        },
+        {
+          "x": 0,
+          "y": 1248,
+          "width": 1920,
+          "height": 32
+        },
+        {
+          "x": 653,
+          "y": 384,
+          "width": 538,
+          "height": 307
+        },
+        {
+          "x": 518,
+          "y": 486,
+          "width": 154,
+          "height": 179
+        },
+        {
+          "x": 1152,
+          "y": 474,
+          "width": 154,
+          "height": 192
+        },
+        {
+          "x": 1344,
+          "y": 320,
+          "width": 192,
+          "height": 346
+        },
+        {
+          "x": 0,
+          "y": 512,
+          "width": 422,
+          "height": 307
+        }
+      ],
+      "picture": "/game/interiors/pyra-hall.webp"
+    },
+    "shop": {
+      "width": 1920,
+      "height": 1280,
+      "entry": {
+        "x": 960,
+        "y": 1120
+      },
+      "exit": {
+        "x": 960,
+        "y": 1210
+      },
+      "npc": {
+        "x": 960,
+        "y": 954
+      },
+      "chest": {
+        "x": 960,
+        "y": 954
+      },
+      "dummy": {
+        "x": 960,
+        "y": 954
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 576
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "width": 86,
+          "height": 1280
+        },
+        {
+          "x": 1834,
+          "y": 0,
+          "width": 86,
+          "height": 1280
+        },
+        {
+          "x": 0,
+          "y": 1248,
+          "width": 1920,
+          "height": 32
+        },
+        {
+          "x": 557,
+          "y": 589,
+          "width": 826,
+          "height": 294
+        },
+        {
+          "x": 96,
+          "y": 666,
+          "width": 269,
+          "height": 307
+        },
+        {
+          "x": 326,
+          "y": 563,
+          "width": 192,
+          "height": 256
+        },
+        {
+          "x": 1421,
+          "y": 576,
+          "width": 211,
+          "height": 256
+        },
+        {
+          "x": 1613,
+          "y": 691,
+          "width": 211,
+          "height": 307
+        }
+      ],
+      "picture": "/game/interiors/pyra-shop.webp"
+    },
+    "arena": {
+      "width": 1920,
+      "height": 1280,
+      "entry": {
+        "x": 960,
+        "y": 1120
+      },
+      "exit": {
+        "x": 960,
+        "y": 1210
+      },
+      "npc": {
+        "x": 653,
+        "y": 794
+      },
+      "chest": {
+        "x": 653,
+        "y": 794
+      },
+      "dummy": {
+        "x": 960,
+        "y": 691
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 576
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "width": 86,
+          "height": 1280
+        },
+        {
+          "x": 1834,
+          "y": 0,
+          "width": 86,
+          "height": 1280
+        },
+        {
+          "x": 0,
+          "y": 1248,
+          "width": 1920,
+          "height": 32
+        },
+        {
+          "x": 192,
+          "y": 512,
+          "width": 211,
+          "height": 192
+        },
+        {
+          "x": 96,
+          "y": 794,
+          "width": 211,
+          "height": 192
+        },
+        {
+          "x": 288,
+          "y": 858,
+          "width": 96,
+          "height": 294
+        },
+        {
+          "x": 1594,
+          "y": 909,
+          "width": 134,
+          "height": 282
+        },
+        {
+          "x": 1613,
+          "y": 627,
+          "width": 173,
+          "height": 166
+        }
+      ],
+      "picture": "/game/interiors/pyra-arena.webp"
+    },
+    "smithy": {
+      "width": 1920,
+      "height": 1280,
+      "entry": {
+        "x": 960,
+        "y": 1120
+      },
+      "exit": {
+        "x": 960,
+        "y": 1210
+      },
+      "npc": {
+        "x": 557,
+        "y": 973
+      },
+      "chest": {
+        "x": 557,
+        "y": 973
+      },
+      "dummy": {
+        "x": 557,
+        "y": 973
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 512
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "width": 86,
+          "height": 1280
+        },
+        {
+          "x": 1834,
+          "y": 0,
+          "width": 86,
+          "height": 1280
+        },
+        {
+          "x": 0,
+          "y": 1248,
+          "width": 1920,
+          "height": 32
+        },
+        {
+          "x": 634,
+          "y": 512,
+          "width": 614,
+          "height": 218
+        },
+        {
+          "x": 787,
+          "y": 736,
+          "width": 336,
+          "height": 243
+        },
+        {
+          "x": 192,
+          "y": 499,
+          "width": 355,
+          "height": 230
+        },
+        {
+          "x": 19,
+          "y": 422,
+          "width": 182,
+          "height": 422
+        },
+        {
+          "x": 0,
+          "y": 858,
+          "width": 240,
+          "height": 333
+        },
+        {
+          "x": 1344,
+          "y": 333,
+          "width": 288,
+          "height": 294
+        },
+        {
+          "x": 1248,
+          "y": 563,
+          "width": 115,
+          "height": 115
+        },
+        {
+          "x": 1421,
+          "y": 627,
+          "width": 336,
+          "height": 422
+        },
+        {
+          "x": 1613,
+          "y": 563,
+          "width": 307,
+          "height": 653
+        }
+      ],
+      "picture": "/game/interiors/pyra-smithy.webp"
+    },
+    "depot": {
+      "width": 1920,
+      "height": 1280,
+      "entry": {
+        "x": 960,
+        "y": 1120
+      },
+      "exit": {
+        "x": 960,
+        "y": 1210
+      },
+      "npc": {
+        "x": 672,
+        "y": 832
+      },
+      "chest": {
+        "x": 941,
+        "y": 717
+      },
+      "dummy": {
+        "x": 672,
+        "y": 832
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 666
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "width": 86,
+          "height": 1280
+        },
+        {
+          "x": 1834,
+          "y": 0,
+          "width": 86,
+          "height": 1280
+        },
+        {
+          "x": 0,
+          "y": 1248,
+          "width": 1920,
+          "height": 32
+        },
+        {
+          "x": 0,
+          "y": 717,
+          "width": 442,
+          "height": 384
+        },
+        {
+          "x": 365,
+          "y": 538,
+          "width": 173,
+          "height": 154
+        },
+        {
+          "x": 1536,
+          "y": 499,
+          "width": 307,
+          "height": 550
+        }
+      ],
+      "picture": "/game/interiors/pyra-depot.webp"
+    },
+    "inn": {
+      "width": 1920,
+      "height": 1280,
+      "entry": {
+        "x": 960,
+        "y": 1120
+      },
+      "exit": {
+        "x": 960,
+        "y": 1210
+      },
+      "npc": {
+        "x": 922,
+        "y": 896
+      },
+      "chest": {
+        "x": 922,
+        "y": 896
+      },
+      "dummy": {
+        "x": 922,
+        "y": 896
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 563
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "width": 86,
+          "height": 1280
+        },
+        {
+          "x": 1834,
+          "y": 0,
+          "width": 86,
+          "height": 1280
+        },
+        {
+          "x": 0,
+          "y": 1248,
+          "width": 1920,
+          "height": 32
+        },
+        {
+          "x": 19,
+          "y": 410,
+          "width": 538,
+          "height": 653
+        },
+        {
+          "x": 1248,
+          "y": 422,
+          "width": 672,
+          "height": 333
+        },
+        {
+          "x": 154,
+          "y": 896,
+          "width": 250,
+          "height": 166
+        },
+        {
+          "x": 1517,
+          "y": 883,
+          "width": 403,
+          "height": 218
+        },
+        {
+          "x": 1344,
+          "y": 986,
+          "width": 154,
+          "height": 166
+        },
+        {
+          "x": 346,
+          "y": 998,
+          "width": 154,
+          "height": 179
+        }
+      ],
+      "picture": "/game/interiors/pyra-inn.webp"
+    }
+  },
+  "actors": {
+    "hero": {
+      "id": "hero-legend",
+      "profile": "hero",
+      "presentation": "legacy",
+      "size": [
+        133,
+        133
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "hero-legend-walk-v3-idle-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-legend/idle/down/00",
+              "hero-legend/idle/down/01",
+              "hero-legend/idle/down/02",
+              "hero-legend/idle/down/03",
+              "hero-legend/idle/down/04",
+              "hero-legend/idle/down/05",
+              "hero-legend/idle/down/06",
+              "hero-legend/idle/down/07"
+            ],
+            "down-left": [
+              "hero-legend/idle/down-left/00",
+              "hero-legend/idle/down-left/01",
+              "hero-legend/idle/down-left/02",
+              "hero-legend/idle/down-left/03",
+              "hero-legend/idle/down-left/04",
+              "hero-legend/idle/down-left/05",
+              "hero-legend/idle/down-left/06",
+              "hero-legend/idle/down-left/07"
+            ],
+            "left": [
+              "hero-legend/idle/left/00",
+              "hero-legend/idle/left/01",
+              "hero-legend/idle/left/02",
+              "hero-legend/idle/left/03",
+              "hero-legend/idle/left/04",
+              "hero-legend/idle/left/05",
+              "hero-legend/idle/left/06",
+              "hero-legend/idle/left/07"
+            ],
+            "up-left": [
+              "hero-legend/idle/up-left/00",
+              "hero-legend/idle/up-left/01",
+              "hero-legend/idle/up-left/02",
+              "hero-legend/idle/up-left/03",
+              "hero-legend/idle/up-left/04",
+              "hero-legend/idle/up-left/05",
+              "hero-legend/idle/up-left/06",
+              "hero-legend/idle/up-left/07"
+            ],
+            "up": [
+              "hero-legend/idle/up/00",
+              "hero-legend/idle/up/01",
+              "hero-legend/idle/up/02",
+              "hero-legend/idle/up/03",
+              "hero-legend/idle/up/04",
+              "hero-legend/idle/up/05",
+              "hero-legend/idle/up/06",
+              "hero-legend/idle/up/07"
+            ],
+            "up-right": [
+              "hero-legend/idle/up-right/00",
+              "hero-legend/idle/up-right/01",
+              "hero-legend/idle/up-right/02",
+              "hero-legend/idle/up-right/03",
+              "hero-legend/idle/up-right/04",
+              "hero-legend/idle/up-right/05",
+              "hero-legend/idle/up-right/06",
+              "hero-legend/idle/up-right/07"
+            ],
+            "right": [
+              "hero-legend/idle/right/00",
+              "hero-legend/idle/right/01",
+              "hero-legend/idle/right/02",
+              "hero-legend/idle/right/03",
+              "hero-legend/idle/right/04",
+              "hero-legend/idle/right/05",
+              "hero-legend/idle/right/06",
+              "hero-legend/idle/right/07"
+            ],
+            "down-right": [
+              "hero-legend/idle/down-right/00",
+              "hero-legend/idle/down-right/01",
+              "hero-legend/idle/down-right/02",
+              "hero-legend/idle/down-right/03",
+              "hero-legend/idle/down-right/04",
+              "hero-legend/idle/down-right/05",
+              "hero-legend/idle/down-right/06",
+              "hero-legend/idle/down-right/07"
+            ]
+          }
+        },
+        "walk": {
+          "asset": "hero-legend-walk-v3-page-0",
+          "fps": 16,
+          "loop": true,
+          "directions": {
+            "down": [
+              "hero-legend/walk/down/00",
+              "hero-legend/walk/down/01",
+              "hero-legend/walk/down/02",
+              "hero-legend/walk/down/03",
+              "hero-legend/walk/down/04",
+              "hero-legend/walk/down/05",
+              "hero-legend/walk/down/06",
+              "hero-legend/walk/down/07"
+            ],
+            "down-left": [
+              "hero-legend/walk/down-left/00",
+              "hero-legend/walk/down-left/01",
+              "hero-legend/walk/down-left/02",
+              "hero-legend/walk/down-left/03",
+              "hero-legend/walk/down-left/04",
+              "hero-legend/walk/down-left/05",
+              "hero-legend/walk/down-left/06",
+              "hero-legend/walk/down-left/07"
+            ],
+            "left": [
+              "hero-legend/walk/right/00",
+              "hero-legend/walk/right/01",
+              "hero-legend/walk/right/02",
+              "hero-legend/walk/right/03",
+              "hero-legend/walk/right/04",
+              "hero-legend/walk/right/05",
+              "hero-legend/walk/right/06",
+              "hero-legend/walk/right/07"
+            ],
+            "up-left": [
+              "hero-legend/walk/up-left/00",
+              "hero-legend/walk/up-left/01",
+              "hero-legend/walk/up-left/02",
+              "hero-legend/walk/up-left/03",
+              "hero-legend/walk/up-left/04",
+              "hero-legend/walk/up-left/05",
+              "hero-legend/walk/up-left/06",
+              "hero-legend/walk/up-left/07"
+            ],
+            "up": [
+              "hero-legend/walk/up/00",
+              "hero-legend/walk/up/01",
+              "hero-legend/walk/up/02",
+              "hero-legend/walk/up/03",
+              "hero-legend/walk/up/04",
+              "hero-legend/walk/up/05",
+              "hero-legend/walk/up/06",
+              "hero-legend/walk/up/07"
+            ],
+            "up-right": [
+              "hero-legend/walk/up-right/00",
+              "hero-legend/walk/up-right/01",
+              "hero-legend/walk/up-right/02",
+              "hero-legend/walk/up-right/03",
+              "hero-legend/walk/up-right/04",
+              "hero-legend/walk/up-right/05",
+              "hero-legend/walk/up-right/06",
+              "hero-legend/walk/up-right/07"
+            ],
+            "right": [
+              "hero-legend/walk/right/00",
+              "hero-legend/walk/right/01",
+              "hero-legend/walk/right/02",
+              "hero-legend/walk/right/03",
+              "hero-legend/walk/right/04",
+              "hero-legend/walk/right/05",
+              "hero-legend/walk/right/06",
+              "hero-legend/walk/right/07"
+            ],
+            "down-right": [
+              "hero-legend/walk/down-right/00",
+              "hero-legend/walk/down-right/01",
+              "hero-legend/walk/down-right/02",
+              "hero-legend/walk/down-right/03",
+              "hero-legend/walk/down-right/04",
+              "hero-legend/walk/down-right/05",
+              "hero-legend/walk/down-right/06",
+              "hero-legend/walk/down-right/07"
+            ]
+          },
+          "mirrored": [
+            "left"
+          ]
+        }
+      },
+      "interiorScale": 1.5
+    },
+    "guide": {
+      "id": "npc-pyra-guide",
+      "profile": "npc",
+      "presentation": "legacy",
+      "size": [
+        150,
+        150
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "npc-pyra-guide-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-pyra-guide/idle/down/00",
+              "npc-pyra-guide/idle/down/01",
+              "npc-pyra-guide/idle/down/02",
+              "npc-pyra-guide/idle/down/03",
+              "npc-pyra-guide/idle/down/04",
+              "npc-pyra-guide/idle/down/05",
+              "npc-pyra-guide/idle/down/06",
+              "npc-pyra-guide/idle/down/07"
+            ],
+            "down-left": [
+              "npc-pyra-guide/idle/down-left/00",
+              "npc-pyra-guide/idle/down-left/01",
+              "npc-pyra-guide/idle/down-left/02",
+              "npc-pyra-guide/idle/down-left/03",
+              "npc-pyra-guide/idle/down-left/04",
+              "npc-pyra-guide/idle/down-left/05",
+              "npc-pyra-guide/idle/down-left/06",
+              "npc-pyra-guide/idle/down-left/07"
+            ],
+            "left": [
+              "npc-pyra-guide/idle/left/00",
+              "npc-pyra-guide/idle/left/01",
+              "npc-pyra-guide/idle/left/02",
+              "npc-pyra-guide/idle/left/03",
+              "npc-pyra-guide/idle/left/04",
+              "npc-pyra-guide/idle/left/05",
+              "npc-pyra-guide/idle/left/06",
+              "npc-pyra-guide/idle/left/07"
+            ],
+            "up-left": [
+              "npc-pyra-guide/idle/up-left/00",
+              "npc-pyra-guide/idle/up-left/01",
+              "npc-pyra-guide/idle/up-left/02",
+              "npc-pyra-guide/idle/up-left/03",
+              "npc-pyra-guide/idle/up-left/04",
+              "npc-pyra-guide/idle/up-left/05",
+              "npc-pyra-guide/idle/up-left/06",
+              "npc-pyra-guide/idle/up-left/07"
+            ],
+            "up": [
+              "npc-pyra-guide/idle/up/00",
+              "npc-pyra-guide/idle/up/01",
+              "npc-pyra-guide/idle/up/02",
+              "npc-pyra-guide/idle/up/03",
+              "npc-pyra-guide/idle/up/04",
+              "npc-pyra-guide/idle/up/05",
+              "npc-pyra-guide/idle/up/06",
+              "npc-pyra-guide/idle/up/07"
+            ],
+            "up-right": [
+              "npc-pyra-guide/idle/up-right/00",
+              "npc-pyra-guide/idle/up-right/01",
+              "npc-pyra-guide/idle/up-right/02",
+              "npc-pyra-guide/idle/up-right/03",
+              "npc-pyra-guide/idle/up-right/04",
+              "npc-pyra-guide/idle/up-right/05",
+              "npc-pyra-guide/idle/up-right/06",
+              "npc-pyra-guide/idle/up-right/07"
+            ],
+            "right": [
+              "npc-pyra-guide/idle/right/00",
+              "npc-pyra-guide/idle/right/01",
+              "npc-pyra-guide/idle/right/02",
+              "npc-pyra-guide/idle/right/03",
+              "npc-pyra-guide/idle/right/04",
+              "npc-pyra-guide/idle/right/05",
+              "npc-pyra-guide/idle/right/06",
+              "npc-pyra-guide/idle/right/07"
+            ],
+            "down-right": [
+              "npc-pyra-guide/idle/down-right/00",
+              "npc-pyra-guide/idle/down-right/01",
+              "npc-pyra-guide/idle/down-right/02",
+              "npc-pyra-guide/idle/down-right/03",
+              "npc-pyra-guide/idle/down-right/04",
+              "npc-pyra-guide/idle/down-right/05",
+              "npc-pyra-guide/idle/down-right/06",
+              "npc-pyra-guide/idle/down-right/07"
+            ]
+          }
+        }
+      },
+      "interiorScale": 1.6
+    },
+    "hunter": {
+      "id": "npc-pyra-hunter",
+      "profile": "npc",
+      "presentation": "legacy",
+      "size": [
+        150,
+        150
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "npc-pyra-hunter-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-pyra-hunter/idle/down/00",
+              "npc-pyra-hunter/idle/down/01",
+              "npc-pyra-hunter/idle/down/02",
+              "npc-pyra-hunter/idle/down/03",
+              "npc-pyra-hunter/idle/down/04",
+              "npc-pyra-hunter/idle/down/05",
+              "npc-pyra-hunter/idle/down/06",
+              "npc-pyra-hunter/idle/down/07"
+            ],
+            "down-left": [
+              "npc-pyra-hunter/idle/down-left/00",
+              "npc-pyra-hunter/idle/down-left/01",
+              "npc-pyra-hunter/idle/down-left/02",
+              "npc-pyra-hunter/idle/down-left/03",
+              "npc-pyra-hunter/idle/down-left/04",
+              "npc-pyra-hunter/idle/down-left/05",
+              "npc-pyra-hunter/idle/down-left/06",
+              "npc-pyra-hunter/idle/down-left/07"
+            ],
+            "left": [
+              "npc-pyra-hunter/idle/left/00",
+              "npc-pyra-hunter/idle/left/01",
+              "npc-pyra-hunter/idle/left/02",
+              "npc-pyra-hunter/idle/left/03",
+              "npc-pyra-hunter/idle/left/04",
+              "npc-pyra-hunter/idle/left/05",
+              "npc-pyra-hunter/idle/left/06",
+              "npc-pyra-hunter/idle/left/07"
+            ],
+            "up-left": [
+              "npc-pyra-hunter/idle/up-left/00",
+              "npc-pyra-hunter/idle/up-left/01",
+              "npc-pyra-hunter/idle/up-left/02",
+              "npc-pyra-hunter/idle/up-left/03",
+              "npc-pyra-hunter/idle/up-left/04",
+              "npc-pyra-hunter/idle/up-left/05",
+              "npc-pyra-hunter/idle/up-left/06",
+              "npc-pyra-hunter/idle/up-left/07"
+            ],
+            "up": [
+              "npc-pyra-hunter/idle/up/00",
+              "npc-pyra-hunter/idle/up/01",
+              "npc-pyra-hunter/idle/up/02",
+              "npc-pyra-hunter/idle/up/03",
+              "npc-pyra-hunter/idle/up/04",
+              "npc-pyra-hunter/idle/up/05",
+              "npc-pyra-hunter/idle/up/06",
+              "npc-pyra-hunter/idle/up/07"
+            ],
+            "up-right": [
+              "npc-pyra-hunter/idle/up-right/00",
+              "npc-pyra-hunter/idle/up-right/01",
+              "npc-pyra-hunter/idle/up-right/02",
+              "npc-pyra-hunter/idle/up-right/03",
+              "npc-pyra-hunter/idle/up-right/04",
+              "npc-pyra-hunter/idle/up-right/05",
+              "npc-pyra-hunter/idle/up-right/06",
+              "npc-pyra-hunter/idle/up-right/07"
+            ],
+            "right": [
+              "npc-pyra-hunter/idle/right/00",
+              "npc-pyra-hunter/idle/right/01",
+              "npc-pyra-hunter/idle/right/02",
+              "npc-pyra-hunter/idle/right/03",
+              "npc-pyra-hunter/idle/right/04",
+              "npc-pyra-hunter/idle/right/05",
+              "npc-pyra-hunter/idle/right/06",
+              "npc-pyra-hunter/idle/right/07"
+            ],
+            "down-right": [
+              "npc-pyra-hunter/idle/down-right/00",
+              "npc-pyra-hunter/idle/down-right/01",
+              "npc-pyra-hunter/idle/down-right/02",
+              "npc-pyra-hunter/idle/down-right/03",
+              "npc-pyra-hunter/idle/down-right/04",
+              "npc-pyra-hunter/idle/down-right/05",
+              "npc-pyra-hunter/idle/down-right/06",
+              "npc-pyra-hunter/idle/down-right/07"
+            ]
+          }
+        }
+      },
+      "interiorScale": 1.6
+    },
+    "steward": {
+      "id": "npc-pyra-steward",
+      "profile": "npc",
+      "presentation": "legacy",
+      "size": [
+        150,
+        150
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "npc-pyra-steward-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-pyra-steward/idle/down/00",
+              "npc-pyra-steward/idle/down/01",
+              "npc-pyra-steward/idle/down/02",
+              "npc-pyra-steward/idle/down/03",
+              "npc-pyra-steward/idle/down/04",
+              "npc-pyra-steward/idle/down/05",
+              "npc-pyra-steward/idle/down/06",
+              "npc-pyra-steward/idle/down/07"
+            ],
+            "down-left": [
+              "npc-pyra-steward/idle/down-left/00",
+              "npc-pyra-steward/idle/down-left/01",
+              "npc-pyra-steward/idle/down-left/02",
+              "npc-pyra-steward/idle/down-left/03",
+              "npc-pyra-steward/idle/down-left/04",
+              "npc-pyra-steward/idle/down-left/05",
+              "npc-pyra-steward/idle/down-left/06",
+              "npc-pyra-steward/idle/down-left/07"
+            ],
+            "left": [
+              "npc-pyra-steward/idle/left/00",
+              "npc-pyra-steward/idle/left/01",
+              "npc-pyra-steward/idle/left/02",
+              "npc-pyra-steward/idle/left/03",
+              "npc-pyra-steward/idle/left/04",
+              "npc-pyra-steward/idle/left/05",
+              "npc-pyra-steward/idle/left/06",
+              "npc-pyra-steward/idle/left/07"
+            ],
+            "up-left": [
+              "npc-pyra-steward/idle/up-left/00",
+              "npc-pyra-steward/idle/up-left/01",
+              "npc-pyra-steward/idle/up-left/02",
+              "npc-pyra-steward/idle/up-left/03",
+              "npc-pyra-steward/idle/up-left/04",
+              "npc-pyra-steward/idle/up-left/05",
+              "npc-pyra-steward/idle/up-left/06",
+              "npc-pyra-steward/idle/up-left/07"
+            ],
+            "up": [
+              "npc-pyra-steward/idle/up/00",
+              "npc-pyra-steward/idle/up/01",
+              "npc-pyra-steward/idle/up/02",
+              "npc-pyra-steward/idle/up/03",
+              "npc-pyra-steward/idle/up/04",
+              "npc-pyra-steward/idle/up/05",
+              "npc-pyra-steward/idle/up/06",
+              "npc-pyra-steward/idle/up/07"
+            ],
+            "up-right": [
+              "npc-pyra-steward/idle/up-right/00",
+              "npc-pyra-steward/idle/up-right/01",
+              "npc-pyra-steward/idle/up-right/02",
+              "npc-pyra-steward/idle/up-right/03",
+              "npc-pyra-steward/idle/up-right/04",
+              "npc-pyra-steward/idle/up-right/05",
+              "npc-pyra-steward/idle/up-right/06",
+              "npc-pyra-steward/idle/up-right/07"
+            ],
+            "right": [
+              "npc-pyra-steward/idle/right/00",
+              "npc-pyra-steward/idle/right/01",
+              "npc-pyra-steward/idle/right/02",
+              "npc-pyra-steward/idle/right/03",
+              "npc-pyra-steward/idle/right/04",
+              "npc-pyra-steward/idle/right/05",
+              "npc-pyra-steward/idle/right/06",
+              "npc-pyra-steward/idle/right/07"
+            ],
+            "down-right": [
+              "npc-pyra-steward/idle/down-right/00",
+              "npc-pyra-steward/idle/down-right/01",
+              "npc-pyra-steward/idle/down-right/02",
+              "npc-pyra-steward/idle/down-right/03",
+              "npc-pyra-steward/idle/down-right/04",
+              "npc-pyra-steward/idle/down-right/05",
+              "npc-pyra-steward/idle/down-right/06",
+              "npc-pyra-steward/idle/down-right/07"
+            ]
+          }
+        }
+      },
+      "interiorScale": 1.6
+    },
+    "merchant": {
+      "id": "npc-pyra-merchant",
+      "profile": "npc",
+      "presentation": "legacy",
+      "size": [
+        150,
+        150
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "npc-pyra-merchant-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-pyra-merchant/idle/down/00",
+              "npc-pyra-merchant/idle/down/01",
+              "npc-pyra-merchant/idle/down/02",
+              "npc-pyra-merchant/idle/down/03",
+              "npc-pyra-merchant/idle/down/04",
+              "npc-pyra-merchant/idle/down/05",
+              "npc-pyra-merchant/idle/down/06",
+              "npc-pyra-merchant/idle/down/07"
+            ],
+            "down-left": [
+              "npc-pyra-merchant/idle/down-left/00",
+              "npc-pyra-merchant/idle/down-left/01",
+              "npc-pyra-merchant/idle/down-left/02",
+              "npc-pyra-merchant/idle/down-left/03",
+              "npc-pyra-merchant/idle/down-left/04",
+              "npc-pyra-merchant/idle/down-left/05",
+              "npc-pyra-merchant/idle/down-left/06",
+              "npc-pyra-merchant/idle/down-left/07"
+            ],
+            "left": [
+              "npc-pyra-merchant/idle/left/00",
+              "npc-pyra-merchant/idle/left/01",
+              "npc-pyra-merchant/idle/left/02",
+              "npc-pyra-merchant/idle/left/03",
+              "npc-pyra-merchant/idle/left/04",
+              "npc-pyra-merchant/idle/left/05",
+              "npc-pyra-merchant/idle/left/06",
+              "npc-pyra-merchant/idle/left/07"
+            ],
+            "up-left": [
+              "npc-pyra-merchant/idle/up-left/00",
+              "npc-pyra-merchant/idle/up-left/01",
+              "npc-pyra-merchant/idle/up-left/02",
+              "npc-pyra-merchant/idle/up-left/03",
+              "npc-pyra-merchant/idle/up-left/04",
+              "npc-pyra-merchant/idle/up-left/05",
+              "npc-pyra-merchant/idle/up-left/06",
+              "npc-pyra-merchant/idle/up-left/07"
+            ],
+            "up": [
+              "npc-pyra-merchant/idle/up/00",
+              "npc-pyra-merchant/idle/up/01",
+              "npc-pyra-merchant/idle/up/02",
+              "npc-pyra-merchant/idle/up/03",
+              "npc-pyra-merchant/idle/up/04",
+              "npc-pyra-merchant/idle/up/05",
+              "npc-pyra-merchant/idle/up/06",
+              "npc-pyra-merchant/idle/up/07"
+            ],
+            "up-right": [
+              "npc-pyra-merchant/idle/up-right/00",
+              "npc-pyra-merchant/idle/up-right/01",
+              "npc-pyra-merchant/idle/up-right/02",
+              "npc-pyra-merchant/idle/up-right/03",
+              "npc-pyra-merchant/idle/up-right/04",
+              "npc-pyra-merchant/idle/up-right/05",
+              "npc-pyra-merchant/idle/up-right/06",
+              "npc-pyra-merchant/idle/up-right/07"
+            ],
+            "right": [
+              "npc-pyra-merchant/idle/right/00",
+              "npc-pyra-merchant/idle/right/01",
+              "npc-pyra-merchant/idle/right/02",
+              "npc-pyra-merchant/idle/right/03",
+              "npc-pyra-merchant/idle/right/04",
+              "npc-pyra-merchant/idle/right/05",
+              "npc-pyra-merchant/idle/right/06",
+              "npc-pyra-merchant/idle/right/07"
+            ],
+            "down-right": [
+              "npc-pyra-merchant/idle/down-right/00",
+              "npc-pyra-merchant/idle/down-right/01",
+              "npc-pyra-merchant/idle/down-right/02",
+              "npc-pyra-merchant/idle/down-right/03",
+              "npc-pyra-merchant/idle/down-right/04",
+              "npc-pyra-merchant/idle/down-right/05",
+              "npc-pyra-merchant/idle/down-right/06",
+              "npc-pyra-merchant/idle/down-right/07"
+            ]
+          }
+        }
+      },
+      "interiorScale": 1.6
+    },
+    "trainer": {
+      "id": "npc-pyra-trainer",
+      "profile": "npc",
+      "presentation": "legacy",
+      "size": [
+        192,
+        192
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "npc-pyra-trainer-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-pyra-trainer/idle/down/00",
+              "npc-pyra-trainer/idle/down/01",
+              "npc-pyra-trainer/idle/down/02",
+              "npc-pyra-trainer/idle/down/03",
+              "npc-pyra-trainer/idle/down/04",
+              "npc-pyra-trainer/idle/down/05",
+              "npc-pyra-trainer/idle/down/06",
+              "npc-pyra-trainer/idle/down/07"
+            ],
+            "down-left": [
+              "npc-pyra-trainer/idle/down-left/00",
+              "npc-pyra-trainer/idle/down-left/01",
+              "npc-pyra-trainer/idle/down-left/02",
+              "npc-pyra-trainer/idle/down-left/03",
+              "npc-pyra-trainer/idle/down-left/04",
+              "npc-pyra-trainer/idle/down-left/05",
+              "npc-pyra-trainer/idle/down-left/06",
+              "npc-pyra-trainer/idle/down-left/07"
+            ],
+            "left": [
+              "npc-pyra-trainer/idle/left/00",
+              "npc-pyra-trainer/idle/left/01",
+              "npc-pyra-trainer/idle/left/02",
+              "npc-pyra-trainer/idle/left/03",
+              "npc-pyra-trainer/idle/left/04",
+              "npc-pyra-trainer/idle/left/05",
+              "npc-pyra-trainer/idle/left/06",
+              "npc-pyra-trainer/idle/left/07"
+            ],
+            "up-left": [
+              "npc-pyra-trainer/idle/up-left/00",
+              "npc-pyra-trainer/idle/up-left/01",
+              "npc-pyra-trainer/idle/up-left/02",
+              "npc-pyra-trainer/idle/up-left/03",
+              "npc-pyra-trainer/idle/up-left/04",
+              "npc-pyra-trainer/idle/up-left/05",
+              "npc-pyra-trainer/idle/up-left/06",
+              "npc-pyra-trainer/idle/up-left/07"
+            ],
+            "up": [
+              "npc-pyra-trainer/idle/up/00",
+              "npc-pyra-trainer/idle/up/01",
+              "npc-pyra-trainer/idle/up/02",
+              "npc-pyra-trainer/idle/up/03",
+              "npc-pyra-trainer/idle/up/04",
+              "npc-pyra-trainer/idle/up/05",
+              "npc-pyra-trainer/idle/up/06",
+              "npc-pyra-trainer/idle/up/07"
+            ],
+            "up-right": [
+              "npc-pyra-trainer/idle/up-right/00",
+              "npc-pyra-trainer/idle/up-right/01",
+              "npc-pyra-trainer/idle/up-right/02",
+              "npc-pyra-trainer/idle/up-right/03",
+              "npc-pyra-trainer/idle/up-right/04",
+              "npc-pyra-trainer/idle/up-right/05",
+              "npc-pyra-trainer/idle/up-right/06",
+              "npc-pyra-trainer/idle/up-right/07"
+            ],
+            "right": [
+              "npc-pyra-trainer/idle/right/00",
+              "npc-pyra-trainer/idle/right/01",
+              "npc-pyra-trainer/idle/right/02",
+              "npc-pyra-trainer/idle/right/03",
+              "npc-pyra-trainer/idle/right/04",
+              "npc-pyra-trainer/idle/right/05",
+              "npc-pyra-trainer/idle/right/06",
+              "npc-pyra-trainer/idle/right/07"
+            ],
+            "down-right": [
+              "npc-pyra-trainer/idle/down-right/00",
+              "npc-pyra-trainer/idle/down-right/01",
+              "npc-pyra-trainer/idle/down-right/02",
+              "npc-pyra-trainer/idle/down-right/03",
+              "npc-pyra-trainer/idle/down-right/04",
+              "npc-pyra-trainer/idle/down-right/05",
+              "npc-pyra-trainer/idle/down-right/06",
+              "npc-pyra-trainer/idle/down-right/07"
+            ]
+          }
+        }
+      },
+      "interiorScale": 1.4
+    },
+    "keeper": {
+      "id": "npc-pyra-keeper",
+      "profile": "npc",
+      "presentation": "legacy",
+      "size": [
+        150,
+        150
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "npc-pyra-keeper-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-pyra-keeper/idle/down/00",
+              "npc-pyra-keeper/idle/down/01",
+              "npc-pyra-keeper/idle/down/02",
+              "npc-pyra-keeper/idle/down/03",
+              "npc-pyra-keeper/idle/down/04",
+              "npc-pyra-keeper/idle/down/05",
+              "npc-pyra-keeper/idle/down/06",
+              "npc-pyra-keeper/idle/down/07"
+            ],
+            "down-left": [
+              "npc-pyra-keeper/idle/down-left/00",
+              "npc-pyra-keeper/idle/down-left/01",
+              "npc-pyra-keeper/idle/down-left/02",
+              "npc-pyra-keeper/idle/down-left/03",
+              "npc-pyra-keeper/idle/down-left/04",
+              "npc-pyra-keeper/idle/down-left/05",
+              "npc-pyra-keeper/idle/down-left/06",
+              "npc-pyra-keeper/idle/down-left/07"
+            ],
+            "left": [
+              "npc-pyra-keeper/idle/left/00",
+              "npc-pyra-keeper/idle/left/01",
+              "npc-pyra-keeper/idle/left/02",
+              "npc-pyra-keeper/idle/left/03",
+              "npc-pyra-keeper/idle/left/04",
+              "npc-pyra-keeper/idle/left/05",
+              "npc-pyra-keeper/idle/left/06",
+              "npc-pyra-keeper/idle/left/07"
+            ],
+            "up-left": [
+              "npc-pyra-keeper/idle/up-left/00",
+              "npc-pyra-keeper/idle/up-left/01",
+              "npc-pyra-keeper/idle/up-left/02",
+              "npc-pyra-keeper/idle/up-left/03",
+              "npc-pyra-keeper/idle/up-left/04",
+              "npc-pyra-keeper/idle/up-left/05",
+              "npc-pyra-keeper/idle/up-left/06",
+              "npc-pyra-keeper/idle/up-left/07"
+            ],
+            "up": [
+              "npc-pyra-keeper/idle/up/00",
+              "npc-pyra-keeper/idle/up/01",
+              "npc-pyra-keeper/idle/up/02",
+              "npc-pyra-keeper/idle/up/03",
+              "npc-pyra-keeper/idle/up/04",
+              "npc-pyra-keeper/idle/up/05",
+              "npc-pyra-keeper/idle/up/06",
+              "npc-pyra-keeper/idle/up/07"
+            ],
+            "up-right": [
+              "npc-pyra-keeper/idle/up-right/00",
+              "npc-pyra-keeper/idle/up-right/01",
+              "npc-pyra-keeper/idle/up-right/02",
+              "npc-pyra-keeper/idle/up-right/03",
+              "npc-pyra-keeper/idle/up-right/04",
+              "npc-pyra-keeper/idle/up-right/05",
+              "npc-pyra-keeper/idle/up-right/06",
+              "npc-pyra-keeper/idle/up-right/07"
+            ],
+            "right": [
+              "npc-pyra-keeper/idle/right/00",
+              "npc-pyra-keeper/idle/right/01",
+              "npc-pyra-keeper/idle/right/02",
+              "npc-pyra-keeper/idle/right/03",
+              "npc-pyra-keeper/idle/right/04",
+              "npc-pyra-keeper/idle/right/05",
+              "npc-pyra-keeper/idle/right/06",
+              "npc-pyra-keeper/idle/right/07"
+            ],
+            "down-right": [
+              "npc-pyra-keeper/idle/down-right/00",
+              "npc-pyra-keeper/idle/down-right/01",
+              "npc-pyra-keeper/idle/down-right/02",
+              "npc-pyra-keeper/idle/down-right/03",
+              "npc-pyra-keeper/idle/down-right/04",
+              "npc-pyra-keeper/idle/down-right/05",
+              "npc-pyra-keeper/idle/down-right/06",
+              "npc-pyra-keeper/idle/down-right/07"
+            ]
+          }
+        }
+      },
+      "interiorScale": 1.6
+    },
+    "smith": {
+      "id": "npc-pyra-smith",
+      "profile": "npc",
+      "presentation": "legacy",
+      "size": [
+        150,
+        150
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "npc-pyra-smith-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-pyra-smith/idle/down/00",
+              "npc-pyra-smith/idle/down/01",
+              "npc-pyra-smith/idle/down/02",
+              "npc-pyra-smith/idle/down/03",
+              "npc-pyra-smith/idle/down/04",
+              "npc-pyra-smith/idle/down/05",
+              "npc-pyra-smith/idle/down/06",
+              "npc-pyra-smith/idle/down/07"
+            ],
+            "down-left": [
+              "npc-pyra-smith/idle/down-left/00",
+              "npc-pyra-smith/idle/down-left/01",
+              "npc-pyra-smith/idle/down-left/02",
+              "npc-pyra-smith/idle/down-left/03",
+              "npc-pyra-smith/idle/down-left/04",
+              "npc-pyra-smith/idle/down-left/05",
+              "npc-pyra-smith/idle/down-left/06",
+              "npc-pyra-smith/idle/down-left/07"
+            ],
+            "left": [
+              "npc-pyra-smith/idle/left/00",
+              "npc-pyra-smith/idle/left/01",
+              "npc-pyra-smith/idle/left/02",
+              "npc-pyra-smith/idle/left/03",
+              "npc-pyra-smith/idle/left/04",
+              "npc-pyra-smith/idle/left/05",
+              "npc-pyra-smith/idle/left/06",
+              "npc-pyra-smith/idle/left/07"
+            ],
+            "up-left": [
+              "npc-pyra-smith/idle/up-left/00",
+              "npc-pyra-smith/idle/up-left/01",
+              "npc-pyra-smith/idle/up-left/02",
+              "npc-pyra-smith/idle/up-left/03",
+              "npc-pyra-smith/idle/up-left/04",
+              "npc-pyra-smith/idle/up-left/05",
+              "npc-pyra-smith/idle/up-left/06",
+              "npc-pyra-smith/idle/up-left/07"
+            ],
+            "up": [
+              "npc-pyra-smith/idle/up/00",
+              "npc-pyra-smith/idle/up/01",
+              "npc-pyra-smith/idle/up/02",
+              "npc-pyra-smith/idle/up/03",
+              "npc-pyra-smith/idle/up/04",
+              "npc-pyra-smith/idle/up/05",
+              "npc-pyra-smith/idle/up/06",
+              "npc-pyra-smith/idle/up/07"
+            ],
+            "up-right": [
+              "npc-pyra-smith/idle/up-right/00",
+              "npc-pyra-smith/idle/up-right/01",
+              "npc-pyra-smith/idle/up-right/02",
+              "npc-pyra-smith/idle/up-right/03",
+              "npc-pyra-smith/idle/up-right/04",
+              "npc-pyra-smith/idle/up-right/05",
+              "npc-pyra-smith/idle/up-right/06",
+              "npc-pyra-smith/idle/up-right/07"
+            ],
+            "right": [
+              "npc-pyra-smith/idle/right/00",
+              "npc-pyra-smith/idle/right/01",
+              "npc-pyra-smith/idle/right/02",
+              "npc-pyra-smith/idle/right/03",
+              "npc-pyra-smith/idle/right/04",
+              "npc-pyra-smith/idle/right/05",
+              "npc-pyra-smith/idle/right/06",
+              "npc-pyra-smith/idle/right/07"
+            ],
+            "down-right": [
+              "npc-pyra-smith/idle/down-right/00",
+              "npc-pyra-smith/idle/down-right/01",
+              "npc-pyra-smith/idle/down-right/02",
+              "npc-pyra-smith/idle/down-right/03",
+              "npc-pyra-smith/idle/down-right/04",
+              "npc-pyra-smith/idle/down-right/05",
+              "npc-pyra-smith/idle/down-right/06",
+              "npc-pyra-smith/idle/down-right/07"
+            ]
+          }
+        }
+      },
+      "interiorScale": 1.6
+    },
+    "innkeeper": {
+      "id": "npc-pyra-innkeeper",
+      "profile": "npc",
+      "presentation": "legacy",
+      "size": [
+        150,
+        150
+      ],
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "tintable": false,
+      "clips": {
+        "idle": {
+          "asset": "npc-pyra-innkeeper-page-0",
+          "fps": 6,
+          "loop": true,
+          "directions": {
+            "down": [
+              "npc-pyra-innkeeper/idle/down/00",
+              "npc-pyra-innkeeper/idle/down/01",
+              "npc-pyra-innkeeper/idle/down/02",
+              "npc-pyra-innkeeper/idle/down/03",
+              "npc-pyra-innkeeper/idle/down/04",
+              "npc-pyra-innkeeper/idle/down/05",
+              "npc-pyra-innkeeper/idle/down/06",
+              "npc-pyra-innkeeper/idle/down/07"
+            ],
+            "down-left": [
+              "npc-pyra-innkeeper/idle/down-left/00",
+              "npc-pyra-innkeeper/idle/down-left/01",
+              "npc-pyra-innkeeper/idle/down-left/02",
+              "npc-pyra-innkeeper/idle/down-left/03",
+              "npc-pyra-innkeeper/idle/down-left/04",
+              "npc-pyra-innkeeper/idle/down-left/05",
+              "npc-pyra-innkeeper/idle/down-left/06",
+              "npc-pyra-innkeeper/idle/down-left/07"
+            ],
+            "left": [
+              "npc-pyra-innkeeper/idle/left/00",
+              "npc-pyra-innkeeper/idle/left/01",
+              "npc-pyra-innkeeper/idle/left/02",
+              "npc-pyra-innkeeper/idle/left/03",
+              "npc-pyra-innkeeper/idle/left/04",
+              "npc-pyra-innkeeper/idle/left/05",
+              "npc-pyra-innkeeper/idle/left/06",
+              "npc-pyra-innkeeper/idle/left/07"
+            ],
+            "up-left": [
+              "npc-pyra-innkeeper/idle/up-left/00",
+              "npc-pyra-innkeeper/idle/up-left/01",
+              "npc-pyra-innkeeper/idle/up-left/02",
+              "npc-pyra-innkeeper/idle/up-left/03",
+              "npc-pyra-innkeeper/idle/up-left/04",
+              "npc-pyra-innkeeper/idle/up-left/05",
+              "npc-pyra-innkeeper/idle/up-left/06",
+              "npc-pyra-innkeeper/idle/up-left/07"
+            ],
+            "up": [
+              "npc-pyra-innkeeper/idle/up/00",
+              "npc-pyra-innkeeper/idle/up/01",
+              "npc-pyra-innkeeper/idle/up/02",
+              "npc-pyra-innkeeper/idle/up/03",
+              "npc-pyra-innkeeper/idle/up/04",
+              "npc-pyra-innkeeper/idle/up/05",
+              "npc-pyra-innkeeper/idle/up/06",
+              "npc-pyra-innkeeper/idle/up/07"
+            ],
+            "up-right": [
+              "npc-pyra-innkeeper/idle/up-right/00",
+              "npc-pyra-innkeeper/idle/up-right/01",
+              "npc-pyra-innkeeper/idle/up-right/02",
+              "npc-pyra-innkeeper/idle/up-right/03",
+              "npc-pyra-innkeeper/idle/up-right/04",
+              "npc-pyra-innkeeper/idle/up-right/05",
+              "npc-pyra-innkeeper/idle/up-right/06",
+              "npc-pyra-innkeeper/idle/up-right/07"
+            ],
+            "right": [
+              "npc-pyra-innkeeper/idle/right/00",
+              "npc-pyra-innkeeper/idle/right/01",
+              "npc-pyra-innkeeper/idle/right/02",
+              "npc-pyra-innkeeper/idle/right/03",
+              "npc-pyra-innkeeper/idle/right/04",
+              "npc-pyra-innkeeper/idle/right/05",
+              "npc-pyra-innkeeper/idle/right/06",
+              "npc-pyra-innkeeper/idle/right/07"
+            ],
+            "down-right": [
+              "npc-pyra-innkeeper/idle/down-right/00",
+              "npc-pyra-innkeeper/idle/down-right/01",
+              "npc-pyra-innkeeper/idle/down-right/02",
+              "npc-pyra-innkeeper/idle/down-right/03",
+              "npc-pyra-innkeeper/idle/down-right/04",
+              "npc-pyra-innkeeper/idle/down-right/05",
+              "npc-pyra-innkeeper/idle/down-right/06",
+              "npc-pyra-innkeeper/idle/down-right/07"
+            ]
+          }
+        }
+      },
+      "interiorScale": 1.6
+    }
+  },
+  "assets": {
+    "hero-legend-walk-v3-idle-0": {
+      "id": "hero-legend-walk-v3-idle-0",
+      "version": "3.3.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/3.3.0-e49f79991c2d/hero-legend-walk-v3-idle-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.3.0-e49f79991c2d/hero-legend-walk-v3-idle-0.json",
+      "width": 752,
+      "height": 1488
+    },
+    "hero-legend-walk-v3-page-0": {
+      "id": "hero-legend-walk-v3-page-0",
+      "version": "3.3.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/hero-legend-walk-v3/3.3.0-e49f79991c2d/hero-legend-walk-v3-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/hero-legend-walk-v3/3.3.0-e49f79991c2d/hero-legend-walk-v3-page-0.json",
+      "width": 1761,
+      "height": 552
+    },
+    "npc-pyra-guide-page-0": {
+      "id": "npc-pyra-guide-page-0",
+      "version": "1.2.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/npc-pyra-guide/1.2.0-5e75a76385d9/npc-pyra-guide-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-pyra-guide/1.2.0-5e75a76385d9/npc-pyra-guide-page-0.json",
+      "width": 1046,
+      "height": 248
+    },
+    "npc-pyra-hunter-page-0": {
+      "id": "npc-pyra-hunter-page-0",
+      "version": "1.0.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/npc-pyra-hunter/1.0.0-7fba97a2a62f/npc-pyra-hunter-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-pyra-hunter/1.0.0-7fba97a2a62f/npc-pyra-hunter-page-0.json",
+      "width": 913,
+      "height": 240
+    },
+    "npc-pyra-steward-page-0": {
+      "id": "npc-pyra-steward-page-0",
+      "version": "1.2.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/npc-pyra-steward/1.2.0-9282710a8036/npc-pyra-steward-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-pyra-steward/1.2.0-9282710a8036/npc-pyra-steward-page-0.json",
+      "width": 968,
+      "height": 240
+    },
+    "npc-pyra-merchant-page-0": {
+      "id": "npc-pyra-merchant-page-0",
+      "version": "1.2.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/npc-pyra-merchant/1.2.0-30260e18df8b/npc-pyra-merchant-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-pyra-merchant/1.2.0-30260e18df8b/npc-pyra-merchant-page-0.json",
+      "width": 826,
+      "height": 240
+    },
+    "npc-pyra-trainer-page-0": {
+      "id": "npc-pyra-trainer-page-0",
+      "version": "1.2.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/npc-pyra-trainer/1.2.0-0ffd0c33e21a/npc-pyra-trainer-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-pyra-trainer/1.2.0-0ffd0c33e21a/npc-pyra-trainer-page-0.json",
+      "width": 1539,
+      "height": 244
+    },
+    "npc-pyra-keeper-page-0": {
+      "id": "npc-pyra-keeper-page-0",
+      "version": "1.2.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/npc-pyra-keeper/1.2.0-010f1d2a3f1a/npc-pyra-keeper-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-pyra-keeper/1.2.0-010f1d2a3f1a/npc-pyra-keeper-page-0.json",
+      "width": 788,
+      "height": 244
+    },
+    "npc-pyra-smith-page-0": {
+      "id": "npc-pyra-smith-page-0",
+      "version": "1.2.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/npc-pyra-smith/1.2.0-cbb63c850b74/npc-pyra-smith-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-pyra-smith/1.2.0-cbb63c850b74/npc-pyra-smith-page-0.json",
+      "width": 1029,
+      "height": 252
+    },
+    "npc-pyra-innkeeper-page-0": {
+      "id": "npc-pyra-innkeeper-page-0",
+      "version": "1.2.0",
+      "kind": "atlas",
+      "url": "/game/assets/gpu/npc-pyra-innkeeper/1.2.0-ac7fe82314c8/npc-pyra-innkeeper-page-0.webp",
+      "atlasUrl": "/game/assets/gpu/npc-pyra-innkeeper/1.2.0-ac7fe82314c8/npc-pyra-innkeeper-page-0.json",
+      "width": 1032,
+      "height": 240
+    },
+    "pyra-art-fortress": {
+      "id": "pyra-art-fortress",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/pyra-start/1.0.0-66e8e592953a/pyra-art-fortress.webp",
+      "width": 1024,
+      "height": 707
+    },
+    "pyra-art-war-shrine": {
+      "id": "pyra-art-war-shrine",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/pyra-start/1.0.0-66e8e592953a/pyra-art-war-shrine.webp",
+      "width": 760,
+      "height": 768
+    },
+    "pyra-art-statue": {
+      "id": "pyra-art-statue",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/pyra-start/1.0.0-66e8e592953a/pyra-art-statue.webp",
+      "width": 279,
+      "height": 512
+    },
+    "nature-obj-volcano-active": {
+      "id": "nature-obj-volcano-active",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nature-objects-v1/1.0.0-8032291fe14e/nature-obj-volcano-active.webp",
+      "width": 512,
+      "height": 512
+    },
+    "nature-obj-volcano-dormant": {
+      "id": "nature-obj-volcano-dormant",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nature-objects-v1/1.0.0-8032291fe14e/nature-obj-volcano-dormant.webp",
+      "width": 512,
+      "height": 512
+    },
+    "pyra-art-clan-banner": {
+      "id": "pyra-art-clan-banner",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/pyra-start/1.0.0-66e8e592953a/pyra-art-clan-banner.webp",
+      "width": 144,
+      "height": 384
+    },
+    "pyra-art-basalt": {
+      "id": "pyra-art-basalt",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/pyra-start/1.0.0-66e8e592953a/pyra-art-basalt.webp",
+      "width": 477,
+      "height": 640
+    },
+    "nature-obj-lava-rocks": {
+      "id": "nature-obj-lava-rocks",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nature-objects-v1/1.0.0-8032291fe14e/nature-obj-lava-rocks.webp",
+      "width": 512,
+      "height": 512
+    },
+    "nature-obj-boulder-group": {
+      "id": "nature-obj-boulder-group",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nature-objects-v1/1.0.0-8032291fe14e/nature-obj-boulder-group.webp",
+      "width": 512,
+      "height": 512
+    },
+    "nature-obj-basalt-columns": {
+      "id": "nature-obj-basalt-columns",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nature-objects-v1/1.0.0-8032291fe14e/nature-obj-basalt-columns.webp",
+      "width": 512,
+      "height": 512
+    },
+    "nature-obj-mountain-peak": {
+      "id": "nature-obj-mountain-peak",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nature-objects-v1/1.0.0-8032291fe14e/nature-obj-mountain-peak.webp",
+      "width": 511,
+      "height": 512
+    },
+    "nature-obj-cliff-outcrop": {
+      "id": "nature-obj-cliff-outcrop",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nature-objects-v1/1.0.0-8032291fe14e/nature-obj-cliff-outcrop.webp",
+      "width": 512,
+      "height": 512
+    },
+    "pyra-terrain-v2-ground": {
+      "id": "pyra-terrain-v2-ground",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/pyra-terrain-v2/1.0.0-1322b19771d1/pyra-terrain-v2-ground.webp",
+      "width": 512,
+      "height": 512
+    },
+    "pyra-terrain-v2-path": {
+      "id": "pyra-terrain-v2-path",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/pyra-terrain-v2/1.0.0-1322b19771d1/pyra-terrain-v2-path.webp",
+      "width": 512,
+      "height": 512
+    },
+    "pyra-terrain-v2-plaza": {
+      "id": "pyra-terrain-v2-plaza",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/pyra-terrain-v2/1.0.0-1322b19771d1/pyra-terrain-v2-plaza.webp",
+      "width": 512,
+      "height": 512
+    },
+    "nature-tex-lava-crust": {
+      "id": "nature-tex-lava-crust",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nature-textures-v1/1.0.0-3014b39be17c/nature-tex-lava-crust.webp",
+      "width": 512,
+      "height": 512
+    },
+    "nature-tex-basalt-columns": {
+      "id": "nature-tex-basalt-columns",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nature-textures-v1/1.0.0-3014b39be17c/nature-tex-basalt-columns.webp",
+      "width": 512,
+      "height": 512
+    },
+    "nature-tex-cliff-rock": {
+      "id": "nature-tex-cliff-rock",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nature-textures-v1/1.0.0-3014b39be17c/nature-tex-cliff-rock.webp",
+      "width": 512,
+      "height": 512
+    },
+    "nature-tex-ash-ground": {
+      "id": "nature-tex-ash-ground",
+      "version": "1.0.0",
+      "kind": "image",
+      "url": "/game/assets/gpu/nature-textures-v1/1.0.0-3014b39be17c/nature-tex-ash-ground.webp",
+      "width": 512,
+      "height": 512
+    }
+  },
+  "limits": {
+    "scope": "One safe capital city, no outdoor monsters",
+    "online": false,
+    "webSavesImported": false,
+    "prototypeOnly": true
+  }
+}

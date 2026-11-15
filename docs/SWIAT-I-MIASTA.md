@@ -499,3 +499,14 @@ Rejestry bossów bez spawnów, wydarzeń i dróg fabularnych bez geometrii V2 s�
 widoczne w katalogu niepowiązanych danych, bez wymyślonych znaczników.
 
 Wyniki i materiały odbioru: [dziennik 12.11](zmiany/2026-11-12/ZMIANY.md).
+
+
+## Twierdza Popiołu w próbie Godot — 15.11.2026
+
+Na osobnej gałęzi `feat/godot-pyra-android-20261115` przygotowano natywną próbę miasta
+Pyry w `ports/godot-pyra`. Źródłem jest istniejąca stolica Superior v2: sześć budynków,
+osiem NPC, autorskie materiały i kolizje. Port ma ruch, rozmowy, wnętrza i osobny
+lokalny checkpoint. Nie zmienia świata WWW ani geometrii planety, nie dodaje spawnów.
+To etap miasta; zewnętrzny kontynent, walka i usługi ekonomiczne czekają na kolejne
+zlecenie. [Uruchomienie i ograniczenia](ARCHITEKTURA-I-TESTY.md#próba-migracji-godot-4--android--miasto-pyry-15112026),
+[wyniki i paczki](zmiany/2026-11-15/ZMIANY.md).

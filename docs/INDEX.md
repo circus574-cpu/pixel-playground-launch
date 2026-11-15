@@ -1,5 +1,9 @@
 # KI Legends — dokumentacja projektu
 
+**Próba Godot 4 / Android, 15.11:** osobna gałąź `feat/godot-pyra-android-20261115`,
+jedno miasto Pyry: Twierdza Popiołu. Projekt i APK są prototypem lokalnym; bez
+scalenia i zmian produkcji. [Zakres i wyniki](zmiany/2026-11-15/ZMIANY.md).
+
 **Świat — przegląd, PR #154:** gotowa mapa administratora Superior v2, 10 lądów,
 spawny, NPC, questy, wnętrza i rozwój ras. Właściciel 12.11 zatwierdził scalenie
 i wdrożenie; [raport oraz dowody](zmiany/2026-11-12/ZMIANY.md#11-świat--przegląd-superior-v2-w-panelu-administratora).
@@ -61,6 +65,8 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 | [Plan i zadania](PLAN-I-ZADANIA.md)             | Aktualny stan, otwarte prace i warunki odbioru.                            |
 
 ## Historia — jeden dziennik na dzień
+
+- [2026-11-15](zmiany/2026-11-15/ZMIANY.md)
 
 - [2026-11-12](zmiany/2026-11-12/ZMIANY.md)
 - [2026-11-11](zmiany/2026-11-11/ZMIANY.md)

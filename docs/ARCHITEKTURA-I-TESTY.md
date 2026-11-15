@@ -1162,3 +1162,97 @@ Cel: darmowy asystent programisty na osobnej maszynie bez GPU (16 rdzeni, 32 GB 
 - **Granice jakości:** dobry do małych zadań (testy, dokumentacja, zmiany w jednym pliku, proste refaktory), słaby przy zmianach przekrojowych, potoku grafik i trudnym debugowaniu. Nie zastępuje przeglądu człowieka.
 - **Zasady pracy agenta:** osobny użytkownik Linuxa bez sudo, własny klon repozytorium, osobny token GitHub tylko do tego repo (gałęzie i PR), bez dostępu do sekretów produkcji. Obowiązuje `AGENTS.md`: bez scalania PR, publikacji, zmian konfiguracji produkcji i sterowania podem GPU bez zgody właściciela. Zmiany przechodzą bramkę jakości CI.
 - **Nie uruchamiać na maszynie produkcyjnej gry:** model zajmuje ok. 18 GB RAM i wszystkie rdzenie podczas generowania.
+
+
+## Próba migracji Godot 4 / Android — miasto Pyry, 15.11.2026
+
+Zlecenie właściciela: rozpocząć próbę przeniesienia KI Legends do Godot 4 na Androida,
+na początek jeden kontynent, właściwie samo miasto; wybrano **Twierdzę Popiołu (Pyra)**.
+Osobna gałąź `feat/godot-pyra-android-20261115` od `main@0b69c28e4b45a59f32251f5ac6d54e1365660d98`.
+Projekt znajduje się w `ports/godot-pyra/project.godot`, używa **Godot 4.6.3**, GDScript,
+`CharacterBody2D` i renderera **Compatibility** (OpenGL ES 3 na Androidzie).
+Nie jest osadzoną stroną, eksportem HTML ani drugim silnikiem walki w obecnej aplikacji.
+Kod gry WWW, infrastruktura, zapisy kont, `/test`, geometria Superiora i kanon są niezmienione.
+
+**Zakres wdrożony w prototypie:** ruch WASD/strzałkami i joystickiem 360°, osiem kierunków
+animacji istniejącej Legendy, lustrzane klipy, niezależna od renderowania fizyka 60 Hz,
+kolizje stóp i budynków, warstwowanie po Y, osiem źródłowych NPC (dwoje na zewnątrz,
+sześcioro we wnętrzach), rozmowy oraz sześć wejść i powrotów. Wnętrza mają oryginalne
+obrazy i kontrakty `cityRoom` (1920×1280, meble/ściany, entry/exit/NPC/chest/dummy).
+Sklep, kuźnia, sala, arena, depozyt i gospoda są lokacjami dostępnymi do oglądania i rozmów.
+Handel, przedmioty w skrzyni, crafting, walka, umiejętności, questy i rozwój **nie są
+jeszcze silnikami Godot** — nie przyznaje się fikcyjnych nagród ani postępu.
+
+**Dane i grafika:** `scripts/godot/export-pyra-source.ts` czyta aktualny katalog zasobów,
+kontrakty animacji i `acceptedSource` stolicy z `public/game/worlds/superior-v2/pyra/world.json`.
+Nie uruchamia sesji gracza ani generacji świata. `scripts/godot/prepare_pyra.py` odtwarza
+puste marginesy przyciętych atlasów, zachowuje origin i mirrored, pakuje klatki do arkuszy
+najwyżej 2048×2048 oraz wypieka kafle podłoża/dróg z istniejących niezależnych tekstur.
+To eksport materiałów i geometrii, bez generowania zastępczych ilustracji.
+53 obiekty miasta współdzielą tekstury; całość ma 44 pliki tekstur i 16 kafli podłoża
+najwyżej 512×512 px przy skali wypieku 0,75. Szacunkowy koszt pikseli tekstur aktywnego
+widoku miasta: **75,05 MiB RGBA**, bez viewportu, UI, silnika i przejściowych alokacji.
+Nie jest to pomiar RAM telefonu ani dowód FPS na Androidzie.
+
+`data/source.generated.json` zachowuje definicje wejściowe, `city.generated.json` dane
+lokalne portu, a `provenance.json` SHA-256 45 plików źródłowych i wyeksportowanych tekstur.
+Pochodzenie i status praw pozostają zgodne z rejestrem repozytorium; eksport nie stanowi
+nowego dowodu licencji. Ustawienia renderowania wnętrz (powiększenie bohatera i NPC)
+powtarzają `mountGame`, a szybkość 170 j./s pochodzi z bazowej Legendy właściciela.
+
+**Współrzędne:** źródło stolicy ma bezpieczne granice `(1350,950,2050,1750)` w lokalnym
+układzie zaakceptowanej mapy. Port używa wycinka z marginesem, o początku `(1094,566)`;
+pozycja lokalna = źródłowa − początek wycinka. `sourceWorld.superiorOffset` pozwala
+odtworzyć globalne współrzędne kontynentu. Wypiek i punkty oparcia nie zmieniają kolizji.
+Na granicy próby działają dodatkowe ograniczniki obszaru miasta; nie wygenerowano
+zewnętrznego terenu ani potworów. Pełny kontynent będzie wymagał streamingu i regionalnego
+sortowania sceny — obecne ograniczenie do miasta jest zamierzone.
+
+**Wejście i zapis:** każdy wskaźnik ma osobny identyfikator; działanie/zakończenie prawego
+palca nie zwalnia lewego. `canceled`, utrata fokusu, menu i rozmowa czyszczą przechwycenia.
+HUD dostosowuje rozmieszczenie do safe area Androida i ekranów poziomych. `E`/prawy
+przycisk uruchamia interakcję, Esc/Android Wstecz zamyka dialog lub opuszcza budynek,
+F11 przełącza pełny ekran desktopu. Menu pozwala zapisać wyłącznie lokalny punkt próby.
+Format `ki-godot-pyra-save-1`, atomowy plik `user://city-checkpoint-v1.json`, osobny katalog
+`ki-legends-godot-pyra-prototype` i Android package `pl.kilegends.godot.pyra`.
+Nie odczytuje się ani nie migruje zapisów WWW v5; nowszy/nieznany checkpoint pozostaje
+nienadpisany. W menu dostępne są pełne licencje i copyright silnika przez API Godot.
+
+### Uruchomienie i odtworzenie eksportu
+
+Otworzyć `ports/godot-pyra/project.godot` w Godot **4.6.3**, uruchomić F6/F5 albo:
+
+```sh
+godot --path ports/godot-pyra -- --fresh
+npx tsx scripts/godot/export-pyra-source.ts
+python3 scripts/godot/prepare_pyra.py
+godot --headless --editor --path ports/godot-pyra --import
+godot --headless --path ports/godot-pyra --script res://tests/smoke.gd -- --fresh --qa-output /tmp/pyra-qa
+```
+
+Eksport Android wymaga JDK 17/21, oficjalnych export templates Godot 4.6.3,
+Android SDK (`platform-tools`, `platforms;android-36`, `build-tools;36.0.0`) i przyjętych
+licencji SDK. Bez Gradle, NDK ani GPU serwerowego. Python wymaga Pillow, a konwerter
+SVG używa obecnego `sharp` tylko wtedy, gdy źródłowy zasób jest SVG.
+
+```sh
+python3 scripts/godot/build_android.py --sdk /sciezka/Android/Sdk --java /sciezka/JDK --output /tmp/ki-legends-pyra-debug.apk
+```
+
+Skrypt eksportuje i weryfikuje podpis APK v2/v3; klucz debug pozostaje poza Git
+(`~/.local/share/ki-legends-godot/debug.keystore`, opcjonalnie `--debug-keystore`).
+Nie jest to wydanie Google Play. APK ma ARM64, min SDK 24 / target 36,
+układ poziomy `USER_LANDSCAPE` i nie żąda internetu ani dostępu do pamięci zewnętrznej.
+Przy przenoszeniu projektu na inny komputer należy osobno skonfigurować SDK i podpis;
+plików kluczy nie dodawać do repozytorium. ZIP źródeł, jeżeli jest przygotowany,
+nie zawiera `.godot`, buildów ani kluczy.
+
+**Weryfikacja:** 6 testów Vitest porównuje dane, kolizje, pokoje, ramki animacji i SHA
+z rzeczywistymi źródłami. `tests/smoke.gd` wykonuje 52 kontrole w natywnym Godot:
+ruch, multitouch/cancel, dialog, przejście postacią do sali i rozmowa wewnątrz,
+wszystkie wejścia/powroty, 30/120 FPS, round-trip checkpointu, ochrona nowszego formatu,
+menu i viewporty 854×480 / 1280×720 / 1600×720. Headless nie renderuje, dlatego
+osobno uruchamiany jest X11 + llvmpipe Compatibility z obrazami z viewportu silnika.
+Workflow `godot-pyra.yml` odtwarza obie próby i publikuje materiały QA; nie wdraża gry.
+Fizyczny Android, sterownik telefonu, faktyczna instalacja i zużycie baterii/RAM
+pozostają **niezweryfikowane**. [Raport, APK i dowody](zmiany/2026-11-15/ZMIANY.md).
