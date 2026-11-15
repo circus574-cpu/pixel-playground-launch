@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as KontoRouteImport } from './routes/konto'
 import { Route as MapaRouteImport } from './routes/mapa'
+import { Route as PrywatnoscRouteImport } from './routes/prywatnosc'
+import { Route as RegulaminRouteImport } from './routes/regulamin'
 import { Route as TestRouteImport } from './routes/test'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +37,16 @@ const MapaRoute = MapaRouteImport.update({
   path: '/mapa',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrywatnoscRoute = PrywatnoscRouteImport.update({
+  id: '/prywatnosc',
+  path: '/prywatnosc',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegulaminRoute = RegulaminRouteImport.update({
+  id: '/regulamin',
+  path: '/regulamin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TestRoute = TestRouteImport.update({
   id: '/test',
   path: '/test',
@@ -46,6 +58,8 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/konto': typeof KontoRoute
   '/mapa': typeof MapaRoute
+  '/prywatnosc': typeof PrywatnoscRoute
+  '/regulamin': typeof RegulaminRoute
   '/test': typeof TestRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +67,8 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/konto': typeof KontoRoute
   '/mapa': typeof MapaRoute
+  '/prywatnosc': typeof PrywatnoscRoute
+  '/regulamin': typeof RegulaminRoute
   '/test': typeof TestRoute
 }
 export interface FileRoutesById {
@@ -61,14 +77,26 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/konto': typeof KontoRoute
   '/mapa': typeof MapaRoute
+  '/prywatnosc': typeof PrywatnoscRoute
+  '/regulamin': typeof RegulaminRoute
   '/test': typeof TestRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/konto' | '/mapa' | '/test'
+  fullPaths:
+    '/' | '/admin' | '/konto' | '/mapa' | '/prywatnosc' | '/regulamin' | '/test'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/konto' | '/mapa' | '/test'
-  id: '__root__' | '/' | '/admin' | '/konto' | '/mapa' | '/test'
+  to:
+    '/' | '/admin' | '/konto' | '/mapa' | '/prywatnosc' | '/regulamin' | '/test'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/konto'
+    | '/mapa'
+    | '/prywatnosc'
+    | '/regulamin'
+    | '/test'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +104,8 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   KontoRoute: typeof KontoRoute
   MapaRoute: typeof MapaRoute
+  PrywatnoscRoute: typeof PrywatnoscRoute
+  RegulaminRoute: typeof RegulaminRoute
   TestRoute: typeof TestRoute
 }
 
@@ -109,6 +139,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MapaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/prywatnosc': {
+      id: '/prywatnosc'
+      path: '/prywatnosc'
+      fullPath: '/prywatnosc'
+      preLoaderRoute: typeof PrywatnoscRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/regulamin': {
+      id: '/regulamin'
+      path: '/regulamin'
+      fullPath: '/regulamin'
+      preLoaderRoute: typeof RegulaminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/test': {
       id: '/test'
       path: '/test'
@@ -124,6 +168,8 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   KontoRoute: KontoRoute,
   MapaRoute: MapaRoute,
+  PrywatnoscRoute: PrywatnoscRoute,
+  RegulaminRoute: RegulaminRoute,
   TestRoute: TestRoute,
 }
 export const routeTree = rootRouteImport

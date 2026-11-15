@@ -1,5 +1,6 @@
 import { useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { RACES, RACE_IDS, type RaceId, type WorldId } from "../../game/world/races";
+import { RACE_LORE } from "../../game/world/raceLore";
 import { WORLDS } from "../../game/world/worlds";
 import { slotTitle, type CharacterSlot } from "../../game/characters";
 import type { StaffRole } from "../../game/session";
@@ -328,7 +329,25 @@ export function CharacterSelection({
                   <h3>Energia KI</h3>
                   <p>{race.energy}</p>
                 </div>
+                <div>
+                  <h3>Rola i mechanika</h3>
+                  <p>
+                    {RACE_LORE[selected].role} · {RACE_LORE[selected].mechanic}
+                  </p>
+                </div>
+                <div>
+                  <h3>Pierwsza zdolność</h3>
+                  <p>
+                    <b>{RACE_LORE[selected].starter.name}.</b> {RACE_LORE[selected].starter.text}
+                  </p>
+                </div>
               </div>
+              <details className="ki-origin-bio">
+                <summary>Biografia: {race.name}</summary>
+                {RACE_LORE[selected].biography.map((paragraph) => (
+                  <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+                ))}
+              </details>
               <section className="ki-continent-preview" aria-label={"Podgląd: " + world.name}>
                 <img
                   src={`/game/assets/stage3/${world.id}-atlas.webp`}

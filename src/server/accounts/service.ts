@@ -113,11 +113,21 @@ export class AccountService {
     if (nickOwner && nickOwner.id !== existing?.id) throw new AccountError("NICK_TAKEN");
     const hash = await hashPassword(password);
     const id = existing?.id ?? randomUUID();
-    if (existing)
-      await sql`UPDATE accounts.users SET nick = ${nick}, password_hash = ${hash} WHERE id = ${id}`;
-    else
-      await sql`INSERT INTO accounts.users (id, email, nick, password_hash)
-                VALUES (${id}, ${email}, ${nick}, ${hash})`;
+    try {
+      if (existing)
+        await sql`UPDATE accounts.users SET nick = ${nick}, password_hash = ${hash} WHERE id = ${id}`;
+      else
+        await sql`INSERT INTO accounts.users (id, email, nick, password_hash)
+                  VALUES (${id}, ${email}, ${nick}, ${hash})`;
+    } catch (error) {
+      // Two sign-ups racing for the same e-mail or nick pass the checks above together; the unique indexes decide.
+      const pg = error as { code?: string; constraint_name?: string };
+      if (pg.code === "23505")
+        throw new AccountError(
+          pg.constraint_name === "users_nick_key" ? "NICK_TAKEN" : "EMAIL_TAKEN",
+        );
+      throw error;
+    }
     await this.sendConfirmation(id, email, nick);
     await this.audit(id, "REGISTER", id, { email });
     return { id, email, nick };
@@ -135,6 +145,7 @@ export class AccountService {
   /** Activation link → account active and signed in. */
   async confirm(token: unknown, userAgent?: string): Promise<Session> {
     const userId = await this.useEmailToken(token, "confirm");
+    await this.assertActive(userId);
     await this.o
       .sql`UPDATE accounts.users SET email_confirmed_at = coalesce(email_confirmed_at, now())
                      WHERE id = ${userId}`;
@@ -249,6 +260,7 @@ export class AccountService {
   async resetPassword(input: { token: unknown; password: unknown }, userAgent?: string) {
     const password = passwordSchema.parse(input.password);
     const userId = await this.useEmailToken(input.token, "reset");
+    await this.assertActive(userId);
     const hash = await hashPassword(password);
     await this.o.sql`UPDATE accounts.users
       SET password_hash = ${hash}, email_confirmed_at = coalesce(email_confirmed_at, now())
@@ -257,6 +269,14 @@ export class AccountService {
       WHERE user_id = ${userId} AND revoked_at IS NULL`;
     await this.audit(userId, "RESET_PASSWORD", userId, null);
     return this.startSession(userId, userAgent);
+  }
+
+  /** A blocked account gets no new session, whatever link it still holds (login and refresh check this as well). */
+  private async assertActive(userId: string) {
+    const [row] = await this.o.sql<{ disabled_at: Date | null }[]>`
+      SELECT disabled_at FROM accounts.users WHERE id = ${userId}`;
+    if (!row) throw new AccountError("INVALID_TOKEN");
+    if (row.disabled_at) throw new AccountError("ACCOUNT_DISABLED");
   }
 
   private async useEmailToken(token: unknown, purpose: "confirm" | "reset"): Promise<string> {

@@ -67,6 +67,7 @@ import "./staff-tools.css";
 import "./adventure.css";
 import "./game-messages.css";
 import "./hud-layout.css";
+import { npcNameCase } from "../../game/npcNames";
 import "./manga-hud.css";
 import "./hud-v2-landscape.css";
 
@@ -1163,7 +1164,7 @@ export function GameHud({
           {player.quests.steps === "active" && !state.target && !player.interior && (
             <button
               onClick={(event) => {
-                onCommand({ type: "move", ...world.market });
+                onCommand({ type: "move", x: world.market.x, y: world.market.y });
                 event.currentTarget.blur();
               }}
             >
@@ -1547,7 +1548,7 @@ export function GameHud({
                         onCommand({ type: "interact", npc: n.id });
                       }}
                     >
-                      Idź do {n.name} · {n.role}
+                      Idź do {npcNameCase(n.name, "gen")} · {n.role}
                     </button>
                   ))}
                 </div>
