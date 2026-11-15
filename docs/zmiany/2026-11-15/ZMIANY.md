@@ -235,8 +235,10 @@ w świat, a HUD wyłączał mikstury i umiejętności.
 - Wynik pierwszego przebiegu Aetherii był przerwany przeładowaniami modułów serwera deweloperskiego po moich edycjach
   w trakcie biegu; powtórzony bez edycji przeszedł w całości.
 - e2e (Playwright): 12 specyfikacji zaktualizowanych tekstowo i sprawdzonych typami (`tsconfig.e2e.json`), ale
-  **nie uruchomionych**: próba na serwerze deweloperskim kończy się ekranem „Nie udało się otworzyć świata” jeszcze
-  przed rozmową (problem środowiska, nie rozmowy); do sprawdzenia na buildzie.
+  **nie uruchomionych do końca**: te specyfikacje otwierają świat v1 (`?ki-world-v1=1`), a ten w tym środowisku kończy
+  się ekranem „Nie udało się otworzyć świata” przed jakąkolwiek rozmową, zarówno na serwerze deweloperskim, jak i na
+  buildzie. Test A/B na czystym `main` (0b69c28e) daje to samo, więc nie jest to skutek tej zmiany. Przepływ handlu z
+  oknem usług sprawdzają za to testy `adventure-ui`, `npc-commerce-ui` i `npc-talk-ui` oraz przebieg w świecie v2.
 
 **Nie sprawdzono / otwarte:** tryb online na żywym serwerze (wspólny `GameSession` i protokół bez zmian, ale nie
 uruchamiano); telefon i dotyk (układ paska i pigułki sprawdzono tylko na pulpicie); automatyczna trasa w miastach poza
