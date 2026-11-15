@@ -10,10 +10,10 @@ sources = ["public/game/worlds/superior-v2/pyra/world.json", "public/game/worlds
            "public/game/worlds/superior-v2/art/pyra/feature.art.json", "public/game/worlds/superior-v2/art/assets.json", "src/game/worlds/v2Places.generated.json",
            "src/components/planet-map/atlasRegions.v2.json", "src/components/planet-map/planetLayout.v2.json", "src/components/planet-map/worldOverlay.v2.json",
            "src/assets/planet-map/atlas-v2-1920.webp", "src/assets/planet-map/v2-globe-color-1920.webp", "src/assets/planet-map/globe-clouds-2048.webp", "src/assets/planet-map/space.jpg",
-           "docs/design/data/character-progression-1-20.json", "src/game/kit/legend.ts", "src/game/kit/base.ts"]
+           "docs/design/data/character-progression-1-20.json", "src/game/kit/legend.ts", "src/game/kit/base.ts", "docs/katalog-przedmiotow-v2/KI_LEGENDS_366_PRZEDMIOTOW_V2.json", "src/game/items/loot.ts", "src/game/items/recipes.ts", "src/game/items/recipes.extra.ts", "src/game/items/catalog.ts", "ports/godot-pyra/assets/branding/intro-source.png"]
 sources += [str(p.relative_to(ROOT)) for p in sorted((ROOT / "public/game/assets/gpu/pyra-continent-v2").glob("*/pack.json"))]
 sources += [str(p.relative_to(ROOT)) for p in sorted((ROOT / "public/game/assets/gpu/hero-legend-walk-v3").glob("*/pack.json"))]
-outputs = ["data/continent.terrain.json", "data/continent/world.json", "data/continent/objects.bin", "data/continent/walk.bin", "data/hero.json", "data/legend.json", "data/map.json",
+outputs = ["data/continent.terrain.json", "data/continent/world.json", "data/continent/objects.bin", "data/continent/walk.bin", "data/hero.json", "data/legend.json", "data/map.json", "data/economy.json",
            "assets/continent/ctrl-biome.png", "assets/continent/ctrl-land.png", "assets/continent/road-mask.png", "assets/continent/road-class.png"]
 commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
 json.dump({"note": "Presentation data for the native port; geometry, collision and navigation are the published Superior v2 files, not regenerated.",

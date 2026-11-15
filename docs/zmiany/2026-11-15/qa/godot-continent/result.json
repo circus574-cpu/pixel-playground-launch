@@ -1,15 +1,15 @@
 {
-	"checks": 158,
+	"checks": 181,
 	"display": "X11",
 	"engine": "4.6.3-stable (official)",
 	"failed": 0,
-	"passed": 158,
+	"passed": 181,
 	"physicalAndroidDevice": false,
 	"rendering": "gl_compatibility",
 	"results": [
 		{
 			"details": null,
-			"name": "actual entry scene displays brand and Godot credit",
+			"name": "entry scene shows the owner key art undistorted and the Powered by GODOT credit with the official logo",
 			"passed": true
 		},
 		{
@@ -276,8 +276,8 @@
 		},
 		{
 			"details": [
-				121.77734375,
-				124.609375
+				118.9453125,
+				121.77734375
 			],
 			"name": "30/120 FPS do not change movement speed",
 			"passed": true
@@ -860,6 +860,124 @@
 		{
 			"details": "Wymaga poziomu 7.",
 			"name": "tree: locked node explains why",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "catalogue: 366 items, 265 recipes, 85 weak items for sale",
+			"passed": true
+		},
+		{
+			"details": 200,
+			"name": "shop price is 4x catalogue and needs the coins",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "better gear is never sold by the merchant",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "buying spends coins and fills the bag",
+			"passed": true
+		},
+		{
+			"details": [
+				14,
+				23
+			],
+			"name": "equipping the sword raises attack",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "cannot equip what is not owned",
+			"passed": true
+		},
+		{
+			"details": 13,
+			"name": "equipment honours the level requirement",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "unequip returns the item to the bag",
+			"passed": true
+		},
+		{
+			"details": 25,
+			"name": "merchant buys back at half the catalogue price",
+			"passed": true
+		},
+		{
+			"details": 66.0,
+			"name": "potion heals",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "potion cooldown blocks the second one",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "potion is not wasted at full HP",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "crafting needs the ingredients (or is free of them)",
+			"passed": true
+		},
+		{
+			"details": "Kucie Żelaznego Miecza",
+			"name": "crafting consumes ingredients and coins and yields the result",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "depot: bag to chest and back",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "depot keeps coins",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "inn charges 5 coins only when rest is needed",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "economy survives a save round-trip",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a save with an item in the wrong slot is rejected unchanged",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "items screen opens: shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "items screen opens: depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "items screen opens: smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "items screen opens: inventory",
 			"passed": true
 		},
 		{

@@ -16,4 +16,11 @@ for folder in ["assets/continent/objects", "assets/hero"]:
         if new != text:
             imp.write_text(new)
             changed += 1
-print("vram-compressed imports:", changed)
+intro = PORT / "assets/branding/intro.webp.import"
+if intro.exists():
+    text = intro.read_text()
+    new = re.sub(r"^mipmaps/generate=\w+", "mipmaps/generate=true", text, flags=re.M)
+    if new != text:
+        intro.write_text(new)
+        changed += 1
+print("tuned imports:", changed)

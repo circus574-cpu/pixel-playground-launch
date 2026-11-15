@@ -7,6 +7,7 @@ signal closed
 const BRANCH_COLORS := {"A": Color("e8602a"), "B": Color("e3b341"), "C": Color("5aa4ff"), "R": Color("f4efe6"), "T": Color("ffcf70")}
 const COL_X := 190.0
 const NODE := 64.0
+const TREE_PANEL_MIN := 300.0
 
 var kit: LegendKit
 var tree: TreeCanvas
@@ -194,10 +195,14 @@ func refresh() -> void:
 	var lines := []
 	for row: Dictionary in kit.stat_breakdown():
 		var digits := 1 if row.key in ["kiRegen", "crit"] else 0
-		var extra := float(row.skills) + float(row.effects)
 		var tail := ""
-		if absf(extra) > 0.001:
-			tail = "   (baza %s %s%s)" % [fmt(float(row.base), digits), "+" if extra > 0 else "−", fmt(absf(extra), digits)]
+		var parts := []
+		for part in [["skills", "drzewko"], ["items", "sprzęt"], ["effects", "efekty"]]:
+			var amount := float(row[part[0]])
+			if absf(amount) > 0.001:
+				parts.append("%s %s%s" % [part[1], "+" if amount > 0 else "−", fmt(absf(amount), digits)])
+		if not parts.is_empty():
+			tail = "   (baza %s, %s)" % [fmt(float(row.base), digits), ", ".join(parts)]
 		lines.append("%s: %s%s" % [row.label, fmt(float(row.total), digits), tail])
 	stats_label.text = "\n".join(lines)
 	var node: Dictionary = kit.nodes.get(selected, {})
@@ -230,30 +235,40 @@ class TreeCanvas extends Control:
 	var positions: Dictionary = {}
 	var view_scale := 1.0
 	var font: Font = ThemeDB.fallback_font
+	var title_font: Font = ThemeDB.fallback_font
+	var icons: Dictionary = {}
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_STOP
 		clip_contents = true
+		var cinzel := load("res://assets/branding/cinzel-bold.ttf")
+		if cinzel is Font:
+			title_font = cinzel
+		for id: String in screen.kit.node_order:
+			icons[id] = load("res://assets/icons/skills/%s.png" % id)
 		layout()
 
+	func _process(_delta: float) -> void:
+		if is_visible_in_tree():
+			queue_redraw()
+
 	func layout() -> void:
-		var columns := {"R": 0.0, "1": 1.0, "2": 2.0, "3": 2.0, "4": 3.0, "5": 4.0, "6": 4.0, "7": 5.0, "8": 5.0, "9": 6.0, "T": 7.0}
+		var columns := {"1": 1.0, "2": 2.0, "3": 2.0, "4": 3.0, "5": 4.0, "6": 4.0, "7": 5.0, "8": 5.0, "9": 6.0}
 		var rows := {"A": 0, "B": 1, "C": 2}
 		for id: String in screen.kit.node_order:
 			if id == "R":
-				positions[id] = Vector2(80.0, 310.0)
-				continue
-			if id == "T":
-				positions[id] = Vector2(80.0 + 7.0 * CharacterScreen.COL_X, 310.0)
-				continue
-			var branch := id.substr(0, 1)
-			var tier := id.substr(1, 1)
-			var y := 100.0 + 210.0 * float(rows[branch])
-			var pair := {"2": -52.0, "3": 52.0, "5": -52.0, "6": 52.0, "7": -52.0, "8": 52.0}
-			positions[id] = Vector2(80.0 + float(columns[tier]) * CharacterScreen.COL_X, y + float(pair.get(tier, 0.0)))
+				positions[id] = Vector2(90.0, 330.0)
+			elif id == "T":
+				positions[id] = Vector2(90.0 + 7.0 * CharacterScreen.COL_X, 330.0)
+			else:
+				var branch := id.substr(0, 1)
+				var tier := id.substr(1, 1)
+				var y := 110.0 + 220.0 * float(rows[branch])
+				var pair := {"2": -54.0, "3": 54.0, "5": -54.0, "6": 54.0, "7": -54.0, "8": 54.0}
+				positions[id] = Vector2(90.0 + float(columns[tier]) * CharacterScreen.COL_X, y + float(pair.get(tier, 0.0)))
 
 	func content_size() -> Vector2:
-		return Vector2(80.0 + 7.0 * CharacterScreen.COL_X + 120.0, 650.0)
+		return Vector2(90.0 + 7.0 * CharacterScreen.COL_X + 130.0, 680.0)
 
 	func update_scale() -> void:
 		view_scale = clampf(size.y / content_size().y, 0.35, 1.2)
@@ -275,16 +290,29 @@ class TreeCanvas extends Control:
 			if moved:
 				offset_x += event.relative.x / view_scale
 				update_scale()
-				queue_redraw()
+
+	func radius_of(id: String) -> float:
+		match str(screen.kit.nodes[id].type):
+			"starting":
+				return 50.0
+			"ki-mode":
+				return 56.0
+			"ultimate":
+				return 52.0
+			"active":
+				return 44.0
+			"choice":
+				return 38.0
+		return 34.0
 
 	func pick(at: Vector2) -> void:
 		update_scale()
 		var local := Vector2(at.x / view_scale - offset_x, at.y / view_scale)
 		var best := ""
-		var best_d := CharacterScreen.NODE * 0.75
+		var best_d := 1e9
 		for id: String in positions:
 			var d: float = (positions[id] as Vector2).distance_to(local)
-			if d < best_d:
+			if d < radius_of(id) + 14.0 and d < best_d:
 				best_d = d
 				best = id
 		if best != "":
@@ -302,62 +330,135 @@ class TreeCanvas extends Control:
 			return "available"
 		return "locked"
 
+	func glow(at: Vector2, radius: float, color: Color, strength: float = 0.5) -> void:
+		for i in 7:
+			var t := float(i) / 7.0
+			draw_circle(at, radius * (1.0 - t * 0.7), Color(color.r, color.g, color.b, strength * 0.14 * (0.35 + t)))
+
+	func curve(a: Vector2, b: Vector2) -> PackedVector2Array:
+		var points := PackedVector2Array()
+		for i in 25:
+			var t := float(i) / 24.0
+			points.append(Vector2(lerpf(a.x, b.x, t), lerpf(a.y, b.y, smoothstep(0.0, 1.0, t))))
+		return points
+
+	func branch_color(id: String) -> Color:
+		return CharacterScreen.BRANCH_COLORS.get(id.substr(0, 1), Color.WHITE)
+
 	func _draw() -> void:
 		update_scale()
-		draw_rect(Rect2(Vector2.ZERO, size), Color("0f0b0d"))
-		draw_set_transform(Vector2(offset_x * view_scale, 0.0), 0.0, Vector2(view_scale, view_scale))
+		var t := Time.get_ticks_msec() / 1000.0
 		var kit := screen.kit
-		# branch captions
-		for entry in [["A", "OGIEŃ WALKI", 100.0], ["B", "ŻELAZNA WOLA", 310.0], ["C", "WYBUCH KI", 520.0]]:
-			var name: String = kit.data.branches[entry[0]].name if kit.data.branches.has(entry[0]) else entry[1]
-			draw_string(font, Vector2(18.0, float(entry[2]) - 74.0), str(name).to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, 22, CharacterScreen.BRANCH_COLORS[entry[0]])
+		var content := content_size()
+		# painted backdrop: deep night with a warm glow behind every branch
+		draw_rect(Rect2(Vector2.ZERO, size), Color("0b0708"))
+		draw_set_transform(Vector2(offset_x * view_scale, 0.0), 0.0, Vector2(view_scale, view_scale))
+		for row in 3:
+			var c: Color = CharacterScreen.BRANCH_COLORS[["A", "B", "C"][row]]
+			for k in 6:
+				draw_rect(Rect2(0, 110.0 + 220.0 * row - 108.0 + k * 6.0, content.x, 216.0 - k * 12.0), Color(c.r, c.g, c.b, 0.022))
+			draw_line(Vector2(20, 110.0 + 220.0 * row + 112.0), Vector2(content.x - 20, 110.0 + 220.0 * row + 112.0), Color(c.r, c.g, c.b, 0.18), 2.0)
+		for i in 44:
+			var seed_x := fmod(absf(sin(float(i) * 12.9898) * 43758.5453), 1.0)
+			var seed_s := fmod(absf(sin(float(i) * 78.233) * 12345.678), 1.0)
+			var life := fmod(t * (0.05 + 0.05 * seed_s) + seed_s * 7.0, 1.0)
+			var p := Vector2(seed_x * content.x + sin(t + float(i)) * 14.0, content.y - life * content.y)
+			draw_circle(p, 1.5 + 2.0 * seed_s, Color(1.0, 0.55 + 0.3 * seed_s, 0.2, 0.55 * sin(life * PI)))
+		# branch titles
+		for entry in [["A", 110.0], ["B", 330.0], ["C", 550.0]]:
+			var name := str(kit.data.branches[entry[0]].name).to_upper() if kit.data.branches.has(entry[0]) else str(entry[0])
+			var c2: Color = CharacterScreen.BRANCH_COLORS[entry[0]]
+			draw_string_outline(title_font, Vector2(20.0, float(entry[1]) - 80.0), name, HORIZONTAL_ALIGNMENT_LEFT, -1, 24, 7, Color(0.03, 0.02, 0.02, 0.95))
+			draw_string(title_font, Vector2(20.0, float(entry[1]) - 80.0), name, HORIZONTAL_ALIGNMENT_LEFT, -1, 24, c2.lightened(0.15))
+		# connections
 		for id: String in positions:
 			var node: Dictionary = kit.nodes[id]
 			for req: String in node.requires:
-				var learned: bool = kit.has(id) and kit.has(req)
-				var color: Color = CharacterScreen.BRANCH_COLORS.get(id.substr(0, 1), Color.WHITE)
-				color.a = 0.95 if learned else 0.28
-				draw_line(positions[req], positions[id], color, 5.0 if learned else 3.0, true)
+				var points := curve(positions[req], positions[id])
+				var both: bool = kit.has(id) and kit.has(req)
+				var color := branch_color(id)
+				if both:
+					draw_polyline(points, Color(color.r, color.g, color.b, 0.22), 15.0, true)
+					draw_polyline(points, color.lightened(0.15), 5.0, true)
+					draw_polyline(points, Color(1, 1, 1, 0.6), 1.6, true)
+					for k in 3:
+						var u := fmod(t * 0.45 + float(k) / 3.0 + float(id.hash() % 7) * 0.13, 1.0)
+						var idx := int(u * 24.0)
+						draw_circle(points[idx], 5.5, Color(1.0, 0.95, 0.75, 0.95))
+						draw_circle(points[idx], 11.0, Color(color.r, color.g, color.b, 0.3))
+				else:
+					var faded := node_state(id) == "available" and kit.has(req)
+					draw_polyline(points, Color(color.r, color.g, color.b, 0.55 if faded else 0.2), 4.0 if faded else 3.0, true)
+		# nodes
 		for id: String in positions:
-			var node: Dictionary = kit.nodes[id]
-			var at: Vector2 = positions[id]
-			var state := node_state(id)
-			var branch_color: Color = CharacterScreen.BRANCH_COLORS.get(id.substr(0, 1), Color.WHITE)
-			var fill := Color(0.14, 0.1, 0.1)
-			var ring := branch_color
-			match state:
-				"learned":
-					fill = branch_color.darkened(0.35)
-				"available":
-					fill = Color(0.2, 0.14, 0.12)
-					ring = branch_color.lightened(0.25)
-				"locked":
-					ring = branch_color.darkened(0.55)
-				"excluded":
-					fill = Color(0.08, 0.06, 0.06)
-					ring = Color(0.35, 0.25, 0.25)
-			var half := CharacterScreen.NODE / 2.0
-			var shape := str(node.type)
-			if shape in ["active", "ultimate", "ki-mode", "starting"]:
-				draw_rect(Rect2(at - Vector2(half, half), Vector2(half * 2, half * 2)), fill)
-				draw_rect(Rect2(at - Vector2(half, half), Vector2(half * 2, half * 2)), ring, false, 4.0 if state == "available" else 3.0)
-			elif shape == "choice":
-				var diamond := PackedVector2Array([at + Vector2(0, -half - 6), at + Vector2(half + 6, 0), at + Vector2(0, half + 6), at + Vector2(-half - 6, 0)])
-				draw_colored_polygon(diamond, fill)
-				diamond.append(diamond[0])
-				draw_polyline(diamond, ring, 3.0)
-			else:
-				draw_circle(at, half, fill)
-				draw_arc(at, half, 0, TAU, 40, ring, 3.0, true)
-			if str(id) == screen.selected:
-				draw_arc(at, half + 12.0, 0, TAU, 40, Color("fff2c9"), 3.0, true)
-			var short := id if id != "T" else "KI"
-			draw_string(font, at + Vector2(-half, 8), short, HORIZONTAL_ALIGNMENT_CENTER, half * 2, 24, Color("fff4dc") if state != "locked" else Color(0.6, 0.5, 0.45))
-			var tag := str(node.name)
-			draw_string_outline(font, at + Vector2(-90, half + 24), tag, HORIZONTAL_ALIGNMENT_CENTER, 180, 14, 4, Color(0.05, 0.02, 0.02, 0.95))
-			draw_string(font, at + Vector2(-90, half + 24), tag, HORIZONTAL_ALIGNMENT_CENTER, 180, 14, Color("e9dcc5") if state != "locked" else Color(0.55, 0.47, 0.42))
-			if kit.has(id) and kit.rank(id) > 1:
-				draw_string(font, at + Vector2(half - 14, -half + 4), "×%d" % kit.rank(id), HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("ffe08a"))
-			if state == "locked" and int(node.minLevel) > kit.level:
-				draw_string(font, at + Vector2(-half, -half - 6), "lv %d" % int(node.minLevel), HORIZONTAL_ALIGNMENT_CENTER, half * 2, 14, Color("ff9a7a"))
+			draw_node(id, t)
 		draw_set_transform(Vector2.ZERO)
+
+	func draw_node(id: String, t: float) -> void:
+		var kit := screen.kit
+		var node: Dictionary = kit.nodes[id]
+		var at: Vector2 = positions[id]
+		var state := node_state(id)
+		var r := radius_of(id)
+		var color := branch_color(id)
+		var kind := str(node.type)
+		var pulse := 0.5 + 0.5 * sin(t * 3.0 + at.x * 0.01)
+		if state == "learned":
+			glow(at, r * (2.1 + 0.25 * pulse), color, 0.9)
+		elif state == "available":
+			glow(at, r * (1.8 + 0.4 * pulse), color.lightened(0.3), 0.7)
+		# diamond for exclusive choices, rays for ultimates and the KI mode
+		if kind == "choice":
+			var d := r + 14.0
+			var poly := PackedVector2Array([at + Vector2(0, -d), at + Vector2(d, 0), at + Vector2(0, d), at + Vector2(-d, 0)])
+			draw_colored_polygon(poly, Color(0.08, 0.05, 0.05, 0.95))
+			poly.append(poly[0])
+			draw_polyline(poly, color if state != "locked" else color.darkened(0.6), 4.0, true)
+		if kind in ["ultimate", "ki-mode"] and state != "locked":
+			for k in 12:
+				var a := TAU * float(k) / 12.0 + t * 0.35
+				draw_line(at + Vector2.from_angle(a) * (r + 10.0), at + Vector2.from_angle(a) * (r + 22.0 + 6.0 * pulse), Color(1.0, 0.85, 0.45, 0.8), 3.0, true)
+		draw_circle(at, r + 7.0, Color(0.05, 0.03, 0.03, 0.96))
+		var ring_color := color
+		match state:
+			"learned":
+				ring_color = color.lightened(0.2)
+			"locked":
+				ring_color = color.darkened(0.65)
+			"excluded":
+				ring_color = Color(0.4, 0.22, 0.22)
+		draw_arc(at, r + 5.0, 0, TAU, 56, ring_color, 6.0, true)
+		draw_arc(at, r + 1.0, 0, TAU, 56, Color(0.95, 0.8, 0.45, 0.85 if state != "locked" else 0.25), 2.0, true)
+		if kind in ["active", "ultimate", "ki-mode", "starting"]:
+			for k in 8:
+				var a2 := TAU * float(k) / 8.0 + PI / 8.0
+				draw_circle(at + Vector2.from_angle(a2) * (r + 7.0), 3.4, Color(1.0, 0.88, 0.55, 0.9 if state != "locked" else 0.25))
+		var tint := Color.WHITE
+		if state == "locked":
+			tint = Color(0.32, 0.3, 0.33, 1.0)
+		elif state == "excluded":
+			tint = Color(0.25, 0.2, 0.2, 1.0)
+		elif state == "available":
+			tint = Color(0.85 + 0.15 * pulse, 0.85 + 0.15 * pulse, 0.85 + 0.15 * pulse, 1.0)
+		var icon: Texture2D = icons.get(id)
+		if icon != null:
+			draw_texture_rect(icon, Rect2(at - Vector2(r, r), Vector2(r * 2.0, r * 2.0)), false, tint)
+		if str(id) == screen.selected:
+			for k in 10:
+				var a3 := TAU * float(k) / 10.0 - t * 0.9
+				draw_arc(at, r + 18.0, a3, a3 + 0.34, 8, Color("fff2c9"), 3.5, true)
+		if state == "excluded":
+			draw_line(at + Vector2(-r * 0.6, -r * 0.6), at + Vector2(r * 0.6, r * 0.6), Color(0.9, 0.3, 0.25, 0.9), 4.0, true)
+			draw_line(at + Vector2(r * 0.6, -r * 0.6), at + Vector2(-r * 0.6, r * 0.6), Color(0.9, 0.3, 0.25, 0.9), 4.0, true)
+		# labels
+		var tag := str(node.name)
+		draw_string_outline(title_font, at + Vector2(-100, r + 28.0), tag, HORIZONTAL_ALIGNMENT_CENTER, 200, 14, 6, Color(0.03, 0.02, 0.02, 0.95))
+		draw_string(title_font, at + Vector2(-100, r + 28.0), tag, HORIZONTAL_ALIGNMENT_CENTER, 200, 14, Color("f2e5c8") if state != "locked" else Color(0.55, 0.48, 0.43))
+		if state == "locked" and int(node.minLevel) > kit.level:
+			var plate := Rect2(at + Vector2(-26, -r - 28.0), Vector2(52, 20))
+			draw_rect(plate, Color(0.12, 0.05, 0.04, 0.92))
+			draw_rect(plate, Color(0.8, 0.45, 0.3, 0.9), false, 1.5)
+			draw_string(font, plate.position + Vector2(0, 15), "Lv %d" % int(node.minLevel), HORIZONTAL_ALIGNMENT_CENTER, 52, 14, Color("ffb08f"))
+		if kit.has(id) and kit.rank(id) > 0 and id != "R":
+			for k in mini(kit.rank(id), 5):
+				draw_circle(at + Vector2((float(k) - float(mini(kit.rank(id), 5) - 1) / 2.0) * 14.0, r + 40.0), 4.0, Color("ffd36a"))

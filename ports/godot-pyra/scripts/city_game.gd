@@ -17,6 +17,7 @@ var data: Dictionary          # first-trial city (capital layout, rooms, NPC she
 var hero: Dictionary
 var continent := PyraContinent.new()
 var kit: LegendKit
+var economy: PyraEconomy
 var player := PyraPlayer.new()
 var camera := Camera2D.new()
 var hud := PyraHud.new()
@@ -59,6 +60,16 @@ func _ready() -> void:
 	kit.foes_in = foes_in
 	kit.dash_towards = func(to: Vector2, distance: float) -> void: player.dash(to, distance)
 	kit.target = func() -> Node: return current_target
+	economy = PyraEconomy.new(PyraContinent.load_json("res://data/economy.json"))
+	economy.heal_callback = func(fraction: float) -> bool:
+		var top := float(kit.stats().maxHp)
+		if kit.hp >= top:
+			return false
+		kit.heal(top * fraction)
+		return true
+	economy.changed.connect(on_economy_changed)
+	economy.said.connect(func(text: String) -> void: hud.toast(text))
+	kit.changed.connect(func() -> void: economy.level = kit.level)
 	kit.effect.connect(on_effect)
 	kit.damage_dealt.connect(on_damage)
 	kit.said.connect(func(text: String) -> void: hud.toast(text))
@@ -78,6 +89,7 @@ func _ready() -> void:
 	hud.menu_requested.connect(show_menu)
 	hud.map_requested.connect(open_map)
 	hud.character_requested.connect(open_character)
+	hud.inventory_requested.connect(func() -> void: open_items("inventory", "Plecak i wyposażenie"))
 	hud.zoom_requested.connect(cycle_zoom)
 	hud.dialog_changed.connect(func(open: bool): player.locked = open or input_suspended)
 	build_capital()
@@ -336,18 +348,28 @@ func interact() -> void:
 		"npc":
 			var npc: Dictionary = target.definition
 			var actions := []
-			if target.get("service", "") == "inn":
-				actions.append({"text": "ODPOCZNIJ (HP i KI)", "callback": func(): kit.rest_fully(); hud.close_dialog(); hud.toast("Odpoczęto: HP i KI odnowione.")})
 			var service := str(target.get("service", ""))
+			var place := town_name(room_town) if room_town != "" else "Twierdza Popiołu"
+			match service:
+				"inn":
+					actions.append({"text": "ODPOCZNIJ (%d monet)" % PyraEconomy.INN_PRICE, "callback": rest_at_inn})
+				"shop":
+					actions.append({"text": "HANDEL: KUP / SPRZEDAJ", "callback": func(): hud.close_dialog(); open_items("shop", "Sklep · " + place)})
+				"smithy":
+					actions.append({"text": "KUŹNIA: WYTWARZANIE", "callback": func(): hud.close_dialog(); open_items("smithy", "Kuźnia · " + place)})
+				"depot":
+					actions.append({"text": "OTWÓRZ SKRZYNIĘ", "callback": func(): hud.close_dialog(); open_items("depot", "Depozyt · " + place)})
 			var extra := ""
-			if service == "shop" or service == "smithy" or service == "depot":
-				extra = "\n\n(Ta usługa nie jest jeszcze przeniesiona do wersji Godot: brak ekwipunku i handlu.)"
+			if service == "hall":
+				extra = "\n\n(Zadania Sali Przysięgi nie są jeszcze przeniesione do wersji Godot.)"
 			hud.show_dialog(str(npc.name) + " · " + str(npc.role), str(npc.dialogue) + extra, actions)
 		"landmark":
-			if target.id == "dummy":
+			if target.id == "chest":
+				open_items("depot", "Depozyt · " + (town_name(room_town) if room_town != "" else "Twierdza Popiołu"))
+			elif target.id == "dummy":
 				hud.show_dialog("Manekin treningowy", "Nie oddaje ciosów i nie płaci nagród. Użyj przycisku ATAK oraz zdolności z paska — pasek życia i liczby pokazują obrażenia. Po 4 s bez trafień manekin się leczy.")
 			else:
-				hud.show_dialog(str(target.name), "Punkt pochodzi z istniejącego miasta. Ekwipunek i depozyt przedmiotów będą przenoszone w kolejnym etapie.")
+				hud.show_dialog(str(target.name), "Punkt z istniejącego miasta.")
 		"place":
 			hud.show_dialog(str(target.name), "Znane miejsce Pyry. Odkrywanie lokacji i zadania będą przeniesione razem z mechaniką questów.")
 
@@ -419,6 +441,7 @@ func _physics_process(delta: float) -> void:
 	if is_instance_valid(screen):
 		return
 	kit.tick(delta)
+	economy.tick(delta)
 	player.speed = float(kit.stats().speed)
 	player.set_ki_form(kit.buff_active("T"))
 	if attack_held:
@@ -445,6 +468,7 @@ func _process(_delta: float) -> void:
 		hud.meter.text = ("Manekin: %d obrażeń/s · %d łącznie" % [int(dummy.recent_dps), int(dummy.total_taken)]) if dummy != null else ""
 	if current_room.is_empty():
 		hud.meter.text = ""
+	hud.gold = economy.gold
 	hud.refresh(kit)
 
 func camera_view() -> Rect2:
@@ -474,6 +498,10 @@ func _unhandled_input(event: InputEvent) -> void:
 				open_map()
 			KEY_C:
 				open_character()
+			KEY_I:
+				open_items("inventory", "Plecak i wyposażenie")
+			KEY_H:
+				economy.use("potion")
 			KEY_ESCAPE:
 				go_back()
 			KEY_F11:
@@ -541,13 +569,30 @@ func open_character() -> void:
 	view.setup(kit)
 	open_screen(view)
 
+func rest_at_inn() -> void:
+	var s := kit.stats()
+	var full := kit.hp >= float(s.maxHp) and kit.ki >= float(s.maxKi)
+	if economy.rest(full):
+		kit.rest_fully()
+		hud.close_dialog()
+
+func on_economy_changed() -> void:
+	kit.gear = economy.gear()
+	kit.refill_if_first()
+
+func open_items(mode: String, heading: String) -> void:
+	economy.level = kit.level
+	var view := ItemsScreen.new()
+	view.setup(economy, mode, heading)
+	open_screen(view)
+
 func show_menu() -> void:
 	if is_instance_valid(screen):
 		return
-	hud.show_dialog("KI LEGENDS — Pyra", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D i mapa 2D. POSTAĆ: statystyki i drzewko Legendy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. W świecie nie ma jeszcze potworów; manekin czeka na arenach miast.", [{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}])
+	hud.show_dialog("KI LEGENDS — Pyra", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D i mapa 2D. POSTAĆ: statystyki i drzewko Legendy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. W świecie nie ma jeszcze potworów; manekin czeka na arenach miast.", [{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET (brak potworów)", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}])
 
 func show_licenses() -> void:
-	hud.show_dialog("Godot i biblioteki silnika", Engine.get_license_text() + "\n\nTHIRD-PARTY LICENSES\n" + JSON.stringify(Engine.get_license_info(), "\t") + "\n\nCOPYRIGHT NOTICES\n" + JSON.stringify(Engine.get_copyright_info(), "\t") + "\n\nFONT CINZEL\n" + FileAccess.get_file_as_string("res://assets/branding/OFL-Cinzel.txt"))
+	hud.show_dialog("Godot i biblioteki silnika", Engine.get_license_text() + "\n\nTHIRD-PARTY LICENSES\n" + JSON.stringify(Engine.get_license_info(), "\t") + "\n\nCOPYRIGHT NOTICES\n" + JSON.stringify(Engine.get_copyright_info(), "\t") + "\n\nFONT CINZEL\n" + FileAccess.get_file_as_string("res://assets/branding/OFL-Cinzel.txt") + "\n\nOFFICIAL GODOT LOGO\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-NOTICE.txt") + "\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-LICENSE.txt"))
 
 # ---- save ------------------------------------------------------------------------------------
 
@@ -555,7 +600,7 @@ func save_checkpoint(path: String = SAVE_PATH) -> bool:
 	if checkpoint_protected or not can_stand(player.position, current_room):
 		hud.toast("Nie zapisano punktu; istniejący plik pozostaje zachowany.")
 		return false
-	var value := {"format": SAVE_FORMAT, "version": 2, "room": current_room, "town": room_town, "position": [player.position.x, player.position.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save()}
+	var value := {"format": SAVE_FORMAT, "version": 2, "room": current_room, "town": room_town, "position": [player.position.x, player.position.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save(), "economy": economy.to_save()}
 	var file := FileAccess.open(path + ".tmp", FileAccess.WRITE)
 	if file == null:
 		return false
@@ -598,6 +643,11 @@ func restore_checkpoint(path: String = SAVE_PATH) -> bool:
 		if not saved is Dictionary or not kit.from_save(saved):
 			checkpoint_protected = true
 			return false
+		var saved_economy = value.get("economy", null)
+		if saved_economy != null and (not saved_economy is Dictionary or not economy.from_save(saved_economy)):
+			checkpoint_protected = true
+			return false
+		economy.level = kit.level
 	city_return = back
 	load_space(room, at, str(value.get("town", "")))
 	return true

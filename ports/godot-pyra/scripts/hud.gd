@@ -4,6 +4,7 @@ extends Control
 signal menu_requested
 signal map_requested
 signal character_requested
+signal inventory_requested
 signal zoom_requested
 signal dialog_changed(open: bool)
 
@@ -19,6 +20,9 @@ var top_buttons: Array[Button] = []
 var menu_button: Button
 var map_button: Button
 var character_button: Button
+var inventory_button: Button
+var gold := 0
+var coin_icon: Texture2D = load("res://assets/icons/coin.webp")
 var zoom_button: Button
 var header: PanelContainer
 var notice_until := 0
@@ -74,6 +78,7 @@ func _ready() -> void:
 	add_child(status_canvas)
 	map_button = make_top_button("MAPA", func(): map_requested.emit())
 	character_button = make_top_button("POSTAĆ", func(): character_requested.emit())
+	inventory_button = make_top_button("PLECAK", func(): inventory_requested.emit())
 	zoom_button = make_top_button("ZOOM", func(): zoom_requested.emit())
 	menu_button = make_top_button("MENU", func(): menu_requested.emit())
 	outlined(hint, 21, Color("ffe8b4"))
@@ -105,9 +110,9 @@ func _ready() -> void:
 
 func make_top_button(text: String, callback: Callable) -> Button:
 	var button := make_button(text, callback)
-	button.custom_minimum_size = Vector2(130, 64)
-	button.size = Vector2(130, 64)
-	button.add_theme_font_size_override("font_size", 19)
+	button.custom_minimum_size = Vector2(120, 64)
+	button.size = Vector2(120, 64)
+	button.add_theme_font_size_override("font_size", 18)
 	add_child(button)
 	top_buttons.append(button)
 	return button
@@ -121,11 +126,11 @@ func _layout() -> void:
 	header.position = area.position + Vector2(18, 14)
 	status_rect = Rect2(header.position + Vector2(22, 100), Vector2(318, 82))
 	var x := area.end.x - 18.0
-	for button in [menu_button, zoom_button, character_button, map_button]:
-		x -= 130.0
+	for button in [menu_button, zoom_button, inventory_button, character_button, map_button]:
+		x -= 120.0
 		button.position = Vector2(x, area.position.y + 18)
-		button.size = Vector2(130, 64)
-		x -= 10.0
+		button.size = Vector2(120, 64)
+		x -= 8.0
 	hint.position = Vector2(area.get_center().x - 280, area.end.y - 62)
 	notice.position = Vector2(area.get_center().x - 310, area.position.y + 120)
 	meter.position = Vector2(area.end.x - 358, area.position.y + 92)
@@ -210,6 +215,11 @@ func draw_status(canvas: Control) -> void:
 	bar(canvas, Rect2(r.position + Vector2(0, 6), Vector2(r.size.x, 22)), kit.hp / float(s.maxHp), Color("c23b2b"), "HP %d / %d" % [int(ceil(kit.hp)), int(s.maxHp)])
 	bar(canvas, Rect2(r.position + Vector2(0, 31), Vector2(r.size.x, 22)), kit.ki / float(s.maxKi), Color("3977c9"), "KI %d / %d" % [int(kit.ki), int(s.maxKi)])
 	bar(canvas, Rect2(r.position + Vector2(0, 56), Vector2(r.size.x, 22)), kit.ember / 100.0, Color("e0832a") if kit.ember < 100.0 else Color("ffc24a"), kit.resource_label())
+	var coins := "%d mon." % gold
+	var coin_w := font.get_string_size(coins, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
+	canvas.draw_texture_rect(coin_icon, Rect2(r.position + Vector2(r.size.x - coin_w - 26, -17), Vector2(20, 20)), false)
+	canvas.draw_string_outline(font, r.position + Vector2(r.size.x - coin_w, -3), coins, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 5, Color(0.05, 0.02, 0.02, 0.95))
+	canvas.draw_string(font, r.position + Vector2(r.size.x - coin_w, -3), coins, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("ffd76a"))
 	var needed := LegendKit.xp_needed(kit.level)
 	canvas.draw_rect(Rect2(r.position + Vector2(0, 82), Vector2(r.size.x, 5)), Color(0.04, 0.025, 0.025, 0.9))
 	canvas.draw_rect(Rect2(r.position + Vector2(0, 82), Vector2(r.size.x * float(kit.xp) / float(needed), 5)), Color("b9d98d"))

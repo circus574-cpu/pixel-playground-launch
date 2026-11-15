@@ -1,12 +1,12 @@
 # KI Legends — dokumentacja projektu
 
-**Godot 4 / Android, 15.11 — wersja 0.3.0-pyra:** cały kontynent Pyry (65 600 × 42 304 j.),
-cztery miasta z wnętrzami, bohater +15 %, mapa 2D i globus 3D, Legenda ze statystykami,
-drzewkiem i zdolnościami (walka tylko na manekinie; bez potworów i spawnów). Gałąź
+**Godot 4 / Android, 15.11 — wersja 0.4.0-pyra:** wstęp z ilustracją właściciela, cały kontynent Pyry (65 600 × 42 304 j.),
+czterema miastami z działającymi usługami (sklep, kuźnia, depozyt, gospoda, plecak), bohater +15 %, mapa 2D i globus 3D,
+Legenda ze statystykami, ilustrowanym drzewkiem i zdolnościami (walka tylko na manekinie; bez potworów i spawnów). Gałąź
 `ccr-ebbd6459-n7c5eg`, kontynuacja PR #170; APK w
-`deliveries/godot-pyra-android-20261115-continent`; fizyczny telefon niezweryfikowany; bez
+`deliveries/godot-pyra-android-20261115-city`; fizyczny telefon niezweryfikowany; bez
 scalenia i zmian produkcji. [Osobna dokumentacja Android](../ports/godot-pyra/README.md),
-[zakres i wyniki](zmiany/2026-11-15/ZMIANY.md#13-android--godot-030-pyra-cały-kontynent-mapa-2d3d-i-legenda).
+[zakres i wyniki](zmiany/2026-11-15/ZMIANY.md#14-android--godot-040-pyra-wstęp-z-ilustracją-drzewko-z-oprawą-graficzną-miasto-na-gotowo).
 Wcześniejsza próba (jedno miasto, 0.1–0.2): PR #170, `feat/godot-pyra-android-20261115`.
 
 **Świat — przegląd, PR #154:** gotowa mapa administratora Superior v2, 10 lądów,

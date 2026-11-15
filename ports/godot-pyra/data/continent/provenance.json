@@ -1,6 +1,6 @@
 {
  "note": "Presentation data for the native port; geometry, collision and navigation are the published Superior v2 files, not regenerated.",
- "sourceBaseCommit": "da9eb46e45f2744ee70710121d65e1e79d281e8d",
+ "sourceBaseCommit": "424fd8dc227c3581d2f696f2a090987de91ed2cb",
  "sources": {
   "public/game/worlds/superior-v2/pyra/world.json": "d945f0260c44f73a58461f59b69b41796e6c068747d0d3660195a3fca4e3276c",
   "public/game/worlds/superior-v2/pyra/terrain.json": "4508e157a9706052d55511c04db0dbccfc25f90b556b7a7e60bb1e8b14996f9b",
@@ -21,6 +21,12 @@
   "docs/design/data/character-progression-1-20.json": "27665d288e4ecbf943c5cd1daa6eb8a256bc8317978b1886df512b6be0c17c9a",
   "src/game/kit/legend.ts": "2f350f29108247a31536b10c289da3fda3e1951e8e8e937345be651236d99e4c",
   "src/game/kit/base.ts": "62a20abe09972877384c361a631f9f9b3ce1d249abe5dee89f95e1e1997f70d0",
+  "docs/katalog-przedmiotow-v2/KI_LEGENDS_366_PRZEDMIOTOW_V2.json": "af9656cd94f5aa3873db3d9c4dcf51c7c5e5f738fc266dc55f5f04c1c1b847ff",
+  "src/game/items/loot.ts": "8e000081dc8669a494f808827baeabcc7977fea00e89bd815e241219f31fbf7a",
+  "src/game/items/recipes.ts": "03c0d461328b2915a360af13d5d1ceb711d4f5ab630587b4fbaf71d948127897",
+  "src/game/items/recipes.extra.ts": "410f419dbc52aa783ccbf1f62735465c695ad605bce2685f5e51b2ff31a92a95",
+  "src/game/items/catalog.ts": "663c97ca0eb18e871952e03e85a140cdd6521312648781f9a2b15122a9b02da8",
+  "ports/godot-pyra/assets/branding/intro-source.png": "fd6649ba8d296805fb1c99122314b6155c8f893a4ed945dbe3ecf64047faa560",
   "public/game/assets/gpu/pyra-continent-v2/1.0.0-55660ce18ae5/pack.json": "5f84ace4fc69f2ab51cdda276c961bbba89ea1032f34f89777f09036f2894452",
   "public/game/assets/gpu/hero-legend-walk-v3/3.3.0-e49f79991c2d/pack.json": "ec7a40b2799f2d4c1cbf725dcf3a54af72889afbfcdfcd098750c447a313bf4c"
  },
@@ -32,6 +38,7 @@
   "data/hero.json": "ca4dd9a1dafd0b08a3317b9411f4ac9de1d0496ab800e033cda66f9a79b5a6ee",
   "data/legend.json": "61d8e09bfabc124f5814e7d77aafb0e135f669aac42e62965f4f2d2ddc50542c",
   "data/map.json": "10dfe6dc93735fa7cfbd7e6da2193e4b8185ad7652d207946a5a0176c69484af",
+  "data/economy.json": "7bc81a7254d95cc7aacc6d501e550b2dd17a7ffb0a66f53a6442baba3d193cbb",
   "assets/continent/ctrl-biome.png": "24971770674d8d457c01cc9d0b346b455aa7b6988ae4ce54344e8ec7331ad6b5",
   "assets/continent/ctrl-land.png": "e9d3e024639f6811086badfe6a00b796317873c79ab88d1cf06f3e7ccb6722ca",
   "assets/continent/road-mask.png": "a91a11e0a7713892a890d9e08305d26bf21f9151da014a47c47bd155cc692c18",

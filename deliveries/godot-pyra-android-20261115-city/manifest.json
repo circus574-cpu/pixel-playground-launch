@@ -1,0 +1,19 @@
+{
+  "format": "ki-godot-pyra-delivery-1",
+  "scope": "whole Pyra continent, owner intro art, illustrated skill tree, city services (shop, smithy, depot, inn, inventory); no enemies or spawns",
+  "engine": "Godot 4.6.3",
+  "version": "0.4.0-pyra",
+  "versionCode": 4,
+  "androidPackage": "pl.kilegends.godot.pyra",
+  "applicationLabel": "KI LEGENDS",
+  "signing": "local debug certificate (same as 0.3.0-pyra delivery; differs from 0.2.0)",
+  "artifacts": {
+    "deliveries/godot-pyra-android-20261115-city/ki-legends-pyra-debug.apk": {
+      "bytes": 90977715,
+      "sha256": "c5feef71073cd0419bc225fa80ac23a9edcb116345af1699786dcf9e5bc2c2b4"
+    }
+  },
+  "physicalDeviceTest": "Not performed",
+  "previousDelivery": "deliveries/godot-pyra-android-20261115-continent",
+  "documentation": "ports/godot-pyra/README.md"
+}

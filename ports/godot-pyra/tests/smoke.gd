@@ -54,7 +54,7 @@ func run() -> void:
 	var landing: PyraTitleScreen = load(entry_path).instantiate()
 	root.add_child(landing)
 	await settle(5)
-	verify(landing.title.text == "KI LEGENDS" and landing.powered.text == "Powered by GODOT ENGINE", "actual entry scene displays brand and Godot credit")
+	verify(landing.intro.texture.resource_path == "res://assets/branding/intro.webp" and landing.intro.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_CENTERED and landing.powered_caption.text == "Powered by GODOT ENGINE" and landing.powered.texture.resource_path == "res://assets/branding/godot/logo-large-color-dark.svg", "entry scene shows the owner key art undistorted and the Powered by GODOT credit with the official logo")
 	verify(root.get_children().filter(func(n): return n is PyraGame).is_empty(), "city is not instantiated behind the title")
 	var config := ConfigFile.new()
 	config.load("res://export_presets.cfg")
@@ -341,6 +341,95 @@ func run() -> void:
 	await capture("character")
 	game.go_back()
 	await settle(2)
+	# ---- economy: coins, shop, equipment, potion, crafting, depot, inn, save --------------------------------
+	var eco: PyraEconomy = game.economy
+	eco.gold = 20
+	eco.bag = {}
+	eco.depot = {}
+	eco.depot_gold = 0
+	for slot in PyraEconomy.SLOTS:
+		eco.equipment[slot] = ""
+	kit.reset_tree()
+	kit.set_level(1)
+	game.on_economy_changed()
+	verify(eco.items.size() == 366 and eco.recipes.size() == 265 and eco.shop_ids.size() == 85, "catalogue: 366 items, 265 recipes, 85 weak items for sale")
+	verify(eco.buy_price("sword") == 200 and not eco.buy("sword") and eco.gold == 20, "shop price is 4x catalogue and needs the coins", eco.buy_price("sword"))
+	verify(not eco.buy("U-W01") and eco.buy_price("U-W01") == 0, "better gear is never sold by the merchant")
+	eco.gold = 500
+	verify(eco.buy("sword") and eco.gold == 300 and eco.count("sword") == 1, "buying spends coins and fills the bag")
+	var attack_before: int = kit.stats().attack
+	verify(eco.equip("sword") and kit.gear.attack == 8.0 and kit.stats().attack > attack_before and eco.count("sword") == 0, "equipping the sword raises attack", [attack_before, kit.stats().attack])
+	verify(not eco.equip("U-W01") and eco.count("U-W01") == 0, "cannot equip what is not owned")
+	eco.add_item("U-W01")
+	verify(not eco.equip("U-W01") and eco.count("U-W01") == 1, "equipment honours the level requirement", eco.required_level("U-W01"))
+	verify(eco.unequip("weapon") and eco.count("sword") == 1 and kit.gear.attack == 0.0, "unequip returns the item to the bag")
+	var gold_before := eco.gold
+	verify(eco.sell("sword") and eco.gold == gold_before + 25, "merchant buys back at half the catalogue price", eco.gold - gold_before)
+	eco.bag["potion"] = 2
+	kit.hp = 10.0
+	verify(eco.use("potion") and kit.hp > 10.0 and eco.count("potion") == 1, "potion heals", kit.hp)
+	verify(not eco.use("potion") and eco.count("potion") == 1, "potion cooldown blocks the second one")
+	eco.tick(7.0)
+	kit.hp = float(kit.stats().maxHp)
+	verify(not eco.use("potion") and eco.count("potion") == 1, "potion is not wasted at full HP")
+	var forge_recipe: Dictionary = eco.recipes_for(["forge"])[0]
+	verify(not eco.craft(forge_recipe) or forge_recipe.ingredients.is_empty(), "crafting needs the ingredients (or is free of them)")
+	eco.gold = 1000
+	kit.set_level(20)
+	var recipe: Dictionary = {}
+	for r: Dictionary in eco.recipes_for(["forge"]):
+		if int(r.requiredLevel) <= 20 and not r.ingredients.is_empty():
+			recipe = r
+			break
+	for ingredient: Dictionary in recipe.ingredients:
+		eco.add_item(str(ingredient.itemId), int(ingredient.count))
+	var result_before := eco.count(str(recipe.result))
+	var gold_craft := eco.gold
+	verify(eco.craft(recipe) and eco.count(str(recipe.result)) == result_before + int(recipe.count) and eco.gold == gold_craft - int(recipe.cost), "crafting consumes ingredients and coins and yields the result", recipe.name)
+	eco.bag["potion"] = 1
+	verify(eco.deposit("potion") and eco.count("potion") == 0 and int(eco.depot.potion) == 1 and eco.withdraw("potion") and eco.count("potion") == 1, "depot: bag to chest and back")
+	eco.gold = 300
+	verify(eco.move_gold(100, true) and eco.depot_gold == 100 and eco.gold == 200 and not eco.move_gold(500, false) and eco.move_gold(100, false) and eco.gold == 300, "depot keeps coins")
+	var coins := eco.gold
+	verify(not eco.rest(true) and eco.gold == coins and eco.rest(false) and eco.gold == coins - PyraEconomy.INN_PRICE, "inn charges 5 coins only when rest is needed")
+	eco.equipment["weapon"] = "sword"
+	eco.bag["potion"] = 2
+	eco.gold = 77
+	var saved := eco.to_save()
+	eco.gold = 1
+	eco.bag = {}
+	eco.equipment["weapon"] = ""
+	verify(eco.from_save(JSON.parse_string(JSON.stringify(saved))) and eco.gold == 77 and eco.equipment.weapon == "sword" and eco.count("potion") == 2, "economy survives a save round-trip")
+	var bad: Dictionary = JSON.parse_string(JSON.stringify(saved))
+	bad.equipment.head = "sword"
+	verify(not eco.from_save(bad) and eco.gold == 77, "a save with an item in the wrong slot is rejected unchanged")
+	eco.equipment["weapon"] = ""
+	game.on_economy_changed()
+	eco.gold = 400
+	for mode in ["shop", "depot", "smithy", "inventory"]:
+		game.open_items(mode, mode)
+		await settle(2)
+		var items_screen: ItemsScreen = game.screen
+		verify(is_instance_valid(items_screen) and items_screen.list_box.get_child_count() > 0, "items screen opens: " + mode)
+		if mode == "shop":
+			items_screen.select(eco.shop_ids[0])
+			await settle(2)
+			await capture("shop")
+		if mode == "smithy":
+			items_screen.select(str(eco.recipes_for(["forge"])[0].id))
+			await settle(2)
+			await capture("smithy")
+		if mode == "inventory":
+			eco.add_item("sword")
+			items_screen.select("sword")
+			await settle(2)
+			await capture("inventory")
+		game.go_back()
+		await settle(2)
+	eco.bag = {"potion": 3}
+	eco.gold = 20
+	game.on_economy_changed()
+
 	# ---- HUD layout -----------------------------------------------------------------------------------------
 	game.show_menu()
 	await settle()

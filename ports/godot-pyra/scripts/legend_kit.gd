@@ -37,6 +37,7 @@ var last_hit_at := -1000.0
 var in_combat_until := 0.0
 var was_in_combat := false
 var dead := false
+var gear: Dictionary = {}   # aggregated equipment bonuses (PyraEconomy.gear())
 
 # Port to the game world (set by PyraGame).
 var player_position: Callable = func() -> Vector2: return Vector2.ZERO
@@ -229,17 +230,20 @@ func stats(layer: int = 4) -> Dictionary:
 	var lv := float(level - 1)
 	var v := func(key: String) -> float: return float(base[key]) + float(per[key]) * lv
 	var m: Dictionary = mods() if layer >= 2 else {"atkPct": 0.0, "critAdd": 0.0, "defPct": 0.0, "hpPct": 0.0, "kiRegenPct": 0.0}
-	var atk_pct: float = float(m.atkPct) + (buff_sum("atkPct") if layer >= 3 else 0.0)
-	var def_pct: float = float(m.defPct) + (buff_sum("defPct") if layer >= 3 else 0.0)
-	var interval_pct := buff_sum("intervalPct") if layer >= 3 else 0.0
+	var g: Dictionary = gear if layer >= 3 else {}
+	var gv := func(key: String) -> float: return float(g.get(key, 0.0))
+	var atk_pct: float = float(m.atkPct) + (buff_sum("atkPct") if layer >= 4 else 0.0)
+	var def_pct: float = float(m.defPct) + (buff_sum("defPct") if layer >= 4 else 0.0)
+	var interval_pct := buff_sum("intervalPct") if layer >= 4 else 0.0
+	var speed_mult: float = float(g.get("speedMultiplier", 1.0)) * (1.0 + gv.call("moveSpeedPercent") / 100.0)
 	return {
-		"maxHp": round_half_up(v.call("hp") * (1.0 + float(m.hpPct))),
-		"maxKi": round_half_up(v.call("ki")),
-		"attack": maxi(1, round_half_up(v.call("attack") * (1.0 + atk_pct))),
-		"defense": maxi(0, round_half_up(v.call("defense") * (1.0 + def_pct))),
-		"speed": minf(MAX_MOVE_SPEED, float(base.speed) * speed_growth(level)),
-		"kiRegen": v.call("kiRegen") * (1.0 + float(m.kiRegenPct)),
-		"crit": v.call("criticalChancePercent") + float(m.critAdd) * 100.0,
+		"maxHp": round_half_up(v.call("hp") * (1.0 + float(m.hpPct)) * (1.0 + gv.call("maxHpPercent") / 100.0) + gv.call("hpBonus")),
+		"maxKi": round_half_up(v.call("ki") * (1.0 + gv.call("maxKiPercent") / 100.0) + gv.call("kiBonus")),
+		"attack": maxi(1, round_half_up(v.call("attack") * (1.0 + atk_pct) * (1.0 + gv.call("atkPercent") / 100.0) + gv.call("attack") * (1.0 + atk_pct))),
+		"defense": maxi(0, round_half_up(v.call("defense") * (1.0 + def_pct) * (1.0 + gv.call("defPercent") / 100.0) + gv.call("defense") * (1.0 + def_pct))),
+		"speed": minf(MAX_MOVE_SPEED, float(base.speed) * speed_growth(level) * speed_mult),
+		"kiRegen": (v.call("kiRegen") * (1.0 + float(m.kiRegenPct)) + gv.call("kiRegenBonus")) * (1.0 + gv.call("kiRegenPercent") / 100.0),
+		"crit": v.call("criticalChancePercent") + float(m.critAdd) * 100.0 + gv.call("critChancePoints"),
 		"attackInterval": maxf(200.0, float(base.attackIntervalMs) * (1.0 + interval_pct)),
 		"range": BASE_RANGE,
 	}
@@ -247,11 +251,12 @@ func stats(layer: int = 4) -> Dictionary:
 func stat_breakdown() -> Array:
 	var raw := stats(1)
 	var with_skills := stats(2)
+	var with_gear := stats(3)
 	var total := stats(4)
 	var rows := []
 	for item in [["maxHp", "Maksymalne HP"], ["maxKi", "Maksymalne KI"], ["attack", "Atak"], ["defense", "Obrona"], ["speed", "Szybkość ruchu"], ["kiRegen", "Regeneracja KI / s"], ["crit", "Szansa krytyczna %"], ["attackInterval", "Odstęp ataków (ms)"]]:
 		var k: String = item[0]
-		rows.append({"key": k, "label": item[1], "base": raw[k], "skills": float(with_skills[k]) - float(raw[k]), "effects": float(total[k]) - float(with_skills[k]), "total": total[k]})
+		rows.append({"key": k, "label": item[1], "base": raw[k], "skills": float(with_skills[k]) - float(raw[k]), "items": float(with_gear[k]) - float(with_skills[k]), "effects": float(total[k]) - float(with_gear[k]), "total": total[k]})
 	return rows
 
 # ---- time ------------------------------------------------------------------------------------
@@ -389,11 +394,12 @@ func use(id: String) -> Dictionary:
 	var def: Dictionary = nodes[id]
 	if cooldown_left(id) > 0.0:
 		return {"ok": false, "reason": "%s: odnowienie %.1f s." % [def.name, cooldown_left(id)]}
-	if ki < float(def.ki):
+	var cost := float(def.ki) * maxf(0.0, 1.0 - float(gear.get("kiCostReductionPercent", 0.0)) / 100.0)
+	if ki < cost:
 		return {"ok": false, "reason": "Za mało KI."}
 	var result := cast(id)
 	if result.ok:
-		ki -= float(def.ki)
+		ki -= cost
 		cooldowns[id] = float(def.cd)
 		in_combat_until = maxf(in_combat_until, now + 5.0)
 		changed.emit()
@@ -518,7 +524,7 @@ func dodge(direction: Vector2) -> Dictionary:
 func take_damage(amount: float) -> float:
 	if buff_active("dodge"):
 		return 0.0
-	var reduced := maxf(1.0, amount - float(stats().defense) * 0.5)
+	var reduced := maxf(1.0, amount * (1.0 - float(gear.get("damageReductionPercent", 0.0)) / 100.0) - float(stats().defense) * 0.5)
 	if reduced >= hp and buff_active("B9"):
 		remove_buff("B9")
 		hp = 1.0

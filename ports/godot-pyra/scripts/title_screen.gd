@@ -9,81 +9,101 @@ var city_instance: PyraGame
 var start_button := Button.new()
 var status := Label.new()
 var title := Label.new()
-var powered := Label.new()
+var powered := TextureRect.new()
+var powered_caption := Label.new()
 var content := VBoxContainer.new()
 var safe_root := Control.new()
 var active_pointer := -1
 var mouse_armed := false
 
+const BACKDROP_SHADER := """
+shader_type canvas_item;
+void fragment() {
+	// Soft, darkened copy of the key art fills the sides of a wide screen.
+	COLOR = vec4(textureLod(TEXTURE, UV, 5.0).rgb * 0.42, 1.0);
+}
+"""
+
+var intro := TextureRect.new()
+var backdrop := TextureRect.new()
+var floor_shade := TextureRect.new()
+
 func _ready() -> void:
 	get_tree().quit_on_go_back = false
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var background := TextureRect.new()
-	background.texture = load("res://assets/rooms/hall.webp")
-	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(background)
-	var shade := ColorRect.new()
-	shade.color = Color(0.025, 0.045, 0.065, 0.91)
-	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(shade)
+	var art: Texture2D = load("res://assets/branding/intro.webp")
+	backdrop.texture = art
+	backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	backdrop.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	var blur := ShaderMaterial.new()
+	var blur_shader := Shader.new()
+	blur_shader.code = BACKDROP_SHADER
+	blur.shader = blur_shader
+	backdrop.material = blur
+	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(backdrop)
+	# The owner's key art, whole and undistorted: it is the intro.
+	intro.texture = art
+	intro.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	intro.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	intro.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	intro.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(intro)
+	var gradient := Gradient.new()
+	gradient.set_color(0, Color(0.02, 0.035, 0.055, 0.0))
+	gradient.set_color(1, Color(0.02, 0.035, 0.055, 0.94))
+	var gradient_texture := GradientTexture2D.new()
+	gradient_texture.gradient = gradient
+	gradient_texture.fill_from = Vector2(0, 0)
+	gradient_texture.fill_to = Vector2(0, 1)
+	floor_shade.texture = gradient_texture
+	floor_shade.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	floor_shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(floor_shade)
 	add_child(safe_root)
 	safe_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	safe_root.add_child(content)
-	content.add_theme_constant_override("separation", 14)
-	content.alignment = BoxContainer.ALIGNMENT_CENTER
+	content.add_theme_constant_override("separation", 10)
+	content.alignment = BoxContainer.ALIGNMENT_END
 	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var crest := TextureRect.new()
-	crest.texture = load("res://assets/branding/icon.png")
-	crest.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	crest.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	crest.custom_minimum_size = Vector2(0, 110)
-	crest.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	content.add_child(crest)
-	title.text = "KI LEGENDS"
-	title.add_theme_font_override("font", load("res://assets/branding/cinzel-bold.ttf"))
-	title.add_theme_font_size_override("font_size", 72)
-	title.add_theme_color_override("font_color", Color("e5c98c"))
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	content.add_child(title)
-	var subtitle := Label.new()
-	subtitle.text = "CZTERY ŚWIATY. JEDNA LEGENDA."
-	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	subtitle.add_theme_font_size_override("font_size", 16)
-	subtitle.add_theme_color_override("font_color", Color("a6b9b4"))
-	content.add_child(subtitle)
-	var space := Control.new()
-	space.custom_minimum_size.y = 12
-	content.add_child(space)
+	status.text = "TWIERDZA POPIOŁU  ·  PODRÓŻ ZACZYNA SIĘ TUTAJ"
+	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	status.add_theme_font_size_override("font_size", 15)
+	status.add_theme_color_override("font_color", Color("e6dcc4"))
+	status.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.02, 0.95))
+	status.add_theme_constant_override("outline_size", 6)
+	content.add_child(status)
 	start_button.text = "WEJDŹ DO PYRY"
-	start_button.custom_minimum_size = Vector2(390, 96)
+	start_button.custom_minimum_size = Vector2(380, 78)
 	start_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	start_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	start_button.focus_mode = Control.FOCUS_NONE
-	start_button.add_theme_font_size_override("font_size", 24)
+	start_button.add_theme_font_override("font", load("res://assets/branding/cinzel-bold.ttf"))
+	start_button.add_theme_font_size_override("font_size", 25)
 	start_button.add_theme_color_override("font_color", Color("fff1ce"))
 	var button_style := StyleBoxFlat.new()
-	button_style.bg_color = Color("3a3021")
-	button_style.border_color = Color("c5a267")
-	button_style.set_border_width_all(2)
-	button_style.set_corner_radius_all(10)
+	button_style.bg_color = Color(0.16, 0.11, 0.07, 0.9)
+	button_style.border_color = Color("e0b96d")
+	button_style.set_border_width_all(3)
+	button_style.set_corner_radius_all(12)
 	start_button.add_theme_stylebox_override("normal", button_style)
 	start_button.add_theme_stylebox_override("disabled", button_style)
 	start_button.pressed.connect(start_city)
 	content.add_child(start_button)
-	status.text = "TWIERDZA POPIOŁU  ·  PODRÓŻ ZACZYNA SIĘ TUTAJ"
-	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	status.add_theme_font_size_override("font_size", 14)
-	status.add_theme_color_override("font_color", Color("b8b7af"))
-	content.add_child(status)
-	powered.text = "Powered by GODOT ENGINE"
-	powered.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	powered.add_theme_font_size_override("font_size", 18)
-	powered.add_theme_color_override("font_color", Color("c3d0cc"))
+	powered.texture = load("res://assets/branding/godot/logo-large-color-dark.svg")
+	powered.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	powered.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	powered.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	safe_root.add_child(powered)
+	powered_caption.text = "Powered by GODOT ENGINE"
+	powered_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	powered_caption.add_theme_font_size_override("font_size", 14)
+	powered_caption.add_theme_color_override("font_color", Color("d6e0dc"))
+	powered_caption.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.02, 0.95))
+	powered_caption.add_theme_constant_override("outline_size", 5)
+	safe_root.add_child(powered_caption)
 	resized.connect(_layout)
 	_layout()
 
@@ -95,10 +115,14 @@ func _layout() -> void:
 			area = (get_tree().root.get_screen_transform().affine_inverse() * Rect2(safe)).intersection(area)
 	safe_root.position = area.position
 	safe_root.size = area.size
-	content.size = Vector2(minf(720, area.size.x - 56), 520)
-	content.position = (area.size - content.size) / 2 - Vector2(0, 22)
-	powered.position = Vector2(0, area.size.y - 50)
-	powered.size = Vector2(area.size.x, 30)
+	floor_shade.position = Vector2(0, size.y - 300)
+	floor_shade.size = Vector2(size.x, 300)
+	powered.size = Vector2(150, 61)
+	powered.position = Vector2((area.size.x - 150) / 2, area.size.y - 70)
+	powered_caption.position = Vector2(0, powered.position.y - 22)
+	powered_caption.size = Vector2(area.size.x, 20)
+	content.size = Vector2(minf(560, area.size.x - 56), 150)
+	content.position = Vector2((area.size.x - content.size.x) / 2, powered_caption.position.y - 8 - content.size.y)
 
 func start_city() -> void:
 	if loading or is_instance_valid(city_instance):

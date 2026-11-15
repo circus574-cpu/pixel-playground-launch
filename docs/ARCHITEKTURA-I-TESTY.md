@@ -1330,3 +1330,7 @@ Brak potworów i spawnów. `tests/smoke.gd`: 158 kontroli, headless i natywnie. 
 `scripts/godot/prepare_continent_*.py`, `prepare_legend.py`, `tune_imports.py`, `write_provenance.py` (kolejność i
 polecenia w [README Android](../ports/godot-pyra/README.md#5-odtwarzanie-danych-i-grafiki)). Fizyczny telefon, FPS i pamięć
 urządzenia pozostają niezweryfikowane (pomiar desktopowy: 90–260 wywołań rysowania, ~133 MiB tekstur).
+
+**0.4.0-pyra (15.11):** wstęp z ilustracją właściciela, ilustrowane drzewko zdolności i usługi miast: `economy.gd` (monety, plecak,
+wyposażenie, sklep 4×, depozyt, gospoda, kuźnia) na danych `data/economy.json` z `scripts/godot/export-economy.ts`, ekran
+`items_screen.gd`. 181 kontroli w `tests/smoke.gd`. Szczegóły i ograniczenia: [dziennik 15.11, pkt 14](zmiany/2026-11-15/ZMIANY.md).

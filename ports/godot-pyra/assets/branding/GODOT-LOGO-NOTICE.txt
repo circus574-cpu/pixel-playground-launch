@@ -1,0 +1,8 @@
+Godot Engine logo
+Copyright Godot Engine contributors; Andrea Calabró.
+Official unmodified large horizontal color logo for dark backgrounds.
+Source: https://github.com/godotengine/godot-website/blob/9ff22d3a58cbe906d739b85d299dca7c0c78e1e8/assets/press/logo_large_color_dark.svg
+License: Creative Commons Attribution 4.0 International (CC BY 4.0).
+https://creativecommons.org/licenses/by/4.0/
+The SVG is distributed unchanged; displayed with proportional scaling only.
+License notice: GODOT-LOGO-LICENSE.txt

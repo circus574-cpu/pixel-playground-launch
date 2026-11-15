@@ -536,3 +536,65 @@ instalacją. (4) Nie dołączono ZIP-a projektu (cały projekt jest w repozytori
 odbywa się przy tworzeniu sceny i na telefonie może chwilę trwać), przycisk Wstecz i pinch-zoom na mapie (sam kod),
 Vitest mostu źródeł (brak `node_modules` w sesji; źródła nie zmienione), efekty otoczenia (dym, para), dekoracje „dress”
 przeglądarki, pozostałe usługi miast (sklep, kuźnia, depozyt), zdobywanie doświadczenia, pozostałe trzy kontynenty.
+### 13. Korekta: oryginalny logotyp Godot; oczekiwanie na plik ilustracji
+
+Właściciel odrzucił wygląd wstępu i wskazał konkretną ilustrację KI Legends.
+Napis silnika zastąpiono niezmienionym oryginalnym SVG z oficjalnego press kitu
+Godot. Boot splash jest teraz kompozycją oryginalnego logotypu na jednolitym tle;
+ekran startowy pokazuje „Powered by” oraz ten sam oryginalny logotyp. Dodano
+atrybucję CC BY 4.0, źródła/SHA oraz widok licencji. Test silnika sprawdza
+ścieżkę rzeczywistego SVG, zamiast porównywać sam napis.
+
+**Brakujący materiał:** ilustrację widać w wiadomości właściciela, lecz narzędzia
+nie otrzymały jej jako lokalnego pliku ani identyfikatora do pobrania. Sprawdzono
+załączniki, dostępne pliki i repozytoryjną okładkę. Dostępna okładka jest starszą
+wersją z „JUŻ WKRÓTCE” i nie jest tym samym obrazem. Zapytano o ścieżkę/link;
+do integracji dokładnego obrazu potrzebny jest jego plik. Nie zastąpiono go
+podobną wygenerowaną grafiką ani nie ogłoszono ukończenia nowego wstępu.
+
+Korektę logotypu sprawdzono w Godot headless i natywnym Compatibility:
+64/64 w każdym trybie; pełny TypeScript oraz most danych 6/6.
+Dowody są w `qa/godot-official-logo/`. Nie przygotowano kolejnego APK ze starym
+odrzuconym wstępem. Paczka 0.2.0 pozostaje historyczną dostawą; pełna poprawka
+i nowe APK wymagają pliku ilustracji. Bez scalenia i publikacji.
+
+### 14. Android / Godot 0.4.0-pyra: wstęp z ilustracją, drzewko z oprawą graficzną, miasto na gotowo
+
+Zlecenie właściciela: ilustracja ma być wstępem, na dole „Powered by GODOT”; drzewko umiejętności z lepszą oprawą graficzną;
+zacząć uzupełniać miasto Pyry „na gotowo”. Przy okazji scalono (zwykłym merge, bez przepisywania historii) commit
+`35f4b42a` z PR #170 (oficjalne logo Godot, licencja CC BY 4.0).
+
+- **Wstęp.** Ilustracja właściciela (1121 × 1403) jest ekranem startowym: cała, bez zniekształceń, na rozmytym i przyciemnionym
+  tle z tej samej grafiki; przycisk WEJDŹ DO PYRY nad stopką „Powered by GODOT ENGINE” z oficjalnym logo. Boot splash to ta sama
+  ilustracja z logo i napisem „POWERED BY”. Oryginał zostaje w repozytorium (`assets/branding/intro-source.png`, wyłączony z APK
+  filtrem eksportu), SHA w `intro-provenance.json`. Test ekranu startowego przepisano (stary sprawdzał napis „KI LEGENDS” w
+  etykiecie, który zastąpiła grafika).
+- **Drzewko.** Ikony zdolności to istniejące malowane ilustracje `legend-*` (29 węzłów, okrągła maska); ozdobne pierścienie
+  (aktywne z nacięciami, ostateczne z promieniami, wybory w rombach), poświata uczonych i dostępnych węzłów, połączenia
+  krzywe ze świecącym rdzeniem i biegnącymi iskrami dla poznanych ścieżek, tło z poświatą gałęzi i unoszącymi się żarami,
+  tytuły gałęzi krojem Cinzel, plakietki poziomu, zaznaczenie z obracającym się pierścieniem. Statystyki pokazują teraz źródła
+  (baza / drzewko / sprzęt / efekty).
+- **Miasto.** Zasady z `FABULA-I-EKWIPUNEK.md` (ekonomia 12.11): katalog 366 przedmiotów i 265 receptur eksportowany z TypeScriptu
+  (`scripts/godot/export-economy.ts`). Monety (start 20, jak w przeglądarce), plecak 40 stosów, 8 slotów wyposażenia (wpływ na
+  statystyki jak w `equipmentStats`: broń ustawia bazę ataku, reszta dodaje; procenty, krytyk, szybkość, redukcja obrażeń i
+  kosztu KI), **sklep** (85 słabych przedmiotów, cena = max(4 × katalog, 60 × poziom), skup za połowę), **kuźnia** (receptury
+  kuźni, alchemii i run: składniki + monety + poziom), **depozyt** (przedmioty i monety), **gospoda** (5 monet, bez opłaty przy pełnych
+  HP/KI), mikstura (40 % maks. HP, odnowienie 6 s). Jeden ekran usług i plecaka (`ItemsScreen`), przyciski PLECAK, klawisze I/H,
+  monety w HUD. Zapis checkpointu rozszerzono o ekonomię (ten sam format v2; starsze zapisy bez niej się wczytują).
+- **Zmiana zachowania względem 0.3.0:** gospoda nie leczy za darmo; HP/KI odnawiają się za 5 monet.
+
+**Decyzje i uproszczenia.** (1) Bez potworów monety nie mają źródła z walki: w MENU jest oznaczona „SAKIEWKA PRÓBNA +500 MONET”
+(do usunięcia razem z „poziomem próbnym”, gdy wejdą spawny). (2) Kuźnia Pyry oferuje stacje `forge`, `alchemy` i `runic`;
+`cyber_fabricator` (Nexus) i `projekt_ksiegi` nie są tu dostępne. Ograniczenie craftingu do stacji jest w repo nadal otwartą
+decyzją właściciela. (3) Efekty konsumowalnych poza mikstury życia nie są przeniesione (komunikat w grze). (4) Bonusy zestawów i
+pasywnych artefaktów z limitami (`computePassiveEquipmentBonuses`) nie są liczone; działają zwykłe statystyki przedmiotów.
+(5) Sala Przysięgi (zadania) bez zmian — poza zakresem tej partii.
+
+**Kontrole.** `tests/smoke.gd`: **181/181** headless i **181/181** z natywnym renderowaniem (23 nowe kontrole ekonomii i ekranów
+usług, wstęp). Zrzuty: `qa/godot-continent/` (`shop`, `smithy`, `inventory`, `character`, `title-*`). Eksport Linux z
+paczki uruchomiony dla sceny startowej i sceny gry (wstęp renderuje się z PCK). APK 0.4.0-pyra: 90 977 715 B, SHA-256
+`c5feef71073cd0419bc225fa80ac23a9edcb116345af1699786dcf9e5bc2c2b4` (`deliveries/godot-pyra-android-20261115-city`);
+podpis v2/v3, wyrównanie 16 KiB, pakiet/wersja sprawdzone.
+
+**Nie sprawdzono.** Fizyczny telefon; ekran usług przy dotykowym przewijaniu długich list (`ScrollContainer`, tylko mysz w
+testach); wygląd wstępu na ekranach o bardzo wąskim lub wysokim kadrze poza trzema testowanymi.
