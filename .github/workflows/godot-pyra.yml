@@ -47,7 +47,7 @@ jobs:
           import json, pathlib
           for mode in ['headless','native']:
               r=json.loads(pathlib.Path('godot-qa',mode,'result.json').read_text())
-              assert r['failed']==0 and r['checks']>=48, r
+              assert r['failed']==0 and r['checks']>=64, r
           for f in pathlib.Path('godot-qa').glob('*.txt'):
               assert 'SCRIPT ERROR:' not in f.read_text() and '\nERROR:' not in f.read_text(), str(f)
           assert list(pathlib.Path('godot-qa/native').glob('*.png'))

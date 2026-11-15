@@ -95,8 +95,45 @@ func run() -> void:
 		if args[i] == "--qa-output" and i+1 < args.size():
 			output = args[i+1]
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(output))
-	game = load("res://scenes/city.tscn").instantiate()
-	root.add_child(game)
+	var entry_path: String = ProjectSettings.get_setting("application/run/main_scene")
+	var landing: PyraTitleScreen = load(entry_path).instantiate()
+	root.add_child(landing)
+	await settle(5)
+	verify(landing.title.text == "KI LEGENDS" and landing.powered.text == "Powered by GODOT ENGINE", "actual entry scene displays brand and Godot credit")
+	verify(root.get_children().filter(func(n): return n is PyraGame).is_empty(), "city is not instantiated behind the title")
+	var config := ConfigFile.new()
+	config.load("res://export_presets.cfg")
+	verify(config.get_value("preset.0.options","launcher_icons/main_192x192","") == ProjectSettings.get_setting("application/config/icon"), "Android launcher and desktop use KI icon")
+	for viewport: Vector2i in [Vector2i(854,480),Vector2i(1280,720),Vector2i(1600,720)]:
+		root.size = viewport
+		await settle(5)
+		verify(Rect2(Vector2.ZERO,root.get_visible_rect().size).encloses(landing.start_button.get_global_rect()) and not landing.start_button.get_global_rect().intersects(landing.powered.get_global_rect()), "title layout and credit are separate: "+str(viewport))
+		await capture("title-%dx%d" % [viewport.x,viewport.y])
+	root.size = Vector2i(1280,720)
+	await settle(5)
+	var play_center := landing.start_button.get_global_rect().get_center()
+	touch(5,true,play_center)
+	touch(5,false,play_center,true)
+	verify(not landing.loading and landing.active_pointer == -1, "cancelled start touch does not load city")
+	touch(5,true,play_center)
+	landing.notification(MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	touch(5,false,play_center)
+	verify(not landing.loading, "focus loss disarms start button")
+	touch(5,true,play_center)
+	touch(7,false,play_center)
+	verify(not landing.loading and landing.active_pointer == 5, "other finger cannot activate start button")
+	touch(5,false,play_center)
+	landing.start_city()
+	verify(landing.loading and landing.start_button.disabled, "start touch loads city and rejects duplicate activation")
+	var load_deadline := Time.get_ticks_msec() + 15000
+	while is_instance_valid(landing) and Time.get_ticks_msec() < load_deadline:
+		await process_frame
+	game = root.get_children().filter(func(n): return n is PyraGame)[0] if root.get_children().any(func(n): return n is PyraGame) else null
+	verify(is_instance_valid(game) and root.get_children().filter(func(n): return n is PyraGame).size() == 1, "title hands off to exactly one playable city")
+	if not is_instance_valid(game):
+		quit(1)
+		return
+	verify(game.hud.touch.move_pointer == -1 and game.player.touch_motion == Vector2.ZERO, "start touch is not inherited by city controls")
 	await settle(5)
 	verify(game.data.name == "Twierdza Popiołu" and game.data.buildings.size() == 6 and game.data.npcs.size() == 8,"production capital: six buildings, eight NPCs")
 	verify(game.player.speed == float(game.data.speed),"movement speed comes from the owner race base",game.player.speed)

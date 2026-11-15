@@ -1,0 +1,11 @@
+{
+  "sourceAndOutputHashes": "PASS",
+  "adaptiveSafeCircle": "PASS",
+  "monochrome": "PASS",
+  "apkCrc": "PASS",
+  "exportedDensityIcons": "PASS",
+  "fontLicenseBundled": "PASS",
+  "nativeTitleBundled": "PASS",
+  "version": "0.2.0-pyra",
+  "physicalAndroid": "UNVERIFIED"
+}

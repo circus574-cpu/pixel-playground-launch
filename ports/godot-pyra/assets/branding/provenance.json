@@ -1,0 +1,18 @@
+{
+  "method": "Existing KI favicon adapted for Android masks; Cinzel WOFF2 converted to TTF without glyph changes; boot splash composed from same mark and live title text.",
+  "sourceFiles": {
+    "public/ki-favicon.svg": "9d651e3841702c6a643970d295a8d6f76edce1cb23b91cdd414e5b8941b2605e",
+    "public/game/fonts/cinzel-latin-700-normal.woff2": "8efa224fe70fef188a39c095e218b81fd31061809f2752537e33a9ec7b9c2263",
+    "public/game/fonts/OFL-Cinzel.txt": "f5a242cf68ad6ebd0603b3359a74c593ca080318a681035be5296ba2c6b04ae6"
+  },
+  "outputFiles": {
+    "ports/godot-pyra/assets/branding/OFL-Cinzel.txt": "f5a242cf68ad6ebd0603b3359a74c593ca080318a681035be5296ba2c6b04ae6",
+    "ports/godot-pyra/assets/branding/boot-splash.png": "c458bad735dfb39ada89d4a21f0f2560cd833557bfaa3637d788cd75e331a235",
+    "ports/godot-pyra/assets/branding/cinzel-bold.ttf": "8e8dd90cf2078bf296215a60c4041283a0fad48182638732db39b5258a919751",
+    "ports/godot-pyra/assets/branding/icon-background.png": "be2b39c7666696ddc6b20b7cc2cb989130561f9501c45a9046fce6a090a50959",
+    "ports/godot-pyra/assets/branding/icon-foreground.png": "8f29d7901f50009842cdbf3120567c749863bdb0480bdfce00798ff4d2957e2f",
+    "ports/godot-pyra/assets/branding/icon-monochrome.png": "3fb8c04d00cfcd0e5f92497b6b8fd384c8e46920bd8e61e008cc0d52b791173f",
+    "ports/godot-pyra/assets/branding/icon.png": "ebcb38f37fdfd4998af38775c172e6bc6c2f8bc667afdafe433f0b05123bff9a"
+  },
+  "fontLicense": "SIL Open Font License 1.1; full text in OFL-Cinzel.txt"
+}

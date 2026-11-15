@@ -1304,3 +1304,15 @@ osobno uruchamiany jest X11 + llvmpipe Compatibility z obrazami z viewportu siln
 Workflow `godot-pyra.yml` odtwarza obie próby i publikuje materiały QA; nie wdraża gry.
 Fizyczny Android, sterownik telefonu, faktyczna instalacja i zużycie baterii/RAM
 pozostają **niezweryfikowane**. [Raport, APK i dowody](zmiany/2026-11-15/ZMIANY.md).
+
+**Ekran startowy i ikona, wersja 0.2.0-pyra:** sceną startową jest teraz
+`scenes/title.tscn`, ze znakiem KI, tytułem KI LEGENDS i napisem
+„Powered by GODOT ENGINE”. Przycisk uruchamia istniejące miasto przez ładowanie
+zasobu w tle; podwójna aktywacja, cancel i utrata fokusu nie uruchamiają dodatkowej
+sceny. Dotyk jest zwalniany przed przekazaniem sterowania. Android ma własne
+ikony standardową, adaptacyjną i monochromatyczną, z istniejącego faviconu KI.
+Nazwa launchera: KI LEGENDS, kod wersji 2, pakiet i klucz debug bez zmian.
+Cinzel pochodzi z obecnego repo, z dołączonym OFL i dostępem w menu licencji.
+Testy rozszerzono do 64/64 headless oraz 64/64 natywnie. Pierwszy APK zachowano;
+nowa dostawa jest w `deliveries/godot-pyra-android-20261115-title`.
+[Instrukcja Android](../ports/godot-pyra/README.md).

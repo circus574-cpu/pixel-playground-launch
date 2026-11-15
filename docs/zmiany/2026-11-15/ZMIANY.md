@@ -426,3 +426,60 @@ Sprawdzono odnośniki, kompletność i CRC ZIP-a, zgodność manifestów i zacho
 SHA APK; uruchomiono kontrolę dokumentacji, pełny TypeScript i sześć testów mostu.
 Fizyczny Android pozostaje niezweryfikowany. Zmiany na tej samej osobnej gałęzi
 i w PR #170, bez scalenia lub publikacji.
+
+### 12. Android — ekran KI LEGENDS, napis Godot i własne ikony
+
+Na polecenie właściciela powstał rzeczywisty ekran startowy Godot:
+znak KI, tytuł KI LEGENDS, istniejące wnętrze Pyry w tle,
+przycisk **WEJDŹ DO PYRY** i napis **Powered by GODOT ENGINE**.
+Ten sam branding jest w boot splash. Scena startowa to `scenes/title.tscn`,
+obsługiwana przez `scripts/title_screen.gd`; miasto ładuje się dopiero po
+zatwierdzeniu. Nie dubluje się po szybkim dotykaniu. Cancel, utrata fokusu
+i dotknięcie drugim palcem nie zatwierdzają przycisku; dotyk nie przechodzi
+na joystick. Nie zmieniono ruchu, geometrii, checkpointu ani gry WWW.
+
+Android ma nazwę **KI LEGENDS** i ikony standardową, adaptacyjną oraz
+monochromatyczną. Adaptacyjny znak mieści się w bezpiecznym kole launchera.
+Zachowano znak z `public/ki-favicon.svg`; Cinzel pochodzi z dotychczasowego repo,
+jest przekonwertowany do TTF z pełnym OFL w APK i w menu licencji.
+Skrypt `scripts/godot/prepare_branding.py` odtwarza pliki i zapisuje ich pochodzenie.
+Nie użyto nowych zewnętrznych ilustracji, usług generowania ani podów GPU.
+
+#### Nowa paczka 0.2.0-pyra
+
+- [APK z ekranem startowym i ikoną](../../../deliveries/godot-pyra-android-20261115-title/ki-legends-pyra-debug.apk),
+  **47 117 009 bajtów**, SHA-256
+  `7adb4d2f3dc59d3bc927a69adfb6f1a4133b60748076f50853311cc13621899d`.
+- [Projekt Godot z instrukcją](../../../deliveries/godot-pyra-android-20261115-title/ki-legends-pyra-godot-project.zip).
+- [Manifest nowej dostawy](../../../deliveries/godot-pyra-android-20261115-title/manifest.json).
+
+Kod wersji 2; pakiet `pl.kilegends.godot.pyra` i prywatny klucz debug są takie same,
+aby umożliwić aktualizację pierwszego APK. Poprzednią dostawę zachowano w jej
+katalogu; nie nadpisano oryginalnych paczek ani ich dowodów.
+
+#### Dowody i wyniki
+
+- Godot headless **64/64**, natywny Compatibility przez Mesa llvmpipe **64/64**.
+  W obu próbach uruchamiana jest rzeczywista scena startowa, następnie całe
+  wcześniejsze sprawdzenia miasta, NPC, wnętrz, kolizji, dotyku i checkpointu.
+- Tytuł i przycisk sprawdzono przy **854×480, 1280×720 i 1600×720**.
+  Scena miasta powstaje tylko raz, a joystick startuje bez przejętego palca.
+- Pełny TypeScript aplikacji/e2e/tools PASS; testy mostu danych **6/6 PASS**.
+- Podpis APK v2/v3, CRC, wyrównanie 16 KiB, nazwa aplikacji i wersja PASS.
+  Sprawdzono rzeczywiste obrazy ikon w wariantach gęstości APK oraz obecność
+  sceny, skryptu startowego i OFL. Brak żądanych uprawnień sieci/pamięci zewnętrznej.
+- Eksport samodzielnego programu Linux uruchamia nowy ekran z zapakowanych zasobów
+  i kończy się bez błędów silnika. Fizyczny Android pozostaje **niezweryfikowany**.
+
+[Wyniki](qa/godot-pyra-title/acceptance.json),
+[headless](qa/godot-pyra-title/headless-results.json),
+[render natywny](qa/godot-pyra-title/native-results.json),
+[ekran startowy 1280×720](qa/godot-pyra-title/title-1280x720.png),
+[ekran startowy 854×480](qa/godot-pyra-title/title-854x480.png),
+[ikona aplikacji](qa/godot-pyra-title/icon.png),
+[kontrola brandingu APK](qa/godot-pyra-title/branding-checks.json),
+[SHA wejść](qa/godot-pyra-title/source-inputs.json),
+[SHA dowodów](qa/godot-pyra-title/evidence-sha256.json).
+
+Workflow Godot wymaga teraz co najmniej 64 zaliczonych kontroli bez błędów.
+PR #170 pozostaje osobnym Draft; brak scalenia i publikacji.

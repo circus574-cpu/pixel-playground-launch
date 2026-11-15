@@ -18,6 +18,7 @@ pozostaje osobnym produktem. Nie przeniesiono całego kontynentu ani całej gry.
 | Budynki | Sala, sklep, arena, kuźnia, depozyt, gospoda; sześć wnętrz i powroty |
 | NPC | Osiem postaci ze źródłowymi nazwami i tekstami rozmów |
 | Interfejs | Interakcja, dialogi, menu, safe area i poziomy układ ekranu |
+| Start i ikona | Ekran KI LEGENDS, „Powered by GODOT ENGINE”, wejście do Pyry, ikony Android |
 | Zapis | Lokalny checkpoint pozycji, pomieszczenia i miejsca powrotu do miasta |
 | Licencje silnika | Pełne informacje Godot i bibliotek w menu aplikacji |
 
@@ -28,32 +29,32 @@ systemów. Miasto jest bezpieczne i nie zawiera przeciwników.
 
 ## 2. Instalacja gotowego APK
 
-[APK Android ARM64](https://github.com/circus574-cpu/pixel-playground-launch/raw/refs/heads/feat/godot-pyra-android-20261115/deliveries/godot-pyra-android-20261115/ki-legends-pyra-debug.apk)
-ma **46 783 250 bajtów**. Wymaga Androida 7.0 lub nowszego i obsługi `arm64-v8a`.
+[APK Android ARM64](https://github.com/circus574-cpu/pixel-playground-launch/raw/refs/heads/feat/godot-pyra-android-20261115/deliveries/godot-pyra-android-20261115-title/ki-legends-pyra-debug.apk)
+ma **47 117 009 bajtów**. Wymaga Androida 7.0 lub nowszego i obsługi `arm64-v8a`.
 Nie jest paczką dla emulatora x86 ani telefonu wyłącznie 32-bitowego.
 
 1. Pobierz APK na telefon.
 2. Otwórz plik i zezwól użytej aplikacji na instalowanie pobranych APK, jeżeli
    Android o to poprosi. Nie wyłączaj Play Protect.
-3. Uruchom **KI Legends Pyra — próba Godot** i obróć telefon poziomo.
+3. Uruchom **KI LEGENDS**, obróć telefon poziomo i wybierz **WEJDŹ DO PYRY**.
 4. Lewym kciukiem poruszaj postacią, prawym wybieraj interakcję przy NPC lub drzwiach.
 
 Alternatywnie, z komputera po włączeniu debugowania USB i zatwierdzeniu połączenia:
 
 ```sh
 adb devices
-adb install -r deliveries/godot-pyra-android-20261115/ki-legends-pyra-debug.apk
+adb install -r deliveries/godot-pyra-android-20261115-title/ki-legends-pyra-debug.apk
 ```
 
-Identyfikator aplikacji: `pl.kilegends.godot.pyra`. Wersja `0.1.0-pyra`, kod 1,
+Identyfikator aplikacji: `pl.kilegends.godot.pyra`. Wersja `0.2.0-pyra`, kod 2,
 min SDK 24, target SDK 36, orientacja `USER_LANDSCAPE`, renderer OpenGL ES 3.
 APK jest podpisany certyfikatem debug; nie jest wydaniem Google Play.
 Nie żąda internetu ani uprawnień do pamięci zewnętrznej.
 
-SHA-256 niezmienionego APK:
+SHA-256 aktualnego APK z ekranem startowym:
 
 ```text
-39d152bc4d0b595320e1273004c10b71a747993872693464e886893c34c114ed
+7adb4d2f3dc59d3bc927a69adfb6f1a4133b60748076f50853311cc13621899d
 ```
 
 **Instalacja i wydajność na fizycznym Androidzie pozostają niezweryfikowane.**
@@ -65,7 +66,7 @@ Wymagany **Godot 4.6.3 Standard**, bez .NET. Projekt używa renderera Compatibil
 Node i Python nie są potrzebne do uruchomienia gotowych zasobów.
 
 - Z pełnego repozytorium: zaimportuj `ports/godot-pyra/project.godot`.
-- Z [ZIP-a projektu](https://github.com/circus574-cpu/pixel-playground-launch/raw/refs/heads/feat/godot-pyra-android-20261115/deliveries/godot-pyra-android-20261115/ki-legends-pyra-godot-project.zip): rozpakuj i zaimportuj `godot-pyra/project.godot`.
+- Z [ZIP-a projektu](https://github.com/circus574-cpu/pixel-playground-launch/raw/refs/heads/feat/godot-pyra-android-20261115/deliveries/godot-pyra-android-20261115-title/ki-legends-pyra-godot-project.zip): rozpakuj i zaimportuj `godot-pyra/project.godot`.
 - Poczekaj na import tekstur, następnie uruchom projekt klawiszem **F5**.
 
 Polecenia poniżej zakładają katalog główny pełnego repozytorium. W samodzielnym
@@ -81,6 +82,7 @@ i nie oznacza bezpiecznego resetu danych; zapis z menu nadal może zapisać now�
 
 | Czynność | Komputer | Android |
 | --- | --- | --- |
+| Wejście z ekranu startowego | Enter / Spacja / przycisk | Przycisk WEJDŹ DO PYRY |
 | Ruch | WASD / strzałki | Lewy joystick |
 | Rozmowa / drzwi | E / Spacja / przycisk interakcji | Prawy przycisk interakcji |
 | Zamknięcie dialogu / wyjście / menu | Esc | Wstecz / elementy HUD |
@@ -93,6 +95,7 @@ i nie oznacza bezpiecznego resetu danych; zapis z menu nadal może zapisać now�
 | --- | --- |
 | `project.godot` | Scena startowa, Compatibility, fizyka 60 Hz, skalowanie, katalog zapisu |
 | `scenes/city.tscn` | Punkt wejścia sceny |
+| `scenes/title.tscn`, `scripts/title_screen.gd` | Ekran startowy i ładowanie miasta po zatwierdzeniu |
 | `scripts/city_game.gd` | Budowanie miasta i wnętrz, kolizje, interakcje, checkpoint |
 | `scripts/player.gd` | CharacterBody2D, ruch i wejście klawiatury/joysticka |
 | `scripts/actor_view.gd` | Klatki, kierunki, kotwice, lustrzane animacje |
@@ -102,6 +105,7 @@ i nie oznacza bezpiecznego resetu danych; zapis z menu nadal może zapisać now�
 | `data/city.generated.json` | Dane lokalne czytane przez runtime |
 | `data/provenance.json` | Pochodzenie i SHA-256 źródeł oraz tekstur |
 | `assets/` | Osobne podłoże, obiekty, postacie i oryginalne wnętrza |
+| `assets/branding/` | Znak KI, ikony Android, boot splash, Cinzel i pełna licencja OFL |
 | `tests/smoke.gd` | Integracyjne próby w rzeczywistym silniku |
 | `export_presets.cfg` | Eksport Android ARM64 i pomocniczy Linux x86_64 |
 
@@ -115,7 +119,7 @@ Wycinek ma 2562×2390 jednostek. `sourceWorld.superiorOffset` zachowuje przesuni
 do układu Superiora. Kolizje pochodzą z danych, nie z przezroczystości obrazu.
 Wnętrza zachowują kontrakt `cityRoom` i rozmiar 1920×1280.
 
-Projekt zawiera 44 tekstury, w tym 16 kafli podłoża do 512×512 px.
+Sama scena miasta zawiera 44 tekstury, w tym 16 kafli podłoża do 512×512 px.
 Arkusze postaci mają najwyżej 2048×2048 px. Szacunek aktywnych tekstur zewnętrznych
 to 75,05 MiB RGBA, **bez** UI, viewportu, silnika i alokacji przejściowych.
 Nie jest to całkowite zużycie RAM. Pełny kontynent wymaga osobnego streamingu
@@ -130,9 +134,10 @@ narzędzi mostu. `sharp` z zależności repo jest używany przy źródłowych SV
 ```sh
 npm ci
 python3 -m venv .venv-godot
-.venv-godot/bin/python -m pip install Pillow
+.venv-godot/bin/python -m pip install Pillow 'fonttools[woff]'
 npx tsx scripts/godot/export-pyra-source.ts
 .venv-godot/bin/python scripts/godot/prepare_pyra.py
+.venv-godot/bin/python scripts/godot/prepare_branding.py
 godot --headless --editor --path ports/godot-pyra --import
 npx vitest run src/test/godot-pyra-export.test.ts
 ```
@@ -142,6 +147,14 @@ przyciętych atlasów, origin/mirrored oraz kafle podłoża. Nie generuje nowego
 ani ilustracji zastępującej scenę. Ponowienie na nowszym commicie może zmienić dane;
 sprawdź diff, pochodzenie i testy przed zaakceptowaniem wyniku.
 Nie edytuj ręcznie plików `*.generated.json`, aby obejść rozbieżność kontraktów.
+
+`prepare_branding.py` adaptuje istniejący `public/ki-favicon.svg` i konwertuje
+repozytoryjny Cinzel z WOFF2 do TTF. Wymaga `fonttools[woff]` (w tym Brotli).
+Nie tworzy nowej grafiki świata. `assets/branding/provenance.json` zapisuje SHA
+źródeł i wyników. Pełny OFL jest w paczce i dostępny w menu licencji.
+Boot splash i interaktywny ekran startowy zawierają napis „Powered by GODOT ENGINE”.
+Miasto powstaje dopiero po zatwierdzeniu przycisku, z ochroną przed wielokrotnym
+uruchomieniem i przejęciem dotyku startowego przez sterowanie gry.
 
 ## 6. Budowanie Androida
 
@@ -211,6 +224,14 @@ Na commicie **`01ff5f91d571d2b408c07374298a869065bcfb79`**:
 - Sześć testów Vitest sprawdza zgodność eksportu z rzeczywistymi źródłami.
 - Próby obejmują ruch, kontakt z kolizją, dwa palce i cancel, rozmowy, sześć wnętrz,
   powroty, checkpoint i nowszy format, limity 30/120 FPS oraz trzy poziome viewporty.
+
+Wersja **0.2.0-pyra** rozszerza tę samą regresję do **64/64** w każdym trybie.
+Dodatkowe próby obejmują rzeczywistą scenę startową, trzy rozmiary ekranu, cancel,
+utratę fokusu, dwa palce, pojedyncze ładowanie i brak dotyku odziedziczonego przez
+miasto. APK sprawdzono pod kątem ikon dla gęstości Androida, koła bezpiecznego
+ikony adaptacyjnej, monochromu, podpisu, wyrównania i dołączonej licencji.
+Nowe dowody są w `docs/zmiany/2026-11-15/qa/godot-pyra-title/`; starsze 52/52
+oraz pierwszy APK pozostają w swoim pierwotnym katalogu.
 
 [Raport, zrzuty i nagranie z silnika](https://github.com/circus574-cpu/pixel-playground-launch/tree/feat/godot-pyra-android-20261115/docs/zmiany/2026-11-15/qa/godot-pyra).
 Workflow `.github/workflows/godot-pyra.yml` wykonuje import, headless i render natywny;

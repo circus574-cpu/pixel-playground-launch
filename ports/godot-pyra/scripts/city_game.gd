@@ -212,7 +212,7 @@ func show_menu() -> void:
 	hud.show_dialog("Próba miasta Pyry", "WASD lub joystick: ruch. E / prawy przycisk: rozmowa i wejścia. Esc / Android Wstecz: zamknięcie lub wyjście z budynku. To lokalny prototyp miasta, bez konta i bez postępu z gry przeglądarkowej.", [{"text":"ZAPISZ POZYCJĘ PRÓBY", "callback":func(): save_checkpoint(); hud.close_dialog()}, {"text":"LICENCJE SILNIKA", "callback":show_licenses}])
 
 func show_licenses() -> void:
-	hud.show_dialog("Godot i biblioteki silnika", Engine.get_license_text() + "\n\nTHIRD-PARTY LICENSES\n" + JSON.stringify(Engine.get_license_info(), "\t") + "\n\nCOPYRIGHT NOTICES\n" + JSON.stringify(Engine.get_copyright_info(), "\t"))
+	hud.show_dialog("Godot i biblioteki silnika", Engine.get_license_text() + "\n\nTHIRD-PARTY LICENSES\n" + JSON.stringify(Engine.get_license_info(), "\t") + "\n\nCOPYRIGHT NOTICES\n" + JSON.stringify(Engine.get_copyright_info(), "\t") + "\n\nFONT CINZEL\n" + FileAccess.get_file_as_string("res://assets/branding/OFL-Cinzel.txt"))
 
 func can_stand(at: Vector2, room: String) -> bool:
 	var bounds := rectangle(data.bounds) if room.is_empty() else Rect2(0,0,float(data.rooms[room].width),float(data.rooms[room].height))
