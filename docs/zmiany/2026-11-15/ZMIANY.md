@@ -48,6 +48,7 @@ Gracz to bot Playwright, który naciska prawdziwe klawisze (WASD, Spacja, Q, E, 
 link z e-maila → „Konto aktywne” i zalogowanie → wybór rasy z biografią → wejście do gry. Działa.
 
 **Wynik (konto Gracz1, Planetarni, 12:01–13:04, 63 min):**
+
 - poziom 6, 199/400 XP; łącznie ok. 1300 XP (z zadań i zabójstw), ok. 4 zgony (po 10% postępu XP, odrodzenie po 3 s w mieście,
   bez utraty przedmiotów ani złota);
 - czasy poziomów: poz. 2 po 2,2 min, 3 po +4,7, 4 po +1,6, 5 po +9 (z 11 min przestoju bota), 6 po +4,2 min; potem
@@ -62,6 +63,7 @@ link z e-maila → „Konto aktywne” i zalogowanie → wybór rasy z biografi�
 - koniec: 19 monet, 3 mikstury, brak pancerza (Kamizelka podróżnika 25 monet nie wyszła przez brak monet).
 
 **Co ujawnił test:**
+
 - **Błąd „Podejdź do rynku”** (pkt 2) zrywał sesję każdemu, kto kliknął przycisk samouczka. Naprawiony.
 - **Utrata połączenia z serwerem gry 2 razy w 63 min** (12:33 i 13:00): ekran „Utracono połączenie… Ponów próbę”,
   po kliknięciu gra wraca z postacią nienaruszoną. Przyczyna **niewyjaśniona**: dev-proxy Vite zgłosił `write ECONNRESET`;
@@ -127,6 +129,7 @@ animacje”, ale można go włączyć). **Jeśli globus nadal nie reaguje na prz
 przeglądarkę i system; to byłaby inna przyczyna niż ta, którą znalazłem.**
 
 **3 i 4. Mniej obiektów, spawny na wolnych polach, ścieżki do spawnów.**
+
 - **Roślinność:** `sceneryThinning.ts` zostawia deterministycznie (po haszu pozycji) 30% drzew, 30% krzewów, 50% skał i
   40% kryształów bez kolizji; obiekty z footprintem kolizji zostają zawsze, więc nawigacja i zapisy są bez zmian.
   Działa na dekoracjach z chunków i na warstwach roadside, dress i scatter. W grze licznik obiektów na ekranie spadł z
@@ -153,6 +156,7 @@ Testy: `open-fields.test.ts` na prawdziwych danych (spawny przejezdne, ≥96% z 
 w zasięgu 97% spawnów), `scenery-thinning.test.ts`.
 
 **5. Mapa 2D: kwadraty i łączenia.** Dwie osobne przyczyny:
+
 - **Kwadraty przy przybliżeniu (zoom od ok. 300%):** nakładka wysokiej rozdzielczości składa się z komórek 16×12
   na ląd; generator dopasowuje do każdej afiniczne przekształcenie z trzech dokładnych rogów, a czwarty zgaduje.
   Sąsiednie komórki nie zgadzały się co do wspólnej krawędzi o średnio 2–3 j. atlasu (kwantyl 90%: 5–15 j.), czyli
@@ -187,6 +191,7 @@ blokowania gry. Gałąź `feat/przewodniczka-rozmowy` (bez scalenia i publikacji
 w świat, a HUD wyłączał mikstury i umiejętności.
 
 **Rozwiązanie.**
+
 - **Rozmowa w świecie:** NPC mówi dymkami nad głową (scena Phaser, stały rozmiar na ekranie), kolejne kwestie same, w
   tempie czytania. Wybory (zadanie, nagroda, dostawy, plotki, „Do zobaczenia”) są w pasku przy dolnej krawędzi bez tła i
   bez blokady (`NpcTalk`). Napisy dla czytników ekranu są w obszarze `aria-live`, a nie na ekranie, żeby nie dublować dymka.
@@ -211,6 +216,7 @@ w świat, a HUD wyłączał mikstury i umiejętności.
   [Architektura i testy](../../ARCHITEKTURA-I-TESTY.md#rozmowy-w-świecie-i-oprowadzanie--15112026).
 
 **Kontrole.**
+
 - Nowe testy: `talk-tour` (czas czytania, kierunki, głosy, plan trasy dla wszystkich 16 miast z prawdziwych danych świata
   v2, zachowanie `TourDirector`), `talk-engine` (oprowadzanie w czterech stolicach, zapamiętanie, przerwanie, pauza,
   przechwycenie kliknięcia, dymki), `npc-talk-ui` (HUD). Zaktualizowane: `session` (rozmowa nie zatrzymuje gry, odejście
@@ -244,3 +250,67 @@ w świat, a HUD wyłączał mikstury i umiejętności.
 uruchamiano); telefon i dotyk (układ paska i pigułki sprawdzono tylko na pulpicie); automatyczna trasa w miastach poza
 pierwszym (jest na żądanie); pierścień przy drzwiach nie jest na minimapie; zapamiętanie ukończenia jest w przeglądarce
 (czyszczenie danych witryny powtórzy trasę); okna handlu i kuźni nadal są oknami (decyzja właściciela, czy też je zastąpić).
+
+### 9. Napisy w świecie bez teł, wejścia do budynków i otwieranie łupu
+
+Uwagi właściciela po obejrzeniu pierwszej wersji (cytaty): „Napisy mają być ładne, w ogóle to wygląda jak napisane w
+Wordzie. W stylu ładnym jakimś trzeba wymyślić”; „Napisy mają być bez tła”; „Napisy nad budynkami tak samo tragedia”;
+„To też ma zniknąć z tym tłem” (ciemny prostokąt komunikatu z opisem budynku na zrzucie); „Napisy nie mogą być wszędzie
+teraz”; „Zbieranie łupu ma być na zasadzie otwarcia i ma być mały HUD, co było w dropie”; „Wejścia do budynków mają mieć
+jakiś punkt do wejścia, na ziemi jakiś efekt, żeby było widać, że to wejście”. Ta sama gałąź `feat/przewodniczka-rozmowy`
+(bez scalenia i publikacji).
+
+**Diagnoza.** Napisy w scenie miały domyślne kroje (Arial, a nazwy budynków w Phaserze nawet Courier) i prostokątne tła
+(dymek, nazwy w mieście v1, napis wyjścia); komunikaty HUD miały ciemne ramki. Nazwy wszystkich budynków świeciły naraz
+(kilkanaście napisów na ekranie), dwa dymki mogły mówić jednocześnie, a nad bohaterem cały czas wisiało „Ty · …”. Łup z
+jednego przeciwnika był kilkoma osobnymi wpisami w tym samym miejscu, podnoszonymi po jednym (każdy z komunikatem).
+Wejście do budynku było ledwo widoczną owalną plamką 90 × 30 jedn.
+
+**Rozwiązanie.**
+
+- **Krój i styl (`src/game/typography/`).** Cinzel Bold (nazwy budynków i postaci, znaczniki, liczby obrażeń) i Alegreya
+  SemiBold Italic (mowa w dymkach), obie na licencji SIL OFL 1.1, podzbiory latin i latin-ext (polskie znaki), pliki w
+  `public/game/fonts/` razem z tekstami licencji. Jeden moduł (`worldText.ts`) daje style wszystkim napisom w scenie:
+  ciepła kremowa litera, ciemnobrązowy obrys i miękki cień, **bez tła, ramki i dopełnienia** (test pilnuje tego dla
+  każdego rodzaju napisu). Kroje ładują się równolegle z grafiką (`loadWorldFonts`); napisy zmierzone krojem zapasowym są
+  po załadowaniu przeliczane. Napisy w interfejsie (komunikaty gry, nazwa rozmówcy, notatki zadań, napis oprowadzania)
+  mają ten sam krój i obrys w CSS (`world-text.css`); przyciski zostają przyciskami.
+- **Mniej napisów naraz.** Nazwa budynku jest pełna w 750 jedn. od bohatera i gaśnie płynnie do zera w 1250 jedn.
+  (te same progi dla miasta v2 i v1), ma stały rozmiar na ekranie niezależnie od przybliżenia. Na ekranie jest jeden dymek
+  naraz (ostatnia kwestia). Własnej nazwy bohatera („Ty · …”) nie rysujemy (jest w panelu gracza); nazwy innych graczy
+  zostają. Stos komunikatów i celu startuje pod napisem „Oprowadzanie” (wcześniej na siebie zachodziły).
+- **Wejścia (`world/entranceMarker.ts`).** Na ziemi przy drzwiach: złoty krąg światła 176 × 62 jedn. (×1,3) z falą
+  rozchodzącą się od środka, dwie strzałki wędrujące w stronę budynku i kilka iskier; przy bohaterze świeci mocniej, z
+  daleka słabiej. Sortowane po Y razem z obiektami (drzewo z przodu zasłania, fasada budynku nie). Dotyczy miasta v2 i v1.
+- **Otwieranie łupu.** Wszystko z jednego przeciwnika to jeden łup (`Loot.drop`): jeden woreczek na ziemi (większy,
+  kołysze się, świeci w kolorze najcenniejszego przedmiotu), jedno działanie „Otwórz łup” (przycisk, klawisz F, kliknięcie
+  w świat; z daleka bohater najpierw dochodzi). Otwarcie zabiera całość, co mieści się w plecaku, i wszystkie monety,
+  odtwarza rozbłysk z iskrami i zapisuje zawartość w `lootReceipt` (przedmioty, ilości, rzadkość, które zostały bez
+  miejsca). Mały panel obok bohatera (`LootHud`, bez tła): ikona, nazwa w kolorze rzadkości, ilość, moneta i wiersz
+  „Monety +N”; pozycja bez miejsca jest przekreślona z dopiskiem „brak miejsca” i zostaje w łupie (monety wypłacają się
+  tylko raz, reszta do wzięcia po zrobieniu miejsca). Gaśnie sam po 4,2 s plus 0,45 s na pozycję. **Zmiana zachowania:**
+  wcześniej monety z wpisu, którego przedmiot nie mieścił się w plecaku, też zostawały w łupie do czasu zrobienia miejsca.
+  Protokół poleceń bez zmian (`{type:"loot", id}`); `lootReceipt` jedzie w migawce widoku, więc działa też online.
+
+**Kontrole.**
+
+- Nowe testy: `loot-drop` (cały łup jednym otwarciem, numer otwarcia, brak miejsca i jednorazowa wypłata monet, daleki łup,
+  migawka), `loot-hud` (panel i jego czas życia, brak powtórki łupu sprzed zamontowania, przycisk „Otwórz łup” w HUD),
+  `world-text` (żaden napis nie ma tła, kroje, progi zanikania, stały rozmiar), jeden test w `monsters` (zabity potwór
+  zostawia jeden łup w jednym punkcie). Zaktualizowane: `session`, `catalog-loot`, `monsters` (pole `drop`), e2e
+  `three-races-pve` (nazwa przycisku). Pełny zestaw: 2185 testów przechodzi; 2 testy `development-etap1-assets` nie
+  przechodzą **wyłącznie** dlatego, że `art/production/development/v001` nie jest w tym częściowym checkoucie (pliki są
+  śledzone przez git). Typecheck trzech konfiguracji: czysto. ESLint: 0 błędów, bez nowych ostrzeżeń.
+- Przeglądarka (Chromium, SwiftShader, DPR 2, gra lokalna v2): krój i obrys na dymku, nazwach budynków i rozmówcy, znacznik
+  wejścia przy drzwiach Domu Treningu, komunikat „Wybierz cel.” bez ramki, pełny obieg łupu: pokonany przeciwnik, jeden
+  woreczek `drop-1`, otwarcie przyciskiem, panel „Łup: Mchowa galaretka ×1, 2 monet”. Pomiar układu (1280×720, 844×390,
+  390×844): stos komunikatów pod napisem oprowadzania, bez kolizji. Zrzuty: `qa/typografia/`.
+
+**Nie sprawdzono / otwarte:** wygląd na telefonie i w trybie online (zmiany są wspólne z `GameSession`, ale nie
+uruchamiano ich na żywo); panel łupu na telefonie (CSS jest, nie mierzono); wiersz „brak miejsca” jest sprawdzony
+testem, nie w grze; znacznik wejścia widać słabiej, gdy drzewo stoi przed drzwiami (np. Depozyt Korzeni; to rozmieszczenie
+dekoracji, nie znacznika); napisy ścieżek rozwoju (`development/heritage`, `trials`, `examRuntime`: etykiety i tytuły, wcześniej
+z ciemnymi plakietkami) dostały ten sam styl bez tła, ale nie były oglądane w przeglądarce; plansza z zapisami świadków
+(tekst na rysowanej tabliczce) i panel debugowania `MultiplayerWorldOverlay` zostały bez zmian; własna nazwa bohatera
+jest schowana (łatwo ją przywrócić). Napisy w wnętrzach miasta v1 (tytuł, „Wyjście do miasta”) przepisane, ale nie obejrzane,
+bo świat v1 w tym środowisku się nie otwiera (jak w punkcie 8).

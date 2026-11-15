@@ -502,6 +502,25 @@ describe("status effects on the player", () => {
 });
 
 describe("loot, materials and progression", () => {
+  it("everything one monster drops is a single drop opened with one action", () => {
+    const g = arena("android", () => 0);
+    const drone = put(g, "nexus-dron-zwiadowca", 60, 0);
+    g.monsters.damage(drone, 1e6, { tags: ["electric"] });
+    expect(g.loot.length).toBeGreaterThan(1);
+    expect(new Set(g.loot.map((l) => l.drop)).size).toBe(1);
+    // wszystko leży w jednym punkcie: jeden woreczek na ziemi, nie sypialnia drobiazgów
+    expect(new Set(g.loot.map((l) => l.x + "," + l.y)).size).toBe(1);
+    const gold = g.player.gold;
+    const expectedGold = g.loot.reduce((sum, l) => sum + l.gold, 0);
+    const expectedLines = g.loot.filter((l) => l.quantity > 0).length;
+    g.command({ type: "loot", id: g.loot[g.loot.length - 1]!.id });
+    expect(g.loot).toHaveLength(0);
+    expect(g.player.gold).toBe(gold + expectedGold);
+    expect(g.lootReceipt?.lines).toHaveLength(expectedLines);
+    expect(g.lootReceipt?.lines.every((l) => l.kept)).toBe(true);
+    expect(g.lootReceipt?.gold).toBe(expectedGold);
+    expect(g.snapshot().lootReceipt).toBe(g.lootReceipt);
+  });
   it("monster loot becomes materials; the merchant buys them; stacks cap at 99", () => {
     const g = arena("android", () => 0);
     g.player.hp = g.kit.stats.maxHp;
@@ -515,7 +534,15 @@ describe("loot, materials and progression", () => {
     expect(Object.keys(g.player.materials).length).toBeGreaterThan(0);
     const id = Object.keys(g.player.materials)[0]!;
     g.player.materials[id] = 99;
-    g.loot.push({ id: "x", x: g.player.x, y: g.player.y, item: id, quantity: 1, gold: 0 });
+    g.loot.push({
+      id: "x",
+      x: g.player.x,
+      y: g.player.y,
+      item: id,
+      quantity: 1,
+      gold: 0,
+      drop: "drop-x",
+    });
     g.command({ type: "loot", id: "x" });
     expect(g.player.materials[id]).toBe(99);
     expect(g.loot.some((l) => l.id === "x")).toBe(true);

@@ -70,8 +70,11 @@ import "./adventure.css";
 import "./game-messages.css";
 import "./hud-layout.css";
 import { npcNameCase } from "../../game/npcNames";
+import { LootHud } from "./LootHud";
 import "./manga-hud.css";
 import "./hud-v2-landscape.css";
+import "./world-text.css";
+import "../../game/typography/fonts.css";
 
 type Props = {
   authoritative?: boolean;
@@ -1226,12 +1229,13 @@ export function GameHud({
           )}
           {state.nearbyLoot[0] && (
             <button onClick={() => onCommand({ type: "loot", id: state.nearbyLoot[0]!.id })}>
-              Podnieś łup <kbd>{keyLabel(keys.loot)}</kbd>
+              Otwórz łup <kbd>{keyLabel(keys.loot)}</kbd>
             </button>
           )}
         </div>
       )}
 
+      <LootHud receipt={state.lootReceipt} />
       {player.dead && (
         <div className="ki-death-overlay" role="status">
           Zostałeś pokonany · odrodzenie za chwilę

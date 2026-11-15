@@ -123,6 +123,20 @@
   outline-offset: 1px;
 }
 
+/* Stos komunikatów i celu zaczyna się pod napisem oprowadzania, żeby ich nie zakrywać. */
+.ki-hud:has(.ki-tour) .ki-status-stack {
+  top: 186px;
+}
+@media (max-width: 760px), (max-height: 500px) and (max-width: 1100px) {
+  .ki-hud:has(.ki-tour) .ki-status-stack {
+    top: 130px;
+  }
+}
+@media (max-height: 500px) {
+  .ki-hud:has(.ki-tour) .ki-status-stack {
+    top: 120px;
+  }
+}
 @media (max-width: 760px), (max-height: 500px) and (max-width: 1100px) {
   .ki-tour {
     /* Na wąskim ekranie górna lewa strona jest zajęta (panel gracza, akcje): pigułka idzie na dół, na środek. */

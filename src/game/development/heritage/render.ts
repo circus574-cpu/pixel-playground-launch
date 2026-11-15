@@ -5,6 +5,7 @@ import type { ProjectView } from "./projects";
 import type Phaser from "phaser";
 import type { GameSession, GameViewState } from "../../session";
 import { distance } from "../../navigation";
+import { worldTextStyle } from "../../typography/worldText";
 
 /** Small world contacts, culled and reused; no permanent overlay over the play area. */
 export class HeritageMarkers {
@@ -58,12 +59,7 @@ export class HeritageMarkers {
           .ellipse(0, 0, 28, 14, 0xdcc786, 0.22)
           .setStrokeStyle(2, 0xe9ce85, 0.8);
         const label = this.scene.add
-          .text(0, -22, target.label, {
-            fontSize: "13px",
-            color: "#ffe3a0",
-            backgroundColor: "#10242bd9",
-            padding: { x: 4, y: 2 },
-          })
+          .text(0, -22, target.label, worldTextStyle("tag", { color: "#ffe3a0" }))
           .setOrigin(0.5, 1);
         object = this.scene.add
           .container(target.point.x, target.point.y, [ring, label])
@@ -141,11 +137,7 @@ export class HeritageMarkers {
           .lineBetween(0, -10, 0, 10)
           .lineBetween(-24, -10, 24, -10);
         const label = this.scene.add
-          .text(0, -68, t.name, {
-            fontSize: "12px",
-            color: "#f4e0b5",
-            backgroundColor: "#15262bcc",
-          })
+          .text(0, -68, t.name, worldTextStyle("tag", { color: "#f4e0b5" }))
           .setOrigin(0.5, 1);
         object = this.scene.add.container(t.x, t.y, [graphic, label]).setDepth(t.y);
         this.practiceObjects.set(t.id, object);
@@ -213,11 +205,7 @@ export class HeritageMarkers {
           .strokePath();
         this.protectionHealth = this.scene.add.graphics();
         const label = this.scene.add
-          .text(0, -68, "Węzeł ochronny", {
-            fontSize: "12px",
-            color: "#ffe3a0",
-            backgroundColor: "#10242bd9",
-          })
+          .text(0, -68, "Węzeł ochronny", worldTextStyle("tag", { color: "#ffe3a0" }))
           .setOrigin(0.5, 1);
         this.protectionObject = this.scene.add.container(node.x, node.y, [
           symbol,
@@ -334,12 +322,12 @@ export class HeritageMarkers {
     }
     object.add(
       this.scene.add
-        .text(0, 25, view.name + (view.done ? " · odbudowano" : " · prace"), {
-          fontSize: "12px",
-          color: "#ecd3a3",
-          backgroundColor: "#13242cc9",
-          padding: { x: 3, y: 2 },
-        })
+        .text(
+          0,
+          25,
+          view.name + (view.done ? " · odbudowano" : " · prace"),
+          worldTextStyle("tag", { color: "#ecd3a3" }),
+        )
         .setOrigin(0.5, 0),
     );
     return object;

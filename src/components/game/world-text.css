@@ -1,0 +1,110 @@
+/*
+ * Napisy bez tła. Komunikaty gry, nazwa rozmówcy, notatki rozmowy i znacznik trasy leżą wprost na świecie:
+ * krój i obrys są te same co w napisach rysowanych przez scenę (src/game/typography/worldText.ts), a czytelność
+ * daje ciemny obrys z miękkim cieniem, nie prostokąt. Przyciski zostają przyciskami: to elementy sterowania.
+ */
+:root {
+  --ki-ink: #1b1109;
+  /* Obrys z ośmiu cieni + miękki cień pod spodem: działa w każdej przeglądarce, bez -webkit-text-stroke. */
+  --ki-ink-shadow:
+    0 0 2px var(--ki-ink), 1.5px 0 0 var(--ki-ink), -1.5px 0 0 var(--ki-ink),
+    0 1.5px 0 var(--ki-ink), 0 -1.5px 0 var(--ki-ink), 1.1px 1.1px 0 var(--ki-ink),
+    -1.1px 1.1px 0 var(--ki-ink), 1.1px -1.1px 0 var(--ki-ink), -1.1px -1.1px 0 var(--ki-ink),
+    0 2px 7px #000000cc;
+  --ki-font-display: "Ki Cinzel", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --ki-font-speech: "Ki Alegreya", "Palatino Linotype", Georgia, "Times New Roman", serif;
+}
+
+/* Komunikaty gry (szyna powiadomień): sama kursywa z obrysem, bez ramki i tła. */
+.ki-hud .ki-notification-rail .ki-game-message {
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: #fff6dc;
+  font-family: var(--ki-font-speech);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  text-shadow: var(--ki-ink-shadow);
+}
+.ki-hud .ki-notification-rail .ki-game-message p {
+  padding: 4px 0 4px 2px;
+}
+.ki-hud .ki-notification-rail .ki-game-message button {
+  color: #ffe9a8;
+  font-family: var(--ki-font-display);
+  font-style: normal;
+  opacity: 0.7;
+  text-shadow: var(--ki-ink-shadow);
+}
+.ki-hud .ki-notification-rail .ki-game-message button:hover,
+.ki-hud .ki-notification-rail .ki-game-message button:focus-visible {
+  opacity: 1;
+  background: none;
+}
+/* Ostrzeżenie o zapisie nie może zginąć, więc zostaje w ciepłym, jaskrawszym kolorze. */
+.ki-hud .ki-notification-rail .ki-game-message.ki-save-warning {
+  background: none;
+  border: 0;
+  color: #ffd493;
+}
+
+/* Starszy układ: komunikat nad paskiem akcji. */
+.ki-hud .ki-notice {
+  background: none;
+  border: 0;
+  box-shadow: none;
+  color: #fff6dc;
+  font-family: var(--ki-font-speech);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 17px;
+  text-shadow: var(--ki-ink-shadow);
+}
+
+/* Rozmowa: nazwa i rola rozmówcy oraz notatki o zadaniach. */
+.ki-talk .ki-talk-who {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: #ffe9a8;
+  font-family: var(--ki-font-display);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-shadow: var(--ki-ink-shadow);
+}
+.ki-talk .ki-talk-who small {
+  font-family: var(--ki-font-speech);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0;
+  color: #fff6dc;
+  opacity: 1;
+}
+.ki-talk .ki-talk-note {
+  background: none;
+  padding: 0 4px;
+  color: #ffe9a8;
+  font-family: var(--ki-font-speech);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 15px;
+  text-shadow: var(--ki-ink-shadow);
+}
+
+/* Oprowadzanie: numer punktu to napis, tylko „Pomiń” jest przyciskiem. */
+.ki-hud .ki-tour {
+  background: none;
+  border: 0;
+  padding-left: 0;
+  color: #ffe9a8;
+  font-family: var(--ki-font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-shadow: var(--ki-ink-shadow);
+}

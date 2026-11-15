@@ -6,7 +6,6 @@ są zintegrowane z istniejącą grą. Rozwój v4, klasyczny zapis v11, Superior 
 [Wyniki i ograniczenia odbioru](zmiany/2026-11-12/ZMIANY.md).
 Niżej zachowano wcześniejsze checkpointy; ich liczby opisują ówczesny stan.
 
-
 **Domykanie rozwoju — 48/48 kontrolerów prób, 144 stopnie (11.11):** dodano
 pozostałe sześć prób Legend: obciążenie, przełamania, fale, ratunek i odwrót.
 Odblokowania i walidacja zapisu korzystają ze wspólnego rejestru. Tytuły czterech
@@ -104,7 +103,6 @@ odbiór kampanii. Budżet katalogowy Mędrców nadal jest o 1350 mniejszy niż 1
 nie oznacza to pomiaru osiągalności. Kolejna dziedzina: Pamięć (TA10–TA12).
 [Dowody, wyniki i ograniczenia](zmiany/2026-11-05/ZMIANY.md#skupienie-mędrców--ta07ta08ta09).
 
-
 ## Bariery Mędrców — kontynuacja PR #90, 04.11
 
 TA04/TA05/TA06 odpowiadają §7.5 zlecenia właściciela z 28.10.
@@ -142,7 +140,6 @@ praktyki z prób; wcześniejsza teoretyczna suma wynosi 15 100, wciąż o 2700 m
 niż 17 800. Osiągalność/balans pełnej kampanii nie są jeszcze potwierdzone.
 [Dowody i ograniczenia](zmiany/2026-11-04/ZMIANY.md#bariery-mędrców--ta04-ta05-ta06).
 
-
 ## Opieka Planetarnych — kontynuacja PR #90, 04.11
 
 TV07/TV08/TV09 implementują §6.5 specyfikacji właściciela. Zapas wymaga wybrania
@@ -172,7 +169,6 @@ i 5400 praktyki z prób; wcześniejszy teoretyczny budżet sumuje się do 17 800
 To nie potwierdza jeszcze pełnej osiągalności i balansu kampanii ani tytułu
 Strażnika Żywych Szlaków. Interakcje dziedzin poza salą i tytuły pozostają otwarte.
 [Kontrole i granice odbioru](zmiany/2026-11-04/ZMIANY.md#opieka--tv07-tv08-tv09).
-
 
 ## Szlaki Planetarnych — kontynuacja PR #90
 
@@ -225,7 +221,6 @@ Planetarni mogą zdobyć z 6 prób 2700 praktyki; przy poprzednich założeniach
 katalogowego nadal brakuje 2700 do 17 800. Inne rasy pozostają na 3 próbach/1350,
 z wcześniejszym niedoborem 4050. Nie jest to jeszcze pełny audyt osiągalności budżetu.
 [Dowody i pozostała praca](zmiany/2026-11-03/ZMIANY.md#żywa-ziemia--tv04-tv05-tv06).
-
 
 ## Pierwsze próby rasowe — gałąź robocza 03.11.2026
 
@@ -577,6 +572,16 @@ przeglądarce i w autorytatywnym serwerze `/ws/online`), testy `src/test/catalog
 - Panel `/admin` (katalog przedmiotów) pokazuje dla każdego przedmiotu potwory, poziom i
   dokładną szansę na pokonanie.
 - Łup bossów pozostaje podglądem: ich identyfikatory nagród nie należą do katalogu.
+
+#### Łup otwiera się jednym działaniem (15.11.2026)
+
+Wszystko, co zostawił jeden pokonany przeciwnik (materiały, przedmiot z katalogu, monety), to jeden łup: wpisy `Loot`
+mają wspólne pole `drop` i leżą w jednym punkcie. Polecenie `{type:"loot", id}` (id dowolnego wpisu; protokół bez zmian)
+**otwiera cały łup** (`GameSession.openLoot`): zabiera każdą pozycję, która mieści się w plecaku, i wszystkie monety, a
+zawartość zapisuje w `lootReceipt` (nazwa, ilość, rzadkość, `kept`). Pozycja, na którą zabrakło miejsca albo pełnego stosu
+(99), zostaje w łupie bez monet i jest oznaczona w panelu jako „brak miejsca”; otwarcie po zrobieniu miejsca zabiera
+resztę. Wcześniej monety wpisu z niemieszczącym się przedmiotem zostawały w łupie razem z nim. Interfejs pokazuje
+`lootReceipt` w małym panelu obok bohatera (`LootHud`), a scena odtwarza rozbłysk; testy: `loot-drop`, `loot-hud`.
 
 <!-- BESTIARY:START -->
 
@@ -1459,7 +1464,6 @@ nie jest liczona wizualnie drugi raz. Końcowe nadpisanie GM wyświetla jedną
 ustaloną wartość, bez fikcyjnej premii przedmiotu. Wewnętrzne obliczenia i
 `statBreakdown` pozostają dostępne dla silnika; nie zmieniono balansu ani zapisów.
 
-
 ## Pamięć Mędrców — kontynuacja PR #90, 06.11.2026
 
 TA10 **Fragment i źródło** wymaga przypisania 3/4/5 fragmentów do źródeł, które
@@ -1487,7 +1491,6 @@ Katalog ma 27/48 prób i 81/144 stopni. Mędrcy mają 9/12 prób oraz 4050 prakt
 z prób. Brakujące Skupienie to 1350 praktyki do katalogowego celu 17 800 dla rasy;
 późne wyprawy, funkcje dziedzin w terenie i pełny odbiór kampanii nadal są otwarte.
 [Wyniki i ograniczenia kontroli](zmiany/2026-11-06/ZMIANY.md).
-
 
 ## Dziedziny w terenie i późne wyprawy — kontynuacja 11.11.2026
 

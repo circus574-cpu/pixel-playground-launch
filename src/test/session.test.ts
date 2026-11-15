@@ -297,11 +297,19 @@ describe("items, merchant and reward integrity", () => {
       item: "tusk",
       quantity: 1,
       gold: 4,
+      drop: "drop-full",
     });
     game.command({ type: "loot", id: "full" });
+    // Przedmiot bez miejsca zostaje w łupie, ale monety z łupu są zabrane i nie wypłacą się drugi raz.
     expect(game.loot).toHaveLength(1);
+    expect(game.loot[0]!.gold).toBe(0);
     expect(game.player.items.tusk).toBe(99);
-    expect(game.player.gold).toBe(5);
+    expect(game.player.gold).toBe(9);
+    expect(game.lootReceipt?.lines).toEqual([
+      { item: "tusk", name: "Kieł dzika", quantity: 1, kept: false },
+    ]);
+    game.command({ type: "loot", id: "full" });
+    expect(game.player.gold).toBe(9);
   });
   it("does not consume a potion at full HP, restores HP and enforces cooldown", () => {
     const game = new GameSession();
@@ -349,6 +357,7 @@ describe("items, merchant and reward integrity", () => {
       item: "tusk",
       quantity: 1,
       gold: 4,
+      drop: "drop-one",
     });
     game.command({ type: "loot", id: "one" });
     const gold = game.player.gold;

@@ -14,7 +14,6 @@ aktywnym czasem tej sali; klient nie podaje czasu ani werdyktu. Wyjście/reconne
 odtwarza oryginalną postać, bez przenoszenia profilu próby. Brak migracji SQL/DDL.
 [Dowody i ograniczenia](zmiany/2026-11-03/ZMIANY.md#próby-rasowe--pierwsze-12-kontrolerów-i-36-stopni).
 
-
 ## Aktualny stan techniczny — 29.10.2026
 
 Punkt odniesienia: `main@5cea48dae81171b5e3bea1eeff124a0d8857ad76`, opublikowany na Aruba przez [run 40871582683](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40871582683). Phaser pozostaje lokalną symulacją PvE, React/TanStack obsługuje aplikację i HUD. Supabase zapewnia dotychczasowe konto/zapisy; nowy projekt właściciela nie jest jeszcze aktywnym backendem gry. Prywatny PostgreSQL VPS nie oznacza uruchomionego multiplayera.
@@ -246,6 +245,23 @@ zatrzymuje gry, odejście kończy rozmowę, usługi wymagają bliskości), `adve
 `swarm-audit-ui`. Przeglądarka: `scripts/playtest.html` (lokalna gra offline) z botem idącym za przewodniczką klawiszami
 WASD; zapisy w [dzienniku 15.11](zmiany/2026-11-15/ZMIANY.md#8-przewodniczka-i-rozmowy-w-świecie-bez-okienek).
 Nie sprawdzono: trybu online na żywym serwerze, telefonu i dotyku.
+
+### Napisy w świecie, wejścia i łup — 15.11.2026
+
+Moduły: `src/game/typography/` (`worldText.ts`: style napisów Phasera i `loadWorldFonts`, `fonts.css`: `@font-face` dla
+plików z `public/game/fonts/`), `src/game/world/entranceMarker.ts` (znacznik wejścia: kontener z obrazem światła, elipsami,
+strzałkami i iskrami, animowany co klatkę z `renderSuperior.updateVisibility` albo zdarzenia `update` w mieście v1),
+`src/components/game/LootHud.tsx` + `loot-hud.css` (panel zawartości łupu), `world-text.css` (napisy interfejsu bez tła).
+`mountGame.ts` rysuje jeden woreczek na `Loot.drop` i rozbłysk przy zdarzeniu `loot`; style napisów bierze z
+`worldTextStyle`, a po załadowaniu krojów przelicza już utworzone napisy (`refreshTexts`). `GameSession.openLoot` otwiera
+cały łup i zapisuje `lootReceipt`, które jedzie w migawce widoku (tryb online używa `frame.view` bez dodatkowego
+mirrorowania).
+
+Testy: `world-text.test.ts` (żaden napis nie ma tła, kroje, progi zanikania, stały rozmiar), `loot-drop.test.ts` (otwarcie
+całego łupu, brak miejsca, jednorazowa wypłata monet, daleki łup), `loot-hud.test.tsx` (panel, czas życia, przycisk w HUD),
+`monsters.test.ts` (zabity potwór zostawia jeden łup), zaktualizowane `session`, `catalog-loot`. Przeglądarka: skrypty w
+stylu `scripts/playtest.html` (zrzuty w [dzienniku 15.11](zmiany/2026-11-15/ZMIANY.md#9-napisy-w-świecie-bez-teł-wejścia-do-budynków-i-otwieranie-łupu)).
+Nie sprawdzono: trybu online na żywym serwerze, telefonu.
 
 ## Odbiór i dowody
 

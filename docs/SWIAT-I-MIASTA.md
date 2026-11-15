@@ -432,6 +432,21 @@ przechwytywane (odpowiada, że prowadzi), a zagadnięcie jej dawnego miejsca prz
 stolicą mają ogólne nazwy budynków (z danych), więc opisy tam są krótsze; trasa działa w każdym z 16 miast (test na
 prawdziwych danych).
 
+## Napisy w świecie i wejścia do budynków — 15.11.2026
+
+**Napisy bez teł.** Dymki rozmów, nazwy budynków i postaci, znacznik oprowadzania i liczby obrażeń mają jeden styl
+(`src/game/typography/worldText.ts`): Cinzel Bold dla nazw i znaczników, Alegreya SemiBold Italic dla mowy, kremowa litera
+z ciemnobrązowym obrysem i miękkim cieniem, **bez tła i ramki**. Licencje krojów (SIL OFL 1.1): [Licencje](LICENCJE.md).
+Napisy w interfejsie (komunikaty gry, nazwa rozmówcy, napis oprowadzania) mają ten sam krój i obrys w CSS.
+
+**Mniej napisów naraz.** Nazwa budynku jest pełna w 750 jedn. od bohatera i znika płynnie do 1250 jedn. (miasto v2 i v1);
+rozmiar nazwy na ekranie jest stały. Jednocześnie widać jeden dymek (ostatnia kwestia). Własnej nazwy bohatera nie
+rysujemy; nazwy innych graczy tak.
+
+**Wejścia.** Przy drzwiach każdego budynku jest na ziemi złoty krąg światła (176 × 62 jedn.) z falą od środka, strzałkami
+wędrującymi do budynku i iskrami (`src/game/world/entranceMarker.ts`); przy bohaterze świeci mocniej. To oprawa: kolizje
+i zasięg przycisku „Wejdź” bez zmian.
+
 ## Superior v2 — decyzja właściciela 24.10.2026
 
 Nowy cel zastępuje ograniczenie skali 0,5: 45% lądu / 55% oceanów na sferze

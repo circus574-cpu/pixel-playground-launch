@@ -4,6 +4,7 @@ import { ActorAnimation } from "../../assets/actorAnimation";
 import type { GameRuntime } from "../../mountGame";
 import { examAssets } from "../examRuntime";
 import type { TrialAttempt } from "./attempt";
+import { worldTextStyle } from "../../typography/worldText";
 
 /** Uses the existing Phaser mount, actors, controls and combat; only room markers are added. */
 export function trialRuntime(attempt: TrialAttempt): GameRuntime {
@@ -39,17 +40,22 @@ export function trialRuntime(attempt: TrialAttempt): GameRuntime {
         floor.fillStyle(0x536667).fillRect(b.x, b.y, b.width, b.height);
       const marks = scene.add.graphics().setDepth(2);
       const title = scene.add
-        .text(480, 80, attempt.definition.name, { fontSize: "21px", color: "#f4e0ae" })
+        .text(
+          480,
+          80,
+          attempt.definition.name,
+          worldTextStyle("interiorTitle", { fontSize: "26px" }),
+        )
         .setOrigin(0.5)
         .setDepth(2);
       const label = scene.add
-        .text(0, 0, "", { fontSize: "14px", color: "#f1e6c4", backgroundColor: "#10242be8" })
+        .text(0, 0, "", worldTextStyle("tag", { fontSize: "14px", color: "#f1e6c4" }))
         .setOrigin(0.5, 1)
         .setDepth(3);
       let companion: ReturnType<typeof scene.add.sprite> | undefined;
       let animation: ActorAnimation | undefined;
       const health = scene.add
-        .text(0, 0, "", { fontSize: "13px", color: "#c4f8c5", backgroundColor: "#10242be8" })
+        .text(0, 0, "", worldTextStyle("tag", { color: "#c4f8c5" }))
         .setOrigin(0.5, 1);
       if (npc) {
         registerActorAnimations(scene, npc);

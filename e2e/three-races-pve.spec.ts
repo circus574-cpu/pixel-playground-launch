@@ -175,7 +175,7 @@ for (const race of races) {
       }
       await expect.poll(async () => (await state(page)).kills, { timeout: 60000 }).toBe(index + 1);
       // Superior creatures drop their own materials by chance; pick up whatever really fell.
-      const pickUp = page.getByRole("button", { name: /Podnieś łup/ });
+      const pickUp = page.getByRole("button", { name: /Otwórz łup/ });
       if (await pickUp.isVisible().catch(() => false)) {
         const before = await state(page);
         await pickUp.click();
