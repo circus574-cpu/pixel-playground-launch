@@ -5,6 +5,8 @@ import type { WorldDefinition } from "../world/types";
 import { cityRoom } from "./room";
 import { BUILDING_IDS, type BuildingId } from "./types";
 import { isPaintedWorld, roomPicture } from "./paintedRooms";
+import { createEntranceMarker, type EntranceMarker } from "../world/entranceMarker";
+import { labelFade, screenTextScale, worldTextStyle } from "../typography/worldText";
 
 export function renderCityStreets(scene: Phaser.Scene, world: WorldDefinition) {
   if (!world.city) return;
@@ -19,23 +21,18 @@ export function renderCityStreets(scene: Phaser.Scene, world: WorldDefinition) {
       .setDepth(renderDepth("paths") + 5)
       .setAlpha(0.93);
   const labels: Phaser.GameObjects.Text[] = [];
+  const entrances: { marker: EntranceMarker; x: number; y: number }[] = [];
   for (const b of world.city.buildings) {
-    scene.add
-      .ellipse(b.door.x, b.door.y, 90, 30, 0xe5ca79, 0.2)
-      .setStrokeStyle(2, 0xd7c77d, 0.7)
-      .setDepth(renderDepth("below", b.door.y));
+    entrances.push({
+      marker: createEntranceMarker(scene, b.door.x, b.door.y),
+      x: b.door.x,
+      y: b.door.y,
+    });
     const label = scene.add
-      .text(b.door.x, b.door.y + 34, b.name + "  ↗", {
-        fontFamily: "Arial",
-        fontSize: "23px",
-        color: "#fff0c2",
-        backgroundColor: "#203c31dd",
-        padding: { x: 12, y: 7 },
-        stroke: "#19392c",
-        strokeThickness: 3,
-      })
+      .text(b.door.x, b.door.y + 34, b.name, worldTextStyle("building"))
       .setOrigin(0.5, 0)
       .setResolution(2)
+      .setData("doorY", b.door.y)
       .setDepth(renderDepth("objects", b.door.y + 90));
     labels.push(label);
   }
@@ -65,6 +62,7 @@ export function renderCityStreets(scene: Phaser.Scene, world: WorldDefinition) {
     const view = camera.worldView;
     const margin = 8 / camera.zoom;
     for (const label of labels) {
+      label.setScale(screenTextScale(camera.zoom));
       const bounds = label.getBounds();
       const sx = canvasRect.width / scene.scale.width;
       const sy = canvasRect.height / scene.scale.height;
@@ -81,19 +79,34 @@ export function renderCityStreets(scene: Phaser.Scene, world: WorldDefinition) {
           box.top < b.bottom + 4 &&
           box.bottom > b.top - 4,
       );
+      // Kamera śledzi bohatera, więc środek widoku to jego miejsce: nazwa gaśnie z odległością od niego.
+      const near = labelFade(
+        Math.hypot(view.centerX - label.x, view.centerY - (label.getData("doorY") as number)),
+      );
       label.setAlpha(
         bounds.left >= view.left + margin &&
           bounds.right <= view.right - margin &&
           bounds.top >= view.top + margin &&
           bounds.bottom <= view.bottom - margin &&
           clear
-          ? 1
+          ? near
           : 0,
       );
     }
   };
   camera.on("followupdate", fitLabels);
-  const release = () => camera.off("followupdate", fitLabels);
+  // Kamera śledzi bohatera, więc środek widoku to jego miejsce: im bliżej wejścia, tym mocniej ono świeci.
+  const animateEntrances = (time: number) => {
+    const view = camera.worldView;
+    for (const e of entrances)
+      e.marker.update(time, Math.hypot(view.centerX - e.x, view.centerY - e.y));
+  };
+  scene.events.on("update", animateEntrances);
+  const release = () => {
+    camera.off("followupdate", fitLabels);
+    scene.events.off("update", animateEntrances);
+    entrances.splice(0).forEach((e) => e.marker.destroy());
+  };
   scene.events.once("shutdown", release);
   scene.events.once("destroy", release);
 }
@@ -178,26 +191,14 @@ export function renderCityInterior(scene: Phaser.Scene, world: WorldDefinition, 
     }
     objects.push(
       scene.add
-        .text(room.width / 2, 60, b.name, {
-          fontFamily: "Arial",
-          fontSize: "44px",
-          color: "#ecdfb0",
-          stroke: "#12281e",
-          strokeThickness: 7,
-        })
+        .text(room.width / 2, 60, b.name, worldTextStyle("interiorTitle"))
         .setOrigin(0.5)
         .setResolution(2)
         .setDepth(1000),
     );
     objects.push(
       scene.add
-        .text(room.exit.x, room.exit.y + 18, "↓  WYJŚCIE DO MIASTA", {
-          fontFamily: "Arial",
-          fontSize: "22px",
-          color: "#f4dfab",
-          backgroundColor: "#183a2dcc",
-          padding: { x: 12, y: 8 },
-        })
+        .text(room.exit.x, room.exit.y + 18, "WYJŚCIE DO MIASTA", worldTextStyle("exitSign"))
         .setOrigin(0.5)
         .setResolution(2)
         .setDepth(1000),

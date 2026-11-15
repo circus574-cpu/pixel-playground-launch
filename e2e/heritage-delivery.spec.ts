@@ -101,7 +101,7 @@ test("real Verdantia delivery checkpoints, reload and second-stage personal weap
     .first()
     .click();
   await page.getByRole("button", { name: "Odbierz nagrodę", exact: true }).click();
-  await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+  await page.getByRole("button", { name: "Do zobaczenia", exact: true }).click();
   expect((await saved(page)).quests.steps).toBe("done");
   for (const id of ["H-V01", "P-V1", "H-V02"] as const) {
     const def = id === "P-V1" ? PROJECT_BY_ID.get(id)! : HERITAGE_BY_ID.get(id)!;

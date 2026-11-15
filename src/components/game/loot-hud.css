@@ -1,0 +1,153 @@
+/*
+ * Panel zawartości otwartego łupu. Bez tła i ramki, jak reszta napisów w świecie (patrz world-text.css): ikony,
+ * nazwy w kolorze rzadkości i ilości z ciemnym obrysem. Leży po prawej stronie bohatera, nad paskiem akcji, żeby
+ * nie zasłaniać postaci; nie przechwytuje myszy.
+ */
+.ki-loot {
+  position: absolute;
+  left: calc(50% + 64px);
+  bottom: 214px;
+  z-index: 7;
+  display: grid;
+  gap: 3px;
+  max-width: min(300px, calc(50% - 72px));
+  pointer-events: none;
+  animation: ki-loot-life var(--ki-loot-ms, 6s) linear forwards;
+  font-family: var(--ki-font-display, "Ki Cinzel", Georgia, serif);
+  text-shadow: var(--ki-ink-shadow, 0 1px 3px #000);
+}
+.ki-loot h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 2px;
+  color: #ffe9a8;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.34em;
+}
+.ki-loot h3::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, #ffe9a8cc, #ffe9a800);
+}
+.ki-loot ul {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ki-loot-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f4ecd4;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  animation: ki-loot-row 0.38s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+.ki-loot-line[data-rarity="uncommon"] {
+  color: #9be89b;
+}
+.ki-loot-line[data-rarity="rare"] {
+  color: #86b9ff;
+}
+.ki-loot-line[data-rarity="epic"] {
+  color: #cfa2ff;
+}
+.ki-loot-line[data-rarity="legendary"] {
+  color: #ffc866;
+}
+.ki-loot-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  flex: none;
+  filter: drop-shadow(0 1px 2px #000c) drop-shadow(0 0 5px currentColor);
+}
+/* Moneta rysowana w CSS: ikona z paczki ma ramkę zaznaczenia, która przy 30 px wygląda jak śmieci. */
+.ki-loot-coin {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin: 4px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #fff3b8 0 18%, transparent 19%),
+    radial-gradient(circle at 50% 50%, #f2c04a 0 58%, #c78a1f 60% 100%);
+  box-shadow:
+    0 0 0 2px #7a4d0e,
+    0 1px 3px 1px #000a,
+    0 0 8px #ffd877aa;
+}
+.ki-loot-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ki-loot-line b {
+  color: #fff6dc;
+  font-weight: 700;
+}
+.ki-loot-gold {
+  color: #ffdd7a;
+}
+.ki-loot-gold b {
+  color: #ffdd7a;
+}
+.ki-loot-line.is-left {
+  opacity: 0.8;
+}
+.ki-loot-line.is-left .ki-loot-name {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+.ki-loot-line em {
+  color: #ff9d8a;
+  font: italic 600 13px/1 var(--ki-font-speech, Georgia, serif);
+  letter-spacing: 0;
+}
+@keyframes ki-loot-row {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ki-loot-life {
+  0% {
+    opacity: 0;
+  }
+  4%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@media (max-width: 760px), (max-height: 500px) and (max-width: 1100px) {
+  .ki-loot {
+    left: calc(50% + 34px);
+    bottom: 200px;
+    max-width: calc(50% - 40px);
+  }
+  .ki-loot-line {
+    font-size: 13px;
+  }
+  .ki-loot-icon {
+    width: 26px;
+    height: 26px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ki-loot-line {
+    animation: none;
+  }
+}

@@ -6,6 +6,7 @@ import { RACES, type RaceId } from "../world/races";
 import { TRAINING_NAMES } from "./training";
 import { devArtEnabled, trainingObjectUrl } from "./developmentAssets";
 import type { ExamAttempt } from "./exams";
+import { worldTextStyle } from "../typography/worldText";
 
 const DEV_OBJECT_KINDS = [
   "dummy",
@@ -140,10 +141,12 @@ export function examRuntime(attempt: ExamAttempt): GameRuntime {
         );
       }
       const text = scene.add
-        .text(480, 80, `${TRAINING_NAMES[attempt.spec.discipline]} · ${attempt.spec.tier}`, {
-          fontSize: "23px",
-          color: "#f4e0ae",
-        })
+        .text(
+          480,
+          80,
+          `${TRAINING_NAMES[attempt.spec.discipline]} · ${attempt.spec.tier}`,
+          worldTextStyle("interiorTitle", { fontSize: "26px" }),
+        )
         .setOrigin(0.5)
         .setDepth(2);
       const draw = () => {

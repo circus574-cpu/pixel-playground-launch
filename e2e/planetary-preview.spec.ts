@@ -26,7 +26,7 @@ test("Planetarni default painted visual preserves the same save across legacy fl
   const id = await activeId(page);
   await page.getByRole("button", { name: /Rozmowa · Aira/ }).click();
   await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
-  await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+  await page.getByRole("button", { name: "Do zobaczenia", exact: true }).click();
   await page.goto(entry + "?ki-hero-art=1");
   await expect(canvas).toHaveAttribute("data-actor-visual", "hero-planetary-painted");
   expect(await activeId(page)).toBe(id);

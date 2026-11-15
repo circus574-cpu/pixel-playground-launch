@@ -302,6 +302,23 @@ i potwierdzenie walidowanego importu. Nie użyto nowych referencji zewnętrznych
 ani checkpointów. Deklaracja procesu nie zastępuje niezależnego dowodu praw
 i nie rozstrzyga wcześniej opisanych praw do istniejących zasobów.
 
+## Aneks 15.11.2026 — kroje napisów w grze
+
+Napisy rysowane w świecie gry (dymki, nazwy budynków i postaci, liczby obrażeń) i część napisów interfejsu używają
+dwóch krojów na licencji **SIL Open Font License 1.1** (dozwolone użycie komercyjne, osadzanie i redystrybucja w
+oprogramowaniu; zakaz sprzedaży samych krojów; nazwa zastrzeżona nie dotyczy, bo nie zmieniano plików):
+
+| Krój                         | Pliki w repo (`public/game/fonts/`)                                      | Źródło                                                            | Prawa autorskie              |
+| ---------------------------- | ------------------------------------------------------------------------ | ----------------------------------------------------------------- | ---------------------------- |
+| Cinzel Bold 700              | `cinzel-latin-700-normal.woff2`, `cinzel-latin-ext-700-normal.woff2`     | npm `@fontsource/cinzel` 5.3.0 (z `NDISCOVER/Cinzel`)             | The Cinzel Project Authors   |
+| Alegreya SemiBold Italic 600 | `alegreya-latin-600-italic.woff2`, `alegreya-latin-ext-600-italic.woff2` | npm `@fontsource/alegreya` 5.3.0 (z `huertatipografica/Alegreya`) | The Alegreya Project Authors |
+
+Pełne teksty licencji dołączone obok plików: `public/game/fonts/OFL-Cinzel.txt` i `OFL-Alegreya.txt` (kopie plików
+`LICENSE` z pakietów). Pliki nie były modyfikowane (podzbiory latin i latin-ext przygotował pakiet Fontsource), a w
+`src/game/typography/fonts.css` mają nazwy robocze „Ki Cinzel” i „Ki Alegreya”. Pakiety nie są zależnością projektu
+(pobrano wydania, wyjęto pliki, nic nie dodano do `package.json`). Nie rozstrzygnięto, czy publiczne wdrożenie wymaga
+osobnej strony z atrybucją; tekst licencji jest dostarczany z plikami.
+
 ## Utrzymanie rejestrów
 
 `collect_dependencies.py`, `collect_supplemental.py`, `collect_source_evidence.py`

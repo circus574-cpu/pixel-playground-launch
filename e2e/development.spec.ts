@@ -39,7 +39,7 @@ for (const race of ["Planetarni", "Mędrcy", "Androidy", "Legendy"]) {
     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).click();
     await page.getByRole("button", { name: "Podejdź do trenera", exact: true }).click();
     await expect(canvas).toHaveAttribute("data-interior", "arena");
-    const conversation = page.getByRole("button", { name: "Zamknij rozmowę", exact: true });
+    const conversation = page.getByRole("button", { name: "Do zobaczenia", exact: true });
     await expect(conversation).toBeVisible();
     await conversation.click();
     await openHudTool(page, "Umiejętności");
@@ -119,7 +119,7 @@ test.describe("touch development", () => {
     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).tap();
     await page.getByRole("button", { name: "Podejdź do trenera", exact: true }).tap();
     await expect(owner).toHaveAttribute("data-interior", "arena");
-    await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).tap();
+    await page.getByRole("button", { name: "Do zobaczenia", exact: true }).tap();
     await openHudTool(page, "Umiejętności", "touch");
     await page.getByRole("button", { name: "Rozwój · trening i wiedza", exact: true }).tap();
     const strength = page

@@ -25,7 +25,7 @@ async function saved(page: Page) {
   });
 }
 async function openDevelopment(page: Page, tab: "Świat" | "Wyprawy") {
-  const closeNpc = page.getByRole("button", { name: "Zamknij rozmowę", exact: true });
+  const closeNpc = page.getByRole("button", { name: "Do zobaczenia", exact: true });
   if (await closeNpc.isVisible()) await closeNpc.tap();
   if (!(await page.locator(".ki-development").count())) {
     await openHudTool(page, "Umiejętności", "touch");
@@ -46,7 +46,7 @@ async function approach(page: Page, kind: "field" | "expedition", id: string) {
   await expect
     .poll(
       async () => {
-        const closeNpc = page.getByRole("button", { name: "Zamknij rozmowę", exact: true });
+        const closeNpc = page.getByRole("button", { name: "Do zobaczenia", exact: true });
         if (await closeNpc.isVisible()) await closeNpc.tap();
         return (
           (await canvas.getAttribute("data-interior")) === point.interior &&

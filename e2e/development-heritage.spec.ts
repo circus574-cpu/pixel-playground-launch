@@ -100,7 +100,7 @@ for (const race of RACE_IDS) {
       .first()
       .click();
     await page.getByRole("button", { name: "Odbierz nagrodę", exact: true }).click();
-    await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+    await page.getByRole("button", { name: "Do zobaczenia", exact: true }).click();
     expect((await saved(page)).quests.steps).toBe("done");
     const id = questId(race, 1),
       definition = HERITAGE_BY_ID.get(id)!;

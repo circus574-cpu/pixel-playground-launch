@@ -14,7 +14,6 @@ aktywnym czasem tej sali; klient nie podaje czasu ani werdyktu. Wyjście/reconne
 odtwarza oryginalną postać, bez przenoszenia profilu próby. Brak migracji SQL/DDL.
 [Dowody i ograniczenia](zmiany/2026-11-03/ZMIANY.md#próby-rasowe--pierwsze-12-kontrolerów-i-36-stopni).
 
-
 ## Aktualny stan techniczny — 29.10.2026
 
 Punkt odniesienia: `main@5cea48dae81171b5e3bea1eeff124a0d8857ad76`, opublikowany na Aruba przez [run 40871582683](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/40871582683). Phaser pozostaje lokalną symulacją PvE, React/TanStack obsługuje aplikację i HUD. Supabase zapewnia dotychczasowe konto/zapisy; nowy projekt właściciela nie jest jeszcze aktywnym backendem gry. Prywatny PostgreSQL VPS nie oznacza uruchomionego multiplayera.
@@ -218,6 +217,51 @@ Narzędzia w `scripts/worldgen/v2/`: `open_fields.py` (przesuwa ciasne spawny na
 ze ścieżkami do spawnów; aktualizuje `spawns.json` i `manifest.json`) oraz `seam.py` (uszczelnia szew lewej i prawej
 krawędzi atlasu 2D; `build_v2_atlas.py` woła go przy generowaniu). Szczegóły i wyniki:
 [dziennik 15.11](zmiany/2026-11-15/ZMIANY.md#6-pięć-poprawek-zgłoszonych-przez-właściciela-teleport-gm-globus-świat-spawny-mapa-2d).
+
+## Rozmowy w świecie i oprowadzanie — 15.11.2026
+
+Moduły w `src/game/talk/` (czysta logika, bez Phasera i Reacta, w pełni testowalna):
+`timing.ts` (czas czytania, podział na dymki), `compass.ts` (strony świata i czas marszu), `voices.ts` (głosy czterech
+przewodniczek i fakty o usługach), `tour.ts` (`planTour`, `TourDirector`: maszyna stanów trasy), `speech.ts`
+(`SpeechQueue`), `lines.ts` (powitania z katalogu i z roli), `store.ts` (stan mowy dla sceny i HUD), `bubblePlacement.ts` (ustawienie dymka tak, by nie zasłaniał bohatera),
+`engine.ts` (`TalkEngine`: łączy je w jedno, zapamiętuje ukończenie trasy).
+
+Zasady: `GameSession.dialogue` nie wstrzymuje już symulacji, poleceń ani ruchu (`stepSimulation`, `manual`, bramka w
+`command`); `closeDialogueOutOfReach` kończy rozmowę po oddaleniu na `DIALOGUE_LEAVE_DISTANCE` (220), po zniknięciu
+rozmówcy z listy albo po śmierci. Wstrzymują grę tylko `paused` (panele, także okno usług) i skrzynia depozytu. Serwer
+online uruchamia ten sam `GameSession`, więc obowiązuje tak samo. Protokół poleceń się nie zmienił.
+
+Scena (`mountGame.ts`): `TalkEngine.tick` co klatkę; przewodniczka prowadzona poza posterunkiem jest rysowana w miejscu
+z trasy (`placement`, z chodem), kliknięcia i klawisz „interact” wobec niej przechodzą przez `interceptInteract`;
+dymki to `Phaser.GameObjects.Text` nad imieniem (stały rozmiar na ekranie) przesuwane na bok lub nad bohatera, gdy
+wisiałyby na nim (kamera trzyma bohatera w środku ekranu, a przewodniczka idzie tuż obok), znacznik drzwi to `Graphics`. HUD:
+`NpcTalk.tsx` (pasek wyborów, napisy w `aria-live`) i `NpcDialogue servicesOnly` (okno usług); pigułka „Pomiń
+oprowadzanie” ma napisy dla czytników ekranu.
+
+Testy: `talk-tour.test.ts` (czas, kierunki, głosy, plan trasy dla 16 miast z prawdziwych danych, zachowanie
+`TourDirector`), `talk-bubble.test.ts` (dymek nie zachodzi na bohatera przy żadnym położeniu mówiącego), `talk-engine.test.ts` (oprowadzanie w czterech stolicach, zapamiętanie, przerwanie, pauza,
+przechwycenie kliknięcia, dymki), `npc-talk-ui.test.tsx` (HUD), zaktualizowane `session.test.ts` (rozmowa nie
+zatrzymuje gry, odejście kończy rozmowę, usługi wymagają bliskości), `adventure-ui`, `npc-commerce-ui`,
+`swarm-audit-ui`. Przeglądarka: `scripts/playtest.html` (lokalna gra offline) z botem idącym za przewodniczką klawiszami
+WASD; zapisy w [dzienniku 15.11](zmiany/2026-11-15/ZMIANY.md#8-przewodniczka-i-rozmowy-w-świecie-bez-okienek).
+Nie sprawdzono: trybu online na żywym serwerze, telefonu i dotyku.
+
+### Napisy w świecie, wejścia i łup — 15.11.2026
+
+Moduły: `src/game/typography/` (`worldText.ts`: style napisów Phasera i `loadWorldFonts`, `fonts.css`: `@font-face` dla
+plików z `public/game/fonts/`), `src/game/world/entranceMarker.ts` (znacznik wejścia: kontener z obrazem światła, elipsami,
+strzałkami i iskrami, animowany co klatkę z `renderSuperior.updateVisibility` albo zdarzenia `update` w mieście v1),
+`src/components/game/LootHud.tsx` + `loot-hud.css` (panel zawartości łupu), `world-text.css` (napisy interfejsu bez tła).
+`mountGame.ts` rysuje jeden woreczek na `Loot.drop` i rozbłysk przy zdarzeniu `loot`; style napisów bierze z
+`worldTextStyle`, a po załadowaniu krojów przelicza już utworzone napisy (`refreshTexts`). `GameSession.openLoot` otwiera
+cały łup i zapisuje `lootReceipt`, które jedzie w migawce widoku (tryb online używa `frame.view` bez dodatkowego
+mirrorowania).
+
+Testy: `world-text.test.ts` (żaden napis nie ma tła, kroje, progi zanikania, stały rozmiar), `loot-drop.test.ts` (otwarcie
+całego łupu, brak miejsca, jednorazowa wypłata monet, daleki łup), `loot-hud.test.tsx` (panel, czas życia, przycisk w HUD),
+`monsters.test.ts` (zabity potwór zostawia jeden łup), zaktualizowane `session`, `catalog-loot`. Przeglądarka: skrypty w
+stylu `scripts/playtest.html` (zrzuty w [dzienniku 15.11](zmiany/2026-11-15/ZMIANY.md#9-napisy-w-świecie-bez-teł-wejścia-do-budynków-i-otwieranie-łupu)).
+Nie sprawdzono: trybu online na żywym serwerze, telefonu.
 
 ## Odbiór i dowody
 

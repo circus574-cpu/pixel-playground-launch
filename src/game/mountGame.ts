@@ -22,6 +22,10 @@ import { cityRoom } from "./city/room";
 import type { BuildingId } from "./city/types";
 import { clampZoom, DEFAULT_ZOOM } from "./view";
 import { WORLD_V2 } from "./world/generated/worldVersion";
+import { TalkEngine } from "./talk/engine";
+import { talkStore } from "./talk/store";
+import { placeBubble, type Rect } from "./talk/bubblePlacement";
+import { actorNameKind, loadWorldFonts, worldTextStyle } from "./typography/worldText";
 import { terrainAt } from "./world/terrain";
 import {
   ambienceFile,
@@ -63,6 +67,8 @@ const LOOT_GLOW: Record<ItemRarity, number> = {
   legendary: 0xffa726,
 };
 
+const LOOT_RANK: readonly ItemRarity[] = ["common", "uncommon", "rare", "epic", "legendary"];
+
 export type { GameViewState } from "./session";
 type Actor = {
   npcId?: NpcId;
@@ -77,6 +83,11 @@ type Actor = {
   visual: ActorVisual;
   animation: ActorAnimation;
   facing: Point;
+  /** NPC prowadzony poza posterunkiem (oprowadzanie) idzie: rysowany krokiem, nie postawą. */
+  moving?: boolean;
+  /** Dymek z kwestią nad głową rozmówcy; numer kwestii pozwala odświeżać tekst tylko przy zmianie. */
+  bubble?: Phaser.GameObjects.Text;
+  bubbleId?: number | undefined;
 };
 
 /** Phaser is the rendering/input adapter; game rules live in GameSession. */
@@ -139,6 +150,12 @@ export function mountKileGends(
       options?.race,
     );
   const world = session.world;
+  // Rozmowy w świecie i oprowadzanie nowej postaci: silnik prowadzi kwestie i trasę przewodniczki, scena je rysuje.
+  const talk = new TalkEngine(
+    (ctx) => "ki.tour.v1:" + (options?.saveKey ?? "default") + ":" + (ctx.world.city?.name ?? ""),
+    !!runtime?.authoritative,
+  );
+  releaseScene.push(() => talk.dispose());
   let worldLabels = readUiPreferences().worldLabels;
   parent.dataset["worldLabels"] = String(worldLabels);
   // Diagnostic art is available only on the isolated local playtest document.
@@ -222,7 +239,18 @@ export function mountKileGends(
     private combatShots = new Map<string, Phaser.GameObjects.Arc>();
     private selection!: Phaser.GameObjects.Ellipse;
     private shield!: Phaser.GameObjects.Ellipse | Phaser.GameObjects.Sprite;
-    private loot = new Map<string, Phaser.GameObjects.Container>();
+    /** Jeden woreczek na łup z jednego przeciwnika (klucz: `drop`), z kolorem najcenniejszego przedmiotu. */
+    private loot = new Map<
+      string,
+      {
+        body: Phaser.GameObjects.Container;
+        icon: Phaser.GameObjects.Image;
+        glow: Phaser.GameObjects.Ellipse;
+        color: number;
+        glowAlpha: number;
+        phase: number;
+      }
+    >();
     private keys: Record<string, Phaser.Input.Keyboard.Key> | undefined;
     private joystickId: number | null = null;
     private pendingTouch: Point | null = null;
@@ -238,6 +266,8 @@ export function mountKileGends(
     private npcMap = new Map<string, { id: string; name: string; x: number; y: number }>();
     private npcMapSource: readonly unknown[] | null = null;
     private animationTime = 0;
+    private tourMarker?: Phaser.GameObjects.Graphics;
+    private tourMarkerLabel?: Phaser.GameObjects.Text;
     private suspended = false;
     private loadFailed = false;
     constructor() {
@@ -348,6 +378,9 @@ export function mountKileGends(
         return;
       }
       loading({ phase: "building", message: "Przywoływanie bohatera…", progress: null });
+      void loadWorldFonts().then((ready) => {
+        if (ready && this.sys.isActive()) this.refreshTexts();
+      });
       try {
         this.initializeWorld();
         releaseScene.push(() => this.visualBudget.clear());
@@ -468,8 +501,7 @@ export function mountKileGends(
         .setDepth(renderDepth("below", world.market.y));
       this.tweens.add({ targets: beacon, alpha: 0.35, duration: 900, yoyo: true, repeat: -1 });
       this.events.on("postupdate", () => {
-        const active =
-          session.player.quests.steps === "active" && !session.paused && !session.dialogue;
+        const active = session.player.quests.steps === "active" && !session.paused;
         beacon.setVisible(active);
       });
       this.cameras.main.startFollow(this.hero.body, true, 0.12, 0.12);
@@ -513,6 +545,11 @@ export function mountKileGends(
       parent.addEventListener("ki:labels", labels);
       const command = (event: Event) => {
         const action = (event as CustomEvent<Command>).detail;
+        // Przewodniczka prowadząca po mieście stoi poza posterunkiem znanym grze: rozmowa z nią idzie przez silnik.
+        if (action.type === "interact" && talk.interceptInteract(action.npc)) {
+          this.report();
+          return;
+        }
         session.command(action);
         if (action.type === "pause") {
           if (action.value && action.suspendRendering) {
@@ -606,6 +643,10 @@ export function mountKileGends(
                         : undefined;
         if (action && !event.repeat) {
           event.preventDefault();
+          if (action.type === "interact" && talk.interceptInteract(action.npc)) {
+            this.report();
+            return;
+          }
           session.command(action);
           this.report();
         }
@@ -710,7 +751,7 @@ export function mountKileGends(
       this.events.once(Phaser.Scenes.Events.SHUTDOWN, releaseBlur);
       this.events.once(Phaser.Scenes.Events.DESTROY, releaseBlur);
       this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
-        if (session.dialogue || session.depotOpen || session.paused || session.player.dead) return;
+        if (session.depotOpen || session.paused || session.player.dead) return;
         const pos = pointer.positionToCamera(this.cameras.main) as Phaser.Math.Vector2;
         const rest = pointer.wasTouch ? this.stickRest() : null;
         if (
@@ -730,7 +771,7 @@ export function mountKileGends(
       this.report();
     }
     private interactAt(pos: Point) {
-      if (session.dialogue || session.depotOpen || session.paused || session.player.dead) return;
+      if (session.depotOpen || session.paused || session.player.dead) return;
       const practice = session.practiceTargets
         .list(session.player.interior)
         .find((t) => distance(t, pos) < 45);
@@ -743,7 +784,7 @@ export function mountKileGends(
         p: Point,
         { width, height, belowFoot }: { width: number; height: number; belowFoot: number },
       ) => Math.abs(pos.x - p.x) <= width / 2 && pos.y >= p.y - height && pos.y <= p.y + belowFoot;
-      const npc = session.npcs.find((n) => hit(n, INTERACTION_BOUNDS.npc));
+      const npc = session.npcs.find((n) => hit(talk.placement(n.id) ?? n, INTERACTION_BOUNDS.npc));
       const enemy = session.enemies
         .filter((e) => e.hp > 0 && hit(e, INTERACTION_BOUNDS.enemy))
         .sort((a, b) => distance(pos, a) - distance(pos, b))[0];
@@ -782,8 +823,9 @@ export function mountKileGends(
           return;
         }
       }
-      if (npc) session.command({ type: "interact", npc: npc.id });
-      else if (door) session.command({ type: "enter", building: door.id });
+      if (npc) {
+        if (!talk.interceptInteract(npc.id)) session.command({ type: "interact", npc: npc.id });
+      } else if (door) session.command({ type: "enter", building: door.id });
       else if (enemy) session.command({ type: "target", id: enemy.id });
       else if (loot) session.command({ type: "loot", id: loot.id });
       else session.command({ type: "move", x: pos.x, y: pos.y });
@@ -927,18 +969,11 @@ export function mountKileGends(
         .setDisplaySize(...config.size)
         .setOrigin(...config.origin);
       const name = this.add
-        .text(p.x, p.y - 94, label, {
-          fontSize: "12px",
-          fontFamily: "Arial",
-          color: boar ? "#fff0d1" : "#e4fff0",
-          stroke: "#183c48",
-          strokeThickness: 4,
-        })
+        .text(p.x, p.y - 94, label, worldTextStyle(actorNameKind(kind)))
         .setOrigin(0.5)
         .setResolution(2)
         .setDepth(renderDepth("labels"))
         .setVisible(false);
-      if (label.startsWith("Ty ·")) name.setColor("#fff1a8");
       const track = this.add
         .rectangle(p.x, p.y - 76, 64, 6, 0x16313e)
         .setDepth(renderDepth("labels") - 1);
@@ -987,6 +1022,54 @@ export function mountKileGends(
       };
       this.actors.push(actor);
       return actor;
+    }
+    /**
+     * Dymek rozmowy: sam napis, bez tła. Kursywa z obrysem i cieniem leży wprost na świecie; zawijany do ok. 360 px,
+     * kotwiczony dolną krawędzią nad głową postaci.
+     */
+    private makeBubble() {
+      return this.add
+        .text(0, 0, "", worldTextStyle("speech"))
+        .setOrigin(0.5, 1)
+        .setResolution(2)
+        .setDepth(renderDepth("labels") + 2)
+        .setVisible(false);
+    }
+    /** Po załadowaniu krojów napisy zmierzone krojem zapasowym dostają właściwe wymiary. */
+    private refreshTexts() {
+      for (const child of this.children.list)
+        if (child instanceof Phaser.GameObjects.Text)
+          (child.style as unknown as { update(recalculateMetrics: boolean): void }).update(true);
+    }
+    /** Pulsujący znacznik przy drzwiach (lub rynku), o którym mówi przewodniczka. */
+    private updateTourMarker(time: number) {
+      const m = talk.marker;
+      const show = Boolean(m) && !session.player.interior;
+      if (!show) {
+        this.tourMarker?.setVisible(false);
+        this.tourMarkerLabel?.setVisible(false);
+        return;
+      }
+      this.tourMarker ??= this.add.graphics().setDepth(renderDepth("labels") - 3);
+      this.tourMarkerLabel ??= this.add
+        .text(0, 0, "", worldTextStyle("tour"))
+        .setOrigin(0.5, 1)
+        .setResolution(2)
+        .setDepth(renderDepth("labels"));
+      const pulse = 1 + 0.12 * Math.sin(time / 260);
+      this.tourMarker
+        .clear()
+        .lineStyle(4, 0xffe08a, 0.95)
+        .strokeEllipse(0, 0, 170 * pulse, 70 * pulse)
+        .lineStyle(2, 0xffffff, 0.55)
+        .strokeEllipse(0, 0, 120 * pulse, 48 * pulse)
+        .setPosition(m!.x, m!.y)
+        .setVisible(true);
+      if (this.tourMarkerLabel.text !== m!.label) this.tourMarkerLabel.setText(m!.label);
+      this.tourMarkerLabel
+        .setPosition(m!.x, m!.y - 52)
+        .setScale(1 / this.cameras.main.zoom)
+        .setVisible(true);
     }
     private syncNetworkPlayer(p: NetworkPlayerState) {
       if (!runtime?.authoritative && p.worldId !== world.id) {
@@ -1051,13 +1134,10 @@ export function mountKileGends(
       if (this.floatingTexts.length >= 18) this.floatingTexts[0]?.destroy();
       const nearby = this.floatingTexts.filter((t) => Math.abs(t.x - p.x) < 70).length;
       const label = this.add
-        .text(p.x, p.y - 105 - Math.min(nearby, 3) * 22, text, {
-          fontSize: "24px",
-          color,
-          stroke: "#193443",
-          strokeThickness: 4,
-        })
+        .text(p.x, p.y - 105 - Math.min(nearby, 3) * 22, text, worldTextStyle("damage", { color }))
         .setOrigin(0.5)
+        .setResolution(2)
+        .setScale(1 / this.cameras.main.zoom)
         .setDepth(renderDepth("labels") + 2);
       this.floatingTexts.push(label);
       label.once("destroy", () => {
@@ -1072,6 +1152,49 @@ export function mountKileGends(
         duration: 1000,
         onComplete: () => label.destroy(),
       });
+    }
+    /** Otwarcie łupu: rozbłysk w kolorze najcenniejszego przedmiotu i iskry unoszące się nad woreczkiem. */
+    private lootBurst(at: Point) {
+      let color = 0xffe6a0;
+      let nearest = 60;
+      for (const view of this.loot.values()) {
+        const d = Math.hypot(view.body.x - at.x, view.body.y - at.y);
+        if (d < nearest) {
+          nearest = d;
+          color = view.color;
+        }
+      }
+      const ring = this.add
+        .ellipse(at.x, at.y - 4, 56, 22, color, 0.85)
+        .setBlendMode(Phaser.BlendModes.ADD)
+        .setDepth(renderDepth("combat", at.y));
+      this.trackEffect(ring);
+      this.tweens.add({
+        targets: ring,
+        scaleX: 3,
+        scaleY: 3,
+        alpha: 0,
+        duration: 420,
+        ease: "Cubic.easeOut",
+        onComplete: () => ring.destroy(),
+      });
+      for (let i = 0; i < 7; i++) {
+        const angle = (i / 7) * Math.PI * 2 + at.x;
+        const spark = this.add
+          .circle(at.x, at.y - 14, 3, i % 2 ? 0xffffff : color, 1)
+          .setBlendMode(Phaser.BlendModes.ADD)
+          .setDepth(renderDepth("combat", at.y + 1));
+        this.trackEffect(spark);
+        this.tweens.add({
+          targets: spark,
+          x: at.x + Math.cos(angle) * 46,
+          y: at.y - 14 - 28 - Math.abs(Math.sin(angle)) * 36,
+          alpha: 0,
+          duration: 520,
+          ease: "Quad.easeOut",
+          onComplete: () => spark.destroy(),
+        });
+      }
     }
     private texturedEffect(id: string, p: Point, to?: Point) {
       const spec = catalog.effects[world.id + "." + id] ?? catalog.effects[id];
@@ -1191,7 +1314,8 @@ export function mountKileGends(
           : event.target
             ? this.enemies.get(event.target)
             : undefined;
-      if (event.text)
+      // Zawartość otwartego łupu pokazuje mały panel w interfejsie, więc nad ziemią nie ma dodatkowego napisu.
+      if (event.text && event.type !== "loot")
         this.float(
           event,
           event.text,
@@ -1315,7 +1439,11 @@ export function mountKileGends(
       if (event.type === "level" || event.type === "heal" || event.type === "loot") {
         if (event.type === "heal") this.hero.animation.trigger("skill", this.animationTime);
         if (event.type === "level") this.hero.animation.trigger("victory", this.animationTime);
-        if (event.type === "loot") this.hero.animation.trigger("interact", this.animationTime);
+        if (event.type === "loot") {
+          this.hero.animation.trigger("interact", this.animationTime);
+          this.lootBurst(event); // rozbłysk otwieranego łupu; zawartość pokazuje panel w interfejsie
+          return;
+        }
         if (this.texturedEffect(event.type, event)) return;
         const ring = this.add
           .ellipse(event.x, event.y, 40, 20)
@@ -1402,11 +1530,10 @@ export function mountKileGends(
     override update(time: number, delta: number) {
       if (disposed || !this.hero || this.loadFailed || document.hidden || this.suspended) return;
       const dt = Math.min(delta, 100);
-      if (!session.paused && !session.dialogue) this.animationTime += dt;
+      if (!session.paused) this.animationTime += dt;
       runtime?.beforeTick?.(dt);
       session.tick(Math.min(delta, 1000));
-      if (session.paused || session.dialogue || session.depotOpen || session.player.dead)
-        this.resetStick();
+      if (session.paused || session.depotOpen || session.player.dead) this.resetStick();
       runtime?.afterTick?.(dt);
       if (this.networkClient) {
         const facingDir =
@@ -1458,13 +1585,7 @@ export function mountKileGends(
           a.facing.x = entry.targetX - curX;
           a.facing.y = entry.targetY - curY;
         }
-        a.animation.update(
-          this.animationTime,
-          moving,
-          false,
-          a.facing,
-          session.paused || !!session.dialogue,
-        );
+        a.animation.update(this.animationTime, moving, false, a.facing, session.paused);
       }
       this.heritageMarkers?.update(time, worldLabels);
       if (this.lastInterior !== session.player.interior) {
@@ -1522,11 +1643,36 @@ export function mountKileGends(
         this.npcMap.clear();
         for (const n of session.npcs) this.npcMap.set(n.id, n);
       }
+      {
+        const p = session.player;
+        talk.tick(dt, {
+          hero: { x: p.x, y: p.y },
+          inside: !!p.interior,
+          dead: p.dead,
+          paused: session.paused,
+          dialogue: session.dialogue,
+          dialogueTurn: session.dialogueTurn,
+          npcs: session.npcs,
+          world: { id: world.id, market: world.market, city: world.city },
+          nav: session.nav,
+          newcomer: p.quests.steps === "locked" && p.level <= 1,
+        });
+        this.updateTourMarker(time);
+      }
       for (const actor of this.actors)
         if (actor.npcId) {
           const npc = this.npcMap.get(actor.npcId);
           if (npc) {
-            actor.body.setPosition(npc.x, npc.y).setDepth(npc.y);
+            // Przewodniczka prowadząca po mieście jest rysowana tam, gdzie ją ustawia trasa (i idzie krokiem).
+            const led = talk.placement(actor.npcId);
+            if (led) {
+              actor.body.setPosition(led.x, led.y).setDepth(led.y);
+              actor.facing = led.facing;
+              actor.moving = led.moving;
+            } else {
+              actor.body.setPosition(npc.x, npc.y).setDepth(npc.y);
+              actor.moving = false;
+            }
             if (actor.name.text !== npc.name) actor.name.setText(npc.name);
           }
         }
@@ -1579,7 +1725,7 @@ export function mountKileGends(
         session.moving,
         session.player.dead,
         session.facing,
-        session.paused || !!session.dialogue,
+        session.paused,
         session.kit.buffs.some((b) => b.id === "T"),
         session.running,
       );
@@ -1614,7 +1760,7 @@ export function mountKileGends(
           Math.hypot(vx, vy) > 0.01,
           e.hp <= 0,
           a.facing,
-          session.paused || !!session.dialogue,
+          session.paused,
         );
         a.body.setPosition(e.x, e.y).setDepth(e.y);
         a.bar.width = (64 * e.hp) / e.maxHp;
@@ -1671,10 +1817,10 @@ export function mountKileGends(
         if (actor.kind === "npc")
           actor.animation.update(
             this.animationTime,
-            false,
+            Boolean(actor.moving),
             false,
             actor.facing,
-            session.paused || !!session.dialogue,
+            session.paused,
           );
       let nearestNpc: Actor | undefined,
         nearestDistance = 190;
@@ -1698,8 +1844,12 @@ export function mountKileGends(
             }
           }
       }
-      const quiet =
-        !worldLabels || Boolean(session.dialogue) || session.paused || session.player.dead;
+      const speech = talkStore.getSnapshot().speech;
+      // Na ekranie jest jeden dymek naraz: kwestia, która padła ostatnio. Reszta czeka w kolejce rozmówców.
+      let speaker: string | undefined;
+      for (const [npcId, line] of Object.entries(speech))
+        if (line && (!speaker || line.id > (speech[speaker]?.id ?? -1))) speaker = npcId;
+      const quiet = !worldLabels || session.paused || session.player.dead;
       const ownLabel = this.heroLabel();
       if (this.hero.name.text !== ownLabel) this.hero.name.setText(ownLabel);
       for (const a of this.actors) {
@@ -1722,11 +1872,12 @@ export function mountKileGends(
           }
         }
         if (a.kind === "hero") {
-          // Player names (the own one and other players') always float above the head.
+          // Nazwy innych graczy zawsze wiszą nad głową. Własnej nazwy nie rysujemy: imię, rasa i poziom są w panelu
+          // gracza, a napis nad bohaterem w środku ekranu tylko zaśmiecał widok (i zasłaniał dymki rozmów).
           a.name
             .setPosition(a.body.x, a.body.y - a.visual.size[1] * a.visual.origin[1] * k - 12)
             .setScale(1 / this.cameras.main.zoom)
-            .setVisible(!quiet && a.body.visible);
+            .setVisible(!quiet && a.body.visible && a !== this.hero);
           a.track.setPosition(a.body.x, a.body.y - 76);
           a.bar.setPosition(a.body.x - 32, a.body.y - 76);
           continue;
@@ -1758,6 +1909,40 @@ export function mountKileGends(
         );
         a.track.setPosition(a.body.x, a.body.y - 76 - lift);
         a.bar.setPosition(a.body.x - 32, a.body.y - 76 - lift);
+        // Dymek z kwestią rozmówcy: nad imieniem, zawsze tej samej wielkości na ekranie.
+        const said =
+          a.kind === "npc" && a.npcId && a.npcId === speaker ? speech[a.npcId] : undefined;
+        if (said && a.body.visible) {
+          const bubble = (a.bubble ??= this.makeBubble());
+          if (a.bubbleId !== said.id) {
+            bubble.setText(said.text);
+            a.bubbleId = said.id;
+          }
+          // Dymek nad głową mówiącego, ale nigdy na bohaterze: stoi w środku ekranu, a przewodniczka idzie tuż obok.
+          const cam = this.cameras.main,
+            z = cam.zoom,
+            wv = cam.worldView;
+          const heroBox = this.hero.sprite.getBounds();
+          const avoid: Rect = {
+            left: (heroBox.left - wv.x) * z - 14,
+            right: (heroBox.right - wv.x) * z + 14,
+            top: (heroBox.top - wv.y) * z - 14,
+            bottom: (heroBox.bottom - wv.y) * z + 10,
+          };
+          const spot = placeBubble(
+            { x: (a.body.x - wv.x) * z, bottom: (a.body.y - 104 - lift - 16 - wv.y) * z },
+            { w: bubble.width, h: bubble.height },
+            avoid,
+            { left: 8, top: 96, right: this.scale.width - 8, bottom: this.scale.height - 92 },
+          );
+          bubble
+            .setPosition(wv.x + spot.x / z, wv.y + spot.bottom / z)
+            .setScale(1 / z)
+            .setVisible(true);
+        } else if (a.bubble?.visible) {
+          a.bubble.setVisible(false);
+          a.bubbleId = undefined;
+        }
       }
       this.selection.setVisible(Boolean(session.target));
       if (session.target)
@@ -1768,26 +1953,39 @@ export function mountKileGends(
         .setVisible(session.kit.shieldPoints > 0)
         .setPosition(session.player.x, session.player.y - 40)
         .setDepth(renderDepth("combat", session.player.y + 1));
-      for (const l of session.loot)
-        if (!this.loot.has(l.id)) {
-          const icon = this.add.image(0, -17, "ui-icons", 5).setDisplaySize(34, 34);
-          // The pickup action is labelled in the HUD; loot on the ground needs only its icon.
-          // Catalog items glow in their rarity colour so a rare drop stands out from materials.
-          const rarity = getItemById(l.item)?.rarity;
-          const parts: Phaser.GameObjects.GameObject[] = [];
-          if (rarity)
-            parts.push(
-              this.add.ellipse(0, -2, 46, 18, LOOT_GLOW[rarity], rarity === "common" ? 0.35 : 0.6),
-            );
-          parts.push(icon);
-          this.loot.set(
-            l.id,
-            this.add.container(l.x, l.y, parts).setDepth(renderDepth("actors", l.y + 1)),
-          );
+      // Łup z jednego przeciwnika to jeden woreczek: kołysze się nad ziemią, a po otwarciu rozbłyska i znika.
+      const drops = new Map<string, typeof session.loot>();
+      for (const l of session.loot) {
+        const group = drops.get(l.drop);
+        if (group) group.push(l);
+        else drops.set(l.drop, [l]);
+      }
+      for (const [id, entries] of drops) {
+        let view = this.loot.get(id);
+        if (!view) {
+          let best: ItemRarity | undefined;
+          for (const l of entries) {
+            const r = getItemById(l.item)?.rarity;
+            if (r && (!best || LOOT_RANK.indexOf(r) > LOOT_RANK.indexOf(best))) best = r;
+          }
+          const color = best ? LOOT_GLOW[best] : 0xffe6a0;
+          const glowAlpha = best && best !== "common" ? 0.75 : 0.55;
+          const glow = this.add.ellipse(0, -2, 84, 32, color, glowAlpha);
+          const icon = this.add.image(0, -26, "ui-icons", 5).setDisplaySize(54, 54);
+          const first = entries[0]!;
+          const body = this.add
+            .container(first.x, first.y, [glow, icon])
+            .setDepth(renderDepth("actors", first.y + 1));
+          view = { body, icon, glow, color, glowAlpha, phase: Math.random() * 6 };
+          this.loot.set(id, view);
         }
-      for (const [id, body] of this.loot)
-        if (!session.loot.some((l) => l.id === id)) {
-          body.destroy();
+        const wave = Math.sin(time / 320 + view.phase);
+        view.icon.y = -26 + wave * 3;
+        view.glow.setAlpha(view.glowAlpha + wave * 0.1);
+      }
+      for (const [id, view] of this.loot)
+        if (!drops.has(id)) {
+          view.body.destroy();
           this.loot.delete(id);
         }
       if (time - this.lastReport > 100) {
@@ -1796,6 +1994,7 @@ export function mountKileGends(
       }
     }
   }
+  void loadWorldFonts(); // kroje napisów pobierają się równolegle z grafiką świata
   const game = new Phaser.Game({
     type: Phaser.AUTO,
     pixelArt: false,

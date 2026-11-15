@@ -111,10 +111,10 @@ test("A/B/C: four previews, four independent slots, exploration, camera, NPC, re
     await page.screenshot({ path: info.outputPath(race.world + "-start.png") });
     await page.getByRole("button", { name: new RegExp("Rozmowa · " + race.guide) }).click();
     await expect(
-      page.getByRole("dialog", { name: "Rozmowa: " + race.guide, exact: true }),
+      page.getByRole("group", { name: "Rozmowa: " + race.guide, exact: true }),
     ).toBeVisible();
     await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
-    await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+    await page.getByRole("button", { name: "Do zobaczenia", exact: true }).click();
     await expect(page.getByRole("button", { name: race.action, exact: true })).toBeVisible();
     if (race.id !== "planetary")
       await expect(page.getByRole("button", { name: "Podejdź do rynku", exact: true })).toHaveCount(
@@ -152,7 +152,7 @@ test("A/B/C: four previews, four independent slots, exploration, camera, NPC, re
     await page.getByRole("button", { name: "Odbierz nagrodę", exact: true }).click();
     expect((await saved(page)).quests.steps).toBe("done");
     expect((await saved(page)).xp).toBe(40);
-    await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+    await page.getByRole("button", { name: "Do zobaczenia", exact: true }).click();
     console.log("Verified", race.name, race.world);
     await returnToCharacters(page);
     await page.getByRole("button", { name: "Nowa podróż", exact: true }).click();
@@ -248,7 +248,7 @@ for (const [width, height] of [
     expect(box!.y).toBeGreaterThanOrEqual(0);
     expect(box!.x + box!.width).toBeLessThanOrEqual(width + 1);
     expect(box!.y + box!.height).toBeLessThanOrEqual(height + 1);
-    await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).tap();
+    await page.getByRole("button", { name: "Do zobaczenia", exact: true }).tap();
     // Actual CDP touch events exercise Phaser's floating joystick, not mouse emulation.
     const before = Number(await canvas.getAttribute("data-player-x"));
     const cdp = await context.newCDPSession(page);
