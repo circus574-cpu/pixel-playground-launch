@@ -1210,6 +1210,10 @@ Cel: darmowy asystent programisty na osobnej maszynie bez GPU (16 rdzeni, 32 GB 
 
 ## Próba migracji Godot 4 / Android — miasto Pyry, 15.11.2026
 
+Osobna instrukcja projektu Android, zamówiona przez właściciela:
+[ports/godot-pyra/README.md](../ports/godot-pyra/README.md). Jest dołączona także do
+ZIP-a projektu i obejmuje instalację APK, eksport, architekturę oraz dalszą pracę.
+
 Zlecenie właściciela: rozpocząć próbę przeniesienia KI Legends do Godot 4 na Androida,
 na początek jeden kontynent, właściwie samo miasto; wybrano **Twierdzę Popiołu (Pyra)**.
 Osobna gałąź `feat/godot-pyra-android-20261115` od `main@0b69c28e4b45a59f32251f5ac6d54e1365660d98`.

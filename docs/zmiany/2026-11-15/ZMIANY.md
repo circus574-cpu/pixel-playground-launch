@@ -406,3 +406,23 @@ przypięte do `0b69c28e`; kontrakty, tekstury i geometria użytego miasta nie zm
 się. Nowy webowy system prowadzenia przez NPC nie jest częścią tego portu.
 Wyniki 2112 testów dotyczą lokalnej kontroli na bazie 0b69c28e; końcowy stan
 po integracji potwierdza bramka CI na SHA PR. Nie wykonano scalenia do main.
+
+### 11. Osobna dokumentacja projektu Android / Godot
+
+Na wyraźne zlecenie właściciela dodano samodzielny
+[podręcznik Android](../../../ports/godot-pyra/README.md) obok `project.godot`.
+Opisuje zakres miasta, instalację APK, sterowanie, uruchomienie edytora,
+strukturę kodu i danych, regenerację materiałów, SDK/JDK i eksport, podpisy,
+checkpoint, testy oraz dalszy zakres migracji. Nie dodano jedenastego dokumentu
+tematycznego do `docs/`; indeks i opis architektury linkują instrukcję portu.
+
+Do istniejącego ZIP-a projektu dołączono wyłącznie `godot-pyra/README.md`;
+poprzednie wpisy i ich zawartość zachowano. Manifest dostawy i odnośnik do ZIP-a
+w raporcie odbioru otrzymały aktualny rozmiar/SHA-256. APK i cały kod runtime
+pozostają identyczne. Wyniki testów silnika opisane w instrukcji dotyczą
+`01ff5f91d571d2b408c07374298a869065bcfb79`, a nie nowego commita dokumentacji.
+
+Sprawdzono odnośniki, kompletność i CRC ZIP-a, zgodność manifestów i zachowanie
+SHA APK; uruchomiono kontrolę dokumentacji, pełny TypeScript i sześć testów mostu.
+Fizyczny Android pozostaje niezweryfikowany. Zmiany na tej samej osobnej gałęzi
+i w PR #170, bez scalenia lub publikacji.

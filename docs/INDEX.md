@@ -2,7 +2,8 @@
 
 **Próba Godot 4 / Android, 15.11:** osobna gałąź `feat/godot-pyra-android-20261115`,
 jedno miasto Pyry: Twierdza Popiołu. Projekt i APK są prototypem lokalnym; bez
-scalenia i zmian produkcji. [Zakres i wyniki](zmiany/2026-11-15/ZMIANY.md).
+scalenia i zmian produkcji. [Osobna dokumentacja Android](../ports/godot-pyra/README.md),
+[zakres i wyniki](zmiany/2026-11-15/ZMIANY.md).
 
 **Świat — przegląd, PR #154:** gotowa mapa administratora Superior v2, 10 lądów,
 spawny, NPC, questy, wnętrza i rozwój ras. Właściciel 12.11 zatwierdził scalenie
