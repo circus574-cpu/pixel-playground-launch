@@ -104,7 +104,7 @@ it("keeps the map open on rejected locations and aborts a pending request on clo
   const { unmount } = render(<PlanetMap onTeleport={reject} onClose={onClose} />);
   fireEvent.click(screen.getByRole("button", { name: "Teleportuj" }));
   tap(screen.getByRole("group", { name: "Interaktywna mapa planety Superior" }));
-  await screen.findByText(/Miejsce niedostępne/);
+  await screen.findByText(/Do wody nie można się teleportować/);
   expect(onClose).not.toHaveBeenCalled();
   unmount();
   let signal: AbortSignal | undefined;

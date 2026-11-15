@@ -58,6 +58,7 @@ import {
 } from "../../assets/groundBudget";
 import { buildSceneryGrid, sceneryNear, sceneryReach } from "../sceneryStream";
 import { sizeScenery } from "../../assets/scenery";
+import { thinScenery } from "../sceneryThinning";
 import { renderDepth } from "../../assets/layers";
 import { blendedTexture } from "../../assets/blendPlates";
 import { foliageAlpha, occlusionAlpha, type OcclusionFocus } from "../visibility";
@@ -1037,22 +1038,28 @@ export function renderSuperior(scene: Phaser.Scene, source: RenderSource) {
           return !!(flags[row * data.terrain.width + col]! & 16);
         };
         items.push(
-          ...(nexusContinent ? nexusRoadside : aetheriaContinent ? aetheriaRoadside : roadside)(
-            data.x,
-            data.y,
-            source.roads,
-            outside,
-            onLand,
-            biomeAt,
+          ...thinScenery(
+            (nexusContinent ? nexusRoadside : aetheriaContinent ? aetheriaRoadside : roadside)(
+              data.x,
+              data.y,
+              source.roads,
+              outside,
+              onLand,
+              biomeAt,
+            ),
           ),
         );
         if (dress) {
           items.push(
-            ...continentDress(feature, data.x, data.y, source.roads, outside, onLand, biomeAt),
+            ...thinScenery(
+              continentDress(feature, data.x, data.y, source.roads, outside, onLand, biomeAt),
+            ),
           );
           items.push(...continentAir(feature, data.x, data.y, outside, onLand));
         } else if (nexusContinent) {
-          items.push(...nexusScatter(data.x, data.y, source.roads, outside, onLand, biomeAt));
+          items.push(
+            ...thinScenery(nexusScatter(data.x, data.y, source.roads, outside, onLand, biomeAt)),
+          );
           items.push(...nexusAir(data.x, data.y, outside, onLand, biomeAt));
         }
       }

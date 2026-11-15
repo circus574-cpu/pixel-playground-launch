@@ -49,3 +49,6 @@ __pycache__/
 
 .admin-catalog-dist/
 public/publications.json
+
+# local player walkthrough output (scripts/qa/playthrough)
+qa-out/

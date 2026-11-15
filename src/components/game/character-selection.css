@@ -777,3 +777,20 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.ki-origin-bio {
+  margin: 12px 0;
+  padding: 10px 12px;
+  border: 1px solid #6b5a3a88;
+  border-radius: 8px;
+  background: #0f0d1488;
+}
+.ki-origin-bio summary {
+  cursor: pointer;
+  color: #f5d48a;
+  font-weight: 600;
+}
+.ki-origin-bio p {
+  margin: 8px 0 0;
+  line-height: 1.5;
+}

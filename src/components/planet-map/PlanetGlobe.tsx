@@ -8,7 +8,17 @@
  */
 import { Canvas, useFrame, useLoader, useThree, type ThreeEvent } from "@react-three/fiber";
 import { BackToGame, PlayerChip, RegionGameNote, ZoneList, type GameLink } from "./MapChrome";
-import { Layers, Map as MapIcon, Minus, Plus, RotateCcw, X } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Layers,
+  Map as MapIcon,
+  Minus,
+  Orbit,
+  Plus,
+  RotateCcw,
+  X,
+} from "lucide-react";
 import {
   Suspense,
   useCallback,
@@ -125,8 +135,10 @@ function prepareGlobeRoads() {
 
 /** Sun direction in view space: upper-left, in front — terminator on the right limb. */
 const SUN_VIEW = new THREE.Vector3(-0.62, 0.4, 0.68).normalize();
-/** Resume the slow idle spin after this long without interaction (ms). */
-const IDLE_SPIN_MS = 20_000;
+/** The globe starts turning on its own after this long without interaction (ms). */
+const IDLE_SPIN_MS = 3_000;
+/** About 7 degrees per second at 60 FPS (OrbitControls: 2.0 is a turn in 30 s), a full turn in under a minute. */
+const IDLE_SPIN_SPEED = 1.2;
 
 type GlobeApi = {
   flyTo: (target: Vec3, seconds?: number) => void;
@@ -170,7 +182,7 @@ function Rig({
   const sun = useRef<THREE.DirectionalLight>(null);
   const controls = useRef<OrbitControls | null>(null);
   const flight = useRef<Flight | null>(null);
-  const lastInput = useRef(reduced ? Number.POSITIVE_INFINITY : -IDLE_SPIN_MS);
+  const lastInput = useRef(-IDLE_SPIN_MS);
   const readout = useRef("");
   const aspect = size.width / Math.max(1, size.height);
   const aspectRef = useRef(aspect);
@@ -185,7 +197,7 @@ function Rig({
     c.zoomSpeed = 0.75;
     c.minPolarAngle = 0.22;
     c.maxPolarAngle = Math.PI - 0.22;
-    c.autoRotateSpeed = 0.32;
+    c.autoRotateSpeed = IDLE_SPIN_SPEED;
     c.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_ROTATE };
     const onStart = () => {
       flight.current = null;
@@ -262,7 +274,8 @@ function Rig({
   const spherical = useMemo(() => new THREE.Spherical(), []);
 
   useFrame((_, rawDelta) => {
-    const dt = Math.min(rawDelta, 0.05);
+    // A slow GPU (15 FPS) must not slow the turn down: the spin follows real time up to 0.1 s per frame.
+    const dt = Math.min(rawDelta, 0.1);
     const c = controls.current;
     const f = flight.current;
     let moving = false;
@@ -757,6 +770,8 @@ export default function PlanetGlobe({
     }),
   );
   const [reduced] = useState(prefersReducedMotion);
+  /** Own turning: on by default, off for people who asked the system for less motion; the button below overrides both. */
+  const [spin, setSpin] = useState(!reduced);
   const [ready, setReady] = useState(false);
   const [selected, setSelected] = useState<string | null>(current ?? null);
   const [hovered, setHovered] = useState<string | null>(null);
@@ -907,7 +922,7 @@ export default function PlanetGlobe({
           <Rig
             apiRef={api}
             reduced={reduced}
-            allowSpin={!reduced && !selected}
+            allowSpin={spin && !selected}
             zoomRef={zoomRef}
             bgRef={bgRef}
           />
@@ -1044,6 +1059,37 @@ export default function PlanetGlobe({
           title="Oddal"
         >
           <Minus size={18} aria-hidden />
+        </Button>
+        <Button
+          variant="ghost"
+          type="button"
+          onClick={() => api.current?.rotateBy(-0.4, 0)}
+          aria-label="Obróć w lewo"
+          title="Obróć w lewo"
+        >
+          <ChevronLeft size={18} aria-hidden />
+        </Button>
+        <Button
+          variant="ghost"
+          type="button"
+          onClick={() => api.current?.rotateBy(0.4, 0)}
+          aria-label="Obróć w prawo"
+          title="Obróć w prawo"
+        >
+          <ChevronRight size={18} aria-hidden />
+        </Button>
+        <Button
+          variant="ghost"
+          type="button"
+          onClick={() => {
+            setSpin((v) => !v);
+            if (selected) setSelected(null);
+          }}
+          aria-label="Automatyczny obrót globusa"
+          aria-pressed={spin}
+          title={spin ? "Zatrzymaj obrót globusa" : "Obracaj globus automatycznie"}
+        >
+          <Orbit size={17} aria-hidden />
         </Button>
         <Button
           variant="ghost"

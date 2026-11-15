@@ -52,6 +52,9 @@ type Gesture = { x: number; y: number; region: string | null; moved: boolean };
 const FALLBACK: Size = { w: 1280, h: 800 };
 const PATHS = Object.fromEntries(REGIONS.map((r) => [r.id, regionPath(r)]));
 
+/** Map units each atlas copy extends beyond its own width on both sides. */
+const ATLAS_OVERLAP = 1;
+
 export function PlanetMap({
   onShowGlobe,
   notice,
@@ -319,7 +322,7 @@ export function PlanetMap({
                 setTeleportArmed(false);
                 setTeleportNotice("");
                 onClose?.();
-              } else setTeleportNotice("Miejsce niedostępne. Wskaż ląd poza przeszkodami.");
+              } else setTeleportNotice("Do wody nie można się teleportować. Wskaż ląd.");
             } catch {
               if (!request.signal.aborted)
                 setTeleportNotice("Nie udało się sprawdzić miejsca. Spróbuj ponownie.");
@@ -410,9 +413,12 @@ export function PlanetMap({
 
   const atlasImage = useMemo(
     () => (
+      // Wrap copies sit side by side; two antialiased edges leave a 1 px dark hairline where they meet. Each copy reaches
+      // one map unit past both edges (the atlas is sealed at its seam, so the overlap shows the same picture).
       <image
         href={hiRes ? atlasHi : atlasLo}
-        width={MAP_W}
+        x={-ATLAS_OVERLAP}
+        width={MAP_W + 2 * ATLAS_OVERLAP}
         height={MAP_H}
         preserveAspectRatio="none"
         className="pm-atlas"

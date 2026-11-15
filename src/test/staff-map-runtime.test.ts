@@ -31,6 +31,29 @@ it("authorizes GM map teleport, checks real collision data, cancels, and persist
     const point = runtime.session.nav.safe({ x: p.x + 128, y: p.y + 128 });
     expect(await runtime.staffTeleport("verdant", point)).toBe(true);
     expect(p).toMatchObject(point);
+    // No ground is "unsafe" for a game master: a point on an obstacle lands on the nearest standing place, only water refuses.
+    const nav = runtime.session.nav;
+    let blocked: { x: number; y: number } | undefined;
+    let water: { x: number; y: number } | undefined;
+    for (let r = 200; r < 40_000 && !(blocked && water); r += 160)
+      for (let a = 0; a < 16; a++) {
+        const q = {
+          x: point.x + Math.cos((a * Math.PI) / 8) * r,
+          y: point.y + Math.sin((a * Math.PI) / 8) * r,
+        };
+        if (q.x < 0 || q.y < 0 || nav.walkable(q)) continue;
+        if (nav.isWater(q)) water ??= q;
+        else blocked ??= q;
+      }
+    expect(blocked, "no obstacle found near the start").toBeDefined();
+    expect(water, "no water found near the start").toBeDefined();
+    expect(await runtime.staffTeleport("verdant", blocked!)).toBe(true);
+    expect(nav.walkable(p)).toBe(true);
+    expect(Math.hypot(p.x - blocked!.x, p.y - blocked!.y)).toBeLessThan(4000);
+    const onLand = { x: p.x, y: p.y };
+    expect(await runtime.staffTeleport("verdant", water!)).toBe(false);
+    expect(p).toMatchObject(onLand);
+    Object.assign(p, point);
     expect(await runtime.staffTeleport("verdant", { x: -1, y: -1 })).toBe(false);
     expect(await runtime.staffTeleport("verdant", { x: NaN, y: 100 })).toBe(false);
     const cancelled = new AbortController();

@@ -129,7 +129,12 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
   const repaired = repairPlayerForLoad(stored, info, { town: checkpointTown });
   // A teleport to a spot nobody can stand on would crash the session constructor.
   if (!stored.interior && !loader.navigation.walkable(stored)) {
-    Object.assign(stored, loader.navigation.safe(info.arrival));
+    // An administrator teleport onto a tree or rock lands on the nearest standing place; only a position in water
+    // (or with no ground within reach) falls back to the arrival point of the land.
+    Object.assign(
+      stored,
+      loader.navigation.staffSpot(stored) ?? loader.navigation.safe(info.arrival),
+    );
     repaired.push("position");
   }
   if (repaired.length)
@@ -378,13 +383,14 @@ export async function prepareServerSimulation(record: CharacterRecord, publicRoo
         (staff && !session.staff)
       )
         throw Error("TRAVEL_UNAVAILABLE");
-      if (
-        point &&
-        !(await loadBrowserFeature(basePath, destination, { fetcher })).navigation.walkable(point)
-      )
-        throw Error("INVALID_DESTINATION");
+      // Staff may land anywhere on dry ground; a spot on an obstacle moves to the nearest standing place, water is refused.
+      const spot = point
+        ? (await loadBrowserFeature(basePath, destination, { fetcher })).navigation.staffSpot(point)
+        : undefined;
+      if (point && !spot) throw Error("INVALID_DESTINATION");
       session.command({ type: "cancel" });
-      if (!loadedStore.travel(session.player, next, point)) throw Error("TRAVEL_FAILED");
+      if (!loadedStore.travel(session.player, next, spot ?? undefined))
+        throw Error("TRAVEL_FAILED");
       const superior = JSON.parse(data.get(record.id)!);
       return {
         format: "server-character-1" as const,

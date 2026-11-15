@@ -377,6 +377,27 @@ Wymiary kontynentów to prostokąty opisane na obrysach z `atlasRegions.json` pr
 4. Dłuższe trasy: kamera, minimapa i mapa świata nie mają jeszcze przybliżenia na całą krainę; podróż po 40-tysięcznym kontynencie pieszo trwa kilka minut.
 5. Pomiar FPS i pamięci na telefonie.
 
+## Rzadsza roślinność, wolne pola spawnów i ścieżki do spawnów — 15.11.2026
+
+Na polecenie właściciela: mniej drzew i obiektów w całym świecie, spawny na wolnych polach, drogi i ścieżki
+prowadzące do spawnów.
+
+- **Roślinność:** `sceneryThinning.ts` zostawia deterministycznie (po haszu pozycji) 30% drzew, 30% krzewów, 50% skał
+  i 40% kryształów bez footprintu kolizji; obiekty z kolizją (`solid`) zostają zawsze, więc nawigacja i zapisy się nie
+  zmieniają. Filtr działa na dekoracjach z chunków (`superiorRuntime.readArt`) i na warstwach roadside, dress i scatter
+  (`renderSuperior`). Oczyszczanie wokół spawnów (`combatArena.ts`) działa jak dotąd.
+- **Spawny:** około 28% spawnów stało w ciasnych miejscach (mniej niż 128 j. wolnego gruntu, np. wciśnięte między
+  skały i krzewy). `open_fields.py` przenosi każdy taki spawn do najbliższego pola z co najmniej 224 j. wolnego gruntu,
+  poza strefą bezpieczną miasta i drogami, najwyżej o 1400 j.; id, rodzaj, poziom i grupa zostają, zmieniają się x, y
+  i `streamCell`. Przykład Verdantia: 675 ciasnych spawnów z 2352, po zmianie 1.
+- **Ścieżki:** `paths.json` każdego lądu (wpis w `manifest.json`, weryfikowany sumą SHA-256) zawiera najkrótsze
+  przejezdne trasy od sieci dróg do skupisk spawnów, tanie wzdłuż istniejących dróg (Verdantia: 568 ścieżek,
+  ok. 1,97 mln j.). Loader dokleja je do `definition.roads` jako rodzaj `path`, więc te same funkcje, które
+  czyszczą roślinność przy drogach, czyszczą ją przy ścieżkach. Teren, kolizje i nawigacja nie zmieniają się
+  (ścieżka biegnie po gruncie, który już był przejezdny). Ścieżek nie ma w nakładce atlasu 2D ani na globusie.
+- Powtórzenie: `python3 scripts/worldgen/v2/open_fields.py` (deterministyczne; na własnym wyniku nic nie zmienia).
+  Testy: `open-fields.test.ts` (prawdziwe dane Verdantii i wyspy), `scenery-thinning.test.ts`.
+
 ## Superior v2 — decyzja właściciela 24.10.2026
 
 Nowy cel zastępuje ograniczenie skali 0,5: 45% lądu / 55% oceanów na sferze

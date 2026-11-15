@@ -53,15 +53,39 @@ export async function loadBrowserFeature(
     if (!expected) throw Error("Unlisted generated world asset");
     return await get(path, expected);
   };
-  const [world, navData, terrain, rectangles] = await Promise.all([
+  const [world, navData, terrain, rectangles, paths] = await Promise.all([
     verified("world.json"),
     verified("navigation.json"),
     verified("terrain.json"),
     verified("collision.json"),
+    // Paths from the roads to the monster spawns (scripts/worldgen/v2/open_fields.py); older sets have none.
+    manifest.files["paths.json"] ? verified("paths.json") : Promise.resolve(null),
   ]);
   const definition = world as BrowserFeature;
   if (definition.feature !== feature || !definition.geometry || !Array.isArray(rectangles))
     throw Error("Generated feature identity mismatch");
+  const extra = (paths as { feature?: string; roads?: unknown } | null) ?? null;
+  if (extra) {
+    const valid = (r: unknown) => {
+      const road = r as { id?: unknown; kind?: unknown; width?: unknown; points?: unknown };
+      return (
+        typeof road?.id === "string" &&
+        typeof road.kind === "string" &&
+        typeof road.width === "number" &&
+        Array.isArray(road.points) &&
+        road.points.length >= 2 &&
+        road.points.every(
+          (p) => Array.isArray(p) && p.length === 2 && p.every((v) => Number.isFinite(v)),
+        )
+      );
+    };
+    if (extra.feature !== feature || !Array.isArray(extra.roads) || !extra.roads.every(valid))
+      throw Error("Generated paths mismatch");
+    definition["roads"] = [
+      ...(Array.isArray(definition["roads"]) ? definition["roads"] : []),
+      ...extra.roads,
+    ];
+  }
   const navigation = browserNavigation(
     definition.geometry.width,
     definition.geometry.height,

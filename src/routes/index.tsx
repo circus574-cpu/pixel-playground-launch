@@ -12,6 +12,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { GameLoadingScreen } from "../components/game/GameLoadingScreen";
 import { preparingWorld, type GameLoadingState } from "../game/loading";
 import { CharacterSelection } from "../components/game/CharacterSelection";
+import { Landing } from "../components/landing/Landing";
 import { type CharacterSlot } from "../game/characters";
 import { SuperiorCharacterStore as CharacterStore } from "../game/world/generated/superiorCharacters";
 import { playtestSaveKey } from "../game/playtest";
@@ -42,6 +43,7 @@ export const Route = createFileRoute("/")({
           "Cztery pochodzenia, cztery krainy. Dołącz do serwerowej przygody PvE w Ki Legends.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:locale", content: "pl_PL" },
       { name: "twitter:card", content: "summary_large_image" },
       {
         name: "description",
@@ -93,14 +95,7 @@ export function Index() {
     };
   }, [account.ready, account.session, active, refresh, client]);
   if (!account.ready) return <GameLoadingScreen state={preparingWorld()} />;
-  if (!account.session)
-    return (
-      <main className="ki-bootstrap">
-        <h1>KI LEGENDS</h1>
-        <p>Rozgrywka i zapis postaci działają na serwerze.</p>
-        <a href="/konto">Zaloguj się / utwórz konto</a>
-      </main>
-    );
+  if (!account.session) return <Landing />;
   if (active)
     return (
       <GameScreen

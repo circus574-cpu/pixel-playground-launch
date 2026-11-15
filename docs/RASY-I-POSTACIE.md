@@ -122,6 +122,60 @@ Szczegółowe historyczne decyzje i hashe: [22.10](zmiany/2026-10-22/ZMIANY.md).
 Porzucono rigi 3D składane z prymitywów. Historyczna partia 22.10 używała malowanych widoków animowanych deformacją siatki 2D; obecne klipy HD pochodzą z późniejszych materiałów Gemini. Nie są to 416 niezależnie generowane ilustracje.
 Pipeline i polecenia: [GPU](GPU-I-ZASOBY.md).
 
+## Biografie ras i strona główna dla odwiedzających — 15.11.2026
+
+Biografie piszą się z kanonu księgi przygody ([fabuła](FABULA-I-EKWIPUNEK.md): Wielkie Rozstrojenie, Chór, zasady
+kultur, Cisza) i z tożsamości powyżej; nie ujawniają ukrytej prawdy kampanii. Pokazują je strona główna dla
+niezalogowanych (`/`, sekcja „Cztery pochodzenia”) oraz ekran wyboru rasy po zalogowaniu. Źródło w kodzie:
+`src/game/world/raceLore.ts` (test `landing.test.tsx` pilnuje kompletu, zgodności z miastem kontynentu i braku
+spoilerów). Zmiana tekstu wymaga zmiany obu miejsc: kodu i tej sekcji.
+
+### Planetarni: W rytmie żywej planety
+
+Verdantia · Zielona Przystań · zasada kultury w Chórze: Zmienność · rola: Mobilny wojownik wręcz · mechanika: Adaptacja do terenu · pierwsza zdolność: Cios Szlaku.
+
+Verdantia nie ma jednej mapy: rzeka co sezon zmienia koryto, a las przesuwa własne ścieżki. Planetarni nauczyli się żyć w ruchu. Budują drewniane i kamienne domy, ale mosty, kuźnie i targowiska stawiają tak, by dało się je naprawić, przenieść albo zbudować na nowo. Ich zasada brzmi: co się nie dostosowuje, to się kruszy.
+
+Sto osiemdziesiąt lat temu, w czasie Wielkiego Rozstrojenia, cztery kultury zbudowały wspólną sieć zwaną Chórem, która uspokoiła przepływy KI na kontynentach. Planetarni dołożyli do niej swoją zasadę, zmienność. Dziś Zielona Przystań żyje z handlu, wypraw i drobnych napraw, a o dawnej katastrofie opowiada się głównie przy rzece.
+
+Trzy tygodnie temu nad doliną przyszła Cisza Korzeni: na siedem uderzeń serca energia KI przestaje słuchać woli. Zaczynasz jako zwykły mieszkaniec Zielonej Przystani, nie wybraniec z przepowiedni, za to z jedną rzadką zdolnością: potrafisz zapamiętać obcy dźwięk, którego inni nie słyszą. W mieście jest bezpiecznie, wrogowie nie wchodzą do dzielnic, a walka zaczyna się dopiero za jego granicą.
+
+### Mędrcy: Wiedza jest formą potęgi
+
+Aetheria · Sanktuarium Tysiąca Źródeł · zasada kultury w Chórze: Pamięć · rola: Mag dystansowy i wsparcie · mechanika: Kręgi światła · pierwsza zdolność: Pocisk Ki.
+
+Aetheria to górskie tarasy, gorące źródła i ogrody pod opieką wiekowych drzew. W Sanktuarium Tysiąca Źródeł prawie każdy kamień jest zapisem: pieczęcią, imieniem albo rachunkiem. Mędrcy wierzą, że wiedza jest formą potęgi, a pamięć jej najcenniejszym kształtem. Ich szkoły uczą energii, medytacji i starożytnych rytuałów.
+
+Gdy cztery kultury budowały Chór, Mędrcy przekazali mu swoją zasadę: pamięć. Prowadzą archiwa pieczęci i dzienników z czasów Wielkiego Rozstrojenia i pilnują, by nikt nie odłożył ich do szuflady. Spór, co z tej wiedzy wolno zapomnieć, trwa w Sanktuarium od pokoleń.
+
+Od trzech tygodni w pieczęciach brakuje jednego tonu, a Cisza wyłącza KI w najmniej oczekiwanych chwilach. Jesteś uczniem, nie wybrańcem, ale masz coś, czego nie mają starsi: pamięć, którą Cisza nie potrafi nadpisać. Sanktuarium jest strefą bez walki, a wyprawy zaczynają się dopiero za jego murami.
+
+### Androidy: Świadomość poza granicami ciała
+
+Nexus-9 · Węzeł Świadomości · zasada kultury w Chórze: Precyzja · rola: Precyzyjny strzelec z tarczami · mechanika: Ładunek Rdzenia · pierwsza zdolność: Strzał Impulsowy.
+
+Nexus-9 to metaliczne równiny, pola kryształów i oświetlone korytarze dawnej sieci. Androidy są syntetycznymi odkrywcami, którzy zadają pytanie starsze od ich konstrukcji: gdzie kończy się maszyna, a zaczyna dusza? Odpowiadają na nie logiką, doskonaleniem i odpowiedzialnością za rozwój własnej świadomości.
+
+W budowie Chóru Androidy wniosły precyzję: dokładność pomiaru, zapisu i obliczenia, bez której sieć nie utrzymałaby równowagi przepływów KI. Do dziś Węzeł Świadomości jest miejscem, gdzie każdą decyzję się mierzy, a błąd zapisuje po to, by się go nie powtórzyło.
+
+Trzy tygodnie temu systemy Nexusa wykryły dziwną rzecz: ten sam pakiet rozkazów zapisany poza pamięcią urządzeń, w miejscu, do którego nikt nie powinien mieć dostępu. Zaczynasz jako nowy moduł w sieci, nie jako wyjątkowa jednostka, za to z pamięcią, której zakłócenie nie nadpisuje. Węzeł jest bezpieczną strefą, a walka zaczyna się dopiero poza jego perymetrem.
+
+### Legendy: Twoje czyny staną się dziedzictwem
+
+Pyra · Twierdza Popiołu · zasada kultury w Chórze: Odwaga działania · rola: Wojownik w zwarciu i burst · mechanika: Żar · pierwsza zdolność: Uderzenie Żaru.
+
+Pyra to czerwone kaniony, obsydianowe skały i szczeliny rozżarzone pradawną energią. Wojownicze klany strzegą tu aren i ruin, w których nadal płonie siła dawnych mistrzów. Honor liczy się bardziej niż tytuły, a rywalizacja jest sposobem na naukę, nie na wrogość. Młodych uczą strażnicy dziedzictwa.
+
+Gdy cztery kultury budowały Chór, Legendy dały mu odwagę działania: gotowość, by ruszyć, zanim wszystko zostanie obliczone. To dzięki niej sieć uruchomiono na czas. Twierdza Popiołu pamięta tamte wyprawy w pieśniach i wypisanych na ścianach nazwiskach, ale też w sporach o to, kto przypłacił je zbyt wysoką ceną.
+
+Od trzech tygodni ogniska w Twierdzy nie gasną, lecz rzucają cudze cienie. Jesteś młodym wojownikiem, nie wybrańcem. W Twierdzy możesz spokojnie się przygotować: handlować, trenować i odpoczywać. Dopiero za jej granicą staniesz twarzą w twarz z tym, co płonie w kanionach.
+
+Strona główna dla odwiedzających zawiera: opis gry, cztery pochodzenia z rolą, mechaniką, pierwszą zdolnością i
+biografią, wbudowany panel konta (rejestracja i logowanie, ten sam formularz co `/konto`), stopkę z mapą świata oraz
+projektami regulaminu (`/regulamin`) i polityki prywatności (`/prywatnosc`). Oba teksty prawne to **projekty z polami do
+uzupełnienia** i wymagają przeglądu prawnego przed uruchomieniem publicznym. Zgoda na regulamin jest wymuszana w
+przeglądarce przy rejestracji, ale serwer jej dziś nie zapisuje.
+
 ## Znane wady i sposób pracy
 
 Niespójne proporcje/detale między kierunkami, rozciąganie przy nogach i płaszczu,
