@@ -9,7 +9,8 @@ var city_instance: PyraGame
 var start_button := Button.new()
 var status := Label.new()
 var title := Label.new()
-var powered := Label.new()
+var powered := TextureRect.new()
+var powered_caption := Label.new()
 var content := VBoxContainer.new()
 var safe_root := Control.new()
 var active_pointer := -1
@@ -79,11 +80,16 @@ func _ready() -> void:
 	status.add_theme_font_size_override("font_size", 14)
 	status.add_theme_color_override("font_color", Color("b8b7af"))
 	content.add_child(status)
-	powered.text = "Powered by GODOT ENGINE"
-	powered.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	powered.add_theme_font_size_override("font_size", 18)
-	powered.add_theme_color_override("font_color", Color("c3d0cc"))
+	powered.texture = load("res://assets/branding/godot/logo-large-color-dark.svg")
+	powered.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	powered.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	powered.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	safe_root.add_child(powered)
+	powered_caption.text = "Powered by"
+	powered_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	powered_caption.add_theme_font_size_override("font_size", 14)
+	powered_caption.add_theme_color_override("font_color", Color("c3d0cc"))
+	safe_root.add_child(powered_caption)
 	resized.connect(_layout)
 	_layout()
 
@@ -97,8 +103,10 @@ func _layout() -> void:
 	safe_root.size = area.size
 	content.size = Vector2(minf(720, area.size.x - 56), 520)
 	content.position = (area.size - content.size) / 2 - Vector2(0, 22)
-	powered.position = Vector2(0, area.size.y - 50)
-	powered.size = Vector2(area.size.x, 30)
+	powered.position = Vector2((area.size.x - 220) / 2, area.size.y - 110)
+	powered.size = Vector2(220, 89)
+	powered_caption.position = Vector2(0, powered.position.y - 25)
+	powered_caption.size = Vector2(area.size.x, 22)
 
 func start_city() -> void:
 	if loading or is_instance_valid(city_instance):

@@ -483,3 +483,25 @@ katalogu; nie nadpisano oryginalnych paczek ani ich dowodów.
 
 Workflow Godot wymaga teraz co najmniej 64 zaliczonych kontroli bez błędów.
 PR #170 pozostaje osobnym Draft; brak scalenia i publikacji.
+
+### 13. Korekta: oryginalny logotyp Godot; oczekiwanie na plik ilustracji
+
+Właściciel odrzucił wygląd wstępu i wskazał konkretną ilustrację KI Legends.
+Napis silnika zastąpiono niezmienionym oryginalnym SVG z oficjalnego press kitu
+Godot. Boot splash jest teraz kompozycją oryginalnego logotypu na jednolitym tle;
+ekran startowy pokazuje „Powered by” oraz ten sam oryginalny logotyp. Dodano
+atrybucję CC BY 4.0, źródła/SHA oraz widok licencji. Test silnika sprawdza
+ścieżkę rzeczywistego SVG, zamiast porównywać sam napis.
+
+**Brakujący materiał:** ilustrację widać w wiadomości właściciela, lecz narzędzia
+nie otrzymały jej jako lokalnego pliku ani identyfikatora do pobrania. Sprawdzono
+załączniki, dostępne pliki i repozytoryjną okładkę. Dostępna okładka jest starszą
+wersją z „JUŻ WKRÓTCE” i nie jest tym samym obrazem. Zapytano o ścieżkę/link;
+do integracji dokładnego obrazu potrzebny jest jego plik. Nie zastąpiono go
+podobną wygenerowaną grafiką ani nie ogłoszono ukończenia nowego wstępu.
+
+Korektę logotypu sprawdzono w Godot headless i natywnym Compatibility:
+64/64 w każdym trybie; pełny TypeScript oraz most danych 6/6.
+Dowody są w `qa/godot-official-logo/`. Nie przygotowano kolejnego APK ze starym
+odrzuconym wstępem. Paczka 0.2.0 pozostaje historyczną dostawą; pełna poprawka
+i nowe APK wymagają pliku ilustracji. Bez scalenia i publikacji.

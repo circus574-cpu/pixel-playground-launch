@@ -326,6 +326,13 @@ Ikony i boot splash adaptują istniejący `public/ki-favicon.svg`; źródła i w
 mają SHA-256 w `assets/branding/provenance.json` projektu Godot. Nie dodano
 zewnętrznych grafik ani nowych deklaracji praw do pozostałych materiałów gry.
 
+**Korekta logotypu Godot, 15.11:** dodano niezmieniony oficjalny plik
+`logo_large_color_dark.svg` z press kitu `godotengine/godot-website`, commit
+`9ff22d3a58cbe906d739b85d299dca7c0c78e1e8`. Logo: © 2017 Andrea Calabró,
+CC BY 4.0. Osobny rejestr `ports/godot-pyra/assets/branding/godot/provenance.json`
+zawiera URL i SHA. Notice oraz źródłowe oświadczenie licencyjne z `misc/logo/LICENSE.txt`
+Godot są dołączane do paczki przez filtr eksportu i dostępne w menu licencji.
+
 ## Utrzymanie rejestrów
 
 `collect_dependencies.py`, `collect_supplemental.py`, `collect_source_evidence.py`

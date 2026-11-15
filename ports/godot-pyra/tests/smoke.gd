@@ -99,7 +99,7 @@ func run() -> void:
 	var landing: PyraTitleScreen = load(entry_path).instantiate()
 	root.add_child(landing)
 	await settle(5)
-	verify(landing.title.text == "KI LEGENDS" and landing.powered.text == "Powered by GODOT ENGINE", "actual entry scene displays brand and Godot credit")
+	verify(landing.title.text == "KI LEGENDS" and landing.powered_caption.text == "Powered by" and landing.powered.texture.resource_path == "res://assets/branding/godot/logo-large-color-dark.svg", "actual entry scene displays brand and official Godot press-kit logo")
 	verify(root.get_children().filter(func(n): return n is PyraGame).is_empty(), "city is not instantiated behind the title")
 	var config := ConfigFile.new()
 	config.load("res://export_presets.cfg")

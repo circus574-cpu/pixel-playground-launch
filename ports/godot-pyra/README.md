@@ -4,6 +4,12 @@ Dokumentacja samodzielnego prototypu **Twierdzy Popiołu (Pyra)**, stan 15.11.20
 Repozytorium: `circus574-cpu/pixel-playground-launch`.
 Gałąź: `feat/godot-pyra-android-20261115`, [PR #170](https://github.com/circus574-cpu/pixel-playground-launch/pull/170).
 
+**Korekta wstępu w źródłach:** napis silnika zastąpiono oryginalnym SVG Godot
+z oficjalnego press kitu, także w boot splash. Nowy ekran z konkretną ilustracją
+właściciela oczekuje dostarczenia jej pliku; podgląd w wiadomości nie został
+udostępniony w środowisku jako obraz do odczytu. APK 0.2.0 poniżej jest wcześniejszą
+paczką — nie przedstawiamy go jako realizacji nowego wstępu.
+
 To natywna aplikacja Godot, napisana w GDScript. Nie wymaga uruchamiania React,
 Phasera ani serwera gry. Projekt jest próbą migracji jednego miasta; obecna gra WWW
 pozostaje osobnym produktem. Nie przeniesiono całego kontynentu ani całej gry.
@@ -152,7 +158,11 @@ Nie edytuj ręcznie plików `*.generated.json`, aby obejść rozbieżność kont
 repozytoryjny Cinzel z WOFF2 do TTF. Wymaga `fonttools[woff]` (w tym Brotli).
 Nie tworzy nowej grafiki świata. `assets/branding/provenance.json` zapisuje SHA
 źródeł i wyników. Pełny OFL jest w paczce i dostępny w menu licencji.
-Boot splash i interaktywny ekran startowy zawierają napis „Powered by GODOT ENGINE”.
+Ekran startowy używa „Powered by” i oryginalnego logotypu Godot; boot splash
+pokazuje oryginalny logotyp. Plik `godot/logo-large-color-dark.svg` pochodzi
+z oficjalnego press kitu, bez zmian liter, kolorów lub proporcji. Jego źródło
+i SHA zapisano w `godot/provenance.json`, a atrybucję CC BY 4.0 dołączono do
+zasobów i menu licencji. Wstęp oparty na ilustracji właściciela wymaga jej pliku.
 Miasto powstaje dopiero po zatwierdzeniu przycisku, z ochroną przed wielokrotnym
 uruchomieniem i przejęciem dotyku startowego przez sterowanie gry.
 
