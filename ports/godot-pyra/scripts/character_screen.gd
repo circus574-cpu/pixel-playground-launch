@@ -9,7 +9,7 @@ const COL_X := 190.0
 const NODE := 64.0
 const TREE_PANEL_MIN := 300.0
 
-var kit: LegendKit
+var kit: RaceKit
 var tree: TreeCanvas
 var stats_label := Label.new()
 var level_label := Label.new()
@@ -23,7 +23,7 @@ var level_value := Label.new()
 var xp_bar := ProgressBar.new()
 var selected := ""
 
-func setup(legend_kit: LegendKit) -> void:
+func setup(legend_kit: RaceKit) -> void:
 	kit = legend_kit
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -119,7 +119,7 @@ func setup(legend_kit: LegendKit) -> void:
 	actions.add_child(learn_button)
 	slot_box.add_theme_constant_override("separation", 6)
 	actions.add_child(slot_box)
-	for i in LegendKit.SLOTS:
+	for i in RaceKit.SLOTS:
 		var slot := button("SLOT %d" % (i + 1), func(): assign(i), Vector2(100, 52))
 		slot_buttons.append(slot)
 		slot_box.add_child(slot)
@@ -187,10 +187,10 @@ func fmt(value: float, digits: int = 0) -> String:
 func refresh() -> void:
 	if kit == null:
 		return
-	level_label.text = "LEGENDA · poziom %d · %s · mechanika: %s" % [kit.level, kit.data.role, kit.data.mechanic]
+	level_label.text = "%s · poziom %d · %s · mechanika: %s" % [str(kit.data.raceName).to_upper(), kit.level, kit.data.role, kit.data.mechanic]
 	level_value.text = str(kit.level)
 	points_label.text = "Punkty umiejętności: %d wolnych z %d" % [kit.free_points(), kit.skill_points_total()]
-	xp_bar.max_value = LegendKit.xp_needed(kit.level)
+	xp_bar.max_value = RaceKit.xp_needed(kit.level)
 	xp_bar.value = kit.xp
 	var lines := []
 	for row: Dictionary in kit.stat_breakdown():
@@ -219,7 +219,7 @@ func refresh() -> void:
 		learn_button.disabled = not bool(check.ok)
 		if not bool(check.ok):
 			learn_button.text = str(check.reason)
-		for i in LegendKit.SLOTS:
+		for i in RaceKit.SLOTS:
 			slot_buttons[i].visible = kit.is_active(selected) and kit.has(selected)
 			slot_buttons[i].text = ("● SLOT %d" % (i + 1)) if kit.slots[i] == selected else "SLOT %d" % (i + 1)
 	tree.queue_redraw()
@@ -245,7 +245,7 @@ class TreeCanvas extends Control:
 		if cinzel is Font:
 			title_font = cinzel
 		for id: String in screen.kit.node_order:
-			icons[id] = load("res://assets/icons/skills/%s.png" % id)
+			icons[id] = load("res://assets/icons/skills/%s/%s.png" % [screen.kit.race, id])
 		layout()
 
 	func _process(_delta: float) -> void:

@@ -13,13 +13,13 @@ static func atlas_to_lonlat(p: Vector2) -> Vector2:
 	return Vector2(p.x / MAP_W * 360.0 - 180.0, 90.0 - p.y / MAP_H * 180.0)
 
 ## Continent coordinates (units) -> atlas point, via the authored affine cells. Nearest cell wins outside the grid.
-static func world_to_atlas(pyra: Dictionary, x: float, y: float) -> Vector2:
-	var upp := float(pyra.upp)
+static func world_to_atlas(land_tiles: Dictionary, x: float, y: float) -> Vector2:
+	var upp := float(land_tiles.upp)
 	var px := x / upp
 	var py := y / upp
 	var best: Dictionary = {}
 	var best_d := INF
-	for tile: Dictionary in pyra.tiles:
+	for tile: Dictionary in land_tiles.tiles:
 		var crop: Array = tile.crop
 		var dx := maxf(maxf(float(crop[0]) - px, 0.0), px - (float(crop[0]) + float(crop[2])))
 		var dy := maxf(maxf(float(crop[1]) - py, 0.0), py - (float(crop[1]) + float(crop[3])))

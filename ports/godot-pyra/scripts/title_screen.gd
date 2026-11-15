@@ -68,14 +68,14 @@ func _ready() -> void:
 	content.add_theme_constant_override("separation", 10)
 	content.alignment = BoxContainer.ALIGNMENT_END
 	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	status.text = "TWIERDZA POPIOŁU  ·  PODRÓŻ ZACZYNA SIĘ TUTAJ"
+	status.text = "CZTERY ŚWIATY  ·  JEDNA LEGENDA"
 	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	status.add_theme_font_size_override("font_size", 15)
 	status.add_theme_color_override("font_color", Color("e6dcc4"))
 	status.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.02, 0.95))
 	status.add_theme_constant_override("outline_size", 6)
 	content.add_child(status)
-	start_button.text = "WEJDŹ DO PYRY"
+	start_button.text = "ZACZNIJ PRZYGODĘ"
 	start_button.custom_minimum_size = Vector2(380, 78)
 	start_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	start_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -132,7 +132,7 @@ func start_city() -> void:
 	loading = true
 	start_button.disabled = true
 	start_button.text = "ŁADOWANIE…"
-	status.text = "Wczytywanie kontynentu Pyry"
+	status.text = "Wczytywanie świata"
 	var error := ResourceLoader.load_threaded_request(CITY_PATH)
 	if error != OK:
 		load_failed()
@@ -141,7 +141,7 @@ func load_failed() -> void:
 	loading = false
 	start_button.disabled = false
 	start_button.text = "SPRÓBUJ PONOWNIE"
-	status.text = "Nie udało się wczytać Pyry. Spróbuj ponownie."
+	status.text = "Nie udało się wczytać gry. Spróbuj ponownie."
 
 func _process(_delta: float) -> void:
 	if not loading:

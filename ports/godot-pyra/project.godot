@@ -2,7 +2,7 @@
 config_version=5
 
 [application]
-config/name="KI LEGENDS — Pyra"
+config/name="KI LEGENDS"
 run/main_scene="res://scenes/title.tscn"
 config/icon="res://assets/branding/icon.png"
 boot_splash/image="res://assets/branding/boot-splash.png"
@@ -12,7 +12,7 @@ boot_splash/use_filter=true
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/use_custom_user_dir=true
 config/custom_user_dir_name="ki-legends-godot-pyra-prototype"
-config/description="KI Legends na Androida (Godot 4): kontynent Pyra, mapa 2D/3D i Legenda."
+config/description="KI Legends na Androida (Godot 4): cała planeta Superior (4 kontynenty i 6 wysp), mapa 2D/3D, cztery rasy i miasta."
 
 [display]
 window/size/viewport_width=1280

@@ -18,6 +18,9 @@ var window_time := 0.0
 var recent_dps := 0.0
 var wobble := 0.0
 var label := "Manekin treningowy"
+var marked_until := 0.0
+var sealed_until := 0.0
+var slowed := 0.0
 
 func hurt(raw: float, _crit: bool) -> float:
 	var amount := maxf(1.0, raw)
@@ -39,6 +42,23 @@ func stun(seconds: float) -> void:
 	stunned = seconds
 	wobble = 0.6
 
+func slow(_fraction: float, seconds: float) -> void:
+	slowed = maxf(slowed, seconds)
+
+func seal(seconds: float, _vulnerability: float) -> void:
+	sealed_until = Time.get_ticks_msec() / 1000.0 + seconds
+	wobble = 0.3
+
+func mark(seconds: float, _crit: float, _share: float) -> void:
+	marked_until = Time.get_ticks_msec() / 1000.0 + seconds
+
+func is_marked() -> bool:
+	return Time.get_ticks_msec() / 1000.0 < marked_until
+
+func push(from: Vector2, distance: float) -> void:
+	wobble = 0.5
+	position += (position - from).normalized() * minf(distance, 30.0)
+
 func break_shield() -> void:
 	shielded = false
 
@@ -48,6 +68,8 @@ func _process(delta: float) -> void:
 		hurt(burn_dps * delta, false)
 	if stunned > 0.0:
 		stunned -= delta
+	if slowed > 0.0:
+		slowed -= delta
 	idle_time += delta
 	window_time += delta
 	if window_time >= 1.0:

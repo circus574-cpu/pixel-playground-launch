@@ -26,7 +26,7 @@ var coin_icon: Texture2D = load("res://assets/icons/coin.webp")
 var zoom_button: Button
 var header: PanelContainer
 var notice_until := 0
-var kit: LegendKit
+var kit: RaceKit
 var suspended := false
 var area := Rect2()
 var status_rect := Rect2()
@@ -59,7 +59,7 @@ func _ready() -> void:
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 2)
 	var brand := Label.new()
-	brand.text = "KI LEGENDS  /  PYRA"
+	brand.text = "KI LEGENDS"
 	brand.add_theme_font_size_override("font_size", 13)
 	brand.add_theme_color_override("font_color", Color("e5ad6c"))
 	column.add_child(brand)
@@ -210,25 +210,26 @@ func draw_status(canvas: Control) -> void:
 	var s := kit.stats()
 	var r := status_rect
 	var font := ThemeDB.fallback_font
-	canvas.draw_string_outline(font, r.position + Vector2(0, -3), "Legenda · poziom %d" % kit.level, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 5, Color(0.05, 0.02, 0.02, 0.95))
-	canvas.draw_string(font, r.position + Vector2(0, -3), "Legenda · poziom %d" % kit.level, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("f1c77f"))
+	canvas.draw_string_outline(font, r.position + Vector2(0, -3), "%s · poziom %d" % [kit.data.raceName, kit.level], HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 5, Color(0.05, 0.02, 0.02, 0.95))
+	canvas.draw_string(font, r.position + Vector2(0, -3), "%s · poziom %d" % [kit.data.raceName, kit.level], HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("f1c77f"))
 	bar(canvas, Rect2(r.position + Vector2(0, 6), Vector2(r.size.x, 22)), kit.hp / float(s.maxHp), Color("c23b2b"), "HP %d / %d" % [int(ceil(kit.hp)), int(s.maxHp)])
 	bar(canvas, Rect2(r.position + Vector2(0, 31), Vector2(r.size.x, 22)), kit.ki / float(s.maxKi), Color("3977c9"), "KI %d / %d" % [int(kit.ki), int(s.maxKi)])
-	bar(canvas, Rect2(r.position + Vector2(0, 56), Vector2(r.size.x, 22)), kit.ember / 100.0, Color("e0832a") if kit.ember < 100.0 else Color("ffc24a"), kit.resource_label())
+	var resource_colors := {"legend": Color("e0832a"), "planetary": Color("6fbf4a"), "sage": Color("e8c25a"), "android": Color("39c5d9")}
+	bar(canvas, Rect2(r.position + Vector2(0, 56), Vector2(r.size.x, 22)), kit.resource_ratio(), (resource_colors.get(kit.race, Color("e0832a")) as Color).lightened(0.25 if kit.resource_full() else 0.0), kit.resource_label())
 	var coins := "%d mon." % gold
 	var coin_w := font.get_string_size(coins, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
 	canvas.draw_texture_rect(coin_icon, Rect2(r.position + Vector2(r.size.x - coin_w - 26, -17), Vector2(20, 20)), false)
 	canvas.draw_string_outline(font, r.position + Vector2(r.size.x - coin_w, -3), coins, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 5, Color(0.05, 0.02, 0.02, 0.95))
 	canvas.draw_string(font, r.position + Vector2(r.size.x - coin_w, -3), coins, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("ffd76a"))
-	var needed := LegendKit.xp_needed(kit.level)
+	var needed := RaceKit.xp_needed(kit.level)
 	canvas.draw_rect(Rect2(r.position + Vector2(0, 82), Vector2(r.size.x, 5)), Color(0.04, 0.025, 0.025, 0.9))
 	canvas.draw_rect(Rect2(r.position + Vector2(0, 82), Vector2(r.size.x * float(kit.xp) / float(needed), 5)), Color("b9d98d"))
 
-func refresh(game_kit: LegendKit) -> void:
+func refresh(game_kit: RaceKit) -> void:
 	kit = game_kit
 	var s := kit.stats()
 	var views := []
-	for i in LegendKit.SLOTS:
+	for i in RaceKit.SLOTS:
 		var id := kit.slots[i]
 		if id == "":
 			views.append({})

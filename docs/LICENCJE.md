@@ -420,10 +420,3 @@ Pełne rekordy w JSON/CSV wskazanym na początku tego dokumentu.
 | node_modules/stackback                             | 0.0.2   | MIT               | no immutable gitHead/GitHub source in version metadata                                                                                                     |
 
 <!-- LICENSE-SUMMARY:END -->
-
-**Wstęp Godot / Android (15.11):** ilustracja KI LEGENDS dostarczona przez właściciela w rozmowie (1121 × 1403 PNG) jest użyta
-bez zmian treści, tylko ponownie zakodowana (`scripts/godot/prepare_intro.py`); oryginał i SHA-256 w
-`ports/godot-pyra/assets/branding/intro-source.png` i `intro-provenance.json`. Pochodzenie i prawa do samej ilustracji (autor,
-narzędzie wytwórcze) nie są w repozytorium udokumentowane i pozostają do potwierdzenia przez właściciela. Ikony zdolności i
-przedmiotów w porcie Godot to istniejące zasoby `public/game/icons-v3` i `public/game/items` bez zmian poza maską kołową.
-

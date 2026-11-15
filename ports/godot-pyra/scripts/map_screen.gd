@@ -3,6 +3,7 @@ extends Control
 ## Planet map: 3D globe, flat atlas, and the detailed map of Pyra. Same regions, outlines and hero marker in all three.
 
 signal closed
+signal travel(land_id: String)
 
 var map_data: Dictionary
 var tabs: Array[Button] = []
@@ -18,13 +19,17 @@ var player_atlas := Vector2.ZERO
 var place_name := ""
 var regions: Array = []
 var side_buttons: Array[Button] = []
+var land_id := ""
+var travel_button: Button
+var picked := ""
 
 func setup(data: Dictionary, world: Dictionary, player: Vector2, region_label: String) -> void:
+	land_id = str(world.id)
 	map_data = data
 	player_world = player
 	place_name = region_label
 	regions = data.regions
-	player_atlas = MapMath.world_to_atlas(data.pyra, player.x, player.y)
+	player_atlas = MapMath.world_to_atlas(data.lands[land_id], player.x, player.y)
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var space := TextureRect.new()
@@ -47,14 +52,12 @@ func setup(data: Dictionary, world: Dictionary, player: Vector2, region_label: S
 	atlas = AtlasView.new()
 	atlas.setup(load("res://assets/map/atlas.webp"), regions, player_atlas)
 	atlas.region_picked.connect(show_region)
-	for town: Dictionary in world.towns:
-		atlas.marks.append({"atlas": MapMath.world_to_atlas(map_data.pyra, float(town.x), float(town.y)), "label": str(town.name)})
-	var capital: Dictionary = world.capital
-	atlas.marks.append({"atlas": MapMath.world_to_atlas(map_data.pyra, float(capital.x), float(capital.y)), "label": str(capital.name)})
+	for settlement: Dictionary in world.settlements:
+		atlas.marks.append({"atlas": MapMath.world_to_atlas(map_data.lands[land_id], float(settlement.x), float(settlement.y)), "label": str(settlement.name)})
 	continent_view = ContinentMapView.new()
-	var list: Array[Dictionary] = [{"point": Vector2(float(capital.x), float(capital.y)), "label": str(capital.name), "kind": "city"}]
-	for town: Dictionary in world.towns:
-		list.append({"point": Vector2(float(town.x), float(town.y)), "label": str(town.name), "kind": "city"})
+	var list: Array[Dictionary] = []
+	for settlement: Dictionary in world.settlements:
+		list.append({"point": Vector2(float(settlement.x), float(settlement.y)), "label": str(settlement.name), "kind": "city"})
 	var counters: Dictionary = {}
 	for place: Dictionary in world.places:
 		var label := str(place.name)
@@ -66,7 +69,7 @@ func setup(data: Dictionary, world: Dictionary, player: Vector2, region_label: S
 		list.append({"point": Vector2(float(place.x), float(place.y)), "label": label, "kind": "wilderness" if place.kind == "wilderness" else str(place.kind)})
 	for place: Dictionary in world.famous:
 		list.append({"point": Vector2(float(place.x), float(place.y)), "label": str(place.name), "kind": "famous"})
-	continent_view.setup(load("res://assets/map/pyra-map.webp"), list, player)
+	continent_view.setup(load("res://assets/lands/%s/map.webp" % land_id), list, player, Vector2(float(world.width), float(world.height)))
 	continent_view.marker_picked.connect(func(label: String): info.text = label)
 	views = [globe, atlas, continent_view]
 	build_layout()
@@ -108,7 +111,7 @@ func build_layout() -> void:
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bar.add_child(title)
 	for i in 3:
-		var button := make_button(["GLOBUS 3D", "MAPA 2D", "KONTYNENT PYRA"][i], func(): switch_to(i), Vector2(i * 0 + 160 if i < 2 else 230, 64))
+		var button := make_button(["GLOBUS 3D", "MAPA 2D", "KRAINA: " + str(world_name())][i], func(): switch_to(i), Vector2(i * 0 + 160 if i < 2 else 230, 64))
 		tabs.append(button)
 		bar.add_child(button)
 	bar.add_child(make_button("ZAMKNIJ", func(): closed.emit(), Vector2(150, 64)))
@@ -145,12 +148,25 @@ func build_layout() -> void:
 	style.content_margin_bottom = 10
 	card.add_theme_stylebox_override("panel", style)
 	info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	info.custom_minimum_size = Vector2(900, 60)
+	info.custom_minimum_size = Vector2(500, 60)
 	info.add_theme_font_size_override("font_size", 19)
 	info.add_theme_color_override("font_color", Color("efe0c8"))
 	info.text = "Jesteś tutaj: %s. Dotknij regionu, aby zobaczyć opis." % place_name
-	card.add_child(info)
+	var card_row := HBoxContainer.new()
+	card_row.add_theme_constant_override("separation", 12)
+	info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card_row.add_child(info)
+	travel_button = make_button("PODRÓŻ", func(): travel.emit(picked), Vector2(260, 64))
+	travel_button.visible = false
+	card_row.add_child(travel_button)
+	card.add_child(card_row)
 	root.add_child(card)
+
+func world_name() -> String:
+	for region: Dictionary in regions:
+		if region.id == land_id:
+			return str(region.name)
+	return land_id
 
 func zoom(factor: float) -> void:
 	match current:
@@ -175,7 +191,7 @@ func switch_to(index: int) -> void:
 	for i in views.size():
 		views[i].visible = i == index
 		tabs[i].disabled = i == index
-	title.text = ["GLOBUS PLANETY SUPERIOR", "MAPA PLANETY — ATLAS 2D", "KONTYNENT PYRA — MAPA SZCZEGÓŁOWA"][index]
+	title.text = ["GLOBUS PLANETY SUPERIOR", "MAPA PLANETY — ATLAS 2D", "MAPA SZCZEGÓŁOWA: " + str(world_name()).to_upper()][index]
 	if index == 1:
 		atlas.focus(player_atlas, 1.0)
 	elif index == 2:
@@ -186,7 +202,10 @@ func region_text(region: Dictionary) -> String:
 	if str(region.people) != "":
 		lines.append("Lud: %s · osada: %s" % [region.people, region.settlement])
 	lines.append(str(region.summary))
-	lines.append("Dostępny w tej wersji aplikacji: Pyra (Legendy). Pozostałe kontynenty i wyspy będą przeniesione później." if not bool(region.playable) else "Tu jesteś: %s. Cały kontynent Pyry jest w tej wersji grywalny (bez potworów)." % place_name)
+	if str(region.id) == land_id:
+		lines.append("Tu jesteś: %s." % place_name)
+	else:
+		lines.append("Można tam popłynąć: przycisk PODRÓŻ prowadzi do miejsca przybycia (bezpieczna osada lub brzeg).")
 	return "\n".join(lines)
 
 func show_region(id: String) -> void:
@@ -195,4 +214,7 @@ func show_region(id: String) -> void:
 			info.text = region_text(region)
 			globe.select(id)
 			atlas.selected = id
+			picked = id
+			travel_button.visible = id != land_id
+			travel_button.text = "PODRÓŻ: " + str(region.name).to_upper()
 			return

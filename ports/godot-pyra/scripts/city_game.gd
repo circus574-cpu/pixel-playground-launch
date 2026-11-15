@@ -4,25 +4,36 @@ extends Node2D
 ## interiors each, the Legend with her full kit, plus the 2D map and 3D globe. No enemies and no spawns yet.
 
 const CITY_PATH := "res://data/city.generated.json"
-const HERO_PATH := "res://data/hero.json"
+const ACTORS_PATH := "res://data/actors.json"
+const ROOMS_PATH := "res://data/rooms.json"
+const PYRA_CAPITAL_OFFSET := Vector2(44564.286027, 12168.472)
+const ROLE_OF_SERVICE := {"shop": "merchant", "hall": "steward", "inn": "innkeeper", "smithy": "smith", "depot": "keeper", "arena": "trainer"}
+const WORLD_OF_RACE := {"legend": "pyra", "planetary": "verdant", "sage": "aether", "android": "nexus"}
+const HOME_OF_RACE := {"legend": "pyra", "planetary": "verdant", "sage": "aether", "android": "nexus"}
 const LEGEND_PATH := "res://data/legend.json"
 const SAVE_PATH := "user://city-checkpoint-v1.json"
+const ALL_LANDS := ["pyra", "verdant", "aether", "nexus", "island-1", "island-2", "island-3", "island-4", "island-5", "island-6"]
 const SAVE_FORMAT := "ki-godot-pyra-save-2"
 const INTERACTION_RANGE := 160.0
 const ZOOMS := [0.6, 0.8, 1.0]
-const SERVICE_ACTOR := {"shop": "merchant", "hall": "steward", "inn": "innkeeper", "smithy": "smith", "depot": "keeper", "arena": "trainer"}
 const SERVICE_NAME := {"shop": "Sklep", "hall": "Sala Przysięgi", "inn": "Gospoda", "smithy": "Kuźnia", "depot": "Depozyt", "arena": "Arena"}
 
 var data: Dictionary          # first-trial city (capital layout, rooms, NPC sheets), local frame
 var hero: Dictionary
-var continent := PyraContinent.new()
-var kit: LegendKit
+var actors: Dictionary
+var rooms_data: Dictionary
+var race := "legend"
+var land_id := "pyra"
+var land: Dictionary
+var world_id := "pyra"
+var continent: PyraContinent
+var kit: RaceKit
 var economy: PyraEconomy
 var player := PyraPlayer.new()
 var camera := Camera2D.new()
 var hud := PyraHud.new()
 var ui := CanvasLayer.new()
-var markers := PyraMarkers.new()
+var markers: PyraMarkers
 var room_root: Node2D
 var room_sorted: Node2D
 var current_room := ""
@@ -47,19 +58,11 @@ var time_since_save_check := 0.0
 
 func _ready() -> void:
 	data = PyraContinent.load_json(CITY_PATH)
-	hero = PyraContinent.load_json(HERO_PATH)
-	var legend: Dictionary = PyraContinent.load_json(LEGEND_PATH)
+	actors = PyraContinent.load_json(ACTORS_PATH)
+	rooms_data = PyraContinent.load_json(ROOMS_PATH)
 	map_data = PyraContinent.load_json("res://data/map.json")
 	get_tree().quit_on_go_back = false
-	continent.setup()
-	add_child(continent)
-	origin = Vector2(float(continent.world.offset[0]), float(continent.world.offset[1]))
-	kit = LegendKit.new(legend)
-	kit.player_position = func() -> Vector2: return player.position
-	kit.player_facing = func() -> Vector2: return player.facing
-	kit.foes_in = foes_in
-	kit.dash_towards = func(to: Vector2, distance: float) -> void: player.dash(to, distance)
-	kit.target = func() -> Node: return current_target
+	origin = PYRA_CAPITAL_OFFSET
 	economy = PyraEconomy.new(PyraContinent.load_json("res://data/economy.json"))
 	economy.heal_callback = func(fraction: float) -> bool:
 		var top := float(kit.stats().maxHp)
@@ -69,15 +72,9 @@ func _ready() -> void:
 		return true
 	economy.changed.connect(on_economy_changed)
 	economy.said.connect(func(text: String) -> void: hud.toast(text))
-	kit.changed.connect(func() -> void: economy.level = kit.level)
-	kit.effect.connect(on_effect)
-	kit.damage_dealt.connect(on_damage)
-	kit.said.connect(func(text: String) -> void: hud.toast(text))
-	continent.overlay.add_child(markers)
-	player.setup(hero, float(kit.stats().speed))
-	player.can_stand = func(at: Vector2) -> bool: return stand(at)
 	camera.position_smoothing_enabled = false
 	camera.zoom = Vector2.ONE * float(ZOOMS[zoom_index])
+	player.can_stand = func(at: Vector2) -> bool: return stand(at)
 	player.add_child(camera)
 	add_child(ui)
 	ui.add_child(hud)
@@ -92,15 +89,37 @@ func _ready() -> void:
 	hud.inventory_requested.connect(func() -> void: open_items("inventory", "Plecak i wyposażenie"))
 	hud.zoom_requested.connect(cycle_zoom)
 	hud.dialog_changed.connect(func(open: bool): player.locked = open or input_suspended)
-	build_capital()
-	build_towns()
-	city_return = origin + point(data.spawn)
-	load_space("", city_return)
-	if "--fresh" not in OS.get_cmdline_user_args():
-		restore_checkpoint()
+	set_race("legend")
+	enter_land(str(HOME_OF_RACE[race]))
+	var args := OS.get_cmdline_user_args()
+	var restored := false
+	if "--fresh" not in args:
+		restored = restore_checkpoint()
 	hud.refresh(kit)
+	if not restored and "--fresh" not in args and not checkpoint_protected:
+		open_race_screen.call_deferred(false)
 	if "--capture" in OS.get_cmdline_user_args():
 		capture_frame.call_deferred()
+
+## Chooses the race of the character: hero art, kit (stats, tree, abilities) and the home world.
+func set_race(new_race: String) -> void:
+	race = new_race
+	var legend: Dictionary = PyraContinent.load_json("res://data/races/%s.json" % race)
+	kit = RaceKits.create(race, legend)
+	kit.player_position = func() -> Vector2: return player.position
+	kit.player_facing = func() -> Vector2: return player.facing
+	kit.foes_in = foes_in
+	kit.dash_towards = func(to: Vector2, distance: float) -> void: player.dash(to, distance)
+	kit.target = func() -> Node: return current_target
+	kit.changed.connect(func() -> void: economy.level = kit.level)
+	kit.effect.connect(on_effect)
+	kit.damage_dealt.connect(on_damage)
+	kit.said.connect(func(text: String) -> void: hud.toast(text))
+	kit.gear = economy.gear()
+	kit.terrain_at = func() -> String: return continent.terrain_kind(player.position) if is_instance_valid(continent) else "open"
+	hero = actors[str(WORLD_OF_RACE[race]) + ".hero"]
+	player.setup(hero, float(kit.stats().speed))
+	economy.level = kit.level
 
 static func point(p: Dictionary) -> Vector2:
 	return Vector2(float(p.x), float(p.y))
@@ -110,8 +129,40 @@ static func rectangle(r: Dictionary) -> Rect2:
 
 # ---- world building ------------------------------------------------------------------------
 
-func build_capital() -> void:
-	# Floor tiles painted for the capital plaza; the whole square fades out at its border.
+## Loads one of the ten lands and builds its cities, doors, signposts and people. Called at start, on travel and on load.
+func enter_land(id: String, at: Vector2 = Vector2(-1, -1)) -> void:
+	input_suspended = true
+	if is_instance_valid(continent):
+		if player.get_parent() != null:
+			player.get_parent().remove_child(player)
+		remove_child(continent)
+		continent.queue_free()
+	if is_instance_valid(room_root):
+		room_root.queue_free()
+		room_root = null
+	continent = PyraContinent.new()
+	continent.setup_land(id)
+	add_child(continent)
+	move_child(continent, 0)
+	land_id = id
+	land = continent.cfg
+	world_id = str(land.world)
+	markers = PyraMarkers.new()
+	continent.overlay.add_child(markers)
+	outdoor_targets = [] as Array[Dictionary]
+	settlements = [] as Array[Dictionary]
+	if id == "pyra":
+		build_pyra_capital()
+	build_land_places()
+	var start := at if at.x >= 0.0 else Vector2(float(land.arrival.x), float(land.arrival.y))
+	city_return = start
+	current_room = ""
+	room_town = ""
+	input_suspended = false
+	load_space("", start)
+
+## The first trial's painted capital of Pyra: plaza floor, 53 props and the authored footprints.
+func build_pyra_capital() -> void:
 	var fade := ShaderMaterial.new()
 	fade.shader = load("res://assets/continent/floor_fade.gdshader")
 	fade.set_shader_parameter("region", Vector4(origin.x, origin.y, float(data["size"][0]), float(data["size"][1])))
@@ -133,47 +184,42 @@ func build_capital() -> void:
 		var origin_point := Vector2(float(object.origin[0]), float(object.origin[1]))
 		layer_node.add_child(PyraContinent.make_sprite(load(object.texture), origin + point(object), Vector2(float(object["size"][0]), float(object["size"][1])), origin_point))
 	# The browser game's accepted city buildings (one painted house per service).
-	for building: Dictionary in continent.world.capitalBuildings:
-		var sprite := PyraContinent.make_sprite(continent.textures[int(building.t)], Vector2(float(building.x), float(building.y)), Vector2(float(building.w), float(building.h)), Vector2(0.5, 0.92))
-		continent.sorted.add_child(sprite)
+	for building: Dictionary in land.capitalBuildings:
+		continent.sorted.add_child(PyraContinent.make_sprite(continent.texture_at(int(building.t)), Vector2(float(building.x), float(building.y)), Vector2(float(building.w), float(building.h)), Vector2(0.5, 0.92)))
 	for obstacle: Dictionary in data.obstacles:
 		var r := rectangle(obstacle)
 		r.position += origin
 		continent.block_rect(r, 12.0)
-	var capital: Dictionary = continent.world.capital
-	settlements.append({"id": capital.id, "name": capital.name, "bounds": rectangle(capital.bounds)})
-	for building: Dictionary in data.buildings:
-		var door := origin + point(building.door)
-		outdoor_targets.append({"kind": "door", "id": building.id, "room": building.id, "name": SERVICE_NAME.get(building.id, building.name), "title": building.name, "point": door, "town": capital.id})
-		markers.points.append({"point": door})
-	for npc: Dictionary in data.npcs:
-		var building := str(npc.get("building", ""))
-		if building != "":
-			continue
-		var at := origin + point(npc)
-		add_street_npc(str(npc.id), npc.name, npc.role, str(npc.dialogue), at)
 
-func add_street_npc(actor_id: String, display_name: String, role: String, dialogue: String, at: Vector2) -> void:
-	if not data.actors.has(actor_id):
+func add_street_npc(role: String, display_name: String, title: String, dialogue: String, at: Vector2) -> void:
+	var key := "%s.npc.%s" % [world_id, role]
+	if not actors.has(key):
 		return
 	var actor := PyraActor.new()
 	actor.position = at
 	continent.sorted.add_child(actor)
-	actor.setup(data.actors[actor_id], display_name, false)
-	outdoor_targets.append({"kind": "npc", "id": actor_id, "name": display_name, "point": at, "definition": {"name": display_name, "role": role, "dialogue": dialogue}})
+	actor.setup(actors[key], display_name, false)
+	outdoor_targets.append({"kind": "npc", "id": role, "name": display_name, "point": at, "definition": {"name": display_name, "role": title, "dialogue": dialogue}})
 
-func build_towns() -> void:
-	for town: Dictionary in continent.world.towns:
-		settlements.append({"id": town.id, "name": town.name, "bounds": rectangle(town.bounds)})
-		for service: Dictionary in town.services:
+func build_land_places() -> void:
+	for s: Dictionary in land.settlements:
+		settlements.append({"id": s.id, "name": s.name, "bounds": rectangle(s.bounds), "kind": s.kind})
+		for service: Dictionary in s.services:
 			var door := point(service.door)
-			outdoor_targets.append({"kind": "door", "id": service.id, "room": service.service, "name": SERVICE_NAME.get(service.service, service.service), "title": SERVICE_NAME.get(service.service, service.service) + " · " + town.name, "point": door, "town": town.id})
+			var label := str(SERVICE_NAME.get(service.service, service.service))
+			outdoor_targets.append({"kind": "door", "id": service.id, "room": service.service, "name": label, "title": label + " · " + str(s.name), "point": door, "town": s.id})
 			markers.points.append({"point": door})
-		var guide_at := Vector2(float(town.x), float(town.y)) + Vector2(0, 40)
-		add_street_npc("guide", "Opiekun miasta", "Przewodnik", "Witaj w mieście %s. Usługi znajdziesz przy oznaczonych wejściach: sklep, sala, gospoda, kuźnia, depozyt i arena." % town.name, guide_at)
-	for guide: Dictionary in continent.world.guides:
+		if str(s.kind) != "capital":
+			var guide_at := Vector2(float(s.x), float(s.y)) + Vector2(0, 40)
+			add_street_npc("guide", "Opiekun miasta", "Przewodnik", "Witaj w mieście %s. Usługi znajdziesz przy oznaczonych wejściach: sklep, sala, gospoda, kuźnia, depozyt i arena." % s.name, guide_at)
+	for npc: Dictionary in land.npcs:
+		if npc.building != null:
+			continue
+		var role := str(npc.id).trim_prefix("accepted-")
+		add_street_npc(role, str(npc.name), str(npc.role), str(npc.dialogue), Vector2(float(npc.x), float(npc.y)))
+	for guide: Dictionary in land.guides:
 		add_street_npc("guide", str(guide.name), "Przewodnik szlaku", str(guide.dialogue), Vector2(float(guide.x), float(guide.y)))
-	for place: Dictionary in continent.world.famous:
+	for place: Dictionary in land.famous:
 		outdoor_targets.append({"kind": "place", "id": place.id, "name": place.name, "point": Vector2(float(place.x), float(place.y))})
 
 # ---- spaces (continent and interiors) -------------------------------------------------------
@@ -195,7 +241,7 @@ func can_stand(at: Vector2, room: String) -> bool:
 	var previous_bounds := room_bounds
 	var previous_obstacles := room_obstacles
 	if not room.is_empty():
-		var spec: Dictionary = data.rooms[room]
+		var spec: Dictionary = rooms_data[world_id][room]
 		room_bounds = Rect2(0, 0, float(spec.width), float(spec.height))
 		room_obstacles = spec.obstacles
 	current_room = room
@@ -235,13 +281,13 @@ func load_space(room: String, at: Vector2, town: String = "") -> void:
 		targets = outdoor_targets
 		camera.limit_left = 0
 		camera.limit_top = 0
-		camera.limit_right = int(PyraContinent.WORLD.x)
-		camera.limit_bottom = int(PyraContinent.WORLD.y)
+		camera.limit_right = int(continent.world_size.x)
+		camera.limit_bottom = int(continent.world_size.y)
 		stream_center = Vector2(-99999, -99999)
 	else:
 		continent.visible = false
 		continent.process_mode = Node.PROCESS_MODE_DISABLED
-		var spec: Dictionary = data.rooms[room]
+		var spec: Dictionary = rooms_data[world_id][room]
 		room_bounds = Rect2(0, 0, float(spec.width), float(spec.height))
 		room_obstacles = spec.obstacles
 		room_root = Node2D.new()
@@ -257,15 +303,16 @@ func load_space(room: String, at: Vector2, town: String = "") -> void:
 		room_root.add_child(room_sorted)
 		room_sorted.add_child(player)
 		targets.append({"kind": "exit", "id": "exit", "name": "Wyjście do miasta", "point": point(spec.exit)})
-		var service_actor := str(SERVICE_ACTOR.get(room, ""))
+		var service_role := str(ROLE_OF_SERVICE.get(room, ""))
 		var npc_def := capital_npc(room)
 		var npc_at := point(spec.npc)
-		if not service_actor.is_empty() and data.actors.has(service_actor):
+		var actor_key := "%s.npc.%s" % [world_id, service_role]
+		if service_role != "" and actors.has(actor_key):
 			var actor := PyraActor.new()
 			actor.position = npc_at
 			room_sorted.add_child(actor)
-			actor.setup(data.actors[service_actor], str(npc_def.name), true)
-			targets.append({"kind": "npc", "id": service_actor, "name": str(npc_def.name), "point": npc_at, "definition": npc_def, "service": room})
+			actor.setup(actors[actor_key], str(npc_def.name), true)
+			targets.append({"kind": "npc", "id": service_role, "name": str(npc_def.name), "point": npc_at, "definition": npc_def, "service": room})
 		if room == "depot":
 			targets.append({"kind": "landmark", "id": "chest", "name": "Skrzynia depozytu", "point": point(spec.chest)})
 		elif room == "arena":
@@ -289,7 +336,7 @@ func load_space(room: String, at: Vector2, town: String = "") -> void:
 	queue_redraw()
 
 func capital_npc(service: String) -> Dictionary:
-	for npc: Dictionary in data.npcs:
+	for npc: Dictionary in land.npcs:
 		if str(npc.get("building", "")) == service:
 			return npc
 	return {"name": "Mieszkaniec", "role": "Mieszkaniec", "dialogue": ""}
@@ -307,7 +354,7 @@ func region_name() -> String:
 			return str(s.name) + " · strefa bezpieczna"
 	var best := ""
 	var best_d := INF
-	for place: Dictionary in continent.world.places:
+	for place: Dictionary in land.places:
 		if place.kind != "wilderness":
 			continue
 		var d := at.distance_squared_to(Vector2(float(place.x), float(place.y)))
@@ -339,10 +386,10 @@ func interact() -> void:
 		"door":
 			city_return = player.position
 			var room := str(target.room)
-			if not data.rooms.has(room):
+			if not rooms_data[world_id].has(room):
 				hud.toast("Wnętrze nie jest dostępne.")
 				return
-			load_space(room, point(data.rooms[room].entry), str(target.town))
+			load_space(room, point(rooms_data[world_id][room].entry), str(target.town))
 		"exit":
 			load_space("", city_return)
 		"npc":
@@ -561,8 +608,42 @@ func open_screen(instance: Control) -> void:
 
 func open_map() -> void:
 	var view := MapScreen.new()
-	view.setup(map_data, continent.world, player.position if current_room.is_empty() else city_return, region_name())
+	view.setup(map_data, land, player.position if current_room.is_empty() else city_return, region_name())
+	view.travel.connect(travel_to)
 	open_screen(view)
+
+func open_race_screen(can_close: bool = true) -> void:
+	if is_instance_valid(screen):
+		return
+	var view := RaceScreen.new()
+	view.setup(can_close)
+	view.chosen.connect(start_new_character)
+	open_screen(view)
+
+## A fresh character of the chosen race starts in that race's capital with the starting purse.
+func start_new_character(new_race: String) -> void:
+	close_screen()
+	if not current_room.is_empty():
+		load_space("", city_return)
+	economy.gold = 20
+	economy.bag = {"potion": 3}
+	economy.depot = {}
+	economy.depot_gold = 0
+	for slot in PyraEconomy.SLOTS:
+		economy.equipment[slot] = ""
+	set_race(new_race)
+	enter_land(str(HOME_OF_RACE[new_race]))
+	hud.refresh(kit)
+	hud.toast("Witaj w %s!" % str(land.name))
+
+func travel_to(id: String) -> void:
+	if not (id in ALL_LANDS) or id == land_id:
+		return
+	close_screen()
+	if not current_room.is_empty():
+		load_space("", city_return)
+	enter_land(id)
+	hud.toast("Przybyłeś: %s." % str(land.name))
 
 func open_character() -> void:
 	var view := CharacterScreen.new()
@@ -589,7 +670,7 @@ func open_items(mode: String, heading: String) -> void:
 func show_menu() -> void:
 	if is_instance_valid(screen):
 		return
-	hud.show_dialog("KI LEGENDS — Pyra", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D i mapa 2D. POSTAĆ: statystyki i drzewko Legendy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. W świecie nie ma jeszcze potworów; manekin czeka na arenach miast.", [{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET (brak potworów)", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}])
+	hud.show_dialog("KI LEGENDS", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D, mapa 2D i podróże między krainami. POSTAĆ: statystyki i drzewko Twojej rasy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. W świecie nie ma jeszcze potworów; manekin czeka na arenach miast.", [{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET (brak potworów)", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "NOWA POSTAĆ (WYBÓR RASY)", "callback": func(): hud.close_dialog(); open_race_screen(true)}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}])
 
 func show_licenses() -> void:
 	hud.show_dialog("Godot i biblioteki silnika", Engine.get_license_text() + "\n\nTHIRD-PARTY LICENSES\n" + JSON.stringify(Engine.get_license_info(), "\t") + "\n\nCOPYRIGHT NOTICES\n" + JSON.stringify(Engine.get_copyright_info(), "\t") + "\n\nFONT CINZEL\n" + FileAccess.get_file_as_string("res://assets/branding/OFL-Cinzel.txt") + "\n\nOFFICIAL GODOT LOGO\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-NOTICE.txt") + "\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-LICENSE.txt"))
@@ -600,7 +681,7 @@ func save_checkpoint(path: String = SAVE_PATH) -> bool:
 	if checkpoint_protected or not can_stand(player.position, current_room):
 		hud.toast("Nie zapisano punktu; istniejący plik pozostaje zachowany.")
 		return false
-	var value := {"format": SAVE_FORMAT, "version": 2, "room": current_room, "town": room_town, "position": [player.position.x, player.position.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save(), "economy": economy.to_save()}
+	var value := {"format": SAVE_FORMAT, "version": 2, "race": race, "land": land_id, "room": current_room, "town": room_town, "position": [player.position.x, player.position.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save(), "economy": economy.to_save()}
 	var file := FileAccess.open(path + ".tmp", FileAccess.WRITE)
 	if file == null:
 		return false
@@ -626,31 +707,57 @@ func restore_checkpoint(path: String = SAVE_PATH) -> bool:
 	if not legacy and not (format == SAVE_FORMAT and version == 2):
 		checkpoint_protected = true
 		return false
+	var saved_race := str(value.get("race", "legend"))
+	var saved_land := str(value.get("land", "pyra"))
+	if not WORLD_OF_RACE.has(saved_race) or not (saved_land in ALL_LANDS):
+		checkpoint_protected = true
+		return false
 	var room := str(value.get("room", ""))
 	var pos = value.get("position", [])
 	var returned = value.get("cityReturn", [])
-	if (not room.is_empty() and not data.rooms.has(room)) or not number_pair(pos) or not number_pair(returned):
+	var world_of_land := str(PyraContinent.load_json("res://data/lands/%s/land.json" % saved_land).world)
+	if (not room.is_empty() and not rooms_data[world_of_land].has(room)) or not number_pair(pos) or not number_pair(returned):
 		checkpoint_protected = true
 		return false
 	var shift := origin if legacy else Vector2.ZERO   # the first trial stored city-local coordinates
 	var at := Vector2(float(pos[0]), float(pos[1])) + (shift if room.is_empty() else Vector2.ZERO)
 	var back := Vector2(float(returned[0]), float(returned[1])) + shift
-	if not can_stand(at, room) or not can_stand(back, ""):
+	var saved_kit = value.get("kit", {})
+	var saved_economy = value.get("economy", null)
+	if not legacy and (not saved_kit is Dictionary or (saved_economy != null and not saved_economy is Dictionary)):
 		checkpoint_protected = true
 		return false
+	# Everything is validated against the target land and race before the running game is touched.
+	var previous_race := race
+	var previous_land := land_id
+	var previous_state := kit.to_save()
+	var previous_economy := economy.to_save()
+	var previous_position := player.position
+	if saved_race != race:
+		set_race(saved_race)
+	if saved_land != land_id:
+		enter_land(saved_land, back)
+	if not can_stand(at, room) or not can_stand(back, ""):
+		checkpoint_protected = true
+		rollback(previous_race, previous_land, previous_state, previous_economy, previous_position)
+		return false
 	if not legacy:
-		var saved = value.get("kit", {})
-		if not saved is Dictionary or not kit.from_save(saved):
+		if not kit.from_save(saved_kit) or (saved_economy != null and not economy.from_save(saved_economy)):
 			checkpoint_protected = true
-			return false
-		var saved_economy = value.get("economy", null)
-		if saved_economy != null and (not saved_economy is Dictionary or not economy.from_save(saved_economy)):
-			checkpoint_protected = true
+			rollback(previous_race, previous_land, previous_state, previous_economy, previous_position)
 			return false
 		economy.level = kit.level
 	city_return = back
 	load_space(room, at, str(value.get("town", "")))
 	return true
+
+func rollback(previous_race: String, previous_land: String, previous_state: Dictionary, previous_economy: Dictionary, previous_position: Vector2) -> void:
+	if race != previous_race:
+		set_race(previous_race)
+	if land_id != previous_land:
+		enter_land(previous_land, previous_position)
+	kit.from_save(previous_state)
+	economy.from_save(previous_economy)
 
 func capture_frame() -> void:
 	for i in range(8):

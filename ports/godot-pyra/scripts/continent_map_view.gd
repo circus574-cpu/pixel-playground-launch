@@ -5,9 +5,10 @@ extends Control
 signal marker_picked(label: String)
 
 var texture: Texture2D
+var world_size := Vector2(65600, 42304)
 var markers: Array[Dictionary] = []   # {point (world), label, kind}
 var player_world := Vector2.ZERO
-var center := Vector2(32800, 21152)
+var center := Vector2.ZERO
 var scale_px := 0.01
 var min_scale := 0.01
 var dragging := false
@@ -16,7 +17,9 @@ var drag_start := Vector2.ZERO
 var selected := ""
 var font: Font = ThemeDB.fallback_font
 
-func setup(map_texture: Texture2D, marker_list: Array[Dictionary], player: Vector2) -> void:
+func setup(map_texture: Texture2D, marker_list: Array[Dictionary], player: Vector2, size_of_world: Vector2) -> void:
+	world_size = size_of_world
+	center = size_of_world / 2.0
 	texture = map_texture
 	markers = marker_list
 	player_world = player
@@ -28,15 +31,15 @@ func setup(map_texture: Texture2D, marker_list: Array[Dictionary], player: Vecto
 func fit() -> void:
 	if size.x <= 0.0:
 		return
-	min_scale = minf(size.x / PyraContinent.WORLD.x, size.y / PyraContinent.WORLD.y)
+	min_scale = minf(size.x / world_size.x, size.y / world_size.y)
 	scale_px = clampf(maxf(scale_px, min_scale), min_scale, min_scale * 12.0)
 	clamp_view()
 	queue_redraw()
 
 func clamp_view() -> void:
 	var half := size / scale_px / 2.0
-	center.x = clampf(center.x, minf(half.x, PyraContinent.WORLD.x - half.x), maxf(half.x, PyraContinent.WORLD.x - half.x))
-	center.y = clampf(center.y, minf(half.y, PyraContinent.WORLD.y - half.y), maxf(half.y, PyraContinent.WORLD.y - half.y))
+	center.x = clampf(center.x, minf(half.x, world_size.x - half.x), maxf(half.x, world_size.x - half.x))
+	center.y = clampf(center.y, minf(half.y, world_size.y - half.y), maxf(half.y, world_size.y - half.y))
 
 func to_screen(p: Vector2) -> Vector2:
 	return (p - center) * scale_px + size / 2.0
@@ -101,14 +104,14 @@ func pick(at: Vector2) -> void:
 func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, size), Color("0b1620"))
 	if texture != null:
-		draw_texture_rect(texture, Rect2(to_screen(Vector2.ZERO), PyraContinent.WORLD * scale_px), false)
+		draw_texture_rect(texture, Rect2(to_screen(Vector2.ZERO), world_size * scale_px), false)
 	# 8 x 5 grid, as a tactical map.
 	for i in range(1, 8):
-		var a := to_screen(Vector2(PyraContinent.WORLD.x * i / 8.0, 0))
-		draw_line(a, to_screen(Vector2(PyraContinent.WORLD.x * i / 8.0, PyraContinent.WORLD.y)), Color(1, 1, 1, 0.06), 1.0)
+		var a := to_screen(Vector2(world_size.x * i / 8.0, 0))
+		draw_line(a, to_screen(Vector2(world_size.x * i / 8.0, world_size.y)), Color(1, 1, 1, 0.06), 1.0)
 	for j in range(1, 5):
-		var b := to_screen(Vector2(0, PyraContinent.WORLD.y * j / 5.0))
-		draw_line(b, to_screen(Vector2(PyraContinent.WORLD.x, PyraContinent.WORLD.y * j / 5.0)), Color(1, 1, 1, 0.06), 1.0)
+		var b := to_screen(Vector2(0, world_size.y * j / 5.0))
+		draw_line(b, to_screen(Vector2(world_size.x, world_size.y * j / 5.0)), Color(1, 1, 1, 0.06), 1.0)
 	for marker in markers:
 		var at := to_screen(marker.point)
 		if not Rect2(Vector2(-60, -30), size + Vector2(120, 60)).has_point(at):

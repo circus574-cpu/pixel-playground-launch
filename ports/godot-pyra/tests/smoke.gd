@@ -36,6 +36,9 @@ func capture(name: String) -> void:
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png(output + "/" + name + ".png")
 
+func spawn() -> Vector2:
+	return Vector2(float(game.land.arrival.x), float(game.land.arrival.y))
+
 func nearest_free(from: Vector2) -> Vector2:
 	for r in range(0, 600, 16):
 		for a in 16:
@@ -91,11 +94,11 @@ func run() -> void:
 	verify(game.hud.touch.move_pointer == -1 and game.player.touch_motion == Vector2.ZERO, "start touch is not inherited by city controls")
 	await settle(5)
 	# ---- continent -----------------------------------------------------------------------------
-	verify(PyraContinent.WORLD == Vector2(65600, 42304) and int(game.continent.meta.world[0]) == 65600 and int(game.continent.meta.world[1]) == 42304, "whole Pyra continent has the published Superior v2 size")
-	verify(game.data.name == "Twierdza Popiołu" and game.data.buildings.size() == 6, "capital layout from the first trial is kept")
-	verify(game.can_stand(game.player.position, "") and game.player.position.distance_to(game.origin + game.point(game.data.spawn)) < 0.01, "start in the capital on walkable ground")
+	verify(game.land_id == "pyra" and game.continent.world_size == Vector2(65600, 42304), "whole Pyra continent has the published Superior v2 size")
+	verify(game.data.name == "Twierdza Popiołu" and game.data.buildings.size() == 6 and game.land.capitalBuildings.size() == 6, "capital layout from the first trial is kept with the six accepted houses")
+	verify(game.can_stand(game.player.position, "") and game.player.position.distance_to(Vector2(float(game.land.arrival.x), float(game.land.arrival.y))) < 0.01, "start in the capital on walkable ground")
 	verify(game.continent.loaded_sprite_count() > 100 and game.continent.loaded_sprite_count() < 2400, "scenery streams around the hero (bounded)", game.continent.loaded_sprite_count())
-	verify(game.continent.world.towns.size() == 3 and game.continent.world.places.size() == 41 and game.continent.textures.size() >= 60, "three more cities, 41 named places, scenery sprites")
+	verify(game.land.settlements.size() == 4 and game.land.places.size() >= 40 and game.continent.textures.size() >= 60, "four cities, named places, scenery sprites")
 	var far := Vector2(17648, 25300)
 	game.player.position = nearest_free(far)
 	game.continent.update_view(game.camera_view())
@@ -103,7 +106,7 @@ func run() -> void:
 	verify(game.continent.loaded.has("8,12") or game.continent.loaded.size() > 0, "chunks stream when the hero travels across the continent")
 	var loaded_far := game.continent.loaded_sprite_count()
 	verify(loaded_far < 2400, "distant chunk set stays bounded", loaded_far)
-	game.player.position = game.origin + game.point(game.data.spawn)
+	game.player.position = spawn()
 	game.continent.update_view(game.camera_view())
 	await settle(3)
 	# ---- hero size (owner request: 15% larger) ----------------------------------------------------
@@ -128,11 +131,14 @@ func run() -> void:
 			break
 	verify(tested_collision, "an authored capital footprint was tested")
 	var doors := game.targets.filter(func(t): return t.kind == "door")
-	verify(doors.size() == 24, "24 service doors: capital plus three cities", doors.size())
+	var expected_doors := 0
+	for s_: Dictionary in game.land.settlements:
+		expected_doors += (s_.services as Array).size()
+	verify(doors.size() == expected_doors and doors.size() >= 20, "service doors of the capital and the three cities", doors.size())
 	for door in doors:
 		verify(game.continent.walkable(door.point + Vector2(0, 40)), "door is reachable on foot: " + str(door.id))
 	# ---- movement, touch, fixed timestep ---------------------------------------------------------
-	var free := nearest_free(game.origin + game.point(game.data.spawn) + Vector2(0, 700))
+	var free := nearest_free(spawn() + Vector2(0, 700))
 	game.player.position = free
 	touch(0, true, game.hud.touch.left_center + Vector2(84, 0))
 	await settle()
@@ -156,7 +162,7 @@ func run() -> void:
 	Engine.max_fps = 60
 	verify(absf(distances[0] - distances[1]) < game.player.speed * 0.1 and distances.min() > game.player.speed * 0.55 and distances.max() < game.player.speed * 0.85, "30/120 FPS do not change movement speed", distances)
 	# ---- dialogs -------------------------------------------------------------------------------
-	game.player.position = game.origin + game.point(game.data.spawn)
+	game.player.position = spawn()
 	game.interact()
 	verify(game.hud.modal.visible and game.player.locked and game.player.touch_motion == Vector2.ZERO, "NPC dialog opens and releases movement")
 	await settle()
@@ -172,7 +178,7 @@ func run() -> void:
 		game.interact()
 		await settle(2)
 		verify(game.current_room == str(door.room) and game.can_stand(game.player.position, game.current_room), "enter " + str(door.room) + " from " + str(door.id))
-		if door.id in ["hall", "pyra-town-1-arena", "arena"]:
+		if door.room == "arena" and door.town == "pyra-capital":
 			await capture("room-" + str(door.id))
 		game.go_back()
 		await settle(2)
@@ -201,8 +207,8 @@ func run() -> void:
 	verify(is_equal_approx(kit.mods().atkPct, 0.04), "A5 gives +8% x 0.5 attack at rank 1", kit.mods())
 	kit.reset_tree()
 	# ---- abilities on the arena dummy ---------------------------------------------------------------
-	game.player.position = game.origin + game.point(game.data.spawn)
-	var arena_door = doors.filter(func(t): return t.id == "arena")[0]
+	game.player.position = spawn()
+	var arena_door = doors.filter(func(t): return t.room == "arena")[0]
 	game.load_space("", arena_door.point)
 	game.player.position = arena_door.point
 	game.interact()
@@ -272,7 +278,7 @@ func run() -> void:
 	kit.reset_tree()
 	kit.set_level(9)
 	kit.learn("A1")
-	var save_free := nearest_free(game.origin + game.point(game.data.spawn) + Vector2(0, 900))
+	var save_free := nearest_free(spawn() + Vector2(0, 900))
 	game.player.position = save_free
 	game.city_return = save_free
 	var save_path := "user://qa-checkpoint.json"
@@ -284,7 +290,7 @@ func run() -> void:
 	var lf := FileAccess.open(save_path, FileAccess.WRITE)
 	lf.store_string(JSON.stringify(legacy))
 	lf.close()
-	verify(game.restore_checkpoint(save_path) and game.player.position.distance_to(game.origin + game.point(game.data.spawn)) < 0.01, "first-trial checkpoint is imported into world coordinates")
+	verify(game.restore_checkpoint(save_path) and game.player.position.distance_to(spawn()) < 0.01, "first-trial checkpoint is imported into world coordinates")
 	var f := FileAccess.open(save_path, FileAccess.WRITE)
 	var newer := '{"format":"ki-godot-pyra-save-2","version":9,"important":"preserve"}'
 	f.store_string(newer)
@@ -294,18 +300,24 @@ func run() -> void:
 	game.checkpoint_protected = false
 	# ---- maps --------------------------------------------------------------------------------------------
 	var regions: Array = game.map_data.regions
-	var capital_atlas := MapMath.world_to_atlas(game.map_data.pyra, float(game.continent.world.capital.x), float(game.continent.world.capital.y))
-	verify(MapMath.region_at(regions, capital_atlas).get("id", "") == "pyra", "capital maps onto the Pyra outline", capital_atlas)
-	for town: Dictionary in game.continent.world.towns:
-		var a := MapMath.world_to_atlas(game.map_data.pyra, float(town.x), float(town.y))
-		verify(MapMath.region_at(regions, a).get("id", "") == "pyra", "city maps onto Pyra: " + str(town.name))
-	game.player.position = game.origin + game.point(game.data.spawn)
+	var region_of := {}
+	for region: Dictionary in regions:
+		region_of[str(region.id)] = region
+	verify(regions.size() == 10 and game.map_data.lands.size() == 10, "atlas knows all ten lands")
+	for id: String in PyraGame.ALL_LANDS:
+		var tiles: Dictionary = game.map_data.lands[id]
+		var land_cfg: Dictionary = PyraContinent.load_json("res://data/lands/%s/land.json" % id)
+		for town: Dictionary in land_cfg.settlements:
+			var a := MapMath.world_to_atlas(tiles, float(town.x), float(town.y))
+			verify(MapMath.region_at(regions, a).get("id", "") == id, "city maps onto its own land on the atlas: %s / %s" % [id, town.name])
+	var pyra_center := Vector2(float(region_of.pyra.center[0]), float(region_of.pyra.center[1]))
+	game.player.position = spawn()
 	game.open_map()
 	await settle(4)
 	var screen: MapScreen = game.screen
 	verify(is_instance_valid(screen) and not game.hud.visible and game.hud.touch.blocked, "map opens over the game and blocks the game controls")
 	verify(screen.globe.visible and screen.views.size() == 3, "globe 3D is the first view")
-	screen.globe.focus_on(MapMath.atlas_to_lonlat(Vector2(float(regions[3].center[0]), float(regions[3].center[1]))))
+	screen.globe.focus_on(MapMath.atlas_to_lonlat(pyra_center))
 	await settle(3)
 	var centre: Variant = screen.globe.screen_to_lonlat(screen.globe.size / 2.0)
 	verify(centre != null and MapMath.region_at(regions, MapMath.lonlat_to_atlas(centre.x, centre.y)).get("id", "") == "pyra", "globe: the screen centre after focusing on Pyra picks Pyra", centre)
@@ -314,7 +326,7 @@ func run() -> void:
 	await capture("map-globe")
 	screen.switch_to(1)
 	await settle(3)
-	screen.atlas.pick(screen.atlas.to_screen(Vector2(float(regions[3].center[0]), float(regions[3].center[1]))))
+	screen.atlas.pick(screen.atlas.to_screen(pyra_center))
 	verify(screen.atlas.selected == "pyra" and screen.info.text.contains("Pyra"), "2D atlas picks the same region from the same outline")
 	screen.atlas.zoom_by(2.0, screen.atlas.size / 2.0)
 	verify(screen.atlas.zoom_level() > 1.9, "2D atlas zooms")
@@ -429,6 +441,137 @@ func run() -> void:
 	eco.bag = {"potion": 3}
 	eco.gold = 20
 	game.on_economy_changed()
+
+	# ---- all ten lands, travel, all four races ----------------------------------------------------------------
+	game.set_race("legend")
+	for id: String in PyraGame.ALL_LANDS:
+		game.travel_to(id) if id != game.land_id else null
+		await settle(3)
+		var size_of_land: Vector2 = game.continent.world_size
+		verify(game.land_id == id and game.land.id == id and size_of_land.x > 10000.0 and game.can_stand(game.player.position, ""), "land loads and the hero stands on walkable ground: " + id, game.player.position)
+		verify(game.continent.loaded_sprite_count() > 30 and game.continent.loaded_sprite_count() < 3000, "scenery of %s streams in a bounded set" % id, game.continent.loaded_sprite_count())
+		var land_doors := game.targets.filter(func(t): return t.kind == "door")
+		var land_npcs := game.targets.filter(func(t): return t.kind == "npc")
+		verify(land_doors.size() >= 6 and land_npcs.size() >= 1 and not game.land.settlements.is_empty(), "%s has a city with service doors and people" % id, [land_doors.size(), land_npcs.size()])
+	for id: String in ["pyra", "verdant", "aether", "nexus"]:
+		game.travel_to(id) if id != game.land_id else null
+		await settle(2)
+		var home_doors := game.targets.filter(func(t): return t.kind == "door")
+		var entered := 0
+		for door in home_doors:
+			game.load_space("", door.point)
+			game.player.position = door.point
+			var back: Vector2 = game.player.position
+			game.interact()
+			await settle(1)
+			if game.current_room == str(door.room) and game.can_stand(game.player.position, game.current_room):
+				entered += 1
+			else:
+				verify(false, "room opens: %s / %s / %s" % [id, door.id, door.room])
+			game.go_back()
+			await settle(1)
+			if not game.current_room.is_empty() or game.player.position.distance_to(back) > 0.01:
+				verify(false, "room returns to the door: %s / %s" % [id, door.id])
+		verify(entered == home_doors.size() and entered >= 20, "every service room of %s opens and returns (%d)" % [id, entered])
+	# race cards, selection and the new character
+	var annex := {"legend": [140, 40, 14, 4, 170], "planetary": [125, 50, 12, 5, 185], "sage": [100, 80, 14, 3, 170], "android": [115, 60, 12, 7, 175]}
+	var home_of := {"legend": "pyra", "planetary": "verdant", "sage": "aether", "android": "nexus"}
+	game.travel_to("pyra") if game.land_id != "pyra" else null
+	game.open_race_screen(true)
+	await settle(3)
+	var race_screen: RaceScreen = game.screen
+	verify(is_instance_valid(race_screen) and race_screen.cards.size() == 4, "race screen shows four races")
+	await capture("race-screen")
+	game.go_back()
+	await settle(2)
+	for race_id: String in ["planetary", "sage", "android", "legend"]:
+		game.start_new_character(race_id)
+		await settle(3)
+		var rk: RaceKit = game.kit
+		var base: Array = annex[race_id]
+		verify(game.race == race_id and rk.race == race_id and game.land_id == home_of[race_id] and rk.nodes.size() == 29 and rk.valid_tree(), "new %s character starts in %s with the 29-node tree" % [race_id, home_of[race_id]])
+		var st := rk.stats()
+		verify(st.maxHp == base[0] and st.maxKi == base[1] and st.attack == base[2] and st.defense == base[3] and st.speed == float(base[4]), "level 1 stats of %s follow the annex" % race_id, st)
+		var per: Dictionary = rk.data.perLevel
+		rk.set_level(20)
+		var s20 := rk.stats()
+		verify(s20.maxHp == roundi(float(base[0]) + float(per.hp) * 19.0) and s20.maxKi == roundi(float(base[1]) + float(per.ki) * 19.0) and s20.attack == roundi(float(base[2]) + float(per.attack) * 19.0), "level 20 stats of %s follow the annex" % race_id, s20)
+		verify(is_equal_approx(game.player.visual.display.x, float(game.hero.size[0]) * 1.15), "hero of %s is 15%% larger" % race_id, game.player.visual.display)
+		verify(game.economy.gold == 20 and rk.resource_label().begins_with({"legend": "Żar", "planetary": "Adaptacja", "sage": "Kręgi światła", "android": "Ładunek"}[race_id]), "fresh purse and the %s resource" % race_id, rk.resource_label())
+		rk.set_level(1)
+		# abilities on the arena dummy
+		var arena_door2 = game.targets.filter(func(t): return t.kind == "door" and t.room == "arena")[0]
+		game.load_space("", arena_door2.point)
+		game.player.position = arena_door2.point
+		game.interact()
+		await settle(2)
+		verify(game.current_room == "arena" and game.dummies.size() == 1, "arena of %s holds the training dummy" % race_id)
+		var foe: PyraDummy = game.dummies[0]
+		rk.reset_tree()
+		rk.set_level(20)
+		for id in ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "A9", "B9"]:
+			if rk.free_points() > 0 and rk.can_learn(id).ok:
+				rk.learn(id)
+		game.player.position = foe.position + Vector2(-70, 0)
+		game.face_target()
+		await settle(2)
+		seed(11)
+		rk.next_basic_at = 0.0
+		var hp0 := foe.hp
+		var strike := rk.basic()
+		verify(strike.ok and foe.hp < hp0, "basic attack of %s hits the dummy" % race_id, strike)
+		var dealt_total := 0.0
+		for id in ["A1", "A4", "B1", "B4", "C1", "C4"]:
+			if not rk.has(id):
+				continue
+			rk.ki = float(rk.stats().maxKi)
+			rk.cooldowns.erase(id)
+			game.player.position = foe.position + Vector2(-70, 0)
+			game.face_target()
+			var before := foe.hp
+			var cast := rk.use(id)
+			for i in 30:
+				rk.tick(0.1)
+			dealt_total += before - foe.hp
+			verify(cast.ok, "%s casts %s without error" % [race_id, id], cast)
+		verify(dealt_total > 0.0, "active skills of %s deal damage" % race_id, dealt_total)
+		rk.buffs.clear()
+		rk.shields.clear()
+		rk.circles.clear()
+		rk.timers.clear()
+		rk.hp = float(rk.stats().maxHp)
+		rk.take_damage(5.0)
+		verify(rk.hp < float(rk.stats().maxHp), "%s takes damage" % race_id, rk.hp)
+		game.go_back()
+		await settle(2)
+		rk.reset_tree()
+		rk.set_level(1)
+		verify(game.land.world == str(game.WORLD_OF_RACE[race_id]) and game.actors.has(game.world_id + ".hero"), "world art and hero sheet match %s" % race_id)
+	# the map travels between lands
+	game.start_new_character("legend")
+	await settle(3)
+	game.open_map()
+	await settle(4)
+	var travel_map: MapScreen = game.screen
+	travel_map.show_region("verdant")
+	verify(travel_map.travel_button.visible and travel_map.picked == "verdant", "map offers travel to the picked land")
+	travel_map.show_region("pyra")
+	verify(not travel_map.travel_button.visible, "no travel button for the land you stand in")
+	travel_map.show_region("island-3")
+	travel_map.travel.emit("island-3")
+	await settle(4)
+	verify(game.land_id == "island-3" and not is_instance_valid(game.screen) and game.hud.visible and game.can_stand(game.player.position, ""), "travel from the map arrives on island 3", game.player.position)
+	game.open_map()
+	await settle(3)
+	var island_map: MapScreen = game.screen
+	island_map.switch_to(2)
+	await settle(2)
+	verify(island_map.continent_view.visible and island_map.continent_view.world_size.x > 10000.0, "detailed map follows the current land")
+	game.go_back()
+	await settle(2)
+	game.travel_to("pyra")
+	await settle(3)
+	verify(game.land_id == "pyra" and game.player.position.distance_to(spawn()) < 0.01, "travel back to Pyra arrives at the capital")
 
 	# ---- HUD layout -----------------------------------------------------------------------------------------
 	game.show_menu()

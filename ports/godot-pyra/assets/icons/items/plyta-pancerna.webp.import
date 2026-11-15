@@ -15,9 +15,9 @@ dest_files=["res://.godot/imported/plyta-pancerna.webp-505f3596235ee3cf0b584c86c
 
 [params]
 
-compress/mode=0
+compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.7
+compress/lossy_quality=0.9
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

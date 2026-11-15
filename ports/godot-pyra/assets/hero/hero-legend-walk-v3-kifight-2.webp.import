@@ -3,21 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cyyx0m8lx32wi"
-path.s3tc="res://.godot/imported/hero-legend-walk-v3-kifight-2.webp-25ed637628452f43e9a35f0b871a5563.s3tc.ctex"
-path.etc2="res://.godot/imported/hero-legend-walk-v3-kifight-2.webp-25ed637628452f43e9a35f0b871a5563.etc2.ctex"
+path="res://.godot/imported/hero-legend-walk-v3-kifight-2.webp-25ed637628452f43e9a35f0b871a5563.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc", "etc2_astc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://assets/hero/hero-legend-walk-v3-kifight-2.webp"
-dest_files=["res://.godot/imported/hero-legend-walk-v3-kifight-2.webp-25ed637628452f43e9a35f0b871a5563.s3tc.ctex", "res://.godot/imported/hero-legend-walk-v3-kifight-2.webp-25ed637628452f43e9a35f0b871a5563.etc2.ctex"]
+dest_files=["res://.godot/imported/hero-legend-walk-v3-kifight-2.webp-25ed637628452f43e9a35f0b871a5563.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=1
 compress/high_quality=false
 compress/lossy_quality=0.9
 compress/uastc_level=0

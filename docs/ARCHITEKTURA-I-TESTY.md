@@ -1334,3 +1334,12 @@ urządzenia pozostają niezweryfikowane (pomiar desktopowy: 90–260 wywołań r
 **0.4.0-pyra (15.11):** wstęp z ilustracją właściciela, ilustrowane drzewko zdolności i usługi miast: `economy.gd` (monety, plecak,
 wyposażenie, sklep 4×, depozyt, gospoda, kuźnia) na danych `data/economy.json` z `scripts/godot/export-economy.ts`, ekran
 `items_screen.gd`. 181 kontroli w `tests/smoke.gd`. Szczegóły i ograniczenia: [dziennik 15.11, pkt 14](zmiany/2026-11-15/ZMIANY.md).
+
+**0.5.0-world (15.11):** `continent.gd` i `terrain.gdshader` są ogólne — jedna kraina to katalogi `data/lands/<id>/` i
+`assets/lands/<id>/` z `scripts/godot/export-lands.ts` + `prepare_lands.py` (10 krain: cztery kontynenty i sześć wysp, ok.
+197 tys. obiektów). Rasy: `race_kit.gd` (wspólne zasady aneksu) i `legend_kit.gd`, `planetary_kit.gd`, `sage_kit.gd`,
+`android_kit.gd`; `race_screen.gd` wybiera rasę, `PyraGame.start_new_character` zaczyna w mieście rasy. Mapa ma przycisk
+PODRÓŻ (`MapScreen.travel` → `PyraGame.travel_to`). Wnętrza i mieszkańcy czterech światów w `data/rooms.json` i
+`data/actors.json`. Tekstury malowane są importowane jako stratny WebP (`tune_imports.py`), APK 100 789 166 B. 304 kontrole w
+`tests/smoke.gd` (10 krain, wszystkie wnętrza kontynentów, cztery rasy, podróż z mapy). Szczegóły i ograniczenia:
+[dziennik 15.11, pkt 15](zmiany/2026-11-15/ZMIANY.md).

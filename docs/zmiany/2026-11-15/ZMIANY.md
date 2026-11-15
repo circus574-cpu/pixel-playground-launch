@@ -598,3 +598,63 @@ podpis v2/v3, wyrównanie 16 KiB, pakiet/wersja sprawdzone.
 
 **Nie sprawdzono.** Fizyczny telefon; ekran usług przy dotykowym przewijaniu długich list (`ScrollContainer`, tylko mysz w
 testach); wygląd wstępu na ekranach o bardzo wąskim lub wysokim kadrze poza trzema testowanymi.
+
+### 15. Android / Godot 0.5.0-world: cała planeta, cztery rasy, miasta wszystkich światów
+
+Zlecenie właściciela: licencja ilustracji wstępu nie jest potrzebna (prawa są własne — akapit o niej usunięto z
+`docs/LICENCJE.md`); wdrożyć wszystkie pozostałe kontynenty i wyspy, połączyć mapę i globus tak, by działały, przenieść każdą
+rasę i skompletować wszystkie miasta.
+
+- **Świat.** Dziesięć krain Superior v2 (Pyra, Verdantia, Aetheria, Nexus-9 i sześć wysp) ładuje jeden ogólny moduł
+  (`continent.gd` + `terrain.gdshader`) z danych `data/lands/<id>/` i `assets/lands/<id>/`. Dane powstają z tych samych
+  funkcji przeglądarki co dotąd (`pyraObjects`, `continentObjects`, `aetheriaObjects`, `nexusObjects`, `islandObjects`) przez
+  `scripts/godot/export-lands.ts` i `prepare_lands.py`: obiekty scenerii (ok. 197 tys.), role tekstur terenu, drogi (maska 16 j.
+  z klasą materiału), osady z usługami i drzwiami, NPC, przewodnicy, miejsca i słynne lokacje. Wyspy używają atlasów — ramki
+  `*.terrain.*` i `*.props.*` są wycinane z atlasu (pierwsza wersja wkleiła cały atlas i dała szachownicę woda/lód); kafle terenu
+  przycięto o 3 px, bo lustrzane próbkowanie w shaderze pokazywało jasną krawędź jako szew. Shader: lustrzane kafle z gradientami
+  odwiniętej współrzędnej (bez skoków mip), dwie skale powtórzeń, dwie nakładki na krainę, kryształ/lawa tylko na komórkach
+  niedostępnych, brzeg zależny od biomu, plaza miasta z miękką krawędzią (stolica Pyry zachowuje malowaną podłogę).
+- **Stolica Pyry.** Potok dziesięciu krain początkowo pomijał domy stolicy (`acceptedCityBuildings`); eksport dodaje je do
+  `land.json` (`capitalBuildings`) i `build_pyra_capital` stawia sześć zaakceptowanych domów jak w 0.4.0.
+- **Mapa i globus.** Atlas, globus 3D i mapa szczegółowa pracują na wszystkich dziesięciu krainach: obrysy i komórki afiniczne
+  w `data/map.json`; mapa szczegółowa pokazuje bieżącą krainę (`assets/lands/<id>/map.webp`, miasta, miejsca, ty). Wybór regionu
+  pokazuje opis i przycisk **PODRÓŻ** (`MapScreen.travel` → `PyraGame.travel_to`): wczytanie krainy, miejsce przybycia z
+  `index.json`, powrót do bezpiecznego punktu. Test sprawdza, że miasta wszystkich dziesięciu krain leżą na atlasie w
+  własnych obrysach.
+- **Rasy.** `RaceKit` (wspólne zasady z `src/game/kit/base.ts`: statystyki aneksu 1–20, rangi, odnowienia, buffy, tarcze, kręgi,
+  kanały, rozbicie na składniki, skalowanie rang właściciela 12.11) i cztery porty: Legendy (Żar), Planetarni (Adaptacja
+  terenu), Mędrcy (Kręgi światła, Pieczęcie), Androidy (Ładunek Rdzenia, przegrzanie, Namierzanie).
+  Dane i opisy z `docs/design/data/character-progression-1-20.json` w `data/races/<rasa>.json`; ikony zdolności
+  `public/game/icons-v3/<rasa>-*.webp` w `assets/icons/skills/<rasa>/`. Ekran **wyboru rasy** pojawia się przy pierwszym
+  uruchomieniu (przy braku checkpointu) i w MENU → NOWA POSTAĆ; nowa postać startuje w mieście swojej rasy z 20 monetami,
+  pustym plecakiem i poziomem 1. Pasek zasobu i HUD pokazują zasób rasy; ekran POSTAĆ — nazwę rasy i jej drzewko.
+- **Miasta.** Wnętrza usług i mieszkańcy czterech światów (`data/rooms.json`, `data/actors.json`: bohaterowie, kupiec, kowal,
+  depozytariusz, gospodarz, trener, przewodnik); każda z sześciu usług każdego z 16 miast kontynentów (24 wejścia na
+  kontynent) i przystań każdej wyspy (6 usług) działają jak w Pyrze (sklep, kuźnia, depozyt, gospoda, arena z manekinem,
+  sala). Opiekun miasta stoi w miastach niestołecznych i na wyspach; Pyra zachowuje swoją stolicę z 0.4.0.
+- **Rozmiar APK.** Dziesięć krain trzykrotnie powiększyło zasoby (z VRAM ETC2: 286 MB). Malowane tekstury importowane są jako
+  stratny WebP (`tune_imports.py`: scenografia 0,78, ludzie 0,84, wnętrza 0,85, kafle 0,9), dane dokładnie czytane przez
+  shader (ctrl, maska dróg) zostają bezstratne. Wynik: **100 789 166 B** (poniżej 100 MiB limitu pliku w Git).
+- **Porządki.** Usunięto dane i skrypty tylko dla Pyry (`data/continent*`, `assets/continent/*` poza shaderami,
+  `prepare_continent_world.py`, `prepare_continent_terrain.py`); `write_provenance.py` obejmuje 10 krain i cztery rasy.
+  Nazwa aplikacji i opisy: „KI LEGENDS”; wersja 0.5.0-world (kod 5). Poprawiono dosłowne `\n` na kartach ras i podwójne
+  podpięcie sygnału ekranu wyboru rasy.
+
+**Decyzje i uproszczenia.** (1) Bez potworów i spawnów, jak dotąd (decyzja właściciela); sakiewka próbna i poziom próbny
+zostają. (2) Wyspy mają jedną przystań z 6 usługami zamiast miasta (dane świata nie opisują większych osad). (3) Mieszkańcy
+stoją w miejscu. (4) Fontanna Verdantii (`verdant-city-fountain`) ma w źródle nieprzezroczyste tło i
+tak samo wygląda w przeglądarce — pozostawiona bez zmian. (5) Planetarni: pasek zasobu pokazuje „Adaptacja: poznaj B2”,
+dopóki nie poznano węzła B2 (tak liczy to kit). (6) Stratny WebP może dawać drobne ślady przy dużym powiększeniu.
+
+**Kontrole.** `tests/smoke.gd`: **304/304** headless i **304/304** z natywnym renderowaniem. Nowe kontrole: 10 krain (start na
+ziemi, ograniczona liczba sprite'ów, drzwi i NPC), wszystkie wnętrza czterech kontynentów (wejście i powrót), cztery rasy
+(start w swoim mieście, statystyki 1/20, 29 węzłów, +15 %, atak podstawowy i 6 zdolności na manekinie), ekran wyboru rasy,
+podróż z mapy na wyspę 3 i do Pyry, miasta 10 krain na atlasie. PCK z presetu Linux uruchomiony poza projektem: 10 krain i
+sklepy czterech ras, 0 błędów. APK: 100 789 166 B, SHA-256 `45bea2fa321d965af89fd28ca781ee6fc62500dfe7e5f53566f0383550e1eb50`
+(`deliveries/godot-pyra-android-20261115-world`), podpis v2, CRC, pakiet `pl.kilegends.godot.pyra`, wersja 0.5.0-world,
+`arm64-v8a`. Zrzuty: `qa/godot-world/`.
+
+**Nie sprawdzono.** Fizyczny telefon (pamięć, FPS, czas wczytania krainy, dotykowe przewijanie list, przycisk Wstecz); balans
+zdolności trzech nowych ras na realnych przeciwnikach (brak potworów); pełny przegląd wizualny wszystkich 10 krain i miast
+(przejrzano po jednym ujęciu: Pyra, Verdantia, Aetheria, Nexus-9, wyspy 1/4/6); wygląd Planetarnych/Mędrców/Androidów w
+pozostałych stacjach craftingu.
