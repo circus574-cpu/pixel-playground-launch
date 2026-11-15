@@ -57,10 +57,10 @@ async function visit(page: Page, name: string) {
   await page.getByRole("button", { name: "Otwórz mapę świata", exact: true }).click();
   await page.getByRole("button", { name, exact: true }).click();
   // Shopkeepers stand inside their buildings: the walk through the door can take a while.
-  await expect(page.getByRole("dialog", { name: /Rozmowa:/ })).toBeVisible({ timeout: 300000 });
+  await expect(page.getByRole("group", { name: /Rozmowa:/ })).toBeVisible({ timeout: 300000 });
 }
 async function close(page: Page) {
-  await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+  await page.getByRole("button", { name: "Do zobaczenia", exact: true }).click();
 }
 async function move(page: Page, x: number, y: number) {
   await page.locator(".ki-canvas").evaluate(

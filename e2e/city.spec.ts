@@ -69,10 +69,14 @@ for (const [width, height] of [
     await page.screenshot({ path: info.outputPath(`city-outside-${width}.png`) });
     await building(page, "shop");
     await clickPoint(page, 300, 300);
-    await expect(page.getByRole("dialog", { name: "Rozmowa: Mio", exact: true })).toBeVisible();
+    await expect(page.getByRole("group", { name: "Rozmowa: Mio", exact: true })).toBeVisible();
+    // Handel to okno usług; sama rozmowa jest paskiem w świecie.
+    await page.getByRole("button", { name: "Handel: kupno i sprzedaż", exact: true }).click();
+    await expect(page.getByRole("dialog", { name: "Usługi: Mio", exact: true })).toBeVisible();
     await page.getByRole("button", { name: "Kup · 8", exact: true }).click();
-    await expect(page.getByRole("dialog", { name: "Rozmowa: Mio" })).toContainText("Masz: 4");
-    await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+    await expect(page.getByRole("dialog", { name: "Usługi: Mio" })).toContainText("Masz: 4");
+    await page.getByRole("button", { name: "Wróć do rozmowy", exact: true }).click();
+    await page.getByRole("button", { name: "Do zobaczenia", exact: true }).click();
     await page.screenshot({ path: info.outputPath(`city-shop-${width}.png`) });
     await exit(page);
     await building(page, "depot");

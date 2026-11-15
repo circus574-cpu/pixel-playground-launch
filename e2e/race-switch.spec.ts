@@ -21,7 +21,7 @@ for (const viewport of [
     );
     await page.getByRole("button", { name: /Rozmowa · Aira/ }).click();
     await page.getByRole("button", { name: "Przyjmij zadanie", exact: true }).click();
-    await page.getByRole("button", { name: "Zamknij rozmowę", exact: true }).click();
+    await page.getByRole("button", { name: "Do zobaczenia", exact: true }).click();
     for (const [name, world] of [
       ["Mędrcy", "aether"],
       ["Androidy", "nexus"],

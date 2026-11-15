@@ -175,3 +175,70 @@ w zasięgu 97% spawnów), `scenery-thinning.test.ts`.
 - Nowe testy: `navigation-staff-spot`, rozszerzony `staff-map-runtime`, `scenery-thinning`, `open-fields`, trzy w
   `map-terrain-canvas`.
 - Zrzuty w grze (lokalny serwer na PostgreSQL, nie produkcja): `qa/mapa-swiat/`.
+
+### 8. Przewodniczka i rozmowy w świecie, bez okienek
+
+Zlecenie właściciela: na początku gry przewodniczka podchodzi do gracza i opisuje, gdzie jest który budynek, w mieście
+każdej z czterech ras; rozmowy z NPC mają toczyć się w świecie, a NPC ma rozmawiać i prowadzić, bez okienka i bez
+blokowania gry. Gałąź `feat/przewodniczka-rozmowy` (bez scalenia i publikacji: wymaga osobnej zgody właściciela).
+
+**Diagnoza.** Dotychczasowa rozmowa była oknem modalnym i zamrażała całą symulację: `stepSimulation` kończył się, gdy
+`dialogue` było ustawione, każde polecenie dostawało „Zamknij okno, aby kontynuować”, `mountGame` ignorował kliknięcia
+w świat, a HUD wyłączał mikstury i umiejętności.
+
+**Rozwiązanie.**
+- **Rozmowa w świecie:** NPC mówi dymkami nad głową (scena Phaser, stały rozmiar na ekranie), kolejne kwestie same, w
+  tempie czytania. Wybory (zadanie, nagroda, dostawy, plotki, „Do zobaczenia”) są w pasku przy dolnej krawędzi bez tła i
+  bez blokady (`NpcTalk`). Napisy dla czytników ekranu są w obszarze `aria-live`, a nie na ekranie, żeby nie dublować dymka.
+  Zwykłe otwarcie rozmowy nie wyświetla już komunikatu „Imię: rola” (imię i rola są w pasku i nad postacią).
+- **Gra nie staje:** `dialogue` nie zatrzymuje symulacji, poleceń ani ruchu. Rozmowa kończy się sama po oddaleniu na
+  220 jedn., po zniknięciu rozmówcy z listy (wejście do budynku) albo po śmierci. Usługi wymagają bliskości jak dotąd
+  (handel 115 jedn.). Serwer online uruchamia ten sam `GameSession`, więc obowiązuje tak samo; protokół poleceń bez zmian.
+- **Okno tylko tam, gdzie trzeba przeglądać listy:** handel, kuźnia i ulepszenia, pracownia alchemiczna, leża bossów, plan
+  miasta (`NpcDialogue servicesOnly`, wstrzymuje grę jak panel). Depozyt, trening i odpoczynek to pojedyncze przyciski.
+- **Oprowadzanie:** nowa postać (poz. 1, zadanie „Pierwsze kroki” nieprzyjęte, brak zapisu ukończenia dla postaci i
+  miasta) ma przewodniczkę, która od pierwszej klatki czeka przy drzwiach sali zgromadzeń, po 1,8 s idzie do gracza,
+  wita się i prowadzi po sześciu budynkach (najbliższy pierwszy) i punkcie pierwszego zadania. Ogłasza każdy punkt z
+  kierunkiem i czasem marszu, na jego drzwiach pojawia się pulsujący pierścień z nazwą, prowadzi tam ścieżką nawigacji
+  (gotowy cykl chodu 8-kierunkowego) i opisuje na miejscu. Czeka, gdy gracz został dalej niż 700 jedn., woła, rusza dalej,
+  gdy ten wróci; po 90 s łącznego czekania sama kończy. Przycisk „Pomiń oprowadzanie” jest cały czas na ekranie, a
+  powtórka (w każdym mieście) to „Oprowadź mnie po mieście” w rozmowie z przewodniczką. Cztery głosy: Aira (ciepły,
+  praktyczny), Sora (spokojny, o źródłach), LYRA-7 (procedura, „węzły”), Kaena (ogniska, przysięga). Teksty są
+  propozycją do przeglądu właściciela.
+- **Granice:** oprowadzanie to wyłącznie prezentacja (nie zmienia stanu gry ani serwera). Kliknięcie przewodniczki w
+  trakcie trasy jest przechwytywane (odpowiada, że prowadzi), a zagadnięcie jej dawnego posterunku przed startem
+  przywołuje ją. Dokumentacja: [Świat i miasta](../../SWIAT-I-MIASTA.md#przewodniczka-i-rozmowy-w-świecie--15112026),
+  [Architektura i testy](../../ARCHITEKTURA-I-TESTY.md#rozmowy-w-świecie-i-oprowadzanie--15112026).
+
+**Kontrole.**
+- Nowe testy: `talk-tour` (czas czytania, kierunki, głosy, plan trasy dla wszystkich 16 miast z prawdziwych danych świata
+  v2, zachowanie `TourDirector`), `talk-engine` (oprowadzanie w czterech stolicach, zapamiętanie, przerwanie, pauza,
+  przechwycenie kliknięcia, dymki), `npc-talk-ui` (HUD). Zaktualizowane: `session` (rozmowa nie zatrzymuje gry, odejście
+  kończy rozmowę, usługi wymagają bliskości), `adventure-ui`, `npc-commerce-ui`, `swarm-audit-ui` oraz 12 specyfikacji
+  e2e (przycisk „Do zobaczenia”, rola `group`, okno „Usługi: …”).
+- Przeglądarka (`scripts/playtest.html`, gra lokalna offline, Chromium z SwiftShader, bot idący za przewodniczką
+  klawiszami WASD): pełna trasa w czterech stolicach: Verdantia 174 s, Aetheria 188 s, Nexus-9 186 s, Pyra 182 s; za
+  każdym razem 7 punktów, znacznik przy każdych drzwiach, powrót przewodniczki dokładnie na posterunek z danych, brak
+  błędów w konsoli. Zwykła rozmowa (Ren): pasek zamiast okna (0 elementów `role=dialog`), dymek z jego tekstem, bohater
+  w trakcie rozmowy przeszedł 108–130 jedn., rozmowa zakończyła się sama po oddaleniu na ok. 320 jedn. z pożegnaniem
+  „Do zobaczenia.” Zrzuty: `qa/przewodniczka/`.
+- **Dymek na bohaterze (usterka znaleziona przez właściciela na zrzutach).** Pierwsza wersja wieszała dymek zawsze nad
+  głową mówiącego; przewodniczka idzie tuż przy graczu, który stoi w środku ekranu, więc dymek często zasłaniał
+  bohatera (np. Pyra, „Kowale żaru hartują…”). Nie wykryły tego moje testy, bo sprawdzały treść, a nie geometrię.
+  `bubblePlacement.ts` przesuwa dymek na bok, nad albo pod bohatera, gdy wisiałby na nim, i trzyma go w widocznym
+  obszarze. Pomiar w grze: w każdej próbce (co 0,7 s) prostokąt dymka kontra sprite bohatera: Verdantia 179 próbek,
+  Aetheria 200, Nexus-9 206, Pyra 191: **0 nakładek, 0 dymków poza ekranem**; telefon 852×393: 30 próbek, 0 nakładek.
+  Test jednostkowy `talk-bubble` obejmuje 16 kierunków × 5 odległości mówiącego.
+- **Układ na telefonie (usterki znalezione pomiarem):** pigułka „Pomiń oprowadzanie” najpierw zachodziła na panel gracza
+  (u Legend i Androidów panel ma dodatkowy pasek zasobu), potem na panel „Akcje”; na wąskim ekranie jest teraz na dole,
+  pośrodku, i pomiar nie wykazuje kolizji z żadnym elementem HUD. Na pulpicie jest pod panelem gracza.
+- Wynik pierwszego przebiegu Aetherii był przerwany przeładowaniami modułów serwera deweloperskiego po moich edycjach
+  w trakcie biegu; powtórzony bez edycji przeszedł w całości.
+- e2e (Playwright): 12 specyfikacji zaktualizowanych tekstowo i sprawdzonych typami (`tsconfig.e2e.json`), ale
+  **nie uruchomionych**: próba na serwerze deweloperskim kończy się ekranem „Nie udało się otworzyć świata” jeszcze
+  przed rozmową (problem środowiska, nie rozmowy); do sprawdzenia na buildzie.
+
+**Nie sprawdzono / otwarte:** tryb online na żywym serwerze (wspólny `GameSession` i protokół bez zmian, ale nie
+uruchamiano); telefon i dotyk (układ paska i pigułki sprawdzono tylko na pulpicie); automatyczna trasa w miastach poza
+pierwszym (jest na żądanie); pierścień przy drzwiach nie jest na minimapie; zapamiętanie ukończenia jest w przeglądarce
+(czyszczenie danych witryny powtórzy trasę); okna handlu i kuźni nadal są oknami (decyzja właściciela, czy też je zastąpić).

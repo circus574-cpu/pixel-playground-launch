@@ -492,6 +492,8 @@ export function equipmentStats(
   return gear;
 }
 /** Reach of the Walka panel and of picking the nearest monster when attacking with no target. */
+/** Najdalej od rozmówcy, jak można odejść, nie kończąc rozmowy (otwiera się w 100 jedn.; zapas, żeby nie migotała). */
+export const DIALOGUE_LEAVE_DISTANCE = 220;
 export const FOE_PANEL_RANGE = 900;
 export const AUTO_TARGET_RANGE = 650;
 /** Fraction of the progress toward the next level that a defeat costs. Owner 07.11.2026. */
@@ -1423,6 +1425,16 @@ export class GameSession implements MonsterHost {
   }
   private nearbyNpc() {
     return this.npcs.find((n) => n.id === this.dialogue && distance(n, this.player) <= 115);
+  }
+  /**
+   * Rozmowa trwa, dopóki gracz jest blisko rozmówcy. Gdy odejdzie, rozmówca zniknie z listy (wyjście z budynku) albo
+   * gracz zginie, rozmowa kończy się sama, więc usługi (handel, wypoczynek, warzenie) nie działają z odległości.
+   */
+  private closeDialogueOutOfReach() {
+    if (!this.dialogue) return;
+    const npc = this.npcs.find((n) => n.id === this.dialogue);
+    if (!npc || this.player.dead || distance(npc, this.player) > DIALOGUE_LEAVE_DISTANCE)
+      this.dialogue = null;
   }
   private clearDestinations() {
     this.pendingNpc = null;
@@ -2852,8 +2864,9 @@ export class GameSession implements MonsterHost {
       this.flush();
       return;
     }
-    if (this.dialogue || this.depotOpen || this.paused)
-      return this.say("Zamknij okno, aby kontynuować.");
+    // Rozmowa nie blokuje gry: postać mówi dymkami, a gracz może iść, walczyć i używać umiejętności. Wstrzymują ją
+    // tylko panele (pauza) i skrzynia depozytu.
+    if (this.depotOpen || this.paused) return this.say("Zamknij okno, aby kontynuować.");
     if (c.type === "ability") return this.use(c.ability);
     if (c.type === "dodge") {
       if (this.fx.cannotAct || p.dead) return;
@@ -3016,8 +3029,7 @@ export class GameSession implements MonsterHost {
     if (id !== "R") this.flush();
   }
   manual(dx: number, dy: number, dt: number) {
-    if (this.paused || this.dialogue || this.depotOpen || this.player.dead || this.fx.cannotAct)
-      return;
+    if (this.paused || this.depotOpen || this.player.dead || this.fx.cannotAct) return;
     this.heritage.cancelRoute();
     this.clearDestinations();
     this.route = [];
@@ -3065,10 +3077,11 @@ export class GameSession implements MonsterHost {
     const wasMoving = manualMovement || this.moving;
     this.moving = false;
     this.running = false;
-    if (this.dialogue || this.depotOpen || this.paused) {
+    if (this.depotOpen || this.paused) {
       this.bufferedAction = undefined;
       return;
     }
+    this.closeDialogueOutOfReach();
     this.nowMs += dt;
     if (!this.practiceOnly) {
       this.heritage.tick(dt);
@@ -3255,7 +3268,9 @@ export class GameSession implements MonsterHost {
           npc.id === "guide" || npc.id === "trainer"
             ? developmentCompletion(p.race, p.development).greeting
             : null;
-        this.say(title ? `${npc.name}: ${title}` : npc.name + ": " + npc.role);
+        // Imię i rolę rozmówcy pokazuje pasek rozmowy i etykieta nad postacią, więc zwykłe otwarcie rozmowy nie wywołuje
+        // już komunikatu; zostaje tylko tytuł zależny od postępów rozwoju (przewodniczka, trener).
+        if (title) this.say(`${npc.name}: ${title}`);
         this.flush();
         return;
       }

@@ -7,6 +7,7 @@ import {
   stats,
   type NpcId,
   type StoragePort,
+  DIALOGUE_LEAVE_DISTANCE,
 } from "../game/session";
 import { distance, Navigation } from "../game/navigation";
 
@@ -216,16 +217,62 @@ describe("combat constraints and AI", () => {
     run(game, () => e.hp > 0, 3);
     expect(e.hp).toBe(66);
   });
-  it("pauses during dialogue and resumes on close", () => {
+  it("rozmowa nie zatrzymuje gry: czas płynie, a gracz może się ruszać", () => {
     const game = new GameSession();
     talk(game, "guide");
-    const p = { ...game.player };
+    const before = { x: game.player.x, y: game.player.y };
     game.player.hp = 50;
     game.tick(100);
-    expect(game.player.hp).toBe(50);
-    game.command({ type: "move", x: 1400, y: 800 });
-    expect(game.player.x).toBe(p.x);
+    expect(game.dialogue).toBe("guide");
+    expect(game.player.hp).toBeGreaterThan(50); // regeneracja trwa
+    game.command({ type: "move", x: before.x + 60, y: before.y });
+    game.tick(300);
+    expect(game.player.x).toBeGreaterThan(before.x);
+    expect(game.dialogue).toBe("guide"); // w zasięgu rozmowa trwa
     close(game);
+    expect(game.dialogue).toBeNull();
+  });
+  it("rozmowa kończy się sama, gdy gracz odejdzie od rozmówcy", () => {
+    const game = new GameSession();
+    talk(game, "guide");
+    const guide = game.npcs.find((n) => n.id === "guide")!;
+    game.command({ type: "move", x: guide.x + DIALOGUE_LEAVE_DISTANCE + 400, y: guide.y });
+    run(game, () => game.dialogue === null, 20);
+    expect(distance(game.player, guide)).toBeGreaterThan(DIALOGUE_LEAVE_DISTANCE);
+  });
+  it("usługi nadal wymagają bliskości: dalej niż 115 jedn. od kupca handel nie działa, choć rozmowa trwa", () => {
+    const game = new GameSession();
+    talk(game, "merchant");
+    const merchant = game.npcs.find((n) => n.id === "merchant")!;
+    game.player.gold = 500;
+    game.command({ type: "move", x: merchant.x + 170, y: merchant.y });
+    run(game, () => distance(game.player, merchant) > 150, 10);
+    expect(game.dialogue).toBe("merchant"); // 150–220: rozmowa jeszcze trwa
+    const potions = game.player.items.potion;
+    game.command({ type: "trade", item: "potion", buy: true });
+    expect(game.notice).toContain("Porozmawiaj z kupcem");
+    expect(game.player.items.potion).toBe(potions);
+    expect(game.player.gold).toBe(500);
+  });
+  it("polecenia (umiejętność, unik, ruch) działają w trakcie rozmowy", () => {
+    const game = new GameSession();
+    talk(game, "guide");
+    game.notice = "";
+    game.command({ type: "move", x: game.player.x + 20, y: game.player.y });
+    expect(game.notice).not.toContain("Zamknij okno");
+    game.tick(100);
+    expect(game.notice).not.toContain("Zamknij okno");
+  });
+  it("panel (pauza) nadal zatrzymuje grę", () => {
+    const game = new GameSession();
+    const p = { ...game.player };
+    game.player.hp = 50;
+    game.command({ type: "pause", value: true });
+    game.tick(100);
+    expect(game.player.hp).toBe(50);
+    game.command({ type: "move", x: p.x + 300, y: p.y });
+    expect(game.player.x).toBe(p.x);
+    game.command({ type: "pause", value: false });
     game.tick(100);
     expect(game.player.hp).toBeGreaterThan(50);
   });

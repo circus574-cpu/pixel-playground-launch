@@ -52,6 +52,7 @@ describe("sklep V2 i crafting w rozmowie z NPC (UI ekonomii 12.11.2026)", () => 
     fireEvent.click(screen.getByRole("button", { name: "Otwórz mapę świata" }));
     fireEvent.click(screen.getByRole("button", { name: "Idź do Mio · Kupczyni" }));
     ui.advance(() => session.dialogue === "merchant");
+    fireEvent.click(screen.getByRole("button", { name: "Handel: kupno i sprzedaż" }));
     fireEvent.click(screen.getByRole("button", { name: /Przeglądaj towary kupca/ }));
     expect(screen.getByRole("dialog", { name: "Sklep kupca" })).toBeVisible();
     const row = screen.getByRole("article", { name: item.name });
@@ -69,6 +70,7 @@ describe("sklep V2 i crafting w rozmowie z NPC (UI ekonomii 12.11.2026)", () => 
     fireEvent.click(screen.getByRole("button", { name: "Otwórz mapę świata" }));
     fireEvent.click(screen.getByRole("button", { name: "Idź do Mio · Kupczyni" }));
     ui.advance(() => session.dialogue === "merchant");
+    fireEvent.click(screen.getByRole("button", { name: "Handel: kupno i sprzedaż" }));
     fireEvent.click(screen.getByRole("button", { name: /Przeglądaj towary kupca/ }));
     fireEvent.click(screen.getByRole("tab", { name: /Sprzedaj z torby/ }));
     const row = screen.getByRole("article", { name: item.name });
@@ -88,6 +90,7 @@ describe("sklep V2 i crafting w rozmowie z NPC (UI ekonomii 12.11.2026)", () => 
     }
     session.dialogue = "smith";
     mountSession(session);
+    fireEvent.click(screen.getByRole("button", { name: "Kuźnia i ulepszenia" }));
     fireEvent.click(screen.getByRole("button", { name: /Otwórz warsztat kowalski/ }));
     expect(screen.getByRole("dialog", { name: "Crafting" })).toBeVisible();
     const row = screen.getByRole("article", { name: recipe.name });
@@ -107,6 +110,7 @@ describe("sklep V2 i crafting w rozmowie z NPC (UI ekonomii 12.11.2026)", () => 
     session.player.gold = recipe.craftingCostCoins + 100;
     session.dialogue = "smith";
     mountSession(session);
+    fireEvent.click(screen.getByRole("button", { name: "Kuźnia i ulepszenia" }));
     fireEvent.click(screen.getByRole("button", { name: /Otwórz warsztat kowalski/ }));
     const row = screen.getByRole("article", { name: recipe.name });
     expect(within(row).getByRole("button", { name: /Wytwórz/ })).toBeDisabled();

@@ -22,6 +22,9 @@ import { cityRoom } from "./city/room";
 import type { BuildingId } from "./city/types";
 import { clampZoom, DEFAULT_ZOOM } from "./view";
 import { WORLD_V2 } from "./world/generated/worldVersion";
+import { TalkEngine } from "./talk/engine";
+import { talkStore } from "./talk/store";
+import { placeBubble, type Rect } from "./talk/bubblePlacement";
 import { terrainAt } from "./world/terrain";
 import {
   ambienceFile,
@@ -77,6 +80,11 @@ type Actor = {
   visual: ActorVisual;
   animation: ActorAnimation;
   facing: Point;
+  /** NPC prowadzony poza posterunkiem (oprowadzanie) idzie: rysowany krokiem, nie postawą. */
+  moving?: boolean;
+  /** Dymek z kwestią nad głową rozmówcy; numer kwestii pozwala odświeżać tekst tylko przy zmianie. */
+  bubble?: Phaser.GameObjects.Text;
+  bubbleId?: number | undefined;
 };
 
 /** Phaser is the rendering/input adapter; game rules live in GameSession. */
@@ -139,6 +147,12 @@ export function mountKileGends(
       options?.race,
     );
   const world = session.world;
+  // Rozmowy w świecie i oprowadzanie nowej postaci: silnik prowadzi kwestie i trasę przewodniczki, scena je rysuje.
+  const talk = new TalkEngine(
+    (ctx) => "ki.tour.v1:" + (options?.saveKey ?? "default") + ":" + (ctx.world.city?.name ?? ""),
+    !!runtime?.authoritative,
+  );
+  releaseScene.push(() => talk.dispose());
   let worldLabels = readUiPreferences().worldLabels;
   parent.dataset["worldLabels"] = String(worldLabels);
   // Diagnostic art is available only on the isolated local playtest document.
@@ -238,6 +252,8 @@ export function mountKileGends(
     private npcMap = new Map<string, { id: string; name: string; x: number; y: number }>();
     private npcMapSource: readonly unknown[] | null = null;
     private animationTime = 0;
+    private tourMarker?: Phaser.GameObjects.Graphics;
+    private tourMarkerLabel?: Phaser.GameObjects.Text;
     private suspended = false;
     private loadFailed = false;
     constructor() {
@@ -468,8 +484,7 @@ export function mountKileGends(
         .setDepth(renderDepth("below", world.market.y));
       this.tweens.add({ targets: beacon, alpha: 0.35, duration: 900, yoyo: true, repeat: -1 });
       this.events.on("postupdate", () => {
-        const active =
-          session.player.quests.steps === "active" && !session.paused && !session.dialogue;
+        const active = session.player.quests.steps === "active" && !session.paused;
         beacon.setVisible(active);
       });
       this.cameras.main.startFollow(this.hero.body, true, 0.12, 0.12);
@@ -513,6 +528,11 @@ export function mountKileGends(
       parent.addEventListener("ki:labels", labels);
       const command = (event: Event) => {
         const action = (event as CustomEvent<Command>).detail;
+        // Przewodniczka prowadząca po mieście stoi poza posterunkiem znanym grze: rozmowa z nią idzie przez silnik.
+        if (action.type === "interact" && talk.interceptInteract(action.npc)) {
+          this.report();
+          return;
+        }
         session.command(action);
         if (action.type === "pause") {
           if (action.value && action.suspendRendering) {
@@ -606,6 +626,10 @@ export function mountKileGends(
                         : undefined;
         if (action && !event.repeat) {
           event.preventDefault();
+          if (action.type === "interact" && talk.interceptInteract(action.npc)) {
+            this.report();
+            return;
+          }
           session.command(action);
           this.report();
         }
@@ -710,7 +734,7 @@ export function mountKileGends(
       this.events.once(Phaser.Scenes.Events.SHUTDOWN, releaseBlur);
       this.events.once(Phaser.Scenes.Events.DESTROY, releaseBlur);
       this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
-        if (session.dialogue || session.depotOpen || session.paused || session.player.dead) return;
+        if (session.depotOpen || session.paused || session.player.dead) return;
         const pos = pointer.positionToCamera(this.cameras.main) as Phaser.Math.Vector2;
         const rest = pointer.wasTouch ? this.stickRest() : null;
         if (
@@ -730,7 +754,7 @@ export function mountKileGends(
       this.report();
     }
     private interactAt(pos: Point) {
-      if (session.dialogue || session.depotOpen || session.paused || session.player.dead) return;
+      if (session.depotOpen || session.paused || session.player.dead) return;
       const practice = session.practiceTargets
         .list(session.player.interior)
         .find((t) => distance(t, pos) < 45);
@@ -743,7 +767,7 @@ export function mountKileGends(
         p: Point,
         { width, height, belowFoot }: { width: number; height: number; belowFoot: number },
       ) => Math.abs(pos.x - p.x) <= width / 2 && pos.y >= p.y - height && pos.y <= p.y + belowFoot;
-      const npc = session.npcs.find((n) => hit(n, INTERACTION_BOUNDS.npc));
+      const npc = session.npcs.find((n) => hit(talk.placement(n.id) ?? n, INTERACTION_BOUNDS.npc));
       const enemy = session.enemies
         .filter((e) => e.hp > 0 && hit(e, INTERACTION_BOUNDS.enemy))
         .sort((a, b) => distance(pos, a) - distance(pos, b))[0];
@@ -782,8 +806,9 @@ export function mountKileGends(
           return;
         }
       }
-      if (npc) session.command({ type: "interact", npc: npc.id });
-      else if (door) session.command({ type: "enter", building: door.id });
+      if (npc) {
+        if (!talk.interceptInteract(npc.id)) session.command({ type: "interact", npc: npc.id });
+      } else if (door) session.command({ type: "enter", building: door.id });
       else if (enemy) session.command({ type: "target", id: enemy.id });
       else if (loot) session.command({ type: "loot", id: loot.id });
       else session.command({ type: "move", x: pos.x, y: pos.y });
@@ -987,6 +1012,59 @@ export function mountKileGends(
       };
       this.actors.push(actor);
       return actor;
+    }
+    /** Dymek rozmowy: tekst na ciemnym tle, zawijany do ok. 300 px, kotwiczony dolną krawędzią nad głową postaci. */
+    private makeBubble() {
+      return this.add
+        .text(0, 0, "", {
+          fontSize: "15px",
+          fontFamily: "Arial",
+          color: "#fffdf2",
+          backgroundColor: "#112b36e6",
+          padding: { x: 11, y: 7 },
+          align: "center",
+          wordWrap: { width: 300, useAdvancedWrap: true },
+        })
+        .setOrigin(0.5, 1)
+        .setResolution(2)
+        .setDepth(renderDepth("labels") + 2)
+        .setVisible(false);
+    }
+    /** Pulsujący znacznik przy drzwiach (lub rynku), o którym mówi przewodniczka. */
+    private updateTourMarker(time: number) {
+      const m = talk.marker;
+      const show = Boolean(m) && !session.player.interior;
+      if (!show) {
+        this.tourMarker?.setVisible(false);
+        this.tourMarkerLabel?.setVisible(false);
+        return;
+      }
+      this.tourMarker ??= this.add.graphics().setDepth(renderDepth("labels") - 3);
+      this.tourMarkerLabel ??= this.add
+        .text(0, 0, "", {
+          fontSize: "14px",
+          fontFamily: "Arial",
+          color: "#fff3c9",
+          stroke: "#183c48",
+          strokeThickness: 4,
+        })
+        .setOrigin(0.5, 1)
+        .setResolution(2)
+        .setDepth(renderDepth("labels"));
+      const pulse = 1 + 0.12 * Math.sin(time / 260);
+      this.tourMarker
+        .clear()
+        .lineStyle(4, 0xffe08a, 0.95)
+        .strokeEllipse(0, 0, 170 * pulse, 70 * pulse)
+        .lineStyle(2, 0xffffff, 0.55)
+        .strokeEllipse(0, 0, 120 * pulse, 48 * pulse)
+        .setPosition(m!.x, m!.y)
+        .setVisible(true);
+      if (this.tourMarkerLabel.text !== m!.label) this.tourMarkerLabel.setText(m!.label);
+      this.tourMarkerLabel
+        .setPosition(m!.x, m!.y - 52)
+        .setScale(1 / this.cameras.main.zoom)
+        .setVisible(true);
     }
     private syncNetworkPlayer(p: NetworkPlayerState) {
       if (!runtime?.authoritative && p.worldId !== world.id) {
@@ -1402,11 +1480,10 @@ export function mountKileGends(
     override update(time: number, delta: number) {
       if (disposed || !this.hero || this.loadFailed || document.hidden || this.suspended) return;
       const dt = Math.min(delta, 100);
-      if (!session.paused && !session.dialogue) this.animationTime += dt;
+      if (!session.paused) this.animationTime += dt;
       runtime?.beforeTick?.(dt);
       session.tick(Math.min(delta, 1000));
-      if (session.paused || session.dialogue || session.depotOpen || session.player.dead)
-        this.resetStick();
+      if (session.paused || session.depotOpen || session.player.dead) this.resetStick();
       runtime?.afterTick?.(dt);
       if (this.networkClient) {
         const facingDir =
@@ -1458,13 +1535,7 @@ export function mountKileGends(
           a.facing.x = entry.targetX - curX;
           a.facing.y = entry.targetY - curY;
         }
-        a.animation.update(
-          this.animationTime,
-          moving,
-          false,
-          a.facing,
-          session.paused || !!session.dialogue,
-        );
+        a.animation.update(this.animationTime, moving, false, a.facing, session.paused);
       }
       this.heritageMarkers?.update(time, worldLabels);
       if (this.lastInterior !== session.player.interior) {
@@ -1522,11 +1593,36 @@ export function mountKileGends(
         this.npcMap.clear();
         for (const n of session.npcs) this.npcMap.set(n.id, n);
       }
+      {
+        const p = session.player;
+        talk.tick(dt, {
+          hero: { x: p.x, y: p.y },
+          inside: !!p.interior,
+          dead: p.dead,
+          paused: session.paused,
+          dialogue: session.dialogue,
+          dialogueTurn: session.dialogueTurn,
+          npcs: session.npcs,
+          world: { id: world.id, market: world.market, city: world.city },
+          nav: session.nav,
+          newcomer: p.quests.steps === "locked" && p.level <= 1,
+        });
+        this.updateTourMarker(time);
+      }
       for (const actor of this.actors)
         if (actor.npcId) {
           const npc = this.npcMap.get(actor.npcId);
           if (npc) {
-            actor.body.setPosition(npc.x, npc.y).setDepth(npc.y);
+            // Przewodniczka prowadząca po mieście jest rysowana tam, gdzie ją ustawia trasa (i idzie krokiem).
+            const led = talk.placement(actor.npcId);
+            if (led) {
+              actor.body.setPosition(led.x, led.y).setDepth(led.y);
+              actor.facing = led.facing;
+              actor.moving = led.moving;
+            } else {
+              actor.body.setPosition(npc.x, npc.y).setDepth(npc.y);
+              actor.moving = false;
+            }
             if (actor.name.text !== npc.name) actor.name.setText(npc.name);
           }
         }
@@ -1579,7 +1675,7 @@ export function mountKileGends(
         session.moving,
         session.player.dead,
         session.facing,
-        session.paused || !!session.dialogue,
+        session.paused,
         session.kit.buffs.some((b) => b.id === "T"),
         session.running,
       );
@@ -1614,7 +1710,7 @@ export function mountKileGends(
           Math.hypot(vx, vy) > 0.01,
           e.hp <= 0,
           a.facing,
-          session.paused || !!session.dialogue,
+          session.paused,
         );
         a.body.setPosition(e.x, e.y).setDepth(e.y);
         a.bar.width = (64 * e.hp) / e.maxHp;
@@ -1671,10 +1767,10 @@ export function mountKileGends(
         if (actor.kind === "npc")
           actor.animation.update(
             this.animationTime,
-            false,
+            Boolean(actor.moving),
             false,
             actor.facing,
-            session.paused || !!session.dialogue,
+            session.paused,
           );
       let nearestNpc: Actor | undefined,
         nearestDistance = 190;
@@ -1698,8 +1794,8 @@ export function mountKileGends(
             }
           }
       }
-      const quiet =
-        !worldLabels || Boolean(session.dialogue) || session.paused || session.player.dead;
+      const speech = talkStore.getSnapshot().speech;
+      const quiet = !worldLabels || session.paused || session.player.dead;
       const ownLabel = this.heroLabel();
       if (this.hero.name.text !== ownLabel) this.hero.name.setText(ownLabel);
       for (const a of this.actors) {
@@ -1758,6 +1854,39 @@ export function mountKileGends(
         );
         a.track.setPosition(a.body.x, a.body.y - 76 - lift);
         a.bar.setPosition(a.body.x - 32, a.body.y - 76 - lift);
+        // Dymek z kwestią rozmówcy: nad imieniem, zawsze tej samej wielkości na ekranie.
+        const said = a.kind === "npc" && a.npcId ? speech[a.npcId] : undefined;
+        if (said && a.body.visible) {
+          const bubble = (a.bubble ??= this.makeBubble());
+          if (a.bubbleId !== said.id) {
+            bubble.setText(said.text);
+            a.bubbleId = said.id;
+          }
+          // Dymek nad głową mówiącego, ale nigdy na bohaterze: stoi w środku ekranu, a przewodniczka idzie tuż obok.
+          const cam = this.cameras.main,
+            z = cam.zoom,
+            wv = cam.worldView;
+          const heroBox = this.hero.sprite.getBounds();
+          const avoid: Rect = {
+            left: (heroBox.left - wv.x) * z - 14,
+            right: (heroBox.right - wv.x) * z + 14,
+            top: (heroBox.top - wv.y) * z - 36, // z etykietą „Ty · …” nad głową
+            bottom: (heroBox.bottom - wv.y) * z + 10,
+          };
+          const spot = placeBubble(
+            { x: (a.body.x - wv.x) * z, bottom: (a.body.y - 104 - lift - 16 - wv.y) * z },
+            { w: bubble.width, h: bubble.height },
+            avoid,
+            { left: 8, top: 96, right: this.scale.width - 8, bottom: this.scale.height - 92 },
+          );
+          bubble
+            .setPosition(wv.x + spot.x / z, wv.y + spot.bottom / z)
+            .setScale(1 / z)
+            .setVisible(true);
+        } else if (a.bubble?.visible) {
+          a.bubble.setVisible(false);
+          a.bubbleId = undefined;
+        }
       }
       this.selection.setVisible(Boolean(session.target));
       if (session.target)
