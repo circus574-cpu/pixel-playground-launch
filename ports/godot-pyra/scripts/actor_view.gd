@@ -1,35 +1,44 @@
 class_name PyraActor
 extends Node2D
+## Animated character. Two source formats: NPC sheets (full cells, `rect` = [x, y, w, h]) and the Legend hero pack
+## (trimmed atlas frames, 8 numbers = region + margin). Clips are built lazily, the first time they play.
+
+const DIRECTIONS := ["right", "down-right", "down", "down-left", "left", "up-left", "up", "up-right"]
+## Owner request 15.11.2026: the hero looked too small on the Android build.
+const HERO_SCALE := 1.15
+static var sheet_cache: Dictionary = {}
 
 var sprite := AnimatedSprite2D.new()
 var label := Label.new()
 var definition: Dictionary = {}
+var frames := SpriteFrames.new()
+var built: Dictionary = {}
 var direction := "down"
 var state := "idle"
+var prefix := ""
+var display := Vector2.ZERO
+var one_shot_until := 0.0
+var one_shot_clip := ""
+var flash := 0.0
+var shadow_scale := 1.0
+var is_hero := false
 
-func setup(data: Dictionary, display_name: String = "", inside: bool = false) -> void:
+func setup(data: Dictionary, display_name: String = "", inside: bool = false, hero: bool = false) -> void:
 	definition = data
+	is_hero = hero
 	add_child(sprite)
 	add_child(label)
-	var frames := SpriteFrames.new()
 	frames.remove_animation("default")
-	for clip_name: String in data.clips:
-		var clip: Dictionary = data.clips[clip_name]
-		for facing: String in clip.directions:
-			var animation := clip_name + ":" + facing
-			frames.add_animation(animation)
-			frames.set_animation_speed(animation, float(clip.fps))
-			frames.set_animation_loop(animation, bool(clip.loop))
-			for item: Dictionary in clip.directions[facing]:
-				var atlas := AtlasTexture.new()
-				atlas.atlas = load(item.sheet)
-				atlas.region = Rect2(float(item.rect[0]), float(item.rect[1]), float(item.rect[2]), float(item.rect[3]))
-				frames.add_frame(animation, atlas)
 	sprite.sprite_frames = frames
-	var first: Dictionary = data.clips.idle.directions.down[0]
-	var cell := float(first.rect[2])
-	var factor := float(data.interiorScale) if inside else 1.0
-	var display := Vector2(float(data["size"][ 0]), float(data["size"][ 1])) * factor
+	var cell := float(data.get("cell", 0))
+	if cell == 0.0:
+		var first: Dictionary = data.clips.idle.directions.down[0]
+		cell = float(first.rect[2])
+	var factor := float(data.get("interiorScale", 1.0)) if inside else 1.0
+	if hero:
+		factor *= HERO_SCALE
+	display = Vector2(float(data["size"][0]), float(data["size"][1])) * factor
+	shadow_scale = factor
 	sprite.scale = display / cell
 	sprite.position = Vector2((0.5 - float(data.origin[0])) * display.x, (0.5 - float(data.origin[1])) * display.y)
 	if not display_name.is_empty():
@@ -39,28 +48,103 @@ func setup(data: Dictionary, display_name: String = "", inside: bool = false) ->
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.add_theme_font_size_override("font_size", 17)
 		label.add_theme_color_override("font_color", Color("ffe5b3"))
-		label.add_theme_color_override("font_shadow_color", Color.BLACK)
-		label.add_theme_constant_override("shadow_offset_x", 2)
-		label.add_theme_constant_override("shadow_offset_y", 2)
+		label.add_theme_color_override("font_outline_color", Color(0.08, 0.04, 0.03, 0.95))
+		label.add_theme_constant_override("outline_size", 6)
 	animate(Vector2.ZERO)
 	queue_redraw()
 
-func animate(motion: Vector2) -> void:
-	if motion.length_squared() > 0.001:
-		var names := ["right", "down-right", "down", "down-left", "left", "up-left", "up", "up-right"]
-		direction = names[posmod(roundi(motion.angle() / (PI / 4.0)), 8)]
-		state = "walk" if definition.clips.has("walk") else "idle"
-	else:
-		state = "idle"
-	var animation := state + ":" + direction
-	if not sprite.sprite_frames.has_animation(animation):
-		animation = state + ":down"
-	var clip: Dictionary = definition.clips[state]
-	sprite.flip_h = direction in clip.mirrored
+func sheet(path: String) -> Texture2D:
+	if not sheet_cache.has(path):
+		sheet_cache[path] = load(path)
+	return sheet_cache[path]
+
+func ensure_clip(clip_name: String) -> bool:
+	if built.has(clip_name):
+		return built[clip_name]
+	if not definition.clips.has(clip_name):
+		built[clip_name] = false
+		return false
+	var clip: Dictionary = definition.clips[clip_name]
+	for facing: String in clip.directions:
+		var animation := clip_name + ":" + facing
+		frames.add_animation(animation)
+		frames.set_animation_speed(animation, float(clip.fps))
+		frames.set_animation_loop(animation, bool(clip.loop))
+		for item in clip.directions[facing]:
+			var atlas := AtlasTexture.new()
+			if item is Dictionary:
+				atlas.atlas = sheet(item.sheet)
+				atlas.region = Rect2(float(item.rect[0]), float(item.rect[1]), float(item.rect[2]), float(item.rect[3]))
+			else:
+				atlas.atlas = sheet(str(clip.sheet))
+				atlas.region = Rect2(float(item[0]), float(item[1]), float(item[2]), float(item[3]))
+				atlas.margin = Rect2(float(item[4]), float(item[5]), float(item[6]), float(item[7]))
+			frames.add_frame(animation, atlas)
+	built[clip_name] = true
+	return true
+
+func face(vector: Vector2) -> void:
+	if vector.length_squared() > 0.001:
+		direction = DIRECTIONS[posmod(roundi(vector.angle() / (PI / 4.0)), 8)]
+
+func clip_for(wanted: String) -> String:
+	var candidate := prefix + wanted
+	if ensure_clip(candidate):
+		return candidate
+	return wanted if ensure_clip(wanted) else "idle"
+
+func play_clip(clip_name: String) -> void:
+	var clip_id := clip_for(clip_name)
+	var clip: Dictionary = definition.clips[clip_id]
+	var animation := clip_id + ":" + direction
+	if not frames.has_animation(animation):
+		animation = clip_id + ":down"
+	sprite.flip_h = direction in clip.get("mirrored", [])
 	if sprite.animation != animation or not sprite.is_playing():
 		sprite.play(animation)
 
+## One-off clip (attack, skill, hit) that blocks the idle/walk selection until it ends.
+func play_once(clip_name: String) -> float:
+	var clip_id := clip_for(clip_name)
+	if not definition.clips.has(clip_id):
+		return 0.0
+	var clip: Dictionary = definition.clips[clip_id]
+	var frames_count: int = 1
+	var facing: Array = clip.directions.get(direction, clip.directions.values()[0])
+	frames_count = facing.size()
+	var duration := float(frames_count) / maxf(1.0, float(clip.fps))
+	one_shot_clip = clip_id
+	one_shot_until = Time.get_ticks_msec() / 1000.0 + duration
+	var animation := clip_id + ":" + direction
+	if not frames.has_animation(animation):
+		animation = clip_id + ":down"
+	sprite.flip_h = direction in clip.get("mirrored", [])
+	sprite.play(animation)
+	return duration
+
+func animate(motion: Vector2, running: bool = false) -> void:
+	if Time.get_ticks_msec() / 1000.0 < one_shot_until:
+		return
+	if motion.length_squared() > 0.001:
+		face(motion)
+		state = "run" if running and definition.clips.has(prefix + "run") else "walk"
+		if not definition.clips.has(state) and not definition.clips.has(prefix + state):
+			state = "idle"
+	else:
+		state = "idle"
+	play_clip(state)
+
+func hurt_flash() -> void:
+	flash = 0.25
+	sprite.modulate = Color(1.0, 0.55, 0.5)
+
+func _process(delta: float) -> void:
+	if flash > 0.0:
+		flash -= delta
+		if flash <= 0.0:
+			sprite.modulate = Color.WHITE
+
 func _draw() -> void:
 	draw_set_transform(Vector2(0, -2), 0.0, Vector2(1, 0.32))
-	draw_circle(Vector2.ZERO, 22, Color(0.02, 0.01, 0.01, 0.32))
+	draw_circle(Vector2.ZERO, 22 * shadow_scale, Color(0.02, 0.01, 0.01, 0.32))
 	draw_set_transform(Vector2.ZERO)

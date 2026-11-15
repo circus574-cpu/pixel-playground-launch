@@ -483,3 +483,56 @@ katalogu; nie nadpisano oryginalnych paczek ani ich dowodów.
 
 Workflow Godot wymaga teraz co najmniej 64 zaliczonych kontroli bez błędów.
 PR #170 pozostaje osobnym Draft; brak scalenia i publikacji.
+
+### 13. Android / Godot 0.3.0-pyra: cały kontynent, mapa 2D/3D i Legenda
+
+Zlecenie właściciela: przenieść całą Pyrę (Codex przeniósł testowo tylko miasto, PR #170), bez spawnów; grafika ma zostać
+(„dużo lepiej wygląda”); postać na Androidzie jest za mała (+15 %); zacząć przenosić mapę 2D i 3D i od razu ją dopracować;
+potem mechanika Legendy (umiejętności, drzewko, statystyki); wynik jako APK. Gałąź `ccr-ebbd6459-n7c5eg` zaczęto od
+`feat/godot-pyra-android-20261115` (fast-forward z `main`), nie nadpisano historii.
+
+**Co zrobiono.**
+
+- **Kontynent.** `PyraContinent`: jeden quad z shaderem terenu na opublikowanej siatce 32 j. (wagi biomów popiół/bazalt/
+  wulkan/kanion, ląd/morze, lawa na komórkach stopionych, brzeg, nakładki liści i skał), drogi z maski 16 j. (395 szlaków
+  + 299 dróg świata, Catmull-Rom jak w przeglądarce, cztery materiały), dziedzińce trzech miast. Obiekty: 34 607
+  rozmieszczeń z reguł `pyraContinent.ts` (z 61 174 pozycji przerzedzono 26 571, 0 brakujących tekstur), 74 sprite'y, strumieniowane po
+  chunkach. Kolizja: `walk.bin` z nawigacji, terenu i 5 935 kolizji. Stolica z pierwszej próby wchodzi w układ świata
+  (przesunięcie 44 564,29; 12 168,47), jej płytki wtapiają się w teren, budynki mają grafiki przeglądarki.
+- **Miasta.** Stolica + Cytadela Kowadeł, Port Czerwonych Żagli, Żarowy Trakt: 24 wejścia ze złotym kołem, 6 wnętrz
+  usługowych każde (pokoje z pierwszej próby), rozmowy, odpoczynek w gospodzie, przewodnicy szlaków.
+- **Bohater +15 %.** Paczka `hero-legend-walk-v3 3.3.0` (chód 8 kierunków, bieg, ataki, forma KI); rozmiar 133 → 152,95 j.
+  (`HERO_SCALE = 1.15`, test pilnuje wartości). Kolizja stopy bez zmian (12 j.).
+- **Mapa.** Globus 3D (siatka kuli z własnym UV, chmury, kontury z tych samych obrysów, znacznik gracza, obrót z
+  bezwładnością i autoobrót, wybór regionu promieniem), atlas 2D (zapętlenie, zoom, wybór regionu z obrysów), mapa kontynentu
+  z miastami i 41 miejscami; pozycja gracza z komórek afinicznych `worldOverlay.v2.json`. Pierwsza wersja globusa miała
+  odwrócone ściany siatki (widać było wnętrze kuli, znacznik leżał w oceanie); wykryte na zrzucie, poprawione, test sprawdza
+  teraz, że środek ekranu po wycentrowaniu na Pyrze wskazuje Pyrę.
+- **Legenda.** Statystyki 1–20 z aneksu, drzewko 29 węzłów (wymagania, wykluczenia A7/A8, B7/B8, C7/C8, rangi:
+  pierwszy punkt połowa premii, kolejne +10 % tej bazy), Żar, atak podstawowy co 750 ms, A1/A4/A9, B1/B4/B9, C1/C4/C9,
+  Forma Płomiennego Legendy, unik, krytyk ×1,5. Ekran POSTAĆ: statystyki ze źródłami, drzewko, sloty. Walka tylko na
+  manekinie areny (nie oddaje ciosów, nie płaci nagród).
+- **Dotyk/HUD.** Joystick, ATAK, 4 sloty zdolności z kosztem KI i odnowieniem, UNIK, E; paski HP/KI/Żar/XP.
+- **Pakiet.** Android `pl.kilegends.godot.pyra` 0.3.0-pyra (kod 3), tekstury sprite'ów w kompresji VRAM, APK 80 427 215 B,
+  SHA-256 `6f88aa384513b6d947dc0cfad686bd56d08dc7b0427604a05a89e92526f39050`
+  (`deliveries/godot-pyra-android-20261115-continent`).
+
+**Decyzje.** (1) „+15 %” liczone od poprzedniej wersji Godot (133 j.), nie od przeglądarki. (2) Brak potworów, więc XP nie
+ma źródła; poziom ustawia się w ekranie POSTAĆ jako „poziom próbny” (oznaczony w interfejsie) — do zastąpienia, gdy
+wejdą spawny. (3) Nowy klucz debug (poprzedni został poza repozytorium) — poprzedniego APK trzeba odinstalować przed
+instalacją. (4) Nie dołączono ZIP-a projektu (cały projekt jest w repozytorium).
+
+**Kontrole.**
+
+- `tests/smoke.gd`: **158/158** headless i **158/158** z natywnym renderowaniem (Mesa llvmpipe); wcześniejsze 64 kontrole
+  ekranu startowego zachowane, część kontroli miasta zastąpiona (zmieniła się fizyka i układ świata). Zrzuty:
+  `qa/godot-continent/`.
+- Eksport Linux ze sceną gry jako startową uruchomiony z paczki: dane i zasoby z PCK, 0 błędów. APK: podpis v2/v3,
+  wyrównanie 16 KiB, pakiet/etykieta/wersja/`arm64-v8a`.
+- Pomiar desktopowy w kadrze: 90–260 wywołań rysowania, 260–440 obiektów rysowania, ~133 MiB tekstur.
+- `python3 scripts/docs/check_documentation.py`: PASS.
+
+**Nie sprawdzono / otwarte.** Fizyczny Android (instalacja, FPS, bateria, pamięć, czas wczytania kontynentu — wczytywanie
+odbywa się przy tworzeniu sceny i na telefonie może chwilę trwać), przycisk Wstecz i pinch-zoom na mapie (sam kod),
+Vitest mostu źródeł (brak `node_modules` w sesji; źródła nie zmienione), efekty otoczenia (dym, para), dekoracje „dress”
+przeglądarki, pozostałe usługi miast (sklep, kuźnia, depozyt), zdobywanie doświadczenia, pozostałe trzy kontynenty.

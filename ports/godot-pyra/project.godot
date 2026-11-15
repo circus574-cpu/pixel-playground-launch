@@ -1,4 +1,4 @@
-; Isolated migration trial. The Phaser game, accounts and saves are not used.
+; Native Android port, in progress. The Phaser game, accounts and web saves are not used.
 config_version=5
 
 [application]
@@ -12,7 +12,7 @@ boot_splash/use_filter=true
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/use_custom_user_dir=true
 config/custom_user_dir_name="ki-legends-godot-pyra-prototype"
-config/description="Próba migracji jednego miasta KI Legends do Godot 4 na Androida."
+config/description="KI Legends na Androida (Godot 4): kontynent Pyra, mapa 2D/3D i Legenda."
 
 [display]
 window/size/viewport_width=1280

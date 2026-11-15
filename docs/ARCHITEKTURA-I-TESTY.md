@@ -1316,3 +1316,17 @@ Cinzel pochodzi z obecnego repo, z dołączonym OFL i dostępem w menu licencji.
 Testy rozszerzono do 64/64 headless oraz 64/64 natywnie. Pierwszy APK zachowano;
 nowa dostawa jest w `deliveries/godot-pyra-android-20261115-title`.
 [Instrukcja Android](../ports/godot-pyra/README.md).
+
+### Godot 0.3.0-pyra — cały kontynent (15.11.2026)
+
+Kontynuacja próby na gałęzi `ccr-ebbd6459-n7c5eg`: ten sam projekt `ports/godot-pyra`, ale świat jest teraz całą Pyrą
+(geometria Superior v2, współrzędne świata), a nie jednym miastem. Teren to jeden shader (wagi biomów i maska lądu z
+siatki 32 j., lawa, brzeg, drogi z maski 16 j., dziedzińce trzech miast), obiekty (~34,6 tys. po regułach
+`pyraContinent.ts`) strumieniują się po chunkach 2048 j., kolizja to opublikowana maska marszu (`walk.bin`), a bohater
+porusza się kinematycznie bez ciał fizycznych. Miasta i wnętrza używają układu stolicy z pierwszej próby. Dodano mapę
+(globus 3D, atlas 2D, mapa kontynentu), bohatera z paczki 3.3.0 powiększonego o 15 % oraz Legendę (statystyki z aneksu,
+drzewko 29 węzłów z rangami, Żar, 10 zdolności, forma KI; port `legend.ts`/`base.ts`) z manekinem treningowym.
+Brak potworów i spawnów. `tests/smoke.gd`: 158 kontroli, headless i natywnie. Dane odtwarzają skrypty
+`scripts/godot/prepare_continent_*.py`, `prepare_legend.py`, `tune_imports.py`, `write_provenance.py` (kolejność i
+polecenia w [README Android](../ports/godot-pyra/README.md#5-odtwarzanie-danych-i-grafiki)). Fizyczny telefon, FPS i pamięć
+urządzenia pozostają niezweryfikowane (pomiar desktopowy: 90–260 wywołań rysowania, ~133 MiB tekstur).

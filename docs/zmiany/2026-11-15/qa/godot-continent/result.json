@@ -1,0 +1,891 @@
+{
+	"checks": 158,
+	"display": "X11",
+	"engine": "4.6.3-stable (official)",
+	"failed": 0,
+	"passed": 158,
+	"physicalAndroidDevice": false,
+	"rendering": "gl_compatibility",
+	"results": [
+		{
+			"details": null,
+			"name": "actual entry scene displays brand and Godot credit",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city is not instantiated behind the title",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "Android launcher and desktop use KI icon",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "title layout and credit are separate: (854, 480)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "title layout and credit are separate: (1280, 720)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "title layout and credit are separate: (1600, 720)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "cancelled start touch does not load city",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "focus loss disarms start button",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "other finger cannot activate start button",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "start touch loads city and rejects duplicate activation",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "title hands off to exactly one playable city",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "start touch is not inherited by city controls",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "whole Pyra continent has the published Superior v2 size",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "capital layout from the first trial is kept",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "start in the capital on walkable ground",
+			"passed": true
+		},
+		{
+			"details": 792,
+			"name": "scenery streams around the hero (bounded)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "three more cities, 41 named places, scenery sprites",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "chunks stream when the hero travels across the continent",
+			"passed": true
+		},
+		{
+			"details": 479,
+			"name": "distant chunk set stays bounded",
+			"passed": true
+		},
+		{
+			"details": "(152.95, 152.95)",
+			"name": "hero is 15% larger than the previous build",
+			"passed": true
+		},
+		{
+			"details": 170.0,
+			"name": "level 1 speed is the Legend base 170",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "sea, edge and outside are not walkable",
+			"passed": true
+		},
+		{
+			"details": {
+				"start": 15224.4716796875,
+				"wall": 15194.4716796875,
+				"y": 15218.8056640625
+			},
+			"name": "authored footprint blocks the hero",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "an authored capital footprint was tested",
+			"passed": true
+		},
+		{
+			"details": 24,
+			"name": "24 service doors: capital plus three cities",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-1-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-1-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-1-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-1-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-1-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-1-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-2-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-2-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-2-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-2-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-2-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-2-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-3-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-3-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-3-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-3-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-3-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-3-arena",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": true,
+				"move": "(1.0, 0.0)"
+			},
+			"name": "attack finger and stick finger work at the same time",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "attack releases with its own finger",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "touch cancellation releases movement",
+			"passed": true
+		},
+		{
+			"details": [
+				121.77734375,
+				124.609375
+			],
+			"name": "30/120 FPS do not change movement speed",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "NPC dialog opens and releases movement",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "dialog closes with a separate touch index",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter hall from hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter shop from shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter arena from arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter smithy from smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter depot from depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter inn from inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter shop from pyra-town-1-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-1-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter hall from pyra-town-1-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-1-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter inn from pyra-town-1-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-1-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter smithy from pyra-town-1-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-1-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter depot from pyra-town-1-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-1-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter arena from pyra-town-1-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-1-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter shop from pyra-town-2-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-2-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter hall from pyra-town-2-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-2-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter inn from pyra-town-2-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-2-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter smithy from pyra-town-2-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-2-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter depot from pyra-town-2-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-2-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter arena from pyra-town-2-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-2-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter shop from pyra-town-3-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-3-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter hall from pyra-town-3-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-3-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter inn from pyra-town-3-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-3-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter smithy from pyra-town-3-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-3-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter depot from pyra-town-3-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-3-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter arena from pyra-town-3-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-3-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "annex data: 29 nodes, base and per-level stats",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": 14,
+				"attackInterval": 750.0,
+				"crit": 6.0,
+				"defense": 4,
+				"kiRegen": 0.8,
+				"maxHp": 140,
+				"maxKi": 40,
+				"range": 78.0,
+				"speed": 170.0
+			},
+			"name": "stats at level 1 follow the annex",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": 46,
+				"attackInterval": 750.0,
+				"crit": 8.1,
+				"defense": 18,
+				"kiRegen": 1.08,
+				"maxHp": 434,
+				"maxKi": 61,
+				"range": 78.0,
+				"speed": 229.5
+			},
+			"name": "stats at level 8 follow the annex",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": 101,
+				"attackInterval": 750.0,
+				"crit": 11.7,
+				"defense": 42,
+				"kiRegen": 1.56,
+				"maxHp": 938,
+				"maxKi": 97,
+				"range": 78.0,
+				"speed": 311.95
+			},
+			"name": "stats at level 20 follow the annex",
+			"passed": true
+		},
+		{
+			"details": 311.95,
+			"name": "speed at level 20 follows the owner growth tiers",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "A1 needs level 2 and a free point",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "A1 learned at level 2 and placed in slot 1",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "A4 needs level 7 and A2/A3",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "learn A2",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "learn A3",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "learn A4",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "learn A5",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "learn A6",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "learn A7",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "A7 excludes A8",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "rank scaling: first point half, then +10% of that base",
+			"passed": true
+		},
+		{
+			"details": {
+				"atkPct": 0.04,
+				"critAdd": 0.03,
+				"defPct": 0.0,
+				"hpPct": 0.0,
+				"kiRegenPct": 0.0
+			},
+			"name": "A5 gives +8% x 0.5 attack at rank 1",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "arena room holds one training dummy",
+			"passed": true
+		},
+		{
+			"details": {
+				"ember": 5.0,
+				"hp": 5895.0
+			},
+			"name": "basic strike hits the dummy and builds Żar",
+			"passed": true
+		},
+		{
+			"details": [
+				{
+					"clip": "attack",
+					"ok": true,
+					"reason": ""
+				},
+				232.281
+			],
+			"name": "ability A1 damages the dummy",
+			"passed": true
+		},
+		{
+			"details": [
+				{
+					"clip": "skill",
+					"ok": true,
+					"reason": ""
+				},
+				174.72
+			],
+			"name": "ability A4 damages the dummy",
+			"passed": true
+		},
+		{
+			"details": [
+				{
+					"clip": "attack2",
+					"ok": true,
+					"reason": ""
+				},
+				137.15625
+			],
+			"name": "ability B1 damages the dummy",
+			"passed": true
+		},
+		{
+			"details": [
+				{
+					"clip": "skillc",
+					"ok": true,
+					"reason": ""
+				},
+				185.22
+			],
+			"name": "ability C1 damages the dummy",
+			"passed": true
+		},
+		{
+			"details": [
+				{
+					"clip": "skillc",
+					"ok": true,
+					"reason": ""
+				},
+				206.0415
+			],
+			"name": "ability C4 damages the dummy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "B1 Przełamanie destroys the shield",
+			"passed": true
+		},
+		{
+			"details": [
+				6.0,
+				87.0
+			],
+			"name": "cooldown (6 s) and KI cost (10) apply to A1",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "no KI, no cast",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "Eksplozja Żaru consumes all Żar",
+			"passed": true
+		},
+		{
+			"details": [
+				105,
+				126
+			],
+			"name": "Płomienny Szał raises attack",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "buffs expire",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "dodge dashes within the room",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "checkpoint writes atomically",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "checkpoint round-trip restores position, level and tree",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "first-trial checkpoint is imported into world coordinates",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "unknown checkpoint version is preserved",
+			"passed": true
+		},
+		{
+			"details": "(838.5407, 695.7618)",
+			"name": "capital maps onto the Pyra outline",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto Pyra: Cytadela Kowadeł",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto Pyra: Port Czerwonych Żagli",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto Pyra: Żarowy Trakt",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "map opens over the game and blocks the game controls",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "globe 3D is the first view",
+			"passed": true
+		},
+		{
+			"details": "(-51.37201, -41.04)",
+			"name": "globe: the screen centre after focusing on Pyra picks Pyra",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "globe pick selects the region under the finger",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "2D atlas picks the same region from the same outline",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "2D atlas zooms",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "continent map lists cities and places",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "map closes and returns the controls",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "tree: A1 is available at level 5",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "tree: learning spends one point",
+			"passed": true
+		},
+		{
+			"details": "Wymaga poziomu 7.",
+			"name": "tree: locked node explains why",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "menu suspends and clears input",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "landscape layout: (854, 480)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "landscape layout: (1600, 720)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "landscape layout: (1280, 720)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "touch pads respect configured display cutout margins",
+			"passed": true
+		}
+	]
+}

@@ -1,0 +1,20 @@
+{
+  "format": "ki-godot-pyra-delivery-1",
+  "prototypeOnly": false,
+  "scope": "whole Pyra continent, four safe cities, 2D map and 3D globe, Legend kit; no enemies or spawns",
+  "engine": "Godot 4.6.3",
+  "version": "0.3.0-pyra",
+  "versionCode": 3,
+  "androidPackage": "pl.kilegends.godot.pyra",
+  "applicationLabel": "KI LEGENDS",
+  "signing": "local debug certificate created for this build (differs from the earlier APK: uninstall the old one first)",
+  "artifacts": {
+    "deliveries/godot-pyra-android-20261115-continent/ki-legends-pyra-debug.apk": {
+      "bytes": 80427215,
+      "sha256": "6f88aa384513b6d947dc0cfad686bd56d08dc7b0427604a05a89e92526f39050"
+    }
+  },
+  "physicalDeviceTest": "Not performed",
+  "previousDelivery": "deliveries/godot-pyra-android-20261115-title",
+  "documentation": "ports/godot-pyra/README.md; the full project is in the repository (ports/godot-pyra)"
+}

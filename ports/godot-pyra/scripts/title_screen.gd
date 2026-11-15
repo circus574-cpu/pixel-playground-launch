@@ -108,7 +108,7 @@ func start_city() -> void:
 	loading = true
 	start_button.disabled = true
 	start_button.text = "ŁADOWANIE…"
-	status.text = "Przygotowywanie Twierdzy Popiołu"
+	status.text = "Wczytywanie kontynentu Pyry"
 	var error := ResourceLoader.load_threaded_request(CITY_PATH)
 	if error != OK:
 		load_failed()
@@ -117,7 +117,7 @@ func load_failed() -> void:
 	loading = false
 	start_button.disabled = false
 	start_button.text = "SPRÓBUJ PONOWNIE"
-	status.text = "Nie udało się otworzyć miasta. Spróbuj ponownie."
+	status.text = "Nie udało się wczytać Pyry. Spróbuj ponownie."
 
 func _process(_delta: float) -> void:
 	if not loading:

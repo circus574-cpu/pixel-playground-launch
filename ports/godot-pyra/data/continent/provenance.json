@@ -1,0 +1,40 @@
+{
+ "note": "Presentation data for the native port; geometry, collision and navigation are the published Superior v2 files, not regenerated.",
+ "sourceBaseCommit": "da9eb46e45f2744ee70710121d65e1e79d281e8d",
+ "sources": {
+  "public/game/worlds/superior-v2/pyra/world.json": "d945f0260c44f73a58461f59b69b41796e6c068747d0d3660195a3fca4e3276c",
+  "public/game/worlds/superior-v2/pyra/terrain.json": "4508e157a9706052d55511c04db0dbccfc25f90b556b7a7e60bb1e8b14996f9b",
+  "public/game/worlds/superior-v2/pyra/navigation.json": "783608167ec754d288b1e981f43875ffccb7eee9b8448e813aebe12702d6d59f",
+  "public/game/worlds/superior-v2/pyra/collision.json": "9d1f030830eb4d1a87a1f15e80b123d8fae4b23ec5d77d38ab141a6289bed549",
+  "public/game/worlds/superior-v2/pyra/paths.json": "fc4b84ebfd7acdab8b8436cbffd9f098f64ca9f01dd57b0ae22ecc4ec8e22359",
+  "public/game/worlds/superior-v2/pyra/map-hi.webp": "416ecde593177cc2afe8a41562ccab584bf960fd2aab35f8b3519d271656c22d",
+  "public/game/worlds/superior-v2/art/pyra/feature.art.json": "e662c98ceb8282ce2d03069cf0a5a74feb0999a91a5ec208bb014f63b0695728",
+  "public/game/worlds/superior-v2/art/assets.json": "930eb21c54ce9972eb8a4fcb3fa7f23a8c943fc9da12f1869f6c4cc1ec05c39e",
+  "src/game/worlds/v2Places.generated.json": "0f119bf3ffe257db0e3ecab442a24ff53eed9321c69885005bb11fb39a5812dd",
+  "src/components/planet-map/atlasRegions.v2.json": "93fac4e846cde1ddc337c48495351d825905662cafdb794f3d3e6010fe5f3efe",
+  "src/components/planet-map/planetLayout.v2.json": "461b5e1af4da15c1f999a390c86d151edab501e89483841f13265596d80cfcd0",
+  "src/components/planet-map/worldOverlay.v2.json": "1018ad64b647ba6f53352f6d86c3fa24a83474d31adda2e481e29c49302954e7",
+  "src/assets/planet-map/atlas-v2-1920.webp": "95e5c869d2cfe350b81911e554715ab3f9f9e38daac9f0d82bfcf9b913d25263",
+  "src/assets/planet-map/v2-globe-color-1920.webp": "19b11342fbc41b0a7df99e52b5f343c205643601df226c18efae25c10c29cee7",
+  "src/assets/planet-map/globe-clouds-2048.webp": "09795ccf64dd8975dc3c32d002108b0a3793bb87da1e8df4c9cc12ff806d22d2",
+  "src/assets/planet-map/space.jpg": "24a70832baf7411c1579cb7934d4f82f731cbc0336fbcccd2fa642c24bed1b18",
+  "docs/design/data/character-progression-1-20.json": "27665d288e4ecbf943c5cd1daa6eb8a256bc8317978b1886df512b6be0c17c9a",
+  "src/game/kit/legend.ts": "2f350f29108247a31536b10c289da3fda3e1951e8e8e937345be651236d99e4c",
+  "src/game/kit/base.ts": "62a20abe09972877384c361a631f9f9b3ce1d249abe5dee89f95e1e1997f70d0",
+  "public/game/assets/gpu/pyra-continent-v2/1.0.0-55660ce18ae5/pack.json": "5f84ace4fc69f2ab51cdda276c961bbba89ea1032f34f89777f09036f2894452",
+  "public/game/assets/gpu/hero-legend-walk-v3/3.3.0-e49f79991c2d/pack.json": "ec7a40b2799f2d4c1cbf725dcf3a54af72889afbfcdfcd098750c447a313bf4c"
+ },
+ "outputs": {
+  "data/continent.terrain.json": "dbc1023c73c85b383b5a6644d1ca4e3aa417702486644d798e5d3682b4591a6e",
+  "data/continent/world.json": "5eb6006b3ab488db152b65bfebf4bc9ec3b8b603959ebb4c187bb92ce841b07a",
+  "data/continent/objects.bin": "246c44e1a32d672a15a78ee288c4513ffbe01b652e6808baf959306f15704cec",
+  "data/continent/walk.bin": "2f72eab4389392217bdee32a5188db9b12d41768c9566c0a3402bbbaa1aba0b6",
+  "data/hero.json": "ca4dd9a1dafd0b08a3317b9411f4ac9de1d0496ab800e033cda66f9a79b5a6ee",
+  "data/legend.json": "61d8e09bfabc124f5814e7d77aafb0e135f669aac42e62965f4f2d2ddc50542c",
+  "data/map.json": "10dfe6dc93735fa7cfbd7e6da2193e4b8185ad7652d207946a5a0176c69484af",
+  "assets/continent/ctrl-biome.png": "24971770674d8d457c01cc9d0b346b455aa7b6988ae4ce54344e8ec7331ad6b5",
+  "assets/continent/ctrl-land.png": "e9d3e024639f6811086badfe6a00b796317873c79ab88d1cf06f3e7ccb6722ca",
+  "assets/continent/road-mask.png": "a91a11e0a7713892a890d9e08305d26bf21f9151da014a47c47bd155cc692c18",
+  "assets/continent/road-class.png": "fa34ae41b61aee9e7d3c285cc315c2874a77c6723d199d5656fbfef38a8afa1b"
+ }
+}

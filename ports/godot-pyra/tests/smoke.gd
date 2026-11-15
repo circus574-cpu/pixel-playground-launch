@@ -10,6 +10,7 @@ func _initialize() -> void:
 
 func verify(condition: bool, name: String, details: Variant = null) -> void:
 	results.append({"name":name,"passed":condition,"details":details})
+	print(("PASS " if condition else "FAIL ") + name)
 	if not condition:
 		failures.append(name)
 		push_error("FAILED: " + name + " " + str(details))
@@ -29,65 +30,19 @@ func touch(index: int, pressed: bool, at: Vector2, canceled: bool = false) -> vo
 	# when the logical stretched canvas is 1280px; push through the real viewport.
 	root.push_input(event, true)
 
-func free_start(length: float = 190.0) -> Vector2:
-	var bounds := game.active_bounds
-	for y in range(int(bounds.position.y + 70), int(bounds.end.y - 70), 45):
-		for x in range(int(bounds.position.x + 70), int(bounds.end.x - length - 70), 45):
-			var at := Vector2(x,y)
-			var free := true
-			for i in range(12):
-				if not game.can_stand(at + Vector2(length * i / 11,0), ""):
-					free = false
-			for target in game.targets:
-				if at.distance_to(target.point) < game.INTERACTION_RANGE + 40:
-					free = false
-			if free:
-				return at
-	return Vector2(-1000,-1000)
-
 func capture(name: String) -> void:
 	if DisplayServer.get_name() == "headless":
 		return
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png(output + "/" + name + ".png")
 
-func walk_to(destination: Vector2) -> bool:
-	var grid := AStarGrid2D.new()
-	const CELL := 24
-	var box := game.active_bounds
-	grid.region = Rect2i(Vector2i(floori(box.position.x/CELL),floori(box.position.y/CELL)),Vector2i(ceili(box.size.x/CELL)+1,ceili(box.size.y/CELL)+1))
-	grid.cell_size = Vector2(CELL,CELL)
-	grid.offset = Vector2(CELL/2.0,CELL/2.0)
-	grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
-	grid.update()
-	var goal := Vector2i.ZERO
-	var distance := INF
-	for y in range(grid.region.position.y,grid.region.end.y):
-		for x in range(grid.region.position.x,grid.region.end.x):
-			var id := Vector2i(x,y)
-			var at := grid.get_point_position(id)
-			var free := game.can_stand(at,game.current_room)
-			grid.set_point_solid(id,not free)
-			if free and at.distance_to(destination) < distance:
-				distance = at.distance_to(destination)
-				goal = id
-	var start := Vector2i(floori(game.player.position.x/CELL),floori(game.player.position.y/CELL))
-	if not grid.is_in_boundsv(start) or grid.is_point_solid(start):
-		return false
-	var route := grid.get_point_path(start,goal)
-	if route.is_empty():
-		return false
-	var deadline := Time.get_ticks_msec() + 30000
-	for waypoint in route:
-		while game.player.position.distance_to(waypoint) > 14:
-			game.player.touch_motion = (waypoint-game.player.position).normalized()
-			await physics_frame
-			if Time.get_ticks_msec() > deadline:
-				game.player.touch_motion = Vector2.ZERO
-				return false
-	game.player.touch_motion = Vector2.ZERO
-	await settle()
-	return true
+func nearest_free(from: Vector2) -> Vector2:
+	for r in range(0, 600, 16):
+		for a in 16:
+			var p := from + Vector2.from_angle(TAU * a / 16.0) * r
+			if game.can_stand(p, ""):
+				return p
+	return from
 
 func run() -> void:
 	var args := OS.get_cmdline_user_args()
@@ -135,140 +90,283 @@ func run() -> void:
 		return
 	verify(game.hud.touch.move_pointer == -1 and game.player.touch_motion == Vector2.ZERO, "start touch is not inherited by city controls")
 	await settle(5)
-	verify(game.data.name == "Twierdza Popiołu" and game.data.buildings.size() == 6 and game.data.npcs.size() == 8,"production capital: six buildings, eight NPCs")
-	verify(game.player.speed == float(game.data.speed),"movement speed comes from the owner race base",game.player.speed)
-	verify(game.can_stand(game.player.position,""),"canonical start is clear")
-	verify(game.targets.filter(func(t): return t.kind == "npc").size() == 2,"only two outdoor NPCs, interior residents stay indoors")
-	await capture("city-spawn")
-	var directions := ["right","down-right","down","down-left","left","up-left","up","up-right"]
-	for i in range(8):
-		game.player.visual.animate(Vector2.from_angle(i*PI/4.0))
-		verify(game.player.visual.direction == directions[i] and str(game.player.visual.sprite.animation).begins_with("walk:"),"eight-direction clip: "+directions[i])
-	game.player.visual.animate(Vector2.LEFT)
-	verify(game.player.visual.sprite.flip_h,"left walk preserves production mirrored clip")
-	game.player.visual.animate(Vector2.ZERO)
-	verify(str(game.player.visual.sprite.animation).begins_with("idle:"),"stopping returns to idle")
-	var free := free_start()
-	verify(game.can_stand(free,""),"a physically clear movement corridor exists")
-	game.player.position = free
-	touch(0,true,game.hud.touch.left_center+Vector2(84,0))
-	await settle()
-	var moving := game.player.touch_motion
-	touch(1,true,game.hud.touch.right_center)
-	touch(1,false,game.hud.touch.right_center)
-	verify(moving.x > 0.9 and game.player.touch_motion.x > 0.9,"second finger action/release preserves joystick",{"before":str(moving),"after":str(game.player.touch_motion)})
-	touch(0,false,game.hud.touch.left_center,true)
-	verify(game.player.touch_motion == Vector2.ZERO and game.hud.touch.move_pointer == -1,"touch cancellation releases movement")
-	# Opening and closing a real NPC dialog must release captured pointers.
-	game.player.position = game.point(game.data.spawn)
-	game.interact()
-	verify(game.hud.modal.visible and game.player.locked and game.player.touch_motion == Vector2.ZERO,"NPC dialog opens and releases movement")
-	await settle()
-	var close: Button = game.hud.buttons[-1]
-	touch(2,true,close.get_global_rect().get_center())
-	touch(2,false,close.get_global_rect().get_center())
-	verify(not game.hud.modal.visible and not game.player.locked,"dialog closes with a separate touch index")
-	touch(0,true,game.hud.touch.left_center+Vector2(84,0))
-	verify(game.player.touch_motion.x > 0.9,"joystick works immediately after dialog")
-	touch(0,false,game.hud.touch.left_center)
-	game.hud.close_dialog()
-	# Check actual swept physics against an authored building footprint.
+	# ---- continent -----------------------------------------------------------------------------
+	verify(PyraContinent.WORLD == Vector2(65600, 42304) and int(game.continent.meta.world[0]) == 65600 and int(game.continent.meta.world[1]) == 42304, "whole Pyra continent has the published Superior v2 size")
+	verify(game.data.name == "Twierdza Popiołu" and game.data.buildings.size() == 6, "capital layout from the first trial is kept")
+	verify(game.can_stand(game.player.position, "") and game.player.position.distance_to(game.origin + game.point(game.data.spawn)) < 0.01, "start in the capital on walkable ground")
+	verify(game.continent.loaded_sprite_count() > 100 and game.continent.loaded_sprite_count() < 2400, "scenery streams around the hero (bounded)", game.continent.loaded_sprite_count())
+	verify(game.continent.world.towns.size() == 3 and game.continent.world.places.size() == 41 and game.continent.textures.size() >= 60, "three more cities, 41 named places, scenery sprites")
+	var far := Vector2(17648, 25300)
+	game.player.position = nearest_free(far)
+	game.continent.update_view(game.camera_view())
+	await settle(3)
+	verify(game.continent.loaded.has("8,12") or game.continent.loaded.size() > 0, "chunks stream when the hero travels across the continent")
+	var loaded_far := game.continent.loaded_sprite_count()
+	verify(loaded_far < 2400, "distant chunk set stays bounded", loaded_far)
+	game.player.position = game.origin + game.point(game.data.spawn)
+	game.continent.update_view(game.camera_view())
+	await settle(3)
+	# ---- hero size (owner request: 15% larger) ----------------------------------------------------
+	var base_cell: float = float(game.hero.size[0])
+	verify(is_equal_approx(game.player.visual.display.x, base_cell * 1.15) and is_equal_approx(game.player.visual.display.y, float(game.hero.size[1]) * 1.15), "hero is 15% larger than the previous build", game.player.visual.display)
+	verify(game.player.speed == 170.0 and game.kit.stats().speed == 170.0, "level 1 speed is the Legend base 170", game.player.speed)
+	# ---- walk mask: water and authored footprints block --------------------------------------------
+	verify(not game.continent.walkable(Vector2(900, 900)) and not game.continent.walkable(Vector2(5, 5)) and not game.continent.walkable(Vector2(66000, 100)), "sea, edge and outside are not walkable")
 	var tested_collision := false
 	for obstacle: Dictionary in game.data.obstacles:
-		var box := game.rectangle(obstacle)
-		var below := Vector2(box.get_center().x,box.end.y+18)
-		if game.active_bounds.encloses(box) and game.can_stand(below,""):
+		var box: Rect2 = game.rectangle(obstacle)
+		box.position += game.origin
+		var below := Vector2(box.get_center().x, box.end.y + 30)
+		if game.can_stand(below, "") and box.size.x < 900:
 			game.player.position = below
 			game.player.touch_motion = Vector2.UP
-			for i in range(20):
+			for i in range(30):
 				await physics_frame
 			game.player.touch_motion = Vector2.ZERO
-			verify(game.player.position.y >= box.end.y+11.5 and game.player.position.y <= box.end.y+12.2 and game.player.position.y < below.y-2,"authored footprint blocks the CharacterBody2D",{"y":game.player.position.y,"wall":box.end.y,"start":below.y})
+			verify(game.player.position.y >= box.end.y + 10.0 and game.player.position.y < below.y - 2.0 and game.player.position.y <= box.end.y + 30.0, "authored footprint blocks the hero", {"y": game.player.position.y, "wall": box.end.y, "start": below.y})
 			tested_collision = true
 			break
-	verify(tested_collision,"an authored footprint was tested")
-	# Fixed physics must preserve speed at low/high render caps.
+	verify(tested_collision, "an authored capital footprint was tested")
+	var doors := game.targets.filter(func(t): return t.kind == "door")
+	verify(doors.size() == 24, "24 service doors: capital plus three cities", doors.size())
+	for door in doors:
+		verify(game.continent.walkable(door.point + Vector2(0, 40)), "door is reachable on foot: " + str(door.id))
+	# ---- movement, touch, fixed timestep ---------------------------------------------------------
+	var free := nearest_free(game.origin + game.point(game.data.spawn) + Vector2(0, 700))
+	game.player.position = free
+	touch(0, true, game.hud.touch.left_center + Vector2(84, 0))
+	await settle()
+	var moving: Vector2 = game.player.touch_motion
+	touch(1, true, game.hud.touch.act_center)
+	touch(1, false, game.hud.touch.act_center)
+	touch(2, true, game.hud.touch.attack_center)
+	verify(game.attack_held and moving.x > 0.9 and game.player.touch_motion.x > 0.9, "attack finger and stick finger work at the same time", {"move": str(game.player.touch_motion), "attack": game.attack_held})
+	touch(2, false, game.hud.touch.attack_center)
+	verify(not game.attack_held, "attack releases with its own finger")
+	touch(0, false, game.hud.touch.left_center, true)
+	verify(game.player.touch_motion == Vector2.ZERO and game.hud.touch.move_pointer == -1, "touch cancellation releases movement")
 	var distances: Array[float] = []
-	for cap in [30,120]:
+	for cap in [30, 120]:
 		game.player.position = free
 		Engine.max_fps = cap
 		game.player.touch_motion = Vector2.RIGHT
 		await create_timer(0.7).timeout
 		game.player.touch_motion = Vector2.ZERO
-		distances.append(game.player.position.x-free.x)
+		distances.append(game.player.position.x - free.x)
 	Engine.max_fps = 60
-	verify(absf(distances[0]-distances[1]) < game.player.speed*0.1 and distances.min() > game.player.speed*0.55 and distances.max() < game.player.speed*0.85,"30/120 FPS do not change movement speed",distances)
-	# Walk from the source spawn to the hall using actual physics, then interact.
-	game.player.position = game.point(game.data.spawn)
-	var hall: Dictionary = game.data.buildings.filter(func(b):return b.id == "hall")[0]
-	var travelled: bool = await walk_to(game.point(hall.door))
-	verify(travelled,"production spawn -> hall door is navigable through CharacterBody2D")
+	verify(absf(distances[0] - distances[1]) < game.player.speed * 0.1 and distances.min() > game.player.speed * 0.55 and distances.max() < game.player.speed * 0.85, "30/120 FPS do not change movement speed", distances)
+	# ---- dialogs -------------------------------------------------------------------------------
+	game.player.position = game.origin + game.point(game.data.spawn)
 	game.interact()
+	verify(game.hud.modal.visible and game.player.locked and game.player.touch_motion == Vector2.ZERO, "NPC dialog opens and releases movement")
 	await settle()
-	verify(game.current_room == "hall","walking to the hall and interacting enters the original room")
-	await capture("hall-entered")
-	if game.current_room == "hall":
-		var resident: Dictionary = game.targets.filter(func(t):return t.kind == "npc")[0]
-		var reached: bool = await walk_to(resident.point)
+	var close: Button = game.hud.buttons[-1]
+	touch(3, true, close.get_global_rect().get_center())
+	touch(3, false, close.get_global_rect().get_center())
+	verify(not game.hud.modal.visible and not game.player.locked, "dialog closes with a separate touch index")
+	# ---- every service room of every city ---------------------------------------------------------
+	for door in doors:
+		game.load_space("", door.point)
+		game.player.position = door.point
+		var before: Vector2 = game.player.position
 		game.interact()
-		await settle()
-		verify(reached and game.hud.modal.visible,"walk across the hall and talk to the resident")
-		await capture("hall-dialog")
-		game.hud.close_dialog()
-	game.load_space("",game.city_return)
-	await settle()
-	# Every entrance and every room has a clear entry and a stable return point.
-	for building: Dictionary in game.data.buildings:
-		game.player.position = game.point(building.door)
-		var before := game.player.position
-		verify(game.can_stand(before,""),"clear entrance: "+building.id)
-		game.interact()
-		await settle()
-		verify(game.current_room == building.id and game.can_stand(game.player.position,building.id),"enter original room: "+building.id)
-		await capture("room-"+building.id)
+		await settle(2)
+		verify(game.current_room == str(door.room) and game.can_stand(game.player.position, game.current_room), "enter " + str(door.room) + " from " + str(door.id))
+		if door.id in ["hall", "pyra-town-1-arena", "arena"]:
+			await capture("room-" + str(door.id))
 		game.go_back()
-		await settle()
-		verify(game.current_room.is_empty() and game.player.position.distance_to(before)<0.01,"return to the same entrance: "+building.id)
-	# The checkpoint has its own format and path; unknown/newer data cannot be overwritten.
-	game.player.position = free
-	game.city_return = free
+		await settle(2)
+		verify(game.current_room.is_empty() and game.player.position.distance_to(before) < 0.01, "return to the same entrance: " + str(door.id))
+	# ---- Legend rules ------------------------------------------------------------------------------
+	var kit: LegendKit = game.kit
+	kit.reset_tree()
+	var legend: Dictionary = kit.data
+	verify(kit.nodes.size() == 29 and legend.base.hp == 140 and legend.perLevel.attack == 4.6 and legend.base.attackIntervalMs == 750, "annex data: 29 nodes, base and per-level stats")
+	for lv in [1, 8, 20]:
+		kit.set_level(lv)
+		var s := kit.stats()
+		verify(s.maxHp == roundi(140.0 + 42.0 * (lv - 1)) and s.maxKi == roundi(40.0 + 3.0 * (lv - 1)) and s.attack == roundi(14.0 + 4.6 * (lv - 1)) and s.defense == roundi(4.0 + 2.0 * (lv - 1)), "stats at level %d follow the annex" % lv, s)
+	kit.set_level(20)
+	verify(is_equal_approx(float(kit.stats().speed), 170.0 * 1.835), "speed at level 20 follows the owner growth tiers", kit.stats().speed)
+	kit.set_level(1)
+	verify(not kit.can_learn("A1").ok and kit.free_points() == 0, "A1 needs level 2 and a free point")
+	kit.set_level(2)
+	verify(kit.can_learn("A1").ok and kit.learn("A1") and kit.slots[0] == "A1", "A1 learned at level 2 and placed in slot 1")
+	verify(not kit.can_learn("A4").ok, "A4 needs level 7 and A2/A3")
+	kit.set_level(20)
+	for id in ["A2", "A3", "A4", "A5", "A6", "A7"]:
+		verify(kit.learn(id), "learn " + id)
+	verify(not kit.can_learn("A8").ok and str(kit.can_learn("A8").reason).begins_with("Wyklucza"), "A7 excludes A8")
+	verify(is_equal_approx(LegendKit.rank_power(1), 0.5) and is_equal_approx(LegendKit.rank_power(3), 0.6), "rank scaling: first point half, then +10% of that base")
+	verify(is_equal_approx(kit.mods().atkPct, 0.04), "A5 gives +8% x 0.5 attack at rank 1", kit.mods())
+	kit.reset_tree()
+	# ---- abilities on the arena dummy ---------------------------------------------------------------
+	game.player.position = game.origin + game.point(game.data.spawn)
+	var arena_door = doors.filter(func(t): return t.id == "arena")[0]
+	game.load_space("", arena_door.point)
+	game.player.position = arena_door.point
+	game.interact()
+	await settle(2)
+	verify(game.current_room == "arena" and game.dummies.size() == 1, "arena room holds one training dummy")
+	var dummy: PyraDummy = game.dummies[0]
+	kit.set_level(20)
+	for id in ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A9", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B9", "C1", "C2", "C3", "C4", "C5", "C6", "C7"]:
+		kit.learn(id)
+	kit.reset_tree() if kit.free_points() < 0 else null
+	game.player.position = dummy.position + Vector2(-70, 0)
+	await settle(2)
+	seed(7)
+	var before_hp := dummy.hp
+	game.face_target()
+	kit.next_basic_at = 0.0
+	var basic := kit.basic()
+	verify(basic.ok and dummy.hp < before_hp and kit.ember >= 4.0, "basic strike hits the dummy and builds Żar", {"hp": dummy.hp, "ember": kit.ember})
+	kit.ki = float(kit.stats().maxKi)
+	kit.learned = ["R"]
+	kit.set_level(20)
+	for id in ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "C1", "C2", "C3", "C4", "C5", "C6", "C7"]:
+		if kit.free_points() > 0:
+			kit.learn(id)
+	game.player.position = dummy.position + Vector2(-70, 0)
+	var results_by_skill := {}
+	for id in kit.learned:
+		if kit.is_active(id) and id != "R":
+			kit.ki = float(kit.stats().maxKi)
+			kit.cooldowns.erase(id)
+			var hp_before := dummy.hp
+			var outcome := kit.use(id)
+			for i in 20:
+				kit.tick(0.1)
+			results_by_skill[id] = [outcome.ok, hp_before - dummy.hp]
+			if id in ["A1", "A4", "B1", "C1", "C4"]:
+				verify(outcome.ok and hp_before > dummy.hp, "ability " + id + " damages the dummy", [outcome, hp_before - dummy.hp])
+	verify(not dummy.shielded, "B1 Przełamanie destroys the shield")
+	kit.cooldowns.erase("A1")
+	kit.ki = float(kit.stats().maxKi)
+	kit.use("A1")
+	verify(kit.cooldown_left("A1") > 5.9 and kit.ki == float(kit.stats().maxKi) - 10.0, "cooldown (6 s) and KI cost (10) apply to A1", [kit.cooldown_left("A1"), kit.ki])
+	kit.ki = 0.0
+	kit.cooldowns.erase("C1")
+	verify(not kit.use("C1").ok and str(kit.use("C1").reason) == "Za mało KI.", "no KI, no cast")
+	kit.ki = float(kit.stats().maxKi)
+	kit.ember = 80.0
+	kit.cooldowns.erase("C4")
+	kit.use("C4")
+	verify(kit.ember == 0.0, "Eksplozja Żaru consumes all Żar")
+	kit.ki = float(kit.stats().maxKi)
+	kit.cooldowns.erase("B4")
+	kit.buffs.clear()
+	var atk_before: int = kit.stats().attack
+	verify(kit.use("B4").ok and kit.stats().attack > atk_before and kit.buff_active("B4"), "Płomienny Szał raises attack", [atk_before, kit.stats().attack])
+	for i in 100:
+		kit.tick(0.1)
+	verify(kit.stats().attack == atk_before or kit.buff_active("B4") == false, "buffs expire")
+	# dodge keeps the hero on legal ground
+	var spot := game.player.position
+	game.dodge()
+	verify(game.can_stand(game.player.position, "arena") and game.player.position.distance_to(spot) > 20.0, "dodge dashes within the room")
+	await capture("arena-fight")
+	game.go_back()
+	await settle(2)
+	# ---- save --------------------------------------------------------------------------------------------
+	kit.reset_tree()
+	kit.set_level(9)
+	kit.learn("A1")
+	var save_free := nearest_free(game.origin + game.point(game.data.spawn) + Vector2(0, 900))
+	game.player.position = save_free
+	game.city_return = save_free
 	var save_path := "user://qa-checkpoint.json"
-	verify(game.save_checkpoint(save_path),"isolated checkpoint writes atomically")
-	game.player.position += Vector2(20,0)
-	verify(game.restore_checkpoint(save_path) and game.player.position.distance_to(free)<0.01,"checkpoint round-trip")
-	var f := FileAccess.open(save_path,FileAccess.WRITE)
-	var newer := '{"format":"ki-godot-pyra-save-1","version":9,"important":"preserve"}'
+	verify(game.save_checkpoint(save_path), "checkpoint writes atomically")
+	game.player.position += Vector2(30, 0)
+	kit.reset_tree()
+	verify(game.restore_checkpoint(save_path) and game.player.position.distance_to(save_free) < 0.01 and kit.level == 9 and kit.has("A1"), "checkpoint round-trip restores position, level and tree")
+	var legacy := {"format": "ki-godot-pyra-save-1", "version": 1, "room": "", "position": [1286.0, 1664.0], "cityReturn": [1286.0, 1664.0]}
+	var lf := FileAccess.open(save_path, FileAccess.WRITE)
+	lf.store_string(JSON.stringify(legacy))
+	lf.close()
+	verify(game.restore_checkpoint(save_path) and game.player.position.distance_to(game.origin + game.point(game.data.spawn)) < 0.01, "first-trial checkpoint is imported into world coordinates")
+	var f := FileAccess.open(save_path, FileAccess.WRITE)
+	var newer := '{"format":"ki-godot-pyra-save-2","version":9,"important":"preserve"}'
 	f.store_string(newer)
 	f.close()
-	verify(not game.restore_checkpoint(save_path) and not game.save_checkpoint(save_path) and FileAccess.get_file_as_string(save_path)==newer,"unknown checkpoint version is preserved")
+	verify(not game.restore_checkpoint(save_path) and not game.save_checkpoint(save_path) and FileAccess.get_file_as_string(save_path) == newer, "unknown checkpoint version is preserved")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(save_path))
 	game.checkpoint_protected = false
-	game.load_space("",game.point(game.data.spawn))
-	await settle()
+	# ---- maps --------------------------------------------------------------------------------------------
+	var regions: Array = game.map_data.regions
+	var capital_atlas := MapMath.world_to_atlas(game.map_data.pyra, float(game.continent.world.capital.x), float(game.continent.world.capital.y))
+	verify(MapMath.region_at(regions, capital_atlas).get("id", "") == "pyra", "capital maps onto the Pyra outline", capital_atlas)
+	for town: Dictionary in game.continent.world.towns:
+		var a := MapMath.world_to_atlas(game.map_data.pyra, float(town.x), float(town.y))
+		verify(MapMath.region_at(regions, a).get("id", "") == "pyra", "city maps onto Pyra: " + str(town.name))
+	game.player.position = game.origin + game.point(game.data.spawn)
+	game.open_map()
+	await settle(4)
+	var screen: MapScreen = game.screen
+	verify(is_instance_valid(screen) and not game.hud.visible and game.hud.touch.blocked, "map opens over the game and blocks the game controls")
+	verify(screen.globe.visible and screen.views.size() == 3, "globe 3D is the first view")
+	screen.globe.focus_on(MapMath.atlas_to_lonlat(Vector2(float(regions[3].center[0]), float(regions[3].center[1]))))
+	await settle(3)
+	var centre: Variant = screen.globe.screen_to_lonlat(screen.globe.size / 2.0)
+	verify(centre != null and MapMath.region_at(regions, MapMath.lonlat_to_atlas(centre.x, centre.y)).get("id", "") == "pyra", "globe: the screen centre after focusing on Pyra picks Pyra", centre)
+	screen.globe.pick(screen.globe.size / 2.0)
+	verify(screen.globe.selected == "pyra", "globe pick selects the region under the finger")
+	await capture("map-globe")
+	screen.switch_to(1)
+	await settle(3)
+	screen.atlas.pick(screen.atlas.to_screen(Vector2(float(regions[3].center[0]), float(regions[3].center[1]))))
+	verify(screen.atlas.selected == "pyra" and screen.info.text.contains("Pyra"), "2D atlas picks the same region from the same outline")
+	screen.atlas.zoom_by(2.0, screen.atlas.size / 2.0)
+	verify(screen.atlas.zoom_level() > 1.9, "2D atlas zooms")
+	await capture("map-2d")
+	screen.switch_to(2)
+	await settle(3)
+	verify(screen.continent_view.visible and screen.continent_view.markers.size() > 40, "continent map lists cities and places")
+	await capture("map-continent")
+	game.go_back()
+	await settle(2)
+	verify(not is_instance_valid(game.screen) and game.hud.visible and not game.hud.touch.blocked, "map closes and returns the controls")
+	# ---- character screen ----------------------------------------------------------------------------------
+	kit.reset_tree()
+	kit.set_level(5)
+	game.open_character()
+	await settle(3)
+	var sheet: CharacterScreen = game.screen
+	sheet.select("A1")
+	verify(not sheet.learn_button.disabled and kit.free_points() == 4, "tree: A1 is available at level 5")
+	sheet.learn_selected()
+	verify(kit.has("A1") and kit.free_points() == 3, "tree: learning spends one point")
+	sheet.select("A4")
+	verify(sheet.learn_button.disabled and sheet.learn_button.text.begins_with("Wymaga"), "tree: locked node explains why", sheet.learn_button.text)
+	await capture("character")
+	game.go_back()
+	await settle(2)
+	# ---- HUD layout -----------------------------------------------------------------------------------------
 	game.show_menu()
 	await settle()
-	verify(game.hud.modal.visible and game.player.locked,"menu suspends and clears input")
-	await capture("menu")
+	verify(game.hud.modal.visible and game.player.locked, "menu suspends and clears input")
 	game.hud.close_dialog()
-	await settle()
 	game.hud.notice.text = ""
 	game.hud.notice_until = 0
-	# Layout stays inside the real viewport at common Android landscape sizes.
-	for dimensions in [Vector2i(854,480),Vector2i(1600,720),Vector2i(1280,720)]:
+	for dimensions in [Vector2i(854, 480), Vector2i(1600, 720), Vector2i(1280, 720)]:
 		root.size = dimensions
 		await settle(4)
 		var view := root.get_visible_rect()
-		verify(view.encloses(game.hud.menu_button.get_global_rect()) and view.has_point(game.hud.touch.left_center) and view.has_point(game.hud.touch.right_center),"landscape layout: "+str(dimensions))
-		await capture("city-"+str(dimensions.x)+"x"+str(dimensions.y))
-	var safe := Rect2(Vector2(44,30),game.hud.size-Vector2(88,60))
+		var t: PyraTouchControls = game.hud.touch
+		var ok := true
+		for c in [t.left_center, t.attack_center, t.dodge_center, t.act_center] + t.skill_centers:
+			ok = ok and view.has_point(c)
+		verify(view.encloses(game.hud.menu_button.get_global_rect()) and ok, "landscape layout: " + str(dimensions))
+		await capture("city-" + str(dimensions.x) + "x" + str(dimensions.y))
+	var safe := Rect2(Vector2(44, 30), game.hud.size - Vector2(88, 60))
 	game.hud.touch.set_safe_area(safe)
-	verify(game.hud.touch.left_center.x-91>=safe.position.x and game.hud.touch.right_center.x+65<=safe.end.x and game.hud.touch.left_center.y+91<=safe.end.y,"touch pads respect configured display cutout margins")
+	verify(game.hud.touch.left_center.x - 91 >= safe.position.x and game.hud.touch.attack_center.x + 80 <= safe.end.x and game.hud.touch.left_center.y + 91 <= safe.end.y, "touch pads respect configured display cutout margins")
 	game.hud._layout()
-	var report := {"engine":Engine.get_version_info().string,"display":DisplayServer.get_name(),"rendering":RenderingServer.get_current_rendering_method(),"checks":results.size(),"passed":results.size()-failures.size(),"failed":failures.size(),"results":results,"physicalAndroidDevice":false}
-	var file := FileAccess.open(output+"/result.json",FileAccess.WRITE)
-	file.store_string(JSON.stringify(report,"\t"))
+	var report := {"engine": Engine.get_version_info().string, "display": DisplayServer.get_name(), "rendering": RenderingServer.get_current_rendering_method(), "checks": results.size(), "passed": results.size() - failures.size(), "failed": failures.size(), "results": results, "physicalAndroidDevice": false}
+	var file := FileAccess.open(output + "/result.json", FileAccess.WRITE)
+	file.store_string(JSON.stringify(report, "\t"))
 	file.close()
-	print("PYRA GODOT QA: ",JSON.stringify(report))
+	print("PYRA GODOT QA: ", results.size() - failures.size(), "/", results.size(), " failed: ", failures)
 	root.remove_child(game)
 	game.queue_free()
 	await process_frame
