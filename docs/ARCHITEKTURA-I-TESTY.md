@@ -203,6 +203,15 @@ Konto jest opcjonalne; bez logowania gra zapisuje postacie tylko w przeglądarce
   narzędzia zmieniają wyłącznie zapis tej postaci.
 - Nie dotyczy przestrzeni szkiców `/test` (osobna sesja z hasłem) ani multiplayera (NET-01).
 
+## Test gracza na lokalnym stosie — 15.11.2026
+
+`scripts/qa/playthrough/` uruchamia prawdziwy `GameServer` (konta, postacie, runtime online) na lokalnym PostgreSQL 16
+z przechwytywaniem e-maili Resend (`stack.mts`), dev-serwer strony z proxy `/ws` (`fullstack.vite.ts`), rejestrację przez
+stronę główną (`join.cjs`) i bota Playwright grającego prawdziwymi klawiszami i myszą (`player.cjs`, dane spawnów z
+`nav-spawns.mts`). Bot tylko czyta stan (`?ki-debug=1` udostępnia `window.__kiGame`). **Nigdy nie kieruj
+`KI_ACCOUNTS_TEST_DATABASE_URL` na tę bazę:** testy kont robią `TRUNCATE accounts.users`. Wyniki i błędy:
+[dziennik 15.11](zmiany/2026-11-15/ZMIANY.md#3-test-gracza-fizyczny-lokalnie-nie-na-produkcji).
+
 ## Odbiór i dowody
 
 CI: bramka jakości `verify` (pełny `npm run typecheck`, `npm run test`, `npm run lint`,

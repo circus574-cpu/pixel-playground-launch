@@ -3,14 +3,16 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useCallback, useState } from "react";
 import { GameHud } from "../components/game/GameHud";
 import { GameSession, type Command } from "../game/session";
+import { onlineCommand } from "../server/characters/commands";
 
 afterEach(cleanup);
-function mountSession(session: GameSession) {
+function mountSession(session: GameSession, sent: Command[] = []) {
   let update = () => {};
   function View() {
     const [state, setState] = useState(() => session.snapshot());
     update = () => setState(session.snapshot());
     const send = useCallback((command: Command) => {
+      sent.push(command);
       session.command(command);
       setState(session.snapshot());
     }, []);
@@ -75,6 +77,23 @@ describe("HUD and actual rules integration", () => {
     ui.advance(() => session.player.quests.steps === "ready");
     expect(session.paused).toBe(false);
     expect(screen.queryByRole("button", { name: "Podejdź do rynku" })).toBeNull();
+  });
+  it("sends the walk to the market in a shape the game server accepts", () => {
+    // The online server validates every command strictly; extra fields end the session ("COMMAND_REJECTED").
+    const sent: Command[] = [],
+      session = new GameSession(),
+      ui = mountSession(session, sent);
+    fireEvent.click(screen.getByRole("button", { name: /Rozmowa · Aira/ }));
+    ui.advance(() => session.dialogue === "guide");
+    fireEvent.click(screen.getByRole("button", { name: "Przyjmij zadanie" }));
+    fireEvent.click(screen.getByRole("button", { name: "Zamknij rozmowę" }));
+    fireEvent.click(screen.getByRole("button", { name: "Podejdź do rynku" }));
+    const walk = sent.filter((c) => c.type === "move");
+    expect(walk).toHaveLength(1);
+    expect(Object.keys(walk[0]!).sort()).toEqual(["type", "x", "y"]);
+    // "pause" is answered on the client (OnlineClient drops it), so only the rest reaches the server.
+    for (const command of sent.filter((c) => c.type !== "pause"))
+      expect(() => onlineCommand(command)).not.toThrow();
   });
   it("uses a real potion and equipment without permanently pausing movement", () => {
     const session = new GameSession();

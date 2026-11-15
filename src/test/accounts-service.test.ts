@@ -139,4 +139,41 @@ describe.runIf(url)("accounts on PostgreSQL", () => {
       ]),
     );
   });
+
+  it("gives a blocked account no session from an activation or reset link", async () => {
+    outbox.length = 0;
+    await service.register({
+      email: "zablokowany@example.com",
+      password: "haslo-12345",
+      nick: "Zablok",
+    });
+    const activation = linkToken(outbox[0]!, "aktywacja");
+    await sql`UPDATE accounts.users SET disabled_at = now() WHERE lower(email) = 'zablokowany@example.com'`;
+    await expect(service.confirm(activation)).rejects.toMatchObject({ code: "ACCOUNT_DISABLED" });
+    // a reset link requested while the account was still active
+    await sql`UPDATE accounts.users SET disabled_at = NULL, email_confirmed_at = now()
+              WHERE lower(email) = 'zablokowany@example.com'`;
+    outbox.length = 0;
+    await service.forgotPassword("zablokowany@example.com");
+    const reset = linkToken(outbox[0]!, "nowe-haslo");
+    await sql`UPDATE accounts.users SET disabled_at = now() WHERE lower(email) = 'zablokowany@example.com'`;
+    await expect(
+      service.resetPassword({ token: reset, password: "nowe-haslo-77" }),
+    ).rejects.toMatchObject({ code: "ACCOUNT_DISABLED" });
+    const rows = await sql<{ n: string }[]>`
+      SELECT count(*)::text AS n FROM accounts.sessions s JOIN accounts.users u ON u.id = s.user_id
+      WHERE lower(u.email) = 'zablokowany@example.com'`;
+    expect(rows[0]?.n).toBe("0");
+  });
+
+  it("answers two simultaneous sign-ups for one nick with NICK_TAKEN, not a server error", async () => {
+    const results = await Promise.allSettled([
+      service.register({ email: "a-wyscig@example.com", password: "haslo-12345", nick: "Wyscig" }),
+      service.register({ email: "b-wyscig@example.com", password: "haslo-12345", nick: "wyscig" }),
+    ]);
+    const failed = results.filter((r) => r.status === "rejected") as PromiseRejectedResult[];
+    expect(results.filter((r) => r.status === "fulfilled")).toHaveLength(1);
+    expect(failed).toHaveLength(1);
+    expect(failed[0]!.reason).toMatchObject({ code: "NICK_TAKEN" });
+  });
 });

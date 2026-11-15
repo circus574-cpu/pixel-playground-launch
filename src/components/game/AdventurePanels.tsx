@@ -15,6 +15,7 @@ import { WORLD_V2 } from "../../game/world/generated/worldVersion";
 import { WORLDS } from "../../game/world/worlds";
 import { BOSS_CATALOG } from "../../game/bosses";
 import { MATERIALS, isMaterial } from "../../game/monsters/materials";
+import { npcNameCase } from "../../game/npcNames";
 import {
   ITEMS,
   ITEM_IDS,
@@ -239,14 +240,7 @@ function QuestJournalImpl({
       {WORLD_V2 && <h3 className="ki-qv2-title">Pierwsze kroki</h3>}
       {state.quests.map((q) => {
         const npcId = q.id === "steps" ? "guide" : q.id === "boars" ? "hunter" : "smith";
-        const npcName =
-          world.id === "verdant"
-            ? q.id === "steps"
-              ? "Airy"
-              : q.id === "boars"
-                ? "Rena"
-                : "Taro"
-            : world.npcs.find((n) => n.id === npcId)!.name;
+        const npcName = npcNameCase(world.npcs.find((n) => n.id === npcId)!.name, "gen");
         const reward =
           q.id === "steps"
             ? isCityStage(world)
@@ -262,7 +256,7 @@ function QuestJournalImpl({
               onClick={() => {
                 close();
                 if (q.id === "steps" && q.status === "active")
-                  send({ type: "move", ...world.market });
+                  send({ type: "move", x: world.market.x, y: world.market.y });
                 else send({ type: "interact", npc: npcId });
               }}
             >
@@ -531,7 +525,7 @@ export function NpcDialogue({
                   <button
                     onClick={() => {
                       send({ type: "dialogue", action: "close" });
-                      send({ type: "move", ...world.market });
+                      send({ type: "move", x: world.market.x, y: world.market.y });
                     }}
                   >
                     {world.market.action}

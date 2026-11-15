@@ -1,0 +1,249 @@
+/* Home page for visitors and the legal pages: the game's dark parchment frame, readable on a phone. */
+.ki-landing,
+.ki-legal {
+  min-height: 100dvh;
+  background: radial-gradient(circle at 50% 0%, #2a2333 0%, #0f0d14 65%);
+  color: #f1e6cc;
+  font-family: system-ui, sans-serif;
+  line-height: 1.55;
+}
+.ki-landing a,
+.ki-legal a {
+  color: #f5d48a;
+}
+.ki-landing a:focus-visible,
+.ki-landing button:focus-visible,
+.ki-legal a:focus-visible,
+.ki-account-card :is(input, button, a):focus-visible {
+  outline: 2px solid #8ee8da;
+  outline-offset: 2px;
+}
+.ki-landing-hero {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 72px 16px 40px;
+  text-align: center;
+}
+.ki-landing-kicker {
+  margin: 0 0 8px;
+  color: #8ee8da;
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.ki-landing-hero h1 {
+  margin: 0 0 16px;
+  font-family: Georgia, serif;
+  font-size: clamp(2.4rem, 9vw, 4.2rem);
+  letter-spacing: 0.08em;
+  color: #f5d48a;
+  text-shadow: 0 2px 24px #c8a35a55;
+}
+.ki-landing-lead {
+  max-width: 640px;
+  margin: 0 auto 24px;
+  font-size: 1.1rem;
+}
+.ki-landing-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+.ki-landing-cta a {
+  display: inline-block;
+  padding: 11px 20px;
+  border: 1px solid #6b5a3a;
+  border-radius: 8px;
+  background: #2a2333;
+  color: #f1e6cc;
+  text-decoration: none;
+}
+.ki-landing-cta .ki-landing-primary {
+  border-color: #c8a35a;
+  background: #8a6a2c;
+  color: #fff8e6;
+  font-weight: 600;
+}
+.ki-landing-section {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+.ki-landing-section h2 {
+  margin: 0 0 8px;
+  font-family: Georgia, serif;
+  font-size: 1.7rem;
+  color: #f5d48a;
+}
+.ki-landing-sub {
+  max-width: 680px;
+  margin: 0 0 20px;
+  color: #d8c9a6;
+}
+.ki-landing-facts {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ki-landing-facts li {
+  padding: 12px 14px;
+  border: 1px solid #3a3146;
+  border-radius: 10px;
+  background: #1a1620cc;
+}
+.ki-landing-races {
+  display: grid;
+  gap: 18px;
+}
+.ki-landing-race {
+  display: grid;
+  align-self: start;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--race, #c8a35a) 55%, #3a3146);
+  border-radius: 14px;
+  background: #1a1620ee;
+}
+.ki-landing-race img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  object-position: 50% 20%;
+  background: #0f0d14;
+}
+.ki-landing-race-body {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 16px;
+}
+.ki-landing-race h3 {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: 1.5rem;
+  color: var(--race, #f5d48a);
+}
+.ki-landing-race p {
+  margin: 0;
+}
+.ki-landing-world {
+  color: #bfae85;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.ki-landing-title {
+  font-style: italic;
+  color: #e8dcc0;
+}
+.ki-landing-meta {
+  display: grid;
+  gap: 6px;
+  margin: 6px 0;
+  font-size: 0.92rem;
+}
+.ki-landing-meta div {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: 8px;
+}
+.ki-landing-meta dt {
+  color: #bfae85;
+}
+.ki-landing-meta dd {
+  margin: 0;
+}
+.ki-landing-more {
+  justify-self: start;
+  padding: 8px 14px;
+  border: 1px solid #6b5a3a;
+  border-radius: 6px;
+  background: #2a2333;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.ki-landing-bio {
+  display: grid;
+  gap: 10px;
+  padding-top: 6px;
+  border-top: 1px solid #3a3146;
+}
+.ki-landing-bio[hidden] {
+  display: none;
+}
+.ki-landing-join .ki-account-embedded {
+  min-height: 0;
+  padding: 0;
+  background: none;
+}
+.ki-landing-join .ki-account-card {
+  margin: 0 auto;
+}
+.ki-account-consent {
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 8px;
+}
+.ki-account-consent input {
+  width: auto;
+  margin-top: 3px;
+}
+.ki-account .ki-account-consent a {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #f5d48a;
+  text-decoration: underline;
+}
+.ki-landing-footer {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  border-top: 1px solid #3a3146;
+  color: #bfae85;
+  font-size: 0.88rem;
+}
+.ki-landing-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-bottom: 10px;
+}
+.ki-legal article {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+}
+.ki-legal h1 {
+  font-family: Georgia, serif;
+  color: #f5d48a;
+}
+.ki-legal h2 {
+  margin-top: 24px;
+  font-size: 1.15rem;
+  color: #f5d48a;
+}
+.ki-legal-draft {
+  padding: 10px 12px;
+  border: 1px solid #c8a35a;
+  border-radius: 8px;
+  background: #3a2c10aa;
+  font-size: 0.9rem;
+}
+@media (min-width: 880px) {
+  .ki-landing-races {
+    grid-template-columns: 1fr 1fr;
+  }
+  .ki-landing-facts {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

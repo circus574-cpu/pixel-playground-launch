@@ -1,5 +1,6 @@
 import { ExpeditionRuntime, type ExpeditionCommand } from "./development/expeditions/runtime";
 import { advanceExperience, xpNeeded } from "./experience";
+import { npcNameCase } from "./npcNames";
 export { xpNeeded } from "./experience";
 import { FieldworkRuntime, type FieldworkCommand } from "./development/fieldwork/runtime";
 import { developmentCompletion } from "./development/completion";
@@ -1311,7 +1312,7 @@ export class GameSession implements MonsterHost {
         this.player.quests.boars = "ready";
         this.say(
           (this.world.huntKinds ? "3/3 przeciwników. Wróć do " : "3/3 dzików. Wróć do ") +
-            (this.world.id === "verdant" ? "Rena" : this.npcName("hunter")) +
+            this.npcCase("hunter", "gen") +
             " po nagrodę.",
         );
       }
@@ -1435,6 +1436,10 @@ export class GameSession implements MonsterHost {
   }
   private npcName(id: NpcId) {
     return this.world.npcs.find((npc) => npc.id === id)?.name ?? id;
+  }
+  /** The NPC's name in the case a Polish sentence needs ("wróć do Airy", "porozmawiaj z Airą"); unknown names stay as they are. */
+  private npcCase(id: NpcId, grammaticalCase: "gen" | "ins") {
+    return npcNameCase(this.npcName(id), grammaticalCase);
   }
   get building() {
     return this.world.city?.buildings.find((b) => b.id === this.player.interior);
@@ -2282,7 +2287,7 @@ export class GameSession implements MonsterHost {
         if (npc.id === "guide" && p.quests.steps === "locked") {
           p.quests.steps = "active";
           this.say(
-            this.world.market.instruction + ", potem wróć do " + this.npcName("guide") + ".",
+            this.world.market.instruction + ", potem wróć do " + this.npcCase("guide", "gen") + ".",
           );
         } else if (
           npc.id === "hunter" &&
@@ -2299,7 +2304,7 @@ export class GameSession implements MonsterHost {
               (this.world.huntKinds
                 ? ": pokonaj 3 przeciwników poza osadą i wróć do "
                 : ": pokonaj 3 dziki i wróć do ") +
-              this.npcName("hunter") +
+              this.npcCase("hunter", "gen") +
               ".",
           );
         } else if (
@@ -2309,7 +2314,9 @@ export class GameSession implements MonsterHost {
         ) {
           p.quests.gear = p.weapon === "sword" ? "ready" : "active";
           this.say(
-            "Załóż Ostrze strażnika w ekwipunku, potem wróć do " + this.npcName("smith") + ".",
+            "Załóż Ostrze strażnika w ekwipunku, potem wróć do " +
+              this.npcCase("smith", "gen") +
+              ".",
           );
         } else this.say("To zadanie jest już przyjęte albo wymaga poprzedniego zadania.");
       }
@@ -3283,19 +3290,21 @@ export class GameSession implements MonsterHost {
   }
   questText(id: QuestId): string {
     const q = this.player.quests[id];
-    const forest = this.world.id === "verdant";
-    const names = forest
-      ? { steps: "Airy", boars: "Rena", gear: "Taro" }
-      : {
-          steps: this.npcName("guide"),
-          boars: this.npcName("hunter"),
-          gear: this.npcName("smith"),
-        };
+    const gen = {
+      steps: this.npcCase("guide", "gen"),
+      boars: this.npcCase("hunter", "gen"),
+      gear: this.npcCase("smith", "gen"),
+    };
+    const ins = {
+      steps: this.npcCase("guide", "ins"),
+      boars: this.npcCase("hunter", "ins"),
+      gear: this.npcCase("smith", "ins"),
+    };
     if (q === "done") return "Ukończone · nagroda odebrana";
-    if (q === "ready") return "Wróć do " + names[id] + " po nagrodę";
+    if (q === "ready") return "Wróć do " + gen[id] + " po nagrodę";
     if (id === "steps")
       return q === "locked"
-        ? "Porozmawiaj z " + names.steps + " przy miejscu startowym"
+        ? "Porozmawiaj z " + ins.steps + " przy miejscu startowym"
         : this.world.market.instruction;
     if (id === "boars" && isCityStage(this.world))
       return "Wyprawy poza miasto: następny etap. Ćwicz w Domu Treningu; wcześniejszy postęp zachowano.";
@@ -3305,12 +3314,12 @@ export class GameSession implements MonsterHost {
         : "Załóż Ostrze strażnika w ekwipunku";
     if (id === "boars")
       return q === "locked"
-        ? "Po Pierwszych krokach porozmawiaj z " + names.boars
+        ? "Po Pierwszych krokach porozmawiaj z " + ins.boars
         : (this.world.huntKinds ? "Pokonaj przeciwników poza osadą: " : "Pokonaj dziki: ") +
             this.player.kills +
             "/3";
     return q === "locked"
-      ? "Po polowaniu porozmawiaj z kowalem " + names.gear
+      ? "Po polowaniu porozmawiaj z kowalem " + ins.gear
       : "Załóż Ostrze strażnika w ekwipunku";
   }
   snapshot() {
