@@ -34,8 +34,10 @@ SCALE = 0.6              # of the source pixels kept in the atlas
 CELL = 512               # side of the virtual cell of an actor, in atlas pixels (ground line at 0.8 of it)
 WHITE = 236              # a pixel whose darkest channel is at least this is background
 EDGE_DARK = 195.0        # 255 minus the darkest channel of an outline pixel (about 60)
-# On-screen length of the body, in px (the hero is about 100 px tall). A guess to be tuned by looking at the game.
-TARGET_BODY = {"A-01": 64, "A-02": 56, "A-03": 92, "A-04": 80, "A-05": 70, "A-06": 56, "A-07": 80, "A-08": 52, "A-09": 56, "A-10": 62}
+# On-screen length of the body (median width of the walk frames, tail included), in px. The hero is about 143 px tall on screen (200 px cell, 133 px size, 1.15 hero scale),
+# so a hen (40 cm) is about a quarter of him, a hare 0.3, a dove 0.2, a goat or a sheep (1.2 m) a bit over half, a boar 0.65. Small animals are drawn a little above
+# their real proportion so that they stay readable on a phone.
+TARGET_BODY = {"A-01": 44, "A-02": 38, "A-03": 92, "A-04": 80, "A-05": 60, "A-06": 52, "A-07": 80, "A-08": 30, "A-09": 38, "A-10": 42}
 FPS = {"idle": 6, "walk": 8, "run": 12, "hit": 12, "death": 6, "respawn": 8}
 MIRRORED = ["left", "down-left", "up-left"]
 DIRECTIONS = ["right", "down-right", "down", "down-left", "left", "up-left", "up", "up-right"]

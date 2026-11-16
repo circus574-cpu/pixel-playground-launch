@@ -2,7 +2,7 @@
  "format": "ki-godot-content-1",
  "version": "2026.11.17.3",
  "engine": "4.6.3",
- "createdAt": "2026-11-16T16:01:24+00:00",
+ "createdAt": "2026-11-16T16:16:05+00:00",
  "packs": {
   "land-aether": {
    "file": "land-aether-25e3682e3465.pck",
@@ -77,10 +77,10 @@
    "files": 76
   },
   "monsters-pyra": {
-   "file": "monsters-pyra-147326930da0.pck",
-   "bytes": 4744540,
-   "sha256": "147326930da08ba923eaa8484dea182ce448525963231b239de034f3bef42cc7",
-   "files": 76
+   "file": "monsters-pyra-a5ecfbd0bbfd.pck",
+   "bytes": 5333796,
+   "sha256": "a5ecfbd0bbfd84a63da4d437e86aa5e10fb3e47faaa9e3c4931f42ccd5ab1b44",
+   "files": 78
   },
   "monsters-verdant": {
    "file": "monsters-verdant-6de23ba61acf.pck",
@@ -160,10 +160,10 @@
    "sha256": "2e8759112e932137e4585c17eae5911df9cc35d13dfd03578f0d77b5b40e40cb",
    "files": 12
   },
-  "core-c15": {
-   "file": "core-c15-88213fcf599b.pck",
-   "bytes": 2310924,
-   "sha256": "88213fcf599bd88705cf765459c2ed2c9fc0bb77944b7e0998279381ea5d5371",
+  "core-c16": {
+   "file": "core-c16-e085c860e0f5.pck",
+   "bytes": 2317036,
+   "sha256": "e085c860e0f56b95e3975e6c7d2c0ac38aeb5111435ec14c1c84c8bdad2a96a7",
    "files": 119
   }
  },

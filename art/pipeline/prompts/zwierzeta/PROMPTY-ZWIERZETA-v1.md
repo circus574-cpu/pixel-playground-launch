@@ -1,7 +1,7 @@
 # Prompty: 10 łagodnych zwierząt i 10 ikon jedzenia (system jedzenia, 16.11.2026)
 
 Ten plik to jedyne źródło promptów do grafik systemu jedzenia (opis zasad i liczb: `docs/ROZWOJ-I-WALKA.md`, sekcja „Jedzenie i regeneracja życia”; dane: `ports/godot-pyra/data/food.json`).
-Do wygenerowania są **10 plansz zwierząt** (po jednej na zwierzę) i **10 ikon produktów**. Plansze (9 z 10) i ikony są dostarczone i wgrane do gry (`scripts/godot/prepare_animals.py`); do dostarczenia zostaje A-06.
+Do wygenerowania są **10 plansz zwierząt** (po jednej na zwierzę) i **10 ikon produktów**. Plansze wszystkich 10 zwierząt i ikony są dostarczone i wgrane do gry (`scripts/godot/prepare_animals.py`).
 
 ## Skąd styl (żeby nowe zwierzęta wyglądały jak potwory)
 
@@ -22,7 +22,7 @@ Wzorcowa plansza: `public/game/assets/gpu/enemy-v3-verdant-skalny-jelen/1.1.0-2a
 
 ## Zwierzęta: pełne, samodzielne prompty (wersja z 16.11.2026)
 
-Każdy prompt jest kompletny i wkleja się go w całości; nie ma w nim odwołań do wspólnych bloków. Poprawki względem pierwszej wersji: stała skala i wspólna linia podłoża (zwierzę nie zmienia rozmiaru między klatkami), ciemny kontur także wokół jasnych części (brak białych obwódek po wycięciu tła), A-09 i A-10 jako osobne zwierzęta, a nie przemalowane A-01 i A-02. Zaakceptowane plansze: A-01…A-05, A-07…A-10 (`art/production/animals/`). Brakuje A-06.
+Każdy prompt jest kompletny i wkleja się go w całości; nie ma w nim odwołań do wspólnych bloków. Poprawki względem pierwszej wersji: stała skala i wspólna linia podłoża (zwierzę nie zmienia rozmiaru między klatkami), ciemny kontur także wokół jasnych części (brak białych obwódek po wycięciu tła), A-09 i A-10 jako osobne zwierzęta, a nie przemalowane A-01 i A-02. Zaakceptowane plansze wszystkich 10 zwierząt są w `art/production/animals/`.
 
 ### A-01 Zając Łąkowy (Verdantia, S)
 ```
@@ -69,7 +69,7 @@ Row 2, flee cycle, 4 frames: fast skittering run with the body raised on straigh
 Row 3, fall, 4 frames: legs give way, flops flat, goes limp with the tail last, lies still. Frames 3 and 4 are almost the same.
 ```
 
-### A-06 Bażant Żarowy (Pyra, S (cięcie z --no-effects; plansza jeszcze niedostarczona))
+### A-06 Bażant Żarowy (Pyra, S)
 ```
 Hand-painted anime-fantasy JRPG creature sprite sheet in the style of a game bestiary. Canvas 4:3 (2000x1500 px), strict grid of 4 columns by 3 rows = 12 equal cells, one full-body pose of the SAME single animal per cell, no cell borders, no grid lines. Strict side profile, the animal faces RIGHT in every pose. Thick clean dark-brown outline (about 3 px) around the whole silhouette, including light parts, soft cel shading, rich natural colors. Identical design, colors and scale in all 12 cells: do not resize the animal between poses. In every cell all feet rest on the same invisible ground line at 85% of the cell height (jump poses keep the same reference), body centered horizontally, at least 8% empty margin, nothing crosses into a neighbouring cell. Pure flat white #FFFFFF background everywhere: no shadow, no ground, no glow, no particles, no motion lines, no text, no numbers, no watermark. The animal is peaceful and gentle, never aggressive, no blood.
 The animal: an ember pheasant. Copper-red and orange plumage, a long tail with orange-yellow tips, bright red face wattle, dark eye with a gold ring, slender legs. The whole bird including the tail and spread wings must fit inside its cell with margin (body length about 60% of the cell width in the standing pose, the tail counts in that length).
