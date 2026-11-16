@@ -1,8 +1,8 @@
 {
  "format": "ki-godot-content-1",
- "version": "1.2",
+ "version": "1.4",
  "engine": "4.6.3",
- "createdAt": "2026-11-16T17:14:11+00:00",
+ "createdAt": "2026-11-16T17:22:49+00:00",
  "packs": {
   "land-aether": {
    "file": "land-aether-25e3682e3465.pck",
@@ -161,9 +161,9 @@
    "files": 12
   },
   "core-c100": {
-   "file": "core-c100-e744a473b7d3.pck",
-   "bytes": 2965488,
-   "sha256": "e744a473b7d344cf1bee041eca4556e6690e6f64e06d1e67d229d6809e3f8d32",
+   "file": "core-c100-bf9329057adc.pck",
+   "bytes": 3509488,
+   "sha256": "bf9329057adcfb75f34150df6eaa0457bee6601d405602ea84d5afa53707970d",
    "files": 125
   }
  },

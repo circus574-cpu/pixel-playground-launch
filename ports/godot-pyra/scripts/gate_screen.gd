@@ -22,6 +22,7 @@ var email_field := LineEdit.new()
 var password_field := LineEdit.new()
 var nick_field := LineEdit.new()
 var remember_box := CheckBox.new()
+var show_box := CheckBox.new()
 var offline_mode := false
 
 func _ready() -> void:
@@ -67,6 +68,13 @@ func _ready() -> void:
 	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled", "focus"]:
 		remember_box.add_theme_stylebox_override(state, StyleBoxEmpty.new())   # a check box, not a button: no pill behind it
 	form.add_child(remember_box)
+	show_box.text = "Pokaż hasło"
+	show_box.focus_mode = Control.FOCUS_NONE
+	show_box.add_theme_font_size_override("font_size", 19)
+	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled", "focus"]:
+		show_box.add_theme_stylebox_override(state, StyleBoxEmpty.new())
+	show_box.toggled.connect(func(on: bool) -> void: password_field.secret = not on)   # to see what the phone's keyboard really typed
+	form.add_child(show_box)
 	nick_field.visible = false
 	bar.custom_minimum_size = Vector2(0, 26)
 	bar.show_percentage = false
@@ -232,6 +240,9 @@ func login_form() -> String:
 			continue
 		online.remember = remember_box.button_pressed
 		var result := await online.login(email, password)
+		# a phone keyboard likes to add a space after a word: when the password as typed is refused, try it once without spaces at the ends
+		if int(result.status) == 401 and password.strip_edges() != password:
+			result = await online.login(email, password.strip_edges())
 		if int(result.status) == 200:
 			write_login_prefs(email, remember_box.button_pressed)
 			form.visible = false
