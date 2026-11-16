@@ -1,5 +1,42 @@
 # KI Legends — GPU i zasoby
 
+## Android — pilot materiałów na A100, 16.11.2026
+
+Gałąź `prep/android-premium-gpu-20261116`: narzędzia
+`scripts/gpu/premium_setup.py` i `premium_pilot.py` przygotowują ograniczoną
+kolejkę img2img na działającym podzie właściciela. Nie sterują cyklem życia poda.
+Trzy rzeczywiste tekstury Pyry (`b0`, `b1`, `special`) mają po dwa warianty siły
+zmiany: 0,35 i 0,55. To kandydaci do oceny, bez instalacji do gry.
+
+Nowe pobranie modelu ma przypięte źródło
+`Lykon/dreamshaper-xl-v2-turbo@f70ad5bce436c640d23fc02cd0a6ccc787280b6e`.
+Cztery pliki wag FP16 porównano z SHA-256 oraz rozmiarami upstream LFS;
+nie rozstrzyga to pochodzenia historycznych checkpointów. Karta modelu i tekst
+licencji bazowego SDXL są zachowane wraz z osobnymi sumami. Prawa do referencji
+i odbiór outputu pozostają oddzielnymi zagadnieniami.
+
+Stan roboczy znajduje się w `/workspace/ki-premium` na globalnym woluminie.
+Pakiety Python po zmianie obrazu wymagają ponownego zainstalowania; model,
+wejścia, kolejka i wyniki zostają na woluminie. Zachować ten sam katalog przy
+zmianie maszyny. Instalator nie pobiera wag FP32 ani innych wersji checkpointu.
+`premium_pilot.py --root <katalog> --validate` sprawdza dane bez ładowania CUDA.
+Wznawianie wymaga zgodnego przepisu oraz hashy PNG i WebP.
+`premium_cache.py` kopiuje wagi do `/tmp/ki-premium-model` na lokalnym dysku;
+uruchomienie pilota z `--model-root /tmp/ki-premium-model` ponownie sprawdza
+ich SHA-256. Nie ładować modeli przez mmap bezpośrednio z globalnego woluminu:
+w tej próbie był to istotny koszt odczytu. Cache pozostaje odtwarzalny z `/workspace`.
+
+Podgląd `ports/godot-pyra/tests/preview_premium_terrain.gd` podmienia parametry
+shadera tylko w izolowanej scenie. Nie nadpisuje produkcyjnych plików, kolizji,
+masek terenu ani zapisów. Porównanie krawędzi i siatki 2×2 jest konieczne:
+samo użycie circular padding nie potwierdza bezszwowości.
+Pierwsza partia: 6 wygenerowanych wariantów, pełne PNG 1024² oraz WebP 768²
+zapisano także w Git. Godot/X11 zastosował trzy tekstury w izolowanej scenie;
+pozycja, dane lądu i maska nawigacji zachowały identyczne wartości.
+To nie jest odbiór całej oprawy premium. Lawa wymaga dalszej kontroli powtarzalności;
+bezstratne pliki wybranej trójki są około 1,83× większe od referencji.
+Dowody i aktualny wynik: [dziennik 16.11](zmiany/2026-11-16/ZMIANY.md#25-pilot-oprawy-androida--a100-i-materiały-pyry).
+
 ## Verdantia — materiały kontynentu 04.11.2026
 
 Paczka `verdantia-continent-v2@1.0.1` jest domyślnie włączona od 05.11.2026 (`ki-verdant-continent=0` wyłącza):

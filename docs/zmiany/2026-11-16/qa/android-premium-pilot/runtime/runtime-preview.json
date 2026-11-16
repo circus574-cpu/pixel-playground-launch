@@ -1,0 +1,23 @@
+{
+	"candidateCount": 3,
+	"checks": [
+		{
+			"applied": true,
+			"role": "b0",
+			"size": "(768, 768)"
+		},
+		{
+			"applied": true,
+			"role": "b1",
+			"size": "(768, 768)"
+		},
+		{
+			"applied": true,
+			"role": "special",
+			"size": "(768, 768)"
+		}
+	],
+	"geometryAndPositionUnchanged": true,
+	"renderer": "X11",
+	"scope": "Actual Godot runtime; isolated preview shader. No installed art or production changes."
+}

@@ -1,0 +1,177 @@
+[
+  {
+    "file": "before-after.jpg",
+    "bytes": 392321,
+    "sha256": "ee26cb3ea0469826f01121f60c61dda463cd52a169d2c4069830c4e1c892ad07"
+  },
+  {
+    "file": "cache.txt",
+    "bytes": 776,
+    "sha256": "e034b956c2589739d949fd37ba7473f9e032ec466548f160a0c9a53a315ae80c"
+  },
+  {
+    "file": "documentation-check.txt",
+    "bytes": 129,
+    "sha256": "2e7e73c96db6bb4421ec6b980ba82cd6d9dcd12e557df8a8934ca1204cc53ef4"
+  },
+  {
+    "file": "hardware.json",
+    "bytes": 184,
+    "sha256": "1f236448da0998397da6baa8a0ef9b47ff7149adb7f35b6b9d9ebc778b742dd2"
+  },
+  {
+    "file": "inputs/b0.webp",
+    "bytes": 304398,
+    "sha256": "73279769f3a2d3854ea7ec963e05766ad04fd26cc726bab52e8f2a82bb5a19b6"
+  },
+  {
+    "file": "inputs/b1.webp",
+    "bytes": 306744,
+    "sha256": "718ac29650be1b59e9da8411cd2ff442f30ebeebe7bd35dbc63f6a071aee0212"
+  },
+  {
+    "file": "inputs/special.webp",
+    "bytes": 407080,
+    "sha256": "daf0b3c3398e7be4f2df576efec4e0b6774b479c3bac14d7ef77678725bbaf7b"
+  },
+  {
+    "file": "masters/pyra-b0-s35.png",
+    "bytes": 1214012,
+    "sha256": "6ddfcd30a9ed9378e4fe5e622fb5dc4cae4774b9b1e5a31deaae8b8d738a524b"
+  },
+  {
+    "file": "masters/pyra-b0-s55.png",
+    "bytes": 1309088,
+    "sha256": "2487f6c9f52b683b6ace75c249a013f709610a937c8fb54bd1b0bae9ce686d68"
+  },
+  {
+    "file": "masters/pyra-b1-s35.png",
+    "bytes": 1230331,
+    "sha256": "b74e55f3235213af1a5c01e861189868a73452f35fd7fc2faee5735a8c03dcf0"
+  },
+  {
+    "file": "masters/pyra-b1-s55.png",
+    "bytes": 1284970,
+    "sha256": "77d81acf2e08078cf7b4195c04e40a3a389542776d16fc2c6265fa5ac7949298"
+  },
+  {
+    "file": "masters/pyra-special-s35.png",
+    "bytes": 1506080,
+    "sha256": "85deb6eba5a551d1e784cafd70162b2c1d6ca6e2cab1655afffa15ddcb419789"
+  },
+  {
+    "file": "masters/pyra-special-s55.png",
+    "bytes": 1533058,
+    "sha256": "ab85b6ea780809ae94bbcb767ca6f0b35311cc085085dfdb5ef440edc5035332"
+  },
+  {
+    "file": "model-download.json",
+    "bytes": 3228,
+    "sha256": "265433850b733aeb7b513981a3f61071b34c45de89633ec51bad6ea0fa804069"
+  },
+  {
+    "file": "pilot-r2.txt",
+    "bytes": 1278,
+    "sha256": "f7610bb0f008112fda1680d42d06006956b885352e5168239b044155282cd274"
+  },
+  {
+    "file": "provenance_model-card.txt",
+    "bytes": 1535,
+    "sha256": "0959ea48a3b054cfba33e0453f07c8e1aa1444f34f7f9949545220f75455fd7e"
+  },
+  {
+    "file": "provenance_receipt.json",
+    "bytes": 636,
+    "sha256": "cebfab6b5fd21e59c25c9757307b7f30175aef44a6eb061ce371bc1bd5d88520"
+  },
+  {
+    "file": "provenance_sdxl-license.txt",
+    "bytes": 14109,
+    "sha256": "19b6998b569b53ac1fc2158a8a3202c8699a9a4605b47075715d9c96be7fb6d0"
+  },
+  {
+    "file": "pyra-b0-s35.webp",
+    "bytes": 553918,
+    "sha256": "483f65773539a21649e947a23b5bd1ce775ddcead29c0a2f1b1923656c11b20d"
+  },
+  {
+    "file": "pyra-b0-s55.webp",
+    "bytes": 615436,
+    "sha256": "696a3c5202782f3926f926206814f27ccb07659332296ce70c0d1cbf04b2aca6"
+  },
+  {
+    "file": "pyra-b1-s35.webp",
+    "bytes": 573636,
+    "sha256": "736b1979c34b524581441a2cc81e31a3c6a14a20cd8c2227a1f2184e1885a4a5"
+  },
+  {
+    "file": "pyra-b1-s55.webp",
+    "bytes": 600136,
+    "sha256": "30cfcdaaa09ff36bffbc9b6fce4c5c60e2748df00b20fff6b038fc668ba4b01f"
+  },
+  {
+    "file": "pyra-special-s35.webp",
+    "bytes": 731354,
+    "sha256": "ca8eb8582ea78a6045821cc477e4c139dd7f8d3b7b8d3b506306094e25a2f8dd"
+  },
+  {
+    "file": "pyra-special-s55.webp",
+    "bytes": 742820,
+    "sha256": "38e7ca47efc561a468f997c80ebe8c11913db5426e5c86901e6b51d8b0c7952c"
+  },
+  {
+    "file": "qa-summary.json",
+    "bytes": 1996,
+    "sha256": "92dfc4a9329ba9ff7625759acc761a8b4ca0a7a7b3709d5c79948bd6504d4cec"
+  },
+  {
+    "file": "queue.json",
+    "bytes": 4590,
+    "sha256": "f06a53dc0b7d5c1a1d840636ee787c41428acbe68f9b785213fbf6bfc92b1bd6"
+  },
+  {
+    "file": "raport.pdf",
+    "bytes": 5937663,
+    "sha256": "a3be0ba72bfa90e9181b788ba16a2d5c79b88219f6976b280d0fd126d323b223"
+  },
+  {
+    "file": "results.json",
+    "bytes": 8236,
+    "sha256": "792599d0caf44696be652fa5f143749b46ccda48fb763a8a2dbb6131dfc56644"
+  },
+  {
+    "file": "runtime/native-run.txt",
+    "bytes": 534,
+    "sha256": "acad112a48a3c2497cfb35ce70d03602b8069c701213c4272d91eb68c2c9edf8"
+  },
+  {
+    "file": "runtime/pyra-before.png",
+    "bytes": 1961722,
+    "sha256": "a1c4d3450f8840eed68b8145299b28a89990784dc33e9409daf987400e9f1d91"
+  },
+  {
+    "file": "runtime/pyra-candidate.png",
+    "bytes": 1963320,
+    "sha256": "8161ccfe0cbefa916c66f6a6f97858220d26a29d62f3fd5a7b89f0ba7ee46e3d"
+  },
+  {
+    "file": "runtime/runtime-preview.json",
+    "bytes": 414,
+    "sha256": "e6039a16bc3c91fd99a40d13ba579a38c246fd026e64fe09189af65a3de8a5aa"
+  },
+  {
+    "file": "typecheck.txt",
+    "bytes": 105,
+    "sha256": "34fcd766e4baf0285264f33c36dcd9041d763c777c690c7234996489e0b99b68"
+  },
+  {
+    "file": "unit-tests.txt",
+    "bytes": 818,
+    "sha256": "1fa6bc4c0d68a1c1bdf1713f00a564b1ebcd9c75bf1d0de31337293c239959f7"
+  },
+  {
+    "file": "upstream-checks.json",
+    "bytes": 987,
+    "sha256": "c91b486cb509bf13bcc2af323760b15040b4054b65d1330d13e0d29650e0cec6"
+  }
+]

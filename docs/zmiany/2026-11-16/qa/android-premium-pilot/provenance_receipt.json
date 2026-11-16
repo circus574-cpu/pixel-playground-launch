@@ -1,0 +1,17 @@
+{
+  "model": "Lykon/dreamshaper-xl-v2-turbo",
+  "revision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+  "modelCardSha256": "0959ea48a3b054cfba33e0453f07c8e1aa1444f34f7f9949545220f75455fd7e",
+  "baseLicenseRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+  "baseLicenseSha256": "19b6998b569b53ac1fc2158a8a3202c8699a9a4605b47075715d9c96be7fb6d0",
+  "status": "MODEL_CARD_AND_BASE_LICENSE_CAPTURED; OUTPUT_REVIEW_PENDING",
+  "packages": {
+    "torch": "2.9.0+cu130",
+    "diffusers": "0.35.2",
+    "transformers": "4.57.1",
+    "accelerate": "1.11.0",
+    "safetensors": "0.8.0",
+    "Pillow": "13.0.0",
+    "scipy": "1.18.1"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "repository": "Lykon/dreamshaper-xl-v2-turbo",
+  "revision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+  "checks": [
+    {
+      "file": "text_encoder/model.fp16.safetensors",
+      "sha256": "3dea4e3e892df8d0d41540f7bacfdec4d5c978d1aaf2375f0a56d41d814a640f",
+      "bytes": 246144152,
+      "matchesUpstreamLfs": true
+    },
+    {
+      "file": "text_encoder_2/model.fp16.safetensors",
+      "sha256": "30b466dbbac35c5c63d0fc1893c17433f0d367886c1081d4a699ce728ed013af",
+      "bytes": 1389382176,
+      "matchesUpstreamLfs": true
+    },
+    {
+      "file": "unet/diffusion_pytorch_model.fp16.safetensors",
+      "sha256": "c1217e273e6fd7570c2ae9d38172323ff0b6f8ac7f2000b3ba99d4851906ee1e",
+      "bytes": 5135149760,
+      "matchesUpstreamLfs": true
+    },
+    {
+      "file": "vae/diffusion_pytorch_model.fp16.safetensors",
+      "sha256": "5ebe0b826867138fc37d4474983ef0b487cef39d8f3cd84228f3b5c5aba241d4",
+      "bytes": 167335342,
+      "matchesUpstreamLfs": true
+    }
+  ]
+}

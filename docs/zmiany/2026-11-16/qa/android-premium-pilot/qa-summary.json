@@ -1,0 +1,72 @@
+{
+  "baseCommit": "50567ffd41706c77213ace0ad77f259b1c89869a",
+  "gpu": "A100 SXM 80 GB",
+  "vramConfirmedMiB": 81920,
+  "modelRevision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+  "generated": 6,
+  "unitTests": {
+    "passed": 5,
+    "failed": 0
+  },
+  "runtime": {
+    "candidateCount": 3,
+    "checks": [
+      {
+        "applied": true,
+        "role": "b0",
+        "size": "(768, 768)"
+      },
+      {
+        "applied": true,
+        "role": "b1",
+        "size": "(768, 768)"
+      },
+      {
+        "applied": true,
+        "role": "special",
+        "size": "(768, 768)"
+      }
+    ],
+    "geometryAndPositionUnchanged": true,
+    "renderer": "X11",
+    "scope": "Actual Godot runtime; isolated preview shader. No installed art or production changes."
+  },
+  "sourceImageSizes": {
+    "special.webp": [
+      512,
+      512
+    ],
+    "b0.webp": [
+      512,
+      512
+    ],
+    "b1.webp": [
+      512,
+      512
+    ]
+  },
+  "selectedLosslessBytes": 1858908,
+  "sourceBytes": 1018222,
+  "maxAllocatedBytes": 12321250816,
+  "generationSeconds": [
+    2.865,
+    2.481,
+    2.242,
+    2.519,
+    2.774,
+    2.416
+  ],
+  "qualityStatus": "CANDIDATES_ONLY; lava still has a higher edge contrast and visible repetition; physical phone and artistic acceptance pending",
+  "productionChanged": false,
+  "canonicalGeometryChanged": false,
+  "warnings": [
+    "Native Godot reports ObjectDB instances leaked at exit; do not describe this run as warning-free."
+  ],
+  "sourceFileHashes": {
+    "scripts/gpu/premium_pilot.py": "95bda26675c7eaa69e796ba75aa01d8f55e9adc67454f17a0dbf56748129074d",
+    "scripts/gpu/premium_setup.py": "a85b3949194773ecfa4bc08b069d2e06b01ddaa1809844ad4afae6a8513be4c3",
+    "scripts/gpu/premium_cache.py": "d08c9220e20c86e51d8c6a89a839be3c87d7f7f3e61af73a792a1084e52a9554",
+    "ports/godot-pyra/tests/preview_premium_terrain.gd": "a2ee6cc7918456da069fc0dc5e65232a402ebb1b1c9c3923d1d1cc991f470d78"
+  },
+  "typecheck": "PASS: full app/e2e/tools configuration"
+}

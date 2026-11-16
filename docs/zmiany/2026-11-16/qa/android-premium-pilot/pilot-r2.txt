@@ -1,0 +1,11 @@
+Loading pipeline components...:   0%|          | 0/7 [00:00<?, ?it/s]Loading pipeline components...:  43%|████▎     | 3/7 [00:00<00:00, 10.40it/s]`torch_dtype` is deprecated! Use `dtype` instead!
+Loading pipeline components...:  71%|███████▏  | 5/7 [00:00<00:00, 12.57it/s]Loading pipeline components...: 100%|██████████| 7/7 [00:00<00:00, 14.07it/s]
+CANDIDATE_READY pyra-b0-s35
+CANDIDATE_READY pyra-b0-s55
+CANDIDATE_READY pyra-b1-s35
+CANDIDATE_READY pyra-b1-s55
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:00,  6.57it/s] 60%|██████    | 3/5 [00:00<00:00, 10.04it/s] 80%|████████  | 4/5 [00:00<00:00,  9.92it/s]100%|██████████| 5/5 [00:00<00:00,  9.85it/s]100%|██████████| 5/5 [00:00<00:00,  9.60it/s]
+CANDIDATE_READY pyra-special-s35
+  0%|          | 0/8 [00:00<?, ?it/s] 25%|██▌       | 2/8 [00:00<00:00, 12.27it/s] 50%|█████     | 4/8 [00:00<00:00, 10.62it/s] 75%|███████▌  | 6/8 [00:00<00:00, 10.16it/s]100%|██████████| 8/8 [00:00<00:00,  9.96it/s]100%|██████████| 8/8 [00:00<00:00, 10.21it/s]
+CANDIDATE_READY pyra-special-s55
+PILOT_COMPLETE 6

@@ -778,3 +778,47 @@ cloud save ani instancji GPU. Fizyczny telefon i pełna kampania pozostają
 niezweryfikowane. Nie wykonano scalenia ani nowej publikacji gry.
 
 [Sumy wszystkich dowodów](qa/android-level3-audit/evidence-sha256.json).
+
+### 25. Pilot oprawy Androida — A100 i materiały Pyry
+
+Gałąź `prep/android-premium-gpu-20261116`, baza audytu `50567ffd`.
+Właściciel wybrał A100 SXM 80 GB; sprzęt potwierdzono przez `nvidia-smi`
+(81920 MiB), CUDA działa w PyTorch `2.9.0+cu130`. Poprzedni pod 4090 jest
+zatrzymany. W tej części prac nie wykonywano operacji cyklu życia podów.
+Wspólny globalny wolumin `/workspace` zachował model i kolejkę po zmianie GPU.
+
+Zakres pilota: **trzy istniejące tekstury Pyry, sześć wariantów**, zachowane
+referencje z SHA-256, model z przypiętego repozytorium i cztery wagi FP16 zgodne
+z hashami upstream LFS. Nowe narzędzia nie instalują grafik do klienta.
+Nie zmieniono postaci, kanonu, geometrii, zapisów, ustawień APK ani produkcji.
+
+Narzędzia: `premium_setup.py`, `premium_cache.py`, `premium_pilot.py`, `test_premium_pilot.py`;
+izolowany podgląd Godota: `preview_premium_terrain.gd`.
+Kolejka i dowody pochodzenia: `qa/android-premium-pilot/`.
+**Pilot wygenerowany, odbiór całej oprawy otwarty.** Wyniki:
+
+- 6/6 obrazów 1024² z rzeczywistego A100; pełne mastery PNG i wersje WebP 768²
+  zachowano w repozytorium, wraz z referencjami, promptami i seedami.
+- 5/5 testów CPU zabezpieczeń wejść/wznawiania; pełny TypeScript app/e2e/tools PASS.
+- Godot/X11, software OpenGL: 3/3 podmiany parametrów shadera, identyczne dane
+  lądu, maska nawigacji i pozycja gracza. [Przed](qa/android-premium-pilot/runtime/pyra-before.png),
+  [podgląd kandydatów](qa/android-premium-pilot/runtime/pyra-candidate.png).
+- Generowanie z zapisem: 2,24–2,86 s/obraz; największa alokacja CUDA 12 321 250 816 B.
+  To pomiar sześciu tekstur SDXL 1024², nie prognoza kosztu animacji ani ładowania modelu.
+- Wskaźnik kontrastu krawędzi do sąsiadujących pikseli: grunt 0,94–0,99,
+  bazalt 0,96–1,06, lawa 2,37–2,98. Lawa nadal wymaga oceny powtarzalności.
+  Sam niższy wynik nie dowodzi dobrej kompozycji ani zgodności stylu.
+- Trzy bezstratne WebP użyte w podglądzie: 1 858 908 B wobec 1 018 222 B
+  referencji; przed produkcją potrzebny dobór kompresji dla telefonu.
+- Zachowano ostrzeżenie `ObjectDB instances leaked at exit` z zamknięcia Godota.
+  Fizyczny Android, iOS i FPS telefonu nie zostały tu zweryfikowane.
+
+[Zestawienie źródło/kandydat/powtarzanie 2×2](qa/android-premium-pilot/before-after.jpg),
+[raport PDF ze sceną Godota](qa/android-premium-pilot/raport.pdf),
+[pomiary generowania](qa/android-premium-pilot/results.json),
+[podsumowanie QA](qa/android-premium-pilot/qa-summary.json),
+[zgodność wag upstream](qa/android-premium-pilot/upstream-checks.json).
+Pierwszy prompt `special` skorygowano po obejrzeniu referencji: to lawa, nie bruk.
+Wersja próbna r1 jest zachowana na woluminie; repo zawiera końcowy pilot r2.
+Pozostają: dalsze materiały, spójne animacje postaci, VFX, optymalizacja i odbiór
+w rzeczywistej rozgrywce. Nie wykonano scalenia ani publikacji gry.
