@@ -1,5 +1,6 @@
 class_name PyraGame
 extends Node2D
+const GmPanel := preload("res://scripts/gm_panel.gd")
 ## KI Legends / Pyra on Godot: the whole continent (Superior v2 geometry), four safe cities with six service
 ## interiors each, the Legend with her full kit, plus the 2D map and 3D globe. No enemies and no spawns yet.
 
@@ -204,6 +205,9 @@ func _ready() -> void:
 	hud.character_requested.connect(open_character)
 	hud.inventory_requested.connect(func() -> void: open_items("inventory", "Plecak i wyposażenie"))
 	hud.zoom_requested.connect(cycle_zoom)
+	hud.gm_requested.connect(open_gm)
+	KiNet.online().session_changed.connect(sync_staff_access)
+	sync_staff_access()
 	hud.dialog_changed.connect(func(open: bool): player.locked = open or input_suspended)
 	var boot_race := "legend"
 	var boot_land := "pyra"
@@ -1580,6 +1584,19 @@ func open_map() -> void:
 	view.travel.connect(travel_to)
 	open_screen(view)
 
+func sync_staff_access() -> void:
+	hud.set_staff_access(KiNet.online().is_staff())
+
+func open_gm() -> void:
+	if is_instance_valid(screen) or input_suspended:
+		return
+	if not KiNet.online().is_staff():
+		hud.toast("Panel GM wymaga konta GM lub administratora.")
+		return
+	var view := GmPanel.new()
+	view.setup(KiNet.online())
+	open_screen(view)
+
 func open_race_screen(can_close: bool = true) -> void:
 	if is_instance_valid(screen):
 		return
@@ -1726,7 +1743,7 @@ func open_items(mode: String, heading: String) -> void:
 func show_menu() -> void:
 	if is_instance_valid(screen):
 		return
-	hud.show_dialog("KI LEGENDS", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D, mapa 2D i podróże między krainami. POSTAĆ: statystyki i drzewko Twojej rasy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. Potwory żyją poza miastami (miasta są bezpieczne); po śmierci wracasz do stolicy krainy. Manekin czeka na arenach.", ([{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "NOWA POSTAĆ (WYBÓR RASY)", "callback": func(): hud.close_dialog(); open_race_screen(true)}, {"text": "MUZYKA: %d%%  (zmień)" % int(round(audio.music_volume * 100.0)), "callback": func(): audio.set_volumes(next_volume(audio.music_volume), audio.sfx_volume); hud.close_dialog(); show_menu()}, {"text": "EFEKTY: %d%%  (zmień)" % int(round(audio.sfx_volume * 100.0)), "callback": func(): audio.set_volumes(audio.music_volume, next_volume(audio.sfx_volume)); hud.close_dialog(); show_menu()}, {"text": "DZIENNIK ZADAŃ", "callback": func(): hud.close_dialog(); show_journal()}, {"text": "FPS I DIAGNOSTYKA: " + ("WYŁĄCZ" if hud.show_fps else "WŁĄCZ"), "callback": func(): hud.show_fps = not hud.show_fps; hud.signature = ""; hud.close_dialog()}, {"text": "CZAT OKOLICY", "callback": func(): hud.close_dialog(); open_chat()}, {"text": ("KONTO: %s (WYLOGUJ)" % KiNet.online().nick) if KiNet.online().logged_in() else "KONTO: NIE ZALOGOWANO", "callback": func(): hud.close_dialog(); if KiNet.online().logged_in(): await KiNet.online().logout(); hud.toast("Wylogowano. Po ponownym uruchomieniu zalogujesz się ponownie.")}, {"text": "POBIERZ WSZYSTKIE KRAINY", "callback": func(): hud.close_dialog(); download_everything()}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}] + ([{"text": "PANEL ADMINISTRATORA (STRONA)", "callback": func(): hud.close_dialog(); OS.shell_open(KiNet.online().server + "/admin")}] if KiNet.online().is_staff() else [])))
+	hud.show_dialog("KI LEGENDS", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D, mapa 2D i podróże między krainami. POSTAĆ: statystyki i drzewko Twojej rasy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. Potwory żyją poza miastami (miasta są bezpieczne); po śmierci wracasz do stolicy krainy. Manekin czeka na arenach.", ([{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "NOWA POSTAĆ (WYBÓR RASY)", "callback": func(): hud.close_dialog(); open_race_screen(true)}, {"text": "MUZYKA: %d%%  (zmień)" % int(round(audio.music_volume * 100.0)), "callback": func(): audio.set_volumes(next_volume(audio.music_volume), audio.sfx_volume); hud.close_dialog(); show_menu()}, {"text": "EFEKTY: %d%%  (zmień)" % int(round(audio.sfx_volume * 100.0)), "callback": func(): audio.set_volumes(audio.music_volume, next_volume(audio.sfx_volume)); hud.close_dialog(); show_menu()}, {"text": "DZIENNIK ZADAŃ", "callback": func(): hud.close_dialog(); show_journal()}, {"text": "FPS I DIAGNOSTYKA: " + ("WYŁĄCZ" if hud.show_fps else "WŁĄCZ"), "callback": func(): hud.show_fps = not hud.show_fps; hud.signature = ""; hud.close_dialog()}, {"text": "CZAT OKOLICY", "callback": func(): hud.close_dialog(); open_chat()}, {"text": ("KONTO: %s (WYLOGUJ)" % KiNet.online().nick) if KiNet.online().logged_in() else "KONTO: NIE ZALOGOWANO", "callback": func(): hud.close_dialog(); if KiNet.online().logged_in(): await KiNet.online().logout(); hud.toast("Wylogowano. Po ponownym uruchomieniu zalogujesz się ponownie.")}, {"text": "POBIERZ WSZYSTKIE KRAINY", "callback": func(): hud.close_dialog(); download_everything()}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}] + ([{"text": "PANEL GM", "callback": func(): hud.close_dialog(); open_gm()}] if KiNet.online().is_staff() else [])))
 
 func show_licenses() -> void:
 	hud.show_dialog("Godot i biblioteki silnika", Engine.get_license_text() + "\n\nTHIRD-PARTY LICENSES\n" + JSON.stringify(Engine.get_license_info(), "\t") + "\n\nCOPYRIGHT NOTICES\n" + JSON.stringify(Engine.get_copyright_info(), "\t") + "\n\nFONT CINZEL\n" + FileAccess.get_file_as_string("res://assets/branding/OFL-Cinzel.txt") + "\n\nOFFICIAL GODOT LOGO\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-NOTICE.txt") + "\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-LICENSE.txt"))

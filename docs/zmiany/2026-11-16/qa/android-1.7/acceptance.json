@@ -1,0 +1,95 @@
+{
+  "version": "1.7",
+  "branch": "feat/android-hud-1.7-20261116",
+  "base": "20a39259301778ff8fe71882c988f60670c18f65",
+  "mainAtStart": "664c7f18edc4c51f2eaf1db6aa92e4c9f1de1be0",
+  "publication": "PREPARED; not activated; server last verified at 1.6",
+  "core": {
+    "file": "core-c100-85897595dc42.pck",
+    "bytes": 3523184,
+    "sha256": "85897595dc42c5ef7a2bfee87eb32a8a2e470c7f94b99de999fca8902cc3e073",
+    "files": 127
+  },
+  "packs": 27,
+  "unchangedPacks": 26,
+  "features": {
+    "responsiveNavigation": "100x112 preferred; min 84 logical width; safe-area reflow; at least 44 physical pixels in tested viewports",
+    "minimap": "same-finger release opens existing map; cancel/circular hitbox/NPC round-trip tested",
+    "gm": "native read-only overview, online counts by land, cloud-save summaries, advanced web console link; server role revalidated before reads",
+    "accountSafety": "logout clears roles; stale account response cannot grant access; no player save format or migrations changed"
+  },
+  "viewports": [
+    [
+      1280,
+      576
+    ],
+    [
+      844,
+      390
+    ],
+    [
+      852,
+      393
+    ],
+    [
+      854,
+      480
+    ],
+    [
+      1280,
+      720
+    ],
+    [
+      1600,
+      720
+    ]
+  ],
+  "checks": {
+    "smoke": {
+      "passed": 539,
+      "failed": 0
+    },
+    "hud-headless": {
+      "passed": 42,
+      "failed": 0
+    },
+    "hud-native": {
+      "passed": 42,
+      "failed": 0
+    },
+    "game-native": {
+      "passed": 5,
+      "failed": 0
+    },
+    "menu-headless": {
+      "passed": 11,
+      "failed": 0
+    },
+    "menu-native": {
+      "passed": 11,
+      "failed": 0
+    },
+    "coreE2e": "PASS 11/11",
+    "installedApkE2e": "PASS: original APK 1.0, minimap, GM module, menu swipe/click"
+  },
+  "fullTypecheck": "PASS: app/e2e/tools",
+  "limitations": [
+    "Physical Android not tested in this environment.",
+    "Native GM authentication/200 data paths verified with an explicitly labelled server fixture; no real staff credentials used.",
+    "GM mutations remain in the existing web console, which requires its own login.",
+    "Full smoke and actual-scene QA retain pre-existing shutdown resource warnings; no clean shutdown or all-green CI claimed.",
+    "No migration of browser characters into Android in this release."
+  ],
+  "unchangedApk": {
+    "version": "1.0",
+    "clientCode": 100,
+    "sha256": "672fc8e884d3e4d7d07ea636f7e205cffacff15950619605dce47c2e6d74309c"
+  },
+  "sourceSha256": {
+    "ports/godot-pyra/scripts/hud.gd": "de93cb4f86feebf3cf537960e78f3b786cbb7e50be03b0c3ce8a1efef2cead06",
+    "ports/godot-pyra/scripts/city_game.gd": "e7eccbb0bc5890ec6864b6b8d9dd7d8d5b28ee4a84432401cb88799efeb93fe7",
+    "ports/godot-pyra/scripts/online.gd": "3f65b0beb2ec4ac347a678e4e75356f028ecd2e7c2d17e133dad74a3a84b0815",
+    "ports/godot-pyra/scripts/gm_panel.gd": "b1c8e29f25d3acab13dc636ccf4c2633f30fd03c4f0ce4aa992d07d8f5ee7f15"
+  },
+  "documentation": "PASS: 10 thematic manuals; 25 daily journals; source evidence unchanged"
+}

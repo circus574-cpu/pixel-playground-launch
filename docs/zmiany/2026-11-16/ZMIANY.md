@@ -509,3 +509,57 @@ z domeny produkcyjnej rdzeń ma właściwe 3 513 680 bajtów oraz SHA-256
 Poprzednie wydanie 1.5 pozostaje do rollbacku. Aktualizacja pobiera się przy
 ponownym uruchomieniu istniejącego APK 1.0. Migracja postaci webowych i dalsze
 prace nad interfejsem nie są częścią wydania 1.6.
+
+
+### 22. Android 1.7 — HUD, dotyk minimapy i natywny panel GM
+
+Zgłoszenie właściciela: zbyt małe przyciski przy minimapie, brak reakcji na dotyk
+minimapy, brak panelu GM. Prace na `feat/android-hud-1.7-20261116`, od zapisanego
+wydania 1.6 (`20a39259`); stan `origin/main` przy rozpoczęciu: `664c7f18`.
+
+| Funkcja | Przed | Zmiana | Dowód |
+| --- | --- | --- | --- |
+| Nawigacja HUD | Stałe 68 × 84; ciasno przy minimapie | Preferowane 100 × 112; minimalna szerokość 84; układ przelicza się dla safe area i dodatkowej roli GM | [42 sprawdzenia natywne](qa/android-1.7/hud-native-results.json), [gra 1280 × 576](qa/android-1.7/hud-1280x576.png), [GM 844 × 390](qa/android-1.7/hud-gm-844x390.png) |
+| Minimapka | Sam shader, brak celu dotyku | Okrągły cel dotyku otwiera istniejącą mapę; ta sama obsługa zwolnienia palca/cancel co menu | [Mapa 2D po dotyku](qa/android-1.7/map-2d-from-minimap.png), [mapa krainy](qa/android-1.7/continent-from-minimap.png), [pełna scena 5/5](qa/android-1.7/game-native-results.json) |
+| Panel GM | Link do strony ukryty w menu | Osobny przycisk GM i natywny podgląd: wersja/stan serwera, liczba graczy według krain, podsumowanie zapisów; przycisk konsoli WWW | [Panel w silniku, odpowiedzi testowe](qa/android-1.7/gm-native-fixture-844x390.png) |
+| Uprawnienia | Rola zostawała w pamięci po wylogowaniu | Wylogowanie czyści role; ponowny odczyt `/ws/auth/me` przed chronionymi GET; brak pobierania danych przy cofniętej roli lub błędzie połączenia | [42 sprawdzenia headless](qa/android-1.7/hud-headless-results.json) |
+| Zgodność aplikacji | APK 1.0 / kod 100 | Tylko aktualizacja rdzenia; nowy skrypt GM ładowany po ścieżce; bez zmiany `skin.gd` | [Aktualizacja oryginalnego APK](qa/android-1.7/e2e-installed.txt) |
+
+Zmienione źródła: `hud.gd`, `online.gd`, `city_game.gd`, nowy `gm_panel.gd` oraz
+testy HUD/sceny/aktualizacji i istniejący workflow Godota (nowe testy zostają
+podłączone do CI). Nie zmieniono geometrii, grafik świata, statystyk, danych
+postaci, formatu zapisów, konfiguracji APK ani infrastruktury GPU.
+
+#### Weryfikacja i ograniczenia
+
+- Pełny TypeScript app/e2e/tools PASS.
+- [Regresja Godota: 539/539](qa/android-1.7/smoke-results.json), bez usuwania asercji.
+- HUD: **42/42 headless**, **42/42 natywnie**. Ekrany 1280 × 576, 844 × 390,
+  852 × 393, 854 × 480, 1280 × 720 i 1600 × 720; dodatkowo symulowane wycięcia
+  ekranu. Każdy przycisk nawigacji ma w tych widokach co najmniej 44 × 44
+  piksele ekranu. Dotyk lewym kciukiem pozostaje niezależny od prawego.
+- Menu: **11/11 headless i 11/11 natywnie**; wcześniejsze przewijanie/cancel bez regresji.
+- Scena rzeczywistej gry w Godot/llvmpipe: **5/5** — dotyk minimapy → mapa,
+  powrót do ruchu, przycisk GM → panel, cofnięcie roli przy wylogowaniu.
+- [E2E aktualizacji rdzenia: 11/11](qa/android-1.7/e2e-core.txt).
+  Oryginalne APK 1.0: **PASS**, w tym minimapa, nowy moduł GM i przewijanie menu.
+- Panel GM sprawdzono z jawną atrapą odpowiedzi istniejących API, bez prawdziwych
+  danych logowania GM. Nie jest to dowód logowania na produkcyjnym koncie GM.
+  Nowy panel w grze jest **tylko do odczytu**. Edycja postaci i inne operacje GM
+  pozostają w istniejącej konsoli WWW; nie przeniesiono ich do natywnego panelu.
+- Fizycznego telefonu nie testowano. Duży smoke i runner zrzutów zachowują zastane
+  ostrzeżenia o zasobach przy zamykaniu; nie deklarujemy czystego zamknięcia ani
+  pełnego zielonego CI. [Pełny raport](qa/android-1.7/acceptance.json).
+
+#### Paczka do aktywacji
+
+`deliveries/godot-content-1.7`: **27 paczek**, **26 niezmienionych względem 1.6**.
+Nowy rdzeń: `core-c100-85897595dc42.pck`, **3 523 184 bajty**, SHA-256
+`85897595dc42c5ef7a2bfee87eb32a8a2e470c7f94b99de999fca8902cc3e073`.
+Aktualizacja **nieaktywna**: działa nadal 1.6. Do aktywacji istniejący ręczny
+`godot-content-upload.yml` z wersją `1.7`, `publish=true`, `activate=true`,
+wyłącznie po zgodzie właściciela. Po publikacji porównać publiczny manifest
+oraz SHA pobranego rdzenia; 1.6 zachować do rollbacku.
+
+[Sumy dowodów](qa/android-1.7/evidence-sha256.json). Nie scalano do `main`, nie
+publikowano gry i nie resetowano postaci.

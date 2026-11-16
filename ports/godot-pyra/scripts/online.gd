@@ -106,9 +106,27 @@ func adopt(session: Dictionary) -> void:
 	save_session()
 	session_changed.emit()
 
-## True for an administrator or a game master: the game offers the panel of the site to them.
+## Server roles only; a logged-out session must never keep its staff controls.
 func is_staff() -> bool:
-	return roles.has("admin") or roles.has("gm")
+	return logged_in() and access_token != "" and (roles.has("admin") or roles.has("gm"))
+
+func verify_staff() -> bool:
+	if not logged_in():
+		roles = []
+		session_changed.emit()
+		return false
+	var expected := account_id
+	var result := await request(HTTPClient.METHOD_GET, "/ws/auth/me")
+	# A response belonging to a previous account cannot grant access to the next account.
+	if account_id != expected:
+		return false
+	if int(result.status) == 200 and result.json is Dictionary:
+		var account: Dictionary = result.json.get("account", {})
+		roles = account.get("roles", []) if str(account.get("id", "")) == expected and account.get("roles", []) is Array else []
+	else:
+		roles = []
+	session_changed.emit()
+	return is_staff()
 
 func login(email: String, password: String) -> Dictionary:
 	var result := await request(HTTPClient.METHOD_POST, "/ws/auth/login", {"email": email, "password": password}, false)
@@ -141,6 +159,7 @@ func sign_out_local() -> void:
 	refresh_token = ""
 	account_id = ""
 	nick = ""
+	roles = []
 	if FileAccess.file_exists(SESSION_PATH):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(SESSION_PATH))
 	close_live()

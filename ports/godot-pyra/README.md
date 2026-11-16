@@ -1,14 +1,25 @@
 # KI Legends Android — projekt Godot 4
 
 **Aktualny checkpoint, 16.11:** zainstalowana aplikacja **1.0** (`versionCode` 100),
-aktywne wydanie serwera **1.6** (potwierdzone odczytem manifestu i SHA rdzenia).
-Wydanie jest zapisane na gałęzi
-`feat/android-release-1.6-20261116`: ostatnie poprawki Claude'a (menu przewijane,
-link do panelu dla admin/GM), dokończona obsługa gestów bez przypadkowego kliknięcia,
-test aktualizacji menu na oryginalnej bazie APK 1.0. Publikacja 1.6 jest opisana
-w dzienniku 16.11, sekcja 21. Starsze numery APK w dalszych częściach README
-opisują wcześniejsze etapy. Postacie webowe nie są automatycznie importowane do
-zapisów Androida; ta aktualizacja nie migruje ani nie resetuje zapisów.
+aktywne wydanie serwera **1.6**. Na gałęzi `feat/android-hud-1.7-20261116`
+przygotowano aktualizację **1.7**: większe przyciski HUD-u (preferowane 100 × 112
+jednostek), układ uwzględniający wycięcia ekranu, dotyk minimapy otwierający mapę
+i natywny panel GM dla kont admin/GM. Panel ponownie sprawdza rolę na serwerze;
+w aplikacji pokazuje stan serwera, graczy według krain i podsumowanie zapisów.
+Pełne operacje GM pozostają w konsoli WWW, wymagającej własnego logowania.
+
+**1.7 nie została aktywowana.** Gotowe 27 paczek są w `deliveries/godot-content-1.7`;
+zmienia się tylko rdzeń (3 523 184 bajty), bez nowego APK, zmiany świata i formatu
+zapisu. Wyniki: regresja **539/539**, HUD **42/42 headless i 42/42 natywnie**,
+pełna scena **5/5**, menu **11/11** w obu trybach, aktualizacja oryginalnego APK
+1.0 **PASS**. Zrzuty pochodzą z rzeczywistej gry w programowym OpenGL; dane GM
+w testach pochodzą z jawnej atrapy odpowiedzi serwera. Fizyczny telefon i działanie
+panelu na prawdziwym koncie GM pozostają niezweryfikowane. Duży test regresji
+nadal raportuje zastane ostrzeżenia przy zwalnianiu zasobów.
+[Raport, ograniczenia i zrzuty](../../docs/zmiany/2026-11-16/ZMIANY.md#22-android-17--hud-dotyk-minimapy-i-natywny-panel-gm).
+Postacie webowe nie są automatycznie importowane do zapisów Androida; ta
+aktualizacja nie migruje ani nie resetuje zapisów. Szczegóły opublikowanej 1.6
+pozostają w sekcji 21 dziennika 16.11.
 
 Dokumentacja natywnej aplikacji **KI Legends na Androida** (Godot 4.6.3, GDScript, renderer Compatibility),
 stan 16.11.2026. Kod w repozytorium to **pełna gra: potwory, questy, dźwięk, ekwipunek, bossowie, jaskinie, wydarzenia świata, dzień i noc**

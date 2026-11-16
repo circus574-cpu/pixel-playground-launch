@@ -1,0 +1,14 @@
+building packs…
+core pack of this repo: 3.52 MB, 127 entries
+base pck: 57.4 MB
+PASS 1 no core offered: the APK's own code runs
+PASS 2 the full core of this repo downloads, mounts and every script still compiles
+PASS 3 a newer core changes the code of the same app (REWARD_GOLD 40 -> 77)
+PASS 4 without the server the cached core runs
+PASS 5 a core that does not compile is detected at once and put on the bad list
+PASS 6 the same broken core is not taken again: the APK's own code runs
+PASS 7 the server goes back to the good core: it is taken again
+PASS 8-9 an unproven core keeps running while its attempts are under the limit
+PASS 10 an unproven core that never reached the first city is given up: the APK's own code runs
+PASS 11 a core can add a NEW script when it is loaded by path (REWARD_GOLD = 55 + 3 from the new file)
+E2E CORE DONE failures=0

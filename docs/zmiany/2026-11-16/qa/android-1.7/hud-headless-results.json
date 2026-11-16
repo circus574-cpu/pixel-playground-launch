@@ -1,0 +1,175 @@
+{
+	"checks": 42,
+	"failed": 0,
+	"passed": 42,
+	"results": [
+		{
+			"name": "GM entry hidden from ordinary players",
+			"passed": true
+		},
+		{
+			"name": "navigation fits, >=44 screen pixels, no overlap (1280, 576) staff=false",
+			"passed": true
+		},
+		{
+			"name": "minimap emits map request once (1280, 576) staff=false",
+			"passed": true
+		},
+		{
+			"name": "navigation fits, >=44 screen pixels, no overlap (1280, 576) staff=true",
+			"passed": true
+		},
+		{
+			"name": "minimap emits map request once (1280, 576) staff=true",
+			"passed": true
+		},
+		{
+			"name": "navigation fits, >=44 screen pixels, no overlap (844, 390) staff=false",
+			"passed": true
+		},
+		{
+			"name": "minimap emits map request once (844, 390) staff=false",
+			"passed": true
+		},
+		{
+			"name": "navigation fits, >=44 screen pixels, no overlap (844, 390) staff=true",
+			"passed": true
+		},
+		{
+			"name": "minimap emits map request once (844, 390) staff=true",
+			"passed": true
+		},
+		{
+			"name": "navigation fits, >=44 screen pixels, no overlap (852, 393) staff=false",
+			"passed": true
+		},
+		{
+			"name": "minimap emits map request once (852, 393) staff=false",
+			"passed": true
+		},
+		{
+			"name": "navigation fits, >=44 screen pixels, no overlap (852, 393) staff=true",
+			"passed": true
+		},
+		{
+			"name": "minimap emits map request once (852, 393) staff=true",
+			"passed": true
+		},
+		{
+			"name": "navigation fits, >=44 screen pixels, no overlap (854, 480) staff=false",
+			"passed": true
+		},
+		{
+			"name": "minimap emits map request once (854, 480) staff=false",
+			"passed": true
+		},
+		{
+			"name": "navigation fits, >=44 screen pixels, no overlap (854, 480) staff=true",
+			"passed": true
+		},
+		{
+			"name": "minimap emits map request once (854, 480) staff=true",
+			"passed": true
+		},
+		{
+			"name": "navigation fits, >=44 screen pixels, no overlap (1280, 720) staff=false",
+			"passed": true
+		},
+		{
+			"name": "minimap emits map request once (1280, 720) staff=false",
+			"passed": true
+		},
+		{
+			"name": "navigation fits, >=44 screen pixels, no overlap (1280, 720) staff=true",
+			"passed": true
+		},
+		{
+			"name": "minimap emits map request once (1280, 720) staff=true",
+			"passed": true
+		},
+		{
+			"name": "navigation fits, >=44 screen pixels, no overlap (1600, 720) staff=false",
+			"passed": true
+		},
+		{
+			"name": "minimap emits map request once (1600, 720) staff=false",
+			"passed": true
+		},
+		{
+			"name": "navigation fits, >=44 screen pixels, no overlap (1600, 720) staff=true",
+			"passed": true
+		},
+		{
+			"name": "minimap emits map request once (1600, 720) staff=true",
+			"passed": true
+		},
+		{
+			"name": "staff navigation respects simulated cutouts (844, 390)",
+			"passed": true
+		},
+		{
+			"name": "staff navigation respects simulated cutouts (854, 480)",
+			"passed": true
+		},
+		{
+			"name": "staff navigation respects simulated cutouts (1280, 720)",
+			"passed": true
+		},
+		{
+			"name": "map tap does not steal the left thumb",
+			"passed": true
+		},
+		{
+			"name": "canceled minimap tap never opens a screen",
+			"passed": true
+		},
+		{
+			"name": "minimap square corners are not touch targets",
+			"passed": true
+		},
+		{
+			"name": "staff HUD button requests the GM panel once",
+			"passed": true
+		},
+		{
+			"name": "minimap remains active after closing NPC dialogue",
+			"passed": true
+		},
+		{
+			"name": "native GM panel shows real response fields (mock server fixture)",
+			"passed": true
+		},
+		{
+			"name": "GM panel verifies server roles before protected GET requests",
+			"passed": true
+		},
+		{
+			"name": "native GM panel fits with >=44 pixel buttons (844, 390)",
+			"passed": true
+		},
+		{
+			"name": "native GM panel fits with >=44 pixel buttons (852, 393)",
+			"passed": true
+		},
+		{
+			"name": "native GM panel fits with >=44 pixel buttons (854, 480)",
+			"passed": true
+		},
+		{
+			"name": "native GM panel fits with >=44 pixel buttons (1280, 576)",
+			"passed": true
+		},
+		{
+			"name": "role revocation clears sensitive data and prevents privileged requests",
+			"passed": true
+		},
+		{
+			"name": "network failure does not grant staff access",
+			"passed": true
+		},
+		{
+			"name": "logout clears cached staff roles",
+			"passed": true
+		}
+	]
+}

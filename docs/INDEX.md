@@ -1,5 +1,11 @@
 # KI Legends — dokumentacja projektu
 
+**Android — HUD 1.7, 16.11:** przygotowane większe ikony, dotyk minimapy i natywny
+podgląd GM na osobnej gałęzi `feat/android-hud-1.7-20261116`. Aktywne wydanie serwera
+to nadal **1.6**; 1.7 czeka na zgodę na aktywację. [Bieżący checkpoint Androida](../ports/godot-pyra/README.md),
+[wyniki i zrzuty](zmiany/2026-11-16/ZMIANY.md#22-android-17--hud-dotyk-minimapy-i-natywny-panel-gm).
+Poniższe starsze checkpointy opisują wcześniejsze etapy.
+
 **Godot 4 / Android, 16.11 — kod po wersji 0.7.0-bestiary zawiera całą grę:** 41 potworów ze wszystkimi cechami, questy z dialogami (102
 grywalne), dźwięk, zasady ekwipunku, **8 bossów** (fazy, mechaniki, strażnik leża), **22 jaskinie** (labirynt, klucz, krata, skrzynie),
 **14 wydarzeń świata**, dzień i noc, spacery mieszkańców i efekty otoczenia (to, co jest z przeglądarki, a co dorobione, rozdziela

@@ -59,9 +59,26 @@ func run() -> void:
 	up.position = point
 	root.push_input(up, true)
 	var menu_click := hits.size() == 1
+	hud.close_dialog()
+	var map_hits := []
+	hud.map_requested.connect(func(): map_hits.append(true))
+	down.position = hud.minimap_center
+	up.position = down.position
+	root.push_input(down, true)
+	root.push_input(up, true)
+	var minimap_click := map_hits.size() == 1
+	hud.set_staff_access(true)
+	var gm_source: GDScript = load("res://scripts/gm_panel.gd")
+	var gm: Control = gm_source.new() if gm_source != null else null
+	var gm_module: bool = gm != null and hud.gm_button.visible and hud.gm_button.size.x >= 84
+	if gm != null:
+		# This module-load check does not enter the tree: release the not-yet-parented UI nodes too.
+		gm.frame.free()
+		gm.body.free()
+		gm.free()
 	print("E2E_GATE ", JSON.stringify({"report": box.report, "panel_in_tree": panel.is_inside_tree(), "style": style.get_class() + ("/" + str(style.get_script().resource_path) if style.get_script() != null else ""),
 		"heading_font": heading.get_theme_font("font") != null, "letters": look.letters() != null, "stone": look.picture("stone") != null,
-		"menu_swipe":menu_swipe,"menu_click":menu_click,
+		"menu_swipe":menu_swipe,"menu_click":menu_click,"minimap_click":minimap_click,"gm_module":gm_module,
 		"skin_has_background": (load("res://scripts/skin.gd") as GDScript).get_script_method_list().any(func(m: Dictionary) -> bool: return m.name == "background")}))
 	root.remove_child(hud)
 	hud.queue_free()
