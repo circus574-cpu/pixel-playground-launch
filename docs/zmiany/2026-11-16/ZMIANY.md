@@ -339,3 +339,17 @@ Zlecenie właściciela: aplikacja ma być ta sama, a aktualizacje (wdrażane zmi
   sieć komórkową. **Opublikowane za zgodą właściciela (16.11.2026):** scalone PR #173, workflow uruchomiony z `publish` i `activate` (run #3); `kilegends.pl` oddaje wydanie `2026.11.17.2`
   (27 paczek), `core-c11` pobrany z zewnątrz ma zgodny rozmiar i SHA-256, klient o kodzie 10 nadal dostaje poprawny manifest. Wycofanie: aktywować `2026.11.17.1` w `/admin`.
 
+### 16. Panel administratora: zakładka „Serwer” pokazuje tylko wartości zmierzone
+
+Zlecenie właściciela po zrzutach panelu (czerwone „BRAK POŁĄCZENIA” bazy i „ZATRZYMANY” serwera przy działającej grze): panel ma pokazywać prawdziwe rzeczy, bez zbędnych.
+
+- **Przyczyna sprzeczności.** Panel czytał bazę i stan serwera przez funkcję serwerową aplikacji (stara autoryzacja), a gdy ta zawodziła, wstawiał wartości domyślne: „baza offline”, zera,
+  „serwer zatrzymany”. Jednocześnie dolna tabela i kafelki CPU/RAM/ping były liczone wzorami z liczby graczy albo odczytywane z zapisanej konfiguracji (`localStorage`), a mapa świata
+  rysowała symulowanych graczy. Czy czerwone pola były już przed publikacją 2026.11.17.2, nie wiadomo; publikacja (kopia plików, jeden wiersz w tabeli wydań) ich nie powoduje.
+- **Zmiana.** Nowy odczyt `GET /ws/admin/runtime` (tylko staff) w procesie serwera gry: serwer, proces, baza (połączenie oceniane osobno od liczników tabel), gra Android, lista graczy. Widok
+  `AdminServerStatus`. Usunięte: boty, edytor fikcyjnych węzłów, przyciski Start/Stop/Restart, wymyślone telemetrie, `serverControl.functions.ts`, `databaseStatus.ts`, `AdminMonitoringCenter`.
+  Mapa świata w panelu pokazuje tylko graczy połączonych z serwerem.
+- **Kontrole.** Testy jednostkowe (fałszywy klient bazy: brak uprawnień do tabeli nie zmienia stanu połączenia; brak wartości to „brak danych” z powodem; autoryzacja 403/405/200), test na prawdziwym
+  PostgreSQL, test widoku; sprawdzenie na prawdziwym serwerze gry i bazie (bez tokena 403, token gracza 403, token administratora 200 z prawdziwymi wartościami).
+  **Nie sprawdzone na produkcji:** zmiana nie jest wdrożona; po wdrożeniu panel pokaże to, co serwer faktycznie zmierzy.
+

@@ -29,6 +29,7 @@ import { resendMailer } from "./accounts/mailer";
 import { AccountService } from "./accounts/service";
 import { signingKey } from "./accounts/crypto";
 import { WorldOverrideService, worldHttp } from "./world/overrides";
+import { collectRuntimeStatus, runtimeHttp } from "./runtimeStatus";
 
 export interface GameServerConfig {
   port: number;
@@ -157,6 +158,33 @@ export class GameServer {
 
     if (url.split("?")[0] === "/ws/characters" || url.startsWith("/ws/characters/")) {
       void characterHttp(req, res, this.characterRepository, this.verifyAccount);
+      return;
+    }
+
+    if (url.split("?")[0] === "/ws/admin/runtime") {
+      void runtimeHttp(req, res, {
+        staff: (token) => this.staffSubject(token),
+        collect: () =>
+          collectRuntimeStatus({
+            info: this.runtimeInfo(),
+            players: () =>
+              this.getActiveSessions().map((p) => ({
+                id: p.characterId,
+                nick: p.nick,
+                race: p.race,
+                level: p.level,
+                worldId: p.worldId,
+                x: Math.round(p.x),
+                y: Math.round(p.y),
+                activity: p.activity,
+                inSafeCity: p.inSafeCity,
+                pingMs: p.pingMs,
+              })),
+            sql: this.db,
+            godot: this.godot,
+            android: () => this.godotLive.count(),
+          }),
+      });
       return;
     }
 
@@ -942,6 +970,26 @@ export class GameServer {
       return true;
     }
     return false;
+  }
+
+  /** Measured values of this server for the admin panel (see runtimeStatus.ts). */
+  public runtimeInfo() {
+    return {
+      name: this.config.name,
+      nodeId: this.config.nodeId,
+      region: this.config.region,
+      port: this.config.port,
+      tickRateHz: this.config.tickRateHz,
+      maxPlayers: this.config.maxPlayers,
+      activePlayers: this.sessions.size + this.onlineSockets.size,
+      tickP50Ms: Math.round(this.getPercentileTickTime(0.5) * 10) / 10,
+      tickP95Ms: Math.round(this.getPercentileTickTime(0.95) * 10) / 10,
+      packetsInSec: this.packetsIn,
+      packetsOutSec: this.packetsOut,
+      accountsReady: this.accounts !== null,
+      charactersReady: this.characterRepository !== null,
+      androidReady: this.godot !== null,
+    };
   }
 
   public getMetrics(): {

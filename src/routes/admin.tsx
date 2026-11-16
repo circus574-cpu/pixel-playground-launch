@@ -21,9 +21,9 @@ export const Route = createFileRoute("/admin")({
 });
 
 const CoderAdminPanel = lazy(() => import("@/components/admin/CoderAdminPanel"));
-const AdminMonitoringCenter = lazy(() =>
-  import("@/components/admin/AdminMonitoringCenter").then((m) => ({
-    default: m.AdminMonitoringCenter,
+const AdminServerStatus = lazy(() =>
+  import("@/components/admin/AdminServerStatus").then((m) => ({
+    default: m.AdminServerStatus,
   })),
 );
 const AdminGodotPanel = lazy(() => import("@/components/admin/AdminGodotPanel"));
@@ -110,8 +110,8 @@ function AdminPage() {
         )}
         {tab === "players" && <Players me={account.session.user.id} isAdmin={isAdmin} />}
         {tab === "monitoring" && (
-          <Suspense fallback={<p role="status">Wczytywanie telemetrii i monitoringu…</p>}>
-            <AdminMonitoringCenter />
+          <Suspense fallback={<p role="status">Wczytywanie stanu serwera…</p>}>
+            <AdminServerStatus />
           </Suspense>
         )}
         {tab === "audit" && (
