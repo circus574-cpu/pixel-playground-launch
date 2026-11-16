@@ -18,7 +18,7 @@ func setup(can_close: bool = false) -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var background := TextureRect.new()
-	background.texture = load("res://assets/branding/intro.webp")
+	background.texture = load("res://assets/branding/intro-wide.webp")
 	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

@@ -1,13 +1,13 @@
 # KI Legends — dokumentacja projektu
 
-**Godot 4 / Android, 15.11 — wersja 0.5.0-world:** cała planeta Superior (4 kontynenty i 6 wysp, ok. 197 tys. obiektów),
+**Godot 4 / Android, 15.11 — wersja 0.6.0-world:** wstęp na cały ekran, płynniejsza gra (wypalane podłoże, strumieniowanie na wątkach), lepsze mapy 2D/3D, pierwszy pełny HUD; cała planeta Superior (4 kontynenty i 6 wysp, ok. 197 tys. obiektów),
 globus 3D i atlas 2D z podróżami między krainami, cztery grywalne rasy (Legendy, Planetarni, Mędrcy, Androidy) ze
 statystykami aneksu, drzewkami i zdolnościami, miasta z usługami (sklep, kuźnia, depozyt, gospoda, plecak) i wnętrzami we
 wszystkich czterech światach, wstęp z ilustracją właściciela (walka tylko na manekinie; bez potworów i spawnów). Gałąź
 `ccr-ebbd6459-n7c5eg`, kontynuacja PR #170; APK w
-`deliveries/godot-pyra-android-20261115-world`; fizyczny telefon niezweryfikowany; bez
+`deliveries/godot-pyra-android-20261116-hud`; fizyczny telefon niezweryfikowany; bez
 scalenia i zmian produkcji. [Osobna dokumentacja Android](../ports/godot-pyra/README.md),
-[zakres i wyniki](zmiany/2026-11-15/ZMIANY.md#15-android--godot-050-world-cała-planeta-cztery-rasy-miasta-wszystkich-światów).
+[zakres i wyniki](zmiany/2026-11-16/ZMIANY.md#1-android--godot-060-world-wstęp-na-cały-ekran-płynność-mapy-pełny-hud).
 Wcześniejsza próba (jedno miasto, 0.1–0.2): PR #170, `feat/godot-pyra-android-20261115`.
 
 **Świat — przegląd, PR #154:** gotowa mapa administratora Superior v2, 10 lądów,

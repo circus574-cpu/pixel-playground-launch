@@ -57,7 +57,7 @@ func run() -> void:
 	var landing: PyraTitleScreen = load(entry_path).instantiate()
 	root.add_child(landing)
 	await settle(5)
-	verify(landing.intro.texture.resource_path == "res://assets/branding/intro.webp" and landing.intro.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_CENTERED and landing.powered_caption.text == "Powered by GODOT ENGINE" and landing.powered.texture.resource_path == "res://assets/branding/godot/logo-large-color-dark.svg", "entry scene shows the owner key art undistorted and the Powered by GODOT credit with the official logo")
+	verify(landing.intro.texture.resource_path == "res://assets/branding/intro-wide.webp" and landing.intro.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_COVERED and landing.powered_caption.text == "Powered by GODOT ENGINE" and landing.powered.texture.resource_path == "res://assets/branding/godot/logo-large-color-dark.svg", "entry scene fills the screen with the landscape key art (no bars, no distortion) and the Powered by GODOT credit with the official logo")
 	verify(root.get_children().filter(func(n): return n is PyraGame).is_empty(), "city is not instantiated behind the title")
 	var config := ConfigFile.new()
 	config.load("res://export_presets.cfg")
@@ -572,6 +572,54 @@ func run() -> void:
 	game.travel_to("pyra")
 	await settle(3)
 	verify(game.land_id == "pyra" and game.player.position.distance_to(spawn()) < 0.01, "travel back to Pyra arrives at the capital")
+
+	# ---- streaming, baked ground and the full HUD ------------------------------------------------------------
+	game.travel_to("verdant") if game.land_id != "verdant" else null
+	await settle(3)
+	var land: PyraContinent = game.continent
+	for i in 60:
+		await process_frame
+		if land.ground_ready() and land.build_queue.is_empty() and land.build_state.is_empty():
+			break
+	verify(land.ground_bake.size() >= 6 and land.ground_bake.size() <= 40, "ground is baked into a bounded set of textures", land.ground_bake.size())
+	var before_chunks := land.loaded.keys()
+	var far_view := Rect2(game.player.position + Vector2(9000, 4000), game.camera_view().size)
+	land.update_view(far_view)
+	verify(not land.build_queue.is_empty() and land.loaded.is_empty(), "moving far queues chunks instead of building them at once", land.build_queue.size())
+	land.update_view(game.camera_view())
+	land.flush()
+	verify(land.build_queue.is_empty() and land.build_state.is_empty() and land.loaded.size() > 0, "flush builds every queued chunk")
+	for i in 40:
+		await process_frame
+	var frame_ms: Array[float] = []
+	var last_tick := Time.get_ticks_usec()
+	for i in 30:
+		await process_frame
+		var tick := Time.get_ticks_usec()
+		frame_ms.append((tick - last_tick) / 1000.0)
+		last_tick = tick
+	verify(RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME) < 220 or DisplayServer.get_name() == "headless", "idle frame stays within the draw-call budget")
+	var hud: PyraHud = game.hud
+	verify(hud.button_centers.size() == 5 and hud.art_layer.viewport.size.x > 0 and hud.touch_layer.viewport.size.x > 0, "HUD art and touch controls render through cached layers")
+	var view_rect := root.get_visible_rect()
+	var all_inside := true
+	for c in hud.button_centers:
+		all_inside = all_inside and view_rect.has_point(c)
+	verify(all_inside and view_rect.has_point(hud.minimap_center + Vector2(hud.MINIMAP_RADIUS, 0.0) * 0.0), "round menu buttons and the minimap are on screen")
+	verify(hud.map_markers.size() >= 4 and hud.land_id == "verdant", "minimap knows the cities and places of the land", hud.map_markers.size())
+	hud.show_fps = true
+	await settle(3)
+	verify(hud.fps_text.contains("FPS"), "diagnostic overlay reports FPS")
+	hud.show_fps = false
+	var arena_target = game.targets.filter(func(t): return t.kind == "door" and t.room == "arena")[0]
+	game.load_space("", arena_target.point)
+	game.player.position = arena_target.point
+	game.interact()
+	game.player.position = game.dummies[0].position + Vector2(-70, 0)
+	await settle(3)
+	verify(game.current_room == "arena" and not hud.target.is_empty() and hud.target.max > 0, "target frame shows the training dummy", hud.target)
+	game.go_back()
+	await settle(2)
 
 	# ---- HUD layout -----------------------------------------------------------------------------------------
 	game.show_menu()

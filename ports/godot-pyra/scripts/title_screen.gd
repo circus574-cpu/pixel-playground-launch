@@ -16,38 +16,17 @@ var safe_root := Control.new()
 var active_pointer := -1
 var mouse_armed := false
 
-const BACKDROP_SHADER := """
-shader_type canvas_item;
-void fragment() {
-	// Soft, darkened copy of the key art fills the sides of a wide screen.
-	COLOR = vec4(textureLod(TEXTURE, UV, 5.0).rgb * 0.42, 1.0);
-}
-"""
-
 var intro := TextureRect.new()
-var backdrop := TextureRect.new()
 var floor_shade := TextureRect.new()
 
 func _ready() -> void:
 	get_tree().quit_on_go_back = false
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var art: Texture2D = load("res://assets/branding/intro.webp")
-	backdrop.texture = art
-	backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	backdrop.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	var blur := ShaderMaterial.new()
-	var blur_shader := Shader.new()
-	blur_shader.code = BACKDROP_SHADER
-	blur.shader = blur_shader
-	backdrop.material = blur
-	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(backdrop)
-	# The owner's key art, whole and undistorted: it is the intro.
-	intro.texture = art
+	# The owner's key art as a landscape composition (the game is landscape-only): it fills the whole screen.
+	intro.texture = load("res://assets/branding/intro-wide.webp")
 	intro.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	intro.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	intro.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	intro.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	intro.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	intro.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(intro)
@@ -76,7 +55,7 @@ func _ready() -> void:
 	status.add_theme_constant_override("outline_size", 6)
 	content.add_child(status)
 	start_button.text = "ZACZNIJ PRZYGODĘ"
-	start_button.custom_minimum_size = Vector2(380, 78)
+	start_button.custom_minimum_size = Vector2(380, 70)
 	start_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	start_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	start_button.focus_mode = Control.FOCUS_NONE
@@ -115,14 +94,16 @@ func _layout() -> void:
 			area = (get_tree().root.get_screen_transform().affine_inverse() * Rect2(safe)).intersection(area)
 	safe_root.position = area.position
 	safe_root.size = area.size
-	floor_shade.position = Vector2(0, size.y - 300)
-	floor_shade.size = Vector2(size.x, 300)
-	powered.size = Vector2(150, 61)
-	powered.position = Vector2((area.size.x - 150) / 2, area.size.y - 70)
-	powered_caption.position = Vector2(0, powered.position.y - 22)
-	powered_caption.size = Vector2(area.size.x, 20)
-	content.size = Vector2(minf(560, area.size.x - 56), 150)
-	content.position = Vector2((area.size.x - content.size.x) / 2, powered_caption.position.y - 8 - content.size.y)
+	floor_shade.position = Vector2(0, size.y - 260)
+	floor_shade.size = Vector2(size.x, 260)
+	# Landscape: the start button sits bottom-centre, the engine credit in the bottom-right corner.
+	powered.size = Vector2(120, 49)
+	powered.position = Vector2(area.size.x - 136, area.size.y - 60)
+	powered_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	powered_caption.position = Vector2(area.size.x - 336, powered.position.y - 22)
+	powered_caption.size = Vector2(320, 20)
+	content.size = Vector2(minf(560, area.size.x - 360), 120)
+	content.position = Vector2((area.size.x - content.size.x) / 2, area.size.y - content.size.y - 26)
 
 func start_city() -> void:
 	if loading or is_instance_valid(city_instance):

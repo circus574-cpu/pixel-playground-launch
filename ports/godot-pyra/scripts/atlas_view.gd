@@ -107,43 +107,69 @@ func _draw() -> void:
 	var visible_w := size.x / scale_px
 	var first := floori((center.x - visible_w / 2.0) / MapMath.MAP_W)
 	var last := floori((center.x + visible_w / 2.0) / MapMath.MAP_W)
+	var t := Time.get_ticks_msec() / 1000.0
 	for copy in range(first, last + 1):
 		var shift := Vector2(float(copy) * MapMath.MAP_W, 0.0)
 		draw_texture_rect(texture, Rect2(to_screen(shift), Vector2(MapMath.MAP_W, MapMath.MAP_H) * scale_px), false)
+		# graticule every 30 degrees of longitude / 30 of latitude
+		for lon in range(-150, 180, 30):
+			var x := (float(lon) + 180.0) / 360.0 * MapMath.MAP_W
+			draw_line(to_screen(Vector2(x, 0) + shift), to_screen(Vector2(x, MapMath.MAP_H) + shift), Color(1, 1, 1, 0.06), 1.0)
+		for lat in range(-60, 90, 30):
+			var y := (90.0 - float(lat)) / 180.0 * MapMath.MAP_H
+			draw_line(to_screen(Vector2(0, y) + shift), to_screen(Vector2(MapMath.MAP_W, y) + shift), Color(1, 1, 1, 0.06), 1.0)
 		for region: Dictionary in regions:
 			var poly: PackedVector2Array = polygons[region.id]
 			var screen := PackedVector2Array()
 			for p in poly:
 				screen.append(to_screen(p + shift))
 			var is_selected: bool = region.id == selected
-			if is_selected:
-				draw_colored_polygon(screen, Color(1.0, 0.75, 0.3, 0.22))
 			var mine: bool = bool(region.playable)
-			var line := Color(1.0, 0.82, 0.45, 0.95) if is_selected else (Color(1.0, 0.7, 0.35, 0.8) if mine else Color(0.85, 0.9, 1.0, 0.45))
-			screen.append(screen[0])
-			draw_polyline(screen, line, 3.0 if is_selected else 1.6, true)
+			if is_selected:
+				var glow := 0.18 + 0.08 * sin(t * 3.0)
+				draw_colored_polygon(screen, Color(1.0, 0.78, 0.32, glow))
+			var line := Color(1.0, 0.82, 0.45, 0.98) if is_selected else (Color(1.0, 0.7, 0.35, 0.75) if mine else Color(0.85, 0.9, 1.0, 0.4))
+			draw_outline(poly, shift, line, is_selected)
+		for region: Dictionary in regions:
 			var label_at := to_screen(Vector2(float(region.label.x), float(region.label.y)) + shift)
-			var title := str(region.name)
-			var size_px := 17 if region.kind == "continent" else 13
-			var w := font.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
-			draw_string_outline(font, label_at - Vector2(w / 2.0, 0), title, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px, 5, Color(0.05, 0.03, 0.02, 0.95))
-			draw_string(font, label_at - Vector2(w / 2.0, 0), title, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px, Color("ffe9bd") if mine else Color("e6eef7"))
+			var continent: bool = region.kind == "continent"
+			var mine: bool = bool(region.playable)
+			if not continent and zoom_level() < 1.35:
+				continue
 			var sp = region.get("settlementPoint")
+			var plaque_at := label_at
 			if sp != null:
-				draw_circle(to_screen(Vector2(float(sp.x), float(sp.y)) + shift), 4.0, Color("ffd36a"))
+				var city_at := to_screen(Vector2(float(sp.x), float(sp.y)) + shift)
+				if zoom_level() >= 1.5 or not continent:
+					MapStyle.marker(self, city_at, "city", 0.7)
+				if absf(city_at.y - label_at.y) < 26.0 and absf(city_at.x - label_at.x) < 90.0:
+					plaque_at = label_at + Vector2(0, -26)
+			MapStyle.plaque(self, plaque_at, str(region.name), 17 if continent else 12, Color("ffe9bd") if mine else Color("e6eef7"), continent)
 		for mark in marks:
 			var at := to_screen(mark.atlas + shift)
-			draw_circle(at, 4.0 + (2.0 if zoom_level() > 4.0 else 0.0), Color("ffcf6a"))
+			MapStyle.marker(self, at, "city", 0.55 + (0.2 if zoom_level() > 4.0 else 0.0))
 			if zoom_level() > 3.0:
-				draw_string_outline(font, at + Vector2(8, 5), str(mark.label), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 5, Color(0.05, 0.03, 0.02, 0.95))
-				draw_string(font, at + Vector2(8, 5), str(mark.label), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("fff0cc"))
-		var you := to_screen(player_atlas + shift)
-		var pulse := 0.5 + 0.5 * sin(Time.get_ticks_msec() / 260.0)
-		draw_circle(you, 11.0 + 5.0 * pulse, Color(1.0, 0.3, 0.2, 0.28))
-		draw_circle(you, 6.0, Color("ff5a3a"))
-		draw_arc(you, 6.0, 0, TAU, 24, Color.WHITE, 2.0, true)
-		draw_string_outline(font, you + Vector2(10, -8), "Ty", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 5, Color(0.05, 0.03, 0.02, 0.95))
-		draw_string(font, you + Vector2(10, -8), "Ty", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color.WHITE)
+				MapStyle.halo(self, at + Vector2(10, 5), str(mark.label), 14, Color("fff0cc"))
+		MapStyle.hero_marker(self, to_screen(player_atlas + shift))
+	MapStyle.vignette(self, Rect2(Vector2.ZERO, size))
+	MapStyle.compass(self, Vector2(66, 82), 34.0)
+	MapStyle.frame(self, Rect2(Vector2(3, 3), size - Vector2(6, 6)))
+
+## Region outline without the segments that only close the traced polygon along the date line (x = 0 / 2000).
+func draw_outline(poly: PackedVector2Array, shift: Vector2, color: Color, bold: bool) -> void:
+	var run := PackedVector2Array()
+	var count := poly.size()
+	for i in count + 1:
+		var a := poly[i % count]
+		var b := poly[(i + 1) % count]
+		run.append(to_screen(a + shift))
+		var on_seam := (a.x < 1.5 and b.x < 1.5) or (a.x > MapMath.MAP_W - 1.5 and b.x > MapMath.MAP_W - 1.5)
+		if on_seam or i == count:
+			if run.size() > 1:
+				if bold:
+					draw_polyline(run, Color(1.0, 0.85, 0.4, 0.28), 9.0, true)
+				draw_polyline(run, color, 3.0 if bold else 1.5, true)
+			run = PackedVector2Array()
 
 func _process(_delta: float) -> void:
 	if is_visible_in_tree():

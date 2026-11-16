@@ -1,0 +1,19 @@
+{
+  "format": "ki-godot-pyra-delivery-1",
+  "scope": "landscape full-screen intro, smoother streaming and baked ground, improved 2D/3D maps, first full HUD; no enemies, items or quests yet",
+  "engine": "Godot 4.6.3",
+  "version": "0.6.0-world",
+  "versionCode": 6,
+  "androidPackage": "pl.kilegends.godot.pyra",
+  "applicationLabel": "KI LEGENDS",
+  "signing": "local debug certificate (same as earlier deliveries)",
+  "artifacts": {
+    "deliveries/godot-pyra-android-20261116-hud/ki-legends-godot-debug.apk": {
+      "bytes": 98024767,
+      "sha256": "3889347e9af28c7e299e7a498aaf5745774f5ba38bfbf6d6d91f8ed798e105aa"
+    }
+  },
+  "physicalDeviceTest": "Not performed",
+  "previousDelivery": "deliveries/godot-pyra-android-20261115-world",
+  "documentation": "ports/godot-pyra/README.md"
+}

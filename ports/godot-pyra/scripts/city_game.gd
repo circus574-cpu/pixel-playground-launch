@@ -55,6 +55,39 @@ var attack_held := false
 var settlements: Array[Dictionary] = []
 var map_data: Dictionary
 var time_since_save_check := 0.0
+var prefetch_timer := 0.0
+var prefetch_pending: Dictionary = {}   # path -> true while a worker thread loads it
+var prefetch_hold: Array[Resource] = []  # the last few prefetched pictures and sheets, kept so entering a door does not decode them
+
+## Interiors and their keepers are decoded on worker threads while the hero walks up to a door, so opening it never hitches.
+func prefetch_rooms() -> void:
+	for path: String in prefetch_pending.keys():
+		var status := ResourceLoader.load_threaded_get_status(path)
+		if status == ResourceLoader.THREAD_LOAD_LOADED:
+			prefetch_hold.append(ResourceLoader.load_threaded_get(path))
+			prefetch_pending.erase(path)
+			while prefetch_hold.size() > 14:
+				prefetch_hold.pop_front()
+		elif status != ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+			prefetch_pending.erase(path)
+	if not current_room.is_empty():
+		return
+	for target: Dictionary in outdoor_targets:
+		if target.kind != "door" or player.position.distance_to(target.point) > 900.0:
+			continue
+		var spec: Dictionary = rooms_data[world_id].get(str(target.room), {})
+		if spec.is_empty():
+			continue
+		var paths: Array[String] = [str(spec.picture)]
+		var key := "%s.npc.%s" % [world_id, ROLE_OF_SERVICE.get(str(target.room), "")]
+		if actors.has(key):
+			for clip: Dictionary in (actors[key].clips as Dictionary).values():
+				if clip.has("sheet"):
+					paths.append(str(clip.sheet))
+		for path in paths:
+			if not prefetch_pending.has(path) and not ResourceLoader.has_cached(path):
+				prefetch_pending[path] = true
+				ResourceLoader.load_threaded_request(path)
 
 func _ready() -> void:
 	data = PyraContinent.load_json(CITY_PATH)
@@ -83,6 +116,7 @@ func _ready() -> void:
 	hud.touch.attack_changed.connect(func(held: bool): attack_held = held)
 	hud.touch.skill_requested.connect(use_slot)
 	hud.touch.dodge_requested.connect(dodge)
+	hud.touch.potion_requested.connect(func() -> void: economy.use("potion"))
 	hud.menu_requested.connect(show_menu)
 	hud.map_requested.connect(open_map)
 	hud.character_requested.connect(open_character)
@@ -118,6 +152,10 @@ func set_race(new_race: String) -> void:
 	kit.gear = economy.gear()
 	kit.terrain_at = func() -> String: return continent.terrain_kind(player.position) if is_instance_valid(continent) else "open"
 	hero = actors[str(WORLD_OF_RACE[race]) + ".hero"]
+	for clip: Dictionary in (hero.clips as Dictionary).values():   # decode every animation sheet of the hero off the main thread
+		var sheet := str(clip.get("sheet", ""))
+		if sheet != "" and not ResourceLoader.has_cached(sheet):
+			ResourceLoader.load_threaded_request(sheet)
 	player.setup(hero, float(kit.stats().speed))
 	economy.level = kit.level
 
@@ -160,6 +198,8 @@ func enter_land(id: String, at: Vector2 = Vector2(-1, -1)) -> void:
 	room_town = ""
 	input_suspended = false
 	load_space("", start)
+	continent.update_view(camera_view(), true)   # the hero never starts in an empty land
+	hud.set_land(land_id, continent.world_size, minimap_markers())
 
 ## The first trial's painted capital of Pyra: plaza floor, 53 props and the authored footprints.
 func build_pyra_capital() -> void:
@@ -200,6 +240,16 @@ func add_street_npc(role: String, display_name: String, title: String, dialogue:
 	continent.sorted.add_child(actor)
 	actor.setup(actors[key], display_name, false)
 	outdoor_targets.append({"kind": "npc", "id": role, "name": display_name, "point": at, "definition": {"name": display_name, "role": title, "dialogue": dialogue}})
+
+## Points drawn on the minimap: the cities and the named places of the land.
+func minimap_markers() -> Array[Dictionary]:
+	var list: Array[Dictionary] = []
+	for s: Dictionary in land.settlements:
+		list.append({"point": Vector2(float(s.x), float(s.y)), "kind": "city"})
+	for place: Dictionary in land.places:
+		if str(place.kind) != "wilderness":
+			list.append({"point": Vector2(float(place.x), float(place.y)), "kind": str(place.kind)})
+	return list
 
 func build_land_places() -> void:
 	for s: Dictionary in land.settlements:
@@ -482,9 +532,9 @@ func on_damage(foe: Node, amount: int, crit: bool) -> void:
 
 # ---- frame loop -----------------------------------------------------------------------------
 
-func _physics_process(delta: float) -> void:
-	if not is_instance_valid(hud) or not is_instance_valid(player):
-		return
+## Simulation runs once per rendered frame with the real frame time (clamped), not on the 60 Hz physics tick: on 90/120 Hz
+## displays a fixed tick without interpolation makes the hero and the camera step unevenly.
+func simulate(delta: float) -> void:
 	if is_instance_valid(screen):
 		return
 	kit.tick(delta)
@@ -496,9 +546,14 @@ func _physics_process(delta: float) -> void:
 	player.step(delta)
 	player.z_index = 0
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if not is_instance_valid(hud) or not is_instance_valid(player):
 		return
+	simulate(minf(delta, 0.05))
+	prefetch_timer -= delta
+	if prefetch_timer <= 0.0:
+		prefetch_timer = 0.4
+		prefetch_rooms()
 	var target := nearest_target()
 	hud.touch.enabled_target = not target.is_empty()
 	hud.touch.action_text = "E"
@@ -515,7 +570,14 @@ func _process(_delta: float) -> void:
 		hud.meter.text = ("Manekin: %d obrażeń/s · %d łącznie" % [int(dummy.recent_dps), int(dummy.total_taken)]) if dummy != null else ""
 	if current_room.is_empty():
 		hud.meter.text = ""
+		hud.set_target({})
+		hud.set_player(player.position, player.facing)
+	else:
+		var foe := nearest_dummy()
+		hud.set_target({"name": foe.label, "hp": foe.hp, "max": foe.max_hp} if foe != null and foe.position.distance_to(player.position) < 420.0 else {})
 	hud.gold = economy.gold
+	hud.potion_count = economy.count("potion")
+	hud.potion_cooldown_ratio = clampf(economy.potion_cooldown / 6.0, 0.0, 1.0)
 	hud.refresh(kit)
 
 func camera_view() -> Rect2:
@@ -670,7 +732,7 @@ func open_items(mode: String, heading: String) -> void:
 func show_menu() -> void:
 	if is_instance_valid(screen):
 		return
-	hud.show_dialog("KI LEGENDS", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D, mapa 2D i podróże między krainami. POSTAĆ: statystyki i drzewko Twojej rasy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. W świecie nie ma jeszcze potworów; manekin czeka na arenach miast.", [{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET (brak potworów)", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "NOWA POSTAĆ (WYBÓR RASY)", "callback": func(): hud.close_dialog(); open_race_screen(true)}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}])
+	hud.show_dialog("KI LEGENDS", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D, mapa 2D i podróże między krainami. POSTAĆ: statystyki i drzewko Twojej rasy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. W świecie nie ma jeszcze potworów; manekin czeka na arenach miast.", [{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET (brak potworów)", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "NOWA POSTAĆ (WYBÓR RASY)", "callback": func(): hud.close_dialog(); open_race_screen(true)}, {"text": "FPS I DIAGNOSTYKA: " + ("WYŁĄCZ" if hud.show_fps else "WŁĄCZ"), "callback": func(): hud.show_fps = not hud.show_fps; hud.signature = ""; hud.close_dialog()}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}])
 
 func show_licenses() -> void:
 	hud.show_dialog("Godot i biblioteki silnika", Engine.get_license_text() + "\n\nTHIRD-PARTY LICENSES\n" + JSON.stringify(Engine.get_license_info(), "\t") + "\n\nCOPYRIGHT NOTICES\n" + JSON.stringify(Engine.get_copyright_info(), "\t") + "\n\nFONT CINZEL\n" + FileAccess.get_file_as_string("res://assets/branding/OFL-Cinzel.txt") + "\n\nOFFICIAL GODOT LOGO\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-NOTICE.txt") + "\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-LICENSE.txt"))

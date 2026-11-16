@@ -1343,3 +1343,9 @@ PODRÓŻ (`MapScreen.travel` → `PyraGame.travel_to`). Wnętrza i mieszkańcy c
 `data/actors.json`. Tekstury malowane są importowane jako stratny WebP (`tune_imports.py`), APK 100 789 166 B. 304 kontrole w
 `tests/smoke.gd` (10 krain, wszystkie wnętrza kontynentów, cztery rasy, podróż z mapy). Szczegóły i ograniczenia:
 [dziennik 15.11, pkt 15](zmiany/2026-11-15/ZMIANY.md).
+
+**0.6.0-world (16.11):** podłoże krain jest wypalane do tekstur 512 j. (`continent.gd`, SubViewport), scenerię budują porcje
+czasowe z tekstur ładowanych na wątkach, symulacja bohatera idzie w `_process`, wnętrza są prefetchowane; HUD i przyciski
+dotykowe rysują się przez `cached_layer.gd` (odświeżanie po zmianie stanu). Mapy: `map_style.gd`, malowane mapy krain
+(`prepare_land_maps.py`), globus z atmosferą i maską zaznaczenia. Wstęp: pozioma kompozycja (`prepare_intro.py`). 313 kontroli
+w `tests/smoke.gd`. Szczegóły i ograniczenia: [dziennik 16.11](zmiany/2026-11-16/ZMIANY.md).

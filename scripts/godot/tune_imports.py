@@ -35,11 +35,7 @@ for land in (PORT / "assets/lands").iterdir():
     for pattern, quality in LAND_LOSSY.items():
         for imp in land.glob(pattern + ".import"):
             set_mode(imp, quality)
-intro = PORT / "assets/branding/intro.webp.import"
+intro = PORT / "assets/branding/intro-wide.webp.import"
 if intro.exists():
-    text = intro.read_text()
-    new = re.sub(r"^mipmaps/generate=\w+", "mipmaps/generate=true", text, flags=re.M)
-    if new != text:
-        intro.write_text(new)
-        changed += 1
+    set_mode(intro, 0.9)
 print("tuned imports:", changed)

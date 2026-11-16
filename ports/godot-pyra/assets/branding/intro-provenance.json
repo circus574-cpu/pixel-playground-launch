@@ -2,8 +2,8 @@
   "source": "owner illustration supplied in chat on 15.11.2026 (1121x1403 PNG)",
   "sourceSha256": "fd6649ba8d296805fb1c99122314b6155c8f893a4ed945dbe3ecf64047faa560",
   "outputs": {
-    "intro.webp": "0e0d806e658bb7100b08bffed75b531723a3789a2b204e1838d6bfc7ef111637",
-    "boot-splash.png": "c428772fb1ce5b70cc5aa0679d2129e60e7b1fc25b52b00b7dab67aea9780151"
+    "intro-wide.webp": "1608be11eb55d9157788e1767997bf424940972dd448bede6c23c50109fef271",
+    "boot-splash.png": "476732fadc72487d623c4f4e58e353ddf05bf92dd9b88caa39123ff35180440f"
   },
   "note": "Artwork re-encoded only; rights remain with the project owner per docs/LICENCJE.md."
 }

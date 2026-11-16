@@ -10,17 +10,54 @@ shader_type spatial;
 render_mode unshaded, cull_back;
 uniform sampler2D color_tex : source_color, filter_linear_mipmap;
 uniform sampler2D cloud_tex : source_color, filter_linear_mipmap, repeat_enable;
+uniform sampler2D select_tex : filter_linear;
 uniform float cloud_shift = 0.0;
+uniform float select_on = 0.0;
 void fragment() {
 	vec3 c = texture(color_tex, UV).rgb;
 	float cl = texture(cloud_tex, vec2(UV.x + cloud_shift, UV.y)).r;
+	float cl_shadow = texture(cloud_tex, vec2(UV.x + cloud_shift - 0.004, UV.y + 0.003)).r;
 	vec3 sun = normalize(vec3(-0.45, 0.4, 0.8));
-	float lit = clamp(dot(NORMAL, sun), 0.0, 1.0);
+	float ndl = dot(NORMAL, sun);
+	float lit = clamp(ndl, 0.0, 1.0);
 	float rim = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 3.2);
-	vec3 col = c * (0.42 + 0.78 * lit);
-	col = mix(col, vec3(1.0), cl * 0.30 * (0.4 + 0.6 * lit));
+	float water = smoothstep(0.02, 0.12, c.b - max(c.r, c.g));
+	vec3 col = c * (0.36 + 0.82 * lit);
+	col *= 1.0 - cl_shadow * 0.22 * lit;
+	// sun glint on the sea, warm band along the terminator
+	vec3 refl = reflect(-sun, NORMAL);
+	float glint = pow(clamp(dot(refl, VIEW), 0.0, 1.0), 38.0) * water;
+	col += vec3(1.0, 0.95, 0.82) * glint * 0.55;
+	col += vec3(1.0, 0.55, 0.25) * smoothstep(0.0, 0.25, ndl) * (1.0 - smoothstep(0.25, 0.5, ndl)) * 0.10;
+	col = mix(col, vec3(1.0), cl * 0.28 * (0.4 + 0.6 * lit));
+	float m = texture(select_tex, UV).r * select_on;
+	col = mix(col, vec3(1.0, 0.82, 0.38), m * (0.26 + 0.08 * sin(TIME * 3.0)));
 	col += vec3(0.30, 0.55, 1.0) * rim * 0.75;
 	ALBEDO = col;
+}
+""" 
+
+const CLOUD_SHADER := """
+shader_type spatial;
+render_mode unshaded, cull_back, blend_mix, depth_draw_never;
+uniform sampler2D cloud_tex : source_color, filter_linear_mipmap, repeat_enable;
+uniform float cloud_shift = 0.0;
+void fragment() {
+	float cl = texture(cloud_tex, vec2(UV.x + cloud_shift * 1.6, UV.y)).r;
+	vec3 sun = normalize(vec3(-0.45, 0.4, 0.8));
+	float lit = clamp(dot(NORMAL, sun), 0.0, 1.0);
+	ALBEDO = vec3(1.0) * (0.55 + 0.45 * lit);
+	ALPHA = clamp(cl * cl * 0.55, 0.0, 0.6);
+}
+"""
+
+const ATMOSPHERE_SHADER := """
+shader_type spatial;
+render_mode unshaded, cull_back, blend_add, depth_draw_never;
+void fragment() {
+	float f = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 3.4);
+	ALBEDO = vec3(0.28, 0.55, 1.0) * f * 1.3;
+	ALPHA = clamp(f, 0.0, 1.0);
 }
 """
 
@@ -35,15 +72,18 @@ var markers := Node3D.new()
 var highlight := MeshInstance3D.new()
 var lon0 := -52.8
 var lat0 := -30.0
-var distance := 2.7
+var distance := 3.2
 var velocity := Vector2.ZERO
 var idle := 0.0
 var dragging := false
 var drag_moved := false
 var drag_start := Vector2.ZERO
 var selected := ""
-var player_marker: MeshInstance3D
+var player_marker: Node3D
 var clouds := 0.0
+var cloud_material := ShaderMaterial.new()
+var select_view := SubViewport.new()
+var select_poly := Polygon2D.new()
 
 static func surface(lon_deg: float, lat_deg: float, radius: float = 1.0) -> Vector3:
 	var lon := deg_to_rad(lon_deg)
@@ -71,20 +111,57 @@ func setup(color: Texture2D, cloud: Texture2D, region_list: Array, player_atlas:
 	planet.mesh = build_sphere(96, 192)
 	planet.material_override = globe_material
 	pivot.add_child(planet)
+	var cloud_shader := Shader.new()
+	cloud_shader.code = CLOUD_SHADER
+	cloud_material.shader = cloud_shader
+	cloud_material.set_shader_parameter("cloud_tex", cloud)
+	var cloud_shell := MeshInstance3D.new()
+	cloud_shell.mesh = build_sphere(48, 96)
+	cloud_shell.scale = Vector3.ONE * 1.014
+	cloud_shell.material_override = cloud_material
+	pivot.add_child(cloud_shell)
+	var atmosphere := MeshInstance3D.new()
+	var atmosphere_mesh := SphereMesh.new()
+	atmosphere_mesh.radius = 1.0
+	atmosphere_mesh.height = 2.0
+	atmosphere_mesh.radial_segments = 96
+	atmosphere_mesh.rings = 48
+	atmosphere.mesh = atmosphere_mesh
+	atmosphere.scale = Vector3.ONE * 1.07
+	var atmosphere_shader := Shader.new()
+	atmosphere_shader.code = ATMOSPHERE_SHADER
+	var atmosphere_material := ShaderMaterial.new()
+	atmosphere_material.shader = atmosphere_shader
+	atmosphere.material_override = atmosphere_material
+	viewport.add_child(atmosphere)
+	# selected region mask in atlas space (painted into a small texture, sampled by the planet shader)
+	select_view.size = Vector2i(1024, 512)
+	select_view.disable_3d = true
+	select_view.transparent_bg = false
+	select_view.render_target_update_mode = SubViewport.UPDATE_ONCE
+	var backdrop := ColorRect.new()
+	backdrop.color = Color.BLACK
+	backdrop.size = Vector2(1024, 512)
+	select_view.add_child(backdrop)
+	select_poly.color = Color.WHITE
+	select_view.add_child(select_poly)
+	viewport.add_child(select_view)
+	globe_material.set_shader_parameter("select_tex", select_view.get_texture())
 	pivot.add_child(outlines)
 	pivot.add_child(markers)
 	viewport.add_child(pivot)
 	build_outlines()
-	add_marker(MapMath.atlas_to_lonlat(player_atlas), Color("ff4a2e"), 0.018)
+	add_marker(MapMath.atlas_to_lonlat(player_atlas), Color("ff4a2e"), 0.030)
 	player_marker = markers.get_child(markers.get_child_count() - 1)
 	for region: Dictionary in regions:
 		var sp = region.get("settlementPoint")
 		if sp != null:
-			add_marker(MapMath.atlas_to_lonlat(Vector2(float(sp.x), float(sp.y))), Color("ffd36a"), 0.011)
+			add_marker(MapMath.atlas_to_lonlat(Vector2(float(sp.x), float(sp.y))), Color("ffd36a"), 0.020)
 		if region.kind == "continent":
 			var label := Label3D.new()
 			label.text = str(region.name)
-			label.font_size = 56
+			label.font = MapStyle.font()
+			label.font_size = 60
 			label.pixel_size = 0.0011
 			label.outline_size = 14
 			label.outline_modulate = Color(0.05, 0.03, 0.02, 0.95)
@@ -143,20 +220,31 @@ func build_outlines() -> void:
 		var color := Color(1.0, 0.75, 0.4, 0.8) if bool(region.playable) else Color(0.9, 0.95, 1.0, 0.35)
 		outlines.add_child(line_mesh(region_points(region, 1.003), color))
 
+static var glow_texture: GradientTexture2D
+
+func glow(core: Color) -> Texture2D:
+	var g := Gradient.new()
+	g.offsets = PackedFloat32Array([0.0, 0.34, 0.5, 1.0])
+	g.colors = PackedColorArray([core, core, Color(core.r, core.g, core.b, 0.35), Color(core.r, core.g, core.b, 0.0)])
+	var tex := GradientTexture2D.new()
+	tex.gradient = g
+	tex.fill = GradientTexture2D.FILL_RADIAL
+	tex.fill_from = Vector2(0.5, 0.5)
+	tex.fill_to = Vector2(1.0, 0.5)
+	tex.width = 64
+	tex.height = 64
+	return tex
+
 func add_marker(lonlat: Vector2, color: Color, radius: float) -> void:
-	var mesh := SphereMesh.new()
-	mesh.radius = radius
-	mesh.height = radius * 2.0
-	mesh.radial_segments = 12
-	mesh.rings = 6
-	var instance := MeshInstance3D.new()
-	instance.mesh = mesh
-	var m := StandardMaterial3D.new()
-	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	m.albedo_color = color
-	instance.material_override = m
-	instance.position = surface(lonlat.x, lonlat.y, 1.012)
-	markers.add_child(instance)
+	var sprite := Sprite3D.new()
+	sprite.texture = glow(color)
+	sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	sprite.shaded = false
+	sprite.double_sided = true
+	sprite.pixel_size = radius * 2.6 / 64.0
+	sprite.transparent = true
+	sprite.position = surface(lonlat.x, lonlat.y, 1.02)
+	markers.add_child(sprite)
 
 func apply_rotation() -> void:
 	pivot.basis = Basis(Vector3.RIGHT, deg_to_rad(lat0)) * Basis(Vector3.UP, deg_to_rad(-lon0))
@@ -171,20 +259,24 @@ func focus_on(lonlat: Vector2) -> void:
 
 func select(id: String) -> void:
 	selected = id
-	if is_instance_valid(highlight.mesh):
-		highlight.mesh = null
 	for child in highlight.get_children():
 		child.queue_free()
 	for region: Dictionary in regions:
 		if region.id == id:
-			var line := line_mesh(region_points(region, 1.006), Color(1.0, 0.9, 0.5, 1.0))
-			highlight.add_child(line)
+			highlight.add_child(line_mesh(region_points(region, 1.006), Color(1.0, 0.9, 0.5, 1.0)))
 			highlight.visible = true
+			var scaled := PackedVector2Array()
+			for p in MapMath.polygon(region):
+				scaled.append(p * 0.512)
+			select_poly.polygon = scaled
+			select_view.render_target_update_mode = SubViewport.UPDATE_ONCE
+			globe_material.set_shader_parameter("select_on", 1.0)
 			return
 	highlight.visible = false
+	globe_material.set_shader_parameter("select_on", 0.0)
 
 func zoom_by(factor: float) -> void:
-	distance = clampf(distance / factor, 1.55, 5.0)
+	distance = clampf(distance / factor, 1.55, 5.2)
 	apply_rotation()
 
 func _process(delta: float) -> void:
@@ -192,6 +284,7 @@ func _process(delta: float) -> void:
 		return
 	clouds += delta * 0.0028
 	globe_material.set_shader_parameter("cloud_shift", clouds)
+	cloud_material.set_shader_parameter("cloud_shift", clouds)
 	idle += delta
 	if not dragging:
 		lon0 -= velocity.x * delta
@@ -201,7 +294,7 @@ func _process(delta: float) -> void:
 			lon0 += 4.5 * delta
 	apply_rotation()
 	if is_instance_valid(player_marker):
-		player_marker.scale = Vector3.ONE * (1.0 + 0.35 * sin(Time.get_ticks_msec() / 220.0))
+		player_marker.scale = Vector3.ONE * (1.0 + 0.3 * sin(Time.get_ticks_msec() / 220.0))
 
 func degrees_per_pixel() -> float:
 	return 52.0 / maxf(size.y, 1.0) * (distance / 3.1)
