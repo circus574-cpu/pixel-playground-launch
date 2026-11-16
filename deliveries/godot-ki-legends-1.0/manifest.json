@@ -1,0 +1,22 @@
+{
+  "format": "ki-godot-pyra-delivery-1",
+  "scope": "KI LEGENDS 1.0: the one installation. Later versions (1.1, 1.2, ...) are content releases on the server that the installed game downloads and applies itself. Contains the owner's Polish entry film, logo icon, the peaceful animals with the owner's art (all 10) and the food icons, food system, labyrinths, story, combat feel; slim online APK; stored in Git LFS. Supersedes the 0.x test deliveries.",
+  "engine": "Godot 4.6.3",
+  "version": "1.0",
+  "versionCode": 100,
+  "androidPackage": "pl.kilegends.godot.pyra",
+  "applicationLabel": "KI LEGENDS",
+  "signing": "local debug certificate (same as earlier deliveries), APK Signature Scheme v2 and v3 verified",
+  "artifacts": {
+    "deliveries/godot-ki-legends-1.0/ki-legends-1.0.apk": {
+      "bytes": 81750937,
+      "sha256": "40d74f6e86f8dd429d71c59d970373a4a36584c8307219f60dd0dc0bd1611386"
+    }
+  },
+  "contentRelease": "deliveries/godot-content-1.0 (27 packs with core-c100, built, NOT published). Until it is published and activated the installed game uses the active release 2026.11.17.2: it works, without the animals (their sheets are not on the device).",
+  "defaultServer": "https://kilegends.pl (override: --server=URL, KI_SERVER, user://server.json)",
+  "tests": "tests/smoke.gd 533/533 headless; scripts/godot/e2e_core.py (core-c100)",
+  "production": "Server side unchanged since the release 2026.11.17.2 was published.",
+  "physicalDeviceTest": "Not performed",
+  "documentation": "ports/godot-pyra/README.md (Wersje i aktualizacje)"
+}

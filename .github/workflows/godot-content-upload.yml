@@ -11,7 +11,7 @@ on:
       version:
         description: Content version folder under deliveries/godot-content-<version>
         required: true
-        default: "2026.11.17.2"
+        default: "1.0"
       publish:
         description: Also put the packs on the app's content volume and register the release in the database
         type: boolean

@@ -66,6 +66,9 @@ func run() -> void:
 	var boot_script: GDScript = load("res://scripts/boot.gd")
 	verify(entry_path == "res://scenes/boot.tscn", "the app starts in the boot scene that brings the game's code up to date")
 	verify(int(config.get_value("preset.0.options", "version/code", 0)) == int(boot_script.CLIENT_CODE) and int(boot_script.CLIENT_CODE) == KiNet.CLIENT_CODE, "boot, KiNet and the Android preset name the same versionCode")
+	var title_script: GDScript = load("res://scripts/title_screen.gd")
+	verify(str(ProjectSettings.get_setting("application/config/version", "")) == "1.0" and str(config.get_value("preset.0.options", "version/name", "")) == "1.0", "the installed app is version 1.0")
+	verify(title_script.shown_version('{"manifest":{"version":"1.2"}}') == "1.2" and title_script.shown_version('{"manifest":{"version":"2026.11.17.2"}}') == "1.0" and title_script.shown_version("not json") == "1.0", "the player sees the version of the downloaded release (1.1, 1.2, ...), the app version otherwise")
 	var bt_offer := {"file": "core-c13-aaaaaaaaaaaa.pck", "bytes": 5, "sha256": "x"}
 	var bt_new: Dictionary = boot_script.decide(boot_script.empty_state(), bt_offer, true, false)
 	verify(bt_new.download and bt_new.target == "core-c13-aaaaaaaaaaaa.pck" and bt_new.give_up == "", "a core the device does not have is downloaded")

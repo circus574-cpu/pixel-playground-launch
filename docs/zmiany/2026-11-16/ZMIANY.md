@@ -391,3 +391,15 @@ Zlecenie właściciela: dostarczone logo ma być ikoną aplikacji, a film (10 s,
 - **Kontrole.** `tests/smoke.gd` **530/530** (film i klatka są w grze, głośność, reguła startu po filmie), `scripts/godot/e2e_core.py` 11/11 na nowej scenie startowej, test natywny `tests/qa_intro.gd` (zrzuty ekranu).
   Dostawa 0.12.2-polski (kod 14) została zastąpiona przez 0.12.3-zwierzeta (poniżej); poprzednie wersje są w historii Git.
 
+### 19. Android / Godot 1.0: jedna instalacja, kolejne wersje z serwera
+
+Decyzja właściciela: APK ma wersję **1.0 „KI LEGENDS”**, a każda kolejna wersja (1.1, 1.2, 1.3…) nadpisuje ją po pobraniu z serwera, bez nowego APK.
+
+- **Zasada.** APK 1.0 (`versionCode` 100, `versionName` 1.0) jest instalowany raz. Kod gry (`core-c100`: skrypty, sceny, dane JSON), grafiki, muzyka i mapy jadą w wydaniach treści o numerach 1.1, 1.2, … (`build_packs.py build --version 1.1`);
+  klucz rdzenia `core-c100` zostaje stały, więc każde kolejne wydanie dostaje ten sam klucz i zainstalowana gra bierze je sama przy starcie. Nowy APK jest potrzebny tylko, gdy zmienia się coś, czego serwer nie dostarcza:
+  film wejściowy, ikona aplikacji, ikony przedmiotów, silnik/natywne ustawienia, nowa `class_name`. Wtedy dopiero nowy numer (np. APK 2.0, `versionCode` 200).
+- **Numer na ekranie.** Ekran startowy pokazuje „KI LEGENDS 1.0”; po pobraniu wydania numer zmienia się na numer pobranego wydania (`PyraTitleScreen.shown_version`, tylko numery postaci `X.Y`).
+- **Wydanie 1.0** (`deliveries/godot-content-1.0`, 27 paczek, `core-c100`; zbudowane, **nieopublikowane**) zawiera m.in. grafiki 10 zwierząt. APK: `deliveries/godot-ki-legends-1.0`.
+  Poprzednie dostawy robocze (0.12.x, wydanie 2026.11.17.3) zastąpiono; historia Git zostaje.
+- **Kontrole.** `tests/smoke.gd` **533/533** (m.in. wersja 1.0 w aplikacji i w ustawieniach eksportu, wybór numeru do pokazania), `scripts/godot/e2e_core.py` (klucz `core-c100`).
+

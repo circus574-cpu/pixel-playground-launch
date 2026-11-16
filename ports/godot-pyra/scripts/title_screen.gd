@@ -11,6 +11,7 @@ var status := Label.new()
 var title := Label.new()
 var powered := TextureRect.new()
 var powered_caption := Label.new()
+var version_label := Label.new()
 var content := VBoxContainer.new()
 var safe_root := Control.new()
 var active_pointer := -1
@@ -88,11 +89,32 @@ func _ready() -> void:
 	powered_caption.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.02, 0.95))
 	powered_caption.add_theme_constant_override("outline_size", 5)
 	safe_root.add_child(powered_caption)
+	version_label.text = "KI LEGENDS  " + shown_version()
+	version_label.add_theme_font_size_override("font_size", 14)
+	version_label.add_theme_color_override("font_color", Color("d6e0dc"))
+	version_label.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.02, 0.95))
+	version_label.add_theme_constant_override("outline_size", 5)
+	version_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	safe_root.add_child(version_label)
 	resized.connect(_layout)
 	_layout()
 	if Engine.has_meta("ki_autostart"):
 		Engine.remove_meta("ki_autostart")   # set by scripts/boot.gd after the entry film said "touch to start"
 		start_city.call_deferred()
+
+## The version the player sees: 1.0 is the installed app; every release published on the server (1.1, 1.2, ...) is an update of the game that the app downloads
+## by itself, and the number of the downloaded release replaces it. `manifest_text` is the stored manifest of the last release (tests pass their own).
+static func shown_version(manifest_text: String = "") -> String:
+	var app_version := str(ProjectSettings.get_setting("application/config/version", "1.0"))
+	if manifest_text == "" and FileAccess.file_exists(PyraContent.MANIFEST_PATH):
+		manifest_text = FileAccess.get_file_as_string(PyraContent.MANIFEST_PATH)
+	var value: Variant = JSON.parse_string(manifest_text) if manifest_text != "" else null
+	if value is Dictionary and (value as Dictionary).get("manifest") is Dictionary:
+		var release := str(((value as Dictionary).manifest as Dictionary).get("version", ""))
+		var parts := release.split(".")
+		if parts.size() == 2 and parts[0].is_valid_int() and parts[1].is_valid_int():
+			return release
+	return app_version
 
 func _layout() -> void:
 	var area := Rect2(Vector2.ZERO, size)
@@ -110,6 +132,8 @@ func _layout() -> void:
 	powered_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	powered_caption.position = Vector2(area.size.x - 336, powered.position.y - 22)
 	powered_caption.size = Vector2(320, 20)
+	version_label.position = Vector2(16, area.size.y - 30)
+	version_label.size = Vector2(320, 20)
 	content.size = Vector2(minf(560, area.size.x - 360), 120)
 	content.position = Vector2((area.size.x - content.size.x) / 2, area.size.y - content.size.y - 26)
 

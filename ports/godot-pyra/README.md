@@ -430,3 +430,10 @@ sesji do `~/.local/share/ki-legends-godot/`.
 
 Pracować na osobnych gałęziach; bez scalenia, publikacji i zmian produkcji bez decyzji właściciela. Nie modyfikować
 infrastruktury GPU. Prawa do grafik pozostają według rejestru projektu; eksport do Godot nie nadaje nowych uprawnień.
+
+### Wersje i aktualizacje (od 1.0)
+
+Aplikacja ma wersję **1.0** (`versionCode` 100). Kolejne wersje (1.1, 1.2, …) są wydaniami treści na serwerze i nadpisują grę po pobraniu; APK instaluje się raz.
+Wydanie nowej wersji: `python3 scripts/godot/build_packs.py build --version 1.1` (paczki i `core-c100` do `deploy/godot-content/1.1`), kopia do `deliveries/godot-content-1.1`,
+workflow „Godot content packs to VPS (manual)” z `version=1.1`, `publish` i `activate` (za zgodą właściciela). Nowy APK tylko dla zmian spoza serwera (film, ikona, ikony przedmiotów, silnik, nowa `class_name`);
+wtedy nowy `versionCode` i klucz rdzenia (`core-c<kod>`), a `CLIENT_CODE` w `boot.gd` i `net.gd` oraz `version/code` w `export_presets.cfg` muszą się zgadzać (pilnuje tego smoke test).
