@@ -66,9 +66,9 @@ func run() -> void:
 	var boot_script: GDScript = load("res://scripts/boot.gd")
 	verify(entry_path == "res://scenes/boot.tscn", "the app starts in the boot scene that brings the game's code up to date")
 	verify(int(config.get_value("preset.0.options", "version/code", 0)) == int(boot_script.CLIENT_CODE) and int(boot_script.CLIENT_CODE) == KiNet.CLIENT_CODE, "boot, KiNet and the Android preset name the same versionCode")
-	var bt_offer := {"file": "core-c11-aaaaaaaaaaaa.pck", "bytes": 5, "sha256": "x"}
+	var bt_offer := {"file": "core-c12-aaaaaaaaaaaa.pck", "bytes": 5, "sha256": "x"}
 	var bt_new: Dictionary = boot_script.decide(boot_script.empty_state(), bt_offer, true, false)
-	verify(bt_new.download and bt_new.target == "core-c11-aaaaaaaaaaaa.pck" and bt_new.give_up == "", "a core the device does not have is downloaded")
+	verify(bt_new.download and bt_new.target == "core-c12-aaaaaaaaaaaa.pck" and bt_new.give_up == "", "a core the device does not have is downloaded")
 	var bt_held: Dictionary = boot_script.read_state(JSON.stringify({"file": bt_offer.file, "sha256": "x", "bytes": 5, "good": bt_offer.file, "attempts": 0, "bad": []}))
 	var bt_same: Dictionary = boot_script.decide(bt_held, bt_offer, true, true)
 	verify(not bt_same.download and bt_same.target == bt_offer.file, "a core that is already on the device is mounted without downloading")
@@ -80,12 +80,30 @@ func run() -> void:
 	var bt_loop: Dictionary = boot_script.read_state(JSON.stringify({"file": bt_offer.file, "sha256": "x", "bytes": 5, "good": "", "attempts": 3, "bad": []}))
 	var bt_give: Dictionary = boot_script.decide(bt_loop, {}, false, true)
 	verify(bt_give.target == "" and bt_give.give_up == bt_offer.file, "a core that never reached the first city in three launches is given up")
-	verify(boot_script.decide(bt_loop, {"file": "core-c11-bbbbbbbbbbbb.pck"}, true, true).download, "a newer core replaces a given-up one")
+	verify(boot_script.decide(bt_loop, {"file": "core-c12-bbbbbbbbbbbb.pck"}, true, true).download, "a newer core replaces a given-up one")
 	bt_loop.good = bt_offer.file
 	verify(boot_script.decide(bt_loop, {}, false, true).target == bt_offer.file, "a core that has proven itself is not given up")
 	var bt_note: Dictionary = boot_script.note_launch(boot_script.empty_state(), bt_offer.file, "x", 5)
 	verify(bt_note.attempts == 1 and bt_note.good == "" and boot_script.note_launch(bt_note, bt_offer.file, "x", 5).attempts == 2 and boot_script.note_launch(bt_held, bt_offer.file, "x", 5).attempts == 0, "launches of an unproven core are counted; a proven one is not")
 	verify(boot_script.script_names(PackedStringArray(["a.gd.remap", "b.gdc", "c.gd", "d.tscn.remap", "a.gd", "e.uid"])) == ["a.gd", "b.gd", "c.gd"], "script names are read from an export listing, a pack listing and the editor")
+	var bt_film: Variant = load("res://assets/branding/intro.ogv")
+	var bt_last: Variant = load("res://assets/branding/intro-last.webp")
+	verify(bt_film is VideoStream and bt_last is Texture2D and (bt_last as Texture2D).get_size() == Vector2(1280.0, 720.0), "the entry film and its last frame are in the game")
+	verify(boot_script.intro_volume() >= 0.0 and boot_script.intro_volume() <= 1.0, "the film's volume follows the music setting")
+	var bt_node: Control = load("res://scenes/boot.tscn").instantiate()
+	var bt_steps: Array[bool] = []
+	bt_steps.append(bt_node.may_start())                          # nothing done yet
+	bt_node.work_done = true
+	bt_steps.append(bt_node.may_start())                          # no film: nothing to wait for
+	bt_node.intro_started = true
+	bt_node.intro_over = false
+	bt_steps.append(bt_node.may_start())                          # the film is playing
+	bt_node.intro_over = true
+	bt_steps.append(bt_node.may_start())                          # it ended, nobody touched yet
+	bt_node.touched = true
+	bt_steps.append(bt_node.may_start())                          # touched: go
+	verify(bt_steps == [false, true, false, false, true], "the game starts after the film only when the work is done and the player has touched the screen", bt_steps)
+	bt_node.free()
 	for viewport: Vector2i in [Vector2i(854,480),Vector2i(1280,720),Vector2i(1600,720)]:
 		root.size = viewport
 		await settle(5)

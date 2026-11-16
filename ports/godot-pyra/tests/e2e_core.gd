@@ -9,6 +9,7 @@ func _initialize() -> void:
 func run() -> void:
 	var boot: Control = load("res://scenes/boot.tscn").instantiate()
 	boot.set("change_scene", false)
+	boot.set("play_intro", false)
 	var box := {"done": false, "report": {}}
 	boot.connect("finished", func(report: Dictionary) -> void:
 		box.report = report

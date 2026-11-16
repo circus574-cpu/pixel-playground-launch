@@ -1,0 +1,23 @@
+{
+  "format": "ki-godot-pyra-delivery-1",
+  "scope": "owner's logo as the app icon (legacy, adaptive and monochrome layers) and the owner's 10 s intro film as the entry animation (plays at launch, touch skips it, 'touch to start' leads straight into the game); self-updating build (core pack), food system, peaceful animals (data and behaviour, no art yet), labyrinths, story, combat feel; slim online APK; the APK is stored in Git LFS",
+  "engine": "Godot 4.6.3",
+  "version": "0.12.0-intro",
+  "versionCode": 12,
+  "androidPackage": "pl.kilegends.godot.pyra",
+  "applicationLabel": "KI LEGENDS",
+  "signing": "local debug certificate (same as earlier deliveries), APK Signature Scheme v2 and v3 verified",
+  "artifacts": {
+    "deliveries/godot-pyra-android-20261116-intro/ki-legends-godot-debug.apk": {
+      "bytes": 82522971,
+      "sha256": "f13f4dd270d451a1109abfb426829cd88d840aa79f6f7cfdcab2e50a29a79be2"
+    }
+  },
+  "contentRelease": "works with the active release 2026.11.17.2 (the 26 land packs are unchanged; the APK uses its own built-in code because the release carries no core-c12). Build a release with `build_packs.py build` to publish a core for this APK.",
+  "defaultServer": "https://kilegends.pl (override: --server=URL, KI_SERVER, user://server.json)",
+  "tests": "tests/smoke.gd 530/530 headless; scripts/godot/e2e_core.py 11/11 (real exported base, fake server); the film was played natively (xvfb, software GL; tests/qa_intro.gd) and rendered correctly",
+  "production": "Server side unchanged since the release 2026.11.17.2 was published.",
+  "physicalDeviceTest": "Not performed: playback speed of the 720p Theora film on real phones is not measured",
+  "previousDelivery": "deliveries/godot-pyra-android-20261116-updates",
+  "documentation": "ports/godot-pyra/README.md"
+}

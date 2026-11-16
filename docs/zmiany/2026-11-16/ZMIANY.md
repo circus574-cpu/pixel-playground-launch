@@ -368,3 +368,19 @@ Zlecenie właściciela: zwierzęta, które nie atakują i dają jedzenie; jedzen
 - **Nie zrobione:** grafika 10 zwierząt i ikony 10 produktów (brak wygenerowanych zasobów, zastępczych nie wstawiałem), dźwięki zwierząt. Do tego czasu zwierzęta nie pojawiają się w grze.
   Zmiana nie jest wydana graczom: dojdzie przez rdzeń z serwera po opublikowaniu nowego wydania treści (za zgodą właściciela).
 
+### 18. Android / Godot 0.12.0-intro: ikona z logo i film wejściowy właściciela
+
+Zlecenie właściciela: dostarczone logo ma być ikoną aplikacji, a film (10 s, 1280×720, 24 kl./s, dźwięk) animacją wejścia i ładowania gry.
+
+- **Ikona.** Logo (1254²) jest ikoną dla wszystkich warstw Androida: `icon.png` (cały obraz), `icon-foreground.png` (logo na 78 % pola, żeby całe godło mieściło się w kole 66 % pokazywanym przez launcher),
+  `icon-background.png` (rozmyte kolory tego samego logo) i `icon-monochrome.png` (jasne części godła jako biała sylwetka, dla ikon motywowanych). Wygląd w kole sprawdzony na podglądzie; **nie sprawdzono na telefonie**
+  (launchery różnie maskują ikony). Ekran startowy systemu (boot splash) nie został zmieniony.
+- **Film.** Godot odtwarza tylko Ogg Theora, więc film zamieniono na `intro.ogv` (libtheora q7, Vorbis; 10,05 MB; podobieństwo do oryginału SSIM 0,975) i zapisano ostatnią klatkę (`intro-last.webp`).
+  Odtwarza go scena startowa (`boot.gd`): pełny ekran z dopasowaniem „cover” (na bardzo szerokich telefonach przycina górę i dół obrazu), dźwięk wg głośności muzyki z ustawień (domyślnie 48 %),
+  dotknięcie po 0,8 s pomija film, po jego końcu zostaje ostatnia klatka z napisem „TOUCH TO START” z filmu i dotknięcie uruchamia grę bez drugiego przycisku; w tym czasie pod spodem trwa sprawdzanie aktualizacji
+  (mały pasek stanu u góry, a przy uszkodzonej aktualizacji komunikat). Bez filmu (headless, testy, brak pliku) wszystko działa jak wcześniej.
+- **Rozmiar i uwagi.** APK 82,5 MB (było 66,8 MB): film 10 MB i grafiki ikon. Film ma w sobie wklejony pasek „LOADING” i napis „TOUCH TO START” po angielsku; pasek nie odzwierciedla prawdziwego ładowania, tylko zdarzenia
+  filmu. Wydajność odtwarzania 720p Theora na prawdziwych telefonach nie była mierzona (test natywny w programowym renderze: obraz poprawny, odtwarzanie wolniejsze niż czas rzeczywisty z powodu emulacji GPU).
+- **Kontrole.** `tests/smoke.gd` **530/530** (film i klatka są w grze, głośność, reguła startu po filmie), `scripts/godot/e2e_core.py` 11/11 na nowej scenie startowej, test natywny `tests/qa_intro.gd` (zrzuty ekranu).
+  Dostawa: `deliveries/godot-pyra-android-20261116-intro` (wersja 0.12.0-intro, kod 12).
+

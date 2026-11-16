@@ -90,6 +90,9 @@ func _ready() -> void:
 	safe_root.add_child(powered_caption)
 	resized.connect(_layout)
 	_layout()
+	if Engine.has_meta("ki_autostart"):
+		Engine.remove_meta("ki_autostart")   # set by scripts/boot.gd after the entry film said "touch to start"
+		start_city.call_deferred()
 
 func _layout() -> void:
 	var area := Rect2(Vector2.ZERO, size)
