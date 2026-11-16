@@ -32,7 +32,7 @@ func run() -> void:
 	var password := OS.get_environment("E2E_PASSWORD")
 	check(not PyraContent.embedded(), "the slim base carries no land data itself")
 	check(not FileAccess.file_exists("res://data/lands/pyra/land.json"), "land data is not in the base")
-	var landing: PyraTitleScreen = load(ProjectSettings.get_setting("application/run/main_scene")).instantiate()
+	var landing: PyraTitleScreen = load("res://scenes/title.tscn").instantiate()
 	root.add_child(landing)
 	for i in 5:
 		await process_frame
@@ -63,6 +63,7 @@ func run() -> void:
 		print("E2E DONE failures=", failures + 1)
 		quit(1)
 		return
+	game.skip_intro = true
 	for i in 20:
 		await process_frame
 	game.start_new_character("legend")

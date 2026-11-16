@@ -23,7 +23,7 @@ func run() -> void:
 			output = args[i + 1]
 	DirAccess.make_dir_recursive_absolute(output)
 	root.size = Vector2i(1280, 720)
-	var landing: PyraTitleScreen = load(ProjectSettings.get_setting("application/run/main_scene")).instantiate()
+	var landing: PyraTitleScreen = load("res://scenes/title.tscn").instantiate()
 	root.add_child(landing)
 	for i in 5:
 		await process_frame
@@ -32,6 +32,7 @@ func run() -> void:
 	while is_instance_valid(landing) and Time.get_ticks_msec() < deadline:
 		await process_frame
 	game = root.get_children().filter(func(n): return n is PyraGame)[0]
+	game.skip_intro = true
 	for i in 10:
 		await process_frame
 	game.start_new_character("legend")

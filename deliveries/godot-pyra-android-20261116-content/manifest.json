@@ -1,0 +1,23 @@
+{
+  "format": "ki-godot-pyra-delivery-1",
+  "scope": "content build: labyrinths and cave entrances, story introduction and tutorial, resident conversations, combat feel and all hero animations, item comparison/sets/bulk trade/bulk crafting; slim online APK, world content comes from the server; the APK is stored in Git LFS",
+  "engine": "Godot 4.6.3",
+  "version": "0.10.0-content",
+  "versionCode": 10,
+  "androidPackage": "pl.kilegends.godot.pyra",
+  "applicationLabel": "KI LEGENDS",
+  "signing": "local debug certificate (same as earlier deliveries), APK Signature Scheme v2 and v3 verified",
+  "artifacts": {
+    "deliveries/godot-pyra-android-20261116-content/ki-legends-godot-debug.apk": {
+      "bytes": 66781191,
+      "sha256": "269f11772d624780536d95cd6cf0126de714fc0380a99401aac08c91720e7af4"
+    }
+  },
+  "contentRelease": "deliveries/godot-content-2026.11.17.1 (26 packs, unchanged: the rebuilt packs have the same SHA-256 as the published release, so this APK uses the release that is already active on the server; manifest.json sha256 30d5d430bc84108878a06c2ebb243e445a3cab6e694240bd598228aeae02abfd)",
+  "defaultServer": "https://kilegends.pl (override: --server=URL, KI_SERVER, user://server.json)",
+  "tests": "tests/smoke.gd 489/489 headless; scripts/godot/e2e_online.py all PASS (slim base PCK 40.3 MB against the real server and PostgreSQL); local web gate (typecheck, lint, 2195 tests, assets, docs, build) passed before the merge",
+  "production": "Server side is live since 2026-11-16 (PR #171, migration 007, volume godot-content, release 2026.11.17.1 active). This APK needs no new content release.",
+  "physicalDeviceTest": "Not performed",
+  "previousDelivery": "deliveries/godot-pyra-android-20261117-online",
+  "documentation": "ports/godot-pyra/README.md#2a-gra-online-konta-chmura-treść-z-serwera-panel-administratora"
+}

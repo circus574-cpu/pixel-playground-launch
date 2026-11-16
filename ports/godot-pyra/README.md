@@ -173,6 +173,31 @@ bez danych krain) loguje się, pobiera i podpina paczki, buduje miasto Pyry, zap
 zrzuty `docs/zmiany/2026-11-16/qa/admin-android/`). **Nie sprawdzone:** telefon (pobieranie w sieci komórkowej, pamięć, bateria), prawdziwa domena/TLS,
 obciążenie wielu graczy.
 
+## 2b. Aktualizacje z poziomu gry: kod i dane z serwera, bez nowego APK
+
+Pierwsza scena aplikacji to `scenes/boot.tscn` (`scripts/boot.gd`). APK niesie kompletną grę (działa offline w wersji, z której
+powstał), ale przy każdym starcie pyta serwer o **pakiet rdzenia** `core-c<versionCode>`: skrypty, sceny, shadery i dane zasad
+(JSON) nowszej wersji (ok. 2,2 MB). Pakiet jest pobierany raz, sprawdzany (rozmiar i SHA-256), zapisany w `user://content` i
+montowany **nad plikami APK, zanim cokolwiek z gry zostanie wczytane**. Dzięki temu zmiana gry dociera do gracza z poziomu gry.
+Paczki krain (świat, potwory, NPC, muzyka) działały tak od początku.
+
+- **Co się aktualizuje bez APK:** cała logika (`scripts/*.gd`), sceny, shadery, dane zasad (`data/*.json`, `data/races/*.json`) i, jak dotąd, treść krain.
+- **Co wymaga nowego APK:** silnik Godot, uprawnienia i ustawienia projektu (`project.godot`, `export_presets.cfg`), ikona, natywne dodatki. Wtedy podbij
+  `version/code` (oraz `KiNet.CLIENT_CODE` i `Boot.CLIENT_CODE`; test sprawdza ich zgodność) i ustaw w panelu minimalną wersję klienta.
+- **Zasada dla nowego kodu:** nowy plik `.gd` w rdzeniu ładuj po ścieżce (`const X := preload("res://scripts/x.gd")`), nie po `class_name` —
+  lista klas globalnych jest zapisana w APK i nowa nazwa klasy nie jest widoczna (sprawdzone doświadczalnie). Zmiana istniejących plików i ich `class_name` działa.
+- **Bezpieczeństwo.** Rdzeń, który się nie wczyta lub którego skrypty się nie kompilują (boot ładuje wszystkie od razu), trafia na listę „złych” i po
+  ponownym uruchomieniu działa kod z APK; rdzeń, który w trzech uruchomieniach nie dotarł do pierwszej krainy (`KiNet.core_ok()` w `city_game.gd`), jest
+  porzucany. Zamontowanej paczki nie da się odmontować, więc naprawa wymaga ponownego uruchomienia aplikacji. Cofnięcie po stronie serwera: aktywuj
+  poprzednie wydanie w `/admin`. Stan: `user://core.json`.
+- **Publikacja.** `python3 scripts/godot/build_packs.py build --version V` buduje też rdzeń (`core-c<kod>-<hash>.pck`, wpis w manifeście bez przypisania do krainy);
+  skopiuj wynik do `deliveries/godot-content-V` (Git LFS) i uruchom workflow **„Godot content packs to VPS (manual)”** z `publish` i `activate`:
+  weryfikuje sumy, kopiuje na serwer, rejestruje wydanie i aktywuje je. Klienci dostają je przy następnym uruchomieniu gry. Wydanie bez zmian
+  w paczkach krain przenosi tylko zmieniony rdzeń po stronie gracza (pobranie ok. 2 MB).
+- **Test:** `python3 scripts/godot/e2e_core.py` (bez bazy): eksportuje prawdziwą bazę Androida, serwuje atrapę manifestu i paczek i uruchamia aplikację 10 razy
+  jak gracz restartujący grę (brak rdzenia, pełny rdzeń repozytorium, nowszy rdzeń zmieniający stałą w kodzie, serwer niedostępny, rdzeń niekompilujący się,
+  ten sam zły rdzeń ponownie, powrót do dobrego, porzucenie rdzenia bez „potwierdzenia”). Reguły decyzji: `tests/smoke.gd` (sekcja „boot”).
+
 ## 3. Uruchomienie w edytorze
 
 Godot **4.6.3 Standard** (bez .NET). Zaimportuj `ports/godot-pyra/project.godot`, poczekaj na import, F5.
@@ -190,7 +215,9 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | `scripts/cached_layer.gd`, `scripts/hud.gd`, `scripts/touch_controls.gd` | HUD i przyciski dotykowe rysowane do przezroczystego SubViewport w rozdzielczości urządzenia, odświeżane tylko po zmianie stanu (2 quady w spoczynku) |
 | `scripts/quest_engine.gd` | Silnik questów (port `src/game/quests`): stan, cele, nagrody, znaczniki NPC, rozmowy, tracker, zapis |
 | `scripts/boss_script.gd`, `data/bosses.json` | Mechaniki ośmiu bossów (filary, pierścień areny, bezpieczne kręgi, przegrzanie, bariera, regeneracja) i dane katalogu |
-| `scripts/dungeon.gd`, `data/dungeons.json`, `assets/dungeon/` | Jaskinie: generator labiryntu i zawartości (klucz, krata, skrzynie, strażnicy, kolce), dane wejść, 12 grafik `dungeon-kit` |
+| `scripts/dungeon.gd`, `data/dungeons.json`, `assets/dungeon/` | Jaskinie: 22 nazwane wejścia (tunele łączące dwie krainy, komory, Wielki Labirynt na 3 piętra), generator układu i zawartości (klucz, krata, skrzynie, strażnicy, kolce, sekretna komora, inskrypcje), schody między piętrami, automapa w okrągłym oknie, dane wejść z `prepare_dungeons.py`, 12 grafik `dungeon-kit` |
+| `scripts/story.gd`, `scripts/story_screen.gd`, `data/talk.json` | Fabuła: wprowadzenie 5 stron na rasę (dwie o Ciszy, trzy własne), samouczek 8 kroków z nagrodą 40 monet, 8 tematów rozmowy u każdego mieszkańca (3 z jego fachu, 5 o świecie), uwagi o czynach bohatera; tekst z `prepare_talk.py`, postęp w zapisie (`story`) |
+| `scripts/target_ring.gd` | Pierścień pod celem walki (obracające się łuki, szerszy dla bossów) |
 | `scripts/world_events.gd` | 14 wydarzeń świata: miejsca, stwory, rekwizyty, nagrody, odnowa, zapis |
 | `scripts/ambient_fx.gd` | Płomienie, dym, para, żar i iskry nad scenerią (wyłączane poza ekranem) |
 | `scripts/net.gd`, `online.gd`, `content.gd`, `gate_screen.gd`, `remote_players.gd`, `chat_panel.gd` | Klient online: węzeł zbiorczy (`KiNet`), konto i zapisy w chmurze i obecność, paczki treści, ekran logowania/pobierania, duchy graczy, czat |
@@ -202,7 +229,7 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | `scripts/actor_view.gd` | Animacje: arkusze NPC i przycięte ramki atlasu bohatera; `HERO_SCALE = 1.15` |
 | `scripts/race_kit.gd`, `legend_kit.gd`, `planetary_kit.gd`, `sage_kit.gd`, `android_kit.gd`, `race_kits.gd` | Wspólna baza zasad (statystyki 1–20, drzewko, rangi, odnowienia, buffy, tarcze, kręgi, kanały) i cztery rasy (porty `src/game/kit/*.ts` + `base.ts`) |
 | `scripts/race_screen.gd` | Wybór rasy: cztery karty z portretami, opisem i statystykami |
-| `scripts/foe_dummy.gd`, `scripts/fx.gd` | Manekin treningowy, efekty cięć/wybuchów/aur, liczby obrażeń |
+| `scripts/foe_dummy.gd`, `scripts/fx.gd` | Manekin treningowy, efekty cięć/wybuchów/aur, liczby obrażeń w siedmiu stylach (zwykły, krytyk, słabość, odporność, rana bohatera, leczenie, XP) i unoszące się napisy |
 | `scripts/touch_controls.gd`, `scripts/hud.gd` | Joystick, przyciski, paski HP/KI/zasób rasy, dialogi, bezpieczne marginesy ekranu |
 | `scripts/map_screen.gd`, `globe_view.gd`, `atlas_view.gd`, `continent_map_view.gd`, `map_math.gd` | Mapa: globus 3D, atlas 2D, mapa bieżącej krainy, przycisk PODRÓŻ; wspólna geometria i obrysy |
 | `scripts/character_screen.gd` | Ekran POSTAĆ: statystyki ze źródłami, **drzewko rasy z ilustrowanymi ikonami** (`assets/icons/skills/<rasa>/`), sloty, poziom próbny |
@@ -215,7 +242,8 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | `data/city.generated.json` | Stolica Pyry z pierwszej próby (układ, podłoga, pokoje) — nie edytować ręcznie |
 | `data/monsters.json`, `data/quests.json`, `data/lands/<id>/spawns.json` | Bestiariusz (statystyki, umiejętności, cechy, łup, klatki), katalog zadań z dialogami i miejscami, rejestr spawnów krainy |
 | `assets/audio/` | Muzyka (`music/`) i efekty (`sfx/`) skopiowane bez zmian (24 MB) |
-| `tests/smoke.gd` | 429 kontroli w prawdziwym silniku; `tests/qa_shots.gd` robi zrzuty jaskini, bossa, nocy i wydarzenia |
+| `scripts/boot.gd`, `scenes/boot.tscn` | Pierwsza scena: pobiera i montuje rdzeń z serwera przed startem gry (sekcja 2b) |
+| `tests/smoke.gd` | 502 kontroli w prawdziwym silniku; `tests/qa_shots.gd` robi zrzuty jaskini, bossa, nocy i wydarzenia |
 
 **Układ współrzędnych:** gra używa współrzędnych świata Superior (jak WWW). Układ stolicy z pierwszej próby jest
 przesunięty o `world.json.offset` = (44 564,29; 12 168,47).
@@ -304,8 +332,8 @@ godot --headless --path ports/godot-pyra --script res://tests/smoke.gd -- --fres
 xvfb-run -a -s '-screen 0 1600x900x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --audio-driver Dummy --path ports/godot-pyra --rendering-method gl_compatibility --script res://tests/smoke.gd -- --fresh --qa-output /tmp/pyra-native
 ```
 
-Na kodzie tej gałęzi: **429/429** kontroli w trybie headless (16.11.2026). Przebieg z natywnym renderowaniem (Mesa llvmpipe) był
-ostatnio wykonany przy 340 kontrolach i nie został powtórzony dla 429; zrzuty jaskini, bossa, nocy i wydarzenia powstały natywnie
+Na kodzie tej gałęzi: **502/502** kontroli w trybie headless (16.11.2026). Przebieg z natywnym renderowaniem (Mesa llvmpipe) był
+ostatnio wykonany przy 340 kontrolach i nie został powtórzony dla 502; zrzuty jaskini, bossa, nocy i wydarzenia powstały natywnie
 (`docs/zmiany/2026-11-16/qa/godot-late/`).
 Pokrycie: ekonomia (katalog 366/265/85, cena sklepu 4×, skup 50 %, wymagania poziomu, wpływ sprzętu, mikstura, crafting, depozyt,
 gospoda, zapis, cztery ekrany usług), rozmiar kontynentu, bezpieczny start, strumieniowanie, **+15 % bohatera**, kolizje,

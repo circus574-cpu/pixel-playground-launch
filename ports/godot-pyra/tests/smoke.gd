@@ -54,7 +54,7 @@ func run() -> void:
 			output = args[i+1]
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(output))
 	var entry_path: String = ProjectSettings.get_setting("application/run/main_scene")
-	var landing: PyraTitleScreen = load(entry_path).instantiate()
+	var landing: PyraTitleScreen = load("res://scenes/title.tscn").instantiate()
 	root.add_child(landing)
 	await settle(5)
 	verify(landing.intro.texture.resource_path == "res://assets/branding/intro-wide.webp" and landing.intro.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_COVERED and landing.powered_caption.text == "Powered by GODOT ENGINE" and landing.powered.texture.resource_path == "res://assets/branding/godot/logo-large-color-dark.svg", "entry scene fills the screen with the landscape key art (no bars, no distortion) and the Powered by GODOT credit with the official logo")
@@ -62,6 +62,30 @@ func run() -> void:
 	var config := ConfigFile.new()
 	config.load("res://export_presets.cfg")
 	verify(config.get_value("preset.0.options","launcher_icons/main_192x192","") == ProjectSettings.get_setting("application/config/icon"), "Android launcher and desktop use KI icon")
+	# ---- boot: the app updates its own code from the server (scripts/boot.gd) ---------------------------
+	var boot_script: GDScript = load("res://scripts/boot.gd")
+	verify(entry_path == "res://scenes/boot.tscn", "the app starts in the boot scene that brings the game's code up to date")
+	verify(int(config.get_value("preset.0.options", "version/code", 0)) == int(boot_script.CLIENT_CODE) and int(boot_script.CLIENT_CODE) == KiNet.CLIENT_CODE, "boot, KiNet and the Android preset name the same versionCode")
+	var bt_offer := {"file": "core-c11-aaaaaaaaaaaa.pck", "bytes": 5, "sha256": "x"}
+	var bt_new: Dictionary = boot_script.decide(boot_script.empty_state(), bt_offer, true, false)
+	verify(bt_new.download and bt_new.target == "core-c11-aaaaaaaaaaaa.pck" and bt_new.give_up == "", "a core the device does not have is downloaded")
+	var bt_held: Dictionary = boot_script.read_state(JSON.stringify({"file": bt_offer.file, "sha256": "x", "bytes": 5, "good": bt_offer.file, "attempts": 0, "bad": []}))
+	var bt_same: Dictionary = boot_script.decide(bt_held, bt_offer, true, true)
+	verify(not bt_same.download and bt_same.target == bt_offer.file, "a core that is already on the device is mounted without downloading")
+	verify(boot_script.decide(bt_held, bt_offer, true, false).download, "a held core whose file is gone is downloaded again")
+	verify(boot_script.decide(bt_held, {}, false, true).target == bt_offer.file and boot_script.decide(bt_held, {}, false, false).target == "", "without the server the held core runs; without a held core the APK's own code runs")
+	verify(boot_script.decide(bt_held, {}, true, true).target == "" and not boot_script.decide(bt_held, {}, true, true).download, "a release that carries no core runs the APK's own code")
+	var bt_bad: Dictionary = boot_script.read_state(JSON.stringify({"file": "", "bad": [bt_offer.file, 5]}))
+	verify(bt_bad.bad == [bt_offer.file] and boot_script.decide(bt_bad, bt_offer, true, false).target == "" and not boot_script.decide(bt_bad, bt_offer, true, false).download, "a core on the bad list is never taken again")
+	var bt_loop: Dictionary = boot_script.read_state(JSON.stringify({"file": bt_offer.file, "sha256": "x", "bytes": 5, "good": "", "attempts": 3, "bad": []}))
+	var bt_give: Dictionary = boot_script.decide(bt_loop, {}, false, true)
+	verify(bt_give.target == "" and bt_give.give_up == bt_offer.file, "a core that never reached the first city in three launches is given up")
+	verify(boot_script.decide(bt_loop, {"file": "core-c11-bbbbbbbbbbbb.pck"}, true, true).download, "a newer core replaces a given-up one")
+	bt_loop.good = bt_offer.file
+	verify(boot_script.decide(bt_loop, {}, false, true).target == bt_offer.file, "a core that has proven itself is not given up")
+	var bt_note: Dictionary = boot_script.note_launch(boot_script.empty_state(), bt_offer.file, "x", 5)
+	verify(bt_note.attempts == 1 and bt_note.good == "" and boot_script.note_launch(bt_note, bt_offer.file, "x", 5).attempts == 2 and boot_script.note_launch(bt_held, bt_offer.file, "x", 5).attempts == 0, "launches of an unproven core are counted; a proven one is not")
+	verify(boot_script.script_names(PackedStringArray(["a.gd.remap", "b.gdc", "c.gd", "d.tscn.remap", "a.gd", "e.uid"])) == ["a.gd", "b.gd", "c.gd"], "script names are read from an export listing, a pack listing and the editor")
 	for viewport: Vector2i in [Vector2i(854,480),Vector2i(1280,720),Vector2i(1600,720)]:
 		root.size = viewport
 		await settle(5)
@@ -91,6 +115,7 @@ func run() -> void:
 	if not is_instance_valid(game):
 		quit(1)
 		return
+	game.skip_intro = true
 	verify(game.hud.touch.move_pointer == -1 and game.player.touch_motion == Vector2.ZERO, "start touch is not inherited by city controls")
 	await settle(5)
 	# ---- continent -----------------------------------------------------------------------------
@@ -669,6 +694,7 @@ func run() -> void:
 	game.kit.next_basic_at = 0.0
 	var swing := game.kit.basic()
 	verify(swing.ok and weak.hp < hp_before, "the hero's basic attack hurts a monster", [hp_before, weak.hp])
+	verify(weak.recoil < 0.0 and absf(weak.recoil) <= 26.0 and weak.actor.position.x == 0.0, "a hit pushes the monster's sprite back without moving its body", weak.recoil)
 	for i in 60:
 		game.kit.next_basic_at = 0.0
 		game.kit.basic()
@@ -1328,6 +1354,235 @@ func run() -> void:
 	game.kit.hp = float(game.kit.stats().maxHp)
 
 	# ---- HUD layout -----------------------------------------------------------------------------------------
+	# ---- story: introduction, tutorial, topics, reactions ------------------------------------------
+	var st_data := PyraStory.data()
+	var st_intro_ok := true
+	for st_race in ["legend", "planetary", "sage", "android"]:
+		var st_tale := PyraStory.intro(st_race)
+		st_intro_ok = st_intro_ok and (st_tale.pages as Array).size() == 5 and str(st_tale.title) != "Superior"
+		for st_page in st_tale.pages:
+			st_intro_ok = st_intro_ok and str(st_page).length() > 80
+	verify(st_intro_ok, "every race has a five-page introduction (two on the Silence, three of its own)")
+	var st_topics_ok := true
+	var st_topic_count := 0
+	var st_topic_ids := {}
+	for st_world in ["pyra", "verdant", "aether", "nexus"]:
+		for st_role in ["guide", "hunter", "steward", "merchant", "trainer", "keeper", "smith", "innkeeper", "alchemist", "warden"]:
+			var st_list := PyraStory.topics(st_world, st_role)
+			st_topics_ok = st_topics_ok and st_list.size() == 8
+			for st_topic: Dictionary in st_list:
+				st_topics_ok = st_topics_ok and str(st_topic.text).length() > 60 and str(st_topic.label) != ""
+				st_topic_ids[st_topic.id] = true
+				st_topic_count += 1
+	verify(st_topics_ok and st_topic_count == 320 and st_topic_ids.size() == 10 * 3 + 4 * 5, "every resident of every world has eight subjects with real text (their trade and the five of the world)", st_topic_ids.size())
+	verify(PyraStory.reaction({}) == "" and PyraStory.reaction({"hurt": true, "boss": true}).contains("ranny") and PyraStory.reaction({"night": true}).contains("Noc"), "residents remark on the hero's state, the most urgent first")
+	var st_story := PyraStory.new()
+	st_story.intro_seen = true
+	verify(st_story.tutorial_active() and st_story.tracker().size() == 1 and (st_story.tracker()[0].lines as Array).size() == 3 and str(st_story.tracker()[0].title).contains("0/8"), "the tutorial lists the next three steps")
+	verify(st_story.note("move") and not st_story.note("move") and not st_story.note("nonsense") and (st_story.tracker()[0].lines as Array)[0] == "Porozmawiaj z mieszkańcem (E)", "a step is ticked once and unknown steps are ignored")
+	for st_step: Dictionary in PyraStory.STEPS:
+		st_story.note(str(st_step.id))
+	verify(st_story.tutorial_complete() and not st_story.tutorial_active() and st_story.tracker().is_empty() and st_story.claim_reward() and not st_story.claim_reward(), "finishing the tutorial pays the reward exactly once")
+	st_story.hear("w:pyra:cisza")
+	st_story.milestone("boss")
+	var st_copy := PyraStory.new()
+	st_copy.from_save(JSON.parse_string(JSON.stringify(st_story.to_save())))
+	verify(st_copy.intro_seen and st_copy.rewarded and st_copy.steps.size() == 8 and st_copy.heard("w:pyra:cisza") and st_copy.milestones.has("boss"), "story progress survives a save")
+	var st_old := PyraStory.new()
+	st_old.from_save(null)
+	verify(st_old.intro_seen and not st_old.tutorial_active(), "a save from before the story counts as already introduced")
+	var st_dirty := PyraStory.new()
+	st_dirty.from_save({"intro": true, "steps": ["move", 5, "x", "attack"], "talk": ["a", 3, "b".repeat(80)], "mile": ["boss", 7]})
+	verify(st_dirty.steps.size() == 2 and st_dirty.talk_seen.size() == 1 and st_dirty.milestones.size() == 1, "story progress read from a save is cleaned")
+	# in the game: a new hero is told the story, then walks the tutorial
+	game.skip_intro = false
+	game.story.reset()
+	game.hud.close_dialog()
+	game.play_intro()
+	await settle(3)
+	verify(game.screen is PyraStoryScreen and game.hud.visible == false, "a new hero first sees the story screen")
+	var st_view: PyraStoryScreen = game.screen
+	var st_pages := 1
+	st_view.advance()
+	verify(st_view.page_complete() and st_view.page_index == 0, "the first press completes the page text")
+	while st_view.page_index < st_view.pages.size() - 1:
+		st_view.advance()
+		st_view.advance()
+		st_pages += 1
+	verify(st_pages == 5 and st_view.next_button.text == "ZACZNIJ PRZYGODĘ", "the story is read page by page")
+	st_view.advance()
+	await settle(3)
+	game.skip_intro = true
+	verify(not is_instance_valid(game.screen) and game.story.intro_seen and game.story.tutorial_active() and game.hud.quests.size() >= 1 and str(game.hud.quests[0].title).begins_with("Pierwsze kroki"), "after the story the tutorial shows under the minimap")
+	var st_gold := game.economy.gold
+	for st_step: Dictionary in PyraStory.STEPS:
+		game.story.note(str(st_step.id))
+	await settle(2)
+	verify(game.economy.gold == st_gold + PyraStory.REWARD_GOLD and game.story.rewarded, "the tutorial reward is paid into the purse")
+	game.story.reset()
+	game.story.intro_seen = true
+	game.open_map()
+	await settle(2)
+	verify(game.story.steps.has("map"), "opening the map ticks its step")
+	game.close_screen()
+	game.player.position = spawn()
+	game.interact()
+	await settle(2)
+	verify(game.story.steps.has("talk") and game.hud.modal.visible and game.hud.modal_box.get_children().any(func(n: Node) -> bool: return n is Button and (n as Button).text == "ROZMOWA"), "talking to a resident ticks its step and offers the subjects")
+	game.hud.close_dialog()
+	game.open_topics("Testowa", "guide")
+	await settle(2)
+	verify(game.hud.modal.visible and game.hud.modal_box.get_children().filter(func(n: Node) -> bool: return n is Button and (n as Button).text != "ZAMKNIJ").size() == 8, "the subject list has eight entries")
+	game.story.hear("r:guide:start")
+	game.open_topics("Testowa", "guide")
+	await settle(2)
+	verify(game.story.heard("r:guide:start") and game.hud.modal_box.get_children().any(func(n: Node) -> bool: return n is Button and (n as Button).text.begins_with("(znane)")), "a subject that has been heard is marked")
+	# ---- combat feel: numbers, shake, hit-stop, hit clips, perfect dodge, animations -------------------
+	var cf_weak: Label = PyraFx.number(game.continent.sorted, game.player.position, 12, false, "weak")
+	var cf_hurt: Label = PyraFx.number(game.continent.sorted, game.player.position, 7, false, "hurt")
+	var cf_heal: Label = PyraFx.number(game.continent.sorted, game.player.position, 5, false, "heal")
+	var cf_crit: Label = PyraFx.number(game.continent.sorted, game.player.position, 30, true)
+	verify(cf_weak.text == "12!" and cf_weak.get_theme_color("font_color") == Color("ff9d3c") and cf_hurt.get_theme_color("font_color") == Color("ff5a4d") and cf_heal.text == "+5" and cf_crit.text == "30!" and cf_crit.get_theme_font_size("font_size") > cf_hurt.get_theme_font_size("font_size"), "damage numbers have their own looks: weakness, hurt, heal, crit")
+	verify([1, 2, 3, 4, 5, 6].map(func(n: int) -> String: return PyraGame.combo_clip(n)) == ["attack", "attack2", "finisher", "attack", "attack2", "finisher"], "basic strikes chain into a finisher every third blow")
+	game.add_shake(8.0)
+	await settle(1)
+	verify(game.camera.offset != Vector2.ZERO, "a heavy blow shakes the camera")
+	await create_timer(0.7).timeout
+	verify(game.camera.offset == Vector2.ZERO and game.shake == 0.0, "the shake dies down by itself")
+	game.hit_stop(0.05)
+	verify(Engine.time_scale < 0.5, "hit-stop slows the world for an instant")
+	await create_timer(0.3, true, false, true).timeout
+	verify(is_equal_approx(Engine.time_scale, 1.0) and not game.hit_stopping, "the clock is restored after hit-stop")
+	game.player.position = base + Vector2(300, 0)
+	game.kit.hp = float(game.kit.stats().maxHp)
+	game.heavy_until = 0.0
+	game.hurt_player(null, float(game.kit.stats().maxHp) * 0.5, "melee", [])
+	verify(game.player.visual.one_shot_clip.ends_with("hitheavy") and game.shake >= 9.0, "a heavy hit plays the heavy hit clip and shakes harder")
+	game.kit.hp = float(game.kit.stats().maxHp)
+	game.heavy_until = 0.0
+	game.shake = 0.0
+	game.hurt_player(null, 4.0, "melee", [])
+	verify(game.player.visual.one_shot_clip.ends_with("hit") and not game.player.visual.one_shot_clip.ends_with("hitheavy") and game.shake > 0.0 and game.shake < 9.0, "a light hit plays the light hit clip")
+	game.kit.hp = float(game.kit.stats().maxHp)
+	game.kit.next_dodge_at = 0.0
+	game.perfect_until = 0.0
+	var cf_ki: float = game.kit.ki
+	game.kit.ki = 0.0
+	game.player.locked = false
+	game.dodge()
+	game.hurt_player(null, 20.0, "melee", [])
+	verify(game.perfect_dodges == 1 and game.kit.ki > 0.0 and game.kit.hp == float(game.kit.stats().maxHp), "a blow that lands at the start of a dodge is a perfect dodge: no damage, ki back")
+	game.hurt_player(null, 20.0, "melee", [])
+	verify(game.perfect_dodges == 1, "a perfect dodge cannot be chained at once")
+	await create_timer(0.6, true, false, true).timeout
+	game.kit.ki = cf_ki
+	game.kit.clear_debuffs()
+	game.kit.hp = float(game.kit.stats().maxHp)
+	game.celebrate("TEST")
+	verify(game.player.visual.one_shot_clip.ends_with("victory"), "victory pose exists and plays")
+	await create_timer(1.3).timeout
+	game.player.visual.animate(Vector2(3.0, 0.0), true)
+	verify(game.player.visual.state == "run", "a full push plays the run clip", game.player.visual.state)
+	game.player.visual.animate(Vector2(3.0, 0.0), false)
+	verify(game.player.visual.state == "walk", "a gentle push plays the walk clip", game.player.visual.state)
+	game.kit.set_level(3)
+	game.hud.notice.text = ""
+	game.on_quest_reward(100000, 0, {}, "Test")
+	verify(game.kit.level > 3 and game.player.visual.one_shot_clip.ends_with("victory"), "gaining a level plays the victory pose")
+	var cf_ring := PyraTargetRing.new()
+	game.add_child(cf_ring)
+	verify(not cf_ring.visible, "the target ring starts hidden")
+	cf_ring.aim(Vector2(10.0, 20.0), 46.0, false)
+	verify(cf_ring.visible and cf_ring.position == Vector2(10.0, 20.0), "the target ring sits under the foe")
+	cf_ring.clear()
+	verify(not cf_ring.visible, "the target ring hides when the fight ends")
+	cf_ring.queue_free()
+	game.kit.set_level(10)
+	game.kit.hp = float(game.kit.stats().maxHp)
+	game.player.visual.one_shot_until = 0.0
+	game.hud.close_dialog()
+	game.story.reset()
+	game.story.from_save(null)
+	# ---- items: comparison, sets, totals, bulk trade, bulk craft ---------------------------------------
+	var it_eco: PyraEconomy = game.economy
+	var it_low := ""
+	var it_high := ""
+	var it_set_item := ""
+	var it_spare := ""
+	var it_needed := {}
+	for it_recipe: Dictionary in it_eco.recipes:
+		for it_ing: Dictionary in it_recipe.ingredients:
+			it_needed[str(it_ing.itemId)] = true
+	for it_id: String in it_eco.items:
+		var it_def: Dictionary = it_eco.items[it_id]
+		if it_eco.slot_of(it_id) == "weapon" and it_def.stats.has("atkBonus") and int(it_def.level) <= 5:
+			if it_low == "" or float(it_def.stats.atkBonus) < float(it_eco.items[it_low].stats.atkBonus):
+				it_low = it_id
+			if it_high == "" or float(it_def.stats.atkBonus) > float(it_eco.items[it_high].stats.atkBonus):
+				it_high = it_id
+		if it_set_item == "" and it_def.get("setId") != null and it_eco.slot_of(it_id) != "":
+			it_set_item = it_id
+		if it_spare == "" and str(it_def.category) == "material" and not it_needed.has(it_id):
+			it_spare = it_id
+	it_eco.equipment["weapon"] = it_low
+	var it_diff := it_eco.compare_lines(it_high)
+	verify(it_low != it_high and it_diff.size() > 0 and it_diff[0].contains("Atak +"), "a better weapon shows what it adds against the worn one", it_diff)
+	it_eco.equipment["weapon"] = it_high
+	verify(it_eco.compare_lines(it_low).any(func(l: String) -> bool: return l.contains("Atak −")) and it_eco.compare_lines(it_high).is_empty(), "a worse weapon shows what it takes away; the worn one shows nothing")
+	var it_sets := it_eco.set_lines(it_set_item)
+	verify(it_sets.size() >= 2 and it_sets[0].begins_with("Zestaw ") and it_sets[0].contains("założone 0 z") and it_sets[1].contains("cz.:"), "a set item lists its pieces and the bonus at each count", it_sets)
+	verify(it_eco.set_lines(it_low).is_empty() == (it_eco.items[it_low].get("setId") == null), "an item outside any set lists no set")
+	var it_totals := it_eco.bonus_lines()
+	verify(it_totals.size() > 0 and it_totals.any(func(l: String) -> bool: return l.begins_with("Atak +")), "the worn gear is summed into a bonus list", it_totals)
+	it_eco.equipment["weapon"] = ""
+	it_eco.bag = {}
+	it_eco.gold = 100
+	it_eco.add_item(it_spare, 5)
+	it_eco.add_item("zielone-ziele", 4)
+	verify(it_eco.spare_materials() == [it_spare] and it_eco.spare_value() == it_eco.sell_value(it_spare) * 5, "materials no recipe asks for are marked spare; recipe ingredients never are", it_eco.spare_materials())
+	var it_gold := it_eco.gold
+	verify(it_eco.sell_spare() == it_eco.sell_value(it_spare) * 5 and it_eco.gold == it_gold + it_eco.sell_value(it_spare) * 5 and it_eco.count(it_spare) == 0 and it_eco.count("zielone-ziele") == 4, "selling the spare materials keeps the ingredients")
+	it_eco.add_item("zielone-ziele", 4)
+	it_gold = it_eco.gold
+	verify(it_eco.sell_all("zielone-ziele") == it_eco.sell_value("zielone-ziele") * 8 and it_eco.count("zielone-ziele") == 0 and it_eco.gold > it_gold, "a whole stack sells in one go")
+	var it_recipe_potion: Dictionary = {}
+	for it_recipe: Dictionary in it_eco.recipes:
+		if str(it_recipe.id) == "rec-potion-basic":
+			it_recipe_potion = it_recipe
+	it_eco.level = 5
+	it_eco.bag = {"zielone-ziele": 10, "mchowa-galaretka": 5}
+	it_eco.gold = 100
+	var it_potions := it_eco.count("potion")
+	verify(it_eco.craftable_times(it_recipe_potion) == 5, "the recipe says how many times it can be made", it_eco.craftable_times(it_recipe_potion))
+	verify(it_eco.craft_many(it_recipe_potion, 3) == 3 and it_eco.count("potion") == it_potions + 6 and it_eco.count("zielone-ziele") == 4 and it_eco.gold == 85, "crafting in quantity spends ingredients and coins for each batch")
+	it_eco.bag = {}
+	verify(it_eco.craftable_times(it_recipe_potion) == 0, "nothing is craftable without ingredients")
+	it_eco.bag = {it_spare: 2}
+	game.open_items("shop", "Sklep")
+	await settle(2)
+	var it_screen: ItemsScreen = game.screen
+	it_screen.switch_tab(1)
+	await settle(1)
+	verify(it_screen.extra_box.get_children().any(func(n: Node) -> bool: return n is Button and (n as Button).text.begins_with("SPRZEDAJ NIEPOTRZEBNE")), "the sell tab offers to sell the spare materials at once")
+	game.close_screen()
+	it_eco.bag = {"zielone-ziele": 10, "mchowa-galaretka": 5}
+	it_eco.gold = 100
+	game.open_items("smithy", "Kuźnia")
+	await settle(2)
+	it_screen = game.screen
+	it_screen.switch_tab(1)
+	await settle(1)
+	var it_rows := it_screen.rows().size()
+	it_screen.toggle_ready()
+	await settle(1)
+	verify(it_screen.only_ready and it_screen.rows().size() < it_rows and it_screen.rows().size() >= 1, "the smithy can list only the recipes that can be made now", [it_rows, it_screen.rows().size()])
+	it_screen.select("rec-potion-basic")
+	await settle(1)
+	verify(it_screen.action_box.get_children().any(func(n: Node) -> bool: return n is Button and (n as Button).text == "WYTWÓRZ ×5"), "a recipe that can be made several times offers to make them together")
+	game.close_screen()
+	it_eco.bag = {"potion": 3}
+	it_eco.gold = 20
+	it_eco.level = game.kit.level
 	game.show_menu()
 	await settle()
 	verify(game.hud.modal.visible and game.player.locked, "menu suspends and clears input")

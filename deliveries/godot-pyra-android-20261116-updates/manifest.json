@@ -1,0 +1,23 @@
+{
+  "format": "ki-godot-pyra-delivery-1",
+  "scope": "self-updating build: the first scene downloads the game's code and rules data (core pack) from the server before the game starts, so later changes reach players from inside the game without a new APK; includes labyrinths, story introduction, conversations, combat feel, item and trade improvements; slim online APK, world content from the server; the APK is stored in Git LFS",
+  "engine": "Godot 4.6.3",
+  "version": "0.11.0-updates",
+  "versionCode": 11,
+  "androidPackage": "pl.kilegends.godot.pyra",
+  "applicationLabel": "KI LEGENDS",
+  "signing": "local debug certificate (same as earlier deliveries), APK Signature Scheme v2 and v3 verified",
+  "artifacts": {
+    "deliveries/godot-pyra-android-20261116-updates/ki-legends-godot-debug.apk": {
+      "bytes": 66793824,
+      "sha256": "228371489e72f500e99cf8ab49983fded25a9c93548d7c30fa407946c49a7c87"
+    }
+  },
+  "contentRelease": "deliveries/godot-content-2026.11.17.2 (27 packs: the 26 packs of 2026.11.17.1 unchanged + core-c11, the code of this build). The APK works with release 2026.11.17.1 (it uses its own built-in code); to enable in-game updates publish 2026.11.17.2 or a later release.",
+  "defaultServer": "https://kilegends.pl (override: --server=URL, KI_SERVER, user://server.json)",
+  "tests": "tests/smoke.gd 502/502 headless; scripts/godot/e2e_core.py 10/10 (real exported base, fake server); scripts/godot/e2e_online.py all PASS against the real server code and PostgreSQL",
+  "production": "Release 2026.11.17.2 is not published yet; it needs the owner's approval (merge of the workflow change and a run of the workflow with publish and activate).",
+  "physicalDeviceTest": "Not performed",
+  "previousDelivery": "deliveries/godot-pyra-android-20261116-content",
+  "documentation": "ports/godot-pyra/README.md#2b-aktualizacje-z-poziomu-gry-kod-i-dane-z-serwera-bez-nowego-apk"
+}
