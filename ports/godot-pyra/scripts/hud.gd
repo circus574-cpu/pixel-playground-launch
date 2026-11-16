@@ -1,5 +1,6 @@
 class_name PyraHud
 extends Control
+const Look := preload("res://scripts/look.gd")   # the look that can change with server updates (see look.gd)
 ## Full game HUD: character medallion with HP / KI / race-resource bars and buffs, location banner, target frame, round
 ## minimap painted from the land's own map, round menu buttons, quest tracker, toasts and a thin XP bar. The art is
 ## drawn procedurally; it is redrawn only when something it shows has changed (no per-frame redraw cost while idle).
@@ -61,6 +62,7 @@ var touch_layer := CachedLayer.new()
 var minimap_view := ColorRect.new()
 var minimap_material := ShaderMaterial.new()
 var cinzel: Font = load("res://assets/branding/cinzel-bold.ttf")
+var letters: Font = Look.title_font()   # the owner's gold letters for place names
 var body_font: Font = ThemeDB.fallback_font
 
 # layout (all rectangles in HUD coordinates)
@@ -94,7 +96,7 @@ var signature := ""
 var potion_count := 0
 
 func panel_style(_background: Color = Color.BLACK, _border: Color = Color.BLACK) -> StyleBox:
-	return PyraSkin.window()   # the stone window of the owner's frame art; the colours of the earlier flat look are no longer used
+	return Look.window()   # the stone window of the owner's frame art; the colours of the earlier flat look are no longer used
 
 func outlined(label: Label, size_px: int, color: Color) -> void:
 	label.add_theme_font_size_override("font_size", size_px)
@@ -508,14 +510,14 @@ func draw_banner(canvas: Control) -> void:
 	var parts := place.text.split(" · ")
 	var title := parts[0].to_upper()
 	var sub := parts[1] if parts.size() > 1 else ""
-	var w := cinzel.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, 22).x
+	var w := letters.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, 26).x
 	var width := maxf(w + 64.0, 230.0)
 	var rect := Rect2(banner_center - Vector2(width / 2.0, 20), Vector2(width, 44 if sub != "" else 38))
 	rounded(canvas, rect, Color(0.07, 0.05, 0.055, 0.8), GOLD_DARK, 14.0, 2.0)
 	for dir in [-1.0, 1.0]:
 		var tip := Vector2(rect.get_center().x + dir * (width / 2.0 + 14.0), rect.position.y + 19.0)
 		canvas.draw_colored_polygon(PackedVector2Array([tip, tip - Vector2(dir * 12.0, 7.0), tip - Vector2(dir * 12.0, -7.0)]), GOLD_DARK)
-	text_centered(canvas, cinzel, Vector2(rect.get_center().x, rect.position.y + 19), title, 22, Color("fff0cc"), 5)
+	text_centered(canvas, letters, Vector2(rect.get_center().x, rect.position.y + 19), title, 26, Color.WHITE, 0)
 	if sub != "":
 		var safe := sub.contains("bezpieczna")
 		var chip := Color("8fe3a0") if safe else Color("ffb27a")

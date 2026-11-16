@@ -1,5 +1,6 @@
 class_name CharacterScreen
 extends Control
+const Look := preload("res://scripts/look.gd")   # the look that can change with server updates (see look.gd)
 ## Legend sheet: level, XP, final stats with their sources, the 29-node tree (3 branches + root + KI Mode), ability slots.
 
 signal closed
@@ -130,7 +131,7 @@ func setup(legend_kit: RaceKit) -> void:
 	refresh()
 
 func panel(_color: Color = Color.BLACK) -> StyleBox:
-	return PyraSkin.window(34.0)
+	return Look.window(34.0)
 
 func button(text: String, callback: Callable, minimum: Vector2) -> Button:
 	var b := Button.new()

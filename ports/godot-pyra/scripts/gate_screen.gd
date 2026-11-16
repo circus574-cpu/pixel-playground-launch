@@ -1,5 +1,6 @@
 class_name PyraGate
 extends Control
+const Look := preload("res://scripts/look.gd")   # the look that can change with server updates (see look.gd)
 ## The way into the game on a device that carries only the base: sign in (or play offline), check the server (maintenance, minimum
 ## version), reconcile the cloud save with the local one, then download the content of the land the hero starts in. The same screen
 ## shows the progress when a land that is not on the device yet is entered later (`download_land`).
@@ -27,32 +28,21 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var shade := ColorRect.new()
-	shade.color = Color(0.02, 0.025, 0.04, 0.92)
+	shade.color = Color(0.02, 0.025, 0.04, 0.6)   # the title picture stays visible behind the sign-in window
 	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(shade)
-	# the owner's lava stone behind the sign-in window (the flat shade stays only when the texture is missing)
-	var stone := PyraSkin.background()
-	if stone != null:
-		var back := TextureRect.new()
-		back.texture = stone
-		back.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		back.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-		back.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		back.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		back.modulate = Color(0.8, 0.8, 0.8)
-		add_child(back)
 	panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	panel.grow_horizontal = Control.GROW_DIRECTION_BOTH   # it grows from the middle of the screen, not from its top-left corner
 	panel.grow_vertical = Control.GROW_DIRECTION_BOTH
 	panel.custom_minimum_size = Vector2(700, 0)
-	panel.add_theme_stylebox_override("panel", PyraSkin.window(30.0))
+	panel.add_theme_stylebox_override("panel", Look.window(30.0))
 	add_child(panel)
 	panel.add_child(box)
 	box.add_theme_constant_override("separation", 8)
-	heading.add_theme_font_override("font", load("res://assets/branding/cinzel-bold.ttf"))
-	heading.add_theme_font_size_override("font_size", 26)
-	heading.add_theme_color_override("font_color", Color("ffe2a8"))
+	heading.add_theme_font_override("font", Look.title_font())
+	heading.add_theme_font_size_override("font_size", 34)
+	heading.add_theme_color_override("font_color", Color.WHITE)   # the letters carry their own gold
 	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(heading)
 	message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -74,6 +64,8 @@ func _ready() -> void:
 	remember_box.focus_mode = Control.FOCUS_NONE
 	remember_box.add_theme_font_size_override("font_size", 19)
 	remember_box.add_theme_color_override("font_color", Color("e6dcc4"))
+	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled", "focus"]:
+		remember_box.add_theme_stylebox_override(state, StyleBoxEmpty.new())   # a check box, not a button: no pill behind it
 	form.add_child(remember_box)
 	nick_field.visible = false
 	bar.custom_minimum_size = Vector2(0, 26)

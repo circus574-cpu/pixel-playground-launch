@@ -1,5 +1,6 @@
 class_name RaceScreen
 extends Control
+const Look := preload("res://scripts/look.gd")   # the look that can change with server updates (see look.gd)
 ## New character: the four races, each with its portrait, world, mechanic and role. Choosing one starts the adventure
 ## in that race's capital.
 
@@ -36,7 +37,7 @@ func setup(can_close: bool = false) -> void:
 	var title := Label.new()
 	title.text = "WYBIERZ SWOJĄ RASĘ"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_override("font", load("res://assets/branding/cinzel-bold.ttf"))
+	title.add_theme_font_override("font", Look.title_font())
 	title.add_theme_font_size_override("font_size", 34)
 	title.add_theme_color_override("font_color", Color("f1c77f"))
 	root.add_child(title)
@@ -87,7 +88,7 @@ func make_card(race: String, data: Dictionary) -> Control:
 	var name := Label.new()
 	name.text = str(data.raceName).to_upper()
 	name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	name.add_theme_font_override("font", load("res://assets/branding/cinzel-bold.ttf"))
+	name.add_theme_font_override("font", Look.title_font())
 	name.add_theme_font_size_override("font_size", 24)
 	name.add_theme_color_override("font_color", Color(str(lore.color)))
 	name.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -109,7 +110,7 @@ func card_style(active: bool, color: Color) -> StyleBox:
 	# the stone window; the chosen race lights it up in its own colour
 	var tint := Color(1.0, 1.0, 1.0).lerp(color.lightened(0.25), 0.55) * 1.25 if active else Color(0.72, 0.72, 0.72)
 	tint.a = 1.0
-	return PyraSkin.window(34.0, tint)
+	return Look.window(34.0, tint)
 
 func select(race: String) -> void:
 	selected = race

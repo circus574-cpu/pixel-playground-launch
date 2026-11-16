@@ -23,14 +23,6 @@ static func texture(name: String) -> Texture2D:
 ## A stone window frame (9-slice, the border tiles along the edges). `content` is the space left inside it.
 static func window(content: float = WINDOW_CONTENT, tint: Color = Color.WHITE) -> StyleBox:
 	var tex := texture("window")
-	var stone := background()
-	if tex != null and stone != null:
-		var framed := WindowBox.new()
-		framed.frame = tex
-		framed.stone = stone
-		framed.tint = tint
-		framed.set_content_margin_all(content)
-		return framed
 	if tex == null:
 		var flat := StyleBoxFlat.new()
 		flat.bg_color = Color(0.09, 0.07, 0.08, 0.96)
@@ -50,29 +42,6 @@ static func window(content: float = WINDOW_CONTENT, tint: Color = Color.WHITE) -
 	box.set_content_margin_all(content)
 	box.modulate_color = tint
 	return box
-
-## The owner's lava-stone texture: the background of the sign-in screen and the inside of every window.
-static func background() -> Texture2D:
-	if not cache.has("stone"):
-		var path := "res://assets/ui/backgrounds/stone.webp"
-		cache["stone"] = load(path) if ResourceLoader.exists(path) else null
-	return cache["stone"]
-
-## A window: the stone texture inside (at its own scale, never squeezed) and the stone-and-gold frame over it.
-class WindowBox extends StyleBox:
-	var frame: Texture2D
-	var stone: Texture2D
-	var tint := Color.WHITE
-
-	func _draw(to_canvas_item: RID, rect: Rect2) -> void:
-		var inner := rect.grow(-18.0)
-		if inner.has_area():
-			var source := stone.get_size()
-			var grow := maxf(1.0, maxf(inner.size.x / source.x, inner.size.y / source.y))
-			RenderingServer.canvas_item_add_texture_rect_region(to_canvas_item, inner, stone.get_rid(), Rect2(Vector2.ZERO, inner.size / grow), tint)
-		var corner := Vector2.ONE * PyraSkin.WINDOW_MARGIN
-		RenderingServer.canvas_item_add_nine_patch(to_canvas_item, rect, Rect2(Vector2.ZERO, frame.get_size()), frame.get_rid(), corner, corner,
-			RenderingServer.NINE_PATCH_TILE_FIT, RenderingServer.NINE_PATCH_TILE_FIT, false, tint)
 
 ## A stone pill for a button in one of the states "normal", "hover", "pressed", "disabled".
 static func button_box(state: String = "normal", margin_x: float = 22.0, margin_y: float = 8.0) -> StyleBox:
@@ -142,8 +111,6 @@ static func make_theme() -> Theme:
 	fill.bg_color = Color("e0832b")
 	fill.set_corner_radius_all(10)
 	theme.set_stylebox("fill", "ProgressBar", fill)
-	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled", "focus"]:
-		theme.set_stylebox(state, "CheckBox", StyleBoxEmpty.new())   # a check box is not a button: no pill behind it
 	theme.set_color("font_color", "CheckBox", GOLD)
 	theme.set_color("font_hover_color", "CheckBox", Color("ffffff"))
 	theme.set_color("font_pressed_color", "CheckBox", Color("ffd36a"))

@@ -74,6 +74,15 @@ func run() -> void:
 	var title_script: GDScript = load("res://scripts/title_screen.gd")
 	verify(str(ProjectSettings.get_setting("application/config/version", "")) == "1.0" and str(config.get_value("preset.0.options", "version/name", "")) == "1.0", "the installed app is version 1.0")
 	verify(title_script.shown_version('{"manifest":{"version":"1.2"}}') == "1.2" and title_script.shown_version('{"manifest":{"version":"2026.11.17.2"}}') == "1.0" and title_script.shown_version("not json") == "1.0", "the player sees the version of the downloaded release (1.1, 1.2, ...), the app version otherwise")
+	# scripts/skin.gd is loaded by the APK's boot.gd before the server's code is mounted, so an installed app keeps the APK's copy for ever:
+	# its functions must stay those of APK 1.0 (new looks go to scripts/look.gd). Release 1.1 broke the sign-in window by breaking this.
+	var skin_names: Array = []
+	for method: Dictionary in (load("res://scripts/skin.gd") as GDScript).get_script_method_list():
+		skin_names.append(str(method.name))
+	skin_names.sort()
+	verify(skin_names == ["button_box", "draw_ring", "field_box", "install", "make_theme", "style_button", "texture", "window"], "PyraSkin keeps exactly the functions of APK 1.0", skin_names)
+	var look_script: GDScript = load("res://scripts/look.gd")
+	verify(look_script.window() is StyleBox and look_script.picture("stone") != null and look_script.picture("window") != null and look_script.title_font() != null, "the look that travels with updates has its pictures and letters")
 	var gate_script: GDScript = load("res://scripts/gate_screen.gd")
 	gate_script.write_login_prefs("gracz@example.pl", true)
 	var remembered: Dictionary = gate_script.read_login_prefs()

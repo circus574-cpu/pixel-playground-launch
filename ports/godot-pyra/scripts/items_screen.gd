@@ -1,5 +1,6 @@
 class_name ItemsScreen
 extends Control
+const Look := preload("res://scripts/look.gd")   # the look that can change with server updates (see look.gd)
 ## One screen for every item service: merchant (buy / sell), depot (bag <-> chest, coins), smithy (crafting)
 ## and the player's bag with equipment. All rules live in PyraEconomy.
 
@@ -117,7 +118,7 @@ func setup(economy: PyraEconomy, screen_mode: String, heading: String) -> void:
 	switch_tab(0)
 
 func panel(_color: Color = Color.BLACK) -> StyleBox:
-	return PyraSkin.window(34.0)
+	return Look.window(34.0)
 
 func make_button(text: String, callback: Callable, minimum: Vector2) -> Button:
 	var b := Button.new()

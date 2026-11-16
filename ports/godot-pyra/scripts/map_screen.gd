@@ -1,5 +1,6 @@
 class_name MapScreen
 extends Control
+const Look := preload("res://scripts/look.gd")   # the look that can change with server updates (see look.gd)
 ## Planet map: 3D globe, flat atlas, and the detailed map of Pyra. Same regions, outlines and hero marker in all three.
 
 signal closed
@@ -131,7 +132,7 @@ func build_layout() -> void:
 		zoom_column.add_child(make_button(entry[0], func(): zoom(factor), Vector2(70, 70)))
 	zoom_column.add_child(make_button("◎", focus_player, Vector2(70, 70)))
 	var card := PanelContainer.new()
-	card.add_theme_stylebox_override("panel", PyraSkin.window(30.0))
+	card.add_theme_stylebox_override("panel", Look.window(30.0))
 	info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	info.custom_minimum_size = Vector2(500, 60)
 	info.add_theme_font_size_override("font_size", 19)

@@ -1,5 +1,6 @@
 class_name PyraTitleScreen
 extends Control
+const Look := preload("res://scripts/look.gd")   # the look that can change with server updates (see look.gd)
 
 signal city_started(city: PyraGame)
 
@@ -66,7 +67,7 @@ func _ready() -> void:
 	start_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	start_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	start_button.focus_mode = Control.FOCUS_NONE
-	start_button.add_theme_font_override("font", load("res://assets/branding/cinzel-bold.ttf"))
+	start_button.add_theme_font_override("font", Look.title_font())
 	start_button.add_theme_font_size_override("font_size", 25)
 	start_button.add_theme_color_override("font_color", Color("fff1ce"))
 	PyraSkin.style_button(start_button)

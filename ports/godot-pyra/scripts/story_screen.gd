@@ -1,5 +1,6 @@
 class_name PyraStoryScreen
 extends Control
+const Look := preload("res://scripts/look.gd")   # the look that can change with server updates (see look.gd)
 ## The story told before the first steps: the pages of PyraStory.intro(race), shown one by one with the text appearing letter by letter.
 ## A tap completes the page, a second tap turns it; POMIŃ ends the story at once. `closed` fires when it is over.
 
@@ -44,7 +45,7 @@ func setup(title: String, story_pages: Array) -> void:
 	add_child(column)
 	title_label.text = title
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title_label.add_theme_font_override("font", load("res://assets/branding/cinzel-bold.ttf"))
+	title_label.add_theme_font_override("font", Look.title_font())
 	title_label.add_theme_font_size_override("font_size", 36)
 	title_label.add_theme_color_override("font_color", Color("f1c77f"))
 	column.add_child(title_label)

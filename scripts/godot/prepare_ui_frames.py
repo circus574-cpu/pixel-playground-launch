@@ -11,6 +11,9 @@ Outputs (all lossless WebP):
   ring-star / ring-plain / ring-flower.webp   round frames (portrait, minimap, medallions)
   plaque.webp, divider.webp, star-*.webp      title plaque, gold divider, decorative stars
 
+  ui-art.json (ports/godot-pyra/data): the window frame and the owner's stone texture as base64 WebP, read by scripts/look.gd; it travels with
+  server updates (the core carries data/*.json, an installed APK keeps its own pictures)
+
   python3 scripts/godot/prepare_ui_frames.py
 """
 from pathlib import Path
@@ -152,7 +155,19 @@ def main() -> None:
     one = Image.open(SRC / "frames-1.png").convert("RGBA")
     two = Image.open(SRC / "frames-2.png").convert("RGBA")
     pieces = {k: crop(one, v) for k, v in SHEET1.items()} | {k: crop(two, v) for k, v in SHEET2.items()}
-    save(window_frame(pieces["bar"], pieces["star_a"]), "window.webp")
+    frame = window_frame(pieces["bar"], pieces["star_a"])
+    save(frame, "window.webp")
+    # the pictures that must reach an installed app with a server update: inside data/ (the core carries data/*.json, not pictures)
+    import base64, io, json
+    def b64(image: Image.Image, lossless: bool) -> str:
+        buffer = io.BytesIO()
+        image.save(buffer, "WEBP", lossless=lossless, quality=100 if lossless else 90, method=6)
+        return base64.b64encode(buffer.getvalue()).decode("ascii")
+    stone = Image.open(SRC / "stone-bg.png").convert("RGB")
+    data = {"format": "ki-ui-art-1", "pictures": {"window": b64(frame, True), "stone": b64(stone, False)}}
+    target = ROOT / "ports" / "godot-pyra" / "data" / "ui-art.json"
+    target.write_text(json.dumps(data, separators=(",", ":")))
+    print("ui-art.json", round(target.stat().st_size / 1024), "KB")
     base = pill(pieces["pill_dark"])
     save(base, "button.webp")
     save(tint(base, 1.45, 1.25), "button-hover.webp")
