@@ -140,6 +140,7 @@ func die() -> void:
 	dash = {}
 	leap = {}
 	actor.play_once("death")
+	manager.audio().monster_sound(str(def.id), "die", position.distance_to(target_pos()))
 	died.emit(self)
 	var tween := create_tween()
 	tween.tween_interval(1.4)
@@ -399,6 +400,7 @@ func begin_cast(skill: Dictionary, player: Vector2) -> void:
 		warn = 0.35 if mode != "self" else 0.2
 	var at := position if bool(skill.get("centred", false)) else player
 	casting = {"skill": skill, "left": warn, "at": at, "from": position, "player": player}
+	manager.audio().monster_sound(str(def.id), "atk", position.distance_to(player))
 	actor.play_once("skill" if mode != "melee" else "attack")
 
 func update_cast(delta: float) -> void:
@@ -463,6 +465,7 @@ func basic_attack(player: Vector2) -> void:
 		interval /= float(rage.speed)
 	attack_ready = clock + interval
 	actor.play_once("attack")
+	manager.audio().monster_sound(str(def.id), "atk", position.distance_to(player))
 	if String(def.basic) == "ranged":
 		var tween := create_tween()
 		tween.tween_interval(0.25)

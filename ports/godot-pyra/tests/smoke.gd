@@ -769,6 +769,27 @@ func run() -> void:
 	game.start_new_character("legend")
 	await settle(2)
 
+	# ---- audio ---------------------------------------------------------------------------------------------------
+	var snd: PyraAudio = game.audio
+	var music_ok := true
+	for key in ["loadings", "verdantia", "aetheria", "nexus", "pyra"]:
+		music_ok = music_ok and ResourceLoader.exists("res://assets/audio/music/%s.mp3" % key)
+	verify(music_ok and ResourceLoader.exists("res://assets/audio/sfx/common/hit.mp3") and ResourceLoader.exists("res://assets/audio/sfx/legend/A1.mp3") and ResourceLoader.exists("res://assets/audio/sfx/monsters/pyra-wegielek/atk.mp3"), "the owner's music and the effects are in the package")
+	game.start_new_character("sage")
+	await settle(3)
+	verify(snd.active_music == "aether", "the music follows the world of the land", snd.active_music)
+	snd.sfx("common/hit")
+	snd.ability("sage", "A1")
+	snd.monster_sound("pyra-wegielek", "atk", 200.0)
+	snd.step(0.5, true, "aether", "open", false)
+	verify(snd.stream("res://assets/audio/sfx/common/hit.mp3") != null, "effects load and play without error")
+	verify(PyraAudio.is_refusal("Za mało KI.") and not PyraAudio.is_refusal("Poziom 2!"), "refusal notices get the error tick")
+	snd.set_volumes(0.5, 0.25)
+	verify(is_equal_approx(snd.music_volume, 0.5) and is_equal_approx(snd.sfx_volume, 0.25), "volumes can be set")
+	snd.set_volumes(0.3, 0.6)
+	game.start_new_character("legend")
+	await settle(2)
+
 	# ---- HUD layout -----------------------------------------------------------------------------------------
 	game.show_menu()
 	await settle()

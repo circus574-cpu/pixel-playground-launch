@@ -139,3 +139,18 @@ Zlecenie właściciela: przenosić całą grę; APK dopiero po przeniesieniu ca�
 **Kontrole.** `tests/smoke.gd`: **340/340** (nowe: katalog 106/102/16/17, oferta Kaeny z „!”, przyjęcie, rozmowa etapem,
 „?”, odkrycie miejsca, raport i nagroda, brak podwójnej nagrody, zapis i odrzucenie zapisu z nieznanym zadaniem, cel walki,
 tracker i dziennik).
+
+### 5. Android / Godot: rozmowy NPC i dźwięk
+
+- **Rozmowy.** 28 postaci zadań ma autorskie dialogi z gry (`src/game/dialogue`, 106 kwestii): powitania (rotują przy kolejnych
+  rozmowach), plotki (przycisk POSŁUCHAJ PLOTEK) i wypowiedzi o zadaniach zależnie od stanu (przed / w trakcie / po).
+  `export-quests.ts` dołącza je do `data/quests.json`, `PyraQuests.conversation` składa tekst.
+- **Dźwięk.** `scripts/godot/prepare_audio.py` kopiuje bez zmian muzykę właściciela (5 pętli: ekran startowy i cztery
+  kontynenty, 17 MB) i 271 efektów ElevenLabs (6,7 MB). `scripts/audio.gd` stosuje reguły `sfx.ts` / `music.ts`: muzyka z
+  crossfade (kontynent = ścieżka świata krainy, ekran startowy = motyw wczytywania, 70 % głośności pod walką), ambient (miasto
+  za murami, poza nim tło świata), trafienia i krytyki, dźwięki zdolności czterech ras, ataki i śmierci potworów
+  (`monsters/<id>/{atk,die}`), statusy, mikstura, unik, poziom, nagroda za zadanie, monety i łup, drzwi, błąd przy odmowie,
+  kroki według podłoża (trawa/kamień/metal/popiół, woda, drewno w środku). Głośność w MENU (muzyka domyślnie 30 %, efekty 60 %;
+  zapis `user://audio.json`). Dźwięki „development”/bossów nie są w grze, bo ich funkcje nie są w grze.
+- **Kontrole.** `tests/smoke.gd`: **345/345** (nowe: pliki muzyki i efektów w paczce, muzyka podąża za światem, odtwarzanie
+  efektów, rozpoznanie odmowy, głośności).

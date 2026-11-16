@@ -7,6 +7,7 @@
  */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { ALL_QUESTS_V2 } from "../../src/game/quests/engine";
+import { ALL_NPC_DIALOGUES } from "../../src/game/dialogue";
 import {
   ALL_CITIES_V2,
   ALL_FAMOUS_LOCATIONS_V2,
@@ -61,6 +62,7 @@ const out = {
     })),
   })),
   places,
+  dialogues: ALL_NPC_DIALOGUES,
 };
 writeFileSync("/tmp/godot-quests/quests.json", JSON.stringify(out));
 console.log(

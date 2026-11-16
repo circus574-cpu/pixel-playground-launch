@@ -288,6 +288,39 @@ func offered_by(continent: String, settlement_id: String, role: String) -> Array
 				out.append(q)
 	return out
 
+## Authored conversation of the quest NPC(s) bound to this game NPC: greeting (rotating), rumors and what they say about each of
+## their quests depending on its state (before / during / after). Empty when the game NPC has no quest character in this town.
+func conversation(continent: String, settlement_id: String, role: String, turn: int) -> Dictionary:
+	var binding := "%s.npc.%s" % [continent, role]
+	var city: String = str(city_of_settlement.get("%s/%s" % [continent, settlement_id], ""))
+	var lines: Array[String] = []
+	var rumors: Array[String] = []
+	var who := ""
+	for npc: Dictionary in npcs_by_city.get(city, []):
+		if npc.bindingId != binding:
+			continue
+		var d: Dictionary = data.dialogues.get(npc.id, {})
+		if d.is_empty():
+			continue
+		if who == "":
+			who = str(d.npcName)
+		var greetings: Array = d.greetings
+		lines.append(str(greetings[turn % greetings.size()]))
+		for r in d.rumors:
+			rumors.append(str(r))
+		for q: Dictionary in data.quests:
+			if q.giverNpcId != npc.id or not d.quests.has(q.id):
+				continue
+			var text: Dictionary = d.quests[q.id]
+			match state_of(q.id):
+				"available":
+					lines.append("«%s»\n%s" % [q.title, text.before])
+				"active":
+					lines.append("«%s» (w toku)\n%s" % [q.title, text.during])
+				"completed":
+					lines.append("«%s» (ukończone)\n%s" % [q.title, text.after])
+	return {"who": who, "lines": lines, "rumors": rumors}
+
 ## "!" when the NPC has a quest to give, "?" when an active talk or deliver objective waits for them.
 func marker_for(continent: String, settlement_id: String, role: String) -> String:
 	var binding := "%s.npc.%s" % [continent, role]

@@ -21,6 +21,9 @@ var floor_shade := TextureRect.new()
 
 func _ready() -> void:
 	get_tree().quit_on_go_back = false
+	var music := PyraAudio.new()
+	add_child(music)
+	music.play_music.call_deferred("loading")
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	# The owner's key art as a landscape composition (the game is landscape-only): it fills the whole screen.
 	intro.texture = load("res://assets/branding/intro-wide.webp")

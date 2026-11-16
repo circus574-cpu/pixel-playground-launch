@@ -60,7 +60,10 @@ var monster_data: Dictionary
 var respawn_timer := -1.0
 var quests: PyraQuests
 var quest_actors: Array[Dictionary] = []     # {actor, role, town} for the "!" and "?" marks
+var audio: PyraAudio
 var quest_timer := 0.0
+var ambience_timer := 0.0
+var talk_turns: Dictionary = {}   # npc key -> how many times the hero has talked (rotates greetings and rumors)
 var last_town := ""
 var last_level := 0
 var prefetch_timer := 0.0
@@ -102,12 +105,21 @@ func _ready() -> void:
 	actors = PyraContinent.load_json(ACTORS_PATH)
 	rooms_data = PyraContinent.load_json(ROOMS_PATH)
 	monster_data = PyraContinent.load_json("res://data/monsters.json")
+	audio = PyraAudio.new()
+	add_child(audio)
 	quests = PyraQuests.new(PyraContinent.load_json("res://data/quests.json"))
 	quests.level_of = func() -> int: return kit.level if kit != null else 1
 	quests.item_count = func(id: String) -> int: return economy.count(id)
 	quests.item_take = func(id: String, n: int) -> bool: return economy.remove_item(id, n)
 	quests.rewarded.connect(on_quest_reward)
-	quests.announce.connect(func(text: String) -> void: hud.toast(text))
+	quests.announce.connect(func(text: String) -> void:
+		hud.toast(text)
+		if text.begins_with("Zadanie ukończone"):
+			audio.sfx("common/quest-complete")
+		elif text.begins_with("Nowe zadanie"):
+			audio.sfx("ui/quest-accept")
+		else:
+			audio.sfx("ui/quest-update"))
 	quests.changed.connect(refresh_quest_ui)
 	map_data = PyraContinent.load_json("res://data/map.json")
 	get_tree().quit_on_go_back = false
@@ -132,7 +144,7 @@ func _ready() -> void:
 	hud.touch.attack_changed.connect(func(held: bool): attack_held = held)
 	hud.touch.skill_requested.connect(use_slot)
 	hud.touch.dodge_requested.connect(dodge)
-	hud.touch.potion_requested.connect(func() -> void: economy.use("potion"))
+	hud.touch.potion_requested.connect(use_potion)
 	hud.menu_requested.connect(show_menu)
 	hud.map_requested.connect(open_map)
 	hud.character_requested.connect(open_character)
@@ -164,7 +176,12 @@ func set_race(new_race: String) -> void:
 	kit.changed.connect(func() -> void: economy.level = kit.level)
 	kit.effect.connect(on_effect)
 	kit.damage_dealt.connect(on_damage)
-	kit.said.connect(func(text: String) -> void: hud.toast(text))
+	kit.said.connect(func(text: String) -> void:
+		hud.toast(text)
+		if text.begins_with("Poziom "):
+			audio.sfx("common/level-up")
+		elif PyraAudio.is_refusal(text):
+			audio.sfx("common/no-energy"))
 	kit.gear = economy.gear()
 	kit.terrain_at = func() -> String: return continent.terrain_kind(player.position) if is_instance_valid(continent) else "open"
 	hero = actors[str(WORLD_OF_RACE[race]) + ".hero"]
@@ -222,6 +239,7 @@ func enter_land(id: String, at: Vector2 = Vector2(-1, -1)) -> void:
 	load_space("", start)
 	continent.update_view(camera_view(), true)   # the hero never starts in an empty land
 	hud.set_land(land_id, continent.world_size, minimap_markers())
+	audio.play_music(world_id)
 
 ## The first trial's painted capital of Pyra: plaza floor, 53 props and the authored footprints.
 func build_pyra_capital() -> void:
@@ -417,6 +435,13 @@ func load_space(room: String, at: Vector2, town: String = "") -> void:
 	queue_redraw()
 
 ## Quest journal: active quests with their objectives, then the number of open and finished ones. Tapping a title tracks it.
+func next_volume(current: float) -> float:
+	var steps := [0.0, 0.3, 0.6, 1.0]
+	for v: float in steps:
+		if v > current + 0.01:
+			return v
+	return 0.0
+
 func show_journal() -> void:
 	var lines: Array[String] = []
 	var actions := []
@@ -463,6 +488,7 @@ func on_quest_reward(xp: int, coins: int, items: Dictionary, source: String) -> 
 	if coins > 0:
 		economy.gold += coins
 		parts.append("+%d mon." % coins)
+		audio.sfx("common/gold")
 	for id: String in items:
 		economy.add_item(id, int(items[id]))
 		parts.append("%s ×%d" % [economy.name_of(id), int(items[id])])
@@ -550,6 +576,7 @@ func interact() -> void:
 		return
 	match target.kind:
 		"door":
+			audio.sfx("common/door")
 			city_return = player.position
 			var room := str(target.room)
 			if not rooms_data[world_id].has(room):
@@ -577,6 +604,15 @@ func interact() -> void:
 				var role := str(ROLE_OF_SERVICE.get(service, "")) if service != "" else str(target.id)
 				var town := room_town if room_town != "" else (settlement_at(player.position) if service == "" else capital_id())
 				quests.talk(land_id, town, role)
+				var turn_key := "%s/%s/%s" % [land_id, town, role]
+				var turn := int(talk_turns.get(turn_key, 0))
+				talk_turns[turn_key] = turn + 1
+				var talk := quests.conversation(land_id, town, role, turn)
+				if not (talk.lines as Array).is_empty():
+					extra += "\n\n" + "\n\n".join(talk.lines)
+					if not (talk.rumors as Array).is_empty():
+						var rumor_text: String = str(talk.rumors[turn % (talk.rumors as Array).size()])
+						actions.append({"text": "POSŁUCHAJ PLOTEK", "callback": func() -> void: hud.show_dialog("Plotki · " + str(talk.who), rumor_text)})
 				for offer: Dictionary in quests.offered_by(land_id, town, role):
 					extra += "\n\nZadanie: %s (poz. %d)\n%s" % [offer.title, int(offer.recommendedLevel), offer.summary]
 					var offered_id: String = str(offer.id)
@@ -625,6 +661,7 @@ func hurt_player(monster: PyraMonster, raw: float, _kind: String, fx: Array) -> 
 	var dealt := kit.take_damage(raw)
 	PyraFx.number(continent.sorted, player.position + Vector2(0, -90), int(round(dealt)), false)
 	player.visual.hurt_flash()
+	audio.sfx("common/player-hurt")
 	for f: Dictionary in fx:
 		apply_status(f, monster)
 	if kit.dead:
@@ -632,6 +669,7 @@ func hurt_player(monster: PyraMonster, raw: float, _kind: String, fx: Array) -> 
 
 func apply_status(f: Dictionary, monster: PyraMonster) -> void:
 	var seconds := float(f.get("ms", 0.0)) / 1000.0
+	audio.status(str(f.get("id", f.k)))
 	match str(f.k):
 		"slow":
 			kit.add_debuff("slow", float(f.pct), seconds)
@@ -658,6 +696,8 @@ func reward(def: Dictionary, at: Vector2) -> void:
 	var gold_range: Array = def.gold
 	var gold := randi_range(int(gold_range[0]), int(gold_range[1])) if int(gold_range[1]) > 0 else 0
 	economy.gold += gold
+	if gold > 0:
+		audio.sfx("common/gold")
 	var names: Array[String] = []
 	for entry: Dictionary in def.lootItems:
 		if randf() <= float(entry.chance) and economy.items.has(str(entry.item)):
@@ -672,6 +712,8 @@ func reward(def: Dictionary, at: Vector2) -> void:
 				economy.add_item(str(pool.ids[i]))
 				names.append(economy.name_of(str(pool.ids[i])))
 				break
+	if not names.is_empty():
+		audio.sfx("common/loot")
 	economy.changed.emit()
 	var text := "+%d XP" % xp
 	if gold > 0:
@@ -690,6 +732,7 @@ func handle_death(delta: float) -> void:
 		if is_instance_valid(monsters):
 			monsters.disengage_all()
 		hud.toast("Poległeś. Za 3 s wrócisz do miasta.")
+		audio.sfx("common/player-death")
 	if respawn_timer >= 0.0:
 		respawn_timer -= delta
 		if respawn_timer <= 0.0:
@@ -706,6 +749,7 @@ func respawn_player() -> void:
 	load_space("", Vector2(float(land.arrival.x), float(land.arrival.y)))
 	continent.update_view(camera_view(), true)
 	hud.toast("Wracasz do miasta.")
+	audio.sfx("common/respawn")
 
 func nearest_dummy() -> PyraDummy:
 	var best: PyraDummy = null
@@ -751,6 +795,11 @@ func use_slot(index: int) -> void:
 		player.visual.play_once(str(result.get("clip", "skill")))
 	elif str(result.reason) != "":
 		hud.toast(str(result.reason))
+		audio.sfx("common/no-energy")
+
+func use_potion() -> void:
+	if economy.use("potion"):
+		audio.sfx("common/potion")
 
 func dodge() -> void:
 	if player.locked or input_suspended:
@@ -759,12 +808,16 @@ func dodge() -> void:
 	var result := kit.dodge(direction)
 	if result.ok:
 		player.visual.play_once("dodge")
+		audio.sfx("common/dodge")
 
 func on_effect(kind: String, at: Vector2, radius: float, ability: String) -> void:
+	audio.ability(race, ability)
 	var parent: Node = room_sorted if not current_room.is_empty() else continent.sorted
 	PyraFx.spawn(parent, kind, at, radius, ability, player.facing)
 
 func on_damage(foe: Node, amount: int, crit: bool) -> void:
+	if amount > 0:
+		audio.hit(crit)
 	var parent: Node = room_sorted if not current_room.is_empty() else continent.sorted
 	PyraFx.number(parent, (foe as Node2D).position, amount, crit)
 
@@ -790,6 +843,12 @@ func _process(delta: float) -> void:
 		return
 	simulate(minf(delta, 0.05))
 	quest_tick(delta)
+	var terrain := continent.terrain_kind(player.position) if current_room.is_empty() else "open"
+	audio.step(delta, player.moving and not player.locked, world_id, terrain, not current_room.is_empty())
+	ambience_timer -= delta
+	if ambience_timer <= 0.0:
+		ambience_timer = 0.6
+		audio.play_ambience(world_id, in_safe_city(player.position))
 	prefetch_timer -= delta
 	if prefetch_timer <= 0.0:
 		prefetch_timer = 0.4
@@ -851,7 +910,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_I:
 				open_items("inventory", "Plecak i wyposażenie")
 			KEY_H:
-				economy.use("potion")
+				use_potion()
 			KEY_ESCAPE:
 				go_back()
 			KEY_F11:
@@ -974,7 +1033,7 @@ func open_items(mode: String, heading: String) -> void:
 func show_menu() -> void:
 	if is_instance_valid(screen):
 		return
-	hud.show_dialog("KI LEGENDS", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D, mapa 2D i podróże między krainami. POSTAĆ: statystyki i drzewko Twojej rasy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. Potwory żyją poza miastami (miasta są bezpieczne); po śmierci wracasz do stolicy krainy. Manekin czeka na arenach.", [{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "NOWA POSTAĆ (WYBÓR RASY)", "callback": func(): hud.close_dialog(); open_race_screen(true)}, {"text": "DZIENNIK ZADAŃ", "callback": func(): hud.close_dialog(); show_journal()}, {"text": "FPS I DIAGNOSTYKA: " + ("WYŁĄCZ" if hud.show_fps else "WŁĄCZ"), "callback": func(): hud.show_fps = not hud.show_fps; hud.signature = ""; hud.close_dialog()}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}])
+	hud.show_dialog("KI LEGENDS", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D, mapa 2D i podróże między krainami. POSTAĆ: statystyki i drzewko Twojej rasy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. Potwory żyją poza miastami (miasta są bezpieczne); po śmierci wracasz do stolicy krainy. Manekin czeka na arenach.", [{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "NOWA POSTAĆ (WYBÓR RASY)", "callback": func(): hud.close_dialog(); open_race_screen(true)}, {"text": "MUZYKA: %d%%  (zmień)" % int(round(audio.music_volume * 100.0)), "callback": func(): audio.set_volumes(next_volume(audio.music_volume), audio.sfx_volume); hud.close_dialog(); show_menu()}, {"text": "EFEKTY: %d%%  (zmień)" % int(round(audio.sfx_volume * 100.0)), "callback": func(): audio.set_volumes(audio.music_volume, next_volume(audio.sfx_volume)); hud.close_dialog(); show_menu()}, {"text": "DZIENNIK ZADAŃ", "callback": func(): hud.close_dialog(); show_journal()}, {"text": "FPS I DIAGNOSTYKA: " + ("WYŁĄCZ" if hud.show_fps else "WŁĄCZ"), "callback": func(): hud.show_fps = not hud.show_fps; hud.signature = ""; hud.close_dialog()}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}])
 
 func show_licenses() -> void:
 	hud.show_dialog("Godot i biblioteki silnika", Engine.get_license_text() + "\n\nTHIRD-PARTY LICENSES\n" + JSON.stringify(Engine.get_license_info(), "\t") + "\n\nCOPYRIGHT NOTICES\n" + JSON.stringify(Engine.get_copyright_info(), "\t") + "\n\nFONT CINZEL\n" + FileAccess.get_file_as_string("res://assets/branding/OFL-Cinzel.txt") + "\n\nOFFICIAL GODOT LOGO\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-NOTICE.txt") + "\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-LICENSE.txt"))

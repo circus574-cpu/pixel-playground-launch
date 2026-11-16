@@ -124,6 +124,9 @@ func disengage_all() -> void:
 
 # ---- what the monsters ask of the game ------------------------------------------------------------
 
+func audio() -> PyraAudio:
+	return game.audio
+
 func player_position() -> Vector2:
 	return game.player.position
 
