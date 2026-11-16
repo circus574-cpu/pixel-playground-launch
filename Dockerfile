@@ -47,6 +47,8 @@ FROM ${NODE_IMAGE} AS app
 ENV NODE_ENV=production HOST=0.0.0.0 PORT=3000
 WORKDIR /app
 COPY --from=build --chown=node:node /app/.output ./.output
+# Packs of the Android game (published from /admin, never baked into the image); mounted as a volume in docker-compose.online.yml.
+RUN mkdir -p /data/godot-content && chown node:node /data/godot-content
 USER node
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \

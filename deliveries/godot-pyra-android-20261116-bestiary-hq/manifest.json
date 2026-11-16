@@ -1,0 +1,16 @@
+{
+  "format": "ki-godot-pyra-delivery-1",
+  "scope": "same game as 0.7.0-bestiary with high-quality texture import (no size squeeze); the APK is stored in Git LFS",
+  "engine": "Godot 4.6.3",
+  "version": "0.7.0-bestiary",
+  "versionCode": 7,
+  "androidPackage": "pl.kilegends.godot.pyra",
+  "applicationLabel": "KI LEGENDS",
+  "signing": "local debug certificate (same as earlier deliveries)",
+  "artifacts": {
+    "deliveries/godot-pyra-android-20261116-bestiary-hq/ki-legends-godot-debug.apk": {"bytes": 123332298, "sha256": "e93777fbfea71a32eee01c12051c624821ef18a0804f14c2a9ed3ec9e04f76cf"}
+  },
+  "physicalDeviceTest": "Not performed",
+  "previousDelivery": "deliveries/godot-pyra-android-20261116-bestiary",
+  "documentation": "ports/godot-pyra/README.md"
+}

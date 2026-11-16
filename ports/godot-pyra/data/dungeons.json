@@ -1,0 +1,260 @@
+{
+ "lands": {
+  "pyra": [
+   {
+    "id": "v2-transit-3-pyra",
+    "instanceId": "v2-transit-3",
+    "kind": "cave",
+    "x": 19984,
+    "y": 29360,
+    "name": "Tunel Zgaszonego Żaru",
+    "blurb": "Pradawny przekop pod wulkanicznym szlakiem. Kowale mówią, że prowadzi na drugą stronę świata, do metropolii maszyn.",
+    "partnerLand": "nexus",
+    "partnerId": "v2-transit-3-nexus",
+    "side": "b"
+   },
+   {
+    "id": "v2-transit-4-pyra",
+    "instanceId": "v2-transit-4",
+    "kind": "cave",
+    "x": 30896,
+    "y": 15984,
+    "name": "Zachodnia Grań Ciszy",
+    "blurb": "Szlak ratowników wykuty w skale. Na drugim końcu czekają zielone doliny Verdantii.",
+    "partnerLand": "verdant",
+    "partnerId": "v2-transit-4-verdant",
+    "side": "a"
+   },
+   {
+    "id": "v2-pyra-chambers-pyra",
+    "instanceId": "v2-pyra-chambers",
+    "kind": "cave",
+    "x": 33968,
+    "y": 23024,
+    "name": "Komory Rozbitych Kowadeł",
+    "blurb": "Opuszczona kuźnia klanu, który przegrał wojnę o arenę. Ściany pamiętają każdy cios."
+   },
+   {
+    "id": "v2-pyra-labyrinth-pyra",
+    "instanceId": "v2-pyra-labyrinth",
+    "kind": "maze",
+    "x": 28144,
+    "y": 15248,
+    "name": "Wielki Labirynt Popiołu",
+    "blurb": "Trzy piętra korytarzy, które rosną, gdy nikt nie patrzy. Na dnie podobno strzeże ich ten, kto nie dotrzymał rozkazu."
+   }
+  ],
+  "verdant": [
+   {
+    "id": "v2-transit-1-verdant",
+    "instanceId": "v2-transit-1",
+    "kind": "cave",
+    "x": 52240,
+    "y": 17744,
+    "name": "Zielony Przesmyk Pamięci",
+    "blurb": "Tunel, którym podobno przeprowadzono pierwsze archiwa z Aetherii do puszczy.",
+    "partnerLand": "aether",
+    "partnerId": "v2-transit-1-aether",
+    "side": "b"
+   },
+   {
+    "id": "v2-transit-4-verdant",
+    "instanceId": "v2-transit-4",
+    "kind": "cave",
+    "x": 51632,
+    "y": 30032,
+    "name": "Korzenna Droga do Popiołu",
+    "blurb": "Korzenie wrosły w stary tunel. Mówi się, że same wybrały, dokąd go poprowadzić.",
+    "partnerLand": "pyra",
+    "partnerId": "v2-transit-4-pyra",
+    "side": "b"
+   },
+   {
+    "id": "v2-verdant-chambers-verdant",
+    "instanceId": "v2-verdant-chambers",
+    "kind": "cave",
+    "x": 40944,
+    "y": 25840,
+    "name": "Komory Ukrytej Powodzi",
+    "blurb": "Doliny, które zalano po cichu. W komorach wciąż stoją stoły nakryte do kolacji."
+   },
+   {
+    "id": "v2-verdant-labyrinth-verdant",
+    "instanceId": "v2-verdant-labyrinth",
+    "kind": "maze",
+    "x": 61296,
+    "y": 22896,
+    "name": "Wielki Labirynt Korzeni",
+    "blurb": "Żywy splot tuneli pod puszczą. Wchodzący słyszą własny oddech z opóźnieniem siedmiu uderzeń serca."
+   }
+  ],
+  "aether": [
+   {
+    "id": "v2-transit-1-aether",
+    "instanceId": "v2-transit-1",
+    "kind": "cave",
+    "x": 28368,
+    "y": 19024,
+    "name": "Przejście Odwróconego Tonu",
+    "blurb": "Pieczęcie na wejściu brzmią fałszywie. Za nimi leży droga pod lasami Verdantii.",
+    "partnerLand": "verdant",
+    "partnerId": "v2-transit-1-verdant",
+    "side": "a"
+   },
+   {
+    "id": "v2-transit-2-aether",
+    "instanceId": "v2-transit-2",
+    "kind": "cave",
+    "x": 44592,
+    "y": 32048,
+    "name": "Spirala Świetlistych Źródeł",
+    "blurb": "Woda ze źródeł Aetherii spływa tu aż do kanałów Nexusa.",
+    "partnerLand": "nexus",
+    "partnerId": "v2-transit-2-nexus",
+    "side": "a"
+   },
+   {
+    "id": "v2-aether-chambers-aether",
+    "instanceId": "v2-aether-chambers",
+    "kind": "cave",
+    "x": 23152,
+    "y": 23888,
+    "name": "Komory Zatartych Imion",
+    "blurb": "Archiwum, z którego Rada usunęła nazwiska ofiar. Puste ramki wiszą w rzędach."
+   },
+   {
+    "id": "v2-aether-labyrinth-aether",
+    "instanceId": "v2-aether-labyrinth",
+    "kind": "maze",
+    "x": 43376,
+    "y": 32240,
+    "name": "Wielki Labirynt Odbić",
+    "blurb": "Lustra w korytarzach pokazują imiona, których nie ma w kronikach. Na dnie czeka strażnik pamięci."
+   }
+  ],
+  "nexus": [
+   {
+    "id": "v2-transit-2-nexus",
+    "instanceId": "v2-transit-2",
+    "kind": "cave",
+    "x": 25008,
+    "y": 17712,
+    "name": "Kanał Nieautoryzowanych",
+    "blurb": "Przejście jednostek, które procedura ratunkowa uznała za zbędne. Prowadzi do ogrodów Aetherii.",
+    "partnerLand": "aether",
+    "partnerId": "v2-transit-2-aether",
+    "side": "b"
+   },
+   {
+    "id": "v2-transit-3-nexus",
+    "instanceId": "v2-transit-3",
+    "kind": "cave",
+    "x": 33072,
+    "y": 37360,
+    "name": "Przekop Pierwszego Ognia",
+    "blurb": "Serwisowy tunel pod Magistralą Meridian. Czujniki zapisały w nim ślad ognia, którego nie rozpalił nikt z mieszkańców.",
+    "partnerLand": "pyra",
+    "partnerId": "v2-transit-3-pyra",
+    "side": "a"
+   },
+   {
+    "id": "v2-nexus-chambers-nexus",
+    "instanceId": "v2-nexus-chambers",
+    "kind": "cave",
+    "x": 35888,
+    "y": 36304,
+    "name": "Komory Zbędnych Jednostek",
+    "blurb": "Magazyn urządzeń wyłączonych podczas ewakuacji. Niektóre jeszcze nasłuchują."
+   },
+   {
+    "id": "v2-nexus-labyrinth-nexus",
+    "instanceId": "v2-nexus-labyrinth",
+    "kind": "maze",
+    "x": 44656,
+    "y": 19696,
+    "name": "Wielki Labirynt Procedur",
+    "blurb": "Sieć tuneli zbudowana przez system, który nie przewidział błędu. Każdy zakręt to kolejna reguła."
+   }
+  ],
+  "island-1": [
+   {
+    "id": "v2-island-1-chambers-island-1",
+    "instanceId": "v2-island-1-chambers",
+    "kind": "cave",
+    "x": 8880,
+    "y": 2000,
+    "name": "Jaskinia Pierwszego Echa",
+    "blurb": "Wyspa Pierwszego Echa: spotkanie czterech kultur zaczęło się właśnie tu, w ciemności, od jednego dźwięku."
+   }
+  ],
+  "island-2": [
+   {
+    "id": "v2-island-2-chambers-island-2",
+    "instanceId": "v2-island-2-chambers",
+    "kind": "cave",
+    "x": 7920,
+    "y": 3152,
+    "name": "Komora Złamanej Pieczęci",
+    "blurb": "Dwie wersje tej samej historii. Jedna jest wykuta w ścianie, druga w kronice."
+   }
+  ],
+  "island-3": [
+   {
+    "id": "v2-island-3-chambers-island-3",
+    "instanceId": "v2-island-3-chambers",
+    "kind": "cave",
+    "x": 9200,
+    "y": 9232,
+    "name": "Loch Odwróconej Latarki",
+    "blurb": "Tu Veyr testował posłuszeństwo. Światło w lochu pada od dołu."
+   }
+  ],
+  "island-4": [
+   {
+    "id": "v2-island-4-chambers-island-4",
+    "instanceId": "v2-island-4-chambers",
+    "kind": "cave",
+    "x": 6864,
+    "y": 7632,
+    "name": "Grota Czterech Cum",
+    "blurb": "Neutralny port i jego sekret: magazyn, z którego ewakuowano wszystkich, którzy zdążyli."
+   }
+  ],
+  "island-5": [
+   {
+    "id": "v2-island-5-chambers-island-5",
+    "instanceId": "v2-island-5-chambers",
+    "kind": "cave",
+    "x": 2992,
+    "y": 6224,
+    "name": "Pieczara Milczącego Nieba",
+    "blurb": "Uszkodzone przekaźniki wyją tu bezgłośnie. Zapasowa trasa wiedzie przez ich cień."
+   }
+  ],
+  "island-6": [
+   {
+    "id": "v2-island-6-chambers-island-6",
+    "instanceId": "v2-island-6-chambers",
+    "kind": "cave",
+    "x": 7280,
+    "y": 6992,
+    "name": "Czeluść Ostatniego Tonu",
+    "blurb": "Wejście do Jądra Chóru. Nikt nie wrócił, żeby powiedzieć, co usłyszał jako ostatnie."
+   }
+  ]
+ },
+ "art": [
+  "an-iron-prison-cage",
+  "bone-pile",
+  "cave-wall-chunk",
+  "cracked-stone-pillar",
+  "floor-spike-trap",
+  "glowing-crystal-cluster",
+  "rock-with-glowing-lava-cracks",
+  "stalagmite-cluster",
+  "stone-doorway",
+  "stone-sarcophagus",
+  "torch-on-a-stand",
+  "treasure-chest"
+ ]
+}

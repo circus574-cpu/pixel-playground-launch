@@ -1,0 +1,19 @@
+{
+  "format": "ki-godot-pyra-delivery-1",
+  "scope": "whole planet Superior: 4 continents + 6 islands, 3D globe and 2D atlas with travel between lands, four playable races (Legends, Planetary, Sages, Androids) with annex stats, 29-node trees and abilities, cities with service interiors in all four worlds; no enemies or spawns",
+  "engine": "Godot 4.6.3",
+  "version": "0.5.0-world",
+  "versionCode": 5,
+  "androidPackage": "pl.kilegends.godot.pyra",
+  "applicationLabel": "KI LEGENDS",
+  "signing": "local debug certificate (same as 0.3.0 and 0.4.0 deliveries)",
+  "artifacts": {
+    "deliveries/godot-pyra-android-20261115-world/ki-legends-godot-debug.apk": {
+      "bytes": 100789166,
+      "sha256": "45bea2fa321d965af89fd28ca781ee6fc62500dfe7e5f53566f0383550e1eb50"
+    }
+  },
+  "physicalDeviceTest": "Not performed",
+  "previousDelivery": "deliveries/godot-pyra-android-20261115-city",
+  "documentation": "ports/godot-pyra/README.md"
+}

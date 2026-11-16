@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0-pyra",
+  "headless": {
+    "passed": 64,
+    "failed": 0
+  },
+  "nativeSoftwareOpenGL": {
+    "passed": 64,
+    "failed": 0
+  },
+  "typecheck": "PASS app/e2e/tools",
+  "bridgeTests": {
+    "passed": 6,
+    "failed": 0
+  },
+  "androidSignature": "PASS v2/v3",
+  "androidAlignment16KiB": "PASS",
+  "apkCrc": "PASS",
+  "projectZipCrc": "PASS",
+  "physicalAndroid": "UNVERIFIED",
+  "webRuntimeChanged": false,
+  "artifacts": {
+    "deliveries/godot-pyra-android-20261115-title/ki-legends-pyra-debug.apk": {
+      "bytes": 47117009,
+      "sha256": "7adb4d2f3dc59d3bc927a69adfb6f1a4133b60748076f50853311cc13621899d"
+    },
+    "deliveries/godot-pyra-android-20261115-title/ki-legends-pyra-godot-project.zip": {
+      "bytes": 17998019,
+      "sha256": "21660a5ff8479c9d92bc78810a2f787b3b885e6fd04ae4162934b6cc248b263d"
+    }
+  }
+}

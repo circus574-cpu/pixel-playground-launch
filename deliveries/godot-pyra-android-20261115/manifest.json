@@ -1,0 +1,32 @@
+{
+  "format": "ki-godot-pyra-delivery-1",
+  "prototypeOnly": true,
+  "engine": "Godot 4.6.3",
+  "artifacts": {
+    "deliveries/godot-pyra-android-20261115/ki-legends-pyra-debug.apk": {
+      "bytes": 46783250,
+      "sha256": "39d152bc4d0b595320e1273004c10b71a747993872693464e886893c34c114ed"
+    },
+    "deliveries/godot-pyra-android-20261115/ki-legends-pyra-godot-project.zip": {
+      "bytes": 17835377,
+      "sha256": "5ca8868e3bfeb3d1dd2a493db61c3c78c738662aa326620ebea45fa0ae8c5e02"
+    }
+  },
+  "android": {
+    "package": "pl.kilegends.godot.pyra",
+    "abi": "arm64-v8a",
+    "minSdk": 24,
+    "targetSdk": 36,
+    "orientation": "USER_LANDSCAPE",
+    "debug": true,
+    "networkPermissions": [],
+    "externalStoragePermissions": [],
+    "apkCrc": "PASS",
+    "signature": "PASS APK v2/v3",
+    "alignment16KiB": "PASS",
+    "bytes": 46783250,
+    "sha256": "39d152bc4d0b595320e1273004c10b71a747993872693464e886893c34c114ed"
+  },
+  "physicalDeviceTest": "Not performed",
+  "documentation": "ports/godot-pyra/README.md; also included in the project ZIP"
+}

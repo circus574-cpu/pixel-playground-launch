@@ -8,9 +8,14 @@ services:
       GAME_SERVER_AUTOSTART: "1"
       GAME_ONLINE_REQUIRED: "1"
       GAME_WORLD_PUBLIC_ROOT: /app/.output/public
+      GODOT_CONTENT_DIR: /data/godot-content
+    volumes:
+      - godot-content:/data/godot-content
     expose:
       - "7420"
     networks: [default, game-database]
+volumes:
+  godot-content:
 networks:
   game-database:
     external: true

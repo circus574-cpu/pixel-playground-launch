@@ -21,6 +21,10 @@ import { accountRole, accountVerifier } from "./characters/auth";
 import { characterHttp, type VerifyAccount } from "./characters/http";
 import { serveOnlineSocket } from "./characters/socket";
 import { accountHttp } from "./accounts/http";
+import { godotHttp } from "./godot/http";
+import { GodotLive } from "./godot/live";
+import { GodotStore } from "./godot/store";
+import { ContentFiles } from "./godot/contentFiles";
 import { resendMailer } from "./accounts/mailer";
 import { AccountService } from "./accounts/service";
 import { signingKey } from "./accounts/crypto";
@@ -80,6 +84,9 @@ export class GameServer {
   /** Player accounts in PostgreSQL on the VPS (/ws/auth/*). */
   private accounts: AccountService | null = null;
   private world: WorldOverrideService | null = null;
+  /** Android game: cloud saves, content releases, presence (/ws/godot/*). */
+  private godot: GodotStore | null = null;
+  private godotLive = new GodotLive(() => this.accounts);
   private tickCount = 0;
   private tickTimes: number[] = [];
   private onlineTickTimes: number[] = [];
@@ -134,6 +141,15 @@ export class GameServer {
       return;
     }
 
+    if (url.split("?")[0] === "/ws/godot" || url.startsWith("/ws/godot/")) {
+      void godotHttp(req, res, {
+        store: this.godot,
+        accounts: this.accounts,
+        online: () => this.godotLive.count(),
+      });
+      return;
+    }
+
     if (url.startsWith("/ws/world/")) {
       void worldHttp(req, res, this.world, (token) => this.staffSubject(token));
       return;
@@ -178,6 +194,10 @@ export class GameServer {
     this.wss.on("connection", (socket: WebSocket, req: http.IncomingMessage) => {
       if (this.sessions.size + this.onlineSockets.size >= this.config.maxPlayers) {
         socket.close(1013, "Serwer pełny");
+        return;
+      }
+      if (req.url?.split("?")[0] === "/ws/godot/live") {
+        this.godotLive.attach(socket);
         return;
       }
       if (req.url?.split("?")[0] === "/ws/online") {
@@ -676,6 +696,7 @@ export class GameServer {
           }
         }
         this.world = await this.prepareWorld(this.db);
+        this.godot = await this.prepareGodot(this.db);
         console.log("[GameServer] Połączenie PostgreSQL zweryfikowane.");
       } catch (err) {
         if (this.db) await this.db.end().catch(() => {});
@@ -712,6 +733,22 @@ export class GameServer {
 
     if (this.db) {
       this.dbSyncInterval = setInterval(() => void this.syncToDatabase(), 500);
+    }
+  }
+
+  /** Android game backend: cloud saves, content releases. Packs live on GODOT_CONTENT_DIR (a volume), never in the image. */
+  private async prepareGodot(sql: ReturnType<typeof postgres>) {
+    try {
+      const store = new GodotStore(
+        sql,
+        new ContentFiles(process.env["GODOT_CONTENT_DIR"] || "/data/godot-content"),
+      );
+      await store.ready();
+      console.log("[GameServer] Backend gry Android gotowy (zapisy w chmurze, wydania treści).");
+      return store;
+    } catch {
+      console.warn("[GameServer] Backend gry Android niedostępny: brak schematu godot_android.");
+      return null;
     }
   }
 
@@ -772,6 +809,8 @@ export class GameServer {
     this.verifyAccount = null;
     this.accounts = null;
     this.world = null;
+    this.godot = null;
+    this.godotLive.closeAll();
 
     if (this.tickInterval) clearInterval(this.tickInterval);
     if (this.dbSyncInterval) clearInterval(this.dbSyncInterval);

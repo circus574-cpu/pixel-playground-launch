@@ -1,0 +1,75 @@
+{
+  "webSource": "0b69c28e4b45a59f32251f5ac6d54e1365660d98",
+  "webQuality": {
+    "typecheck": "PASS app/e2e/tools",
+    "unitPassed": 2112,
+    "unitFailed": 0,
+    "unitSkipped": 12,
+    "skipReason": "Existing PostgreSQL integration cases without their separate database",
+    "lint": "PASS, 17 pre-existing warnings",
+    "assets": "PASS",
+    "build": "PASS"
+  },
+  "godot": {
+    "headless": {
+      "passed": 52,
+      "failed": 0
+    },
+    "nativeSoftwareOpenGL": {
+      "passed": 52,
+      "failed": 0
+    },
+    "sourceBridgeTests": 6,
+    "physicalAndroid": "UNVERIFIED; no device attached",
+    "linuxPackedExecutable": "Exported and launched successfully from embedded resources"
+  },
+  "android": {
+    "package": "pl.kilegends.godot.pyra",
+    "abi": "arm64-v8a",
+    "minSdk": 24,
+    "targetSdk": 36,
+    "orientation": "USER_LANDSCAPE",
+    "debug": true,
+    "networkPermissions": [],
+    "externalStoragePermissions": [],
+    "apkCrc": "PASS",
+    "signature": "PASS APK v2/v3",
+    "alignment16KiB": "PASS",
+    "bytes": 46783250,
+    "sha256": "39d152bc4d0b595320e1273004c10b71a747993872693464e886893c34c114ed"
+  },
+  "scope": {
+    "city": "Twierdza Popiołu, Pyra",
+    "buildings": 6,
+    "npcs": 8,
+    "sceneObjects": 53,
+    "textures": 44,
+    "floorChunks": 16,
+    "estimatedOutdoorRgbaMiB": 75.05,
+    "webRuntimeChanged": false,
+    "productionDeployed": false
+  },
+  "notPorted": [
+    "world outside city",
+    "combat/skills",
+    "trade/crafting/depot inventory",
+    "quest progression",
+    "online accounts/cloud saves",
+    "audio"
+  ],
+  "sourceInputsManifest": "source-inputs.json",
+  "artifacts": {
+    "deliveries/godot-pyra-android-20261115/ki-legends-pyra-debug.apk": {
+      "bytes": 46783250,
+      "sha256": "39d152bc4d0b595320e1273004c10b71a747993872693464e886893c34c114ed"
+    },
+    "deliveries/godot-pyra-android-20261115/ki-legends-pyra-godot-project.zip": {
+      "bytes": 17835377,
+      "sha256": "5ca8868e3bfeb3d1dd2a493db61c3c78c738662aa326620ebea45fa0ae8c5e02"
+    }
+  },
+  "documentationRevision": {
+    "scope": "README only added to project ZIP; runtime and APK unchanged",
+    "verifiedRuntimeCommit": "01ff5f91d571d2b408c07374298a869065bcfb79"
+  }
+}

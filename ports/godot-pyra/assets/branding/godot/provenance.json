@@ -1,0 +1,8 @@
+{
+  "source": "https://raw.githubusercontent.com/godotengine/godot-website/9ff22d3a58cbe906d739b85d299dca7c0c78e1e8/assets/press/logo_large_color_dark.svg",
+  "sha256": "edabcfefeed6b3d255de8777ea1bca885d9037715a90129661089ce811902fd1",
+  "licenseSource": "https://raw.githubusercontent.com/godotengine/godot/master/misc/logo/LICENSE.txt",
+  "licenseSha256": "ecbabe930d468f0552a079cdb2cbd1eefe66f03d0aedbb13293bd1b1ec15b67c",
+  "license": "CC BY 4.0",
+  "modifications": "None; proportional display scaling only"
+}

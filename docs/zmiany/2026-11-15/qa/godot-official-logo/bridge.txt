@@ -1,0 +1,8 @@
+
+ RUN  v4.1.12 /workspace/ki-godot-pyra
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  18:47:23
+   Duration  2.67s (transform 1.05s, setup 86ms, import 1.62s, tests 473ms, environment 370ms)

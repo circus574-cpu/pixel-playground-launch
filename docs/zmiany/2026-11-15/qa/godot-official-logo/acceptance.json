@@ -1,0 +1,19 @@
+{
+  "officialGodotLogo": "PASS, unmodified SVG from official press kit",
+  "headless": {
+    "passed": 64,
+    "failed": 0
+  },
+  "nativeSoftwareOpenGL": {
+    "passed": 64,
+    "failed": 0
+  },
+  "typecheck": "PASS app/e2e/tools",
+  "sourceBridge": {
+    "passed": 6,
+    "failed": 0
+  },
+  "requestedIllustration": "BLOCKED: inline preview has no accessible file; repository cover is a different variant",
+  "newApk": "NOT BUILT; waiting for illustration file",
+  "physicalAndroid": "UNVERIFIED"
+}

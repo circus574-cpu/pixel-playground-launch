@@ -1,0 +1,17 @@
+{
+  "format": "ki-godot-pyra-delivery-1",
+  "scope": "complete game port: all ten lands, four races, monsters with all traits, quests and dialogues, audio, equipment rules, eight bosses, 22 caves, 14 world events, day and night, citizens, ambient effects; high-quality textures; the APK is stored in Git LFS",
+  "engine": "Godot 4.6.3",
+  "version": "0.8.0-complete",
+  "versionCode": 8,
+  "androidPackage": "pl.kilegends.godot.pyra",
+  "applicationLabel": "KI LEGENDS",
+  "signing": "local debug certificate (same as earlier deliveries), APK Signature Scheme v2 and v3 verified",
+  "artifacts": {
+    "deliveries/godot-pyra-android-20261116-complete/ki-legends-godot-debug.apk": {"bytes": 148234924, "sha256": "8071893d82fa242dc0b4d59db6823103513fdbeb49e5d318312a71007a311701"}
+  },
+  "tests": "tests/smoke.gd 420/420 headless; exported PCK run outside the project: ten lands, shop interiors of four races, a cave and a boss, 0 errors",
+  "physicalDeviceTest": "Not performed",
+  "previousDelivery": "deliveries/godot-pyra-android-20261116-bestiary-hq",
+  "documentation": "ports/godot-pyra/README.md"
+}

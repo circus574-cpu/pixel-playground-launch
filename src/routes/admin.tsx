@@ -26,6 +26,7 @@ const AdminMonitoringCenter = lazy(() =>
     default: m.AdminMonitoringCenter,
   })),
 );
+const AdminGodotPanel = lazy(() => import("@/components/admin/AdminGodotPanel"));
 const ServerCharacterManager = lazy(() => import("@/components/admin/ServerCharacterManager"));
 const AdminWorldEditor = lazy(() =>
   import("@/components/admin/AdminWorldEditor").then((m) => ({
@@ -51,6 +52,7 @@ function AdminPage() {
     | "coder"
     | "diagnostyka"
     | "world-overview"
+    | "android"
   >(() =>
     typeof window !== "undefined" &&
     new URLSearchParams(window.location.search).get("view") === "world-overview"
@@ -85,6 +87,7 @@ function AdminPage() {
               ["monitoring", "Serwer"],
               ["content", "Świat i zawartość"],
               ...(isAdmin ? [["world-overview", "Świat — przegląd"] as const] : []),
+              ["android", "Gra Android"],
               ["audit", "Dziennik"],
               ["coder", "Postacie lokalne"],
               ["diagnostyka", "Diagnostyka urządzenia"],
@@ -98,6 +101,11 @@ function AdminPage() {
         {tab === "server-chars" && (
           <Suspense fallback={<p role="status">Wczytywanie menedżera postaci serwerowych…</p>}>
             <ServerCharacterManager />
+          </Suspense>
+        )}
+        {tab === "android" && (
+          <Suspense fallback={<p role="status">Wczytywanie panelu gry Android…</p>}>
+            <AdminGodotPanel isAdmin={isAdmin} />
           </Suspense>
         )}
         {tab === "players" && <Players me={account.session.user.id} isAdmin={isAdmin} />}
@@ -272,6 +280,12 @@ const ACTION_NAMES: Record<string, string> = {
   RESET_PASSWORD: "Zmiana hasła (link)",
   GRANT_ROLE: "Nadanie roli",
   REVOKE_ROLE: "Odebranie roli",
+  GODOT_UPLOAD_PACK: "Android: wgranie paczki treści",
+  GODOT_CREATE_RELEASE: "Android: nowe wydanie treści",
+  GODOT_ACTIVATE_RELEASE: "Android: aktywacja wydania",
+  GODOT_DELETE_RELEASE: "Android: usunięcie wydania",
+  GODOT_SETTINGS: "Android: ustawienia dostępu",
+  GODOT_DELETE_SAVE: "Android: usunięcie zapisu gracza",
 };
 
 function Audit() {

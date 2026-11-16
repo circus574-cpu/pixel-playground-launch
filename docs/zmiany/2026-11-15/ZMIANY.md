@@ -314,3 +314,347 @@ z ciemnymi plakietkami) dostały ten sam styl bez tła, ale nie były oglądane 
 (tekst na rysowanej tabliczce) i panel debugowania `MultiplayerWorldOverlay` zostały bez zmian; własna nazwa bohatera
 jest schowana (łatwo ją przywrócić). Napisy w wnętrzach miasta v1 (tytuł, „Wyjście do miasta”) przepisane, ale nie obejrzane,
 bo świat v1 w tym środowisku się nie otwiera (jak w punkcie 8).
+
+### 10. Pierwsza próba KI Legends w Godot 4 na Androida — miasto Pyry
+
+Zlecenie właściciela: rozpocząć próbę przenoszenia KI Legends do Godot 4 na Androida,
+na początek samo miasto, np. Pyra. Powstał izolowany port **Twierdzy Popiołu** na gałęzi
+`feat/godot-pyra-android-20261115`, od `main@0b69c28e4b45a59f32251f5ac6d54e1365660d98`.
+Projekt `ports/godot-pyra/project.godot`, Godot **4.6.3**, GDScript i Compatibility.
+Nie scalono do `main`, nie wdrożono do gry WWW ani Google Play.
+
+| Element | Stan przed | Zmiana | Dowód |
+| --- | --- | --- | --- |
+| Miasto | Istniejące definicje Pyry w Phaser | Natywna scena Godot z 53 obiektami i źródłowymi kolizjami | Zrzuty rzeczywistego viewportu i przejście postaci do sali |
+| Grafika | Atlasy WWW i osobne tekstury | Eksport z przyciętych atlasów z zachowaniem sourceSize/origin/mirrored; 44 współdzielone tekstury | SHA-256 45 plików źródłowych i 6 testów porównania danych |
+| Postać | Legenda w grze WWW | Osiem kierunków idle/walk, szybkość 170 z aneksu, fizyka stóp i budynków | Kolizja na oryginalnym footprint, ruch przy limitach 30/120 FPS |
+| Android/dotyk | Brak projektu Godot | Joystick 360°, osobny palec interakcji, cancel/fokus, safe area, układ poziomy | Wstrzykiwane zdarzenia ScreenTouch przez rzeczywisty viewport i trzy rozmiary okna |
+| NPC i wnętrza | 8 NPC / 6 budynków w źródle | Rozmowy, wejścia i powroty, oryginalne pokoje 1920×1280 | Próba wszystkich sześciu drzwi, dojście do NPC wewnątrz |
+| Zapis | Zapisy kont gry WWW | Osobny lokalny checkpoint v1, bez konta i bez importu zapisów WWW | Round-trip oraz ochrona nowszego nieznanego pliku |
+| Paczka | Brak APK | Samodzielny debug APK ARM64, Android 7+, target 36, osobny package ID | Podpis v2/v3, CRC ZIP, wyrównanie 16 KiB, manifest i biblioteka Godot |
+
+#### Paczki do próby
+
+- [APK Android ARM64](../../../deliveries/godot-pyra-android-20261115/ki-legends-pyra-debug.apk) —
+  **46 783 250 bajtów**, SHA-256 `39d152bc4d0b595320e1273004c10b71a747993872693464e886893c34c114ed`.
+- [Projekt Godot ZIP](../../../deliveries/godot-pyra-android-20261115/ki-legends-pyra-godot-project.zip) —
+  otworzyć `godot-pyra/project.godot` w Godot 4.6.3; bez `.godot`, buildów i kluczy.
+- [Manifest paczek](../../../deliveries/godot-pyra-android-20261115/manifest.json).
+- [Uruchomienie, eksport i architektura](../../ARCHITEKTURA-I-TESTY.md#próba-migracji-godot-4--android--miasto-pyry-15112026).
+
+APK jest podpisany lokalnym certyfikatem debug; klucz pozostaje poza Git.
+Nie żąda internetu ani dostępu do pamięci zewnętrznej. Package `pl.kilegends.godot.pyra`,
+min SDK 24, target SDK 36, orientacja pozioma `USER_LANDSCAPE`.
+W eksporcie znalazły się rzeczywiste `libgodot_android.so`, dane miasta i zasoby;
+wykluczono testy oraz surowy zrzut źródeł. Wyeksportowany program Linux również
+uruchomiono z zasobów wbudowanych w paczkę, bez odwołań do edytora.
+
+#### Sprawdzenia
+
+- Godot headless: **52 PASS / 0 FAIL**.
+- Natywny Godot X11, Compatibility, Mesa llvmpipe: **52 PASS / 0 FAIL**;
+  zrzuty i nagranie pochodzą z silnika, nie z generatora obrazów ani makiety WWW.
+- Viewporty: **854×480, 1280×720, 1600×720**. Przy ruchu 170 j./s i limitach
+  renderowania 30/120 FPS zmierzono zbliżony dystans, z tolerancją pojedynczych kroków fizyki.
+- Pełny TypeScript aplikacji/e2e/tools PASS, Vitest **2112 PASS / 0 FAIL / 12 SKIP**
+  (zastane testy PostgreSQL bez osobnej bazy), lint **0 błędów / 17 zastanych ostrzeżeń**,
+  kontrola zasobów oraz build WWW PASS. Sześć nowych testów dotyczy mostu danych.
+- Parser Godot, eksport APK i podpis v2/v3 PASS, CRC paczki PASS, wyrównanie 16 KiB PASS.
+- Wczesne próby ujawniły osierocone etykiety przy zwalnianiu bohatera,
+  pomylenie współrzędnych fizycznego okna headless 64×64 z logicznym viewportem,
+  niedozwolone nadpisanie SDK bez Gradle oraz wymagany znacznik importu ETC2/ASTC.
+  Poprawiono przyczyny; obecne wyniki pochodzą z pełnego ponowienia.
+- **Fizyczny Android niezweryfikowany:** brak podłączonego urządzenia. Podpisana paczka
+  i próba desktopowa nie stanowią testu instalacji, GPU, baterii ani FPS na telefonie.
+
+Szacunkowy budżet pikseli tekstur widoku miasta to **75,05 MiB RGBA** dla aktywnych
+materiałów i postaci. Nie obejmuje viewportu, UI, pamięci silnika ani przejściowych
+alokacji; nie jest całkowitym zużyciem RAM na Androidzie.
+
+#### Materiały odbioru
+
+[Manifest wyników](qa/godot-pyra/acceptance.json),
+[hash wejść portu](qa/godot-pyra/source-inputs.json),
+[headless JSON](qa/godot-pyra/headless-results.json),
+[natywny JSON](qa/godot-pyra/native-results.json),
+[Vitest JSON](qa/godot-pyra/vitest.json.gz),
+[miasto](qa/godot-pyra/city-spawn.png),
+[miasto na 854×480](qa/godot-pyra/city-854x480.png),
+[rozmowa w sali](qa/godot-pyra/hall-dialog.png),
+[kuźnia](qa/godot-pyra/room-smithy.png),
+[depozyt](qa/godot-pyra/room-depot.png),
+[nagranie natywnego autotestu](qa/godot-pyra/native-gameplay.mp4),
+[manifest SHA-256 dowodów](qa/godot-pyra/evidence-sha256.json).
+
+Workflow `Godot Pyra city prototype` pobiera przypięty binarny Godot 4.6.3
+(z kontrolą SHA-256), wykonuje parser/import, testy headless i prawdziwy render
+OpenGL przez Xvfb, a wyniki zachowuje jako artefakt. Nie publikuje produkcji.
+Wynik CI należy przypisywać do SHA faktycznie przetestowanego w Actions.
+
+#### Pozostało poza tą próbą
+
+Pełny kontynent i streaming, walka/umiejętności, zadania i postęp,
+handel/crafting/przedmioty depozytu, audio oraz konta/zapisy serwerowe.
+Dialogi zawierają tekst z gry, ale nie przyznają nagród ani postępu Godot.
+Nie migrowano postaci, nie resetowano danych, nie zmieniano statystyk,
+generatorów świata, geometrii Superiora, infrastruktury GPU ani produkcji.
+
+
+**Integracja gałęzi prototypu:** po przygotowaniu APK do własnej gałęzi pobrano
+`main@5e5bc00e` (rozmowy i typografia WWW). Źródło danych portu i sam APK pozostają
+przypięte do `0b69c28e`; kontrakty, tekstury i geometria użytego miasta nie zmieniły
+się. Nowy webowy system prowadzenia przez NPC nie jest częścią tego portu.
+Wyniki 2112 testów dotyczą lokalnej kontroli na bazie 0b69c28e; końcowy stan
+po integracji potwierdza bramka CI na SHA PR. Nie wykonano scalenia do main.
+
+### 11. Osobna dokumentacja projektu Android / Godot
+
+Na wyraźne zlecenie właściciela dodano samodzielny
+[podręcznik Android](../../../ports/godot-pyra/README.md) obok `project.godot`.
+Opisuje zakres miasta, instalację APK, sterowanie, uruchomienie edytora,
+strukturę kodu i danych, regenerację materiałów, SDK/JDK i eksport, podpisy,
+checkpoint, testy oraz dalszy zakres migracji. Nie dodano jedenastego dokumentu
+tematycznego do `docs/`; indeks i opis architektury linkują instrukcję portu.
+
+Do istniejącego ZIP-a projektu dołączono wyłącznie `godot-pyra/README.md`;
+poprzednie wpisy i ich zawartość zachowano. Manifest dostawy i odnośnik do ZIP-a
+w raporcie odbioru otrzymały aktualny rozmiar/SHA-256. APK i cały kod runtime
+pozostają identyczne. Wyniki testów silnika opisane w instrukcji dotyczą
+`01ff5f91d571d2b408c07374298a869065bcfb79`, a nie nowego commita dokumentacji.
+
+Sprawdzono odnośniki, kompletność i CRC ZIP-a, zgodność manifestów i zachowanie
+SHA APK; uruchomiono kontrolę dokumentacji, pełny TypeScript i sześć testów mostu.
+Fizyczny Android pozostaje niezweryfikowany. Zmiany na tej samej osobnej gałęzi
+i w PR #170, bez scalenia lub publikacji.
+
+### 12. Android — ekran KI LEGENDS, napis Godot i własne ikony
+
+Na polecenie właściciela powstał rzeczywisty ekran startowy Godot:
+znak KI, tytuł KI LEGENDS, istniejące wnętrze Pyry w tle,
+przycisk **WEJDŹ DO PYRY** i napis **Powered by GODOT ENGINE**.
+Ten sam branding jest w boot splash. Scena startowa to `scenes/title.tscn`,
+obsługiwana przez `scripts/title_screen.gd`; miasto ładuje się dopiero po
+zatwierdzeniu. Nie dubluje się po szybkim dotykaniu. Cancel, utrata fokusu
+i dotknięcie drugim palcem nie zatwierdzają przycisku; dotyk nie przechodzi
+na joystick. Nie zmieniono ruchu, geometrii, checkpointu ani gry WWW.
+
+Android ma nazwę **KI LEGENDS** i ikony standardową, adaptacyjną oraz
+monochromatyczną. Adaptacyjny znak mieści się w bezpiecznym kole launchera.
+Zachowano znak z `public/ki-favicon.svg`; Cinzel pochodzi z dotychczasowego repo,
+jest przekonwertowany do TTF z pełnym OFL w APK i w menu licencji.
+Skrypt `scripts/godot/prepare_branding.py` odtwarza pliki i zapisuje ich pochodzenie.
+Nie użyto nowych zewnętrznych ilustracji, usług generowania ani podów GPU.
+
+#### Nowa paczka 0.2.0-pyra
+
+- [APK z ekranem startowym i ikoną](../../../deliveries/godot-pyra-android-20261115-title/ki-legends-pyra-debug.apk),
+  **47 117 009 bajtów**, SHA-256
+  `7adb4d2f3dc59d3bc927a69adfb6f1a4133b60748076f50853311cc13621899d`.
+- [Projekt Godot z instrukcją](../../../deliveries/godot-pyra-android-20261115-title/ki-legends-pyra-godot-project.zip).
+- [Manifest nowej dostawy](../../../deliveries/godot-pyra-android-20261115-title/manifest.json).
+
+Kod wersji 2; pakiet `pl.kilegends.godot.pyra` i prywatny klucz debug są takie same,
+aby umożliwić aktualizację pierwszego APK. Poprzednią dostawę zachowano w jej
+katalogu; nie nadpisano oryginalnych paczek ani ich dowodów.
+
+#### Dowody i wyniki
+
+- Godot headless **64/64**, natywny Compatibility przez Mesa llvmpipe **64/64**.
+  W obu próbach uruchamiana jest rzeczywista scena startowa, następnie całe
+  wcześniejsze sprawdzenia miasta, NPC, wnętrz, kolizji, dotyku i checkpointu.
+- Tytuł i przycisk sprawdzono przy **854×480, 1280×720 i 1600×720**.
+  Scena miasta powstaje tylko raz, a joystick startuje bez przejętego palca.
+- Pełny TypeScript aplikacji/e2e/tools PASS; testy mostu danych **6/6 PASS**.
+- Podpis APK v2/v3, CRC, wyrównanie 16 KiB, nazwa aplikacji i wersja PASS.
+  Sprawdzono rzeczywiste obrazy ikon w wariantach gęstości APK oraz obecność
+  sceny, skryptu startowego i OFL. Brak żądanych uprawnień sieci/pamięci zewnętrznej.
+- Eksport samodzielnego programu Linux uruchamia nowy ekran z zapakowanych zasobów
+  i kończy się bez błędów silnika. Fizyczny Android pozostaje **niezweryfikowany**.
+
+[Wyniki](qa/godot-pyra-title/acceptance.json),
+[headless](qa/godot-pyra-title/headless-results.json),
+[render natywny](qa/godot-pyra-title/native-results.json),
+[ekran startowy 1280×720](qa/godot-pyra-title/title-1280x720.png),
+[ekran startowy 854×480](qa/godot-pyra-title/title-854x480.png),
+[ikona aplikacji](qa/godot-pyra-title/icon.png),
+[kontrola brandingu APK](qa/godot-pyra-title/branding-checks.json),
+[SHA wejść](qa/godot-pyra-title/source-inputs.json),
+[SHA dowodów](qa/godot-pyra-title/evidence-sha256.json).
+
+Workflow Godot wymaga teraz co najmniej 64 zaliczonych kontroli bez błędów.
+PR #170 pozostaje osobnym Draft; brak scalenia i publikacji.
+
+### 13. Android / Godot 0.3.0-pyra: cały kontynent, mapa 2D/3D i Legenda
+
+Zlecenie właściciela: przenieść całą Pyrę (Codex przeniósł testowo tylko miasto, PR #170), bez spawnów; grafika ma zostać
+(„dużo lepiej wygląda”); postać na Androidzie jest za mała (+15 %); zacząć przenosić mapę 2D i 3D i od razu ją dopracować;
+potem mechanika Legendy (umiejętności, drzewko, statystyki); wynik jako APK. Gałąź `ccr-ebbd6459-n7c5eg` zaczęto od
+`feat/godot-pyra-android-20261115` (fast-forward z `main`), nie nadpisano historii.
+
+**Co zrobiono.**
+
+- **Kontynent.** `PyraContinent`: jeden quad z shaderem terenu na opublikowanej siatce 32 j. (wagi biomów popiół/bazalt/
+  wulkan/kanion, ląd/morze, lawa na komórkach stopionych, brzeg, nakładki liści i skał), drogi z maski 16 j. (395 szlaków
+  + 299 dróg świata, Catmull-Rom jak w przeglądarce, cztery materiały), dziedzińce trzech miast. Obiekty: 34 607
+  rozmieszczeń z reguł `pyraContinent.ts` (z 61 174 pozycji przerzedzono 26 571, 0 brakujących tekstur), 74 sprite'y, strumieniowane po
+  chunkach. Kolizja: `walk.bin` z nawigacji, terenu i 5 935 kolizji. Stolica z pierwszej próby wchodzi w układ świata
+  (przesunięcie 44 564,29; 12 168,47), jej płytki wtapiają się w teren, budynki mają grafiki przeglądarki.
+- **Miasta.** Stolica + Cytadela Kowadeł, Port Czerwonych Żagli, Żarowy Trakt: 24 wejścia ze złotym kołem, 6 wnętrz
+  usługowych każde (pokoje z pierwszej próby), rozmowy, odpoczynek w gospodzie, przewodnicy szlaków.
+- **Bohater +15 %.** Paczka `hero-legend-walk-v3 3.3.0` (chód 8 kierunków, bieg, ataki, forma KI); rozmiar 133 → 152,95 j.
+  (`HERO_SCALE = 1.15`, test pilnuje wartości). Kolizja stopy bez zmian (12 j.).
+- **Mapa.** Globus 3D (siatka kuli z własnym UV, chmury, kontury z tych samych obrysów, znacznik gracza, obrót z
+  bezwładnością i autoobrót, wybór regionu promieniem), atlas 2D (zapętlenie, zoom, wybór regionu z obrysów), mapa kontynentu
+  z miastami i 41 miejscami; pozycja gracza z komórek afinicznych `worldOverlay.v2.json`. Pierwsza wersja globusa miała
+  odwrócone ściany siatki (widać było wnętrze kuli, znacznik leżał w oceanie); wykryte na zrzucie, poprawione, test sprawdza
+  teraz, że środek ekranu po wycentrowaniu na Pyrze wskazuje Pyrę.
+- **Legenda.** Statystyki 1–20 z aneksu, drzewko 29 węzłów (wymagania, wykluczenia A7/A8, B7/B8, C7/C8, rangi:
+  pierwszy punkt połowa premii, kolejne +10 % tej bazy), Żar, atak podstawowy co 750 ms, A1/A4/A9, B1/B4/B9, C1/C4/C9,
+  Forma Płomiennego Legendy, unik, krytyk ×1,5. Ekran POSTAĆ: statystyki ze źródłami, drzewko, sloty. Walka tylko na
+  manekinie areny (nie oddaje ciosów, nie płaci nagród).
+- **Dotyk/HUD.** Joystick, ATAK, 4 sloty zdolności z kosztem KI i odnowieniem, UNIK, E; paski HP/KI/Żar/XP.
+- **Pakiet.** Android `pl.kilegends.godot.pyra` 0.3.0-pyra (kod 3), tekstury sprite'ów w kompresji VRAM, APK 80 427 215 B,
+  SHA-256 `6f88aa384513b6d947dc0cfad686bd56d08dc7b0427604a05a89e92526f39050`
+  (`deliveries/godot-pyra-android-20261115-continent`).
+
+**Decyzje.** (1) „+15 %” liczone od poprzedniej wersji Godot (133 j.), nie od przeglądarki. (2) Brak potworów, więc XP nie
+ma źródła; poziom ustawia się w ekranie POSTAĆ jako „poziom próbny” (oznaczony w interfejsie) — do zastąpienia, gdy
+wejdą spawny. (3) Nowy klucz debug (poprzedni został poza repozytorium) — poprzedniego APK trzeba odinstalować przed
+instalacją. (4) Nie dołączono ZIP-a projektu (cały projekt jest w repozytorium).
+
+**Kontrole.**
+
+- `tests/smoke.gd`: **158/158** headless i **158/158** z natywnym renderowaniem (Mesa llvmpipe); wcześniejsze 64 kontrole
+  ekranu startowego zachowane, część kontroli miasta zastąpiona (zmieniła się fizyka i układ świata). Zrzuty:
+  `qa/godot-continent/`.
+- Eksport Linux ze sceną gry jako startową uruchomiony z paczki: dane i zasoby z PCK, 0 błędów. APK: podpis v2/v3,
+  wyrównanie 16 KiB, pakiet/etykieta/wersja/`arm64-v8a`.
+- Pomiar desktopowy w kadrze: 90–260 wywołań rysowania, 260–440 obiektów rysowania, ~133 MiB tekstur.
+- `python3 scripts/docs/check_documentation.py`: PASS.
+
+**Nie sprawdzono / otwarte.** Fizyczny Android (instalacja, FPS, bateria, pamięć, czas wczytania kontynentu — wczytywanie
+odbywa się przy tworzeniu sceny i na telefonie może chwilę trwać), przycisk Wstecz i pinch-zoom na mapie (sam kod),
+Vitest mostu źródeł (brak `node_modules` w sesji; źródła nie zmienione), efekty otoczenia (dym, para), dekoracje „dress”
+przeglądarki, pozostałe usługi miast (sklep, kuźnia, depozyt), zdobywanie doświadczenia, pozostałe trzy kontynenty.
+### 13. Korekta: oryginalny logotyp Godot; oczekiwanie na plik ilustracji
+
+Właściciel odrzucił wygląd wstępu i wskazał konkretną ilustrację KI Legends.
+Napis silnika zastąpiono niezmienionym oryginalnym SVG z oficjalnego press kitu
+Godot. Boot splash jest teraz kompozycją oryginalnego logotypu na jednolitym tle;
+ekran startowy pokazuje „Powered by” oraz ten sam oryginalny logotyp. Dodano
+atrybucję CC BY 4.0, źródła/SHA oraz widok licencji. Test silnika sprawdza
+ścieżkę rzeczywistego SVG, zamiast porównywać sam napis.
+
+**Brakujący materiał:** ilustrację widać w wiadomości właściciela, lecz narzędzia
+nie otrzymały jej jako lokalnego pliku ani identyfikatora do pobrania. Sprawdzono
+załączniki, dostępne pliki i repozytoryjną okładkę. Dostępna okładka jest starszą
+wersją z „JUŻ WKRÓTCE” i nie jest tym samym obrazem. Zapytano o ścieżkę/link;
+do integracji dokładnego obrazu potrzebny jest jego plik. Nie zastąpiono go
+podobną wygenerowaną grafiką ani nie ogłoszono ukończenia nowego wstępu.
+
+Korektę logotypu sprawdzono w Godot headless i natywnym Compatibility:
+64/64 w każdym trybie; pełny TypeScript oraz most danych 6/6.
+Dowody są w `qa/godot-official-logo/`. Nie przygotowano kolejnego APK ze starym
+odrzuconym wstępem. Paczka 0.2.0 pozostaje historyczną dostawą; pełna poprawka
+i nowe APK wymagają pliku ilustracji. Bez scalenia i publikacji.
+
+### 14. Android / Godot 0.4.0-pyra: wstęp z ilustracją, drzewko z oprawą graficzną, miasto na gotowo
+
+Zlecenie właściciela: ilustracja ma być wstępem, na dole „Powered by GODOT”; drzewko umiejętności z lepszą oprawą graficzną;
+zacząć uzupełniać miasto Pyry „na gotowo”. Przy okazji scalono (zwykłym merge, bez przepisywania historii) commit
+`35f4b42a` z PR #170 (oficjalne logo Godot, licencja CC BY 4.0).
+
+- **Wstęp.** Ilustracja właściciela (1121 × 1403) jest ekranem startowym: cała, bez zniekształceń, na rozmytym i przyciemnionym
+  tle z tej samej grafiki; przycisk WEJDŹ DO PYRY nad stopką „Powered by GODOT ENGINE” z oficjalnym logo. Boot splash to ta sama
+  ilustracja z logo i napisem „POWERED BY”. Oryginał zostaje w repozytorium (`assets/branding/intro-source.png`, wyłączony z APK
+  filtrem eksportu), SHA w `intro-provenance.json`. Test ekranu startowego przepisano (stary sprawdzał napis „KI LEGENDS” w
+  etykiecie, który zastąpiła grafika).
+- **Drzewko.** Ikony zdolności to istniejące malowane ilustracje `legend-*` (29 węzłów, okrągła maska); ozdobne pierścienie
+  (aktywne z nacięciami, ostateczne z promieniami, wybory w rombach), poświata uczonych i dostępnych węzłów, połączenia
+  krzywe ze świecącym rdzeniem i biegnącymi iskrami dla poznanych ścieżek, tło z poświatą gałęzi i unoszącymi się żarami,
+  tytuły gałęzi krojem Cinzel, plakietki poziomu, zaznaczenie z obracającym się pierścieniem. Statystyki pokazują teraz źródła
+  (baza / drzewko / sprzęt / efekty).
+- **Miasto.** Zasady z `FABULA-I-EKWIPUNEK.md` (ekonomia 12.11): katalog 366 przedmiotów i 265 receptur eksportowany z TypeScriptu
+  (`scripts/godot/export-economy.ts`). Monety (start 20, jak w przeglądarce), plecak 40 stosów, 8 slotów wyposażenia (wpływ na
+  statystyki jak w `equipmentStats`: broń ustawia bazę ataku, reszta dodaje; procenty, krytyk, szybkość, redukcja obrażeń i
+  kosztu KI), **sklep** (85 słabych przedmiotów, cena = max(4 × katalog, 60 × poziom), skup za połowę), **kuźnia** (receptury
+  kuźni, alchemii i run: składniki + monety + poziom), **depozyt** (przedmioty i monety), **gospoda** (5 monet, bez opłaty przy pełnych
+  HP/KI), mikstura (40 % maks. HP, odnowienie 6 s). Jeden ekran usług i plecaka (`ItemsScreen`), przyciski PLECAK, klawisze I/H,
+  monety w HUD. Zapis checkpointu rozszerzono o ekonomię (ten sam format v2; starsze zapisy bez niej się wczytują).
+- **Zmiana zachowania względem 0.3.0:** gospoda nie leczy za darmo; HP/KI odnawiają się za 5 monet.
+
+**Decyzje i uproszczenia.** (1) Bez potworów monety nie mają źródła z walki: w MENU jest oznaczona „SAKIEWKA PRÓBNA +500 MONET”
+(do usunięcia razem z „poziomem próbnym”, gdy wejdą spawny). (2) Kuźnia Pyry oferuje stacje `forge`, `alchemy` i `runic`;
+`cyber_fabricator` (Nexus) i `projekt_ksiegi` nie są tu dostępne. Ograniczenie craftingu do stacji jest w repo nadal otwartą
+decyzją właściciela. (3) Efekty konsumowalnych poza mikstury życia nie są przeniesione (komunikat w grze). (4) Bonusy zestawów i
+pasywnych artefaktów z limitami (`computePassiveEquipmentBonuses`) nie są liczone; działają zwykłe statystyki przedmiotów.
+(5) Sala Przysięgi (zadania) bez zmian — poza zakresem tej partii.
+
+**Kontrole.** `tests/smoke.gd`: **181/181** headless i **181/181** z natywnym renderowaniem (23 nowe kontrole ekonomii i ekranów
+usług, wstęp). Zrzuty: `qa/godot-continent/` (`shop`, `smithy`, `inventory`, `character`, `title-*`). Eksport Linux z
+paczki uruchomiony dla sceny startowej i sceny gry (wstęp renderuje się z PCK). APK 0.4.0-pyra: 90 977 715 B, SHA-256
+`c5feef71073cd0419bc225fa80ac23a9edcb116345af1699786dcf9e5bc2c2b4` (`deliveries/godot-pyra-android-20261115-city`);
+podpis v2/v3, wyrównanie 16 KiB, pakiet/wersja sprawdzone.
+
+**Nie sprawdzono.** Fizyczny telefon; ekran usług przy dotykowym przewijaniu długich list (`ScrollContainer`, tylko mysz w
+testach); wygląd wstępu na ekranach o bardzo wąskim lub wysokim kadrze poza trzema testowanymi.
+
+### 15. Android / Godot 0.5.0-world: cała planeta, cztery rasy, miasta wszystkich światów
+
+Zlecenie właściciela: licencja ilustracji wstępu nie jest potrzebna (prawa są własne — akapit o niej usunięto z
+`docs/LICENCJE.md`); wdrożyć wszystkie pozostałe kontynenty i wyspy, połączyć mapę i globus tak, by działały, przenieść każdą
+rasę i skompletować wszystkie miasta.
+
+- **Świat.** Dziesięć krain Superior v2 (Pyra, Verdantia, Aetheria, Nexus-9 i sześć wysp) ładuje jeden ogólny moduł
+  (`continent.gd` + `terrain.gdshader`) z danych `data/lands/<id>/` i `assets/lands/<id>/`. Dane powstają z tych samych
+  funkcji przeglądarki co dotąd (`pyraObjects`, `continentObjects`, `aetheriaObjects`, `nexusObjects`, `islandObjects`) przez
+  `scripts/godot/export-lands.ts` i `prepare_lands.py`: obiekty scenerii (ok. 197 tys.), role tekstur terenu, drogi (maska 16 j.
+  z klasą materiału), osady z usługami i drzwiami, NPC, przewodnicy, miejsca i słynne lokacje. Wyspy używają atlasów — ramki
+  `*.terrain.*` i `*.props.*` są wycinane z atlasu (pierwsza wersja wkleiła cały atlas i dała szachownicę woda/lód); kafle terenu
+  przycięto o 3 px, bo lustrzane próbkowanie w shaderze pokazywało jasną krawędź jako szew. Shader: lustrzane kafle z gradientami
+  odwiniętej współrzędnej (bez skoków mip), dwie skale powtórzeń, dwie nakładki na krainę, kryształ/lawa tylko na komórkach
+  niedostępnych, brzeg zależny od biomu, plaza miasta z miękką krawędzią (stolica Pyry zachowuje malowaną podłogę).
+- **Stolica Pyry.** Potok dziesięciu krain początkowo pomijał domy stolicy (`acceptedCityBuildings`); eksport dodaje je do
+  `land.json` (`capitalBuildings`) i `build_pyra_capital` stawia sześć zaakceptowanych domów jak w 0.4.0.
+- **Mapa i globus.** Atlas, globus 3D i mapa szczegółowa pracują na wszystkich dziesięciu krainach: obrysy i komórki afiniczne
+  w `data/map.json`; mapa szczegółowa pokazuje bieżącą krainę (`assets/lands/<id>/map.webp`, miasta, miejsca, ty). Wybór regionu
+  pokazuje opis i przycisk **PODRÓŻ** (`MapScreen.travel` → `PyraGame.travel_to`): wczytanie krainy, miejsce przybycia z
+  `index.json`, powrót do bezpiecznego punktu. Test sprawdza, że miasta wszystkich dziesięciu krain leżą na atlasie w
+  własnych obrysach.
+- **Rasy.** `RaceKit` (wspólne zasady z `src/game/kit/base.ts`: statystyki aneksu 1–20, rangi, odnowienia, buffy, tarcze, kręgi,
+  kanały, rozbicie na składniki, skalowanie rang właściciela 12.11) i cztery porty: Legendy (Żar), Planetarni (Adaptacja
+  terenu), Mędrcy (Kręgi światła, Pieczęcie), Androidy (Ładunek Rdzenia, przegrzanie, Namierzanie).
+  Dane i opisy z `docs/design/data/character-progression-1-20.json` w `data/races/<rasa>.json`; ikony zdolności
+  `public/game/icons-v3/<rasa>-*.webp` w `assets/icons/skills/<rasa>/`. Ekran **wyboru rasy** pojawia się przy pierwszym
+  uruchomieniu (przy braku checkpointu) i w MENU → NOWA POSTAĆ; nowa postać startuje w mieście swojej rasy z 20 monetami,
+  pustym plecakiem i poziomem 1. Pasek zasobu i HUD pokazują zasób rasy; ekran POSTAĆ — nazwę rasy i jej drzewko.
+- **Miasta.** Wnętrza usług i mieszkańcy czterech światów (`data/rooms.json`, `data/actors.json`: bohaterowie, kupiec, kowal,
+  depozytariusz, gospodarz, trener, przewodnik); każda z sześciu usług każdego z 16 miast kontynentów (24 wejścia na
+  kontynent) i przystań każdej wyspy (6 usług) działają jak w Pyrze (sklep, kuźnia, depozyt, gospoda, arena z manekinem,
+  sala). Opiekun miasta stoi w miastach niestołecznych i na wyspach; Pyra zachowuje swoją stolicę z 0.4.0.
+- **Rozmiar APK.** Dziesięć krain trzykrotnie powiększyło zasoby (z VRAM ETC2: 286 MB). Malowane tekstury importowane są jako
+  stratny WebP (`tune_imports.py`: scenografia 0,78, ludzie 0,84, wnętrza 0,85, kafle 0,9), dane dokładnie czytane przez
+  shader (ctrl, maska dróg) zostają bezstratne. Wynik: **100 789 166 B** (poniżej 100 MiB limitu pliku w Git).
+- **Porządki.** Usunięto dane i skrypty tylko dla Pyry (`data/continent*`, `assets/continent/*` poza shaderami,
+  `prepare_continent_world.py`, `prepare_continent_terrain.py`); `write_provenance.py` obejmuje 10 krain i cztery rasy.
+  Nazwa aplikacji i opisy: „KI LEGENDS”; wersja 0.5.0-world (kod 5). Poprawiono dosłowne `\n` na kartach ras i podwójne
+  podpięcie sygnału ekranu wyboru rasy.
+
+**Decyzje i uproszczenia.** (1) Bez potworów i spawnów, jak dotąd (decyzja właściciela); sakiewka próbna i poziom próbny
+zostają. (2) Wyspy mają jedną przystań z 6 usługami zamiast miasta (dane świata nie opisują większych osad). (3) Mieszkańcy
+stoją w miejscu. (4) Fontanna Verdantii (`verdant-city-fountain`) ma w źródle nieprzezroczyste tło i
+tak samo wygląda w przeglądarce — pozostawiona bez zmian. (5) Planetarni: pasek zasobu pokazuje „Adaptacja: poznaj B2”,
+dopóki nie poznano węzła B2 (tak liczy to kit). (6) Stratny WebP może dawać drobne ślady przy dużym powiększeniu.
+
+**Kontrole.** `tests/smoke.gd`: **304/304** headless i **304/304** z natywnym renderowaniem. Nowe kontrole: 10 krain (start na
+ziemi, ograniczona liczba sprite'ów, drzwi i NPC), wszystkie wnętrza czterech kontynentów (wejście i powrót), cztery rasy
+(start w swoim mieście, statystyki 1/20, 29 węzłów, +15 %, atak podstawowy i 6 zdolności na manekinie), ekran wyboru rasy,
+podróż z mapy na wyspę 3 i do Pyry, miasta 10 krain na atlasie. PCK z presetu Linux uruchomiony poza projektem: 10 krain i
+sklepy czterech ras, 0 błędów. APK: 100 789 166 B, SHA-256 `45bea2fa321d965af89fd28ca781ee6fc62500dfe7e5f53566f0383550e1eb50`
+(`deliveries/godot-pyra-android-20261115-world`), podpis v2, CRC, pakiet `pl.kilegends.godot.pyra`, wersja 0.5.0-world,
+`arm64-v8a`. Zrzuty: `qa/godot-world/`.
+
+**Nie sprawdzono.** Fizyczny telefon (pamięć, FPS, czas wczytania krainy, dotykowe przewijanie list, przycisk Wstecz); balans
+zdolności trzech nowych ras na realnych przeciwnikach (brak potworów); pełny przegląd wizualny wszystkich 10 krain i miast
+(przejrzano po jednym ujęciu: Pyra, Verdantia, Aetheria, Nexus-9, wyspy 1/4/6); wygląd Planetarnych/Mędrców/Androidów w
+pozostałych stacjach craftingu.
