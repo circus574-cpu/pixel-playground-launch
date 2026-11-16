@@ -670,6 +670,7 @@ func run() -> void:
 	game.kit.next_basic_at = 0.0
 	var swing := game.kit.basic()
 	verify(swing.ok and weak.hp < hp_before, "the hero's basic attack hurts a monster", [hp_before, weak.hp])
+	verify(weak.recoil < 0.0 and absf(weak.recoil) <= 26.0 and weak.actor.position.x == 0.0, "a hit pushes the monster's sprite back without moving its body", weak.recoil)
 	for i in 60:
 		game.kit.next_basic_at = 0.0
 		game.kit.basic()
@@ -1412,6 +1413,69 @@ func run() -> void:
 	game.open_topics("Testowa", "guide")
 	await settle(2)
 	verify(game.story.heard("r:guide:start") and game.hud.modal_box.get_children().any(func(n: Node) -> bool: return n is Button and (n as Button).text.begins_with("✓")), "a subject that has been heard is marked")
+	# ---- combat feel: numbers, shake, hit-stop, hit clips, perfect dodge, animations -------------------
+	var cf_weak: Label = PyraFx.number(game.continent.sorted, game.player.position, 12, false, "weak")
+	var cf_hurt: Label = PyraFx.number(game.continent.sorted, game.player.position, 7, false, "hurt")
+	var cf_heal: Label = PyraFx.number(game.continent.sorted, game.player.position, 5, false, "heal")
+	var cf_crit: Label = PyraFx.number(game.continent.sorted, game.player.position, 30, true)
+	verify(cf_weak.text == "12!" and cf_weak.get_theme_color("font_color") == Color("ff9d3c") and cf_hurt.get_theme_color("font_color") == Color("ff5a4d") and cf_heal.text == "+5" and cf_crit.text == "30!" and cf_crit.get_theme_font_size("font_size") > cf_hurt.get_theme_font_size("font_size"), "damage numbers have their own looks: weakness, hurt, heal, crit")
+	verify([1, 2, 3, 4, 5, 6].map(func(n: int) -> String: return PyraGame.combo_clip(n)) == ["attack", "attack2", "finisher", "attack", "attack2", "finisher"], "basic strikes chain into a finisher every third blow")
+	game.add_shake(8.0)
+	await settle(1)
+	verify(game.camera.offset != Vector2.ZERO, "a heavy blow shakes the camera")
+	await create_timer(0.7).timeout
+	verify(game.camera.offset == Vector2.ZERO and game.shake == 0.0, "the shake dies down by itself")
+	game.hit_stop(0.05)
+	verify(Engine.time_scale < 0.5, "hit-stop slows the world for an instant")
+	await create_timer(0.3, true, false, true).timeout
+	verify(is_equal_approx(Engine.time_scale, 1.0) and not game.hit_stopping, "the clock is restored after hit-stop")
+	game.player.position = base + Vector2(300, 0)
+	game.kit.hp = float(game.kit.stats().maxHp)
+	game.heavy_until = 0.0
+	game.hurt_player(null, float(game.kit.stats().maxHp) * 0.5, "melee", [])
+	verify(game.player.visual.one_shot_clip.ends_with("hitheavy") and game.shake >= 9.0, "a heavy hit plays the heavy hit clip and shakes harder")
+	game.kit.hp = float(game.kit.stats().maxHp)
+	game.heavy_until = 0.0
+	game.shake = 0.0
+	game.hurt_player(null, 4.0, "melee", [])
+	verify(game.player.visual.one_shot_clip.ends_with("hit") and not game.player.visual.one_shot_clip.ends_with("hitheavy") and game.shake > 0.0 and game.shake < 9.0, "a light hit plays the light hit clip")
+	game.kit.hp = float(game.kit.stats().maxHp)
+	game.kit.next_dodge_at = 0.0
+	game.perfect_until = 0.0
+	var cf_ki: float = game.kit.ki
+	game.kit.ki = 0.0
+	game.player.locked = false
+	game.dodge()
+	game.hurt_player(null, 20.0, "melee", [])
+	verify(game.perfect_dodges == 1 and game.kit.ki > 0.0 and game.kit.hp == float(game.kit.stats().maxHp), "a blow that lands at the start of a dodge is a perfect dodge: no damage, ki back")
+	game.hurt_player(null, 20.0, "melee", [])
+	verify(game.perfect_dodges == 1, "a perfect dodge cannot be chained at once")
+	await create_timer(0.6, true, false, true).timeout
+	game.kit.ki = cf_ki
+	game.kit.clear_debuffs()
+	game.kit.hp = float(game.kit.stats().maxHp)
+	game.celebrate("TEST")
+	verify(game.player.visual.one_shot_clip.ends_with("victory"), "victory pose exists and plays")
+	await create_timer(1.3).timeout
+	game.player.visual.animate(Vector2(3.0, 0.0), true)
+	verify(game.player.visual.state == "run", "a full push plays the run clip", game.player.visual.state)
+	game.player.visual.animate(Vector2(3.0, 0.0), false)
+	verify(game.player.visual.state == "walk", "a gentle push plays the walk clip", game.player.visual.state)
+	game.kit.set_level(3)
+	game.hud.notice.text = ""
+	game.on_quest_reward(100000, 0, {}, "Test")
+	verify(game.kit.level > 3 and game.player.visual.one_shot_clip.ends_with("victory"), "gaining a level plays the victory pose")
+	var cf_ring := PyraTargetRing.new()
+	game.add_child(cf_ring)
+	verify(not cf_ring.visible, "the target ring starts hidden")
+	cf_ring.aim(Vector2(10.0, 20.0), 46.0, false)
+	verify(cf_ring.visible and cf_ring.position == Vector2(10.0, 20.0), "the target ring sits under the foe")
+	cf_ring.clear()
+	verify(not cf_ring.visible, "the target ring hides when the fight ends")
+	cf_ring.queue_free()
+	game.kit.set_level(10)
+	game.kit.hp = float(game.kit.stats().maxHp)
+	game.player.visual.one_shot_until = 0.0
 	game.hud.close_dialog()
 	game.story.reset()
 	game.story.from_save(null)

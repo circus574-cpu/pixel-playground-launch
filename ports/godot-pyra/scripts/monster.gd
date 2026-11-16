@@ -47,6 +47,8 @@ var reduce := 0.0
 var reduce_until := 0.0
 var exposed_until := 0.0
 var exposed_pct := 0.0
+var last_kind := ""            # "weak" / "resist" of the latest hit, for the number style
+var recoil := 0.0                # sideways visual recoil of the sprite after a hit (never moves the body)
 var flash := 0.0
 var shown_hp := 1.0
 var dash: Dictionary = {}
@@ -169,11 +171,16 @@ func hurt(raw: float, _crit: bool, tags: Array = [], _ranged: bool = false) -> f
 	if phase == "dead" or concealed or invulnerable:
 		return 0.0
 	var mult := 1.0
+	last_kind = ""
 	var weak: Dictionary = def.weak
 	for tag in tags:
 		if weak.has(str(tag)):
 			var w := float(weak[str(tag)])
 			mult = maxf(mult, w) if w >= 1.0 else minf(mult, w)
+	if mult > 1.05:
+		last_kind = "weak"
+	elif mult < 0.95:
+		last_kind = "resist"
 	if clock < sealed_until:
 		mult *= 1.0 + seal_bonus
 	var hero_at: Vector2 = manager.player_position()
@@ -205,6 +212,9 @@ func hurt(raw: float, _crit: bool, tags: Array = [], _ranged: bool = false) -> f
 	hp = maxf(0.0, hp - amount)
 	since_hit = 0.0
 	flash = 0.2
+	if boss.is_empty() and not tags.has("indirect"):
+		var away := (position - hero_at).normalized()
+		recoil = clampf(recoil + away.x * (10.0 + 26.0 * minf(1.0, amount / maxf(1.0, max_hp))), -26.0, 26.0)
 	provoked = true
 	hits_taken += 1
 	if phase == "idle" or phase == "return":
@@ -407,6 +417,8 @@ func _process(delta: float) -> void:
 	clock += delta
 	since_hit += delta
 	flash = maxf(0.0, flash - delta)
+	recoil = move_toward(recoil, 0.0, delta * 150.0)
+	actor.position.x = recoil
 	if burning > 0.0:
 		burning -= delta
 		hurt(burn_dps * delta, false, ["indirect"])

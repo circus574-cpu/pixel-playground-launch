@@ -86,6 +86,6 @@ func step(delta: float) -> void:
 	moving = moved.length_squared() > 0.0001
 	if motion.length_squared() > 0.0001:
 		facing = motion.normalized()
-	visual.animate(moved if moving else Vector2.ZERO, motion.length() > 1.05)
+	visual.animate(moved if moving else Vector2.ZERO, motion.length() > 0.8)
 	if moving:
 		visual.face(moved)

@@ -85,6 +85,15 @@ var respawn_timer := -1.0
 var quests: PyraQuests
 var story := PyraStory.new()
 var skip_intro := false                       # tests start many characters and do not want the story screen
+var combo_count := 0                          # basic strikes in the current chain: attack, attack2, finisher
+var combo_at := -10.0
+var shake := 0.0                              # camera shake amplitude in pixels, decays by itself
+var hit_stopping := false
+var perfect_dodges := 0
+var dodge_at := -10.0                         # when the last dodge began (seconds)
+var perfect_until := 0.0                      # no second perfect dodge before this time
+var heavy_until := 0.0                        # the hit clip is not replayed before this time
+var target_ring: PyraTargetRing = PyraTargetRing.new()
 var walk_time := 0.0                          # seconds of walking, for the first tutorial step
 var rewarding_tutorial := false
 var quest_actors: Array[Dictionary] = []     # {actor, role, town} for the "!" and "?" marks
@@ -598,7 +607,8 @@ func is_quest_land() -> bool:
 func on_quest_reward(xp: int, coins: int, items: Dictionary, source: String) -> void:
 	var parts: Array[String] = []
 	if xp > 0:
-		kit.add_xp(xp)
+		if kit.add_xp(xp) > 0:
+			celebrate_level()
 		parts.append("+%d XP" % xp)
 	if coins > 0:
 		economy.gold += coins
@@ -708,6 +718,9 @@ func interact() -> void:
 	if target.is_empty():
 		hud.toast("Podejdź do postaci lub wejścia.")
 		return
+	if target.kind != "door" and target.kind != "dummy" and not in_dungeon_hazard(target):
+		player.visual.face(Vector2(target.get("point", player.position)) - player.position)
+		player.visual.play_once("interact")
 	match target.kind:
 		"door":
 			audio.sfx("common/door")
@@ -848,11 +861,20 @@ func nearest_foe() -> Node2D:
 
 ## A monster hits the hero: damage through the kit (defence, shields, buffs), numbers, then the statuses it carries.
 func hurt_player(monster: PyraMonster, raw: float, _kind: String, fx: Array) -> void:
-	if in_safe_city(player.position) or kit.dead or kit.has_buff("invulnerable"):
+	if in_safe_city(player.position) or kit.dead:
+		return
+	if kit.has_buff("invulnerable"):
+		check_perfect_dodge()
 		return
 	var dealt := kit.take_damage(raw)
-	PyraFx.number(monster_parent(), player.position + Vector2(0, -90), int(round(dealt)), false)
+	PyraFx.number(monster_parent(), player.position + Vector2(0, -90), int(round(dealt)), false, "hurt")
 	player.visual.hurt_flash()
+	var heavy := dealt >= float(kit.stats().maxHp) * 0.15
+	var now_s := Time.get_ticks_msec() / 1000.0
+	if dealt > 0.0 and not kit.dead and (heavy or now_s >= heavy_until):
+		heavy_until = now_s + 0.55
+		player.visual.play_once("hitheavy" if heavy else "hit")
+	add_shake(9.0 if heavy else 4.0)
 	audio.sfx("common/player-hurt")
 	for f: Dictionary in fx:
 		apply_status(f, monster)
@@ -865,7 +887,7 @@ func zone_hit(raw: float, fx: Array, atk: float, at: Vector2) -> void:
 		return
 	if raw > 0.0:
 		var dealt := kit.take_damage(raw)
-		PyraFx.number(monster_parent(), player.position + Vector2(0, -90), int(round(dealt)), false)
+		PyraFx.number(monster_parent(), player.position + Vector2(0, -90), int(round(dealt)), false, "hurt")
 		if kit.dead:
 			hud.toast("Poległeś…")
 	for f: Dictionary in fx:
@@ -900,6 +922,8 @@ func reward(def: Dictionary, at: Vector2) -> void:
 		quests.defeated(str(def.id))
 	var xp := int(def.xp)
 	var levels := kit.add_xp(xp)
+	if levels > 0:
+		celebrate_level()
 	var gold_range: Array = def.gold
 	var gold := randi_range(int(gold_range[0]), int(gold_range[1])) if int(gold_range[1]) > 0 else 0
 	economy.gold += gold
@@ -985,7 +1009,13 @@ func do_basic() -> void:
 	var result := kit.basic()
 	if result.ok:
 		story.note("attack")
-		player.visual.play_once("attack" if int(kit.streak) % 2 == 0 else "attack2")
+		var now_s := Time.get_ticks_msec() / 1000.0
+		combo_count = 1 if now_s - combo_at > 1.6 else combo_count + 1
+		combo_at = now_s
+		var clip := combo_clip(combo_count)
+		if clip == "finisher":
+			add_shake(3.5)
+		player.visual.play_once(clip)
 
 func use_slot(index: int) -> void:
 	if player.locked or input_suspended or is_instance_valid(screen):
@@ -1225,6 +1255,7 @@ func enter_boss_lair(boss_id: String) -> void:
 ## Reward of a boss: the experience already came with the kill; the loot table rolls here and goes to the bag.
 func boss_defeated(info: Dictionary, at: Vector2) -> void:
 	story.milestone("boss")
+	celebrate("ZWYCIĘSTWO", 12.0)
 	var names: Array[String] = []
 	for drop: Dictionary in info.lootTable:
 		if randf() * 100.0 >= float(drop.chancePercent):
@@ -1243,9 +1274,88 @@ func dodge() -> void:
 	var direction := player.touch_motion if player.touch_motion.length() > 0.1 else player.facing
 	var result := kit.dodge(direction)
 	if result.ok:
+		dodge_at = Time.get_ticks_msec() / 1000.0
 		story.note("dodge")
 		player.visual.play_once("dodge")
 		audio.sfx("common/dodge")
+
+# ---- combat feel ----------------------------------------------------------------------------
+
+## The chain of basic strikes: attack, attack2, finisher, and again.
+static func combo_clip(strike: int) -> String:
+	return ["attack", "attack2", "finisher"][posmod(strike - 1, 3)]
+
+func add_shake(amount: float) -> void:
+	shake = maxf(shake, amount)
+
+## A very short freeze on a heavy blow; the clock is restored by a timer that ignores the slowed time.
+func hit_stop(seconds: float) -> void:
+	if hit_stopping or not is_inside_tree():
+		return
+	hit_stopping = true
+	Engine.time_scale = 0.08
+	await get_tree().create_timer(seconds, true, false, true).timeout
+	Engine.time_scale = 1.0
+	hit_stopping = false
+
+## A hit that lands in the first moments of a dodge: the world slows for an instant and the hero regains some ki.
+func check_perfect_dodge() -> void:
+	var now_s := Time.get_ticks_msec() / 1000.0
+	if now_s > perfect_until and now_s - dodge_at <= 0.2:
+		perfect_until = now_s + 1.2
+		perfect_dodges += 1
+		kit.ki = minf(float(kit.stats().maxKi), kit.ki + float(kit.stats().maxKi) * 0.12)
+		PyraFx.word(monster_parent(), player.position + Vector2(0, -60), "IDEALNY UNIK", Color("9fe8ff"), 30, true)
+		audio.sfx("ui/quest-update")
+		slow_motion(0.4, 0.35)
+
+func slow_motion(scale: float, seconds: float) -> void:
+	if hit_stopping or not is_inside_tree():
+		return
+	hit_stopping = true
+	Engine.time_scale = scale
+	await get_tree().create_timer(seconds, true, false, true).timeout
+	Engine.time_scale = 1.0
+	hit_stopping = false
+
+## The hero's victory pose with a word over their head.
+func celebrate(word: String, shake_amount: float = 0.0) -> void:
+	player.visual.play_once("victory")
+	PyraFx.word(monster_parent(), player.position + Vector2(0, -40), word, Color("ffe08a"), 34, true)
+	if shake_amount > 0.0:
+		add_shake(shake_amount)
+
+func celebrate_level() -> void:
+	audio.sfx("ui/quest-update")
+	celebrate("POZIOM %d!" % kit.level)
+	hud.toast("Awans! Poziom %d. Masz nowe punkty w drzewku zdolności." % kit.level)
+
+## The ground ring under the foe being fought and the camera shake, once per frame.
+func update_feel(delta: float) -> void:
+	shake = move_toward(shake, 0.0, delta * 30.0)
+	camera.offset = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * shake if shake > 0.05 else Vector2.ZERO
+	var ring_parent := monster_parent()
+	if not is_instance_valid(ring_parent):
+		return
+	if not is_instance_valid(target_ring):
+		target_ring = PyraTargetRing.new()
+	if target_ring.get_parent() != ring_parent:
+		if target_ring.get_parent() != null:
+			target_ring.get_parent().remove_child(target_ring)
+		ring_parent.add_child(target_ring)
+	var foe: Node2D = nearest_foe()
+	var engaged: bool = foe != null and foe.get("phase") != null and str(foe.get("phase")) != "idle" and str(foe.get("phase")) != "dead"
+	if engaged:
+		var boss: bool = foe.get("boss") != null and not (foe.get("boss") as Dictionary).is_empty()
+		target_ring.aim((foe as Node2D).position, 78.0 if boss else 46.0, boss)
+	else:
+		target_ring.clear()
+
+func in_dungeon_hazard(target: Dictionary) -> bool:
+	return str(target.get("kind", "")) == "dsecret"
+
+func _exit_tree() -> void:
+	Engine.time_scale = 1.0
 
 func on_effect(kind: String, at: Vector2, radius: float, ability: String) -> void:
 	audio.ability(race, ability)
@@ -1256,7 +1366,16 @@ func on_damage(foe: Node, amount: int, crit: bool) -> void:
 	if amount > 0:
 		audio.hit(crit)
 	var parent: Node = room_sorted if not current_room.is_empty() else continent.sorted
-	PyraFx.number(parent, (foe as Node2D).position, amount, crit)
+	var kind := str(foe.get("last_kind")) if foe.get("last_kind") != null else ""
+	var style := "crit" if crit else kind
+	PyraFx.number(parent, (foe as Node2D).position, amount, crit, style)
+	if kind == "weak" and amount > 0:
+		PyraFx.word(parent, (foe as Node2D).position + Vector2(0, 34), "SŁABOŚĆ", Color("ffb347"), 18)
+	if crit:
+		add_shake(5.0)
+		hit_stop(0.05)
+	elif kind == "weak":
+		add_shake(3.0)
 
 # ---- frame loop -----------------------------------------------------------------------------
 
@@ -1283,6 +1402,7 @@ func _process(delta: float) -> void:
 	if not is_instance_valid(hud) or not is_instance_valid(player):
 		return
 	simulate(minf(delta, 0.05))
+	update_feel(delta)
 	quest_tick(delta)
 	update_day(delta)
 	autosave_clock += delta

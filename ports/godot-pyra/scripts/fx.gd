@@ -69,18 +69,41 @@ func _draw() -> void:
 			draw_line(Vector2.ZERO, -facing * 120.0 * (1.0 - t), Color(1.0, 0.6, 0.25, alpha * 0.8), 18.0 * alpha, true)
 
 ## Floating damage number rising from a point.
-static func number(parent: Node, at: Vector2, amount: int, crit: bool) -> void:
+## Number styles: "" plain hit, "crit", "weak" (the foe is weak to it), "resist", "hurt" (the hero is hit), "heal", "xp".
+const NUMBER_STYLES := {
+	"": {"color": "ffffff", "size": 26, "suffix": ""},
+	"crit": {"color": "ffd23f", "size": 36, "suffix": "!"},
+	"weak": {"color": "ff9d3c", "size": 32, "suffix": "!"},
+	"resist": {"color": "a6adb8", "size": 22, "suffix": ""},
+	"hurt": {"color": "ff5a4d", "size": 28, "suffix": ""},
+	"heal": {"color": "78e08f", "size": 28, "suffix": ""},
+	"xp": {"color": "9fd6ff", "size": 30, "suffix": ""},
+}
+
+static func number(parent: Node, at: Vector2, amount: int, crit: bool, style: String = "") -> Label:
+	var key := "crit" if crit and style == "" else style
+	var look: Dictionary = NUMBER_STYLES.get(key, NUMBER_STYLES[""])
+	var sign_text := "+" if key == "heal" or key == "xp" else ""
+	return word(parent, at, sign_text + str(amount) + str(look.suffix), Color(str(look.color)), int(look.size), key == "crit" or key == "weak")
+
+## A word that floats up from `at` and fades (numbers, "IDEALNY UNIK", "SŁABOŚĆ").
+static func word(parent: Node, at: Vector2, text: String, color: Color, size: int = 26, pop: bool = false) -> Label:
 	var label := Label.new()
-	label.text = ("%d!" % amount) if crit else str(amount)
-	label.add_theme_font_size_override("font_size", 34 if crit else 26)
-	label.add_theme_color_override("font_color", Color("ffd23f") if crit else Color("ffffff"))
+	label.text = text
+	label.add_theme_font_size_override("font_size", size)
+	label.add_theme_color_override("font_color", color)
 	label.add_theme_color_override("font_outline_color", Color(0.15, 0.03, 0.02, 0.95))
 	label.add_theme_constant_override("outline_size", 8)
 	label.position = at + Vector2(randf_range(-34, 34) - 30, -210)
 	label.z_index = 4000
 	parent.add_child(label)
 	var tween := label.create_tween()
+	if pop:
+		label.pivot_offset = Vector2(30, 20)
+		label.scale = Vector2(1.7, 1.7)
+		tween.tween_property(label, "scale", Vector2.ONE, 0.16).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.set_parallel(true)
 	tween.tween_property(label, "position:y", label.position.y - 80, 0.8)
 	tween.tween_property(label, "modulate:a", 0.0, 0.8).set_delay(0.3)
 	tween.chain().tween_callback(label.queue_free)
+	return label
