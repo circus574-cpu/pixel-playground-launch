@@ -1,14 +1,25 @@
 name: Godot content packs to VPS (manual)
-# One-shot, manual: copies the verified .pck packs of one content version from Git LFS to a staging directory on the VPS.
-# It touches neither the database nor the content volume nor any running container; registering and activating the release
-# is done afterwards on the server (or in /admin). The deployment bundle of aruba-production.yml does not carry `deliveries/`.
+# Manual only. Copies the verified .pck packs of one content version from Git LFS to a staging directory on the VPS.
+# With `publish`, it then also puts them on the app's content volume and registers the release (same effect as uploading the
+# release in /admin -> "Gra Android"); with `activate` the release becomes the one clients get, so the game updates ITSELF from
+# the server (scripts/boot.gd takes the code from the `core-c<versionCode>` pack of the release, the land packs come as before).
+# Without `publish` it touches neither the database nor the content volume nor any running container.
+# The deployment bundle of aruba-production.yml does not carry `deliveries/`, hence this separate path.
 on:
   workflow_dispatch:
     inputs:
       version:
         description: Content version folder under deliveries/godot-content-<version>
         required: true
-        default: "2026.11.17.1"
+        default: "2026.11.17.2"
+      publish:
+        description: Also put the packs on the app's content volume and register the release in the database
+        type: boolean
+        default: false
+      activate:
+        description: Also make the release the active one (needs publish). Clients get it on their next start.
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -21,6 +32,8 @@ jobs:
     timeout-minutes: 30
     env:
       VERSION: ${{ inputs.version }}
+      PUBLISH: ${{ inputs.publish }}
+      ACTIVATE: ${{ inputs.activate }}
     steps:
       - name: Check the version format
         run: |
@@ -62,3 +75,51 @@ jobs:
           ssh_opts=(-i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts")
           tar -C "deliveries/godot-content-$VERSION" -cf - . | ssh "${ssh_opts[@]}" codex@85.235.150.189 \
             "set -e; d=\"\$HOME/ki-legends-aruba-staging/godot-content-incoming/$VERSION\"; rm -rf \"\$d\"; mkdir -p \"\$d\"; tar -xf - -C \"\$d\"; ls \"\$d\" | wc -l"
+      - name: Put the release on the content volume, register it and (optionally) activate it
+        if: ${{ inputs.publish }}
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          key_file="$RUNNER_TEMP/coolify_ssh_key"
+          trap 'rm -f "$key_file"' EXIT
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$key_file"
+          ssh_opts=(-i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts")
+          activate=false
+          if [ "$ACTIVATE" = "true" ]; then activate=true; fi
+          ssh "${ssh_opts[@]}" codex@85.235.150.189 "bash -s -- '$VERSION' '$activate'" <<'REMOTE'
+          set -euo pipefail
+          VERSION="$1"; ACTIVATE="$2"
+          SRC="$HOME/ki-legends-aruba-staging/godot-content-incoming/$VERSION"
+          APP=app-xh4qbckykxsq1iofxdoe5t3h
+          test -s "$SRC/manifest.json"
+          python3 - "$SRC" <<'PY'
+          import hashlib, json, os, sys
+          d = sys.argv[1]
+          m = json.load(open(os.path.join(d, "manifest.json")))
+          bad = 0
+          for name, p in m["packs"].items():
+              f = os.path.join(d, p["file"])
+              ok = os.path.getsize(f) == p["bytes"] and hashlib.sha256(open(f, "rb").read()).hexdigest() == p["sha256"]
+              bad += not ok
+          print("packs", len(m["packs"]), "bad", bad, "version", m["version"])
+          sys.exit(1 if bad else 0)
+          PY
+          docker exec -u root "$APP" mkdir -p "/data/godot-content/releases/$VERSION"
+          docker cp "$SRC/." "$APP:/data/godot-content/releases/$VERSION/"
+          docker exec -u root "$APP" chown -R node:node /data/godot-content
+          cd "$HOME/ki-multiplayer-db"
+          docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer \
+            -v ON_ERROR_STOP=1 -v m="$(cat "$SRC/manifest.json")" -v v="$VERSION" -v act="$ACTIVATE" <<'SQL'
+          BEGIN;
+          INSERT INTO godot_android.releases (version, manifest, note)
+          VALUES (:'v', :'m'::jsonb, 'published by the content workflow')
+          ON CONFLICT (version) DO UPDATE SET manifest = EXCLUDED.manifest;
+          UPDATE godot_android.settings SET active_version = :'v', updated_at = now() WHERE id = 1 AND :'act' = 'true';
+          COMMIT;
+          SELECT version FROM godot_android.releases ORDER BY created_at DESC LIMIT 3;
+          SELECT active_version FROM godot_android.settings;
+          SQL
+          REMOTE

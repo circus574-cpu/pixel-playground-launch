@@ -213,6 +213,7 @@ func _ready() -> void:
 	if "--fresh" not in args:
 		restored = restore_checkpoint()
 	hud.refresh(kit)
+	KiNet.core_ok()   # the first land stands: a downloaded core (scripts/boot.gd) has proved itself
 	start_online.call_deferred()
 	if not restored and "--fresh" not in args and not checkpoint_protected:
 		open_race_screen.call_deferred(false)

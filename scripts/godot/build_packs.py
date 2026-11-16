@@ -26,6 +26,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import zlib
@@ -235,6 +236,61 @@ def patch_preset(excludes: list[str]) -> None:
     cfg.write_text("".join(blocks))
 
 
+def client_code() -> int:
+    """versionCode of the Android preset: the APK that can use this core (scripts/boot.gd looks for `core-c<code>`)."""
+    m = re.search(r"(?m)^version/code=(\d+)$", (PROJECT / "export_presets.cfg").read_text())
+    if not m:
+        raise SystemExit("version/code not found in export_presets.cfg")
+    return int(m.group(1))
+
+
+def core_files() -> list[str]:
+    """Code and rules data of the game (project-relative): scripts, scenes, shaders, the JSON the APK carries itself."""
+    out: list[str] = []
+    for pattern in ("scripts/*.gd", "scenes/*.tscn", "data/*.json", "data/races/*.json"):
+        out += [str(p.relative_to(PROJECT)) for p in sorted(PROJECT.glob(pattern)) if p.name != "source.generated.json"]
+    for p in sorted(PROJECT.rglob("*.gdshader")):
+        rel = str(p.relative_to(PROJECT))
+        if not rel.startswith((".godot", "tests/", "tools/")):
+            out.append(rel)
+    return out
+
+
+def core_listing(work: Path) -> list[dict]:
+    """PCK entries of the core. An export keeps scripts and scenes as `x.gd.remap` / `x.tscn.remap` pointing at compiled copies;
+    the pack therefore also carries a remap that points at the plain file, or the APK's compiled copy would still win."""
+    listing = []
+    remaps = work / "remaps"
+    remaps.mkdir(parents=True, exist_ok=True)
+    for rel in core_files():
+        listing.append({"pck": "res://" + rel, "disk": str(PROJECT / rel)})
+        if rel.endswith((".gd", ".tscn")):
+            remap = remaps / (rel.replace("/", "__") + ".remap")
+            remap.write_text(f'[remap]\n\npath="res://{rel}"\n')
+            listing.append({"pck": "res://" + rel + ".remap", "disk": str(remap)})
+    return listing
+
+
+def build_core(out: Path) -> dict:
+    work = out / "core-work"
+    work.mkdir(parents=True, exist_ok=True)
+    listing = core_listing(work)
+    listing_path = work / "core.files.json"
+    listing_path.write_text(json.dumps(listing))
+    target = out / "core.pck"
+    subprocess.run(
+        ["godot", "--headless", "--path", str(PROJECT), "--script", "res://tools/pack_builder.gd", "--", str(listing_path), str(target)],
+        check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+    )
+    shutil.rmtree(work)
+    digest = sha256(target)
+    key = f"core-c{client_code()}"
+    final = out / f"{key}-{digest[:12]}.pck"
+    target.replace(final)
+    print(f"built {final.name} {final.stat().st_size / 1e6:.1f} MB ({len(listing)} entries)")
+    return {key: {"file": final.name, "bytes": final.stat().st_size, "sha256": digest, "files": len(listing)}}
+
+
 def build(version: str) -> None:
     members, sizes = plan()
     print_plan(members, sizes)
@@ -262,6 +318,7 @@ def build(version: str) -> None:
         target.replace(final)
         manifest_packs[pack] = {"file": final.name, "bytes": final.stat().st_size, "sha256": digest, "files": len(files)}
         print(f"built {final.name} {final.stat().st_size / 1e6:.1f} MB")
+    manifest_packs.update(build_core(out))
     manifest = {
         "format": "ki-godot-content-1",
         "version": version,

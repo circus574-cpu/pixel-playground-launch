@@ -318,3 +318,23 @@ Zlecenie właściciela: labirynty i wejścia do nich, więcej dialogów i wprowa
 - **Kontrole.** `tests/smoke.gd` **489/489**; `scripts/godot/e2e_online.py` bez błędów; przed scaleniem lokalnie cała bramka (typecheck, lint, 2195 testów, assets, docs, build). Paczki treści przebudowane:
   26 z 26 mają ten sam SHA-256 co wydanie `2026.11.17.1`, więc **nowe APK używa wydania już aktywnego na serwerze** (nic nie trzeba wgrywać). Dostawa: `deliveries/godot-pyra-android-20261116-content`
   (APK 66 781 191 B, wersja 0.10.0-content, kod 10; Git LFS). **Nie sprawdzone:** telefon; ocena „elegancji” walki jest subiektywna i wymaga gry na urządzeniu.
+
+### 15. Android / Godot 0.11.0-updates: gra aktualizuje własny kod z serwera
+
+Zlecenie właściciela: aplikacja ma być ta sama, a aktualizacje (wdrażane zmiany) mają iść z poziomu gry.
+
+- **Mechanizm.** Pierwsza scena (`boot.tscn`) pobiera z serwera pakiet rdzenia `core-c11` (skrypty, sceny, shadery, dane zasad; 2,2 MB, 115 plików) i montuje go nad plikami APK przed
+  załadowaniem gry. Eksperyment przed budową: pobrana paczka **podmienia istniejące skrypty** w działającej aplikacji; nowa nazwa `class_name` z paczki nie jest widoczna (lista klas jest w APK), więc nowe pliki
+  ładuje się po ścieżce. W wyeksportowanym APK skrypty są skompilowane i mają pliki `.remap`, dlatego pakiet niesie też własne `.remap` wskazujące na zwykły plik (inaczej wygrywałaby kopia z APK).
+- **Zabezpieczenia.** Weryfikacja rozmiaru i SHA-256 przy pobraniu i przy każdym starcie; kompilacja wszystkich skryptów zaraz po zamontowaniu; lista „złych” rdzeni; porzucenie rdzenia, który w trzech
+  uruchomieniach nie dotarł do pierwszej krainy; praca offline na rdzeniu z pamięci podręcznej; brak rdzenia w wydaniu = kod z APK. Zamontowanej paczki nie można odmontować, więc po wykryciu uszkodzenia
+  gra prosi o ponowne uruchomienie.
+- **Publikacja bez panelu i bez ręcznych kroków na serwerze.** Workflow „Godot content packs to VPS (manual)” ma teraz opcje `publish` i `activate`: weryfikuje sumy, kopiuje paczki na serwer, wkłada je
+  do woluminu aplikacji, rejestruje wydanie w bazie i (opcjonalnie) je aktywuje. Zapytanie SQL sprawdzone lokalnie na bazie testowej; samego workflow na produkcji nie uruchomiono.
+- **Kontrole.** `tests/smoke.gd` **502/502** (m.in. reguły decyzji bootu); `scripts/godot/e2e_core.py` **10/10** na wyeksportowanej bazie Androida z atrapą serwera (podmiana kodu 40 → 77, uszkodzony rdzeń
+  odrzucony, praca offline, porzucenie); `scripts/godot/e2e_online.py` bez błędów z wydaniem 27 paczek. Wydanie `2026.11.17.2` = 26 dotychczasowych paczek bez zmian + `core-c11`
+  (`deliveries/godot-content-2026.11.17.2`). APK `deliveries/godot-pyra-android-20261116-updates` (66 793 824 B, 0.11.0-updates, kod 11). Poprzednie APK z tego dnia (kod 10) nie ma launchera i
+  nie aktualizuje się samo.
+- **Granice.** Nowe APK potrzeba przy zmianie silnika, uprawnień, ustawień projektu, ikony i dodatków natywnych. Nie sprawdzono na telefonie; nie sprawdzono pobierania rdzenia przez prawdziwy TLS i
+  sieć komórkową; wydanie `2026.11.17.2` nie jest jeszcze opublikowane na serwerze (wymaga zgody właściciela na scalenie workflow i jego uruchomienie).
+

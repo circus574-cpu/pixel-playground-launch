@@ -173,6 +173,31 @@ bez danych krain) loguje się, pobiera i podpina paczki, buduje miasto Pyry, zap
 zrzuty `docs/zmiany/2026-11-16/qa/admin-android/`). **Nie sprawdzone:** telefon (pobieranie w sieci komórkowej, pamięć, bateria), prawdziwa domena/TLS,
 obciążenie wielu graczy.
 
+## 2b. Aktualizacje z poziomu gry: kod i dane z serwera, bez nowego APK
+
+Pierwsza scena aplikacji to `scenes/boot.tscn` (`scripts/boot.gd`). APK niesie kompletną grę (działa offline w wersji, z której
+powstał), ale przy każdym starcie pyta serwer o **pakiet rdzenia** `core-c<versionCode>`: skrypty, sceny, shadery i dane zasad
+(JSON) nowszej wersji (ok. 2,2 MB). Pakiet jest pobierany raz, sprawdzany (rozmiar i SHA-256), zapisany w `user://content` i
+montowany **nad plikami APK, zanim cokolwiek z gry zostanie wczytane**. Dzięki temu zmiana gry dociera do gracza z poziomu gry.
+Paczki krain (świat, potwory, NPC, muzyka) działały tak od początku.
+
+- **Co się aktualizuje bez APK:** cała logika (`scripts/*.gd`), sceny, shadery, dane zasad (`data/*.json`, `data/races/*.json`) i, jak dotąd, treść krain.
+- **Co wymaga nowego APK:** silnik Godot, uprawnienia i ustawienia projektu (`project.godot`, `export_presets.cfg`), ikona, natywne dodatki. Wtedy podbij
+  `version/code` (oraz `KiNet.CLIENT_CODE` i `Boot.CLIENT_CODE`; test sprawdza ich zgodność) i ustaw w panelu minimalną wersję klienta.
+- **Zasada dla nowego kodu:** nowy plik `.gd` w rdzeniu ładuj po ścieżce (`const X := preload("res://scripts/x.gd")`), nie po `class_name` —
+  lista klas globalnych jest zapisana w APK i nowa nazwa klasy nie jest widoczna (sprawdzone doświadczalnie). Zmiana istniejących plików i ich `class_name` działa.
+- **Bezpieczeństwo.** Rdzeń, który się nie wczyta lub którego skrypty się nie kompilują (boot ładuje wszystkie od razu), trafia na listę „złych” i po
+  ponownym uruchomieniu działa kod z APK; rdzeń, który w trzech uruchomieniach nie dotarł do pierwszej krainy (`KiNet.core_ok()` w `city_game.gd`), jest
+  porzucany. Zamontowanej paczki nie da się odmontować, więc naprawa wymaga ponownego uruchomienia aplikacji. Cofnięcie po stronie serwera: aktywuj
+  poprzednie wydanie w `/admin`. Stan: `user://core.json`.
+- **Publikacja.** `python3 scripts/godot/build_packs.py build --version V` buduje też rdzeń (`core-c<kod>-<hash>.pck`, wpis w manifeście bez przypisania do krainy);
+  skopiuj wynik do `deliveries/godot-content-V` (Git LFS) i uruchom workflow **„Godot content packs to VPS (manual)”** z `publish` i `activate`:
+  weryfikuje sumy, kopiuje na serwer, rejestruje wydanie i aktywuje je. Klienci dostają je przy następnym uruchomieniu gry. Wydanie bez zmian
+  w paczkach krain przenosi tylko zmieniony rdzeń po stronie gracza (pobranie ok. 2 MB).
+- **Test:** `python3 scripts/godot/e2e_core.py` (bez bazy): eksportuje prawdziwą bazę Androida, serwuje atrapę manifestu i paczek i uruchamia aplikację 10 razy
+  jak gracz restartujący grę (brak rdzenia, pełny rdzeń repozytorium, nowszy rdzeń zmieniający stałą w kodzie, serwer niedostępny, rdzeń niekompilujący się,
+  ten sam zły rdzeń ponownie, powrót do dobrego, porzucenie rdzenia bez „potwierdzenia”). Reguły decyzji: `tests/smoke.gd` (sekcja „boot”).
+
 ## 3. Uruchomienie w edytorze
 
 Godot **4.6.3 Standard** (bez .NET). Zaimportuj `ports/godot-pyra/project.godot`, poczekaj na import, F5.
@@ -217,7 +242,8 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | `data/city.generated.json` | Stolica Pyry z pierwszej próby (układ, podłoga, pokoje) — nie edytować ręcznie |
 | `data/monsters.json`, `data/quests.json`, `data/lands/<id>/spawns.json` | Bestiariusz (statystyki, umiejętności, cechy, łup, klatki), katalog zadań z dialogami i miejscami, rejestr spawnów krainy |
 | `assets/audio/` | Muzyka (`music/`) i efekty (`sfx/`) skopiowane bez zmian (24 MB) |
-| `tests/smoke.gd` | 489 kontroli w prawdziwym silniku; `tests/qa_shots.gd` robi zrzuty jaskini, bossa, nocy i wydarzenia |
+| `scripts/boot.gd`, `scenes/boot.tscn` | Pierwsza scena: pobiera i montuje rdzeń z serwera przed startem gry (sekcja 2b) |
+| `tests/smoke.gd` | 502 kontroli w prawdziwym silniku; `tests/qa_shots.gd` robi zrzuty jaskini, bossa, nocy i wydarzenia |
 
 **Układ współrzędnych:** gra używa współrzędnych świata Superior (jak WWW). Układ stolicy z pierwszej próby jest
 przesunięty o `world.json.offset` = (44 564,29; 12 168,47).
@@ -306,8 +332,8 @@ godot --headless --path ports/godot-pyra --script res://tests/smoke.gd -- --fres
 xvfb-run -a -s '-screen 0 1600x900x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --audio-driver Dummy --path ports/godot-pyra --rendering-method gl_compatibility --script res://tests/smoke.gd -- --fresh --qa-output /tmp/pyra-native
 ```
 
-Na kodzie tej gałęzi: **489/489** kontroli w trybie headless (16.11.2026). Przebieg z natywnym renderowaniem (Mesa llvmpipe) był
-ostatnio wykonany przy 340 kontrolach i nie został powtórzony dla 489; zrzuty jaskini, bossa, nocy i wydarzenia powstały natywnie
+Na kodzie tej gałęzi: **502/502** kontroli w trybie headless (16.11.2026). Przebieg z natywnym renderowaniem (Mesa llvmpipe) był
+ostatnio wykonany przy 340 kontrolach i nie został powtórzony dla 502; zrzuty jaskini, bossa, nocy i wydarzenia powstały natywnie
 (`docs/zmiany/2026-11-16/qa/godot-late/`).
 Pokrycie: ekonomia (katalog 366/265/85, cena sklepu 4×, skup 50 %, wymagania poziomu, wpływ sprzętu, mikstura, crafting, depozyt,
 gospoda, zapis, cztery ekrany usług), rozmiar kontynentu, bezpieczny start, strumieniowanie, **+15 % bohatera**, kolizje,
