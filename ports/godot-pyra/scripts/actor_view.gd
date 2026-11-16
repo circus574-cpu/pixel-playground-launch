@@ -22,6 +22,7 @@ var one_shot_clip := ""
 var flash := 0.0
 var shadow_scale := 1.0
 var is_hero := false
+var quest_mark := ""   # "!" = has a quest to give, "?" = a quest objective waits here
 
 func setup(data: Dictionary, display_name: String = "", inside: bool = false, hero: bool = false) -> void:
 	definition = data
@@ -123,6 +124,8 @@ func play_once(clip_name: String) -> float:
 	return duration
 
 func animate(motion: Vector2, running: bool = false) -> void:
+	if quest_mark != "":
+		queue_redraw()
 	if Time.get_ticks_msec() / 1000.0 < one_shot_until:
 		return
 	if motion.length_squared() > 0.001:
@@ -148,3 +151,11 @@ func _draw() -> void:
 	draw_set_transform(Vector2(0, -2), 0.0, Vector2(1, 0.32))
 	draw_circle(Vector2.ZERO, 22 * shadow_scale, Color(0.02, 0.01, 0.01, 0.32))
 	draw_set_transform(Vector2.ZERO)
+	if quest_mark != "":
+		var top := -display.y - 54.0
+		var bob := sin(Time.get_ticks_msec() / 220.0) * 4.0
+		var gold := Color("ffd24a") if quest_mark == "!" else Color("8fd0ff")
+		draw_circle(Vector2(0, top + bob), 17.0, Color(0.08, 0.05, 0.03, 0.85))
+		draw_arc(Vector2(0, top + bob), 17.0, 0, TAU, 24, gold, 2.5, true)
+		var f: Font = ThemeDB.fallback_font
+		draw_string(f, Vector2(-7, top + bob + 9), quest_mark, HORIZONTAL_ALIGNMENT_LEFT, -1, 26, gold)

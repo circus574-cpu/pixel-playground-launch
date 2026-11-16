@@ -115,3 +115,27 @@ mapy 0,9). APK ma teraz **123 332 298 B** (SHA-256 `e93777fbfea71a32eee01c12051c
 w `deliveries/godot-pyra-android-20261116-bestiary-hq` jako plik Git LFS (`.gitattributes`: `deliveries/**/*.apk`). Poprzednie
 APK (zwykłe pliki) pozostają bez zmian. PCK z presetu Linux uruchomiony poza projektem: 10 krain, 0 błędów; podpis v2 i CRC
 poprawne. Gra jest ta sama co 0.7.0-bestiary (kod 7), zmieniła się tylko jakość tekstur.
+
+### 4. Android / Godot: questy
+
+Zlecenie właściciela: przenosić całą grę; APK dopiero po przeniesieniu całości, bez obniżania jakości. Pierwsza część:
+**questy** (silnik Argona z `src/game/quests` grany w świecie v2).
+
+- **Dane i silnik.** `scripts/godot/export-quests.ts` eksportuje 106 zadań (102 grywalne: 32 główne, 48 pobocznych, 16 ukrytych,
+  10 międzykontynentalnych; 139 celów rozmowy, 90 walki, 26 odkryć, 21 odwiedzin, 9 dostaw), 16 sławnych i 17 ukrytych miejsc z
+  nagrodami, NPC miast z ich powiązaniami z grą i współrzędne miejsc v2 do `data/quests.json`. `scripts/quest_engine.gd` powtarza
+  `engine.ts` + `v2Tracker.ts`: warunki odblokowania (poziom, poprzednie zadania, odkryte miejsca, rozmowa, przedmiot), etapy,
+  cele talk/combat/discover/visit/deliver, nagrody (XP, monety, przedmiot, reputacja frakcji), ochrona nagrody jednorazowej,
+  nagroda za pierwsze odkrycie sławnych i ukrytych miejsc.
+- **Gra.** Rozmowa z NPC liczy się do celów „talk”/„deliver” zadań powiązanych z jego rolą w danym mieście; dialog pokazuje
+  zadania do przyjęcia (PRZYJMIJ) i przycisk PRZEKAŻ dla celów dostawy przedmiotów (zużywa przedmioty z plecaka); wejście do
+  miasta = „visit”; podejście do miejsc (450 j. / promień + 200 j.) = odkrycie; zabicie potwora = „combat”. Nad NPC znaczniki
+  „!” (zadanie do dania) i „?” (cel czeka). Tracker w HUD pokazuje do trzech aktywnych zadań z postępem; MENU → DZIENNIK ZADAŃ
+  (aktywne z celami, liczniki, ŚLEDŹ). XP i monety idą do postaci przez kit i ekonomię; zapis checkpointu zawiera stan zadań
+  (stary zapis bez zadań wczytuje się z pustym dziennikiem); nowa postać zeruje zadania.
+- **Nie przeniesione w tej części:** wydarzenia świata (14 w `ALL_WORLD_EVENTS_V2`), Sala Przysięgi jako osobna tablica,
+  zadania na wyspach (zadania są przypisane do czterech kontynentów).
+
+**Kontrole.** `tests/smoke.gd`: **340/340** (nowe: katalog 106/102/16/17, oferta Kaeny z „!”, przyjęcie, rozmowa etapem,
+„?”, odkrycie miejsca, raport i nagroda, brak podwójnej nagrody, zapis i odrzucenie zapisu z nieznanym zadaniem, cel walki,
+tracker i dziennik).

@@ -58,6 +58,11 @@ var time_since_save_check := 0.0
 var monsters: PyraMonsters
 var monster_data: Dictionary
 var respawn_timer := -1.0
+var quests: PyraQuests
+var quest_actors: Array[Dictionary] = []     # {actor, role, town} for the "!" and "?" marks
+var quest_timer := 0.0
+var last_town := ""
+var last_level := 0
 var prefetch_timer := 0.0
 var prefetch_pending: Dictionary = {}   # path -> true while a worker thread loads it
 var prefetch_hold: Array[Resource] = []  # the last few prefetched pictures and sheets, kept so entering a door does not decode them
@@ -97,6 +102,13 @@ func _ready() -> void:
 	actors = PyraContinent.load_json(ACTORS_PATH)
 	rooms_data = PyraContinent.load_json(ROOMS_PATH)
 	monster_data = PyraContinent.load_json("res://data/monsters.json")
+	quests = PyraQuests.new(PyraContinent.load_json("res://data/quests.json"))
+	quests.level_of = func() -> int: return kit.level if kit != null else 1
+	quests.item_count = func(id: String) -> int: return economy.count(id)
+	quests.item_take = func(id: String, n: int) -> bool: return economy.remove_item(id, n)
+	quests.rewarded.connect(on_quest_reward)
+	quests.announce.connect(func(text: String) -> void: hud.toast(text))
+	quests.changed.connect(refresh_quest_ui)
 	map_data = PyraContinent.load_json("res://data/map.json")
 	get_tree().quit_on_go_back = false
 	origin = PYRA_CAPITAL_OFFSET
@@ -193,6 +205,8 @@ func enter_land(id: String, at: Vector2 = Vector2(-1, -1)) -> void:
 	continent.overlay.add_child(markers)
 	outdoor_targets = [] as Array[Dictionary]
 	settlements = [] as Array[Dictionary]
+	quest_actors = [] as Array[Dictionary]
+	last_town = ""
 	if id == "pyra":
 		build_pyra_capital()
 	build_land_places()
@@ -247,6 +261,7 @@ func add_street_npc(role: String, display_name: String, title: String, dialogue:
 	actor.position = at
 	continent.sorted.add_child(actor)
 	actor.setup(actors[key], display_name, false)
+	quest_actors.append({"actor": actor, "role": role, "town": settlement_at(at)})
 	outdoor_targets.append({"kind": "npc", "id": role, "name": display_name, "point": at, "definition": {"name": display_name, "role": title, "dialogue": dialogue}})
 
 ## Points drawn on the minimap: the cities and the named places of the land.
@@ -377,6 +392,7 @@ func load_space(room: String, at: Vector2, town: String = "") -> void:
 			actor.position = npc_at
 			room_sorted.add_child(actor)
 			actor.setup(actors[actor_key], str(npc_def.name), true)
+			quest_actors.append({"actor": actor, "role": service_role, "town": town if town != "" else capital_id()})
 			targets.append({"kind": "npc", "id": service_role, "name": str(npc_def.name), "point": npc_at, "definition": npc_def, "service": room})
 		if room == "depot":
 			targets.append({"kind": "landmark", "id": "chest", "name": "Skrzynia depozytu", "point": point(spec.chest)})
@@ -399,6 +415,91 @@ func load_space(room: String, at: Vector2, town: String = "") -> void:
 	input_suspended = false
 	player.locked = hud.modal.visible
 	queue_redraw()
+
+## Quest journal: active quests with their objectives, then the number of open and finished ones. Tapping a title tracks it.
+func show_journal() -> void:
+	var lines: Array[String] = []
+	var actions := []
+	for id: String in quests.active_ids():
+		var q: Dictionary = quests.by_id[id]
+		lines.append("▶ %s%s\n%s\n   %s" % [q.title, "  (śledzone)" if quests.tracked == id else "", q.stages[int(quests.quests[id].stage)].narrativeText, "\n   ".join(quests.objectives_text(id))])
+		var track_id := id
+		actions.append({"text": "ŚLEDŹ: " + str(q.title), "callback": func() -> void:
+			quests.tracked = track_id
+			quests.changed.emit()
+			hud.close_dialog()})
+	if lines.is_empty():
+		lines.append("Brak aktywnych zadań. Rozmawiaj z mieszkańcami miast — postacie ze znakiem ! mają dla Ciebie zadanie.")
+	var open := 0
+	var done := 0
+	for id: String in quests.quests:
+		var st := quests.state_of(id)
+		open += 1 if st == "available" else 0
+		done += 1 if st == "completed" else 0
+	lines.append("\nDostępne do przyjęcia: %d · ukończone: %d" % [open, done])
+	hud.show_dialog("Dziennik zadań", "\n\n".join(lines), actions.slice(0, 4))
+
+func capital_id() -> String:
+	for s in settlements:
+		if str(s.kind) == "capital":
+			return str(s.id)
+	return str(settlements[0].id) if not settlements.is_empty() else ""
+
+## Settlement a point belongs to (generously: NPCs stand at its edges), the capital when none.
+func settlement_at(at: Vector2) -> String:
+	for s in settlements:
+		if (s.bounds as Rect2).grow(300).has_point(at):
+			return str(s.id)
+	return capital_id()
+
+func is_quest_land() -> bool:
+	return quests.data.places.has(land_id)
+
+func on_quest_reward(xp: int, coins: int, items: Dictionary, source: String) -> void:
+	var parts: Array[String] = []
+	if xp > 0:
+		kit.add_xp(xp)
+		parts.append("+%d XP" % xp)
+	if coins > 0:
+		economy.gold += coins
+		parts.append("+%d mon." % coins)
+	for id: String in items:
+		economy.add_item(id, int(items[id]))
+		parts.append("%s ×%d" % [economy.name_of(id), int(items[id])])
+	economy.changed.emit()
+	hud.toast("%s: %s" % [source, " · ".join(parts)] if not parts.is_empty() else source)
+
+func refresh_quest_ui() -> void:
+	hud.quests = quests.tracker()
+	hud.signature = ""
+	for entry in quest_actors:
+		if is_instance_valid(entry.actor):
+			var mark := quests.marker_for(land_id, str(entry.town), str(entry.role)) if is_quest_land() else ""
+			if (entry.actor as PyraActor).quest_mark != mark:
+				(entry.actor as PyraActor).quest_mark = mark
+				(entry.actor as PyraActor).queue_redraw()
+
+func quest_tick(delta: float) -> void:
+	if not is_quest_land():
+		return
+	if kit.level != last_level:
+		last_level = kit.level
+		quests.sync()
+		refresh_quest_ui()
+	quest_timer -= delta
+	if quest_timer > 0.0:
+		return
+	quest_timer = 0.5
+	if current_room.is_empty():
+		quests.near(land_id, player.position)
+		var here := ""
+		for s in settlements:
+			if (s.bounds as Rect2).has_point(player.position):
+				here = str(s.id)
+		if here != last_town:
+			last_town = here
+			if here != "":
+				quests.enter_town(land_id, here)
 
 func capital_npc(service: String) -> Dictionary:
 	for npc: Dictionary in land.npcs:
@@ -472,8 +573,24 @@ func interact() -> void:
 				"depot":
 					actions.append({"text": "OTWÓRZ SKRZYNIĘ", "callback": func(): hud.close_dialog(); open_items("depot", "Depozyt · " + place)})
 			var extra := ""
-			if service == "hall":
-				extra = "\n\n(Zadania Sali Przysięgi nie są jeszcze przeniesione do wersji Godot.)"
+			if is_quest_land():
+				var role := str(ROLE_OF_SERVICE.get(service, "")) if service != "" else str(target.id)
+				var town := room_town if room_town != "" else (settlement_at(player.position) if service == "" else capital_id())
+				quests.talk(land_id, town, role)
+				for offer: Dictionary in quests.offered_by(land_id, town, role):
+					extra += "\n\nZadanie: %s (poz. %d)\n%s" % [offer.title, int(offer.recommendedLevel), offer.summary]
+					var offered_id: String = str(offer.id)
+					actions.append({"text": "PRZYJMIJ: " + str(offer.title), "callback": func() -> void:
+						quests.start(offered_id)
+						hud.close_dialog()})
+				for need: Dictionary in quests.deliveries():
+					var have := economy.count(str(need.item))
+					if have > 0:
+						var item_id: String = str(need.item)
+						var amount := mini(have, int(need.needed))
+						actions.append({"text": "PRZEKAŻ: %s ×%d" % [economy.name_of(item_id), amount], "callback": func() -> void:
+							quests.record("deliver", item_id, amount)
+							hud.close_dialog()})
 			hud.show_dialog(str(npc.name) + " · " + str(npc.role), str(npc.dialogue) + extra, actions)
 		"landmark":
 			if target.id == "chest":
@@ -534,6 +651,8 @@ func apply_status(f: Dictionary, monster: PyraMonster) -> void:
 
 ## Experience, coins and loot of a defeated monster (rules and drop chances of the browser game).
 func reward(def: Dictionary, at: Vector2) -> void:
+	if is_quest_land():
+		quests.defeated(str(def.id))
 	var xp := int(def.xp)
 	var levels := kit.add_xp(xp)
 	var gold_range: Array = def.gold
@@ -670,6 +789,7 @@ func _process(delta: float) -> void:
 	if not is_instance_valid(hud) or not is_instance_valid(player):
 		return
 	simulate(minf(delta, 0.05))
+	quest_tick(delta)
 	prefetch_timer -= delta
 	if prefetch_timer <= 0.0:
 		prefetch_timer = 0.4
@@ -808,6 +928,7 @@ func start_new_character(new_race: String) -> void:
 	close_screen()
 	if not current_room.is_empty():
 		load_space("", city_return)
+	quests.reset()
 	economy.gold = 20
 	economy.bag = {"potion": 3}
 	economy.depot = {}
@@ -853,7 +974,7 @@ func open_items(mode: String, heading: String) -> void:
 func show_menu() -> void:
 	if is_instance_valid(screen):
 		return
-	hud.show_dialog("KI LEGENDS", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D, mapa 2D i podróże między krainami. POSTAĆ: statystyki i drzewko Twojej rasy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. Potwory żyją poza miastami (miasta są bezpieczne); po śmierci wracasz do stolicy krainy. Manekin czeka na arenach.", [{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "NOWA POSTAĆ (WYBÓR RASY)", "callback": func(): hud.close_dialog(); open_race_screen(true)}, {"text": "FPS I DIAGNOSTYKA: " + ("WYŁĄCZ" if hud.show_fps else "WŁĄCZ"), "callback": func(): hud.show_fps = not hud.show_fps; hud.signature = ""; hud.close_dialog()}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}])
+	hud.show_dialog("KI LEGENDS", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D, mapa 2D i podróże między krainami. POSTAĆ: statystyki i drzewko Twojej rasy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. Potwory żyją poza miastami (miasta są bezpieczne); po śmierci wracasz do stolicy krainy. Manekin czeka na arenach.", [{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "NOWA POSTAĆ (WYBÓR RASY)", "callback": func(): hud.close_dialog(); open_race_screen(true)}, {"text": "DZIENNIK ZADAŃ", "callback": func(): hud.close_dialog(); show_journal()}, {"text": "FPS I DIAGNOSTYKA: " + ("WYŁĄCZ" if hud.show_fps else "WŁĄCZ"), "callback": func(): hud.show_fps = not hud.show_fps; hud.signature = ""; hud.close_dialog()}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}])
 
 func show_licenses() -> void:
 	hud.show_dialog("Godot i biblioteki silnika", Engine.get_license_text() + "\n\nTHIRD-PARTY LICENSES\n" + JSON.stringify(Engine.get_license_info(), "\t") + "\n\nCOPYRIGHT NOTICES\n" + JSON.stringify(Engine.get_copyright_info(), "\t") + "\n\nFONT CINZEL\n" + FileAccess.get_file_as_string("res://assets/branding/OFL-Cinzel.txt") + "\n\nOFFICIAL GODOT LOGO\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-NOTICE.txt") + "\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-LICENSE.txt"))
@@ -864,7 +985,7 @@ func save_checkpoint(path: String = SAVE_PATH) -> bool:
 	if checkpoint_protected or not can_stand(player.position, current_room):
 		hud.toast("Nie zapisano punktu; istniejący plik pozostaje zachowany.")
 		return false
-	var value := {"format": SAVE_FORMAT, "version": 2, "race": race, "land": land_id, "room": current_room, "town": room_town, "position": [player.position.x, player.position.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save(), "economy": economy.to_save()}
+	var value := {"format": SAVE_FORMAT, "version": 2, "race": race, "land": land_id, "room": current_room, "town": room_town, "position": [player.position.x, player.position.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save(), "economy": economy.to_save(), "quests": quests.to_save()}
 	var file := FileAccess.open(path + ".tmp", FileAccess.WRITE)
 	if file == null:
 		return false
@@ -930,6 +1051,11 @@ func restore_checkpoint(path: String = SAVE_PATH) -> bool:
 			rollback(previous_race, previous_land, previous_state, previous_economy, previous_position)
 			return false
 		economy.level = kit.level
+		var saved_quests = value.get("quests", null)
+		if saved_quests is Dictionary and quests.from_save(saved_quests):
+			pass
+		else:
+			quests.reset()
 	city_return = back
 	load_space(room, at, str(value.get("town", "")))
 	return true

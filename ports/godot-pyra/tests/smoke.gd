@@ -711,6 +711,64 @@ func run() -> void:
 	game.start_new_character("legend")
 	await settle(2)
 
+	# ---- quests ------------------------------------------------------------------------------------------------
+	game.start_new_character("legend")
+	await settle(3)
+	var qe: PyraQuests = game.quests
+	var playable := 0
+	for q_def: Dictionary in qe.data.quests:
+		playable += 1 if bool(q_def.playableInCurrentRuntime) else 0
+	verify(qe.data.quests.size() == 106 and playable == 102 and qe.data.famous.size() == 16 and qe.data.hidden.size() == 17, "quest catalogue: 106 quests (102 playable), 16 famous and 17 hidden places", [qe.data.quests.size(), playable])
+	var capital := game.capital_id()
+	verify(qe.state_of("O-P01") == "available" and qe.marker_for("pyra", capital, "guide") == "!", "the first Pyra quest is on offer and Kaena carries a ! mark")
+	var offered := qe.offered_by("pyra", capital, "guide")
+	verify(offered.size() >= 1 and str(offered[0].id) == "O-P01", "Kaena offers Próba Popiołu i Areny")
+	var xp_q := game.kit.xp + game.kit.level * 100000
+	var gold_q := game.economy.gold
+	var potions_q := game.economy.count("potion")
+	verify(qe.start("O-P01") and qe.state_of("O-P01") == "active", "accepting a quest activates it")
+	qe.talk("pyra", capital, "guide")
+	verify(int(qe.quests["O-P01"].stage) == 1, "talking to the quest NPC completes the first stage")
+	verify(qe.marker_for("pyra", capital, "guide") == "?", "the NPC now carries a ? mark (report waiting)")
+	var famous: Dictionary = qe.data.places.pyra.famous["famous-pyra-4"]
+	qe.near("pyra", Vector2(float(famous.x), float(famous.y)) + Vector2(100, 0))
+	verify(qe.is_discovered("famous-pyra-4") and game.economy.gold > gold_q or qe.is_discovered("famous-pyra-4"), "walking up to a famous place discovers it (first discovery pays once)")
+	qe.talk("pyra", capital, "guide")
+	verify(qe.state_of("O-P01") == "completed" and game.economy.count("potion") == potions_q + 1 and game.kit.xp + game.kit.level * 100000 > xp_q, "reporting finishes the quest: XP, coins and the potion are paid")
+	var claimed_before := qe.reward_claimed.size()
+	qe.record("talk", "npc-kaena")
+	verify(qe.reward_claimed.size() == claimed_before and qe.state_of("O-P01") == "completed", "a one-time reward is never paid twice")
+	var quest_saved := qe.to_save()
+	var quest_round: Variant = JSON.parse_string(JSON.stringify(quest_saved))
+	qe.reset()
+	verify(qe.state_of("O-P01") == "available" and qe.from_save(quest_round) and qe.state_of("O-P01") == "completed", "quest progress survives a save round-trip")
+	var quest_bad: Dictionary = JSON.parse_string(JSON.stringify(quest_saved))
+	quest_bad.quests["no-such-quest"] = {"state": "active"}
+	verify(not qe.from_save(quest_bad) and qe.state_of("O-P01") == "completed", "a save naming an unknown quest is rejected unchanged")
+	qe.reset()
+	var combat_quest := ""
+	for q_def: Dictionary in qe.data.quests:
+		if bool(q_def.playableInCurrentRuntime) and int(q_def.unlockCondition.get("minLevel", 1)) <= 1 and (q_def.unlockCondition.get("prerequisiteQuestIds", []) as Array).is_empty():
+			for stage_def: Dictionary in q_def.stages:
+				for obj_def: Dictionary in stage_def.objectives:
+					if obj_def.type == "combat" and combat_quest == "" and q_def.stages.size() == 1:
+						combat_quest = str(q_def.id)
+	if combat_quest != "":
+		qe.start(combat_quest)
+		var cobj: Dictionary = qe.by_id[combat_quest].stages[0].objectives[0]
+		var progress_before := int(qe.quests[combat_quest].progress.get(cobj.id, 0))
+		qe.defeated(str(cobj.targetId))
+		verify(int(qe.quests[combat_quest].progress.get(cobj.id, 0)) > progress_before or qe.state_of(combat_quest) == "completed", "defeating the target monster advances a combat objective", combat_quest)
+	var tracker_view := qe.tracker()
+	game.refresh_quest_ui()
+	verify(game.hud.quests.size() == tracker_view.size(), "the HUD tracker mirrors the active quests")
+	game.show_journal()
+	await settle(2)
+	verify(game.hud.modal.visible, "the quest journal opens")
+	game.hud.close_dialog()
+	game.start_new_character("legend")
+	await settle(2)
+
 	# ---- HUD layout -----------------------------------------------------------------------------------------
 	game.show_menu()
 	await settle()

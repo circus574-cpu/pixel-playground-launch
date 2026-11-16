@@ -17,6 +17,7 @@ nie są czytane. **Bez potworów i bez spawnów** (decyzja właściciela na ten 
 | Miasta i wnętrza | Cztery miasta na każdym kontynencie (np. Twierdza Popiołu, Zielona Przystań, Sanktuarium Tysiąca Źródeł, Węzeł Świadomości) po 6 usług (Sala, sklep, arena, depozyt, kuźnia, gospoda) = 24 wejścia na kontynent, a na każdej wyspie przystań z 6 usługami; wnętrza i mieszkańcy w stylu świata (Pyra, Verdantia, Aetheria, Nexus-9), przewodnicy i miejsca na szlakach |
 | Mapa i podróże | Globus **3D**, atlas **2D** i mapa szczegółowa bieżącej krainy (z miastami, miejscami i znacznikiem gracza); dotknięcie regionu pokazuje opis, a przycisk **PODRÓŻ** przenosi do miejsca przybycia (osada lub brzeg) w dowolnej z 10 krain. Atlas i globus wybierają region z tych samych obrysów |
 | Potwory | **40 potworów bestiariusza** na opublikowanych rejestrach spawnów 10 krain (8 752 miejsc, maks. 24 aktywnych): błądzą, atakują, gonią, używają umiejętności z ostrzeżeniem, nakładają statusy; zabicie daje XP (poziomy 1–20), monety, łup i 2 % słabego przedmiotu; śmierć = powrót do stolicy krainy; miasta są bezpieczne. Rzadkie cechy (strefy, przywołania, zakopywanie…) niezaimplementowane — zob. dziennik 16.11, pkt 2 |
+| Questy | **102 grywalne zadania** (główne, poboczne, ukryte, międzykontynentalne): przyjmowanie u NPC (!), cele rozmowy/walki/odkrycia/odwiedzin/dostawy, nagrody, odkrywanie sławnych i ukrytych miejsc, tracker w HUD, dziennik w MENU, zapis |
 | Walka | Wszystkie zdolności czterech ras działają na potworach i na manekinie areny (nie oddaje ciosów) |
 | Miasto na gotowo | Monety, plecak (40 stosów), 8 slotów wyposażenia z wpływem na statystyki, **sklep** (85 słabych przedmiotów, cena 4×, skup za połowę), **kuźnia** (receptury kuźni, alchemii i run z katalogu 265), **depozyt** (przedmioty i monety), **gospoda** (5 monet), mikstura (40 % HP, 6 s) — we wszystkich czterech światach |
 | HUD | Medalion z portretem rasy i pierścieniem XP, ozdobne paski HP/KI/zasób, buffy z licznikami, monety, baner lokacji, ramka celu, okrągła minimapa z mapy krainy, okrągłe przyciski menu, tracker zadań (pusty do czasu questów), pasek XP, szybki slot mikstury, ikony zdolności; rysunek w pamięci podręcznej (odświeżany tylko przy zmianie); MENU → FPS I DIAGNOSTYKA |
@@ -24,7 +25,7 @@ nie są czytane. **Bez potworów i bez spawnów** (decyzja właściciela na ten 
 | Zapis | Checkpoint v2 (kraina, rasa, pozycja, wnętrze, poziom, drzewko, sloty, ekonomia); import checkpointu v1; ochrona nieznanego formatu |
 | Start i ikona | **Wstęp: ilustracja właściciela** (cała, bez zniekształceń), przycisk ZACZNIJ PRZYGODĘ, na dole „Powered by GODOT ENGINE” z oficjalnym logo; boot splash z tą samą ilustracją; ikony Android; licencje silnika w menu |
 
-**Poza zakresem (nie przeniesione):** bossowie, dungeony, questy (Sala Przysięgi), receptury stacji Nexusa i Księgi, ulepszanie sprzętu, bonusy zestawów i pasywnych artefaktów, audio, konta i synchronizacja, efekty otoczenia (dym/para/żar), życie mieszkańców (stoją w miejscu), dzień i noc. Obecność sklepu czy skrzyni w tekście nie oznacza wdrożenia usługi.
+**Poza zakresem (nie przeniesione):** bossowie, dungeony, wydarzenia świata, receptury stacji Nexusa i Księgi, ulepszanie sprzętu, bonusy zestawów i pasywnych artefaktów, audio, konta i synchronizacja, efekty otoczenia (dym/para/żar), życie mieszkańców (stoją w miejscu), dzień i noc. Obecność sklepu czy skrzyni w tekście nie oznacza wdrożenia usługi.
 
 ## 2. Instalacja gotowego APK
 
@@ -74,6 +75,7 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | --- | --- |
 | `scripts/continent.gd`, `assets/continent/terrain.gdshader` | Dowolna kraina z `data/lands/<id>/`: shader terenu (4 biomy, ląd/morze, brzeg, lawa/kryształ, dwie nakładki, drogi z maski 16 j. i klasy materiału, dziedzińce miast; lustrzane kafle bez szwów) wypalany do tekstur kwadratów 512 j., strumieniowanie obiektów po chunkach 2048 j. w porcjach czasowych z ładowaniem tekstur na wątkach, maska kolizji |
 | `scripts/cached_layer.gd`, `scripts/hud.gd`, `scripts/touch_controls.gd` | HUD i przyciski dotykowe rysowane do przezroczystego SubViewport w rozdzielczości urządzenia, odświeżane tylko po zmianie stanu (2 quady w spoczynku) |
+| `scripts/quest_engine.gd` | Silnik questów (port `src/game/quests`): stan, cele, nagrody, znaczniki NPC, tracker, zapis |
 | `scripts/monster.gd`, `scripts/monster_manager.gd` | Potwór (AI, atak, umiejętności, statusy) i zarządca spawnów krainy (budzenie, usypianie, respawn, pociski, nagrody) |
 | `scripts/map_style.gd` | Wspólny styl map i globusa: plakietki Cinzel, znaczniki rodzajów miejsc, kompas, winieta, ramka |
 | `scripts/city_game.gd` | Scena gry (`PyraGame`): wczytanie krainy (`enter_land`), miasta, wnętrza, interakcje, walka na manekinie, ekrany, podróże (`travel_to`), nowa postać (`start_new_character`), zapis |
@@ -92,7 +94,7 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | `data/races/<rasa>.json`, `data/actors.json`, `data/rooms.json` | Aneks i drzewko rasy z opisem, arkusze bohaterów i NPC czterech światów, wnętrza usług czterech światów |
 | `data/hero.json`, `data/map.json`, `data/economy.json`, `data/world-provenance.json` | Klipy bohatera Legendy, regiony i komórki mapy (10 krain), katalog 366 przedmiotów i 265 receptur, SHA źródeł i wyników |
 | `data/city.generated.json` | Stolica Pyry z pierwszej próby (układ, podłoga, pokoje) — nie edytować ręcznie |
-| `tests/smoke.gd` | 326 kontroli w prawdziwym silniku |
+| `tests/smoke.gd` | 340 kontroli w prawdziwym silniku |
 
 **Układ współrzędnych:** gra używa współrzędnych świata Superior (jak WWW). Układ stolicy z pierwszej próby jest
 przesunięty o `world.json.offset` = (44 564,29; 12 168,47).
@@ -175,7 +177,7 @@ godot --headless --path ports/godot-pyra --script res://tests/smoke.gd -- --fres
 xvfb-run -a -s '-screen 0 1600x900x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --audio-driver Dummy --path ports/godot-pyra --rendering-method gl_compatibility --script res://tests/smoke.gd -- --fresh --qa-output /tmp/pyra-native
 ```
 
-Na kodzie tej gałęzi: **326/326** kontroli w trybie headless i **326/326** z natywnym renderowaniem (Mesa llvmpipe).
+Na kodzie tej gałęzi: **340/340** kontroli w trybie headless i **340/340** z natywnym renderowaniem (Mesa llvmpipe).
 Pokrycie: ekonomia (katalog 366/265/85, cena sklepu 4×, skup 50 %, wymagania poziomu, wpływ sprzętu, mikstura, crafting, depozyt,
 gospoda, zapis, cztery ekrany usług), rozmiar kontynentu, bezpieczny start, strumieniowanie, **+15 % bohatera**, kolizje,
 osiągalność 24 drzwi Pyry i powroty, dotyk, prędkość przy 30/120 FPS, zasady Legendy (statystyki, drzewko, rangi, zdolności na
