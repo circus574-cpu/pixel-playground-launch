@@ -45,6 +45,15 @@ if [ "$world_present" != t ]; then
  sha256sum "$pre" > "$pre.sha256"
  docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < init/006-world-overrides.sql
 fi
+android_present=$(docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -At -c "select to_regclass('godot_android.schema_version') is not null")
+if [ "$android_present" != t ]; then
+ # Android client (cloud saves, content releases): back up first, then apply the idempotent migration.
+ umask 077
+ pre="$BASE/backups/before-godot-android-$(date -u +%Y%m%dT%H%M%SZ).dump"
+ docker compose -p ki-multiplayer-db -f compose.yml exec -T db pg_dump -U ki_owner -d ki_multiplayer -Fc > "$pre"
+ sha256sum "$pre" > "$pre.sha256"
+ docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < init/007-godot-android.sql
+fi
 docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < verify.sql
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
 backup="$BASE/backups/initial-$stamp.dump"

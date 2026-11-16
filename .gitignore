@@ -52,3 +52,4 @@ public/publications.json
 
 # local player walkthrough output (scripts/qa/playthrough)
 qa-out/
+deploy/godot-content/
