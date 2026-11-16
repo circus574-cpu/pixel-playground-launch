@@ -16,7 +16,7 @@
   "contentRelease": "deliveries/godot-content-2026.11.17.2 (27 packs: the 26 packs of 2026.11.17.1 unchanged + core-c11, the code of this build). The APK works with release 2026.11.17.1 (it uses its own built-in code); to enable in-game updates publish 2026.11.17.2 or a later release.",
   "defaultServer": "https://kilegends.pl (override: --server=URL, KI_SERVER, user://server.json)",
   "tests": "tests/smoke.gd 502/502 headless; scripts/godot/e2e_core.py 10/10 (real exported base, fake server); scripts/godot/e2e_online.py all PASS against the real server code and PostgreSQL",
-  "production": "Release 2026.11.17.2 is not published yet; it needs the owner's approval (merge of the workflow change and a run of the workflow with publish and activate).",
+  "production": "Release 2026.11.17.2 is published and active on kilegends.pl since 2026-11-16 (owner approved; core-c11 verified from outside: size and SHA-256).",
   "physicalDeviceTest": "Not performed",
   "previousDelivery": "deliveries/godot-pyra-android-20261116-content",
   "documentation": "ports/godot-pyra/README.md#2b-aktualizacje-z-poziomu-gry-kod-i-dane-z-serwera-bez-nowego-apk"

@@ -950,23 +950,26 @@ Pliki wdrożeniowe bazy znajdują się w `deploy/multiplayer/`:
      asymchronicznego zapisu wsadowego do tabel `UNLOGGED`, baza danych nigdy nie blokuje klatki
      animacji ani pętli ticku serwera.
 
-### 4. Centrum Monitoringu w Panelu Administratora (`AdminMonitoringCenter`)
+### 4. Zakładka „Serwer” w Panelu Administratora: tylko wartości zmierzone (16.11.2026)
 
-Moduły [adminTelemetry.ts](../src/game/admin/adminTelemetry.ts) oraz
-[AdminMonitoringCenter.tsx](../src/components/admin/AdminMonitoringCenter.tsx) udostępniają w `/admin`
-(zakładka **„Monitoring i Serwer Live”**) oraz w `CoderAdminPanel` (zakładka **„Monitoring Serwera i Graczy Live”**):
+Wcześniejsze „Centrum Monitoringu” (`AdminMonitoringCenter`, `adminTelemetry.ts`) mieszało dane zmierzone z wymyślonymi: obciążenie CPU,
+pamięć, ping, pakiety i liczba obiektów były liczone wzorami z liczby graczy, status „serwer ONLINE” był zapisanym ustawieniem w
+`localStorage`, na mapie świata pojawiali się symulowani gracze, a odczyt bazy szedł przez funkcję serwerową ze starą autoryzacją, więc
+przy jej błędzie panel pokazywał „BRAK POŁĄCZENIA” i zera. Zastąpiła je zakładka oparta wyłącznie na pomiarach:
 
-- **Karty zasobów w czasie rzeczywistym:** obciążenie CPU węzłów (`%` i `loadAvg1m`), zużycie RAM
-  klastra (`MB`) oraz `JS Heap` przeglądarki, rzeczywisty pomiar RTT bazy danych (`dbLatencyMs`),
-  czasy pętli ticku (`p50 / p95 / p99 ms`), FPS klienta oraz przepustowość sieci (`pkt/s`, `KB/s`).
-- **Radar Świata 2D i szczegółowy monitoring graczy na 10 lądach Superior:**
-  interaktywna mapa wybranego lądu z siatką sektorów AOI 512×512, bezpiecznymi granicami miast
-  (`city.bounds`), punktami przybycia i pozycjami graczy `(x, y)` (z chmury Supabase, zapisów
-  lokalnych urządzenia oraz symulacji węzłów globalnych), wraz z pełnym inspektorem postaci po
-  kliknięciu i warstwą „Gracze na świecie” w [AdminWorldMap.tsx](../src/components/admin/AdminWorldMap.tsx).
-- **Konsola logów serwera, sieci, anti-cheat i audytu:** filtrowanie po poziomie (`INFO`, `WARN`,
-  `ERROR`, `CRITICAL`), kategorii (`tick`, `network`, `db`, `anticheat`, `combat`, `world`, `auth`,
-  `admin`) i węźle, sonda diagnostyczna oraz eksport pełnego raportu JSON.
+- **Źródło:** `GET /ws/admin/runtime` ([runtimeStatus.ts](../src/server/runtimeStatus.ts), obsługa w [gameServer.ts](../src/server/gameServer.ts)), tylko dla
+  administratora i GM (to samo logowanie co reszta panelu, odczyt bez zapisu, `Cache-Control: no-store`). Odpowiada proces, który faktycznie ma
+  połączenie z bazą, sesje graczy i backend gry Android.
+- **Serwer gry:** nazwa, węzeł, port, czas pracy, gracze przeglądarkowi i Android (z podziałem na krainy), tick (mediana i p95), pakiety/s, gotowość usług.
+- **Proces:** obciążenie (load 1 min / rdzenie), pamięć RSS i limit kontenera (cgroup), sterta, wersja Node.
+- **Baza:** połączenie oceniane zapytaniem `SELECT version()…`, opóźnienie, wersja, rozmiar, połączenia/maksimum; **liczniki tabel osobno**: brak uprawnień do jednej tabeli
+  nie oznacza już „brak połączenia”, tylko „nie udało się odczytać: powód” przy tej pozycji. Wartość nieodczytana to „brak danych” z powodem, nigdy zero.
+- **Gra Android:** aktywne wydanie, minimalna wersja klienta, tryb serwisowy, liczba wydań i zapisów, ostatni zapis.
+- **Mapa świata** ([AdminWorldMap.tsx](../src/components/admin/AdminWorldMap.tsx)): warstwa „Gracze” pokazuje wyłącznie graczy połączonych z serwerem (lista z tego samego odczytu).
+- **Usunięte:** symulacja graczy (boty), edytor fikcyjnych węzłów i przyciski Start/Stop/Restart/Drenaż zmieniające tylko zapisane ustawienie, wymyślone telemetrie,
+  `serverControl.functions.ts`, `databaseStatus.ts`. Autostart serwera w procesie aplikacji (`managedServer.ts`, `GAME_SERVER_AUTOSTART`) pozostaje.
+- **Testy:** `src/test/runtime-status.test.ts` (reguły odczytu, autoryzacja, prawdziwy PostgreSQL gdy ustawiono `KI_ACCOUNTS_TEST_DATABASE_URL`),
+  `src/test/admin-server-status.test.tsx` (widok).
 
 ### 5. Bezterminalowe sterowanie serwerem gier z Panelu Administratora (01.11.2026)
 
@@ -977,11 +980,8 @@ Wdrożono kompleksowy mechanizm uruchamiania, zatrzymywania, restartowania i par
   - Płynne zatrzymywanie procesów z obsługą sygnałów `SIGTERM` oraz wymuszonego `SIGKILL` (timeout 5 s) zapobiega powstawaniu procesów-zombie i blokowaniu portu TCP.
   - Buforowanie ostatnich 200 linii logów stdout/stderr z emisją zdarzeń w czasie rzeczywistym.
   - Obsługa trybu autonomicznego (RAM) w przypadku braku połączenia z bazą oraz wsparcie dla dedykowanej bazy PostgreSQL połączonej przez WireGuard VPN / `DATABASE_URL`.
-- **Funkcje serwerowe aplikacji ([serverControl.functions.ts](../src/lib/serverControl.functions.ts)):**
-  - Funkcje serwerowe TanStack Start `getGameServerStatus`, `startGameServer`, `stopGameServer`, `restartGameServer` oraz `updateGameServerConfig`.
-  - Ścisła weryfikacja uprawnień administracyjnych (`role === "admin"`).
-- **Interfejs graficzny ([AdminMonitoringCenter.tsx](../src/components/admin/AdminMonitoringCenter.tsx)):**
-  - Zakładka zarządzania serwerem: wizualny wskaźnik stanu serwera (Online, Offline, Uruchamianie, Zatrzymywanie), kontrolki sterujące (Start, Stop, Restart), formularz edycji parametrów w locie (port, max graczy, tick rate, aoi limit) oraz interaktywny terminal logów procesowych.
+- **Stan 16.11.2026:** funkcje serwerowe sterujące (`serverControl.functions.ts`) i przyciski Start/Stop/Restart w panelu zostały usunięte, bo w produkcji zmieniały tylko zapisane
+  ustawienie albo próbowały uruchomić drugi proces na zajętym porcie; panel pokazuje wyłącznie zmierzony stan (pkt 4). Pozostał autostart serwera w procesie aplikacji.
 - **Oczyszczenie kodu z metadanych i komentarzy:**
   - Usunięcie wszystkich odwołań, telemetrii edytora, tokenów środowiskowych i komentarzy powiązanych z zewnętrznym edytorem Lovable w całej aplikacji.
 

@@ -3,10 +3,7 @@ import atlas from "@/assets/planet-map/atlas-v2-3840.webp";
 import projection from "@/components/planet-map/worldOverlay.v2.json";
 import { worldToAtlas } from "@/components/planet-map/worldToAtlas";
 import { ALL_QUESTS_V2 } from "@/game/quests/engine";
-import {
-  buildSimulatedClusterPresence,
-  collectLocalCharactersPresence,
-} from "@/game/admin/adminTelemetry";
+import { readRuntimeStatus, type RuntimeStatus } from "@/game/account/runtimeAdmin";
 import { MONSTER_BASE } from "@/game/monsters/base.generated";
 import {
   applyCustomSpawnsForFeature,
@@ -196,13 +193,28 @@ export function AdminWorldMap({ overrides }: { overrides: AdminWorldOverrides })
       })),
     [],
   );
+  // Players who are connected to the game server right now (read from the server every few seconds); nobody is invented.
+  const [livePlayers, setLivePlayers] = useState<RuntimeStatus["players"]>([]);
+  useEffect(() => {
+    if (!layers.players) {
+      setLivePlayers([]);
+      return;
+    }
+    let cancelled = false;
+    const load = () =>
+      readRuntimeStatus()
+        .then((s) => !cancelled && setLivePlayers(s.players))
+        .catch(() => !cancelled && setLivePlayers([]));
+    void load();
+    const timer = setInterval(load, 5000);
+    return () => {
+      cancelled = true;
+      clearInterval(timer);
+    };
+  }, [layers.players]);
   const playerMarkers = useMemo<Marker[]>(() => {
     if (!layers.players) return [];
-    const list = [
-      ...collectLocalCharactersPresence(60),
-      ...buildSimulatedClusterPresence(1).players,
-    ];
-    return list.flatMap((pl) => {
+    return livePlayers.flatMap((pl) => {
       const p = project(pl.worldId, { x: pl.x, y: pl.y });
       return p
         ? [
@@ -211,12 +223,12 @@ export function AdminWorldMap({ overrides }: { overrides: AdminWorldOverrides })
               id: `player:${pl.id}`,
               kind: "player",
               land: pl.worldId,
-              name: `Gracz ${pl.nick} · poz. ${pl.level} (${pl.race}) · ${pl.nearestPlace} · (${pl.x}, ${pl.y}) · ping ${pl.pingMs} ms`,
+              name: `Gracz ${pl.nick} · poz. ${pl.level} (${pl.race}) · (${pl.x}, ${pl.y}) · ping ${pl.pingMs} ms`,
             },
           ]
         : [];
     });
-  }, [layers.players]);
+  }, [layers.players, livePlayers]);
   const width = 2000 / view.zoom,
     height = 1000 / view.zoom;
   const focus = (p: Point) => setView({ cx: p.x, cy: p.y, zoom: 8 });
