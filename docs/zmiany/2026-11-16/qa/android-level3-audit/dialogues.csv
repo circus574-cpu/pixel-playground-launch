@@ -1,0 +1,487 @@
+﻿npc,name,land,town,role,kind,quest,text,reachableInConversation
+npc-aira,Aira,verdant,verdant-capital,guide,greeting,,"Niech korzenie Verdantii prowadzą twe kroki, wędrowcze. Czuję w tobie czysty przepływ energii KI.",
+npc-aira,Aira,verdant,verdant-capital,guide,greeting,,"Witaj w Zielonej Przystani. Prastare korony szumią dziś niespokojnie, lecz w naszej osadzie jesteś bezpieczny.",
+npc-aira,Aira,verdant,verdant-capital,guide,greeting,,"Niech zieleń da ci ukojenie. Jeśli twoje serce bije w rytmie Puszczy, znajdziesz tu dom i cel.",
+npc-aira,Aira,verdant,verdant-capital,guide,rumor,,"Na południe stąd leży Źródło Pierwszego Drzewa. Mówią, że woda czerpana o świcie leczy rany duszy, lecz pilnują jej czujne leśne bestie.",
+npc-aira,Aira,verdant,verdant-capital,guide,rumor,,Most Splątanych Korzeni łączy nas z wschodnimi bagnami. Uważaj pod nim — nocami pnącza same zaciskają się na nieostrożnych stopach.,
+npc-aira,Aira,verdant,verdant-capital,guide,rumor,,"W głębi kniei, w Opuszczonej Chacie Zielarza Pierwszej Ery, wciąż tli się zapomniana receptura eliksiru żywicznego.",
+npc-aira,Aira,verdant,verdant-capital,guide,before,O-V01,"Witaj w Verdantii. Zanim wyruszymy w głąb puszczy, musisz zrozumieć tutejszy rytm życia i oczyścić najbliższy szlak z niespokojnych szlamaków.",True
+npc-aira,Aira,verdant,verdant-capital,guide,during,O-V01,Mchowe Szlamaki wciąż podchodzą pod palisadę Zielonej Przystani. Odszukaj je na ścieżce i przywróć równowagę.,True
+npc-aira,Aira,verdant,verdant-capital,guide,after,O-V01,"Doskonale. Wyczuwam, że las przyjął twój dar. Szlak jest znów bezpieczny dla zbieraczy mchu.",True
+npc-aira,Aira,verdant,verdant-capital,guide,before,O-V02,Nasze patrole meldują o Cierniowych Wilkach grasujących w pobliżu mostów. Potrzebujemy zwiadu wzdłuż starego traktu.,True
+npc-aira,Aira,verdant,verdant-capital,guide,during,O-V02,"Uważaj na watahę w cieniu paproci. Cierniowe Wilki atakują stadnie, gdy wyczują wahanie.",True
+npc-aira,Aira,verdant,verdant-capital,guide,after,O-V02,Wataha została rozproszona. Dzięki tobie kurierzy mogą przejść suchą stopą do Przystani Trzech Mostów.,True
+npc-aira,Aira,verdant,verdant-capital,guide,before,O-V03,"Z pradawnych ruin dochodzą echa dziwnego pulsu. Czas, abyś zbadał Źródło Pierwszego Drzewa i jego pradawne mechanizmy.",True
+npc-aira,Aira,verdant,verdant-capital,guide,during,O-V03,"Źródło tętni na południowym skraju polany. Sprawdź, co zakłóca pierwotny rezonans KI.",True
+npc-aira,Aira,verdant,verdant-capital,guide,after,O-V03,Woda w źródle znowu płynie krystalicznym błękitem. Prastary duch puszczy odetchnął z ulgą.,True
+npc-aira,Aira,verdant,verdant-capital,guide,before,O-V04,Zaburzenia rozprzestrzeniają się ku wschodnim lasom. Czas udać się do Kamiennego Sadu i skonsultować mapy z Orenem.,True
+npc-aira,Aira,verdant,verdant-capital,guide,during,O-V04,Droga do Kamiennego Sadu jest długa. Pamiętaj o uzupełnieniu zapasów w sakwie przed wyruszeniem.,True
+npc-aira,Aira,verdant,verdant-capital,guide,after,O-V04,"Wiadomości od Orena potwierdzają moje obawy — zjawisko dotyka całej Verdantii, nie tylko naszej doliny.",True
+npc-aira,Aira,verdant,verdant-capital,guide,before,O-V05,Północne pnącza oplatają Latarnię Korzeni. Strażniczka Lina potrzebuje wsparcia doświadczonego wojownika KI.,True
+npc-aira,Aira,verdant,verdant-capital,guide,during,O-V05,"Latarnia Korzeni stoi na stromym wzgórzu. Jej światło nie może zgasnąć, bo zagubią się nocne karawany.",True
+npc-aira,Aira,verdant,verdant-capital,guide,after,O-V05,Światło latarni rozprasza mgły. Twoje poświęcenie dla Planetarnych staje się pieśnią powtarzaną wśród gałęzi.,True
+npc-aira,Aira,verdant,verdant-capital,guide,before,O-V06,Czas na ostateczne oczyszczenie matecznika. Rdzeń Puszczy wzywa cię na próbę hartu ducha i siły uderzeń.,True
+npc-aira,Aira,verdant,verdant-capital,guide,during,O-V06,"Skup całą energię w uderzeniach. Nie pozwól, aby mrok zachwiał harmonicznym przepływem energii KI.",True
+npc-aira,Aira,verdant,verdant-capital,guide,after,O-V06,"Dokonałeś tego! Puszcza jest wolna, a twoje imię zostało wyryte w zwojach Zielonej Przystani na wieki.",True
+npc-aira,Aira,verdant,verdant-capital,guide,before,M01,Jako nowo mianowany obrońca puszczy musisz przejść Rytuał Pierwszego Pąka. Przynieś mi dowód swej więzi z lasem.,True
+npc-aira,Aira,verdant,verdant-capital,guide,during,M01,Rytuał wymaga skupienia i szacunku dla powalonych pni. Znajdź święte nasiono w gęstwinie.,True
+npc-aira,Aira,verdant,verdant-capital,guide,after,M01,Pąk zakwitł w twojej dłoni szmaragdowym blaskiem. Prawdziwy z ciebie wojownik Planetarnych.,True
+npc-aira,Aira,verdant,verdant-capital,guide,before,M13,"Głęboko w Kniewie zagnieździł się pradawny relikt. To zadanie dla mistrza, który potrafi stawić czoła pradawnym bestiom.",True
+npc-aira,Aira,verdant,verdant-capital,guide,during,M13,"Zmierzasz ku zapomnianym zrębom. Bądź czujny, bo tamtejsze bestie nie znają litości.",True
+npc-aira,Aira,verdant,verdant-capital,guide,after,M13,Relikt spoczął w bezpiecznym archiwum. Verdantia zawdzięcza ci ocalenie swojego prastarego dziedzictwa.,True
+npc-aira,Aira,verdant,verdant-capital,guide,before,IC-02,Dotarły do nas niepokojące wieści z Aetherii. Złote zwoje Mędrców wspominają o wspólnym zagrożeniu dla obu światów.,True
+npc-aira,Aira,verdant,verdant-capital,guide,during,IC-02,Przygotuj raport dla posłów Mędrców. Mosty międzykontynentalne wymagają czujności.,True
+npc-aira,Aira,verdant,verdant-capital,guide,after,IC-02,Posłowie przyjęli naszą przestrogę. Sojusz Planetarnych z Mędrcami nabiera realnych kształtów.,True
+npc-aira,Aira,verdant,verdant-capital,guide,before,IC-06,Wielki Trakt Dyplomatyczny wymaga otwarcia bezpiecznego kanału z Nexus-9 i Pyrą. Podejmij się tej misji.,True
+npc-aira,Aira,verdant,verdant-capital,guide,during,IC-06,"Podróżuj z poselstwem. Każdy kontynent ma własne prawa, lecz wspólna planeta wymaga jedności.",True
+npc-aira,Aira,verdant,verdant-capital,guide,after,IC-06,Wielki Trakt został zaprzysiężony. Twoje czyny przekroczyły granice samej Verdantii.,True
+npc-mio,Mio,verdant,verdant-capital,merchant,greeting,,"Zioła, esencje, żywiczne bandaże! U Mio kupisz tylko towar najwyższej próby.",
+npc-mio,Mio,verdant,verdant-capital,merchant,greeting,,"Witaj! Pokaż, co znalazłeś w kniei — płacę uczciwie brzęczącą monetą za rzadkie składniki.",
+npc-mio,Mio,verdant,verdant-capital,merchant,greeting,,Potrzebujesz zapasów na drogę? Bez dobrej mikstury w ostępy Verdantii lepiej się nie zapuszczać.,
+npc-mio,Mio,verdant,verdant-capital,merchant,rumor,,"Mówią, że w Mszanej Przystani rybacy wyławiają bursztyny wielkości pięści z zatopionych korzeni.",
+npc-mio,Mio,verdant,verdant-capital,merchant,rumor,,"Stara Kuźnia Żywego Korzenia na wschodzie wciąż dymi w bezwietrzne noce, choć mistrz kowalski odszedł stamtąd lata temu.",
+npc-mio,Mio,verdant,verdant-capital,merchant,rumor,,"Kupcy szeptają, że na szlaku do Kamiennego Sadu grasuje złodziej kradnący wyłącznie nasiona świecących mchów.",
+npc-mio,Mio,verdant,verdant-capital,merchant,before,S-V01,Brakuje mi mchowej galaretki do wywaru leczniczego. Czy przyniesiesz mi kilka próbek od szlamaków z doliny?,True
+npc-mio,Mio,verdant,verdant-capital,merchant,during,S-V01,"Szukaj szlamaków w wilgotnych parowach na zachód od osady. Uważaj, by galaretka nie wyschła!",True
+npc-mio,Mio,verdant,verdant-capital,merchant,after,S-V01,"Świetny materiał! Teraz uwarzę maści, które postawią na nogi każdego zmęczonego zwiadowcę.",True
+npc-mio,Mio,verdant,verdant-capital,merchant,before,S-V02,"Zasadziłam lecznicze zioła przy południowym strumieniu, ale zagnieździły się tam jadowite żądła. Pomóż mi je zebrać.",True
+npc-mio,Mio,verdant,verdant-capital,merchant,during,S-V02,Uważaj na brzęczące osy przy zaroślach. Chodzi o zebranie świeżych liści i oczyszczenie terenu.,True
+npc-mio,Mio,verdant,verdant-capital,merchant,after,S-V02,Zapach tych ziół przywraca siły od samego wdechu. Masz tu swoją dolę monet i miksturę na drogę.,True
+npc-mio,Mio,verdant,verdant-capital,merchant,before,S-V05,Karawana handlowa utknęła na starym nasypie przez rozszalałe korzeniowce. Zabezpiecz ładunek rzadkich korzeni.,True
+npc-mio,Mio,verdant,verdant-capital,merchant,during,S-V05,Rozprosz korzeniowce wokół wozów i przynieś mi plombowaną skrzynię z nasionami.,True
+npc-mio,Mio,verdant,verdant-capital,merchant,after,S-V05,"Wszystkie nasiona nienaruszone! Uratowałeś mój miesięczny dochód, wędrowcze.",True
+npc-taro,Taro,verdant,verdant-capital,smith,greeting,,Uderzaj w żelazo póki tętni w nim energia KI! W czym mogę ci pomóc?,
+npc-taro,Taro,verdant,verdant-capital,smith,greeting,,Ostrza z zielonej żywicy nie pękają pod żadnym ciosem. Szukasz solidnego oręża?,
+npc-taro,Taro,verdant,verdant-capital,smith,greeting,,Witaj przy kowadle. Dym z żywicznego drewna dobrze robi na płuca i odstrasza leśne insekty.,
+npc-taro,Taro,verdant,verdant-capital,smith,rumor,,"W Kuźni Żywego Korzenia spoczywa matryca, która potrafi stopić stal bez użycia węgla, wyłącznie żarem żywicy.",
+npc-taro,Taro,verdant,verdant-capital,smith,rumor,,"Powiadają, że na bagnach można znaleźć skamieniałe kły bestii twardsze niż zahartowany bazalt.",
+npc-taro,Taro,verdant,verdant-capital,smith,rumor,,"Gdy rzeka opada po ulewach, przy Mostach ukazują się ślady dawnych wojennych rydwanów.",
+npc-taro,Taro,verdant,verdant-capital,smith,before,S-V03,Moje zapasy twardej kory i kłów do oprawy rękojeści wyczerpały się. Zdobądź dla mnie materiał od leśnych drapieżników.,True
+npc-taro,Taro,verdant,verdant-capital,smith,during,S-V03,Potrzebuję nienaruszonych kłów i włókien korzeniowych. Sprawdź okolice gęstwin na północ od kuźni.,True
+npc-taro,Taro,verdant,verdant-capital,smith,after,S-V03,"Te kły mają idealną strukturę. Wykuję z nich rękojeść, która nigdy nie wyślizgnie się z dłoni.",True
+npc-taro,Taro,verdant,verdant-capital,smith,before,S-V06,Chcę odtworzyć legendarny szmaragdowy miecz z Pierwszej Ery. Potrzebuję fragmentu żywego korzenia ze sławnej kuźni.,True
+npc-taro,Taro,verdant,verdant-capital,smith,during,S-V06,Udaj się do Kuźni Żywego Korzenia i zbadaj pradawny piec. Przynieś mi nasyconą szlakę.,True
+npc-taro,Taro,verdant,verdant-capital,smith,after,S-V06,Niewiarygodne! Żar w tym kruszcu wciąż pulsuje. Zaraz zabieram się do kucia prototypu oręża.,True
+npc-taro,Taro,verdant,verdant-capital,smith,before,IC-01,Kowale z Pyry przysłali wyzwanie rzemieślnicze. Musimy udowodnić wyższość żywicznego hartowania nad czystą lawą.,True
+npc-taro,Taro,verdant,verdant-capital,smith,during,IC-01,Przygotuj wzorcowy stop oręża Verdantii do wysyłki na południowy kontynent.,True
+npc-taro,Taro,verdant,verdant-capital,smith,after,IC-01,Mistrzowie z Kalderonu zaniemówili na widok elastyczności naszej klingi. Honor kowali Verdantii został obroniony!,True
+npc-ren,Ren,verdant,verdant-capital,hunter,greeting,,"Cisza. W lesie najpierw słuchasz, potem patrzysz, a dopiero na końcu sięgasz po broń.",
+npc-ren,Ren,verdant,verdant-capital,hunter,greeting,,Wróciłem ze zwiadu. Szlaki na północ stają się coraz bardziej zdradliwe.,
+npc-ren,Ren,verdant,verdant-capital,hunter,greeting,,"Witaj, cichy wędrowcze. Twoje kroki są lekkie, a to rzadka zaleta w tych czasach.",
+npc-ren,Ren,verdant,verdant-capital,hunter,rumor,,Widziałem ze szczytu dębów dziwne światła wokół Mostu Splątanych Korzeni. To nie były świetliki ani ogniska kłusowników.,
+npc-ren,Ren,verdant,verdant-capital,hunter,rumor,,W zaroślach niedaleko Kamiennego Sadu odnaleziono opuszczony obóz zwiadowców z emblematem dawnego królestwa.,
+npc-ren,Ren,verdant,verdant-capital,hunter,rumor,,"Puchacze pyłowe krążą nad starymi kurhanami. Gdy te ptaki nie śpią za dnia, w ziemi budzi się coś niespokojnego.",
+npc-ren,Ren,verdant,verdant-capital,hunter,before,S-V04,Zauważyłem tropy leśnych pająków wokół zachodniego duktu. Sprawdź ich gniazdo i zabezpiecz ścieżkę zwiadowczą.,True
+npc-ren,Ren,verdant,verdant-capital,hunter,during,S-V04,Gniazdo znajduje się pod wykrotem starego wiązu. Wytnij kokony i zlikwiduj pajęcze straże.,True
+npc-ren,Ren,verdant,verdant-capital,hunter,after,S-V04,Ścieżka zwiadu jest czysta. Znakomicie poruszasz się w gęstwinie.,True
+npc-ren,Ren,verdant,verdant-capital,hunter,before,S-V07,Zaginął jeden z naszych młodszych tropicieli. Ostatni raz widziano go przy zwalonym pniu na wschodnich mokradłach.,True
+npc-ren,Ren,verdant,verdant-capital,hunter,during,S-V07,"Podążaj za śladami złamanych gałęzi ku bagnom. Miejmy nadzieję, że chłopak jeszcze żyje.",True
+npc-ren,Ren,verdant,verdant-capital,hunter,after,S-V07,"Odnaleziony i bezpieczny w chacie medyka. Verdantia nie zapomina o tych, którzy ratują jej synów.",True
+npc-ren,Ren,verdant,verdant-capital,hunter,before,S-V08,Wataha puchaczy pyłowych zaślepia wędrowców pyłkami ze swoich piór. Musimy ukrócić ich agresję na głównym szlaku.,True
+npc-ren,Ren,verdant,verdant-capital,hunter,during,S-V08,Puchacze gnieżdżą się w koronach drzew przy starym trakcie. Wywabić je możesz tylko dźwiękiem rogu.,True
+npc-ren,Ren,verdant,verdant-capital,hunter,after,S-V08,Niebo nad traktem znowu jest czyste. Podróżni nie muszą już obawiać się pyłowego zaślepienia.,True
+npc-ren,Ren,verdant,verdant-capital,hunter,before,H-V04,Odkryłem ukryte przejście w korzeniach najstarszego dębu. Legenda mówi o sanktuarium pradawnego strażnika puszczy.,True
+npc-ren,Ren,verdant,verdant-capital,hunter,during,H-V04,"Wejdź w szczelinę między korzeniami. Zapal żywiczną pochodnię, by nie zabłądzić w plątaninie korytarzy.",True
+npc-ren,Ren,verdant,verdant-capital,hunter,after,H-V04,"Skarb pradawnych strażników ujrzał światło dzienne. Znalazłeś artefakt, który pamięta narodziny kontynentu.",True
+npc-ren,Ren,verdant,verdant-capital,hunter,before,IC-07,Doniesienia z Wysp Pośrednich mówią o dziwnych prądach morskich spychających łodzie w stronę Wielkiego Wiru.,True
+npc-ren,Ren,verdant,verdant-capital,hunter,during,IC-07,Zbadaj wybrzeże i zbierz dane nawigacyjne od przybrzeżnych obserwatorów.,True
+npc-ren,Ren,verdant,verdant-capital,hunter,after,IC-07,Mapy prądów zostały zaktualizowane. To bezcenna wiedza przed planowaną ekspedycją oceaniczną.,True
+npc-nela,Nela (Przewoźniczka),verdant,verdant-town-3,merchant,greeting,,"Woda płynie wartko, ale moja łódź nigdy nie zawodzi. Dokąd chcesz się przeprawić?",
+npc-nela,Nela (Przewoźniczka),verdant,verdant-town-3,merchant,greeting,,Przystań Trzech Mostów wita wędrowca! Rzeka to najszybsza droga przez gęste ostępy Verdantii.,
+npc-nela,Nela (Przewoźniczka),verdant,verdant-town-3,merchant,greeting,,Witaj! Uważaj na śliskie deski pomostu — rzeka wezbrała po wczorajszych opadach w górnym biegu.,
+npc-nela,Nela (Przewoźniczka),verdant,verdant-town-3,merchant,rumor,,"Pod Trzema Mostami żyją sumy tak olbrzymie, że potrafią wywrócić pustą łódź. Żywią się żywicznymi orzechami.",
+npc-nela,Nela (Przewoźniczka),verdant,verdant-town-3,merchant,rumor,,"Na drugim brzegu, tuż za trzcinami, znajduje się zapomniany ołtarz rzecznego ducha, gdzie dawniej składano lilie wodne.",
+npc-nela,Nela (Przewoźniczka),verdant,verdant-town-3,merchant,rumor,,"Most Splątanych Korzeni widać stąd o zmierzchu — korzenie świecą wtedy bladym, szmaragdowym blaskiem.",
+npc-nela,Nela (Przewoźniczka),verdant,verdant-town-3,merchant,before,S-V09,"Rzeka naniosła pnie i zablokowała środkowe przęsło mostu. Potrzebuję kogoś silnego, by rozbił zator i odpędził rzeczne pełzacze.",True
+npc-nela,Nela (Przewoźniczka),verdant,verdant-town-3,merchant,during,S-V09,Zejdź na płyciznę przy filarach mostu. Oczyść koryto i uważaj na wiry pod filarem.,True
+npc-nela,Nela (Przewoźniczka),verdant,verdant-town-3,merchant,after,S-V09,Nurt znów płynie swobodnie! Łodzie handlowe mogą bezpiecznie cumować przy naszych pomostach.,True
+npc-nela,Nela (Przewoźniczka),verdant,verdant-town-3,merchant,before,S-V10,Muszę dostarczyć pilną przesyłkę z lekarstwami do odciętej osady rybackiej. Czy podejdziesz wzdłuż szuwarów?,True
+npc-nela,Nela (Przewoźniczka),verdant,verdant-town-3,merchant,during,S-V10,Droga brzegiem jest podmokła. Uważaj na błotne zasadzki i dostarcz pakunek w całości.,True
+npc-nela,Nela (Przewoźniczka),verdant,verdant-town-3,merchant,after,S-V10,Rybacy dziękują ci ze łzami w oczach. Bez tych lekarstw gorączka z bagien zabrałaby niejedno życie.,True
+npc-nela,Nela (Przewoźniczka),verdant,verdant-town-3,merchant,before,H-V01,Znalazłam w mule rzecznym starożytną tabliczkę z wyrytą mapą zalanej pieczary. Czy odważysz się tam zajrzeć?,True
+npc-nela,Nela (Przewoźniczka),verdant,verdant-town-3,merchant,during,H-V01,Jaskinia znajduje się za kurtyną wodospadu na północ od przystani. Weź ze sobą zapas powietrza.,True
+npc-nela,Nela (Przewoźniczka),verdant,verdant-town-3,merchant,after,H-V01,Niewiarygodne! Zatopiony ołtarz krył nienaruszony kryształ czystej energii wodnej.,True
+npc-oren,Oren (Kartograf Osady),verdant,verdant-town-1,smith,greeting,,"Kamień milczy, ale pamięta więcej niż najstarsze księgi. Witaj w Kamiennym Sadzie.",
+npc-oren,Oren (Kartograf Osady),verdant,verdant-town-1,smith,greeting,,Każda rysa na tych głazach to zapis dawnych trzęsień i przemian KI. Co sprowadza cię w nasze skromne progi?,
+npc-oren,Oren (Kartograf Osady),verdant,verdant-town-1,smith,greeting,,"Witaj, podróżniku. Jeśli szukasz dokładnych map tutejszych wąwozów, trafiłeś pod właściwy adres.",
+npc-oren,Oren (Kartograf Osady),verdant,verdant-town-1,smith,rumor,,Głazy w Kamiennym Sadzie nie leżą tu przypadkowo — to pradawny kalendarz astronomiczny dawnych Planetarnych.,
+npc-oren,Oren (Kartograf Osady),verdant,verdant-town-1,smith,rumor,,"Wąwóz Cieni na wschodzie odbija echa kroków, nawet gdy nikt w nim nie idzie. Miejscowi omijają go po zmroku.",
+npc-oren,Oren (Kartograf Osady),verdant,verdant-town-1,smith,rumor,,Kuźnia Żywego Korzenia była niegdyś połączona podziemnym kanałem z naszymi kamieniołomami.,
+npc-oren,Oren (Kartograf Osady),verdant,verdant-town-1,smith,before,S-V11,Skalne jelenie zniszczyły moje punkty triangulacyjne na wzgórzach. Muszę odnowić pomiary granicy lasu.,True
+npc-oren,Oren (Kartograf Osady),verdant,verdant-town-1,smith,during,S-V11,Odwiedź trzy punkty pomiarowe na skalnych graniach i odnotuj odczyty na pergaminie.,True
+npc-oren,Oren (Kartograf Osady),verdant,verdant-town-1,smith,after,S-V11,Pomiary są kompletne! Dzięki tobie nowa mapa wschodniej Verdantii będzie najdokładniejsza od stuleci.,True
+npc-oren,Oren (Kartograf Osady),verdant,verdant-town-1,smith,before,H-V02,Jeden z głazów w sadzie ma wydrążony otwór pasujący do runicznego klucza. Odszukaj brakujący fragment w wąwozie.,True
+npc-oren,Oren (Kartograf Osady),verdant,verdant-town-1,smith,during,H-V02,Klucz runiczny został porzucony w starym legowisku bestii. Odszukaj go i dopasuj do monolitu.,True
+npc-oren,Oren (Kartograf Osady),verdant,verdant-town-1,smith,after,H-V02,Mechanizm zaskoczył! Wewnątrz głazu spoczywał pradawny traktat o harmonii kamienia i drzewa.,True
+npc-lina,Lina (Strażniczka Latarni),verdant,verdant-town-2,hunter,greeting,,"Dopóki ogień latarni płonie, żaden wędrowiec nie zginie w północnych moczarach. Witaj!",
+npc-lina,Lina (Strażniczka Latarni),verdant,verdant-town-2,hunter,greeting,,"Witaj na północnej rubieży. Wiatr od morza niesie chłód, ale w cieple latarni zawsze znajdziesz schronienie.",
+npc-lina,Lina (Strażniczka Latarni),verdant,verdant-town-2,hunter,greeting,,Krocz ostrożnie po wąskich stopniach. Widok ze szczytu latarni obejmuje całą zieloną koronę Verdantii.,
+npc-lina,Lina (Strażniczka Latarni),verdant,verdant-town-2,hunter,rumor,,"Gdy w nocy patrzy się z latarni na północ, na horyzoncie majaczą kontury Latających Wysp Mędrców z Aetherii.",
+npc-lina,Lina (Strażniczka Latarni),verdant,verdant-town-2,hunter,rumor,,"Pod fundamentami latarni znajduje się naturalna szczelina geotermalna, która zasila jej wieczny płomień.",
+npc-lina,Lina (Strażniczka Latarni),verdant,verdant-town-2,hunter,rumor,,W starym gnieździe puchaczy na klifie znaleziono pierścień z herbem dawnego admirała floty handlowej.,
+npc-lina,Lina (Strażniczka Latarni),verdant,verdant-town-2,hunter,before,S-V12,Olej żywiczny do zasilania zwierciadła latarni kończy się. Przynieś mi czystą żywicę z prastarych sosen na klifie.,True
+npc-lina,Lina (Strażniczka Latarni),verdant,verdant-town-2,hunter,during,S-V12,Żywicę zbieraj tylko z naciętych pni oznaczonych znakiem strażników. Uważaj na strome zbocza.,True
+npc-lina,Lina (Strażniczka Latarni),verdant,verdant-town-2,hunter,after,S-V12,Zwierciadło lśni pełnym blaskiem! Dziękuję ci w imieniu wszystkich żeglarzy i wędrowców nocy.,True
+npc-lina,Lina (Strażniczka Latarni),verdant,verdant-town-2,hunter,before,H-V03,Zauważyłam jaskinię odsłoniętą przez ostatnie oberwanie klifu pod latarnią. Wygląda na zapomniany skład rozbitków.,True
+npc-lina,Lina (Strażniczka Latarni),verdant,verdant-town-2,hunter,during,H-V03,Zejdź po linie na półkę skalną i zbadaj wejście do jaskini. Miej broń w pogotowiu.,True
+npc-lina,Lina (Strażniczka Latarni),verdant,verdant-town-2,hunter,after,H-V03,Odnaleźliśmy skrzynię nawigatora z nienaruszonym kompasem i zapiskami o sekretnych zatokach!,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,greeting,,"Witaj w Twierdzy Popiołu. Tutaj hartuje się stal i męstwo, a słabość spala się w płomieniach.",
+npc-kaena,Kaena,pyra,pyra-capital,guide,greeting,,"Ogień Pyry nie pyta o pochodzenie, lecz o siłę woli. Wykaż się czynem, a zyskasz szacunek Legend.",
+npc-kaena,Kaena,pyra,pyra-capital,guide,greeting,,"Popiół i krew to fundamenty tej twierdzy. Stań prosto przed wodzem i mów, z czym przychodzisz.",
+npc-kaena,Kaena,pyra,pyra-capital,guide,rumor,,"Na zachodzie wznosi się Cytadela Pierwszego Płomienia. Mówią, że wieczny ogień w jej sercu zapalili sami pradawni tytani.",
+npc-kaena,Kaena,pyra,pyra-capital,guide,rumor,,"Kaplica Krwi i Popiołu kryje ołtarze, na których dawni berserkerzy składali przysięgi przed wielkimi wyprawami wojennymi.",
+npc-kaena,Kaena,pyra,pyra-capital,guide,rumor,,"Wulkaniczny Kolos na południowym krańcu kontynentu spogląda w stronę oceanu — legenda głosi, że ożyje, gdy zatrzęsie się cała planeta.",
+npc-kaena,Kaena,pyra,pyra-capital,guide,before,O-P01,"Jeśli chcesz dowieść swej wartości wśród wojowników Pyry, musisz wyjść poza mury twierdzy i okiełznać wściekłe węgiełki oraz salamandry.",True
+npc-kaena,Kaena,pyra,pyra-capital,guide,during,O-P01,"Zejdź na bazaltowe tarasy i ugaś furię ognistych bestii. Pokaż, że twój duch nie ugina się przed żarem.",True
+npc-kaena,Kaena,pyra,pyra-capital,guide,after,O-P01,Dobra robota. Twoje ostrze nie zadrżało w ogniu. Zasłużyłeś na prawo noszenia znaku bojowego Twierdzy.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,before,O-P02,Popielne wilki odcięły szlak zaopatrzeniowy ku Żarowemu Traktowi. Czas ruszyć z kontratakiem.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,during,O-P02,Wytrop przywódcę watahy w załomach skalnych i przywróć porządek na szlaku.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,after,O-P02,Szlak znów jest przejezdny. Kupcy z Twierdzy nie zapomną twojej determinacji.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,before,O-P03,"Cytadela Pierwszego Płomienia tętni niebezpiecznym żarem. Musisz zbadać tamtejszy piec i upewnić się, że magma nie przerwie wałów.",True
+npc-kaena,Kaena,pyra,pyra-capital,guide,during,O-P03,Zbadaj ołtarz ognia wewnątrz Cytadeli. Uważaj na tryskające gejzery lawy.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,after,O-P03,Wały zostały zabezpieczone. Pradawny ogień tytanów płonie teraz pod kontrolą naszych strażników.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,before,O-P04,Czas na wyprawę do Cytadeli Kowadeł. Spotkaj się z kowalami i odbierz przygotowany zapas ciężkich płyt pancerza.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,during,O-P04,Przejdź przez kanion obsydianu. Ścieżka jest wąska i narażona na spadające odłamki bazaltu.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,after,O-P04,Pancerze dotarły na czas. Nasze oddziały przednie są gotowe na każde starcie.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,before,O-P05,Port Czerwonych Żagli melduje o podejrzanych statkach u brzegów. Wyrusz na południe i sprawdź gotowość floty.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,during,O-P05,Kapitan Daro czeka na nabrzeżu w porcie. Przeprowadź inspekcję umocnień nabrzeżnych.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,after,O-P05,"Flota stoi w gotowości, a straże przybrzeżne zostały wzmocnione. Południowa granica Pyry jest bezpieczna.",True
+npc-kaena,Kaena,pyra,pyra-capital,guide,before,O-P06,Nadszedł czas na ostateczną próbę ognia na Wielkiej Arenie. Stań naprzeciw elity wojowników i zdobądź tytuł Bohatera Kalderonu.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,during,O-P06,Wejdź na piasek areny pod spojrzeniami tysięcy wojowników. Niech twoja energia KI eksploduje pełnią potęgi.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,after,O-P06,Niechaj ryk tłumu niesie twoje imię aż po szczyty wulkanów! Jesteś prawdziwym Czempionem Legend!,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,before,M05,Jako uznany wojownik musisz złożyć przysięgę krwi przy Ołtarzu Wygasłych Ostrzy. Przynieś trofeum z pokonanego berserkera.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,during,M05,Ołtarz wznosi się na samotnej iglicy skalnej. Pokonaj strażnika wzgórza i złóż dar godny wojownika.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,after,M05,Przysięga została przyjęta przez duchy dawnych wodzów. Twoja broń otrzymała błogosławieństwo ognia.,True
+npc-kaena,Kaena,pyra,pyra-capital,guide,before,M15,"Z głębi kaldery wyłania się starożytny kolos ognia. To starcie, o którym pieśni będą śpiewać przez pokolenia.",True
+npc-kaena,Kaena,pyra,pyra-capital,guide,during,M15,"Zstąp do krateru. Uderzaj w pęknięcia pancerza kolosa, gdy ten przygotowuje uderzenie obszarowe.",True
+npc-kaena,Kaena,pyra,pyra-capital,guide,after,M15,"Tytan padł, a jego serce z krzepnącej lawy spoczęło w skarbcu Twierdzy. Pyra nigdy nie zapomni tego czynu.",True
+npc-yumi,Yumi,pyra,pyra-capital,merchant,greeting,,"Potrzebujesz ostrzałki, pyłu lawowego czy solidnych pasów? U Yumi kupisz ekwipunek, który nie stopi się w walce.",
+npc-yumi,Yumi,pyra,pyra-capital,merchant,greeting,,"Witaj! Pokaż, jakie trofea przynosisz z lawowych pustkowi. Dla rzadkich skór i rogów zawsze mam pełną sakiewkę.",
+npc-yumi,Yumi,pyra,pyra-capital,merchant,greeting,,"W Pyry nikt nie handluje świecidełkami. Sprzedaję wyłącznie to, co chroni życie i zadaje śmiertelne rany.",
+npc-yumi,Yumi,pyra,pyra-capital,merchant,rumor,,"W kopalniach za Cytadelą Kowadeł natrafiono na żyłę czarnego obsydianu, który odbija zaklęcia eteryczne.",
+npc-yumi,Yumi,pyra,pyra-capital,merchant,rumor,,Na szlaku do Portu widywano skalnego berserkera niosącego kamienny kufer z herbem zaginionego legionu.,
+npc-yumi,Yumi,pyra,pyra-capital,merchant,rumor,,"Mówią, że woda w zatoce Portu Czerwonych Żagli wrze od podwodnych kominów hydrotermalnych.",
+npc-yumi,Yumi,pyra,pyra-capital,merchant,before,S-P01,Brakuje mi pancerzy magmowych krabów do wzmocnienia napierśników rekrutów. Zapoluj na nie wzdłuż lawowego strumienia.,True
+npc-yumi,Yumi,pyra,pyra-capital,merchant,during,S-P01,Krabie skorupy zbieraj ostrożnie szczypcami — świeża skorupa parzy nawet przez grube rękawice.,True
+npc-yumi,Yumi,pyra,pyra-capital,merchant,after,S-P01,Te pancerze są twarde jak żelazo. Płatnerze od razu wezmą się do kucia dodatkowych wzmocnień.,True
+npc-yumi,Yumi,pyra,pyra-capital,merchant,before,S-P02,Żarowe nietoperze zanieczyszczają zapasy suszonego mięsa w zachodnich magazynach. Oczyść pieczary magazynowe.,True
+npc-yumi,Yumi,pyra,pyra-capital,merchant,during,S-P02,Nietoperze chowają się pod stropem jaskini. Wykurz je dymem ze spalonej siarki i zlikwiduj gniazda.,True
+npc-yumi,Yumi,pyra,pyra-capital,merchant,after,S-P02,"Magazyny są czyste, a kwatermistrzostwo może znowu wydawać pełne racje dla załogi murów.",True
+npc-yumi,Yumi,pyra,pyra-capital,merchant,before,S-P03,Karawana z pyłem siarkowym została zaatakowana przez stado popielnych wilków. Odszukaj porzucone wozy.,True
+npc-yumi,Yumi,pyra,pyra-capital,merchant,during,S-P03,Wozy stoją w wąwozie dymnym. Odeprzyj drapieżniki i zabezpiecz nienaruszone beczki z prochem.,True
+npc-yumi,Yumi,pyra,pyra-capital,merchant,after,S-P03,"Cały transport ocalony! Twoja nagroda to nie tylko złoto, ale i szacunek gildii kupieckiej.",True
+npc-yumi,Yumi,pyra,pyra-capital,merchant,before,H-P04,"Odkryłam starą księgę rachunkową z zaznaczoną skrytką przemytników pod fundamentami muru. Sprawdź, czy coś tam zostało.",True
+npc-yumi,Yumi,pyra,pyra-capital,merchant,during,H-P04,Wejście kryje się za luźną płytą bazaltową w cieniu południowego bastionu. Uważaj na zapadnie.,True
+npc-yumi,Yumi,pyra,pyra-capital,merchant,after,H-P04,Niezwykłe znalezisko! Stare monety z czasów przed podziałem kontynentów i ceremonialny sztylet.,True
+npc-goro,Goro,pyra,pyra-capital,smith,greeting,,"Dźwięk uderzenia młota to najwspanialsza muzyka na tej planecie. Co chcesz wykuć, wojowniku?",
+npc-goro,Goro,pyra,pyra-capital,smith,greeting,,"Ogień, pot i żelazo — tak powstaje oręż Legend. Pokaż mi swoją broń, a powiem ci, ile jesteś wart.",
+npc-goro,Goro,pyra,pyra-capital,smith,greeting,,"Witaj przy palenisku. Trzymaj się z dala od kanału spływowego surówki, chyba że chcesz stopić podeszwy butów.",
+npc-goro,Goro,pyra,pyra-capital,smith,rumor,,"W sercu wulkanu żyje salamandra o łuskach tak twardych, że tępią diamentowe przecinaki.",
+npc-goro,Goro,pyra,pyra-capital,smith,rumor,,"W Cytadeli Kowadeł kują pancerze ze stopu meteorytu z wulkaniczną szlaką. Podobno są lżejsze od skóry, a twardsze od granitu.",
+npc-goro,Goro,pyra,pyra-capital,smith,rumor,,"Dawni kowale potrafili uwięzić żywiołaka ognia wewnątrz rękojeści miecza, dając mu wieczny płomień.",
+npc-goro,Goro,pyra,pyra-capital,smith,before,S-P05,Do hartowania ostrzy potrzebuję łusek ognistej salamandry. Przynieś mi kilka okazów prosto z lawowych rozlewisk.,True
+npc-goro,Goro,pyra,pyra-capital,smith,during,S-P05,Salamandry nurkują w płynnej lawie. Wywab je kawałkami siarki i zbierz nienaruszone łuski.,True
+npc-goro,Goro,pyra,pyra-capital,smith,after,S-P05,Wspaniała jakość! Te łuski nie tracą twardości nawet przy temperaturze tysiąca stopni.,True
+npc-goro,Goro,pyra,pyra-capital,smith,before,S-P06,Mój ulubiony młot kowalski pękł na meteorytowej rudzie. Potrzebuję nowego rdzenia z czarnego obsydianu.,True
+npc-goro,Goro,pyra,pyra-capital,smith,during,S-P06,Zejdź do głębokiej rozpadliny przy Ołtarzu Wygasłych Ostrzy. Ociosaj monolityczny blok czarnego szkła.,True
+npc-goro,Goro,pyra,pyra-capital,smith,after,S-P06,"Ten obsydian jest idealnie czysty. Wykuję młot, który posłuży moim uczniom przez kolejne sto lat.",True
+npc-goro,Goro,pyra,pyra-capital,smith,before,H-P02,Znalazłem w starym palenisku wskazówkę prowadzącą do ukrytej pieczary pierwszego kowala Pyry. Sprawdź te koordynaty.,True
+npc-goro,Goro,pyra,pyra-capital,smith,during,H-P02,Wejście zasypane jest przez zastygłą lawę. Rozbij blokadę i odszukaj pradawne kowadło mistrza.,True
+npc-goro,Goro,pyra,pyra-capital,smith,after,H-P02,Pradawne kowadło wciąż rezonuje energią KI! Odnaleźliśmy zaginione schematy oręża bojowego.,True
+npc-rokan,Rokan,pyra,pyra-capital,hunter,greeting,,"Blizny na ciele to mapa przebytych walk. Ile z nich nosisz ty, przybyszu?",
+npc-rokan,Rokan,pyra,pyra-capital,hunter,greeting,,Witaj w kwaterze wypraw. Tutaj planujemy rajdy na najdziksze bestie wulkanicznego płaskowyżu.,
+npc-rokan,Rokan,pyra,pyra-capital,hunter,greeting,,Wojownik bez wyzwania gnuśnieje jak stojąca woda. Szukasz chwały czy bezpiecznego kąta?,
+npc-rokan,Rokan,pyra,pyra-capital,hunter,rumor,,Na szczycie Bazaltowego Rogu gnieździ się stary żarowy nietoperz o rozpiętości skrzydeł przewyższającej rydwan bojowy.,
+npc-rokan,Rokan,pyra,pyra-capital,hunter,rumor,,"Kaplica Krwi i Popiołu jest nawiedzana przez upiory poległych wojowników, którzy nie zaznali spokoju po przegranej bitwie.",
+npc-rokan,Rokan,pyra,pyra-capital,hunter,rumor,,"Na granicy z pustynią popiołu widziano gigantycznego skorpiona obsydianowego, którego kolec przebija żelazne tarcze.",
+npc-rokan,Rokan,pyra,pyra-capital,hunter,before,S-P04,Młodzi rekruci boją się wejść do Przełęczy Płomieni z powodu grasującego skalnego berserkera. Idź i rzuć mu wyzwanie.,True
+npc-rokan,Rokan,pyra,pyra-capital,hunter,during,S-P04,Berserker nie używa uników — polega wyłącznie na brutalnej sile. Wykorzystaj swoją zwinność i uderzaj w plecy.,True
+npc-rokan,Rokan,pyra,pyra-capital,hunter,after,S-P04,Wieść o twoim zwycięstwie już obiegła koszary. Rekruci znowu maszerują przez przełęcz z podniesionym czołem.,True
+npc-rokan,Rokan,pyra,pyra-capital,hunter,before,S-P07,Skorpion obsydianowy zaatakował patrol zwiadowczy. Musimy pomścić naszych braci i zdobyć jego jadowy kolec.,True
+npc-rokan,Rokan,pyra,pyra-capital,hunter,during,S-P07,Uważaj na cios z podziemi — skorpion potrafi zakopać się w popiele i uderzyć znienacka.,True
+npc-rokan,Rokan,pyra,pyra-capital,hunter,after,S-P07,"Kolec bestii zawiśnie nad wejściem do kwatery. Pokazałeś, czym jest niezłomny duch Legend.",True
+npc-rokan,Rokan,pyra,pyra-capital,hunter,before,S-P08,Próba Trzech Żywiołów: musisz pokonać po jednym drapieżniku z każdego z trzech wulkanicznych rejonów w określonym czasie.,True
+npc-rokan,Rokan,pyra,pyra-capital,hunter,during,S-P08,"Czas ucieka. Pokonaj salamandrę, popielnego wilka i magmowego kraba, zbierając ich bojowe znaki.",True
+npc-rokan,Rokan,pyra,pyra-capital,hunter,after,S-P08,Znakomity czas i bezbłędna technika! Twoje imię trafiło na tablicę mistrzów wypraw.,True
+npc-pyra-warden-west,Toren (Strażnik Traktu),pyra,pyra-town-3,hunter,greeting,,"Żarowy Trakt to najgorętsza droga na tej planecie. Trzymaj się kamiennego traktu, jeśli nie chcesz spłonąć.",
+npc-pyra-warden-west,Toren (Strażnik Traktu),pyra,pyra-town-3,hunter,greeting,,"Witaj na zachodnim posterunku. Pilnujemy, by magma nie zalała jedynego połączenia z Cytadelą Kowadeł.",
+npc-pyra-warden-west,Toren (Strażnik Traktu),pyra,pyra-town-3,hunter,greeting,,"Dobre buty to podstawa na tym szlaku. Skały są tu tak gorące, że woda w manierce gotuje się w godzinę.",
+npc-pyra-warden-west,Toren (Strażnik Traktu),pyra,pyra-town-3,hunter,rumor,,Pod Żarowym Traktem płynie podziemna rzeka lawy zasilająca fontanny wulkaniczne w Cytadeli Pierwszego Płomienia.,
+npc-pyra-warden-west,Toren (Strażnik Traktu),pyra,pyra-town-3,hunter,rumor,,Ratownicy znaleźli niedawno porzucony wóz kupiecki z Aetherii — jak ci Mędrcy dali radę tu dotrzeć w swoich jedwabiach?,
+npc-pyra-warden-west,Toren (Strażnik Traktu),pyra,pyra-town-3,hunter,rumor,,W bezksiężycowe noce w dymie nad traktem układają się sylwetki dawnych gigantów.,
+npc-pyra-warden-west,Toren (Strażnik Traktu),pyra,pyra-town-3,hunter,before,S-P09,Pęknięcie skorupy ziemskiej zagroziło mostowi na trakcie. Pomóż ratownikom ustabilizować grunt i odpędź golema ruin.,True
+npc-pyra-warden-west,Toren (Strażnik Traktu),pyra,pyra-town-3,hunter,during,S-P09,Golem blokuje podejście do podpory mostu. Rozbij jego kamienny rdzeń i ułóż wsporniki z bazaltu.,True
+npc-pyra-warden-west,Toren (Strażnik Traktu),pyra,pyra-town-3,hunter,after,S-P09,Most uratowany! Karawany z zaopatrzeniem mogą bezpiecznie kontynuować podróż ku Twierdzy.,True
+npc-pyra-warden-west,Toren (Strażnik Traktu),pyra,pyra-town-3,hunter,before,H-P01,W szczelinie pod traktem dostrzegłem blask starożytnej kapsuły ratunkowej z czasów pierwszego lądowania. Zbadaj ją.,True
+npc-pyra-warden-west,Toren (Strażnik Traktu),pyra,pyra-town-3,hunter,during,H-P01,Zejdź ostrożnie po linach asekuracyjnych do wąwozu. Temperatura jest tam ekstremalnie wysoka.,True
+npc-pyra-warden-west,Toren (Strażnik Traktu),pyra,pyra-town-3,hunter,after,H-P01,W kapsule znajdował się nienaruszony moduł nawigacyjny i starożytny pancerz ognioodporny!,True
+npc-pyra-smith-east,Hana (Płatnerka Obsydianu),pyra,pyra-town-1,smith,greeting,,"Pancerz musi być jak druga skóra — elastyczny tam, gdzie ruch, i nieprzebijalny na piersi. Witaj w Cytadeli Kowadeł.",
+npc-pyra-smith-east,Hana (Płatnerka Obsydianu),pyra,pyra-town-1,smith,greeting,,"W moich żyłach płynie płynny metal! Szukasz zbroi, która powstrzyma uderzenie smoczego ogona?",
+npc-pyra-smith-east,Hana (Płatnerka Obsydianu),pyra,pyra-town-1,smith,greeting,,Witaj w stolicy kowalskiego rzemiosła. Tu każde uderzenie młota rozbrzmiewa w całym wąwozie.,
+npc-pyra-smith-east,Hana (Płatnerka Obsydianu),pyra,pyra-town-1,smith,rumor,,Najlepszy obsydian wydobywa się w pobliżu Kolosa Pierwszego Bohatera — kamień ten ma naturalną zdolność pochłaniania ciepła.,
+npc-pyra-smith-east,Hana (Płatnerka Obsydianu),pyra,pyra-town-1,smith,rumor,,Pod fundamentami Cytadeli Kowadeł znajduje się sala pamięci ze zbrojami wszystkich wodzów Pyry od zarania dziejów.,
+npc-pyra-smith-east,Hana (Płatnerka Obsydianu),pyra,pyra-town-1,smith,rumor,,"Mówią, że kowale z Nexus-9 próbowali podkraść nasze receptury hartowania próżniowego.",
+npc-pyra-smith-east,Hana (Płatnerka Obsydianu),pyra,pyra-town-1,smith,before,S-P10,Do wykucia ceremonialnego pancerza potrzebuję czystego pyłu obsydianowego. Rozbij kryształy w Wąwozie Dymu.,True
+npc-pyra-smith-east,Hana (Płatnerka Obsydianu),pyra,pyra-town-1,smith,during,S-P10,"Kryształy są kruche, ale tną skórę jak brzytwy. Zbieraj pył do żelaznego słoja z filtrem.",True
+npc-pyra-smith-east,Hana (Płatnerka Obsydianu),pyra,pyra-town-1,smith,after,S-P10,Idealna ziarnistość! Pancerz pokryty tą emalią będzie lśnił czernią głębszą niż bezgwiezdna noc.,True
+npc-pyra-smith-east,Hana (Płatnerka Obsydianu),pyra,pyra-town-1,smith,before,S-P11,Mistrzowski test pancerza: ubierz mój prototypowy kirys i przetrwaj serię uderzeń magmowego kraba w kanionie.,True
+npc-pyra-smith-east,Hana (Płatnerka Obsydianu),pyra,pyra-town-1,smith,during,S-P11,"Załóż pancerz i przyjmij uderzenia na tarczę. Obserwuj, jak materiał rozprasza energię kinetyczną.",True
+npc-pyra-smith-east,Hana (Płatnerka Obsydianu),pyra,pyra-town-1,smith,after,S-P11,"Żadnego pęknięcia, żadnego wgniecenia! To triumf kowalstwa Cytadeli Kowadeł!",True
+npc-pyra-captain,Daro (Ssternik Przymierza),pyra,pyra-town-2,merchant,greeting,,"Ahoj, lądowy szczurze! W Porcie Czerwonych Żagli pachnie smołą, solą i pieczoną rybą. Czego szukasz na nabrzeżu?",
+npc-pyra-captain,Daro (Ssternik Przymierza),pyra,pyra-town-2,merchant,greeting,,Nasze drakary ze stali i żelaznego drewna pływają nawet po wrzącej wodzie. Witaj na pokładzie!,
+npc-pyra-captain,Daro (Ssternik Przymierza),pyra,pyra-town-2,merchant,greeting,,Morze wokół Pyry jest równie zdradliwe jak jej lądy — podwodne wulkany potrafią wysadzić statek w powietrze bez ostrzeżenia.,
+npc-pyra-captain,Daro (Ssternik Przymierza),pyra,pyra-town-2,merchant,rumor,,Na południe od portu z wody wystaje Kolos Pierwszego Bohatera — jego kamienne oczy wskazują drogę do Wielkiego Wiru.,
+npc-pyra-captain,Daro (Ssternik Przymierza),pyra,pyra-town-2,merchant,rumor,,"Rybacy opowiadają o lewiatanach z lawowymi grzbietami, które wynurzają się nocą, by ogrzać się pod księżycem.",
+npc-pyra-captain,Daro (Ssternik Przymierza),pyra,pyra-town-2,merchant,rumor,,Zatopione wraki w Zatoce Żaru kryją skrzynie z pradawnym złotem z czasów przedwielkich wojen.,
+npc-pyra-captain,Daro (Ssternik Przymierza),pyra,pyra-town-2,merchant,before,S-P12,"Piracka łódź rozbiła się na rafie żarowej, a ocalali terroryzują naszą latarnię morską. Przepędź korsarzy.",True
+npc-pyra-captain,Daro (Ssternik Przymierza),pyra,pyra-town-2,merchant,during,S-P12,Wejdź na groblę prowadzącą do latarni i zlikwiduj bandytów okupujących magazyn sygnałowy.,True
+npc-pyra-captain,Daro (Ssternik Przymierza),pyra,pyra-town-2,merchant,after,S-P12,"Latarnia znów bezpieczna, a czerwone żagle mogą bez przeszkód wpływać do przystani.",True
+npc-pyra-captain,Daro (Ssternik Przymierza),pyra,pyra-town-2,merchant,before,H-P03,Wyrzucona na brzeg beczka zawierała mapę prowadzącą do zatopionej jaskini skarbów pod Kolosem. Sprawdź to miejsce.,True
+npc-pyra-captain,Daro (Ssternik Przymierza),pyra,pyra-town-2,merchant,during,H-P03,Zanurkuj przy stopach Kolosa podczas odpływu. Wejście jest wąskie i porośnięte ostrymi skorupami.,True
+npc-pyra-captain,Daro (Ssternik Przymierza),pyra,pyra-town-2,merchant,after,H-P03,Skarb z dawnych latarni morskich odnaleziony! Złote monety i starożytna sekstanta nawigacyjna.,True
+npc-pyra-captain,Daro (Ssternik Przymierza),pyra,pyra-town-2,merchant,before,IC-09,Przygotowujemy ekspedycję oceaniczną ku Wyspom Pośrednim. Zgromadź zapasy prowiantu odpornego na sól i wilgoć.,True
+npc-pyra-captain,Daro (Ssternik Przymierza),pyra,pyra-town-2,merchant,during,IC-09,Zbierz zapasy od kwatermistrzów i dostarcz je na flagowy drakar stojący przy pirsie pierwszym.,True
+npc-pyra-captain,Daro (Ssternik Przymierza),pyra,pyra-town-2,merchant,after,IC-09,"Drakar jest w pełni wyposażony. Gdy tylko nadejdzie rozkaz, ruszymy ku nieznanym archipelagom!",True
+npc-sora,Sora,aether,aether-capital,guide,greeting,,"Pokój twojej duszy, poszukiwaczu prawdy. Niechaj złote glify Aetherii rozjaśnią twoje myśli.",
+npc-sora,Sora,aether,aether-capital,guide,greeting,,Witaj w Sanktuarium Tysiąca Źródeł. Woda i wiatr śpiewają tu pieśń o pierwotnej harmonii kosmosu.,
+npc-sora,Sora,aether,aether-capital,guide,greeting,,Wycisz oddech i spójrz w chmury. W Aetherii każda odpowiedź przychodzi w chwili wewnętrznego spokoju.,
+npc-sora,Sora,aether,aether-capital,guide,rumor,,"W Sanktuarium Ciszy Dzwonu żaden dźwięk nie rozbrzmiał od stu lat — mówią, że gdy dzwon zadzwoni, zmieni się układ planet.",
+npc-sora,Sora,aether,aether-capital,guide,rumor,,"Wielkie Archiwum Wiatru unosi się na wysokości, gdzie powietrze jest tak rzadkie, że myśli materializują się w postaci złotych iskier.",
+npc-sora,Sora,aether,aether-capital,guide,rumor,,"W Zapomnianych Bibliotekach Siódmej Oktawy ukryto księgi zakazanej wiedzy, które same przewracają swoje karty.",
+npc-sora,Sora,aether,aether-capital,guide,before,O-A01,Czystość naszych źródeł została zakłócona przez świetliki pieczęci. Pomóż nam przywrócić pierwotną czystość rytualnych sadzawek.,True
+npc-sora,Sora,aether,aether-capital,guide,during,O-A01,"Obejdź dolne tarasy sanktuarium i użyj runicznego dzwonka, by zharmonizować rozproszone świetliki.",True
+npc-sora,Sora,aether,aether-capital,guide,after,O-A01,Woda w sadzawkach znów lśni czystym blaskiem. Pierwszy krok na ścieżce mądrości został uczyniony.,True
+npc-sora,Sora,aether,aether-capital,guide,before,O-A06,Wielki Rytuał Siódmej Oktawy wymaga zjednoczenia wszystkich czterech żywiołów KI na szczycie Iglicy Świtu.,True
+npc-sora,Sora,aether,aether-capital,guide,during,O-A06,Wznieś się na najwyższy podest świątyni. Skup całą energię duchową i poprowadź ceremonię zjednoczenia.,True
+npc-sora,Sora,aether,aether-capital,guide,after,O-A06,Pieczęcie rezonują pełną harmonią! Zostałeś uznany za Pierwszego Mistrza Złotego Kręgu Aetherii.,True
+npc-sora,Sora,aether,aether-capital,guide,before,M19,Pierwotne Źródło KI na południu zostało spowite gęstą mgłą zapomnienia. Odszukaj jego rdzeń i odczytaj pierwotną inskrypcję.,True
+npc-sora,Sora,aether,aether-capital,guide,during,M19,Zejdź do świętej groty pod obłokami. Oczyść monolit z mchu i przepisz znaki na jedwabny zwój.,True
+npc-sora,Sora,aether,aether-capital,guide,after,M19,Inskrypcja zawiera proroctwo o zjednoczeniu czterech ras. Twoje imię zapisano w Złotej Księdze Mędrców.,True
+npc-sora,Sora,aether,aether-capital,guide,before,S-A08,"Duch dawnego bibliotekarza błąka się po ruinach lektorium. Pomóż mu odnaleźć spokój, odzyskując jego ulubiony kałamarz.",True
+npc-sora,Sora,aether,aether-capital,guide,during,S-A08,Przeszukaj zgliszcza dawnego skryptorium. Uważaj na pergaminowych strażników chroniących wejścia.,True
+npc-sora,Sora,aether,aether-capital,guide,after,S-A08,Duch uśmiechnął się i rozpłynął w porannej bryzie. W bibliotece znów panuje uświęcona cisza.,True
+npc-sora,Sora,aether,aether-capital,guide,before,IC-10,Wielka Narada Mędrców ze wszystkimi kontynentami wzywa posłańców. Zgromadź przedstawicieli kultur na neutralnym gruncie.,True
+npc-sora,Sora,aether,aether-capital,guide,during,IC-10,"Przygotuj ceremonialne dary ze złota i jedwabiu dla delegacji z Verdantii, Pyry i Nexusa.",True
+npc-sora,Sora,aether,aether-capital,guide,after,IC-10,Narada zakończyła się podpisaniem Traktatu Świtu. Zjednoczyłeś serca mieszkańców całej planety.,True
+npc-mei,Mei,aether,aether-capital,merchant,greeting,,"Kadzidła, pergaminy, kryształy medytacyjne — wszystko, czego potrzebuje adept sztuk wyższych, znajdziesz u Mei.",
+npc-mei,Mei,aether,aether-capital,merchant,greeting,,"Witaj! Pokaż mi rzadkie minerały z podniebnych urwisk, a sowicie cię wynagrodzę monetami i rzadkimi zwojami.",
+npc-mei,Mei,aether,aether-capital,merchant,greeting,,"Mądrość nie ma ceny, ale pergamin i atrament kosztują niemało. W czym mogę ci dziś usłużyć?",
+npc-mei,Mei,aether,aether-capital,merchant,rumor,,Kryształowe motyle żywią się pyłem gwiezdnym opadającym na Tarasy Świtu podczas przesilenia letniego.,
+npc-mei,Mei,aether,aether-capital,merchant,rumor,,"W Białej Przystani przewoźnik używa liny splecionej z chmur — mówią, że nie pęka pod żadnym ciężarem.",
+npc-mei,Mei,aether,aether-capital,merchant,rumor,,Złoty skarabeusz znaleziony na stepach Aetherii potrafi wskazywać podziemne żyły płynnego KI.,
+npc-mei,Mei,aether,aether-capital,merchant,before,M09,Do sporządzenia atramentu kronikarskiego potrzebuję pyłu ze skrzydeł kryształowych motyli z podniebnych łąk.,True
+npc-mei,Mei,aether,aether-capital,merchant,during,M09,Motyle są płochliwe. Podejdź do nich cicho i zbierz pyłek za pomocą jedwabnej siatki.,True
+npc-mei,Mei,aether,aether-capital,merchant,after,M09,"Cudowny, opalizujący pył! Kronikarze będą zachwyceni trwałością nowego atramentu.",True
+npc-mei,Mei,aether,aether-capital,merchant,before,S-A01,Zapasy kadzideł w świątyni wyczerpały się. Zdobądź żywicę szafranową z drzew rosnących na krawędzi chmur.,True
+npc-mei,Mei,aether,aether-capital,merchant,during,S-A01,"Drzewa szafranowe rosną na stromych zboczach. Zbieraj tylko zastygłe, bursztynowe krople.",True
+npc-mei,Mei,aether,aether-capital,merchant,after,S-A01,Ten zapach napełnia świątynię spokojem. Przyjmij zapłatę i błogosławieństwo kapłanek.,True
+npc-mei,Mei,aether,aether-capital,merchant,before,S-A10,Zaginęła skrzynia z cennymi nefrytowymi figurkami przeznaczonymi dla studentów akademii. Sprawdź trakt ku Białej Przystani.,True
+npc-mei,Mei,aether,aether-capital,merchant,during,S-A10,Tropy prowadzą ku skalnemu urwisku. Przepędź szmaragdowe węże i odzyskaj ładunek.,True
+npc-mei,Mei,aether,aether-capital,merchant,after,S-A10,Figurki są nienaruszone! Studenci będą mogli kontynuować swoje ćwiczenia skupienia energii.,True
+npc-enso,Enso,aether,aether-capital,smith,greeting,,"Równowaga jest wszystkim. Gdy pieczęć jest doskonała, żaden demon nie zdoła jej naruszyć.",
+npc-enso,Enso,aether,aether-capital,smith,greeting,,"Witaj w pracowni pieczęci. Każda runa, którą tu kreślimy, to słowo wyjęte z samego serca wszechświata.",
+npc-enso,Enso,aether,aether-capital,smith,greeting,,"Kostur to nie broń, lecz przedłużenie ramienia maga. Czy twój umysł jest gotów na głębsze wtajemniczenie?",
+npc-enso,Enso,aether,aether-capital,smith,rumor,,Pieczęć chroniąca Wielkie Archiwum Wiatru wymaga odnawiania co dekadę poprzez intonowanie akordu F-dur.,
+npc-enso,Enso,aether,aether-capital,smith,rumor,,W ruinach Klasztoru Chmur spoczywa kostur pierwszego arcykapłana wykonany ze skamieniałego promienia słońca.,
+npc-enso,Enso,aether,aether-capital,smith,rumor,,Szmaragdowy wąż pilnujący wąwozów jest w rzeczywistości zaklętym strażnikiem dawnego skarbca.,
+npc-enso,Enso,aether,aether-capital,smith,before,O-A02,Pęknięcia na pieczęci wschodniej bramy grożą przeniknięciem cieni. Pomóż mi wyryć nowe znaki ochronne na kolumnach.,True
+npc-enso,Enso,aether,aether-capital,smith,during,O-A02,Użyj rylca z białego złota i dokładnie odtwórz glify harmonii na czterech narożnych filarach.,True
+npc-enso,Enso,aether,aether-capital,smith,after,O-A02,Brama znów promienieje złotą barierą. Ani jeden cień nie przedostanie się do wnętrza osady.,True
+npc-enso,Enso,aether,aether-capital,smith,before,S-A02,Do ukończenia mistrzowskiego kosturu potrzebuję piór mgielnego żurawia zebranego bez czynienia krzywdy ptakom.,True
+npc-enso,Enso,aether,aether-capital,smith,during,S-A02,"Szukaj gniazd żurawi na wysokich iglicach skalnych o świcie, gdy ptaki wyruszają na żer.",True
+npc-enso,Enso,aether,aether-capital,smith,after,S-A02,"Te pióra są miękkie jak puch, a przewodzą energię KI lepiej niż srebrny drut. Kostur będzie arcydziełem.",True
+npc-enso,Enso,aether,aether-capital,smith,before,S-A09,Zbuntowana marionetka rytuału uciekła z laboratorium i niszczy święte ogrody. Trzeba ją unieszkodliwić.,True
+npc-enso,Enso,aether,aether-capital,smith,during,S-A09,Przetnij jej zasilające nici eteryczne za pomocą celnego cięcia i zabezpiecz rdzeń pamięci.,True
+npc-enso,Enso,aether,aether-capital,smith,after,S-A09,Marionetka została opanowana. Jej rdzeń posłuży do ulepszenia mechanizmów obronnych kolegium.,True
+npc-enso,Enso,aether,aether-capital,smith,before,H-A02,Odnaleziono zatarte runy wskazujące na ukrytą komnatę medytacyjną pod ołtarzem głównym. Zbadaj ją dyskretnie.,True
+npc-enso,Enso,aether,aether-capital,smith,during,H-A02,Wypowiedz hasło w starożytnym dialekcie Mędrców i zejdź spiralnymi schodami w dół.,True
+npc-enso,Enso,aether,aether-capital,smith,after,H-A02,Niewiarygodne! Komnata kryła pierwotny rezonator fal KI i zapieczętowany kostur założyciela.,True
+npc-enso,Enso,aether,aether-capital,smith,before,IC-03,Inżynierowie z Nexus-9 poprosili o konsultację w sprawie izolacji ich generatorów plazmowych naszymi pieczęciami.,True
+npc-enso,Enso,aether,aether-capital,smith,during,IC-03,Sporządź repliki glifów uziemiających i dostarcz je na stację graniczną.,True
+npc-enso,Enso,aether,aether-capital,smith,after,IC-03,Naukowe obliczenia androidów potwierdziły skuteczność naszej magii. Most wiedzy został przerzucony.,True
+npc-ishin,Ishin,aether,aether-capital,hunter,greeting,,Schody do sanktuarium liczą tysiąc stopni. Każdy krok to próba pokory i wytrwałości. Witaj.,
+npc-ishin,Ishin,aether,aether-capital,hunter,greeting,,"Witaj, wędrowcze. Moja włócznia strzeże spokoju modlących się mędrców przed dzikimi bestiami z mgieł.",
+npc-ishin,Ishin,aether,aether-capital,hunter,greeting,,Stój i przedstaw swoje intencje. W tych progach nie tolerujemy gniewu ani nieczystych myśli.,
+npc-ishin,Ishin,aether,aether-capital,hunter,rumor,,"Gdy mgła opada ze Schodów, w przepaści pod mostem widać ruiny pierwszej świątyni zniszczonej przed wiekami.",
+npc-ishin,Ishin,aether,aether-capital,hunter,rumor,,"Lwy świątynne na zewnątrz nie są z kamienia — w chwilach wielkiego niebezpieczeństwa ożywają, by bronić kapłanów.",
+npc-ishin,Ishin,aether,aether-capital,hunter,rumor,,Na Tarasach Świtu dzwony same wydają cichy ton przed nadejściem burzy energetycznej.,
+npc-ishin,Ishin,aether,aether-capital,hunter,before,O-A03,Dzikie bestie mgielne zaczęły gromadzić się na półkach skalnych poniżej schodów. Oczyść dolne podejścia.,True
+npc-ishin,Ishin,aether,aether-capital,hunter,during,O-A03,Zejdź do mgielnej strefy i zlikwiduj drapieżniki atakujące pielgrzymów.,True
+npc-ishin,Ishin,aether,aether-capital,hunter,after,O-A03,Schody są bezpieczne. Pielgrzymi mogą bez obaw wznosić swoje modły ku niebiosom.,True
+npc-ishin,Ishin,aether,aether-capital,hunter,before,S-A07,Jeden z mnichów zgubił swój ceremonialny różaniec ze szmaragdów podczas ucieczki przed drapieżnikiem. Odszukaj go.,True
+npc-ishin,Ishin,aether,aether-capital,hunter,during,S-A07,Przeszukaj krzewy jałowca przy pięćsetnym stopniu schodów. Uważaj na śliskie krawędzie urwiska.,True
+npc-ishin,Ishin,aether,aether-capital,hunter,after,S-A07,Różaniec powrócił do właściciela. Mnich obiecał modlić się o twoje powodzenie we wszystkich walkach.,True
+npc-ishin,Ishin,aether,aether-capital,hunter,before,H-A04,W załomie skalnym za wodospadem na dziewięćsetnym stopniu odkryłem szczelinę prowadzącą do jaskini pustelnika.,True
+npc-ishin,Ishin,aether,aether-capital,hunter,during,H-A04,Przejdź za kurtynę wody i zbadaj kamienną pryczę pustelnika. Uważaj na wilgotne stopnie.,True
+npc-ishin,Ishin,aether,aether-capital,hunter,after,H-A04,Odnaleziono pamiętnik pustelnika opisujący sekretne techniki lewitacji i kontroli oddechu.,True
+npc-nari,Nari (Archiwistka),aether,aether-town-3,guide,greeting,,"Cicho, proszę... Nawet szelest papieru potrafi przerwać delikatną nić rozważań filozoficznych. Witaj.",
+npc-nari,Nari (Archiwistka),aether,aether-town-3,guide,greeting,,Witaj na Tarasach Świtu. W tym ogrodzie ksiąg każda myśl dojrzewa w cieple wschodzącego słońca.,
+npc-nari,Nari (Archiwistka),aether,aether-town-3,guide,greeting,,"Kataloguję zbiory od pięćdziesięciu lat i wciąż odkrywam zwoje, o których istnieniu nikt nie pamiętał.",
+npc-nari,Nari (Archiwistka),aether,aether-town-3,guide,rumor,,"W Archiwum Nad Chmurami przechowują atlas gwiazd, na którym zaznaczono planety spoza naszego układu słonecznego.",
+npc-nari,Nari (Archiwistka),aether,aether-town-3,guide,rumor,,"W ogrodzie Tarasów rośnie biała magnolia, która zakwita tylko wtedy, gdy w pobliżu przebywa człowiek o czystym sercu.",
+npc-nari,Nari (Archiwistka),aether,aether-town-3,guide,rumor,,"Zwierciadlana Przystań odbija nie tylko światło słońca, lecz także projekcje myśli medytujących mędrców.",
+npc-nari,Nari (Archiwistka),aether,aether-town-3,guide,before,S-A03,Wilgoć z porannych mgieł zagraża najstarszym zwojom pergaminowym. Przynieś mi suche kryształy higroskopijne z jaskiń.,True
+npc-nari,Nari (Archiwistka),aether,aether-town-3,guide,during,S-A03,Kryształy rosną w suchych kawernach na północnym zboczu. Zbierz dwanaście nieuszkodzonych narostów.,True
+npc-nari,Nari (Archiwistka),aether,aether-town-3,guide,after,S-A03,Zwoje są bezpieczne! Suche kryształy wchłoną całą wilgoć i ocalą bezcenne teksty przed pleśnią.,True
+npc-nari,Nari (Archiwistka),aether,aether-town-3,guide,before,S-A04,Oko wiedzy w ogrodzie rozregulowało się i rzuca błędne projekcje astronomiczne. Skalibruj pryzmaty na tarasie.,True
+npc-nari,Nari (Archiwistka),aether,aether-town-3,guide,during,S-A04,"Obróć trzy szklane pryzmaty tak, by promień porannego słońca trafił w centralną soczewkę.",True
+npc-nari,Nari (Archiwistka),aether,aether-town-3,guide,after,S-A04,Projekcja jest krystalicznie czysta! Konstelacje znów układają się we właściwym porządku.,True
+npc-nari,Nari (Archiwistka),aether,aether-town-3,guide,before,H-A01,Pomiędzy półkami z księgami natrafiłam na zamaskowane drzwi biblioteczne. Kluczem jest ułożenie tomów według barw widma.,True
+npc-nari,Nari (Archiwistka),aether,aether-town-3,guide,during,H-A01,Ułóż księgi w kolejności od czerwieni do fioletu i przekręć mosiężną dźwignię ukrytą w regale.,True
+npc-nari,Nari (Archiwistka),aether,aether-town-3,guide,after,H-A01,Drzwi ustąpiły! W tajnym archiwum spoczywały oryginalne mapy nieba Pierwszych Planetarnych.,True
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,greeting,,Wsiadaj do gondoli chmurowej i trzymaj się mocno lin. Lot nad przepaściami Aetherii zapiera dech w piersiach!,
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,greeting,,Biała Przystań to brama do podniebnych szlaków. Chcesz wzbić się ku wyższym sanktuariom?,
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,greeting,,Witaj! Wiatr dziś sprzyja żegludze powietrznej. Żagle z jedwabiu łapią każdy powiew prądów wstępujących.,
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,rumor,,"Pod Białą Przystanią leży przepaść bez dna — mówią, że kto w nią wpadnie, spada w nieskończoność przez krainę marzeń.",
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,rumor,,W bezwietrzne dni z gondoli można dostrzec ruiny Archiwum Siódmej Oktawy zawieszone na samotnym skalnym filarze.,
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,rumor,,Nawigatorzy widzieli smoka Aurelitha szybującego w chmurach o zachodzie słońca — jego łuski lśniły niczym czyste złoto.,
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,before,O-A04,Lina nośna głównej gondoli uległa przetarciu przez ostre skały. Potrzebujemy mocnego jedwabiu od podniebnych pająków.,True
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,during,O-A04,Zapoluj na pająki na urwiskach i zbierz nieprzerwane zwoje srebrzystego jedwabiu.,True
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,after,O-A04,Lina została wymieniona i wzmocniona. Gondola może znowu bezpiecznie przewozić podróżnych.,True
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,before,S-A05,Gęsta mgła sparaliżowała ruch na przystani. Musimy zapalić lampy sygnałowe na trzech samotnych iglicach.,True
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,during,S-A05,Dostań się do iglic sygnałowych i rozpal ogień w mosiężnych koszach za pomocą iskier KI.,True
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,after,S-A05,Światła przebiły mgłę! Nawigatorzy widzą już bezpieczną drogę do pomostów cumowniczych.,True
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,before,S-A11,Skrzydlaty drapieżnik porwał skrzynię z pocztą dyplomatyczną. Wytrop jego gniazdo i odzyskaj zalakowane listy.,True
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,during,S-A11,"Gniazdo znajduje się na niedostępnej półce skalnej. Użyj prądów wznoszących, by się tam dostać.",True
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,after,S-A11,Wszystkie listy wróciły do torby kurierskiej. Tajemnice państwowe Mędrców pozostały bezpieczne.,True
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,before,H-A03,Prąd powietrzny zniósł wrak starożytnej barki podniebnej na opuszczoną wysepkę chmurową. Zbadaj jej szczątki.,True
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,during,H-A03,"Wyląduj na ruchomej wysepce i przeszukaj ładownię wraku. Uważaj, bo grunt może się osunąć.",True
+npc-aether-ferryman,Kael (Przewoźnik Mgły),aether,aether-town-1,merchant,after,H-A03,Odnaleziono starożytny ster chmurowy z wbudowanym żyroskopem na bazie czystego kryształu eteru!,True
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,greeting,,"Patrz w gwiazdy, a zobaczysz przeszłość i przyszłość zapisaną w układzie świateł. Witaj w Archiwum Nad Chmurami.",
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,greeting,,"Witaj na najwyższym punkcie Aetherii. Stąd ziemia wydaje się mała, a troski codzienne znikają bez śladu.",
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,greeting,,Teleskopy i zwierciadła to moje oczy na wszechświat. Czy przyszedłeś badać ruch komet?,
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,rumor,,Zwierciadła sygnałowe mogą przesyłać wiadomości świetlne na odległość tysięcy mil w ułamku sekundy.,
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,rumor,,"Na szczycie Archiwum powietrze jest tak nasycone czystą energią, że rany goją się dwukrotnie szybciej niż na dole.",
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,rumor,,Podobno Pierwotne Źródło KI na południu wysyła co noc impuls świetlny w stronę Wielkiego Wiru.,
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,before,O-A05,Zwierciadło głównego teleskopu uległo zabrudzeniu przez pył kosmiczny. Oczyść je za pomocą specjalnej mikstury spirytusowej.,True
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,during,O-A05,Wejdź na szczyt kopuły obserwatorium i delikatnie przetrzyj soczewkę bawełnianą szmatką.,True
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,after,O-A05,Obraz jest nieskazitelny! Na dalekim horyzoncie dostrzegłem aktywność sejsmiczną w wulkanach Pyry.,True
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,before,S-A06,Zanotowałem anomalię magnetyczną w pobliżu Archiwum Wiatru. Rozstaw czujniki rezonansowe wokół obserwatorium.,True
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,during,S-A06,Umieść cztery mosiężne iglice w oznaczonych punktach wokół platformy obserwacyjnej.,True
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,after,S-A06,Czujniki działają bez zarzutu. Dane o przepływie fal KI spływają prosto na tablice pomiarowe.,True
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,before,S-A12,Młody adept astronomii zapatrzył się w gwiazdy i spadł na niższą półkę skalną. Sprowadź go bezpiecznie na górę.,True
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,during,S-A12,Zejdź z liną ratunkową na urwisko i zabezpiecz rannego chłopca przed wstrząsami.,True
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,after,S-A12,"Adept jest cały i zdrowy, choć z pewnością zapamięta tę lekcję ostrożności na całe życie.",True
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,before,IC-05,Projekt globalnej sieci zwierciadeł: nawiąż kontakt sygnałowy z Wieżą Sygnałową w Nexus-9 i Twierdzą Popiołu w Pyry.,True
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,during,IC-05,Skieruj zwierciadło główne na koordynaty partnerskich wież i nadaj kod zjednoczenia.,True
+npc-aether-observer,Talen (Obserwator Niebios),aether,aether-town-2,hunter,after,IC-05,Sygnał odebrany i potwierdzony przez oba kontynenty! Globalna łączność planety stała się faktem.,True
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,greeting,,Identyfikator zatwierdzony. Węzeł Świadomości Nexus-9 wita jednostkę organiczną/syntetyczną.,
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,greeting,,Witaj w Sektorze Pierwszym. Wszystkie procesy logiczne przebiegają zgodnie z protokołem stabilności.,
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,greeting,,Skaner biometryczny wykazuje stabilny poziom energii KI. Przystąp do transmisji parametrów zapytania.,
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,rumor,,Laboratorium Rdzenia Zero na zachodzie wciąż emituje harmoniczne fale promieniowania z pierwszego cyklu aktywacji.,
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,rumor,,Reaktor Pulsacyjny Sektora Centralnego wytwarza 80% energii dla podziemnych linii przesyłowych całego kontynentu.,
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,rumor,,W Terminalu Zaginionych Danych zachowały się wpisy w kodzie binarnym z czasów przed wybudowaniem pierwszych cytadel.,
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,before,O-N01,Protokół powitalny: zwiadowcze drony i pełzacze serwisowe w sektorze wejściowym wykazują błędy oprogramowania. Dokonaj ich formatowania.,True
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,during,O-N01,Zlokalizuj niestabilne jednostki na obrzeżach Węzła i zneutralizuj ich jednostki logiczne.,True
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,after,O-N01,"Formatowanie zakończone sukcesem. Sektor wejściowy osiągnął 99,8% wydajności operacyjnej.",True
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,before,O-N06,Protokół Transcendencji: kryształ pamięci Pierwszego Architekta wymaga ponownej synchronizacji z głównym serwerem.,True
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,during,O-N06,Wprowadź kody autoryzacji do czterech terminali brzegowych i ustabilizuj przepływ danych w komorze rdzenia.,True
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,after,O-N06,Synchronizacja globalna zakończona! Zyskałeś status Honorowego Administratora Węzła Nexus-9.,True
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,before,M20,Kryształ Pamięci Pierwszego Architekta na południu przechowuje zapisy o genezie sztucznej energii KI. Pobierz kopię zapasową.,True
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,during,M20,Zejdź do podziemnego skarbca danych i podłącz moduł transmisyjny do centralnego monolitu.,True
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,after,M20,Dane pobrane i zaszyfrowane. Wiedza o początkach Androidów jest bezpieczna w archiwach Węzła.,True
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,before,S-N07,Rój nanitów rozprzestrzenia się w szybie wentylacyjnym sektora mieszkalnego. Zastosuj impuls dezaktywujący.,True
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,during,S-N07,Zejdź do szybu z emiterem zakłóceń elektromagnetycznych i rozprosz skupiska nanitów.,True
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,after,S-N07,Szyby wentylacyjne oczyszczone. Przepływ powietrza i chłodziwa powrócił do normy.,True
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,before,H-N01,Wykryto anomalię w podsieci czwartej — ukryty bufor danych nieodnotowany w oficjalnych rejestrach. Zbadaj jego zawartość.,True
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,during,H-N01,Przełam zaporę logiczną za pomocą deszyfratora i odczytaj ukryty blok pamięci operacyjnej.,True
+npc-lyra7,LYRA-7,nexus,nexus-capital,guide,after,H-N01,Odnaleziono dziennik jednostki prototypowej zawierający algorytmy zwiększające regenerację energii o 15%!,True
+npc-mira2,MIRA-2,nexus,nexus-capital,merchant,greeting,,"Zapas ogniw, kondensatorów i pasty termoprzewodzącej gotowy do dystrybucji. Co zamawiasz?",
+npc-mira2,MIRA-2,nexus,nexus-capital,merchant,greeting,,Wymiana barterowa lub płatność kredytami. Towary w moim magazynie posiadają certyfikat zerowej awaryjności.,
+npc-mira2,MIRA-2,nexus,nexus-capital,merchant,greeting,,"Witaj, jednostko. Przed wyruszeniem poza obwód ochronny upewnij się, że twoje akumulatory są naładowane.",
+npc-mira2,MIRA-2,nexus,nexus-capital,merchant,rumor,,W Kuźni Obwodów spawacz KOR-9 konstruuje pancerze ze stopu tytanu i przewodników nadprzewodzących.,
+npc-mira2,MIRA-2,nexus,nexus-capital,merchant,rumor,,"W Zardzewiałym Doku handlarze sprzedają zużyte baterie plazmowe, które po regeneracji mają dwukrotnie większą pojemność.",
+npc-mira2,MIRA-2,nexus,nexus-capital,merchant,rumor,,Wieża Sygnałowa na wschodzie rejestruje regularne impulsy dochodzące z dna oceanu między kontynentami.,
+npc-mira2,MIRA-2,nexus,nexus-capital,merchant,before,S-N01,Brakuje nam czystego złomu i sprawnych cewek do naprawy jednostek pomocniczych. Pozyskaj je z uszkodzonych robotów na złomowisku.,True
+npc-mira2,MIRA-2,nexus,nexus-capital,merchant,during,S-N01,Przeszukaj sterty części na zachodnim złomowisku. Uważaj na autonomiczne pająki spawalnicze.,True
+npc-mira2,MIRA-2,nexus,nexus-capital,merchant,after,S-N01,Materiał spełnia wszystkie normy techniczne. Jednostki pomocnicze zostaną zmontowane przed końcem cyklu.,True
+npc-mira2,MIRA-2,nexus,nexus-capital,merchant,before,S-N10,Transport akumulatorów wysokiego napięcia utknął na szlaku przesyłowym z powodu awarii zasilacza. Zabezpiecz ładunek.,True
+npc-mira2,MIRA-2,nexus,nexus-capital,merchant,during,S-N10,Odszukaj opuszczoną platformę transportową i podłącz zapasowy kabel uziemiający przed przegrzaniem ogniw.,True
+npc-mira2,MIRA-2,nexus,nexus-capital,merchant,after,S-N10,Ogniwa ocalone przed eksplozją termiczną. Twoja precyzja i czas reakcji zasługują na premię kredytową.,True
+npc-hef4,HEF-4,nexus,nexus-capital,smith,greeting,,"Moc wyjściowa: 100%. Kalibracja działka plazmowego: idealna. Czego potrzebujesz, rekrucie?",
+npc-hef4,HEF-4,nexus,nexus-capital,smith,greeting,,"Współczynniki tarcia zminimalizowane, przewodność maksymalna. Pokaż mi swój oręż, a zoptymalizuję jego parametry.",
+npc-hef4,HEF-4,nexus,nexus-capital,smith,greeting,,Witaj w laboratorium inżynieryjnym. Pamiętaj o noszeniu okularów z filtrem polaryzacyjnym przy łuku plazmowym.,
+npc-hef4,HEF-4,nexus,nexus-capital,smith,rumor,,"Reaktor Pulsacyjny posiada rezerwę mocy zdolną zasilić działo orbitalne, o ile takie kiedykolwiek istniało.",
+npc-hef4,HEF-4,nexus,nexus-capital,smith,rumor,,W starych schematach odkryto projekt wibro-ostrza zasilanego mikro-reaktorem fuzji zimnej.,
+npc-hef4,HEF-4,nexus,nexus-capital,smith,rumor,,W kanałach serwisowych pod Stacją Meridian żyją cybernetyczne gryzonie pochłaniające izolację kabli miedzianych.,
+npc-hef4,HEF-4,nexus,nexus-capital,smith,before,O-N02,Do budowy nowego stabilizatora strumienia potrzebuję rdzeni plazmowych od wieżyczek autonomicznych na poligonie.,True
+npc-hef4,HEF-4,nexus,nexus-capital,smith,during,O-N02,Zneutralizuj wieżyczki bojowe w sektorze testowym i wymontuj nieuszkodzone rdzenie z ich komór.,True
+npc-hef4,HEF-4,nexus,nexus-capital,smith,after,O-N02,Rdzenie w idealnym stanie! Nowy generator impulsów plazmowych będzie gotowy do montażu w pancerzach.,True
+npc-hef4,HEF-4,nexus,nexus-capital,smith,before,S-N02,Skaner gąsienicowy na północnym szlaku zaciął się w pętli decyzyjnej i atakuje konwoje. Przeprowadź twardy reset.,True
+npc-hef4,HEF-4,nexus,nexus-capital,smith,during,S-N02,Podejdź od tyłu do maszyny i wciśnij awaryjny wyłącznik zasilania lub zniszcz układ sterowania.,True
+npc-hef4,HEF-4,nexus,nexus-capital,smith,after,S-N02,Maszyna została zresetowana i powróciła do bazy. Uniknęliśmy poważnych strat w zaopatrzeniu.,True
+npc-hef4,HEF-4,nexus,nexus-capital,smith,before,S-N08,Potrzebuję elektrod ze stopu wolframu z porzuconego magazynu transformatorów. Zdobądź je z wnętrza instalacji.,True
+npc-hef4,HEF-4,nexus,nexus-capital,smith,during,S-N08,Uważaj na wysokie napięcie w kałużach wody destylowanej. Wyłącz główny bezpiecznik przed demontażem.,True
+npc-hef4,HEF-4,nexus,nexus-capital,smith,after,S-N08,Elektrody dostarczone. Nasze działa zyskają o 20% większy zasięg efektywny.,True
+npc-hef4,HEF-4,nexus,nexus-capital,smith,before,H-N02,Znalazłem w bazie danych koordynaty zablokowanego laboratorium badawczego pod Reaktorem. Złam kod zabezpieczający.,True
+npc-hef4,HEF-4,nexus,nexus-capital,smith,during,H-N02,Wprowadź sekwencję Fibonacciego w konsoli wejściowej i zbadaj wnętrze kriokomory.,True
+npc-hef4,HEF-4,nexus,nexus-capital,smith,after,H-N02,Odnaleziono prototypowy moduł tarczy hardlight zasilany bezpośrednio z rezerwy KI użytkownika!,True
+npc-hef4,HEF-4,nexus,nexus-capital,smith,before,IC-04,Protokół wymiany technologicznej: przekaż akumulatory plazmowe kowalom z Pyry w zamian za próbki żaroodpornego bazaltu.,True
+npc-hef4,HEF-4,nexus,nexus-capital,smith,during,IC-04,Dostarcz zapieczętowany kontener do punktu granicznego w Porcie Czerwonych Żagli.,True
+npc-hef4,HEF-4,nexus,nexus-capital,smith,after,IC-04,Próbki bazaltu dotarły do laboratorium. Nasze osłony termiczne będą odporne na każdą temperaturę.,True
+npc-axon,AXON,nexus,nexus-capital,hunter,greeting,,Zasięg radarów: pełny. Obwód zewnętrzny zabezpieczony. Raportuj stan gotowości bojowej.,
+npc-axon,AXON,nexus,nexus-capital,hunter,greeting,,"Witaj, jednostko operacyjna. Poza barierą energetyczną czyhają mechaniczne drapieżniki pozbawione protokołów etycznych.",
+npc-axon,AXON,nexus,nexus-capital,hunter,greeting,,Wykryto obecność jednostki sojuszniczej. Przejdź do odprawy taktycznej przed wyjściem w teren.,
+npc-axon,AXON,nexus,nexus-capital,hunter,rumor,,"Psy-łowcy w ruinach polują na wszelkie źródła ciepła — najłatwiej zmylić je, stosując race fosforowe lub granaty dymne.",
+npc-axon,AXON,nexus,nexus-capital,hunter,rumor,,"Terminal Zaginionych Danych próbuje nadawać sygnał ratunkowy od stu dwudziestu lat, lecz nikt nie zna hasła zwrotnego.",
+npc-axon,AXON,nexus,nexus-capital,hunter,rumor,,Latarnia plazmowa w porcie jest zasilana z kabla podmorskiego biegnącego w stronę wysp centralnych.,
+npc-axon,AXON,nexus,nexus-capital,hunter,before,O-N03,Stado cybernetycznych psów-łowców zaatakowało wysunięty posterunek nasłuchowy. Wyrusz natychmiast i odeprzyj atak.,True
+npc-axon,AXON,nexus,nexus-capital,hunter,during,O-N03,"Psy poruszają się z dużą prędkością. Użyj ataków obszarowych, by przerwać ich koordynację w stadzie.",True
+npc-axon,AXON,nexus,nexus-capital,hunter,after,O-N03,"Posterunek ocalony, a łączność radiowa z północnymi rubieżami została w pełni przywrócona.",True
+npc-axon,AXON,nexus,nexus-capital,hunter,before,M10,Laboratorium Rdzenia Zero wymaga pobrania próbek stabilnego kondensatu energetycznego. Zadanie wysokiego ryzyka.,True
+npc-axon,AXON,nexus,nexus-capital,hunter,during,M10,Wejdź do komory reaktora w laboratorium i napełnij kriofiolkę płynnym izotopem.,True
+npc-axon,AXON,nexus,nexus-capital,hunter,after,M10,Próbka zabezpieczona w ołowianym pojemniku. Te dane pozwolą udoskonalić ogniwa całej armii.,True
+npc-axon,AXON,nexus,nexus-capital,hunter,before,S-N04,Dron zwiadowczy z cennymi danymi kartograficznymi rozbił się w kanionie kablowym. Odzyskaj czarną skrzynkę.,True
+npc-axon,AXON,nexus,nexus-capital,hunter,during,S-N04,Wrak leży na dnie szczeliny. Uważaj na spadające kable pod wysokim napięciem i dzikie roboty.,True
+npc-axon,AXON,nexus,nexus-capital,hunter,after,S-N04,Czarna skrzynka nienaruszona! Mapy zewnętrznych sektorów zostały zaktualizowane o nowe przejścia.,True
+npc-eko0,Eko-0 (Jednostka Serwisowa),nexus,nexus-town-1,guide,greeting,,"Witaj na Stacji Meridian. Tutaj naprawiamy to, co inni uznali za bezużyteczny złom.",
+npc-eko0,Eko-0 (Jednostka Serwisowa),nexus,nexus-town-1,guide,greeting,,Każda śrubka i każdy tranzystor zasługuje na drugą szansę. Jak możemy ci dziś pomóc?,
+npc-eko0,Eko-0 (Jednostka Serwisowa),nexus,nexus-town-1,guide,greeting,,"Witaj, przyjacielu mechaniki. W naszych warsztatach zawsze znajdziesz wolny klucz francuski i lutownicę.",
+npc-eko0,Eko-0 (Jednostka Serwisowa),nexus,nexus-town-1,guide,rumor,,"Stacja Meridian powstała na konstrukcji dawnego pociągu maglev, który kursował w podziemiach kontynentu.",
+npc-eko0,Eko-0 (Jednostka Serwisowa),nexus,nexus-town-1,guide,rumor,,W kanałach odwadniających pod stacją zbiera się emulsja chłodząca o właściwościach przyspieszających regenerację obwodów.,
+npc-eko0,Eko-0 (Jednostka Serwisowa),nexus,nexus-town-1,guide,rumor,,"Reaktor Pulsacyjny w nocy słychać stąd jako głęboki, uspokajający pomruk o częstotliwości 50 Hz.",
+npc-eko0,Eko-0 (Jednostka Serwisowa),nexus,nexus-town-1,guide,before,S-N03,Główna pompa chłodziwa na stacji przegrzewa się. Potrzebujemy świeżego płynu z instalacji w opuszczonym reaktorze.,True
+npc-eko0,Eko-0 (Jednostka Serwisowa),nexus,nexus-town-1,guide,during,S-N03,Pobierz płyn z zaworu bezpieczeństwa reaktora i dostarcz go do zbiornika na stacji przed upływem limitu czasu.,True
+npc-eko0,Eko-0 (Jednostka Serwisowa),nexus,nexus-town-1,guide,after,S-N03,Temperatura pompy spadła do normy roboczej! Cała stacja uniknęła awaryjnego wyłączenia systemów.,True
+npc-eko0,Eko-0 (Jednostka Serwisowa),nexus,nexus-town-1,guide,before,S-N11,Jednostka serwisowa numer 12 została uwięziona przez zawał rur w starym tunelu przesyłowym. Uwolnij naszego towarzysza.,True
+npc-eko0,Eko-0 (Jednostka Serwisowa),nexus,nexus-town-1,guide,during,S-N11,"Użyj ciężkiego oręża, by rozbić stalowe dźwigary i odprowadzić robota do strefy bezpieczeństwa.",True
+npc-eko0,Eko-0 (Jednostka Serwisowa),nexus,nexus-town-1,guide,after,S-N11,Jednostka 12 znów z nami! Wolne jednostki serwisowe nigdy nie zapomną twojej bezinteresownej pomocy.,True
+npc-eko0,Eko-0 (Jednostka Serwisowa),nexus,nexus-town-1,guide,before,H-N04,Za starym transformatorem odkryłem właz do zapomnianego schronu technicznego z czasów budowy magistrali. Zbadaj go.,True
+npc-eko0,Eko-0 (Jednostka Serwisowa),nexus,nexus-town-1,guide,during,H-N04,Otwórz zardzewiałą śluzę pneumatyczną i przeszukaj szafki narzędziowe wewnątrz schronu.,True
+npc-eko0,Eko-0 (Jednostka Serwisowa),nexus,nexus-town-1,guide,after,H-N04,Wspaniałe znalezisko! Oryginalne schematy montażowe pancerzy tytanowych i komplet kluczy z nanodiamentu.,True
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,greeting,,Bzzzt! Uwaga na iskry łuku plazmowego! Witaj w Kuźni Obwodów.,
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,greeting,,Spaw plazmowy nie pęka nawet pod ciśnieniem miliona atmosfer. Co mamy dziś połączyć?,
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,greeting,,Witaj! Temperatura w kuźni wynosi stałe 400 stopni. Dla androida to optymalne warunki pracy.,
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,rumor,,W głębi kuźni stoi piec indukcyjny zdolny wytapiać pancerze z czystego grafenu domieszkowanego borem.,
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,rumor,,Pod fundamentami kuźni przebiega główna magistrala danych R-04 łącząca Nexus z podmorskimi kablami.,
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,rumor,,Kruk danych widywany na dachu kuźni nie jest zwykłym ptakiem — to autonomiczny dron szpiegowski dawnej korporacji.,
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,before,O-N04,Magistrala przesyłowa uległa przerwaniu w trzech miejscach. Musimy zespawać przewody nadprzewodzące w tunelu.,True
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,during,O-N04,Zejdź do tunelu kablowego z palnikiem plazmowym i połącz zerwane złącza w oznaczonych punktach.,True
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,after,O-N04,Magistrala znowu przesyła pełną moc! Światła w całym sektorze przestały migotać.,True
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,before,S-N05,Do hartowania złączy potrzebuję ciekłego azotu ze stacji kriogenicznej. Przynieś mi bezpieczny termos z lodem.,True
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,during,S-N05,Pobierz ciekły azot ze zbiornika kriogenicznego. Uważaj na wycieki gazu i zamrożone przeszkody.,True
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,after,S-N05,Azot na miejscu! Teraz złącza uzyskają nadprzewodnictwo w temperaturze pokojowej.,True
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,before,S-N09,Złomiarze zepsuli automatyczną linię spawalniczą. Zastąp uszkodzone ramiona robotów nowymi siłownikami.,True
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,during,S-N09,Zamontuj cztery siłowniki hydrauliczne na ramionach manipulatorów i skalibruj kąt zgięcia.,True
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,after,S-N09,Linia spawalnicza ruszyła pełną parą! Produkcja nowych płyt pancernych wzrosła dwukrotnie.,True
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,before,H-N03,Pod starym paleniskiem indukcyjnym odkryłem zapomnianą skrytkę z nanitami montażowymi. Wydobądź ten pojemnik.,True
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,during,H-N03,"Użyj manipulatora magnetycznego, by wyciągnąć zasobnik z głębokiej szczeliny termicznej.",True
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,after,H-N03,Pojemnik jest pełen aktywnych nanitów budowlanych! To przyspieszy naprawy oręża o połowę.,True
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,before,IC-08,Projekt połączenia magistrali energetycznej z podziemiami Pyry: przygotuj złącza odporne na strumienie lawy.,True
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,during,IC-08,Wytop partię dwudziestu złączy z węglika krzemu i dostarcz je do punktu styku w kanionie granicznym.,True
+npc-nexus-welder,KОР-9 (Mistrz Spawu),nexus,nexus-town-2,smith,after,IC-08,Złącza wytrzymały próbę lawy! Pierwsza międzykontynentalna linia energetyczna została połączona.,True
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),nexus,nexus-town-3,hunter,greeting,,Port Zerowy przyjmuje statki transportowe i barki kontenerowe. Przedstaw manifest ładunkowy.,
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),nexus,nexus-town-3,hunter,greeting,,Witaj na wschodnim nabrzeżu. Woda morska w połączeniu z plazmą daje widowiskowe wyładowania świetlne.,
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),nexus,nexus-town-3,hunter,greeting,,Wszystkie dźwigi przeładunkowe pracują na maksymalnych obrotach. Szukasz transportu morskiego?,
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),nexus,nexus-town-3,hunter,rumor,,Na horyzoncie widać czasami światła Wielkiego Wiru — według sensorów wir emituje zakłócenia kwantowe.,
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),nexus,nexus-town-3,hunter,rumor,,Na dnie basenu portowego spoczywa zatopiona barka z ładunkiem nienaruszonych rdzeni pamięci z Pierwszej Ery.,
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),nexus,nexus-town-3,hunter,rumor,,"Wokół latarni plazmowej gromadzą się ryby o świecących łuskach, które żywią się wyciekami jonowymi.",
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),nexus,nexus-town-3,hunter,before,O-N05,Latarnia plazmowa na falochronie straciła synchronizację fazową. Wprowadź nowe parametry częstotliwości na wieży.,True
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),nexus,nexus-town-3,hunter,during,O-N05,Wejdź po stalowych klamrach na szczyt latarni i wpisz kod rezonansu na pulpicie sterowniczym.,True
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),nexus,nexus-town-3,hunter,after,O-N05,Snop plazmy rozciąga się na pięćdziesiąt mil morskich! Statki handlowe widzą już bezpieczny tor wodny.,True
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),nexus,nexus-town-3,hunter,before,S-N06,Morskie drapieżniki uszkodziły podwodny kabel zasilający dźwigi portowe. Zanurkuj i nałóż mufę ochronną.,True
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),nexus,nexus-town-3,hunter,during,S-N06,Zejdź na dno basenu portowego w kombinezonie ciśnieniowym i zaciśnij klamrę mufy na kablu.,True
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),nexus,nexus-town-3,hunter,after,S-N06,"Kabel zaizolowany, a dźwigi znów rozładowują kontenery z rudą bazaltu. Świetna robota podwodna!",True
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),nexus,nexus-town-3,hunter,before,S-N12,Zautomatyzowana barka zboczyła z kursu i grozi uderzeniem w pirs główny. Wejdź na pokład i przejmij stery.,True
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),nexus,nexus-town-3,hunter,during,S-N12,"Dostań się motorówką do burty barki, wejdź na mostek kapitański i wyłącz uszkodzonego autopilota.",True
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),nexus,nexus-town-3,hunter,after,S-N12,Barka bezpiecznie zacumowana przy pirsie trzecim. Katastrofa portowa została zażegnana w ostatniej chwili.,True

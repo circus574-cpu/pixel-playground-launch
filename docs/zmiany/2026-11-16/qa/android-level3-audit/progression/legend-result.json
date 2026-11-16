@@ -1,0 +1,392 @@
+{
+	"checks": [
+		{
+			"detail": {
+				"inventory": {
+					"bag": {
+						"potion": 3
+					},
+					"depot": {
+
+					},
+					"depotGold": 0,
+					"equipment": {
+						"amulet": "",
+						"armor": "",
+						"feet": "",
+						"hands": "",
+						"head": "",
+						"offhand": "",
+						"ring": "",
+						"weapon": ""
+					},
+					"gold": 20,
+					"upgrades": {
+
+					}
+				},
+				"stats": {
+					"attack": 14,
+					"attackInterval": 750.0,
+					"cooldownMul": 1.0,
+					"crit": 6.0,
+					"dealt": 1.0,
+					"defense": 4,
+					"kiCostMul": 1.0,
+					"kiRegen": 0.8,
+					"maxHp": 140,
+					"maxKi": 40,
+					"range": 78.0,
+					"speed": 170.0
+				}
+			},
+			"id": "fresh-level-1",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "GM-modes-disabled",
+			"passed": true
+		},
+		{
+			"detail": 108,
+			"id": "existing-level-1-spawn-available",
+			"passed": true
+		},
+		{
+			"detail": {
+				"deaths": 0,
+				"kills": 17,
+				"level": 3,
+				"xp": 12
+			},
+			"id": "reached-level-3-through-ordinary-rewards",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "GM-remained-disabled",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "level-2-skill-learned",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "level-3-save-round-trip",
+			"passed": true
+		}
+	],
+	"damageDealt": 1686,
+	"deaths": 0,
+	"encounters": [
+		{
+			"activeMonsters": 4,
+			"hpAfter": 96.4,
+			"hpBefore": 140.0,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 820,
+			"xpAfter": 16,
+			"xpBefore": 0
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 58.8,
+			"hpBefore": 96.4,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 660,
+			"xpAfter": 32,
+			"xpBefore": 16
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 103.4,
+			"hpBefore": 140.0,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 250,
+			"xpAfter": 48,
+			"xpBefore": 32
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 66.8,
+			"hpBefore": 103.4,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 610,
+			"xpAfter": 64,
+			"xpBefore": 48
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 103.4,
+			"hpBefore": 140.0,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 760,
+			"xpAfter": 80,
+			"xpBefore": 64
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 65.8,
+			"hpBefore": 103.4,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 670,
+			"xpAfter": 96,
+			"xpBefore": 80
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 182.0,
+			"hpBefore": 140.0,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 2,
+			"levelBefore": 1,
+			"slot": 430,
+			"xpAfter": 12,
+			"xpBefore": 96
+		},
+		{
+			"activeMonsters": 1,
+			"hpAfter": 165.0,
+			"hpBefore": 182.0,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 400,
+			"xpAfter": 28,
+			"xpBefore": 12
+		},
+		{
+			"activeMonsters": 1,
+			"hpAfter": 148.0,
+			"hpBefore": 165.0,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 1476,
+			"xpAfter": 44,
+			"xpBefore": 28
+		},
+		{
+			"activeMonsters": 1,
+			"hpAfter": 124.0,
+			"hpBefore": 148.0,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 1439,
+			"xpAfter": 60,
+			"xpBefore": 44
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 106.0,
+			"hpBefore": 124.0,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 150,
+			"xpAfter": 76,
+			"xpBefore": 60
+		},
+		{
+			"activeMonsters": 3,
+			"hpAfter": 82.0,
+			"hpBefore": 106.0,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 880,
+			"xpAfter": 92,
+			"xpBefore": 76
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 165.0,
+			"hpBefore": 182.0,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 230,
+			"xpAfter": 108,
+			"xpBefore": 92
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 141.0,
+			"hpBefore": 165.0,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 130,
+			"xpAfter": 124,
+			"xpBefore": 108
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 124.0,
+			"hpBefore": 141.0,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 340,
+			"xpAfter": 140,
+			"xpBefore": 124
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 106.0,
+			"hpBefore": 124.0,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 380,
+			"xpAfter": 156,
+			"xpBefore": 140
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 224.0,
+			"hpBefore": 106.0,
+			"kills": 1,
+			"kind": "pyra-wegielek",
+			"levelAfter": 3,
+			"levelBefore": 2,
+			"slot": 950,
+			"xpAfter": 12,
+			"xpBefore": 156
+		}
+	],
+	"failed": 0,
+	"final": {
+		"inventory": {
+			"bag": {
+				"potion": 3,
+				"wegiel": 13
+			},
+			"depot": {
+
+			},
+			"depotGold": 0,
+			"equipment": {
+				"amulet": "",
+				"armor": "",
+				"feet": "",
+				"hands": "",
+				"head": "",
+				"offhand": "",
+				"ring": "",
+				"weapon": ""
+			},
+			"gold": 33,
+			"upgrades": {
+
+			}
+		},
+		"learned": [
+			"R",
+			"A1"
+		],
+		"level": 3,
+		"stats": {
+			"attack": 23,
+			"attackInterval": 750.0,
+			"cooldownMul": 1.0,
+			"crit": 6.6,
+			"dealt": 1.0,
+			"defense": 8,
+			"kiCostMul": 1.0,
+			"kiRegen": 0.88,
+			"maxHp": 224,
+			"maxKi": 46,
+			"range": 78.0,
+			"speed": 187.0
+		},
+		"xp": 12
+	},
+	"fixtures": "No XP/level/HP/attack overrides and no GM. Existing level-1 spawn positions selected and approached using joystick events; travel between encounters/inn is a fixture warp, not a measured traversal. Time is advanced through actual simulate/AI functions at 1/60; headless batches are accelerated. Native --live renders one frame per four fixed simulation steps; this is functional coverage, not a physical-device timing benchmark. Full Game._process, AI and presentation update paths are executed.",
+	"innRests": 4,
+	"kills": 17,
+	"levelEvents": [
+		{
+			"kills": 7,
+			"level": 2,
+			"simulationSeconds": 38.1333333333325,
+			"stats": {
+				"attack": 19,
+				"attackInterval": 750.0,
+				"cooldownMul": 1.0,
+				"crit": 6.3,
+				"dealt": 1.0,
+				"defense": 6,
+				"kiCostMul": 1.0,
+				"kiRegen": 0.84,
+				"maxHp": 182,
+				"maxKi": 43,
+				"range": 78.0,
+				"speed": 178.5
+			},
+			"xp": 12
+		},
+		{
+			"kills": 17,
+			"level": 3,
+			"simulationSeconds": 71.8666666666639,
+			"stats": {
+				"attack": 23,
+				"attackInterval": 750.0,
+				"cooldownMul": 1.0,
+				"crit": 6.6,
+				"dealt": 1.0,
+				"defense": 8,
+				"kiCostMul": 1.0,
+				"kiRegen": 0.88,
+				"maxHp": 224,
+				"maxKi": 46,
+				"range": 78.0,
+				"speed": 187.0
+			},
+			"xp": 12
+		}
+	],
+	"otherXpSources": {
+
+	},
+	"passed": 7,
+	"potions": 0,
+	"race": "legend",
+	"simulationSeconds": 71.8666666666639,
+	"xpSources": {
+		"pyra-wegielek": 272
+	}
+}

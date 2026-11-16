@@ -418,3 +418,21 @@ oddzielna zgoda na scalenie/zmianę produkcji. Nie usuwać kopii cloud/lokalnych
 przekierowywać edytora GM na nieautoryzowany zapis JSON. Wspólne potwory, PvP,
 partie, administracja nowymi rekordami i pomiary większej liczby graczy pozostają
 osobnymi zakresami; obecny serwer uruchamia instancjonowaną rozgrywkę PvE.
+
+
+## Odbiór Androida 1.8 — 16.11.2026
+
+Nowy audyt jest zapisany na `qa/android-races-level3-20261116`:
+[raport i dowody](zmiany/2026-11-16/ZMIANY.md#24-audyt-androida-18--cztery-rasy-do-poziomu-3-budynki-dialogi-i-animacje).
+Nie wykonano nowego wdrożenia. Priorytety wynikające z testów:
+
+- **ANDROID-QA-01 / P1:** brak Liny, Torena, Talena i VEX-3 pod właściwymi
+  bindingami miasto/rola; 11 zadań oznaczonych grywalnymi bez rozmówcy.
+- **ANDROID-QA-02 / P2:** 8 nazw NPC niezgodnych ze scenariuszem, m.in. dialogi
+  Neli pod imieniem Mio oraz Nari pod nazwą Opiekun miasta.
+- **ANDROID-QA-03 / P2:** Pieczęć Energii Mędrca odwołuje się po 3 s do celu
+  usuniętego po śmierci; potrzebny WeakRef/ID oraz test zabicia celu przed wybuchem.
+- **Odbiór artystyczny:** porównać strój Legendy w `kiskillb` z pozostałą formą KI
+  i zatwierdzić wygląd Mędrca wobec opisu męskiej postaci w kanonie.
+- Fizyczny Android, dłuższa sesja pamięciowa, pełne trasy miejskie i pełna kampania
+  pozostają poza tym audytem; nie oznaczać ich jako zaliczonych.

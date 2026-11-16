@@ -668,3 +668,113 @@ Należy całkowicie zamknąć i ponownie uruchomić aplikację, aby pobrała rdz
 Nowy APK nie jest potrzebny. Nie wykonano scalenia do `main`, resetu postaci,
 publikacji strony ani zmian instancji GPU. 1.7 pozostaje jako poprzednia wersja
 techniczna do rollbacku; nie jest już wydaniem aktywnym.
+
+
+### 24. Audyt Androida 1.8 — cztery rasy do poziomu 3, budynki, dialogi i animacje
+
+Na polecenie właściciela wykonano szeroki audyt w rzeczywistym Godot 4.6.3,
+renderer Compatibility / Mesa llvmpipe (CPU), z zapisem dowodów na
+`qa/android-races-level3-20261116`. Testowany kod produkcyjny:
+`fe19c7b8549150021cd8b0d7cf8beef4d308f951`, aktywna wersja **1.8**.
+Lokalny eksport rdzenia jest identyczny z publicznym manifestem: **3 539 440 bajtów**,
+SHA-256 `b12bc37b1ce59ccc7112fbfbed89acfabee703ddc0ef8e9747327a1cae29ea75`.
+[Dowód zgodności](qa/android-level3-audit/published-core-proof.json).
+
+**Werdykt: awans i podstawowe usługi przechodzą, odbiór całości niezaliczony.**
+Brakujące postacie questowe blokują 11 zadań; same poprawne pliki JSON i teksty
+nie są dowodem dostępności rozmówcy w świecie.
+
+[Raport PDF — 21 stron](qa/android-level3-audit/raport.pdf),
+[raport HTML z wyszukiwaniem 486 kwestii](qa/android-level3-audit/raport.html),
+[pełne wyniki i usterki JSON](qa/android-level3-audit/report.json),
+[132 wejścia CSV](qa/android-level3-audit/buildings.csv),
+[rejestr NPC CSV](qa/android-level3-audit/npc-catalog.csv),
+[zablokowane zadania CSV](qa/android-level3-audit/blocked-quests.csv).
+
+#### Przejścia 1→3
+
+| Rasa | Poziom końcowy | Nagradzane zabicia | Śmierci | Odpoczynki w gospodzie | Wynik funkcjonalny |
+| --- | --- | --- | --- | --- | --- |
+| Legendy | 3 | 17 | 0 | 4 | 7/7 |
+| Planetarni | 3 | 17 | 0 | 1 | 7/7 |
+| Mędrcy | 3 | 20 | 0 | 0 | 7/7; dwa błędy silnika podczas działania A1 |
+| Androidy | 3 | 18 | 0 | 0 | 7/7 |
+
+Wszystkie przebiegi zaczynają od nowej postaci 1. poziomu, zwykłego ekwipunku,
+20 monet i 3 mikstur. Nie dodawano XP ani poziomów, nie włączano GM i nie
+zmieniano statystyk wrogów. Używano faktycznych spawnów, sygnału joysticka,
+przytrzymania ataku, legalnego A1 od poziomu 2, AI, nagród i zwykłych usług.
+Żaden z tych przebiegów nie zużył mikstury. Licznik pomija potwory `no_reward`;
+Android ma 55 XP ponad sumę nagród ujętych zabić — kwota odpowiada nagrodzie
+wydarzenia Kordon Dronów, nie zaliczamy jej do zabicia zwykłego drona.
+
+To **kontrolowane testy funkcjonalne**, nie pełna ręczna wyprawa ani benchmark
+czasu: przeniesienia między istniejącymi spawnami i gospodą są fixture; runtime
+wykonuje `_process` i AI z krokiem 1/60, z renderowaniem co cztery kroki.
+Przebycia dróg od bramy do spawnu nie mierzono. Każda rasa przeszła zapis i odczyt
+poziomu 3 i drzewka. Rzeczywiste zrzuty:
+[Legenda](qa/android-level3-audit/progression/legend-level-3.png),
+[Planetarny](qa/android-level3-audit/progression/planetary-level-3.png),
+[Mędrzec](qa/android-level3-audit/progression/sage-level-3.png),
+[Android](qa/android-level3-audit/progression/android-level-3.png).
+
+#### Wszystkie wejścia i dialogi
+
+- **132/132** wejścia usługowe: 4 kontynenty × 24 i 6 wysp × 6.
+  Sprawdzono lokalny wolny punkt dojścia, wejście do właściwego wnętrza,
+  mieszkańca, funkcję usługi i powrót pod te same drzwi. Każdy z 6 typów usług
+  ma 22 sprawdzone wystąpienia.
+- Sklep: kupno/sprzedaż; kuźnia: rzeczywista receptura; depozyt: włożenie/wyjęcie;
+  gospoda: zapłata i leczenie; arena: obrażenia manekina; sala: rozmowa.
+  Budżet i materiały tych osobnych testów są kontrolowanym fixture.
+- **244 wystąpienia NPC**, **732 otwarcia dialogów** na stanach poziomu 1/2/3,
+  **288 wariantów tematów świat/rola**. Sprawdzono dopasowanie dialogów do widoku
+  844×390. Przebiegi świata: **2666/2666 headless i 2666/2666 natywnie**.
+- **486 kwestii katalogowych**: 84 powitania, 84 plotki, 318 wariantów
+  before/during/after. Łączny zestaw silnika dialogów: **663/663**. Dalsze stany
+  questowe w tym zestawie są jawnie ustawionymi fixture, nie zadaniami naturalnie
+  ukończonymi na poziomie 3.
+
+#### Usterki
+
+| Priorytet | Problem | Skutek / dowód |
+| --- | --- | --- |
+| P1 | Lina, Toren, Talen i VEX-3 nie mają odpowiadających NPC pod wymaganymi bindingami w swoich miastach | **11 zadań** z `playableInCurrentRuntime=true` bez dostępnego rozmówcy, w tym O-A05 i O-N05. **57 kwestii** katalogowych bez NPC w świecie |
+| P2 | 8 nazw NPC niezgodnych ze scenariuszem | Np. dialog Neli pod imieniem Mio, Orena pod Taro, Nari pod Opiekun miasta; role działają, ale widoczne nazwy mylą gracza |
+| P2 | Opóźniona Pieczęć Energii Mędrca odwołuje się do zwolnionego celu | Dwa `ERROR: Lambda capture at index 0 was freed. Passed null instead.`; `race_kit.gd:445`. A1 planuje wybuch po 3 s, ciało celu jest usuwane po około 2 s. Awans nie został przerwany |
+| Odbiór grafiki | Strój Legendy w `kiskillb` i wygląd Mędrca wobec dokumentu kanonu | Technicznie klatki działają; podgląd pokazuje niespójność stroju KI oraz sylwetkę Mędrca odmienną od opisu męskiej postaci. Do decyzji właściciela |
+| Dług techniczny | Ostrzeżenia ObjectDB przy zamykaniu części runnerów | Nie deklarujemy czystego zamknięcia ani całego CI PASS |
+
+Dostępność autorowanych NPC: **16 nazw zgodnych / 8 rozbieżnych / 4 brakujące**.
+Nie mylić zaliczonego testu silnika dialogów ze sprawdzonym dostępem do każdego
+tekstu w świecie. Dokładne nazwy, miasta, bindingi i zadania są w PDF/JSON/CSV.
+
+#### Animacje
+
+**144 klipy** (36 na rasę), **1152 pary klip/kierunek**, **8384 odwołania do
+klatek**: poprawne regiony atlasów, brak pustych klatek alfa, rzeczywisty postęp
+osi czasu `AnimatedSprite2D`. Zestaw techniczny **2592/2592**. Część kierunków
+współdzieli źródło przez lustrzane odbicie; nie ogłaszamy ośmiu odrębnych filmów.
+Klipy KI są podglądem testowym, nie odblokowaniem formy na poziomie 3.
+
+[36 klipów Legendy](qa/android-level3-audit/animations/legend-36-clips.png),
+[Planetarni](qa/android-level3-audit/animations/planetary-36-clips.png),
+[Mędrcy](qa/android-level3-audit/animations/sage-36-clips.png),
+[Androidy](qa/android-level3-audit/animations/android-36-clips.png).
+Nagrania chodu w 8 kierunkach pochodzą z runtime Godota:
+[Legendy](qa/android-level3-audit/videos/legend-walk.mp4),
+[Planetarni](qa/android-level3-audit/videos/planetary-walk.mp4),
+[Mędrcy](qa/android-level3-audit/videos/sage-walk.mp4),
+[Androidy](qa/android-level3-audit/videos/android-walk.mp4).
+
+#### Bezpieczeństwo i odtwarzanie
+
+Dodano wyłącznie runnery `audit_progression.gd`, `audit_world.gd`,
+`audit_dialogues.gd`, `audit_animations.gd` oraz kompilator raportu
+`scripts/godot/audit_level3_report.py`. Żaden plik runtime, kanonu ani grafiki
+produkcyjnej nie został zmieniony. Pełny TypeScript app/e2e/tools PASS.
+Zapisy testów są w oddzielnych `XDG_DATA_HOME`; nie używano prawdziwych kont,
+cloud save ani instancji GPU. Fizyczny telefon i pełna kampania pozostają
+niezweryfikowane. Nie wykonano scalenia ani nowej publikacji gry.
+
+[Sumy wszystkich dowodów](qa/android-level3-audit/evidence-sha256.json).

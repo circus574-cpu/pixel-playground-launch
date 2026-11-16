@@ -1,0 +1,428 @@
+{
+	"checks": [
+		{
+			"detail": {
+				"inventory": {
+					"bag": {
+						"potion": 3
+					},
+					"depot": {
+
+					},
+					"depotGold": 0,
+					"equipment": {
+						"amulet": "",
+						"armor": "",
+						"feet": "",
+						"hands": "",
+						"head": "",
+						"offhand": "",
+						"ring": "",
+						"weapon": ""
+					},
+					"gold": 20,
+					"upgrades": {
+
+					}
+				},
+				"stats": {
+					"attack": 14,
+					"attackInterval": 800.0,
+					"cooldownMul": 1.0,
+					"crit": 5.0,
+					"dealt": 1.0,
+					"defense": 3,
+					"kiCostMul": 1.0,
+					"kiRegen": 2.0,
+					"maxHp": 100,
+					"maxKi": 80,
+					"range": 420.0,
+					"speed": 170.0
+				}
+			},
+			"id": "fresh-level-1",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "GM-modes-disabled",
+			"passed": true
+		},
+		{
+			"detail": 135,
+			"id": "existing-level-1-spawn-available",
+			"passed": true
+		},
+		{
+			"detail": {
+				"deaths": 0,
+				"kills": 20,
+				"level": 3,
+				"xp": 0
+			},
+			"id": "reached-level-3-through-ordinary-rewards",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "GM-remained-disabled",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "level-2-skill-learned",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "level-3-save-round-trip",
+			"passed": true
+		}
+	],
+	"damageDealt": 1525,
+	"deaths": 0,
+	"encounters": [
+		{
+			"activeMonsters": 4,
+			"hpAfter": 93.5,
+			"hpBefore": 100.0,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 90,
+			"xpAfter": 13,
+			"xpBefore": 0
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 93.5,
+			"hpBefore": 93.5,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 930,
+			"xpAfter": 26,
+			"xpBefore": 13
+		},
+		{
+			"activeMonsters": 3,
+			"hpAfter": 93.5,
+			"hpBefore": 93.5,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 820,
+			"xpAfter": 39,
+			"xpBefore": 26
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 93.5,
+			"hpBefore": 93.5,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 1048,
+			"xpAfter": 52,
+			"xpBefore": 39
+		},
+		{
+			"activeMonsters": 3,
+			"hpAfter": 93.5,
+			"hpBefore": 93.5,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 1327,
+			"xpAfter": 65,
+			"xpBefore": 52
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 93.5,
+			"hpBefore": 93.5,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 230,
+			"xpAfter": 78,
+			"xpBefore": 65
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 93.5,
+			"hpBefore": 93.5,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 959,
+			"xpAfter": 91,
+			"xpBefore": 78
+		},
+		{
+			"activeMonsters": 3,
+			"hpAfter": 128.0,
+			"hpBefore": 93.5,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 2,
+			"levelBefore": 1,
+			"slot": 200,
+			"xpAfter": 4,
+			"xpBefore": 91
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 128.0,
+			"hpBefore": 128.0,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 1068,
+			"xpAfter": 17,
+			"xpBefore": 4
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 128.0,
+			"hpBefore": 128.0,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 650,
+			"xpAfter": 30,
+			"xpBefore": 17
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 128.0,
+			"hpBefore": 128.0,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 830,
+			"xpAfter": 43,
+			"xpBefore": 30
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 128.0,
+			"hpBefore": 128.0,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 60,
+			"xpAfter": 56,
+			"xpBefore": 43
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 128.0,
+			"hpBefore": 128.0,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 1237,
+			"xpAfter": 69,
+			"xpBefore": 56
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 128.0,
+			"hpBefore": 128.0,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 80,
+			"xpAfter": 82,
+			"xpBefore": 69
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 128.0,
+			"hpBefore": 128.0,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 1337,
+			"xpAfter": 95,
+			"xpBefore": 82
+		},
+		{
+			"activeMonsters": 3,
+			"hpAfter": 128.0,
+			"hpBefore": 128.0,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 770,
+			"xpAfter": 108,
+			"xpBefore": 95
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 128.0,
+			"hpBefore": 128.0,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 840,
+			"xpAfter": 121,
+			"xpBefore": 108
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 128.0,
+			"hpBefore": 128.0,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 1277,
+			"xpAfter": 134,
+			"xpBefore": 121
+		},
+		{
+			"activeMonsters": 2,
+			"hpAfter": 128.0,
+			"hpBefore": 128.0,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 540,
+			"xpAfter": 147,
+			"xpBefore": 134
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 156.0,
+			"hpBefore": 128.0,
+			"kills": 1,
+			"kind": "aether-swietlik-pieczeci",
+			"levelAfter": 3,
+			"levelBefore": 2,
+			"slot": 120,
+			"xpAfter": 0,
+			"xpBefore": 147
+		}
+	],
+	"failed": 0,
+	"final": {
+		"inventory": {
+			"bag": {
+				"potion": 3,
+				"pyl-swiatla": 15
+			},
+			"depot": {
+
+			},
+			"depotGold": 0,
+			"equipment": {
+				"amulet": "",
+				"armor": "",
+				"feet": "",
+				"hands": "",
+				"head": "",
+				"offhand": "",
+				"ring": "",
+				"weapon": ""
+			},
+			"gold": 60,
+			"upgrades": {
+
+			}
+		},
+		"learned": [
+			"R",
+			"A1"
+		],
+		"level": 3,
+		"stats": {
+			"attack": 23,
+			"attackInterval": 800.0,
+			"cooldownMul": 1.0,
+			"crit": 5.4,
+			"dealt": 1.0,
+			"defense": 6,
+			"kiCostMul": 1.0,
+			"kiRegen": 2.2,
+			"maxHp": 156,
+			"maxKi": 94,
+			"range": 420.0,
+			"speed": 187.0
+		},
+		"xp": 0
+	},
+	"fixtures": "No XP/level/HP/attack overrides and no GM. Existing level-1 spawn positions selected and approached using joystick events; travel between encounters/inn is a fixture warp, not a measured traversal. Time is advanced through actual simulate/AI functions at 1/60; headless batches are accelerated. Native --live renders one frame per four fixed simulation steps; this is functional coverage, not a physical-device timing benchmark. Full Game._process, AI and presentation update paths are executed.",
+	"innRests": 0,
+	"kills": 20,
+	"levelEvents": [
+		{
+			"kills": 8,
+			"level": 2,
+			"simulationSeconds": 38.9999999999991,
+			"stats": {
+				"attack": 19,
+				"attackInterval": 800.0,
+				"cooldownMul": 1.0,
+				"crit": 5.2,
+				"dealt": 1.0,
+				"defense": 5,
+				"kiCostMul": 1.0,
+				"kiRegen": 2.1,
+				"maxHp": 128,
+				"maxKi": 87,
+				"range": 420.0,
+				"speed": 178.5
+			},
+			"xp": 4
+		},
+		{
+			"kills": 20,
+			"level": 3,
+			"simulationSeconds": 77.5333333333302,
+			"stats": {
+				"attack": 23,
+				"attackInterval": 800.0,
+				"cooldownMul": 1.0,
+				"crit": 5.4,
+				"dealt": 1.0,
+				"defense": 6,
+				"kiCostMul": 1.0,
+				"kiRegen": 2.2,
+				"maxHp": 156,
+				"maxKi": 94,
+				"range": 420.0,
+				"speed": 187.0
+			},
+			"xp": 0
+		}
+	],
+	"otherXpSources": {
+
+	},
+	"passed": 7,
+	"potions": 0,
+	"race": "sage",
+	"simulationSeconds": 77.5333333333302,
+	"xpSources": {
+		"aether-swietlik-pieczeci": 260
+	}
+}

@@ -1,0 +1,394 @@
+{
+	"checks": [
+		{
+			"detail": {
+				"inventory": {
+					"bag": {
+						"potion": 3
+					},
+					"depot": {
+
+					},
+					"depotGold": 0,
+					"equipment": {
+						"amulet": "",
+						"armor": "",
+						"feet": "",
+						"hands": "",
+						"head": "",
+						"offhand": "",
+						"ring": "",
+						"weapon": ""
+					},
+					"gold": 20,
+					"upgrades": {
+
+					}
+				},
+				"stats": {
+					"attack": 12,
+					"attackInterval": 650.0,
+					"cooldownMul": 1.0,
+					"crit": 5.0,
+					"dealt": 1.0,
+					"defense": 5,
+					"kiCostMul": 1.0,
+					"kiRegen": 1.0,
+					"maxHp": 125,
+					"maxKi": 50,
+					"range": 78.0,
+					"speed": 185.0
+				}
+			},
+			"id": "fresh-level-1",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "GM-modes-disabled",
+			"passed": true
+		},
+		{
+			"detail": 171,
+			"id": "existing-level-1-spawn-available",
+			"passed": true
+		},
+		{
+			"detail": {
+				"deaths": 0,
+				"kills": 17,
+				"level": 3,
+				"xp": 12
+			},
+			"id": "reached-level-3-through-ordinary-rewards",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "GM-remained-disabled",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "level-2-skill-learned",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "level-3-save-round-trip",
+			"passed": true
+		}
+	],
+	"damageDealt": 2061,
+	"deaths": 0,
+	"encounters": [
+		{
+			"activeMonsters": 4,
+			"hpAfter": 105.3,
+			"hpBefore": 125.0,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 1450,
+			"xpAfter": 16,
+			"xpBefore": 0
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 89.1,
+			"hpBefore": 105.3,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 730,
+			"xpAfter": 32,
+			"xpBefore": 16
+		},
+		{
+			"activeMonsters": 2,
+			"hpAfter": 72.9,
+			"hpBefore": 89.1,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 160,
+			"xpAfter": 48,
+			"xpBefore": 32
+		},
+		{
+			"activeMonsters": 6,
+			"hpAfter": 56.7,
+			"hpBefore": 72.9,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 1590,
+			"xpAfter": 64,
+			"xpBefore": 48
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 108.8,
+			"hpBefore": 125.0,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 1200,
+			"xpAfter": 80,
+			"xpBefore": 64
+		},
+		{
+			"activeMonsters": 8,
+			"hpAfter": 97.2,
+			"hpBefore": 108.8,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 200,
+			"xpAfter": 96,
+			"xpBefore": 80
+		},
+		{
+			"activeMonsters": 5,
+			"hpAfter": 161.0,
+			"hpBefore": 97.2,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 2,
+			"levelBefore": 1,
+			"slot": 1430,
+			"xpAfter": 12,
+			"xpBefore": 96
+		},
+		{
+			"activeMonsters": 5,
+			"hpAfter": 152.5,
+			"hpBefore": 161.0,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 760,
+			"xpAfter": 28,
+			"xpBefore": 12
+		},
+		{
+			"activeMonsters": 5,
+			"hpAfter": 145.0,
+			"hpBefore": 152.5,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 1390,
+			"xpAfter": 44,
+			"xpBefore": 28
+		},
+		{
+			"activeMonsters": 6,
+			"hpAfter": 136.5,
+			"hpBefore": 145.0,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 340,
+			"xpAfter": 60,
+			"xpBefore": 44
+		},
+		{
+			"activeMonsters": 7,
+			"hpAfter": 128.0,
+			"hpBefore": 136.5,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 260,
+			"xpAfter": 76,
+			"xpBefore": 60
+		},
+		{
+			"activeMonsters": 9,
+			"hpAfter": 119.5,
+			"hpBefore": 128.0,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 1340,
+			"xpAfter": 92,
+			"xpBefore": 76
+		},
+		{
+			"activeMonsters": 8,
+			"hpAfter": 111.0,
+			"hpBefore": 119.5,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 360,
+			"xpAfter": 108,
+			"xpBefore": 92
+		},
+		{
+			"activeMonsters": 8,
+			"hpAfter": 102.5,
+			"hpBefore": 111.0,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 580,
+			"xpAfter": 124,
+			"xpBefore": 108
+		},
+		{
+			"activeMonsters": 8,
+			"hpAfter": 94.0,
+			"hpBefore": 102.5,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 1360,
+			"xpAfter": 140,
+			"xpBefore": 124
+		},
+		{
+			"activeMonsters": 8,
+			"hpAfter": 89.0,
+			"hpBefore": 94.0,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 140,
+			"xpAfter": 156,
+			"xpBefore": 140
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 197.0,
+			"hpBefore": 89.0,
+			"kills": 1,
+			"kind": "verdant-mchowy-szlamak",
+			"levelAfter": 3,
+			"levelBefore": 2,
+			"slot": 1737,
+			"xpAfter": 12,
+			"xpBefore": 156
+		}
+	],
+	"failed": 0,
+	"final": {
+		"inventory": {
+			"bag": {
+				"ZEST-01-04": 1,
+				"mchowa-galaretka": 13,
+				"potion": 3,
+				"zielone-ziele": 4
+			},
+			"depot": {
+
+			},
+			"depotGold": 0,
+			"equipment": {
+				"amulet": "",
+				"armor": "",
+				"feet": "",
+				"hands": "",
+				"head": "",
+				"offhand": "",
+				"ring": "",
+				"weapon": ""
+			},
+			"gold": 49,
+			"upgrades": {
+
+			}
+		},
+		"learned": [
+			"R",
+			"A1"
+		],
+		"level": 3,
+		"stats": {
+			"attack": 20,
+			"attackInterval": 650.0,
+			"cooldownMul": 1.0,
+			"crit": 5.5,
+			"dealt": 1.0,
+			"defense": 10,
+			"kiCostMul": 1.0,
+			"kiRegen": 1.1,
+			"maxHp": 197,
+			"maxKi": 58,
+			"range": 78.0,
+			"speed": 203.5
+		},
+		"xp": 12
+	},
+	"fixtures": "No XP/level/HP/attack overrides and no GM. Existing level-1 spawn positions selected and approached using joystick events; travel between encounters/inn is a fixture warp, not a measured traversal. Time is advanced through actual simulate/AI functions at 1/60; headless batches are accelerated. Native --live renders one frame per four fixed simulation steps; this is functional coverage, not a physical-device timing benchmark. Full Game._process, AI and presentation update paths are executed.",
+	"innRests": 1,
+	"kills": 17,
+	"levelEvents": [
+		{
+			"kills": 7,
+			"level": 2,
+			"simulationSeconds": 46.433333333332,
+			"stats": {
+				"attack": 16,
+				"attackInterval": 650.0,
+				"cooldownMul": 1.0,
+				"crit": 5.25,
+				"dealt": 1.0,
+				"defense": 7,
+				"kiCostMul": 1.0,
+				"kiRegen": 1.05,
+				"maxHp": 161,
+				"maxKi": 54,
+				"range": 78.0,
+				"speed": 194.25
+			},
+			"xp": 12
+		},
+		{
+			"kills": 17,
+			"level": 3,
+			"simulationSeconds": 97.7666666666624,
+			"stats": {
+				"attack": 20,
+				"attackInterval": 650.0,
+				"cooldownMul": 1.0,
+				"crit": 5.5,
+				"dealt": 1.0,
+				"defense": 10,
+				"kiCostMul": 1.0,
+				"kiRegen": 1.1,
+				"maxHp": 197,
+				"maxKi": 58,
+				"range": 78.0,
+				"speed": 203.5
+			},
+			"xp": 12
+		}
+	],
+	"otherXpSources": {
+
+	},
+	"passed": 7,
+	"potions": 0,
+	"race": "planetary",
+	"simulationSeconds": 97.7666666666624,
+	"xpSources": {
+		"verdant-mchowy-szlamak": 272
+	}
+}

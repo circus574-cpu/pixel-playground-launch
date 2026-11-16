@@ -1,0 +1,2130 @@
+{
+  "createdAt": "2026-11-16T20:23:48.862476+00:00",
+  "verdict": "ODBIÓR NIEPEŁNY — P1: brak NPC blokuje 11 zadań; awans 1–3 działa dla czterech ras.",
+  "version": "1.8",
+  "sourceCommit": "fe19c7b8549150021cd8b0d7cf8beef4d308f951",
+  "branch": "qa/android-races-level3-20261116",
+  "worldChecks": {
+    "checks": 2666,
+    "passed": 2666,
+    "failed": 0
+  },
+  "buildingCount": 132,
+  "npcInstances": 244,
+  "authoredNpcCount": 28,
+  "npcStatuses": {
+    "ZGODNY": 16,
+    "INNA NAZWA": 8,
+    "BRAK NPC": 4
+  },
+  "authoredDialogueLines": 486,
+  "unreachableAuthoredDialogueLines": 57,
+  "catalogChecks": {
+    "checks": 663,
+    "passed": 663,
+    "failed": 0
+  },
+  "animationChecks": {
+    "checks": 2592,
+    "passed": 2592,
+    "failed": 0
+  },
+  "animationClips": 144,
+  "directionSlots": 1152,
+  "frameReferences": 8384,
+  "emptyAlphaFrames": 0,
+  "blockedQuests": [
+    {
+      "id": "S-V12",
+      "title": "Olej do północnych latarń",
+      "npc": "Lina (Strażniczka Latarni)",
+      "city": "Latarnia Korzeni",
+      "minimumLevel": 6,
+      "recommendedLevel": 10,
+      "playableFlag": true
+    },
+    {
+      "id": "H-V03",
+      "title": "Ukryta Przygoda: Przysięga pod Starym Dębem",
+      "npc": "Lina (Strażniczka Latarni)",
+      "city": "Latarnia Korzeni",
+      "minimumLevel": 6,
+      "recommendedLevel": 9,
+      "playableFlag": true
+    },
+    {
+      "id": "S-P09",
+      "title": "Zasypany schron na zachodzie",
+      "npc": "Toren (Strażnik Traktu)",
+      "city": "Żarowy Trakt",
+      "minimumLevel": 3,
+      "recommendedLevel": 5,
+      "playableFlag": true
+    },
+    {
+      "id": "H-P01",
+      "title": "Ukryta Przygoda: Przysięga Dwunastu z Kaplicy",
+      "npc": "Toren (Strażnik Traktu)",
+      "city": "Żarowy Trakt",
+      "minimumLevel": 3,
+      "recommendedLevel": 6,
+      "playableFlag": true
+    },
+    {
+      "id": "O-A05",
+      "title": "Zwierciadła Archiwum Nad Chmurami",
+      "npc": "Talen (Obserwator Niebios)",
+      "city": "Archiwum Nad Chmurami",
+      "minimumLevel": 4,
+      "recommendedLevel": 5,
+      "playableFlag": true
+    },
+    {
+      "id": "S-A06",
+      "title": "Konserwacja Zwierciadeł Talena",
+      "npc": "Talen (Obserwator Niebios)",
+      "city": "Archiwum Nad Chmurami",
+      "minimumLevel": 3,
+      "recommendedLevel": 5,
+      "playableFlag": true
+    },
+    {
+      "id": "S-A12",
+      "title": "Pióra Mgielnych Żurawi",
+      "npc": "Talen (Obserwator Niebios)",
+      "city": "Archiwum Nad Chmurami",
+      "minimumLevel": 6,
+      "recommendedLevel": 9,
+      "playableFlag": true
+    },
+    {
+      "id": "IC-05",
+      "title": "Obserwatorzy Czterech Horyzontów",
+      "npc": "Talen (Obserwator Niebios)",
+      "city": "Archiwum Nad Chmurami",
+      "minimumLevel": 6,
+      "recommendedLevel": 9,
+      "playableFlag": true
+    },
+    {
+      "id": "O-N05",
+      "title": "Echo Portu Zerowego",
+      "npc": "VEX-3 (Nawigator Portu Zerowego)",
+      "city": "Port Zerowy",
+      "minimumLevel": 4,
+      "recommendedLevel": 5,
+      "playableFlag": true
+    },
+    {
+      "id": "S-N06",
+      "title": "Zakłócenia na Częstotliwości VEX-3",
+      "npc": "VEX-3 (Nawigator Portu Zerowego)",
+      "city": "Port Zerowy",
+      "minimumLevel": 4,
+      "recommendedLevel": 6,
+      "playableFlag": true
+    },
+    {
+      "id": "S-N12",
+      "title": "Polowanie na Kruki Danych",
+      "npc": "VEX-3 (Nawigator Portu Zerowego)",
+      "city": "Port Zerowy",
+      "minimumLevel": 7,
+      "recommendedLevel": 10,
+      "playableFlag": true
+    }
+  ],
+  "npcReachability": [
+    {
+      "id": "npc-aira",
+      "name": "Aira",
+      "city": "Zielona Przystań",
+      "land": "verdant",
+      "town": "verdant-capital",
+      "role": "guide",
+      "actualNames": [
+        "Aira",
+        "Opiekun szlaku"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-mio",
+      "name": "Mio",
+      "city": "Zielona Przystań",
+      "land": "verdant",
+      "town": "verdant-capital",
+      "role": "merchant",
+      "actualNames": [
+        "Mio"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-taro",
+      "name": "Taro",
+      "city": "Zielona Przystań",
+      "land": "verdant",
+      "town": "verdant-capital",
+      "role": "smith",
+      "actualNames": [
+        "Taro"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-ren",
+      "name": "Ren",
+      "city": "Zielona Przystań",
+      "land": "verdant",
+      "town": "verdant-capital",
+      "role": "hunter",
+      "actualNames": [
+        "Ren"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-nela",
+      "name": "Nela (Przewoźniczka)",
+      "city": "Przystań Trzech Mostów",
+      "land": "verdant",
+      "town": "verdant-town-3",
+      "role": "merchant",
+      "actualNames": [
+        "Mio"
+      ],
+      "status": "INNA NAZWA"
+    },
+    {
+      "id": "npc-oren",
+      "name": "Oren (Kartograf Osady)",
+      "city": "Kamienny Sad",
+      "land": "verdant",
+      "town": "verdant-town-1",
+      "role": "smith",
+      "actualNames": [
+        "Taro"
+      ],
+      "status": "INNA NAZWA"
+    },
+    {
+      "id": "npc-lina",
+      "name": "Lina (Strażniczka Latarni)",
+      "city": "Latarnia Korzeni",
+      "land": "verdant",
+      "town": "verdant-town-2",
+      "role": "hunter",
+      "actualNames": [],
+      "status": "BRAK NPC"
+    },
+    {
+      "id": "npc-kaena",
+      "name": "Kaena",
+      "city": "Twierdza Popiołu",
+      "land": "pyra",
+      "town": "pyra-capital",
+      "role": "guide",
+      "actualNames": [
+        "Kaena",
+        "Opiekun szlaku"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-yumi",
+      "name": "Yumi",
+      "city": "Twierdza Popiołu",
+      "land": "pyra",
+      "town": "pyra-capital",
+      "role": "merchant",
+      "actualNames": [
+        "Yumi"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-goro",
+      "name": "Goro",
+      "city": "Twierdza Popiołu",
+      "land": "pyra",
+      "town": "pyra-capital",
+      "role": "smith",
+      "actualNames": [
+        "Goro"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-rokan",
+      "name": "Rokan",
+      "city": "Twierdza Popiołu",
+      "land": "pyra",
+      "town": "pyra-capital",
+      "role": "hunter",
+      "actualNames": [
+        "Rokan"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-pyra-warden-west",
+      "name": "Toren (Strażnik Traktu)",
+      "city": "Żarowy Trakt",
+      "land": "pyra",
+      "town": "pyra-town-3",
+      "role": "hunter",
+      "actualNames": [],
+      "status": "BRAK NPC"
+    },
+    {
+      "id": "npc-pyra-smith-east",
+      "name": "Hana (Płatnerka Obsydianu)",
+      "city": "Cytadela Kowadeł",
+      "land": "pyra",
+      "town": "pyra-town-1",
+      "role": "smith",
+      "actualNames": [
+        "Goro"
+      ],
+      "status": "INNA NAZWA"
+    },
+    {
+      "id": "npc-pyra-captain",
+      "name": "Daro (Ssternik Przymierza)",
+      "city": "Port Czerwonych Żagli",
+      "land": "pyra",
+      "town": "pyra-town-2",
+      "role": "merchant",
+      "actualNames": [
+        "Yumi"
+      ],
+      "status": "INNA NAZWA"
+    },
+    {
+      "id": "npc-sora",
+      "name": "Sora",
+      "city": "Sanktuarium Tysiąca Źródeł",
+      "land": "aether",
+      "town": "aether-capital",
+      "role": "guide",
+      "actualNames": [
+        "Opiekun szlaku",
+        "Sora"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-mei",
+      "name": "Mei",
+      "city": "Sanktuarium Tysiąca Źródeł",
+      "land": "aether",
+      "town": "aether-capital",
+      "role": "merchant",
+      "actualNames": [
+        "Mei"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-enso",
+      "name": "Enso",
+      "city": "Sanktuarium Tysiąca Źródeł",
+      "land": "aether",
+      "town": "aether-capital",
+      "role": "smith",
+      "actualNames": [
+        "Enso"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-ishin",
+      "name": "Ishin",
+      "city": "Sanktuarium Tysiąca Źródeł",
+      "land": "aether",
+      "town": "aether-capital",
+      "role": "hunter",
+      "actualNames": [
+        "Ishin"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-nari",
+      "name": "Nari (Archiwistka)",
+      "city": "Tarasy Świtu",
+      "land": "aether",
+      "town": "aether-town-3",
+      "role": "guide",
+      "actualNames": [
+        "Opiekun miasta"
+      ],
+      "status": "INNA NAZWA"
+    },
+    {
+      "id": "npc-aether-ferryman",
+      "name": "Kael (Przewoźnik Mgły)",
+      "city": "Biała Przystań",
+      "land": "aether",
+      "town": "aether-town-1",
+      "role": "merchant",
+      "actualNames": [
+        "Mei"
+      ],
+      "status": "INNA NAZWA"
+    },
+    {
+      "id": "npc-aether-observer",
+      "name": "Talen (Obserwator Niebios)",
+      "city": "Archiwum Nad Chmurami",
+      "land": "aether",
+      "town": "aether-town-2",
+      "role": "hunter",
+      "actualNames": [],
+      "status": "BRAK NPC"
+    },
+    {
+      "id": "npc-lyra7",
+      "name": "LYRA-7",
+      "city": "Węzeł Świadomości",
+      "land": "nexus",
+      "town": "nexus-capital",
+      "role": "guide",
+      "actualNames": [
+        "LYRA-7",
+        "Opiekun szlaku"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-mira2",
+      "name": "MIRA-2",
+      "city": "Węzeł Świadomości",
+      "land": "nexus",
+      "town": "nexus-capital",
+      "role": "merchant",
+      "actualNames": [
+        "MIRA-2"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-hef4",
+      "name": "HEF-4",
+      "city": "Węzeł Świadomości",
+      "land": "nexus",
+      "town": "nexus-capital",
+      "role": "smith",
+      "actualNames": [
+        "HEF-4"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-axon",
+      "name": "AXON",
+      "city": "Węzeł Świadomości",
+      "land": "nexus",
+      "town": "nexus-capital",
+      "role": "hunter",
+      "actualNames": [
+        "AXON"
+      ],
+      "status": "ZGODNY"
+    },
+    {
+      "id": "npc-eko0",
+      "name": "Eko-0 (Jednostka Serwisowa)",
+      "city": "Stacja Meridian",
+      "land": "nexus",
+      "town": "nexus-town-1",
+      "role": "guide",
+      "actualNames": [
+        "Opiekun miasta"
+      ],
+      "status": "INNA NAZWA"
+    },
+    {
+      "id": "npc-nexus-welder",
+      "name": "KОР-9 (Mistrz Spawu)",
+      "city": "Kuźnia Obwodów",
+      "land": "nexus",
+      "town": "nexus-town-2",
+      "role": "smith",
+      "actualNames": [
+        "HEF-4"
+      ],
+      "status": "INNA NAZWA"
+    },
+    {
+      "id": "npc-nexus-portmaster",
+      "name": "VEX-3 (Nawigator Portu Zerowego)",
+      "city": "Port Zerowy",
+      "land": "nexus",
+      "town": "nexus-town-3",
+      "role": "hunter",
+      "actualNames": [],
+      "status": "BRAK NPC"
+    }
+  ],
+  "progression": {
+    "legend": {
+      "checks": [
+        {
+          "detail": {
+            "inventory": {
+              "bag": {
+                "potion": 3
+              },
+              "depot": {},
+              "depotGold": 0,
+              "equipment": {
+                "amulet": "",
+                "armor": "",
+                "feet": "",
+                "hands": "",
+                "head": "",
+                "offhand": "",
+                "ring": "",
+                "weapon": ""
+              },
+              "gold": 20,
+              "upgrades": {}
+            },
+            "stats": {
+              "attack": 14,
+              "attackInterval": 750.0,
+              "cooldownMul": 1.0,
+              "crit": 6.0,
+              "dealt": 1.0,
+              "defense": 4,
+              "kiCostMul": 1.0,
+              "kiRegen": 0.8,
+              "maxHp": 140,
+              "maxKi": 40,
+              "range": 78.0,
+              "speed": 170.0
+            }
+          },
+          "id": "fresh-level-1",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "GM-modes-disabled",
+          "passed": true
+        },
+        {
+          "detail": 108,
+          "id": "existing-level-1-spawn-available",
+          "passed": true
+        },
+        {
+          "detail": {
+            "deaths": 0,
+            "kills": 17,
+            "level": 3,
+            "xp": 12
+          },
+          "id": "reached-level-3-through-ordinary-rewards",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "GM-remained-disabled",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "level-2-skill-learned",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "level-3-save-round-trip",
+          "passed": true
+        }
+      ],
+      "damageDealt": 1686,
+      "deaths": 0,
+      "encounters": [
+        {
+          "activeMonsters": 4,
+          "hpAfter": 96.4,
+          "hpBefore": 140.0,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 820,
+          "xpAfter": 16,
+          "xpBefore": 0
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 58.8,
+          "hpBefore": 96.4,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 660,
+          "xpAfter": 32,
+          "xpBefore": 16
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 103.4,
+          "hpBefore": 140.0,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 250,
+          "xpAfter": 48,
+          "xpBefore": 32
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 66.8,
+          "hpBefore": 103.4,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 610,
+          "xpAfter": 64,
+          "xpBefore": 48
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 103.4,
+          "hpBefore": 140.0,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 760,
+          "xpAfter": 80,
+          "xpBefore": 64
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 65.8,
+          "hpBefore": 103.4,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 670,
+          "xpAfter": 96,
+          "xpBefore": 80
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 182.0,
+          "hpBefore": 140.0,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 2,
+          "levelBefore": 1,
+          "slot": 430,
+          "xpAfter": 12,
+          "xpBefore": 96
+        },
+        {
+          "activeMonsters": 1,
+          "hpAfter": 165.0,
+          "hpBefore": 182.0,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 400,
+          "xpAfter": 28,
+          "xpBefore": 12
+        },
+        {
+          "activeMonsters": 1,
+          "hpAfter": 148.0,
+          "hpBefore": 165.0,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 1476,
+          "xpAfter": 44,
+          "xpBefore": 28
+        },
+        {
+          "activeMonsters": 1,
+          "hpAfter": 124.0,
+          "hpBefore": 148.0,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 1439,
+          "xpAfter": 60,
+          "xpBefore": 44
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 106.0,
+          "hpBefore": 124.0,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 150,
+          "xpAfter": 76,
+          "xpBefore": 60
+        },
+        {
+          "activeMonsters": 3,
+          "hpAfter": 82.0,
+          "hpBefore": 106.0,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 880,
+          "xpAfter": 92,
+          "xpBefore": 76
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 165.0,
+          "hpBefore": 182.0,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 230,
+          "xpAfter": 108,
+          "xpBefore": 92
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 141.0,
+          "hpBefore": 165.0,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 130,
+          "xpAfter": 124,
+          "xpBefore": 108
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 124.0,
+          "hpBefore": 141.0,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 340,
+          "xpAfter": 140,
+          "xpBefore": 124
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 106.0,
+          "hpBefore": 124.0,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 380,
+          "xpAfter": 156,
+          "xpBefore": 140
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 224.0,
+          "hpBefore": 106.0,
+          "kills": 1,
+          "kind": "pyra-wegielek",
+          "levelAfter": 3,
+          "levelBefore": 2,
+          "slot": 950,
+          "xpAfter": 12,
+          "xpBefore": 156
+        }
+      ],
+      "failed": 0,
+      "final": {
+        "inventory": {
+          "bag": {
+            "potion": 3,
+            "wegiel": 13
+          },
+          "depot": {},
+          "depotGold": 0,
+          "equipment": {
+            "amulet": "",
+            "armor": "",
+            "feet": "",
+            "hands": "",
+            "head": "",
+            "offhand": "",
+            "ring": "",
+            "weapon": ""
+          },
+          "gold": 33,
+          "upgrades": {}
+        },
+        "learned": [
+          "R",
+          "A1"
+        ],
+        "level": 3,
+        "stats": {
+          "attack": 23,
+          "attackInterval": 750.0,
+          "cooldownMul": 1.0,
+          "crit": 6.6,
+          "dealt": 1.0,
+          "defense": 8,
+          "kiCostMul": 1.0,
+          "kiRegen": 0.88,
+          "maxHp": 224,
+          "maxKi": 46,
+          "range": 78.0,
+          "speed": 187.0
+        },
+        "xp": 12
+      },
+      "fixtures": "No XP/level/HP/attack overrides and no GM. Existing level-1 spawn positions selected and approached using joystick events; travel between encounters/inn is a fixture warp, not a measured traversal. Time is advanced through actual simulate/AI functions at 1/60; headless batches are accelerated. Native --live renders one frame per four fixed simulation steps; this is functional coverage, not a physical-device timing benchmark. Full Game._process, AI and presentation update paths are executed.",
+      "innRests": 4,
+      "kills": 17,
+      "levelEvents": [
+        {
+          "kills": 7,
+          "level": 2,
+          "simulationSeconds": 38.1333333333325,
+          "stats": {
+            "attack": 19,
+            "attackInterval": 750.0,
+            "cooldownMul": 1.0,
+            "crit": 6.3,
+            "dealt": 1.0,
+            "defense": 6,
+            "kiCostMul": 1.0,
+            "kiRegen": 0.84,
+            "maxHp": 182,
+            "maxKi": 43,
+            "range": 78.0,
+            "speed": 178.5
+          },
+          "xp": 12
+        },
+        {
+          "kills": 17,
+          "level": 3,
+          "simulationSeconds": 71.8666666666639,
+          "stats": {
+            "attack": 23,
+            "attackInterval": 750.0,
+            "cooldownMul": 1.0,
+            "crit": 6.6,
+            "dealt": 1.0,
+            "defense": 8,
+            "kiCostMul": 1.0,
+            "kiRegen": 0.88,
+            "maxHp": 224,
+            "maxKi": 46,
+            "range": 78.0,
+            "speed": 187.0
+          },
+          "xp": 12
+        }
+      ],
+      "otherXpSources": {},
+      "passed": 7,
+      "potions": 0,
+      "race": "legend",
+      "simulationSeconds": 71.8666666666639,
+      "xpSources": {
+        "pyra-wegielek": 272
+      },
+      "engineErrors": [],
+      "totalXp": 272,
+      "rewardedKillXp": 272,
+      "xpOutsideRewardedKills": 0,
+      "label": "Legendy"
+    },
+    "planetary": {
+      "checks": [
+        {
+          "detail": {
+            "inventory": {
+              "bag": {
+                "potion": 3
+              },
+              "depot": {},
+              "depotGold": 0,
+              "equipment": {
+                "amulet": "",
+                "armor": "",
+                "feet": "",
+                "hands": "",
+                "head": "",
+                "offhand": "",
+                "ring": "",
+                "weapon": ""
+              },
+              "gold": 20,
+              "upgrades": {}
+            },
+            "stats": {
+              "attack": 12,
+              "attackInterval": 650.0,
+              "cooldownMul": 1.0,
+              "crit": 5.0,
+              "dealt": 1.0,
+              "defense": 5,
+              "kiCostMul": 1.0,
+              "kiRegen": 1.0,
+              "maxHp": 125,
+              "maxKi": 50,
+              "range": 78.0,
+              "speed": 185.0
+            }
+          },
+          "id": "fresh-level-1",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "GM-modes-disabled",
+          "passed": true
+        },
+        {
+          "detail": 171,
+          "id": "existing-level-1-spawn-available",
+          "passed": true
+        },
+        {
+          "detail": {
+            "deaths": 0,
+            "kills": 17,
+            "level": 3,
+            "xp": 12
+          },
+          "id": "reached-level-3-through-ordinary-rewards",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "GM-remained-disabled",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "level-2-skill-learned",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "level-3-save-round-trip",
+          "passed": true
+        }
+      ],
+      "damageDealt": 2061,
+      "deaths": 0,
+      "encounters": [
+        {
+          "activeMonsters": 4,
+          "hpAfter": 105.3,
+          "hpBefore": 125.0,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 1450,
+          "xpAfter": 16,
+          "xpBefore": 0
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 89.1,
+          "hpBefore": 105.3,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 730,
+          "xpAfter": 32,
+          "xpBefore": 16
+        },
+        {
+          "activeMonsters": 2,
+          "hpAfter": 72.9,
+          "hpBefore": 89.1,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 160,
+          "xpAfter": 48,
+          "xpBefore": 32
+        },
+        {
+          "activeMonsters": 6,
+          "hpAfter": 56.7,
+          "hpBefore": 72.9,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 1590,
+          "xpAfter": 64,
+          "xpBefore": 48
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 108.8,
+          "hpBefore": 125.0,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 1200,
+          "xpAfter": 80,
+          "xpBefore": 64
+        },
+        {
+          "activeMonsters": 8,
+          "hpAfter": 97.2,
+          "hpBefore": 108.8,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 200,
+          "xpAfter": 96,
+          "xpBefore": 80
+        },
+        {
+          "activeMonsters": 5,
+          "hpAfter": 161.0,
+          "hpBefore": 97.2,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 2,
+          "levelBefore": 1,
+          "slot": 1430,
+          "xpAfter": 12,
+          "xpBefore": 96
+        },
+        {
+          "activeMonsters": 5,
+          "hpAfter": 152.5,
+          "hpBefore": 161.0,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 760,
+          "xpAfter": 28,
+          "xpBefore": 12
+        },
+        {
+          "activeMonsters": 5,
+          "hpAfter": 145.0,
+          "hpBefore": 152.5,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 1390,
+          "xpAfter": 44,
+          "xpBefore": 28
+        },
+        {
+          "activeMonsters": 6,
+          "hpAfter": 136.5,
+          "hpBefore": 145.0,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 340,
+          "xpAfter": 60,
+          "xpBefore": 44
+        },
+        {
+          "activeMonsters": 7,
+          "hpAfter": 128.0,
+          "hpBefore": 136.5,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 260,
+          "xpAfter": 76,
+          "xpBefore": 60
+        },
+        {
+          "activeMonsters": 9,
+          "hpAfter": 119.5,
+          "hpBefore": 128.0,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 1340,
+          "xpAfter": 92,
+          "xpBefore": 76
+        },
+        {
+          "activeMonsters": 8,
+          "hpAfter": 111.0,
+          "hpBefore": 119.5,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 360,
+          "xpAfter": 108,
+          "xpBefore": 92
+        },
+        {
+          "activeMonsters": 8,
+          "hpAfter": 102.5,
+          "hpBefore": 111.0,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 580,
+          "xpAfter": 124,
+          "xpBefore": 108
+        },
+        {
+          "activeMonsters": 8,
+          "hpAfter": 94.0,
+          "hpBefore": 102.5,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 1360,
+          "xpAfter": 140,
+          "xpBefore": 124
+        },
+        {
+          "activeMonsters": 8,
+          "hpAfter": 89.0,
+          "hpBefore": 94.0,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 140,
+          "xpAfter": 156,
+          "xpBefore": 140
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 197.0,
+          "hpBefore": 89.0,
+          "kills": 1,
+          "kind": "verdant-mchowy-szlamak",
+          "levelAfter": 3,
+          "levelBefore": 2,
+          "slot": 1737,
+          "xpAfter": 12,
+          "xpBefore": 156
+        }
+      ],
+      "failed": 0,
+      "final": {
+        "inventory": {
+          "bag": {
+            "ZEST-01-04": 1,
+            "mchowa-galaretka": 13,
+            "potion": 3,
+            "zielone-ziele": 4
+          },
+          "depot": {},
+          "depotGold": 0,
+          "equipment": {
+            "amulet": "",
+            "armor": "",
+            "feet": "",
+            "hands": "",
+            "head": "",
+            "offhand": "",
+            "ring": "",
+            "weapon": ""
+          },
+          "gold": 49,
+          "upgrades": {}
+        },
+        "learned": [
+          "R",
+          "A1"
+        ],
+        "level": 3,
+        "stats": {
+          "attack": 20,
+          "attackInterval": 650.0,
+          "cooldownMul": 1.0,
+          "crit": 5.5,
+          "dealt": 1.0,
+          "defense": 10,
+          "kiCostMul": 1.0,
+          "kiRegen": 1.1,
+          "maxHp": 197,
+          "maxKi": 58,
+          "range": 78.0,
+          "speed": 203.5
+        },
+        "xp": 12
+      },
+      "fixtures": "No XP/level/HP/attack overrides and no GM. Existing level-1 spawn positions selected and approached using joystick events; travel between encounters/inn is a fixture warp, not a measured traversal. Time is advanced through actual simulate/AI functions at 1/60; headless batches are accelerated. Native --live renders one frame per four fixed simulation steps; this is functional coverage, not a physical-device timing benchmark. Full Game._process, AI and presentation update paths are executed.",
+      "innRests": 1,
+      "kills": 17,
+      "levelEvents": [
+        {
+          "kills": 7,
+          "level": 2,
+          "simulationSeconds": 46.433333333332,
+          "stats": {
+            "attack": 16,
+            "attackInterval": 650.0,
+            "cooldownMul": 1.0,
+            "crit": 5.25,
+            "dealt": 1.0,
+            "defense": 7,
+            "kiCostMul": 1.0,
+            "kiRegen": 1.05,
+            "maxHp": 161,
+            "maxKi": 54,
+            "range": 78.0,
+            "speed": 194.25
+          },
+          "xp": 12
+        },
+        {
+          "kills": 17,
+          "level": 3,
+          "simulationSeconds": 97.7666666666624,
+          "stats": {
+            "attack": 20,
+            "attackInterval": 650.0,
+            "cooldownMul": 1.0,
+            "crit": 5.5,
+            "dealt": 1.0,
+            "defense": 10,
+            "kiCostMul": 1.0,
+            "kiRegen": 1.1,
+            "maxHp": 197,
+            "maxKi": 58,
+            "range": 78.0,
+            "speed": 203.5
+          },
+          "xp": 12
+        }
+      ],
+      "otherXpSources": {},
+      "passed": 7,
+      "potions": 0,
+      "race": "planetary",
+      "simulationSeconds": 97.7666666666624,
+      "xpSources": {
+        "verdant-mchowy-szlamak": 272
+      },
+      "engineErrors": [],
+      "totalXp": 272,
+      "rewardedKillXp": 272,
+      "xpOutsideRewardedKills": 0,
+      "label": "Planetarni"
+    },
+    "sage": {
+      "checks": [
+        {
+          "detail": {
+            "inventory": {
+              "bag": {
+                "potion": 3
+              },
+              "depot": {},
+              "depotGold": 0,
+              "equipment": {
+                "amulet": "",
+                "armor": "",
+                "feet": "",
+                "hands": "",
+                "head": "",
+                "offhand": "",
+                "ring": "",
+                "weapon": ""
+              },
+              "gold": 20,
+              "upgrades": {}
+            },
+            "stats": {
+              "attack": 14,
+              "attackInterval": 800.0,
+              "cooldownMul": 1.0,
+              "crit": 5.0,
+              "dealt": 1.0,
+              "defense": 3,
+              "kiCostMul": 1.0,
+              "kiRegen": 2.0,
+              "maxHp": 100,
+              "maxKi": 80,
+              "range": 420.0,
+              "speed": 170.0
+            }
+          },
+          "id": "fresh-level-1",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "GM-modes-disabled",
+          "passed": true
+        },
+        {
+          "detail": 135,
+          "id": "existing-level-1-spawn-available",
+          "passed": true
+        },
+        {
+          "detail": {
+            "deaths": 0,
+            "kills": 20,
+            "level": 3,
+            "xp": 0
+          },
+          "id": "reached-level-3-through-ordinary-rewards",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "GM-remained-disabled",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "level-2-skill-learned",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "level-3-save-round-trip",
+          "passed": true
+        }
+      ],
+      "damageDealt": 1525,
+      "deaths": 0,
+      "encounters": [
+        {
+          "activeMonsters": 4,
+          "hpAfter": 93.5,
+          "hpBefore": 100.0,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 90,
+          "xpAfter": 13,
+          "xpBefore": 0
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 93.5,
+          "hpBefore": 93.5,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 930,
+          "xpAfter": 26,
+          "xpBefore": 13
+        },
+        {
+          "activeMonsters": 3,
+          "hpAfter": 93.5,
+          "hpBefore": 93.5,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 820,
+          "xpAfter": 39,
+          "xpBefore": 26
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 93.5,
+          "hpBefore": 93.5,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 1048,
+          "xpAfter": 52,
+          "xpBefore": 39
+        },
+        {
+          "activeMonsters": 3,
+          "hpAfter": 93.5,
+          "hpBefore": 93.5,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 1327,
+          "xpAfter": 65,
+          "xpBefore": 52
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 93.5,
+          "hpBefore": 93.5,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 230,
+          "xpAfter": 78,
+          "xpBefore": 65
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 93.5,
+          "hpBefore": 93.5,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 959,
+          "xpAfter": 91,
+          "xpBefore": 78
+        },
+        {
+          "activeMonsters": 3,
+          "hpAfter": 128.0,
+          "hpBefore": 93.5,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 2,
+          "levelBefore": 1,
+          "slot": 200,
+          "xpAfter": 4,
+          "xpBefore": 91
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 128.0,
+          "hpBefore": 128.0,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 1068,
+          "xpAfter": 17,
+          "xpBefore": 4
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 128.0,
+          "hpBefore": 128.0,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 650,
+          "xpAfter": 30,
+          "xpBefore": 17
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 128.0,
+          "hpBefore": 128.0,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 830,
+          "xpAfter": 43,
+          "xpBefore": 30
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 128.0,
+          "hpBefore": 128.0,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 60,
+          "xpAfter": 56,
+          "xpBefore": 43
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 128.0,
+          "hpBefore": 128.0,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 1237,
+          "xpAfter": 69,
+          "xpBefore": 56
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 128.0,
+          "hpBefore": 128.0,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 80,
+          "xpAfter": 82,
+          "xpBefore": 69
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 128.0,
+          "hpBefore": 128.0,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 1337,
+          "xpAfter": 95,
+          "xpBefore": 82
+        },
+        {
+          "activeMonsters": 3,
+          "hpAfter": 128.0,
+          "hpBefore": 128.0,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 770,
+          "xpAfter": 108,
+          "xpBefore": 95
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 128.0,
+          "hpBefore": 128.0,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 840,
+          "xpAfter": 121,
+          "xpBefore": 108
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 128.0,
+          "hpBefore": 128.0,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 1277,
+          "xpAfter": 134,
+          "xpBefore": 121
+        },
+        {
+          "activeMonsters": 2,
+          "hpAfter": 128.0,
+          "hpBefore": 128.0,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 540,
+          "xpAfter": 147,
+          "xpBefore": 134
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 156.0,
+          "hpBefore": 128.0,
+          "kills": 1,
+          "kind": "aether-swietlik-pieczeci",
+          "levelAfter": 3,
+          "levelBefore": 2,
+          "slot": 120,
+          "xpAfter": 0,
+          "xpBefore": 147
+        }
+      ],
+      "failed": 0,
+      "final": {
+        "inventory": {
+          "bag": {
+            "potion": 3,
+            "pyl-swiatla": 15
+          },
+          "depot": {},
+          "depotGold": 0,
+          "equipment": {
+            "amulet": "",
+            "armor": "",
+            "feet": "",
+            "hands": "",
+            "head": "",
+            "offhand": "",
+            "ring": "",
+            "weapon": ""
+          },
+          "gold": 60,
+          "upgrades": {}
+        },
+        "learned": [
+          "R",
+          "A1"
+        ],
+        "level": 3,
+        "stats": {
+          "attack": 23,
+          "attackInterval": 800.0,
+          "cooldownMul": 1.0,
+          "crit": 5.4,
+          "dealt": 1.0,
+          "defense": 6,
+          "kiCostMul": 1.0,
+          "kiRegen": 2.2,
+          "maxHp": 156,
+          "maxKi": 94,
+          "range": 420.0,
+          "speed": 187.0
+        },
+        "xp": 0
+      },
+      "fixtures": "No XP/level/HP/attack overrides and no GM. Existing level-1 spawn positions selected and approached using joystick events; travel between encounters/inn is a fixture warp, not a measured traversal. Time is advanced through actual simulate/AI functions at 1/60; headless batches are accelerated. Native --live renders one frame per four fixed simulation steps; this is functional coverage, not a physical-device timing benchmark. Full Game._process, AI and presentation update paths are executed.",
+      "innRests": 0,
+      "kills": 20,
+      "levelEvents": [
+        {
+          "kills": 8,
+          "level": 2,
+          "simulationSeconds": 38.9999999999991,
+          "stats": {
+            "attack": 19,
+            "attackInterval": 800.0,
+            "cooldownMul": 1.0,
+            "crit": 5.2,
+            "dealt": 1.0,
+            "defense": 5,
+            "kiCostMul": 1.0,
+            "kiRegen": 2.1,
+            "maxHp": 128,
+            "maxKi": 87,
+            "range": 420.0,
+            "speed": 178.5
+          },
+          "xp": 4
+        },
+        {
+          "kills": 20,
+          "level": 3,
+          "simulationSeconds": 77.5333333333302,
+          "stats": {
+            "attack": 23,
+            "attackInterval": 800.0,
+            "cooldownMul": 1.0,
+            "crit": 5.4,
+            "dealt": 1.0,
+            "defense": 6,
+            "kiCostMul": 1.0,
+            "kiRegen": 2.2,
+            "maxHp": 156,
+            "maxKi": 94,
+            "range": 420.0,
+            "speed": 187.0
+          },
+          "xp": 0
+        }
+      ],
+      "otherXpSources": {},
+      "passed": 7,
+      "potions": 0,
+      "race": "sage",
+      "simulationSeconds": 77.5333333333302,
+      "xpSources": {
+        "aether-swietlik-pieczeci": 260
+      },
+      "engineErrors": [
+        "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+        "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead."
+      ],
+      "totalXp": 260,
+      "rewardedKillXp": 260,
+      "xpOutsideRewardedKills": 0,
+      "label": "Mędrcy"
+    },
+    "android": {
+      "checks": [
+        {
+          "detail": {
+            "inventory": {
+              "bag": {
+                "potion": 3
+              },
+              "depot": {},
+              "depotGold": 0,
+              "equipment": {
+                "amulet": "",
+                "armor": "",
+                "feet": "",
+                "hands": "",
+                "head": "",
+                "offhand": "",
+                "ring": "",
+                "weapon": ""
+              },
+              "gold": 20,
+              "upgrades": {}
+            },
+            "stats": {
+              "attack": 12,
+              "attackInterval": 700.0,
+              "cooldownMul": 1.0,
+              "crit": 8.0,
+              "dealt": 1.0,
+              "defense": 7,
+              "kiCostMul": 1.0,
+              "kiRegen": 1.2,
+              "maxHp": 115,
+              "maxKi": 60,
+              "range": 360.0,
+              "speed": 175.0
+            }
+          },
+          "id": "fresh-level-1",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "GM-modes-disabled",
+          "passed": true
+        },
+        {
+          "detail": 114,
+          "id": "existing-level-1-spawn-available",
+          "passed": true
+        },
+        {
+          "detail": {
+            "deaths": 0,
+            "kills": 18,
+            "level": 3,
+            "xp": 11
+          },
+          "id": "reached-level-3-through-ordinary-rewards",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "GM-remained-disabled",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "level-2-skill-learned",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "id": "level-3-save-round-trip",
+          "passed": true
+        }
+      ],
+      "damageDealt": 1118,
+      "deaths": 0,
+      "encounters": [
+        {
+          "activeMonsters": 4,
+          "hpAfter": 115.0,
+          "hpBefore": 115.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 850,
+          "xpAfter": 12,
+          "xpBefore": 0
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 115.0,
+          "hpBefore": 115.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 530,
+          "xpAfter": 24,
+          "xpBefore": 12
+        },
+        {
+          "activeMonsters": 2,
+          "hpAfter": 115.0,
+          "hpBefore": 115.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 120,
+          "xpAfter": 36,
+          "xpBefore": 24
+        },
+        {
+          "activeMonsters": 2,
+          "hpAfter": 115.0,
+          "hpBefore": 115.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 910,
+          "xpAfter": 48,
+          "xpBefore": 36
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 115.0,
+          "hpBefore": 115.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 210,
+          "xpAfter": 60,
+          "xpBefore": 48
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 115.0,
+          "hpBefore": 115.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 80,
+          "xpAfter": 72,
+          "xpBefore": 60
+        },
+        {
+          "activeMonsters": 2,
+          "hpAfter": 115.0,
+          "hpBefore": 115.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 760,
+          "xpAfter": 84,
+          "xpBefore": 72
+        },
+        {
+          "activeMonsters": 2,
+          "hpAfter": 115.0,
+          "hpBefore": 115.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 1,
+          "levelBefore": 1,
+          "slot": 150,
+          "xpAfter": 96,
+          "xpBefore": 84
+        },
+        {
+          "activeMonsters": 2,
+          "hpAfter": 149.0,
+          "hpBefore": 115.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 2,
+          "levelBefore": 1,
+          "slot": 970,
+          "xpAfter": 8,
+          "xpBefore": 96
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 149.0,
+          "hpBefore": 149.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 1120,
+          "xpAfter": 20,
+          "xpBefore": 8
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 149.0,
+          "hpBefore": 149.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 730,
+          "xpAfter": 32,
+          "xpBefore": 20
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 149.0,
+          "hpBefore": 149.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 800,
+          "xpAfter": 44,
+          "xpBefore": 32
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 149.0,
+          "hpBefore": 149.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 950,
+          "xpAfter": 56,
+          "xpBefore": 44
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 149.0,
+          "hpBefore": 149.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 270,
+          "xpAfter": 68,
+          "xpBefore": 56
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 149.0,
+          "hpBefore": 149.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 500,
+          "xpAfter": 80,
+          "xpBefore": 68
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 149.0,
+          "hpBefore": 149.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 930,
+          "xpAfter": 92,
+          "xpBefore": 80
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 149.0,
+          "hpBefore": 149.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 2,
+          "levelBefore": 2,
+          "slot": 520,
+          "xpAfter": 159,
+          "xpBefore": 92
+        },
+        {
+          "activeMonsters": 4,
+          "hpAfter": 183.0,
+          "hpBefore": 149.0,
+          "kills": 1,
+          "kind": "nexus-dron-zwiadowca",
+          "levelAfter": 3,
+          "levelBefore": 2,
+          "slot": 320,
+          "xpAfter": 11,
+          "xpBefore": 159
+        }
+      ],
+      "failed": 0,
+      "final": {
+        "inventory": {
+          "bag": {
+            "modul-optyczny": 7,
+            "potion": 4,
+            "zlom": 12
+          },
+          "depot": {},
+          "depotGold": 0,
+          "equipment": {
+            "amulet": "",
+            "armor": "",
+            "feet": "",
+            "hands": "",
+            "head": "",
+            "offhand": "",
+            "ring": "",
+            "weapon": ""
+          },
+          "gold": 83,
+          "upgrades": {}
+        },
+        "learned": [
+          "R",
+          "A1"
+        ],
+        "level": 3,
+        "stats": {
+          "attack": 20,
+          "attackInterval": 700.0,
+          "cooldownMul": 1.0,
+          "crit": 8.8,
+          "dealt": 1.0,
+          "defense": 13,
+          "kiCostMul": 1.0,
+          "kiRegen": 1.32,
+          "maxHp": 183,
+          "maxKi": 70,
+          "range": 360.0,
+          "speed": 192.5
+        },
+        "xp": 11
+      },
+      "fixtures": "No XP/level/HP/attack overrides and no GM. Existing level-1 spawn positions selected and approached using joystick events; travel between encounters/inn is a fixture warp, not a measured traversal. Time is advanced through actual simulate/AI functions at 1/60; headless batches are accelerated. Native --live renders one frame per four fixed simulation steps; this is functional coverage, not a physical-device timing benchmark. Full Game._process, AI and presentation update paths are executed.",
+      "innRests": 0,
+      "kills": 18,
+      "levelEvents": [
+        {
+          "kills": 9,
+          "level": 2,
+          "simulationSeconds": 26.3499999999998,
+          "stats": {
+            "attack": 16,
+            "attackInterval": 700.0,
+            "cooldownMul": 1.0,
+            "crit": 8.4,
+            "dealt": 1.0,
+            "defense": 10,
+            "kiCostMul": 1.0,
+            "kiRegen": 1.26,
+            "maxHp": 149,
+            "maxKi": 65,
+            "range": 360.0,
+            "speed": 183.75
+          },
+          "xp": 8
+        },
+        {
+          "kills": 18,
+          "level": 3,
+          "simulationSeconds": 48.2999999999985,
+          "stats": {
+            "attack": 20,
+            "attackInterval": 700.0,
+            "cooldownMul": 1.0,
+            "crit": 8.8,
+            "dealt": 1.0,
+            "defense": 13,
+            "kiCostMul": 1.0,
+            "kiRegen": 1.32,
+            "maxHp": 183,
+            "maxKi": 70,
+            "range": 360.0,
+            "speed": 192.5
+          },
+          "xp": 11
+        }
+      ],
+      "otherXpSources": {},
+      "passed": 7,
+      "potions": 0,
+      "race": "android",
+      "simulationSeconds": 48.2999999999985,
+      "xpSources": {
+        "nexus-dron-zwiadowca": 216
+      },
+      "engineErrors": [],
+      "totalXp": 271,
+      "rewardedKillXp": 216,
+      "xpOutsideRewardedKills": 55,
+      "label": "Androidy"
+    }
+  },
+  "issues": [
+    {
+      "id": "P1-01",
+      "priority": "P1",
+      "title": "Czterech autorowanych NPC nie ma w świecie",
+      "evidence": "Brak wiązań hunter w czterech docelowych miastach; 11 zadań ma playableInCurrentRuntime=true, lecz brakuje rozmówcy. Dotyczy również O-A05 i O-N05.",
+      "action": "Dodać NPC do właściwych osad z poprawnym role/binding oraz przetestować przyjęcie i oddanie przypisanych zadań."
+    },
+    {
+      "id": "P2-01",
+      "priority": "P2",
+      "title": "Osiem nazw rozmówców nie zgadza się ze scenariuszem",
+      "evidence": "Dialogi m.in. Neli, Orena i Nari uruchamiają się pod nazwami Mio, Taro albo Opiekun miasta. Role działają, ale nazwy wskazane graczowi nie odpowiadają widocznym postaciom.",
+      "action": "Wiązać dane NPC także z miastem, zamiast kopiować imiona NPC stolicy do wszystkich usług."
+    },
+    {
+      "id": "P2-02",
+      "priority": "P2",
+      "title": "Opóźniona Pieczęć Energii Mędrca odwołuje się do zwolnionego celu",
+      "evidence": "Dwa ERROR: Lambda capture at index 0 was freed. Passed null instead. Stos: race_kit.gd:445, simulate, Game._process. A1 planuje wybuch po 3 s; martwy potwór usuwa się po około 2 s. Awans nie został przerwany.",
+      "action": "W opóźnionym efekcie przechowywać WeakRef lub ID i sprawdzać cel dopiero przy wykonaniu; test z zabiciem celu przed wybuchem."
+    },
+    {
+      "id": "ART-01",
+      "priority": "Odbiór grafiki",
+      "title": "Legenda: niespójny strój w klipie kiskillb",
+      "evidence": "W tablicy rzeczywistych animacji kiskillb pokazuje czerwony pancerz bazowej postaci, podczas gdy kiidle i kiwalk odsłaniają tors. Technicznie klip ma poprawne klatki.",
+      "action": "Odbiór artystyczny i ewentualna wymiana tego klipu bez zmiany mechaniki."
+    },
+    {
+      "id": "CANON-01",
+      "priority": "Decyzja właściciela",
+      "title": "Wygląd Mędrca a aktualny opis kanonu",
+      "evidence": "RASY-I-POSTACIE.md opisuje męską postać; obecny sprite ma kobiecą sylwetkę i strój. Jest to rozbieżność materiału wizualnego z dokumentem, nie błąd odtwarzania animacji.",
+      "action": "Potwierdzić zatwierdzony wzorzec; nie zmieniano grafiki ani kanonu w audycie."
+    },
+    {
+      "id": "TECH-01",
+      "priority": "Dług techniczny",
+      "title": "Ostrzeżenia ObjectDB przy zamykaniu runnerów",
+      "evidence": "Część testów kończy się ostrzeżeniem o pozostawionych obiektach. Nie zaliczono przez to czystego shutdown ani całego CI.",
+      "action": "Osobny audyt cyklu życia i pamięci; nie mylić ostrzeżeń zamykania z błędem Mędrca podczas walki."
+    }
+  ],
+  "limits": [
+    "Brak fizycznego Androida, pomiaru DPI i wydajności sprzętowej.",
+    "Sprawdzono wszystkie 132 wejścia usługowe z indeksu interakcji; dekoracje środowiskowe bez wejścia nie mają osobnej usługi.",
+    "Przeniesienia do istniejących wejść/spawnów są fixture; nie zmierzono całych tras od bramy przez miasto ani pełnego czasu gry.",
+    "Progresja używa rzeczywistego Game._process i AI z krokiem 1/60, renderowaniem co cztery kroki. To funkcjonalny test przyspieszony.",
+    "Nie dodawano XP, poziomów ani nieśmiertelności do przebiegów progresji; odpoczynek w gospodzie jest płatną usługą.",
+    "Budynki i dialogi używają odrębnych kontrolowanych stanów poziomów 1/2/3, materiałów i budżetu usług.",
+    "Dalsze warianty questowe before/during/after oraz formy KI sprawdzano jako fixture, nie jako naturalnie odblokowane do poziomu 3.",
+    "Nie wykonano pełnej kampanii, realnego konta online/GM ani testów serwera multiplayer.",
+    "Produkcja nie była zmieniana; testy mają oddzielne katalogi zapisów XDG."
+  ]
+}
