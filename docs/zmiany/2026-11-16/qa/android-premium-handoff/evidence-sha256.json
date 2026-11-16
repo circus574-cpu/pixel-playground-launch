@@ -1,0 +1,62 @@
+[
+  {
+    "file": "documentation-check.txt",
+    "bytes": 129,
+    "sha256": "2e7e73c96db6bb4421ec6b980ba82cd6d9dcd12e557df8a8934ca1204cc53ef4"
+  },
+  {
+    "file": "handoff-archive.json",
+    "bytes": 263,
+    "sha256": "580764c36fcbd51c315881a76cfa4123ad200cadb73e041fa289457b193a228e"
+  },
+  {
+    "file": "handoff-sources.zip",
+    "bytes": 86754569,
+    "sha256": "3b251cb5d164751196170adbdb824449c928c550b79af8bdeac1445cdcb94aba"
+  },
+  {
+    "file": "handoff-state.json",
+    "bytes": 1021,
+    "sha256": "3d2a5879f8fac7b3d307de29ef11dd29d3117a33c4d0b2d0546155eb8778dbd2"
+  },
+  {
+    "file": "latest-state.json",
+    "bytes": 257,
+    "sha256": "4761c9bafb2e1abaa2a0b4c174585456b93584d3d0eaf26ecbb69e66a5136ddb"
+  },
+  {
+    "file": "runtime-pack.txt",
+    "bytes": 657,
+    "sha256": "7ffbf14b6920b1bbf25846f8caf1e4e264db878325311aa9ef4f72df96d74e63"
+  },
+  {
+    "file": "typecheck.txt",
+    "bytes": 105,
+    "sha256": "34fcd766e4baf0285264f33c36dcd9041d763c777c690c7234996489e0b99b68"
+  },
+  {
+    "file": "unit-tests.txt",
+    "bytes": 1390,
+    "sha256": "85ee0228163d5e6c1d0e6e751387c38842f57b350fae18981ae71157b51dd705"
+  },
+  {
+    "file": "vace14-model.json",
+    "bytes": 6425,
+    "sha256": "a8459d558bb5d1066e99cdbeda7e16366ec6eadacbc3e314e66bd8a26857cf76"
+  },
+  {
+    "file": "wan22-model.json",
+    "bytes": 4544,
+    "sha256": "32ace109be602631c88158b4c878a917766055e42c3f2097f5e78bda3313f22b"
+  },
+  {
+    "file": "wan22_queue.json",
+    "bytes": 2893,
+    "sha256": "6978080849dcf25405e4122162a224ee85c549fadb247c5f625f7d2773572edd"
+  },
+  {
+    "file": "wan22_references.json",
+    "bytes": 926,
+    "sha256": "748ac3c52c9ca4a8d71eaa43025fa758adaf98f7ad39fdce04bd4e12b8049025"
+  }
+]

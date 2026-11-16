@@ -1,0 +1,83 @@
+{
+	"candidateCount": 15,
+	"checks": [
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/b0.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/b1.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/special.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/b2.webp",
+			"size": "(512, 194)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/b3.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/water.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/shore.webp",
+			"size": "(512, 194)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/over1.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/over2.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/objects/32e0d269-pyra-continent-lantern-bush.webp",
+			"size": "(272, 213)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/objects/ae37503e-pyra-continent-pine.webp",
+			"size": "(398, 400)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/objects/1cedcd5a-pyra-continent-maple.webp",
+			"size": "(400, 363)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/objects/0185c62b-pyra-continent-berry-bush.webp",
+			"size": "(272, 197)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/objects/9902b9c8-pyra-continent-dry-grass.webp",
+			"size": "(272, 230)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/objects/39416c5c-pyra-continent-copper-bush.webp",
+			"size": "(272, 205)"
+		}
+	],
+	"geometryAndPositionUnchanged": true,
+	"renderer": "X11",
+	"scope": "Actual Godot runtime; isolated preview shader. No installed art or production changes."
+}

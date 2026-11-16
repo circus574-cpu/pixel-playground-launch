@@ -822,3 +822,85 @@ Pierwszy prompt `special` skorygowano po obejrzeniu referencji: to lawa, nie bru
 Wersja próbna r1 jest zachowana na woluminie; repo zawiera końcowy pilot r2.
 Pozostają: dalsze materiały, spójne animacje postaci, VFX, optymalizacja i odbiór
 w rzeczywistej rozgrywce. Nie wykonano scalenia ani publikacji gry.
+
+### 26. Przekazanie oprawy Androida Claude’owi
+
+Właściciel 16.11 przerwał sesję i przekazał dalszą pracę Claude’owi.
+Gałąź `prep/android-premium-gpu-20261116`; poprzedni opublikowany checkpoint
+`f19735c4`. Nowe zmiany są kontynuacją tego checkpointu, bez zmian produkcji.
+
+#### Stan rzeczywisty
+
+- Druga partia: **24/24 wygenerowanych wariantów**, sześć dalszych materiałów
+  Pyry i sześć dekoracji, po dwa warianty. **24/24 zachowanych natywnych wymiarów,
+  12/12 identycznych masek alfa** dekoracji. Materiały prostokątne zachowują proporcje.
+- `premium_export.py`: wybrano 15 grafik (9 materiałów i 6 dekoracji), **882 554 B**
+  obrazów; pliki wróciły do wymiarów źródłowych. Pierwsza partia miała eksport
+  powiększony do 768²; nie należy używać go jako docelowego budżetu telefonu.
+- `client-pack/bindings.json` i ZIP są w `qa/android-premium-batch2/`.
+  Scena Godota/X11 faktycznie zastosowała **15 powiązań**; dane lądu, pozycja
+  oraz maska nawigacji pozostały identyczne. Przy zamknięciu pozostają ostrzeżenie
+  ObjectDB i komunikat o dwóch zasobach; nie ogłaszamy czystego zamknięcia ani FPS telefonu.
+- Wan2.2 TI2V 5B: wygenerowano **5 materiałów wideo**, trzy po 33 klatki
+  i dwa po 81. To **261 klatek źródłowych**, nie nagrania działania gry.
+  Kostium referencyjny wycięto z aktualnego `pyra.hero`, nie ze starej ilustracji koncepcyjnej.
+- **Obie próby chodu I2V są odrzucone** z powodu zbyt słabej pracy nóg.
+  Idle i atak pozostają kandydatami; nie wykonano matowania, pakowania ani instalacji
+  nowych animacji w grze. Nie twierdzić, że cztery rasy lub osiem kierunków są poprawione.
+- Przygotowano kontrolne pozy do VACE 14B: istniejące klatki chodu prawego
+  `0,2,4,6,0` przypisane do klatek generowanych `0,8,16,24,32`.
+  Źródłowy chód ma **8 klatek przy 16 FPS**. Nie uruchomiono jeszcze inferencji VACE.
+
+#### Dostęp i dane
+
+Pod A100 SXM 80 GB: `bqnirbw2ucnqrk`, **2,19 USD/h + storage**.
+Globalny wolumin: `cmvl74wbt000007kx3l652k6b`, montowany w `/workspace`.
+Terminal działał przez `exec` wtyczki RunPod; sekrety nie należą do repozytorium.
+Nie wyłączać, restartować ani modyfikować poda bez decyzji właściciela.
+
+Wszystko robocze znajduje się w `/workspace/ki-premium`:
+
+- `candidates/`: pierwsze 6 wariantów; `pyra-batch2/candidates/`: kolejne 24.
+- `client-pack/`: gotowy do izolowanego podglądu pakiet obrazów i powiązań.
+- `wan22/generated/`, `wan22/revision2/generated/`: wszystkie PNG/MP4 prób animacji.
+- `wan22/model/`: trwała kopia modelu Wan2.2; `/tmp/ki-wan22`: lokalny cache.
+- `vace14/control/`, `vace14/control-source.json`: przygotowane pozy kluczowe.
+- `download_vace.py`: pobieranie/weryfikacja modelu VACE i kopiowanie na wolumin.
+  Sprawdzić proces oraz `vace14/model-ready.json` i `model-persisted.json`.
+  **Nie uruchamiać drugiej kopii pobierania**, jeśli pierwsza nadal działa.
+  Cache `/tmp/ki-vace14` może zawierać pliki jeszcze nieskopiowane trwale.
+- `handoff-sources.zip`: 409 plików, 86 754 569 B, SHA-256
+  `3b251cb5d164751196170adbdb824449c928c550b79af8bdeac1445cdcb94aba`.
+  Nie zawiera wag modeli, venv ani sekretów. Zawiera surowe grafiki, filmy,
+  klatki, kolejki, referencje, skrypty robocze i dowody pochodzenia.
+
+Stan z momentu przekazania: `qa/android-premium-handoff/handoff-state.json`.
+Nie zakładać, że zapisany PID/status później pozostanie aktualny.
+Końcowy odczyt w `latest-state.json` potwierdza już ukończone lokalne oraz trwałe
+kopie modeli Wan2.2 i VACE 14B. Inferencja VACE nadal nie została uruchomiona.
+[Pełne archiwum źródeł i wyników (86,8 MB)](qa/android-premium-handoff/handoff-sources.zip),
+[jego SHA-256](qa/android-premium-handoff/handoff-archive.json),
+[pakiet 15 grafik do podglądu](qa/android-premium-batch2/client-pack.zip).
+
+#### Plan kontynuacji
+
+1. Przeczytać AGENTS, INDEX, GPU-I-ZASOBY, RASY-I-POSTACIE i README Androida;
+   pobrać tę gałąź. Nie ponawiać ukończonych generacji bez powodu.
+2. Obejrzeć `terrain-comparison.jpg`, `objects-comparison.jpg` oraz podgląd
+   `runtime/pyra-candidate.png` drugiej partii. Sprawdzić dobór 15 grafik w Godocie
+   przez `--bindings=<client-pack/bindings.json>`, zanim zostaną zainstalowane.
+3. Dokończyć poprawny chód: użyć przygotowanych klatek źródłowych jako warunków
+   czasowych VACE, nie samego obrazu i promptu. Adapter inferencji VACE jeszcze
+   nie istnieje. Sprawdzić pełny cykl nóg, sylwetkę, twarz, strój i domknięcie pętli.
+4. Zmatować zaakceptowane klatki, zachować **cell 200, origin (0.5,0.95), size 133**
+   i obecną skalę bohatera. Nowa liczba klatek wymaga proporcjonalnego FPS,
+   aby nie zmienić czasu animacji; kontakt ataku musi pasować do kontraktu gry.
+5. Odtworzyć przyjęte klipy przez rzeczywisty PyraActor/SpriteFrames i dopiero
+   wtedy rozszerzyć kierunki, pozostałe klipy, rasy oraz VFX. Film wygenerowany
+   przez model nie jest dowodem działania silnika.
+6. Uruchomić `python3 -m unittest discover -s scripts/gpu -p 'test_premium_*.py'`,
+   pełny `npm run typecheck`, kontrolę dokumentacji i testy natywne. Odbiór
+   na fizycznym telefonie, alpha/trim, budżet atlasów i pamięci są nadal wymagane.
+7. Każdą partię zapisywać na osobnej gałęzi i woluminie. Nie zmieniać geometrii,
+   kanonu, statystyk, zapisów, prywatnego `/test`, ustawień APK ani produkcji.
+   Scalenie oraz publikacja wymagają odrębnej zgody właściciela.

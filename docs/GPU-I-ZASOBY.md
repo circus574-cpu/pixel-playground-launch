@@ -37,6 +37,11 @@ To nie jest odbiór całej oprawy premium. Lawa wymaga dalszej kontroli powtarza
 bezstratne pliki wybranej trójki są około 1,83× większe od referencji.
 Dowody i aktualny wynik: [dziennik 16.11](zmiany/2026-11-16/ZMIANY.md#25-pilot-oprawy-androida--a100-i-materiały-pyry).
 
+**Przekazanie Claude’owi, 16.11:** ta sama gałąź zawiera drugą partię 24 wariantów,
+eksport mobilny i próby animacji. Pakiet 15 grafik ma 882 554 B obrazów, natywne
+wymiary i niezmienioną alfę. Nie należy wdrażać odrzuconych prób chodu I2V.
+Właściciel zakończył tę sesję; [stan, ścieżki i plan kontynuacji](zmiany/2026-11-16/ZMIANY.md#26-przekazanie-oprawy-androida-claudeowi).
+
 ## Verdantia — materiały kontynentu 04.11.2026
 
 Paczka `verdantia-continent-v2@1.0.1` jest domyślnie włączona od 05.11.2026 (`ki-verdant-continent=0` wyłącza):

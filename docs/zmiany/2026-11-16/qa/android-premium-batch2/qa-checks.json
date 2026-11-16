@@ -1,0 +1,302 @@
+[
+  {
+    "id": "pyra-b2-s35",
+    "sourceSize": [
+      512,
+      194
+    ],
+    "runtimeSize": [
+      512,
+      194
+    ],
+    "sizePreserved": true
+  },
+  {
+    "id": "pyra-b2-s55",
+    "sourceSize": [
+      512,
+      194
+    ],
+    "runtimeSize": [
+      512,
+      194
+    ],
+    "sizePreserved": true
+  },
+  {
+    "id": "pyra-b3-s35",
+    "sourceSize": [
+      512,
+      512
+    ],
+    "runtimeSize": [
+      512,
+      512
+    ],
+    "sizePreserved": true
+  },
+  {
+    "id": "pyra-b3-s55",
+    "sourceSize": [
+      512,
+      512
+    ],
+    "runtimeSize": [
+      512,
+      512
+    ],
+    "sizePreserved": true
+  },
+  {
+    "id": "pyra-water-s35",
+    "sourceSize": [
+      512,
+      512
+    ],
+    "runtimeSize": [
+      512,
+      512
+    ],
+    "sizePreserved": true
+  },
+  {
+    "id": "pyra-water-s55",
+    "sourceSize": [
+      512,
+      512
+    ],
+    "runtimeSize": [
+      512,
+      512
+    ],
+    "sizePreserved": true
+  },
+  {
+    "id": "pyra-shore-s35",
+    "sourceSize": [
+      512,
+      194
+    ],
+    "runtimeSize": [
+      512,
+      194
+    ],
+    "sizePreserved": true
+  },
+  {
+    "id": "pyra-shore-s55",
+    "sourceSize": [
+      512,
+      194
+    ],
+    "runtimeSize": [
+      512,
+      194
+    ],
+    "sizePreserved": true
+  },
+  {
+    "id": "pyra-over1-s35",
+    "sourceSize": [
+      512,
+      512
+    ],
+    "runtimeSize": [
+      512,
+      512
+    ],
+    "sizePreserved": true
+  },
+  {
+    "id": "pyra-over1-s55",
+    "sourceSize": [
+      512,
+      512
+    ],
+    "runtimeSize": [
+      512,
+      512
+    ],
+    "sizePreserved": true
+  },
+  {
+    "id": "pyra-over2-s35",
+    "sourceSize": [
+      512,
+      512
+    ],
+    "runtimeSize": [
+      512,
+      512
+    ],
+    "sizePreserved": true
+  },
+  {
+    "id": "pyra-over2-s55",
+    "sourceSize": [
+      512,
+      512
+    ],
+    "runtimeSize": [
+      512,
+      512
+    ],
+    "sizePreserved": true
+  },
+  {
+    "id": "pyra-object-0-s25",
+    "sourceSize": [
+      272,
+      213
+    ],
+    "runtimeSize": [
+      272,
+      213
+    ],
+    "sizePreserved": true,
+    "alphaIdentical": true
+  },
+  {
+    "id": "pyra-object-0-s40",
+    "sourceSize": [
+      272,
+      213
+    ],
+    "runtimeSize": [
+      272,
+      213
+    ],
+    "sizePreserved": true,
+    "alphaIdentical": true
+  },
+  {
+    "id": "pyra-object-1-s25",
+    "sourceSize": [
+      398,
+      400
+    ],
+    "runtimeSize": [
+      398,
+      400
+    ],
+    "sizePreserved": true,
+    "alphaIdentical": true
+  },
+  {
+    "id": "pyra-object-1-s40",
+    "sourceSize": [
+      398,
+      400
+    ],
+    "runtimeSize": [
+      398,
+      400
+    ],
+    "sizePreserved": true,
+    "alphaIdentical": true
+  },
+  {
+    "id": "pyra-object-2-s25",
+    "sourceSize": [
+      400,
+      363
+    ],
+    "runtimeSize": [
+      400,
+      363
+    ],
+    "sizePreserved": true,
+    "alphaIdentical": true
+  },
+  {
+    "id": "pyra-object-2-s40",
+    "sourceSize": [
+      400,
+      363
+    ],
+    "runtimeSize": [
+      400,
+      363
+    ],
+    "sizePreserved": true,
+    "alphaIdentical": true
+  },
+  {
+    "id": "pyra-object-3-s25",
+    "sourceSize": [
+      272,
+      197
+    ],
+    "runtimeSize": [
+      272,
+      197
+    ],
+    "sizePreserved": true,
+    "alphaIdentical": true
+  },
+  {
+    "id": "pyra-object-3-s40",
+    "sourceSize": [
+      272,
+      197
+    ],
+    "runtimeSize": [
+      272,
+      197
+    ],
+    "sizePreserved": true,
+    "alphaIdentical": true
+  },
+  {
+    "id": "pyra-object-6-s25",
+    "sourceSize": [
+      272,
+      230
+    ],
+    "runtimeSize": [
+      272,
+      230
+    ],
+    "sizePreserved": true,
+    "alphaIdentical": true
+  },
+  {
+    "id": "pyra-object-6-s40",
+    "sourceSize": [
+      272,
+      230
+    ],
+    "runtimeSize": [
+      272,
+      230
+    ],
+    "sizePreserved": true,
+    "alphaIdentical": true
+  },
+  {
+    "id": "pyra-object-7-s25",
+    "sourceSize": [
+      272,
+      205
+    ],
+    "runtimeSize": [
+      272,
+      205
+    ],
+    "sizePreserved": true,
+    "alphaIdentical": true
+  },
+  {
+    "id": "pyra-object-7-s40",
+    "sourceSize": [
+      272,
+      205
+    ],
+    "runtimeSize": [
+      272,
+      205
+    ],
+    "sizePreserved": true,
+    "alphaIdentical": true
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "capturedUtc": "2026-11-16T22:42:19Z",
+  "pod": "bqnirbw2ucnqrk",
+  "wanLocalReady": true,
+  "wanPersistentReady": true,
+  "vaceLocalReady": true,
+  "vacePersistentReady": true,
+  "vaceInferenceSubmitted": false,
+  "newJobsAllowedAfterHandoff": false
+}

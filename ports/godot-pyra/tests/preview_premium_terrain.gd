@@ -3,6 +3,7 @@ extends SceneTree
 ## shader only. No installed assets, save migrations, terrain masks or colliders change.
 var output := "/tmp/ki-premium-preview"
 var candidates := ""
+var bindings_file := ""
 var textures: Array[ImageTexture] = []
 
 func _initialize() -> void:
@@ -21,7 +22,8 @@ func run() -> void:
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--out="): output = arg.substr(6)
 		if arg.begins_with("--candidates="): candidates = arg.substr(13)
-	if candidates.is_empty() or DisplayServer.get_name() == "headless":
+		if arg.begins_with("--bindings="): bindings_file = arg.substr(11)
+	if (candidates.is_empty() and bindings_file.is_empty()) or DisplayServer.get_name() == "headless":
 		push_error("Needs a native renderer and --candidates=<directory>")
 		quit(1)
 		return
@@ -82,8 +84,26 @@ func run() -> void:
 	await capture("pyra-before")
 	var material: ShaderMaterial = game.continent.ground_material
 	var checks: Array[Dictionary] = []
-	for role in ["b0","b1","special"]:
-		var path: String = candidates.path_join("pyra-%s-s35.webp" % role)
+	if not bindings_file.is_empty():
+		var manifest: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(bindings_file))
+		for binding: Dictionary in manifest.assets:
+			var path := bindings_file.get_base_dir().path_join(str(binding.file))
+			var image := Image.load_from_file(path)
+			var original: Texture2D = load(str(binding.path))
+			if image == null or image.get_size() != Vector2i(original.get_size()) or FileAccess.get_sha256(path) != str(binding.sha256):
+				push_error("Invalid native preview binding: " + path)
+				quit(1)
+				return
+			var texture := ImageTexture.create_from_image(image)
+			textures.append(texture)
+			texture.take_over_path(str(binding.path))
+			checks.append({"path":binding.path,"size":str(image.get_size()),"nativeSizePreserved":true})
+		game.enter_land("pyra",before_position)
+		game.monsters.set_process(false)
+		game.monsters.clear_all()
+		material = game.continent.ground_material
+	for role in ([] if not bindings_file.is_empty() else ["b0","b1","special"]):
+		var path: String = candidates.path_join("pyra-%s-s35.webp" % str(role))
 		var image := Image.load_from_file(path)
 		if image == null or image.get_size() != Vector2i(768,768):
 			push_error("Missing or invalid candidate: " + path)
@@ -91,7 +111,7 @@ func run() -> void:
 			return
 		var texture := ImageTexture.create_from_image(image)
 		textures.append(texture)
-		material.set_shader_parameter("t_" + role, PyraContinent.mipmapped(texture))
+		material.set_shader_parameter("t_" + str(role), PyraContinent.mipmapped(texture))
 		checks.append({"role":role,"size":str(image.get_size()),"applied":true})
 	# Refresh only this fixture's baked presentation chunks after changing the shader.
 	for entry: Dictionary in game.continent.ground_bake.values():
@@ -108,5 +128,5 @@ func run() -> void:
 	var file := FileAccess.open(output.path_join("runtime-preview.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify({"renderer":DisplayServer.get_name(),"candidateCount":checks.size(),"checks":checks,"geometryAndPositionUnchanged":unchanged,"scope":"Actual Godot runtime; isolated preview shader. No installed art or production changes."},"\t"))
 	file.close()
-	print("PREMIUM PREVIEW ",checks.size(),"/3 geometry preserved=",unchanged)
+	print("PREMIUM PREVIEW ",checks.size()," bindings; geometry preserved=",unchanged)
 	quit(0 if unchanged else 1)

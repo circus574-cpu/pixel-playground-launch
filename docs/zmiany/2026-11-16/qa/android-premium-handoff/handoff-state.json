@@ -1,0 +1,43 @@
+{
+  "capturedUtc": "2026-11-16T22:30:57Z",
+  "pod": "bqnirbw2ucnqrk",
+  "workspace": "/workspace/ki-premium",
+  "gpu": "NVIDIA A100-SXM4-80GB, 81920 MiB, 0 %, 0 MiB",
+  "runningOwnedProcesses": [
+    {
+      "pid": 4674,
+      "script": "/workspace/ki-premium/download_vace.py"
+    }
+  ],
+  "outputs": {
+    "candidates": {
+      "files": 14,
+      "bytes": 12295396
+    },
+    "pyra-batch2/candidates": {
+      "files": 50,
+      "bytes": 30472174
+    },
+    "wan22/generated": {
+      "files": 106,
+      "bytes": 15391163
+    },
+    "wan22/revision2/generated": {
+      "files": 167,
+      "bytes": 23501135
+    },
+    "client-pack": {
+      "files": 16,
+      "bytes": 891670
+    }
+  },
+  "wan22": {
+    "localModelReady": true,
+    "persistentModelReady": true
+  },
+  "vace14": {
+    "localModelReady": false,
+    "persistentModelReady": false
+  },
+  "next": "No new jobs after owner handoff. I2V walk candidates rejected for insufficient leg motion; VACE control keyframes prepared, no VACE inference submitted."
+}

@@ -1,0 +1,525 @@
+{
+  "schema": 1,
+  "modelRepository": "Lykon/dreamshaper-xl-v2-turbo",
+  "modelRevision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+  "status": "batch2-review",
+  "negativePrompt": "photorealistic, perspective, characters, text, watermark, border, vignette, neon, noisy, blurry, cropped, multiple objects",
+  "jobs": [
+    {
+      "id": "pyra-b2-s35",
+      "input": "inputs/b2.webp",
+      "inputSha256": "d7ee3b51c11725a5680292b8a5cf733ec87beb15671f11f8c5a8fcb648f8320f",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/b2.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "rough dark basalt cliff surface, volcanic rock layers, restrained ash grey, flat top down game texture, refined hand painted anime RPG art, clean readable shapes, soft uniform lighting, no objects, no text",
+      "strength": 0.35,
+      "seed": 5741117,
+      "steps": 16,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        384
+      ],
+      "runtimeSize": [
+        512,
+        194
+      ],
+      "seamless": true
+    },
+    {
+      "id": "pyra-b2-s55",
+      "input": "inputs/b2.webp",
+      "inputSha256": "d7ee3b51c11725a5680292b8a5cf733ec87beb15671f11f8c5a8fcb648f8320f",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/b2.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "rough dark basalt cliff surface, volcanic rock layers, restrained ash grey, flat top down game texture, refined hand painted anime RPG art, clean readable shapes, soft uniform lighting, no objects, no text",
+      "strength": 0.55,
+      "seed": 5741117,
+      "steps": 16,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        384
+      ],
+      "runtimeSize": [
+        512,
+        194
+      ],
+      "seamless": true
+    },
+    {
+      "id": "pyra-b3-s35",
+      "input": "inputs/b3.webp",
+      "inputSha256": "699e500d39c0811b2c4ab24ee7cde886d8dc757369b00cf5de979ef7c3f2d203",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/b3.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "warm weathered volcanic stone and dry ember soil, terracotta and charcoal, flat top down game texture, refined hand painted anime RPG art, clean readable shapes, soft uniform lighting, no objects, no text",
+      "strength": 0.35,
+      "seed": 5741117,
+      "steps": 16,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "seamless": true
+    },
+    {
+      "id": "pyra-b3-s55",
+      "input": "inputs/b3.webp",
+      "inputSha256": "699e500d39c0811b2c4ab24ee7cde886d8dc757369b00cf5de979ef7c3f2d203",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/b3.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "warm weathered volcanic stone and dry ember soil, terracotta and charcoal, flat top down game texture, refined hand painted anime RPG art, clean readable shapes, soft uniform lighting, no objects, no text",
+      "strength": 0.55,
+      "seed": 5741117,
+      "steps": 16,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "seamless": true
+    },
+    {
+      "id": "pyra-water-s35",
+      "input": "inputs/water.webp",
+      "inputSha256": "856c455988c270f8b7b4e52c76ab0bc3c1682f6d8081533b65ec6b812b35f414",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/water.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "deep teal ocean water seen from above, calm gentle waves and soft reflected light, flat top down game texture, refined hand painted anime RPG art, clean readable shapes, soft uniform lighting, no objects, no text",
+      "strength": 0.35,
+      "seed": 5741117,
+      "steps": 16,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "seamless": true
+    },
+    {
+      "id": "pyra-water-s55",
+      "input": "inputs/water.webp",
+      "inputSha256": "856c455988c270f8b7b4e52c76ab0bc3c1682f6d8081533b65ec6b812b35f414",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/water.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "deep teal ocean water seen from above, calm gentle waves and soft reflected light, flat top down game texture, refined hand painted anime RPG art, clean readable shapes, soft uniform lighting, no objects, no text",
+      "strength": 0.55,
+      "seed": 5741117,
+      "steps": 16,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "seamless": true
+    },
+    {
+      "id": "pyra-shore-s35",
+      "input": "inputs/shore.webp",
+      "inputSha256": "925146cbac222283b3fa8ae88556369eda1206964e16fe05b99f3c84ee8955d2",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/shore.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "dark volcanic pebble shore, wet basalt stones, muted ash and graphite, flat top down game texture, refined hand painted anime RPG art, clean readable shapes, soft uniform lighting, no objects, no text",
+      "strength": 0.35,
+      "seed": 5741117,
+      "steps": 16,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        384
+      ],
+      "runtimeSize": [
+        512,
+        194
+      ],
+      "seamless": true
+    },
+    {
+      "id": "pyra-shore-s55",
+      "input": "inputs/shore.webp",
+      "inputSha256": "925146cbac222283b3fa8ae88556369eda1206964e16fe05b99f3c84ee8955d2",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/shore.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "dark volcanic pebble shore, wet basalt stones, muted ash and graphite, flat top down game texture, refined hand painted anime RPG art, clean readable shapes, soft uniform lighting, no objects, no text",
+      "strength": 0.55,
+      "seed": 5741117,
+      "steps": 16,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        384
+      ],
+      "runtimeSize": [
+        512,
+        194
+      ],
+      "seamless": true
+    },
+    {
+      "id": "pyra-over1-s35",
+      "input": "inputs/over1.webp",
+      "inputSha256": "f9ae1b52594aa95ebe36e8c745a69d8d820d19ea363e1cc7ca9548da6b803426",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/over1.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "scattered autumn red maple leaves on dark forest soil, warm muted rust and ochre, flat top down game texture, refined hand painted anime RPG art, clean readable shapes, soft uniform lighting, no objects, no text",
+      "strength": 0.35,
+      "seed": 5741117,
+      "steps": 16,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "seamless": true
+    },
+    {
+      "id": "pyra-over1-s55",
+      "input": "inputs/over1.webp",
+      "inputSha256": "f9ae1b52594aa95ebe36e8c745a69d8d820d19ea363e1cc7ca9548da6b803426",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/over1.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "scattered autumn red maple leaves on dark forest soil, warm muted rust and ochre, flat top down game texture, refined hand painted anime RPG art, clean readable shapes, soft uniform lighting, no objects, no text",
+      "strength": 0.55,
+      "seed": 5741117,
+      "steps": 16,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "seamless": true
+    },
+    {
+      "id": "pyra-over2-s35",
+      "input": "inputs/over2.webp",
+      "inputSha256": "23514178a712df86f1c6425c72fc08a2ba7e02d7d30adb9539cd91f395b10831",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/over2.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "weathered ash and volcanic gravel, sparse dark pebbles, quiet charcoal grey ground, flat top down game texture, refined hand painted anime RPG art, clean readable shapes, soft uniform lighting, no objects, no text",
+      "strength": 0.35,
+      "seed": 5741117,
+      "steps": 16,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "seamless": true
+    },
+    {
+      "id": "pyra-over2-s55",
+      "input": "inputs/over2.webp",
+      "inputSha256": "23514178a712df86f1c6425c72fc08a2ba7e02d7d30adb9539cd91f395b10831",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/over2.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "weathered ash and volcanic gravel, sparse dark pebbles, quiet charcoal grey ground, flat top down game texture, refined hand painted anime RPG art, clean readable shapes, soft uniform lighting, no objects, no text",
+      "strength": 0.55,
+      "seed": 5741117,
+      "steps": 16,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "seamless": true
+    },
+    {
+      "id": "pyra-object-0-s25",
+      "input": "inputs/32e0d269-pyra-continent-lantern-bush.webp",
+      "inputSha256": "645004e50b976d079a2c7444ab5e620627ed1a3fd4357ef21372db7ac44f851b",
+      "sourcePath": "ports/godot-pyra/assets/objects/32e0d269-pyra-continent-lantern-bush.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "single amber lantern bush with warm glowing buds, single isolated game sprite, same silhouette, refined painted anime fantasy art, three quarter top down, plain white background, no ground, no text",
+      "strength": 0.25,
+      "seed": 5741117,
+      "steps": 20,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        272,
+        213
+      ],
+      "seamless": false,
+      "preserveAlpha": true
+    },
+    {
+      "id": "pyra-object-0-s40",
+      "input": "inputs/32e0d269-pyra-continent-lantern-bush.webp",
+      "inputSha256": "645004e50b976d079a2c7444ab5e620627ed1a3fd4357ef21372db7ac44f851b",
+      "sourcePath": "ports/godot-pyra/assets/objects/32e0d269-pyra-continent-lantern-bush.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "single amber lantern bush with warm glowing buds, single isolated game sprite, same silhouette, refined painted anime fantasy art, three quarter top down, plain white background, no ground, no text",
+      "strength": 0.4,
+      "seed": 5741117,
+      "steps": 20,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        272,
+        213
+      ],
+      "seamless": false,
+      "preserveAlpha": true
+    },
+    {
+      "id": "pyra-object-1-s25",
+      "input": "inputs/ae37503e-pyra-continent-pine.webp",
+      "inputSha256": "b700c959cbb245f525853cb064eae10b7bc2c84574eb4544adfca6da50ff328b",
+      "sourcePath": "ports/godot-pyra/assets/objects/ae37503e-pyra-continent-pine.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "single volcanic forest pine tree, dark pine green needles and rough bark, single isolated game sprite, same silhouette, refined painted anime fantasy art, three quarter top down, plain white background, no ground, no text",
+      "strength": 0.25,
+      "seed": 5741117,
+      "steps": 20,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        398,
+        400
+      ],
+      "seamless": false,
+      "preserveAlpha": true
+    },
+    {
+      "id": "pyra-object-1-s40",
+      "input": "inputs/ae37503e-pyra-continent-pine.webp",
+      "inputSha256": "b700c959cbb245f525853cb064eae10b7bc2c84574eb4544adfca6da50ff328b",
+      "sourcePath": "ports/godot-pyra/assets/objects/ae37503e-pyra-continent-pine.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "single volcanic forest pine tree, dark pine green needles and rough bark, single isolated game sprite, same silhouette, refined painted anime fantasy art, three quarter top down, plain white background, no ground, no text",
+      "strength": 0.4,
+      "seed": 5741117,
+      "steps": 20,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        398,
+        400
+      ],
+      "seamless": false,
+      "preserveAlpha": true
+    },
+    {
+      "id": "pyra-object-2-s25",
+      "input": "inputs/1cedcd5a-pyra-continent-maple.webp",
+      "inputSha256": "9d95a569aa77dea6cb5df2185d65fbef2f134b090ceb7587ca226a6e9acb0291",
+      "sourcePath": "ports/godot-pyra/assets/objects/1cedcd5a-pyra-continent-maple.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "single elegant crimson red maple tree, refined foliage and twisted bark, single isolated game sprite, same silhouette, refined painted anime fantasy art, three quarter top down, plain white background, no ground, no text",
+      "strength": 0.25,
+      "seed": 5741117,
+      "steps": 20,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        400,
+        363
+      ],
+      "seamless": false,
+      "preserveAlpha": true
+    },
+    {
+      "id": "pyra-object-2-s40",
+      "input": "inputs/1cedcd5a-pyra-continent-maple.webp",
+      "inputSha256": "9d95a569aa77dea6cb5df2185d65fbef2f134b090ceb7587ca226a6e9acb0291",
+      "sourcePath": "ports/godot-pyra/assets/objects/1cedcd5a-pyra-continent-maple.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "single elegant crimson red maple tree, refined foliage and twisted bark, single isolated game sprite, same silhouette, refined painted anime fantasy art, three quarter top down, plain white background, no ground, no text",
+      "strength": 0.4,
+      "seed": 5741117,
+      "steps": 20,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        400,
+        363
+      ],
+      "seamless": false,
+      "preserveAlpha": true
+    },
+    {
+      "id": "pyra-object-3-s25",
+      "input": "inputs/0185c62b-pyra-continent-berry-bush.webp",
+      "inputSha256": "f97d20a048ca7dc16932de74e36fecd1ea583b41d6e37856f8201a63e9f218e5",
+      "sourcePath": "ports/godot-pyra/assets/objects/0185c62b-pyra-continent-berry-bush.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "single low berry bush with muted red berries and dark green leaves, single isolated game sprite, same silhouette, refined painted anime fantasy art, three quarter top down, plain white background, no ground, no text",
+      "strength": 0.25,
+      "seed": 5741117,
+      "steps": 20,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        272,
+        197
+      ],
+      "seamless": false,
+      "preserveAlpha": true
+    },
+    {
+      "id": "pyra-object-3-s40",
+      "input": "inputs/0185c62b-pyra-continent-berry-bush.webp",
+      "inputSha256": "f97d20a048ca7dc16932de74e36fecd1ea583b41d6e37856f8201a63e9f218e5",
+      "sourcePath": "ports/godot-pyra/assets/objects/0185c62b-pyra-continent-berry-bush.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "single low berry bush with muted red berries and dark green leaves, single isolated game sprite, same silhouette, refined painted anime fantasy art, three quarter top down, plain white background, no ground, no text",
+      "strength": 0.4,
+      "seed": 5741117,
+      "steps": 20,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        272,
+        197
+      ],
+      "seamless": false,
+      "preserveAlpha": true
+    },
+    {
+      "id": "pyra-object-6-s25",
+      "input": "inputs/9902b9c8-pyra-continent-dry-grass.webp",
+      "inputSha256": "9cba5f2946b52306f4da74c4f59bc03d39c17425144792c41da05aa7ae50d67d",
+      "sourcePath": "ports/godot-pyra/assets/objects/9902b9c8-pyra-continent-dry-grass.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "single tuft of dry volcanic meadow grass, ochre and rust blades, single isolated game sprite, same silhouette, refined painted anime fantasy art, three quarter top down, plain white background, no ground, no text",
+      "strength": 0.25,
+      "seed": 5741117,
+      "steps": 20,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        272,
+        230
+      ],
+      "seamless": false,
+      "preserveAlpha": true
+    },
+    {
+      "id": "pyra-object-6-s40",
+      "input": "inputs/9902b9c8-pyra-continent-dry-grass.webp",
+      "inputSha256": "9cba5f2946b52306f4da74c4f59bc03d39c17425144792c41da05aa7ae50d67d",
+      "sourcePath": "ports/godot-pyra/assets/objects/9902b9c8-pyra-continent-dry-grass.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "single tuft of dry volcanic meadow grass, ochre and rust blades, single isolated game sprite, same silhouette, refined painted anime fantasy art, three quarter top down, plain white background, no ground, no text",
+      "strength": 0.4,
+      "seed": 5741117,
+      "steps": 20,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        272,
+        230
+      ],
+      "seamless": false,
+      "preserveAlpha": true
+    },
+    {
+      "id": "pyra-object-7-s25",
+      "input": "inputs/39416c5c-pyra-continent-copper-bush.webp",
+      "inputSha256": "1aed68c618bfd0e241f07952d9ce272b8bedeea679afc18e22210dfaf3f2fb89",
+      "sourcePath": "ports/godot-pyra/assets/objects/39416c5c-pyra-continent-copper-bush.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "single copper leaf bush, amber and rusty orange foliage, single isolated game sprite, same silhouette, refined painted anime fantasy art, three quarter top down, plain white background, no ground, no text",
+      "strength": 0.25,
+      "seed": 5741117,
+      "steps": 20,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        272,
+        205
+      ],
+      "seamless": false,
+      "preserveAlpha": true
+    },
+    {
+      "id": "pyra-object-7-s40",
+      "input": "inputs/39416c5c-pyra-continent-copper-bush.webp",
+      "inputSha256": "1aed68c618bfd0e241f07952d9ce272b8bedeea679afc18e22210dfaf3f2fb89",
+      "sourcePath": "ports/godot-pyra/assets/objects/39416c5c-pyra-continent-copper-bush.webp",
+      "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+      "prompt": "single copper leaf bush, amber and rusty orange foliage, single isolated game sprite, same silhouette, refined painted anime fantasy art, three quarter top down, plain white background, no ground, no text",
+      "strength": 0.4,
+      "seed": 5741117,
+      "steps": 20,
+      "guidance": 2.5,
+      "renderSize": [
+        1024,
+        1024
+      ],
+      "runtimeSize": [
+        272,
+        205
+      ],
+      "seamless": false,
+      "preserveAlpha": true
+    }
+  ]
+}

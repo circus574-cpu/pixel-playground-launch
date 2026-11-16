@@ -34,6 +34,14 @@ def read_queue(root):
             raise ValueError("Input missing, outside pilot root, or hash mismatch")
         if not 0.0 < job["strength"] <= 0.65:
             raise ValueError("Pilot strength must preserve the source composition")
+        if "runtimeSize" in job:
+            from PIL import Image
+            with Image.open(source) as source_image:
+                if tuple(job["runtimeSize"]) != source_image.size:
+                    raise ValueError("Native-size export must preserve the source texture budget")
+        width, height = job.get("renderSize", [1024, 1024])
+        if any(not isinstance(n, int) or n < 128 or n % 8 for n in [width, height]) or width * height > 1536 * 1024:
+            raise ValueError("Invalid or excessive pilot render dimensions")
     return queue
 
 
@@ -86,16 +94,20 @@ def run(root, model_root=None):
     pipe.enable_vae_tiling()
     # Match the existing texture pipeline. Metrics and tiled previews still required:
     # circular convolution alone is not proof of a seamless material.
-    for module in list(pipe.unet.modules()) + list(pipe.vae.modules()):
-        if isinstance(module, torch.nn.Conv2d):
-            module.padding_mode = "circular"
+    convolutions = [module for module in list(pipe.unet.modules()) + list(pipe.vae.modules())
+                    if isinstance(module, torch.nn.Conv2d)]
     rows = []
     for job in queue["jobs"]:
         fingerprint = hashlib.sha256(json.dumps({"job": job, "model": queue["modelRevision"],
                                                 "runner": digest(__file__)}, sort_keys=True).encode()).hexdigest()
         target = out / (job["id"] + ".png")
         previous = next((r for r in state["items"] if r["id"] == job["id"]), None)
-        source = Image.open(root / job["input"]).convert("RGB").resize((1024, 1024), Image.Resampling.LANCZOS)
+        original = Image.open(root / job["input"]).convert("RGBA")
+        canvas = Image.new("RGBA", original.size, "white")
+        canvas.alpha_composite(original)
+        source = canvas.convert("RGB").resize(tuple(job.get("renderSize", [1024, 1024])), Image.Resampling.LANCZOS)
+        for module in convolutions:
+            module.padding_mode = "circular" if job.get("seamless", True) else "zeros"
         if not reusable(previous, fingerprint, target, out / (job["id"] + ".webp")):
             started = time.monotonic()
             torch.cuda.reset_peak_memory_stats()
@@ -103,14 +115,19 @@ def run(root, model_root=None):
                          strength=job["strength"], num_inference_steps=job["steps"],
                          guidance_scale=job["guidance"], generator=torch.Generator("cuda").manual_seed(job["seed"])).images[0]
             image.save(target)
-            runtime = image.resize((768, 768), Image.Resampling.LANCZOS)
+            runtime = image.resize(tuple(job.get("runtimeSize", [768, 768])), Image.Resampling.LANCZOS)
+            if job.get("preserveAlpha", False):
+                runtime = runtime.convert("RGBA")
+                runtime.putalpha(original.getchannel("A"))
             runtime.save(out / (job["id"] + ".webp"), lossless=True)
             record = {"id": job["id"], "fingerprint": fingerprint, "sha256": digest(target),
                       "seconds": time.monotonic() - started,
                       "peakAllocatedBytes": torch.cuda.max_memory_allocated(),
                       "sourceSeam": seam_metrics(source), "resultSeam": seam_metrics(image),
                       "runtimeBytes": (out / (job["id"] + ".webp")).stat().st_size,
-                      "runtimeSha256": digest(out / (job["id"] + ".webp"))}
+                      "runtimeSha256": digest(out / (job["id"] + ".webp")),
+                      "sourceSize": list(original.size), "runtimeSize": list(runtime.size),
+                      "alphaPreserved": bool(job.get("preserveAlpha", False))}
             state["items"] = [r for r in state["items"] if r["id"] != job["id"]] + [record]
             state_file.write_text(json.dumps(state, indent=2))
         image = Image.open(target).convert("RGB")

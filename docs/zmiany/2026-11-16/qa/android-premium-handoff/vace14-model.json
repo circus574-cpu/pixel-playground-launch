@@ -1,0 +1,181 @@
+{
+  "repository": "Wan-AI/Wan2.1-VACE-14B-diffusers",
+  "revision": "db79b90c60bbb45ceec9e41b9d5a4df934538ac4",
+  "license": "apache-2.0",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 43986,
+      "sha256": "0ca0a1e6421ad4bf5e079e5e7d88927aff9b6a8463183fc9d5f4e13647d354b8",
+      "upstreamLfsMatch": false
+    },
+    {
+      "file": "model_index.json",
+      "bytes": 408,
+      "sha256": "078a0c056f61edae212c2e7e78fcb061e48a9bc886c08fb245bf5e165e371ea2",
+      "upstreamLfsMatch": false
+    },
+    {
+      "file": "scheduler/scheduler_config.json",
+      "bytes": 751,
+      "sha256": "070dc020808eec985634b83015c1596425c264d8fa80afe22aa1e02e9e903e6c",
+      "upstreamLfsMatch": false
+    },
+    {
+      "file": "text_encoder/config.json",
+      "bytes": 850,
+      "sha256": "6de5b5703cea483f528659de1e9f3b81955833a027b2a785d3c0f17dc07a938c",
+      "upstreamLfsMatch": false
+    },
+    {
+      "file": "text_encoder/model-00001-of-00003.safetensors",
+      "bytes": 4935812536,
+      "sha256": "a8e861969c7433e707cc5a74065d795d36cca07ec96eb6763eb4083df7248f58",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "text_encoder/model-00002-of-00003.safetensors",
+      "bytes": 4983103192,
+      "sha256": "d57d948ece4837d850b7a859a4415121d57cacf8b9ee1d4db200c67f592902d7",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "text_encoder/model-00003-of-00003.safetensors",
+      "bytes": 1442935480,
+      "sha256": "0da9ee284e21d1406df708788db1d502d95d75f69faa25cd26151bf8829b7c5f",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "text_encoder/model.safetensors.index.json",
+      "bytes": 22476,
+      "sha256": "31c4c7bcce679eaa0dd4667462394ddb013dc2f748e0bffc893dc9146a320dab",
+      "upstreamLfsMatch": false
+    },
+    {
+      "file": "tokenizer/special_tokens_map.json",
+      "bytes": 7079,
+      "sha256": "456b58fd240a06c743a7c2cf8008bec501240d68ebd1fc4018ea569505fea270",
+      "upstreamLfsMatch": false
+    },
+    {
+      "file": "tokenizer/spiece.model",
+      "bytes": 4548313,
+      "sha256": "e3909a67b780650b35cf529ac782ad2b6b26e6d1f849d3fbb6a872905f452458",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "tokenizer/tokenizer.json",
+      "bytes": 16837459,
+      "sha256": "20a46ac256746594ed7e1e3ef733b83fbc5a6f0922aa7480eda961743de080ef",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "tokenizer/tokenizer_config.json",
+      "bytes": 61786,
+      "sha256": "89bef11d01c80a229079666dd470d536aba87b8eaa00b51cc481ba625be59269",
+      "upstreamLfsMatch": false
+    },
+    {
+      "file": "transformer/config.json",
+      "bytes": 610,
+      "sha256": "02132795259b6876e6758c4ce211c292ba3468d2ba468eba440dc7967d302993",
+      "upstreamLfsMatch": false
+    },
+    {
+      "file": "transformer/diffusion_pytorch_model-00001-of-00013.safetensors",
+      "bytes": 4867114424,
+      "sha256": "bd8bbb8834a274525ab65cbb063f21aa58973a054bfd1638bfe395504c9d9b99",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "transformer/diffusion_pytorch_model-00002-of-00013.safetensors",
+      "bytes": 4919594456,
+      "sha256": "8d24b40a5ea6bb21cdc0115128241ffeb44184b2419f4b1585af1573ed5c7839",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "transformer/diffusion_pytorch_model-00003-of-00013.safetensors",
+      "bytes": 4919465128,
+      "sha256": "7f550f93b3c36c13015dd551109ff63528251864c9513acc2e0a502807b8a91c",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "transformer/diffusion_pytorch_model-00004-of-00013.safetensors",
+      "bytes": 4919594536,
+      "sha256": "6a701d601e2cbe3da3515b24d59f56deb5ca2c973c778ff7911f579ec5b8ec11",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "transformer/diffusion_pytorch_model-00005-of-00013.safetensors",
+      "bytes": 4919465224,
+      "sha256": "7eb65433e529b975f84897f6572af1ae148d82e7fd0ee7c5f4191158736b104f",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "transformer/diffusion_pytorch_model-00006-of-00013.safetensors",
+      "bytes": 4919594552,
+      "sha256": "aae199dea0aeb96347e9af9e3cb90679c1c8c2f42c76ee3cead2ea240c909d07",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "transformer/diffusion_pytorch_model-00007-of-00013.safetensors",
+      "bytes": 4919465224,
+      "sha256": "53c24e663dece6ff0737b03e5cc670118998231877ba7bad29824ff0500589d4",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "transformer/diffusion_pytorch_model-00008-of-00013.safetensors",
+      "bytes": 4919594552,
+      "sha256": "333eaca9dce56bf3083bbab4630aa081b7c403a27ba94894a7756d631529fd9a",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "transformer/diffusion_pytorch_model-00009-of-00013.safetensors",
+      "bytes": 4919465224,
+      "sha256": "8af811e7ed2ab64a3f6d07827d1b975a9804b78d63c2b3989024bc1b67ac6e5d",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "transformer/diffusion_pytorch_model-00010-of-00013.safetensors",
+      "bytes": 4919594552,
+      "sha256": "e8b631e38f0ad21a63c631069658d4be4b55e0cb15e8f5848567482b5862ba63",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "transformer/diffusion_pytorch_model-00011-of-00013.safetensors",
+      "bytes": 4919465224,
+      "sha256": "21032fe150df6f3ac26780fb8ca38d05c4a9585a1b774ceadb5d42bc96ff1b27",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "transformer/diffusion_pytorch_model-00012-of-00013.safetensors",
+      "bytes": 4971935336,
+      "sha256": "e48bce2ab6bb0885d72ff5e79c56c29335051e5ad715a03807267e248addaff8",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "transformer/diffusion_pytorch_model-00013-of-00013.safetensors",
+      "bytes": 4217957112,
+      "sha256": "e0e39ee859fc696ebd2c0982202a5d1cf8206eeb82b3b582d954707b9f980f12",
+      "upstreamLfsMatch": true
+    },
+    {
+      "file": "transformer/diffusion_pytorch_model.safetensors.index.json",
+      "bytes": 119173,
+      "sha256": "efc7a2aa098dc74d6b73793fac1a5a9542953669b60e05ea36636529be55bf40",
+      "upstreamLfsMatch": false
+    },
+    {
+      "file": "vae/config.json",
+      "bytes": 724,
+      "sha256": "7a3afcf422b9a9d63e0b6ca7e0d3b5193220a61f5b203bb8417900bc090705e8",
+      "upstreamLfsMatch": false
+    },
+    {
+      "file": "vae/diffusion_pytorch_model.safetensors",
+      "bytes": 507591892,
+      "sha256": "d6e524b3fffede1787a74e81b30976dce5400c4439ba64222168e607ed19e793",
+      "upstreamLfsMatch": true
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "file": "handoff-sources.zip",
+  "files": 409,
+  "bytes": 86754569,
+  "sha256": "3b251cb5d164751196170adbdb824449c928c550b79af8bdeac1445cdcb94aba",
+  "excluded": "Model weights, virtualenv, credentials. Pinned model receipts and download scripts included."
+}
