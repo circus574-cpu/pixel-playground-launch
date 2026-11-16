@@ -388,7 +388,15 @@ func build_land_places() -> void:
 			markers.points.append({"point": door})
 		if str(s.kind) != "capital":
 			var guide_at := Vector2(float(s.x), float(s.y)) + Vector2(0, 40)
-			add_street_npc("guide", "Opiekun miasta", "Przewodnik", "Witaj w mieście %s. Usługi znajdziesz przy oznaczonych wejściach: sklep, sala, gospoda, kuźnia, depozyt i arena." % s.name, guide_at)
+			var town_guide: Dictionary = quests.npc_for(land_id, str(s.id), "guide") if is_quest_land() else {}
+			var guide_name := str(town_guide.get("name", "Opiekun miasta"))
+			var guide_title := str(town_guide.get("role", "Przewodnik"))
+			add_street_npc("guide", guide_name, guide_title, "Witaj w mieście %s. Usługi znajdziesz przy oznaczonych wejściach: sklep, sala, gospoda, kuźnia, depozyt i arena." % s.name, guide_at)
+			# a town whose quests are given by its hunter / warden has that character on the street
+			var town_hunter: Dictionary = quests.npc_for(land_id, str(s.id), "hunter") if is_quest_land() else {}
+			if not town_hunter.is_empty():
+				var greeting := str(town_hunter.greeting) if str(town_hunter.greeting) != "" else "Witaj w mieście %s." % s.name
+				add_street_npc("hunter", str(town_hunter.name), str(town_hunter.role), greeting, Vector2(float(s.x), float(s.y)) + Vector2(300, 70))
 	for npc: Dictionary in land.npcs:
 		if npc.building != null:
 			continue
@@ -545,6 +553,12 @@ func load_space(room: String, at: Vector2, town: String = "") -> void:
 		targets.append({"kind": "exit", "id": "exit", "name": "Wyjście do miasta", "point": point(spec.exit)})
 		var service_role := str(ROLE_OF_SERVICE.get(room, ""))
 		var npc_def := capital_npc(room)
+		if town != "" and is_quest_land():
+			var local_npc: Dictionary = quests.npc_for(land_id, town, service_role)
+			if not local_npc.is_empty():
+				npc_def = npc_def.duplicate()
+				npc_def.name = str(local_npc.name)
+				npc_def.role = str(local_npc.role)
 		var npc_at := point(spec.npc)
 		var actor_key := "%s.npc.%s" % [world_id, service_role]
 		if service_role != "" and actors.has(actor_key):

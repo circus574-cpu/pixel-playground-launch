@@ -81,7 +81,8 @@ func cast(id: String) -> Dictionary:
 				foe.seal(delay, minf(0.9, 0.1 * bonus_rank("A2")) if has("A2") else 0.0)
 			effect.emit("slash", p, 0.0, "A1")
 			var bonus := ability_bonus()
-			schedule(delay, func() -> void: explode_seal(foe, "A1", bonus))
+			var sealed: WeakRef = weakref(foe)   # the foe may die and be freed before the seal bursts: a lambda must not capture the node itself
+			schedule(delay, func() -> void: explode_seal(sealed.get_ref() as Node, "A1", bonus))
 			return {"ok": true, "reason": "", "clip": "skill"}
 		"A4":
 			var foe2 := pick_foe(float(s.range))
