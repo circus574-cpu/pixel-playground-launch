@@ -6,6 +6,7 @@ import { writeFileSync, mkdirSync, copyFileSync, existsSync } from "node:fs";
 import { ITEM_CATALOG } from "../../src/game/items/catalog";
 import { CRAFTING_RECIPES } from "../../src/game/items/recipes";
 import { isShopItem, shopPrice, lootLevel } from "../../src/game/items/loot";
+import { EQUIPMENT_SET_BONUSES, PASSIVE_BUFF_SET_BONUSES, V2_GLOBAL_STAT_CAPS } from "../../src/game/items/catalog";
 
 /** Same mapping as `getSlotForItem` in src/game/session.ts, without importing the whole session. */
 function equipSlot(id: string, slot: string, category: string): string | null {
@@ -71,6 +72,13 @@ writeFileSync(
     shopMarkup: 4,
     potion: { heal: 0.4, cooldown: 6 },
     startGold: 20,
+    caps: V2_GLOBAL_STAT_CAPS,
+    passiveSets: PASSIVE_BUFF_SET_BONUSES,
+    equipmentSets: EQUIPMENT_SET_BONUSES,
+    upgrades: {
+      max: { weapon: 3, armor: 2, head: 2, offhand: 2, hands: 2, feet: 2 },
+      cost: { weapon: [40, 100, 180], armor: [30, 80], head: [30, 80], offhand: [30, 80], hands: [30, 80], feet: [30, 80] },
+    },
   }),
 );
 // icons

@@ -10,8 +10,9 @@ signal said(text: String)
 
 const SLOTS := ["head", "weapon", "armor", "offhand", "hands", "ring", "amulet", "feet"]
 const SLOT_NAMES := {"head": "Hełm", "weapon": "Broń", "armor": "Pancerz", "offhand": "Tarcza", "hands": "Rękawice", "ring": "Pierścień", "amulet": "Amulet / artefakt", "feet": "Buty"}
-const STATIONS_PYRA := ["forge", "alchemy", "runic"]
-const STATION_NAMES := {"forge": "Kuźnia", "alchemy": "Alchemia", "runic": "Runy"}
+const STATIONS_PYRA := ["forge", "alchemy", "runic", "cyber_fabricator", "projekt_ksiegi"]   # the browser shows all five stations
+const STATION_NAMES := {"forge": "Kuźnia", "alchemy": "Alchemia", "runic": "Runy", "cyber_fabricator": "Fabrykator", "projekt_ksiegi": "Księgi"}
+const PASSIVE_KEYS := ["maxHpPercent", "maxKiPercent", "atkPercent", "defPercent", "kiRegenPercent", "moveSpeedPercent", "kiCostReductionPercent", "damageReductionPercent", "hpRegenPercent", "critChancePoints"]
 const BAG_STACKS := 40
 const INN_PRICE := 5
 const RARITY_NAMES := {"common": "pospolity", "uncommon": "niepospolity", "rare": "rzadki", "epic": "epicki", "legendary": "legendarny"}
@@ -31,12 +32,24 @@ var depot: Dictionary = {}
 var depot_gold := 0
 var level := 1
 var potion_cooldown := 0.0
+var upgrades: Dictionary = {}          # slot -> upgrade level bought at the smith
+var caps: Dictionary = {}
+var passive_sets: Dictionary = {}
+var equipment_sets: Dictionary = {}
+var upgrade_max: Dictionary = {}
+var upgrade_cost: Dictionary = {}
+var heal_amount_callback: Callable = func(_amount: float) -> bool: return false
 var heal_callback: Callable = func(_fraction: float) -> bool: return false
 
 func _init(data: Dictionary) -> void:
 	for item: Dictionary in data.items:
 		items[item.id] = item
 	recipes = data.recipes
+	caps = data.caps
+	passive_sets = data.passiveSets
+	equipment_sets = data.equipmentSets
+	upgrade_max = data.upgrades.max
+	upgrade_cost = data.upgrades.cost
 	for item: Dictionary in data.items:
 		if float(item.shopPrice) > 0.0:
 			shop_ids.append(str(item.id))
@@ -179,14 +192,26 @@ func unequip(slot: String) -> bool:
 	return true
 
 ## Same aggregation as `equipmentStats` in the browser game: the weapon sets the base attack, everything else adds.
+## Equipment bonuses, exactly as `equipmentStats` of the browser game: flat attack / defence / HP / KI from the items and the
+## smith's upgrades, then the percentage stats come from `computePassiveEquipmentBonuses` — item stats, passive artefacts and set
+## bonuses, summed over distinct equipped items and capped by the V2 global caps.
 func gear() -> Dictionary:
 	var g := {"attack": 0.0, "defense": 0.0, "hpBonus": 0.0, "kiBonus": 0.0, "kiRegenBonus": 0.0, "atkPercent": 0.0, "defPercent": 0.0, "maxHpPercent": 0.0, "maxKiPercent": 0.0,
-		"kiRegenPercent": 0.0, "moveSpeedPercent": 0.0, "critChancePoints": 0.0, "damageReductionPercent": 0.0, "kiCostReductionPercent": 0.0, "speedMultiplier": 1.0}
+		"kiRegenPercent": 0.0, "moveSpeedPercent": 0.0, "critChancePoints": 0.0, "damageReductionPercent": 0.0, "kiCostReductionPercent": 0.0, "hpRegenPercent": 0.0, "speedMultiplier": 1.0}
+	var raw := {}
+	for key in PASSIVE_KEYS:
+		raw[key] = 0.0
+	var set_counts := {}
+	var seen := {}
+	var any := false
 	for slot in SLOTS:
 		var id := str(equipment[slot])
-		if id == "":
+		if id == "" or seen.has(id):
 			continue
-		var stats: Dictionary = item(id).get("stats", {})
+		seen[id] = true
+		any = true
+		var it := item(id)
+		var stats: Dictionary = it.get("stats", {})
 		if slot == "weapon":
 			g.attack = float(stats.get("atkBonus", 0.0))
 		else:
@@ -197,12 +222,53 @@ func gear() -> Dictionary:
 		if not stats.has("maxKiPercent"):
 			g.kiBonus += float(stats.get("kiBonus", 0.0))
 		g.kiRegenBonus += float(stats.get("kiRegenBonus", 0.0))
-		for key in ["atkPercent", "defPercent", "maxHpPercent", "maxKiPercent", "kiRegenPercent", "moveSpeedPercent", "damageReductionPercent", "kiCostReductionPercent"]:
-			g[key] += float(stats.get(key, 0.0))
-		g.critChancePoints += float(stats.get("critChancePoints", 0.0)) + float(stats.get("critChancePercent", 0.0))
 		if not stats.has("moveSpeedPercent"):
 			g.speedMultiplier *= float(stats.get("speedMultiplier", 1.0))
+		for key in PASSIVE_KEYS:
+			raw[key] += float(stats.get(key, 0.0))
+		if not stats.has("critChancePoints"):
+			raw["critChancePoints"] += float(stats.get("critChancePercent", 0.0))
+		var buff: Variant = it.get("buff", null)
+		if buff != null and str(buff.mode) == "passive" and raw.has(str(buff.effect)):
+			raw[str(buff.effect)] += float(buff.value)
+		if it.get("setId", null) != null:
+			set_counts[str(it.setId)] = int(set_counts.get(str(it.setId), 0)) + 1
+		var up := int(upgrades.get(slot, 0))
+		if up > 0:
+			if slot == "weapon":
+				g.attack += 2.0 * up
+			elif slot != "ring" and slot != "amulet":
+				g.defense += float(up)
+	for set_id: String in set_counts:
+		for rule: Dictionary in passive_sets.get(set_id, equipment_sets.get(set_id, [])):
+			if int(set_counts[set_id]) >= int(rule.requiredPieces) and raw.has(str(rule.effect)):
+				raw[str(rule.effect)] += float(rule.value)
+	if any:
+		for key in PASSIVE_KEYS:
+			g[key] = minf(float(raw[key]), float(caps.get(key, 1000.0)))
 	return g
+
+## Smith: raises the upgrade level of the equipped item of `slot` (weapon +2 ATK per level up to 3, armour pieces +1 DEF up to 2).
+func upgrade(slot: String) -> bool:
+	if not upgrade_max.has(slot):
+		say("Biżuterii nie można ulepszać.")
+		return false
+	if str(equipment.get(slot, "")) == "":
+		say("Na tym slocie nie ma sprzętu do ulepszenia.")
+		return false
+	var current := int(upgrades.get(slot, 0))
+	if current >= int(upgrade_max[slot]):
+		say("Ten przedmiot jest już maksymalnie ulepszony.")
+		return false
+	var cost := int(upgrade_cost[slot][current])
+	if gold < cost:
+		say("Ulepszenie kosztuje %d monet." % cost)
+		return false
+	gold -= cost
+	upgrades[slot] = current + 1
+	say("Ulepszono: %s na +%d (%s za stopień)." % [name_of(str(equipment[slot])), current + 1, "+2 ATK" if slot == "weapon" else "+1 DEF"])
+	changed.emit()
+	return true
 
 # ---- consumables -----------------------------------------------------------------------------
 
@@ -220,7 +286,15 @@ func use(id: String) -> bool:
 		potion_cooldown = 6.0
 		say("Mikstura leczy 40% maks. HP.")
 		return true
-	say("Efekt tego przedmiotu nie jest jeszcze przeniesiony do wersji Godot.")
+	if item(id).get("category", "") == "consumable":
+		var amount := float(item(id).get("stats", {}).get("hpBonus", 50.0))
+		if not heal_amount_callback.call(amount):
+			say("Zdrowie jest pełne.")
+			return false
+		remove_item(id, 1)
+		say("Użyto: %s." % name_of(id))
+		return true
+	say("Tego przedmiotu nie można użyć.")
 	return false
 
 func tick(delta: float) -> void:
@@ -323,7 +397,7 @@ func craft(recipe: Dictionary) -> bool:
 # ---- persistence -----------------------------------------------------------------------------
 
 func to_save() -> Dictionary:
-	return {"gold": gold, "bag": bag.duplicate(true), "equipment": equipment.duplicate(true), "depot": depot.duplicate(true), "depotGold": depot_gold}
+	return {"gold": gold, "bag": bag.duplicate(true), "equipment": equipment.duplicate(true), "depot": depot.duplicate(true), "depotGold": depot_gold, "upgrades": upgrades.duplicate()}
 
 func from_save(value: Dictionary) -> bool:
 	var new_bag := {}
@@ -355,6 +429,15 @@ func from_save(value: Dictionary) -> bool:
 	var vault := int(value.get("depotGold", 0))
 	if coins < 0 or vault < 0 or new_bag.size() > BAG_STACKS:
 		return false
+	var new_upgrades := {}
+	var saved_upgrades = value.get("upgrades", {})
+	if not saved_upgrades is Dictionary:
+		return false
+	for slot in saved_upgrades:
+		if not upgrade_max.has(str(slot)) or int(saved_upgrades[slot]) < 0 or int(saved_upgrades[slot]) > int(upgrade_max[str(slot)]):
+			return false
+		new_upgrades[str(slot)] = int(saved_upgrades[slot])
+	upgrades = new_upgrades
 	bag = new_bag
 	depot = new_depot
 	equipment = new_equipment

@@ -11,6 +11,7 @@ signal damage_dealt(foe: Node, amount: int, crit: bool)
 signal changed
 
 const CRIT_MULT := 1.5
+const BASE_HP_REGEN := 0.003   # per second out of combat, as in the browser game
 const MAX_MOVE_SPEED := 1200.0
 const SLOTS := 4
 const DODGE_DISTANCE := 170.0
@@ -409,7 +410,7 @@ func tick(delta: float) -> void:
 	if not dead:
 		ki = minf(float(s.maxKi), ki + float(s.kiRegen) * delta)
 		var m := mods()
-		var regen := float(m.hpRegenAlways) + (0.0 if in_combat() else float(m.hpRegenOoc))
+		var regen := (float(m.hpRegenAlways) + (0.0 if in_combat() else float(m.hpRegenOoc) + BASE_HP_REGEN)) * (1.0 + float(gear.get("hpRegenPercent", 0.0)) / 100.0)
 		if regen > 0.0:
 			hp = minf(float(s.maxHp), hp + float(s.maxHp) * regen * delta)
 	for c in circles:

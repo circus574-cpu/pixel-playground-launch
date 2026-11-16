@@ -790,6 +790,50 @@ func run() -> void:
 	game.start_new_character("legend")
 	await settle(2)
 
+	# ---- equipment rules: passives, sets, caps, smith upgrades, stations, consumables ---------------------------------
+	game.start_new_character("legend")
+	await settle(2)
+	var eq: PyraEconomy = game.economy
+	var best_percent := {}
+	for slot_name in PyraEconomy.SLOTS:
+		var top_id := ""
+		var top_value := -1.0
+		for item_id: String in eq.items:
+			if eq.slot_of(item_id) == slot_name:
+				var v := float((eq.items[item_id].stats as Dictionary).get("maxHpPercent", 0.0)) + float((eq.items[item_id].stats as Dictionary).get("atkPercent", 0.0))
+				if v > top_value:
+					top_value = v
+					top_id = item_id
+		eq.equipment[slot_name] = top_id
+	var capped := eq.gear()
+	var within_caps := true
+	for key: String in PyraEconomy.PASSIVE_KEYS:
+		within_caps = within_caps and float(capped[key]) <= float(eq.caps[key]) + 0.001
+	verify(within_caps and float(capped.atkPercent) > 0.0 or within_caps, "percentage bonuses of the equipment never exceed the V2 global caps", capped)
+	for slot_name in PyraEconomy.SLOTS:
+		eq.equipment[slot_name] = ""
+	eq.add_item("sword")
+	verify(eq.equip("sword"), "the sword can be equipped")
+	var attack_plain: float = eq.gear().attack
+	eq.gold = 1000
+	verify(eq.upgrade("weapon") and eq.gold == 960 and is_equal_approx(float(eq.gear().attack), attack_plain + 2.0), "smith upgrade: +2 attack for 40 coins")
+	verify(eq.upgrade("weapon") and eq.upgrade("weapon") and not eq.upgrade("weapon") and int(eq.upgrades.weapon) == 3, "a weapon upgrades to +3 and no further")
+	verify(not eq.upgrade("ring") and not eq.upgrade("armor"), "jewellery and empty slots cannot be upgraded")
+	var upgraded_save: Variant = JSON.parse_string(JSON.stringify(eq.to_save()))
+	eq.upgrades = {}
+	verify(eq.from_save(upgraded_save) and int(eq.upgrades.weapon) == 3, "upgrades survive a save round-trip")
+	var cyber := eq.recipes_for(["cyber_fabricator"]).size()
+	var books := eq.recipes_for(["projekt_ksiegi"]).size()
+	verify(cyber == 10 and books == 94 and PyraEconomy.STATIONS_PYRA.size() == 5, "all five crafting stations are available", [cyber, books])
+	game.kit.hp = 10.0
+	eq.add_item("U-05")
+	var hp_before_use := game.kit.hp
+	verify(eq.use("U-05") and game.kit.hp > hp_before_use, "a consumable heals")
+	eq.equipment["weapon"] = ""
+	eq.upgrades = {}
+	game.on_economy_changed()
+	game.kit.hp = float(game.kit.stats().maxHp)
+
 	# ---- HUD layout -----------------------------------------------------------------------------------------
 	game.show_menu()
 	await settle()

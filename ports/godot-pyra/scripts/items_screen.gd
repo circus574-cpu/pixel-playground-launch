@@ -34,7 +34,7 @@ func setup(economy: PyraEconomy, screen_mode: String, heading: String) -> void:
 		"depot":
 			tab_names = ["DO SKRZYNI", "ZE SKRZYNI"]
 		"smithy":
-			tab_names = ["KUŹNIA", "ALCHEMIA", "RUNY"]
+			tab_names = ["KUŹNIA", "ALCHEMIA", "RUNY", "FABRYKATOR", "KSIĘGI", "ULEPSZENIA"]
 		"inventory":
 			tab_names = ["PLECAK", "WYPOSAŻENIE"]
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -176,6 +176,12 @@ func rows() -> Array:
 			for id: String in source:
 				out.append({"id": id, "text": "%s ×%d" % [eco.name_of(id), int(source[id])], "icon": eco.icon_path(id), "color": eco.rarity_color(id), "dim": false})
 		"smithy":
+			if tab >= PyraEconomy.STATIONS_PYRA.size():
+				for slot: String in eco.upgrade_max:
+					var worn := str(eco.equipment.get(slot, ""))
+					var level_now := int(eco.upgrades.get(slot, 0))
+					out.append({"id": "upg:" + slot, "text": "%s:  %s   ·   +%d / %d" % [PyraEconomy.SLOT_NAMES[slot], eco.name_of(worn) if worn != "" else "— puste —", level_now, int(eco.upgrade_max[slot])], "icon": eco.icon_path(worn) if worn != "" else "", "color": eco.rarity_color(worn) if worn != "" else Color(0.6, 0.55, 0.5), "dim": worn == ""})
+				return out
 			var station: String = PyraEconomy.STATIONS_PYRA[tab]
 			for recipe: Dictionary in eco.recipes_for([station]):
 				var check := eco.can_craft(recipe)
@@ -284,7 +290,10 @@ func show_detail() -> void:
 			else:
 				action_box.add_child(make_button("DO PLECAKA ×1", func(): eco.withdraw(selected), Vector2(0, 56)))
 		"smithy":
-			show_recipe()
+			if selected.begins_with("upg:"):
+				show_upgrade(selected.substr(4))
+			else:
+				show_recipe()
 		"inventory":
 			show_inventory_item()
 	if mode == "depot":
@@ -307,6 +316,20 @@ func hint_text() -> String:
 		"smithy":
 			return "Wytwarzanie zużywa składniki i monety. Zielone receptury możesz wykonać teraz; szare — brakuje poziomu, składników lub monet.\n\nWybierz recepturę z listy."
 	return "Wybierz pozycję z listy."
+
+func show_upgrade(slot: String) -> void:
+	var worn := str(eco.equipment.get(slot, ""))
+	var level_now := int(eco.upgrades.get(slot, 0))
+	var top := int(eco.upgrade_max[slot])
+	detail_title.text = "%s: %s" % [PyraEconomy.SLOT_NAMES[slot], eco.name_of(worn) if worn != "" else "— puste —"]
+	detail_meta.text = "Stopień +%d z %d" % [level_now, top]
+	var text := "Kowal podnosi założony przedmiot: broń +2 ATK za stopień (do +3), pancerz, hełm, tarcza, rękawice i buty +1 DEF za stopień (do +2). Biżuterii nie można ulepszać."
+	if worn != "" and level_now < top:
+		text += "\n\nKolejny stopień kosztuje %d monet." % int(eco.upgrade_cost[slot][level_now])
+	detail_body.text = text
+	var go := make_button("ULEPSZ", func(): eco.upgrade(slot), Vector2(0, 56))
+	go.disabled = worn == "" or level_now >= top or eco.gold < (int(eco.upgrade_cost[slot][level_now]) if level_now < top else 0)
+	action_box.add_child(go)
 
 func show_recipe() -> void:
 	var recipe: Dictionary = {}

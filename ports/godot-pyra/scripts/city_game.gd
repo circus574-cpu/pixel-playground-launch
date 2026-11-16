@@ -131,6 +131,12 @@ func _ready() -> void:
 			return false
 		kit.heal(top * fraction)
 		return true
+	economy.heal_amount_callback = func(amount: float) -> bool:
+		var top := float(kit.stats().maxHp)
+		if kit.hp >= top:
+			return false
+		kit.heal(amount)
+		return true
 	economy.changed.connect(on_economy_changed)
 	economy.said.connect(func(text: String) -> void: hud.toast(text))
 	camera.position_smoothing_enabled = false
@@ -989,6 +995,7 @@ func start_new_character(new_race: String) -> void:
 		load_space("", city_return)
 	quests.reset()
 	economy.gold = 20
+	economy.upgrades = {}
 	economy.bag = {"potion": 3}
 	economy.depot = {}
 	economy.depot_gold = 0
