@@ -159,8 +159,13 @@ func _process(delta: float) -> void:
 			sprite.modulate = Color.WHITE
 
 func _draw() -> void:
-	draw_set_transform(Vector2(0, -2), 0.0, Vector2(1, 0.32))
-	draw_circle(Vector2.ZERO, 22 * shadow_scale, Color(0.02, 0.01, 0.01, 0.32))
+	# soft contact shadow: a wide faint pool and a tighter darker core, both flattened to the ground
+	draw_set_transform(Vector2(0, -2), 0.0, Vector2(1, 0.34))
+	var soft: Texture2D = PyraFx.glow()
+	var wide := 34.0 * shadow_scale
+	var core := 20.0 * shadow_scale
+	draw_texture_rect(soft, Rect2(Vector2(-wide, -wide), Vector2(wide, wide) * 2.0), false, Color(0.02, 0.01, 0.02, 0.5))
+	draw_texture_rect(soft, Rect2(Vector2(-core, -core), Vector2(core, core) * 2.0), false, Color(0.0, 0.0, 0.0, 0.55))
 	draw_set_transform(Vector2.ZERO)
 	if quest_mark != "":
 		var top := -display.y - 54.0

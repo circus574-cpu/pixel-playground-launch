@@ -38,6 +38,7 @@ func run() -> void:
 	await frames(10)
 	game.player.position = Vector2(float(game.land.width) * 0.5, float(game.land.height) * 0.5)
 	game.player.locked = true
+	game.player.visual.animate(Vector2(1, 0), true)
 	game.monsters.clear_all()
 	game.monsters.set_process(false)
 	game.camera.zoom = Vector2.ONE * 1.0
