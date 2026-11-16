@@ -920,10 +920,13 @@ func run() -> void:
 	var cave_b := PyraDungeon.new()
 	cave_b.setup(cave_target.entrance, "pyra", "pyra", cave_kinds, {})
 	verify(cave_a.grid == cave_b.grid and cave_a.key_cell == cave_b.key_cell and cave_a.gate_cell == cave_b.gate_cell, "the same entrance always gives the same cave")
-	var vault_cell: Vector2i = cave_a.chests[cave_a.chests.size() - 1].cell
+	var vault_cell := Vector2i(-1, -1)
+	for chest_def: Dictionary in cave_a.chests:
+		if str(chest_def.id).ends_with("-vault"):
+			vault_cell = chest_def.cell
 	var open_part := cave_a.bfs(cave_a.start_room.position, cave_a.gate_cell)
 	verify(cave_a.gate_cell.x >= 0 and not open_part.has(vault_cell) and open_part.has(cave_a.key_cell) and cave_a.bfs(cave_a.start_room.position).has(vault_cell), "the gate cuts the vault off; the key lies in the open part")
-	var chests_ok := cave_a.chests.size() == 3
+	var chests_ok := cave_a.chests.size() >= 3
 	for chest_def: Dictionary in cave_a.chests:
 		chests_ok = chests_ok and cave_a.is_floor(chest_def.cell)
 	var guards_ok := cave_a.guards.size() >= 6
@@ -945,7 +948,10 @@ func run() -> void:
 	game.player.position = gate_pos + Vector2(40, 0)
 	verify(game.dungeon.open_gate(game.player.position) and game.dungeon.walkable(gate_pos), "with the key the gate opens and the way is free")
 	var gold_cave := game.economy.gold
-	var vault_id: String = game.dungeon.chests[game.dungeon.chests.size() - 1].id
+	var vault_id := ""
+	for chest_def: Dictionary in game.dungeon.chests:
+		if str(chest_def.id).ends_with("-vault"):
+			vault_id = str(chest_def.id)
 	game.player.position = game.dungeon.center(vault_cell) + Vector2(0, 30)
 	var prize := game.dungeon.claim(vault_id, game.player.position)
 	verify(not prize.is_empty() and int(prize.gold) > 0 and game.dungeon.claim(vault_id, game.player.position).is_empty(), "a chest pays once", prize)
@@ -960,7 +966,99 @@ func run() -> void:
 	verify(game.save_checkpoint(cave_save), "a checkpoint can be saved inside a cave")
 	var cave_saved: Variant = JSON.parse_string(FileAccess.get_file_as_string(cave_save))
 	verify(cave_saved is Dictionary and str(cave_saved.room) == "" and (cave_saved.dungeons as Dictionary).has(str(cave_target.entrance.id)), "the save puts the hero back at the entrance and keeps the cave progress")
-	verify(PyraGame.valid_dungeon_state({"a": {"keys": ["k", "k", 3], "gates": "x"}, 5: {}}) == {"a": {"keys": ["k"], "gates": [], "chests": []}}, "cave progress read from a save is cleaned")
+	verify(PyraGame.valid_dungeon_state({"a": {"keys": ["k", "k", 3], "gates": "x"}, 5: {}}) == {"a": {"keys": ["k"], "gates": [], "chests": [], "secrets": []}}, "cave progress read from a save is cleaned")
+	# every entrance of the world: names, tunnels, floors, gates, secrets, automap
+	var all_named := true
+	var generated := 0
+	var layouts_ok := true
+	for land_key: String in game.dungeon_data.lands:
+		for entrance: Dictionary in game.dungeon_data.lands[land_key]:
+			all_named = all_named and str(entrance.name) != "" and str(entrance.blurb) != ""
+			var gen_kinds: Array = ["pyra-wegielek", "pyra-popielny-wilk", "pyra-skalny-berserker"]
+			var floors := 3 if str(entrance.kind) == "maze" else (1 if str(entrance.id).contains("transit") else 2)
+			for floor_no in floors:
+				var cave := PyraDungeon.new()
+				cave.setup(entrance, land_key, "pyra", gen_kinds, {}, floor_no)
+				generated += 1
+				var layout_open := cave.bfs(cave.room_center(cave.start_room), cave.gate_cell)
+				var layout_whole := cave.bfs(cave.room_center(cave.start_room))
+				var layout_ok := cave.gate_cell.x >= 0 and layout_open.has(cave.key_cell) and not layout_open.has(cave.room_center(cave.vault_room)) and layout_whole.has(cave.room_center(cave.vault_room))
+				layout_ok = layout_ok and (cave.final_floor() == (cave.stairs_cell.x < 0)) and cave.floors_total == floors
+				if cave.role == "transit":
+					layout_ok = layout_ok and layout_open.has(cave.room_center(cave.far_room))
+				if cave.secret_cell.x >= 0:
+					layout_ok = layout_ok and not layout_whole.has(cave.secret_pocket)
+				if not layout_ok:
+					layouts_ok = false
+					print("LAYOUT PROBLEM ", entrance.id, " floor ", floor_no)
+	verify(all_named and generated == 4 * 3 + 10 * 2 + 8, "all 22 entrances have names and stories and generate on every floor", [all_named, generated])
+	verify(layouts_ok, "every floor of every cave has a key in the open part, a gate before the vault, a way down on all but the last floor and a closed secret chamber")
+	var pair_a := {}
+	var pair_b := {}
+	for land_key: String in game.dungeon_data.lands:
+		for entrance: Dictionary in game.dungeon_data.lands[land_key]:
+			if str(entrance.id) == "v2-transit-3-nexus":
+				pair_a = entrance
+			if str(entrance.id) == "v2-transit-3-pyra":
+				pair_b = entrance
+	var tunnel_a := PyraDungeon.new()
+	tunnel_a.setup(pair_a, "nexus", "nexus", ["pyra-wegielek"], {})
+	var tunnel_b := PyraDungeon.new()
+	tunnel_b.setup(pair_b, "pyra", "pyra", ["pyra-wegielek"], {})
+	verify(tunnel_a.grid == tunnel_b.grid and pair_a.partnerLand == "pyra" and pair_b.partnerLand == "nexus" and tunnel_a.arrival() != tunnel_b.arrival() and tunnel_a.arrival().distance_to(tunnel_b.link_point()) < 1.0, "a tunnel is one structure seen from both ends: the arrival of one side is the far door of the other")
+	var maze_entrance := {}
+	for t: Dictionary in game.outdoor_targets:
+		if t.kind == "dungeon" and str(t.entrance.kind) == "maze":
+			maze_entrance = t.entrance
+	game.player.position = base + Vector2(300, 0)
+	game.offer_dungeon(maze_entrance)
+	verify(game.hud.modal.visible and game.hud.modal.get_child_count() > 0, "the entrance tells the name, the story and the recommended level before going in")
+	game.hud.close_dialog()
+	game.enter_dungeon(maze_entrance)
+	await settle(2)
+	verify(game.in_dungeon() and game.dungeon.role == "maze" and game.dungeon.floors_total == 3 and game.dungeon.floor_index == 0 and game.dungeon.cols == 33, "the labyrinth is a three-floor maze")
+	var explored_before := game.dungeon.explored.size()
+	game.player.position = game.dungeon.center(game.dungeon.room_center(game.dungeon.far_room))
+	game.dungeon.reveal(game.player.position)
+	print("DEBUG automap before=%d after=%d cave_ok=%s pos=%s far=%s" % [explored_before, game.dungeon.explored.size(), str(game.hud.cave == game.dungeon), str(game.player.position), str(game.dungeon.far_room)])
+	verify(explored_before > 0 and game.dungeon.explored.size() > explored_before and game.hud.cave == game.dungeon, "the automap fills in where the hero walks")
+	var down_target := {}
+	for t: Dictionary in game.dungeon.targets():
+		if t.kind == "ddown":
+			down_target = t
+	verify(not down_target.is_empty(), "the vault of a floor has stairs down")
+	game.change_floor(1)
+	await settle(2)
+	var up_target := {}
+	for t: Dictionary in game.dungeon.targets():
+		if t.kind == "dup":
+			up_target = t
+	verify(game.dungeon.floor_index == 1 and not up_target.is_empty() and game.hud.place.text.contains("piętro 2/3") and mm.active.size() == game.dungeon.guards.size(), "stairs lead to the next floor, which has its own guards and a way back")
+	game.change_floor(-1)
+	await settle(2)
+	verify(game.dungeon.floor_index == 0 and game.stand(game.player.position), "stairs back up put the hero on the floor above, on open ground")
+	if game.dungeon.secret_cell.x >= 0:
+		game.player.position = game.dungeon.center(game.dungeon.secret_from) + Vector2(game.dungeon.secret_cell - game.dungeon.secret_from) * 70.0
+		var secret_chests_before := game.dungeon.targets().filter(func(t): return t.kind == "dchest").size()
+		verify(game.dungeon.open_secret(game.player.position) and game.dungeon.is_floor(game.dungeon.secret_cell) and game.dungeon.targets().filter(func(t): return t.kind == "dchest").size() == secret_chests_before + 1, "the cracked wall breaks open and shows the chest of the secret chamber")
+	game.load_space("", game.city_return)
+	await settle(2)
+	var transit_entrance := {}
+	for t: Dictionary in game.outdoor_targets:
+		if t.kind == "dungeon" and str(t.entrance.id).contains("transit"):
+			transit_entrance = t.entrance
+	game.enter_dungeon(transit_entrance)
+	await settle(2)
+	var partner_name := str(transit_entrance.partnerLand)
+	game.use_transit()
+	await settle(3)
+	verify(game.land_id == partner_name and not game.in_dungeon() and game.continent.walkable(game.player.position) and not game.in_safe_city(game.player.position), "the far end of a tunnel leads out on the other continent", [game.land_id, partner_name])
+	game.travel_to("pyra")
+	await settle(3)
+	game.player.position = base + Vector2(300, 0)
+	game.enter_dungeon(cave_target.entrance)
+	await settle(2)
+	game.player.position = game.dungeon.center(game.dungeon.start_room.position) + Vector2(10, 10)
 	game.load_space("", game.city_return)
 	await settle(2)
 	verify(not game.in_dungeon() and game.continent.visible and mm.active.size() == 0 or game.continent.visible, "leaving the cave returns to the surface")

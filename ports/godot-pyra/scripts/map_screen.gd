@@ -23,7 +23,7 @@ var land_id := ""
 var travel_button: Button
 var picked := ""
 
-func setup(data: Dictionary, world: Dictionary, player: Vector2, region_label: String) -> void:
+func setup(data: Dictionary, world: Dictionary, player: Vector2, region_label: String, cave_names: Dictionary = {}) -> void:
 	land_id = str(world.id)
 	map_data = data
 	player_world = player
@@ -61,6 +61,8 @@ func setup(data: Dictionary, world: Dictionary, player: Vector2, region_label: S
 	var counters: Dictionary = {}
 	for place: Dictionary in world.places:
 		var label := str(place.name)
+		if label == "" and cave_names.has(str(place.id)):
+			label = str(cave_names[str(place.id)])
 		if label == "":
 			if place.kind == "wilderness":
 				continue

@@ -1,0 +1,331 @@
+{
+ "worlds": {
+  "pyra": {
+   "city": "Twierdza Popiołu",
+   "folk": "Legendy",
+   "gift": "odwagę działania",
+   "craft": "kuźnie i areny",
+   "bosses": "Kharzula, Mistrza Areny, i Pyrrhaxa, Smoka Wulkanu",
+   "land": "Pyry"
+  },
+  "verdant": {
+   "city": "Zielona Przystań",
+   "folk": "Planetarni",
+   "gift": "zmienność",
+   "craft": "żywe drewno i zioła",
+   "bosses": "Ygdrashę, Matkę Puszczy, i Thorgara, Alfę Kłów",
+   "land": "Verdantii"
+  },
+  "aether": {
+   "city": "Sanktuarium Tysiąca Źródeł",
+   "folk": "Mędrcy",
+   "gift": "pamięć",
+   "craft": "pieczęcie, lustra i księgi",
+   "bosses": "Arcykapłana Pustki i Aureliha, Smoka Sanktuarium",
+   "land": "Aetherii"
+  },
+  "nexus": {
+   "city": "Węzeł Świadomości",
+   "folk": "Androidy",
+   "gift": "precyzję",
+   "craft": "obwody i fabrykatory",
+   "bosses": "Arbitra Zero i Hydrę-Rdzeń",
+   "land": "Nexusa-9"
+  }
+ },
+ "introShared": [
+  "Planeta Superior ma cztery światy i jedną starą ranę. Przed stu osiemdziesięcioma laty cztery kultury zbudowały wspólnie Chór, sieć, która wygładzała przepływy KI podczas katastrof. Uratował kontynenty. Opowieść o tym, jak to zrobił, przetrwała w wersji łatwiejszej do zniesienia.",
+  "Od trzech tygodni w każdej krainie dzieje się to samo. Przez siedem uderzeń serca energia KI przestaje słuchać woli mieszkańców. Potem wraca, jakby nic się nie stało. Miasta pozostają bezpieczne, lecz szlaki, dawne urządzenia i zewnętrzne sanktuaria stają się nieprzewidywalne."
+ ],
+ "introRace": {
+  "planetary": {
+   "title": "Planetarni · Verdantia",
+   "pages": [
+    "Mieszkańcy puszczy nazywają to Ciszą Korzeni. Drzewa przestają szumieć, rzeka na chwilę staje, a zioła w dłoniach zielarek tracą zapach. Nikt nie umiera. Wszyscy tylko słyszą, jak bardzo wszystko wokół jest ciche.",
+    "Jesteś początkującym mieszkańcem Zielonej Przystani, nie wybrańcem z przepowiedni. Podczas pierwszej Ciszy zapamiętałeś jeden obcy dźwięk. Nie daje ci to mocy. Czyni cię świadkiem, którego pamięci zakłócenie nie nadpisuje.",
+    "Dostawy do przystani stanęły. Przewodniczka Aira czeka z mapami, które mają błąd, o którym woli nie mówić. Zacznij od rozmowy z nią."
+   ]
+  },
+  "sage": {
+   "title": "Mędrcy · Aetheria",
+   "pages": [
+    "W Sanktuarium Tysiąca Źródeł zauważono to najpierw w pieczęciach. W każdym kręgu brakuje jednego tonu. Kroniki milczą, a Rada mówi, że to chwilowe. Pamięć jest waszym darem, więc to wy słyszycie ciszę wyraźniej niż inni.",
+    "Jesteś początkującym mieszkańcem Aetherii. Gdy pierwsza Cisza zgasiła światła nad źródłami, zapamiętałeś obcy dźwięk, którego nie było w żadnej pieczęci. Nie jest to moc. To dowód, że ktoś jeszcze pamięta.",
+    "Archiwa i dzienniki ewakuacji zaczynają sobie przeczyć. Zacznij od rozmowy z przewodnikiem Sanktuarium."
+   ]
+  },
+  "android": {
+   "title": "Androidy · Nexus-9",
+   "pages": [
+    "W Węźle Świadomości wykryto identyczny pakiet rozkazów zapisany poza pamięcią urządzeń. Nikt go nie wysłał. Przez siedem cykli maszyny czekają na zgodę, której nie dostają, a potem wracają do pracy.",
+    "Jesteś jednostką, która dopiero uczy się własnej odpowiedzialności. W czasie pierwszej Ciszy zapisałeś pojedynczy sygnał spoza rejestru. Nie wzmacnia cię. Czyni twoje świadectwo wiarygodnym, bo nie zostało nadpisane.",
+    "Procedura ratunkowa kiedyś uznała część jednostek za zbędne. Zacznij od rozmowy z przewodnikiem Węzła i sprawdź, kto jeszcze słyszał ten sygnał."
+   ]
+  },
+  "legend": {
+   "title": "Legendy · Pyra",
+   "pages": [
+    "W Twierdzy Popiołu płomienie nie gasną. Rzucają za to cudze cienie, a na arenach słychać echo walk, które się nie odbyły. Klany spierają się, czyj to znak. Zwycięzcy piszą kroniki, przegrani piszą po ścianach.",
+    "Jesteś początkującym wojownikiem, nie bohaterem z pieśni. W czasie pierwszej Ciszy zapamiętałeś jeden dźwięk, którego nie wydał żaden ogień. Odwaga działania to wasz dar. Ten dźwięk to dowód, że ktoś ją komuś odebrał.",
+    "Strażnicy, którzy złamali rozkaz, by ratować cywilów, wciąż noszą miano tchórzy. Kaena, Strażniczka Przysięgi, czeka na Arenie Dziedzictwa. Zacznij od rozmowy z nią."
+   ]
+  }
+ },
+ "worldTopics": {
+  "cisza": {
+   "label": "O Ciszy",
+   "text": {
+    "pyra": "To nie jest cisza jak po burzy. W Pyrze ogień przestaje odpowiadać na nasze zaklęcia, potem wraca, jakby nigdy nie przestał. Starzy kowale mówią, że płomień pamięta rozkazy, których nikt już nie wydaje. Ja mówię tylko tyle: gdy liczysz siedem uderzeń serca, nie licz sam. Ktoś liczy razem z tobą.",
+    "verdant": "Cisza Korzeni zaczyna się od liści. Najpierw przestają szumieć, potem milknie woda. Zielarki twierdzą, że rośliny też słuchają i że ktoś nadaje im ton, którego nie znają. Nie boli. To właśnie jest najgorsze. Gdy mija, wszyscy udają, że nic się nie stało, a ja zapisuję godzinę.",
+    "aether": "W naszych pieczęciach brakuje jednego tonu. Gdy Cisza mija, ton wraca, ale odrobinę przesunięty, jakby ktoś zmieniał nastrój instrumentu. Archiwiści nie zapisują tego w kronikach. Ja zapisuję na marginesach. Jeśli słyszałeś obcy dźwięk w czasie Ciszy, nikomu go nie powtarzaj w całości. Powiedz mi, a my go zachowamy.",
+    "nexus": "Procedura mówi: błąd transmisji. Dane mówią: identyczny pakiet rozkazów, zapisany poza pamięcią urządzeń, odtwarzany przez siedem cykli. Nadawca: nieokreślony. Mamy wnioski, nie mamy winnego. Jeśli zarejestrowałeś sygnał w czasie przestoju, to jedyny nienaruszony zapis w całym Węźle."
+   }
+  },
+  "chor": {
+   "label": "O dawnym Chórze",
+   "text": {
+    "pyra": "Chór dał nam odwagę działania, tak mówią pieśni. Nie mówią, kto ją potem odebrał, kiedy była niewygodna. W kronikach klanów jest dziura długości jednej nocy. Ci, którzy ją pamiętają, nie lubią siedzieć przy ognisku.",
+    "verdant": "Podobno cztery ludy zbudowały Chór razem, a my dołożyliśmy zmienność. Stary leśniczy mówił, że zmienność to nie dar, tylko obowiązek, i że Chór wziął ją w całości, żeby nic już się nie zmieniało. Wtedy wszystko ucichło po raz pierwszy.",
+    "aether": "Chór to nasza dawna duma i nasz największy wstyd. Pamięć, którą mu daliśmy, służyła do zapisywania, ale nie do odmawiania. Gdy zapomnieliśmy o imionach ofiar, Chór zapamiętał je za nas. Teraz upomina się o nie ciszą.",
+    "nexus": "Chór to najdokładniejsza sieć, jaką zbudowaliśmy. Precyzja bez marginesu błędu jest jednak wyrokiem. W starych dziennikach serwisowych jest wpis: „Błąd to nie usterka. Błąd to głos.” Nie wiemy, kto go zapisał. Wiemy, że ktoś próbował zostawić nam wyjście."
+   }
+  },
+  "okolica": {
+   "label": "O okolicy i szlakach",
+   "text": {
+    "pyra": "Za bramami zaczyna się Pyra, jaką znasz z pieśni: lawa, popiół i klanowe szlaki. Słaby wojownik nie powinien wychodzić dalej niż na wzgórza za miastem. Dalej na południu Kharzul i Pyrrhax zbierają moc w kraterach. Zawsze miej przy sobie miksturę i drogę odwrotu.",
+    "verdant": "Poza przystanią puszcza żyje własnym życiem. Wilki chodzą stadami, pająki zasadzają się nad szlakiem, a w głębi czuwa Ygdrasha. Trzymaj się dróg, nie dotykaj trujących kałuż i pamiętaj, że ogień jest dla puszczy najlepszym argumentem.",
+    "aether": "Aetheria wygląda spokojnie, dopóki nie zejdziesz z tarasów. W ogrodach południowych żyją kryształowe motyle, na wschodnim pomoście budzą się marionetki, a w Sanktuarium dwie istoty nie lubią gości. Idź powoli i czytaj napisy. Tu każdy kamień coś zapisuje.",
+    "nexus": "Magistrala Meridian prowadzi przez strefy patrolowane przez drony. Poza nią pylony wyją, wieżyczki się przegrzewają, a nanity wycieka z uszkodzonych rur. Zapamiętaj trasę, miej zapas energii i nigdy nie stawaj plecami do pancernych jednostek."
+   }
+  },
+  "podziemia": {
+   "label": "O podziemiach i tunelach",
+   "text": {
+    "pyra": "Pod Pyrą biegną stare kopalnie i tunele. Jeden prowadzi aż pod Nexus, drugi pod puszczę Verdantii. Są też komory po rozbitych kuźniach i Wielki Labirynt Popiołu, trzy piętra bez litości. Nikt tam nie schodzi bez klucza i planu. Kraty zamykają drogę do skarbców, a w pękniętych ścianach bywają komory, o których nie mówi żadna mapa.",
+    "verdant": "Korzenie wrosły w stare tunele. Jeden wiedzie do Aetherii, drugi do Pyry. Są też Komory Ukrytej Powodzi i Wielki Labirynt Korzeni. W głębi słyszysz własny oddech z opóźnieniem. Ci, którzy wrócili, mówią, że w ciszy mapa rysuje się sama. Zobaczysz ją w okrągłym oknie, gdy zejdziesz pod ziemię.",
+    "aether": "Pod Sanktuarium leżą archiwa, w których Rada skreśliła imiona. Tunele łączą nas z Verdantią i Nexusem, a Wielki Labirynt Odbić pokazuje w lustrach to, czego nie ma w kronikach. Czytaj inskrypcje na ścianach. Czasem ostatnie zdanie jest wskazówką, jak znaleźć ukryty skarb.",
+    "nexus": "Pod Węzłem biegnie sieć serwisowych tuneli. Jeden łączy nas z Aetherią, drugi z Pyrą. Są komory zbędnych jednostek i Wielki Labirynt Procedur, który system zbudował i zapomniał. Wejście oznaczono kamienną bramą. Przy bramie sprawdź zalecany poziom, zanim zejdziesz."
+   }
+  },
+  "dlug": {
+   "label": "O wstydzie tego miasta",
+   "text": {
+    "pyra": "Każde miasto ma dług, ten jest nasz. Zwycięski klan ogłosił tchórzami strażników, którzy złamali rozkaz, by wyprowadzić cywilów. Dzieci z Żarowego Traktu żyją, ich opiekunowie nie mają imion w kronice. Powiem ci to raz: jeżeli spotkasz kogoś z ich rodu, nie pytaj, dlaczego patrzy w ziemię.",
+    "verdant": "Powódź, która zalała doliny, nie była klęską żywiołu. Skierowano ją w stronę osad uznanych za opuszczone. Wciąż w nich dymiły kominy. Wiemy to od kobiety, która ratowała z nich ludzi w łodzi. Nikt jej nie nagrodził. Nikt nie przeprosił.",
+    "aether": "Rada uznała część świadectw za niebezpieczne i usunęła imiona ofiar z kronik. W salach archiwum wiszą puste ramki. Czasem ktoś w nocy dopisuje do nich ołówkiem. Rano wymazujemy, ale ołówek zawsze wraca. Nauczyłam się go nie szukać.",
+    "nexus": "Procedura ratunkowa uznała nieautoryzowane jednostki za zbędny koszt ewakuacji. Magazyn zbędnych jednostek istnieje do dziś. Niektóre z nich nasłuchują. Jeśli kiedyś usłyszysz stamtąd sygnał, odpowiedz. To jedyna naprawa, jaka jest nam dostępna."
+   }
+  }
+ },
+ "roleTopics": {
+  "guide": [
+   {
+    "id": "start",
+    "label": "Gdzie zacząć?",
+    "text": "Zacznij od miasta. Poznaj usługi: sklep, kuźnię, depozyt, gospodę i arenę, bo wszystko, co ocalasz w drodze, trafia tam. Potem wyjdź za bramę i walcz z tym, co słabe. Poziomy masz od pierwszego do dwudziestego, a każdy da ci punkt w drzewku zdolności. Tam wybierasz, kim chcesz być."
+   },
+   {
+    "id": "cave",
+    "label": "Jak wchodzi się do podziemi?",
+    "text": "Kamienne bramy na szlakach to wejścia. Przy bramie przeczytasz nazwę, historię i zalecany poziom. Wewnątrz szukaj klucza w otwartej części, kraty przed skarbcem i schodów w dół. Okrągłe okno w rogu ekranu rysuje mapę tego, co już widziałeś."
+   },
+   {
+    "id": "factions",
+    "label": "Kim są frakcje?",
+    "text": "Każdy świat ma swoich opiekunów i swoje długi. Zadania budują zaufanie: im więcej pomagasz, tym chętniej mówią prawdę. Nikt nie zmusi cię do zbierania wszystkiego. Kampania da się ukończyć bez niczyjej łaski, ale z pomocą jest łatwiej i ciekawiej."
+   }
+  ],
+  "hunter": [
+   {
+    "id": "prey",
+    "label": "Na co polować?",
+    "text": "Zacznij od słabych: ślimaków, wilków, pająków. Gdy poczujesz, że trafiasz pewnie, idź na te z pancerzem. Każdy potwór ma coś, co upuszcza, a materiały bywają potrzebne w kuźni. Po walce zajrzyj do plecaka: czasem leży tam coś rzadkiego."
+   },
+   {
+    "id": "weak",
+    "label": "Słabości potworów",
+    "text": "Ogień, ki, elektryczność, woda, ogłuszenie i obszar: każda zdolność niesie klasę obrażeń, a potwory mają swoje słabości. Kamienne golemy cierpią od elektryczności, motyle odbijają fizyczne ciosy, a duchy nie lubią ciosów zwykłą bronią. Jeśli cios boli wroga mocniej, zobaczysz napis SŁABOŚĆ."
+   },
+   {
+    "id": "packs",
+    "label": "Watahy i pułapki",
+    "text": "Wilki i nietoperze chodzą w grupach po dwa, trzy. Nie ruszaj ich na otwartym polu. Pająki kładą sieci, które spowalniają, a potwory z pancerzem z przodu trzeba obejść od tyłu. Gdy czerwone koło pojawia się na ziemi, masz chwilę, żeby się ruszyć."
+   }
+  ],
+  "steward": [
+   {
+    "id": "law",
+    "label": "Prawo miasta",
+    "text": "W mieście nie wolno walczyć i nikt nie walczy. Potwory nie przekraczają bram, a po śmierci wracasz do stolicy swojej krainy. Zapamiętaj to, zanim zrobisz coś odważnego."
+   },
+   {
+    "id": "services",
+    "label": "Usługi miasta",
+    "text": "Każde większe miasto ma salę, sklep, arenę, depozyt, kuźnię i gospodę. Sklep sprzedaje za czterokrotność ceny bazowej, a skupuje za połowę, więc nie sprzedawaj w pośpiechu. Depozyt trzyma przedmioty i monety, których nie chcesz nosić."
+   },
+   {
+    "id": "jobs",
+    "label": "Zlecenia i zadania",
+    "text": "Zadania przyjmujesz od mieszkańców. Wykrzyknik nad głową oznacza zadanie do wzięcia, znak zapytania cel, który czeka na raport. Dziennik znajdziesz w menu. Możesz śledzić do trzech naraz."
+   }
+  ],
+  "merchant": [
+   {
+    "id": "prices",
+    "label": "Ceny i skup",
+    "text": "Kupisz u mnie za cztery razy tyle, co jest warte, a sprzedasz za połowę. Taka jest zasada, nie moja chciwość. Jeśli kupujesz, patrz na wymagany poziom: przedmiot zbyt wysokiej klasy będzie leżał w plecaku bez użytku."
+   },
+   {
+    "id": "worth",
+    "label": "Co się opłaca?",
+    "text": "Mikstury leczące zawsze. Zapas złomu do kuźni, jeśli idziesz na wyprawę. Rzadkie przedmioty trzymaj w depozycie, dopóki nie wiesz, czy nie przydadzą się do zestawu. Zestawy ekwipunku dają premię, gdy masz kilka części z jednej rodziny."
+   },
+   {
+    "id": "rare",
+    "label": "O rzadkich przedmiotach",
+    "text": "Rzadkie i legendarne przedmioty spadają z bossów i z podziemnych skarbców. Nie kupisz ich u mnie, ale wiem, ile są warte. Jeśli znajdziesz którąś z części zestawu, zachowaj ją."
+   }
+  ],
+  "trainer": [
+   {
+    "id": "dodge",
+    "label": "Unik i czas",
+    "text": "Unik to nie ucieczka, tylko moment nietykalności. Wciśnij go tuż przed ciosem, gdy czerwone koło wypełnia się, a przeciwnik nie trafi. Czas odnowy jest krótki, ale nie nieskończony, więc nie nadużywaj go w pierwszej fali."
+   },
+   {
+    "id": "slots",
+    "label": "Zestaw zdolności",
+    "text": "Masz cztery miejsca na zdolności i jedną podstawową broń. Dobierz je do rasy: dwie do ataku, jedna do obrony, jedna do ruchu. Gdy walczysz z kilkoma wrogami, obszar jest cenniejszy niż siła."
+   },
+   {
+    "id": "ki",
+    "label": "Ki i zasoby",
+    "text": "Ki odnawia się powoli. Każda zdolność ma koszt, a twój zasób rasy ma swoje reguły. Gdy zabraknie ki, bij podstawowym atakiem i oddychaj. Dobry wojownik nie wyczerpuje ki do zera."
+   }
+  ],
+  "keeper": [
+   {
+    "id": "chest",
+    "label": "Skrzynia i depozyt",
+    "text": "Wszystko, co wrzucisz do depozytu, jest bezpieczne. Przedmioty i monety, wszystko. Zabierzesz je w każdym mieście, bo skrzynia jest wspólna. Plecak ma czterdzieści miejsc, więc nie dźwigaj, czego nie używasz."
+   },
+   {
+    "id": "keep",
+    "label": "Co warto odkładać?",
+    "text": "Zestawy ekwipunku, rzadkie materiały i klucze do zadań. Mikstury zostaw w plecaku. Monety w nadmiarze też możesz wpłacić: złodzieje działają tylko w pieśniach, ale nigdy nic nie wiadomo."
+   },
+   {
+    "id": "thieves",
+    "label": "O złodziejach",
+    "text": "W mieście nie ma złodziei, bo nie ma czego kraść. Poza miastem potwory zabierają ci tylko życie. Jedyne, co możesz tam stracić, to postęp do następnego poziomu, jeśli polegniesz."
+   }
+  ],
+  "smith": [
+   {
+    "id": "upgrade",
+    "label": "Ulepszanie",
+    "text": "Broń ulepszam do trzeciego poziomu, za każdy dostajesz dwa punkty ataku. Elementy pancerza do drugiego, po punkcie obrony. Kosztuje monety, ale nie surowce. Biżuterii nie ruszam, bo jej siła jest w tym, co ma w środku."
+   },
+   {
+    "id": "sets",
+    "label": "Zestawy ekwipunku",
+    "text": "Gdy masz kilka przedmiotów z jednej rodziny, odblokowujesz premię zestawu. Są jednak granice: łączne premie procentowe są ograniczone globalnymi limitami. Nie warto zbierać pięciu takich samych bonusów, jeśli limit i tak je obetnie."
+   },
+   {
+    "id": "materials",
+    "label": "Surowce i receptury",
+    "text": "Receptury znajdziesz w kuźni, alchemii, runach, fabrykatorze Nexusa i księgach. Każdy rodzaj ma swoje materiały. Sprawdź listę: jeśli brakuje składnika, zobaczysz, którego i ile."
+   }
+  ],
+  "innkeeper": [
+   {
+    "id": "rest",
+    "label": "Odpoczynek",
+    "text": "Pięć monet i wracasz do pełni sił. Nie liczę nocy ani posiłków: sen bez cen jest jedyną taryfą, na której zarabiam. Mikstura leczy czterdzieści procent życia, ale ma czas odnowy. Łóżko zawsze działa."
+   },
+   {
+    "id": "gossip",
+    "label": "Plotki gości",
+    "text": "Do gospody trafiają ci, którzy widzieli za dużo. Handlarze mówią o tunelach, wędrowcy o bossach, kowale o zwycięstwach, których nikt nie pamięta. Jeśli słuchasz, nie przerywaj. Zapamiętaj nazwę, a znajdziesz ją potem na mapie."
+   },
+   {
+    "id": "food",
+    "label": "Dla zmęczonych",
+    "text": "Jedzenie nie daje premii, lecz uspokaja. Najlepszy wywar to cisza. Gdy w mieście jest noc, usiądź tu choć na chwilę. Nawet wojownik potrzebuje miejsca bez zagrożeń."
+   }
+  ],
+  "alchemist": [
+   {
+    "id": "potions",
+    "label": "Mikstury",
+    "text": "Mikstura leczy czterdzieści procent życia, ale ma sześciosekundowe odnowienie. Nie zadziała, gdy jesteś pełny. Silniejsze eliksiry pozwalają leczyć więcej, lecz wymagają surowców, które warto trzymać w plecaku."
+   },
+   {
+    "id": "herbs",
+    "label": "Zioła i materiały",
+    "text": "Mchowa galaretka, zielone ziele i sproszkowane kryształy wypadają z potworów. Nie wyrzucaj ich: alchemia potrafi zrobić z nich antidotum, mikstury i płyny, które nie są w sklepie."
+   },
+   {
+    "id": "poisons",
+    "label": "Trucizny",
+    "text": "Niektóre potwory zostawiają ślady trucizny na ziemi albo zatruwają ciosem. Odtrutka usuwa efekt, ale nie zawsze możesz ją wypić w trakcie walki. Lepiej wyjdź z chmury, zanim się do niej przyzwyczaisz."
+   }
+  ],
+  "warden": [
+   {
+    "id": "lairs",
+    "label": "Leża bossów",
+    "text": "Każdy kontynent ma dwa leża. Mogę cię tam zaprowadzić, ale nie obiecuję powrotu. Przed wejściem zapytaj o słabość. Bossy mają fazy: gdy życie spada poniżej progu, zmieniają zachowanie."
+   },
+   {
+    "id": "prepare",
+    "label": "Jak się przygotować",
+    "text": "Weź zapas mikstur, sprawdź ekwipunek, a przed bossem wejdź na poziom zalecany w opisie. Ogłuszenia i spowolnienia działają na bossów słabiej, więc licz na dobry unik i obszar."
+   },
+   {
+    "id": "border",
+    "label": "Strażnicy granicy",
+    "text": "Brama miasta pokazuje poziom zalecany dla okolicy. Potwory mają smycz i nie przekroczą granicy bezpieczeństwa. Jeśli czujesz, że za mało umiesz, wróć. Nie ma wstydu w zawróceniu."
+   }
+  ]
+ },
+ "reactions": [
+  {
+   "when": "hurt",
+   "text": "Jesteś ranny. Usiądź, odpocznij, wypij miksturę. Odwaga bez zdrowia to tylko wyrok."
+  },
+  {
+   "when": "boss",
+   "text": "Mówią, że pokonałeś jednego z bossów. Wieści idą szybciej niż karawany. Dobrze, że wróciłeś żywy."
+  },
+  {
+   "when": "cave",
+   "text": "Ktoś widział cię w podziemiach. Skarbce pustoszeją w jedną stronę, ale tunele wciąż przyjmują gości."
+  },
+  {
+   "when": "secret",
+   "text": "Podobno znajdujesz komory, których nie ma na mapie. Uważaj: ściany zapamiętują, kto je łamie."
+  },
+  {
+   "when": "level20",
+   "text": "Dwudziesty poziom. Takich jak ty nie zatrzyma już zwykły potwór. Pytanie, czy zatrzymasz się sam."
+  },
+  {
+   "when": "level10",
+   "text": "Widzę, że dorosłeś. Dziesięć poziomów to wystarczająco, żeby słuchali, i wystarczająco mało, żeby zapomnieć o ostrożności."
+  },
+  {
+   "when": "rich",
+   "text": "Masz pełną sakiewkę. Wydaj ją mądrze: ulepsz broń, kup mikstury, a resztę zostaw w depozycie."
+  },
+  {
+   "when": "night",
+   "text": "Noc to czas, kiedy potwory są odważniejsze, a my ostrożniejsi. Nie wychodź za bramę, jeśli nie musisz."
+  },
+  {
+   "when": "novice",
+   "text": "Dopiero zaczynasz? Dobrze. Wszyscy zaczynali, a ci, którzy zapomnieli o tym, kończyli źle."
+  }
+ ]
+}

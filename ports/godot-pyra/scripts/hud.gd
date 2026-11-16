@@ -67,6 +67,8 @@ var medallion := Vector2.ZERO
 var bars_x := 0.0
 var banner_center := Vector2.ZERO
 var minimap_center := Vector2.ZERO
+var cave: PyraDungeon = null              # inside a cave the round map shows its automap instead of the land
+var cave_position := Vector2.ZERO
 var button_centers: Array[Vector2] = []
 var button_order: Array[Button] = []
 var tracker_rect := Rect2()
@@ -208,6 +210,15 @@ func set_land(id: String, size_of_world: Vector2, markers: Array[Dictionary]) ->
 	minimap_material.set_shader_parameter("map", texture)
 	signature = ""
 
+func set_cave(dungeon: PyraDungeon) -> void:
+	cave = dungeon
+	minimap_view.visible = dungeon == null
+	signature = ""
+
+func set_cave_position(position: Vector2, facing: Vector2) -> void:
+	cave_position = position
+	player_facing = facing
+
 func set_player(position: Vector2, facing: Vector2) -> void:
 	player_position = position
 	player_facing = facing
@@ -249,6 +260,8 @@ func compute_signature() -> String:
 	if not target.is_empty():
 		parts.append("%s%d" % [target.name, int(target.hp)])
 	parts.append("%d,%d" % [int(player_position.x / 24.0), int(player_position.y / 24.0)])
+	if cave != null:
+		parts.append("c%d,%d,%d,%d" % [int(cave_position.x / 40.0), int(cave_position.y / 40.0), cave.explored.size(), cave.floor_index])
 	parts.append(str(int(rad_to_deg(player_facing.angle()) / 15.0)))
 	parts.append(str(quests.hash()))
 	parts.append(fps_text)
@@ -341,7 +354,9 @@ func world_to_minimap(p: Vector2) -> Vector2:
 func draw_minimap(canvas: Control) -> void:
 	var c := minimap_center
 	canvas.draw_circle(c + Vector2(0, 3), MINIMAP_RADIUS + 3.0, Color(0, 0, 0, 0.4))
-	for m in map_markers:
+	if cave != null:
+		draw_cave_map(canvas, c)
+	for m in (map_markers if cave == null else []):
 		var d := world_to_minimap(m.point)
 		var inside := d.length() < MINIMAP_RADIUS - 12.0
 		var kind := str(m.kind)
@@ -363,6 +378,62 @@ func draw_minimap(canvas: Control) -> void:
 	canvas.draw_arc(c, MINIMAP_RADIUS - 5.0, 0, TAU, 64, Color(0.1, 0.06, 0.04, 0.9), 2.0, true)
 	canvas.draw_arc(c, MINIMAP_RADIUS + 2.0, 0, TAU, 64, Color(1, 0.9, 0.6, 0.35), 1.2, true)
 	text_centered(canvas, cinzel, c + Vector2(0, -MINIMAP_RADIUS + 9.0), "N", 13, GOLD, 5)
+
+## The automap of a cave floor: explored cells around the hero, with what has been seen (key, gate, stairs, chests, ways out).
+func draw_cave_map(canvas: Control, c: Vector2) -> void:
+	var cell_px := 8.0
+	var radius := MINIMAP_RADIUS - 8.0
+	canvas.draw_circle(c, MINIMAP_RADIUS - 5.0, Color(0.04, 0.035, 0.05, 0.94))
+	var here := cave.cell_of(cave_position)
+	var frac := cave_position / PyraDungeon.CELL - Vector2(here)
+	var span := int(radius / cell_px) + 2
+	var spots: Array[Dictionary] = []
+	for dy in range(-span, span + 1):
+		for dx in range(-span, span + 1):
+			var cell := here + Vector2i(dx, dy)
+			if not cave.explored.has(cell):
+				continue
+			var p := c + (Vector2(dx, dy) - frac + Vector2(0.5, 0.5)) * cell_px
+			if (p - c).length() > radius - 2.0:
+				continue
+			var color := Color(0.17, 0.14, 0.13)
+			if cave.open_cell(cell):
+				color = Color(0.80, 0.70, 0.52)
+			elif cave.is_floor(cell):
+				color = Color(0.6, 0.2, 0.18)   # a closed gate
+			canvas.draw_rect(Rect2(p - Vector2.ONE * cell_px * 0.5, Vector2.ONE * cell_px), color)
+	var marks: Array[Dictionary] = []
+	if cave.key_cell.x >= 0 and not (cave.state.keys as Array).has(cave.key_id()):
+		marks.append({"cell": cave.key_cell, "color": Color("ffd24a"), "shape": "dot"})
+	if cave.stairs_cell.x >= 0:
+		marks.append({"cell": cave.stairs_cell, "color": Color("9fe3ff"), "shape": "down"})
+	if cave.floor_index > 0:
+		marks.append({"cell": cave.room_center(cave.start_room) + Vector2i(1, 0), "color": Color("9fe3ff"), "shape": "up"})
+	marks.append({"cell": cave.cell_of(cave.exit_point() if cave.floor_index == 0 else cave.stairs_up_point()), "color": Color("7fe08a"), "shape": "door"})
+	if cave.role == "transit":
+		marks.append({"cell": cave.cell_of(cave.link_point()), "color": Color("8ab4ff"), "shape": "door"})
+	for chest: Dictionary in cave.chests:
+		if not (cave.state.chests as Array).has(chest.id) and not bool(chest.get("secret", false)):
+			marks.append({"cell": chest.cell, "color": Color("ff9d3a"), "shape": "box"})
+	for m: Dictionary in marks:
+		var cell: Vector2i = m.cell
+		if not cave.explored.has(cell):
+			continue
+		var p := c + (Vector2(cell - here) - frac + Vector2(0.5, 0.5)) * cell_px
+		if (p - c).length() > radius - 4.0:
+			continue
+		var color: Color = m.color
+		match str(m.shape):
+			"dot":
+				canvas.draw_circle(p, 3.4, color)
+			"box":
+				canvas.draw_rect(Rect2(p - Vector2(3, 3), Vector2(6, 6)), color)
+			"door":
+				canvas.draw_rect(Rect2(p - Vector2(3.5, 4.5), Vector2(7, 9)), color)
+			"down":
+				canvas.draw_colored_polygon(PackedVector2Array([p + Vector2(-4, -3), p + Vector2(4, -3), p + Vector2(0, 4)]), color)
+			"up":
+				canvas.draw_colored_polygon(PackedVector2Array([p + Vector2(-4, 3), p + Vector2(4, 3), p + Vector2(0, -4)]), color)
 
 func draw_frame(canvas: Control) -> void:
 	var s := kit.stats()

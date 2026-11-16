@@ -134,7 +134,12 @@ func populate_dungeon(guards: Array, centre_of: Callable) -> void:
 		if not defs.has(str(g.kind)):
 			continue
 		var built: Dictionary = (defs[str(g.kind)] as Dictionary).duplicate(true)
-		if bool(g.elite):
+		if bool(g.get("guardian", false)):
+			built["hp"] = float(built.hp) * 4.0
+			built["atk"] = float(built.atk) * 1.5
+			built["xp"] = int(built.xp) * 5
+			built["name"] = "Strażnik Labiryntu: " + str(built.name)
+		elif bool(g.elite):
 			built["hp"] = float(built.hp) * 2.0
 			built["atk"] = float(built.atk) * 1.3
 			built["xp"] = int(built.xp) * 2

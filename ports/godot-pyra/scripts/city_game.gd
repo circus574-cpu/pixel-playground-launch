@@ -79,7 +79,8 @@ var world_time := 40.0                  # seconds of the game day (480 s, night 
 var day_tint := CanvasModulate.new()
 var citizens: Array[Dictionary] = []    # street NPCs that stroll around their post
 var citizen_clock := 0.0
-var dungeon_state: Dictionary = {}     # dungeon id -> {"keys": [], "gates": [], "chests": []}, saved with the character
+var dungeon_state: Dictionary = {}     # dungeon id -> {"keys", "gates", "chests", "secrets"}: id lists, saved with the character
+var dungeon_explored: Dictionary = {}  # "<id>#<floor>" -> automap cells (kept while the game runs)
 var respawn_timer := -1.0
 var quests: PyraQuests
 var quest_actors: Array[Dictionary] = []     # {actor, role, town} for the "!" and "?" marks
@@ -455,6 +456,8 @@ func load_space(room: String, at: Vector2, town: String = "") -> void:
 		room_root.add_child(room_sorted)
 		room_sorted.add_child(player)
 		dungeon.build(room_root, room_sorted, player)
+		hud.set_cave(dungeon)
+		dungeon.reveal(player.position)
 		targets = dungeon.targets()
 		var spots: Array = []
 		for g: Dictionary in dungeon.guards:
@@ -466,7 +469,7 @@ func load_space(room: String, at: Vector2, town: String = "") -> void:
 		camera.limit_top = 0
 		camera.limit_right = int(room_bounds.size.x)
 		camera.limit_bottom = int(room_bounds.size.y)
-		hud.place.text = "Jaskinia · " + str(land.name)
+		hud.place.text = dungeon.depth_text()
 		player.position = at
 		player.visual.face(Vector2.DOWN)
 		camera.reset_smoothing()
@@ -710,7 +713,21 @@ func interact() -> void:
 		"exit":
 			load_space("", city_return)
 		"dungeon":
-			enter_dungeon(target.entrance)
+			offer_dungeon(target.entrance)
+		"ddown":
+			change_floor(1)
+		"dup":
+			change_floor(-1)
+		"dtransit":
+			use_transit()
+		"dnote":
+			hud.show_dialog("Inskrypcja", str(target.text))
+			audio.sfx("ui/quest-update")
+		"dsecret":
+			if dungeon.open_secret(player.position):
+				audio.sfx("common/door")
+				hud.toast("Ściana pęka. Za nią kryje się komora.")
+				targets = dungeon.targets()
 		"event":
 			world_events.use(target)
 		"dkey":
@@ -974,8 +991,10 @@ func use_potion() -> void:
 	if economy.use("potion"):
 		audio.sfx("common/potion")
 
-## The cave behind an entrance: built from the entrance's id, so it is always the same one; keys, gates and chests are saved.
-func enter_dungeon(entrance: Dictionary) -> void:
+const CAVE_KIND_TEXT := {"transit": "Tunel między kontynentami: wychodzisz na drugim końcu.", "chambers": "Jaskinia o dwóch piętrach, skarbiec na dnie.", "maze": "Wielki Labirynt: trzy piętra i strażnik na dnie."}
+
+## The underground behind an entrance, always the same one for the same entrance; keys, gates, chests and secrets are saved per floor.
+func make_dungeon(entrance: Dictionary, floor: int) -> PyraDungeon:
 	var kinds: Array = []
 	for kind: String in monsters.kinds:
 		if monster_data.monsters.has(kind) and not bool(monster_data.monsters[kind].get("minion", false)):
@@ -983,20 +1002,89 @@ func enter_dungeon(entrance: Dictionary) -> void:
 	kinds.sort_custom(func(a: String, b: String) -> bool: return int(monster_data.monsters[a].level) < int(monster_data.monsters[b].level))
 	var info := entrance.duplicate()
 	var top_level := int(monster_data.monsters[kinds[kinds.size() - 1]].level) if not kinds.is_empty() else 1
-	info["tier"] = int(top_level / 3)
-	var key := str(entrance.id)
+	info["tier"] = int(top_level / 3) + (1 if str(entrance.kind) == "maze" else 0)
+	# a tunnel is one structure with two entrances: both share its progress
+	var key := str(entrance.instanceId) if str(entrance.id).contains("transit") else str(entrance.id)
 	if not dungeon_state.has(key):
-		dungeon_state[key] = {"keys": [], "gates": [], "chests": []}
-	city_return = open_ground(Vector2(float(entrance.x), float(entrance.y)) + Vector2(0, 110))
-	dungeon = PyraDungeon.new()
-	dungeon.setup(info, land_id, world_id, kinds, dungeon_state[key])
+		dungeon_state[key] = {"keys": [], "gates": [], "chests": [], "secrets": []}
+	var explored_key := "%s#%d#%s" % [key, floor, str(entrance.get("side", "a"))]
+	if not dungeon_explored.has(explored_key):
+		dungeon_explored[explored_key] = {}
+	var built := PyraDungeon.new()
+	built.setup(info, land_id, world_id, kinds, dungeon_state[key], floor, dungeon_explored[explored_key])
+	return built
+
+func level_of_kind(kind: String) -> int:
+	return int(monster_data.monsters[kind].level)
+
+## At the entrance: the name, the story, the kind of place and the recommended level, then the choice to go in.
+func offer_dungeon(entrance: Dictionary) -> void:
+	var preview := make_dungeon(entrance, 0)
+	var levels := preview.recommended_levels(level_of_kind)
+	var text := "%s\n\n%s\nZalecany poziom: %d–%d (Twój: %d)." % [str(entrance.get("blurb", "")), str(CAVE_KIND_TEXT[preview.role]), levels.x, levels.y, kit.level]
+	if kit.level + 2 < levels.x:
+		text += "\nUwaga: potwory w środku są wyraźnie silniejsze od Ciebie."
+	hud.show_dialog(str(entrance.get("name", "Jaskinia")), text, [
+		{"text": "WEJDŹ", "callback": func() -> void:
+			hud.close_dialog()
+			enter_dungeon(entrance)},
+		{"text": "ZOSTAŃ NA POWIERZCHNI", "callback": func() -> void: hud.close_dialog()}])
+
+func enter_dungeon(entrance: Dictionary, floor: int = 0, at: Vector2 = Vector2(-1, -1)) -> void:
+	if floor == 0:
+		city_return = open_ground(Vector2(float(entrance.x), float(entrance.y)) + Vector2(0, 110))
+	dungeon = make_dungeon(entrance, floor)
 	audio.sfx("common/door")
-	load_space("dungeon", dungeon.arrival())
+	load_space("dungeon", dungeon.arrival() if at.x < 0.0 else at)
+	if floor == 0:
+		hud.toast(dungeon.cave_name)
+	else:
+		hud.toast("Piętro %d z %d" % [floor + 1, dungeon.floors_total])
+
+## Stairs: one floor down (+1) or up (-1); the other floor is built from the same entrance, so it is always the same one.
+func change_floor(delta: int) -> void:
+	if dungeon == null:
+		return
+	var entrance := dungeon.info
+	var next_floor := dungeon.floor_index + delta
+	if next_floor < 0:
+		return
+	dungeon.cleanup()
+	var target := make_dungeon(entrance, next_floor)
+	dungeon = target
+	var at := target.arrival()
+	if delta < 0 and target.stairs_cell.x >= 0:
+		at = target.center(target.stairs_cell) + Vector2(0, 100)
+	audio.sfx("common/door")
+	load_space("dungeon", at)
+	hud.toast("Piętro %d z %d" % [next_floor + 1, target.floors_total])
+
+## The far end of a tunnel: out on the other continent, at its entrance.
+func use_transit() -> void:
+	if dungeon == null or dungeon.partner_land == "":
+		return
+	var partner := dungeon.partner_land
+	var partner_id := str(dungeon.info.get("partnerId", ""))
+	if not await ensure_land_content(partner):
+		return
+	var out_at := Vector2.ZERO
+	for entrance: Dictionary in (dungeon_data.lands as Dictionary).get(partner, []):
+		if str(entrance.id) == partner_id:
+			out_at = Vector2(float(entrance.x), float(entrance.y)) + Vector2(0, 110)
+	enter_land(partner)
+	var exit_at := open_ground(out_at)
+	player.position = exit_at
+	city_return = exit_at
+	continent.update_view(camera_view(), true)
+	hud.toast("Wyszedłeś na drugim końcu tunelu: %s." % str(land.name))
+	audio.sfx("common/door")
 
 func leave_dungeon_state() -> void:
 	if dungeon != null:
 		dungeon.cleanup()
 		dungeon = null
+	if is_instance_valid(hud):
+		hud.set_cave(null)
 	if is_instance_valid(monsters):
 		monsters.clear_all()
 
@@ -1193,7 +1281,7 @@ func _process(delta: float) -> void:
 	hud.touch.action_text = "E"
 	hud.hint.text = ("E · " + str(target.get("title", target.name))) if not target.is_empty() else ""
 	if in_dungeon():
-		hud.place.text = "Jaskinia · " + str(land.name)
+		hud.place.text = dungeon.depth_text()
 	elif current_room.is_empty():
 		hud.place.text = region_name() + (" · noc" if is_night() else "")
 		var view := camera_view()
@@ -1310,7 +1398,10 @@ func open_screen(instance: Control) -> void:
 
 func open_map() -> void:
 	var view := MapScreen.new()
-	view.setup(map_data, land, player.position if current_room.is_empty() else city_return, region_name())
+	var cave_names: Dictionary = {}
+	for entrance: Dictionary in (dungeon_data.lands as Dictionary).get(land_id, []):
+		cave_names[str(entrance.id)] = str(entrance.name)
+	view.setup(map_data, land, player.position if current_room.is_empty() else city_return, region_name(), cave_names)
 	view.travel.connect(travel_to)
 	open_screen(view)
 
@@ -1618,7 +1709,7 @@ static func valid_dungeon_state(value: Variant) -> Dictionary:
 		if not key is String or not entry is Dictionary:
 			continue
 		var kept: Dictionary = {}
-		for field in ["keys", "gates", "chests"]:
+		for field in ["keys", "gates", "chests", "secrets"]:
 			var list: Variant = (entry as Dictionary).get(field, [])
 			var strings: Array = []
 			if list is Array:
