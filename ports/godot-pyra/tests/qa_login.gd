@@ -11,9 +11,11 @@ func run() -> void:
 	for arg in OS.get_cmdline_user_args():
 		out = arg
 	DirAccess.make_dir_recursive_absolute(out)
-	root.size = Vector2i(1280, 720)
+	root.size = Vector2i(1600, 720)
+	PyraSkin.install(self)
 	var gate := PyraGate.new()
 	root.add_child(gate)
+	gate.nick_field.visible = true   # the tallest form: creating an account
 	for i in 5:
 		await process_frame
 	gate.login_form.call_deferred()

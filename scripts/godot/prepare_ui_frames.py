@@ -6,7 +6,7 @@ Halo: the sheets carry a faint glow made of semi-transparent reddish/greenish sp
 specks (small separate blobs) are dropped before a piece is used, so the pieces have a clean edge on any background.
 
 Outputs (all lossless WebP):
-  window.webp            9-slice window frame (stone border with a lava line, stars in the corners, dark stone inside): margin WINDOW_MARGIN
+  window.webp            9-slice window frame (stone border with a lava line, stars in the corners; the inside is left clear): margin WINDOW_MARGIN
   button*.webp           9-slice pill buttons: normal, hover, pressed, disabled: margins BUTTON_MARGIN_X / BUTTON_MARGIN_Y
   ring-star / ring-plain / ring-flower.webp   round frames (portrait, minimap, medallions)
   plaque.webp, divider.webp, star-*.webp      title plaque, gold divider, decorative stars
@@ -95,7 +95,7 @@ def window_frame(bar: Image.Image, star: Image.Image) -> Image.Image:
     fill[..., 0] = (24 * shade).astype(np.uint8)
     fill[..., 1] = (19 * shade).astype(np.uint8)
     fill[..., 2] = (24 * shade).astype(np.uint8)
-    fill[..., 3] = 244
+    fill[..., 3] = 0   # the inside is the owner's stone texture, drawn by PyraSkin under the frame (assets/ui/backgrounds/stone.webp)
     canvas = Image.alpha_composite(canvas, Image.fromarray(fill, "RGBA"))
     # lava line just inside the border, with a soft glow
     line = Image.new("RGBA", (size, size), (0, 0, 0, 0))
