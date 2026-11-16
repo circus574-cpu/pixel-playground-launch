@@ -4,7 +4,7 @@ extends Node
 ## It is created on first use (no autoload, so test scripts that replace the main loop work too): KiNet.online(), KiNet.content().
 ## CLIENT_CODE is the Android versionCode of this build; the server can refuse older ones (admin panel: minimum client).
 
-const CLIENT_CODE := 9
+const CLIENT_CODE := 10
 
 static var instance: KiNet
 

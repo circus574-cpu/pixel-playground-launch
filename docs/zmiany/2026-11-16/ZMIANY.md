@@ -289,5 +289,32 @@ Zlecenie właściciela: przygotować grę online z serwerem i panelem administra
   audyt, obecność); `scripts/godot/e2e_online.py` — baza PCK **40,2 MB** z filtrami Androida loguje się do prawdziwego serwera, pobiera i podpina paczki, buduje
   miasto, zapisuje do chmury, odrzuca nieaktualny zapis i pobiera Verdantię przy podróży; `scripts/godot/qa_admin_ui.py` — panel w przeglądarce (zrzuty
   `qa/admin-android/`). Dostawa: `deliveries/godot-pyra-android-20261117-online` (APK) i `deliveries/godot-content-2026.11.17.1` (paczki), oba w Git LFS.
-- **Nie wykonane (wymaga właściciela):** wdrożenie na produkcję — migracja 007, obraz z woluminem `godot-content`, publikacja wydania; ta sesja nie ma dostępu do VPS,
+- **Nie wykonane w tej partii (zrobione później za zgodą właściciela, patrz pkt 14):** wdrożenie na produkcję — migracja 007, obraz z woluminem `godot-content`, publikacja wydania; ta sesja nie ma dostępu do VPS,
   a `AGENTS.md` wymaga osobnej zgody. Bez opublikowanego wydania APK nie uruchomi gry. **Nie sprawdzone:** telefon, sieć komórkowa, TLS na prawdziwej domenie, obciążenie.
+
+### 14. Android / Godot 0.10.0-content: labirynty, wprowadzenie, dialogi, walka, przedmioty; wdrożenie serwera
+
+Zlecenie właściciela: labirynty i wejścia do nich, więcej dialogów i wprowadzenie do przygody, elegancka walka, przedmioty/bonusy/handel/craft, wszystkie animacje.
+
+- **Wdrożenie serwera (za zgodą właściciela, 16.11.2026).** Scalone PR #171 (backend i panel) i #172 (ręczny workflow `godot-content-upload.yml`, który kopiuje zweryfikowane paczki z Git LFS na VPS,
+  bo pakiet wdrożeniowy nie zawiera `deliveries/`). Na serwerze, po kopii zapasowej bazy: migracja `007-godot-android.sql` (suma pliku sprawdzona), wolumin `godot-content` w pliku compose
+  usługi, paczki zweryfikowane względem manifestu (26/26), wydanie `2026.11.17.1` zarejestrowane i aktywne. Z zewnątrz sprawdzone: `/ws/godot/status`, manifest dla klienta o kodzie 9, nagłówki i zakresy
+  bajtów paczek (206). **Nie sprawdzone:** gra na telefonie. Ryzyko: ręczny „Redeploy” w panelu Coolify może wygenerować plik compose od nowa i usunąć wolumin.
+- **Labirynty i wejścia.** 22 nazwane wejścia (po 4 na kontynent, po 1 na wyspę): tunele łączą dwie krainy jedną strukturą (strona „a” to kraina wcześniejsza alfabetycznie), komory, Wielki Labirynt na
+  3 piętra ze schodami. Każdy układ ma otwartą część z kluczem, kratę przed skarbcem (skarbiec ma jedno wejście, więc pętle go nie omijają), skrzynie, strażników skalowanych poziomem wejścia, kolce, napisy
+  na ścianach i sekretną komorę za pękniętą ścianą. Automapa w okrągłym oknie pokazuje to, co bohater widział (mgła, klucze, schody, kraty, skrzynie) i zapamiętuje się między piętrami. Przy wejściu okno
+  z nazwą, historią i zalecanym poziomem. Postęp jaskiń (klucze, kraty, skrzynie, sekrety) jest w zapisie i walidowany. Znaleziony błąd: odkrywanie mapy działało przed ustawieniem bohatera w wejściu.
+- **Wprowadzenie i dialogi.** Po utworzeniu postaci ekran fabularny (5 stron na rasę: dwie wspólne o Ciszy i Chórze, trzy własne), potem samouczek „Pierwsze kroki” (8 kroków: ruch, rozmowa, atak,
+  zdolność, unik, sklep lub kuźnia, mapa, wyjście za bramę) pod mapką, z nagrodą 40 monet. Każdy mieszkaniec ma przycisk ROZMOWA z 8 tematami (3 z jego fachu: przewodnik, łowca, zarządca, kupiec, trener,
+  skrzynia, kowal, gospodarz, alchemik, strażnik; 5 o świecie: Cisza, dawny Chór, okolica, podziemia, dług miasta) i uwagę o czynach bohatera (ranny, boss pokonany, jaskinia, sekret, poziom 10 i 20,
+  bogactwo, noc, początkujący). Zapis sprzed fabuły uchodzi za „już po wprowadzeniu”. Teksty (73) są autorskie, w `prepare_talk.py`; są tylko po polsku.
+- **Walka.** Wstrząs kamery (silniejszy przy mocnym ciosie i krytyku), krótki hit-stop, odrzut sprite'a potwora (ciało się nie przesuwa), pierścień pod celem, liczby w siedmiu stylach z napisem SŁABOŚĆ,
+  combo atak → atak2 → finisher, **idealny unik** (cios w pierwszych 0,2 s uniku: bez obrażeń, 12 % KI z powrotem, krótkie spowolnienie czasu, 1,2 s przerwy). Awans na poziom nie miał dotąd żadnej oprawy:
+  teraz jest poza zwycięstwa, napis i komunikat.
+- **Animacje bohatera.** Z 37 klipów używane były 13; teraz wszystkie: `hit`/`hitheavy` (ciężki od 15 % maks. HP), `victory` (boss, awans), `interact` (rozmowy, skrzynie, wejścia), `run` (pełne wychylenie drążka;
+  wcześniej próg 1,05 nigdy nie był osiągany). Warianty `ki…` wybiera przedrostek formy. **Nie dotyczy:** animacje potworów i NPC nie były przeglądane w tej partii.
+- **Przedmioty i handel.** Szczegół przedmiotu pokazuje różnicę względem założonego, zestaw (założone x z y, bonus przy każdej liczbie części, aktywne oznaczone); ekran plecaka sumuje bonusy sprzętu po
+  limitach (z oznaczeniem „limit”). Sprzedaż całego stosu i „niepotrzebnych materiałów” (żadna receptura ich nie wymaga). Kuźnia: filtr „tylko te, które mogę wykonać” i „WYTWÓRZ ×N” (do 10).
+- **Kontrole.** `tests/smoke.gd` **489/489**; `scripts/godot/e2e_online.py` bez błędów; przed scaleniem lokalnie cała bramka (typecheck, lint, 2195 testów, assets, docs, build). Paczki treści przebudowane:
+  26 z 26 mają ten sam SHA-256 co wydanie `2026.11.17.1`, więc **nowe APK używa wydania już aktywnego na serwerze** (nic nie trzeba wgrywać). Dostawa: `deliveries/godot-pyra-android-20261116-content`
+  (APK 66 781 191 B, wersja 0.10.0-content, kod 10; Git LFS). **Nie sprawdzone:** telefon; ocena „elegancji” walki jest subiektywna i wymaga gry na urządzeniu.

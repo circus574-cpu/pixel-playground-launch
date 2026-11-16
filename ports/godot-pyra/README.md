@@ -190,7 +190,9 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | `scripts/cached_layer.gd`, `scripts/hud.gd`, `scripts/touch_controls.gd` | HUD i przyciski dotykowe rysowane do przezroczystego SubViewport w rozdzielczości urządzenia, odświeżane tylko po zmianie stanu (2 quady w spoczynku) |
 | `scripts/quest_engine.gd` | Silnik questów (port `src/game/quests`): stan, cele, nagrody, znaczniki NPC, rozmowy, tracker, zapis |
 | `scripts/boss_script.gd`, `data/bosses.json` | Mechaniki ośmiu bossów (filary, pierścień areny, bezpieczne kręgi, przegrzanie, bariera, regeneracja) i dane katalogu |
-| `scripts/dungeon.gd`, `data/dungeons.json`, `assets/dungeon/` | Jaskinie: generator labiryntu i zawartości (klucz, krata, skrzynie, strażnicy, kolce), dane wejść, 12 grafik `dungeon-kit` |
+| `scripts/dungeon.gd`, `data/dungeons.json`, `assets/dungeon/` | Jaskinie: 22 nazwane wejścia (tunele łączące dwie krainy, komory, Wielki Labirynt na 3 piętra), generator układu i zawartości (klucz, krata, skrzynie, strażnicy, kolce, sekretna komora, inskrypcje), schody między piętrami, automapa w okrągłym oknie, dane wejść z `prepare_dungeons.py`, 12 grafik `dungeon-kit` |
+| `scripts/story.gd`, `scripts/story_screen.gd`, `data/talk.json` | Fabuła: wprowadzenie 5 stron na rasę (dwie o Ciszy, trzy własne), samouczek 8 kroków z nagrodą 40 monet, 8 tematów rozmowy u każdego mieszkańca (3 z jego fachu, 5 o świecie), uwagi o czynach bohatera; tekst z `prepare_talk.py`, postęp w zapisie (`story`) |
+| `scripts/target_ring.gd` | Pierścień pod celem walki (obracające się łuki, szerszy dla bossów) |
 | `scripts/world_events.gd` | 14 wydarzeń świata: miejsca, stwory, rekwizyty, nagrody, odnowa, zapis |
 | `scripts/ambient_fx.gd` | Płomienie, dym, para, żar i iskry nad scenerią (wyłączane poza ekranem) |
 | `scripts/net.gd`, `online.gd`, `content.gd`, `gate_screen.gd`, `remote_players.gd`, `chat_panel.gd` | Klient online: węzeł zbiorczy (`KiNet`), konto i zapisy w chmurze i obecność, paczki treści, ekran logowania/pobierania, duchy graczy, czat |
@@ -202,7 +204,7 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | `scripts/actor_view.gd` | Animacje: arkusze NPC i przycięte ramki atlasu bohatera; `HERO_SCALE = 1.15` |
 | `scripts/race_kit.gd`, `legend_kit.gd`, `planetary_kit.gd`, `sage_kit.gd`, `android_kit.gd`, `race_kits.gd` | Wspólna baza zasad (statystyki 1–20, drzewko, rangi, odnowienia, buffy, tarcze, kręgi, kanały) i cztery rasy (porty `src/game/kit/*.ts` + `base.ts`) |
 | `scripts/race_screen.gd` | Wybór rasy: cztery karty z portretami, opisem i statystykami |
-| `scripts/foe_dummy.gd`, `scripts/fx.gd` | Manekin treningowy, efekty cięć/wybuchów/aur, liczby obrażeń |
+| `scripts/foe_dummy.gd`, `scripts/fx.gd` | Manekin treningowy, efekty cięć/wybuchów/aur, liczby obrażeń w siedmiu stylach (zwykły, krytyk, słabość, odporność, rana bohatera, leczenie, XP) i unoszące się napisy |
 | `scripts/touch_controls.gd`, `scripts/hud.gd` | Joystick, przyciski, paski HP/KI/zasób rasy, dialogi, bezpieczne marginesy ekranu |
 | `scripts/map_screen.gd`, `globe_view.gd`, `atlas_view.gd`, `continent_map_view.gd`, `map_math.gd` | Mapa: globus 3D, atlas 2D, mapa bieżącej krainy, przycisk PODRÓŻ; wspólna geometria i obrysy |
 | `scripts/character_screen.gd` | Ekran POSTAĆ: statystyki ze źródłami, **drzewko rasy z ilustrowanymi ikonami** (`assets/icons/skills/<rasa>/`), sloty, poziom próbny |
@@ -215,7 +217,7 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | `data/city.generated.json` | Stolica Pyry z pierwszej próby (układ, podłoga, pokoje) — nie edytować ręcznie |
 | `data/monsters.json`, `data/quests.json`, `data/lands/<id>/spawns.json` | Bestiariusz (statystyki, umiejętności, cechy, łup, klatki), katalog zadań z dialogami i miejscami, rejestr spawnów krainy |
 | `assets/audio/` | Muzyka (`music/`) i efekty (`sfx/`) skopiowane bez zmian (24 MB) |
-| `tests/smoke.gd` | 429 kontroli w prawdziwym silniku; `tests/qa_shots.gd` robi zrzuty jaskini, bossa, nocy i wydarzenia |
+| `tests/smoke.gd` | 489 kontroli w prawdziwym silniku; `tests/qa_shots.gd` robi zrzuty jaskini, bossa, nocy i wydarzenia |
 
 **Układ współrzędnych:** gra używa współrzędnych świata Superior (jak WWW). Układ stolicy z pierwszej próby jest
 przesunięty o `world.json.offset` = (44 564,29; 12 168,47).
@@ -304,8 +306,8 @@ godot --headless --path ports/godot-pyra --script res://tests/smoke.gd -- --fres
 xvfb-run -a -s '-screen 0 1600x900x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --audio-driver Dummy --path ports/godot-pyra --rendering-method gl_compatibility --script res://tests/smoke.gd -- --fresh --qa-output /tmp/pyra-native
 ```
 
-Na kodzie tej gałęzi: **429/429** kontroli w trybie headless (16.11.2026). Przebieg z natywnym renderowaniem (Mesa llvmpipe) był
-ostatnio wykonany przy 340 kontrolach i nie został powtórzony dla 429; zrzuty jaskini, bossa, nocy i wydarzenia powstały natywnie
+Na kodzie tej gałęzi: **489/489** kontroli w trybie headless (16.11.2026). Przebieg z natywnym renderowaniem (Mesa llvmpipe) był
+ostatnio wykonany przy 340 kontrolach i nie został powtórzony dla 489; zrzuty jaskini, bossa, nocy i wydarzenia powstały natywnie
 (`docs/zmiany/2026-11-16/qa/godot-late/`).
 Pokrycie: ekonomia (katalog 366/265/85, cena sklepu 4×, skup 50 %, wymagania poziomu, wpływ sprzętu, mikstura, crafting, depozyt,
 gospoda, zapis, cztery ekrany usług), rozmiar kontynentu, bezpieczny start, strumieniowanie, **+15 % bohatera**, kolizje,
