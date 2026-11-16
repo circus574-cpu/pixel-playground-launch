@@ -137,7 +137,6 @@
    "attacks": false,
    "aggro": 0,
    "flees": true,
-   "art": false,
    "note": "Ucieka zygzakiem; trudny do dogonienia, łatwy do ubicia."
   },
   {
@@ -151,7 +150,6 @@
    "attacks": false,
    "aggro": 0,
    "flees": true,
-   "art": false,
    "note": "Chodzi stadkiem, ucieka z poklepywaniem skrzydeł."
   },
   {
@@ -165,7 +163,6 @@
    "attacks": false,
    "aggro": 0,
    "flees": true,
-   "art": false,
    "note": "Łagodny, pasie się w mchu. Wytrzymały, ucieka powoli."
   },
   {
@@ -179,7 +176,6 @@
    "attacks": false,
    "aggro": 0,
    "flees": true,
-   "art": false,
    "note": "Skacze po skałach; daje ser."
   },
   {
@@ -193,7 +189,6 @@
    "attacks": false,
    "aggro": 0,
    "flees": true,
-   "art": false,
    "note": "Wygrzewa się na ciepłym popiele."
   },
   {
@@ -207,7 +202,6 @@
    "attacks": false,
    "aggro": 0,
    "flees": true,
-   "art": false,
    "note": "Krótkie loty nad ziemią, rudy jak żar."
   },
   {
@@ -221,7 +215,6 @@
    "attacks": false,
    "aggro": 0,
    "flees": true,
-   "art": false,
    "note": "Świeci łagodnie w zmroku; daje mleko."
   },
   {
@@ -235,7 +228,6 @@
    "attacks": false,
    "aggro": 0,
    "flees": true,
-   "art": false,
    "note": "Siada na parapetach archiwów, płoszy się od ruchu."
   },
   {
@@ -249,7 +241,6 @@
    "attacks": false,
    "aggro": 0,
    "flees": true,
-   "art": false,
    "note": "Ucieka po bio-farmach; ma metalową obrożę z numerem."
   },
   {
@@ -263,7 +254,6 @@
    "attacks": false,
    "aggro": 0,
    "flees": true,
-   "art": false,
    "note": "Znosi jajka co godzinę, według harmonogramu."
   }
  ],

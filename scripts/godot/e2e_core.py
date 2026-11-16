@@ -14,6 +14,7 @@ core packs over HTTP, and launches the base several times like a player restarti
   7 the server goes back to the good core              -> downloaded again (77)
   8-9 offline launches that never reach the city       -> counted, the core keeps running (77)
   10 the next such launch                              -> the unproven core is given up (40)
+  11 a core that adds a new script loaded by path      -> works (58); the policy for files that did not exist in the APK
 
   python3 scripts/godot/e2e_core.py
 """
@@ -47,9 +48,13 @@ def check(ok: bool, name: str, details="") -> None:
         failures += 1
 
 
-def build_pack(builder, work: Path, name: str, story_text: str | None) -> dict:
-    """The real core of this repo, with story.gd optionally replaced by `story_text`."""
+def build_pack(builder, work: Path, name: str, story_text: str | None, extra: dict[str, str] | None = None) -> dict:
+    """The real core of this repo, with story.gd optionally replaced by `story_text` and new files added ({res path: text})."""
     listing = builder.core_listing(work / name)
+    for res_path, text in (extra or {}).items():
+        added = work / f"{name}-{Path(res_path).name}"
+        added.write_text(text)
+        listing.append({"pck": res_path, "disk": str(added)})
     if story_text is not None:
         replaced = work / f"{name}-story.gd"
         replaced.write_text(story_text)
@@ -122,7 +127,12 @@ def main() -> int:
     full = build_pack(builder, work, "full", None)
     new = build_pack(builder, work, "new", story_text.replace("const REWARD_GOLD := 40", "const REWARD_GOLD := 77"))
     broken = build_pack(builder, work, "broken", story_text + "\nfunc broken_on_purpose(:\n\tpass\n")
-    Fake.files = {e["file"]: work / e["file"] for e in (full, new, broken)}
+    # a script that did not exist when the APK was built, loaded by path (a new class_name would be invisible to the APK)
+    newfile = build_pack(
+        builder, work, "newfile",
+        story_text.replace("const REWARD_GOLD := 40", 'const Extra := preload("res://scripts/zz_newfile.gd")\nconst REWARD_GOLD := 55 + Extra.BONUS'),
+        {"res://scripts/zz_newfile.gd": "extends RefCounted\nconst BONUS := 3\n"})
+    Fake.files = {e["file"]: work / e["file"] for e in (full, new, broken, newfile)}
     print(f"core pack of this repo: {full['bytes'] / 1e6:.2f} MB, {full['files']} entries")
 
     shutil.copyfile(PROJECT / "tests" / "e2e_core.gd", PROJECT / "e2e_core.gd")
@@ -177,6 +187,11 @@ def main() -> int:
         r = launch(base, home, 1)
         check(r["report"].get("gave_up") == new["file"] and r["reward"] == 40 and new["file"] in r["state"].get("bad", []),
               "10 an unproven core that never reached the first city is given up: the APK's own code runs", r)
+
+        Fake.offer = newfile
+        r = launch(base, home, PORT)
+        check(r["report"].get("downloaded") is True and r["report"].get("broken") == "" and r["reward"] == 58,
+              "11 a core can add a NEW script when it is loaded by path (REWARD_GOLD = 55 + 3 from the new file)", r)
     finally:
         server.shutdown()
     print(f"E2E CORE DONE failures={failures}")

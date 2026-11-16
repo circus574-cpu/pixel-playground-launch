@@ -1571,8 +1571,12 @@ Mędrzec poz. 10 (352 HP) 1,06 HP/s. Mikstura życia leczy 40 % od razu (odnowie
 Poza walką z posiłkiem i regeneracją naturalną razem: od 3,4 HP/s (Jajko hodowlane) do 6,7 HP/s (Racja białkowa) dla Legendy poz. 10; w walce samo jedzenie: od 1,8 do 5,2 HP/s.
 Dla Mędrca poz. 10 wartości są proporcjonalnie niższe (HP 352). Najlepsze posiłki (42–60 %) pochodzą tylko z polowania, proste (poziom 1–2) kupisz w sklepie.
 
-**Zwierzęta** (dane w `food.json`: `attacks: false`, `aggro: 0`, `flees: true`, `art: false`): Zając Łąkowy, Kura Leśna, Dzik Mchowy (Verdantia); Koza Skalna, Jaszczur Popielny, Bażant Żarowy (Pyra);
+**Zwierzęta** (dane w `food.json`: `attacks: false`, `aggro: 0`, `flees: true`; do świata trafiają dopiero, gdy ich grafika jest w `data/animals.json`): Zając Łąkowy, Kura Leśna, Dzik Mchowy (Verdantia); Koza Skalna, Jaszczur Popielny, Bażant Żarowy (Pyra);
 Owca Księżycowa, Gołąb Pergaminowy (Aetheria); Bio-królik i Bio-kura Hodowlana (Nexus). Nigdy nie atakują, uciekają po ciosie, wracają po 40–90 s, każde daje dokładnie jeden produkt.
-**Czego brakuje:** grafiki zwierząt i ikon produktów (nie są wygenerowane, więc nie wstawiałem zastępczych), zachowania w świecie (spacer, ucieczka, rozmieszczenie w krainach),
-wskaźnika aktywnego „Najedzenia” w interfejsie. Wartości są propozycją do oceny na urządzeniu; równowaga względem mikstur nie była badana w walce.
+**Zachowanie w świecie (gotowe i przetestowane na zastępczym arkuszu jelenia, nie na docelowej grafice):** zwierzę jest potworem z cechą `peaceful` (`scripts/animals.gd`, `monster.gd`): nie atakuje i nie
+zauważa bohatera, po ciosie ucieka zygzakiem przez ok. 5 s z prędkością równą „fleeSpeed” razy prędkość bohatera (170 px/s), potem wraca w okolicę domu; po zabiciu daje dokładnie jeden produkt i 0 XP.
+Dziesięć sztuk każdego gatunku rozmieszcza się w krainach jego świata, zawsze w tych samych miejscach, poza miastami (`animals.gd`). Aktywny status „Najedzony” widać w liście zadań pod mapką
+(„Najedzony · 42 s”, „+0,8% życia na sekundę”). Potok grafik: `ingest_creature_sheet.py` → `scripts/godot/prepare_animals.py` (konwersja i `data/animals.json`; sprawdzona na zastępczej paczce).
+**Czego brakuje:** grafiki zwierząt i ikon produktów (nie są wygenerowane, więc nie wstawiałem zastępczych; prompty: `art/pipeline/prompts/zwierzeta/PROMPTY-ZWIERZETA-v1.md`) oraz dźwięków zwierząt.
+Wartości są propozycją do oceny na urządzeniu; równowaga względem mikstur nie była badana w walce.
 

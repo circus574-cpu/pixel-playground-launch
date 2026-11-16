@@ -9,7 +9,7 @@ Design (balance budget):
 - One meal at a time: a new one replaces the old one only if it still has more to give (otherwise "Jestes jeszcze najedzony"), so nothing is wasted
   by stacking; at full health the meal is refused (like a potion).
 - Ten peaceful animals (never attack, never aggro, run away when hurt) each give one product. Their art does not exist yet: they are listed with
-  "art": false and are not spawned until the sprites are made.
+  data/animals.json (scripts/godot/prepare_animals.py) and are not spawned until the sprites are made.
 
 Run: python3 scripts/godot/prepare_food.py
 """
@@ -100,7 +100,7 @@ def main() -> None:
     for aid, name, world, product, hp, speed, respawn, note in ANIMALS:
         animals.append({
             "id": aid, "name": name, "world": world, "drop": product, "hp": hp, "fleeSpeed": speed, "respawnSeconds": respawn,
-            "attacks": False, "aggro": 0, "flees": True, "art": False, "note": note,
+            "attacks": False, "aggro": 0, "flees": True, "note": note,
         })
     assert len({f["id"] for f in foods}) == 10 and len({a["id"] for a in animals}) == 10
     assert {a["drop"] for a in animals} == {f["id"] for f in foods}, "every food comes from exactly one animal"

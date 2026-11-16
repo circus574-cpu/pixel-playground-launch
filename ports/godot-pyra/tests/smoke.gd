@@ -1655,6 +1655,57 @@ func run() -> void:
 	fd_eco.bag = {"potion": 3}
 	fd_kit.buffs = []
 	fd_kit.hp = fd_max
+	# ---- peaceful animals: never attack, run away when hurt, give their food ---------------------------
+	var an_script: GDScript = load("res://scripts/animals.gd")
+	var an_food: Dictionary = PyraContinent.load_json("res://data/food.json")
+	var an_deer: Dictionary = game.monsters.defs["verdant-skalny-jelen"].actor
+	var an_art := {"animals": {"A-03": {"actor": an_deer}}}
+	var an_list: Array = an_script.usable(an_food, an_art, "verdant")
+	verify(an_list.size() == 1 and str(an_list[0].id) == "A-03" and an_script.usable(an_food, an_art, "pyra").is_empty() and an_script.usable(an_food, {}, "verdant").is_empty(), "an animal is in the world only when its art is listed")
+	var an_def: Dictionary = an_script.definition(an_list[0], an_deer)
+	verify(int(an_def.atk) == 0 and int(an_def.agro) == 0 and bool(an_def.traits.peaceful) and an_def.lootItems[0].item == "F-07" and is_equal_approx(float(an_def.speed) * 120.0, 0.8 * 170.0), "an animal has no attack, no aggro, flees at its share of the hero's speed and drops its food")
+	var an_a: Array = an_script.rows(3, an_list[0], "verdant", 40000.0, 40000.0, func(_p: Vector2) -> bool: return true, func(_p: Vector2) -> bool: return false)
+	var an_b: Array = an_script.rows(3, an_list[0], "verdant", 40000.0, 40000.0, func(_p: Vector2) -> bool: return true, func(_p: Vector2) -> bool: return false)
+	verify(an_a.size() == 10 and an_a == an_b and an_script.rows(3, an_list[0], "verdant", 40000.0, 40000.0, func(_p: Vector2) -> bool: return true, func(_p: Vector2) -> bool: return true).is_empty(), "ten animals of a kind are placed in the same places every time, never inside a city")
+	verify(not game.monsters.defs.has("A-03") and not game.monsters.kinds.has("A-03"), "without prepared art no animal is added to the land")
+	game.player.position = base + Vector2(300, 0)
+	game.player.locked = false
+	game.kit.dead = false
+	game.kit.hp = float(game.kit.stats().maxHp)
+	game.monsters.clear_all()           # no wild monster may wander in and hurt the hero during the check
+	game.monsters.set_process(false)
+	var an_pet := PyraMonster.new()
+	game.continent.sorted.add_child(an_pet)
+	an_pet.setup(an_def, game.player.position + Vector2(110, 0), game.monsters, 900001)
+	game.monsters.active[900001] = an_pet
+	an_pet.died.connect(game.monsters.on_died)
+	var an_hp := game.kit.hp
+	await create_timer(1.5).timeout
+	verify(an_pet.phase == "idle" and game.kit.hp == an_hp, "a peaceful animal beside the hero does not attack and does not notice him")
+	var an_gap := an_pet.position.distance_to(game.player.position)
+	an_pet.hurt(1.0, false, [])
+	verify(an_pet.phase == "flee" and an_pet.provoked, "hurt, the animal flees instead of fighting")
+	await create_timer(1.2).timeout
+	verify(an_pet.position.distance_to(game.player.position) > an_gap + 40.0 and an_pet.phase == "flee" and game.kit.hp == an_hp, "it runs away from the hero and still does not attack", [an_pet.position.distance_to(game.player.position), an_pet.phase, game.kit.hp, an_hp])
+	var an_xp := game.kit.xp
+	game.economy.bag = {"potion": 1}
+	an_pet.hurt(100000.0, false, [])
+	await settle(2)
+	verify(an_pet.phase == "dead" and game.economy.count("F-07") == 1 and game.kit.xp == an_xp, "a hunted animal gives exactly one product and no experience")
+	game.hud.close_dialog()
+	game.kit.buffs = []
+	game.kit.next_eat_at = 0.0
+	game.kit.hp = float(game.kit.stats().maxHp) * 0.3
+	game.economy.bag = {"F-08": 1}
+	game.economy.use("F-08")
+	var an_entry := game.fed_entry()
+	verify(str(an_entry.title).begins_with("Najedzony") and an_entry.lines[0] == "+0,8% życia na sekundę", "the tracker shows that the hero is fed and what it gives")
+	game.refresh_quest_ui()
+	verify(game.hud.quests.size() >= 1 and str(game.hud.quests[0].title).begins_with("Najedzony"), "the fed status is listed first in the tracker")
+	game.monsters.set_process(true)
+	game.kit.buffs = []
+	game.economy.bag = {"potion": 3}
+	game.kit.hp = float(game.kit.stats().maxHp)
 	game.show_menu()
 	await settle()
 	verify(game.hud.modal.visible and game.player.locked, "menu suspends and clears input")

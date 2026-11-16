@@ -362,6 +362,9 @@ Zlecenie właściciela: zwierzęta, które nie atakują i dają jedzenie; jedzen
 - **Mechanika** (`race_kit.gd`: `eat()`, `fed_left()`, status „Najedzenie”, leczenie co sekundę, bonus regeneracji KI z mleka; `economy.gd`: posiłki jako przedmioty `F-01…F-10`, jedzenie przez `use()`, cztery proste w sklepie):
   jeden posiłek naraz, słabszy nie zastępuje silniejszego, przy pełnym życiu odmowa, 2 s między kęsami. Ekrany przedmiotów działają dla pozycji bez ikony.
 - **Kontrole.** `tests/smoke.gd` **517/517** (m.in. pasma procentowe poziomów, leczenie w walce i poza nią co do HP, koniec statusu, zastępowanie, mleko +25 % KI, zapis, ekran plecaka). Test znalazł w sobie wcześniejsze skażenie (DoT z poprzedniego testu), nie błąd gry.
-- **Nie zrobione:** grafika 10 zwierząt i ikony 10 produktów (brak wygenerowanych zasobów, zastępczych nie wstawiałem), rozmieszczenie i zachowanie zwierząt w świecie, wskaźnik „Najedzenia” w HUD. Zwierzęta są w danych (`art: false`) i nie pojawiają się w grze.
+- **Dalszy ciąg (ten sam dzień):** zachowanie zwierząt (`animals.gd`, cecha `peaceful` w `monster.gd`: brak ataku i aggro, ucieczka po ciosie, jeden produkt, 0 XP, stałe rozmieszczenie 10 sztuk na krainę poza miastami),
+  wskaźnik „Najedzony” w liście zadań, konwerter `scripts/godot/prepare_animals.py` (sprawdzony na zastępczej paczce w katalogu tymczasowym), prompty grafik w `art/pipeline/prompts/zwierzeta/`. `tests/smoke.gd` **527/527**.
+  Test zachowania używa arkusza jelenia jako zastępstwa; w grze zwierzę pojawia się dopiero po wpisie w `data/animals.json`.
+- **Nie zrobione:** grafika 10 zwierząt i ikony 10 produktów (brak wygenerowanych zasobów, zastępczych nie wstawiałem), dźwięki zwierząt. Do tego czasu zwierzęta nie pojawiają się w grze.
   Zmiana nie jest wydana graczom: dojdzie przez rdzeń z serwera po opublikowaniu nowego wydania treści (za zgodą właściciela).
 

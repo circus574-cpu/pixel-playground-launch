@@ -6,6 +6,7 @@ extends Node
 ## never enter them.
 
 const SHEET_PREFETCH := true
+const Animals := preload("res://scripts/animals.gd")   # by path, see animals.gd
 
 var game: PyraGame
 var defs: Dictionary = {}
@@ -35,6 +36,7 @@ func setup(owner_game: PyraGame, monster_data: Dictionary, land_spawns: Dictiona
 	kinds = land_spawns.kinds
 	rows = land_spawns.spawns
 	activation = land_spawns.activation
+	add_animals()
 	for i in rows.size():
 		var key := "%d,%d" % [int(float(rows[i][1]) / 2048.0), int(float(rows[i][2]) / 2048.0)]
 		if not cells.has(key):
@@ -89,6 +91,24 @@ func refresh() -> void:
 					continue
 				wake(index, kind, at)
 				woken += 1
+
+## The peaceful animals of the land's world whose art exists join the land's own monsters (scripts/animals.gd).
+func add_animals() -> void:
+	var food_data: Dictionary = PyraContinent.load_json("res://data/food.json")
+	var art := Animals.art_data()
+	var list := Animals.usable(food_data, art, str(game.land.get("world", "")))
+	if list.is_empty():
+		return
+	defs = defs.duplicate()
+	kinds = (kinds as Array).duplicate()
+	rows = (rows as Array).duplicate()
+	for animal: Dictionary in list:
+		var id := str(animal.id)
+		defs[id] = Animals.definition(animal, art.animals[id].actor)
+		kinds.append(id)
+		var more := Animals.rows(kinds.size() - 1, animal, str(game.land.id), float(game.land.width), float(game.land.height), Callable(self, "walkable"), Callable(self, "in_safe_city"))
+		for row: Array in more:
+			rows.append(row)
 
 func wake(index: int, kind: String, at: Vector2) -> void:
 	var monster := PyraMonster.new()

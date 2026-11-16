@@ -103,11 +103,13 @@ Hand-painted anime-fantasy JRPG item icon, a single object centered, three-quart
 | F-09 | Gołąb w ziołach | `A small roasted dove in a shallow ceramic bowl, covered with green herbs, a little steam rising.` |
 | F-10 | Racja białkowa | `A neat rectangular ration pack in silver-blue foil with a thin cyan label strip, one corner opened to show a compact protein bar, futuristic military ration.` |
 
-## Co zrobię po otrzymaniu grafik
+## Co się stanie po dostarczeniu grafik
 
-1. Przepuszczę plansze przez `ingest_creature_sheet.py` (cięcie na klatki, usunięcie tła, atlas) i napiszę `scripts/godot/prepare_animals.py` (jak `prepare_monsters.py`).
-2. Dodam zachowanie zwierząt (spacer, ucieczka po ciosie, brak ataku, odrodzenie po 40–90 s, rozmieszczenie w krainach według `food.json`) i łup: dokładnie jeden produkt.
-3. Podepnę ikony (`F-01…F-10`) i wskaźnik „Najedzenia” w interfejsie, zbuduję nowy rdzeń i wydanie treści (do opublikowania za zgodą właściciela).
+Zachowanie zwierząt, łup, rozmieszczenie i wskaźnik „Najedzony” są już w grze (gotowe, przetestowane na zastępczym arkuszu); zwierzę pojawia się dopiero po wpisie w `data/animals.json`.
+
+1. Plansze przechodzą przez `python3 scripts/gpu/ingest_creature_sheet.py <plansza> A-01 [--no-effects]` (id zwierzęcia jako id potwora).
+2. `python3 scripts/godot/prepare_animals.py` zamienia paczki `enemy-v3-A-xx` na arkusze `assets/monsters/<świat>-animal-a-xx.webp` i `data/animals.json`.
+3. Ikony `F-01…F-10` (128×128) trafiają do `ports/godot-pyra/assets/icons/items/`; potem nowy rdzeń i wydanie treści (publikacja za zgodą właściciela).
 
 ## Kontrola jakości grafik (do odhaczenia)
 
