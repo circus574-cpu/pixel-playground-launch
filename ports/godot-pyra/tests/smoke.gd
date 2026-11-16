@@ -758,6 +758,211 @@ func run() -> void:
 			mm.active.erase(rare_key)
 	game.kit.clear_debuffs()
 	game.kit.hp = 1.0
+	# bosses: data, phases, signature mechanics, reward, the warden and the lair
+	var boss_ids := []
+	var boss_loot_ok := true
+	for b: Dictionary in game.boss_data.bosses:
+		boss_ids.append(str(b.id))
+		boss_loot_ok = boss_loot_ok and mm.defs.has(str(b.guardian))
+		for drop: Dictionary in b.lootTable:
+			boss_loot_ok = boss_loot_ok and game.economy.items.has(str(drop.itemId))
+	verify(boss_ids.size() == 8 and boss_loot_ok, "eight bosses: art guardians and every loot item exist", boss_ids)
+	var ygd := mm.spawn_boss("ygdrasha", far_up)
+	verify(ygd != null and ygd.boss_phase == 1 and is_equal_approx(ygd.max_hp, 4520.0) and ygd.def.skills.size() == 2, "Ygdrasha starts in phase 1 with two attacks")
+	verify(mm.spawn_boss("ygdrasha", far_down) == ygd, "a boss already alive is reused, never duplicated")
+	ygd.hp = ygd.max_hp * 0.55
+	ygd.hurt(1.0, false, [])
+	verify(ygd.boss_phase == 2 and ygd.def.skills.size() == 3, "below 60% HP Ygdrasha enters phase 2 and learns to call slimes")
+	ygd.hp = ygd.max_hp * 0.2
+	var ygd_atk := float(ygd.base_def.atk)
+	ygd.hurt(1.0, false, [])
+	verify(ygd.boss_phase == 3 and is_equal_approx(float(ygd.def.atk), ygd_atk * 1.3) and is_equal_approx(ygd.boss_damage_taken(), 1.25), "one hit can skip a phase: phase 3 gives +30% attack and +25% damage taken")
+	var hp_phase3 := ygd.hp
+	ygd.boss_script.tick(2.0)
+	verify(ygd.hp <= hp_phase3 + 0.01, "Ygdrasha does not regenerate in phase 3")
+	ygd.boss_phase = 1
+	ygd.hp = ygd.max_hp * 0.5
+	ygd.boss_script.tick(2.0)
+	verify(is_equal_approx(ygd.hp, ygd.max_hp * 0.5 + ygd.max_hp * 0.02), "Ygdrasha regenerates 1% HP per second in the early phases")
+	ygd.phase = "dead"
+	ygd.queue_free()
+	mm.active.erase(ygd.spawn_index)
+	var priest := mm.spawn_boss("arcykaplan-pustki", far_up)
+	priest.hp = priest.max_hp * 0.5
+	priest.hurt(1.0, false, [])
+	verify(priest.boss_phase == 2 and priest.boss_script.lights.size() == 3 and is_equal_approx(priest.boss_damage_taken(), 0.3), "the Archpriest's barrier takes 70% off while three lights live")
+	for light: PyraMonster in priest.boss_script.lights:
+		light.hurt(99999.0, false, [])
+	verify(is_equal_approx(priest.boss_damage_taken(), 1.0), "destroying the lights breaks the barrier")
+	priest.hp = priest.max_hp * 0.2
+	priest.hurt(1.0, false, [])
+	verify(priest.boss_phase == 3 and priest.boss_script.ring != null, "phase 3 closes the arena with a shrinking ring")
+	priest.phase = "dead"
+	priest.boss_script.cleanup()
+	priest.queue_free()
+	mm.active.erase(priest.spawn_index)
+	var arbiter := mm.spawn_boss("arbiter-zero", far_up)
+	arbiter.hp = arbiter.max_hp * 0.5
+	arbiter.hurt(1.0, false, [])
+	arbiter.hp = arbiter.max_hp * 0.2
+	arbiter.hurt(1.0, false, [])
+	arbiter.boss_script.overheat_clock = 5.0
+	var cool := arbiter.boss_damage_taken()
+	arbiter.boss_script.overheat_clock = 25.0
+	verify(arbiter.boss_phase == 3 and is_equal_approx(cool, 1.0) and is_equal_approx(arbiter.boss_damage_taken(), 1.4) and arbiter.boss_script.drones.size() == 2, "Arbiter: 40% extra damage only during the 10 s overheating of every 30 s (and drones came in phase 2)")
+	arbiter.phase = "dead"
+	arbiter.queue_free()
+	mm.active.erase(arbiter.spawn_index)
+	var kharzul := mm.spawn_boss("kharzul", far_up)
+	kharzul.hp = kharzul.max_hp * 0.2
+	kharzul.hurt(1.0, false, [])
+	game.kit.hp = 10.0
+	var potions_before := game.economy.count("potion")
+	game.economy.add_item("potion", 1)
+	game.economy.potion_cooldown = 0.0
+	var healed := game.economy.use("potion")
+	verify(kharzul.boss_phase == 3 and game.healing_blocked() and not healed, "while Kharzul's arena burns, potions do not heal")
+	kharzul.phase = "dead"
+	kharzul.queue_free()
+	mm.active.erase(kharzul.spawn_index)
+	game.economy.remove_item("potion", game.economy.count("potion") - potions_before)
+	game.kit.hp = float(game.kit.stats().maxHp)
+	var pyrrhax := mm.spawn_boss("pyrrhax", far_down)
+	pyrrhax.hp = pyrrhax.max_hp * 0.3
+	pyrrhax.hurt(1.0, false, [])
+	pyrrhax.boss_script.begin_cast({"id": "pyrrhax-erupcja", "mode": "burst"}, game.player.position)
+	verify(pyrrhax.flying and pyrrhax.boss_script.safe_spots.size() == 3, "Pyrrhax flies in phase 2 and marks three safe circles before the eruption")
+	game.kit.hp = float(game.kit.stats().maxHp)
+	pyrrhax.boss_script.safe_spots = [game.player.position]
+	pyrrhax.boss_script.resolve({"id": "pyrrhax-erupcja", "dmg": 2.5}, game.player.position)
+	var hp_safe := game.kit.hp
+	pyrrhax.boss_script.safe_spots = [game.player.position + Vector2(900, 0)]
+	pyrrhax.boss_script.resolve({"id": "pyrrhax-erupcja", "dmg": 2.5}, game.player.position)
+	verify(is_equal_approx(hp_safe, float(game.kit.stats().maxHp)) and game.kit.hp < hp_safe, "the eruption spares the hero inside a safe circle and hurts outside it")
+	pyrrhax.phase = "dead"
+	pyrrhax.queue_free()
+	mm.active.erase(pyrrhax.spawn_index)
+	var aurelith := mm.spawn_boss("aurelith", far_down + Vector2(-600, 0))
+	aurelith.hp = aurelith.max_hp * 0.2
+	aurelith.hurt(1.0, false, [])
+	verify(aurelith.boss_phase == 3 and aurelith.boss_script.pillars.size() == 3, "Aurelith raises three pillars in phase 3")
+	game.kit.hp = float(game.kit.stats().maxHp)
+	var breath_origin: Vector2 = game.player.position + Vector2(-400, 0)
+	aurelith.position = breath_origin
+	aurelith.boss_script.breath_from = breath_origin
+	aurelith.boss_script.breath_to = game.player.position
+	for pillar: Node2D in aurelith.boss_script.pillars:
+		pillar.position = Vector2(100000, 100000)
+	aurelith.boss_script.pillars[0].position = breath_origin + Vector2(200, 0)
+	aurelith.boss_script.resolve({"id": "aurelith-oddech", "dmg": 2.4}, game.player.position)
+	var hp_behind := game.kit.hp
+	aurelith.boss_script.pillars[0].position = Vector2(100000, 100000)
+	aurelith.boss_script.resolve({"id": "aurelith-oddech", "dmg": 2.4}, game.player.position)
+	verify(is_equal_approx(hp_behind, float(game.kit.stats().maxHp)) and game.kit.hp < hp_behind, "a pillar between Aurelith and the hero absorbs the Breath of Aether")
+	aurelith.boss_script.cleanup()
+	aurelith.phase = "dead"
+	aurelith.queue_free()
+	mm.active.erase(aurelith.spawn_index)
+	var thor := mm.spawn_boss("thorgar", far_up)
+	var wolves_before := mm.active.size()
+	thor.boss_script.resolve({"id": "thorgar-wycie", "fx": []}, thor.position)
+	verify(mm.active.size() == wolves_before + 3, "Thorgar's howl calls three thorn wolves")
+	var xp_boss_before := game.kit.xp + game.kit.level * 100000
+	thor.hurt(99999999.0, false, [])
+	verify(thor.phase == "dead" and game.kit.xp + game.kit.level * 100000 > xp_boss_before, "a defeated boss pays experience")
+	var loot_hit := false
+	for drop: Dictionary in mm.boss_info("thorgar").lootTable:
+		loot_hit = loot_hit or (float(drop.chancePercent) >= 100.0 and game.economy.count(str(drop.itemId)) >= int(drop.minCount))
+	verify(loot_hit, "the boss's guaranteed loot lands in the bag")
+	for rare_key: int in mm.active.keys():
+		if rare_key < 0 and is_instance_valid(mm.active[rare_key]):
+			(mm.active[rare_key] as PyraMonster).queue_free()
+		if rare_key < 0:
+			mm.active.erase(rare_key)
+	game.kit.hp = float(game.kit.stats().maxHp)
+	var warden_found := false
+	for t: Dictionary in game.outdoor_targets:
+		warden_found = warden_found or (t.kind == "npc" and t.id == "warden")
+	verify(warden_found, "each continent capital has a warden who knows the boss lairs")
+	game.enter_boss_lair("kharzul")
+	var lair_boss := mm.live_boss("kharzul")
+	var kharzul_count := 0
+	for m: PyraMonster in mm.active.values():
+		kharzul_count += 1 if not m.boss.is_empty() and str(m.boss.id) == "kharzul" else 0
+	game.enter_boss_lair("kharzul")
+	var kharzul_after := 0
+	for m: PyraMonster in mm.active.values():
+		kharzul_after += 1 if not m.boss.is_empty() and str(m.boss.id) == "kharzul" else 0
+	verify(lair_boss != null and kharzul_count == 1 and kharzul_after == 1 and not game.in_safe_city(game.player.position), "the warden opens Kharzul's lair outside the city, once")
+	lair_boss.phase = "dead"
+	lair_boss.queue_free()
+	mm.active.erase(lair_boss.spawn_index)
+	game.kit.hp = float(game.kit.stats().maxHp)
+	game.player.position = base + Vector2(300, 0)
+	# dungeons: entrances, deterministic labyrinth, key and gate, chests, guards, traps, saving
+	var entrance_total := 0
+	for land_key: String in game.dungeon_data.lands:
+		entrance_total += (game.dungeon_data.lands[land_key] as Array).size()
+	verify(entrance_total == 22 and (game.dungeon_data.art as Array).size() == 12, "22 cave entrances (4 per continent, 1 per island) and 12 dungeon-kit props", entrance_total)
+	var cave_target := {}
+	for t: Dictionary in game.outdoor_targets:
+		if t.kind == "dungeon":
+			cave_target = t
+	verify(not cave_target.is_empty(), "the land has cave entrances to enter")
+	var cave_kinds: Array = []
+	for kind: String in mm.kinds:
+		cave_kinds.append(kind)
+	var cave_a := PyraDungeon.new()
+	cave_a.setup(cave_target.entrance, "pyra", "pyra", cave_kinds, {})
+	var cave_b := PyraDungeon.new()
+	cave_b.setup(cave_target.entrance, "pyra", "pyra", cave_kinds, {})
+	verify(cave_a.grid == cave_b.grid and cave_a.key_cell == cave_b.key_cell and cave_a.gate_cell == cave_b.gate_cell, "the same entrance always gives the same cave")
+	var vault_cell: Vector2i = cave_a.chests[cave_a.chests.size() - 1].cell
+	var open_part := cave_a.bfs(cave_a.start_room.position, cave_a.gate_cell)
+	verify(cave_a.gate_cell.x >= 0 and not open_part.has(vault_cell) and open_part.has(cave_a.key_cell) and cave_a.bfs(cave_a.start_room.position).has(vault_cell), "the gate cuts the vault off; the key lies in the open part")
+	var chests_ok := cave_a.chests.size() == 3
+	for chest_def: Dictionary in cave_a.chests:
+		chests_ok = chests_ok and cave_a.is_floor(chest_def.cell)
+	var guards_ok := cave_a.guards.size() >= 6
+	for guard_def: Dictionary in cave_a.guards:
+		guards_ok = guards_ok and cave_a.is_floor(guard_def.cell) and not cave_a.start_room.has_point(guard_def.cell)
+	verify(chests_ok and guards_ok and cave_a.traps.size() >= 1, "chests, guards and traps stand on open floor away from the entrance room", [cave_a.chests.size(), cave_a.guards.size(), cave_a.traps.size()])
+	game.player.position = cave_target.point
+	game.enter_dungeon(cave_target.entrance)
+	await settle(2)
+	verify(game.in_dungeon() and not game.in_safe_city(game.player.position) and game.stand(game.player.position) and not game.continent.visible, "entering a cave puts the hero in an open, fightable space")
+	verify(mm.active.size() == game.dungeon.guards.size() and game.dungeon.walkable(game.dungeon.arrival()), "the cave's guards are placed at once", mm.active.size())
+	game.dungeon.state.keys.clear()
+	verify(not game.dungeon.open_gate(game.dungeon.center(game.dungeon.gate_cell)), "the gate needs the key")
+	verify(not game.dungeon.pick_up_key(game.player.position), "the key cannot be picked up from afar")
+	game.player.position = game.dungeon.center(game.dungeon.key_cell)
+	verify(game.dungeon.pick_up_key(game.player.position) and not game.dungeon.pick_up_key(game.player.position), "the key is picked up once")
+	var gate_pos: Vector2 = game.dungeon.center(game.dungeon.gate_cell)
+	verify(not game.dungeon.walkable(gate_pos), "a closed gate blocks the corridor")
+	game.player.position = gate_pos + Vector2(40, 0)
+	verify(game.dungeon.open_gate(game.player.position) and game.dungeon.walkable(gate_pos), "with the key the gate opens and the way is free")
+	var gold_cave := game.economy.gold
+	var vault_id: String = game.dungeon.chests[game.dungeon.chests.size() - 1].id
+	game.player.position = game.dungeon.center(vault_cell) + Vector2(0, 30)
+	var prize := game.dungeon.claim(vault_id, game.player.position)
+	verify(not prize.is_empty() and int(prize.gold) > 0 and game.dungeon.claim(vault_id, game.player.position).is_empty(), "a chest pays once", prize)
+	game.economy.gold = gold_cave + int(prize.gold)
+	game.kit.hp = float(game.kit.stats().maxHp)
+	var trap_pos: Vector2 = game.dungeon.traps[0]
+	game.player.position = trap_pos
+	await create_timer(0.8).timeout
+	verify(game.kit.hp < float(game.kit.stats().maxHp), "stepping on a spike trap hurts")
+	game.kit.hp = float(game.kit.stats().maxHp)
+	var cave_save := "user://cave-test.json"
+	verify(game.save_checkpoint(cave_save), "a checkpoint can be saved inside a cave")
+	var cave_saved: Variant = JSON.parse_string(FileAccess.get_file_as_string(cave_save))
+	verify(cave_saved is Dictionary and str(cave_saved.room) == "" and (cave_saved.dungeons as Dictionary).has(str(cave_target.entrance.id)), "the save puts the hero back at the entrance and keeps the cave progress")
+	verify(PyraGame.valid_dungeon_state({"a": {"keys": ["k", "k", 3], "gates": "x"}, 5: {}}) == {"a": {"keys": ["k"], "gates": [], "chests": []}}, "cave progress read from a save is cleaned")
+	game.load_space("", game.city_return)
+	await settle(2)
+	verify(not game.in_dungeon() and game.continent.visible and mm.active.size() == 0 or game.continent.visible, "leaving the cave returns to the surface")
+	game.player.position = base + Vector2(300, 0)
+	game.kit.hp = float(game.kit.stats().maxHp)
 	var killer := mm.place_monster("verdant-mchowy-szlamak", far_up)
 	game.hurt_player(killer, 900.0, "melee", [])
 	killer.queue_free()

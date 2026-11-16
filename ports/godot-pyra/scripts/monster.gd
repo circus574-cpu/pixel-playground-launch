@@ -76,6 +76,14 @@ var split_orig_max := 0.0
 var split_merge_at := 0.0
 var flee_hits := 0
 var no_reward := false
+# bosses: phases, signature mechanics, flight
+var boss: Dictionary = {}
+var boss_phase := 0
+var boss_script: PyraBossScript
+var base_def: Dictionary = {}
+var flying := false
+var buff_pct := 0.0
+var buff_until := 0.0
 
 func setup(definition: Dictionary, at: Vector2, parent_manager: Node, index: int) -> void:
 	def = definition
@@ -94,6 +102,59 @@ func setup(definition: Dictionary, at: Vector2, parent_manager: Node, index: int
 	clock = randf() * 3.0
 	if traits().has("ambush"):
 		concealed = true
+
+## A boss: the combat translation of the browser game (`def`), its catalogue entry (`info`) and phase 1 at once.
+func setup_boss(info: Dictionary, definition: Dictionary, at: Vector2, parent_manager: Node, index: int) -> void:
+	boss = info
+	base_def = definition
+	setup(definition, at, parent_manager, index)
+	boss_script = PyraBossScript.new(self, str(info.id))
+	update_boss_phase()
+
+## Phases are monotonic (several thresholds can be skipped by one hit): attack list, attack and speed follow the phase.
+func update_boss_phase() -> void:
+	if boss.is_empty() or hp <= 0.0:
+		return
+	var fraction := hp / max_hp * 100.0
+	var target := boss_phase
+	for p: Dictionary in boss.phases:
+		if fraction <= float(p.hpThresholdPercent) and int(p.phaseNumber) > target:
+			target = int(p.phaseNumber)
+	if target == boss_phase:
+		return
+	boss_phase = target
+	var info: Dictionary = {}
+	for p: Dictionary in boss.phases:
+		if int(p.phaseNumber) == boss_phase:
+			info = p
+	var mods: Dictionary = info.get("statModifiers", {})
+	def = base_def.duplicate(true)
+	def.atk = float(base_def.atk) * float(mods.get("atkMultiplier", 1.0))
+	def.speed = float(base_def.speed) * float(mods.get("speedMultiplier", 1.0))
+	var allowed: Array = info.unlockedAttacks
+	var skills: Array = []
+	for s: Dictionary in base_def.skills:
+		if allowed.has(s.id):
+			skills.append(s)
+	def.skills = skills
+	if not casting.is_empty() and not allowed.has(str(casting.skill.id)):
+		casting = {}
+	if boss_phase > 1:
+		manager.say("Faza %d: %s" % [boss_phase, str(info.name)])
+	boss_script.phase_entered(boss_phase)
+	flying = boss_script.is_flyer()
+
+func boss_damage_taken() -> float:
+	if boss.is_empty():
+		return 1.0
+	var table := 1.0
+	for p: Dictionary in boss.phases:
+		if int(p.phaseNumber) == boss_phase:
+			table = float((p.get("statModifiers", {}) as Dictionary).get("damageTakenMultiplier", 1.0))
+	return boss_script.damage_mult(table) if boss_script.overrides_damage() else table
+
+func sound_id() -> String:
+	return str(def.get("sound", def.id))
 
 func traits() -> Dictionary:
 	return def.traits
@@ -130,6 +191,7 @@ func hurt(raw: float, _crit: bool, tags: Array = [], _ranged: bool = false) -> f
 		mult *= 1.0 - float(traits().curl.reduce)
 	if clock < reduce_until:
 		mult *= 1.0 - reduce
+	mult *= boss_damage_taken()
 	var defense := float(def.def)
 	if clock < marked_until:
 		defense *= 1.0 - mark_def
@@ -164,6 +226,8 @@ func hurt(raw: float, _crit: bool, tags: Array = [], _ranged: bool = false) -> f
 		manager.say("%s traci koncentrację." % label)
 	if traits().has("split") and not split_done and hp > 0.0:
 		do_split()
+	if hp > 0.0 and not boss.is_empty():
+		update_boss_phase()
 	if hp <= 0.0:
 		if traits().has("revive") and not revived:
 			begin_revive()
@@ -178,10 +242,16 @@ func burn(dps: float, seconds: float) -> void:
 	burning = seconds
 
 func stun(seconds: float) -> void:
+	if not boss.is_empty():
+		seconds *= 0.25   # bosses resist control: a quarter of the stun, no chain-locking
+		if seconds < 0.1:
+			return
 	stunned = maxf(stunned, seconds)
 	casting = {}
 
 func slow(fraction: float, seconds: float) -> void:
+	if not boss.is_empty():
+		fraction *= 0.5
 	slow_pct = maxf(slow_pct, fraction)
 	slowed = maxf(slowed, seconds)
 
@@ -194,6 +264,8 @@ func mark(seconds: float, _crit: float, share: float) -> void:
 	mark_def = share
 
 func push(from: Vector2, distance: float) -> void:
+	if not boss.is_empty():
+		return
 	step_to(position + (position - from).normalized() * minf(distance, 60.0), 9999.0)
 
 func break_shield() -> void:
@@ -237,6 +309,8 @@ func die() -> void:
 	dash = {}
 	leap = {}
 	concealed = false
+	if boss_script != null:
+		boss_script.cleanup()
 	if traits().has("explode"):
 		var boom: Dictionary = traits().explode
 		manager.puff(position, float(boom.radius))
@@ -247,7 +321,7 @@ func die() -> void:
 	if split_partner != null and is_instance_valid(split_partner):
 		split_partner.split_partner = null
 	actor.play_once("death")
-	manager.audio().monster_sound(str(def.id), "die", position.distance_to(target_pos()))
+	manager.audio().monster_sound(sound_id(), "die", position.distance_to(target_pos()))
 	died.emit(self)
 	var tween := create_tween()
 	tween.tween_interval(1.4)
@@ -296,7 +370,7 @@ func speed_px() -> float:
 	return BASE_SPEED * speed
 
 func can_walk(to: Vector2) -> bool:
-	if traits().get("fly", false) or traits().get("ghost", false) or burrow_phase == "under":
+	if traits().get("fly", false) or traits().get("ghost", false) or burrow_phase == "under" or flying:
 		return not manager.in_safe_city(to)
 	return manager.walkable(to) and not manager.in_safe_city(to)
 
@@ -350,6 +424,9 @@ func _process(delta: float) -> void:
 	if ramp_stacks > 0 and clock - ramp_clock > 4.0:
 		ramp_stacks = 0
 	actor.visible = not concealed
+	if boss_script != null:
+		boss_script.tick(delta)
+		actor.position.y = lerpf(actor.position.y, -44.0 if flying else 0.0, minf(1.0, delta * 3.0))
 	if stunned > 0.0:
 		stunned -= delta
 		actor.animate(Vector2.ZERO)
@@ -631,7 +708,9 @@ func begin_cast(skill: Dictionary, player: Vector2) -> void:
 		warn = 0.35 if mode != "self" else 0.2
 	var at := position if bool(skill.get("centred", false)) else player
 	casting = {"skill": skill, "left": warn, "total": warn, "at": at, "from": position, "player": player}
-	manager.audio().monster_sound(str(def.id), "atk", position.distance_to(player))
+	if boss_script != null:
+		boss_script.begin_cast(skill, player)
+	manager.audio().monster_sound(sound_id(), "atk", position.distance_to(player))
 	actor.play_once("skill" if mode != "melee" else "attack")
 
 func update_cast(delta: float) -> void:
@@ -662,6 +741,8 @@ func resolve(skill: Dictionary, at: Vector2) -> void:
 	var fx: Array = skill.get("fx", [])
 	var player := target_pos()
 	var opener := float(skill.get("opener", 1.0))
+	if boss_script != null and boss_script.resolve(skill, at):
+		return
 	match str(skill.mode):
 		"melee":
 			if position.distance_to(player) <= float(skill.range) + 50.0:
@@ -699,6 +780,10 @@ func resolve(skill: Dictionary, at: Vector2) -> void:
 				manager.heal_allies(self, float(skill.get("range", 300)), float(skill.heal.pct))
 			if skill.has("summon"):
 				manager.summon(self, str(skill.summon.kind), int(skill.summon.count))
+			if skill.has("buff"):
+				buff_pct = float(skill.buff.pct)
+				buff_until = clock + float(skill.buff.ms) / 1000.0
+				manager.puff(position, 90.0)
 			if skill.has("nextAttack"):
 				ramp_stacks = mini(4, ramp_stacks + 1)
 				ramp_clock = clock
@@ -710,6 +795,8 @@ func damage_scale() -> float:
 		scale += float(rage.dmg) * clampf((0.7 - hp / max_hp) / 0.4, 0.0, 1.0)
 	if traits().has("ramp"):
 		scale += float(traits().ramp) * ramp_stacks
+	if clock < buff_until:
+		scale += buff_pct
 	return scale
 
 func basic_attack(player: Vector2) -> void:
@@ -719,7 +806,7 @@ func basic_attack(player: Vector2) -> void:
 		interval /= 1.0 + float(rage.speed)
 	attack_ready = clock + interval
 	actor.play_once("attack")
-	manager.audio().monster_sound(str(def.id), "atk", position.distance_to(player))
+	manager.audio().monster_sound(sound_id(), "atk", position.distance_to(player))
 	var scale := damage_scale()
 	if traits().has("ramp"):
 		ramp_stacks = mini(4, ramp_stacks + 1)
@@ -748,18 +835,24 @@ func _draw() -> void:
 		return
 	var top := -float(def.actor.size[1]) * 0.95 * DRAW_SCALE - 8.0
 	if shown_hp < 0.999 or phase == "engage":
-		var width := 64.0
+		var width := 64.0 if boss.is_empty() else 150.0
 		draw_rect(Rect2(-width / 2.0 - 1.0, top - 1.0, width + 2.0, 8.0), Color(0.04, 0.02, 0.02, 0.85))
 		draw_rect(Rect2(-width / 2.0, top, width * shown_hp, 6.0), Color("d9482b") if shown_hp > 0.3 else Color("f08a2a"))
 		if guard > 0.0:
 			draw_rect(Rect2(-width / 2.0, top + 6.0, width * clampf(guard / max_hp, 0.0, 1.0), 2.0), Color("9fe3ff"))
 	var font: Font = ThemeDB.fallback_font
 	var tag := "%s  poz. %d" % [label, int(def.level)]
+	if not boss.is_empty():
+		tag = "%s · faza %d" % [label, boss_phase]
 	var w := font.get_string_size(tag, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
 	draw_string_outline(font, Vector2(-w / 2.0, top - 6.0), tag, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 5, Color(0.05, 0.02, 0.02, 0.95))
 	draw_string(font, Vector2(-w / 2.0, top - 6.0), tag, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("ffd9c8"))
 	if clock < curl_until:
 		draw_arc(Vector2(0, -20), 38.0, 0, TAU, 28, Color(0.7, 0.8, 1.0, 0.8), 3.0, true)
+	if boss_script != null:
+		boss_script.draw(self)
+	if clock < buff_until:
+		draw_arc(Vector2(0, -40), 56.0, 0, TAU, 32, Color(1.0, 0.55, 0.15, 0.85), 4.0, true)
 	if not casting.is_empty():
 		var skill: Dictionary = casting.skill
 		var mode := str(skill.mode)

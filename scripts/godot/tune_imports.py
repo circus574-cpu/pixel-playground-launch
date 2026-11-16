@@ -11,7 +11,7 @@ import pathlib, re
 PORT = pathlib.Path(__file__).resolve().parents[2] / "ports/godot-pyra"
 LOSSY = {  # folder -> quality; the APK is delivered through Git LFS, so there is no 100 MB file limit to squeeze under
     "assets/objects": 0.9, "assets/actors": 0.92, "assets/hero": 0.92, "assets/rooms": 0.9, "assets/floor": 0.9,
-    "assets/races": 0.9, "assets/monsters": 0.92, "assets/map": 0.9, "assets/icons": 0.92,
+    "assets/races": 0.9, "assets/dungeon": 0.92, "assets/monsters": 0.92, "assets/map": 0.9, "assets/icons": 0.92,
 }
 LAND_LOSSY = {"terrain/*.webp": 0.92, "map.webp": 0.9}
 KEEP_LOSSLESS = ("ctrl-", "road-")

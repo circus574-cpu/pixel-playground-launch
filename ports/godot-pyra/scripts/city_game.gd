@@ -7,6 +7,14 @@ const CITY_PATH := "res://data/city.generated.json"
 const ACTORS_PATH := "res://data/actors.json"
 const ROOMS_PATH := "res://data/rooms.json"
 const PYRA_CAPITAL_OFFSET := Vector2(44564.286027, 12168.472)
+## The warden of each continent's capital tells about the lairs of its bosses (the browser game has one for Verdantia, Kaelen;
+## the other three are written for the port in the same voice).
+const WARDENS := {
+	"verdant": {"name": "Kaelen", "role": "Strażnik Leża Ygdrashy", "dialogue": "Stoisz przed matecznikiem puszczy. W głębi drzew czuwa Ygdrasha – pradawna matka korzeni. Jej pnącza więżą, a jad zatruwa nieuważnych. Używaj ognia i unikaj trujących kałuż!"},
+	"aether": {"name": "Ilvara", "role": "Strażniczka Leży Sanktuarium", "dialogue": "Kronikarze zapisali dwa imiona, o których szepcze się za murami Sanktuarium. Nie idź tam bez planu i bez mikstur."},
+	"nexus": {"name": "Strażnik K-7", "role": "Strażnik Leży Rdzenia", "dialogue": "Czujniki wykryły dwie jednostki nieznanej klasy poza murami Węzła. Procedura zaleca przygotowanie przed kontaktem."},
+	"pyra": {"name": "Draven", "role": "Strażnik Leży Krateru", "dialogue": "Na południu, w lawowych kraterach, zbierają moc dwaj, którym nikt nie śmiał stanąć na drodze. Pamiętaj: leża bossów to nie miejsce dla słabych."},
+}
 const ROLE_OF_SERVICE := {"shop": "merchant", "hall": "steward", "inn": "innkeeper", "smithy": "smith", "depot": "keeper", "arena": "trainer"}
 const WORLD_OF_RACE := {"legend": "pyra", "planetary": "verdant", "sage": "aether", "android": "nexus"}
 const HOME_OF_RACE := {"legend": "pyra", "planetary": "verdant", "sage": "aether", "android": "nexus"}
@@ -57,6 +65,10 @@ var map_data: Dictionary
 var time_since_save_check := 0.0
 var monsters: PyraMonsters
 var monster_data: Dictionary
+var boss_data: Dictionary
+var dungeon_data: Dictionary
+var dungeon: PyraDungeon
+var dungeon_state: Dictionary = {}     # dungeon id -> {"keys": [], "gates": [], "chests": []}, saved with the character
 var respawn_timer := -1.0
 var quests: PyraQuests
 var quest_actors: Array[Dictionary] = []     # {actor, role, town} for the "!" and "?" marks
@@ -105,6 +117,8 @@ func _ready() -> void:
 	actors = PyraContinent.load_json(ACTORS_PATH)
 	rooms_data = PyraContinent.load_json(ROOMS_PATH)
 	monster_data = PyraContinent.load_json("res://data/monsters.json")
+	boss_data = PyraContinent.load_json("res://data/bosses.json")
+	dungeon_data = PyraContinent.load_json("res://data/dungeons.json")
 	audio = PyraAudio.new()
 	add_child(audio)
 	quests = PyraQuests.new(PyraContinent.load_json("res://data/quests.json"))
@@ -127,13 +141,13 @@ func _ready() -> void:
 	economy = PyraEconomy.new(PyraContinent.load_json("res://data/economy.json"))
 	economy.heal_callback = func(fraction: float) -> bool:
 		var top := float(kit.stats().maxHp)
-		if kit.hp >= top:
+		if kit.hp >= top or healing_blocked():
 			return false
 		kit.heal(top * fraction)
 		return true
 	economy.heal_amount_callback = func(amount: float) -> bool:
 		var top := float(kit.stats().maxHp)
-		if kit.hp >= top:
+		if kit.hp >= top or healing_blocked():
 			return false
 		kit.heal(amount)
 		return true
@@ -316,12 +330,31 @@ func build_land_places() -> void:
 		add_street_npc(role, str(npc.name), str(npc.role), str(npc.dialogue), Vector2(float(npc.x), float(npc.y)))
 	for guide: Dictionary in land.guides:
 		add_street_npc("guide", str(guide.name), "Przewodnik szlaku", str(guide.dialogue), Vector2(float(guide.x), float(guide.y)))
+	if WARDENS.has(land_id):
+		var capital_settlement: Dictionary = land.settlements[0]
+		var warden: Dictionary = WARDENS[land_id]
+		add_street_npc("warden", str(warden.name), str(warden.role), str(warden.dialogue), Vector2(float(capital_settlement.x), float(capital_settlement.y)) + Vector2(-260, 130))
+	for entrance: Dictionary in (dungeon_data.lands as Dictionary).get(land_id, []):
+		outdoor_targets.append({"kind": "dungeon", "id": entrance.id, "name": "Jaskinia", "title": "Wejście do jaskini", "point": Vector2(float(entrance.x), float(entrance.y)) + Vector2(0, 70), "entrance": entrance})
+		markers.points.append({"point": Vector2(float(entrance.x), float(entrance.y)) + Vector2(0, 70)})
 	for place: Dictionary in land.famous:
 		outdoor_targets.append({"kind": "place", "id": place.id, "name": place.name, "point": Vector2(float(place.x), float(place.y))})
 
 # ---- spaces (continent and interiors) -------------------------------------------------------
 
+func in_dungeon() -> bool:
+	return current_room == "dungeon" and dungeon != null
+
+## Where monsters, hit numbers and ground effects live: the continent outdoors, the room's own layer in a cave.
+func monster_parent() -> Node:
+	return room_sorted if in_dungeon() else continent.sorted
+
+func fx_parent() -> Node:
+	return room_sorted if in_dungeon() else continent.overlay
+
 func stand(at: Vector2) -> bool:
+	if in_dungeon():
+		return at.is_finite() and dungeon.walkable(at)
 	if current_room.is_empty():
 		return continent.walkable(at)
 	if not at.is_finite() or not room_bounds.grow(-12).has_point(at):
@@ -350,7 +383,7 @@ func can_stand(at: Vector2, room: String) -> bool:
 
 func foes_in(center: Vector2, radius: float) -> Array:
 	var found := []
-	if current_room.is_empty() and is_instance_valid(monsters):
+	if (current_room.is_empty() or in_dungeon()) and is_instance_valid(monsters):
 		found.append_array(monsters.foes_in(center, radius))
 	for dummy in dummies:
 		if is_instance_valid(dummy) and dummy.position.distance_to(center) <= radius + 30.0:
@@ -369,10 +402,45 @@ func load_space(room: String, at: Vector2, town: String = "") -> void:
 	current_target = null
 	if player.get_parent() != null:
 		player.get_parent().remove_child(player)
+	if room != "dungeon":
+		leave_dungeon_state()
 	current_room = room
 	room_town = town
 	player.set_interior(not room.is_empty())
 	targets = [] as Array[Dictionary]
+	if room == "dungeon":
+		continent.visible = false
+		continent.process_mode = Node.PROCESS_MODE_DISABLED
+		monsters.clear_all()
+		monsters.process_mode = Node.PROCESS_MODE_INHERIT
+		room_bounds = dungeon.bounds()
+		room_obstacles = []
+		room_root = Node2D.new()
+		add_child(room_root)
+		room_sorted = Node2D.new()
+		room_sorted.y_sort_enabled = true
+		room_root.add_child(room_sorted)
+		room_sorted.add_child(player)
+		dungeon.build(room_root, room_sorted, player)
+		targets = dungeon.targets()
+		var spots: Array = []
+		for g: Dictionary in dungeon.guards:
+			spots.append(g)
+		monsters.populate_dungeon(spots, func(cell: Vector2i) -> Vector2: return dungeon.center(cell))
+		for trap in dungeon.traps:
+			monsters.add_zone({"kind": "spikes", "ms": 99999999, "radius": 46, "dps": 0.35}, trap, 28.0 + 6.0 * float(dungeon.reward_tier()))
+		camera.limit_left = 0
+		camera.limit_top = 0
+		camera.limit_right = int(room_bounds.size.x)
+		camera.limit_bottom = int(room_bounds.size.y)
+		hud.place.text = "Jaskinia · " + str(land.name)
+		player.position = at
+		player.visual.face(Vector2.DOWN)
+		camera.reset_smoothing()
+		input_suspended = false
+		player.locked = hud.modal.visible
+		queue_redraw()
+		return
 	if room.is_empty():
 		continent.visible = true
 		if is_instance_valid(monsters):
@@ -591,6 +659,29 @@ func interact() -> void:
 			load_space(room, point(rooms_data[world_id][room].entry), str(target.town))
 		"exit":
 			load_space("", city_return)
+		"dungeon":
+			enter_dungeon(target.entrance)
+		"dkey":
+			if dungeon.pick_up_key(player.position):
+				audio.sfx("common/loot")
+				hud.toast("Podniesiono stary klucz. Pasuje do kraty w głębi jaskini.")
+				targets = dungeon.targets()
+		"dgate":
+			if dungeon.open_gate(player.position):
+				audio.sfx("common/door")
+				hud.toast("Krata ustępuje. Droga do skarbca stoi otworem.")
+				targets = dungeon.targets()
+			else:
+				hud.toast("Krata jest zamknięta. Potrzebny jest klucz.")
+		"dchest":
+			var reward := dungeon.claim(str(target.id), player.position)
+			if not reward.is_empty():
+				economy.gold += int(reward.gold)
+				economy.add_item("potion", int(reward.potions))
+				economy.changed.emit()
+				audio.sfx("common/loot")
+				hud.toast("Skrzynia: +%d monet, mikstury ×%d." % [int(reward.gold), int(reward.potions)])
+				targets = dungeon.targets()
 		"npc":
 			var npc: Dictionary = target.definition
 			var actions := []
@@ -633,6 +724,13 @@ func interact() -> void:
 						actions.append({"text": "PRZEKAŻ: %s ×%d" % [economy.name_of(item_id), amount], "callback": func() -> void:
 							quests.record("deliver", item_id, amount)
 							hud.close_dialog()})
+			if str(target.id) == "warden" and service == "":
+				for info: Dictionary in boss_data.bosses:
+					if str(info.continent) != land_id:
+						continue
+					extra += "\n\n%s (poz. %d+)\n%s\n%s\nSłabość: %s" % [info.name, int(info.level), info.locationName, info.behavior, info.weakness]
+					var boss_id: String = str(info.id)
+					actions.append({"text": "WEJDŹ DO LEŻA: " + str(info.name), "callback": func() -> void: enter_boss_lair(boss_id)})
 			hud.show_dialog(str(npc.name) + " · " + str(npc.role), str(npc.dialogue) + extra, actions)
 		"landmark":
 			if target.id == "chest":
@@ -647,6 +745,8 @@ func interact() -> void:
 # ---- combat -------------------------------------------------------------------------------
 
 func in_safe_city(at: Vector2) -> bool:
+	if in_dungeon():
+		return false
 	if not current_room.is_empty():
 		return true
 	for s in settlements:
@@ -656,7 +756,7 @@ func in_safe_city(at: Vector2) -> bool:
 
 ## The closest thing the hero can fight: a monster outdoors, the training dummy in the arena.
 func nearest_foe() -> Node2D:
-	if current_room.is_empty():
+	if current_room.is_empty() or in_dungeon():
 		return monsters.nearest(player.position, 520.0) if is_instance_valid(monsters) else null
 	return nearest_dummy()
 
@@ -665,7 +765,7 @@ func hurt_player(monster: PyraMonster, raw: float, _kind: String, fx: Array) -> 
 	if in_safe_city(player.position) or kit.dead or kit.has_buff("invulnerable"):
 		return
 	var dealt := kit.take_damage(raw)
-	PyraFx.number(continent.sorted, player.position + Vector2(0, -90), int(round(dealt)), false)
+	PyraFx.number(monster_parent(), player.position + Vector2(0, -90), int(round(dealt)), false)
 	player.visual.hurt_flash()
 	audio.sfx("common/player-hurt")
 	for f: Dictionary in fx:
@@ -679,7 +779,7 @@ func zone_hit(raw: float, fx: Array, atk: float, at: Vector2) -> void:
 		return
 	if raw > 0.0:
 		var dealt := kit.take_damage(raw)
-		PyraFx.number(continent.sorted, player.position + Vector2(0, -90), int(round(dealt)), false)
+		PyraFx.number(monster_parent(), player.position + Vector2(0, -90), int(round(dealt)), false)
 		if kit.dead:
 			hud.toast("Poległeś…")
 	for f: Dictionary in fx:
@@ -742,7 +842,7 @@ func reward(def: Dictionary, at: Vector2) -> void:
 	if not names.is_empty():
 		text += " · " + ", ".join(names)
 	hud.toast(text)
-	PyraFx.number(continent.sorted, at + Vector2(0, -60), xp, true)
+	PyraFx.number(monster_parent(), at + Vector2(0, -60), xp, true)
 
 func handle_death(delta: float) -> void:
 	if kit.dead and respawn_timer < 0.0:
@@ -822,6 +922,96 @@ func use_potion() -> void:
 	if economy.use("potion"):
 		audio.sfx("common/potion")
 
+## The cave behind an entrance: built from the entrance's id, so it is always the same one; keys, gates and chests are saved.
+func enter_dungeon(entrance: Dictionary) -> void:
+	var kinds: Array = []
+	for kind: String in monsters.kinds:
+		if monster_data.monsters.has(kind) and not bool(monster_data.monsters[kind].get("minion", false)):
+			kinds.append(kind)
+	kinds.sort_custom(func(a: String, b: String) -> bool: return int(monster_data.monsters[a].level) < int(monster_data.monsters[b].level))
+	var info := entrance.duplicate()
+	var top_level := int(monster_data.monsters[kinds[kinds.size() - 1]].level) if not kinds.is_empty() else 1
+	info["tier"] = int(top_level / 3)
+	var key := str(entrance.id)
+	if not dungeon_state.has(key):
+		dungeon_state[key] = {"keys": [], "gates": [], "chests": []}
+	city_return = open_ground(Vector2(float(entrance.x), float(entrance.y)) + Vector2(0, 110))
+	dungeon = PyraDungeon.new()
+	dungeon.setup(info, land_id, world_id, kinds, dungeon_state[key])
+	audio.sfx("common/door")
+	load_space("dungeon", dungeon.arrival())
+
+func leave_dungeon_state() -> void:
+	if dungeon != null:
+		dungeon.cleanup()
+		dungeon = null
+	if is_instance_valid(monsters):
+		monsters.clear_all()
+
+## Kharzul's burning arena (phase 3) takes healing away.
+func healing_blocked() -> bool:
+	if not is_instance_valid(monsters):
+		return false
+	for m: PyraMonster in monsters.active.values():
+		if is_instance_valid(m) and m.boss_script != null and m.boss_script.blocks_healing():
+			hud.toast("Płomienie Kharzula blokują leczenie.")
+			return true
+	return false
+
+## The point of a boss's lair (a famous place of the land) moved to open ground outside every safe city.
+func boss_lair(info: Dictionary) -> Vector2:
+	var places: Dictionary = quests.data.places[land_id].famous
+	var centre := Vector2(float(land.arrival.x), float(land.arrival.y)) + Vector2(900, 0)
+	if places.has(str(info.get("associatedLocationId", ""))):
+		var spot: Dictionary = places[str(info.associatedLocationId)]
+		centre = Vector2(float(spot.x), float(spot.y))
+	return open_ground(centre)
+
+func open_ground(centre: Vector2) -> Vector2:
+	if continent.walkable(centre) and not in_safe_city(centre):
+		return centre
+	for ring in range(1, 40):
+		var distance := 48.0 * ring
+		for step in 16:
+			var candidate := centre + Vector2.from_angle(TAU * step / 16.0) * distance
+			if candidate.x > 0.0 and candidate.y > 0.0 and continent.walkable(candidate) and not in_safe_city(candidate):
+				return candidate
+	return centre
+
+## The warden opens the way to a boss's lair: the hero stands at its edge and the boss waits (a boss already alive is reused).
+func enter_boss_lair(boss_id: String) -> void:
+	var info := monsters.boss_info(boss_id)
+	if info.is_empty():
+		return
+	hud.close_dialog()
+	var lair := boss_lair(info)
+	var arrive := open_ground(lair + Vector2(-260, 120))
+	if not current_room.is_empty():
+		load_space("", arrive)
+	else:
+		player.position = arrive
+	continent.update_view(camera_view(), true)
+	var boss := monsters.spawn_boss(boss_id, open_ground(lair))
+	if boss == null:
+		return
+	boss.home = lair
+	hud.toast("%s: %s czeka na walkę!" % [info.locationName, info.name])
+	audio.sfx("common/door")
+
+## Reward of a boss: the experience already came with the kill; the loot table rolls here and goes to the bag.
+func boss_defeated(info: Dictionary, at: Vector2) -> void:
+	var names: Array[String] = []
+	for drop: Dictionary in info.lootTable:
+		if randf() * 100.0 >= float(drop.chancePercent):
+			continue
+		var quantity := int(drop.minCount) + randi() % (int(drop.maxCount) - int(drop.minCount) + 1)
+		if economy.add_item(str(drop.itemId), quantity):
+			names.append("%s ×%d" % [drop.itemName, quantity])
+		else:
+			names.append("%s ×%d (plecak pełny — porzucone)" % [drop.itemName, quantity])
+	hud.toast("%s pokonany! Łup: %s" % [info.name, ", ".join(names) if not names.is_empty() else "brak"])
+	audio.sfx("common/quest-complete")
+
 func dodge() -> void:
 	if player.locked or input_suspended:
 		return
@@ -878,21 +1068,24 @@ func _process(delta: float) -> void:
 	hud.touch.enabled_target = not target.is_empty()
 	hud.touch.action_text = "E"
 	hud.hint.text = ("E · " + str(target.get("title", target.name))) if not target.is_empty() else ""
-	if current_room.is_empty():
+	if in_dungeon():
+		hud.place.text = "Jaskinia · " + str(land.name)
+	elif current_room.is_empty():
 		hud.place.text = region_name()
 		var view := camera_view()
 		markers.view = view
 		if player.position.distance_to(stream_center) > 420.0:
 			stream_center = player.position
 			continent.update_view(view)
-	else:
+	elif not in_dungeon():
 		var dummy := nearest_dummy()
 		hud.meter.text = ("Manekin: %d obrażeń/s · %d łącznie" % [int(dummy.recent_dps), int(dummy.total_taken)]) if dummy != null else ""
-	if current_room.is_empty():
+	if current_room.is_empty() or in_dungeon():
 		hud.meter.text = ""
 		var foe_out := nearest_foe()
-		hud.set_target({"name": foe_out.label, "hp": foe_out.hp, "max": foe_out.max_hp, "level": int(foe_out.def.level)} if foe_out != null and foe_out.phase != "idle" else {})
-		hud.set_player(player.position, player.facing)
+		hud.set_target({"name": foe_out.label if foe_out.boss.is_empty() else "%s · faza %d" % [foe_out.label, foe_out.boss_phase], "hp": foe_out.hp, "max": foe_out.max_hp, "level": int(foe_out.def.level)} if foe_out != null and foe_out.phase != "idle" else {})
+		if current_room.is_empty():
+			hud.set_player(player.position, player.facing)
 	else:
 		var foe := nearest_dummy()
 		hud.set_target({"name": foe.label, "hp": foe.hp, "max": foe.max_hp} if foe != null and foe.position.distance_to(player.position) < 420.0 else {})
@@ -1009,6 +1202,7 @@ func start_new_character(new_race: String) -> void:
 	if not current_room.is_empty():
 		load_space("", city_return)
 	quests.reset()
+	dungeon_state = {}
 	economy.gold = 20
 	economy.upgrades = {}
 	economy.bag = {"potion": 3}
@@ -1063,10 +1257,13 @@ func show_licenses() -> void:
 # ---- save ------------------------------------------------------------------------------------
 
 func save_checkpoint(path: String = SAVE_PATH) -> bool:
-	if checkpoint_protected or not can_stand(player.position, current_room):
+	if checkpoint_protected or (not in_dungeon() and not can_stand(player.position, current_room)):
 		hud.toast("Nie zapisano punktu; istniejący plik pozostaje zachowany.")
 		return false
-	var value := {"format": SAVE_FORMAT, "version": 2, "race": race, "land": land_id, "room": current_room, "town": room_town, "position": [player.position.x, player.position.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save(), "economy": economy.to_save(), "quests": quests.to_save()}
+	var in_cave := in_dungeon()
+	var save_room := "" if in_cave else current_room
+	var save_at := city_return if in_cave else player.position
+	var value := {"format": SAVE_FORMAT, "version": 2, "race": race, "land": land_id, "room": save_room, "town": room_town, "position": [save_at.x, save_at.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save(), "economy": economy.to_save(), "quests": quests.to_save(), "dungeons": dungeon_state}
 	var file := FileAccess.open(path + ".tmp", FileAccess.WRITE)
 	if file == null:
 		return false
@@ -1137,9 +1334,31 @@ func restore_checkpoint(path: String = SAVE_PATH) -> bool:
 			pass
 		else:
 			quests.reset()
+		dungeon_state = valid_dungeon_state(value.get("dungeons", {}))
 	city_return = back
 	load_space(room, at, str(value.get("town", "")))
 	return true
+
+## Saved cave progress: {id: {keys, gates, chests}} of unique strings; anything else is dropped (the caves start fresh).
+static func valid_dungeon_state(value: Variant) -> Dictionary:
+	var clean: Dictionary = {}
+	if not value is Dictionary:
+		return clean
+	for key in (value as Dictionary).keys():
+		var entry: Variant = value[key]
+		if not key is String or not entry is Dictionary:
+			continue
+		var kept: Dictionary = {}
+		for field in ["keys", "gates", "chests"]:
+			var list: Variant = (entry as Dictionary).get(field, [])
+			var strings: Array = []
+			if list is Array:
+				for item in list:
+					if item is String and not strings.has(item):
+						strings.append(item)
+			kept[field] = strings
+		clean[key] = kept
+	return clean
 
 func rollback(previous_race: String, previous_land: String, previous_state: Dictionary, previous_economy: Dictionary, previous_position: Vector2) -> void:
 	if race != previous_race:

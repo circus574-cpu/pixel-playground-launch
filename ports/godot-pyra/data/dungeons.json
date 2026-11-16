@@ -1,0 +1,192 @@
+{
+ "lands": {
+  "pyra": [
+   {
+    "id": "v2-transit-3-pyra",
+    "instanceId": "v2-transit-3",
+    "kind": "cave",
+    "x": 19984,
+    "y": 29360
+   },
+   {
+    "id": "v2-transit-4-pyra",
+    "instanceId": "v2-transit-4",
+    "kind": "cave",
+    "x": 30896,
+    "y": 15984
+   },
+   {
+    "id": "v2-pyra-chambers-pyra",
+    "instanceId": "v2-pyra-chambers",
+    "kind": "cave",
+    "x": 33968,
+    "y": 23024
+   },
+   {
+    "id": "v2-pyra-labyrinth-pyra",
+    "instanceId": "v2-pyra-labyrinth",
+    "kind": "maze",
+    "x": 28144,
+    "y": 15248
+   }
+  ],
+  "verdant": [
+   {
+    "id": "v2-transit-1-verdant",
+    "instanceId": "v2-transit-1",
+    "kind": "cave",
+    "x": 52240,
+    "y": 17744
+   },
+   {
+    "id": "v2-transit-4-verdant",
+    "instanceId": "v2-transit-4",
+    "kind": "cave",
+    "x": 51632,
+    "y": 30032
+   },
+   {
+    "id": "v2-verdant-chambers-verdant",
+    "instanceId": "v2-verdant-chambers",
+    "kind": "cave",
+    "x": 40944,
+    "y": 25840
+   },
+   {
+    "id": "v2-verdant-labyrinth-verdant",
+    "instanceId": "v2-verdant-labyrinth",
+    "kind": "maze",
+    "x": 61296,
+    "y": 22896
+   }
+  ],
+  "aether": [
+   {
+    "id": "v2-transit-1-aether",
+    "instanceId": "v2-transit-1",
+    "kind": "cave",
+    "x": 28368,
+    "y": 19024
+   },
+   {
+    "id": "v2-transit-2-aether",
+    "instanceId": "v2-transit-2",
+    "kind": "cave",
+    "x": 44592,
+    "y": 32048
+   },
+   {
+    "id": "v2-aether-chambers-aether",
+    "instanceId": "v2-aether-chambers",
+    "kind": "cave",
+    "x": 23152,
+    "y": 23888
+   },
+   {
+    "id": "v2-aether-labyrinth-aether",
+    "instanceId": "v2-aether-labyrinth",
+    "kind": "maze",
+    "x": 43376,
+    "y": 32240
+   }
+  ],
+  "nexus": [
+   {
+    "id": "v2-transit-2-nexus",
+    "instanceId": "v2-transit-2",
+    "kind": "cave",
+    "x": 25008,
+    "y": 17712
+   },
+   {
+    "id": "v2-transit-3-nexus",
+    "instanceId": "v2-transit-3",
+    "kind": "cave",
+    "x": 33072,
+    "y": 37360
+   },
+   {
+    "id": "v2-nexus-chambers-nexus",
+    "instanceId": "v2-nexus-chambers",
+    "kind": "cave",
+    "x": 35888,
+    "y": 36304
+   },
+   {
+    "id": "v2-nexus-labyrinth-nexus",
+    "instanceId": "v2-nexus-labyrinth",
+    "kind": "maze",
+    "x": 44656,
+    "y": 19696
+   }
+  ],
+  "island-1": [
+   {
+    "id": "v2-island-1-chambers-island-1",
+    "instanceId": "v2-island-1-chambers",
+    "kind": "cave",
+    "x": 8880,
+    "y": 2000
+   }
+  ],
+  "island-2": [
+   {
+    "id": "v2-island-2-chambers-island-2",
+    "instanceId": "v2-island-2-chambers",
+    "kind": "cave",
+    "x": 7920,
+    "y": 3152
+   }
+  ],
+  "island-3": [
+   {
+    "id": "v2-island-3-chambers-island-3",
+    "instanceId": "v2-island-3-chambers",
+    "kind": "cave",
+    "x": 9200,
+    "y": 9232
+   }
+  ],
+  "island-4": [
+   {
+    "id": "v2-island-4-chambers-island-4",
+    "instanceId": "v2-island-4-chambers",
+    "kind": "cave",
+    "x": 6864,
+    "y": 7632
+   }
+  ],
+  "island-5": [
+   {
+    "id": "v2-island-5-chambers-island-5",
+    "instanceId": "v2-island-5-chambers",
+    "kind": "cave",
+    "x": 2992,
+    "y": 6224
+   }
+  ],
+  "island-6": [
+   {
+    "id": "v2-island-6-chambers-island-6",
+    "instanceId": "v2-island-6-chambers",
+    "kind": "cave",
+    "x": 7280,
+    "y": 6992
+   }
+  ]
+ },
+ "art": [
+  "an-iron-prison-cage",
+  "bone-pile",
+  "cave-wall-chunk",
+  "cracked-stone-pillar",
+  "floor-spike-trap",
+  "glowing-crystal-cluster",
+  "rock-with-glowing-lava-cracks",
+  "stalagmite-cluster",
+  "stone-doorway",
+  "stone-sarcophagus",
+  "torch-on-a-stand",
+  "treasure-chest"
+ ]
+}
