@@ -105,7 +105,9 @@ export async function accountHttp(
       if (request.method === "GET" && path === "/admin/accounts")
         return send(200, { accounts: await service.listAccounts(url.searchParams.get("q") ?? "") });
       if (request.method === "GET" && path === "/admin/audit")
-        return send(200, { audit: await service.auditLog() });
+        return send(200, {
+          audit: await service.auditLog(200, url.searchParams.get("kind") ?? "admin"),
+        });
       if (request.method === "POST" && path === "/admin/roles") {
         const b = await body();
         await service.setRole(subject, b["userId"], b["role"], b["granted"]);
@@ -133,10 +135,22 @@ export async function accountHttp(
           message: "Jeśli konto czeka na aktywację, wysłaliśmy nowy link.",
         });
       case "/login": {
-        limitEmail(b["email"]);
+        try {
+          limitEmail(b["email"]);
+        } catch (rate) {
+          await service.recordLogin(
+            false,
+            b["email"],
+            { reason: "LIMIT_PROB", userId: null },
+            userAgent,
+            clientIp(request),
+          );
+          throw rate;
+        }
         const session = await service.login(
           { email: b["email"], password: b["password"] },
           userAgent,
+          clientIp(request),
         );
         if (typeof b["email"] === "string") perEmail.reset(b["email"].trim().toLowerCase());
         return send(200, session);

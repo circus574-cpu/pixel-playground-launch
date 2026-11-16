@@ -162,21 +162,86 @@ export class AccountService {
       await this.sendConfirmation(user.id, user.email, user.nick);
   }
 
-  async login(input: { email: unknown; password: unknown }, userAgent?: string): Promise<Session> {
+  /**
+   * Signs in. Every attempt is written to the audit log (action LOGIN or LOGIN_FAILED) with the real reason, which the player is not told (the
+   * answer stays "wrong e-mail or password"): BRAK_KONTA, ZLE_HASLO, KONTO_NIEAKTYWNE, KONTO_ZABLOKOWANE, NIEPOPRAWNE_DANE. The password is never stored.
+   */
+  async login(
+    input: { email: unknown; password: unknown },
+    userAgent?: string,
+    ip?: string,
+  ): Promise<Session> {
+    const trace: { reason: string; userId: string | null; legacy?: string } = {
+      reason: "NIEPOPRAWNE_DANE",
+      userId: null,
+    };
+    try {
+      const session = await this.loginCore(input, userAgent, trace);
+      await this.recordLogin(true, input.email, trace, userAgent, ip);
+      return session;
+    } catch (error) {
+      await this.recordLogin(false, input.email, trace, userAgent, ip);
+      throw error;
+    }
+  }
+
+  /** One line of the sign-in log; a failure to write it never blocks or changes the sign-in. */
+  async recordLogin(
+    ok: boolean,
+    email: unknown,
+    trace: { reason: string; userId: string | null; legacy?: string },
+    userAgent?: string,
+    ip?: string,
+  ) {
+    try {
+      await this.audit(ok ? trace.userId : null, ok ? "LOGIN" : "LOGIN_FAILED", null, {
+        email: typeof email === "string" ? email.trim().toLowerCase().slice(0, 120) : null,
+        reason: ok ? "OK" : trace.reason,
+        ...(trace.legacy ? { legacy: trace.legacy } : {}),
+        ip: (ip ?? "").slice(0, 64),
+        ua: (userAgent ?? "").slice(0, 120),
+      });
+    } catch {
+      /* the log is best effort */
+    }
+  }
+
+  private async loginCore(
+    input: { email: unknown; password: unknown },
+    userAgent: string | undefined,
+    trace: { reason: string; userId: string | null; legacy?: string },
+  ): Promise<Session> {
     const email = emailSchema.parse(input.email);
     const password = passwordSchema.safeParse(input.password);
-    if (!password.success) throw new AccountError("INVALID_CREDENTIALS");
+    if (!password.success) {
+      trace.reason = "NIEPOPRAWNE_DANE";
+      throw new AccountError("INVALID_CREDENTIALS");
+    }
     const [user] = await this.o.sql<UserRow[]>`
       SELECT * FROM accounts.users WHERE lower(email) = ${email}`;
     if (!user) {
+      trace.legacy = this.o.legacy?.url ? "wlaczona" : "wylaczona";
       const migrated = await this.migrateLegacy(email, password.data);
-      if (!migrated) throw new AccountError("INVALID_CREDENTIALS");
+      if (!migrated) {
+        trace.reason = "BRAK_KONTA";
+        throw new AccountError("INVALID_CREDENTIALS");
+      }
+      trace.userId = migrated;
       return this.startSession(migrated, userAgent);
     }
-    if (!(await verifyPassword(password.data, user.password_hash)))
+    trace.userId = user.id;
+    if (!(await verifyPassword(password.data, user.password_hash))) {
+      trace.reason = "ZLE_HASLO";
       throw new AccountError("INVALID_CREDENTIALS");
-    if (user.disabled_at) throw new AccountError("ACCOUNT_DISABLED");
-    if (!user.email_confirmed_at) throw new AccountError("EMAIL_NOT_CONFIRMED");
+    }
+    if (user.disabled_at) {
+      trace.reason = "KONTO_ZABLOKOWANE";
+      throw new AccountError("ACCOUNT_DISABLED");
+    }
+    if (!user.email_confirmed_at) {
+      trace.reason = "KONTO_NIEAKTYWNE";
+      throw new AccountError("EMAIL_NOT_CONFIRMED");
+    }
     return this.startSession(user.id, userAgent);
   }
 
@@ -384,7 +449,9 @@ export class AccountService {
     await this.audit(actor, on ? "GRANT_ROLE" : "REVOKE_ROLE", userId, { role: r });
   }
 
-  async auditLog(limit = 200) {
+  /** `kind` "login" = the sign-in log (LOGIN, LOGIN_FAILED), anything else = changes made in the panel and account events. */
+  async auditLog(limit = 200, kind = "admin") {
+    const logins = kind === "login";
     return this.o.sql<
       {
         id: string;
@@ -398,6 +465,7 @@ export class AccountService {
       FROM accounts.audit a
       LEFT JOIN accounts.users ua ON ua.id = a.actor
       LEFT JOIN accounts.users ut ON ut.id = a.target
+      WHERE (a.action IN ('LOGIN', 'LOGIN_FAILED')) = ${logins}
       ORDER BY a.at DESC LIMIT ${Math.min(500, Math.max(1, limit))}`;
   }
 

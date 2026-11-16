@@ -203,7 +203,12 @@ export async function adminAccounts(query = "") {
 export async function adminSetRole(userId: string, role: AppRole, granted: boolean) {
   await call("/admin/roles", { userId, role, granted }, await accessToken());
 }
-export async function adminAudit() {
-  return (await call<{ audit: AdminAuditRow[] }>("/admin/audit", undefined, await accessToken()))
-    .audit;
+export async function adminAudit(kind: "admin" | "login" = "admin") {
+  return (
+    await call<{ audit: AdminAuditRow[] }>(
+      "/admin/audit?kind=" + kind,
+      undefined,
+      await accessToken(),
+    )
+  ).audit;
 }
