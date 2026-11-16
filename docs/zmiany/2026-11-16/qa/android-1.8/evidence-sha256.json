@@ -1,0 +1,21 @@
+{
+  "acceptance.json": "83799a209b463a38cc1edc8aeb15e2eaa9909349bd598555f643432748eb1edf",
+  "documentation.txt": "2e7e73c96db6bb4421ec6b980ba82cd6d9dcd12e557df8a8934ca1204cc53ef4",
+  "e2e-core.txt": "a787ebadb1004e3fd1efee420f283b0401618138eebd7162ff588d6cc8006791",
+  "e2e-installed.txt": "073b7e8523993cd710f04a21b6476aff4c988768d37d16b7d8bc391cf269fbd1",
+  "game-native-results.json": "8673ffa9b5a3bf4104eda5772271b30a927331c5af78780e0aca7941f3550940",
+  "gm-headless-results.json": "6d3a0dc5a8551ed6b31c5b4a6c763cfba8f60cc5cdf601ddec7472160e1d7ccb",
+  "gm-headless.txt": "82ea9ac34bf4a66f920377bed40e0193c4048c65c36ad45df4e721551080c461",
+  "gm-native-results.json": "6d3a0dc5a8551ed6b31c5b4a6c763cfba8f60cc5cdf601ddec7472160e1d7ccb",
+  "gm-native.txt": "d927e284da3eb69e75672cae8a6a46ae96e0970fb711f42ef705fbdbeeb74cf5",
+  "gm-tools-854x480.png": "f37e230214be37fed30424f4fe21a2bd4dec449bdd70640dbf8b7322187ef5d3",
+  "hud-headless-results.json": "02b527c0c69910ab2f1b9c07268569f8e0f8cdabe0e1b30dd06cd3d3dfb69697",
+  "hud-native-results.json": "02b527c0c69910ab2f1b9c07268569f8e0f8cdabe0e1b30dd06cd3d3dfb69697",
+  "lint.txt": "794b7951aaaad0a8db5a52bd72052a649801fd431f57890ec6e5662991e121aa",
+  "menu-gm-844x390.png": "2015f8e6346ef5f23a87a34697d8ee1e68a32cd8381de4c074a315a6571e18fc",
+  "menu-native-results.json": "b9ca38505ff2f8f5d81c9223a2f98ab13cc65f1aaa3b57866e295f1b4b95780e",
+  "smoke-results.json": "4a106b3f99783b7de606be03b92f5f58af74365802d7f0939dc2e1a0b1136d15",
+  "smoke.txt": "faaefc62073e801d19ac343f9c6851e73b7c82412762c910683461cb205b5347",
+  "typecheck.txt": "34fcd766e4baf0285264f33c36dcd9041d763c777c690c7234996489e0b99b68",
+  "vitest-export.txt": "56ab5e68f86a4d5143cbc4d300ab9b7d8d1ab11cb1af6c29aa4210e60ae19d41"
+}

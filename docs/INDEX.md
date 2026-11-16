@@ -1,5 +1,10 @@
 # KI Legends — dokumentacja projektu
 
+**Android — GM i menu 1.8, 16.11:** na gałęzi `feat/android-gm-tools-1.8-20261116`
+przygotowano właściwe komendy GM (nieśmiertelność, cooldowny, poziom, pieniądze,
+teleport) i nowe menu; zastępują podgląd 1.7 odrzucony przez właściciela.
+[Wyniki i zrzuty](zmiany/2026-11-16/ZMIANY.md#23-android-18--właściwe-komendy-gm-i-menu-gry).
+
 **Android — HUD 1.7, 16.11:** opublikowane większe ikony, dotyk minimapy i natywny
 podgląd GM z osobnej gałęzi `feat/android-hud-1.7-20261116`. Aktywne wydanie serwera
 to **1.7**, potwierdzone publicznym manifestem i SHA-256 rdzenia. [Bieżący checkpoint Androida](../ports/godot-pyra/README.md),

@@ -1762,8 +1762,8 @@ func run() -> void:
 	game.kit.hp = float(game.kit.stats().maxHp)
 	game.show_menu()
 	await settle()
-	verify(game.hud.modal.visible and game.player.locked, "menu suspends and clears input")
-	game.hud.close_dialog()
+	verify(is_instance_valid(game.screen) and game.screen.get_script().resource_path == "res://scripts/game_menu.gd" and game.player.locked and game.hud.touch.stick == Vector2.ZERO, "menu suspends and clears input")
+	game.close_screen()
 	game.hud.notice.text = ""
 	game.hud.notice_until = 0
 	for dimensions in [Vector2i(854, 480), Vector2i(1600, 720), Vector2i(1280, 720)]:

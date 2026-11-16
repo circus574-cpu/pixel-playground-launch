@@ -1,28 +1,25 @@
 # KI Legends Android — projekt Godot 4
 
-**Aktualny checkpoint, 16.11:** zainstalowana aplikacja **1.0** (`versionCode` 100),
-aktywne wydanie serwera **1.7**. Na gałęzi `feat/android-hud-1.7-20261116`
-opublikowano aktualizację: większe przyciski HUD-u (preferowane 100 × 112
-jednostek), układ uwzględniający wycięcia ekranu, dotyk minimapy otwierający mapę
-i natywny panel GM dla kont admin/GM. Panel ponownie sprawdza rolę na serwerze;
-w aplikacji pokazuje stan serwera, graczy według krain i podsumowanie zapisów.
-Pełne operacje GM pozostają w konsoli WWW, wymagającej własnego logowania.
+**Aktualny checkpoint, 16.11:** APK **1.0**, kod 100; na serwerze **1.7**.
+Przygotowane **1.8**, gałąź `feat/android-gm-tools-1.8-20261116`, zastępuje
+odrzucony przez właściciela podgląd GM właściwymi narzędziami z gry przeglądarkowej:
+**nieśmiertelność, brak cooldownów zdolności, leczenie, poziom, monety, mikstury,
+teleport przez współrzędne i listę miejsc/krain**. Poziomy 1–20 zachowują aktualny
+zakres Androida, bez zmiany kanonu. KI nadal jest wydawane. Panel dotyczy bieżącej
+postaci, a role sprawdza serwer przed każdą komendą. Tryby GM nie trafiają do save.
 
-**1.7 aktywna od 16.11, 19:00 UTC.** Wszystkie 27 paczek są w `deliveries/godot-content-1.7`;
-zmienia się tylko rdzeń (3 523 184 bajty), bez nowego APK, zmiany świata i formatu
-zapisu. Wyniki: regresja **539/539**, HUD **42/42 headless i 42/42 natywnie**,
-pełna scena **5/5**, menu **11/11** w obu trybach, aktualizacja oryginalnego APK
-1.0 **PASS**. Zrzuty pochodzą z rzeczywistej gry w programowym OpenGL; dane GM
-w testach pochodzą z jawnej atrapy odpowiedzi serwera. Fizyczny telefon i działanie
-panelu na prawdziwym koncie GM pozostają niezweryfikowane. Duży test regresji
-nadal raportuje zastane ostrzeżenia przy zwalnianiu zasobów.
-[Raport, ograniczenia i zrzuty](../../docs/zmiany/2026-11-16/ZMIANY.md#22-android-17--hud-dotyk-minimapy-i-natywny-panel-gm).
-[Publikacja 43934619568 — SUCCESS](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/43934619568),
-źródło `f007114b`; potwierdzono publiczny manifest oraz SHA-256 pobranego rdzenia.
-Aktualizacja pobiera się przy ponownym uruchomieniu APK 1.0.
-Postacie webowe nie są automatycznie importowane do zapisów Androida; ta
-aktualizacja nie migruje ani nie resetuje zapisów. Szczegóły opublikowanej 1.6
-pozostają w sekcji 21 dziennika 16.11.
+Menu gry ma duże przyciski w siatce, zamiast długiego dialogu. Zachowano mapę,
+postać, plecak, questy, zapis, dźwięk, czat, pobieranie krain i pozostałe funkcje.
+Zwykła sakiewka testowa została zastąpiona komendą pieniędzy w GM. Poprawki HUD-u
+i minimapy z 1.7 pozostają. Wydanie nie wymaga nowego APK ani resetu postaci.
+
+Wyniki: **539/539** regresji, GM **58/58 headless i 58/58 natywnie**, HUD **42/42**
+w obu trybach, rzeczywista scena **5/5**, test aktualizacji oryginalnego APK 1.0
+**PASS**, Vitest eksportu **6/6**, pełny TypeScript oraz lint bez błędów.
+Testy ról/chmury korzystają z jawnej atrapy serwera; fizyczny telefon i rzeczywiste
+konto GM nie były używane. Przy zamykaniu części runnerów pozostają ostrzeżenia
+zasobów. [Raport i zrzuty](../../docs/zmiany/2026-11-16/ZMIANY.md#23-android-18--właściwe-komendy-gm-i-menu-gry).
+**Paczka 1.8 przygotowana do publikacji w ramach polecenia właściciela.**
 
 Dokumentacja natywnej aplikacji **KI Legends na Androida** (Godot 4.6.3, GDScript, renderer Compatibility),
 stan 16.11.2026. Kod w repozytorium to **pełna gra: potwory, questy, dźwięk, ekwipunek, bossowie, jaskinie, wydarzenia świata, dzień i noc**

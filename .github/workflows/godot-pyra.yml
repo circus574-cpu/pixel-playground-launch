@@ -45,9 +45,10 @@ jobs:
           godot --headless --audio-driver Dummy --path ports/godot-pyra --script res://tests/hud_mobile.gd -- --qa-output "$GITHUB_WORKSPACE/godot-qa/hud-headless" > godot-qa/hud-headless.txt 2>&1
           xvfb-run -a -s '-screen 0 1600x900x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --audio-driver Dummy --path ports/godot-pyra --script res://tests/hud_mobile.gd -- --qa-output "$GITHUB_WORKSPACE/godot-qa/hud-native" > godot-qa/hud-native.txt 2>&1
           xvfb-run -a -s '-screen 0 1600x900x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --audio-driver Dummy --path ports/godot-pyra --script res://tests/qa_mobile_game.gd -- --fresh --qa-output "$GITHUB_WORKSPACE/godot-qa/hud-game" > godot-qa/hud-game.txt 2>&1
+          xvfb-run -a -s '-screen 0 1600x900x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --audio-driver Dummy --path ports/godot-pyra --script res://tests/gm_gameplay.gd -- --fresh --qa-output "$GITHUB_WORKSPACE/godot-qa/gm-gameplay" > godot-qa/gm-gameplay.txt 2>&1
           python3 - <<'PY'
           import json, pathlib
-          for mode, count in [('hud-headless', 42), ('hud-native', 42), ('hud-game', 5)]:
+          for mode, count in [('hud-headless', 42), ('hud-native', 42), ('hud-game', 5), ('gm-gameplay', 58)]:
               result = json.loads(pathlib.Path('godot-qa', mode, 'result.json').read_text())
               assert result['failed'] == 0 and result['checks'] >= count, result
           PY

@@ -582,3 +582,69 @@ Aktualizacja pobiera się po ponownym uruchomieniu istniejącej aplikacji 1.0.
 Wydanie 1.6 pozostaje do rollbacku. Nie wykonano scalenia do `main`, publikacji
 strony, nowego APK, resetu postaci ani zmian instancji GPU. Ograniczenia odbioru
 telefonu i panelu GM z prawdziwym kontem pozostają jak wyżej.
+
+
+### 23. Android 1.8 — właściwe komendy GM i menu gry
+
+Właściciel odrzucił podgląd administracyjny 1.7. Punktem odniesienia właściwej
+funkcji jest **`src/components/game/StaffTools.tsx`**, a nie panel monitoringu
+`/admin`. Na gałęzi `feat/android-gm-tools-1.8-20261116` zastąpiono poprzedni
+`gm_panel.gd`; historia odrzuconego panelu pozostaje w Git.
+
+| Funkcja | Przed | Zmiana | Dowód |
+| --- | --- | --- | --- |
+| Nieśmiertelność | Brak komendy | Blokada bezpośrednich obrażeń i DoT, cofnięcie po wyłączeniu lub utracie roli | [58 sprawdzeń rzeczywistej gry](qa/android-1.8/gm-native-results.json) |
+| Brak cooldownów | Brak komendy | Powtórne użycie rzeczywistych zdolności czterech ras, normalne wydawanie KI; wyłączenie przywraca odnowienia | [58 sprawdzeń headless](qa/android-1.8/gm-headless-results.json) |
+| Poziom i zasoby | Tylko podgląd serwera | +1 poziom, ustaw 1–20 (obecny limit Androida), +1000 monet, ustaw saldo, +10 mikstur, pełne HP/KI i zdjęcie statusów | [Panel GM po wykonaniu komendy](qa/android-1.8/gm-tools-854x480.png) |
+| Teleport | Zwykła podróż do krainy | Współrzędne, punkty przybycia, nazwane miasta/miejsca z danych gry i wszystkie 10 krain; odrzucenie wody/NaN/punktów poza mapą; najbliższa wolna pozycja przy przeszkodzie do 4000 j. | Test teleportu na wyspę i powrotu z zachowaniem ekwipunku i monet w wynikach GM |
+| Menu | Długi dialog z listą akcji | Osobny ekran z dużą siatką 3/4 kolumn, widoczny powrót; zachowane działające funkcje i GM dla uprawnionych | [Menu 844 × 390](qa/android-1.8/menu-gm-844x390.png) |
+| Uprawnienia i zapis | Odczyt roli dla podglądu | Rola sprawdzana przed każdą komendą; sesyjne tryby GM wygaszane po utracie roli, zmianie konta i błędzie kontroli co 30 s; zamknięcie anuluje oczekującą komendę | Testy odmowy, anulowania i round-trip postaci/ekwipunku/questów |
+
+Nowe `gm_tools.gd` wywołuje istniejące API postaci, ekonomii, nawigacji i zapisu.
+Nie wprowadza drugiego systemu walki ani zmiany wzoru obrażeń. `race_kit.gd` ma
+wyłącznie opcjonalne flagi sesyjne GM, domyślnie wyłączone i nieobecne w save.
+Po zmianie poziomu synchronizowana jest dostępność questów przed zapisem.
+Teleport nie uruchamia się we wnętrzu ani po śmierci; wcześniej pobiera brakujące
+paczki docelowej krainy i ponownie sprawdza uprawnienia. Nie edytuje cudzych
+kont ani slotów. Dotychczasowe blokady zapisu i konflikty rewizji chmury zostają.
+
+Zmodyfikowano `city_game.gd`, `race_kit.gd`, `gm_panel.gd`, dodano `gm_tools.gd`
+i `game_menu.gd`, testy i ich podłączenie w istniejącym CI. Asercję starego menu
+w smoke dostosowano do nowego ekranu; nadal sprawdza pauzę i wyzerowanie ruchu.
+Testy odrzuconego podglądu zastąpiono sprawdzeniem komend i kontroli roli;
+pozostałe scenariusze HUD/minimapy i gestów zachowano.
+
+#### Sprawdzenia
+
+- Pełny TypeScript aplikacja/e2e/tools PASS; lint **0 błędów / 17 wcześniejszych ostrzeżeń**.
+- [Regresja Godota 539/539](qa/android-1.8/smoke-results.json), HUD **42/42**
+  headless i natywnie, rzeczywista scena **5/5**, gesty menu **11/11** natywnie.
+- Nowe GM **58/58 headless i 58/58 natywnie**: wszystkie cztery rasy, rzeczywiste
+  umiejętności, obraz menu i panelu w silniku, dotyk przycisku bez podwójnej akcji,
+  10 list krain bez wychodzenia poza ekran, zapis i odczyt postaci/questów.
+- [Vitest eksportu 6/6](qa/android-1.8/vitest-export.txt); brakujące w sparse checkout
+  źródła odtworzono dokładnie z istniejącego Git/identycznych lokalnych bajtów,
+  bez zmiany danych i asercji.
+- [E2E rdzenia 11/11](qa/android-1.8/e2e-core.txt).
+  [Oryginalny APK 1.0 PASS](qa/android-1.8/e2e-installed.txt): nowe moduły menu/GM
+  i flagi walki dostępne po aktualizacji; `skin.gd` i kod APK 100 bez zmian.
+- Użyto jawnej atrapy uprawnień/chmury; nie korzystano z prawdziwego konta GM.
+  Fizyczny telefon niezweryfikowany. Przy zamykaniu niektórych runnerów występują
+  ostrzeżenia o zasobach; nie deklarujemy czystego zamknięcia ani całego CI PASS.
+  [Pełny raport i zakres](qa/android-1.8/acceptance.json).
+
+Nie przenoszono przeglądarkowego nagrywania diagnostyki 45 s (pozostaje FPS),
+edytora cudzych kont/bazy ani teleportu przez tapnięcie atlasu. Są natomiast
+teleporty przez współrzędne i listę miejsc. Nie podniesiono limitu poziomu
+Androida powyżej 20 ani nie zmieniono kanonu liczb. To komendy lokalnego PvE.
+
+#### Paczka wydania
+
+`deliveries/godot-content-1.8`: **27 paczek**, 26 identycznych z 1.7; tylko rdzeń
+`core-c100-b12bc37b1ce5.pck`, **3 539 440 bajtów**, SHA-256
+`b12bc37b1ce59ccc7112fbfbed89acfabee703ddc0ef8e9747327a1cae29ea75`.
+Gotowa do publikacji poprawki w ramach bieżącego polecenia właściciela publikacji
+Androida i zastąpienia wadliwego panelu. Wynik aktywacji i odczyt publicznego
+manifestu dopisać poniżej. Bez scalenia do `main`, nowego APK i zmian GPU.
+
+[Sumy dowodów](qa/android-1.8/evidence-sha256.json).

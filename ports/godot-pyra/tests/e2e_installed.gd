@@ -75,10 +75,20 @@ func run() -> void:
 		# This module-load check does not enter the tree: release the not-yet-parented UI nodes too.
 		gm.frame.free()
 		gm.body.free()
+		for node in [gm.level_input, gm.gold_input, gm.x_input, gm.y_input, gm.land_picker, gm.place_picker, gm.grid]:
+			node.free()
 		gm.free()
+	var tools_script: GDScript = load("res://scripts/gm_tools.gd")
+	var menu_script: GDScript = load("res://scripts/game_menu.gd")
+	var gameplay_modules: bool = tools_script != null and tools_script.can_instantiate() and menu_script != null and menu_script.can_instantiate()
+	var kit: RefCounted = load("res://scripts/race_kit.gd").new(JSON.parse_string(FileAccess.get_file_as_string("res://data/races/legend.json")))
+	kit.gm_invulnerable = true
+	kit.gm_no_cooldowns = true
+	kit.cooldowns["qa"] = 30.0
+	var gm_combat: bool = kit.take_damage(10000.0) == 0.0 and kit.cooldown_left("qa") == 0.0
 	print("E2E_GATE ", JSON.stringify({"report": box.report, "panel_in_tree": panel.is_inside_tree(), "style": style.get_class() + ("/" + str(style.get_script().resource_path) if style.get_script() != null else ""),
 		"heading_font": heading.get_theme_font("font") != null, "letters": look.letters() != null, "stone": look.picture("stone") != null,
-		"menu_swipe":menu_swipe,"menu_click":menu_click,"minimap_click":minimap_click,"gm_module":gm_module,
+		"menu_swipe":menu_swipe,"menu_click":menu_click,"minimap_click":minimap_click,"gm_module":gm_module,"gameplay_modules":gameplay_modules,"gm_combat":gm_combat,
 		"skin_has_background": (load("res://scripts/skin.gd") as GDScript).get_script_method_list().any(func(m: Dictionary) -> bool: return m.name == "background")}))
 	root.remove_child(hud)
 	hud.queue_free()

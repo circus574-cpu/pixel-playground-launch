@@ -75,6 +75,8 @@ func run() -> void:
 	net.account_id = "qa-gm-account"
 	net.roles = ["gm"]
 	net.session_changed.connect(game.sync_staff_access)
+	game.gm_tools.dispose()
+	game.gm_tools.setup(game,net)
 	game.sync_staff_access()
 	await shot("hud-gm-1280x576")
 	root.size = Vector2i(844,390)
@@ -83,7 +85,7 @@ func run() -> void:
 	await settle()
 	verify(is_instance_valid(game.screen) and game.screen.get_script().resource_path == "res://scripts/gm_panel.gd" and game.hud.suspended, "actual GM HUD button opens the native GM screen")
 	if is_instance_valid(game.screen):
-		verify(game.screen.body.text.contains("qa-1.7"), "native GM screen renders authenticated fixture response")
+		verify(game.screen.authorized and game.screen.command_buttons.has("teleport"), "native GM screen renders authenticated gameplay tools")
 		await shot("gm-native-fixture-844x390")
 		game.screen.closed.emit()
 	await settle()

@@ -57,7 +57,7 @@ def main() -> int:
     errors = [l for l in (run.stdout + run.stderr).splitlines() if "SCRIPT ERROR" in l or "Invalid call" in l]
     ok = bool(result) and result["report"].get("mounted") is True and result["report"].get("broken") == "" and result["panel_in_tree"] \
         and result["heading_font"] and result["stone"] and result["letters"] and result["menu_swipe"] and result["menu_click"] \
-        and result["minimap_click"] and result["gm_module"] and not errors
+        and result["minimap_click"] and result["gm_module"] and result["gameplay_modules"] and result["gm_combat"] and not errors
     print(json.dumps(result), "\nscript errors:", errors[:8])
     print("E2E INSTALLED", "PASS" if ok else "FAIL")
     return 0 if ok else 1

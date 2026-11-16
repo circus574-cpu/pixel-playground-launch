@@ -49,6 +49,8 @@ var next_dodge_at := 0.0
 var next_eat_at := 0.0
 var in_combat_until := 0.0
 var dead := false
+var gm_invulnerable := false   # session-only; set by verified GM commands, never serialized
+var gm_no_cooldowns := false
 var lock_s := 0.0
 var gear: Dictionary = {}          # aggregated equipment bonuses (PyraEconomy.gear())
 var base_range := 78.0
@@ -428,7 +430,7 @@ func tick(delta: float) -> void:
 	shields = shields.filter(func(s: Dictionary) -> bool: return now < float(s.until) and float(s.amount) > 0.0)
 	debuffs = debuffs.filter(func(d: Dictionary) -> bool: return now < float(d.until))
 	var dot_dps := debuff_pct("dot")
-	if dot_dps > 0.0 and not dead:
+	if dot_dps > 0.0 and not dead and not gm_invulnerable:
 		dot_carry += dot_dps * delta
 		if dot_carry >= 1.0:
 			var whole := floorf(dot_carry)
@@ -475,7 +477,7 @@ func tick(delta: float) -> void:
 	on_tick(delta)
 
 func cooldown_left(id: String) -> float:
-	return float(cooldowns.get(id, 0.0))
+	return 0.0 if gm_no_cooldowns else float(cooldowns.get(id, 0.0))
 
 func cooldown_of(id: String) -> float:
 	return float(nodes[id].cd)
@@ -600,7 +602,7 @@ func use(id: String) -> Dictionary:
 	var result := cast(id)
 	if result.ok:
 		ki -= cost
-		cooldowns[id] = cooldown_of(id) * float(stats().cooldownMul)
+		cooldowns[id] = 0.0 if gm_no_cooldowns else cooldown_of(id) * float(stats().cooldownMul)
 		in_combat_until = maxf(in_combat_until, now + 5.0)
 		after_cast(id)
 		changed.emit()
@@ -631,7 +633,7 @@ func lethal_save() -> bool:
 
 ## Damage the player takes: shields first, then HP. `kind` is "melee" or "projectile".
 func take_damage(amount: float, kind: String = "melee") -> float:
-	if has_buff("invulnerable"):
+	if gm_invulnerable or has_buff("invulnerable"):
 		return 0.0
 	interrupt_channel("hit") if not channel.is_empty() and bool(channel.get("breakOnHit", false)) else null
 	var reduced := maxf(1.0, amount * (1.0 - float(gear.get("damageReductionPercent", 0.0)) / 100.0) * (1.0 + debuff_pct("mark")) - float(stats().defense) * 0.5)

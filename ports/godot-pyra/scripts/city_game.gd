@@ -1,6 +1,9 @@
 class_name PyraGame
 extends Node2D
 const GmPanel := preload("res://scripts/gm_panel.gd")
+const GmTools := preload("res://scripts/gm_tools.gd")
+const GameMenu := preload("res://scripts/game_menu.gd")
+var gm_tools: RefCounted
 ## KI Legends / Pyra on Godot: the whole continent (Superior v2 geometry), four safe cities with six service
 ## interiors each, the Legend with her full kit, plus the 2D map and 3D globe. No enemies and no spawns yet.
 
@@ -208,6 +211,8 @@ func _ready() -> void:
 	hud.gm_requested.connect(open_gm)
 	KiNet.online().session_changed.connect(sync_staff_access)
 	sync_staff_access()
+	gm_tools = GmTools.new()
+	gm_tools.setup(self, KiNet.online())
 	hud.dialog_changed.connect(func(open: bool): player.locked = open or input_suspended)
 	var boot_race := "legend"
 	var boot_land := "pyra"
@@ -883,7 +888,7 @@ func nearest_foe() -> Node2D:
 
 ## A monster hits the hero: damage through the kit (defence, shields, buffs), numbers, then the statuses it carries.
 func hurt_player(monster: PyraMonster, raw: float, _kind: String, fx: Array) -> void:
-	if in_safe_city(player.position) or kit.dead:
+	if in_safe_city(player.position) or kit.dead or kit.gm_invulnerable:
 		return
 	if kit.has_buff("invulnerable"):
 		check_perfect_dodge()
@@ -905,7 +910,7 @@ func hurt_player(monster: PyraMonster, raw: float, _kind: String, fx: Array) -> 
 
 ## A ground zone (cloud, fire trail, web) ticks on the hero: damage as a fraction of the owner's attack, then its statuses.
 func zone_hit(raw: float, fx: Array, atk: float, at: Vector2) -> void:
-	if in_safe_city(player.position) or kit.dead or kit.has_buff("invulnerable"):
+	if in_safe_city(player.position) or kit.dead or kit.gm_invulnerable or kit.has_buff("invulnerable"):
 		return
 	if raw > 0.0:
 		var dealt := kit.take_damage(raw)
@@ -1378,6 +1383,8 @@ func in_dungeon_hazard(target: Dictionary) -> bool:
 	return str(target.get("kind", "")) == "dsecret"
 
 func _exit_tree() -> void:
+	if gm_tools != null:
+		gm_tools.dispose()
 	Engine.time_scale = 1.0
 
 func on_effect(kind: String, at: Vector2, radius: float, ability: String) -> void:
@@ -1424,6 +1431,8 @@ func simulate(delta: float) -> void:
 func _process(delta: float) -> void:
 	if not is_instance_valid(hud) or not is_instance_valid(player):
 		return
+	if gm_tools != null:
+		gm_tools.tick(delta)
 	simulate(minf(delta, 0.05))
 	update_feel(delta)
 	fed_clock += delta
@@ -1549,6 +1558,8 @@ func _notification(what: int) -> void:
 # ---- screens ---------------------------------------------------------------------------------
 
 func close_screen() -> void:
+	if gm_tools != null:
+		gm_tools.cancel_pending()
 	if is_instance_valid(screen):
 		screen.queue_free()
 	screen = null
@@ -1594,7 +1605,7 @@ func open_gm() -> void:
 		hud.toast("Panel GM wymaga konta GM lub administratora.")
 		return
 	var view := GmPanel.new()
-	view.setup(KiNet.online())
+	view.setup(KiNet.online(), self, gm_tools)
 	open_screen(view)
 
 func open_race_screen(can_close: bool = true) -> void:
@@ -1743,7 +1754,25 @@ func open_items(mode: String, heading: String) -> void:
 func show_menu() -> void:
 	if is_instance_valid(screen):
 		return
-	hud.show_dialog("KI LEGENDS", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D, mapa 2D i podróże między krainami. POSTAĆ: statystyki i drzewko Twojej rasy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. Potwory żyją poza miastami (miasta są bezpieczne); po śmierci wracasz do stolicy krainy. Manekin czeka na arenach.", ([{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "NOWA POSTAĆ (WYBÓR RASY)", "callback": func(): hud.close_dialog(); open_race_screen(true)}, {"text": "MUZYKA: %d%%  (zmień)" % int(round(audio.music_volume * 100.0)), "callback": func(): audio.set_volumes(next_volume(audio.music_volume), audio.sfx_volume); hud.close_dialog(); show_menu()}, {"text": "EFEKTY: %d%%  (zmień)" % int(round(audio.sfx_volume * 100.0)), "callback": func(): audio.set_volumes(audio.music_volume, next_volume(audio.sfx_volume)); hud.close_dialog(); show_menu()}, {"text": "DZIENNIK ZADAŃ", "callback": func(): hud.close_dialog(); show_journal()}, {"text": "FPS I DIAGNOSTYKA: " + ("WYŁĄCZ" if hud.show_fps else "WŁĄCZ"), "callback": func(): hud.show_fps = not hud.show_fps; hud.signature = ""; hud.close_dialog()}, {"text": "CZAT OKOLICY", "callback": func(): hud.close_dialog(); open_chat()}, {"text": ("KONTO: %s (WYLOGUJ)" % KiNet.online().nick) if KiNet.online().logged_in() else "KONTO: NIE ZALOGOWANO", "callback": func(): hud.close_dialog(); if KiNet.online().logged_in(): await KiNet.online().logout(); hud.toast("Wylogowano. Po ponownym uruchomieniu zalogujesz się ponownie.")}, {"text": "POBIERZ WSZYSTKIE KRAINY", "callback": func(): hud.close_dialog(); download_everything()}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}] + ([{"text": "PANEL GM", "callback": func(): hud.close_dialog(); open_gm()}] if KiNet.online().is_staff() else [])))
+	var items: Array[Dictionary] = [
+		{"id":"save","text":"ZAPISZ GRĘ","callback":func():save_checkpoint();close_screen()},
+		{"id":"map","text":"MAPA ŚWIATA","callback":func():close_screen();open_map()},
+		{"id":"character","text":"POSTAĆ I DRZEWKO","callback":func():close_screen();open_character()},
+		{"id":"inventory","text":"PLECAK","callback":func():close_screen();open_items("inventory","Plecak i wyposażenie")},
+		{"id":"quests","text":"DZIENNIK ZADAŃ","callback":func():close_screen();show_journal()},
+		{"id":"gm","text":"NARZĘDZIA GM","staff":true,"callback":func():close_screen();open_gm()},
+		{"id":"music","text":"MUZYKA: %d%%" % roundi(audio.music_volume*100),"callback":func():audio.set_volumes(next_volume(audio.music_volume),audio.sfx_volume);close_screen();show_menu()},
+		{"id":"sounds","text":"EFEKTY: %d%%" % roundi(audio.sfx_volume*100),"callback":func():audio.set_volumes(audio.music_volume,next_volume(audio.sfx_volume));close_screen();show_menu()},
+		{"id":"chat","text":"CZAT OKOLICY","callback":func():close_screen();open_chat()},
+		{"id":"new","text":"NOWA POSTAĆ","callback":func():close_screen();open_race_screen(true)},
+		{"id":"download","text":"POBIERZ KRAINY","callback":func():close_screen();download_everything()},
+		{"id":"fps","text":"FPS: "+("WŁ." if hud.show_fps else "WYŁ."),"callback":func():hud.show_fps=not hud.show_fps;hud.signature="";close_screen();show_menu()},
+		{"id":"account","text":"WYLOGUJ: "+KiNet.online().nick.left(14) if KiNet.online().logged_in() else "KONTO: TRYB OFFLINE","callback":func():close_screen();if KiNet.online().logged_in():await KiNet.online().logout();hud.toast("Wylogowano. Zalogujesz się ponownie po restarcie aplikacji.")},
+		{"id":"licenses","text":"LICENCJE","callback":func():close_screen();show_licenses()},
+	]
+	var view := GameMenu.new()
+	view.setup(items,KiNet.online())
+	open_screen(view)
 
 func show_licenses() -> void:
 	hud.show_dialog("Godot i biblioteki silnika", Engine.get_license_text() + "\n\nTHIRD-PARTY LICENSES\n" + JSON.stringify(Engine.get_license_info(), "\t") + "\n\nCOPYRIGHT NOTICES\n" + JSON.stringify(Engine.get_copyright_info(), "\t") + "\n\nFONT CINZEL\n" + FileAccess.get_file_as_string("res://assets/branding/OFL-Cinzel.txt") + "\n\nOFFICIAL GODOT LOGO\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-NOTICE.txt") + "\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-LICENSE.txt"))

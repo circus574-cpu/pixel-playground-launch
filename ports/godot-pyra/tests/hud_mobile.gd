@@ -130,8 +130,8 @@ func run() -> void:
 	panel.setup(net)
 	root.add_child(panel)
 	await settle()
-	verify(panel.body.text.contains("qa-1.7") and panel.body.text.contains("QA-GM") and panel.body.text.contains("rewizja 7"), "native GM panel shows real response fields (mock server fixture)")
-	verify(net.calls == ["/ws/auth/me","/ws/godot/admin/overview","/ws/godot/admin/saves"], "GM panel verifies server roles before protected GET requests")
+	verify(panel.authorized and panel.command_buttons.has("god") and panel.command_buttons.has("unlimited") and panel.command_buttons.has("setLevel") and panel.command_buttons.has("teleport"), "native GM panel exposes gameplay commands after server verification")
+	verify(net.calls == ["/ws/auth/me"], "gameplay GM panel verifies roles and does not load server monitoring")
 	for dimensions: Vector2i in [Vector2i(844,390),Vector2i(852,393),Vector2i(854,480),Vector2i(1280,576)]:
 		root.size = dimensions
 		await settle()
@@ -141,13 +141,13 @@ func run() -> void:
 	net.calls.clear()
 	panel.refresh_data()
 	await settle()
-	verify(net.calls == ["/ws/auth/me"] and panel.web_button.disabled and not panel.body.text.contains("QA-GM"), "role revocation clears sensitive data and prevents privileged requests")
+	verify(net.calls == ["/ws/auth/me"] and not panel.authorized and panel.god_button.disabled, "role revocation clears sensitive data and prevents privileged requests")
 	net.authorized = true
 	net.unreachable = true
 	net.calls.clear()
 	panel.refresh_data()
 	await settle()
-	verify(net.calls == ["/ws/auth/me"] and not net.is_staff() and panel.web_button.disabled, "network failure does not grant staff access")
+	verify(net.calls == ["/ws/auth/me"] and not net.is_staff() and panel.god_button.disabled, "network failure does not grant staff access")
 	net.roles = ["admin"]
 	net.sign_out_local()
 	verify(net.roles.is_empty() and not net.is_staff(), "logout clears cached staff roles")
