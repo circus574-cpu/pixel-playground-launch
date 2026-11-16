@@ -143,8 +143,10 @@ func _ready() -> void:
 	modal.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	modal.offset_left = -375
 	modal.offset_right = 375
-	modal.offset_top = -200
-	modal.offset_bottom = 200
+	modal.offset_top = -100
+	modal.offset_bottom = 100
+	modal.grow_horizontal = Control.GROW_DIRECTION_BOTH   # the window grows from the middle of the screen
+	modal.grow_vertical = Control.GROW_DIRECTION_BOTH
 	modal.mouse_filter = Control.MOUSE_FILTER_STOP
 	modal_box.add_theme_constant_override("separation", 15)
 	modal.add_child(modal_box)
@@ -592,7 +594,7 @@ func make_button(text: String, callback: Callable) -> Button:
 	button.text = text
 	button.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	button.focus_mode = Control.FOCUS_NONE
-	button.custom_minimum_size = Vector2(160, 80)
+	button.custom_minimum_size = Vector2(160, 64)
 	button.add_theme_font_size_override("font_size", 23)
 	button.add_theme_color_override("font_color", Color("fff0cf"))
 	PyraSkin.style_button(button)
@@ -619,12 +621,23 @@ func show_dialog(title: String, text: String, actions: Array = []) -> void:
 	body.add_theme_font_size_override("font_size", 23)
 	body.add_theme_color_override("font_color", Color("e1d4c4"))
 	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size = Vector2(680, 160)
+	scroll.custom_minimum_size = Vector2(680, 120 if actions.size() > 4 else 160)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.add_child(body)
 	modal_box.add_child(scroll)
+	# the buttons scroll when there are more of them than the screen has room for (the game menu has a dozen)
+	var list := VBoxContainer.new()
+	list.add_theme_constant_override("separation", 8)
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for action: Dictionary in actions:
-		modal_box.add_child(make_button(action.text, action.callback))
+		list.add_child(make_button(action.text, action.callback))
+	var room := maxf(160.0, size.y - 450.0)
+	var needed := float(actions.size()) * 72.0
+	var actions_scroll := ScrollContainer.new()
+	actions_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	actions_scroll.custom_minimum_size = Vector2(680, minf(needed, room))
+	actions_scroll.add_child(list)
+	modal_box.add_child(actions_scroll)
 	modal_box.add_child(make_button("ZAMKNIJ", close_dialog))
 	modal.show()
 	touch.blocked = true

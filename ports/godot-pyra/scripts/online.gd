@@ -17,6 +17,7 @@ const SLOT := 1
 var server := ""
 var access_token := ""
 var refresh_token := ""
+var roles: Array = []            # "admin" / "gm" of the signed-in account (from the server; not stored on the device)
 var remember := true            # "Zapamiętaj mnie": without it the sign-in lives only until the app is closed (nothing is written to disk)
 var account_id := ""
 var nick := ""
@@ -101,8 +102,13 @@ func adopt(session: Dictionary) -> void:
 		cloud_revision = 0
 	account_id = str(account.id)
 	nick = str(account.nick)
+	roles = account.get("roles", []) if account.get("roles", []) is Array else []
 	save_session()
 	session_changed.emit()
+
+## True for an administrator or a game master: the game offers the panel of the site to them.
+func is_staff() -> bool:
+	return roles.has("admin") or roles.has("gm")
 
 func login(email: String, password: String) -> Dictionary:
 	var result := await request(HTTPClient.METHOD_POST, "/ws/auth/login", {"email": email, "password": password}, false)
