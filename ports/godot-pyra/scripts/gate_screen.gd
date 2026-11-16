@@ -7,6 +7,7 @@ extends Control
 signal choice_made(index: int)
 
 const SAVE_PATH := "user://city-checkpoint-v1.json"
+const LOGIN_PATH := "user://login.json"   # what "Zapamiętaj mnie" keeps: the e-mail for the next sign-in form (the session itself is in user://account.json)
 
 var panel := PanelContainer.new()
 var box := VBoxContainer.new()
@@ -19,6 +20,7 @@ var detail := Label.new()
 var email_field := LineEdit.new()
 var password_field := LineEdit.new()
 var nick_field := LineEdit.new()
+var remember_box := CheckBox.new()
 var offline_mode := false
 
 func _ready() -> void:
@@ -31,13 +33,7 @@ func _ready() -> void:
 	add_child(shade)
 	panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	panel.custom_minimum_size = Vector2(700, 0)
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.09, 0.07, 0.06, 0.97)
-	style.border_color = Color("e0b96d")
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(14)
-	style.set_content_margin_all(24)
-	panel.add_theme_stylebox_override("panel", style)
+	panel.add_theme_stylebox_override("panel", PyraSkin.window(40.0))
 	add_child(panel)
 	panel.add_child(box)
 	box.add_theme_constant_override("separation", 12)
@@ -60,6 +56,12 @@ func _ready() -> void:
 		field.custom_minimum_size = Vector2(0, 52)
 		field.add_theme_font_size_override("font_size", 20)
 		form.add_child(field)
+	remember_box.text = "Zapamiętaj mnie"
+	remember_box.button_pressed = true
+	remember_box.focus_mode = Control.FOCUS_NONE
+	remember_box.add_theme_font_size_override("font_size", 19)
+	remember_box.add_theme_color_override("font_color", Color("e6dcc4"))
+	form.add_child(remember_box)
 	nick_field.visible = false
 	bar.custom_minimum_size = Vector2(0, 26)
 	bar.show_percentage = false
@@ -169,9 +171,31 @@ func start_land() -> String:
 			return str(value.land)
 	return "pyra"
 
+static func read_login_prefs() -> Dictionary:
+	if FileAccess.file_exists(LOGIN_PATH):
+		var value: Variant = JSON.parse_string(FileAccess.get_file_as_string(LOGIN_PATH))
+		if value is Dictionary:
+			return value
+	return {}
+
+## "Zapamiętaj mnie" on: the e-mail is kept for the next form; off: nothing stays on the device.
+static func write_login_prefs(email: String, remember_me: bool) -> void:
+	if not remember_me:
+		if FileAccess.file_exists(LOGIN_PATH):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(LOGIN_PATH))
+		return
+	var file := FileAccess.open(LOGIN_PATH, FileAccess.WRITE)
+	if file != null:
+		file.store_string(JSON.stringify({"email": email, "remember": true}))
+		file.close()
+
 func login_form() -> String:
 	var online := KiNet.online()
 	form.visible = true
+	var prefs := read_login_prefs()
+	remember_box.button_pressed = bool(prefs.get("remember", true))
+	if email_field.text == "":
+		email_field.text = str(prefs.get("email", ""))
 	bar.visible = false
 	var registering := false
 	while true:
@@ -201,8 +225,10 @@ func login_form() -> String:
 				registering = false
 			await get_tree().create_timer(1.8).timeout
 			continue
+		online.remember = remember_box.button_pressed
 		var result := await online.login(email, password)
 		if int(result.status) == 200:
+			write_login_prefs(email, remember_box.button_pressed)
 			form.visible = false
 			password_field.text = ""
 			return "login"

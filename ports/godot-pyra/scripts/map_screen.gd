@@ -84,15 +84,7 @@ func make_button(text: String, callback: Callable, minimum: Vector2 = Vector2(15
 	button.focus_mode = Control.FOCUS_NONE
 	button.add_theme_font_size_override("font_size", 20)
 	button.add_theme_color_override("font_color", Color("fff0cf"))
-	for state in ["normal", "hover", "pressed"]:
-		var style := StyleBoxFlat.new()
-		style.bg_color = Color("533421") if state == "normal" else Color("704b2d")
-		style.border_color = Color("986c42") if state == "normal" else Color("d4aa68")
-		style.set_border_width_all(2)
-		style.set_corner_radius_all(12)
-		style.content_margin_left = 16
-		style.content_margin_right = 16
-		button.add_theme_stylebox_override(state, style)
+	PyraSkin.style_button(button)
 	button.pressed.connect(callback)
 	return button
 
@@ -139,16 +131,7 @@ func build_layout() -> void:
 		zoom_column.add_child(make_button(entry[0], func(): zoom(factor), Vector2(70, 70)))
 	zoom_column.add_child(make_button("◎", focus_player, Vector2(70, 70)))
 	var card := PanelContainer.new()
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.08, 0.06, 0.07, 0.88)
-	style.border_color = Color("855c39")
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(12)
-	style.content_margin_left = 18
-	style.content_margin_right = 18
-	style.content_margin_top = 10
-	style.content_margin_bottom = 10
-	card.add_theme_stylebox_override("panel", style)
+	card.add_theme_stylebox_override("panel", PyraSkin.window(30.0))
 	info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	info.custom_minimum_size = Vector2(500, 60)
 	info.add_theme_font_size_override("font_size", 19)

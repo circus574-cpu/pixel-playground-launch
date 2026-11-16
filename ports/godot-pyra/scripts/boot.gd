@@ -32,6 +32,7 @@ const ASK_TIMEOUT := 6.0
 const INTRO_VIDEO := "res://assets/branding/intro.ogv"
 const INTRO_LAST := "res://assets/branding/intro-last.webp"
 const INTRO_SIZE := Vector2(1280.0, 720.0)
+const MAX_CROP := 0.10                  # share of the film's height that may be cut off on a wide screen
 const SKIP_AFTER := 0.8
 
 var change_scene := true                 # tests turn this off and read `finished`
@@ -145,6 +146,7 @@ static func script_names(listing: PackedStringArray) -> Array[String]:
 # ---- the scene ------------------------------------------------------------------------------------------
 
 func _ready() -> void:
+	PyraSkin.install(get_tree())
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	clip_contents = true
 	var back := ColorRect.new()
@@ -152,8 +154,7 @@ func _ready() -> void:
 	back.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(back)
 	last_frame.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	last_frame.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	last_frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	last_frame.stretch_mode = TextureRect.STRETCH_SCALE   # placed by fit_video, like the film
 	last_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	last_frame.visible = false
 	add_child(last_frame)
@@ -240,14 +241,26 @@ static func intro_volume() -> float:
 			music = clampf(float(value.get("music", music)), 0.0, 1.0)
 	return clampf(music * 1.6, 0.0, 1.0)
 
-## 16:9 film covering the whole screen (phones are wider): scaled to fill and centred, the overflow is clipped.
+## 16:9 film on a wider phone: scaled up to fill the screen, but at most MAX_CROP of its height is cut off (80 % of that from the top, the rest from the bottom);
+## on a screen wider still the film keeps its full width-to-height share and the sides stay in the backdrop colour. The loading bar and the "touch to start"
+## caption sit at the bottom of the picture, so they are never cut. The still after the film is placed the same way.
 func fit_video() -> void:
 	var area := size
 	if area.x <= 0.0 or area.y <= 0.0:
 		return
-	var factor := maxf(area.x / INTRO_SIZE.x, area.y / INTRO_SIZE.y)
-	video.size = INTRO_SIZE * factor
-	video.position = (area - video.size) / 2.0
+	var rect := film_rect(area)
+	video.position = rect.position
+	video.size = rect.size
+	last_frame.position = rect.position
+	last_frame.size = rect.size
+
+static func film_rect(area: Vector2) -> Rect2:
+	var contain := minf(area.x / INTRO_SIZE.x, area.y / INTRO_SIZE.y)
+	var cover := maxf(area.x / INTRO_SIZE.x, area.y / INTRO_SIZE.y)
+	var factor := minf(cover, contain / (1.0 - MAX_CROP))
+	var film := INTRO_SIZE * factor
+	var cut := maxf(0.0, film.y - area.y)
+	return Rect2(Vector2((area.x - film.x) / 2.0, -cut * 0.8), film)
 
 func end_intro() -> void:
 	if intro_over:

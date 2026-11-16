@@ -1,4 +1,5 @@
 import { afterAll, describe, expect, it } from "vitest";
+import { GameServer } from "@/server/gameServer";
 import {
   getServerStatusFromAdmin,
   startServerFromAdmin,
@@ -41,5 +42,25 @@ describe("Admin panel zero-terminal server control", () => {
 
     const currentStatus = getServerStatusFromAdmin();
     expect(currentStatus.running).toBe(false);
+  });
+});
+
+describe("Admin panel restart of the game server", () => {
+  afterAll(async () => {
+    await stopServerFromAdmin();
+    delete process.env["GAME_SERVER_PORT"];
+  });
+
+  it("stops and starts the server again inside the same process (a new start time, still running)", async () => {
+    process.env["GAME_SERVER_PORT"] = "7437";
+    const first = await startServerFromAdmin();
+    expect(first.ok).toBe(true);
+    const before = getServerStatusFromAdmin().startedAt;
+    await new Promise((resolve) => setTimeout(resolve, 30));
+    expect(GameServer.restartHandler).toBeTypeOf("function");
+    await GameServer.restartHandler?.();
+    const after = getServerStatusFromAdmin();
+    expect(after.running).toBe(true);
+    expect(after.startedAt).not.toBe(before);
   });
 });

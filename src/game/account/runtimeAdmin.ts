@@ -34,3 +34,21 @@ export async function readRuntimeStatus(): Promise<RuntimeStatus> {
     );
   return data as unknown as RuntimeStatus;
 }
+
+/** Asks the game server to restart itself (administrators only). Resolves with the server's message; rejects with a readable reason. */
+export async function restartGameServer(): Promise<string> {
+  let response: Response;
+  try {
+    response = await fetch("/ws/admin/restart", {
+      method: "POST",
+      headers: { Authorization: "Bearer " + (await accessToken()) },
+      cache: "no-store",
+    });
+  } catch {
+    throw new RuntimeStatusError(0, "Serwer gry nie odpowiada (brak połączenia).");
+  }
+  const data = (await response.json().catch(() => ({}))) as { message?: string };
+  if (!response.ok)
+    throw new RuntimeStatusError(response.status, data.message ?? `Błąd ${response.status}`);
+  return data.message ?? "Serwer gry restartuje się.";
+}

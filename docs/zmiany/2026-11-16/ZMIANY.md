@@ -402,4 +402,4 @@ Decyzja właściciela: APK ma wersję **1.0 „KI LEGENDS”**, a każda kolejna
 - **Wydanie 1.0** (`deliveries/godot-content-1.0`, 27 paczek, `core-c100`; zbudowane, **nieopublikowane**) zawiera m.in. grafiki 10 zwierząt. APK: `deliveries/godot-ki-legends-1.0`.
   Poprzednie dostawy robocze (0.12.x, wydanie 2026.11.17.3) zastąpiono; historia Git zostaje.
 - **Kontrole.** `tests/smoke.gd` **533/533** (m.in. wersja 1.0 w aplikacji i w ustawieniach eksportu, wybór numeru do pokazania), `scripts/godot/e2e_core.py` (klucz `core-c100`).
-
+- **Poprawki przed wydaniem 1.0.** Przyczyna braku połączenia z serwerem: w APK od początku było `permissions/internet=false`, więc aplikacja nie miała prawa korzystać z sieci (błąd; poprawione, `INTERNET` i `ACCESS_NETWORK_STATE` są w APK). Do tego: „Zapamiętaj mnie” przy logowaniu, film wejściowy nie ucina już dołu (pasek ładowania), guziki HUD i przycisk ataku z grafik właściciela, ramki kamienne (`scripts/skin.gd`, `prepare_ui_frames.py`) dla okien, przycisków i pól, restart serwera w zakładce Serwer panelu (`POST /ws/admin/restart`, tylko administrator). `tests/smoke.gd` **537/537**.

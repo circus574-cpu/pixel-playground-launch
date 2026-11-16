@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { readRuntimeStatus, type RuntimeStatus } from "@/game/account/runtimeAdmin";
+import {
+  readRuntimeStatus,
+  restartGameServer,
+  type RuntimeStatus,
+} from "@/game/account/runtimeAdmin";
 import { formatUptime } from "./formatUptime";
 
 const LAND_NAMES: Record<string, string> = {
@@ -35,6 +39,9 @@ export function AdminServerStatus() {
   const [status, setStatus] = useState<RuntimeStatus | null>(null);
   const [error, setError] = useState("");
   const [auto, setAuto] = useState(true);
+  const [confirming, setConfirming] = useState(false);
+  const [restartBusy, setRestartBusy] = useState(false);
+  const [restartNote, setRestartNote] = useState("");
   const reload = useCallback(async () => {
     try {
       setStatus(await readRuntimeStatus());
@@ -51,6 +58,21 @@ export function AdminServerStatus() {
     const timer = setInterval(() => void reload(), 5000);
     return () => clearInterval(timer);
   }, [auto, reload]);
+
+  const restart = async () => {
+    setRestartBusy(true);
+    setRestartNote("");
+    try {
+      setRestartNote(await restartGameServer());
+      setConfirming(false);
+      // the server is away for a few seconds: read the status again once it is back
+      setTimeout(() => void reload(), 5000);
+    } catch (e) {
+      setRestartNote("Restart nie powiódł się: " + (e instanceof Error ? e.message : String(e)));
+    } finally {
+      setRestartBusy(false);
+    }
+  };
 
   const db = status?.database;
   const server = status?.server;
@@ -75,6 +97,33 @@ export function AdminServerStatus() {
         {error && (
           <p className="ki-account-error" role="alert">
             Nie udało się odczytać stanu serwera: {error}
+          </p>
+        )}
+      </section>
+
+      <section className="ki-admin-panel">
+        <h3>Restart serwera gry</h3>
+        <p style={{ margin: "4px 0 10px" }}>
+          Zatrzymuje i uruchamia serwer gry od nowa w tym samym procesie (konta, baza i panel
+          zostają). Gracze rozłączą się na kilka sekund i połączą się ponownie. Tylko dla
+          administratora.
+        </p>
+        {!confirming ? (
+          <button onClick={() => setConfirming(true)}>Restartuj serwer gry</button>
+        ) : (
+          <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+            <b>Na pewno zrestartować serwer?</b>
+            <button disabled={restartBusy} onClick={() => void restart()}>
+              Tak, restartuj
+            </button>
+            <button disabled={restartBusy} onClick={() => setConfirming(false)}>
+              Anuluj
+            </button>
+          </div>
+        )}
+        {restartNote && (
+          <p role="status" style={{ margin: "10px 0 0" }}>
+            {restartNote}
           </p>
         )}
       </section>

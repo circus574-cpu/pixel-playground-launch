@@ -24,6 +24,7 @@ var floor_shade := TextureRect.new()
 
 func _ready() -> void:
 	get_tree().quit_on_go_back = false
+	PyraSkin.install(get_tree())
 	var music := PyraAudio.new()
 	add_child(music)
 	music.play_music.call_deferred("loading")
@@ -68,13 +69,8 @@ func _ready() -> void:
 	start_button.add_theme_font_override("font", load("res://assets/branding/cinzel-bold.ttf"))
 	start_button.add_theme_font_size_override("font_size", 25)
 	start_button.add_theme_color_override("font_color", Color("fff1ce"))
-	var button_style := StyleBoxFlat.new()
-	button_style.bg_color = Color(0.16, 0.11, 0.07, 0.9)
-	button_style.border_color = Color("e0b96d")
-	button_style.set_border_width_all(3)
-	button_style.set_corner_radius_all(12)
-	start_button.add_theme_stylebox_override("normal", button_style)
-	start_button.add_theme_stylebox_override("disabled", button_style)
+	PyraSkin.style_button(start_button)
+	start_button.add_theme_stylebox_override("normal", PyraSkin.button_box("hover", 30.0, 12.0))   # the start button always shines
 	start_button.pressed.connect(start_city)
 	content.add_child(start_button)
 	powered.texture = load("res://assets/branding/godot/logo-large-color-dark.svg")

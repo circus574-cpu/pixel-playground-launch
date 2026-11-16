@@ -7,12 +7,13 @@
 import { createServer } from "node:http";
 import type { AddressInfo } from "node:net";
 import postgres from "postgres";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
   collectRuntimeStatus,
   readDatabase,
   readMemoryLimitBytes,
   readProcess,
+  restartHttp,
   runtimeHttp,
   type RuntimeServerInfo,
 } from "../server/runtimeStatus";
@@ -217,5 +218,55 @@ describe.skipIf(!url)("measured database status against a real PostgreSQL", () =
     } finally {
       await sql.end({ timeout: 2 });
     }
+  });
+});
+
+describe("restartHttp: the panel restarts the game server", () => {
+  async function call(
+    method: string,
+    deps: Parameters<typeof restartHttp>[2],
+    token: string | undefined = "t",
+  ) {
+    const server = createServer((req, res) => void restartHttp(req, res, deps));
+    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+    const { port } = server.address() as AddressInfo;
+    try {
+      const response = await fetch(`http://127.0.0.1:${port}/`, {
+        method,
+        headers: token ? { Authorization: "Bearer " + token } : {},
+      });
+      return { status: response.status, body: (await response.json()) as Record<string, unknown> };
+    } finally {
+      server.close();
+    }
+  }
+
+  it("refuses anything but POST, and anyone who is not an administrator, without restarting", async () => {
+    const schedule = vi.fn(async () => true);
+    expect((await call("GET", { admin: async () => "a1", schedule })).status).toBe(405);
+    expect((await call("POST", { admin: async () => null, schedule })).status).toBe(403);
+    expect((await call("POST", { admin: async () => "a1", schedule }, undefined)).status).toBe(202);
+    expect(schedule).toHaveBeenCalledTimes(1); // only the administrator's request got through
+  });
+
+  it("answers first and hands the administrator's id to the restart", async () => {
+    const schedule = vi.fn(async () => true);
+    const result = await call("POST", { admin: async () => "admin-7", schedule });
+    expect(result.status).toBe(202);
+    expect(schedule).toHaveBeenCalledWith("admin-7");
+    expect(String(result.body["message"])).toContain("restartuje się");
+  });
+
+  it("says so when this process cannot restart itself, or the restart cannot be scheduled", async () => {
+    const none = await call("POST", { admin: async () => "a1", schedule: async () => false });
+    expect(none.status).toBe(503);
+    const broken = await call("POST", {
+      admin: async () => "a1",
+      schedule: async () => {
+        throw new Error("boom");
+      },
+    });
+    expect(broken.status).toBe(500);
+    expect(String(broken.body["message"])).toContain("boom");
   });
 });

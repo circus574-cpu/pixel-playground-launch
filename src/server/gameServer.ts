@@ -29,7 +29,7 @@ import { resendMailer } from "./accounts/mailer";
 import { AccountService } from "./accounts/service";
 import { signingKey } from "./accounts/crypto";
 import { WorldOverrideService, worldHttp } from "./world/overrides";
-import { collectRuntimeStatus, runtimeHttp } from "./runtimeStatus";
+import { collectRuntimeStatus, restartHttp, runtimeHttp } from "./runtimeStatus";
 
 export interface GameServerConfig {
   port: number;
@@ -158,6 +158,21 @@ export class GameServer {
 
     if (url.split("?")[0] === "/ws/characters" || url.startsWith("/ws/characters/")) {
       void characterHttp(req, res, this.characterRepository, this.verifyAccount);
+      return;
+    }
+
+    if (url.split("?")[0] === "/ws/admin/restart") {
+      void restartHttp(req, res, {
+        admin: (token) => this.adminSubject(token),
+        schedule: async (actor) => {
+          const restart = GameServer.restartHandler;
+          if (!restart) return false;
+          await this.accounts?.audit(actor, "SERVER_RESTART", "game-server", null).catch(() => {});
+          // after the answer has gone out: the restart closes this very connection
+          setTimeout(() => void restart(), 400);
+          return true;
+        },
+      });
       return;
     }
 
@@ -791,6 +806,16 @@ export class GameServer {
       console.warn("[GameServer] Edycja świata niedostępna: brak schematu world_admin.");
       return null;
     }
+  }
+
+  /** Set by the process that owns this server (managedServer.ts) so that the panel can restart it; null in tests and when run alone. */
+  static restartHandler: (() => Promise<void>) | null = null;
+
+  /** Account id of an administrator (not a GM) holding this access token. */
+  private async adminSubject(token: string | undefined): Promise<string | null> {
+    const subject = this.accounts?.subjectOf(token);
+    if (!subject || !this.accounts) return null;
+    return (await this.accounts.roles(subject)).includes("admin") ? subject : null;
   }
 
   /** Account id of an admin or GM holding this access token. */
