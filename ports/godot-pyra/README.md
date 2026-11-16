@@ -195,6 +195,61 @@ nie zmieniono źródeł, które czyta.
 **Niezweryfikowane:** instalacja i działanie na fizycznym telefonie, FPS, bateria, RAM/VRAM, przycisk Wstecz,
 pinch-zoom na mapie (kod jest, test tylko na myszy), czasy ładowania na telefonie.
 
+## 9a. Kontynuacja pracy w nowej sesji (instrukcja dla Claude)
+
+**Stan na 16.11.2026:** wersja 0.7.0-bestiary (kod 7). Zrobione: 10 krain, 4 rasy, miasta z usługami, mapy 2D/3D, HUD, 40 potworów
+na opublikowanych spawnach, XP/monety/łup, wstęp na cały ekran. **Następne:** questy (`src/game/quests`, ok. 6,9 tys. wierszy:
+silnik `engine.ts`, treści `*Quests.ts`, tracker `v2Tracker.ts`), potem bossowie i dungeony, rzadkie cechy potworów (lista w
+`docs/zmiany/2026-11-16/ZMIANY.md`, pkt 2), dzień/noc, życie mieszkańców. Zasady: `AGENTS.md` (m.in. brak PR i merge bez
+zgody, nie przepisywać opublikowanej historii, **nie sterować instancjami GPU**, jedna dokumentacja tematyczna + dziennik
+dnia), `docs/INDEX.md`.
+
+**Zasada dostawy APK:** APK nie jest commitowany domyślnie — kod i dokumentacja wystarczą, żeby go zbudować. Commituj APK
+(Git LFS, `deliveries/<data>-<nazwa>/`, plus `manifest.json` z SHA-256) tylko gdy właściciel o to poprosi. Narzędzie Dysku
+Google w sesji nie wgra APK (parametr `base64Content` przechodzi przez model; 120 MB nie przejdzie) — do wgrania na Dysk
+właściciel pobiera plik z repozytorium albo buduje go lokalnie.
+
+**Środowisko (świeży kontener nie ma niczego):**
+```sh
+# Godot 4.6.3 (Standard) + szablony eksportu 4.6.3
+curl -LO https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_linux.x86_64.zip
+curl -LO https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_export_templates.tpz
+#  zip -> /usr/local/bin/godot ; tpz (zip) -> ~/.local/share/godot/export_templates/4.6.3.stable/ (zawartość katalogu templates/)
+# JDK 21 oraz Android SDK (cmdline-tools): sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+pip install pillow numpy fonttools brotli        # skrypty scripts/godot/*.py
+npm ci                                           # tsx i eksportery TypeScript (scripts/godot/export-*.ts)
+apt-get install -y xvfb                          # testy z natywnym renderowaniem
+```
+`prepare_intro.py` wymaga modułu `sharp` (`npm i sharp` poza repozytorium i `NODE_PATH`).
+
+**Klucz podpisu.** Debug keystore powstaje przy pierwszym eksporcie w `~/.local/share/ki-legends-godot/debug.keystore` i zostaje
+poza repozytorium. Nowy kontener = nowy klucz = telefon nie zaktualizuje aplikacji w miejscu (trzeba odinstalować starą, zapis
+zniknie). Chcąc ciągłości, właściciel przechowuje ten plik (hasło debug: `android`, alias `androiddebugkey`) i podaje go nowej
+sesji do `~/.local/share/ki-legends-godot/`.
+
+**Pętla pracy:**
+1. `git pull` gałęzi `ccr-ebbd6459-n7c5eg` (lub nowej gałęzi od niej); przeczytaj `docs/INDEX.md`, ten README i dziennik 16.11.
+2. Dane z TS/Pythona (sekcja 5), `godot --headless --editor --path ports/godot-pyra --import`, `python3 scripts/godot/tune_imports.py`,
+   ponowny import.
+3. Testy: `godot --headless --path ports/godot-pyra --script res://tests/smoke.gd -- --fresh` (oczekuj samych PASS; ok. 3 min);
+   z natywnym renderowaniem w sekcji 8. Zrzuty do kontroli wzrokowej: skrypt na `RenderingServer.frame_post_draw`.
+4. Paczka: eksport PCK (`--export-pack "Linux"`) i uruchomienie poza projektem przez `--main-pack` (sprawdza filtry eksportu).
+5. APK: `python3 scripts/godot/build_android.py --sdk /opt/android-sdk` (tylko gdy potrzebny), podpis v2 i CRC.
+6. Dokumentacja: ten README, dziennik `docs/zmiany/<data>/ZMIANY.md`, `docs/INDEX.md`, `python3 scripts/docs/check_documentation.py`.
+7. `npx tsc -b --noEmit`, `npx eslint` dla zmienionych `scripts/godot/*.ts`; cofnij `tsconfig.tsbuildinfo`.
+8. Commit i `git push -u origin <gałąź>`; bez PR i merge, jeśli właściciel nie poprosił.
+
+**Pułapki zmierzone w tej pracy:** nowa klasa `class_name` wymaga `godot --headless --import`; zwalnianie obiektu
+`PyraMonsters` w trakcie gry wywołuje crash silnika (zarządca żyje przez całą grę, `setup` go resetuje); `$ANDROID_HOME`
+= `/opt/android-sdk`; wywołania rysowania HUD kosztują, dlatego rysunek idzie przez `CachedLayer`.
+
+**Prompt do wklejenia w nowej sesji:**
+> Kontynuujemy port KI LEGENDS na Androida (Godot 4). Repozytorium `circus574-cpu/pixel-playground-launch`, gałąź
+> `ccr-ebbd6459-n7c5eg`. Przeczytaj `AGENTS.md`, `docs/INDEX.md`, `ports/godot-pyra/README.md` (sekcja 9a) i
+> `docs/zmiany/2026-11-16/ZMIANY.md`, postaw środowisko według sekcji 9a, uruchom testy `tests/smoke.gd` i zacznij od przeniesienia
+> questów (`src/game/quests`) razem z trackerem w HUD. Nie commituj APK, chyba że poproszę; aktualizuj dokumentację i dziennik.
+> Mów konkretnie, pracuj precyzyjnie i bezbłędnie, nie ruszaj instancji GPU.
+
 ## 9. Dalsza praca
 
 1. Odbiór na fizycznym Androidzie; pomiary pamięci/FPS (kluczowe: czas wczytania krainy, ok. 120–140 MiB tekstur).
