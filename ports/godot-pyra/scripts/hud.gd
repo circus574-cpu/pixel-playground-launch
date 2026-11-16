@@ -14,6 +14,7 @@ signal dialog_changed(open: bool)
 
 const MINIMAP_SPAN := 9000.0
 const MINIMAP_RADIUS := 74.0
+const MINIMAP_FRAME := 92.0      # outer radius of the stone ring around the minimap (the ring picture's hole is about 80 % of it)
 const BUTTON_RADIUS := 27.0
 const TOP_BUTTON_SIZE := Vector2(68, 84)   # the owner's button art (label inside the picture), see scripts/godot/prepare_hud.py
 const BUTTON_ART := {"MAPA": "mapa", "POSTAĆ": "postac", "PLECAK": "plecak", "ZOOM": "zoom", "MENU": "menu"}
@@ -180,12 +181,12 @@ func _layout() -> void:
 	medallion = frame_rect.position + Vector2(62, 62)
 	bars_x = frame_rect.position.x + 124.0
 	banner_center = Vector2(area.get_center().x, area.position.y + 34)
-	minimap_center = Vector2(area.end.x - 14 - MINIMAP_RADIUS, area.position.y + 12 + MINIMAP_RADIUS)
+	minimap_center = Vector2(area.end.x - 8 - MINIMAP_FRAME, area.position.y + 6 + MINIMAP_FRAME)
 	minimap_view.position = minimap_center - Vector2.ONE * (MINIMAP_RADIUS - 5.0)
 	minimap_view.size = Vector2.ONE * (MINIMAP_RADIUS - 5.0) * 2.0
 	button_centers.clear()
 	button_order = [menu_button, zoom_button, inventory_button, character_button, map_button]
-	var x := minimap_center.x - MINIMAP_RADIUS - 18.0
+	var x := minimap_center.x - MINIMAP_FRAME - 6.0
 	for button: Button in button_order:
 		x -= TOP_BUTTON_SIZE.x
 		var rect := Rect2(Vector2(x, area.position.y + 8.0), TOP_BUTTON_SIZE)
@@ -198,7 +199,7 @@ func _layout() -> void:
 	var low := frame_rect.end.x + 10.0 + half_banner
 	var high := x + 4.0 - 10.0 - half_banner
 	banner_center.x = clampf(area.get_center().x, low, high) if low <= high else (low + high) / 2.0
-	tracker_rect = Rect2(Vector2(area.end.x - 278, minimap_center.y + MINIMAP_RADIUS + 12), Vector2(264, 120))
+	tracker_rect = Rect2(Vector2(area.end.x - 278, minimap_center.y + MINIMAP_FRAME + 6), Vector2(264, 120))
 	hint.position = Vector2(area.get_center().x - 280, area.end.y - 62)
 	hint.size = Vector2(560, 30)
 	touch.set_safe_area(area)
@@ -390,9 +391,10 @@ func draw_minimap(canvas: Control) -> void:
 	var right := Vector2.from_angle(a + PI / 2.0)
 	canvas.draw_colored_polygon(PackedVector2Array([c + forward * 9.0, c - forward * 6.0 + right * 6.0, c - forward * 3.0, c - forward * 6.0 - right * 6.0]), Color("fff0b8"))
 	canvas.draw_polyline(PackedVector2Array([c + forward * 9.0, c - forward * 6.0 + right * 6.0, c - forward * 3.0, c - forward * 6.0 - right * 6.0, c + forward * 9.0]), Color(0.3, 0.12, 0.05), 1.6, true)
-	canvas.draw_arc(c, MINIMAP_RADIUS, 0, TAU, 64, GOLD_DARK, 4.0, true)
-	canvas.draw_arc(c, MINIMAP_RADIUS - 5.0, 0, TAU, 64, Color(0.1, 0.06, 0.04, 0.9), 2.0, true)
-	canvas.draw_arc(c, MINIMAP_RADIUS + 2.0, 0, TAU, 64, Color(1, 0.9, 0.6, 0.35), 1.2, true)
+	if not PyraSkin.draw_ring(canvas, "ring-plain", c, MINIMAP_FRAME):   # the owner's stone ring; the earlier gold arcs when the picture is missing
+		canvas.draw_arc(c, MINIMAP_RADIUS, 0, TAU, 64, GOLD_DARK, 4.0, true)
+		canvas.draw_arc(c, MINIMAP_RADIUS - 5.0, 0, TAU, 64, Color(0.1, 0.06, 0.04, 0.9), 2.0, true)
+		canvas.draw_arc(c, MINIMAP_RADIUS + 2.0, 0, TAU, 64, Color(1, 0.9, 0.6, 0.35), 1.2, true)
 	text_centered(canvas, cinzel, c + Vector2(0, -MINIMAP_RADIUS + 9.0), "N", 13, GOLD, 5)
 
 ## The automap of a cave floor: explored cells around the hero, with what has been seen (key, gate, stairs, chests, ways out).
@@ -472,15 +474,16 @@ func draw_frame(canvas: Control) -> void:
 			points.append(medallion + dir * 42.0)
 			uvs.append(Vector2(0.5, 0.5) + dir * 0.5)
 		canvas.draw_colored_polygon(points, Color.WHITE, uvs, tex)
-	canvas.draw_arc(medallion, 42.0, 0, TAU, 48, GOLD, 2.4, true)
-	canvas.draw_arc(medallion, 53.0, 0, TAU, 48, GOLD_DARK, 2.0, true)
+	if not PyraSkin.draw_ring(canvas, "ring-star", medallion, 64.0):
+		canvas.draw_arc(medallion, 42.0, 0, TAU, 48, GOLD, 2.4, true)
+		canvas.draw_arc(medallion, 53.0, 0, TAU, 48, GOLD_DARK, 2.0, true)
 	# level badge
 	var badge := medallion + Vector2(-34, 36)
 	canvas.draw_circle(badge, 15.0, Color(0.1, 0.06, 0.04))
 	canvas.draw_arc(badge, 15.0, 0, TAU, 28, GOLD, 2.2, true)
 	text_centered(canvas, cinzel, badge, str(kit.level), 15, Color("fff0c8"), 4)
 	# name
-	text_outlined(canvas, cinzel, Vector2(bars_x, r.position.y + 28), str(kit.data.raceName).to_upper(), 17, GOLD)
+	text_outlined(canvas, letters, Vector2(bars_x, r.position.y + 29), str(kit.data.raceName).to_upper(), 21, Color.WHITE, 0)
 	# bars
 	var shield := kit.shield_total() / maxf(1.0, float(s.maxHp))
 	ornate_bar(canvas, Rect2(bars_x, r.position.y + 36, 270, 25), kit.hp / float(s.maxHp), Color("c93b2c"), "%d / %d" % [int(ceil(kit.hp)), int(s.maxHp)], 14, shield)

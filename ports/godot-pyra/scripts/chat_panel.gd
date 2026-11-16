@@ -21,7 +21,7 @@ func _ready() -> void:
 	panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
 	panel.position = Vector2(-340, 70)
 	panel.custom_minimum_size = Vector2(680, 330)
-	panel.add_theme_stylebox_override("panel", Look.window(40.0))
+	panel.add_theme_stylebox_override("panel", Look.window(50.0))
 	add_child(panel)
 	var box := VBoxContainer.new()
 	panel.add_child(box)
