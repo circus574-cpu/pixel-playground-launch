@@ -197,3 +197,64 @@ sekcja 1a).
 
 **Nadal poza grą (też w przeglądarce nieosiągalne lub niezatwierdzone):** bossowie (tylko podgląd), dungeony, wydarzenia świata.
 APK nie jest budowany do czasu przeniesienia całości (polecenie właściciela); ostatni APK to 0.7.0-bestiary-hq.
+
+### 8. Android / Godot: bossowie
+
+Zlecenie właściciela: przenieść wszystko, a czego nie ma — dorobić. Bossowie istnieją w przeglądarce w katalogu `bosses/catalog.ts`
+(8 sztuk, wejście przez Strażnika, łup tylko w podglądzie), ale nie są nigdzie rozstawieni.
+
+- **Dane.** `scripts/godot/export-bosses.ts` + `prepare_bosses.py` → `data/bosses.json`: statystyki, fazy (mnożniki i listy ataków),
+  ataki, tabele łupu, tłumaczenie na walkę (`bossMonster`), wygląd (strażnik kontynentu w 180 px, jak w `monsterVisual`), dźwięki
+  (`sfx/monsters/<świat>-<boss>`). Skrypt sprawdza, że każdy przedmiot łupu jest w katalogu 366 i każde przywołanie istnieje.
+- **Walka.** Fazy monotoniczne (jeden cios może pominąć fazę), mnożnik otrzymywanych obrażeń, odporność na ogłuszenie (¼) i spowolnienie
+  (½), brak odepchnięcia, ostrzeżenie ataków, pasek z nazwą i fazą w HUD, nagroda XP i łup do plecaka (przeglądarka: tylko wpis w podglądzie).
+- **Strażnik leża.** W stolicy każdego kontynentu stoi strażnik (Kaelen, Ilvara, K-7, Draven — trzej ostatni dopisani na potrzeby portu)
+  z opisem bossów i przyciskami WEJDŹ DO LEŻA; bohater trafia na skraj leża (miejsce sławne z katalogu), boss czeka; ponowne wejście nie
+  dubluje żywego bossa.
+- **Mechaniki z opisów** (`scripts/boss_script.gd`; opis katalogu obiecuje więcej, niż gra w przeglądarce): regeneracja Ygdrashy, bariera
+  Arcykapłana do zniszczenia trzech Świetlików i kurczący się pierścień areny, filary i Oddech Eteru Aureliha, bezpieczne kręgi erupcji
+  Pyrrhaxa, przegrzanie Arbitera, płonąca arena i brak leczenia u Kharzula, drony, wilki, loty. Liczby stref są autorskie.
+- **Poprawka zasięgu.** W przeglądarce ataki wręcz bossów mają zasięg całego promienia agresji (np. 500 j. u Thorgara); tu uderzają z
+  zasięgu ciała.
+
+### 9. Android / Godot: jaskinie
+
+W świecie Superior zarezerwowano 22 wejścia do jaskiń (4 na kontynent, 1 na wyspę) ze statusem „entrance reserved; interior integration
+pending”; wnętrz nie ma. Powstały one tutaj (`scripts/dungeon.gd`, dane `prepare_dungeons.py` → `data/dungeons.json`, 12 grafik `dungeon-kit`).
+
+- **Generator.** Zawsze ten sam labirynt dla tego samego wejścia (ziarno z id): korytarze i sześć komnat 23 × 17 pól po 160 j., komnata
+  startowa, skarbiec jako ślepy zaułek za kratą (zamurowane wszystkie wejścia poza jednym — pętle z komnat obchodziły zwykłą kratę),
+  klucz co najmniej 6 kroków od kraty w otwartej części, dwie skrzynie w komnatach i skarbiec, strażnicy z potworów krainy (silniejsi w
+  głębi, dwóch elitarnych przy skarbcu), do sześciu pułapek kolcowych.
+- **Zasady postępu** z `dungeonProgress.ts`: klucz, krata i skrzynie raz, zasięg 96 j., nagroda skrzyni = monety + mikstury; postęp jest w
+  zapisie (`dungeons`, walidowany); zapis w jaskini wraca na powierzchnię przy wejściu.
+- **Oprawa.** Podłoga proceduralna (kamień w barwie świata), ściany z kawałków skały jaskini, pochodnie, kryształy, kości, klatka (krata),
+  sarkofag i skrzynia skarbca, ciemność sceny (`CanvasModulate`) i światło bohatera.
+- **Wejście.** Złote koło i E przy kamiennej bramie na powierzchni; wyjście E przy drzwiach lub Esc.
+
+### 10. Android / Godot: wydarzenia świata
+
+14 wydarzeń z katalogu (nazwa, poziom, promień, powtarzalność, nagroda) rozgrywa `scripts/world_events.gd`. Miejsca (droga między stolicą a
+miastami, po obu stronach), listy stworów i zadania są autorskie: zasadzki watah, salamandry, drony, nanity, marionetki, motyle; zagrożenia z
+chmurą (zarodniki, popiół, nanity); zlecenia (znaki szlaku, lustra sygnałowe, pylony); uwolnienie posłańca; konwój z wozem. Wydarzenie budzi
+się w promieniu 800 j. (jeśli poziom wystarcza), usypia za 2600 j., po ukończeniu płaci XP, monety i przedmiot i odpoczywa (300 s, zlecenia
+600 s, „once” — na stałe, zapisane).
+
+### 11. Android / Godot: żywy świat (dzień i noc, mieszkańcy, efekty)
+
+- **Dzień i noc.** Zegar 480 s (wieczór od 270 s, noc 300–450 s, świt do 480 s) barwi scenę poza wnętrzami (`CanvasModulate`), dopisuje „noc” w
+  banerze i steruje cechą `night` potworów; nie jest zapisywany (dzień zaczyna się rano).
+- **Mieszkańcy.** NPC ulic (poza strażnikiem) spacerują wokół posterunku po terenie przejezdnym, zatrzymują się i patrzą na bohatera w
+  promieniu 150 j.; punkt rozmowy podąża za postacią.
+- **Efekty otoczenia** (`scripts/ambient_fx.gd`): płomienie z dymem i iskrami nad ogniskami, kuźniami, obozami i brazierami, para nad
+  źródłami, fontannami i otworami siarkowymi, żar nad skałami lawy, poświata lamp, iskry nad kryształami, pylonami i reaktorami; wyłączane poza
+  ekranem; nocą jaśniejsze. Przeglądarka nie definiuje takich efektów (paczki mają puste `effects`).
+- **Kontrole.** `tests/smoke.gd`: **420/420** headless (nowe: 8 bossów i ich łup, fazy i pominięcie fazy, regeneracja, bariera i światełka,
+  pierścień, przegrzanie Arbitera, blokada leczenia Kharzula, bezpieczne kręgi i filary, wycie Thorgara, nagroda i łup bossa, strażnik leża
+  i jedno wejście; 22 wejścia i 12 grafik, ta sama jaskinia dla tego samego wejścia, krata odcina skarbiec, klucz w otwartej części,
+  klucz/krata/skrzynia raz, kolce, zapis w jaskini i oczyszczenie stanu; 14 wydarzeń, budzenie, nagroda, odnowa, zlecenie z lustrami,
+  „once”, zapis; efekty otoczenia, spacery, zatrzymanie przy bohaterze, strażnik na posterunku, zegar i barwa dnia). Zrzuty:
+  `qa/godot-late/` (jaskinia, skarbiec, noc z efektami, wydarzenie, boss) — natywne renderowanie programowe (llvmpipe).
+
+**Nie zweryfikowane:** fizyczny telefon (FPS jaskiń ze światłem i CanvasModulate, wiele efektów otoczenia naraz, balans trudności bossów
+i jaskiń). Balans liczb autorskich (kolce, strefy, nagrody skrzyń, wydarzenia) wymaga decyzji właściciela po grze na telefonie.

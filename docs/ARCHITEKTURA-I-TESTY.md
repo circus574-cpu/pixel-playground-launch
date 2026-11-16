@@ -1353,5 +1353,5 @@ w `tests/smoke.gd`. Szczegóły i ograniczenia: [dziennik 16.11](zmiany/2026-11-
 **16.11 (po 0.6.0, kod bez nowego APK):** `monster.gd` / `monster_manager.gd` — 41 potworów i ich zasady (statystyki, umiejętności,
 cechy, słabości na klasy obrażeń z `race_kit.gd` `TAGS`), spawny z opublikowanych rejestrów; `quest_engine.gd` — 106 zadań i
 dialogi (`export-quests.ts`); `audio.gd` — muzyka i efekty (`prepare_audio.py`); `economy.gd` — limity V2, zestawy, ulepszenia,
-pięć stacji. 364 kontrole w `tests/smoke.gd`. Pełny opis w [README Android](../ports/godot-pyra/README.md) i
+pięć stacji; `boss_script.gd` i `data/bosses.json` (8 bossów), `dungeon.gd` (22 jaskinie), `world_events.gd` (14 wydarzeń), `ambient_fx.gd` i dzień/noc w `city_game.gd`. 420 kontroli w `tests/smoke.gd`. Pełny opis w [README Android](../ports/godot-pyra/README.md) i
 [dzienniku 16.11](zmiany/2026-11-16/ZMIANY.md).

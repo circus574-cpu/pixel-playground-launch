@@ -20,8 +20,6 @@ var timer := 0.0
 var drop_chance := 0.02
 var minion_seq := 0
 var webs: Dictionary = {}            # monster instance id -> Array of web zones
-const DAY_SECONDS := 480.0           # one day of the browser game (DAY_MS 480000)
-const NIGHT_FROM := 300.0            # the last 180 s of each day are night
 
 func setup(owner_game: PyraGame, monster_data: Dictionary, land_spawns: Dictionary) -> void:
 	game = owner_game
@@ -140,7 +138,7 @@ func populate_dungeon(guards: Array, centre_of: Callable) -> void:
 			built["hp"] = float(built.hp) * 2.0
 			built["atk"] = float(built.atk) * 1.3
 			built["xp"] = int(built.xp) * 2
-			built["name"] = "Strażnik skarbca: " + str(built.name)
+			built["name"] = str(built.name) + " (elita)"
 		var at: Vector2 = centre_of.call(g.cell)
 		var monster := PyraMonster.new()
 		game.monster_parent().add_child(monster)
@@ -322,7 +320,7 @@ func player_hp_ratio() -> float:
 	return game.kit.hp / maxf(1.0, float(game.kit.stats().maxHp))
 
 func is_night() -> bool:
-	return fmod(clock, DAY_SECONDS) >= NIGHT_FROM
+	return game.is_night()
 
 func in_safe_city(at: Vector2) -> bool:
 	return game.in_safe_city(at)
@@ -354,7 +352,7 @@ func heal_allies(source: PyraMonster, radius: float, fraction: float) -> void:
 			m.hp = minf(m.max_hp, m.hp + m.max_hp * fraction)
 
 class Zone extends Node2D:
-	const COLORS := {"poison": Color(0.45, 0.85, 0.25), "fire": Color(1.0, 0.45, 0.12), "web": Color(0.92, 0.94, 1.0), "acid": Color(0.7, 0.95, 0.2), "ice": Color(0.55, 0.85, 1.0), "electric": Color(0.5, 0.75, 1.0), "void": Color(0.62, 0.3, 0.95), "spikes": Color(0.8, 0.75, 0.7), "lava": Color(1.0, 0.3, 0.08)}
+	const COLORS := {"poison": Color(0.45, 0.85, 0.25), "fire": Color(1.0, 0.45, 0.12), "web": Color(0.92, 0.94, 1.0), "acid": Color(0.7, 0.95, 0.2), "ice": Color(0.55, 0.85, 1.0), "electric": Color(0.5, 0.75, 1.0), "void": Color(0.62, 0.3, 0.95), "spikes": Color(0.8, 0.75, 0.7), "ash": Color(0.62, 0.52, 0.48), "nanite": Color(0.45, 0.8, 0.95), "lava": Color(1.0, 0.3, 0.08)}
 	var manager: PyraMonsters
 	var kind := "poison"
 	var radius := 60.0

@@ -12,6 +12,7 @@ var land_id := ""
 var cfg: Dictionary
 var world_size := Vector2.ZERO
 var textures: Array = []              # lazily loaded Texture2D per scenery sprite index
+var ambient_kinds: Dictionary = {}    # texture index -> ambient effect (fire, steam, lamp, ember, spark)
 var objects_bin := PackedByteArray()
 var walk := PackedByteArray()
 var walk_w := 0
@@ -52,6 +53,11 @@ func setup_land(id: String) -> void:
 	world_size = Vector2(float(cfg.width), float(cfg.height))
 	objects_bin = FileAccess.get_file_as_bytes("res://data/lands/%s/objects.bin" % id)
 	textures.resize((cfg.textures as Array).size())
+	ambient_kinds.clear()
+	for i in (cfg.textures as Array).size():
+		var effect := PyraAmbient.kind_for(str(cfg.textures[i].path))
+		if effect != "":
+			ambient_kinds[i] = effect
 	walk = FileAccess.get_file_as_bytes("res://data/lands/%s/walk.bin" % id)
 	walk_w = int(cfg.grid.nav[0])
 	walk_h = int(cfg.grid.nav[1])
@@ -422,6 +428,10 @@ func build_slice(key: String, started: int, budget_usec: int) -> void:
 		else:
 			sorted.add_child(sprite)
 		holder.append(sprite)
+		if ambient_kinds.has(index) and (str(ambient_kinds[index]) != "spark" or (int(at.x / 16.0) + int(at.y / 16.0)) % 3 == 0):
+			var fx := PyraAmbient.create(str(ambient_kinds[index]), at, str(cfg.textures[index].path))
+			sorted.add_child(fx)
+			holder.append(fx)
 		done += 1
 	if done >= count:
 		build_state.erase(key)

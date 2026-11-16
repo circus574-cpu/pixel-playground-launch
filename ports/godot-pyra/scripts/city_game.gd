@@ -68,6 +68,11 @@ var monster_data: Dictionary
 var boss_data: Dictionary
 var dungeon_data: Dictionary
 var dungeon: PyraDungeon
+var world_events: PyraWorldEvents
+var world_time := 40.0                  # seconds of the game day (480 s, night from 300 s); not saved, the day starts in the morning
+var day_tint := CanvasModulate.new()
+var citizens: Array[Dictionary] = []    # street NPCs that stroll around their post
+var citizen_clock := 0.0
 var dungeon_state: Dictionary = {}     # dungeon id -> {"keys": [], "gates": [], "chests": []}, saved with the character
 var respawn_timer := -1.0
 var quests: PyraQuests
@@ -138,6 +143,7 @@ func _ready() -> void:
 	map_data = PyraContinent.load_json("res://data/map.json")
 	get_tree().quit_on_go_back = false
 	origin = PYRA_CAPITAL_OFFSET
+	add_child(day_tint)
 	economy = PyraEconomy.new(PyraContinent.load_json("res://data/economy.json"))
 	economy.heal_callback = func(fraction: float) -> bool:
 		var top := float(kit.stats().maxHp)
@@ -243,6 +249,7 @@ func enter_land(id: String, at: Vector2 = Vector2(-1, -1)) -> void:
 	outdoor_targets = [] as Array[Dictionary]
 	settlements = [] as Array[Dictionary]
 	quest_actors = [] as Array[Dictionary]
+	citizens = [] as Array[Dictionary]
 	last_town = ""
 	if id == "pyra":
 		build_pyra_capital()
@@ -251,6 +258,14 @@ func enter_land(id: String, at: Vector2 = Vector2(-1, -1)) -> void:
 		monsters = PyraMonsters.new()
 		add_child(monsters)
 	monsters.setup(self, monster_data, PyraContinent.load_json("res://data/lands/%s/spawns.json" % id))
+	if not is_instance_valid(world_events):
+		world_events = PyraWorldEvents.new()
+		add_child(world_events)
+	var land_events: Array = []
+	for e: Dictionary in quests.data.events:
+		if str(e.continent) == id:
+			land_events.append(e)
+	world_events.setup(self, land_events, event_anchors(land_events.size()))
 	var start := at if at.x >= 0.0 else Vector2(float(land.arrival.x), float(land.arrival.y))
 	city_return = start
 	current_room = ""
@@ -300,7 +315,10 @@ func add_street_npc(role: String, display_name: String, title: String, dialogue:
 	continent.sorted.add_child(actor)
 	actor.setup(actors[key], display_name, false)
 	quest_actors.append({"actor": actor, "role": role, "town": settlement_at(at)})
-	outdoor_targets.append({"kind": "npc", "id": role, "name": display_name, "point": at, "definition": {"name": display_name, "role": title, "dialogue": dialogue}})
+	var target := {"kind": "npc", "id": role, "name": display_name, "point": at, "definition": {"name": display_name, "role": title, "dialogue": dialogue}}
+	outdoor_targets.append(target)
+	if role != "warden":   # the warden stands at his post; the others walk a little
+		citizens.append({"actor": actor, "target": target, "home": at, "goal": at, "wait": randf() * 4.0, "speed": randf_range(26.0, 38.0), "radius": 110.0 if role != "guide" else 70.0})
 
 ## Points drawn on the minimap: the cities and the named places of the land.
 func minimap_markers() -> Array[Dictionary]:
@@ -634,12 +652,29 @@ func region_name() -> String:
 func nearest_target() -> Dictionary:
 	var result: Dictionary = {}
 	var distance := INTERACTION_RANGE
-	for target in targets:
+	var all: Array = targets
+	if current_room.is_empty() and is_instance_valid(world_events):
+		all = targets + world_events.targets()
+	for target in all:
 		var d := player.position.distance_to(target.point)
 		if d < distance:
 			distance = d
 			result = target
 	return result
+
+## Where each world event of the land plays: on the road between the capital and the other cities, to either side, on open ground.
+func event_anchors(count: int) -> Array:
+	var anchors: Array = []
+	var capital := Vector2(float(land.settlements[0].x), float(land.settlements[0].y))
+	var others: Array[Vector2] = []
+	for i in range(1, land.settlements.size()):
+		others.append(Vector2(float(land.settlements[i].x), float(land.settlements[i].y)))
+	for i in count:
+		var far: Vector2 = others[i % others.size()] if not others.is_empty() else capital + Vector2(4000, 0)
+		var along := capital.lerp(far, clampf(0.34 + 0.1 * float(i / maxi(1, others.size())), 0.3, 0.75))
+		var side := (far - capital).normalized().orthogonal() * (320.0 + 110.0 * float(i)) * (1.0 if i % 2 == 0 else -1.0)
+		anchors.append(open_ground(along + side))
+	return anchors
 
 func interact() -> void:
 	if player.locked or hud.modal.visible or is_instance_valid(screen):
@@ -661,6 +696,8 @@ func interact() -> void:
 			load_space("", city_return)
 		"dungeon":
 			enter_dungeon(target.entrance)
+		"event":
+			world_events.use(target)
 		"dkey":
 			if dungeon.pick_up_key(player.position):
 				audio.sfx("common/loot")
@@ -948,6 +985,70 @@ func leave_dungeon_state() -> void:
 	if is_instance_valid(monsters):
 		monsters.clear_all()
 
+## The day: 480 s, evening from 270 s, night from 300 s to 450 s, dawn until 480 s.
+func is_night() -> bool:
+	return fmod(world_time, 480.0) >= 300.0
+
+func night_factor() -> float:
+	var t := fmod(world_time, 480.0)
+	if t < 270.0:
+		return 0.0
+	if t < 300.0:
+		return (t - 270.0) / 30.0
+	if t < 450.0:
+		return 1.0
+	return 1.0 - (t - 450.0) / 30.0
+
+func update_day(delta: float) -> void:
+	world_time += delta
+	var night := night_factor()
+	PyraAmbient.night = night if current_room.is_empty() else 0.0
+	if in_dungeon():
+		day_tint.color = dungeon.ambient()
+	elif not current_room.is_empty():
+		day_tint.color = Color.WHITE
+	else:
+		var dusk := clampf(night * 2.0, 0.0, 1.0) * (1.0 - clampf((night - 0.5) * 2.0, 0.0, 1.0))
+		var base := Color.WHITE.lerp(Color(0.5, 0.56, 0.84), night * 0.85)
+		day_tint.color = base.lerp(Color(1.0, 0.78, 0.62), dusk * 0.5)
+
+## Street NPCs stroll around their post, stop and look at the hero when he comes near, and keep their talk point on themselves.
+func update_citizens(delta: float) -> void:
+	for c in citizens:
+		var actor: PyraActor = c.actor
+		if not is_instance_valid(actor):
+			continue
+		var distance := actor.position.distance_to(player.position)
+		if distance > 1500.0:
+			continue
+		if distance < 150.0:
+			actor.animate(Vector2.ZERO)
+			actor.face(player.position - actor.position)
+			continue
+		c.wait = float(c.wait) - delta
+		if float(c.wait) > 0.0:
+			actor.animate(Vector2.ZERO)
+			continue
+		var goal: Vector2 = c.goal
+		var to_goal := goal - actor.position
+		if to_goal.length() < 8.0:
+			c.wait = randf_range(2.0, 6.0)
+			var pick: Vector2 = (c.home as Vector2) + Vector2.from_angle(randf() * TAU) * randf() * float(c.radius)
+			c.goal = pick if continent.walkable(pick) and not in_blocked_spot(pick) else actor.position
+			actor.animate(Vector2.ZERO)
+			continue
+		var next := actor.position + to_goal.normalized() * float(c.speed) * delta
+		if continent.walkable(next):
+			actor.position = next
+			actor.animate(to_goal)
+			(c.target as Dictionary)["point"] = next
+		else:
+			c.goal = actor.position
+			actor.animate(Vector2.ZERO)
+
+func in_blocked_spot(_at: Vector2) -> bool:
+	return false
+
 ## Kharzul's burning arena (phase 3) takes healing away.
 func healing_blocked() -> bool:
 	if not is_instance_valid(monsters):
@@ -1054,6 +1155,9 @@ func _process(delta: float) -> void:
 		return
 	simulate(minf(delta, 0.05))
 	quest_tick(delta)
+	update_day(delta)
+	if current_room.is_empty():
+		update_citizens(minf(delta, 0.1))
 	var terrain := continent.terrain_kind(player.position) if current_room.is_empty() else "open"
 	audio.step(delta, player.moving and not player.locked, world_id, terrain, not current_room.is_empty())
 	ambience_timer -= delta
@@ -1071,7 +1175,7 @@ func _process(delta: float) -> void:
 	if in_dungeon():
 		hud.place.text = "Jaskinia · " + str(land.name)
 	elif current_room.is_empty():
-		hud.place.text = region_name()
+		hud.place.text = region_name() + (" · noc" if is_night() else "")
 		var view := camera_view()
 		markers.view = view
 		if player.position.distance_to(stream_center) > 420.0:
@@ -1203,6 +1307,7 @@ func start_new_character(new_race: String) -> void:
 		load_space("", city_return)
 	quests.reset()
 	dungeon_state = {}
+	world_events.from_save({})
 	economy.gold = 20
 	economy.upgrades = {}
 	economy.bag = {"potion": 3}
@@ -1263,7 +1368,7 @@ func save_checkpoint(path: String = SAVE_PATH) -> bool:
 	var in_cave := in_dungeon()
 	var save_room := "" if in_cave else current_room
 	var save_at := city_return if in_cave else player.position
-	var value := {"format": SAVE_FORMAT, "version": 2, "race": race, "land": land_id, "room": save_room, "town": room_town, "position": [save_at.x, save_at.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save(), "economy": economy.to_save(), "quests": quests.to_save(), "dungeons": dungeon_state}
+	var value := {"format": SAVE_FORMAT, "version": 2, "race": race, "land": land_id, "room": save_room, "town": room_town, "position": [save_at.x, save_at.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save(), "economy": economy.to_save(), "quests": quests.to_save(), "dungeons": dungeon_state, "events": world_events.to_save()}
 	var file := FileAccess.open(path + ".tmp", FileAccess.WRITE)
 	if file == null:
 		return false
@@ -1335,6 +1440,7 @@ func restore_checkpoint(path: String = SAVE_PATH) -> bool:
 		else:
 			quests.reset()
 		dungeon_state = valid_dungeon_state(value.get("dungeons", {}))
+		world_events.from_save(value.get("events", {}))
 	city_return = back
 	load_space(room, at, str(value.get("town", "")))
 	return true

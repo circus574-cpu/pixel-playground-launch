@@ -1,9 +1,9 @@
 # KI Legends Android — projekt Godot 4
 
 Dokumentacja natywnej aplikacji **KI Legends na Androida** (Godot 4.6.3, GDScript, renderer Compatibility),
-stan 16.11.2026. Kod w repozytorium to **pełna gra poza bossami, dungeonami i wydarzeniami świata** (sekcja 1); ostatni zbudowany APK
-(`0.7.0-bestiary`, sekcja 2) jest starszy niż kod: **nie ma w nim questów, dźwięku, zasad ekwipunku ani rzadkich cech
-potworów**. Zgodnie z decyzją właściciela APK końcowy powstaje dopiero po przeniesieniu całości, w pełnej jakości grafiki.
+stan 16.11.2026. Kod w repozytorium to **pełna gra: potwory, questy, dźwięk, ekwipunek, bossowie, jaskinie, wydarzenia świata, dzień i noc**
+(sekcja 1); ostatni zbudowany APK (`0.7.0-bestiary`, sekcja 2) jest starszy niż kod: **nie ma w nim questów, dźwięku, zasad
+ekwipunku, rzadkich cech potworów, bossów, jaskiń, wydarzeń świata, dnia i nocy ani życia mieszkańców**. Zgodnie z decyzją właściciela APK końcowy powstaje dopiero po przeniesieniu całości, w pełnej jakości grafiki.
 Gałąź `ccr-ebbd6459-n7c5eg`, kontynuacja
 [PR #170](https://github.com/circus574-cpu/pixel-playground-launch/pull/170) (`feat/godot-pyra-android-20261115`).
 
@@ -22,6 +22,10 @@ nie są czytane. Miasta są bezpieczne (brak przeciwników); wieloosobowość ni
 | Potwory | **41 definicji** (40 potworów bestiariusza + osa-pomocnik przywoływana przez Osę Bursztynową) na opublikowanych rejestrach spawnów 10 krain (8 752 miejsc, maks. 24 aktywnych): błądzą (lub patrolują trasę), atakują, gonią, używają umiejętności z ostrzeżeniem na ziemi, nakładają statusy; zabicie daje XP (poziomy 1–20), monety, łup i 2 % słabego przedmiotu; śmierć = powrót do stolicy krainy; miasta są bezpieczne. **Rzadkie cechy zaimplementowane** (sekcja 1a). Słabości na klasy obrażeń zdolności (ogień, ki, elektryczność, woda, ogłuszenie, obszar, fizyczne) |
 | Questy | **102 grywalne zadania z 106** (główne, poboczne, ukryte, międzykontynentalne): przyjmowanie u NPC (!, ? nad głową), cele rozmowy/walki/odkrycia/odwiedzin/dostawy, nagrody (XP, monety, przedmiot, reputacja), odkrywanie 16 sławnych i 17 ukrytych miejsc, tracker w HUD, dziennik w MENU, zapis; **28 postaci ma autorskie dialogi** (powitania, plotki, kwestie zależne od stanu zadania) |
 | Walka | Wszystkie zdolności czterech ras działają na potworach i na manekinie areny (nie oddaje ciosów); każda zdolność niesie klasy obrażeń (`TAGS` w `race_kit.gd`) liczone ze słabościami potwora; unik daje nietykalność na czas animacji |
+| Bossowie | **8 bossów** z katalogu przeglądarki (Ygdrasha, Thorgar, Arcykapłan Pustki, Aurelith, Arbiter Zero, Hydra-Rdzeń, Kharzul, Pyrrhax) — po dwóch na kontynent, z fazami, atakami z ostrzeżeniem, łupem do plecaka i mechanikami z opisów katalogu; wejście przez **Strażnika leża** w stolicy kontynentu (przycisk WEJDŹ DO LEŻA) |
+| Jaskinie | **22 wejścia** zarezerwowane w świecie Superior (4 na kontynent, 1 na wyspę, kamienne bramy na mapie) prowadzą do jaskiń: labirynt korytarzy i komnat, klucz, krata na jedynej drodze do skarbca, skrzynie, strażnicy z potworów krainy (elitarni przy skarbcu), kolce w korytarzach, ciemność z latarnią bohatera |
+| Wydarzenia świata | **14 wydarzeń** katalogu (zasadzki, zagrożenia obszarowe, zlecenia odnawialne, konwój) rozgrywane na drogach między miastami: budzą się, gdy bohater podejdzie, płacą XP, monety i przedmiot, potem odpoczywają (300/600 s; „once” nie wraca) |
+| Żywy świat | Dzień (480 s: wieczór od 270 s, noc 300–450 s, świt do 480 s) z barwieniem sceny i cechą `night` potworów; mieszkańcy ulic spacerują wokół posterunku i zatrzymują się przy bohaterze; płomienie, dym, para, żar i iskry nad ogniskami, źródłami, lawą i kryształami |
 | Dźwięk | Muzyka właściciela (5 pętli: ekran startowy i cztery kontynenty, crossfade), tło miasta i światów, 271 efektów ElevenLabs (trafienia, zdolności czterech ras, potwory, statusy, interfejs, drzwi, łup), kroki według podłoża; głośność w MENU (muzyka 30 %, efekty 60 %) |
 | Miasto na gotowo | Monety, plecak (40 stosów), 8 slotów wyposażenia z wpływem na statystyki, **sklep** (85 słabych przedmiotów, cena 4×, skup za połowę), **kuźnia i pięć stacji craftingu** (kuźnia, alchemia, runy, fabrykator Nexusa, Księgi — receptury z katalogu 265), **ulepszanie u kowala** (broń do +3: +2 ATK za poziom; elementy pancerza do +2: +1 DEF), **bonusy pasywne i zestawowe** z globalnymi limitami V2, **depozyt** (przedmioty i monety), **gospoda** (5 monet), mikstura (leczy `hpBonus`, domyślnie 50 HP) — we wszystkich czterech światach |
 | HUD | Medalion z portretem rasy i pierścieniem XP, ozdobne paski HP/KI/zasób, buffy z licznikami, monety, baner lokacji, ramka celu, okrągła minimapa z mapy krainy, okrągłe przyciski menu, tracker zadań (do trzech aktywnych zadań), pasek XP, szybki slot mikstury, ikony zdolności; rysunek w pamięci podręcznej (odświeżany tylko przy zmianie); MENU → FPS I DIAGNOSTYKA |
@@ -29,7 +33,26 @@ nie są czytane. Miasta są bezpieczne (brak przeciwników); wieloosobowość ni
 | Zapis | Checkpoint v2 (kraina, rasa, pozycja, wnętrze, poziom, drzewko, sloty, ekonomia z ulepszeniami, dziennik zadań); import checkpointu v1; stary zapis bez zadań wczytuje się z pustym dziennikiem; ochrona nieznanego formatu |
 | Start i ikona | **Wstęp: ilustracja właściciela** (cała, bez zniekształceń), przycisk ZACZNIJ PRZYGODĘ, na dole „Powered by GODOT ENGINE” z oficjalnym logo; boot splash z tą samą ilustracją; ikony Android; licencje silnika w menu |
 
-**Poza zakresem (nie przeniesione, nie ma ich w kodzie ani w grze):** bossowie (są tylko w podglądzie przeglądarki, nie stoją na mapie), dungeony (wnętrza lochów), wydarzenia świata (14 w `ALL_WORLD_EVENTS_V2`; w przeglądarce też nigdy się nie uruchamiają), konta i synchronizacja, efekty otoczenia (dym/para/żar), życie mieszkańców (stoją w miejscu), widoczna zmiana dnia i nocy (jest tylko zegar, który steruje cechą `night` potworów). Obecność sklepu czy skrzyni w tekście nie oznacza wdrożenia usługi.
+**Poza zakresem (nie ma w kodzie):** konta i synchronizacja, wieloosobowość, kolejne piętra jaskiń, bossowie w jaskiniach. Obecność sklepu czy
+skrzyni w tekście nie oznacza wdrożenia usługi. **Co z poniższego istnieje w przeglądarce, a co jest dorobione dla portu**, mówi sekcja 1b.
+
+### 1b. Co jest z przeglądarki, a co dorobione
+
+| Element | Z przeglądarki (`src/game`) | Dorobione dla portu (autorskie, do akceptacji właściciela) |
+| --- | --- | --- |
+| Bossowie | Katalog (`bosses/catalog.ts`): statystyki, fazy z mnożnikami i listami ataków, ataki, tabele łupu, wygląd (strażnik kontynentu w 180 px), dźwięki, wejście przez Strażnika | Łup trafia do plecaka (przeglądarka trzyma go w podglądzie bez zapisu); zasięg ataków wręcz = zasięg ciała (przeglądarka: cały promień agresji); dystans ranged bosses; odporność na ogłuszenie (¼) i spowolnienie (½), brak odepchnięcia; mechaniki z opisów katalogu (niżej); Strażnicy Aether (Ilvara), Nexus (K-7), Pyra (Draven) — w przeglądarce jest tylko Kaelen z Verdantii |
+| Jaskinie | Rezerwacja 22 wejść (`world.json`: „entrance reserved; interior integration pending”), obiekty bram na mapie, paczka grafik `dungeon-kit`, model postępu z kluczami, kratami i skrzyniami (`dungeonProgress.ts`) | Cały wnętrze: generator labiryntu zależny od id wejścia, rozmieszczenie klucza/kraty/skrzyń/strażników/kolców, nagrody skrzyń, ciemność i światło bohatera, podłoga proceduralna |
+| Wydarzenia | 14 definicji (nazwa, poziom, promień, powtarzalność, nagroda) | Miejsca, stwory, zadania do wykonania (uwolnić posłańca, odnowić znaki, zabezpieczyć lustra, skalibrować pylony, zneutralizować źródło), chmury zagrożeń, odnowa |
+| Dzień i noc | Cecha `night` potworów i `host.isNight()` | Zegar 480 s, barwienie sceny, napis „noc” w banerze |
+| Mieszkańcy, efekty | — | Spacery NPC, efekty otoczenia (`ambient_fx.gd`) |
+
+**Mechaniki bossów z opisów katalogu** (`scripts/boss_script.gd`): Ygdrasha regeneruje 1 % HP/s w fazach 1–2, w fazie 3 kielich jest odsłonięty
+(+25 % obrażeń) i trujące zarodniki zostają na ziemi; Thorgar w fazie 3 ponownie wyje (bez wilków, oślepienie 3 s); Arcykapłan w fazie 2 wzywa
+trzy Świetliki i do ich zniszczenia przyjmuje tylko 30 % obrażeń, jego pieczęcie zostawiają strefy na 5 s, w fazie 3 kurczy się pierścień areny;
+Aurelith w fazach 2–3 lata, w fazie 3 stawia trzy filary i Oddech Eteru (promień) mija schowanego za filarem; Arbiter w fazie 2 wzywa dwa drony, a w
+fazie 3 co 30 s przez 10 s jest przegrzany (+40 % obrażeń); Hydra przełącza się między trzema głowami (listy ataków faz); Kharzul w fazie 3 podpala
+arenę (strefy z ostrzeżeniem) i blokuje leczenie miksturami; Pyrrhax w fazie 2 lata, w fazie 3 erupcja wymaga schronienia w jednym z trzech
+bezpiecznych kręgów. Liczby stref (obrażenia, czasy, promienie) są autorskie.
 
 ### 1a. Zasady potworów (`scripts/monster.gd`, `scripts/monster_manager.gd`)
 
@@ -103,6 +126,10 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | `scripts/continent.gd`, `assets/continent/terrain.gdshader` | Dowolna kraina z `data/lands/<id>/`: shader terenu (4 biomy, ląd/morze, brzeg, lawa/kryształ, dwie nakładki, drogi z maski 16 j. i klasy materiału, dziedzińce miast; lustrzane kafle bez szwów) wypalany do tekstur kwadratów 512 j., strumieniowanie obiektów po chunkach 2048 j. w porcjach czasowych z ładowaniem tekstur na wątkach, maska kolizji |
 | `scripts/cached_layer.gd`, `scripts/hud.gd`, `scripts/touch_controls.gd` | HUD i przyciski dotykowe rysowane do przezroczystego SubViewport w rozdzielczości urządzenia, odświeżane tylko po zmianie stanu (2 quady w spoczynku) |
 | `scripts/quest_engine.gd` | Silnik questów (port `src/game/quests`): stan, cele, nagrody, znaczniki NPC, rozmowy, tracker, zapis |
+| `scripts/boss_script.gd`, `data/bosses.json` | Mechaniki ośmiu bossów (filary, pierścień areny, bezpieczne kręgi, przegrzanie, bariera, regeneracja) i dane katalogu |
+| `scripts/dungeon.gd`, `data/dungeons.json`, `assets/dungeon/` | Jaskinie: generator labiryntu i zawartości (klucz, krata, skrzynie, strażnicy, kolce), dane wejść, 12 grafik `dungeon-kit` |
+| `scripts/world_events.gd` | 14 wydarzeń świata: miejsca, stwory, rekwizyty, nagrody, odnowa, zapis |
+| `scripts/ambient_fx.gd` | Płomienie, dym, para, żar i iskry nad scenerią (wyłączane poza ekranem) |
 | `scripts/audio.gd` | Muzyka (crossfade), tła, efekty (pula 14 odtwarzaczy, minimalne odstępy), kroki, głośności w `user://audio.json` |
 | `scripts/monster.gd`, `scripts/monster_manager.gd` | Potwór (AI, atak, umiejętności, statusy, wszystkie rzadkie cechy z sekcji 1a) i zarządca spawnów krainy (budzenie, usypianie, respawn, pociski, strefy, pajęczyny, przywołania, klony, zegar dnia i nocy, nagrody). Zarządca żyje przez całą grę; zwolnienie go w trakcie rozgrywki wywala silnik, dlatego `setup` tylko go resetuje |
 | `scripts/map_style.gd` | Wspólny styl map i globusa: plakietki Cinzel, znaczniki rodzajów miejsc, kompas, winieta, ramka |
@@ -124,7 +151,7 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | `data/city.generated.json` | Stolica Pyry z pierwszej próby (układ, podłoga, pokoje) — nie edytować ręcznie |
 | `data/monsters.json`, `data/quests.json`, `data/lands/<id>/spawns.json` | Bestiariusz (statystyki, umiejętności, cechy, łup, klatki), katalog zadań z dialogami i miejscami, rejestr spawnów krainy |
 | `assets/audio/` | Muzyka (`music/`) i efekty (`sfx/`) skopiowane bez zmian (24 MB) |
-| `tests/smoke.gd` | 364 kontrole w prawdziwym silniku |
+| `tests/smoke.gd` | 420 kontroli w prawdziwym silniku; `tests/qa_shots.gd` robi zrzuty jaskini, bossa, nocy i wydarzenia |
 
 **Układ współrzędnych:** gra używa współrzędnych świata Superior (jak WWW). Układ stolicy z pierwszej próby jest
 przesunięty o `world.json.offset` = (44 564,29; 12 168,47).
@@ -151,6 +178,9 @@ python3 scripts/godot/prepare_continent_hero.py      # klipy bohatera Legendy (p
 python3 scripts/godot/prepare_continent_maps.py      # atlas, globus, regiony i komórki mapy dla 10 krain
 python3 scripts/godot/prepare_icons.py               # ikony zdolności czterech ras (okrągłe) i paski
 npx tsx scripts/godot/export-monsters.ts            # 40 potworów + pomocnik: zasady, cechy, łup, rozmiary
+npx tsx scripts/godot/export-bosses.ts               # 8 bossów: katalog, fazy, łup, tłumaczenie na walkę
+python3 scripts/godot/prepare_bosses.py              # -> data/bosses.json (sprawdza łup, strażników i przywołania)
+python3 scripts/godot/prepare_dungeons.py            # 22 wejścia jaskiń i grafiki dungeon-kit -> data/dungeons.json, assets/dungeon
 python3 scripts/godot/prepare_monsters.py            # arkusze potworów i rejestry spawnów krain
 npx tsx scripts/godot/export-economy.ts              # przedmioty, receptury, ceny sklepu, limity i zestawy, ulepszenia, ikony
 npx tsx scripts/godot/export-quests.ts               # 106 zadań, dialogi NPC, sławne i ukryte miejsca -> data/quests.json
@@ -209,8 +239,9 @@ godot --headless --path ports/godot-pyra --script res://tests/smoke.gd -- --fres
 xvfb-run -a -s '-screen 0 1600x900x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --audio-driver Dummy --path ports/godot-pyra --rendering-method gl_compatibility --script res://tests/smoke.gd -- --fresh --qa-output /tmp/pyra-native
 ```
 
-Na kodzie tej gałęzi: **364/364** kontroli w trybie headless (16.11.2026). Przebieg z natywnym renderowaniem (Mesa llvmpipe) był
-ostatnio wykonany przy 340 kontrolach i nie został powtórzony dla 364.
+Na kodzie tej gałęzi: **420/420** kontroli w trybie headless (16.11.2026). Przebieg z natywnym renderowaniem (Mesa llvmpipe) był
+ostatnio wykonany przy 340 kontrolach i nie został powtórzony dla 420; zrzuty jaskini, bossa, nocy i wydarzenia powstały natywnie
+(`docs/zmiany/2026-11-16/qa/godot-late/`).
 Pokrycie: ekonomia (katalog 366/265/85, cena sklepu 4×, skup 50 %, wymagania poziomu, wpływ sprzętu, mikstura, crafting, depozyt,
 gospoda, zapis, cztery ekrany usług), rozmiar kontynentu, bezpieczny start, strumieniowanie, **+15 % bohatera**, kolizje,
 osiągalność 24 drzwi Pyry i powroty, dotyk, prędkość przy 30/120 FPS, zasady Legendy (statystyki, drzewko, rangi, zdolności na
@@ -222,7 +253,7 @@ ekran wyboru rasy, **podróż z mapy** (PODRÓŻ na wyspę 3 i z powrotem), ukł
 definicji, 8 752 miejsc, budzenie, walka, nagrody, statusy, śmierć i powrót), **rzadkie cechy** (słabość na ogień, pancerz z przodu
 kraba, bonus z tyłu lwa, przywołanie os, podział roju, odrodzenie ducha, strefa sieci spowalnia bohatera, dzień i noc), **questy**
 (106/102/16/17, przyjęcie, etapy, odkrycia, nagroda raz, zapis), **dźwięk** (pliki w paczce, muzyka podąża za światem),
-**zasady ekwipunku** (limity V2, ulepszenia kowala, pięć stacji, mikstura).
+**zasady ekwipunku** (limity V2, ulepszenia kowala, pięć stacji, mikstura), **bossowie** (osiem, fazy, mechaniki, strażnik, nagrody), **jaskinie** (22 wejścia, labirynt, klucz, krata, skrzynie, kolce, zapis), **wydarzenia świata**, **żywy świat** (dzień i noc, spacery mieszkańców, efekty otoczenia).
 Zrzuty: `docs/zmiany/2026-11-15/qa/godot-world/`.
 
 Dodatkowo paczka PCK wyeksportowana z presetu Linux została uruchomiona w osobnym katalogu (`--main-pack`): wszystkie 10 krain,
@@ -236,11 +267,10 @@ pinch-zoom na mapie (kod jest, test tylko na myszy), czasy ładowania na telefon
 
 ## 9a. Kontynuacja pracy w nowej sesji (instrukcja dla Claude)
 
-**Stan na 16.11.2026:** ostatni APK to 0.7.0-bestiary (kod 7), kod jest dalej. Zrobione: 10 krain, 4 rasy, miasta z usługami,
-mapy 2D/3D, HUD, 41 potworów ze wszystkimi cechami na opublikowanych spawnach, XP/monety/łup, questy z dialogami, dźwięk, zasady
-ekwipunku (limity, zestawy, ulepszenia, stacje), wstęp na cały ekran. **Następne:** bossowie i dungeony (jeśli właściciel je
-zatwierdzi do przeniesienia), życie mieszkańców, efekty otoczenia, wydarzenia świata (w przeglądarce nieaktywne), pomiary na
-telefonie; **potem końcowy APK** (patrz niżej). Zasady: `AGENTS.md` (m.in. brak PR i merge bez
+**Stan na 16.11.2026:** ostatni APK to 0.7.0-bestiary (kod 7), kod jest dalej i zawiera całą grę: 10 krain, 4 rasy, miasta z usługami,
+mapy 2D/3D, HUD, 41 potworów ze wszystkimi cechami, XP/monety/łup, questy z dialogami, dźwięk, zasady ekwipunku, 8 bossów, 22 jaskinie,
+14 wydarzeń świata, dzień i noc, spacery mieszkańców, efekty otoczenia, wstęp na cały ekran. **Następne:** końcowy APK w pełnej jakości
+(patrz niżej), pomiary na telefonie i balans liczb autorskich (sekcja 1b). Zasady: `AGENTS.md` (m.in. brak PR i merge bez
 zgody, nie przepisywać opublikowanej historii, **nie sterować instancjami GPU**, jedna dokumentacja tematyczna + dziennik
 dnia), `docs/INDEX.md`.
 
@@ -297,11 +327,11 @@ sesji do `~/.local/share/ki-legends-godot/`.
 
 ## 9. Dalsza praca
 
-1. Odbiór na fizycznym Androidzie; pomiary pamięci/FPS (kluczowe: czas wczytania krainy, ok. 120–140 MiB tekstur, walka z 24 potworami).
-2. Bossowie i dungeony — na podstawie danych przeglądarki, po decyzji właściciela, co z nich wchodzi do wersji Android.
-3. Życie mieszkańców, efekty otoczenia (dym, para, żar), widoczny dzień i noc.
-4. Końcowy APK w pełnej jakości (Git LFS tylko na prośbę właściciela), z podpisem v2 i sprawdzeniem CRC.
-5. Jakość grafiki: drobne ślady stratnego WebP przy dużym powiększeniu; rozważyć ASTC, jeśli rozmiar APK nie będzie ograniczeniem.
+1. Odbiór na fizycznym Androidzie; pomiary pamięci/FPS (kluczowe: czas wczytania krainy, ok. 120–140 MiB tekstur, walka z 24 potworami,
+   jaskinie ze światłem i `CanvasModulate`, wiele efektów otoczenia naraz) i balans liczb autorskich (sekcja 1b).
+2. Kolejne piętra jaskiń i bossowie w jaskiniach (nie istnieją w przeglądarce ani w porcie; po decyzji właściciela).
+3. Końcowy APK w pełnej jakości (Git LFS tylko na prośbę właściciela), z podpisem v2 i sprawdzeniem CRC.
+4. Jakość grafiki: drobne ślady stratnego WebP przy dużym powiększeniu; rozważyć ASTC, jeśli rozmiar APK nie będzie ograniczeniem.
 
 Pracować na osobnych gałęziach; bez scalenia, publikacji i zmian produkcji bez decyzji właściciela. Nie modyfikować
 infrastruktury GPU. Prawa do grafik pozostają według rejestru projektu; eksport do Godot nie nadaje nowych uprawnień.

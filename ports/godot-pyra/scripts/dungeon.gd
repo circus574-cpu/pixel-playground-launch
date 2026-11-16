@@ -13,10 +13,10 @@ const REACH := 96.0
 const BODY := 13.0
 const DIRS: Array[Vector2i] = [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]
 const TINT := {
-	"pyra": {"floor": Color(0.34, 0.27, 0.25), "glow": Color(1.0, 0.5, 0.2), "dark": Color(0.36, 0.30, 0.32)},
-	"verdant": {"floor": Color(0.30, 0.36, 0.28), "glow": Color(0.7, 1.0, 0.5), "dark": Color(0.30, 0.38, 0.34)},
-	"aether": {"floor": Color(0.42, 0.44, 0.52), "glow": Color(0.7, 0.85, 1.0), "dark": Color(0.36, 0.38, 0.50)},
-	"nexus": {"floor": Color(0.26, 0.31, 0.38), "glow": Color(0.4, 0.9, 1.0), "dark": Color(0.28, 0.34, 0.46)},
+	"pyra": {"floor": Color(0.78, 0.60, 0.52), "glow": Color(1.0, 0.5, 0.2), "dark": Color(0.52, 0.44, 0.48)},
+	"verdant": {"floor": Color(0.60, 0.74, 0.54), "glow": Color(0.7, 1.0, 0.5), "dark": Color(0.44, 0.54, 0.50)},
+	"aether": {"floor": Color(0.82, 0.84, 0.98), "glow": Color(0.7, 0.85, 1.0), "dark": Color(0.50, 0.54, 0.70)},
+	"nexus": {"floor": Color(0.52, 0.64, 0.78), "glow": Color(0.4, 0.9, 1.0), "dark": Color(0.40, 0.50, 0.66)},
 }
 
 var info: Dictionary = {}
@@ -398,9 +398,6 @@ func build(parent_root: Node2D, parent_sorted: Node2D, player: Node2D) -> void:
 	layer.dungeon = self
 	layer.z_index = -2000
 	root.add_child(layer)
-	var modulate_canvas := CanvasModulate.new()
-	modulate_canvas.color = TINT[theme].dark
-	root.add_child(modulate_canvas)
 	# walls: a chunk of cave rock on every wall cell that touches a floor cell (the rest is the dark background)
 	for y in ROWS:
 		for x in COLS:
@@ -418,7 +415,9 @@ func build(parent_root: Node2D, parent_sorted: Node2D, player: Node2D) -> void:
 			sprite.centered = true
 			sprite.scale = Vector2.ONE * (CELL * 1.45 / 524.0)
 			sprite.flip_h = (x * 7 + y * 3) % 2 == 0
-			sprite.modulate = Color(0.78, 0.74, 0.8)
+			var variation := 0.72 + 0.16 * float((x * 13 + y * 29) % 5) / 4.0
+			sprite.modulate = Color(variation, variation * 0.96, variation * 1.02)
+			sprite.position.x += float((x * 31 + y * 17) % 9 - 4) * 3.0
 			sprite.position = Vector2((x + 0.5) * CELL, (y + 1.0) * CELL - 40.0)
 			sorted.add_child(sprite)
 	for p: Dictionary in props:
@@ -499,6 +498,10 @@ func glow_texture() -> Texture2D:
 		radial.gradient = gradient
 		_glow = radial
 	return _glow
+
+## The colour the whole canvas is multiplied by inside the cave (the game applies it): a dark, world-tinted gloom.
+func ambient() -> Color:
+	return TINT[theme].dark
 
 func cleanup() -> void:
 	if is_instance_valid(light):

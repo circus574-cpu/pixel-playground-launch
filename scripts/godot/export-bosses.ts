@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- bridge script over the browser game's loosely typed definitions */
 /**
  * The eight bosses of the browser game (catalog, phases, attacks, loot table and the combat translation `bossMonster`)
  * -> /tmp/godot-bosses/bosses.json. The Godot port plays these rules; nothing is rebalanced.

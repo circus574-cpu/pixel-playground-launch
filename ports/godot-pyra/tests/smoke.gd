@@ -742,12 +742,15 @@ func run() -> void:
 	mm.add_zone({"kind": "web", "ms": 3000, "radius": 120, "dps": 0.0, "fx": [{"k": "slow", "pct": 0.4, "ms": 4000}]}, game.player.position, 10.0)
 	await create_timer(0.8).timeout
 	verify(game.kit.debuff_pct("slow") > 0.0, "standing in a web zone slows the hero")
-	var clock_saved := mm.clock
-	mm.clock = 310.0
-	var at_night := mm.is_night()
-	mm.clock = 20.0
-	verify(at_night and not mm.is_night(), "the day lasts 300 s and the last 180 s are night")
-	mm.clock = clock_saved
+	var time_saved := game.world_time
+	game.world_time = 310.0
+	var at_night := mm.is_night() and game.night_factor() == 1.0
+	game.world_time = 20.0
+	var at_day := not mm.is_night() and game.night_factor() == 0.0
+	game.world_time = 285.0
+	var at_dusk := game.night_factor() > 0.4 and game.night_factor() < 0.6
+	game.world_time = time_saved
+	verify(at_night and at_day and at_dusk, "the day lasts 480 s: evening from 270 s, night 300-450 s, dawn after")
 	for rare: PyraMonster in [slime_a, slime_b, crab_front, crab_back, lion, lion_front, wasp, swarm]:
 		if is_instance_valid(rare):
 			rare.queue_free()
@@ -963,6 +966,102 @@ func run() -> void:
 	verify(not game.in_dungeon() and game.continent.visible and mm.active.size() == 0 or game.continent.visible, "leaving the cave returns to the surface")
 	game.player.position = base + Vector2(300, 0)
 	game.kit.hp = float(game.kit.stats().maxHp)
+	# world events: all 14 are staged, play out, pay once, rest
+	var event_ids := {}
+	for e: Dictionary in game.quests.data.events:
+		event_ids[str(e.id)] = true
+	var rules_ok := event_ids.size() == 14
+	for id: String in event_ids:
+		rules_ok = rules_ok and PyraWorldEvents.RULES.has(id)
+	verify(rules_ok, "every one of the 14 world events has a staging", event_ids.size())
+	var we: PyraWorldEvents = game.world_events
+	verify(we.list.size() == 3, "Pyra has three world events", we.list.size())
+	game.kit.set_level(10)
+	game.player.position = base + Vector2(300, 0)
+	var salamanders: Dictionary = {}
+	for ev: Dictionary in we.list:
+		if str(ev.def.id) == "event-pyra-salamander-swarm":
+			salamanders = ev
+	game.player.position = salamanders.anchor
+	we.timer = 0.0
+	we._process(0.1)
+	verify(str(salamanders.state) == "active" and (salamanders.monsters as Array).size() == 4, "walking up to an event wakes it with its creatures", (salamanders.monsters as Array).size())
+	var xp_event := game.kit.xp + game.kit.level * 100000
+	var gold_event := game.economy.gold
+	for m: PyraMonster in salamanders.monsters:
+		m.hurt(99999.0, false, [])
+	we.timer = 0.0
+	we._process(0.6)
+	verify(str(salamanders.state) == "idle" and game.kit.xp + game.kit.level * 100000 > xp_event and game.economy.gold >= gold_event + 28, "clearing an event pays XP and coins")
+	we.timer = 0.0
+	we._process(0.6)
+	verify(str(salamanders.state) == "idle" and not we.can_start(salamanders), "an event rests for its cooldown")
+	for m2: PyraMonster in salamanders.monsters:
+		pass
+	var mirror_def: Dictionary = {}
+	for e: Dictionary in game.quests.data.events:
+		if str(e.id) == "event-aether-contract-d04":
+			mirror_def = e
+	var mirror_event := {"def": mirror_def, "anchor": game.player.position + Vector2(0, -900), "state": "idle", "cooldown_until": 0.0, "monsters": [], "props": [], "zone": null}
+	we.list.append(mirror_event)
+	we.start(mirror_event)
+	verify((mirror_event.monsters as Array).size() == 3 and (mirror_event.props as Array).size() == 2 and we.targets().size() == 2, "a contract brings guards and two mirrors to secure")
+	for t: Dictionary in we.targets():
+		we.use(t)
+	we.timer = 0.0
+	we._process(0.6)
+	verify(str(mirror_event.state) == "active", "the contract is not done while the guards live")
+	for m3: PyraMonster in mirror_event.monsters:
+		m3.hurt(99999.0, false, [])
+	we.timer = 0.0
+	we._process(0.6)
+	verify(str(mirror_event.state) == "idle" and float(mirror_event.cooldown_until) > we.clock + 500.0, "a renewable contract pays once it is complete and rests for 600 s")
+	we.list.pop_back()
+	we.claimed = ["event-verdant-missing-courier"]
+	var once_def: Dictionary = {}
+	for e: Dictionary in game.quests.data.events:
+		if str(e.id) == "event-verdant-missing-courier":
+			once_def = e
+	verify(not we.can_start({"def": once_def, "cooldown_until": 0.0}), "a once-only event never returns")
+	we.from_save({"claimed": ["a", "a", 3]})
+	verify(we.claimed == ["a"], "event progress read from a save is cleaned")
+	we.from_save({})
+	game.kit.hp = float(game.kit.stats().maxHp)
+	for rare_key: int in mm.active.keys():
+		if rare_key < 0 and is_instance_valid(mm.active[rare_key]):
+			(mm.active[rare_key] as PyraMonster).queue_free()
+		if rare_key < 0:
+			mm.active.erase(rare_key)
+	game.player.position = base + Vector2(300, 0)
+	# living world: ambient effects on scenery, strolling citizens, the day's light
+	verify(PyraAmbient.kind_for("x/eed16911-pyra-continent-fire.webp") == "fire" and PyraAmbient.kind_for("x/3b42d9ee-pyra-continent-spring.webp") == "steam" and PyraAmbient.kind_for("x/c60283c2-nature-obj-lava-rocks.webp") == "ember" and PyraAmbient.kind_for("x/44993ea9-nexus-art-pylon.webp") == "spark" and PyraAmbient.kind_for("x/ae37503e-pyra-continent-pine.webp") == "", "scenery files are matched to ambient effects (fire, steam, ember, glints)")
+	verify(game.continent.ambient_kinds.size() >= 1, "Pyra's scenery has fires and springs that get ambient effects", game.continent.ambient_kinds.size())
+	verify(game.citizens.size() >= 4, "street NPCs are citizens that stroll", game.citizens.size())
+	var walker: Dictionary = game.citizens[0]
+	var walker_home: Vector2 = walker.home
+	game.player.position = walker_home + Vector2(700, 0)
+	var walked := 0.0
+	for step in 900:
+		game.update_citizens(0.1)
+		walked = maxf(walked, (walker.actor as Node2D).position.distance_to(walker_home))
+	verify(walked > 5.0 and walked <= float(walker.radius) + 20.0 and (walker.target as Dictionary).point == (walker.actor as Node2D).position, "a citizen walks around the post, never far, and the talk point follows", walked)
+	game.player.position = (walker.actor as Node2D).position + Vector2(60, 0)
+	var stood_at: Vector2 = (walker.actor as Node2D).position
+	game.update_citizens(0.5)
+	verify((walker.actor as Node2D).position == stood_at, "a citizen stops when the hero comes close")
+	var warden_walks := false
+	for c: Dictionary in game.citizens:
+		warden_walks = warden_walks or c.target.id == "warden"
+	verify(not warden_walks, "the warden stays at his post")
+	var world_time_kept := game.world_time
+	game.world_time = 380.0
+	game.update_day(0.0)
+	var night_color := game.day_tint.color
+	game.world_time = 20.0
+	game.update_day(0.0)
+	verify(night_color.r < 0.7 and game.day_tint.color.is_equal_approx(Color.WHITE), "the world is tinted at night and plain by day")
+	game.world_time = world_time_kept
+	game.player.position = base + Vector2(300, 0)
 	var killer := mm.place_monster("verdant-mchowy-szlamak", far_up)
 	game.hurt_player(killer, 900.0, "melee", [])
 	killer.queue_free()
