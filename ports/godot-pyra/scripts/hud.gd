@@ -432,9 +432,11 @@ func draw_minimap(canvas: Control) -> void:
 	var right := Vector2.from_angle(a + PI / 2.0)
 	canvas.draw_colored_polygon(PackedVector2Array([c + forward * 9.0, c - forward * 6.0 + right * 6.0, c - forward * 3.0, c - forward * 6.0 - right * 6.0]), Color("fff0b8"))
 	canvas.draw_polyline(PackedVector2Array([c + forward * 9.0, c - forward * 6.0 + right * 6.0, c - forward * 3.0, c - forward * 6.0 - right * 6.0, c + forward * 9.0]), Color(0.3, 0.12, 0.05), 1.6, true)
-	canvas.draw_arc(c, MINIMAP_RADIUS, 0, TAU, 64, GOLD_DARK, 4.0, true)
-	canvas.draw_arc(c, MINIMAP_RADIUS - 5.0, 0, TAU, 64, Color(0.1, 0.06, 0.04, 0.9), 2.0, true)
-	canvas.draw_arc(c, MINIMAP_RADIUS + 2.0, 0, TAU, 64, Color(1, 0.9, 0.6, 0.35), 1.2, true)
+	# the owner's stone ring (its hole is about 80 % of the outer radius, so it sits over the edge of the map); the gold arcs when the picture is missing
+	if not PyraSkin.draw_ring(canvas, "ring-plain", c, MINIMAP_RADIUS + 8.0):
+		canvas.draw_arc(c, MINIMAP_RADIUS, 0, TAU, 64, GOLD_DARK, 4.0, true)
+		canvas.draw_arc(c, MINIMAP_RADIUS - 5.0, 0, TAU, 64, Color(0.1, 0.06, 0.04, 0.9), 2.0, true)
+		canvas.draw_arc(c, MINIMAP_RADIUS + 2.0, 0, TAU, 64, Color(1, 0.9, 0.6, 0.35), 1.2, true)
 	text_centered(canvas, cinzel, c + Vector2(0, -MINIMAP_RADIUS + 9.0), "N", 13, GOLD, 5)
 
 ## The automap of a cave floor: explored cells around the hero, with what has been seen (key, gate, stairs, chests, ways out).
@@ -514,15 +516,16 @@ func draw_frame(canvas: Control) -> void:
 			points.append(medallion + dir * 42.0)
 			uvs.append(Vector2(0.5, 0.5) + dir * 0.5)
 		canvas.draw_colored_polygon(points, Color.WHITE, uvs, tex)
-	canvas.draw_arc(medallion, 42.0, 0, TAU, 48, GOLD, 2.4, true)
-	canvas.draw_arc(medallion, 53.0, 0, TAU, 48, GOLD_DARK, 2.0, true)
+	if not PyraSkin.draw_ring(canvas, "ring-star", medallion, 64.0):
+		canvas.draw_arc(medallion, 42.0, 0, TAU, 48, GOLD, 2.4, true)
+		canvas.draw_arc(medallion, 53.0, 0, TAU, 48, GOLD_DARK, 2.0, true)
 	# level badge
 	var badge := medallion + Vector2(-34, 36)
 	canvas.draw_circle(badge, 15.0, Color(0.1, 0.06, 0.04))
 	canvas.draw_arc(badge, 15.0, 0, TAU, 28, GOLD, 2.2, true)
 	text_centered(canvas, cinzel, badge, str(kit.level), 15, Color("fff0c8"), 4)
 	# name
-	text_outlined(canvas, cinzel, Vector2(bars_x, r.position.y + 28), str(kit.data.raceName).to_upper(), 17, GOLD)
+	text_outlined(canvas, letters, Vector2(bars_x, r.position.y + 29), str(kit.data.raceName).to_upper(), 21, Color.WHITE, 0)
 	# bars
 	var shield := kit.shield_total() / maxf(1.0, float(s.maxHp))
 	ornate_bar(canvas, Rect2(bars_x, r.position.y + 36, 270, 25), kit.hp / float(s.maxHp), Color("c93b2c"), "%d / %d" % [int(ceil(kit.hp)), int(s.maxHp)], 14, shield)

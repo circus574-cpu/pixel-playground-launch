@@ -33,6 +33,9 @@ func setup(legend_kit: RaceKit) -> void:
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background)
+	var stone := Look.backdrop()
+	if stone != null:
+		add_child(stone)
 	var root := VBoxContainer.new()
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.offset_left = 18
@@ -42,8 +45,7 @@ func setup(legend_kit: RaceKit) -> void:
 	root.add_theme_constant_override("separation", 8)
 	add_child(root)
 	var bar := HBoxContainer.new()
-	level_label.add_theme_font_size_override("font_size", 26)
-	level_label.add_theme_color_override("font_color", Color("f1c77f"))
+	Look.style_heading(level_label, 30)
 	level_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bar.add_child(level_label)
 	bar.add_child(button("ZAMKNIJ", func(): closed.emit(), Vector2(150, 60)))
@@ -131,7 +133,7 @@ func setup(legend_kit: RaceKit) -> void:
 	refresh()
 
 func panel(_color: Color = Color.BLACK) -> StyleBox:
-	return Look.window(34.0)
+	return Look.window(50.0)
 
 func button(text: String, callback: Callable, minimum: Vector2) -> Button:
 	var b := Button.new()

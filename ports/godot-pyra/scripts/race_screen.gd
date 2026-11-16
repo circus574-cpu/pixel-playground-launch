@@ -110,7 +110,7 @@ func card_style(active: bool, color: Color) -> StyleBox:
 	# the stone window; the chosen race lights it up in its own colour
 	var tint := Color(1.0, 1.0, 1.0).lerp(color.lightened(0.25), 0.55) * 1.25 if active else Color(0.72, 0.72, 0.72)
 	tint.a = 1.0
-	return Look.window(34.0, tint)
+	return Look.window(46.0, tint)
 
 func select(race: String) -> void:
 	selected = race

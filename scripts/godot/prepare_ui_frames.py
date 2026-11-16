@@ -26,7 +26,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / "art" / "production" / "ui"
 OUT = ROOT / "ports" / "godot-pyra" / "assets" / "ui" / "frames"
 ALPHA_CUT = 40
-WINDOW_SIZE = 320
+WINDOW_SIZE = 0           # set from the tile period: the middle slice of the 9-slice must be a whole number of periods, or the edge shows a seam
 WINDOW_MARGIN = 64        # corner slice of window.webp
 BAND = 26                 # thickness of the stone border in window.webp
 BUTTON_SIZE = (256, 56)
@@ -87,8 +87,9 @@ def tiled(tile: Image.Image, length: int) -> Image.Image:
 
 
 def window_frame(bar: Image.Image, star: Image.Image) -> Image.Image:
-    size, band = WINDOW_SIZE, BAND
+    band = BAND
     tile = seamless_tile(fit_height(bar, band), round(903 * band / bar.height), round(1285 * band / bar.height))
+    size = 2 * WINDOW_MARGIN + 2 * tile.width
     canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     # dark stone inside, a little lighter towards the middle
     fill = np.zeros((size, size, 4), np.uint8)

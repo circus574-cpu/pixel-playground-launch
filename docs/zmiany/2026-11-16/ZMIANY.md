@@ -668,3 +668,14 @@ Należy całkowicie zamknąć i ponownie uruchomić aplikację, aby pobrała rdz
 Nowy APK nie jest potrzebny. Nie wykonano scalenia do `main`, resetu postaci,
 publikacji strony ani zmian instancji GPU. 1.7 pozostaje jako poprzednia wersja
 techniczna do rollbacku; nie jest już wydaniem aktywnym.
+
+### 24. Android: litery i ramki właściciela w całym interfejsie (gałąź robocza, niepublikowane)
+
+Praca Claude na bazie gałęzi `feat/android-gm-tools-1.8-20261116` (1.8, bez zmian jego plików poza `hud.gd`). Nowa gałąź lokalna `claude/ui-frames-letters-20261116`, nic nie wypchnięto.
+
+- **Ramka okien bez szwów.** Okno ma rozmiar będący wielokrotnością okresu tekstury, a brzegi są kafelkowane bez rozciągania (`prepare_ui_frames.py`, `look.gd`); marginesy treści większe (48–50 px), żeby tekst nie dotykał ramki.
+- **Ekrany.** Tło plecaka i postaci z tekstury kamienia (`Look.backdrop`), nagłówki plecaka, postaci i mapy w literach właściciela (`Look.style_heading`), okna wyboru rasy, czatu, mapy i logowania z większymi marginesami.
+- **HUD (na układzie Codexa).** Kamienne pierścienie wokół portretu (`ring-star`) i minimapy (`ring-plain`, promień `MINIMAP_RADIUS + 8`), nazwa rasy w literach; fallback do dawnych łuków, gdy obrazu brak (`PyraSkin.draw_ring`, obrazy są w APK 1.0).
+- **Testy.** `smoke.gd` 539/539, `hud_mobile` 42/42, `gm_gameplay` 58/58, `menu_input` 11/11, `e2e_installed.py` PASS. Zrzuty: `tests/qa_screens.gd` (HUD, plecak, postać, mapa, wybór rasy, czat). Nie sprawdzano na telefonie.
+- **Do wydania:** to jest zmiana kodu i `data/ui-art.json` (jedzie z serwerem, bez nowego APK); wymaga zgody właściciela i koordynacji z Codexem (wydanie 1.9).
+

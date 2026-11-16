@@ -29,7 +29,7 @@ static func picture(name: String) -> Texture2D:
 	return texture
 
 ## A window: the owner's stone texture inside and the stone-and-gold frame over it; the APK's own frame when the pictures are missing.
-static func window(content: float = 38.0, tint: Color = Color.WHITE) -> StyleBox:
+static func window(content: float = 48.0, tint: Color = Color.WHITE) -> StyleBox:
 	var frame := picture("window")
 	var stone := picture("stone")
 	if frame == null or stone == null:
@@ -40,6 +40,26 @@ static func window(content: float = 38.0, tint: Color = Color.WHITE) -> StyleBox
 	box.tint = tint
 	box.set_content_margin_all(content)
 	return box
+
+## The lava stone behind a whole screen (inventory, character, map): dimmed so that the content stays readable. Null without the picture.
+static func backdrop(dim: float = 0.45) -> TextureRect:
+	var stone := picture("stone")
+	if stone == null:
+		return null
+	var back := TextureRect.new()
+	back.texture = stone
+	back.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	back.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	back.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	back.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	back.modulate = Color(dim, dim, dim)
+	return back
+
+## A heading in the owner's gold letters (white tint: the letters carry their own colour).
+static func style_heading(label: Label, size: int) -> void:
+	label.add_theme_font_override("font", title_font())
+	label.add_theme_font_size_override("font_size", size)
+	label.add_theme_color_override("font_color", Color.WHITE)
 
 class WindowBox extends StyleBox:
 	const CORNER := 64.0   # corner slice of the frame picture
@@ -55,7 +75,7 @@ class WindowBox extends StyleBox:
 			RenderingServer.canvas_item_add_texture_rect_region(to_canvas_item, inner, stone.get_rid(), Rect2(Vector2.ZERO, inner.size / grow), tint)
 		var corner := Vector2.ONE * CORNER
 		RenderingServer.canvas_item_add_nine_patch(to_canvas_item, rect, Rect2(Vector2.ZERO, frame.get_size()), frame.get_rid(), corner, corner,
-			RenderingServer.NINE_PATCH_TILE_FIT, RenderingServer.NINE_PATCH_TILE_FIT, false, tint)
+			RenderingServer.NINE_PATCH_TILE, RenderingServer.NINE_PATCH_TILE, false, tint)
 
 ## The owner's gold letters (data/letters.json, scripts/godot/prepare_letters.py) as a font: capitals and small letters with the Polish ones, digits,
 ## punctuation and symbols; anything the sheet lacks comes from the title font (Cinzel). Null when the data is missing.
