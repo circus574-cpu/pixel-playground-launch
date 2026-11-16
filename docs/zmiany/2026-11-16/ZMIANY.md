@@ -383,8 +383,9 @@ Zlecenie właściciela: dostarczone logo ma być ikoną aplikacji, a film (10 s,
   (rozmycie obszaru) i zastąpione ciemnymi tabliczkami ze złotym obrzeżem i napisami „WCZYTYWANIE...” oraz „DOTKNIJ, ABY ROZPOCZĄĆ” (pulsują jak oryginał; ostatnia klatka to ten sam obraz). Skrypt `scripts/godot/make_intro.py`
   (źródła w `art/production/intro/`: film i logo, Git LFS) robi to powtarzalnie; kolejny język to wpis w `TEXTS`, a wersja angielska to oryginał (`--lang en`). Użyta czcionka (Lora Bold) ma cały polski alfabet; Cinzel z gry nie ma Ą Ę Ł Ż.
   Dostawa 0.12.0-intro z angielskimi napisami została zastąpiona (katalog usunięty z dostaw; historia Git zostaje).
+- **Film po polsku od właściciela (0.12.2-polski, kod 14).** Właściciel dostarczył własną polską wersję filmu (10 s, 1280×720, 24 kl./s, dźwięk; napisy „ŁADOWANIE...” i „DOTKNIJ, ABY ROZPOCZĄĆ” są w obrazie). Zastępuje wersję z nakładką: `python3 scripts/godot/make_intro.py --baked --source art/production/intro/intro-pl-source.mp4` (bez żadnych nakładek, tylko konwersja do Ogg Theora i ostatnia klatka). `intro.ogv` 9,17 MB; APK 81,6 MB. Kod wersji 14 (`boot.gd`, `net.gd`, `export_presets.cfg`; klucz rdzenia to teraz `core-c14`). Film zaczyna się od czerni i rozjaśnia ok. 1 s (tak jest w źródle).
 - **Rozmiar i uwagi.** APK 82,5 MB (było 66,8 MB): film 10 MB i grafiki ikon. Pasek ładowania wklejony w film nie odzwierciedla prawdziwego ładowania, tylko zdarzenia
   filmu. Wydajność odtwarzania 720p Theora na prawdziwych telefonach nie była mierzona (test natywny w programowym renderze: obraz poprawny, odtwarzanie wolniejsze niż czas rzeczywisty z powodu emulacji GPU).
 - **Kontrole.** `tests/smoke.gd` **530/530** (film i klatka są w grze, głośność, reguła startu po filmie), `scripts/godot/e2e_core.py` 11/11 na nowej scenie startowej, test natywny `tests/qa_intro.gd` (zrzuty ekranu).
-  Dostawa: `deliveries/godot-pyra-android-20261116-intro-pl` (wersja 0.12.1-polski, kod 13).
+  Dostawa: `deliveries/godot-pyra-android-20261116-film-pl` (wersja 0.12.2-polski, kod 14; poprzednia 0.12.1-polski z nakładką usunięta z dostaw, historia Git zostaje).
 

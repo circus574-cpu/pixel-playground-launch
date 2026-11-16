@@ -75,7 +75,7 @@ def build_pack(builder, work: Path, name: str, story_text: str | None, extra: di
 class Fake(http.server.BaseHTTPRequestHandler):
     offer: dict | None = None        # pack entry the manifest carries, or None
     files: dict[str, Path] = {}
-    key = "core-c13"
+    key = "core-c14"
 
     def log_message(self, *_args):
         pass
