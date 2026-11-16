@@ -679,3 +679,13 @@ Praca Claude na bazie gałęzi `feat/android-gm-tools-1.8-20261116` (1.8, bez zm
 - **Testy.** `smoke.gd` 539/539, `hud_mobile` 42/42, `gm_gameplay` 58/58, `menu_input` 11/11, `e2e_installed.py` PASS. Zrzuty: `tests/qa_screens.gd` (HUD, plecak, postać, mapa, wybór rasy, czat). Nie sprawdzano na telefonie.
 - **Do wydania:** to jest zmiana kodu i `data/ui-art.json` (jedzie z serwerem, bez nowego APK); wymaga zgody właściciela i koordynacji z Codexem (wydanie 1.9).
 
+### 25. Android: przeniesienie postaci z przeglądarki (lokalnie, niepublikowane)
+
+Do tej pory postaci z gry przeglądarkowej nie dało się wczytać w Androidzie. Nowy plik `scripts/browser_import.gd` (bez `class_name`, ładowany przez `preload`, więc może dojechać z serwerem) i wpis „POSTAĆ Z PRZEGLĄDARKI” w menu gry.
+
+- **Skąd dane.** `GET /ws/characters` z tym samym tokenem konta co reszta gry (serwer akceptuje token konta VPS; sprawdzono w `gameServer.ts: verifyAccount`). Czytane są tylko **postacie zapisane na serwerze**.
+- **Co powstaje.** NOWY bohater Androida z tej samej rasy, poziomu (maks. 20 w Androidzie), doświadczenia, złota, mikstur, plecaka, materiałów, założonego wyposażenia i poznanych węzłów drzewka (`kit.learn` odrzuca nieprawidłowe). Co nie ma odpowiednika (nieznane id przedmiotu, węzeł niedozwolony na tym poziomie), jest pomijane i policzone w komunikacie. Postać z przeglądarki nie jest zmieniana ani wycofywana, więc import można powtórzyć. Obecna postać w Androidzie jest zastępowana po zapisie (jest pytanie potwierdzające).
+- **Ograniczenie, którego nie da się obejść z poziomu aplikacji:** jeśli postać istnieje tylko w pamięci przeglądarki (zapis lokalny, zakładka panelu „Postacie lokalne”), a nie na serwerze, import jej nie zobaczy; trzeba ją najpierw zapisać na serwerze z przeglądarki albo dodać osobny import z pliku zapisu.
+- **Pozycja i kraina.** Bohater zaczyna w stolicy swojej rasy (pozycja z przeglądarki nie jest przenoszona).
+- **Testy.** `smoke.gd` **542/542** (3 nowe: plan z liczbą pominiętych rzeczy, odrzucenie nieznanej rasy, zbudowanie bohatera), `hud_mobile` 42/42, `gm_gameplay` 58/58, `menu_input` 11/11, `e2e_installed.py` PASS, `e2e_core.py` 11/11. Nie sprawdzono na prawdziwym koncie ani telefonie.
+

@@ -3,6 +3,7 @@ extends Node2D
 const GmPanel := preload("res://scripts/gm_panel.gd")
 const GmTools := preload("res://scripts/gm_tools.gd")
 const GameMenu := preload("res://scripts/game_menu.gd")
+const BrowserImport := preload("res://scripts/browser_import.gd")   # characters of the browser game (loaded by path: it can arrive with a server update)
 var gm_tools: RefCounted
 ## KI Legends / Pyra on Godot: the whole continent (Superior v2 geometry), four safe cities with six service
 ## interiors each, the Legend with her full kit, plus the 2D map and 3D globe. No enemies and no spawns yet.
@@ -1765,6 +1766,7 @@ func show_menu() -> void:
 		{"id":"sounds","text":"EFEKTY: %d%%" % roundi(audio.sfx_volume*100),"callback":func():audio.set_volumes(audio.music_volume,next_volume(audio.sfx_volume));close_screen();show_menu()},
 		{"id":"chat","text":"CZAT OKOLICY","callback":func():close_screen();open_chat()},
 		{"id":"new","text":"NOWA POSTAĆ","callback":func():close_screen();open_race_screen(true)},
+		{"id":"import","text":"POSTAĆ Z PRZEGLĄDARKI","callback":func():close_screen();BrowserImport.run(self)},
 		{"id":"download","text":"POBIERZ KRAINY","callback":func():close_screen();download_everything()},
 		{"id":"fps","text":"FPS: "+("WŁ." if hud.show_fps else "WYŁ."),"callback":func():hud.show_fps=not hud.show_fps;hud.signature="";close_screen();show_menu()},
 		{"id":"account","text":"WYLOGUJ: "+KiNet.online().nick.left(14) if KiNet.online().logged_in() else "KONTO: TRYB OFFLINE","callback":func():close_screen();if KiNet.online().logged_in():await KiNet.online().logout();hud.toast("Wylogowano. Zalogujesz się ponownie po restarcie aplikacji.")},

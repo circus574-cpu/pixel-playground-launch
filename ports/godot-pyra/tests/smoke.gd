@@ -1707,6 +1707,16 @@ func run() -> void:
 	fd_eco.bag = {"potion": 3}
 	fd_kit.buffs = []
 	fd_kit.hp = fd_max
+	# ---- characters of the browser game are brought over (scripts/browser_import.gd) ----------------------------
+	var import_script: GDScript = load("res://scripts/browser_import.gd")
+	var browser_record := {"id": "00000000-0000-0000-0000-000000000001", "revision": 3, "state": {"format": "server-character-1", "runtime": {}, "player": {
+		"race": "sage", "name": "Magik", "level": 7, "xp": 120, "gold": 345, "continent": "aether", "skills": ["R"], "items": {"potion": 4, "tusk": 1, "sword": 0, "vest": 0},
+		"bagItems": {"U-07": 2, "NIE-MA-TAKIEGO": 5}, "materials": {}, "equipment": {"head": null, "weapon": "NIE-MA-BRONI"}}}}
+	var import_plan: Dictionary = import_script.plan(browser_record, func(id: String) -> bool: return game.economy.items.has(id) or id == "potion")
+	verify(bool(import_plan.ok) and import_plan.race == "sage" and import_plan.level == 7 and import_plan.gold == 345 and int(import_plan.bag.get("potion", 0)) == 4 and import_plan.skipped_items >= 6 and import_script.summary(browser_record) == "Magik · Mędrzec · poz. 7", "a browser character becomes a plan: race, level, gold, potions, and what Android does not know is counted as skipped")
+	verify(not bool(import_script.plan({"state": {"player": {"race": "ghost"}}}, func(_id: String) -> bool: return true).ok), "a character of an unknown race is refused")
+	var import_applied: Dictionary = await import_script.apply(game, import_plan)
+	verify(game.race == "sage" and game.kit.level == 7 and game.economy.gold == 345 and int(game.economy.bag.get("potion", 0)) == 4 and import_applied.skipped_skills == 0, "the plan makes the hero: race, level, gold and bag are those of the browser character")
 	# ---- peaceful animals: never attack, run away when hurt, give their food ---------------------------
 	var an_script: GDScript = load("res://scripts/animals.gd")
 	var an_food: Dictionary = PyraContinent.load_json("res://data/food.json")
