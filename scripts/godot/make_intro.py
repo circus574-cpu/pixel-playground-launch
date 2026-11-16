@@ -6,7 +6,10 @@ The source has two English captions baked into the picture: "LOADING..." (about 
 edge (like the loading bar). Godot plays only Ogg Theora, so the film is written as .ogv (libtheora q7 + Vorbis) in one pass; the last frame is
 saved as a still (the game holds it after the film until the player touches the screen).
 
-  python3 scripts/godot/make_intro.py [--lang pl] [--source FILE] [--font FILE] [--out DIR]
+  python3 scripts/godot/make_intro.py [--lang pl] [--source FILE] [--font FILE] [--out DIR] [--baked]
+
+`--baked`: the source film already has the captions of the language in the picture (e.g. a Polish film from the owner): nothing is overlaid,
+the film is only converted to .ogv and its last frame saved (the last frame is taken at 9.95 s; use --still-at for a different film length).
 
 Languages: `pl` (default, the game is Polish for now) writes intro.ogv and intro-last.webp. Add a language by adding an entry to TEXTS; an English
 version needs no overlay (the captions are already English): `--lang en` keeps the source picture and writes intro-en.ogv / intro-last-en.webp.
@@ -62,6 +65,8 @@ def main() -> int:
     parser.add_argument("--source", default=str(ROOT / "art/production/intro/intro-source.mp4"))
     parser.add_argument("--font", default=DEFAULT_FONT)
     parser.add_argument("--out", default=str(ROOT / "ports/godot-pyra/assets/branding"))
+    parser.add_argument("--baked", action="store_true", help="the source already carries the captions: only convert")
+    parser.add_argument("--still-at", default="9.95", help="second of the last frame kept as the still (default 9.95)")
     args = parser.parse_args()
     out = Path(args.out)
     suffix = "" if args.lang == "pl" else f"-{args.lang}"
@@ -69,17 +74,17 @@ def main() -> int:
     codec = ["-c:v", "libtheora", "-q:v", "7", "-pix_fmt", "yuv420p", "-c:a", "libvorbis", "-q:a", "4"]
     with tempfile.TemporaryDirectory() as tmp:
         tmp_path = Path(tmp)
-        if args.lang in TEXTS:
+        if args.lang in TEXTS and not args.baked:
             texts = TEXTS[args.lang]
             files = (tmp_path / "loading.txt", tmp_path / "touch.txt")
             files[0].write_text(texts[0], encoding="utf-8")
             files[1].write_text(texts[1], encoding="utf-8")
             graph = filter_graph(args.font, texts, files)
             subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", args.source, "-filter_complex", graph, "-map", "[out]", "-map", "0:a", *codec, str(video)], check=True)
-            subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", args.source, "-filter_complex", graph, "-map", "[out]", "-ss", "9.95", "-frames:v", "1", str(tmp_path / "last.png")], check=True)
-        else:   # the source already has English captions
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", args.source, "-filter_complex", graph, "-map", "[out]", "-ss", args.still_at, "-frames:v", "1", str(tmp_path / "last.png")], check=True)
+        else:   # the captions are already in the picture (English source, or --baked)
             subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", args.source, *codec, str(video)], check=True)
-            subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", "9.95", "-i", args.source, "-frames:v", "1", str(tmp_path / "last.png")], check=True)
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", args.still_at, "-i", args.source, "-frames:v", "1", str(tmp_path / "last.png")], check=True)
         from PIL import Image
         Image.open(tmp_path / "last.png").convert("RGB").save(still, quality=92, method=6)
     print(f"{video.name} {video.stat().st_size / 1e6:.1f} MB, {still.name}")
