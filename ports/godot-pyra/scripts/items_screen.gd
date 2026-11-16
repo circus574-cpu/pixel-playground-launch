@@ -261,7 +261,7 @@ func item_text(id: String) -> String:
 
 func show_item(id: String) -> void:
 	var def := eco.item(id)
-	detail_icon.texture = load(eco.icon_path(id))
+	detail_icon.texture = load(eco.icon_path(id)) if eco.icon_path(id) != "" else null
 	detail_title.text = eco.name_of(id)
 	detail_title.add_theme_color_override("font_color", eco.rarity_color(id))
 	var slot := eco.slot_of(id)
@@ -367,7 +367,7 @@ func show_recipe() -> void:
 	if recipe.is_empty():
 		return
 	var result := str(recipe.result)
-	detail_icon.texture = load(eco.icon_path(result))
+	detail_icon.texture = load(eco.icon_path(result)) if eco.icon_path(result) != "" else null
 	detail_title.text = "%s ×%d" % [eco.name_of(result), int(recipe.count)]
 	detail_title.add_theme_color_override("font_color", eco.rarity_color(result))
 	detail_meta.text = "%s · poz. %d · koszt %d mon." % [PyraEconomy.STATION_NAMES.get(str(recipe.station), str(recipe.station)), int(recipe.requiredLevel), int(recipe.cost)]
@@ -404,5 +404,5 @@ func show_inventory_item() -> void:
 		var equip := make_button("ZAŁÓŻ", func(): eco.equip(selected), Vector2(0, 56))
 		equip.disabled = eco.required_level(selected) > eco.level
 		action_box.add_child(equip)
-	if str(eco.item(selected).category) == "consumable":
+	if str(eco.item(selected).category) == "consumable" or eco.foods.has(selected):
 		action_box.add_child(make_button("UŻYJ", func(): eco.use(selected), Vector2(0, 56)))

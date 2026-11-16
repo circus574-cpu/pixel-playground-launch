@@ -353,3 +353,15 @@ Zlecenie właściciela po zrzutach panelu (czerwone „BRAK POŁĄCZENIA” bazy
   PostgreSQL, test widoku; sprawdzenie na prawdziwym serwerze gry i bazie (bez tokena 403, token gracza 403, token administratora 200 z prawdziwymi wartościami).
   **Nie sprawdzone na produkcji:** zmiana nie jest wdrożona; po wdrożeniu panel pokaże to, co serwer faktycznie zmierzy.
 
+### 17. Android / Godot: system jedzenia (regeneracja życia)
+
+Zlecenie właściciela: zwierzęta, które nie atakują i dają jedzenie; jedzenie ma regenerować życie; 10 zwierząt, 10 produktów; wyliczenie sekund i ilości.
+
+- **Wyliczenie** i opis zasad: `docs/ROZWOJ-I-WALKA.md` (sekcja „Jedzenie i regeneracja życia”), dane i tabela z `scripts/godot/prepare_food.py` → `data/food.json`. Obecna regeneracja: 0,3 % maks. HP/s poza walką
+  (Legenda poz. 10: 1,55 HP/s, pełne życie po 333 s); posiłki leczą 14–60 % maks. HP w 30–90 s, także w walce.
+- **Mechanika** (`race_kit.gd`: `eat()`, `fed_left()`, status „Najedzenie”, leczenie co sekundę, bonus regeneracji KI z mleka; `economy.gd`: posiłki jako przedmioty `F-01…F-10`, jedzenie przez `use()`, cztery proste w sklepie):
+  jeden posiłek naraz, słabszy nie zastępuje silniejszego, przy pełnym życiu odmowa, 2 s między kęsami. Ekrany przedmiotów działają dla pozycji bez ikony.
+- **Kontrole.** `tests/smoke.gd` **517/517** (m.in. pasma procentowe poziomów, leczenie w walce i poza nią co do HP, koniec statusu, zastępowanie, mleko +25 % KI, zapis, ekran plecaka). Test znalazł w sobie wcześniejsze skażenie (DoT z poprzedniego testu), nie błąd gry.
+- **Nie zrobione:** grafika 10 zwierząt i ikony 10 produktów (brak wygenerowanych zasobów, zastępczych nie wstawiałem), rozmieszczenie i zachowanie zwierząt w świecie, wskaźnik „Najedzenia” w HUD. Zwierzęta są w danych (`art: false`) i nie pojawiają się w grze.
+  Zmiana nie jest wydana graczom: dojdzie przez rdzeń z serwera po opublikowaniu nowego wydania treści (za zgodą właściciela).
+

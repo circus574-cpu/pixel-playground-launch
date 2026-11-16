@@ -172,6 +172,11 @@ func _ready() -> void:
 			return false
 		kit.heal(top * fraction)
 		return true
+	economy.add_foods(PyraContinent.load_json("res://data/food.json"))
+	economy.eat_callback = func(food: Dictionary) -> Dictionary:
+		if healing_blocked():
+			return {"ok": false, "reason": "Nie możesz teraz jeść."}
+		return kit.eat(food)
 	economy.heal_amount_callback = func(amount: float) -> bool:
 		var top := float(kit.stats().maxHp)
 		if kit.hp >= top or healing_blocked():

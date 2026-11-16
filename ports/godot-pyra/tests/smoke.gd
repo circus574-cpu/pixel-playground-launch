@@ -389,7 +389,7 @@ func run() -> void:
 	kit.reset_tree()
 	kit.set_level(1)
 	game.on_economy_changed()
-	verify(eco.items.size() == 366 and eco.recipes.size() == 265 and eco.shop_ids.size() == 85, "catalogue: 366 items, 265 recipes, 85 weak items for sale")
+	verify(eco.items.size() == 366 + 10 and eco.recipes.size() == 265 and eco.shop_ids.size() == 85 + 4, "catalogue: 366 items and 10 meals, 265 recipes, 85 weak items and 4 simple meals for sale")
 	verify(eco.buy_price("sword") == 200 and not eco.buy("sword") and eco.gold == 20, "shop price is 4x catalogue and needs the coins", eco.buy_price("sword"))
 	verify(not eco.buy("U-W01") and eco.buy_price("U-W01") == 0, "better gear is never sold by the merchant")
 	eco.gold = 500
@@ -1583,6 +1583,78 @@ func run() -> void:
 	it_eco.bag = {"potion": 3}
 	it_eco.gold = 20
 	it_eco.level = game.kit.level
+	# ---- food: ten meals heal over time, ten peaceful animals give them ---------------------------------
+	var fd_data: Dictionary = PyraContinent.load_json("res://data/food.json")
+	var fd_foods: Array = fd_data.foods
+	var fd_animals: Array = fd_data.animals
+	var fd_bands := {1: Vector2(0.14, 0.18), 2: Vector2(0.27, 0.36), 3: Vector2(0.42, 0.60)}
+	var fd_ok := fd_foods.size() == 10 and fd_animals.size() == 10
+	var fd_drops := {}
+	for fd_food: Dictionary in fd_foods:
+		var fd_total := float(fd_food.regenPerSecond) * float(fd_food.seconds)
+		var fd_band: Vector2 = fd_bands[int(fd_food.tier)]
+		fd_ok = fd_ok and fd_total >= fd_band.x - 0.001 and fd_total <= fd_band.y + 0.001 and is_equal_approx(fd_total, float(fd_food.totalFraction))
+	for fd_animal: Dictionary in fd_animals:
+		fd_drops[fd_animal.drop] = true
+		fd_ok = fd_ok and not bool(fd_animal.attacks) and int(fd_animal.aggro) == 0 and bool(fd_animal.flees)
+	verify(fd_ok and fd_drops.size() == 10, "ten meals in three tiers (14-18, 27-36, 42-60 % of max HP) and ten peaceful animals, one product each")
+	var fd_eco: PyraEconomy = game.economy
+	verify(fd_eco.foods.size() == 10 and str(fd_eco.item("F-08").category) == "food" and fd_eco.shop_ids.has("F-02") and fd_eco.shop_ids.has("F-04") and not fd_eco.shop_ids.has("F-08") and fd_eco.buy_price("F-02") == 12, "the meals are items; the simple ones are on sale, the best come from hunting")
+	verify(fd_eco.stat_lines("F-02")[0] == "Leczy 0,4% maks. HP na sekundę przez 45 s (łącznie 18%), także w walce" and fd_eco.stat_lines("F-06").size() == 2, "a meal tells what it gives")
+	var fd_kit: RaceKit = game.kit
+	fd_eco.bag = {"F-08": 2, "F-01": 2, "F-10": 1, "F-06": 1}
+	fd_kit.buffs = []
+	fd_kit.next_eat_at = 0.0
+	fd_kit.set_level(10)
+	var fd_max := float(fd_kit.stats().maxHp)
+	fd_kit.hp = fd_max
+	verify(not fd_eco.use("F-08") and fd_eco.count("F-08") == 2 and fd_kit.buff("fed").is_empty(), "a meal is refused at full health and stays in the bag")
+	fd_kit.hp = fd_max * 0.1
+	verify(fd_eco.use("F-08") and fd_eco.count("F-08") == 1 and is_equal_approx(float(fd_kit.buff("fed").hpRegenPct), 0.008) and absf(fd_kit.fed_left() - 60.0) < 0.5, "eating gives the status 'fed': 0.8 % of max HP per second for 60 s")
+	verify(not fd_eco.use("F-08") and fd_eco.count("F-08") == 1, "the next bite waits two seconds")
+	fd_kit.next_eat_at = 0.0
+	verify(not fd_eco.use("F-01") and fd_eco.count("F-01") == 2, "a weaker meal does not replace a stronger one that is still working")
+	fd_kit.clear_debuffs()
+	var fd_start := fd_kit.hp
+	fd_kit.in_combat_until = fd_kit.now + 1000.0
+	for fd_step in 10:
+		fd_kit.tick(1.0)
+	verify(absf((fd_kit.hp - fd_start) - fd_max * 0.008 * 10.0) < 1.0, "in combat the meal alone heals 0.8 % of max HP per second", fd_kit.hp - fd_start)
+	fd_kit.in_combat_until = 0.0
+	fd_start = fd_kit.hp
+	for fd_step in 10:
+		fd_kit.tick(1.0)
+	verify(absf((fd_kit.hp - fd_start) - fd_max * (0.008 + 0.003) * 10.0) < 1.0, "out of combat the meal adds to the natural 0.3 % per second", fd_kit.hp - fd_start)
+	fd_kit.hp = fd_max * 0.05
+	fd_kit.in_combat_until = fd_kit.now + 1000.0
+	var fd_left := fd_kit.fed_left()
+	for fd_step in int(fd_left) + 2:
+		fd_kit.tick(1.0)
+	verify(fd_kit.buff("fed").is_empty() and absf((fd_kit.hp - fd_max * 0.05) - fd_max * 0.008 * fd_left) < fd_max * 0.01, "the status ends after its time; in all it healed rate x duration", fd_kit.hp / fd_max)
+	fd_kit.hp = fd_max * 0.1
+	fd_kit.next_eat_at = 0.0
+	verify(fd_eco.use("F-01") and fd_eco.count("F-01") == 1, "a meal can be eaten again once the status is over")
+	fd_kit.next_eat_at = 0.0
+	verify(fd_eco.use("F-10") and is_equal_approx(float(fd_kit.buff("fed").hpRegenPct), 0.01) and fd_eco.count("F-10") == 0, "a stronger meal replaces the weaker one")
+	fd_kit.buffs = []
+	fd_kit.next_eat_at = 0.0
+	var fd_ki_plain := float(fd_kit.stats().kiRegen)
+	verify(fd_eco.use("F-06") and absf(float(fd_kit.stats().kiRegen) / fd_ki_plain - 1.25) < 0.01, "moon milk also raises ki regeneration by 25 %")
+	var fd_other := PyraEconomy.new(PyraContinent.load_json("res://data/economy.json"))
+	fd_other.add_foods(fd_data)
+	fd_eco.bag = {"F-03": 4, "potion": 1}
+	verify(fd_other.from_save(fd_eco.to_save()) and fd_other.count("F-03") == 4, "meals survive a save")
+	fd_eco.bag = {"F-02": 3}
+	game.open_items("inventory", "Plecak")
+	await settle(2)
+	var fd_screen: ItemsScreen = game.screen
+	fd_screen.select("F-02")
+	await settle(1)
+	verify(fd_screen.list_box.get_child_count() == 1 and fd_screen.action_box.get_children().any(func(n: Node) -> bool: return n is Button and (n as Button).text == "UŻYJ") and fd_screen.detail_body.text.contains("Leczy 0,4% maks. HP"), "the backpack shows a meal without a picture and offers to eat it")
+	game.close_screen()
+	fd_eco.bag = {"potion": 3}
+	fd_kit.buffs = []
+	fd_kit.hp = fd_max
 	game.show_menu()
 	await settle()
 	verify(game.hud.modal.visible and game.player.locked, "menu suspends and clears input")

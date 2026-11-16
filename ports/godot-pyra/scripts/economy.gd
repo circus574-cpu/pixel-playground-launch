@@ -40,6 +40,8 @@ var upgrade_max: Dictionary = {}
 var upgrade_cost: Dictionary = {}
 var heal_amount_callback: Callable = func(_amount: float) -> bool: return false
 var heal_callback: Callable = func(_fraction: float) -> bool: return false
+var eat_callback: Callable = func(_food: Dictionary) -> Dictionary: return {"ok": false, "reason": ""}
+var foods: Dictionary = {}              # food id -> {regenPerSecond, seconds, ...} (data/food.json)
 
 func _init(data: Dictionary) -> void:
 	for item: Dictionary in data.items:
@@ -66,8 +68,10 @@ func _init(data: Dictionary) -> void:
 func item(id: String) -> Dictionary:
 	return items.get(id, {})
 
+## The item's icon, or "" while it has none (the meals have no pictures yet; the screens then show the name only).
 func icon_path(id: String) -> String:
-	return "res://assets/icons/items/%s.webp" % id
+	var path := "res://assets/icons/items/%s.webp" % id
+	return path if ResourceLoader.exists(path) else ""
 
 func name_of(id: String) -> String:
 	return str(item(id).get("name", id))
@@ -75,8 +79,34 @@ func name_of(id: String) -> String:
 func rarity_color(id: String) -> Color:
 	return RARITY_COLORS.get(str(item(id).get("rarity", "common")), Color.WHITE)
 
+## Registers the meals of data/food.json as items (category "food", eaten with use()); shopPrice > 0 puts one on sale.
+func add_foods(data: Dictionary) -> void:
+	var rarity := ["common", "uncommon", "rare"]
+	for food: Dictionary in data.get("foods", []):
+		var id := str(food.id)
+		foods[id] = food
+		items[id] = {"id": id, "name": str(food.name), "category": "food", "rarity": rarity[clampi(int(food.tier) - 1, 0, 2)], "price": int(food.price), "level": 1,
+			"stats": {}, "description": str(food.description), "slot": null, "shopPrice": float(food.shopPrice), "setId": null, "buff": null}
+		if float(food.shopPrice) > 0.0 and not shop_ids.has(id):
+			shop_ids.append(id)
+	shop_ids.sort_custom(func(a: String, b: String) -> bool:
+		var ia: Dictionary = items[a]
+		var ib: Dictionary = items[b]
+		if int(ia.level) != int(ib.level):
+			return int(ia.level) < int(ib.level)
+		return str(ia.name) < str(ib.name))
+
+static func percent_text(fraction: float) -> String:
+	return str(snappedf(fraction * 100.0, 0.01)).trim_suffix(".0").replace(".", ",")
+
 func stat_lines(id: String) -> Array[String]:
 	var lines: Array[String] = []
+	if foods.has(id):
+		var food: Dictionary = foods[id]
+		lines.append("Leczy %s%% maks. HP na sekundę przez %d s (łącznie %s%%), także w walce" % [percent_text(float(food.regenPerSecond)), int(food.seconds), percent_text(float(food.regenPerSecond) * float(food.seconds))])
+		if (food.extra as Dictionary).has("kiRegenPct"):
+			lines.append("Regeneracja KI +%s%% w tym czasie" % percent_text(float(food.extra.kiRegenPct)))
+		return lines
 	var stats: Dictionary = item(id).get("stats", {})
 	for key: String in stats:
 		var value := float(stats[key])
@@ -435,6 +465,15 @@ func use(id: String) -> bool:
 		remove_item(id, 1)
 		potion_cooldown = 6.0
 		say("Mikstura leczy 40% maks. HP.")
+		return true
+	if foods.has(id):
+		var result: Dictionary = eat_callback.call(foods[id])
+		if not bool(result.ok):
+			if str(result.reason) != "":
+				say(str(result.reason))
+			return false
+		remove_item(id, 1)
+		say("Zjedzono: %s. Życie wraca przez %d s." % [name_of(id), int(foods[id].seconds)])
 		return true
 	if item(id).get("category", "") == "consumable":
 		var amount := float(item(id).get("stats", {}).get("hpBonus", 50.0))

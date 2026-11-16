@@ -1538,3 +1538,41 @@ Test integracji z zadeklarowanym poziomem/rangami nie jest dowodem zdobycia
 całej kampanii od poziomu 1. Pomiary balansu nie określają czasu ludzkiego
 czytania ani nie potwierdzają jeszcze celów 25–35 / 40–60 / 60–90 godzin.
 Aktualny odbiór i rozróżnienie tych dowodów: [dziennik 11.11](zmiany/2026-11-11/ZMIANY.md#19-dziedziny-w-świecie-i-późne-wyprawy).
+
+## Jedzenie i regeneracja życia — port Android, 16.11.2026
+
+Zlecenie właściciela: zwierzęta, które nie atakują i dają jedzenie; jedzenie ma regenerować życie; 10 zwierząt i 10 produktów; wyliczenie, ile życia odrasta na
+sekundę i jak długo. **Stan:** mechanika jedzenia i dane są w grze Android (testy 517/517); zwierzęta są opisane w danych, ale **nie mają grafiki i nie są jeszcze
+rozmieszczane w świecie**; produkty nie mają ikon (ekrany pokazują samą nazwę).
+
+**Co było.** Wszystkie 40 potworów jest wrogami; tylko trzy (Mchowy Szlamak, Kryształowy Motyl, Skalny Jeleń) atakują dopiero po sprowokowaniu. Naturalna regeneracja to
+0,3 % maks. HP na sekundę poza walką (przez 5 s po ciosie nie działa), czyli pełne życie z zera po 333 s (5,6 min) niezależnie od poziomu; Legenda poz. 10 (518 HP) odzyskuje 1,55 HP/s,
+Mędrzec poz. 10 (352 HP) 1,06 HP/s. Mikstura życia leczy 40 % od razu (odnowienie 6 s). Pięć istniejących „jedzeń” (chleb, zupa, bulion, racja, herbata) w porcie leczyło po stałe 50 HP.
+
+**Zasada.** Mikstura to narzędzie awaryjne, jedzenie to narzędzie podtrzymujące: zjedzony posiłek daje status „Najedzenie”, który co sekundę leczy część maks. HP przez określony czas, **także w walce**
+(naturalna regeneracja w walce stoi). Poza walką jedzenie dodaje się do naturalnych 0,3 %/s. Jeden posiłek naraz: nowy zastępuje stary tylko, gdy ma więcej do oddania, inaczej gra odmawia
+(„Jesteś jeszcze najedzony.”); przy pełnym życiu posiłek jest odrzucany (nic się nie marnuje); kolejny kęs po 2 s.
+
+**Dziesięć produktów** (źródło: `scripts/godot/prepare_food.py` → `data/food.json`; liczby w % maks. HP, w nawiasach Legenda poz. 10 = 518 HP):
+
+| Poziom | Produkt | Zwierzę (świat) | %/s | Czas | Łącznie | Legenda 10 |
+|---|---|---|---|---|---|---|
+| 1 | Udziec zająca | Zając Łąkowy (Verdantia) | 0,50 | 30 s | 15 % | 2,6 HP/s, 78 HP |
+| 1 | Jajka leśne (sklep 12 mon.) | Kura Leśna (Verdantia) | 0,40 | 45 s | 18 % | 2,1 HP/s, 93 HP |
+| 1 | Jajko hodowlane (sklep 12 mon.) | Bio-kura Hodowlana (Nexus) | 0,35 | 40 s | 14 % | 1,8 HP/s, 73 HP |
+| 2 | Ser kozi (sklep 40 mon.) | Koza Skalna (Pyra) | 0,50 | 60 s | 30 % | 2,6 HP/s, 155 HP |
+| 2 | Mięso jaszczura | Jaszczur Popielny (Pyra) | 0,60 | 45 s | 27 % | 3,1 HP/s, 140 HP |
+| 2 | Mleko księżycowe (sklep 48 mon.) | Owca Księżycowa (Aetheria) | 0,40 | 90 s | 36 % | 2,1 HP/s, 186 HP, +25 % regeneracji KI |
+| 3 | Szynka dzicza | Dzik Mchowy (Verdantia) | 0,70 | 60 s | 42 % | 3,6 HP/s, 218 HP |
+| 3 | Pieczony bażant | Bażant Żarowy (Pyra) | 0,80 | 60 s | 48 % | 4,1 HP/s, 249 HP |
+| 3 | Gołąb w ziołach | Gołąb Pergaminowy (Aetheria) | 0,90 | 60 s | 54 % | 4,7 HP/s, 280 HP |
+| 3 | Racja białkowa | Bio-królik Hodowlany (Nexus) | 1,00 | 60 s | 60 % | 5,2 HP/s, 311 HP |
+
+Poza walką z posiłkiem i regeneracją naturalną razem: od 3,4 HP/s (Jajko hodowlane) do 6,7 HP/s (Racja białkowa) dla Legendy poz. 10; w walce samo jedzenie: od 1,8 do 5,2 HP/s.
+Dla Mędrca poz. 10 wartości są proporcjonalnie niższe (HP 352). Najlepsze posiłki (42–60 %) pochodzą tylko z polowania, proste (poziom 1–2) kupisz w sklepie.
+
+**Zwierzęta** (dane w `food.json`: `attacks: false`, `aggro: 0`, `flees: true`, `art: false`): Zając Łąkowy, Kura Leśna, Dzik Mchowy (Verdantia); Koza Skalna, Jaszczur Popielny, Bażant Żarowy (Pyra);
+Owca Księżycowa, Gołąb Pergaminowy (Aetheria); Bio-królik i Bio-kura Hodowlana (Nexus). Nigdy nie atakują, uciekają po ciosie, wracają po 40–90 s, każde daje dokładnie jeden produkt.
+**Czego brakuje:** grafiki zwierząt i ikon produktów (nie są wygenerowane, więc nie wstawiałem zastępczych), zachowania w świecie (spacer, ucieczka, rozmieszczenie w krainach),
+wskaźnika aktywnego „Najedzenia” w interfejsie. Wartości są propozycją do oceny na urządzeniu; równowaga względem mikstur nie była badana w walce.
+

@@ -243,7 +243,8 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | `data/monsters.json`, `data/quests.json`, `data/lands/<id>/spawns.json` | Bestiariusz (statystyki, umiejętności, cechy, łup, klatki), katalog zadań z dialogami i miejscami, rejestr spawnów krainy |
 | `assets/audio/` | Muzyka (`music/`) i efekty (`sfx/`) skopiowane bez zmian (24 MB) |
 | `scripts/boot.gd`, `scenes/boot.tscn` | Pierwsza scena: pobiera i montuje rdzeń z serwera przed startem gry (sekcja 2b) |
-| `tests/smoke.gd` | 502 kontroli w prawdziwym silniku; `tests/qa_shots.gd` robi zrzuty jaskini, bossa, nocy i wydarzenia |
+| `data/food.json`, `scripts/godot/prepare_food.py` | Jedzenie: 10 posiłków (leczenie w czasie, status „Najedzenie”) i 10 łagodnych zwierząt (dane; grafiki brak); wyliczenia w `docs/ROZWOJ-I-WALKA.md` |
+| `tests/smoke.gd` | 517 kontroli w prawdziwym silniku; `tests/qa_shots.gd` robi zrzuty jaskini, bossa, nocy i wydarzenia |
 
 **Układ współrzędnych:** gra używa współrzędnych świata Superior (jak WWW). Układ stolicy z pierwszej próby jest
 przesunięty o `world.json.offset` = (44 564,29; 12 168,47).
@@ -332,8 +333,8 @@ godot --headless --path ports/godot-pyra --script res://tests/smoke.gd -- --fres
 xvfb-run -a -s '-screen 0 1600x900x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --audio-driver Dummy --path ports/godot-pyra --rendering-method gl_compatibility --script res://tests/smoke.gd -- --fresh --qa-output /tmp/pyra-native
 ```
 
-Na kodzie tej gałęzi: **502/502** kontroli w trybie headless (16.11.2026). Przebieg z natywnym renderowaniem (Mesa llvmpipe) był
-ostatnio wykonany przy 340 kontrolach i nie został powtórzony dla 502; zrzuty jaskini, bossa, nocy i wydarzenia powstały natywnie
+Na kodzie tej gałęzi: **517/517** kontroli w trybie headless (16.11.2026). Przebieg z natywnym renderowaniem (Mesa llvmpipe) był
+ostatnio wykonany przy 340 kontrolach i nie został powtórzony dla 517; zrzuty jaskini, bossa, nocy i wydarzenia powstały natywnie
 (`docs/zmiany/2026-11-16/qa/godot-late/`).
 Pokrycie: ekonomia (katalog 366/265/85, cena sklepu 4×, skup 50 %, wymagania poziomu, wpływ sprzętu, mikstura, crafting, depozyt,
 gospoda, zapis, cztery ekrany usług), rozmiar kontynentu, bezpieczny start, strumieniowanie, **+15 % bohatera**, kolizje,
