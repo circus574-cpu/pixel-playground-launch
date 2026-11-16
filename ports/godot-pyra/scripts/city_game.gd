@@ -1633,7 +1633,7 @@ func open_topics(npc_name: String, role: String) -> void:
 	var actions: Array = []
 	for topic: Dictionary in list:
 		var entry := topic
-		var mark := "✓ " if story.heard(str(entry.id)) else ""
+		var mark := "(znane) " if story.heard(str(entry.id)) else ""
 		actions.append({"text": mark + str(entry.label), "callback": func() -> void:
 			story.hear(str(entry.id))
 			hud.show_dialog(npc_name + " · " + str(entry.label), str(entry.text), [{"text": "WRÓĆ DO ROZMOWY", "callback": func() -> void: open_topics(npc_name, role)}])})

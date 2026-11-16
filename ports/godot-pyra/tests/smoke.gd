@@ -1412,7 +1412,7 @@ func run() -> void:
 	game.story.hear("r:guide:start")
 	game.open_topics("Testowa", "guide")
 	await settle(2)
-	verify(game.story.heard("r:guide:start") and game.hud.modal_box.get_children().any(func(n: Node) -> bool: return n is Button and (n as Button).text.begins_with("✓")), "a subject that has been heard is marked")
+	verify(game.story.heard("r:guide:start") and game.hud.modal_box.get_children().any(func(n: Node) -> bool: return n is Button and (n as Button).text.begins_with("(znane)")), "a subject that has been heard is marked")
 	# ---- combat feel: numbers, shake, hit-stop, hit clips, perfect dodge, animations -------------------
 	var cf_weak: Label = PyraFx.number(game.continent.sorted, game.player.position, 12, false, "weak")
 	var cf_hurt: Label = PyraFx.number(game.continent.sorted, game.player.position, 7, false, "hurt")
@@ -1479,6 +1479,86 @@ func run() -> void:
 	game.hud.close_dialog()
 	game.story.reset()
 	game.story.from_save(null)
+	# ---- items: comparison, sets, totals, bulk trade, bulk craft ---------------------------------------
+	var it_eco: PyraEconomy = game.economy
+	var it_low := ""
+	var it_high := ""
+	var it_set_item := ""
+	var it_spare := ""
+	var it_needed := {}
+	for it_recipe: Dictionary in it_eco.recipes:
+		for it_ing: Dictionary in it_recipe.ingredients:
+			it_needed[str(it_ing.itemId)] = true
+	for it_id: String in it_eco.items:
+		var it_def: Dictionary = it_eco.items[it_id]
+		if it_eco.slot_of(it_id) == "weapon" and it_def.stats.has("atkBonus") and int(it_def.level) <= 5:
+			if it_low == "" or float(it_def.stats.atkBonus) < float(it_eco.items[it_low].stats.atkBonus):
+				it_low = it_id
+			if it_high == "" or float(it_def.stats.atkBonus) > float(it_eco.items[it_high].stats.atkBonus):
+				it_high = it_id
+		if it_set_item == "" and it_def.get("setId") != null and it_eco.slot_of(it_id) != "":
+			it_set_item = it_id
+		if it_spare == "" and str(it_def.category) == "material" and not it_needed.has(it_id):
+			it_spare = it_id
+	it_eco.equipment["weapon"] = it_low
+	var it_diff := it_eco.compare_lines(it_high)
+	verify(it_low != it_high and it_diff.size() > 0 and it_diff[0].contains("Atak +"), "a better weapon shows what it adds against the worn one", it_diff)
+	it_eco.equipment["weapon"] = it_high
+	verify(it_eco.compare_lines(it_low).any(func(l: String) -> bool: return l.contains("Atak −")) and it_eco.compare_lines(it_high).is_empty(), "a worse weapon shows what it takes away; the worn one shows nothing")
+	var it_sets := it_eco.set_lines(it_set_item)
+	verify(it_sets.size() >= 2 and it_sets[0].begins_with("Zestaw ") and it_sets[0].contains("założone 0 z") and it_sets[1].contains("cz.:"), "a set item lists its pieces and the bonus at each count", it_sets)
+	verify(it_eco.set_lines(it_low).is_empty() == (it_eco.items[it_low].get("setId") == null), "an item outside any set lists no set")
+	var it_totals := it_eco.bonus_lines()
+	verify(it_totals.size() > 0 and it_totals.any(func(l: String) -> bool: return l.begins_with("Atak +")), "the worn gear is summed into a bonus list", it_totals)
+	it_eco.equipment["weapon"] = ""
+	it_eco.bag = {}
+	it_eco.gold = 100
+	it_eco.add_item(it_spare, 5)
+	it_eco.add_item("zielone-ziele", 4)
+	verify(it_eco.spare_materials() == [it_spare] and it_eco.spare_value() == it_eco.sell_value(it_spare) * 5, "materials no recipe asks for are marked spare; recipe ingredients never are", it_eco.spare_materials())
+	var it_gold := it_eco.gold
+	verify(it_eco.sell_spare() == it_eco.sell_value(it_spare) * 5 and it_eco.gold == it_gold + it_eco.sell_value(it_spare) * 5 and it_eco.count(it_spare) == 0 and it_eco.count("zielone-ziele") == 4, "selling the spare materials keeps the ingredients")
+	it_eco.add_item("zielone-ziele", 4)
+	it_gold = it_eco.gold
+	verify(it_eco.sell_all("zielone-ziele") == it_eco.sell_value("zielone-ziele") * 8 and it_eco.count("zielone-ziele") == 0 and it_eco.gold > it_gold, "a whole stack sells in one go")
+	var it_recipe_potion: Dictionary = {}
+	for it_recipe: Dictionary in it_eco.recipes:
+		if str(it_recipe.id) == "rec-potion-basic":
+			it_recipe_potion = it_recipe
+	it_eco.level = 5
+	it_eco.bag = {"zielone-ziele": 10, "mchowa-galaretka": 5}
+	it_eco.gold = 100
+	var it_potions := it_eco.count("potion")
+	verify(it_eco.craftable_times(it_recipe_potion) == 5, "the recipe says how many times it can be made", it_eco.craftable_times(it_recipe_potion))
+	verify(it_eco.craft_many(it_recipe_potion, 3) == 3 and it_eco.count("potion") == it_potions + 6 and it_eco.count("zielone-ziele") == 4 and it_eco.gold == 85, "crafting in quantity spends ingredients and coins for each batch")
+	it_eco.bag = {}
+	verify(it_eco.craftable_times(it_recipe_potion) == 0, "nothing is craftable without ingredients")
+	it_eco.bag = {it_spare: 2}
+	game.open_items("shop", "Sklep")
+	await settle(2)
+	var it_screen: ItemsScreen = game.screen
+	it_screen.switch_tab(1)
+	await settle(1)
+	verify(it_screen.extra_box.get_children().any(func(n: Node) -> bool: return n is Button and (n as Button).text.begins_with("SPRZEDAJ NIEPOTRZEBNE")), "the sell tab offers to sell the spare materials at once")
+	game.close_screen()
+	it_eco.bag = {"zielone-ziele": 10, "mchowa-galaretka": 5}
+	it_eco.gold = 100
+	game.open_items("smithy", "Kuźnia")
+	await settle(2)
+	it_screen = game.screen
+	it_screen.switch_tab(1)
+	await settle(1)
+	var it_rows := it_screen.rows().size()
+	it_screen.toggle_ready()
+	await settle(1)
+	verify(it_screen.only_ready and it_screen.rows().size() < it_rows and it_screen.rows().size() >= 1, "the smithy can list only the recipes that can be made now", [it_rows, it_screen.rows().size()])
+	it_screen.select("rec-potion-basic")
+	await settle(1)
+	verify(it_screen.action_box.get_children().any(func(n: Node) -> bool: return n is Button and (n as Button).text == "WYTWÓRZ ×5"), "a recipe that can be made several times offers to make them together")
+	game.close_screen()
+	it_eco.bag = {"potion": 3}
+	it_eco.gold = 20
+	it_eco.level = game.kit.level
 	game.show_menu()
 	await settle()
 	verify(game.hud.modal.visible and game.player.locked, "menu suspends and clears input")

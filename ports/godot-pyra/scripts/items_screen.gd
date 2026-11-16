@@ -23,6 +23,7 @@ var action_box := HBoxContainer.new()
 var extra_box := HBoxContainer.new()
 var scroll := ScrollContainer.new()
 var heal_hint := ""
+var only_ready := false              # smithy: list only the recipes that can be made now
 
 func setup(economy: PyraEconomy, screen_mode: String, heading: String) -> void:
 	eco = economy
@@ -185,6 +186,8 @@ func rows() -> Array:
 			var station: String = PyraEconomy.STATIONS_PYRA[tab]
 			for recipe: Dictionary in eco.recipes_for([station]):
 				var check := eco.can_craft(recipe)
+				if only_ready and not check.ok:
+					continue
 				out.append({"id": str(recipe.id), "text": "%s   ·   poz. %d   ·   %d mon." % [recipe.name, int(recipe.requiredLevel), int(recipe.cost)], "icon": eco.icon_path(str(recipe.result)), "color": Color("93e593") if check.ok else Color("9a8f86"), "dim": false})
 		"inventory":
 			if tab == 0:
@@ -263,7 +266,15 @@ func show_item(id: String) -> void:
 	detail_title.add_theme_color_override("font_color", eco.rarity_color(id))
 	var slot := eco.slot_of(id)
 	detail_meta.text = "%s · poz. %d%s" % [PyraEconomy.RARITY_NAMES.get(str(def.rarity), str(def.rarity)), eco.required_level(id), (" · " + PyraEconomy.SLOT_NAMES[slot]) if slot != "" else ""]
-	detail_body.text = item_text(id)
+	var text := item_text(id)
+	var diff := eco.compare_lines(id)
+	if not diff.is_empty():
+		var worn := str(eco.equipment.get(slot, ""))
+		text += "\n\nW porównaniu z założonym (%s):\n  %s" % [eco.name_of(worn) if worn != "" else "puste miejsce", "\n  ".join(diff)]
+	var set_info := eco.set_lines(id)
+	if not set_info.is_empty():
+		text += "\n\n" + "\n".join(set_info)
+	detail_body.text = text
 
 func show_detail() -> void:
 	clear_actions()
@@ -271,6 +282,13 @@ func show_detail() -> void:
 	detail_title.text = ""
 	detail_meta.text = ""
 	detail_body.text = hint_text()
+	if mode == "shop" and tab == 1:
+		var spare := eco.spare_materials()
+		var sell_spare := make_button("SPRZEDAJ NIEPOTRZEBNE MATERIAŁY (%d rodzajów · +%d mon.)" % [spare.size(), eco.spare_value()], func(): eco.sell_spare(), Vector2(0, 48))
+		sell_spare.disabled = spare.is_empty()
+		extra_box.add_child(sell_spare)
+	if mode == "smithy" and tab < PyraEconomy.STATIONS_PYRA.size():
+		extra_box.add_child(make_button("POKAŻ WSZYSTKIE RECEPTURY" if only_ready else "TYLKO TE, KTÓRE MOGĘ WYKONAĆ", toggle_ready, Vector2(0, 48)))
 	if selected == "":
 		return
 	match mode:
@@ -283,6 +301,8 @@ func show_detail() -> void:
 				action_box.add_child(buy)
 			else:
 				action_box.add_child(make_button("SPRZEDAJ · +%d mon." % eco.sell_value(selected), func(): eco.sell(selected), Vector2(0, 56)))
+				if eco.count(selected) > 1:
+					action_box.add_child(make_button("SPRZEDAJ WSZYSTKO ×%d · +%d mon." % [eco.count(selected), eco.sell_value(selected) * eco.count(selected)], func(): eco.sell_all(selected), Vector2(0, 56)))
 		"depot":
 			show_item(selected)
 			if tab == 0:
@@ -305,10 +325,18 @@ func show_detail() -> void:
 			back.disabled = eco.depot_gold < amount
 			extra_box.add_child(back)
 
+func toggle_ready() -> void:
+	only_ready = not only_ready
+	selected = ""
+	refresh()
+
 func hint_text() -> String:
 	if selected != "":
 		return ""
 	match mode:
+		"inventory":
+			var totals := eco.bonus_lines()
+			return "Razem z ekwipunku:\n  " + ("\n  ".join(totals) if not totals.is_empty() else "nic nie jest założone") + "\n\nWybierz pozycję z listy."
 		"shop":
 			return "Kupiec sprzedaje tylko podstawowe przedmioty (pospolite i niepospolite) po cenie 4× katalogowej, nie mniej niż 60 monet za poziom. Skupuje za połowę ceny katalogowej. Lepszy sprzęt wytworzysz w kuźni.\n\nWybierz przedmiot z listy."
 		"depot":
@@ -357,6 +385,9 @@ func show_recipe() -> void:
 	var craft := make_button("WYTWÓRZ", func(): eco.craft(recipe), Vector2(0, 56))
 	craft.disabled = not check.ok
 	action_box.add_child(craft)
+	var times := mini(eco.craftable_times(recipe), 10)
+	if times > 1:
+		action_box.add_child(make_button("WYTWÓRZ ×%d" % times, func(): eco.craft_many(recipe, times), Vector2(0, 56)))
 
 func show_inventory_item() -> void:
 	if selected.begins_with("slot:"):
