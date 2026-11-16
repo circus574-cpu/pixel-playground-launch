@@ -2,7 +2,7 @@
   "version": "1.8",
   "branch": "feat/android-gm-tools-1.8-20261116",
   "base": "18e6c46c",
-  "publication": "PREPARED",
+  "publication": "ACTIVE 1.8; public manifest and downloaded core SHA-256 verified",
   "reference": "src/components/game/StaffTools.tsx; existing Godot progression, economy, collision and save code",
   "core": {
     "file": "core-c100-b12bc37b1ce5.pck",
@@ -82,5 +82,7 @@
     "game_menu.gd": "e88310f09ff99363c70ec04edc85c226f89626f2f1d72a3f86b9c1e8d34dd665",
     "race_kit.gd": "f3b561b581e26115d7b278a35710d8bc57e1db10a0ba18d2ee6722e9081583e8"
   },
-  "documentation": "PASS: 10 manuals and protected source evidence"
+  "documentation": "PASS: 10 manuals and protected source evidence",
+  "publishedCommit": "fe19c7b8549150021cd8b0d7cf8beef4d308f951",
+  "publicationEvidence": "publication.json"
 }

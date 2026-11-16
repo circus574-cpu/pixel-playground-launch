@@ -1,7 +1,7 @@
 # KI Legends Android — projekt Godot 4
 
-**Aktualny checkpoint, 16.11:** APK **1.0**, kod 100; na serwerze **1.7**.
-Przygotowane **1.8**, gałąź `feat/android-gm-tools-1.8-20261116`, zastępuje
+**Aktualny checkpoint, 16.11:** APK **1.0**, kod 100; na serwerze **1.8**.
+Opublikowane **1.8**, gałąź `feat/android-gm-tools-1.8-20261116`, zastępuje
 odrzucony przez właściciela podgląd GM właściwymi narzędziami z gry przeglądarkowej:
 **nieśmiertelność, brak cooldownów zdolności, leczenie, poziom, monety, mikstury,
 teleport przez współrzędne i listę miejsc/krain**. Poziomy 1–20 zachowują aktualny
@@ -19,7 +19,9 @@ w obu trybach, rzeczywista scena **5/5**, test aktualizacji oryginalnego APK 1.0
 Testy ról/chmury korzystają z jawnej atrapy serwera; fizyczny telefon i rzeczywiste
 konto GM nie były używane. Przy zamykaniu części runnerów pozostają ostrzeżenia
 zasobów. [Raport i zrzuty](../../docs/zmiany/2026-11-16/ZMIANY.md#23-android-18--właściwe-komendy-gm-i-menu-gry).
-**Paczka 1.8 przygotowana do publikacji w ramach polecenia właściciela.**
+**1.8 aktywna od 16.11, 19:31 UTC.** [Publikacja 43940029213 — SUCCESS](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/43940029213),
+źródło `fe19c7b8`; publiczny manifest i SHA-256 pobranego rdzenia potwierdzone.
+Aktualizacja pobiera się po całkowitym zamknięciu i ponownym uruchomieniu APK 1.0.
 
 Dokumentacja natywnej aplikacji **KI Legends na Androida** (Godot 4.6.3, GDScript, renderer Compatibility),
 stan 16.11.2026. Kod w repozytorium to **pełna gra: potwory, questy, dźwięk, ekwipunek, bossowie, jaskinie, wydarzenia świata, dzień i noc**

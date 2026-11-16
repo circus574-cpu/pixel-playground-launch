@@ -648,3 +648,23 @@ Androida i zastąpienia wadliwego panelu. Wynik aktywacji i odczyt publicznego
 manifestu dopisać poniżej. Bez scalenia do `main`, nowego APK i zmian GPU.
 
 [Sumy dowodów](qa/android-1.8/evidence-sha256.json).
+
+
+#### Publikacja 1.8 — zakończona
+
+W ramach bieżącej zgody właściciela na publikację Androida i polecenia zastąpienia
+odrzuconego panelu uruchomiono istniejący workflow z gałęzi wydania:
+[43940029213 — SUCCESS](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/43940029213),
+`version=1.8`, `publish=true`, `activate=true`, commit
+`fe19c7b8549150021cd8b0d7cf8beef4d308f951`.
+
+O 19:31 UTC publiczny serwer potwierdził `activeVersion: 1.8`, bez przerwy
+technicznej. Manifest w całości odpowiada przetestowanej paczce (27 definicji),
+a pobrany rdzeń ma **3 539 440 bajtów**, SHA-256
+`b12bc37b1ce59ccc7112fbfbed89acfabee703ddc0ef8e9747327a1cae29ea75`.
+[Dowód odczytu publikacji](qa/android-1.8/publication.json).
+
+Należy całkowicie zamknąć i ponownie uruchomić aplikację, aby pobrała rdzeń.
+Nowy APK nie jest potrzebny. Nie wykonano scalenia do `main`, resetu postaci,
+publikacji strony ani zmian instancji GPU. 1.7 pozostaje jako poprzednia wersja
+techniczna do rollbacku; nie jest już wydaniem aktywnym.

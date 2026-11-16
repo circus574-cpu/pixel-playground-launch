@@ -1,7 +1,7 @@
 # KI Legends — dokumentacja projektu
 
 **Android — GM i menu 1.8, 16.11:** na gałęzi `feat/android-gm-tools-1.8-20261116`
-przygotowano właściwe komendy GM (nieśmiertelność, cooldowny, poziom, pieniądze,
+opublikowano **aktywną wersję 1.8**: komendy GM (nieśmiertelność, cooldowny, poziom, pieniądze,
 teleport) i nowe menu; zastępują podgląd 1.7 odrzucony przez właściciela.
 [Wyniki i zrzuty](zmiany/2026-11-16/ZMIANY.md#23-android-18--właściwe-komendy-gm-i-menu-gry).
 
