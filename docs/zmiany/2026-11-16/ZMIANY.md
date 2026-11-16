@@ -258,3 +258,10 @@ się w promieniu 800 j. (jeśli poziom wystarcza), usypia za 2600 j., po ukończ
 
 **Nie zweryfikowane:** fizyczny telefon (FPS jaskiń ze światłem i CanvasModulate, wiele efektów otoczenia naraz, balans trudności bossów
 i jaskiń). Balans liczb autorskich (kolce, strefy, nagrody skrzyń, wydarzenia) wymaga decyzji właściciela po grze na telefonie.
+
+### 12. Android / Godot 0.8.0-complete: końcowy APK
+
+Po przeniesieniu całości (pkt 1–11) zbudowano APK w pełnej jakości: `deliveries/godot-pyra-android-20261116-complete` (Git LFS),
+148 234 924 B, SHA-256 `8071893d82fa242dc0b4d59db6823103513fdbeb49e5d318312a71007a311701`, pakiet `pl.kilegends.godot.pyra`, wersja 0.8.0-complete
+(kod 8), podpis lokalnym kluczem debug (schematy v2 i v3 poprawne). PCK z presetu Linux uruchomiony poza projektem: 10 krain, wnętrza sklepów
+czterech ras, wejście do jaskini (20 strażników) i boss, 0 błędów. **Nie sprawdzono na fizycznym telefonie** (instalacja, FPS, pamięć, bateria).

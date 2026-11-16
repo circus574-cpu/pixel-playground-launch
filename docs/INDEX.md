@@ -5,9 +5,8 @@ grywalne), dźwięk, zasady ekwipunku, **8 bossów** (fazy, mechaniki, strażnik
 **14 wydarzeń świata**, dzień i noc, spacery mieszkańców i efekty otoczenia (to, co jest z przeglądarki, a co dorobione, rozdziela
 [sekcja 1b README Android](../ports/godot-pyra/README.md)). Poprzednio: cała planeta Superior (4 kontynenty i 6 wysp, ok. 197 tys. obiektów),
 globus 3D i atlas 2D z podróżami, cztery grywalne rasy ze statystykami aneksu, miasta z usługami i wnętrzami, pełny HUD, płynniejsza gra,
-wstęp z ilustracją właściciela. Gałąź `ccr-ebbd6459-n7c5eg`, kontynuacja PR #170. **Ostatni zbudowany APK** (0.7.0-bestiary, bez nowszych
-funkcji): `deliveries/godot-pyra-android-20261116-bestiary-hq` (Git LFS); końcowy APK powstanie w pełnej jakości po zatwierdzeniu
-właściciela. Fizyczny telefon niezweryfikowany; bez scalenia i zmian produkcji. [Osobna dokumentacja Android](../ports/godot-pyra/README.md),
+wstęp z ilustracją właściciela. Gałąź `ccr-ebbd6459-n7c5eg`, kontynuacja PR #170. **APK z całą grą** (0.8.0-complete, 148 234 924 B):
+`deliveries/godot-pyra-android-20261116-complete` (Git LFS). Fizyczny telefon niezweryfikowany; bez scalenia i zmian produkcji. [Osobna dokumentacja Android](../ports/godot-pyra/README.md),
 [dziennik 16.11](zmiany/2026-11-16/ZMIANY.md).
 Wcześniejsza próba (jedno miasto, 0.1–0.2): PR #170, `feat/godot-pyra-android-20261115`.
 

@@ -78,8 +78,10 @@ obniżony pancerz, oznaczenie, ślepota/mgła, zdjęcie tarczy, przyciągnięcie
 
 ## 2. Instalacja gotowego APK
 
-APK: `deliveries/godot-pyra-android-20261116-bestiary-hq/ki-legends-godot-debug.apk`, **123332298 bajtów** (117,6 MiB, plik w Git LFS —
-bez limitu 100 MiB zwykłego pliku), SHA-256 `e93777fbfea71a32eee01c12051c624821ef18a0804f14c2a9ed3ec9e04f76cf`. Wymaga Androida 7.0+ i `arm64-v8a`.
+APK: `deliveries/godot-pyra-android-20261116-complete/ki-legends-godot-debug.apk`, **148234924 bajtów** (141,4 MiB, plik w Git LFS —
+bez limitu 100 MiB zwykłego pliku), SHA-256 `8071893d82fa242dc0b4d59db6823103513fdbeb49e5d318312a71007a311701`, wersja **0.8.0-complete** (kod 8).
+Zawiera całą grę z sekcji 1. Wymaga Androida 7.0+ i `arm64-v8a`. Starsze dostawy (0.7.0-bestiary i wcześniejsze) nie mają questów, dźwięku,
+bossów, jaskiń ani wydarzeń świata.
 
 1. Pobierz APK na telefon i otwórz plik (zezwól na instalację z tego źródła; nie wyłączaj Play Protect).
 2. Wersje 0.3.0 i 0.4.0 zaktualizują się w miejscu (ten sam klucz debug). **Jeżeli masz 0.2.0, odinstaluj ją najpierw**:
@@ -87,11 +89,10 @@ bez limitu 100 MiB zwykłego pliku), SHA-256 `e93777fbfea71a32eee01c12051c624821
 3. Uruchom **KI LEGENDS**, obróć telefon poziomo, wybierz **ZACZNIJ PRZYGODĘ**, a potem swoją rasę.
 
 ```sh
-adb install -r deliveries/godot-pyra-android-20261116-bestiary-hq/ki-legends-godot-debug.apk
+adb install -r deliveries/godot-pyra-android-20261116-complete/ki-legends-godot-debug.apk
 ```
 
-To APK **nie zawiera** questów, dźwięku, zasad ekwipunku z limitami, ulepszeń kowala ani rzadkich cech potworów — powstały po jego
-zbudowaniu. Pakiet `pl.kilegends.godot.pyra`, wersja `0.7.0-bestiary`, kod 7, min SDK 24 / target 36, `USER_LANDSCAPE`, OpenGL ES 3.
+Pakiet `pl.kilegends.godot.pyra`, wersja `0.8.0-complete`, kod 8, min SDK 24 / target 36, `USER_LANDSCAPE`, OpenGL ES 3.
 Brak uprawnień internetu i pamięci zewnętrznej. To debug APK, nie wydanie Google Play.
 **Instalacja, płynność i pamięć na fizycznym Androidzie są niezweryfikowane** (brak urządzenia w tej sesji).
 
