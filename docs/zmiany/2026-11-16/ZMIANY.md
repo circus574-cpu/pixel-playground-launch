@@ -563,3 +563,22 @@ oraz SHA pobranego rdzenia; 1.6 zachować do rollbacku.
 
 [Sumy dowodów](qa/android-1.7/evidence-sha256.json). Nie scalano do `main`, nie
 publikowano gry i nie resetowano postaci.
+
+
+#### Publikacja 1.7 — zakończona po zgodzie właściciela
+
+Po poleceniu „Publikuj!” uruchomiono istniejący workflow:
+[43934619568 — SUCCESS](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/43934619568),
+wersja `1.7`, `publish=true`, `activate=true`, źródło
+`f007114b5e83e4cf27f1583bf75313f8949efa0a`.
+
+O 19:00 UTC serwer potwierdził `activeVersion: 1.7`, `maintenance: false`.
+Publiczny manifest jest w całości zgodny z przetestowanym commitem (27 paczek),
+a pobrany rdzeń ma **3 523 184 bajty** oraz SHA-256
+`85897595dc42c5ef7a2bfee87eb32a8a2e470c7f94b99de999fca8902cc3e073`.
+[Dowód weryfikacji publikacji](qa/android-1.7/publication.json).
+
+Aktualizacja pobiera się po ponownym uruchomieniu istniejącej aplikacji 1.0.
+Wydanie 1.6 pozostaje do rollbacku. Nie wykonano scalenia do `main`, publikacji
+strony, nowego APK, resetu postaci ani zmian instancji GPU. Ograniczenia odbioru
+telefonu i panelu GM z prawdziwym kontem pozostają jak wyżej.

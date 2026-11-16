@@ -1,14 +1,14 @@
 # KI Legends Android — projekt Godot 4
 
 **Aktualny checkpoint, 16.11:** zainstalowana aplikacja **1.0** (`versionCode` 100),
-aktywne wydanie serwera **1.6**. Na gałęzi `feat/android-hud-1.7-20261116`
-przygotowano aktualizację **1.7**: większe przyciski HUD-u (preferowane 100 × 112
+aktywne wydanie serwera **1.7**. Na gałęzi `feat/android-hud-1.7-20261116`
+opublikowano aktualizację: większe przyciski HUD-u (preferowane 100 × 112
 jednostek), układ uwzględniający wycięcia ekranu, dotyk minimapy otwierający mapę
 i natywny panel GM dla kont admin/GM. Panel ponownie sprawdza rolę na serwerze;
 w aplikacji pokazuje stan serwera, graczy według krain i podsumowanie zapisów.
 Pełne operacje GM pozostają w konsoli WWW, wymagającej własnego logowania.
 
-**1.7 nie została aktywowana.** Gotowe 27 paczek są w `deliveries/godot-content-1.7`;
+**1.7 aktywna od 16.11, 19:00 UTC.** Wszystkie 27 paczek są w `deliveries/godot-content-1.7`;
 zmienia się tylko rdzeń (3 523 184 bajty), bez nowego APK, zmiany świata i formatu
 zapisu. Wyniki: regresja **539/539**, HUD **42/42 headless i 42/42 natywnie**,
 pełna scena **5/5**, menu **11/11** w obu trybach, aktualizacja oryginalnego APK
@@ -17,6 +17,9 @@ w testach pochodzą z jawnej atrapy odpowiedzi serwera. Fizyczny telefon i dzia�
 panelu na prawdziwym koncie GM pozostają niezweryfikowane. Duży test regresji
 nadal raportuje zastane ostrzeżenia przy zwalnianiu zasobów.
 [Raport, ograniczenia i zrzuty](../../docs/zmiany/2026-11-16/ZMIANY.md#22-android-17--hud-dotyk-minimapy-i-natywny-panel-gm).
+[Publikacja 43934619568 — SUCCESS](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/43934619568),
+źródło `f007114b`; potwierdzono publiczny manifest oraz SHA-256 pobranego rdzenia.
+Aktualizacja pobiera się przy ponownym uruchomieniu APK 1.0.
 Postacie webowe nie są automatycznie importowane do zapisów Androida; ta
 aktualizacja nie migruje ani nie resetuje zapisów. Szczegóły opublikowanej 1.6
 pozostają w sekcji 21 dziennika 16.11.

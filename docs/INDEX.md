@@ -1,8 +1,8 @@
 # KI Legends — dokumentacja projektu
 
-**Android — HUD 1.7, 16.11:** przygotowane większe ikony, dotyk minimapy i natywny
-podgląd GM na osobnej gałęzi `feat/android-hud-1.7-20261116`. Aktywne wydanie serwera
-to nadal **1.6**; 1.7 czeka na zgodę na aktywację. [Bieżący checkpoint Androida](../ports/godot-pyra/README.md),
+**Android — HUD 1.7, 16.11:** opublikowane większe ikony, dotyk minimapy i natywny
+podgląd GM z osobnej gałęzi `feat/android-hud-1.7-20261116`. Aktywne wydanie serwera
+to **1.7**, potwierdzone publicznym manifestem i SHA-256 rdzenia. [Bieżący checkpoint Androida](../ports/godot-pyra/README.md),
 [wyniki i zrzuty](zmiany/2026-11-16/ZMIANY.md#22-android-17--hud-dotyk-minimapy-i-natywny-panel-gm).
 Poniższe starsze checkpointy opisują wcześniejsze etapy.
 

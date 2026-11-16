@@ -3,7 +3,7 @@
   "branch": "feat/android-hud-1.7-20261116",
   "base": "20a39259301778ff8fe71882c988f60670c18f65",
   "mainAtStart": "664c7f18edc4c51f2eaf1db6aa92e4c9f1de1be0",
-  "publication": "PREPARED; not activated; server last verified at 1.6",
+  "publication": "ACTIVE 1.7; public manifest and downloaded core SHA-256 verified",
   "core": {
     "file": "core-c100-85897595dc42.pck",
     "bytes": 3523184,
@@ -91,5 +91,7 @@
     "ports/godot-pyra/scripts/online.gd": "3f65b0beb2ec4ac347a678e4e75356f028ecd2e7c2d17e133dad74a3a84b0815",
     "ports/godot-pyra/scripts/gm_panel.gd": "b1c8e29f25d3acab13dc636ccf4c2633f30fd03c4f0ce4aa992d07d8f5ee7f15"
   },
-  "documentation": "PASS: 10 thematic manuals; 25 daily journals; source evidence unchanged"
+  "documentation": "PASS: 10 thematic manuals; 25 daily journals; source evidence unchanged",
+  "publicationEvidence": "publication.json",
+  "publishedCommit": "f007114b5e83e4cf27f1583bf75313f8949efa0a"
 }

@@ -1,5 +1,5 @@
 {
-  "acceptance.json": "0fd3c1bc4edf6d299db9fae187f9a7cf83e9048d35cc84022b692973e366a283",
+  "acceptance.json": "18665eefa395760d6ee781fab719db9e8b05d59b3e4a817d82da6cda78395a2b",
   "continent-from-minimap.png": "338e76434acf98b0bd54fe658d75a0c984f83ae0256d65d8152f05b8390e2e7e",
   "documentation.txt": "2e7e73c96db6bb4421ec6b980ba82cd6d9dcd12e557df8a8934ca1204cc53ef4",
   "e2e-core.txt": "5ca9697f8b9fcd297782751e0e7b8222d784a91b32e31d25dd50177fc54c9cc9",
@@ -18,6 +18,7 @@
   "map-2d-from-minimap.png": "5028a8872ae56df3904247f3b30eb5a414cfaa075688813276209d760c59dddb",
   "menu-headless-results.json": "b9ca38505ff2f8f5d81c9223a2f98ab13cc65f1aaa3b57866e295f1b4b95780e",
   "menu-native-results.json": "b9ca38505ff2f8f5d81c9223a2f98ab13cc65f1aaa3b57866e295f1b4b95780e",
+  "publication.json": "ed6523826acb14c8596bb89101aac50216bf772b685dcd816088825f88aa1cdc",
   "smoke-results.json": "072e71ac24e9b5b0c6ef73951cb977fc01ff8f72f84d1671d8561f2ddee282a6",
   "smoke.txt": "922c14ebb52f52ba31d1751066d341a70a42fa79f1350be15782bf895386d00f",
   "typecheck.txt": "34fcd766e4baf0285264f33c36dcd9041d763c777c690c7234996489e0b99b68"
