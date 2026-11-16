@@ -689,3 +689,18 @@ Do tej pory postaci z gry przeglądarkowej nie dało się wczytać w Androidzie.
 - **Pozycja i kraina.** Bohater zaczyna w stolicy swojej rasy (pozycja z przeglądarki nie jest przenoszona).
 - **Testy.** `smoke.gd` **542/542** (3 nowe: plan z liczbą pominiętych rzeczy, odrzucenie nieznanej rasy, zbudowanie bohatera), `hud_mobile` 42/42, `gm_gameplay` 58/58, `menu_input` 11/11, `e2e_installed.py` PASS, `e2e_core.py` 11/11. Nie sprawdzono na prawdziwym koncie ani telefonie.
 
+### 26. Plan oprawy: priorytety właściciela i pierwszy pomiar (audyt animacji bohaterów)
+
+Priorytety właściciela (16.11.2026, wieczorem): 1) spójne postacie (twarz, proporcje, strój, skala) we wszystkich animacjach; 2) płynny chód, atak, unik, trafienie, śmierć, odrodzenie; 3) czytelne efekty KI, trafień i ataków przeciwników; 4) materiały otoczenia (podłoże, przejścia między teksturami, cienie, detale); 5) potwory i NPC w tym samym stylu.
+
+**Pomiar (priorytety 1–2), `scripts/godot/audit_hero_animation.py`.** Skrypt układa każdą klatkę w komórce 200 px tak jak gra i liczy wysokość postaci, linię stóp i środek poziomy dla 4 bohaterów i 144 klipów (kierunek `right`). Wynik:
+- **Spójne:** `idle`, `walk`, `attack`, `hit`, `dodge` mają wysokość w granicach 6–14 % od `idle` u wszystkich czterech ras (np. Legenda: idle 183, walk 180, attack 170, hit 171 px). Stopy i środek w tych klipach nie wędrują.
+- **Do poprawy:** `run` jest o ok. 15 % niższy niż `idle` u wszystkich ras (152/153/156 vs 178–183 px): albo biegnie zgarbiony, albo narysowany w mniejszej skali. `skillb` i `kiskillb` mają stopy wędrujące o 36–50 px i wysokość 15–21 % mniejszą; `skillc`/`kiskillc` podobnie. Klipy `death` mają skrajnie różną wysokość (Legenda 83, Mędrzec 90, Android 116, Planetarny 152 px), czyli ostatnia klatka śmierci nie leży tak samo u każdej rasy; `respawn` Androida (142) odbiega od reszty (169–184).
+- **Czego skrypt nie mierzy:** twarzy, stroju i barw (wymaga oka lub modelu wizyjnego). Flagi dla pozy z natury zmieniających wysokość (unik, trafienie, finisher) są pominięte.
+
+**Plan, od najtańszego:**
+1. *Kod, bez GPU:* efekty KI, trafień i telegrafy ataków potworów (priorytet 3), cienie pod postaciami i stała skala w kodzie, ujednolicenie ostatniej klatki śmierci i odrodzenia (obcięcie do wspólnej linii podłoża).
+2. *Grafika, wymaga generowania:* ponowne narysowanie `run`, `skillb/c`, śmierci i odrodzenia w tej samej skali (priorytety 1–2), materiały podłoża i przejścia (4), potwory i NPC (5). Generowanie wymaga dostępu do poda GPU (obecnie brak dostępu do plików poda) albo API obrazów.
+
+Pod GPU `bqnirbw2ucnqrk` ma `volumeInGb=0`: zatrzymanie kasuje cały dysk kontenera; zatrzymanie zaplanowano na 17.11.2026 00:32 UTC (decyzja właściciela), po wcześniejszym zabezpieczeniu danych albo potwierdzeniu, że nic tam nie ma.
+
