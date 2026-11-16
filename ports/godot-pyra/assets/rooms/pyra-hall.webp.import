@@ -17,7 +17,7 @@ dest_files=["res://.godot/imported/pyra-hall.webp-0ee8e12f6e2fcf7a2182c5f18dd619
 
 compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.85
+compress/lossy_quality=0.8
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

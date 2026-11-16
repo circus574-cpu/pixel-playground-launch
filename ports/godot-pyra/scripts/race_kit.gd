@@ -29,6 +29,8 @@ var ki := 1.0
 var cooldowns: Dictionary = {}     # id -> seconds left
 var buffs: Array[Dictionary] = []
 var shields: Array[Dictionary] = []
+var debuffs: Array[Dictionary] = []   # effects put on the hero by monsters: {k, pct, until}
+var dot_carry := 0.0
 var circles: Array[Dictionary] = []
 var channel: Dictionary = {}
 var timers: Array[Dictionary] = []
@@ -266,7 +268,7 @@ func stats(layer: int = 4) -> Dictionary:
 		"maxHp": round_half_up(v.call("hp") * (1.0 + float(m.hpPct)) * (1.0 + gv.call("maxHpPercent") / 100.0) + gv.call("hpBonus")),
 		"maxKi": round_half_up(v.call("ki") * (1.0 + float(m.kiPct)) * (1.0 + gv.call("maxKiPercent") / 100.0) + gv.call("kiBonus")),
 		"attack": maxi(1, round_half_up(v.call("attack") * (1.0 + atk_pct) * (1.0 + gv.call("atkPercent") / 100.0) + gv.call("attack") * (1.0 + atk_pct))),
-		"defense": maxi(0, round_half_up(v.call("defense") * (1.0 + def_pct) * (1.0 + gv.call("defPercent") / 100.0) + gv.call("defense") * (1.0 + def_pct))),
+		"defense": maxi(0, round_half_up((v.call("defense") * (1.0 + def_pct) * (1.0 + gv.call("defPercent") / 100.0) + gv.call("defense") * (1.0 + def_pct)) * (1.0 - debuff_pct("armorDown") if layer >= 4 else 1.0))),
 		"speed": minf(MAX_MOVE_SPEED, float(base.speed) * speed_growth(level) * speed_mult),
 		"kiRegen": (v.call("kiRegen") * (1.0 + float(m.kiRegenPct)) + gv.call("kiRegenBonus")) * (1.0 + gv.call("kiRegenPercent") / 100.0),
 		"crit": v.call("criticalChancePercent") + float(m.critAdd) * 100.0 + gv.call("critChancePoints"),
@@ -274,7 +276,7 @@ func stats(layer: int = 4) -> Dictionary:
 		"range": base_range * (1.0 + float(m.rangePct)),
 		"kiCostMul": maxf(0.0, cost_mul),
 		"cooldownMul": maxf(0.1, 1.0 + buff.call("cooldownPct")),
-		"dealt": 1.0 + buff.call("dealtPct"),
+		"dealt": (1.0 + buff.call("dealtPct")) * (1.0 - debuff_pct("weaken") if layer >= 4 else 1.0),
 	}
 
 func stat_breakdown() -> Array:
@@ -300,6 +302,31 @@ func add_buff(buff: Dictionary) -> void:
 	buff["until"] = now + float(buff.ms) / 1000.0
 	buffs = buffs.filter(func(b: Dictionary) -> bool: return b.id != buff.id)
 	buffs.append(buff)
+
+## A status from a monster (slow, weaken, armorDown, mark, blind, fog, silence, dot ...). Same kind refreshes; stronger wins.
+func add_debuff(kind: String, pct: float, seconds: float) -> void:
+	for d in debuffs:
+		if d.k == kind:
+			d.pct = maxf(float(d.pct), pct)
+			d.until = maxf(float(d.until), now + seconds)
+			return
+	debuffs.append({"k": kind, "pct": pct, "until": now + seconds})
+
+func debuff_pct(kind: String) -> float:
+	for d in debuffs:
+		if d.k == kind and now < float(d.until):
+			return float(d.pct)
+	return 0.0
+
+func debuff_left(kind: String) -> float:
+	for d in debuffs:
+		if d.k == kind:
+			return maxf(0.0, float(d.until) - now)
+	return 0.0
+
+func clear_debuffs() -> void:
+	debuffs.clear()
+	dot_carry = 0.0
 
 func buff_active(id: String) -> bool:
 	for b in buffs:
@@ -363,6 +390,16 @@ func tick(delta: float) -> void:
 		cooldowns[id] = maxf(0.0, float(cooldowns[id]) - delta)
 	buffs = buffs.filter(func(b: Dictionary) -> bool: return now < float(b.until))
 	shields = shields.filter(func(s: Dictionary) -> bool: return now < float(s.until) and float(s.amount) > 0.0)
+	debuffs = debuffs.filter(func(d: Dictionary) -> bool: return now < float(d.until))
+	var dot_dps := debuff_pct("dot")
+	if dot_dps > 0.0 and not dead:
+		dot_carry += dot_dps * delta
+		if dot_carry >= 1.0:
+			var whole := floorf(dot_carry)
+			dot_carry -= whole
+			hp = maxf(0.0, hp - whole)
+			if hp <= 0.0:
+				dead = true
 	circles = circles.filter(func(c: Dictionary) -> bool: return now < float(c.until))
 	var due := timers.filter(func(t: Dictionary) -> bool: return now >= float(t.at))
 	timers = timers.filter(func(t: Dictionary) -> bool: return now < float(t.at))
@@ -423,6 +460,11 @@ func strike(foe: Node, mult: float, extra: float = 0.0, force_crit: bool = false
 	if not is_instance_valid(foe):
 		return 0.0
 	var s := stats()
+	var miss := debuff_pct("blind") + debuff_pct("fog")
+	if miss > 0.0 and randf() < miss:
+		said.emit("Pudło!")
+		damage_dealt.emit(foe, 0, false)
+		return 0.0
 	var raw: float = float(s.attack) * mult * float(s.dealt) * (1.0 + extra + dealt_vs(foe))
 	var crit := force_crit or randf() * 100.0 < float(s.crit) + crit_vs(foe)
 	if crit:
@@ -552,7 +594,7 @@ func take_damage(amount: float, kind: String = "melee") -> float:
 	if has_buff("invulnerable"):
 		return 0.0
 	interrupt_channel("hit") if not channel.is_empty() and bool(channel.get("breakOnHit", false)) else null
-	var reduced := maxf(1.0, amount * (1.0 - float(gear.get("damageReductionPercent", 0.0)) / 100.0) - float(stats().defense) * 0.5)
+	var reduced := maxf(1.0, amount * (1.0 - float(gear.get("damageReductionPercent", 0.0)) / 100.0) * (1.0 + debuff_pct("mark")) - float(stats().defense) * 0.5)
 	for s in shields:
 		if float(s.amount) <= 0.0:
 			continue

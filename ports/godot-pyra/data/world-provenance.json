@@ -1,6 +1,6 @@
 {
  "note": "Presentation data for the native port; geometry, collision and navigation are the published Superior v2 files, not regenerated.",
- "sourceBaseCommit": "68d5b1531fdf872e2d3193052c800fb92c48a3ac",
+ "sourceBaseCommit": "f9d12e8b11529a17401d4aeee29b3eaae4fce78e",
  "sources": {
   "public/game/worlds/superior-v2/index.json": "001d8d24d9f122302a4adff64eb035d42cde868b7334c557b2d91e0c61fb7961",
   "public/game/worlds/superior-v2/art/assets.json": "930eb21c54ce9972eb8a4fcb3fa7f23a8c943fc9da12f1869f6c4cc1ec05c39e",

@@ -65,3 +65,44 @@ Zrzuty: `qa/godot-hud/`.
 
 **Nie sprawdzono.** Fizyczny telefon (FPS, pamięć, czas wypalania podłoża, dotyk), ekrany inne niż 16:9 i 20:9, balans HUD
 przy prawdziwej walce.
+
+### 2. Android / Godot 0.7.0-bestiary: potwory, spawny, walka, nagrody
+
+Zlecenie właściciela: po HUD i płynności przenosić potwory, przedmioty, zadania. W tej partii: **potwory, spawny, walka,
+doświadczenie, monety, łup**. **Zadania (questy) nie zostały przeniesione** — to ok. 6,9 tys. wierszy treści i silnika w
+`src/game/quests`; tracker zadań w HUD czeka na dane. Miasta pozostają bezpieczne, nic nie jest przebalansowane.
+
+- **Dane.** `scripts/godot/export-monsters.ts` eksportuje 40 potworów bestiariusza z `monsters/catalog.ts` (statystyki,
+  atak podstawowy, umiejętności, cechy, łup, pule losowego łupu z `items/loot.ts`, rozmiar ramki z `visualSize.ts`);
+  `prepare_monsters.py` składa `data/monsters.json`, arkusze `assets/monsters/*.webp` (animowane arkusze „anime” `enemy-v3-*`
+  właściciela, 8 kierunków × idle/walk/attack/skill/hit/death/respawn) i rejestry spawnów `data/lands/<id>/spawns.json`
+  (opublikowane `spawns.json`, 8 752 miejsc na 10 krainach, bez generowania nowych). Te arkusze są w przeglądarce opt-in
+  (`ki-monsters-anime`); port używa ich zamiast starszych.
+- **Spawny.** `monster_manager.gd` budzi miejsca w promieniu 1400 j. (maks. 24 potwory, 2 na odświeżenie), usypia
+  odległe (1900 j.), trzyma czas respawnu zabitych miejsc, nie budzi potworów w mieście i nie wpuszcza ich do miast.
+- **Zachowanie.** `monster.gd`: błądzenie wokół gniazda, agresja (potwory „prowokowane” atakują dopiero po trafieniu),
+  pościg, uwiąź i powrót z regeneracją, trzymanie dystansu, `still`/`fly`/`ghost`, atak podstawowy wręcz i na dystans
+  (pocisk), umiejętności wszystkich trybów (wręcz, salwa, wybuch, skok, szarża z ogłuszeniem po chybieniu, `self`: wezwanie,
+  tarcza, redukcja, leczenie) z ostrzeżeniem na ziemi, odwrót poniżej progu HP, szał, śmierć z animacją. Potwory rysowane
+  są 15 % większe, jak bohater.
+- **Statusy bohatera.** Spowolnienie, unieruchomienie/ogłuszenie/strach (blokada ruchu), wyciszenie (blokada zdolności),
+  DoT, osłabienie, obniżony pancerz, oznaczenie, ślepota/mgła (chybienia), zdjęcie tarczy, przyciągnięcie — w `RaceKit`
+  (`debuffs`).
+- **Walka i nagrody.** Wszystkie zdolności czterech ras działają na potworach (ten sam interfejs co manekin); pasek celu w
+  HUD; XP z potwora (poziomy 1–20), monety z przedziału, łup z listy potwora (materiały z katalogu) i 2 % losowego słabego
+  przedmiotu z puli potwora (jak w przeglądarce). Śmierć bohatera: po 3 s powrót do stolicy krainy z pełnym HP/KI.
+- **Rozmiar APK.** Arkusze potworów dodały ok. 12 MB; aby zmieścić się w limicie 100 MiB pliku w Git obniżono jakość
+  importu WebP (sceneria 0,72, ludzie 0,78, potwory 0,75, wnętrza 0,8, podłoga 0,85). APK 103 319 242 B (margines ok.
+  1,5 MB do limitu — kolejne zasoby będą wymagały innego sposobu dostawy niż plik w Git).
+
+**Nie przeniesione / uproszczenia.** Strefy obrażeń, przywołania i część rzadkich cech (zakopywanie, zasadzka, podział,
+wskrzeszenie, wieżyczka, pułapki sieci, ślad) — taki potwór walczy zasadami podstawowymi; cecha `night` wyłączona (port nie
+ma dnia i nocy); słabości na typy obrażeń (kit nie przekazuje typu), odbicie i pancerz z przodu, unik `dodgeChance` pominięte.
+Bossowie, questy i dungeony nie zostały przeniesione. Wiele potworów szybko zabija bohatera poziomu 1 — statystyki są z
+bestiariusza, bez zmian; balans na telefonie niezweryfikowany.
+
+**Kontrole.** `tests/smoke.gd`: **326/326** headless (nowe: 40 potworów, 8 752 miejsc spawnu zgodnych z bestiariuszem,
+budzenie ≤ 24, brak potworów w mieście, atak bohatera rani potwora, zabicie płaci XP i monety i uruchamia respawn, potwór goni
+i rani, statusy, śmierć i powrót). PCK z presetu Linux uruchomiony poza projektem: 10 krain, 0 błędów. APK 103 319 242 B,
+SHA-256 `37c83a529c045a919835e3a1efe9a03e00698316d773af452abbd67cef3aea67`
+(`deliveries/godot-pyra-android-20261116-bestiary`). Zrzuty: `qa/godot-monsters/`.

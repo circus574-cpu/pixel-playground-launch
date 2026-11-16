@@ -84,7 +84,7 @@ func setup(legend_kit: RaceKit) -> void:
 	test_row.add_child(button("+", func(): set_level(kit.level + 1), Vector2(56, 50)))
 	left_box.add_child(test_row)
 	var note := Label.new()
-	note.text = "W świecie nie ma jeszcze potworów, więc doświadczenie nie ma źródła. Poziom ustawiasz ręcznie, żeby wypróbować drzewko."
+	note.text = "Doświadczenie dają potwory poza miastami (poziomy 1–20). Poziom próbny pozwala wypróbować drzewko bez walki."
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	note.add_theme_font_size_override("font_size", 14)
 	note.add_theme_color_override("font_color", Color("a69683"))

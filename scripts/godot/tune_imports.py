@@ -10,8 +10,8 @@ import pathlib, re
 
 PORT = pathlib.Path(__file__).resolve().parents[2] / "ports/godot-pyra"
 LOSSY = {  # folder -> quality
-    "assets/objects": 0.78, "assets/actors": 0.84, "assets/hero": 0.9, "assets/rooms": 0.85, "assets/floor": 0.88,
-    "assets/races": 0.88, "assets/map": 0.88, "assets/icons": 0.9,
+    "assets/objects": 0.72, "assets/actors": 0.78, "assets/hero": 0.9, "assets/rooms": 0.8, "assets/floor": 0.85,
+    "assets/races": 0.88, "assets/monsters": 0.75, "assets/map": 0.88, "assets/icons": 0.9,
 }
 LAND_LOSSY = {"terrain/*.webp": 0.9, "map.webp": 0.88}
 KEEP_LOSSLESS = ("ctrl-", "road-")

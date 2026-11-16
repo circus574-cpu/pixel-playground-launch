@@ -621,6 +621,96 @@ func run() -> void:
 	game.go_back()
 	await settle(2)
 
+	# ---- monsters: data, spawns, fights, rewards, statuses, death ---------------------------------------------
+	game.start_new_character("legend")
+	await settle(3)
+	verify(game.monster_data.monsters.size() == 40, "the 40 bestiary monsters are loaded with stats, skills and loot")
+	var all_kinds := true
+	var spawn_total := 0
+	for id: String in PyraGame.ALL_LANDS:
+		var reg: Dictionary = PyraContinent.load_json("res://data/lands/%s/spawns.json" % id)
+		spawn_total += (reg.spawns as Array).size()
+		for kind: String in reg.kinds:
+			all_kinds = all_kinds and game.monster_data.monsters.has(kind)
+	verify(all_kinds and spawn_total == 8752, "every published spawn slot of the ten lands names a known monster", spawn_total)
+	var mm: PyraMonsters = game.monsters
+	var base := Vector2.ZERO
+	for i in mm.rows.size():
+		var at := Vector2(float(mm.rows[i][1]), float(mm.rows[i][2]))
+		if not game.in_safe_city(at) and game.continent.walkable(at) and game.continent.walkable(at + Vector2(300, 0)):
+			base = at
+			break
+	game.player.position = base + Vector2(300, 0)
+	game.continent.update_view(game.camera_view(), true)
+	mm.refresh()
+	await settle(3)
+	verify(mm.active.size() >= 1 and mm.active.size() <= 24, "monsters wake around the hero (at most 24)", mm.active.size())
+	var inside := false
+	for m: PyraMonster in mm.active.values():
+		inside = inside or game.in_safe_city(m.position)
+	verify(not inside, "no monster stands in a safe city")
+	game.player.position = game.land.arrival.x * Vector2.RIGHT + game.land.arrival.y * Vector2.DOWN
+	mm.refresh()
+	verify(game.in_safe_city(game.player.position) and mm.player_is_safe(), "the capital is a safe city")
+	game.kit.set_level(10)
+	game.kit.hp = float(game.kit.stats().maxHp)
+	var def: Dictionary = mm.defs["pyra-wegielek"]
+	game.player.position = base + Vector2(300, 0)
+	var weak := PyraMonster.new()
+	game.continent.sorted.add_child(weak)
+	weak.setup(def, base, mm, 800001)
+	mm.active[800001] = weak
+	weak.died.connect(mm.on_died)
+	var xp_before := game.kit.xp + game.kit.level * 1000
+	var kill_gold_before := game.economy.gold
+	weak.position = game.player.position + Vector2(-60, 0)
+	var hp_before := weak.hp
+	game.face_target()
+	game.kit.next_basic_at = 0.0
+	var swing := game.kit.basic()
+	verify(swing.ok and weak.hp < hp_before, "the hero's basic attack hurts a monster", [hp_before, weak.hp])
+	for i in 60:
+		game.kit.next_basic_at = 0.0
+		game.kit.basic()
+		if weak.phase == "dead":
+			break
+	verify(weak.phase == "dead" and game.kit.xp + game.kit.level * 1000 > xp_before and game.economy.gold >= kill_gold_before and mm.respawn_at.has(800001), "a kill pays experience and coins and starts the respawn timer")
+	var hunter := PyraMonster.new()
+	game.continent.sorted.add_child(hunter)
+	hunter.setup(mm.defs["pyra-zarowy-nietoperz"], game.player.position + Vector2(200, 0), mm, 800002)
+	hunter.engage()
+	game.kit.hp = float(game.kit.stats().maxHp)
+	for i in 600:
+		await process_frame
+		if game.kit.hp < float(game.kit.stats().maxHp) or game.kit.dead:
+			break
+	verify(game.kit.hp < float(game.kit.stats().maxHp), "an engaged monster chases and hurts the hero")
+	hunter.queue_free()
+	game.kit.hp = float(game.kit.stats().maxHp)
+	game.kit.clear_debuffs()
+	var speed_before: float = game.kit.stats().speed
+	game.apply_status({"k": "slow", "pct": 0.4, "ms": 3000}, weak)
+	game.apply_status({"k": "weaken", "pct": 0.3, "ms": 3000}, weak)
+	game.apply_status({"k": "armorDown", "pct": 0.5, "ms": 3000}, weak)
+	game.apply_status({"k": "silence", "ms": 3000}, weak)
+	game.apply_status({"k": "stun", "ms": 1500}, weak)
+	await settle(2)
+	verify(is_equal_approx(game.player.speed, speed_before * 0.6), "slow lowers the hero's speed", game.player.speed)
+	verify(float(game.kit.stats().dealt) < 1.0 and game.player.fx_lock > 0.0 and game.kit.debuff_pct("silence") > 0.0, "weaken, stun and silence take effect")
+	var plain_def: int = game.kit.stats().defense
+	game.kit.clear_debuffs()
+	verify(int(game.kit.stats().defense) >= plain_def and float(game.kit.stats().dealt) >= 1.0, "statuses end with clear_debuffs")
+	game.kit.hp = 1.0
+	game.hurt_player(weak, 900.0, "melee", [])
+	verify(game.kit.dead, "monster damage can kill the hero")
+	await create_timer(3.5).timeout
+	await settle(2)
+	verify(not game.kit.dead and game.in_safe_city(game.player.position) and game.kit.hp >= float(game.kit.stats().maxHp) * 0.99, "after death the hero returns to the city with full health")
+	game.player.fx_lock = 0.0
+	game.kit.set_level(1)
+	game.start_new_character("legend")
+	await settle(2)
+
 	# ---- HUD layout -----------------------------------------------------------------------------------------
 	game.show_menu()
 	await settle()

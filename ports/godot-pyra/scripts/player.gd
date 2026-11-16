@@ -8,6 +8,7 @@ const STEP := 6.0
 
 var speed := 170.0
 var touch_motion := Vector2.ZERO
+var fx_lock := 0.0   # seconds of root / stun / fear put on the hero by monsters
 var locked := false
 var visual: PyraActor
 var actor_data: Dictionary
@@ -39,7 +40,7 @@ func set_ki_form(active: bool) -> void:
 	visual.prefix = "ki" if active else ""
 
 func desired_motion() -> Vector2:
-	if locked:
+	if locked or fx_lock > 0.0:
 		return Vector2.ZERO
 	var keyboard := Vector2(
 		float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT)) - float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT)),
@@ -76,6 +77,7 @@ func dash(to: Vector2, distance: float) -> void:
 	visual.face(direction)
 
 func step(delta: float) -> void:
+	fx_lock = maxf(0.0, fx_lock - delta)
 	var motion := desired_motion()
 	var before := position
 	if motion.length_squared() > 0.0:

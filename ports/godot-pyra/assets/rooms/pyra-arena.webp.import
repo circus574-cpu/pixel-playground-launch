@@ -17,7 +17,7 @@ dest_files=["res://.godot/imported/pyra-arena.webp-80342fcd47d1f9c86be5af7ae4a06
 
 compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.85
+compress/lossy_quality=0.8
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

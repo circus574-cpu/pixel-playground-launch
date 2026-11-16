@@ -1,7 +1,7 @@
 # KI Legends Android — projekt Godot 4
 
 Dokumentacja natywnej aplikacji **KI Legends na Androida** (Godot 4.6.3, GDScript, renderer Compatibility),
-stan 15.11.2026, wersja **0.6.0-world**. Gałąź `ccr-ebbd6459-n7c5eg`, kontynuacja
+stan 15.11.2026, wersja **0.7.0-bestiary**. Gałąź `ccr-ebbd6459-n7c5eg`, kontynuacja
 [PR #170](https://github.com/circus574-cpu/pixel-playground-launch/pull/170) (`feat/godot-pyra-android-20261115`).
 
 Aplikacja nie wymaga React, Phasera ani serwera gry. Obecna gra WWW pozostaje osobnym produktem; zapisy WWW i konta
@@ -16,22 +16,20 @@ nie są czytane. **Bez potworów i bez spawnów** (decyzja właściciela na ten 
 | Ruch i dotyk | Joystick 360°, ATAK, 4 sloty zdolności, UNIK, kontekstowe E; niezależne palce; klawiatura: WASD, Spacja, 1–4, Shift, E, M, C |
 | Miasta i wnętrza | Cztery miasta na każdym kontynencie (np. Twierdza Popiołu, Zielona Przystań, Sanktuarium Tysiąca Źródeł, Węzeł Świadomości) po 6 usług (Sala, sklep, arena, depozyt, kuźnia, gospoda) = 24 wejścia na kontynent, a na każdej wyspie przystań z 6 usługami; wnętrza i mieszkańcy w stylu świata (Pyra, Verdantia, Aetheria, Nexus-9), przewodnicy i miejsca na szlakach |
 | Mapa i podróże | Globus **3D**, atlas **2D** i mapa szczegółowa bieżącej krainy (z miastami, miejscami i znacznikiem gracza); dotknięcie regionu pokazuje opis, a przycisk **PODRÓŻ** przenosi do miejsca przybycia (osada lub brzeg) w dowolnej z 10 krain. Atlas i globus wybierają region z tych samych obrysów |
-| Walka | Tylko manekin treningowy na arenach (nie oddaje ciosów, nie płaci nagród); zdolności działają też w świecie jako efekty/buffy. **Brak potworów i spawnów** |
+| Potwory | **40 potworów bestiariusza** na opublikowanych rejestrach spawnów 10 krain (8 752 miejsc, maks. 24 aktywnych): błądzą, atakują, gonią, używają umiejętności z ostrzeżeniem, nakładają statusy; zabicie daje XP (poziomy 1–20), monety, łup i 2 % słabego przedmiotu; śmierć = powrót do stolicy krainy; miasta są bezpieczne. Rzadkie cechy (strefy, przywołania, zakopywanie…) niezaimplementowane — zob. dziennik 16.11, pkt 2 |
+| Walka | Wszystkie zdolności czterech ras działają na potworach i na manekinie areny (nie oddaje ciosów) |
 | Miasto na gotowo | Monety, plecak (40 stosów), 8 slotów wyposażenia z wpływem na statystyki, **sklep** (85 słabych przedmiotów, cena 4×, skup za połowę), **kuźnia** (receptury kuźni, alchemii i run z katalogu 265), **depozyt** (przedmioty i monety), **gospoda** (5 monet), mikstura (40 % HP, 6 s) — we wszystkich czterech światach |
 | HUD | Medalion z portretem rasy i pierścieniem XP, ozdobne paski HP/KI/zasób, buffy z licznikami, monety, baner lokacji, ramka celu, okrągła minimapa z mapy krainy, okrągłe przyciski menu, tracker zadań (pusty do czasu questów), pasek XP, szybki slot mikstury, ikony zdolności; rysunek w pamięci podręcznej (odświeżany tylko przy zmianie); MENU → FPS I DIAGNOSTYKA |
 | Płynność | Podłoże wypalane do tekstur 512 j., strumieniowanie scenerii w porcjach na wątkach, prefetch wnętrz, symulacja na klatkę (bez skoków na ekranach 90/120 Hz) |
 | Zapis | Checkpoint v2 (kraina, rasa, pozycja, wnętrze, poziom, drzewko, sloty, ekonomia); import checkpointu v1; ochrona nieznanego formatu |
 | Start i ikona | **Wstęp: ilustracja właściciela** (cała, bez zniekształceń), przycisk ZACZNIJ PRZYGODĘ, na dole „Powered by GODOT ENGINE” z oficjalnym logo; boot splash z tą samą ilustracją; ikony Android; licencje silnika w menu |
 
-**Poza zakresem (nie przeniesione):** potwory i spawny (osobna generacja), zdobywanie doświadczenia (nie ma źródła —
-poziom ustawia się ręcznie w ekranie POSTAĆ jako „poziom próbny”), questy (Sala Przysięgi), moneta z walki, receptury stacji
-Nexusa i Księgi, ulepszanie sprzętu, bonusy zestawów i pasywnych artefaktów, audio, konta i synchronizacja, efekty otoczenia
-(dym/para/żar), życie mieszkańców (stoją w miejscu). Obecność sklepu czy skrzyni w tekście nie oznacza wdrożenia usługi.
+**Poza zakresem (nie przeniesione):** bossowie, dungeony, questy (Sala Przysięgi), receptury stacji Nexusa i Księgi, ulepszanie sprzętu, bonusy zestawów i pasywnych artefaktów, audio, konta i synchronizacja, efekty otoczenia (dym/para/żar), życie mieszkańców (stoją w miejscu), dzień i noc. Obecność sklepu czy skrzyni w tekście nie oznacza wdrożenia usługi.
 
 ## 2. Instalacja gotowego APK
 
-APK: `deliveries/godot-pyra-android-20261116-hud/ki-legends-godot-debug.apk`, **98024767 bajtów** (93,5 MiB, poniżej
-limitu 100 MiB pliku w Git), SHA-256 `3889347e9af28c7e299e7a498aaf5745774f5ba38bfbf6d6d91f8ed798e105aa`. Wymaga Androida 7.0+ i `arm64-v8a`.
+APK: `deliveries/godot-pyra-android-20261116-bestiary/ki-legends-godot-debug.apk`, **103319242 bajtów** (98,5 MiB, poniżej
+limitu 100 MiB pliku w Git), SHA-256 `37c83a529c045a919835e3a1efe9a03e00698316d773af452abbd67cef3aea67`. Wymaga Androida 7.0+ i `arm64-v8a`.
 
 1. Pobierz APK na telefon i otwórz plik (zezwól na instalację z tego źródła; nie wyłączaj Play Protect).
 2. Wersje 0.3.0 i 0.4.0 zaktualizują się w miejscu (ten sam klucz debug). **Jeżeli masz 0.2.0, odinstaluj ją najpierw**:
@@ -39,10 +37,10 @@ limitu 100 MiB pliku w Git), SHA-256 `3889347e9af28c7e299e7a498aaf5745774f5ba38b
 3. Uruchom **KI LEGENDS**, obróć telefon poziomo, wybierz **ZACZNIJ PRZYGODĘ**, a potem swoją rasę.
 
 ```sh
-adb install -r deliveries/godot-pyra-android-20261116-hud/ki-legends-godot-debug.apk
+adb install -r deliveries/godot-pyra-android-20261116-bestiary/ki-legends-godot-debug.apk
 ```
 
-Pakiet `pl.kilegends.godot.pyra`, wersja `0.6.0-world`, kod 6, min SDK 24 / target 36, `USER_LANDSCAPE`, OpenGL ES 3.
+Pakiet `pl.kilegends.godot.pyra`, wersja `0.7.0-bestiary`, kod 7, min SDK 24 / target 36, `USER_LANDSCAPE`, OpenGL ES 3.
 Brak uprawnień internetu i pamięci zewnętrznej. To debug APK, nie wydanie Google Play.
 **Instalacja, płynność i pamięć na fizycznym Androidzie są niezweryfikowane** (brak urządzenia w tej sesji).
 
@@ -76,6 +74,7 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | --- | --- |
 | `scripts/continent.gd`, `assets/continent/terrain.gdshader` | Dowolna kraina z `data/lands/<id>/`: shader terenu (4 biomy, ląd/morze, brzeg, lawa/kryształ, dwie nakładki, drogi z maski 16 j. i klasy materiału, dziedzińce miast; lustrzane kafle bez szwów) wypalany do tekstur kwadratów 512 j., strumieniowanie obiektów po chunkach 2048 j. w porcjach czasowych z ładowaniem tekstur na wątkach, maska kolizji |
 | `scripts/cached_layer.gd`, `scripts/hud.gd`, `scripts/touch_controls.gd` | HUD i przyciski dotykowe rysowane do przezroczystego SubViewport w rozdzielczości urządzenia, odświeżane tylko po zmianie stanu (2 quady w spoczynku) |
+| `scripts/monster.gd`, `scripts/monster_manager.gd` | Potwór (AI, atak, umiejętności, statusy) i zarządca spawnów krainy (budzenie, usypianie, respawn, pociski, nagrody) |
 | `scripts/map_style.gd` | Wspólny styl map i globusa: plakietki Cinzel, znaczniki rodzajów miejsc, kompas, winieta, ramka |
 | `scripts/city_game.gd` | Scena gry (`PyraGame`): wczytanie krainy (`enter_land`), miasta, wnętrza, interakcje, walka na manekinie, ekrany, podróże (`travel_to`), nowa postać (`start_new_character`), zapis |
 | `scripts/player.gd` | Ruch kinematyczny po masce marszu (kraina) lub prostokątach (wnętrza); bez ciał fizycznych |
@@ -93,7 +92,7 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | `data/races/<rasa>.json`, `data/actors.json`, `data/rooms.json` | Aneks i drzewko rasy z opisem, arkusze bohaterów i NPC czterech światów, wnętrza usług czterech światów |
 | `data/hero.json`, `data/map.json`, `data/economy.json`, `data/world-provenance.json` | Klipy bohatera Legendy, regiony i komórki mapy (10 krain), katalog 366 przedmiotów i 265 receptur, SHA źródeł i wyników |
 | `data/city.generated.json` | Stolica Pyry z pierwszej próby (układ, podłoga, pokoje) — nie edytować ręcznie |
-| `tests/smoke.gd` | 313 kontroli w prawdziwym silniku |
+| `tests/smoke.gd` | 326 kontroli w prawdziwym silniku |
 
 **Układ współrzędnych:** gra używa współrzędnych świata Superior (jak WWW). Układ stolicy z pierwszej próby jest
 przesunięty o `world.json.offset` = (44 564,29; 12 168,47).
@@ -120,6 +119,8 @@ python3 scripts/godot/prepare_races.py               # statystyki, drzewka i opi
 python3 scripts/godot/prepare_continent_hero.py      # klipy bohatera Legendy (paczka 3.3.0)
 python3 scripts/godot/prepare_continent_maps.py      # atlas, globus, regiony i komórki mapy dla 10 krain
 python3 scripts/godot/prepare_icons.py               # ikony zdolności czterech ras (okrągłe) i paski
+npx tsx scripts/godot/export-monsters.ts            # 40 potworów: zasady, łup, rozmiary
+python3 scripts/godot/prepare_monsters.py            # arkusze potworów i rejestry spawnów krain
 npx tsx scripts/godot/export-economy.ts              # przedmioty, receptury, ceny sklepu, ikony przedmiotów
 python3 scripts/godot/prepare_land_maps.py          # mapy szczegółowe krain malowane z siatek terenu
 python3 scripts/godot/prepare_intro.py               # pozioma kompozycja wstępu i boot splash z ilustracji właściciela (wymaga sharp)
@@ -175,7 +176,7 @@ godot --headless --path ports/godot-pyra --script res://tests/smoke.gd -- --fres
 xvfb-run -a -s '-screen 0 1600x900x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --audio-driver Dummy --path ports/godot-pyra --rendering-method gl_compatibility --script res://tests/smoke.gd -- --fresh --qa-output /tmp/pyra-native
 ```
 
-Na kodzie tej gałęzi: **313/313** kontroli w trybie headless i **313/313** z natywnym renderowaniem (Mesa llvmpipe).
+Na kodzie tej gałęzi: **326/326** kontroli w trybie headless i **326/326** z natywnym renderowaniem (Mesa llvmpipe).
 Pokrycie: ekonomia (katalog 366/265/85, cena sklepu 4×, skup 50 %, wymagania poziomu, wpływ sprzętu, mikstura, crafting, depozyt,
 gospoda, zapis, cztery ekrany usług), rozmiar kontynentu, bezpieczny start, strumieniowanie, **+15 % bohatera**, kolizje,
 osiągalność 24 drzwi Pyry i powroty, dotyk, prędkość przy 30/120 FPS, zasady Legendy (statystyki, drzewko, rangi, zdolności na

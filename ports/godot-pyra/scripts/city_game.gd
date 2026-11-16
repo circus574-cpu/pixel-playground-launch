@@ -55,6 +55,9 @@ var attack_held := false
 var settlements: Array[Dictionary] = []
 var map_data: Dictionary
 var time_since_save_check := 0.0
+var monsters: PyraMonsters
+var monster_data: Dictionary
+var respawn_timer := -1.0
 var prefetch_timer := 0.0
 var prefetch_pending: Dictionary = {}   # path -> true while a worker thread loads it
 var prefetch_hold: Array[Resource] = []  # the last few prefetched pictures and sheets, kept so entering a door does not decode them
@@ -93,6 +96,7 @@ func _ready() -> void:
 	data = PyraContinent.load_json(CITY_PATH)
 	actors = PyraContinent.load_json(ACTORS_PATH)
 	rooms_data = PyraContinent.load_json(ROOMS_PATH)
+	monster_data = PyraContinent.load_json("res://data/monsters.json")
 	map_data = PyraContinent.load_json("res://data/map.json")
 	get_tree().quit_on_go_back = false
 	origin = PYRA_CAPITAL_OFFSET
@@ -144,7 +148,7 @@ func set_race(new_race: String) -> void:
 	kit.player_facing = func() -> Vector2: return player.facing
 	kit.foes_in = foes_in
 	kit.dash_towards = func(to: Vector2, distance: float) -> void: player.dash(to, distance)
-	kit.target = func() -> Node: return current_target
+	kit.target = func() -> Node: return current_target if is_instance_valid(current_target) else null
 	kit.changed.connect(func() -> void: economy.level = kit.level)
 	kit.effect.connect(on_effect)
 	kit.damage_dealt.connect(on_damage)
@@ -192,6 +196,10 @@ func enter_land(id: String, at: Vector2 = Vector2(-1, -1)) -> void:
 	if id == "pyra":
 		build_pyra_capital()
 	build_land_places()
+	if not is_instance_valid(monsters):
+		monsters = PyraMonsters.new()
+		add_child(monsters)
+	monsters.setup(self, monster_data, PyraContinent.load_json("res://data/lands/%s/spawns.json" % id))
 	var start := at if at.x >= 0.0 else Vector2(float(land.arrival.x), float(land.arrival.y))
 	city_return = start
 	current_room = ""
@@ -303,6 +311,8 @@ func can_stand(at: Vector2, room: String) -> bool:
 
 func foes_in(center: Vector2, radius: float) -> Array:
 	var found := []
+	if current_room.is_empty() and is_instance_valid(monsters):
+		found.append_array(monsters.foes_in(center, radius))
 	for dummy in dummies:
 		if is_instance_valid(dummy) and dummy.position.distance_to(center) <= radius + 30.0:
 			found.append(dummy)
@@ -326,6 +336,8 @@ func load_space(room: String, at: Vector2, town: String = "") -> void:
 	targets = [] as Array[Dictionary]
 	if room.is_empty():
 		continent.visible = true
+		if is_instance_valid(monsters):
+			monsters.process_mode = Node.PROCESS_MODE_INHERIT
 		continent.process_mode = Node.PROCESS_MODE_INHERIT
 		continent.sorted.add_child(player)
 		targets = outdoor_targets
@@ -336,6 +348,9 @@ func load_space(room: String, at: Vector2, town: String = "") -> void:
 		stream_center = Vector2(-99999, -99999)
 	else:
 		continent.visible = false
+		if is_instance_valid(monsters):
+			monsters.disengage_all()
+			monsters.process_mode = Node.PROCESS_MODE_DISABLED
 		continent.process_mode = Node.PROCESS_MODE_DISABLED
 		var spec: Dictionary = rooms_data[world_id][room]
 		room_bounds = Rect2(0, 0, float(spec.width), float(spec.height))
@@ -472,6 +487,107 @@ func interact() -> void:
 
 # ---- combat -------------------------------------------------------------------------------
 
+func in_safe_city(at: Vector2) -> bool:
+	if not current_room.is_empty():
+		return true
+	for s in settlements:
+		if (s.bounds as Rect2).grow(12).has_point(at):
+			return true
+	return false
+
+## The closest thing the hero can fight: a monster outdoors, the training dummy in the arena.
+func nearest_foe() -> Node2D:
+	if current_room.is_empty():
+		return monsters.nearest(player.position, 520.0) if is_instance_valid(monsters) else null
+	return nearest_dummy()
+
+## A monster hits the hero: damage through the kit (defence, shields, buffs), numbers, then the statuses it carries.
+func hurt_player(monster: PyraMonster, raw: float, _kind: String, fx: Array) -> void:
+	if in_safe_city(player.position) or kit.dead:
+		return
+	var dealt := kit.take_damage(raw)
+	PyraFx.number(continent.sorted, player.position + Vector2(0, -90), int(round(dealt)), false)
+	player.visual.hurt_flash()
+	for f: Dictionary in fx:
+		apply_status(f, monster)
+	if kit.dead:
+		hud.toast("Poległeś…")
+
+func apply_status(f: Dictionary, monster: PyraMonster) -> void:
+	var seconds := float(f.get("ms", 0.0)) / 1000.0
+	match str(f.k):
+		"slow":
+			kit.add_debuff("slow", float(f.pct), seconds)
+		"root", "stun", "fear":
+			player.fx_lock = maxf(player.fx_lock, seconds)
+			hud.touch.reset()
+		"silence", "jam":
+			kit.add_debuff("silence", 1.0, seconds)
+		"dot":
+			kit.add_debuff("dot", float(monster.def.atk) * float(f.atkPct) * float(f.get("stacks", 1)), seconds)
+		"blind", "fog", "weaken", "armorDown", "mark":
+			kit.add_debuff(str(f.k), float(f.pct), seconds)
+		"breakShield":
+			kit.shields.clear()
+		"pull":
+			player.dash(monster.position, float(f.dist))
+
+## Experience, coins and loot of a defeated monster (rules and drop chances of the browser game).
+func reward(def: Dictionary, at: Vector2) -> void:
+	var xp := int(def.xp)
+	var levels := kit.add_xp(xp)
+	var gold_range: Array = def.gold
+	var gold := randi_range(int(gold_range[0]), int(gold_range[1])) if int(gold_range[1]) > 0 else 0
+	economy.gold += gold
+	var names: Array[String] = []
+	for entry: Dictionary in def.lootItems:
+		if randf() <= float(entry.chance) and economy.items.has(str(entry.item)):
+			economy.add_item(str(entry.item))
+			names.append(economy.name_of(str(entry.item)))
+	var pool: Dictionary = def.pool
+	if float(pool.total) > 0.0 and randf() < float(monster_data.dropChance):
+		var pick := randf() * float(pool.total)
+		for i in (pool.ids as Array).size():
+			pick -= float(pool.weights[i])
+			if pick < 0.0:
+				economy.add_item(str(pool.ids[i]))
+				names.append(economy.name_of(str(pool.ids[i])))
+				break
+	economy.changed.emit()
+	var text := "+%d XP" % xp
+	if gold > 0:
+		text += " · +%d mon." % gold
+	if not names.is_empty():
+		text += " · " + ", ".join(names)
+	hud.toast(text)
+	PyraFx.number(continent.sorted, at + Vector2(0, -60), xp, true)
+
+func handle_death(delta: float) -> void:
+	if kit.dead and respawn_timer < 0.0:
+		respawn_timer = 3.0
+		player.locked = true
+		hud.touch.reset()
+		attack_held = false
+		if is_instance_valid(monsters):
+			monsters.disengage_all()
+		hud.toast("Poległeś. Za 3 s wrócisz do miasta.")
+	if respawn_timer >= 0.0:
+		respawn_timer -= delta
+		if respawn_timer <= 0.0:
+			respawn_timer = -1.0
+			respawn_player()
+
+func respawn_player() -> void:
+	kit.dead = false
+	kit.clear_debuffs()
+	kit.hp = float(kit.stats().maxHp)
+	kit.ki = float(kit.stats().maxKi)
+	player.fx_lock = 0.0
+	player.locked = false
+	load_space("", Vector2(float(land.arrival.x), float(land.arrival.y)))
+	continent.update_view(camera_view(), true)
+	hud.toast("Wracasz do miasta.")
+
 func nearest_dummy() -> PyraDummy:
 	var best: PyraDummy = null
 	var best_d := 520.0
@@ -483,7 +599,7 @@ func nearest_dummy() -> PyraDummy:
 	return best
 
 func face_target() -> void:
-	var dummy := nearest_dummy()
+	var dummy := nearest_foe()
 	current_target = dummy
 	if dummy != null:
 		var toward := dummy.position - player.position
@@ -506,6 +622,9 @@ func use_slot(index: int) -> void:
 	var id := kit.slots[index]
 	if id == "":
 		hud.toast("Pusty slot. Przypisz zdolność w ekranie POSTAĆ.")
+		return
+	if kit.debuff_pct("silence") > 0.0:
+		hud.toast("Zdolności zablokowane (%.0f s)." % kit.debuff_left("silence"))
 		return
 	face_target()
 	var result := kit.use(id)
@@ -539,7 +658,8 @@ func simulate(delta: float) -> void:
 		return
 	kit.tick(delta)
 	economy.tick(delta)
-	player.speed = float(kit.stats().speed)
+	player.speed = float(kit.stats().speed) * (1.0 - clampf(kit.debuff_pct("slow"), 0.0, 0.9))
+	handle_death(delta)
 	player.set_ki_form(kit.buff_active("T"))
 	if attack_held:
 		do_basic()
@@ -570,7 +690,8 @@ func _process(delta: float) -> void:
 		hud.meter.text = ("Manekin: %d obrażeń/s · %d łącznie" % [int(dummy.recent_dps), int(dummy.total_taken)]) if dummy != null else ""
 	if current_room.is_empty():
 		hud.meter.text = ""
-		hud.set_target({})
+		var foe_out := nearest_foe()
+		hud.set_target({"name": foe_out.label, "hp": foe_out.hp, "max": foe_out.max_hp, "level": int(foe_out.def.level)} if foe_out != null and foe_out.phase != "idle" else {})
 		hud.set_player(player.position, player.facing)
 	else:
 		var foe := nearest_dummy()
@@ -732,7 +853,7 @@ func open_items(mode: String, heading: String) -> void:
 func show_menu() -> void:
 	if is_instance_valid(screen):
 		return
-	hud.show_dialog("KI LEGENDS", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D, mapa 2D i podróże między krainami. POSTAĆ: statystyki i drzewko Twojej rasy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. W świecie nie ma jeszcze potworów; manekin czeka na arenach miast.", [{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET (brak potworów)", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "NOWA POSTAĆ (WYBÓR RASY)", "callback": func(): hud.close_dialog(); open_race_screen(true)}, {"text": "FPS I DIAGNOSTYKA: " + ("WYŁĄCZ" if hud.show_fps else "WŁĄCZ"), "callback": func(): hud.show_fps = not hud.show_fps; hud.signature = ""; hud.close_dialog()}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}])
+	hud.show_dialog("KI LEGENDS", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D, mapa 2D i podróże między krainami. POSTAĆ: statystyki i drzewko Twojej rasy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. Potwory żyją poza miastami (miasta są bezpieczne); po śmierci wracasz do stolicy krainy. Manekin czeka na arenach.", [{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "NOWA POSTAĆ (WYBÓR RASY)", "callback": func(): hud.close_dialog(); open_race_screen(true)}, {"text": "FPS I DIAGNOSTYKA: " + ("WYŁĄCZ" if hud.show_fps else "WŁĄCZ"), "callback": func(): hud.show_fps = not hud.show_fps; hud.signature = ""; hud.close_dialog()}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}])
 
 func show_licenses() -> void:
 	hud.show_dialog("Godot i biblioteki silnika", Engine.get_license_text() + "\n\nTHIRD-PARTY LICENSES\n" + JSON.stringify(Engine.get_license_info(), "\t") + "\n\nCOPYRIGHT NOTICES\n" + JSON.stringify(Engine.get_copyright_info(), "\t") + "\n\nFONT CINZEL\n" + FileAccess.get_file_as_string("res://assets/branding/OFL-Cinzel.txt") + "\n\nOFFICIAL GODOT LOGO\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-NOTICE.txt") + "\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-LICENSE.txt"))
