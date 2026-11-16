@@ -248,8 +248,10 @@ func login_form() -> String:
 			form.visible = false
 			password_field.text = ""
 			return "login"
-		say("KI LEGENDS ONLINE", PyraOnline.message_of(result, "Logowanie nie powiodło się."), "Serwer: " + online.server)
-		await get_tree().create_timer(1.2).timeout
+		# what the app really sent (never the password itself, only its length), so a refused sign-in can be explained instead of guessed at
+		var sent := "Serwer: %s · odpowiedź %d · wysłano e-mail „%s” (%d znaków) i hasło z %d znaków" % [online.server, int(result.status), email, email.length(), password.length()]
+		say("KI LEGENDS ONLINE", PyraOnline.message_of(result, "Logowanie nie powiodło się."), sent)
+		await get_tree().create_timer(6.0).timeout   # long enough to read what was sent
 	return "quit"
 
 # ---- cloud save ---------------------------------------------------------------------------------------

@@ -53,6 +53,7 @@ function AdminPage() {
     | "diagnostyka"
     | "world-overview"
     | "android"
+    | "logins"
   >(() =>
     typeof window !== "undefined" &&
     new URLSearchParams(window.location.search).get("view") === "world-overview"
@@ -89,6 +90,7 @@ function AdminPage() {
               ...(isAdmin ? [["world-overview", "Świat — przegląd"] as const] : []),
               ["android", "Gra Android"],
               ["audit", "Dziennik"],
+              ["logins", "Logowania"],
               ["coder", "Postacie lokalne"],
               ["diagnostyka", "Diagnostyka urządzenia"],
             ] as const
@@ -126,6 +128,7 @@ function AdminPage() {
             </section>
           </>
         )}
+        {tab === "logins" && <Logins />}
         {tab === "world-overview" && isAdmin && (
           <Suspense fallback={<p role="status">Wczytywanie przeglądu świata…</p>}>
             <AdminWorldOverview />
@@ -270,6 +273,96 @@ function Players({ me, isAdmin }: { me: string; isAdmin: boolean }) {
         )}
       </section>
     </div>
+  );
+}
+
+const LOGIN_REASONS: Record<string, string> = {
+  OK: "zalogowano",
+  BRAK_KONTA: "brak takiego konta na serwerze",
+  ZLE_HASLO: "konto istnieje, hasło się nie zgadza",
+  KONTO_NIEAKTYWNE: "konto nieaktywne (brak potwierdzenia e-mail)",
+  KONTO_ZABLOKOWANE: "konto zablokowane",
+  NIEPOPRAWNE_DANE: "niepoprawne dane (np. hasło krótsze niż 8 znaków)",
+  LIMIT_PROB: "zbyt wiele prób, chwilowa blokada",
+};
+
+/** The sign-in log: every attempt with the real reason, the device (the app says "GodotEngine") and the address. Passwords are never stored. */
+function Logins() {
+  const [rows, setRows] = useState<AdminAuditRow[]>([]);
+  const [error, setError] = useState("");
+  const [onlyFailed, setOnlyFailed] = useState(false);
+  const reload = () =>
+    adminAudit("login")
+      .then((r) => {
+        setRows(r);
+        setError("");
+      })
+      .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)));
+  useEffect(() => {
+    void reload();
+  }, []);
+  const shown = onlyFailed ? rows.filter((r) => r.action === "LOGIN_FAILED") : rows;
+  return (
+    <section className="ki-admin-panel">
+      <h3>Dziennik logowań</h3>
+      <p>
+        Każda próba logowania z przeglądarki i z aplikacji, z prawdziwym powodem odmowy (gracz widzi
+        tylko „nieprawidłowy e-mail lub hasło”). Haseł nie zapisujemy.
+      </p>
+      <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+        <button onClick={() => void reload()}>Odśwież</button>
+        <label>
+          <input
+            type="checkbox"
+            checked={onlyFailed}
+            onChange={(e) => setOnlyFailed(e.target.checked)}
+          />{" "}
+          Tylko nieudane
+        </label>
+      </div>
+      {error && <p className="ki-account-error">{error}</p>}
+      <div className="ki-table-scroll">
+        <table className="ki-admin-table">
+          <thead>
+            <tr>
+              <th>Kiedy</th>
+              <th>E-mail</th>
+              <th>Wynik</th>
+              <th>Urządzenie</th>
+              <th>Adres IP</th>
+            </tr>
+          </thead>
+          <tbody>
+            {shown.map((r) => {
+              const d = (r.details ?? {}) as Record<string, string | null>;
+              const reason = String(d["reason"] ?? "");
+              const ua = String(d["ua"] ?? "");
+              return (
+                <tr key={r.id}>
+                  <td>{when(r.at)}</td>
+                  <td>{d["email"] ?? r.actor_nick ?? "—"}</td>
+                  <td style={{ color: r.action === "LOGIN" ? "#5cd68d" : "#ff8577" }}>
+                    {LOGIN_REASONS[reason] ?? reason}
+                    {d["legacy"] ? ` (przeniesienie ze starego serwera: ${d["legacy"]})` : ""}
+                  </td>
+                  <td>
+                    <small>{/Godot/i.test(ua) ? "aplikacja Android" : ua || "—"}</small>
+                  </td>
+                  <td>
+                    <small>{d["ip"] ?? "—"}</small>
+                  </td>
+                </tr>
+              );
+            })}
+            {shown.length === 0 && !error && (
+              <tr>
+                <td colSpan={5}>Brak zapisanych logowań.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </section>
   );
 }
 
