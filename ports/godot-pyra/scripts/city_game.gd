@@ -896,6 +896,7 @@ func hurt_player(monster: PyraMonster, raw: float, _kind: String, fx: Array) -> 
 		return
 	var dealt := kit.take_damage(raw)
 	PyraFx.number(monster_parent(), player.position + Vector2(0, -90), int(round(dealt)), false, "hurt")
+	PyraFx.spawn(monster_parent(), "hurt", player.position, 60.0, "")
 	player.visual.hurt_flash()
 	var heavy := dealt >= float(kit.stats().maxHp) * 0.15
 	var now_s := Time.get_ticks_msec() / 1000.0
@@ -1399,6 +1400,9 @@ func on_damage(foe: Node, amount: int, crit: bool) -> void:
 	var parent: Node = room_sorted if not current_room.is_empty() else continent.sorted
 	var kind := str(foe.get("last_kind")) if foe.get("last_kind") != null else ""
 	var style := "crit" if crit else kind
+	if amount > 0:
+		var toward: Vector2 = ((foe as Node2D).position - player.position)
+		PyraFx.spawn(parent, "hit", (foe as Node2D).position, 100.0 if crit else (36.0 if kind == "resist" else 60.0), "weak" if kind == "weak" else ("resist" if kind == "resist" else ""), toward)
 	PyraFx.number(parent, (foe as Node2D).position, amount, crit, style)
 	if kind == "weak" and amount > 0:
 		PyraFx.word(parent, (foe as Node2D).position + Vector2(0, 34), "SŁABOŚĆ", Color("ffb347"), 18)

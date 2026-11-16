@@ -54,7 +54,7 @@ def main() -> int:
             if not stats:
                 continue
             clips[name] = {
-                "frames": len(frames), "height": statistics.median(s["height"] for s in stats), "bottom": statistics.mean(s["bottom"] for s in stats),
+                "frames": len(frames), "height": statistics.median(s["height"] for s in stats) * float(clip.get("scale", 1.0)), "bottom": statistics.mean(s["bottom"] for s in stats),
                 "ground_jitter": max(s["bottom"] for s in stats) - min(s["bottom"] for s in stats), "centre_jitter": max(s["centre"] for s in stats) - min(s["centre"] for s in stats),
             }
         reference = clips["idle"]["height"]
