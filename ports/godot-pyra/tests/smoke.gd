@@ -91,6 +91,7 @@ func run() -> void:
 	if not is_instance_valid(game):
 		quit(1)
 		return
+	game.skip_intro = true
 	verify(game.hud.touch.move_pointer == -1 and game.player.touch_motion == Vector2.ZERO, "start touch is not inherited by city controls")
 	await settle(5)
 	# ---- continent -----------------------------------------------------------------------------
@@ -1328,6 +1329,92 @@ func run() -> void:
 	game.kit.hp = float(game.kit.stats().maxHp)
 
 	# ---- HUD layout -----------------------------------------------------------------------------------------
+	# ---- story: introduction, tutorial, topics, reactions ------------------------------------------
+	var st_data := PyraStory.data()
+	var st_intro_ok := true
+	for st_race in ["legend", "planetary", "sage", "android"]:
+		var st_tale := PyraStory.intro(st_race)
+		st_intro_ok = st_intro_ok and (st_tale.pages as Array).size() == 5 and str(st_tale.title) != "Superior"
+		for st_page in st_tale.pages:
+			st_intro_ok = st_intro_ok and str(st_page).length() > 80
+	verify(st_intro_ok, "every race has a five-page introduction (two on the Silence, three of its own)")
+	var st_topics_ok := true
+	var st_topic_count := 0
+	var st_topic_ids := {}
+	for st_world in ["pyra", "verdant", "aether", "nexus"]:
+		for st_role in ["guide", "hunter", "steward", "merchant", "trainer", "keeper", "smith", "innkeeper", "alchemist", "warden"]:
+			var st_list := PyraStory.topics(st_world, st_role)
+			st_topics_ok = st_topics_ok and st_list.size() == 8
+			for st_topic: Dictionary in st_list:
+				st_topics_ok = st_topics_ok and str(st_topic.text).length() > 60 and str(st_topic.label) != ""
+				st_topic_ids[st_topic.id] = true
+				st_topic_count += 1
+	verify(st_topics_ok and st_topic_count == 320 and st_topic_ids.size() == 10 * 3 + 4 * 5, "every resident of every world has eight subjects with real text (their trade and the five of the world)", st_topic_ids.size())
+	verify(PyraStory.reaction({}) == "" and PyraStory.reaction({"hurt": true, "boss": true}).contains("ranny") and PyraStory.reaction({"night": true}).contains("Noc"), "residents remark on the hero's state, the most urgent first")
+	var st_story := PyraStory.new()
+	st_story.intro_seen = true
+	verify(st_story.tutorial_active() and st_story.tracker().size() == 1 and (st_story.tracker()[0].lines as Array).size() == 3 and str(st_story.tracker()[0].title).contains("0/8"), "the tutorial lists the next three steps")
+	verify(st_story.note("move") and not st_story.note("move") and not st_story.note("nonsense") and (st_story.tracker()[0].lines as Array)[0] == "Porozmawiaj z mieszkańcem (E)", "a step is ticked once and unknown steps are ignored")
+	for st_step: Dictionary in PyraStory.STEPS:
+		st_story.note(str(st_step.id))
+	verify(st_story.tutorial_complete() and not st_story.tutorial_active() and st_story.tracker().is_empty() and st_story.claim_reward() and not st_story.claim_reward(), "finishing the tutorial pays the reward exactly once")
+	st_story.hear("w:pyra:cisza")
+	st_story.milestone("boss")
+	var st_copy := PyraStory.new()
+	st_copy.from_save(JSON.parse_string(JSON.stringify(st_story.to_save())))
+	verify(st_copy.intro_seen and st_copy.rewarded and st_copy.steps.size() == 8 and st_copy.heard("w:pyra:cisza") and st_copy.milestones.has("boss"), "story progress survives a save")
+	var st_old := PyraStory.new()
+	st_old.from_save(null)
+	verify(st_old.intro_seen and not st_old.tutorial_active(), "a save from before the story counts as already introduced")
+	var st_dirty := PyraStory.new()
+	st_dirty.from_save({"intro": true, "steps": ["move", 5, "x", "attack"], "talk": ["a", 3, "b".repeat(80)], "mile": ["boss", 7]})
+	verify(st_dirty.steps.size() == 2 and st_dirty.talk_seen.size() == 1 and st_dirty.milestones.size() == 1, "story progress read from a save is cleaned")
+	# in the game: a new hero is told the story, then walks the tutorial
+	game.skip_intro = false
+	game.story.reset()
+	game.hud.close_dialog()
+	game.play_intro()
+	await settle(3)
+	verify(game.screen is PyraStoryScreen and game.hud.visible == false, "a new hero first sees the story screen")
+	var st_view: PyraStoryScreen = game.screen
+	var st_pages := 1
+	st_view.advance()
+	verify(st_view.page_complete() and st_view.page_index == 0, "the first press completes the page text")
+	while st_view.page_index < st_view.pages.size() - 1:
+		st_view.advance()
+		st_view.advance()
+		st_pages += 1
+	verify(st_pages == 5 and st_view.next_button.text == "ZACZNIJ PRZYGODĘ", "the story is read page by page")
+	st_view.advance()
+	await settle(3)
+	game.skip_intro = true
+	verify(not is_instance_valid(game.screen) and game.story.intro_seen and game.story.tutorial_active() and game.hud.quests.size() >= 1 and str(game.hud.quests[0].title).begins_with("Pierwsze kroki"), "after the story the tutorial shows under the minimap")
+	var st_gold := game.economy.gold
+	for st_step: Dictionary in PyraStory.STEPS:
+		game.story.note(str(st_step.id))
+	await settle(2)
+	verify(game.economy.gold == st_gold + PyraStory.REWARD_GOLD and game.story.rewarded, "the tutorial reward is paid into the purse")
+	game.story.reset()
+	game.story.intro_seen = true
+	game.open_map()
+	await settle(2)
+	verify(game.story.steps.has("map"), "opening the map ticks its step")
+	game.close_screen()
+	game.player.position = spawn()
+	game.interact()
+	await settle(2)
+	verify(game.story.steps.has("talk") and game.hud.modal.visible and game.hud.modal_box.get_children().any(func(n: Node) -> bool: return n is Button and (n as Button).text == "ROZMOWA"), "talking to a resident ticks its step and offers the subjects")
+	game.hud.close_dialog()
+	game.open_topics("Testowa", "guide")
+	await settle(2)
+	verify(game.hud.modal.visible and game.hud.modal_box.get_children().filter(func(n: Node) -> bool: return n is Button and (n as Button).text != "ZAMKNIJ").size() == 8, "the subject list has eight entries")
+	game.story.hear("r:guide:start")
+	game.open_topics("Testowa", "guide")
+	await settle(2)
+	verify(game.story.heard("r:guide:start") and game.hud.modal_box.get_children().any(func(n: Node) -> bool: return n is Button and (n as Button).text.begins_with("✓")), "a subject that has been heard is marked")
+	game.hud.close_dialog()
+	game.story.reset()
+	game.story.from_save(null)
 	game.show_menu()
 	await settle()
 	verify(game.hud.modal.visible and game.player.locked, "menu suspends and clears input")

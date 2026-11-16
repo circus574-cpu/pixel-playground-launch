@@ -63,6 +63,7 @@ func run() -> void:
 		print("E2E DONE failures=", failures + 1)
 		quit(1)
 		return
+	game.skip_intro = true
 	for i in 20:
 		await process_frame
 	game.start_new_character("legend")

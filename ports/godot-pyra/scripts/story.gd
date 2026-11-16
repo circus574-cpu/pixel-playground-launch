@@ -28,6 +28,7 @@ var steps: Dictionary = {}          # tutorial step id -> true
 var talk_seen: Dictionary = {}      # topic id -> true
 var rewarded := false
 var tutorial_off := false           # the player dismissed the tutorial
+var milestones: Dictionary = {}     # "boss", "cave", "secret": things the residents may remark on
 
 static func data() -> Dictionary:
 	if cache.is_empty():
@@ -116,6 +117,11 @@ func hear(id: String) -> void:
 		talk_seen[id] = true
 		changed.emit()
 
+func milestone(name: String) -> void:
+	if not milestones.has(name) and name.length() < 20:
+		milestones[name] = true
+		changed.emit()
+
 func heard_count() -> int:
 	return talk_seen.size()
 
@@ -127,7 +133,7 @@ static func reaction(flags: Dictionary, salt: int = 0) -> String:
 			fits.append(str(r.text))
 	if fits.is_empty():
 		return ""
-	return fits[salt % fits.size()] if fits.size() > 1 and salt > 0 else fits[0]
+	return fits[absi(salt) % fits.size()]
 
 # ---- save ---------------------------------------------------------------------------------------
 
@@ -137,10 +143,11 @@ func reset() -> void:
 	talk_seen = {}
 	rewarded = false
 	tutorial_off = false
+	milestones = {}
 	changed.emit()
 
 func to_save() -> Dictionary:
-	return {"intro": intro_seen, "steps": steps.keys(), "talk": talk_seen.keys(), "rewarded": rewarded, "off": tutorial_off}
+	return {"intro": intro_seen, "steps": steps.keys(), "talk": talk_seen.keys(), "rewarded": rewarded, "off": tutorial_off, "mile": milestones.keys()}
 
 ## A save without "story" (older versions) counts as a hero who has already been through the introduction.
 func from_save(value: Variant) -> void:
@@ -152,9 +159,18 @@ func from_save(value: Variant) -> void:
 	intro_seen = bool(value.get("intro", false))
 	rewarded = bool(value.get("rewarded", false))
 	tutorial_off = bool(value.get("off", false))
-	for id: Variant in value.get("steps", []) if value.get("steps", []) is Array else []:
-		if id is String and _is_step(id):
-			steps[id] = true
-	for id: Variant in value.get("talk", []) if value.get("talk", []) is Array else []:
-		if id is String and (id as String).length() < 60:
-			talk_seen[id] = true
+	var saved_steps: Variant = value.get("steps", [])
+	if saved_steps is Array:
+		for id: Variant in saved_steps:
+			if id is String and _is_step(id):
+				steps[id] = true
+	var saved_mile: Variant = value.get("mile", [])
+	if saved_mile is Array:
+		for id: Variant in saved_mile:
+			if id is String and (id as String).length() < 20:
+				milestones[id] = true
+	var saved_talk: Variant = value.get("talk", [])
+	if saved_talk is Array:
+		for id: Variant in saved_talk:
+			if id is String and (id as String).length() < 60:
+				talk_seen[id] = true

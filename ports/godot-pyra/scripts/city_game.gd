@@ -83,6 +83,10 @@ var dungeon_state: Dictionary = {}     # dungeon id -> {"keys", "gates", "chests
 var dungeon_explored: Dictionary = {}  # "<id>#<floor>" -> automap cells (kept while the game runs)
 var respawn_timer := -1.0
 var quests: PyraQuests
+var story := PyraStory.new()
+var skip_intro := false                       # tests start many characters and do not want the story screen
+var walk_time := 0.0                          # seconds of walking, for the first tutorial step
+var rewarding_tutorial := false
 var quest_actors: Array[Dictionary] = []     # {actor, role, town} for the "!" and "?" marks
 var audio: PyraAudio
 var quest_timer := 0.0
@@ -134,6 +138,7 @@ func _ready() -> void:
 	audio = PyraAudio.new()
 	add_child(audio)
 	quests = PyraQuests.new(PyraContinent.load_json("res://data/quests.json"))
+	story.changed.connect(on_story_changed)
 	quests.level_of = func() -> int: return kit.level if kit != null else 1
 	quests.item_count = func(id: String) -> int: return economy.count(id)
 	quests.item_take = func(id: String, n: int) -> bool: return economy.remove_item(id, n)
@@ -606,7 +611,9 @@ func on_quest_reward(xp: int, coins: int, items: Dictionary, source: String) -> 
 	hud.toast("%s: %s" % [source, " · ".join(parts)] if not parts.is_empty() else source)
 
 func refresh_quest_ui() -> void:
-	hud.quests = quests.tracker()
+	var entries: Array[Dictionary] = story.tracker()
+	entries.append_array(quests.tracker())
+	hud.quests = entries
 	hud.signature = ""
 	for entry in quest_actors:
 		if is_instance_valid(entry.actor):
@@ -725,6 +732,7 @@ func interact() -> void:
 			audio.sfx("ui/quest-update")
 		"dsecret":
 			if dungeon.open_secret(player.position):
+				story.milestone("secret")
 				audio.sfx("common/door")
 				hud.toast("Ściana pęka. Za nią kryje się komora.")
 				targets = dungeon.targets()
@@ -766,6 +774,15 @@ func interact() -> void:
 				"depot":
 					actions.append({"text": "OTWÓRZ SKRZYNIĘ", "callback": func(): hud.close_dialog(); open_items("depot", "Depozyt · " + place)})
 			var extra := ""
+			story.note("talk")
+			var topic_role := str(ROLE_OF_SERVICE.get(service, "")) if service != "" else str(target.id)
+			var remark := PyraStory.reaction(reaction_flags(), int(talk_turns.get("remark", 0)))
+			talk_turns["remark"] = int(talk_turns.get("remark", 0)) + 1
+			if remark != "":
+				extra += "\n\n" + remark
+			if not PyraStory.topics(world_id, topic_role).is_empty():
+				var topic_name := str(npc.name)
+				actions.append({"text": "ROZMOWA", "callback": func() -> void: open_topics(topic_name, topic_role)})
 			if is_quest_land():
 				var role := str(ROLE_OF_SERVICE.get(service, "")) if service != "" else str(target.id)
 				var town := room_town if room_town != "" else (settlement_at(player.position) if service == "" else capital_id())
@@ -967,6 +984,7 @@ func do_basic() -> void:
 	face_target()
 	var result := kit.basic()
 	if result.ok:
+		story.note("attack")
 		player.visual.play_once("attack" if int(kit.streak) % 2 == 0 else "attack2")
 
 func use_slot(index: int) -> void:
@@ -982,6 +1000,7 @@ func use_slot(index: int) -> void:
 	face_target()
 	var result := kit.use(id)
 	if result.ok:
+		story.note("skill")
 		player.visual.play_once(str(result.get("clip", "skill")))
 	elif str(result.reason) != "":
 		hud.toast(str(result.reason))
@@ -1034,6 +1053,7 @@ func enter_dungeon(entrance: Dictionary, floor: int = 0, at: Vector2 = Vector2(-
 	if floor == 0:
 		city_return = open_ground(Vector2(float(entrance.x), float(entrance.y)) + Vector2(0, 110))
 	dungeon = make_dungeon(entrance, floor)
+	story.milestone("cave")
 	audio.sfx("common/door")
 	load_space("dungeon", dungeon.arrival() if at.x < 0.0 else at)
 	if floor == 0:
@@ -1204,6 +1224,7 @@ func enter_boss_lair(boss_id: String) -> void:
 
 ## Reward of a boss: the experience already came with the kill; the loot table rolls here and goes to the bag.
 func boss_defeated(info: Dictionary, at: Vector2) -> void:
+	story.milestone("boss")
 	var names: Array[String] = []
 	for drop: Dictionary in info.lootTable:
 		if randf() * 100.0 >= float(drop.chancePercent):
@@ -1222,6 +1243,7 @@ func dodge() -> void:
 	var direction := player.touch_motion if player.touch_motion.length() > 0.1 else player.facing
 	var result := kit.dodge(direction)
 	if result.ok:
+		story.note("dodge")
 		player.visual.play_once("dodge")
 		audio.sfx("common/dodge")
 
@@ -1252,6 +1274,10 @@ func simulate(delta: float) -> void:
 		do_basic()
 	player.step(delta)
 	player.z_index = 0
+	if story.tutorial_active() and player.moving and not player.locked:
+		walk_time += delta
+		if walk_time > 1.5:
+			story.note("move")
 
 func _process(delta: float) -> void:
 	if not is_instance_valid(hud) or not is_instance_valid(player):
@@ -1276,6 +1302,8 @@ func _process(delta: float) -> void:
 	if prefetch_timer <= 0.0:
 		prefetch_timer = 0.4
 		prefetch_rooms()
+		if story.tutorial_active() and story.steps.has("move") and current_room.is_empty() and not in_dungeon() and not in_safe_city(player.position):
+			story.note("gate")
 	var target := nearest_target()
 	hud.touch.enabled_target = not target.is_empty()
 	hud.touch.action_text = "E"
@@ -1397,6 +1425,7 @@ func open_screen(instance: Control) -> void:
 		screen.connect("closed", close_screen)
 
 func open_map() -> void:
+	story.note("map")
 	var view := MapScreen.new()
 	var cave_names: Dictionary = {}
 	for entrance: Dictionary in (dungeon_data.lands as Dictionary).get(land_id, []):
@@ -1421,6 +1450,7 @@ func start_new_character(new_race: String) -> void:
 	if not current_room.is_empty():
 		load_space("", city_return)
 	quests.reset()
+	story.reset()
 	dungeon_state = {}
 	world_events.from_save({})
 	economy.gold = 20
@@ -1434,6 +1464,67 @@ func start_new_character(new_race: String) -> void:
 	enter_land(str(HOME_OF_RACE[new_race]))
 	hud.refresh(kit)
 	hud.toast("Witaj w %s!" % str(land.name))
+	play_intro.call_deferred()
+
+## The story of the race and the first steps: shown once after a new character is made.
+func play_intro() -> void:
+	var waited := 0
+	while (is_instance_valid(screen) or input_suspended) and waited < 120:
+		await get_tree().process_frame
+		waited += 1
+	if skip_intro or story.intro_seen or is_instance_valid(screen):
+		return
+	var tale := PyraStory.intro(race)
+	var view := PyraStoryScreen.new()
+	view.setup(str(tale.title), tale.pages)
+	open_screen(view)
+	await view.closed
+	story.intro_seen = true
+	story.changed.emit()
+	hud.toast("Pierwsze kroki: cele widzisz pod mapką.")
+	save_checkpoint(SAVE_PATH, true)
+
+func on_story_changed() -> void:
+	refresh_quest_ui()
+	if story.claim_reward():
+		economy.gold += PyraStory.REWARD_GOLD
+		economy.changed.emit()
+		audio.sfx("common/quest-complete")
+		hud.toast("Pierwsze kroki ukończone! Nagroda: %d monet." % PyraStory.REWARD_GOLD)
+
+## What the resident can say about the hero's deeds right now (see PyraStory.reaction).
+func reaction_flags() -> Dictionary:
+	var top := float(kit.stats().maxHp)
+	return {
+		"hurt": kit.hp < top * 0.4,
+		"boss": story.milestones.has("boss"),
+		"cave": story.milestones.has("cave"),
+		"secret": story.milestones.has("secret"),
+		"level20": kit.level >= 20,
+		"level10": kit.level >= 10,
+		"rich": economy.gold >= 1500,
+		"night": is_night(),
+		"novice": kit.level <= 3,
+	}
+
+## The list of subjects a resident talks about; each one is read in a dialog with a way back.
+func open_topics(npc_name: String, role: String) -> void:
+	var list := PyraStory.topics(world_id, role)
+	var actions: Array = []
+	for topic: Dictionary in list:
+		var entry := topic
+		var mark := "✓ " if story.heard(str(entry.id)) else ""
+		actions.append({"text": mark + str(entry.label), "callback": func() -> void:
+			story.hear(str(entry.id))
+			hud.show_dialog(npc_name + " · " + str(entry.label), str(entry.text), [{"text": "WRÓĆ DO ROZMOWY", "callback": func() -> void: open_topics(npc_name, role)}])})
+	hud.show_dialog(npc_name, "O czym chcesz porozmawiać? (%d z %d tematów już znasz)" % [_heard_among(list), list.size()], actions)
+
+func _heard_among(list: Array[Dictionary]) -> int:
+	var n := 0
+	for topic: Dictionary in list:
+		if story.heard(str(topic.id)):
+			n += 1
+	return n
 
 ## Makes sure the data of a land is on the device (downloads it with a progress screen when it is not). False = could not.
 func ensure_land_content(id: String) -> bool:
@@ -1479,6 +1570,8 @@ func on_economy_changed() -> void:
 	kit.refill_if_first()
 
 func open_items(mode: String, heading: String) -> void:
+	if mode == "shop" or mode == "smithy":
+		story.note("shop")
 	economy.level = kit.level
 	var view := ItemsScreen.new()
 	view.setup(economy, mode, heading)
@@ -1502,7 +1595,7 @@ func save_checkpoint(path: String = SAVE_PATH, quiet: bool = false) -> bool:
 	var in_cave := in_dungeon()
 	var save_room := "" if in_cave else current_room
 	var save_at := city_return if in_cave else player.position
-	var value := {"format": SAVE_FORMAT, "version": 2, "race": race, "land": land_id, "room": save_room, "town": room_town, "position": [save_at.x, save_at.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save(), "economy": economy.to_save(), "quests": quests.to_save(), "dungeons": dungeon_state, "events": world_events.to_save()}
+	var value := {"format": SAVE_FORMAT, "version": 2, "race": race, "land": land_id, "room": save_room, "town": room_town, "position": [save_at.x, save_at.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save(), "economy": economy.to_save(), "quests": quests.to_save(), "story": story.to_save(), "dungeons": dungeon_state, "events": world_events.to_save()}
 	var file := FileAccess.open(path + ".tmp", FileAccess.WRITE)
 	if file == null:
 		return false
@@ -1695,6 +1788,8 @@ func restore_checkpoint(path: String = SAVE_PATH) -> bool:
 			quests.reset()
 		dungeon_state = valid_dungeon_state(value.get("dungeons", {}))
 		world_events.from_save(value.get("events", {}))
+		story.from_save(value.get("story", null))
+		refresh_quest_ui()
 	city_return = back
 	load_space(room, at, str(value.get("town", "")))
 	return true

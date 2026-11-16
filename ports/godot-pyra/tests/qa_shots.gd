@@ -32,6 +32,7 @@ func run() -> void:
 	while is_instance_valid(landing) and Time.get_ticks_msec() < deadline:
 		await process_frame
 	game = root.get_children().filter(func(n): return n is PyraGame)[0]
+	game.skip_intro = true
 	for i in 10:
 		await process_frame
 	game.start_new_character("legend")
