@@ -336,5 +336,6 @@ Zlecenie właściciela: aplikacja ma być ta sama, a aktualizacje (wdrażane zmi
   (`deliveries/godot-content-2026.11.17.2`). APK `deliveries/godot-pyra-android-20261116-updates` (66 793 824 B, 0.11.0-updates, kod 11). Poprzednie APK z tego dnia (kod 10) nie ma launchera i
   nie aktualizuje się samo.
 - **Granice.** Nowe APK potrzeba przy zmianie silnika, uprawnień, ustawień projektu, ikony i dodatków natywnych. Nie sprawdzono na telefonie; nie sprawdzono pobierania rdzenia przez prawdziwy TLS i
-  sieć komórkową; wydanie `2026.11.17.2` nie jest jeszcze opublikowane na serwerze (wymaga zgody właściciela na scalenie workflow i jego uruchomienie).
+  sieć komórkową. **Opublikowane za zgodą właściciela (16.11.2026):** scalone PR #173, workflow uruchomiony z `publish` i `activate` (run #3); `kilegends.pl` oddaje wydanie `2026.11.17.2`
+  (27 paczek), `core-c11` pobrany z zewnątrz ma zgodny rozmiar i SHA-256, klient o kodzie 10 nadal dostaje poprawny manifest. Wycofanie: aktywować `2026.11.17.1` w `/admin`.
 
