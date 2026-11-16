@@ -492,3 +492,20 @@ odbędzie się osobnym ręcznym przebiegiem `godot-content-upload.yml` na gałę
 wydania (`publish=true`, `activate=true`). Wynik należy potwierdzić odczytem
 manifestu produkcyjnego i SHA pobranego rdzenia. To aktualizacja Androida,
 bez nowego APK, publikacji strony, zmian instancji GPU i resetu postaci.
+
+#### Publikacja 1.6 — zakończona
+
+Na polecenie właściciela uruchomiono istniejący workflow z gałęzi wydania:
+[43929418129 — SUCCESS](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/43929418129),
+źródło `39126da264dbcf063ca35e6055d6307e96807bc6`, wersja 1.6,
+`publish=true`, `activate=true`. Nie wykonywano scalenia do `main` ani wdrożenia
+strony/panelu. Workflow zweryfikował paczki i udostępnił aktualizację aplikacji.
+
+O 18:31 UTC serwer zwrócił `activeVersion: 1.6`, `maintenance: false`.
+Publiczny manifest ma wszystkie 27 definicji paczek zgodne z commitem, a pobrany
+z domeny produkcyjnej rdzeń ma właściwe 3 513 680 bajtów oraz SHA-256
+`eba2f7892d2151f62b62a79ea825d8872a7fc44b502c46ffd1f42270b95801ca`.
+[Dowód odczytu produkcji](qa/android-1.6/publication.json).
+Poprzednie wydanie 1.5 pozostaje do rollbacku. Aktualizacja pobiera się przy
+ponownym uruchomieniu istniejącego APK 1.0. Migracja postaci webowych i dalsze
+prace nad interfejsem nie są częścią wydania 1.6.

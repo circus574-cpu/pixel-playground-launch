@@ -1,7 +1,8 @@
 # KI Legends Android — projekt Godot 4
 
 **Aktualny checkpoint, 16.11:** zainstalowana aplikacja **1.0** (`versionCode` 100),
-aktywne wydanie serwera **1.5**. Przygotowano **1.6** na gałęzi
+aktywne wydanie serwera **1.6** (potwierdzone odczytem manifestu i SHA rdzenia).
+Wydanie jest zapisane na gałęzi
 `feat/android-release-1.6-20261116`: ostatnie poprawki Claude'a (menu przewijane,
 link do panelu dla admin/GM), dokończona obsługa gestów bez przypadkowego kliknięcia,
 test aktualizacji menu na oryginalnej bazie APK 1.0. Publikacja 1.6 jest opisana

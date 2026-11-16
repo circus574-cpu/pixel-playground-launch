@@ -36,5 +36,6 @@
   "knownQaWarnings": "The large smoke suite and game screenshot runner still report pre-existing shutdown resource leaks. Functional assertions pass; no clean shutdown or full native 539-case regression claimed. Standalone menu and installed-APK update checks have no script errors.",
   "physicalAndroid": "UNVERIFIED",
   "webCharacterMigration": "NOT IMPLEMENTED; saves untouched",
-  "publication": "PREPARED, not yet activated"
+  "publication": "ACTIVE 1.6, externally verified",
+  "publicationEvidence": "publication.json"
 }
