@@ -1,0 +1,439 @@
+{
+  "_id": "68403c87e71c82bda5101640",
+  "id": "Wan-AI/Wan2.1-VACE-14B-diffusers",
+  "private": false,
+  "pipeline_tag": "image-to-video",
+  "library_name": "diffusers",
+  "tags": [
+    "diffusers",
+    "safetensors",
+    "video generation",
+    "video-to-video editing",
+    "refernce-to-video",
+    "image-to-video",
+    "en",
+    "zh",
+    "arxiv:2503.20314",
+    "arxiv:2503.07598",
+    "arxiv:2309.14509",
+    "arxiv:2310.01889",
+    "license:apache-2.0",
+    "diffusers:WanVACEPipeline",
+    "region:us"
+  ],
+  "downloads": 6618,
+  "likes": 34,
+  "modelId": "Wan-AI/Wan2.1-VACE-14B-diffusers",
+  "author": "Wan-AI",
+  "sha": "db79b90c60bbb45ceec9e41b9d5a4df934538ac4",
+  "lastModified": "2025-06-06T02:20:34.000Z",
+  "gated": false,
+  "disabled": false,
+  "model-index": null,
+  "config": {
+    "diffusers": {
+      "_class_name": "WanVACEPipeline"
+    }
+  },
+  "cardData": {
+    "license": "apache-2.0",
+    "language": [
+      "en",
+      "zh"
+    ],
+    "tags": [
+      "video generation",
+      "video-to-video editing",
+      "refernce-to-video"
+    ],
+    "pipeline_tag": "image-to-video"
+  },
+  "siblings": [
+    {
+      "rfilename": ".gitattributes",
+      "blobId": "ee17d17b0c8ff2fd33f3564748d383f40d797ab8",
+      "size": 1998
+    },
+    {
+      "rfilename": "README.md",
+      "blobId": "7aa31b86bf9d50a559e0477a83d274df1443d40b",
+      "size": 43986
+    },
+    {
+      "rfilename": "assets/comp_effic.png",
+      "blobId": "741f12abd4bc11efd6177e7c59765d87eaf7e395",
+      "size": 1793594,
+      "lfs": {
+        "sha256": "b0e225caffb4b31295ad150f95ee852e4c3dde4a00ac8f79a2ff500f2ce26b8d",
+        "size": 1793594,
+        "pointerSize": 132
+      }
+    },
+    {
+      "rfilename": "assets/data_for_diff_stage.jpg",
+      "blobId": "a7ba97f116a3e3304d9960069344019787181368",
+      "size": 528268,
+      "lfs": {
+        "sha256": "59aec08409f2d46b0e640e4e120dc7cca52c08c3de56d026602dbcff1ebf241a",
+        "size": 528268,
+        "pointerSize": 131
+      }
+    },
+    {
+      "rfilename": "assets/i2v_res.png",
+      "blobId": "98470f121ae318c11d25fd3728cd5c93e0c6993d",
+      "size": 891681,
+      "lfs": {
+        "sha256": "6823b3206d8d0cb18d3b5b949dec1217f1178109ba11f14e977b67e1f7b8a248",
+        "size": 891681,
+        "pointerSize": 131
+      }
+    },
+    {
+      "rfilename": "assets/logo.png",
+      "blobId": "0c55854cbd9692975f217714ffd83fd4b37f5dca",
+      "size": 56322
+    },
+    {
+      "rfilename": "assets/t2v_res.jpg",
+      "blobId": "7549a1f66d7aa8fb90b6e6181188efc1be0edc28",
+      "size": 301030,
+      "lfs": {
+        "sha256": "91db579092446be2a834bc67721a8e4346936f38c4edb912f459ca3e10f8f439",
+        "size": 301030,
+        "pointerSize": 131
+      }
+    },
+    {
+      "rfilename": "assets/vben_vs_sota.png",
+      "blobId": "cded47bc519dc2aeae2f370228209e8c9e74bc0b",
+      "size": 1552119,
+      "lfs": {
+        "sha256": "9a0e86ca85046d2675f97984b88b6e74df07bba8a62a31ab8a1aef50d4eda44e",
+        "size": 1552119,
+        "pointerSize": 132
+      }
+    },
+    {
+      "rfilename": "assets/video_dit_arch.jpg",
+      "blobId": "97d9c19d286b432c33d644d5b00061c2e2a3545a",
+      "size": 643369,
+      "lfs": {
+        "sha256": "195dceec6570289d8b01cc51d2e28a7786216f19de55b23978a52610d1646a66",
+        "size": 643369,
+        "pointerSize": 131
+      }
+    },
+    {
+      "rfilename": "assets/video_vae_res.jpg",
+      "blobId": "91ca92abf061f569b335f3b8ca63e796ce2f6103",
+      "size": 212586,
+      "lfs": {
+        "sha256": "d8f9e7f7353848056a615c8ef35ab86ec22976bb46cb27405008b4089701945c",
+        "size": 212586,
+        "pointerSize": 131
+      }
+    },
+    {
+      "rfilename": "model_index.json",
+      "blobId": "f3d1c8ba9a419e17bdbe301508dd7417614089f3",
+      "size": 408
+    },
+    {
+      "rfilename": "scheduler/scheduler_config.json",
+      "blobId": "9bf3f38c31c3621c45cf6f2b0dd57a80cd7052fb",
+      "size": 751
+    },
+    {
+      "rfilename": "text_encoder/config.json",
+      "blobId": "6847b0fc2756dd0f1278fd1dde852fdeb1bb6622",
+      "size": 850
+    },
+    {
+      "rfilename": "text_encoder/model-00001-of-00003.safetensors",
+      "blobId": "3e671d382b9dd6c7fff4cb11756526032d5e6f6c",
+      "size": 4935812536,
+      "lfs": {
+        "sha256": "a8e861969c7433e707cc5a74065d795d36cca07ec96eb6763eb4083df7248f58",
+        "size": 4935812536,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "text_encoder/model-00002-of-00003.safetensors",
+      "blobId": "b35fc9ac361a2b8ee0289121cd045e00cfe57e49",
+      "size": 4983103192,
+      "lfs": {
+        "sha256": "d57d948ece4837d850b7a859a4415121d57cacf8b9ee1d4db200c67f592902d7",
+        "size": 4983103192,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "text_encoder/model-00003-of-00003.safetensors",
+      "blobId": "a76bb7245d7e1cb456132b1a8abe2b1e48a87481",
+      "size": 1442935480,
+      "lfs": {
+        "sha256": "0da9ee284e21d1406df708788db1d502d95d75f69faa25cd26151bf8829b7c5f",
+        "size": 1442935480,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "text_encoder/model.safetensors.index.json",
+      "blobId": "f3d3d4da90eb33e14c92d88ea346370fa3c0b5b2",
+      "size": 22476
+    },
+    {
+      "rfilename": "tokenizer/special_tokens_map.json",
+      "blobId": "2ed25bf989a28d20b5d4b5822fbc24666d12a6f7",
+      "size": 7079
+    },
+    {
+      "rfilename": "tokenizer/spiece.model",
+      "blobId": "2fe5f347e9f9367585589ae89e997dfbd5cf802c",
+      "size": 4548313,
+      "lfs": {
+        "sha256": "e3909a67b780650b35cf529ac782ad2b6b26e6d1f849d3fbb6a872905f452458",
+        "size": 4548313,
+        "pointerSize": 132
+      }
+    },
+    {
+      "rfilename": "tokenizer/tokenizer.json",
+      "blobId": "9c6427ab2f801c942da4ee9740f1a750d3978a3b",
+      "size": 16837459,
+      "lfs": {
+        "sha256": "20a46ac256746594ed7e1e3ef733b83fbc5a6f0922aa7480eda961743de080ef",
+        "size": 16837459,
+        "pointerSize": 133
+      }
+    },
+    {
+      "rfilename": "tokenizer/tokenizer_config.json",
+      "blobId": "847870cb2653176fbb3d4661b7ca971c1251ce55",
+      "size": 61786
+    },
+    {
+      "rfilename": "transformer/config.json",
+      "blobId": "f3e9366e59d865c8606599ce8e2f832c8d4f6dc8",
+      "size": 610
+    },
+    {
+      "rfilename": "transformer/diffusion_pytorch_model-00001-of-00013.safetensors",
+      "blobId": "809577700cdb9490abf95a52bfb248f0ac7327f0",
+      "size": 4867114424,
+      "lfs": {
+        "sha256": "bd8bbb8834a274525ab65cbb063f21aa58973a054bfd1638bfe395504c9d9b99",
+        "size": 4867114424,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "transformer/diffusion_pytorch_model-00002-of-00013.safetensors",
+      "blobId": "8e41330f7852b14d437b005d8e200dbcbcf847a6",
+      "size": 4919594456,
+      "lfs": {
+        "sha256": "8d24b40a5ea6bb21cdc0115128241ffeb44184b2419f4b1585af1573ed5c7839",
+        "size": 4919594456,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "transformer/diffusion_pytorch_model-00003-of-00013.safetensors",
+      "blobId": "d4dd456854142646bac19cc9e5102bf94c3190e1",
+      "size": 4919465128,
+      "lfs": {
+        "sha256": "7f550f93b3c36c13015dd551109ff63528251864c9513acc2e0a502807b8a91c",
+        "size": 4919465128,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "transformer/diffusion_pytorch_model-00004-of-00013.safetensors",
+      "blobId": "8a8c5f945d6a610f5c9d137e7b4b6a33bf672309",
+      "size": 4919594536,
+      "lfs": {
+        "sha256": "6a701d601e2cbe3da3515b24d59f56deb5ca2c973c778ff7911f579ec5b8ec11",
+        "size": 4919594536,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "transformer/diffusion_pytorch_model-00005-of-00013.safetensors",
+      "blobId": "48570ced13ec54b2ed9c05ea01d7f422da8b3a9d",
+      "size": 4919465224,
+      "lfs": {
+        "sha256": "7eb65433e529b975f84897f6572af1ae148d82e7fd0ee7c5f4191158736b104f",
+        "size": 4919465224,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "transformer/diffusion_pytorch_model-00006-of-00013.safetensors",
+      "blobId": "c2bf142831168b08d9c76b8c42ae9b5ef7f41d0d",
+      "size": 4919594552,
+      "lfs": {
+        "sha256": "aae199dea0aeb96347e9af9e3cb90679c1c8c2f42c76ee3cead2ea240c909d07",
+        "size": 4919594552,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "transformer/diffusion_pytorch_model-00007-of-00013.safetensors",
+      "blobId": "b24a11e9cb2be5740bd1f225a6c85300e3e510e7",
+      "size": 4919465224,
+      "lfs": {
+        "sha256": "53c24e663dece6ff0737b03e5cc670118998231877ba7bad29824ff0500589d4",
+        "size": 4919465224,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "transformer/diffusion_pytorch_model-00008-of-00013.safetensors",
+      "blobId": "ead7434ee124daf5138e7d7aa9da814e9041573e",
+      "size": 4919594552,
+      "lfs": {
+        "sha256": "333eaca9dce56bf3083bbab4630aa081b7c403a27ba94894a7756d631529fd9a",
+        "size": 4919594552,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "transformer/diffusion_pytorch_model-00009-of-00013.safetensors",
+      "blobId": "2916ce35ac9587a92d51adef299f698f6049e198",
+      "size": 4919465224,
+      "lfs": {
+        "sha256": "8af811e7ed2ab64a3f6d07827d1b975a9804b78d63c2b3989024bc1b67ac6e5d",
+        "size": 4919465224,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "transformer/diffusion_pytorch_model-00010-of-00013.safetensors",
+      "blobId": "47dc4d58add42843749d7ac7c4eda2b7f92868ad",
+      "size": 4919594552,
+      "lfs": {
+        "sha256": "e8b631e38f0ad21a63c631069658d4be4b55e0cb15e8f5848567482b5862ba63",
+        "size": 4919594552,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "transformer/diffusion_pytorch_model-00011-of-00013.safetensors",
+      "blobId": "f64b5142b530b53b7d1b224f079f2a9d5cb43c34",
+      "size": 4919465224,
+      "lfs": {
+        "sha256": "21032fe150df6f3ac26780fb8ca38d05c4a9585a1b774ceadb5d42bc96ff1b27",
+        "size": 4919465224,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "transformer/diffusion_pytorch_model-00012-of-00013.safetensors",
+      "blobId": "ac0718588837e2c26d47c10c8b9a9986411bd958",
+      "size": 4971935336,
+      "lfs": {
+        "sha256": "e48bce2ab6bb0885d72ff5e79c56c29335051e5ad715a03807267e248addaff8",
+        "size": 4971935336,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "transformer/diffusion_pytorch_model-00013-of-00013.safetensors",
+      "blobId": "4e8a738e27f8b76a03a0aee25ceb3d1a6a163e81",
+      "size": 4217957112,
+      "lfs": {
+        "sha256": "e0e39ee859fc696ebd2c0982202a5d1cf8206eeb82b3b582d954707b9f980f12",
+        "size": 4217957112,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "transformer/diffusion_pytorch_model.safetensors.index.json",
+      "blobId": "594e77765b26c13eb86613a35c5328ff0e95145a",
+      "size": 119173
+    },
+    {
+      "rfilename": "vae/config.json",
+      "blobId": "a5be94e360479a8b513ced12e5d5032bcbd9e60d",
+      "size": 724
+    },
+    {
+      "rfilename": "vae/diffusion_pytorch_model.safetensors",
+      "blobId": "af13d1f7b1bc28a9f1e9cd85cac5da951aead1b3",
+      "size": 507591892,
+      "lfs": {
+        "sha256": "d6e524b3fffede1787a74e81b30976dce5400c4439ba64222168e607ed19e793",
+        "size": 507591892,
+        "pointerSize": 134
+      }
+    }
+  ],
+  "spaces": [
+    "kulkas2pintu/Video_to_video_WAN",
+    "linoyts/wan2-1-VACE-fast",
+    "Liratanak/kira-lab-wan-preview-nsfw-velcroft",
+    "cinderholm/wan-i2v",
+    "marciowb/kira-lab-wan-preview-nsfw-velcroft",
+    "rahul7star/InstaVideo",
+    "kulkas2pintu/Video_to_video_WAN2",
+    "ghjjhv/wan-i2v-kira",
+    "ufrik/kira-lab-wan-preview-nsfw-velcroft",
+    "SarahCole2008/Video_to_video_WAN3",
+    "pormungtai/wan2-2-fp8da-aoti-preview",
+    "cydyffufufurty/wan-i2v-kira",
+    "runebloodstone/wan-i2v-kira",
+    "SarahCole2008/Video_to_video_WAN",
+    "hugging-apps/uniworld-view-nvs",
+    "bep40/wan2-1-VACE-fast",
+    "rohitkatyal/InstaVideo",
+    "lionfxxx/wan2-1-VACE-fast",
+    "mycholechawal/InstaVideo",
+    "vinesnt/wan2-2-fp8da-aoti-preview",
+    "vinesnt/1111",
+    "s1s2multiset/1111",
+    "Dorotheou/1111",
+    "sksnddje/wan2-2-fp8da-aoti-preview",
+    "leo8875/wan2-2-fp8da-aoti-preview-nsfw",
+    "JackIsNotInTheBox/watermark_remover",
+    "liguoxian83/wan2-2-fp8da-aoti-preview-nsfw",
+    "Mrm97/InstaVideo",
+    "EAIRobot/wan2-2-fp8da-aoti-preview-nsfw",
+    "Trangiabao/wan-studio",
+    "Atdevindotcom/wan2-2-fp8da-aoti-preview-nsfw",
+    "mirefall/wan-i2v-kira",
+    "ashprow/wan-i2v-kira",
+    "cydyffufufu1/wan-i2v-kira",
+    "Ftyhgf/wan-i2v-kira",
+    "Jds20001/PrideWAN",
+    "Jds20001/Kwanyieveryone",
+    "Pato2026/wan-i2v-kira",
+    "Lozwang/Video_to_video_WAN",
+    "Naveenreddy145/watermark_remover",
+    "cydyffufufuvvv/wan-i2v-kira",
+    "albybback/wan-i2v",
+    "zrelv/Video_to_video_WAN-1",
+    "zrelv/Video_to_video_WAN-2",
+    "zrelv/Video_to_video_WAN-3",
+    "zrelv/Video_to_video_WAN-4",
+    "zrelv/Video_to_video_WAN-5",
+    "Elsen001/wan-i2v",
+    "kalidassc/wan2-1-vace-14b",
+    "rtgfreuui/wan2-1-vace-14b",
+    "SarahCole2008/InstaVideo",
+    "Taizya/Space.cd.kr",
+    "Macher2/Video_to_video_WAN",
+    "Eeeee83/wan-studio",
+    "Elsen001/wan2-1-VACE-fast"
+  ],
+  "createdAt": "2025-06-04T12:31:03.000Z",
+  "safetensors": {
+    "parameters": {
+      "F32": 14288491584,
+      "BF16": 3049101312
+    },
+    "total": 17337592896
+  },
+  "usedStorage": 75149057063
+}

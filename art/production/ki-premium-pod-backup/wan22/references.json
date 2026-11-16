@@ -1,0 +1,39 @@
+{
+  "sourceCommit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+  "actor": "pyra.hero",
+  "actorsSha256": "deab039cc7d84ef122a6d07fef2c282a7d5f9e684e4e9b8cc4cce23e4c88f994",
+  "atlasSha256": "1e8c20c3319622a64f076951d208e968b7efc9c493b9b8b26c03660c8c498dda",
+  "references": [
+    {
+      "direction": "down",
+      "frame": [
+        370,
+        1303,
+        90,
+        179,
+        33,
+        19,
+        110,
+        21
+      ],
+      "input": "legend-down.png",
+      "sha256": "02796ad63dc6b5d27b690b419ef786cad496ee9c7d2ae76dcd8229e5f4d832da"
+    },
+    {
+      "direction": "right",
+      "frame": [
+        613,
+        194,
+        85,
+        187,
+        45,
+        10,
+        115,
+        13
+      ],
+      "input": "legend-right.png",
+      "sha256": "782b39eadebd89b029de30ea308dd7a44c2b59eba626886e3b030deb0a98f976"
+    }
+  ],
+  "scope": "Existing installed base costume, not historical concept master"
+}

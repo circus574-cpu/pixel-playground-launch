@@ -1,0 +1,226 @@
+{
+  "items": [
+    {
+      "id": "pyra-b0-s35",
+      "fingerprint": "444b664536c41b7542587eaf454bc9df9cfe17621f0e4ad284b810b35eac7605",
+      "sha256": "6ddfcd30a9ed9378e4fe5e622fb5dc4cae4774b9b1e5a31deaae8b8d738a524b",
+      "seconds": 2.864804105833173,
+      "peakAllocatedBytes": 12320071168,
+      "sourceSeam": {
+        "edgeMeanAbs": 7.565104007720947,
+        "interiorMeanAbs": 2.6727285385131836,
+        "edgeToInterior": 2.8304797508277257
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 2.2083332538604736,
+        "interiorMeanAbs": 2.2201104164123535,
+        "edgeToInterior": 0.994695235667192
+      },
+      "runtimeBytes": 553918,
+      "runtimeSha256": "483f65773539a21649e947a23b5bd1ce775ddcead29c0a2f1b1923656c11b20d"
+    },
+    {
+      "id": "pyra-b0-s55",
+      "fingerprint": "7aa52c33ff7482305c44c7f206d85360d9b5ec640d02110afbe2f44f190e7f01",
+      "sha256": "2487f6c9f52b683b6ace75c249a013f709610a937c8fb54bd1b0bae9ce686d68",
+      "seconds": 2.480663164984435,
+      "peakAllocatedBytes": 12320464384,
+      "sourceSeam": {
+        "edgeMeanAbs": 7.565104007720947,
+        "interiorMeanAbs": 2.6727285385131836,
+        "edgeToInterior": 2.8304797508277257
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 2.5973305702209473,
+        "interiorMeanAbs": 2.7563767433166504,
+        "edgeToInterior": 0.9422988263555262
+      },
+      "runtimeBytes": 615436,
+      "runtimeSha256": "696a3c5202782f3926f926206814f27ccb07659332296ce70c0d1cbf04b2aca6"
+    },
+    {
+      "id": "pyra-b1-s35",
+      "fingerprint": "9910bd84fa2ca8da73e2b377d2f035fa4c6e055d8f8c1a6f0986e45bfe07c71f",
+      "sha256": "b74e55f3235213af1a5c01e861189868a73452f35fd7fc2faee5735a8c03dcf0",
+      "seconds": 2.2421963131055236,
+      "peakAllocatedBytes": 12320726528,
+      "sourceSeam": {
+        "edgeMeanAbs": 7.6193037033081055,
+        "interiorMeanAbs": 2.7467288970947266,
+        "edgeToInterior": 2.773955489880055
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 2.4541015625,
+        "interiorMeanAbs": 2.3187222480773926,
+        "edgeToInterior": 1.0583853087772197
+      },
+      "runtimeBytes": 573636,
+      "runtimeSha256": "736b1979c34b524581441a2cc81e31a3c6a14a20cd8c2227a1f2184e1885a4a5"
+    },
+    {
+      "id": "pyra-b1-s55",
+      "fingerprint": "f497fbf900e3bb75af597198eff880ae3ac7ee234c1896a4032c00f2b186c638",
+      "sha256": "77d81acf2e08078cf7b4195c04e40a3a389542776d16fc2c6265fa5ac7949298",
+      "seconds": 2.5192611012607813,
+      "peakAllocatedBytes": 12321250816,
+      "sourceSeam": {
+        "edgeMeanAbs": 7.6193037033081055,
+        "interiorMeanAbs": 2.7467288970947266,
+        "edgeToInterior": 2.773955489880055
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 2.6378581523895264,
+        "interiorMeanAbs": 2.743381977081299,
+        "edgeToInterior": 0.9615351323390846
+      },
+      "runtimeBytes": 600136,
+      "runtimeSha256": "30cfcdaaa09ff36bffbc9b6fce4c5c60e2748df00b20fff6b038fc668ba4b01f"
+    },
+    {
+      "id": "pyra-special-s35",
+      "fingerprint": "b1b285c4fe4e1ef0ddc7d3cf1d12d737b74e3dff93e339c0de768949758edb2a",
+      "sha256": "31375f126b95e3f6724a74471d02c8af995a8794161f612475cf3d9d73f5e4ab",
+      "seconds": 2.1413296689279377,
+      "peakAllocatedBytes": 12320726528,
+      "sourceSeam": {
+        "edgeMeanAbs": 33.73860549926758,
+        "interiorMeanAbs": 4.865110397338867,
+        "edgeToInterior": 6.934807793410407
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 12.2919921875,
+        "interiorMeanAbs": 4.170463562011719,
+        "edgeToInterior": 2.94739229937563
+      },
+      "runtimeBytes": 732872,
+      "runtimeSha256": "b9700384e1571a75463f0ddbf1b17e0dad98f8cea48fff111c5a83211f4d8bc1"
+    },
+    {
+      "id": "pyra-special-s55",
+      "fingerprint": "49a983f53332d42f41e2a60919bd59992ed7037c72c90f0b760e6d3dd4562307",
+      "sha256": "dff565ae76a738a4b4051d49d050679f9672b29f9bbf416ceebf5b79f1743333",
+      "seconds": 2.339724927674979,
+      "peakAllocatedBytes": 12321250816,
+      "sourceSeam": {
+        "edgeMeanAbs": 33.73860549926758,
+        "interiorMeanAbs": 4.865110397338867,
+        "edgeToInterior": 6.934807793410407
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 10.76611328125,
+        "interiorMeanAbs": 4.224585056304932,
+        "edgeToInterior": 2.548442779056429
+      },
+      "runtimeBytes": 726480,
+      "runtimeSha256": "2ff934a0a68d1a00bb07c2832f5cd1dab7b25f34a78bac14611b2b57dc514a5c"
+    }
+  ],
+  "status": "candidates-ready-review-required",
+  "model": {
+    "repository": "Lykon/dreamshaper-xl-v2-turbo",
+    "revision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+    "files": [
+      {
+        "file": "README.md",
+        "bytes": 1535,
+        "sha256": "0959ea48a3b054cfba33e0453f07c8e1aa1444f34f7f9949545220f75455fd7e"
+      },
+      {
+        "file": "model_index.json",
+        "bytes": 671,
+        "sha256": "a69fbd2647d5334cf1c44f7cc90453ff24e0d7c98d45092f62b114dd0436a6d2"
+      },
+      {
+        "file": "scheduler/scheduler_config.json",
+        "bytes": 558,
+        "sha256": "93fb2cd3c439d000f8dca6658fff5e3dfd019bfdc4fb054ebf736c2b92b81299"
+      },
+      {
+        "file": "text_encoder/config.json",
+        "bytes": 560,
+        "sha256": "c8386de73a461002dc66190e6ab15209ed98b6303078e49e3efd7dc2f2b787db"
+      },
+      {
+        "file": "text_encoder/model.fp16.safetensors",
+        "bytes": 246144152,
+        "sha256": "3dea4e3e892df8d0d41540f7bacfdec4d5c978d1aaf2375f0a56d41d814a640f"
+      },
+      {
+        "file": "text_encoder_2/config.json",
+        "bytes": 570,
+        "sha256": "aced43647f7ac208a025c7396b593e1f9f5f5d88b5068f9353866db5357f6b06"
+      },
+      {
+        "file": "text_encoder_2/model.fp16.safetensors",
+        "bytes": 1389382176,
+        "sha256": "30b466dbbac35c5c63d0fc1893c17433f0d367886c1081d4a699ce728ed013af"
+      },
+      {
+        "file": "tokenizer/merges.txt",
+        "bytes": 524619,
+        "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a"
+      },
+      {
+        "file": "tokenizer/special_tokens_map.json",
+        "bytes": 588,
+        "sha256": "2cdb3b8331a60c92fc1e55a13e9fd61fd2293c5a51275fdcccd62b780052530e"
+      },
+      {
+        "file": "tokenizer/tokenizer_config.json",
+        "bytes": 705,
+        "sha256": "6bdcee9ccce2a16ca2b4c0c5ed00b42c50ea225f4472a8c4c1e963a2902c2881"
+      },
+      {
+        "file": "tokenizer/vocab.json",
+        "bytes": 1059962,
+        "sha256": "e089ad92ba36837a0d31433e555c8f45fe601ab5c221d4f607ded32d9f7a4349"
+      },
+      {
+        "file": "tokenizer_2/merges.txt",
+        "bytes": 524619,
+        "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a"
+      },
+      {
+        "file": "tokenizer_2/special_tokens_map.json",
+        "bytes": 462,
+        "sha256": "c934044566ac411c4739e9cec969e061e8dcdf2bd108196a66ce917376d4d68e"
+      },
+      {
+        "file": "tokenizer_2/tokenizer_config.json",
+        "bytes": 856,
+        "sha256": "e70eb3e2b85a508e32bb81c32c13fc3f2b015548ca469b94627c2f32e445cba1"
+      },
+      {
+        "file": "tokenizer_2/vocab.json",
+        "bytes": 1059962,
+        "sha256": "e089ad92ba36837a0d31433e555c8f45fe601ab5c221d4f607ded32d9f7a4349"
+      },
+      {
+        "file": "unet/config.json",
+        "bytes": 1773,
+        "sha256": "bb8ab4a15cda73d5e75f466e020fbd97e0d1a3bbee6e5378b94f0dc2eb8af2f2"
+      },
+      {
+        "file": "unet/diffusion_pytorch_model.fp16.safetensors",
+        "bytes": 5135149760,
+        "sha256": "c1217e273e6fd7570c2ae9d38172323ff0b6f8ac7f2000b3ba99d4851906ee1e"
+      },
+      {
+        "file": "vae/config.json",
+        "bytes": 602,
+        "sha256": "ec13eefd4a3ea11116879c105665881d5b31d1f8425e73cc6016e7cba72d14c0"
+      },
+      {
+        "file": "vae/diffusion_pytorch_model.fp16.safetensors",
+        "bytes": 167335342,
+        "sha256": "5ebe0b826867138fc37d4474983ef0b487cef39d8f3cd84228f3b5c5aba241d4"
+      }
+    ]
+  },
+  "queueSha256": "8b0a7a4a6cfec361fa78cb8d69f296ef3c8d938b3a80a46588e643ae7cfd1734",
+  "gpu": "NVIDIA A100-SXM4-80GB",
+  "torch": "2.9.0+cu130",
+  "diffusers": "0.35.2",
+  "python": "3.12.3",
+  "scope": "Terrain candidates only; not installed or published. Quality acceptance pending."
+}

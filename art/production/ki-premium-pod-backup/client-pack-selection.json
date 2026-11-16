@@ -1,0 +1,64 @@
+{
+  "assets": [
+    {
+      "root": "/workspace/ki-premium",
+      "id": "pyra-b0-s35"
+    },
+    {
+      "root": "/workspace/ki-premium",
+      "id": "pyra-b1-s35"
+    },
+    {
+      "root": "/workspace/ki-premium",
+      "id": "pyra-special-s35"
+    },
+    {
+      "root": "/workspace/ki-premium/pyra-batch2",
+      "id": "pyra-b2-s35"
+    },
+    {
+      "root": "/workspace/ki-premium/pyra-batch2",
+      "id": "pyra-b3-s35"
+    },
+    {
+      "root": "/workspace/ki-premium/pyra-batch2",
+      "id": "pyra-water-s55"
+    },
+    {
+      "root": "/workspace/ki-premium/pyra-batch2",
+      "id": "pyra-shore-s35"
+    },
+    {
+      "root": "/workspace/ki-premium/pyra-batch2",
+      "id": "pyra-over1-s35"
+    },
+    {
+      "root": "/workspace/ki-premium/pyra-batch2",
+      "id": "pyra-over2-s35"
+    },
+    {
+      "root": "/workspace/ki-premium/pyra-batch2",
+      "id": "pyra-object-0-s40"
+    },
+    {
+      "root": "/workspace/ki-premium/pyra-batch2",
+      "id": "pyra-object-1-s40"
+    },
+    {
+      "root": "/workspace/ki-premium/pyra-batch2",
+      "id": "pyra-object-2-s40"
+    },
+    {
+      "root": "/workspace/ki-premium/pyra-batch2",
+      "id": "pyra-object-3-s40"
+    },
+    {
+      "root": "/workspace/ki-premium/pyra-batch2",
+      "id": "pyra-object-6-s40"
+    },
+    {
+      "root": "/workspace/ki-premium/pyra-batch2",
+      "id": "pyra-object-7-s40"
+    }
+  ]
+}

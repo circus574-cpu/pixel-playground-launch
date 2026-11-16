@@ -10,3 +10,8 @@ deliveries/**/*.apk filter=lfs diff=lfs merge=lfs -text
 deliveries/**/*.pck filter=lfs diff=lfs merge=lfs -text
 art/production/intro/*.mp4 filter=lfs diff=lfs merge=lfs -text
 art/production/intro/*.png filter=lfs diff=lfs merge=lfs -text
+art/production/ki-premium-pod-backup/**/*.png filter=lfs diff=lfs merge=lfs -text
+art/production/ki-premium-pod-backup/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+art/production/ki-premium-pod-backup/**/*.webp filter=lfs diff=lfs merge=lfs -text
+art/production/ki-premium-pod-backup/**/*.mp4 filter=lfs diff=lfs merge=lfs -text
+art/production/ki-premium-pod-backup/**/*.zip filter=lfs diff=lfs merge=lfs -text

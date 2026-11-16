@@ -1,0 +1,38 @@
+{
+  "modelRevision": "b8fff7315c768468a5333511427288870b2e9635",
+  "negativePrompt": "camera movement, zoom, pan, cuts, changing clothes, changing face, different character, extra limbs, duplicate body, malformed hands, weapons, sword, text, watermark, environment, ground, shadows, smoke, fire, glowing effects, cropped feet",
+  "jobs": [
+    {
+      "id": "legend-walk-right-v2",
+      "clip": "walk",
+      "direction": "right",
+      "input": "legend-right.png",
+      "inputSha256": "782b39eadebd89b029de30ea308dd7a44c2b59eba626886e3b030deb0a98f976",
+      "prompt": "Same adult anime male warrior and exactly the same black and crimson spiked armor and red sash as reference. Right profile. Brisk natural walking across the white stage toward the right. Full clear alternating leg strides: one foot reaches forward while the other pushes back, then exchange. Arms swing opposite the legs. Two complete walking cycles with obvious leg motion. Full body always visible. Static camera, pure white background, no ground or scenery, no turning.",
+      "frames": 81,
+      "size": [
+        960,
+        640
+      ],
+      "steps": 35,
+      "fps": 24,
+      "seed": 5741121
+    },
+    {
+      "id": "legend-attack-right-v2",
+      "clip": "attack",
+      "direction": "right",
+      "input": "legend-right.png",
+      "inputSha256": "782b39eadebd89b029de30ea308dd7a44c2b59eba626886e3b030deb0a98f976",
+      "prompt": "Same adult anime male warrior and exactly the same black and crimson spiked armor and red sash as reference. Right profile. One powerful straight unarmed punch: anticipate, extend fist sharply, then retract arm and completely recover into the initial ready stance. One complete punch and recovery. Full body remains visible and centered. Static camera and pure white background.",
+      "frames": 81,
+      "size": [
+        640,
+        640
+      ],
+      "steps": 35,
+      "fps": 24,
+      "seed": 5741122
+    }
+  ]
+}

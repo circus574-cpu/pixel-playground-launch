@@ -1,0 +1,784 @@
+{
+  "items": [
+    {
+      "id": "pyra-b2-s35",
+      "fingerprint": "7c1a6a175a82bd72f01742b67e71c61896e802df344c70116916e6be88d3a8ba",
+      "sha256": "955821445968891feed4d6fc0c293c4d9929c455454baace610c4c6be15b3a6e",
+      "seconds": 2.054372393991798,
+      "peakAllocatedBytes": 9129954304,
+      "sourceSeam": {
+        "edgeMeanAbs": 31.68283462524414,
+        "interiorMeanAbs": 6.092527866363525,
+        "edgeToInterior": 5.200277343032461
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 10.49972915649414,
+        "interiorMeanAbs": 4.793314456939697,
+        "edgeToInterior": 2.1904945420997306
+      },
+      "runtimeBytes": 122634,
+      "runtimeSha256": "79d07b67deb867a04e2ba81f2e35696a9537790819d13edddc2288d27416d25c",
+      "sourceSize": [
+        512,
+        194
+      ],
+      "runtimeSize": [
+        512,
+        194
+      ],
+      "alphaPreserved": false
+    },
+    {
+      "id": "pyra-b2-s55",
+      "fingerprint": "e3c76343c7711fd9681fb9d7eee4a613329501ee10af9982efaef64c5529b32d",
+      "sha256": "580edc7978e9680d8fd3c61278dbcb55105e181a0aa121ca85c221f77cc4da10",
+      "seconds": 1.5165326790884137,
+      "peakAllocatedBytes": 9129954304,
+      "sourceSeam": {
+        "edgeMeanAbs": 31.68283462524414,
+        "interiorMeanAbs": 6.092527866363525,
+        "edgeToInterior": 5.200277343032461
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 7.0021162033081055,
+        "interiorMeanAbs": 6.522307395935059,
+        "edgeToInterior": 1.0735642738445725
+      },
+      "runtimeBytes": 143114,
+      "runtimeSha256": "9804a7ea71f17a3a4e5db740b673b94554cd5e52ffb332148dd3f2b47008efb4",
+      "sourceSize": [
+        512,
+        194
+      ],
+      "runtimeSize": [
+        512,
+        194
+      ],
+      "alphaPreserved": false
+    },
+    {
+      "id": "pyra-b3-s35",
+      "fingerprint": "e8fe24681ae60b54d06155f8a03cb0e2ccdb69c2ddaeadbe27bed63be09d01a7",
+      "sha256": "84030ae509a63e620c9c33e750d98f801dd07764ada70db934c4f0b1e74bb01c",
+      "seconds": 1.993216989096254,
+      "peakAllocatedBytes": 12319940096,
+      "sourceSeam": {
+        "edgeMeanAbs": 10.562662124633789,
+        "interiorMeanAbs": 4.020455360412598,
+        "edgeToInterior": 2.6272302955130438
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 3.3050131797790527,
+        "interiorMeanAbs": 3.2646288871765137,
+        "edgeToInterior": 1.0123702552413136
+      },
+      "runtimeBytes": 301436,
+      "runtimeSha256": "0adb985b0f8044d92ebb96ba1ec604c154665aab95b2b6d99d1290eac15343a2",
+      "sourceSize": [
+        512,
+        512
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "alphaPreserved": false
+    },
+    {
+      "id": "pyra-b3-s55",
+      "fingerprint": "89ef7595d954ea9cb6207cefdaa73df0c6675ff12b2f009bd84cfb814ad2247a",
+      "sha256": "f3ac4b7207c6de255dfcbb85003b89e5977f44e5d9c546fd81bc3adb193f9951",
+      "seconds": 2.2814453872852027,
+      "peakAllocatedBytes": 12320726528,
+      "sourceSeam": {
+        "edgeMeanAbs": 10.562662124633789,
+        "interiorMeanAbs": 4.020455360412598,
+        "edgeToInterior": 2.6272302955130438
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 4.1357421875,
+        "interiorMeanAbs": 4.098752975463867,
+        "edgeToInterior": 1.0090245038570411
+      },
+      "runtimeBytes": 332722,
+      "runtimeSha256": "e091d7fc8d93c61ddb1ca50e228b595dfcdfa07cdf0a8ae4658d974293771959",
+      "sourceSize": [
+        512,
+        512
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "alphaPreserved": false
+    },
+    {
+      "id": "pyra-water-s35",
+      "fingerprint": "e47b385041c665c6c4aab7807223bee1d5e28853d45bfd9991393ecdbc2d853c",
+      "sha256": "830658e0ef5688182052a62ced6f890dc6c3caeda0db7a153c80af8069ab4a02",
+      "seconds": 1.8814176758751273,
+      "peakAllocatedBytes": 12320726528,
+      "sourceSeam": {
+        "edgeMeanAbs": 23.10042381286621,
+        "interiorMeanAbs": 2.608132839202881,
+        "edgeToInterior": 8.857073330638464
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 7.4275712966918945,
+        "interiorMeanAbs": 2.4579110145568848,
+        "edgeToInterior": 3.0219040692288637
+      },
+      "runtimeBytes": 264776,
+      "runtimeSha256": "c76271f699dea3772f3f6bd2556c547fd58acf5284fe735f3800a02393581230",
+      "sourceSize": [
+        512,
+        512
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "alphaPreserved": false
+    },
+    {
+      "id": "pyra-water-s55",
+      "fingerprint": "bfa8ef4c8a0391074fc1497cbf2275e8f2f759a23621dec607ef66c6f2c440f2",
+      "sha256": "777924e7be588956a233f564e2c27f4a03834a00a09ca6f5fee636003b82fa31",
+      "seconds": 2.1990402350202203,
+      "peakAllocatedBytes": 12319940096,
+      "sourceSeam": {
+        "edgeMeanAbs": 23.10042381286621,
+        "interiorMeanAbs": 2.608132839202881,
+        "edgeToInterior": 8.857073330638464
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 2.3094074726104736,
+        "interiorMeanAbs": 2.3182711601257324,
+        "edgeToInterior": 0.9961765958755325
+      },
+      "runtimeBytes": 264128,
+      "runtimeSha256": "d8cb5a9345998861d8d335ff200745cae437736ff159121d9eb3e240e272858b",
+      "sourceSize": [
+        512,
+        512
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "alphaPreserved": false
+    },
+    {
+      "id": "pyra-shore-s35",
+      "fingerprint": "9be4de64447dfd15f5dd09d749a1eb74484a23bc279e81346dfbbff07a15c112",
+      "sha256": "ba4c5742b0d9352d1a19dbd65aac7f3360c9a25c11e93f729a767bc30033a5e6",
+      "seconds": 1.2290812451392412,
+      "peakAllocatedBytes": 9129954304,
+      "sourceSeam": {
+        "edgeMeanAbs": 24.736492156982422,
+        "interiorMeanAbs": 8.31633186340332,
+        "edgeToInterior": 2.9744474563163266
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 8.240288734436035,
+        "interiorMeanAbs": 7.177690505981445,
+        "edgeToInterior": 1.1480418008507174
+      },
+      "runtimeBytes": 141392,
+      "runtimeSha256": "24b99d9f96d6f019454f69ec7c9c43ab4f75d9474e6dc19ffd093a0c9483580a",
+      "sourceSize": [
+        512,
+        194
+      ],
+      "runtimeSize": [
+        512,
+        194
+      ],
+      "alphaPreserved": false
+    },
+    {
+      "id": "pyra-shore-s55",
+      "fingerprint": "454f44d811b376adaecbe8e9d01d6b79a0a6b99301d6f5488b3905fb2dec67c4",
+      "sha256": "092c45e83af05017a9baa91d638bdf2b065ccfefcaac56f7e909a18c7348820e",
+      "seconds": 1.376251527108252,
+      "peakAllocatedBytes": 9129954304,
+      "sourceSeam": {
+        "edgeMeanAbs": 24.736492156982422,
+        "interiorMeanAbs": 8.31633186340332,
+        "edgeToInterior": 2.9744474563163266
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 7.774956703186035,
+        "interiorMeanAbs": 7.290184020996094,
+        "edgeToInterior": 1.0664966317439686
+      },
+      "runtimeBytes": 142510,
+      "runtimeSha256": "7aba78fdf68f7fe544d451efee84aa5734d63ed71de30ecfba56763ec387d420",
+      "sourceSize": [
+        512,
+        194
+      ],
+      "runtimeSize": [
+        512,
+        194
+      ],
+      "alphaPreserved": false
+    },
+    {
+      "id": "pyra-over1-s35",
+      "fingerprint": "1cda2007e7d593029867aafa8949dcf53888c964712017c2e7f5a3f602e9af86",
+      "sha256": "b1a763286c3d6943f7a8eb8a6a76b3b7ced83b4eefde97350950a5c5b73ca0db",
+      "seconds": 1.9938765312545002,
+      "peakAllocatedBytes": 12319940096,
+      "sourceSeam": {
+        "edgeMeanAbs": 8.695963859558105,
+        "interiorMeanAbs": 3.2840375900268555,
+        "edgeToInterior": 2.6479489412564834
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 3.1451821327209473,
+        "interiorMeanAbs": 2.7472000122070312,
+        "edgeToInterior": 1.1448682726941994
+      },
+      "runtimeBytes": 295828,
+      "runtimeSha256": "bd5db5a977538b603c23ec60b5a9dab1448a35199ea82bf8d85aeafe0a0e2996",
+      "sourceSize": [
+        512,
+        512
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "alphaPreserved": false
+    },
+    {
+      "id": "pyra-over1-s55",
+      "fingerprint": "c6db893ef4b44c4277e6c6c7ac1ce8268d5cdbc8582ae3e5bfce54fbbf9a39a5",
+      "sha256": "cb9e336bb7d82de4043963543e62b7cbbf33bbc4de3604de9bcd0054bc1d6db0",
+      "seconds": 2.3251220760867,
+      "peakAllocatedBytes": 12320726528,
+      "sourceSeam": {
+        "edgeMeanAbs": 8.695963859558105,
+        "interiorMeanAbs": 3.2840375900268555,
+        "edgeToInterior": 2.6479489412564834
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 3.4156899452209473,
+        "interiorMeanAbs": 3.445080518722534,
+        "edgeToInterior": 0.9914688282779279
+      },
+      "runtimeBytes": 329104,
+      "runtimeSha256": "fd6c4acb4a1d35e0f783e7abf199f1b9bb335019ba5a255b34186a92b9152c2a",
+      "sourceSize": [
+        512,
+        512
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "alphaPreserved": false
+    },
+    {
+      "id": "pyra-over2-s35",
+      "fingerprint": "4d5ae54190b22e25cb669a1863f288a07074a15da68caa409f62e18b8ef801e7",
+      "sha256": "e6ee5344c739777eee242b77dd6c1f8654aa81569b506b6b3d81c092c609b987",
+      "seconds": 1.995485497172922,
+      "peakAllocatedBytes": 12319940096,
+      "sourceSeam": {
+        "edgeMeanAbs": 26.380535125732422,
+        "interiorMeanAbs": 7.07000732421875,
+        "edgeToInterior": 3.7313306643069883
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 11.134603500366211,
+        "interiorMeanAbs": 5.565675735473633,
+        "edgeToInterior": 2.0005843009139426
+      },
+      "runtimeBytes": 323976,
+      "runtimeSha256": "eb0e34a8c37304b516f33776069dea4f6216970bab4c1defa791f7abf6f1a337",
+      "sourceSize": [
+        512,
+        512
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "alphaPreserved": false
+    },
+    {
+      "id": "pyra-over2-s55",
+      "fingerprint": "29f7f5a04184eb93cd6d71e9bc567c23407e2deceff9728c357213a8973d5f5c",
+      "sha256": "c26bb25531e88961c48218b59e01d72a6ce9de8dfedb6af6f22faa0f703f25f3",
+      "seconds": 2.1389182819984853,
+      "peakAllocatedBytes": 12319940096,
+      "sourceSeam": {
+        "edgeMeanAbs": 26.380535125732422,
+        "interiorMeanAbs": 7.07000732421875,
+        "edgeToInterior": 3.7313306643069883
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 5.95703125,
+        "interiorMeanAbs": 6.023538112640381,
+        "edgeToInterior": 0.9889588375807208
+      },
+      "runtimeBytes": 351630,
+      "runtimeSha256": "a2ac72bdbdd1864cf50f8025884252e4810f90511f7b8f5b9657e613e5337312",
+      "sourceSize": [
+        512,
+        512
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "alphaPreserved": false
+    },
+    {
+      "id": "pyra-object-0-s25",
+      "fingerprint": "6067be5635ff5e27c5b5d0b0a14504741edcf6c9d3a516066cac386d431455a7",
+      "sha256": "8e7769c364cf5edc072addf5b9ec008a6ad1469aa304f05e89dc667adf73da78",
+      "seconds": 1.7120496360585093,
+      "peakAllocatedBytes": 11237801472,
+      "sourceSeam": {
+        "edgeMeanAbs": 0.0,
+        "interiorMeanAbs": 3.4995837211608887,
+        "edgeToInterior": 0.0
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 0.01985677145421505,
+        "interiorMeanAbs": 3.3855514526367188,
+        "edgeToInterior": 0.005865151285398512
+      },
+      "runtimeBytes": 81698,
+      "runtimeSha256": "cbdf1fcb10561577da31e5fe41990b1f78a4d399ec1f3a1eb2ed1183d7313040",
+      "sourceSize": [
+        272,
+        213
+      ],
+      "runtimeSize": [
+        272,
+        213
+      ],
+      "alphaPreserved": true
+    },
+    {
+      "id": "pyra-object-0-s40",
+      "fingerprint": "e001b14a1dc1407dfe62f8354c9abded2dc0ce4973dcdb8e30ed24726419b25e",
+      "sha256": "787be0a60f2c163454c9f28d63a0131601797f1188536ecae3ec9ff225a3b87a",
+      "seconds": 1.909678383730352,
+      "peakAllocatedBytes": 11237801472,
+      "sourceSeam": {
+        "edgeMeanAbs": 0.0,
+        "interiorMeanAbs": 3.4995837211608887,
+        "edgeToInterior": 0.0
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 0.1861979216337204,
+        "interiorMeanAbs": 3.2977375984191895,
+        "edgeToInterior": 0.05646232184239784
+      },
+      "runtimeBytes": 81016,
+      "runtimeSha256": "6254d306dc3ddaaca62e59f86121fac42145ed0f3311b59b9b12056f71f4662f",
+      "sourceSize": [
+        272,
+        213
+      ],
+      "runtimeSize": [
+        272,
+        213
+      ],
+      "alphaPreserved": true
+    },
+    {
+      "id": "pyra-object-1-s25",
+      "fingerprint": "e56abb76d43c19c1ec0f4b908d902ba54249da57909c6b528b693dd99e637227",
+      "sha256": "f46c68a53e1b2fcd1444ec23fa3c762c672842545d1c67067b9c9185d1efc634",
+      "seconds": 1.8023826605640352,
+      "peakAllocatedBytes": 11237801472,
+      "sourceSeam": {
+        "edgeMeanAbs": 0.0,
+        "interiorMeanAbs": 4.64136266708374,
+        "edgeToInterior": 0.0
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 0.02392578125,
+        "interiorMeanAbs": 4.414433002471924,
+        "edgeToInterior": 0.005419899053083923
+      },
+      "runtimeBytes": 185620,
+      "runtimeSha256": "aeafd230b9bc6358890f4eaf355218ba9cc2758e608f76b73398a12d98df184b",
+      "sourceSize": [
+        398,
+        400
+      ],
+      "runtimeSize": [
+        398,
+        400
+      ],
+      "alphaPreserved": true
+    },
+    {
+      "id": "pyra-object-1-s40",
+      "fingerprint": "b7e2e866fcfd465b02ee55016423881534dd61c6f8c87e8c02802b30a17f9efe",
+      "sha256": "0a0b45b7e979d2651c6946921b98503246470b55284ed5789bdb0d841293adcb",
+      "seconds": 2.1376240039244294,
+      "peakAllocatedBytes": 11237801472,
+      "sourceSeam": {
+        "edgeMeanAbs": 0.0,
+        "interiorMeanAbs": 4.64136266708374,
+        "edgeToInterior": 0.0
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 0.1896158903837204,
+        "interiorMeanAbs": 4.3262739181518555,
+        "edgeToInterior": 0.04382891466676307
+      },
+      "runtimeBytes": 179852,
+      "runtimeSha256": "caeeba9149663033565defab3a8dde7a3c0fb2920881d21bd0e2873828419166",
+      "sourceSize": [
+        398,
+        400
+      ],
+      "runtimeSize": [
+        398,
+        400
+      ],
+      "alphaPreserved": true
+    },
+    {
+      "id": "pyra-object-2-s25",
+      "fingerprint": "c16595f3ed75c08b7e9d9c5ca97a8bc641940f5244893d346836f01098ba7bb0",
+      "sha256": "2b5f708044a1319a069f5092008388a3877bd62bac4f8e71e6d6a899462fff95",
+      "seconds": 1.7606044970452785,
+      "peakAllocatedBytes": 11237932544,
+      "sourceSeam": {
+        "edgeMeanAbs": 0.0,
+        "interiorMeanAbs": 4.543271064758301,
+        "edgeToInterior": 0.0
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 0.02034505270421505,
+        "interiorMeanAbs": 4.293837547302246,
+        "edgeToInterior": 0.0047381980524618455
+      },
+      "runtimeBytes": 177828,
+      "runtimeSha256": "cd11d3e37c667054c12a30aa077fa3d473c22afa10703e046933e4199d94f191",
+      "sourceSize": [
+        400,
+        363
+      ],
+      "runtimeSize": [
+        400,
+        363
+      ],
+      "alphaPreserved": true
+    },
+    {
+      "id": "pyra-object-2-s40",
+      "fingerprint": "b036706422e3b27b89601b09420161d84f2d690908dae8bbc40f96615a227615",
+      "sha256": "85f1f8de1d28d2ad3024c0bff558e7753f6f96d2e8f55f0d3e2a285ace6fa16a",
+      "seconds": 2.110978551674634,
+      "peakAllocatedBytes": 11237801472,
+      "sourceSeam": {
+        "edgeMeanAbs": 0.0,
+        "interiorMeanAbs": 4.543271064758301,
+        "edgeToInterior": 0.0
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 0.71435546875,
+        "interiorMeanAbs": 4.166011810302734,
+        "edgeToInterior": 0.17147226202848653
+      },
+      "runtimeBytes": 175022,
+      "runtimeSha256": "401fadba7072a620ef3dcfadaec0b08edd811117a1a7a95760d20b6a27477070",
+      "sourceSize": [
+        400,
+        363
+      ],
+      "runtimeSize": [
+        400,
+        363
+      ],
+      "alphaPreserved": true
+    },
+    {
+      "id": "pyra-object-3-s25",
+      "fingerprint": "efc72f8d002efe5b2fbcd42ddf8026a27a2b28cedc2a563fc454ba4c73b8463d",
+      "sha256": "c4cc5e128da14921f503c2b2702b6757d397aeea38ab052d04a0b4abf2579a9f",
+      "seconds": 1.707793915644288,
+      "peakAllocatedBytes": 11238587904,
+      "sourceSeam": {
+        "edgeMeanAbs": 0.0,
+        "interiorMeanAbs": 3.2163727283477783,
+        "edgeToInterior": 0.0
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 0.02197265625,
+        "interiorMeanAbs": 3.1043524742126465,
+        "edgeToInterior": 0.007078015925228626
+      },
+      "runtimeBytes": 72212,
+      "runtimeSha256": "dcfb916cf6211f3eacdc5b057ed9c297170e72150078287c3f8ad85cb050a3ad",
+      "sourceSize": [
+        272,
+        197
+      ],
+      "runtimeSize": [
+        272,
+        197
+      ],
+      "alphaPreserved": true
+    },
+    {
+      "id": "pyra-object-3-s40",
+      "fingerprint": "d7d607c9366a36cdb79b647395f818a0fc708343869e7abf08f8d0794210330f",
+      "sha256": "8ead2167ae3557e60bc9812fb69312e69e60889cdfffe36b5015f3ca0e62fb2b",
+      "seconds": 1.9391360650770366,
+      "peakAllocatedBytes": 11238587904,
+      "sourceSeam": {
+        "edgeMeanAbs": 0.0,
+        "interiorMeanAbs": 3.2163727283477783,
+        "edgeToInterior": 0.0
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 0.1744791716337204,
+        "interiorMeanAbs": 3.0019021034240723,
+        "edgeToInterior": 0.058122871973307684
+      },
+      "runtimeBytes": 70820,
+      "runtimeSha256": "8a3249d38f424865dcf10361eb7bd0c493a440dd7c7692a83da03e139afb07b3",
+      "sourceSize": [
+        272,
+        197
+      ],
+      "runtimeSize": [
+        272,
+        197
+      ],
+      "alphaPreserved": true
+    },
+    {
+      "id": "pyra-object-6-s25",
+      "fingerprint": "51c44f2d59444a693ed32d9847a8cee35b81bb4887b5af24642ffb0c606a6a10",
+      "sha256": "572565134a8df18b7c24d87545cb1dd5e70001b9621c17f009f56750ddf92f50",
+      "seconds": 1.6708732759580016,
+      "peakAllocatedBytes": 11237801472,
+      "sourceSeam": {
+        "edgeMeanAbs": 0.0,
+        "interiorMeanAbs": 1.8520293235778809,
+        "edgeToInterior": 0.0
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 0.0035807292442768812,
+        "interiorMeanAbs": 1.8259116411209106,
+        "edgeToInterior": 0.0019610638125285755
+      },
+      "runtimeBytes": 66104,
+      "runtimeSha256": "3d16cb0ae02aa2e2a2b1c3364f595a8466b3b1d8adf4689403bfe33762b9825e",
+      "sourceSize": [
+        272,
+        230
+      ],
+      "runtimeSize": [
+        272,
+        230
+      ],
+      "alphaPreserved": true
+    },
+    {
+      "id": "pyra-object-6-s40",
+      "fingerprint": "8c3e0fa188229aa2559959d53934b4cc853c968c274dc841061d8902bdc15470",
+      "sha256": "9822191cc484a76628a31ae4598bbb3adf465e711c3712303a0ecbd11db033ec",
+      "seconds": 2.021964552346617,
+      "peakAllocatedBytes": 11238587904,
+      "sourceSeam": {
+        "edgeMeanAbs": 0.0,
+        "interiorMeanAbs": 1.8520293235778809,
+        "edgeToInterior": 0.0
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 0.01985677145421505,
+        "interiorMeanAbs": 1.876103162765503,
+        "edgeToInterior": 0.010584050945761866
+      },
+      "runtimeBytes": 68602,
+      "runtimeSha256": "400a97d97725c75b583709d9cd0a87ebcff9bbaa229e831eeca53a9c9033f7ee",
+      "sourceSize": [
+        272,
+        230
+      ],
+      "runtimeSize": [
+        272,
+        230
+      ],
+      "alphaPreserved": true
+    },
+    {
+      "id": "pyra-object-7-s25",
+      "fingerprint": "46e60f45df6f258470a7d9736121a8ebafd8493aba740552e0ce00dd7752ce7b",
+      "sha256": "d2db972fa8cc6c4e3dd4829c15ce2a180c7b9b31d8c6c8d7a2220351bcf0b52a",
+      "seconds": 1.7669002618640661,
+      "peakAllocatedBytes": 11238587904,
+      "sourceSeam": {
+        "edgeMeanAbs": 0.0,
+        "interiorMeanAbs": 3.433032751083374,
+        "edgeToInterior": 0.0
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 0.00634765625,
+        "interiorMeanAbs": 3.3148815631866455,
+        "edgeToInterior": 0.0019148968459367526
+      },
+      "runtimeBytes": 87694,
+      "runtimeSha256": "12c1d48c2da968437d96c0155bb5ff527635b3b1ff8bae859bc3c1f28f218c08",
+      "sourceSize": [
+        272,
+        205
+      ],
+      "runtimeSize": [
+        272,
+        205
+      ],
+      "alphaPreserved": true
+    },
+    {
+      "id": "pyra-object-7-s40",
+      "fingerprint": "503d14d2e50b7b680c04d5254773da4ef2c790ee4129ff151ae10d982eb574f0",
+      "sha256": "7d99395b40bd384f1a30c907fb8d2ab248102f9a7a2ed4de76e9074e55104bde",
+      "seconds": 1.9335300121456385,
+      "peakAllocatedBytes": 11237801472,
+      "sourceSeam": {
+        "edgeMeanAbs": 0.0,
+        "interiorMeanAbs": 3.433032751083374,
+        "edgeToInterior": 0.0
+      },
+      "resultSeam": {
+        "edgeMeanAbs": 0.15869140625,
+        "interiorMeanAbs": 3.3250296115875244,
+        "edgeToInterior": 0.04772631368363463
+      },
+      "runtimeBytes": 87746,
+      "runtimeSha256": "ff3421216f68039663b800b7168d9ef4123be9c66947807f9c020377435e3adf",
+      "sourceSize": [
+        272,
+        205
+      ],
+      "runtimeSize": [
+        272,
+        205
+      ],
+      "alphaPreserved": true
+    }
+  ],
+  "status": "candidates-ready-review-required",
+  "model": {
+    "repository": "Lykon/dreamshaper-xl-v2-turbo",
+    "revision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+    "files": [
+      {
+        "file": "README.md",
+        "bytes": 1535,
+        "sha256": "0959ea48a3b054cfba33e0453f07c8e1aa1444f34f7f9949545220f75455fd7e"
+      },
+      {
+        "file": "model_index.json",
+        "bytes": 671,
+        "sha256": "a69fbd2647d5334cf1c44f7cc90453ff24e0d7c98d45092f62b114dd0436a6d2"
+      },
+      {
+        "file": "scheduler/scheduler_config.json",
+        "bytes": 558,
+        "sha256": "93fb2cd3c439d000f8dca6658fff5e3dfd019bfdc4fb054ebf736c2b92b81299"
+      },
+      {
+        "file": "text_encoder/config.json",
+        "bytes": 560,
+        "sha256": "c8386de73a461002dc66190e6ab15209ed98b6303078e49e3efd7dc2f2b787db"
+      },
+      {
+        "file": "text_encoder/model.fp16.safetensors",
+        "bytes": 246144152,
+        "sha256": "3dea4e3e892df8d0d41540f7bacfdec4d5c978d1aaf2375f0a56d41d814a640f"
+      },
+      {
+        "file": "text_encoder_2/config.json",
+        "bytes": 570,
+        "sha256": "aced43647f7ac208a025c7396b593e1f9f5f5d88b5068f9353866db5357f6b06"
+      },
+      {
+        "file": "text_encoder_2/model.fp16.safetensors",
+        "bytes": 1389382176,
+        "sha256": "30b466dbbac35c5c63d0fc1893c17433f0d367886c1081d4a699ce728ed013af"
+      },
+      {
+        "file": "tokenizer/merges.txt",
+        "bytes": 524619,
+        "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a"
+      },
+      {
+        "file": "tokenizer/special_tokens_map.json",
+        "bytes": 588,
+        "sha256": "2cdb3b8331a60c92fc1e55a13e9fd61fd2293c5a51275fdcccd62b780052530e"
+      },
+      {
+        "file": "tokenizer/tokenizer_config.json",
+        "bytes": 705,
+        "sha256": "6bdcee9ccce2a16ca2b4c0c5ed00b42c50ea225f4472a8c4c1e963a2902c2881"
+      },
+      {
+        "file": "tokenizer/vocab.json",
+        "bytes": 1059962,
+        "sha256": "e089ad92ba36837a0d31433e555c8f45fe601ab5c221d4f607ded32d9f7a4349"
+      },
+      {
+        "file": "tokenizer_2/merges.txt",
+        "bytes": 524619,
+        "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a"
+      },
+      {
+        "file": "tokenizer_2/special_tokens_map.json",
+        "bytes": 462,
+        "sha256": "c934044566ac411c4739e9cec969e061e8dcdf2bd108196a66ce917376d4d68e"
+      },
+      {
+        "file": "tokenizer_2/tokenizer_config.json",
+        "bytes": 856,
+        "sha256": "e70eb3e2b85a508e32bb81c32c13fc3f2b015548ca469b94627c2f32e445cba1"
+      },
+      {
+        "file": "tokenizer_2/vocab.json",
+        "bytes": 1059962,
+        "sha256": "e089ad92ba36837a0d31433e555c8f45fe601ab5c221d4f607ded32d9f7a4349"
+      },
+      {
+        "file": "unet/config.json",
+        "bytes": 1773,
+        "sha256": "bb8ab4a15cda73d5e75f466e020fbd97e0d1a3bbee6e5378b94f0dc2eb8af2f2"
+      },
+      {
+        "file": "unet/diffusion_pytorch_model.fp16.safetensors",
+        "bytes": 5135149760,
+        "sha256": "c1217e273e6fd7570c2ae9d38172323ff0b6f8ac7f2000b3ba99d4851906ee1e"
+      },
+      {
+        "file": "vae/config.json",
+        "bytes": 602,
+        "sha256": "ec13eefd4a3ea11116879c105665881d5b31d1f8425e73cc6016e7cba72d14c0"
+      },
+      {
+        "file": "vae/diffusion_pytorch_model.fp16.safetensors",
+        "bytes": 167335342,
+        "sha256": "5ebe0b826867138fc37d4474983ef0b487cef39d8f3cd84228f3b5c5aba241d4"
+      }
+    ]
+  },
+  "queueSha256": "cae3be9221d27e385f7c34a595afc766eabd9ca130a1c191db62e1f9d39e20b9",
+  "gpu": "NVIDIA A100-SXM4-80GB",
+  "torch": "2.9.0+cu130",
+  "diffusers": "0.35.2",
+  "python": "3.12.3",
+  "scope": "Terrain candidates only; not installed or published. Quality acceptance pending."
+}
