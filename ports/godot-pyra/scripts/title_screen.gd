@@ -9,7 +9,6 @@ var loading := false
 var city_instance: PyraGame
 var start_button := Button.new()
 var status := Label.new()
-var title := Label.new()
 var powered := TextureRect.new()
 var powered_caption := Label.new()
 var version_label := Label.new()
@@ -106,7 +105,8 @@ static func shown_version(manifest_text: String = "") -> String:
 	var app_version := str(ProjectSettings.get_setting("application/config/version", "1.0"))
 	if manifest_text == "" and FileAccess.file_exists(PyraContent.MANIFEST_PATH):
 		manifest_text = FileAccess.get_file_as_string(PyraContent.MANIFEST_PATH)
-	var value: Variant = JSON.parse_string(manifest_text) if manifest_text != "" else null
+	var parser := JSON.new()
+	var value: Variant = parser.data if manifest_text != "" and parser.parse(manifest_text) == OK else null
 	if value is Dictionary and (value as Dictionary).get("manifest") is Dictionary:
 		var release := str(((value as Dictionary).manifest as Dictionary).get("version", ""))
 		var parts := release.split(".")

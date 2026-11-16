@@ -1,5 +1,14 @@
 # KI Legends Android — projekt Godot 4
 
+**Aktualny checkpoint, 16.11:** zainstalowana aplikacja **1.0** (`versionCode` 100),
+aktywne wydanie serwera **1.5**. Przygotowano **1.6** na gałęzi
+`feat/android-release-1.6-20261116`: ostatnie poprawki Claude'a (menu przewijane,
+link do panelu dla admin/GM), dokończona obsługa gestów bez przypadkowego kliknięcia,
+test aktualizacji menu na oryginalnej bazie APK 1.0. Publikacja 1.6 jest opisana
+w dzienniku 16.11, sekcja 21. Starsze numery APK w dalszych częściach README
+opisują wcześniejsze etapy. Postacie webowe nie są automatycznie importowane do
+zapisów Androida; ta aktualizacja nie migruje ani nie resetuje zapisów.
+
 Dokumentacja natywnej aplikacji **KI Legends na Androida** (Godot 4.6.3, GDScript, renderer Compatibility),
 stan 16.11.2026. Kod w repozytorium to **pełna gra: potwory, questy, dźwięk, ekwipunek, bossowie, jaskinie, wydarzenia świata, dzień i noc**
 (sekcja 1); ostatni zbudowany APK (`0.7.0-bestiary`, sekcja 2) jest starszy niż kod: **nie ma w nim questów, dźwięku, zasad
@@ -437,3 +446,5 @@ Aplikacja ma wersję **1.0** (`versionCode` 100). Kolejne wersje (1.1, 1.2, …)
 Wydanie nowej wersji: `python3 scripts/godot/build_packs.py build --version 1.1` (paczki i `core-c100` do `deploy/godot-content/1.1`), kopia do `deliveries/godot-content-1.1`,
 workflow „Godot content packs to VPS (manual)” z `version=1.1`, `publish` i `activate` (za zgodą właściciela). Nowy APK tylko dla zmian spoza serwera (film, ikona, ikony przedmiotów, silnik, nowa `class_name`);
 wtedy nowy `versionCode` i klucz rdzenia (`core-c<kod>`), a `CLIENT_CODE` w `boot.gd` i `net.gd` oraz `version/code` w `export_presets.cfg` muszą się zgadzać (pilnuje tego smoke test).
+
+**Pułapka aktualizacji (16.11.2026).** `boot.gd` zainstalowanej aplikacji ładuje `scripts/skin.gd` przed montażem rdzenia, więc ten plik jest zamrożony; nowy wygląd idzie przez `scripts/look.gd` i `data/*.json`. Każdą zmianę sprawdzaj `python3 scripts/godot/e2e_installed.py`. Opis awarii i otwarte sprawy: `docs/zmiany/2026-11-16/ZMIANY.md`, sekcje 19–20.

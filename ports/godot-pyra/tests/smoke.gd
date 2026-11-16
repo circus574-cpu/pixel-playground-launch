@@ -826,7 +826,7 @@ func run() -> void:
 	var at_dusk := game.night_factor() > 0.4 and game.night_factor() < 0.6
 	game.world_time = time_saved
 	verify(at_night and at_day and at_dusk, "the day lasts 480 s: evening from 270 s, night 300-450 s, dawn after")
-	for rare: PyraMonster in [slime_a, slime_b, crab_front, crab_back, lion, lion_front, wasp, swarm]:
+	for rare in [slime_a, slime_b, crab_front, crab_back, lion, lion_front, wasp, swarm]:
 		if is_instance_valid(rare):
 			rare.queue_free()
 	for rare_key: int in mm.active.keys():
@@ -1246,6 +1246,7 @@ func run() -> void:
 	content_test.manifest = {"version": "t1", "packs": {"land-x": {"file": "land-x-aaaaaaaaaaaa.pck", "bytes": 10, "sha256": "00"}, "core": {"file": "core-bbbbbbbbbbbb.pck", "bytes": 5, "sha256": "11"}}, "lands": {"x": ["land-x", "core"]}}
 	verify(content_test.packs_for_land("x") == ["land-x", "core"] and content_test.packs_for_land("nope").is_empty() and content_test.version() == "t1", "the manifest tells which packs a land needs")
 	verify(PyraContent.embedded() and content_test.missing_for("x").is_empty(), "a build that carries all data itself downloads nothing")
+	content_test.free()
 	verify(PyraOnline.message_of({"status": 0, "json": null}, "x") == "Brak połączenia z serwerem." and PyraOnline.message_of({"status": 400, "json": {"message": "Błąd serwera"}}, "x") == "Błąd serwera" and PyraOnline.message_of({"status": 500, "json": null}, "dom") == "dom", "server messages are shown to the player")
 	var ghosts := PyraRemotePlayers.new()
 	ghosts.setup(game)
@@ -1259,9 +1260,11 @@ func run() -> void:
 	ghosts.clear()
 	ghosts.queue_free()
 	var gate_probe := PyraGate.new()
+	root.add_child(gate_probe)
 	verify(PyraGame.ALL_LANDS.has(gate_probe.start_land()), "the gate opens the land of the saved character (or Pyra)")
 	gate_probe.free()
 	var chat_probe := PyraChat.new()
+	root.add_child(chat_probe)
 	chat_probe.add_line("Ala", "Cześć")
 	verify(chat_probe.lines == ["Ala: Cześć"], "the chat keeps its lines")
 	chat_probe.free()
@@ -1477,15 +1480,15 @@ func run() -> void:
 	game.player.position = spawn()
 	game.interact()
 	await settle(2)
-	verify(game.story.steps.has("talk") and game.hud.modal.visible and game.hud.modal_box.get_children().any(func(n: Node) -> bool: return n is Button and (n as Button).text == "ROZMOWA"), "talking to a resident ticks its step and offers the subjects")
+	verify(game.story.steps.has("talk") and game.hud.modal.visible and game.hud.modal_box.find_children("*", "Button", true, false).any(func(n: Node) -> bool: return n is Button and (n as Button).text == "ROZMOWA"), "talking to a resident ticks its step and offers the subjects")
 	game.hud.close_dialog()
 	game.open_topics("Testowa", "guide")
 	await settle(2)
-	verify(game.hud.modal.visible and game.hud.modal_box.get_children().filter(func(n: Node) -> bool: return n is Button and (n as Button).text != "ZAMKNIJ").size() == 8, "the subject list has eight entries")
+	verify(game.hud.modal.visible and game.hud.modal_box.find_children("*", "Button", true, false).filter(func(n: Node) -> bool: return n is Button and (n as Button).text != "ZAMKNIJ").size() == 8, "the subject list has eight entries")
 	game.story.hear("r:guide:start")
 	game.open_topics("Testowa", "guide")
 	await settle(2)
-	verify(game.story.heard("r:guide:start") and game.hud.modal_box.get_children().any(func(n: Node) -> bool: return n is Button and (n as Button).text.begins_with("(znane)")), "a subject that has been heard is marked")
+	verify(game.story.heard("r:guide:start") and game.hud.modal_box.find_children("*", "Button", true, false).any(func(n: Node) -> bool: return n is Button and (n as Button).text.begins_with("(znane)")), "a subject that has been heard is marked")
 	# ---- combat feel: numbers, shake, hit-stop, hit clips, perfect dodge, animations -------------------
 	var cf_weak: Label = PyraFx.number(game.continent.sorted, game.player.position, 12, false, "weak")
 	var cf_hurt: Label = PyraFx.number(game.continent.sorted, game.player.position, 7, false, "hurt")

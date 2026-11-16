@@ -1,0 +1,18 @@
+{
+  "acceptance.json": "a2d5ac5c8543b012f6b090bde78ef62726450ae4f55fff4f76a260a0a5200f44",
+  "e2e-core.txt": "29fa18ce9271ae4cba7f561e5edc2157828d2e1ad71ee8b03f28319af1e4e4da",
+  "e2e-installed.txt": "11bf4004423043d7e19e4d9c6c8c2c30c8e40543ecfa0efdece7ed061229e62d",
+  "menu-1280x720.png": "ff66d09c146537f9bd79040c44382c299e8d49dc636824cad6293cdff24d06a2",
+  "menu-1600x720.png": "fdb411d453f431bbd9db7202af247aaccb901ecba4f53734e7f9d84c6860ee86",
+  "menu-854x480.png": "1ff23c9c30448bab31309849b8df644a812171ec0986f49edf1b72458e64f4a4",
+  "menu-before.txt": "89aa28acfc846db486063f837f2ff448a93268c6065620cf95877cbbbe9bc520",
+  "menu-headless-results.json": "b9ca38505ff2f8f5d81c9223a2f98ab13cc65f1aaa3b57866e295f1b4b95780e",
+  "menu-headless.txt": "b17c7f264536c9b4f7cbdc852e315ba1c0fa16ba56e89b8d5ceb75326ee5f3bc",
+  "menu-in-game.png": "5cf3c2b2b7cbd7af0619d15979ba10c2764c1cb906f1cb00cf7998d5293c0381",
+  "menu-in-game.txt": "64deb3af496042d04e75286baf788550ce38bfa26c06786da99472e136b44c88",
+  "menu-native-results.json": "b9ca38505ff2f8f5d81c9223a2f98ab13cc65f1aaa3b57866e295f1b4b95780e",
+  "menu-native.txt": "fd0803b8ae579860bad080544f2e9f4fd01cfcb3d1d07d47f351e2a81517e04b",
+  "smoke-results.json": "99cb05670ff451296925c8922ac10076370735578aa94e0df7b60c613d4bb276",
+  "smoke.txt": "922c14ebb52f52ba31d1751066d341a70a42fa79f1350be15782bf895386d00f",
+  "types.txt": "e3ad87b0ca3ec86534dc4bc5d809bd5a3dcd439abb40cb91a6a1636b0fa21f4a"
+}

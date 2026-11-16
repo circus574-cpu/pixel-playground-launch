@@ -409,3 +409,86 @@ Decyzja właściciela: APK ma wersję **1.0 „KI LEGENDS”**, a każda kolejna
 - **Wydanie 1.4: logowanie.** Aplikacja łączyła się już z serwerem (komunikat „Nieprawidłowy e-mail lub hasło” przyszedł z serwera), a konto właściciela działało w przeglądarce. Serwer przycina i ujednolica e-mail, ale hasło bierze dokładnie takie, jakie przyśle telefon (klawiatura Androida może dopisać spację). Dodano „Pokaż hasło” i drugą próbę bez spacji na brzegach hasła, gdy pierwsza zostanie odrzucona (`gate_screen.gd`). Przyczyna odrzucenia nie jest potwierdzona (nie mam dostępu do konta ani logów); zmiana to diagnostyka i obejście najbardziej prawdopodobnej przyczyny. `smoke.gd` 539/539, `e2e_installed.py` PASS.
 - **Zarządzanie serwerem wdrożone (PR #175 scalony za wyraźnym poleceniem właściciela).** Restart serwera gry w zakładce Serwer (`POST /ws/admin/restart`) trafia na produkcję przez wdrożenie z `main`. **Wydanie 1.5:** po odrzuceniu logowania aplikacja pokazuje, co wysłała (e-mail i długość hasła, nie samo hasło) i odpowiedź serwera, bo przyczyny odrzucenia konta, które działa w przeglądarce, nie udało się ustalić bez tych danych.
 - **Dziennik logowań w panelu (zakładka „Logowania”).** Po zrzucie właściciela (aplikacja wysyła poprawny e-mail i 8-znakowe hasło, serwer odpowiada 401) dodano zapis każdej próby logowania (przeglądarka i aplikacja) do `accounts.audit`: akcje `LOGIN` i `LOGIN_FAILED` z prawdziwym powodem (`BRAK_KONTA`, `ZLE_HASLO`, `KONTO_NIEAKTYWNE`, `KONTO_ZABLOKOWANE`, `NIEPOPRAWNE_DANE`, `LIMIT_PROB`), e-mailem, adresem IP i urządzeniem (aplikacja to „GodotEngine”). Gracz nadal słyszy tylko „Nieprawidłowy e-mail lub hasło”; haseł się nie zapisuje; błąd zapisu dziennika nigdy nie zmienia wyniku logowania. Zakładka „Dziennik” pokazuje teraz tylko zmiany w panelu, logowania są w „Logowania” (`GET /ws/admin/audit?kind=login`). Testy: `login-log.test.ts` (3), cały zestaw TS przechodzi.
+
+### 20. Stan na koniec dnia dla kolejnego agenta (Codex lub inny)
+
+Co jest zrobione, a co czeka. Szczegóły techniczne są w sekcjach 13–19 i w `ports/godot-pyra/README.md` („Wersje i aktualizacje”).
+
+**Na serwerze (kilegends.pl) działa:** wydanie gry Android **1.5** (aktywne), panel administratora ze wdrożonym restartem serwera i dziennikiem logowań (PR #175 i #176 scalone do `main`; wdrożenie `aruba-production.yml` z #176 mogło jeszcze trwać, sprawdź status).
+
+**W repozytorium, niepublikowane:** commit „Menu gry” (menu mieści się na ekranie, lista przewijana, przycisk panelu administratora dla administratora i GM). Wydanie **1.6** nie zostało zbudowane ani opublikowane; trzeba je zbudować (`build_packs.py build --version 1.6`), przetestować (`smoke.gd`, `e2e_core.py`, `e2e_installed.py`) i opublikować workflowem (za zgodą właściciela).
+
+**Otwarte problemy:**
+1. **Logowanie w aplikacji.** Aplikacja wysyła poprawny e-mail i 8-znakowe hasło (potwierdzone zrzutem), serwer odpowiada 401, a konto działa w przeglądarce. Przyczyna nie jest ustalona. Zakładka „Logowania” w panelu pokazuje prawdziwy powód każdej odmowy (`BRAK_KONTA`, `ZLE_HASLO`, …): zacznij od niej. Hipotezy do sprawdzenia: konto nie jest w bazie VPS (przeniesienie ze starego serwera `migrateLegacy` wymaga `SUPABASE_URL` i klucza w środowisku), albo inne hasło niż w przeglądarce (stara sesja).
+2. **Ekran ucięty na telefonie właściciela.** Okna (menu, logowanie) bywały większe niż ekran. Poprawki są w 1.2 (logowanie) i w niepublikowanym 1.6 (menu); nie zweryfikowano na prawdziwym telefonie. Sprawdzaj okna w proporcjach 20:9 (`tests/qa_menu.gd`, `tests/qa_login.gd`, `tests/qa_hud.gd`: `xvfb-run ... --script res://tests/qa_*.gd`).
+3. **Stare, niedokończone:** ramki i litery właściciela użyte tylko w oknach, przyciskach i tytułach; reszta interfejsu (paski, ekwipunek, postać) nadal ma stare style. Brakujące guziki od właściciela: menu główne (ZACZNIJ, ZALOGUJ, UTWÓRZ KONTO, GRAJ OFFLINE), okna (ZAMKNIJ, WYŚLIJ, WRÓĆ, DALEJ, POMIŃ), czat, mikstura, unik, E, sloty 1–4.
+
+**Zasady wyciągnięte z awarii (obowiązkowe):**
+- APK 1.0 (`versionCode` 100, klucz rdzenia `core-c100`) jest zainstalowany u właściciela i **nie wolno go zmieniać bez nowego numeru**. Jego `boot.gd` ładuje `scripts/skin.gd` PRZED montażem rdzenia z serwera, więc `skin.gd` jest zamrożony (test w `smoke.gd` pilnuje listy funkcji). Nowy wygląd: `scripts/look.gd` (bez `class_name`, ładowany przez `preload`) i `data/ui-art.json`, `data/letters.json`.
+- Każdą zmianę kodu, który ładuje się przed rdzeniem, sprawdzaj `scripts/godot/e2e_installed.py` (na prawdziwym, zainstalowanym APK), nie tylko `e2e_core.py`. Wydanie 1.1 przeszło `e2e_core.py` i zepsuło grę.
+- Grafiki w `assets/` (webp) nie jadą w rdzeniu: próba ich dołożenia złamała podmianę skryptów (przyczyna niewyjaśniona). Zmiana grafik interfejsu wymaga nowego APK albo osadzenia w `data/*.json` (jak `ui-art.json`).
+- Publikacja wydania: workflow `godot-content-upload.yml` (`publish` + `activate`) za wyraźną zgodą właściciela; wdrożenie strony i panelu: scalenie PR do `main` (też za zgodą). Wcześniejsza wersja jest zawsze do przywrócenia tym samym workflowem.
+- Aplikacja potrzebuje uprawnienia INTERNET (`export_presets.cfg`); do 16.11 go nie miała, stąd brak połączenia.
+- Nie rusz instancji GPU, nie przepisuj opublikowanej historii Git (`AGENTS.md`).
+
+### 21. Przejęcie od Claude'a i przygotowanie aktualizacji Android 1.6
+
+Zlecenie właściciela: „Już działa. Tylko że postaci nie mam które były. W ogóle
+dużo niedopracowań jest. Wypchninj ostatnie zmiany bo limit mi się skończył w claude”.
+Właściciel doprecyzował, że brakujące postacie to zapisy z przeglądarki. Aktualny
+Android czyta osobny format `ki-godot-pyra-save-2` i nie importuje postaci webowych.
+To luka portu, nie dowód utraty danych. Nie zmieniano zapisów ani bazy graczy.
+Logowanie według właściciela już działa; wcześniejszy wpis o blokadzie logowania
+nie jest aktualnym zgłoszeniem. Pomiary na fizycznym telefonie nadal nie były
+wykonywane w tej sesji.
+
+#### Zakres 1.6
+
+Na osobnej gałęzi od `main@664c7f18` pobrano opublikowane commity Claude'a
+`70a2b13c` i `c2dfddf2` (przewijane menu, panel dla admin/GM, instrukcja kontynuacji).
+Historia jest zachowana przez scalenie do gałęzi wydania; nie scalano do `main`.
+Wstrzykiwane zdarzenia dotyku ujawniły, że pierwotne przewijane menu aktywowało
+przyciski na `pointerdown` i nie dawało się przewijać bez akcji: test **0/2**.
+
+Poprawka `hud.gd`: akcja dopiero przy zwolnieniu tego samego palca, próg ruchu
+odróżnia klik od przewijania, przesunięcie zmienia pozycję listy, cancel/utrata
+fokusu/zamknięcie okna zerują przechwycenie, obcięte przyciski są poza hit testem,
+a emulowany klik myszy nie dubluje dotyku. Zachowano dotychczasowe przyciski
+o wysokości 80 jednostek; ma się przewijać lista, nie zmniejszać obszar dotyku.
+Gesty joysticka i walki pozostają w swoim istniejącym kontrolerze.
+
+Usunięto nieużywaną, osieroconą etykietę sceny startowej i wywoływanie błędu
+silnika przy prawidłowo obsługiwanym uszkodzonym JSON numeru wydania. Testy
+nie tworzą już niepodpiętych paneli kontrolnych ani typowanej tablicy ze zwolnioną
+próbką potwora. Nie usunięto ani nie ograniczono żadnej asercji.
+
+#### Kontrole i paczka
+
+- Pełny TypeScript app/e2e/tools PASS; kontrola dokumentacji PASS.
+- Godot headless: **539/539** asercji. Przy zamykaniu tego dużego testu nadal
+  występują zastane ostrzeżenia o niezwróconych zasobach; nie ogłaszamy czystego
+  zamknięcia ani pełnej natywnej regresji 539 przypadków.
+- Nowe testy menu: **11/11 headless i 11/11 natywnie**, w tym cancel, drugi palec,
+  utrata fokusu, brak kliknięć przez obcięte elementy, zamknięcie i trzy rozmiary
+  ekranu. Zrzut menu w rzeczywistej scenie gry wykonano w programowym OpenGL.
+- `e2e_core.py`: **11/11**. `e2e_installed.py`: **PASS na bazie oryginalnego
+  APK 1.0**, rozszerzony o rzeczywisty gest przewijania i klik menu po podmianie
+  kodu. `skin.gd`, kod APK 100 i plik APK pozostają bez zmian.
+- `deliveries/godot-content-1.6`: **27 paczek**, z czego **26 ma identyczne SHA-256
+  jak aktywne wydanie 1.5**. Zmienia się tylko `core-c100-eba2f7892d21.pck`,
+  3 513 680 bajtów, SHA-256
+  `eba2f7892d2151f62b62a79ea825d8872a7fc44b502c46ffd1f42270b95801ca`.
+
+[Raport i ograniczenia](qa/android-1.6/acceptance.json),
+[539 wyników](qa/android-1.6/smoke-results.json),
+[test menu przed poprawką](qa/android-1.6/menu-before.txt),
+[menu natywnie](qa/android-1.6/menu-native-results.json),
+[aktualizacja oryginalnego APK](qa/android-1.6/e2e-installed.txt),
+[menu w grze](qa/android-1.6/menu-in-game.png),
+[sumy dowodów](qa/android-1.6/evidence-sha256.json).
+
+**Stan odbioru tego commita:** paczka przygotowana i zweryfikowana; aktywacja
+odbędzie się osobnym ręcznym przebiegiem `godot-content-upload.yml` na gałęzi
+wydania (`publish=true`, `activate=true`). Wynik należy potwierdzić odczytem
+manifestu produkcyjnego i SHA pobranego rdzenia. To aktualizacja Androida,
+bez nowego APK, publikacji strony, zmian instancji GPU i resetu postaci.

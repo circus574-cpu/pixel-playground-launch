@@ -54,6 +54,13 @@ var coin_icon: Texture2D = load("res://assets/icons/coin.webp")
 var notice_until := 0
 var kit: RaceKit
 var suspended := false
+var ui_pointer := -1
+var ui_button: Button
+var ui_scroll: ScrollContainer
+var ui_origin := Vector2.ZERO
+var ui_scroll_origin := 0
+var ui_dragged := false
+const UI_DRAG_THRESHOLD := 12.0
 var area := Rect2()
 var art := HudArt.new()
 var art_layer := CachedLayer.new()
@@ -143,8 +150,10 @@ func _ready() -> void:
 	modal.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	modal.offset_left = -375
 	modal.offset_right = 375
-	modal.offset_top = -200
-	modal.offset_bottom = 200
+	modal.offset_top = -100
+	modal.offset_bottom = 100
+	modal.grow_horizontal = Control.GROW_DIRECTION_BOTH   # the window grows from the middle of the screen
+	modal.grow_vertical = Control.GROW_DIRECTION_BOTH
 	modal.mouse_filter = Control.MOUSE_FILTER_STOP
 	modal_box.add_theme_constant_override("separation", 15)
 	modal.add_child(modal_box)
@@ -601,6 +610,7 @@ func make_button(text: String, callback: Callable) -> Button:
 	return button
 
 func show_dialog(title: String, text: String, actions: Array = []) -> void:
+	reset_ui_gesture()
 	for child in modal_box.get_children():
 		child.hide()
 		child.queue_free()
@@ -619,12 +629,23 @@ func show_dialog(title: String, text: String, actions: Array = []) -> void:
 	body.add_theme_font_size_override("font_size", 23)
 	body.add_theme_color_override("font_color", Color("e1d4c4"))
 	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size = Vector2(680, 160)
+	scroll.custom_minimum_size = Vector2(680, 120 if actions.size() > 4 else 160)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.add_child(body)
 	modal_box.add_child(scroll)
+	# the buttons scroll when there are more of them than the screen has room for (the game menu has a dozen)
+	var list := VBoxContainer.new()
+	list.add_theme_constant_override("separation", 8)
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for action: Dictionary in actions:
-		modal_box.add_child(make_button(action.text, action.callback))
+		list.add_child(make_button(action.text, action.callback))
+	var room := maxf(160.0, size.y - 450.0)
+	var needed := float(actions.size()) * 88.0
+	var actions_scroll := ScrollContainer.new()
+	actions_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	actions_scroll.custom_minimum_size = Vector2(680, minf(needed, room))
+	actions_scroll.add_child(list)
+	modal_box.add_child(actions_scroll)
 	modal_box.add_child(make_button("ZAMKNIJ", close_dialog))
 	modal.show()
 	touch.blocked = true
@@ -632,6 +653,7 @@ func show_dialog(title: String, text: String, actions: Array = []) -> void:
 	dialog_changed.emit(true)
 
 func close_dialog() -> void:
+	reset_ui_gesture()
 	modal.hide()
 	touch.blocked = false
 	touch.reset()
@@ -681,22 +703,90 @@ func _process(_delta: float) -> void:
 	if show_fps:
 		fps_text = "%d FPS · %.1f ms · %d wywołań · %d MiB" % [Engine.get_frames_per_second(), 1000.0 / maxf(1.0, Engine.get_frames_per_second()), int(RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME)), int(RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TEXTURE_MEM_USED) / 1048576)]
 
+func reset_ui_gesture() -> void:
+	ui_pointer = -1
+	ui_button = null
+	ui_scroll = null
+	ui_dragged = false
+
+func button_contains(button: Button, point: Vector2) -> bool:
+	if not is_instance_valid(button) or not button.is_visible_in_tree() or button.disabled or not button.get_global_rect().has_point(point):
+		return false
+	if modal.visible and not modal.is_ancestor_of(button):
+		return false
+	var parent := button.get_parent()
+	while parent is Control:
+		if parent.clip_contents and not parent.get_global_rect().has_point(point):
+			return false
+		parent = parent.get_parent()
+	return true
+
+func scroll_at(point: Vector2) -> ScrollContainer:
+	if modal.visible:
+		for scroll in modal.find_children("*", "ScrollContainer", true, false):
+			if scroll.is_visible_in_tree() and scroll.get_global_rect().has_point(point):
+				return scroll
+	return null
+
+func begin_ui_gesture(pointer: int, point: Vector2) -> void:
+	if ui_pointer != -1:
+		return
+	var picked: Button
+	for button in buttons:
+		if button_contains(button, point):
+			picked = button
+			break
+	var scroll := scroll_at(point)
+	if picked == null and scroll == null:
+		return
+	ui_pointer = pointer
+	ui_button = picked
+	ui_scroll = scroll
+	ui_origin = point
+	ui_scroll_origin = scroll.scroll_vertical if scroll != null else 0
+	ui_dragged = false
+	get_viewport().set_input_as_handled()
+
+func move_ui_gesture(pointer: int, point: Vector2) -> void:
+	if ui_pointer != pointer:
+		return
+	if point.distance_to(ui_origin) > UI_DRAG_THRESHOLD:
+		ui_dragged = true
+	if ui_dragged and is_instance_valid(ui_scroll):
+		ui_scroll.scroll_vertical = ui_scroll_origin - roundi(point.y - ui_origin.y)
+	get_viewport().set_input_as_handled()
+
+func end_ui_gesture(pointer: int, point: Vector2, canceled: bool) -> void:
+	if ui_pointer != pointer:
+		return
+	var button := ui_button
+	var activate := not canceled and not ui_dragged and point.distance_to(ui_origin) <= UI_DRAG_THRESHOLD and button_contains(button, point)
+	reset_ui_gesture()
+	get_viewport().set_input_as_handled()
+	if activate:
+		button.pressed.emit()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		reset_ui_gesture()
+
 func _input(event: InputEvent) -> void:
 	if suspended:
+		reset_ui_gesture()
 		return
-	var pressed := false
-	var point := Vector2.ZERO
+	# Resolve the same finger on release. A swipe scrolls; clipped buttons cannot receive clicks.
+	# Visual buttons ignore emulated mouse events, so one touch never activates twice.
 	if event is InputEventScreenTouch:
-		pressed = event.pressed and not event.canceled
-		point = event.position
-	elif event is InputEventMouseButton and event.device != InputEvent.DEVICE_ID_EMULATION:
-		pressed = event.pressed and event.button_index == MOUSE_BUTTON_LEFT
-		point = event.position
-	if not pressed:
-		return
-	# Custom dispatch handles every finger; these visual Button nodes ignore the emulated mouse.
-	for button in buttons:
-		if is_instance_valid(button) and button.is_visible_in_tree() and button.get_global_rect().has_point(point):
-			button.pressed.emit()
-			get_viewport().set_input_as_handled()
-			return
+		if event.pressed and not event.canceled:
+			begin_ui_gesture(event.index, event.position)
+		else:
+			end_ui_gesture(event.index, event.position, event.canceled)
+	elif event is InputEventScreenDrag:
+		move_ui_gesture(event.index, event.position)
+	elif event is InputEventMouseButton and event.device != InputEvent.DEVICE_ID_EMULATION and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			begin_ui_gesture(-2, event.position)
+		else:
+			end_ui_gesture(-2, event.position, false)
+	elif event is InputEventMouseMotion and event.device != InputEvent.DEVICE_ID_EMULATION:
+		move_ui_gesture(-2, event.position)
