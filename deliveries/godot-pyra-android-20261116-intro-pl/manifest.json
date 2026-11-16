@@ -1,0 +1,23 @@
+{
+  "format": "ki-godot-pyra-delivery-1",
+  "scope": "Polish entry film (the English captions baked into the owner's film replaced by Polish: WCZYTYWANIE..., DOTKNIJ, ABY ROZPOCZĄĆ), owner's logo as the app icon, self-updating build (core pack), food system, peaceful animals (data and behaviour, no art yet), labyrinths, story, combat feel; slim online APK; stored in Git LFS. Supersedes 0.12.0-intro (English captions).",
+  "engine": "Godot 4.6.3",
+  "version": "0.12.1-polski",
+  "versionCode": 13,
+  "androidPackage": "pl.kilegends.godot.pyra",
+  "applicationLabel": "KI LEGENDS",
+  "signing": "local debug certificate (same as earlier deliveries), APK Signature Scheme v2 and v3 verified",
+  "artifacts": {
+    "deliveries/godot-pyra-android-20261116-intro-pl/ki-legends-godot-debug.apk": {
+      "bytes": 82502491,
+      "sha256": "6e9c6347ffa94f515c7d8d1513e43b7c2a94c3b2db2d3a36570c9b71f952e829"
+    }
+  },
+  "contentRelease": "works with the active release 2026.11.17.2 (the APK uses its own built-in code because the release carries no core-c13)",
+  "defaultServer": "https://kilegends.pl (override: --server=URL, KI_SERVER, user://server.json)",
+  "tests": "tests/smoke.gd 530/530 headless; scripts/godot/e2e_core.py 11/11; the Polish film was checked frame by frame (scripts/godot/make_intro.py, sources in art/production/intro/)",
+  "production": "Server side unchanged since the release 2026.11.17.2 was published.",
+  "physicalDeviceTest": "Not performed",
+  "previousDelivery": "deliveries/godot-pyra-android-20261116-updates",
+  "documentation": "ports/godot-pyra/README.md"
+}

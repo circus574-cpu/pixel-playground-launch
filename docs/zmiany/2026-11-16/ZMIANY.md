@@ -379,8 +379,12 @@ Zlecenie właściciela: dostarczone logo ma być ikoną aplikacji, a film (10 s,
   Odtwarza go scena startowa (`boot.gd`): pełny ekran z dopasowaniem „cover” (na bardzo szerokich telefonach przycina górę i dół obrazu), dźwięk wg głośności muzyki z ustawień (domyślnie 48 %),
   dotknięcie po 0,8 s pomija film, po jego końcu zostaje ostatnia klatka z napisem „TOUCH TO START” z filmu i dotknięcie uruchamia grę bez drugiego przycisku; w tym czasie pod spodem trwa sprawdzanie aktualizacji
   (mały pasek stanu u góry, a przy uszkodzonej aktualizacji komunikat). Bez filmu (headless, testy, brak pliku) wszystko działa jak wcześniej.
-- **Rozmiar i uwagi.** APK 82,5 MB (było 66,8 MB): film 10 MB i grafiki ikon. Film ma w sobie wklejony pasek „LOADING” i napis „TOUCH TO START” po angielsku; pasek nie odzwierciedla prawdziwego ładowania, tylko zdarzenia
+- **Polskie napisy w filmie (0.12.1-polski, kod 13).** Film ma wklejone angielskie napisy „LOADING...” (ok. 5,0–7,5 s) i „TOUCH TO START” (od 7,5 s). Na polecenie właściciela („po polsku, angielski wejdzie później”) są zasłonięte
+  (rozmycie obszaru) i zastąpione ciemnymi tabliczkami ze złotym obrzeżem i napisami „WCZYTYWANIE...” oraz „DOTKNIJ, ABY ROZPOCZĄĆ” (pulsują jak oryginał; ostatnia klatka to ten sam obraz). Skrypt `scripts/godot/make_intro.py`
+  (źródła w `art/production/intro/`: film i logo, Git LFS) robi to powtarzalnie; kolejny język to wpis w `TEXTS`, a wersja angielska to oryginał (`--lang en`). Użyta czcionka (Lora Bold) ma cały polski alfabet; Cinzel z gry nie ma Ą Ę Ł Ż.
+  Dostawa 0.12.0-intro z angielskimi napisami została zastąpiona (katalog usunięty z dostaw; historia Git zostaje).
+- **Rozmiar i uwagi.** APK 82,5 MB (było 66,8 MB): film 10 MB i grafiki ikon. Pasek ładowania wklejony w film nie odzwierciedla prawdziwego ładowania, tylko zdarzenia
   filmu. Wydajność odtwarzania 720p Theora na prawdziwych telefonach nie była mierzona (test natywny w programowym renderze: obraz poprawny, odtwarzanie wolniejsze niż czas rzeczywisty z powodu emulacji GPU).
 - **Kontrole.** `tests/smoke.gd` **530/530** (film i klatka są w grze, głośność, reguła startu po filmie), `scripts/godot/e2e_core.py` 11/11 na nowej scenie startowej, test natywny `tests/qa_intro.gd` (zrzuty ekranu).
-  Dostawa: `deliveries/godot-pyra-android-20261116-intro` (wersja 0.12.0-intro, kod 12).
+  Dostawa: `deliveries/godot-pyra-android-20261116-intro-pl` (wersja 0.12.1-polski, kod 13).
 

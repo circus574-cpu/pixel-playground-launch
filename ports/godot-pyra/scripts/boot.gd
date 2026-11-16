@@ -23,7 +23,7 @@ extends Control
 
 signal finished(report: Dictionary)
 
-const CLIENT_CODE := 12                  # versionCode of this APK; the test in smoke.gd keeps it equal to export_presets.cfg
+const CLIENT_CODE := 13                  # versionCode of this APK; the test in smoke.gd keeps it equal to export_presets.cfg
 const STATE_PATH := "user://core.json"
 const DIR := "user://content"
 const TARGET := "res://scenes/title.tscn"

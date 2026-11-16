@@ -66,9 +66,9 @@ func run() -> void:
 	var boot_script: GDScript = load("res://scripts/boot.gd")
 	verify(entry_path == "res://scenes/boot.tscn", "the app starts in the boot scene that brings the game's code up to date")
 	verify(int(config.get_value("preset.0.options", "version/code", 0)) == int(boot_script.CLIENT_CODE) and int(boot_script.CLIENT_CODE) == KiNet.CLIENT_CODE, "boot, KiNet and the Android preset name the same versionCode")
-	var bt_offer := {"file": "core-c12-aaaaaaaaaaaa.pck", "bytes": 5, "sha256": "x"}
+	var bt_offer := {"file": "core-c13-aaaaaaaaaaaa.pck", "bytes": 5, "sha256": "x"}
 	var bt_new: Dictionary = boot_script.decide(boot_script.empty_state(), bt_offer, true, false)
-	verify(bt_new.download and bt_new.target == "core-c12-aaaaaaaaaaaa.pck" and bt_new.give_up == "", "a core the device does not have is downloaded")
+	verify(bt_new.download and bt_new.target == "core-c13-aaaaaaaaaaaa.pck" and bt_new.give_up == "", "a core the device does not have is downloaded")
 	var bt_held: Dictionary = boot_script.read_state(JSON.stringify({"file": bt_offer.file, "sha256": "x", "bytes": 5, "good": bt_offer.file, "attempts": 0, "bad": []}))
 	var bt_same: Dictionary = boot_script.decide(bt_held, bt_offer, true, true)
 	verify(not bt_same.download and bt_same.target == bt_offer.file, "a core that is already on the device is mounted without downloading")
@@ -80,7 +80,7 @@ func run() -> void:
 	var bt_loop: Dictionary = boot_script.read_state(JSON.stringify({"file": bt_offer.file, "sha256": "x", "bytes": 5, "good": "", "attempts": 3, "bad": []}))
 	var bt_give: Dictionary = boot_script.decide(bt_loop, {}, false, true)
 	verify(bt_give.target == "" and bt_give.give_up == bt_offer.file, "a core that never reached the first city in three launches is given up")
-	verify(boot_script.decide(bt_loop, {"file": "core-c12-bbbbbbbbbbbb.pck"}, true, true).download, "a newer core replaces a given-up one")
+	verify(boot_script.decide(bt_loop, {"file": "core-c13-bbbbbbbbbbbb.pck"}, true, true).download, "a newer core replaces a given-up one")
 	bt_loop.good = bt_offer.file
 	verify(boot_script.decide(bt_loop, {}, false, true).target == bt_offer.file, "a core that has proven itself is not given up")
 	var bt_note: Dictionary = boot_script.note_launch(boot_script.empty_state(), bt_offer.file, "x", 5)
