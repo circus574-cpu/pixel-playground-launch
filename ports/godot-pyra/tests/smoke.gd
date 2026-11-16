@@ -1680,6 +1680,8 @@ func run() -> void:
 	var an_art := {"animals": {"A-03": {"actor": an_deer}}}
 	var an_list: Array = an_script.usable(an_food, an_art, "verdant")
 	verify(an_list.size() == 1 and str(an_list[0].id) == "A-03" and an_script.usable(an_food, an_art, "pyra").is_empty() and an_script.usable(an_food, {}, "verdant").is_empty(), "an animal is in the world only when its art is listed")
+	var an_gone := {"animals": {"A-03": {"actor": {"clips": {"idle": {"sheet": "res://assets/monsters/verdant-animal-not-delivered.webp"}}}}}}
+	verify(an_script.usable(an_food, an_gone, "verdant").is_empty() and an_script.sheet_exists(an_deer) and not an_script.sheet_exists({}), "an animal whose sheet has not reached the device (older content release) is not spawned")
 	var an_def: Dictionary = an_script.definition(an_list[0], an_deer)
 	verify(int(an_def.atk) == 0 and int(an_def.agro) == 0 and bool(an_def.traits.peaceful) and an_def.lootItems[0].item == "F-07" and is_equal_approx(float(an_def.speed) * 120.0, 0.8 * 170.0), "an animal has no attack, no aggro, flees at its share of the hero's speed and drops its food")
 	var an_a: Array = an_script.rows(3, an_list[0], "verdant", 40000.0, 40000.0, func(_p: Vector2) -> bool: return true, func(_p: Vector2) -> bool: return false)

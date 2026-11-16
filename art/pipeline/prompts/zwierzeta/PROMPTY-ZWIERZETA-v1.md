@@ -1,7 +1,7 @@
 # Prompty: 10 łagodnych zwierząt i 10 ikon jedzenia (system jedzenia, 16.11.2026)
 
 Ten plik to jedyne źródło promptów do grafik systemu jedzenia (opis zasad i liczb: `docs/ROZWOJ-I-WALKA.md`, sekcja „Jedzenie i regeneracja życia”; dane: `ports/godot-pyra/data/food.json`).
-Do wygenerowania są **10 plansz zwierząt** (po jednej na zwierzę) i **10 ikon produktów**. Gra używa ich dopiero po wygenerowaniu; do tego czasu zwierzęta mają w danych `art: false` i nie pojawiają się w świecie.
+Do wygenerowania są **10 plansz zwierząt** (po jednej na zwierzę) i **10 ikon produktów**. Plansze (9 z 10) i ikony są dostarczone i wgrane do gry (`scripts/godot/prepare_animals.py`); do dostarczenia zostaje A-06.
 
 ## Skąd styl (żeby nowe zwierzęta wyglądały jak potwory)
 
@@ -20,64 +20,98 @@ Wzorcowa plansza: `public/game/assets/gpu/enemy-v3-verdant-skalny-jelen/1.1.0-2a
 - Skrypt cięcia: `python3 scripts/gpu/ingest_creature_sheet.py <plansza> <id> [--no-effects]`; `--no-effects` dla latających i szerokich (Bażant Żarowy, Gołąb Pergaminowy). Dla zwierząt rząd 2 trafia w slot „ataku” (potem klip `flee`).
 - Nazwy plików: `zwierze-A-01.png` … `zwierze-A-10.png`. Id w danych: `A-01`…`A-10`.
 
-### Blok wspólny (wklej na początku każdego promptu zwierzęcia)
+## Zwierzęta: pełne, samodzielne prompty (wersja z 16.11.2026)
 
+Każdy prompt jest kompletny i wkleja się go w całości; nie ma w nim odwołań do wspólnych bloków. Poprawki względem pierwszej wersji: stała skala i wspólna linia podłoża (zwierzę nie zmienia rozmiaru między klatkami), ciemny kontur także wokół jasnych części (brak białych obwódek po wycięciu tła), A-09 i A-10 jako osobne zwierzęta, a nie przemalowane A-01 i A-02. Zaakceptowane plansze: A-01…A-05, A-07…A-10 (`art/production/animals/`). Brakuje A-06.
+
+### A-01 Zając Łąkowy (Verdantia, S)
 ```
-Hand-painted anime-fantasy JRPG creature sprite sheet, thick clean dark outlines, soft cel shading, rich natural colors, the same visual style as a game bestiary. One image in 4:3 format containing a strict 4 columns by 3 rows grid of 12 full-body poses of the SAME animal, identical design and identical scale in every cell, strict side profile view, animal facing RIGHT, centered in its cell, each pose fully inside its own cell. Pure white #FFFFFF background everywhere, no shadow, no ground, no text, no grid lines, no frames. The animal is peaceful and gentle, never aggressive. Row 1: a smooth 4-frame walk cycle. Row 2: a 4-frame panicked fast flee run cycle. Row 3: 4 frames of a soft fall: stagger, topple, lying on its side, completely still (gentle, no blood).
-```
-
-## Zwierzęta
-
-Skala względem bohatera: rozmiar „S” = mniejsze od bohatera, „M” = do pasa bohatera. Opis po angielsku, bo generatory lepiej go rozumieją (tak jak w `PROMPTY-ANIMACJE-v1.md`).
-
-### A-01 Zając Łąkowy (Verdantia, rozmiar S) → Udziec zająca
-```
-[BLOK WSPÓLNY] The animal is a large meadow hare: golden-brown fur, white belly, very long ears with delicate green leaf-vein patterns on the tips, a small tuft of moss on the back, bright amber eyes, big strong hind legs. Walk cycle is a relaxed hopping gait. Flee cycle: huge fast bounds with ears flat back. Fall: tumbles and lies on its side.
+Hand-painted anime-fantasy JRPG creature sprite sheet in the style of a game bestiary. Canvas 4:3 (2000x1500 px), strict grid of 4 columns by 3 rows = 12 equal cells, one full-body pose of the SAME single animal per cell, no cell borders, no grid lines. Strict side profile, the animal faces RIGHT in every pose. Thick clean dark-brown outline (about 3 px) around the whole silhouette, including light parts, soft cel shading, rich natural colors. Identical design, colors and scale in all 12 cells: do not resize the animal between poses. In every cell all feet rest on the same invisible ground line at 85% of the cell height (jump poses keep the same reference), body centered horizontally, at least 8% empty margin, nothing crosses into a neighbouring cell. Pure flat white #FFFFFF background everywhere: no shadow, no ground, no glow, no particles, no motion lines, no text, no numbers, no watermark. The animal is peaceful and gentle, never aggressive, no blood.
+The animal: a large meadow hare. Golden-brown fur, white belly and white tail tuft, very long upright ears with delicate green leaf-vein patterns on the tips, a small tuft of green moss on the back, bright amber eye, big strong hind legs, slim body. Body length about 65% of the cell width.
+Row 1, walk cycle, 4 frames: relaxed hopping gait. Frame 1 hind legs planted and front legs reaching, frame 2 front legs landing, frame 3 hind legs pushing off, frame 4 body gathered before the next hop. The last frame leads smoothly into the first.
+Row 2, flee cycle, 4 frames: panicked fast run with huge bounds, ears flat back along the body. Frame 1 gathered crouch, frame 2 body fully stretched in the air, frame 3 landing on the front legs, frame 4 hind legs swinging forward.
+Row 3, fall, 4 frames: gentle stagger, tumbles onto its side, lies on its side with legs loosely bent, completely still. Frames 3 and 4 are almost the same.
 ```
 
-### A-02 Kura Leśna (Verdantia, rozmiar S) → Jajka leśne
+### A-02 Kura Leśna (Verdantia, S)
 ```
-[BLOK WSPÓLNY] The animal is a forest hen: mottled dark olive-brown plumage with moss-green tips on the wing feathers, small red comb, sturdy yellow legs, a round alert eye. Walk cycle: pecking strut with head bobbing. Flee cycle: running with wings half spread and flapping. Fall: tips over onto its side with feathers ruffled.
-```
-
-### A-03 Dzik Mchowy (Verdantia, rozmiar M) → Szynka dzicza
-```
-[BLOK WSPÓLNY] The animal is a calm stocky forest boar: charcoal-grey bristly hide, thick green moss and tiny red mushrooms growing along its spine, short blunt cream tusks, small gentle dark eyes, heavy rounded body. Walk cycle: slow heavy trot. Flee cycle: a clumsy fast gallop with head low. Fall: knees buckle, rolls onto its side.
-```
-
-### A-04 Koza Skalna (Pyra, rozmiar M) → Ser kozi
-```
-[BLOK WSPÓLNY] The animal is a sturdy mountain goat: ash-grey and rust-red coat, long white beard, curved dark horns with faint ember-orange glow at the tips, black split hooves, a few tiny glowing ember specks in the fur. Walk cycle: confident sure-footed steps. Flee cycle: leaping bounds. Fall: folds its legs and tips onto its side.
+Hand-painted anime-fantasy JRPG creature sprite sheet in the style of a game bestiary. Canvas 4:3 (2000x1500 px), strict grid of 4 columns by 3 rows = 12 equal cells, one full-body pose of the SAME single animal per cell, no cell borders, no grid lines. Strict side profile, the animal faces RIGHT in every pose. Thick clean dark-brown outline (about 3 px) around the whole silhouette, including light parts, soft cel shading, rich natural colors. Identical design, colors and scale in all 12 cells: do not resize the animal between poses. In every cell all feet rest on the same invisible ground line at 85% of the cell height (jump poses keep the same reference), body centered horizontally, at least 8% empty margin, nothing crosses into a neighbouring cell. Pure flat white #FFFFFF background everywhere: no shadow, no ground, no glow, no particles, no motion lines, no text, no numbers, no watermark. The animal is peaceful and gentle, never aggressive, no blood.
+The animal: a forest hen. Mottled dark olive-brown plumage with moss-green tips on the wing and tail feathers, small red comb and wattle, sturdy yellow legs, round alert dark eye, plump body, tail feathers fanned slightly upward. Body length about 60% of the cell width.
+Row 1, walk cycle, 4 frames: pecking strut with head bobbing. Frame 1 head forward and one foot lifted, frame 2 head pulled back, frame 3 other foot lifted, frame 4 head forward again. Loops smoothly.
+Row 2, flee cycle, 4 frames: running with wings half spread and flapping, neck stretched forward. Frame 1 wings up, frame 2 wings mid-way, frame 3 wings down, frame 4 wings mid-way again. A few loose feathers are allowed but nothing outside the cell.
+Row 3, fall, 4 frames: stumbles with wings flailing, tips over, lies on its side with ruffled feathers, completely still. Frames 3 and 4 are almost the same.
 ```
 
-### A-05 Jaszczur Popielny (Pyra, rozmiar S) → Mięso jaszczura
+### A-03 Dzik Mchowy (Verdantia, M)
 ```
-[BLOK WSPÓLNY] The animal is an ash lizard: charcoal-grey scaled body, dull orange ember glow between the scales, a long thick tail, flat wide head, small calm yellow eyes, low to the ground. Walk cycle: low side-to-side lizard crawl with the tail swaying. Flee cycle: fast skittering run with the body raised. Fall: flops flat and goes limp, tail last.
-```
-
-### A-06 Bażant Żarowy (Pyra, rozmiar S, `--no-effects`) → Pieczony bażant
-```
-[BLOK WSPÓLNY] The animal is an ember pheasant: copper-red and orange plumage, a long fanned tail with glowing orange tips, a bright red face wattle, dark eye with a gold ring, slender legs. Walk cycle: elegant strut with a bobbing head. Flee cycle: low flapping hops, wings wide open (nothing cropped). Fall: drops and lies on its side with the tail fanned out.
-```
-
-### A-07 Owca Księżycowa (Aetheria, rozmiar M) → Mleko księżycowe
-```
-[BLOK WSPÓLNY] The animal is a moon sheep: fluffy pale silver wool with a faint blue-white glow, curled pearl-white horns, a gentle face, a small crescent mark on the forehead, a few tiny star-like sparkles around the wool. Walk cycle: calm soft steps. Flee cycle: a bouncing trot with wool swaying. Fall: kneels and lies down as if falling asleep.
+Hand-painted anime-fantasy JRPG creature sprite sheet in the style of a game bestiary. Canvas 4:3 (2000x1500 px), strict grid of 4 columns by 3 rows = 12 equal cells, one full-body pose of the SAME single animal per cell, no cell borders, no grid lines. Strict side profile, the animal faces RIGHT in every pose. Thick clean dark-brown outline (about 3 px) around the whole silhouette, including light parts, soft cel shading, rich natural colors. Identical design, colors and scale in all 12 cells: do not resize the animal between poses. In every cell all feet rest on the same invisible ground line at 85% of the cell height (jump poses keep the same reference), body centered horizontally, at least 8% empty margin, nothing crosses into a neighbouring cell. Pure flat white #FFFFFF background everywhere: no shadow, no ground, no glow, no particles, no motion lines, no text, no numbers, no watermark. The animal is peaceful and gentle, never aggressive, no blood.
+The animal: a calm stocky forest boar. Charcoal-grey bristly hide, thick green moss and tiny red mushrooms growing along its spine, short blunt cream tusks, small gentle dark eyes, heavy rounded body, short thick legs. Body length about 75% of the cell width.
+Row 1, walk cycle, 4 frames: slow heavy trot, diagonal legs moving together, head slightly lowered, moss on the back swaying a little. Loops smoothly.
+Row 2, flee cycle, 4 frames: clumsy fast gallop with head low. Frame 1 front legs reaching, frame 2 all legs gathered under the body, frame 3 hind legs pushing, frame 4 landing on the front legs.
+Row 3, fall, 4 frames: knees buckle, the heavy body sinks, rolls onto its side, lies still. Frames 3 and 4 are almost the same.
 ```
 
-### A-08 Gołąb Pergaminowy (Aetheria, rozmiar S, `--no-effects`) → Gołąb w ziołach
+### A-04 Koza Skalna (Pyra, M)
 ```
-[BLOK WSPÓLNY] The animal is a parchment dove: cream, parchment-coloured feathers with faint ink-script marks on the wings, a pale teal beak, a tiny golden ring on one leg, a calm dark eye. Walk cycle: a bobbing-head dove walk. Flee cycle: wings beating, taking off low (wings fully visible, nothing cropped). Fall: tumbles softly and lies with one wing open.
+Hand-painted anime-fantasy JRPG creature sprite sheet in the style of a game bestiary. Canvas 4:3 (2000x1500 px), strict grid of 4 columns by 3 rows = 12 equal cells, one full-body pose of the SAME single animal per cell, no cell borders, no grid lines. Strict side profile, the animal faces RIGHT in every pose. Thick clean dark-brown outline (about 3 px) around the whole silhouette, including light parts, soft cel shading, rich natural colors. Identical design, colors and scale in all 12 cells: do not resize the animal between poses. In every cell all feet rest on the same invisible ground line at 85% of the cell height (jump poses keep the same reference), body centered horizontally, at least 8% empty margin, nothing crosses into a neighbouring cell. Pure flat white #FFFFFF background everywhere: no shadow, no ground, no glow, no particles, no motion lines, no text, no numbers, no watermark. The animal is peaceful and gentle, never aggressive, no blood.
+The animal: a sturdy mountain goat. Ash-grey and rust-red coat, long white beard, curved dark horns with a faint ember-orange tint at the tips, black split hooves, a few tiny ember-orange specks in the fur painted as part of the fur (no separate particles). Body length about 70% of the cell width.
+Row 1, walk cycle, 4 frames: confident sure-footed steps, head level, beard swaying. Loops smoothly.
+Row 2, flee cycle, 4 frames: leaping bounds. Frame 1 gathered, frame 2 front legs stretched forward in the air, frame 3 all hooves tucked, frame 4 landing on the front hooves.
+Row 3, fall, 4 frames: legs fold, tips onto its side, lies on its side with horns resting, completely still. Frames 3 and 4 are almost the same.
 ```
 
-### A-09 Bio-królik Hodowlany (Nexus, rozmiar S) → Racja białkowa
+### A-05 Jaszczur Popielny (Pyra, S)
 ```
-[BLOK WSPÓLNY] The animal is a bio-farm rabbit of a futuristic farm: clean white and light-grey fur, a slim glowing cyan collar with a small number tag, a tiny metal ear tag, bright lime-green eyes, a neat tidy look. Walk cycle: short soft hops. Flee cycle: fast zig-zag bounds. Fall: topples gently and lies on its side with the collar light dimming.
+Hand-painted anime-fantasy JRPG creature sprite sheet in the style of a game bestiary. Canvas 4:3 (2000x1500 px), strict grid of 4 columns by 3 rows = 12 equal cells, one full-body pose of the SAME single animal per cell, no cell borders, no grid lines. Strict side profile, the animal faces RIGHT in every pose. Thick clean dark-brown outline (about 3 px) around the whole silhouette, including light parts, soft cel shading, rich natural colors. Identical design, colors and scale in all 12 cells: do not resize the animal between poses. In every cell all feet rest on the same invisible ground line at 85% of the cell height (jump poses keep the same reference), body centered horizontally, at least 8% empty margin, nothing crosses into a neighbouring cell. Pure flat white #FFFFFF background everywhere: no shadow, no ground, no glow, no particles, no motion lines, no text, no numbers, no watermark. The animal is peaceful and gentle, never aggressive, no blood.
+The animal: an ash lizard, big and clearly readable: the body is large in the cell (length about 85% of the cell width, height about 40% of the cell height), do not draw it tiny. Charcoal-grey scaled body, dull orange-red patches between the scales painted into the skin, a long thick tail, broad flat head, small calm yellow eyes, strong short legs with clawed toes.
+Row 1, walk cycle, 4 frames: low side-to-side lizard crawl, diagonal legs moving together, the tail swaying in an S shape. Loops smoothly.
+Row 2, flee cycle, 4 frames: fast skittering run with the body raised on straight legs, tail stretched out behind. Legs in a different phase in each frame.
+Row 3, fall, 4 frames: legs give way, flops flat, goes limp with the tail last, lies still. Frames 3 and 4 are almost the same.
 ```
 
-### A-10 Bio-kura Hodowlana (Nexus, rozmiar S) → Jajko hodowlane
+### A-06 Bażant Żarowy (Pyra, S (cięcie z --no-effects; plansza jeszcze niedostarczona))
 ```
-[BLOK WSPÓLNY] The animal is a bio-farm hen of a futuristic farm: uniform pale-cream plumage, a small neat red comb, a silver ring on the leg with a small cyan light, orderly regular feather pattern. Walk cycle: a precise, steady pecking walk. Flee cycle: running with wings partly spread. Fall: tips over onto its side, the leg light going out.
+Hand-painted anime-fantasy JRPG creature sprite sheet in the style of a game bestiary. Canvas 4:3 (2000x1500 px), strict grid of 4 columns by 3 rows = 12 equal cells, one full-body pose of the SAME single animal per cell, no cell borders, no grid lines. Strict side profile, the animal faces RIGHT in every pose. Thick clean dark-brown outline (about 3 px) around the whole silhouette, including light parts, soft cel shading, rich natural colors. Identical design, colors and scale in all 12 cells: do not resize the animal between poses. In every cell all feet rest on the same invisible ground line at 85% of the cell height (jump poses keep the same reference), body centered horizontally, at least 8% empty margin, nothing crosses into a neighbouring cell. Pure flat white #FFFFFF background everywhere: no shadow, no ground, no glow, no particles, no motion lines, no text, no numbers, no watermark. The animal is peaceful and gentle, never aggressive, no blood.
+The animal: an ember pheasant. Copper-red and orange plumage, a long tail with orange-yellow tips, bright red face wattle, dark eye with a gold ring, slender legs. The whole bird including the tail and spread wings must fit inside its cell with margin (body length about 60% of the cell width in the standing pose, the tail counts in that length).
+Row 1, walk cycle, 4 frames: elegant strut with a bobbing head, tail held level, wings folded. Loops smoothly.
+Row 2, flee cycle, 4 frames: low flapping hops just above the ground, wings wide open but fully inside the cell, tail trailing. Frame 1 wings up, frame 2 wings spread level, frame 3 wings down, frame 4 wings spread level.
+Row 3, fall, 4 frames: drops, wings loosen, lies on its side with the tail fanned out, completely still. Frames 3 and 4 are almost the same.
+```
+
+### A-07 Owca Księżycowa (Aetheria, M)
+```
+Hand-painted anime-fantasy JRPG creature sprite sheet in the style of a game bestiary. Canvas 4:3 (2000x1500 px), strict grid of 4 columns by 3 rows = 12 equal cells, one full-body pose of the SAME single animal per cell, no cell borders, no grid lines. Strict side profile, the animal faces RIGHT in every pose. Thick clean dark-brown outline (about 3 px) around the whole silhouette, including the white wool, soft cel shading, rich natural colors. Identical design, colors and scale in all 12 cells: do not resize the animal between poses. In every cell all feet rest on the same invisible ground line at 85% of the cell height (jump poses keep the same reference), body centered horizontally, at least 8% empty margin, nothing crosses into a neighbouring cell. Pure flat white #FFFFFF background everywhere: no shadow, no ground, no glow, no particles, no motion lines, no text, no numbers, no watermark. The animal is peaceful and gentle, never aggressive, no blood.
+The animal: a moon sheep. Fluffy pale silver-blue wool with soft light-blue shading so it never merges with the white background, curled pearl-grey horns, a gentle face with a small crescent mark on the forehead, dark hooves, a few tiny star-shaped sparkles painted on the wool (part of the wool, no separate particles). Body length about 70% of the cell width.
+Row 1, walk cycle, 4 frames: calm soft steps, wool swaying slightly. Loops smoothly.
+Row 2, flee cycle, 4 frames: a bouncing trot, wool bouncing, head up. Legs in a different phase in each frame.
+Row 3, fall, 4 frames: kneels, lowers the body, lies down on its side as if falling asleep, completely still. Frames 3 and 4 are almost the same.
+```
+
+### A-08 Gołąb Pergaminowy (Aetheria, S)
+```
+Hand-painted anime-fantasy JRPG creature sprite sheet in the style of a game bestiary. Canvas 4:3 (2000x1500 px), strict grid of 4 columns by 3 rows = 12 equal cells, one full-body pose of the SAME single animal per cell, no cell borders, no grid lines. Strict side profile, the animal faces RIGHT in every pose. Thick clean dark-brown outline (about 3 px) around the whole silhouette, including light parts, soft cel shading, rich natural colors. Identical design, colors and scale in all 12 cells: do not resize the animal between poses. In every cell all feet rest on the same invisible ground line at 85% of the cell height (jump poses keep the same reference), body centered horizontally, at least 8% empty margin, nothing crosses into a neighbouring cell. Pure flat white #FFFFFF background everywhere: no shadow, no ground, no glow, no particles, no motion lines, no text, no numbers, no watermark. The animal is peaceful and gentle, never aggressive, no blood.
+The animal: a parchment dove. Cream and warm tan parchment-coloured feathers with faint brown ink-script marks on the wings, a pale teal beak, a tiny golden ring on one leg, a calm dark eye, pink-red legs. The wings, when spread, must be fully visible and inside the cell with margin (standing body length about 50% of the cell width).
+Row 1, walk cycle, 4 frames: bobbing-head dove walk, wings folded, one foot forward then the other. Loops smoothly.
+Row 2, flee cycle, 4 frames: taking off low, wings beating. Frame 1 wings up, frame 2 wings spread level, frame 3 wings down, frame 4 wings spread level, feet just above the ground line.
+Row 3, fall, 4 frames: tumbles softly, lands on its side with one wing open, lies still, completely at rest. Frames 3 and 4 are almost the same.
+```
+
+### A-09 Bio-królik Hodowlany (Nexus, S)
+```
+Hand-painted anime-fantasy JRPG creature sprite sheet in the style of a game bestiary. Canvas 4:3 (2000x1500 px), strict grid of 4 columns by 3 rows = 12 equal cells, one full-body pose of the SAME single animal per cell, no cell borders, no grid lines. Strict side profile, the animal faces RIGHT in every pose. Thick clean dark-brown outline (about 3 px) around the whole silhouette, including the white fur, soft cel shading, rich natural colors. Identical design, colors and scale in all 12 cells: do not resize the animal between poses. In every cell all feet rest on the same invisible ground line at 85% of the cell height (jump poses keep the same reference), body centered horizontally, at least 8% empty margin, nothing crosses into a neighbouring cell. Pure flat white #FFFFFF background everywhere: no shadow, no ground, no glow, no particles, no motion lines, no text, no numbers, no watermark. The animal is peaceful and gentle, never aggressive, no blood.
+The animal: a bio-farm rabbit from a futuristic farm. It must look clearly different from a wild meadow hare: a plump, compact, round-bodied lop-eared rabbit with SHORT ears folded down at the sides, short stocky legs, a small round tail, smooth short uniform light-grey and white fur with soft blue-grey shading (no moss, no leaves, no plants), bright lime-green eyes, a slim glowing cyan collar with a small tag, a small metal tag on the ear, thin cyan circuit-line markings on the haunch. Body length about 55% of the cell width.
+Row 1, walk cycle, 4 frames: short soft hops, ears bouncing. Loops smoothly.
+Row 2, flee cycle, 4 frames: fast zig-zag bounds. Frame 1 gathered, frame 2 stretched in the air, frame 3 landing, frame 4 gathering again.
+Row 3, fall, 4 frames: topples gently, lies on its side, the cyan collar light dimming to grey, completely still. Frames 3 and 4 are almost the same.
+```
+
+### A-10 Bio-kura Hodowlana (Nexus, S)
+```
+Hand-painted anime-fantasy JRPG creature sprite sheet in the style of a game bestiary. Canvas 4:3 (2000x1500 px), strict grid of 4 columns by 3 rows = 12 equal cells, one full-body pose of the SAME single animal per cell, no cell borders, no grid lines. Strict side profile, the animal faces RIGHT in every pose. Thick clean dark-brown outline (about 3 px) around the whole silhouette, including the pale feathers, soft cel shading, rich natural colors. Identical design, colors and scale in all 12 cells: do not resize the animal between poses. In every cell all feet rest on the same invisible ground line at 85% of the cell height (jump poses keep the same reference), body centered horizontally, at least 8% empty margin, nothing crosses into a neighbouring cell. Pure flat white #FFFFFF background everywhere: no shadow, no ground, no glow, no particles, no motion lines, no text, no numbers, no watermark. The animal is peaceful and gentle, never aggressive, no blood.
+The animal: a bio-farm hen from a futuristic farm. It must look clearly different from a forest hen: larger, rounder, almost egg-shaped body, smooth uniform pale-cream plumage with perfectly regular rows of feathers, soft warm-grey shading, NO moss, NO green or olive tips, NO fanned wing feathers, a small neat red comb, a short tidy upward tail, pale pink legs, a silver ring on one leg with a tiny cyan light. Body length about 65% of the cell width.
+Row 1, walk cycle, 4 frames: precise, steady pecking walk, head moving rhythmically. Loops smoothly.
+Row 2, flee cycle, 4 frames: running with wings partly spread, neck stretched. Frame 1 wings up, frame 2 mid-way, frame 3 down, frame 4 mid-way.
+Row 3, fall, 4 frames: tips over, lies on its side, the cyan light on the leg ring going out, completely still. Frames 3 and 4 are almost the same.
 ```
 
 ## Ikony produktów (10)
@@ -103,13 +137,11 @@ Hand-painted anime-fantasy JRPG item icon, a single object centered, three-quart
 | F-09 | Gołąb w ziołach | `A small roasted dove in a shallow ceramic bowl, covered with green herbs, a little steam rising.` |
 | F-10 | Racja białkowa | `A neat rectangular ration pack in silver-blue foil with a thin cyan label strip, one corner opened to show a compact protein bar, futuristic military ration.` |
 
-## Co się stanie po dostarczeniu grafik
+## Co się dzieje po dostarczeniu grafik
 
-Zachowanie zwierząt, łup, rozmieszczenie i wskaźnik „Najedzony” są już w grze (gotowe, przetestowane na zastępczym arkuszu); zwierzę pojawia się dopiero po wpisie w `data/animals.json`.
-
-1. Plansze przechodzą przez `python3 scripts/gpu/ingest_creature_sheet.py <plansza> A-01 [--no-effects]` (id zwierzęcia jako id potwora).
-2. `python3 scripts/godot/prepare_animals.py` zamienia paczki `enemy-v3-A-xx` na arkusze `assets/monsters/<świat>-animal-a-xx.webp` i `data/animals.json`.
-3. Ikony `F-01…F-10` (128×128) trafiają do `ports/godot-pyra/assets/icons/items/`; potem nowy rdzeń i wydanie treści (publikacja za zgodą właściciela).
+1. Plansze zwierząt trafiają jako `art/production/animals/zwierze-A-xx.jpg`, ikony 1024 px jako `ikona-F-xx.png` (Git LFS dla JPG nie jest ustawiony, pliki są małe).
+2. `python3 scripts/godot/prepare_animals.py` wycina pozy po kształtach (plansza nie musi mieć dokładnie 2000×1500; liczy się układ 4×3), usuwa białe tło, buduje atlas `assets/monsters/<świat>-animal-a-xx.webp`, `data/animals.json` i ikony `assets/icons/items/F-xx.webp`. Skrypt `ingest_creature_sheet.py` nie jest już potrzebny dla zwierząt.
+3. Zachowanie zwierząt, łup i wskaźnik „Najedzony” są w grze; potem nowy rdzeń i wydanie treści (publikacja za zgodą właściciela).
 
 ## Kontrola jakości grafik (do odhaczenia)
 

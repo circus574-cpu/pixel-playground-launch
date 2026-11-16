@@ -365,8 +365,10 @@ Zlecenie właściciela: zwierzęta, które nie atakują i dają jedzenie; jedzen
 - **Dalszy ciąg (ten sam dzień):** zachowanie zwierząt (`animals.gd`, cecha `peaceful` w `monster.gd`: brak ataku i aggro, ucieczka po ciosie, jeden produkt, 0 XP, stałe rozmieszczenie 10 sztuk na krainę poza miastami),
   wskaźnik „Najedzony” w liście zadań, konwerter `scripts/godot/prepare_animals.py` (sprawdzony na zastępczej paczce w katalogu tymczasowym), prompty grafik w `art/pipeline/prompts/zwierzeta/`. `tests/smoke.gd` **527/527**.
   Test zachowania używa arkusza jelenia jako zastępstwa; w grze zwierzę pojawia się dopiero po wpisie w `data/animals.json`.
-- **Nie zrobione:** grafika 10 zwierząt i ikony 10 produktów (brak wygenerowanych zasobów, zastępczych nie wstawiałem), dźwięki zwierząt. Do tego czasu zwierzęta nie pojawiają się w grze.
-  Zmiana nie jest wydana graczom: dojdzie przez rdzeń z serwera po opublikowaniu nowego wydania treści (za zgodą właściciela).
+- **Grafika zwierząt i ikon (dostarczył właściciel, ten sam dzień).** Pierwsza paczka (klatki 256 px dopasowane do szerokości, zwierzę zmieniało rozmiar i drgało, białe obwódki, A-09 i A-10 przemalowane A-01 i A-02) została odrzucona; prompty zostały przepisane na pełne, samodzielne (osobny prompt na zwierzę) i właściciel dostarczył nowe plansze: **9 z 10** (brak A-06 Bażant Żarowy). `prepare_animals.py` zastąpiono konwerterem plansz (cięcie po kształtach, miękki brzeg zamiast białej obwódki, jedna skala i linia podłoża, bezstratny atlas, dane klipów) i ikon (`assets/icons/items/F-01…F-10.webp`). Zwierzę pojawia się tylko, gdy jego arkusz jest na urządzeniu (`animals.sheet_exists`), więc starsze wydanie treści go nie pokaże.
+  Obejrzane natywnie w scenie gry (`tests/qa_animals.gd`: stanie, chód, bieg w obie strony, upadek, daleki zoom); odbicie w lewo działa. Rozmiary na ekranie to oszacowanie do dostrojenia na telefonie. `tests/smoke.gd` **531/531**.
+- **Dostawa:** APK `deliveries/godot-pyra-android-20261116-zwierzeta` (0.12.3-zwierzeta, kod 15, 81,8 MB, ikony posiłków i `animals.json` w środku) oraz wydanie treści `deliveries/godot-content-2026.11.17.3` (27 paczek, arkusze zwierząt w `monsters-<świat>`, rdzeń `core-c15`; zbudowane, **nieopublikowane**). Wobec aktywnego wydania 2026.11.17.2 APK po prostu nie pokazuje zwierząt.
+- **Nie zrobione:** Bażant Żarowy (A-06) i dźwięki zwierząt. **Nie wydane graczom:** arkusze jadą w paczkach treści, więc zwierzęta pojawią się po opublikowaniu nowego wydania treści (za zgodą właściciela).
 
 ### 18. Android / Godot 0.12.0-intro: ikona z logo i film wejściowy właściciela
 
@@ -387,5 +389,5 @@ Zlecenie właściciela: dostarczone logo ma być ikoną aplikacji, a film (10 s,
 - **Rozmiar i uwagi.** APK 82,5 MB (było 66,8 MB): film 10 MB i grafiki ikon. Pasek ładowania wklejony w film nie odzwierciedla prawdziwego ładowania, tylko zdarzenia
   filmu. Wydajność odtwarzania 720p Theora na prawdziwych telefonach nie była mierzona (test natywny w programowym renderze: obraz poprawny, odtwarzanie wolniejsze niż czas rzeczywisty z powodu emulacji GPU).
 - **Kontrole.** `tests/smoke.gd` **530/530** (film i klatka są w grze, głośność, reguła startu po filmie), `scripts/godot/e2e_core.py` 11/11 na nowej scenie startowej, test natywny `tests/qa_intro.gd` (zrzuty ekranu).
-  Dostawa: `deliveries/godot-pyra-android-20261116-film-pl` (wersja 0.12.2-polski, kod 14; poprzednia 0.12.1-polski z nakładką usunięta z dostaw, historia Git zostaje).
+  Dostawa 0.12.2-polski (kod 14) została zastąpiona przez 0.12.3-zwierzeta (poniżej); poprzednie wersje są w historii Git.
 

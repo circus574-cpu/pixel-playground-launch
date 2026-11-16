@@ -13,11 +13,19 @@ static func art_data() -> Dictionary:
 	var value: Variant = PyraContinent.load_json("res://data/animals.json") if FileAccess.file_exists("res://data/animals.json") else {}
 	return value if value is Dictionary else {}
 
+## True when the sheet the actor draws from is really there. The sheets travel in the content packs of the world (data/animals.json is in the APK), so a client
+## whose release does not carry them yet must simply not see the animal, instead of a missing texture.
+static func sheet_exists(actor: Dictionary) -> bool:
+	for clip: Dictionary in (actor.get("clips", {}) as Dictionary).values():
+		return ResourceLoader.exists(str(clip.get("sheet", "")))
+	return false
+
 ## The animals of `world` whose art exists.
 static func usable(food_data: Dictionary, art: Dictionary, world: String) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
+	var drawn: Dictionary = art.get("animals", {})
 	for animal: Dictionary in food_data.get("animals", []):
-		if str(animal.world) == world and (art.get("animals", {}) as Dictionary).has(str(animal.id)):
+		if str(animal.world) == world and drawn.has(str(animal.id)) and sheet_exists((drawn[str(animal.id)] as Dictionary).get("actor", {})):
 			out.append(animal)
 	return out
 
