@@ -1353,5 +1353,10 @@ w `tests/smoke.gd`. Szczegóły i ograniczenia: [dziennik 16.11](zmiany/2026-11-
 **16.11 (po 0.6.0, kod bez nowego APK):** `monster.gd` / `monster_manager.gd` — 41 potworów i ich zasady (statystyki, umiejętności,
 cechy, słabości na klasy obrażeń z `race_kit.gd` `TAGS`), spawny z opublikowanych rejestrów; `quest_engine.gd` — 106 zadań i
 dialogi (`export-quests.ts`); `audio.gd` — muzyka i efekty (`prepare_audio.py`); `economy.gd` — limity V2, zestawy, ulepszenia,
-pięć stacji; `boss_script.gd` i `data/bosses.json` (8 bossów), `dungeon.gd` (22 jaskinie), `world_events.gd` (14 wydarzeń), `ambient_fx.gd` i dzień/noc w `city_game.gd`. 420 kontroli w `tests/smoke.gd`. Pełny opis w [README Android](../ports/godot-pyra/README.md) i
+pięć stacji; `boss_script.gd` i `data/bosses.json` (8 bossów), `dungeon.gd` (22 jaskinie), `world_events.gd` (14 wydarzeń), `ambient_fx.gd` i dzień/noc w `city_game.gd`. 429 kontroli w `tests/smoke.gd`. Pełny opis w [README Android](../ports/godot-pyra/README.md) i
 [dzienniku 16.11](zmiany/2026-11-16/ZMIANY.md).
+
+**16.11 (0.9.0-online):** gra Android jest online — `src/server/godot/*` (manifest i paczki treści, zapisy w chmurze z rewizjami, obecność i czat, API admina), migracja
+`deploy/multiplayer/init/007-godot-android.sql`, zakładka „Gra Android” w `/admin`, klient `scripts/{net,online,content,gate_screen,remote_players,chat_panel}.gd`,
+paczki `scripts/godot/build_packs.py`. Serwer nie jest autorytatywny dla walki (to lokalna symulacja PvE). Testy: `src/test/godot-android.test.ts` (PostgreSQL),
+`scripts/godot/e2e_online.py`, `scripts/godot/qa_admin_ui.py`. Szczegóły: [README Android, sekcja 2a](../ports/godot-pyra/README.md#2a-gra-online-konta-chmura-treść-z-serwera-panel-administratora).

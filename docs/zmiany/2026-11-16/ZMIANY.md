@@ -265,3 +265,29 @@ Po przeniesieniu całości (pkt 1–11) zbudowano APK w pełnej jakości: `deliv
 148 234 924 B, SHA-256 `8071893d82fa242dc0b4d59db6823103513fdbeb49e5d318312a71007a311701`, pakiet `pl.kilegends.godot.pyra`, wersja 0.8.0-complete
 (kod 8), podpis lokalnym kluczem debug (schematy v2 i v3 poprawne). PCK z presetu Linux uruchomiony poza projektem: 10 krain, wnętrza sklepów
 czterech ras, wejście do jaskini (20 strażników) i boss, 0 błędów. **Nie sprawdzono na fizycznym telefonie** (instalacja, FPS, pamięć, bateria).
+
+### 13. Android / Godot 0.9.0-online: gra online, szczupłe APK, treść z serwera, panel administratora
+
+Zlecenie właściciela: przygotować grę online z serwerem i panelem administratora, a APK zmieścić w 80–90 MB (reszta z serwera).
+
+- **APK 63,6 MiB** (66 727 415 B, było 141 MiB): kod, interfejs, bohaterowie, dane zasad. Świat to **26 paczek PCK** (153 831 056 B) pobieranych z serwera:
+  `land-<id>` (10), `monsters-<świat>` (4), `npcs-/rooms-/music-<świat>` (12). `scripts/godot/build_packs.py` dzieli projekt, buduje paczki
+  (`tools/pack_builder.gd`, `PCKPacker`), zapisuje manifest (nazwa pliku niesie 12 cyfr SHA-256), wpisuje filtr wykluczeń do presetu Android i **wykrywa
+  zasoby wskazane w danych, które wypadłyby z APK bez przydziału do paczki** (znalazło wnętrza i tekstury pierwszej stolicy Pyry).
+- **Serwer** (`src/server/godot/*`, migracja `007-godot-android.sql`, trasy `/ws/godot/*` w istniejącym serwerze gry): manifest z bramkami (tryb serwisowy,
+  minimalna wersja aplikacji), paczki z `Range`/`ETag`, zapisy w chmurze z blokadą rewizji i walidacją (`saveRules.ts`), kanał obecności i czatu
+  (kosmetyczny), API administratora z audytem. Konta te same co w przeglądarce.
+- **Klient** (`net.gd`, `online.gd`, `content.gd`, `gate_screen.gd`, `remote_players.gd`, `chat_panel.gd`): logowanie / rejestracja / tryb offline,
+  pobieranie i weryfikacja paczek z paskiem postępu, zgranie zapisu lokalnego z chmurą, autozapis co 90 s i przy wyjściu z aplikacji, konflikt wersji,
+  inni gracze jako duchy, czat okolicy, pobieranie krain przy podróży i „POBIERZ WSZYSTKIE KRAINY”.
+- **Panel administratora** (`/admin` → „Gra Android”): stan i gracze online, minimalna wersja, tryb serwisowy i komunikat, wydania treści (wysyłka z
+  przeglądarki, aktywacja i wycofanie), zapisy graczy (podgląd JSON, usuwanie), wpisy w dzienniku audytu.
+- **Błędy znalezione przez test end-to-end:** lambdy GDScript kopiują zmienne proste (pętla pobierania nigdy się nie kończyła); wykrywanie „zawiera
+  wszystko” zmieniało się po podpięciu pierwszej paczki (teraz ustalane raz); brakujące paczki treści w klasyfikacji (wnętrza, miasto Pyry); stary dźwięk
+  „nie znaleziono” był zapamiętywany na zawsze (muzyka po pobraniu świata milczała).
+- **Kontrole.** `tests/smoke.gd` **429/429**; `src/test/godot-android.test.ts` 10/10 na PostgreSQL 16 (manifest, Range, bramki, rewizje zapisów, uprawnienia,
+  audyt, obecność); `scripts/godot/e2e_online.py` — baza PCK **40,2 MB** z filtrami Androida loguje się do prawdziwego serwera, pobiera i podpina paczki, buduje
+  miasto, zapisuje do chmury, odrzuca nieaktualny zapis i pobiera Verdantię przy podróży; `scripts/godot/qa_admin_ui.py` — panel w przeglądarce (zrzuty
+  `qa/admin-android/`). Dostawa: `deliveries/godot-pyra-android-20261117-online` (APK) i `deliveries/godot-content-2026.11.17.1` (paczki), oba w Git LFS.
+- **Nie wykonane (wymaga właściciela):** wdrożenie na produkcję — migracja 007, obraz z woluminem `godot-content`, publikacja wydania; ta sesja nie ma dostępu do VPS,
+  a `AGENTS.md` wymaga osobnej zgody. Bez opublikowanego wydania APK nie uruchomi gry. **Nie sprawdzone:** telefon, sieć komórkowa, TLS na prawdziwej domenie, obciążenie.
