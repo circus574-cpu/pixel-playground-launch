@@ -28,8 +28,8 @@ nie są czytane. **Bez potworów i bez spawnów** (decyzja właściciela na ten 
 
 ## 2. Instalacja gotowego APK
 
-APK: `deliveries/godot-pyra-android-20261116-bestiary/ki-legends-godot-debug.apk`, **103319242 bajtów** (98,5 MiB, poniżej
-limitu 100 MiB pliku w Git), SHA-256 `37c83a529c045a919835e3a1efe9a03e00698316d773af452abbd67cef3aea67`. Wymaga Androida 7.0+ i `arm64-v8a`.
+APK: `deliveries/godot-pyra-android-20261116-bestiary-hq/ki-legends-godot-debug.apk`, **123332298 bajtów** (117,6 MiB, plik w Git LFS —
+bez limitu 100 MiB zwykłego pliku), SHA-256 `e93777fbfea71a32eee01c12051c624821ef18a0804f14c2a9ed3ec9e04f76cf`. Wymaga Androida 7.0+ i `arm64-v8a`.
 
 1. Pobierz APK na telefon i otwórz plik (zezwól na instalację z tego źródła; nie wyłączaj Play Protect).
 2. Wersje 0.3.0 i 0.4.0 zaktualizują się w miejscu (ten sam klucz debug). **Jeżeli masz 0.2.0, odinstaluj ją najpierw**:
@@ -37,7 +37,7 @@ limitu 100 MiB pliku w Git), SHA-256 `37c83a529c045a919835e3a1efe9a03e00698316d7
 3. Uruchom **KI LEGENDS**, obróć telefon poziomo, wybierz **ZACZNIJ PRZYGODĘ**, a potem swoją rasę.
 
 ```sh
-adb install -r deliveries/godot-pyra-android-20261116-bestiary/ki-legends-godot-debug.apk
+adb install -r deliveries/godot-pyra-android-20261116-bestiary-hq/ki-legends-godot-debug.apk
 ```
 
 Pakiet `pl.kilegends.godot.pyra`, wersja `0.7.0-bestiary`, kod 7, min SDK 24 / target 36, `USER_LANDSCAPE`, OpenGL ES 3.
@@ -101,8 +101,7 @@ przesunięty o `world.json.offset` = (44 564,29; 12 168,47).
 Sąsiedztwo wody blokuje o jedną komórkę 16 j. więcej niż przeglądarka (konserwatywnie). Zapis i kolizje nie zależą od grafiki.
 
 **Pamięć i rozmiar:** malowane tekstury (scenografia, ludzie, wnętrza, kafle terenu, mapy) są importowane jako stratny WebP
-(`scripts/godot/tune_imports.py`; sprite'y scenerii są współdzielone, więc ich zdekodowany rozmiar jest mały), dzięki czemu APK
-ma ok. 96 MiB. Dane odczytywane dokładnie (siatki biomów/lądu, maska i klasy dróg) pozostają bezstratne. Pamięć tekstur zgłoszona
+(`scripts/godot/tune_imports.py`; sprite'y scenerii są współdzielone, więc ich zdekodowany rozmiar jest mały), (wysoka jakość; APK idzie przez Git LFS, więc rozmiar nie jest ograniczony do 100 MiB). APK ma ok. 118 MiB. Dane odczytywane dokładnie (siatki biomów/lądu, maska i klasy dróg) pozostają bezstratne. Pamięć tekstur zgłoszona
 przez silnik po wczytaniu krainy: 117–138 MiB na kontynentach, ok. 70 MiB na wyspach. To pomiar na desktopie, nie telefonie.
 
 ## 5. Odtwarzanie danych i grafiki

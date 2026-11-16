@@ -17,7 +17,7 @@ dest_files=["res://.godot/imported/5faa7774-island-2.props.jade-boulder.webp-b65
 
 compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.72
+compress/lossy_quality=0.9
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

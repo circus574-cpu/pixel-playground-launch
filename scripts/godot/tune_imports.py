@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Import settings that keep the APK small without changing what the player sees.
 
-Everything painted (scenery, people, interiors, terrain tiles, maps) is imported as lossy WebP: the APK stays near 100 MB.
+Everything painted (scenery, people, interiors, terrain tiles, maps) is imported as high-quality lossy WebP (the APK is delivered through Git LFS, so size is not limited to 100 MB).
 Scenery sprites are shared between placements, so their decoded size in memory stays small. Data textures that the shader or
 the walk logic reads exactly (control grids, road mask, class map) stay lossless. Run after the first
 `godot --headless --import`, then import again.
@@ -9,11 +9,11 @@ the walk logic reads exactly (control grids, road mask, class map) stay lossless
 import pathlib, re
 
 PORT = pathlib.Path(__file__).resolve().parents[2] / "ports/godot-pyra"
-LOSSY = {  # folder -> quality
-    "assets/objects": 0.72, "assets/actors": 0.78, "assets/hero": 0.9, "assets/rooms": 0.8, "assets/floor": 0.85,
-    "assets/races": 0.88, "assets/monsters": 0.75, "assets/map": 0.88, "assets/icons": 0.9,
+LOSSY = {  # folder -> quality; the APK is delivered through Git LFS, so there is no 100 MB file limit to squeeze under
+    "assets/objects": 0.9, "assets/actors": 0.92, "assets/hero": 0.92, "assets/rooms": 0.9, "assets/floor": 0.9,
+    "assets/races": 0.9, "assets/monsters": 0.92, "assets/map": 0.9, "assets/icons": 0.92,
 }
-LAND_LOSSY = {"terrain/*.webp": 0.9, "map.webp": 0.88}
+LAND_LOSSY = {"terrain/*.webp": 0.92, "map.webp": 0.9}
 KEEP_LOSSLESS = ("ctrl-", "road-")
 changed = 0
 

@@ -106,3 +106,12 @@ budzenie ≤ 24, brak potworów w mieście, atak bohatera rani potwora, zabicie 
 i rani, statusy, śmierć i powrót). PCK z presetu Linux uruchomiony poza projektem: 10 krain, 0 błędów. APK 103 319 242 B,
 SHA-256 `37c83a529c045a919835e3a1efe9a03e00698316d773af452abbd67cef3aea67`
 (`deliveries/godot-pyra-android-20261116-bestiary`). Zrzuty: `qa/godot-monsters/`.
+
+### 3. Dostawa APK bez limitu rozmiaru (Git LFS), wysoka jakość tekstur
+
+Decyzja właściciela: gra ma docelowo być większa, więc APK nie musi mieścić się w limicie 100 MiB. Cofnięto obniżenie jakości
+importu WebP z pkt 2 (`tune_imports.py`: sceneria 0,9, ludzie 0,92, potwory 0,92, wnętrza 0,9, podłoga 0,9, kafle terenu 0,92,
+mapy 0,9). APK ma teraz **123 332 298 B** (SHA-256 `e93777fbfea71a32eee01c12051c624821ef18a0804f14c2a9ed3ec9e04f76cf`) i jest
+w `deliveries/godot-pyra-android-20261116-bestiary-hq` jako plik Git LFS (`.gitattributes`: `deliveries/**/*.apk`). Poprzednie
+APK (zwykłe pliki) pozostają bez zmian. PCK z presetu Linux uruchomiony poza projektem: 10 krain, 0 błędów; podpis v2 i CRC
+poprawne. Gra jest ta sama co 0.7.0-bestiary (kod 7), zmieniła się tylko jakość tekstur.

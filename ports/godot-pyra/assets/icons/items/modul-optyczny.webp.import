@@ -17,7 +17,7 @@ dest_files=["res://.godot/imported/modul-optyczny.webp-c98c0a95d7e13c65d8e9a3090
 
 compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.9
+compress/lossy_quality=0.92
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

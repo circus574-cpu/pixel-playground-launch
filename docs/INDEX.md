@@ -5,7 +5,7 @@ globus 3D i atlas 2D z podróżami między krainami, cztery grywalne rasy (Legen
 statystykami aneksu, drzewkami i zdolnościami, miasta z usługami (sklep, kuźnia, depozyt, gospoda, plecak) i wnętrzami we
 wszystkich czterech światach, wstęp z ilustracją właściciela (bez bossów, dungeonów i questów). Gałąź
 `ccr-ebbd6459-n7c5eg`, kontynuacja PR #170; APK w
-`deliveries/godot-pyra-android-20261116-bestiary`; fizyczny telefon niezweryfikowany; bez
+`deliveries/godot-pyra-android-20261116-bestiary-hq` (Git LFS); fizyczny telefon niezweryfikowany; bez
 scalenia i zmian produkcji. [Osobna dokumentacja Android](../ports/godot-pyra/README.md),
 [zakres i wyniki](zmiany/2026-11-16/ZMIANY.md#2-android--godot-070-bestiary-potwory-spawny-walka-nagrody).
 Wcześniejsza próba (jedno miasto, 0.1–0.2): PR #170, `feat/godot-pyra-android-20261115`.

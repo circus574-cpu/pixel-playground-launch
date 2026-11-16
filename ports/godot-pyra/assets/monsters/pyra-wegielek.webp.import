@@ -17,7 +17,7 @@ dest_files=["res://.godot/imported/pyra-wegielek.webp-7e5c647a2f09c8ed3c68bb1e15
 
 compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.75
+compress/lossy_quality=0.92
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

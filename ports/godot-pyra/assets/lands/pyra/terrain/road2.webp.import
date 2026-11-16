@@ -17,7 +17,7 @@ dest_files=["res://.godot/imported/road2.webp-b8a1b8715685c7c55d87963c2dedf5d8.c
 
 compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.9
+compress/lossy_quality=0.92
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
