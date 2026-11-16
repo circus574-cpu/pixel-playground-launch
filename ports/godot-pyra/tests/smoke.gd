@@ -1020,7 +1020,6 @@ func run() -> void:
 	var explored_before := game.dungeon.explored.size()
 	game.player.position = game.dungeon.center(game.dungeon.room_center(game.dungeon.far_room))
 	game.dungeon.reveal(game.player.position)
-	print("DEBUG automap before=%d after=%d cave_ok=%s pos=%s far=%s" % [explored_before, game.dungeon.explored.size(), str(game.hud.cave == game.dungeon), str(game.player.position), str(game.dungeon.far_room)])
 	verify(explored_before > 0 and game.dungeon.explored.size() > explored_before and game.hud.cave == game.dungeon, "the automap fills in where the hero walks")
 	var down_target := {}
 	for t: Dictionary in game.dungeon.targets():

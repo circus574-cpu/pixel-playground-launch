@@ -457,7 +457,6 @@ func load_space(room: String, at: Vector2, town: String = "") -> void:
 		room_sorted.add_child(player)
 		dungeon.build(room_root, room_sorted, player)
 		hud.set_cave(dungeon)
-		dungeon.reveal(player.position)
 		targets = dungeon.targets()
 		var spots: Array = []
 		for g: Dictionary in dungeon.guards:
@@ -471,6 +470,7 @@ func load_space(room: String, at: Vector2, town: String = "") -> void:
 		camera.limit_bottom = int(room_bounds.size.y)
 		hud.place.text = dungeon.depth_text()
 		player.position = at
+		dungeon.reveal(at)
 		player.visual.face(Vector2.DOWN)
 		camera.reset_smoothing()
 		input_suspended = false

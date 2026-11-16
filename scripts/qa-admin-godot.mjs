@@ -15,7 +15,10 @@ mkdirSync(out, { recursive: true });
 const dir = mkdtempSync(path.join(tmpdir(), "godot-release-"));
 const files = [];
 const packs = {};
-for (const [name, text] of [["core", "core-bytes-".repeat(200)], ["land-pyra", "pyra-bytes-".repeat(500)]]) {
+for (const [name, text] of [
+  ["core", "core-bytes-".repeat(200)],
+  ["land-pyra", "pyra-bytes-".repeat(500)],
+]) {
   const bytes = Buffer.from(text);
   const sha = createHash("sha256").update(bytes).digest("hex");
   const file = `${name}-${sha.slice(0, 12)}.pck`;
@@ -23,18 +26,49 @@ for (const [name, text] of [["core", "core-bytes-".repeat(200)], ["land-pyra", "
   files.push(path.join(dir, file));
   packs[name] = { file, bytes: bytes.length, sha256: sha };
 }
-writeFileSync(path.join(dir, "manifest.json"), JSON.stringify({ format: "ki-godot-content-1", version: "2026.test.1", packs, lands: { pyra: ["land-pyra", "core"] } }));
+writeFileSync(
+  path.join(dir, "manifest.json"),
+  JSON.stringify({
+    format: "ki-godot-content-1",
+    version: "2026.test.1",
+    packs,
+    lands: { pyra: ["land-pyra", "core"] },
+  }),
+);
 files.push(path.join(dir, "manifest.json"));
 
 // a player's save through the API, so the saves table has a row
 const login = async (email, password) =>
-  (await (await fetch(app + "/ws/auth/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, password }) })).json());
+  await (
+    await fetch(app + "/ws/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    })
+  ).json();
 const player = await login("e2egracz@example.com", "haslo-e2e-12345");
-const save = { format: "ki-godot-pyra-save-2", version: 2, race: "sage", land: "aether", room: "", position: [100, 100], cityReturn: [100, 100], kit: { level: 7, xp: 1, learned: ["R"], slots: [], hp: 1, ki: 1 } };
-const put = await fetch(app + "/ws/godot/saves/1", { method: "PUT", headers: { "Content-Type": "application/json", Authorization: "Bearer " + player.accessToken }, body: JSON.stringify({ baseRevision: 0, save }) });
+const save = {
+  format: "ki-godot-pyra-save-2",
+  version: 2,
+  race: "sage",
+  land: "aether",
+  room: "",
+  position: [100, 100],
+  cityReturn: [100, 100],
+  kit: { level: 7, xp: 1, learned: ["R"], slots: [], hp: 1, ki: 1 },
+};
+const put = await fetch(app + "/ws/godot/saves/1", {
+  method: "PUT",
+  headers: { "Content-Type": "application/json", Authorization: "Bearer " + player.accessToken },
+  body: JSON.stringify({ baseRevision: 0, save }),
+});
 assert.equal(put.status, 200, "player save accepted");
 
-const browser = await chromium.launch(process.env.KI_CHROMIUM ? { executablePath: process.env.KI_CHROMIUM, args: ["--no-sandbox"] } : {});
+const browser = await chromium.launch(
+  process.env.KI_CHROMIUM
+    ? { executablePath: process.env.KI_CHROMIUM, args: ["--no-sandbox"] }
+    : {},
+);
 const page = await browser.newPage({ viewport: { width: 1280, height: 1000 } });
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
