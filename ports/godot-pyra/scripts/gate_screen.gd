@@ -1,0 +1,273 @@
+class_name PyraGate
+extends Control
+## The way into the game on a device that carries only the base: sign in (or play offline), check the server (maintenance, minimum
+## version), reconcile the cloud save with the local one, then download the content of the land the hero starts in. The same screen
+## shows the progress when a land that is not on the device yet is entered later (`download_land`).
+
+signal choice_made(index: int)
+
+const SAVE_PATH := "user://city-checkpoint-v1.json"
+
+var panel := PanelContainer.new()
+var box := VBoxContainer.new()
+var heading := Label.new()
+var message := Label.new()
+var form := VBoxContainer.new()
+var buttons := HBoxContainer.new()
+var bar := ProgressBar.new()
+var detail := Label.new()
+var email_field := LineEdit.new()
+var password_field := LineEdit.new()
+var nick_field := LineEdit.new()
+var offline_mode := false
+
+func _ready() -> void:
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	var shade := ColorRect.new()
+	shade.color = Color(0.02, 0.025, 0.04, 0.92)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(shade)
+	panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	panel.custom_minimum_size = Vector2(700, 0)
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.09, 0.07, 0.06, 0.97)
+	style.border_color = Color("e0b96d")
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(14)
+	style.set_content_margin_all(24)
+	panel.add_theme_stylebox_override("panel", style)
+	add_child(panel)
+	panel.add_child(box)
+	box.add_theme_constant_override("separation", 12)
+	heading.add_theme_font_override("font", load("res://assets/branding/cinzel-bold.ttf"))
+	heading.add_theme_font_size_override("font_size", 28)
+	heading.add_theme_color_override("font_color", Color("ffe2a8"))
+	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(heading)
+	message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	message.add_theme_font_size_override("font_size", 18)
+	message.add_theme_color_override("font_color", Color("e6dcc4"))
+	message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(message)
+	box.add_child(form)
+	form.add_theme_constant_override("separation", 8)
+	for pair in [[email_field, "E-mail", false], [nick_field, "Nick (tylko przy zakładaniu konta)", false], [password_field, "Hasło", true]]:
+		var field: LineEdit = pair[0]
+		field.placeholder_text = pair[1]
+		field.secret = pair[2]
+		field.custom_minimum_size = Vector2(0, 52)
+		field.add_theme_font_size_override("font_size", 20)
+		form.add_child(field)
+	nick_field.visible = false
+	bar.custom_minimum_size = Vector2(0, 26)
+	bar.show_percentage = false
+	bar.visible = false
+	box.add_child(bar)
+	detail.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	detail.add_theme_font_size_override("font_size", 15)
+	detail.add_theme_color_override("font_color", Color("b8b09c"))
+	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(detail)
+	buttons.alignment = BoxContainer.ALIGNMENT_CENTER
+	buttons.add_theme_constant_override("separation", 12)
+	box.add_child(buttons)
+	form.visible = false
+
+func say(title: String, text: String, extra: String = "") -> void:
+	heading.text = title
+	message.text = text
+	detail.text = extra
+
+func offer(options: Array) -> int:
+	for child in buttons.get_children():
+		child.queue_free()
+	var index := 0
+	for text: String in options:
+		var button := Button.new()
+		button.text = text
+		button.custom_minimum_size = Vector2(190, 56)
+		button.add_theme_font_size_override("font_size", 18)
+		button.pressed.connect(func(i := index) -> void: choice_made.emit(i))
+		buttons.add_child(button)
+		index += 1
+	var picked: int = await choice_made
+	for child in buttons.get_children():
+		child.queue_free()
+	return picked
+
+func megabytes(bytes: int) -> String:
+	return "%.1f MB" % (float(bytes) / 1048576.0)
+
+# ---- boot ---------------------------------------------------------------------------------------------
+
+## Returns true when the game may start (the start land's content is mounted), false when the player gave up.
+func run_boot() -> bool:
+
+	while true:
+		var signed_in := false
+		if KiNet.online().logged_in():
+			say("KI LEGENDS", "Logowanie…")
+			signed_in = await KiNet.online().resume()
+		if not signed_in and not offline_mode:
+			var mode := await login_form()
+			if mode == "quit":
+				return false
+			signed_in = mode == "login"
+			offline_mode = mode == "offline"
+		var reached := false
+		if not offline_mode or KiNet.online().logged_in():
+			say("KI LEGENDS", "Łączenie z serwerem…")
+			var m := await KiNet.content().fetch_manifest()
+			reached = bool(m.ok)
+			if not reached:
+				if bool(m.get("blocked", false)):
+					var again := await offer_message("Serwer", str(m.message), ["SPRÓBUJ PONOWNIE", "GRAJ OFFLINE"] if offline_possible() else ["SPRÓBUJ PONOWNIE"])
+					if again == 0:
+						continue
+					offline_mode = true
+				elif not KiNet.content().has_manifest():
+					var retry := await offer_message("Brak połączenia", str(m.message) + "\nPierwsze uruchomienie wymaga internetu, aby pobrać grę.", ["SPRÓBUJ PONOWNIE", "WYJDŹ"])
+					if retry == 0:
+						continue
+					return false
+				else:
+					offline_mode = true
+		if signed_in and reached:
+			await reconcile_cloud()
+			KiNet.content().prune()
+		var land := start_land()
+		var ok := await download_land(land)
+		if ok:
+			return true
+		var next := await offer_message("Pobieranie", "Nie udało się przygotować gry.", ["SPRÓBUJ PONOWNIE", "WYJDŹ"])
+		if next != 0:
+			return false
+	return false
+
+func offline_possible() -> bool:
+	return PyraContent.embedded() or all_cached(start_land())
+
+func all_cached(land: String) -> bool:
+	for id: String in KiNet.content().packs_for_land(land):
+		if not KiNet.content().present(id) and not KiNet.content().cached(id):
+			return false
+	return KiNet.content().has_manifest() and not KiNet.content().packs_for_land(land).is_empty()
+
+func offer_message(title: String, text: String, options: Array) -> int:
+	form.visible = false
+	bar.visible = false
+	say(title, text)
+	return await offer(options)
+
+## The land the hero opens in: the land of the local checkpoint, otherwise Pyra.
+func start_land() -> String:
+	if FileAccess.file_exists(SAVE_PATH):
+		var value: Variant = JSON.parse_string(FileAccess.get_file_as_string(SAVE_PATH))
+		if value is Dictionary and PyraGame.ALL_LANDS.has(str(value.get("land", ""))):
+			return str(value.land)
+	return "pyra"
+
+func login_form() -> String:
+	var online := KiNet.online()
+	form.visible = true
+	bar.visible = false
+	var registering := false
+	while true:
+		nick_field.visible = registering
+		say("KI LEGENDS ONLINE", "Zaloguj się kontem Ki Legends (to samo konto co w przeglądarce)." if not registering else "Załóż konto: dostaniesz e-mail z linkiem aktywacyjnym.", "Serwer: " + online.server)
+		var labels := ["ZALOGUJ", "UTWÓRZ KONTO" if not registering else "MAM KONTO"]
+		if offline_possible():
+			labels.append("GRAJ OFFLINE")
+		var pick := await offer(labels)
+		if pick == 1:
+			registering = not registering
+			continue
+		if pick == 2:
+			form.visible = false
+			return "offline"
+		var email := email_field.text.strip_edges()
+		var password := password_field.text
+		if email == "" or password == "":
+			detail.text = "Podaj e-mail i hasło."
+			continue
+		say("KI LEGENDS ONLINE", "Chwileczkę…", "Serwer: " + online.server)
+		if registering:
+			var made := await online.register(email, password, nick_field.text.strip_edges())
+			var ok := int(made.status) == 201
+			say("KI LEGENDS ONLINE", "Konto utworzone. Kliknij link w e-mailu aktywacyjnym i zaloguj się." if ok else PyraOnline.message_of(made, "Nie udało się założyć konta."))
+			if ok:
+				registering = false
+			await get_tree().create_timer(1.8).timeout
+			continue
+		var result := await online.login(email, password)
+		if int(result.status) == 200:
+			form.visible = false
+			password_field.text = ""
+			return "login"
+		say("KI LEGENDS ONLINE", PyraOnline.message_of(result, "Logowanie nie powiodło się."), "Serwer: " + online.server)
+		await get_tree().create_timer(1.2).timeout
+	return "quit"
+
+# ---- cloud save ---------------------------------------------------------------------------------------
+
+func local_save_exists() -> bool:
+	return FileAccess.file_exists(SAVE_PATH)
+
+func write_local_save(save: Dictionary) -> bool:
+	var file := FileAccess.open(SAVE_PATH + ".tmp", FileAccess.WRITE)
+	if file == null:
+		return false
+	file.store_string(JSON.stringify(save))
+	file.close()
+	return DirAccess.rename_absolute(ProjectSettings.globalize_path(SAVE_PATH + ".tmp"), ProjectSettings.globalize_path(SAVE_PATH)) == OK
+
+## Compares the cloud save with this device's: a missing local save takes the cloud one; a different revision asks the player.
+func reconcile_cloud() -> void:
+	var online := KiNet.online()
+	say("KI LEGENDS", "Sprawdzam zapis w chmurze…")
+	var summary := await online.cloud_summary()
+	if not bool(summary.ok) or (summary.save as Dictionary).is_empty():
+		return
+	var cloud: Dictionary = summary.save
+	if int(cloud.revision) == online.cloud_revision and local_save_exists():
+		return
+	var take_cloud := not local_save_exists()
+	if not take_cloud:
+		var text := "Na tym koncie jest zapis w chmurze (poziom %d, kraina %s, %s), a to urządzenie ma inny zapis. Który zachować?" % [int(cloud.level), str(cloud.land), str(cloud.updatedAt).replace("T", " ").substr(0, 16)]
+		take_cloud = await offer_message("Zapis w chmurze", text, ["UŻYJ ZAPISU Z CHMURY", "ZACHOWAJ TEN Z URZĄDZENIA"]) == 0
+	if take_cloud:
+		var pulled := await online.cloud_pull()
+		if bool(pulled.ok):
+			write_local_save(pulled.save)
+	else:
+		online.cloud_revision = int(cloud.revision)   # the next upload deliberately replaces the cloud save
+		online.store_cloud_state()
+
+# ---- content ------------------------------------------------------------------------------------------
+
+## Downloads and mounts what the land needs, with a progress bar. Returns true when the land can be entered.
+func download_land(land: String) -> bool:
+	var content := KiNet.content()
+	form.visible = false
+	var missing := content.missing_for(land)
+	if missing.is_empty():
+		return true
+	var need := content.bytes_to_download(missing)
+	say("Pobieranie świata", "Potrzebne dane krainy: %s" % megabytes(need) if need > 0 else "Wczytywanie danych krainy…")
+	bar.visible = true
+	bar.max_value = maxf(1.0, float(need))
+	bar.value = 0.0
+	var handler := func(info: Dictionary) -> void:
+		bar.max_value = maxf(1.0, float(info.total))
+		bar.value = float(info.done)
+		detail.text = "%s · %d/%d · %s z %s" % [str(info.pack), int(info.index), int(info.count), megabytes(int(info.done)), megabytes(int(info.total))]
+	content.progress.connect(handler)
+	var result := await content.ensure_land(land)
+	content.progress.disconnect(handler)
+	bar.visible = false
+	if not bool(result.ok):
+		detail.text = str(result.get("message", ""))
+		return false
+	return true

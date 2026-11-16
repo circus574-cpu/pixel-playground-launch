@@ -69,6 +69,12 @@ var boss_data: Dictionary
 var dungeon_data: Dictionary
 var dungeon: PyraDungeon
 var world_events: PyraWorldEvents
+var remote: PyraRemotePlayers
+var chat_log: Array[String] = []
+var chat_panel: PyraChat
+var autosave_clock := 0.0
+var cloud_pushing := false
+var cloud_dialog_open := false
 var world_time := 40.0                  # seconds of the game day (480 s, night from 300 s); not saved, the day starts in the morning
 var day_tint := CanvasModulate.new()
 var citizens: Array[Dictionary] = []    # street NPCs that stroll around their post
@@ -177,13 +183,22 @@ func _ready() -> void:
 	hud.inventory_requested.connect(func() -> void: open_items("inventory", "Plecak i wyposażenie"))
 	hud.zoom_requested.connect(cycle_zoom)
 	hud.dialog_changed.connect(func(open: bool): player.locked = open or input_suspended)
-	set_race("legend")
-	enter_land(str(HOME_OF_RACE[race]))
+	var boot_race := "legend"
+	var boot_land := "pyra"
+	if "--fresh" not in OS.get_cmdline_user_args() and FileAccess.file_exists(SAVE_PATH):
+		# Open straight in the land of the saved character (a slim install only has that land's content).
+		var peek: Variant = JSON.parse_string(FileAccess.get_file_as_string(SAVE_PATH))
+		if peek is Dictionary and WORLD_OF_RACE.has(str(peek.get("race", ""))) and (str(peek.get("land", "")) in ALL_LANDS):
+			boot_race = str(peek.race)
+			boot_land = str(peek.land)
+	set_race(boot_race)
+	enter_land(boot_land)
 	var args := OS.get_cmdline_user_args()
 	var restored := false
 	if "--fresh" not in args:
 		restored = restore_checkpoint()
 	hud.refresh(kit)
+	start_online.call_deferred()
 	if not restored and "--fresh" not in args and not checkpoint_protected:
 		open_race_screen.call_deferred(false)
 	if "--capture" in OS.get_cmdline_user_args():
@@ -1156,6 +1171,11 @@ func _process(delta: float) -> void:
 	simulate(minf(delta, 0.05))
 	quest_tick(delta)
 	update_day(delta)
+	autosave_clock += delta
+	if autosave_clock >= 90.0:
+		autosave_clock = 0.0
+		if KiNet.online().logged_in() and not kit.dead and not player.locked:
+			save_checkpoint(SAVE_PATH, true)
 	if current_room.is_empty():
 		update_citizens(minf(delta, 0.1))
 	var terrain := continent.terrain_kind(player.position) if current_room.is_empty() else "open"
@@ -1249,6 +1269,8 @@ func go_back() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST and is_instance_valid(hud):
 		go_back()
+	elif what == NOTIFICATION_APPLICATION_PAUSED and is_instance_valid(hud) and is_instance_valid(player) and not kit.dead:
+		save_checkpoint(SAVE_PATH, true)   # the app is going to the background: keep the progress (and send it to the cloud)
 	elif what == NOTIFICATION_APPLICATION_FOCUS_OUT and is_instance_valid(hud):
 		for code in [KEY_W, KEY_A, KEY_S, KEY_D, KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT]:
 			var released := InputEventKey.new()
@@ -1303,6 +1325,8 @@ func open_race_screen(can_close: bool = true) -> void:
 ## A fresh character of the chosen race starts in that race's capital with the starting purse.
 func start_new_character(new_race: String) -> void:
 	close_screen()
+	if not await ensure_land_content(str(HOME_OF_RACE[new_race])):
+		return
 	if not current_room.is_empty():
 		load_space("", city_return)
 	quests.reset()
@@ -1320,10 +1344,28 @@ func start_new_character(new_race: String) -> void:
 	hud.refresh(kit)
 	hud.toast("Witaj w %s!" % str(land.name))
 
+## Makes sure the data of a land is on the device (downloads it with a progress screen when it is not). False = could not.
+func ensure_land_content(id: String) -> bool:
+	if KiNet.content().missing_for(id).is_empty():
+		return true
+	var gate := PyraGate.new()
+	ui.add_child(gate)
+	player.locked = true
+	hud.touch.reset()
+	var ok := await gate.download_land(id)
+	if not ok:
+		gate.say("Pobieranie", "Nie udało się pobrać danych krainy. Sprawdź połączenie i spróbuj ponownie.", gate.detail.text)
+		await gate.offer(["ZAMKNIJ"])
+	gate.queue_free()
+	player.locked = false
+	return ok
+
 func travel_to(id: String) -> void:
 	if not (id in ALL_LANDS) or id == land_id:
 		return
 	close_screen()
+	if not await ensure_land_content(id):
+		return
 	if not current_room.is_empty():
 		load_space("", city_return)
 	enter_land(id)
@@ -1354,16 +1396,17 @@ func open_items(mode: String, heading: String) -> void:
 func show_menu() -> void:
 	if is_instance_valid(screen):
 		return
-	hud.show_dialog("KI LEGENDS", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D, mapa 2D i podróże między krainami. POSTAĆ: statystyki i drzewko Twojej rasy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. Potwory żyją poza miastami (miasta są bezpieczne); po śmierci wracasz do stolicy krainy. Manekin czeka na arenach.", [{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "NOWA POSTAĆ (WYBÓR RASY)", "callback": func(): hud.close_dialog(); open_race_screen(true)}, {"text": "MUZYKA: %d%%  (zmień)" % int(round(audio.music_volume * 100.0)), "callback": func(): audio.set_volumes(next_volume(audio.music_volume), audio.sfx_volume); hud.close_dialog(); show_menu()}, {"text": "EFEKTY: %d%%  (zmień)" % int(round(audio.sfx_volume * 100.0)), "callback": func(): audio.set_volumes(audio.music_volume, next_volume(audio.sfx_volume)); hud.close_dialog(); show_menu()}, {"text": "DZIENNIK ZADAŃ", "callback": func(): hud.close_dialog(); show_journal()}, {"text": "FPS I DIAGNOSTYKA: " + ("WYŁĄCZ" if hud.show_fps else "WŁĄCZ"), "callback": func(): hud.show_fps = not hud.show_fps; hud.signature = ""; hud.close_dialog()}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}])
+	hud.show_dialog("KI LEGENDS", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D, mapa 2D i podróże między krainami. POSTAĆ: statystyki i drzewko Twojej rasy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. Potwory żyją poza miastami (miasta są bezpieczne); po śmierci wracasz do stolicy krainy. Manekin czeka na arenach.", [{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "NOWA POSTAĆ (WYBÓR RASY)", "callback": func(): hud.close_dialog(); open_race_screen(true)}, {"text": "MUZYKA: %d%%  (zmień)" % int(round(audio.music_volume * 100.0)), "callback": func(): audio.set_volumes(next_volume(audio.music_volume), audio.sfx_volume); hud.close_dialog(); show_menu()}, {"text": "EFEKTY: %d%%  (zmień)" % int(round(audio.sfx_volume * 100.0)), "callback": func(): audio.set_volumes(audio.music_volume, next_volume(audio.sfx_volume)); hud.close_dialog(); show_menu()}, {"text": "DZIENNIK ZADAŃ", "callback": func(): hud.close_dialog(); show_journal()}, {"text": "FPS I DIAGNOSTYKA: " + ("WYŁĄCZ" if hud.show_fps else "WŁĄCZ"), "callback": func(): hud.show_fps = not hud.show_fps; hud.signature = ""; hud.close_dialog()}, {"text": "CZAT OKOLICY", "callback": func(): hud.close_dialog(); open_chat()}, {"text": ("KONTO: %s (WYLOGUJ)" % KiNet.online().nick) if KiNet.online().logged_in() else "KONTO: NIE ZALOGOWANO", "callback": func(): hud.close_dialog(); if KiNet.online().logged_in(): await KiNet.online().logout(); hud.toast("Wylogowano. Po ponownym uruchomieniu zalogujesz się ponownie.")}, {"text": "POBIERZ WSZYSTKIE KRAINY", "callback": func(): hud.close_dialog(); download_everything()}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}])
 
 func show_licenses() -> void:
 	hud.show_dialog("Godot i biblioteki silnika", Engine.get_license_text() + "\n\nTHIRD-PARTY LICENSES\n" + JSON.stringify(Engine.get_license_info(), "\t") + "\n\nCOPYRIGHT NOTICES\n" + JSON.stringify(Engine.get_copyright_info(), "\t") + "\n\nFONT CINZEL\n" + FileAccess.get_file_as_string("res://assets/branding/OFL-Cinzel.txt") + "\n\nOFFICIAL GODOT LOGO\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-NOTICE.txt") + "\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-LICENSE.txt"))
 
 # ---- save ------------------------------------------------------------------------------------
 
-func save_checkpoint(path: String = SAVE_PATH) -> bool:
+func save_checkpoint(path: String = SAVE_PATH, quiet: bool = false) -> bool:
 	if checkpoint_protected or (not in_dungeon() and not can_stand(player.position, current_room)):
-		hud.toast("Nie zapisano punktu; istniejący plik pozostaje zachowany.")
+		if not quiet:
+			hud.toast("Nie zapisano punktu; istniejący plik pozostaje zachowany.")
 		return false
 	var in_cave := in_dungeon()
 	var save_room := "" if in_cave else current_room
@@ -1375,8 +1418,128 @@ func save_checkpoint(path: String = SAVE_PATH) -> bool:
 	file.store_string(JSON.stringify(value))
 	file.close()
 	var result := DirAccess.rename_absolute(ProjectSettings.globalize_path(path + ".tmp"), ProjectSettings.globalize_path(path)) == OK
-	hud.toast("Zapisano pozycję i postać." if result else "Nie zapisano punktu próby.")
+	if not quiet:
+		hud.toast("Zapisano pozycję i postać." if result else "Nie zapisano punktu próby.")
+	if result and path == SAVE_PATH and KiNet.online().logged_in():
+		push_cloud(not quiet)
 	return result
+
+## Sends the local save to the account's cloud slot. A newer save from another device raises the conflict dialog.
+func push_cloud(announce: bool = false) -> void:
+	if cloud_pushing or cloud_dialog_open or not FileAccess.file_exists(SAVE_PATH):
+		return
+	var value: Variant = JSON.parse_string(FileAccess.get_file_as_string(SAVE_PATH))
+	if not value is Dictionary:
+		return
+	cloud_pushing = true
+	var outcome := await KiNet.online().cloud_push(value, -1, KiNet.content().version())
+	cloud_pushing = false
+	if bool(outcome.ok):
+		if announce:
+			hud.toast("Zapisano w chmurze (wersja %d)." % int(outcome.revision))
+	elif bool(outcome.get("conflict", false)):
+		show_cloud_conflict(int(outcome.serverRevision))
+	elif announce:
+		hud.toast(str(outcome.get("message", "Nie zapisano w chmurze.")))
+
+func show_cloud_conflict(server_revision: int) -> void:
+	cloud_dialog_open = true
+	hud.show_dialog("Zapis w chmurze", "Na koncie jest zapis z innego urządzenia lub nowszy niż ten, od którego zacząłeś. Który ma obowiązywać?", [
+		{"text": "NADPISZ CHMURĘ TYM URZĄDZENIEM", "callback": func() -> void:
+			cloud_dialog_open = false
+			KiNet.online().cloud_revision = server_revision
+			KiNet.online().store_cloud_state()
+			hud.close_dialog()
+			push_cloud(true)},
+		{"text": "POBIERZ ZAPIS Z CHMURY", "callback": func() -> void:
+			hud.close_dialog()
+			var pulled := await KiNet.online().cloud_pull()
+			cloud_dialog_open = false
+			if bool(pulled.ok) and not await ensure_land_content(str((pulled.save as Dictionary).get("land", "pyra"))):
+				hud.toast("Brak danych krainy z zapisu.")
+			elif bool(pulled.ok):
+				var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+				if file != null:
+					file.store_string(JSON.stringify(pulled.save))
+					file.close()
+				restore_checkpoint()
+			else:
+				hud.toast("Nie udało się pobrać zapisu z chmury.")},
+		{"text": "DECYDUJĘ PÓŹNIEJ", "callback": func() -> void:
+			cloud_dialog_open = false
+			hud.close_dialog()}])
+
+## What the server is told about the hero (place only; nothing here is authoritative).
+func live_payload() -> Dictionary:
+	var at: Vector2 = player.position if current_room.is_empty() else city_return
+	var facing_index := posmod(int(round(player.facing.angle() / (TAU / 8.0))), 8)
+	return {"race": race, "land": land_id, "level": kit.level, "x": at.x, "y": at.y, "facing": facing_index}
+
+func on_peers(list: Array) -> void:
+	if is_instance_valid(remote):
+		remote.set_peers(list)
+
+func on_chat(nick: String, text: String) -> void:
+	chat_log.append("%s: %s" % [nick, text])
+	if chat_log.size() > 40:
+		chat_log.pop_front()
+	if is_instance_valid(chat_panel):
+		chat_panel.add_line(nick, text)
+	else:
+		hud.toast("%s: %s" % [nick, text])
+
+func open_chat() -> void:
+	if is_instance_valid(chat_panel) or not KiNet.online().logged_in():
+		hud.toast("Czat działa po zalogowaniu.")
+		return
+	chat_panel = PyraChat.new()
+	chat_panel.lines = chat_log.duplicate()
+	ui.add_child(chat_panel)
+
+## Downloads the content of every land (for playing without a connection later).
+func download_everything() -> void:
+	if PyraContent.embedded():
+		hud.toast("Ta wersja ma już całą zawartość.")
+		return
+	if not KiNet.content().has_manifest():
+		hud.toast("Brak informacji o treści. Połącz się z internetem.")
+		return
+	var gate := PyraGate.new()
+	ui.add_child(gate)
+	player.locked = true
+	var all := {}
+	for id: String in ALL_LANDS:
+		for pack: String in KiNet.content().packs_for_land(id):
+			all[pack] = true
+	var need := KiNet.content().bytes_to_download(all.keys())
+	if need == 0:
+		gate.say("Pobieranie", "Wszystkie krainy są już na urządzeniu.")
+		await gate.offer(["ZAMKNIJ"])
+	else:
+		gate.say("Pobieranie świata", "Pobieram wszystkie krainy: %s." % gate.megabytes(need))
+		gate.bar.visible = true
+		var handler := func(info: Dictionary) -> void:
+			gate.bar.max_value = maxf(1.0, float(info.total))
+			gate.bar.value = float(info.done)
+			gate.detail.text = "%s · %s z %s" % [str(info.pack), gate.megabytes(int(info.done)), gate.megabytes(int(info.total))]
+		KiNet.content().progress.connect(handler)
+		var result := await KiNet.content().ensure(all.keys())
+		KiNet.content().progress.disconnect(handler)
+		gate.bar.visible = false
+		gate.say("Pobieranie", "Gotowe." if bool(result.ok) else str(result.get("message", "Nie udało się.")))
+		await gate.offer(["ZAMKNIJ"])
+	gate.queue_free()
+	player.locked = false
+
+func start_online() -> void:
+	if not KiNet.online().logged_in():
+		return
+	remote = PyraRemotePlayers.new()
+	remote.setup(self)
+	add_child(remote)
+	KiNet.online().peers_changed.connect(on_peers)
+	KiNet.online().chat_received.connect(on_chat)
+	KiNet.online().start_live(live_payload)
 
 static func number_pair(value: Variant) -> bool:
 	return value is Array and value.size() == 2 and (value[0] is float or value[0] is int) and (value[1] is float or value[1] is int)

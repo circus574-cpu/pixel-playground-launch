@@ -15,6 +15,8 @@ var content := VBoxContainer.new()
 var safe_root := Control.new()
 var active_pointer := -1
 var mouse_armed := false
+var gate_active := false
+var gate_done := false
 
 var intro := TextureRect.new()
 var floor_shade := TextureRect.new()
@@ -109,8 +111,30 @@ func _layout() -> void:
 	content.position = Vector2((area.size.x - content.size.x) / 2, area.size.y - content.size.y - 26)
 
 func start_city() -> void:
-	if loading or is_instance_valid(city_instance):
+	if loading or gate_active or is_instance_valid(city_instance):
 		return
+	if not gate_done and not PyraContent.embedded():
+		run_gate()
+		return
+	begin_load()
+
+## A device with only the base installed: sign in, check the server, download the start land, then load the city.
+func run_gate() -> void:
+	gate_active = true
+	start_button.disabled = true
+	var gate := PyraGate.new()
+	add_child(gate)
+	var ready_to_play := await gate.run_boot()
+	gate.queue_free()
+	gate_active = false
+	if not ready_to_play:
+		get_tree().quit()
+		return
+	gate_done = true
+	start_button.disabled = false
+	begin_load()
+
+func begin_load() -> void:
 	active_pointer = -1
 	mouse_armed = false
 	loading = true
@@ -150,6 +174,8 @@ func _process(_delta: float) -> void:
 		queue_free()
 
 func _input(event: InputEvent) -> void:
+	if gate_active:
+		return
 	if loading:
 		if event is InputEventScreenTouch or event is InputEventMouseButton or event is InputEventKey:
 			get_viewport().set_input_as_handled()

@@ -1062,6 +1062,38 @@ func run() -> void:
 	verify(night_color.r < 0.7 and game.day_tint.color.is_equal_approx(Color.WHITE), "the world is tinted at night and plain by day")
 	game.world_time = world_time_kept
 	game.player.position = base + Vector2(300, 0)
+	# online: client version, content manifest rules, other players, gate helpers
+	var presets := ConfigFile.new()
+	presets.load("res://export_presets.cfg")
+	var preset_code := -1
+	for section in presets.get_sections():
+		if str(presets.get_value(section, "platform", "")) == "Android":
+			preset_code = int(presets.get_value(section + ".options", "version/code", -1))
+	verify(preset_code == KiNet.CLIENT_CODE, "the client code of the code equals the Android versionCode of the export", [preset_code, KiNet.CLIENT_CODE])
+	var content_test := PyraContent.new()
+	content_test.manifest = {"version": "t1", "packs": {"land-x": {"file": "land-x-aaaaaaaaaaaa.pck", "bytes": 10, "sha256": "00"}, "core": {"file": "core-bbbbbbbbbbbb.pck", "bytes": 5, "sha256": "11"}}, "lands": {"x": ["land-x", "core"]}}
+	verify(content_test.packs_for_land("x") == ["land-x", "core"] and content_test.packs_for_land("nope").is_empty() and content_test.version() == "t1", "the manifest tells which packs a land needs")
+	verify(PyraContent.embedded() and content_test.missing_for("x").is_empty(), "a build that carries all data itself downloads nothing")
+	verify(PyraOnline.message_of({"status": 0, "json": null}, "x") == "Brak połączenia z serwerem." and PyraOnline.message_of({"status": 400, "json": {"message": "Błąd serwera"}}, "x") == "Błąd serwera" and PyraOnline.message_of({"status": 500, "json": null}, "dom") == "dom", "server messages are shown to the player")
+	var ghosts := PyraRemotePlayers.new()
+	ghosts.setup(game)
+	game.add_child(ghosts)
+	ghosts.set_peers([{"id": "p1", "nick": "Ala", "race": "sage", "level": 3, "x": game.player.position.x + 200, "y": game.player.position.y, "f": 0}, {"id": "p2", "nick": "Bob", "race": "legend", "level": 9, "x": game.player.position.x - 200, "y": game.player.position.y, "f": 2}])
+	await settle(2)
+	verify(ghosts.figures.size() == 2 and (ghosts.figures["p1"].actor as Node2D).visible, "other players of the land appear as ghosts")
+	ghosts.set_peers([{"id": "p2", "nick": "Bob", "race": "legend", "level": 9, "x": game.player.position.x - 100, "y": game.player.position.y, "f": 2}])
+	await settle(2)
+	verify(ghosts.figures.size() == 1 and not ghosts.figures.has("p1"), "a player who left disappears")
+	ghosts.clear()
+	ghosts.queue_free()
+	var gate_probe := PyraGate.new()
+	verify(PyraGame.ALL_LANDS.has(gate_probe.start_land()), "the gate opens the land of the saved character (or Pyra)")
+	gate_probe.free()
+	var chat_probe := PyraChat.new()
+	chat_probe.add_line("Ala", "Cześć")
+	verify(chat_probe.lines == ["Ala: Cześć"], "the chat keeps its lines")
+	chat_probe.free()
+	verify(PyraGame.valid_dungeon_state({}) == {}, "cave state helper stays available")
 	var killer := mm.place_monster("verdant-mchowy-szlamak", far_up)
 	game.hurt_player(killer, 900.0, "melee", [])
 	killer.queue_free()

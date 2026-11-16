@@ -96,7 +96,7 @@ def classify(path: str) -> list[str]:
         return []
     if parts[0] == "assets" and parts[1] == "rooms":
         w = parts[2].split("-")[0]
-        return [f"rooms-{w}"] if w in WORLDS else []
+        return [f"rooms-{w}"] if w in WORLDS else ["rooms-pyra"]   # unprefixed pictures are the first-trial rooms of Pyra
     if parts[0] == "assets" and parts[1] == "floor":
         return ["rooms-pyra"]
     if parts[0] == "assets" and parts[1] == "audio":
@@ -108,12 +108,20 @@ def classify(path: str) -> list[str]:
     return []
 
 
+def city_files() -> list[str]:
+    """Textures of the first-trial capital (data/city.generated.json), built inside the Pyra land."""
+    city = json.loads((PROJECT / "data" / "city.generated.json").read_text())
+    return [o["texture"][len("res://"):] for o in city["objects"] + city["floor"]]
+
+
 def pack_members() -> dict[str, list[str]]:
     members: dict[str, set[str]] = defaultdict(set)
     object_owner: dict[str, set[str]] = defaultdict(set)
     for land in LANDS:
         for f in land_object_files(land):
             object_owner[f].add(land)
+    for f in city_files():
+        object_owner[f].add("pyra")
     for path in source_files():
         if path.startswith("assets/objects/"):
             for land in object_owner.get(path, ()):
@@ -121,7 +129,27 @@ def pack_members() -> dict[str, list[str]]:
             continue
         for pack in classify(path):
             members[pack].add(path)
+    for path in city_files():
+        if path.startswith("assets/floor/"):
+            members["rooms-pyra"].add(path)
     return {k: sorted(v) for k, v in members.items()}
+
+
+def excluded_from_base(path: str) -> bool:
+    import fnmatch
+    return any(fnmatch.fnmatch(path, pattern) for pattern in base_excludes({}))
+
+
+def check_orphans(members: dict[str, list[str]]) -> list[str]:
+    """Every `res://assets/...` file the rules data names must be in the base or in a pack: otherwise the game would crash on it."""
+    assigned = {s for sources in members.values() for s in sources}
+    problems = []
+    for data_file in sorted((PROJECT / "data").glob("*.json")) + sorted((PROJECT / "data" / "races").glob("*.json")):
+        text = data_file.read_text()
+        for ref in sorted(set(re.findall(r'res://(assets/[^"\\]+)', text))):
+            if excluded_from_base(ref) and ref not in assigned:
+                problems.append(f"{data_file.name}: {ref} is left out of the APK and belongs to no pack")
+    return problems
 
 
 def disk_files(source: str) -> list[str]:
@@ -174,6 +202,8 @@ def plan() -> tuple[dict[str, list[str]], dict[str, int]]:
 
 
 def print_plan(members: dict[str, list[str]], sizes: dict[str, int]) -> None:
+    for problem in check_orphans(members):
+        print("ORPHAN:", problem)
     total = 0
     for pack in sorted(members):
         print(f"{pack:18s} {len(members[pack]):6d} files  ~{sizes[pack] / 1e6:6.1f} MB")
@@ -208,6 +238,8 @@ def patch_preset(excludes: list[str]) -> None:
 def build(version: str) -> None:
     members, sizes = plan()
     print_plan(members, sizes)
+    if check_orphans(members):
+        raise SystemExit("orphaned assets: fix the classification first")
     out = OUT_ROOT / version
     out.mkdir(parents=True, exist_ok=True)
     manifest_packs = {}

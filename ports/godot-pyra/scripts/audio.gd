@@ -62,8 +62,11 @@ func set_volumes(music: float, sfx: float) -> void:
 	apply_music_volume()
 
 func stream(path: String) -> AudioStream:
-	if not cache.has(path):
-		cache[path] = load(path) if ResourceLoader.exists(path) else null
+	if cache.has(path):
+		return cache[path]
+	if not ResourceLoader.exists(path):
+		return null   # not on the device (yet): not remembered, a pack mounted later makes it available
+	cache[path] = load(path)
 	return cache[path]
 
 func music_target() -> float:

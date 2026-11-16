@@ -4,7 +4,8 @@ Dokumentacja natywnej aplikacji **KI Legends na Androida** (Godot 4.6.3, GDScrip
 stan 16.11.2026. Kod w repozytorium to **pełna gra: potwory, questy, dźwięk, ekwipunek, bossowie, jaskinie, wydarzenia świata, dzień i noc**
 (sekcja 1); ostatni zbudowany APK (`0.7.0-bestiary`, sekcja 2) jest starszy niż kod: **nie ma w nim questów, dźwięku, zasad
 ekwipunku, rzadkich cech potworów, bossów, jaskiń, wydarzeń świata, dnia i nocy ani życia mieszkańców**. Zgodnie z decyzją właściciela APK końcowy powstaje dopiero po przeniesieniu całości, w pełnej jakości grafiki.
-Gałąź `ccr-ebbd6459-n7c5eg`, kontynuacja
+**Od wersji 0.9.0-online gra jest online:** konta, zapisy w chmurze, obecność innych graczy, czat i panel administratora; APK jest
+szczupłe (ok. 64 MiB), a świat (ok. 147 MB) aplikacja dociąga z serwera — sekcja 2a. Gałąź `ccr-ebbd6459-n7c5eg`, kontynuacja
 [PR #170](https://github.com/circus574-cpu/pixel-playground-launch/pull/170) (`feat/godot-pyra-android-20261115`).
 
 Aplikacja nie wymaga React, Phasera ani serwera gry. Obecna gra WWW pozostaje osobnym produktem; zapisy WWW i konta
@@ -78,10 +79,13 @@ obniżony pancerz, oznaczenie, ślepota/mgła, zdjęcie tarczy, przyciągnięcie
 
 ## 2. Instalacja gotowego APK
 
-APK: `deliveries/godot-pyra-android-20261116-complete/ki-legends-godot-debug.apk`, **148234924 bajtów** (141,4 MiB, plik w Git LFS —
-bez limitu 100 MiB zwykłego pliku), SHA-256 `8071893d82fa242dc0b4d59db6823103513fdbeb49e5d318312a71007a311701`, wersja **0.8.0-complete** (kod 8).
-Zawiera całą grę z sekcji 1. Wymaga Androida 7.0+ i `arm64-v8a`. Starsze dostawy (0.7.0-bestiary i wcześniejsze) nie mają questów, dźwięku,
-bossów, jaskiń ani wydarzeń świata.
+APK: `deliveries/godot-pyra-android-20261117-online/ki-legends-godot-debug.apk`, **66727415 bajtów** (63,6 MiB, Git LFS), SHA-256
+`ba1373ab0f13ec03aa4ebaeae08645f15977cf691e9a01816c3c477e1231188b`, wersja **0.9.0-online** (kod 9). Zawiera kod, interfejs, czterech
+bohaterów, dane zasad i grafiki jaskiń; **nie zawiera krain** — przy pierwszym uruchomieniu (potrzebny internet) pobiera dane krainy
+startowej (ok. 17–34 MB), a kolejne przy podróży. **Gra działa tylko wtedy, gdy serwer ma opublikowane wydanie treści** (sekcja 2a,
+„Wdrożenie”): bez tego ekran startowy pokaże „Serwer nie ma jeszcze opublikowanej treści”. Pełne APK z całą grą w środku
+(`…-20261116-complete`, 141 MiB) zostaje w repozytorium jako wersja niezależna od serwera, ale bez kont i chmury.
+Wymaga Androida 7.0+ i `arm64-v8a`.
 
 1. Pobierz APK na telefon i otwórz plik (zezwól na instalację z tego źródła; nie wyłączaj Play Protect).
 2. Wersje 0.3.0 i 0.4.0 zaktualizują się w miejscu (ten sam klucz debug). **Jeżeli masz 0.2.0, odinstaluj ją najpierw**:
@@ -89,10 +93,10 @@ bossów, jaskiń ani wydarzeń świata.
 3. Uruchom **KI LEGENDS**, obróć telefon poziomo, wybierz **ZACZNIJ PRZYGODĘ**, a potem swoją rasę.
 
 ```sh
-adb install -r deliveries/godot-pyra-android-20261116-complete/ki-legends-godot-debug.apk
+adb install -r deliveries/godot-pyra-android-20261117-online/ki-legends-godot-debug.apk
 ```
 
-Pakiet `pl.kilegends.godot.pyra`, wersja `0.8.0-complete`, kod 8, min SDK 24 / target 36, `USER_LANDSCAPE`, OpenGL ES 3.
+Pakiet `pl.kilegends.godot.pyra`, wersja `0.9.0-online`, kod 9, min SDK 24 / target 36, `USER_LANDSCAPE`, OpenGL ES 3.
 Brak uprawnień internetu i pamięci zewnętrznej. To debug APK, nie wydanie Google Play.
 **Instalacja, płynność i pamięć na fizycznym Androidzie są niezweryfikowane** (brak urządzenia w tej sesji).
 
@@ -110,6 +114,64 @@ Brak uprawnień internetu i pamięci zewnętrznej. To debug APK, nie wydanie Goo
 
 Zdolność wymaga celu w zasięgu (~90 j.): w świecie nie ma celów, więc skuteczny test to manekin na arenie
 (wejście oznaczone złotym kołem przy Arenie). Kamera domyślnie oddalona (80 %); przycisk ZOOM przełącza 60/80/100 %.
+
+## 2a. Gra online: konta, chmura, treść z serwera, panel administratora
+
+**Czego to NIE jest.** Gra Android to lokalna symulacja PvE (walka, łup, doświadczenie liczy urządzenie), tak jak całe to przeniesienie. Serwer
+jest autorytatywny w trzech sprawach: **konta**, **zapisy** (przyjmuje tylko zapisy tej gry, w granicach rozsądku) i **treść do pobrania**.
+Obecność innych graczy i czat są **kosmetyczne**: serwer nie rozstrzyga walki, łupu, handlu ani pozycji. Nie ma PvP ani wspólnego świata
+autorytatywnego (w przeglądarce istnieje osobny serwer autorytatywny; to inny produkt).
+
+**Przepływ po uruchomieniu** (`scripts/title_screen.gd` → `scripts/gate_screen.gd`):
+1. Ekran logowania kontem Ki Legends (te same konta co w przeglądarce, `/ws/auth/*`); „UTWÓRZ KONTO” (link aktywacyjny przez e-mail), „GRAJ OFFLINE”
+   (tylko gdy dane krainy są już na urządzeniu). Token odświeżania w `user://account.json`.
+2. Serwer: tryb serwisowy i minimalna wersja aplikacji (komunikat „zainstaluj nowszą”), manifest aktywnego wydania.
+3. Zapis w chmurze: brak zapisu lokalnego → pobranie z chmury; różne wersje → pytanie, który zachować.
+4. Pobranie i podpięcie paczek krainy startowej (pasek postępu, suma SHA-256, ponowienia), potem miasto.
+W grze: autozapis co 90 s i przy wyjściu z aplikacji (zapis lokalny + chmura), konflikt wersji (inne urządzenie) pokazuje wybór, MENU →
+CZAT OKOLICY, KONTO (wyloguj), POBIERZ WSZYSTKIE KRAINY; podróż do nieznanej krainy pobiera jej paczki z ekranem postępu; inni gracze tej krainy
+widoczni są jako półprzezroczyste duchy z nickiem.
+
+**Paczki treści** (`scripts/godot/build_packs.py`): APK zawiera wszystko poza tym, co potrzebne tylko w danej krainie/świecie:
+
+| Paczka | Zawartość | Rozmiar |
+| --- | --- | --- |
+| `land-<id>` (10) | dane krainy, mapy, tekstury scenerii (także miasta Pyry) | 2,9–25 MB |
+| `monsters-<świat>` (4) | arkusze i dźwięki potworów świata | 3,3–4,2 MB |
+| `npcs-`, `rooms-`, `music-<świat>` (12) | mieszkańcy, wnętrza, muzyka kontynentu | 1–4,3 MB |
+
+Razem 26 paczek, 153 831 056 B. Każda kraina wymienia swoje paczki w manifeście (`lands`), np. Pyra = land + monsters + npcs + rooms + music
+≈ 28 MB. Nazwa pliku niesie 12 cyfr SHA-256, więc plik się nie zmienia i może leżeć w pamięci podręcznej „na zawsze”. Skrypt sprawdza, czy żaden
+plik wskazany w danych zasad nie wypadł z APK bez przydziału do paczki (`ORPHAN`), i wpisuje filtr wykluczeń do presetu Android.
+
+**Serwer** (`src/server/godot/*`, migracja `deploy/multiplayer/init/007-godot-android.sql`, trasy pod `/ws/godot/*` — Caddy już kieruje `/ws/*`):
+
+| Trasa | Działanie |
+| --- | --- |
+| `GET /status`, `GET /manifest?client=<kod>` | stan, aktywne wydanie; 503 w trybie serwisowym (administrator wchodzi), 426 dla zbyt starej aplikacji |
+| `GET /pack/<wersja>/<plik>` | paczka z `Range`/206, `ETag`, `immutable` |
+| `GET/PUT/DELETE /saves/<1-3>` | zapisy w chmurze z blokadą rewizji (`baseRevision`, 409 przy konflikcie), walidacja formatu, rasy, krainy, poziomu i limitów liczb, do 1 MB |
+| `WS /live` | obecność (pozycje 4 Hz, rówieśnicy w promieniu 2600 j. ≤ 24) i czat okolicy (≤ 120 znaków, 1/1,2 s) |
+| `/admin/*` (rola `admin`; `gm` tylko odczyt) | przegląd, wgrywanie paczek (SHA-256 sprawdzane w locie), rejestracja i aktywacja wydań, ustawienia dostępu, podgląd i usuwanie zapisów; każde działanie w dzienniku audytu |
+
+Treść paczek leży na woluminie (`GODOT_CONTENT_DIR`, domyślnie `/data/godot-content`), nie w obrazie. **Panel administratora** (`/admin` → „Gra Android”,
+`src/components/admin/AdminGodotPanel.tsx`): stan i liczba graczy online, minimalna wersja i tryb serwisowy z komunikatem, wydania (wysyłka folderu
+`deploy/godot-content/<wersja>/` z przeglądarki, aktywacja = natychmiastowy rollback do dowolnego wcześniejszego), zapisy graczy, dziennik.
+
+**Wdrożenie — nie wykonane.** Zgodnie z `AGENTS.md` publikacja i zmiany produkcji wymagają osobnej zgody właściciela, a ta sesja nie ma dostępu do VPS/Coolify.
+Gotowe: migracja 007 (idempotentna, dopisana do `install.sh` i CI), wolumin w `docker-compose.online.yml` i `Dockerfile`, narzędzie
+`scripts/godot/publish_content.py`. Kroki dla właściciela: (1) wykonać migrację 007 (`install.sh` robi kopię przed zmianą), (2) wdrożyć obraz z woluminem
+`godot-content`, (3) zbudować paczki `python3 scripts/godot/build_packs.py build` (gotowy zestaw 2026.11.17.1 jest w
+`deliveries/godot-content-2026.11.17.1`) i opublikować w panelu „Gra Android” albo
+`KI_ADMIN_EMAIL=… KI_ADMIN_PASSWORD=… python3 scripts/godot/publish_content.py --server https://kilegends.pl --dir <folder> --activate`,
+(4) zainstalować APK. Adres serwera w aplikacji: `--server=URL`, `KI_SERVER`, `user://server.json` albo ustawienie `ki/server/url` (domyślnie `https://kilegends.pl`).
+
+**Sprawdzone lokalnie (PostgreSQL 16 + prawdziwy serwer + Godot):** `src/test/godot-android.test.ts` (10 testów API: wydania, Range, bramki wersji i
+serwisu, zapisy z rewizjami, uprawnienia, audyt, obecność i czat); `scripts/godot/e2e_online.py` — baza PCK eksportowana z filtrami Androida (**40,2 MB**,
+bez danych krain) loguje się, pobiera i podpina paczki, buduje miasto Pyry, zapisuje do chmury, odrzuca nieaktualny zapis, pobiera Verdantię przy podróży;
+`scripts/godot/qa_admin_ui.py` — panel w prawdziwej przeglądarce (wysyłka wydania, aktywacja, serwis, zapisy, audyt;
+zrzuty `docs/zmiany/2026-11-16/qa/admin-android/`). **Nie sprawdzone:** telefon (pobieranie w sieci komórkowej, pamięć, bateria), prawdziwa domena/TLS,
+obciążenie wielu graczy.
 
 ## 3. Uruchomienie w edytorze
 
@@ -131,6 +193,7 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | `scripts/dungeon.gd`, `data/dungeons.json`, `assets/dungeon/` | Jaskinie: generator labiryntu i zawartości (klucz, krata, skrzynie, strażnicy, kolce), dane wejść, 12 grafik `dungeon-kit` |
 | `scripts/world_events.gd` | 14 wydarzeń świata: miejsca, stwory, rekwizyty, nagrody, odnowa, zapis |
 | `scripts/ambient_fx.gd` | Płomienie, dym, para, żar i iskry nad scenerią (wyłączane poza ekranem) |
+| `scripts/net.gd`, `online.gd`, `content.gd`, `gate_screen.gd`, `remote_players.gd`, `chat_panel.gd` | Klient online: węzeł zbiorczy (`KiNet`), konto i zapisy w chmurze i obecność, paczki treści, ekran logowania/pobierania, duchy graczy, czat |
 | `scripts/audio.gd` | Muzyka (crossfade), tła, efekty (pula 14 odtwarzaczy, minimalne odstępy), kroki, głośności w `user://audio.json` |
 | `scripts/monster.gd`, `scripts/monster_manager.gd` | Potwór (AI, atak, umiejętności, statusy, wszystkie rzadkie cechy z sekcji 1a) i zarządca spawnów krainy (budzenie, usypianie, respawn, pociski, strefy, pajęczyny, przywołania, klony, zegar dnia i nocy, nagrody). Zarządca żyje przez całą grę; zwolnienie go w trakcie rozgrywki wywala silnik, dlatego `setup` tylko go resetuje |
 | `scripts/map_style.gd` | Wspólny styl map i globusa: plakietki Cinzel, znaczniki rodzajów miejsc, kompas, winieta, ramka |
@@ -181,6 +244,7 @@ python3 scripts/godot/prepare_icons.py               # ikony zdolności czterech
 npx tsx scripts/godot/export-monsters.ts            # 40 potworów + pomocnik: zasady, cechy, łup, rozmiary
 npx tsx scripts/godot/export-bosses.ts               # 8 bossów: katalog, fazy, łup, tłumaczenie na walkę
 python3 scripts/godot/prepare_bosses.py              # -> data/bosses.json (sprawdza łup, strażników i przywołania)
+python3 scripts/godot/build_packs.py build            # paczki PCK + manifest w deploy/godot-content/<wersja>/ i filtr szczupłego APK (po tune_imports i imporcie)
 python3 scripts/godot/prepare_dungeons.py            # 22 wejścia jaskiń i grafiki dungeon-kit -> data/dungeons.json, assets/dungeon
 python3 scripts/godot/prepare_monsters.py            # arkusze potworów i rejestry spawnów krain
 npx tsx scripts/godot/export-economy.ts              # przedmioty, receptury, ceny sklepu, limity i zestawy, ulepszenia, ikony

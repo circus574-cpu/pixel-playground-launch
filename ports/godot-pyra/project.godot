@@ -14,6 +14,10 @@ config/use_custom_user_dir=true
 config/custom_user_dir_name="ki-legends-godot-pyra-prototype"
 config/description="KI Legends na Androida (Godot 4): cała planeta Superior (4 kontynenty i 6 wysp), mapa 2D/3D, cztery rasy i miasta."
 
+[ki]
+
+server/url="https://kilegends.pl"
+
 [display]
 window/size/viewport_width=1280
 window/size/viewport_height=720
