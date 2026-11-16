@@ -17,6 +17,7 @@ const SLOT := 1
 var server := ""
 var access_token := ""
 var refresh_token := ""
+var remember := true            # "Zapamiętaj mnie": without it the sign-in lives only until the app is closed (nothing is written to disk)
 var account_id := ""
 var nick := ""
 var online_count := 0
@@ -140,6 +141,10 @@ func sign_out_local() -> void:
 	session_changed.emit()
 
 func save_session() -> void:
+	if not remember:
+		if FileAccess.file_exists(SESSION_PATH):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(SESSION_PATH))
+		return
 	var file := FileAccess.open(SESSION_PATH, FileAccess.WRITE)
 	if file != null:
 		file.store_string(JSON.stringify({"refreshToken": refresh_token, "accountId": account_id, "nick": nick, "server": server}))

@@ -272,3 +272,47 @@ export async function runtimeHttp(
     send(500, { error: "RUNTIME_FAILED", message: reason(error) });
   }
 }
+
+/**
+ * POST /ws/admin/restart: an administrator (not a GM) restarts the game server from the panel. The answer is sent first; the restart itself runs a moment later
+ * (`schedule`), because it closes the very connection that carried the request. `schedule` returns false when this process cannot restart itself.
+ */
+export async function restartHttp(
+  request: IncomingMessage,
+  response: ServerResponse,
+  deps: {
+    admin: (token: string | undefined) => Promise<string | null>;
+    schedule: (actor: string) => Promise<boolean>;
+  },
+): Promise<void> {
+  const send = (status: number, value: unknown) => {
+    response.writeHead(status, {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-store",
+      "X-Content-Type-Options": "nosniff",
+    });
+    response.end(JSON.stringify(value));
+  };
+  if (request.method !== "POST")
+    return send(405, { error: "METHOD_NOT_ALLOWED", message: "Restart wymaga metody POST." });
+  const token = request.headers.authorization?.match(/^Bearer (\S+)$/)?.[1];
+  const actor = await deps.admin(token);
+  if (!actor)
+    return send(403, {
+      error: "FORBIDDEN",
+      message: "Restart serwera może wykonać tylko konto administratora.",
+    });
+  try {
+    if (!(await deps.schedule(actor)))
+      return send(503, {
+        error: "RESTART_UNAVAILABLE",
+        message: "Ten proces nie potrafi sam się zrestartować.",
+      });
+  } catch (error) {
+    return send(500, { error: "RESTART_FAILED", message: reason(error) });
+  }
+  send(202, {
+    ok: true,
+    message: "Serwer gry restartuje się. Gracze połączą się ponownie w ciągu kilku sekund.",
+  });
+}

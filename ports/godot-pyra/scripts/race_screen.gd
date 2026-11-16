@@ -1,5 +1,6 @@
 class_name RaceScreen
 extends Control
+const Look := preload("res://scripts/look.gd")   # the look that can change with server updates (see look.gd)
 ## New character: the four races, each with its portrait, world, mechanic and role. Choosing one starts the adventure
 ## in that race's capital.
 
@@ -36,7 +37,7 @@ func setup(can_close: bool = false) -> void:
 	var title := Label.new()
 	title.text = "WYBIERZ SWOJĄ RASĘ"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_override("font", load("res://assets/branding/cinzel-bold.ttf"))
+	title.add_theme_font_override("font", Look.title_font())
 	title.add_theme_font_size_override("font_size", 34)
 	title.add_theme_color_override("font_color", Color("f1c77f"))
 	root.add_child(title)
@@ -87,7 +88,7 @@ func make_card(race: String, data: Dictionary) -> Control:
 	var name := Label.new()
 	name.text = str(data.raceName).to_upper()
 	name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	name.add_theme_font_override("font", load("res://assets/branding/cinzel-bold.ttf"))
+	name.add_theme_font_override("font", Look.title_font())
 	name.add_theme_font_size_override("font_size", 24)
 	name.add_theme_color_override("font_color", Color(str(lore.color)))
 	name.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -105,17 +106,11 @@ func make_card(race: String, data: Dictionary) -> Control:
 			select(race))
 	return panel
 
-func card_style(active: bool, color: Color) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.1, 0.075, 0.08, 0.93) if not active else Color(0.18, 0.12, 0.09, 0.97)
-	style.border_color = color if active else Color(0.4, 0.3, 0.22, 0.9)
-	style.set_border_width_all(5 if active else 2)
-	style.set_corner_radius_all(14)
-	style.content_margin_left = 12
-	style.content_margin_right = 12
-	style.content_margin_top = 10
-	style.content_margin_bottom = 10
-	return style
+func card_style(active: bool, color: Color) -> StyleBox:
+	# the stone window; the chosen race lights it up in its own colour
+	var tint := Color(1.0, 1.0, 1.0).lerp(color.lightened(0.25), 0.55) * 1.25 if active else Color(0.72, 0.72, 0.72)
+	tint.a = 1.0
+	return Look.window(34.0, tint)
 
 func select(race: String) -> void:
 	selected = race
@@ -137,12 +132,6 @@ func make_button(text: String, callback: Callable, minimum: Vector2) -> Button:
 	b.add_theme_font_size_override("font_size", 21)
 	b.add_theme_color_override("font_color", Color("fff0cf"))
 	b.add_theme_color_override("font_disabled_color", Color("8a7a6a"))
-	for state in ["normal", "hover", "pressed", "disabled"]:
-		var style := StyleBoxFlat.new()
-		style.bg_color = {"normal": Color("533421"), "hover": Color("704b2d"), "pressed": Color("704b2d"), "disabled": Color("2a211f")}[state]
-		style.border_color = Color("c5a267") if state != "disabled" else Color("453a34")
-		style.set_border_width_all(2)
-		style.set_corner_radius_all(12)
-		b.add_theme_stylebox_override(state, style)
+	PyraSkin.style_button(b)
 	b.pressed.connect(callback)
 	return b

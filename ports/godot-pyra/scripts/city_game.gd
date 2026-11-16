@@ -85,6 +85,8 @@ var respawn_timer := -1.0
 var quests: PyraQuests
 var story := PyraStory.new()
 var skip_intro := false                       # tests start many characters and do not want the story screen
+var fed_clock := 0.0                          # the "fed" tracker entry is refreshed once a second while it lasts
+var fed_shown := false
 var combo_count := 0                          # basic strikes in the current chain: attack, attack2, finisher
 var combo_at := -10.0
 var shake := 0.0                              # camera shake amplitude in pixels, decays by itself
@@ -172,6 +174,11 @@ func _ready() -> void:
 			return false
 		kit.heal(top * fraction)
 		return true
+	economy.add_foods(PyraContinent.load_json("res://data/food.json"))
+	economy.eat_callback = func(food: Dictionary) -> Dictionary:
+		if healing_blocked():
+			return {"ok": false, "reason": "Nie możesz teraz jeść."}
+		return kit.eat(food)
 	economy.heal_amount_callback = func(amount: float) -> bool:
 		var top := float(kit.stats().maxHp)
 		if kit.hp >= top or healing_blocked():
@@ -621,8 +628,18 @@ func on_quest_reward(xp: int, coins: int, items: Dictionary, source: String) -> 
 	economy.changed.emit()
 	hud.toast("%s: %s" % [source, " · ".join(parts)] if not parts.is_empty() else source)
 
+## The status "fed" as a tracker entry: how long it lasts and what it gives.
+func fed_entry() -> Dictionary:
+	var left := kit.fed_left()
+	if left <= 0.0:
+		return {}
+	return {"title": "Najedzony · %d s" % ceili(left), "lines": ["+%s%% życia na sekundę" % PyraEconomy.percent_text(float(kit.buff("fed").hpRegenPct))]}
+
 func refresh_quest_ui() -> void:
 	var entries: Array[Dictionary] = story.tracker()
+	var fed := fed_entry()
+	if not fed.is_empty():
+		entries.insert(0, fed)
 	entries.append_array(quests.tracker())
 	hud.quests = entries
 	hud.signature = ""
@@ -947,13 +964,14 @@ func reward(def: Dictionary, at: Vector2) -> void:
 	if not names.is_empty():
 		audio.sfx("common/loot")
 	economy.changed.emit()
-	var text := "+%d XP" % xp
+	var text := "+%d XP" % xp if xp > 0 else ""
 	if gold > 0:
-		text += " · +%d mon." % gold
+		text += (" · " if text != "" else "") + "+%d mon." % gold
 	if not names.is_empty():
-		text += " · " + ", ".join(names)
-	hud.toast(text)
-	PyraFx.number(monster_parent(), at + Vector2(0, -60), xp, true)
+		text += (" · " if text != "" else "") + ", ".join(names)
+	hud.toast(text if text != "" else "Nic z tego nie ma.")
+	if xp > 0:
+		PyraFx.number(monster_parent(), at + Vector2(0, -60), xp, true, "xp")
 
 func handle_death(delta: float) -> void:
 	if kit.dead and respawn_timer < 0.0:
@@ -1404,6 +1422,13 @@ func _process(delta: float) -> void:
 		return
 	simulate(minf(delta, 0.05))
 	update_feel(delta)
+	fed_clock += delta
+	if fed_clock >= 1.0:
+		fed_clock = 0.0
+		var fed_now := kit.fed_left() > 0.0
+		if fed_now or fed_shown:
+			fed_shown = fed_now
+			refresh_quest_ui()
 	quest_tick(delta)
 	update_day(delta)
 	autosave_clock += delta

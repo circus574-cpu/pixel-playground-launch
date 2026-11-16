@@ -185,7 +185,7 @@ Paczki krain (świat, potwory, NPC, muzyka) działały tak od początku.
 - **Co wymaga nowego APK:** silnik Godot, uprawnienia i ustawienia projektu (`project.godot`, `export_presets.cfg`), ikona, natywne dodatki. Wtedy podbij
   `version/code` (oraz `KiNet.CLIENT_CODE` i `Boot.CLIENT_CODE`; test sprawdza ich zgodność) i ustaw w panelu minimalną wersję klienta.
 - **Zasada dla nowego kodu:** nowy plik `.gd` w rdzeniu ładuj po ścieżce (`const X := preload("res://scripts/x.gd")`), nie po `class_name` —
-  lista klas globalnych jest zapisana w APK i nowa nazwa klasy nie jest widoczna (sprawdzone doświadczalnie). Zmiana istniejących plików i ich `class_name` działa.
+  lista klas globalnych jest zapisana w APK i nowa nazwa klasy nie jest widoczna (sprawdzone doświadczalnie i w `e2e_core.py`, scenariusz 11). Zmiana istniejących plików i ich `class_name` działa. Dotyczy to APK zbudowanego przed dodaniem pliku; dlatego `animals.gd` nie ma `class_name`.
 - **Bezpieczeństwo.** Rdzeń, który się nie wczyta lub którego skrypty się nie kompilują (boot ładuje wszystkie od razu), trafia na listę „złych” i po
   ponownym uruchomieniu działa kod z APK; rdzeń, który w trzech uruchomieniach nie dotarł do pierwszej krainy (`KiNet.core_ok()` w `city_game.gd`), jest
   porzucany. Zamontowanej paczki nie da się odmontować, więc naprawa wymaga ponownego uruchomienia aplikacji. Cofnięcie po stronie serwera: aktywuj
@@ -242,8 +242,10 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | `data/city.generated.json` | Stolica Pyry z pierwszej próby (układ, podłoga, pokoje) — nie edytować ręcznie |
 | `data/monsters.json`, `data/quests.json`, `data/lands/<id>/spawns.json` | Bestiariusz (statystyki, umiejętności, cechy, łup, klatki), katalog zadań z dialogami i miejscami, rejestr spawnów krainy |
 | `assets/audio/` | Muzyka (`music/`) i efekty (`sfx/`) skopiowane bez zmian (24 MB) |
-| `scripts/boot.gd`, `scenes/boot.tscn` | Pierwsza scena: pobiera i montuje rdzeń z serwera przed startem gry (sekcja 2b) |
-| `tests/smoke.gd` | 502 kontroli w prawdziwym silniku; `tests/qa_shots.gd` robi zrzuty jaskini, bossa, nocy i wydarzenia |
+| `scripts/boot.gd`, `scenes/boot.tscn` | Pierwsza scena: film wejściowy właściciela (`assets/branding/intro.ogv`, Ogg Theora, 10 s z dźwiękiem; dotknięcie po 0,8 s pomija, po zakończeniu zostaje ostatnia klatka „TOUCH TO START” i dotknięcie od razu uruchamia grę) oraz pobieranie i montowanie rdzenia z serwera (sekcja 2b); w trybie headless i w testach film się nie odtwarza; film jest polską wersją od właściciela (`art/production/intro/intro-pl-source.mp4`, konwersja `scripts/godot/make_intro.py --baked`; stara nakładka napisów na angielskim źródle nadal dostępna bez `--baked`) |
+| `scripts/animals.gd`, `scripts/godot/prepare_animals.py`, `data/animals.json` | Łagodne zwierzęta: cecha `peaceful` potwora (brak ataku, ucieczka po ciosie), rozmieszczenie, konwerter plansz właściciela (`art/production/animals/`, cięcie po kształtach, bezstratny atlas) i ikon posiłków (zwierzę istnieje w świecie dopiero po wpisie w `animals.json`) |
+| `data/food.json`, `scripts/godot/prepare_food.py` | Jedzenie: 10 posiłków (leczenie w czasie, status „Najedzenie”) i 10 łagodnych zwierząt (dane; grafika wszystkich 10; ikony wszystkich 10 posiłków); wyliczenia w `docs/ROZWOJ-I-WALKA.md` |
+| `tests/smoke.gd` | 527 kontroli w prawdziwym silniku; `tests/qa_shots.gd` robi zrzuty jaskini, bossa, nocy i wydarzenia |
 
 **Układ współrzędnych:** gra używa współrzędnych świata Superior (jak WWW). Układ stolicy z pierwszej próby jest
 przesunięty o `world.json.offset` = (44 564,29; 12 168,47).
@@ -332,8 +334,8 @@ godot --headless --path ports/godot-pyra --script res://tests/smoke.gd -- --fres
 xvfb-run -a -s '-screen 0 1600x900x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --audio-driver Dummy --path ports/godot-pyra --rendering-method gl_compatibility --script res://tests/smoke.gd -- --fresh --qa-output /tmp/pyra-native
 ```
 
-Na kodzie tej gałęzi: **502/502** kontroli w trybie headless (16.11.2026). Przebieg z natywnym renderowaniem (Mesa llvmpipe) był
-ostatnio wykonany przy 340 kontrolach i nie został powtórzony dla 502; zrzuty jaskini, bossa, nocy i wydarzenia powstały natywnie
+Na kodzie tej gałęzi: **527/527** kontroli w trybie headless (16.11.2026). Przebieg z natywnym renderowaniem (Mesa llvmpipe) był
+ostatnio wykonany przy 340 kontrolach i nie został powtórzony dla 527; zrzuty jaskini, bossa, nocy i wydarzenia powstały natywnie
 (`docs/zmiany/2026-11-16/qa/godot-late/`).
 Pokrycie: ekonomia (katalog 366/265/85, cena sklepu 4×, skup 50 %, wymagania poziomu, wpływ sprzętu, mikstura, crafting, depozyt,
 gospoda, zapis, cztery ekrany usług), rozmiar kontynentu, bezpieczny start, strumieniowanie, **+15 % bohatera**, kolizje,
@@ -428,3 +430,10 @@ sesji do `~/.local/share/ki-legends-godot/`.
 
 Pracować na osobnych gałęziach; bez scalenia, publikacji i zmian produkcji bez decyzji właściciela. Nie modyfikować
 infrastruktury GPU. Prawa do grafik pozostają według rejestru projektu; eksport do Godot nie nadaje nowych uprawnień.
+
+### Wersje i aktualizacje (od 1.0)
+
+Aplikacja ma wersję **1.0** (`versionCode` 100). Kolejne wersje (1.1, 1.2, …) są wydaniami treści na serwerze i nadpisują grę po pobraniu; APK instaluje się raz.
+Wydanie nowej wersji: `python3 scripts/godot/build_packs.py build --version 1.1` (paczki i `core-c100` do `deploy/godot-content/1.1`), kopia do `deliveries/godot-content-1.1`,
+workflow „Godot content packs to VPS (manual)” z `version=1.1`, `publish` i `activate` (za zgodą właściciela). Nowy APK tylko dla zmian spoza serwera (film, ikona, ikony przedmiotów, silnik, nowa `class_name`);
+wtedy nowy `versionCode` i klucz rdzenia (`core-c<kod>`), a `CLIENT_CODE` w `boot.gd` i `net.gd` oraz `version/code` w `export_presets.cfg` muszą się zgadzać (pilnuje tego smoke test).

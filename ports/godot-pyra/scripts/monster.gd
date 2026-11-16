@@ -77,6 +77,7 @@ var split_partner: PyraMonster
 var split_orig_max := 0.0
 var split_merge_at := 0.0
 var flee_hits := 0
+var flee_until := 0.0           # peaceful animals: they run until this time (clock) after being hurt
 var no_reward := false
 # bosses: phases, signature mechanics, flight
 var boss: Dictionary = {}
@@ -219,6 +220,8 @@ func hurt(raw: float, _crit: bool, tags: Array = [], _ranged: bool = false) -> f
 	hits_taken += 1
 	if phase == "idle" or phase == "return":
 		engage()
+	elif phase == "flee":
+		flee_until = clock + 5.0
 	var indirect := tags.has("indirect")
 	if traits().has("reflect") and not tags.has("ki") and not indirect:
 		manager.hurt_player(self, amount * float(traits().reflect), "other", [])
@@ -288,6 +291,11 @@ func on_defeated() -> void:
 
 func engage() -> void:
 	if phase == "dead":
+		return
+	if peaceful():
+		phase = "flee"
+		provoked = true
+		flee_until = clock + 5.0
 		return
 	phase = "engage"
 	provoked = true
@@ -540,6 +548,15 @@ func think(delta: float) -> void:
 				retreat_until = clock + float(retreat.ms) / 1000.0
 				return
 			fight(distance, delta, player)
+		"flee":
+			var away := (position - player).normalized()
+			if away == Vector2.ZERO:
+				away = Vector2.from_angle(randf() * TAU)
+			var sway := away.rotated(sin(clock * 5.0 + float(spawn_index)) * 0.45)
+			step_to(position + sway * 100.0, speed_px() * delta)
+			actor.animate(sway, true)
+			if clock >= flee_until and (distance > 360.0 or clock >= flee_until + 4.0) or position.distance_to(home) > float(traits().get("leash", 500)) * 1.8:
+				phase = "return"
 		"return":
 			if position.distance_to(home) < 24.0:
 				phase = "idle"
@@ -595,8 +612,12 @@ func giving_up() -> bool:
 	var t := traits()
 	return bool(t.get("provoked", false)) and since_hit * 1000.0 > float(t.get("giveUp", 6000))
 
+## Peaceful animals (scripts/animals.gd) never attack: hurt, they run away instead of fighting.
+func peaceful() -> bool:
+	return bool(traits().get("peaceful", false))
+
 func can_aggro(distance: float) -> bool:
-	if player_safe() or manager.player_dead():
+	if peaceful() or player_safe() or manager.player_dead():
 		return false
 	if traits().get("provoked", false) and not provoked:
 		return false

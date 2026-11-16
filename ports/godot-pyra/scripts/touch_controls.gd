@@ -202,6 +202,12 @@ func cooldown_pie(c: Vector2, radius: float, ratio: float) -> void:
 		pts.append(c + Vector2.from_angle(a) * radius)
 	cv.draw_colored_polygon(pts, Color(0.02, 0.02, 0.03, 0.72))
 
+var attack_art: Texture2D
+func attack_texture() -> Texture2D:
+	if attack_art == null and ResourceLoader.exists("res://assets/ui/hud/btn-attack.webp"):
+		attack_art = load("res://assets/ui/hud/btn-attack.webp")
+	return attack_art
+
 func draw_disc_icon(c: Vector2, radius: float, tex: Texture2D) -> void:
 	var pts := PackedVector2Array()
 	var uvs := PackedVector2Array()
@@ -228,12 +234,17 @@ func paint() -> void:
 	cv.draw_circle(knob, 31, Color(0.88, 0.62, 0.36, 0.92))
 	cv.draw_arc(knob, 31, 0, TAU, 36, Color(1, 0.9, 0.7, 0.9), 2.5, true)
 	cv.draw_circle(knob + Vector2(-6, -8), 10, Color(1, 1, 1, 0.16))
-	# attack: ring, sword glyph and the swing cooldown
-	ring(attack_center, ATTACK_RADIUS, Color("c1552a") if attack_held else Color(0.55, 0.22, 0.11, 0.88), Color("ffd08b"))
-	var sw := attack_center
-	cv.draw_line(sw + Vector2(-22, 24), sw + Vector2(24, -22), Color(0.95, 0.92, 0.85), 5.0, true)
-	cv.draw_line(sw + Vector2(-26, 8), sw + Vector2(-8, 26), GOLD, 5.0, true)
-	cv.draw_line(sw + Vector2(-26, 26), sw + Vector2(-17, 17), Color(0.45, 0.22, 0.1), 5.0, true)
+	# attack: the owner's button picture (a code-drawn ring and sword when the install does not have it) and the swing cooldown
+	var attack_tex := attack_texture()
+	if attack_tex != null:
+		var side := (ATTACK_RADIUS * 2.0 + 8.0) * (0.94 if attack_held else 1.0)
+		cv.draw_texture_rect(attack_tex, Rect2(attack_center - Vector2.ONE * side / 2.0, Vector2.ONE * side), false, Color(1.0, 0.82, 0.68) if attack_held else Color.WHITE)
+	else:
+		ring(attack_center, ATTACK_RADIUS, Color("c1552a") if attack_held else Color(0.55, 0.22, 0.11, 0.88), Color("ffd08b"))
+		var sw := attack_center
+		cv.draw_line(sw + Vector2(-22, 24), sw + Vector2(24, -22), Color(0.95, 0.92, 0.85), 5.0, true)
+		cv.draw_line(sw + Vector2(-26, 8), sw + Vector2(-8, 26), GOLD, 5.0, true)
+		cv.draw_line(sw + Vector2(-26, 26), sw + Vector2(-17, 17), Color(0.45, 0.22, 0.1), 5.0, true)
 	if attack_ratio < 1.0:
 		cv.draw_arc(attack_center, ATTACK_RADIUS - 6, -PI / 2, -PI / 2 + TAU * attack_ratio, 40, Color(1, 0.9, 0.6, 0.85), 6.0, true)
 	# abilities: painted icon, cooldown sweep, KI cost pip, slot number

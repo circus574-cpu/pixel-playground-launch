@@ -1,10 +1,12 @@
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { RuntimeStatus } from "@/game/account/runtimeAdmin";
 
 const read = vi.fn<() => Promise<RuntimeStatus>>();
+const restart = vi.fn<() => Promise<string>>();
 vi.mock("@/game/account/runtimeAdmin", () => ({
   readRuntimeStatus: () => read(),
+  restartGameServer: () => restart(),
 }));
 
 import { AdminServerStatus } from "@/components/admin/AdminServerStatus";
@@ -71,6 +73,7 @@ const status = (over: Partial<RuntimeStatus> = {}): RuntimeStatus => ({
 afterEach(() => {
   cleanup();
   read.mockReset();
+  restart.mockReset();
 });
 
 describe("admin server tab", () => {
@@ -92,7 +95,6 @@ describe("admin server tab", () => {
     // nothing that used to be simulated
     expect(screen.queryByText(/Symulacja/i)).toBeNull();
     expect(screen.queryByText(/Uruchom Serwer/i)).toBeNull();
-    expect(screen.queryByText(/Restartuj/i)).toBeNull();
   });
 
   it("shows a table that cannot be counted as missing with its reason, not as zero, and the database as connected", async () => {
@@ -134,5 +136,35 @@ describe("admin server tab", () => {
     );
     expect(screen.queryByText(/Serwer gry „/)).toBeNull();
     expect(screen.queryByText(/CPU/)).toBeNull();
+  });
+
+  it("restarts the server only after the administrator confirms, and shows what the server answered", async () => {
+    read.mockResolvedValue(status());
+    restart.mockResolvedValue("Serwer gry restartuje się.");
+    render(<AdminServerStatus />);
+    await waitFor(() => expect(screen.getByText(/Serwer gry „Superior”/)).toBeTruthy());
+    fireEvent.click(screen.getByText("Restartuj serwer gry"));
+    expect(restart).not.toHaveBeenCalled(); // one click only asks
+    fireEvent.click(screen.getByText("Anuluj"));
+    expect(restart).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByText("Restartuj serwer gry"));
+    fireEvent.click(screen.getByText("Tak, restartuj"));
+    await waitFor(() => expect(screen.getByRole("status").textContent).toContain("restartuje się"));
+    expect(restart).toHaveBeenCalledTimes(1);
+  });
+
+  it("says why a restart was refused (for example a GM account) instead of pretending", async () => {
+    read.mockResolvedValue(status());
+    restart.mockRejectedValue(
+      new Error("Restart serwera może wykonać tylko konto administratora."),
+    );
+    render(<AdminServerStatus />);
+    await waitFor(() => expect(screen.getByText(/Serwer gry „Superior”/)).toBeTruthy());
+    fireEvent.click(screen.getByText("Restartuj serwer gry"));
+    fireEvent.click(screen.getByText("Tak, restartuj"));
+    await waitFor(() =>
+      expect(screen.getByRole("status").textContent).toContain("Restart nie powiódł się"),
+    );
+    expect(screen.getByRole("status").textContent).toContain("tylko konto administratora");
   });
 });

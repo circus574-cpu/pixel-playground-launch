@@ -1,5 +1,6 @@
 class_name PyraHud
 extends Control
+const Look := preload("res://scripts/look.gd")   # the look that can change with server updates (see look.gd)
 ## Full game HUD: character medallion with HP / KI / race-resource bars and buffs, location banner, target frame, round
 ## minimap painted from the land's own map, round menu buttons, quest tracker, toasts and a thin XP bar. The art is
 ## drawn procedurally; it is redrawn only when something it shows has changed (no per-frame redraw cost while idle).
@@ -14,6 +15,8 @@ signal dialog_changed(open: bool)
 const MINIMAP_SPAN := 9000.0
 const MINIMAP_RADIUS := 74.0
 const BUTTON_RADIUS := 27.0
+const TOP_BUTTON_SIZE := Vector2(68, 84)   # the owner's button art (label inside the picture), see scripts/godot/prepare_hud.py
+const BUTTON_ART := {"MAPA": "mapa", "POSTAĆ": "postac", "PLECAK": "plecak", "ZOOM": "zoom", "MENU": "menu"}
 const GOLD := Color("f1c77f")
 const GOLD_DARK := Color(0.62, 0.45, 0.26, 0.95)
 const INK := Color(0.05, 0.02, 0.02, 0.95)
@@ -59,6 +62,7 @@ var touch_layer := CachedLayer.new()
 var minimap_view := ColorRect.new()
 var minimap_material := ShaderMaterial.new()
 var cinzel: Font = load("res://assets/branding/cinzel-bold.ttf")
+var letters: Font = Look.title_font()   # the owner's gold letters for place names
 var body_font: Font = ThemeDB.fallback_font
 
 # layout (all rectangles in HUD coordinates)
@@ -70,6 +74,7 @@ var minimap_center := Vector2.ZERO
 var cave: PyraDungeon = null              # inside a cave the round map shows its automap instead of the land
 var cave_position := Vector2.ZERO
 var button_centers: Array[Vector2] = []
+var button_art_cache: Dictionary = {}
 var button_order: Array[Button] = []
 var tracker_rect := Rect2()
 
@@ -90,17 +95,8 @@ var skill_icons: Dictionary = {}
 var signature := ""
 var potion_count := 0
 
-func panel_style(background: Color, border: Color = Color("855c39")) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = background
-	style.border_color = border
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(14)
-	style.content_margin_left = 22
-	style.content_margin_right = 22
-	style.content_margin_top = 16
-	style.content_margin_bottom = 16
-	return style
+func panel_style(_background: Color = Color.BLACK, _border: Color = Color.BLACK) -> StyleBox:
+	return Look.window()   # the stone window of the owner's frame art; the colours of the earlier flat look are no longer used
 
 func outlined(label: Label, size_px: int, color: Color) -> void:
 	label.add_theme_font_size_override("font_size", size_px)
@@ -126,6 +122,8 @@ func _ready() -> void:
 	add_child(touch_layer)
 	art.hud = self
 	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	art.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	touch_art.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	art_layer.setup(art)
 	add_child(art_layer)
 	map_button = make_top_button("MAPA", func(): map_requested.emit())
@@ -185,14 +183,19 @@ func _layout() -> void:
 	minimap_view.size = Vector2.ONE * (MINIMAP_RADIUS - 5.0) * 2.0
 	button_centers.clear()
 	button_order = [menu_button, zoom_button, inventory_button, character_button, map_button]
-	var x := minimap_center.x - MINIMAP_RADIUS - 22.0
+	var x := minimap_center.x - MINIMAP_RADIUS - 18.0
 	for button: Button in button_order:
-		x -= BUTTON_RADIUS + 3.0
-		var c := Vector2(x, area.position.y + 12 + BUTTON_RADIUS + 3.0)
-		button_centers.append(c)
-		button.position = c - Vector2(30, BUTTON_RADIUS + 3.0)
-		button.size = Vector2(60, 70)
-		x -= BUTTON_RADIUS + 5.0
+		x -= TOP_BUTTON_SIZE.x
+		var rect := Rect2(Vector2(x, area.position.y + 8.0), TOP_BUTTON_SIZE)
+		button_centers.append(rect.get_center())
+		button.position = rect.position
+		button.size = rect.size
+		x -= 4.0
+	# the place banner and the target frame stay between the hero frame and the top buttons instead of sitting under them
+	var half_banner := 175.0
+	var low := frame_rect.end.x + 10.0 + half_banner
+	var high := x + 4.0 - 10.0 - half_banner
+	banner_center.x = clampf(area.get_center().x, low, high) if low <= high else (low + high) / 2.0
 	tracker_rect = Rect2(Vector2(area.end.x - 278, minimap_center.y + MINIMAP_RADIUS + 12), Vector2(264, 120))
 	hint.position = Vector2(area.get_center().x - 280, area.end.y - 62)
 	hint.size = Vector2(560, 30)
@@ -340,7 +343,18 @@ func draw_glyph(canvas: Control, kind: String, c: Vector2, scale: float) -> void
 			for i in 3:
 				canvas.draw_line(c + Vector2(-10, -7 + 7 * i) * scale, c + Vector2(10, -7 + 7 * i) * scale, gold, 2.8 * scale, true)
 
+## The owner's button picture of a top button, or null when this install does not have it (then the code-drawn button below is used).
+func button_texture(label: String) -> Texture2D:
+	if not button_art_cache.has(label):
+		var path := "res://assets/ui/hud/btn-%s.webp" % str(BUTTON_ART.get(label, ""))
+		button_art_cache[label] = load(path) if BUTTON_ART.has(label) and ResourceLoader.exists(path) else null
+	return button_art_cache[label]
+
 func round_button(canvas: Control, c: Vector2, label: String) -> void:
+	var art_texture := button_texture(label)
+	if art_texture != null:
+		canvas.draw_texture_rect(art_texture, Rect2(c - TOP_BUTTON_SIZE / 2.0, TOP_BUTTON_SIZE), false)
+		return
 	canvas.draw_circle(c + Vector2(0, 2), BUTTON_RADIUS + 1.0, Color(0, 0, 0, 0.35))
 	canvas.draw_circle(c, BUTTON_RADIUS, Color(0.12, 0.08, 0.07, 0.9))
 	canvas.draw_arc(c, BUTTON_RADIUS, 0, TAU, 36, GOLD_DARK, 2.0, true)
@@ -496,14 +510,14 @@ func draw_banner(canvas: Control) -> void:
 	var parts := place.text.split(" · ")
 	var title := parts[0].to_upper()
 	var sub := parts[1] if parts.size() > 1 else ""
-	var w := cinzel.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, 22).x
+	var w := letters.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, 26).x
 	var width := maxf(w + 64.0, 230.0)
 	var rect := Rect2(banner_center - Vector2(width / 2.0, 20), Vector2(width, 44 if sub != "" else 38))
 	rounded(canvas, rect, Color(0.07, 0.05, 0.055, 0.8), GOLD_DARK, 14.0, 2.0)
 	for dir in [-1.0, 1.0]:
 		var tip := Vector2(rect.get_center().x + dir * (width / 2.0 + 14.0), rect.position.y + 19.0)
 		canvas.draw_colored_polygon(PackedVector2Array([tip, tip - Vector2(dir * 12.0, 7.0), tip - Vector2(dir * 12.0, -7.0)]), GOLD_DARK)
-	text_centered(canvas, cinzel, Vector2(rect.get_center().x, rect.position.y + 19), title, 22, Color("fff0cc"), 5)
+	text_centered(canvas, letters, Vector2(rect.get_center().x, rect.position.y + 19), title, 26, Color.WHITE, 0)
 	if sub != "":
 		var safe := sub.contains("bezpieczna")
 		var chip := Color("8fe3a0") if safe else Color("ffb27a")
@@ -581,8 +595,7 @@ func make_button(text: String, callback: Callable) -> Button:
 	button.custom_minimum_size = Vector2(160, 80)
 	button.add_theme_font_size_override("font_size", 23)
 	button.add_theme_color_override("font_color", Color("fff0cf"))
-	button.add_theme_stylebox_override("normal", panel_style(Color("533421"), Color("986c42")))
-	button.add_theme_stylebox_override("hover", panel_style(Color("704b2d"), Color("d4aa68")))
+	PyraSkin.style_button(button)
 	button.pressed.connect(callback)
 	buttons.append(button)
 	return button

@@ -66,9 +66,40 @@ func run() -> void:
 	var boot_script: GDScript = load("res://scripts/boot.gd")
 	verify(entry_path == "res://scenes/boot.tscn", "the app starts in the boot scene that brings the game's code up to date")
 	verify(int(config.get_value("preset.0.options", "version/code", 0)) == int(boot_script.CLIENT_CODE) and int(boot_script.CLIENT_CODE) == KiNet.CLIENT_CODE, "boot, KiNet and the Android preset name the same versionCode")
-	var bt_offer := {"file": "core-c11-aaaaaaaaaaaa.pck", "bytes": 5, "sha256": "x"}
+	var film_16_9: Rect2 = boot_script.film_rect(Vector2(1280, 720))
+	var film_20_9: Rect2 = boot_script.film_rect(Vector2(2400, 1080))
+	var film_21_9: Rect2 = boot_script.film_rect(Vector2(2520, 1080))
+	verify(film_16_9 == Rect2(0, 0, 1280, 720) and film_20_9.size.y <= 1080.0 / 0.9 + 0.01 and film_20_9.position.y >= -(film_20_9.size.y - 1080.0) * 0.8 - 0.01 and absf((film_20_9.position.y + film_20_9.size.y) - 1080.0) >= 0.0 and (film_20_9.size.y - 1080.0) <= 1080.0 * 0.112, "the film is cut by at most a tenth of its height on a wide phone, mostly at the top, and not at all on 16:9")
+	verify(film_21_9.size.y - 1080.0 <= 1080.0 * 0.112 and film_21_9.position.x > 0.0, "on a very wide screen the film keeps its picture and the sides stay in the backdrop colour")
+	var title_script: GDScript = load("res://scripts/title_screen.gd")
+	verify(str(ProjectSettings.get_setting("application/config/version", "")) == "1.0" and str(config.get_value("preset.0.options", "version/name", "")) == "1.0", "the installed app is version 1.0")
+	verify(title_script.shown_version('{"manifest":{"version":"1.2"}}') == "1.2" and title_script.shown_version('{"manifest":{"version":"2026.11.17.2"}}') == "1.0" and title_script.shown_version("not json") == "1.0", "the player sees the version of the downloaded release (1.1, 1.2, ...), the app version otherwise")
+	# scripts/skin.gd is loaded by the APK's boot.gd before the server's code is mounted, so an installed app keeps the APK's copy for ever:
+	# its functions must stay those of APK 1.0 (new looks go to scripts/look.gd). Release 1.1 broke the sign-in window by breaking this.
+	var skin_names: Array = []
+	for method: Dictionary in (load("res://scripts/skin.gd") as GDScript).get_script_method_list():
+		skin_names.append(str(method.name))
+	skin_names.sort()
+	verify(skin_names == ["button_box", "draw_ring", "field_box", "install", "make_theme", "style_button", "texture", "window"], "PyraSkin keeps exactly the functions of APK 1.0", skin_names)
+	var look_script: GDScript = load("res://scripts/look.gd")
+	verify(look_script.window() is StyleBox and look_script.picture("stone") != null and look_script.picture("window") != null and look_script.title_font() != null, "the look that travels with updates has its pictures and letters")
+	var gate_script: GDScript = load("res://scripts/gate_screen.gd")
+	gate_script.write_login_prefs("gracz@example.pl", true)
+	var remembered: Dictionary = gate_script.read_login_prefs()
+	gate_script.write_login_prefs("gracz@example.pl", false)
+	verify(str(remembered.get("email", "")) == "gracz@example.pl" and gate_script.read_login_prefs().is_empty(), "\"Zapamiętaj mnie\" keeps the e-mail for the next form, and keeps nothing when it is off")
+	var login_online := KiNet.online()
+	login_online.remember = false
+	login_online.save_session()
+	var not_kept := not FileAccess.file_exists(PyraOnline.SESSION_PATH)
+	login_online.remember = true
+	login_online.save_session()
+	var kept := FileAccess.file_exists(PyraOnline.SESSION_PATH)
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(PyraOnline.SESSION_PATH))
+	verify(not_kept and kept, "without \"Zapamiętaj mnie\" the sign-in is not written to the device, with it the session is stored")
+	var bt_offer := {"file": "core-c13-aaaaaaaaaaaa.pck", "bytes": 5, "sha256": "x"}
 	var bt_new: Dictionary = boot_script.decide(boot_script.empty_state(), bt_offer, true, false)
-	verify(bt_new.download and bt_new.target == "core-c11-aaaaaaaaaaaa.pck" and bt_new.give_up == "", "a core the device does not have is downloaded")
+	verify(bt_new.download and bt_new.target == "core-c13-aaaaaaaaaaaa.pck" and bt_new.give_up == "", "a core the device does not have is downloaded")
 	var bt_held: Dictionary = boot_script.read_state(JSON.stringify({"file": bt_offer.file, "sha256": "x", "bytes": 5, "good": bt_offer.file, "attempts": 0, "bad": []}))
 	var bt_same: Dictionary = boot_script.decide(bt_held, bt_offer, true, true)
 	verify(not bt_same.download and bt_same.target == bt_offer.file, "a core that is already on the device is mounted without downloading")
@@ -80,12 +111,30 @@ func run() -> void:
 	var bt_loop: Dictionary = boot_script.read_state(JSON.stringify({"file": bt_offer.file, "sha256": "x", "bytes": 5, "good": "", "attempts": 3, "bad": []}))
 	var bt_give: Dictionary = boot_script.decide(bt_loop, {}, false, true)
 	verify(bt_give.target == "" and bt_give.give_up == bt_offer.file, "a core that never reached the first city in three launches is given up")
-	verify(boot_script.decide(bt_loop, {"file": "core-c11-bbbbbbbbbbbb.pck"}, true, true).download, "a newer core replaces a given-up one")
+	verify(boot_script.decide(bt_loop, {"file": "core-c13-bbbbbbbbbbbb.pck"}, true, true).download, "a newer core replaces a given-up one")
 	bt_loop.good = bt_offer.file
 	verify(boot_script.decide(bt_loop, {}, false, true).target == bt_offer.file, "a core that has proven itself is not given up")
 	var bt_note: Dictionary = boot_script.note_launch(boot_script.empty_state(), bt_offer.file, "x", 5)
 	verify(bt_note.attempts == 1 and bt_note.good == "" and boot_script.note_launch(bt_note, bt_offer.file, "x", 5).attempts == 2 and boot_script.note_launch(bt_held, bt_offer.file, "x", 5).attempts == 0, "launches of an unproven core are counted; a proven one is not")
 	verify(boot_script.script_names(PackedStringArray(["a.gd.remap", "b.gdc", "c.gd", "d.tscn.remap", "a.gd", "e.uid"])) == ["a.gd", "b.gd", "c.gd"], "script names are read from an export listing, a pack listing and the editor")
+	var bt_film: Variant = load("res://assets/branding/intro.ogv")
+	var bt_last: Variant = load("res://assets/branding/intro-last.webp")
+	verify(bt_film is VideoStream and bt_last is Texture2D and (bt_last as Texture2D).get_size() == Vector2(1280.0, 720.0), "the entry film and its last frame are in the game")
+	verify(boot_script.intro_volume() >= 0.0 and boot_script.intro_volume() <= 1.0, "the film's volume follows the music setting")
+	var bt_node: Control = load("res://scenes/boot.tscn").instantiate()
+	var bt_steps: Array[bool] = []
+	bt_steps.append(bt_node.may_start())                          # nothing done yet
+	bt_node.work_done = true
+	bt_steps.append(bt_node.may_start())                          # no film: nothing to wait for
+	bt_node.intro_started = true
+	bt_node.intro_over = false
+	bt_steps.append(bt_node.may_start())                          # the film is playing
+	bt_node.intro_over = true
+	bt_steps.append(bt_node.may_start())                          # it ended, nobody touched yet
+	bt_node.touched = true
+	bt_steps.append(bt_node.may_start())                          # touched: go
+	verify(bt_steps == [false, true, false, false, true], "the game starts after the film only when the work is done and the player has touched the screen", bt_steps)
+	bt_node.free()
 	for viewport: Vector2i in [Vector2i(854,480),Vector2i(1280,720),Vector2i(1600,720)]:
 		root.size = viewport
 		await settle(5)
@@ -389,7 +438,7 @@ func run() -> void:
 	kit.reset_tree()
 	kit.set_level(1)
 	game.on_economy_changed()
-	verify(eco.items.size() == 366 and eco.recipes.size() == 265 and eco.shop_ids.size() == 85, "catalogue: 366 items, 265 recipes, 85 weak items for sale")
+	verify(eco.items.size() == 366 + 10 and eco.recipes.size() == 265 and eco.shop_ids.size() == 85 + 4, "catalogue: 366 items and 10 meals, 265 recipes, 85 weak items and 4 simple meals for sale")
 	verify(eco.buy_price("sword") == 200 and not eco.buy("sword") and eco.gold == 20, "shop price is 4x catalogue and needs the coins", eco.buy_price("sword"))
 	verify(not eco.buy("U-W01") and eco.buy_price("U-W01") == 0, "better gear is never sold by the merchant")
 	eco.gold = 500
@@ -1583,6 +1632,131 @@ func run() -> void:
 	it_eco.bag = {"potion": 3}
 	it_eco.gold = 20
 	it_eco.level = game.kit.level
+	# ---- food: ten meals heal over time, ten peaceful animals give them ---------------------------------
+	var fd_data: Dictionary = PyraContinent.load_json("res://data/food.json")
+	var fd_foods: Array = fd_data.foods
+	var fd_animals: Array = fd_data.animals
+	var fd_bands := {1: Vector2(0.14, 0.18), 2: Vector2(0.27, 0.36), 3: Vector2(0.42, 0.60)}
+	var fd_ok := fd_foods.size() == 10 and fd_animals.size() == 10
+	var fd_drops := {}
+	for fd_food: Dictionary in fd_foods:
+		var fd_total := float(fd_food.regenPerSecond) * float(fd_food.seconds)
+		var fd_band: Vector2 = fd_bands[int(fd_food.tier)]
+		fd_ok = fd_ok and fd_total >= fd_band.x - 0.001 and fd_total <= fd_band.y + 0.001 and is_equal_approx(fd_total, float(fd_food.totalFraction))
+	for fd_animal: Dictionary in fd_animals:
+		fd_drops[fd_animal.drop] = true
+		fd_ok = fd_ok and not bool(fd_animal.attacks) and int(fd_animal.aggro) == 0 and bool(fd_animal.flees)
+	verify(fd_ok and fd_drops.size() == 10, "ten meals in three tiers (14-18, 27-36, 42-60 % of max HP) and ten peaceful animals, one product each")
+	var fd_eco: PyraEconomy = game.economy
+	verify(fd_eco.foods.size() == 10 and str(fd_eco.item("F-08").category) == "food" and fd_eco.shop_ids.has("F-02") and fd_eco.shop_ids.has("F-04") and not fd_eco.shop_ids.has("F-08") and fd_eco.buy_price("F-02") == 12, "the meals are items; the simple ones are on sale, the best come from hunting")
+	verify(fd_eco.stat_lines("F-02")[0] == "Leczy 0,4% maks. HP na sekundę przez 45 s (łącznie 18%), także w walce" and fd_eco.stat_lines("F-06").size() == 2, "a meal tells what it gives")
+	var fd_kit: RaceKit = game.kit
+	fd_eco.bag = {"F-08": 2, "F-01": 2, "F-10": 1, "F-06": 1}
+	fd_kit.buffs = []
+	fd_kit.next_eat_at = 0.0
+	fd_kit.set_level(10)
+	var fd_max := float(fd_kit.stats().maxHp)
+	fd_kit.hp = fd_max
+	verify(not fd_eco.use("F-08") and fd_eco.count("F-08") == 2 and fd_kit.buff("fed").is_empty(), "a meal is refused at full health and stays in the bag")
+	fd_kit.hp = fd_max * 0.1
+	verify(fd_eco.use("F-08") and fd_eco.count("F-08") == 1 and is_equal_approx(float(fd_kit.buff("fed").hpRegenPct), 0.008) and absf(fd_kit.fed_left() - 60.0) < 0.5, "eating gives the status 'fed': 0.8 % of max HP per second for 60 s")
+	verify(not fd_eco.use("F-08") and fd_eco.count("F-08") == 1, "the next bite waits two seconds")
+	fd_kit.next_eat_at = 0.0
+	verify(not fd_eco.use("F-01") and fd_eco.count("F-01") == 2, "a weaker meal does not replace a stronger one that is still working")
+	fd_kit.clear_debuffs()
+	var fd_start := fd_kit.hp
+	fd_kit.in_combat_until = fd_kit.now + 1000.0
+	for fd_step in 10:
+		fd_kit.tick(1.0)
+	verify(absf((fd_kit.hp - fd_start) - fd_max * 0.008 * 10.0) < 1.0, "in combat the meal alone heals 0.8 % of max HP per second", fd_kit.hp - fd_start)
+	fd_kit.in_combat_until = 0.0
+	fd_start = fd_kit.hp
+	for fd_step in 10:
+		fd_kit.tick(1.0)
+	verify(absf((fd_kit.hp - fd_start) - fd_max * (0.008 + 0.003) * 10.0) < 1.0, "out of combat the meal adds to the natural 0.3 % per second", fd_kit.hp - fd_start)
+	fd_kit.hp = fd_max * 0.05
+	fd_kit.in_combat_until = fd_kit.now + 1000.0
+	var fd_left := fd_kit.fed_left()
+	for fd_step in int(fd_left) + 2:
+		fd_kit.tick(1.0)
+	verify(fd_kit.buff("fed").is_empty() and absf((fd_kit.hp - fd_max * 0.05) - fd_max * 0.008 * fd_left) < fd_max * 0.01, "the status ends after its time; in all it healed rate x duration", fd_kit.hp / fd_max)
+	fd_kit.hp = fd_max * 0.1
+	fd_kit.next_eat_at = 0.0
+	verify(fd_eco.use("F-01") and fd_eco.count("F-01") == 1, "a meal can be eaten again once the status is over")
+	fd_kit.next_eat_at = 0.0
+	verify(fd_eco.use("F-10") and is_equal_approx(float(fd_kit.buff("fed").hpRegenPct), 0.01) and fd_eco.count("F-10") == 0, "a stronger meal replaces the weaker one")
+	fd_kit.buffs = []
+	fd_kit.next_eat_at = 0.0
+	var fd_ki_plain := float(fd_kit.stats().kiRegen)
+	verify(fd_eco.use("F-06") and absf(float(fd_kit.stats().kiRegen) / fd_ki_plain - 1.25) < 0.01, "moon milk also raises ki regeneration by 25 %")
+	var fd_other := PyraEconomy.new(PyraContinent.load_json("res://data/economy.json"))
+	fd_other.add_foods(fd_data)
+	fd_eco.bag = {"F-03": 4, "potion": 1}
+	verify(fd_other.from_save(fd_eco.to_save()) and fd_other.count("F-03") == 4, "meals survive a save")
+	fd_eco.bag = {"F-02": 3}
+	game.open_items("inventory", "Plecak")
+	await settle(2)
+	var fd_screen: ItemsScreen = game.screen
+	fd_screen.select("F-02")
+	await settle(1)
+	verify(fd_screen.list_box.get_child_count() == 1 and fd_screen.action_box.get_children().any(func(n: Node) -> bool: return n is Button and (n as Button).text == "UŻYJ") and fd_screen.detail_body.text.contains("Leczy 0,4% maks. HP"), "the backpack shows a meal without a picture and offers to eat it")
+	game.close_screen()
+	fd_eco.bag = {"potion": 3}
+	fd_kit.buffs = []
+	fd_kit.hp = fd_max
+	# ---- peaceful animals: never attack, run away when hurt, give their food ---------------------------
+	var an_script: GDScript = load("res://scripts/animals.gd")
+	var an_food: Dictionary = PyraContinent.load_json("res://data/food.json")
+	var an_deer: Dictionary = game.monsters.defs["verdant-skalny-jelen"].actor
+	var an_art := {"animals": {"A-03": {"actor": an_deer}}}
+	var an_list: Array = an_script.usable(an_food, an_art, "verdant")
+	verify(an_list.size() == 1 and str(an_list[0].id) == "A-03" and an_script.usable(an_food, an_art, "pyra").is_empty() and an_script.usable(an_food, {}, "verdant").is_empty(), "an animal is in the world only when its art is listed")
+	var an_gone := {"animals": {"A-03": {"actor": {"clips": {"idle": {"sheet": "res://assets/monsters/verdant-animal-not-delivered.webp"}}}}}}
+	verify(an_script.usable(an_food, an_gone, "verdant").is_empty() and an_script.sheet_exists(an_deer) and not an_script.sheet_exists({}), "an animal whose sheet has not reached the device (older content release) is not spawned")
+	var an_def: Dictionary = an_script.definition(an_list[0], an_deer)
+	verify(int(an_def.atk) == 0 and int(an_def.agro) == 0 and bool(an_def.traits.peaceful) and an_def.lootItems[0].item == "F-07" and is_equal_approx(float(an_def.speed) * 120.0, 0.8 * 170.0), "an animal has no attack, no aggro, flees at its share of the hero's speed and drops its food")
+	var an_a: Array = an_script.rows(3, an_list[0], "verdant", 40000.0, 40000.0, func(_p: Vector2) -> bool: return true, func(_p: Vector2) -> bool: return false)
+	var an_b: Array = an_script.rows(3, an_list[0], "verdant", 40000.0, 40000.0, func(_p: Vector2) -> bool: return true, func(_p: Vector2) -> bool: return false)
+	verify(an_a.size() == 10 and an_a == an_b and an_script.rows(3, an_list[0], "verdant", 40000.0, 40000.0, func(_p: Vector2) -> bool: return true, func(_p: Vector2) -> bool: return true).is_empty(), "ten animals of a kind are placed in the same places every time, never inside a city")
+	verify(not game.monsters.defs.has("A-03") and not game.monsters.kinds.has("A-03"), "without prepared art no animal is added to the land")
+	game.player.position = base + Vector2(300, 0)
+	game.player.locked = false
+	game.kit.dead = false
+	game.kit.hp = float(game.kit.stats().maxHp)
+	game.monsters.clear_all()           # no wild monster may wander in and hurt the hero during the check
+	game.monsters.set_process(false)
+	var an_pet := PyraMonster.new()
+	game.continent.sorted.add_child(an_pet)
+	an_pet.setup(an_def, game.player.position + Vector2(110, 0), game.monsters, 900001)
+	game.monsters.active[900001] = an_pet
+	an_pet.died.connect(game.monsters.on_died)
+	var an_hp := game.kit.hp
+	await create_timer(1.5).timeout
+	verify(an_pet.phase == "idle" and game.kit.hp == an_hp, "a peaceful animal beside the hero does not attack and does not notice him")
+	var an_gap := an_pet.position.distance_to(game.player.position)
+	an_pet.hurt(1.0, false, [])
+	verify(an_pet.phase == "flee" and an_pet.provoked, "hurt, the animal flees instead of fighting")
+	await create_timer(1.2).timeout
+	verify(an_pet.position.distance_to(game.player.position) > an_gap + 40.0 and an_pet.phase == "flee" and game.kit.hp == an_hp, "it runs away from the hero and still does not attack", [an_pet.position.distance_to(game.player.position), an_pet.phase, game.kit.hp, an_hp])
+	var an_xp := game.kit.xp
+	game.economy.bag = {"potion": 1}
+	an_pet.hurt(100000.0, false, [])
+	await settle(2)
+	verify(an_pet.phase == "dead" and game.economy.count("F-07") == 1 and game.kit.xp == an_xp, "a hunted animal gives exactly one product and no experience")
+	game.hud.close_dialog()
+	game.kit.buffs = []
+	game.kit.next_eat_at = 0.0
+	game.kit.hp = float(game.kit.stats().maxHp) * 0.3
+	game.economy.bag = {"F-08": 1}
+	game.economy.use("F-08")
+	var an_entry := game.fed_entry()
+	verify(str(an_entry.title).begins_with("Najedzony") and an_entry.lines[0] == "+0,8% życia na sekundę", "the tracker shows that the hero is fed and what it gives")
+	game.refresh_quest_ui()
+	verify(game.hud.quests.size() >= 1 and str(game.hud.quests[0].title).begins_with("Najedzony"), "the fed status is listed first in the tracker")
+	game.monsters.set_process(true)
+	game.kit.buffs = []
+	game.economy.bag = {"potion": 3}
+	game.kit.hp = float(game.kit.stats().maxHp)
 	game.show_menu()
 	await settle()
 	verify(game.hud.modal.visible and game.player.locked, "menu suspends and clears input")

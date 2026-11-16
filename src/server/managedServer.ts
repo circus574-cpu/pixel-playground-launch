@@ -172,3 +172,22 @@ export function bootstrapGameServer(): Promise<void> {
   });
   return boot;
 }
+
+/**
+ * The admin panel's "Restartuj serwer" (POST /ws/admin/restart): the game server is stopped and started again inside this process. If that fails there is no
+ * server left to serve /ws, so the process ends and the container's restart policy brings the whole app up again.
+ */
+GameServer.restartHandler = async () => {
+  try {
+    const stopped = await stopServerFromAdmin();
+    if (!stopped.ok) throw Error(stopped.message);
+    const started = await startServerFromAdmin();
+    if (!started.ok) throw Error(started.message);
+  } catch (error) {
+    console.error(
+      "[GameServer] Restart nieudany, kończę proces, by kontener wstał od nowa:",
+      error,
+    );
+    process.exit(1);
+  }
+};

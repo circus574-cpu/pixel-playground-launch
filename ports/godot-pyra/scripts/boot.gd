@@ -12,23 +12,45 @@ extends Control
 ## This script must not name any class of the game (not even through a typed variable): a class used here would be loaded from the
 ## APK before the pack is mounted and the pack could no longer replace it. Everything here is plain engine API.
 ##
+## Entry animation: the owner's intro film (assets/branding/intro.ogv, Ogg Theora, 10 s with sound) plays full screen while the update check
+## runs underneath. A touch after 0.8 s skips it; when it ends the last frame ("TOUCH TO START") stays until the player touches the
+## screen, then the game starts without a second start button (the title screen starts the game by itself). Nothing waits for the film
+## in headless runs or when `play_intro` is off (tests); a film that cannot be loaded is skipped.
+##
 ## Safety: a core that does not compile, does not mount or never reaches the first city is put on a "bad" list and the APK's own
 ## code runs instead (after a restart, because a mounted pack cannot be unmounted). The decision rules are static functions and are
 ## tested in tests/smoke.gd; the whole flow is tested by scripts/godot/e2e_core.py.
 
 signal finished(report: Dictionary)
 
-const CLIENT_CODE := 11                  # versionCode of this APK; the test in smoke.gd keeps it equal to export_presets.cfg
+const CLIENT_CODE := 100                 # versionCode of this APK; the test in smoke.gd keeps it equal to export_presets.cfg
 const STATE_PATH := "user://core.json"
 const DIR := "user://content"
 const TARGET := "res://scenes/title.tscn"
 const MAX_TRIES := 3                     # launches of a core that never reached the first city before it is given up
 const ASK_TIMEOUT := 6.0
+const INTRO_VIDEO := "res://assets/branding/intro.ogv"
+const INTRO_LAST := "res://assets/branding/intro-last.webp"
+const INTRO_SIZE := Vector2(1280.0, 720.0)
+const MAX_CROP := 0.10                  # share of the film's height that may be cut off on a wide screen
+const SKIP_AFTER := 0.8
 
 var change_scene := true                 # tests turn this off and read `finished`
+var play_intro := true                   # tests turn this off; headless runs never play it
 var status := Label.new()
 var bar := ProgressBar.new()
 var quit_button := Button.new()
+var box := VBoxContainer.new()           # title, status and progress on the dark background (shown when no film plays)
+var pill := PanelContainer.new()         # the same status as a small pill over the film
+var pill_label := Label.new()
+var video := VideoStreamPlayer.new()
+var last_frame := TextureRect.new()
+var intro_on := false                    # the film is playing
+var intro_over := true                   # no film, or it has ended or was skipped
+var intro_elapsed := 0.0
+var touched := false
+var work_done := false
+var intro_started := false
 
 # ---- decisions (static, tested) ------------------------------------------------------------------------
 
@@ -124,12 +146,21 @@ static func script_names(listing: PackedStringArray) -> Array[String]:
 # ---- the scene ------------------------------------------------------------------------------------------
 
 func _ready() -> void:
+	PyraSkin.install(get_tree())
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	clip_contents = true
 	var back := ColorRect.new()
 	back.color = Color(0.051, 0.082, 0.125, 1.0)
 	back.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(back)
-	var box := VBoxContainer.new()
+	last_frame.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	last_frame.stretch_mode = TextureRect.STRETCH_SCALE   # placed by fit_video, like the film
+	last_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	last_frame.visible = false
+	add_child(last_frame)
+	video.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	video.visible = false
+	add_child(video)
 	box.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	box.custom_minimum_size = Vector2(620, 0)
 	box.grow_horizontal = Control.GROW_DIRECTION_BOTH
@@ -158,10 +189,120 @@ func _ready() -> void:
 	quit_button.visible = false
 	quit_button.pressed.connect(func() -> void: get_tree().quit())
 	box.add_child(quit_button)
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.03, 0.04, 0.08, 0.78)
+	style.set_corner_radius_all(18)
+	style.content_margin_left = 18
+	style.content_margin_right = 18
+	style.content_margin_top = 6
+	style.content_margin_bottom = 6
+	pill.add_theme_stylebox_override("panel", style)
+	pill.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	pill.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	pill.offset_top = 18
+	pill.visible = false
+	pill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	pill_label.add_theme_font_size_override("font_size", 18)
+	pill_label.add_theme_color_override("font_color", Color("f3e6c4"))
+	pill.add_child(pill_label)
+	add_child(pill)
+	resized.connect(fit_video)
+	start_intro()
 	run.call_deferred()
+
+## Starts the film when it may play and exists; otherwise the dark background with the status is all there is.
+func start_intro() -> void:
+	if not play_intro or DisplayServer.get_name() == "headless" or not ResourceLoader.exists(INTRO_VIDEO):
+		return
+	var stream: Resource = load(INTRO_VIDEO)
+	if not stream is VideoStream:
+		return
+	video.stream = stream as VideoStream
+	video.volume_db = linear_to_db(maxf(0.0001, intro_volume()))
+	if ResourceLoader.exists(INTRO_LAST):
+		last_frame.texture = load(INTRO_LAST)
+	video.finished.connect(end_intro)
+	video.expand = true
+	video.visible = true
+	box.visible = false
+	pill.visible = true
+	intro_on = true
+	intro_over = false
+	intro_started = true
+	fit_video()
+	video.play()
+
+## The film's loudness follows the music volume of the game's settings (user://audio.json; 30 % by default), a little louder than the music.
+static func intro_volume() -> float:
+	var music := 0.3
+	if FileAccess.file_exists("user://audio.json"):
+		var value: Variant = JSON.parse_string(FileAccess.get_file_as_string("user://audio.json"))
+		if value is Dictionary:
+			music = clampf(float(value.get("music", music)), 0.0, 1.0)
+	return clampf(music * 1.6, 0.0, 1.0)
+
+## 16:9 film on a wider phone: scaled up to fill the screen, but at most MAX_CROP of its height is cut off (80 % of that from the top, the rest from the bottom);
+## on a screen wider still the film keeps its full width-to-height share and the sides stay in the backdrop colour. The loading bar and the "touch to start"
+## caption sit at the bottom of the picture, so they are never cut. The still after the film is placed the same way.
+func fit_video() -> void:
+	var area := size
+	if area.x <= 0.0 or area.y <= 0.0:
+		return
+	var rect := film_rect(area)
+	video.position = rect.position
+	video.size = rect.size
+	last_frame.position = rect.position
+	last_frame.size = rect.size
+
+static func film_rect(area: Vector2) -> Rect2:
+	var contain := minf(area.x / INTRO_SIZE.x, area.y / INTRO_SIZE.y)
+	var cover := maxf(area.x / INTRO_SIZE.x, area.y / INTRO_SIZE.y)
+	var factor := minf(cover, contain / (1.0 - MAX_CROP))
+	var film := INTRO_SIZE * factor
+	var cut := maxf(0.0, film.y - area.y)
+	return Rect2(Vector2((area.x - film.x) / 2.0, -cut * 0.8), film)
+
+func end_intro() -> void:
+	if intro_over:
+		return
+	intro_on = false
+	intro_over = true
+	video.stop()
+	video.visible = false
+	last_frame.visible = last_frame.texture != null
+	box.visible = last_frame.texture == null
+	if last_frame.texture != null:
+		pill.visible = true
+
+func _process(delta: float) -> void:
+	if intro_on:
+		intro_elapsed += delta
+
+func _input(event: InputEvent) -> void:
+	var pressed := false
+	if event is InputEventScreenTouch:
+		pressed = (event as InputEventScreenTouch).pressed
+	elif event is InputEventMouseButton:
+		pressed = (event as InputEventMouseButton).pressed
+	elif event is InputEventKey:
+		var key := event as InputEventKey
+		pressed = key.pressed and not key.echo
+	if not pressed:
+		return
+	if intro_on:
+		if intro_elapsed >= SKIP_AFTER:
+			touched = true
+			end_intro()
+	elif intro_over:
+		touched = true
+
+## The game may start: the update work is done and the player has seen (or skipped) the film and touched the screen. Without a film there is nothing to wait for.
+func may_start() -> bool:
+	return work_done and (not intro_started or (intro_over and touched))
 
 func say(text: String) -> void:
 	status.text = text
+	pill_label.text = text
 
 func read_text(path: String) -> String:
 	return FileAccess.get_file_as_string(path) if FileAccess.file_exists(path) else ""
@@ -300,10 +441,20 @@ func run() -> void:
 			state.bad.append(target)
 			save_state(state)
 			say("Aktualizacja gry jest uszkodzona. Zamknij grę i uruchom ją ponownie: wróci poprzednia wersja.")
+			end_intro()
+			last_frame.visible = false
+			pill.visible = false
+			box.visible = true
 			quit_button.visible = true
 			finished.emit(report)
 			return
 	remove_old_cores([target, str(state.file)])
+	work_done = true
+	pill.visible = false
 	finished.emit(report)
 	if change_scene:
+		while not may_start():
+			await get_tree().process_frame
+		if intro_started:
+			Engine.set_meta("ki_autostart", true)   # the film said "touch to start": the title screen starts the game itself
 		get_tree().change_scene_to_file(TARGET)

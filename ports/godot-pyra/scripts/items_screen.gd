@@ -1,5 +1,6 @@
 class_name ItemsScreen
 extends Control
+const Look := preload("res://scripts/look.gd")   # the look that can change with server updates (see look.gd)
 ## One screen for every item service: merchant (buy / sell), depot (bag <-> chest, coins), smithy (crafting)
 ## and the player's bag with equipment. All rules live in PyraEconomy.
 
@@ -116,17 +117,8 @@ func setup(economy: PyraEconomy, screen_mode: String, heading: String) -> void:
 	eco.changed.connect(refresh)
 	switch_tab(0)
 
-func panel(color: Color) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = color
-	style.border_color = Color("855c39")
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(12)
-	style.content_margin_left = 16
-	style.content_margin_right = 16
-	style.content_margin_top = 12
-	style.content_margin_bottom = 12
-	return style
+func panel(_color: Color = Color.BLACK) -> StyleBox:
+	return Look.window(34.0)
 
 func make_button(text: String, callback: Callable, minimum: Vector2) -> Button:
 	var b := Button.new()
@@ -136,15 +128,7 @@ func make_button(text: String, callback: Callable, minimum: Vector2) -> Button:
 	b.add_theme_font_size_override("font_size", 18)
 	b.add_theme_color_override("font_color", Color("fff0cf"))
 	b.add_theme_color_override("font_disabled_color", Color("8a7a6a"))
-	for state in ["normal", "hover", "pressed", "disabled"]:
-		var style := StyleBoxFlat.new()
-		style.bg_color = {"normal": Color("533421"), "hover": Color("704b2d"), "pressed": Color("704b2d"), "disabled": Color("2a211f")}[state]
-		style.border_color = Color("986c42") if state != "disabled" else Color("453a34")
-		style.set_border_width_all(2)
-		style.set_corner_radius_all(12)
-		style.content_margin_left = 12
-		style.content_margin_right = 12
-		b.add_theme_stylebox_override(state, style)
+	PyraSkin.style_button(b)
 	b.pressed.connect(callback)
 	return b
 
@@ -231,13 +215,7 @@ func refresh() -> void:
 			b.icon = load(str(row.icon))
 		var chosen: bool = str(row.id) == selected
 		for state in ["normal", "hover", "pressed"]:
-			var style := StyleBoxFlat.new()
-			style.bg_color = Color(0.28, 0.19, 0.12, 0.95) if chosen else Color(0.13, 0.1, 0.1, 0.95)
-			style.border_color = Color("e0b96d") if chosen else Color("4a3a30")
-			style.set_border_width_all(2)
-			style.set_corner_radius_all(10)
-			style.content_margin_left = 10
-			b.add_theme_stylebox_override(state, style)
+			b.add_theme_stylebox_override(state, PyraSkin.button_box("hover" if chosen else ("normal" if state == "normal" else "hover"), 22.0, 6.0))
 		var id: String = str(row.id)
 		b.pressed.connect(func(): select(id))
 		list_box.add_child(b)
@@ -261,7 +239,7 @@ func item_text(id: String) -> String:
 
 func show_item(id: String) -> void:
 	var def := eco.item(id)
-	detail_icon.texture = load(eco.icon_path(id))
+	detail_icon.texture = load(eco.icon_path(id)) if eco.icon_path(id) != "" else null
 	detail_title.text = eco.name_of(id)
 	detail_title.add_theme_color_override("font_color", eco.rarity_color(id))
 	var slot := eco.slot_of(id)
@@ -367,7 +345,7 @@ func show_recipe() -> void:
 	if recipe.is_empty():
 		return
 	var result := str(recipe.result)
-	detail_icon.texture = load(eco.icon_path(result))
+	detail_icon.texture = load(eco.icon_path(result)) if eco.icon_path(result) != "" else null
 	detail_title.text = "%s ×%d" % [eco.name_of(result), int(recipe.count)]
 	detail_title.add_theme_color_override("font_color", eco.rarity_color(result))
 	detail_meta.text = "%s · poz. %d · koszt %d mon." % [PyraEconomy.STATION_NAMES.get(str(recipe.station), str(recipe.station)), int(recipe.requiredLevel), int(recipe.cost)]
@@ -404,5 +382,5 @@ func show_inventory_item() -> void:
 		var equip := make_button("ZAŁÓŻ", func(): eco.equip(selected), Vector2(0, 56))
 		equip.disabled = eco.required_level(selected) > eco.level
 		action_box.add_child(equip)
-	if str(eco.item(selected).category) == "consumable":
+	if str(eco.item(selected).category) == "consumable" or eco.foods.has(selected):
 		action_box.add_child(make_button("UŻYJ", func(): eco.use(selected), Vector2(0, 56)))

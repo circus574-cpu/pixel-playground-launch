@@ -46,6 +46,7 @@ var timers: Array[Dictionary] = []
 var now := 0.0
 var next_basic_at := 0.0
 var next_dodge_at := 0.0
+var next_eat_at := 0.0
 var in_combat_until := 0.0
 var dead := false
 var lock_s := 0.0
@@ -279,7 +280,7 @@ func stats(layer: int = 4) -> Dictionary:
 		"attack": maxi(1, round_half_up(v.call("attack") * (1.0 + atk_pct) * (1.0 + gv.call("atkPercent") / 100.0) + gv.call("attack") * (1.0 + atk_pct))),
 		"defense": maxi(0, round_half_up((v.call("defense") * (1.0 + def_pct) * (1.0 + gv.call("defPercent") / 100.0) + gv.call("defense") * (1.0 + def_pct)) * (1.0 - debuff_pct("armorDown") if layer >= 4 else 1.0))),
 		"speed": minf(MAX_MOVE_SPEED, float(base.speed) * speed_growth(level) * speed_mult),
-		"kiRegen": (v.call("kiRegen") * (1.0 + float(m.kiRegenPct)) + gv.call("kiRegenBonus")) * (1.0 + gv.call("kiRegenPercent") / 100.0),
+		"kiRegen": (v.call("kiRegen") * (1.0 + float(m.kiRegenPct) + buff.call("kiRegenPct")) + gv.call("kiRegenBonus")) * (1.0 + gv.call("kiRegenPercent") / 100.0),
 		"crit": v.call("criticalChancePercent") + float(m.critAdd) * 100.0 + gv.call("critChancePoints"),
 		"attackInterval": maxf(200.0, float(base.attackIntervalMs) * (1.0 + float(m.intervalPct) + buff.call("intervalPct"))),
 		"range": base_range * (1.0 + float(m.rangePct)),
@@ -303,6 +304,32 @@ func stat_breakdown() -> Array:
 
 func in_combat() -> bool:
 	return now < in_combat_until
+
+## Eats a meal (data/food.json): the status "fed" heals `regenPerSecond` of max HP every second for `seconds`, in combat too.
+## One meal at a time; a new one replaces the old one only if it still has more to give. Returns {ok, reason}.
+func eat(food: Dictionary) -> Dictionary:
+	if dead:
+		return {"ok": false, "reason": ""}
+	if now < next_eat_at:
+		return {"ok": false, "reason": ""}
+	if hp >= float(stats().maxHp):
+		return {"ok": false, "reason": "Zdrowie jest pełne."}
+	var rate := float(food.regenPerSecond)
+	var seconds := float(food.seconds)
+	var current := buff("fed")
+	if not current.is_empty() and float(current.hpRegenPct) * fed_left() >= rate * seconds:
+		return {"ok": false, "reason": "Jesteś jeszcze najedzony."}
+	var fed := {"id": "fed", "ms": seconds * 1000.0, "hpRegenPct": rate, "food": str(food.id)}
+	if food.has("extra") and (food.extra as Dictionary).has("kiRegenPct"):
+		fed["kiRegenPct"] = float(food.extra.kiRegenPct)
+	add_buff(fed)
+	next_eat_at = now + 2.0
+	return {"ok": true, "reason": ""}
+
+## Seconds the status "fed" still lasts (0 when not fed).
+func fed_left() -> float:
+	var current := buff("fed")
+	return maxf(0.0, float(current.until) - now) if not current.is_empty() else 0.0
 
 func schedule(delay: float, action: Callable) -> void:
 	timers.append({"at": now + delay, "fn": action})
@@ -419,6 +446,8 @@ func tick(delta: float) -> void:
 		ki = minf(float(s.maxKi), ki + float(s.kiRegen) * delta)
 		var m := mods()
 		var regen := (float(m.hpRegenAlways) + (0.0 if in_combat() else float(m.hpRegenOoc) + BASE_HP_REGEN)) * (1.0 + float(gear.get("hpRegenPercent", 0.0)) / 100.0)
+		# a meal heals in combat too: the status "fed" carries a share of max HP per second (see eat())
+		regen += buff_sum("hpRegenPct")
 		if regen > 0.0:
 			hp = minf(float(s.maxHp), hp + float(s.maxHp) * regen * delta)
 	for c in circles:

@@ -1,5 +1,6 @@
 class_name PyraTitleScreen
 extends Control
+const Look := preload("res://scripts/look.gd")   # the look that can change with server updates (see look.gd)
 
 signal city_started(city: PyraGame)
 
@@ -11,6 +12,7 @@ var status := Label.new()
 var title := Label.new()
 var powered := TextureRect.new()
 var powered_caption := Label.new()
+var version_label := Label.new()
 var content := VBoxContainer.new()
 var safe_root := Control.new()
 var active_pointer := -1
@@ -23,6 +25,8 @@ var floor_shade := TextureRect.new()
 
 func _ready() -> void:
 	get_tree().quit_on_go_back = false
+	PyraSkin.install(get_tree())
+	Look.install_letters(get_tree())
 	var music := PyraAudio.new()
 	add_child(music)
 	music.play_music.call_deferred("loading")
@@ -64,16 +68,11 @@ func _ready() -> void:
 	start_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	start_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	start_button.focus_mode = Control.FOCUS_NONE
-	start_button.add_theme_font_override("font", load("res://assets/branding/cinzel-bold.ttf"))
+	start_button.add_theme_font_override("font", Look.title_font())
 	start_button.add_theme_font_size_override("font_size", 25)
 	start_button.add_theme_color_override("font_color", Color("fff1ce"))
-	var button_style := StyleBoxFlat.new()
-	button_style.bg_color = Color(0.16, 0.11, 0.07, 0.9)
-	button_style.border_color = Color("e0b96d")
-	button_style.set_border_width_all(3)
-	button_style.set_corner_radius_all(12)
-	start_button.add_theme_stylebox_override("normal", button_style)
-	start_button.add_theme_stylebox_override("disabled", button_style)
+	PyraSkin.style_button(start_button)
+	start_button.add_theme_stylebox_override("normal", PyraSkin.button_box("hover", 30.0, 12.0))   # the start button always shines
 	start_button.pressed.connect(start_city)
 	content.add_child(start_button)
 	powered.texture = load("res://assets/branding/godot/logo-large-color-dark.svg")
@@ -88,8 +87,32 @@ func _ready() -> void:
 	powered_caption.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.02, 0.95))
 	powered_caption.add_theme_constant_override("outline_size", 5)
 	safe_root.add_child(powered_caption)
+	version_label.text = "KI LEGENDS  " + shown_version()
+	version_label.add_theme_font_size_override("font_size", 14)
+	version_label.add_theme_color_override("font_color", Color("d6e0dc"))
+	version_label.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.02, 0.95))
+	version_label.add_theme_constant_override("outline_size", 5)
+	version_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	safe_root.add_child(version_label)
 	resized.connect(_layout)
 	_layout()
+	if Engine.has_meta("ki_autostart"):
+		Engine.remove_meta("ki_autostart")   # set by scripts/boot.gd after the entry film said "touch to start"
+		start_city.call_deferred()
+
+## The version the player sees: 1.0 is the installed app; every release published on the server (1.1, 1.2, ...) is an update of the game that the app downloads
+## by itself, and the number of the downloaded release replaces it. `manifest_text` is the stored manifest of the last release (tests pass their own).
+static func shown_version(manifest_text: String = "") -> String:
+	var app_version := str(ProjectSettings.get_setting("application/config/version", "1.0"))
+	if manifest_text == "" and FileAccess.file_exists(PyraContent.MANIFEST_PATH):
+		manifest_text = FileAccess.get_file_as_string(PyraContent.MANIFEST_PATH)
+	var value: Variant = JSON.parse_string(manifest_text) if manifest_text != "" else null
+	if value is Dictionary and (value as Dictionary).get("manifest") is Dictionary:
+		var release := str(((value as Dictionary).manifest as Dictionary).get("version", ""))
+		var parts := release.split(".")
+		if parts.size() == 2 and parts[0].is_valid_int() and parts[1].is_valid_int():
+			return release
+	return app_version
 
 func _layout() -> void:
 	var area := Rect2(Vector2.ZERO, size)
@@ -107,6 +130,8 @@ func _layout() -> void:
 	powered_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	powered_caption.position = Vector2(area.size.x - 336, powered.position.y - 22)
 	powered_caption.size = Vector2(320, 20)
+	version_label.position = Vector2(16, area.size.y - 30)
+	version_label.size = Vector2(320, 20)
 	content.size = Vector2(minf(560, area.size.x - 360), 120)
 	content.position = Vector2((area.size.x - content.size.x) / 2, area.size.y - content.size.y - 26)
 

@@ -1,5 +1,6 @@
 class_name PyraChat
 extends Control
+const Look := preload("res://scripts/look.gd")   # the look that can change with server updates (see look.gd)
 ## The local chat line of the land (players near you see it). Opened from MENU; lines also appear as short notices.
 
 signal closed
@@ -20,13 +21,7 @@ func _ready() -> void:
 	panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
 	panel.position = Vector2(-340, 70)
 	panel.custom_minimum_size = Vector2(680, 330)
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.08, 0.06, 0.05, 0.97)
-	style.border_color = Color("e0b96d")
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(12)
-	style.set_content_margin_all(16)
-	panel.add_theme_stylebox_override("panel", style)
+	panel.add_theme_stylebox_override("panel", Look.window(40.0))
 	add_child(panel)
 	var box := VBoxContainer.new()
 	panel.add_child(box)
