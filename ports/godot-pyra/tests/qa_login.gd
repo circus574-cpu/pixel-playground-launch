@@ -13,6 +13,7 @@ func run() -> void:
 	DirAccess.make_dir_recursive_absolute(out)
 	root.size = Vector2i(1600, 720)
 	PyraSkin.install(self)
+	(load("res://scripts/look.gd") as GDScript).install_letters(self)
 	var gate := PyraGate.new()
 	root.add_child(gate)
 	gate.nick_field.visible = true   # the tallest form: creating an account

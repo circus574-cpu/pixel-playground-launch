@@ -26,6 +26,7 @@ var floor_shade := TextureRect.new()
 func _ready() -> void:
 	get_tree().quit_on_go_back = false
 	PyraSkin.install(get_tree())
+	Look.install_letters(get_tree())
 	var music := PyraAudio.new()
 	add_child(music)
 	music.play_music.call_deferred("loading")

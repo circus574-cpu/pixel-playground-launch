@@ -57,8 +57,8 @@ class WindowBox extends StyleBox:
 		RenderingServer.canvas_item_add_nine_patch(to_canvas_item, rect, Rect2(Vector2.ZERO, frame.get_size()), frame.get_rid(), corner, corner,
 			RenderingServer.NINE_PATCH_TILE_FIT, RenderingServer.NINE_PATCH_TILE_FIT, false, tint)
 
-## The owner's gold letters (data/letters.json, scripts/godot/prepare_letters.py) as a font: capitals with the Polish letters, lower case written with the
-## same capitals, digits and punctuation from the title font (Cinzel). Null when the data is missing.
+## The owner's gold letters (data/letters.json, scripts/godot/prepare_letters.py) as a font: capitals and small letters with the Polish ones, digits,
+## punctuation and symbols; anything the sheet lacks comes from the title font (Cinzel). Null when the data is missing.
 static func letters() -> Font:
 	if letters_font != null:
 		return letters_font
@@ -82,7 +82,7 @@ static func letters() -> Font:
 	for letter: String in (data.glyphs as Dictionary):
 		var g: Dictionary = data.glyphs[letter]
 		var r: Array = g.rect
-		for code in [letter.unicode_at(0), letter.to_lower().unicode_at(0)]:
+		for code in [letter.unicode_at(0)]:   # the sheet has its own small letters, digits, punctuation and symbols
 			font.set_glyph_texture_idx(0, size, code, 0)
 			font.set_glyph_uv_rect(0, size, code, Rect2(float(r[0]), float(r[1]), float(r[2]), float(r[3])))
 			font.set_glyph_size(0, size, code, Vector2(float(r[2]), float(r[3])))
@@ -99,3 +99,17 @@ static func letters() -> Font:
 static func title_font() -> Font:
 	var font := letters()
 	return font if font != null else load("res://assets/branding/cinzel-bold.ttf")
+
+## The gold letters on every button of the game (the theme installed by the APK's boot.gd gets the font and white text, so the letters keep their own colour).
+static func install_letters(tree: SceneTree) -> void:
+	var font := letters()
+	if font == null or tree.root.theme == null:
+		return
+	var theme := tree.root.theme
+	theme.set_font("font", "Button", font)
+	theme.set_font("font", "CheckBox", font)
+	for name in ["font_color", "font_hover_color", "font_pressed_color", "font_disabled_color", "font_focus_color"]:
+		theme.set_color(name, "Button", Color.WHITE if name != "font_disabled_color" else Color(0.6, 0.6, 0.6))
+	theme.set_color("font_color", "CheckBox", Color.WHITE)
+	theme.set_color("font_hover_color", "CheckBox", Color.WHITE)
+	theme.set_color("font_pressed_color", "CheckBox", Color.WHITE)
