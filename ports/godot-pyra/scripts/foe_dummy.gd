@@ -22,7 +22,7 @@ var marked_until := 0.0
 var sealed_until := 0.0
 var slowed := 0.0
 
-func hurt(raw: float, _crit: bool) -> float:
+func hurt(raw: float, _crit: bool, _tags: Array = [], _ranged: bool = false) -> float:
 	var amount := maxf(1.0, raw)
 	hp = maxf(0.0, hp - amount)
 	idle_time = 0.0

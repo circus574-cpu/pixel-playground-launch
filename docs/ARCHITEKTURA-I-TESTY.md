@@ -1349,3 +1349,9 @@ czasowe z tekstur ładowanych na wątkach, symulacja bohatera idzie w `_process`
 dotykowe rysują się przez `cached_layer.gd` (odświeżanie po zmianie stanu). Mapy: `map_style.gd`, malowane mapy krain
 (`prepare_land_maps.py`), globus z atmosferą i maską zaznaczenia. Wstęp: pozioma kompozycja (`prepare_intro.py`). 313 kontroli
 w `tests/smoke.gd`. Szczegóły i ograniczenia: [dziennik 16.11](zmiany/2026-11-16/ZMIANY.md).
+
+**16.11 (po 0.6.0, kod bez nowego APK):** `monster.gd` / `monster_manager.gd` — 41 potworów i ich zasady (statystyki, umiejętności,
+cechy, słabości na klasy obrażeń z `race_kit.gd` `TAGS`), spawny z opublikowanych rejestrów; `quest_engine.gd` — 106 zadań i
+dialogi (`export-quests.ts`); `audio.gd` — muzyka i efekty (`prepare_audio.py`); `economy.gd` — limity V2, zestawy, ulepszenia,
+pięć stacji. 364 kontrole w `tests/smoke.gd`. Pełny opis w [README Android](../ports/godot-pyra/README.md) i
+[dzienniku 16.11](zmiany/2026-11-16/ZMIANY.md).

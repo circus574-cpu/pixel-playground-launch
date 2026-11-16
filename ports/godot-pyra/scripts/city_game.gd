@@ -662,7 +662,7 @@ func nearest_foe() -> Node2D:
 
 ## A monster hits the hero: damage through the kit (defence, shields, buffs), numbers, then the statuses it carries.
 func hurt_player(monster: PyraMonster, raw: float, _kind: String, fx: Array) -> void:
-	if in_safe_city(player.position) or kit.dead:
+	if in_safe_city(player.position) or kit.dead or kit.has_buff("invulnerable"):
 		return
 	var dealt := kit.take_damage(raw)
 	PyraFx.number(continent.sorted, player.position + Vector2(0, -90), int(round(dealt)), false)
@@ -673,7 +673,22 @@ func hurt_player(monster: PyraMonster, raw: float, _kind: String, fx: Array) -> 
 	if kit.dead:
 		hud.toast("Poległeś…")
 
+## A ground zone (cloud, fire trail, web) ticks on the hero: damage as a fraction of the owner's attack, then its statuses.
+func zone_hit(raw: float, fx: Array, atk: float, at: Vector2) -> void:
+	if in_safe_city(player.position) or kit.dead or kit.has_buff("invulnerable"):
+		return
+	if raw > 0.0:
+		var dealt := kit.take_damage(raw)
+		PyraFx.number(continent.sorted, player.position + Vector2(0, -90), int(round(dealt)), false)
+		if kit.dead:
+			hud.toast("Poległeś…")
+	for f: Dictionary in fx:
+		apply_fx(f, atk, at)
+
 func apply_status(f: Dictionary, monster: PyraMonster) -> void:
+	apply_fx(f, float(monster.def.atk), monster.position)
+
+func apply_fx(f: Dictionary, atk: float, from: Vector2) -> void:
 	var seconds := float(f.get("ms", 0.0)) / 1000.0
 	audio.status(str(f.get("id", f.k)))
 	match str(f.k):
@@ -685,13 +700,13 @@ func apply_status(f: Dictionary, monster: PyraMonster) -> void:
 		"silence", "jam":
 			kit.add_debuff("silence", 1.0, seconds)
 		"dot":
-			kit.add_debuff("dot", float(monster.def.atk) * float(f.atkPct) * float(f.get("stacks", 1)), seconds)
+			kit.add_debuff("dot", atk * float(f.atkPct) * float(f.get("stacks", 1)), seconds)
 		"blind", "fog", "weaken", "armorDown", "mark":
 			kit.add_debuff(str(f.k), float(f.pct), seconds)
 		"breakShield":
 			kit.shields.clear()
 		"pull":
-			player.dash(monster.position, float(f.dist))
+			player.dash(from, float(f.dist))
 
 ## Experience, coins and loot of a defeated monster (rules and drop chances of the browser game).
 func reward(def: Dictionary, at: Vector2) -> void:

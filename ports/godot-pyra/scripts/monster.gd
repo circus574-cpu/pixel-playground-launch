@@ -1,10 +1,11 @@
 class_name PyraMonster
 extends Node2D
-## One of the 40 bestiary monsters, played by the rules exported from the browser game (stats, basic attack, skills, traits).
-## Implemented: idle wandering around home, aggro, provoked monsters, chase, leash and return, keep-distance, still / fly /
-## ghost, basic melee and ranged attacks, skills of every mode (melee, ranged volley, burst, leap, charge, self: call / guard /
-## reduce / heal), telegraphs, retreat below an HP fraction, rage, death, respawn. Zones, summons, burrow, ambush, split, revive
-## and the other rarer traits are listed in the README as not ported yet (the monster then fights with its basic rules).
+## One of the 40 bestiary monsters (plus the helper creatures they summon), played by the rules exported from the browser game:
+## stats, basic attack, skills and traits. Implemented: idle wandering / routes, aggro (day and night, opportunists, provoked),
+## chase, leash and return, keep-distance, still / fly / ghost, basic melee and ranged attacks, skills of every mode (melee, ranged
+## volley, burst with damage zones, leap, charge, self: call / guard / reduce / heal / summon), telegraphs, retreat, flee after hits,
+## dive, rage, ramp, weaknesses by damage class, front armour and back bonus, curl, reflect, exposed phases, burrow, ambush, split
+## and merge, revive, explode and death zones, trail, webs, medic, turret (turning, overheating), interrupt, brittle tail.
 ## It answers the same calls as the training dummy, so every kit ability works on it unchanged.
 
 signal died(monster: PyraMonster)
@@ -30,7 +31,9 @@ var slow_pct := 0.0
 var burning := 0.0
 var burn_dps := 0.0
 var marked_until := 0.0
+var mark_def := 0.0
 var sealed_until := 0.0
+var seal_bonus := 0.0
 var attack_ready := 0.0
 var clock := 0.0
 var cooldowns: Dictionary = {}
@@ -43,11 +46,36 @@ var guard := 0.0
 var reduce := 0.0
 var reduce_until := 0.0
 var exposed_until := 0.0
+var exposed_pct := 0.0
 var flash := 0.0
 var shown_hp := 1.0
 var dash: Dictionary = {}
 var leap: Dictionary = {}
 var volley: Array[Dictionary] = []
+# state of the rarer traits
+var hits_taken := 0
+var curl_until := 0.0
+var revived := false
+var concealed := false
+var invulnerable := false
+var burrow_phase := ""          # "", "up", "under"
+var burrow_left := 0.0
+var ambush_hidden_until := 0.0
+var dive_count := 0
+var route_index := 0
+var tail_broken := false
+var ramp_stacks := 0
+var ramp_clock := 0.0
+var turret_shots := 0
+var turret_off_until := 0.0
+var trail_clock := 0.0
+var web_clock := 0.0
+var split_done := false
+var split_partner: PyraMonster
+var split_orig_max := 0.0
+var split_merge_at := 0.0
+var flee_hits := 0
+var no_reward := false
 
 func setup(definition: Dictionary, at: Vector2, parent_manager: Node, index: int) -> void:
 	def = definition
@@ -64,6 +92,8 @@ func setup(definition: Dictionary, at: Vector2, parent_manager: Node, index: int
 	actor.scale = Vector2.ONE * DRAW_SCALE
 	wander_target = home
 	clock = randf() * 3.0
+	if traits().has("ambush"):
+		concealed = true
 
 func traits() -> Dictionary:
 	return def.traits
@@ -73,28 +103,72 @@ func is_marked() -> bool:
 
 # ---- the interface the kits call -------------------------------------------------------------
 
-func hurt(raw: float, _crit: bool) -> float:
-	if phase == "dead":
+## Damage from the hero: the annex model max(1, raw × multipliers − DEF/2) with the monster's weaknesses and traits.
+func hurt(raw: float, _crit: bool, tags: Array = [], _ranged: bool = false) -> float:
+	if phase == "dead" or concealed or invulnerable:
 		return 0.0
-	var amount := maxf(1.0, raw - float(def.def) * 0.5)
+	var mult := 1.0
+	var weak: Dictionary = def.weak
+	for tag in tags:
+		if weak.has(str(tag)):
+			var w := float(weak[str(tag)])
+			mult = maxf(mult, w) if w >= 1.0 else minf(mult, w)
+	if clock < sealed_until:
+		mult *= 1.0 + seal_bonus
+	var hero_at: Vector2 = manager.player_position()
+	var to_hero := (hero_at - position).normalized()
+	var rel := facing.dot(to_hero)
+	if traits().has("frontArmor") and rel > 0.5:
+		mult *= 1.0 - float(traits().frontArmor)
+	if traits().has("backBonus") and rel < -0.5:
+		mult *= 1.0 + float(traits().backBonus)
+	if traits().has("exposedBonus") and (clock < exposed_until or clock < turret_off_until or retreat_until > clock):
+		mult *= 1.0 + float(traits().exposedBonus)
+	if traits().has("burrow") and burrow_phase == "up":
+		mult *= 1.0 + float(traits().burrow.bonus)
+	if clock < curl_until and not tags.has("ki") and traits().has("curl"):
+		mult *= 1.0 - float(traits().curl.reduce)
+	if clock < reduce_until:
+		mult *= 1.0 - reduce
+	var defense := float(def.def)
+	if clock < marked_until:
+		defense *= 1.0 - mark_def
+	var amount := maxf(1.0, raw * mult - defense / 2.0)
 	if guard > 0.0:
 		var soaked := minf(guard, amount)
 		guard -= soaked
 		amount -= soaked
-	if clock < reduce_until:
-		amount *= 1.0 - reduce
-	if clock < exposed_until:
-		amount *= 1.0 + float(traits().get("exposedBonus", 0.0))
-	amount = maxf(0.0, amount)
+		if amount <= 0.0:
+			return 0.0
 	hp = maxf(0.0, hp - amount)
 	since_hit = 0.0
 	flash = 0.2
-	if not provoked:
-		provoked = true
+	provoked = true
+	hits_taken += 1
 	if phase == "idle" or phase == "return":
 		engage()
+	var indirect := tags.has("indirect")
+	if traits().has("reflect") and not tags.has("ki") and not indirect:
+		manager.hurt_player(self, amount * float(traits().reflect), "other", [])
+	if traits().has("curl") and hits_taken % int(traits().curl.hits) == 0:
+		curl_until = clock + float(traits().curl.ms) / 1000.0
+	if traits().has("fleeAfterHits") and not indirect:
+		flee_hits += 1
+		if flee_hits >= int(traits().fleeAfterHits.hits):
+			flee_hits = 0
+			retreat_until = clock + float(traits().fleeAfterHits.ms) / 1000.0
+	if traits().has("brittleTail") and hits_taken >= int(traits().brittleTail):
+		tail_broken = true
+	if not casting.is_empty() and traits().has("interrupt") and amount >= max_hp * float(traits().interrupt.pct):
+		stun(float(traits().interrupt.stun) / 1000.0)
+		manager.say("%s traci koncentrację." % label)
+	if traits().has("split") and not split_done and hp > 0.0:
+		do_split()
 	if hp <= 0.0:
-		die()
+		if traits().has("revive") and not revived:
+			begin_revive()
+		else:
+			die()
 	elif randf() < 0.12:
 		actor.play_once("hit")
 	return amount
@@ -111,11 +185,13 @@ func slow(fraction: float, seconds: float) -> void:
 	slow_pct = maxf(slow_pct, fraction)
 	slowed = maxf(slowed, seconds)
 
-func seal(seconds: float, _vulnerability: float) -> void:
+func seal(seconds: float, vulnerability: float) -> void:
 	sealed_until = clock + seconds
+	seal_bonus = vulnerability
 
-func mark(seconds: float, _crit: float, _share: float) -> void:
+func mark(seconds: float, _crit: float, share: float) -> void:
 	marked_until = clock + seconds
+	mark_def = share
 
 func push(from: Vector2, distance: float) -> void:
 	step_to(position + (position - from).normalized() * minf(distance, 60.0), 9999.0)
@@ -133,12 +209,43 @@ func engage() -> void:
 		return
 	phase = "engage"
 	provoked = true
+	if traits().has("ambush") and concealed:
+		concealed = false
+	if traits().has("burrow") and burrow_phase == "":
+		burrow_phase = "up"
+		burrow_left = float(traits().burrow.up) / 1000.0
+
+func begin_revive() -> void:
+	revived = true
+	invulnerable = true
+	hp = 1.0
+	casting = {}
+	actor.play_once("death")
+	manager.say("%s odradza się…" % label)
+	var tween := create_tween()
+	tween.tween_interval(1.8)
+	tween.tween_callback(func() -> void:
+		if phase == "dead":
+			return
+		hp = max_hp * float(traits().revive)
+		invulnerable = false
+		actor.play_once("respawn"))
 
 func die() -> void:
 	phase = "dead"
 	casting = {}
 	dash = {}
 	leap = {}
+	concealed = false
+	if traits().has("explode"):
+		var boom: Dictionary = traits().explode
+		manager.puff(position, float(boom.radius))
+		if position.distance_to(target_pos()) <= float(boom.radius):
+			manager.hurt_player(self, float(def.atk) * float(boom.atk), "area", [])
+	if traits().has("deathZone"):
+		manager.add_zone(traits().deathZone, position, float(def.atk), self)
+	if split_partner != null and is_instance_valid(split_partner):
+		split_partner.split_partner = null
 	actor.play_once("death")
 	manager.audio().monster_sound(str(def.id), "die", position.distance_to(target_pos()))
 	died.emit(self)
@@ -146,6 +253,30 @@ func die() -> void:
 	tween.tween_interval(1.4)
 	tween.tween_property(actor, "modulate:a", 0.0, 0.6)
 	tween.tween_callback(queue_free)
+
+func do_split() -> void:
+	var rule: Dictionary = traits().split
+	split_done = true
+	split_orig_max = max_hp
+	var part := maxf(1.0, roundf(max_hp * float(rule.hpPct)))
+	max_hp = part
+	hp = minf(hp, part)
+	var clone: PyraMonster = manager.spawn_clone(self, position + Vector2(34, 22), part)
+	split_partner = clone
+	clone.split_partner = self
+	split_merge_at = clock + float(rule.merge) / 1000.0
+	manager.say("%s rozdziela się!" % label)
+
+func merge_back() -> void:
+	if split_partner == null or not is_instance_valid(split_partner) or split_partner.phase == "dead":
+		split_partner = null
+		return
+	max_hp = split_orig_max
+	hp = minf(max_hp, hp + split_partner.hp)
+	manager.say("%s łączy się z powrotem." % label)
+	manager.forget(split_partner)
+	split_partner.queue_free()
+	split_partner = null
 
 func target_pos() -> Vector2:
 	return manager.player_position()
@@ -160,10 +291,12 @@ func speed_px() -> float:
 		speed *= float(below.mult)
 	if slowed > 0.0:
 		speed *= 1.0 - slow_pct
+	if traits().has("webSlow") and not manager.in_own_web(self):
+		speed *= float(traits().webSlow)
 	return BASE_SPEED * speed
 
 func can_walk(to: Vector2) -> bool:
-	if traits().get("fly", false) or traits().get("ghost", false):
+	if traits().get("fly", false) or traits().get("ghost", false) or burrow_phase == "under":
 		return not manager.in_safe_city(to)
 	return manager.walkable(to) and not manager.in_safe_city(to)
 
@@ -202,15 +335,21 @@ func _process(delta: float) -> void:
 	flash = maxf(0.0, flash - delta)
 	if burning > 0.0:
 		burning -= delta
-		hurt(burn_dps * delta, false)
+		hurt(burn_dps * delta, false, ["indirect"])
 		if phase == "dead":
 			return
 	if slowed > 0.0:
 		slowed -= delta
 		if slowed <= 0.0:
 			slow_pct = 0.0
-	if clock >= retreat_until and retreat_until > 0.0:
+	if retreat_until > 0.0 and clock >= retreat_until:
 		retreat_until = 0.0
+	if split_partner != null and split_merge_at > 0.0 and clock >= split_merge_at:
+		split_merge_at = 0.0
+		merge_back()
+	if ramp_stacks > 0 and clock - ramp_clock > 4.0:
+		ramp_stacks = 0
+	actor.visible = not concealed
 	if stunned > 0.0:
 		stunned -= delta
 		actor.animate(Vector2.ZERO)
@@ -221,8 +360,7 @@ func _process(delta: float) -> void:
 		update_cast(delta)
 	else:
 		think(delta)
-	var shown_target := hp / max_hp
-	shown_hp = lerpf(shown_hp, shown_target, minf(1.0, delta * 8.0))
+	shown_hp = lerpf(shown_hp, hp / max_hp, minf(1.0, delta * 8.0))
 	actor.sprite.modulate = Color(1.0, 0.6, 0.55) if flash > 0.0 else Color.WHITE
 	queue_redraw()
 
@@ -240,15 +378,15 @@ func run_effects(delta: float) -> void:
 			manager.hurt_player(self, float(def.atk) * float(dash.dmg), "melee", dash.get("fx", []))
 			dash.left = 0.0
 		if float(dash.left) <= 0.01:
-			if not bool(dash.hit) and float(dash.get("missStun", 0.0)) > 0.0:
-				stun(float(dash.missStun))
-				exposed_until = clock + float(dash.missStun) + 0.5
+			if not bool(dash.hit) and float(dash.missStun) > 0.0:
+				stun(float(dash.missStun) / 1000.0)
+				exposed_until = clock + float(dash.missStun) / 1000.0 + 0.5
+				exposed_pct = float(dash.exposed)
 			dash = {}
 	if not leap.is_empty():
 		leap.t = float(leap.t) + delta
 		var k: float = clampf(float(leap.t) / float(leap.duration), 0.0, 1.0)
-		var next_leap: Vector2 = (leap.from as Vector2).lerp(leap.to, k)
-		position = next_leap
+		position = (leap.from as Vector2).lerp(leap.to, k)
 		actor.position.y = -sin(k * PI) * 46.0
 		if k >= 1.0:
 			actor.position.y = 0.0
@@ -263,6 +401,17 @@ func run_effects(delta: float) -> void:
 			var shot: Dictionary = volley[i]
 			volley.remove_at(i)
 			fire(float(shot.dmg), shot.get("fx", []))
+	if phase == "engage" and not concealed:
+		if traits().has("trail"):
+			trail_clock -= delta
+			if trail_clock <= 0.0:
+				trail_clock = 0.45
+				manager.add_zone(traits().trail, position, float(def.atk), self)
+		if traits().has("webs"):
+			web_clock -= delta
+			if web_clock <= 0.0:
+				web_clock = 6.0
+				manager.lay_web(self, traits().webs)
 
 func think(delta: float) -> void:
 	if not leap.is_empty() or not dash.is_empty():
@@ -270,10 +419,19 @@ func think(delta: float) -> void:
 	var player := target_pos()
 	var distance := position.distance_to(player)
 	var leash := float(traits().get("leash", 400))
+	if burrow_phase != "" and tick_burrow(delta, player):
+		return
 	match phase:
 		"idle":
+			if traits().has("ambush"):
+				concealed = true
+				if clock >= ambush_hidden_until and distance <= float(traits().ambush.reveal) and not player_safe() and not manager.player_dead():
+					engage()
+				return
 			if traits().get("still", false):
 				actor.animate(Vector2.ZERO)
+			elif traits().has("route"):
+				follow_route(delta)
 			else:
 				wander(delta)
 			if can_aggro(distance):
@@ -301,12 +459,48 @@ func think(delta: float) -> void:
 				shown_hp = 1.0
 				guard = 0.0
 				used.clear()
+				if traits().has("ambush"):
+					concealed = true
 				return
 			var back := home - position
 			step_to(home, speed_px() * 1.4 * delta)
 			actor.animate(back)
 			if hp < max_hp:
 				hp = minf(max_hp, hp + max_hp * 0.15 * delta)
+
+## Burrowers: surfaced for `up` ms (vulnerable), then underground for `under` ms (untouchable, travelling to the hero), then
+## up again next to the hero. Returns true while the monster is underground (no other behaviour then).
+func tick_burrow(delta: float, player: Vector2) -> bool:
+	if phase != "engage":
+		return false
+	var rule: Dictionary = traits().burrow
+	burrow_left -= delta
+	if burrow_phase == "up" and burrow_left <= 0.0:
+		burrow_phase = "under"
+		burrow_left = float(rule.under) / 1000.0
+		concealed = true
+		invulnerable = true
+		casting = {}
+	elif burrow_phase == "under":
+		step_to(player, speed_px() * 2.2 * delta)
+		if burrow_left <= 0.0:
+			burrow_phase = "up"
+			burrow_left = float(rule.up) / 1000.0
+			concealed = false
+			invulnerable = false
+			position = player + Vector2.from_angle(randf() * TAU) * 70.0
+			actor.play_once("respawn")
+		return burrow_phase == "under"
+	return false
+
+func follow_route(delta: float) -> void:
+	var route: Array = traits().route
+	var point := home + Vector2(float(route[route_index][0]), float(route[route_index][1]))
+	if position.distance_to(point) < 14.0:
+		route_index = (route_index + 1) % route.size()
+		return
+	step_to(point, speed_px() * 0.5 * delta)
+	actor.animate(point - position)
 
 func giving_up() -> bool:
 	var t := traits()
@@ -340,10 +534,13 @@ func wander(delta: float) -> void:
 	actor.animate(toward)
 
 func fight(distance: float, delta: float, player: Vector2) -> void:
+	var turret: Variant = traits().get("turret", null)
+	if turret != null:
+		fight_turret(turret, distance, delta, player)
+		return
 	face_toward(player)
 	var reach := float(def.range)
 	var keep := float(traits().get("keep", 0.0))
-	# a skill first
 	var skill := pick_skill(distance)
 	if not skill.is_empty():
 		begin_cast(skill, player)
@@ -353,8 +550,8 @@ func fight(distance: float, delta: float, player: Vector2) -> void:
 		step_to(position + away * 60.0, speed_px() * delta)
 		actor.animate(-away)
 		return
-	var ready_basic := String(def.basic) != "none"
-	if ready_basic and distance <= reach and clock >= attack_ready:
+	var can_basic := String(def.basic) != "none"
+	if can_basic and distance <= reach and clock >= attack_ready:
 		basic_attack(player)
 		return
 	var want := reach * 0.85 if String(def.basic) == "melee" else maxf(reach * 0.9, keep)
@@ -367,7 +564,35 @@ func fight(distance: float, delta: float, player: Vector2) -> void:
 	else:
 		actor.animate(Vector2.ZERO)
 
+## Turrets never move: they turn towards the hero, fire only when aimed within their arc, overheat after a number of shots and
+## stay open (extra damage taken) while switched off.
+func fight_turret(turret: Dictionary, distance: float, delta: float, player: Vector2) -> void:
+	actor.animate(Vector2.ZERO)
+	if clock < turret_off_until:
+		return
+	var want_angle := (player - position).angle()
+	var turn := deg_to_rad(float(turret.turn)) * delta
+	var diff := wrapf(want_angle - facing.angle(), -PI, PI)
+	facing = Vector2.from_angle(facing.angle() + clampf(diff, -turn, turn))
+	actor.face(facing)
+	if absf(diff) > deg_to_rad(20.0):
+		return
+	for s: Dictionary in def.skills:
+		if clock >= float(cooldowns.get(str(s.id), 0.0)) and distance <= float(s.range):
+			cooldowns[str(s.id)] = clock + float(s.cd) / 1000.0
+			actor.play_once("attack")
+			var count := maxi(1, int(s.get("volley", 1)))
+			for i in count:
+				volley.append({"wait": 0.12 * i, "dmg": float(s.get("dmg", 1.0)), "fx": s.get("fx", [])})
+			turret_shots += count
+			if turret_shots >= int(turret.shots):
+				turret_shots = 0
+				turret_off_until = clock + float(turret.off) / 1000.0
+				manager.say("%s się przegrzewa." % label)
+			return
+
 func pick_skill(distance: float) -> Dictionary:
+	var wounded_ally: bool = traits().has("medic") and manager.hurt_ally_near(self, float(traits().medic) + 120.0)
 	for s: Dictionary in def.skills:
 		var id := str(s.id)
 		if clock < float(cooldowns.get(id, 0.0)):
@@ -376,14 +601,20 @@ func pick_skill(distance: float) -> Dictionary:
 			continue
 		if s.has("below") and hp / max_hp >= float(s.below):
 			continue
+		if tail_broken and str(s.mode) == "melee" and traits().has("brittleTail"):
+			continue
 		if str(s.mode) == "self":
 			if s.has("call") and distance < 600.0 and not used.has(id):
 				return s
-			if s.has("heal") or s.has("buff") or s.has("guard") or s.has("reduce"):
+			if s.has("summon") and distance < 700.0:
+				return s
+			if s.has("heal"):
+				if wounded_ally or hp < max_hp * 0.8:
+					return s
+				continue
+			if s.has("buff") or s.has("guard") or s.has("reduce") or s.has("nextAttack"):
 				if distance <= float(s.get("range", 400)) + 200.0:
 					return s
-			continue
-		if s.has("summon") or s.has("zone") and not s.has("dmg"):
 			continue
 		if distance <= float(s.range):
 			return s
@@ -394,12 +625,12 @@ func begin_cast(skill: Dictionary, player: Vector2) -> void:
 	cooldowns[id] = clock + float(skill.cd) / 1000.0
 	if bool(skill.get("once", false)):
 		used[id] = true
-	var warn := float(skill.get("telegraph", 0.0))
+	var warn := float(skill.get("telegraph", 0.0)) / 1000.0
 	var mode := str(skill.mode)
 	if warn <= 0.0:
 		warn = 0.35 if mode != "self" else 0.2
 	var at := position if bool(skill.get("centred", false)) else player
-	casting = {"skill": skill, "left": warn, "at": at, "from": position, "player": player}
+	casting = {"skill": skill, "left": warn, "total": warn, "at": at, "from": position, "player": player}
 	manager.audio().monster_sound(str(def.id), "atk", position.distance_to(player))
 	actor.play_once("skill" if mode != "melee" else "attack")
 
@@ -412,15 +643,29 @@ func update_cast(delta: float) -> void:
 	var at: Vector2 = casting.at
 	casting = {}
 	resolve(skill, at)
+	count_dive()
+
+## Divers strike a few times and fly away for a while.
+func count_dive() -> void:
+	if traits().has("dive"):
+		dive_count += 1
+		if dive_count >= int(traits().dive.attacks):
+			dive_count = 0
+			retreat_until = clock + float(traits().dive.away) / 1000.0
+	if traits().has("ambush") and phase == "engage" and not concealed:
+		concealed = true
+		phase = "return"
+		ambush_hidden_until = clock + float(traits().ambush.hide) / 1000.0
 
 func resolve(skill: Dictionary, at: Vector2) -> void:
 	var mult := float(skill.get("dmg", 1.0))
 	var fx: Array = skill.get("fx", [])
 	var player := target_pos()
+	var opener := float(skill.get("opener", 1.0))
 	match str(skill.mode):
 		"melee":
 			if position.distance_to(player) <= float(skill.range) + 50.0:
-				manager.hurt_player(self, float(def.atk) * mult * damage_scale(), "melee", fx)
+				manager.hurt_player(self, float(def.atk) * mult * damage_scale() * opener, "melee", fx)
 		"ranged":
 			var shots := maxi(1, int(skill.get("volley", 1)))
 			for i in shots:
@@ -428,8 +673,12 @@ func resolve(skill: Dictionary, at: Vector2) -> void:
 		"burst":
 			var radius := float(skill.get("radius", 120.0))
 			manager.puff(at, radius)
-			if player.distance_to(at) <= radius:
+			if mult > 0.0 and player.distance_to(at) <= radius:
 				manager.hurt_player(self, float(def.atk) * mult * damage_scale(), "area", fx)
+			elif mult <= 0.0 and player.distance_to(at) <= radius and not fx.is_empty():
+				manager.apply_effects(fx, self)
+			if skill.has("zone"):
+				manager.add_zone(skill.zone, at, float(def.atk), self)
 		"leap":
 			var landing := at
 			if not can_walk(landing):
@@ -437,7 +686,7 @@ func resolve(skill: Dictionary, at: Vector2) -> void:
 			leap = {"from": position, "to": landing, "t": 0.0, "duration": 0.38, "radius": float(skill.get("radius", 95.0)), "dmg": mult * damage_scale(), "fx": fx}
 		"charge":
 			var direction := (at - position).normalized()
-			dash = {"dir": direction, "speed": 620.0, "left": float(skill.range) + 120.0, "dmg": mult * damage_scale(), "fx": fx, "hit": false, "missStun": float(skill.get("missStun", 0.0))}
+			dash = {"dir": direction, "speed": 620.0, "left": float(skill.range) + 120.0, "dmg": mult * damage_scale(), "fx": fx, "hit": false, "missStun": float(skill.get("missStun", 0.0)), "exposed": float(skill.get("exposed", 0.0))}
 		"self":
 			if skill.has("call"):
 				manager.call_allies(self, 600.0, int(skill.call))
@@ -447,35 +696,47 @@ func resolve(skill: Dictionary, at: Vector2) -> void:
 				reduce = float(skill.reduce.pct)
 				reduce_until = clock + float(skill.reduce.ms) / 1000.0
 			if skill.has("heal"):
-				manager.heal_allies(self, float(skill.get("range", 300)), float(skill.heal.pct) * 0.5)
-	if skill.has("opener") and false:
-		pass
+				manager.heal_allies(self, float(skill.get("range", 300)), float(skill.heal.pct))
+			if skill.has("summon"):
+				manager.summon(self, str(skill.summon.kind), int(skill.summon.count))
+			if skill.has("nextAttack"):
+				ramp_stacks = mini(4, ramp_stacks + 1)
+				ramp_clock = clock
 
 func damage_scale() -> float:
 	var rage: Variant = traits().get("rage", null)
-	if rage == null:
-		return 1.0
-	var ratio := hp / max_hp
-	return 1.0 + float(rage.dmg) * clampf((0.7 - ratio) / 0.4, 0.0, 1.0)
+	var scale := 1.0
+	if rage != null:
+		scale += float(rage.dmg) * clampf((0.7 - hp / max_hp) / 0.4, 0.0, 1.0)
+	if traits().has("ramp"):
+		scale += float(traits().ramp) * ramp_stacks
+	return scale
 
 func basic_attack(player: Vector2) -> void:
 	var interval := float(def.attackCd) / 1000.0
 	var rage: Variant = traits().get("rage", null)
 	if rage != null and hp / max_hp < float(rage.below):
-		interval /= float(rage.speed)
+		interval /= 1.0 + float(rage.speed)
 	attack_ready = clock + interval
 	actor.play_once("attack")
 	manager.audio().monster_sound(str(def.id), "atk", position.distance_to(player))
+	var scale := damage_scale()
+	if traits().has("ramp"):
+		ramp_stacks = mini(4, ramp_stacks + 1)
+		ramp_clock = clock
 	if String(def.basic) == "ranged":
 		var tween := create_tween()
 		tween.tween_interval(0.25)
-		tween.tween_callback(func() -> void: if phase != "dead": fire(1.0 * damage_scale(), def.get("basicFx", [])))
+		tween.tween_callback(func() -> void:
+			if phase != "dead" and stunned <= 0.0:
+				fire(scale, def.get("basicFx", [])))
 	else:
 		var tween2 := create_tween()
 		tween2.tween_interval(0.25)
 		tween2.tween_callback(func() -> void:
 			if phase != "dead" and stunned <= 0.0 and position.distance_to(target_pos()) <= float(def.range) + 40.0:
-				manager.hurt_player(self, float(def.atk) * damage_scale(), "melee", def.get("basicFx", [])))
+				manager.hurt_player(self, float(def.atk) * scale, "melee", def.get("basicFx", [])))
+	count_dive()
 
 func fire(mult: float, fx: Array) -> void:
 	manager.shoot(self, position + Vector2(0, -float(def.actor.size[1]) * 0.4), target_pos(), float(def.atk) * mult, fx)
@@ -483,7 +744,7 @@ func fire(mult: float, fx: Array) -> void:
 # ---- drawing: health bar, name, telegraphs ---------------------------------------------------
 
 func _draw() -> void:
-	if phase == "dead":
+	if phase == "dead" or concealed:
 		return
 	var top := -float(def.actor.size[1]) * 0.95 * DRAW_SCALE - 8.0
 	if shown_hp < 0.999 or phase == "engage":
@@ -497,10 +758,12 @@ func _draw() -> void:
 	var w := font.get_string_size(tag, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
 	draw_string_outline(font, Vector2(-w / 2.0, top - 6.0), tag, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 5, Color(0.05, 0.02, 0.02, 0.95))
 	draw_string(font, Vector2(-w / 2.0, top - 6.0), tag, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("ffd9c8"))
+	if clock < curl_until:
+		draw_arc(Vector2(0, -20), 38.0, 0, TAU, 28, Color(0.7, 0.8, 1.0, 0.8), 3.0, true)
 	if not casting.is_empty():
 		var skill: Dictionary = casting.skill
 		var mode := str(skill.mode)
-		var warn := maxf(0.05, float(skill.get("telegraph", 0.35)))
+		var warn := maxf(0.05, float(casting.total))
 		var k := 1.0 - clampf(float(casting.left) / warn, 0.0, 1.0)
 		var at: Vector2 = to_local(casting.at)
 		if mode == "burst" or mode == "leap":

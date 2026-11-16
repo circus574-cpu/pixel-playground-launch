@@ -10,6 +10,14 @@ signal effect(kind: String, at: Vector2, radius: float, ability: String)
 signal damage_dealt(foe: Node, amount: int, crit: bool)
 signal changed
 
+## Damage classes of the hero's attacks (the `tags` of the browser kits' strikes); monsters' weaknesses refer to them.
+const TAGS := {
+	"legend": {"default": ["physical", "fire"], "B1": ["physical", "stun"], "C1": ["area", "fire"], "C4": ["area", "fire"], "C9": ["area", "fire"]},
+	"planetary": {"default": ["physical"], "B1": ["area", "physical"], "B4": ["area", "physical", "stun"], "A9": ["physical", "area"]},
+	"sage": {"default": ["ki"], "A9": ["area", "ki"]},
+	"android": {"default": ["electric"], "B4": ["area", "electric", "stun"], "C1": ["area", "electric"]},
+}
+const RANGED_RACES := ["sage", "android"]
 const CRIT_MULT := 1.5
 const BASE_HP_REGEN := 0.003   # per second out of combat, as in the browser game
 const MAX_MOVE_SPEED := 1200.0
@@ -419,7 +427,7 @@ func tick(delta: float) -> void:
 		if dps > 0.0 or slow > 0.0:
 			for f in foes_in.call(Vector2(float(c.x), float(c.y)), float(c.radius)):
 				if dps > 0.0:
-					f.hurt(float(s.attack) * dps * delta, false)
+					f.hurt(float(s.attack) * dps * delta, false, ["indirect"])
 				if slow > 0.0 and f.has_method("slow"):
 					f.slow(slow, 0.5)
 	if not channel.is_empty():
@@ -470,7 +478,9 @@ func strike(foe: Node, mult: float, extra: float = 0.0, force_crit: bool = false
 	var crit := force_crit or randf() * 100.0 < float(s.crit) + crit_vs(foe)
 	if crit:
 		raw *= CRIT_MULT
-	var dealt: float = foe.hurt(raw, crit)
+	var tag_table: Dictionary = TAGS.get(race, {"default": ["physical"]})
+	var tags: Array = tag_table.get(ability, tag_table.default)
+	var dealt: float = foe.hurt(raw, crit, tags, race in RANGED_RACES)
 	in_combat_until = now + 5.0
 	damage_dealt.emit(foe, int(round(dealt)), crit)
 	after_strike(foe, dealt, indirect)

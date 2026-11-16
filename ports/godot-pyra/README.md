@@ -1,11 +1,14 @@
 # KI Legends Android — projekt Godot 4
 
 Dokumentacja natywnej aplikacji **KI Legends na Androida** (Godot 4.6.3, GDScript, renderer Compatibility),
-stan 15.11.2026, wersja **0.7.0-bestiary**. Gałąź `ccr-ebbd6459-n7c5eg`, kontynuacja
+stan 16.11.2026. Kod w repozytorium to **pełna gra poza bossami, dungeonami i wydarzeniami świata** (sekcja 1); ostatni zbudowany APK
+(`0.7.0-bestiary`, sekcja 2) jest starszy niż kod: **nie ma w nim questów, dźwięku, zasad ekwipunku ani rzadkich cech
+potworów**. Zgodnie z decyzją właściciela APK końcowy powstaje dopiero po przeniesieniu całości, w pełnej jakości grafiki.
+Gałąź `ccr-ebbd6459-n7c5eg`, kontynuacja
 [PR #170](https://github.com/circus574-cpu/pixel-playground-launch/pull/170) (`feat/godot-pyra-android-20261115`).
 
 Aplikacja nie wymaga React, Phasera ani serwera gry. Obecna gra WWW pozostaje osobnym produktem; zapisy WWW i konta
-nie są czytane. **Bez potworów i bez spawnów** (decyzja właściciela na ten etap).
+nie są czytane. Miasta są bezpieczne (brak przeciwników); wieloosobowość nie istnieje i niczego takiego nie obiecujemy.
 
 ## 1. Co działa
 
@@ -16,16 +19,39 @@ nie są czytane. **Bez potworów i bez spawnów** (decyzja właściciela na ten 
 | Ruch i dotyk | Joystick 360°, ATAK, 4 sloty zdolności, UNIK, kontekstowe E; niezależne palce; klawiatura: WASD, Spacja, 1–4, Shift, E, M, C |
 | Miasta i wnętrza | Cztery miasta na każdym kontynencie (np. Twierdza Popiołu, Zielona Przystań, Sanktuarium Tysiąca Źródeł, Węzeł Świadomości) po 6 usług (Sala, sklep, arena, depozyt, kuźnia, gospoda) = 24 wejścia na kontynent, a na każdej wyspie przystań z 6 usługami; wnętrza i mieszkańcy w stylu świata (Pyra, Verdantia, Aetheria, Nexus-9), przewodnicy i miejsca na szlakach |
 | Mapa i podróże | Globus **3D**, atlas **2D** i mapa szczegółowa bieżącej krainy (z miastami, miejscami i znacznikiem gracza); dotknięcie regionu pokazuje opis, a przycisk **PODRÓŻ** przenosi do miejsca przybycia (osada lub brzeg) w dowolnej z 10 krain. Atlas i globus wybierają region z tych samych obrysów |
-| Potwory | **40 potworów bestiariusza** na opublikowanych rejestrach spawnów 10 krain (8 752 miejsc, maks. 24 aktywnych): błądzą, atakują, gonią, używają umiejętności z ostrzeżeniem, nakładają statusy; zabicie daje XP (poziomy 1–20), monety, łup i 2 % słabego przedmiotu; śmierć = powrót do stolicy krainy; miasta są bezpieczne. Rzadkie cechy (strefy, przywołania, zakopywanie…) niezaimplementowane — zob. dziennik 16.11, pkt 2 |
-| Questy | **102 grywalne zadania** (główne, poboczne, ukryte, międzykontynentalne): przyjmowanie u NPC (!), cele rozmowy/walki/odkrycia/odwiedzin/dostawy, nagrody, odkrywanie sławnych i ukrytych miejsc, tracker w HUD, dziennik w MENU, zapis |
-| Walka | Wszystkie zdolności czterech ras działają na potworach i na manekinie areny (nie oddaje ciosów) |
-| Miasto na gotowo | Monety, plecak (40 stosów), 8 slotów wyposażenia z wpływem na statystyki, **sklep** (85 słabych przedmiotów, cena 4×, skup za połowę), **kuźnia** (receptury kuźni, alchemii i run z katalogu 265), **depozyt** (przedmioty i monety), **gospoda** (5 monet), mikstura (40 % HP, 6 s) — we wszystkich czterech światach |
-| HUD | Medalion z portretem rasy i pierścieniem XP, ozdobne paski HP/KI/zasób, buffy z licznikami, monety, baner lokacji, ramka celu, okrągła minimapa z mapy krainy, okrągłe przyciski menu, tracker zadań (pusty do czasu questów), pasek XP, szybki slot mikstury, ikony zdolności; rysunek w pamięci podręcznej (odświeżany tylko przy zmianie); MENU → FPS I DIAGNOSTYKA |
+| Potwory | **41 definicji** (40 potworów bestiariusza + osa-pomocnik przywoływana przez Osę Bursztynową) na opublikowanych rejestrach spawnów 10 krain (8 752 miejsc, maks. 24 aktywnych): błądzą (lub patrolują trasę), atakują, gonią, używają umiejętności z ostrzeżeniem na ziemi, nakładają statusy; zabicie daje XP (poziomy 1–20), monety, łup i 2 % słabego przedmiotu; śmierć = powrót do stolicy krainy; miasta są bezpieczne. **Rzadkie cechy zaimplementowane** (sekcja 1a). Słabości na klasy obrażeń zdolności (ogień, ki, elektryczność, woda, ogłuszenie, obszar, fizyczne) |
+| Questy | **102 grywalne zadania z 106** (główne, poboczne, ukryte, międzykontynentalne): przyjmowanie u NPC (!, ? nad głową), cele rozmowy/walki/odkrycia/odwiedzin/dostawy, nagrody (XP, monety, przedmiot, reputacja), odkrywanie 16 sławnych i 17 ukrytych miejsc, tracker w HUD, dziennik w MENU, zapis; **28 postaci ma autorskie dialogi** (powitania, plotki, kwestie zależne od stanu zadania) |
+| Walka | Wszystkie zdolności czterech ras działają na potworach i na manekinie areny (nie oddaje ciosów); każda zdolność niesie klasy obrażeń (`TAGS` w `race_kit.gd`) liczone ze słabościami potwora; unik daje nietykalność na czas animacji |
+| Dźwięk | Muzyka właściciela (5 pętli: ekran startowy i cztery kontynenty, crossfade), tło miasta i światów, 271 efektów ElevenLabs (trafienia, zdolności czterech ras, potwory, statusy, interfejs, drzwi, łup), kroki według podłoża; głośność w MENU (muzyka 30 %, efekty 60 %) |
+| Miasto na gotowo | Monety, plecak (40 stosów), 8 slotów wyposażenia z wpływem na statystyki, **sklep** (85 słabych przedmiotów, cena 4×, skup za połowę), **kuźnia i pięć stacji craftingu** (kuźnia, alchemia, runy, fabrykator Nexusa, Księgi — receptury z katalogu 265), **ulepszanie u kowala** (broń do +3: +2 ATK za poziom; elementy pancerza do +2: +1 DEF), **bonusy pasywne i zestawowe** z globalnymi limitami V2, **depozyt** (przedmioty i monety), **gospoda** (5 monet), mikstura (leczy `hpBonus`, domyślnie 50 HP) — we wszystkich czterech światach |
+| HUD | Medalion z portretem rasy i pierścieniem XP, ozdobne paski HP/KI/zasób, buffy z licznikami, monety, baner lokacji, ramka celu, okrągła minimapa z mapy krainy, okrągłe przyciski menu, tracker zadań (do trzech aktywnych zadań), pasek XP, szybki slot mikstury, ikony zdolności; rysunek w pamięci podręcznej (odświeżany tylko przy zmianie); MENU → FPS I DIAGNOSTYKA |
 | Płynność | Podłoże wypalane do tekstur 512 j., strumieniowanie scenerii w porcjach na wątkach, prefetch wnętrz, symulacja na klatkę (bez skoków na ekranach 90/120 Hz) |
-| Zapis | Checkpoint v2 (kraina, rasa, pozycja, wnętrze, poziom, drzewko, sloty, ekonomia); import checkpointu v1; ochrona nieznanego formatu |
+| Zapis | Checkpoint v2 (kraina, rasa, pozycja, wnętrze, poziom, drzewko, sloty, ekonomia z ulepszeniami, dziennik zadań); import checkpointu v1; stary zapis bez zadań wczytuje się z pustym dziennikiem; ochrona nieznanego formatu |
 | Start i ikona | **Wstęp: ilustracja właściciela** (cała, bez zniekształceń), przycisk ZACZNIJ PRZYGODĘ, na dole „Powered by GODOT ENGINE” z oficjalnym logo; boot splash z tą samą ilustracją; ikony Android; licencje silnika w menu |
 
-**Poza zakresem (nie przeniesione):** bossowie, dungeony, wydarzenia świata, receptury stacji Nexusa i Księgi, ulepszanie sprzętu, bonusy zestawów i pasywnych artefaktów, audio, konta i synchronizacja, efekty otoczenia (dym/para/żar), życie mieszkańców (stoją w miejscu), dzień i noc. Obecność sklepu czy skrzyni w tekście nie oznacza wdrożenia usługi.
+**Poza zakresem (nie przeniesione, nie ma ich w kodzie ani w grze):** bossowie (są tylko w podglądzie przeglądarki, nie stoją na mapie), dungeony (wnętrza lochów), wydarzenia świata (14 w `ALL_WORLD_EVENTS_V2`; w przeglądarce też nigdy się nie uruchamiają), konta i synchronizacja, efekty otoczenia (dym/para/żar), życie mieszkańców (stoją w miejscu), widoczna zmiana dnia i nocy (jest tylko zegar, który steruje cechą `night` potworów). Obecność sklepu czy skrzyni w tekście nie oznacza wdrożenia usługi.
+
+### 1a. Zasady potworów (`scripts/monster.gd`, `scripts/monster_manager.gd`)
+
+Dane (`data/monsters.json`) pochodzą z bestiariusza; port nie zmienia balansu. Szkic modelu obrażeń bohatera na potworze:
+`max(1, surowe × mnożniki − DEF/2)`, gdzie mnożniki to słabość klasy obrażeń zdolności (`weak`: największa z pasujących, wartość
+< 1 oznacza odporność), pieczęć, pancerz z przodu (`frontArmor`) i bonus z tyłu (`backBonus`) liczone względem kierunku, w którym
+potwór patrzy na bohatera, bonusy odsłonięcia (`exposedBonus`: po chybionej szarży, przegrzana wieżyczka, odwrót nurkującego),
+wynurzony zakopywacz (`burrow.bonus`), zwinięcie (`curl`, nie dotyczy ki), redukcja z umiejętności; tarcza (`guard`) pochłania
+obrażenia przed HP.
+
+| Cecha | Działanie w porcie |
+| --- | --- |
+| `still`, `fly`, `ghost`, `keep`, `flank`, `leash`, `wander`, `route` | stoi / lata (omija maskę marszu) / przenika / trzyma dystans / okrąża / uwiąź na gnieździe / promień błądzenia / patrol po punktach |
+| `provoked` + `giveUp`, `opportunist`, `night`, `retreat`, `rage`, `slowBelow`, `ramp` | atakuje dopiero po trafieniu i odpuszcza po czasie / tylko gdy HP bohatera poniżej progu / w dzień zmniejszony zasięg wykrycia (zegar dnia 480 s, noc od 300 s licząc od wejścia do krainy) / odwrót poniżej progu HP / szał (obrażenia i tempo) / spowolnienie przy niskim HP / narastanie obrażeń z kolejnymi atakami |
+| `pack` | wilki i nietoperze budzą się w watahach (2–3 sztuki wokół miejsca spawnu; członkowie bez własnego miejsca respawnu) |
+| `explode`, `deathZone`, `trail`, `webs` + `webSlow` | wybuch przy śmierci / strefa po śmierci / ślad pod stopami / pajęczyny w promieniu gniazda (maks. 3, 120 s); pająk poza własną siecią jest wolniejszy |
+| Strefy (`zone` w umiejętnościach, ślady, sieci, chmury) | kolorowy krąg na ziemi; co 0,5 s zadaje ułamek ATK właściciela i nakłada statusy (np. spowolnienie sieci) |
+| `burrow`, `ambush`, `dive`, `fleeAfterHits`, `curl`, `reflect`, `interrupt`, `brittleTail` | zakopywanie (nietykalny pod ziemią, wynurza się przy bohaterze) / zasadzka (ukryty do podejścia, cios z mnożnikiem `opener`, potem chowa się) / nurkowanie po serii ataków / ucieczka po liczbie trafień / zwijanie co kilka trafień / odbicie części obrażeń nie-ki / ogłuszenie przy dużym trafieniu w trakcie rzucania / po liczbie trafień traci ogon (bez ataków wręcz) |
+| `split`, `revive`, `medic`, `turret`, `summon` | rozdzielenie na dwie części o 40 % HP (klon bez nagrody, łączą się po czasie) / odrodzenie z częścią HP (raz) / leczy rannych sojuszników / wieżyczka obraca się, strzela salwami, przegrzewa się i jest wtedy podatna / przywołuje pomocników bez własnego miejsca spawnu |
+
+Statusy nakładane na bohatera: spowolnienie, unieruchomienie/ogłuszenie/strach (blokada ruchu), wyciszenie, DoT, osłabienie,
+obniżony pancerz, oznaczenie, ślepota/mgła, zdjęcie tarczy, przyciągnięcie. Nietykalny bohater (unik) nie otrzymuje obrażeń ani statusów.
 
 ## 2. Instalacja gotowego APK
 
@@ -41,7 +67,8 @@ bez limitu 100 MiB zwykłego pliku), SHA-256 `e93777fbfea71a32eee01c12051c624821
 adb install -r deliveries/godot-pyra-android-20261116-bestiary-hq/ki-legends-godot-debug.apk
 ```
 
-Pakiet `pl.kilegends.godot.pyra`, wersja `0.7.0-bestiary`, kod 7, min SDK 24 / target 36, `USER_LANDSCAPE`, OpenGL ES 3.
+To APK **nie zawiera** questów, dźwięku, zasad ekwipunku z limitami, ulepszeń kowala ani rzadkich cech potworów — powstały po jego
+zbudowaniu. Pakiet `pl.kilegends.godot.pyra`, wersja `0.7.0-bestiary`, kod 7, min SDK 24 / target 36, `USER_LANDSCAPE`, OpenGL ES 3.
 Brak uprawnień internetu i pamięci zewnętrznej. To debug APK, nie wydanie Google Play.
 **Instalacja, płynność i pamięć na fizycznym Androidzie są niezweryfikowane** (brak urządzenia w tej sesji).
 
@@ -75,8 +102,9 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | --- | --- |
 | `scripts/continent.gd`, `assets/continent/terrain.gdshader` | Dowolna kraina z `data/lands/<id>/`: shader terenu (4 biomy, ląd/morze, brzeg, lawa/kryształ, dwie nakładki, drogi z maski 16 j. i klasy materiału, dziedzińce miast; lustrzane kafle bez szwów) wypalany do tekstur kwadratów 512 j., strumieniowanie obiektów po chunkach 2048 j. w porcjach czasowych z ładowaniem tekstur na wątkach, maska kolizji |
 | `scripts/cached_layer.gd`, `scripts/hud.gd`, `scripts/touch_controls.gd` | HUD i przyciski dotykowe rysowane do przezroczystego SubViewport w rozdzielczości urządzenia, odświeżane tylko po zmianie stanu (2 quady w spoczynku) |
-| `scripts/quest_engine.gd` | Silnik questów (port `src/game/quests`): stan, cele, nagrody, znaczniki NPC, tracker, zapis |
-| `scripts/monster.gd`, `scripts/monster_manager.gd` | Potwór (AI, atak, umiejętności, statusy) i zarządca spawnów krainy (budzenie, usypianie, respawn, pociski, nagrody) |
+| `scripts/quest_engine.gd` | Silnik questów (port `src/game/quests`): stan, cele, nagrody, znaczniki NPC, rozmowy, tracker, zapis |
+| `scripts/audio.gd` | Muzyka (crossfade), tła, efekty (pula 14 odtwarzaczy, minimalne odstępy), kroki, głośności w `user://audio.json` |
+| `scripts/monster.gd`, `scripts/monster_manager.gd` | Potwór (AI, atak, umiejętności, statusy, wszystkie rzadkie cechy z sekcji 1a) i zarządca spawnów krainy (budzenie, usypianie, respawn, pociski, strefy, pajęczyny, przywołania, klony, zegar dnia i nocy, nagrody). Zarządca żyje przez całą grę; zwolnienie go w trakcie rozgrywki wywala silnik, dlatego `setup` tylko go resetuje |
 | `scripts/map_style.gd` | Wspólny styl map i globusa: plakietki Cinzel, znaczniki rodzajów miejsc, kompas, winieta, ramka |
 | `scripts/city_game.gd` | Scena gry (`PyraGame`): wczytanie krainy (`enter_land`), miasta, wnętrza, interakcje, walka na manekinie, ekrany, podróże (`travel_to`), nowa postać (`start_new_character`), zapis |
 | `scripts/player.gd` | Ruch kinematyczny po masce marszu (kraina) lub prostokątach (wnętrza); bez ciał fizycznych |
@@ -87,14 +115,16 @@ godot --path ports/godot-pyra            # opcja `-- --fresh` pomija odczyt chec
 | `scripts/touch_controls.gd`, `scripts/hud.gd` | Joystick, przyciski, paski HP/KI/zasób rasy, dialogi, bezpieczne marginesy ekranu |
 | `scripts/map_screen.gd`, `globe_view.gd`, `atlas_view.gd`, `continent_map_view.gd`, `map_math.gd` | Mapa: globus 3D, atlas 2D, mapa bieżącej krainy, przycisk PODRÓŻ; wspólna geometria i obrysy |
 | `scripts/character_screen.gd` | Ekran POSTAĆ: statystyki ze źródłami, **drzewko rasy z ilustrowanymi ikonami** (`assets/icons/skills/<rasa>/`), sloty, poziom próbny |
-| `scripts/economy.gd`, `scripts/items_screen.gd` | Monety, plecak, wyposażenie, sklep, depozyt, gospoda, kuźnia; jeden ekran usług i plecaka |
+| `scripts/economy.gd`, `scripts/items_screen.gd` | Monety, plecak, wyposażenie (bonusy pasywne, zestawy, limity V2), sklep, depozyt, gospoda, pięć stacji craftingu, ulepszanie u kowala; jeden ekran usług i plecaka (6 zakładek kuźni) |
 | `scripts/markers.gd` | Złote koła na ziemi przy wejściach |
 | `data/lands/<id>/` | `land.json` (rozmiary, miejsce przybycia, osady i usługi, NPC, miejsca, tekstury, chunki, domy stolicy Pyry), `objects.bin` (rozmieszczenie), `walk.bin` (maska marszu 16 j.) — dla 10 krain |
 | `assets/lands/<id>/` | Siatki biomów i lądu, maska i klasy dróg, kafle terenu, mapa szczegółowa |
 | `data/races/<rasa>.json`, `data/actors.json`, `data/rooms.json` | Aneks i drzewko rasy z opisem, arkusze bohaterów i NPC czterech światów, wnętrza usług czterech światów |
 | `data/hero.json`, `data/map.json`, `data/economy.json`, `data/world-provenance.json` | Klipy bohatera Legendy, regiony i komórki mapy (10 krain), katalog 366 przedmiotów i 265 receptur, SHA źródeł i wyników |
 | `data/city.generated.json` | Stolica Pyry z pierwszej próby (układ, podłoga, pokoje) — nie edytować ręcznie |
-| `tests/smoke.gd` | 340 kontroli w prawdziwym silniku |
+| `data/monsters.json`, `data/quests.json`, `data/lands/<id>/spawns.json` | Bestiariusz (statystyki, umiejętności, cechy, łup, klatki), katalog zadań z dialogami i miejscami, rejestr spawnów krainy |
+| `assets/audio/` | Muzyka (`music/`) i efekty (`sfx/`) skopiowane bez zmian (24 MB) |
+| `tests/smoke.gd` | 364 kontrole w prawdziwym silniku |
 
 **Układ współrzędnych:** gra używa współrzędnych świata Superior (jak WWW). Układ stolicy z pierwszej próby jest
 przesunięty o `world.json.offset` = (44 564,29; 12 168,47).
@@ -120,9 +150,11 @@ python3 scripts/godot/prepare_races.py               # statystyki, drzewka i opi
 python3 scripts/godot/prepare_continent_hero.py      # klipy bohatera Legendy (paczka 3.3.0)
 python3 scripts/godot/prepare_continent_maps.py      # atlas, globus, regiony i komórki mapy dla 10 krain
 python3 scripts/godot/prepare_icons.py               # ikony zdolności czterech ras (okrągłe) i paski
-npx tsx scripts/godot/export-monsters.ts            # 40 potworów: zasady, łup, rozmiary
+npx tsx scripts/godot/export-monsters.ts            # 40 potworów + pomocnik: zasady, cechy, łup, rozmiary
 python3 scripts/godot/prepare_monsters.py            # arkusze potworów i rejestry spawnów krain
-npx tsx scripts/godot/export-economy.ts              # przedmioty, receptury, ceny sklepu, ikony przedmiotów
+npx tsx scripts/godot/export-economy.ts              # przedmioty, receptury, ceny sklepu, limity i zestawy, ulepszenia, ikony
+npx tsx scripts/godot/export-quests.ts               # 106 zadań, dialogi NPC, sławne i ukryte miejsca -> data/quests.json
+python3 scripts/godot/prepare_audio.py               # muzyka i efekty (kopia bez zmian) -> assets/audio
 python3 scripts/godot/prepare_land_maps.py          # mapy szczegółowe krain malowane z siatek terenu
 python3 scripts/godot/prepare_intro.py               # pozioma kompozycja wstępu i boot splash z ilustracji właściciela (wymaga sharp)
 godot --headless --editor --path ports/godot-pyra --import
@@ -167,7 +199,7 @@ poza repozytorium (`~/.local/share/ki-legends-godot/debug.keystore`); zachowaj g
 ## 7. Zapisy
 
 `user://city-checkpoint-v1.json`, format `ki-godot-pyra-save-2` (wersja 2): pozycja, wnętrze, miejsce powrotu,
-poziom, XP, drzewko, sloty, HP/KI. Format `ki-godot-pyra-save-1` z wersji 0.2.0 jest importowany (przesunięcie do
+poziom, XP, drzewko, sloty, HP/KI, ekonomia (plecak, wyposażenie, monety, depozyt, ulepszenia kowala), dziennik zadań i odkryte miejsca; głośność osobno w `user://audio.json`. Format `ki-godot-pyra-save-1` z wersji 0.2.0 jest importowany (przesunięcie do
 współrzędnych świata). Nieznany lub uszkodzony plik blokuje nadpisanie. Zapis jest ręczny (MENU). Backup Androida wyłączony.
 
 ## 8. Testy i dowody
@@ -177,7 +209,8 @@ godot --headless --path ports/godot-pyra --script res://tests/smoke.gd -- --fres
 xvfb-run -a -s '-screen 0 1600x900x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --audio-driver Dummy --path ports/godot-pyra --rendering-method gl_compatibility --script res://tests/smoke.gd -- --fresh --qa-output /tmp/pyra-native
 ```
 
-Na kodzie tej gałęzi: **340/340** kontroli w trybie headless i **340/340** z natywnym renderowaniem (Mesa llvmpipe).
+Na kodzie tej gałęzi: **364/364** kontroli w trybie headless (16.11.2026). Przebieg z natywnym renderowaniem (Mesa llvmpipe) był
+ostatnio wykonany przy 340 kontrolach i nie został powtórzony dla 364.
 Pokrycie: ekonomia (katalog 366/265/85, cena sklepu 4×, skup 50 %, wymagania poziomu, wpływ sprzętu, mikstura, crafting, depozyt,
 gospoda, zapis, cztery ekrany usług), rozmiar kontynentu, bezpieczny start, strumieniowanie, **+15 % bohatera**, kolizje,
 osiągalność 24 drzwi Pyry i powroty, dotyk, prędkość przy 30/120 FPS, zasady Legendy (statystyki, drzewko, rangi, zdolności na
@@ -185,7 +218,11 @@ manekinie), zapis, mapy (miasta wszystkich 10 krain leżą wewnątrz własnych o
 sam region), **wczytanie każdej z 10 krain** (stoi na ziemi, ograniczona liczba sprite'ów, drzwi i NPC), **wejście i wyjście
 z każdego z ok. 96 wnętrz usług czterech kontynentów**, **cztery rasy** (nowa postać startuje w swoim mieście, statystyki
 poziomów 1 i 20 z aneksu, 29 węzłów, +15 % bohatera, podstawowy atak i każda z 6 zdolności czynnych na manekinie bez błędu),
-ekran wyboru rasy, **podróż z mapy** (PODRÓŻ na wyspę 3 i z powrotem), układ w trzech rozmiarach ekranu.
+ekran wyboru rasy, **podróż z mapy** (PODRÓŻ na wyspę 3 i z powrotem), układ w trzech rozmiarach ekranu, **potwory** (41
+definicji, 8 752 miejsc, budzenie, walka, nagrody, statusy, śmierć i powrót), **rzadkie cechy** (słabość na ogień, pancerz z przodu
+kraba, bonus z tyłu lwa, przywołanie os, podział roju, odrodzenie ducha, strefa sieci spowalnia bohatera, dzień i noc), **questy**
+(106/102/16/17, przyjęcie, etapy, odkrycia, nagroda raz, zapis), **dźwięk** (pliki w paczce, muzyka podąża za światem),
+**zasady ekwipunku** (limity V2, ulepszenia kowala, pięć stacji, mikstura).
 Zrzuty: `docs/zmiany/2026-11-15/qa/godot-world/`.
 
 Dodatkowo paczka PCK wyeksportowana z presetu Linux została uruchomiona w osobnym katalogu (`--main-pack`): wszystkie 10 krain,
@@ -199,12 +236,17 @@ pinch-zoom na mapie (kod jest, test tylko na myszy), czasy ładowania na telefon
 
 ## 9a. Kontynuacja pracy w nowej sesji (instrukcja dla Claude)
 
-**Stan na 16.11.2026:** wersja 0.7.0-bestiary (kod 7). Zrobione: 10 krain, 4 rasy, miasta z usługami, mapy 2D/3D, HUD, 40 potworów
-na opublikowanych spawnach, XP/monety/łup, wstęp na cały ekran. **Następne:** questy (`src/game/quests`, ok. 6,9 tys. wierszy:
-silnik `engine.ts`, treści `*Quests.ts`, tracker `v2Tracker.ts`), potem bossowie i dungeony, rzadkie cechy potworów (lista w
-`docs/zmiany/2026-11-16/ZMIANY.md`, pkt 2), dzień/noc, życie mieszkańców. Zasady: `AGENTS.md` (m.in. brak PR i merge bez
+**Stan na 16.11.2026:** ostatni APK to 0.7.0-bestiary (kod 7), kod jest dalej. Zrobione: 10 krain, 4 rasy, miasta z usługami,
+mapy 2D/3D, HUD, 41 potworów ze wszystkimi cechami na opublikowanych spawnach, XP/monety/łup, questy z dialogami, dźwięk, zasady
+ekwipunku (limity, zestawy, ulepszenia, stacje), wstęp na cały ekran. **Następne:** bossowie i dungeony (jeśli właściciel je
+zatwierdzi do przeniesienia), życie mieszkańców, efekty otoczenia, wydarzenia świata (w przeglądarce nieaktywne), pomiary na
+telefonie; **potem końcowy APK** (patrz niżej). Zasady: `AGENTS.md` (m.in. brak PR i merge bez
 zgody, nie przepisywać opublikowanej historii, **nie sterować instancjami GPU**, jedna dokumentacja tematyczna + dziennik
 dnia), `docs/INDEX.md`.
+
+**Kolejność pracy (decyzja właściciela):** najpierw przenieść całą grę, dopiero potem zbudować APK; nigdy nie obniżać jakości
+grafiki dla rozmiaru (limit 100 MiB nie obowiązuje, gra ma być docelowo większa). Użytkownik nie buduje aplikacji — buduje asystent
+i podaje link.
 
 **Zasada dostawy APK:** APK nie jest commitowany domyślnie — kod i dokumentacja wystarczą, żeby go zbudować. Commituj APK
 (Git LFS, `deliveries/<data>-<nazwa>/`, plus `manifest.json` z SHA-256) tylko gdy właściciel o to poprosi. Narzędzie Dysku
@@ -248,16 +290,17 @@ sesji do `~/.local/share/ki-legends-godot/`.
 **Prompt do wklejenia w nowej sesji:**
 > Kontynuujemy port KI LEGENDS na Androida (Godot 4). Repozytorium `circus574-cpu/pixel-playground-launch`, gałąź
 > `ccr-ebbd6459-n7c5eg`. Przeczytaj `AGENTS.md`, `docs/INDEX.md`, `ports/godot-pyra/README.md` (sekcja 9a) i
-> `docs/zmiany/2026-11-16/ZMIANY.md`, postaw środowisko według sekcji 9a, uruchom testy `tests/smoke.gd` i zacznij od przeniesienia
-> questów (`src/game/quests`) razem z trackerem w HUD. Nie commituj APK, chyba że poproszę; aktualizuj dokumentację i dziennik.
+> `docs/zmiany/2026-11-16/ZMIANY.md`, postaw środowisko według sekcji 9a, uruchom testy `tests/smoke.gd` i sprawdź w sekcji 1
+> „Poza zakresem”, co zostało do przeniesienia, i po zatwierdzeniu przez właściciela zrób to; APK buduj dopiero po przeniesieniu
+> całości, w pełnej jakości. Nie commituj APK, chyba że poproszę; aktualizuj dokumentację i dziennik.
 > Mów konkretnie, pracuj precyzyjnie i bezbłędnie, nie ruszaj instancji GPU.
 
 ## 9. Dalsza praca
 
-1. Odbiór na fizycznym Androidzie; pomiary pamięci/FPS (kluczowe: czas wczytania krainy, ok. 120–140 MiB tekstur).
-2. Spawny i potwory (osobna generacja na gotowych danych świata, miasta pozostają bezpieczne), zdobywanie doświadczenia i łup.
-3. Questy, Sala Przysięgi, stacje craftingu Nexusa i Księgi — przenosić kanoniczne reguły, nie upraszczać balansu.
-4. Życie mieszkańców, dźwięk, efekty otoczenia.
+1. Odbiór na fizycznym Androidzie; pomiary pamięci/FPS (kluczowe: czas wczytania krainy, ok. 120–140 MiB tekstur, walka z 24 potworami).
+2. Bossowie i dungeony — na podstawie danych przeglądarki, po decyzji właściciela, co z nich wchodzi do wersji Android.
+3. Życie mieszkańców, efekty otoczenia (dym, para, żar), widoczny dzień i noc.
+4. Końcowy APK w pełnej jakości (Git LFS tylko na prośbę właściciela), z podpisem v2 i sprawdzeniem CRC.
 5. Jakość grafiki: drobne ślady stratnego WebP przy dużym powiększeniu; rozważyć ASTC, jeśli rozmiar APK nie będzie ograniczeniem.
 
 Pracować na osobnych gałęziach; bez scalenia, publikacji i zmian produkcji bez decyzji właściciela. Nie modyfikować

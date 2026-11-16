@@ -17,12 +17,15 @@ def main():
     out_dir = PORT / "assets/monsters"
     out_dir.mkdir(parents=True, exist_ok=True)
     monsters = {}
+    ART_OF = {"verdant-mala-osa": "verdant-bursztynowa-osa"}   # summoned minions are drawn with their summoner's sheet
     for mid, m in src["monsters"].items():
-        pack = json.load(open(glob.glob(str(PUB / f"game/assets/gpu/enemy-v3-{mid}/*/pack.json"))[0]))
+        art = ART_OF.get(mid, mid)
+        pack = json.load(open(glob.glob(str(PUB / f"game/assets/gpu/enemy-v3-{art}/*/pack.json"))[0]))
         actor = pack["actors"][0]
         asset = pack["assets"][0]
-        sheet = out_dir / (mid + ".webp")
-        shutil.copyfile(PUB / asset["url"].lstrip("/"), sheet)
+        sheet = out_dir / (art + ".webp")
+        if not sheet.exists():
+            shutil.copyfile(PUB / asset["url"].lstrip("/"), sheet)
         frames = json.load(open(PUB / asset["atlasUrl"].lstrip("/")))["frames"]
         frames = {f["filename"]: f for f in frames} if isinstance(frames, list) else frames
         clips = {}
@@ -35,7 +38,7 @@ def main():
                     fr, ss, sz = f["frame"], f["spriteSourceSize"], f["sourceSize"]
                     row.append([fr["x"], fr["y"], fr["w"], fr["h"], ss["x"], ss["y"], sz["w"] - fr["w"], sz["h"] - fr["h"]])
                 dirs[d] = row
-            clips[name] = {"sheet": f"res://assets/monsters/{mid}.webp", "fps": clip["fps"], "loop": clip["loop"], "mirrored": clip.get("mirrored", []), "directions": dirs}
+            clips[name] = {"sheet": f"res://assets/monsters/{art}.webp", "fps": clip["fps"], "loop": clip["loop"], "mirrored": clip.get("mirrored", []), "directions": dirs}
         cell = next(iter(frames.values()))["sourceSize"]["w"]
         fpx = m.pop("framePx")
         m.pop("bodyExtent", None)

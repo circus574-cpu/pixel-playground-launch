@@ -154,3 +154,46 @@ tracker i dziennik).
   zapis `user://audio.json`). Dźwięki „development”/bossów nie są w grze, bo ich funkcje nie są w grze.
 - **Kontrole.** `tests/smoke.gd`: **345/345** (nowe: pliki muzyki i efektów w paczce, muzyka podąża za światem, odtwarzanie
   efektów, rozpoznanie odmowy, głośności).
+
+### 6. Android / Godot: zasady ekwipunku i ekonomii
+
+- **Limity i zestawy.** `export-economy.ts` eksportuje globalne limity bonusów procentowych V2 (10 kluczy), bonusy zestawów
+  pasywnych i wyposażenia oraz tabelę ulepszeń; `economy.gd` (`gear()`) liczy bonusy pasywne i zestawowe z ograniczeniem do limitów,
+  wynik trafia do statystyk bohatera przez kit.
+- **Ulepszanie u kowala.** Broń do +3 (+2 ATK za poziom), elementy pancerza do +2 (+1 DEF), za monety; biżuteria i puste sloty nie
+  mogą być ulepszane; poziomy ulepszeń są w zapisie. Ekran kuźni ma 6 zakładek (`items_screen.gd`, `show_upgrade`).
+- **Stacje craftingu.** Dostępnych jest pięć stacji z receptur przeglądarki: kuźnia, alchemia, runy, fabrykator Nexusa (10
+  receptur) i Księgi (94 receptury).
+- **Mikstury.** Leczą `hpBonus` przedmiotu (domyślnie 50 HP), nie stałe 40 %.
+- **Kontrole.** Limity V2 nie są przekraczane, ulepszenie broni kosztuje 40 monet i daje +2 ATK, maksimum +3, biżuteria nie jest
+  ulepszalna, ulepszenia przechodzą przez zapis, pięć stacji, mikstura. `tests/smoke.gd`: 353/353 po tej części.
+
+### 7. Android / Godot: rzadkie cechy potworów, klasy obrażeń, watahy
+
+Domknięcie listy „nie przeniesione” z pkt 2: wszystkie cechy bestiariusza działają w porcie (opis i tabela w README Android,
+sekcja 1a).
+
+- **Klasy obrażeń.** Każda zdolność niesie klasy (`TAGS` w `race_kit.gd`: np. Legenda — fizyczne/ogień/ogłuszenie/obszar, Mędrcy —
+  ki, Androidy — elektryczność); `PyraMonster.hurt(raw, crit, tags, ranged)` stosuje `weak` potwora (wartość > 1 to słabość, < 1
+  odporność). Obrażenia z podpalenia i DoT są „pośrednie” (nie wywołują odbicia ani ucieczki po trafieniach).
+- **Kierunek.** Pancerz z przodu (krab magmowy) i bonus z tyłu (lwy świątyni) zależą od kąta między spojrzeniem potwora a
+  bohaterem.
+- **Strefy i pułapki.** `Zone` w `monster_manager.gd`: chmury trucizny po wybuchach i śmierci, ślad ognia salamandry, sieci pająka
+  (maks. 3 w promieniu gniazda, pająk poza siecią wolniejszy), wszystkie kolorowe, co 0,5 s zadają ułamek ATK właściciela i
+  nakładają statusy.
+- **Zachowania.** Zakopywanie (nietykalny pod ziemią, wynurzenie przy bohaterze, bonus obrażeń gdy wynurzony), zasadzka (ukryty do
+  podejścia na 200 j., cios z mnożnikiem, potem chowa się na 8 s), nurkowanie po serii ataków, ucieczka po liczbie trafień,
+  zwijanie, odbicie obrażeń nie-ki, ogłuszenie przy dużym trafieniu w trakcie rzucania, utrata ogona skorpiona, podział roju na
+  dwie części po 40 % HP (klon bez nagrody, łączą się po 6 s), odrodzenie ducha z 30 % HP, medyk, wieżyczka (obrót 90°/s, salwy
+  po 12 strzałów, przegrzanie na 3 s), przywołanie os-pomocników, patrole po trasie, wataha 2–3 wilków lub nietoperzy.
+- **Dzień i noc.** Zegar dnia (480 s, noc od 300 s od wejścia do krainy) steruje wyłącznie cechą `night` (Puchacz Pyłowy); nie ma
+  widocznej zmiany oświetlenia.
+- **Poprawka.** Czas ostrzeżenia umiejętności (`telegraph`) i ogłuszenia po chybionej szarży był liczony w sekundach zamiast w
+  milisekundach — rzadkie umiejętności z ostrzeżeniem faktycznie nie odpalały; poprawione.
+- **Osa-pomocnik.** `verdant-mala-osa` korzysta z arkusza Osy Bursztynowej (`prepare_monsters.py`, `ART_OF`).
+- **Kontrole.** `tests/smoke.gd`: **364/364** headless (nowe: 41 definicji, słabość na ogień, pancerz z przodu kraba, bonus z
+  tyłu lwa, przywołanie os bez miejsca spawnu, podział roju, odrodzenie i ostateczna śmierć ducha, sieć spowalnia bohatera, noc,
+  wataha wilków).
+
+**Nadal poza grą (też w przeglądarce nieosiągalne lub niezatwierdzone):** bossowie (tylko podgląd), dungeony, wydarzenia świata.
+APK nie jest budowany do czasu przeniesienia całości (polecenie właściciela); ostatni APK to 0.7.0-bestiary-hq.

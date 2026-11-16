@@ -624,7 +624,7 @@ func run() -> void:
 	# ---- monsters: data, spawns, fights, rewards, statuses, death ---------------------------------------------
 	game.start_new_character("legend")
 	await settle(3)
-	verify(game.monster_data.monsters.size() == 40, "the 40 bestiary monsters are loaded with stats, skills and loot")
+	verify(game.monster_data.monsters.size() == 41, "the 40 bestiary monsters and their summoned helper are loaded with stats, skills and loot")
 	var all_kinds := true
 	var spawn_total := 0
 	for id: String in PyraGame.ALL_LANDS:
@@ -700,8 +700,68 @@ func run() -> void:
 	var plain_def: int = game.kit.stats().defense
 	game.kit.clear_debuffs()
 	verify(int(game.kit.stats().defense) >= plain_def and float(game.kit.stats().dealt) >= 1.0, "statuses end with clear_debuffs")
+	# rare monster traits: weaknesses, direction, summons, split, revive, ground zones, day and night
+	game.kit.hp = float(game.kit.stats().maxHp)
+	var far_up: Vector2 = game.player.position + Vector2(0, -700)
+	var far_down: Vector2 = game.player.position + Vector2(0, 700)
+	var slime_a := mm.place_monster("verdant-mchowy-szlamak", far_up)
+	var slime_b := mm.place_monster("verdant-mchowy-szlamak", far_up + Vector2(300, 0))
+	var weak_hit := slime_a.hurt(100.0, false, ["fire"])
+	var plain_hit := slime_b.hurt(100.0, false, [])
+	verify(weak_hit > plain_hit * 1.2, "a fire attack hurts a fire-weak monster more", [weak_hit, plain_hit])
+	var crab_front := mm.place_monster("pyra-magmowy-krab", far_up)
+	var crab_back := mm.place_monster("pyra-magmowy-krab", far_down)
+	var front_hit := crab_front.hurt(200.0, false, [])
+	var back_hit := crab_back.hurt(200.0, false, [])
+	verify(front_hit < back_hit, "front armour: a crab faced by the hero takes less than one hit from behind", [front_hit, back_hit])
+	var lion := mm.place_monster("aether-lew-swiatyni", far_down)
+	var lion_front := mm.place_monster("aether-lew-swiatyni", far_up)
+	verify(lion.hurt(200.0, false, []) > lion_front.hurt(200.0, false, []), "back bonus: a hit from behind hurts a lion more")
+	var pack_before := mm.active.size()
+	mm.wake(900001, "verdant-cierniowy-wilk", far_down + Vector2(-500, 0))
+	verify(mm.active.size() - pack_before >= 2 and mm.active.size() - pack_before <= 3, "wolves wake in a pack of two to three", mm.active.size() - pack_before)
+	var wasp := mm.place_monster("verdant-bursztynowa-osa", far_up + Vector2(-400, 0))
+	var active_before := mm.active.size()
+	mm.summon(wasp, "verdant-mala-osa", 2)
+	var helpers := 0
+	for key: int in mm.active.keys():
+		helpers += 1 if key < 0 and (mm.active[key] as PyraMonster).def.id == "verdant-mala-osa" else 0
+	verify(mm.active.size() == active_before + 2 and helpers >= 2, "a wasp calls two helper wasps that take no respawn slot", [mm.active.size(), active_before])
+	var swarm := mm.place_monster("nexus-roj-nanitow", far_up + Vector2(400, 0))
+	var swarm_max := swarm.max_hp
+	swarm.hurt(1.0, false, [])
+	verify(swarm.split_partner != null and is_equal_approx(swarm.max_hp, roundf(swarm_max * 0.4)) and swarm.split_partner.no_reward, "a nanite swarm splits in two weaker halves (the clone pays nothing)", swarm.max_hp)
+	var spirit := mm.place_monster("aether-duch-bibliotekarza", far_down + Vector2(400, 0))
+	spirit.hurt(999999.0, false, ["ki"])
+	verify(spirit.phase != "dead" and spirit.invulnerable and spirit.hp > 0.0, "the librarian ghost does not die at once but begins to revive")
+	await create_timer(2.2).timeout
+	verify(spirit.phase != "dead" and not spirit.invulnerable and is_equal_approx(spirit.hp, spirit.max_hp * 0.3), "the ghost rises with 30% health and then can die for good", spirit.hp)
+	spirit.hurt(999999.0, false, ["ki"])
+	verify(spirit.phase == "dead", "the second death is final")
+	game.kit.clear_debuffs()
+	mm.add_zone({"kind": "web", "ms": 3000, "radius": 120, "dps": 0.0, "fx": [{"k": "slow", "pct": 0.4, "ms": 4000}]}, game.player.position, 10.0)
+	await create_timer(0.8).timeout
+	verify(game.kit.debuff_pct("slow") > 0.0, "standing in a web zone slows the hero")
+	var clock_saved := mm.clock
+	mm.clock = 310.0
+	var at_night := mm.is_night()
+	mm.clock = 20.0
+	verify(at_night and not mm.is_night(), "the day lasts 300 s and the last 180 s are night")
+	mm.clock = clock_saved
+	for rare: PyraMonster in [slime_a, slime_b, crab_front, crab_back, lion, lion_front, wasp, swarm]:
+		if is_instance_valid(rare):
+			rare.queue_free()
+	for rare_key: int in mm.active.keys():
+		if (rare_key < 0 or rare_key == 900001) and is_instance_valid(mm.active[rare_key]):
+			(mm.active[rare_key] as PyraMonster).queue_free()
+		if rare_key < 0 or rare_key == 900001:
+			mm.active.erase(rare_key)
+	game.kit.clear_debuffs()
 	game.kit.hp = 1.0
-	game.hurt_player(weak, 900.0, "melee", [])
+	var killer := mm.place_monster("verdant-mchowy-szlamak", far_up)
+	game.hurt_player(killer, 900.0, "melee", [])
+	killer.queue_free()
+	mm.active.erase(killer.spawn_index)
 	verify(game.kit.dead, "monster damage can kill the hero")
 	await create_timer(3.5).timeout
 	await settle(2)

@@ -1,13 +1,15 @@
 # KI Legends — dokumentacja projektu
 
-**Godot 4 / Android, 15.11 — wersja 0.7.0-bestiary:** 40 potworów na opublikowanych spawnach 10 krain (walka, XP, monety, łup, śmierć); poprzednio (0.6.0): wstęp na cały ekran, płynniejsza gra (wypalane podłoże, strumieniowanie na wątkach), lepsze mapy 2D/3D, pierwszy pełny HUD; cała planeta Superior (4 kontynenty i 6 wysp, ok. 197 tys. obiektów),
-globus 3D i atlas 2D z podróżami między krainami, cztery grywalne rasy (Legendy, Planetarni, Mędrcy, Androidy) ze
-statystykami aneksu, drzewkami i zdolnościami, miasta z usługami (sklep, kuźnia, depozyt, gospoda, plecak) i wnętrzami we
-wszystkich czterech światach, wstęp z ilustracją właściciela (questy przeniesione; bez bossów i dungeonów). Gałąź
-`ccr-ebbd6459-n7c5eg`, kontynuacja PR #170; APK w
-`deliveries/godot-pyra-android-20261116-bestiary-hq` (Git LFS); fizyczny telefon niezweryfikowany; bez
-scalenia i zmian produkcji. [Osobna dokumentacja Android](../ports/godot-pyra/README.md),
-[zakres i wyniki](zmiany/2026-11-16/ZMIANY.md#2-android--godot-070-bestiary-potwory-spawny-walka-nagrody).
+**Godot 4 / Android, 16.11 — kod po wersji 0.7.0-bestiary:** przeniesione są już 41 potworów ze wszystkimi cechami (strefy,
+przywołania, podział, odrodzenie, zakopywanie, zasadzka, wieżyczki, watahy, słabości na klasy obrażeń), questy z dialogami (102
+grywalne), dźwięk, zasady ekwipunku (limity V2, ulepszenia kowala, pięć stacji craftingu); nie ma jeszcze bossów, dungeonów
+i wydarzeń świata. Poprzednio: cała planeta Superior (4 kontynenty i 6 wysp, ok. 197 tys. obiektów), globus 3D i atlas 2D z
+podróżami, cztery grywalne rasy (Legendy, Planetarni, Mędrcy, Androidy) ze statystykami aneksu, drzewkami i zdolnościami,
+miasta z usługami i wnętrzami we wszystkich czterech światach, pełny HUD, płynniejsza gra, wstęp z ilustracją właściciela.
+Gałąź `ccr-ebbd6459-n7c5eg`, kontynuacja PR #170. **Ostatni zbudowany APK** (0.7.0-bestiary, bez questów, dźwięku i zasad
+ekwipunku): `deliveries/godot-pyra-android-20261116-bestiary-hq` (Git LFS); końcowy APK powstanie po przeniesieniu całości w
+pełnej jakości. Fizyczny telefon niezweryfikowany; bez scalenia i zmian produkcji.
+[Osobna dokumentacja Android](../ports/godot-pyra/README.md), [dziennik 16.11](zmiany/2026-11-16/ZMIANY.md).
 Wcześniejsza próba (jedno miasto, 0.1–0.2): PR #170, `feat/godot-pyra-android-20261115`.
 
 **Świat — przegląd, PR #154:** gotowa mapa administratora Superior v2, 10 lądów,
