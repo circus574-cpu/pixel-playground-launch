@@ -1,0 +1,80 @@
+[
+  {
+    "id": "hall",
+    "name": "Sala Przysiąg",
+    "xz": [
+      -20,
+      -60
+    ],
+    "size": [
+      30,
+      24
+    ],
+    "texture": "res://assets/objects/9eba1e56-pyra-painted-hall.webp"
+  },
+  {
+    "id": "inn",
+    "name": "Gospoda",
+    "xz": [
+      -75,
+      -20
+    ],
+    "size": [
+      22,
+      18
+    ],
+    "texture": "res://assets/objects/51cf60a5-pyra-painted-inn.webp"
+  },
+  {
+    "id": "shop",
+    "name": "Handel",
+    "xz": [
+      60,
+      -40
+    ],
+    "size": [
+      20,
+      18
+    ],
+    "texture": "res://assets/objects/e82ceee7-pyra-painted-shop.webp"
+  },
+  {
+    "id": "arena",
+    "name": "Plac treningowy",
+    "xz": [
+      65,
+      40
+    ],
+    "size": [
+      20,
+      20
+    ],
+    "texture": "res://assets/objects/b8db058a-pyra-painted-arena.webp"
+  },
+  {
+    "id": "smithy",
+    "name": "Kuźnia",
+    "xz": [
+      45,
+      100
+    ],
+    "size": [
+      24,
+      18
+    ],
+    "texture": "res://assets/objects/e320eb1e-pyra-painted-smithy.webp"
+  },
+  {
+    "id": "depot",
+    "name": "Depozyt",
+    "xz": [
+      -80,
+      115
+    ],
+    "size": [
+      22,
+      18
+    ],
+    "texture": "res://assets/objects/e0e8cc86-pyra-painted-depot.webp"
+  }
+]

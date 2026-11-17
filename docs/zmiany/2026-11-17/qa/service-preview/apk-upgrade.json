@@ -1,0 +1,14 @@
+{
+  "version": "1.14",
+  "versionCode": 101,
+  "package": "pl.kilegends.godot.pyra",
+  "bytes": 78022832,
+  "sha256": "136f3eda5f3c58bedbb5715901cc1a6ff07fd70e989bc5eae7f21e4092878c19",
+  "certificate_sha256": "dd788170dde4237f84775deda5c4132d82ebd9067cfdb7e52dda5de275591761",
+  "matches_published_1_0_and_1_10": true,
+  "alignment_16k": true,
+  "zip_crc": true,
+  "private_key_in_git": false,
+  "physical_phone_install_tested": false,
+  "production_deployed": false
+}

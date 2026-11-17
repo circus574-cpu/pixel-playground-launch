@@ -1,0 +1,15 @@
+{
+  "id": "9jv4ah7gckh6fc",
+  "name": "ki-legends-pyra-terrain3d-a40-20261117",
+  "created_utc": "2026-11-17T15:37:04Z",
+  "gpu": "NVIDIA A40 48 GB",
+  "ram_gb": 50,
+  "vcpu": 9,
+  "container_gb": 300,
+  "network_volumes": 0,
+  "region": "EU-SE-1",
+  "compute_usd_per_hour": 0.59,
+  "storage_usd_per_hour_approx": 0.041666666666666664,
+  "authorization": "Owner: Wybierz a40 i 300 container I działaj",
+  "lifecycle": "One owner-authorized creation. No stop/restart/termination performed."
+}

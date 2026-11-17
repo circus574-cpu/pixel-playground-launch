@@ -9,6 +9,7 @@ export async function characterHttp(
   response: ServerResponse,
   repository: PgCharacterRepository | null,
   verify: VerifyAccount | null,
+  admission?: (token: unknown) => Promise<void>,
 ): Promise<void> {
   const send = (status: number, value: unknown) => {
     response.writeHead(status, {
@@ -32,6 +33,7 @@ export async function characterHttp(
   }
   try {
     const url = new URL(request.url || "", "http://localhost");
+    await admission?.(bearer);
     if (request.method === "GET" && url.pathname === "/ws/characters")
       return send(200, { characters: await repository.list(principal) });
     const match = url.pathname.match(/^\/ws\/characters\/([a-f0-9-]{36})$/);
@@ -68,6 +70,8 @@ export async function characterHttp(
     const input = data as { race?: unknown; name?: unknown };
     return send(201, await repository.create(principal, input.race, input.name));
   } catch (error) {
+    if (error instanceof Error && error.message === "MAINTENANCE")
+      return send(503, { error: "MAINTENANCE", message: "Serwer jest w trakcie konserwacji." });
     if (error instanceof CharacterStoreError)
       return send(error.code === "NOT_FOUND" ? 404 : 409, { error: error.code });
     if (error instanceof Error && error.name === "ZodError")

@@ -420,3 +420,18 @@ Pełne rekordy w JSON/CSV wskazanym na początku tego dokumentu.
 | node_modules/stackback                             | 0.0.2   | MIT               | no immutable gitHead/GitHub source in version metadata                                                                                                     |
 
 <!-- LICENSE-SUMMARY:END -->
+
+## Materiały izometrycznej Pyry — 17.11.2026
+
+Cztery materiały albedo pochodzą z lokalnego SDXL Base 1.0 na A40. Zachowano
+pełny tekst CreativeML Open RAIL++-M, surowe źródła PNG, workflow i rejestr zadania
+w `deliveries/pyra-isometric-a40-20261117`. Model pochodzi z
+`stabilityai/stable-diffusion-xl-base-1.0`; SHA-256:
+`31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b`.
+Nie uznaje się samego wygenerowania za gwarancję wyłączności praw do wyników.
+
+Jedenaście grafik postaci, budynków i dekoracji jest kopią dotychczasowych zasobów
+Pyry, z identycznymi bajtami (`asset-reuse.json`). Kopia do podglądu nie zmienia
+ich dotychczasowego statusu prawnego. Terrain3D zachowuje pełną licencję MIT
+w `ports/godot-terrain3d/LICENSE-Terrain3D.txt`; modele skał są proceduralnymi
+wynikami własnego skryptu Blendera. Prototyp nie korzysta z płatnego Meshy.

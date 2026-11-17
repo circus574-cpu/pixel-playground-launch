@@ -1,5 +1,13 @@
 # KI Legends — dokumentacja projektu
 
+**17.11 — Godot, izometria i TEST SERWER:** samodzielna próba Pyry 1024×1024 m
+oraz podgląd uruchamiany w ekranie serwisowym Androida. Przełącznik w `/admin`
+zamyka dostęp zwykłym graczom także na stronie; wyjątek wymaga roli administratora
+sprawdzonej na serwerze. APK 1.14 ma ten sam podpis co 1.0/1.10.
+[Raport, testy i ograniczenia](zmiany/2026-11-17/ZMIANY.md),
+[APK do odbioru](../deliveries/godot-ki-legends-1.14/ki-legends-1.14.apk).
+Gałąź do audytu; bez scalenia i publikacji na kilegends.pl.
+
 **Audyt Androida 1.8 — 16.11:** wszystkie cztery rasy osiągnęły poziom 3;
 sprawdzono 132 wejścia usługowe i 244 wystąpienia NPC. **Odbiór niepełny:**
 4 brakujących rozmówców blokuje 11 zadań, 8 nazw jest rozbieżnych, u Mędrca
@@ -89,6 +97,8 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 | [Plan i zadania](PLAN-I-ZADANIA.md)             | Aktualny stan, otwarte prace i warunki odbioru.                            |
 
 ## Historia — jeden dziennik na dzień
+
+- [2026-11-17](zmiany/2026-11-17/ZMIANY.md)
 
 - [2026-11-15](zmiany/2026-11-15/ZMIANY.md)
 

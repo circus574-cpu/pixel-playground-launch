@@ -559,3 +559,23 @@ lokalny checkpoint. Nie zmienia świata WWW ani geometrii planety, nie dodaje sp
 To etap miasta; zewnętrzny kontynent, walka i usługi ekonomiczne czekają na kolejne
 zlecenie. [Uruchomienie i ograniczenia](ARCHITEKTURA-I-TESTY.md#próba-migracji-godot-4--android--miasto-pyry-15112026),
 [wyniki i paczki](zmiany/2026-11-15/ZMIANY.md).
+
+## Próba Pyry 2D izometrycznej — 17.11.2026
+
+Osobny projekt `ports/godot-isometric-pyra` przedstawia fragment 1024×1024 m:
+wulkan, grzbiet, szczelinę lawową, płaskowyż osady, dziewięć tras i skupiska roślinności.
+Sześć budynków to dotychczasowe tymczasowe grafiki Pyry. Bohater ma chód/idle Legendy;
+Kaena jest nieruchomą postacią bez nowych rozmów. Nie jest to gotowy port usług,
+walki, questów ani całego kontynentu.
+
+Geometria 2D, nawigacja, lokalne mapy 2D/3D i pomocniczy Terrain3D używają wspólnych
+próbek wysokości co 2 m i masek terenu. Rzut: `x=(X−Z)×8`,
+`y=(X+Z)×4−H×9.797958971`; siatka ma 128 m, A1–H8. Mapa 2D pokazuje rzeczywisty
+World2D, a mapa 3D ten sam relief, materiały i 415 pozycji dekoracji (sprite'y jako
+billboardy). To lokalna mapa próby, jeszcze bez georeferencji całej planety Superior.
+Widoczny teren składa się z 64 siatek; TileMapLayer jest niewidocznym indeksem ulic.
+
+Podgląd można uruchomić w ekranie serwisowym Godota po serwerowym potwierdzeniu
+roli administratora. Nie zmienia geometrii ani zapisów opublikowanego świata.
+Budynki dopasowane do rzutu pozostają następnym etapem: model → stała kamera i światło
+Blendera → sprite, kotwica stóp, drzwi i obrys kolizji. Płatnego generowania Meshy nie uruchomiono.

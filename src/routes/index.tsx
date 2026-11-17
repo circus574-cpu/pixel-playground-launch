@@ -30,6 +30,7 @@ import { isPlaytest, STAGE21_BUILD } from "../game/playtest";
 import { initialView, type Command, type StaffRole } from "../game/session";
 import type { SuperiorRuntime } from "../game/world/generated/superiorRuntime";
 import type { FeatureId } from "../game/world/generated/superiorSave";
+import { ServiceGate } from "../components/game/ServiceGate";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -56,6 +57,14 @@ export const Route = createFileRoute("/")({
 });
 /** Production entry: no offline/local character fallback. Old saves remain untouched. */
 export function Index() {
+  return (
+    <ServiceGate>
+      <OnlineIndex />
+    </ServiceGate>
+  );
+}
+
+function OnlineIndex() {
   const account = useAccount();
   const [slots, setSlots] = useState<CharacterSlot[]>([]);
   const [active, setActive] = useState<CharacterSlot | null>(null);

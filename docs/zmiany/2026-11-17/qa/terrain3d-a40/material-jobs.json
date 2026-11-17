@@ -1,0 +1,453 @@
+{
+  "ash": {
+    "prompt_id": "ddde6f5f-abb7-4bbe-9e2c-f3ed37e17bcb",
+    "workflow": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "ki-sdxl-base.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "Seamless tileable terrain albedo texture, warm charcoal volcanic ash and fine dark brown gravel, scattered tiny pale mineral grains, high quality natural material for stylized realistic anime action RPG, perfectly top down orthographic, evenly lit diffuse surface, no cast shadows, no perspective, no objects"
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "text, letters, logo, watermark, border, frame, grid, blurry, low resolution, large objects, buildings, landscape, mountains, horizon, perspective, isometric, dramatic lighting, strong shadows, glowing lava, grass, plants"
+        }
+      },
+      "4": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1
+        }
+      },
+      "5": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "2",
+            0
+          ],
+          "negative": [
+            "3",
+            0
+          ],
+          "latent_image": [
+            "4",
+            0
+          ],
+          "seed": 17112026,
+          "steps": 30,
+          "cfg": 6.0,
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "denoise": 1.0
+        }
+      },
+      "6": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "5",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "7": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "6",
+            0
+          ],
+          "filename_prefix": "KI_Pyra_Terrain3D/ash"
+        }
+      }
+    },
+    "submitted_unix": 1794930353.9481945
+  },
+  "basalt": {
+    "prompt_id": "ac738cd8-5a3a-4fb2-9c74-28af9bffa14a",
+    "workflow": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "ki-sdxl-base.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "Seamless tileable terrain albedo texture, fractured dark basalt stone ground, layered charcoal slate and muted rust mineral veins, small worn angular stones, elegant high detail fantasy action RPG volcanic landscape material, perfectly top down orthographic, evenly lit diffuse surface, no cast shadows, no perspective, no objects"
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "text, letters, logo, watermark, border, frame, grid, blurry, low resolution, large objects, buildings, landscape, mountains, horizon, perspective, isometric, dramatic lighting, strong shadows, glowing lava, grass, plants"
+        }
+      },
+      "4": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1
+        }
+      },
+      "5": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "2",
+            0
+          ],
+          "negative": [
+            "3",
+            0
+          ],
+          "latent_image": [
+            "4",
+            0
+          ],
+          "seed": 17112027,
+          "steps": 30,
+          "cfg": 6.0,
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "denoise": 1.0
+        }
+      },
+      "6": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "5",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "7": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "6",
+            0
+          ],
+          "filename_prefix": "KI_Pyra_Terrain3D/basalt"
+        }
+      }
+    },
+    "submitted_unix": 1794930353.956241
+  },
+  "paving": {
+    "prompt_id": "c11e557e-362d-47d4-bebd-38f21d0d436f",
+    "workflow": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "ki-sdxl-base.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "Seamless tileable terrain albedo texture, ancient dark basalt paving slabs, irregular closely fitted polygonal stones, worn warm copper edges and dark fine mortar, restrained realistic anime fantasy fortress courtyard stone floor, perfectly top down orthographic, evenly lit diffuse surface, no cast shadows, no perspective, no objects"
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "text, letters, logo, watermark, border, frame, grid, blurry, low resolution, large objects, buildings, landscape, mountains, horizon, perspective, isometric, dramatic lighting, strong shadows, glowing lava, grass, plants"
+        }
+      },
+      "4": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1
+        }
+      },
+      "5": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "2",
+            0
+          ],
+          "negative": [
+            "3",
+            0
+          ],
+          "latent_image": [
+            "4",
+            0
+          ],
+          "seed": 17112028,
+          "steps": 30,
+          "cfg": 6.0,
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "denoise": 1.0
+        }
+      },
+      "6": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "5",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "7": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "6",
+            0
+          ],
+          "filename_prefix": "KI_Pyra_Terrain3D/paving"
+        }
+      }
+    },
+    "submitted_unix": 1794930353.9601316
+  },
+  "cliff": {
+    "prompt_id": "41f575a6-1ba7-4ce6-b0ce-95c344c70be5",
+    "workflow": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "ki-sdxl-base.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "Seamless tileable rock surface albedo texture, jagged layered black volcanic basalt cliff, smoky grey mineral bands and weathered brown stone, beautiful detailed natural weathering, dark fantasy action RPG, front orthographic evenly lit diffuse surface, no shadows, no scenery, no objects"
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "text, letters, logo, watermark, border, frame, grid, blurry, low resolution, large objects, buildings, landscape, mountains, horizon, perspective, isometric, dramatic lighting, strong shadows, glowing lava, grass, plants"
+        }
+      },
+      "4": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1
+        }
+      },
+      "5": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "2",
+            0
+          ],
+          "negative": [
+            "3",
+            0
+          ],
+          "latent_image": [
+            "4",
+            0
+          ],
+          "seed": 17112029,
+          "steps": 30,
+          "cfg": 6.0,
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "denoise": 1.0
+        }
+      },
+      "6": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "5",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "7": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "6",
+            0
+          ],
+          "filename_prefix": "KI_Pyra_Terrain3D/cliff"
+        }
+      }
+    },
+    "submitted_unix": 1794930354.3322961
+  },
+  "ash_r2": {
+    "prompt_id": "2d5da72a-3df1-487d-ba4f-900ec04d92cd",
+    "workflow": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "ki-sdxl-base.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "Seamless tileable fine volcanic ash texture, very fine dark warm grey dusty powder and sand, subtle smooth windblown ripples, tiny mineral specks, uniform flat diffuse ground albedo, orthographic top down, high resolution natural surface, fine scale"
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "text, letters, logo, watermark, border, frame, grid, blurry, low resolution, large objects, buildings, landscape, mountains, horizon, perspective, isometric, dramatic lighting, strong shadows, glowing lava, grass, plants, cobblestones, big pebbles, rounded stones, boulders, gravel, slabs"
+        }
+      },
+      "4": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1
+        }
+      },
+      "5": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "2",
+            0
+          ],
+          "negative": [
+            "3",
+            0
+          ],
+          "latent_image": [
+            "4",
+            0
+          ],
+          "seed": 17112031,
+          "steps": 30,
+          "cfg": 6.0,
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "denoise": 1.0
+        }
+      },
+      "6": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "5",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "7": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "6",
+            0
+          ],
+          "filename_prefix": "KI_Pyra_Terrain3D/ash_r2"
+        }
+      }
+    },
+    "submitted_unix": 1794930795.1372473,
+    "reason": "Visual review: first ash generation contained cobblestones; retained as rejected source"
+  }
+}
