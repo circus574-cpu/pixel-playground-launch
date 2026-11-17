@@ -1,0 +1,17 @@
+{
+  "torch": "2.8.0+cu129",
+  "torchvision": "0.23.0+cu129",
+  "diffusers": "0.35.2",
+  "transformers": "4.57.1",
+  "accelerate": "1.11.0",
+  "safetensors": "0.8.0",
+  "huggingface-hub": "0.36.2",
+  "tokenizers": "0.22.2",
+  "imageio": "2.37.2",
+  "imageio-ffmpeg": "0.6.0",
+  "Pillow": "12.3.0",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "ftfy": "6.3.1",
+  "sentencepiece": "0.2.1"
+}

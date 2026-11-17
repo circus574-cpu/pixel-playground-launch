@@ -1,9 +1,10 @@
 # KI Legends — dokumentacja projektu
 
-**Przygotowanie GPU — 17.11:** adapter VACE z kontrolnymi pozami Legendy,
-eksport atlasu i izolowany podgląd Godota przygotowano na CPU. Nowej inferencji
-GPU jeszcze nie wykonywano. [Instrukcja](GPU-I-ZASOBY.md#android--przygotowanie-próby-vace-na-cpu-17112026),
-[testy, rzeczywiste nagranie Godota i pakiet startowy](zmiany/2026-11-17/ZMIANY.md).
+**GPU — 17.11:** wykonano jedną próbę VACE na RTX 6000 Ada: 33 nowe klatki chodu
+Legendy, atlas 16 klatek i podgląd w Godocie (54/54 headless + 54/54 X11).
+To kandydat, bez instalacji do produkcji i bez odbioru premium; ramiona wymagają
+dopracowania. [Instrukcja](GPU-I-ZASOBY.md),
+[wyniki, rzeczywiste nagranie Godota i pakiety](zmiany/2026-11-17/ZMIANY.md).
 
 **Audyt Androida 1.8 — 16.11:** wszystkie cztery rasy osiągnęły poziom 3;
 sprawdzono 132 wejścia usługowe i 244 wystąpienia NPC. **Odbiór niepełny:**

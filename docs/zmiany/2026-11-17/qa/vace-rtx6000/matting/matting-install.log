@@ -1,0 +1,68 @@
+WARNING: The directory '/workspace/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+Collecting rembg==2.0.67 (from rembg[cpu]==2.0.67)
+  Downloading rembg-2.0.67-py3-none-any.whl.metadata (21 kB)
+Requirement already satisfied: jsonschema in /usr/local/lib/python3.12/dist-packages (from rembg==2.0.67->rembg[cpu]==2.0.67) (4.26.0)
+Requirement already satisfied: numpy in /usr/local/lib/python3.12/dist-packages (from rembg==2.0.67->rembg[cpu]==2.0.67) (2.5.4)
+Collecting opencv-python-headless (from rembg==2.0.67->rembg[cpu]==2.0.67)
+  Downloading opencv_python_headless-5.0.0.93-cp37-abi3-manylinux_2_28_x86_64.whl.metadata (19 kB)
+Requirement already satisfied: pillow in /tmp/ki-vace-env/lib/python3.12/site-packages (from rembg==2.0.67->rembg[cpu]==2.0.67) (12.3.0)
+Collecting pooch (from rembg==2.0.67->rembg[cpu]==2.0.67)
+  Downloading pooch-1.9.0-py3-none-any.whl.metadata (10 kB)
+Collecting pymatting (from rembg==2.0.67->rembg[cpu]==2.0.67)
+  Downloading pymatting-1.1.16-py3-none-any.whl.metadata (9.1 kB)
+Collecting scikit-image (from rembg==2.0.67->rembg[cpu]==2.0.67)
+  Downloading scikit_image-0.26.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (15 kB)
+Requirement already satisfied: scipy in /tmp/ki-vace-env/lib/python3.12/site-packages (from rembg==2.0.67->rembg[cpu]==2.0.67) (1.18.1)
+Requirement already satisfied: tqdm in /tmp/ki-vace-env/lib/python3.12/site-packages (from rembg==2.0.67->rembg[cpu]==2.0.67) (4.70.1)
+Collecting onnxruntime (from rembg[cpu]==2.0.67)
+  Downloading onnxruntime-1.32.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (5.8 kB)
+Requirement already satisfied: attrs>=22.2.0 in /usr/local/lib/python3.12/dist-packages (from jsonschema->rembg==2.0.67->rembg[cpu]==2.0.67) (26.1.0)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /usr/local/lib/python3.12/dist-packages (from jsonschema->rembg==2.0.67->rembg[cpu]==2.0.67) (2025.9.1)
+Requirement already satisfied: referencing>=0.28.4 in /usr/local/lib/python3.12/dist-packages (from jsonschema->rembg==2.0.67->rembg[cpu]==2.0.67) (0.37.0)
+Requirement already satisfied: rpds-py>=0.25.0 in /usr/local/lib/python3.12/dist-packages (from jsonschema->rembg==2.0.67->rembg[cpu]==2.0.67) (2026.9.1)
+Collecting flatbuffers (from onnxruntime->rembg[cpu]==2.0.67)
+  Downloading flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+Requirement already satisfied: packaging in /usr/local/lib/python3.12/dist-packages (from onnxruntime->rembg[cpu]==2.0.67) (26.3)
+Collecting protobuf>=4.25.8 (from onnxruntime->rembg[cpu]==2.0.67)
+  Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+Requirement already satisfied: platformdirs>=2.5.0 in /usr/local/lib/python3.12/dist-packages (from pooch->rembg==2.0.67->rembg[cpu]==2.0.67) (4.14.5)
+Requirement already satisfied: requests>=2.19.0 in /usr/local/lib/python3.12/dist-packages (from pooch->rembg==2.0.67->rembg[cpu]==2.0.67) (2.34.2)
+Collecting numba>=0.60.0 (from pymatting->rembg==2.0.67->rembg[cpu]==2.0.67)
+  Downloading numba-0.68.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (2.8 kB)
+Requirement already satisfied: networkx>=3.0 in /usr/local/lib/python3.12/dist-packages (from scikit-image->rembg==2.0.67->rembg[cpu]==2.0.67) (3.7)
+Requirement already satisfied: imageio!=2.35.0,>=2.33 in /tmp/ki-vace-env/lib/python3.12/site-packages (from scikit-image->rembg==2.0.67->rembg[cpu]==2.0.67) (2.37.2)
+Collecting tifffile>=2022.8.12 (from scikit-image->rembg==2.0.67->rembg[cpu]==2.0.67)
+  Downloading tifffile-2026.11.16-py3-none-any.whl.metadata (33 kB)
+Collecting lazy-loader>=0.4 (from scikit-image->rembg==2.0.67->rembg[cpu]==2.0.67)
+  Downloading lazy_loader-0.6-py3-none-any.whl.metadata (6.0 kB)
+Collecting llvmlite<0.51,>=0.50.0dev0 (from numba>=0.60.0->pymatting->rembg==2.0.67->rembg[cpu]==2.0.67)
+  Downloading llvmlite-0.50.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.1 kB)
+Requirement already satisfied: typing-extensions>=4.4.0 in /usr/local/lib/python3.12/dist-packages (from referencing>=0.28.4->jsonschema->rembg==2.0.67->rembg[cpu]==2.0.67) (4.16.0)
+Requirement already satisfied: charset_normalizer<4,>=2 in /usr/local/lib/python3.12/dist-packages (from requests>=2.19.0->pooch->rembg==2.0.67->rembg[cpu]==2.0.67) (3.5.2)
+Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.12/dist-packages (from requests>=2.19.0->pooch->rembg==2.0.67->rembg[cpu]==2.0.67) (3.20)
+Requirement already satisfied: urllib3<3,>=1.26 in /usr/local/lib/python3.12/dist-packages (from requests>=2.19.0->pooch->rembg==2.0.67->rembg[cpu]==2.0.67) (2.8.0)
+Requirement already satisfied: certifi>=2023.5.7 in /usr/local/lib/python3.12/dist-packages (from requests>=2.19.0->pooch->rembg==2.0.67->rembg[cpu]==2.0.67) (2026.10.19)
+Downloading rembg-2.0.67-py3-none-any.whl (44 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.1/44.1 kB 228.1 MB/s eta 0:00:00
+Downloading onnxruntime-1.32.0-cp312-cp312-manylinux_2_28_x86_64.whl (27.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 27.8/27.8 MB 302.5 MB/s eta 0:00:00
+Downloading opencv_python_headless-5.0.0.93-cp37-abi3-manylinux_2_28_x86_64.whl (61.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 61.2/61.2 MB 233.8 MB/s eta 0:00:00
+Downloading pooch-1.9.0-py3-none-any.whl (67 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.2/67.2 kB 249.1 MB/s eta 0:00:00
+Downloading pymatting-1.1.16-py3-none-any.whl (56 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 56.3/56.3 kB 232.3 MB/s eta 0:00:00
+Downloading scikit_image-0.26.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (13.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.6/13.6 MB 171.3 MB/s eta 0:00:00
+Downloading lazy_loader-0.6-py3-none-any.whl (8.8 kB)
+Downloading numba-0.68.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (3.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.9/3.9 MB 100.3 MB/s eta 0:00:00
+Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl (343 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 343.2/343.2 kB 185.4 MB/s eta 0:00:00
+Downloading tifffile-2026.11.16-py3-none-any.whl (279 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 279.7/279.7 kB 187.9 MB/s eta 0:00:00
+Downloading flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+Downloading llvmlite-0.50.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (59.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 59.7/59.7 MB 120.0 MB/s eta 0:00:00
+Installing collected packages: flatbuffers, tifffile, protobuf, opencv-python-headless, llvmlite, lazy-loader, scikit-image, pooch, onnxruntime, numba, pymatting, rembg
+Successfully installed flatbuffers-25.12.19 lazy-loader-0.6 llvmlite-0.50.0 numba-0.68.1 onnxruntime-1.32.0 opencv-python-headless-5.0.0.93 pooch-1.9.0 protobuf-7.36.2 pymatting-1.1.16 rembg-2.0.67 scikit-image-0.26.0 tifffile-2026.11.16

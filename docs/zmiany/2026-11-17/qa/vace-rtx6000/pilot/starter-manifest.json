@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "kind": "vace-cpu-prepared-starter",
+  "gpuInferenceVerified": false,
+  "files": [
+    {
+      "file": "commands.json",
+      "bytes": 1386,
+      "sha256": "6e4f3d600b7a64aae9e738d64d50e7a96abbe19c4318c61232db8c40cf92cb0f"
+    },
+    {
+      "file": "requirements-gpu.txt",
+      "bytes": 358,
+      "sha256": "47fa8e5537f9db2240c6d72b93d8dd3f344059a3c48efa533bbf3db5fff56704"
+    },
+    {
+      "file": "trial/control.json",
+      "bytes": 4033,
+      "sha256": "3bf2d8f22282471f31b7d12ab5dc7414d3a03e97c39a84580f28c8cc4b55fb73"
+    },
+    {
+      "file": "trial/control/key-0.png",
+      "bytes": 86560,
+      "sha256": "f91262df4819d3443b707712bf8e27700a6f950d7e725450c0fabc126adca578"
+    },
+    {
+      "file": "trial/control/key-1.png",
+      "bytes": 96631,
+      "sha256": "34f32384c8d4c00b79e35319f02dfbcf81f5e3174060a3548acde681141ea8c4"
+    },
+    {
+      "file": "trial/control/key-2.png",
+      "bytes": 83307,
+      "sha256": "2a1f9e3d7555743381726673627f102fbae40e8cbfd26e1129961542d7c6ab84"
+    },
+    {
+      "file": "trial/control/key-3.png",
+      "bytes": 86396,
+      "sha256": "d33540b67b4dc8edd5c34442f407917180506fefdd5a5554b8bd7806d39b12c2"
+    },
+    {
+      "file": "trial/control/key-4.png",
+      "bytes": 86560,
+      "sha256": "f91262df4819d3443b707712bf8e27700a6f950d7e725450c0fabc126adca578"
+    },
+    {
+      "file": "trial/source/frame-00.png",
+      "bytes": 21902,
+      "sha256": "3934aaa01acfce1e6b14e7d25cf5fcb1019ff207a5b22a029b37ecc756bceeed"
+    },
+    {
+      "file": "trial/source/frame-01.png",
+      "bytes": 24717,
+      "sha256": "6b5a79750980ad11c788968aec9e429b8437ff16720ec3ab5e08e2c091130d87"
+    },
+    {
+      "file": "trial/source/frame-02.png",
+      "bytes": 24526,
+      "sha256": "e615e33374c0182b4d16e9dd7963f2adfadeee2c8dc70187cfb8857ab7d5f697"
+    },
+    {
+      "file": "trial/source/frame-03.png",
+      "bytes": 22858,
+      "sha256": "48161cfd68c5536893f89de9e3422edf696b9e3041a8dbdea746ab0ef408aee2"
+    },
+    {
+      "file": "trial/source/frame-04.png",
+      "bytes": 21007,
+      "sha256": "849174d38f412dbfdc1f0e7210fd3890d433fd76e252ae8b45cfdbcd84a34581"
+    },
+    {
+      "file": "trial/source/frame-05.png",
+      "bytes": 19852,
+      "sha256": "8737db0a3ea38fb227d4120c484a93b8fb8a2370c2529bd29c7c3b5f18b75b13"
+    },
+    {
+      "file": "trial/source/frame-06.png",
+      "bytes": 21816,
+      "sha256": "96b8f0c92938c5282a1776f42743d632173811fa3bcfebf5604622d8c98bad56"
+    },
+    {
+      "file": "trial/source/frame-07.png",
+      "bytes": 21614,
+      "sha256": "d812d38880da5cf43fef2865030b7d212ae00cc97d6149f00e590ebca3726acf"
+    },
+    {
+      "file": "vace14-model.json",
+      "bytes": 6425,
+      "sha256": "a8459d558bb5d1066e99cdbeda7e16366ec6eadacbc3e314e66bd8a26857cf76"
+    },
+    {
+      "file": "vace_motion.py",
+      "bytes": 17539,
+      "sha256": "102687884b5f0fd7d5cb9bb69677de32667c419a451db6280aa5a474acd73097"
+    },
+    {
+      "file": "vace_pack.py",
+      "bytes": 9393,
+      "sha256": "ef503545baa86bb2faeeba217d34314743487cac09235e96f761fd2df3034ea5"
+    },
+    {
+      "file": "vace_stage.py",
+      "bytes": 3624,
+      "sha256": "621feb92a4acb655264c81da6c92a1b890e7d02ee8f9b10a9015f72249a8e1a1"
+    }
+  ]
+}

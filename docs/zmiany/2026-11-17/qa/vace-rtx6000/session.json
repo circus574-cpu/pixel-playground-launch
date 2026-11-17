@@ -1,0 +1,30 @@
+{
+  "podId": "y5q593yyn2addz",
+  "recordedAt": "2026-11-17T04:26:56Z",
+  "codeCommit": "f0211ba4354a7f8120c052594a7fc8e38e862243",
+  "gpu": "NVIDIA RTX 6000 Ada Generation, 49140 MiB, 4 MiB, 0 %",
+  "memoryLimitBytes": 61999996928,
+  "scripts": {
+    "vace_motion.py": "102687884b5f0fd7d5cb9bb69677de32667c419a451db6280aa5a474acd73097",
+    "vace_stage.py": "621feb92a4acb655264c81da6c92a1b890e7d02ee8f9b10a9015f72249a8e1a1",
+    "vace_pack.py": "ef503545baa86bb2faeeba217d34314743487cac09235e96f761fd2df3034ea5"
+  },
+  "stage": {
+    "kind": "model-cache-verified",
+    "revision": "db79b90c60bbb45ceec9e41b9d5a4df934538ac4",
+    "receiptSha256": "a8459d558bb5d1066e99cdbeda7e16366ec6eadacbc3e314e66bd8a26857cf76",
+    "files": 29,
+    "bytes": 75143392259,
+    "seconds": 94.80729324091226,
+    "gpuUsed": false
+  },
+  "launch": {
+    "pid": 744,
+    "pod": "y5q593yyn2addz",
+    "codeCommit": "f0211ba4354a7f8120c052594a7fc8e38e862243",
+    "startedAt": "2026-11-17T04:26:29Z",
+    "numFrames": 33,
+    "steps": 30,
+    "timeoutSeconds": 3300
+  }
+}

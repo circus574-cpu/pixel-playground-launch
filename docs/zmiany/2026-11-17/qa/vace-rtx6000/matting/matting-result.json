@@ -1,0 +1,28 @@
+{
+  "kind": "cpu-matting-candidate",
+  "sourceResultSha256": "2cb85521a409f9ff6bf08bc43ec7e76c0900e47939a0354dffb672d370852d0f",
+  "adapterSha256": "76bff752f9d03fb88ba7ca7029a2d8a8c7bf6463cedd70641d1d52266d917a58",
+  "packSha256": "a002e96ef60c6d3c739f930df251031dace69eac34d76be4f74227d88d999ebf",
+  "providersRequested": [
+    "CPUExecutionProvider"
+  ],
+  "newGpuGeneration": false,
+  "model": {
+    "source": "https://github.com/danielgatis/rembg/releases/download/v0.0.0/isnet-anime.onnx",
+    "bytes": 176069933,
+    "md5": "6f184e756bb3bd901c8849220a83e38e",
+    "sha256": "f15622d853e8260172812b657053460e20806f04b9e05147d49af7bed31a6e99",
+    "reference": "rembg 2.0.67 sessions/dis_anime.py",
+    "purpose": "CPU matte review only",
+    "licenseStatus": "Weight license not verified by this download receipt"
+  },
+  "packages": {
+    "rembg": "2.0.67",
+    "onnxruntime": "1.32.0",
+    "pymatting": "1.1.16",
+    "numba": "0.68.1",
+    "Pillow": "12.3.0",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1"
+  }
+}

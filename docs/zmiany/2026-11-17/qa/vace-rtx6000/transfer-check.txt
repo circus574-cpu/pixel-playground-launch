@@ -1,0 +1,4 @@
+PASS: 4594271 bytes, archive SHA-256 matches GPU host, 68 entries ZIP CRC verified.
+PASS: all 33 generated frame hashes match; candidate atlas and 16 RGBA regions verified.
+PASS: CPU matting archive 345227 bytes SHA-256 cb111de3c5e6d4f8025d0031e9378f44896b64bdbd6fe8a20452cdaec8687e74; ZIP CRC verified.
+PASS: final refined atlas hashes and 16 RGBA cells verified.

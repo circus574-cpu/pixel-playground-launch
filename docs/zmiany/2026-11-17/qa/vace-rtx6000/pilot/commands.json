@@ -1,0 +1,55 @@
+{
+  "scope": "Commands for an owner-started GPU only; no pod lifecycle operations. Execute sequentially and stop on any failure.",
+  "cwd": "Unpacked bundle directory",
+  "offline": true,
+  "steps": [
+    [
+      "python3",
+      "vace_motion.py",
+      "validate",
+      "--root",
+      "trial"
+    ],
+    [
+      "python3",
+      "vace_stage.py",
+      "--source",
+      "/workspace/ki-premium/vace14/model",
+      "--destination",
+      "/tmp/ki-vace14",
+      "--receipt",
+      "vace14-model.json"
+    ],
+    [
+      "timeout",
+      "-k",
+      "60s",
+      "55m",
+      "python3",
+      "vace_motion.py",
+      "infer",
+      "--root",
+      "trial",
+      "--model-root",
+      "/tmp/ki-vace14",
+      "--receipt",
+      "vace14-model.json"
+    ],
+    [
+      "python3",
+      "vace_pack.py",
+      "--root",
+      "trial",
+      "--result",
+      "trial/generated-<actual-attempt>/result.json",
+      "--out",
+      "candidate",
+      "--matte",
+      "white"
+    ]
+  ],
+  "placeholder": "Replace <actual-attempt> using VACE_RESULT from this completed run only; never use reference-fixture.",
+  "next": "Transfer candidate plus generated source frames and run preview_vace_motion.gd in the repository with isolated XDG_DATA_HOME. Review feet, legs, face, silhouette, loop and alpha before any production installation.",
+  "cpuVerified": true,
+  "gpuInferenceVerified": false
+}

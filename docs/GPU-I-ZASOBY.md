@@ -1,5 +1,40 @@
 # KI Legends — GPU i zasoby
 
+## Android — pierwsza próba VACE na RTX 6000 Ada, 17.11.2026
+
+Na maszynie uruchomionej przez właściciela wykonano **jedną rzeczywistą inferencję**:
+33 klatki 512², 30 kroków, jeden seed. Kod generatora z `f0211ba4`, model i klucze
+z przygotowania CPU poniżej. RTX 6000 Ada 48 GB zmieścił tę próbę: szczyt alokacji
+PyTorch 34,86 GiB, największa próbka `nvidia-smi` 36 631 MiB. Cały proces inferencji
+wraz z ponowną weryfikacją wag i ładowaniem trwał 420,49 s; wcześniej kopia
+75 143 392 259 B / 29 plików na SSD zajęła 94,81 s. To wynik tego profilu,
+nie gwarancja dla większych klipów. [Raport, pełne klatki, pomiary i film z Godota](zmiany/2026-11-17/ZMIANY.md#2-rzeczywista-proba-vace--rtx-6000-ada).
+
+Gałąź `trial/vace-rtx6000-20261117` zawiera surowy wynik oraz trzy ścieżki alfa:
+prosty biały klucz, segmentację IS-Net Anime na CPU i końcowe doczyszczenie jasnych
+neutralnych pól ograniczone do czarno-czerwonej Legendy. Pierwsza wersja zatrzymywała
+białe tło między szarfą a nogą. Sama segmentacja też nie usuwała wszystkich takich
+pól. Dodatkowy skrypt QA kalibruje rozmiar zachowywanych refleksów na ośmiu
+kanonicznych klatkach i zmienia wyłącznie alfę dużych neutralnych plam.
+Wszystkie RGB oraz granice sylwetki pozostają identyczne. Nie stosować tego
+doczyszczenia do białych włosów lub szat innych ras.
+
+Naprawiono `vace_pack.py`: rembg 2.0.67 ignoruje ścieżkę zwracaną przez
+`pooch.retrieve` i buduje ją z `U2NET_HOME`. Adapter ustawia teraz katalog lokalnego
+`isnet-anime.onnx` tylko na czas inicjalizacji, zachowuje weryfikację sumy i
+przywraca środowisko. Nowy test pokrywa ten kontrakt oraz uszkodzony plik.
+Model mattingu przygotowano jawnie na CPU; adapter nadal niczego nie pobiera.
+Żądany provider: `CPUExecutionProvider`. Wagi, źródło i sumy są w
+[rejestrze próby](zmiany/2026-11-17/qa/vace-rtx6000/matting/matting-result.json);
+sam rejestr pobrania nie rozstrzyga licencji wag dla wydania komercyjnego.
+
+Końcowy atlas działa w izolowanym `PyraGame`: **54/54 headless i 54/54 X11**.
+To podgląd nowej animacji, bez instalacji do Androida lub produkcji. Pozy nóg
+zmieniają się; zamach ramion jest nadal zbyt mały, więc nie oznaczono wyniku jako
+oprawy premium. Dłuższa ocena pętli, odbiór właściciela i fizyczny telefon pozostają
+otwarte. Pozostałe kierunki i rasy nie były generowane. Nie uruchamiano kolejki
+następnych seedów ani operacji start/stop/restart/zmiany konfiguracji poda.
+
 ## Android — przygotowanie próby VACE na CPU, 17.11.2026
 
 Gałąź `prep/vace-cpu-ready-20261117` przygotowuje **jedną próbę chodu Legendy
@@ -82,8 +117,8 @@ Nie wolno przedstawiać ich jako nowej animacji GPU.
 stała twarz/strój/kierunek, pełna sylwetka, stabilna stopa, płynne zamknięcie
 pętli, poprawna alfa i działanie w Godocie przy zachowanej prędkości.
 Dopiero po ocenie planować następne kierunki i rasy. Żadnego automatycznego importu
-do produkcji. Rzeczywista inferencja VACE, zużycie VRAM i telefon pozostają
-niezweryfikowane; testy CPU nie potwierdzają tych elementów.
+do produkcji. Po samym etapie CPU inferencja, VRAM i telefon były niezweryfikowane.
+Późniejszą próbę RTX 6000 Ada opisano wyżej; telefon nadal niezweryfikowany.
 
 ## Android — pilot materiałów na A100, 16.11.2026
 

@@ -5,6 +5,7 @@ These tests deliberately do not claim neural inference or artistic acceptance.
 import copy
 import hashlib
 import json
+import os
 from pathlib import Path
 import sys
 import tempfile
@@ -118,6 +119,29 @@ class MotionContracts(unittest.TestCase):
         result=packing.white_matte(image)
         self.assertEqual(result.getpixel((0,0))[3],0)
         self.assertEqual(result.getpixel((50,50)),(255,255,255,255))
+
+    def test_rembg_offline_path_matches_the_library_cache_contract(self):
+        model=self.base/"matting/isnet-anime.onnx"
+        model.parent.mkdir();model.write_bytes(b"Tiny CPU boundary fixture, not a neural model")
+        expected=hashlib.md5(model.read_bytes()).hexdigest()
+        pooch=types.ModuleType("pooch")
+        pooch.retrieve=lambda *a,**kw:self.fail("A network downloader was called")
+        def new_session(name,providers):
+            self.assertEqual(name,"isnet-anime")
+            self.assertEqual(providers,["CPUExecutionProvider"])
+            # Real rembg constructs this path instead of using pooch's return.
+            registered=Path(os.environ["U2NET_HOME"])/"isnet-anime.onnx"
+            self.assertEqual(registered,model)
+            self.assertEqual(pooch.retrieve("unused",known_hash="md5:"+expected),str(registered))
+            return "local-session"
+        rembg=types.ModuleType("rembg");rembg.new_session=new_session
+        rembg.remove=lambda image,session:(image,session)
+        previous=os.environ.get("U2NET_HOME")
+        with patch.dict(sys.modules,{"rembg":rembg,"pooch":pooch}):
+            packing.rembg_matter(model)
+            model.write_bytes(b"corrupted")
+            with self.assertRaisesRegex(ValueError,"checksum mismatch"):packing.rembg_matter(model)
+        self.assertEqual(os.environ.get("U2NET_HOME"),previous)
 
     def test_one_scale_and_ground_anchor_for_whole_clip(self):
         from PIL import Image, ImageDraw

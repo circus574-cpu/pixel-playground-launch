@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 import statistics
 from vace_motion import output_root, safe_file, sha, validate, verify_result, write_json
@@ -34,6 +35,8 @@ def rembg_matter(model_file):
     model_file = Path(model_file)
     if not model_file.is_file():
         raise ValueError("Matting model missing; prepare isnet-anime.onnx before GPU rental")
+    if model_file.name != "isnet-anime.onnx":
+        raise ValueError("Keep the registered matting filename isnet-anime.onnx")
     import rembg
     def local_retrieve(*args, **kwargs):
         known = kwargs.get("known_hash", args[1] if len(args) > 1 else None)
@@ -47,7 +50,10 @@ def rembg_matter(model_file):
         if actual != expected:
             raise ValueError("Matting model checksum mismatch")
         return str(model_file.resolve())
-    with patch("pooch.retrieve", side_effect=local_retrieve):
+    # rembg 2.0.67 ignores pooch's return value and constructs this path itself.
+    # Set the cache directory only while creating this session; never copy into
+    # a user's default cache or leave process-wide environment changes behind.
+    with patch("pooch.retrieve", side_effect=local_retrieve), patch.dict(os.environ, {"U2NET_HOME": str(model_file.parent.resolve())}):
         session = rembg.new_session("isnet-anime", providers=["CPUExecutionProvider"])
     return lambda image: rembg.remove(image.convert("RGB"), session=session)
 
