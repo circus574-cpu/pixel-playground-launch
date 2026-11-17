@@ -1,0 +1,32 @@
+{
+  "format": "ki-isometric-buildings-1",
+  "contract_sha256": "34f64aa74bf21076fdac419684e92d331e0cd1ed7c843ac05c19eb25c320213c",
+  "blender": "4.5.3 LTS",
+  "assets": {
+    "smithy": {
+      "name": "Kuźnia",
+      "beauty": "smithy/beauty.png",
+      "shadow": "smithy/shadow.png",
+      "footprint_m": [
+        24,
+        18
+      ],
+      "position_m": [
+        45,
+        100
+      ],
+      "origin": [
+        0.5,
+        0.5721687836487033
+      ],
+      "pixels_per_meter": 16.0,
+      "runtime_scale": 0.7071067811865476,
+      "gpu": [
+        "NVIDIA A40"
+      ],
+      "mesh_objects": 280,
+      "beauty_sha256": "e1e30e839d899e21cc35c8dcb22a1bc7cf7f1375554d94b60008ee70a9f5442b",
+      "shadow_sha256": "e51a7e06bd775a531759fec1e814f45e6c87b641d9c6be33f7bd446c52a106cb"
+    }
+  }
+}

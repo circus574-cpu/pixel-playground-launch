@@ -1,5 +1,9 @@
 # KI Legends — dokumentacja projektu
 
+**17.11 — nowe budynki próby izometrycznej Pyry:** sześć malowanych sprite'ów,
+kotwice, kontaktowe cienie i synchronizacja map. Zintegrowane w próbie Godota,
+bez nowego APK i publikacji. [Wyniki i zrzuty](zmiany/2026-11-17/ZMIANY.md#3-budynki-i-styl-izometrycznej-pyry).
+
 **17.11 — Godot, izometria i TEST SERWER:** samodzielna próba Pyry 1024×1024 m
 oraz podgląd uruchamiany w ekranie serwisowym Androida. Przełącznik w `/admin`
 zamyka dostęp zwykłym graczom także na stronie; wyjątek wymaga roli administratora

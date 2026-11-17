@@ -1,0 +1,30 @@
+{
+  "model": "Lykon/dreamshaper-xl-v2-turbo",
+  "revision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+  "source_sha256": "e1e30e839d899e21cc35c8dcb22a1bc7cf7f1375554d94b60008ee70a9f5442b",
+  "prompt": "One isolated ornate volcanic fantasy blacksmith forge building, strict orthographic isometric view, premium richly hand-painted anime action RPG game art, bowed layered deep crimson ceramic roof with individually articulated tiles and engraved golden end caps, thick dark timber columns with carved joints and bronze brackets, irregular black basalt stone furnace arch, bright orange fire inside the forge, polished iron anvil and hanging hammers, coopered wood barrels, beautiful detailed craftsmanship, coherent warm key light from upper left and soft cool fill, strong readable silhouette, saturated deep reds, charcoal stone and restrained golden accents, crisp high detail game sprite, same architectural layout and same camera as the input",
+  "negative": "text, watermark, logo, letters, low poly, plastic, toy, flat slabs, blurry, washed out, grey colors, extra buildings, town, scene, landscape, trees, people, characters, fisheye, perspective convergence",
+  "scope": "candidates only; alpha and world registration held from 3D render",
+  "items": [
+    {
+      "strength": 0.35,
+      "seed": 17112026,
+      "steps": 32,
+      "guidance": 2,
+      "seconds": 4.016981063999992,
+      "file": "smithy-035.png",
+      "sha256": "477c6268f501251a7421f1d2b2df24a3eff02d47b8ae2c97469c1bc34b00ba8b",
+      "alpha_preserved": true
+    },
+    {
+      "strength": 0.5,
+      "seed": 17112026,
+      "steps": 32,
+      "guidance": 2,
+      "seconds": 4.1639812709981925,
+      "file": "smithy-050.png",
+      "sha256": "4cd73ad5e5f1d41c4fc0bf4bce8e159e667ebd55f78140395aaace77871901a6",
+      "alpha_preserved": true
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+name: Godot isometric Pyra art
+on:
+  pull_request:
+    paths:
+      - ports/godot-isometric-pyra/**
+      - scripts/gpu/*pyra*buildings.py
+      - deliveries/pyra-buildings-20261117/**
+      - .github/workflows/godot-isometric-art.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  actual-runtime:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch prototype source assets
+        run: git lfs pull --include='ports/godot-isometric-pyra/**'
+      - name: Install pinned engine and packaging dependencies
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y xvfb libgl1-mesa-dri python3-pil
+          curl --fail --location --retry 2 -o "$RUNNER_TEMP/godot.zip" https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_linux.x86_64.zip
+          printf '%s  %s\n' d0bc2113065e481c9c2c2b2c37daa4e8be3fe9e27f0ab9ab0b6096e9a37907f3 "$RUNNER_TEMP/godot.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/godot.zip" -d "$RUNNER_TEMP/godot"
+          mv "$RUNNER_TEMP/godot/Godot_v4.6.3-stable_linux.x86_64" "$RUNNER_TEMP/godot/godot"
+          echo "$RUNNER_TEMP/godot" >> "$GITHUB_PATH"
+      - name: Validate actual sprite bytes and unchanged footprints
+        run: python3 scripts/gpu/test-pyra-painted-buildings.py
+      - name: Import scripts and actual textures
+        run: |
+          mkdir -p isometric-qa
+          godot --headless --audio-driver Dummy --editor --path ports/godot-isometric-pyra --import > isometric-qa/import.txt 2>&1
+          if grep -E 'SCRIPT ERROR:|^ERROR:' isometric-qa/import.txt; then exit 1; fi
+      - name: Capture and test real Godot scene
+        run: |
+          timeout 300s xvfb-run -a -s '-screen 0 1280x720x24' env LIBGL_ALWAYS_SOFTWARE=1 KI_ISO_QA_DIR="$GITHUB_WORKSPACE/isometric-qa/after" godot --audio-driver Dummy --rendering-method gl_compatibility --path ports/godot-isometric-pyra -- --qa --building-qa > isometric-qa/runtime.txt 2>&1
+          python3 - <<'PY'
+          import json, pathlib
+          root = pathlib.Path('isometric-qa')
+          report = json.loads((root/'after/results.json').read_text())
+          assert report['failed'] == 0 and report['passed'] >= 32, report
+          assert len(list((root/'after').glob('building-*.jpg'))) == 6
+          text = (root/'runtime.txt').read_text()
+          assert 'SCRIPT ERROR:' not in text and '\nERROR:' not in text
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pyra-isometric-art-${{ github.sha }}
+          path: isometric-qa
+          retention-days: 14

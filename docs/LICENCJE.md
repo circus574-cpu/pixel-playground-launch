@@ -435,3 +435,10 @@ Pyry, z identycznymi bajtami (`asset-reuse.json`). Kopia do podglądu nie zmieni
 ich dotychczasowego statusu prawnego. Terrain3D zachowuje pełną licencję MIT
 w `ports/godot-terrain3d/LICENSE-Terrain3D.txt`; modele skał są proceduralnymi
 wynikami własnego skryptu Blendera. Prototyp nie korzysta z płatnego Meshy.
+
+Nowe sześć budynków próby (`deliveries/pyra-buildings-20261117`) pochodzi
+z OpenAI image_gen; zachowano trzy źródła PNG, SHA-256 i pochodzenie referencji
+w `provenance.json`. Modelu narzędzie nie ujawnia. Rejestr nie jest dowodem
+wyłącznych praw ani zakończonym odbiorem licencyjnym; status: **do sprawdzenia**.
+Eksperymenty Blender/SDXL opisano osobno i nie podłączono ich wyników do gry.
+Nie użyto kredytów Meshy ani Lovable, nie zastąpiono dawnych źródeł.
