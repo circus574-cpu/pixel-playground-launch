@@ -8,9 +8,11 @@ var texture: Texture2D
 var world_size := Vector2(65600, 42304)
 var markers: Array[Dictionary] = []   # {point (world), label, kind}
 var player_world := Vector2.ZERO
+var show_player := true
 var center := Vector2.ZERO
 var scale_px := 0.01
 var min_scale := 0.01
+var fitted := false
 var dragging := false
 var drag_moved := false
 var drag_start := Vector2.ZERO
@@ -19,6 +21,7 @@ var font: Font = ThemeDB.fallback_font
 var sea_color := Color("0c2f40")
 
 func setup(map_texture: Texture2D, marker_list: Array[Dictionary], player: Vector2, size_of_world: Vector2) -> void:
+	fitted = false
 	world_size = size_of_world
 	center = size_of_world / 2.0
 	texture = map_texture
@@ -33,21 +36,25 @@ func setup(map_texture: Texture2D, marker_list: Array[Dictionary], player: Vecto
 	player_world = player
 	clip_contents = true
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	resized.connect(fit)
+	if not resized.is_connected(fit):
+		resized.connect(fit)
 	fit()
+	focus(world_size / 2.0, 1.0)
 
 func fit() -> void:
 	if size.x <= 0.0:
 		return
+	var relative_zoom := zoom_level() if fitted else 1.0
 	min_scale = minf(size.x / world_size.x, size.y / world_size.y) * 0.96
-	scale_px = clampf(maxf(scale_px, min_scale), min_scale, min_scale * 12.0)
+	scale_px = min_scale * relative_zoom
+	fitted = true
 	clamp_view()
 	queue_redraw()
 
 func clamp_view() -> void:
 	var half := size / scale_px / 2.0
-	center.x = clampf(center.x, minf(half.x, world_size.x - half.x), maxf(half.x, world_size.x - half.x))
-	center.y = clampf(center.y, minf(half.y, world_size.y - half.y), maxf(half.y, world_size.y - half.y))
+	center.x = world_size.x / 2.0 if half.x >= world_size.x / 2.0 else clampf(center.x, half.x, world_size.x - half.x)
+	center.y = world_size.y / 2.0 if half.y >= world_size.y / 2.0 else clampf(center.y, half.y, world_size.y - half.y)
 
 func to_screen(p: Vector2) -> Vector2:
 	return (p - center) * scale_px + size / 2.0
@@ -174,7 +181,8 @@ func _draw() -> void:
 		plaques.append({"at": at + Vector2(14 + (w + 20) / 2.0, 0), "text": text, "px": px, "color": Color("ffe9bd") if big else Color("efe7d6"), "strong": big})
 	for plaque in plaques:   # captions go over every marker, so no pin sits on a name
 		MapStyle.plaque(self, plaque.at, str(plaque.text), int(plaque.px), plaque.color, bool(plaque.strong))
-	MapStyle.hero_marker(self, to_screen(player_world))
+	if show_player:
+		MapStyle.hero_marker(self, to_screen(player_world))
 	MapStyle.vignette(self, Rect2(Vector2.ZERO, size))
 	MapStyle.compass(self, Vector2(66, 82), 34.0)
 	draw_legend()

@@ -1,10 +1,11 @@
 class_name AtlasView
 extends Control
-## Flat planet atlas: wraps horizontally like the browser map, pan / pinch / wheel zoom, outlines traced from the painted atlas.
+## Single-copy world overview with source outlines; deeper zoom opens the detailed land map.
 
 signal region_picked(id: String)
+signal detail_requested(id: String)
 
-const MAX_ZOOM := 14.0
+const MAX_ZOOM := 3.0
 
 var texture: Texture2D
 var regions: Array = []
@@ -15,6 +16,8 @@ var marks: Array[Dictionary] = []   # {atlas, label, kind}
 var center := Vector2(1000, 500)
 var scale_px := 1.0
 var min_scale := 0.5
+var fitted := false
+var artwork := TextureRect.new()
 var drag_start := Vector2.ZERO
 var drag_moved := false
 var dragging := false
@@ -28,14 +31,28 @@ func setup(atlas: Texture2D, region_list: Array, player_point: Vector2) -> void:
 		polygons[region.id] = MapMath.polygon(region)
 	clip_contents = true
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	artwork.texture = load("res://assets/map/artwork/superior-relief.png")
+	artwork.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	artwork.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var art_material := ShaderMaterial.new()
+	art_material.shader = load("res://shaders/map_artwork.gdshader")
+	art_material.set_shader_parameter("canonical_tex", atlas)
+	art_material.set_shader_parameter("relief_tex", artwork.texture)
+	artwork.material = art_material
+	add_child(artwork)
+	# Draw annotations after the artwork, while preserving one flat map copy.
+	show_behind_parent = false
+	artwork.show_behind_parent = true
 	resized.connect(fit)
 	fit()
 
 func fit() -> void:
 	if size.x <= 0.0:
 		return
-	min_scale = maxf(size.x / MapMath.MAP_W * 0.5, size.y / MapMath.MAP_H)
-	scale_px = clampf(maxf(scale_px, min_scale), min_scale, min_scale * MAX_ZOOM)
+	var relative_zoom := zoom_level() if fitted else 1.0
+	min_scale = minf(size.x / MapMath.MAP_W, size.y / MapMath.MAP_H) * 0.96
+	scale_px = min_scale * relative_zoom
+	fitted = true
 	clamp_view()
 	queue_redraw()
 
@@ -43,9 +60,14 @@ func zoom_level() -> float:
 	return scale_px / min_scale
 
 func clamp_view() -> void:
-	var half_h := size.y / scale_px / 2.0
-	center.y = clampf(center.y, minf(half_h, MapMath.MAP_H - half_h), maxf(half_h, MapMath.MAP_H - half_h))
-	center.x = fposmod(center.x, MapMath.MAP_W)
+	var half := size / scale_px / 2.0
+	center.x = MapMath.MAP_W / 2.0 if half.x >= MapMath.MAP_W / 2.0 else clampf(center.x, half.x, MapMath.MAP_W - half.x)
+	center.y = MapMath.MAP_H / 2.0 if half.y >= MapMath.MAP_H / 2.0 else clampf(center.y, half.y, MapMath.MAP_H - half.y)
+	artwork.position = to_screen(Vector2.ZERO)
+	artwork.size = Vector2(MapMath.MAP_W, MapMath.MAP_H) * scale_px
+
+func overview() -> void:
+	focus(Vector2(MapMath.MAP_W / 2.0, MapMath.MAP_H / 2.0), 1.0)
 
 func to_screen(p: Vector2) -> Vector2:
 	return (p - center) * scale_px + size / 2.0
@@ -61,6 +83,12 @@ func focus(p: Vector2, zoom: float) -> void:
 
 func zoom_by(factor: float, at: Vector2) -> void:
 	var anchor := to_atlas(at)
+	if factor > 1.0 and zoom_level() * factor > MAX_ZOOM:
+		var region := MapMath.region_at(regions, anchor)
+		var target := str(region.get("id", selected))
+		if target != "":
+			detail_requested.emit(target)
+			return
 	scale_px = clampf(scale_px * factor, min_scale, min_scale * MAX_ZOOM)
 	center += anchor - to_atlas(at)
 	clamp_view()
@@ -103,14 +131,13 @@ func pick(at: Vector2) -> void:
 func _draw() -> void:
 	if texture == null:
 		return
-	draw_rect(Rect2(Vector2.ZERO, size), Color("0b1620"))
-	var visible_w := size.x / scale_px
-	var first := floori((center.x - visible_w / 2.0) / MapMath.MAP_W)
-	var last := floori((center.x + visible_w / 2.0) / MapMath.MAP_W)
+
+	var first := 0
+	var last := 0
 	var t := Time.get_ticks_msec() / 1000.0
 	for copy in range(first, last + 1):
 		var shift := Vector2(float(copy) * MapMath.MAP_W, 0.0)
-		draw_texture_rect(texture, Rect2(to_screen(shift), Vector2(MapMath.MAP_W, MapMath.MAP_H) * scale_px), false)
+
 		# graticule every 30 degrees of longitude / 30 of latitude
 		for lon in range(-150, 180, 30):
 			var x := (float(lon) + 180.0) / 360.0 * MapMath.MAP_W
@@ -128,30 +155,22 @@ func _draw() -> void:
 			if is_selected:
 				var glow := 0.18 + 0.08 * sin(t * 3.0)
 				draw_colored_polygon(screen, Color(1.0, 0.78, 0.32, glow))
-			var line := Color(1.0, 0.82, 0.45, 0.98) if is_selected else (Color(1.0, 0.7, 0.35, 0.75) if mine else Color(0.85, 0.9, 1.0, 0.4))
+			var line := Color(1.0, 0.82, 0.45, 0.98) if is_selected else (Color(0.82, 0.72, 0.51, 0.4) if mine else Color(0.85, 0.9, 1.0, 0.4))
 			draw_outline(poly, shift, line, is_selected)
 		for region: Dictionary in regions:
 			var label_at := to_screen(Vector2(float(region.label.x), float(region.label.y)) + shift)
+			label_at.y = clampf(label_at.y, 26.0, size.y - 26.0)
 			var continent: bool = region.kind == "continent"
 			var mine: bool = bool(region.playable)
-			if not continent and zoom_level() < 1.35:
-				continue
-			var sp = region.get("settlementPoint")
+
 			var plaque_at := label_at
-			if sp != null:
-				var city_at := to_screen(Vector2(float(sp.x), float(sp.y)) + shift)
-				if zoom_level() >= 1.5 or not continent:
-					MapStyle.marker(self, city_at, "city", 0.7)
-				if absf(city_at.y - label_at.y) < 26.0 and absf(city_at.x - label_at.x) < 90.0:
-					plaque_at = label_at + Vector2(0, -26)
 			MapStyle.plaque(self, plaque_at, str(region.name), 17 if continent else 12, Color("ffe9bd") if mine else Color("e6eef7"), continent)
 		for mark in marks:
 			var at := to_screen(mark.atlas + shift)
-			MapStyle.marker(self, at, "city", 0.55 + (0.2 if zoom_level() > 4.0 else 0.0))
-			if zoom_level() > 3.0:
+			MapStyle.marker(self, at, "city", 0.55 + (0.2 if zoom_level() > 2.0 else 0.0))
+			if zoom_level() > 1.7:
 				MapStyle.halo(self, at + Vector2(10, 5), str(mark.label), 14, Color("fff0cc"))
 		MapStyle.hero_marker(self, to_screen(player_atlas + shift))
-	MapStyle.vignette(self, Rect2(Vector2.ZERO, size))
 	MapStyle.compass(self, Vector2(66, 82), 34.0)
 	MapStyle.frame(self, Rect2(Vector2(3, 3), size - Vector2(6, 6)))
 

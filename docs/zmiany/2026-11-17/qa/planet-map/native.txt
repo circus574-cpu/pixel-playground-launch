@@ -1,0 +1,82 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS opens on the full 2D planet
+PASS all 22 settlements are on the world atlas
+PASS metadata available for four continents and six islands
+PASS settlement is inside its source land: Zielona Przystań
+PASS settlement is inside its source land: Kamienny Sad
+PASS settlement is inside its source land: Latarnia Korzeni
+PASS settlement is inside its source land: Przystań Trzech Mostów
+PASS settlement is inside its source land: Sanktuarium Tysiąca Źródeł
+PASS settlement is inside its source land: Biała Przystań
+PASS settlement is inside its source land: Archiwum Nad Chmurami
+PASS settlement is inside its source land: Tarasy Świtu
+PASS settlement is inside its source land: Węzeł Świadomości
+PASS settlement is inside its source land: Stacja Meridian
+PASS settlement is inside its source land: Kuźnia Obwodów
+PASS settlement is inside its source land: Port Zerowy
+PASS settlement is inside its source land: Twierdza Popiołu
+PASS settlement is inside its source land: Cytadela Kowadeł
+PASS settlement is inside its source land: Port Czerwonych Żagli
+PASS settlement is inside its source land: Żarowy Trakt
+PASS settlement is inside its source land: Przystań 1
+PASS settlement is inside its source land: Przystań 2
+PASS settlement is inside its source land: Przystań 3
+PASS settlement is inside its source land: Przystań 4
+PASS settlement is inside its source land: Przystań 5
+PASS settlement is inside its source land: Przystań 6
+PASS whole planet is visible: (0.0, 0.0)
+PASS whole planet is visible: (2000.0, 1000.0)
+PASS overview is centered on the planet, not the player
+PASS rendered relief retains canonical land/water class away from quantization threshold
+PASS close zoom enters actual land detail instead of stretching global pixels
+PASS browse without travelling: verdant
+PASS no fake player in remote land: verdant
+PASS land detail has all source settlements: verdant
+PASS browse without travelling: aether
+PASS no fake player in remote land: aether
+PASS land detail has all source settlements: aether
+PASS browse without travelling: nexus
+PASS no fake player in remote land: nexus
+PASS land detail has all source settlements: nexus
+PASS browse without travelling: pyra
+PASS no fake player in remote land: pyra
+PASS land detail has all source settlements: pyra
+PASS browse without travelling: island-1
+PASS no fake player in remote land: island-1
+PASS land detail has all source settlements: island-1
+PASS browse without travelling: island-2
+PASS no fake player in remote land: island-2
+PASS land detail has all source settlements: island-2
+PASS browse without travelling: island-3
+PASS no fake player in remote land: island-3
+PASS land detail has all source settlements: island-3
+PASS browse without travelling: island-4
+PASS no fake player in remote land: island-4
+PASS land detail has all source settlements: island-4
+PASS browse without travelling: island-5
+PASS no fake player in remote land: island-5
+PASS land detail has all source settlements: island-5
+PASS browse without travelling: island-6
+PASS no fake player in remote land: island-6
+PASS land detail has all source settlements: island-6
+PASS browsing all ten lands never triggers a journey
+PASS only explicit travel button requests a journey
+PASS globe cannot zoom until the sphere is cropped
+PASS WORLD touch restores the entire planet
+PASS map action is not clipped at (1280, 576): +
+PASS map action is not clipped at (1280, 576): −
+PASS map action is not clipped at (1280, 576): TY
+PASS map action is not clipped at (1280, 576): ŚWIAT
+PASS map action is not clipped at (852, 393): +
+PASS map action is not clipped at (852, 393): −
+PASS map action is not clipped at (852, 393): TY
+PASS map action is not clipped at (852, 393): ŚWIAT
+MAP RESULTS 72/72
+PASS actual game map opens and blocks combat controls
+PASS closing actual map restores game controls
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)

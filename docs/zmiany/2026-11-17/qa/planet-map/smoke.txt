@@ -1,0 +1,582 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS entry scene fills the screen with the landscape key art (no bars, no distortion) and the Powered by GODOT credit with the official logo
+PASS city is not instantiated behind the title
+PASS Android launcher and desktop use KI icon
+PASS the app starts in the boot scene that brings the game's code up to date
+PASS boot, KiNet and the Android preset name the same versionCode
+PASS the film is cut by at most a tenth of its height on a wide phone, mostly at the top, and not at all on 16:9
+PASS on a very wide screen the film keeps its picture and the sides stay in the backdrop colour
+PASS the installed app is version 1.0
+PASS the player sees the version of the downloaded release (1.1, 1.2, ...), the app version otherwise
+PASS PyraSkin keeps exactly the functions of APK 1.0
+PASS the look that travels with updates has its pictures and letters
+PASS "Zapamiętaj mnie" keeps the e-mail for the next form, and keeps nothing when it is off
+PASS without "Zapamiętaj mnie" the sign-in is not written to the device, with it the session is stored
+PASS a core the device does not have is downloaded
+PASS a core that is already on the device is mounted without downloading
+PASS a held core whose file is gone is downloaded again
+PASS without the server the held core runs; without a held core the APK's own code runs
+PASS a release that carries no core runs the APK's own code
+PASS a core on the bad list is never taken again
+PASS a core that never reached the first city in three launches is given up
+PASS a newer core replaces a given-up one
+PASS a core that has proven itself is not given up
+PASS launches of an unproven core are counted; a proven one is not
+PASS script names are read from an export listing, a pack listing and the editor
+PASS the entry film and its last frame are in the game
+PASS the film's volume follows the music setting
+PASS the game starts after the film only when the work is done and the player has touched the screen
+PASS title layout and credit are separate: (854, 480)
+PASS title layout and credit are separate: (1280, 720)
+PASS title layout and credit are separate: (1600, 720)
+PASS cancelled start touch does not load city
+PASS focus loss disarms start button
+PASS other finger cannot activate start button
+PASS start touch loads city and rejects duplicate activation
+PASS title hands off to exactly one playable city
+PASS start touch is not inherited by city controls
+PASS whole Pyra continent has the published Superior v2 size
+PASS capital layout from the first trial is kept with the six accepted houses
+PASS start in the capital on walkable ground
+PASS scenery streams around the hero (bounded)
+PASS four cities, named places, scenery sprites
+PASS chunks stream when the hero travels across the continent
+PASS distant chunk set stays bounded
+PASS hero is 15% larger than the previous build
+PASS level 1 speed is the Legend base 170
+PASS sea, edge and outside are not walkable
+FAIL authored footprint blocks the hero
+ERROR: FAILED: authored footprint blocks the hero { "y": 15224.4716796875, "wall": 15194.4716796875, "start": 15224.4716796875 }
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] verify (res://tests/smoke.gd:16)
+       [1] run (res://tests/smoke.gd:203)
+PASS an authored capital footprint was tested
+PASS service doors of the capital and the three cities
+PASS door is reachable on foot: accepted-hall
+PASS door is reachable on foot: accepted-shop
+PASS door is reachable on foot: accepted-arena
+PASS door is reachable on foot: accepted-depot
+PASS door is reachable on foot: accepted-smithy
+PASS door is reachable on foot: accepted-inn
+PASS door is reachable on foot: pyra-town-1-shop
+PASS door is reachable on foot: pyra-town-1-hall
+PASS door is reachable on foot: pyra-town-1-inn
+PASS door is reachable on foot: pyra-town-1-smithy
+PASS door is reachable on foot: pyra-town-1-depot
+PASS door is reachable on foot: pyra-town-1-arena
+PASS door is reachable on foot: pyra-town-2-shop
+PASS door is reachable on foot: pyra-town-2-hall
+PASS door is reachable on foot: pyra-town-2-inn
+PASS door is reachable on foot: pyra-town-2-smithy
+PASS door is reachable on foot: pyra-town-2-depot
+PASS door is reachable on foot: pyra-town-2-arena
+PASS door is reachable on foot: pyra-town-3-shop
+PASS door is reachable on foot: pyra-town-3-hall
+PASS door is reachable on foot: pyra-town-3-inn
+PASS door is reachable on foot: pyra-town-3-smithy
+PASS door is reachable on foot: pyra-town-3-depot
+PASS door is reachable on foot: pyra-town-3-arena
+FAIL attack finger and stick finger work at the same time
+ERROR: FAILED: attack finger and stick finger work at the same time { "move": "(0.0, 0.0)", "attack": false }
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] verify (res://tests/smoke.gd:16)
+       [1] run (res://tests/smoke.gd:223)
+       [2] settle (res://tests/smoke.gd:21)
+PASS attack releases with its own finger
+PASS touch cancellation releases movement
+FAIL 30/120 FPS do not change movement speed
+ERROR: FAILED: 30/120 FPS do not change movement speed [0.0, 0.0]
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] verify (res://tests/smoke.gd:16)
+       [1] run (res://tests/smoke.gd:237)
+FAIL NPC dialog opens and releases movement
+ERROR: FAILED: NPC dialog opens and releases movement <null>
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] verify (res://tests/smoke.gd:16)
+       [1] run (res://tests/smoke.gd:241)
+FAIL dialog closes with a separate touch index
+ERROR: FAILED: dialog closes with a separate touch index <null>
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] verify (res://tests/smoke.gd:16)
+       [1] run (res://tests/smoke.gd:246)
+       [2] settle (res://tests/smoke.gd:21)
+FAIL enter hall from accepted-hall
+ERROR: FAILED: enter hall from accepted-hall <null>
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] verify (res://tests/smoke.gd:16)
+       [1] run (res://tests/smoke.gd:254)
+       [2] settle (res://tests/smoke.gd:21)
+PASS return to the same entrance: accepted-hall
+PASS enter shop from accepted-shop
+PASS return to the same entrance: accepted-shop
+PASS enter arena from accepted-arena
+PASS return to the same entrance: accepted-arena
+PASS enter depot from accepted-depot
+PASS return to the same entrance: accepted-depot
+PASS enter smithy from accepted-smithy
+PASS return to the same entrance: accepted-smithy
+PASS enter inn from accepted-inn
+PASS return to the same entrance: accepted-inn
+PASS enter shop from pyra-town-1-shop
+PASS return to the same entrance: pyra-town-1-shop
+PASS enter hall from pyra-town-1-hall
+PASS return to the same entrance: pyra-town-1-hall
+PASS enter inn from pyra-town-1-inn
+PASS return to the same entrance: pyra-town-1-inn
+PASS enter smithy from pyra-town-1-smithy
+PASS return to the same entrance: pyra-town-1-smithy
+PASS enter depot from pyra-town-1-depot
+PASS return to the same entrance: pyra-town-1-depot
+PASS enter arena from pyra-town-1-arena
+PASS return to the same entrance: pyra-town-1-arena
+PASS enter shop from pyra-town-2-shop
+PASS return to the same entrance: pyra-town-2-shop
+PASS enter hall from pyra-town-2-hall
+PASS return to the same entrance: pyra-town-2-hall
+PASS enter inn from pyra-town-2-inn
+PASS return to the same entrance: pyra-town-2-inn
+PASS enter smithy from pyra-town-2-smithy
+PASS return to the same entrance: pyra-town-2-smithy
+PASS enter depot from pyra-town-2-depot
+PASS return to the same entrance: pyra-town-2-depot
+PASS enter arena from pyra-town-2-arena
+PASS return to the same entrance: pyra-town-2-arena
+PASS enter shop from pyra-town-3-shop
+PASS return to the same entrance: pyra-town-3-shop
+PASS enter hall from pyra-town-3-hall
+PASS return to the same entrance: pyra-town-3-hall
+PASS enter inn from pyra-town-3-inn
+PASS return to the same entrance: pyra-town-3-inn
+PASS enter smithy from pyra-town-3-smithy
+PASS return to the same entrance: pyra-town-3-smithy
+PASS enter depot from pyra-town-3-depot
+PASS return to the same entrance: pyra-town-3-depot
+PASS enter arena from pyra-town-3-arena
+PASS return to the same entrance: pyra-town-3-arena
+PASS annex data: 29 nodes, base and per-level stats
+PASS stats at level 1 follow the annex
+PASS stats at level 8 follow the annex
+PASS stats at level 20 follow the annex
+PASS speed at level 20 follows the owner growth tiers
+PASS A1 needs level 2 and a free point
+PASS A1 learned at level 2 and placed in slot 1
+PASS A4 needs level 7 and A2/A3
+PASS learn A2
+PASS learn A3
+PASS learn A4
+PASS learn A5
+PASS learn A6
+PASS learn A7
+PASS A7 excludes A8
+PASS rank scaling: first point half, then +10% of that base
+PASS A5 gives +8% x 0.5 attack at rank 1
+PASS arena room holds one training dummy
+PASS basic strike hits the dummy and builds Żar
+PASS ability A1 damages the dummy
+PASS ability A4 damages the dummy
+PASS ability B1 damages the dummy
+PASS ability C1 damages the dummy
+PASS ability C4 damages the dummy
+PASS B1 Przełamanie destroys the shield
+PASS cooldown (6 s) and KI cost (10) apply to A1
+PASS no KI, no cast
+PASS Eksplozja Żaru consumes all Żar
+PASS Płomienny Szał raises attack
+PASS buffs expire
+PASS dodge dashes within the room
+PASS checkpoint writes atomically
+PASS checkpoint round-trip restores position, level and tree
+PASS first-trial checkpoint is imported into world coordinates
+PASS unknown checkpoint version is preserved
+PASS atlas knows all ten lands
+PASS city maps onto its own land on the atlas: pyra / Twierdza Popiołu
+PASS city maps onto its own land on the atlas: pyra / Cytadela Kowadeł
+PASS city maps onto its own land on the atlas: pyra / Port Czerwonych Żagli
+PASS city maps onto its own land on the atlas: pyra / Żarowy Trakt
+PASS city maps onto its own land on the atlas: verdant / Zielona Przystań
+PASS city maps onto its own land on the atlas: verdant / Kamienny Sad
+PASS city maps onto its own land on the atlas: verdant / Latarnia Korzeni
+PASS city maps onto its own land on the atlas: verdant / Przystań Trzech Mostów
+PASS city maps onto its own land on the atlas: aether / Sanktuarium Tysiąca Źródeł
+PASS city maps onto its own land on the atlas: aether / Biała Przystań
+PASS city maps onto its own land on the atlas: aether / Archiwum Nad Chmurami
+PASS city maps onto its own land on the atlas: aether / Tarasy Świtu
+PASS city maps onto its own land on the atlas: nexus / Węzeł Świadomości
+PASS city maps onto its own land on the atlas: nexus / Stacja Meridian
+PASS city maps onto its own land on the atlas: nexus / Kuźnia Obwodów
+PASS city maps onto its own land on the atlas: nexus / Port Zerowy
+PASS city maps onto its own land on the atlas: island-1 / Przystań 1
+PASS city maps onto its own land on the atlas: island-2 / Przystań 2
+PASS city maps onto its own land on the atlas: island-3 / Przystań 3
+PASS city maps onto its own land on the atlas: island-4 / Przystań 4
+PASS city maps onto its own land on the atlas: island-5 / Przystań 5
+PASS city maps onto its own land on the atlas: island-6 / Przystań 6
+PASS map opens over the game and blocks the game controls
+PASS the whole planet atlas is the first view; globe and land views remain available
+PASS globe: the screen centre after focusing on Pyra picks Pyra
+PASS globe pick selects the region under the finger
+PASS 2D atlas picks the same region from the same outline
+PASS 2D atlas zooms
+PASS continent map lists cities and places
+PASS map closes and returns the controls
+PASS tree: A1 is available at level 5
+PASS tree: learning spends one point
+PASS tree: locked node explains why
+PASS catalogue: 366 items and 10 meals, 265 recipes, 85 weak items and 4 simple meals for sale
+PASS shop price is 4x catalogue and needs the coins
+PASS better gear is never sold by the merchant
+PASS buying spends coins and fills the bag
+PASS equipping the sword raises attack
+PASS cannot equip what is not owned
+PASS equipment honours the level requirement
+PASS unequip returns the item to the bag
+PASS merchant buys back at half the catalogue price
+PASS potion heals
+PASS potion cooldown blocks the second one
+PASS potion is not wasted at full HP
+PASS crafting needs the ingredients (or is free of them)
+PASS crafting consumes ingredients and coins and yields the result
+PASS depot: bag to chest and back
+PASS depot keeps coins
+PASS inn charges 5 coins only when rest is needed
+PASS economy survives a save round-trip
+PASS a save with an item in the wrong slot is rejected unchanged
+PASS items screen opens: shop
+PASS items screen opens: depot
+PASS items screen opens: smithy
+PASS items screen opens: inventory
+PASS land loads and the hero stands on walkable ground: pyra
+PASS scenery of pyra streams in a bounded set
+PASS pyra has a city with service doors and people
+PASS land loads and the hero stands on walkable ground: verdant
+PASS scenery of verdant streams in a bounded set
+PASS verdant has a city with service doors and people
+PASS land loads and the hero stands on walkable ground: aether
+PASS scenery of aether streams in a bounded set
+PASS aether has a city with service doors and people
+PASS land loads and the hero stands on walkable ground: nexus
+PASS scenery of nexus streams in a bounded set
+PASS nexus has a city with service doors and people
+PASS land loads and the hero stands on walkable ground: island-1
+PASS scenery of island-1 streams in a bounded set
+PASS island-1 has a city with service doors and people
+PASS land loads and the hero stands on walkable ground: island-2
+PASS scenery of island-2 streams in a bounded set
+PASS island-2 has a city with service doors and people
+PASS land loads and the hero stands on walkable ground: island-3
+PASS scenery of island-3 streams in a bounded set
+PASS island-3 has a city with service doors and people
+PASS land loads and the hero stands on walkable ground: island-4
+PASS scenery of island-4 streams in a bounded set
+PASS island-4 has a city with service doors and people
+PASS land loads and the hero stands on walkable ground: island-5
+PASS scenery of island-5 streams in a bounded set
+PASS island-5 has a city with service doors and people
+PASS land loads and the hero stands on walkable ground: island-6
+PASS scenery of island-6 streams in a bounded set
+PASS island-6 has a city with service doors and people
+PASS every service room of pyra opens and returns (24)
+PASS every service room of verdant opens and returns (24)
+PASS every service room of aether opens and returns (24)
+PASS every service room of nexus opens and returns (24)
+PASS race screen shows four races
+PASS new planetary character starts in verdant with the 29-node tree
+PASS level 1 stats of planetary follow the annex
+PASS level 20 stats of planetary follow the annex
+PASS hero of planetary is 15% larger
+PASS fresh purse and the planetary resource
+PASS arena of planetary holds the training dummy
+PASS basic attack of planetary hits the dummy
+PASS planetary casts A1 without error
+PASS planetary casts A4 without error
+PASS planetary casts B1 without error
+PASS planetary casts B4 without error
+PASS planetary casts C1 without error
+PASS planetary casts C4 without error
+PASS active skills of planetary deal damage
+PASS planetary takes damage
+PASS world art and hero sheet match planetary
+PASS new sage character starts in aether with the 29-node tree
+PASS level 1 stats of sage follow the annex
+PASS level 20 stats of sage follow the annex
+PASS hero of sage is 15% larger
+PASS fresh purse and the sage resource
+PASS arena of sage holds the training dummy
+PASS basic attack of sage hits the dummy
+PASS sage casts A1 without error
+PASS sage casts A4 without error
+PASS sage casts B1 without error
+PASS sage casts B4 without error
+PASS sage casts C1 without error
+PASS sage casts C4 without error
+PASS active skills of sage deal damage
+PASS sage takes damage
+PASS world art and hero sheet match sage
+PASS new android character starts in nexus with the 29-node tree
+PASS level 1 stats of android follow the annex
+PASS level 20 stats of android follow the annex
+PASS hero of android is 15% larger
+PASS fresh purse and the android resource
+PASS arena of android holds the training dummy
+PASS basic attack of android hits the dummy
+PASS android casts A1 without error
+PASS android casts A4 without error
+PASS android casts B1 without error
+PASS android casts B4 without error
+PASS android casts C1 without error
+PASS android casts C4 without error
+PASS active skills of android deal damage
+PASS android takes damage
+PASS world art and hero sheet match android
+PASS new legend character starts in pyra with the 29-node tree
+PASS level 1 stats of legend follow the annex
+PASS level 20 stats of legend follow the annex
+PASS hero of legend is 15% larger
+PASS fresh purse and the legend resource
+PASS arena of legend holds the training dummy
+PASS basic attack of legend hits the dummy
+PASS legend casts A1 without error
+PASS legend casts A4 without error
+PASS legend casts B1 without error
+PASS legend casts B4 without error
+PASS legend casts C1 without error
+PASS legend casts C4 without error
+PASS active skills of legend deal damage
+PASS legend takes damage
+PASS world art and hero sheet match legend
+PASS map offers travel to the picked land
+PASS no travel button for the land you stand in
+PASS travel from the map arrives on island 3
+PASS detailed map follows the current land
+PASS travel back to Pyra arrives at the capital
+PASS ground is baked into a bounded set of textures
+PASS moving far queues chunks instead of building them at once
+PASS flush builds every queued chunk
+PASS idle frame stays within the draw-call budget
+PASS HUD art and touch controls render through cached layers
+PASS round menu buttons and the minimap are on screen
+PASS minimap knows the cities and places of the land
+PASS diagnostic overlay reports FPS
+PASS target frame shows the training dummy
+PASS the 40 bestiary monsters and their summoned helper are loaded with stats, skills and loot
+PASS every published spawn slot of the ten lands names a known monster
+PASS monsters wake around the hero (at most 24)
+PASS no monster stands in a safe city
+PASS the capital is a safe city
+PASS the hero's basic attack hurts a monster
+PASS a hit pushes the monster's sprite back without moving its body
+PASS a kill pays experience and coins and starts the respawn timer
+PASS an engaged monster chases and hurts the hero
+PASS slow lowers the hero's speed
+PASS weaken, stun and silence take effect
+PASS statuses end with clear_debuffs
+PASS a fire attack hurts a fire-weak monster more
+PASS front armour: a crab faced by the hero takes less than one hit from behind
+PASS back bonus: a hit from behind hurts a lion more
+PASS wolves wake in a pack of two to three
+PASS a wasp calls two helper wasps that take no respawn slot
+PASS a nanite swarm splits in two weaker halves (the clone pays nothing)
+PASS the librarian ghost does not die at once but begins to revive
+PASS the ghost rises with 30% health and then can die for good
+PASS the second death is final
+PASS standing in a web zone slows the hero
+PASS the day lasts 480 s: evening from 270 s, night 300-450 s, dawn after
+PASS eight bosses: art guardians and every loot item exist
+PASS Ygdrasha starts in phase 1 with two attacks
+PASS a boss already alive is reused, never duplicated
+PASS below 60% HP Ygdrasha enters phase 2 and learns to call slimes
+PASS one hit can skip a phase: phase 3 gives +30% attack and +25% damage taken
+PASS Ygdrasha does not regenerate in phase 3
+PASS Ygdrasha regenerates 1% HP per second in the early phases
+PASS the Archpriest's barrier takes 70% off while three lights live
+PASS destroying the lights breaks the barrier
+PASS phase 3 closes the arena with a shrinking ring
+PASS Arbiter: 40% extra damage only during the 10 s overheating of every 30 s (and drones came in phase 2)
+PASS while Kharzul's arena burns, potions do not heal
+PASS Pyrrhax flies in phase 2 and marks three safe circles before the eruption
+PASS the eruption spares the hero inside a safe circle and hurts outside it
+PASS Aurelith raises three pillars in phase 3
+PASS a pillar between Aurelith and the hero absorbs the Breath of Aether
+PASS Thorgar's howl calls three thorn wolves
+PASS a defeated boss pays experience
+PASS the boss's guaranteed loot lands in the bag
+PASS each continent capital has a warden who knows the boss lairs
+PASS the warden opens Kharzul's lair outside the city, once
+PASS 22 cave entrances (4 per continent, 1 per island) and 12 dungeon-kit props
+PASS the land has cave entrances to enter
+PASS the same entrance always gives the same cave
+PASS the gate cuts the vault off; the key lies in the open part
+PASS chests, guards and traps stand on open floor away from the entrance room
+PASS entering a cave puts the hero in an open, fightable space
+PASS the cave's guards are placed at once
+PASS the gate needs the key
+PASS the key cannot be picked up from afar
+PASS the key is picked up once
+PASS a closed gate blocks the corridor
+PASS with the key the gate opens and the way is free
+PASS a chest pays once
+PASS stepping on a spike trap hurts
+PASS a checkpoint can be saved inside a cave
+PASS the save puts the hero back at the entrance and keeps the cave progress
+PASS cave progress read from a save is cleaned
+PASS all 22 entrances have names and stories and generate on every floor
+PASS every floor of every cave has a key in the open part, a gate before the vault, a way down on all but the last floor and a closed secret chamber
+PASS a tunnel is one structure seen from both ends: the arrival of one side is the far door of the other
+PASS the entrance tells the name, the story and the recommended level before going in
+PASS the labyrinth is a three-floor maze
+PASS the automap fills in where the hero walks
+PASS the vault of a floor has stairs down
+PASS stairs lead to the next floor, which has its own guards and a way back
+PASS stairs back up put the hero on the floor above, on open ground
+PASS the far end of a tunnel leads out on the other continent
+PASS leaving the cave returns to the surface
+PASS every one of the 14 world events has a staging
+PASS Pyra has three world events
+PASS walking up to an event wakes it with its creatures
+PASS clearing an event pays XP and coins
+PASS an event rests for its cooldown
+PASS a contract brings guards and two mirrors to secure
+PASS the contract is not done while the guards live
+PASS a renewable contract pays once it is complete and rests for 600 s
+PASS a once-only event never returns
+PASS event progress read from a save is cleaned
+PASS scenery files are matched to ambient effects (fire, steam, ember, glints)
+PASS Pyra's scenery has fires and springs that get ambient effects
+PASS street NPCs are citizens that stroll
+PASS a citizen walks around the post, never far, and the talk point follows
+PASS a citizen stops when the hero comes close
+PASS the warden stays at his post
+PASS the world is tinted at night and plain by day
+PASS the client code of the code equals the Android versionCode of the export
+PASS the manifest tells which packs a land needs
+PASS a build that carries all data itself downloads nothing
+PASS server messages are shown to the player
+PASS other players of the land appear as ghosts
+PASS a player who left disappears
+PASS the gate opens the land of the saved character (or Pyra)
+PASS the chat keeps its lines
+PASS cave state helper stays available
+PASS monster damage can kill the hero
+PASS after death the hero returns to the city with full health
+PASS quest catalogue: 106 quests (102 playable), 16 famous and 17 hidden places
+PASS the first Pyra quest is on offer and Kaena carries a ! mark
+PASS Kaena offers Próba Popiołu i Areny
+PASS accepting a quest activates it
+PASS talking to the quest NPC completes the first stage
+PASS the NPC now carries a ? mark (report waiting)
+PASS walking up to a famous place discovers it (first discovery pays once)
+PASS reporting finishes the quest: XP, coins and the potion are paid
+PASS a one-time reward is never paid twice
+PASS quest progress survives a save round-trip
+PASS a save naming an unknown quest is rejected unchanged
+PASS defeating the target monster advances a combat objective
+PASS the HUD tracker mirrors the active quests
+PASS the quest journal opens
+PASS the owner's music and the effects are in the package
+PASS the music follows the world of the land
+PASS effects load and play without error
+PASS refusal notices get the error tick
+PASS volumes can be set
+PASS percentage bonuses of the equipment never exceed the V2 global caps
+PASS the sword can be equipped
+PASS smith upgrade: +2 attack for 40 coins
+PASS a weapon upgrades to +3 and no further
+PASS jewellery and empty slots cannot be upgraded
+PASS upgrades survive a save round-trip
+PASS all five crafting stations are available
+PASS a consumable heals
+PASS every race has a five-page introduction (two on the Silence, three of its own)
+PASS every resident of every world has eight subjects with real text (their trade and the five of the world)
+PASS residents remark on the hero's state, the most urgent first
+PASS the tutorial lists the next three steps
+PASS a step is ticked once and unknown steps are ignored
+PASS finishing the tutorial pays the reward exactly once
+PASS story progress survives a save
+PASS a save from before the story counts as already introduced
+PASS story progress read from a save is cleaned
+PASS a new hero first sees the story screen
+PASS the first press completes the page text
+PASS the story is read page by page
+PASS after the story the tutorial shows under the minimap
+PASS the tutorial reward is paid into the purse
+PASS opening the map ticks its step
+PASS talking to a resident ticks its step and offers the subjects
+PASS the subject list has eight entries
+PASS a subject that has been heard is marked
+PASS damage numbers have their own looks: weakness, hurt, heal, crit
+PASS basic strikes chain into a finisher every third blow
+PASS a heavy blow shakes the camera
+PASS the shake dies down by itself
+PASS hit-stop slows the world for an instant
+PASS the clock is restored after hit-stop
+PASS a heavy hit plays the heavy hit clip and shakes harder
+PASS a light hit plays the light hit clip
+PASS a blow that lands at the start of a dodge is a perfect dodge: no damage, ki back
+PASS a perfect dodge cannot be chained at once
+PASS victory pose exists and plays
+PASS a full push plays the run clip
+PASS a gentle push plays the walk clip
+PASS gaining a level plays the victory pose
+PASS the target ring starts hidden
+PASS the target ring sits under the foe
+PASS the target ring hides when the fight ends
+PASS a better weapon shows what it adds against the worn one
+PASS a worse weapon shows what it takes away; the worn one shows nothing
+PASS a set item lists its pieces and the bonus at each count
+PASS an item outside any set lists no set
+PASS the worn gear is summed into a bonus list
+PASS materials no recipe asks for are marked spare; recipe ingredients never are
+PASS selling the spare materials keeps the ingredients
+PASS a whole stack sells in one go
+PASS the recipe says how many times it can be made
+PASS crafting in quantity spends ingredients and coins for each batch
+PASS nothing is craftable without ingredients
+PASS the sell tab offers to sell the spare materials at once
+PASS the smithy can list only the recipes that can be made now
+PASS a recipe that can be made several times offers to make them together
+PASS ten meals in three tiers (14-18, 27-36, 42-60 % of max HP) and ten peaceful animals, one product each
+PASS the meals are items; the simple ones are on sale, the best come from hunting
+PASS a meal tells what it gives
+PASS a meal is refused at full health and stays in the bag
+PASS eating gives the status 'fed': 0.8 % of max HP per second for 60 s
+PASS the next bite waits two seconds
+PASS a weaker meal does not replace a stronger one that is still working
+PASS in combat the meal alone heals 0.8 % of max HP per second
+PASS out of combat the meal adds to the natural 0.3 % per second
+PASS the status ends after its time; in all it healed rate x duration
+PASS a meal can be eaten again once the status is over
+PASS a stronger meal replaces the weaker one
+PASS moon milk also raises ki regeneration by 25 %
+PASS meals survive a save
+PASS the backpack shows a meal without a picture and offers to eat it
+PASS an animal is in the world only when its art is listed
+PASS an animal whose sheet has not reached the device (older content release) is not spawned
+PASS an animal has no attack, no aggro, flees at its share of the hero's speed and drops its food
+PASS ten animals of a kind are placed in the same places every time, never inside a city
+PASS without prepared art no animal is added to the land
+PASS a peaceful animal beside the hero does not attack and does not notice him
+PASS hurt, the animal flees instead of fighting
+PASS it runs away from the hero and still does not attack
+PASS a hunted animal gives exactly one product and no experience
+PASS the tracker shows that the hero is fed and what it gives
+PASS the fed status is listed first in the tracker
+PASS menu suspends and clears input
+PASS landscape layout: (854, 480)
+PASS landscape layout: (1600, 720)
+PASS landscape layout: (1280, 720)
+PASS touch pads respect configured display cutout margins
+PYRA GODOT QA: 533/539 failed: ["authored footprint blocks the hero", "attack finger and stick finger work at the same time", "30/120 FPS do not change movement speed", "NPC dialog opens and releases movement", "dialog closes with a separate touch index", "enter hall from accepted-hall"]
+WARNING: 8 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2692)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)
+ERROR: 42 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.
+ERROR: 66 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.

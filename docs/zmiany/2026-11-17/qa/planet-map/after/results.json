@@ -1,0 +1,381 @@
+{
+	"captures": "MapScreen plus real PyraGame open/close flow",
+	"checks": [
+		{
+			"details": null,
+			"name": "opens on the full 2D planet",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "all 22 settlements are on the world atlas",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "metadata available for four continents and six islands",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Zielona Przystań",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Kamienny Sad",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Latarnia Korzeni",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Przystań Trzech Mostów",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Sanktuarium Tysiąca Źródeł",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Biała Przystań",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Archiwum Nad Chmurami",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Tarasy Świtu",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Węzeł Świadomości",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Stacja Meridian",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Kuźnia Obwodów",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Port Zerowy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Twierdza Popiołu",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Cytadela Kowadeł",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Port Czerwonych Żagli",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Żarowy Trakt",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Przystań 1",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Przystań 2",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Przystań 3",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Przystań 4",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Przystań 5",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "settlement is inside its source land: Przystań 6",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "whole planet is visible: (0.0, 0.0)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "whole planet is visible: (2000.0, 1000.0)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "overview is centered on the planet, not the player",
+			"passed": true
+		},
+		{
+			"details": {
+				"mismatches": 0,
+				"samples": 27448
+			},
+			"name": "rendered relief retains canonical land/water class away from quantization threshold",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "close zoom enters actual land detail instead of stretching global pixels",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "browse without travelling: verdant",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "no fake player in remote land: verdant",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "land detail has all source settlements: verdant",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "browse without travelling: aether",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "no fake player in remote land: aether",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "land detail has all source settlements: aether",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "browse without travelling: nexus",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "no fake player in remote land: nexus",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "land detail has all source settlements: nexus",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "browse without travelling: pyra",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "no fake player in remote land: pyra",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "land detail has all source settlements: pyra",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "browse without travelling: island-1",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "no fake player in remote land: island-1",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "land detail has all source settlements: island-1",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "browse without travelling: island-2",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "no fake player in remote land: island-2",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "land detail has all source settlements: island-2",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "browse without travelling: island-3",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "no fake player in remote land: island-3",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "land detail has all source settlements: island-3",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "browse without travelling: island-4",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "no fake player in remote land: island-4",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "land detail has all source settlements: island-4",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "browse without travelling: island-5",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "no fake player in remote land: island-5",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "land detail has all source settlements: island-5",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "browse without travelling: island-6",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "no fake player in remote land: island-6",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "land detail has all source settlements: island-6",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "browsing all ten lands never triggers a journey",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "only explicit travel button requests a journey",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "globe cannot zoom until the sphere is cropped",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "WORLD touch restores the entire planet",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "map action is not clipped at (1280, 576): +",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "map action is not clipped at (1280, 576): −",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "map action is not clipped at (1280, 576): TY",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "map action is not clipped at (1280, 576): ŚWIAT",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "map action is not clipped at (852, 393): +",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "map action is not clipped at (852, 393): −",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "map action is not clipped at (852, 393): TY",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "map action is not clipped at (852, 393): ŚWIAT",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "actual game map opens and blocks combat controls",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "closing actual map restores game controls",
+			"passed": true
+		}
+	],
+	"failed": 0,
+	"passed": 74,
+	"physical_android": "not tested"
+}

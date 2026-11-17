@@ -428,3 +428,10 @@ Pełne rekordy w JSON/CSV wskazanym na początku tego dokumentu.
 | node_modules/stackback                             | 0.0.2   | MIT               | no immutable gitHead/GitHub source in version metadata                                                                                                     |
 
 <!-- LICENSE-SUMMARY:END -->
+
+
+Atlas Androida z 17.11.2026 ma nową warstwę reliefu wygenerowaną narzędziem GPT Image.
+[Rejestr pochodzenia](../ports/godot-pyra/assets/map/artwork/provenance.json)
+zawiera hash generacji i referencji oraz zakres użycia. Oryginalny atlas zachowano.
+Nie wykonywano płatnych wywołań Meshy. Dowód generacji nowej warstwy nie rozstrzyga
+praw do pierwotnej referencji; nie oznaczono jej jako prawnie wyjaśnionej.

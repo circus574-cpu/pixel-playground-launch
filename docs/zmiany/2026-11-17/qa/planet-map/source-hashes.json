@@ -1,0 +1,13 @@
+{
+  "ports/godot-pyra/data/map.json": "07838d000eabaea83034aed9094fd1dad9ed9b69f7da0840cade0018a3e28169",
+  "ports/godot-pyra/data/lands/aether/land.json": "441faef7bbf9e7dbe16cd25a2d185d839fb9550f8afee317fbc9bbb917462f53",
+  "ports/godot-pyra/data/lands/island-1/land.json": "be75facc62cb2959161a926ac4670c884810748f8bff852d1266109db36357a5",
+  "ports/godot-pyra/data/lands/island-2/land.json": "2371bb59eee751851d0467811f5f5437fcd474b5745b5b98aba9c7a4be4a6497",
+  "ports/godot-pyra/data/lands/island-3/land.json": "b96b5bcb1152364bcf1546a67f4fe7e0336b3a2e98f29d6ebbd50ecbe27d11f8",
+  "ports/godot-pyra/data/lands/island-4/land.json": "28cd81cce1de2a46ca2135776a0b94e1b18fd7631beb13660885a7c1842e28be",
+  "ports/godot-pyra/data/lands/island-5/land.json": "5855053221aa1777499aea2695ceadeb7e2265fa1bc918ae49507e23e8bca37e",
+  "ports/godot-pyra/data/lands/island-6/land.json": "f872c6725c8919817997ac54ab2fa868e38025660c631d3380c8dcd8e8c56616",
+  "ports/godot-pyra/data/lands/nexus/land.json": "b6cbcd433347067b78f0982c7f0c7379b3e78051550d082c34917a0c89751c71",
+  "ports/godot-pyra/data/lands/pyra/land.json": "ea42248a88a93ae226a8f27ee7ef938413f69bc7dbcd0a8e62f81bf5f6ff40e4",
+  "ports/godot-pyra/data/lands/verdant/land.json": "1fe36fb4f9a4c95e99b6899a8ce374482e06c6b5c9f0a987b5794e58aeaeed62"
+}

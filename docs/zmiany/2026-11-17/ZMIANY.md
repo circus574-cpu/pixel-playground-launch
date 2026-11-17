@@ -647,3 +647,61 @@ poprawne wersaliki, zawijanie długiego nagłówka i obecność całego tytułu 
 w obu rozmiarach. Godot X11/llvmpipe; tylko ostrzeżenie V-Sync. Fizyczny telefon
 nie był testowany. Pełny [TypeScript](qa/polish-headings/typecheck.txt) uruchomiono
 na tej zmianie. Nie opublikowano ani nie zbudowano nowego APK.
+
+
+## 11. Mapa Androida — nowy podkład GPT Image i naprawa przeglądu planety
+
+Właściciel odrzucił rozmyty atlas/globus z pojedynczym znacznikiem i polecił
+wykorzystać dostępne narzędzia graficzne. Gałąź `fix/android-world-map-20261117`,
+baza `d0fba8da` (zachowuje poprawkę polskich liter).
+
+**Rzeczywiście wykonano:** jedną generację GPT Image na podstawie aktualnego
+atlasu Superiora; nowy podkład 1774×887 jest osobnym zasobem. Lasy, relief górski,
+wulkaniczna Pyra i zimny Nexus są czytelniejsze. Ten sam obraz i wspólny shader
+są podłączone do atlasu i sfery w Godocie. Nazwy i znaczniki pozostają osobnymi
+warstwami z rzeczywistych danych. [Pochodzenie](../../../ports/godot-pyra/assets/map/artwork/provenance.json).
+Meshy w tej zmianie nie wywoływano: darmowe narzędzia bezszwowe są właściwe dla
+powtarzalnych tekstur terenu, nie dla zmiany geografii jednorazowego atlasu.
+Nie zużyto płatnych kredytów Meshy ani poda GPU.
+
+| Funkcja | Stan przed | Zmiana | Dowód |
+| --- | --- | --- | --- |
+| Otwarcie mapy | Globus; atlas śledził pozycję gracza, możliwe kopie planety | Cały pojedynczy atlas 2D przy otwarciu, dopasowanie do widoku | [Przed](qa/planet-map/before/atlas.jpg), [po](qa/planet-map/after/live-game-atlas.jpg) |
+| Podkład | Szum biome/koloru z dużym zoomem | Relief GPT Image, wspólna kompozycja 2D/3D | [Globus z gry](qa/planet-map/after/live-game-globe.jpg) |
+| Osady | Tylko bieżąca kraina, np. 4 w Verdantii | 22 osady z wszystkich 10 lądów, prawdziwe transformacje | [Testy](qa/planet-map/after/results.json) |
+| Szczegóły obcej krainy | Dostępne tylko dla aktualnej krainy | Przegląd bez teleportacji, bez fikcyjnego gracza | [Pyra](qa/planet-map/after/detail-pyra.jpg), [Nexus](qa/planet-map/after/detail-nexus.jpg), [wyspa III](qa/planet-map/after/detail-island-3.jpg) |
+| Zoom i powrót | Atlas do ×14, możliwość wykadrowania globusa | Duży zoom prowadzi do szczegółów; ŚWIAT przywraca planetę, TY wskazuje postać | [852×393](qa/planet-map/after/overview-852x393.jpg) |
+| Przyciski | Małe pole kolumny ucinało przyciski | Przyciski w granicach ekranu; lekki czytelny opis | [1280×576](qa/planet-map/after/overview-1280x576.jpg) |
+
+Zmiany kodu: `map_screen.gd`, `atlas_view.gd`, `globe_view.gd`,
+`continent_map_view.gd`, dwa shadery w `shaders/`, nowy test `preview_planet_map.gd`.
+W `smoke.gd` zmieniono oczekiwany pierwszy widok na pełny atlas; test globusa
+pozostaje i uruchamia jawnie jego zakładkę. Nie usunięto asercji.
+
+**Weryfikacja:** 74/74 kontrole w Godocie X11/llvmpipe: 22 współrzędne osad,
+10 podglądów lądów, brak podróży podczas przeglądania, jawny przycisk podróży,
+przejście zoom → szczegóły, przywracanie całości i granice przycisków w dwóch
+rozmiarach. Wśród nich odczyt bufora rzeczywistego shadera: 27 448 próbek poza
+progiem kwantyzacji, zero rozbieżności klasyfikacji barw ląd/woda względem starej
+tekstury. To test prezentacji, nie dowód identycznego reliefu ani geometrii.
+Otwarto też mapę przez `PyraGame.open_map()` i zamknięto ją z przywróceniem
+sterowania. [Wyniki](qa/planet-map/after/results.json),
+[log natywny](qa/planet-map/native.txt). Kadry `live-game-*` pochodzą z gry;
+pozostałe z rzeczywistego komponentu mapy w tym samym silniku.
+
+Pełny [TypeScript](qa/planet-map/typecheck.txt) i [lint](qa/planet-map/lint.txt): PASS (0 błędów, 17 ostrzeżeń w niezmienionych plikach).
+Pełny Godot smoke: **533/539, 6 FAIL** ([wyniki](qa/planet-map/smoke-results.json),
+[log](qa/planet-map/smoke.txt)). Są to te same sześć usterek co w bazowym teście
+opisanym w punkcie 9: footprint, dwa palce, ruch 30/120 FPS, otwarcie/zamknięcie
+rozmowy oraz wejście do sali. Wszystkie asercje mapy w smoke przechodzą.
+Natywny test mapy zgłosił ostrzeżenie V-Sync i ObjectDB przy zakończeniu gry;
+headless smoke zachowuje wcześniejsze ostrzeżenia o zasobach Dummy/RID.
+Nie deklaruje się pełnej regresji gry na zielono.
+
+**Granice wykonania:** to poprawa atlasu i jego obsługi. Mapy szczegółowe nadal
+używają oryginalnego podkładu danych terenu i dróg. Góry wewnątrz nowego atlasu są
+ilustracyjne; nie pochodzą z wysokościowego modelu runtime. Shader brzegowy opiera
+się na klasyfikacji kolorów oryginału, więc nie jest niezależnym certyfikatem
+geograficznym. [Hashe nietkniętych danych](qa/planet-map/source-hashes.json).
+Odbiór artystyczny, fizyczny Android/iOS i wydanie APK pozostają niezweryfikowane.
+Nie zmieniono zapisów, kolizji, świata, questów ani produkcji. Bez scalenia i publikacji.

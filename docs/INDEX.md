@@ -1,5 +1,11 @@
 # KI Legends — dokumentacja projektu
 
+**Mapa Androida — 17.11:** nowy relief z GPT Image we wspólnym atlasie 2D/globusie,
+widok całej planety, 22 rzeczywiste osady i przegląd wszystkich dziesięciu lądów.
+[Zrzut z uruchomionej gry](zmiany/2026-11-17/qa/planet-map/after/live-game-atlas.jpg),
+[wyniki i ograniczenia](zmiany/2026-11-17/ZMIANY.md#11-mapa-androida--nowy-podkład-gpt-image-i-naprawa-przeglądu-planety).
+Bez publikacji nowego Androida.
+
 **Polskie litery — 17.11:** poprawiono małe „ę” w ozdobnych nagłówkach. Pełny
 Cinzel zawiera 18 polskich glifów; tytuły dialogów są pisane wersalikami i zawijają
 się w ramce. [Wynik w Godocie](zmiany/2026-11-17/qa/polish-headings/after-1280x720.jpg),

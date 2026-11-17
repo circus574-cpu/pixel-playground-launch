@@ -390,7 +390,8 @@ func run() -> void:
 	await settle(4)
 	var screen: MapScreen = game.screen
 	verify(is_instance_valid(screen) and not game.hud.visible and game.hud.touch.blocked, "map opens over the game and blocks the game controls")
-	verify(screen.globe.visible and screen.views.size() == 3, "globe 3D is the first view")
+	verify(screen.atlas.visible and screen.views.size() == 3 and is_equal_approx(screen.atlas.zoom_level(), 1.0), "the whole planet atlas is the first view; globe and land views remain available")
+	screen.switch_to(0)
 	screen.globe.focus_on(MapMath.atlas_to_lonlat(pyra_center))
 	await settle(3)
 	var centre: Variant = screen.globe.screen_to_lonlat(screen.globe.size / 2.0)

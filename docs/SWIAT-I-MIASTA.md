@@ -604,3 +604,32 @@ lokalny checkpoint. Nie zmienia świata WWW ani geometrii planety, nie dodaje sp
 To etap miasta; zewnętrzny kontynent, walka i usługi ekonomiczne czekają na kolejne
 zlecenie. [Uruchomienie i ograniczenia](ARCHITEKTURA-I-TESTY.md#próba-migracji-godot-4--android--miasto-pyry-15112026),
 [wyniki i paczki](zmiany/2026-11-15/ZMIANY.md).
+
+
+## Atlas Androida — relief i przegląd całej planety (17.11.2026)
+
+Gałąź `fix/android-world-map-20261117` rozwija natywny `MapScreen` Godota.
+Domyślnie otwiera pojedynczy atlas całej planety zamiast globusa z możliwością
+powiększenia do wycinka kontynentu. Całość mieści się w widoku; pokazuje nazwy
+czterech kontynentów i sześciu wysp. Znaczniki 22 osad pochodzą z dziesięciu
+`data/lands/*/land.json`, przeliczone wspólnym `MapMath.world_to_atlas`.
+To około 172 KiB metadanych, bez ładowania chunków terenu całej planety.
+
+Wybranie lądu i przycisku KRAINA pokazuje jego istniejącą mapę szczegółową:
+rzeczywiste drogi, miasta i lokacje. Podgląd nie przenosi postaci; PODRÓŻ pozostaje
+oddzielną operacją. W obcej krainie nie rysuje się fikcyjnej pozycji bohatera.
+W pamięci widoku jest jedna szczegółowa tekstura, podmieniana przy wyborze lądu.
+Duży zoom atlasu otwiera szczegóły zamiast powiększać podkład 14-krotnie.
+Przycisk ŚWIAT przywraca całą planetę, TY wskazuje faktyczną postać.
+
+Nowy podkład to generacja GPT Image na podstawie istniejącego atlasu; ten sam
+obraz i kod kompozycji są używane w 2D i 3D. Oddzielne runtime etykiety i znaczniki
+nie są namalowane w ilustracji. Shader zachowuje pasy brzegu, rozbieżności
+klasyfikacji ląd/woda i szew z oryginalnego atlasu. Klasyfikacja barw jest
+zabezpieczeniem prezentacji, nie nową geometrią ani niezależnym pomiarem jej
+zgodności. Wnętrze reliefu jest ilustracyjne; kształty gór nie pochodzą z danych
+wysokościowych gry. Oryginalne atlasy, dane lądów, nawigacja i zapisy są nietknięte.
+Mapy szczegółowe nie otrzymały jeszcze tej nowej oprawy.
+
+[Dowody, źródła i ograniczenia](zmiany/2026-11-17/ZMIANY.md#11-mapa-androida--nowy-podkład-gpt-image-i-naprawa-przeglądu-planety).
+Nie jest to nowe wydanie APK ani akceptacja artystyczna właściciela.

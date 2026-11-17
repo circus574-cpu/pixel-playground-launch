@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-17",
+  "generator": "OpenAI GPT Image via image_gen.imagegen; exact backend model version not exposed",
+  "task": "Superior atlas surface artwork, derived from the existing atlas; no embedded text or place markers",
+  "generation_reference": "ports/godot-pyra/assets/map/atlas.webp",
+  "reference_sha256": "95e5c869d2cfe350b81911e554715ab3f9f9e38daac9f0d82bfcf9b913d25263",
+  "generated_source": "/workspace/generated_images/exec-68e8865c-4341-4a7c-8f2e-dfb4b2288637.png",
+  "asset": "ports/godot-pyra/assets/map/artwork/superior-relief.png",
+  "sha256": "51b082f30e9bb786f6689dc1951480e2e66522d2d21edb5acae6ef199fe73ab9",
+  "source_preservation": "Original atlas, globe texture, region outlines, terrain and world data unchanged.",
+  "integration": "Shared 2D/3D shader; canonical-color coast/lake guard and original date-line seam; sampling check is not a geometric certification.",
+  "limitations": [
+    "Relief inside each land is illustrative; exact mountain shapes are not generated from gameplay height data.",
+    "Coastal guard classifies canonical texture colours; it is not a replacement for world collision/land masks.",
+    "Detailed land maps retain the original terrain/road imagery and are not restyled by this generation.",
+    "Physical Android/iOS and artistic owner acceptance pending."
+  ],
+  "rights": "Generated output; use also depends on rights to the existing atlas reference. This manifest is provenance, not proof of clearance of that original reference.",
+  "meshy_paid_calls": 0,
+  "gpu_pod_calls": 0,
+  "prompt_constraints": [
+    "2:1 equirectangular, retain reference silhouettes, projection, lakes and horizontal wrap",
+    "Verdantia forests/valleys, Aetheria glaciers, Pyra volcanic basalt, Nexus technological cold rock",
+    "Six existing islands, deep navy bathymetric ocean, independent runtime labels and actual settlement coordinates",
+    "No new text, icons, towns, roads, symbols, compass or frame in the generated image"
+  ]
+}

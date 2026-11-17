@@ -4,17 +4,18 @@ extends SubViewportContainer
 ## as the 2D map, markers for the settlements and for the hero. Drag to turn, pinch / wheel to zoom, tap to pick a region.
 
 signal region_picked(id: String)
+signal detail_requested(id: String)
 
 const GLOBE_SHADER := """
 shader_type spatial;
 render_mode unshaded, cull_back;
-uniform sampler2D color_tex : source_color, filter_linear_mipmap;
+#include "res://shaders/map_artwork.gdshaderinc"
 uniform sampler2D cloud_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D select_tex : filter_linear;
 uniform float cloud_shift = 0.0;
 uniform float select_on = 0.0;
 void fragment() {
-	vec3 c = texture(color_tex, UV).rgb;
+	vec3 c = map_artwork(UV);
 	float cl = texture(cloud_tex, vec2(UV.x + cloud_shift, UV.y)).r;
 	float cl_shadow = texture(cloud_tex, vec2(UV.x + cloud_shift - 0.004, UV.y + 0.003)).r;
 	vec3 sun = normalize(vec3(-0.45, 0.4, 0.8));
@@ -72,7 +73,7 @@ var markers := Node3D.new()
 var highlight := MeshInstance3D.new()
 var lon0 := -52.8
 var lat0 := -30.0
-var distance := 3.2
+var distance := 3.8
 var velocity := Vector2.ZERO
 var idle := 0.0
 var dragging := false
@@ -90,7 +91,7 @@ static func surface(lon_deg: float, lat_deg: float, radius: float = 1.0) -> Vect
 	var lat := deg_to_rad(lat_deg)
 	return Vector3(cos(lat) * sin(lon), sin(lat), cos(lat) * cos(lon)) * radius
 
-func setup(color: Texture2D, cloud: Texture2D, region_list: Array, player_atlas: Vector2) -> void:
+func setup(color: Texture2D, cloud: Texture2D, region_list: Array, player_atlas: Vector2, settlement_marks: Array[Dictionary] = []) -> void:
 	regions = region_list
 	stretch = true
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -106,7 +107,9 @@ func setup(color: Texture2D, cloud: Texture2D, region_list: Array, player_atlas:
 	var shader := Shader.new()
 	shader.code = GLOBE_SHADER
 	globe_material.shader = shader
-	globe_material.set_shader_parameter("color_tex", color)
+	globe_material.set_shader_parameter("canonical_tex", color)
+	globe_material.set_shader_parameter("linear_input", true)
+	globe_material.set_shader_parameter("relief_tex", load("res://assets/map/artwork/superior-relief.png"))
 	globe_material.set_shader_parameter("cloud_tex", cloud)
 	planet.mesh = build_sphere(96, 192)
 	planet.material_override = globe_material
@@ -153,15 +156,14 @@ func setup(color: Texture2D, cloud: Texture2D, region_list: Array, player_atlas:
 	build_outlines()
 	add_marker(MapMath.atlas_to_lonlat(player_atlas), Color("ff4a2e"), 0.030)
 	player_marker = markers.get_child(markers.get_child_count() - 1)
+	for mark in settlement_marks:
+		add_marker(MapMath.atlas_to_lonlat(mark.atlas), Color("ffd36a"), 0.014)
 	for region: Dictionary in regions:
-		var sp = region.get("settlementPoint")
-		if sp != null:
-			add_marker(MapMath.atlas_to_lonlat(Vector2(float(sp.x), float(sp.y))), Color("ffd36a"), 0.020)
 		if region.kind == "continent":
 			var label := Label3D.new()
 			label.text = str(region.name)
 			label.font = MapStyle.font()
-			label.font_size = 60
+			label.font_size = 44
 			label.pixel_size = 0.0011
 			label.outline_size = 14
 			label.outline_modulate = Color(0.05, 0.03, 0.02, 0.95)
@@ -276,7 +278,13 @@ func select(id: String) -> void:
 	globe_material.set_shader_parameter("select_on", 0.0)
 
 func zoom_by(factor: float) -> void:
-	distance = clampf(distance / factor, 1.55, 5.2)
+	if factor > 1.0 and distance <= 3.46:
+		var region := MapMath.region_at(regions, MapMath.lonlat_to_atlas(lon0, lat0))
+		var target := str(region.get("id", selected))
+		if target != "":
+			detail_requested.emit(target)
+			return
+	distance = clampf(distance / factor, 3.45, 5.2)
 	apply_rotation()
 
 func _process(delta: float) -> void:
