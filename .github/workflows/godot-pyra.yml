@@ -69,7 +69,7 @@ jobs:
           PY
       - name: Actual Godot OpenGL render and gameplay
         run: timeout 180s xvfb-run -a -s '-screen 0 1600x900x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --audio-driver Dummy --path ports/godot-pyra --rendering-method gl_compatibility --script res://tests/smoke.gd -- --fresh --qa-output "$GITHUB_WORKSPACE/godot-qa/native" > godot-qa/native.txt 2>&1
-      - name: Validate gameplay, runtime errors and existing shutdown-leak budget
+      - name: Validate gameplay, runtime errors and bounded existing shutdown leaks
         shell: bash
         run: |
           python3 - <<'PY'
@@ -80,9 +80,8 @@ jobs:
               assert r['failed'] == 0 and r['checks'] >= 543, r
           assert list((base / 'native').glob('*.png'))
 
-          # These allocations are present on both the original PR and the
-          # previous Godot 4.6.3 baseline. They are unresolved, NOT clean
-          # shutdowns. Fail on any growth or an error outside this narrow list.
+          # Existing Godot 4.6.3 shutdown allocations are not clean exits.
+          # Keep explicit baseline ceilings; fail on any increase or runtime error.
           limits = {
               'headless': {'dummy': 42, 'gl': 0, 'gles': 0, 'text': 66, 'font': 1, 'canvas': 8},
               'native':   {'dummy': 0, 'gl': 43, 'gles': 43, 'text': 66, 'font': 1, 'canvas': 8},
@@ -101,48 +100,13 @@ jobs:
                   assert marker in content, str(log)
                   before, after = content.split(marker, 1)
                   assert not re.search(r'^ERROR:', before, re.M), str(log)
-                  errors = re.findall(r'^ERROR:.*
-              assert marker in content, str(log)
-              before, after = content.split(marker, 1)
-              assert not re.search(r'^ERROR:', before, re.M), str(log)
-              actual = {key: 0 for key in limits[log.stem]}
-              for line in after.splitlines():
-                  if not line.startswith('ERROR:'):
-                      continue
-                  if re.fullmatch(r'ERROR: Texture with GL ID of \d+: leaked \d+ bytes\.', line):
-                      actual['gl'] += 1
-                      continue
-                  rid = re.fullmatch(r"ERROR: (\d+) RID allocations of type '([^']+)' were leaked at exit\.", line)
-                  assert rid and rid.group(2) in rid_kinds, (str(log), line)
-                  actual[rid_kinds[rid.group(2)]] += int(rid.group(1))
-              canvas = re.findall(r'^WARNING: (\d+) RIDs of type "CanvasItem" were leaked\.
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: godot-pyra-${{ github.sha }}
-          path: godot-qa
-          retention-days: 14
-, after, re.M)
-              assert len(canvas) <= 1, str(log)
-              actual['canvas'] = int(canvas[0]) if canvas else 0
-              for kind, budget in limits[log.stem].items():
-                  assert actual[kind] <= budget, (str(log), kind, actual[kind], budget)
-              if any(actual.values()):
-                  print(f"::warning::{log.name}: known Godot 4.6.3 shutdown allocations remain: {actual}; runtime assertions and engine errors before shutdown are clean")
-          PY
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: godot-pyra-${{ github.sha }}
-          path: godot-qa
-          retention-days: 14
-, after, re.M)
+                  errors = re.findall(r'^ERROR:.*$', after, re.M)
                   assert len(errors) <= 1, (str(log), errors)
                   for line in errors:
                       found = re.fullmatch(r'ERROR: (\d+) resources still in use at exit \(run with --verbose for details\)\.', line)
                       assert found and int(found.group(1)) <= 2, (str(log), line)
                   if errors:
-                      print(f"::warning::{log.name}: existing GM test shutdown leak: {errors}")
+                      print(f"::warning::{log.name}: known GM exit resources: {errors}")
                   continue
               if log.stem not in limits:
                   assert not re.search(r'^ERROR:', content, re.M), str(log)
@@ -161,20 +125,13 @@ jobs:
                   rid = re.fullmatch(r"ERROR: (\d+) RID allocations of type '([^']+)' were leaked at exit\.", line)
                   assert rid and rid.group(2) in rid_kinds, (str(log), line)
                   actual[rid_kinds[rid.group(2)]] += int(rid.group(1))
-              canvas = re.findall(r'^WARNING: (\d+) RIDs of type "CanvasItem" were leaked\.
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: godot-pyra-${{ github.sha }}
-          path: godot-qa
-          retention-days: 14
-, after, re.M)
+              canvas = re.findall(r'^WARNING: (\d+) RIDs of type "CanvasItem" were leaked\.$', after, re.M)
               assert len(canvas) <= 1, str(log)
               actual['canvas'] = int(canvas[0]) if canvas else 0
               for kind, budget in limits[log.stem].items():
                   assert actual[kind] <= budget, (str(log), kind, actual[kind], budget)
               if any(actual.values()):
-                  print(f"::warning::{log.name}: known Godot 4.6.3 shutdown allocations remain: {actual}; runtime assertions and engine errors before shutdown are clean")
+                  print(f"::warning::{log.name}: existing Godot 4.6.3 exit allocations: {actual}")
           PY
       - uses: actions/upload-artifact@v4
         if: always()
