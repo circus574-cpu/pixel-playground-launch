@@ -897,3 +897,12 @@ Zgłoszenie właściciela: zapis w chmurze jest jeden na konto. Serwer od począ
 ### 37. Wydanie 1.13 (publikacja, zgoda właściciela 17.11.2026: „Publikuj”)
 
 Zawiera: osobny zapis chmury każdej postaci (sekcja 36), administrator bez limitu slotów, wybór postaci (sekcja 35). **Serwer:** zmiana w `src/server/godot` i migracja `008-godot-android-slots.sql`; po scaleniu do `main` uruchamiają się automatycznie `multiplayer-database.yml` (instaluje migrację 008 z kopią zapasową bazy) i `aruba-production.yml` (obraz serwera). **Treść:** `deliveries/godot-content-1.13` (zmieniony tylko rdzeń `core-c100-3aa584dbb40e`, reszta paczek bez zmian), wgrywana i aktywowana workflow `godot-content-upload.yml`. Wycofanie: ponowna aktywacja 1.12 w panelu; migracja 008 jest wstecznie zgodna (stare ograniczenie było węższe).
+
+### 38. Indywidualne animacje umiejętności, bez formy KI (17.11.2026, niepublikowane)
+
+Zlecenie właściciela („rób najpierw bez formy KI, zobaczymy”) po wycenie 108 kredytów. Każda z czterech ras ma 9 umiejętności do animowania (6 aktywnych + 3 ultimate; pasywne i „wybory” to modyfikatory, strzał początkowy ma ruch ataku, przemiana ma `transform`). Dla każdej wybrano osobny ruch z biblioteki Meshy (lista numerów z wcześniejszego skanu 1–180, bez nowego skanowania) i zanimowano istniejące rigi zwykłych modeli: **36 animacji × 3 = 108 kredytów (zostało 1923)**. Meshy odrzucił część zleceń przy czterech równoległych przebiegach (limit kolejki planu, bez opłaty); brakujące 4 dosłano po kolei.
+
+- **Klipy `sk_<id węzła>`** (np. `sk_A9` = Tysiąc Cięć) w `data/actors.json` czterech bohaterów (`<świat>.hero`), arkusze `assets/actors/hero3d/<świat>-hero3d-sk_*.webp` (36 plików, 31 MB; import stratny jak reszta bohaterów, więc paczka `heroes` urośnie z ok. 68 do ok. 99 MB). Okno czasu każdego klipu (1,4–1,8 s) wybrane automatycznie na szczycie ruchu, nie ręcznie: początek lub koniec może nie wracać do postawy spoczynkowej (po klipie gra wraca do idle).
+- **Gra** (`city_game.use_slot`): gdy bohater ma klip `sk_<id>` i nie jest w formie KI, gra go zamiast wspólnych klipów `skill/skillb/skillc/finisher`; w formie KI i bez klipu działa jak dotąd.
+- **Wybór ruchów to moje przypuszczenie z nazw biblioteki**, nie podgląd: ocena należy do właściciela. Wymiana jednego ruchu kosztuje 3 kredyty (nie robiona bez zgody).
+- **Testy:** `tests/qa_skills.gd`: 36 odtworzeń w grze, 0 błędów (każdy klip istnieje, trwa 0,4–2,2 s), zrzut z gry per umiejętność; `smoke.gd -- --fresh` 543/543. Bez nowego wydania: paczki serwera 1.13 nie zawierają tych klipów.
