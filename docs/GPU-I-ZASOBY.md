@@ -991,3 +991,34 @@ renderer: `scripts/gpu/render-pyra-isometric-buildings.py`. Tych wariantów nie
 włączono do sceny. Pliki robocze pozostają w `/workspace/ki-iso-art2` na podzie;
 Blender, venv SDXL i Godot są pod `/opt/ki-iso-art2` (wolumin nie obsługuje
 wszystkich metadanych plików wykonywalnych). Nie wykonywano operacji lifecycle poda.
+
+### Tekstury Pyry na A40 — 72 warianty i 12 masek
+
+Na `assets/pyra-terrain-a40-20261117` zapisano dostawę
+`deliveries/pyra-terrain-gpu-20261117`: 60 wariantów SDXL, 12 drobnych podłoży
+po dopracowaniu GPU oraz 12 masek mieszania. Zakres: ziemia, popiół, żwir,
+nawierzchnie dróg, skały zboczy, ściany i brzegi rozpadlin, osady dolin/nizin,
+zimna skorupa lawowa i szczeliny żarowe. To materiały, nie nowe kształty świata.
+
+Źródła 1024 px, albedo PNG/WebP, LOD 512 px, mapy pomocnicze i powtórzenia 3×3
+zachowano w 11 częściach ZIP Git LFS (480 433 002 B). `manifest.json` zawiera
+OID/SHA-256; 26 wybranych do przeglądu materiałów ma bezpośrednie podglądy
+`previews/`. Wybór według metryki szwu nie oznacza akceptacji artystycznej.
+Pierwsze warianty popiołu i drogi okazały się kamieniste; zachowano je jako
+kandydatów kruszywa. Osobna partia drobnych gleb usuwa ten problem.
+
+Odtwarzanie w przygotowanym venv: kolejno `generate-pyra-terrain.py`,
+`refine-pyra-fine-ground.py`, `detail-pyra-ground.py`, `pyra-terrain-transitions.py`
+i `package-pyra-terrain.py` z `scripts/gpu/`. Model pozostaje Dreamshaper XL v2 Turbo
+z rewizją podaną wyżej; pełne parametry/seedy są w dwóch rejestrach partii.
+Pierwszy skrypt przyjmuje `--model`, `--out`, `--variants`, `--steps`.
+Pozostałe zakładają `/workspace/ki-iso-art2`, a źródło drobnego popiołu to
+rzeczywiste LFS `materials/ash.webp`, SHA-256
+`c379361affdf82875233e0d0ee7be99f7981767d1051625f3aaf2df260426835`.
+Przed ładowaniem modelu sprawdzany jest obraz; tekstowy wskaźnik LFS nie wystarcza.
+
+FFT na GPU usuwa składową brzegową; drobne gleby mają dodatkowy periodyczny
+mikrorelief i ziarno. Mapy pierwszej partii są estymacją z luminancji, drobne
+gleby mają zaprojektowany mikrorelief; nie są pomiarowym PBR. Maski przejść:
+R/G to wagi pary materiałów, B=0, A=255, suma R+G=255. Ich przykłady są podglądem
+mieszania tekstur, nie zrzutem gry ani mapą planety. Nic nie podłączono do świata/APK.

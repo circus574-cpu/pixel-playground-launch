@@ -1,0 +1,114 @@
+{
+  "status": "GPU material-blend authoring masks; not world or gameplay screenshots",
+  "encoding": "R=material A weight, G=material B weight, B=0, A=255; R+G=255 per pixel",
+  "items": [
+    {
+      "id": "ash-road-1",
+      "seed": 1711204100,
+      "material_a": "terrain-fine-ground/fine-warm-ash-1",
+      "material_b": "terrain-production/road-basalt-pavers-2",
+      "mask": "ash-road-1-weights.png",
+      "sha256": "50c9dd9f33737fa3cbe077d027444675c4205b6e9f5968534e7e108915c8a651",
+      "sum_weights_exact_255": true
+    },
+    {
+      "id": "ash-road-2",
+      "seed": 1711204101,
+      "material_a": "terrain-fine-ground/fine-warm-ash-1",
+      "material_b": "terrain-production/road-basalt-pavers-2",
+      "mask": "ash-road-2-weights.png",
+      "sha256": "433c3158d68968dafd6ef1afb3c5b0280a01e8183f1ae132559a5c24978084e7",
+      "sum_weights_exact_255": true
+    },
+    {
+      "id": "soil-rock-1",
+      "seed": 1711204110,
+      "material_a": "terrain-fine-ground/fine-dark-ash-1",
+      "material_b": "terrain-production/mountain-scree-2",
+      "mask": "soil-rock-1-weights.png",
+      "sha256": "22e971609f1ca09cd1217d544326f5f2ab48c696999a6d655bf7cea36e560e99",
+      "sum_weights_exact_255": true
+    },
+    {
+      "id": "soil-rock-2",
+      "seed": 1711204111,
+      "material_a": "terrain-fine-ground/fine-dark-ash-1",
+      "material_b": "terrain-production/mountain-scree-2",
+      "mask": "soil-rock-2-weights.png",
+      "sha256": "69bab195301e70d9dc2350f2e2f7c6334404cd93f0a66112b6aedacae0e8d5ff",
+      "sum_weights_exact_255": true
+    },
+    {
+      "id": "dust-crust-1",
+      "seed": 1711204120,
+      "material_a": "terrain-fine-ground/fine-ochre-earth-1",
+      "material_b": "terrain-production/lava-cold-crust-1",
+      "mask": "dust-crust-1-weights.png",
+      "sha256": "d441e186665061e1c679ec3b2243e18e802d5f8b33452878591aac8070359ffe",
+      "sum_weights_exact_255": true
+    },
+    {
+      "id": "dust-crust-2",
+      "seed": 1711204121,
+      "material_a": "terrain-fine-ground/fine-ochre-earth-1",
+      "material_b": "terrain-production/lava-cold-crust-1",
+      "mask": "dust-crust-2-weights.png",
+      "sha256": "9ee8610d7f94e30ac424a3d63e7fd3d70f3c3b833a56538260fa5d3667ab364a",
+      "sum_weights_exact_255": true
+    },
+    {
+      "id": "silt-pebbles-1",
+      "seed": 1711204130,
+      "material_a": "terrain-fine-ground/fine-valley-silt-1",
+      "material_b": "terrain-production/valley-creek-bed-2",
+      "mask": "silt-pebbles-1-weights.png",
+      "sha256": "1219fd42da56da72adde96e038f3856b1a21d276f4bddb2d5d62adc8a7e4eb0c",
+      "sum_weights_exact_255": true
+    },
+    {
+      "id": "silt-pebbles-2",
+      "seed": 1711204131,
+      "material_a": "terrain-fine-ground/fine-valley-silt-1",
+      "material_b": "terrain-production/valley-creek-bed-2",
+      "mask": "silt-pebbles-2-weights.png",
+      "sha256": "304fc959c6976271d8619d4b65f833aca5513c77473e6105cc5c1117237ebef4",
+      "sum_weights_exact_255": true
+    },
+    {
+      "id": "earth-broken-paving-1",
+      "seed": 1711204140,
+      "material_a": "terrain-fine-ground/fine-packed-road-1",
+      "material_b": "terrain-production/road-broken-cobbles-2",
+      "mask": "earth-broken-paving-1-weights.png",
+      "sha256": "a8b26b8e17441c084922ed4a66ad312db06e0501168aac4b42835c3ca3a713c7",
+      "sum_weights_exact_255": true
+    },
+    {
+      "id": "earth-broken-paving-2",
+      "seed": 1711204141,
+      "material_a": "terrain-fine-ground/fine-packed-road-1",
+      "material_b": "terrain-production/road-broken-cobbles-2",
+      "mask": "earth-broken-paving-2-weights.png",
+      "sha256": "174c63dbcf18eb25e2632bacdb102ec4a8360a2ac8ed85f4bc05a889762bb76a",
+      "sum_weights_exact_255": true
+    },
+    {
+      "id": "loam-aggregate-1",
+      "seed": 1711204150,
+      "material_a": "terrain-fine-ground/fine-lowland-soil-1",
+      "material_b": "terrain-production/ground-basalt-gravel-2",
+      "mask": "loam-aggregate-1-weights.png",
+      "sha256": "c26ce6d84bf098d32a61bbf576fe1ee76dddeabb01b02b30a5b29be0f0a26fa4",
+      "sum_weights_exact_255": true
+    },
+    {
+      "id": "loam-aggregate-2",
+      "seed": 1711204151,
+      "material_a": "terrain-fine-ground/fine-lowland-soil-1",
+      "material_b": "terrain-production/ground-basalt-gravel-2",
+      "mask": "loam-aggregate-2-weights.png",
+      "sha256": "db993ce85d070739a88c7872c36925c716e79f2dda272bbd6032fd42cf6fa0c3",
+      "sum_weights_exact_255": true
+    }
+  ]
+}

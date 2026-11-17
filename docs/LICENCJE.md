@@ -442,3 +442,12 @@ w `provenance.json`. Modelu narzędzie nie ujawnia. Rejestr nie jest dowodem
 wyłącznych praw ani zakończonym odbiorem licencyjnym; status: **do sprawdzenia**.
 Eksperymenty Blender/SDXL opisano osobno i nie podłączono ich wyników do gry.
 Nie użyto kredytów Meshy ani Lovable, nie zastąpiono dawnych źródeł.
+
+Dostawa `deliveries/pyra-terrain-gpu-20261117` zachowuje źródła i parametry
+Dreamshaper XL v2 Turbo (72 warianty), proceduralne dopracowanie GPU i maski.
+Karta fine-tune deklaruje `openrail++`, bez osobnego pliku licencji w jego repo.
+Zachowano pełną licencję modelu bazowego w `BASE-LICENSE.md` wraz z URL rewizji
+i SHA-256 w `license-provenance.json`. **Status praw wyników: do sprawdzenia**;
+nie traktować deklaracji karty ani posiadania wyników jako zamkniętego audytu.
+Źródłowy popiół użyty do drobnych podłoży pochodzi z wcześniejszej dostawy SDXL
+Pyry; jego hash, seedy i operacje są zapisane w rejestrze partii.

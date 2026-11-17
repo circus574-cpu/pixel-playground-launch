@@ -1,0 +1,101 @@
+{
+  "repository": "Lykon/dreamshaper-xl-v2-turbo",
+  "revision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 1535,
+      "sha256": "0959ea48a3b054cfba33e0453f07c8e1aa1444f34f7f9949545220f75455fd7e"
+    },
+    {
+      "file": "model_index.json",
+      "bytes": 671,
+      "sha256": "a69fbd2647d5334cf1c44f7cc90453ff24e0d7c98d45092f62b114dd0436a6d2"
+    },
+    {
+      "file": "scheduler/scheduler_config.json",
+      "bytes": 558,
+      "sha256": "93fb2cd3c439d000f8dca6658fff5e3dfd019bfdc4fb054ebf736c2b92b81299"
+    },
+    {
+      "file": "text_encoder/config.json",
+      "bytes": 560,
+      "sha256": "c8386de73a461002dc66190e6ab15209ed98b6303078e49e3efd7dc2f2b787db"
+    },
+    {
+      "file": "text_encoder/model.fp16.safetensors",
+      "bytes": 246144152,
+      "sha256": "3dea4e3e892df8d0d41540f7bacfdec4d5c978d1aaf2375f0a56d41d814a640f"
+    },
+    {
+      "file": "text_encoder_2/config.json",
+      "bytes": 570,
+      "sha256": "aced43647f7ac208a025c7396b593e1f9f5f5d88b5068f9353866db5357f6b06"
+    },
+    {
+      "file": "text_encoder_2/model.fp16.safetensors",
+      "bytes": 1389382176,
+      "sha256": "30b466dbbac35c5c63d0fc1893c17433f0d367886c1081d4a699ce728ed013af"
+    },
+    {
+      "file": "tokenizer/merges.txt",
+      "bytes": 524619,
+      "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a"
+    },
+    {
+      "file": "tokenizer/special_tokens_map.json",
+      "bytes": 588,
+      "sha256": "2cdb3b8331a60c92fc1e55a13e9fd61fd2293c5a51275fdcccd62b780052530e"
+    },
+    {
+      "file": "tokenizer/tokenizer_config.json",
+      "bytes": 705,
+      "sha256": "6bdcee9ccce2a16ca2b4c0c5ed00b42c50ea225f4472a8c4c1e963a2902c2881"
+    },
+    {
+      "file": "tokenizer/vocab.json",
+      "bytes": 1059962,
+      "sha256": "e089ad92ba36837a0d31433e555c8f45fe601ab5c221d4f607ded32d9f7a4349"
+    },
+    {
+      "file": "tokenizer_2/merges.txt",
+      "bytes": 524619,
+      "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a"
+    },
+    {
+      "file": "tokenizer_2/special_tokens_map.json",
+      "bytes": 462,
+      "sha256": "c934044566ac411c4739e9cec969e061e8dcdf2bd108196a66ce917376d4d68e"
+    },
+    {
+      "file": "tokenizer_2/tokenizer_config.json",
+      "bytes": 856,
+      "sha256": "e70eb3e2b85a508e32bb81c32c13fc3f2b015548ca469b94627c2f32e445cba1"
+    },
+    {
+      "file": "tokenizer_2/vocab.json",
+      "bytes": 1059962,
+      "sha256": "e089ad92ba36837a0d31433e555c8f45fe601ab5c221d4f607ded32d9f7a4349"
+    },
+    {
+      "file": "unet/config.json",
+      "bytes": 1773,
+      "sha256": "bb8ab4a15cda73d5e75f466e020fbd97e0d1a3bbee6e5378b94f0dc2eb8af2f2"
+    },
+    {
+      "file": "unet/diffusion_pytorch_model.fp16.safetensors",
+      "bytes": 5135149760,
+      "sha256": "c1217e273e6fd7570c2ae9d38172323ff0b6f8ac7f2000b3ba99d4851906ee1e"
+    },
+    {
+      "file": "vae/config.json",
+      "bytes": 602,
+      "sha256": "ec13eefd4a3ea11116879c105665881d5b31d1f8425e73cc6016e7cba72d14c0"
+    },
+    {
+      "file": "vae/diffusion_pytorch_model.fp16.safetensors",
+      "bytes": 167335342,
+      "sha256": "5ebe0b826867138fc37d4474983ef0b487cef39d8f3cd84228f3b5c5aba241d4"
+    }
+  ]
+}

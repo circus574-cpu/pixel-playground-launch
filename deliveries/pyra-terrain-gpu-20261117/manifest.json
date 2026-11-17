@@ -1,0 +1,261 @@
+{
+  "format": "ki-pyra-gpu-terrain-review-1",
+  "date": "2026-11-17",
+  "status": "GPU asset production; no game installation",
+  "generated": 72,
+  "model": "Lykon/dreamshaper-xl-v2-turbo",
+  "revision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+  "selected_for_review": [
+    {
+      "id": "ground-warm-ash-1",
+      "category": "ground-warm-ash",
+      "path": "previews/ground-warm-ash-1.webp",
+      "lod": "previews/ground-warm-ash-1-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "ground-charcoal-1",
+      "category": "ground-charcoal",
+      "path": "previews/ground-charcoal-1.webp",
+      "lod": "previews/ground-charcoal-1-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "ground-basalt-gravel-1",
+      "category": "ground-basalt-gravel",
+      "path": "previews/ground-basalt-gravel-1.webp",
+      "lod": "previews/ground-basalt-gravel-1-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "ground-dry-earth-2",
+      "category": "ground-dry-earth",
+      "path": "previews/ground-dry-earth-2.webp",
+      "lod": "previews/ground-dry-earth-2-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "road-packed-ash-1",
+      "category": "road-packed-ash",
+      "path": "previews/road-packed-ash-1.webp",
+      "lod": "previews/road-packed-ash-1-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "road-basalt-pavers-2",
+      "category": "road-basalt-pavers",
+      "path": "previews/road-basalt-pavers-2.webp",
+      "lod": "previews/road-basalt-pavers-2-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "road-broken-cobbles-1",
+      "category": "road-broken-cobbles",
+      "path": "previews/road-broken-cobbles-1.webp",
+      "lod": "previews/road-broken-cobbles-1-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "road-ceremonial-3",
+      "category": "road-ceremonial",
+      "path": "previews/road-ceremonial-3.webp",
+      "lod": "previews/road-ceremonial-3-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "mountain-columnar-1",
+      "category": "mountain-columnar",
+      "path": "previews/mountain-columnar-1.webp",
+      "lod": "previews/mountain-columnar-1-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "mountain-strata-3",
+      "category": "mountain-strata",
+      "path": "previews/mountain-strata-3.webp",
+      "lod": "previews/mountain-strata-3-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "mountain-cliff-1",
+      "category": "mountain-cliff",
+      "path": "previews/mountain-cliff-1.webp",
+      "lod": "previews/mountain-cliff-1-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "mountain-scree-3",
+      "category": "mountain-scree",
+      "path": "previews/mountain-scree-3.webp",
+      "lod": "previews/mountain-scree-3-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "pit-inner-rock-1",
+      "category": "pit-inner-rock",
+      "path": "previews/pit-inner-rock-1.webp",
+      "lod": "previews/pit-inner-rock-1-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "pit-rim-3",
+      "category": "pit-rim",
+      "path": "previews/pit-rim-3.webp",
+      "lod": "previews/pit-rim-3-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "valley-silt-3",
+      "category": "valley-silt",
+      "path": "previews/valley-silt-3.webp",
+      "lod": "previews/valley-silt-3-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "valley-creek-bed-3",
+      "category": "valley-creek-bed",
+      "path": "previews/valley-creek-bed-3.webp",
+      "lod": "previews/valley-creek-bed-3-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "lowland-loam-3",
+      "category": "lowland-loam",
+      "path": "previews/lowland-loam-3.webp",
+      "lod": "previews/lowland-loam-3-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "lowland-gravel-1",
+      "category": "lowland-gravel",
+      "path": "previews/lowland-gravel-1.webp",
+      "lod": "previews/lowland-gravel-1-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "lava-cold-crust-2",
+      "category": "lava-cold-crust",
+      "path": "previews/lava-cold-crust-2.webp",
+      "lod": "previews/lava-cold-crust-2-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "lava-ember-cracks-1",
+      "category": "lava-ember-cracks",
+      "path": "previews/lava-ember-cracks-1.webp",
+      "lod": "previews/lava-ember-cracks-1-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "fine-warm-ash-1",
+      "category": "fine-warm-ash",
+      "path": "previews/fine-warm-ash-1.webp",
+      "lod": "previews/fine-warm-ash-1-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "fine-dark-ash-1",
+      "category": "fine-dark-ash",
+      "path": "previews/fine-dark-ash-1.webp",
+      "lod": "previews/fine-dark-ash-1-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "fine-packed-road-1",
+      "category": "fine-packed-road",
+      "path": "previews/fine-packed-road-1.webp",
+      "lod": "previews/fine-packed-road-1-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "fine-valley-silt-2",
+      "category": "fine-valley-silt",
+      "path": "previews/fine-valley-silt-2.webp",
+      "lod": "previews/fine-valley-silt-2-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "fine-lowland-soil-2",
+      "category": "fine-lowland-soil",
+      "path": "previews/fine-lowland-soil-2.webp",
+      "lod": "previews/fine-lowland-soil-2-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    },
+    {
+      "id": "fine-ochre-earth-1",
+      "category": "fine-ochre-earth",
+      "path": "previews/fine-ochre-earth-1.webp",
+      "lod": "previews/fine-ochre-earth-1-512.webp",
+      "selection": "lowest measured seam ratio; artistic review pending"
+    }
+  ],
+  "archives": [
+    {
+      "path": "archives/gpu-sources-01.zip",
+      "size": 50188359,
+      "sha256": "570dde21bdba962e5e58e5dd6cbdc02dc0ab18eced84f5d1bf4149d99b1c21ad"
+    },
+    {
+      "path": "archives/gpu-sources-02.zip",
+      "size": 49340093,
+      "sha256": "c97b13714477ccc1c161a7d061d9e273be5b3ad865673f0329b6a62a3b654355"
+    },
+    {
+      "path": "archives/gpu-sources-03.zip",
+      "size": 49955533,
+      "sha256": "559e46fc0d132c7552d4b05ed0506c6d111e16d01e8b804c5ddda42616f52307"
+    },
+    {
+      "path": "archives/gpu-sources-04.zip",
+      "size": 50052325,
+      "sha256": "e2f56b5ef729d6a07861f841672b9909eb980c4702f431f8a540d6b3153a2baa"
+    },
+    {
+      "path": "archives/gpu-sources-05.zip",
+      "size": 49962521,
+      "sha256": "b570bd0406b955556f121975459b58c16203c7e5d43d5e1403b39848302fed2d"
+    },
+    {
+      "path": "archives/gpu-sources-06.zip",
+      "size": 50107215,
+      "sha256": "07f2d3a16ce154bb88e6838c3ca7366ac34e79402d599f9a5f05e3141f2936ad"
+    },
+    {
+      "path": "archives/gpu-sources-07.zip",
+      "size": 48635262,
+      "sha256": "d57c632486b9b7314748795f2620348cf5fe80b8e1d4ed93e1566ae19e207e7a"
+    },
+    {
+      "path": "archives/gpu-sources-08.zip",
+      "size": 50185737,
+      "sha256": "3434182bdc24a73b0e217f3956cbd50c8e788bc53045e05653801c203b9834f1"
+    },
+    {
+      "path": "archives/gpu-sources-09.zip",
+      "size": 49531296,
+      "sha256": "e0dd928a36655a16527be2d1c6e0eb88ccac6df4d55f2fa05fef5c6e80add15c"
+    },
+    {
+      "path": "archives/gpu-sources-10.zip",
+      "size": 22501483,
+      "sha256": "e20207d7864360013206fa742a01fba186119df3ac7f031f033d0045ee50b178"
+    },
+    {
+      "path": "archives/gpu-extra-masks-and-provenance.zip",
+      "size": 9973178,
+      "sha256": "9236c517bb2a88405c2dcdb732ab8938d455c92d2363f80ee05072572ea028cb"
+    }
+  ],
+  "limitations": [
+    "First ash/packed-road candidates are coarse aggregate, not fine ground",
+    "Columnar prompt produced angular rock swatches, not column geometry",
+    "Mountains/holes/valleys need separate actual geometry",
+    "Normal/height/roughness are inferred approximations",
+    "Artistic and licensing acceptance pending"
+  ],
+  "transitions": {
+    "count": 12,
+    "manifest": "transitions/manifest.json",
+    "status": "authoring masks; no world placement"
+  }
+}
