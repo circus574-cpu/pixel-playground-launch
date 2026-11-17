@@ -833,3 +833,7 @@ cloud save ani instancji GPU. Fizyczny telefon i pełna kampania pozostają
 niezweryfikowane. Nie wykonano scalenia ani nowej publikacji gry.
 
 [Sumy wszystkich dowodów](qa/android-level3-audit/evidence-sha256.json).
+
+### 30. Wydanie 1.9 (zgoda właściciela 17.11.2026: „Scalaj i publikuj”)
+
+Zawartość: litery i ramki właściciela w oknach, ekranach i HUD; przeniesienie postaci z przeglądarki (menu POSTAĆ Z PRZEGLĄDARKI); wyrównanie animacji pętli bohatera; efekty premium (KI, cięcia, uderzenia, telegrafy ataków) i miękki cień; naprawy z audytu 1.8 (NPC zadań w czterech miastach, nazwy rozmówców, `WeakRef` w opóźnionych efektach). Paczki: `deliveries/godot-content-1.9` (27 paczek, rdzeń `core-c100-8eda74fd9400`, 3,6 MB). Przed publikacją: `e2e_installed.py` PASS na zainstalowanym APK 1.0, `e2e_core.py` 11/11 PASS, `quest_npcs.gd` 12/12, `smoke.gd` 536/542 (te same 6 testów pada na czystym HEAD). Wersja aktywna do tej pory: 1.8 (Codex); wycofanie = ponowna aktywacja 1.8.
