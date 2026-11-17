@@ -1,0 +1,116 @@
+{
+	"beforeView": "Old font and mixed-case source title in the corrected layout, to isolate typography.",
+	"checks": [
+		{
+			"name": "(1280, 720) uppercase includes Ę/Ł/Ó",
+			"pass": true
+		},
+		{
+			"name": "(1280, 720) long title wraps",
+			"pass": true
+		},
+		{
+			"name": "(1280, 720) title stays on screen",
+			"pass": true
+		},
+		{
+			"name": "(1280, 720) heading uses full Cinzel",
+			"pass": true
+		},
+		{
+			"name": "(852, 393) uppercase includes Ę/Ł/Ó",
+			"pass": true
+		},
+		{
+			"name": "(852, 393) long title wraps",
+			"pass": true
+		},
+		{
+			"name": "(852, 393) title stays on screen",
+			"pass": true
+		},
+		{
+			"name": "(852, 393) heading uses full Cinzel",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains Ą",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains Ć",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains Ę",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains Ł",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains Ń",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains Ó",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains Ś",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains Ź",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains Ż",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains ą",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains ć",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains ę",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains ł",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains ń",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains ó",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains ś",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains ź",
+			"pass": true
+		},
+		{
+			"name": "Imported font contains ż",
+			"pass": true
+		},
+		{
+			"name": "Polish case conversion",
+			"pass": true
+		}
+	],
+	"failures": [],
+	"physicalPhoneTested": false,
+	"renderer": "X11"
+}

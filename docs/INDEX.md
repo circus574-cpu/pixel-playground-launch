@@ -1,5 +1,10 @@
 # KI Legends — dokumentacja projektu
 
+**Polskie litery — 17.11:** poprawiono małe „ę” w ozdobnych nagłówkach. Pełny
+Cinzel zawiera 18 polskich glifów; tytuły dialogów są pisane wersalikami i zawijają
+się w ramce. [Wynik w Godocie](zmiany/2026-11-17/qa/polish-headings/after-1280x720.jpg),
+[raport](zmiany/2026-11-17/ZMIANY.md#10-polskie-litery-w-nagłówkach-dialogów).
+
 **Historia w terenie — 17.11:** odblokowano właściwe opisy 16 istniejących znanych
 miejsc zamiast tekstu zastępczego. Wizualny prototyp czterech miejsc Pyry łączy
 autorskie układy rekwizytów z dotychczasowym postępem zadań.

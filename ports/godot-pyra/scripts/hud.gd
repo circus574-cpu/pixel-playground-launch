@@ -656,10 +656,13 @@ func show_dialog(title: String, text: String, actions: Array = []) -> void:
 	buttons = top_buttons.duplicate()
 	buttons.append(minimap_button)
 	var heading := Label.new()
-	heading.text = title
+	heading.text = title.to_upper()
 	heading.add_theme_font_override("font", cinzel)
 	heading.add_theme_font_size_override("font_size", 30)
 	heading.add_theme_color_override("font_color", Color("f1c77f"))
+	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	heading.custom_minimum_size = Vector2(660, 0)
+	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	modal_box.add_child(heading)
 	var body := Label.new()
 	body.text = text

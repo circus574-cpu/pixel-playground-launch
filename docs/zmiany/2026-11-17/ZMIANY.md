@@ -615,3 +615,35 @@ NPC, regionalne spotkania w sensownych miejscach, konsekwencje w osadach,
 przyroda i osobne opracowania sześciu wysp. Ten prototyp ich nie wdraża i nie
 oznacza, że cała planeta już żyje. Nie użyto płatnego AI ani poda GPU.
 Bez scalenia i publikacji. Wszystkie dotychczasowe postacie i dane świata zachowano.
+
+## 10. Polskie litery w nagłówkach dialogów
+
+Właściciel wskazał małe „ę” w tytule „Przysięgi”, pośród znaków wyglądających jak
+wersaliki. Wcześniejszą uwagę błędnie odczytano jako ocenę scenerii.
+Gałąź `fix/android-polish-headings-20261117`, baza `e7a1dc0c`.
+
+Przyczyna potwierdzona odczytem cmap TTF: stary `cinzel-bold.ttf` był podzbiorem
+latin, bez 16 z 18 polskich liter. Font Cinzel przedstawiał zwykłe litery jako
+kapitaliki, a brakujące „ę” pochodziło z systemowego fontu zastępczego i pozostawało
+małą literą. `show_dialog` przyjmował też tekst w mieszanej wielkości liter.
+
+Podmieniono TTF na pełny Cinzel, wagę 700, obejmujący polskie znaki. Nie zmieniono
+tekstu fabuły ani zwykłej pisowni treści dialogu. Nagłówek używa `to_upper()` oraz
+zawijania słów do szerokości ramki. Oryginalny TTF jest zachowany w QA.
+Generator `scripts/godot/prepare_branding.py` korzysta teraz z pełnego źródła
+`art/source-fonts/cinzel-variable.ttf`; `--font-only` odtwarza font bez ponownego
+renderowania ikon i ekranu startowego. Dwukrotne odtworzenie dało identyczne bajty.
+Źródło Google Fonts, licencja OFL i sumy: [rejestr](qa/polish-headings/font-source.json).
+
+[Przed — stary font i mieszana wielkość liter](qa/polish-headings/before-font-and-case.jpg),
+[po — 1280×720](qa/polish-headings/after-1280x720.jpg),
+[po — 852×393](qa/polish-headings/after-852x393.jpg).
+To rzeczywisty panel HUD w Godocie, odizolowany od świata gry. Widok „przed” używa
+starego fontu/pisowni w poprawionym układzie, aby porównać typografię.
+
+**27/27 kontroli** ([wyniki](qa/polish-headings/results.json),
+[log](qa/polish-headings/native.txt)): 18 polskich glifów w zaimportowanym foncie,
+poprawne wersaliki, zawijanie długiego nagłówka i obecność całego tytułu na ekranie
+w obu rozmiarach. Godot X11/llvmpipe; tylko ostrzeżenie V-Sync. Fizyczny telefon
+nie był testowany. Pełny [TypeScript](qa/polish-headings/typecheck.txt) uruchomiono
+na tej zmianie. Nie opublikowano ani nie zbudowano nowego APK.

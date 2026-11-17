@@ -326,6 +326,14 @@ Ikony i boot splash adaptują istniejący `public/ki-favicon.svg`; źródła i w
 mają SHA-256 w `assets/branding/provenance.json` projektu Godot. Nie dodano
 zewnętrznych grafik ani nowych deklaracji praw do pozostałych materiałów gry.
 
+**Pełny Cinzel dla Androida (17.11):** podzbiór latin nie zawierał większości
+polskich znaków. Dodano niezmieniony źródłowy font zmienny Google Fonts/Cinzel
+w `art/source-fonts/cinzel-variable.ttf` z pełnym OFL. Generator brandingu tworzy
+z niego statyczną wagę 700 z Latin Extended; źródło i licencja są dostępne offline.
+OFL i autorzy pozostają ci sami. [Źródło, sumy i zakres glifów](zmiany/2026-11-17/qa/polish-headings/font-source.json).
+Dotychczasowy TTF zachowano w dowodach QA; nowe pochodzenie opisuje także
+`ports/godot-pyra/assets/branding/provenance.json`.
+
 **Korekta logotypu Godot, 15.11:** dodano niezmieniony oficjalny plik
 `logo_large_color_dark.svg` z press kitu `godotengine/godot-website`, commit
 `9ff22d3a58cbe906d739b85d299dca7c0c78e1e8`. Logo: © 2017 Andrea Calabró,
