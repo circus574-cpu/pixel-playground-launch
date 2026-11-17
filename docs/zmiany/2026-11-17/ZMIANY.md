@@ -131,3 +131,39 @@ pozostaje do sprawdzenia; rekord generacji nie zastępuje dowodu praw.
 Nie scalono ani nie wdrożono. Dotychczasowa bramka PR #182 miała osobny błąd
 czasowy testu odrodzenia w pełnym smoke OpenGL; ten etap grafik go nie naprawia
 i nie stanowi potwierdzenia zielonego pełnego CI tamtej gałęzi.
+
+## 4. Tekstury Pyry — produkcja na A40
+
+Na polecenie właściciela przerwano rozwijanie runtime i skupiono się na zasobach
+na działającym A40 `1ol56m0rtgorym`. Gałąź `assets/pyra-terrain-a40-20261117`
+pochodzi od `108a9ea9`; nie scalano jej ani nie publikowano gry.
+
+- 60 wariantów materiałów SDXL: podłoże, drogi, skały/góry, ściany i obrzeża
+  rozpadlin, doliny, niziny oraz skały lawowe.
+- 12 drobnych gleb/ubitych dróg: SDXL img2img i dopracowanie ziarnistości,
+  koloru oraz periodycznego mikroreliefu na GPU. Źródła AI zachowane.
+- 12 masek przejść i przykłady mieszania, z dokładną sumą wag R+G=255.
+- 1024 px PNG/WebP, wersje 512 px, normal/height/roughness i podglądy 3×3.
+  Mapy pomocnicze są przybliżeniami artystycznymi; nie są pomiarem fizycznego PBR.
+
+**Kontrola materiałów: 72/72**, zero błędów plików/hashy/wymiarów i wykrytych
+czarnych generacji. Najwyższy stosunek różnicy na szwie do zwykłych różnic
+wewnątrz tekstury wyniósł **1,354** przy limicie 2. Sprawdzono także mapy
+normalnych (próbka co 16 px; największy błąd długości 0,00621 przy limicie 0,02),
+szarości map height/roughness i wszystkie 12 masek. Odbiór artystyczny pozostaje
+otwarty. Kamieniste wyniki pierwszych promptów popiołu zachowano jako kandydatów
+kruszywa; nie oznaczono ich jako zaakceptowane drobne gleby.
+
+[Rejestr weryfikacji](qa/pyra-terrain-gpu/results.json).
+Dostawa: `deliveries/pyra-terrain-gpu-20261117`, 11 archiwów Git LFS,
+**480 433 002 B**; serwer LFS potwierdził obecność wszystkich 11 obiektów.
+Pełne rejestry promptów, seedów, wersji i plików są w dostawie. Skrypty są
+w `scripts/gpu/*pyra*`. Zasoby mają status praw do sprawdzenia.
+
+To **produkcja grafik**, bez zmian geometrii, miast, kolizji, save ani APK.
+Podglądy mieszania materiałów nie przedstawiają uruchomionej gry.
+Nie uruchamiano ponownie testów przeglądarki na samych plikach dostawy.
+Przy poprzednim etapie budynków workflow Godota zakończył się sukcesem
+na `108a9ea9`: [Actions 44181755158](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/44181755158).
+Nie jest to test integracji nowych materiałów w runtime.
+Obliczenia GPU tej partii zakończone; lifecycle poda pozostał bez zmian.

@@ -1,0 +1,13 @@
+{
+  "base_model_license": [
+    {
+      "source": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/raw/462165984030d82259a11f4367a4eed129e94a7b/LICENSE.md",
+      "file": "BASE-LICENSE.md",
+      "sha256": "19b6998b569b53ac1fc2158a8a3202c8699a9a4605b47075715d9c96be7fb6d0"
+    }
+  ],
+  "fine_tune": "Lykon/dreamshaper-xl-v2-turbo",
+  "fine_tune_model_card_license": "openrail++",
+  "fine_tune_no_separate_license_file": true,
+  "clearance": "review pending; model card declaration is not proof of all output rights"
+}

@@ -1,0 +1,683 @@
+[
+  {
+    "path": "BASE-LICENSE.md",
+    "size": 14109,
+    "sha256": "19b6998b569b53ac1fc2158a8a3202c8699a9a4605b47075715d9c96be7fb6d0"
+  },
+  {
+    "path": "MODEL-README.txt",
+    "size": 1535,
+    "sha256": "0959ea48a3b054cfba33e0453f07c8e1aa1444f34f7f9949545220f75455fd7e"
+  },
+  {
+    "path": "archives/gpu-extra-masks-and-provenance.zip",
+    "size": 9973178,
+    "sha256": "9236c517bb2a88405c2dcdb732ab8938d455c92d2363f80ee05072572ea028cb"
+  },
+  {
+    "path": "archives/gpu-sources-01.zip",
+    "size": 50188359,
+    "sha256": "570dde21bdba962e5e58e5dd6cbdc02dc0ab18eced84f5d1bf4149d99b1c21ad"
+  },
+  {
+    "path": "archives/gpu-sources-02.zip",
+    "size": 49340093,
+    "sha256": "c97b13714477ccc1c161a7d061d9e273be5b3ad865673f0329b6a62a3b654355"
+  },
+  {
+    "path": "archives/gpu-sources-03.zip",
+    "size": 49955533,
+    "sha256": "559e46fc0d132c7552d4b05ed0506c6d111e16d01e8b804c5ddda42616f52307"
+  },
+  {
+    "path": "archives/gpu-sources-04.zip",
+    "size": 50052325,
+    "sha256": "e2f56b5ef729d6a07861f841672b9909eb980c4702f431f8a540d6b3153a2baa"
+  },
+  {
+    "path": "archives/gpu-sources-05.zip",
+    "size": 49962521,
+    "sha256": "b570bd0406b955556f121975459b58c16203c7e5d43d5e1403b39848302fed2d"
+  },
+  {
+    "path": "archives/gpu-sources-06.zip",
+    "size": 50107215,
+    "sha256": "07f2d3a16ce154bb88e6838c3ca7366ac34e79402d599f9a5f05e3141f2936ad"
+  },
+  {
+    "path": "archives/gpu-sources-07.zip",
+    "size": 48635262,
+    "sha256": "d57c632486b9b7314748795f2620348cf5fe80b8e1d4ed93e1566ae19e207e7a"
+  },
+  {
+    "path": "archives/gpu-sources-08.zip",
+    "size": 50185737,
+    "sha256": "3434182bdc24a73b0e217f3956cbd50c8e788bc53045e05653801c203b9834f1"
+  },
+  {
+    "path": "archives/gpu-sources-09.zip",
+    "size": 49531296,
+    "sha256": "e0dd928a36655a16527be2d1c6e0eb88ccac6df4d55f2fa05fef5c6e80add15c"
+  },
+  {
+    "path": "archives/gpu-sources-10.zip",
+    "size": 22501483,
+    "sha256": "e20207d7864360013206fa742a01fba186119df3ac7f031f033d0045ee50b178"
+  },
+  {
+    "path": "license-provenance.json",
+    "size": 533,
+    "sha256": "a43cdb7b55ea01ae4277d3bb3fa0cdc8914009fbcaeb5c85a71f595cef5c24fc"
+  },
+  {
+    "path": "manifest.json",
+    "size": 9296,
+    "sha256": "917c90e9815f67d11d3370293a44d5aa577a96b883083f52c1e03fc344c5f32e"
+  },
+  {
+    "path": "model-download.json",
+    "size": 3228,
+    "sha256": "265433850b733aeb7b513981a3f61071b34c45de89633ec51bad6ea0fa804069"
+  },
+  {
+    "path": "pipeline-tests.json",
+    "size": 483,
+    "sha256": "f82cce17a2d4877d6baa9b59dc575c9dd2a97a7d912e4db1abb253359eb4152f"
+  },
+  {
+    "path": "previews/fine-dark-ash-1-512.webp",
+    "size": 39872,
+    "sha256": "4c9f7bbe93a0a3d1dcb8b85099a718a956dd35912274a3b3a6f47e92274fc69e"
+  },
+  {
+    "path": "previews/fine-dark-ash-1-repeat.jpg",
+    "size": 109618,
+    "sha256": "4118dde326f3b2a318f9f0a30c9d5d782866bbba3a95d80cd5f4db0ea196d158"
+  },
+  {
+    "path": "previews/fine-dark-ash-1.webp",
+    "size": 194594,
+    "sha256": "32f92d93e185ff18df92d2879027925e8ae3d8e9d006c202c766a08f2a2a998b"
+  },
+  {
+    "path": "previews/fine-lowland-soil-1-512.webp",
+    "size": 23368,
+    "sha256": "a05390a71971c56d18ab772b69367222c1e355b4feba0b9c80fa4895268e6589"
+  },
+  {
+    "path": "previews/fine-lowland-soil-1-repeat.jpg",
+    "size": 51788,
+    "sha256": "9af39cea4361928513da5e9eaaf8b76803abc31e4d3aadbcf546bf838f6c7574"
+  },
+  {
+    "path": "previews/fine-lowland-soil-1.webp",
+    "size": 191938,
+    "sha256": "c1167e9076d147a44c1adcc603ab7e6e0afa7fb38a0a252d8164679608a09242"
+  },
+  {
+    "path": "previews/fine-lowland-soil-2-512.webp",
+    "size": 37764,
+    "sha256": "dbf3e1e626271d767b224e6ec4d69891bf4a9da724822a35f0b34ac493c07931"
+  },
+  {
+    "path": "previews/fine-lowland-soil-2-repeat.jpg",
+    "size": 101330,
+    "sha256": "c1506caa2f45c47f38d8a9914ceec4d8e316e6ca4b49b8f81ab592ff82038c01"
+  },
+  {
+    "path": "previews/fine-lowland-soil-2.webp",
+    "size": 184934,
+    "sha256": "dcebac0902e6c7b603452e41033d3c261c02b6154a6175fea5ecec9ffb137e75"
+  },
+  {
+    "path": "previews/fine-ochre-earth-1-512.webp",
+    "size": 57880,
+    "sha256": "2db99789a99395b8d2f7c46c113ff8c64fc2518b9101794119dc5c8a6df0735f"
+  },
+  {
+    "path": "previews/fine-ochre-earth-1-repeat.jpg",
+    "size": 130593,
+    "sha256": "44244168f64332d55e348b60bc8eefbf3b5017eef5074a4692c7489396338345"
+  },
+  {
+    "path": "previews/fine-ochre-earth-1.webp",
+    "size": 274074,
+    "sha256": "7f3d831573c045e384644b7508235da9ef1bc9d537b2b2d294c68df13167bf87"
+  },
+  {
+    "path": "previews/fine-ochre-earth-2-512.webp",
+    "size": 27876,
+    "sha256": "1ac6e8e2bcc46d909dfcc7e36df83e06ba2a52332093f02e8e496edf36555643"
+  },
+  {
+    "path": "previews/fine-ochre-earth-2-repeat.jpg",
+    "size": 53615,
+    "sha256": "844f1d86ad674b314f8a86a763f4c5d67d7e9b7d8767f7531d2a6e22dd146fa8"
+  },
+  {
+    "path": "previews/fine-ochre-earth-2.webp",
+    "size": 192322,
+    "sha256": "7ce0b7ef729e18b9981d8f7bf2ccee83413d951b7a6b5b9e2c67eaaba6a4cfe8"
+  },
+  {
+    "path": "previews/fine-packed-road-1-512.webp",
+    "size": 40174,
+    "sha256": "517e9131fe3e698aa67b46201e2ea8a452995dfe771abf59dcfd844305133bc0"
+  },
+  {
+    "path": "previews/fine-packed-road-1-repeat.jpg",
+    "size": 105918,
+    "sha256": "cc8f01305554b706b27bc8a4a4570d3bfac9d0664be1a2fb82610c4f0889fd18"
+  },
+  {
+    "path": "previews/fine-packed-road-1.webp",
+    "size": 194000,
+    "sha256": "e5f9893a76ea61fc7b3a51b1625726a37ad76f5880f9e6fb9ea083f3ed0760ed"
+  },
+  {
+    "path": "previews/fine-valley-silt-1-512.webp",
+    "size": 26098,
+    "sha256": "8e98cbede756f589fda70d107e436d5c44f4c6d04e1acd6f6d330c2adfdc9bff"
+  },
+  {
+    "path": "previews/fine-valley-silt-1-repeat.jpg",
+    "size": 46997,
+    "sha256": "ea5d286f209ccb1789981b99e5729325ef1ab41234d38d22fedd6aa4cd87c2ed"
+  },
+  {
+    "path": "previews/fine-valley-silt-1.webp",
+    "size": 194532,
+    "sha256": "e05124c9b1500fc1e5fb52d67c5c4c43254453cb2a8af47f44e468abec41977d"
+  },
+  {
+    "path": "previews/fine-valley-silt-2-512.webp",
+    "size": 51320,
+    "sha256": "251c2b4ad162eecbce678c24b3a26e096cf58273ae94937996a6eb3e36066f6a"
+  },
+  {
+    "path": "previews/fine-valley-silt-2-repeat.jpg",
+    "size": 118061,
+    "sha256": "867cae5c4c9e8b39135fc429e2dce08e3826828f9f3b8077532556232e4f556f"
+  },
+  {
+    "path": "previews/fine-valley-silt-2.webp",
+    "size": 211724,
+    "sha256": "9e09aad0264605e8f5001b0f24dafdf4f2f2203718d9ccb8e90abb5a66ded050"
+  },
+  {
+    "path": "previews/fine-warm-ash-1-512.webp",
+    "size": 56912,
+    "sha256": "14e9ff443b4ce75632355e269298bc77474452412636aad6baf37e1b50012614"
+  },
+  {
+    "path": "previews/fine-warm-ash-1-repeat.jpg",
+    "size": 119856,
+    "sha256": "57043c8efda982fe8b7d74d4dc600c2b6d8756d91f5f196c2f3fbcf73a80b748"
+  },
+  {
+    "path": "previews/fine-warm-ash-1.webp",
+    "size": 240738,
+    "sha256": "80c4a24ad6751169c5b44a553a869f02bb9b6565d188e4d6d3d08043cc5b7824"
+  },
+  {
+    "path": "previews/ground-basalt-gravel-1-512.webp",
+    "size": 112010,
+    "sha256": "b4a15c4b868b3bc4e94ddddd4d8ca35ff86c3d161d50c82bc9252349d12c1f37"
+  },
+  {
+    "path": "previews/ground-basalt-gravel-1-repeat.jpg",
+    "size": 328981,
+    "sha256": "3e9af3a5dc9231eec2a7af5fbd5bce53544b00b9debaa5709d0bc0d56d342eca"
+  },
+  {
+    "path": "previews/ground-basalt-gravel-1.webp",
+    "size": 296714,
+    "sha256": "11e51bc80d97727e0b0e29bf552baa252557572efa2a127369db1b1bf090981b"
+  },
+  {
+    "path": "previews/ground-charcoal-1-512.webp",
+    "size": 107688,
+    "sha256": "4b088257ac3aa077a532836dfff7eaf9fda0629dbb7d253ee32677cc4029d280"
+  },
+  {
+    "path": "previews/ground-charcoal-1-repeat.jpg",
+    "size": 314217,
+    "sha256": "9950c35fbc4d2b48d98e74a2fa0048c2c85e4bad48aeee54e8b08dcf6027082f"
+  },
+  {
+    "path": "previews/ground-charcoal-1.webp",
+    "size": 280256,
+    "sha256": "6d8c8a23398321b064a8b82b1d7960dbe46bb2d793e1dac42d218967f220ff25"
+  },
+  {
+    "path": "previews/ground-dry-earth-2-512.webp",
+    "size": 80294,
+    "sha256": "bc4fbaa3b543276d91de9bf69c21bddf25c6191c26b89087b77325bb411be882"
+  },
+  {
+    "path": "previews/ground-dry-earth-2-repeat.jpg",
+    "size": 228090,
+    "sha256": "d209d960addd070d66e83922ac584f6a85071cadf68e543eb9ee7dc54c1d90a9"
+  },
+  {
+    "path": "previews/ground-dry-earth-2.webp",
+    "size": 224442,
+    "sha256": "c5c677f71c8e5938bcac97a6ba58ee3dab92180063f9ed7f4fb5a15d9ada4fd8"
+  },
+  {
+    "path": "previews/ground-warm-ash-1-512.webp",
+    "size": 93728,
+    "sha256": "c539b1edb7535e574541ed1d2e22954da96eef5317b28a62742c80ff9f4d5ee3"
+  },
+  {
+    "path": "previews/ground-warm-ash-1-repeat.jpg",
+    "size": 283695,
+    "sha256": "2806556361e00aae6334356941a72a2b16ece00dd84812e12aa5fca6556062fb"
+  },
+  {
+    "path": "previews/ground-warm-ash-1.webp",
+    "size": 247860,
+    "sha256": "c87726a6f3aa54656aea456b3ccab19d909edd6f0d249097a45d60c60f686055"
+  },
+  {
+    "path": "previews/lava-cold-crust-2-512.webp",
+    "size": 100906,
+    "sha256": "436c05b1118b7c98890ba0e15ac97bfc6cdd59431e76d6553262f5cd0392d4cd"
+  },
+  {
+    "path": "previews/lava-cold-crust-2-repeat.jpg",
+    "size": 310726,
+    "sha256": "f42f344dd81f82645bae2c2dcf22e5324468be7fbd578be3d8f23e1add58fc18"
+  },
+  {
+    "path": "previews/lava-cold-crust-2.webp",
+    "size": 267564,
+    "sha256": "2272c31fa5860122836b67bdb76f25cf6cb7f4072d5380da3f90148e34615d11"
+  },
+  {
+    "path": "previews/lava-ember-cracks-1-512.webp",
+    "size": 97372,
+    "sha256": "3b22035d95b05a3e7bf75e8092b8ab2662ef75b2ea6179578bffed0830725e59"
+  },
+  {
+    "path": "previews/lava-ember-cracks-1-repeat.jpg",
+    "size": 315668,
+    "sha256": "793c64360c6a29d17d94497492f6c1d52a4c1febe5b34474f1621d0320fd0b25"
+  },
+  {
+    "path": "previews/lava-ember-cracks-1.webp",
+    "size": 252308,
+    "sha256": "a8be4b0b68a8ec8210530ac8de6a5b4114187308e87aa178b7a84d50d95a86f1"
+  },
+  {
+    "path": "previews/lowland-gravel-1-512.webp",
+    "size": 118050,
+    "sha256": "7c9be3cfe731b7d49ea9aff2cfeddb993bc2d06b4e0fdf2ee268e06cd5dc571a"
+  },
+  {
+    "path": "previews/lowland-gravel-1-repeat.jpg",
+    "size": 351455,
+    "sha256": "ef65c7ef3a2bbe88b38aa3ea6c548a4fb98640c691b2cc1b5fa8d696530e2f89"
+  },
+  {
+    "path": "previews/lowland-gravel-1.webp",
+    "size": 296290,
+    "sha256": "be46ae6b3a206053512d05761c27ad9e0d67fe564abaceaf88ec7cf69c4e6d4a"
+  },
+  {
+    "path": "previews/lowland-loam-3-512.webp",
+    "size": 103346,
+    "sha256": "d799a49784569388ebb596ebd83586a50624c25eb8c6707de69c2c47a9c01cf1"
+  },
+  {
+    "path": "previews/lowland-loam-3-repeat.jpg",
+    "size": 291986,
+    "sha256": "5bf4deb6ffd4accc8cecd64d268686ef2eb08167c52dcd89a29efd1eff88b321"
+  },
+  {
+    "path": "previews/lowland-loam-3.webp",
+    "size": 264234,
+    "sha256": "81c05a08a82d6b27ac2b9b344742917e5453b6f73abc21f06aeb01bb4a31b649"
+  },
+  {
+    "path": "previews/mountain-cliff-1-512.webp",
+    "size": 94664,
+    "sha256": "45b9e82dca4f0f22b71f948955cc0c11a2026315f990c45b93f96bb208391ac2"
+  },
+  {
+    "path": "previews/mountain-cliff-1-repeat.jpg",
+    "size": 302116,
+    "sha256": "252e8caa144aeeec1c062953992f8ab42cdae2b8ecf140f912ffa6a0cbab56cb"
+  },
+  {
+    "path": "previews/mountain-cliff-1.webp",
+    "size": 269738,
+    "sha256": "4fddf7fa2ca63958967d37cc1a2a9eb584985a038c65d32b6d7add98a47f95c6"
+  },
+  {
+    "path": "previews/mountain-columnar-1-512.webp",
+    "size": 95056,
+    "sha256": "80a4226fee8d160dbc5e5e84c58b86d2976cb8338b432def3474635afb0189d4"
+  },
+  {
+    "path": "previews/mountain-columnar-1-repeat.jpg",
+    "size": 324635,
+    "sha256": "10bc290b62ecede7f827c1a98e48f86956e4a9761d44080906bae6dfe136acfc"
+  },
+  {
+    "path": "previews/mountain-columnar-1.webp",
+    "size": 255374,
+    "sha256": "fffdd06f0d9833a901a069103ca81ac3c6f83fac3b16a689fb5c1dedeae5a69e"
+  },
+  {
+    "path": "previews/mountain-scree-3-512.webp",
+    "size": 106632,
+    "sha256": "f7ac43ca54bbf41025a1e2d3b2da90eaf6a5cb7915a73c68d95ffe79f7d0842d"
+  },
+  {
+    "path": "previews/mountain-scree-3-repeat.jpg",
+    "size": 324212,
+    "sha256": "af05727c61844c603318aec15ffbddf2677776e88501cd7134e7671a8b3fd48c"
+  },
+  {
+    "path": "previews/mountain-scree-3.webp",
+    "size": 297518,
+    "sha256": "13b8dcd27d2349ab829265a8f5d45cc9e0b58043134947bcd92181e8459b4366"
+  },
+  {
+    "path": "previews/mountain-strata-3-512.webp",
+    "size": 97782,
+    "sha256": "51c1c7effa818cc958468604d72161459cd7ea9e96a1f6ee68f53ae228ffdf46"
+  },
+  {
+    "path": "previews/mountain-strata-3-repeat.jpg",
+    "size": 288769,
+    "sha256": "0cbb045d7d22b727027c91d3b3498adeddf5879ea238a90a16fcd184a405acc0"
+  },
+  {
+    "path": "previews/mountain-strata-3.webp",
+    "size": 274436,
+    "sha256": "b2755da3a4586c1c88cd54366ffc12939658403f88b05cb69bfed6d4a67fc5dc"
+  },
+  {
+    "path": "previews/pit-inner-rock-1-512.webp",
+    "size": 102200,
+    "sha256": "a5e4e155875477eaa0469a3238032bf25b7ad54b31b2f7ee9b2e60bf06020ab4"
+  },
+  {
+    "path": "previews/pit-inner-rock-1-repeat.jpg",
+    "size": 316451,
+    "sha256": "c541934f6a399ca6f6a6f0e9d09fbc4c67ae937a3913997a2358b858cc8994f9"
+  },
+  {
+    "path": "previews/pit-inner-rock-1.webp",
+    "size": 286600,
+    "sha256": "b920245898671d4e7844d5841a760a94eb0f08997962248098ea846dda560c06"
+  },
+  {
+    "path": "previews/pit-rim-3-512.webp",
+    "size": 106054,
+    "sha256": "c714ca2520a7d1a5b241781f6a15693ca81a57586cf8d0cd192522a25c307d24"
+  },
+  {
+    "path": "previews/pit-rim-3-repeat.jpg",
+    "size": 313145,
+    "sha256": "fa32d3c91bd92503e2d7a316a64c4bcf460a19f08d24d284077a9946a0269560"
+  },
+  {
+    "path": "previews/pit-rim-3.webp",
+    "size": 270294,
+    "sha256": "fe53aab721be8022c6f8760ac181bf002f3aaaf89b92aec7edab22b8d392769f"
+  },
+  {
+    "path": "previews/road-basalt-pavers-2-512.webp",
+    "size": 84980,
+    "sha256": "68dde6f995cfc885829c89731fed3b33a42ff3ff627fd08c882092aa44b1c1d4"
+  },
+  {
+    "path": "previews/road-basalt-pavers-2-repeat.jpg",
+    "size": 255446,
+    "sha256": "0ef86fdd5b290808d812ba2da7949abc5d93d7ceb7f6867cda8d3bcd24471db9"
+  },
+  {
+    "path": "previews/road-basalt-pavers-2.webp",
+    "size": 235712,
+    "sha256": "1fec2e4e7c0b4bca8553b240db386412b7b07b40aa89be93ec0699887e9ca5f1"
+  },
+  {
+    "path": "previews/road-broken-cobbles-1-512.webp",
+    "size": 101374,
+    "sha256": "bf799721b3169fb24daf0ed052c6f3fe41cb2532987f733a40fa85cc81329876"
+  },
+  {
+    "path": "previews/road-broken-cobbles-1-repeat.jpg",
+    "size": 317273,
+    "sha256": "3cd77caf33ea07e37740f66e62de7ae3f78ce5789759bac8d77e09936f1635d6"
+  },
+  {
+    "path": "previews/road-broken-cobbles-1.webp",
+    "size": 256304,
+    "sha256": "a5b2ab4eb369c105d17045a24f2921a46ad7116899cc0447a304f34bb059f9bb"
+  },
+  {
+    "path": "previews/road-ceremonial-3-512.webp",
+    "size": 94280,
+    "sha256": "a75c71ce00c32d6ff068ef3f5609c8590c4d23c54236a238117346ac239d69ee"
+  },
+  {
+    "path": "previews/road-ceremonial-3-repeat.jpg",
+    "size": 305382,
+    "sha256": "b8ac731807111ae3ec39eaf15d27aa23e4f12d5f8abc79aa7b5fcb96f4f589ac"
+  },
+  {
+    "path": "previews/road-ceremonial-3.webp",
+    "size": 244592,
+    "sha256": "d5b8966e0c8b64a362197e481464304721a2c15c3df235c18bc74b2a5721d351"
+  },
+  {
+    "path": "previews/road-packed-ash-1-512.webp",
+    "size": 104676,
+    "sha256": "8dd437e41a0b33f2498b66722744fec90b1e28f9a0fdc2e2933d51aebcb8180c"
+  },
+  {
+    "path": "previews/road-packed-ash-1-repeat.jpg",
+    "size": 310904,
+    "sha256": "51db808f8bf4d7fcb62d3c79684c2a3927c10f7735cb0cb8c96f72da1e63a35d"
+  },
+  {
+    "path": "previews/road-packed-ash-1.webp",
+    "size": 260152,
+    "sha256": "9e610d95efadbd9328c93a688af4e8306d62963a6363940f502359e6bc6c1354"
+  },
+  {
+    "path": "previews/valley-creek-bed-3-512.webp",
+    "size": 112232,
+    "sha256": "a6ec629c72cdcb14d1f11b60a645ac6bbfa58e68cfddcb99a492827748160afe"
+  },
+  {
+    "path": "previews/valley-creek-bed-3-repeat.jpg",
+    "size": 321716,
+    "sha256": "d4fa77bb16e9ca6ddb6e61c70732d8c8cadf88065960054b2489d2070d29e16a"
+  },
+  {
+    "path": "previews/valley-creek-bed-3.webp",
+    "size": 285822,
+    "sha256": "bfac1caa82cfb689b06d459d3ffbb3c53ee7dfd9c42a2537a4e3c799a23845ce"
+  },
+  {
+    "path": "previews/valley-silt-3-512.webp",
+    "size": 97094,
+    "sha256": "a80922529cca7e3d98b37aad7c6847f5999049048858e149460dbe5ff673de07"
+  },
+  {
+    "path": "previews/valley-silt-3-repeat.jpg",
+    "size": 293130,
+    "sha256": "97dcfe55a7f18d85515d6138b7ffbdfe3053843e66cc4b025c89d59a108d7591"
+  },
+  {
+    "path": "previews/valley-silt-3.webp",
+    "size": 242250,
+    "sha256": "0324882ca6436f7c451fdd46b9588b39fbdacef594f0f852ff492f9c50c55ceb"
+  },
+  {
+    "path": "qa/report.json",
+    "size": 601,
+    "sha256": "4163f80c594125f530573b59e7af7d734e14ba43b75e8fd4b7ad1f93883c34e6"
+  },
+  {
+    "path": "terrain-fine-ground-sheet.jpg",
+    "size": 189041,
+    "sha256": "e331ced7f1e3f457a2ae816700f4ca5b3d4852224eb76496c7f1a3b9e64fe36b"
+  },
+  {
+    "path": "terrain-fine-ground.json",
+    "size": 31292,
+    "sha256": "5727b5d4ed78f4ccbfd35f090a89a370850ab51254ee01acfc4ee736e5bd5e63"
+  },
+  {
+    "path": "terrain-production-sheet.jpg",
+    "size": 2223173,
+    "sha256": "23880a69a61e60549a5ff2a88423c86a006e6bd82d3536574469067b675ebdf1"
+  },
+  {
+    "path": "terrain-production.json",
+    "size": 131040,
+    "sha256": "0f9168841b48cedf0fd01118606275d596cacd021e458169d8d53a4b07fcd87c"
+  },
+  {
+    "path": "transitions/ash-road-1-example.jpg",
+    "size": 240739,
+    "sha256": "0d0ad160c514e52c909a9c8ad25e92454a76ec14ca2f26c24c232521156b8dd7"
+  },
+  {
+    "path": "transitions/ash-road-1-weights.png",
+    "size": 434170,
+    "sha256": "50c9dd9f33737fa3cbe077d027444675c4205b6e9f5968534e7e108915c8a651"
+  },
+  {
+    "path": "transitions/ash-road-2-example.jpg",
+    "size": 238186,
+    "sha256": "189678d04b2f021e85003bd4457af61dffbaefe0e5f02f26dc2fe6bcdc0ddf33"
+  },
+  {
+    "path": "transitions/ash-road-2-weights.png",
+    "size": 410012,
+    "sha256": "433c3158d68968dafd6ef1afb3c5b0280a01e8183f1ae132559a5c24978084e7"
+  },
+  {
+    "path": "transitions/dust-crust-1-example.jpg",
+    "size": 284096,
+    "sha256": "0991111db9ea2e8943ebac75ebd47c310343d2ce796f8bd07aaf00704e5b6169"
+  },
+  {
+    "path": "transitions/dust-crust-1-weights.png",
+    "size": 425492,
+    "sha256": "d441e186665061e1c679ec3b2243e18e802d5f8b33452878591aac8070359ffe"
+  },
+  {
+    "path": "transitions/dust-crust-2-example.jpg",
+    "size": 276105,
+    "sha256": "3d43eedf130228193c7f099f56dd37005160d7d540570d62216a8a2db4084371"
+  },
+  {
+    "path": "transitions/dust-crust-2-weights.png",
+    "size": 427435,
+    "sha256": "9ee8610d7f94e30ac424a3d63e7fd3d70f3c3b833a56538260fa5d3667ab364a"
+  },
+  {
+    "path": "transitions/earth-broken-paving-1-example.jpg",
+    "size": 266809,
+    "sha256": "e88f762d94565c8c8514665166c5bad7d3db887fbc5009076278a10cd0377392"
+  },
+  {
+    "path": "transitions/earth-broken-paving-1-weights.png",
+    "size": 435344,
+    "sha256": "a8b26b8e17441c084922ed4a66ad312db06e0501168aac4b42835c3ca3a713c7"
+  },
+  {
+    "path": "transitions/earth-broken-paving-2-example.jpg",
+    "size": 245330,
+    "sha256": "d5d91d5c14b61a0fc0ae2cfe1e10fd1db375fe4557109e1e29e1b2eb4e255350"
+  },
+  {
+    "path": "transitions/earth-broken-paving-2-weights.png",
+    "size": 427811,
+    "sha256": "174c63dbcf18eb25e2632bacdb102ec4a8360a2ac8ed85f4bc05a889762bb76a"
+  },
+  {
+    "path": "transitions/loam-aggregate-1-example.jpg",
+    "size": 252664,
+    "sha256": "4d7f1ba02e3f930b92ab4e409028c96e1205a0c73143c1ee5dde425572395acd"
+  },
+  {
+    "path": "transitions/loam-aggregate-1-weights.png",
+    "size": 427181,
+    "sha256": "c26ce6d84bf098d32a61bbf576fe1ee76dddeabb01b02b30a5b29be0f0a26fa4"
+  },
+  {
+    "path": "transitions/loam-aggregate-2-example.jpg",
+    "size": 250951,
+    "sha256": "303f4e0368000b08b32b4477e37b081f919a6c4aef46084850af186375f22e16"
+  },
+  {
+    "path": "transitions/loam-aggregate-2-weights.png",
+    "size": 427728,
+    "sha256": "db993ce85d070739a88c7872c36925c716e79f2dda272bbd6032fd42cf6fa0c3"
+  },
+  {
+    "path": "transitions/manifest.json",
+    "size": 4468,
+    "sha256": "ac587c8782395352b9cff65c0602ef1f7847214468146c63e5949fc70dd21198"
+  },
+  {
+    "path": "transitions/sheet.jpg",
+    "size": 331111,
+    "sha256": "48a8c9e59a9c57cce7e9ce716478cdeb1b80fe8d742926bd15c69f6495999a04"
+  },
+  {
+    "path": "transitions/silt-pebbles-1-example.jpg",
+    "size": 265651,
+    "sha256": "dc3f40d063142b3216a5af1267a81e09bb8cacfcd9da00fff3d13424d9dedfcf"
+  },
+  {
+    "path": "transitions/silt-pebbles-1-weights.png",
+    "size": 409902,
+    "sha256": "1219fd42da56da72adde96e038f3856b1a21d276f4bddb2d5d62adc8a7e4eb0c"
+  },
+  {
+    "path": "transitions/silt-pebbles-2-example.jpg",
+    "size": 242968,
+    "sha256": "f1c9b2520ace5cd563dca7215b18eab353b772088b456eeb7e9cbcf9dd33dc95"
+  },
+  {
+    "path": "transitions/silt-pebbles-2-weights.png",
+    "size": 393746,
+    "sha256": "304fc959c6976271d8619d4b65f833aca5513c77473e6105cc5c1117237ebef4"
+  },
+  {
+    "path": "transitions/soil-rock-1-example.jpg",
+    "size": 262391,
+    "sha256": "98946ad571205c145334291199edfaeeaa31c82cfe172747e25885c9019ac1d2"
+  },
+  {
+    "path": "transitions/soil-rock-1-weights.png",
+    "size": 420059,
+    "sha256": "22e971609f1ca09cd1217d544326f5f2ab48c696999a6d655bf7cea36e560e99"
+  },
+  {
+    "path": "transitions/soil-rock-2-example.jpg",
+    "size": 267263,
+    "sha256": "21ac79f141c00759762c79e8b8e119b3df8bb6e772a6fc593d7cc717ef37274c"
+  },
+  {
+    "path": "transitions/soil-rock-2-weights.png",
+    "size": 426297,
+    "sha256": "69bab195301e70d9dc2350f2e2f7c6334404cd93f0a66112b6aedacae0e8d5ff"
+  },
+  {
+    "path": "upstream-model-metadata.json",
+    "size": 231,
+    "sha256": "69f488dd84f79e6b0d4f7cf68174b1e902ba8efbb5aff01ddc0c09d4015af59e"
+  }
+]
+

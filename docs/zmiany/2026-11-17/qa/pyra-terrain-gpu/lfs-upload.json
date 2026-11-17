@@ -1,0 +1,72 @@
+{
+  "objects": [
+    {
+      "oid": "570dde21bdba962e5e58e5dd6cbdc02dc0ab18eced84f5d1bf4149d99b1c21ad",
+      "size": 50188359,
+      "http_status": 200,
+      "status": "uploaded"
+    },
+    {
+      "oid": "c97b13714477ccc1c161a7d061d9e273be5b3ad865673f0329b6a62a3b654355",
+      "size": 49340093,
+      "http_status": 200,
+      "status": "uploaded"
+    },
+    {
+      "oid": "559e46fc0d132c7552d4b05ed0506c6d111e16d01e8b804c5ddda42616f52307",
+      "size": 49955533,
+      "http_status": 200,
+      "status": "uploaded"
+    },
+    {
+      "oid": "e2f56b5ef729d6a07861f841672b9909eb980c4702f431f8a540d6b3153a2baa",
+      "size": 50052325,
+      "http_status": 200,
+      "status": "uploaded"
+    },
+    {
+      "oid": "b570bd0406b955556f121975459b58c16203c7e5d43d5e1403b39848302fed2d",
+      "size": 49962521,
+      "http_status": 200,
+      "status": "uploaded"
+    },
+    {
+      "oid": "07f2d3a16ce154bb88e6838c3ca7366ac34e79402d599f9a5f05e3141f2936ad",
+      "size": 50107215,
+      "http_status": 200,
+      "status": "uploaded"
+    },
+    {
+      "oid": "d57c632486b9b7314748795f2620348cf5fe80b8e1d4ed93e1566ae19e207e7a",
+      "size": 48635262,
+      "http_status": 200,
+      "status": "uploaded"
+    },
+    {
+      "oid": "3434182bdc24a73b0e217f3956cbd50c8e788bc53045e05653801c203b9834f1",
+      "size": 50185737,
+      "http_status": 200,
+      "status": "uploaded"
+    },
+    {
+      "oid": "e0dd928a36655a16527be2d1c6e0eb88ccac6df4d55f2fa05fef5c6e80add15c",
+      "size": 49531296,
+      "http_status": 200,
+      "status": "uploaded"
+    },
+    {
+      "oid": "e20207d7864360013206fa742a01fba186119df3ac7f031f033d0045ee50b178",
+      "size": 22501483,
+      "http_status": 200,
+      "status": "uploaded"
+    },
+    {
+      "oid": "9236c517bb2a88405c2dcdb732ab8938d455c92d2363f80ee05072572ea028cb",
+      "size": 9973178,
+      "http_status": 200,
+      "status": "uploaded"
+    }
+  ],
+  "passed": 11,
+  "failed": 0
+}

@@ -1,0 +1,40 @@
+{
+  "base_commit": "108a9ea984b4da91ce61c4bd4cb5726e32ff3b34",
+  "branch": "assets/pyra-terrain-a40-20261117",
+  "gpu": "NVIDIA A40",
+  "pod": "1ol56m0rtgorym",
+  "materials": {
+    "checked": 72,
+    "failed": 0,
+    "seam_ratio_max": 1.3540287017822266,
+    "seam_ratio_limit": 2
+  },
+  "maps": {
+    "checked": 72,
+    "normal_sample_stride": 16,
+    "normal_length_max_error": 0.006209135055541992,
+    "normal_length_limit": 0.02
+  },
+  "transition_masks": {
+    "checked": 12,
+    "sum_weights_255": true,
+    "failed": 0
+  },
+  "backup": {
+    "lfs_objects_confirmed_by_server": 11,
+    "bytes": 480433002
+  },
+  "source_sha256": {
+    "scripts/gpu/pyra-terrain-transitions.py": "61464b1d32e187cc1414df9e9a38c7ed34ddd629ee584dfe9e0770a59c66879d",
+    "scripts/gpu/package-pyra-terrain.py": "9f8f78c6f80b8792a8bc80d2722a08aca158f4385b14cd22a5840820b2b625dd",
+    "scripts/gpu/generate-pyra-terrain.py": "b8d66423519b43a5bbd89a64a1f732cc1c0669abb639edf281c64d02aabb91b4",
+    "scripts/gpu/generate-pyra-terrain3d.py": "ac91728d34528105f0e2b113c54fc09e558cbbf5e8d91ad7ccef2d342c167b92",
+    "scripts/gpu/detail-pyra-ground.py": "a121f22e87e2c5a33c9678c3e02f4c3df12b8e45445f76968e04b95561a66cf1",
+    "scripts/gpu/refine-pyra-fine-ground.py": "6de5be8fa11366605dc10c676a0c27a546fc1a76df38064ae54c4f6de7170ecb"
+  },
+  "visual_acceptance": "pending",
+  "runtime_integrated": false,
+  "apk_built": false,
+  "production_published": false,
+  "gpu_lifecycle_changed": false
+}

@@ -1,5 +1,9 @@
 # KI Legends — dokumentacja projektu
 
+**17.11 — produkcja tekstur Pyry na GPU:** 72 warianty materiałów, 12 masek
+przejść, źródła 1024 px i wersje 512 px. Osobna gałąź zasobów, bez zmiany świata
+i APK. [Zakres, wyniki i kopia źródeł](zmiany/2026-11-17/ZMIANY.md#4-tekstury-pyry--produkcja-na-a40).
+
 **17.11 — nowe budynki próby izometrycznej Pyry:** sześć malowanych sprite'ów,
 kotwice, kontaktowe cienie i synchronizacja map. Zintegrowane w próbie Godota,
 bez nowego APK i publikacji. [Wyniki i zrzuty](zmiany/2026-11-17/ZMIANY.md#3-budynki-i-styl-izometrycznej-pyry).

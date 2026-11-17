@@ -15,3 +15,4 @@ art/production/ki-premium-pod-backup/**/*.jpg filter=lfs diff=lfs merge=lfs -tex
 art/production/ki-premium-pod-backup/**/*.webp filter=lfs diff=lfs merge=lfs -text
 art/production/ki-premium-pod-backup/**/*.mp4 filter=lfs diff=lfs merge=lfs -text
 art/production/ki-premium-pod-backup/**/*.zip filter=lfs diff=lfs merge=lfs -text
+deliveries/pyra-terrain-gpu-20261117/archives/*.zip filter=lfs diff=lfs merge=lfs -text
