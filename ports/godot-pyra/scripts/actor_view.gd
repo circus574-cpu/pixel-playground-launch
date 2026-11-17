@@ -225,6 +225,17 @@ func transform(to_ki: bool, glow: Color = Color(1.0, 0.55, 0.15)) -> float:
 		animate(Vector2.ZERO))
 	return duration
 
+## Feet that do not slide: a walking or running clip may carry `refSpeed` (the ground speed, px/s, at which its steps match the ground);
+## the clip then plays faster or slower with the real speed of the figure.
+func match_gait(ground_speed: float) -> void:
+	if not definition.clips.has(sprite.animation.get_slice(":", 0)):
+		return
+	var clip: Dictionary = definition.clips[sprite.animation.get_slice(":", 0)]
+	if not clip.has("refSpeed") or ground_speed <= 0.0 or Time.get_ticks_msec() / 1000.0 < one_shot_until:
+		sprite.speed_scale = 1.0
+		return
+	sprite.speed_scale = clampf(ground_speed / float(clip.refSpeed), 0.45, 1.8)
+
 func hurt_flash() -> void:
 	flash = 0.25
 	sprite.modulate = Color(1.0, 0.55, 0.5)

@@ -104,7 +104,7 @@ def main() -> None:
     if args.merge and key in actors:
         actors[key]["clips"].update(clips)
     else:
-        actors[key] = {"id": "hero-legend-3d", "cell": CELL, "size": base["size"], "origin": base["origin"], "interiorScale": base.get("interiorScale", 1.5), "clips": clips}
+        actors[key] = {"id": f"hero-{args.world}-3d", "cell": CELL, "size": base["size"], "origin": base["origin"], "interiorScale": base.get("interiorScale", 1.5), "clips": clips}
     actors_path.write_text(json.dumps(actors, separators=(",", ":"), ensure_ascii=False))
     print("actors.json:", f"{args.world}.hero3d", len(clips), "clips")
 

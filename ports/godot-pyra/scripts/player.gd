@@ -11,7 +11,7 @@ var touch_motion := Vector2.ZERO
 var fx_lock := 0.0   # seconds of root / stun / fear put on the hero by monsters
 var locked := false
 var transform_seconds := 0.0
-const KI_GLOW := {"hero-legend-3d": Color(1.0, 0.5, 0.12)}
+const KI_GLOW := {"hero-legend-3d": Color(1.0, 0.5, 0.12), "hero-pyra-3d": Color(1.0, 0.5, 0.12), "hero-nexus-3d": Color(0.35, 0.85, 1.0), "hero-aether-3d": Color(1.0, 0.85, 0.4), "hero-verdant-3d": Color(0.45, 1.0, 0.45)}
 var visual: PyraActor
 var actor_data: Dictionary
 var can_stand: Callable = func(_p: Vector2) -> bool: return true
@@ -94,5 +94,6 @@ func step(delta: float) -> void:
 	if motion.length_squared() > 0.0001:
 		facing = motion.normalized()
 	visual.animate(moved if moving else Vector2.ZERO, motion.length() > 0.8)
+	visual.match_gait(moved.length() / maxf(delta, 0.0001) if moving else 0.0)
 	if moving:
 		visual.face(moved)
