@@ -39,6 +39,8 @@ def main() -> None:
     p.add_argument("--game-spec", required=True)
     p.add_argument("--world", default="pyra")
     p.add_argument("--out-dir", default=str(PORT / "assets" / "actors" / "hero3d"))
+    p.add_argument("--prefix", default="", help="clip name prefix, e.g. ki for the Ki form")
+    p.add_argument("--merge", action="store_true", help="add the clips to the existing <world>.hero3d entry instead of replacing it")
     args = p.parse_args()
     frames = Path(args.frames)
     spec = json.loads(Path(args.game_spec).read_text())
@@ -87,18 +89,22 @@ def main() -> None:
         for d, i, im, b, px, py in placed:
             atlas.paste(im, (px, py))
             directions[d][i] = [px, py, im.width, im.height, b[0], b[1], CELL - im.width, CELL - im.height]
-        sheet = out_dir / f"{args.world}-hero3d-{name}.webp"
+        sheet = out_dir / f"{args.world}-hero3d-{args.prefix}{name}.webp"
         atlas.save(sheet, "WEBP", quality=90, alpha_quality=100, method=6)
         total += sheet.stat().st_size
         for mirrored, source in MIRROR.items():
             directions[mirrored] = directions[source]
-        clips[name] = {"sheet": f"res://assets/actors/hero3d/{sheet.name}", "fps": info["fps"], "loop": info["loop"], "mirrored": list(MIRROR), "directions": directions}
+        clips[args.prefix + name] = {"sheet": f"res://assets/actors/hero3d/{sheet.name}", "fps": info["fps"], "loop": info["loop"], "mirrored": list(MIRROR), "directions": directions}
         print(f"{name:9s} {count:2d} frames x {len(DIRS)} dirs, atlas {atlas.size}, {sheet.stat().st_size // 1024} KB")
     print("sheets", total // 1024, "KB")
     actors_path = PORT / "data" / "actors.json"
     actors = json.loads(actors_path.read_text())
     base = actors[f"{args.world}.hero"]
-    actors[f"{args.world}.hero3d"] = {"id": "hero-legend-3d", "cell": CELL, "size": base["size"], "origin": base["origin"], "interiorScale": base.get("interiorScale", 1.5), "clips": clips}
+    key = f"{args.world}.hero3d"
+    if args.merge and key in actors:
+        actors[key]["clips"].update(clips)
+    else:
+        actors[key] = {"id": "hero-legend-3d", "cell": CELL, "size": base["size"], "origin": base["origin"], "interiorScale": base.get("interiorScale", 1.5), "clips": clips}
     actors_path.write_text(json.dumps(actors, separators=(",", ":"), ensure_ascii=False))
     print("actors.json:", f"{args.world}.hero3d", len(clips), "clips")
 

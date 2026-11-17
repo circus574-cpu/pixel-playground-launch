@@ -10,6 +10,8 @@ var speed := 170.0
 var touch_motion := Vector2.ZERO
 var fx_lock := 0.0   # seconds of root / stun / fear put on the hero by monsters
 var locked := false
+var transform_seconds := 0.0
+const KI_GLOW := {"hero-legend-3d": Color(1.0, 0.5, 0.12)}
 var visual: PyraActor
 var actor_data: Dictionary
 var can_stand: Callable = func(_p: Vector2) -> bool: return true
@@ -37,7 +39,12 @@ func set_ki_form(active: bool) -> void:
 	if ki_form == active:
 		return
 	ki_form = active
-	visual.prefix = "ki" if active else ""
+	if visual.definition.clips.has("transform"):
+		transform_seconds = visual.transform(active, KI_GLOW.get(str(visual.definition.get("id", "")), Color(1.0, 0.55, 0.15)))
+		if active:
+			fx_lock = maxf(fx_lock, transform_seconds * 0.8)   # the hero stands still while the power rises
+	else:
+		visual.prefix = "ki" if active else ""
 
 func desired_motion() -> Vector2:
 	if locked or fx_lock > 0.0:

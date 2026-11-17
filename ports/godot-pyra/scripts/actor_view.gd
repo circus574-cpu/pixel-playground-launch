@@ -24,7 +24,31 @@ var one_shot_clip := ""
 var flash := 0.0
 var shadow_scale := 1.0
 var is_hero := false
-var quest_mark := ""   # "!" = has a quest to give, "?" = a quest objective waits here
+var quest_mark := ""
+var overlay: AnimatedSprite2D   # the second figure during a transformation (the form being revealed)
+static var dissolve_shader: Shader
+const DISSOLVE_CODE := """
+shader_type canvas_item;
+uniform float progress = 0.0;
+uniform vec4 edge_color : source_color = vec4(1.0, 0.55, 0.15, 1.0);
+uniform float edge = 0.09;
+varying vec2 local;
+void vertex() { local = VERTEX; }
+float hash(vec2 p) { return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
+float noise(vec2 p) {
+	vec2 i = floor(p); vec2 f = fract(p); f = f * f * (3.0 - 2.0 * f);
+	return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y);
+}
+void fragment() {
+	vec4 c = texture(TEXTURE, UV) * COLOR;
+	float h = clamp((local.y + 128.0) / 256.0, 0.0, 1.0);
+	float v = (1.0 - h) * 0.7 + noise(local * 0.06) * 0.3;   // the feet go first, the head last, with a ragged front
+	if (v < progress) { discard; }
+	float e = smoothstep(progress + edge, progress, v);
+	c.rgb = mix(c.rgb, edge_color.rgb * 2.2, e);
+	COLOR = c;
+}
+"""   # "!" = has a quest to give, "?" = a quest objective waits here
 
 func setup(data: Dictionary, display_name: String = "", inside: bool = false, hero: bool = false) -> void:
 	definition = data
@@ -147,6 +171,59 @@ func animate(motion: Vector2, running: bool = false) -> void:
 	else:
 		state = "idle"
 	play_clip(state)
+
+## Transformation into the Ki form (or back): the current figure plays its transformation clip and burns away from the feet up with a glowing
+## front, revealing the other form that plays the same movement underneath. Needs the clips "transform" and "kitransform" (or "idle" / "kiidle" going back).
+## Returns the duration (0 when the clips are missing: then the form simply switches).
+func transform(to_ki: bool, glow: Color = Color(1.0, 0.55, 0.15)) -> float:
+	var from_clip := "transform" if to_ki else "kiidle"
+	var to_clip := "kitransform" if to_ki else "idle"
+	if not ensure_clip(from_clip) or not ensure_clip(to_clip):
+		prefix = "ki" if to_ki else ""
+		return 0.0
+	var clip: Dictionary = definition.clips[from_clip]
+	var duration := float((clip.directions.get(direction, clip.directions.values()[0]) as Array).size()) / maxf(1.0, float(clip.fps)) if to_ki else 0.45
+	if is_instance_valid(overlay):
+		overlay.queue_free()
+	overlay = AnimatedSprite2D.new()
+	overlay.sprite_frames = frames
+	overlay.scale = sprite.scale
+	overlay.position = sprite.position
+	add_child(overlay)
+	move_child(overlay, sprite.get_index())
+	var target: Dictionary = definition.clips[to_clip]
+	var to_anim := to_clip + ":" + direction
+	if not frames.has_animation(to_anim):
+		to_anim = to_clip + ":down"
+	overlay.flip_h = direction in target.get("mirrored", [])
+	overlay.play(to_anim)
+	var from_anim := from_clip + ":" + direction
+	if not frames.has_animation(from_anim):
+		from_anim = from_clip + ":down"
+	sprite.flip_h = direction in clip.get("mirrored", [])
+	sprite.play(from_anim)
+	one_shot_clip = from_clip
+	one_shot_until = Time.get_ticks_msec() / 1000.0 + duration
+	if dissolve_shader == null:
+		dissolve_shader = Shader.new()
+		dissolve_shader.code = DISSOLVE_CODE
+	var mat := ShaderMaterial.new()
+	mat.shader = dissolve_shader
+	mat.set_shader_parameter("edge_color", glow)
+	mat.set_shader_parameter("progress", 0.0)
+	sprite.material = mat
+	var tween := create_tween()
+	tween.tween_interval(duration * (0.3 if to_ki else 0.0))
+	tween.tween_method(func(v: float) -> void: mat.set_shader_parameter("progress", v), 0.0, 1.05, duration * (0.45 if to_ki else 0.9))
+	tween.tween_interval(maxf(0.0, duration * (0.25 if to_ki else 0.1)))
+	tween.tween_callback(func() -> void:
+		prefix = "ki" if to_ki else ""
+		sprite.material = null
+		if is_instance_valid(overlay):
+			overlay.queue_free()
+		one_shot_until = 0.0
+		animate(Vector2.ZERO))
+	return duration
 
 func hurt_flash() -> void:
 	flash = 0.25

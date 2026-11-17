@@ -46,7 +46,7 @@ func run() -> void:
 	game.player.position = Vector2(float(game.land.width) * 0.5, float(game.land.height) * 0.5)
 	game.monsters.clear_all()
 	game.monsters.set_process(false)
-	game.camera.zoom = Vector2.ONE * 1.6
+	game.camera.zoom = Vector2.ONE * 1.0
 	game.camera.reset_smoothing()
 	await seconds(2.0)
 	# the real player walks and runs
