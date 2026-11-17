@@ -409,3 +409,431 @@ Decyzja właściciela: APK ma wersję **1.0 „KI LEGENDS”**, a każda kolejna
 - **Wydanie 1.4: logowanie.** Aplikacja łączyła się już z serwerem (komunikat „Nieprawidłowy e-mail lub hasło” przyszedł z serwera), a konto właściciela działało w przeglądarce. Serwer przycina i ujednolica e-mail, ale hasło bierze dokładnie takie, jakie przyśle telefon (klawiatura Androida może dopisać spację). Dodano „Pokaż hasło” i drugą próbę bez spacji na brzegach hasła, gdy pierwsza zostanie odrzucona (`gate_screen.gd`). Przyczyna odrzucenia nie jest potwierdzona (nie mam dostępu do konta ani logów); zmiana to diagnostyka i obejście najbardziej prawdopodobnej przyczyny. `smoke.gd` 539/539, `e2e_installed.py` PASS.
 - **Zarządzanie serwerem wdrożone (PR #175 scalony za wyraźnym poleceniem właściciela).** Restart serwera gry w zakładce Serwer (`POST /ws/admin/restart`) trafia na produkcję przez wdrożenie z `main`. **Wydanie 1.5:** po odrzuceniu logowania aplikacja pokazuje, co wysłała (e-mail i długość hasła, nie samo hasło) i odpowiedź serwera, bo przyczyny odrzucenia konta, które działa w przeglądarce, nie udało się ustalić bez tych danych.
 - **Dziennik logowań w panelu (zakładka „Logowania”).** Po zrzucie właściciela (aplikacja wysyła poprawny e-mail i 8-znakowe hasło, serwer odpowiada 401) dodano zapis każdej próby logowania (przeglądarka i aplikacja) do `accounts.audit`: akcje `LOGIN` i `LOGIN_FAILED` z prawdziwym powodem (`BRAK_KONTA`, `ZLE_HASLO`, `KONTO_NIEAKTYWNE`, `KONTO_ZABLOKOWANE`, `NIEPOPRAWNE_DANE`, `LIMIT_PROB`), e-mailem, adresem IP i urządzeniem (aplikacja to „GodotEngine”). Gracz nadal słyszy tylko „Nieprawidłowy e-mail lub hasło”; haseł się nie zapisuje; błąd zapisu dziennika nigdy nie zmienia wyniku logowania. Zakładka „Dziennik” pokazuje teraz tylko zmiany w panelu, logowania są w „Logowania” (`GET /ws/admin/audit?kind=login`). Testy: `login-log.test.ts` (3), cały zestaw TS przechodzi.
+
+### 20. Stan na koniec dnia dla kolejnego agenta (Codex lub inny)
+
+Co jest zrobione, a co czeka. Szczegóły techniczne są w sekcjach 13–19 i w `ports/godot-pyra/README.md` („Wersje i aktualizacje”).
+
+**Na serwerze (kilegends.pl) działa:** wydanie gry Android **1.5** (aktywne), panel administratora ze wdrożonym restartem serwera i dziennikiem logowań (PR #175 i #176 scalone do `main`; wdrożenie `aruba-production.yml` z #176 mogło jeszcze trwać, sprawdź status).
+
+**W repozytorium, niepublikowane:** commit „Menu gry” (menu mieści się na ekranie, lista przewijana, przycisk panelu administratora dla administratora i GM). Wydanie **1.6** nie zostało zbudowane ani opublikowane; trzeba je zbudować (`build_packs.py build --version 1.6`), przetestować (`smoke.gd`, `e2e_core.py`, `e2e_installed.py`) i opublikować workflowem (za zgodą właściciela).
+
+**Otwarte problemy:**
+1. **Logowanie w aplikacji.** Aplikacja wysyła poprawny e-mail i 8-znakowe hasło (potwierdzone zrzutem), serwer odpowiada 401, a konto działa w przeglądarce. Przyczyna nie jest ustalona. Zakładka „Logowania” w panelu pokazuje prawdziwy powód każdej odmowy (`BRAK_KONTA`, `ZLE_HASLO`, …): zacznij od niej. Hipotezy do sprawdzenia: konto nie jest w bazie VPS (przeniesienie ze starego serwera `migrateLegacy` wymaga `SUPABASE_URL` i klucza w środowisku), albo inne hasło niż w przeglądarce (stara sesja).
+2. **Ekran ucięty na telefonie właściciela.** Okna (menu, logowanie) bywały większe niż ekran. Poprawki są w 1.2 (logowanie) i w niepublikowanym 1.6 (menu); nie zweryfikowano na prawdziwym telefonie. Sprawdzaj okna w proporcjach 20:9 (`tests/qa_menu.gd`, `tests/qa_login.gd`, `tests/qa_hud.gd`: `xvfb-run ... --script res://tests/qa_*.gd`).
+3. **Stare, niedokończone:** ramki i litery właściciela użyte tylko w oknach, przyciskach i tytułach; reszta interfejsu (paski, ekwipunek, postać) nadal ma stare style. Brakujące guziki od właściciela: menu główne (ZACZNIJ, ZALOGUJ, UTWÓRZ KONTO, GRAJ OFFLINE), okna (ZAMKNIJ, WYŚLIJ, WRÓĆ, DALEJ, POMIŃ), czat, mikstura, unik, E, sloty 1–4.
+
+**Zasady wyciągnięte z awarii (obowiązkowe):**
+- APK 1.0 (`versionCode` 100, klucz rdzenia `core-c100`) jest zainstalowany u właściciela i **nie wolno go zmieniać bez nowego numeru**. Jego `boot.gd` ładuje `scripts/skin.gd` PRZED montażem rdzenia z serwera, więc `skin.gd` jest zamrożony (test w `smoke.gd` pilnuje listy funkcji). Nowy wygląd: `scripts/look.gd` (bez `class_name`, ładowany przez `preload`) i `data/ui-art.json`, `data/letters.json`.
+- Każdą zmianę kodu, który ładuje się przed rdzeniem, sprawdzaj `scripts/godot/e2e_installed.py` (na prawdziwym, zainstalowanym APK), nie tylko `e2e_core.py`. Wydanie 1.1 przeszło `e2e_core.py` i zepsuło grę.
+- Grafiki w `assets/` (webp) nie jadą w rdzeniu: próba ich dołożenia złamała podmianę skryptów (przyczyna niewyjaśniona). Zmiana grafik interfejsu wymaga nowego APK albo osadzenia w `data/*.json` (jak `ui-art.json`).
+- Publikacja wydania: workflow `godot-content-upload.yml` (`publish` + `activate`) za wyraźną zgodą właściciela; wdrożenie strony i panelu: scalenie PR do `main` (też za zgodą). Wcześniejsza wersja jest zawsze do przywrócenia tym samym workflowem.
+- Aplikacja potrzebuje uprawnienia INTERNET (`export_presets.cfg`); do 16.11 go nie miała, stąd brak połączenia.
+- Nie rusz instancji GPU, nie przepisuj opublikowanej historii Git (`AGENTS.md`).
+
+### 21. Przejęcie od Claude'a i przygotowanie aktualizacji Android 1.6
+
+Zlecenie właściciela: „Już działa. Tylko że postaci nie mam które były. W ogóle
+dużo niedopracowań jest. Wypchninj ostatnie zmiany bo limit mi się skończył w claude”.
+Właściciel doprecyzował, że brakujące postacie to zapisy z przeglądarki. Aktualny
+Android czyta osobny format `ki-godot-pyra-save-2` i nie importuje postaci webowych.
+To luka portu, nie dowód utraty danych. Nie zmieniano zapisów ani bazy graczy.
+Logowanie według właściciela już działa; wcześniejszy wpis o blokadzie logowania
+nie jest aktualnym zgłoszeniem. Pomiary na fizycznym telefonie nadal nie były
+wykonywane w tej sesji.
+
+#### Zakres 1.6
+
+Na osobnej gałęzi od `main@664c7f18` pobrano opublikowane commity Claude'a
+`70a2b13c` i `c2dfddf2` (przewijane menu, panel dla admin/GM, instrukcja kontynuacji).
+Historia jest zachowana przez scalenie do gałęzi wydania; nie scalano do `main`.
+Wstrzykiwane zdarzenia dotyku ujawniły, że pierwotne przewijane menu aktywowało
+przyciski na `pointerdown` i nie dawało się przewijać bez akcji: test **0/2**.
+
+Poprawka `hud.gd`: akcja dopiero przy zwolnieniu tego samego palca, próg ruchu
+odróżnia klik od przewijania, przesunięcie zmienia pozycję listy, cancel/utrata
+fokusu/zamknięcie okna zerują przechwycenie, obcięte przyciski są poza hit testem,
+a emulowany klik myszy nie dubluje dotyku. Zachowano dotychczasowe przyciski
+o wysokości 80 jednostek; ma się przewijać lista, nie zmniejszać obszar dotyku.
+Gesty joysticka i walki pozostają w swoim istniejącym kontrolerze.
+
+Usunięto nieużywaną, osieroconą etykietę sceny startowej i wywoływanie błędu
+silnika przy prawidłowo obsługiwanym uszkodzonym JSON numeru wydania. Testy
+nie tworzą już niepodpiętych paneli kontrolnych ani typowanej tablicy ze zwolnioną
+próbką potwora. Nie usunięto ani nie ograniczono żadnej asercji.
+
+#### Kontrole i paczka
+
+- Pełny TypeScript app/e2e/tools PASS; kontrola dokumentacji PASS.
+- Godot headless: **539/539** asercji. Przy zamykaniu tego dużego testu nadal
+  występują zastane ostrzeżenia o niezwróconych zasobach; nie ogłaszamy czystego
+  zamknięcia ani pełnej natywnej regresji 539 przypadków.
+- Nowe testy menu: **11/11 headless i 11/11 natywnie**, w tym cancel, drugi palec,
+  utrata fokusu, brak kliknięć przez obcięte elementy, zamknięcie i trzy rozmiary
+  ekranu. Zrzut menu w rzeczywistej scenie gry wykonano w programowym OpenGL.
+- `e2e_core.py`: **11/11**. `e2e_installed.py`: **PASS na bazie oryginalnego
+  APK 1.0**, rozszerzony o rzeczywisty gest przewijania i klik menu po podmianie
+  kodu. `skin.gd`, kod APK 100 i plik APK pozostają bez zmian.
+- `deliveries/godot-content-1.6`: **27 paczek**, z czego **26 ma identyczne SHA-256
+  jak aktywne wydanie 1.5**. Zmienia się tylko `core-c100-eba2f7892d21.pck`,
+  3 513 680 bajtów, SHA-256
+  `eba2f7892d2151f62b62a79ea825d8872a7fc44b502c46ffd1f42270b95801ca`.
+
+[Raport i ograniczenia](qa/android-1.6/acceptance.json),
+[539 wyników](qa/android-1.6/smoke-results.json),
+[test menu przed poprawką](qa/android-1.6/menu-before.txt),
+[menu natywnie](qa/android-1.6/menu-native-results.json),
+[aktualizacja oryginalnego APK](qa/android-1.6/e2e-installed.txt),
+[menu w grze](qa/android-1.6/menu-in-game.png),
+[sumy dowodów](qa/android-1.6/evidence-sha256.json).
+
+**Stan odbioru tego commita:** paczka przygotowana i zweryfikowana; aktywacja
+odbędzie się osobnym ręcznym przebiegiem `godot-content-upload.yml` na gałęzi
+wydania (`publish=true`, `activate=true`). Wynik należy potwierdzić odczytem
+manifestu produkcyjnego i SHA pobranego rdzenia. To aktualizacja Androida,
+bez nowego APK, publikacji strony, zmian instancji GPU i resetu postaci.
+
+#### Publikacja 1.6 — zakończona
+
+Na polecenie właściciela uruchomiono istniejący workflow z gałęzi wydania:
+[43929418129 — SUCCESS](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/43929418129),
+źródło `39126da264dbcf063ca35e6055d6307e96807bc6`, wersja 1.6,
+`publish=true`, `activate=true`. Nie wykonywano scalenia do `main` ani wdrożenia
+strony/panelu. Workflow zweryfikował paczki i udostępnił aktualizację aplikacji.
+
+O 18:31 UTC serwer zwrócił `activeVersion: 1.6`, `maintenance: false`.
+Publiczny manifest ma wszystkie 27 definicji paczek zgodne z commitem, a pobrany
+z domeny produkcyjnej rdzeń ma właściwe 3 513 680 bajtów oraz SHA-256
+`eba2f7892d2151f62b62a79ea825d8872a7fc44b502c46ffd1f42270b95801ca`.
+[Dowód odczytu produkcji](qa/android-1.6/publication.json).
+Poprzednie wydanie 1.5 pozostaje do rollbacku. Aktualizacja pobiera się przy
+ponownym uruchomieniu istniejącego APK 1.0. Migracja postaci webowych i dalsze
+prace nad interfejsem nie są częścią wydania 1.6.
+
+
+### 22. Android 1.7 — HUD, dotyk minimapy i natywny panel GM
+
+Zgłoszenie właściciela: zbyt małe przyciski przy minimapie, brak reakcji na dotyk
+minimapy, brak panelu GM. Prace na `feat/android-hud-1.7-20261116`, od zapisanego
+wydania 1.6 (`20a39259`); stan `origin/main` przy rozpoczęciu: `664c7f18`.
+
+| Funkcja | Przed | Zmiana | Dowód |
+| --- | --- | --- | --- |
+| Nawigacja HUD | Stałe 68 × 84; ciasno przy minimapie | Preferowane 100 × 112; minimalna szerokość 84; układ przelicza się dla safe area i dodatkowej roli GM | [42 sprawdzenia natywne](qa/android-1.7/hud-native-results.json), [gra 1280 × 576](qa/android-1.7/hud-1280x576.png), [GM 844 × 390](qa/android-1.7/hud-gm-844x390.png) |
+| Minimapka | Sam shader, brak celu dotyku | Okrągły cel dotyku otwiera istniejącą mapę; ta sama obsługa zwolnienia palca/cancel co menu | [Mapa 2D po dotyku](qa/android-1.7/map-2d-from-minimap.png), [mapa krainy](qa/android-1.7/continent-from-minimap.png), [pełna scena 5/5](qa/android-1.7/game-native-results.json) |
+| Panel GM | Link do strony ukryty w menu | Osobny przycisk GM i natywny podgląd: wersja/stan serwera, liczba graczy według krain, podsumowanie zapisów; przycisk konsoli WWW | [Panel w silniku, odpowiedzi testowe](qa/android-1.7/gm-native-fixture-844x390.png) |
+| Uprawnienia | Rola zostawała w pamięci po wylogowaniu | Wylogowanie czyści role; ponowny odczyt `/ws/auth/me` przed chronionymi GET; brak pobierania danych przy cofniętej roli lub błędzie połączenia | [42 sprawdzenia headless](qa/android-1.7/hud-headless-results.json) |
+| Zgodność aplikacji | APK 1.0 / kod 100 | Tylko aktualizacja rdzenia; nowy skrypt GM ładowany po ścieżce; bez zmiany `skin.gd` | [Aktualizacja oryginalnego APK](qa/android-1.7/e2e-installed.txt) |
+
+Zmienione źródła: `hud.gd`, `online.gd`, `city_game.gd`, nowy `gm_panel.gd` oraz
+testy HUD/sceny/aktualizacji i istniejący workflow Godota (nowe testy zostają
+podłączone do CI). Nie zmieniono geometrii, grafik świata, statystyk, danych
+postaci, formatu zapisów, konfiguracji APK ani infrastruktury GPU.
+
+#### Weryfikacja i ograniczenia
+
+- Pełny TypeScript app/e2e/tools PASS.
+- [Regresja Godota: 539/539](qa/android-1.7/smoke-results.json), bez usuwania asercji.
+- HUD: **42/42 headless**, **42/42 natywnie**. Ekrany 1280 × 576, 844 × 390,
+  852 × 393, 854 × 480, 1280 × 720 i 1600 × 720; dodatkowo symulowane wycięcia
+  ekranu. Każdy przycisk nawigacji ma w tych widokach co najmniej 44 × 44
+  piksele ekranu. Dotyk lewym kciukiem pozostaje niezależny od prawego.
+- Menu: **11/11 headless i 11/11 natywnie**; wcześniejsze przewijanie/cancel bez regresji.
+- Scena rzeczywistej gry w Godot/llvmpipe: **5/5** — dotyk minimapy → mapa,
+  powrót do ruchu, przycisk GM → panel, cofnięcie roli przy wylogowaniu.
+- [E2E aktualizacji rdzenia: 11/11](qa/android-1.7/e2e-core.txt).
+  Oryginalne APK 1.0: **PASS**, w tym minimapa, nowy moduł GM i przewijanie menu.
+- Panel GM sprawdzono z jawną atrapą odpowiedzi istniejących API, bez prawdziwych
+  danych logowania GM. Nie jest to dowód logowania na produkcyjnym koncie GM.
+  Nowy panel w grze jest **tylko do odczytu**. Edycja postaci i inne operacje GM
+  pozostają w istniejącej konsoli WWW; nie przeniesiono ich do natywnego panelu.
+- Fizycznego telefonu nie testowano. Duży smoke i runner zrzutów zachowują zastane
+  ostrzeżenia o zasobach przy zamykaniu; nie deklarujemy czystego zamknięcia ani
+  pełnego zielonego CI. [Pełny raport](qa/android-1.7/acceptance.json).
+
+#### Paczka do aktywacji
+
+`deliveries/godot-content-1.7`: **27 paczek**, **26 niezmienionych względem 1.6**.
+Nowy rdzeń: `core-c100-85897595dc42.pck`, **3 523 184 bajty**, SHA-256
+`85897595dc42c5ef7a2bfee87eb32a8a2e470c7f94b99de999fca8902cc3e073`.
+Aktualizacja **nieaktywna**: działa nadal 1.6. Do aktywacji istniejący ręczny
+`godot-content-upload.yml` z wersją `1.7`, `publish=true`, `activate=true`,
+wyłącznie po zgodzie właściciela. Po publikacji porównać publiczny manifest
+oraz SHA pobranego rdzenia; 1.6 zachować do rollbacku.
+
+[Sumy dowodów](qa/android-1.7/evidence-sha256.json). Nie scalano do `main`, nie
+publikowano gry i nie resetowano postaci.
+
+
+#### Publikacja 1.7 — zakończona po zgodzie właściciela
+
+Po poleceniu „Publikuj!” uruchomiono istniejący workflow:
+[43934619568 — SUCCESS](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/43934619568),
+wersja `1.7`, `publish=true`, `activate=true`, źródło
+`f007114b5e83e4cf27f1583bf75313f8949efa0a`.
+
+O 19:00 UTC serwer potwierdził `activeVersion: 1.7`, `maintenance: false`.
+Publiczny manifest jest w całości zgodny z przetestowanym commitem (27 paczek),
+a pobrany rdzeń ma **3 523 184 bajty** oraz SHA-256
+`85897595dc42c5ef7a2bfee87eb32a8a2e470c7f94b99de999fca8902cc3e073`.
+[Dowód weryfikacji publikacji](qa/android-1.7/publication.json).
+
+Aktualizacja pobiera się po ponownym uruchomieniu istniejącej aplikacji 1.0.
+Wydanie 1.6 pozostaje do rollbacku. Nie wykonano scalenia do `main`, publikacji
+strony, nowego APK, resetu postaci ani zmian instancji GPU. Ograniczenia odbioru
+telefonu i panelu GM z prawdziwym kontem pozostają jak wyżej.
+
+
+### 23. Android 1.8 — właściwe komendy GM i menu gry
+
+Właściciel odrzucił podgląd administracyjny 1.7. Punktem odniesienia właściwej
+funkcji jest **`src/components/game/StaffTools.tsx`**, a nie panel monitoringu
+`/admin`. Na gałęzi `feat/android-gm-tools-1.8-20261116` zastąpiono poprzedni
+`gm_panel.gd`; historia odrzuconego panelu pozostaje w Git.
+
+| Funkcja | Przed | Zmiana | Dowód |
+| --- | --- | --- | --- |
+| Nieśmiertelność | Brak komendy | Blokada bezpośrednich obrażeń i DoT, cofnięcie po wyłączeniu lub utracie roli | [58 sprawdzeń rzeczywistej gry](qa/android-1.8/gm-native-results.json) |
+| Brak cooldownów | Brak komendy | Powtórne użycie rzeczywistych zdolności czterech ras, normalne wydawanie KI; wyłączenie przywraca odnowienia | [58 sprawdzeń headless](qa/android-1.8/gm-headless-results.json) |
+| Poziom i zasoby | Tylko podgląd serwera | +1 poziom, ustaw 1–20 (obecny limit Androida), +1000 monet, ustaw saldo, +10 mikstur, pełne HP/KI i zdjęcie statusów | [Panel GM po wykonaniu komendy](qa/android-1.8/gm-tools-854x480.png) |
+| Teleport | Zwykła podróż do krainy | Współrzędne, punkty przybycia, nazwane miasta/miejsca z danych gry i wszystkie 10 krain; odrzucenie wody/NaN/punktów poza mapą; najbliższa wolna pozycja przy przeszkodzie do 4000 j. | Test teleportu na wyspę i powrotu z zachowaniem ekwipunku i monet w wynikach GM |
+| Menu | Długi dialog z listą akcji | Osobny ekran z dużą siatką 3/4 kolumn, widoczny powrót; zachowane działające funkcje i GM dla uprawnionych | [Menu 844 × 390](qa/android-1.8/menu-gm-844x390.png) |
+| Uprawnienia i zapis | Odczyt roli dla podglądu | Rola sprawdzana przed każdą komendą; sesyjne tryby GM wygaszane po utracie roli, zmianie konta i błędzie kontroli co 30 s; zamknięcie anuluje oczekującą komendę | Testy odmowy, anulowania i round-trip postaci/ekwipunku/questów |
+
+Nowe `gm_tools.gd` wywołuje istniejące API postaci, ekonomii, nawigacji i zapisu.
+Nie wprowadza drugiego systemu walki ani zmiany wzoru obrażeń. `race_kit.gd` ma
+wyłącznie opcjonalne flagi sesyjne GM, domyślnie wyłączone i nieobecne w save.
+Po zmianie poziomu synchronizowana jest dostępność questów przed zapisem.
+Teleport nie uruchamia się we wnętrzu ani po śmierci; wcześniej pobiera brakujące
+paczki docelowej krainy i ponownie sprawdza uprawnienia. Nie edytuje cudzych
+kont ani slotów. Dotychczasowe blokady zapisu i konflikty rewizji chmury zostają.
+
+Zmodyfikowano `city_game.gd`, `race_kit.gd`, `gm_panel.gd`, dodano `gm_tools.gd`
+i `game_menu.gd`, testy i ich podłączenie w istniejącym CI. Asercję starego menu
+w smoke dostosowano do nowego ekranu; nadal sprawdza pauzę i wyzerowanie ruchu.
+Testy odrzuconego podglądu zastąpiono sprawdzeniem komend i kontroli roli;
+pozostałe scenariusze HUD/minimapy i gestów zachowano.
+
+#### Sprawdzenia
+
+- Pełny TypeScript aplikacja/e2e/tools PASS; lint **0 błędów / 17 wcześniejszych ostrzeżeń**.
+- [Regresja Godota 539/539](qa/android-1.8/smoke-results.json), HUD **42/42**
+  headless i natywnie, rzeczywista scena **5/5**, gesty menu **11/11** natywnie.
+- Nowe GM **58/58 headless i 58/58 natywnie**: wszystkie cztery rasy, rzeczywiste
+  umiejętności, obraz menu i panelu w silniku, dotyk przycisku bez podwójnej akcji,
+  10 list krain bez wychodzenia poza ekran, zapis i odczyt postaci/questów.
+- [Vitest eksportu 6/6](qa/android-1.8/vitest-export.txt); brakujące w sparse checkout
+  źródła odtworzono dokładnie z istniejącego Git/identycznych lokalnych bajtów,
+  bez zmiany danych i asercji.
+- [E2E rdzenia 11/11](qa/android-1.8/e2e-core.txt).
+  [Oryginalny APK 1.0 PASS](qa/android-1.8/e2e-installed.txt): nowe moduły menu/GM
+  i flagi walki dostępne po aktualizacji; `skin.gd` i kod APK 100 bez zmian.
+- Użyto jawnej atrapy uprawnień/chmury; nie korzystano z prawdziwego konta GM.
+  Fizyczny telefon niezweryfikowany. Przy zamykaniu niektórych runnerów występują
+  ostrzeżenia o zasobach; nie deklarujemy czystego zamknięcia ani całego CI PASS.
+  [Pełny raport i zakres](qa/android-1.8/acceptance.json).
+
+Nie przenoszono przeglądarkowego nagrywania diagnostyki 45 s (pozostaje FPS),
+edytora cudzych kont/bazy ani teleportu przez tapnięcie atlasu. Są natomiast
+teleporty przez współrzędne i listę miejsc. Nie podniesiono limitu poziomu
+Androida powyżej 20 ani nie zmieniono kanonu liczb. To komendy lokalnego PvE.
+
+#### Paczka wydania
+
+`deliveries/godot-content-1.8`: **27 paczek**, 26 identycznych z 1.7; tylko rdzeń
+`core-c100-b12bc37b1ce5.pck`, **3 539 440 bajtów**, SHA-256
+`b12bc37b1ce59ccc7112fbfbed89acfabee703ddc0ef8e9747327a1cae29ea75`.
+Gotowa do publikacji poprawki w ramach bieżącego polecenia właściciela publikacji
+Androida i zastąpienia wadliwego panelu. Wynik aktywacji i odczyt publicznego
+manifestu dopisać poniżej. Bez scalenia do `main`, nowego APK i zmian GPU.
+
+[Sumy dowodów](qa/android-1.8/evidence-sha256.json).
+
+
+#### Publikacja 1.8 — zakończona
+
+W ramach bieżącej zgody właściciela na publikację Androida i polecenia zastąpienia
+odrzuconego panelu uruchomiono istniejący workflow z gałęzi wydania:
+[43940029213 — SUCCESS](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/43940029213),
+`version=1.8`, `publish=true`, `activate=true`, commit
+`fe19c7b8549150021cd8b0d7cf8beef4d308f951`.
+
+O 19:31 UTC publiczny serwer potwierdził `activeVersion: 1.8`, bez przerwy
+technicznej. Manifest w całości odpowiada przetestowanej paczce (27 definicji),
+a pobrany rdzeń ma **3 539 440 bajtów**, SHA-256
+`b12bc37b1ce59ccc7112fbfbed89acfabee703ddc0ef8e9747327a1cae29ea75`.
+[Dowód odczytu publikacji](qa/android-1.8/publication.json).
+
+Należy całkowicie zamknąć i ponownie uruchomić aplikację, aby pobrała rdzeń.
+Nowy APK nie jest potrzebny. Nie wykonano scalenia do `main`, resetu postaci,
+publikacji strony ani zmian instancji GPU. 1.7 pozostaje jako poprzednia wersja
+techniczna do rollbacku; nie jest już wydaniem aktywnym.
+
+### 24. Android: litery i ramki właściciela w całym interfejsie (gałąź robocza, niepublikowane)
+
+Praca Claude na bazie gałęzi `feat/android-gm-tools-1.8-20261116` (1.8, bez zmian jego plików poza `hud.gd`). Nowa gałąź lokalna `claude/ui-frames-letters-20261116`, nic nie wypchnięto.
+
+- **Ramka okien bez szwów.** Okno ma rozmiar będący wielokrotnością okresu tekstury, a brzegi są kafelkowane bez rozciągania (`prepare_ui_frames.py`, `look.gd`); marginesy treści większe (48–50 px), żeby tekst nie dotykał ramki.
+- **Ekrany.** Tło plecaka i postaci z tekstury kamienia (`Look.backdrop`), nagłówki plecaka, postaci i mapy w literach właściciela (`Look.style_heading`), okna wyboru rasy, czatu, mapy i logowania z większymi marginesami.
+- **HUD (na układzie Codexa).** Kamienne pierścienie wokół portretu (`ring-star`) i minimapy (`ring-plain`, promień `MINIMAP_RADIUS + 8`), nazwa rasy w literach; fallback do dawnych łuków, gdy obrazu brak (`PyraSkin.draw_ring`, obrazy są w APK 1.0).
+- **Testy.** `smoke.gd` 539/539, `hud_mobile` 42/42, `gm_gameplay` 58/58, `menu_input` 11/11, `e2e_installed.py` PASS. Zrzuty: `tests/qa_screens.gd` (HUD, plecak, postać, mapa, wybór rasy, czat). Nie sprawdzano na telefonie.
+- **Do wydania:** to jest zmiana kodu i `data/ui-art.json` (jedzie z serwerem, bez nowego APK); wymaga zgody właściciela i koordynacji z Codexem (wydanie 1.9).
+
+### 25. Android: przeniesienie postaci z przeglądarki (lokalnie, niepublikowane)
+
+Do tej pory postaci z gry przeglądarkowej nie dało się wczytać w Androidzie. Nowy plik `scripts/browser_import.gd` (bez `class_name`, ładowany przez `preload`, więc może dojechać z serwerem) i wpis „POSTAĆ Z PRZEGLĄDARKI” w menu gry.
+
+- **Skąd dane.** `GET /ws/characters` z tym samym tokenem konta co reszta gry (serwer akceptuje token konta VPS; sprawdzono w `gameServer.ts: verifyAccount`). Czytane są tylko **postacie zapisane na serwerze**.
+- **Co powstaje.** NOWY bohater Androida z tej samej rasy, poziomu (maks. 20 w Androidzie), doświadczenia, złota, mikstur, plecaka, materiałów, założonego wyposażenia i poznanych węzłów drzewka (`kit.learn` odrzuca nieprawidłowe). Co nie ma odpowiednika (nieznane id przedmiotu, węzeł niedozwolony na tym poziomie), jest pomijane i policzone w komunikacie. Postać z przeglądarki nie jest zmieniana ani wycofywana, więc import można powtórzyć. Obecna postać w Androidzie jest zastępowana po zapisie (jest pytanie potwierdzające).
+- **Ograniczenie, którego nie da się obejść z poziomu aplikacji:** jeśli postać istnieje tylko w pamięci przeglądarki (zapis lokalny, zakładka panelu „Postacie lokalne”), a nie na serwerze, import jej nie zobaczy; trzeba ją najpierw zapisać na serwerze z przeglądarki albo dodać osobny import z pliku zapisu.
+- **Pozycja i kraina.** Bohater zaczyna w stolicy swojej rasy (pozycja z przeglądarki nie jest przenoszona).
+- **Testy.** `smoke.gd` **542/542** (3 nowe: plan z liczbą pominiętych rzeczy, odrzucenie nieznanej rasy, zbudowanie bohatera), `hud_mobile` 42/42, `gm_gameplay` 58/58, `menu_input` 11/11, `e2e_installed.py` PASS, `e2e_core.py` 11/11. Nie sprawdzono na prawdziwym koncie ani telefonie.
+
+### 26. Plan oprawy: priorytety właściciela i pierwszy pomiar (audyt animacji bohaterów)
+
+Priorytety właściciela (16.11.2026, wieczorem): 1) spójne postacie (twarz, proporcje, strój, skala) we wszystkich animacjach; 2) płynny chód, atak, unik, trafienie, śmierć, odrodzenie; 3) czytelne efekty KI, trafień i ataków przeciwników; 4) materiały otoczenia (podłoże, przejścia między teksturami, cienie, detale); 5) potwory i NPC w tym samym stylu.
+
+**Pomiar (priorytety 1–2), `scripts/godot/audit_hero_animation.py`.** Skrypt układa każdą klatkę w komórce 200 px tak jak gra i liczy wysokość postaci, linię stóp i środek poziomy dla 4 bohaterów i 144 klipów (kierunek `right`). Wynik:
+- **Spójne:** `idle`, `walk`, `attack`, `hit`, `dodge` mają wysokość w granicach 6–14 % od `idle` u wszystkich czterech ras (np. Legenda: idle 183, walk 180, attack 170, hit 171 px). Stopy i środek w tych klipach nie wędrują.
+- **Do poprawy:** `run` jest o ok. 15 % niższy niż `idle` u wszystkich ras (152/153/156 vs 178–183 px): albo biegnie zgarbiony, albo narysowany w mniejszej skali. `skillb` i `kiskillb` mają stopy wędrujące o 36–50 px i wysokość 15–21 % mniejszą; `skillc`/`kiskillc` podobnie. Klipy `death` mają skrajnie różną wysokość (Legenda 83, Mędrzec 90, Android 116, Planetarny 152 px), czyli ostatnia klatka śmierci nie leży tak samo u każdej rasy; `respawn` Androida (142) odbiega od reszty (169–184).
+- **Czego skrypt nie mierzy:** twarzy, stroju i barw (wymaga oka lub modelu wizyjnego). Flagi dla pozy z natury zmieniających wysokość (unik, trafienie, finisher) są pominięte.
+
+**Plan, od najtańszego:**
+1. *Kod, bez GPU:* efekty KI, trafień i telegrafy ataków potworów (priorytet 3), cienie pod postaciami i stała skala w kodzie, ujednolicenie ostatniej klatki śmierci i odrodzenia (obcięcie do wspólnej linii podłoża).
+2. *Grafika, wymaga generowania:* ponowne narysowanie `run`, `skillb/c`, śmierci i odrodzenia w tej samej skali (priorytety 1–2), materiały podłoża i przejścia (4), potwory i NPC (5). Generowanie wymaga dostępu do poda GPU (obecnie brak dostępu do plików poda) albo API obrazów.
+
+Pod GPU `bqnirbw2ucnqrk` ma `volumeInGb=0`: zatrzymanie kasuje cały dysk kontenera; zatrzymanie zaplanowano na 17.11.2026 00:32 UTC (decyzja właściciela), po wcześniejszym zabezpieczeniu danych albo potwierdzeniu, że nic tam nie ma.
+
+
+### 27. Kopia robocza GPU, anulowanie zatrzymania poda, animacje pętli i efekty premium (lokalnie, niepublikowane)
+
+- **GPU: bez zatrzymania.** Właściciel zdecydował, że pod ma działać (nie zatrzymywać). Zaplanowane zatrzymanie na 17.11.2026 00:32 UTC **zostało skasowane**; pod `bqnirbw2ucnqrk` nadal działa i nie był ruszany. RunPod nie ma pauzy: tylko Stop (kasuje dysk kontenera, bo `volumeInGb=0`) albo Terminate, a to wykonuje wyłącznie właściciel.
+- **Kopia danych poda** w repo: `art/production/ki-premium-pod-backup/` (451 plików, 189 MB, rozmiary zgodne z podem; obrazy, wideo i zip przez Git LFS). To wyniki i kod pracy Codexa (kandydaci SDXL terenu, pilotaże Wan2.2, klatki kontrolne VACE, pakiet klienta, skrypty `premium_pilot.py`, `download_*.py`, `provenance`, kolejki). **Bez modeli** (ok. 116 GB: `model`, `wan22/model`, `vace14/model`, `venv`), bo pobiera się je ponownie skryptami `download_*.py`. Przeniesione przez API plików Jupytera; terminala poda nie da się użyć z piaskownicy (proxy blokuje WebSocket, SSH odrzuca połączenie), dlatego **na podzie nie uruchomiono żadnego zadania**. Na podzie leży tylko nieuruchomiony `/workspace/agent/loop.sh` (runner zadań, startuje go właściciel jedną linią w terminalu Jupytera).
+- **Animacje pętli (priorytety 1–2), bez GPU.** `scripts/godot/normalize_hero_loops.py` wyrównuje pętle `walk`, `run`, `channel` i ich warianty Ki do klipu `idle` tej samej rasy i kierunku: skala klipu (pole `scale` w `data/actors.json`, czytane przez `actor_view.gd`, zakotwiczone na stopach; korekta = (wysokość idle / wysokość klipu)^0,6, bo biegnąca postać jest naprawdę niższa), linia stóp i środek ciała ściągane w 75 % ku wzorcowi (reszta zostaje jako naturalne podskoki). Jednorazowe klipy (ataki, umiejętności, unik, trafienie, śmierć) bez zmian, bo z natury opuszczają linię gruntu. Wynik liczony zawsze od `scripts/godot/actors.source.json` (idempotentny). Audyt: 37 → 31 oznaczonych klipów (skala `run` 1,03–1,09). Niewyrównane do dziś: `skillb/skillc`, śmierć i odrodzenie (wymagają ponownego narysowania, czyli GPU).
+- **Efekty premium (priorytet 3), bez GPU.** `scripts/fx.gd` przepisany na światło addytywne (to samo API `spawn/number/word`): promienna poświata, wstęgi cięć (`slash`, `swing`), fala uderzeniowa i iskry (`burst`), aura Ki z płomieniami (`buff`), smugi uniku (`dash`) i nowe `hit` (błysk i iskry na trafionym wrogu, większy przy krytyku, żółty przy słabości, szary przy odporności) oraz `hurt` (czerwony błysk, gdy trafiony jest bohater). Cząstki są funkcją (ziarno, indeks, wiek), więc rysowanie nie ma stanu. Telegrafy potworów (`monster.gd`): strefa wybuchu z pulsującą obwódką, znacznikami i zbiegającym pierścieniem, tor szarży z pasem i strzałkami, błysk przed strzałem. Podgląd: `tests/qa_fx.gd`.
+- **Testy.** `smoke.gd`: 536/542 PASS. Te same 6 testów (ruch/dialog/dotyk w trybie headless) pada na czystym HEAD bez moich zmian, więc to stan wyjściowy, nie regresja. Poprzednie „542/542” nie powtarza się w tym środowisku.
+- **Cień pod postaciami** (`actor_view.gd`): miękka plama (tekstura promienista, spłaszczona do gruntu) z ciemniejszym rdzeniem zamiast jednej plamy; dotyczy bohatera, NPC i potworów. `smoke.gd` po zmianie: 536/542, te same 6 testów co na czystym HEAD.
+
+### 28. Naprawy z audytu Androida 1.8 (raport Codexa, `qa/android-level3-audit`) — lokalnie, niepublikowane
+
+Źródło: `docs/zmiany/2026-11-16/qa/android-level3-audit/raport.pdf` (commit `50567ffd`).
+
+- **P1-01 (brakujący NPC, 11 zadań zablokowanych) — naprawione.** Każde z czterech miast bez własnego rozmówcy dostaje na ulicy postać „hunter” z danych zadań: Toren (Żarowy Trakt), Lina (Latarnia Korzeni), Talen (Archiwum Nad Chmurami), VEX-3 (Port Zerowy), z imieniem, rolą i pierwszym powitaniem z `quests.json`. Wiązanie zadań działa przez `<kraina>.npc.hunter` w danym mieście, więc przyjęcie i oddanie zadań trafia do właściwej postaci. Nowe `PyraQuests.npc_for(kontynent, osada, rola)`.
+- **P2-01 (osiem nazw rozmówców) — naprawione.** Przewodnik w miastach i rozmówcy usług (sklep, kuźnia) noszą teraz imię postaci z zadań danego miasta (Nela, Oren, Hana, Daro, Nari, Kael, Eko-0, KOR-9), a nie imię z miasta stołecznego (Mio, Taro, „Opiekun miasta”).
+- **P2-02 (Pieczęć Energii Mędrca, zwolniony cel) — naprawione.** Opóźnione efekty nie przechwytują już węzła wroga w lambdzie (stąd `Lambda capture at index 0 was freed`), tylko `WeakRef`: Pieczęć Mędrca (A1), Android A4 i cięcia Legendy (`cuts`).
+- **Test.** `tests/quest_npcs.gd` (12/12): dla 12 miast czterech krain sprawdza, że przewodnik i „hunter” stoją na ulicy pod imieniem postaci z zadań, a rozmówca sklepu i kuźni w środku ma jej imię. Na starym kodzie test dawał 6/12 (kontrola negatywna). `smoke.gd`: 536/542, te same 6 testów co na czystym HEAD.
+- **Nie ruszone (decyzja właściciela):** ART-01 (strój Legendy w `kiskillb`: czerwony pancerz zamiast odsłoniętego torsu, wymaga ponownego narysowania klipu), CANON-01 (wygląd Mędrca: kobieca sylwetka kontra męski opis w `RASY-I-POSTACIE.md`: potwierdzić wzorzec), TECH-01 (ostrzeżenia ObjectDB przy zamykaniu runnerów: osobny audyt cyklu życia).
+
+
+### 29. Audyt Androida 1.8 — cztery rasy do poziomu 3, budynki, dialogi i animacje
+
+Na polecenie właściciela wykonano szeroki audyt w rzeczywistym Godot 4.6.3,
+renderer Compatibility / Mesa llvmpipe (CPU), z zapisem dowodów na
+`qa/android-races-level3-20261116`. Testowany kod produkcyjny:
+`fe19c7b8549150021cd8b0d7cf8beef4d308f951`, aktywna wersja **1.8**.
+Lokalny eksport rdzenia jest identyczny z publicznym manifestem: **3 539 440 bajtów**,
+SHA-256 `b12bc37b1ce59ccc7112fbfbed89acfabee703ddc0ef8e9747327a1cae29ea75`.
+[Dowód zgodności](qa/android-level3-audit/published-core-proof.json).
+
+**Werdykt: awans i podstawowe usługi przechodzą, odbiór całości niezaliczony.**
+Brakujące postacie questowe blokują 11 zadań; same poprawne pliki JSON i teksty
+nie są dowodem dostępności rozmówcy w świecie.
+
+[Raport PDF — 21 stron](qa/android-level3-audit/raport.pdf),
+[raport HTML z wyszukiwaniem 486 kwestii](qa/android-level3-audit/raport.html),
+[pełne wyniki i usterki JSON](qa/android-level3-audit/report.json),
+[132 wejścia CSV](qa/android-level3-audit/buildings.csv),
+[rejestr NPC CSV](qa/android-level3-audit/npc-catalog.csv),
+[zablokowane zadania CSV](qa/android-level3-audit/blocked-quests.csv).
+
+#### Przejścia 1→3
+
+| Rasa | Poziom końcowy | Nagradzane zabicia | Śmierci | Odpoczynki w gospodzie | Wynik funkcjonalny |
+| --- | --- | --- | --- | --- | --- |
+| Legendy | 3 | 17 | 0 | 4 | 7/7 |
+| Planetarni | 3 | 17 | 0 | 1 | 7/7 |
+| Mędrcy | 3 | 20 | 0 | 0 | 7/7; dwa błędy silnika podczas działania A1 |
+| Androidy | 3 | 18 | 0 | 0 | 7/7 |
+
+Wszystkie przebiegi zaczynają od nowej postaci 1. poziomu, zwykłego ekwipunku,
+20 monet i 3 mikstur. Nie dodawano XP ani poziomów, nie włączano GM i nie
+zmieniano statystyk wrogów. Używano faktycznych spawnów, sygnału joysticka,
+przytrzymania ataku, legalnego A1 od poziomu 2, AI, nagród i zwykłych usług.
+Żaden z tych przebiegów nie zużył mikstury. Licznik pomija potwory `no_reward`;
+Android ma 55 XP ponad sumę nagród ujętych zabić — kwota odpowiada nagrodzie
+wydarzenia Kordon Dronów, nie zaliczamy jej do zabicia zwykłego drona.
+
+To **kontrolowane testy funkcjonalne**, nie pełna ręczna wyprawa ani benchmark
+czasu: przeniesienia między istniejącymi spawnami i gospodą są fixture; runtime
+wykonuje `_process` i AI z krokiem 1/60, z renderowaniem co cztery kroki.
+Przebycia dróg od bramy do spawnu nie mierzono. Każda rasa przeszła zapis i odczyt
+poziomu 3 i drzewka. Rzeczywiste zrzuty:
+[Legenda](qa/android-level3-audit/progression/legend-level-3.png),
+[Planetarny](qa/android-level3-audit/progression/planetary-level-3.png),
+[Mędrzec](qa/android-level3-audit/progression/sage-level-3.png),
+[Android](qa/android-level3-audit/progression/android-level-3.png).
+
+#### Wszystkie wejścia i dialogi
+
+- **132/132** wejścia usługowe: 4 kontynenty × 24 i 6 wysp × 6.
+  Sprawdzono lokalny wolny punkt dojścia, wejście do właściwego wnętrza,
+  mieszkańca, funkcję usługi i powrót pod te same drzwi. Każdy z 6 typów usług
+  ma 22 sprawdzone wystąpienia.
+- Sklep: kupno/sprzedaż; kuźnia: rzeczywista receptura; depozyt: włożenie/wyjęcie;
+  gospoda: zapłata i leczenie; arena: obrażenia manekina; sala: rozmowa.
+  Budżet i materiały tych osobnych testów są kontrolowanym fixture.
+- **244 wystąpienia NPC**, **732 otwarcia dialogów** na stanach poziomu 1/2/3,
+  **288 wariantów tematów świat/rola**. Sprawdzono dopasowanie dialogów do widoku
+  844×390. Przebiegi świata: **2666/2666 headless i 2666/2666 natywnie**.
+- **486 kwestii katalogowych**: 84 powitania, 84 plotki, 318 wariantów
+  before/during/after. Łączny zestaw silnika dialogów: **663/663**. Dalsze stany
+  questowe w tym zestawie są jawnie ustawionymi fixture, nie zadaniami naturalnie
+  ukończonymi na poziomie 3.
+
+#### Usterki
+
+| Priorytet | Problem | Skutek / dowód |
+| --- | --- | --- |
+| P1 | Lina, Toren, Talen i VEX-3 nie mają odpowiadających NPC pod wymaganymi bindingami w swoich miastach | **11 zadań** z `playableInCurrentRuntime=true` bez dostępnego rozmówcy, w tym O-A05 i O-N05. **57 kwestii** katalogowych bez NPC w świecie |
+| P2 | 8 nazw NPC niezgodnych ze scenariuszem | Np. dialog Neli pod imieniem Mio, Orena pod Taro, Nari pod Opiekun miasta; role działają, ale widoczne nazwy mylą gracza |
+| P2 | Opóźniona Pieczęć Energii Mędrca odwołuje się do zwolnionego celu | Dwa `ERROR: Lambda capture at index 0 was freed. Passed null instead.`; `race_kit.gd:445`. A1 planuje wybuch po 3 s, ciało celu jest usuwane po około 2 s. Awans nie został przerwany |
+| Odbiór grafiki | Strój Legendy w `kiskillb` i wygląd Mędrca wobec dokumentu kanonu | Technicznie klatki działają; podgląd pokazuje niespójność stroju KI oraz sylwetkę Mędrca odmienną od opisu męskiej postaci. Do decyzji właściciela |
+| Dług techniczny | Ostrzeżenia ObjectDB przy zamykaniu części runnerów | Nie deklarujemy czystego zamknięcia ani całego CI PASS |
+
+Dostępność autorowanych NPC: **16 nazw zgodnych / 8 rozbieżnych / 4 brakujące**.
+Nie mylić zaliczonego testu silnika dialogów ze sprawdzonym dostępem do każdego
+tekstu w świecie. Dokładne nazwy, miasta, bindingi i zadania są w PDF/JSON/CSV.
+
+#### Animacje
+
+**144 klipy** (36 na rasę), **1152 pary klip/kierunek**, **8384 odwołania do
+klatek**: poprawne regiony atlasów, brak pustych klatek alfa, rzeczywisty postęp
+osi czasu `AnimatedSprite2D`. Zestaw techniczny **2592/2592**. Część kierunków
+współdzieli źródło przez lustrzane odbicie; nie ogłaszamy ośmiu odrębnych filmów.
+Klipy KI są podglądem testowym, nie odblokowaniem formy na poziomie 3.
+
+[36 klipów Legendy](qa/android-level3-audit/animations/legend-36-clips.png),
+[Planetarni](qa/android-level3-audit/animations/planetary-36-clips.png),
+[Mędrcy](qa/android-level3-audit/animations/sage-36-clips.png),
+[Androidy](qa/android-level3-audit/animations/android-36-clips.png).
+Nagrania chodu w 8 kierunkach pochodzą z runtime Godota:
+[Legendy](qa/android-level3-audit/videos/legend-walk.mp4),
+[Planetarni](qa/android-level3-audit/videos/planetary-walk.mp4),
+[Mędrcy](qa/android-level3-audit/videos/sage-walk.mp4),
+[Androidy](qa/android-level3-audit/videos/android-walk.mp4).
+
+#### Bezpieczeństwo i odtwarzanie
+
+Dodano wyłącznie runnery `audit_progression.gd`, `audit_world.gd`,
+`audit_dialogues.gd`, `audit_animations.gd` oraz kompilator raportu
+`scripts/godot/audit_level3_report.py`. Żaden plik runtime, kanonu ani grafiki
+produkcyjnej nie został zmieniony. Pełny TypeScript app/e2e/tools PASS.
+Zapisy testów są w oddzielnych `XDG_DATA_HOME`; nie używano prawdziwych kont,
+cloud save ani instancji GPU. Fizyczny telefon i pełna kampania pozostają
+niezweryfikowane. Nie wykonano scalenia ani nowej publikacji gry.
+
+[Sumy wszystkich dowodów](qa/android-level3-audit/evidence-sha256.json).
+
+### 30. Wydanie 1.9 (zgoda właściciela 17.11.2026: „Scalaj i publikuj”)
+
+Zawartość: litery i ramki właściciela w oknach, ekranach i HUD; przeniesienie postaci z przeglądarki (menu POSTAĆ Z PRZEGLĄDARKI); wyrównanie animacji pętli bohatera; efekty premium (KI, cięcia, uderzenia, telegrafy ataków) i miękki cień; naprawy z audytu 1.8 (NPC zadań w czterech miastach, nazwy rozmówców, `WeakRef` w opóźnionych efektach). Paczki: `deliveries/godot-content-1.9` (27 paczek, rdzeń `core-c100-8eda74fd9400`, 3,6 MB). Przed publikacją: `e2e_installed.py` PASS na zainstalowanym APK 1.0, `e2e_core.py` 11/11 PASS, `quest_npcs.gd` 12/12, `smoke.gd` 536/542 (te same 6 testów pada na czystym HEAD). Wersja aktywna do tej pory: 1.8 (Codex); wycofanie = ponowna aktywacja 1.8.

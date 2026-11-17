@@ -17,6 +17,8 @@ var direction := "down"
 var state := "idle"
 var prefix := ""
 var display := Vector2.ZERO
+var base_scale := Vector2.ONE
+var base_position := Vector2.ZERO
 var one_shot_until := 0.0
 var one_shot_clip := ""
 var flash := 0.0
@@ -40,8 +42,9 @@ func setup(data: Dictionary, display_name: String = "", inside: bool = false, he
 		factor *= HERO_SCALE
 	display = Vector2(float(data["size"][0]), float(data["size"][1])) * factor
 	shadow_scale = factor
-	sprite.scale = display / cell
-	sprite.position = Vector2((0.5 - float(data.origin[0])) * display.x, (0.5 - float(data.origin[1])) * display.y)
+	base_scale = display / cell
+	base_position = Vector2((0.5 - float(data.origin[0])) * display.x, (0.5 - float(data.origin[1])) * display.y)
+	apply_clip_scale({})
 	if not display_name.is_empty():
 		label.text = display_name
 		label.position = Vector2(-140, -display.y - 24)
@@ -94,6 +97,12 @@ func clip_for(wanted: String) -> String:
 		return candidate
 	return wanted if ensure_clip(wanted) else "idle"
 
+## A clip may carry `scale` (data/actors.json, from scripts/godot/normalize_hero_loops.py): it brings the figure to the idle proportion, anchored on the feet.
+func apply_clip_scale(clip: Dictionary) -> void:
+	var k := float(clip.get("scale", 1.0))
+	sprite.scale = base_scale * k
+	sprite.position = base_position * k
+
 func play_clip(clip_name: String) -> void:
 	var clip_id := clip_for(clip_name)
 	var clip: Dictionary = definition.clips[clip_id]
@@ -101,6 +110,7 @@ func play_clip(clip_name: String) -> void:
 	if not frames.has_animation(animation):
 		animation = clip_id + ":down"
 	sprite.flip_h = direction in clip.get("mirrored", [])
+	apply_clip_scale(clip)
 	if sprite.animation != animation or not sprite.is_playing():
 		sprite.play(animation)
 
@@ -120,6 +130,7 @@ func play_once(clip_name: String) -> float:
 	if not frames.has_animation(animation):
 		animation = clip_id + ":down"
 	sprite.flip_h = direction in clip.get("mirrored", [])
+	apply_clip_scale(clip)
 	sprite.play(animation)
 	return duration
 
@@ -148,8 +159,13 @@ func _process(delta: float) -> void:
 			sprite.modulate = Color.WHITE
 
 func _draw() -> void:
-	draw_set_transform(Vector2(0, -2), 0.0, Vector2(1, 0.32))
-	draw_circle(Vector2.ZERO, 22 * shadow_scale, Color(0.02, 0.01, 0.01, 0.32))
+	# soft contact shadow: a wide faint pool and a tighter darker core, both flattened to the ground
+	draw_set_transform(Vector2(0, -2), 0.0, Vector2(1, 0.34))
+	var soft: Texture2D = PyraFx.glow()
+	var wide := 34.0 * shadow_scale
+	var core := 20.0 * shadow_scale
+	draw_texture_rect(soft, Rect2(Vector2(-wide, -wide), Vector2(wide, wide) * 2.0), false, Color(0.02, 0.01, 0.02, 0.5))
+	draw_texture_rect(soft, Rect2(Vector2(-core, -core), Vector2(core, core) * 2.0), false, Color(0.0, 0.0, 0.0, 0.55))
 	draw_set_transform(Vector2.ZERO)
 	if quest_mark != "":
 		var top := -display.y - 54.0

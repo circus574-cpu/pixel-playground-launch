@@ -101,8 +101,7 @@ func build_layout() -> void:
 	var bar := HBoxContainer.new()
 	bar.add_theme_constant_override("separation", 10)
 	title.text = "PLANETA SUPERIOR"
-	title.add_theme_font_size_override("font_size", 26)
-	title.add_theme_color_override("font_color", Color("f1c77f"))
+	Look.style_heading(title, 32)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bar.add_child(title)
 	for i in 3:
@@ -132,7 +131,7 @@ func build_layout() -> void:
 		zoom_column.add_child(make_button(entry[0], func(): zoom(factor), Vector2(70, 70)))
 	zoom_column.add_child(make_button("◎", focus_player, Vector2(70, 70)))
 	var card := PanelContainer.new()
-	card.add_theme_stylebox_override("panel", Look.window(30.0))
+	card.add_theme_stylebox_override("panel", Look.window(44.0))
 	info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	info.custom_minimum_size = Vector2(500, 60)
 	info.add_theme_font_size_override("font_size", 19)

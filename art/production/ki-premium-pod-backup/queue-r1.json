@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "modelRepository": "Lykon/dreamshaper-xl-v2-turbo",
+  "modelRevision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+  "status": "pilot-review-only",
+  "negativePrompt": "photorealistic, perspective, buildings, objects, characters, text, watermark, border, vignette, harsh black cracks, neon, high contrast, noisy, blurry",
+  "jobs": [
+    {
+      "id": "pyra-b0-s35",
+      "input": "inputs/b0.webp",
+      "inputSha256": "73279769f3a2d3854ea7ec963e05766ad04fd26cc726bab52e8f2a82bb5a19b6",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/b0.webp",
+      "sourceCommit": "50567ffd41706c77213ace0ad77f259b1c89869a",
+      "strength": 0.35,
+      "prompt": "volcanic ash and worn terracotta rock, subtle ember dust, broad natural stone shapes, seamless ground texture, flat top down, hand painted anime RPG, refined soft brushwork, warm muted palette, uniform lighting, calm background",
+      "seed": 5741116,
+      "steps": 16,
+      "guidance": 2.5,
+      "target": "res://assets/lands/pyra/terrain/b0.webp"
+    },
+    {
+      "id": "pyra-b0-s55",
+      "input": "inputs/b0.webp",
+      "inputSha256": "73279769f3a2d3854ea7ec963e05766ad04fd26cc726bab52e8f2a82bb5a19b6",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/b0.webp",
+      "sourceCommit": "50567ffd41706c77213ace0ad77f259b1c89869a",
+      "strength": 0.55,
+      "prompt": "volcanic ash and worn terracotta rock, subtle ember dust, broad natural stone shapes, seamless ground texture, flat top down, hand painted anime RPG, refined soft brushwork, warm muted palette, uniform lighting, calm background",
+      "seed": 5741116,
+      "steps": 16,
+      "guidance": 2.5,
+      "target": "res://assets/lands/pyra/terrain/b0.webp"
+    },
+    {
+      "id": "pyra-b1-s35",
+      "input": "inputs/b1.webp",
+      "inputSha256": "718ac29650be1b59e9da8411cd2ff442f30ebeebe7bd35dbc63f6a071aee0212",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/b1.webp",
+      "sourceCommit": "50567ffd41706c77213ace0ad77f259b1c89869a",
+      "strength": 0.35,
+      "prompt": "weathered basalt stone, fine ash in shallow cracks, charcoal grey and muted rust, seamless ground texture, flat top down, hand painted anime RPG, refined soft brushwork, warm muted palette, uniform lighting, calm background",
+      "seed": 5741116,
+      "steps": 16,
+      "guidance": 2.5,
+      "target": "res://assets/lands/pyra/terrain/b1.webp"
+    },
+    {
+      "id": "pyra-b1-s55",
+      "input": "inputs/b1.webp",
+      "inputSha256": "718ac29650be1b59e9da8411cd2ff442f30ebeebe7bd35dbc63f6a071aee0212",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/b1.webp",
+      "sourceCommit": "50567ffd41706c77213ace0ad77f259b1c89869a",
+      "strength": 0.55,
+      "prompt": "weathered basalt stone, fine ash in shallow cracks, charcoal grey and muted rust, seamless ground texture, flat top down, hand painted anime RPG, refined soft brushwork, warm muted palette, uniform lighting, calm background",
+      "seed": 5741116,
+      "steps": 16,
+      "guidance": 2.5,
+      "target": "res://assets/lands/pyra/terrain/b1.webp"
+    },
+    {
+      "id": "pyra-special-s35",
+      "input": "inputs/special.webp",
+      "inputSha256": "daf0b3c3398e7be4f2df576efec4e0b6774b479c3bac14d7ef77678725bbaf7b",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/special.webp",
+      "sourceCommit": "50567ffd41706c77213ace0ad77f259b1c89869a",
+      "strength": 0.35,
+      "prompt": "ornamental fortress paving, worn warm grey stone slabs with restrained crimson details, seamless ground texture, flat top down, hand painted anime RPG, refined soft brushwork, warm muted palette, uniform lighting, calm background",
+      "seed": 5741116,
+      "steps": 16,
+      "guidance": 2.5,
+      "target": "res://assets/lands/pyra/terrain/special.webp"
+    },
+    {
+      "id": "pyra-special-s55",
+      "input": "inputs/special.webp",
+      "inputSha256": "daf0b3c3398e7be4f2df576efec4e0b6774b479c3bac14d7ef77678725bbaf7b",
+      "sourcePath": "ports/godot-pyra/assets/lands/pyra/terrain/special.webp",
+      "sourceCommit": "50567ffd41706c77213ace0ad77f259b1c89869a",
+      "strength": 0.55,
+      "prompt": "ornamental fortress paving, worn warm grey stone slabs with restrained crimson details, seamless ground texture, flat top down, hand painted anime RPG, refined soft brushwork, warm muted palette, uniform lighting, calm background",
+      "seed": 5741116,
+      "steps": 16,
+      "guidance": 2.5,
+      "target": "res://assets/lands/pyra/terrain/special.webp"
+    }
+  ]
+}

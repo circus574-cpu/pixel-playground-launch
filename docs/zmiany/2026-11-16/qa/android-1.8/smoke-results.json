@@ -1,0 +1,3165 @@
+{
+	"checks": 539,
+	"display": "headless",
+	"engine": "4.6.3-stable (official)",
+	"failed": 0,
+	"passed": 539,
+	"physicalAndroidDevice": false,
+	"rendering": "gl_compatibility",
+	"results": [
+		{
+			"details": null,
+			"name": "entry scene fills the screen with the landscape key art (no bars, no distortion) and the Powered by GODOT credit with the official logo",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city is not instantiated behind the title",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "Android launcher and desktop use KI icon",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the app starts in the boot scene that brings the game's code up to date",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "boot, KiNet and the Android preset name the same versionCode",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the film is cut by at most a tenth of its height on a wide phone, mostly at the top, and not at all on 16:9",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "on a very wide screen the film keeps its picture and the sides stay in the backdrop colour",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the installed app is version 1.0",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the player sees the version of the downloaded release (1.1, 1.2, ...), the app version otherwise",
+			"passed": true
+		},
+		{
+			"details": [
+				"button_box",
+				"draw_ring",
+				"field_box",
+				"install",
+				"make_theme",
+				"style_button",
+				"texture",
+				"window"
+			],
+			"name": "PyraSkin keeps exactly the functions of APK 1.0",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the look that travels with updates has its pictures and letters",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "\"Zapamiętaj mnie\" keeps the e-mail for the next form, and keeps nothing when it is off",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "without \"Zapamiętaj mnie\" the sign-in is not written to the device, with it the session is stored",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a core the device does not have is downloaded",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a core that is already on the device is mounted without downloading",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a held core whose file is gone is downloaded again",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "without the server the held core runs; without a held core the APK's own code runs",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a release that carries no core runs the APK's own code",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a core on the bad list is never taken again",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a core that never reached the first city in three launches is given up",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a newer core replaces a given-up one",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a core that has proven itself is not given up",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "launches of an unproven core are counted; a proven one is not",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "script names are read from an export listing, a pack listing and the editor",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the entry film and its last frame are in the game",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the film's volume follows the music setting",
+			"passed": true
+		},
+		{
+			"details": [
+				false,
+				true,
+				false,
+				false,
+				true
+			],
+			"name": "the game starts after the film only when the work is done and the player has touched the screen",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "title layout and credit are separate: (854, 480)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "title layout and credit are separate: (1280, 720)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "title layout and credit are separate: (1600, 720)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "cancelled start touch does not load city",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "focus loss disarms start button",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "other finger cannot activate start button",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "start touch loads city and rejects duplicate activation",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "title hands off to exactly one playable city",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "start touch is not inherited by city controls",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "whole Pyra continent has the published Superior v2 size",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "capital layout from the first trial is kept with the six accepted houses",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "start in the capital on walkable ground",
+			"passed": true
+		},
+		{
+			"details": 864,
+			"name": "scenery streams around the hero (bounded)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "four cities, named places, scenery sprites",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "chunks stream when the hero travels across the continent",
+			"passed": true
+		},
+		{
+			"details": 112,
+			"name": "distant chunk set stays bounded",
+			"passed": true
+		},
+		{
+			"details": "(152.95, 152.95)",
+			"name": "hero is 15% larger than the previous build",
+			"passed": true
+		},
+		{
+			"details": 170.0,
+			"name": "level 1 speed is the Legend base 170",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "sea, edge and outside are not walkable",
+			"passed": true
+		},
+		{
+			"details": {
+				"start": 15224.4716796875,
+				"wall": 15194.4716796875,
+				"y": 15216.23046875
+			},
+			"name": "authored footprint blocks the hero",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "an authored capital footprint was tested",
+			"passed": true
+		},
+		{
+			"details": 24,
+			"name": "service doors of the capital and the three cities",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: accepted-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: accepted-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: accepted-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: accepted-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: accepted-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: accepted-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-1-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-1-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-1-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-1-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-1-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-1-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-2-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-2-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-2-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-2-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-2-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-2-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-3-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-3-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-3-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-3-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-3-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "door is reachable on foot: pyra-town-3-arena",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": true,
+				"move": "(1.0, 0.0)"
+			},
+			"name": "attack finger and stick finger work at the same time",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "attack releases with its own finger",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "touch cancellation releases movement",
+			"passed": true
+		},
+		{
+			"details": [
+				124.6640625,
+				120.04296875
+			],
+			"name": "30/120 FPS do not change movement speed",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "NPC dialog opens and releases movement",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "dialog closes with a separate touch index",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter hall from accepted-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: accepted-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter shop from accepted-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: accepted-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter arena from accepted-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: accepted-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter depot from accepted-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: accepted-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter smithy from accepted-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: accepted-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter inn from accepted-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: accepted-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter shop from pyra-town-1-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-1-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter hall from pyra-town-1-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-1-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter inn from pyra-town-1-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-1-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter smithy from pyra-town-1-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-1-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter depot from pyra-town-1-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-1-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter arena from pyra-town-1-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-1-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter shop from pyra-town-2-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-2-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter hall from pyra-town-2-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-2-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter inn from pyra-town-2-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-2-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter smithy from pyra-town-2-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-2-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter depot from pyra-town-2-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-2-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter arena from pyra-town-2-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-2-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter shop from pyra-town-3-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-3-shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter hall from pyra-town-3-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-3-hall",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter inn from pyra-town-3-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-3-inn",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter smithy from pyra-town-3-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-3-smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter depot from pyra-town-3-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-3-depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "enter arena from pyra-town-3-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "return to the same entrance: pyra-town-3-arena",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "annex data: 29 nodes, base and per-level stats",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": 14,
+				"attackInterval": 750.0,
+				"cooldownMul": 1.0,
+				"crit": 6.0,
+				"dealt": 1.0,
+				"defense": 4,
+				"kiCostMul": 1.0,
+				"kiRegen": 0.8,
+				"maxHp": 140,
+				"maxKi": 40,
+				"range": 78.0,
+				"speed": 170.0
+			},
+			"name": "stats at level 1 follow the annex",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": 46,
+				"attackInterval": 750.0,
+				"cooldownMul": 1.0,
+				"crit": 8.1,
+				"dealt": 1.0,
+				"defense": 18,
+				"kiCostMul": 1.0,
+				"kiRegen": 1.08,
+				"maxHp": 434,
+				"maxKi": 61,
+				"range": 78.0,
+				"speed": 229.5
+			},
+			"name": "stats at level 8 follow the annex",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": 101,
+				"attackInterval": 750.0,
+				"cooldownMul": 1.0,
+				"crit": 11.7,
+				"dealt": 1.0,
+				"defense": 42,
+				"kiCostMul": 1.0,
+				"kiRegen": 1.56,
+				"maxHp": 938,
+				"maxKi": 97,
+				"range": 78.0,
+				"speed": 311.95
+			},
+			"name": "stats at level 20 follow the annex",
+			"passed": true
+		},
+		{
+			"details": 311.95,
+			"name": "speed at level 20 follows the owner growth tiers",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "A1 needs level 2 and a free point",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "A1 learned at level 2 and placed in slot 1",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "A4 needs level 7 and A2/A3",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "learn A2",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "learn A3",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "learn A4",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "learn A5",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "learn A6",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "learn A7",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "A7 excludes A8",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "rank scaling: first point half, then +10% of that base",
+			"passed": true
+		},
+		{
+			"details": {
+				"atkPct": 0.04,
+				"ccPct": 0.0,
+				"critAdd": 0.03,
+				"defPct": 0.0,
+				"hpPct": 0.0,
+				"hpRegenAlways": 0.0,
+				"hpRegenOoc": 0.0,
+				"intervalPct": 0.0,
+				"kiCostPct": 0.0,
+				"kiPct": 0.0,
+				"kiRegenPct": 0.0,
+				"rangePct": 0.0,
+				"speedPct": 0.0
+			},
+			"name": "A5 gives +8% x 0.5 attack at rank 1",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "arena room holds one training dummy",
+			"passed": true
+		},
+		{
+			"details": {
+				"ember": 5.0,
+				"hp": 5895.0
+			},
+			"name": "basic strike hits the dummy and builds Żar",
+			"passed": true
+		},
+		{
+			"details": [
+				{
+					"clip": "attack",
+					"ok": true,
+					"reason": ""
+				},
+				232.281
+			],
+			"name": "ability A1 damages the dummy",
+			"passed": true
+		},
+		{
+			"details": [
+				{
+					"clip": "skill",
+					"ok": true,
+					"reason": ""
+				},
+				174.72
+			],
+			"name": "ability A4 damages the dummy",
+			"passed": true
+		},
+		{
+			"details": [
+				{
+					"clip": "attack2",
+					"ok": true,
+					"reason": ""
+				},
+				137.15625
+			],
+			"name": "ability B1 damages the dummy",
+			"passed": true
+		},
+		{
+			"details": [
+				{
+					"clip": "skillc",
+					"ok": true,
+					"reason": ""
+				},
+				185.22
+			],
+			"name": "ability C1 damages the dummy",
+			"passed": true
+		},
+		{
+			"details": [
+				{
+					"clip": "skillc",
+					"ok": true,
+					"reason": ""
+				},
+				206.0415
+			],
+			"name": "ability C4 damages the dummy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "B1 Przełamanie destroys the shield",
+			"passed": true
+		},
+		{
+			"details": [
+				6.0,
+				87.0
+			],
+			"name": "cooldown (6 s) and KI cost (10) apply to A1",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "no KI, no cast",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "Eksplozja Żaru consumes all Żar",
+			"passed": true
+		},
+		{
+			"details": [
+				105,
+				126
+			],
+			"name": "Płomienny Szał raises attack",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "buffs expire",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "dodge dashes within the room",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "checkpoint writes atomically",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "checkpoint round-trip restores position, level and tree",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "first-trial checkpoint is imported into world coordinates",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "unknown checkpoint version is preserved",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "atlas knows all ten lands",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: pyra / Twierdza Popiołu",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: pyra / Cytadela Kowadeł",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: pyra / Port Czerwonych Żagli",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: pyra / Żarowy Trakt",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: verdant / Zielona Przystań",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: verdant / Kamienny Sad",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: verdant / Latarnia Korzeni",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: verdant / Przystań Trzech Mostów",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: aether / Sanktuarium Tysiąca Źródeł",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: aether / Biała Przystań",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: aether / Archiwum Nad Chmurami",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: aether / Tarasy Świtu",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: nexus / Węzeł Świadomości",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: nexus / Stacja Meridian",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: nexus / Kuźnia Obwodów",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: nexus / Port Zerowy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: island-1 / Przystań 1",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: island-2 / Przystań 2",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: island-3 / Przystań 3",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: island-4 / Przystań 4",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: island-5 / Przystań 5",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "city maps onto its own land on the atlas: island-6 / Przystań 6",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "map opens over the game and blocks the game controls",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "globe 3D is the first view",
+			"passed": true
+		},
+		{
+			"details": "(-51.37201, -41.03999)",
+			"name": "globe: the screen centre after focusing on Pyra picks Pyra",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "globe pick selects the region under the finger",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "2D atlas picks the same region from the same outline",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "2D atlas zooms",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "continent map lists cities and places",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "map closes and returns the controls",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "tree: A1 is available at level 5",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "tree: learning spends one point",
+			"passed": true
+		},
+		{
+			"details": "Wymaga poziomu 7.",
+			"name": "tree: locked node explains why",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "catalogue: 366 items and 10 meals, 265 recipes, 85 weak items and 4 simple meals for sale",
+			"passed": true
+		},
+		{
+			"details": 200,
+			"name": "shop price is 4x catalogue and needs the coins",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "better gear is never sold by the merchant",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "buying spends coins and fills the bag",
+			"passed": true
+		},
+		{
+			"details": [
+				14,
+				23
+			],
+			"name": "equipping the sword raises attack",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "cannot equip what is not owned",
+			"passed": true
+		},
+		{
+			"details": 13,
+			"name": "equipment honours the level requirement",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "unequip returns the item to the bag",
+			"passed": true
+		},
+		{
+			"details": 25,
+			"name": "merchant buys back at half the catalogue price",
+			"passed": true
+		},
+		{
+			"details": 66.0,
+			"name": "potion heals",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "potion cooldown blocks the second one",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "potion is not wasted at full HP",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "crafting needs the ingredients (or is free of them)",
+			"passed": true
+		},
+		{
+			"details": "Kucie Żelaznego Miecza",
+			"name": "crafting consumes ingredients and coins and yields the result",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "depot: bag to chest and back",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "depot keeps coins",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "inn charges 5 coins only when rest is needed",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "economy survives a save round-trip",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a save with an item in the wrong slot is rejected unchanged",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "items screen opens: shop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "items screen opens: depot",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "items screen opens: smithy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "items screen opens: inventory",
+			"passed": true
+		},
+		{
+			"details": "(45850.29, 13832.47)",
+			"name": "land loads and the hero stands on walkable ground: pyra",
+			"passed": true
+		},
+		{
+			"details": 1359,
+			"name": "scenery of pyra streams in a bounded set",
+			"passed": true
+		},
+		{
+			"details": [
+				24,
+				19
+			],
+			"name": "pyra has a city with service doors and people",
+			"passed": true
+		},
+		{
+			"details": "(49031.06, 34975.48)",
+			"name": "land loads and the hero stands on walkable ground: verdant",
+			"passed": true
+		},
+		{
+			"details": 617,
+			"name": "scenery of verdant streams in a bounded set",
+			"passed": true
+		},
+		{
+			"details": [
+				24,
+				19
+			],
+			"name": "verdant has a city with service doors and people",
+			"passed": true
+		},
+		{
+			"details": "(36511.23, 25730.02)",
+			"name": "land loads and the hero stands on walkable ground: aether",
+			"passed": true
+		},
+		{
+			"details": 181,
+			"name": "scenery of aether streams in a bounded set",
+			"passed": true
+		},
+		{
+			"details": [
+				24,
+				19
+			],
+			"name": "aether has a city with service doors and people",
+			"passed": true
+		},
+		{
+			"details": "(37129.72, 23831.64)",
+			"name": "land loads and the hero stands on walkable ground: nexus",
+			"passed": true
+		},
+		{
+			"details": 744,
+			"name": "scenery of nexus streams in a bounded set",
+			"passed": true
+		},
+		{
+			"details": [
+				24,
+				19
+			],
+			"name": "nexus has a city with service doors and people",
+			"passed": true
+		},
+		{
+			"details": "(6509.53, 4108.899)",
+			"name": "land loads and the hero stands on walkable ground: island-1",
+			"passed": true
+		},
+		{
+			"details": 997,
+			"name": "scenery of island-1 streams in a bounded set",
+			"passed": true
+		},
+		{
+			"details": [
+				6,
+				6
+			],
+			"name": "island-1 has a city with service doors and people",
+			"passed": true
+		},
+		{
+			"details": "(7956.485, 5194.115)",
+			"name": "land loads and the hero stands on walkable ground: island-2",
+			"passed": true
+		},
+		{
+			"details": 226,
+			"name": "scenery of island-2 streams in a bounded set",
+			"passed": true
+		},
+		{
+			"details": [
+				6,
+				6
+			],
+			"name": "island-2 has a city with service doors and people",
+			"passed": true
+		},
+		{
+			"details": "(6345.103, 4996.803)",
+			"name": "land loads and the hero stands on walkable ground: island-3",
+			"passed": true
+		},
+		{
+			"details": 212,
+			"name": "scenery of island-3 streams in a bounded set",
+			"passed": true
+		},
+		{
+			"details": [
+				6,
+				6
+			],
+			"name": "island-3 has a city with service doors and people",
+			"passed": true
+		},
+		{
+			"details": "(6871.269, 5851.823)",
+			"name": "land loads and the hero stands on walkable ground: island-4",
+			"passed": true
+		},
+		{
+			"details": 967,
+			"name": "scenery of island-4 streams in a bounded set",
+			"passed": true
+		},
+		{
+			"details": [
+				6,
+				6
+			],
+			"name": "island-4 has a city with service doors and people",
+			"passed": true
+		},
+		{
+			"details": "(7035.695, 4470.638)",
+			"name": "land loads and the hero stands on walkable ground: island-5",
+			"passed": true
+		},
+		{
+			"details": 1889,
+			"name": "scenery of island-5 streams in a bounded set",
+			"passed": true
+		},
+		{
+			"details": [
+				6,
+				6
+			],
+			"name": "island-5 has a city with service doors and people",
+			"passed": true
+		},
+		{
+			"details": "(6969.925, 5259.886)",
+			"name": "land loads and the hero stands on walkable ground: island-6",
+			"passed": true
+		},
+		{
+			"details": 207,
+			"name": "scenery of island-6 streams in a bounded set",
+			"passed": true
+		},
+		{
+			"details": [
+				6,
+				6
+			],
+			"name": "island-6 has a city with service doors and people",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "every service room of pyra opens and returns (24)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "every service room of verdant opens and returns (24)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "every service room of aether opens and returns (24)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "every service room of nexus opens and returns (24)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "race screen shows four races",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "new planetary character starts in verdant with the 29-node tree",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": 12,
+				"attackInterval": 650.0,
+				"cooldownMul": 1.0,
+				"crit": 5.0,
+				"dealt": 1.0,
+				"defense": 5,
+				"kiCostMul": 1.0,
+				"kiRegen": 1.0,
+				"maxHp": 125,
+				"maxKi": 50,
+				"range": 78.0,
+				"speed": 185.0
+			},
+			"name": "level 1 stats of planetary follow the annex",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": 88,
+				"attackInterval": 650.0,
+				"cooldownMul": 1.0,
+				"crit": 9.75,
+				"dealt": 1.0,
+				"defense": 51,
+				"kiCostMul": 1.0,
+				"kiRegen": 1.95,
+				"maxHp": 809,
+				"maxKi": 126,
+				"range": 78.0,
+				"speed": 339.475
+			},
+			"name": "level 20 stats of planetary follow the annex",
+			"passed": true
+		},
+		{
+			"details": "(152.95, 152.95)",
+			"name": "hero of planetary is 15% larger",
+			"passed": true
+		},
+		{
+			"details": "Adaptacja: poznaj B2",
+			"name": "fresh purse and the planetary resource",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "arena of planetary holds the training dummy",
+			"passed": true
+		},
+		{
+			"details": {
+				"foe": "<Freed Object>",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "basic attack of planetary hits the dummy",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "dodge",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "planetary casts A1 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "skill",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "planetary casts A4 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "skillc",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "planetary casts B1 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "skill",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "planetary casts B4 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "channel",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "planetary casts C1 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "guard",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "planetary casts C4 without error",
+			"passed": true
+		},
+		{
+			"details": 477.18,
+			"name": "active skills of planetary deal damage",
+			"passed": true
+		},
+		{
+			"details": 848.0,
+			"name": "planetary takes damage",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "world art and hero sheet match planetary",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "new sage character starts in aether with the 29-node tree",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": 14,
+				"attackInterval": 800.0,
+				"cooldownMul": 1.0,
+				"crit": 5.0,
+				"dealt": 1.0,
+				"defense": 3,
+				"kiCostMul": 1.0,
+				"kiRegen": 2.0,
+				"maxHp": 100,
+				"maxKi": 80,
+				"range": 420.0,
+				"speed": 170.0
+			},
+			"name": "level 1 stats of sage follow the annex",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": 101,
+				"attackInterval": 800.0,
+				"cooldownMul": 1.0,
+				"crit": 8.8,
+				"dealt": 1.0,
+				"defense": 33,
+				"kiCostMul": 1.0,
+				"kiRegen": 3.9,
+				"maxHp": 632,
+				"maxKi": 213,
+				"range": 420.0,
+				"speed": 311.95
+			},
+			"name": "level 20 stats of sage follow the annex",
+			"passed": true
+		},
+		{
+			"details": "(152.95, 152.95)",
+			"name": "hero of sage is 15% larger",
+			"passed": true
+		},
+		{
+			"details": "Kręgi światła: 0",
+			"name": "fresh purse and the sage resource",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "arena of sage holds the training dummy",
+			"passed": true
+		},
+		{
+			"details": {
+				"foe": "<Freed Object>",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "basic attack of sage hits the dummy",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "skill",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "sage casts A1 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "channel",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "sage casts A4 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "guard",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "sage casts B1 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "skillc",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "sage casts B4 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "channel",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "sage casts C1 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "channel",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "sage casts C4 without error",
+			"passed": true
+		},
+		{
+			"details": 400.128333333348,
+			"name": "active skills of sage deal damage",
+			"passed": true
+		},
+		{
+			"details": 631.0,
+			"name": "sage takes damage",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "world art and hero sheet match sage",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "new android character starts in nexus with the 29-node tree",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": 12,
+				"attackInterval": 700.0,
+				"cooldownMul": 1.0,
+				"crit": 8.0,
+				"dealt": 1.0,
+				"defense": 7,
+				"kiCostMul": 1.0,
+				"kiRegen": 1.2,
+				"maxHp": 115,
+				"maxKi": 60,
+				"range": 360.0,
+				"speed": 175.0
+			},
+			"name": "level 1 stats of android follow the annex",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": 84,
+				"attackInterval": 700.0,
+				"cooldownMul": 1.0,
+				"crit": 15.6,
+				"dealt": 1.0,
+				"defense": 64,
+				"kiCostMul": 1.0,
+				"kiRegen": 2.34,
+				"maxHp": 761,
+				"maxKi": 155,
+				"range": 360.0,
+				"speed": 321.125
+			},
+			"name": "level 20 stats of android follow the annex",
+			"passed": true
+		},
+		{
+			"details": "(152.95, 152.95)",
+			"name": "hero of android is 15% larger",
+			"passed": true
+		},
+		{
+			"details": "Ładunek 0 / 100",
+			"name": "fresh purse and the android resource",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "arena of android holds the training dummy",
+			"passed": true
+		},
+		{
+			"details": {
+				"foe": "<Freed Object>",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "basic attack of android hits the dummy",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "skill",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "android casts A1 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "attack2",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "android casts A4 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "guard",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "android casts B1 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "skillc",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "android casts B4 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "skillc",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "android casts C1 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "channel",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "android casts C4 without error",
+			"passed": true
+		},
+		{
+			"details": 399.840000000001,
+			"name": "active skills of android deal damage",
+			"passed": true
+		},
+		{
+			"details": 760.0,
+			"name": "android takes damage",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "world art and hero sheet match android",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "new legend character starts in pyra with the 29-node tree",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": 14,
+				"attackInterval": 750.0,
+				"cooldownMul": 1.0,
+				"crit": 6.0,
+				"dealt": 1.0,
+				"defense": 4,
+				"kiCostMul": 1.0,
+				"kiRegen": 0.8,
+				"maxHp": 140,
+				"maxKi": 40,
+				"range": 78.0,
+				"speed": 170.0
+			},
+			"name": "level 1 stats of legend follow the annex",
+			"passed": true
+		},
+		{
+			"details": {
+				"attack": 101,
+				"attackInterval": 750.0,
+				"cooldownMul": 1.0,
+				"crit": 11.7,
+				"dealt": 1.0,
+				"defense": 42,
+				"kiCostMul": 1.0,
+				"kiRegen": 1.56,
+				"maxHp": 938,
+				"maxKi": 97,
+				"range": 78.0,
+				"speed": 311.95
+			},
+			"name": "level 20 stats of legend follow the annex",
+			"passed": true
+		},
+		{
+			"details": "(152.95, 152.95)",
+			"name": "hero of legend is 15% larger",
+			"passed": true
+		},
+		{
+			"details": "Żar 0 / 100",
+			"name": "fresh purse and the legend resource",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "arena of legend holds the training dummy",
+			"passed": true
+		},
+		{
+			"details": {
+				"foe": "<Freed Object>",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "basic attack of legend hits the dummy",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "attack",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "legend casts A1 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "skill",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "legend casts A4 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "attack2",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "legend casts B1 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "skillb",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "legend casts B4 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "skillc",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "legend casts C1 without error",
+			"passed": true
+		},
+		{
+			"details": {
+				"clip": "skillc",
+				"ok": true,
+				"reason": ""
+			},
+			"name": "legend casts C4 without error",
+			"passed": true
+		},
+		{
+			"details": 1018.7835,
+			"name": "active skills of legend deal damage",
+			"passed": true
+		},
+		{
+			"details": 984.0,
+			"name": "legend takes damage",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "world art and hero sheet match legend",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "map offers travel to the picked land",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "no travel button for the land you stand in",
+			"passed": true
+		},
+		{
+			"details": "(6345.103, 4996.803)",
+			"name": "travel from the map arrives on island 3",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "detailed map follows the current land",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "travel back to Pyra arrives at the capital",
+			"passed": true
+		},
+		{
+			"details": 20,
+			"name": "ground is baked into a bounded set of textures",
+			"passed": true
+		},
+		{
+			"details": 4,
+			"name": "moving far queues chunks instead of building them at once",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "flush builds every queued chunk",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "idle frame stays within the draw-call budget",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "HUD art and touch controls render through cached layers",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "round menu buttons and the minimap are on screen",
+			"passed": true
+		},
+		{
+			"details": 37,
+			"name": "minimap knows the cities and places of the land",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "diagnostic overlay reports FPS",
+			"passed": true
+		},
+		{
+			"details": {
+				"hp": 6000.0,
+				"max": 6000.0,
+				"name": "Manekin treningowy"
+			},
+			"name": "target frame shows the training dummy",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the 40 bestiary monsters and their summoned helper are loaded with stats, skills and loot",
+			"passed": true
+		},
+		{
+			"details": 8752,
+			"name": "every published spawn slot of the ten lands names a known monster",
+			"passed": true
+		},
+		{
+			"details": 2,
+			"name": "monsters wake around the hero (at most 24)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "no monster stands in a safe city",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the capital is a safe city",
+			"passed": true
+		},
+		{
+			"details": [
+				92.0,
+				38.5
+			],
+			"name": "the hero's basic attack hurts a monster",
+			"passed": true
+		},
+		{
+			"details": -25.1195652173913,
+			"name": "a hit pushes the monster's sprite back without moving its body",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a kill pays experience and coins and starts the respawn timer",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "an engaged monster chases and hurts the hero",
+			"passed": true
+		},
+		{
+			"details": 146.88,
+			"name": "slow lowers the hero's speed",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "weaken, stun and silence take effect",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "statuses end with clear_debuffs",
+			"passed": true
+		},
+		{
+			"details": [
+				127.5,
+				97.5
+			],
+			"name": "a fire attack hurts a fire-weak monster more",
+			"passed": true
+		},
+		{
+			"details": [
+				63.0,
+				263.0
+			],
+			"name": "front armour: a crab faced by the hero takes less than one hit from behind",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "back bonus: a hit from behind hurts a lion more",
+			"passed": true
+		},
+		{
+			"details": 2,
+			"name": "wolves wake in a pack of two to three",
+			"passed": true
+		},
+		{
+			"details": [
+				16,
+				14
+			],
+			"name": "a wasp calls two helper wasps that take no respawn slot",
+			"passed": true
+		},
+		{
+			"details": 207.0,
+			"name": "a nanite swarm splits in two weaker halves (the clone pays nothing)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the librarian ghost does not die at once but begins to revive",
+			"passed": true
+		},
+		{
+			"details": 120.3,
+			"name": "the ghost rises with 30% health and then can die for good",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the second death is final",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "standing in a web zone slows the hero",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the day lasts 480 s: evening from 270 s, night 300-450 s, dawn after",
+			"passed": true
+		},
+		{
+			"details": [
+				"ygdrasha",
+				"thorgar",
+				"arcykaplan-pustki",
+				"aurelith",
+				"arbiter-zero",
+				"hydra-rdzen",
+				"kharzul",
+				"pyrrhax"
+			],
+			"name": "eight bosses: art guardians and every loot item exist",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "Ygdrasha starts in phase 1 with two attacks",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a boss already alive is reused, never duplicated",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "below 60% HP Ygdrasha enters phase 2 and learns to call slimes",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "one hit can skip a phase: phase 3 gives +30% attack and +25% damage taken",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "Ygdrasha does not regenerate in phase 3",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "Ygdrasha regenerates 1% HP per second in the early phases",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the Archpriest's barrier takes 70% off while three lights live",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "destroying the lights breaks the barrier",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "phase 3 closes the arena with a shrinking ring",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "Arbiter: 40% extra damage only during the 10 s overheating of every 30 s (and drones came in phase 2)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "while Kharzul's arena burns, potions do not heal",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "Pyrrhax flies in phase 2 and marks three safe circles before the eruption",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the eruption spares the hero inside a safe circle and hurts outside it",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "Aurelith raises three pillars in phase 3",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a pillar between Aurelith and the hero absorbs the Breath of Aether",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "Thorgar's howl calls three thorn wolves",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a defeated boss pays experience",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the boss's guaranteed loot lands in the bag",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "each continent capital has a warden who knows the boss lairs",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the warden opens Kharzul's lair outside the city, once",
+			"passed": true
+		},
+		{
+			"details": 22,
+			"name": "22 cave entrances (4 per continent, 1 per island) and 12 dungeon-kit props",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the land has cave entrances to enter",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the same entrance always gives the same cave",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the gate cuts the vault off; the key lies in the open part",
+			"passed": true
+		},
+		{
+			"details": [
+				3,
+				30,
+				9
+			],
+			"name": "chests, guards and traps stand on open floor away from the entrance room",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "entering a cave puts the hero in an open, fightable space",
+			"passed": true
+		},
+		{
+			"details": 30,
+			"name": "the cave's guards are placed at once",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the gate needs the key",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the key cannot be picked up from afar",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the key is picked up once",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a closed gate blocks the corridor",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "with the key the gate opens and the way is free",
+			"passed": true
+		},
+		{
+			"details": {
+				"gold": 540,
+				"potions": 3
+			},
+			"name": "a chest pays once",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "stepping on a spike trap hurts",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a checkpoint can be saved inside a cave",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the save puts the hero back at the entrance and keeps the cave progress",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "cave progress read from a save is cleaned",
+			"passed": true
+		},
+		{
+			"details": [
+				true,
+				40
+			],
+			"name": "all 22 entrances have names and stories and generate on every floor",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "every floor of every cave has a key in the open part, a gate before the vault, a way down on all but the last floor and a closed secret chamber",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a tunnel is one structure seen from both ends: the arrival of one side is the far door of the other",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the entrance tells the name, the story and the recommended level before going in",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the labyrinth is a three-floor maze",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the automap fills in where the hero walks",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the vault of a floor has stairs down",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "stairs lead to the next floor, which has its own guards and a way back",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "stairs back up put the hero on the floor above, on open ground",
+			"passed": true
+		},
+		{
+			"details": [
+				"verdant",
+				"verdant"
+			],
+			"name": "the far end of a tunnel leads out on the other continent",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "leaving the cave returns to the surface",
+			"passed": true
+		},
+		{
+			"details": 14,
+			"name": "every one of the 14 world events has a staging",
+			"passed": true
+		},
+		{
+			"details": 3,
+			"name": "Pyra has three world events",
+			"passed": true
+		},
+		{
+			"details": 4,
+			"name": "walking up to an event wakes it with its creatures",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "clearing an event pays XP and coins",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "an event rests for its cooldown",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a contract brings guards and two mirrors to secure",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the contract is not done while the guards live",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a renewable contract pays once it is complete and rests for 600 s",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a once-only event never returns",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "event progress read from a save is cleaned",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "scenery files are matched to ambient effects (fire, steam, ember, glints)",
+			"passed": true
+		},
+		{
+			"details": 5,
+			"name": "Pyra's scenery has fires and springs that get ambient effects",
+			"passed": true
+		},
+		{
+			"details": 18,
+			"name": "street NPCs are citizens that stroll",
+			"passed": true
+		},
+		{
+			"details": 64.6192398071289,
+			"name": "a citizen walks around the post, never far, and the talk point follows",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a citizen stops when the hero comes close",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the warden stays at his post",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the world is tinted at night and plain by day",
+			"passed": true
+		},
+		{
+			"details": [
+				100,
+				100
+			],
+			"name": "the client code of the code equals the Android versionCode of the export",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the manifest tells which packs a land needs",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a build that carries all data itself downloads nothing",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "server messages are shown to the player",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "other players of the land appear as ghosts",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a player who left disappears",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the gate opens the land of the saved character (or Pyra)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the chat keeps its lines",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "cave state helper stays available",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "monster damage can kill the hero",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "after death the hero returns to the city with full health",
+			"passed": true
+		},
+		{
+			"details": [
+				106,
+				102
+			],
+			"name": "quest catalogue: 106 quests (102 playable), 16 famous and 17 hidden places",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the first Pyra quest is on offer and Kaena carries a ! mark",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "Kaena offers Próba Popiołu i Areny",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "accepting a quest activates it",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "talking to the quest NPC completes the first stage",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the NPC now carries a ? mark (report waiting)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "walking up to a famous place discovers it (first discovery pays once)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "reporting finishes the quest: XP, coins and the potion are paid",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a one-time reward is never paid twice",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "quest progress survives a save round-trip",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a save naming an unknown quest is rejected unchanged",
+			"passed": true
+		},
+		{
+			"details": "S-V01",
+			"name": "defeating the target monster advances a combat objective",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the HUD tracker mirrors the active quests",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the quest journal opens",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the owner's music and the effects are in the package",
+			"passed": true
+		},
+		{
+			"details": "aether",
+			"name": "the music follows the world of the land",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "effects load and play without error",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "refusal notices get the error tick",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "volumes can be set",
+			"passed": true
+		},
+		{
+			"details": {
+				"atkPercent": 32.0,
+				"attack": 119.0,
+				"critChancePoints": 2.5,
+				"damageReductionPercent": 0.0,
+				"defPercent": 50.0,
+				"defense": 82.0,
+				"hpBonus": 0.0,
+				"hpRegenPercent": 0.0,
+				"kiBonus": 0.0,
+				"kiCostReductionPercent": 0.0,
+				"kiRegenBonus": 4.0,
+				"kiRegenPercent": 12.0,
+				"maxHpPercent": 55.0,
+				"maxKiPercent": 12.0,
+				"moveSpeedPercent": 3.0,
+				"speedMultiplier": 1.0
+			},
+			"name": "percentage bonuses of the equipment never exceed the V2 global caps",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the sword can be equipped",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "smith upgrade: +2 attack for 40 coins",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a weapon upgrades to +3 and no further",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "jewellery and empty slots cannot be upgraded",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "upgrades survive a save round-trip",
+			"passed": true
+		},
+		{
+			"details": [
+				10,
+				94
+			],
+			"name": "all five crafting stations are available",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a consumable heals",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "every race has a five-page introduction (two on the Silence, three of its own)",
+			"passed": true
+		},
+		{
+			"details": 50,
+			"name": "every resident of every world has eight subjects with real text (their trade and the five of the world)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "residents remark on the hero's state, the most urgent first",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the tutorial lists the next three steps",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a step is ticked once and unknown steps are ignored",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "finishing the tutorial pays the reward exactly once",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "story progress survives a save",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a save from before the story counts as already introduced",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "story progress read from a save is cleaned",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a new hero first sees the story screen",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the first press completes the page text",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the story is read page by page",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "after the story the tutorial shows under the minimap",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the tutorial reward is paid into the purse",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "opening the map ticks its step",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "talking to a resident ticks its step and offers the subjects",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the subject list has eight entries",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a subject that has been heard is marked",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "damage numbers have their own looks: weakness, hurt, heal, crit",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "basic strikes chain into a finisher every third blow",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a heavy blow shakes the camera",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the shake dies down by itself",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "hit-stop slows the world for an instant",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the clock is restored after hit-stop",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a heavy hit plays the heavy hit clip and shakes harder",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a light hit plays the light hit clip",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a blow that lands at the start of a dodge is a perfect dodge: no damage, ki back",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a perfect dodge cannot be chained at once",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "victory pose exists and plays",
+			"passed": true
+		},
+		{
+			"details": "run",
+			"name": "a full push plays the run clip",
+			"passed": true
+		},
+		{
+			"details": "walk",
+			"name": "a gentle push plays the walk clip",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "gaining a level plays the victory pose",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the target ring starts hidden",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the target ring sits under the foe",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the target ring hides when the fight ends",
+			"passed": true
+		},
+		{
+			"details": [
+				"Atak +8",
+				"Krytyk +6 pkt",
+				"Atak +4%",
+				"Krytyk +1 pkt"
+			],
+			"name": "a better weapon shows what it adds against the worn one",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a worse weapon shows what it takes away; the worn one shows nothing",
+			"passed": true
+		},
+		{
+			"details": [
+				"Zestaw ZEST-01: założone 0 z 7 części",
+				"  3 cz.: Maks. HP +2%",
+				"  5 cz.: Obrona +1%",
+				"  7 cz.: Maks. KI +2%"
+			],
+			"name": "a set item lists its pieces and the bonus at each count",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "an item outside any set lists no set",
+			"passed": true
+		},
+		{
+			"details": [
+				"Atak +16",
+				"Atak +11%",
+				"Krytyk +1 pkt"
+			],
+			"name": "the worn gear is summed into a bonus list",
+			"passed": true
+		},
+		{
+			"details": [
+				"sok-lisciaka"
+			],
+			"name": "materials no recipe asks for are marked spare; recipe ingredients never are",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "selling the spare materials keeps the ingredients",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a whole stack sells in one go",
+			"passed": true
+		},
+		{
+			"details": 5,
+			"name": "the recipe says how many times it can be made",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "crafting in quantity spends ingredients and coins for each batch",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "nothing is craftable without ingredients",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the sell tab offers to sell the spare materials at once",
+			"passed": true
+		},
+		{
+			"details": [
+				8,
+				1
+			],
+			"name": "the smithy can list only the recipes that can be made now",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a recipe that can be made several times offers to make them together",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "ten meals in three tiers (14-18, 27-36, 42-60 % of max HP) and ten peaceful animals, one product each",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the meals are items; the simple ones are on sale, the best come from hunting",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a meal tells what it gives",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a meal is refused at full health and stays in the bag",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "eating gives the status 'fed': 0.8 % of max HP per second for 60 s",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the next bite waits two seconds",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a weaker meal does not replace a stronger one that is still working",
+			"passed": true
+		},
+		{
+			"details": 41.44,
+			"name": "in combat the meal alone heals 0.8 % of max HP per second",
+			"passed": true
+		},
+		{
+			"details": 56.98,
+			"name": "out of combat the meal adds to the natural 0.3 % per second",
+			"passed": true
+		},
+		{
+			"details": 0.362,
+			"name": "the status ends after its time; in all it healed rate x duration",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a meal can be eaten again once the status is over",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a stronger meal replaces the weaker one",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "moon milk also raises ki regeneration by 25 %",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "meals survive a save",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the backpack shows a meal without a picture and offers to eat it",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "an animal is in the world only when its art is listed",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "an animal whose sheet has not reached the device (older content release) is not spawned",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "an animal has no attack, no aggro, flees at its share of the hero's speed and drops its food",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "ten animals of a kind are placed in the same places every time, never inside a city",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "without prepared art no animal is added to the land",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a peaceful animal beside the hero does not attack and does not notice him",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "hurt, the animal flees instead of fighting",
+			"passed": true
+		},
+		{
+			"details": [
+				268.473297119141,
+				"flee",
+				518.0,
+				518.0
+			],
+			"name": "it runs away from the hero and still does not attack",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "a hunted animal gives exactly one product and no experience",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the tracker shows that the hero is fed and what it gives",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "the fed status is listed first in the tracker",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "menu suspends and clears input",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "landscape layout: (854, 480)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "landscape layout: (1600, 720)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "landscape layout: (1280, 720)",
+			"passed": true
+		},
+		{
+			"details": null,
+			"name": "touch pads respect configured display cutout margins",
+			"passed": true
+		}
+	]
+}

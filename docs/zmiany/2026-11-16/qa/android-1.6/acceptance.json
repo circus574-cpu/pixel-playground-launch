@@ -1,0 +1,41 @@
+{
+  "version": "1.6",
+  "preparedFromMain": "664c7f18edc4c51f2eaf1db6aa92e4c9f1de1be0",
+  "claudeHead": "c2dfddf26f6edac1424695bce4d540ab8210aaec",
+  "apkUnchanged": {
+    "version": "1.0",
+    "versionCode": 100,
+    "sha256": "672fc8e884d3e4d7d07ea636f7e205cffacff15950619605dce47c2e6d74309c"
+  },
+  "packs": 27,
+  "unchangedPacks": 26,
+  "changedPacks": [
+    "core-c100"
+  ],
+  "core": {
+    "file": "core-c100-eba2f7892d21.pck",
+    "bytes": 3513680,
+    "sha256": "eba2f7892d2151f62b62a79ea825d8872a7fc44b502c46ffd1f42270b95801ca",
+    "files": 125
+  },
+  "smoke": {
+    "passed": 539,
+    "failed": 0
+  },
+  "menuHeadless": {
+    "passed": 11,
+    "failed": 0
+  },
+  "menuNative": {
+    "passed": 11,
+    "failed": 0
+  },
+  "coreE2e": "PASS 11/11",
+  "installedApkE2e": "PASS including menu swipe/click",
+  "fullTypecheck": "PASS app/e2e/tools",
+  "knownQaWarnings": "The large smoke suite and game screenshot runner still report pre-existing shutdown resource leaks. Functional assertions pass; no clean shutdown or full native 539-case regression claimed. Standalone menu and installed-APK update checks have no script errors.",
+  "physicalAndroid": "UNVERIFIED",
+  "webCharacterMigration": "NOT IMPLEMENTED; saves untouched",
+  "publication": "ACTIVE 1.6, externally verified",
+  "publicationEvidence": "publication.json"
+}

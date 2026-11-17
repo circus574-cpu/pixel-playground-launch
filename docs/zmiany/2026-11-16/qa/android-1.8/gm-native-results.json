@@ -1,0 +1,240 @@
+{
+	"checks": 58,
+	"failed": 0,
+	"network": "isolated role and cloud fixture; actual Godot gameplay",
+	"passed": 58,
+	"results": [
+		{
+			"name": "revoked/ordinary account cannot mutate level",
+			"passed": true
+		},
+		{
+			"name": "GM +1 level changes actual game character",
+			"passed": true
+		},
+		{
+			"name": "set level restores HP and resets XP through existing progression",
+			"passed": true
+		},
+		{
+			"name": "out-of-range level rejected without corrupting Android save",
+			"passed": true
+		},
+		{
+			"name": "GM adds 1000 real economy coins",
+			"passed": true
+		},
+		{
+			"name": "GM can set current character coin balance",
+			"passed": true
+		},
+		{
+			"name": "GM adds ten usable potions",
+			"passed": true
+		},
+		{
+			"name": "invulnerability blocks direct damage and DoT for legend",
+			"passed": true
+		},
+		{
+			"name": "GM heal clears debuffs and fills HP/KI for legend",
+			"passed": true
+		},
+		{
+			"name": "two real racial skill casts ignore cooldown but still spend KI for legend",
+			"passed": true
+		},
+		{
+			"name": "turning unlimited off restores normal skill cooldown for legend",
+			"passed": true
+		},
+		{
+			"name": "turning god off restores damage for legend",
+			"passed": true
+		},
+		{
+			"name": "invulnerability blocks direct damage and DoT for planetary",
+			"passed": true
+		},
+		{
+			"name": "GM heal clears debuffs and fills HP/KI for planetary",
+			"passed": true
+		},
+		{
+			"name": "two real racial skill casts ignore cooldown but still spend KI for planetary",
+			"passed": true
+		},
+		{
+			"name": "turning unlimited off restores normal skill cooldown for planetary",
+			"passed": true
+		},
+		{
+			"name": "turning god off restores damage for planetary",
+			"passed": true
+		},
+		{
+			"name": "invulnerability blocks direct damage and DoT for sage",
+			"passed": true
+		},
+		{
+			"name": "GM heal clears debuffs and fills HP/KI for sage",
+			"passed": true
+		},
+		{
+			"name": "two real racial skill casts ignore cooldown but still spend KI for sage",
+			"passed": true
+		},
+		{
+			"name": "turning unlimited off restores normal skill cooldown for sage",
+			"passed": true
+		},
+		{
+			"name": "turning god off restores damage for sage",
+			"passed": true
+		},
+		{
+			"name": "invulnerability blocks direct damage and DoT for android",
+			"passed": true
+		},
+		{
+			"name": "GM heal clears debuffs and fills HP/KI for android",
+			"passed": true
+		},
+		{
+			"name": "two real racial skill casts ignore cooldown but still spend KI for android",
+			"passed": true
+		},
+		{
+			"name": "turning unlimited off restores normal skill cooldown for android",
+			"passed": true
+		},
+		{
+			"name": "turning god off restores damage for android",
+			"passed": true
+		},
+		{
+			"name": "teleport moves actual player to navigable requested location",
+			"passed": true
+		},
+		{
+			"name": "off-map teleport is rejected without moving character",
+			"passed": true
+		},
+		{
+			"name": "ocean teleport rejected without moving character",
+			"passed": true
+		},
+		{
+			"name": "NaN teleport is rejected",
+			"passed": true
+		},
+		{
+			"name": "cross-land teleport reaches island and preserves inventory and money",
+			"passed": true
+		},
+		{
+			"name": "return teleport restores correct continent and preserves progress",
+			"passed": true
+		},
+		{
+			"name": "GM modes are session-only and absent from saves",
+			"passed": true
+		},
+		{
+			"name": "closing/canceling a pending GM command prevents delayed mutation",
+			"passed": true
+		},
+		{
+			"name": "GM changes use the existing atomic character save",
+			"passed": true
+		},
+		{
+			"name": "GM save round-trip preserves character, inventory and quests",
+			"passed": true
+		},
+		{
+			"name": "new compact game menu pauses input",
+			"passed": true
+		},
+		{
+			"name": "compact menu fits (844, 390)",
+			"passed": true
+		},
+		{
+			"name": "compact menu fits (1280, 576)",
+			"passed": true
+		},
+		{
+			"name": "compact menu fits (854, 480)",
+			"passed": true
+		},
+		{
+			"name": "new menu MAPA button opens the existing world map",
+			"passed": true
+		},
+		{
+			"name": "actual GM screen exposes authenticated gameplay commands",
+			"passed": true
+		},
+		{
+			"name": "actual gameplay GM panel fits viewport",
+			"passed": true
+		},
+		{
+			"name": "GM destination picker fits for pyra",
+			"passed": true
+		},
+		{
+			"name": "GM destination picker fits for verdant",
+			"passed": true
+		},
+		{
+			"name": "GM destination picker fits for aether",
+			"passed": true
+		},
+		{
+			"name": "GM destination picker fits for nexus",
+			"passed": true
+		},
+		{
+			"name": "GM destination picker fits for island-1",
+			"passed": true
+		},
+		{
+			"name": "GM destination picker fits for island-2",
+			"passed": true
+		},
+		{
+			"name": "GM destination picker fits for island-3",
+			"passed": true
+		},
+		{
+			"name": "GM destination picker fits for island-4",
+			"passed": true
+		},
+		{
+			"name": "GM destination picker fits for island-5",
+			"passed": true
+		},
+		{
+			"name": "GM destination picker fits for island-6",
+			"passed": true
+		},
+		{
+			"name": "native GM button executes command exactly once",
+			"passed": true
+		},
+		{
+			"name": "native screen touch executes a GM action exactly once and refreshes balance",
+			"passed": true
+		},
+		{
+			"name": "server role revocation removes modes and GM entry",
+			"passed": true
+		},
+		{
+			"name": "ordinary game menu has no GM command entry",
+			"passed": true
+		}
+	]
+}

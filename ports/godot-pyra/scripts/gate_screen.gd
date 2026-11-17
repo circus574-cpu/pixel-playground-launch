@@ -37,7 +37,7 @@ func _ready() -> void:
 	panel.grow_horizontal = Control.GROW_DIRECTION_BOTH   # it grows from the middle of the screen, not from its top-left corner
 	panel.grow_vertical = Control.GROW_DIRECTION_BOTH
 	panel.custom_minimum_size = Vector2(700, 0)
-	panel.add_theme_stylebox_override("panel", Look.window(30.0))
+	panel.add_theme_stylebox_override("panel", Look.window(44.0))
 	add_child(panel)
 	panel.add_child(box)
 	box.add_theme_constant_override("separation", 8)

@@ -111,12 +111,14 @@ func cast(id: String) -> Dictionary:
 			var target_foe: Variant = marked_foe()
 			if target_foe is String:
 				return {"ok": false, "reason": target_foe}
+			var target_ref: WeakRef = weakref(target_foe)
 			for i in 3:
 				schedule(float(i) * 0.15, func() -> void:
-					if not is_instance_valid(target_foe) or target_foe.hp <= 0.0:
+					var hit_foe: Node = target_ref.get_ref() as Node
+					if not is_instance_valid(hit_foe) or hit_foe.hp <= 0.0:
 						return
 					effect.emit("slash", player_position.call(), 0.0, "A4")
-					strike(target_foe, cast_damage("A4", 2.2) / 3.0, 0.0, false, false, "A4"))
+					strike(hit_foe, cast_damage("A4", 2.2) / 3.0, 0.0, false, false, "A4"))
 			return {"ok": true, "reason": "", "clip": "attack2"}
 		"A9":
 			var finish: Variant = marked_foe()

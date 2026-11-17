@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-11-16T18:31:04+00:00",
+  "status": {
+    "ok": true,
+    "serverTime": "2026-11-16T18:31:00.344Z",
+    "maintenance": false,
+    "activeVersion": "1.6",
+    "minClientCode": 1,
+    "online": 0
+  },
+  "manifestVersion": "1.6",
+  "all27PackDefinitionsMatchCommit": true,
+  "coreBytes": 3513680,
+  "coreSha256": "eba2f7892d2151f62b62a79ea825d8872a7fc44b502c46ffd1f42270b95801ca",
+  "workflow": "https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/43929418129",
+  "workflowConclusion": "success",
+  "publishedCommit": "39126da264dbcf063ca35e6055d6307e96807bc6",
+  "rollbackVersion": "1.5"
+}

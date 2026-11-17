@@ -1,0 +1,22 @@
+{
+  "commit": "f19735c46765d5c1c1300c95eb0d7953341b5a0c",
+  "actor": "pyra.hero",
+  "clip": "walk",
+  "direction": "right",
+  "sourceFrames": [
+    0,
+    2,
+    4,
+    6,
+    0
+  ],
+  "atGeneratedFrames": [
+    0,
+    8,
+    16,
+    24,
+    32
+  ],
+  "sourceFps": 16,
+  "runtimeCell": 200
+}

@@ -1,5 +1,36 @@
 # KI Legends Android — projekt Godot 4
 
+**Odbiór 16.11, aktywna 1.8:** przeprowadzono kontrolowane przejścia czterech ras
+1→3, 132 wejść usługowych, 244 wystąpień NPC i 144 klipów animacji. Awans i usługi
+przechodzą; **brak 4 NPC blokuje 11 zadań**, 8 nazw NPC jest rozbieżnych,
+a Pieczęć Energii Mędrca zgłasza odwołanie do usuniętego celu. Odbiór całości
+nie jest zaliczony. [Raport PDF](../../docs/zmiany/2026-11-16/qa/android-level3-audit/raport.pdf)
+i [pełne wyniki](../../docs/zmiany/2026-11-16/ZMIANY.md#24-audyt-androida-18--cztery-rasy-do-poziomu-3-budynki-dialogi-i-animacje).
+Audyt jest na `qa/android-races-level3-20261116`, bez zmiany produkcyjnego runtime.
+
+**Aktualny checkpoint, 16.11:** APK **1.0**, kod 100; na serwerze **1.8**.
+Opublikowane **1.8**, gałąź `feat/android-gm-tools-1.8-20261116`, zastępuje
+odrzucony przez właściciela podgląd GM właściwymi narzędziami z gry przeglądarkowej:
+**nieśmiertelność, brak cooldownów zdolności, leczenie, poziom, monety, mikstury,
+teleport przez współrzędne i listę miejsc/krain**. Poziomy 1–20 zachowują aktualny
+zakres Androida, bez zmiany kanonu. KI nadal jest wydawane. Panel dotyczy bieżącej
+postaci, a role sprawdza serwer przed każdą komendą. Tryby GM nie trafiają do save.
+
+Menu gry ma duże przyciski w siatce, zamiast długiego dialogu. Zachowano mapę,
+postać, plecak, questy, zapis, dźwięk, czat, pobieranie krain i pozostałe funkcje.
+Zwykła sakiewka testowa została zastąpiona komendą pieniędzy w GM. Poprawki HUD-u
+i minimapy z 1.7 pozostają. Wydanie nie wymaga nowego APK ani resetu postaci.
+
+Wyniki: **539/539** regresji, GM **58/58 headless i 58/58 natywnie**, HUD **42/42**
+w obu trybach, rzeczywista scena **5/5**, test aktualizacji oryginalnego APK 1.0
+**PASS**, Vitest eksportu **6/6**, pełny TypeScript oraz lint bez błędów.
+Testy ról/chmury korzystają z jawnej atrapy serwera; fizyczny telefon i rzeczywiste
+konto GM nie były używane. Przy zamykaniu części runnerów pozostają ostrzeżenia
+zasobów. [Raport i zrzuty](../../docs/zmiany/2026-11-16/ZMIANY.md#23-android-18--właściwe-komendy-gm-i-menu-gry).
+**1.8 aktywna od 16.11, 19:31 UTC.** [Publikacja 43940029213 — SUCCESS](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/43940029213),
+źródło `fe19c7b8`; publiczny manifest i SHA-256 pobranego rdzenia potwierdzone.
+Aktualizacja pobiera się po całkowitym zamknięciu i ponownym uruchomieniu APK 1.0.
+
 Dokumentacja natywnej aplikacji **KI Legends na Androida** (Godot 4.6.3, GDScript, renderer Compatibility),
 stan 16.11.2026. Kod w repozytorium to **pełna gra: potwory, questy, dźwięk, ekwipunek, bossowie, jaskinie, wydarzenia świata, dzień i noc**
 (sekcja 1); ostatni zbudowany APK (`0.7.0-bestiary`, sekcja 2) jest starszy niż kod: **nie ma w nim questów, dźwięku, zasad
@@ -437,3 +468,5 @@ Aplikacja ma wersję **1.0** (`versionCode` 100). Kolejne wersje (1.1, 1.2, …)
 Wydanie nowej wersji: `python3 scripts/godot/build_packs.py build --version 1.1` (paczki i `core-c100` do `deploy/godot-content/1.1`), kopia do `deliveries/godot-content-1.1`,
 workflow „Godot content packs to VPS (manual)” z `version=1.1`, `publish` i `activate` (za zgodą właściciela). Nowy APK tylko dla zmian spoza serwera (film, ikona, ikony przedmiotów, silnik, nowa `class_name`);
 wtedy nowy `versionCode` i klucz rdzenia (`core-c<kod>`), a `CLIENT_CODE` w `boot.gd` i `net.gd` oraz `version/code` w `export_presets.cfg` muszą się zgadzać (pilnuje tego smoke test).
+
+**Pułapka aktualizacji (16.11.2026).** `boot.gd` zainstalowanej aplikacji ładuje `scripts/skin.gd` przed montażem rdzenia, więc ten plik jest zamrożony; nowy wygląd idzie przez `scripts/look.gd` i `data/*.json`. Każdą zmianę sprawdzaj `python3 scripts/godot/e2e_installed.py`. Opis awarii i otwarte sprawy: `docs/zmiany/2026-11-16/ZMIANY.md`, sekcje 19–20.

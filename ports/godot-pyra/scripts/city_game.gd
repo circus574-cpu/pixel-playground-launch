@@ -1,5 +1,10 @@
 class_name PyraGame
 extends Node2D
+const GmPanel := preload("res://scripts/gm_panel.gd")
+const GmTools := preload("res://scripts/gm_tools.gd")
+const GameMenu := preload("res://scripts/game_menu.gd")
+const BrowserImport := preload("res://scripts/browser_import.gd")   # characters of the browser game (loaded by path: it can arrive with a server update)
+var gm_tools: RefCounted
 ## KI Legends / Pyra on Godot: the whole continent (Superior v2 geometry), four safe cities with six service
 ## interiors each, the Legend with her full kit, plus the 2D map and 3D globe. No enemies and no spawns yet.
 
@@ -204,6 +209,11 @@ func _ready() -> void:
 	hud.character_requested.connect(open_character)
 	hud.inventory_requested.connect(func() -> void: open_items("inventory", "Plecak i wyposażenie"))
 	hud.zoom_requested.connect(cycle_zoom)
+	hud.gm_requested.connect(open_gm)
+	KiNet.online().session_changed.connect(sync_staff_access)
+	sync_staff_access()
+	gm_tools = GmTools.new()
+	gm_tools.setup(self, KiNet.online())
 	hud.dialog_changed.connect(func(open: bool): player.locked = open or input_suspended)
 	var boot_race := "legend"
 	var boot_land := "pyra"
@@ -378,7 +388,15 @@ func build_land_places() -> void:
 			markers.points.append({"point": door})
 		if str(s.kind) != "capital":
 			var guide_at := Vector2(float(s.x), float(s.y)) + Vector2(0, 40)
-			add_street_npc("guide", "Opiekun miasta", "Przewodnik", "Witaj w mieście %s. Usługi znajdziesz przy oznaczonych wejściach: sklep, sala, gospoda, kuźnia, depozyt i arena." % s.name, guide_at)
+			var town_guide: Dictionary = quests.npc_for(land_id, str(s.id), "guide") if is_quest_land() else {}
+			var guide_name := str(town_guide.get("name", "Opiekun miasta"))
+			var guide_title := str(town_guide.get("role", "Przewodnik"))
+			add_street_npc("guide", guide_name, guide_title, "Witaj w mieście %s. Usługi znajdziesz przy oznaczonych wejściach: sklep, sala, gospoda, kuźnia, depozyt i arena." % s.name, guide_at)
+			# a town whose quests are given by its hunter / warden has that character on the street
+			var town_hunter: Dictionary = quests.npc_for(land_id, str(s.id), "hunter") if is_quest_land() else {}
+			if not town_hunter.is_empty():
+				var greeting := str(town_hunter.greeting) if str(town_hunter.greeting) != "" else "Witaj w mieście %s." % s.name
+				add_street_npc("hunter", str(town_hunter.name), str(town_hunter.role), greeting, Vector2(float(s.x), float(s.y)) + Vector2(300, 70))
 	for npc: Dictionary in land.npcs:
 		if npc.building != null:
 			continue
@@ -535,6 +553,12 @@ func load_space(room: String, at: Vector2, town: String = "") -> void:
 		targets.append({"kind": "exit", "id": "exit", "name": "Wyjście do miasta", "point": point(spec.exit)})
 		var service_role := str(ROLE_OF_SERVICE.get(room, ""))
 		var npc_def := capital_npc(room)
+		if town != "" and is_quest_land():
+			var local_npc: Dictionary = quests.npc_for(land_id, town, service_role)
+			if not local_npc.is_empty():
+				npc_def = npc_def.duplicate()
+				npc_def.name = str(local_npc.name)
+				npc_def.role = str(local_npc.role)
 		var npc_at := point(spec.npc)
 		var actor_key := "%s.npc.%s" % [world_id, service_role]
 		if service_role != "" and actors.has(actor_key):
@@ -879,13 +903,14 @@ func nearest_foe() -> Node2D:
 
 ## A monster hits the hero: damage through the kit (defence, shields, buffs), numbers, then the statuses it carries.
 func hurt_player(monster: PyraMonster, raw: float, _kind: String, fx: Array) -> void:
-	if in_safe_city(player.position) or kit.dead:
+	if in_safe_city(player.position) or kit.dead or kit.gm_invulnerable:
 		return
 	if kit.has_buff("invulnerable"):
 		check_perfect_dodge()
 		return
 	var dealt := kit.take_damage(raw)
 	PyraFx.number(monster_parent(), player.position + Vector2(0, -90), int(round(dealt)), false, "hurt")
+	PyraFx.spawn(monster_parent(), "hurt", player.position, 60.0, "")
 	player.visual.hurt_flash()
 	var heavy := dealt >= float(kit.stats().maxHp) * 0.15
 	var now_s := Time.get_ticks_msec() / 1000.0
@@ -901,7 +926,7 @@ func hurt_player(monster: PyraMonster, raw: float, _kind: String, fx: Array) -> 
 
 ## A ground zone (cloud, fire trail, web) ticks on the hero: damage as a fraction of the owner's attack, then its statuses.
 func zone_hit(raw: float, fx: Array, atk: float, at: Vector2) -> void:
-	if in_safe_city(player.position) or kit.dead or kit.has_buff("invulnerable"):
+	if in_safe_city(player.position) or kit.dead or kit.gm_invulnerable or kit.has_buff("invulnerable"):
 		return
 	if raw > 0.0:
 		var dealt := kit.take_damage(raw)
@@ -1374,6 +1399,8 @@ func in_dungeon_hazard(target: Dictionary) -> bool:
 	return str(target.get("kind", "")) == "dsecret"
 
 func _exit_tree() -> void:
+	if gm_tools != null:
+		gm_tools.dispose()
 	Engine.time_scale = 1.0
 
 func on_effect(kind: String, at: Vector2, radius: float, ability: String) -> void:
@@ -1387,6 +1414,9 @@ func on_damage(foe: Node, amount: int, crit: bool) -> void:
 	var parent: Node = room_sorted if not current_room.is_empty() else continent.sorted
 	var kind := str(foe.get("last_kind")) if foe.get("last_kind") != null else ""
 	var style := "crit" if crit else kind
+	if amount > 0:
+		var toward: Vector2 = ((foe as Node2D).position - player.position)
+		PyraFx.spawn(parent, "hit", (foe as Node2D).position, 100.0 if crit else (36.0 if kind == "resist" else 60.0), "weak" if kind == "weak" else ("resist" if kind == "resist" else ""), toward)
 	PyraFx.number(parent, (foe as Node2D).position, amount, crit, style)
 	if kind == "weak" and amount > 0:
 		PyraFx.word(parent, (foe as Node2D).position + Vector2(0, 34), "SŁABOŚĆ", Color("ffb347"), 18)
@@ -1420,6 +1450,8 @@ func simulate(delta: float) -> void:
 func _process(delta: float) -> void:
 	if not is_instance_valid(hud) or not is_instance_valid(player):
 		return
+	if gm_tools != null:
+		gm_tools.tick(delta)
 	simulate(minf(delta, 0.05))
 	update_feel(delta)
 	fed_clock += delta
@@ -1545,6 +1577,8 @@ func _notification(what: int) -> void:
 # ---- screens ---------------------------------------------------------------------------------
 
 func close_screen() -> void:
+	if gm_tools != null:
+		gm_tools.cancel_pending()
 	if is_instance_valid(screen):
 		screen.queue_free()
 	screen = null
@@ -1578,6 +1612,19 @@ func open_map() -> void:
 		cave_names[str(entrance.id)] = str(entrance.name)
 	view.setup(map_data, land, player.position if current_room.is_empty() else city_return, region_name(), cave_names)
 	view.travel.connect(travel_to)
+	open_screen(view)
+
+func sync_staff_access() -> void:
+	hud.set_staff_access(KiNet.online().is_staff())
+
+func open_gm() -> void:
+	if is_instance_valid(screen) or input_suspended:
+		return
+	if not KiNet.online().is_staff():
+		hud.toast("Panel GM wymaga konta GM lub administratora.")
+		return
+	var view := GmPanel.new()
+	view.setup(KiNet.online(), self, gm_tools)
 	open_screen(view)
 
 func open_race_screen(can_close: bool = true) -> void:
@@ -1726,7 +1773,26 @@ func open_items(mode: String, heading: String) -> void:
 func show_menu() -> void:
 	if is_instance_valid(screen):
 		return
-	hud.show_dialog("KI LEGENDS", "Lewy kciuk: ruch. Prawy: ATAK, cztery zdolności, UNIK i E przy wejściach oraz postaciach. MAPA: globus 3D, mapa 2D i podróże między krainami. POSTAĆ: statystyki i drzewko Twojej rasy. Klawiatura: WASD, Spacja (atak), 1–4, Shift (unik), E, M, C. Potwory żyją poza miastami (miasta są bezpieczne); po śmierci wracasz do stolicy krainy. Manekin czeka na arenach.", [{"text": "ZAPISZ POZYCJĘ I POSTAĆ", "callback": func(): save_checkpoint(); hud.close_dialog()}, {"text": "SAKIEWKA PRÓBNA +500 MONET", "callback": func(): economy.gold += 500; economy.changed.emit(); hud.close_dialog(); hud.toast("Dodano 500 monet próbnych.")}, {"text": "NOWA POSTAĆ (WYBÓR RASY)", "callback": func(): hud.close_dialog(); open_race_screen(true)}, {"text": "MUZYKA: %d%%  (zmień)" % int(round(audio.music_volume * 100.0)), "callback": func(): audio.set_volumes(next_volume(audio.music_volume), audio.sfx_volume); hud.close_dialog(); show_menu()}, {"text": "EFEKTY: %d%%  (zmień)" % int(round(audio.sfx_volume * 100.0)), "callback": func(): audio.set_volumes(audio.music_volume, next_volume(audio.sfx_volume)); hud.close_dialog(); show_menu()}, {"text": "DZIENNIK ZADAŃ", "callback": func(): hud.close_dialog(); show_journal()}, {"text": "FPS I DIAGNOSTYKA: " + ("WYŁĄCZ" if hud.show_fps else "WŁĄCZ"), "callback": func(): hud.show_fps = not hud.show_fps; hud.signature = ""; hud.close_dialog()}, {"text": "CZAT OKOLICY", "callback": func(): hud.close_dialog(); open_chat()}, {"text": ("KONTO: %s (WYLOGUJ)" % KiNet.online().nick) if KiNet.online().logged_in() else "KONTO: NIE ZALOGOWANO", "callback": func(): hud.close_dialog(); if KiNet.online().logged_in(): await KiNet.online().logout(); hud.toast("Wylogowano. Po ponownym uruchomieniu zalogujesz się ponownie.")}, {"text": "POBIERZ WSZYSTKIE KRAINY", "callback": func(): hud.close_dialog(); download_everything()}, {"text": "LICENCJE SILNIKA", "callback": show_licenses}])
+	var items: Array[Dictionary] = [
+		{"id":"save","text":"ZAPISZ GRĘ","callback":func():save_checkpoint();close_screen()},
+		{"id":"map","text":"MAPA ŚWIATA","callback":func():close_screen();open_map()},
+		{"id":"character","text":"POSTAĆ I DRZEWKO","callback":func():close_screen();open_character()},
+		{"id":"inventory","text":"PLECAK","callback":func():close_screen();open_items("inventory","Plecak i wyposażenie")},
+		{"id":"quests","text":"DZIENNIK ZADAŃ","callback":func():close_screen();show_journal()},
+		{"id":"gm","text":"NARZĘDZIA GM","staff":true,"callback":func():close_screen();open_gm()},
+		{"id":"music","text":"MUZYKA: %d%%" % roundi(audio.music_volume*100),"callback":func():audio.set_volumes(next_volume(audio.music_volume),audio.sfx_volume);close_screen();show_menu()},
+		{"id":"sounds","text":"EFEKTY: %d%%" % roundi(audio.sfx_volume*100),"callback":func():audio.set_volumes(audio.music_volume,next_volume(audio.sfx_volume));close_screen();show_menu()},
+		{"id":"chat","text":"CZAT OKOLICY","callback":func():close_screen();open_chat()},
+		{"id":"new","text":"NOWA POSTAĆ","callback":func():close_screen();open_race_screen(true)},
+		{"id":"import","text":"POSTAĆ Z PRZEGLĄDARKI","callback":func():close_screen();BrowserImport.run(self)},
+		{"id":"download","text":"POBIERZ KRAINY","callback":func():close_screen();download_everything()},
+		{"id":"fps","text":"FPS: "+("WŁ." if hud.show_fps else "WYŁ."),"callback":func():hud.show_fps=not hud.show_fps;hud.signature="";close_screen();show_menu()},
+		{"id":"account","text":"WYLOGUJ: "+KiNet.online().nick.left(14) if KiNet.online().logged_in() else "KONTO: TRYB OFFLINE","callback":func():close_screen();if KiNet.online().logged_in():await KiNet.online().logout();hud.toast("Wylogowano. Zalogujesz się ponownie po restarcie aplikacji.")},
+		{"id":"licenses","text":"LICENCJE","callback":func():close_screen();show_licenses()},
+	]
+	var view := GameMenu.new()
+	view.setup(items,KiNet.online())
+	open_screen(view)
 
 func show_licenses() -> void:
 	hud.show_dialog("Godot i biblioteki silnika", Engine.get_license_text() + "\n\nTHIRD-PARTY LICENSES\n" + JSON.stringify(Engine.get_license_info(), "\t") + "\n\nCOPYRIGHT NOTICES\n" + JSON.stringify(Engine.get_copyright_info(), "\t") + "\n\nFONT CINZEL\n" + FileAccess.get_file_as_string("res://assets/branding/OFL-Cinzel.txt") + "\n\nOFFICIAL GODOT LOGO\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-NOTICE.txt") + "\n" + FileAccess.get_file_as_string("res://assets/branding/GODOT-LOGO-LICENSE.txt"))

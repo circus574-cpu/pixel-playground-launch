@@ -1,0 +1,12 @@
+﻿id,title,npc,city,minimumLevel,recommendedLevel,playableFlag
+S-V12,Olej do północnych latarń,Lina (Strażniczka Latarni),Latarnia Korzeni,6,10,True
+H-V03,Ukryta Przygoda: Przysięga pod Starym Dębem,Lina (Strażniczka Latarni),Latarnia Korzeni,6,9,True
+S-P09,Zasypany schron na zachodzie,Toren (Strażnik Traktu),Żarowy Trakt,3,5,True
+H-P01,Ukryta Przygoda: Przysięga Dwunastu z Kaplicy,Toren (Strażnik Traktu),Żarowy Trakt,3,6,True
+O-A05,Zwierciadła Archiwum Nad Chmurami,Talen (Obserwator Niebios),Archiwum Nad Chmurami,4,5,True
+S-A06,Konserwacja Zwierciadeł Talena,Talen (Obserwator Niebios),Archiwum Nad Chmurami,3,5,True
+S-A12,Pióra Mgielnych Żurawi,Talen (Obserwator Niebios),Archiwum Nad Chmurami,6,9,True
+IC-05,Obserwatorzy Czterech Horyzontów,Talen (Obserwator Niebios),Archiwum Nad Chmurami,6,9,True
+O-N05,Echo Portu Zerowego,VEX-3 (Nawigator Portu Zerowego),Port Zerowy,4,5,True
+S-N06,Zakłócenia na Częstotliwości VEX-3,VEX-3 (Nawigator Portu Zerowego),Port Zerowy,4,6,True
+S-N12,Polowanie na Kruki Danych,VEX-3 (Nawigator Portu Zerowego),Port Zerowy,7,10,True

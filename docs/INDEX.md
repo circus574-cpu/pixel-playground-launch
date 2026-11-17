@@ -1,5 +1,22 @@
 # KI Legends — dokumentacja projektu
 
+**Audyt Androida 1.8 — 16.11:** wszystkie cztery rasy osiągnęły poziom 3;
+sprawdzono 132 wejścia usługowe i 244 wystąpienia NPC. **Odbiór niepełny:**
+4 brakujących rozmówców blokuje 11 zadań, 8 nazw jest rozbieżnych, u Mędrca
+wystąpiły błędy opóźnionego efektu. [Raport PDF (21 stron)](zmiany/2026-11-16/qa/android-level3-audit/raport.pdf),
+[pełny opis i wyniki](zmiany/2026-11-16/ZMIANY.md#24-audyt-androida-18--cztery-rasy-do-poziomu-3-budynki-dialogi-i-animacje).
+
+**Android — GM i menu 1.8, 16.11:** na gałęzi `feat/android-gm-tools-1.8-20261116`
+opublikowano **aktywną wersję 1.8**: komendy GM (nieśmiertelność, cooldowny, poziom, pieniądze,
+teleport) i nowe menu; zastępują podgląd 1.7 odrzucony przez właściciela.
+[Wyniki i zrzuty](zmiany/2026-11-16/ZMIANY.md#23-android-18--właściwe-komendy-gm-i-menu-gry).
+
+**Android — HUD 1.7, 16.11:** opublikowane większe ikony, dotyk minimapy i natywny
+podgląd GM z osobnej gałęzi `feat/android-hud-1.7-20261116`. To historyczne wydanie
+**1.7**, zastąpione aktywną wersją 1.8. [Bieżący checkpoint Androida](../ports/godot-pyra/README.md),
+[wyniki i zrzuty](zmiany/2026-11-16/ZMIANY.md#22-android-17--hud-dotyk-minimapy-i-natywny-panel-gm).
+Poniższe starsze checkpointy opisują wcześniejsze etapy.
+
 **Godot 4 / Android, 16.11 — kod po wersji 0.7.0-bestiary zawiera całą grę:** 41 potworów ze wszystkimi cechami, questy z dialogami (102
 grywalne), dźwięk, zasady ekwipunku, **8 bossów** (fazy, mechaniki, strażnik leża), **22 jaskinie** (labirynt, klucz, krata, skrzynie),
 **14 wydarzeń świata**, dzień i noc, spacery mieszkańców i efekty otoczenia (to, co jest z przeglądarki, a co dorobione, rozdziela

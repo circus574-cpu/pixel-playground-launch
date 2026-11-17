@@ -1,0 +1,3 @@
+{"gameplay_modules": true, "gm_combat": true, "gm_module": true, "heading_font": true, "letters": true, "menu_click": true, "menu_swipe": true, "minimap_click": true, "panel_in_tree": true, "report": {"broken": "", "core": "core-c100-b12bc37b1ce5.pck", "downloaded": true, "gave_up": "", "mounted": true, "reached": true}, "skin_has_background": false, "stone": true, "style": "StyleBox/"} 
+script errors: []
+E2E INSTALLED PASS

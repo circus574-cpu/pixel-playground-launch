@@ -1,0 +1,405 @@
+{
+	"checks": [
+		{
+			"detail": {
+				"inventory": {
+					"bag": {
+						"potion": 3
+					},
+					"depot": {
+
+					},
+					"depotGold": 0,
+					"equipment": {
+						"amulet": "",
+						"armor": "",
+						"feet": "",
+						"hands": "",
+						"head": "",
+						"offhand": "",
+						"ring": "",
+						"weapon": ""
+					},
+					"gold": 20,
+					"upgrades": {
+
+					}
+				},
+				"stats": {
+					"attack": 12,
+					"attackInterval": 700.0,
+					"cooldownMul": 1.0,
+					"crit": 8.0,
+					"dealt": 1.0,
+					"defense": 7,
+					"kiCostMul": 1.0,
+					"kiRegen": 1.2,
+					"maxHp": 115,
+					"maxKi": 60,
+					"range": 360.0,
+					"speed": 175.0
+				}
+			},
+			"id": "fresh-level-1",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "GM-modes-disabled",
+			"passed": true
+		},
+		{
+			"detail": 114,
+			"id": "existing-level-1-spawn-available",
+			"passed": true
+		},
+		{
+			"detail": {
+				"deaths": 0,
+				"kills": 18,
+				"level": 3,
+				"xp": 11
+			},
+			"id": "reached-level-3-through-ordinary-rewards",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "GM-remained-disabled",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "level-2-skill-learned",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "level-3-save-round-trip",
+			"passed": true
+		}
+	],
+	"damageDealt": 1118,
+	"deaths": 0,
+	"encounters": [
+		{
+			"activeMonsters": 4,
+			"hpAfter": 115.0,
+			"hpBefore": 115.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 850,
+			"xpAfter": 12,
+			"xpBefore": 0
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 115.0,
+			"hpBefore": 115.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 530,
+			"xpAfter": 24,
+			"xpBefore": 12
+		},
+		{
+			"activeMonsters": 2,
+			"hpAfter": 115.0,
+			"hpBefore": 115.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 120,
+			"xpAfter": 36,
+			"xpBefore": 24
+		},
+		{
+			"activeMonsters": 2,
+			"hpAfter": 115.0,
+			"hpBefore": 115.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 910,
+			"xpAfter": 48,
+			"xpBefore": 36
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 115.0,
+			"hpBefore": 115.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 210,
+			"xpAfter": 60,
+			"xpBefore": 48
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 115.0,
+			"hpBefore": 115.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 80,
+			"xpAfter": 72,
+			"xpBefore": 60
+		},
+		{
+			"activeMonsters": 2,
+			"hpAfter": 115.0,
+			"hpBefore": 115.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 760,
+			"xpAfter": 84,
+			"xpBefore": 72
+		},
+		{
+			"activeMonsters": 2,
+			"hpAfter": 115.0,
+			"hpBefore": 115.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 1,
+			"levelBefore": 1,
+			"slot": 150,
+			"xpAfter": 96,
+			"xpBefore": 84
+		},
+		{
+			"activeMonsters": 2,
+			"hpAfter": 149.0,
+			"hpBefore": 115.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 2,
+			"levelBefore": 1,
+			"slot": 970,
+			"xpAfter": 8,
+			"xpBefore": 96
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 149.0,
+			"hpBefore": 149.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 1120,
+			"xpAfter": 20,
+			"xpBefore": 8
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 149.0,
+			"hpBefore": 149.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 730,
+			"xpAfter": 32,
+			"xpBefore": 20
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 149.0,
+			"hpBefore": 149.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 800,
+			"xpAfter": 44,
+			"xpBefore": 32
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 149.0,
+			"hpBefore": 149.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 950,
+			"xpAfter": 56,
+			"xpBefore": 44
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 149.0,
+			"hpBefore": 149.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 270,
+			"xpAfter": 68,
+			"xpBefore": 56
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 149.0,
+			"hpBefore": 149.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 500,
+			"xpAfter": 80,
+			"xpBefore": 68
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 149.0,
+			"hpBefore": 149.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 930,
+			"xpAfter": 92,
+			"xpBefore": 80
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 149.0,
+			"hpBefore": 149.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 2,
+			"levelBefore": 2,
+			"slot": 520,
+			"xpAfter": 159,
+			"xpBefore": 92
+		},
+		{
+			"activeMonsters": 4,
+			"hpAfter": 183.0,
+			"hpBefore": 149.0,
+			"kills": 1,
+			"kind": "nexus-dron-zwiadowca",
+			"levelAfter": 3,
+			"levelBefore": 2,
+			"slot": 320,
+			"xpAfter": 11,
+			"xpBefore": 159
+		}
+	],
+	"failed": 0,
+	"final": {
+		"inventory": {
+			"bag": {
+				"modul-optyczny": 7,
+				"potion": 4,
+				"zlom": 12
+			},
+			"depot": {
+
+			},
+			"depotGold": 0,
+			"equipment": {
+				"amulet": "",
+				"armor": "",
+				"feet": "",
+				"hands": "",
+				"head": "",
+				"offhand": "",
+				"ring": "",
+				"weapon": ""
+			},
+			"gold": 83,
+			"upgrades": {
+
+			}
+		},
+		"learned": [
+			"R",
+			"A1"
+		],
+		"level": 3,
+		"stats": {
+			"attack": 20,
+			"attackInterval": 700.0,
+			"cooldownMul": 1.0,
+			"crit": 8.8,
+			"dealt": 1.0,
+			"defense": 13,
+			"kiCostMul": 1.0,
+			"kiRegen": 1.32,
+			"maxHp": 183,
+			"maxKi": 70,
+			"range": 360.0,
+			"speed": 192.5
+		},
+		"xp": 11
+	},
+	"fixtures": "No XP/level/HP/attack overrides and no GM. Existing level-1 spawn positions selected and approached using joystick events; travel between encounters/inn is a fixture warp, not a measured traversal. Time is advanced through actual simulate/AI functions at 1/60; headless batches are accelerated. Native --live renders one frame per four fixed simulation steps; this is functional coverage, not a physical-device timing benchmark. Full Game._process, AI and presentation update paths are executed.",
+	"innRests": 0,
+	"kills": 18,
+	"levelEvents": [
+		{
+			"kills": 9,
+			"level": 2,
+			"simulationSeconds": 26.3499999999998,
+			"stats": {
+				"attack": 16,
+				"attackInterval": 700.0,
+				"cooldownMul": 1.0,
+				"crit": 8.4,
+				"dealt": 1.0,
+				"defense": 10,
+				"kiCostMul": 1.0,
+				"kiRegen": 1.26,
+				"maxHp": 149,
+				"maxKi": 65,
+				"range": 360.0,
+				"speed": 183.75
+			},
+			"xp": 8
+		},
+		{
+			"kills": 18,
+			"level": 3,
+			"simulationSeconds": 48.2999999999985,
+			"stats": {
+				"attack": 20,
+				"attackInterval": 700.0,
+				"cooldownMul": 1.0,
+				"crit": 8.8,
+				"dealt": 1.0,
+				"defense": 13,
+				"kiCostMul": 1.0,
+				"kiRegen": 1.32,
+				"maxHp": 183,
+				"maxKi": 70,
+				"range": 360.0,
+				"speed": 192.5
+			},
+			"xp": 11
+		}
+	],
+	"otherXpSources": {
+
+	},
+	"passed": 7,
+	"potions": 0,
+	"race": "android",
+	"simulationSeconds": 48.2999999999985,
+	"xpSources": {
+		"nexus-dron-zwiadowca": 216
+	}
+}

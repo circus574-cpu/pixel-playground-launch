@@ -46,6 +46,9 @@ func setup(economy: PyraEconomy, screen_mode: String, heading: String) -> void:
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background)
+	var stone := Look.backdrop()
+	if stone != null:
+		add_child(stone)
 	var root := VBoxContainer.new()
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.offset_left = 18
@@ -57,8 +60,7 @@ func setup(economy: PyraEconomy, screen_mode: String, heading: String) -> void:
 	var bar := HBoxContainer.new()
 	bar.add_theme_constant_override("separation", 10)
 	title.text = title_text
-	title.add_theme_font_size_override("font_size", 26)
-	title.add_theme_color_override("font_color", Color("f1c77f"))
+	Look.style_heading(title, 32)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bar.add_child(title)
 	gold_label.add_theme_font_size_override("font_size", 22)
@@ -118,7 +120,7 @@ func setup(economy: PyraEconomy, screen_mode: String, heading: String) -> void:
 	switch_tab(0)
 
 func panel(_color: Color = Color.BLACK) -> StyleBox:
-	return Look.window(34.0)
+	return Look.window(50.0)
 
 func make_button(text: String, callback: Callable, minimum: Vector2) -> Button:
 	var b := Button.new()

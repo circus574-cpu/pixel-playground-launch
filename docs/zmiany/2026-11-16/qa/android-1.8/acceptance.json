@@ -1,0 +1,88 @@
+{
+  "version": "1.8",
+  "branch": "feat/android-gm-tools-1.8-20261116",
+  "base": "18e6c46c",
+  "publication": "ACTIVE 1.8; public manifest and downloaded core SHA-256 verified",
+  "reference": "src/components/game/StaffTools.tsx; existing Godot progression, economy, collision and save code",
+  "core": {
+    "file": "core-c100-b12bc37b1ce5.pck",
+    "bytes": 3539440,
+    "sha256": "b12bc37b1ce59ccc7112fbfbed89acfabee703ddc0ef8e9747327a1cae29ea75",
+    "files": 131
+  },
+  "packs": 27,
+  "unchangedFrom17": 26,
+  "commands": [
+    "heal HP/KI and clear debuffs",
+    "toggle invulnerability incl DoT",
+    "toggle no skill cooldowns, retain KI costs",
+    "level +1 and set level 1–20 (existing Android cap)",
+    "gold +1000 and set gold 0–1000000",
+    "potions +10 up to 99",
+    "teleport coordinates/arrival/named places and all ten lands"
+  ],
+  "security": [
+    "Server role revalidated before every action",
+    "Role/account change removes GM modes",
+    "Active GM modes revalidated every 30s; network failure removes modes",
+    "Closing panel cancels pending commands",
+    "Only current local PvE character edited; existing cloud CAS unchanged",
+    "Modes not serialized in saves"
+  ],
+  "notPorted": [
+    "45s browser-only performance recorder; existing FPS diagnostics retained",
+    "Full web account/database admin tools; this is the in-game GM command panel",
+    "No raising Android save/level cap above 20 or changes to canonical numbers",
+    "No teleport by clicking the atlas; coordinate and destination-list teleport provided"
+  ],
+  "checks": {
+    "smoke": {
+      "passed": 539,
+      "failed": 0
+    },
+    "hud-headless": {
+      "passed": 42,
+      "failed": 0
+    },
+    "hud-native": {
+      "passed": 42,
+      "failed": 0
+    },
+    "game-native": {
+      "passed": 5,
+      "failed": 0
+    },
+    "gm-headless": {
+      "passed": 58,
+      "failed": 0
+    },
+    "gm-native": {
+      "passed": 58,
+      "failed": 0
+    },
+    "menu-native": {
+      "passed": 11,
+      "failed": 0
+    }
+  },
+  "typecheck": "PASS app/e2e/tools",
+  "lint": "PASS: 0 errors; 17 existing warnings",
+  "vitestExport": "PASS 6/6",
+  "coreE2e": "PASS 11/11",
+  "installedApkE2e": "PASS including GM combat flags, new modules, minimap and menu",
+  "limitations": [
+    "Physical Android and real GM account not exercised; isolated server role/cloud fixture used.",
+    "Smoke/native runners still report shutdown resource warnings; no full green CI or clean shutdown claimed.",
+    "No browser-character import or save format change."
+  ],
+  "sourceSha256": {
+    "city_game.gd": "5df399349ea16f8e15f5c0e887512aeffebc052647b3925ba2b6fa3190787ec6",
+    "gm_panel.gd": "85951c07f175f2abe64ce29301e34b3a68aed41319cbee30184934d2e3ff3376",
+    "gm_tools.gd": "51459e2da00768fc5313bf6c0911a3d33102e263f13ed99a558d89c1d15ba546",
+    "game_menu.gd": "e88310f09ff99363c70ec04edc85c226f89626f2f1d72a3f86b9c1e8d34dd665",
+    "race_kit.gd": "f3b561b581e26115d7b278a35710d8bc57e1db10a0ba18d2ee6722e9081583e8"
+  },
+  "documentation": "PASS: 10 manuals and protected source evidence",
+  "publishedCommit": "fe19c7b8549150021cd8b0d7cf8beef4d308f951",
+  "publicationEvidence": "publication.json"
+}

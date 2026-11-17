@@ -894,11 +894,27 @@ func _draw() -> void:
 		var at: Vector2 = to_local(casting.at)
 		if mode == "burst" or mode == "leap":
 			var radius := float(skill.get("radius", 100.0))
-			draw_circle(at, radius, Color(1.0, 0.25, 0.15, 0.10 + 0.18 * k))
-			draw_arc(at, radius, 0, TAU, 40, Color(1.0, 0.4, 0.25, 0.9), 2.5, true)
-			draw_arc(at, radius * k, 0, TAU, 40, Color(1.0, 0.7, 0.4, 0.8), 2.0, true)
+			var pulse := 0.5 + 0.5 * sin(float(Time.get_ticks_msec()) / 90.0)
+			draw_circle(at, radius, Color(0.9, 0.12, 0.08, 0.08 + 0.22 * k))
+			PyraFx.light(self, at, radius * 1.1, Color(1.0, 0.25, 0.1, 0.10 + 0.25 * k))
+			draw_arc(at, radius, 0, TAU, 64, Color(1.0, 0.35, 0.2, 0.55 + 0.35 * pulse), 4.0, true)
+			draw_arc(at, radius * k, 0, TAU, 64, Color(1.0, 0.85, 0.5, 0.95), 3.0 + 3.0 * k, true)
+			for i in 12:
+				var ang := TAU * float(i) / 12.0 + k * 1.2
+				draw_line(at + Vector2.from_angle(ang) * radius * 0.92, at + Vector2.from_angle(ang) * radius * 1.06, Color(1.0, 0.5, 0.3, 0.9), 3.0, true)
 		elif mode == "charge":
 			var line_to := to_local(position + ((casting.at as Vector2) - position).normalized() * (float(skill.range) + 120.0))
-			draw_line(Vector2.ZERO, line_to, Color(1.0, 0.3, 0.2, 0.25 + 0.3 * k), 36.0)
+			var dir := line_to.normalized()
+			var side := Vector2(-dir.y, dir.x) * 22.0
+			var lane := PackedVector2Array([side, line_to + side, line_to - side, -side])
+			draw_colored_polygon(lane, Color(1.0, 0.18, 0.1, 0.10 + 0.28 * k))
+			draw_line(side, line_to + side, Color(1.0, 0.45, 0.3, 0.8), 3.0, true)
+			draw_line(-side, line_to - side, Color(1.0, 0.45, 0.3, 0.8), 3.0, true)
+			var reach := line_to.length() * k
+			for i in 5:
+				var d := fmod(reach + float(i) * 70.0, maxf(line_to.length(), 1.0))
+				draw_colored_polygon(PackedVector2Array([dir * d + side * 0.5, dir * (d + 26.0), dir * d - side * 0.5]), Color(1.0, 0.7, 0.4, 0.55))
 		elif mode == "ranged" or mode == "melee":
-			draw_circle(Vector2(0, -float(def.actor.size[1]) * 0.4), 10.0 + 10.0 * k, Color(1.0, 0.5, 0.2, 0.5))
+			var mark := Vector2(0, -float(def.actor.size[1]) * 0.4)
+			PyraFx.light(self, mark, 26.0 + 22.0 * k, Color(1.0, 0.45, 0.15, 0.35 + 0.5 * k))
+			draw_arc(mark, 16.0 + 14.0 * (1.0 - k), 0, TAU, 24, Color(1.0, 0.8, 0.5, 0.9), 3.0, true)

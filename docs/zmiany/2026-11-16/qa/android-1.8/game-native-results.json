@@ -1,0 +1,28 @@
+{
+	"checks": 5,
+	"failed": 0,
+	"network": "staff server fixture; actual Godot game rendering",
+	"passed": 5,
+	"results": [
+		{
+			"name": "actual minimap tap opens the in-game map and releases gameplay input",
+			"passed": true
+		},
+		{
+			"name": "closing the map restores HUD and movement",
+			"passed": true
+		},
+		{
+			"name": "actual GM HUD button opens the native GM screen",
+			"passed": true
+		},
+		{
+			"name": "native GM screen renders authenticated gameplay tools",
+			"passed": true
+		},
+		{
+			"name": "logout removes the GM button and closed panel restores movement",
+			"passed": true
+		}
+	]
+}

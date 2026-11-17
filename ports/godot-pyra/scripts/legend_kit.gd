@@ -84,17 +84,19 @@ func do_basic() -> Dictionary:
 
 func cuts(id: String, foe: Node, count: int, total: float, gap: float, burn: Array) -> void:
 	var each := total / float(count)
+	var foe_ref: WeakRef = weakref(foe)
 	for i in count:
 		schedule(float(i) * gap, func() -> void:
-			if not is_instance_valid(foe) or foe.hp <= 0.0:
+			var cut_foe: Node = foe_ref.get_ref() as Node
+			if not is_instance_valid(cut_foe) or cut_foe.hp <= 0.0:
 				return
 			var p: Vector2 = player_position.call()
-			if p.distance_to((foe as Node2D).global_position) > base_range + 28.0:
+			if p.distance_to((cut_foe as Node2D).global_position) > base_range + 28.0:
 				return
 			effect.emit("slash", p, 0.0, id)
-			strike(foe, each, 0.0, false, false, id)
+			strike(cut_foe, each, 0.0, false, false, id)
 			if not burn.is_empty() and i == count - 1:
-				ignite(foe, float(burn[0]), float(burn[1])))
+				ignite(cut_foe, float(burn[0]), float(burn[1])))
 
 func cast(id: String) -> Dictionary:
 	var p: Vector2 = player_position.call()

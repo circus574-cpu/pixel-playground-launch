@@ -247,6 +247,19 @@ func enter_town(continent: String, settlement_id: String) -> void:
 	if city != "":
 		record("visit", city)
 
+## The quest character bound to game role `role` in town `settlement_id` (its name, role and greeting), or {} when the town has none.
+func npc_for(continent: String, settlement_id: String, role: String) -> Dictionary:
+	var city: String = str(city_of_settlement.get("%s/%s" % [continent, settlement_id], ""))
+	var binding := "%s.npc.%s" % [continent, role]
+	for npc: Dictionary in npcs_by_city.get(city, []):
+		if npc.bindingId == binding:
+			var greeting := ""
+			var d: Dictionary = data.dialogues.get(npc.id, {})
+			if not d.is_empty() and not (d.greetings as Array).is_empty():
+				greeting = str(d.greetings[0])
+			return {"id": npc.id, "name": npc.name, "role": npc.role, "greeting": greeting}
+	return {}
+
 ## A conversation with the game NPC of role `role` in town `settlement_id` counts for every quest NPC bound to it.
 func talk(continent: String, settlement_id: String, role: String) -> void:
 	var binding := "%s.npc.%s" % [continent, role]

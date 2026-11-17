@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-11-16T19:00:43.773222+00:00",
+  "status": {
+    "ok": true,
+    "serverTime": "2026-11-16T19:00:39.575Z",
+    "maintenance": false,
+    "activeVersion": "1.7",
+    "minClientCode": 1,
+    "online": 0
+  },
+  "manifestVersion": "1.7",
+  "all27PackDefinitionsMatchCommit": true,
+  "entireManifestMatchesCommit": true,
+  "coreBytes": 3523184,
+  "coreSha256": "85897595dc42c5ef7a2bfee87eb32a8a2e470c7f94b99de999fca8902cc3e073",
+  "coreUrl": "https://kilegends.pl/ws/godot/pack/1.7/core-c100-85897595dc42.pck",
+  "workflow": "https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/43934619568",
+  "workflowConclusion": "success",
+  "publishedCommit": "f007114b5e83e4cf27f1583bf75313f8949efa0a",
+  "rollbackVersion": "1.6",
+  "apkVersion": "1.0",
+  "clientCode": 100
+}

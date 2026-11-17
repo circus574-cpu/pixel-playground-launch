@@ -1,0 +1,54 @@
+{
+  "modelRevision": "b8fff7315c768468a5333511427288870b2e9635",
+  "negativePrompt": "camera movement, zoom, pan, cuts, changing clothes, changing face, different character, extra limbs, duplicate body, malformed hands, weapons, sword, text, watermark, environment, ground, shadows, smoke, fire, glowing effects, cropped feet",
+  "jobs": [
+    {
+      "id": "legend-idle-down",
+      "clip": "idle",
+      "direction": "down",
+      "input": "legend-down.png",
+      "inputSha256": "02796ad63dc6b5d27b690b419ef786cad496ee9c7d2ae76dcd8229e5f4d832da",
+      "prompt": "Exact same adult male character and costume as the reference image. Fixed orthographic game camera, no camera movement, full body visible, plain pure white background. Preserve face, black spiky hair, crimson spiked shoulder armor, open black chest armor, red waist sash, black trousers and boots. Consistent anime game art. Gentle idle breathing, tiny natural cloth movement, stays in exactly the same place and front facing direction. Feet planted, no walking.",
+      "frames": 33,
+      "size": [
+        640,
+        640
+      ],
+      "steps": 30,
+      "fps": 24,
+      "seed": 5741120
+    },
+    {
+      "id": "legend-walk-right",
+      "clip": "walk",
+      "direction": "right",
+      "input": "legend-right.png",
+      "inputSha256": "782b39eadebd89b029de30ea308dd7a44c2b59eba626886e3b030deb0a98f976",
+      "prompt": "Exact same adult male character and costume as the reference image. Fixed orthographic game camera, no camera movement, full body visible, plain pure white background. Preserve face, black spiky hair, crimson spiked shoulder armor, open black chest armor, red waist sash, black trousers and boots. Consistent anime game art. Right facing profile, walking in place in a smooth natural repeating cycle, alternating legs and arms. Stays centered on the same spot, no travelling or turning.",
+      "frames": 33,
+      "size": [
+        640,
+        640
+      ],
+      "steps": 30,
+      "fps": 24,
+      "seed": 5741121
+    },
+    {
+      "id": "legend-attack-right",
+      "clip": "attack",
+      "direction": "right",
+      "input": "legend-right.png",
+      "inputSha256": "782b39eadebd89b029de30ea308dd7a44c2b59eba626886e3b030deb0a98f976",
+      "prompt": "Exact same adult male character and costume as the reference image. Fixed orthographic game camera, no camera movement, full body visible, plain pure white background. Preserve face, black spiky hair, crimson spiked shoulder armor, open black chest armor, red waist sash, black trousers and boots. Consistent anime game art. Right facing profile, one quick straight unarmed punch, clear anticipation, fist extension and recovery to the original stance. Stays centered, feet grounded, no turning.",
+      "frames": 33,
+      "size": [
+        640,
+        640
+      ],
+      "steps": 30,
+      "fps": 24,
+      "seed": 5741122
+    }
+  ]
+}

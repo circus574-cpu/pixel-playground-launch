@@ -1,0 +1,51 @@
+{
+	"checks": 11,
+	"failed": 0,
+	"passed": 11,
+	"results": [
+		{
+			"name": "press starts a gesture without activating an action",
+			"passed": true
+		},
+		{
+			"name": "swiping the action list scrolls without activating a button",
+			"passed": true
+		},
+		{
+			"name": "cancel releases the captured finger without action",
+			"passed": true
+		},
+		{
+			"name": "another finger cannot confirm the action",
+			"passed": true
+		},
+		{
+			"name": "release by the original finger activates exactly once",
+			"passed": true
+		},
+		{
+			"name": "focus loss cancels the gesture",
+			"passed": true
+		},
+		{
+			"name": "a clipped button is not a hit target",
+			"passed": true
+		},
+		{
+			"name": "close cannot activate a clipped action behind it",
+			"passed": true
+		},
+		{
+			"name": "menu fits landscape viewport (854, 480)",
+			"passed": true
+		},
+		{
+			"name": "menu fits landscape viewport (1600, 720)",
+			"passed": true
+		},
+		{
+			"name": "menu fits landscape viewport (1280, 720)",
+			"passed": true
+		}
+	]
+}

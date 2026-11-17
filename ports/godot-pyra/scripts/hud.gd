@@ -10,12 +10,13 @@ signal map_requested
 signal character_requested
 signal inventory_requested
 signal zoom_requested
+signal gm_requested
 signal dialog_changed(open: bool)
 
 const MINIMAP_SPAN := 9000.0
-const MINIMAP_RADIUS := 74.0
-const BUTTON_RADIUS := 27.0
-const TOP_BUTTON_SIZE := Vector2(68, 84)   # the owner's button art (label inside the picture), see scripts/godot/prepare_hud.py
+const MINIMAP_RADIUS := 86.0
+const BUTTON_RADIUS := 38.0
+const TOP_BUTTON_SIZE := Vector2(100, 112)
 const BUTTON_ART := {"MAPA": "mapa", "POSTAĆ": "postac", "PLECAK": "plecak", "ZOOM": "zoom", "MENU": "menu"}
 const GOLD := Color("f1c77f")
 const GOLD_DARK := Color(0.62, 0.45, 0.26, 0.95)
@@ -49,11 +50,21 @@ var map_button: Button
 var character_button: Button
 var inventory_button: Button
 var zoom_button: Button
+var gm_button: Button
+var minimap_button: Button
+var staff_visible := false
 var gold := 0
 var coin_icon: Texture2D = load("res://assets/icons/coin.webp")
 var notice_until := 0
 var kit: RaceKit
 var suspended := false
+var ui_pointer := -1
+var ui_button: Button
+var ui_scroll: ScrollContainer
+var ui_origin := Vector2.ZERO
+var ui_scroll_origin := 0
+var ui_dragged := false
+const UI_DRAG_THRESHOLD := 12.0
 var area := Rect2()
 var art := HudArt.new()
 var art_layer := CachedLayer.new()
@@ -76,6 +87,7 @@ var cave_position := Vector2.ZERO
 var button_centers: Array[Vector2] = []
 var button_art_cache: Dictionary = {}
 var button_order: Array[Button] = []
+var navigation_size := TOP_BUTTON_SIZE
 var tracker_rect := Rect2()
 
 # state shown by the art
@@ -131,6 +143,11 @@ func _ready() -> void:
 	inventory_button = make_top_button("PLECAK", func(): inventory_requested.emit())
 	zoom_button = make_top_button("ZOOM", func(): zoom_requested.emit())
 	menu_button = make_top_button("MENU", func(): menu_requested.emit())
+	gm_button = make_top_button("GM", func(): gm_requested.emit())
+	gm_button.visible = staff_visible
+	# The texture is presentation only. Use the same release/cancel gesture contract as the other HUD buttons.
+	minimap_button = make_top_button("MINIMAPA", func(): map_requested.emit())
+	top_buttons.erase(minimap_button)
 	for label in [place, hint, notice, meter]:
 		label.visible_characters = -1
 		label.add_theme_font_size_override("font_size", 16)
@@ -143,8 +160,10 @@ func _ready() -> void:
 	modal.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	modal.offset_left = -375
 	modal.offset_right = 375
-	modal.offset_top = -200
-	modal.offset_bottom = 200
+	modal.offset_top = -100
+	modal.offset_bottom = 100
+	modal.grow_horizontal = Control.GROW_DIRECTION_BOTH   # the window grows from the middle of the screen
+	modal.grow_vertical = Control.GROW_DIRECTION_BOTH
 	modal.mouse_filter = Control.MOUSE_FILTER_STOP
 	modal_box.add_theme_constant_override("separation", 15)
 	modal.add_child(modal_box)
@@ -168,35 +187,57 @@ func make_top_button(text: String, callback: Callable) -> Button:
 	buttons.append(button)
 	return button
 
-func _layout() -> void:
+func set_staff_access(allowed: bool) -> void:
+	if staff_visible == allowed:
+		return
+	staff_visible = allowed
+	if is_instance_valid(gm_button):
+		gm_button.visible = allowed
+		reset_ui_gesture()
+		_layout()
+
+func _layout(safe_override := Rect2()) -> void:
 	area = Rect2(Vector2.ZERO, size)
 	if OS.get_name() == "Android":
 		var safe := DisplayServer.get_display_safe_area()
 		if safe.has_area():
 			area = (get_tree().root.get_screen_transform().affine_inverse() * Rect2(safe)).intersection(area)
+	if safe_override.has_area():
+		area = safe_override.intersection(Rect2(Vector2.ZERO, size))
 	frame_rect = Rect2(area.position + Vector2(14, 12), Vector2(404, 120))
 	medallion = frame_rect.position + Vector2(62, 62)
 	bars_x = frame_rect.position.x + 124.0
-	banner_center = Vector2(area.get_center().x, area.position.y + 34)
+	# Keep the location below the navigation, leaving the middle of the world unobscured.
+	banner_center = Vector2(area.get_center().x, area.position.y + 150)
 	minimap_center = Vector2(area.end.x - 14 - MINIMAP_RADIUS, area.position.y + 12 + MINIMAP_RADIUS)
 	minimap_view.position = minimap_center - Vector2.ONE * (MINIMAP_RADIUS - 5.0)
 	minimap_view.size = Vector2.ONE * (MINIMAP_RADIUS - 5.0) * 2.0
+	minimap_button.position = minimap_center - Vector2.ONE * MINIMAP_RADIUS
+	minimap_button.size = Vector2.ONE * MINIMAP_RADIUS * 2.0
 	button_centers.clear()
 	button_order = [menu_button, zoom_button, inventory_button, character_button, map_button]
-	var x := minimap_center.x - MINIMAP_RADIUS - 18.0
-	for button: Button in button_order:
-		x -= TOP_BUTTON_SIZE.x
-		var rect := Rect2(Vector2(x, area.position.y + 8.0), TOP_BUTTON_SIZE)
+	if staff_visible:
+		button_order.insert(0, gm_button)
+	var right := minimap_center.x - MINIMAP_RADIUS - 18.0
+	var available := right - frame_rect.end.x - 12.0
+	# At a cutout, reduce spacing before using another row; never squeeze touch targets below 84 logical units.
+	var columns := clampi(floori((available + 8.0) / 92.0), 1, button_order.size())
+	var width := minf(TOP_BUTTON_SIZE.x, (available - 8.0 * (columns - 1)) / columns)
+	navigation_size = Vector2(maxf(84.0, width), TOP_BUTTON_SIZE.y)
+	var bottom := area.position.y + 8.0
+	for i in button_order.size():
+		var button: Button = button_order[i]
+		var column := i % columns
+		var row := i / columns
+		var x := right - navigation_size.x - column * (navigation_size.x + 8.0)
+		var y := area.position.y + 8.0 + row * (navigation_size.y + 8.0)
+		var rect := Rect2(Vector2(x, y), navigation_size)
 		button_centers.append(rect.get_center())
 		button.position = rect.position
 		button.size = rect.size
-		x -= 4.0
-	# the place banner and the target frame stay between the hero frame and the top buttons instead of sitting under them
-	var half_banner := 175.0
-	var low := frame_rect.end.x + 10.0 + half_banner
-	var high := x + 4.0 - 10.0 - half_banner
-	banner_center.x = clampf(area.get_center().x, low, high) if low <= high else (low + high) / 2.0
-	tracker_rect = Rect2(Vector2(area.end.x - 278, minimap_center.y + MINIMAP_RADIUS + 12), Vector2(264, 120))
+		bottom = maxf(bottom, rect.end.y)
+	banner_center.y = maxf(banner_center.y, bottom + 30.0)
+	tracker_rect = Rect2(Vector2(area.end.x - 278, maxf(minimap_center.y + MINIMAP_RADIUS, bottom) + 12), Vector2(264, 120))
 	hint.position = Vector2(area.get_center().x - 280, area.end.y - 62)
 	hint.size = Vector2(560, 30)
 	touch.set_safe_area(area)
@@ -353,14 +394,17 @@ func button_texture(label: String) -> Texture2D:
 func round_button(canvas: Control, c: Vector2, label: String) -> void:
 	var art_texture := button_texture(label)
 	if art_texture != null:
-		canvas.draw_texture_rect(art_texture, Rect2(c - TOP_BUTTON_SIZE / 2.0, TOP_BUTTON_SIZE), false)
+		canvas.draw_texture_rect(art_texture, Rect2(c - navigation_size / 2.0, navigation_size), false)
 		return
 	canvas.draw_circle(c + Vector2(0, 2), BUTTON_RADIUS + 1.0, Color(0, 0, 0, 0.35))
 	canvas.draw_circle(c, BUTTON_RADIUS, Color(0.12, 0.08, 0.07, 0.9))
 	canvas.draw_arc(c, BUTTON_RADIUS, 0, TAU, 36, GOLD_DARK, 2.0, true)
 	canvas.draw_arc(c, BUTTON_RADIUS - 4.0, PI * 1.1, PI * 1.9, 14, Color(1, 1, 1, 0.12), 2.0, true)
-	draw_glyph(canvas, label, c + Vector2(0, -1), 1.0)
-	text_centered(canvas, cinzel, c + Vector2(0, BUTTON_RADIUS + 11.0), label, 11, Color("e6d3ae"), 4)
+	if label == "GM":
+		text_centered(canvas, cinzel, c, "GM", 26, GOLD, 4)
+	else:
+		draw_glyph(canvas, label, c + Vector2(0, -1), 1.4)
+	text_centered(canvas, cinzel, c + Vector2(0, BUTTON_RADIUS + 14.0), label, 16, Color("e6d3ae"), 4)
 
 func world_to_minimap(p: Vector2) -> Vector2:
 	return (p - player_position) / MINIMAP_SPAN * (MINIMAP_RADIUS * 2.0 - 10.0)
@@ -388,9 +432,11 @@ func draw_minimap(canvas: Control) -> void:
 	var right := Vector2.from_angle(a + PI / 2.0)
 	canvas.draw_colored_polygon(PackedVector2Array([c + forward * 9.0, c - forward * 6.0 + right * 6.0, c - forward * 3.0, c - forward * 6.0 - right * 6.0]), Color("fff0b8"))
 	canvas.draw_polyline(PackedVector2Array([c + forward * 9.0, c - forward * 6.0 + right * 6.0, c - forward * 3.0, c - forward * 6.0 - right * 6.0, c + forward * 9.0]), Color(0.3, 0.12, 0.05), 1.6, true)
-	canvas.draw_arc(c, MINIMAP_RADIUS, 0, TAU, 64, GOLD_DARK, 4.0, true)
-	canvas.draw_arc(c, MINIMAP_RADIUS - 5.0, 0, TAU, 64, Color(0.1, 0.06, 0.04, 0.9), 2.0, true)
-	canvas.draw_arc(c, MINIMAP_RADIUS + 2.0, 0, TAU, 64, Color(1, 0.9, 0.6, 0.35), 1.2, true)
+	# the owner's stone ring (its hole is about 80 % of the outer radius, so it sits over the edge of the map); the gold arcs when the picture is missing
+	if not PyraSkin.draw_ring(canvas, "ring-plain", c, MINIMAP_RADIUS + 8.0):
+		canvas.draw_arc(c, MINIMAP_RADIUS, 0, TAU, 64, GOLD_DARK, 4.0, true)
+		canvas.draw_arc(c, MINIMAP_RADIUS - 5.0, 0, TAU, 64, Color(0.1, 0.06, 0.04, 0.9), 2.0, true)
+		canvas.draw_arc(c, MINIMAP_RADIUS + 2.0, 0, TAU, 64, Color(1, 0.9, 0.6, 0.35), 1.2, true)
 	text_centered(canvas, cinzel, c + Vector2(0, -MINIMAP_RADIUS + 9.0), "N", 13, GOLD, 5)
 
 ## The automap of a cave floor: explored cells around the hero, with what has been seen (key, gate, stairs, chests, ways out).
@@ -470,15 +516,16 @@ func draw_frame(canvas: Control) -> void:
 			points.append(medallion + dir * 42.0)
 			uvs.append(Vector2(0.5, 0.5) + dir * 0.5)
 		canvas.draw_colored_polygon(points, Color.WHITE, uvs, tex)
-	canvas.draw_arc(medallion, 42.0, 0, TAU, 48, GOLD, 2.4, true)
-	canvas.draw_arc(medallion, 53.0, 0, TAU, 48, GOLD_DARK, 2.0, true)
+	if not PyraSkin.draw_ring(canvas, "ring-star", medallion, 64.0):
+		canvas.draw_arc(medallion, 42.0, 0, TAU, 48, GOLD, 2.4, true)
+		canvas.draw_arc(medallion, 53.0, 0, TAU, 48, GOLD_DARK, 2.0, true)
 	# level badge
 	var badge := medallion + Vector2(-34, 36)
 	canvas.draw_circle(badge, 15.0, Color(0.1, 0.06, 0.04))
 	canvas.draw_arc(badge, 15.0, 0, TAU, 28, GOLD, 2.2, true)
 	text_centered(canvas, cinzel, badge, str(kit.level), 15, Color("fff0c8"), 4)
 	# name
-	text_outlined(canvas, cinzel, Vector2(bars_x, r.position.y + 28), str(kit.data.raceName).to_upper(), 17, GOLD)
+	text_outlined(canvas, letters, Vector2(bars_x, r.position.y + 29), str(kit.data.raceName).to_upper(), 21, Color.WHITE, 0)
 	# bars
 	var shield := kit.shield_total() / maxf(1.0, float(s.maxHp))
 	ornate_bar(canvas, Rect2(bars_x, r.position.y + 36, 270, 25), kit.hp / float(s.maxHp), Color("c93b2c"), "%d / %d" % [int(ceil(kit.hp)), int(s.maxHp)], 14, shield)
@@ -510,14 +557,18 @@ func draw_banner(canvas: Control) -> void:
 	var parts := place.text.split(" · ")
 	var title := parts[0].to_upper()
 	var sub := parts[1] if parts.size() > 1 else ""
-	var w := letters.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, 26).x
+	var title_size := 26
+	var available := maxf(230.0, area.size.x - 620.0)
+	while title_size > 16 and letters.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, title_size).x > available - 64.0:
+		title_size -= 1
+	var w := letters.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, title_size).x
 	var width := maxf(w + 64.0, 230.0)
 	var rect := Rect2(banner_center - Vector2(width / 2.0, 20), Vector2(width, 44 if sub != "" else 38))
 	rounded(canvas, rect, Color(0.07, 0.05, 0.055, 0.8), GOLD_DARK, 14.0, 2.0)
 	for dir in [-1.0, 1.0]:
 		var tip := Vector2(rect.get_center().x + dir * (width / 2.0 + 14.0), rect.position.y + 19.0)
 		canvas.draw_colored_polygon(PackedVector2Array([tip, tip - Vector2(dir * 12.0, 7.0), tip - Vector2(dir * 12.0, -7.0)]), GOLD_DARK)
-	text_centered(canvas, letters, Vector2(rect.get_center().x, rect.position.y + 19), title, 26, Color.WHITE, 0)
+	text_centered(canvas, letters, Vector2(rect.get_center().x, rect.position.y + 19), title, title_size, Color.WHITE, 0)
 	if sub != "":
 		var safe := sub.contains("bezpieczna")
 		var chip := Color("8fe3a0") if safe else Color("ffb27a")
@@ -556,7 +607,7 @@ func draw_notice(canvas: Control) -> void:
 	if notice.text == "":
 		return
 	var w := minf(760.0, body_font.get_string_size(notice.text, HORIZONTAL_ALIGNMENT_LEFT, -1, 19).x + 56.0)
-	var rect := Rect2(Vector2(area.get_center().x - w / 2.0, area.position.y + 118), Vector2(w, 40))
+	var rect := Rect2(Vector2(area.get_center().x - w / 2.0, banner_center.y + 100), Vector2(w, 40))
 	rounded(canvas, rect, Color(0.08, 0.06, 0.06, 0.9), GOLD, 20.0, 2.0)
 	text_centered(canvas, body_font, rect.get_center(), notice.text, 19, Color("fff0c7"), 5)
 
@@ -601,10 +652,12 @@ func make_button(text: String, callback: Callable) -> Button:
 	return button
 
 func show_dialog(title: String, text: String, actions: Array = []) -> void:
+	reset_ui_gesture()
 	for child in modal_box.get_children():
 		child.hide()
 		child.queue_free()
 	buttons = top_buttons.duplicate()
+	buttons.append(minimap_button)
 	var heading := Label.new()
 	heading.text = title
 	heading.add_theme_font_override("font", cinzel)
@@ -619,12 +672,23 @@ func show_dialog(title: String, text: String, actions: Array = []) -> void:
 	body.add_theme_font_size_override("font_size", 23)
 	body.add_theme_color_override("font_color", Color("e1d4c4"))
 	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size = Vector2(680, 160)
+	scroll.custom_minimum_size = Vector2(680, 120 if actions.size() > 4 else 160)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.add_child(body)
 	modal_box.add_child(scroll)
+	# the buttons scroll when there are more of them than the screen has room for (the game menu has a dozen)
+	var list := VBoxContainer.new()
+	list.add_theme_constant_override("separation", 8)
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for action: Dictionary in actions:
-		modal_box.add_child(make_button(action.text, action.callback))
+		list.add_child(make_button(action.text, action.callback))
+	var room := maxf(160.0, size.y - 450.0)
+	var needed := float(actions.size()) * 88.0
+	var actions_scroll := ScrollContainer.new()
+	actions_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	actions_scroll.custom_minimum_size = Vector2(680, minf(needed, room))
+	actions_scroll.add_child(list)
+	modal_box.add_child(actions_scroll)
 	modal_box.add_child(make_button("ZAMKNIJ", close_dialog))
 	modal.show()
 	touch.blocked = true
@@ -632,6 +696,7 @@ func show_dialog(title: String, text: String, actions: Array = []) -> void:
 	dialog_changed.emit(true)
 
 func close_dialog() -> void:
+	reset_ui_gesture()
 	modal.hide()
 	touch.blocked = false
 	touch.reset()
@@ -681,22 +746,92 @@ func _process(_delta: float) -> void:
 	if show_fps:
 		fps_text = "%d FPS · %.1f ms · %d wywołań · %d MiB" % [Engine.get_frames_per_second(), 1000.0 / maxf(1.0, Engine.get_frames_per_second()), int(RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME)), int(RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TEXTURE_MEM_USED) / 1048576)]
 
+func reset_ui_gesture() -> void:
+	ui_pointer = -1
+	ui_button = null
+	ui_scroll = null
+	ui_dragged = false
+
+func button_contains(button: Button, point: Vector2) -> bool:
+	if not is_instance_valid(button) or not button.is_visible_in_tree() or button.disabled or not button.get_global_rect().has_point(point):
+		return false
+	if modal.visible and not modal.is_ancestor_of(button):
+		return false
+	if button == minimap_button and point.distance_to(minimap_center) > MINIMAP_RADIUS:
+		return false
+	var parent := button.get_parent()
+	while parent is Control:
+		if parent.clip_contents and not parent.get_global_rect().has_point(point):
+			return false
+		parent = parent.get_parent()
+	return true
+
+func scroll_at(point: Vector2) -> ScrollContainer:
+	if modal.visible:
+		for scroll in modal.find_children("*", "ScrollContainer", true, false):
+			if scroll.is_visible_in_tree() and scroll.get_global_rect().has_point(point):
+				return scroll
+	return null
+
+func begin_ui_gesture(pointer: int, point: Vector2) -> void:
+	if ui_pointer != -1:
+		return
+	var picked: Button
+	for button in buttons:
+		if button_contains(button, point):
+			picked = button
+			break
+	var scroll := scroll_at(point)
+	if picked == null and scroll == null:
+		return
+	ui_pointer = pointer
+	ui_button = picked
+	ui_scroll = scroll
+	ui_origin = point
+	ui_scroll_origin = scroll.scroll_vertical if scroll != null else 0
+	ui_dragged = false
+	get_viewport().set_input_as_handled()
+
+func move_ui_gesture(pointer: int, point: Vector2) -> void:
+	if ui_pointer != pointer:
+		return
+	if point.distance_to(ui_origin) > UI_DRAG_THRESHOLD:
+		ui_dragged = true
+	if ui_dragged and is_instance_valid(ui_scroll):
+		ui_scroll.scroll_vertical = ui_scroll_origin - roundi(point.y - ui_origin.y)
+	get_viewport().set_input_as_handled()
+
+func end_ui_gesture(pointer: int, point: Vector2, canceled: bool) -> void:
+	if ui_pointer != pointer:
+		return
+	var button := ui_button
+	var activate := not canceled and not ui_dragged and point.distance_to(ui_origin) <= UI_DRAG_THRESHOLD and button_contains(button, point)
+	reset_ui_gesture()
+	get_viewport().set_input_as_handled()
+	if activate:
+		button.pressed.emit()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		reset_ui_gesture()
+
 func _input(event: InputEvent) -> void:
 	if suspended:
+		reset_ui_gesture()
 		return
-	var pressed := false
-	var point := Vector2.ZERO
+	# Resolve the same finger on release. A swipe scrolls; clipped buttons cannot receive clicks.
+	# Visual buttons ignore emulated mouse events, so one touch never activates twice.
 	if event is InputEventScreenTouch:
-		pressed = event.pressed and not event.canceled
-		point = event.position
-	elif event is InputEventMouseButton and event.device != InputEvent.DEVICE_ID_EMULATION:
-		pressed = event.pressed and event.button_index == MOUSE_BUTTON_LEFT
-		point = event.position
-	if not pressed:
-		return
-	# Custom dispatch handles every finger; these visual Button nodes ignore the emulated mouse.
-	for button in buttons:
-		if is_instance_valid(button) and button.is_visible_in_tree() and button.get_global_rect().has_point(point):
-			button.pressed.emit()
-			get_viewport().set_input_as_handled()
-			return
+		if event.pressed and not event.canceled:
+			begin_ui_gesture(event.index, event.position)
+		else:
+			end_ui_gesture(event.index, event.position, event.canceled)
+	elif event is InputEventScreenDrag:
+		move_ui_gesture(event.index, event.position)
+	elif event is InputEventMouseButton and event.device != InputEvent.DEVICE_ID_EMULATION and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			begin_ui_gesture(-2, event.position)
+		else:
+			end_ui_gesture(-2, event.position, false)
+	elif event is InputEventMouseMotion and event.device != InputEvent.DEVICE_ID_EMULATION:
+		move_ui_gesture(-2, event.position)
