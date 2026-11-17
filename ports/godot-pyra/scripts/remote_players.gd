@@ -39,7 +39,7 @@ func make_figure(id: String, race: String, nick: String, at: Vector2) -> void:
 	var actor := PyraActor.new()
 	actor.position = at
 	game.continent.sorted.add_child(actor)
-	actor.setup(game.actors[key], nick, false, true)
+	actor.setup(PyraActor.usable_hero(game.actors, str(PyraGame.WORLD_OF_RACE.get(race, "pyra"))), nick, false, true)
 	actor.modulate = Color(0.85, 0.92, 1.0, 0.78)
 	figures[id] = {"actor": actor, "target": at, "race": race, "last": at}
 

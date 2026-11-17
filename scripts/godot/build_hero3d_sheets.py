@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Turns the frames rendered from a 3D hero (ports/godot-pyra/tests/render_hero_sprites.gd, one folder per clip, files `<direction>_<nn>.png`, 512 px, transparent)
-into game sprite sheets and an actor definition (data/actors.json key `<world>.hero3d`, switched on with the user argument `--hero3d`):
+into game sprite sheets and an actor definition (data/actors.json key `<world>.hero`; the painted heroes it replaced are kept in art/production/heroes/painted-sprites-legacy):
 
-  * one scale for the whole hero: the idle figure is CELL_IDLE_HEIGHT px tall in a CELL px cell, its feet FEET_Y px from the top (same proportions as the
-    painted hero: cell 200, figure 183, feet at 0.95 of the cell), so the figure keeps its size and ground line in every clip and direction;
+  * one scale for the whole hero: the idle figure is CELL_IDLE_HEIGHT px tall in a CELL px cell, its feet FEET_Y px from the top (the proportions of the
+    painted heroes: cell 200, figure 183, feet at 0.95 of the cell), so the figure keeps its size and ground line in every clip and direction;
   * every frame is cut to its own box (`[x, y, w, h, ox, oy, mw, mh]`, the atlas format of scripts/actor_view.gd) and packed into one WebP per clip;
   * five directions are rendered; left, down-left and up-left are the mirrored right, down-right and up-right (`mirrored`), as for the painted hero.
 
@@ -18,9 +18,9 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
 PORT = ROOT / "ports" / "godot-pyra"
-CELL = 256
-CELL_IDLE_HEIGHT = 234
-FEET_Y = 243
+CELL = 200
+CELL_IDLE_HEIGHT = 183
+FEET_Y = 190
 DIRS = ["down", "down-right", "right", "up-right", "up"]
 MIRROR = {"down-left": "down-right", "left": "right", "up-left": "up-right"}
 ATLAS_WIDTH = 2048
@@ -90,7 +90,7 @@ def main() -> None:
             atlas.paste(im, (px, py))
             directions[d][i] = [px, py, im.width, im.height, b[0], b[1], CELL - im.width, CELL - im.height]
         sheet = out_dir / f"{args.world}-hero3d-{args.prefix}{name}.webp"
-        atlas.save(sheet, "WEBP", quality=90, alpha_quality=100, method=6)
+        atlas.save(sheet, "WEBP", quality=80, alpha_quality=90, method=6)
         total += sheet.stat().st_size
         for mirrored, source in MIRROR.items():
             directions[mirrored] = directions[source]
@@ -100,13 +100,14 @@ def main() -> None:
     actors_path = PORT / "data" / "actors.json"
     actors = json.loads(actors_path.read_text())
     base = actors[f"{args.world}.hero"]
-    key = f"{args.world}.hero3d"
+    key = f"{args.world}.hero"
     if args.merge and key in actors:
         actors[key]["clips"].update(clips)
     else:
         actors[key] = {"id": f"hero-{args.world}-3d", "cell": CELL, "size": base["size"], "origin": base["origin"], "interiorScale": base.get("interiorScale", 1.5), "clips": clips}
+    actors.pop(f"{args.world}.hero3d", None)
     actors_path.write_text(json.dumps(actors, separators=(",", ":"), ensure_ascii=False))
-    print("actors.json:", f"{args.world}.hero3d", len(clips), "clips")
+    print("actors.json:", key, len(clips), "clips")
 
 
 if __name__ == "__main__":

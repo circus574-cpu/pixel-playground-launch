@@ -81,6 +81,15 @@ func setup(data: Dictionary, display_name: String = "", inside: bool = false, he
 	animate(Vector2.ZERO)
 	queue_redraw()
 
+## The hero of a world: the one rendered from the 3D model, or the painted one when its sheets are not on this device (an installed APK
+## that got newer code and data from the server but not the new pictures; those come with a new APK).
+static func usable_hero(actors: Dictionary, world: String) -> Dictionary:
+	var hero: Dictionary = actors.get(world + ".hero", {})
+	var idle: Dictionary = (hero.get("clips", {}) as Dictionary).get("idle", {})
+	if not idle.is_empty() and ResourceLoader.exists(str(idle.get("sheet", ""))):
+		return hero
+	return actors.get(world + ".hero_painted", hero)
+
 func sheet(path: String) -> Texture2D:
 	if not sheet_cache.has(path):
 		sheet_cache[path] = load(path)
