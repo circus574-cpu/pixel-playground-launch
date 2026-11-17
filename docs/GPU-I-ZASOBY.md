@@ -1,5 +1,45 @@
 # KI Legends — GPU i zasoby
 
+## Darmowe materiały powierzchni — 17.11.2026
+
+Osobny pakiet `deliveries/free-materials-20261117/`: **86 materiałów / 344 mapy**
+dla 98 istniejących wiązań terenu czterech kontynentów i sześciu wysp.
+71 kwadratowych kolorów bazowych wyeksportowano rzeczywiście przez
+[bezpłatny generator bezszwowy Meshy](https://www.meshy.ai/3d-tools/seamless-texture-generator).
+15 pasów o innych proporcjach zachowuje układ oryginału. Kolory mają rozdzielczość
+źródeł; zapis WebP jest bezstratny. Normalne OpenGL (+Y), wysokość i szorstkość
+obliczono lokalnie na CPU, w wariancie mobilnym do 256 px. To szacunki z obrazu,
+nie fizyczne pomiary. Bez AI API, kredytów, wynajętego GPU i instalacji do gry.
+
+Pełny ZIP PBR w przeglądarkowym Meshy wymaga bezpłatnego konta; nie pobierano go
+i nie obchodzono logowania. Mapy pochodne wykonuje własny skrypt
+`scripts/art/free_materials.py`, a bezpłatny PNG eksportuje
+`scripts/art/meshy_free_browser.cjs`. Dodatkowo sprawdzono
+[darmowy generator normalnych](https://www.meshy.ai/3d-tools/normal-map-generator)
+i pobrano wynik kontrolny. Nie wysyłano prywatnych plików ani UV postaci.
+
+Odtworzenie w nowym katalogu (Pillow, NumPy, SciPy oraz projektowe Playwright/sharp):
+
+```sh
+python3 scripts/art/free_materials.py inventory --out /tmp/ki-free-materials
+node scripts/art/meshy_free_browser.cjs /tmp/ki-free-materials
+python3 scripts/art/free_materials.py derive --out /tmp/ki-free-materials --map-size 256
+python3 scripts/art/free_materials.py validate --out /tmp/ki-free-materials
+python3 scripts/art/free_materials.py gallery --out /tmp/ki-free-materials
+```
+
+`--map-size 512` lub większy odtwarza dokładniejsze mapy z zachowanych kolorów,
+bez sztucznego powiększania źródeł. `manifest.json` zawiera ścieżki, wymiary,
+sumy SHA-256, sposób przetworzenia, przestrzeń koloru i koszt zdekodowanych tekstur.
+Status prawny jest dziedziczony z zasobów źródłowych, nie potwierdzany deklaracją
+darmowego narzędzia. Nie generowano pozornego AO ani metaliczności z samego koloru.
+
+Pakiet nie zmienia materiałów gry. Obecny shader podłoża 2D nie zacznie sam używać
+PBR: wymaga osobnej integracji światła, strumieniowania map i pomiaru na telefonie.
+Nie ładować wszystkich map jednocześnie. Przygotowano 10 galerii, studio materiałów
+w Godocie oraz izolowany podgląd kolorów w rzeczywistej Pyrze.
+[Wyniki, ograniczenia i instrukcje podglądu](zmiany/2026-11-17/ZMIANY.md#7-darmowe-materiały-całej-planety--meshy-w-przeglądarce-i-cpu).
+
 ## Postacie z Meshy — pierwszy model statyczny, 17.11.2026
 
 Otrzymano paczkę `Meshy_models_20261117_064147.zip` z folderu właściciela na Dysku:

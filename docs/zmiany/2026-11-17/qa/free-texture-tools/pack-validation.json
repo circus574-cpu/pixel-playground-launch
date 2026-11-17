@@ -1,0 +1,509 @@
+{
+  "materialsVerified": 86,
+  "bindingsVerified": 98,
+  "mapsVerified": 344,
+  "sourceHashesUnchanged": true,
+  "normalVectorsValid": true,
+  "seamMetrics": [
+    {
+      "id": "aether-b0",
+      "borderMeanDifference": 12.9027,
+      "sourceBorderMeanDifference": 30.0661,
+      "internalNeighborDifference": 12.6794,
+      "reviewFlag": false
+    },
+    {
+      "id": "aether-b1",
+      "borderMeanDifference": 12.2959,
+      "sourceBorderMeanDifference": 37.8652,
+      "internalNeighborDifference": 11.8715,
+      "reviewFlag": false
+    },
+    {
+      "id": "aether-b2",
+      "borderMeanDifference": 7.222,
+      "sourceBorderMeanDifference": 6.8239,
+      "internalNeighborDifference": 5.7159,
+      "reviewFlag": false
+    },
+    {
+      "id": "aether-b3",
+      "borderMeanDifference": 6.653,
+      "sourceBorderMeanDifference": 13.4469,
+      "internalNeighborDifference": 6.2005,
+      "reviewFlag": false
+    },
+    {
+      "id": "aether-over1",
+      "borderMeanDifference": 4.0443,
+      "sourceBorderMeanDifference": 8.4398,
+      "internalNeighborDifference": 4.2356,
+      "reviewFlag": false
+    },
+    {
+      "id": "aether-over2",
+      "borderMeanDifference": 5.9128,
+      "sourceBorderMeanDifference": 5.6045,
+      "internalNeighborDifference": 4.1961,
+      "reviewFlag": false
+    },
+    {
+      "id": "aether-shore",
+      "borderMeanDifference": 3.1178,
+      "sourceBorderMeanDifference": 3.8988,
+      "internalNeighborDifference": 2.5615,
+      "reviewFlag": false
+    },
+    {
+      "id": "aether-water",
+      "borderMeanDifference": 4.1595,
+      "sourceBorderMeanDifference": 3.9229,
+      "internalNeighborDifference": 2.7276,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-1-b0",
+      "borderMeanDifference": 2.3422,
+      "sourceBorderMeanDifference": 7.4081,
+      "internalNeighborDifference": 2.778,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-1-b2",
+      "borderMeanDifference": 5.2711,
+      "sourceBorderMeanDifference": 13.335,
+      "internalNeighborDifference": 6.0202,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-1-b3",
+      "borderMeanDifference": 4.0655,
+      "sourceBorderMeanDifference": 7.7885,
+      "internalNeighborDifference": 3.8817,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-1-plaza",
+      "borderMeanDifference": 6.8906,
+      "sourceBorderMeanDifference": 13.8228,
+      "internalNeighborDifference": 6.5202,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-1-shore",
+      "borderMeanDifference": 9.0912,
+      "sourceBorderMeanDifference": 16.2615,
+      "internalNeighborDifference": 8.2402,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-1-water",
+      "borderMeanDifference": 3.6565,
+      "sourceBorderMeanDifference": 13.0313,
+      "internalNeighborDifference": 4.2786,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-2-b0",
+      "borderMeanDifference": 16.2266,
+      "sourceBorderMeanDifference": 27.9766,
+      "internalNeighborDifference": 16.6679,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-2-b1",
+      "borderMeanDifference": 12.0738,
+      "sourceBorderMeanDifference": 27.0995,
+      "internalNeighborDifference": 12.7769,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-2-b2",
+      "borderMeanDifference": 8.0688,
+      "sourceBorderMeanDifference": 27.58,
+      "internalNeighborDifference": 8.6636,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-2-plaza",
+      "borderMeanDifference": 9.2701,
+      "sourceBorderMeanDifference": 33.7731,
+      "internalNeighborDifference": 12.0783,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-2-shore",
+      "borderMeanDifference": 11.7276,
+      "sourceBorderMeanDifference": 26.3682,
+      "internalNeighborDifference": 12.2202,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-2-water",
+      "borderMeanDifference": 5.7059,
+      "sourceBorderMeanDifference": 25.2069,
+      "internalNeighborDifference": 6.154,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-3-b0",
+      "borderMeanDifference": 7.6538,
+      "sourceBorderMeanDifference": 18.9816,
+      "internalNeighborDifference": 8.4802,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-3-b2",
+      "borderMeanDifference": 6.4766,
+      "sourceBorderMeanDifference": 12.8673,
+      "internalNeighborDifference": 5.7232,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-3-b3",
+      "borderMeanDifference": 8.0791,
+      "sourceBorderMeanDifference": 19.3017,
+      "internalNeighborDifference": 8.2914,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-3-plaza",
+      "borderMeanDifference": 7.6736,
+      "sourceBorderMeanDifference": 16.6018,
+      "internalNeighborDifference": 8.2098,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-3-shore",
+      "borderMeanDifference": 8.1074,
+      "sourceBorderMeanDifference": 21.8343,
+      "internalNeighborDifference": 8.6852,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-3-water",
+      "borderMeanDifference": 2.3314,
+      "sourceBorderMeanDifference": 10.1703,
+      "internalNeighborDifference": 3.2579,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-4-b0",
+      "borderMeanDifference": 7.5889,
+      "sourceBorderMeanDifference": 21.9186,
+      "internalNeighborDifference": 9.0665,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-4-b1",
+      "borderMeanDifference": 11.4173,
+      "sourceBorderMeanDifference": 21.5705,
+      "internalNeighborDifference": 10.7995,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-4-b2",
+      "borderMeanDifference": 8.4137,
+      "sourceBorderMeanDifference": 21.6229,
+      "internalNeighborDifference": 8.9927,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-4-plaza",
+      "borderMeanDifference": 8.3231,
+      "sourceBorderMeanDifference": 18.6983,
+      "internalNeighborDifference": 10.5574,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-4-shore",
+      "borderMeanDifference": 6.42,
+      "sourceBorderMeanDifference": 12.8202,
+      "internalNeighborDifference": 6.8122,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-4-water",
+      "borderMeanDifference": 2.6723,
+      "sourceBorderMeanDifference": 15.0886,
+      "internalNeighborDifference": 3.3385,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-5-b0",
+      "borderMeanDifference": 13.087,
+      "sourceBorderMeanDifference": 19.0945,
+      "internalNeighborDifference": 13.5425,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-5-b1",
+      "borderMeanDifference": 9.3518,
+      "sourceBorderMeanDifference": 15.5402,
+      "internalNeighborDifference": 8.7983,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-5-b2",
+      "borderMeanDifference": 8.0007,
+      "sourceBorderMeanDifference": 10.0323,
+      "internalNeighborDifference": 6.8988,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-5-plaza",
+      "borderMeanDifference": 9.666,
+      "sourceBorderMeanDifference": 15.805,
+      "internalNeighborDifference": 9.9039,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-5-shore",
+      "borderMeanDifference": 9.9321,
+      "sourceBorderMeanDifference": 19.1647,
+      "internalNeighborDifference": 9.8447,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-5-water",
+      "borderMeanDifference": 3.026,
+      "sourceBorderMeanDifference": 6.692,
+      "internalNeighborDifference": 3.7642,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-6-b0",
+      "borderMeanDifference": 7.0112,
+      "sourceBorderMeanDifference": 12.2671,
+      "internalNeighborDifference": 7.2318,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-6-b1",
+      "borderMeanDifference": 10.942,
+      "sourceBorderMeanDifference": 19.4223,
+      "internalNeighborDifference": 10.9856,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-6-b2",
+      "borderMeanDifference": 5.7312,
+      "sourceBorderMeanDifference": 9.4256,
+      "internalNeighborDifference": 4.9706,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-6-plaza",
+      "borderMeanDifference": 9.8304,
+      "sourceBorderMeanDifference": 10.6182,
+      "internalNeighborDifference": 7.4303,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-6-shore",
+      "borderMeanDifference": 9.135,
+      "sourceBorderMeanDifference": 15.3623,
+      "internalNeighborDifference": 9.6442,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-6-special",
+      "borderMeanDifference": 4.8475,
+      "sourceBorderMeanDifference": 9.7026,
+      "internalNeighborDifference": 5.3334,
+      "reviewFlag": false
+    },
+    {
+      "id": "island-6-water",
+      "borderMeanDifference": 3.0596,
+      "sourceBorderMeanDifference": 4.8727,
+      "internalNeighborDifference": 1.9461,
+      "reviewFlag": false
+    },
+    {
+      "id": "nexus-b0",
+      "borderMeanDifference": 9.7859,
+      "sourceBorderMeanDifference": 17.9439,
+      "internalNeighborDifference": 10.3029,
+      "reviewFlag": false
+    },
+    {
+      "id": "nexus-b1",
+      "borderMeanDifference": 14.3202,
+      "sourceBorderMeanDifference": 28.7524,
+      "internalNeighborDifference": 15.7465,
+      "reviewFlag": false
+    },
+    {
+      "id": "nexus-b2",
+      "borderMeanDifference": 11.0433,
+      "sourceBorderMeanDifference": 46.734,
+      "internalNeighborDifference": 12.2147,
+      "reviewFlag": false
+    },
+    {
+      "id": "nexus-b3",
+      "borderMeanDifference": 12.228,
+      "sourceBorderMeanDifference": 46.1358,
+      "internalNeighborDifference": 12.7118,
+      "reviewFlag": false
+    },
+    {
+      "id": "nexus-over1",
+      "borderMeanDifference": 12.398,
+      "sourceBorderMeanDifference": 53.9913,
+      "internalNeighborDifference": 12.6251,
+      "reviewFlag": false
+    },
+    {
+      "id": "nexus-over2",
+      "borderMeanDifference": 10.6591,
+      "sourceBorderMeanDifference": 23.4398,
+      "internalNeighborDifference": 10.7349,
+      "reviewFlag": false
+    },
+    {
+      "id": "nexus-road0",
+      "borderMeanDifference": 11.8353,
+      "sourceBorderMeanDifference": 30.4756,
+      "internalNeighborDifference": 12.5076,
+      "reviewFlag": false
+    },
+    {
+      "id": "nexus-road1",
+      "borderMeanDifference": 13.3109,
+      "sourceBorderMeanDifference": 24.4095,
+      "internalNeighborDifference": 13.3417,
+      "reviewFlag": false
+    },
+    {
+      "id": "nexus-road2",
+      "borderMeanDifference": 13.5785,
+      "sourceBorderMeanDifference": 28.1208,
+      "internalNeighborDifference": 13.2005,
+      "reviewFlag": false
+    },
+    {
+      "id": "nexus-road3",
+      "borderMeanDifference": 15.9456,
+      "sourceBorderMeanDifference": 35.3978,
+      "internalNeighborDifference": 17.1558,
+      "reviewFlag": false
+    },
+    {
+      "id": "nexus-shore",
+      "borderMeanDifference": 20.3363,
+      "sourceBorderMeanDifference": 25.7708,
+      "internalNeighborDifference": 19.8831,
+      "reviewFlag": false
+    },
+    {
+      "id": "nexus-special",
+      "borderMeanDifference": 4.0898,
+      "sourceBorderMeanDifference": 15.8883,
+      "internalNeighborDifference": 3.7124,
+      "reviewFlag": false
+    },
+    {
+      "id": "nexus-water",
+      "borderMeanDifference": 5.8841,
+      "sourceBorderMeanDifference": 25.2021,
+      "internalNeighborDifference": 6.8793,
+      "reviewFlag": false
+    },
+    {
+      "id": "pyra-b0",
+      "borderMeanDifference": 5.4876,
+      "sourceBorderMeanDifference": 7.2594,
+      "internalNeighborDifference": 5.1523,
+      "reviewFlag": false
+    },
+    {
+      "id": "pyra-b1",
+      "borderMeanDifference": 5.805,
+      "sourceBorderMeanDifference": 7.321,
+      "internalNeighborDifference": 5.3569,
+      "reviewFlag": false
+    },
+    {
+      "id": "pyra-b3",
+      "borderMeanDifference": 7.3232,
+      "sourceBorderMeanDifference": 10.1445,
+      "internalNeighborDifference": 7.6763,
+      "reviewFlag": false
+    },
+    {
+      "id": "pyra-over1",
+      "borderMeanDifference": 6.9954,
+      "sourceBorderMeanDifference": 8.3727,
+      "internalNeighborDifference": 6.3035,
+      "reviewFlag": false
+    },
+    {
+      "id": "pyra-over2",
+      "borderMeanDifference": 14.7161,
+      "sourceBorderMeanDifference": 25.1956,
+      "internalNeighborDifference": 14.4761,
+      "reviewFlag": false
+    },
+    {
+      "id": "pyra-special",
+      "borderMeanDifference": 10.5013,
+      "sourceBorderMeanDifference": 34.1436,
+      "internalNeighborDifference": 10.0607,
+      "reviewFlag": false
+    },
+    {
+      "id": "pyra-water",
+      "borderMeanDifference": 5.9587,
+      "sourceBorderMeanDifference": 21.7904,
+      "internalNeighborDifference": 5.1163,
+      "reviewFlag": false
+    },
+    {
+      "id": "verdant-b0",
+      "borderMeanDifference": 7.1686,
+      "sourceBorderMeanDifference": 8.3014,
+      "internalNeighborDifference": 6.8702,
+      "reviewFlag": false
+    },
+    {
+      "id": "verdant-b1",
+      "borderMeanDifference": 4.9018,
+      "sourceBorderMeanDifference": 5.1992,
+      "internalNeighborDifference": 3.2028,
+      "reviewFlag": false
+    },
+    {
+      "id": "verdant-b2",
+      "borderMeanDifference": 8.525,
+      "sourceBorderMeanDifference": 6.0453,
+      "internalNeighborDifference": 4.8117,
+      "reviewFlag": false
+    },
+    {
+      "id": "verdant-b3",
+      "borderMeanDifference": 4.6234,
+      "sourceBorderMeanDifference": 4.276,
+      "internalNeighborDifference": 2.8369,
+      "reviewFlag": false
+    },
+    {
+      "id": "verdant-shore",
+      "borderMeanDifference": 2.8094,
+      "sourceBorderMeanDifference": 3.1693,
+      "internalNeighborDifference": 1.7613,
+      "reviewFlag": false
+    },
+    {
+      "id": "verdant-water",
+      "borderMeanDifference": 4.5708,
+      "sourceBorderMeanDifference": 5.9427,
+      "internalNeighborDifference": 3.0548,
+      "reviewFlag": false
+    }
+  ],
+  "seamsRequiringReview": [],
+  "physicalPhoneTested": false,
+  "packBytes": 37101076
+}

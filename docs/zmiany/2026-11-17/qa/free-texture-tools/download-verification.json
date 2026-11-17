@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-17",
+  "sourceCommit": "d509bac79c85db2e427b1e5beb3a09230228f8d7",
+  "input": "ports/godot-pyra/assets/lands/pyra/terrain/b0.webp",
+  "downloads": [
+    {
+      "file": "normal-map-generator.png",
+      "format": "PNG",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "ff36776296ed7a5366fdd5ced030e94ebd6844697c70da5b126cfd8442b8343f"
+    },
+    {
+      "file": "seamless-texture-generator.png",
+      "format": "PNG",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "2bf702ad518a2e78737abded7c391875741ce80424db9b07c7013a0b42587962"
+    }
+  ],
+  "browser": "Playwright Chromium, anonymous session",
+  "normalConvention": "OpenGL (+Y)",
+  "paidGenerationInvoked": false,
+  "gpuPodUsed": false,
+  "pbrZipDownloaded": false,
+  "pbrZipGate": "Needs a free Meshy account",
+  "gameAssetsModified": false
+}

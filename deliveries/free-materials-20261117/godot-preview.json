@@ -1,0 +1,494 @@
+{
+  "assets": [
+    {
+      "path": "res://assets/lands/aether/terrain/b0.webp",
+      "file": "aether-b0/base-color.webp",
+      "sha256": "255468e22ad45176accbc24008700d68fa73d0c2f6bf0d115e17857eb5a1b7ce"
+    },
+    {
+      "path": "res://assets/lands/aether/terrain/b1.webp",
+      "file": "aether-b1/base-color.webp",
+      "sha256": "a86b0beaf8403ee49751e921008052195792e9f06d140be18881ba0971b94ac2"
+    },
+    {
+      "path": "res://assets/lands/aether/terrain/b2.webp",
+      "file": "aether-b2/base-color.webp",
+      "sha256": "5ef5e607b6b7612bc251c9bd69cfc83b06cb3af594ee74a180436d9489a36b11"
+    },
+    {
+      "path": "res://assets/lands/aether/terrain/b3.webp",
+      "file": "aether-b3/base-color.webp",
+      "sha256": "a41a8b6fd6ff9868a837241530fc9199236afcc82bb2e4025dc3150c9a054684"
+    },
+    {
+      "path": "res://assets/lands/aether/terrain/over1.webp",
+      "file": "aether-over1/base-color.webp",
+      "sha256": "5c2fe008672f290409cb4fd2aa745551963bc9465ce60fdf7e005babb1925dea"
+    },
+    {
+      "path": "res://assets/lands/aether/terrain/over2.webp",
+      "file": "aether-over2/base-color.webp",
+      "sha256": "21f8ef6d2fb9e005a46cf0a6757ac231580af8a9c4bfa7f73f37de68db3f802b"
+    },
+    {
+      "path": "res://assets/lands/aether/terrain/road0.webp",
+      "file": "aether-road0/base-color.webp",
+      "sha256": "9792217628556dc265fb47b343c5c497ff26ab0a1d6b1f3382d0857be420b3ba"
+    },
+    {
+      "path": "res://assets/lands/aether/terrain/road1.webp",
+      "file": "aether-road1/base-color.webp",
+      "sha256": "ccb672029b93733ece7216890b017da71179b8a3b29eb23f35798b022bfb0214"
+    },
+    {
+      "path": "res://assets/lands/aether/terrain/road2.webp",
+      "file": "aether-road2/base-color.webp",
+      "sha256": "cc6d2f8a0de0510a8b517009204f07f8da16c74ca088cbd96a6d7d84c07d0a7a"
+    },
+    {
+      "path": "res://assets/lands/aether/terrain/road3.webp",
+      "file": "aether-road3/base-color.webp",
+      "sha256": "38be4f197c74a6d5685672f4b71859cb33057713deed221dcc3273777408e2ff"
+    },
+    {
+      "path": "res://assets/lands/aether/terrain/road4.webp",
+      "file": "aether-road4/base-color.webp",
+      "sha256": "3f4348cbf519289cae22dfdd3f434ada60b10c91e03076dee27b59d21d80945f"
+    },
+    {
+      "path": "res://assets/lands/aether/terrain/shore.webp",
+      "file": "aether-shore/base-color.webp",
+      "sha256": "ebb1d6410b400f730b5b6c4a422ea8ff02b8d30d663670058d4370747412df25"
+    },
+    {
+      "path": "res://assets/lands/aether/terrain/water.webp",
+      "file": "aether-water/base-color.webp",
+      "sha256": "291f5e641b1ca8dc2bf53ffd6e01138f747135ef7c134ccead71303fd5cf8c34"
+    },
+    {
+      "path": "res://assets/lands/island-1/terrain/b0.webp",
+      "file": "island-1-b0/base-color.webp",
+      "sha256": "45faf1f32a252bc97206ce7e0df13752cbac22d30c825160830e3fc5e4612311"
+    },
+    {
+      "path": "res://assets/lands/island-1/terrain/b1.webp",
+      "file": "island-1-b0/base-color.webp",
+      "sha256": "45faf1f32a252bc97206ce7e0df13752cbac22d30c825160830e3fc5e4612311"
+    },
+    {
+      "path": "res://assets/lands/island-1/terrain/b2.webp",
+      "file": "island-1-b2/base-color.webp",
+      "sha256": "2b906a19fec7fcf0d7c669ae4f95cf542a39975061a9eee85ffa41ab07b43a03"
+    },
+    {
+      "path": "res://assets/lands/island-1/terrain/b3.webp",
+      "file": "island-1-b3/base-color.webp",
+      "sha256": "8590128b5846393eddd61cc6618f387651e9c9f5d202afa204be89400702f1b7"
+    },
+    {
+      "path": "res://assets/lands/island-1/terrain/plaza.webp",
+      "file": "island-1-plaza/base-color.webp",
+      "sha256": "2ecd3d2f67e7f43efbb2de5b9042ddb0ab705bf6eab5498acc9652f2edc21d42"
+    },
+    {
+      "path": "res://assets/lands/island-1/terrain/road0.webp",
+      "file": "island-1-plaza/base-color.webp",
+      "sha256": "2ecd3d2f67e7f43efbb2de5b9042ddb0ab705bf6eab5498acc9652f2edc21d42"
+    },
+    {
+      "path": "res://assets/lands/island-1/terrain/shore.webp",
+      "file": "island-1-shore/base-color.webp",
+      "sha256": "96837aae3365fe5c79dd516bfce3108cce6f19471cf6a684ca181871647c141a"
+    },
+    {
+      "path": "res://assets/lands/island-1/terrain/water.webp",
+      "file": "island-1-water/base-color.webp",
+      "sha256": "c598535450f7cc840f17449e061419cb6f19423fc1dbf66171d93f73a171477a"
+    },
+    {
+      "path": "res://assets/lands/island-2/terrain/b0.webp",
+      "file": "island-2-b0/base-color.webp",
+      "sha256": "563e70d2361cc12a2fb2b1c7fa08292449f7c4ddcdf9780a3482b34d4813c157"
+    },
+    {
+      "path": "res://assets/lands/island-2/terrain/b1.webp",
+      "file": "island-2-b1/base-color.webp",
+      "sha256": "b7114660b6d391ecb107132ad4bc687950494ae940fa6569bdd51f4b74c2e540"
+    },
+    {
+      "path": "res://assets/lands/island-2/terrain/b3.webp",
+      "file": "island-2-b1/base-color.webp",
+      "sha256": "b7114660b6d391ecb107132ad4bc687950494ae940fa6569bdd51f4b74c2e540"
+    },
+    {
+      "path": "res://assets/lands/island-2/terrain/b2.webp",
+      "file": "island-2-b2/base-color.webp",
+      "sha256": "d1bf48dede717a4085c3638ab6fd5f8536bc16dad58527ca0c2e6f3ffcfd0e8d"
+    },
+    {
+      "path": "res://assets/lands/island-2/terrain/plaza.webp",
+      "file": "island-2-plaza/base-color.webp",
+      "sha256": "604d49dbec66af43deeecc2fa01d6f400fdf2bd80d77460f6fc0c97a27a8eed6"
+    },
+    {
+      "path": "res://assets/lands/island-2/terrain/road0.webp",
+      "file": "island-2-plaza/base-color.webp",
+      "sha256": "604d49dbec66af43deeecc2fa01d6f400fdf2bd80d77460f6fc0c97a27a8eed6"
+    },
+    {
+      "path": "res://assets/lands/island-2/terrain/shore.webp",
+      "file": "island-2-shore/base-color.webp",
+      "sha256": "85762c229563236d25296cafe1cb938b726fa0077515fc2f5904d4be1f6f3ec7"
+    },
+    {
+      "path": "res://assets/lands/island-2/terrain/water.webp",
+      "file": "island-2-water/base-color.webp",
+      "sha256": "42713a53f05d33fb46724fc408179c3fb9473c0cf81aaf76b479030d29a1b19d"
+    },
+    {
+      "path": "res://assets/lands/island-3/terrain/b0.webp",
+      "file": "island-3-b0/base-color.webp",
+      "sha256": "9c74c86c7383bdf4f9ea671ce1f91e848e9054e7a6e87666522973cebdb1a07f"
+    },
+    {
+      "path": "res://assets/lands/island-3/terrain/b1.webp",
+      "file": "island-3-b0/base-color.webp",
+      "sha256": "9c74c86c7383bdf4f9ea671ce1f91e848e9054e7a6e87666522973cebdb1a07f"
+    },
+    {
+      "path": "res://assets/lands/island-3/terrain/b2.webp",
+      "file": "island-3-b2/base-color.webp",
+      "sha256": "efac6889bdf22a5eeb244b4cad03f6efb38f9a0310e346f8cc91c15438018bcd"
+    },
+    {
+      "path": "res://assets/lands/island-3/terrain/b3.webp",
+      "file": "island-3-b3/base-color.webp",
+      "sha256": "c9fdf04b2c481c2d0651bcd1dadeb8031ecda74b1019f9a219e54fc82ac7ec6c"
+    },
+    {
+      "path": "res://assets/lands/island-3/terrain/plaza.webp",
+      "file": "island-3-plaza/base-color.webp",
+      "sha256": "88f2419e68224837a8edefd8e3986327eafd689d734bf67cd3ee2963bab69139"
+    },
+    {
+      "path": "res://assets/lands/island-3/terrain/road0.webp",
+      "file": "island-3-plaza/base-color.webp",
+      "sha256": "88f2419e68224837a8edefd8e3986327eafd689d734bf67cd3ee2963bab69139"
+    },
+    {
+      "path": "res://assets/lands/island-3/terrain/shore.webp",
+      "file": "island-3-shore/base-color.webp",
+      "sha256": "ed567757092d4936fa57a480ba5ffd1f91e22223659c21ab5edca2314333a470"
+    },
+    {
+      "path": "res://assets/lands/island-3/terrain/water.webp",
+      "file": "island-3-water/base-color.webp",
+      "sha256": "3e793acb62586cd29ca8982831d77c4d5ed74be0495a0e5fa81372acd58bdc39"
+    },
+    {
+      "path": "res://assets/lands/island-4/terrain/b0.webp",
+      "file": "island-4-b0/base-color.webp",
+      "sha256": "dfd9364063735f9ba2cab22342532a2bd7dbc5575d250e5d673a291b4bfdac16"
+    },
+    {
+      "path": "res://assets/lands/island-4/terrain/b1.webp",
+      "file": "island-4-b1/base-color.webp",
+      "sha256": "251e9dcefb5475fa0e2e38ee919872e5b9861a3766cff74279a02410423e4d18"
+    },
+    {
+      "path": "res://assets/lands/island-4/terrain/b3.webp",
+      "file": "island-4-b1/base-color.webp",
+      "sha256": "251e9dcefb5475fa0e2e38ee919872e5b9861a3766cff74279a02410423e4d18"
+    },
+    {
+      "path": "res://assets/lands/island-4/terrain/b2.webp",
+      "file": "island-4-b2/base-color.webp",
+      "sha256": "45a12aec165b91404ab76456de8c991560388eec93305a8e3c0392bed2847945"
+    },
+    {
+      "path": "res://assets/lands/island-4/terrain/plaza.webp",
+      "file": "island-4-plaza/base-color.webp",
+      "sha256": "1559b9b723154b711462a88cd590f08837394a7241a259a19e7c17bf27285239"
+    },
+    {
+      "path": "res://assets/lands/island-4/terrain/road0.webp",
+      "file": "island-4-plaza/base-color.webp",
+      "sha256": "1559b9b723154b711462a88cd590f08837394a7241a259a19e7c17bf27285239"
+    },
+    {
+      "path": "res://assets/lands/island-4/terrain/shore.webp",
+      "file": "island-4-shore/base-color.webp",
+      "sha256": "cfa4ea9b6c0d8a37be1a4a32bb253ff300c1534c37ba4d0dc0bd898be62471e9"
+    },
+    {
+      "path": "res://assets/lands/island-4/terrain/water.webp",
+      "file": "island-4-water/base-color.webp",
+      "sha256": "29d00228b341b412b11bacf8575d38706af988b1064510b3e2d17857f4a2d035"
+    },
+    {
+      "path": "res://assets/lands/island-5/terrain/b0.webp",
+      "file": "island-5-b0/base-color.webp",
+      "sha256": "1f31959909299488c9cf7c3831e11436e84752b908de7697361aef8503fda313"
+    },
+    {
+      "path": "res://assets/lands/island-5/terrain/b1.webp",
+      "file": "island-5-b1/base-color.webp",
+      "sha256": "32b6f82067941ec29bc724c4b0cee8709b224acd1567fcd8f1c34e3f0385bc57"
+    },
+    {
+      "path": "res://assets/lands/island-5/terrain/b3.webp",
+      "file": "island-5-b1/base-color.webp",
+      "sha256": "32b6f82067941ec29bc724c4b0cee8709b224acd1567fcd8f1c34e3f0385bc57"
+    },
+    {
+      "path": "res://assets/lands/island-5/terrain/b2.webp",
+      "file": "island-5-b2/base-color.webp",
+      "sha256": "5dfde90cc2946b9ed778da83c2fe828bc9d49b370849817fd6905c4e1369a4c0"
+    },
+    {
+      "path": "res://assets/lands/island-5/terrain/plaza.webp",
+      "file": "island-5-plaza/base-color.webp",
+      "sha256": "e0b0bdafbda0fe2dff48ab6faa08bedb1d8fe3d09d4853ee5db8b5b97ddfab00"
+    },
+    {
+      "path": "res://assets/lands/island-5/terrain/road0.webp",
+      "file": "island-5-plaza/base-color.webp",
+      "sha256": "e0b0bdafbda0fe2dff48ab6faa08bedb1d8fe3d09d4853ee5db8b5b97ddfab00"
+    },
+    {
+      "path": "res://assets/lands/island-5/terrain/shore.webp",
+      "file": "island-5-shore/base-color.webp",
+      "sha256": "0bdb877018b5b14eb8ec163531b5dc6c3bc1eed82aa29d644dcb60cc6f36e36c"
+    },
+    {
+      "path": "res://assets/lands/island-5/terrain/water.webp",
+      "file": "island-5-water/base-color.webp",
+      "sha256": "e4b796f0372b00ab3e116c2763cbec87135dd58e34a055116716e7c72b38ffed"
+    },
+    {
+      "path": "res://assets/lands/island-6/terrain/b0.webp",
+      "file": "island-6-b0/base-color.webp",
+      "sha256": "6906a2d870f02ab74d74e75edfa1ce3d098fec804a74b4c5d1170dc0bd4d2be6"
+    },
+    {
+      "path": "res://assets/lands/island-6/terrain/b3.webp",
+      "file": "island-6-b0/base-color.webp",
+      "sha256": "6906a2d870f02ab74d74e75edfa1ce3d098fec804a74b4c5d1170dc0bd4d2be6"
+    },
+    {
+      "path": "res://assets/lands/island-6/terrain/b1.webp",
+      "file": "island-6-b1/base-color.webp",
+      "sha256": "440b5ca3f5aacc419289773782d772deaa0915ed24e0e85e507b967c522d03a5"
+    },
+    {
+      "path": "res://assets/lands/island-6/terrain/b2.webp",
+      "file": "island-6-b2/base-color.webp",
+      "sha256": "22b28294b3e785dad2560a02798e071a234767490f5204cf6213f60d4cf9ffa1"
+    },
+    {
+      "path": "res://assets/lands/island-6/terrain/plaza.webp",
+      "file": "island-6-plaza/base-color.webp",
+      "sha256": "5d936812d2855e4e74bea8cbff274a684a2407824a7bca4b7489fce35201b6d9"
+    },
+    {
+      "path": "res://assets/lands/island-6/terrain/road0.webp",
+      "file": "island-6-plaza/base-color.webp",
+      "sha256": "5d936812d2855e4e74bea8cbff274a684a2407824a7bca4b7489fce35201b6d9"
+    },
+    {
+      "path": "res://assets/lands/island-6/terrain/shore.webp",
+      "file": "island-6-shore/base-color.webp",
+      "sha256": "a78fe3c9b09d5b269779d4b05210aa0ae459864d0ee5a79e3854a84f353621c1"
+    },
+    {
+      "path": "res://assets/lands/island-6/terrain/special.webp",
+      "file": "island-6-special/base-color.webp",
+      "sha256": "6485f46168e1dbfd318c772e034193f4e91b44ff402d14b72714f863403f5f32"
+    },
+    {
+      "path": "res://assets/lands/island-6/terrain/water.webp",
+      "file": "island-6-water/base-color.webp",
+      "sha256": "b1a896ad60f92fca3533dca34f41dc93f3e361d7f35e105dcf0b3f5f6eb9dc2c"
+    },
+    {
+      "path": "res://assets/lands/nexus/terrain/b0.webp",
+      "file": "nexus-b0/base-color.webp",
+      "sha256": "5ce9b9ce59e113af6326a77fc7b2f21c9319789b3162b0f24c97600256031ab2"
+    },
+    {
+      "path": "res://assets/lands/nexus/terrain/b1.webp",
+      "file": "nexus-b1/base-color.webp",
+      "sha256": "117d254b26bc2c7ad752bf9f9c9c3b5f3a62e569abccf65901ad25affdafdd2f"
+    },
+    {
+      "path": "res://assets/lands/nexus/terrain/b2.webp",
+      "file": "nexus-b2/base-color.webp",
+      "sha256": "30feec56d0671b2fc09cfb546ef9330dd58e79d23fbcf0a34d30d7cede961e91"
+    },
+    {
+      "path": "res://assets/lands/nexus/terrain/b3.webp",
+      "file": "nexus-b3/base-color.webp",
+      "sha256": "b4805e17dd8b881d5d3724dec86dfe98a28008f748a5cd91c3e310a76bb38e0b"
+    },
+    {
+      "path": "res://assets/lands/nexus/terrain/over1.webp",
+      "file": "nexus-over1/base-color.webp",
+      "sha256": "ca61a769f39b9de3d980e146f6032cd7864437f0caf3d500ed39dd2d3578c70b"
+    },
+    {
+      "path": "res://assets/lands/nexus/terrain/over2.webp",
+      "file": "nexus-over2/base-color.webp",
+      "sha256": "749ebc094b582ba24017ed9c14c6adbe5174ead0100a7ee88f061e7c59382cc9"
+    },
+    {
+      "path": "res://assets/lands/nexus/terrain/road0.webp",
+      "file": "nexus-road0/base-color.webp",
+      "sha256": "f5d305eaf0a7da1f1590edf03d6a1dcef441b2af1cce68f0f93bc90fa834f55f"
+    },
+    {
+      "path": "res://assets/lands/nexus/terrain/road1.webp",
+      "file": "nexus-road1/base-color.webp",
+      "sha256": "6f3c204e18c15a0a7780be6b94ffa5579955488de974f002d674332752bce686"
+    },
+    {
+      "path": "res://assets/lands/nexus/terrain/road2.webp",
+      "file": "nexus-road2/base-color.webp",
+      "sha256": "53af6c78a96d733c38befbc153c874928207a67aac5b3c165f3fe2e564a1d7ec"
+    },
+    {
+      "path": "res://assets/lands/nexus/terrain/road3.webp",
+      "file": "nexus-road3/base-color.webp",
+      "sha256": "e5900249629dccbd8d3fb3235def91fbfd05891b7e13ebb8b5fba5fd591e2fa7"
+    },
+    {
+      "path": "res://assets/lands/nexus/terrain/shore.webp",
+      "file": "nexus-shore/base-color.webp",
+      "sha256": "e9f856614c2b1a3f4af9037bbda8fdee52fafe5bd83d47d383629cd25641572e"
+    },
+    {
+      "path": "res://assets/lands/nexus/terrain/special.webp",
+      "file": "nexus-special/base-color.webp",
+      "sha256": "92900ef8b6e0f01115cad6d46ee4c8d7eaafd68c0f6448ba399d152d3e266594"
+    },
+    {
+      "path": "res://assets/lands/nexus/terrain/water.webp",
+      "file": "nexus-water/base-color.webp",
+      "sha256": "d488126324d8e2ef8cba6308de1105be65298f4fbeb917b77d2f3e2ef3fb0199"
+    },
+    {
+      "path": "res://assets/lands/pyra/terrain/b0.webp",
+      "file": "pyra-b0/base-color.webp",
+      "sha256": "cbb910526b9bfb70e1edb577c5ed8456d5b7c3da9dfb42db4fe493a119f372a3"
+    },
+    {
+      "path": "res://assets/lands/pyra/terrain/b1.webp",
+      "file": "pyra-b1/base-color.webp",
+      "sha256": "33b83ec1ff37c15b6780aa5b5f75ab342832f8000594898d4585834913b011f2"
+    },
+    {
+      "path": "res://assets/lands/pyra/terrain/b2.webp",
+      "file": "pyra-b2/base-color.webp",
+      "sha256": "16b6f40d54723ae04d8527d68d8abba72ff28a31b345710cff59a092d7d7c16a"
+    },
+    {
+      "path": "res://assets/lands/pyra/terrain/b3.webp",
+      "file": "pyra-b3/base-color.webp",
+      "sha256": "bf9476ad73c00233712ec5f91223fd5feb1e00611c5059efa9b406467b606314"
+    },
+    {
+      "path": "res://assets/lands/pyra/terrain/over1.webp",
+      "file": "pyra-over1/base-color.webp",
+      "sha256": "5e348d70b52159fbd46aebb0ce655fad688cfc3365d5038c037d4bad3e8d9525"
+    },
+    {
+      "path": "res://assets/lands/pyra/terrain/over2.webp",
+      "file": "pyra-over2/base-color.webp",
+      "sha256": "27a4f49401126c4fbda4bd61c0b75fd79e49c68f55df58369f82598be4643f6b"
+    },
+    {
+      "path": "res://assets/lands/pyra/terrain/road0.webp",
+      "file": "pyra-road0/base-color.webp",
+      "sha256": "307acb18042b136dbd17e91e5c272693dd4cc7961c47f27ba21e77dce5c5fb71"
+    },
+    {
+      "path": "res://assets/lands/pyra/terrain/road1.webp",
+      "file": "pyra-road1/base-color.webp",
+      "sha256": "6140784869e65b4a0d907b3874a1c2e253a498cf2ed10b8e249c301d600a5b5d"
+    },
+    {
+      "path": "res://assets/lands/pyra/terrain/road2.webp",
+      "file": "pyra-road2/base-color.webp",
+      "sha256": "101074693ee95083d81946929b5cc8446dc90c1a3f61094cb6ba5bcea8f7be7b"
+    },
+    {
+      "path": "res://assets/lands/pyra/terrain/road3.webp",
+      "file": "pyra-road3/base-color.webp",
+      "sha256": "d23d0601eeb823cb0c5429eea20a51106342eab919074e39fd059b40c75d77a4"
+    },
+    {
+      "path": "res://assets/lands/pyra/terrain/shore.webp",
+      "file": "pyra-shore/base-color.webp",
+      "sha256": "ba296a4ad8f9f05db145783cebbe14f7737509a7c492d3c6bdd9de27a7367440"
+    },
+    {
+      "path": "res://assets/lands/pyra/terrain/special.webp",
+      "file": "pyra-special/base-color.webp",
+      "sha256": "9e2ffd598400c4a24020d07ba9139b61a213548a5e0e97f4ce6fbacfca1385d7"
+    },
+    {
+      "path": "res://assets/lands/pyra/terrain/water.webp",
+      "file": "pyra-water/base-color.webp",
+      "sha256": "f3b0f83c2a82366750582787d8d6f2d67711807460d9293bc7cbaa5e2c1869f8"
+    },
+    {
+      "path": "res://assets/lands/verdant/terrain/b0.webp",
+      "file": "verdant-b0/base-color.webp",
+      "sha256": "f2dfa37b439b8a022a759315b87b4ef4feedca86441476c56bec7bed486147b2"
+    },
+    {
+      "path": "res://assets/lands/verdant/terrain/b1.webp",
+      "file": "verdant-b1/base-color.webp",
+      "sha256": "8c8218d33898c90ce941747bdf993bac17f56555b88e6c7dec28afd34f62378a"
+    },
+    {
+      "path": "res://assets/lands/verdant/terrain/b2.webp",
+      "file": "verdant-b2/base-color.webp",
+      "sha256": "f0237ab2598bf20feac830dc1adab5280d3199235d8b569e59da234a1ef72ae2"
+    },
+    {
+      "path": "res://assets/lands/verdant/terrain/b3.webp",
+      "file": "verdant-b3/base-color.webp",
+      "sha256": "79897bd1a032f8cb46cf932c06b5c78d7945fb79b4dd31bec9d7dfecdd2ab6a5"
+    },
+    {
+      "path": "res://assets/lands/verdant/terrain/road0.webp",
+      "file": "verdant-road0/base-color.webp",
+      "sha256": "543f17df427d2ce9ecf34c0e10c96dae023299b2c15dba39b573bece55460ce6"
+    },
+    {
+      "path": "res://assets/lands/verdant/terrain/road1.webp",
+      "file": "verdant-road1/base-color.webp",
+      "sha256": "19d3c0df4a6801f1e10742e4f58bbda39cb52237208664d4ab07b9f6d1746db7"
+    },
+    {
+      "path": "res://assets/lands/verdant/terrain/road2.webp",
+      "file": "verdant-road2/base-color.webp",
+      "sha256": "09d9b0d85a66f3291ada30017c41fd09f701fc40615693a11f2d5c7c11a0791e"
+    },
+    {
+      "path": "res://assets/lands/verdant/terrain/road3.webp",
+      "file": "verdant-road3/base-color.webp",
+      "sha256": "1bb32e4587ffbf6f9f9d122065222170543d2d5e770d7dab26857c1ad138f509"
+    },
+    {
+      "path": "res://assets/lands/verdant/terrain/shore.webp",
+      "file": "verdant-shore/base-color.webp",
+      "sha256": "7dd28125fc26741373015604e477388a31253cf60b40717079f913a09c1ea9c9"
+    },
+    {
+      "path": "res://assets/lands/verdant/terrain/water.webp",
+      "file": "verdant-water/base-color.webp",
+      "sha256": "3f4d5daf48a7a1e8e5931ee3ed1511e3f4c9e2660c059d45955ae0264bff710e"
+    }
+  ]
+}

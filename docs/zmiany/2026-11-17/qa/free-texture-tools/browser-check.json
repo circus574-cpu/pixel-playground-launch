@@ -1,0 +1,82 @@
+[
+  {
+    "tool": "normal-map-generator",
+    "url": "https://www.meshy.ai/3d-tools/normal-map-generator",
+    "output": "normal-map-generator.png",
+    "postRequests": [
+      {
+        "method": "POST",
+        "url": "https://www.meshy.ai/sa/rgstr",
+        "bytes": 1611
+      },
+      {
+        "method": "POST",
+        "url": "https://www.meshy.ai/sa/rgstr",
+        "bytes": 12169
+      },
+      {
+        "method": "POST",
+        "url": "https://www.meshy.ai/sa/rgstr",
+        "bytes": 10511
+      },
+      {
+        "method": "POST",
+        "url": "https://www.google.com/measurement/conversion",
+        "bytes": 0
+      },
+      {
+        "method": "POST",
+        "url": "https://analytics.google.com/g/collect",
+        "bytes": 0
+      },
+      {
+        "method": "POST",
+        "url": "https://stats.g.doubleclick.net/g/collect",
+        "bytes": 0
+      },
+      {
+        "method": "POST",
+        "url": "https://tracking-api.g2.com/attribution_tracking/conversions/assign",
+        "bytes": 1217
+      },
+      {
+        "method": "POST",
+        "url": "https://tracking-api.g2.com/attribution_tracking/conversions/assign",
+        "bytes": 1238
+      },
+      {
+        "method": "POST",
+        "url": "https://wa.appsflyersdk.com/events",
+        "bytes": 1592
+      },
+      {
+        "method": "POST",
+        "url": "https://bzr.openai.com/v1/sdk/events",
+        "bytes": 1328
+      },
+      {
+        "method": "POST",
+        "url": "https://px.ads.linkedin.com/wa/",
+        "bytes": 524
+      }
+    ]
+  },
+  {
+    "tool": "seamless-texture-generator",
+    "url": "https://www.meshy.ai/3d-tools/seamless-texture-generator",
+    "output": "seamless-texture-generator.png",
+    "postRequests": [
+      {
+        "method": "POST",
+        "url": "https://www.meshy.ai/sa/rgstr",
+        "bytes": 1636
+      },
+      {
+        "method": "POST",
+        "url": "https://www.meshy.ai/sa/rgstr",
+        "bytes": 23953
+      }
+    ],
+    "note": "Successful later retry after waiting for hydration; PBR ZIP gate requires a free account, ZIP not downloaded."
+  }
+]

@@ -1,0 +1,69 @@
+{
+	"checks": [
+		{
+			"hashesMatch": true,
+			"land": "verdant",
+			"material": "verdant-b0",
+			"texturesLoaded": 3
+		},
+		{
+			"hashesMatch": true,
+			"land": "aether",
+			"material": "aether-b0",
+			"texturesLoaded": 3
+		},
+		{
+			"hashesMatch": true,
+			"land": "nexus",
+			"material": "nexus-b0",
+			"texturesLoaded": 3
+		},
+		{
+			"hashesMatch": true,
+			"land": "pyra",
+			"material": "pyra-b0",
+			"texturesLoaded": 3
+		},
+		{
+			"hashesMatch": true,
+			"land": "island-1",
+			"material": "island-1-b0",
+			"texturesLoaded": 3
+		},
+		{
+			"hashesMatch": true,
+			"land": "island-2",
+			"material": "island-2-b0",
+			"texturesLoaded": 3
+		},
+		{
+			"hashesMatch": true,
+			"land": "island-3",
+			"material": "island-3-b0",
+			"texturesLoaded": 3
+		},
+		{
+			"hashesMatch": true,
+			"land": "island-4",
+			"material": "island-4-b0",
+			"texturesLoaded": 3
+		},
+		{
+			"hashesMatch": true,
+			"land": "island-5",
+			"material": "island-5-b0",
+			"texturesLoaded": 3
+		},
+		{
+			"hashesMatch": true,
+			"land": "island-6",
+			"material": "island-6-b0",
+			"texturesLoaded": 3
+		}
+	],
+	"gameIntegrated": false,
+	"heightShown": false,
+	"normalScale": 0.55,
+	"physicalPhoneTested": false,
+	"renderer": "X11"
+}

@@ -1,0 +1,3646 @@
+{
+  "schema": 1,
+  "sourceCommit": "d509bac79c85db2e427b1e5beb3a09230228f8d7",
+  "scope": "Review pack; not installed in game",
+  "paidApiCalls": 0,
+  "provenanceStatus": "Derived from existing assets; original rights status is inherited, not independently proven",
+  "tools": {
+    "seamless": "Meshy free browser utility, 50% blend",
+    "derivedMaps": "NumPy/SciPy/Pillow CPU luminance estimation",
+    "normalConvention": "OpenGL +Y; tangent Y points up, image row points down"
+  },
+  "materials": [
+    {
+      "id": "aether-b0",
+      "sourceSha256": "fc831dd95e62fedcac85ea8080205de2c365be2881d40214913648d40a74bc2c",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/aether/terrain/b0.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "aether-b0/base-color.webp",
+          "sha256": "255468e22ad45176accbc24008700d68fa73d0c2f6bf0d115e17857eb5a1b7ce",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "aether-b0/normal-opengl.webp",
+          "sha256": "857fe4dc482b33b6f37f268aff8eccdbb41737180ba94a0f99be246546d25c8e",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "aether-b0/height-estimated.webp",
+          "sha256": "a4b3ea6bf2d315d1fbe5a8d3814971954972318cdffb8ddbce1dc5585b073be0",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "aether-b0/roughness-estimated.webp",
+          "sha256": "f71d918412b744078b67c1743fe6b82f7fd5626faadef58b3ea37487cd741ec5",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "aether-b1",
+      "sourceSha256": "32b2eaf656b2b12ba20469d3ca5a17fea2794142c134bc1247b752afa2c2189c",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/aether/terrain/b1.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "aether-b1/base-color.webp",
+          "sha256": "a86b0beaf8403ee49751e921008052195792e9f06d140be18881ba0971b94ac2",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "aether-b1/normal-opengl.webp",
+          "sha256": "8ae4345723999e02fdd0b6e74012f25bf29bfd3151a657fd896eb9d9d2ddb7d4",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "aether-b1/height-estimated.webp",
+          "sha256": "10e0277b1ba0026571fca3205d9f11164368c951364a0db0d0f5eace2a997bbd",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "aether-b1/roughness-estimated.webp",
+          "sha256": "fbe1e98731275a341446ec0b782d6ad78d1d2cadf3214ed49087a486706b5fdd",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "aether-b2",
+      "sourceSha256": "e61405231727b31a94509dff973940a5ffe82e32d3decd8aa6b0c3bd97bc107d",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/aether/terrain/b2.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "aether-b2/base-color.webp",
+          "sha256": "5ef5e607b6b7612bc251c9bd69cfc83b06cb3af594ee74a180436d9489a36b11",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "aether-b2/normal-opengl.webp",
+          "sha256": "7a9182017edb02224cafe8f57329227ca99edb6365b33b6b6e90f86f5023c6bb",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "aether-b2/height-estimated.webp",
+          "sha256": "d1b0d393e652a32e524da0405dceb7a99846f375d3f51b21a924a3db59cc2b80",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "aether-b2/roughness-estimated.webp",
+          "sha256": "28595c654083aaa91cfabc461a8f1c24bcebce8a71e6e70846a931404e6e4e1d",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "aether-b3",
+      "sourceSha256": "9b5d04c884861ab0b9aff5ac1358600bb4100709293298f1f6b2dd6f899b0096",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/aether/terrain/b3.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "aether-b3/base-color.webp",
+          "sha256": "a41a8b6fd6ff9868a837241530fc9199236afcc82bb2e4025dc3150c9a054684",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "aether-b3/normal-opengl.webp",
+          "sha256": "63a2d8b4a2ef37a204d8560c18c17dcd73ba388db5a3ed71c794814ca3b9b6d7",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "aether-b3/height-estimated.webp",
+          "sha256": "a116d6cfa88cc1a32a31efaf0f6c39acedae68484752760910bda86ea95ce137",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "aether-b3/roughness-estimated.webp",
+          "sha256": "188dd3312672cdb49f5ffde9e535113faef8613875325aef8733a6abdba3370b",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "aether-over1",
+      "sourceSha256": "52c04c74ae929367ec6159336d03e83ac39dbc7175c4145f2819dde050604090",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/aether/terrain/over1.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "aether-over1/base-color.webp",
+          "sha256": "5c2fe008672f290409cb4fd2aa745551963bc9465ce60fdf7e005babb1925dea",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "aether-over1/normal-opengl.webp",
+          "sha256": "2ff87fa6f4040d450108ebb720ea8a1de9c7d847c010ccf24a85283b3f5c5075",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "aether-over1/height-estimated.webp",
+          "sha256": "cc066e30ff130eb36d330bfae0184baf0f25d47522388ce68e044eed85d4ff1d",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "aether-over1/roughness-estimated.webp",
+          "sha256": "e2e773780eb9e34990f7acde4fb0c34b2e9239ee776d638afc15f5df60865d35",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "aether-over2",
+      "sourceSha256": "486a84060f3cd78db37d7381fdcd6f479318a3763363ed89072721c5bd3ab3b5",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/aether/terrain/over2.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "aether-over2/base-color.webp",
+          "sha256": "21f8ef6d2fb9e005a46cf0a6757ac231580af8a9c4bfa7f73f37de68db3f802b",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "aether-over2/normal-opengl.webp",
+          "sha256": "3b65b6487e82e8b3ba6a9a37138c33568113a8c6d100cd101345b1d311854895",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "aether-over2/height-estimated.webp",
+          "sha256": "d8548c95043bd60f512ea77ab210ddba5ade6d5eb34f407f2e4d7a3ecf1bf26a",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "aether-over2/roughness-estimated.webp",
+          "sha256": "8202d455586676bd7d9ff21563b0840e5fb273fa2fec20aa302130d457e5b270",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "aether-road0",
+      "sourceSha256": "833278193bded1a55c73a05368aed2daae0819fc938c2aecaeb628602538691d",
+      "width": 512,
+      "height": 41,
+      "tileCandidate": false,
+      "sources": [
+        "ports/godot-pyra/assets/lands/aether/terrain/road0.webp"
+      ],
+      "baseColorMethod": "Existing non-square source; lossless transcode, layout preserved",
+      "maps": {
+        "base-color": {
+          "file": "aether-road0/base-color.webp",
+          "sha256": "9792217628556dc265fb47b343c5c497ff26ab0a1d6b1f3382d0857be420b3ba",
+          "width": 512,
+          "height": 41,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "aether-road0/normal-opengl.webp",
+          "sha256": "a0f8df2f227e6df350a80892d8ec8356ebdc3c1124e2c894a017bf222eff9f51",
+          "width": 256,
+          "height": 21,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "aether-road0/height-estimated.webp",
+          "sha256": "e5b7430464819f3987edc26afc54c461193d2dc35520ed1d4fb5b691588e6f03",
+          "width": 256,
+          "height": 21,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "aether-road0/roughness-estimated.webp",
+          "sha256": "6530fc7bcf85cc03cc0dd91505fa89daa508bcdd1b2d131e2992186b0d9706cd",
+          "width": 256,
+          "height": 21,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 148480
+    },
+    {
+      "id": "aether-road1",
+      "sourceSha256": "b0ab5c480a26a689645d8fcb19bcddd8bf70c2f1ba38a3d261ff27ae33491a44",
+      "width": 512,
+      "height": 41,
+      "tileCandidate": false,
+      "sources": [
+        "ports/godot-pyra/assets/lands/aether/terrain/road1.webp"
+      ],
+      "baseColorMethod": "Existing non-square source; lossless transcode, layout preserved",
+      "maps": {
+        "base-color": {
+          "file": "aether-road1/base-color.webp",
+          "sha256": "ccb672029b93733ece7216890b017da71179b8a3b29eb23f35798b022bfb0214",
+          "width": 512,
+          "height": 41,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "aether-road1/normal-opengl.webp",
+          "sha256": "701a4686c9d1492a8e8ee803c97bf3a3ee6f8d7e77eb0a366faec5fd8f6ab890",
+          "width": 256,
+          "height": 21,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "aether-road1/height-estimated.webp",
+          "sha256": "d9a87c12d759d2aa99dba6611e67ed042bad49e3ddbddbe9b09aefb1c95f3d77",
+          "width": 256,
+          "height": 21,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "aether-road1/roughness-estimated.webp",
+          "sha256": "bd595493c105aed0219331a2367549c7c1f46b980cffea3efe1b879d60ad131c",
+          "width": 256,
+          "height": 21,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 148480
+    },
+    {
+      "id": "aether-road2",
+      "sourceSha256": "9dcc7b84af9b160fdfae514d9bc60a0e5b5ec2ce4e6c33aadee918f13c2d79c2",
+      "width": 512,
+      "height": 41,
+      "tileCandidate": false,
+      "sources": [
+        "ports/godot-pyra/assets/lands/aether/terrain/road2.webp"
+      ],
+      "baseColorMethod": "Existing non-square source; lossless transcode, layout preserved",
+      "maps": {
+        "base-color": {
+          "file": "aether-road2/base-color.webp",
+          "sha256": "cc6d2f8a0de0510a8b517009204f07f8da16c74ca088cbd96a6d7d84c07d0a7a",
+          "width": 512,
+          "height": 41,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "aether-road2/normal-opengl.webp",
+          "sha256": "8c310a1636485f75466216d6da6992356ac7bd9fc6254aae0e08e280288c6f41",
+          "width": 256,
+          "height": 21,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "aether-road2/height-estimated.webp",
+          "sha256": "529d9d8a676ecbc1aa812fff905d06e868250ddedd0474b5b6ffd4ccf20e3699",
+          "width": 256,
+          "height": 21,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "aether-road2/roughness-estimated.webp",
+          "sha256": "83003f43655d196cd55fdf4d5ed8aae89c0a810867eb2205b9c3ea65818705ec",
+          "width": 256,
+          "height": 21,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 148480
+    },
+    {
+      "id": "aether-road3",
+      "sourceSha256": "bf65e7982d049d6cae85d3edd4b604c1699c3e368d7eee17f7ab99818eb0be9f",
+      "width": 512,
+      "height": 41,
+      "tileCandidate": false,
+      "sources": [
+        "ports/godot-pyra/assets/lands/aether/terrain/road3.webp"
+      ],
+      "baseColorMethod": "Existing non-square source; lossless transcode, layout preserved",
+      "maps": {
+        "base-color": {
+          "file": "aether-road3/base-color.webp",
+          "sha256": "38be4f197c74a6d5685672f4b71859cb33057713deed221dcc3273777408e2ff",
+          "width": 512,
+          "height": 41,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "aether-road3/normal-opengl.webp",
+          "sha256": "934936b7e865ed7d2adb41d21e7435153455b62a654de14fcde4fa2e6bf10b2f",
+          "width": 256,
+          "height": 21,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "aether-road3/height-estimated.webp",
+          "sha256": "41a5ea89e8f57fc349c243dd99db0868c289ca35216a5691a178f94b4f15a9ee",
+          "width": 256,
+          "height": 21,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "aether-road3/roughness-estimated.webp",
+          "sha256": "1562937e7ae8f278fa6d3e67812a50734807dad3f0a73f77fcb03e6ba77fadf8",
+          "width": 256,
+          "height": 21,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 148480
+    },
+    {
+      "id": "aether-road4",
+      "sourceSha256": "fa22d256a7d8e472f9b8d67ea7af0772af022da08f57b6b520018f6cbc025743",
+      "width": 512,
+      "height": 41,
+      "tileCandidate": false,
+      "sources": [
+        "ports/godot-pyra/assets/lands/aether/terrain/road4.webp"
+      ],
+      "baseColorMethod": "Existing non-square source; lossless transcode, layout preserved",
+      "maps": {
+        "base-color": {
+          "file": "aether-road4/base-color.webp",
+          "sha256": "3f4348cbf519289cae22dfdd3f434ada60b10c91e03076dee27b59d21d80945f",
+          "width": 512,
+          "height": 41,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "aether-road4/normal-opengl.webp",
+          "sha256": "3980cde710df1438412bd3a86ff7a7f57ac5236cb2b7c8ec45b4f99b76d4ba44",
+          "width": 256,
+          "height": 21,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "aether-road4/height-estimated.webp",
+          "sha256": "2da185c95f5440411862c651f5e481f472edd80c86aaef752184c77c5f445da4",
+          "width": 256,
+          "height": 21,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "aether-road4/roughness-estimated.webp",
+          "sha256": "c740478cc18af46e2df8a2ac40900642bb91bf5ed1cf46e736d75caa6d9de8e9",
+          "width": 256,
+          "height": 21,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 148480
+    },
+    {
+      "id": "aether-shore",
+      "sourceSha256": "f59b21a64994d4ceabc5858f2b63b50a4a42b33b2e53ac105d92fa051d6a2d9f",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/aether/terrain/shore.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "aether-shore/base-color.webp",
+          "sha256": "ebb1d6410b400f730b5b6c4a422ea8ff02b8d30d663670058d4370747412df25",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "aether-shore/normal-opengl.webp",
+          "sha256": "f5219aca44ba66032e2bb8904a5961b820cf07156fab4cc1fd05233ee3345f7e",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "aether-shore/height-estimated.webp",
+          "sha256": "169bab50d0935247e6ad5d9728166d98cbf0bee6c8907ed869c3293362af6fb2",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "aether-shore/roughness-estimated.webp",
+          "sha256": "df225920a5b24a55ad5dc049b8078a80f3b48ce0d5341aeba33d70e6b6f0a475",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "aether-water",
+      "sourceSha256": "9b102c8b9ded665cebb6c9fc70734cc283a0b36a582a56884a48a732d9668e70",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/aether/terrain/water.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "aether-water/base-color.webp",
+          "sha256": "291f5e641b1ca8dc2bf53ffd6e01138f747135ef7c134ccead71303fd5cf8c34",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "aether-water/normal-opengl.webp",
+          "sha256": "ce13ce4c691151bf82869a4368525d76077e276909d70f15bbe854c89c6c1b9a",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "aether-water/height-estimated.webp",
+          "sha256": "098b4d313f21115f9c613e7c579385f72f041e869a8efa6986648fef7d604010",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "aether-water/roughness-estimated.webp",
+          "sha256": "6422d8db561af244dca0afd4464a1b01de515b85a6fc821b95776c6d8629a3b4",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "island-1-b0",
+      "sourceSha256": "e6b3896398ad5616703dfc6565333d738df82c3d32621ad0d7eaa1f74e92b691",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-1/terrain/b0.webp",
+        "ports/godot-pyra/assets/lands/island-1/terrain/b1.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-1-b0/base-color.webp",
+          "sha256": "45faf1f32a252bc97206ce7e0df13752cbac22d30c825160830e3fc5e4612311",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-1-b0/normal-opengl.webp",
+          "sha256": "409eacc6ead02ed9613f101baa205f909ebb82d232f61bf606d81b7581557970",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-1-b0/height-estimated.webp",
+          "sha256": "d6efe2ef95a3e01edf6eebd94bf3e460d08d20abde9f2c2601c26257e4eec9e2",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-1-b0/roughness-estimated.webp",
+          "sha256": "f6365950fcab302d7cba0571670b32a3ce4ed4d287f010253a5bb8f67dc95874",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-1-b2",
+      "sourceSha256": "c9f0fcc1281830827d46424a8b9cafcf362f9a6fdabd92b913fe5c080b702025",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-1/terrain/b2.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-1-b2/base-color.webp",
+          "sha256": "2b906a19fec7fcf0d7c669ae4f95cf542a39975061a9eee85ffa41ab07b43a03",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-1-b2/normal-opengl.webp",
+          "sha256": "0dbe4ced9a0eb17262a3e52049342d77572637d825746fd4061ef9d4e1ddb33f",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-1-b2/height-estimated.webp",
+          "sha256": "fb26a1bff7ce62ab82e4838547ff513f2a2c65d5ab7fceb740b02294450b2977",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-1-b2/roughness-estimated.webp",
+          "sha256": "cedc1c8dd5da3ff9b140d3572a433f86ff61c27e2570984fd5749ede0446dcbb",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-1-b3",
+      "sourceSha256": "c341e897fc40169c0ee91c7754f17d2d9e2e485776074c92669b29e129e25792",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-1/terrain/b3.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-1-b3/base-color.webp",
+          "sha256": "8590128b5846393eddd61cc6618f387651e9c9f5d202afa204be89400702f1b7",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-1-b3/normal-opengl.webp",
+          "sha256": "ccfe892314012a74a222e813600d86d21655d803ac81e5cb79cfe262f0209702",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-1-b3/height-estimated.webp",
+          "sha256": "ab5202d13ca6b4148121b585d7b599aec6507d87d10df5897393ee0fc82b534e",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-1-b3/roughness-estimated.webp",
+          "sha256": "8aac928e1e6fa0cdd6b1964edae9cab646d63c0adad9b9d5c0e21d5281d09e4e",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-1-plaza",
+      "sourceSha256": "19a285bff9066490232e4b65b7d1b5bef96a8bea3578ad00e894e2296de52b66",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-1/terrain/plaza.webp",
+        "ports/godot-pyra/assets/lands/island-1/terrain/road0.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-1-plaza/base-color.webp",
+          "sha256": "2ecd3d2f67e7f43efbb2de5b9042ddb0ab705bf6eab5498acc9652f2edc21d42",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-1-plaza/normal-opengl.webp",
+          "sha256": "6d2ef6924760ba6ca2737ccb958b3b1586a9708f62af4db69e476b81544091c8",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-1-plaza/height-estimated.webp",
+          "sha256": "a96bbcfc6e6d71af3f9162f0314b3ba6e1918f99b6f52221639021aa51a91bea",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-1-plaza/roughness-estimated.webp",
+          "sha256": "0fd79f26836d913ac1b69c83fac8933395663b76d4e83d741947ddd00c615cb2",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-1-shore",
+      "sourceSha256": "9ba161c8d176ba7911766ebf3417cd1a7e8e66d7dce356f0c39cc155fd56708d",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-1/terrain/shore.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-1-shore/base-color.webp",
+          "sha256": "96837aae3365fe5c79dd516bfce3108cce6f19471cf6a684ca181871647c141a",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-1-shore/normal-opengl.webp",
+          "sha256": "f168e0862c040459a083974c8edc4be688182265a05e404f0ed198691b21489f",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-1-shore/height-estimated.webp",
+          "sha256": "da7222480f9f4569570b5e60124cf19931b34c808747fb64fc0929e584cba996",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-1-shore/roughness-estimated.webp",
+          "sha256": "ea38580826389c3c6a4d9be68cc884b47fbf902d7fe86b181e7056576ee8eabc",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-1-water",
+      "sourceSha256": "287f9e0becbb5742f7929379f44e787d25bcd5e5be5a5737e1d2238585982ab3",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-1/terrain/water.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-1-water/base-color.webp",
+          "sha256": "c598535450f7cc840f17449e061419cb6f19423fc1dbf66171d93f73a171477a",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-1-water/normal-opengl.webp",
+          "sha256": "b581b0e909d68aee49ca752c97bb683c4535ae3d533f624de6c692d57562b9ce",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-1-water/height-estimated.webp",
+          "sha256": "49bb3a9915cdb6eb0b2e4744a6c2a09d7d3b27e8631829dcb6127f4f5a308836",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-1-water/roughness-estimated.webp",
+          "sha256": "fc6a4f3b4cc8737df5578a56d5883ccd355d8e35151ff07edafab583954a6179",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-2-b0",
+      "sourceSha256": "34a3acc14d3a80bc1c2b95e85ca0a01d95a5b8042c475e69bd73605ed5cc4a8a",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-2/terrain/b0.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-2-b0/base-color.webp",
+          "sha256": "563e70d2361cc12a2fb2b1c7fa08292449f7c4ddcdf9780a3482b34d4813c157",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-2-b0/normal-opengl.webp",
+          "sha256": "f66138441799cc3a3c65796b8271ed469c63a05b17ad9bfbf9532d7aba0427d1",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-2-b0/height-estimated.webp",
+          "sha256": "535ae4d5b99e7e95ba7d3e671e6df720e666273c68d2aeca3d6041e15609b3a7",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-2-b0/roughness-estimated.webp",
+          "sha256": "cbb995e36b60d4945a2f3aa6476444806ab04e03aecab702e404bbbccc6a1665",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-2-b1",
+      "sourceSha256": "ac89e35a4e074f63b5e71d35f81d8db86046b23fff2be334897990e37ad01303",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-2/terrain/b1.webp",
+        "ports/godot-pyra/assets/lands/island-2/terrain/b3.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-2-b1/base-color.webp",
+          "sha256": "b7114660b6d391ecb107132ad4bc687950494ae940fa6569bdd51f4b74c2e540",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-2-b1/normal-opengl.webp",
+          "sha256": "590b0ab0540742081d8d89fbb8a24fee057544112a854348ad4caf5b3960d5ca",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-2-b1/height-estimated.webp",
+          "sha256": "a9f3ee9af1db22f5464dddb456ad7e69016507944ac78906d55c995960fd8d22",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-2-b1/roughness-estimated.webp",
+          "sha256": "30936f39bf0436dbe76d78dff78b40cd566ad3006b76152476baa4b98fb6d05f",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-2-b2",
+      "sourceSha256": "a3f64907d60a1c450200df0fbc60a392481d7e2f21a3162094b7c3776a605463",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-2/terrain/b2.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-2-b2/base-color.webp",
+          "sha256": "d1bf48dede717a4085c3638ab6fd5f8536bc16dad58527ca0c2e6f3ffcfd0e8d",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-2-b2/normal-opengl.webp",
+          "sha256": "b778c1af09e2983d9bd931e0cedf12c332e918ddb3e2c3a3a6e5c38c8a693bbb",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-2-b2/height-estimated.webp",
+          "sha256": "f663923914b7e37dd7f7fd521416e6a697d1d7a11d98fac89984cb75b5d457c0",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-2-b2/roughness-estimated.webp",
+          "sha256": "4c455aaf19e4cdc99612a7a1c0043d486846e12dbafa3aa6029b7edecc04461d",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-2-plaza",
+      "sourceSha256": "0666b7d018508dde34c90fef91c9a08aa68f8dca277495ac5420b913a63ea5ad",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-2/terrain/plaza.webp",
+        "ports/godot-pyra/assets/lands/island-2/terrain/road0.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-2-plaza/base-color.webp",
+          "sha256": "604d49dbec66af43deeecc2fa01d6f400fdf2bd80d77460f6fc0c97a27a8eed6",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-2-plaza/normal-opengl.webp",
+          "sha256": "aa8194b3158500c77339c6ab61e5a74575190819ac815c25de511097c8dccf9b",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-2-plaza/height-estimated.webp",
+          "sha256": "4cf51a9e9f247c64b46618a9bcf425c272b308846541209bce531089e3b4f67d",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-2-plaza/roughness-estimated.webp",
+          "sha256": "665a1ad8cd234b05536281def032f66ab2b5fae7c2c0c6318a6bfa053af47142",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-2-shore",
+      "sourceSha256": "36d088aba37b91a10c51d09d0e3e67362b891e4c428622dbde5558605e8ad01c",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-2/terrain/shore.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-2-shore/base-color.webp",
+          "sha256": "85762c229563236d25296cafe1cb938b726fa0077515fc2f5904d4be1f6f3ec7",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-2-shore/normal-opengl.webp",
+          "sha256": "f86f034a1f20ef947a8a60a61c0c808acbe82ecfad8a7ca013689a8510785daa",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-2-shore/height-estimated.webp",
+          "sha256": "c4d70ed70552f1141dfd69f6cd1629d90e73bb073588b8e52d0e082b9519fba6",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-2-shore/roughness-estimated.webp",
+          "sha256": "ba3420cf84b49fa2a758a116c7b569e2e199c622e1f3bc6b91f4a7923028e76f",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-2-water",
+      "sourceSha256": "ee9b192349150834eb6f762028e63f3960a265406a3f2b2a2986ca0d122e80fe",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-2/terrain/water.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-2-water/base-color.webp",
+          "sha256": "42713a53f05d33fb46724fc408179c3fb9473c0cf81aaf76b479030d29a1b19d",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-2-water/normal-opengl.webp",
+          "sha256": "36d770dc22f47eeba6e303d5d35a71affff6221fda34d1a1d3b43edfd79d3a06",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-2-water/height-estimated.webp",
+          "sha256": "914cdcb9de68c5fa3abcb9829615e8f31ae5846943720ae02cc848c3cb28708c",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-2-water/roughness-estimated.webp",
+          "sha256": "30a8994941b1d60e5034e55f79dc95c0ea1b4e2c8d17107054ca3dbb5d467655",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-3-b0",
+      "sourceSha256": "7946a842b3a83a593b298c58d39e3078f59492514e9c0f6d79f4c208aec9fb75",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-3/terrain/b0.webp",
+        "ports/godot-pyra/assets/lands/island-3/terrain/b1.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-3-b0/base-color.webp",
+          "sha256": "9c74c86c7383bdf4f9ea671ce1f91e848e9054e7a6e87666522973cebdb1a07f",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-3-b0/normal-opengl.webp",
+          "sha256": "20327757becef21ce18a10b5059f103c5738d2190d857f3d78d2b31e37dfab63",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-3-b0/height-estimated.webp",
+          "sha256": "77641ce075f607e994e91d37cc860b18c5fe75529d149f99fbd0bbc5ac58b0a7",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-3-b0/roughness-estimated.webp",
+          "sha256": "643f6478bb817b612f502704d6850090620a0d8a883d64182bd914d3ee57bf2f",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-3-b2",
+      "sourceSha256": "f5dfaab69fa2952cdf7ad60f6e1324126105c67f6e124494ba59561e7f05169e",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-3/terrain/b2.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-3-b2/base-color.webp",
+          "sha256": "efac6889bdf22a5eeb244b4cad03f6efb38f9a0310e346f8cc91c15438018bcd",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-3-b2/normal-opengl.webp",
+          "sha256": "5ebcc321852acc0a7437cf6d72ddf4e74068fbe893578c34d5400b56c6bd6948",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-3-b2/height-estimated.webp",
+          "sha256": "42c0bad7dfa39c7329cec28705f26fd32ae4ca66bb5dc75d644f809ddd92c2e2",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-3-b2/roughness-estimated.webp",
+          "sha256": "d77b52aea1572eb67aee8b7fff8986eaf3e4a1b4197f6378400158bfb1403cee",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-3-b3",
+      "sourceSha256": "6d7abb26ff9cdafc4cc570d6a85597d737689d015854622b1646325f2c63ef45",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-3/terrain/b3.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-3-b3/base-color.webp",
+          "sha256": "c9fdf04b2c481c2d0651bcd1dadeb8031ecda74b1019f9a219e54fc82ac7ec6c",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-3-b3/normal-opengl.webp",
+          "sha256": "3fdfd62ef10caeff902b83fcebdd05744efbf05ef58d62ebb088d390313e52ce",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-3-b3/height-estimated.webp",
+          "sha256": "3297c3074bc2a8614de779101de6bd745028fc0edbc197160fe60d4e1eeb43fc",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-3-b3/roughness-estimated.webp",
+          "sha256": "46cf1622fb6d40dc548192fc184be0910505dac9cd89247d2c47789c128acd11",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-3-plaza",
+      "sourceSha256": "173429224e75ef6ee86a5b6b5072967f146eb4804f859d37ad2cc6636aa71158",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-3/terrain/plaza.webp",
+        "ports/godot-pyra/assets/lands/island-3/terrain/road0.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-3-plaza/base-color.webp",
+          "sha256": "88f2419e68224837a8edefd8e3986327eafd689d734bf67cd3ee2963bab69139",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-3-plaza/normal-opengl.webp",
+          "sha256": "ab0462756dbf1163c43173ee809ab412bcafdd5b885038395cf7cb8d2b2a0176",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-3-plaza/height-estimated.webp",
+          "sha256": "a1fe5753bb04299ee976befcc1cc36c99faaed46022792d782c73875552f6130",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-3-plaza/roughness-estimated.webp",
+          "sha256": "49af7d85bec5fae0fd1beec33c6cfc4d78f99d7706637abed13621a8967f7a50",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-3-shore",
+      "sourceSha256": "9610318ac918f791b02dcb51cb0931f31ae859343aa3addf8a511059628ff718",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-3/terrain/shore.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-3-shore/base-color.webp",
+          "sha256": "ed567757092d4936fa57a480ba5ffd1f91e22223659c21ab5edca2314333a470",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-3-shore/normal-opengl.webp",
+          "sha256": "f5337f7f1423a722b1cbc6a2f3e7de89cad3636a146f2dee925a98bfcea94ee7",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-3-shore/height-estimated.webp",
+          "sha256": "874fb16286e62d15252b0a0b67074770d6b685937775b1c3ecf7cfcd4cdf5df2",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-3-shore/roughness-estimated.webp",
+          "sha256": "b91c66056debb508ee4735d7ac514cea37098eb7ff4a1a551f6d0a79404c8a7c",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-3-water",
+      "sourceSha256": "6ffd31f7140ca8f52de200a157ef7f7c1f4a4aff4edd7289393c09090e527681",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-3/terrain/water.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-3-water/base-color.webp",
+          "sha256": "3e793acb62586cd29ca8982831d77c4d5ed74be0495a0e5fa81372acd58bdc39",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-3-water/normal-opengl.webp",
+          "sha256": "e6f7cc929276feaa867a8ef4dbe420fe4b467cbcab2e6745180be0a9b61978f5",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-3-water/height-estimated.webp",
+          "sha256": "7bd62fd317c6bf231936fdadb4f93dd77aa76a4eb6ef06d9707ec72a8bd7f1f0",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-3-water/roughness-estimated.webp",
+          "sha256": "f6da1429956e764638b86e66773ed5a4ba50acc9f6a42fc7b2bfefa69ba7d700",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-4-b0",
+      "sourceSha256": "f04a788f8be37d5966cc9b7676b949f2b28e1d01c9a592b77ca991af190bb19f",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-4/terrain/b0.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-4-b0/base-color.webp",
+          "sha256": "dfd9364063735f9ba2cab22342532a2bd7dbc5575d250e5d673a291b4bfdac16",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-4-b0/normal-opengl.webp",
+          "sha256": "a7ae955b5dc982c8fdcc686914e8744d830ec44a29d803d3af41c15542f8e56d",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-4-b0/height-estimated.webp",
+          "sha256": "ea1959894cf68b67d5f205edcba5f8551b791ac710e326a970383593066d9013",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-4-b0/roughness-estimated.webp",
+          "sha256": "4cf11dfc84dd570e9bb87a6e954c03a04829899b62802c9e794a1b7e7d869354",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-4-b1",
+      "sourceSha256": "87aea27ac69ee4f5efa7d75b0024273ab5d5db9fb8fad73d7eb66f4bf40e09e3",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-4/terrain/b1.webp",
+        "ports/godot-pyra/assets/lands/island-4/terrain/b3.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-4-b1/base-color.webp",
+          "sha256": "251e9dcefb5475fa0e2e38ee919872e5b9861a3766cff74279a02410423e4d18",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-4-b1/normal-opengl.webp",
+          "sha256": "083ab8b27beb5ba43f7b0b9f62ef6497e0837e407c7c83701f983c0b61c0576a",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-4-b1/height-estimated.webp",
+          "sha256": "3a6906748704bd9ce45fd1d824692e52c0b56072ce3f229795fa190688c49d8b",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-4-b1/roughness-estimated.webp",
+          "sha256": "13e8d6c3bca24819776f24c4e9ad86180e7c8581e45c8c4fc989ea9496e63d20",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-4-b2",
+      "sourceSha256": "c0ce08c0b3a9d1c64a875cec6c987827ddfcf4e8d8409d9e643cd23d4a1247d4",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-4/terrain/b2.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-4-b2/base-color.webp",
+          "sha256": "45a12aec165b91404ab76456de8c991560388eec93305a8e3c0392bed2847945",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-4-b2/normal-opengl.webp",
+          "sha256": "18007ffe6c66e5fc1dbdadc64fdb7b0004bba01f4e1c354c4663f7a3029f29ce",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-4-b2/height-estimated.webp",
+          "sha256": "cd146672bcafdf8e4532986d591694a76333bf47ccd3856b8224c365274e0090",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-4-b2/roughness-estimated.webp",
+          "sha256": "df147e8b3d154fed2abb4006f9cd91cf994ef5dead5ffc2f246c9396f4fa1aeb",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-4-plaza",
+      "sourceSha256": "5ed0ac178b3fb813f9975b59da7f5768b2fb810690dca3a2f38ec388de7a6673",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-4/terrain/plaza.webp",
+        "ports/godot-pyra/assets/lands/island-4/terrain/road0.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-4-plaza/base-color.webp",
+          "sha256": "1559b9b723154b711462a88cd590f08837394a7241a259a19e7c17bf27285239",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-4-plaza/normal-opengl.webp",
+          "sha256": "b2318444518544ed37c28a750a157cef012637ac871a28d05792ccc1b3f4423b",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-4-plaza/height-estimated.webp",
+          "sha256": "8e739b58fac2214dea14f1be0a936f44c089b851ec1661265db5a0fc1a420007",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-4-plaza/roughness-estimated.webp",
+          "sha256": "53d0d02ea63f0f44606058185641d934bbe18f300754d7ef468e3dd10295fb54",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-4-shore",
+      "sourceSha256": "0e78c0795c8c681bd7fb9daa48b3495926ee9dad09850df79afaa5407bee5b5b",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-4/terrain/shore.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-4-shore/base-color.webp",
+          "sha256": "cfa4ea9b6c0d8a37be1a4a32bb253ff300c1534c37ba4d0dc0bd898be62471e9",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-4-shore/normal-opengl.webp",
+          "sha256": "b7ca7ac562f810d17f5ad405a109465565043e8741a6aa98304171a3dcd121d6",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-4-shore/height-estimated.webp",
+          "sha256": "281b01dc68e81bcc633f6fe7d7c978371031027d84268fe3570e83bb5a208370",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-4-shore/roughness-estimated.webp",
+          "sha256": "b3a17466fc8f6c740fafeb9536410db6094cb8634eb6b6323346cc9f709f1692",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-4-water",
+      "sourceSha256": "fb8017a834749b1c297c4915ae2a5ab123ba5b3f4991953cd9b7dbc51a0d26ac",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-4/terrain/water.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-4-water/base-color.webp",
+          "sha256": "29d00228b341b412b11bacf8575d38706af988b1064510b3e2d17857f4a2d035",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-4-water/normal-opengl.webp",
+          "sha256": "60b9e3310935305e2e15ec47000337a6e7b9937009af1f4f697e98938ecab9ba",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-4-water/height-estimated.webp",
+          "sha256": "989e56dfeb57e6e85bdb434f9145b72a384c8f0c52890b40e8052aff88174f53",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-4-water/roughness-estimated.webp",
+          "sha256": "f378990a78ed4188c6c83d934bf37971cbb579cbbe6c6b98efdbf5f034d2ba0f",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-5-b0",
+      "sourceSha256": "3fcf8a9fa1c9c918c774c49e62de6c4cbdfd7adc82713496ec1697f96bfc1100",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-5/terrain/b0.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-5-b0/base-color.webp",
+          "sha256": "1f31959909299488c9cf7c3831e11436e84752b908de7697361aef8503fda313",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-5-b0/normal-opengl.webp",
+          "sha256": "7fb677e04b6f2544eb4e34ee2977bbc983108c5460b8ff9d54b54bfc93dcb4c2",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-5-b0/height-estimated.webp",
+          "sha256": "133323e8546c411a9a463937ffc40212c7f4cd50aa1b5e08db1d31edd1b5c8e9",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-5-b0/roughness-estimated.webp",
+          "sha256": "967f4d5d7f24e53efdb78728f8c71bf5132331aff4365fb63a93dcc1a426a50d",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-5-b1",
+      "sourceSha256": "fa50b98921ab0cb0fadedf63e8da4de7aa14b0f60abf080912fe54805ad5fb0e",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-5/terrain/b1.webp",
+        "ports/godot-pyra/assets/lands/island-5/terrain/b3.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-5-b1/base-color.webp",
+          "sha256": "32b6f82067941ec29bc724c4b0cee8709b224acd1567fcd8f1c34e3f0385bc57",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-5-b1/normal-opengl.webp",
+          "sha256": "ca47e3d98c9944626204335e17c9b364fed2bb979401f40513fbc26e534cfe05",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-5-b1/height-estimated.webp",
+          "sha256": "a49fd4cd89b8c5115e86334e183cc992bbdf5f6e982d1f73ad324b6894dcb56f",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-5-b1/roughness-estimated.webp",
+          "sha256": "1447f636b4edb43adb4f9c801e1bf029130d15ca81ec126c59243d9a74a618bb",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-5-b2",
+      "sourceSha256": "933521c55096131c1c2f739d4c77a7d5c3c0a1c0deb3cdd45d270eecb39bd960",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-5/terrain/b2.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-5-b2/base-color.webp",
+          "sha256": "5dfde90cc2946b9ed778da83c2fe828bc9d49b370849817fd6905c4e1369a4c0",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-5-b2/normal-opengl.webp",
+          "sha256": "44a8c75d6e06ce4173772d87fce9a2bd212a9881c55bec0812c28cb20ddfb942",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-5-b2/height-estimated.webp",
+          "sha256": "fbe512734c52420a038438fbdb8864a27e3d3e13bfdee5759635800d2ca539f7",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-5-b2/roughness-estimated.webp",
+          "sha256": "fe1fcfb39a46724c1d5e7339ceb593e06c87d06661a9824e2cb00bba23104435",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-5-plaza",
+      "sourceSha256": "2a017112ed6a317e214fb35aa4ab4688165586e1a9507107e09f54fbc4b2ced1",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-5/terrain/plaza.webp",
+        "ports/godot-pyra/assets/lands/island-5/terrain/road0.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-5-plaza/base-color.webp",
+          "sha256": "e0b0bdafbda0fe2dff48ab6faa08bedb1d8fe3d09d4853ee5db8b5b97ddfab00",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-5-plaza/normal-opengl.webp",
+          "sha256": "19be15c8c44a239125e1f4252565e3f7540b455d3025a9f65f2fd1df8a4942fb",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-5-plaza/height-estimated.webp",
+          "sha256": "e63612ca3f9e7050d4ed15738502b8678d86bbd5dbcfbaf992105a19a752f926",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-5-plaza/roughness-estimated.webp",
+          "sha256": "d39cab160ad5d65dbfb3920969eae08e8510c6a9d908919d05e99bef0534959e",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-5-shore",
+      "sourceSha256": "2093b9461e4b42f2bceab8df5844862cdbf8c7c1eeb0c7dfb9bc16c5b3ca4ec4",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-5/terrain/shore.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-5-shore/base-color.webp",
+          "sha256": "0bdb877018b5b14eb8ec163531b5dc6c3bc1eed82aa29d644dcb60cc6f36e36c",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-5-shore/normal-opengl.webp",
+          "sha256": "5d0bdbc190e1a93ea801937a46a7f555063546afabc6d64713335be1794dbd96",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-5-shore/height-estimated.webp",
+          "sha256": "3f6c5fdcb282f1425ed02d287c8740e7be4211f293520c97f25d9ce2693ac6af",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-5-shore/roughness-estimated.webp",
+          "sha256": "015b86802540b339c36f6340fa16ef4bad5e0b1eb3ab211a54c79fe1239ddc5c",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-5-water",
+      "sourceSha256": "8ea7612a7b17f28297e4e1bd039affb31d120e8d90a362df1c5d3f3c57f3377f",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-5/terrain/water.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-5-water/base-color.webp",
+          "sha256": "e4b796f0372b00ab3e116c2763cbec87135dd58e34a055116716e7c72b38ffed",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-5-water/normal-opengl.webp",
+          "sha256": "f36187ec059a7a62a50b6d0f6e50bd96d27d1565f0a4fc563e9579a350bc24fe",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-5-water/height-estimated.webp",
+          "sha256": "87a454d96f28bf8b0e94f2f03ef3865318492453175f93e79d38f06ebc142b93",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-5-water/roughness-estimated.webp",
+          "sha256": "1772010c5f78f28ef65769b5654257883607fed05a6e42d0d2a055a6ba2f7ba0",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-6-b0",
+      "sourceSha256": "9fbdb1f551c067fbbaa76c87fb76856f5bfd155d89edef0dd9ec1cf3fbc3d460",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-6/terrain/b0.webp",
+        "ports/godot-pyra/assets/lands/island-6/terrain/b3.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-6-b0/base-color.webp",
+          "sha256": "6906a2d870f02ab74d74e75edfa1ce3d098fec804a74b4c5d1170dc0bd4d2be6",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-6-b0/normal-opengl.webp",
+          "sha256": "1c29a0a96e6f61928f15d531a98318c9a60f59f7fc7886cf8712be07c3a30cac",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-6-b0/height-estimated.webp",
+          "sha256": "b4b5afc32572fac533339ab8e1f73e4c4c19e3b6232d183168cfc0829b30ca94",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-6-b0/roughness-estimated.webp",
+          "sha256": "09b18f75429577de5172f39b1574588468a49dc3be010f584adbe6dd8a8d9eb0",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-6-b1",
+      "sourceSha256": "c0fe2b00809f126f4a2b213dfb4c131db8e835980120c57f0c126b6afdcf5190",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-6/terrain/b1.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-6-b1/base-color.webp",
+          "sha256": "440b5ca3f5aacc419289773782d772deaa0915ed24e0e85e507b967c522d03a5",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-6-b1/normal-opengl.webp",
+          "sha256": "0f431bc4fbff9d16b85134f9a3f6de458ac831e6213a1fc72b54f0cca2f84e20",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-6-b1/height-estimated.webp",
+          "sha256": "0d4211f43ac3c236cb4bff37704d7fc70c41e6197c1c9d2d6e043d9543645805",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-6-b1/roughness-estimated.webp",
+          "sha256": "402d6d8f876bffeac6d632b57034aa4c27b586adfd211aecedd51d694f09cb6f",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-6-b2",
+      "sourceSha256": "f70b2d5d6958451c14a2d996a785e3842bee32fc7323d062be411a7a5898025a",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-6/terrain/b2.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-6-b2/base-color.webp",
+          "sha256": "22b28294b3e785dad2560a02798e071a234767490f5204cf6213f60d4cf9ffa1",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-6-b2/normal-opengl.webp",
+          "sha256": "03b7136e3ad3f2453e8f9da69fa2ef9c0e2bf03920af7e8d907c3849f623acd8",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-6-b2/height-estimated.webp",
+          "sha256": "b8bd5649602776d8403f830a1659da84696568ba2d894fe8444cba937c796af4",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-6-b2/roughness-estimated.webp",
+          "sha256": "820549b5f67c026305a0ce23d307e5e63abc57433d56bda71c71dda0fc96c706",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-6-plaza",
+      "sourceSha256": "eee1ee0f6fdf6fdd1f74eeb69ec68155eba4f66c0cdc9d853d43b477b38befff",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-6/terrain/plaza.webp",
+        "ports/godot-pyra/assets/lands/island-6/terrain/road0.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-6-plaza/base-color.webp",
+          "sha256": "5d936812d2855e4e74bea8cbff274a684a2407824a7bca4b7489fce35201b6d9",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-6-plaza/normal-opengl.webp",
+          "sha256": "6c5e0cd77e5597fd531d2f4cb6ce7d980f673ea8cd2d935f384ef000f3c77bab",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-6-plaza/height-estimated.webp",
+          "sha256": "e6702cb2a0e6fa26a83df61b6af7d36402f297fccbe2a2fea55d35ee5278c26f",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-6-plaza/roughness-estimated.webp",
+          "sha256": "7ea12feb30b70ec5bb507d9a838f324c1f3431d578bd103f25b8b3925e44579b",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-6-shore",
+      "sourceSha256": "92bf2f90962d3c3832efa7738175b29b036d739b3c18c1c81c000c48e18f94b8",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-6/terrain/shore.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-6-shore/base-color.webp",
+          "sha256": "a78fe3c9b09d5b269779d4b05210aa0ae459864d0ee5a79e3854a84f353621c1",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-6-shore/normal-opengl.webp",
+          "sha256": "9c6619f89383cdf0dfcb92419908f07bfb0b15d2a0ea4877d56609ceae997446",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-6-shore/height-estimated.webp",
+          "sha256": "52752f6f606026027d00c57683efc354231fdd77e0c1210ba508387217f74ea4",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-6-shore/roughness-estimated.webp",
+          "sha256": "6b0dc464988f130fc569258e62abd9feb7fac2590382d551f7c97cd3caff9626",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-6-special",
+      "sourceSha256": "89f60982e2531f3b5327164def88b8d135302b96cd189e12d7edd26c70d17b04",
+      "width": 506,
+      "height": 506,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-6/terrain/special.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-6-special/base-color.webp",
+          "sha256": "6485f46168e1dbfd318c772e034193f4e91b44ff402d14b72714f863403f5f32",
+          "width": 506,
+          "height": 506,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-6-special/normal-opengl.webp",
+          "sha256": "035fd3ba19d7e6a7222a8c8c45cd213b9f473c1575d785f09ac14584d7882d4f",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-6-special/height-estimated.webp",
+          "sha256": "7e16b5d8b16e745c3670f4f9eb259a881376fbf8c2932604c3b031944040b063",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-6-special/roughness-estimated.webp",
+          "sha256": "8796af73006edc3e141db92b5e5d6b62a5c8b5d37a1cf6e7cff25dce9f8d5018",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1810576
+    },
+    {
+      "id": "island-6-water",
+      "sourceSha256": "48dcbca427804fc667203a92443b3e27abd9517194d4782d36b16926b76f4427",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/island-6/terrain/water.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "island-6-water/base-color.webp",
+          "sha256": "b1a896ad60f92fca3533dca34f41dc93f3e361d7f35e105dcf0b3f5f6eb9dc2c",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "island-6-water/normal-opengl.webp",
+          "sha256": "06ab73e88e0562feeb4b7fb79431ecfb941240ae479df6974124e2b95b50ed67",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "island-6-water/height-estimated.webp",
+          "sha256": "44abf3d49611e94805643b4550507f023ddfa21d57e6edebb4a5ca616ee563a0",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "island-6-water/roughness-estimated.webp",
+          "sha256": "9e5b8e1511705a575b8a9881a3dcc2af9a1a9ae8b452da82632ab21fc9e5e29e",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "nexus-b0",
+      "sourceSha256": "8576f3b7eb3f262df2275b4315674f7cc9e87fad52d5740a747cce9d46911210",
+      "width": 443,
+      "height": 443,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/nexus/terrain/b0.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "nexus-b0/base-color.webp",
+          "sha256": "5ce9b9ce59e113af6326a77fc7b2f21c9319789b3162b0f24c97600256031ab2",
+          "width": 443,
+          "height": 443,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "nexus-b0/normal-opengl.webp",
+          "sha256": "3f4789fce5a6f6c5e22c77956676159b4872ff83986bb638e21da5a5161e98af",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "nexus-b0/height-estimated.webp",
+          "sha256": "f67e8e452c5c3acc91add603ad80f09666fda24575a5a5e18c7e6e724d259fd9",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "nexus-b0/roughness-estimated.webp",
+          "sha256": "85499338a8c5e99e51a7d129e04a939fe5bcf78dff0603af0ff8b8f952afd244",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1571428
+    },
+    {
+      "id": "nexus-b1",
+      "sourceSha256": "e09120a37b3e29f3191a9051fd77d77a457007d43958addf16f1601e7bfd9b2b",
+      "width": 443,
+      "height": 443,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/nexus/terrain/b1.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "nexus-b1/base-color.webp",
+          "sha256": "117d254b26bc2c7ad752bf9f9c9c3b5f3a62e569abccf65901ad25affdafdd2f",
+          "width": 443,
+          "height": 443,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "nexus-b1/normal-opengl.webp",
+          "sha256": "6cfd331050dd2c4435dec5ca6bdefe69d0780105cc4c8f62b1f6d7af648e6817",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "nexus-b1/height-estimated.webp",
+          "sha256": "fdeb01c7dc72162ee9b0286053e35896f1fadb7ec6a8863276b812d7d60aa6e1",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "nexus-b1/roughness-estimated.webp",
+          "sha256": "e5795674d8229a9ecae900b1fb3fc3d8f5c8bb66c153226c9d2a1b97cd36e7c4",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1571428
+    },
+    {
+      "id": "nexus-b2",
+      "sourceSha256": "5b2792b8f600487472ecb0f02d8d3f38040b4f3f29df85efd5254973ccbc8fbd",
+      "width": 443,
+      "height": 443,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/nexus/terrain/b2.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "nexus-b2/base-color.webp",
+          "sha256": "30feec56d0671b2fc09cfb546ef9330dd58e79d23fbcf0a34d30d7cede961e91",
+          "width": 443,
+          "height": 443,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "nexus-b2/normal-opengl.webp",
+          "sha256": "66f8be89e01dbbfa606365fac3804c8be5bda290188a9e85a6d926983cfeb300",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "nexus-b2/height-estimated.webp",
+          "sha256": "6b789a20029eb8bb98837d7a6a16b8283c75027016d7439a63eea49cfcdbc12e",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "nexus-b2/roughness-estimated.webp",
+          "sha256": "7ce5746841bd76282a05fa542264c6ada41aff42f75988ff85380e38a3c371c3",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1571428
+    },
+    {
+      "id": "nexus-b3",
+      "sourceSha256": "da8348d6821f3eccc73b3c3eaf9e92f74b72fabc26fc6474d6c84ea287b6462f",
+      "width": 443,
+      "height": 443,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/nexus/terrain/b3.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "nexus-b3/base-color.webp",
+          "sha256": "b4805e17dd8b881d5d3724dec86dfe98a28008f748a5cd91c3e310a76bb38e0b",
+          "width": 443,
+          "height": 443,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "nexus-b3/normal-opengl.webp",
+          "sha256": "634b140b564c069b2eb68a74924a9b4d65ef0ffc807ecdb30a8f9b3ae6a01ce1",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "nexus-b3/height-estimated.webp",
+          "sha256": "a085738dca08101cf76b9ab0637edc0f17e2a65c4888f1028eb6cecbfc37d1d6",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "nexus-b3/roughness-estimated.webp",
+          "sha256": "4a6fb491d9fa641b3337933dd290368466b31ce169b15a548b5cec17a6dee22d",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1571428
+    },
+    {
+      "id": "nexus-over1",
+      "sourceSha256": "52fd1e4611894ca224b70433c9a38e97644584cc5d24fe03ca11da1c082406fd",
+      "width": 443,
+      "height": 443,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/nexus/terrain/over1.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "nexus-over1/base-color.webp",
+          "sha256": "ca61a769f39b9de3d980e146f6032cd7864437f0caf3d500ed39dd2d3578c70b",
+          "width": 443,
+          "height": 443,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "nexus-over1/normal-opengl.webp",
+          "sha256": "9ca6acccd6525fb0033c4c73acf0d1a21cc14ec6509a2c8e961594ba790f5584",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "nexus-over1/height-estimated.webp",
+          "sha256": "b95cd93f7e7b897eaaad9b93d9eb4c91fdcc4208ad1f0b053fd87bbd35a57d29",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "nexus-over1/roughness-estimated.webp",
+          "sha256": "48b978d97c68b73d0115f31e10f8bd2d445e1092ee42081a0644b66c456cf56d",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1571428
+    },
+    {
+      "id": "nexus-over2",
+      "sourceSha256": "78172b45a0bf3b96985a0f6e8411cfd40a6ad441837d710d87d760b6f7e2adc7",
+      "width": 443,
+      "height": 443,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/nexus/terrain/over2.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "nexus-over2/base-color.webp",
+          "sha256": "749ebc094b582ba24017ed9c14c6adbe5174ead0100a7ee88f061e7c59382cc9",
+          "width": 443,
+          "height": 443,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "nexus-over2/normal-opengl.webp",
+          "sha256": "b3b3d736e3d5f59ea903991f84eac7fd6ed49792345b1158dd2926f7c6aa4526",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "nexus-over2/height-estimated.webp",
+          "sha256": "6c4b939e050cbc9bf1643536699990d0a0f54bb60274485ad7ba6924d97161c0",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "nexus-over2/roughness-estimated.webp",
+          "sha256": "37dbcc43cf8e00e6cf81139dd7606bf227bc9965b692de4bcf99de2f397feadf",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1571428
+    },
+    {
+      "id": "nexus-road0",
+      "sourceSha256": "c4dad019046650c51c2c75f6006c2da683c4dcba608103c032b31beec5b2b8a7",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/nexus/terrain/road0.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "nexus-road0/base-color.webp",
+          "sha256": "f5d305eaf0a7da1f1590edf03d6a1dcef441b2af1cce68f0f93bc90fa834f55f",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "nexus-road0/normal-opengl.webp",
+          "sha256": "8d21f05cd949e7dffc12becc61f95d4e028bdb9c5fc5e91a7edd0000d377c80c",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "nexus-road0/height-estimated.webp",
+          "sha256": "ec7fe43dfee7b4f13c13ae6307b2978eb8811da5707224d89a9f3c870a1c3e48",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "nexus-road0/roughness-estimated.webp",
+          "sha256": "0155ccc8a9e36bac2a1724cc5157c543a843bf7d4f3e74e4c22d0cbc4cdffa3f",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "nexus-road1",
+      "sourceSha256": "5d55cdcf1d58a714e27d058cc37a9628fb669bea7283345ebf3648a8d42eae55",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/nexus/terrain/road1.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "nexus-road1/base-color.webp",
+          "sha256": "6f3c204e18c15a0a7780be6b94ffa5579955488de974f002d674332752bce686",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "nexus-road1/normal-opengl.webp",
+          "sha256": "d18dbaa2b1c9029222f136a6640f34068547125ea48d7987a1cae2951eb2fe40",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "nexus-road1/height-estimated.webp",
+          "sha256": "bfc6858ee31494b525283c46527f4c2e4591c0958dee7ae4112a84713ef53ec6",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "nexus-road1/roughness-estimated.webp",
+          "sha256": "cb45d7b7bbd8f3b289a38f514ac114b69e9d69712ad514ae31b5478199f61f22",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "nexus-road2",
+      "sourceSha256": "9b5de6a9797742b336ace2ae367f0694b32676e5fcdeaeaa97707f88ac1387cd",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/nexus/terrain/road2.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "nexus-road2/base-color.webp",
+          "sha256": "53af6c78a96d733c38befbc153c874928207a67aac5b3c165f3fe2e564a1d7ec",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "nexus-road2/normal-opengl.webp",
+          "sha256": "646e9339fc64364c1d704d110fc4c5725c3a15ebff10139e5459640a35108c52",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "nexus-road2/height-estimated.webp",
+          "sha256": "4c0f7a2574ec81d58272193b66a56286356572ec1c8aea9b71741bee0ac0dadd",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "nexus-road2/roughness-estimated.webp",
+          "sha256": "197b22143c608bb3f1dfc604c6546aee31a1c9f5b36753772e7b7a4db68503b0",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "nexus-road3",
+      "sourceSha256": "1c18217d8a53552ad989a660c585b76610f0b76ff447be3f3122563cb3b8fe37",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/nexus/terrain/road3.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "nexus-road3/base-color.webp",
+          "sha256": "e5900249629dccbd8d3fb3235def91fbfd05891b7e13ebb8b5fba5fd591e2fa7",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "nexus-road3/normal-opengl.webp",
+          "sha256": "df8ad85428f3f40610986732a39a7866218cc9a4870450ef2441eb6ae5e493c8",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "nexus-road3/height-estimated.webp",
+          "sha256": "5b09b4dc916c141b15928ec2139a2f816ab9ad4d548a8696e412b0056f1dd7e3",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "nexus-road3/roughness-estimated.webp",
+          "sha256": "019f0d7be036e21b39132e35e4745bb57d7faaa3ab8cc98f088c66a2b46d0274",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "nexus-shore",
+      "sourceSha256": "89e1638840b4b03d35c480d0b168da8eecba13746625fb10161e0d4fdf64985d",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/nexus/terrain/shore.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "nexus-shore/base-color.webp",
+          "sha256": "e9f856614c2b1a3f4af9037bbda8fdee52fafe5bd83d47d383629cd25641572e",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "nexus-shore/normal-opengl.webp",
+          "sha256": "ea1b1ecffb7218af8fd526d6710e0d4e915d39087d89a884c99bf748595f6741",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "nexus-shore/height-estimated.webp",
+          "sha256": "e606ab4e934274b1065f62154d7077a27a09a2f60c46d188c0d6192c086f95a8",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "nexus-shore/roughness-estimated.webp",
+          "sha256": "39eada4c76d7340c13ae75973b78a030324e97b9e9c90f727e793d32dcd651b2",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "nexus-special",
+      "sourceSha256": "be5b56a088e9cc5d110fcd9864fdf7bf9600c58b3dfe938d731ef1b5012a0108",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/nexus/terrain/special.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "nexus-special/base-color.webp",
+          "sha256": "92900ef8b6e0f01115cad6d46ee4c8d7eaafd68c0f6448ba399d152d3e266594",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "nexus-special/normal-opengl.webp",
+          "sha256": "189b38ff6d860a22ebd1b1164e0daa1a0e0520e70197496ab3718751ca6a8f0c",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "nexus-special/height-estimated.webp",
+          "sha256": "5404b86de850e170b7b20408bfcd1b8bab9cdbdaf53099e802883841428bd764",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "nexus-special/roughness-estimated.webp",
+          "sha256": "fbad6deb518035b8368d04281e18aa7f7235903ba669fe987cb523fe5ceea793",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "nexus-water",
+      "sourceSha256": "7fd869a70cded90066b68a5a14dbd0de46545669ccfa3703a12c7466d49c9a42",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/nexus/terrain/water.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "nexus-water/base-color.webp",
+          "sha256": "d488126324d8e2ef8cba6308de1105be65298f4fbeb917b77d2f3e2ef3fb0199",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "nexus-water/normal-opengl.webp",
+          "sha256": "2a8fa04f30fec98a9bcbe5d6857c75efe3e4d3a27a43fefc93f0b102e55086d2",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "nexus-water/height-estimated.webp",
+          "sha256": "2a7b942c36f9b51d744a8463a37d1badf8242486eab0b61351fe8df36643c2ec",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "nexus-water/roughness-estimated.webp",
+          "sha256": "ef1b29072b899cb1d1fd54752e8994c76db0d19a9c6a55e66c6c8ec7c3768950",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "pyra-b0",
+      "sourceSha256": "73279769f3a2d3854ea7ec963e05766ad04fd26cc726bab52e8f2a82bb5a19b6",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/pyra/terrain/b0.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "pyra-b0/base-color.webp",
+          "sha256": "cbb910526b9bfb70e1edb577c5ed8456d5b7c3da9dfb42db4fe493a119f372a3",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "pyra-b0/normal-opengl.webp",
+          "sha256": "226c72b59fe8b4c765b3903e4bd4a700ddf66f06bb46caa385a297100174785a",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "pyra-b0/height-estimated.webp",
+          "sha256": "2109875e727df1476f6cbcc1947efcb1c8123c872f31c6473e7b5fe9bb8bd0bd",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "pyra-b0/roughness-estimated.webp",
+          "sha256": "a055cfc1f0d448ac0ac70b0f38935bac8427345237aa661a5b4050eacfc9ac66",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "pyra-b1",
+      "sourceSha256": "718ac29650be1b59e9da8411cd2ff442f30ebeebe7bd35dbc63f6a071aee0212",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/pyra/terrain/b1.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "pyra-b1/base-color.webp",
+          "sha256": "33b83ec1ff37c15b6780aa5b5f75ab342832f8000594898d4585834913b011f2",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "pyra-b1/normal-opengl.webp",
+          "sha256": "423c362212ebbcc8f6d6866427f9e76c8c403882496e1028287c0592758b3b43",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "pyra-b1/height-estimated.webp",
+          "sha256": "1c06b3eef26d9efe3b3346f72b1d9ceb85bdbc2dc8859619e479e07b18b2f2ee",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "pyra-b1/roughness-estimated.webp",
+          "sha256": "960958cbc3389c006169ddfcd3c075c51903599ef6b625336d14c40d25389bc2",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "pyra-b2",
+      "sourceSha256": "d7ee3b51c11725a5680292b8a5cf733ec87beb15671f11f8c5a8fcb648f8320f",
+      "width": 512,
+      "height": 194,
+      "tileCandidate": false,
+      "sources": [
+        "ports/godot-pyra/assets/lands/pyra/terrain/b2.webp"
+      ],
+      "baseColorMethod": "Existing non-square source; lossless transcode, layout preserved",
+      "maps": {
+        "base-color": {
+          "file": "pyra-b2/base-color.webp",
+          "sha256": "16b6f40d54723ae04d8527d68d8abba72ff28a31b345710cff59a092d7d7c16a",
+          "width": 512,
+          "height": 194,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "pyra-b2/normal-opengl.webp",
+          "sha256": "992710084e697756399fcc41a99a0b5da64182f18d4b8b712f3778eff07e6217",
+          "width": 256,
+          "height": 97,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "pyra-b2/height-estimated.webp",
+          "sha256": "86a540eda32559974c39b58338e413dd93f67f1a258d88c0378a394c0cf5571a",
+          "width": 256,
+          "height": 97,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "pyra-b2/roughness-estimated.webp",
+          "sha256": "f9a8ebcb2bae6211e6b6ee5e622031d49748889b07821511331e0ec087d77b4c",
+          "width": 256,
+          "height": 97,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 695296
+    },
+    {
+      "id": "pyra-b3",
+      "sourceSha256": "699e500d39c0811b2c4ab24ee7cde886d8dc757369b00cf5de979ef7c3f2d203",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/pyra/terrain/b3.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "pyra-b3/base-color.webp",
+          "sha256": "bf9476ad73c00233712ec5f91223fd5feb1e00611c5059efa9b406467b606314",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "pyra-b3/normal-opengl.webp",
+          "sha256": "d21a8d547088548d0326c525db53317403e8b3be52e769478cd857d90056da94",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "pyra-b3/height-estimated.webp",
+          "sha256": "ad244bc303c1b3c71d8ab49b92421c0780f2eabd42f673e5c21bdd537f428789",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "pyra-b3/roughness-estimated.webp",
+          "sha256": "db44b6d7a9de380e3fe0bfff46208da15699fd66ce6eac1c1221bf61cf7865e8",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "pyra-over1",
+      "sourceSha256": "f9ae1b52594aa95ebe36e8c745a69d8d820d19ea363e1cc7ca9548da6b803426",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/pyra/terrain/over1.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "pyra-over1/base-color.webp",
+          "sha256": "5e348d70b52159fbd46aebb0ce655fad688cfc3365d5038c037d4bad3e8d9525",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "pyra-over1/normal-opengl.webp",
+          "sha256": "435b15ba6742a6bf8d5ee44f601760d1416728ab303d4120e7d68d293611db66",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "pyra-over1/height-estimated.webp",
+          "sha256": "247be72925a42b0aca8a77b0ea3366b136490c3b93eae90c66a84cc0072e82cc",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "pyra-over1/roughness-estimated.webp",
+          "sha256": "c81c8a0a9a493c5bc2cf87cf496104794a5af9b9ddfb9cf105412ae3b50112b7",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "pyra-over2",
+      "sourceSha256": "23514178a712df86f1c6425c72fc08a2ba7e02d7d30adb9539cd91f395b10831",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/pyra/terrain/over2.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "pyra-over2/base-color.webp",
+          "sha256": "27a4f49401126c4fbda4bd61c0b75fd79e49c68f55df58369f82598be4643f6b",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "pyra-over2/normal-opengl.webp",
+          "sha256": "37761cf07f5ccfe343036609b16b545428bfb28cbc97937904106421ff2ae6ca",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "pyra-over2/height-estimated.webp",
+          "sha256": "1861f3cc6db884cd04e65c1aeee5530aa2feb6d1f350548f16f7e7753d2e5f49",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "pyra-over2/roughness-estimated.webp",
+          "sha256": "621961bba6af1ae267f194b23c8631342c3d7f5565ea7a36a73293e94ce90aae",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "pyra-road0",
+      "sourceSha256": "f08cc3d4cc9415ea09a2310403841335fab355be4f6d14aa5a10ffdc8a812562",
+      "width": 512,
+      "height": 122,
+      "tileCandidate": false,
+      "sources": [
+        "ports/godot-pyra/assets/lands/pyra/terrain/road0.webp"
+      ],
+      "baseColorMethod": "Existing non-square source; lossless transcode, layout preserved",
+      "maps": {
+        "base-color": {
+          "file": "pyra-road0/base-color.webp",
+          "sha256": "307acb18042b136dbd17e91e5c272693dd4cc7961c47f27ba21e77dce5c5fb71",
+          "width": 512,
+          "height": 122,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "pyra-road0/normal-opengl.webp",
+          "sha256": "7ff69a61c902f932f58ec13e0dbb4ef34a57fbf20d477a43400a33ce078e213b",
+          "width": 256,
+          "height": 61,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "pyra-road0/height-estimated.webp",
+          "sha256": "1ea131b3278c9cc73b42b97cc4753512c78ce7806b46511828a180cc798e27d8",
+          "width": 256,
+          "height": 61,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "pyra-road0/roughness-estimated.webp",
+          "sha256": "6fc9737780e00d17c585292518fc70015ad0a5656a828b021aa4a0992f71fb07",
+          "width": 256,
+          "height": 61,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 437248
+    },
+    {
+      "id": "pyra-road1",
+      "sourceSha256": "6140784869e65b4a0d907b3874a1c2e253a498cf2ed10b8e249c301d600a5b5d",
+      "width": 512,
+      "height": 122,
+      "tileCandidate": false,
+      "sources": [
+        "ports/godot-pyra/assets/lands/pyra/terrain/road1.webp"
+      ],
+      "baseColorMethod": "Existing non-square source; lossless transcode, layout preserved",
+      "maps": {
+        "base-color": {
+          "file": "pyra-road1/base-color.webp",
+          "sha256": "6140784869e65b4a0d907b3874a1c2e253a498cf2ed10b8e249c301d600a5b5d",
+          "width": 512,
+          "height": 122,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "pyra-road1/normal-opengl.webp",
+          "sha256": "80d2395b449c863e30e60a5a8e28f6599030da521a3fff52fa45425f62a56a4d",
+          "width": 256,
+          "height": 61,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "pyra-road1/height-estimated.webp",
+          "sha256": "7a07c5e43f48df8c8cce0ae23b6648e27e51c3f06624b63c8f54d668cb12ec4c",
+          "width": 256,
+          "height": 61,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "pyra-road1/roughness-estimated.webp",
+          "sha256": "069d1aef49f962dffddc202ba18e8618e30942eeb57d879058f2f92136750493",
+          "width": 256,
+          "height": 61,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 437248
+    },
+    {
+      "id": "pyra-road2",
+      "sourceSha256": "101074693ee95083d81946929b5cc8446dc90c1a3f61094cb6ba5bcea8f7be7b",
+      "width": 512,
+      "height": 122,
+      "tileCandidate": false,
+      "sources": [
+        "ports/godot-pyra/assets/lands/pyra/terrain/road2.webp"
+      ],
+      "baseColorMethod": "Existing non-square source; lossless transcode, layout preserved",
+      "maps": {
+        "base-color": {
+          "file": "pyra-road2/base-color.webp",
+          "sha256": "101074693ee95083d81946929b5cc8446dc90c1a3f61094cb6ba5bcea8f7be7b",
+          "width": 512,
+          "height": 122,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "pyra-road2/normal-opengl.webp",
+          "sha256": "0738f4e12b96b3e477a4a4444e1c57386db6abb5d62ba1698c7afbb54f67c04a",
+          "width": 256,
+          "height": 61,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "pyra-road2/height-estimated.webp",
+          "sha256": "71c266562a896b44d9f2719e7c78adc73a85dd6e49a089ff7afd00ccd5f9175d",
+          "width": 256,
+          "height": 61,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "pyra-road2/roughness-estimated.webp",
+          "sha256": "18806499e7b520965aaea29a50d4408a93bae7d19c53013ee7148210105f02e3",
+          "width": 256,
+          "height": 61,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 437248
+    },
+    {
+      "id": "pyra-road3",
+      "sourceSha256": "d23d0601eeb823cb0c5429eea20a51106342eab919074e39fd059b40c75d77a4",
+      "width": 512,
+      "height": 122,
+      "tileCandidate": false,
+      "sources": [
+        "ports/godot-pyra/assets/lands/pyra/terrain/road3.webp"
+      ],
+      "baseColorMethod": "Existing non-square source; lossless transcode, layout preserved",
+      "maps": {
+        "base-color": {
+          "file": "pyra-road3/base-color.webp",
+          "sha256": "d23d0601eeb823cb0c5429eea20a51106342eab919074e39fd059b40c75d77a4",
+          "width": 512,
+          "height": 122,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "pyra-road3/normal-opengl.webp",
+          "sha256": "aec58726c55da30644598eb3ec4262d4fa238f34ae0ad520cc732551135a3e5e",
+          "width": 256,
+          "height": 61,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "pyra-road3/height-estimated.webp",
+          "sha256": "8d110132551f0d8433b13d4897b78ea187a0fe1060fb0b32e7b4989883803930",
+          "width": 256,
+          "height": 61,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "pyra-road3/roughness-estimated.webp",
+          "sha256": "ccca9ca30fcfd724cde71174a173743d04c5298f19c6bb03fc0e976326d388d9",
+          "width": 256,
+          "height": 61,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 437248
+    },
+    {
+      "id": "pyra-shore",
+      "sourceSha256": "925146cbac222283b3fa8ae88556369eda1206964e16fe05b99f3c84ee8955d2",
+      "width": 512,
+      "height": 194,
+      "tileCandidate": false,
+      "sources": [
+        "ports/godot-pyra/assets/lands/pyra/terrain/shore.webp"
+      ],
+      "baseColorMethod": "Existing non-square source; lossless transcode, layout preserved",
+      "maps": {
+        "base-color": {
+          "file": "pyra-shore/base-color.webp",
+          "sha256": "ba296a4ad8f9f05db145783cebbe14f7737509a7c492d3c6bdd9de27a7367440",
+          "width": 512,
+          "height": 194,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "pyra-shore/normal-opengl.webp",
+          "sha256": "856663fddc96c287b8b6461ce09dc0f21ea120dbe66171ba06d5bd7485d950d1",
+          "width": 256,
+          "height": 97,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "pyra-shore/height-estimated.webp",
+          "sha256": "4ac731ffeffe40597e7bcae54a096cf60762ab441a4efc4ff6356f84a0b6508e",
+          "width": 256,
+          "height": 97,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "pyra-shore/roughness-estimated.webp",
+          "sha256": "9566173fa0499d3acbf635119cdc787841a20b96bc3f5420c93759b4bcee4f15",
+          "width": 256,
+          "height": 97,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 695296
+    },
+    {
+      "id": "pyra-special",
+      "sourceSha256": "daf0b3c3398e7be4f2df576efec4e0b6774b479c3bac14d7ef77678725bbaf7b",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/pyra/terrain/special.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "pyra-special/base-color.webp",
+          "sha256": "9e2ffd598400c4a24020d07ba9139b61a213548a5e0e97f4ce6fbacfca1385d7",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "pyra-special/normal-opengl.webp",
+          "sha256": "e80f0bbf086c8b2de6fcbf32906e7773a6a3e25c9454f21d4fac7c83156d8589",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "pyra-special/height-estimated.webp",
+          "sha256": "c602c4c7d4c934f9c6ee399b4c0db3da1109e16df8ef6de3be535d5aa65e3efd",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "pyra-special/roughness-estimated.webp",
+          "sha256": "cd5ccb85e856030bedb5a509a9c90899e85879eaf5670e71df9fc6d056a03396",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "pyra-water",
+      "sourceSha256": "856c455988c270f8b7b4e52c76ab0bc3c1682f6d8081533b65ec6b812b35f414",
+      "width": 512,
+      "height": 512,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/pyra/terrain/water.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "pyra-water/base-color.webp",
+          "sha256": "f3b0f83c2a82366750582787d8d6f2d67711807460d9293bc7cbaa5e2c1869f8",
+          "width": 512,
+          "height": 512,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "pyra-water/normal-opengl.webp",
+          "sha256": "ea2a77b0d0b992cb01cec94dc32fe4f302cf5cdfe7a996544173668899956aab",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "pyra-water/height-estimated.webp",
+          "sha256": "00a7653146c3b01cd49574a53e411559b8a809c8b16b7b35f48a14364347d2ea",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "pyra-water/roughness-estimated.webp",
+          "sha256": "f53043d42c5fd0db3940c02bf3398741b59133a99524c45909456ac2691f8de0",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 1835008
+    },
+    {
+      "id": "verdant-b0",
+      "sourceSha256": "81f3e34090000497a14e602eb271d578c4a5dbce6d76d8eddf3f43e8e195796c",
+      "width": 768,
+      "height": 768,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/verdant/terrain/b0.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "verdant-b0/base-color.webp",
+          "sha256": "f2dfa37b439b8a022a759315b87b4ef4feedca86441476c56bec7bed486147b2",
+          "width": 768,
+          "height": 768,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "verdant-b0/normal-opengl.webp",
+          "sha256": "cd89a90af35b999bfdfcacafd02058299fe59398e54140a8616e63e294513409",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "verdant-b0/height-estimated.webp",
+          "sha256": "a193e3da8a961b60bbe5491a61761a108bfdd3aae68b760ff8cccb75af1e3492",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "verdant-b0/roughness-estimated.webp",
+          "sha256": "a42db411d7c4f368a0735da2081b3f966a046d3fd08e15eef6199873e054b4aa",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 3145728
+    },
+    {
+      "id": "verdant-b1",
+      "sourceSha256": "8e91a0bbb1a740e0051e2f0cef5afc74b4bc792aa73bd7c9bba39912c66c23bb",
+      "width": 640,
+      "height": 640,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/verdant/terrain/b1.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "verdant-b1/base-color.webp",
+          "sha256": "8c8218d33898c90ce941747bdf993bac17f56555b88e6c7dec28afd34f62378a",
+          "width": 640,
+          "height": 640,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "verdant-b1/normal-opengl.webp",
+          "sha256": "7a92a3d6576311930e54a2aa7956ae73e2c2a98a35b053387d165f06a6933aae",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "verdant-b1/height-estimated.webp",
+          "sha256": "5dc4e48fd6e9e0a4484c07455ccbf7e651b7c0e24c1cd40c190ece14e4559627",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "verdant-b1/roughness-estimated.webp",
+          "sha256": "4276d435f930f91650e43b4a9b5f715fc6c3e2eb55e58b5009b019f2dbb06095",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 2424832
+    },
+    {
+      "id": "verdant-b2",
+      "sourceSha256": "19f0c02705741027abd621d723df4bc82122563c3a32b107f1ae2cecff117985",
+      "width": 640,
+      "height": 640,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/verdant/terrain/b2.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "verdant-b2/base-color.webp",
+          "sha256": "f0237ab2598bf20feac830dc1adab5280d3199235d8b569e59da234a1ef72ae2",
+          "width": 640,
+          "height": 640,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "verdant-b2/normal-opengl.webp",
+          "sha256": "953db519c35cfa745feee7b0fdaaf2fb3ed12bbdbdb2d436d21f52a5da56d832",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "verdant-b2/height-estimated.webp",
+          "sha256": "5acaf2dbe3dd3c8cceca4fe909aecebbbdb35623fcdb34bf86f3426cdc38b3b6",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "verdant-b2/roughness-estimated.webp",
+          "sha256": "8dcde41f5fa39ad8678725d5a8127a6b55be0593a4a7abfd8f3671b17f65a835",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 2424832
+    },
+    {
+      "id": "verdant-b3",
+      "sourceSha256": "882a28c7e1324a93755e41b178a4980f76ac2df13e527fe225a8f21a312a085a",
+      "width": 640,
+      "height": 640,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/verdant/terrain/b3.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "verdant-b3/base-color.webp",
+          "sha256": "79897bd1a032f8cb46cf932c06b5c78d7945fb79b4dd31bec9d7dfecdd2ab6a5",
+          "width": 640,
+          "height": 640,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "verdant-b3/normal-opengl.webp",
+          "sha256": "c12a43804779205af47ecdbf24433a8b2030e3b156aa011cc6397601f4fb8652",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "verdant-b3/height-estimated.webp",
+          "sha256": "2637dcd1b3c9419616f354e88abaa647cc3e7da00f8de5e42cbffe8f81f610cd",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "verdant-b3/roughness-estimated.webp",
+          "sha256": "a50cd9d6ebbfdffe5eca247914dac63445bc5ad41556303cd6a5e243ab967b59",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 2424832
+    },
+    {
+      "id": "verdant-road0",
+      "sourceSha256": "543f17df427d2ce9ecf34c0e10c96dae023299b2c15dba39b573bece55460ce6",
+      "width": 768,
+      "height": 109,
+      "tileCandidate": false,
+      "sources": [
+        "ports/godot-pyra/assets/lands/verdant/terrain/road0.webp"
+      ],
+      "baseColorMethod": "Existing non-square source; lossless transcode, layout preserved",
+      "maps": {
+        "base-color": {
+          "file": "verdant-road0/base-color.webp",
+          "sha256": "543f17df427d2ce9ecf34c0e10c96dae023299b2c15dba39b573bece55460ce6",
+          "width": 768,
+          "height": 109,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "verdant-road0/normal-opengl.webp",
+          "sha256": "1c76a64f11edc0549377b88f543fbd16713c54c63c5cbe5c77cd266c49d7dcad",
+          "width": 256,
+          "height": 36,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "verdant-road0/height-estimated.webp",
+          "sha256": "562d01229e7036441d47060534b1d0b26460cc09db1b0dd061916f4837ecceac",
+          "width": 256,
+          "height": 36,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "verdant-road0/roughness-estimated.webp",
+          "sha256": "9fd82350fc5250dda7e543626c575b99dbd56ef1988ae969c0df2f9d1f1c9323",
+          "width": 256,
+          "height": 36,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 445440
+    },
+    {
+      "id": "verdant-road1",
+      "sourceSha256": "19d3c0df4a6801f1e10742e4f58bbda39cb52237208664d4ab07b9f6d1746db7",
+      "width": 768,
+      "height": 109,
+      "tileCandidate": false,
+      "sources": [
+        "ports/godot-pyra/assets/lands/verdant/terrain/road1.webp"
+      ],
+      "baseColorMethod": "Existing non-square source; lossless transcode, layout preserved",
+      "maps": {
+        "base-color": {
+          "file": "verdant-road1/base-color.webp",
+          "sha256": "19d3c0df4a6801f1e10742e4f58bbda39cb52237208664d4ab07b9f6d1746db7",
+          "width": 768,
+          "height": 109,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "verdant-road1/normal-opengl.webp",
+          "sha256": "6b7b7ba7e565f51e04df07a3ed7719eb3a496470522318de6864a2035eb289d4",
+          "width": 256,
+          "height": 36,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "verdant-road1/height-estimated.webp",
+          "sha256": "5ebf5488ad5791c48d2b321d58828e82947c68472f013537feeb0f4ca0674063",
+          "width": 256,
+          "height": 36,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "verdant-road1/roughness-estimated.webp",
+          "sha256": "1a85e36a81d97c6a907d30d4fb5878f903f176be52f741bcc248a5a67271a3c2",
+          "width": 256,
+          "height": 36,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 445440
+    },
+    {
+      "id": "verdant-road2",
+      "sourceSha256": "9c950b47765e01d54486f80e199a3264a2a0fb2e9be9b20bf8e3473beed4f247",
+      "width": 768,
+      "height": 109,
+      "tileCandidate": false,
+      "sources": [
+        "ports/godot-pyra/assets/lands/verdant/terrain/road2.webp"
+      ],
+      "baseColorMethod": "Existing non-square source; lossless transcode, layout preserved",
+      "maps": {
+        "base-color": {
+          "file": "verdant-road2/base-color.webp",
+          "sha256": "09d9b0d85a66f3291ada30017c41fd09f701fc40615693a11f2d5c7c11a0791e",
+          "width": 768,
+          "height": 109,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "verdant-road2/normal-opengl.webp",
+          "sha256": "032cbd6ff2da485630c1474233b0b65d109498e2198e281b4cf7286be53b1958",
+          "width": 256,
+          "height": 36,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "verdant-road2/height-estimated.webp",
+          "sha256": "5047d70e7955947d8ee06198d356c8746b745703de0dc981d5cc8aee61e969e6",
+          "width": 256,
+          "height": 36,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "verdant-road2/roughness-estimated.webp",
+          "sha256": "6a0f1d0d4f8cac79390dbb7c93b1e58500279237cde14fa6d227d2bbe8181c9a",
+          "width": 256,
+          "height": 36,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 445440
+    },
+    {
+      "id": "verdant-road3",
+      "sourceSha256": "1bb32e4587ffbf6f9f9d122065222170543d2d5e770d7dab26857c1ad138f509",
+      "width": 768,
+      "height": 109,
+      "tileCandidate": false,
+      "sources": [
+        "ports/godot-pyra/assets/lands/verdant/terrain/road3.webp"
+      ],
+      "baseColorMethod": "Existing non-square source; lossless transcode, layout preserved",
+      "maps": {
+        "base-color": {
+          "file": "verdant-road3/base-color.webp",
+          "sha256": "1bb32e4587ffbf6f9f9d122065222170543d2d5e770d7dab26857c1ad138f509",
+          "width": 768,
+          "height": 109,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "verdant-road3/normal-opengl.webp",
+          "sha256": "87245375b86eb65758d891f7688699c68ffab34af60cb9b977258803cb0e2bdd",
+          "width": 256,
+          "height": 36,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "verdant-road3/height-estimated.webp",
+          "sha256": "e7fa676fe8ebfdbd510edf8ff8d6bc6543d0466fbd1b5869e4244912976d4002",
+          "width": 256,
+          "height": 36,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "verdant-road3/roughness-estimated.webp",
+          "sha256": "a66a4f9adf2523d55a7825997b2aa59de8e453d688692eb42cf6b2dde2d5e1f1",
+          "width": 256,
+          "height": 36,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 445440
+    },
+    {
+      "id": "verdant-shore",
+      "sourceSha256": "928c66c91c5d613cf989d8f55dcaa26a0e4454e5c30b185800347aac552a57bd",
+      "width": 640,
+      "height": 640,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/verdant/terrain/shore.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "verdant-shore/base-color.webp",
+          "sha256": "7dd28125fc26741373015604e477388a31253cf60b40717079f913a09c1ea9c9",
+          "width": 640,
+          "height": 640,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "verdant-shore/normal-opengl.webp",
+          "sha256": "8b733a4bab87fcbb497eb05426b5bcc700cbe40654eb7e8af7ec257320d5843a",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "verdant-shore/height-estimated.webp",
+          "sha256": "ae65332aceff495eda40b5a8e8119faa80d546a2584c2f1d9000a8b5aed9f63c",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "verdant-shore/roughness-estimated.webp",
+          "sha256": "64bb4d0cd3b334bbfa7dfa18c4a579427bca2a9384034c3bdf235d1f10dc1e85",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 2424832
+    },
+    {
+      "id": "verdant-water",
+      "sourceSha256": "24293e07a9ec605cbba2ce09f1d105d9b780f879f9d6f17ed2686545a01f9eb1",
+      "width": 640,
+      "height": 640,
+      "tileCandidate": true,
+      "sources": [
+        "ports/godot-pyra/assets/lands/verdant/terrain/water.webp"
+      ],
+      "baseColorMethod": "Meshy free browser PNG, lossless WebP transcode",
+      "maps": {
+        "base-color": {
+          "file": "verdant-water/base-color.webp",
+          "sha256": "3f4d5daf48a7a1e8e5931ee3ed1511e3f4c9e2660c059d45955ae0264bff710e",
+          "width": 640,
+          "height": 640,
+          "colorSpace": "sRGB"
+        },
+        "normal-opengl": {
+          "file": "verdant-water/normal-opengl.webp",
+          "sha256": "04bae065fbfd2319d3a75bfcece360952b3c4d9603b24055ce3dc31c90eb0a8d",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "height-estimated": {
+          "file": "verdant-water/height-estimated.webp",
+          "sha256": "4847370a54430703c38b87e1b6c063b674b57eea4bb72ecf30a20c9f9fe97e26",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        },
+        "roughness-estimated": {
+          "file": "verdant-water/roughness-estimated.webp",
+          "sha256": "f99e2db2b3920741aa285abdedda7594f3a41d0eb60483e4d2b02f3202cf6d19",
+          "width": 256,
+          "height": 256,
+          "colorSpace": "linear-data"
+        }
+      },
+      "estimatedDecodedRgbaBytesPerMaterial": 2424832
+    }
+  ],
+  "limitations": [
+    "Height and roughness are visual estimates, not physically captured measurements.",
+    "No AO or metallic generated: a color image does not prove occlusion or metalness.",
+    "Not installed; current 2D ground shader does not automatically consume PBR maps.",
+    "Visual seam acceptance is separate from numerical border metrics.",
+    "Load only visible materials; four maps cost four decoded textures before mipmaps."
+  ],
+  "derivedMapMaxEdge": 256
+}

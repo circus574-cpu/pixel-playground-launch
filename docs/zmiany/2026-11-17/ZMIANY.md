@@ -374,3 +374,86 @@ z rozgrywką**. Następny eksport powinien zawierać skórkowaną siatkę, szkie
 i przynajmniej idle/walk. Nie tworzono sztucznego chodu przez przesuwanie tej bryły.
 Duża siatka może służyć jako źródło renderów offline; nie umieszczano jej bezpośrednio
 na telefonie. Bez scalenia, publikacji, nowego APK lub operacji na instancjach GPU.
+
+## 7. Darmowe materiały całej planety — Meshy w przeglądarce i CPU
+
+Zlecenie właściciela: przygotować bezpłatnie grafiki i materiały po sprawdzeniu
+przeglądarkowych narzędzi Meshy. Gałąź `trial/free-materials-20261117`, baza
+`d509bac79c85db2e427b1e5beb3a09230228f8d7`.
+
+### Wykonane pliki
+
+Pakiet `deliveries/free-materials-20261117/` obejmuje 98 tekstur terenowych
+z `ports/godot-pyra/assets/lands/*/terrain`: **86 unikalnych materiałów, 344 mapy**.
+Duplikaty źródeł współdzielą materiał. 71 kwadratowych powierzchni rzeczywiście
+przetworzono w anonimowej sesji przeglądarkowego Meshy i pobrano darmowy PNG.
+15 prostokątnych pasów zachowuje kształt i układ oryginału. Każdy materiał zawiera:
+
+- Kolor bazowy w rozdzielczości oryginału, bezstratny WebP.
+- Normalną OpenGL (+Y), zgodną z Godotem/glTF.
+- Szacowaną wysokość i szorstkość powierzchni.
+- Sumy, wymiary i pochodzenie w `manifest.json`; kwadratowe powierzchnie także
+  indywidualny dowód eksportu `browser-export.json`.
+
+Mapy pochodne powstały we własnym kodzie CPU, do 256 px na telefon; wariant 512 px
+lub większy można odtworzyć parametrem `--map-size`. Nie przedstawiać ich jako
+pomiaru PBR ani eksportu z płatnego AI Meshy. Nie generowano AO/metaliczności.
+ZIP PBR w Meshy wymaga darmowego konta; nie pobierano go ani nie obchodzono bramki.
+Nie użyto kredytów, płatnego AI, nowych modeli ani poda GPU.
+
+10 galerii i `gallery.html` są w pakiecie. Przykłady:
+[Pyra](../../../deliveries/free-materials-20261117/pyra-review.jpg),
+[wyspa I](../../../deliveries/free-materials-20261117/island-1-review.jpg),
+[Nexus-9](../../../deliveries/free-materials-20261117/nexus-review.jpg).
+[Manifest](../../../deliveries/free-materials-20261117/manifest.json).
+Prawa do źródeł pozostają dziedziczone z istniejącego rejestru, nie otrzymują
+automatycznie nowej licencji dzięki darmowej obróbce.
+
+### Sprawdzenia
+
+- [7/7 testów CPU](qa/free-texture-tools/unit-tests.txt): płaska powierzchnia,
+  kierunki normalnych X/Y, brzegi okresowe, długość wektorów, mokra szorstkość,
+  brak modyfikacji wejścia i bezstratne odtworzenie WebP.
+- [344/344 plików, 86/86 materiałów, 98/98 wiązań](qa/free-texture-tools/pack-validation.json):
+  hashe, wymiary, wektory normalnych oraz nienaruszone źródła. 71 metryk krawędzi
+  bez przekroczenia progu flagi; to kontrola numeryczna, nie pełny odbiór artystyczny.
+  Same mapy zajmują 37 101 076 B, około 35,4 MiB.
+- [Eksporty przeglądarkowe](qa/free-texture-tools/browser-exports.txt).
+- [Galeria przy 390×844](qa/free-texture-tools/gallery-mobile.json): 10/10 obrazów
+  wczytanych, bez przewijania poziomego i błędów JavaScript;
+  [zrzut](qa/free-texture-tools/gallery-mobile.png). To test galerii, nie telefonu z grą.
+- Pełny [TypeScript](qa/free-texture-tools/typecheck.txt) i
+  [lint](qa/free-texture-tools/lint.txt): zakończone kodem 0; lint ma 0 błędów
+  i 17 ostrzeżeń w niezmienianych plikach projektu.
+- [Studio Godota: 10/10 lądów](qa/free-texture-tools/material-studio.json),
+  [rzeczywisty render](qa/free-texture-tools/material-studio.png),
+  [log](qa/free-texture-tools/material-studio.txt): kolor, normalna i szorstkość
+  na kulach; wysokość nie jest używana przez ten podgląd. To studio materiałów,
+  nie zrzut rozgrywki ani dowód wdrożenia PBR.
+- [Podgląd w rzeczywistej Pyrze](qa/free-texture-tools/game-preview/pyra-candidate.png),
+  [przed](qa/free-texture-tools/game-preview/pyra-before.png),
+  [98 wiązań i zachowana geometria/pozycja](qa/free-texture-tools/game-preview/runtime-preview.json).
+  [Log gry](qa/free-texture-tools/game-preview.txt) zawiera ostrzeżenie V-Sync
+  oraz zgłoszenie dwóch zasobów pozostających w użyciu przy zamykaniu fixture.
+  Nie przedstawiać tego jako bezbłędnej pełnej regresji gry.
+
+Renderer: X11/OpenGL Compatibility/llvmpipe na CPU. Fizyczny Android,
+Canvas/Software WebGL przeglądarkowej gry i pełna regresja walki nie były częścią
+tej kontroli pakietu. Żaden zasób zainstalowanej gry ani zapis nie został zmieniony.
+
+### Jak obejrzeć i co pozostało
+
+Galeria działa z lokalnych plików. Narzędzia:
+`scripts/art/free_materials.py`, `scripts/art/meshy_free_browser.cjs` oraz
+`ports/godot-pyra/tests/preview_free_materials.gd`. Studio:
+
+```sh
+DISPLAY=:101 LIBGL_ALWAYS_SOFTWARE=1 XDG_DATA_HOME=/tmp/ki-material-review godot --audio-driver Dummy --rendering-method gl_compatibility --path ports/godot-pyra --script res://tests/preview_free_materials.gd -- --pack=/absolutna/sciezka/pakietu --out=/tmp/ki-material-studio
+```
+
+Izolowana próba w grze: istniejący `preview_premium_terrain.gd` z
+`--bindings=<pakiet>/godot-preview.json`. Źródłowe pliki pozostają nienaruszone.
+Obecny shader podłoża 2D używa koloru, nie pełnego PBR. Do przyszłej integracji
+potrzebne są obsługa oświetlenia/normalnych i strumieniowanie tylko widocznych map,
+pomiar pamięci i odbiór na telefonie. Ten pakiet nie zastępuje modeli postaci,
+rigowania lub animacji. Bez scalenia, publikacji i nowego APK.

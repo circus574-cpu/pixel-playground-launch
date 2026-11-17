@@ -1,5 +1,10 @@
 # KI Legends — dokumentacja projektu
 
+**Darmowe materiały — 17.11:** przygotowano 86 materiałów / 344 mapy dla czterech
+kontynentów i sześciu wysp: bezszwowe kolory z darmowego Meshy oraz normalne,
+szacowana wysokość i szorstkość z CPU. Bez kredytów i instalacji do produkcji.
+[Galerie, podgląd Godota i wyniki](zmiany/2026-11-17/ZMIANY.md#7-darmowe-materiały-całej-planety--meshy-w-przeglądarce-i-cpu).
+
 **Meshy — 17.11:** pierwszy GLB z trzema teksturami 2048² wczytano w Godocie
 i pokazano z ośmiu stron. To model statyczny: brak szkieletu i animacji.
 Kontrakt dalszego renderowania do atlasów zachowuje czasy i kotwice 144 klipów.

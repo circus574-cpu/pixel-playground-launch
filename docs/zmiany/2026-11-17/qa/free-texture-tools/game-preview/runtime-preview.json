@@ -1,0 +1,498 @@
+{
+	"candidateCount": 98,
+	"checks": [
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/aether/terrain/b0.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/aether/terrain/b1.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/aether/terrain/b2.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/aether/terrain/b3.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/aether/terrain/over1.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/aether/terrain/over2.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/aether/terrain/road0.webp",
+			"size": "(512, 41)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/aether/terrain/road1.webp",
+			"size": "(512, 41)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/aether/terrain/road2.webp",
+			"size": "(512, 41)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/aether/terrain/road3.webp",
+			"size": "(512, 41)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/aether/terrain/road4.webp",
+			"size": "(512, 41)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/aether/terrain/shore.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/aether/terrain/water.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-1/terrain/b0.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-1/terrain/b1.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-1/terrain/b2.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-1/terrain/b3.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-1/terrain/plaza.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-1/terrain/road0.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-1/terrain/shore.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-1/terrain/water.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-2/terrain/b0.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-2/terrain/b1.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-2/terrain/b3.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-2/terrain/b2.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-2/terrain/plaza.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-2/terrain/road0.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-2/terrain/shore.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-2/terrain/water.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-3/terrain/b0.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-3/terrain/b1.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-3/terrain/b2.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-3/terrain/b3.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-3/terrain/plaza.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-3/terrain/road0.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-3/terrain/shore.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-3/terrain/water.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-4/terrain/b0.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-4/terrain/b1.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-4/terrain/b3.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-4/terrain/b2.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-4/terrain/plaza.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-4/terrain/road0.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-4/terrain/shore.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-4/terrain/water.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-5/terrain/b0.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-5/terrain/b1.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-5/terrain/b3.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-5/terrain/b2.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-5/terrain/plaza.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-5/terrain/road0.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-5/terrain/shore.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-5/terrain/water.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-6/terrain/b0.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-6/terrain/b3.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-6/terrain/b1.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-6/terrain/b2.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-6/terrain/plaza.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-6/terrain/road0.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-6/terrain/shore.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-6/terrain/special.webp",
+			"size": "(506, 506)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/island-6/terrain/water.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/nexus/terrain/b0.webp",
+			"size": "(443, 443)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/nexus/terrain/b1.webp",
+			"size": "(443, 443)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/nexus/terrain/b2.webp",
+			"size": "(443, 443)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/nexus/terrain/b3.webp",
+			"size": "(443, 443)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/nexus/terrain/over1.webp",
+			"size": "(443, 443)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/nexus/terrain/over2.webp",
+			"size": "(443, 443)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/nexus/terrain/road0.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/nexus/terrain/road1.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/nexus/terrain/road2.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/nexus/terrain/road3.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/nexus/terrain/shore.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/nexus/terrain/special.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/nexus/terrain/water.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/b0.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/b1.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/b2.webp",
+			"size": "(512, 194)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/b3.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/over1.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/over2.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/road0.webp",
+			"size": "(512, 122)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/road1.webp",
+			"size": "(512, 122)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/road2.webp",
+			"size": "(512, 122)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/road3.webp",
+			"size": "(512, 122)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/shore.webp",
+			"size": "(512, 194)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/special.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/pyra/terrain/water.webp",
+			"size": "(512, 512)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/verdant/terrain/b0.webp",
+			"size": "(768, 768)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/verdant/terrain/b1.webp",
+			"size": "(640, 640)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/verdant/terrain/b2.webp",
+			"size": "(640, 640)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/verdant/terrain/b3.webp",
+			"size": "(640, 640)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/verdant/terrain/road0.webp",
+			"size": "(768, 109)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/verdant/terrain/road1.webp",
+			"size": "(768, 109)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/verdant/terrain/road2.webp",
+			"size": "(768, 109)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/verdant/terrain/road3.webp",
+			"size": "(768, 109)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/verdant/terrain/shore.webp",
+			"size": "(640, 640)"
+		},
+		{
+			"nativeSizePreserved": true,
+			"path": "res://assets/lands/verdant/terrain/water.webp",
+			"size": "(640, 640)"
+		}
+	],
+	"geometryAndPositionUnchanged": true,
+	"renderer": "X11",
+	"scope": "Actual Godot runtime; isolated preview shader. No installed art or production changes."
+}

@@ -1,0 +1,12 @@
+test_flat_surface_has_upward_normal (test_free_materials.FreeMaterialsTests.test_flat_surface_has_upward_normal) ... ok
+test_horizontal_gradient_tilts_normal_against_slope (test_free_materials.FreeMaterialsTests.test_horizontal_gradient_tilts_normal_against_slope) ... ok
+test_input_is_not_modified (test_free_materials.FreeMaterialsTests.test_input_is_not_modified) ... ok
+test_periodic_edges_and_normal_lengths (test_free_materials.FreeMaterialsTests.test_periodic_edges_and_normal_lengths) ... ok
+test_vertical_gradient_uses_opengl_y_convention (test_free_materials.FreeMaterialsTests.test_vertical_gradient_uses_opengl_y_convention) ... ok
+test_water_has_lower_roughness_than_stone (test_free_materials.FreeMaterialsTests.test_water_has_lower_roughness_than_stone) ... ok
+test_webp_round_trip_is_lossless (test_free_materials.FreeMaterialsTests.test_webp_round_trip_is_lossless) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.010s
+
+OK
