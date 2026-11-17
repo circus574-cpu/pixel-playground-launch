@@ -70,7 +70,12 @@ func setup(economy: PyraEconomy, screen_mode: String, heading: String) -> void:
 		var b := make_button(str(tab_names[i]), func(): switch_tab(i), Vector2(150, 58))
 		tab_buttons.append(b)
 		bar.add_child(b)
-	bar.add_child(make_button("ZAMKNIJ", func(): closed.emit(), Vector2(140, 58)))
+	title.clip_text = true
+	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	title.custom_minimum_size.x = 0
+	Look.reserve_close(bar)
+	bar.custom_minimum_size.y = 96.0   # the round close button floats over the corner: the bar is tall enough that the content starts below it
+	Look.add_close(self, func(): closed.emit())
 	root.add_child(bar)
 	var body := HBoxContainer.new()
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL

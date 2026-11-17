@@ -71,6 +71,14 @@ func setup_land(id: String) -> void:
 	add_child(overlay)
 	ready_ok = true
 
+## The picture of a land's ground for the minimap and the detailed map: rendered from the real terrain (minimap.webp, travels in the pack "minimaps"),
+## or the painted map the APK carries when the server's picture is not on this device.
+static func map_texture(id: String) -> Texture2D:
+	var real := "res://assets/lands/%s/minimap.webp" % id
+	if ResourceLoader.exists(real):
+		return load(real)
+	return load("res://assets/lands/%s/map.webp" % id)
+
 func texture_at(index: int) -> Texture2D:
 	if textures[index] == null:
 		var path := str(cfg.textures[index].path)

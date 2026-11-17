@@ -1627,6 +1627,10 @@ func open_map() -> void:
 		cave_names[str(entrance.id)] = str(entrance.name)
 	view.setup(map_data, land, player.position if current_room.is_empty() else city_return, region_name(), cave_names)
 	view.travel.connect(travel_to)
+	view.teleport_enabled = KiNet.online().is_staff()
+	view.teleport.connect(func(land_name: String, spot: Vector2) -> void:
+		close_screen()
+		await gm_tools.execute({"action": "teleport", "land": land_name, "x": spot.x, "y": spot.y}))
 	open_screen(view)
 
 func sync_staff_access() -> void:

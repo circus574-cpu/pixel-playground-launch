@@ -64,6 +64,7 @@ func setup(can_close: bool = false) -> void:
 	bar.add_child(confirm)
 	if allow_close:
 		bar.add_child(make_button("ANULUJ", func(): closed.emit(), Vector2(200, 64)))
+		Look.add_close(self, func(): closed.emit())
 	root.add_child(bar)
 
 func make_card(race: String, data: Dictionary) -> Control:

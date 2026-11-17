@@ -1635,6 +1635,18 @@ func run() -> void:
 	it_eco.bag = {"potion": 3}
 	it_eco.gold = 20
 	it_eco.level = game.kit.level
+	# ---- a hero with many large sheets does not keep them all in memory ---------------------------------
+	var hero_actor: PyraActor = game.player.visual
+	hero_actor.play_once("skillb")
+	var built_before := hero_actor.built.has("skillb")
+	hero_actor.clip_used["skillb"] = Time.get_ticks_msec() - 60000
+	hero_actor.one_shot_until = 0.0
+	hero_actor.animate(Vector2.ZERO, false)
+	hero_actor.prune_clips()
+	var released := not hero_actor.built.has("skillb")
+	var idle_kept := hero_actor.built.has("idle")
+	hero_actor.play_once("skillb")
+	verify(built_before and released and idle_kept and hero_actor.built.has("skillb") and hero_actor.sprite.animation.begins_with("skillb"), "a clip that has not been played for a while is released from memory (idle stays) and is built again when played")
 	# ---- food: ten meals heal over time, ten peaceful animals give them ---------------------------------
 	var fd_data: Dictionary = PyraContinent.load_json("res://data/food.json")
 	var fd_foods: Array = fd_data.foods

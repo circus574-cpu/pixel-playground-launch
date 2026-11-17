@@ -5,6 +5,11 @@ const Look := preload("res://scripts/look.gd")   # the look that can change with
 
 signal closed
 signal travel(land_id: String)
+signal teleport(land_id: String, world: Vector2)   # GM: to a spot picked on the detailed map
+var teleport_enabled := false
+var teleport_button: Button
+var picked_point := Vector2.ZERO
+var has_point := false
 
 var map_data: Dictionary
 var tabs: Array[Button] = []
@@ -72,11 +77,22 @@ func setup(data: Dictionary, world: Dictionary, player: Vector2, region_label: S
 		list.append({"point": Vector2(float(place.x), float(place.y)), "label": label, "kind": "wilderness" if place.kind == "wilderness" else str(place.kind)})
 	for place: Dictionary in world.famous:
 		list.append({"point": Vector2(float(place.x), float(place.y)), "label": str(place.name), "kind": "famous"})
-	continent_view.setup(load("res://assets/lands/%s/map.webp" % land_id), list, player, Vector2(float(world.width), float(world.height)))
+	continent_view.setup(PyraContinent.map_texture(land_id), list, player, Vector2(float(world.width), float(world.height)))
 	continent_view.marker_picked.connect(func(label: String): info.text = label)
+	continent_view.point_picked.connect(on_point_picked)
 	views = [globe, atlas, continent_view]
 	build_layout()
 	switch_to(0)
+
+func on_point_picked(world_point: Vector2) -> void:
+	picked_point = world_point
+	has_point = true
+	var head := info.text.get_slice("\n", 0)
+	if head == "" or head.begins_with("Jesteś") or head.begins_with("Wybrane"):
+		head = "Wybrane miejsce"
+	info.text = "%s\nWspółrzędne: %d, %d" % [head, roundi(world_point.x), roundi(world_point.y)]
+	if teleport_enabled:
+		teleport_button.visible = true
 
 func make_button(text: String, callback: Callable, minimum: Vector2 = Vector2(150, 64)) -> Button:
 	var button := Button.new()
@@ -108,7 +124,12 @@ func build_layout() -> void:
 		var button := make_button(["GLOBUS 3D", "MAPA 2D", "KRAINA: " + str(world_name())][i], func(): switch_to(i), Vector2(i * 0 + 160 if i < 2 else 230, 64))
 		tabs.append(button)
 		bar.add_child(button)
-	bar.add_child(make_button("ZAMKNIJ", func(): closed.emit(), Vector2(150, 64)))
+	title.clip_text = true
+	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	title.custom_minimum_size.x = 0
+	Look.reserve_close(bar)
+	bar.custom_minimum_size.y = 96.0   # the round close button floats over the corner: the bar is tall enough that the content starts below it
+	Look.add_close(self, func(): closed.emit())
 	root.add_child(bar)
 	var stage := Control.new()
 	stage.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -144,6 +165,9 @@ func build_layout() -> void:
 	travel_button = make_button("PODRÓŻ", func(): travel.emit(picked), Vector2(260, 64))
 	travel_button.visible = false
 	card_row.add_child(travel_button)
+	teleport_button = make_button("TELEPORT TU", func(): teleport.emit(land_id, picked_point), Vector2(260, 64))
+	teleport_button.visible = false
+	card_row.add_child(teleport_button)
 	card.add_child(card_row)
 	root.add_child(card)
 
@@ -201,5 +225,5 @@ func show_region(id: String) -> void:
 			atlas.selected = id
 			picked = id
 			travel_button.visible = id != land_id
-			travel_button.text = "PODRÓŻ: " + str(region.name).to_upper()
+			travel_button.text = ("TELEPORT: " if teleport_enabled else "PODRÓŻ: ") + str(region.name).to_upper()
 			return
