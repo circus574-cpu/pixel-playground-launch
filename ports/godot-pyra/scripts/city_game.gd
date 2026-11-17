@@ -259,7 +259,10 @@ func set_race(new_race: String) -> void:
 	kit.gear = economy.gear()
 	kit.terrain_at = func() -> String: return continent.terrain_kind(player.position) if is_instance_valid(continent) else "open"
 	hero = PyraActor.usable_hero(actors, str(WORLD_OF_RACE[race]))
-	for clip: Dictionary in (hero.clips as Dictionary).values():   # decode every animation sheet of the hero off the main thread
+	# decode off the main thread only the sheets used all the time; the rest (Ki form, skills, death...) load when first played,
+	# so a hero with many large sheets (the 3D renders: ~230 MB if all were in memory) does not fill a phone's memory at start
+	for clip_name in ["idle", "walk", "run", "attack", "attack2", "hit", "dodge"]:
+		var clip: Dictionary = (hero.clips as Dictionary).get(clip_name, {})
 		var sheet := str(clip.get("sheet", ""))
 		if sheet != "" and not ResourceLoader.has_cached(sheet):
 			ResourceLoader.load_threaded_request(sheet)
