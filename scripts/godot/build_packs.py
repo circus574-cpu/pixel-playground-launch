@@ -6,7 +6,8 @@ particular land or world is moved into PCK files that the game downloads from th
 
   land-<id>      data/lands/<id>/*, assets/lands/<id>/*, the scenery textures the land's `land.json` names
   monsters-<w>   monster sheets and monster sounds of one world
-  npcs-<w>       NPC sheets of one world (the heroes of the four races stay in the APK)
+  npcs-<w>       NPC sheets of one world
+  heroes         the heroes of the four races (rendered from 3D models), needed by every land
   rooms-<w>      interior pictures of one world (and the first-trial floor for pyra)
   music-<w>      the continent music of one world
 
@@ -88,6 +89,8 @@ def classify(path: str) -> list[str]:
     if parts[0] == "assets" and parts[1] == "monsters":
         w = parts[2].split("-")[0]
         return [f"monsters-{w}"] if w in WORLDS else []
+    if parts[0] == "assets" and parts[1] == "actors" and len(parts) >= 3 and parts[2] == "hero3d":
+        return ["heroes"]   # the heroes of the four races (3D renders): one pack every land needs, so they reach installed apps from the server
     if parts[0] == "assets" and parts[1] == "actors":
         m = re.match(r"npc-(\w+?)-", parts[2])
         if m and m.group(1) in WORLDS:
@@ -178,6 +181,8 @@ def requirements(members: dict[str, list[str]]) -> dict[str, list[str]]:
         for kind in ("npcs", "rooms", "music"):
             if f"{kind}-{world}" in members:
                 need.append(f"{kind}-{world}")
+        if "heroes" in members:
+            need.append("heroes")
         out[land] = sorted(dict.fromkeys(need))
     return out
 
@@ -185,7 +190,7 @@ def requirements(members: dict[str, list[str]]) -> dict[str, list[str]]:
 def base_excludes(members: dict[str, list[str]]) -> list[str]:
     """Export filter patterns that keep pack contents out of the APK (patterns over source resource paths)."""
     patterns = ["data/lands/*", "assets/lands/*", "assets/objects/*", "assets/monsters/*", "assets/rooms/*", "assets/floor/*"]
-    patterns += ["assets/actors/npc-*", "assets/actors/trainer-*", "assets/actors/steward-*", "assets/actors/smith-*"]
+    patterns += ["assets/actors/npc-*", "assets/actors/trainer-*", "assets/actors/steward-*", "assets/actors/smith-*", "assets/actors/hero3d/*"]
     patterns += [f"assets/audio/music/{n}.mp3" for n in ("pyra", "verdantia", "aetheria", "nexus")]
     patterns += ["assets/audio/sfx/monsters/*"]
     return BASE_EXCLUDES_STATIC + patterns
