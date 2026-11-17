@@ -6,6 +6,8 @@ var output := "/tmp/ki-gm-gameplay"
 var checks: Array[Dictionary] = []
 
 class Server extends Fixture.StaffServer:
+	func cloud_list() -> Dictionary:
+		return {"ok":true,"saves":[]}
 	func cloud_push(_save: Dictionary, _base: int = -1, _version: String = "") -> Dictionary:
 		return {"ok":true,"revision":1}
 
