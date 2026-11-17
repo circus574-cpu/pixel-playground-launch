@@ -70,6 +70,23 @@ func run() -> void:
 	game.set_process(false)
 	game.monsters.set_process(false)
 	await frames(10)
+	if "--admin" in OS.get_cmdline_user_args():
+		# an administrator has no limit: five characters, five cloud saves
+		cloud.roles = ["admin"]
+		check(cloud.slot_limit() > 1000, "an administrator has no cloud limit")
+		for race in ["legend", "planetary", "sage", "android", "legend"]:
+			await game.start_new_character(race)
+			await frames(5)
+			game.save_checkpoint(game.SAVE_PATH, true)
+			await game.push_cloud(false)
+			await frames(10)
+		var slots: Array = cloud.rows.keys()
+		slots.sort()
+		check(slots == [1, 2, 3, 4, 5], "five characters of an administrator are all in the cloud (%s)" % str(slots))
+		print("FAILURES ", failures)
+		quit(1 if failures > 0 else 0)
+		return
+	check(cloud.slot_limit() == 3, "a player has three cloud slots")
 	# four characters on one account
 	var ids: Array[String] = []
 	for race in ["legend", "planetary", "sage", "android"]:

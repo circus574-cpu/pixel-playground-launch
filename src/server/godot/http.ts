@@ -4,7 +4,7 @@ import type { AccountService } from "../accounts/service";
 import { RateLimiter } from "../accounts/http";
 import { ContentError, PACK_FILE_PATTERN, VERSION_PATTERN } from "./contentFiles";
 import { RevisionConflict, type GodotStore } from "./store";
-import { SaveRejected } from "./saveRules";
+import { MAX_SAVE_SLOT, PLAYER_SAVE_SLOTS, SaveRejected } from "./saveRules";
 
 export type GodotHttpDeps = {
   store: GodotStore | null;
@@ -13,6 +13,7 @@ export type GodotHttpDeps = {
   online: () => { count: number; byLand: Record<string, number> };
 };
 
+const validSlot = (slot: number) => Number.isInteger(slot) && slot >= 1 && slot <= MAX_SAVE_SLOT;
 const perIp = new RateLimiter(240, 60_000);
 const writes = new RateLimiter(40, 60_000);
 const uploads = new RateLimiter(60, 60_000);
@@ -191,10 +192,16 @@ export async function godotHttp(
     /* ------------------------------ cloud saves ----------------------------- */
     if (path === "/saves" && method === "GET")
       return send(200, { saves: await store.listSaves(subject()) });
-    const slotMatch = path.match(/^\/saves\/([1-3])$/);
-    if (slotMatch) {
+    const slotMatch = path.match(/^\/saves\/(\d{1,5})$/);
+    if (slotMatch && Number(slotMatch[1]) >= 1 && Number(slotMatch[1]) <= MAX_SAVE_SLOT) {
       const slot = Number(slotMatch[1]);
       const who = subject();
+      // a player keeps three characters in the cloud; an administrator any number
+      if (slot > PLAYER_SAVE_SLOTS && !(await accounts.roles(who)).includes("admin"))
+        return send(403, {
+          error: "SLOT_LIMIT",
+          message: `Chmura ma miejsce na ${PLAYER_SAVE_SLOTS} postacie.`,
+        });
       if (method === "GET") {
         const found = await store.readSave(who, slot);
         return found ? send(200, found) : send(404, { error: "NOT_FOUND" });
@@ -240,7 +247,7 @@ export async function godotHttp(
         await staff(false);
         const account = url.searchParams.get("account") ?? "";
         const slot = Number(url.searchParams.get("slot"));
-        if (!/^[0-9a-f-]{36}$/.test(account) || ![1, 2, 3].includes(slot))
+        if (!/^[0-9a-f-]{36}$/.test(account) || !validSlot(slot))
           return send(400, { error: "INVALID_INPUT" });
         const found = await store.readSave(account, slot);
         return found ? send(200, found) : send(404, { error: "NOT_FOUND" });
@@ -292,7 +299,7 @@ export async function godotHttp(
         const body = await jsonBody(2_000);
         const account = String(body["account"] ?? "");
         const slot = Number(body["slot"]);
-        if (!/^[0-9a-f-]{36}$/.test(account) || ![1, 2, 3].includes(slot))
+        if (!/^[0-9a-f-]{36}$/.test(account) || !validSlot(slot))
           return send(400, { error: "INVALID_INPUT" });
         const deleted = await store.deleteSave(account, slot);
         await accounts.audit(actor, "GODOT_DELETE_SAVE", account, { slot });

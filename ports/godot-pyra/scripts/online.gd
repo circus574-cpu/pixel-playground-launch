@@ -12,7 +12,8 @@ signal live_state_changed(connected: bool)
 
 const SESSION_PATH := "user://account.json"
 const CLOUD_PATH := "user://cloud.json"
-const SLOTS := 3                   # the server keeps up to three cloud saves per account: one per character (scripts/characters.gd)
+const SLOTS := 3                   # the cloud saves of a player: one per character (scripts/characters.gd), three per account
+const MAX_SLOT := 32767            # an administrator has no limit (the server's database column)
 
 var server := ""
 var access_token := ""
@@ -220,10 +221,14 @@ func store_cloud_state() -> void:
 		file.store_string(JSON.stringify({"account": account_id, "revisions": saved}))
 		file.close()
 
+## How many cloud saves this account may keep: three, an administrator any number.
+func slot_limit() -> int:
+	return MAX_SLOT if logged_in() and roles.has("admin") else SLOTS
+
 ## Makes `number` (1..3) the cloud slot of the following pull / push: the revision of that slot becomes the current one.
 func use_slot(number: int) -> void:
 	revisions[slot] = cloud_revision
-	slot = clampi(number, 1, SLOTS)
+	slot = clampi(number, 1, slot_limit())
 	cloud_revision = int(revisions.get(slot, 0))
 
 ## All the cloud saves of the account: {"ok": bool, "saves": [{slot, revision, race, land, level, updatedAt, ...}]}.
@@ -233,7 +238,7 @@ func cloud_list() -> Dictionary:
 		return {"ok": false, "status": int(result.status), "saves": []}
 	var rows: Array = []
 	for row: Variant in (result.json.get("saves", []) as Array):
-		if row is Dictionary and int(row.slot) >= 1 and int(row.slot) <= SLOTS:
+		if row is Dictionary and int(row.slot) >= 1 and int(row.slot) <= slot_limit():
 			rows.append(row)
 	return {"ok": true, "saves": rows}
 

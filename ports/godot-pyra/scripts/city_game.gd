@@ -27,6 +27,7 @@ const LEGEND_PATH := "res://data/legend.json"
 const SAVE_PATH := "user://city-checkpoint-v1.json"
 const Characters := preload("res://scripts/characters.gd")
 var character_id := ""   # the id of the active character (scripts/characters.gd)
+var cloud_push_again := false
 var cloud_slot := 0       # its cloud slot 1..3 (0: not assigned yet; -1: the account has no free slot)
 const ALL_LANDS := ["pyra", "verdant", "aether", "nexus", "island-1", "island-2", "island-3", "island-4", "island-5", "island-6"]
 const SAVE_FORMAT := "ki-godot-pyra-save-2"
@@ -1883,6 +1884,9 @@ func save_checkpoint(path: String = SAVE_PATH, quiet: bool = false) -> bool:
 
 ## Sends the local save to the account's cloud slot. A newer save from another device raises the conflict dialog.
 func push_cloud(announce: bool = false) -> void:
+	if cloud_pushing and not cloud_dialog_open:
+		cloud_push_again = true   # a newer save arrived while one is on its way: it goes up right after
+		return
 	if cloud_pushing or cloud_dialog_open or not FileAccess.file_exists(SAVE_PATH):
 		return
 	var value: Variant = JSON.parse_string(FileAccess.get_file_as_string(SAVE_PATH))
@@ -1907,6 +1911,9 @@ func push_cloud(announce: bool = false) -> void:
 	KiNet.online().use_slot(cloud_slot)
 	var outcome := await KiNet.online().cloud_push(value, -1, KiNet.content().version())
 	cloud_pushing = false
+	if bool(outcome.ok) and cloud_push_again:
+		cloud_push_again = false
+		push_cloud.call_deferred(announce)
 	if bool(outcome.ok):
 		if announce:
 			hud.toast("Zapisano w chmurze (wersja %d)." % int(outcome.revision))
@@ -1927,7 +1934,7 @@ func assign_cloud_slot() -> int:
 	for entry in Characters.list():
 		if str(entry.id) != character_id and int(entry.cloudSlot) > 0:
 			taken.append(int(entry.cloudSlot))
-	for number in range(1, PyraOnline.SLOTS + 1):
+	for number in range(1, KiNet.online().slot_limit() + 1):
 		if not taken.has(number):
 			KiNet.online().use_slot(number)
 			KiNet.online().cloud_revision = 0

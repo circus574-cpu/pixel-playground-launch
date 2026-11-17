@@ -362,10 +362,36 @@ describe.runIf(url)("Android backend on PostgreSQL", () => {
         })
       ).status,
     ).toBe(422);
-    expect(
-      (await call("PUT", "/saves/4", { token: t, body: { baseRevision: 0, save: validSave() } }))
-        .status,
-    ).toBe(404);
+    // a player keeps three characters in the cloud; an administrator has no limit
+    const refused = await call("PUT", "/saves/4", {
+      token: t,
+      body: { baseRevision: 0, save: validSave() },
+    });
+    expect(refused.status).toBe(403);
+    expect(refused.json!["error"]).toBe("SLOT_LIMIT");
+    expect((await call("GET", "/saves/4", { token: t })).status).toBe(403);
+    for (const slot of [4, 57, 32_767]) {
+      const made = await call("PUT", `/saves/${slot}`, {
+        token: tokens["admin1"]!,
+        body: { baseRevision: 0, save: validSave({ race: "android", land: "nexus" }) },
+      });
+      expect(made.status).toBe(200);
+      expect(
+        (await call("GET", `/saves/${slot}`, { token: tokens["admin1"]! })).json!["save"].race,
+      ).toBe("android");
+    }
+    const adminList = (await call("GET", "/saves", { token: tokens["admin1"]! })).json!["saves"];
+    expect(adminList.map((r: { slot: number }) => r.slot)).toEqual([4, 57, 32_767]);
+    for (const slot of [0, 32_768, 100_000])
+      expect(
+        (
+          await call("PUT", `/saves/${slot}`, {
+            token: tokens["admin1"]!,
+            body: { baseRevision: 0, save: validSave() },
+          })
+        ).status,
+      ).toBe(404);
+    expect((await call("GET", "/saves/4", { token: tokens["gm1"]! })).status).toBe(403);
     expect((await call("PUT", "/saves/2", { token: t, body: { save: validSave() } })).status).toBe(
       400,
     );
