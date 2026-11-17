@@ -33,6 +33,11 @@ func run() -> void:
 	var fps := float(arg("--fps", "14"))
 	var wanted: PackedStringArray = arg("--clips", "").split(",", false)
 	var dirs: PackedStringArray = arg("--dirs", ",".join(DIRECTIONS)).split(",", false)
+	var in_place := arg("--in-place", "1") == "1"
+	var spec := {}
+	if arg("--spec", "") != "":
+		spec = JSON.parse_string(FileAccess.get_file_as_string(arg("--spec", "")))
+	var msaa := int(arg("--msaa", "0"))
 	var frame_override := {}
 	for pair in arg("--frames", "").split(",", false):
 		var kv := pair.split("=")
@@ -48,6 +53,7 @@ func run() -> void:
 	var viewport := SubViewport.new()
 	viewport.size = Vector2i(size, size)
 	viewport.transparent_bg = true
+	viewport.msaa_3d = [Viewport.MSAA_DISABLED, Viewport.MSAA_2X, Viewport.MSAA_4X, Viewport.MSAA_8X][clampi(msaa, 0, 3)]
 	viewport.own_world_3d = true
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
@@ -72,6 +78,7 @@ func run() -> void:
 	var framed := false
 	var height := 1.9
 	var unit_scale := 1.0
+	var model_y := 0.0
 	for clip in files:
 		var model := load_model("%s/%s.glb" % [dir, clip])
 		if model == null:
@@ -97,7 +104,8 @@ func run() -> void:
 			unit_scale = 1.9 / (top - feet)
 			height = 1.9
 			model.scale = Vector3.ONE * unit_scale
-			model.position = Vector3(-mid_x * unit_scale, -feet * unit_scale, 0)
+			model_y = -feet * unit_scale
+			model.position = Vector3(0, model_y, 0)
 			framed = true
 			camera.size = height * 1.45
 			var distance := height * 4.0
@@ -107,7 +115,7 @@ func run() -> void:
 			print("scale ", unit_scale, " bone span ", span)
 		else:
 			model.scale = Vector3.ONE * unit_scale
-			model.position = Vector3(0, 0, 0)
+			model.position = Vector3(0, model_y, 0)
 		var player: AnimationPlayer = null
 		for p in model.find_children("*", "AnimationPlayer", true, false):
 			player = p
@@ -122,14 +130,49 @@ func run() -> void:
 				anim_name = a
 		var animation := player.get_animation(anim_name)
 		var length := animation.length
+		var skeleton_node: Skeleton3D = model.find_children("*", "Skeleton3D", true, false)[0]
+		var hips := skeleton_node.find_bone("Hips")
+		if hips < 0:
+			hips = 0
+		var base_position := Vector3(0, model_y, 0)
+		for mi: MeshInstance3D in model.find_children("*", "MeshInstance3D", true, false):
+			mi.extra_cull_margin = 16384.0
 		var looping := LOOPING.has(clip)
 		var count: int = int(frame_override.get(clip, clampi(roundi(length * fps), 6, 28)))
+		var t_from := 0.0
+		var t_to := length
+		if spec.has(clip):
+			var entry: Dictionary = spec[clip]
+			count = int(entry.n)
+			t_from = float(entry.t0)
+			t_to = float(entry.t1)
+			looping = bool(entry.loop)
 		player.play(anim_name)
 		player.pause()
 		DirAccess.make_dir_recursive_absolute("%s/%s" % [out, clip])
+		var times: Array[float] = []
 		for f in count:
-			var t := length * float(f) / float(count) if looping else length * float(f) / float(maxi(1, count - 1))
+			times.append(t_from + (t_to - t_from) * (float(f) / float(count) if looping else float(f) / float(maxi(1, count - 1))))
+		var path: Array[Vector3] = []
+		for t in times:
 			player.seek(t, true)
+			skeleton_node.force_update_all_bone_transforms()
+			# in the model's own space (the pivot turns with the direction), scaled to the pivot's units
+			var to_model := model.global_transform.affine_inverse() * skeleton_node.global_transform
+			path.append((to_model.basis * skeleton_node.get_bone_global_pose(hips).origin) * unit_scale)
+		var smooth: Array[Vector3] = []
+		var radius := maxi(1, count / 4)
+		for f in count:
+			var acc := Vector3.ZERO
+			var n := 0
+			for k in range(f - radius, f + radius + 1):
+				acc += path[clampi(k, 0, count - 1)]
+				n += 1
+			smooth.append(acc / float(n))
+		for f in count:
+			player.seek(times[f], true)
+			skeleton_node.force_update_all_bone_transforms()
+			model.position = base_position - (Vector3(smooth[f].x, 0.0, smooth[f].z) if in_place else Vector3.ZERO)
 			for d in dirs:
 				pivot.rotation_degrees.y = float(YAW[d])
 				await process_frame

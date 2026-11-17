@@ -258,7 +258,10 @@ func set_race(new_race: String) -> void:
 			audio.sfx("common/no-energy"))
 	kit.gear = economy.gear()
 	kit.terrain_at = func() -> String: return continent.terrain_kind(player.position) if is_instance_valid(continent) else "open"
-	hero = actors[str(WORLD_OF_RACE[race]) + ".hero"]
+	var hero_key := str(WORLD_OF_RACE[race]) + ".hero"
+	if "--hero3d" in OS.get_cmdline_user_args() and actors.has(hero_key + "3d"):   # the hero rendered from the 3D model (local trial, see scripts/godot/build_hero3d_sheets.py)
+		hero_key += "3d"
+	hero = actors[hero_key]
 	for clip: Dictionary in (hero.clips as Dictionary).values():   # decode every animation sheet of the hero off the main thread
 		var sheet := str(clip.get("sheet", ""))
 		if sheet != "" and not ResourceLoader.has_cached(sheet):
