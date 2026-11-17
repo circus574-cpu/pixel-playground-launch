@@ -7,6 +7,10 @@ var output := "/tmp/pyra-transform"
 
 func frames(n: int) -> void:
 	for i in n:
+		if i % 10 == 0 and game != null and is_instance_valid(game.continent):
+			for node in game.continent.sorted.get_children():   # the standing scenery would hide the hero
+				if node is Sprite2D and node.visible:
+					node.visible = false
 		await process_frame
 
 func _initialize() -> void:
@@ -38,6 +42,20 @@ func run() -> void:
 	game.camera.zoom = Vector2.ONE * 1.0
 	await frames(30)
 	game.player.visual.direction = "down-right"
+	if "--video" in args:
+		# for the movie writer: stand, transform, walk a little in the Ki form, then the form ends
+		game.hud.visible = true
+		game.camera.zoom = Vector2.ONE * 2.0
+		await frames(45)
+		game.kit.add_buff({"id": "T", "ms": 5200.0})
+		await frames(90)
+		game.player.touch_motion = Vector2(1, 0.3).normalized()
+		await frames(50)
+		game.player.touch_motion = Vector2.ZERO
+		await frames(80)
+		await frames(60)
+		quit(0)
+		return
 	game.kit.add_buff({"id": "T", "ms": 20000.0})
 	for k in 14:
 		await frames(5)
