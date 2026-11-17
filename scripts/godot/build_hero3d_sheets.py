@@ -94,7 +94,7 @@ def main() -> None:
         total += sheet.stat().st_size
         for mirrored, source in MIRROR.items():
             directions[mirrored] = directions[source]
-        clips[args.prefix + name] = {"sheet": f"res://assets/actors/hero3d/{sheet.name}", "fps": info["fps"], "loop": info["loop"], "mirrored": list(MIRROR), "directions": directions}
+        clips[args.prefix + name] = {"sheet": f"res://assets/actors/hero3d/{sheet.name}", "fps": info["fps"], "loop": info["loop"], "mirrored": list(MIRROR), "directions": directions} | ({"refSpeed": info["refSpeed"]} if "refSpeed" in info else {})
         print(f"{name:9s} {count:2d} frames x {len(DIRS)} dirs, atlas {atlas.size}, {sheet.stat().st_size // 1024} KB")
     print("sheets", total // 1024, "KB")
     actors_path = PORT / "data" / "actors.json"
