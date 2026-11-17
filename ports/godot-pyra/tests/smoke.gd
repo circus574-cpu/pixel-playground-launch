@@ -1274,9 +1274,14 @@ func run() -> void:
 	killer.queue_free()
 	mm.active.erase(killer.spawn_index)
 	verify(game.kit.dead, "monster damage can kill the hero")
-	await create_timer(3.5).timeout
+	# Wait for the actual state transition, not a guessed frame count.
+	# llvmpipe/OpenGL can render slowly, so 3.5 seconds of wall time alone
+	# is not evidence that the game loop has processed the respawn.
+	var death_deadline := Time.get_ticks_msec() + 15000
+	while game.kit.dead and Time.get_ticks_msec() < death_deadline:
+		await process_frame
 	await settle(2)
-	verify(not game.kit.dead and game.in_safe_city(game.player.position) and game.kit.hp >= float(game.kit.stats().maxHp) * 0.99, "after death the hero returns to the city with full health")
+	verify(not game.kit.dead and game.in_safe_city(game.player.position) and game.kit.hp >= float(game.kit.stats().maxHp) * 0.99, "after death the hero returns to the city with full health", {"dead": game.kit.dead, "timer": game.respawn_timer, "safe": game.in_safe_city(game.player.position), "hp": game.kit.hp, "maxHp": game.kit.stats().maxHp})
 	game.player.fx_lock = 0.0
 	game.kit.set_level(1)
 	game.start_new_character("legend")
@@ -1807,8 +1812,16 @@ func run() -> void:
 	file.store_string(JSON.stringify(report, "\t"))
 	file.close()
 	print("PYRA GODOT QA: ", results.size() - failures.size(), "/", results.size(), " failed: ", failures)
+	var succeeded := failures.is_empty()
 	root.remove_child(game)
 	game.queue_free()
-	await process_frame
-	await process_frame
-	quit(0 if failures.is_empty() else 1)
+	game = null
+	results.clear()
+	# End the long async test function before quitting. Otherwise its local
+	# RefCounted textures/fonts are still alive when Godot tears down the renderer.
+	call_deferred("_finish_after_cleanup", succeeded)
+
+func _finish_after_cleanup(succeeded: bool) -> void:
+	for i in 5:
+		await process_frame
+	quit(0 if succeeded else 1)
