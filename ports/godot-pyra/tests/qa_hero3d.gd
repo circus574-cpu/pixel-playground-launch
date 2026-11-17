@@ -4,6 +4,7 @@ extends SceneTree
 ##   --rendering-method gl_compatibility --script res://tests/qa_hero3d.gd -- [--hero3d] --qa-output /tmp/pyra-hero3d
 var game: PyraGame
 var output := "/tmp/pyra-hero3d"
+var race := "legend"
 
 func frames(n: int) -> void:
 	for i in n:
@@ -33,6 +34,8 @@ func run() -> void:
 	for i in args.size():
 		if args[i] == "--qa-output" and i + 1 < args.size():
 			output = args[i + 1]
+		elif args[i] == "--race" and i + 1 < args.size():
+			race = args[i + 1]
 	DirAccess.make_dir_recursive_absolute(output)
 	root.size = Vector2i(1280, 720)
 	var landing: PyraTitleScreen = load("res://scenes/title.tscn").instantiate()
@@ -45,7 +48,7 @@ func run() -> void:
 	game = root.get_children().filter(func(n): return n is PyraGame)[0]
 	game.skip_intro = true
 	await frames(10)
-	game.start_new_character("legend")
+	game.start_new_character(race)
 	await frames(10)
 	game.player.position = Vector2(float(game.land.width) * 0.5, float(game.land.height) * 0.5)
 	game.player.locked = true
