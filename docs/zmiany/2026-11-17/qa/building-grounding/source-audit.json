@@ -1,0 +1,291 @@
+{
+  "sourceCommit": "191769ae84281f7c3b7041600eaa66bf62eba222",
+  "assets": [
+    {
+      "path": "ports/godot-pyra/assets/objects/1093fbd2-ki-v2-buildings-pyra-house.webp",
+      "sha256": "3a8317262666f7de4fd08b8182ad9940d84ff979f8ae779c053e90ed667951a0",
+      "size": [
+        257,
+        240
+      ],
+      "profile": "unchanged-embedded-shadow",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/19c93221-ki-v2-buildings-aether-house.webp",
+      "sha256": "8a68020fb6ca9553e8fa7afcb2d7f8cbec2f8c5bdf44e185a8c6f09e53dd01bd",
+      "size": [
+        257,
+        245
+      ],
+      "profile": "unchanged-embedded-shadow",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/19d3eb50-ki-v2-buildings-verdant-house.webp",
+      "sha256": "f19c8637b668abf5d619e6362f35a0a1135d501c2e35b1d57644b3c3b3231a3e",
+      "size": [
+        257,
+        238
+      ],
+      "profile": "unchanged-embedded-shadow",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/2b002168-aether-painted-hall.webp",
+      "sha256": "1fd7d01250e6a8b91fcc392658ec91d819dfd2df238ff73335a7c2fafeb1c072",
+      "size": [
+        720,
+        526
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/39d82fa9-ki-v2-buildings-nexus-inn.webp",
+      "sha256": "57c1562c81887245ea871484d8658370b5913c73595b0b4039c3a06d9a54884b",
+      "size": [
+        388,
+        420
+      ],
+      "profile": "unchanged-embedded-shadow",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/51cf60a5-pyra-painted-inn.webp",
+      "sha256": "f255a1f088e894f93370960ccbb63f46f747f48272dfdafd8913587812fc5efb",
+      "size": [
+        530,
+        464
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/5a272efe-verdant-leaf-shop.webp",
+      "sha256": "312a7308e2262adc3cfef059be15a2617c2b309a7e1b4613b25c33edd78b8d46",
+      "size": [
+        672,
+        622
+      ],
+      "profile": "grass-platform",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/6d7c1c83-aether-painted-arena.webp",
+      "sha256": "f3055ac9ec965237bbc407785dc4db9d15efa28dfd5e1159c7a4903c3c286b1e",
+      "size": [
+        1484,
+        1024
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/806ab11b-aether-painted-depot.webp",
+      "sha256": "90691bf25de2a073753b23b114a37835c78686c02e78dfeefad4f499ea9176ab",
+      "size": [
+        720,
+        518
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/866fc0e8-aether-painted-shop.webp",
+      "sha256": "13034e23728e53172e88c4a35bdaba52a3f7e744de9f8070d66de3109ec9d4ed",
+      "size": [
+        720,
+        532
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/8f5e282c-verdant-leaf-inn.webp",
+      "sha256": "851f71465a5708e163262c03a631366d7e2b091cca287d52f421ce2e662deeb5",
+      "size": [
+        672,
+        661
+      ],
+      "profile": "grass-platform",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/959575c7-verdant-leaf-depot.webp",
+      "sha256": "614c4bdc33dbc930491eb3d5a77bbd40151fbe5091511baa5144c7c97e36feef",
+      "size": [
+        672,
+        670
+      ],
+      "profile": "grass-platform",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/9eba1e56-pyra-painted-hall.webp",
+      "sha256": "714c38f2ba0558432b1756682f7888a38581725b0c9224d7205d06a48a34506e",
+      "size": [
+        536,
+        462
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/a0860314-nexus-painted-arena.webp",
+      "sha256": "8e26b71fef6f9a6dc6290b475b3d951893650d004aa4b509802607494773b110",
+      "size": [
+        672,
+        602
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/a5145228-nexus-painted-shop.webp",
+      "sha256": "32c8db249d901f9cf2734b5669cfe138c7b14e88d28514f22146bbaa8c47648e",
+      "size": [
+        672,
+        611
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/a5819767-verdant-leaf-arena.webp",
+      "sha256": "4dbcad23a3b609dafa73343878109f023c63a6663d9cb02b2884273bd9853818",
+      "size": [
+        672,
+        656
+      ],
+      "profile": "grass-platform",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/ac6ae586-aether-painted-inn.webp",
+      "sha256": "49fff2b2dd9d1d43ed8be3b01a25b20c16608c4b0cadfc4d84328088a9cb2653",
+      "size": [
+        720,
+        559
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/b71a5ab2-verdant-leaf-smithy.webp",
+      "sha256": "7c6ebf296da0b1be356fdbc2486c209195931f02167cf6d99f6fb34da6a7f61d",
+      "size": [
+        671,
+        672
+      ],
+      "profile": "grass-platform",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/b8db058a-pyra-painted-arena.webp",
+      "sha256": "06c75328d436ac0c128d86f5d2bfbff1df1804bfc62e7d861a13cebf9abe7b4f",
+      "size": [
+        544,
+        471
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/cbfb678c-nexus-painted-hall.webp",
+      "sha256": "edb91da5b48b04dcea7e37a583644e7a8fcac622164cf9c35984564ff828ae65",
+      "size": [
+        672,
+        602
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/e0e8cc86-pyra-painted-depot.webp",
+      "sha256": "69f2ba39a3f0bc204ff08d4e79cf14cc31c377af37f24f85be7e481aa7323317",
+      "size": [
+        544,
+        452
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/e320eb1e-pyra-painted-smithy.webp",
+      "sha256": "f8c67c711d751146a967a05b8bd79f1e28e08629fbdeaf979d253fa35699af37",
+      "size": [
+        544,
+        472
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/e82ceee7-pyra-painted-shop.webp",
+      "sha256": "12e4521bd4a90e83a7fed1b2c5c43dabb9a84f5f17663f45640ace539bd4ffcd",
+      "size": [
+        537,
+        450
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/ee32c98c-nexus-painted-depot.webp",
+      "sha256": "6aa3790f10868e8574846c3e1c11ee662ec5cd5c1dae740634ef6b45e6eb45fd",
+      "size": [
+        672,
+        608
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/f1c31d72-verdant-leaf-hall.webp",
+      "sha256": "8b4881e9cdc4fc8cdf98e1162f093d5c34028c925bcabc41cd57f5660028a838",
+      "size": [
+        672,
+        668
+      ],
+      "profile": "grass-platform",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/fc0f86ab-ki-v2-buildings-nexus-smithy.webp",
+      "sha256": "89ed60e7920147f8045b17957a9b0b6f3a24304eeda7647ef9f8e9020e03d862",
+      "size": [
+        420,
+        392
+      ],
+      "profile": "unchanged-embedded-shadow",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/fe8b61cf-ki-v2-buildings-nexus-house.webp",
+      "sha256": "491d4149c04769a1cf63d847395c29c427390c2bcd30db8aa4a23a39c1a4b768",
+      "size": [
+        257,
+        240
+      ],
+      "profile": "unchanged-embedded-shadow",
+      "sourceUnchanged": true
+    },
+    {
+      "path": "ports/godot-pyra/assets/objects/ff1310ee-aether-painted-smithy.webp",
+      "sha256": "9b5c103503f115c017ad4d5cc188b20f88a2a280b24b23a6af8e1c5f0cefe4df",
+      "size": [
+        720,
+        546
+      ],
+      "profile": "contact",
+      "sourceUnchanged": true
+    }
+  ],
+  "inspected": 28,
+  "contactCandidates": 22,
+  "preserveEmbeddedShadows": 6,
+  "privateFilesUploaded": false,
+  "paidApiCalls": 0,
+  "gpuPodUsed": false
+}

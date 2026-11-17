@@ -1,5 +1,10 @@
 # KI Legends — dokumentacja projektu
 
+**Budynki — 17.11:** podgląd osadzenia 22 malowanych wariantów w podłożu:
+cień kontaktowy i miększa krawędź podestów Verdantii. Porównania z czterech miast
+w Godocie; źródła i kolizje zachowane, bez publikacji.
+[Przed/po i testy](zmiany/2026-11-17/ZMIANY.md#8-budynki--miękki-styk-z-podłożem-w-godocie).
+
 **Darmowe materiały — 17.11:** przygotowano 86 materiałów / 344 mapy dla czterech
 kontynentów i sześciu wysp: bezszwowe kolory z darmowego Meshy oraz normalne,
 szacowana wysokość i szorstkość z CPU. Bez kredytów i instalacji do produkcji.

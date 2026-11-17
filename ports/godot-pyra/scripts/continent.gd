@@ -7,6 +7,7 @@ extends Node2D
 const CHUNK := 2048
 const MASK_CELL := 16
 const RECORD := 16
+const BuildingGrounding = preload("res://scripts/building_grounding.gd")
 
 var land_id := ""
 var cfg: Dictionary
@@ -27,6 +28,40 @@ var overlay := Node2D.new()
 var loaded: Dictionary = {}           # "cx,cy" -> Array of sprites
 var view_pad := 360.0
 var ready_ok := false
+## Opt-in review only. No extra shadows or material work on the normal path.
+var building_grounding_enabled := OS.get_environment("KI_BUILDING_GROUNDING") == "1"
+var building_contacts: Dictionary = {}
+var building_grounder
+
+func add_building_contact(sprite: Sprite2D, path: String, holder: Array = []) -> void:
+	if not building_grounding_enabled:
+		return
+	var style := BuildingGrounding.profile(path)
+	if style.is_empty():
+		return
+	if building_grounder == null:
+		building_grounder = BuildingGrounding.new()
+	var shadow: Sprite2D = building_grounder.make_shadow(sprite)
+	below.add_child(shadow)
+	if not holder.is_empty():
+		holder.append(shadow)
+	var id := sprite.get_instance_id()
+	building_contacts[id] = {"sprite":weakref(sprite),"shadow":weakref(shadow),"original":sprite.material,"style":style}
+	sprite.tree_exited.connect(_forget_building_contact.bind(id))
+	if style == "grass-platform" and sprite.material == null:
+		sprite.material = building_grounder.platform_material()
+
+func _forget_building_contact(id: int) -> void:
+	building_contacts.erase(id)
+
+func set_building_grounding_visible(enabled: bool) -> void:
+	for entry: Dictionary in building_contacts.values():
+		var sprite: Sprite2D = entry.sprite.get_ref()
+		var shadow: Sprite2D = entry.shadow.get_ref()
+		if sprite == null or shadow == null:
+			continue
+		shadow.visible = enabled
+		sprite.material = building_grounder.platform_material() if enabled and entry.style == "grass-platform" and entry.original == null else entry.original
 
 static func load_json(path: String) -> Variant:
 	return JSON.parse_string(FileAccess.get_file_as_string(path))
@@ -428,6 +463,7 @@ func build_slice(key: String, started: int, budget_usec: int) -> void:
 		else:
 			sorted.add_child(sprite)
 		holder.append(sprite)
+		add_building_contact(sprite, str(cfg.textures[index].path), holder)
 		if ambient_kinds.has(index) and (str(ambient_kinds[index]) != "spark" or (int(at.x / 16.0) + int(at.y / 16.0)) % 3 == 0):
 			var fx := PyraAmbient.create(str(ambient_kinds[index]), at, str(cfg.textures[index].path))
 			sorted.add_child(fx)

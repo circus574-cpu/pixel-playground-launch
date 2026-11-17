@@ -1,0 +1,239 @@
+{
+	"checks": [
+		{
+			"name": "Leaf platform detected",
+			"pass": true
+		},
+		{
+			"name": "Painted service detected",
+			"pass": true
+		},
+		{
+			"name": "Embedded old shadow not doubled",
+			"pass": true
+		},
+		{
+			"name": "Non-building untouched",
+			"pass": true
+		},
+		{
+			"name": "Shadow texture shared",
+			"pass": true
+		},
+		{
+			"name": "Contact texture corners transparent",
+			"pass": true
+		},
+		{
+			"name": "Disabled feature adds no contacts",
+			"pass": true
+		},
+		{
+			"name": "legend building contacts exist",
+			"pass": true
+		},
+		{
+			"name": "legend geometry, anchors and player unchanged",
+			"pass": true
+		},
+		{
+			"name": "legend shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "legend shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "legend shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "legend shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "legend shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "legend shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "planetary building contacts exist",
+			"pass": true
+		},
+		{
+			"name": "planetary geometry, anchors and player unchanged",
+			"pass": true
+		},
+		{
+			"name": "planetary shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "planetary shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "planetary shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "planetary shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "planetary shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "planetary shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "planetary streamed contact shares chunk lifecycle",
+			"pass": true
+		},
+		{
+			"name": "planetary streamed contact freed with building",
+			"pass": true
+		},
+		{
+			"name": "planetary contact registry cleaned after unload",
+			"pass": true
+		},
+		{
+			"name": "planetary streamed buildings tested",
+			"pass": true
+		},
+		{
+			"name": "sage building contacts exist",
+			"pass": true
+		},
+		{
+			"name": "sage geometry, anchors and player unchanged",
+			"pass": true
+		},
+		{
+			"name": "sage shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "sage shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "sage shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "sage shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "sage shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "sage shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "sage streamed contact shares chunk lifecycle",
+			"pass": true
+		},
+		{
+			"name": "sage streamed contact freed with building",
+			"pass": true
+		},
+		{
+			"name": "sage contact registry cleaned after unload",
+			"pass": true
+		},
+		{
+			"name": "sage streamed buildings tested",
+			"pass": true
+		},
+		{
+			"name": "android building contacts exist",
+			"pass": true
+		},
+		{
+			"name": "android geometry, anchors and player unchanged",
+			"pass": true
+		},
+		{
+			"name": "android shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "android shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "android shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "android shadow below actors",
+			"pass": true
+		},
+		{
+			"name": "android streamed contact shares chunk lifecycle",
+			"pass": true
+		},
+		{
+			"name": "android streamed contact freed with building",
+			"pass": true
+		},
+		{
+			"name": "android contact registry cleaned after unload",
+			"pass": true
+		},
+		{
+			"name": "android streamed buildings tested",
+			"pass": true
+		}
+	],
+	"failures": [],
+	"feature": "KI_BUILDING_GROUNDING=1; default off",
+	"physicalPhoneTested": false,
+	"renderer": "headless",
+	"samples": [
+		{
+			"contacts": 6,
+			"geometryPreserved": true,
+			"land": "pyra",
+			"race": "legend",
+			"reviewCameraZoom": 1.0,
+			"reviewHudHidden": true
+		},
+		{
+			"contacts": 6,
+			"geometryPreserved": true,
+			"land": "verdant",
+			"race": "planetary",
+			"reviewCameraZoom": 1.0,
+			"reviewHudHidden": true
+		},
+		{
+			"contacts": 6,
+			"geometryPreserved": true,
+			"land": "aether",
+			"race": "sage",
+			"reviewCameraZoom": 1.0,
+			"reviewHudHidden": true
+		},
+		{
+			"contacts": 4,
+			"geometryPreserved": true,
+			"land": "nexus",
+			"race": "android",
+			"reviewCameraZoom": 1.0,
+			"reviewHudHidden": true
+		}
+	],
+	"sourceImagesModified": false
+}

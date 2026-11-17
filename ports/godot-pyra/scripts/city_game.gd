@@ -347,7 +347,9 @@ func build_pyra_capital() -> void:
 		layer_node.add_child(PyraContinent.make_sprite(load(object.texture), origin + point(object), Vector2(float(object["size"][0]), float(object["size"][1])), origin_point))
 	# The browser game's accepted city buildings (one painted house per service).
 	for building: Dictionary in land.capitalBuildings:
-		continent.sorted.add_child(PyraContinent.make_sprite(continent.texture_at(int(building.t)), Vector2(float(building.x), float(building.y)), Vector2(float(building.w), float(building.h)), Vector2(0.5, 0.92)))
+		var sprite := PyraContinent.make_sprite(continent.texture_at(int(building.t)), Vector2(float(building.x), float(building.y)), Vector2(float(building.w), float(building.h)), Vector2(0.5, 0.92))
+		continent.sorted.add_child(sprite)
+		continent.add_building_contact(sprite, str(land.textures[int(building.t)].path))
 	for obstacle: Dictionary in data.obstacles:
 		var r := rectangle(obstacle)
 		r.position += origin

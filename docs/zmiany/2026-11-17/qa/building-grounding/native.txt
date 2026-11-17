@@ -1,0 +1,1100 @@
+WorkerThreadPool: 3 threads, 1 max low-priority.
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+TextServer: Added interface "Dummy"
+TextServer: Added interface "ICU / HarfBuzz / Graphite (Built-in)"
+Unrecognized output string "misc2" in mapping:
+030000008a2e0000dd10000011010000,Hand Held Legend GC Ultimate,a:b0,b:b2,back:b17,dpdown:b5,dpleft:b6,dpright:b7,dpup:b4,guide:b18,leftshoulder:b10,leftstick:b8,lefttrigger:a3,leftx:a0,lefty:a1,misc1:b19,misc2:b24,paddle1:b13,paddle2:b12,rightshoulder:b11,rightstick:b9,righttrigger:a4,rightx:a2,righty:a5,start:b16,x:b1,y:b3,platform:Linux,
+Unrecognized output string "misc2" in mapping:
+030000000d0f0000ab01000011010000,Horipad Steam,a:b0,b:b1,back:b10,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1,guide:b12,leftshoulder:b6,leftstick:b13,lefttrigger:a5,leftx:a0,lefty:a1,misc2:b2,paddle1:b19,paddle2:b18,paddle3:b15,paddle4:b5,rightshoulder:b7,rightstick:b14,righttrigger:a4,rightx:a2,righty:a3,start:b11,x:b3,y:b4,platform:Linux,
+Unrecognized output string "misc2" in mapping:
+050000000d0f00009601000091000000,Horipad Steam,a:b0,b:b1,back:b10,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1,guide:b12,leftshoulder:b6,leftstick:b13,lefttrigger:a5,leftx:a0,lefty:a1,misc2:b2,paddle1:b19,paddle2:b18,paddle3:b15,paddle4:b5,rightshoulder:b7,rightstick:b14,righttrigger:a4,rightx:a2,righty:a3,start:b11,x:b3,y:b4,platform:Linux,
+Unrecognized output string "misc2" in mapping:
+030000007e0500006920000011010000,Nintendo Switch 2 Pro Controller,a:b0,b:b1,back:b14,dpdown:b8,dpleft:b10,dpright:b9,dpup:b11,guide:b16,leftshoulder:b12,leftstick:b15,lefttrigger:b13,leftx:a0,lefty:a1~,misc1:b17,misc2:b20,paddle1:b18,paddle2:b19,rightshoulder:b4,rightstick:b7,righttrigger:b5,rightx:a2,righty:a3~,start:b6,x:b2,y:b3,platform:Linux,
+SDL: Init OK!
+Xshape 1.1 detected.
+Xinerama 1.1 detected.
+Xrandr 1.6 detected.
+Xrender 0.11 detected.
+Xinput 2.2 detected.
+XInput: Refreshing devices.
+XInput: No touch devices found.
+Detecting GPUs, set DRI_PRIME in the environment to override GPU detection logic.
+Only one GPU found, using default.
+Accessibility: window 0 adapter created.
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+XcursorGetTheme could not get cursor theme
+Failed loading custom cursor: crossed_circle
+DBus 1.16.2 detected.
+Using "default" pen tablet driver...
+Shader 'CanvasSdfShaderGLES3' SHA256: e1fc4015d45db07fce0346b99c312728ab006030520ec796da1461e1428345c5
+Shader 'SkeletonShaderGLES3' SHA256: e42116215ed2a92dea7085176e3b3f1089edcb71a3405ab67073ce8e77114587
+Shader 'ParticlesShaderGLES3' SHA256: ffb4401639aafac71f9f113685cb6db157587dac2f1a352495327188f37419b2
+Shader 'ParticlesCopyShaderGLES3' SHA256: 9899e9a2ef961a3d8b457619edf04eca325601701531cee383193a6c83ec1a13
+Shader 'CopyShaderGLES3' SHA256: e360dbabe48fbad4409fd02e3794a652b8c7d7778b2d408785702371b1c962c6
+Shader 'CubemapFilterShaderGLES3' SHA256: 017276394727d66a84d83b8b9d67287226d828c938b0adde3d2f699f78cf1582
+Shader 'GlowShaderGLES3' SHA256: 427cfd9bd0cc4045ecaa4bc4f23055a2a40660411d8e1663897a7c2cd3c80665
+Shader 'PostShaderGLES3' SHA256: a31034a68aa96e1495d69b387fe1f9198e7da7c39aaca2ae4881120445f14d7a
+Shader 'FeedShaderGLES3' SHA256: 9c5f15371d9ed62661ff3bb3ecc28f82cb15be9a4be89518b1f6fd8d372fbe4b
+Shader 'CanvasShaderGLES3' SHA256: 16f1396f2f5ac39d277138cd33a6d284e2d97309f2a547816c220d0ef0318826
+Shader 'CanvasOcclusionShaderGLES3' SHA256: 6baa8caaecef40c331cf27f156879d8ca7d8bf94ec84f8168903490f61264d2d
+Shader 'SceneShaderGLES3' SHA256: 6d63bbf4b53e4a6a75547f4788484cc8b6c054bccd3c1331ef7b8b504184effa
+Shader 'SkyShaderGLES3' SHA256: 9ed6b1ef29b56a1ac888c4de409d9caf637e7cb9b41ab33a7c5391c352788c40
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+TextServer: Primary interface set to: "ICU / HarfBuzz / Graphite (Built-in)".
+CORE API HASH: 2475187701
+EDITOR API HASH: 3867286884
+Loading resource: res://tests/preview_building_grounding.gd
+SceneTreeFTI: traversal method DEFAULT
+Loaded system CA certificates
+Loading resource: res://assets/continent/building_platform.gdshader
+Loading resource: res://assets/lands/pyra/terrain/water.webp
+Loading resource: res://.godot/imported/water.webp-2275e328003388a29636192532f3ca67.ctex
+Loading resource: res://assets/continent/terrain.gdshader
+Loading resource: res://assets/lands/pyra/ctrl-biome.png
+Loading resource: res://.godot/imported/ctrl-biome.png-46d36d170c95a3353696b21286d244d2.ctex
+Loading resource: res://assets/lands/pyra/ctrl-land.png
+Loading resource: res://.godot/imported/ctrl-land.png-6f6f1e525081409e36eac283ed654113.ctex
+Loading resource: res://assets/lands/pyra/road-mask.png
+Loading resource: res://.godot/imported/road-mask.png-7b673acd40c64cac6137b561bd95c4da.ctex
+Loading resource: res://assets/lands/pyra/road-class.png
+Loading resource: res://.godot/imported/road-class.png-eaa38221462aa73da95f842e8b834762.ctex
+Loading resource: res://assets/lands/pyra/terrain/road0.webp
+Loading resource: res://.godot/imported/road0.webp-df66099b272fb13e2887de841428fbc3.ctex
+Loading resource: res://assets/lands/pyra/terrain/road1.webp
+Loading resource: res://.godot/imported/road1.webp-ddf8472e35d81e13345d81f7756cfa7c.ctex
+Loading resource: res://assets/lands/pyra/terrain/road2.webp
+Loading resource: res://.godot/imported/road2.webp-b8a1b8715685c7c55d87963c2dedf5d8.ctex
+Loading resource: res://assets/lands/pyra/terrain/road3.webp
+Loading resource: res://.godot/imported/road3.webp-51f5281928a3ab351f6db320307a5c7f.ctex
+Loading resource: res://assets/lands/pyra/terrain/b0.webp
+Loading resource: res://.godot/imported/b0.webp-a31196fe658f54db47cb4bf389caadb6.ctex
+Loading resource: res://assets/lands/pyra/terrain/b1.webp
+Loading resource: res://.godot/imported/b1.webp-e3e1841baeebd435936d32b3daa008f5.ctex
+Loading resource: res://assets/lands/pyra/terrain/b2.webp
+Loading resource: res://.godot/imported/b2.webp-5af3bbb60db21bf25d1cb06cdabfe90e.ctex
+Loading resource: res://assets/lands/pyra/terrain/b3.webp
+Loading resource: res://.godot/imported/b3.webp-c36b3538ce215e99b650bc2a9f1b5b1d.ctex
+Loading resource: res://assets/lands/pyra/terrain/water.webp
+Loading resource: res://.godot/imported/water.webp-2275e328003388a29636192532f3ca67.ctex
+Loading resource: res://assets/lands/pyra/terrain/shore.webp
+Loading resource: res://.godot/imported/shore.webp-53108b70d73c1d9dbfd19924d859cb52.ctex
+Loading resource: res://assets/lands/pyra/terrain/special.webp
+Loading resource: res://.godot/imported/special.webp-872dd05d42c1c9a6b0caa065dac428e3.ctex
+Loading resource: res://assets/lands/pyra/terrain/over1.webp
+Loading resource: res://.godot/imported/over1.webp-efb8a29c198483dfd7fa2bfead9c06d1.ctex
+Loading resource: res://assets/lands/pyra/terrain/over2.webp
+Loading resource: res://.godot/imported/over2.webp-dd2f3e56066ba8c7df516c2b31238196.ctex
+Loading resource: res://scenes/title.tscn
+Loading resource: res://assets/ui/frames/button.webp
+Loading resource: res://.godot/imported/button.webp-f15928cde92953da916bcb893158aa18.ctex
+Loading resource: res://assets/ui/frames/button-hover.webp
+Loading resource: res://.godot/imported/button-hover.webp-d5e432e55adc7a92a97eff7498b20b12.ctex
+Loading resource: res://assets/ui/frames/button-pressed.webp
+Loading resource: res://.godot/imported/button-pressed.webp-63df05179df55526b096b0c64eb313d5.ctex
+Loading resource: res://assets/ui/frames/button-disabled.webp
+Loading resource: res://.godot/imported/button-disabled.webp-fa815c7cc24da1d7d1bbdd65aedb6e37.ctex
+Loading resource: res://assets/ui/frames/window.webp
+Loading resource: res://.godot/imported/window.webp-2f0ef440cf84c285b156deec2206cb54.ctex
+Loading resource: res://assets/branding/cinzel-bold.ttf
+Loading resource: res://.godot/imported/cinzel-bold.ttf-f59faa6dd48ec303132644a3fd8447e7.fontdata
+Loading resource: res://assets/branding/intro-wide.webp
+Loading resource: res://.godot/imported/intro-wide.webp-9ca79fbe35e402066c72e9f8e5bcd1ff.ctex
+Loading resource: res://assets/branding/godot/logo-large-color-dark.svg
+Loading resource: res://.godot/imported/logo-large-color-dark.svg-600add6b30521e022b5c5f25b6c67f8d.ctex
+Loading resource: res://assets/audio/music/loadings.mp3
+Loading resource: res://.godot/imported/loadings.mp3-d99cea71ee682fb5a96b79341ebd651f.mp3str
+Loading resource: res://scenes/city.tscn
+Loading resource: res://assets/icons/items/potion.webp
+Loading resource: res://.godot/imported/potion.webp-45c75548616f44d200366b4d0f7378c7.ctex
+Loading resource: res://assets/icons/coin.webp
+Loading resource: res://.godot/imported/coin.webp-3ce139a70b35684941ca92d0407c953e.ctex
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-fight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-fight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-fight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-kifight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-kifight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-fight-3.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-fight-4.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-fight-4.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-fight-4.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-kifight-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-kifight-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-kifight-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-kifight-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-kimove-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-kimove-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-legend-walk-v3-kimove-1.webp' has been initiated. Not an error.
+Loading resource: res://assets/actors/hero-legend-walk-v3-idle-0.webp
+Loading resource: res://.godot/imported/hero-legend-walk-v3-idle-0.webp-0e5e15520232d2f76bafc07843a2c134.ctex
+Loading resource: res://assets/actors/hero-legend-walk-v3-page-0.webp
+Loading resource: res://.godot/imported/hero-legend-walk-v3-page-0.webp-e98f1aefdd1aa60d2e563499103fa36e.ctex
+Loading resource: res://assets/lands/pyra/terrain/water.webp
+Loading resource: res://.godot/imported/water.webp-2275e328003388a29636192532f3ca67.ctex
+Loading resource: res://assets/continent/terrain.gdshader
+Loading resource: res://assets/lands/pyra/ctrl-biome.png
+Loading resource: res://.godot/imported/ctrl-biome.png-46d36d170c95a3353696b21286d244d2.ctex
+Loading resource: res://assets/actors/hero-legend-walk-v3-fight-0.webp
+Loading resource: res://.godot/imported/hero-legend-walk-v3-fight-0.webp-00a183ac071e694fe95eac2cd450ff2b.ctex
+Loading resource: res://assets/actors/hero-legend-walk-v3-fight-1.webp
+Loading resource: res://.godot/imported/hero-legend-walk-v3-fight-1.webp-d7e1625eb5f78c95121c016b86e27e97.ctex
+Loading resource: res://assets/lands/pyra/ctrl-land.png
+Loading resource: res://.godot/imported/ctrl-land.png-6f6f1e525081409e36eac283ed654113.ctex
+Loading resource: res://assets/actors/hero-legend-walk-v3-kiwalk-0.webp
+Loading resource: res://.godot/imported/hero-legend-walk-v3-kiwalk-0.webp-31025e17a3411e53431db3b5909b19e7.ctex
+Loading resource: res://assets/lands/pyra/road-mask.png
+Loading resource: res://.godot/imported/road-mask.png-7b673acd40c64cac6137b561bd95c4da.ctex
+Loading resource: res://assets/actors/hero-legend-walk-v3-kifight-0.webp
+Loading resource: res://.godot/imported/hero-legend-walk-v3-kifight-0.webp-96270c1f93e4571d1ac75323011b8bac.ctex
+Loading resource: res://assets/actors/hero-legend-walk-v3-fight-2.webp
+Loading resource: res://.godot/imported/hero-legend-walk-v3-fight-2.webp-bee28218a5779b62978cd8211cc9140a.ctex
+Loading resource: res://assets/actors/hero-legend-walk-v3-fight-3.webp
+Loading resource: res://.godot/imported/hero-legend-walk-v3-fight-3.webp-603d83065b1c34adc5cec3135afcaccd.ctex
+Loading resource: res://assets/actors/hero-legend-walk-v3-fight-4.webp
+Loading resource: res://.godot/imported/hero-legend-walk-v3-fight-4.webp-e2bec4b3d90f4b76c10c10cae6d9acd1.ctex
+Loading resource: res://assets/actors/hero-legend-walk-v3-kifight-1.webp
+Loading resource: res://.godot/imported/hero-legend-walk-v3-kifight-1.webp-f25e9095ccc4b29873a8bc229d0853ce.ctex
+Loading resource: res://assets/actors/hero-legend-walk-v3-kifight-2.webp
+Loading resource: res://.godot/imported/hero-legend-walk-v3-kifight-2.webp-d52139a4bf6b75fbecfffb0555c68006.ctex
+Loading resource: res://assets/actors/hero-legend-walk-v3-kimove-1.webp
+Loading resource: res://.godot/imported/hero-legend-walk-v3-kimove-1.webp-e915e101ede8382d21009a79d9ca8500.ctex
+Loading resource: res://assets/lands/pyra/road-class.png
+Loading resource: res://.godot/imported/road-class.png-eaa38221462aa73da95f842e8b834762.ctex
+Loading resource: res://assets/lands/pyra/terrain/road0.webp
+Loading resource: res://.godot/imported/road0.webp-df66099b272fb13e2887de841428fbc3.ctex
+Loading resource: res://assets/lands/pyra/terrain/road1.webp
+Loading resource: res://.godot/imported/road1.webp-ddf8472e35d81e13345d81f7756cfa7c.ctex
+Loading resource: res://assets/lands/pyra/terrain/road2.webp
+Loading resource: res://.godot/imported/road2.webp-b8a1b8715685c7c55d87963c2dedf5d8.ctex
+Loading resource: res://assets/lands/pyra/terrain/road3.webp
+Loading resource: res://.godot/imported/road3.webp-51f5281928a3ab351f6db320307a5c7f.ctex
+Loading resource: res://assets/lands/pyra/terrain/b0.webp
+Loading resource: res://.godot/imported/b0.webp-a31196fe658f54db47cb4bf389caadb6.ctex
+Loading resource: res://assets/lands/pyra/terrain/b1.webp
+Loading resource: res://.godot/imported/b1.webp-e3e1841baeebd435936d32b3daa008f5.ctex
+Loading resource: res://assets/lands/pyra/terrain/b2.webp
+Loading resource: res://.godot/imported/b2.webp-5af3bbb60db21bf25d1cb06cdabfe90e.ctex
+Loading resource: res://assets/lands/pyra/terrain/b3.webp
+Loading resource: res://.godot/imported/b3.webp-c36b3538ce215e99b650bc2a9f1b5b1d.ctex
+Loading resource: res://assets/lands/pyra/terrain/water.webp
+Loading resource: res://.godot/imported/water.webp-2275e328003388a29636192532f3ca67.ctex
+Loading resource: res://assets/lands/pyra/terrain/shore.webp
+Loading resource: res://.godot/imported/shore.webp-53108b70d73c1d9dbfd19924d859cb52.ctex
+Loading resource: res://assets/lands/pyra/terrain/special.webp
+Loading resource: res://.godot/imported/special.webp-872dd05d42c1c9a6b0caa065dac428e3.ctex
+Loading resource: res://assets/lands/pyra/terrain/over1.webp
+Loading resource: res://.godot/imported/over1.webp-efb8a29c198483dfd7fa2bfead9c06d1.ctex
+Loading resource: res://assets/lands/pyra/terrain/over2.webp
+Loading resource: res://.godot/imported/over2.webp-dd2f3e56066ba8c7df516c2b31238196.ctex
+Loading resource: res://assets/continent/floor_fade.gdshader
+Loading resource: res://assets/floor/0-0.png
+Loading resource: res://.godot/imported/0-0.png-d62c5dc7e01360b230592b78ecb40213.ctex
+Loading resource: res://assets/floor/512-0.png
+Loading resource: res://.godot/imported/512-0.png-4da764ebe07dc033dd5a19e1c07c03b6.ctex
+Loading resource: res://assets/floor/1024-0.png
+Loading resource: res://.godot/imported/1024-0.png-6b9b7895fa18c005dd19ec1b39252c66.ctex
+Loading resource: res://assets/floor/1536-0.png
+Loading resource: res://.godot/imported/1536-0.png-0cddde1ccc68f702c12913787c83bf36.ctex
+Loading resource: res://assets/floor/0-512.png
+Loading resource: res://.godot/imported/0-512.png-20f82633ec1b04919099c90d3e866ddb.ctex
+Loading resource: res://assets/floor/512-512.png
+Loading resource: res://.godot/imported/512-512.png-3467b2b0e93cd27a8d5623dd3d81d769.ctex
+Loading resource: res://assets/floor/1024-512.png
+Loading resource: res://.godot/imported/1024-512.png-a1be7bb4d226ad49ee2926c17811937e.ctex
+Loading resource: res://assets/floor/1536-512.png
+Loading resource: res://.godot/imported/1536-512.png-bd1aae3104a97a2ba1f2ce5f4ca61666.ctex
+Loading resource: res://assets/floor/0-1024.png
+Loading resource: res://.godot/imported/0-1024.png-38185c2525776c281002fe364b2a7738.ctex
+Loading resource: res://assets/floor/512-1024.png
+Loading resource: res://.godot/imported/512-1024.png-7394d4b9c7e78d3cb0b513d4b85eb228.ctex
+Loading resource: res://assets/floor/1024-1024.png
+Loading resource: res://.godot/imported/1024-1024.png-221e7b7c7e07b849c70bf202ed9dfe3f.ctex
+Loading resource: res://assets/floor/1536-1024.png
+Loading resource: res://.godot/imported/1536-1024.png-c22f18238ae89383619396467b91cf2e.ctex
+Loading resource: res://assets/floor/0-1536.png
+Loading resource: res://.godot/imported/0-1536.png-32efb99b260dddd515b15876b65ae453.ctex
+Loading resource: res://assets/floor/512-1536.png
+Loading resource: res://.godot/imported/512-1536.png-ace21c58fb832cb31d318386a10381e4.ctex
+Loading resource: res://assets/floor/1024-1536.png
+Loading resource: res://.godot/imported/1024-1536.png-d08a2b61a70bf009936a56fcd775ac2b.ctex
+Loading resource: res://assets/floor/1536-1536.png
+Loading resource: res://.godot/imported/1536-1536.png-ef89a8cf46d83ac61d320c0cf12a4e05.ctex
+Loading resource: res://assets/objects/pyra-art-statue-b5f4b8af0c.png
+Loading resource: res://.godot/imported/pyra-art-statue-b5f4b8af0c.png-4d951f613a157454488db90d504cefae.ctex
+Loading resource: res://assets/objects/nature-obj-volcano-active-46d644819a.png
+Loading resource: res://.godot/imported/nature-obj-volcano-active-46d644819a.png-0a583a0f923b1de5926ccab36a2e7531.ctex
+Loading resource: res://assets/objects/nature-obj-volcano-dormant-ba050a47c6.png
+Loading resource: res://.godot/imported/nature-obj-volcano-dormant-ba050a47c6.png-6dd11194620157f0459ade93b74cd73e.ctex
+Loading resource: res://assets/objects/pyra-art-clan-banner-8948b6e89b.png
+Loading resource: res://.godot/imported/pyra-art-clan-banner-8948b6e89b.png-e0e204ad2f586051f9009689f7eb141a.ctex
+Loading resource: res://assets/objects/pyra-art-basalt-ab0eb4fb40.png
+Loading resource: res://.godot/imported/pyra-art-basalt-ab0eb4fb40.png-f809b1e82467f809f399d8edf3204a8e.ctex
+Loading resource: res://assets/objects/nature-obj-lava-rocks-60ab3cb785.png
+Loading resource: res://.godot/imported/nature-obj-lava-rocks-60ab3cb785.png-77be1126a9a3bb042cd1ea3d1c996091.ctex
+Loading resource: res://assets/objects/nature-obj-boulder-group-ce146c6815.png
+Loading resource: res://.godot/imported/nature-obj-boulder-group-ce146c6815.png-4dd5787d1c901c175941b82faaa2d293.ctex
+Loading resource: res://assets/objects/nature-obj-basalt-columns-216cdfb637.png
+Loading resource: res://.godot/imported/nature-obj-basalt-columns-216cdfb637.png-9383d620ce3e52c1893d2f22d0907c14.ctex
+Loading resource: res://assets/objects/nature-obj-mountain-peak-a904dd4285.png
+Loading resource: res://.godot/imported/nature-obj-mountain-peak-a904dd4285.png-6a734e280d9d952a5d77172945f02fd1.ctex
+Loading resource: res://assets/objects/nature-obj-cliff-outcrop-ef733c85df.png
+Loading resource: res://.godot/imported/nature-obj-cliff-outcrop-ef733c85df.png-43b82f41f286c8e33a37c44b02a5aaba.ctex
+Loading resource: res://assets/objects/9eba1e56-pyra-painted-hall.webp
+Loading resource: res://.godot/imported/9eba1e56-pyra-painted-hall.webp-d151ba151ffa2043e3d3f0863ee33bb3.ctex
+Loading resource: res://assets/objects/e82ceee7-pyra-painted-shop.webp
+Loading resource: res://.godot/imported/e82ceee7-pyra-painted-shop.webp-300d1d9a47a0f46287ee963cc3e5db7f.ctex
+Loading resource: res://assets/objects/b8db058a-pyra-painted-arena.webp
+Loading resource: res://.godot/imported/b8db058a-pyra-painted-arena.webp-c61180dd616197f81081635e18bbe728.ctex
+Loading resource: res://assets/objects/e320eb1e-pyra-painted-smithy.webp
+Loading resource: res://.godot/imported/e320eb1e-pyra-painted-smithy.webp-7fa4f5769a586295743e43f12d217a2e.ctex
+Loading resource: res://assets/objects/e0e8cc86-pyra-painted-depot.webp
+Loading resource: res://.godot/imported/e0e8cc86-pyra-painted-depot.webp-001c8068f654b72e7f144f9f475930b5.ctex
+Loading resource: res://assets/objects/51cf60a5-pyra-painted-inn.webp
+Loading resource: res://.godot/imported/51cf60a5-pyra-painted-inn.webp-571c8855e70fbec9e2a59cba5460203c.ctex
+Loading resource: res://assets/actors/npc-pyra-guide-page-0.webp
+Loading resource: res://.godot/imported/npc-pyra-guide-page-0.webp-27f896d4136ca25d127cd2246d29542e.ctex
+Loading resource: res://assets/actors/npc-pyra-hunter-page-0.webp
+Loading resource: res://.godot/imported/npc-pyra-hunter-page-0.webp-52e3cc3aef2478d35fa66fe50b638d4f.ctex
+Loading resource: res://assets/actors/npc-pyra-warden-page-0.webp
+Loading resource: res://.godot/imported/npc-pyra-warden-page-0.webp-6a76acdbfb895703c10afdae6835afc2.ctex
+Loading resource: res://assets/monsters/pyra-byk-areny.webp
+Loading resource: res://.godot/imported/pyra-byk-areny.webp-e9c4ef0e9d1fd9e7878f2de89f3604dd.ctex
+Loading resource: res://assets/monsters/pyra-golem-ruin.webp
+Loading resource: res://.godot/imported/pyra-golem-ruin.webp-b337a752801e40b9733c9b671cdd8b5b.ctex
+Loading resource: res://assets/monsters/pyra-magmowy-krab.webp
+Loading resource: res://.godot/imported/pyra-magmowy-krab.webp-251eba36fe2d8bec9bde37e983021c35.ctex
+Loading resource: res://assets/monsters/pyra-ognista-salamandra.webp
+Loading resource: res://.godot/imported/pyra-ognista-salamandra.webp-45fcc049bdd44f40a0575da3f019ad15.ctex
+Loading resource: res://assets/monsters/pyra-plomien-duch.webp
+Loading resource: res://.godot/imported/pyra-plomien-duch.webp-f9cd5016ce3a0d3512f8259d0eb4db4c.ctex
+Loading resource: res://assets/monsters/pyra-popielny-wilk.webp
+Loading resource: res://.godot/imported/pyra-popielny-wilk.webp-4a7a87c76dabe249c594e32e4c401b97.ctex
+Loading resource: res://assets/monsters/pyra-skalny-berserker.webp
+Loading resource: res://.godot/imported/pyra-skalny-berserker.webp-9ca4ca259a656d69b9015065cd6ae6fe.ctex
+Loading resource: res://assets/monsters/pyra-skorpion-obsydianowy.webp
+Loading resource: res://.godot/imported/pyra-skorpion-obsydianowy.webp-cc6617605a145180091e3162e52a69d3.ctex
+Loading resource: res://assets/monsters/pyra-wegielek.webp
+Loading resource: res://.godot/imported/pyra-wegielek.webp-7e5c647a2f09c8ed3c68bb1e15ad77f3.ctex
+Loading resource: res://assets/monsters/pyra-zarowy-nietoperz.webp
+Loading resource: res://.godot/imported/pyra-zarowy-nietoperz.webp-4b5091a1d4517a4108e9a4669b8b459a.ctex
+Loading resource: res://assets/monsters/pyra-animal-a-04.webp
+Loading resource: res://.godot/imported/pyra-animal-a-04.webp-5bf4b1e09cb559dd63ede4cb20a2a920.ctex
+Loading resource: res://assets/monsters/pyra-animal-a-05.webp
+Loading resource: res://.godot/imported/pyra-animal-a-05.webp-d437d76d066ccc886b6d46821a26aadc.ctex
+Loading resource: res://assets/monsters/pyra-animal-a-06.webp
+Loading resource: res://.godot/imported/pyra-animal-a-06.webp-423e814120e28a58b5a1990b69e6828f.ctex
+Loading resource: res://assets/objects/32e0d269-pyra-continent-lantern-bush.webp
+Loading resource: res://.godot/imported/32e0d269-pyra-continent-lantern-bush.webp-6c79b857e107002218de515393a9cc1c.ctex
+Loading resource: res://assets/objects/7870e5a1-pyra-continent-stump.webp
+Loading resource: res://.godot/imported/7870e5a1-pyra-continent-stump.webp-b195fff0982ca64dae312200e28b21fe.ctex
+Loading resource: res://assets/objects/49b51ecf-pyra-continent-crystals.webp
+Loading resource: res://.godot/imported/49b51ecf-pyra-continent-crystals.webp-45587a1724e1ac6bc5f633bd197918e0.ctex
+Loading resource: res://assets/objects/1cedcd5a-pyra-continent-maple.webp
+Loading resource: res://.godot/imported/1cedcd5a-pyra-continent-maple.webp-9085092895a4dbbffa85a42f643f2d84.ctex
+Loading resource: res://assets/objects/656ec7c9-pyra-continent-log.webp
+Loading resource: res://.godot/imported/656ec7c9-pyra-continent-log.webp-8ba955db6209ad4d2282e297802b9b43.ctex
+Loading resource: res://assets/objects/ae37503e-pyra-continent-pine.webp
+Loading resource: res://.godot/imported/ae37503e-pyra-continent-pine.webp-d6c479e5bd78ba51497f2f84e57d93d3.ctex
+Loading resource: res://assets/objects/9902b9c8-pyra-continent-dry-grass.webp
+Loading resource: res://.godot/imported/9902b9c8-pyra-continent-dry-grass.webp-b28b4b400b2940a81b182e7beb90c5c7.ctex
+Loading resource: res://assets/objects/0185c62b-pyra-continent-berry-bush.webp
+Loading resource: res://.godot/imported/0185c62b-pyra-continent-berry-bush.webp-51c68cc7b33f1de28a64db9ff707f645.ctex
+Loading resource: res://assets/objects/3d90558c-pyra-continent-rocks.webp
+Loading resource: res://.godot/imported/3d90558c-pyra-continent-rocks.webp-4437bf416995378dbbc5a0479c12451b.ctex
+Loading resource: res://assets/objects/bd797328-pyra-continent-shards.webp
+Loading resource: res://.godot/imported/bd797328-pyra-continent-shards.webp-5a66f6f735cdf3f136b8dbfff5b728b1.ctex
+Loading resource: res://assets/objects/39416c5c-pyra-continent-copper-bush.webp
+Loading resource: res://.godot/imported/39416c5c-pyra-continent-copper-bush.webp-2bd97275e65c857b4fe64bf127e7b495.ctex
+Loading resource: res://assets/objects/7f8f7526-pyra-continent-weeds.webp
+Loading resource: res://.godot/imported/7f8f7526-pyra-continent-weeds.webp-92389bd145cc0dced80f1351f98ddc22.ctex
+Loading resource: res://assets/objects/8849b244-pyra-continent-leaf-patch.webp
+Loading resource: res://.godot/imported/8849b244-pyra-continent-leaf-patch.webp-2c66335d0606b30e261eb0d9b69398e3.ctex
+Loading resource: res://assets/objects/61486b9a-pyra-continent-obsidian-spire.webp
+Loading resource: res://.godot/imported/61486b9a-pyra-continent-obsidian-spire.webp-f450ab355609794cbdf019eb6443842e.ctex
+Loading resource: res://assets/objects/043aaba1-pyra-continent-cart.webp
+Loading resource: res://.godot/imported/043aaba1-pyra-continent-cart.webp-33e4251aed0fc49e5c4c0832d28590eb.ctex
+Loading resource: res://assets/objects/f4c0f061-pyra-continent-hill.webp
+Loading resource: res://.godot/imported/f4c0f061-pyra-continent-hill.webp-02ba5658ae793a49737484c2d3ae9e32.ctex
+Loading resource: res://assets/objects/bd71b1c0-ki-v2-objects-pyra-pine-2.webp
+Loading resource: res://.godot/imported/bd71b1c0-ki-v2-objects-pyra-pine-2.webp-e94f8a06794c56356239f3dd37aed8ef.ctex
+Loading resource: res://assets/objects/a599b204-ki-v2-objects-pyra-tree2-1.webp
+Loading resource: res://.godot/imported/a599b204-ki-v2-objects-pyra-tree2-1.webp-2c1d552581fbf4788c5e75f19e3d834f.ctex
+Loading resource: res://assets/objects/62d823d3-pyra-continent-bridge.webp
+Loading resource: res://.godot/imported/62d823d3-pyra-continent-bridge.webp-74ed86fc5badd95319d7266c056579cb.ctex
+Loading resource: res://assets/objects/59bf7760-ki-v2-objects-pyra-reeds-4.webp
+Loading resource: res://.godot/imported/59bf7760-ki-v2-objects-pyra-reeds-4.webp-c723841b884f543c07928d1f88397aa8.ctex
+Loading resource: res://assets/objects/342a7941-biome-volcanic-an-obsidian-shard-formation.webp
+Loading resource: res://.godot/imported/342a7941-biome-volcanic-an-obsidian-shard-formation.webp-413e65e9f76b4b1dec38dc58c9d6dd5f.ctex
+Loading resource: res://assets/objects/291f1d77-ki-v2-objects-pyra-tree2-3.webp
+Loading resource: res://.godot/imported/291f1d77-ki-v2-objects-pyra-tree2-3.webp-07f90041fa66adfe6c6af35ec1b2410d.ctex
+Loading resource: res://assets/objects/18baf09b-ki-v2-objects-pyra-oak-4.webp
+Loading resource: res://.godot/imported/18baf09b-ki-v2-objects-pyra-oak-4.webp-dd7afea6f5366103a9d84a2d232a8886.ctex
+Loading resource: res://assets/lands/pyra/map.webp
+Loading resource: res://.godot/imported/map.webp-25abd03f4dc992e62cde10a14bc83e8d.ctex
+Loading resource: res://assets/audio/music/pyra.mp3
+Loading resource: res://.godot/imported/pyra.mp3-5bf9ff9a6f0248fbfb39e0d6e22710d9.mp3str
+Loading resource: res://assets/ui/hud/btn-attack.webp
+Loading resource: res://.godot/imported/btn-attack.webp-e19f26e186471a8da989df1f30ae307b.ctex
+Loading resource: res://assets/races/legend.jpg
+Loading resource: res://.godot/imported/legend.jpg-4f3e5de41b4b5c2c35c11835302b1076.ctex
+Loading resource: res://assets/ui/hud/btn-menu.webp
+Loading resource: res://.godot/imported/btn-menu.webp-00bffd28ee15895e9c494a9c5ae5e39c.ctex
+Loading resource: res://assets/ui/hud/btn-zoom.webp
+Loading resource: res://.godot/imported/btn-zoom.webp-620b0a15439b2a827d97d0400f7572f2.ctex
+Loading resource: res://assets/ui/hud/btn-plecak.webp
+Loading resource: res://.godot/imported/btn-plecak.webp-e6e8a25233d631932f984af076bcfc23.ctex
+Loading resource: res://assets/ui/hud/btn-postac.webp
+Loading resource: res://.godot/imported/btn-postac.webp-fc0aefdc0deb38593622cc68960d84a2.ctex
+Loading resource: res://assets/ui/hud/btn-mapa.webp
+Loading resource: res://.godot/imported/btn-mapa.webp-6f1ed1ff09943bb55490ec4f84d81182.ctex
+Loading resource: res://assets/races/planetary.jpg
+Loading resource: res://.godot/imported/planetary.jpg-11ca45019f26bb28acb38ddc4314e321.ctex
+Loading resource: res://assets/races/sage.jpg
+Loading resource: res://.godot/imported/sage.jpg-1ab77593e8f72a98e447c8b67eb3b28b.ctex
+Loading resource: res://assets/races/android.jpg
+Loading resource: res://.godot/imported/android.jpg-bfef0fb9fa5b13c05bdb1e3b468fe714.ctex
+Loading resource: res://assets/lands/pyra/terrain/water.webp
+Loading resource: res://.godot/imported/water.webp-2275e328003388a29636192532f3ca67.ctex
+Loading resource: res://assets/lands/pyra/terrain/road0.webp
+Loading resource: res://.godot/imported/road0.webp-df66099b272fb13e2887de841428fbc3.ctex
+Loading resource: res://assets/lands/pyra/terrain/road1.webp
+Loading resource: res://.godot/imported/road1.webp-ddf8472e35d81e13345d81f7756cfa7c.ctex
+Loading resource: res://assets/lands/pyra/terrain/road2.webp
+Loading resource: res://.godot/imported/road2.webp-b8a1b8715685c7c55d87963c2dedf5d8.ctex
+Loading resource: res://assets/lands/pyra/terrain/road3.webp
+Loading resource: res://.godot/imported/road3.webp-51f5281928a3ab351f6db320307a5c7f.ctex
+Loading resource: res://assets/lands/pyra/terrain/b0.webp
+Loading resource: res://.godot/imported/b0.webp-a31196fe658f54db47cb4bf389caadb6.ctex
+Loading resource: res://assets/lands/pyra/terrain/b1.webp
+Loading resource: res://.godot/imported/b1.webp-e3e1841baeebd435936d32b3daa008f5.ctex
+Loading resource: res://assets/lands/pyra/terrain/b2.webp
+Loading resource: res://.godot/imported/b2.webp-5af3bbb60db21bf25d1cb06cdabfe90e.ctex
+Loading resource: res://assets/lands/pyra/terrain/b3.webp
+Loading resource: res://.godot/imported/b3.webp-c36b3538ce215e99b650bc2a9f1b5b1d.ctex
+Loading resource: res://assets/lands/pyra/terrain/water.webp
+Loading resource: res://.godot/imported/water.webp-2275e328003388a29636192532f3ca67.ctex
+Loading resource: res://assets/lands/pyra/terrain/shore.webp
+Loading resource: res://.godot/imported/shore.webp-53108b70d73c1d9dbfd19924d859cb52.ctex
+Loading resource: res://assets/lands/pyra/terrain/special.webp
+Loading resource: res://.godot/imported/special.webp-872dd05d42c1c9a6b0caa065dac428e3.ctex
+Loading resource: res://assets/lands/pyra/terrain/over1.webp
+Loading resource: res://.godot/imported/over1.webp-efb8a29c198483dfd7fa2bfead9c06d1.ctex
+Loading resource: res://assets/lands/pyra/terrain/over2.webp
+Loading resource: res://.godot/imported/over2.webp-dd2f3e56066ba8c7df516c2b31238196.ctex
+Loading resource: res://assets/audio/sfx/ambience/city.mp3
+Loading resource: res://.godot/imported/city.mp3-e99981820c0c67bc44f2fed48aa69445.mp3str
+Loading resource: res://assets/rooms/pyra-arena.webp
+Loading resource: res://.godot/imported/pyra-arena.webp-80342fcd47d1f9c86be5af7ae4a06466.ctex
+Loading resource: res://assets/actors/npc-pyra-trainer-page-0.webp
+Loading resource: res://.godot/imported/npc-pyra-trainer-page-0.webp-61601da9d0d8f385dcef8aec568f98d1.ctex
+Loading resource: res://assets/rooms/pyra-depot.webp
+Loading resource: res://.godot/imported/pyra-depot.webp-48e68a34e88451e8dc45291def625443.ctex
+Loading resource: res://assets/actors/npc-pyra-keeper-page-0.webp
+Loading resource: res://.godot/imported/npc-pyra-keeper-page-0.webp-0a63a32132d9fb13279ae146244ac733.ctex
+Loading resource: res://assets/rooms/pyra-smithy.webp
+Loading resource: res://.godot/imported/pyra-smithy.webp-f27daf8d389c7702b1b0836ca9af3cf7.ctex
+Loading resource: res://assets/actors/npc-pyra-smith-page-0.webp
+Loading resource: res://.godot/imported/npc-pyra-smith-page-0.webp-0065da086783996c1111f58c49517ff5.ctex
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-fight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-fight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-fight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-kifight-0.webp' has been initiated. Not an error.
+Loading resource: res://assets/actors/hero-planetary-painted-walk-v3-idle-0.webp
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-kifight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-fight-3.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-fight-4.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-fight-4.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-fight-4.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-kimove-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-kimove-1.webp' has been initiated. Not an error.
+Loading resource: res://.godot/imported/hero-planetary-painted-walk-v3-idle-0.webp-e3f288fd30a876434c85f5806411b5ef.ctex
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-kimove-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-kifight-3.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-kifight-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-planetary-painted-walk-v3-kifight-1.webp' has been initiated. Not an error.
+Loading resource: res://assets/actors/hero-planetary-painted-walk-v3-page-0.webp
+Loading resource: res://.godot/imported/hero-planetary-painted-walk-v3-page-0.webp-ead6ec411b8bf33e201742df34226919.ctex
+Loading resource: res://assets/actors/hero-planetary-painted-walk-v3-fight-0.webp
+Loading resource: res://.godot/imported/hero-planetary-painted-walk-v3-fight-0.webp-1f24d30668c3f44da112f389612930fc.ctex
+Loading resource: res://assets/actors/hero-planetary-painted-walk-v3-fight-1.webp
+Loading resource: res://.godot/imported/hero-planetary-painted-walk-v3-fight-1.webp-7a3b6b12a4cf5935c0262b37bc31affb.ctex
+Loading resource: res://assets/actors/hero-planetary-painted-walk-v3-kiwalk-0.webp
+Loading resource: res://.godot/imported/hero-planetary-painted-walk-v3-kiwalk-0.webp-727f386e47d6308c2e1364d15ca39c6e.ctex
+Loading resource: res://assets/lands/verdant/terrain/water.webp
+Loading resource: res://.godot/imported/water.webp-630224787b730d02d08ec83c1b5e5221.ctex
+Loading resource: res://assets/actors/hero-planetary-painted-walk-v3-kifight-0.webp
+Loading resource: res://.godot/imported/hero-planetary-painted-walk-v3-kifight-0.webp-024627f3ccdf204cb46ce37e157c2710.ctex
+Loading resource: res://assets/actors/hero-planetary-painted-walk-v3-fight-2.webp
+Loading resource: res://.godot/imported/hero-planetary-painted-walk-v3-fight-2.webp-16c08b6717e076b5c7a1a4415ce3dceb.ctex
+Loading resource: res://assets/lands/verdant/ctrl-biome.png
+Loading resource: res://.godot/imported/ctrl-biome.png-02eb75d90819affdfadda405268a4e0b.ctex
+Loading resource: res://assets/actors/hero-planetary-painted-walk-v3-fight-3.webp
+Loading resource: res://.godot/imported/hero-planetary-painted-walk-v3-fight-3.webp-c93b3ecda57df42d46a076f28c743b92.ctex
+Loading resource: res://assets/actors/hero-planetary-painted-walk-v3-fight-4.webp
+Loading resource: res://.godot/imported/hero-planetary-painted-walk-v3-fight-4.webp-255157e7e18b3c29151aa4098d5bc7b4.ctex
+Loading resource: res://assets/actors/hero-planetary-painted-walk-v3-kifight-2.webp
+Loading resource: res://.godot/imported/hero-planetary-painted-walk-v3-kifight-2.webp-c2d387fa62b6c1895bf5c2cd12cd0ef7.ctex
+Loading resource: res://assets/actors/hero-planetary-painted-walk-v3-kimove-1.webp
+Loading resource: res://.godot/imported/hero-planetary-painted-walk-v3-kimove-1.webp-ef4984a1ad2c5e2355a332bc89e280e8.ctex
+Loading resource: res://assets/actors/hero-planetary-painted-walk-v3-kifight-1.webp
+Loading resource: res://.godot/imported/hero-planetary-painted-walk-v3-kifight-1.webp-287fb4e50859741501e58849e0ac1dd9.ctex
+Loading resource: res://assets/actors/hero-planetary-painted-walk-v3-kifight-3.webp
+Loading resource: res://.godot/imported/hero-planetary-painted-walk-v3-kifight-3.webp-1903dd403f518b002658873c8c836350.ctex
+Loading resource: res://assets/lands/verdant/ctrl-land.png
+Loading resource: res://.godot/imported/ctrl-land.png-bcf2a738dcd9d3878e7ed321f553f652.ctex
+Loading resource: res://assets/lands/verdant/road-mask.png
+Loading resource: res://.godot/imported/road-mask.png-c543d6ee1fcd34a6e1ba7e0ed07d6f96.ctex
+Loading resource: res://assets/lands/verdant/road-class.png
+Loading resource: res://.godot/imported/road-class.png-a09cedcb224badd33e130429f16dc3c9.ctex
+Loading resource: res://assets/lands/verdant/terrain/road0.webp
+Loading resource: res://.godot/imported/road0.webp-5971009f058cbddf20dc333648a6e649.ctex
+Loading resource: res://assets/lands/verdant/terrain/road1.webp
+Loading resource: res://.godot/imported/road1.webp-c524e19578f466e9ed1142cfae451284.ctex
+Loading resource: res://assets/lands/verdant/terrain/road2.webp
+Loading resource: res://.godot/imported/road2.webp-8e835f1c65e677e508d2a068985eed44.ctex
+Loading resource: res://assets/lands/verdant/terrain/road3.webp
+Loading resource: res://.godot/imported/road3.webp-faf9b9c6348792d905155049b688ef13.ctex
+Loading resource: res://assets/lands/verdant/terrain/b0.webp
+Loading resource: res://.godot/imported/b0.webp-b741148d63a784928a18b64cd028fbd2.ctex
+Loading resource: res://assets/lands/verdant/terrain/b1.webp
+Loading resource: res://.godot/imported/b1.webp-7eec1624481ce02c2c36460c5068f784.ctex
+Loading resource: res://assets/lands/verdant/terrain/b2.webp
+Loading resource: res://.godot/imported/b2.webp-8751eb4e82cf9d73fbdc0eeac604fcb1.ctex
+Loading resource: res://assets/lands/verdant/terrain/b3.webp
+Loading resource: res://.godot/imported/b3.webp-4bca5de4d238ad1e43149109e34064d8.ctex
+Loading resource: res://assets/lands/verdant/terrain/water.webp
+Loading resource: res://.godot/imported/water.webp-630224787b730d02d08ec83c1b5e5221.ctex
+Loading resource: res://assets/lands/verdant/terrain/shore.webp
+Loading resource: res://.godot/imported/shore.webp-674a293703e11ab68bedfcbf2fc3dd23.ctex
+Loading resource: res://assets/actors/npc-verdant-guide-page-0.webp
+Loading resource: res://.godot/imported/npc-verdant-guide-page-0.webp-934eff1429e66d2d11851bf9b0ec378b.ctex
+Loading resource: res://assets/actors/npc-verdant-hunter-page-0.webp
+Loading resource: res://.godot/imported/npc-verdant-hunter-page-0.webp-44df24fa6b114bb829f8399c6d7cb745.ctex
+Loading resource: res://assets/actors/npc-verdant-warden-page-0.webp
+Loading resource: res://.godot/imported/npc-verdant-warden-page-0.webp-bb5115196102ed385f0c826694dca372.ctex
+Loading resource: res://assets/monsters/verdant-bursztynowa-osa.webp
+Loading resource: res://.godot/imported/verdant-bursztynowa-osa.webp-a120497c6ea10bc9fe000238f94fced8.ctex
+Loading resource: res://assets/monsters/verdant-cierniowy-wilk.webp
+Loading resource: res://.godot/imported/verdant-cierniowy-wilk.webp-c6dc8a8d5216d3cb8a1dc3cb695dbde3.ctex
+Loading resource: res://assets/monsters/verdant-grzybowy-zarodnik.webp
+Loading resource: res://.godot/imported/verdant-grzybowy-zarodnik.webp-33afdae55ebd6717a3dea889db58e5f1.ctex
+Loading resource: res://assets/monsters/verdant-korzeniowy-pelzacz.webp
+Loading resource: res://.godot/imported/verdant-korzeniowy-pelzacz.webp-697a200024b70b670fbb7f34221560ea.ctex
+Loading resource: res://assets/monsters/verdant-lesny-pajak.webp
+Loading resource: res://.godot/imported/verdant-lesny-pajak.webp-90d53a3f0ac0a41039528506e0725bae.ctex
+Loading resource: res://assets/monsters/verdant-lisciak-skrytobojca.webp
+Loading resource: res://.godot/imported/verdant-lisciak-skrytobojca.webp-4a9fde2f94e0cfe175d4d98d344a093c.ctex
+Loading resource: res://assets/monsters/verdant-mchowy-szlamak.webp
+Loading resource: res://.godot/imported/verdant-mchowy-szlamak.webp-54cee072a18823a96ec6eb028f62ef67.ctex
+Loading resource: res://assets/monsters/verdant-puchacz-pylowy.webp
+Loading resource: res://.godot/imported/verdant-puchacz-pylowy.webp-205e3599d5757f0fb6c594b7ab0706a7.ctex
+Loading resource: res://assets/monsters/verdant-skalny-jelen.webp
+Loading resource: res://.godot/imported/verdant-skalny-jelen.webp-e2bce8e0788ae784145ad86e90b3e007.ctex
+Loading resource: res://assets/monsters/verdant-straznik-ruin.webp
+Loading resource: res://.godot/imported/verdant-straznik-ruin.webp-d68822b583a78582ae5bad6dfc5a26db.ctex
+Loading resource: res://assets/monsters/verdant-animal-a-01.webp
+Loading resource: res://.godot/imported/verdant-animal-a-01.webp-911ce7c8e712799779fdbb169593bbbb.ctex
+Loading resource: res://assets/monsters/verdant-animal-a-02.webp
+Loading resource: res://.godot/imported/verdant-animal-a-02.webp-0c8f27d79fbecb9f453fcc4d48269461.ctex
+Loading resource: res://assets/monsters/verdant-animal-a-03.webp
+Loading resource: res://.godot/imported/verdant-animal-a-03.webp-52c9408d9dcd28967cfb148ece5c4b69.ctex
+Loading resource: res://assets/objects/74b2bb88-verdantia-extra-ancient-oak.webp
+Loading resource: res://.godot/imported/74b2bb88-verdantia-extra-ancient-oak.webp-bfc099f4bfde890491cb5b43406dc9d6.ctex
+Loading resource: res://assets/objects/66ee118d-biome-forest-tall-broadleaf-oak-tree.webp
+Loading resource: res://.godot/imported/66ee118d-biome-forest-tall-broadleaf-oak-tree.webp-3ac10fe19d31483a1ce9eace8c3e99a3.ctex
+Loading resource: res://assets/objects/b63f70b2-verdant-city-lamp.webp
+Loading resource: res://.godot/imported/b63f70b2-verdant-city-lamp.webp-f0a4af56e04d06f0702044ffa24cae75.ctex
+Loading resource: res://assets/objects/87f1ca7b-verdantia-extra-bramble.webp
+Loading resource: res://.godot/imported/87f1ca7b-verdantia-extra-bramble.webp-e48c3f9aca44862c95918c36eb82002f.ctex
+Loading resource: res://assets/objects/686e9758-verdantia-extra-grass.webp
+Loading resource: res://.godot/imported/686e9758-verdantia-extra-grass.webp-5a80ef755484f1280def99c888de6334.ctex
+Loading resource: res://assets/objects/e70f7fe7-verdantia-extra-rose.webp
+Loading resource: res://.godot/imported/e70f7fe7-verdantia-extra-rose.webp-bc7670dbb17f12eef0c6955f9be59094.ctex
+Loading resource: res://assets/objects/701b11e2-verdantia-continent-rocks.webp
+Loading resource: res://.godot/imported/701b11e2-verdantia-continent-rocks.webp-55a2b5c858e258895d7c4014806971d7.ctex
+Loading resource: res://assets/objects/68b9d6ee-verdantia-extra-mushrooms.webp
+Loading resource: res://.godot/imported/68b9d6ee-verdantia-extra-mushrooms.webp-f394445d2c61dd7a3fc08e6a379b89d8.ctex
+Loading resource: res://assets/objects/b71a5ab2-verdant-leaf-smithy.webp
+Loading resource: res://.godot/imported/b71a5ab2-verdant-leaf-smithy.webp-c0256550c1a39eb8227c17729f2de263.ctex
+Loading resource: res://assets/objects/408ba749-ki-v2-objects-verdant-bush-1.webp
+Loading resource: res://.godot/imported/408ba749-ki-v2-objects-verdant-bush-1.webp-e37c9d92d85873ed9408e2ba8d281566.ctex
+Loading resource: res://assets/objects/5b60f067-verdantia-extra-fern.webp
+Loading resource: res://.godot/imported/5b60f067-verdantia-extra-fern.webp-7948dc37e6cfec96b35037427d3918db.ctex
+Loading resource: res://assets/objects/ce21ffe1-verdantia-extra-willow.webp
+Loading resource: res://.godot/imported/ce21ffe1-verdantia-extra-willow.webp-a1588dd02c734256bc1c9f851285f721.ctex
+Loading resource: res://assets/objects/320aa69b-biome-forest-flowering-bush.webp
+Loading resource: res://.godot/imported/320aa69b-biome-forest-flowering-bush.webp-300991a3514d364c18a19c2511b5e265.ctex
+Loading resource: res://assets/objects/959575c7-verdant-leaf-depot.webp
+Loading resource: res://.godot/imported/959575c7-verdant-leaf-depot.webp-a4011ccf4d8e39f463e1c15360b943b1.ctex
+Loading resource: res://assets/objects/3d2c4533-nexus-art-crystal.webp
+Loading resource: res://.godot/imported/3d2c4533-nexus-art-crystal.webp-76f27f3fe420b7e19c9a65d70d0fcdbc.ctex
+Loading resource: res://assets/objects/48c51d4d-verdantia-extra-flowers.webp
+Loading resource: res://.godot/imported/48c51d4d-verdantia-extra-flowers.webp-a945a361b21d10602dd9a96bb5377144.ctex
+Loading resource: res://assets/objects/ec883126-verdantia-extra-burdock.webp
+Loading resource: res://.godot/imported/ec883126-verdantia-extra-burdock.webp-239c5a30a74e023f06c4c5a9e71605c6.ctex
+Loading resource: res://assets/objects/27399570-verdantia-extra-blueberry.webp
+Loading resource: res://.godot/imported/27399570-verdantia-extra-blueberry.webp-8772bccd48a7ed5829af0e5d5a491ecc.ctex
+Loading resource: res://assets/objects/96d332fb-verdantia-extra-roots.webp
+Loading resource: res://.godot/imported/96d332fb-verdantia-extra-roots.webp-f5ee17f021af4bc331c4249b39ba2f4f.ctex
+Loading resource: res://assets/objects/711c3cbc-verdantia-extra-birch.webp
+Loading resource: res://.godot/imported/711c3cbc-verdantia-extra-birch.webp-921727fad4b7f15bc315c74094ce9e62.ctex
+Loading resource: res://assets/objects/140714f7-verdantia-extra-stump.webp
+Loading resource: res://.godot/imported/140714f7-verdantia-extra-stump.webp-c362fbb5c1adf3ae95ebc53ad4532476.ctex
+Loading resource: res://assets/objects/df63f301-verdantia-continent-pine.webp
+Loading resource: res://.godot/imported/df63f301-verdantia-continent-pine.webp-93b4151864d347f47f513a2c70934528.ctex
+Loading resource: res://assets/objects/a5819767-verdant-leaf-arena.webp
+Loading resource: res://.godot/imported/a5819767-verdant-leaf-arena.webp-32be6596cbbb0d5f8506f0a382ebe0d8.ctex
+Loading resource: res://assets/objects/7f667bef-biome-forest-mossy-boulder.webp
+Loading resource: res://.godot/imported/7f667bef-biome-forest-mossy-boulder.webp-677aff7fd3670d2f6033a08fee8ad6e1.ctex
+Loading resource: res://assets/objects/d75b3288-verdantia-extra-log.webp
+Loading resource: res://.godot/imported/d75b3288-verdantia-extra-log.webp-dfee7caebb68f335a7c765a6be6df6a7.ctex
+Loading resource: res://assets/objects/9557d004-ki-v2-objects-verdant-pine-4.webp
+Loading resource: res://.godot/imported/9557d004-ki-v2-objects-verdant-pine-4.webp-ef011b8fc925b2dc04e88734e95631cf.ctex
+Loading resource: res://assets/objects/41e0563c-ki-v2-objects-verdant-oak-5.webp
+Loading resource: res://.godot/imported/41e0563c-ki-v2-objects-verdant-oak-5.webp-17cfec89f47ca49e57f653222e5e780d.ctex
+Loading resource: res://assets/objects/8c447433-ki-v2-objects-verdant-oak-0.webp
+Loading resource: res://.godot/imported/8c447433-ki-v2-objects-verdant-oak-0.webp-eafa197ce1e947a9555d0b994769d9f4.ctex
+Loading resource: res://assets/objects/f1c31d72-verdant-leaf-hall.webp
+Loading resource: res://.godot/imported/f1c31d72-verdant-leaf-hall.webp-bbbab46db31c2e908757f6547f9235f9.ctex
+Loading resource: res://assets/objects/5a272efe-verdant-leaf-shop.webp
+Loading resource: res://.godot/imported/5a272efe-verdant-leaf-shop.webp-5b4155bcfd6e1e597a041e1f386ffa10.ctex
+Loading resource: res://assets/objects/c4e9e6a1-ki-v2-objects-verdant-fern-0.webp
+Loading resource: res://.godot/imported/c4e9e6a1-ki-v2-objects-verdant-fern-0.webp-292ca3d81f1e4f9f67cb80c17ee45972.ctex
+Loading resource: res://assets/objects/89d6ece2-verdant-city-fountain.webp
+Loading resource: res://.godot/imported/89d6ece2-verdant-city-fountain.webp-f47252c437581d94487d717223bbed72.ctex
+Loading resource: res://assets/objects/f977e5a7-ki-v2-objects-verdant-tree2-2.webp
+Loading resource: res://.godot/imported/f977e5a7-ki-v2-objects-verdant-tree2-2.webp-cb4ea4ecc569e84ce5dfceb69e181478.ctex
+Loading resource: res://assets/objects/969a0482-ki-v2-objects-verdant-oak-4.webp
+Loading resource: res://.godot/imported/969a0482-ki-v2-objects-verdant-oak-4.webp-3cc90283ac46d3818c23d69116ffc577.ctex
+Loading resource: res://assets/objects/37f48ddb-ki-v2-objects-verdant-oak-2.webp
+Loading resource: res://.godot/imported/37f48ddb-ki-v2-objects-verdant-oak-2.webp-42685d50c26d2c8a300e9ab1ee5b0ead.ctex
+Loading resource: res://assets/objects/81f59626-ki-v2-objects-verdant-tree2-3.webp
+Loading resource: res://.godot/imported/81f59626-ki-v2-objects-verdant-tree2-3.webp-7e159c65e219043492aaf4e3fc31efa1.ctex
+Loading resource: res://assets/objects/8f5e282c-verdant-leaf-inn.webp
+Loading resource: res://.godot/imported/8f5e282c-verdant-leaf-inn.webp-956c3757af77271f23a9947aa886c057.ctex
+Loading resource: res://assets/objects/0df45d9a-verdantia-extra-cart.webp
+Loading resource: res://.godot/imported/0df45d9a-verdantia-extra-cart.webp-6205ac0b1bd82027ad67160ec9bcf3f0.ctex
+Loading resource: res://assets/objects/180c6fdf-verdant-city-bridge.webp
+Loading resource: res://.godot/imported/180c6fdf-verdant-city-bridge.webp-917e1fb36e70a484250a4ee724b4229b.ctex
+Loading resource: res://assets/lands/verdant/map.webp
+Loading resource: res://.godot/imported/map.webp-1337fb9cd009ace45af0cd5fe7031146.ctex
+Loading resource: res://assets/audio/music/verdantia.mp3
+Loading resource: res://.godot/imported/verdantia.mp3-f50793776ff899cc4920d7284c1f8acf.mp3str
+Loading resource: res://assets/races/planetary.jpg
+Loading resource: res://.godot/imported/planetary.jpg-11ca45019f26bb28acb38ddc4314e321.ctex
+Loading resource: res://assets/actors/hero-sage-painted-walk-v3-idle-0.webp
+Loading resource: res://.godot/imported/hero-sage-painted-walk-v3-idle-0.webp-42e9a5528c98d815a929b519254566e6.ctex
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-fight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-fight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-fight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-kifight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-kifight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-fight-3.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-fight-4.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-fight-4.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-fight-4.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-kifight-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-kifight-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-kifight-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-kifight-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-kimove-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-kimove-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-sage-painted-walk-v3-kimove-1.webp' has been initiated. Not an error.
+Loading resource: res://assets/actors/hero-sage-painted-walk-v3-page-0.webp
+Loading resource: res://.godot/imported/hero-sage-painted-walk-v3-page-0.webp-9fb7bea888b88c20fd4f381fe805d0ba.ctex
+Loading resource: res://assets/lands/aether/terrain/water.webp
+Loading resource: res://.godot/imported/water.webp-7422e7b768b84721262873b6483408ff.ctex
+Loading resource: res://assets/lands/aether/ctrl-biome.png
+Loading resource: res://.godot/imported/ctrl-biome.png-76903585da52454618e0672c22d9cb58.ctex
+Loading resource: res://assets/actors/hero-sage-painted-walk-v3-fight-0.webp
+Loading resource: res://.godot/imported/hero-sage-painted-walk-v3-fight-0.webp-f05f0f4cd5c5f2df1b6b32966d0573e4.ctex
+Loading resource: res://assets/lands/aether/ctrl-land.png
+Loading resource: res://.godot/imported/ctrl-land.png-2f032b307bd8ba8a3ab89b76bc045299.ctex
+Loading resource: res://assets/actors/hero-sage-painted-walk-v3-fight-1.webp
+Loading resource: res://.godot/imported/hero-sage-painted-walk-v3-fight-1.webp-393de7e6c08a43ce3b5e3eb640a026a8.ctex
+Loading resource: res://assets/actors/hero-sage-painted-walk-v3-kiwalk-0.webp
+Loading resource: res://.godot/imported/hero-sage-painted-walk-v3-kiwalk-0.webp-dc87ef0c5bb7bf25f4780a0daa4770db.ctex
+Loading resource: res://assets/actors/hero-sage-painted-walk-v3-kifight-0.webp
+Loading resource: res://.godot/imported/hero-sage-painted-walk-v3-kifight-0.webp-7514ba5bc2b07285ea236c54fe52e7ae.ctex
+Loading resource: res://assets/lands/aether/road-mask.png
+Loading resource: res://.godot/imported/road-mask.png-de94d3c7fb30451fcbecc2bcc72a2ede.ctex
+Loading resource: res://assets/actors/hero-sage-painted-walk-v3-fight-2.webp
+Loading resource: res://.godot/imported/hero-sage-painted-walk-v3-fight-2.webp-646d1e30dde097365ff97ea041a4034b.ctex
+Loading resource: res://assets/actors/hero-sage-painted-walk-v3-fight-3.webp
+Loading resource: res://.godot/imported/hero-sage-painted-walk-v3-fight-3.webp-eafc6a8cf86468a13a552de0265ec6ee.ctex
+Loading resource: res://assets/actors/hero-sage-painted-walk-v3-fight-4.webp
+Loading resource: res://.godot/imported/hero-sage-painted-walk-v3-fight-4.webp-5f5b8fe5755991012a994979a2d40538.ctex
+Loading resource: res://assets/actors/hero-sage-painted-walk-v3-kifight-1.webp
+Loading resource: res://.godot/imported/hero-sage-painted-walk-v3-kifight-1.webp-bf488f1527c83eb14757d6f8b473eb1c.ctex
+Loading resource: res://assets/actors/hero-sage-painted-walk-v3-kifight-2.webp
+Loading resource: res://.godot/imported/hero-sage-painted-walk-v3-kifight-2.webp-dccfc8cdaba9fcc2d5deffb9b3bef530.ctex
+Loading resource: res://assets/actors/hero-sage-painted-walk-v3-kimove-1.webp
+Loading resource: res://.godot/imported/hero-sage-painted-walk-v3-kimove-1.webp-d4f34fc55d2a634ad95287f1b2c4c5c1.ctex
+Loading resource: res://assets/lands/aether/road-class.png
+Loading resource: res://.godot/imported/road-class.png-057c828c9d1d30cea0b3b5590cd1f772.ctex
+Loading resource: res://assets/lands/aether/terrain/road0.webp
+Loading resource: res://.godot/imported/road0.webp-b62bb8eaf1eba56d0cdec8b743784f0f.ctex
+Loading resource: res://assets/lands/aether/terrain/road1.webp
+Loading resource: res://.godot/imported/road1.webp-777f231df87ad87d15bf784734591835.ctex
+Loading resource: res://assets/lands/aether/terrain/road2.webp
+Loading resource: res://.godot/imported/road2.webp-23685b45bf823afc1a84674d20dd66e8.ctex
+Loading resource: res://assets/lands/aether/terrain/road3.webp
+Loading resource: res://.godot/imported/road3.webp-01607e10157059c5aaed92e1e3bcb587.ctex
+Loading resource: res://assets/lands/aether/terrain/road4.webp
+Loading resource: res://.godot/imported/road4.webp-ebfc1d16f7cee90f7ecda069e287cede.ctex
+Loading resource: res://assets/lands/aether/terrain/b0.webp
+Loading resource: res://.godot/imported/b0.webp-3d075c63d8fcc6e528949c1ea9b24bea.ctex
+Loading resource: res://assets/lands/aether/terrain/b1.webp
+Loading resource: res://.godot/imported/b1.webp-1d5af9988222f961446b9882c1176ee1.ctex
+Loading resource: res://assets/lands/aether/terrain/b2.webp
+Loading resource: res://.godot/imported/b2.webp-15b74464da9edb741c526f5194f97609.ctex
+Loading resource: res://assets/lands/aether/terrain/b3.webp
+Loading resource: res://.godot/imported/b3.webp-b8903672a462e656b5b052fbe3ff935b.ctex
+Loading resource: res://assets/lands/aether/terrain/water.webp
+Loading resource: res://.godot/imported/water.webp-7422e7b768b84721262873b6483408ff.ctex
+Loading resource: res://assets/lands/aether/terrain/shore.webp
+Loading resource: res://.godot/imported/shore.webp-beaef45146e349c354f3650452778660.ctex
+Loading resource: res://assets/lands/aether/terrain/over1.webp
+Loading resource: res://.godot/imported/over1.webp-526fd7e2fd250766ecbd8ef8717b1caa.ctex
+Loading resource: res://assets/lands/aether/terrain/over2.webp
+Loading resource: res://.godot/imported/over2.webp-10dc7c63db6cc3f5dc123c955b4adf9a.ctex
+Loading resource: res://assets/actors/npc-aether-guide-page-0.webp
+Loading resource: res://.godot/imported/npc-aether-guide-page-0.webp-e88937b2baeb52653800cf5d15a3c05f.ctex
+Loading resource: res://assets/actors/npc-aether-hunter-page-0.webp
+Loading resource: res://.godot/imported/npc-aether-hunter-page-0.webp-10236c807e9b206bce7d11f7419ac975.ctex
+Loading resource: res://assets/actors/npc-aether-warden-page-0.webp
+Loading resource: res://.godot/imported/npc-aether-warden-page-0.webp-b3cdcf234f9411fd403ad0e94ae5ed48.ctex
+Loading resource: res://assets/monsters/aether-duch-bibliotekarza.webp
+Loading resource: res://.godot/imported/aether-duch-bibliotekarza.webp-878de98cd26c33ba2112042b4aba92d1.ctex
+Loading resource: res://assets/monsters/aether-krysztalowy-motyl.webp
+Loading resource: res://.godot/imported/aether-krysztalowy-motyl.webp-211082a23b39db8acf6dbceb7a3557d1.ctex
+Loading resource: res://assets/monsters/aether-lew-swiatyni.webp
+Loading resource: res://.godot/imported/aether-lew-swiatyni.webp-c1a59dd0c50a535192ae0290b8d00124.ctex
+Loading resource: res://assets/monsters/aether-marionetka-rytualu.webp
+Loading resource: res://.godot/imported/aether-marionetka-rytualu.webp-ff7f037c4016f7cccad0308d92e2a999.ctex
+Loading resource: res://assets/monsters/aether-mgielny-zuraw.webp
+Loading resource: res://.godot/imported/aether-mgielny-zuraw.webp-97821f50ef2941aaa418b76b44c13912.ctex
+Loading resource: res://assets/monsters/aether-oko-wiedzy.webp
+Loading resource: res://.godot/imported/aether-oko-wiedzy.webp-3781a7f4d37709fd2919bc09cb736219.ctex
+Loading resource: res://assets/monsters/aether-pergaminowy-straznik.webp
+Loading resource: res://.godot/imported/aether-pergaminowy-straznik.webp-24280d53cc50972039023aea69f7f32c.ctex
+Loading resource: res://assets/monsters/aether-swietlik-pieczeci.webp
+Loading resource: res://.godot/imported/aether-swietlik-pieczeci.webp-64175c176f42971fbec90096fed31b31.ctex
+Loading resource: res://assets/monsters/aether-szmaragdowy-waz.webp
+Loading resource: res://.godot/imported/aether-szmaragdowy-waz.webp-d7a3252049f9d95e968467569fc12a2c.ctex
+Loading resource: res://assets/monsters/aether-zloty-skarabeusz.webp
+Loading resource: res://.godot/imported/aether-zloty-skarabeusz.webp-33269b0928834dfbb3bfefa7df02891b.ctex
+Loading resource: res://assets/monsters/aether-animal-a-07.webp
+Loading resource: res://.godot/imported/aether-animal-a-07.webp-fbf0f329720db90558476d527921c9ab.ctex
+Loading resource: res://assets/monsters/aether-animal-a-08.webp
+Loading resource: res://.godot/imported/aether-animal-a-08.webp-992e412cc0f341419a9dbf98f3e955c1.ctex
+Loading resource: res://assets/objects/dc095c5f-aetheria-continent-ginkgo.webp
+Loading resource: res://.godot/imported/dc095c5f-aetheria-continent-ginkgo.webp-9b33c98b0ee603aa2019b451607359c3.ctex
+Loading resource: res://assets/objects/a8e4292b-aetheria-continent-cherry.webp
+Loading resource: res://.godot/imported/a8e4292b-aetheria-continent-cherry.webp-64d7358df9e4ddfc0b430991f9bb354d.ctex
+Loading resource: res://assets/objects/36107785-aetheria-continent-cypress.webp
+Loading resource: res://.godot/imported/36107785-aetheria-continent-cypress.webp-5d7412a07855b72e616b231fd352afd3.ctex
+Loading resource: res://assets/objects/28823ef2-aether-art-cloud-peak.webp
+Loading resource: res://.godot/imported/28823ef2-aether-art-cloud-peak.webp-8cd681aa7fff97e64f88dc339f06ca08.ctex
+Loading resource: res://assets/objects/d5557086-ki-v2-objects-aether-oak-4.webp
+Loading resource: res://.godot/imported/d5557086-ki-v2-objects-aether-oak-4.webp-1c7179ba5d1753923155442c76a03ea1.ctex
+Loading resource: res://assets/objects/2b002168-aether-painted-hall.webp
+Loading resource: res://.godot/imported/2b002168-aether-painted-hall.webp-a5416c5281d5a1011f72cbb8313ba60c.ctex
+Loading resource: res://assets/objects/b9839160-aetheria-continent-hill.webp
+Loading resource: res://.godot/imported/b9839160-aetheria-continent-hill.webp-48b02c484a2bc2dfc4fb7f43e211c413.ctex
+Loading resource: res://assets/objects/4d090d85-aether-art-ki-tree.webp
+Loading resource: res://.godot/imported/4d090d85-aether-art-ki-tree.webp-55b8bee6308450a5ea41a8c3032b39e0.ctex
+Loading resource: res://assets/objects/0e381537-aetheria-continent-flowers.webp
+Loading resource: res://.godot/imported/0e381537-aetheria-continent-flowers.webp-f5c2c9580a4014d7968251a4a7e131c7.ctex
+Loading resource: res://assets/objects/5ac42fa2-aetheria-continent-lavender.webp
+Loading resource: res://.godot/imported/5ac42fa2-aetheria-continent-lavender.webp-1d3bf5fd4eae80c73e0e925f2488612f.ctex
+Loading resource: res://assets/objects/c3dedab1-aether-art-garden.webp
+Loading resource: res://.godot/imported/c3dedab1-aether-art-garden.webp-a160f305f87e509c3535b24431d888fa.ctex
+Loading resource: res://assets/objects/df70d07d-aether-art-ki-source.webp
+Loading resource: res://.godot/imported/df70d07d-aether-art-ki-source.webp-7d51bc1dd3573f95bca09113b3e088a0.ctex
+Loading resource: res://assets/objects/06b95ec4-aetheria-continent-reeds.webp
+Loading resource: res://.godot/imported/06b95ec4-aetheria-continent-reeds.webp-d7443569dc44d2fc1cfbac4de27e68ae.ctex
+Loading resource: res://assets/objects/ac1ecb7c-aetheria-continent-bamboo.webp
+Loading resource: res://.godot/imported/ac1ecb7c-aetheria-continent-bamboo.webp-0c4dcf27a5e397b851506733bdcbe361.ctex
+Loading resource: res://assets/objects/42fbcaa4-nature-obj-crystal-tree.webp
+Loading resource: res://.godot/imported/42fbcaa4-nature-obj-crystal-tree.webp-fdb2374346ee6cbd933cc650407cf5ad.ctex
+Loading resource: res://assets/objects/a69fa5ad-aether-x-stone-lantern.webp
+Loading resource: res://.godot/imported/a69fa5ad-aether-x-stone-lantern.webp-ff22d5f08c4ad5f51bea708ed20b6bdd.ctex
+Loading resource: res://assets/objects/806ab11b-aether-painted-depot.webp
+Loading resource: res://.godot/imported/806ab11b-aether-painted-depot.webp-7d73fbefb2fc7bfef422510884ac2bb4.ctex
+Loading resource: res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp
+Loading resource: res://.godot/imported/6c34a261-aetheria-continent-glacier-ridge.webp-474815f5d91ea46aa2fcef6046b36456.ctex
+Loading resource: res://assets/objects/29f8b15e-aetheria-continent-cliff.webp
+Loading resource: res://.godot/imported/29f8b15e-aetheria-continent-cliff.webp-89afc5fa320a8675df9c1f9f250ed865.ctex
+Loading resource: res://assets/objects/23099b47-aether-x-spirit-gate.webp
+Loading resource: res://.godot/imported/23099b47-aether-x-spirit-gate.webp-1e7ac447055cb49e5f17d9b4685d18cf.ctex
+Loading resource: res://assets/objects/021d8442-aether-x-cherry-tree.webp
+Loading resource: res://.godot/imported/021d8442-aether-x-cherry-tree.webp-9497704ad17132c5b58d12831e4b568a.ctex
+Loading resource: res://assets/objects/ac6ae586-aether-painted-inn.webp
+Loading resource: res://.godot/imported/ac6ae586-aether-painted-inn.webp-b197c0f0e0f67a6ee20a8015ff07fd33.ctex
+Loading resource: res://assets/objects/df59b0ca-ki-v2-objects-aether-tree2-4.webp
+Loading resource: res://.godot/imported/df59b0ca-ki-v2-objects-aether-tree2-4.webp-a5ab4779410a89f77de58ebca7a13d2e.ctex
+Loading resource: res://assets/objects/3b1debab-biome-snow-tall-ice-spire-cluster.webp
+Loading resource: res://.godot/imported/3b1debab-biome-snow-tall-ice-spire-cluster.webp-8edc266864c5865860ad3190ba030cec.ctex
+Loading resource: res://assets/objects/4307bce3-biome-snow-an-ice-crystal-cluster.webp
+Loading resource: res://.godot/imported/4307bce3-biome-snow-an-ice-crystal-cluster.webp-0abcc5b55f1da490bc73b5f7c45384b1.ctex
+Loading resource: res://assets/objects/ccd90d6e-ki-v2-objects-aether-tree2-2.webp
+Loading resource: res://.godot/imported/ccd90d6e-ki-v2-objects-aether-tree2-2.webp-54d61c87b0d82354b2ccda4a77dbc652.ctex
+Loading resource: res://assets/objects/ea87f9c4-ki-v2-objects-aether-tree2-5.webp
+Loading resource: res://.godot/imported/ea87f9c4-ki-v2-objects-aether-tree2-5.webp-c3cfef20ae459fc11f48e2f49f1582b6.ctex
+Loading resource: res://assets/objects/971c1090-aether-x-koi-pond.webp
+Loading resource: res://.godot/imported/971c1090-aether-x-koi-pond.webp-678a15366e693de2b2dd014d09e56825.ctex
+Loading resource: res://assets/objects/9031832d-nature-obj-flower-bush.webp
+Loading resource: res://.godot/imported/9031832d-nature-obj-flower-bush.webp-4ace211b4de9ce6055d8733bcad4ecc0.ctex
+Loading resource: res://assets/objects/bfc8be78-ki-v2-objects-aether-tree2-1.webp
+Loading resource: res://.godot/imported/bfc8be78-ki-v2-objects-aether-tree2-1.webp-35133daee7d1b85910a6cffcbe937a07.ctex
+Loading resource: res://assets/objects/6d7c1c83-aether-painted-arena.webp
+Loading resource: res://.godot/imported/6d7c1c83-aether-painted-arena.webp-4121f563b652db38211571a464d6ed44.ctex
+Loading resource: res://assets/objects/ea1d036a-ki-v2-objects-aether-tree2-0.webp
+Loading resource: res://.godot/imported/ea1d036a-ki-v2-objects-aether-tree2-0.webp-278e10220bb02f681b9d07af14a70744.ctex
+Loading resource: res://assets/objects/866fc0e8-aether-painted-shop.webp
+Loading resource: res://.godot/imported/866fc0e8-aether-painted-shop.webp-1d1f9e3d70e7ad73c7f30103747d67e1.ctex
+Loading resource: res://assets/objects/beb8a8ec-nature-obj-reed-clump.webp
+Loading resource: res://.godot/imported/beb8a8ec-nature-obj-reed-clump.webp-c8b38239fec3aa26d07a5428463f5391.ctex
+Loading resource: res://assets/objects/2b93857f-ki-v2-objects-aether-pine-3.webp
+Loading resource: res://.godot/imported/2b93857f-ki-v2-objects-aether-pine-3.webp-94d7f532b3b0bf94d7baa0373cd9ecbb.ctex
+Loading resource: res://assets/objects/34eac9ec-nature-obj-waterfall.webp
+Loading resource: res://.godot/imported/34eac9ec-nature-obj-waterfall.webp-20fc3c0823ce7804b904fd33aceee89a.ctex
+Loading resource: res://assets/objects/ff1310ee-aether-painted-smithy.webp
+Loading resource: res://.godot/imported/ff1310ee-aether-painted-smithy.webp-1ec69747ff5755e9654fe11675d70f7e.ctex
+Loading resource: res://assets/lands/aether/map.webp
+Loading resource: res://.godot/imported/map.webp-bf98b206787a329b7ac911a9f4bb4c6f.ctex
+Loading resource: res://assets/audio/music/aetheria.mp3
+Loading resource: res://.godot/imported/aetheria.mp3-bb0d5a87c13ba3ac12262dfdf4e32cb7.mp3str
+Loading resource: res://assets/races/sage.jpg
+Loading resource: res://.godot/imported/sage.jpg-1ab77593e8f72a98e447c8b67eb3b28b.ctex
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-fight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-fight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-fight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-kifight-0.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-kifight-0.webp' has been initiated. Not an error.
+Loading resource: res://assets/actors/hero-android-walk-v3-idle-0.webp
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-fight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-fight-3.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-fight-4.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-fight-4.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-fight-4.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-kifight-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-kifight-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-kifight-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-kifight-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-kifight-2.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-kimove-1.webp' has been initiated. Not an error.
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-kimove-1.webp' has been initiated. Not an error.
+Loading resource: res://.godot/imported/hero-android-walk-v3-idle-0.webp-6c87fd7f9407f95bf0ac5e77219238cb.ctex
+load_threaded_request(): Another threaded load for resource path 'res://assets/actors/hero-android-walk-v3-kimove-1.webp' has been initiated. Not an error.
+Loading resource: res://assets/actors/hero-android-walk-v3-page-0.webp
+Loading resource: res://.godot/imported/hero-android-walk-v3-page-0.webp-9acb68f90029bb2641789d8ff0b05a98.ctex
+Loading resource: res://assets/lands/nexus/terrain/water.webp
+Loading resource: res://.godot/imported/water.webp-87bc0bd1cca1abc9f9dca344c566aad0.ctex
+Loading resource: res://assets/lands/nexus/ctrl-biome.png
+Loading resource: res://.godot/imported/ctrl-biome.png-06fabc72552a7c7f5c4907d0d22c2460.ctex
+Loading resource: res://assets/actors/hero-android-walk-v3-fight-0.webp
+Loading resource: res://.godot/imported/hero-android-walk-v3-fight-0.webp-444bd26762d9ed3a78e7f0bf6ebabcae.ctex
+Loading resource: res://assets/lands/nexus/ctrl-land.png
+Loading resource: res://.godot/imported/ctrl-land.png-6682882744a3ad2c2ec505bdbaf13b7f.ctex
+Loading resource: res://assets/lands/nexus/road-mask.png
+Loading resource: res://.godot/imported/road-mask.png-6f83c294fc9761d369028034d7c545fd.ctex
+Loading resource: res://assets/actors/hero-android-walk-v3-fight-1.webp
+Loading resource: res://.godot/imported/hero-android-walk-v3-fight-1.webp-4d8d90f1901313a911b5ba9a4a131c3a.ctex
+Loading resource: res://assets/actors/hero-android-walk-v3-kiwalk-0.webp
+Loading resource: res://.godot/imported/hero-android-walk-v3-kiwalk-0.webp-ffff184e5a162e9eb3f68cce7b762818.ctex
+Loading resource: res://assets/actors/hero-android-walk-v3-kifight-0.webp
+Loading resource: res://.godot/imported/hero-android-walk-v3-kifight-0.webp-1ad55315584ecb3461b27f17f784868a.ctex
+Loading resource: res://assets/actors/hero-android-walk-v3-fight-2.webp
+Loading resource: res://.godot/imported/hero-android-walk-v3-fight-2.webp-48475c8b94e13fdeb9cc38ec304c6e13.ctex
+Loading resource: res://assets/actors/hero-android-walk-v3-fight-3.webp
+Loading resource: res://.godot/imported/hero-android-walk-v3-fight-3.webp-5f31bc3335a75d46682294a2d650bd89.ctex
+Loading resource: res://assets/actors/hero-android-walk-v3-fight-4.webp
+Loading resource: res://.godot/imported/hero-android-walk-v3-fight-4.webp-f80712ff05f0292645d50c1dfdcb6847.ctex
+Loading resource: res://assets/actors/hero-android-walk-v3-kifight-1.webp
+Loading resource: res://.godot/imported/hero-android-walk-v3-kifight-1.webp-cb40f60690ccf3a5f8f2bfa65a1dc022.ctex
+Loading resource: res://assets/actors/hero-android-walk-v3-kifight-2.webp
+Loading resource: res://.godot/imported/hero-android-walk-v3-kifight-2.webp-b74e1d337b0128722c76bfe25fec27cb.ctex
+Loading resource: res://assets/lands/nexus/road-class.png
+Loading resource: res://.godot/imported/road-class.png-17e20b923e20239a3525abe0085a60c5.ctex
+Loading resource: res://assets/lands/nexus/terrain/road0.webp
+Loading resource: res://.godot/imported/road0.webp-7973ad9667e6be149e5b2250a17c945e.ctex
+Loading resource: res://assets/actors/hero-android-walk-v3-kimove-1.webp
+Loading resource: res://.godot/imported/hero-android-walk-v3-kimove-1.webp-5515c492cd8c60a6e9b765dd299c87fd.ctex
+Loading resource: res://assets/lands/nexus/terrain/road1.webp
+Loading resource: res://.godot/imported/road1.webp-ce1d980f17ee996c5cdc3577e5c54626.ctex
+Loading resource: res://assets/lands/nexus/terrain/road2.webp
+Loading resource: res://.godot/imported/road2.webp-7b6a50803753163ac5ae4d18fa21bf16.ctex
+Loading resource: res://assets/lands/nexus/terrain/road3.webp
+Loading resource: res://.godot/imported/road3.webp-330a0b61e09f7a2ab88d5e3734c9cbb3.ctex
+Loading resource: res://assets/lands/nexus/terrain/b0.webp
+Loading resource: res://.godot/imported/b0.webp-0e906c70662f107f56f9ebe827edfc21.ctex
+Loading resource: res://assets/lands/nexus/terrain/b1.webp
+Loading resource: res://.godot/imported/b1.webp-672d62f0ee3da6c2ca8ed06f5872b9e7.ctex
+Loading resource: res://assets/lands/nexus/terrain/b2.webp
+Loading resource: res://.godot/imported/b2.webp-989eb923d0a7f717cd5517a63b36c254.ctex
+Loading resource: res://assets/lands/nexus/terrain/b3.webp
+Loading resource: res://.godot/imported/b3.webp-22ae6f000ad4b764123ae00c0f60676d.ctex
+Loading resource: res://assets/lands/nexus/terrain/water.webp
+Loading resource: res://.godot/imported/water.webp-87bc0bd1cca1abc9f9dca344c566aad0.ctex
+Loading resource: res://assets/lands/nexus/terrain/shore.webp
+Loading resource: res://.godot/imported/shore.webp-0f90853507623770f90e5ecb276efbd7.ctex
+Loading resource: res://assets/lands/nexus/terrain/special.webp
+Loading resource: res://.godot/imported/special.webp-4bd1f190c20e8f90f98faea3d95814b2.ctex
+Loading resource: res://assets/lands/nexus/terrain/over1.webp
+Loading resource: res://.godot/imported/over1.webp-0f0db0a6079446293dd00913d31adba2.ctex
+Loading resource: res://assets/lands/nexus/terrain/over2.webp
+Loading resource: res://.godot/imported/over2.webp-02bb8335b5dbf3189bea1fc8d0653647.ctex
+Loading resource: res://assets/actors/npc-nexus-guide-page-0.webp
+Loading resource: res://.godot/imported/npc-nexus-guide-page-0.webp-6e880c58fc105f40af376aa5b0312c92.ctex
+Loading resource: res://assets/actors/npc-nexus-hunter-page-0.webp
+Loading resource: res://.godot/imported/npc-nexus-hunter-page-0.webp-f91872cd4d0538bdf99506eb13afdc61.ctex
+Loading resource: res://assets/actors/npc-nexus-warden-page-0.webp
+Loading resource: res://.godot/imported/npc-nexus-warden-page-0.webp-fd43f5ebdb0b66df94f6c9e85da6c4b3.ctex
+Loading resource: res://assets/monsters/nexus-dron-zwiadowca.webp
+Loading resource: res://.godot/imported/nexus-dron-zwiadowca.webp-f4c360ab2d0700d43da6ff60954586ef.ctex
+Loading resource: res://assets/monsters/nexus-kruk-danych.webp
+Loading resource: res://.godot/imported/nexus-kruk-danych.webp-a3de1fef27490a1c09e57028692bb877.ctex
+Loading resource: res://assets/monsters/nexus-latarnia-plazmowa.webp
+Loading resource: res://.godot/imported/nexus-latarnia-plazmowa.webp-24b99941489c263857db230c0689a922.ctex
+Loading resource: res://assets/monsters/nexus-pajak-spawalniczy.webp
+Loading resource: res://.godot/imported/nexus-pajak-spawalniczy.webp-e18b872b2e09df6051486f72ac8cb0b9.ctex
+Loading resource: res://assets/monsters/nexus-pelzacz-serwisowy.webp
+Loading resource: res://.godot/imported/nexus-pelzacz-serwisowy.webp-6dfd3fd47fb0ae2c14b09da01d3d8bc8.ctex
+Loading resource: res://assets/monsters/nexus-pies-lowca.webp
+Loading resource: res://.godot/imported/nexus-pies-lowca.webp-5e6b79e9bec04a96644af7299d1368ed.ctex
+Loading resource: res://assets/monsters/nexus-roj-nanitow.webp
+Loading resource: res://.godot/imported/nexus-roj-nanitow.webp-a398f00aba98c7dbf056b74ca8e90e15.ctex
+Loading resource: res://assets/monsters/nexus-skaner-gasienicowy.webp
+Loading resource: res://.godot/imported/nexus-skaner-gasienicowy.webp-ebd17c20be2456ed93d48d7dbf0ff9a0.ctex
+Loading resource: res://assets/monsters/nexus-straznik-rdzenia.webp
+Loading resource: res://.godot/imported/nexus-straznik-rdzenia.webp-c81150982602b420d72eaf5f8631f830.ctex
+Loading resource: res://assets/monsters/nexus-wiezyczka-autonomiczna.webp
+Loading resource: res://.godot/imported/nexus-wiezyczka-autonomiczna.webp-6c2262d09c1029eea0972caf03faed65.ctex
+Loading resource: res://assets/monsters/nexus-animal-a-09.webp
+Loading resource: res://.godot/imported/nexus-animal-a-09.webp-1d1c26f262f99c5d425af57567912b50.ctex
+Loading resource: res://assets/monsters/nexus-animal-a-10.webp
+Loading resource: res://.godot/imported/nexus-animal-a-10.webp-fed19e76153af32ebbf4f5dbb323af27.ctex
+Loading resource: res://assets/objects/758769df-nexus-continent-stump.webp
+Loading resource: res://.godot/imported/758769df-nexus-continent-stump.webp-7159f25232070a3e679db5e686450951.ctex
+Loading resource: res://assets/objects/24d5db1c-nexus-continent-silver-cypress.webp
+Loading resource: res://.godot/imported/24d5db1c-nexus-continent-silver-cypress.webp-876a0b3d4c800406513bcafdd2fadfcb.ctex
+Loading resource: res://assets/objects/9b396bb1-nexus-continent-luminous-grass.webp
+Loading resource: res://.godot/imported/9b396bb1-nexus-continent-luminous-grass.webp-f3a251505c1664cc5ecedb6beb4ce64e.ctex
+Loading resource: res://assets/objects/f42c644b-nexus-continent-violet-tree.webp
+Loading resource: res://.godot/imported/f42c644b-nexus-continent-violet-tree.webp-2083ca6c91ed751e079cc7517e39d68d.ctex
+Loading resource: res://assets/objects/b2924462-nexus-continent-crystal-tree.webp
+Loading resource: res://.godot/imported/b2924462-nexus-continent-crystal-tree.webp-48b1c769ab4aa739836c325c383f219e.ctex
+Loading resource: res://assets/objects/914e8c5c-nexus-continent-crystals.webp
+Loading resource: res://.godot/imported/914e8c5c-nexus-continent-crystals.webp-9d41efb9423c4bdc5b8a8e0d3c3329bc.ctex
+Loading resource: res://assets/objects/dca04e0f-nexus-continent-violet-bush.webp
+Loading resource: res://.godot/imported/dca04e0f-nexus-continent-violet-bush.webp-6eefc1ed4f8ba19ae977d84956f631d2.ctex
+Loading resource: res://assets/objects/caef9d12-nexus-continent-fern.webp
+Loading resource: res://.godot/imported/caef9d12-nexus-continent-fern.webp-ae93fa42cbe8a10a9b1dace857836d12.ctex
+Loading resource: res://assets/objects/fce0ef4d-nexus-continent-mushrooms.webp
+Loading resource: res://.godot/imported/fce0ef4d-nexus-continent-mushrooms.webp-43b970b14a881e80a8288f306d4fc8d3.ctex
+Loading resource: res://assets/objects/11b16815-ki-v2-objects-nexus-fern-3.webp
+Loading resource: res://.godot/imported/11b16815-ki-v2-objects-nexus-fern-3.webp-c999c53a32c532e8d59b8414e3b31125.ctex
+Loading resource: res://assets/objects/dcebeac3-ki-v2-objects-nexus-mushrooms-3.webp
+Loading resource: res://.godot/imported/dcebeac3-ki-v2-objects-nexus-mushrooms-3.webp-0b514bd363b262eec97493b7562a2eab.ctex
+Loading resource: res://assets/objects/cbfb678c-nexus-painted-hall.webp
+Loading resource: res://.godot/imported/cbfb678c-nexus-painted-hall.webp-23446bdab28e67d75dac8d5fb0641cd5.ctex
+Loading resource: res://assets/objects/42729447-nature-obj-boulder-group.webp
+Loading resource: res://.godot/imported/42729447-nature-obj-boulder-group.webp-70fdaaae9fc6071fc8ae61d06fdadb7d.ctex
+Loading resource: res://assets/objects/3abd732c-nature-obj-ice-spires.webp
+Loading resource: res://.godot/imported/3abd732c-nature-obj-ice-spires.webp-ae400b80c47355d38dcb8edbd15d5884.ctex
+Loading resource: res://assets/objects/393b088d-ki-v2-objects-nexus-fern-5.webp
+Loading resource: res://.godot/imported/393b088d-ki-v2-objects-nexus-fern-5.webp-acedf2a31a0a4221da7df298a3e1bc64.ctex
+Loading resource: res://assets/objects/93c8e791-nexus-art-reactor.webp
+Loading resource: res://.godot/imported/93c8e791-nexus-art-reactor.webp-88152a884239e343320446e182348e83.ctex
+Loading resource: res://assets/objects/44993ea9-nexus-art-pylon.webp
+Loading resource: res://.godot/imported/44993ea9-nexus-art-pylon.webp-0228b5099a8b54ea26a78a76c666da86.ctex
+Loading resource: res://assets/objects/a5145228-nexus-painted-shop.webp
+Loading resource: res://.godot/imported/a5145228-nexus-painted-shop.webp-4bfca0723443d8df1753cabe13b9b0ea.ctex
+Loading resource: res://assets/objects/39d82fa9-ki-v2-buildings-nexus-inn.webp
+Loading resource: res://.godot/imported/39d82fa9-ki-v2-buildings-nexus-inn.webp-849bc7dc4c9adf9a22d0b3a21a38bdaf.ctex
+Loading resource: res://assets/objects/3a6c0fa4-nexus-art-tech-garden.webp
+Loading resource: res://.godot/imported/3a6c0fa4-nexus-art-tech-garden.webp-4fefea0f82acd5b374c89f99b9d6a4d7.ctex
+Loading resource: res://assets/objects/b3b95bfc-ki-v2-objects-nexus-reeds-3.webp
+Loading resource: res://.godot/imported/b3b95bfc-ki-v2-objects-nexus-reeds-3.webp-d8b62792422b8bef778091cc77e3702b.ctex
+Loading resource: res://assets/objects/804f810e-ki-v2-objects-nexus-fern-1.webp
+Loading resource: res://.godot/imported/804f810e-ki-v2-objects-nexus-fern-1.webp-4953826915c378016e3b3855c3738fd5.ctex
+Loading resource: res://assets/objects/1a0a0110-nexus-art-terminal.webp
+Loading resource: res://.godot/imported/1a0a0110-nexus-art-terminal.webp-30dfdc049af2211ff7a5f228a8f0a947.ctex
+Loading resource: res://assets/objects/a0860314-nexus-painted-arena.webp
+Loading resource: res://.godot/imported/a0860314-nexus-painted-arena.webp-77d01b67193dddc62e8fbd3d30c091f5.ctex
+Loading resource: res://assets/objects/b57e1841-ki-v2-objects-nexus-reeds-0.webp
+Loading resource: res://.godot/imported/b57e1841-ki-v2-objects-nexus-reeds-0.webp-3ebee8a7200e85e3e69094114fb94b0b.ctex
+Loading resource: res://assets/objects/ee32c98c-nexus-painted-depot.webp
+Loading resource: res://.godot/imported/ee32c98c-nexus-painted-depot.webp-1afbc16cb8dcc5698a4a5d250b7000cb.ctex
+Loading resource: res://assets/objects/fc0f86ab-ki-v2-buildings-nexus-smithy.webp
+Loading resource: res://.godot/imported/fc0f86ab-ki-v2-buildings-nexus-smithy.webp-3eca16b4e0fa40221ee5ba00103cc97c.ctex
+Loading resource: res://assets/objects/e00bca48-ki-v2-objects-nexus-tree2-3.webp
+Loading resource: res://.godot/imported/e00bca48-ki-v2-objects-nexus-tree2-3.webp-fe87e50f942df010cfb26e2398263ccd.ctex
+Loading resource: res://assets/objects/1cf54e0a-nexus-continent-cyan-tree.webp
+Loading resource: res://.godot/imported/1cf54e0a-nexus-continent-cyan-tree.webp-07d4e0dadb8ad42f74bd3a88aa5379a1.ctex
+Loading resource: res://assets/objects/320aa69b-biome-forest-flowering-bush.webp
+Loading resource: res://.godot/imported/320aa69b-biome-forest-flowering-bush.webp-300991a3514d364c18a19c2511b5e265.ctex
+Loading resource: res://assets/objects/9f895dfa-nature-obj-glacier-block.webp
+Loading resource: res://.godot/imported/9f895dfa-nature-obj-glacier-block.webp-dff76a363ed36939c718338b6a112c76.ctex
+Loading resource: res://assets/objects/7f667bef-biome-forest-mossy-boulder.webp
+Loading resource: res://.godot/imported/7f667bef-biome-forest-mossy-boulder.webp-677aff7fd3670d2f6033a08fee8ad6e1.ctex
+Loading resource: res://assets/objects/bb72fe89-biome-forest-fallen-mossy-log.webp
+Loading resource: res://.godot/imported/bb72fe89-biome-forest-fallen-mossy-log.webp-18a0984f18a33c6e22c6e3c72730c3db.ctex
+Loading resource: res://assets/objects/4c52045f-nexus-continent-crystal-outcrop.webp
+Loading resource: res://.godot/imported/4c52045f-nexus-continent-crystal-outcrop.webp-46a99649544309442edc7addae023784.ctex
+Loading resource: res://assets/objects/0f33167d-nature-obj-mountain-peak.webp
+Loading resource: res://.godot/imported/0f33167d-nature-obj-mountain-peak.webp-c07020f1cd1c587563e29588bf6f1c7b.ctex
+Loading resource: res://assets/lands/nexus/map.webp
+Loading resource: res://.godot/imported/map.webp-cd2aa1f7a16b3662cf76ebee7741f23f.ctex
+Loading resource: res://assets/audio/music/nexus.mp3
+Loading resource: res://.godot/imported/nexus.mp3-2a2eb00b71c62bbf4fe563eb9edbbada.mp3str
+Loading resource: res://assets/races/android.jpg
+Loading resource: res://.godot/imported/android.jpg-bfef0fb9fa5b13c05bdb1e3b468fe714.ctex
+BUILDING GROUNDING 52/52 pass
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)
+XR: Clearing primary interface
+XR: Removed interface "Native mobile"
+XR: Removed interface "OpenXR"
+Accessibility: window 0 adapter destroyed.
+Leaked instance: RefCounted:9223372223702631967 - Reference count: 0
+Leaked instance: RefCounted:9223372223769740850 - Reference count: 0
+Leaked instance: RefCounted:9223372223752963636 - Reference count: 0
+Leaked instance: RefCounted:9223372223719409205 - Reference count: 0
+Leaked instance: RefCounted:9223372223803295287 - Reference count: 0
+Leaked instance: RefCounted:9223372223685854778 - Reference count: 0
+Leaked instance: RefCounted:9223372223937513020 - Reference count: 0
+Leaked instance: RefCounted:9223372223903958589 - Reference count: 0
+Leaked instance: RefCounted:9223372223887181374 - Reference count: 0
+Leaked instance: RefCounted:9223372223920735807 - Reference count: 0
+Leaked instance: RefCounted:9223372223836849728 - Reference count: 0
+Leaked instance: RefCounted:9223372223820072513 - Reference count: 0
+Leaked instance: RefCounted:9223372223786518082 - Reference count: 0
+Leaked instance: RefCounted:9223372097135314650 - Reference count: 0
+Leaked instance: RefCounted:9223372097152091867 - Reference count: 0
+Leaked instance: RefCounted:9223372097168869084 - Reference count: 0
+Leaked instance: RefCounted:9223372097185646301 - Reference count: 0
+Leaked instance: RefCounted:9223372097202423518 - Reference count: 0
+Leaked instance: RefCounted:9223372097219200735 - Reference count: 0
+Leaked instance: RefCounted:9223372097235977952 - Reference count: 0
+Leaked instance: RefCounted:9223372097252755169 - Reference count: 0
+Leaked instance: RefCounted:9223372097269532386 - Reference count: 0
+Leaked instance: RefCounted:9223372097286309603 - Reference count: 0
+Leaked instance: RefCounted:9223372097303086820 - Reference count: 0
+Leaked instance: RefCounted:9223372097319864037 - Reference count: 0
+Leaked instance: RefCounted:9223372366174751714 - Reference count: 0
+Leaked instance: RefCounted:9223372366241860582 - Reference count: 0
+Leaked instance: RefCounted:9223372366258637799 - Reference count: 0
+Leaked instance: RefCounted:9223372366275415016 - Reference count: 0
+Leaked instance: RefCounted:9223372366292192233 - Reference count: 0
+Leaked instance: RefCounted:9223372366308969450 - Reference count: 0
+Leaked instance: RefCounted:9223372366191528947 - Reference count: 0
+Leaked instance: RefCounted:9223372366208306164 - Reference count: 0
+Leaked instance: RefCounted:9223372366225083381 - Reference count: 0
+Leaked instance: RefCounted:9223372366325746683 - Reference count: 0
+Leaked instance: RefCounted:9223372366342523900 - Reference count: 0
+Leaked instance: RefCounted:9223372366359301117 - Reference count: 0
+Leaked instance: RefCounted:9223372367936359495 - Reference count: 0
+Leaked instance: RefCounted:9223372254354607248 - Reference count: 0
+Leaked instance: RefCounted:9223372254337830033 - Reference count: 0
+Leaked instance: RefCounted:9223372254321052818 - Reference count: 0
+Leaked instance: RefCounted:9223372254304275603 - Reference count: 0
+Leaked instance: RefCounted:9223372254505602200 - Reference count: 0
+Leaked instance: RefCounted:9223372254488824985 - Reference count: 0
+Leaked instance: RefCounted:9223372254472047770 - Reference count: 0
+Leaked instance: RefCounted:9223372254455270555 - Reference count: 0
+Leaked instance: RefCounted:9223372254438493340 - Reference count: 0
+Leaked instance: RefCounted:9223372254404938909 - Reference count: 0
+Leaked instance: RefCounted:9223372254421716126 - Reference count: 0
+Leaked instance: RefCounted:9223372254371384479 - Reference count: 0
+Leaked instance: RefCounted:9223372254522379431 - Reference count: 0
+Leaked instance: RefCounted:9223372283244973225 - Reference count: 0
+Leaked instance: RefCounted:9223372283261750442 - Reference count: 0
+Leaked instance: RefCounted:9223372283278527659 - Reference count: 0
+Leaked instance: RefCounted:9223372137333525743 - Reference count: 0
+Leaked instance: RefCounted:9223372137350302960 - Reference count: 0
+Leaked instance: RefCounted:9223372137367080177 - Reference count: 0
+Leaked instance: RefCounted:9223372137383857394 - Reference count: 0
+Leaked instance: RefCounted:9223372137400634611 - Reference count: 0
+Leaked instance: RefCounted:9223372137417411828 - Reference count: 0
+Leaked instance: RefCounted:9223372137434189045 - Reference count: 0
+Leaked instance: RefCounted:9223372137450966262 - Reference count: 0
+Leaked instance: RefCounted:9223372137467743479 - Reference count: 0
+Leaked instance: RefCounted:9223372137484520696 - Reference count: 0
+Leaked instance: RefCounted:9223372137501297913 - Reference count: 0
+Leaked instance: RefCounted:9223372137518075130 - Reference count: 0
+Leaked instance: RefCounted:9223372137534852347 - Reference count: 0
+Leaked instance: RefCounted:9223372283345636677 - Reference count: 0
+Leaked instance: RefCounted:9223372283412745550 - Reference count: 0
+Leaked instance: RefCounted:9223372256283987328 - Reference count: 0
+Leaked instance: RefCounted:9223372283110755721 - Reference count: 0
+Leaked instance: RefCounted:9223372283295305117 - Reference count: 0
+Leaked instance: RefCounted:9223372283312082337 - Reference count: 0
+Leaked instance: RefCounted:9223372283328859554 - Reference count: 0
+Leaked instance: RefCounted:9223372283362413987 - Reference count: 0
+Leaked instance: RefCounted:9223372283379191205 - Reference count: 0
+Leaked instance: RefCounted:9223372283395968422 - Reference count: 0
+Leaked instance: RefCounted:9223372314316379567 - Reference count: 0
+Leaked instance: RefCounted:9223372314333156784 - Reference count: 0
+Leaked instance: RefCounted:9223372314349934001 - Reference count: 0
+Leaked instance: RefCounted:9223372314299602411 - Reference count: 0
+Leaked instance: RefCounted:9223372314282825196 - Reference count: 0
+Leaked instance: RefCounted:9223372314266047981 - Reference count: 0
+Leaked instance: RefCounted:9223372314249270766 - Reference count: 0
+Leaked instance: RefCounted:9223372314232493551 - Reference count: 0
+Leaked instance: RefCounted:9223372314215716336 - Reference count: 0
+Leaked instance: RefCounted:9223372314198939121 - Reference count: 0
+Leaked instance: RefCounted:9223372314366711283 - Reference count: 0
+Leaked instance: RefCounted:9223372314383488503 - Reference count: 0
+Leaked instance: RefCounted:9223372335472449083 - Reference count: 0
+Leaked instance: RefCounted:9223372335388563005 - Reference count: 0
+Leaked instance: RefCounted:9223372335271122494 - Reference count: 0
+Leaked instance: RefCounted:9223372335422117452 - Reference count: 0
+Leaked instance: RefCounted:9223372335254345323 - Reference count: 0
+Leaked instance: RefCounted:9223372335405340278 - Reference count: 0
+Leaked instance: RefCounted:9223372335355008631 - Reference count: 0
+Leaked instance: RefCounted:9223372335371785848 - Reference count: 0
+Leaked instance: RefCounted:9223372335321454201 - Reference count: 0
+Leaked instance: RefCounted:9223372335304676986 - Reference count: 0
+Leaked instance: RefCounted:9223372335287899772 - Reference count: 0
+Leaked instance: RefCounted:9223372335489226365 - Reference count: 0
+Leaked instance: RefCounted:9223372218921130931 - Reference count: 0
+Leaked instance: RefCounted:9223372218937908149 - Reference count: 0
+Leaked instance: RefCounted:9223372218954685366 - Reference count: 0
+Leaked instance: RefCounted:9223372218971462583 - Reference count: 0
+Leaked instance: RefCounted:9223372218988239800 - Reference count: 0
+Leaked instance: RefCounted:9223372219005017017 - Reference count: 0
+Hint: Leaked instances typically happen when nodes are removed from the scene tree (with `remove_child()`) but not freed (with `free()` or `queue_free()`).

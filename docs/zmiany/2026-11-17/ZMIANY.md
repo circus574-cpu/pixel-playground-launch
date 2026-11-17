@@ -457,3 +457,73 @@ Obecny shader podłoża 2D używa koloru, nie pełnego PBR. Do przyszłej integr
 potrzebne są obsługa oświetlenia/normalnych i strumieniowanie tylko widocznych map,
 pomiar pamięci i odbiór na telefonie. Ten pakiet nie zastępuje modeli postaci,
 rigowania lub animacji. Bez scalenia, publikacji i nowego APK.
+
+## 8. Budynki — miękki styk z podłożem w Godocie
+
+Właściciel poprosił o obróbkę budynków, które wyglądają jak wklejone. Gałąź
+`trial/building-grounding-20261117`, baza `191769ae84281f7c3b7041600eaa66bf62eba222`.
+
+### Diagnoza i poprawka
+
+[Audyt 28 źródeł](qa/building-grounding/source-audit.json): mają przezroczyste tło;
+część budynków ma jednak ostro obrysowaną podstawę/podest. Renderer Godota nie
+dodawał cienia kontaktowego do malowanych budynków. Zamiast kolejnego wycinania
+tła przygotowano bezpłatną obróbkę w rendererze Godota, bez API, kredytów i poda GPU.
+
+| Element | Przed | Zmiana | Dowód |
+| --- | --- | --- | --- |
+| 22 malowane warianty | Brak kontaktowego cienia silnika | Miękki cień pod podstawą | Cztery pary rzeczywistych kadrów |
+| 6 podestów Verdantii | Ostry ciemny kontur zielonej podstawy | Wygaszenie alfa brzegu podestu; RGB bez zmiany | Shader i kontrola pikseli w SubViewport |
+| 6 starszych grafik | Mają już własny cień | Pozostawione bez dodatkowego cienia | Rozpoznanie profilu i test wykluczenia |
+| Streaming | Sprite bez elementu kontaktowego | Cień należy do tego samego chunka; sprzątany z budynkiem | Test faktycznego usunięcia obu węzłów i wpisu rejestru |
+| Geometria i źródła | Opublikowane kotwice, kolizje i obrazy | Zachowane | Hash maski przejścia, konfiguracja krainy, transformacje i 28 hashy źródeł |
+
+Nowy `scripts/building_grounding.gd` w projekcie Android tworzy teksturę 128×64
+na CPU i materiał podestu na żądanie, po jednym na krainę. Nie powstaje osobna
+tekstura dla każdego budynku. `assets/continent/building_platform.gdshader`
+próbkuje 5 punktów, wygaszając tylko alfę dolnej krawędzi/podestu. Kolory dachu,
+ścian i schodów nie są przemalowywane. Cień jest w warstwie `below`, pod aktorami.
+`continent.gd` obsługuje streaming i sprzątanie, a `city_game.gd` także sześć osobno
+rysowanych budynków stolicy Pyry. Nie zmieniono świata, footprintów, drzwi i usług.
+
+### Podgląd i sprawdzenia
+
+[Porównanie czterech miast — przed/po](qa/building-grounding/comparison.jpg).
+Oddzielne kadry: [Pyra](qa/building-grounding/legend-after.jpg),
+[Verdantia](qa/building-grounding/planetary-after.jpg),
+[Aetheria](qa/building-grounding/sage-after.jpg),
+[Nexus-9](qa/building-grounding/android-after.jpg).
+To zrzuty rzeczywistego runtime Godota. W fixture ukryto HUD i ustawiono kamerę
+na budynek przy powiększeniu 1,0; te ustawienia nie zmieniają zwykłej gry.
+
+`tests/preview_building_grounding.gd`: **52/52 sprawdzenia X11**
+([wyniki](qa/building-grounding/results.json), [log](qa/building-grounding/native.txt))
+i **49/49 headless** ([wyniki](qa/building-grounding/headless/results.json),
+[log](qa/building-grounding/headless.txt)). Obejmuje cztery rasy/krainy, zachowanie
+geometrii i pozycji, właściwą warstwę cienia, brak dodatkowego cienia w starszych
+grafikach, sprzątanie węzłów i rejestru po wyładowaniu chunka, współdzielenie
+tekstury oraz brak dodatkowych elementów przy wyłączonym efekcie. Trzy dodatkowe
+sprawdzenia natywne czytają piksele z SubViewport: kolor/nieprzezroczystość dachu,
+wygaszenie brzegu i zachowana nieprzezroczystość środka podestu.
+
+Pełny [TypeScript](qa/building-grounding/typecheck.txt) i
+[lint](qa/building-grounding/lint.txt) zakończyły się kodem 0; lint ma 17 ostrzeżeń
+w niezmienianych plikach. Renderer: X11/OpenGL Compatibility/llvmpipe na CPU.
+Pozostały ostrzeżenia V-Sync i ObjectDB przy kończeniu fixture; nie uznawać
+liczby zaliczonych asercji za pełną, bezostrzeżeniową regresję całej gry.
+Fizyczny Android oraz wpływ na FPS telefonu nie zostały sprawdzone.
+
+### Włączenie próby i ograniczenia
+
+Efekt jest domyślnie wyłączony. Normalna ścieżka nie tworzy cieni/materiałów tej
+poprawki. Do lokalnego uruchomienia gry dodać `KI_BUILDING_GROUNDING=1`.
+Odtworzenie porównań (osobny katalog danych użytkownika):
+
+```sh
+KI_BUILDING_GROUNDING=1 DISPLAY=:101 LIBGL_ALWAYS_SOFTWARE=1 XDG_DATA_HOME=/tmp/ki-building-review godot --audio-driver Dummy --rendering-method gl_compatibility --path ports/godot-pyra --script res://tests/preview_building_grounding.gd -- --out=/tmp/ki-building-compare
+```
+
+To korekta styku z podłożem, nie odmalowanie wszystkich budynków ani naprawa
+różnic perspektywy w źródłowych ilustracjach. Wymaga odbioru artystycznego przed
+domyślnym włączeniem. Bez scalenia, publikacji i nowego APK. Pliki źródłowe,
+kanon, infrastruktura GPU oraz zapisy graczy pozostały nienaruszone.

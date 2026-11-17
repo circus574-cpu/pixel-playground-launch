@@ -1,5 +1,23 @@
 # KI Legends — GPU i zasoby
 
+## Budynki Androida — styk z podłożem, 17.11.2026
+
+Próba `KI_BUILDING_GROUNDING=1` w Godocie dodaje miękki cień kontaktowy do 22
+malowanych wariantów usługowych i wygasza ostrą krawędź podestu sześciu budynków
+Verdantii. 6 starszych grafik `ki-v2-buildings-*` z własnym cieniem pozostaje
+bez dodatkowego cienia. Audyt obejmuje 28 obrazów; wszystkie źródła są niezmienione.
+Samo usuwanie tła nie rozwiązuje tej usterki: te budynki już mają kanał alfa.
+
+To obróbka prezentacji przez darmowe narzędzia Godota, bez generowania nowej
+architektury lub płatnego AI. Wspólna dla widocznych budynków tekstura cienia
+128×64 powstaje na CPU, jest współdzielona w obrębie krainy i zwalniana z jej
+rendererem. Cień leży pod aktorami, a strumieniowany budynek i jego cień mają tego
+samego właściciela cyklu życia. Shader podestu zmienia tylko alfę brzegu, zachowując
+RGB. Nie zmienia pozycji, kotwic, rozmiarów ani kolizji budynków.
+
+Efekt pozostaje **domyślnie wyłączony**, do oceny wyglądu. Nie tworzono APK ani nie
+publikowano gry. [Cztery miasta przed/po i wyniki](zmiany/2026-11-17/ZMIANY.md#8-budynki--miękki-styk-z-podłożem-w-godocie).
+
 ## Darmowe materiały powierzchni — 17.11.2026
 
 Osobny pakiet `deliveries/free-materials-20261117/`: **86 materiałów / 344 mapy**
