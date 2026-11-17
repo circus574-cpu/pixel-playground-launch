@@ -1,0 +1,60 @@
+{
+	"android_device_tested": false,
+	"checks": {
+		"map3d_assets_shared": true,
+		"map3d_height": true,
+		"map3d_projection": true,
+		"map_camera_alignment": true,
+		"movement_120_fps": true,
+		"movement_30_fps": true,
+		"pointer_cancel_120_fps": true,
+		"pointer_cancel_30_fps": true,
+		"projection_roundtrip": true,
+		"shared_world_map": true,
+		"street_grid_alignment": true,
+		"texture_budget_64_mib": true,
+		"two_thumb_120_fps": true,
+		"two_thumb_30_fps": true
+	},
+	"control_sha256": "d23717c3a9c0512c94917583d8ae93f7b5c7295edc333154ff375c6b5330e51a",
+	"draw_calls": 96.0,
+	"failed": 0,
+	"fps": 119.0,
+	"full_game_port": false,
+	"height_sha256": "186b5bd6bc80da84a31b1c3fabd08bf413fde187b151360fe797355218a85324",
+	"hero_animation": "walk:right",
+	"map3d": {
+		"decorations": 415,
+		"height_max_m": 0.0,
+		"projection_max_px": 0.000125827195006423,
+		"shares_textures": true
+	},
+	"map_camera_alignment_max_px": 0.00000762939453125,
+	"map_shares_actual_World2D": true,
+	"movement": [
+		{
+			"cancel_releases": true,
+			"distance_m": 15.9998874664307,
+			"fps_cap": 30,
+			"second_thumb_keeps_motion": true,
+			"sim_seconds": 2.01666666666666,
+			"walk_animation": "walk:right"
+		},
+		{
+			"cancel_releases": true,
+			"distance_m": 16.1332206726074,
+			"fps_cap": 120,
+			"second_thumb_keeps_motion": true,
+			"sim_seconds": 2.01666666666666,
+			"walk_animation": "walk:right"
+		}
+	],
+	"movement_passed": true,
+	"passed": 14,
+	"projection_roundtrip_max_m": 0.0000341196900990326,
+	"renderer": "Godot 2D / Vulkan Mobile",
+	"terrain_batches": 64,
+	"texture_bytes": 50374144.0,
+	"tilemap_alignment_max_px": 0.00000762939453125,
+	"tilemap_cells": 134
+}

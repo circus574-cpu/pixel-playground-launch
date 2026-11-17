@@ -1,0 +1,57 @@
+[
+  {
+    "source": "ports/godot-pyra/assets/actors/hero-legend-walk-v3-idle-0.webp",
+    "copy": "assets/actors/hero-legend-walk-v3-idle-0.webp",
+    "sha256": "1e8c20c3319622a64f076951d208e968b7efc9c493b9b8b26c03660c8c498dda"
+  },
+  {
+    "source": "ports/godot-pyra/assets/actors/hero-legend-walk-v3-page-0.webp",
+    "copy": "assets/actors/hero-legend-walk-v3-page-0.webp",
+    "sha256": "c310d3e08f3102ae7a77712abb7b5c99fc6e2d02a4c41b459c9f662043c8ce33"
+  },
+  {
+    "source": "ports/godot-pyra/assets/actors/npc-pyra-guide-page-0.webp",
+    "copy": "assets/actors/npc-pyra-guide-page-0.webp",
+    "sha256": "40d6a03374b391e2bac9ef1acd2ff3f8fb4977034b7d01120985cc263a9fcc0e"
+  },
+  {
+    "source": "ports/godot-pyra/assets/objects/51cf60a5-pyra-painted-inn.webp",
+    "copy": "assets/objects/51cf60a5-pyra-painted-inn.webp",
+    "sha256": "f255a1f088e894f93370960ccbb63f46f747f48272dfdafd8913587812fc5efb"
+  },
+  {
+    "source": "ports/godot-pyra/assets/objects/9eba1e56-pyra-painted-hall.webp",
+    "copy": "assets/objects/9eba1e56-pyra-painted-hall.webp",
+    "sha256": "714c38f2ba0558432b1756682f7888a38581725b0c9224d7205d06a48a34506e"
+  },
+  {
+    "source": "ports/godot-pyra/assets/objects/b8db058a-pyra-painted-arena.webp",
+    "copy": "assets/objects/b8db058a-pyra-painted-arena.webp",
+    "sha256": "06c75328d436ac0c128d86f5d2bfbff1df1804bfc62e7d861a13cebf9abe7b4f"
+  },
+  {
+    "source": "ports/godot-pyra/assets/objects/e0e8cc86-pyra-painted-depot.webp",
+    "copy": "assets/objects/e0e8cc86-pyra-painted-depot.webp",
+    "sha256": "69f2ba39a3f0bc204ff08d4e79cf14cc31c377af37f24f85be7e481aa7323317"
+  },
+  {
+    "source": "ports/godot-pyra/assets/objects/e320eb1e-pyra-painted-smithy.webp",
+    "copy": "assets/objects/e320eb1e-pyra-painted-smithy.webp",
+    "sha256": "f8c67c711d751146a967a05b8bd79f1e28e08629fbdeaf979d253fa35699af37"
+  },
+  {
+    "source": "ports/godot-pyra/assets/objects/e82ceee7-pyra-painted-shop.webp",
+    "copy": "assets/objects/e82ceee7-pyra-painted-shop.webp",
+    "sha256": "12e4521bd4a90e83a7fed1b2c5c43dabb9a84f5f17663f45640ace539bd4ffcd"
+  },
+  {
+    "source": "ports/godot-pyra/assets/objects/3d90558c-pyra-continent-rocks.webp",
+    "copy": "assets/objects/3d90558c-pyra-continent-rocks.webp",
+    "sha256": "2e5951bee732fdca1ae032161bafa790ddbe03a952371dd5ab43f6e94558a4b2"
+  },
+  {
+    "source": "ports/godot-pyra/assets/objects/56b49778-ki-v2-objects-pyra-tree2-0.webp",
+    "copy": "assets/objects/56b49778-ki-v2-objects-pyra-tree2-0.webp",
+    "sha256": "9d876b6614eb5cfb55b5f36b9abe7b0555294de3c9c70019b394dea3b721f7d8"
+  }
+]

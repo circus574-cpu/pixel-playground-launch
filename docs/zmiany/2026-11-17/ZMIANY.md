@@ -705,3 +705,76 @@ się na klasyfikacji kolorów oryginału, więc nie jest niezależnym certyfikat
 geograficznym. [Hashe nietkniętych danych](qa/planet-map/source-hashes.json).
 Odbiór artystyczny, fizyczny Android/iOS i wydanie APK pozostają niezweryfikowane.
 Nie zmieniono zapisów, kolizji, świata, questów ani produkcji. Bez scalenia i publikacji.
+
+
+## 12. A40 — próba Pyry 2D izometrycznej i wspólne mapy
+
+Gałąź `trial/pyra-isometric-a40-20261117`, baza `dbebe95a`. Właściciel wybrał
+A40 i kontener 300 GB, następnie zmienił cel rozgrywki na **2D izometryczne**.
+Wymagał różnorodnego, sensownie rozłożonego terenu i wspólnej siatki dla gry
+oraz map 2D/3D. Docelowe budynki mają powstać później, po ustaleniu rzutu/skali.
+
+**Pod uruchomiono:** `9jv4ah7gckh6fc`, A40 48 GB, RAM 50 GB, 9 vCPU, EU-SE-1.
+Kontener 300 GB, bez sieciowego woluminu. Około 0,6317 USD/h z dyskiem
+([konfiguracja](qa/terrain3d-a40/pod.json)). Nie zmieniono istniejących podów.
+Nie wykonywano zatrzymania/restartu ani publikacji gry.
+
+| Funkcja | Wykonanie | Dowód |
+| --- | --- | --- |
+| Środowisko | Godot 4.6.3, Vulkan na A40, ComfyUI, Blender 4.0.2, Terrain3D 1.1.0, MCP | [Wersje](qa/terrain3d-a40/runtime.txt), [MCP](qa/terrain3d-a40/godot-mcp-probe.json) |
+| Teren CPU | Wycinek 1024×1024 m, wysokości co 2 m, płaskowyż, grzbiet, wulkan i rozpadlina | [Dane](../../../ports/godot-isometric-pyra/data/terrain.json) |
+| Materiały GPU | 5 wykonanych generacji; 4 eksporty albedo, pierwsza wersja popiołu zachowana jako odrzucona | [Źródła](../../../deliveries/pyra-isometric-a40-20261117/comfy-material-sources.zip), [rejestr](qa/terrain3d-a40/materials-provenance.json) |
+| Scena 2D | Godot 2D, osobne podłoże i sprite’y, sześć tymczasowych budynków, animacja Legendy, Kaena | [Zrzut z aplikacji](qa/terrain3d-a40/city-wide.jpg) |
+| Układ terenu | Zagajnik na zachodzie, skały przy rozpadlinie, drogi do placu i budynków | [Zachodnia grań](qa/terrain3d-a40/western-ridge.jpg) |
+| Mapa 2D | Druga kamera tego samego World2D; siatka 128 m i rzeczywista pozycja postaci | [Mapa](qa/terrain3d-a40/same-world-map.jpg) |
+| Mapa 3D | Te same próbki/maski, wspólne tekstury i współrzędne 415 obiektów; obrót | [Mapa 3D](qa/terrain3d-a40/same-world-map-3d.jpg) |
+| Nawigacja | CPU sprawdził połączenie 4 punktów; w runtime ruch, grid przejezdności i footprinty budynków | [Wyniki](qa/terrain3d-a40/results.json) |
+| Zapisy | Osobna przestrzeń użytkownika prototypu, bez odczytu/nadpisania postaci z gry | `project.godot` prototypu; brak zmian starego projektu |
+
+**14/14 natywnych kontroli Godota**, kod procesu 0 i zero błędów silnika/skryptów
+([proces](qa/terrain3d-a40/isometric-process.json), [log](qa/terrain3d-a40/isometric-native.txt),
+[pełne wyniki](qa/terrain3d-a40/results.json)). Sprawdzono wspólną scenę mapy 2D,
+256 przeliczeń współrzędnych, zgodność kamery i TileMapLayer, wysokości/rzut mapy
+3D, współdzielenie zasobów oraz ruch/dwa palce/pointercancel przy limitach 30 i
+120 FPS. Postać przebyła około 16 m w około 2 s w obu próbach. Maksymalny błąd
+przeliczenia punktów to około 0,000034 m; zgodność rzutu mapy 3D poniżej 0,001 px.
+Nie zastępowano testów działania porównaniem samego JSON.
+
+Pod koniec testu raportowano około 48 MiB tekstur. Odczyt FPS pochodzi z ostatniej
+próby z limitem 120, a nie z niezależnego benchmarku telefonu. Próba Terrain3D
+potwierdziła 4 regiony, stanie na fizycznej powierzchni oraz ruch/dotyk przy obu
+limitach ([wyniki 3D](qa/terrain3d-a40/runtime-results.json),
+[log](qa/terrain3d-a40/terrain3d-native.txt)).
+[SHA wspólnych plików](qa/terrain3d-a40/source-sync.json) potwierdzają identyczne
+dane lokalnej próby 2D i pomocniczego projektu Terrain3D.
+
+Pełny [TypeScript](qa/terrain3d-a40/typecheck.txt): PASS.
+[Lint](qa/terrain3d-a40/lint.txt): 0 błędów i 17 ostrzeżeń w niezmienionych plikach.
+Nie uruchamiano ponownie pełnego Playwright/Vitest ani webowego buildu: zmiana
+jest odrębną próbą Godota, bez zmian frontendowego runtime. Nie deklaruje się
+pełnego CI ani odbioru Androida. Fizyczny telefon, APK i eksport WebGL pozostają
+niezweryfikowane. Dotychczasowe 6 błędów pełnego smoke starego portu opisuje punkt 11.
+
+**Odtworzenie sceny 2D:** po pobraniu tej gałęzi:
+
+```sh
+git lfs pull --include="ports/godot-isometric-pyra/**"
+godot --path ports/godot-isometric-pyra
+```
+
+Wymagany Godot 4.6.3 z rendererem Mobile/Vulkan. `WASD` lub lewy kciuk porusza,
+`M` otwiera mapę, przycisk MAPA 2D/3D zmienia jej widok; mapę 3D można obracać.
+Na podzie używa się `/workspace/ki-isometric-pyra`. Test na działającym podzie:
+`python3 /workspace/ki-terrain3d/scripts/gpu/run-isometric-qa.py`.
+Repo zawiera jego źródło, generator CPU, workflowy GPU, przetwarzanie materiałów,
+instalator przypiętego Terrain3D, cztery proceduralne modele skał i sumy zależności.
+Model SDXL i binaria narzędzi nie są kopiowane do Git; są odtwarzalne z URL/SHA.
+
+**Co pozostaje:** to techniczny prototyp jednego wycinka, nie nowa kompletna
+planeta ani port całej rozgrywki. Budynki są tymczasowe. Mapa 3D używa billboardów
+obiektów 2D, nie ukończonych modeli domów. Kaena nie ma jeszcze podpiętych usług
+lub pełnego przebiegu questów, walka/ekwipunek/zapisy pozostają w dotychczasowym
+projekcie gry. Do dopracowania są modelowanie docelowych lokacji, przesłanianie
+na stromych stokach, większa różnorodność biomów, strumieniowanie całej planety,
+globalna georeferencja Superiora i odbiór na telefonie. Nie zamieniono aktualnego
+atlasu/globusa ani wydanej gry na ten prototyp. Płatnego Meshy nie uruchamiano.

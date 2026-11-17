@@ -435,3 +435,17 @@ Atlas Androida z 17.11.2026 ma nową warstwę reliefu wygenerowaną narzędziem 
 zawiera hash generacji i referencji oraz zakres użycia. Oryginalny atlas zachowano.
 Nie wykonywano płatnych wywołań Meshy. Dowód generacji nowej warstwy nie rozstrzyga
 praw do pierwotnej referencji; nie oznaczono jej jako prawnie wyjaśnionej.
+
+
+Próba Pyry izometrycznej z 17.11.2026: pięć źródłowych PNG wygenerowano lokalnym
+ComfyUI/SDXL 1.0 na wynajętym A40; cztery zaakceptowane tekstury mają osobne
+przetworzone eksporty. [Rejestr generacji i przetwarzania](zmiany/2026-11-17/qa/terrain3d-a40/materials-provenance.json),
+[oryginały i workflowy](../deliveries/pyra-isometric-a40-20261117/comfy-material-sources.zip),
+[pełny tekst licencji modelu](../deliveries/pyra-isometric-a40-20261117/LICENSE-SDXL.txt).
+Model ma licencję CreativeML Open RAIL++-M; SHA pliku jest w rejestrze zależności.
+Nie jest to deklaracja praw do wszystkich zasobów gry. Jedenaście obrazów
+bohatera, NPC i obiektów skopiowano bajtowo ze starej gry; ich wcześniejszy status
+prawny pozostaje bez zmian ([sumy](zmiany/2026-11-17/qa/terrain3d-a40/asset-reuse.json)).
+Cztery małe modele skał powstały proceduralnie z własnego skryptu w Blenderze.
+Dodatek Terrain3D: [zachowany tekst MIT](../ports/godot-terrain3d/LICENSE-Terrain3D.txt).
+Teksty licencyjne zachowano bajtowo, z oryginalnymi odstępami.

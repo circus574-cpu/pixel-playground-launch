@@ -1,5 +1,12 @@
 # KI Legends — dokumentacja projektu
 
+**Próba izometrii — 17.11:** na autoryzowanym A40 przygotowano fragment Pyry
+1024×1024 m, grę 2D i lokalne mapy 2D/3D ze wspólnych danych. Ruch, animacja
+Legendy, siatka i synchronizacja: 14/14 kontroli Godota.
+[Zrzut sceny](zmiany/2026-11-17/qa/terrain3d-a40/city-wide.jpg),
+[raport i granice wykonania](zmiany/2026-11-17/ZMIANY.md#12-a40--próba-pyry-2d-izometrycznej-i-wspólne-mapy).
+To osobny prototyp, bez aktualizacji opublikowanego Androida.
+
 **Mapa Androida — 17.11:** nowy relief z GPT Image we wspólnym atlasie 2D/globusie,
 widok całej planety, 22 rzeczywiste osady i przegląd wszystkich dziesięciu lądów.
 [Zrzut z uruchomionej gry](zmiany/2026-11-17/qa/planet-map/after/live-game-atlas.jpg),

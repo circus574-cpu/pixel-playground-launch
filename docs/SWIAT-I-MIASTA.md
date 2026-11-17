@@ -633,3 +633,48 @@ Mapy szczegółowe nie otrzymały jeszcze tej nowej oprawy.
 
 [Dowody, źródła i ograniczenia](zmiany/2026-11-17/ZMIANY.md#11-mapa-androida--nowy-podkład-gpt-image-i-naprawa-przeglądu-planety).
 Nie jest to nowe wydanie APK ani akceptacja artystyczna właściciela.
+
+
+## Próba Pyry 2D izometrycznej — wspólne dane, 17.11.2026
+
+Właściciel wybrał świat 2D w rzucie izometrycznym. Próba znajduje się w
+`ports/godot-isometric-pyra`, w tym samym repozytorium, osobno od wydanego
+`ports/godot-pyra`. Wycinek ma 1024×1024 m, próbki wysokości/nawigacji co 2 m
+oraz siatkę adresową A1–H8 co 128 m. Nie jest całą planetą i nie ma jeszcze
+powiązania współrzędnych z aktywną geografią Superiora.
+
+Wspólne dane to wysokości float32, sterowanie materiałami Terrain3D, mapa
+przejezdności oraz maski materiałów i lawy. Tworzy je deterministyczny CPU
+`scripts/gpu/generate-pyra-terrain3d.py`. `ports/godot-terrain3d` jest pomocniczą
+próbą edycji/weryfikacji wysokości; w repo korzysta z tych samych plików danych
+oraz materiałów. Dodatek Terrain3D nie jest zależnością działającej sceny 2D.
+
+Gra 2D wyświetla osobne batche podłoża i sortowane sprite’y obiektów/postaci.
+Podłoże to geometria z danych wysokości, z mieszaniem czterech materiałów, a nie
+namalowany obraz całej krainy. `TileMapLayer` indeksuje miejskie pola ulic dla
+interakcji/oznaczenia nawierzchni; obraz ulic pochodzi ze wspólnej maski podłoża.
+Nie nakłada się drugiej, niezależnie wyznaczonej siatki graficznej ulic.
+
+Mapa 2D korzysta bezpośrednio z tego samego `World2D`, z osobną kamerą. Lokalna
+mapa 3D tworzy wysokościową geometrię z tych samych próbek i masek, współdzieli
+tekstury oraz pozycje wszystkich 415 obiektów sceny. Obiekty na mapie 3D są
+billboardami tych samych sprite’ów; nie są ukończonymi modelami architektury.
+Siatka, pozycja bohatera i przeliczenia izometryczne korzystają z jednego układu
+współrzędnych. Nie używa się dla tego prototypu wygenerowanego atlasu z punktu 11.
+
+Układ jest funkcjonalny: płaskowyż pod osadę, wspólny plac i dojścia do budynków,
+zachodnia grań/zagajnik, wulkan i rozpadlina z lawą. Zagajnik powstaje w skupisku
+na zachodzie z odstępami i wyłączeniem dróg; kamienie skupiają się przy rozpadlinie.
+Siatka służy adresowaniu, nie równomiernemu rozsiewaniu wszystkich typów zawartości.
+
+Obecne sześć budynków i grafika bohatera pochodzą z gry i są materiałem próbnym.
+Docelowa architektura: model Meshy → stałe światło i kamera w Blenderze → sprite
+izometryczny, cień, kotwica, drzwi i osobny footprint. Najpierw jeden wzorzec po
+ustaleniu skali. W tym etapie nie wykonywano płatnych generacji Meshy.
+
+Do dalszej pracy: docelowe modele/sprite’y budynków, dopracowanie zasłaniania
+postaci przez strome fragmenty terenu, zróżnicowanie pozostałych biomów,
+strumieniowanie dużego świata, globalne współrzędne Superiora oraz integracja
+istniejącej walki, usług i questów. Obecny prototyp pokazuje jeden wycinek, jedną
+rasę i jednego nieruchomego NPC. Nie zastępuje wydanej gry ani jej zapisów.
+[Wyniki i rzeczywiste zrzuty](zmiany/2026-11-17/ZMIANY.md#12-a40--próba-pyry-2d-izometrycznej-i-wspólne-mapy).

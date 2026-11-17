@@ -1,5 +1,37 @@
 # KI Legends — GPU i zasoby
 
+## A40 — środowisko próby izometrycznej, 17.11.2026
+
+Na jawne polecenie właściciela „Wybierz a40 i 300 container I działaj” utworzono
+jeden pod `9jv4ah7gckh6fc`: A40 48 GB, 50 GB RAM, 9 vCPU, EU-SE-1, kontener
+300 GB, bez dodatkowego woluminu. GPU 0,59 USD/h; kontener około 0,0417 USD/h
+przy stawce 0,10 USD/GB/miesiąc. Poprzednich podów nie zmieniano. Nie wykonano
+Stop/Restart/Terminate. Kontener jest nietrwały po zatrzymaniu; wyniki i źródła
+trafiają do Git/LFS, a modele narzędzi mają odnotowane URL i SHA.
+
+Na podzie: Godot 4.6.3, Vulkan na fizycznym A40, Terrain3D 1.1.0, ComfyUI z SDXL
+1.0, Blender 4.0.2, Godot MCP (14 narzędzi, próba protokołu stdio).
+MCP jest zainstalowany i sprawdzony na podzie; nie oznacza automatycznego dodania
+jego narzędzi do sesji ChatGPT. Edycje źródeł i próby gry wykonano przez terminal
+Runpoda/Godot CLI. [Przypięte zależności](../ports/godot-terrain3d/dependencies.json),
+[wersje i Vulkan](zmiany/2026-11-17/qa/terrain3d-a40/runtime.txt),
+[próba MCP](zmiany/2026-11-17/qa/terrain3d-a40/godot-mcp-probe.json).
+
+Bootstrap narzędzi: `scripts/gpu/bootstrap-terrain3d.sh`, wyłącznie na już
+uruchomionym podzie. Instalator samego dodatku:
+`python3 scripts/gpu/install-terrain3d-addon.py --project ports/godot-terrain3d`.
+Sprawdza SHA pobranego archiwum; dodatek nie jest potrzebny do uruchomienia próby 2D.
+
+GPU wykonał pięć generacji 1024²: cztery materiały i jedną poprawkę popiołu po
+ocenie pierwszego wyniku. Zachowano wszystkie pięć oryginałów oraz workflowy
+w [paczce źródłowej](../deliveries/pyra-isometric-a40-20261117/comfy-material-sources.zip).
+Eksporty runtime to cztery WebP, z korektą nieciągłości krawędzi metodą
+periodic-plus-smooth. To albedo; nie są pomierzonymi zestawami PBR ani modelem
+wysokości terenu. Normalne terenu wynikają z geometrii. Nie uruchamiano płatnego
+API generowania ani Meshy. Licencja modelu i dowody są zachowane.
+
+[Scena, mapy, testy i ograniczenia](zmiany/2026-11-17/ZMIANY.md#12-a40--próba-pyry-2d-izometrycznej-i-wspólne-mapy).
+
 ## Budynki Androida — styk z podłożem, 17.11.2026
 
 Próba `KI_BUILDING_GROUNDING=1` w Godocie dodaje miękki cień kontaktowy do 22

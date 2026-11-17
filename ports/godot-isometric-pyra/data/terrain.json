@@ -1,0 +1,215 @@
+{
+  "prototype": true,
+  "canonical_world_changed": false,
+  "seed": 17112026,
+  "samples": 512,
+  "spacing_m": 2.0,
+  "size_m": 1024.0,
+  "origin": [
+    -512,
+    0,
+    -512
+  ],
+  "height_range": [
+    -13.425554275512695,
+    147.2699737548828
+  ],
+  "spawn": [
+    -40,
+    50
+  ],
+  "landmarks": [
+    {
+      "id": "plaza",
+      "name": "Dziedziniec Popiołu",
+      "xz": [
+        -40,
+        50
+      ],
+      "height": 12.0,
+      "reachable": true
+    },
+    {
+      "id": "overlook",
+      "name": "Szlak zachodniej grani",
+      "xz": [
+        -235,
+        -285
+      ],
+      "height": 39.50952911376953,
+      "reachable": true
+    },
+    {
+      "id": "lava-edge",
+      "name": "Krawędź rozpadliny",
+      "xz": [
+        145,
+        85
+      ],
+      "height": 18.261632919311523,
+      "reachable": true
+    },
+    {
+      "id": "ruins",
+      "name": "Ruiny przy starym trakcie",
+      "xz": [
+        -185,
+        245
+      ],
+      "height": 24.863658905029297,
+      "reachable": true
+    }
+  ],
+  "paths": [
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        -55,
+        -100
+      ],
+      [
+        -160,
+        -195
+      ],
+      [
+        -235,
+        -285
+      ]
+    ],
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        80,
+        60
+      ],
+      [
+        145,
+        85
+      ]
+    ],
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        -90,
+        165
+      ],
+      [
+        -185,
+        245
+      ]
+    ],
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        -40,
+        5
+      ],
+      [
+        -20,
+        -40
+      ]
+    ],
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        15,
+        10
+      ],
+      [
+        60,
+        -25
+      ]
+    ],
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        20,
+        50
+      ],
+      [
+        65,
+        55
+      ]
+    ],
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        -65,
+        80
+      ],
+      [
+        -80,
+        125
+      ]
+    ],
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        15,
+        85
+      ],
+      [
+        45,
+        115
+      ]
+    ],
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        -55,
+        20
+      ],
+      [
+        -75,
+        -5
+      ]
+    ]
+  ],
+  "walkable_percent": 91.08,
+  "texture_assets": [
+    "ash",
+    "basalt",
+    "paving",
+    "cliff"
+  ],
+  "checks": {
+    "finite_height": true,
+    "spawn_slope_below_2_degrees": true,
+    "all_four_landmarks_connected": true,
+    "navigation_is_grid_analysis_not_runtime_proof": true
+  },
+  "files": {
+    "height.r32": "186b5bd6bc80da84a31b1c3fabd08bf413fde187b151360fe797355218a85324",
+    "control.r32": "d23717c3a9c0512c94917583d8ae93f7b5c7295edc333154ff375c6b5330e51a",
+    "walkable.u8": "0bc10c835ac23b61f50086dbddb8d8cf15d37cf514f8390c50e3307fc6b02147",
+    "weights.png": "1ad7c934d7121ed0b3bf45b254dc6e077bf197998f8bdac0acadbe7745b0a2b3",
+    "surface.png": "071466e6daffcac88c9c996bbb1f734021926ca15e1c8b665c14e92fdaa77d75"
+  }
+}

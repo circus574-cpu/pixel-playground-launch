@@ -1,0 +1,19 @@
+{
+  "godot": "4.6.3-stable",
+  "terrain3d": {
+    "version": "1.1.0-stable",
+    "url": "https://github.com/TokisanGames/Terrain3D/releases/download/v1.1.0-stable/Terrain3D_v1.1.0-stable.zip",
+    "sha256": "51b78bc758f5759cbc8eaaab14e5cf4e8661717e265fdd760f5abf945f15b243",
+    "license": "MIT"
+  },
+  "godot_mcp": {
+    "url": "https://github.com/Coding-Solo/godot-mcp.git",
+    "commit": "1209744fad78f3998f98c7394fd0f6ef50da5281"
+  },
+  "model": {
+    "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0",
+    "file": "sd_xl_base_1.0.safetensors",
+    "sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+    "license": "CreativeML Open RAIL++-M"
+  }
+}

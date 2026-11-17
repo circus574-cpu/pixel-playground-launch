@@ -1,0 +1,57 @@
+{
+  "initialize": {
+    "result": {
+      "protocolVersion": "2024-11-05",
+      "capabilities": {
+        "tools": {}
+      },
+      "serverInfo": {
+        "name": "godot-mcp",
+        "version": "0.1.0"
+      }
+    },
+    "jsonrpc": "2.0",
+    "id": 1
+  },
+  "tools": [
+    "launch_editor",
+    "run_project",
+    "get_debug_output",
+    "stop_project",
+    "get_godot_version",
+    "list_projects",
+    "get_project_info",
+    "create_scene",
+    "add_node",
+    "load_sprite",
+    "export_mesh_library",
+    "save_scene",
+    "get_uid",
+    "update_project_uids"
+  ],
+  "attached_to_chatgpt": false,
+  "version": {
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "4.6.3.stable.official.7d41c59c4"
+        }
+      ]
+    },
+    "jsonrpc": "2.0",
+    "id": 3
+  },
+  "project": {
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"name\": \"ki-isometric-pyra\",\n  \"path\": \"/workspace/ki-isometric-pyra\",\n  \"godotVersion\": \"4.6.3.stable.official.7d41c59c4\",\n  \"structure\": {\n    \"scenes\": 1,\n    \"scripts\": 4,\n    \"assets\": 17,\n    \"other\": 29\n  }\n}"
+        }
+      ]
+    },
+    "jsonrpc": "2.0",
+    "id": 4
+  }
+}
