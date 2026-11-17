@@ -1,0 +1,660 @@
+{
+  "schema": 1,
+  "kind": "character-color-preview",
+  "profile": {
+    "saturation": 1.22,
+    "skinSaturation": 1.08,
+    "contrast": 0.12,
+    "lift": 0.012
+  },
+  "heroes": {
+    "legend": "pyra.hero",
+    "planetary": "verdant.hero",
+    "sage": "aether.hero",
+    "android": "nexus.hero"
+  },
+  "actorSourceSha256": "deab039cc7d84ef122a6d07fef2c282a7d5f9e684e4e9b8cc4cce23e4c88f994",
+  "clipsCovered": 144,
+  "sheets": [
+    {
+      "source": "res://assets/actors/hero-android-walk-v3-fight-0.webp",
+      "sourceSha256": "117859472100ded759b9c3d314adfefb0227c58bba63fe5babfbed818c9d5160",
+      "file": "atlases/000.webp",
+      "sha256": "ab004613bd430da8cb6affecb75acc563c58d5e2ddb151d86223f61adbf01df4",
+      "size": [
+        1056,
+        696
+      ],
+      "alphaSha256": "dbc2ba9f8a1197956a1c2cdd6212e595498eba5804450aeb4f21b4d089ba4a13",
+      "decodedBytes": 2939904,
+      "bytes": 697088
+    },
+    {
+      "source": "res://assets/actors/hero-android-walk-v3-fight-1.webp",
+      "sourceSha256": "e59ba7f896b657a185beb57ce410e78b6668c455ac4715c427fbfc9f51bb66d2",
+      "file": "atlases/001.webp",
+      "sha256": "39c17be47be7860b609de49d56e51a16a946ca3ac5ad41735afe27a5eeebeee7",
+      "size": [
+        136,
+        1232
+      ],
+      "alphaSha256": "7d3f651a23ac4f7a5edf490bca4bb1fb3d669427bcb1a059f68ee18bce3c285d",
+      "decodedBytes": 670208,
+      "bytes": 175656
+    },
+    {
+      "source": "res://assets/actors/hero-android-walk-v3-fight-2.webp",
+      "sourceSha256": "2172b4552c759b62ea6a6121ab401bf8de9acb9294d0c2ddff5f6eced15c88c9",
+      "file": "atlases/002.webp",
+      "sha256": "10900417337d4244a854ec5316705b78e3a1614606ee390c004dd0c51e22bfe9",
+      "size": [
+        988,
+        944
+      ],
+      "alphaSha256": "0c78592ec2d8cd5e945a181754a05e01da302299cfe3084e0f20117ffacccebb",
+      "decodedBytes": 3730688,
+      "bytes": 720012
+    },
+    {
+      "source": "res://assets/actors/hero-android-walk-v3-fight-3.webp",
+      "sourceSha256": "b9f6acc01e54fda2486d2d47767ddcce41f952e55262fcf1ca73d3cec943f2b5",
+      "file": "atlases/003.webp",
+      "sha256": "ba72c90bb1b2e4be46f7aba19affa059b58afe6d905d45603ea78c62ca9f08f1",
+      "size": [
+        718,
+        576
+      ],
+      "alphaSha256": "0a3cde6cd255d8943c5245c1f2e5feeb9fefc35de9964e9ff7345aec9a27bfe5",
+      "decodedBytes": 1654272,
+      "bytes": 435854
+    },
+    {
+      "source": "res://assets/actors/hero-android-walk-v3-fight-4.webp",
+      "sourceSha256": "4cfa3faf96b66a1064afbff6c7437be665aa7f32729e0300c78502055dee576c",
+      "file": "atlases/004.webp",
+      "sha256": "ecdb50669291aa98a27b2265769e4d500fdda5d3dc7954db3419f42cbefd72bd",
+      "size": [
+        662,
+        884
+      ],
+      "alphaSha256": "00461662a9771b25cf4331bd97a78e1b436c9a93c1a510feed7d1e394574dd85",
+      "decodedBytes": 2340832,
+      "bytes": 630878
+    },
+    {
+      "source": "res://assets/actors/hero-android-walk-v3-idle-0.webp",
+      "sourceSha256": "9481b1331b7c6936efd58f19bc95aa78f28757691611b4fc5e765d560822dc24",
+      "file": "atlases/005.webp",
+      "sha256": "b0c0646b3da499773a0ed4cd272b5c8b5661761accd684161c6e5bdf637df68d",
+      "size": [
+        1391,
+        752
+      ],
+      "alphaSha256": "5bd5a8d09e66d1debcbad517b5dc7608e0703ce08f17194f15715ff982fc34e5",
+      "decodedBytes": 4184128,
+      "bytes": 700924
+    },
+    {
+      "source": "res://assets/actors/hero-android-walk-v3-kifight-0.webp",
+      "sourceSha256": "ec6ff85832e84db84a48f4ba191d2e9dd7e290e2da12ae9b8768b13f97e9327d",
+      "file": "atlases/006.webp",
+      "sha256": "3fb6eabc00b098bbbfd381ebbbe1e02f83a7db8254b343b315cd838f58711716",
+      "size": [
+        1036,
+        564
+      ],
+      "alphaSha256": "435c9ccf7e1838ef38c075360a31ee4d39640d27c4f22360752dc9725dccc2d3",
+      "decodedBytes": 2337216,
+      "bytes": 615834
+    },
+    {
+      "source": "res://assets/actors/hero-android-walk-v3-kifight-1.webp",
+      "sourceSha256": "34144fe0a731babc43ff5343f483d3e0086886b2d16b0bbf839c735c83d3b4ad",
+      "file": "atlases/007.webp",
+      "sha256": "363552e0f3015a6541861f57ef5dc1244da488f82dad003fa725a7e4a320ebd8",
+      "size": [
+        1732,
+        560
+      ],
+      "alphaSha256": "bd5084fd2351f89ab878725504dfdc3b31b22cfe68d590c95401de62b764e987",
+      "decodedBytes": 3879680,
+      "bytes": 1004954
+    },
+    {
+      "source": "res://assets/actors/hero-android-walk-v3-kifight-2.webp",
+      "sourceSha256": "87749b100596a15a846ed190263ec0d9ce004a79d9ec94b370df422dd4f47606",
+      "file": "atlases/008.webp",
+      "sha256": "cc588564316f21e9b9063b75af463ff1ef6c4a0fa51c683e6b1d286513ae43e5",
+      "size": [
+        1540,
+        668
+      ],
+      "alphaSha256": "07db69e94d6a7fb6b4da4694387c07ca2ed8f60f2c11194d44e5910cc80ac1e6",
+      "decodedBytes": 4114880,
+      "bytes": 964196
+    },
+    {
+      "source": "res://assets/actors/hero-android-walk-v3-kimove-1.webp",
+      "sourceSha256": "c7ff72b777c1de5426e5a92c97fdf77ab89d114b62aed489f4a35fb0c9ede3cb",
+      "file": "atlases/009.webp",
+      "sha256": "b8285b3d10d21f1cb1fd368722950e917ee0ed91b096444e91225590e017c2fa",
+      "size": [
+        1452,
+        544
+      ],
+      "alphaSha256": "843ab8fadc79595563bc8715b59cf0421e036fabacadf3941761fcfc9fe32b89",
+      "decodedBytes": 3159552,
+      "bytes": 816014
+    },
+    {
+      "source": "res://assets/actors/hero-android-walk-v3-kiwalk-0.webp",
+      "sourceSha256": "426921b759660560b2a9d58aee078f669a55cd6798e0555168feb2a0ce86aa60",
+      "file": "atlases/010.webp",
+      "sha256": "e213e8482ff4b4bd4307d09577d9f2eb3b22386c132a9eb3d4ddf5e4be0fce7b",
+      "size": [
+        1867,
+        736
+      ],
+      "alphaSha256": "65ded0205f61a4d2f4b4795d915716ad7a60ae7bb1cbeae6d923c03cc0f72e90",
+      "decodedBytes": 5496448,
+      "bytes": 1515564
+    },
+    {
+      "source": "res://assets/actors/hero-android-walk-v3-page-0.webp",
+      "sourceSha256": "f920210b042b2bbe305b67d04e7425e941325f6488580fbbd3325e03a24c7563",
+      "file": "atlases/011.webp",
+      "sha256": "3858c2aee2a240879e6c2e6fed38f3051d21d518d3243533b264bc44f07927c7",
+      "size": [
+        1151,
+        736
+      ],
+      "alphaSha256": "481dfe7efa76df4993d510834e21d2678daf4f8b40821a4b65215582c9f9ee16",
+      "decodedBytes": 3388544,
+      "bytes": 833446
+    },
+    {
+      "source": "res://assets/actors/hero-legend-walk-v3-fight-0.webp",
+      "sourceSha256": "7163d167959c34a0c26cbc8acfe0e3999840bfddf629d9be1f60e2233ac6a585",
+      "file": "atlases/012.webp",
+      "sha256": "f8cb2a3645da1b151ea5d6e36748eef4541219b2d8958f4a07588671529e6956",
+      "size": [
+        819,
+        660
+      ],
+      "alphaSha256": "3546934bde39662a3f5d91dc19d3f620bff67b7d9a01031f06cfba03b8ec9f26",
+      "decodedBytes": 2162160,
+      "bytes": 534356
+    },
+    {
+      "source": "res://assets/actors/hero-legend-walk-v3-fight-1.webp",
+      "sourceSha256": "c122e90b02a5c29b03c2b4cdd7942862e54c9dae11f8e055adae006f428b1086",
+      "file": "atlases/013.webp",
+      "sha256": "16da72036c343b2347bf0f9214715077070e50b1af25ddb5e662ab5af9dc95e5",
+      "size": [
+        326,
+        496
+      ],
+      "alphaSha256": "108ab1e43a894fbcb82122ee01a8d9a8e60be037be8aa12a06cc880e0cc3b552",
+      "decodedBytes": 646784,
+      "bytes": 178348
+    },
+    {
+      "source": "res://assets/actors/hero-legend-walk-v3-fight-2.webp",
+      "sourceSha256": "55087b97098391c503ee20cbaa9bb6f0ec2c8c0014a194dd322c62a5a5de36b7",
+      "file": "atlases/014.webp",
+      "sha256": "384ecf84dfd0ec7d13c44dd4e1d8f8ca6177f572a942400f87c274738b61dc07",
+      "size": [
+        756,
+        1024
+      ],
+      "alphaSha256": "9e52e091717e731393a8653089c867a99c6f1a0f6ea1e5328ea06268f3068bdd",
+      "decodedBytes": 3096576,
+      "bytes": 842252
+    },
+    {
+      "source": "res://assets/actors/hero-legend-walk-v3-fight-3.webp",
+      "sourceSha256": "b10ad04ac20f8a791367fc9651b9c1d56fc3afd095ba8f5f7c672f5fa1ff70ea",
+      "file": "atlases/015.webp",
+      "sha256": "5557cc6c6fb5d6e8c58169672303b3b7d70480ec88b44951af8d9c17c960c304",
+      "size": [
+        1656,
+        184
+      ],
+      "alphaSha256": "109a9986add72a5dcfbf0144f9ecefaf6d13d865600f396ba8a608495ca58ac9",
+      "decodedBytes": 1218816,
+      "bytes": 357646
+    },
+    {
+      "source": "res://assets/actors/hero-legend-walk-v3-fight-4.webp",
+      "sourceSha256": "874242b351a091a8a2399984ddfc5bf21c1cbcb1198336d645778549d450bac5",
+      "file": "atlases/016.webp",
+      "sha256": "3c71f37b154820adb5244e02f12f27d31b25144a82814f2883efd3ce06e1fd51",
+      "size": [
+        1331,
+        524
+      ],
+      "alphaSha256": "0ae12f188dafdc8ce6446cd7b72e2bc9cbd6d11dd28cbdba07a6b5a2949d057f",
+      "decodedBytes": 2789776,
+      "bytes": 705240
+    },
+    {
+      "source": "res://assets/actors/hero-legend-walk-v3-idle-0.webp",
+      "sourceSha256": "1e8c20c3319622a64f076951d208e968b7efc9c493b9b8b26c03660c8c498dda",
+      "file": "atlases/017.webp",
+      "sha256": "dd5d8e80a77b7732b4bc18889232979ccefedd2135f82499aa9aa3556d54be09",
+      "size": [
+        752,
+        1488
+      ],
+      "alphaSha256": "99cb66257f9dc3de6c7f7891c0d4b9736d6b91bbee7aec23ef320e7b7edc68a2",
+      "decodedBytes": 4475904,
+      "bytes": 654966
+    },
+    {
+      "source": "res://assets/actors/hero-legend-walk-v3-kifight-0.webp",
+      "sourceSha256": "f2742c39c6bccce0c44e710c3ec9f3b9492baa7e0c58ca080f7221403ed5d9d5",
+      "file": "atlases/018.webp",
+      "sha256": "aa0134656a0adc3709cf19d60220a82a4e033f5705c88c63bd0d5ef6df0aa7f5",
+      "size": [
+        1467,
+        396
+      ],
+      "alphaSha256": "080292249b0331b0784ac5b686a659e42240853fa0e3235d978d9ba3b069d9f6",
+      "decodedBytes": 2323728,
+      "bytes": 582118
+    },
+    {
+      "source": "res://assets/actors/hero-legend-walk-v3-kifight-1.webp",
+      "sourceSha256": "c40ba9f842f2d94fe9bed5e47364f2d73d6780238010b14fdb3e9bd5e56fb98b",
+      "file": "atlases/019.webp",
+      "sha256": "6f88560dd1a4b3fc884ebdda59adfbcb2e1824aa5c487c32c6ffae221b6fa668",
+      "size": [
+        1204,
+        940
+      ],
+      "alphaSha256": "84a49baeb0370d8d547775f080a6f15ad131614ffa45dc9cefad81d8935a7532",
+      "decodedBytes": 4527040,
+      "bytes": 974078
+    },
+    {
+      "source": "res://assets/actors/hero-legend-walk-v3-kifight-2.webp",
+      "sourceSha256": "4f938a575ee1ebf353ffa08e8c1ab22063cc2ee8db703b3fa6bde313f589d62b",
+      "file": "atlases/020.webp",
+      "sha256": "19337d792f6c8a8547cd53fd5ada04b1e6b736b90c8d7c76f191e80f87c9622c",
+      "size": [
+        588,
+        1200
+      ],
+      "alphaSha256": "15ee51f5c49d65ff0f7de0e5e4daf36951891f0465dce083a5ee1467472975cd",
+      "decodedBytes": 2822400,
+      "bytes": 679840
+    },
+    {
+      "source": "res://assets/actors/hero-legend-walk-v3-kimove-1.webp",
+      "sourceSha256": "028cd38190173cf1b00a275ebca966a927bb3f3ce580b2516e068125c2c9ca99",
+      "file": "atlases/021.webp",
+      "sha256": "718a22b6c394f19450c7c4a6dcb70b7881902d6ddf50c5254945c97860789815",
+      "size": [
+        612,
+        1224
+      ],
+      "alphaSha256": "541c785fced59826e0c296b50022e857eda4dd4e6e38707170420c3604c61dc2",
+      "decodedBytes": 2996352,
+      "bytes": 770654
+    },
+    {
+      "source": "res://assets/actors/hero-legend-walk-v3-kiwalk-0.webp",
+      "sourceSha256": "45de035fc818f4bcc6f8f3a21695e0f96fdae993ca9a2eece0582b89f80baab1",
+      "file": "atlases/022.webp",
+      "sha256": "429b3c3e9cebed195083cef6d5e81c816d70cec9e2d8e1053551ed80b8cf2c7c",
+      "size": [
+        1725,
+        384
+      ],
+      "alphaSha256": "498eab046c5ae9aa0732bce557a5cb82229da437b2d08483389140b6c5f153c9",
+      "decodedBytes": 2649600,
+      "bytes": 680826
+    },
+    {
+      "source": "res://assets/actors/hero-legend-walk-v3-page-0.webp",
+      "sourceSha256": "c310d3e08f3102ae7a77712abb7b5c99fc6e2d02a4c41b459c9f662043c8ce33",
+      "file": "atlases/023.webp",
+      "sha256": "dfa07ab2d42da475072110be6d5a91ea8d40ffe841aa6b943ad84a3b90e9dcba",
+      "size": [
+        1761,
+        552
+      ],
+      "alphaSha256": "03d4fbca1e9fee6c2c61de8e2567ae17117deb038ad805c10814b3e399eb9644",
+      "decodedBytes": 3888288,
+      "bytes": 802700
+    },
+    {
+      "source": "res://assets/actors/hero-planetary-painted-walk-v3-fight-0.webp",
+      "sourceSha256": "d5bf2deb63e2b051f6952d58e82b75eec9ec8e8f6483cec178022b155d3e5167",
+      "file": "atlases/024.webp",
+      "sha256": "bae25df484bbe4230dbdbd6c89264b755a8ea9c202b7742965dcb392fb159070",
+      "size": [
+        1812,
+        368
+      ],
+      "alphaSha256": "0cf721baab470842eb2ca1e89a2144807934d4d7d9cfe53fda5343509e86c7ed",
+      "decodedBytes": 2667264,
+      "bytes": 614290
+    },
+    {
+      "source": "res://assets/actors/hero-planetary-painted-walk-v3-fight-1.webp",
+      "sourceSha256": "daac9afa61d5cb3384416eed0c491d29304c0e6940e55868bd52c2c192753937",
+      "file": "atlases/025.webp",
+      "sha256": "a38aa6db51bbedb6432603b6977ae0aa647c3bb5da8efbc114e22d3c34e4e89f",
+      "size": [
+        287,
+        676
+      ],
+      "alphaSha256": "4b3e1f6f78343cc048ebd031e372b0009ab2bf4d217ae43547d25c35f396512e",
+      "decodedBytes": 776048,
+      "bytes": 181716
+    },
+    {
+      "source": "res://assets/actors/hero-planetary-painted-walk-v3-fight-2.webp",
+      "sourceSha256": "ab4489e36a12e2a3548c687247ec94b9842814ecbfa7092f7b38e67e75b6fb69",
+      "file": "atlases/026.webp",
+      "sha256": "0b330925a2ca6135b172b172398ab093cb1c97a22e884cda64523e09ad081b35",
+      "size": [
+        1972,
+        556
+      ],
+      "alphaSha256": "6dd31635406b2d3ef21b373364ab386ed9614760e9ca29e6e9aa48ba1176f011",
+      "decodedBytes": 4385728,
+      "bytes": 989510
+    },
+    {
+      "source": "res://assets/actors/hero-planetary-painted-walk-v3-fight-3.webp",
+      "sourceSha256": "f6f87efba1581e11b077692136a582ddb0e1bcaf42fa16ad5c07f84be2fcf25e",
+      "file": "atlases/027.webp",
+      "sha256": "076ff20855a2d7a38a18c44233b297be1e06d28f43edc61158f1a7759f4402d7",
+      "size": [
+        1020,
+        596
+      ],
+      "alphaSha256": "38556f51454a217c581e92ca6e777e5f170b81927689bfaf98b78892d3df8384",
+      "decodedBytes": 2431680,
+      "bytes": 580496
+    },
+    {
+      "source": "res://assets/actors/hero-planetary-painted-walk-v3-fight-4.webp",
+      "sourceSha256": "4b3a64bec5ccb5fb11162ab104651fbcc68655cea2e9058c865bb83e1662467d",
+      "file": "atlases/028.webp",
+      "sha256": "f90dc9fac664a26bc0f00db954ce9f34c4dbac53a7c948dc70cd99bd63d91f69",
+      "size": [
+        1540,
+        560
+      ],
+      "alphaSha256": "8032511793957770bc65a1721be8ecc2591ac73a6c529dc2169c8f49f0f83aa2",
+      "decodedBytes": 3449600,
+      "bytes": 836458
+    },
+    {
+      "source": "res://assets/actors/hero-planetary-painted-walk-v3-idle-0.webp",
+      "sourceSha256": "ff274da0948b897e013bdc959271f47700dbb544696722c2c9385ddb2aa2e36c",
+      "file": "atlases/029.webp",
+      "sha256": "a63f3e7ce80a3d35737ebd61ec9e85494bff0bc2cfdafb05874fefd90e6c2ea8",
+      "size": [
+        1975,
+        376
+      ],
+      "alphaSha256": "08b66d07895cb06282e7c960076c5842f460a911bdf565728a94d5202db993df",
+      "decodedBytes": 2970400,
+      "bytes": 684990
+    },
+    {
+      "source": "res://assets/actors/hero-planetary-painted-walk-v3-kifight-0.webp",
+      "sourceSha256": "2f68cdcf131315b0ed3fa9fd2db04d0b9a1a83f314837944b456acd205da6f22",
+      "file": "atlases/030.webp",
+      "sha256": "5e78d670978510f8027079dc8eac9e0ebde2592f13a5cb4923e030e518b010c3",
+      "size": [
+        1440,
+        400
+      ],
+      "alphaSha256": "ff0e772491faf2df83d102e2d00add3b5d2c55268edfe30042d8d40118d3180a",
+      "decodedBytes": 2304000,
+      "bytes": 808078
+    },
+    {
+      "source": "res://assets/actors/hero-planetary-painted-walk-v3-kifight-1.webp",
+      "sourceSha256": "cc714fa74356f23482aa31a26b22edd77edff3dd033110d6e2f278546d6be81b",
+      "file": "atlases/031.webp",
+      "sha256": "bd433a7e60578adeb9321a88878957f878903f43c93331ae0f4df89364d3d823",
+      "size": [
+        1308,
+        372
+      ],
+      "alphaSha256": "25d406e68fb17560872fd4d47c6fc2ffcabd1f5308bb9d213957ccb61222d7e9",
+      "decodedBytes": 1946304,
+      "bytes": 547368
+    },
+    {
+      "source": "res://assets/actors/hero-planetary-painted-walk-v3-kifight-2.webp",
+      "sourceSha256": "201ad450361504a1c56641e38d4e3a416f6dd2ef76679c0d411330bc7bb72173",
+      "file": "atlases/032.webp",
+      "sha256": "8876f5d7a4f108254e2334587902e0962c05b2fbb61ebf540246d50ee58771e2",
+      "size": [
+        884,
+        792
+      ],
+      "alphaSha256": "8bd6793c1f2be110fccde049764800c1bd2764b254d6e8a822383ac4fdc76b36",
+      "decodedBytes": 2800512,
+      "bytes": 686046
+    },
+    {
+      "source": "res://assets/actors/hero-planetary-painted-walk-v3-kifight-3.webp",
+      "sourceSha256": "d017c64d06c124e42ff2bc4848a5dc544e81278ca97c1613e18c60a5e50110f6",
+      "file": "atlases/033.webp",
+      "sha256": "df16d8b6683ebf2e4b16254f09e0c89ddca99d4d1dedfd189a20b3b59d785804",
+      "size": [
+        1284,
+        360
+      ],
+      "alphaSha256": "e7ff0af78680cb3581e11c9aef2de26491c4542796b8dcb55953f0ea89aefd8d",
+      "decodedBytes": 1848960,
+      "bytes": 416140
+    },
+    {
+      "source": "res://assets/actors/hero-planetary-painted-walk-v3-kimove-1.webp",
+      "sourceSha256": "2a0815e8da7612ea7887e97f525ea06e1ff380badeafd8759d84634255b4eec5",
+      "file": "atlases/034.webp",
+      "sha256": "34b791309c82b7e43067232c2471e4c50c2f49f4f88f20bbf055f289d611ebda",
+      "size": [
+        1052,
+        712
+      ],
+      "alphaSha256": "ddf04ea0cb4f899d3b8bb598735371e76177bd570ceeb2ac72e1fbe2d5b0cc40",
+      "decodedBytes": 2996096,
+      "bytes": 795474
+    },
+    {
+      "source": "res://assets/actors/hero-planetary-painted-walk-v3-kiwalk-0.webp",
+      "sourceSha256": "83075755d61d51f5391825b2ba514739ed2c593a885e2b8c7ce6ca95f33d3861",
+      "file": "atlases/035.webp",
+      "sha256": "c05f55a10d2beb13d83d18c4ac8b1dbfd562fd2a6b911a2ac5fe8f7a18da08d9",
+      "size": [
+        1534,
+        372
+      ],
+      "alphaSha256": "f9d5331e461b8938d27e666ea33389006cea4e3f4ba47b485a172e2da976da9c",
+      "decodedBytes": 2282592,
+      "bytes": 617024
+    },
+    {
+      "source": "res://assets/actors/hero-planetary-painted-walk-v3-page-0.webp",
+      "sourceSha256": "e3a058d0e6e34fed9acd31efe185a1405027301101b27645f45331467f814fed",
+      "file": "atlases/036.webp",
+      "sha256": "51ce7a43ae1cfdedf66aad382372e4222226f8b7d3acfd9e602905b2445f8faa",
+      "size": [
+        1774,
+        556
+      ],
+      "alphaSha256": "130e326a6ba380c8474bd84d72c6bfcc2efdd585f997feb8a88eeb6639be6be5",
+      "decodedBytes": 3945376,
+      "bytes": 967164
+    },
+    {
+      "source": "res://assets/actors/hero-sage-painted-walk-v3-fight-0.webp",
+      "sourceSha256": "f558abb2430d8d380d95a91ebe9ddd0743b32fc1d8e201c9299bb540f9390e2c",
+      "file": "atlases/037.webp",
+      "sha256": "05ced32b337dfd4fd81aac857d215a62f96cfb734d3434579f4fe2f948035fa1",
+      "size": [
+        808,
+        928
+      ],
+      "alphaSha256": "c913bf761d7ed631f1355ee3022ecad41eae5511e31636e96686ec08d2db29d1",
+      "decodedBytes": 2999296,
+      "bytes": 763012
+    },
+    {
+      "source": "res://assets/actors/hero-sage-painted-walk-v3-fight-1.webp",
+      "sourceSha256": "a54f72657ca8e1c66efb1c320eb659b399b9f029e47254d2f2a632a4d54f8ff8",
+      "file": "atlases/038.webp",
+      "sha256": "c56d3213edd7f727ab75d24a2134a9db26802fff370681b42b3b7edf5072e293",
+      "size": [
+        644,
+        384
+      ],
+      "alphaSha256": "1222a501df060776f4e2e62beb1876ffbd2f835c8e14ca7176fe270c30a1521a",
+      "decodedBytes": 989184,
+      "bytes": 248462
+    },
+    {
+      "source": "res://assets/actors/hero-sage-painted-walk-v3-fight-2.webp",
+      "sourceSha256": "e2155da6cd029287424c00e6694ceef5b356944ab8ae05c8a906f8d43a11daba",
+      "file": "atlases/039.webp",
+      "sha256": "d2399a02aa75a45af514ad0475c963f264278199075db1889a6129486a6e4680",
+      "size": [
+        1852,
+        568
+      ],
+      "alphaSha256": "e9175683f5452711297bc9fcc4d7fe02f05f754da10719ec9756af8d031730c4",
+      "decodedBytes": 4207744,
+      "bytes": 1113862
+    },
+    {
+      "source": "res://assets/actors/hero-sage-painted-walk-v3-fight-3.webp",
+      "sourceSha256": "da1fbeab5a5e7067ff0a6cbb0a5e9751b661ca51e2f3c93613af4e76ace7578b",
+      "file": "atlases/040.webp",
+      "sha256": "10a7c090fd50f33fa2beaa36b11c196c3895076bc4664aa5470709832d216eb2",
+      "size": [
+        734,
+        548
+      ],
+      "alphaSha256": "8a4959b9ed3452ceaba2553c74f65c5746ec67176966537cce04ffe9449d397a",
+      "decodedBytes": 1608928,
+      "bytes": 396186
+    },
+    {
+      "source": "res://assets/actors/hero-sage-painted-walk-v3-fight-4.webp",
+      "sourceSha256": "d0930210e3851baa5d20eb6d4f470dc9cc0373c94365620085d03a44a33488e4",
+      "file": "atlases/041.webp",
+      "sha256": "c01b06d41130c3c724b483a2d21f7b20dbfd84816edfdbb7bbb1bb8c5f234839",
+      "size": [
+        804,
+        1112
+      ],
+      "alphaSha256": "2afcd015258da1602bcce16b8235c16a21be9d848caf0fd8bc2464ecce9bcf0b",
+      "decodedBytes": 3576192,
+      "bytes": 915780
+    },
+    {
+      "source": "res://assets/actors/hero-sage-painted-walk-v3-idle-0.webp",
+      "sourceSha256": "69944e2091d1ae6f9f755eab76bd400ac9763ed946e0fd58fbfb93f28d20ff90",
+      "file": "atlases/042.webp",
+      "sha256": "eb668b0ebc0f37c368802cd168e04b9990f1bd25e95f646481d2280e3a43ba59",
+      "size": [
+        1097,
+        752
+      ],
+      "alphaSha256": "1ec01160c773f0d7c70b4bd06fad1b8fd103c773f8abf0031e060b4ea08bad45",
+      "decodedBytes": 3299776,
+      "bytes": 879640
+    },
+    {
+      "source": "res://assets/actors/hero-sage-painted-walk-v3-kifight-0.webp",
+      "sourceSha256": "c23e1b149521009356897d90e52ab6d4324332839b72df3becdb18a59ebaa803",
+      "file": "atlases/043.webp",
+      "sha256": "3cb8afa0c951424bb75ddc38339b448aa9c3388a954ad7c7610088b2d0919acc",
+      "size": [
+        648,
+        788
+      ],
+      "alphaSha256": "24ca8ba3ef10ac988fb9fecd152a5ac798e6029cfa652565ad1ee9cecd5213c3",
+      "decodedBytes": 2042496,
+      "bytes": 567092
+    },
+    {
+      "source": "res://assets/actors/hero-sage-painted-walk-v3-kifight-1.webp",
+      "sourceSha256": "40d8953a983d5c75a5577d199e64887f530833b9324aff83a6bc159427fa2427",
+      "file": "atlases/044.webp",
+      "sha256": "628db2e83df33df560c11914fe49ff054a8c9a88095c669487bf658c433a127c",
+      "size": [
+        1580,
+        556
+      ],
+      "alphaSha256": "801942793caa70557f6b5c5b750c2c2e8937e24d116ca1df66450012b1ae2a33",
+      "decodedBytes": 3513920,
+      "bytes": 900706
+    },
+    {
+      "source": "res://assets/actors/hero-sage-painted-walk-v3-kifight-2.webp",
+      "sourceSha256": "ad9b36b19c402f571f16db239ecd6696c108fdc03aee5d59a2e7e0e04de6aacc",
+      "file": "atlases/045.webp",
+      "sha256": "12c441eba12d64797876c36635353b6504a916a5d91865070bafb632933199cb",
+      "size": [
+        733,
+        884
+      ],
+      "alphaSha256": "e3457916c94021700da18a3b707b185559299d964fc7b06e225b8e3f4d62c7ed",
+      "decodedBytes": 2591888,
+      "bytes": 691684
+    },
+    {
+      "source": "res://assets/actors/hero-sage-painted-walk-v3-kimove-1.webp",
+      "sourceSha256": "510242701dd165c7033f56b7e86ad6dba9fc332c9e7e958b2756c689d5d80a69",
+      "file": "atlases/046.webp",
+      "sha256": "af7195a98b539875b532760039e92f9b936f3e97a3ab09bda49dcfb41cf4ee7b",
+      "size": [
+        1964,
+        376
+      ],
+      "alphaSha256": "bd769251481cca68253faaa6445adefbd17a3ff255a0283271df4369f9ea1625",
+      "decodedBytes": 2953856,
+      "bytes": 753112
+    },
+    {
+      "source": "res://assets/actors/hero-sage-painted-walk-v3-kiwalk-0.webp",
+      "sourceSha256": "9c7891289ce8386b4f35ef8a27ba2349b7920badb160828d80c2a7d15f754379",
+      "file": "atlases/047.webp",
+      "sha256": "8c9839689d2f418af61d8f2d92d51458b5aaefca6479b82f3ebf8edfcdfda1cf",
+      "size": [
+        1622,
+        744
+      ],
+      "alphaSha256": "f8ce06a64fffa0adf072846ce46f1315e3a280eb98b8e822164a1fe4bba2dd6b",
+      "decodedBytes": 4827072,
+      "bytes": 1431666
+    },
+    {
+      "source": "res://assets/actors/hero-sage-painted-walk-v3-page-0.webp",
+      "sourceSha256": "c8ea339cdebebaad89a6fd350f23af2b8fd003d4b69a155a26165da2c0d3ebb1",
+      "file": "atlases/048.webp",
+      "sha256": "5017d28dd742fe4087daa9faac6ebcb9bd51104b79a0ed487f1be66916c70bf6",
+      "size": [
+        1593,
+        744
+      ],
+      "alphaSha256": "808b48c4792a9e9633284ef64e481168dc027b96ce2cbca5a32aaacc5738e96a",
+      "decodedBytes": 4740768,
+      "bytes": 1241272
+    }
+  ],
+  "installed": false,
+  "qualityStatus": "COLOR_REVIEW_REQUIRED",
+  "gpuGenerated": false
+}

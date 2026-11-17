@@ -146,3 +146,91 @@ produkcyjnej. W Godocie pozostają wcześniejsze ostrzeżenia ObjectDB przy wyj�
 i V-Sync w sterowniku programowym. Nie uruchamiano pełnego webowego CI, Playwright
 ani nowego buildu APK. Następna generacja wymaga najpierw poprawy kontroli ruchu
 ramion i oceny tej próbki; nie odpalano kolejnych seedów automatycznie.
+
+## 3. Kolory czterech ras — pełne atlasy i trzy próbki detali GPU
+
+Właściciel zlecił dalszą pracę i wskazał wyblakłe kolory postaci. Kontynuacja
+na `trial/vace-rtx6000-20261117`, od `e18cd17b416248dfc336a8219838c9b7e5a18c2b`.
+Zakres tej partii: podgląd pełnej korekty kolorów czterech grywalnych ras i osobne
+statyczne warianty poprawy detali Legendy. Bez podmiany produkcyjnej i bez nowego APK.
+
+### Diagnoza i korekta
+
+W `actor_view.gd` nie znaleziono stałego filtra rozjaśniającego postać. Mignięcie
+po trafieniu wraca do bieli. Dzienny `CanvasModulate` oraz modulate bohatera
+sprawdzono w prawdziwej scenie wszystkich czterech ras: białe, bez redukcji alfa.
+Źródłowa alfa we wnętrzu większości postaci wynosi 253–255/255, więc sama ta
+różnica nie tłumaczy dużego wyblaknięcia. Nie wyłącza to innych różnic fizycznego
+ekranu/sterownika; telefonu nie testowano. Nocne oświetlenie pozostaje celowe.
+
+`scripts/gpu/character_color.py` przygotował **49 atlasów / 144 definicje animacji**
+czterech bohaterów: Legendy, Planetarni, Mędrcy i Androidy. Jeden stały profil
+zwiększa chromę i kontrast, łagodniej traktuje skórę i mocne światła, kompresuje
+kolor do gamutu zamiast osobno obcinać kanały. Bez automatycznej ekspozycji
+poszczególnych klatek, wyostrzania przez granice atlasu lub losowego odmalowywania.
+To korekta kolorów istniejącego rysunku, nie nowa generacja szczegółów.
+
+Każdy bajt alfa i wymiar każdego arkusza jest identyczny ze źródłem. Prostokąty,
+kotwice, rozmiary świata, odbicia, kolejność klatek, FPS, pętle oraz dane postaci
+pozostają niezmienione. Budżet rozkodowanych tekstur nie rośnie; rozmiary plików
+mogą się różnić. [Rejestr wszystkich arkuszy, sum i profilu](qa/character-colors/complete-pack/color-pack.json).
+[Porównanie czterech ras](qa/character-colors/four-races-before-after.jpg).
+
+### Rzeczywisty Godot i testy
+
+`preview_character_colors.gd` uruchamia istniejące `PyraGame` kolejno dla czterech
+ras, odczytuje wszystkie 36 klipów na rasę i osiem kierunków. Po podmianie tekstur
+sprawdza SHA-256 źródeł/kandydatów, rozmiary, liczbę klatek, FPS i pętle wszystkich
+klipów. Rejestruje ruch prawdziwego gracza oraz odtworzenie animacji ataku;
+to nie jest test obrażeń lub balansu walki. Zapisy są izolowane przez `XDG_DATA_HOME`.
+
+- **3678/3678 headless**, [raport](qa/character-colors/godot-headless.json).
+- **3678/3678 X11 / OpenGL Compatibility / llvmpipe**, [raport](qa/character-colors/godot-native.json), [log](qa/character-colors/godot-native.txt).
+- **4/4** testy koloru: niezmieniona alfa/ukryte RGB, neutralne szarości i biel,
+  zachowanie barwy czerwieni, ochrona skóry, brak ekspozycji zależnej od klatki
+  ([log](qa/character-colors/unit-colors.txt)).
+- **18/18** testy VACE, w tym bezpieczne uwolnienie ramion i źródła kierunku
+  diagonalnego ([log](qa/character-colors/unit-vace.txt)).
+- Pełny TypeScript: [log](qa/character-colors/typecheck.txt).
+- Kontrola dokumentacji: [log](qa/character-colors/documentation-check.txt).
+
+[Film ruchu czterech ras w Godocie](qa/character-colors/four-races-runtime.mp4).
+Zrzuty przed/po: [Legendy przed](qa/character-colors/legend-before.png) / [po](qa/character-colors/legend-after.png),
+[Planetarni przed](qa/character-colors/planetary-before.png) / [po](qa/character-colors/planetary-after.png),
+[Mędrcy przed](qa/character-colors/sage-before.png) / [po](qa/character-colors/sage-after.png),
+[Androidy przed](qa/character-colors/android-before.png) / [po](qa/character-colors/android-after.png).
+To nagranie viewportu z kontrolowanym krokiem, nie benchmark telefonu.
+
+W pierwszej wersji skryptu wystąpił błąd zwalniania dwóch zasobów przy zakończeniu;
+przeniesienie zamykania do odroczonej funkcji usunęło ten błąd w końcowym przebiegu.
+Pozostało wcześniejsze ostrzeżenie ObjectDB i ograniczenie V-Sync sterownika.
+Nie wykonano nowego webowego Playwright/builda APK ani publikacji.
+
+### Trzy oddzielne warianty detali GPU
+
+RTX 6000 Ada wykonał trzy statyczne próby SDXL img2img na jednej zatwierdzonej
+klatce Legendy: siła 0,22 / 0,32 / 0,32 z nasyceniem wejścia ×1,22. Model
+`Lykon/dreamshaper-xl-v2-turbo@f70ad5bce436c640d23fc02cd0a6ccc787280b6e`,
+wagi istniejące, sprawdzone przed użyciem. Każdy wariant: 1024² oraz podgląd
+w oryginalnej komórce 200² z identyczną alfą. Sama zgodność alfa nie potwierdza
+zgodności wewnętrznej pozy lub kostiumu. **Nie są to nowe animacje.**
+
+[Porównanie GPU](qa/character-colors/gpu-detail/comparison.jpg),
+[wyniki, czasy i sumy](qa/character-colors/gpu-detail/result.json),
+[skrypt wykonany na podzie](qa/character-colors/gpu-detail/character_color_trial.py).
+Archiwum: [ZIP](qa/character-colors/gpu-detail-pilot.zip), 964 043 B, SHA-256
+`a4ed66d0a773bf88c0fa6916786666ad4caa6fe2ac13db9e4df6322ba2c81aea`.
+[Kontrola transferu](qa/character-colors/transfer-check.txt).
+Zysk detalu przy tych małych siłach jest umiarkowany; nie oznaczono ich jako
+pełnego odmalowania premium ani nie rozpropagowano osobnych losowych wyników
+na wszystkie klatki. Prowadziłoby to do ryzyka migotania twarzy i stroju.
+
+### Dalszy ruch — osobna próba
+
+Po ponownym zleceniu właściciela uruchomiono jedną próbę VACE z maską uwalniającą
+obszar ramion w środkowych kluczach (8/16/24), zachowując kontrolę twarzy i nóg
+oraz pełne klucze początku/końca pętli. Profil jest ograniczony do widoku w prawo.
+Pakowanie i narzędzia obsługują też osiem kierunków; przygotowano
+[wejście diagonalne](qa/character-colors/diagonal-starter.zip), ale samo przygotowanie
+nie jest dowodem generacji ani działania tego kierunku w grze. Odbiór ruchu
+jest oddzielny od powyższej korekty kolorów.

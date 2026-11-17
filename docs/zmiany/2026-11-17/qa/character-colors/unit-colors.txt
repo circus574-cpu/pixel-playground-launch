@@ -1,0 +1,13 @@
+test_every_alpha_byte_and_hidden_rgb_are_preserved (test_character_color.ColorContracts.test_every_alpha_byte_and_hidden_rgb_are_preserved) ... ok
+test_gray_metal_white_hair_and_black_remain_neutral (test_character_color.ColorContracts.test_gray_metal_white_hair_and_black_remain_neutral) ... /workspace/ki-android-release/scripts/gpu/test_character_color.py:23: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  pixels=list(grade(image).getdata())
+ok
+test_no_frame_local_auto_exposure (test_character_color.ColorContracts.test_no_frame_local_auto_exposure) ... ok
+test_richer_red_preserves_hue_and_skin_has_limited_shift (test_character_color.ColorContracts.test_richer_red_preserves_hue_and_skin_has_limited_shift) ... /workspace/ki-android-release/scripts/gpu/test_character_color.py:31: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  red,skin=list(grade(image).getdata())
+ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.074s
+
+OK

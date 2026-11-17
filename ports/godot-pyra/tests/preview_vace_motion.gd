@@ -123,7 +123,8 @@ func run() -> void:
 	var speed := game.player.speed
 	var walk_hash := hash(game.continent.walk)
 	game.player.locked = false
-	game.player.touch_motion = Vector2(0.6,0)
+	var travel_direction: Vector2 = Vector2.RIGHT.rotated(PyraActor.DIRECTIONS.find(str(pack.direction))*PI/4.0)
+	game.player.touch_motion = travel_direction*0.6
 	var seen: Dictionary = {}
 	var native := DisplayServer.get_name() != "headless"
 	if native: DirAccess.make_dir_recursive_absolute(output.path_join("frames"))
@@ -135,8 +136,8 @@ func run() -> void:
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png(output.path_join("frames/frame-%03d.png"%i))
 	game.player.touch_motion = Vector2.ZERO
-	check(game.player.position.x > before.x,"real-player-moved",game.player.position.x-before.x)
-	check(actor.sprite.animation == "walk:right","game-selected-walk-animation",str(actor.sprite.animation))
+	check((game.player.position-before).dot(travel_direction) > 0,"real-player-moved",(game.player.position-before).dot(travel_direction))
+	check(actor.sprite.animation == "walk:"+str(pack.direction),"game-selected-walk-animation",str(actor.sprite.animation))
 	check(seen.size() >= 4,"spriteframes-timeline-advanced",seen.keys())
 	check(game.player.speed == speed and hash(game.continent.walk) == walk_hash,"movement-speed-and-collision-unchanged")
 	var failed := checks.filter(func(c): return not c.passed).size()

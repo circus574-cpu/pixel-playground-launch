@@ -7,7 +7,7 @@ import math
 import os
 from pathlib import Path
 import statistics
-from vace_motion import output_root, safe_file, sha, validate, verify_result, write_json
+from vace_motion import DIRECTIONS, output_root, safe_file, sha, validate, verify_result, write_json
 
 
 def white_matte(image):
@@ -99,7 +99,7 @@ def validate_pack(path):
         raise ValueError("Unknown animation pack")
     if pack["cell"] != 200 or pack["origin"] != [0.5, 0.95] or pack["size"] != [133, 133]:
         raise ValueError("Presentation contract changed")
-    if (pack["actor"], pack["clip"], pack["direction"]) != ("pyra.hero", "walk", "right"):
+    if (pack["actor"], pack["clip"]) != ("pyra.hero", "walk") or pack["direction"] not in DIRECTIONS:
         raise ValueError("Unexpected trial target")
     if pack.get("orientation") != "displayed":
         raise ValueError("Packed frames must already face the displayed direction")

@@ -1,0 +1,10 @@
+MODEL_VERIFIED
+Loading pipeline components...:   0%|          | 0/7 [00:00<?, ?it/s]`torch_dtype` is deprecated! Use `dtype` instead!
+Loading pipeline components...:  14%|█▍        | 1/7 [00:00<00:00,  8.80it/s]Loading pipeline components...:  57%|█████▋    | 4/7 [00:00<00:00, 18.70it/s]Loading pipeline components...:  86%|████████▌ | 6/7 [00:00<00:00, 13.37it/s]Loading pipeline components...: 100%|██████████| 7/7 [00:00<00:00, 15.16it/s]
+  0%|          | 0/4 [00:00<?, ?it/s] 25%|██▌       | 1/4 [00:00<00:00,  6.22it/s] 75%|███████▌  | 3/4 [00:00<00:00,  8.52it/s]100%|██████████| 4/4 [00:00<00:00,  8.08it/s]100%|██████████| 4/4 [00:00<00:00,  7.98it/s]
+CHARACTER_READY detail-low
+  0%|          | 0/6 [00:00<?, ?it/s] 33%|███▎      | 2/6 [00:00<00:00, 10.68it/s] 67%|██████▋   | 4/6 [00:00<00:00,  8.42it/s] 83%|████████▎ | 5/6 [00:00<00:00,  8.05it/s]100%|██████████| 6/6 [00:00<00:00,  7.82it/s]100%|██████████| 6/6 [00:00<00:00,  8.18it/s]
+CHARACTER_READY detail-medium
+  0%|          | 0/6 [00:00<?, ?it/s] 33%|███▎      | 2/6 [00:00<00:00, 10.31it/s] 67%|██████▋   | 4/6 [00:00<00:00,  8.27it/s] 83%|████████▎ | 5/6 [00:00<00:00,  7.97it/s]100%|██████████| 6/6 [00:00<00:00,  7.75it/s]100%|██████████| 6/6 [00:00<00:00,  8.07it/s]
+CHARACTER_READY detail-vivid
+CHARACTER_PILOT_DONE

@@ -60,6 +60,28 @@ class MotionContracts(unittest.TestCase):
             if not known:
                 self.assertEqual(video[i].getpixel((0,0)), (128,128,128))
 
+    def test_arm_release_preserves_face_feet_and_loop_endpoints(self):
+        root=self.base/"arm-trial"
+        plan=motion.prepare(self.repo,root,arm_swing=True)
+        _,masks=motion.controls(root,plan)
+        for i in [0,32]:self.assertEqual(masks[i].getextrema(),(0,0))
+        for i in [8,16,24]:
+            self.assertEqual(masks[i].getpixel((260,85)),0)
+            self.assertEqual(masks[i].getpixel((260,410)),0)
+            self.assertEqual(masks[i].getpixel((290,230)),255)
+        plan['motionControl']['rect']=[0,0,512,512]
+        motion.write_json(root/'control.json',plan)
+        with self.assertRaises(ValueError):motion.validate(root)
+
+    def test_diagonal_uses_its_own_source_frames_and_pack_direction(self):
+        root=self.base/"diagonal-trial"
+        plan=motion.prepare(self.repo,root,direction="down-right")
+        self.assertEqual(plan['direction'],'down-right')
+        motion.fixture(root)
+        pack=packing.build(root,root/'reference-fixture/result.json',self.base/'diagonal-pack',True)
+        self.assertEqual(pack['direction'],'down-right')
+        with self.assertRaises(ValueError):motion.prepare(self.repo,self.base/'bad-mask',direction='down',arm_swing=True)
+
     def test_displayed_reference_respects_source_mirroring(self):
         from PIL import Image, ImageOps
         path=self.repo/"ports/godot-pyra/data/actors.json"

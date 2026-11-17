@@ -1,5 +1,10 @@
 # KI Legends — dokumentacja projektu
 
+**Kolory bohaterów — 17.11:** podgląd korekty 49 atlasów i 144 definicji animacji
+czterech ras, bez zmiany alfa, geometrii lub czasu animacji. Godot: 3678/3678
+headless i 3678/3678 X11. Osobno trzy statyczne próby detali GPU; bez wdrożenia
+i odbioru premium. [Porównania i film](zmiany/2026-11-17/ZMIANY.md#3-kolory-czterech-ras--pełne-atlasy-i-trzy-próbki-detali-gpu).
+
 **GPU — 17.11:** wykonano jedną próbę VACE na RTX 6000 Ada: 33 nowe klatki chodu
 Legendy, atlas 16 klatek i podgląd w Godocie (54/54 headless + 54/54 X11).
 To kandydat, bez instalacji do produkcji i bez odbioru premium; ramiona wymagają

@@ -69,7 +69,7 @@ def actor_cell(repo, actor, clip, direction, index):
     return image, path
 
 
-def prepare(repo, root):
+def prepare(repo, root, direction="right", arm_swing=False):
     from PIL import Image
     repo, root = Path(repo).resolve(), output_root(root)
     manifest_path = root / "control.json"
@@ -80,14 +80,16 @@ def prepare(repo, root):
     clip = actor["clips"]["walk"]
     if actor["cell"] != 200 or actor["origin"] != [0.5, 0.95] or actor["size"] != [133, 133]:
         raise ValueError("Hero presentation contract changed; audit it before preparing")
-    count, fps = len(clip["directions"]["right"]), float(clip["fps"])
+    if direction not in DIRECTIONS or (arm_swing and direction != "right"):
+        raise ValueError("Arm relaxation is calibrated for the right profile only")
+    count, fps = len(clip["directions"][direction]), float(clip["fps"])
     if count != 8 or not math.isfinite(fps) or fps <= 0 or not clip["loop"]:
         raise ValueError("Unexpected canonical walking cycle")
     for folder in ["source", "control"]:
         (root / folder).mkdir(exist_ok=True)
     frames, atlases = [], {}
     for i in range(count):
-        image, atlas = actor_cell(repo, actor, "walk", "right", i)
+        image, atlas = actor_cell(repo, actor, "walk", direction, i)
         file = "source/frame-%02d.png" % i
         image.save(root / file)
         frames.append({"file": file, "sha256": sha(root / file), "bodyHeight": image.getbbox()[3] - image.getbbox()[1]})
@@ -101,7 +103,7 @@ def prepare(repo, root):
         white.convert("RGB").resize((512, 512), Image.Resampling.LANCZOS).save(root / file)
         keys.append({"frame": i * 8, "sourceIndex": source_index, "file": file, "sha256": sha(root / file)})
     manifest = {
-        "schema": 1, "kind": "vace-walk-calibration", "actor": "pyra.hero", "clip": "walk", "direction": "right",
+        "schema": 1, "kind": "vace-walk-calibration", "actor": "pyra.hero", "clip": "walk", "direction": direction,
         "source": {"actorSha256": sha(source_path), "atlases": atlases, "frames": frames,
                    "fps": fps, "frameCount": count, "loop": True, "cell": 200,
                    "origin": actor["origin"], "size": actor["size"]},
@@ -114,6 +116,11 @@ def prepare(repo, root):
         "prompt": "Same adult anime male warrior and the same black and crimson armor, red sash, black spiky hair as the reference frames. Full body right profile walking with alternating leg strides, natural opposite arm swing. Follow the provided key poses. Fixed camera, white background, no props or effects, consistent face and costume.",
         "negativePrompt": "static legs, extra limbs, duplicated body, changing face, changing costume, weapons, turning, zoom, camera movement, text, watermark, cropped feet, scenery",
     }
+    if direction != "right":
+        manifest["prompt"] = manifest["prompt"].replace("right profile", direction.replace("-", " ") + " facing view")
+    if arm_swing:
+        manifest["motionControl"] = {"profile": "right-arm-release-v1", "frames": [8, 16, 24], "rect": [160, 145, 365, 315]}
+        manifest["prompt"] += " Clearly visible alternating arm swing opposite to the legs, hands travel in front of and behind the hip, relaxed bent elbows. Complete one walking cycle and return to the initial pose."
     write_json(manifest_path, manifest)
     return validate(root)
 
@@ -125,8 +132,10 @@ def validate(root):
     if plan.get("schema") != 1 or plan.get("kind") != "vace-walk-calibration" or plan.get("model") != {"repository": MODEL, "revision": REVISION}:
         raise ValueError("Wrong trial/model schema")
     source, sampling, export = plan["source"], plan["sampling"], plan["export"]
-    if (plan["actor"], plan["clip"], plan["direction"]) != ("pyra.hero", "walk", "right"):
-        raise ValueError("This calibration is scoped to the Legend walking right")
+    if (plan["actor"], plan["clip"]) != ("pyra.hero", "walk") or plan["direction"] not in DIRECTIONS:
+        raise ValueError("This calibration is scoped to the Legend walking")
+    if "motionControl" in plan and (plan["direction"] != "right" or plan["motionControl"] != {"profile": "right-arm-release-v1", "frames": [8, 16, 24], "rect": [160, 145, 365, 315]}):
+        raise ValueError("Uncalibrated arm control mask")
     if source["cell"] != 200 or source["origin"] != [0.5, 0.95] or source["size"] != [133, 133] or not source["loop"]:
         raise ValueError("Invalid presentation contract")
     if source["frameCount"] != 8 or len(source["frames"]) != 8 or not math.isfinite(source["fps"]) or source["fps"] <= 0:
@@ -159,7 +168,7 @@ def validate(root):
 
 
 def controls(root, plan):
-    from PIL import Image
+    from PIL import Image, ImageDraw
     keys = {k["frame"]: k for k in plan["keys"]}
     video, masks = [], []
     for i in range(plan["sampling"]["numFrames"]):
@@ -168,7 +177,11 @@ def controls(root, plan):
                 video.append(image.convert("RGB"))
         else:
             video.append(Image.new("RGB", (512, 512), (128, 128, 128)))
-        masks.append(Image.new("L", (512, 512), 0 if i in keys else 255))
+        mask = Image.new("L", (512, 512), 0 if i in keys else 255)
+        profile = plan.get("motionControl")
+        if profile and i in profile["frames"]:
+            ImageDraw.Draw(mask).rectangle(profile["rect"], fill=255)
+        masks.append(mask)
     return video, masks
 
 
@@ -303,6 +316,8 @@ def main():
     prep = commands.add_parser("prepare")
     prep.add_argument("--repo", type=Path, default=Path.cwd())
     prep.add_argument("--out", type=Path, required=True)
+    prep.add_argument("--direction", choices=DIRECTIONS, default="right")
+    prep.add_argument("--arm-swing", action="store_true")
     for name in ["validate", "fixture", "infer"]:
         cmd = commands.add_parser(name)
         cmd.add_argument("--root", type=Path, required=True)
@@ -311,7 +326,7 @@ def main():
             cmd.add_argument("--receipt", type=Path, required=True)
     args = parser.parse_args()
     if args.command == "prepare":
-        result = prepare(args.repo, args.out)
+        result = prepare(args.repo, args.out, args.direction, args.arm_swing)
     elif args.command == "validate":
         result = validate(args.root)
     elif args.command == "fixture":

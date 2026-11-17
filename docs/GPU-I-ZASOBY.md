@@ -1,5 +1,25 @@
 # KI Legends — GPU i zasoby
 
+## Android — pełna korekta kolorów czterech ras, 17.11.2026
+
+`scripts/gpu/character_color.py` tworzy osobny pakiet 49 atlasów / 144 definicji
+animacji czterech bohaterów. Stały profil poprawia chromę i kontrast z ochroną
+skóry oraz bieli. Nie wprowadza ekspozycji zależnej od klatki. Zachowuje każdy
+bajt alfa, wymiary, regiony, kotwice, FPS, odbicia i pętle; koszt rozkodowanych
+tekstur pozostaje identyczny. To wersja do oceny kolorów, bez instalacji.
+
+```sh
+python3 scripts/gpu/character_color.py --repo . --out /tmp/ki-character-colors
+python3 scripts/gpu/character_color.py --repo . --out /tmp/ki-character-colors --validate
+XDG_DATA_HOME=/tmp/ki-colors-review godot --audio-driver Dummy --path ports/godot-pyra --script res://tests/preview_character_colors.gd -- --fresh --pack=/tmp/ki-character-colors/color-pack.json --out=/tmp/ki-colors-evidence
+```
+
+Podgląd uruchamia rzeczywisty runtime czterech ras. Wynik: **3678/3678 headless
+i 3678/3678 X11** (struktura wszystkich animacji, źródła, ruch i animacja ataku;
+nie test obrażeń). [Porównania, film i raport](zmiany/2026-11-17/ZMIANY.md#3-kolory-czterech-ras--pełne-atlasy-i-trzy-próbki-detali-gpu).
+Trzy oddzielne obrazy SDXL służą ocenie odmalowania detali. Nie traktować ich
+jako spójnej animacji lub dowodu poprawy wszystkich postaci.
+
 ## Android — pierwsza próba VACE na RTX 6000 Ada, 17.11.2026
 
 Na maszynie uruchomionej przez właściciela wykonano **jedną rzeczywistą inferencję**:
