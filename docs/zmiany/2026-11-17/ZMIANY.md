@@ -527,3 +527,91 @@ To korekta styku z podłożem, nie odmalowanie wszystkich budynków ani naprawa
 różnic perspektywy w źródłowych ilustracjach. Wymaga odbioru artystycznego przed
 domyślnym włączeniem. Bez scalenia, publikacji i nowego APK. Pliki źródłowe,
 kanon, infrastruktura GPU oraz zapisy graczy pozostały nienaruszone.
+
+## 9. Historia w terenie — pierwsza próba Pyry i naprawa opisów lokacji
+
+Właściciel wskazał szablonowość terenu i brak odczuwalnej historii. Gałąź
+`trial/pyra-story-sites-20261117`, baza `599ea5b6479a620a08b007eeea68a007f2cc305b`.
+Zakres: pierwszy prototyp miejsc opowiadających istniejącą fabułę, nie przebudowa
+całej planety. [Kierunek i kolejne warstwy](../../SWIAT-I-MIASTA.md#świat-z-historią--kierunek-i-pierwszy-prototyp-17112026).
+
+### Audyt i wdrożony fragment
+
+Katalog Androida już zawiera 16 znanych miejsc z historią, 102 grywalne zadania
+i 14 wydarzeń. Interakcja ze znanym miejscem nadal wyświetlała jednak komunikat:
+„Znane miejsce Pyry. Odkrywanie lokacji i zadania będą przeniesione razem z mechaniką
+questów.” Usunięto ten zastępnik; wszystkie 16 miejsc czytają istniejący tekst
+`lore`, z pominięciem technicznego identyfikatora mapy w nawiasie. Sam odczyt
+nie zmienia stanu zadania, monet, XP ani nie nadaje ponownie nagrody odkrycia.
+
+`scripts/story_places.gd` w projekcie Android komponuje cztery sceny z aktualnych
+zasobów. To osobne, autorskie układy, odczytujące dotychczasowy postęp:
+
+| Miejsce z katalogu | Pokazana historia | Dotychczasowy stan zadania |
+| --- | --- | --- |
+| Bastion Złamanej Przysięgi | Ruiny, znaki i chorągwie wokół miejsca ręcznego alarmu | `O-P06`: ogień sygnałowy zapala się po ukończeniu |
+| Kaplica Dezerterów Popiołu | Cztery czerwone chorągwie i podtrzymywany ogień ratowników | `H-P01`: jaśniejsze znaki po poznaniu przysięgi |
+| Ołtarz Płomiennego Pojedynku | Dwa stanowiska i otwarty środek miejsca pojedynku | `O-P05`: zmieniony wygląd chorągwi |
+| Kolos Areny Dziedzictwa | Wóz i drewno odnoszące się do ewakuacji rzemieślników | `O-P01`: zmieniony wygląd chorągwi |
+
+Jest to interpretacja scenograficzna istniejących wpisów do oceny właściciela;
+nie dodano nowej historii, frakcji, nagród lub finałów questów do kanonu. Ogień
+jest istniejącym efektem `PyraAmbient`. Przedmioty są niekolizyjną warstwą
+dekoracyjną; punkt zablokowany przez wodę/przeszkodę jest pomijany. Źródłowe
+współrzędne lokacji, maska chodzenia, spawny i grafiki pozostają bez zmian.
+
+Sceny budzą się do 1150 j., usypiają po 1600 j. i sprawdzają stan co 0,5 s.
+Jedno miejsce ma do 6 rekwizytów i 1 efekt, łącznie cztery definicje; w badanych
+punktach aktywne było tylko najbliższe miejsce. Wyjście do wnętrza lub odejście
+usuwa scenę. Wczytanie istniejącego stanu questów odtwarza wygląd, także po powrocie
+do starszego zapisu. Nowych pól zapisu nie ma. Wygaszanie scen nie usuwa postępu.
+
+### Rzeczywiste kadry i sprawdzenia
+
+[Cztery miejsca przed/po](qa/story-places/comparison.jpg),
+[Kaplica](qa/story-places/famous-pyra-2-after.jpg),
+[Bastion po zadaniu — stan ustawiony w fixture](qa/story-places/fortress-completed-fixture.jpg),
+[działająca interakcja i historia](qa/story-places/fortress-history-dialog.jpg).
+Kadry pochodzą z runtime Godota. W porównaniach ukryto HUD i ustawiono kamerę 1,0.
+Nie przechodzono całego prologu: stan ukończenia zadania w scenariuszu jest
+syntetyczny i służy sprawdzeniu reakcji oraz odczytu istniejącego zapisu.
+
+- **54/54 X11** ([wyniki](qa/story-places/results.json), [log](qa/story-places/native.txt))
+  i **54/54 headless** ([wyniki](qa/story-places/headless/results.json),
+  [log](qa/story-places/headless.txt)): 16 tekstów historii, brak dodatkowej
+  nagrody, cztery sceny, osiągalne kotwice, limity i sprzątanie, reakcja na zadanie,
+  round-trip stanu questów i przywrócenie wcześniejszego wyglądu, zachowanie
+  geometrii, rzeczywista interakcja. W logach pozostało ostrzeżenie ObjectDB
+  przy zamykaniu; X11 także V-Sync.
+- Pełny [TypeScript](qa/story-places/typecheck.txt) oraz
+  [lint](qa/story-places/lint.txt): kod 0; lint: 0 błędów, 17 ostrzeżeń w innych plikach.
+- **Szersza regresja NIE jest zielona: 533/539**, 6 nieudanych asercji w istniejącym
+  `tests/smoke.gd` ([raport](qa/story-places/smoke/result.json),
+  [log](qa/story-places/smoke.txt)). Powtórzono ją na bazowym `599ea5b6` w izolowanym
+  projekcie z osobnym katalogiem danych: **również 533/539 i dokładnie te same
+  6 asercji** ([porównanie](qa/story-places/smoke-comparison.json),
+  [raport bazy](qa/story-places/baseline-smoke/result.json),
+  [log bazy](qa/story-places/baseline-smoke.txt)). Dotyczą footprintu, jednoczesnego
+  ataku i joysticka, ruchu przy 30/120 FPS, otwarcia/zamknięcia dialogu oraz wejścia
+  do sali. Nie osłabiano ani nie modyfikowano tych testów. Przy kończeniu obu
+  przebiegów występują także komunikaty o zasobach RID/ObjectDB. To oddzielna
+  blokada pełnego odbioru gry; zgodność z bazą nie naprawia istniejących usterek.
+
+Fizyczny Android i przeglądarkowy Phaser/Canvas/WebGL nie były testowane tym
+runnerem. Zmiana dotyczy portu Godot. Nie tworzono ani nie wydawano APK.
+
+### Co działa, co pozostało
+
+Naprawiony odczyt historii działa normalnie dla istniejących lokacji. Nowa
+scenografia pozostaje podglądem `KI_STORY_PLACES=1`, domyślnie wyłączonym.
+Odtworzenie:
+
+```sh
+KI_STORY_PLACES=1 DISPLAY=:101 LIBGL_ALWAYS_SOFTWARE=1 XDG_DATA_HOME=/tmp/ki-story-review godot --audio-driver Dummy --rendering-method gl_compatibility --path ports/godot-pyra --script res://tests/preview_story_places.gd -- --out=/tmp/ki-story-evidence
+```
+
+Dalszy zakres: autorskie szlaki pomiędzy miejscami, czynne trasy pracy i dostaw
+NPC, regionalne spotkania w sensownych miejscach, konsekwencje w osadach,
+przyroda i osobne opracowania sześciu wysp. Ten prototyp ich nie wdraża i nie
+oznacza, że cała planeta już żyje. Nie użyto płatnego AI ani poda GPU.
+Bez scalenia i publikacji. Wszystkie dotychczasowe postacie i dane świata zachowano.

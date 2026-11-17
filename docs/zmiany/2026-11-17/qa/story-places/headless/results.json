@@ -1,0 +1,261 @@
+{
+	"checks": [
+		{
+			"name": "Existing history, internal ID removed: famous-verdant-1",
+			"pass": true
+		},
+		{
+			"name": "Existing history, internal ID removed: famous-verdant-2",
+			"pass": true
+		},
+		{
+			"name": "Existing history, internal ID removed: famous-verdant-3",
+			"pass": true
+		},
+		{
+			"name": "Existing history, internal ID removed: famous-verdant-4",
+			"pass": true
+		},
+		{
+			"name": "Existing history, internal ID removed: famous-pyra-1",
+			"pass": true
+		},
+		{
+			"name": "Existing history, internal ID removed: famous-pyra-2",
+			"pass": true
+		},
+		{
+			"name": "Existing history, internal ID removed: famous-pyra-3",
+			"pass": true
+		},
+		{
+			"name": "Existing history, internal ID removed: famous-pyra-4",
+			"pass": true
+		},
+		{
+			"name": "Existing history, internal ID removed: famous-aether-1",
+			"pass": true
+		},
+		{
+			"name": "Existing history, internal ID removed: famous-aether-2",
+			"pass": true
+		},
+		{
+			"name": "Existing history, internal ID removed: famous-aether-3",
+			"pass": true
+		},
+		{
+			"name": "Existing history, internal ID removed: famous-aether-4",
+			"pass": true
+		},
+		{
+			"name": "Existing history, internal ID removed: famous-nexus-1",
+			"pass": true
+		},
+		{
+			"name": "Existing history, internal ID removed: famous-nexus-2",
+			"pass": true
+		},
+		{
+			"name": "Existing history, internal ID removed: famous-nexus-3",
+			"pass": true
+		},
+		{
+			"name": "Existing history, internal ID removed: famous-nexus-4",
+			"pass": true
+		},
+		{
+			"name": "Reading history gives no reward or quest progress",
+			"pass": true
+		},
+		{
+			"name": "Reading history leaves XP and coins unchanged",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-1 existing anchor walkable",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-1 authored scene active",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-1 bounded visible props",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-1 only nearby place loaded",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-1 world depth sorting",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-1 presentation leaves quest/save state intact",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-1 distant scene freed",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-2 existing anchor walkable",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-2 authored scene active",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-2 bounded visible props",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-2 only nearby place loaded",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-2 world depth sorting",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-2 presentation leaves quest/save state intact",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-2 distant scene freed",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-3 existing anchor walkable",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-3 authored scene active",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-3 bounded visible props",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-3 only nearby place loaded",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-3 world depth sorting",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-3 presentation leaves quest/save state intact",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-3 distant scene freed",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-4 existing anchor walkable",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-4 authored scene active",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-4 bounded visible props",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-4 only nearby place loaded",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-4 world depth sorting",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-4 presentation leaves quest/save state intact",
+			"pass": true
+		},
+		{
+			"name": "famous-pyra-4 distant scene freed",
+			"pass": true
+		},
+		{
+			"name": "Existing quest completion changes visible scene",
+			"pass": true
+		},
+		{
+			"name": "Manual alarm restored: signal fire visible",
+			"pass": true
+		},
+		{
+			"name": "Quest save round-trip accepted",
+			"pass": true
+		},
+		{
+			"name": "Existing completion survives reload; no new save schema",
+			"pass": true
+		},
+		{
+			"name": "Loading earlier quest state restores earlier scene",
+			"pass": true
+		},
+		{
+			"name": "World geometry and collisions unchanged",
+			"pass": true
+		},
+		{
+			"name": "Famous site reachable by existing interaction",
+			"pass": true
+		},
+		{
+			"name": "Real interaction opens location history",
+			"pass": true
+		}
+	],
+	"failures": [],
+	"newSaveSchema": false,
+	"physicalPhoneTested": false,
+	"questCompletedStateWasSynthetic": true,
+	"renderer": "headless",
+	"samples": [
+		{
+			"id": "famous-pyra-1",
+			"name": "Bastion Złamanej Przysięgi (Cytadela Północy)",
+			"props": 4,
+			"sourceLore": "Monumentalna bazaltowa twierdza górująca nad północną częścią Pyry, w której starszyzna klanów składała dawniej przysięgi wierności przed wyprawą. W jej głównej sali wisi pęknięty dzwon alarmowy, którego nie użyto na czas w dniu wielkiego wybuchu wulkanu. To tutaj Kaena odkrywa zamknięte archiwum rozkazów swojego rodu.",
+			"x": 64688.0,
+			"y": 17904.0
+		},
+		{
+			"id": "famous-pyra-2",
+			"name": "Kaplica Dezerterów Popiołu (Zachodnie Sanktuarium)",
+			"props": 6,
+			"sourceLore": "Surowa kamienna kaplica na zachodnim szlaku, z której po wojnie klanowej usunięto oficjalne herby. Przez dziesięciolecia mieszkańcy uratowani z dolnego miasta przychodzili tu nocą, by wiązać czerwone wstęgi dla strażników wykreślonych z ksiąg honorowych. Ogień w misie kaplicy podtrzymywany jest bez użycia sieci Chóru.",
+			"x": 37712.0,
+			"y": 41328.0
+		},
+		{
+			"id": "famous-pyra-3",
+			"name": "Ołtarz Płomiennego Pojedynku i Przerwanej Walki",
+			"props": 5,
+			"sourceLore": "Wschodnie sanktuarium klanowe, gdzie wojownicy Pyry rozstrzygali spory w kręgu rozżarzonych bazaltów. Dawny kodeks nakazywał walkę aż do utraty przytomności, lecz po utworzeniu Przymierza Popiołu wyryto tu nową zasadę: przerwanie pojedynku dla ocalenia życia nie plami honoru żadnej ze stron.",
+			"x": 848.0,
+			"y": 21520.0
+		},
+		{
+			"id": "famous-pyra-4",
+			"name": "Kolos Areny Dziedzictwa (Zachodni Monument)",
+			"props": 4,
+			"sourceLore": "Olbrzymi posąg dawnego czempiona Legend strzegący wejścia na główną Arenę Dziedzictwa w sercu Pyry. Choć oficjalna kronika głosi, że bohater poległ samotnie broniąc szczytu, pęknięcie na jego tarczy pochodzi od uderzenia spadającej belki, którą podtrzymywał nad głowami uciekających rzemieślników.",
+			"x": 31792.0,
+			"y": 848.0
+		}
+	],
+	"sourceWorldUnchanged": true,
+	"visualFeature": "KI_STORY_PLACES=1; default off"
+}

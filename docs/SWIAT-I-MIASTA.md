@@ -1,5 +1,50 @@
 # KI Legends — świat, kontynenty i miasta
 
+## Świat z historią — kierunek i pierwszy prototyp, 17.11.2026
+
+Właściciel wskazał, że tereny są szablonowe i świat nie opowiada historii.
+Kolejną jednostką pracy powinien być autorski fragment przygody: powód istnienia
+miejsca, ślady przeszłości, dzisiejszy problem mieszkańców, działanie gracza
+i widoczna konsekwencja. Przy każdym miejscu odróżniać źródłowy kanon od nowej
+propozycji. Rozbudowa samej liczby dekoracji/spawnów nie stanowi takiego odbioru.
+
+Audyt Androida znalazł gotowe 16 historii znanych miejsc w `data/quests.json`,
+102 grywalne zadania katalogu oraz 14 wydarzeń. Przy interakcji z miejscem nadal
+pokazywał się jednak stary komunikat o przyszłym przeniesieniu questów. Zastąpiono
+go istniejącą historią miejsca dla wszystkich kontynentów, usuwając z widoku
+techniczne identyfikatory mapy w nawiasach. Katalog źródłowy pozostaje niezmieniony.
+
+Pierwszy **prototyp wizualny Pyry**, `KI_STORY_PLACES=1`, obejmuje cztery istniejące
+punkty. Każdy ma osobny układ rekwizytów z aktualnych zasobów: ślady ratowników
+przy kaplicy, pozostałości alarmu przy Bastionie, dwa stanowiska przy ołtarzu
+pojedynków oraz wóz/belkę przy Kolosie. Odczytuje ukończenie istniejących zadań
+`O-P06`, `H-P01`, `O-P05`, `O-P01`; reagują ogień sygnałowy i wygląd chorągwi.
+To scenografia do oceny, nie nowy rozdział kanonu lub nowe nagrody. Odtworzenie
+starszego stanu zadania przywraca starszy wygląd; bez nowych pól zapisu.
+[Kod, rzeczywiste kadry i kontrole](zmiany/2026-11-17/ZMIANY.md#9-historia-w-terenie--pierwsza-próba-pyry-i-naprawa-opisów-lokacji).
+
+### Kolejne warstwy projektowe — jeszcze niewdrożone tym prototypem
+
+| Warstwa | Wymaganie do kolejnego odbioru |
+| --- | --- |
+| Autorskie szlaki | Zaprojektowana podróż pomiędzy konkretnymi miejscami, ślady kierujące do celu, odnogi i spokojne odcinki; pomiar czasu przejścia |
+| Mieszkańcy | Nazwani rozmówcy z katalogu obecni w prawidłowych osadach; trasy pracy, dostaw, odpoczynku i reakcje na postęp; przejścia nieblokujące usług |
+| Wydarzenia | Zakotwiczenie każdego wydarzenia w konkretnym problemie szlaku i historii miejsca; istniejący geometryczny rozrzut punktów między miastami wymaga autorskiego przeglądu |
+| Konsekwencje | Naprawiona latarnia, wznowione dostawy, zmienione rozmowy lub zasiedlony posterunek wynikające z istniejącego postępu; bez mnożenia jednorazowych nagród |
+| Przyroda i dźwięk | Lokalne siedliska, ślady migracji i odgłosy czytelne dla danego biomu; limity aktywności i pomiar na Androidzie |
+| Zróżnicowanie krain | Własne rytmy i problemy zamiast jednego zestawu zajęć przepisanego na wszystkie lądy |
+
+Źródła kierunków: Verdantia — Most Trzech Nurtów, Dom Podwójnego Echa i Korzenna
+Kuźnia; Aetheria — archiwum skreślonych imion, obserwatorium i źródło pamięci;
+Nexus-9 — kalibracja, przeciążona pamięć i terminal odmowy demontażu; Pyra —
+ewakuacja, przysięga, ratownicy i ręczny alarm. Sześć wysp wymaga osobnych
+opracowań na podstawie istniejących wypraw. Nie zmieniać zatwierdzonych nazw,
+ras ani geometrii w ramach samej scenografii.
+
+Obecny pilot nie wdraża rytmu pracy wszystkich mieszkańców, całych szlaków
+fabularnych ani nowej zawartości sześciu wysp. Pozostaje domyślnie wyłączony.
+Nie powstało nowe APK i nie opublikowano zmian.
+
 ## Aetheria — oprawa kontynentu (domyślnie włączona od 05.11.2026)
 
 Scalona przez PR #118 (wcześniej gałąź `preview/aetheria-continent-v2`). Domyślnie włączona w Superior v2; `ki-aetheria-continent=0` przywraca dawny wygląd. Opis,

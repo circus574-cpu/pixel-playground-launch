@@ -3,6 +3,7 @@ extends Node2D
 const GmPanel := preload("res://scripts/gm_panel.gd")
 const GmTools := preload("res://scripts/gm_tools.gd")
 const GameMenu := preload("res://scripts/game_menu.gd")
+const StoryPlaces := preload("res://scripts/story_places.gd")
 var gm_tools: RefCounted
 ## KI Legends / Pyra on Godot: the whole continent (Superior v2 geometry), four safe cities with six service
 ## interiors each, the Legend with her full kit, plus the 2D map and 3D globe. No enemies and no spawns yet.
@@ -313,6 +314,11 @@ func enter_land(id: String, at: Vector2 = Vector2(-1, -1)) -> void:
 		if str(e.continent) == id:
 			land_events.append(e)
 	world_events.setup(self, land_events, event_anchors(land_events.size()))
+	if land_id=="pyra" and OS.get_environment("KI_STORY_PLACES")=="1":
+		var places := StoryPlaces.new()
+		places.name = "StoryPlaces"
+		continent.add_child(places)
+		places.setup(self)
 	var start := at if at.x >= 0.0 else Vector2(float(land.arrival.x), float(land.arrival.y))
 	city_return = start
 	current_room = ""
@@ -868,7 +874,15 @@ func interact() -> void:
 			else:
 				hud.show_dialog(str(target.name), "Punkt z istniejącego miasta.")
 		"place":
-			hud.show_dialog(str(target.name), "Znane miejsce Pyry. Odkrywanie lokacji i zadania będą przeniesione razem z mechaniką questów.")
+			hud.show_dialog(str(target.name), famous_place_text(str(target.id)))
+
+func famous_place_text(id: String) -> String:
+	var place: Dictionary = quests.famous_by_key.get(id,{})
+	var text := str(place.get("lore","Nie udało się odczytać historii tego miejsca."))
+	var map_key := str(place.get("mapPointId",""))
+	if not map_key.is_empty():
+		text = text.replace(" ("+map_key+")","").replace("("+map_key+") ","")
+	return text
 
 # ---- combat -------------------------------------------------------------------------------
 

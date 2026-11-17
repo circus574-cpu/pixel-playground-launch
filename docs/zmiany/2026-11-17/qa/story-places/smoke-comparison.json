@@ -1,0 +1,24 @@
+{
+  "baselineCommit": "599ea5b6479a620a08b007eeea68a007f2cc305b",
+  "baselineCityGameSha256": "79a66e117960f52fb9e50a660623958efb6a29be02bf2dfb3e3859f7dd5424ef",
+  "current": {
+    "passed": 533,
+    "failed": 6,
+    "checks": 539
+  },
+  "baseline": {
+    "passed": 533,
+    "failed": 6,
+    "checks": 539
+  },
+  "sameFailedAssertions": [
+    "authored footprint blocks the hero",
+    "attack finger and stick finger work at the same time",
+    "30/120 FPS do not change movement speed",
+    "NPC dialog opens and releases movement",
+    "dialog closes with a separate touch index",
+    "enter hall from accepted-hall"
+  ],
+  "newFailedAssertions": [],
+  "baselineMethod": "Isolated temporary project, symlinked unchanged files, city_game.gd restored from Git baseline; fresh XDG_DATA_HOME for both runs. Story visuals disabled in both full smoke runs."
+}

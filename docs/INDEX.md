@@ -1,5 +1,11 @@
 # KI Legends — dokumentacja projektu
 
+**Historia w terenie — 17.11:** odblokowano właściwe opisy 16 istniejących znanych
+miejsc zamiast tekstu zastępczego. Wizualny prototyp czterech miejsc Pyry łączy
+autorskie układy rekwizytów z dotychczasowym postępem zadań.
+[Kadry i testy](zmiany/2026-11-17/ZMIANY.md#9-historia-w-terenie--pierwsza-próba-pyry-i-naprawa-opisów-lokacji),
+[kierunek dalszej rozbudowy](SWIAT-I-MIASTA.md#świat-z-historią--kierunek-i-pierwszy-prototyp-17112026).
+
 **Budynki — 17.11:** podgląd osadzenia 22 malowanych wariantów w podłożu:
 cień kontaktowy i miększa krawędź podestów Verdantii. Porównania z czterech miast
 w Godocie; źródła i kolizje zachowane, bez publikacji.
