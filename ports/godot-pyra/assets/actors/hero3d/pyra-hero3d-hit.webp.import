@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/pyra-hero3d-hit.webp-70faa0b0acedee8a23071b52
 
 [params]
 
-compress/mode=0
+compress/mode=1
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/aether-hero3d-skillb.webp-e78f5c4bf0b337f24db
 
 [params]
 
-compress/mode=0
+compress/mode=1
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

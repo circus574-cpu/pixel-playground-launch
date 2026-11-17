@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/nexus-hero3d-victory.webp-7d4634d5a8757049387
 
 [params]
 
-compress/mode=0
+compress/mode=1
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

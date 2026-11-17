@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/verdant-hero3d-kitransform.webp-810c76c93a4f8
 
 [params]
 
-compress/mode=0
+compress/mode=1
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/aether-hero3d-attack2.webp-59f87374fdeaa52dcb
 
 [params]
 
-compress/mode=0
+compress/mode=1
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

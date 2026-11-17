@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/nexus-hero3d-kihitheavy.webp-17f6c6efdb99e6ea
 
 [params]
 
-compress/mode=0
+compress/mode=1
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

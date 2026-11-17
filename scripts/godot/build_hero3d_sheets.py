@@ -92,6 +92,9 @@ def main() -> None:
         sheet = out_dir / f"{args.world}-hero3d-{args.prefix}{name}.webp"
         atlas.save(sheet, "WEBP", quality=80, alpha_quality=90, method=6)
         total += sheet.stat().st_size
+        imp = sheet.with_name(sheet.name + ".import")   # lossy texture import like the painted heroes (lossless would triple the APK)
+        if imp.exists():
+            imp.write_text(imp.read_text().replace("compress/mode=0", "compress/mode=1").replace("compress/lossy_quality=0.92", "compress/lossy_quality=0.7"))
         for mirrored, source in MIRROR.items():
             directions[mirrored] = directions[source]
         clips[args.prefix + name] = {"sheet": f"res://assets/actors/hero3d/{sheet.name}", "fps": info["fps"], "loop": info["loop"], "mirrored": list(MIRROR), "directions": directions} | ({"refSpeed": info["refSpeed"]} if "refSpeed" in info else {})

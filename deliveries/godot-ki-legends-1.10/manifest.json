@@ -1,0 +1,20 @@
+{
+  "format": "ki-godot-pyra-delivery-1",
+  "scope": "KI LEGENDS 1.10: bohaterowie czterech ras renderowani z modeli 3D (Meshy) z formami KI i animacja przemiany, efekty premium, litery i ramki wlasciciela, import postaci z przegladarki. Ten sam versionCode 100 co 1.0 (instaluje sie na 1.0 bez odinstalowania; jedno wydanie z serwera obsluguje oba APK). APK 1.0 po aktualizacji z serwera pokazuje malowanych bohaterow (nie ma nowych obrazow).",
+  "engine": "Godot 4.6.3",
+  "version": "1.10",
+  "versionCode": 100,
+  "androidPackage": "pl.kilegends.godot.pyra",
+  "applicationLabel": "KI LEGENDS",
+  "signing": "local debug certificate (the same as 1.0, SHA-256 dd788170...), APK Signature Scheme v2 and v3",
+  "artifacts": {
+    "deliveries/godot-ki-legends-1.10/ki-legends-1.10.apk": {
+      "bytes": 136592437,
+      "sha256": "51bf7308902c0a4f13900313091f437044ec952e8fda2c941f01537beb198be1"
+    }
+  },
+  "contentRelease": "deliveries/godot-content-1.10 (core-c100)",
+  "defaultServer": "https://kilegends.pl",
+  "tests": "smoke.gd 542/542, gm_gameplay 58/58, e2e_installed.py PASS (APK 1.0 + core 1.10), e2e_core.py 11/11",
+  "physicalDeviceTest": "Not performed"
+}
