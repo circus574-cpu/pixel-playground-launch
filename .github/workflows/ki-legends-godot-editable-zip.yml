@@ -21,12 +21,12 @@ jobs:
           sparse-checkout-cone-mode: true
           lfs: false
           persist-credentials: true
-      - name: Pobierz pelne zasoby graficzne Git LFS
+      - name: Zweryfikuj zasoby projektu
         shell: bash
         run: |
           set -euo pipefail
-          git lfs version
-          git lfs pull --include='ports/godot-pyra/**' --exclude=''
+          test -s ports/godot-pyra/assets/branding/icon.png
+          test -s ports/godot-pyra/project.godot
       - name: Zapakuj kompletny, edytowalny projekt Godot
         shell: bash
         run: |
