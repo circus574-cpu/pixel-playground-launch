@@ -1,0 +1,81 @@
+{
+  "zipSha256": "08a78afbb8329e02de2a6c8c23cc4b9e47f12b0623809979bbf39738d5676893",
+  "modelSha256": "e27008ebb782e7edcc4afd88ad7d7522efe3a8ac2648e88a420a3b202f244fa3",
+  "modelBytes": 51304748,
+  "asset": {
+    "generator": "pygltflib@v1.16.5",
+    "version": "2.0"
+  },
+  "nodes": 1,
+  "meshes": 1,
+  "skins": 0,
+  "animations": [],
+  "materials": [
+    {
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "metallicFactor": 1.0,
+        "roughnessFactor": 1.0,
+        "baseColorTexture": {
+          "index": 0,
+          "texCoord": 0
+        },
+        "metallicRoughnessTexture": {
+          "index": 1,
+          "texCoord": 0
+        }
+      },
+      "normalTexture": {
+        "index": 2,
+        "texCoord": 0
+      },
+      "alphaMode": "OPAQUE",
+      "doubleSided": true
+    }
+  ],
+  "images": [
+    {
+      "mimeType": "image/jpeg",
+      "bufferView": 4
+    },
+    {
+      "mimeType": "image/jpeg",
+      "bufferView": 5
+    },
+    {
+      "mimeType": "image/jpeg",
+      "bufferView": 6
+    }
+  ],
+  "extensionsUsed": [],
+  "vertexCounts": [
+    820637
+  ],
+  "indexCounts": [
+    4589646
+  ],
+  "triangles": 1529882,
+  "textureSizes": [
+    [
+      2048,
+      2048
+    ],
+    [
+      2048,
+      2048
+    ],
+    [
+      2048,
+      2048
+    ]
+  ],
+  "sourceDriveFolder": "https://drive.google.com/drive/folders/1fo8e99WxocqXh_FcgaIYFlUbr55-VpCB",
+  "sourceDriveFileId": "1opKqonp-EdkYamwVi6gOVTrcV0RLsm4q",
+  "sourceFileName": "Meshy_models_20261117_064147.zip",
+  "sourceRole": "User-supplied Meshy export; gameplay race assignment not performed by this audit"
+}

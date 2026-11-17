@@ -1,9 +1,9 @@
 # KI Legends — dokumentacja projektu
 
-**Meshy — 17.11:** przygotowany kontrakt renderowania modeli do istniejącej gry
-2D, zgodny z czasami i kotwicami 144 klipów. Modelu z usługi jeszcze nie otrzymano.
-Próby VACE i mocniejszego odmalowania zachowano; wynik techniczny oddzielono
-od odbioru kierunków, ramion i stroju. [Raport i dalszy kierunek](zmiany/2026-11-17/ZMIANY.md#5-kierunek-meshy--kontrakt-wejścia-do-istniejącego-godota).
+**Meshy — 17.11:** pierwszy GLB z trzema teksturami 2048² wczytano w Godocie
+i pokazano z ośmiu stron. To model statyczny: brak szkieletu i animacji.
+Kontrakt dalszego renderowania do atlasów zachowuje czasy i kotwice 144 klipów.
+[Raport i osiem widoków](zmiany/2026-11-17/ZMIANY.md#6-pierwszy-model-z-meshy--audyt-glb-i-osiem-widoków).
 
 **Kolory bohaterów — 17.11:** podgląd korekty 49 atlasów i 144 definicji animacji
 czterech ras, bez zmiany alfa, geometrii lub czasu animacji. Godot: 3678/3678

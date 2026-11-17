@@ -310,3 +310,67 @@ nie jest taką pozą. Sprawdzić szkielet, materiały i animacje przed większą
 Nie zakładać prawidłowych kierunków na podstawie samych nazw. Referencje ras
 i kanon pozostają w dokumencie ras; źródłowy PDF i prawa do materiałów pozostają
 oddzielnymi dowodami. Nie użyto API ani kredytów Meshy.
+
+## 6. Pierwszy model z Meshy — audyt GLB i osiem widoków
+
+Właściciel przekazał [folder „Blender”](https://drive.google.com/drive/folders/1fo8e99WxocqXh_FcgaIYFlUbr55-VpCB).
+Odczytano go przez integrację Dysku Google, pobrano kompletny ZIP, sprawdzono
+nazwy/rozmiary wpisów i odczytano GLB. Organizacja i udostępnianie Dysku bez zmian.
+Gałąź `trial/meshy-import-20261117`, baza `afb7a092f0ece62624f44391892b2bea865150c6`.
+
+Paczka [Meshy_models_20261117_064147.zip](https://drive.google.com/file/d/1opKqonp-EdkYamwVi6gOVTrcV0RLsm4q/view)
+ma 40 460 528 B, SHA-256 `08a78afbb8329e02de2a6c8c23cc4b9e47f12b0623809979bbf39738d5676893`.
+W środku jeden folder `Meshy_AI_Anime_Sorceress_Emerald_Gold_20261117_image-to-3d-texture_62fb35c8`
+i jeden `Meshy_AI_model.glb`, 51 304 748 B, SHA-256
+`e27008ebb782e7edcc4afd88ad7d7522efe3a8ac2648e88a420a3b202f244fa3`.
+Oryginał zachowano na Dysku oraz lokalnie poza drzewem kodu, bez ponownego
+publicznego umieszczania całego pliku źródłowego. W Git są metadane, narzędzie
+audytu i podglądy. Nazwa paczki i deklaracja usługi nie są dowodem licencji.
+
+### Faktyczna zawartość
+
+| Element | Wynik |
+| --- | --- |
+| Format | GLB/glTF 2.0, poprawna zadeklarowana długość i odczyt danych |
+| Siatka | 1, 820 637 wierzchołków, 4 589 646 indeksów, 1 529 882 trójkąty |
+| Materiał | 1, PBR metallic/roughness, dwustronny i nieprzezroczysty |
+| Tekstury | 3 osadzone JPEG 2048×2048: base color, metallic/roughness, normal |
+| Szkielet i skiny | 0 |
+| Animacje | 0 |
+
+[Odczyt źródła i sumy](qa/meshy-first-model/source-audit.json).
+Godot potwierdził tę samą strukturę po zaimportowaniu: jedna siatka, jeden
+materiał, brak `Skeleton3D` i `AnimationPlayer` z klipami. Nie przydzielano
+modelu do grywalnej rasy i nie zmieniano kanonu ani bohaterów istniejącej gry.
+
+### Podgląd w rzeczywistym silniku
+
+Nowy `ports/godot-pyra/tests/audit_meshy_glb.gd` używa `GLTFDocument`, odczytuje
+model z zewnętrznej ścieżki i buduje izolowane studio 3D. Kamera ortograficzna,
+stała skala i oświetlenie; osiem obrotów co 45°. Pierwszą próbę o zbyt mocnym
+oświetleniu zastąpiono łagodniejszym zestawem lamp, zachowując źródłowe materiały.
+Nie odmalowywano tekstur modelu i nie generowano obrazów zastępujących render.
+
+[Osiem widoków](qa/meshy-first-model/eight-views.jpg),
+[przód / obrót 0°](qa/meshy-first-model/view-000.png),
+[bok / obrót 90°](qa/meshy-first-model/view-090.png),
+[tył / obrót 180°](qa/meshy-first-model/view-180.png).
+[Raport X11](qa/meshy-first-model/native.json), [log](qa/meshy-first-model/native.txt),
+[raport headless](qa/meshy-first-model/headless.json),
+[sprawdzenie ośmiu zapisanych klatek](qa/meshy-first-model/render-check.json).
+Renderer X11/OpenGL Compatibility/llvmpipe, bez testu fizycznego Androida.
+Pełny TypeScript: PASS ([log](qa/meshy-first-model/typecheck.txt));
+kontrola dokumentacji: [log](qa/meshy-first-model/documentation-check.txt).
+Pozostało ostrzeżenie sterownika o V-Sync; brak błędu importu w obu przebiegach.
+
+Odtworzenie po pobraniu pliku z Dysku:
+
+```sh
+XDG_DATA_HOME=/tmp/ki-meshy-review godot --audio-driver Dummy --path ports/godot-pyra --script res://tests/audit_meshy_glb.gd -- --model=/absolutna/sciezka/Meshy_AI_model.glb --out=/tmp/ki-meshy-evidence
+```
+
+To **statyczny podgląd modelu, nie animacja idle/walk, gotowy atlas ani integracja
+z rozgrywką**. Następny eksport powinien zawierać skórkowaną siatkę, szkielet
+i przynajmniej idle/walk. Nie tworzono sztucznego chodu przez przesuwanie tej bryły.
+Duża siatka może służyć jako źródło renderów offline; nie umieszczano jej bezpośrednio
+na telefonie. Bez scalenia, publikacji, nowego APK lub operacji na instancjach GPU.

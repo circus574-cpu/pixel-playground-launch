@@ -1,0 +1,61 @@
+{
+  "checks": [
+    "GLB header/declared length and JSON parsed",
+    "ZIP source read with CRC validation",
+    "Native and headless Godot imports complete",
+    "Eight 800x1000 native captures contain visible geometry",
+    "Source hash unchanged",
+    "No skins or animation tracks in source or imported scene"
+  ],
+  "views": [
+    {
+      "rotation": 0,
+      "bytes": 564033,
+      "sha256": "80a391acb159731560344f2ded83cd8b2e3e090c083e67da7c76c603a7023441",
+      "foregroundPixels": 274011
+    },
+    {
+      "rotation": 45,
+      "bytes": 501957,
+      "sha256": "b81fb0d0cc9fe426508310acd0b2354f329039079bc439fcc9288836f24f56c4",
+      "foregroundPixels": 243074
+    },
+    {
+      "rotation": 90,
+      "bytes": 402026,
+      "sha256": "1f33ae23609ec994985c0d62e7c209230d08266127b8a96bfade240f5a60b4b0",
+      "foregroundPixels": 202188
+    },
+    {
+      "rotation": 135,
+      "bytes": 443377,
+      "sha256": "f660fe8dc4dbc7edb2e192eefc55d300fc1c58a6e2dffef2d445d5667f175f4f",
+      "foregroundPixels": 248865
+    },
+    {
+      "rotation": 180,
+      "bytes": 514304,
+      "sha256": "79149e131559e884ec5a534d328540c4317cc51eb7862ab18b108c90248a43ce",
+      "foregroundPixels": 288676
+    },
+    {
+      "rotation": 225,
+      "bytes": 450567,
+      "sha256": "a0f6d64211e107f516cb87cae7a5f18ba2f69c86fc4bc95532964574da937464",
+      "foregroundPixels": 254531
+    },
+    {
+      "rotation": 270,
+      "bytes": 408235,
+      "sha256": "14031b55865b0e81d7b6029171ad7acc14b04a660878036a71f66b5a58dc2505",
+      "foregroundPixels": 205757
+    },
+    {
+      "rotation": 315,
+      "bytes": 485827,
+      "sha256": "526f7b5a46afa9eb1936c8eacadc2e1d02b8bb3e7bcbda872447896ec8f1d7ec",
+      "foregroundPixels": 242111
+    }
+  ],
+  "scope": "Static inspection; not animated gameplay or real-phone evidence"
+}

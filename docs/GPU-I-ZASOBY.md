@@ -1,6 +1,23 @@
 # KI Legends — GPU i zasoby
 
-## Postacie z Meshy — przygotowany kontrakt, bez importu modelu
+## Postacie z Meshy — pierwszy model statyczny, 17.11.2026
+
+Otrzymano paczkę `Meshy_models_20261117_064147.zip` z folderu właściciela na Dysku:
+jeden `Meshy_AI_model.glb`, 51 304 748 B, jedna siatka, jeden materiał,
+820 637 wierzchołków i 1 529 882 trójkąty. Trzy osadzone tekstury JPEG 2048²:
+kolor bazowy, metallic/roughness i normalna. **Brak skinów, szkieletu i animacji.**
+Godot 4.6.3 wczytał plik w headless i X11; wykonano osiem statycznych obrotów.
+[Pochodzenie, sumy i podglądy](zmiany/2026-11-17/ZMIANY.md#6-pierwszy-model-z-meshy--audyt-glb-i-osiem-widoków).
+
+`ports/godot-pyra/tests/audit_meshy_glb.gd` odczytuje zewnętrzny model bez
+instalowania go do gry. Parametry: `--model=<absolutna ścieżka GLB>` i
+`--out=<katalog dowodów>`. Wymaga natywnego renderera do zrzutów; headless sprawdza
+import bez renderowania. Oświetlenie, kamera i skala są stałe, etykiety oznaczają
+obrót modelu, nie zgadywany kierunek gry. Podglądy nie są gotowymi atlasami alfa.
+Kolejny etap wymaga modelu ze skórkowaniem i animacjami idle/walk. Nie traktować
+obrotu statycznej bryły jako animacji chodzenia ani dowodu działania na telefonie.
+
+### Kontrakt dalszej integracji
 
 Właściciel 17.11 zadeklarował zakup Meshy.ai. Dla obecnej gry 2D proponowany
 proces to model z teksturami → rig humanoida → animacje w miejscu → stały render
@@ -13,8 +30,8 @@ zawiera eksport z usługi. Nie zastępować gry nową sceną 3D bez osobnego zak
 pochodzi z aktualnego `actors.json`: oryginalne FPS, pętle, czasy, kotwice i skala.
 Model potrzebuje pozy do rigowania z rozdzielonymi kończynami; nie nazywać sprite'a
 idle A-pose. Kamera, światło i skala muszą pozostać stałe w całym klipie, a widoki
-weryfikować wizualnie. **Żaden model Meshy nie był jeszcze importowany; to kontrakt,
-nie gotowy importer.** [Stan i wyniki prób poprzedzających decyzję](zmiany/2026-11-17/ZMIANY.md#4-odbiór-dalszych-prób--technika-i-jakość-osobno).
+weryfikować wizualnie. **Model statyczny przeszedł import kontrolny, ale renderowanie
+animacji do atlasów nie zostało jeszcze wdrożone.** [Stan i wyniki prób poprzedzających decyzję](zmiany/2026-11-17/ZMIANY.md#4-odbiór-dalszych-prób--technika-i-jakość-osobno).
 
 ## Android — pełna korekta kolorów czterech ras, 17.11.2026
 

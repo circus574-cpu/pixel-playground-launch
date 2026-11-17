@@ -1,0 +1,16 @@
+{
+	"animationNames": [],
+	"boundsSize": [
+		1.21681201457977,
+		1.90233993530273,
+		1.07393407821655
+	],
+	"display": "headless",
+	"kind": "external-glb-audit",
+	"materialSurfaces": 1,
+	"meshInstances": 1,
+	"renderedRotations": [],
+	"scope": "Static source model inspection only. No rig, animation, game integration or phone performance acceptance.",
+	"skeletonNodes": 0,
+	"sourceSha256": "e27008ebb782e7edcc4afd88ad7d7522efe3a8ac2648e88a420a3b202f244fa3"
+}
