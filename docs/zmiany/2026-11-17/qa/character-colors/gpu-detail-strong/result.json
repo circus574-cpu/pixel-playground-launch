@@ -1,0 +1,32 @@
+{
+  "kind": "character-detail-color-pilot",
+  "status": "candidates-review-required",
+  "modelRevision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+  "gpu": "NVIDIA RTX 6000 Ada Generation",
+  "source": "Installed Legend walk:right frame 0",
+  "scope": "Static candidates only. Not new animation frames or production assets. Alpha unchanged does not prove pose unchanged.",
+  "items": [
+    {
+      "id": "detail-high",
+      "strength": 0.48,
+      "inputSaturation": 1.22,
+      "seconds": 2.691716789267957,
+      "peakAllocatedBytes": 11236883968,
+      "sourceSha256": "3934aaa01acfce1e6b14e7d25cf5fcb1019ff207a5b22a029b37ecc756bceeed",
+      "rawSha256": "4afd8b09dae832c7b14c0c6f20d1a364239eaf725e3eb854659d0ffaf96b94f9",
+      "nativeSha256": "3400d023af9b0ce3e3b4e9e368fbc6724026832e8eabd2dd063619d5401c8e17",
+      "alphaIdentical": true
+    },
+    {
+      "id": "detail-highest",
+      "strength": 0.58,
+      "inputSaturation": 1.22,
+      "seconds": 2.121173767838627,
+      "peakAllocatedBytes": 11237539328,
+      "sourceSha256": "3934aaa01acfce1e6b14e7d25cf5fcb1019ff207a5b22a029b37ecc756bceeed",
+      "rawSha256": "8cd0fed3427623aed8501ad0e5da8b08e919bb8d51b9f979110940c6c000e6ee",
+      "nativeSha256": "098e66dc2147d4489866b90b3b1749c1cdf0a76786e00fc5164498b1be3d93b8",
+      "alphaIdentical": true
+    }
+  ]
+}

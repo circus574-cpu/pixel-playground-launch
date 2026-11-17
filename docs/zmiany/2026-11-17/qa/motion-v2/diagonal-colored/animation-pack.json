@@ -1,0 +1,419 @@
+{
+  "schema": 1,
+  "kind": "vace-candidate",
+  "actor": "pyra.hero",
+  "clip": "walk",
+  "direction": "down-right",
+  "sourceActorSha256": "deab039cc7d84ef122a6d07fef2c282a7d5f9e684e4e9b8cc4cce23e4c88f994",
+  "cell": 200,
+  "origin": [
+    0.5,
+    0.95
+  ],
+  "size": [
+    133,
+    133
+  ],
+  "fps": 32.0,
+  "sourceDuration": 0.5,
+  "loop": true,
+  "orientation": "displayed",
+  "atlas": "atlas.webp",
+  "atlasSha256": "45eca0cff8199fcc30ceb26b1a825c2207652d64cdf9e42c28e55da39f49f0a3",
+  "frames": [
+    {
+      "rect": [
+        0,
+        0,
+        200,
+        200
+      ],
+      "rgbaSha256": "12bdf094e14b143511a159040fe5b428f1e463e496b3c8f923e44e011a8ffdc4"
+    },
+    {
+      "rect": [
+        200,
+        0,
+        200,
+        200
+      ],
+      "rgbaSha256": "e09ae9b85111296cc71bc2715221cf65eb60566e6e3b0c7e0f50ee9ab704683c"
+    },
+    {
+      "rect": [
+        400,
+        0,
+        200,
+        200
+      ],
+      "rgbaSha256": "8c3e70eecd5f3189454c966f34120d74a24ac784ada901fc218d65dffecda73e"
+    },
+    {
+      "rect": [
+        600,
+        0,
+        200,
+        200
+      ],
+      "rgbaSha256": "e04e91f70eeffea6a68567b51ea66571276eb482cd2e0634df3c8994464772d8"
+    },
+    {
+      "rect": [
+        0,
+        200,
+        200,
+        200
+      ],
+      "rgbaSha256": "7ef4977d8cb7ce636a2a0d90745327c105048e50f1ba844fb33779805f464342"
+    },
+    {
+      "rect": [
+        200,
+        200,
+        200,
+        200
+      ],
+      "rgbaSha256": "6c90930ef8f6c0f6f1276ef527425ae794042242bee617666d3e40674bb44f4b"
+    },
+    {
+      "rect": [
+        400,
+        200,
+        200,
+        200
+      ],
+      "rgbaSha256": "5c50ad0546ccb3631cb65a3137210aab83c24b49f91f1fd58a49e52b61abe8b5"
+    },
+    {
+      "rect": [
+        600,
+        200,
+        200,
+        200
+      ],
+      "rgbaSha256": "a73695c193cd0ba4c4d252dbb39f699419764408cb35c7155b04ba69d16df873"
+    },
+    {
+      "rect": [
+        0,
+        400,
+        200,
+        200
+      ],
+      "rgbaSha256": "725aa3012b9cf8c0b9cbb43f8c14fa80770e457b209348da5b03e5fde2f65f16"
+    },
+    {
+      "rect": [
+        200,
+        400,
+        200,
+        200
+      ],
+      "rgbaSha256": "3db4f7aef28a7fa95efcbb26a873b26ea32d7411c0e41c61ba6c460026968f08"
+    },
+    {
+      "rect": [
+        400,
+        400,
+        200,
+        200
+      ],
+      "rgbaSha256": "9a835d20c9af485281c39725048a9eb21fceb71cd7d0fdce91ff28fb25c21ae1"
+    },
+    {
+      "rect": [
+        600,
+        400,
+        200,
+        200
+      ],
+      "rgbaSha256": "085d090020816643c6f262eb6698862ac58e9d1f62b4ff7e21b8b1dd33d37f34"
+    },
+    {
+      "rect": [
+        0,
+        600,
+        200,
+        200
+      ],
+      "rgbaSha256": "0c9b985f19d3d01757a665752adef36e20a828fc4016dcd9b1f6796639864c2e"
+    },
+    {
+      "rect": [
+        200,
+        600,
+        200,
+        200
+      ],
+      "rgbaSha256": "664ba97f255a5b3cb0aaec5b0e5a9943e49f6977e56c6447d1756918567b7d04"
+    },
+    {
+      "rect": [
+        400,
+        600,
+        200,
+        200
+      ],
+      "rgbaSha256": "d1fb8e03a1c4d2bbafdba8ddedfe5b8d9a5ed127623ce558259ac0aa924a682c"
+    },
+    {
+      "rect": [
+        600,
+        600,
+        200,
+        200
+      ],
+      "rgbaSha256": "784e1563d280a606c881d9158dfcbe58585eb1114af8bce32eaa9bdadde4bf7c"
+    }
+  ],
+  "alignment": {
+    "singleClipScale": 0.3963963963963964,
+    "frames": [
+      {
+        "sourceBox": [
+          206,
+          54,
+          425,
+          497
+        ],
+        "offset": [
+          57,
+          14
+        ],
+        "groundY": 190
+      },
+      {
+        "sourceBox": [
+          204,
+          43,
+          425,
+          494
+        ],
+        "offset": [
+          57,
+          11
+        ],
+        "groundY": 190
+      },
+      {
+        "sourceBox": [
+          204,
+          35,
+          422,
+          487
+        ],
+        "offset": [
+          58,
+          11
+        ],
+        "groundY": 190
+      },
+      {
+        "sourceBox": [
+          204,
+          46,
+          421,
+          499
+        ],
+        "offset": [
+          58,
+          10
+        ],
+        "groundY": 190
+      },
+      {
+        "sourceBox": [
+          205,
+          63,
+          418,
+          499
+        ],
+        "offset": [
+          58,
+          17
+        ],
+        "groundY": 190
+      },
+      {
+        "sourceBox": [
+          205,
+          74,
+          415,
+          501
+        ],
+        "offset": [
+          57,
+          21
+        ],
+        "groundY": 190
+      },
+      {
+        "sourceBox": [
+          205,
+          70,
+          415,
+          500
+        ],
+        "offset": [
+          57,
+          20
+        ],
+        "groundY": 190
+      },
+      {
+        "sourceBox": [
+          205,
+          58,
+          417,
+          497
+        ],
+        "offset": [
+          57,
+          16
+        ],
+        "groundY": 190
+      },
+      {
+        "sourceBox": [
+          206,
+          54,
+          421,
+          497
+        ],
+        "offset": [
+          58,
+          14
+        ],
+        "groundY": 190
+      },
+      {
+        "sourceBox": [
+          208,
+          44,
+          423,
+          491
+        ],
+        "offset": [
+          59,
+          13
+        ],
+        "groundY": 190
+      },
+      {
+        "sourceBox": [
+          210,
+          48,
+          422,
+          493
+        ],
+        "offset": [
+          60,
+          14
+        ],
+        "groundY": 190
+      },
+      {
+        "sourceBox": [
+          212,
+          52,
+          424,
+          499
+        ],
+        "offset": [
+          60,
+          13
+        ],
+        "groundY": 190
+      },
+      {
+        "sourceBox": [
+          209,
+          62,
+          420,
+          497
+        ],
+        "offset": [
+          59,
+          18
+        ],
+        "groundY": 190
+      },
+      {
+        "sourceBox": [
+          206,
+          61,
+          417,
+          499
+        ],
+        "offset": [
+          57,
+          16
+        ],
+        "groundY": 190
+      },
+      {
+        "sourceBox": [
+          205,
+          50,
+          417,
+          498
+        ],
+        "offset": [
+          58,
+          12
+        ],
+        "groundY": 190
+      },
+      {
+        "sourceBox": [
+          204,
+          39,
+          424,
+          494
+        ],
+        "offset": [
+          57,
+          10
+        ],
+        "groundY": 190
+      }
+    ]
+  },
+  "resultSha256": "1c07024a09d2f20946f5acc147dbea61a22220a8619604d2247c782c299c4931",
+  "qualityStatus": "ARTISTIC_AND_RUNTIME_REVIEW_REQUIRED",
+  "decodedBytesWithMips": 3413334,
+  "refinedFromPackSha256": "193ba65a7cd12502c87cf4c1b245e8be9e2303088d3a7db7f4149c860d3455ee",
+  "matteRefinement": {
+    "scope": "black-red Legend trial only",
+    "neutralMinChannel": 160,
+    "maxChroma": 20,
+    "largestCanonicalWhiteComponent": 21,
+    "whiteComponentAreaLimit": 42,
+    "removedPixelsPerFrame": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "rgbAndBoundsUnchanged": true
+  },
+  "colorProfile": {
+    "saturation": 1.22,
+    "skinSaturation": 1.08,
+    "contrast": 0.12,
+    "lift": 0.012
+  },
+  "colorSourcePackSha256": "8d9f37acc47d64a232edb7aac9037a311bb9becc063c0d52ba2e9e78716ba2f7"
+}

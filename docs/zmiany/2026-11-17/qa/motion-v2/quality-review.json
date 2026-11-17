@@ -1,0 +1,23 @@
+{
+  "scope": "Human visual review of prototype results; technical checks are separate from artistic acceptance",
+  "arms": {
+    "technical": "54/54 headless + 54/54 X11",
+    "visual": "NEEDS_IMPROVEMENT",
+    "reason": "Arm release yields only a small wrist/arm change; a natural opposite arm swing is not accepted"
+  },
+  "diagonal": {
+    "technical": "54/54 headless + 54/54 X11",
+    "visual": "REJECTED_AS_TRUE_DIAGONAL",
+    "reason": "The installed source named down-right is visually frontal, and the generated clip keeps that frontal view. Metadata direction does not prove correct viewing angle."
+  },
+  "strongDetails": {
+    "visual": "NOT_ACCEPTED_AS_AUTOMATIC_REPLACEMENT",
+    "reason": "Stronger 0.48/0.58 passes improve edge/detail appearance but change shoulder armor and internal costume details. Preserved alpha does not prove design or pose fidelity."
+  },
+  "colors": {
+    "technical": "49 alpha-identical atlases, 144 clip definitions, four races, 3678/3678 headless + 3678/3678 X11",
+    "visual": "OWNER_REVIEW_REQUIRED",
+    "physicalPhone": "UNVERIFIED"
+  },
+  "nextDirection": "Owner states intent to use Meshy. Preserve references, do not start another speculative GPU inference; test a rigged 3D character and derive consistent views."
+}

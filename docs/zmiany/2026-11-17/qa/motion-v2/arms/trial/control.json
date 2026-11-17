@@ -1,0 +1,164 @@
+{
+  "schema": 1,
+  "kind": "vace-walk-calibration",
+  "actor": "pyra.hero",
+  "clip": "walk",
+  "direction": "right",
+  "source": {
+    "actorSha256": "deab039cc7d84ef122a6d07fef2c282a7d5f9e684e4e9b8cc4cce23e4c88f994",
+    "atlases": {
+      "ports/godot-pyra/assets/actors/hero-legend-walk-v3-page-0.webp": "c310d3e08f3102ae7a77712abb7b5c99fc6e2d02a4c41b459c9f662043c8ce33"
+    },
+    "frames": [
+      {
+        "file": "source/frame-00.png",
+        "sha256": "3934aaa01acfce1e6b14e7d25cf5fcb1019ff207a5b22a029b37ecc756bceeed",
+        "bodyHeight": 182
+      },
+      {
+        "file": "source/frame-01.png",
+        "sha256": "6b5a79750980ad11c788968aec9e429b8437ff16720ec3ab5e08e2c091130d87",
+        "bodyHeight": 180
+      },
+      {
+        "file": "source/frame-02.png",
+        "sha256": "e615e33374c0182b4d16e9dd7963f2adfadeee2c8dc70187cfb8857ab7d5f697",
+        "bodyHeight": 181
+      },
+      {
+        "file": "source/frame-03.png",
+        "sha256": "48161cfd68c5536893f89de9e3422edf696b9e3041a8dbdea746ab0ef408aee2",
+        "bodyHeight": 183
+      },
+      {
+        "file": "source/frame-04.png",
+        "sha256": "849174d38f412dbfdc1f0e7210fd3890d433fd76e252ae8b45cfdbcd84a34581",
+        "bodyHeight": 184
+      },
+      {
+        "file": "source/frame-05.png",
+        "sha256": "8737db0a3ea38fb227d4120c484a93b8fb8a2370c2529bd29c7c3b5f18b75b13",
+        "bodyHeight": 185
+      },
+      {
+        "file": "source/frame-06.png",
+        "sha256": "96b8f0c92938c5282a1776f42743d632173811fa3bcfebf5604622d8c98bad56",
+        "bodyHeight": 185
+      },
+      {
+        "file": "source/frame-07.png",
+        "sha256": "d812d38880da5cf43fef2865030b7d212ae00cc97d6149f00e590ebca3726acf",
+        "bodyHeight": 184
+      }
+    ],
+    "fps": 16.0,
+    "frameCount": 8,
+    "loop": true,
+    "cell": 200,
+    "origin": [
+      0.5,
+      0.95
+    ],
+    "size": [
+      133,
+      133
+    ]
+  },
+  "model": {
+    "repository": "Wan-AI/Wan2.1-VACE-14B-diffusers",
+    "revision": "db79b90c60bbb45ceec9e41b9d5a4df934538ac4"
+  },
+  "sampling": {
+    "numFrames": 33,
+    "size": [
+      512,
+      512
+    ],
+    "steps": 30,
+    "guidance": 5.0,
+    "conditioningScale": 1.0,
+    "flowShift": 3.0,
+    "seed": 5741117,
+    "maxSeconds": 2700
+  },
+  "keys": [
+    {
+      "frame": 0,
+      "sourceIndex": 0,
+      "file": "control/key-0.png",
+      "sha256": "f91262df4819d3443b707712bf8e27700a6f950d7e725450c0fabc126adca578"
+    },
+    {
+      "frame": 8,
+      "sourceIndex": 2,
+      "file": "control/key-1.png",
+      "sha256": "34f32384c8d4c00b79e35319f02dfbcf81f5e3174060a3548acde681141ea8c4"
+    },
+    {
+      "frame": 16,
+      "sourceIndex": 4,
+      "file": "control/key-2.png",
+      "sha256": "2a1f9e3d7555743381726673627f102fbae40e8cbfd26e1129961542d7c6ab84"
+    },
+    {
+      "frame": 24,
+      "sourceIndex": 6,
+      "file": "control/key-3.png",
+      "sha256": "d33540b67b4dc8edd5c34442f407917180506fefdd5a5554b8bd7806d39b12c2"
+    },
+    {
+      "frame": 32,
+      "sourceIndex": 0,
+      "file": "control/key-4.png",
+      "sha256": "f91262df4819d3443b707712bf8e27700a6f950d7e725450c0fabc126adca578"
+    }
+  ],
+  "export": {
+    "indices": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      10,
+      12,
+      14,
+      16,
+      18,
+      20,
+      22,
+      24,
+      26,
+      28,
+      30
+    ],
+    "fps": 32.0,
+    "duration": 0.5,
+    "cell": 200,
+    "origin": [
+      0.5,
+      0.95
+    ],
+    "size": [
+      133,
+      133
+    ],
+    "orientation": "displayed"
+  },
+  "prompt": "Same adult anime male warrior and the same black and crimson armor, red sash, black spiky hair as the reference frames. Full body right profile walking with alternating leg strides, natural opposite arm swing. Follow the provided key poses. Fixed camera, white background, no props or effects, consistent face and costume. Clearly visible alternating arm swing opposite to the legs, hands travel in front of and behind the hip, relaxed bent elbows. Complete one walking cycle and return to the initial pose.",
+  "negativePrompt": "static legs, extra limbs, duplicated body, changing face, changing costume, weapons, turning, zoom, camera movement, text, watermark, cropped feet, scenery",
+  "motionControl": {
+    "profile": "right-arm-release-v1",
+    "frames": [
+      8,
+      16,
+      24
+    ],
+    "rect": [
+      160,
+      145,
+      365,
+      315
+    ]
+  }
+}

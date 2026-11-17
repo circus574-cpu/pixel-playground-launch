@@ -1,0 +1,1 @@
+{"alphaUnchanged": true, "direction": "down-right", "profile": {"saturation": 1.22, "skinSaturation": 1.08, "contrast": 0.12, "lift": 0.012}, "sourcePackSha256": "8d9f37acc47d64a232edb7aac9037a311bb9becc063c0d52ba2e9e78716ba2f7", "packSha256": "96e9b781f39ea0136d005e8466c82c7f11f31a815f8176a1bba42a58e0db6371"}

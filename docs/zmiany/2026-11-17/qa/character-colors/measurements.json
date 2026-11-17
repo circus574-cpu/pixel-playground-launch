@@ -1,0 +1,61 @@
+{
+  "scope": "Matched source pixels of four idle frames; descriptive color statistics, not an artistic quality score",
+  "items": [
+    {
+      "race": "legend",
+      "source": "idle:down frame 0",
+      "opaquePixels": 6548,
+      "alphaIdentical": true,
+      "before": {
+        "meanSaturation": 0.3371221062508361,
+        "lumaP95MinusP05": 0.5393072941176461
+      },
+      "after": {
+        "meanSaturation": 0.38830575649295784,
+        "lumaP95MinusP05": 0.5772426274509799
+      }
+    },
+    {
+      "race": "planetary",
+      "source": "idle:down frame 0",
+      "opaquePixels": 5815,
+      "alphaIdentical": true,
+      "before": {
+        "meanSaturation": 0.31213957243147705,
+        "lumaP95MinusP05": 0.6942847058823529
+      },
+      "after": {
+        "meanSaturation": 0.3507755278353818,
+        "lumaP95MinusP05": 0.7372812549019608
+      }
+    },
+    {
+      "race": "sage",
+      "source": "idle:down frame 0",
+      "opaquePixels": 9370,
+      "alphaIdentical": true,
+      "before": {
+        "meanSaturation": 0.17703909249551697,
+        "lumaP95MinusP05": 0.7115356862745098
+      },
+      "after": {
+        "meanSaturation": 0.21144816380774284,
+        "lumaP95MinusP05": 0.7420196470588234
+      }
+    },
+    {
+      "race": "android",
+      "source": "idle:down frame 0",
+      "opaquePixels": 5660,
+      "alphaIdentical": true,
+      "before": {
+        "meanSaturation": 0.2790556781008966,
+        "lumaP95MinusP05": 0.6594983137254904
+      },
+      "after": {
+        "meanSaturation": 0.3302351724536985,
+        "lumaP95MinusP05": 0.7056233725490197
+      }
+    }
+  ]
+}

@@ -1,5 +1,21 @@
 # KI Legends — GPU i zasoby
 
+## Postacie z Meshy — przygotowany kontrakt, bez importu modelu
+
+Właściciel 17.11 zadeklarował zakup Meshy.ai. Dla obecnej gry 2D proponowany
+proces to model z teksturami → rig humanoida → animacje w miejscu → stały render
+ortograficzny ośmiu kierunków → istniejący kontrakt atlasów. Najpierw jeden model
+Legendy z idle/walk do próby eksportu i odtworzenia. Preferowany GLB z osadzonymi
+teksturami lub FBX wraz z teksturami i plikami animacji. Sprawdzić, co rzeczywiście
+zawiera eksport z usługi. Nie zastępować gry nową sceną 3D bez osobnego zakresu.
+
+[Maszynowy kontrakt czterech ras i 144 klipów](zmiany/2026-11-17/qa/character-colors/meshy-import-contract.json)
+pochodzi z aktualnego `actors.json`: oryginalne FPS, pętle, czasy, kotwice i skala.
+Model potrzebuje pozy do rigowania z rozdzielonymi kończynami; nie nazywać sprite'a
+idle A-pose. Kamera, światło i skala muszą pozostać stałe w całym klipie, a widoki
+weryfikować wizualnie. **Żaden model Meshy nie był jeszcze importowany; to kontrakt,
+nie gotowy importer.** [Stan i wyniki prób poprzedzających decyzję](zmiany/2026-11-17/ZMIANY.md#4-odbiór-dalszych-prób--technika-i-jakość-osobno).
+
 ## Android — pełna korekta kolorów czterech ras, 17.11.2026
 
 `scripts/gpu/character_color.py` tworzy osobny pakiet 49 atlasów / 144 definicji

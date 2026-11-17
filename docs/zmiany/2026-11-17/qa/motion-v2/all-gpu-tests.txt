@@ -1,0 +1,47 @@
+test_every_alpha_byte_and_hidden_rgb_are_preserved (test_character_color.ColorContracts.test_every_alpha_byte_and_hidden_rgb_are_preserved) ... ok
+test_gray_metal_white_hair_and_black_remain_neutral (test_character_color.ColorContracts.test_gray_metal_white_hair_and_black_remain_neutral) ... /workspace/ki-android-release/scripts/gpu/test_character_color.py:23: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  pixels=list(grade(image).getdata())
+ok
+test_no_frame_local_auto_exposure (test_character_color.ColorContracts.test_no_frame_local_auto_exposure) ... ok
+test_richer_red_preserves_hue_and_skin_has_limited_shift (test_character_color.ColorContracts.test_richer_red_preserves_hue_and_skin_has_limited_shift) ... /workspace/ki-android-release/scripts/gpu/test_character_color.py:31: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  red,skin=list(grade(image).getdata())
+ok
+test_animation_identity_and_temporal_budget_are_checked_before_cuda (test_premium_export_video.MobileAndAnimationGuards.test_animation_identity_and_temporal_budget_are_checked_before_cuda) ... ok
+test_explicit_native_budget_rejects_upscaled_runtime_images (test_premium_export_video.MobileAndAnimationGuards.test_explicit_native_budget_rejects_upscaled_runtime_images) ... ok
+test_mobile_export_preserves_rectangular_size_and_every_alpha_value (test_premium_export_video.MobileAndAnimationGuards.test_mobile_export_preserves_rectangular_size_and_every_alpha_value) ... ok
+test_absolute_source_outside_bundle_is_rejected_even_with_correct_hash (test_premium_pilot.PilotSafety.test_absolute_source_outside_bundle_is_rejected_even_with_correct_hash) ... ok
+test_duplicate_output_ids_are_rejected (test_premium_pilot.PilotSafety.test_duplicate_output_ids_are_rejected) ... ok
+test_edge_metric_detects_a_tile_boundary_jump (test_premium_pilot.PilotSafety.test_edge_metric_detects_a_tile_boundary_jump) ... ok
+test_modified_source_is_rejected_before_gpu_load (test_premium_pilot.PilotSafety.test_modified_source_is_rejected_before_gpu_load) ... ok
+test_resume_requires_matching_recipe_and_intact_output (test_premium_pilot.PilotSafety.test_resume_requires_matching_recipe_and_intact_output) ... ok
+test_actual_key_images_and_mask_polarity (test_vace_motion.MotionContracts.test_actual_key_images_and_mask_polarity) ... ok
+test_arm_release_preserves_face_feet_and_loop_endpoints (test_vace_motion.MotionContracts.test_arm_release_preserves_face_feet_and_loop_endpoints) ... ok
+test_budget_and_cycle_duration_are_not_frame_count_dependent (test_vace_motion.MotionContracts.test_budget_and_cycle_duration_are_not_frame_count_dependent) ... ok
+test_changed_reference_and_path_escape_are_rejected (test_vace_motion.MotionContracts.test_changed_reference_and_path_escape_are_rejected) ... ok
+test_diagonal_uses_its_own_source_frames_and_pack_direction (test_vace_motion.MotionContracts.test_diagonal_uses_its_own_source_frames_and_pack_direction) ... ok
+test_displayed_reference_respects_source_mirroring (test_vace_motion.MotionContracts.test_displayed_reference_respects_source_mirroring) ... ok
+test_existing_work_lock_is_not_removed_or_overwritten (test_vace_motion.MotionContracts.test_existing_work_lock_is_not_removed_or_overwritten) ... ok
+test_full_rgba_round_trip_and_fixed_presentation (test_vace_motion.MotionContracts.test_full_rgba_round_trip_and_fixed_presentation) ... ok
+test_inference_checks_missing_files_without_importing_torch (test_vace_motion.MotionContracts.test_inference_checks_missing_files_without_importing_torch) ... ok
+test_model_stage_checks_space_before_copying_weights (test_vace_motion.MotionContracts.test_model_stage_checks_space_before_copying_weights) ... ok
+test_model_stage_preserves_source_and_reuses_verified_cache (test_vace_motion.MotionContracts.test_model_stage_preserves_source_and_reuses_verified_cache) ... MODEL_STAGED model_index.json
+MODEL_STAGED transformer/weight.safetensors
+MODEL_STAGED vae/config.json
+MODEL_STAGED tokenizer/config.json
+MODEL_STAGED text_encoder/config.json
+ok
+test_model_stage_refuses_corrupted_cache_without_overwriting_it (test_vace_motion.MotionContracts.test_model_stage_refuses_corrupted_cache_without_overwriting_it) ... MODEL_STAGED transformer/weight.safetensors
+MODEL_STAGED tokenizer/config.json
+MODEL_STAGED vae/config.json
+ok
+test_one_scale_and_ground_anchor_for_whole_clip (test_vace_motion.MotionContracts.test_one_scale_and_ground_anchor_for_whole_clip) ... ok
+test_reference_fixture_cannot_be_promoted_as_gpu_output (test_vace_motion.MotionContracts.test_reference_fixture_cannot_be_promoted_as_gpu_output) ... ok
+test_rembg_offline_path_matches_the_library_cache_contract (test_vace_motion.MotionContracts.test_rembg_offline_path_matches_the_library_cache_contract) ... ok
+test_unavailable_cuda_releases_own_lock_and_records_failure (test_vace_motion.MotionContracts.test_unavailable_cuda_releases_own_lock_and_records_failure) ... ok
+test_white_matte_retains_enclosed_white_detail (test_vace_motion.MotionContracts.test_white_matte_retains_enclosed_white_detail) ... ok
+test_wrong_loop_endpoint_and_excessive_sampler_are_rejected (test_vace_motion.MotionContracts.test_wrong_loop_endpoint_and_excessive_sampler_are_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 30 tests in 1.844s
+
+OK

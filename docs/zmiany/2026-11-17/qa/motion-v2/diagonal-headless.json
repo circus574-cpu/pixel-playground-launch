@@ -1,0 +1,321 @@
+{
+	"checks": 54,
+	"display": "headless",
+	"failed": 0,
+	"kind": "vace-candidate",
+	"passed": 54,
+	"results": [
+		{
+			"detail": null,
+			"id": "explicit-provenance",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "bounded-atlas-path",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "presentation-contract",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "canonical-actor-unchanged",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "atlas-sha256",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "atlas-mobile-budget",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-0",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-0",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-1",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-1",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-2",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-2",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-3",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-3",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-4",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-4",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-5",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-5",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-6",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-6",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-7",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-7",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-8",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-8",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-9",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-9",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-10",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-10",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-11",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-11",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-12",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-12",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-13",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-13",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-14",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-14",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "region-15",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "decoded-rgba-15",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "integral-fps-expansion",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "displayed-orientation",
+			"passed": true
+		},
+		{
+			"detail": {
+				"after": 0.5,
+				"before": 0.5
+			},
+			"id": "duration-right",
+			"passed": true
+		},
+		{
+			"detail": {
+				"after": 0.5,
+				"before": 0.5
+			},
+			"id": "duration-down-right",
+			"passed": true
+		},
+		{
+			"detail": {
+				"after": 0.5,
+				"before": 0.5
+			},
+			"id": "duration-down",
+			"passed": true
+		},
+		{
+			"detail": {
+				"after": 0.5,
+				"before": 0.5
+			},
+			"id": "duration-down-left",
+			"passed": true
+		},
+		{
+			"detail": {
+				"after": 0.5,
+				"before": 0.5
+			},
+			"id": "duration-left",
+			"passed": true
+		},
+		{
+			"detail": {
+				"after": 0.5,
+				"before": 0.5
+			},
+			"id": "duration-up-left",
+			"passed": true
+		},
+		{
+			"detail": {
+				"after": 0.5,
+				"before": 0.5
+			},
+			"id": "duration-up",
+			"passed": true
+		},
+		{
+			"detail": {
+				"after": 0.5,
+				"before": 0.5
+			},
+			"id": "duration-up-right",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "other-clips-unchanged",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "installed-definition-unchanged",
+			"passed": true
+		},
+		{
+			"detail": 153.000228881836,
+			"id": "real-player-moved",
+			"passed": true
+		},
+		{
+			"detail": "walk:down-right",
+			"id": "game-selected-walk-animation",
+			"passed": true
+		},
+		{
+			"detail": [
+				"1",
+				"2",
+				"3",
+				"4",
+				"5",
+				"6",
+				"7",
+				"8",
+				"9",
+				"10",
+				"11",
+				"12",
+				"13",
+				"14",
+				"0",
+				"15"
+			],
+			"id": "spriteframes-timeline-advanced",
+			"passed": true
+		},
+		{
+			"detail": null,
+			"id": "movement-speed-and-collision-unchanged",
+			"passed": true
+		}
+	],
+	"scope": "Actual PyraGame/PyraPlayer/PyraActor. A reference-fixture result proves transport and timing only, not new GPU animation quality."
+}

@@ -1,0 +1,150 @@
+{
+  "schema": 1,
+  "kind": "vace-walk-calibration",
+  "actor": "pyra.hero",
+  "clip": "walk",
+  "direction": "down-right",
+  "source": {
+    "actorSha256": "deab039cc7d84ef122a6d07fef2c282a7d5f9e684e4e9b8cc4cce23e4c88f994",
+    "atlases": {
+      "ports/godot-pyra/assets/actors/hero-legend-walk-v3-page-0.webp": "c310d3e08f3102ae7a77712abb7b5c99fc6e2d02a4c41b459c9f662043c8ce33"
+    },
+    "frames": [
+      {
+        "file": "source/frame-00.png",
+        "sha256": "9b46f7e4d6db9fbc535c71a04edf39ef464a95cdd2453d7a30e5ef221c594c2f",
+        "bodyHeight": 176
+      },
+      {
+        "file": "source/frame-01.png",
+        "sha256": "8f9c4aa3df84e4ad3c9a022394416b8ac02e41721bb78045321ebef5afbbae31",
+        "bodyHeight": 177
+      },
+      {
+        "file": "source/frame-02.png",
+        "sha256": "288b13356d6944990a5d875478eba0f6a6f3b7be3f4a8b0936bc700c30530b9c",
+        "bodyHeight": 174
+      },
+      {
+        "file": "source/frame-03.png",
+        "sha256": "d9b9d312cf3c0ffeba5960bddfcc7dbea80d97fc0e77176f7e86c732a9e0e370",
+        "bodyHeight": 177
+      },
+      {
+        "file": "source/frame-04.png",
+        "sha256": "22baed28c94ee2a408adbd3ffa19a2c8f04e1db444d5fb79a6aed96e216f883b",
+        "bodyHeight": 177
+      },
+      {
+        "file": "source/frame-05.png",
+        "sha256": "d9af0e20e696b54ac4f2c19f3e2e3dcd7e96c6a23e4cdc9f9b6e283f1c9253a1",
+        "bodyHeight": 176
+      },
+      {
+        "file": "source/frame-06.png",
+        "sha256": "263a7e065993cd237e8283b31a9d9904fb6e9c774e26f84e9e54b8f70859b0e0",
+        "bodyHeight": 176
+      },
+      {
+        "file": "source/frame-07.png",
+        "sha256": "1bc239b528afadd778692f6bc9e8ef3ec8475e1ec53fafbf86cb54b98368ee22",
+        "bodyHeight": 175
+      }
+    ],
+    "fps": 16.0,
+    "frameCount": 8,
+    "loop": true,
+    "cell": 200,
+    "origin": [
+      0.5,
+      0.95
+    ],
+    "size": [
+      133,
+      133
+    ]
+  },
+  "model": {
+    "repository": "Wan-AI/Wan2.1-VACE-14B-diffusers",
+    "revision": "db79b90c60bbb45ceec9e41b9d5a4df934538ac4"
+  },
+  "sampling": {
+    "numFrames": 33,
+    "size": [
+      512,
+      512
+    ],
+    "steps": 30,
+    "guidance": 5.0,
+    "conditioningScale": 1.0,
+    "flowShift": 3.0,
+    "seed": 5741117,
+    "maxSeconds": 2700
+  },
+  "keys": [
+    {
+      "frame": 0,
+      "sourceIndex": 0,
+      "file": "control/key-0.png",
+      "sha256": "1e6a649a7ef26712c49d69a5239f860db600728116de3ad6cc75144dcf94cee9"
+    },
+    {
+      "frame": 8,
+      "sourceIndex": 2,
+      "file": "control/key-1.png",
+      "sha256": "3aa437d4ebefafefcf77441453d9bb14ebb3bc20222acfc031f73f9e0dd17062"
+    },
+    {
+      "frame": 16,
+      "sourceIndex": 4,
+      "file": "control/key-2.png",
+      "sha256": "0b0fccef660b0e8dd4415c709b0424d39d19564d5bcfa501a8ec976e1536a9ff"
+    },
+    {
+      "frame": 24,
+      "sourceIndex": 6,
+      "file": "control/key-3.png",
+      "sha256": "9af1ce07422422f031010426d07039bef237044343fc1ad60efbb4e3b69c40a1"
+    },
+    {
+      "frame": 32,
+      "sourceIndex": 0,
+      "file": "control/key-4.png",
+      "sha256": "1e6a649a7ef26712c49d69a5239f860db600728116de3ad6cc75144dcf94cee9"
+    }
+  ],
+  "export": {
+    "indices": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      10,
+      12,
+      14,
+      16,
+      18,
+      20,
+      22,
+      24,
+      26,
+      28,
+      30
+    ],
+    "fps": 32.0,
+    "duration": 0.5,
+    "cell": 200,
+    "origin": [
+      0.5,
+      0.95
+    ],
+    "size": [
+      133,
+      133
+    ],
+    "orientation": "displayed"
+  },
+  "prompt": "Same adult anime male warrior and the same black and crimson armor, red sash, black spiky hair as the reference frames. Full body down right facing view walking with alternating leg strides, natural opposite arm swing. Follow the provided key poses. Fixed camera, white background, no props or effects, consistent face and costume.",
+  "negativePrompt": "static legs, extra limbs, duplicated body, changing face, changing costume, weapons, turning, zoom, camera movement, text, watermark, cropped feet, scenery"
+}

@@ -1,0 +1,3558 @@
+{
+  "schema": 1,
+  "status": "CONTRACT_ONLY_NO_MESHY_MODEL_IMPORTED",
+  "purpose": "Render rigged 3D characters into atlases for the existing Godot 2D actor runtime",
+  "actorSourceSha256": "deab039cc7d84ef122a6d07fef2c282a7d5f9e684e4e9b8cc4cce23e4c88f994",
+  "firstTrial": "One Legend with textures, humanoid rig, idle and walk; verify round-trip before all races",
+  "preferredExports": [
+    "GLB with embedded textures and animation tracks",
+    "FBX plus textures and animation files"
+  ],
+  "poseForRigging": "A-pose or T-pose with separated limbs; do not mistake an existing idle sprite for a rigging pose",
+  "camera": "Orthographic, fixed framing and lighting for the whole clip; verify actual model-forward axis visually before assigning directions",
+  "background": "Transparent RGBA",
+  "rootMotion": "In-place; world displacement remains controlled by existing gameplay",
+  "screenDirectionOrder": [
+    "right",
+    "down-right",
+    "down",
+    "down-left",
+    "left",
+    "up-left",
+    "up",
+    "up-right"
+  ],
+  "screenAnglesDegreesFromPositiveX": [
+    0,
+    45,
+    90,
+    135,
+    180,
+    225,
+    270,
+    315
+  ],
+  "sourceAngleWarning": "Some existing named diagonal sprites are frontal; names alone are not reliable multi-view references",
+  "rigReview": [
+    "Skinned mesh and bone hierarchy",
+    "All texture links resolve",
+    "Idle/walk animation tracks play",
+    "Hands, robe and armor do not clip in motion",
+    "Fixed feet/scale and no camera auto-reframing per pose"
+  ],
+  "characters": {
+    "legend": {
+      "actor": "pyra.hero",
+      "cell": 200,
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "worldSize": [
+        133,
+        133
+      ],
+      "clips": {
+        "idle": {
+          "fps": 6,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 1.3333333333333333,
+            "down-left": 1.3333333333333333,
+            "left": 1.3333333333333333,
+            "up-left": 1.3333333333333333,
+            "up": 1.3333333333333333,
+            "up-right": 1.3333333333333333,
+            "right": 1.3333333333333333,
+            "down-right": 1.3333333333333333
+          }
+        },
+        "walk": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "attack": {
+          "fps": 16,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "skill": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "hit": {
+          "fps": 16,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 4,
+            "down-left": 4,
+            "left": 4,
+            "up-left": 4,
+            "up": 4,
+            "up-right": 4,
+            "right": 4,
+            "down-right": 4
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.25,
+            "down-left": 0.25,
+            "left": 0.25,
+            "up-left": 0.25,
+            "up": 0.25,
+            "up-right": 0.25,
+            "right": 0.25,
+            "down-right": 0.25
+          }
+        },
+        "death": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "respawn": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kiwalk": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kiidle": {
+          "fps": 6,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 1.0,
+            "down-left": 1.0,
+            "left": 1.0,
+            "up-left": 1.0,
+            "up": 1.0,
+            "up-right": 1.0,
+            "right": 1.0,
+            "down-right": 1.0
+          }
+        },
+        "kiattack": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kiskill": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "attack2": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "finisher": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "skillb": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "dodge": {
+          "fps": 14,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.42857142857142855,
+            "down-left": 0.42857142857142855,
+            "left": 0.42857142857142855,
+            "up-left": 0.42857142857142855,
+            "up": 0.42857142857142855,
+            "up-right": 0.42857142857142855,
+            "right": 0.42857142857142855,
+            "down-right": 0.42857142857142855
+          }
+        },
+        "guard": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        },
+        "hitheavy": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "victory": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "run": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "channel": {
+          "fps": 10,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "skillc": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "interact": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        },
+        "kiattack2": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kifinisher": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kiskillb": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kidodge": {
+          "fps": 14,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.42857142857142855,
+            "down-left": 0.42857142857142855,
+            "left": 0.42857142857142855,
+            "up-left": 0.42857142857142855,
+            "up": 0.42857142857142855,
+            "up-right": 0.42857142857142855,
+            "right": 0.42857142857142855,
+            "down-right": 0.42857142857142855
+          }
+        },
+        "kiguard": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        },
+        "kihit": {
+          "fps": 14,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.42857142857142855,
+            "down-left": 0.42857142857142855,
+            "left": 0.42857142857142855,
+            "up-left": 0.42857142857142855,
+            "up": 0.42857142857142855,
+            "up-right": 0.42857142857142855,
+            "right": 0.42857142857142855,
+            "down-right": 0.42857142857142855
+          }
+        },
+        "kihitheavy": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kideath": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "kirespawn": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kivictory": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "kirun": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kichannel": {
+          "fps": 10,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "kiskillc": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kiinteract": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        }
+      }
+    },
+    "planetary": {
+      "actor": "verdant.hero",
+      "cell": 200,
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "worldSize": [
+        133,
+        133
+      ],
+      "clips": {
+        "idle": {
+          "fps": 6,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 1.3333333333333333,
+            "down-left": 1.3333333333333333,
+            "left": 1.3333333333333333,
+            "up-left": 1.3333333333333333,
+            "up": 1.3333333333333333,
+            "up-right": 1.3333333333333333,
+            "right": 1.3333333333333333,
+            "down-right": 1.3333333333333333
+          }
+        },
+        "walk": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "attack": {
+          "fps": 16,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "skill": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "hit": {
+          "fps": 16,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 4,
+            "down-left": 4,
+            "left": 4,
+            "up-left": 4,
+            "up": 4,
+            "up-right": 4,
+            "right": 4,
+            "down-right": 4
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.25,
+            "down-left": 0.25,
+            "left": 0.25,
+            "up-left": 0.25,
+            "up": 0.25,
+            "up-right": 0.25,
+            "right": 0.25,
+            "down-right": 0.25
+          }
+        },
+        "death": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "respawn": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kiwalk": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kiidle": {
+          "fps": 6,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 1.0,
+            "down-left": 1.0,
+            "left": 1.0,
+            "up-left": 1.0,
+            "up": 1.0,
+            "up-right": 1.0,
+            "right": 1.0,
+            "down-right": 1.0
+          }
+        },
+        "kiattack": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kiskill": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "attack2": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "finisher": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "skillb": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "dodge": {
+          "fps": 14,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.42857142857142855,
+            "down-left": 0.42857142857142855,
+            "left": 0.42857142857142855,
+            "up-left": 0.42857142857142855,
+            "up": 0.42857142857142855,
+            "up-right": 0.42857142857142855,
+            "right": 0.42857142857142855,
+            "down-right": 0.42857142857142855
+          }
+        },
+        "guard": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        },
+        "hitheavy": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "victory": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "run": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "channel": {
+          "fps": 10,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "skillc": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "interact": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        },
+        "kihit": {
+          "fps": 14,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.42857142857142855,
+            "down-left": 0.42857142857142855,
+            "left": 0.42857142857142855,
+            "up-left": 0.42857142857142855,
+            "up": 0.42857142857142855,
+            "up-right": 0.42857142857142855,
+            "right": 0.42857142857142855,
+            "down-right": 0.42857142857142855
+          }
+        },
+        "kihitheavy": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kideath": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "kirespawn": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kivictory": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "kirun": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kichannel": {
+          "fps": 10,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "kiskillc": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kiinteract": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        },
+        "kiattack2": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kifinisher": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kiskillb": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kidodge": {
+          "fps": 14,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.42857142857142855,
+            "down-left": 0.42857142857142855,
+            "left": 0.42857142857142855,
+            "up-left": 0.42857142857142855,
+            "up": 0.42857142857142855,
+            "up-right": 0.42857142857142855,
+            "right": 0.42857142857142855,
+            "down-right": 0.42857142857142855
+          }
+        },
+        "kiguard": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        }
+      }
+    },
+    "sage": {
+      "actor": "aether.hero",
+      "cell": 200,
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "worldSize": [
+        133,
+        133
+      ],
+      "clips": {
+        "idle": {
+          "fps": 6,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 1.3333333333333333,
+            "down-left": 1.3333333333333333,
+            "left": 1.3333333333333333,
+            "up-left": 1.3333333333333333,
+            "up": 1.3333333333333333,
+            "up-right": 1.3333333333333333,
+            "right": 1.3333333333333333,
+            "down-right": 1.3333333333333333
+          }
+        },
+        "walk": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "attack": {
+          "fps": 16,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "skill": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "hit": {
+          "fps": 16,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 4,
+            "down-left": 4,
+            "left": 4,
+            "up-left": 4,
+            "up": 4,
+            "up-right": 4,
+            "right": 4,
+            "down-right": 4
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.25,
+            "down-left": 0.25,
+            "left": 0.25,
+            "up-left": 0.25,
+            "up": 0.25,
+            "up-right": 0.25,
+            "right": 0.25,
+            "down-right": 0.25
+          }
+        },
+        "death": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "respawn": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kiwalk": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kiidle": {
+          "fps": 6,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 1.0,
+            "down-left": 1.0,
+            "left": 1.0,
+            "up-left": 1.0,
+            "up": 1.0,
+            "up-right": 1.0,
+            "right": 1.0,
+            "down-right": 1.0
+          }
+        },
+        "kiattack": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kiskill": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "attack2": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "finisher": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "skillb": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "dodge": {
+          "fps": 14,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.42857142857142855,
+            "down-left": 0.42857142857142855,
+            "left": 0.42857142857142855,
+            "up-left": 0.42857142857142855,
+            "up": 0.42857142857142855,
+            "up-right": 0.42857142857142855,
+            "right": 0.42857142857142855,
+            "down-right": 0.42857142857142855
+          }
+        },
+        "guard": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        },
+        "hitheavy": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "victory": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "run": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "channel": {
+          "fps": 10,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "skillc": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "interact": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        },
+        "kiattack2": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kifinisher": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kiskillb": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kidodge": {
+          "fps": 14,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.42857142857142855,
+            "down-left": 0.42857142857142855,
+            "left": 0.42857142857142855,
+            "up-left": 0.42857142857142855,
+            "up": 0.42857142857142855,
+            "up-right": 0.42857142857142855,
+            "right": 0.42857142857142855,
+            "down-right": 0.42857142857142855
+          }
+        },
+        "kiguard": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        },
+        "kihit": {
+          "fps": 14,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.42857142857142855,
+            "down-left": 0.42857142857142855,
+            "left": 0.42857142857142855,
+            "up-left": 0.42857142857142855,
+            "up": 0.42857142857142855,
+            "up-right": 0.42857142857142855,
+            "right": 0.42857142857142855,
+            "down-right": 0.42857142857142855
+          }
+        },
+        "kihitheavy": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kideath": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "kirespawn": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kivictory": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "kirun": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kichannel": {
+          "fps": 10,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "kiskillc": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kiinteract": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        }
+      }
+    },
+    "android": {
+      "actor": "nexus.hero",
+      "cell": 200,
+      "origin": [
+        0.5,
+        0.95
+      ],
+      "worldSize": [
+        133,
+        133
+      ],
+      "clips": {
+        "idle": {
+          "fps": 6,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 1.3333333333333333,
+            "down-left": 1.3333333333333333,
+            "left": 1.3333333333333333,
+            "up-left": 1.3333333333333333,
+            "up": 1.3333333333333333,
+            "up-right": 1.3333333333333333,
+            "right": 1.3333333333333333,
+            "down-right": 1.3333333333333333
+          }
+        },
+        "walk": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "attack": {
+          "fps": 16,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "skill": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "hit": {
+          "fps": 16,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 4,
+            "down-left": 4,
+            "left": 4,
+            "up-left": 4,
+            "up": 4,
+            "up-right": 4,
+            "right": 4,
+            "down-right": 4
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.25,
+            "down-left": 0.25,
+            "left": 0.25,
+            "up-left": 0.25,
+            "up": 0.25,
+            "up-right": 0.25,
+            "right": 0.25,
+            "down-right": 0.25
+          }
+        },
+        "death": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "respawn": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kiwalk": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kiidle": {
+          "fps": 6,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 1.0,
+            "down-left": 1.0,
+            "left": 1.0,
+            "up-left": 1.0,
+            "up": 1.0,
+            "up-right": 1.0,
+            "right": 1.0,
+            "down-right": 1.0
+          }
+        },
+        "kiattack": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kiskill": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "attack2": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "finisher": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "skillb": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "dodge": {
+          "fps": 14,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.42857142857142855,
+            "down-left": 0.42857142857142855,
+            "left": 0.42857142857142855,
+            "up-left": 0.42857142857142855,
+            "up": 0.42857142857142855,
+            "up-right": 0.42857142857142855,
+            "right": 0.42857142857142855,
+            "down-right": 0.42857142857142855
+          }
+        },
+        "guard": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        },
+        "hitheavy": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "victory": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "run": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "channel": {
+          "fps": 10,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "skillc": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "interact": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        },
+        "kiattack2": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kifinisher": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kiskillb": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kidodge": {
+          "fps": 14,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.42857142857142855,
+            "down-left": 0.42857142857142855,
+            "left": 0.42857142857142855,
+            "up-left": 0.42857142857142855,
+            "up": 0.42857142857142855,
+            "up-right": 0.42857142857142855,
+            "right": 0.42857142857142855,
+            "down-right": 0.42857142857142855
+          }
+        },
+        "kiguard": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        },
+        "kihit": {
+          "fps": 14,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.42857142857142855,
+            "down-left": 0.42857142857142855,
+            "left": 0.42857142857142855,
+            "up-left": 0.42857142857142855,
+            "up": 0.42857142857142855,
+            "up-right": 0.42857142857142855,
+            "right": 0.42857142857142855,
+            "down-right": 0.42857142857142855
+          }
+        },
+        "kihitheavy": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kideath": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "kirespawn": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kivictory": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "kirun": {
+          "fps": 16,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.5,
+            "down-left": 0.5,
+            "left": 0.5,
+            "up-left": 0.5,
+            "up": 0.5,
+            "up-right": 0.5,
+            "right": 0.5,
+            "down-right": 0.5
+          }
+        },
+        "kichannel": {
+          "fps": 10,
+          "loop": true,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.8,
+            "down-left": 0.8,
+            "left": 0.8,
+            "up-left": 0.8,
+            "up": 0.8,
+            "up-right": 0.8,
+            "right": 0.8,
+            "down-right": 0.8
+          }
+        },
+        "kiskillc": {
+          "fps": 12,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 8,
+            "down-left": 8,
+            "left": 8,
+            "up-left": 8,
+            "up": 8,
+            "up-right": 8,
+            "right": 8,
+            "down-right": 8
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6666666666666666,
+            "down-left": 0.6666666666666666,
+            "left": 0.6666666666666666,
+            "up-left": 0.6666666666666666,
+            "up": 0.6666666666666666,
+            "up-right": 0.6666666666666666,
+            "right": 0.6666666666666666,
+            "down-right": 0.6666666666666666
+          }
+        },
+        "kiinteract": {
+          "fps": 10,
+          "loop": false,
+          "framesPerDirection": {
+            "down": 6,
+            "down-left": 6,
+            "left": 6,
+            "up-left": 6,
+            "up": 6,
+            "up-right": 6,
+            "right": 6,
+            "down-right": 6
+          },
+          "durationSecondsPerDirection": {
+            "down": 0.6,
+            "down-left": 0.6,
+            "left": 0.6,
+            "up-left": 0.6,
+            "up": 0.6,
+            "up-right": 0.6,
+            "right": 0.6,
+            "down-right": 0.6
+          }
+        }
+      }
+    }
+  },
+  "acceptance": "Correct directions and temporal consistency must be shown in the actual engine. Contract export is not a tested Meshy importer or commercial-license clearance."
+}

@@ -1,0 +1,1 @@
+{"scope": "black-red Legend trial only", "neutralMinChannel": 160, "maxChroma": 20, "largestCanonicalWhiteComponent": 21, "whiteComponentAreaLimit": 42, "removedPixelsPerFrame": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "rgbAndBoundsUnchanged": true}

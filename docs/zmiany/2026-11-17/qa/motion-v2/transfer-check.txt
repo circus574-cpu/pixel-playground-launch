@@ -1,0 +1,3 @@
+PASS: arms archive 4601448 bytes SHA-256 1b8962b78053185b7cf3e7976ff21352195ffe33f9ddd72df4ef967ef32cc032.
+PASS: diagonal archive 5288230 bytes SHA-256 92d7782445e752509c9a79f92f1612454ed9ec81d788aaebf4eba051c00279da.
+All ZIP CRCs, 66 generated frame hashes and bounded atlas contracts verified after transfer.

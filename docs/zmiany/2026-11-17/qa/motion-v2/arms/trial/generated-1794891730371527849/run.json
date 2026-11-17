@@ -1,0 +1,11 @@
+{
+  "kind": "vace-generated",
+  "status": "starting",
+  "controlSha256": "019ef6cedb4a7c1786a27b5d927b1da01388770e557d732d0836972750b288b4",
+  "runnerSha256": "2875b7ba3f7dbed08fe2cfe5b20707734b553eb0b17c1ec89e1c3919dd75734d",
+  "modelReceiptSha256": "a8459d558bb5d1066e99cdbeda7e16366ec6eadacbc3e314e66bd8a26857cf76",
+  "gpuInference": false,
+  "gpu": "NVIDIA RTX 6000 Ada Generation",
+  "torch": "2.8.0+cu129",
+  "diffusers": "0.35.2"
+}

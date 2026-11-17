@@ -234,3 +234,79 @@ Pakowanie i narzędzia obsługują też osiem kierunków; przygotowano
 [wejście diagonalne](qa/character-colors/diagonal-starter.zip), ale samo przygotowanie
 nie jest dowodem generacji ani działania tego kierunku w grze. Odbiór ruchu
 jest oddzielny od powyższej korekty kolorów.
+
+## 4. Odbiór dalszych prób — technika i jakość osobno
+
+Po poleceniu kontynuacji wykonano dwa nowe klipy VACE: maska ramion widoku w prawo
+i źródło opisane jako `down-right`. Oba mają 33 surowe klatki 512², 30 kroków,
+16 eksportowanych klatek przy 32 FPS i cykl 0,5 s. Dodatkowo wykonano dwa mocniejsze
+statyczne warianty detali SDXL (0,48 i 0,58). Kolejka była sekwencyjna, bez
+równoczesnego ładowania dwóch ciężkich modeli i bez operacji cyklu życia poda.
+
+| Próba | Wynik techniczny | Odbiór wizualny |
+| --- | --- | --- |
+| Uwolnione ramiona | 417,78 s z ładowaniem i sprawdzaniem wag; 54/54 headless + 54/54 X11 | Zmiana ruchu ramion pozostaje niewielka. Brak odbioru naturalnego zamachu. |
+| `down-right` | 410,06 s z ładowaniem i sprawdzaniem wag; 54/54 headless + 54/54 X11 | Źródło pod tą nazwą jest frontalne i wynik zachowuje ten widok. Nie przyjęto jako wiarygodnego ujęcia po skosie. |
+| SDXL 0,48 / 0,58 | Nowe obrazy 1024², pliki z sumami, oryginalna alfa wersji 200² zachowana | Więcej wyraźnych detali i połysku, ale zmiana naramienników i szczegółów kostiumu. Brak automatycznej podmiany. |
+
+Szczyt alokacji PyTorch obu klipów VACE: 37 427 428 352 B (34,86 GiB).
+Wyniki techniczne nie oznaczają odbioru artystycznego:
+[jawna ocena](qa/motion-v2/quality-review.json).
+
+Materiały ramion: [klatki i rejestr](qa/motion-v2/arms/trial/),
+[plansza po korekcie alfa i koloru](qa/motion-v2/arms-colored/contact.jpg),
+[film z gry](qa/motion-v2/arms-game.mp4), [raport X11](qa/motion-v2/arms-native.json).
+Materiały kierunku: [wejście źródłowe](qa/motion-v2/diagonal/trial/control/key-0.png),
+[plansza wyniku](qa/motion-v2/diagonal/candidate/contact.jpg),
+[film z gry](qa/motion-v2/diagonal-game.mp4), [raport X11](qa/motion-v2/diagonal-native.json).
+Korekta koloru i matowanie są osobnymi etapami: zastosowano istniejące doczyszczenie
+alfa i ten sam profil koloru co w czterech rasach, zachowując metadane pochodzenia.
+[Powtarzalne nałożenie profilu](qa/motion-v2/compose_colors.py).
+
+Archiwa zabezpieczone poza podem i sprawdzone po transferze:
+
+- [Ramiona](qa/motion-v2/arms-pilot.zip): 4 601 448 B,
+  SHA-256 `1b8962b78053185b7cf3e7976ff21352195ffe33f9ddd72df4ef967ef32cc032`.
+- [Kierunek](qa/motion-v2/diagonal-pilot.zip): 5 288 230 B,
+  SHA-256 `92d7782445e752509c9a79f92f1612454ed9ec81d788aaebf4eba051c00279da`.
+- [Mocniejsze detale](qa/character-colors/gpu-detail-strong.zip): 691 065 B,
+  SHA-256 `fcdcf38138c552171c7a49ac24e5afef591f2c0c738a68089ec9ed17b851926a`;
+  [porównanie](qa/character-colors/gpu-detail-strong/comparison.jpg),
+  [parametry i sumy](qa/character-colors/gpu-detail-strong/result.json).
+
+[Kontrola obu filmów/atlasów i 66 hashy klatek](qa/motion-v2/transfer-check.txt).
+Pełny zestaw lokalnych testów narzędzi GPU/koloru: **30/30**
+([log](qa/motion-v2/all-gpu-tests.txt)). Pełny TypeScript zaliczono dla kodu
+tej partii w sekcji 3; później dodano dowody, skrypt QA kompozycji i dokumentację.
+[Kontrola dokumentacji](qa/motion-v2/documentation-check.txt).
+Wszystko pozostaje na gałęzi testowej, bez publikacji, podmiany źródeł lub nowego APK.
+
+Pomiary korekty barw na dopasowanych pikselach czterech źródłowych klatek idle:
+[dane](qa/character-colors/measurements.json). Średnie nasycenie wzrosło około
+12–19%, a zakres luminancji P95–P05 około 4–7%. To opis koloru, nie punktacja
+jakości artystycznej. Alphę zachowano dokładnie. W imporcie źródeł Godota znaleziono
+również stratną kompresję `compress/mode=1`, `lossy_quality=0.92`; nie zmieniano jej
+ani nie uznano bez pomiaru za główną przyczynę wyblaknięcia.
+
+## 5. Kierunek Meshy — kontrakt wejścia do istniejącego Godota
+
+Właściciel zadeklarował zakup Meshy.ai do tworzenia postaci. Po tej informacji
+nie uruchamiano następnej generacji GPU; domknięto zapis wcześniejszej kolejki.
+Proponowana ścieżka dla obecnej gry 2D: model 3D → humanoidalny rig → animacje →
+stały render ortograficzny ośmiu rzeczywistych kierunków → atlasy obecnego aktora.
+Pozwala to zachować istniejący Phaser/Godot 2D, logikę walki, kolizje i HUD.
+Nie wdrażano tu pełnej sceny 3D do gry.
+
+[Kontrakt eksportu](qa/character-colors/meshy-import-contract.json) powstał z
+rzeczywistego `actors.json`: cztery rasy, 144 klipy, ich FPS, pętle, liczby klatek,
+czasy i obecne rozmiary/kotwice. Zawiera także wymóg ruchu w miejscu i weryfikacji
+faktycznych kątów. To **specyfikacja, nie ukończony importer Meshy**.
+Żadnego modelu Meshy nie otrzymano ani nie zaimportowano.
+
+Pierwszy test powinien obejmować jedną kompletną Legendę: GLB z osadzonymi
+teksturami lub FBX z teksturami, skórkowaną siatkę, szkielet i idle/walk.
+Do rigowania A-pose/T-pose z odseparowanymi kończynami; źródłowy sprite idle
+nie jest taką pozą. Sprawdzić szkielet, materiały i animacje przed większą serią.
+Nie zakładać prawidłowych kierunków na podstawie samych nazw. Referencje ras
+i kanon pozostają w dokumencie ras; źródłowy PDF i prawa do materiałów pozostają
+oddzielnymi dowodami. Nie użyto API ani kredytów Meshy.

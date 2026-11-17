@@ -1,1 +1,2 @@
 PASS: static GPU archive 964043 bytes, SHA-256 a4ed66d0a773bf88c0fa6916786666ad4caa6fe2ac13db9e4df6322ba2c81aea, ZIP CRC verified.
+PASS: stronger detail archive 691065 bytes SHA-256 fcdcf38138c552171c7a49ac24e5afef591f2c0c738a68089ec9ed17b851926a; ZIP CRC verified.
