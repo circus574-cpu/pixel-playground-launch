@@ -43,7 +43,7 @@ func run() -> void:
 	gate.password_field.text = "zle-haslo-0000"
 	await process_frame
 	gate.choice_made.emit(0)
-	check(await wait_until(func(): return gate.detail.text == "Serwer: " + KiNet.online().server and gate.message.text.contains("Nieprawid"), 20.0), "a wrong password is refused with the server's message", gate.message.text)
+	check(await wait_until(func(): return gate.detail.text.begins_with("Serwer: " + KiNet.online().server) and gate.message.text.contains("Nieprawid"), 20.0), "a wrong password is refused with the server's message", gate.message.text)
 	check(await wait_until(func(): return gate.message.text.begins_with("Zaloguj") and gate.buttons.get_child_count() > 0 and not gate.buttons.get_child(0).is_queued_for_deletion(), 20.0), "the gate offers the login again")
 	gate.password_field.text = password
 	gate.choice_made.emit(0)
@@ -79,7 +79,7 @@ func run() -> void:
 	var summary := await KiNet.online().cloud_summary()
 	check(bool(summary.ok) and int((summary.save as Dictionary).get("level", 0)) == 4 and str(summary.save.land) == "pyra", "the server lists the save with level and land", summary)
 	var stale := await KiNet.online().cloud_push(JSON.parse_string(FileAccess.get_file_as_string("user://city-checkpoint-v1.json")), 0)
-	check(bool(stale.get("conflict", false)) and int(stale.serverRevision) == 1, "a stale write is refused as a conflict", stale)
+	check(bool(stale.get("conflict", false)) and int(stale.serverRevision) == int(summary.save.revision), "a stale write is refused as a conflict", stale)
 	var pulled := await KiNet.online().cloud_pull()
 	check(bool(pulled.ok) and int((pulled.save as Dictionary).kit.level) == 4, "the cloud save can be pulled back", pulled)
 	# travelling to a land that is not on the device downloads its packs behind a progress screen

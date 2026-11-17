@@ -19,6 +19,9 @@ export const LANDS = [
   "island-5",
   "island-6",
 ] as const;
+/** Cloud slots: one per character. A player has three; an administrator has no limit (up to what the database column holds). */
+export const PLAYER_SAVE_SLOTS = 3;
+export const MAX_SAVE_SLOT = 32_767;
 export const MAX_SAVE_BYTES = 1_000_000;
 export const MAX_LEVEL = 20;
 /** Generous ceilings, not game rules: a save beyond them cannot come from play. */

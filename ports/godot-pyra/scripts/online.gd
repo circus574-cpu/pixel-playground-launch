@@ -12,7 +12,8 @@ signal live_state_changed(connected: bool)
 
 const SESSION_PATH := "user://account.json"
 const CLOUD_PATH := "user://cloud.json"
-const SLOT := 1
+const SLOTS := 3                   # the cloud saves of a player: one per character (scripts/characters.gd), three per account
+const MAX_SLOT := 32767            # an administrator has no limit (the server's database column)
 
 var server := ""
 var access_token := ""
@@ -22,7 +23,9 @@ var remember := true            # "Zapamiętaj mnie": without it the sign-in liv
 var account_id := ""
 var nick := ""
 var online_count := 0
-var cloud_revision := 0            # revision of the cloud save this device last read or wrote (this account, slot 1)
+var slot := 1                      # the cloud slot of the character being played (set by use_slot)
+var revisions: Dictionary = {}     # slot (int) -> revision this device last read or wrote (this account)
+var cloud_revision := 0            # that revision for the current slot
 var last_error := ""
 
 var socket: WebSocketPeer
@@ -99,6 +102,7 @@ func adopt(session: Dictionary) -> void:
 	refresh_token = str(session.refreshToken)
 	var account: Dictionary = session.account
 	if account_id != str(account.id):
+		revisions = {}
 		cloud_revision = 0
 	account_id = str(account.id)
 	nick = str(account.nick)
@@ -194,30 +198,65 @@ func resume() -> bool:
 # ---- cloud saves ------------------------------------------------------------------------------------
 
 func load_cloud_state() -> void:
+	revisions = {}
 	cloud_revision = 0
 	if FileAccess.file_exists(CLOUD_PATH):
 		var value: Variant = JSON.parse_string(FileAccess.get_file_as_string(CLOUD_PATH))
 		if value is Dictionary and str(value.get("account", "")) == account_id:
-			cloud_revision = int(value.get("revision", 0))
+			var saved: Variant = value.get("revisions", null)
+			if saved is Dictionary:
+				for key: Variant in (saved as Dictionary):
+					revisions[int(str(key))] = int((saved as Dictionary)[key])
+			elif value.has("revision"):
+				revisions[1] = int(value.revision)   # the one-save file of releases before 1.13 held slot 1
+	cloud_revision = int(revisions.get(slot, 0))
 
 func store_cloud_state() -> void:
+	revisions[slot] = cloud_revision
+	var saved: Dictionary = {}
+	for key: Variant in revisions:
+		saved[str(key)] = int(revisions[key])
 	var file := FileAccess.open(CLOUD_PATH, FileAccess.WRITE)
 	if file != null:
-		file.store_string(JSON.stringify({"account": account_id, "revision": cloud_revision}))
+		file.store_string(JSON.stringify({"account": account_id, "revisions": saved}))
 		file.close()
 
-## The summary of the cloud save in the slot, or {} (none / offline). Returns {"ok": bool, "save": {...}}.
-func cloud_summary() -> Dictionary:
+## How many cloud saves this account may keep: three, an administrator any number.
+func slot_limit() -> int:
+	return MAX_SLOT if logged_in() and roles.has("admin") else SLOTS
+
+## Makes `number` (1..3) the cloud slot of the following pull / push: the revision of that slot becomes the current one.
+func use_slot(number: int) -> void:
+	revisions[slot] = cloud_revision
+	slot = clampi(number, 1, slot_limit())
+	cloud_revision = int(revisions.get(slot, 0))
+
+## All the cloud saves of the account: {"ok": bool, "saves": [{slot, revision, race, land, level, updatedAt, ...}]}.
+func cloud_list() -> Dictionary:
 	var result := await request(HTTPClient.METHOD_GET, "/ws/godot/saves")
 	if int(result.status) != 200 or not result.json is Dictionary:
-		return {"ok": false, "status": int(result.status)}
-	for row: Dictionary in result.json.saves:
-		if int(row.slot) == SLOT:
+		return {"ok": false, "status": int(result.status), "saves": []}
+	var rows: Array = []
+	for row: Variant in (result.json.get("saves", []) as Array):
+		if row is Dictionary and int(row.slot) >= 1 and int(row.slot) <= slot_limit():
+			rows.append(row)
+	return {"ok": true, "saves": rows}
+
+## The summary of the cloud save of the current slot, or {} (none / offline). Returns {"ok": bool, "save": {...}}.
+func cloud_summary() -> Dictionary:
+	var listed := await cloud_list()
+	if not bool(listed.ok):
+		return listed
+	for row: Dictionary in listed.saves:
+		if int(row.slot) == slot:
 			return {"ok": true, "save": row}
 	return {"ok": true, "save": {}}
 
-func cloud_pull() -> Dictionary:
-	var result := await request(HTTPClient.METHOD_GET, "/ws/godot/saves/%d" % SLOT)
+## Reads the save of the current slot, or of `number` when given (it becomes the current slot).
+func cloud_pull(number: int = 0) -> Dictionary:
+	if number > 0:
+		use_slot(number)
+	var result := await request(HTTPClient.METHOD_GET, "/ws/godot/saves/%d" % slot)
 	if int(result.status) == 200 and result.json is Dictionary:
 		cloud_revision = int(result.json.revision)
 		store_cloud_state()
@@ -230,7 +269,7 @@ func cloud_push(save: Dictionary, base: int = -1, content_version: String = "") 
 	var body := {"baseRevision": base_revision, "save": save, "clientCode": KiNet.CLIENT_CODE}
 	if content_version != "":
 		body["contentVersion"] = content_version
-	var result := await request(HTTPClient.METHOD_PUT, "/ws/godot/saves/%d" % SLOT, body, true, 30.0)
+	var result := await request(HTTPClient.METHOD_PUT, "/ws/godot/saves/%d" % slot, body, true, 30.0)
 	if int(result.status) == 200 and result.json is Dictionary:
 		cloud_revision = int(result.json.revision)
 		store_cloud_state()

@@ -27,6 +27,8 @@ const LEGEND_PATH := "res://data/legend.json"
 const SAVE_PATH := "user://city-checkpoint-v1.json"
 const Characters := preload("res://scripts/characters.gd")
 var character_id := ""   # the id of the active character (scripts/characters.gd)
+var cloud_push_again := false
+var cloud_slot := 0       # its cloud slot 1..3 (0: not assigned yet; -1: the account has no free slot)
 const ALL_LANDS := ["pyra", "verdant", "aether", "nexus", "island-1", "island-2", "island-3", "island-4", "island-5", "island-6"]
 const SAVE_FORMAT := "ki-godot-pyra-save-2"
 const INTERACTION_RANGE := 160.0
@@ -1708,6 +1710,7 @@ func start_new_character(new_race: String) -> void:
 	for slot in PyraEconomy.SLOTS:
 		economy.equipment[slot] = ""
 	character_id = Characters.new_id()   # a new character: the previous one stays in its slot (scripts/characters.gd)
+	cloud_slot = 0                       # and gets a cloud slot of its own at its first upload
 	set_race(new_race)
 	enter_land(str(HOME_OF_RACE[new_race]))
 	hud.refresh(kit)
@@ -1864,7 +1867,7 @@ func save_checkpoint(path: String = SAVE_PATH, quiet: bool = false) -> bool:
 	var in_cave := in_dungeon()
 	var save_room := "" if in_cave else current_room
 	var save_at := city_return if in_cave else player.position
-	var value := {"format": SAVE_FORMAT, "version": 2, "race": race, "land": land_id, "room": save_room, "town": room_town, "position": [save_at.x, save_at.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save(), "economy": economy.to_save(), "quests": quests.to_save(), "story": story.to_save(), "dungeons": dungeon_state, "events": world_events.to_save(), "characterId": character_id}
+	var value := {"format": SAVE_FORMAT, "version": 2, "race": race, "land": land_id, "room": save_room, "town": room_town, "position": [save_at.x, save_at.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save(), "economy": economy.to_save(), "quests": quests.to_save(), "story": story.to_save(), "dungeons": dungeon_state, "events": world_events.to_save(), "characterId": character_id, "cloudSlot": maxi(cloud_slot, 0)}
 	var file := FileAccess.open(path + ".tmp", FileAccess.WRITE)
 	if file == null:
 		return false
@@ -1881,14 +1884,36 @@ func save_checkpoint(path: String = SAVE_PATH, quiet: bool = false) -> bool:
 
 ## Sends the local save to the account's cloud slot. A newer save from another device raises the conflict dialog.
 func push_cloud(announce: bool = false) -> void:
+	if cloud_pushing and not cloud_dialog_open:
+		cloud_push_again = true   # a newer save arrived while one is on its way: it goes up right after
+		return
 	if cloud_pushing or cloud_dialog_open or not FileAccess.file_exists(SAVE_PATH):
 		return
 	var value: Variant = JSON.parse_string(FileAccess.get_file_as_string(SAVE_PATH))
 	if not value is Dictionary:
 		return
+	if cloud_slot < 0:
+		return   # every cloud slot of the account holds another character
 	cloud_pushing = true
+	if cloud_slot == 0:
+		var assigned := await assign_cloud_slot()
+		if assigned == 0:   # the server could not be asked: try again at the next save
+			cloud_pushing = false
+			if announce:
+				hud.toast("Nie zapisano w chmurze.")
+			return
+		cloud_slot = assigned
+		if assigned < 0:
+			cloud_pushing = false
+			hud.toast("Chmura ma miejsce na %d postacie; ta zostaje tylko na urządzeniu." % PyraOnline.SLOTS)
+			return
+		value["cloudSlot"] = cloud_slot
+	KiNet.online().use_slot(cloud_slot)
 	var outcome := await KiNet.online().cloud_push(value, -1, KiNet.content().version())
 	cloud_pushing = false
+	if bool(outcome.ok) and cloud_push_again:
+		cloud_push_again = false
+		push_cloud.call_deferred(announce)
 	if bool(outcome.ok):
 		if announce:
 			hud.toast("Zapisano w chmurze (wersja %d)." % int(outcome.revision))
@@ -1896,6 +1921,26 @@ func push_cloud(announce: bool = false) -> void:
 		show_cloud_conflict(int(outcome.serverRevision))
 	elif announce:
 		hud.toast(str(outcome.get("message", "Nie zapisano w chmurze.")))
+
+## The first free cloud slot of the account for this character (not held by a cloud save and not by another character of this device).
+## Returns the slot, 0 when the server could not be asked, -1 when all slots are taken.
+func assign_cloud_slot() -> int:
+	var listed := await KiNet.online().cloud_list()
+	if not bool(listed.ok):
+		return 0
+	var taken: Array[int] = []
+	for row: Dictionary in listed.saves:
+		taken.append(int(row.slot))
+	for entry in Characters.list():
+		if str(entry.id) != character_id and int(entry.cloudSlot) > 0:
+			taken.append(int(entry.cloudSlot))
+	for number in range(1, KiNet.online().slot_limit() + 1):
+		if not taken.has(number):
+			KiNet.online().use_slot(number)
+			KiNet.online().cloud_revision = 0
+			Characters.set_cloud_slot(character_id, number)
+			return number
+	return -1
 
 func show_cloud_conflict(server_revision: int) -> void:
 	cloud_dialog_open = true
@@ -1908,11 +1953,13 @@ func show_cloud_conflict(server_revision: int) -> void:
 			push_cloud(true)},
 		{"text": "POBIERZ ZAPIS Z CHMURY", "callback": func() -> void:
 			hud.close_dialog()
-			var pulled := await KiNet.online().cloud_pull()
+			var pulled := await KiNet.online().cloud_pull(cloud_slot)
 			cloud_dialog_open = false
 			if bool(pulled.ok) and not await ensure_land_content(str((pulled.save as Dictionary).get("land", "pyra"))):
 				hud.toast("Brak danych krainy z zapisu.")
 			elif bool(pulled.ok):
+				(pulled.save as Dictionary)["characterId"] = character_id   # the cloud save replaces THIS character
+				(pulled.save as Dictionary)["cloudSlot"] = cloud_slot
 				var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 				if file != null:
 					file.store_string(JSON.stringify(pulled.save))
@@ -2062,6 +2109,7 @@ func restore_checkpoint(path: String = SAVE_PATH) -> bool:
 		story.from_save(value.get("story", null))
 		refresh_quest_ui()
 	city_return = back
+	cloud_slot = int(value.get("cloudSlot", 0))
 	character_id = str(value.get("characterId", ""))
 	if character_id == "":
 		character_id = Characters.new_id()   # a save from before the roster existed (or from the cloud) becomes a character

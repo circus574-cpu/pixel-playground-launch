@@ -1268,7 +1268,9 @@ nienadpisany. W menu dostępne są pełne licencje i copyright silnika przez API
 Wiele postaci na urządzeniu: każdy zapis aktywnej postaci (`characterId`) trafia też do slotu
 `user://characters/<id>.json` (`scripts/characters.gd`); przed wejściem do gry ekran
 `character_select.gd` pyta, którą grać (od dwóch postaci), a MENU → ZMIEŃ POSTAĆ przełącza w grze.
-Chmura nadal trzyma jeden zapis na konto. Test: `tests/characters_test.gd`.
+Chmura trzyma do trzech zapisów na konto gracza (sloty serwera; administrator bez limitu, migracja `008-godot-android-slots.sql`): każda postać ma `cloudSlot`, rewizje
+są liczone osobno dla slotu (`user://cloud.json`), logowanie na nowym urządzeniu odtwarza postacie z chmury.
+Testy: `tests/characters_test.gd`, `tests/cloud_slots_test.gd`.
 
 ### Uruchomienie i odtworzenie eksportu
 

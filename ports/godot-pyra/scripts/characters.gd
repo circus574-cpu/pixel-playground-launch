@@ -45,7 +45,7 @@ static func adopt_active() -> String:
 		store(value)
 	return str(value.characterId)
 
-## [{id, race, level, land, time}] newest first.
+## [{id, race, level, land, time, cloudSlot}] newest first (cloudSlot: the account's cloud slot 1..3 of the character, 0 = not in the cloud).
 static func list() -> Array[Dictionary]:
 	adopt_active()
 	var out: Array[Dictionary] = []
@@ -60,7 +60,7 @@ static func list() -> Array[Dictionary]:
 		var kit: Variant = value.get("kit", {})
 		if value.is_empty() or not value.has("race") or not kit is Dictionary:
 			continue
-		out.append({"id": file.trim_suffix(".json"), "race": str(value.race), "level": int((kit as Dictionary).get("level", 1)), "land": str(value.get("land", "pyra")), "time": FileAccess.get_modified_time(path)})
+		out.append({"id": file.trim_suffix(".json"), "race": str(value.race), "level": int((kit as Dictionary).get("level", 1)), "land": str(value.get("land", "pyra")), "time": FileAccess.get_modified_time(path), "cloudSlot": int(value.get("cloudSlot", 0))})
 	out.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a.time) > int(b.time))
 	return out
 
@@ -82,3 +82,12 @@ static func delete(id: String) -> void:
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(slot_path(id)))
 	if str(read(ACTIVE).get("characterId", "")) == id:
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(ACTIVE))
+
+## Remembers the cloud slot of a character in its slot file (and in the active save when it is the active one).
+static func set_cloud_slot(id: String, number: int) -> void:
+	for path in [slot_path(id), ACTIVE]:
+		var value := read(path)
+		if value.is_empty() or (path == ACTIVE and str(value.get("characterId", "")) != id):
+			continue
+		value["cloudSlot"] = number
+		write(path, value)

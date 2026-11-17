@@ -8,6 +8,7 @@ const Look := preload("res://scripts/look.gd")   # the look that can change with
 signal choice_made(index: int)
 
 const SAVE_PATH := "user://city-checkpoint-v1.json"
+const Characters := preload("res://scripts/characters.gd")
 const LOGIN_PATH := "user://login.json"   # what "Zapamiętaj mnie" keeps: the e-mail for the next sign-in form (the session itself is in user://account.json)
 
 var panel := PanelContainer.new()
@@ -267,27 +268,54 @@ func write_local_save(save: Dictionary) -> bool:
 	file.close()
 	return DirAccess.rename_absolute(ProjectSettings.globalize_path(SAVE_PATH + ".tmp"), ProjectSettings.globalize_path(SAVE_PATH)) == OK
 
-## Compares the cloud save with this device's: a missing local save takes the cloud one; a different revision asks the player.
+## Compares the cloud saves of the account (one per character, slots 1..3) with this device's characters: a cloud save with no character here
+## becomes a character here; a character whose cloud save changed elsewhere asks the player which one to keep.
 func reconcile_cloud() -> void:
 	var online := KiNet.online()
-	say("KI LEGENDS", "Sprawdzam zapis w chmurze…")
-	var summary := await online.cloud_summary()
-	if not bool(summary.ok) or (summary.save as Dictionary).is_empty():
+	say("KI LEGENDS", "Sprawdzam zapisy w chmurze…")
+	var listed := await online.cloud_list()
+	if not bool(listed.ok) or (listed.saves as Array).is_empty():
 		return
-	var cloud: Dictionary = summary.save
-	if int(cloud.revision) == online.cloud_revision and local_save_exists():
+	var roster := Characters.list()
+	# the single save of the releases before 1.13 was cloud slot 1: the character this device played belongs to it
+	if not roster.any(func(e: Dictionary) -> bool: return int(e.cloudSlot) > 0) and local_save_exists():
+		var active_id := str(Characters.read(SAVE_PATH).get("characterId", ""))
+		if active_id != "":
+			Characters.set_cloud_slot(active_id, 1)
+			roster = Characters.list()
+	for row: Dictionary in listed.saves:
+		var slot := int(row.slot)
+		var owner: Dictionary = {}
+		for entry in roster:
+			if int(entry.cloudSlot) == slot:
+				owner = entry
+		var known_revision := int(online.revisions.get(slot, 0))
+		if owner.is_empty():
+			await take_cloud_character(slot)
+		elif int(row.revision) != known_revision:
+			var text := "Zapis w chmurze postaci (%s, slot %d: poziom %d, kraina %s, %s) różni się od zapisu na tym urządzeniu (poziom %d). Który zachować?" % [str(owner.race), slot, int(row.level), str(row.land), str(row.updatedAt).replace("T", " ").substr(0, 16), int(owner.level)]
+			if await offer_message("Zapis w chmurze", text, ["UŻYJ ZAPISU Z CHMURY", "ZACHOWAJ TEN Z URZĄDZENIA"]) == 0:
+				await take_cloud_character(slot, str(owner.id))
+			else:
+				online.use_slot(slot)
+				online.cloud_revision = int(row.revision)   # the next upload deliberately replaces the cloud save
+				online.store_cloud_state()
+
+## Reads the cloud save of the slot into this device: as the character `id`, or (no id) as a new character; when the device had no active save, it becomes the active one.
+func take_cloud_character(slot: int, id: String = "") -> void:
+	var pulled := await KiNet.online().cloud_pull(slot)
+	if not bool(pulled.ok) or not pulled.save is Dictionary:
 		return
-	var take_cloud := not local_save_exists()
-	if not take_cloud:
-		var text := "Na tym koncie jest zapis w chmurze (poziom %d, kraina %s, %s), a to urządzenie ma inny zapis. Który zachować?" % [int(cloud.level), str(cloud.land), str(cloud.updatedAt).replace("T", " ").substr(0, 16)]
-		take_cloud = await offer_message("Zapis w chmurze", text, ["UŻYJ ZAPISU Z CHMURY", "ZACHOWAJ TEN Z URZĄDZENIA"]) == 0
-	if take_cloud:
-		var pulled := await online.cloud_pull()
-		if bool(pulled.ok):
-			write_local_save(pulled.save)
-	else:
-		online.cloud_revision = int(cloud.revision)   # the next upload deliberately replaces the cloud save
-		online.store_cloud_state()
+	var save: Dictionary = pulled.save
+	if id == "":
+		id = str(save.get("characterId", ""))
+		if id == "" or FileAccess.file_exists(Characters.slot_path(id)):
+			id = Characters.new_id()
+	save["characterId"] = id
+	save["cloudSlot"] = slot
+	Characters.write(Characters.slot_path(id), save)
+	if not local_save_exists() or str(Characters.read(SAVE_PATH).get("characterId", "")) == id:
+		write_local_save(save)
 
 # ---- content ------------------------------------------------------------------------------------------
 
