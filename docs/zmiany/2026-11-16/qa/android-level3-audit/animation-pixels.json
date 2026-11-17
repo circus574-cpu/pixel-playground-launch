@@ -1,0 +1,106 @@
+[
+  {
+    "world": "pyra",
+    "references": 2096,
+    "emptyAlphaFrames": 0,
+    "borderTouchIndicators": {
+      "death": {
+        "borderTouchFrames": 40,
+        "references": 64
+      },
+      "kidodge": {
+        "borderTouchFrames": 24,
+        "references": 48
+      },
+      "kihit": {
+        "borderTouchFrames": 8,
+        "references": 48
+      },
+      "kideath": {
+        "borderTouchFrames": 8,
+        "references": 64
+      }
+    },
+    "note": "Border contact is an inspection indicator, not proof of a cut-off body; effects may intentionally touch the cell."
+  },
+  {
+    "world": "verdant",
+    "references": 2096,
+    "emptyAlphaFrames": 0,
+    "borderTouchIndicators": {
+      "kideath": {
+        "borderTouchFrames": 16,
+        "references": 64
+      },
+      "kirespawn": {
+        "borderTouchFrames": 32,
+        "references": 64
+      },
+      "kifinisher": {
+        "borderTouchFrames": 8,
+        "references": 64
+      }
+    },
+    "note": "Border contact is an inspection indicator, not proof of a cut-off body; effects may intentionally touch the cell."
+  },
+  {
+    "world": "aether",
+    "references": 2096,
+    "emptyAlphaFrames": 0,
+    "borderTouchIndicators": {
+      "attack": {
+        "borderTouchFrames": 24,
+        "references": 64
+      },
+      "death": {
+        "borderTouchFrames": 56,
+        "references": 64
+      },
+      "respawn": {
+        "borderTouchFrames": 32,
+        "references": 64
+      },
+      "kiattack2": {
+        "borderTouchFrames": 16,
+        "references": 48
+      },
+      "kidodge": {
+        "borderTouchFrames": 24,
+        "references": 48
+      }
+    },
+    "note": "Border contact is an inspection indicator, not proof of a cut-off body; effects may intentionally touch the cell."
+  },
+  {
+    "world": "nexus",
+    "references": 2096,
+    "emptyAlphaFrames": 0,
+    "borderTouchIndicators": {
+      "kifinisher": {
+        "borderTouchFrames": 16,
+        "references": 64
+      },
+      "kidodge": {
+        "borderTouchFrames": 40,
+        "references": 48
+      },
+      "kiguard": {
+        "borderTouchFrames": 16,
+        "references": 48
+      },
+      "kihitheavy": {
+        "borderTouchFrames": 16,
+        "references": 64
+      },
+      "kideath": {
+        "borderTouchFrames": 8,
+        "references": 64
+      },
+      "kirespawn": {
+        "borderTouchFrames": 8,
+        "references": 64
+      }
+    },
+    "note": "Border contact is an inspection indicator, not proof of a cut-off body; effects may intentionally touch the cell."
+  }
+]

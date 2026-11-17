@@ -1,0 +1,15 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+AUDIT LAND pyra doors 24 outdoor NPC 19
+AUDIT LAND verdant doors 24 outdoor NPC 19
+AUDIT LAND aether doors 24 outdoor NPC 19
+AUDIT LAND nexus doors 24 outdoor NPC 19
+AUDIT LAND island-1 doors 6 outdoor NPC 6
+AUDIT LAND island-2 doors 6 outdoor NPC 6
+AUDIT LAND island-3 doors 6 outdoor NPC 6
+AUDIT LAND island-4 doors 6 outdoor NPC 6
+AUDIT LAND island-5 doors 6 outdoor NPC 6
+AUDIT LAND island-6 doors 6 outdoor NPC 6
+WORLD AUDIT 2666/2666
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)

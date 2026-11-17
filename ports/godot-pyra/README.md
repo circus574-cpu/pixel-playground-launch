@@ -1,5 +1,13 @@
 # KI Legends Android — projekt Godot 4
 
+**Odbiór 16.11, aktywna 1.8:** przeprowadzono kontrolowane przejścia czterech ras
+1→3, 132 wejść usługowych, 244 wystąpień NPC i 144 klipów animacji. Awans i usługi
+przechodzą; **brak 4 NPC blokuje 11 zadań**, 8 nazw NPC jest rozbieżnych,
+a Pieczęć Energii Mędrca zgłasza odwołanie do usuniętego celu. Odbiór całości
+nie jest zaliczony. [Raport PDF](../../docs/zmiany/2026-11-16/qa/android-level3-audit/raport.pdf)
+i [pełne wyniki](../../docs/zmiany/2026-11-16/ZMIANY.md#24-audyt-androida-18--cztery-rasy-do-poziomu-3-budynki-dialogi-i-animacje).
+Audyt jest na `qa/android-races-level3-20261116`, bez zmiany produkcyjnego runtime.
+
 **Aktualny checkpoint, 16.11:** APK **1.0**, kod 100; na serwerze **1.8**.
 Opublikowane **1.8**, gałąź `feat/android-gm-tools-1.8-20261116`, zastępuje
 odrzucony przez właściciela podgląd GM właściwymi narzędziami z gry przeglądarkowej:

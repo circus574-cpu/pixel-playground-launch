@@ -1,0 +1,29 @@
+﻿id,name,city,land,town,role,actualNames,status
+npc-aira,Aira,Zielona Przystań,verdant,verdant-capital,guide,Aira / Opiekun szlaku,ZGODNY
+npc-mio,Mio,Zielona Przystań,verdant,verdant-capital,merchant,Mio,ZGODNY
+npc-taro,Taro,Zielona Przystań,verdant,verdant-capital,smith,Taro,ZGODNY
+npc-ren,Ren,Zielona Przystań,verdant,verdant-capital,hunter,Ren,ZGODNY
+npc-nela,Nela (Przewoźniczka),Przystań Trzech Mostów,verdant,verdant-town-3,merchant,Mio,INNA NAZWA
+npc-oren,Oren (Kartograf Osady),Kamienny Sad,verdant,verdant-town-1,smith,Taro,INNA NAZWA
+npc-lina,Lina (Strażniczka Latarni),Latarnia Korzeni,verdant,verdant-town-2,hunter,,BRAK NPC
+npc-kaena,Kaena,Twierdza Popiołu,pyra,pyra-capital,guide,Kaena / Opiekun szlaku,ZGODNY
+npc-yumi,Yumi,Twierdza Popiołu,pyra,pyra-capital,merchant,Yumi,ZGODNY
+npc-goro,Goro,Twierdza Popiołu,pyra,pyra-capital,smith,Goro,ZGODNY
+npc-rokan,Rokan,Twierdza Popiołu,pyra,pyra-capital,hunter,Rokan,ZGODNY
+npc-pyra-warden-west,Toren (Strażnik Traktu),Żarowy Trakt,pyra,pyra-town-3,hunter,,BRAK NPC
+npc-pyra-smith-east,Hana (Płatnerka Obsydianu),Cytadela Kowadeł,pyra,pyra-town-1,smith,Goro,INNA NAZWA
+npc-pyra-captain,Daro (Ssternik Przymierza),Port Czerwonych Żagli,pyra,pyra-town-2,merchant,Yumi,INNA NAZWA
+npc-sora,Sora,Sanktuarium Tysiąca Źródeł,aether,aether-capital,guide,Opiekun szlaku / Sora,ZGODNY
+npc-mei,Mei,Sanktuarium Tysiąca Źródeł,aether,aether-capital,merchant,Mei,ZGODNY
+npc-enso,Enso,Sanktuarium Tysiąca Źródeł,aether,aether-capital,smith,Enso,ZGODNY
+npc-ishin,Ishin,Sanktuarium Tysiąca Źródeł,aether,aether-capital,hunter,Ishin,ZGODNY
+npc-nari,Nari (Archiwistka),Tarasy Świtu,aether,aether-town-3,guide,Opiekun miasta,INNA NAZWA
+npc-aether-ferryman,Kael (Przewoźnik Mgły),Biała Przystań,aether,aether-town-1,merchant,Mei,INNA NAZWA
+npc-aether-observer,Talen (Obserwator Niebios),Archiwum Nad Chmurami,aether,aether-town-2,hunter,,BRAK NPC
+npc-lyra7,LYRA-7,Węzeł Świadomości,nexus,nexus-capital,guide,LYRA-7 / Opiekun szlaku,ZGODNY
+npc-mira2,MIRA-2,Węzeł Świadomości,nexus,nexus-capital,merchant,MIRA-2,ZGODNY
+npc-hef4,HEF-4,Węzeł Świadomości,nexus,nexus-capital,smith,HEF-4,ZGODNY
+npc-axon,AXON,Węzeł Świadomości,nexus,nexus-capital,hunter,AXON,ZGODNY
+npc-eko0,Eko-0 (Jednostka Serwisowa),Stacja Meridian,nexus,nexus-town-1,guide,Opiekun miasta,INNA NAZWA
+npc-nexus-welder,KОР-9 (Mistrz Spawu),Kuźnia Obwodów,nexus,nexus-town-2,smith,HEF-4,INNA NAZWA
+npc-nexus-portmaster,VEX-3 (Nawigator Portu Zerowego),Port Zerowy,nexus,nexus-town-3,hunter,,BRAK NPC

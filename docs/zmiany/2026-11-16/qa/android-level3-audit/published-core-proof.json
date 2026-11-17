@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-11-16T20:16:55.813741+00:00",
+  "activeVersion": "1.8",
+  "publishedSource": "fe19c7b8549150021cd8b0d7cf8beef4d308f951",
+  "auditBase": "3044d97e",
+  "localRuntimeCoreMatchesPublishedManifest": true,
+  "core": {
+    "file": "core-c100-b12bc37b1ce5.pck",
+    "bytes": 3539440,
+    "sha256": "b12bc37b1ce59ccc7112fbfbed89acfabee703ddc0ef8e9747327a1cae29ea75",
+    "files": 131
+  },
+  "engine": "Godot 4.6.3",
+  "renderer": "OpenGL Compatibility / Mesa llvmpipe / CPU",
+  "physicalAndroid": false
+}
