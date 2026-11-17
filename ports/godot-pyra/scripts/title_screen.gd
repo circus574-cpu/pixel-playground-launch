@@ -5,6 +5,7 @@ const Look := preload("res://scripts/look.gd")   # the look that can change with
 signal city_started(city: PyraGame)
 
 const CITY_PATH := "res://scenes/city.tscn"
+const Characters := preload("res://scripts/characters.gd")
 var loading := false
 var city_instance: PyraGame
 var start_button := Button.new()
@@ -141,7 +142,7 @@ func start_city() -> void:
 	if not gate_done and not PyraContent.embedded():
 		run_gate()
 		return
-	begin_load()
+	choose_character()
 
 ## A device with only the base installed: sign in, check the server, download the start land, then load the city.
 func run_gate() -> void:
@@ -157,7 +158,30 @@ func run_gate() -> void:
 		return
 	gate_done = true
 	start_button.disabled = false
-	begin_load()
+	choose_character()
+
+## A device with several characters asks which one enters the game (also when a new character was begun and not finished: the old ones must stay reachable).
+func choose_character() -> void:
+	var roster := Characters.list()
+	var no_active := not FileAccess.file_exists(Characters.ACTIVE)
+	if "--fresh" in OS.get_cmdline_user_args() or roster.size() < 2 and not (roster.size() == 1 and no_active):
+		begin_load()
+		return
+	start_button.disabled = true
+	var view := preload("res://scripts/character_select.gd").new()
+	view.setup(roster)
+	add_child(view)
+	view.picked.connect(func(id: String) -> void:
+		view.queue_free()
+		Characters.activate(id)
+		begin_load())
+	view.new_character.connect(func() -> void:
+		view.queue_free()
+		Characters.begin_new()
+		begin_load())
+	view.closed.connect(func() -> void:
+		view.queue_free()
+		start_button.disabled = false)
 
 func begin_load() -> void:
 	active_pointer = -1

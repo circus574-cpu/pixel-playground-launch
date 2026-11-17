@@ -873,3 +873,13 @@ Zgłoszenia z trzech zrzutów i naprawy (sprawdzone na zrzutach z gry w rozdziel
 - **Teleport z mapy.** Mapa szczegółowa: dotknięcie miejsca (znacznika albo gruntu) stawia pinezkę i pokazuje współrzędne; dla GM pojawia się przycisk TELEPORT TU (przez `gm_tools.execute`, z weryfikacją uprawnień na serwerze). Na globusie i atlasie dla GM przycisk regionu to TELEPORT zamiast PODRÓŻ.
 - **Do zrobienia / nie ruszone:** drzewko umiejętności ma etykiety węzłów przecięte liniami połączeń (rysunek drzewka); okienka dialogowe bez krzyżyka (są z ZAMKNIJ); ekran logowania nie ma krzyżyka (nie ma dokąd wracać).
 - **Testy:** `smoke.gd -- --fresh` 543/543, `hud_mobile` 42/42, `gm_gameplay` 58/58, `menu_input` 11/11.
+
+### 35. Wybór postaci przed wejściem do gry (17.11.2026) — wchodzi do wydania 1.12
+
+Zlecenie właściciela: gdy gracz ma wiele postaci, przed wejściem do gry wybiera, którą gra.
+
+- **Skąd wiele postaci.** Dotąd NOWA POSTAĆ i POSTAĆ Z PRZEGLĄDARKI nadpisywały jedyny zapis. Teraz każdy zapis aktywnej postaci trafia też do własnego slotu `user://characters/<id>.json` (`scripts/characters.gd`, ładowany po ścieżce, bez `class_name`). Grana jest nadal `user://city-checkpoint-v1.json` (aktywna postać; `characterId` w zapisie), więc chmura, `restore_checkpoint` i testy działają bez zmian. Stary zapis bez id dostaje id i slot przy pierwszym starcie.
+- **Ekran startowy.** Po bramce logowania, przed wczytaniem świata: przy dwóch i więcej postaciach (albo gdy rozpoczęto nową postać i nie ukończono wyboru rasy, a stara istnieje) pokazuje się „WYBIERZ POSTAĆ” (`scripts/character_select.gd`): karta każdej postaci (portret rasy, poziom, kraina, data ostatniej gry), karta „+ NOWA POSTAĆ”, GRAJ, USUŃ POSTAĆ (z potwierdzeniem), krzyżyk wraca na tytuł. Przy jednej postaci gra wchodzi od razu, jak dotąd.
+- **W grze.** MENU → ZMIEŃ POSTAĆ: zapisuje bieżącą, pozwala wybrać inną (wczytanie przez `restore_checkpoint`, z pobraniem krainy, gdy jej brak na urządzeniu; przy uszkodzonym zapisie zostaje bieżąca) albo założyć nową. Bieżącej postaci nie można usunąć z tego ekranu.
+- **Ograniczenie.** Zapis w chmurze nadal jest jeden na konto: autozapis wysyła aktywną postać; pozostałe są tylko na urządzeniu.
+- **Testy:** `tests/characters_test.gd` 10/10 (dwie postacie, osobne sloty, przełączenie w grze, wybór na tytule, wejście wybranej); `smoke.gd -- --fresh` 543/543, `hud_mobile` 42/42, `gm_gameplay` 58/58, `menu_input` 11/11.

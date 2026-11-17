@@ -1265,6 +1265,10 @@ Format `ki-godot-pyra-save-1`, atomowy plik `user://city-checkpoint-v1.json`, os
 `ki-legends-godot-pyra-prototype` i Android package `pl.kilegends.godot.pyra`.
 Nie odczytuje się ani nie migruje zapisów WWW v5; nowszy/nieznany checkpoint pozostaje
 nienadpisany. W menu dostępne są pełne licencje i copyright silnika przez API Godot.
+Wiele postaci na urządzeniu: każdy zapis aktywnej postaci (`characterId`) trafia też do slotu
+`user://characters/<id>.json` (`scripts/characters.gd`); przed wejściem do gry ekran
+`character_select.gd` pyta, którą grać (od dwóch postaci), a MENU → ZMIEŃ POSTAĆ przełącza w grze.
+Chmura nadal trzyma jeden zapis na konto. Test: `tests/characters_test.gd`.
 
 ### Uruchomienie i odtworzenie eksportu
 
