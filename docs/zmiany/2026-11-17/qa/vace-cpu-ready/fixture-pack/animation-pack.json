@@ -1,0 +1,175 @@
+{
+  "schema": 1,
+  "kind": "reference-fixture-only",
+  "actor": "pyra.hero",
+  "clip": "walk",
+  "direction": "right",
+  "sourceActorSha256": "deab039cc7d84ef122a6d07fef2c282a7d5f9e684e4e9b8cc4cce23e4c88f994",
+  "cell": 200,
+  "origin": [
+    0.5,
+    0.95
+  ],
+  "size": [
+    133,
+    133
+  ],
+  "fps": 32.0,
+  "sourceDuration": 0.5,
+  "loop": true,
+  "orientation": "displayed",
+  "atlas": "atlas.webp",
+  "atlasSha256": "cf178f710c9c70f08a102b29d54dbe804c437d4e6694564992c82b12957b0214",
+  "frames": [
+    {
+      "rect": [
+        0,
+        0,
+        200,
+        200
+      ],
+      "rgbaSha256": "a4f365448dd6117a06d45e577702f1bc8ee463f36c2d40c7bc3137aceda026f8"
+    },
+    {
+      "rect": [
+        200,
+        0,
+        200,
+        200
+      ],
+      "rgbaSha256": "a4f365448dd6117a06d45e577702f1bc8ee463f36c2d40c7bc3137aceda026f8"
+    },
+    {
+      "rect": [
+        400,
+        0,
+        200,
+        200
+      ],
+      "rgbaSha256": "a414d3a7832052650b9682b271552c24d2101f2f3273baa44b89896c184ac2e2"
+    },
+    {
+      "rect": [
+        600,
+        0,
+        200,
+        200
+      ],
+      "rgbaSha256": "a414d3a7832052650b9682b271552c24d2101f2f3273baa44b89896c184ac2e2"
+    },
+    {
+      "rect": [
+        0,
+        200,
+        200,
+        200
+      ],
+      "rgbaSha256": "829aa122f6ed87a3695000115dcc0f5b416126b51f4c4833107ce9feedd7bf3e"
+    },
+    {
+      "rect": [
+        200,
+        200,
+        200,
+        200
+      ],
+      "rgbaSha256": "829aa122f6ed87a3695000115dcc0f5b416126b51f4c4833107ce9feedd7bf3e"
+    },
+    {
+      "rect": [
+        400,
+        200,
+        200,
+        200
+      ],
+      "rgbaSha256": "a41adbe0d7c39790473c1c2a93bf9e25a16569e8640e9724682968aa2e7ee43b"
+    },
+    {
+      "rect": [
+        600,
+        200,
+        200,
+        200
+      ],
+      "rgbaSha256": "a41adbe0d7c39790473c1c2a93bf9e25a16569e8640e9724682968aa2e7ee43b"
+    },
+    {
+      "rect": [
+        0,
+        400,
+        200,
+        200
+      ],
+      "rgbaSha256": "6f121cf0503734d954aa55b44dc3875baccf32c068f3d9540af4b0d64532b7ff"
+    },
+    {
+      "rect": [
+        200,
+        400,
+        200,
+        200
+      ],
+      "rgbaSha256": "6f121cf0503734d954aa55b44dc3875baccf32c068f3d9540af4b0d64532b7ff"
+    },
+    {
+      "rect": [
+        400,
+        400,
+        200,
+        200
+      ],
+      "rgbaSha256": "37e79390ffc74c3567c92e9cec9fd91737c9019d84872a3956da98d4d3eb79ec"
+    },
+    {
+      "rect": [
+        600,
+        400,
+        200,
+        200
+      ],
+      "rgbaSha256": "37e79390ffc74c3567c92e9cec9fd91737c9019d84872a3956da98d4d3eb79ec"
+    },
+    {
+      "rect": [
+        0,
+        600,
+        200,
+        200
+      ],
+      "rgbaSha256": "f859052a6df1bada02adf28639857eb3612475c3ec5372d5a5fba49cb3a4df3d"
+    },
+    {
+      "rect": [
+        200,
+        600,
+        200,
+        200
+      ],
+      "rgbaSha256": "f859052a6df1bada02adf28639857eb3612475c3ec5372d5a5fba49cb3a4df3d"
+    },
+    {
+      "rect": [
+        400,
+        600,
+        200,
+        200
+      ],
+      "rgbaSha256": "4ca25015c110b15649271c5927c785beae9b7ba7030dbb7661e3582e4137e01c"
+    },
+    {
+      "rect": [
+        600,
+        600,
+        200,
+        200
+      ],
+      "rgbaSha256": "4ca25015c110b15649271c5927c785beae9b7ba7030dbb7661e3582e4137e01c"
+    }
+  ],
+  "alignment": {
+    "mode": "unchanged-source-cells"
+  },
+  "resultSha256": "94000e0b631f0732d398d74db8908b75e1d48c98a6a24890638b7dac9c8346c1",
+  "qualityStatus": "REFERENCE_TRANSPORT_ONLY",
+  "decodedBytesWithMips": 3413334
+}

@@ -1,5 +1,90 @@
 # KI Legends — GPU i zasoby
 
+## Android — przygotowanie próby VACE na CPU, 17.11.2026
+
+Gałąź `prep/vace-cpu-ready-20261117` przygotowuje **jedną próbę chodu Legendy
+w prawo**, bez uruchamiania GPU i bez podmiany zasobów gry.
+[Wyniki CPU, nagranie z Godota i pakiet startowy](zmiany/2026-11-17/ZMIANY.md).
+Poprzednie próby I2V nie spełniły wymagań ruchu nóg; VACE ma wykorzystać kontrolne
+pozy rzeczywiście zainstalowanej postaci. To hipoteza do sprawdzenia na GPU,
+nie potwierdzona jakość nowej animacji.
+
+Narzędzia (Python 3.11+) `scripts/gpu/vace_motion.py`, `vace_stage.py` i `vace_pack.py` wykonują
+przygotowanie, walidację, odczyt lokalnych wag, jawnie wywołaną inferencję i eksport.
+Nie zawierają operacji cyklu życia poda ani pobierania modeli. Przygotowanie CPU:
+
+```sh
+python3 scripts/gpu/vace_motion.py prepare --repo . --out /tmp/ki-vace-trial
+python3 scripts/gpu/vace_motion.py validate --root /tmp/ki-vace-trial
+```
+
+Wejście: 8 istniejących klatek chodu, pięć kluczy 0/8/16/24/32 z póz 0/2/4/6/0,
+33 obrazy 512×512. Maski czarne na kluczach zachowują kontrolę, białe pomiędzy nimi
+oznaczają generowanie (kontrakt `WanVACEPipeline` Diffusers 0.35.2). Uwzględniono
+odbicie źródłowego atlasu. Model jest przypięty:
+`Wan-AI/Wan2.1-VACE-14B-diffusers@db79b90c60bbb45ceec9e41b9d5a4df934538ac4`.
+Oryginalny chód: 8 klatek / 16 FPS = 0,5 s. Eksport: 16 klatek / 32 FPS,
+z pominięciem końcowego duplikatu pozy. Pozostałe kierunki w podglądzie powtarzają
+każdą dotychczasową klatkę dwukrotnie, zachowując czas cyklu i swoje odbicia.
+Prędkość postaci, kolizje, rozmiar 133×133, komórka 200×200 i kotwica 0,5/0,95
+pozostają bez zmian. Atlas 800×800 ma limit 4 MiB rozkodowanych danych z mipmapami.
+
+**Przyszła próba, dopiero na maszynie uruchomionej przez właściciela:** rozpakować
+pakiet startowy z dziennika, sprawdzić CUDA i pakiety z `requirements-gpu.txt`.
+Ten plik nie zastępuje PyTorch/CUDA z obrazu. Potrzebny istniejący model na
+woluminie oraz lokalny SSD z miejscem na wszystkie wagi i rezerwą 2 GiB
+(około 75 GB wag; dokładna suma w rejestrze modelu). Brak miejsca zatrzymuje kopiowanie.
+Nie zakładać, że dawny katalog `/tmp` albo zainstalowane biblioteki przetrwały
+wyłączenie poda. Wcześniejsze sumy nie potwierdzają dzisiejszego stanu woluminu.
+
+```sh
+python3 vace_motion.py validate --root trial
+python3 vace_stage.py --source /workspace/ki-premium/vace14/model --destination /tmp/ki-vace14 --receipt vace14-model.json
+timeout -k 60s 55m python3 vace_motion.py infer --root trial --model-root /tmp/ki-vace14 --receipt vace14-model.json
+```
+
+Każde polecenie uruchamiać osobno; po błędzie nie przechodzić dalej. Kopia SSD
+oraz inferencja sprawdzają SHA-256 plików. Istniejący uszkodzony cache jest
+odrzucany bez nadpisania. Pliki blokad chronią przed drugim równoległym zadaniem.
+Inferencja domyślnie obejmuje 30 kroków, jeden seed, jeden klip; kontrola czasu
+45 minut działa między etapami i krokami, zewnętrzne `timeout` ogranicza proces
+do 55 minut (+60 s na zakończenie). To ograniczenie kosztu próby, nie obietnica
+czasu generowania. Nie zatrzymuje ani nie zmienia rozliczania poda.
+Nie uruchamiać automatycznie kolejnych seedów lub większej kolejki po porażce.
+
+Użyć wyłącznie `result.json` wypisanego jako `VACE_RESULT` po zakończonej inferencji:
+
+```sh
+python3 vace_pack.py --root trial --result trial/generated-<numer-proby>/result.json --out candidate --matte white
+```
+
+`white` usuwa białe tło połączone z brzegiem obrazu i jest ograniczone do tej
+próby czarno-czerwonej Legendy. Zachowanie białych detali, cienkich kosmyków
+i krawędzi alfa wymaga oceny na prawdziwym wyniku. Alternatywne `--matte rembg`
+wymaga osobno przygotowanego lokalnego `isnet-anime.onnx` i biblioteki rembg;
+nie było tu uruchamiane ani pobierane. Normalizacja używa jednej skali całego
+klipu, przesuwa sylwetki do wspólnego poziomu stóp i odrzuca przycięte pozy.
+
+Pakiet przenieść do środowiska z repozytorium i uruchomić podgląd:
+
+```sh
+XDG_DATA_HOME=/tmp/ki-vace-review godot --audio-driver Dummy --path ports/godot-pyra --script res://tests/preview_vace_motion.gd -- --fresh --pack=/absolutna/sciezka/candidate/animation-pack.json --out=/tmp/ki-vace-review-evidence
+```
+
+Skrypt tworzy izolowany zapis, uruchamia rzeczywiste `PyraGame/PyraPlayer/PyraActor`
+i podmienia wyłącznie definicję prezentacji w tej sesji. Zapisuje klatki viewportu
+w trybie graficznym; tryb headless sprawdza kontrakt bez zrzutów.
+`fixture` i `--reference-fixture` służą tylko do testu transportu istniejących
+klatek CPU; manifest, plansza oraz banner w grze wyraźnie je oznaczają.
+Nie wolno przedstawiać ich jako nowej animacji GPU.
+
+**Bramka po pierwszym klipie:** czytelny naprzemienny ruch nóg i ramion,
+stała twarz/strój/kierunek, pełna sylwetka, stabilna stopa, płynne zamknięcie
+pętli, poprawna alfa i działanie w Godocie przy zachowanej prędkości.
+Dopiero po ocenie planować następne kierunki i rasy. Żadnego automatycznego importu
+do produkcji. Rzeczywista inferencja VACE, zużycie VRAM i telefon pozostają
+niezweryfikowane; testy CPU nie potwierdzają tych elementów.
+
 ## Android — pilot materiałów na A100, 16.11.2026
 
 Gałąź `prep/android-premium-gpu-20261116`: narzędzia

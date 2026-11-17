@@ -1,5 +1,10 @@
 # KI Legends — dokumentacja projektu
 
+**Przygotowanie GPU — 17.11:** adapter VACE z kontrolnymi pozami Legendy,
+eksport atlasu i izolowany podgląd Godota przygotowano na CPU. Nowej inferencji
+GPU jeszcze nie wykonywano. [Instrukcja](GPU-I-ZASOBY.md#android--przygotowanie-próby-vace-na-cpu-17112026),
+[testy, rzeczywiste nagranie Godota i pakiet startowy](zmiany/2026-11-17/ZMIANY.md).
+
 **Audyt Androida 1.8 — 16.11:** wszystkie cztery rasy osiągnęły poziom 3;
 sprawdzono 132 wejścia usługowe i 244 wystąpienia NPC. **Odbiór niepełny:**
 4 brakujących rozmówców blokuje 11 zadań, 8 nazw jest rozbieżnych, u Mędrca
@@ -90,6 +95,8 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-11-17](zmiany/2026-11-17/ZMIANY.md)
+- [2026-11-16](zmiany/2026-11-16/ZMIANY.md)
 - [2026-11-15](zmiany/2026-11-15/ZMIANY.md)
 
 - [2026-11-12](zmiany/2026-11-12/ZMIANY.md)

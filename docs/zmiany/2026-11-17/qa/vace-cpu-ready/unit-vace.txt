@@ -1,0 +1,29 @@
+test_actual_key_images_and_mask_polarity (test_vace_motion.MotionContracts.test_actual_key_images_and_mask_polarity) ... ok
+test_budget_and_cycle_duration_are_not_frame_count_dependent (test_vace_motion.MotionContracts.test_budget_and_cycle_duration_are_not_frame_count_dependent) ... ok
+test_changed_reference_and_path_escape_are_rejected (test_vace_motion.MotionContracts.test_changed_reference_and_path_escape_are_rejected) ... ok
+test_displayed_reference_respects_source_mirroring (test_vace_motion.MotionContracts.test_displayed_reference_respects_source_mirroring) ... ok
+test_existing_work_lock_is_not_removed_or_overwritten (test_vace_motion.MotionContracts.test_existing_work_lock_is_not_removed_or_overwritten) ... ok
+test_full_rgba_round_trip_and_fixed_presentation (test_vace_motion.MotionContracts.test_full_rgba_round_trip_and_fixed_presentation) ... ok
+test_inference_checks_missing_files_without_importing_torch (test_vace_motion.MotionContracts.test_inference_checks_missing_files_without_importing_torch) ... ok
+test_model_stage_checks_space_before_copying_weights (test_vace_motion.MotionContracts.test_model_stage_checks_space_before_copying_weights) ... ok
+test_model_stage_preserves_source_and_reuses_verified_cache (test_vace_motion.MotionContracts.test_model_stage_preserves_source_and_reuses_verified_cache) ... MODEL_STAGED model_index.json
+MODEL_STAGED vae/config.json
+MODEL_STAGED tokenizer/config.json
+MODEL_STAGED transformer/weight.safetensors
+MODEL_STAGED text_encoder/config.json
+ok
+test_model_stage_refuses_corrupted_cache_without_overwriting_it (test_vace_motion.MotionContracts.test_model_stage_refuses_corrupted_cache_without_overwriting_it) ... MODEL_STAGED vae/config.json
+MODEL_STAGED tokenizer/config.json
+MODEL_STAGED transformer/weight.safetensors
+MODEL_STAGED text_encoder/config.json
+ok
+test_one_scale_and_ground_anchor_for_whole_clip (test_vace_motion.MotionContracts.test_one_scale_and_ground_anchor_for_whole_clip) ... ok
+test_reference_fixture_cannot_be_promoted_as_gpu_output (test_vace_motion.MotionContracts.test_reference_fixture_cannot_be_promoted_as_gpu_output) ... ok
+test_unavailable_cuda_releases_own_lock_and_records_failure (test_vace_motion.MotionContracts.test_unavailable_cuda_releases_own_lock_and_records_failure) ... ok
+test_white_matte_retains_enclosed_white_detail (test_vace_motion.MotionContracts.test_white_matte_retains_enclosed_white_detail) ... ok
+test_wrong_loop_endpoint_and_excessive_sampler_are_rejected (test_vace_motion.MotionContracts.test_wrong_loop_endpoint_and_excessive_sampler_are_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 1.426s
+
+OK

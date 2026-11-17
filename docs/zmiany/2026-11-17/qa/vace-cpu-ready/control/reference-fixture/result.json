@@ -1,0 +1,140 @@
+{
+  "kind": "reference-fixture-only",
+  "controlSha256": "3bf2d8f22282471f31b7d12ab5dc7414d3a03e97c39a84580f28c8cc4b55fb73",
+  "frames": [
+    {
+      "file": "frame-000.png",
+      "sha256": "3934aaa01acfce1e6b14e7d25cf5fcb1019ff207a5b22a029b37ecc756bceeed"
+    },
+    {
+      "file": "frame-001.png",
+      "sha256": "3934aaa01acfce1e6b14e7d25cf5fcb1019ff207a5b22a029b37ecc756bceeed"
+    },
+    {
+      "file": "frame-002.png",
+      "sha256": "3934aaa01acfce1e6b14e7d25cf5fcb1019ff207a5b22a029b37ecc756bceeed"
+    },
+    {
+      "file": "frame-003.png",
+      "sha256": "3934aaa01acfce1e6b14e7d25cf5fcb1019ff207a5b22a029b37ecc756bceeed"
+    },
+    {
+      "file": "frame-004.png",
+      "sha256": "6b5a79750980ad11c788968aec9e429b8437ff16720ec3ab5e08e2c091130d87"
+    },
+    {
+      "file": "frame-005.png",
+      "sha256": "6b5a79750980ad11c788968aec9e429b8437ff16720ec3ab5e08e2c091130d87"
+    },
+    {
+      "file": "frame-006.png",
+      "sha256": "6b5a79750980ad11c788968aec9e429b8437ff16720ec3ab5e08e2c091130d87"
+    },
+    {
+      "file": "frame-007.png",
+      "sha256": "6b5a79750980ad11c788968aec9e429b8437ff16720ec3ab5e08e2c091130d87"
+    },
+    {
+      "file": "frame-008.png",
+      "sha256": "e615e33374c0182b4d16e9dd7963f2adfadeee2c8dc70187cfb8857ab7d5f697"
+    },
+    {
+      "file": "frame-009.png",
+      "sha256": "e615e33374c0182b4d16e9dd7963f2adfadeee2c8dc70187cfb8857ab7d5f697"
+    },
+    {
+      "file": "frame-010.png",
+      "sha256": "e615e33374c0182b4d16e9dd7963f2adfadeee2c8dc70187cfb8857ab7d5f697"
+    },
+    {
+      "file": "frame-011.png",
+      "sha256": "e615e33374c0182b4d16e9dd7963f2adfadeee2c8dc70187cfb8857ab7d5f697"
+    },
+    {
+      "file": "frame-012.png",
+      "sha256": "48161cfd68c5536893f89de9e3422edf696b9e3041a8dbdea746ab0ef408aee2"
+    },
+    {
+      "file": "frame-013.png",
+      "sha256": "48161cfd68c5536893f89de9e3422edf696b9e3041a8dbdea746ab0ef408aee2"
+    },
+    {
+      "file": "frame-014.png",
+      "sha256": "48161cfd68c5536893f89de9e3422edf696b9e3041a8dbdea746ab0ef408aee2"
+    },
+    {
+      "file": "frame-015.png",
+      "sha256": "48161cfd68c5536893f89de9e3422edf696b9e3041a8dbdea746ab0ef408aee2"
+    },
+    {
+      "file": "frame-016.png",
+      "sha256": "849174d38f412dbfdc1f0e7210fd3890d433fd76e252ae8b45cfdbcd84a34581"
+    },
+    {
+      "file": "frame-017.png",
+      "sha256": "849174d38f412dbfdc1f0e7210fd3890d433fd76e252ae8b45cfdbcd84a34581"
+    },
+    {
+      "file": "frame-018.png",
+      "sha256": "849174d38f412dbfdc1f0e7210fd3890d433fd76e252ae8b45cfdbcd84a34581"
+    },
+    {
+      "file": "frame-019.png",
+      "sha256": "849174d38f412dbfdc1f0e7210fd3890d433fd76e252ae8b45cfdbcd84a34581"
+    },
+    {
+      "file": "frame-020.png",
+      "sha256": "8737db0a3ea38fb227d4120c484a93b8fb8a2370c2529bd29c7c3b5f18b75b13"
+    },
+    {
+      "file": "frame-021.png",
+      "sha256": "8737db0a3ea38fb227d4120c484a93b8fb8a2370c2529bd29c7c3b5f18b75b13"
+    },
+    {
+      "file": "frame-022.png",
+      "sha256": "8737db0a3ea38fb227d4120c484a93b8fb8a2370c2529bd29c7c3b5f18b75b13"
+    },
+    {
+      "file": "frame-023.png",
+      "sha256": "8737db0a3ea38fb227d4120c484a93b8fb8a2370c2529bd29c7c3b5f18b75b13"
+    },
+    {
+      "file": "frame-024.png",
+      "sha256": "96b8f0c92938c5282a1776f42743d632173811fa3bcfebf5604622d8c98bad56"
+    },
+    {
+      "file": "frame-025.png",
+      "sha256": "96b8f0c92938c5282a1776f42743d632173811fa3bcfebf5604622d8c98bad56"
+    },
+    {
+      "file": "frame-026.png",
+      "sha256": "96b8f0c92938c5282a1776f42743d632173811fa3bcfebf5604622d8c98bad56"
+    },
+    {
+      "file": "frame-027.png",
+      "sha256": "96b8f0c92938c5282a1776f42743d632173811fa3bcfebf5604622d8c98bad56"
+    },
+    {
+      "file": "frame-028.png",
+      "sha256": "d812d38880da5cf43fef2865030b7d212ae00cc97d6149f00e590ebca3726acf"
+    },
+    {
+      "file": "frame-029.png",
+      "sha256": "d812d38880da5cf43fef2865030b7d212ae00cc97d6149f00e590ebca3726acf"
+    },
+    {
+      "file": "frame-030.png",
+      "sha256": "d812d38880da5cf43fef2865030b7d212ae00cc97d6149f00e590ebca3726acf"
+    },
+    {
+      "file": "frame-031.png",
+      "sha256": "d812d38880da5cf43fef2865030b7d212ae00cc97d6149f00e590ebca3726acf"
+    },
+    {
+      "file": "frame-032.png",
+      "sha256": "3934aaa01acfce1e6b14e7d25cf5fcb1019ff207a5b22a029b37ecc756bceeed"
+    }
+  ],
+  "gpuInference": false,
+  "warning": "Existing source frames; no newly generated animation"
+}

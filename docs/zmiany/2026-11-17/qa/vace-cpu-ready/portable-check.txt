@@ -1,0 +1,3 @@
+PASS: all 20 bundled files match manifest sizes/SHA-256.
+{"status": "CPU_VALIDATED", "gpuInference": false, "kind": "vace-walk-calibration", "next": "GPU inference and artistic acceptance remain unverified"}
+No model or GPU used.
