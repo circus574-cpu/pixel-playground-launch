@@ -1,5 +1,18 @@
 # KI Legends — dokumentacja projektu
 
+**17.11 — serwerowa aktualizacja prototypu Pyry:** nowe budynki i 14 materiałów
+podłączone do Godota oraz obu map. Paczka `core-c101` dla istniejącej aplikacji
+1.14, bez nowego APK. Kandydat wydania treści **1.14.1**;
+[test oryginalnego klienta i publikacja](zmiany/2026-11-17/ZMIANY.md#5-podłączenie-materiałów-do-prototypu-i-aktualizacja-przez-serwer).
+
+**17.11 — produkcja tekstur Pyry na GPU:** 72 warianty materiałów, 12 masek
+przejść, źródła 1024 px i wersje 512 px. Osobna gałąź zasobów, bez zmiany świata
+i APK. [Zakres, wyniki i kopia źródeł](zmiany/2026-11-17/ZMIANY.md#4-tekstury-pyry--produkcja-na-a40).
+
+**17.11 — nowe budynki próby izometrycznej Pyry:** sześć malowanych sprite'ów,
+kotwice, kontaktowe cienie i synchronizacja map. Zintegrowane w próbie Godota,
+bez nowego APK i publikacji. [Wyniki i zrzuty](zmiany/2026-11-17/ZMIANY.md#3-budynki-i-styl-izometrycznej-pyry).
+
 **17.11 — Godot, izometria i TEST SERWER:** samodzielna próba Pyry 1024×1024 m
 oraz podgląd uruchamiany w ekranie serwisowym Androida. Przełącznik w `/admin`
 zamyka dostęp zwykłym graczom także na stronie; wyjątek wymaga roli administratora

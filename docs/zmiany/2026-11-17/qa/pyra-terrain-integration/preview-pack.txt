@@ -1,0 +1,4 @@
+{"scene": "res://service_preview/pyra/world.tscn", "files": 60}
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+{"base": "1.13.1", "version": "1.14.1", "installed_client_code": 101, "preserved_packs": 29, "unchanged_lands": true, "core": {"file": "core-c101-21956aaa6ffc.pck", "bytes": 35948548, "sha256": "21956aaa6ffc8181485dcaf8473acc679d7049c61dfaf296dab8a2809ceee292", "files": 151}, "changes_only_preview_namespace": true, "changed_apk": false}

@@ -39,7 +39,8 @@ func setup(source: Node2D) -> void:
 		sprite.shaded=false
 		sprite.pixel_size=original.scale.x/sqrt(128.0)
 		viewport.add_child(sprite)
-		sprites.append({"node":sprite,"xz":item.xz,"rise":original.texture.get_height()*.42*sprite.pixel_size})
+		var center:=original.offset+Vector2(original.texture.get_size())*.5
+		sprites.append({"node":sprite,"xz":item.xz,"rise":-center.y*sprite.pixel_size,"side":center.x*sprite.pixel_size})
 	var sphere:=SphereMesh.new()
 	sphere.radius=5
 	sphere.height=10
@@ -74,10 +75,8 @@ func build_ground() -> void:
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
 	terrain_mesh.mesh=mesh
 	var material:=ShaderMaterial.new()
-	material.shader=load("res://shaders/map_3d.gdshader")
-	for i in 4:material.set_shader_parameter(["ash_tex","basalt_tex","paving_tex","cliff_tex"][i],world.textures[i])
-	material.set_shader_parameter("weights_tex",load("res://data/weights.png"))
-	material.set_shader_parameter("surface_tex",load("res://data/surface.png"))
+	material.shader=load("res://shaders/map_3d_legacy.gdshader" if world.legacy_terrain else "res://shaders/map_3d.gdshader")
+	world.material_library.apply(material)
 	terrain_mesh.material_override=material
 	viewport.add_child(terrain_mesh)
 
@@ -121,7 +120,7 @@ func update_camera() -> void:
 	camera.look_at(Vector3.ZERO)
 	for item in sprites:
 		var p: Vector2=item.xz
-		item.node.position=Vector3(p.x,world.sample_height(p),p.y)+camera.global_basis.y*float(item.rise)
+		item.node.position=Vector3(p.x,world.sample_height(p),p.y)+camera.global_basis.y*float(item.rise)+camera.global_basis.x*float(item.side)
 	viewport.render_target_update_mode=SubViewport.UPDATE_ONCE
 
 func update_player() -> void:
@@ -146,4 +145,9 @@ func validate_alignment() -> Dictionary:
 		height_error=maxf(height_error,absf(v.y-world.sample_height(p)))
 		var expected: Vector2=Vector2(viewport.size)/2+world.iso(p)*(float(viewport.size.y)/camera.size/sqrt(128.0))
 		projection_error=maxf(projection_error,expected.distance_to(camera.unproject_position(v)))
-	return {"height_max_m":height_error,"projection_max_px":projection_error,"decorations":sprites.size(),"shares_textures":terrain_mesh.material_override.get_shader_parameter("ash_tex")==world.textures[0]}
+	var shares_textures:=true
+	for i in 4:
+		shares_textures=shares_textures and terrain_mesh.material_override.get_shader_parameter(["ash_tex","basalt_tex","paving_tex","cliff_tex"][i])==world.textures[i]
+	if not world.legacy_terrain:
+		shares_textures=shares_textures and terrain_mesh.material_override.get_shader_parameter("environment_tex")==world.material_library.environment and terrain_mesh.material_override.get_shader_parameter("transition_tex")==world.material_library.transition
+	return {"height_max_m":height_error,"projection_max_px":projection_error,"decorations":sprites.size(),"shares_textures":shares_textures}

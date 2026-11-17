@@ -1,0 +1,10 @@
+{
+  "materials_checked": 72,
+  "normal_sample_stride": 16,
+  "normal_length_max_error": 0.006209135055541992,
+  "normal_length_limit": 0.02,
+  "transition_masks_checked": 12,
+  "transition_sum_exact_255": true,
+  "failed": 0
+}
+

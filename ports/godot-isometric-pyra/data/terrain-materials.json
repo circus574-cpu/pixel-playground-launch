@@ -1,0 +1,127 @@
+{
+  "version": 1,
+  "delivery_commit": "55323a03a90067dbddf524d0a925ad9f57b8d566",
+  "resolution": 512,
+  "families": {
+    "ash": [
+      {
+        "id": "fine-warm-ash-1",
+        "texture": "res://materials/gpu/fine-warm-ash.png",
+        "source": "deliveries/pyra-terrain-gpu-20261117/previews/fine-warm-ash-1-512.webp",
+        "source_sha256": "14e9ff443b4ce75632355e269298bc77474452412636aad6baf37e1b50012614",
+        "sha256": "e2525806bdb00e1e48ece434d548d61c1ff4b69a8eaa91c90ab239a53bd0971e"
+      },
+      {
+        "id": "fine-dark-ash-1",
+        "texture": "res://materials/gpu/fine-dark-ash.png",
+        "source": "deliveries/pyra-terrain-gpu-20261117/previews/fine-dark-ash-1-512.webp",
+        "source_sha256": "4c9f7bbe93a0a3d1dcb8b85099a718a956dd35912274a3b3a6f47e92274fc69e",
+        "sha256": "f5505bea8accdcb3ccebbb25723077195420c90bd8e6c3bba966dd5f6c013f24"
+      },
+      {
+        "id": "fine-valley-silt-2",
+        "texture": "res://materials/gpu/fine-valley-silt.png",
+        "source": "deliveries/pyra-terrain-gpu-20261117/previews/fine-valley-silt-2-512.webp",
+        "source_sha256": "251c2b4ad162eecbce678c24b3a26e096cf58273ae94937996a6eb3e36066f6a",
+        "sha256": "57d9aa93a29dd594c71054d72b93dc984963cd3bfb43815cdd215e710db26fd3"
+      },
+      {
+        "id": "fine-lowland-soil-2",
+        "texture": "res://materials/gpu/fine-lowland-soil.png",
+        "source": "deliveries/pyra-terrain-gpu-20261117/previews/fine-lowland-soil-2-512.webp",
+        "source_sha256": "dbf3e1e626271d767b224e6ec4d69891bf4a9da724822a35f0b34ac493c07931",
+        "sha256": "94d6a436ced611013350e7b7d45b6cb63862815e854bcd710602cf15b8fa8c46"
+      }
+    ],
+    "basalt": [
+      {
+        "id": "ground-basalt-gravel-1",
+        "texture": "res://materials/gpu/ground-basalt-gravel.png",
+        "source": "deliveries/pyra-terrain-gpu-20261117/previews/ground-basalt-gravel-1-512.webp",
+        "source_sha256": "b4a15c4b868b3bc4e94ddddd4d8ca35ff86c3d161d50c82bc9252349d12c1f37",
+        "sha256": "11f8320569b74502e395217b49c0d193dd696942799cab5c499fc64dd624d597"
+      },
+      {
+        "id": "mountain-scree-3",
+        "texture": "res://materials/gpu/mountain-scree.png",
+        "source": "deliveries/pyra-terrain-gpu-20261117/previews/mountain-scree-3-512.webp",
+        "source_sha256": "f7ac43ca54bbf41025a1e2d3b2da90eaf6a5cb7915a73c68d95ffe79f7d0842d",
+        "sha256": "0a95eda13ec12d5a724eae1e55ae5df4a3d7e04e13df87f44d73561db0d9ee59"
+      },
+      {
+        "id": "lava-cold-crust-2",
+        "texture": "res://materials/gpu/lava-cold-crust.png",
+        "source": "deliveries/pyra-terrain-gpu-20261117/previews/lava-cold-crust-2-512.webp",
+        "source_sha256": "436c05b1118b7c98890ba0e15ac97bfc6cdd59431e76d6553262f5cd0392d4cd",
+        "sha256": "cf3a9b6f66ffff21f234b1d9e192d58cfe3be9c120ad8e75ec4bc64f407b8349"
+      },
+      {
+        "id": "lava-ember-cracks-1",
+        "texture": "res://materials/gpu/lava-ember-cracks.png",
+        "source": "deliveries/pyra-terrain-gpu-20261117/previews/lava-ember-cracks-1-512.webp",
+        "source_sha256": "3b22035d95b05a3e7bf75e8092b8ab2662ef75b2ea6179578bffed0830725e59",
+        "sha256": "a3f8ca6da791e5d97268cb3d46e62fc5693169b38bd2fc41bb935701b48bfc93"
+      }
+    ],
+    "paving": [
+      {
+        "id": "road-basalt-pavers-2",
+        "texture": "res://materials/gpu/road-basalt-pavers.png",
+        "source": "deliveries/pyra-terrain-gpu-20261117/previews/road-basalt-pavers-2-512.webp",
+        "source_sha256": "68dde6f995cfc885829c89731fed3b33a42ff3ff627fd08c882092aa44b1c1d4",
+        "sha256": "d9972abdc24e3da1fd7e72591e0ae207d5e218baa0ebed60f73b6c04ce679497"
+      },
+      {
+        "id": "road-broken-cobbles-1",
+        "texture": "res://materials/gpu/road-broken-cobbles.png",
+        "source": "deliveries/pyra-terrain-gpu-20261117/previews/road-broken-cobbles-1-512.webp",
+        "source_sha256": "bf799721b3169fb24daf0ed052c6f3fe41cb2532987f733a40fa85cc81329876",
+        "sha256": "e3d77457030df908c62d9b94e156a67b5beaac498fe6a91bf8ddaac227719dee"
+      }
+    ],
+    "cliff": [
+      {
+        "id": "mountain-cliff-1",
+        "texture": "res://materials/gpu/mountain-cliff.png",
+        "source": "deliveries/pyra-terrain-gpu-20261117/previews/mountain-cliff-1-512.webp",
+        "source_sha256": "45b9e82dca4f0f22b71f948955cc0c11a2026315f990c45b93f96bb208391ac2",
+        "sha256": "1a08cab0cc9f0061f1222560ff2c5e4cf32c647edc902dee27dd81ca164d0c29"
+      },
+      {
+        "id": "mountain-strata-3",
+        "texture": "res://materials/gpu/mountain-strata.png",
+        "source": "deliveries/pyra-terrain-gpu-20261117/previews/mountain-strata-3-512.webp",
+        "source_sha256": "51c1c7effa818cc958468604d72161459cd7ea9e96a1f6ee68f53ae228ffdf46",
+        "sha256": "b812620d5bf3abf8eae58803391b4de29870f7b55f00728a3317cd3d5f0c1ea1"
+      },
+      {
+        "id": "pit-inner-rock-1",
+        "texture": "res://materials/gpu/pit-inner-rock.png",
+        "source": "deliveries/pyra-terrain-gpu-20261117/previews/pit-inner-rock-1-512.webp",
+        "source_sha256": "a5e4e155875477eaa0469a3238032bf25b7ad54b31b2f7ee9b2e60bf06020ab4",
+        "sha256": "fafee2c07d9385db501a90ea1e82df6fd2a57b4f3e750b795e9da4e4daef815a"
+      },
+      {
+        "id": "pit-rim-3",
+        "texture": "res://materials/gpu/pit-rim.png",
+        "source": "deliveries/pyra-terrain-gpu-20261117/previews/pit-rim-3-512.webp",
+        "source_sha256": "c714ca2520a7d1a5b241781f6a15693ca81a57586cf8d0cd192522a25c307d24",
+        "sha256": "638a1f67ff27f4ae12643ed61fa5b2f7508a28f860578ff889b97d3a3f5ffa1f"
+      }
+    ]
+  },
+  "repeat_m": [
+    8,
+    7,
+    3,
+    12
+  ],
+  "geometry_changed": false,
+  "height_sha256": "186b5bd6bc80da84a31b1c3fabd08bf413fde187b151360fe797355218a85324",
+  "control_sha256": "d23717c3a9c0512c94917583d8ae93f7b5c7295edc333154ff375c6b5330e51a",
+  "walkable_sha256": "0bc10c835ac23b61f50086dbddb8d8cf15d37cf514f8390c50e3307fc6b02147",
+  "transition_source_sha256": "50c9dd9f33737fa3cbe077d027444675c4205b6e9f5968534e7e108915c8a651",
+  "transition_sha256": "d47c5d24bfaa807bcc67e6f695cb859d65a9a5acd54b0693dc00d50366928777",
+  "environment_sha256": "94244585dc3ed070b5886e7a863a5349cca04133aa39832c2c53a23c34140d7c",
+  "layers": 14
+}

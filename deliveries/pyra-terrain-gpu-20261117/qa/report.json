@@ -1,0 +1,20 @@
+{
+  "generated": 72,
+  "technical_validation_passed": 72,
+  "failed": 0,
+  "max_seam_ratio": 1.3540287017822266,
+  "mean_seam_ratio": 1.0403032195236948,
+  "checks": [
+    "file hashes",
+    "1024 dimensions",
+    "nonconstant pixels",
+    "no black generation failure",
+    "periodic seam ratio < 2"
+  ],
+  "visual_review": "pending; fine ground batch corrects rocky results of initial prompts",
+  "derived_maps": "first batch: luminance estimates; fine batch: authored granular microrelief; neither is measured PBR",
+  "game_installed": false,
+  "geometry_changed": false,
+  "phone_tested": false
+}
+

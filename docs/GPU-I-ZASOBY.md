@@ -973,3 +973,70 @@ albedo mają korektę szwu CPU i eksport WebP. Nie są pomiarowymi mapami PBR.
 Reprodukowanie środowiska: `scripts/gpu/bootstrap-terrain3d.sh`; geometria jest generowana CPU.
 Pod koniec prac integracyjnych A40 był bez aktywnego generowania; dalsza praca
 nad przełącznikiem i APK nie potrzebuje GPU. Poda nie zatrzymywano.
+
+### Budynki Pyry — kolejna próba stylistyczna 17.11
+
+`deliveries/pyra-buildings-20261117/masters` zachowuje źródła PNG z OpenAI
+image_gen: kuźnię, gospodę i arkusz czterech pozostałych usług. Rejestr
+`provenance.json` odróżnia pochodzenie od oceny prawnej. Pakowanie:
+`python3 scripts/gpu/import-pyra-painted-buildings.py --smithy PATH --inn PATH --sheet PATH`.
+To podział arkusza, przycięcie przezroczystych marginesów i redukcja do 768 px;
+bez płatnego Meshy. Kamera malowanych grafik jest przybliżona, nie skalibrowana.
+
+Na działającym A40 `1ol56m0rtgorym` wykonano także eksperyment Blendera 4.5.3
+(CUDA) i dwa img2img SDXL. To **Lykon/dreamshaper-xl-v2-turbo**, rewizja
+`f70ad5bce436c640d23fc02cd0a6ccc787280b6e`, nie SDXL Base.
+Zapisy parametrów znajdują się w `deliveries/pyra-buildings-20261117/experiments`;
+renderer: `scripts/gpu/render-pyra-isometric-buildings.py`. Tych wariantów nie
+włączono do sceny. Pliki robocze pozostają w `/workspace/ki-iso-art2` na podzie;
+Blender, venv SDXL i Godot są pod `/opt/ki-iso-art2` (wolumin nie obsługuje
+wszystkich metadanych plików wykonywalnych). Nie wykonywano operacji lifecycle poda.
+
+### Tekstury Pyry na A40 — 72 warianty i 12 masek
+
+Na `assets/pyra-terrain-a40-20261117` zapisano dostawę
+`deliveries/pyra-terrain-gpu-20261117`: 60 wariantów SDXL, 12 drobnych podłoży
+po dopracowaniu GPU oraz 12 masek mieszania. Zakres: ziemia, popiół, żwir,
+nawierzchnie dróg, skały zboczy, ściany i brzegi rozpadlin, osady dolin/nizin,
+zimna skorupa lawowa i szczeliny żarowe. To materiały, nie nowe kształty świata.
+
+Źródła 1024 px, albedo PNG/WebP, LOD 512 px, mapy pomocnicze i powtórzenia 3×3
+zachowano w 11 częściach ZIP Git LFS (480 433 002 B). `manifest.json` zawiera
+OID/SHA-256; 26 wybranych do przeglądu materiałów ma bezpośrednie podglądy
+`previews/`. Wybór według metryki szwu nie oznacza akceptacji artystycznej.
+Pierwsze warianty popiołu i drogi okazały się kamieniste; zachowano je jako
+kandydatów kruszywa. Osobna partia drobnych gleb usuwa ten problem.
+
+Odtwarzanie w przygotowanym venv: kolejno `generate-pyra-terrain.py`,
+`refine-pyra-fine-ground.py`, `detail-pyra-ground.py`, `pyra-terrain-transitions.py`
+i `package-pyra-terrain.py` z `scripts/gpu/`. Model pozostaje Dreamshaper XL v2 Turbo
+z rewizją podaną wyżej; pełne parametry/seedy są w dwóch rejestrach partii.
+Pierwszy skrypt przyjmuje `--model`, `--out`, `--variants`, `--steps`.
+Pozostałe zakładają `/workspace/ki-iso-art2`, a źródło drobnego popiołu to
+rzeczywiste LFS `materials/ash.webp`, SHA-256
+`c379361affdf82875233e0d0ee7be99f7981767d1051625f3aaf2df260426835`.
+Przed ładowaniem modelu sprawdzany jest obraz; tekstowy wskaźnik LFS nie wystarcza.
+
+FFT na GPU usuwa składową brzegową; drobne gleby mają dodatkowy periodyczny
+mikrorelief i ziarno. Mapy pierwszej partii są estymacją z luminancji, drobne
+gleby mają zaprojektowany mikrorelief; nie są pomiarowym PBR. Maski przejść:
+R/G to wagi pary materiałów, B=0, A=255, suma R+G=255. Ich przykłady są podglądem
+mieszania tekstur, nie zrzutem gry ani mapą planety. Nic nie podłączono do świata/APK.
+
+### Podłączenie do próby i aktualizacji serwerowej
+
+W kolejnym etapie `scripts/godot/import_pyra_terrain.py` instaluje 14 wybranych
+albedo 512 px jako cztery rodziny Texture2DArray (4/4/2/4). Kontrakt i hashe są
+w `ports/godot-isometric-pyra/data/terrain-materials.json`; źródła dostawy są
+sprawdzane przed importem. Maska przejść ma wersję runtime 256 px, a osobna mapa
+prezentacyjna pochodzi z niezmienionych wysokości. Wzory shaderów są wspólne
+dla sceny 2D i mapy 3D (`terrain_material.gdshaderinc`). Mapa 2D współdzieli World2D.
+`--legacy-terrain` pozwala porównać stary wygląd, nie wpływa na zapisy.
+
+Aktualizacja właściciela ma trafić **przez serwer**, nie nowe APK.
+`build_preview_update.py` tworzy paczkę `core-c101` obejmującą tylko
+`service_preview/pyra` i zależne tekstury importera. Nie nadpisuje globalnych
+skryptów gry ani ustawień projektu. Manifest 1.14.1 zachowuje bez zmian 29 paczek
+wydania 1.13.1, w tym starszy `core-c100`. Test `e2e_preview_update.py` uruchamia
+oryginalne APK 1.14, pobiera tę samą paczkę przez HTTP i renderuje nowy podgląd.
+Do tego etapu nie potrzeba działającego poda GPU.

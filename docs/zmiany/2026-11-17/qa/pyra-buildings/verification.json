@@ -1,0 +1,38 @@
+{
+  "base_commit": "d1d8ba4aeae88fd01dd67738cc194719a8caf772",
+  "source_sha256": {
+    "ports/godot-isometric-pyra/scripts/world.gd": "7834871e05d54b203f6db60ba03f5688b1b736c8a72f5302f242490730443533",
+    "ports/godot-isometric-pyra/scripts/map_3d.gd": "70d7daefbe0a4f5eb7cc3b13dd400835251cc43f493f80ae2154712c2fc86376",
+    "ports/godot-isometric-pyra/shaders/building_shadow.gdshader": "32cc940cdfbc1656230eeb90519171aa25bcb883cdbcac2407d0b018390c6272",
+    "ports/godot-isometric-pyra/data/building-art.json": "cd15b39cf517bc8b9360d05d88fe00b527b3bb1f5e1f26311c2d43d5ce097678",
+    "ports/godot-isometric-pyra/data/buildings.json": "fec28cf7abfffae6a35e2e81d9d9fffd38b42aa0d109be87d9e47a25dde342a4"
+  },
+  "typecheck": "PASS (retry after first run killed due to memory pressure)",
+  "lint": {
+    "errors": 0,
+    "warnings": 17
+  },
+  "build": "PASS",
+  "vitest": {
+    "passed": 2215,
+    "failed": 0,
+    "skipped": 21
+  },
+  "godot_buildings": {
+    "passed": 32,
+    "failed": 0
+  },
+  "godot_service": {
+    "passed": 21,
+    "failed": 0
+  },
+  "legacy_art": {
+    "passed": 26,
+    "failed": 0
+  },
+  "physical_android": "not tested",
+  "browser_playwright": "not rerun; changes isolated to Godot study",
+  "visual_acceptance": "pending owner",
+  "new_apk": false,
+  "production_deployed": false
+}

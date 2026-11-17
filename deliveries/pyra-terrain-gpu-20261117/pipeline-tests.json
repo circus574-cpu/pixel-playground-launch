@@ -1,0 +1,23 @@
+{
+  "checks": {
+    "finite": true,
+    "bounds": true,
+    "seam_reduced": true,
+    "normal_finite": true,
+    "normal_length": true
+  },
+  "metrics": {
+    "before": {
+      "edge_mean_255": 127.5,
+      "interior_mean_255": 0.4999999701976776,
+      "seam_ratio": 255.00001525878906
+    },
+    "after": {
+      "edge_mean_255": 0.49783408641815186,
+      "interior_mean_255": 0.0019522906513884664,
+      "seam_ratio": 254.99998474121094
+    }
+  },
+  "passed": 5,
+  "failed": 0
+}

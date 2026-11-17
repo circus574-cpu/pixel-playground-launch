@@ -1,0 +1,29 @@
+{
+  "generator": "OpenAI image_gen",
+  "model_version": "not exposed by tool",
+  "date": "2026-11-17",
+  "commercial_rights_status": "review required; generation record is not legal clearance",
+  "references": "Pyra painted forge and inn from this owner's project conversation",
+  "style": "red ceramic tiles, basalt, dark timber, gold details; warm left key and cool fill",
+  "scope": "isolated buildings only; no world geometry or gameplay changes",
+  "runtime_import": "split sheet, alpha trim, Lanczos resize; no repainting",
+  "limitations": [
+    "Painted perspective is approximate, not a calibrated 3D render",
+    "Fires/windows/smoke are baked, not animated",
+    "Original assets retained"
+  ],
+  "masters": {
+    "sheet.png": {
+      "sha256": "ad66e07ee7c70e9b6b5ea50b3c82c52ebff46a8ea67c55cd39660d06f08811b3",
+      "bytes": 2398563
+    },
+    "inn.png": {
+      "sha256": "457e48a11ff8e32cac49f986b8872600dbd3c3de6a06a9871d212203151bc449",
+      "bytes": 2343022
+    },
+    "smithy.png": {
+      "sha256": "56a2e5d045731ec355f12204efc6d2ca0f95c001f9f818e40e3ed7c766d30caa",
+      "bytes": 2225278
+    }
+  }
+}

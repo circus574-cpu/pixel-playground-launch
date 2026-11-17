@@ -13,7 +13,9 @@ var hero_world := Vector2(-40,50)
 var hero: PyraActor
 var camera := Camera2D.new()
 var actors := Node2D.new()
-var textures: Array[Texture2D] = []
+var textures: Array = []
+var material_library := preload("res://scripts/terrain_materials.gd").new()
+var legacy_terrain := "--legacy-terrain" in OS.get_cmdline_user_args()
 var motion := Vector2.ZERO
 var move_pointer := -1
 var move_origin := Vector2.ZERO
@@ -42,6 +44,9 @@ var map_3d: SubViewportContainer
 var mode_3d := false
 var decorations: Array[Dictionary]=[]
 var stick: Control
+var building_art: Dictionary = {}
+var building_sprites: Dictionary = {}
+var legacy_buildings := "--legacy-buildings" in OS.get_cmdline_user_args()
 
 func sample_height(p: Vector2) -> float:
 	var q := (p+Vector2(512,512))/2
@@ -88,12 +93,8 @@ func _ready() -> void:
 	control_bytes=FileAccess.get_file_as_bytes("res://data/control.r32")
 	walk_bytes=FileAccess.get_file_as_bytes("res://data/walkable.u8")
 	rng.seed=int(config.seed)
-	for name: String in config.texture_assets:
-		var source: Texture2D=load("res://materials/%s.webp"%name)
-		var image:=source.get_image()
-		if image.is_compressed():image.decompress()
-		image.generate_mipmaps()
-		textures.append(ImageTexture.create_from_image(image))
+	material_library.load_assets(legacy_terrain)
+	textures.assign(material_library.textures)
 	build_ground()
 	build_tilemap()
 	actors.y_sort_enabled=true
@@ -121,10 +122,8 @@ func ground_shade(point: Vector2) -> Color:
 
 func build_ground() -> void:
 	var material:=ShaderMaterial.new()
-	material.shader=load("res://shaders/terrain.gdshader")
-	for i in 4: material.set_shader_parameter(["ash_tex","basalt_tex","paving_tex","cliff_tex"][i],textures[i])
-	material.set_shader_parameter("weights_tex",load("res://data/weights.png"))
-	material.set_shader_parameter("surface_tex",load("res://data/surface.png"))
+	material.shader=load("res://shaders/terrain_legacy.gdshader" if legacy_terrain else "res://shaders/terrain.gdshader")
+	material_library.apply(material)
 	for cy in range(0,128,16):
 		for cx in range(0,128,16):
 			var verts:=PackedVector3Array()
@@ -158,7 +157,7 @@ func build_ground() -> void:
 
 func build_tilemap() -> void:
 	var image:=Image.create(128,64,false,Image.FORMAT_RGBA8)
-	var source:=textures[2].get_image()
+	var source: Image=textures[2].get_image() if legacy_terrain else textures[2].get_layer_data(0)
 	for y in 64:
 		for x in 128:
 			var dx:=(x+.5)/64-1
@@ -200,8 +199,18 @@ func object_sprite(path: String, p: Vector2, width: float) -> Sprite2D:
 	return s
 
 func build_objects() -> void:
+	if not legacy_buildings:
+		building_art=JSON.parse_string(FileAccess.get_file_as_string("res://data/building-art.json")).buildings
 	for b: Dictionary in buildings:
-		object_sprite(str(b.texture),Vector2(b.xz[0],b.xz[1]),float(b.size[0])*16)
+		var p:=Vector2(b.xz[0],b.xz[1])
+		var binding: Dictionary=building_art.get(str(b.id),{})
+		var sprite:=object_sprite(str(binding.get("texture",b.texture)),p,float(b.size[0])*16)
+		if not binding.is_empty():
+			var origin:=Vector2(binding.origin[0],binding.origin[1])
+			sprite.offset=-Vector2(sprite.texture.get_size())*origin
+			sprite.scale=Vector2.ONE*float(binding.scale)
+			building_contact_shadow(p,Vector2(b.size[0],b.size[1]))
+		building_sprites[str(b.id)]=sprite
 	# Cluster local woodland on the sheltered western slope; scree follows the rift.
 	for i in 350:
 		var p:=Vector2(rng.randfn(-270,60),rng.randfn(5,95))
@@ -216,6 +225,22 @@ func build_objects() -> void:
 		var p:=Vector2(x,z)
 		if sample_height(p)<2:continue
 		object_sprite("res://assets/objects/3d90558c-pyra-continent-rocks.webp",p,rng.randf_range(80,160))
+
+func building_contact_shadow(p: Vector2, size: Vector2) -> void:
+	# Presentation only; sampled from the SAME terrain, never a collision change.
+	var shadow:=Polygon2D.new()
+	var points:=PackedVector2Array()
+	var uv:=PackedVector2Array()
+	for q in [Vector2(-1,-1),Vector2(1,-1),Vector2(1,1),Vector2(-1,1)]:
+		points.append(iso(p+q*size*.62))
+		uv.append((q+Vector2.ONE)*.5)
+	shadow.polygon=points
+	shadow.uv=uv
+	shadow.z_index=-3
+	var material:=ShaderMaterial.new()
+	material.shader=preload("res://shaders/building_shadow.gdshader")
+	shadow.material=material
+	add_child(shadow)
 
 func near_road(p: Vector2) -> bool:
 	for path: Array in config.paths:
@@ -374,14 +399,37 @@ func run_qa() -> void:
 	controlled=false
 	await get_tree().create_timer(2.0).timeout
 	for i in 30:await get_tree().process_frame
-	var out:="/workspace/ki-terrain3d/qa/isometric"
+	var out:=OS.get_environment("KI_ISO_QA_DIR")
+	if out.is_empty():out="user://qa/isometric"
 	DirAccess.make_dir_recursive_absolute(out)
+	var art_checks: Dictionary={}
+	for b: Dictionary in buildings:
+		var sprite: Sprite2D=building_sprites[str(b.id)]
+		art_checks[str(b.id)+"_anchor"]=sprite.position.distance_to(iso(Vector2(b.xz[0],b.xz[1])))<.001
+		art_checks[str(b.id)+"_texture"]=sprite.texture!=null and (legacy_buildings or sprite.texture.resource_path==str(building_art[str(b.id)].texture))
+		if not legacy_buildings:
+			art_checks[str(b.id)+"_hash"]=FileAccess.get_sha256(str(building_art[str(b.id)].texture))==str(building_art[str(b.id)].sha256)
+	if "--building-qa" in OS.get_cmdline_user_args():
+		follow_camera=false
+		for b: Dictionary in buildings:
+			var sprite: Sprite2D=building_sprites[str(b.id)]
+			camera.position=sprite.position+Vector2(0,-110)
+			camera.zoom=Vector2.ONE*1.2
+			for frame in 5:await get_tree().process_frame
+			await RenderingServer.frame_post_draw
+			get_viewport().get_texture().get_image().save_jpg(out.path_join("building-%s.jpg"%b.id),.93)
+		follow_camera=true
+		camera.zoom=Vector2.ONE*.65
+		for frame in 5:await get_tree().process_frame
 	await RenderingServer.frame_post_draw
 	get_viewport().get_texture().get_image().save_jpg(out.path_join("city.jpg"),.93)
-	camera.zoom=Vector2.ONE*.48
+	follow_camera=false
+	camera.position=iso(Vector2(0,30))+Vector2(0,-70)
+	camera.zoom=Vector2.ONE*.4
 	for i in 45:await get_tree().process_frame
 	await RenderingServer.frame_post_draw
 	get_viewport().get_texture().get_image().save_jpg(out.path_join("city-wide.jpg"),.93)
+	follow_camera=true
 	toggle_map()
 	for i in 30:await get_tree().process_frame
 	await RenderingServer.frame_post_draw
@@ -451,7 +499,7 @@ func run_qa() -> void:
 		map_error=maxf(map_error,manual.distance_to(actual))
 	var movement_ok:=true
 	for item in movement:movement_ok=movement_ok and item.second_thumb_keeps_motion and item.cancel_releases and absf(float(item.distance_m)-8*float(item.sim_seconds))<.4
-	var report:={"renderer":"Godot 2D / Vulkan Mobile","height_sha256":FileAccess.get_sha256("res://data/height.r32"),"control_sha256":FileAccess.get_sha256("res://data/control.r32"),"map_shares_actual_World2D":map_view.world_2d==get_world_2d(),"projection_roundtrip_max_m":roundtrip,"terrain_batches":ground_meshes,"tilemap_cells":tilemap.get_used_cells().size(),"fps":Engine.get_frames_per_second(),"hero_animation":hero.sprite.animation,"draw_calls":Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),"texture_bytes":Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),"android_device_tested":false,"full_game_port":false,"map3d":map3d_alignment,"movement":movement,"movement_passed":movement_ok,"tilemap_alignment_max_px":tile_error,"map_camera_alignment_max_px":map_error}
+	var report:={"renderer":"Godot 2D / "+RenderingServer.get_current_rendering_method(),"adapter":RenderingServer.get_video_adapter_name(),"height_sha256":FileAccess.get_sha256("res://data/height.r32"),"control_sha256":FileAccess.get_sha256("res://data/control.r32"),"map_shares_actual_World2D":map_view.world_2d==get_world_2d(),"projection_roundtrip_max_m":roundtrip,"terrain_batches":ground_meshes,"tilemap_cells":tilemap.get_used_cells().size(),"fps":Engine.get_frames_per_second(),"hero_animation":hero.sprite.animation,"draw_calls":Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),"texture_bytes":Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),"android_device_tested":false,"full_game_port":false,"map3d":map3d_alignment,"movement":movement,"movement_passed":movement_ok,"tilemap_alignment_max_px":tile_error,"map_camera_alignment_max_px":map_error}
 	var file:=FileAccess.open(out.path_join("results.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(report,"\t"))
 	print("ISO_QA ",JSON.stringify(report))
@@ -460,6 +508,8 @@ func run_qa() -> void:
 		checks["movement_%d_fps"%item.fps_cap]=absf(float(item.distance_m)-8*float(item.sim_seconds))<.4
 		checks["two_thumb_%d_fps"%item.fps_cap]=item.second_thumb_keeps_motion
 		checks["pointer_cancel_%d_fps"%item.fps_cap]=item.cancel_releases
+	checks.merge(art_checks)
+	checks.merge(material_library.validate())
 	report["checks"]=checks
 	report["passed"]=checks.values().filter(func(v):return v).size()
 	report["failed"]=checks.size()-report.passed

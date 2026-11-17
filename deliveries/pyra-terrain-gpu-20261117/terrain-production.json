@@ -1,0 +1,3255 @@
+{
+  "model": "Lykon/dreamshaper-xl-v2-turbo",
+  "revision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+  "gpu": "NVIDIA A40",
+  "torch": "2.8.0+cu129",
+  "cuda": "12.9",
+  "status": "GPU-generated candidates; visual review pending",
+  "steps": 14,
+  "guidance": 2.0,
+  "seam_processing": "GPU FFT periodic plus smooth decomposition; no mirroring",
+  "derived_maps": "luminance-derived artistic approximations, OpenGL normals; not measured PBR",
+  "geometry": "material textures only; no actual mountains, holes, valleys or collision geometry changed",
+  "items": [
+    {
+      "id": "ground-warm-ash-1",
+      "category": "ground-warm-ash",
+      "seed": 1711202600,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, warm russet volcanic ash soil, fine ochre grains, scattered tiny charcoal pebbles, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 6.277,
+      "seams": {
+        "before": {
+          "edge_mean_255": 27.293621063232422,
+          "interior_mean_255": 4.94416618347168,
+          "seam_ratio": 5.520369052886963
+        },
+        "after": {
+          "edge_mean_255": 4.664786338806152,
+          "interior_mean_255": 4.934703350067139,
+          "seam_ratio": 0.9453022480010986
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 93728,
+          "sha256": "c539b1edb7535e574541ed1d2e22954da96eef5317b28a62742c80ff9f4d5ee3"
+        },
+        "albedo.png": {
+          "bytes": 1548545,
+          "sha256": "3cd6eac155c543a5f7631e48552a152f5ea9094aa69b479ef2629e50f8417bd7"
+        },
+        "albedo.webp": {
+          "bytes": 247860,
+          "sha256": "c87726a6f3aa54656aea456b3ccab19d909edd6f0d249097a45d60c60f686055"
+        },
+        "height.png": {
+          "bytes": 735546,
+          "sha256": "61f31d51c4d7b9a7347a0d5b1cc2a8bf2a178c1935f29bd03b9221dd370ebacc"
+        },
+        "normal.png": {
+          "bytes": 1254807,
+          "sha256": "7fc8f0c18ded95a6611424e6bb1aa37c0806a2afb261a50e37feaf79d58743b0"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 283695,
+          "sha256": "2806556361e00aae6334356941a72a2b16ece00dd84812e12aa5fca6556062fb"
+        },
+        "roughness.png": {
+          "bytes": 399090,
+          "sha256": "d80c1862ba8879f00cdf28fb9a6a12ef786a3d4a81b65dc2a8bf859c744db0d7"
+        },
+        "source.png": {
+          "bytes": 1545973,
+          "sha256": "798e751f35c40588133297f47ec78b819a029522c9acfd050ac38e6107de01ba"
+        }
+      }
+    },
+    {
+      "id": "ground-warm-ash-2",
+      "category": "ground-warm-ash",
+      "seed": 1711202601,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, warm russet volcanic ash soil, fine ochre grains, scattered tiny charcoal pebbles, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.193,
+      "seams": {
+        "before": {
+          "edge_mean_255": 27.727380752563477,
+          "interior_mean_255": 4.932621002197266,
+          "seam_ratio": 5.621226787567139
+        },
+        "after": {
+          "edge_mean_255": 4.670961856842041,
+          "interior_mean_255": 4.929860591888428,
+          "seam_ratio": 0.9474835991859436
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 89972,
+          "sha256": "854c61035adcfa7ac71b17ce48b2e0de28c44c98159d6b50933fbcefc1bf764c"
+        },
+        "albedo.png": {
+          "bytes": 1550235,
+          "sha256": "d9808e80a02639d723c3c215a2919ce6ba9d27b3e962c088dabbd21ce596c48a"
+        },
+        "albedo.webp": {
+          "bytes": 243158,
+          "sha256": "949c7dc7e9486ffad69d2cb9a75dfce6ae7f2aa61558e2dea92c0d2566f3d023"
+        },
+        "height.png": {
+          "bytes": 745001,
+          "sha256": "62e52dc9a3c005209829bb3caa29ee0d732076af148022efb86b6e41d9ee71ef"
+        },
+        "normal.png": {
+          "bytes": 1267397,
+          "sha256": "115312b6cdf0e74334b2ea30cf0b8e813178d43fa2c4d893b0feb2d5d6a5a3bc"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 281184,
+          "sha256": "f50cdf56ef11b71ca99c8c52b64eafbe1170c701136ee111058b569f94ec963f"
+        },
+        "roughness.png": {
+          "bytes": 400796,
+          "sha256": "15b3cdca9247ee03ac508f8b47abc7396cdcc6bb8676bff7189aba7244b68a5e"
+        },
+        "source.png": {
+          "bytes": 1546050,
+          "sha256": "522698824dd8cf97453bdfb161a0c040bd3636024a570f064c20d2d47b7b0f26"
+        }
+      }
+    },
+    {
+      "id": "ground-warm-ash-3",
+      "category": "ground-warm-ash",
+      "seed": 1711202602,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, warm russet volcanic ash soil, fine ochre grains, scattered tiny charcoal pebbles, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.253,
+      "seams": {
+        "before": {
+          "edge_mean_255": 31.346195220947266,
+          "interior_mean_255": 5.461380958557129,
+          "seam_ratio": 5.739609718322754
+        },
+        "after": {
+          "edge_mean_255": 5.781921863555908,
+          "interior_mean_255": 5.455327987670898,
+          "seam_ratio": 1.0598669052124023
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 101338,
+          "sha256": "9937029cc0271a130ea837d1c4c16cd7c94238ba076e6ed78761925110681285"
+        },
+        "albedo.png": {
+          "bytes": 1608542,
+          "sha256": "a7574faef0f461484ca75d36b7890b570f1f7a250f792948059fa64c6e63d18a"
+        },
+        "albedo.webp": {
+          "bytes": 261642,
+          "sha256": "41f33208fbb8e1da2101749824cfbb81c64eefa82d6ab7cefa00919ff7873144"
+        },
+        "height.png": {
+          "bytes": 767596,
+          "sha256": "9666314db6fd83a24f5129291a4705eeedc0f9e911553241dae307034f204e7c"
+        },
+        "normal.png": {
+          "bytes": 1313469,
+          "sha256": "f4ab7dc27730933fcd06058cf6d7ff9d62ff95fcd1e4092ae3b87cdede141871"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 301257,
+          "sha256": "e274e43f9744da6b5f287f8900ce23de77431553e0088eba617f996bfdd97170"
+        },
+        "roughness.png": {
+          "bytes": 418122,
+          "sha256": "8807bf6711682a3a03446a8e6319081823b8340c8e6608651411d5b4606cb83e"
+        },
+        "source.png": {
+          "bytes": 1605562,
+          "sha256": "27a3eecab18187258cf3a82ee80f48651a33b99d28d8bdeea4f2972e767d7228"
+        }
+      }
+    },
+    {
+      "id": "ground-charcoal-1",
+      "category": "ground-charcoal",
+      "seed": 1711202700,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dark charcoal volcanic soil, dense granular ash, muted ember brown minerals, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.199,
+      "seams": {
+        "before": {
+          "edge_mean_255": 30.141279220581055,
+          "interior_mean_255": 6.759393692016602,
+          "seam_ratio": 4.459168910980225
+        },
+        "after": {
+          "edge_mean_255": 5.920818328857422,
+          "interior_mean_255": 6.744111061096191,
+          "seam_ratio": 0.8779242634773254
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 107688,
+          "sha256": "4b088257ac3aa077a532836dfff7eaf9fda0629dbb7d253ee32677cc4029d280"
+        },
+        "albedo.png": {
+          "bytes": 1715830,
+          "sha256": "14508a4a8890278b4e194e3e993e7349b43735b3e4c37bb1d705acfebd41a221"
+        },
+        "albedo.webp": {
+          "bytes": 280256,
+          "sha256": "6d8c8a23398321b064a8b82b1d7960dbe46bb2d793e1dac42d218967f220ff25"
+        },
+        "height.png": {
+          "bytes": 814139,
+          "sha256": "2191bae6f752f9fb54dcf303a3cb136a3271c5194c5d51af7eabf1f682bd1770"
+        },
+        "normal.png": {
+          "bytes": 1423636,
+          "sha256": "73a85c5f39e231efb5ecc9a61d102cd3a8969bf3e51de6076d0b4bccbb2bf1c5"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 314217,
+          "sha256": "9950c35fbc4d2b48d98e74a2fa0048c2c85e4bad48aeee54e8b08dcf6027082f"
+        },
+        "roughness.png": {
+          "bytes": 455581,
+          "sha256": "b8917730e5064cfa10f5896d9dca3e3a325f114b96ff5dee27ae28506e2e8225"
+        },
+        "source.png": {
+          "bytes": 1715570,
+          "sha256": "8c0d449c90f1678e798eb197ab71293b536155f392b5a3b2fcc3b993747ca678"
+        }
+      }
+    },
+    {
+      "id": "ground-charcoal-2",
+      "category": "ground-charcoal",
+      "seed": 1711202701,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dark charcoal volcanic soil, dense granular ash, muted ember brown minerals, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.214,
+      "seams": {
+        "before": {
+          "edge_mean_255": 32.295902252197266,
+          "interior_mean_255": 6.515349864959717,
+          "seam_ratio": 4.956894874572754
+        },
+        "after": {
+          "edge_mean_255": 6.561551094055176,
+          "interior_mean_255": 6.478835582733154,
+          "seam_ratio": 1.01276695728302
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 110062,
+          "sha256": "22a323ed1e00a2ea52779dee7617a88aed4565b155cf1f90d094ba62afb03f9d"
+        },
+        "albedo.png": {
+          "bytes": 1689166,
+          "sha256": "f95c16ccee4557545afeac067b9a07990cf7b0fb8b6eefc38df5e39a3f08ed84"
+        },
+        "albedo.webp": {
+          "bytes": 282968,
+          "sha256": "b9ae92928ef9369ee3329bcbd256ca83768a3cc374f1585424196ba477661e2d"
+        },
+        "height.png": {
+          "bytes": 808306,
+          "sha256": "174781db7510f1e7dceda2a7fdad91478a63cf671dad5b942f4ba0615e2f4a2d"
+        },
+        "normal.png": {
+          "bytes": 1419461,
+          "sha256": "31f5ae631c5e77a2e9efff861e6763f54eb622f5af8ba6f0ac8a21583133fb98"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 321457,
+          "sha256": "717596230378fef2d378cde9fe053be3c501e40ef336a3031e18eb38291d09b1"
+        },
+        "roughness.png": {
+          "bytes": 446872,
+          "sha256": "f2fc8f5fabd99a7b451ebac67db638fa286f8fe3888ffd9f1eee9a9f0f4da8e6"
+        },
+        "source.png": {
+          "bytes": 1702432,
+          "sha256": "f8d179355af6a558256fe87093cb8d207e095a8142603288f2d96dbfbe76209c"
+        }
+      }
+    },
+    {
+      "id": "ground-charcoal-3",
+      "category": "ground-charcoal",
+      "seed": 1711202702,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dark charcoal volcanic soil, dense granular ash, muted ember brown minerals, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.22,
+      "seams": {
+        "before": {
+          "edge_mean_255": 29.275392532348633,
+          "interior_mean_255": 5.809967994689941,
+          "seam_ratio": 5.038821697235107
+        },
+        "after": {
+          "edge_mean_255": 6.417194366455078,
+          "interior_mean_255": 5.794987201690674,
+          "seam_ratio": 1.1073698997497559
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 99600,
+          "sha256": "f73e3a92646d9c79dc0677ad749178a8d6186f47b8a94991be5c65f90ad742ec"
+        },
+        "albedo.png": {
+          "bytes": 1636300,
+          "sha256": "ea94265354f78d0c532056dc6ad634bbab3245257ecfa48ef6add4da9416f682"
+        },
+        "albedo.webp": {
+          "bytes": 265400,
+          "sha256": "02a15e5c1760582aa33ebb7922d0da9dc88f9f691939f8c0ced6721011d09fa7"
+        },
+        "height.png": {
+          "bytes": 788307,
+          "sha256": "0a61cc388ff0765cc7a63e029284e8f379d57b3c68716cb93d01e6f79ba4e516"
+        },
+        "normal.png": {
+          "bytes": 1360237,
+          "sha256": "f5ec493519dd7dfafc78c994b6520924621874028a8a8cdb5ab3d6f1a87e6a68"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 294593,
+          "sha256": "d786ecd770e4adc871de899c219ca6048f24bcb91b079bdeeafc93d33e60f5c5"
+        },
+        "roughness.png": {
+          "bytes": 432284,
+          "sha256": "25d4e8a64f831aaf634d4807d8764a0b3507e8f8c7a598c254be2f6d695797ac"
+        },
+        "source.png": {
+          "bytes": 1634275,
+          "sha256": "1bda794cd2f4acdd1ddef79d2a90c18d0ea2bc45e34facf38f1b19156f3d988d"
+        }
+      }
+    },
+    {
+      "id": "ground-basalt-gravel-1",
+      "category": "ground-basalt-gravel",
+      "seed": 1711202800,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, irregular small angular basalt gravel, warm reddish mineral dust between dark stones, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.203,
+      "seams": {
+        "before": {
+          "edge_mean_255": 32.95508575439453,
+          "interior_mean_255": 7.029982089996338,
+          "seam_ratio": 4.687790870666504
+        },
+        "after": {
+          "edge_mean_255": 6.7997894287109375,
+          "interior_mean_255": 7.0192975997924805,
+          "seam_ratio": 0.9687278270721436
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 112010,
+          "sha256": "b4a15c4b868b3bc4e94ddddd4d8ca35ff86c3d161d50c82bc9252349d12c1f37"
+        },
+        "albedo.png": {
+          "bytes": 1741720,
+          "sha256": "a12356506ef03e86460efe24754a081128ddc33ff17e94aea3391ffd2ebc65c7"
+        },
+        "albedo.webp": {
+          "bytes": 296714,
+          "sha256": "11e51bc80d97727e0b0e29bf552baa252557572efa2a127369db1b1bf090981b"
+        },
+        "height.png": {
+          "bytes": 843887,
+          "sha256": "6b97d64af2ec3a497dee16edf68ab66272627cae675b1bfc5631547e981a0cf6"
+        },
+        "normal.png": {
+          "bytes": 1465531,
+          "sha256": "eff70854ff2451e5bb09a0627a17224d8873de793b468b6e7d3aea0488bdf02e"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 328981,
+          "sha256": "3e9af3a5dc9231eec2a7af5fbd5bce53544b00b9debaa5709d0bc0d56d342eca"
+        },
+        "roughness.png": {
+          "bytes": 466287,
+          "sha256": "989e9c9f57660880717bde4c62debb5c0cf17d1688a62326e195130e824dd26b"
+        },
+        "source.png": {
+          "bytes": 1741409,
+          "sha256": "d1ea5fcd2ca1f39cbe1588d375cabc85dc84f112d24fe9f51cee418f5e94ddb0"
+        }
+      }
+    },
+    {
+      "id": "ground-basalt-gravel-2",
+      "category": "ground-basalt-gravel",
+      "seed": 1711202801,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, irregular small angular basalt gravel, warm reddish mineral dust between dark stones, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.133,
+      "seams": {
+        "before": {
+          "edge_mean_255": 31.823083877563477,
+          "interior_mean_255": 6.220066547393799,
+          "seam_ratio": 5.116196632385254
+        },
+        "after": {
+          "edge_mean_255": 6.016114234924316,
+          "interior_mean_255": 6.202463150024414,
+          "seam_ratio": 0.9699556231498718
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 99330,
+          "sha256": "ed05f6e2dc0aa536e0f8f88a6cc4b220c2432134b5161df9fc1d10df8eb82716"
+        },
+        "albedo.png": {
+          "bytes": 1633998,
+          "sha256": "83d0d50a7a6c63858257f7e74bac6f96e8fc3ac24bb6585ba54414af8b6ee4dd"
+        },
+        "albedo.webp": {
+          "bytes": 255682,
+          "sha256": "a42f67a08666191f8ef6fb5245917395579773737f5aac9f6f579c0da6c7ba8d"
+        },
+        "height.png": {
+          "bytes": 786200,
+          "sha256": "05fb5a0cf92d45d793a0bfa6d6d5e3da5b2759517cba4b8281d156f3bf498db2"
+        },
+        "normal.png": {
+          "bytes": 1353001,
+          "sha256": "4d2c99732c770e92584a6c740a249e75e89020832a5e0d1f06294d539a4335a0"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 323503,
+          "sha256": "033270bca553f07ea6d4a79db8890a2dd263b77e9254d48a6fa600843ee139bf"
+        },
+        "roughness.png": {
+          "bytes": 426131,
+          "sha256": "c60a2a117cc9d1efa206820f2aeacce9ade69b55187dd905708c69d0dae8917f"
+        },
+        "source.png": {
+          "bytes": 1635184,
+          "sha256": "1ae6687b5e3636e6e88b2e220ab1595d70784bb07671a1300e082b13f036b875"
+        }
+      }
+    },
+    {
+      "id": "ground-basalt-gravel-3",
+      "category": "ground-basalt-gravel",
+      "seed": 1711202802,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, irregular small angular basalt gravel, warm reddish mineral dust between dark stones, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.149,
+      "seams": {
+        "before": {
+          "edge_mean_255": 33.77750778198242,
+          "interior_mean_255": 6.7657928466796875,
+          "seam_ratio": 4.99239444732666
+        },
+        "after": {
+          "edge_mean_255": 6.646283149719238,
+          "interior_mean_255": 6.749526500701904,
+          "seam_ratio": 0.9847036004066467
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 113202,
+          "sha256": "b785267c3e3dddcbcb7061aaf404126b30bf0e945e8e253f8f1799b9c994b78f"
+        },
+        "albedo.png": {
+          "bytes": 1695189,
+          "sha256": "b9dc1bd52efb1cc0cf48d680627ea67a7cd8c547600aec1ef51ea96595fbdc56"
+        },
+        "albedo.webp": {
+          "bytes": 285396,
+          "sha256": "e2702cab8cfd69c33e08c5ab8ecaa7fd77cd1831196b80360a1eb35f4dbd6962"
+        },
+        "height.png": {
+          "bytes": 801175,
+          "sha256": "892bd73ad5feda90d061efc4bb54eac81e1d1f9b9ab83e1a953bc7eb974a90f2"
+        },
+        "normal.png": {
+          "bytes": 1393103,
+          "sha256": "dd9c987a91fa8c9cdf4dbff046169eccf2c59a0a9c41f5c75998da55d4952964"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 356125,
+          "sha256": "99b0b02d2b831d052af45504a32ffc045a3856dac85bd577ae03f138fcf5423f"
+        },
+        "roughness.png": {
+          "bytes": 446579,
+          "sha256": "58737d91a5a3c4b6665800b8935c822433c8b642c2bd5488f7e29dfd75774576"
+        },
+        "source.png": {
+          "bytes": 1696541,
+          "sha256": "2a648786ce94e1cc94abc9672910f4457b94c573cab1b120012e5292f87b1c29"
+        }
+      }
+    },
+    {
+      "id": "ground-dry-earth-1",
+      "category": "ground-dry-earth",
+      "seed": 1711202900,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dry red ochre volcanic earth, subtle natural cracks and scattered fine grit, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.304,
+      "seams": {
+        "before": {
+          "edge_mean_255": 31.69677734375,
+          "interior_mean_255": 5.045554161071777,
+          "seam_ratio": 6.282120227813721
+        },
+        "after": {
+          "edge_mean_255": 5.461350917816162,
+          "interior_mean_255": 5.024586200714111,
+          "seam_ratio": 1.0869255065917969
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 90146,
+          "sha256": "f3deea95e469f5a09534b6445d239422a99bbfd750b93e1eb8aad0f1a4686cda"
+        },
+        "albedo.png": {
+          "bytes": 1502954,
+          "sha256": "346cecc8e96d53849c6fd6c9d3ce87b2f789a3f54f5bf2abc020d2dec7528c1f"
+        },
+        "albedo.webp": {
+          "bytes": 234790,
+          "sha256": "837b5886a3bb45629e35404502895a1ed350dca84331d6c9d7e2ffadab7cea23"
+        },
+        "height.png": {
+          "bytes": 744021,
+          "sha256": "b96ef358e4dde65117159bc3cf5d8f44437ff05650f182fce130d09ccff0dc1e"
+        },
+        "normal.png": {
+          "bytes": 1205925,
+          "sha256": "e33456cec90c6732082f136af1a8547bbd537ba516b079e54fd8723ee403b754"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 259662,
+          "sha256": "91165648a7a3744cedf27aba3c0a5a688c89c93b58055d1881468747d263a08e"
+        },
+        "roughness.png": {
+          "bytes": 392460,
+          "sha256": "0b0ca68ee5272cb2583034366520ba33fbefbbf3362a1046b3356b3392caa473"
+        },
+        "source.png": {
+          "bytes": 1501224,
+          "sha256": "f2f7518fb32ed620f036154f3a2bee0be5739b8bd3149a3a73880838d2fdfba3"
+        }
+      }
+    },
+    {
+      "id": "ground-dry-earth-2",
+      "category": "ground-dry-earth",
+      "seed": 1711202901,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dry red ochre volcanic earth, subtle natural cracks and scattered fine grit, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.279,
+      "seams": {
+        "before": {
+          "edge_mean_255": 21.746910095214844,
+          "interior_mean_255": 4.734101295471191,
+          "seam_ratio": 4.593672275543213
+        },
+        "after": {
+          "edge_mean_255": 4.049036979675293,
+          "interior_mean_255": 4.719583988189697,
+          "seam_ratio": 0.8579224944114685
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 80294,
+          "sha256": "bc4fbaa3b543276d91de9bf69c21bddf25c6191c26b89087b77325bb411be882"
+        },
+        "albedo.png": {
+          "bytes": 1387895,
+          "sha256": "f1532dfa8991bfec89bf9f49dd81a9b8a953bbedb541096bfa45a5d286f7bf0e"
+        },
+        "albedo.webp": {
+          "bytes": 224442,
+          "sha256": "c5c677f71c8e5938bcac97a6ba58ee3dab92180063f9ed7f4fb5a15d9ada4fd8"
+        },
+        "height.png": {
+          "bytes": 683592,
+          "sha256": "323debfc2126d9042485f1e0a00a304c725dbf255c8b36a600725b634a73b81f"
+        },
+        "normal.png": {
+          "bytes": 1080848,
+          "sha256": "e93e6927fa9fbeabfbe4d35ac1de956661f095255118d859bc8876e5af89a9cc"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 228090,
+          "sha256": "d209d960addd070d66e83922ac584f6a85071cadf68e543eb9ee7dc54c1d90a9"
+        },
+        "roughness.png": {
+          "bytes": 356832,
+          "sha256": "31adbc0de3a47124c2402e4f7c2edcc0cff5d2b6f8f4da8dbc27a2cd01eb960b"
+        },
+        "source.png": {
+          "bytes": 1386022,
+          "sha256": "3d9cb979c8ad5675129a2cc448a6b16c8c9b4f161ea5cd3385b6d758ac332cf6"
+        }
+      }
+    },
+    {
+      "id": "ground-dry-earth-3",
+      "category": "ground-dry-earth",
+      "seed": 1711202902,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dry red ochre volcanic earth, subtle natural cracks and scattered fine grit, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.283,
+      "seams": {
+        "before": {
+          "edge_mean_255": 24.305992126464844,
+          "interior_mean_255": 4.500036716461182,
+          "seam_ratio": 5.40128755569458
+        },
+        "after": {
+          "edge_mean_255": 4.753055572509766,
+          "interior_mean_255": 4.485324859619141,
+          "seam_ratio": 1.0596903562545776
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 83336,
+          "sha256": "b405d71b5bef47c3c31290786d94eede5b0a63afbbfb85e9c98ee247a5bce32c"
+        },
+        "albedo.png": {
+          "bytes": 1419677,
+          "sha256": "3a5f4e13fb40615cd0f1da9ef9ca5c66183e1be885d698da5e0fe6e3bbebb35b"
+        },
+        "albedo.webp": {
+          "bytes": 225850,
+          "sha256": "59e7f1a1276885d51bd482bd844a84e085993b3fbb0771ea649fd0b96ee5ae6f"
+        },
+        "height.png": {
+          "bytes": 691631,
+          "sha256": "6c68add51050db1ee7bdfa6d19c7cdf292928f2ec92ad082acaab282c02999b0"
+        },
+        "normal.png": {
+          "bytes": 1108606,
+          "sha256": "7684fd0af5310a01cf90832bc61e396cf0d801902755fa407d36737b554bae5e"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 230184,
+          "sha256": "e7f43b8a6728062cbf9415c13547a66fd966b073c060b7c07292cc40284667bb"
+        },
+        "roughness.png": {
+          "bytes": 354252,
+          "sha256": "9330d96eacbbf711379839c1f4b28bd05804fea59b7e8c1e45474fd283a475a7"
+        },
+        "source.png": {
+          "bytes": 1418475,
+          "sha256": "92d1234bdeeb88ce08fddf6f372179bc6468835d5142e13f2bccd43f7e43498f"
+        }
+      }
+    },
+    {
+      "id": "road-packed-ash-1",
+      "category": "road-packed-ash",
+      "seed": 1711203000,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, compacted dark ochre ash road surface, fine crushed rock, subtle wheel wear, no road borders, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.378,
+      "seams": {
+        "before": {
+          "edge_mean_255": 33.92333984375,
+          "interior_mean_255": 5.780595779418945,
+          "seam_ratio": 5.868485450744629
+        },
+        "after": {
+          "edge_mean_255": 6.000651836395264,
+          "interior_mean_255": 5.767780780792236,
+          "seam_ratio": 1.0403743982315063
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 104676,
+          "sha256": "8dd437e41a0b33f2498b66722744fec90b1e28f9a0fdc2e2933d51aebcb8180c"
+        },
+        "albedo.png": {
+          "bytes": 1618623,
+          "sha256": "8d2229989539c8571b8205a97f88e4075236efaf606274a5db5c3ce323bfba7c"
+        },
+        "albedo.webp": {
+          "bytes": 260152,
+          "sha256": "9e610d95efadbd9328c93a688af4e8306d62963a6363940f502359e6bc6c1354"
+        },
+        "height.png": {
+          "bytes": 765920,
+          "sha256": "8cfb42b2054ce4a4032f210da5367605401e24be4fecdb49bf69a40615f17473"
+        },
+        "normal.png": {
+          "bytes": 1294914,
+          "sha256": "b30edf575e4646403b077a115af95fed76706723c923a0af243ea094f4a169f4"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 310904,
+          "sha256": "51db808f8bf4d7fcb62d3c79684c2a3927c10f7735cb0cb8c96f72da1e63a35d"
+        },
+        "roughness.png": {
+          "bytes": 422232,
+          "sha256": "df01ebcbc6741af3975b49ac1b0b182ed85884a010945c72a56b473821ad7cfc"
+        },
+        "source.png": {
+          "bytes": 1615930,
+          "sha256": "db26881748c2ed24e3075d48fffe5e2ef372b73e0c8ae7ac7172a2740bdddf06"
+        }
+      }
+    },
+    {
+      "id": "road-packed-ash-2",
+      "category": "road-packed-ash",
+      "seed": 1711203001,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, compacted dark ochre ash road surface, fine crushed rock, subtle wheel wear, no road borders, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.248,
+      "seams": {
+        "before": {
+          "edge_mean_255": 34.65446472167969,
+          "interior_mean_255": 6.450507164001465,
+          "seam_ratio": 5.3723626136779785
+        },
+        "after": {
+          "edge_mean_255": 6.917178630828857,
+          "interior_mean_255": 6.429437637329102,
+          "seam_ratio": 1.075860619544983
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 107066,
+          "sha256": "802a57f895fcd4b80627471ebd2092f629ef743c81a088a2601c8d0e18eee56e"
+        },
+        "albedo.png": {
+          "bytes": 1641074,
+          "sha256": "c9be1e5459ab1255e75cd85a160a7cb685d8ee5c0a8eee5d2ea06542623267dd"
+        },
+        "albedo.webp": {
+          "bytes": 280694,
+          "sha256": "1c72e6534541969be7428f044f777bcde06172d6803659a96846bc55ec173b65"
+        },
+        "height.png": {
+          "bytes": 799743,
+          "sha256": "e61d18ca838a279c753dc8f066d0ed6b4926d21919f0a4bb07bb2477412a48cf"
+        },
+        "normal.png": {
+          "bytes": 1348040,
+          "sha256": "fecda3bb9b769b174de7eabb094f734190ddd36fed4a278ed09b1215475a30ff"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 306439,
+          "sha256": "d04a406d7520d27b73f1d3eb9ae2889e8182ba3153f63ed84b9fcec10d18aca8"
+        },
+        "roughness.png": {
+          "bytes": 436160,
+          "sha256": "d1e5c0e0aa3cde281c820c891b81ee8d503cc60d1fb64e90b607baf73955e5a2"
+        },
+        "source.png": {
+          "bytes": 1638136,
+          "sha256": "03bd5524bff25f9a7813394fef4a319a47a9f4af2e8e451bbec9cd63b28cfee5"
+        }
+      }
+    },
+    {
+      "id": "road-packed-ash-3",
+      "category": "road-packed-ash",
+      "seed": 1711203002,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, compacted dark ochre ash road surface, fine crushed rock, subtle wheel wear, no road borders, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.306,
+      "seams": {
+        "before": {
+          "edge_mean_255": 30.698732376098633,
+          "interior_mean_255": 4.804754734039307,
+          "seam_ratio": 6.389240264892578
+        },
+        "after": {
+          "edge_mean_255": 5.854447364807129,
+          "interior_mean_255": 4.798187732696533,
+          "seam_ratio": 1.2201372385025024
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 93976,
+          "sha256": "92775f034f64edb2761f0af1076e76dc8480d066df3ef6b223ac87472be8f834"
+        },
+        "albedo.png": {
+          "bytes": 1512119,
+          "sha256": "de03ea8fd0640e98599c1cd3dcaf23143b5d59901b69770eaded8efe60193bb5"
+        },
+        "albedo.webp": {
+          "bytes": 236578,
+          "sha256": "0bf6643b71e82ded296d02afa170b12c9cbc9303814f5f36482079641eee82a0"
+        },
+        "height.png": {
+          "bytes": 720548,
+          "sha256": "b932982b3c2212135321c315a4de919bf9ba9f6a201a3845f22ec6eb06367318"
+        },
+        "normal.png": {
+          "bytes": 1205260,
+          "sha256": "088c296234b3df4a6ec1d70d0147243b0e133c47af7a7a71fddbf1c4e7182b9d"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 269301,
+          "sha256": "20ec594945d4a9e82937079520283fecd5e0dd46ba49e3a192b24c39803b36f4"
+        },
+        "roughness.png": {
+          "bytes": 387531,
+          "sha256": "a54f28a29e02de809939494c8327f666bdf48d09e055cca33dd5293d5fd065ca"
+        },
+        "source.png": {
+          "bytes": 1508553,
+          "sha256": "7809b3c75663de084fe6a9ea9ba54914cdcc368169c417bbc95b7d28050cbfa5"
+        }
+      }
+    },
+    {
+      "id": "road-basalt-pavers-1",
+      "category": "road-basalt-pavers",
+      "seed": 1711203100,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, irregular fitted basalt paving stones, warm grey worn edges, muted red dust in joints, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.304,
+      "seams": {
+        "before": {
+          "edge_mean_255": 33.30729675292969,
+          "interior_mean_255": 5.337965488433838,
+          "seam_ratio": 6.23969841003418
+        },
+        "after": {
+          "edge_mean_255": 5.771354675292969,
+          "interior_mean_255": 5.334176063537598,
+          "seam_ratio": 1.0819580554962158
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 89948,
+          "sha256": "88f6f796acea736ff3bfb94102e7a15249a0d4a2105db053d822602b1efca7bc"
+        },
+        "albedo.png": {
+          "bytes": 1587664,
+          "sha256": "a06878544f6490e696ed5b44851f14eb3fcff5e37652f001d20047dba9c9c0c7"
+        },
+        "albedo.webp": {
+          "bytes": 236958,
+          "sha256": "3abca7dfadadc6eedec579fda356ad21f9279961e8a684c6511bff089c2173d3"
+        },
+        "height.png": {
+          "bytes": 771981,
+          "sha256": "f3bfadafd1c2105a6df40f15e685c66502ee29ba699c798e617d49b1cee759ba"
+        },
+        "normal.png": {
+          "bytes": 1327580,
+          "sha256": "29067f6f16579a9f90d67babff1fce6297bf5671858aa297f09124472a592d15"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 273393,
+          "sha256": "c56b9630d42ed5c8eb7f81efe3373d174461ca2191d1c29cedfbc3c54fda9947"
+        },
+        "roughness.png": {
+          "bytes": 416691,
+          "sha256": "0d72a182b8d74b94e7985d1f269a1005062b5e0e9f8e909c6a733ac45aefce5c"
+        },
+        "source.png": {
+          "bytes": 1583333,
+          "sha256": "53e7522cafa9d671bfb8e8fdba2ea75f10bbf24317d83681bb80f9796b9efb3a"
+        }
+      }
+    },
+    {
+      "id": "road-basalt-pavers-2",
+      "category": "road-basalt-pavers",
+      "seed": 1711203101,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, irregular fitted basalt paving stones, warm grey worn edges, muted red dust in joints, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.251,
+      "seams": {
+        "before": {
+          "edge_mean_255": 23.651533126831055,
+          "interior_mean_255": 4.654451847076416,
+          "seam_ratio": 5.081486225128174
+        },
+        "after": {
+          "edge_mean_255": 4.39311408996582,
+          "interior_mean_255": 4.652428150177002,
+          "seam_ratio": 0.944262683391571
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 84980,
+          "sha256": "68dde6f995cfc885829c89731fed3b33a42ff3ff627fd08c882092aa44b1c1d4"
+        },
+        "albedo.png": {
+          "bytes": 1497967,
+          "sha256": "881a5e546b42233d3c41b2420ed930fd6dff76722eeb07fb5b5928164b04145d"
+        },
+        "albedo.webp": {
+          "bytes": 235712,
+          "sha256": "1fec2e4e7c0b4bca8553b240db386412b7b07b40aa89be93ec0699887e9ca5f1"
+        },
+        "height.png": {
+          "bytes": 716074,
+          "sha256": "edb1ece68dea48988c7641c515b233dcafb2013eed656e92f43cb9b72940ceab"
+        },
+        "normal.png": {
+          "bytes": 1207811,
+          "sha256": "b8f216d409e4cbcdefd19025a97e521f7546bbbe58dc3ce17037f82246aa34d9"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 255446,
+          "sha256": "0ef86fdd5b290808d812ba2da7949abc5d93d7ceb7f6867cda8d3bcd24471db9"
+        },
+        "roughness.png": {
+          "bytes": 379406,
+          "sha256": "f0f615c28e03635f86debe06002834fc3201daa2eec1ef251cb36327f27afe51"
+        },
+        "source.png": {
+          "bytes": 1494106,
+          "sha256": "baedf31c8b5c4e8cc2e898ad1d46b0c31057c6c5724f984d99302e0fdec8747c"
+        }
+      }
+    },
+    {
+      "id": "road-basalt-pavers-3",
+      "category": "road-basalt-pavers",
+      "seed": 1711203102,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, irregular fitted basalt paving stones, warm grey worn edges, muted red dust in joints, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.276,
+      "seams": {
+        "before": {
+          "edge_mean_255": 30.275882720947266,
+          "interior_mean_255": 4.8200154304504395,
+          "seam_ratio": 6.281283378601074
+        },
+        "after": {
+          "edge_mean_255": 5.209013938903809,
+          "interior_mean_255": 4.814309597015381,
+          "seam_ratio": 1.0819857120513916
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 84820,
+          "sha256": "74f6ee9157074bbff010d44afba90cb0691b8eac71165656608ffc76d374748b"
+        },
+        "albedo.png": {
+          "bytes": 1467321,
+          "sha256": "9fbe5a5490e48b1a764dd6c042d087af0975b77080a155c920032729d58ecd77"
+        },
+        "albedo.webp": {
+          "bytes": 230780,
+          "sha256": "8867c35cfd2c8d0682d4b767a1cddb08b6a9aebe78721d8b951a1aaded7df352"
+        },
+        "height.png": {
+          "bytes": 697495,
+          "sha256": "03ba3ce1d94f88aa0f9b1757b394d44a5f84f01d3835e94147e9dd8206bf73ef"
+        },
+        "normal.png": {
+          "bytes": 1164050,
+          "sha256": "5518386e5106818cd5fd8826b268b395c369c3dec798cf16ac4ad4e8ef525bd9"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 253027,
+          "sha256": "72c4fe6091dce4f1104f2f4eb02aa3e9eebb6ed112ed6b688ba489a805f04073"
+        },
+        "roughness.png": {
+          "bytes": 369736,
+          "sha256": "0f558a45dc5661bda6a2a2ff56c30e7ec45010bfd94cca61facac023c3b3b77e"
+        },
+        "source.png": {
+          "bytes": 1462824,
+          "sha256": "d92a04e7459576dc5dc4d78fb419f60ffc452c5e7f9a1148c4aa735e019b7a5f"
+        }
+      }
+    },
+    {
+      "id": "road-broken-cobbles-1",
+      "category": "road-broken-cobbles",
+      "seed": 1711203200,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, ancient uneven charcoal cobblestones, cracked worn stones, sparse reddish ash filled gaps, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.578,
+      "seams": {
+        "before": {
+          "edge_mean_255": 38.17936325073242,
+          "interior_mean_255": 6.199319839477539,
+          "seam_ratio": 6.158637523651123
+        },
+        "after": {
+          "edge_mean_255": 6.18489933013916,
+          "interior_mean_255": 6.1846232414245605,
+          "seam_ratio": 1.000044584274292
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 101374,
+          "sha256": "bf799721b3169fb24daf0ed052c6f3fe41cb2532987f733a40fa85cc81329876"
+        },
+        "albedo.png": {
+          "bytes": 1647317,
+          "sha256": "901760cff7b7a1eb0235a58bc2275359715e92704e3064deeef018948250a08b"
+        },
+        "albedo.webp": {
+          "bytes": 256304,
+          "sha256": "a5b2ab4eb369c105d17045a24f2921a46ad7116899cc0447a304f34bb059f9bb"
+        },
+        "height.png": {
+          "bytes": 776843,
+          "sha256": "2f1fd6d691438fee469403afba9c270a63d4263cfff8c2d093f1d51b8bdd1b26"
+        },
+        "normal.png": {
+          "bytes": 1331164,
+          "sha256": "25141dc30fe208030e406cc16c5d36114fc62c355a3dc3218daedf282afc41bb"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 317273,
+          "sha256": "3cd77caf33ea07e37740f66e62de7ae3f78ce5789759bac8d77e09936f1635d6"
+        },
+        "roughness.png": {
+          "bytes": 428120,
+          "sha256": "64592123533f5bc44e8ce81e552980158df8bd996b7fc72b0534138a7e9e2189"
+        },
+        "source.png": {
+          "bytes": 1644253,
+          "sha256": "26cd97f0856d5a641035744940b142820e74a297164ef7c785a4d02e08daca7b"
+        }
+      }
+    },
+    {
+      "id": "road-broken-cobbles-2",
+      "category": "road-broken-cobbles",
+      "seed": 1711203201,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, ancient uneven charcoal cobblestones, cracked worn stones, sparse reddish ash filled gaps, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.53,
+      "seams": {
+        "before": {
+          "edge_mean_255": 36.472171783447266,
+          "interior_mean_255": 7.3389129638671875,
+          "seam_ratio": 4.969696998596191
+        },
+        "after": {
+          "edge_mean_255": 7.414485931396484,
+          "interior_mean_255": 7.3257036209106445,
+          "seam_ratio": 1.0121192932128906
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 107260,
+          "sha256": "e7db48e8c57a7280e4f143a6a7033a8922dd14da8403b8f362e10f6e6e6e68e7"
+        },
+        "albedo.png": {
+          "bytes": 1704974,
+          "sha256": "d72f9b417364642b169c00754d0bf618a70656a72d92b2f8be5ee506259aade7"
+        },
+        "albedo.webp": {
+          "bytes": 282852,
+          "sha256": "fb928d62f6d077aab9488c9ea516031a69d3df23b496419b653e0ea58194acfa"
+        },
+        "height.png": {
+          "bytes": 847603,
+          "sha256": "d8fc5633b92d86ecc2e3c2755d35d88328991f6731048726200db74335565f4d"
+        },
+        "normal.png": {
+          "bytes": 1416487,
+          "sha256": "36e94b3e88e99a69e31f48184c6fe0bf0311ecd1dbbf6f35efb477c7e44d0a49"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 330421,
+          "sha256": "7c2f3e987e306312bf92bbb8c81ed1e748bdad1b29a96a760dd40b7ec8af4318"
+        },
+        "roughness.png": {
+          "bytes": 459854,
+          "sha256": "f2cc09db521a576b90e99b319ef1649b20dfed5e1d7933472457b3c66e4e303b"
+        },
+        "source.png": {
+          "bytes": 1703070,
+          "sha256": "5b4d30535f03e3574241cf04676793d2962b7027f226c48ab186774f0d49cecc"
+        }
+      }
+    },
+    {
+      "id": "road-broken-cobbles-3",
+      "category": "road-broken-cobbles",
+      "seed": 1711203202,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, ancient uneven charcoal cobblestones, cracked worn stones, sparse reddish ash filled gaps, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.206,
+      "seams": {
+        "before": {
+          "edge_mean_255": 38.64046859741211,
+          "interior_mean_255": 6.787940502166748,
+          "seam_ratio": 5.692517280578613
+        },
+        "after": {
+          "edge_mean_255": 6.942995548248291,
+          "interior_mean_255": 6.76718807220459,
+          "seam_ratio": 1.0259793996810913
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 104106,
+          "sha256": "7f972096f3f344020f6ec77c9dabed696b30dd4b01611040145bfef8d338d4f2"
+        },
+        "albedo.png": {
+          "bytes": 1665319,
+          "sha256": "9cc8cfd3332c91519fa882d1ce024374b4857dbbfbd56391e91b967390662be6"
+        },
+        "albedo.webp": {
+          "bytes": 271278,
+          "sha256": "a9b011da2642d816aacab10f3a4908b51a1dd71b6c9041cad662ee903aa8ed4b"
+        },
+        "height.png": {
+          "bytes": 814839,
+          "sha256": "97f68e6e66b47d9e1f06d27666a5b3ee87e132e3763868348bfadad4e6996493"
+        },
+        "normal.png": {
+          "bytes": 1384685,
+          "sha256": "cae945ae173b8254a6cf20a99fe5035946c4d57c396800fca1d3282c63de777a"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 318622,
+          "sha256": "8e57f3f062b21b18ddfc16765e9cf29fba06ea0a3032a059ce86ae06f617058a"
+        },
+        "roughness.png": {
+          "bytes": 446748,
+          "sha256": "2330b445e9b3e5751ec0b4bec7d11218b4d574c70b4382687452bc9b6cd033b9"
+        },
+        "source.png": {
+          "bytes": 1666438,
+          "sha256": "1a28cf0f867c4723d2da5c0aba8735ec76b41445818dd80c7a7bd5bfd5c8fbf6"
+        }
+      }
+    },
+    {
+      "id": "road-ceremonial-1",
+      "category": "road-ceremonial",
+      "seed": 1711203300,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, large dark basalt ceremonial flagstones, restrained amber mineral veins, natural worn masonry, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.271,
+      "seams": {
+        "before": {
+          "edge_mean_255": 28.452476501464844,
+          "interior_mean_255": 5.669721603393555,
+          "seam_ratio": 5.018320083618164
+        },
+        "after": {
+          "edge_mean_255": 6.101485729217529,
+          "interior_mean_255": 5.647732734680176,
+          "seam_ratio": 1.080342411994934
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 93514,
+          "sha256": "7be5feb00334603bd7e05e84f91367855ef3b7890fb0fc466fffd07ede399a84"
+        },
+        "albedo.png": {
+          "bytes": 1509842,
+          "sha256": "8baede2621482beab7f7e5f6968eeeaa14c1780f024a4324933a80c33d155aee"
+        },
+        "albedo.webp": {
+          "bytes": 250724,
+          "sha256": "87c5f61a6c2985bbd651827644b39aa56f86b5c2ecaef72f0d087bf5e6a7a5e6"
+        },
+        "height.png": {
+          "bytes": 770566,
+          "sha256": "991a880eac5e97294a17e2761287c17c53cd3b6cc5d303a23cbf5a71890790f4"
+        },
+        "normal.png": {
+          "bytes": 1279610,
+          "sha256": "ca9b2aac14c9703c4c8a8142622c4bc26ea1fb087e936ff9395c5818e6787210"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 309729,
+          "sha256": "4e688e402ff6b2f5bd1b5b8ebfaa2f90b6a572f67902ed9b3982dfd9f46e33a9"
+        },
+        "roughness.png": {
+          "bytes": 396374,
+          "sha256": "afa4e21920edb527658b82f97de3dbf6345592ae76fa9319cf1419a40bb02a87"
+        },
+        "source.png": {
+          "bytes": 1507011,
+          "sha256": "a3ce170368dbb9b88524e117a5d6cf9f18311373f62a808d36730bed01f44a01"
+        }
+      }
+    },
+    {
+      "id": "road-ceremonial-2",
+      "category": "road-ceremonial",
+      "seed": 1711203301,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, large dark basalt ceremonial flagstones, restrained amber mineral veins, natural worn masonry, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.188,
+      "seams": {
+        "before": {
+          "edge_mean_255": 32.048667907714844,
+          "interior_mean_255": 5.876192569732666,
+          "seam_ratio": 5.453985214233398
+        },
+        "after": {
+          "edge_mean_255": 6.279620170593262,
+          "interior_mean_255": 5.854076862335205,
+          "seam_ratio": 1.0726916790008545
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 90774,
+          "sha256": "208cd87aa83f82332786002f78e769787248f92cd71831806388d6cc75cddf1c"
+        },
+        "albedo.png": {
+          "bytes": 1573993,
+          "sha256": "cb0abced88c05b341be6fa8444cbc76faf1e2020fa8406f4fdde805a94b069ec"
+        },
+        "albedo.webp": {
+          "bytes": 246488,
+          "sha256": "58eda80ae6928d396c38c7af634b827cd6d9c213a8f6a9d61039c6ad4056479f"
+        },
+        "height.png": {
+          "bytes": 819907,
+          "sha256": "abf01f17ffa662d606e7f278ad5a40098021339a9ed87b2dda1e597cc4271ad6"
+        },
+        "normal.png": {
+          "bytes": 1350294,
+          "sha256": "92cb505a38fd2629b87ce3c323912632fc8066310ea21f075374e0d0deb1bc40"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 287181,
+          "sha256": "d65648b9d4bfe5bcc77d830a57228a32e4505c168416ce7da71b19a9d8ca4ec8"
+        },
+        "roughness.png": {
+          "bytes": 435925,
+          "sha256": "baabb9e448935685bf5a794301e2f6dce6555c7356fe35770432f02b89f31f0c"
+        },
+        "source.png": {
+          "bytes": 1575119,
+          "sha256": "8e825314990ab3a5332ef437b4212c5fb553164856973d2a928221155242b236"
+        }
+      }
+    },
+    {
+      "id": "road-ceremonial-3",
+      "category": "road-ceremonial",
+      "seed": 1711203302,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, large dark basalt ceremonial flagstones, restrained amber mineral veins, natural worn masonry, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.136,
+      "seams": {
+        "before": {
+          "edge_mean_255": 24.922039031982422,
+          "interior_mean_255": 5.990653038024902,
+          "seam_ratio": 4.160153865814209
+        },
+        "after": {
+          "edge_mean_255": 5.268660068511963,
+          "interior_mean_255": 5.968503952026367,
+          "seam_ratio": 0.8827438354492188
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 94280,
+          "sha256": "a75c71ce00c32d6ff068ef3f5609c8590c4d23c54236a238117346ac239d69ee"
+        },
+        "albedo.png": {
+          "bytes": 1529103,
+          "sha256": "adb74f12da1ecf5892cf637148c6c886540cfdece887b36f0a04bed66533e372"
+        },
+        "albedo.webp": {
+          "bytes": 244592,
+          "sha256": "d5b8966e0c8b64a362197e481464304721a2c15c3df235c18bc74b2a5721d351"
+        },
+        "height.png": {
+          "bytes": 780782,
+          "sha256": "e51bc2260a1d7c4c0211a97060a1b0c3dc6353ce7dbf833f4a4e0ac40133bfc7"
+        },
+        "normal.png": {
+          "bytes": 1281023,
+          "sha256": "8699efc1c0e534cf73b2dcf0fc2100415793505281f0d6608ae0c9282148e5e3"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 305382,
+          "sha256": "b8ac731807111ae3ec39eaf15d27aa23e4f12d5f8abc79aa7b5fcb96f4f589ac"
+        },
+        "roughness.png": {
+          "bytes": 411353,
+          "sha256": "174325ca4249224e2b3708c83ba5d55bebf87e94b9a206b32fd4be09653cd076"
+        },
+        "source.png": {
+          "bytes": 1527911,
+          "sha256": "d18c2f44844912837a39a602831b17452afd72ffb219d8a8d2ceec204b81fccd"
+        }
+      }
+    },
+    {
+      "id": "mountain-columnar-1",
+      "category": "mountain-columnar",
+      "seed": 1711203400,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dense angular volcanic basalt rock faces, columnar fractures, rich charcoal and rust mineral detail, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.109,
+      "seams": {
+        "before": {
+          "edge_mean_255": 31.363771438598633,
+          "interior_mean_255": 7.7369303703308105,
+          "seam_ratio": 4.053774833679199
+        },
+        "after": {
+          "edge_mean_255": 7.432494163513184,
+          "interior_mean_255": 7.702034950256348,
+          "seam_ratio": 0.9650039672851562
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 95056,
+          "sha256": "80a4226fee8d160dbc5e5e84c58b86d2976cb8338b432def3474635afb0189d4"
+        },
+        "albedo.png": {
+          "bytes": 1538484,
+          "sha256": "3762ae44b732dc7e2190167ca41750a163e590f6540c231aabeeec34a6f64a6c"
+        },
+        "albedo.webp": {
+          "bytes": 255374,
+          "sha256": "fffdd06f0d9833a901a069103ca81ac3c6f83fac3b16a689fb5c1dedeae5a69e"
+        },
+        "height.png": {
+          "bytes": 811708,
+          "sha256": "6559bff6ee45489c922f7f21dbfc34890b8e15a4120b461480586dbcaee71920"
+        },
+        "normal.png": {
+          "bytes": 1361373,
+          "sha256": "a43cc970bb1e7d9a25909a66c168e4c62860fe7055442eca50c8076cb28534df"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 324635,
+          "sha256": "10bc290b62ecede7f827c1a98e48f86956e4a9761d44080906bae6dfe136acfc"
+        },
+        "roughness.png": {
+          "bytes": 427168,
+          "sha256": "86a77b7cc1c3a7aa93ae0a68637a3da8ebae81d6d2bbca5f0e6c093779bed3a4"
+        },
+        "source.png": {
+          "bytes": 1547795,
+          "sha256": "9afb3dd16e0ef4e1b1884f7e58a64f1a1e79b0fee01bceb8d72e3154e82a8212"
+        }
+      }
+    },
+    {
+      "id": "mountain-columnar-2",
+      "category": "mountain-columnar",
+      "seed": 1711203401,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dense angular volcanic basalt rock faces, columnar fractures, rich charcoal and rust mineral detail, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.119,
+      "seams": {
+        "before": {
+          "edge_mean_255": 36.600589752197266,
+          "interior_mean_255": 7.6569671630859375,
+          "seam_ratio": 4.7800374031066895
+        },
+        "after": {
+          "edge_mean_255": 7.486023426055908,
+          "interior_mean_255": 7.612372875213623,
+          "seam_ratio": 0.9834020733833313
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 102888,
+          "sha256": "01d7b9fbed09f1bad5dbd7d5145e4e2b59d8ab59969f2c69f71c9800bc18bbca"
+        },
+        "albedo.png": {
+          "bytes": 1677568,
+          "sha256": "b37a5efa80703bbdc63dc0c503af47f35688f96692ba3142f76f37976e588179"
+        },
+        "albedo.webp": {
+          "bytes": 284978,
+          "sha256": "7675b1639a9d8416d39dbf5e7d9547b697cf1c883cdf101a23b48483d893f438"
+        },
+        "height.png": {
+          "bytes": 847073,
+          "sha256": "f5b6117f910fa70f8a6c3037ee82ccd039917daab903479acef10115210de119"
+        },
+        "normal.png": {
+          "bytes": 1421865,
+          "sha256": "79227527e80e3c1d9333a88f6e358e35eab93b9bf3c8835d8e394558dedc4364"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 323425,
+          "sha256": "689bdf9cb674eff937aea9d37735589c18c5f3f0ad0efe8669dce8022235b618"
+        },
+        "roughness.png": {
+          "bytes": 451231,
+          "sha256": "e0d1040586388f5e7ee00fe1f5af6edfd48b611c4b02f0e04f3d28db6274affa"
+        },
+        "source.png": {
+          "bytes": 1676725,
+          "sha256": "c3ab283a59d2945a2e36f1b15cd0c723532d262a73daa101d02dcde530623d50"
+        }
+      }
+    },
+    {
+      "id": "mountain-columnar-3",
+      "category": "mountain-columnar",
+      "seed": 1711203402,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dense angular volcanic basalt rock faces, columnar fractures, rich charcoal and rust mineral detail, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.208,
+      "seams": {
+        "before": {
+          "edge_mean_255": 36.73942184448242,
+          "interior_mean_255": 6.565061569213867,
+          "seam_ratio": 5.596203804016113
+        },
+        "after": {
+          "edge_mean_255": 7.004201412200928,
+          "interior_mean_255": 6.550483703613281,
+          "seam_ratio": 1.0692647695541382
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 101048,
+          "sha256": "115283db9fe424795d842c6f314fcd17a441cbefdcf807dda1a2367fb3b4fec9"
+        },
+        "albedo.png": {
+          "bytes": 1666221,
+          "sha256": "b0d6d486fc63a1a98dc64b1c73957e11ea75dea20a2e36fc8fcd141339dd58b8"
+        },
+        "albedo.webp": {
+          "bytes": 262504,
+          "sha256": "63a60533f809d687377c7a0be6bb912c5a56d317a69dbe047ef51671f24bdc35"
+        },
+        "height.png": {
+          "bytes": 812728,
+          "sha256": "99e2b077b358ff929ee29a34c784ead50c51818c5ff8ee868e327a959d64c508"
+        },
+        "normal.png": {
+          "bytes": 1400468,
+          "sha256": "1070698a5537e55de0e15ed08309eb2e7ea8ecc44b3baf5705b1e6c2f55303bf"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 321389,
+          "sha256": "e509ca1f6479ba1178543f32dc23a9994895bf00f62628dc7f2194b325355795"
+        },
+        "roughness.png": {
+          "bytes": 441321,
+          "sha256": "98b3d0cfef70229a4d7ff470ef6af67f8f2f823001c05eb62c7959296ee0836d"
+        },
+        "source.png": {
+          "bytes": 1665145,
+          "sha256": "853a50477ed8fdbc2f8af2ab6231fad92b5f1432471f184a4b68015e86157457"
+        }
+      }
+    },
+    {
+      "id": "mountain-strata-1",
+      "category": "mountain-strata",
+      "seed": 1711203500,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, weathered volcanic rock strata, layered black basalt and warm red tuff, natural irregular fractures, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.43,
+      "seams": {
+        "before": {
+          "edge_mean_255": 30.266767501831055,
+          "interior_mean_255": 5.935369968414307,
+          "seam_ratio": 5.099390029907227
+        },
+        "after": {
+          "edge_mean_255": 6.172665119171143,
+          "interior_mean_255": 5.918458938598633,
+          "seam_ratio": 1.0429514646530151
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 98204,
+          "sha256": "919151ebbb17ab3dad79a13cce3efe4f52e610eb4022617f9744d82135e4388b"
+        },
+        "albedo.png": {
+          "bytes": 1658714,
+          "sha256": "ce2ce3b52f74293e5c5c03cb3696be67fea2d198620d7dee1c2e6d5c112c6d07"
+        },
+        "albedo.webp": {
+          "bytes": 256292,
+          "sha256": "e3b9f5290335a442bbecf5d6683e267ecfdc1aca859e4016a4ae1794b88b9ab1"
+        },
+        "height.png": {
+          "bytes": 805328,
+          "sha256": "afb704a6e7c51fdd9a7380ad3ba82cb52d402b1deae89a2fa41abdf662d49b36"
+        },
+        "normal.png": {
+          "bytes": 1395424,
+          "sha256": "916607fdd760810afc644e2db216a9302ca1d83f4398937fd916d535090b6c3a"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 298661,
+          "sha256": "bdf24303d4a4174644c8d64c44c4a3ca422b4855d55e187ba07a10ee5931c277"
+        },
+        "roughness.png": {
+          "bytes": 441544,
+          "sha256": "b429856ee285ff0a977579e0681e2e3f4e0ed526e9a91ba1ae14e256e771c187"
+        },
+        "source.png": {
+          "bytes": 1661485,
+          "sha256": "9e4a346bbe036dec7c4e2a66b0c27419cbbafe9bfba9c30cc207dd55312c4e79"
+        }
+      }
+    },
+    {
+      "id": "mountain-strata-2",
+      "category": "mountain-strata",
+      "seed": 1711203501,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, weathered volcanic rock strata, layered black basalt and warm red tuff, natural irregular fractures, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.188,
+      "seams": {
+        "before": {
+          "edge_mean_255": 30.25276756286621,
+          "interior_mean_255": 5.836984634399414,
+          "seam_ratio": 5.1829447746276855
+        },
+        "after": {
+          "edge_mean_255": 6.144969940185547,
+          "interior_mean_255": 5.831096172332764,
+          "seam_ratio": 1.0538275241851807
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 94372,
+          "sha256": "650a3e94eeb97b8ec335c3979dcd3041f2ab283f7c364df85d064c1be63feb1b"
+        },
+        "albedo.png": {
+          "bytes": 1609279,
+          "sha256": "83b5cd38b3bdf1dc81eca9137b5cd1a60599d5b4fbe6790162d1cfcd8f1559c5"
+        },
+        "albedo.webp": {
+          "bytes": 254930,
+          "sha256": "a91a4f3ac4be8d9e3e512329eb7314fab42e2d59b9499e204d44725f20e6d524"
+        },
+        "height.png": {
+          "bytes": 800484,
+          "sha256": "5148e9b30050a3c9862aa958bbd346159747a54e610c72e0077012381869f315"
+        },
+        "normal.png": {
+          "bytes": 1356774,
+          "sha256": "ff6c96ed64fa0803fb4dbafe50095a9b06b4110338cc8ca8479317656127f2a5"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 286941,
+          "sha256": "bea206abedaa8e7f68dd4c39e5af5db21bea6fd8dc3ee7699657f355dc1bf88f"
+        },
+        "roughness.png": {
+          "bytes": 428563,
+          "sha256": "52cd02e9ed03d0b55795204d32d1fd3670d03f5e42ac77b1e61a3db69c593676"
+        },
+        "source.png": {
+          "bytes": 1605694,
+          "sha256": "29050b79286bc1847014fba8c4bf3f7954297951baea8aa9d631bcd51fa664eb"
+        }
+      }
+    },
+    {
+      "id": "mountain-strata-3",
+      "category": "mountain-strata",
+      "seed": 1711203502,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, weathered volcanic rock strata, layered black basalt and warm red tuff, natural irregular fractures, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.233,
+      "seams": {
+        "before": {
+          "edge_mean_255": 31.224288940429688,
+          "interior_mean_255": 6.591823101043701,
+          "seam_ratio": 4.736821174621582
+        },
+        "after": {
+          "edge_mean_255": 6.4794535636901855,
+          "interior_mean_255": 6.5808892250061035,
+          "seam_ratio": 0.9845863580703735
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 97782,
+          "sha256": "51c1c7effa818cc958468604d72161459cd7ea9e96a1f6ee68f53ae228ffdf46"
+        },
+        "albedo.png": {
+          "bytes": 1672629,
+          "sha256": "eea2922bed72b46f2a689dbfa2e3d391a6467b4c97845145841a598e86a1d86b"
+        },
+        "albedo.webp": {
+          "bytes": 274436,
+          "sha256": "b2755da3a4586c1c88cd54366ffc12939658403f88b05cb69bfed6d4a67fc5dc"
+        },
+        "height.png": {
+          "bytes": 831980,
+          "sha256": "7bc2abbd71bdbae980f055910fde5f68ac3fe6f1771faf241cfab0fa8c501032"
+        },
+        "normal.png": {
+          "bytes": 1417810,
+          "sha256": "f07847587d707aa2edaa05b76d36e6e095f512a65e51d6f08c6a469d1007c904"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 288769,
+          "sha256": "0cbb045d7d22b727027c91d3b3498adeddf5879ea238a90a16fcd184a405acc0"
+        },
+        "roughness.png": {
+          "bytes": 453242,
+          "sha256": "dddc2194a21a6d8cd7dff65e6af0b659a3abbaf8088e49a82401aa3f967b7b74"
+        },
+        "source.png": {
+          "bytes": 1669562,
+          "sha256": "58ff8e858ba6bc6960e3a215f72f8fe95d1f4919928f5060f579cb9f115ba96b"
+        }
+      }
+    },
+    {
+      "id": "mountain-cliff-1",
+      "category": "mountain-cliff",
+      "seed": 1711203600,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, rugged broken charcoal basalt cliff material, large angular rock plates, ochre mineral seams, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.179,
+      "seams": {
+        "before": {
+          "edge_mean_255": 30.865402221679688,
+          "interior_mean_255": 7.167324542999268,
+          "seam_ratio": 4.306405067443848
+        },
+        "after": {
+          "edge_mean_255": 6.423673629760742,
+          "interior_mean_255": 7.156458377838135,
+          "seam_ratio": 0.8976050615310669
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 94664,
+          "sha256": "45b9e82dca4f0f22b71f948955cc0c11a2026315f990c45b93f96bb208391ac2"
+        },
+        "albedo.png": {
+          "bytes": 1591730,
+          "sha256": "6a17e9e20f530fd0776f61847df1ecf25d5213f1f070437e44f22da2b5b7ee43"
+        },
+        "albedo.webp": {
+          "bytes": 269738,
+          "sha256": "4fddf7fa2ca63958967d37cc1a2a9eb584985a038c65d32b6d7add98a47f95c6"
+        },
+        "height.png": {
+          "bytes": 845996,
+          "sha256": "e99411f9f40ce291ad50a8d2bfc4a92b52f0aa60e62f1f79bbcb67376247181a"
+        },
+        "normal.png": {
+          "bytes": 1360779,
+          "sha256": "c49dbe894b87cdc233cd02672496d9fcb93638e921afcc46ca3983d7df0efd0e"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 302116,
+          "sha256": "252e8caa144aeeec1c062953992f8ab42cdae2b8ecf140f912ffa6a0cbab56cb"
+        },
+        "roughness.png": {
+          "bytes": 437581,
+          "sha256": "15f3e2ab17b20d8d0cb78d7ece47a440fceedfbe952ec50801768207180b3716"
+        },
+        "source.png": {
+          "bytes": 1585665,
+          "sha256": "454056e0e6572bc8e55bec6395e946fa7ec580e1b67c4c3cb963d374f80e0f70"
+        }
+      }
+    },
+    {
+      "id": "mountain-cliff-2",
+      "category": "mountain-cliff",
+      "seed": 1711203601,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, rugged broken charcoal basalt cliff material, large angular rock plates, ochre mineral seams, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.159,
+      "seams": {
+        "before": {
+          "edge_mean_255": 36.47607421875,
+          "interior_mean_255": 7.266332149505615,
+          "seam_ratio": 5.019874572753906
+        },
+        "after": {
+          "edge_mean_255": 7.9333062171936035,
+          "interior_mean_255": 7.209500312805176,
+          "seam_ratio": 1.1003961563110352
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 102236,
+          "sha256": "0cbb5f37576e74d986e1e9eb33285477380e7afd83def73455a22d4eb62f76b0"
+        },
+        "albedo.png": {
+          "bytes": 1668201,
+          "sha256": "caa6620133474dbfb4611da240e7fecfecddec21882444d92c4a464e9db8d002"
+        },
+        "albedo.webp": {
+          "bytes": 266620,
+          "sha256": "bad02e7cf2a15084fdd2b49a8d902921c45e351e92d70385181de8c20f19ceb6"
+        },
+        "height.png": {
+          "bytes": 846499,
+          "sha256": "fda94cd4ec6527e05c1740c4914706e248c808aa9fd8a2282edc2e0ea4f245e6"
+        },
+        "normal.png": {
+          "bytes": 1431875,
+          "sha256": "4bea139b4cc1dca40376b5232ff350e28008f2d875417d5c174375f39209a14b"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 325156,
+          "sha256": "ea10c3a37dc7cae61c907a5fad48a2d59a6c564fbe5c5e06a027f2b0ced992ea"
+        },
+        "roughness.png": {
+          "bytes": 461950,
+          "sha256": "e3f7d49f99ffa2d72a3ed89cf19aa4f6d0a588e811369335f48934917e371e8b"
+        },
+        "source.png": {
+          "bytes": 1674051,
+          "sha256": "dc86160f90df65d32d529d4bf3a8fa0e18209c0d049015e76c96c54d8e7a5e22"
+        }
+      }
+    },
+    {
+      "id": "mountain-cliff-3",
+      "category": "mountain-cliff",
+      "seed": 1711203602,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, rugged broken charcoal basalt cliff material, large angular rock plates, ochre mineral seams, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.173,
+      "seams": {
+        "before": {
+          "edge_mean_255": 33.807945251464844,
+          "interior_mean_255": 6.563681125640869,
+          "seam_ratio": 5.150759696960449
+        },
+        "after": {
+          "edge_mean_255": 6.086968421936035,
+          "interior_mean_255": 6.553691864013672,
+          "seam_ratio": 0.9287846684455872
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 97912,
+          "sha256": "01aba226ba076af676eecb8cafbb4b8810fea62ef86c873e691385d11dad5ad0"
+        },
+        "albedo.png": {
+          "bytes": 1658908,
+          "sha256": "69c4dc97c0245c296a9c177757cb37e8a16114599735252a2e2c08bd36db5b90"
+        },
+        "albedo.webp": {
+          "bytes": 262404,
+          "sha256": "f7a6ac0d89cf36fc0936fe8c83ec4db5f8c41d7eada68aaed8082689a75a083f"
+        },
+        "height.png": {
+          "bytes": 821608,
+          "sha256": "597b45913ea61bbd8b793880c12938445c84e9717bad2752b61682c7dda1fb24"
+        },
+        "normal.png": {
+          "bytes": 1385446,
+          "sha256": "88618cc14d1307dea36dec7533e7e04dc724c2e38a82c864fae1e1251f2eeb24"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 322569,
+          "sha256": "31d006fca9812ad719c5118567c373720fd6ca787cf3d63f3a5a1d47390d1080"
+        },
+        "roughness.png": {
+          "bytes": 441991,
+          "sha256": "a70cbeb7203023f635e0a078f65154a852329a01c61c43266ba1865c743f6e7a"
+        },
+        "source.png": {
+          "bytes": 1655962,
+          "sha256": "f7f2e80a15a00ae4f04cbb247fabdc7f6ebd14a8e582caffcd07d630d0933d48"
+        }
+      }
+    },
+    {
+      "id": "mountain-scree-1",
+      "category": "mountain-scree",
+      "seed": 1711203700,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, loose volcanic mountain scree, different sized sharp basalt fragments, rusty dust crevices, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.318,
+      "seams": {
+        "before": {
+          "edge_mean_255": 36.13346481323242,
+          "interior_mean_255": 6.5584235191345215,
+          "seam_ratio": 5.509474277496338
+        },
+        "after": {
+          "edge_mean_255": 6.949200630187988,
+          "interior_mean_255": 6.537448883056641,
+          "seam_ratio": 1.062983512878418
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 100324,
+          "sha256": "8c90995843f8a9833ee7ed7ac9375438344c2a02059b4cf136155ca8703ec488"
+        },
+        "albedo.png": {
+          "bytes": 1645157,
+          "sha256": "a4e76443c2f0cbc6d8e0634b3b1d71fc7b27ddbeb5d254058e560ae2fc91b106"
+        },
+        "albedo.webp": {
+          "bytes": 261282,
+          "sha256": "2ef0a1d71bc2315d896573a3f3fb00b4b635d4837cc5aeff6cbb0786f42d8e00"
+        },
+        "height.png": {
+          "bytes": 808773,
+          "sha256": "ac08bcb4ecbeb31fdcdea9ca5a17f3dab9e998c54022cfbbf9fd10cee9803c48"
+        },
+        "normal.png": {
+          "bytes": 1376190,
+          "sha256": "92b1af423d3cd211ee2c03f5ca056c878c54f887698a9215472fbe937a7ee7a2"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 314242,
+          "sha256": "ad99b0080593c215c68c2d0f57b5811d5435c8ef85e91c5e380bddaa4efefc25"
+        },
+        "roughness.png": {
+          "bytes": 436833,
+          "sha256": "78aa2cb042106905291a2479f7f7fe2bf8048cbdc0ef3e0866b507411d305130"
+        },
+        "source.png": {
+          "bytes": 1642497,
+          "sha256": "ef33e122b0db38f90f87371f0750efb1edbf1bd8c43317769b1038c11c62fcfa"
+        }
+      }
+    },
+    {
+      "id": "mountain-scree-2",
+      "category": "mountain-scree",
+      "seed": 1711203701,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, loose volcanic mountain scree, different sized sharp basalt fragments, rusty dust crevices, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.272,
+      "seams": {
+        "before": {
+          "edge_mean_255": 39.196617126464844,
+          "interior_mean_255": 7.3657965660095215,
+          "seam_ratio": 5.321436405181885
+        },
+        "after": {
+          "edge_mean_255": 8.123466491699219,
+          "interior_mean_255": 7.356448173522949,
+          "seam_ratio": 1.104264736175537
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 111274,
+          "sha256": "0e84b59b48d48b2bfeaa7b702cbacd6000e5ba8b974e1e95d23ca048376fe21c"
+        },
+        "albedo.png": {
+          "bytes": 1731912,
+          "sha256": "3ac0a1b4b070c11e338b6f825d3985f0f9bbfd720d846805fc14ac7878952123"
+        },
+        "albedo.webp": {
+          "bytes": 291208,
+          "sha256": "def8f150c14f6545c35f756586130ca6f81af2c772bdfb7ec5e0fda806e3c637"
+        },
+        "height.png": {
+          "bytes": 844548,
+          "sha256": "efb7b31eccbc52961788c479ae7c9615b8fd735cd1e6a7c89f6e16a40470fec3"
+        },
+        "normal.png": {
+          "bytes": 1451768,
+          "sha256": "6a60fa70f0199352ef8dff5ae20beea1ff1c432268401cd6131cfe67f5a5f548"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 345905,
+          "sha256": "cee541fe5cb572df1f27887d2a921048f63e3ed77c0c56dc0c98d5fd70fb8dd1"
+        },
+        "roughness.png": {
+          "bytes": 465683,
+          "sha256": "e74e5f94915695041f72d5f0b4ce67bc1bd7145c9a922e6fdbf2cf88103a1851"
+        },
+        "source.png": {
+          "bytes": 1727572,
+          "sha256": "0502e3f7254f0b59717b2e4b89586a13930ea90b01bc9425c73f697dd73b43a3"
+        }
+      }
+    },
+    {
+      "id": "mountain-scree-3",
+      "category": "mountain-scree",
+      "seed": 1711203702,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, loose volcanic mountain scree, different sized sharp basalt fragments, rusty dust crevices, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.347,
+      "seams": {
+        "before": {
+          "edge_mean_255": 33.588382720947266,
+          "interior_mean_255": 7.368286609649658,
+          "seam_ratio": 4.558506488800049
+        },
+        "after": {
+          "edge_mean_255": 7.7505950927734375,
+          "interior_mean_255": 7.361534118652344,
+          "seam_ratio": 1.052850604057312
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 106632,
+          "sha256": "f7ac43ca54bbf41025a1e2d3b2da90eaf6a5cb7915a73c68d95ffe79f7d0842d"
+        },
+        "albedo.png": {
+          "bytes": 1716097,
+          "sha256": "805f54605202121f5179495693133123a01eeaf008e95355415b2dc6976cc3f3"
+        },
+        "albedo.webp": {
+          "bytes": 297518,
+          "sha256": "13b8dcd27d2349ab829265a8f5d45cc9e0b58043134947bcd92181e8459b4366"
+        },
+        "height.png": {
+          "bytes": 867886,
+          "sha256": "a672e2f8aceca59800eb969ef81feb76db4bfd96524a0aaebbffd5f265c57b16"
+        },
+        "normal.png": {
+          "bytes": 1462676,
+          "sha256": "b3a6428c4f665867f9b468c4a90993b7f8abd51896dad0e53626523daa10bd1e"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 324212,
+          "sha256": "af05727c61844c603318aec15ffbddf2677776e88501cd7134e7671a8b3fd48c"
+        },
+        "roughness.png": {
+          "bytes": 465372,
+          "sha256": "aebb21c828bf262b685bbcf4001898d64bf0f0761949cbac690ea84ae4a44f4a"
+        },
+        "source.png": {
+          "bytes": 1712413,
+          "sha256": "141a3be6a6c255f9224cce9ad89c724c9ded61d91b210a436bd697a37f595f31"
+        }
+      }
+    },
+    {
+      "id": "pit-inner-rock-1",
+      "category": "pit-inner-rock",
+      "seed": 1711203800,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dark volcanic crater inner wall rock material, deep irregular fractures, reddish weathered mineral deposits, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.697,
+      "seams": {
+        "before": {
+          "edge_mean_255": 28.701662063598633,
+          "interior_mean_255": 7.033924102783203,
+          "seam_ratio": 4.080462455749512
+        },
+        "after": {
+          "edge_mean_255": 6.224369049072266,
+          "interior_mean_255": 7.020388126373291,
+          "seam_ratio": 0.8866131901741028
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 102200,
+          "sha256": "a5e4e155875477eaa0469a3238032bf25b7ad54b31b2f7ee9b2e60bf06020ab4"
+        },
+        "albedo.png": {
+          "bytes": 1649309,
+          "sha256": "b1a677a95805d54c5c9be05941dff9b0c2813f8606dc43537b113a43fd079be3"
+        },
+        "albedo.webp": {
+          "bytes": 286600,
+          "sha256": "b920245898671d4e7844d5841a760a94eb0f08997962248098ea846dda560c06"
+        },
+        "height.png": {
+          "bytes": 838129,
+          "sha256": "c2fbb6cfcee7c8b3925cd065cd7e4ad393bcbe33e61893f112c91e6818c77dd3"
+        },
+        "normal.png": {
+          "bytes": 1382582,
+          "sha256": "2493520e4d948fdc7ef429ea46dbcfbabd5ed92d9a26cf164c7e3fd16bf0dec1"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 316451,
+          "sha256": "c541934f6a399ca6f6a6f0e9d09fbc4c67ae937a3913997a2358b858cc8994f9"
+        },
+        "roughness.png": {
+          "bytes": 448768,
+          "sha256": "89e8a64c9bf8a9b76ed5ce0ea7f60d2de1d2d83908ae45340a1ebf06b1cdf902"
+        },
+        "source.png": {
+          "bytes": 1643665,
+          "sha256": "386188987cd45c3f46203097c3acf77e2d5a5f9e2378c61bf5541c337a0e741a"
+        }
+      }
+    },
+    {
+      "id": "pit-inner-rock-2",
+      "category": "pit-inner-rock",
+      "seed": 1711203801,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dark volcanic crater inner wall rock material, deep irregular fractures, reddish weathered mineral deposits, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.332,
+      "seams": {
+        "before": {
+          "edge_mean_255": 33.06608581542969,
+          "interior_mean_255": 6.420312404632568,
+          "seam_ratio": 5.1502299308776855
+        },
+        "after": {
+          "edge_mean_255": 6.849607944488525,
+          "interior_mean_255": 6.398670673370361,
+          "seam_ratio": 1.0704736709594727
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 98614,
+          "sha256": "5493c4d0fa86f3de6292f2dc2d1e50dcef1ccaad1f6a90eb56a6fcbced716bc4"
+        },
+        "albedo.png": {
+          "bytes": 1648730,
+          "sha256": "575316a25ea7f1a710d48321ac71cf5aaac6b36c54a0673756342303e008fc02"
+        },
+        "albedo.webp": {
+          "bytes": 268668,
+          "sha256": "aa3e1f07ce8f2d2a5732e8820384c461933202a50d8a70a6db4208f5b214b851"
+        },
+        "height.png": {
+          "bytes": 835965,
+          "sha256": "7ed7d82e80b0da703d0d8d4bc4d5cfda98d78f9333c493a1d3402a3472081034"
+        },
+        "normal.png": {
+          "bytes": 1399409,
+          "sha256": "46c8d8ea82b66a440a7d33f508cf96181665d346fbda1a1343001de53996019f"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 285173,
+          "sha256": "ef73f4b55d4db32a86a99611c9e9d4f7901948b1729eaa61fe397c5d14fd31ab"
+        },
+        "roughness.png": {
+          "bytes": 450705,
+          "sha256": "56ee7e916127acde608f0cfab149a9b888b295e64c032a95fee689f2df3921fa"
+        },
+        "source.png": {
+          "bytes": 1649040,
+          "sha256": "b7233ddb256c3fee7be13dcfa22f4949e2ee5e66fad68ef636f7935235354402"
+        }
+      }
+    },
+    {
+      "id": "pit-inner-rock-3",
+      "category": "pit-inner-rock",
+      "seed": 1711203802,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dark volcanic crater inner wall rock material, deep irregular fractures, reddish weathered mineral deposits, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.408,
+      "seams": {
+        "before": {
+          "edge_mean_255": 33.693199157714844,
+          "interior_mean_255": 7.936078071594238,
+          "seam_ratio": 4.245573043823242
+        },
+        "after": {
+          "edge_mean_255": 7.756224632263184,
+          "interior_mean_255": 7.909283638000488,
+          "seam_ratio": 0.9806481599807739
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 106690,
+          "sha256": "99b1b1657939dd9034cd52a71088eaf06bdd62bb9743c6eddfdb4957be017528"
+        },
+        "albedo.png": {
+          "bytes": 1706293,
+          "sha256": "53d73c78407c500c44722c6f7fe6ff117ac5326ae2c2f6cd24d4b12658e4cbd1"
+        },
+        "albedo.webp": {
+          "bytes": 284740,
+          "sha256": "7b7a32f9e508dfc2be1df38438372474ec3f4d3ed6c09f179b03a47c4ff3e0df"
+        },
+        "height.png": {
+          "bytes": 866633,
+          "sha256": "119f69db9abcc9295e192516410a8d0c22f1814cc81b75fa9cb5a1a403b3c0fd"
+        },
+        "normal.png": {
+          "bytes": 1471549,
+          "sha256": "76250b6ff60c66361386e77e86a88e50654d1518d6b18885c0a338eb4d969c84"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 318179,
+          "sha256": "a2a356ce43c8ae5bf92e117c3a687ad41e7c516bb8ebecb6abf73cabbcaac1c5"
+        },
+        "roughness.png": {
+          "bytes": 475893,
+          "sha256": "43bfb70e4d92c18284fc54ae165e41448da3b76db93eeb3379fc5d84755a1e8f"
+        },
+        "source.png": {
+          "bytes": 1706121,
+          "sha256": "738d6d6c2e82ba2647110d172d25ba803fdde77cf8475c7cda5fae17d93f5003"
+        }
+      }
+    },
+    {
+      "id": "pit-rim-1",
+      "category": "pit-rim",
+      "seed": 1711203900,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, fractured basalt rock rim material, irregular cracked stone plates, fine pale ash in deep joints, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.134,
+      "seams": {
+        "before": {
+          "edge_mean_255": 36.73453903198242,
+          "interior_mean_255": 6.770712375640869,
+          "seam_ratio": 5.425506114959717
+        },
+        "after": {
+          "edge_mean_255": 9.132761001586914,
+          "interior_mean_255": 6.744879245758057,
+          "seam_ratio": 1.3540287017822266
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 89126,
+          "sha256": "da60e159d2a202cd667116454c089d91b8e8b10daea7784f41f8d599224652b1"
+        },
+        "albedo.png": {
+          "bytes": 1524297,
+          "sha256": "3fce2d66808592191cfff38c9a1c4923face69b75f9b161ff0daf48fe3374516"
+        },
+        "albedo.webp": {
+          "bytes": 248510,
+          "sha256": "f3e158c5c6b413037584c77db9b6975b3ca4a577552476aee744e84b4ebeacb1"
+        },
+        "height.png": {
+          "bytes": 812499,
+          "sha256": "845267f2f7007b53ea6c7f59b807867f928824b43ea264bdb001a86d0a6d70fd"
+        },
+        "normal.png": {
+          "bytes": 1318238,
+          "sha256": "faee2c55ca1fc13b3c865e8491dd1e6fcb56d00ae3e6d535cf5f789ade46f878"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 280004,
+          "sha256": "6abefdcf359631a863e975d6a6e8ad1132bfdb37c5a446d76afa903f90dc61b1"
+        },
+        "roughness.png": {
+          "bytes": 420922,
+          "sha256": "bea65e2f3e6592ca1c48bbe4c401d397f08cfecffaebbb834545f392898b415c"
+        },
+        "source.png": {
+          "bytes": 1520848,
+          "sha256": "dc7af98eeb87c91797ed90ab61cb4c053e9cee0dea4001eb60d13e1bfadcdbb2"
+        }
+      }
+    },
+    {
+      "id": "pit-rim-2",
+      "category": "pit-rim",
+      "seed": 1711203901,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, fractured basalt rock rim material, irregular cracked stone plates, fine pale ash in deep joints, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.016,
+      "seams": {
+        "before": {
+          "edge_mean_255": 33.025882720947266,
+          "interior_mean_255": 7.009920597076416,
+          "seam_ratio": 4.711306095123291
+        },
+        "after": {
+          "edge_mean_255": 7.465818405151367,
+          "interior_mean_255": 6.988000392913818,
+          "seam_ratio": 1.068376898765564
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 85944,
+          "sha256": "5ec29107f70f2045fa6bb31573b21fe48eff6d09cf1c8ca3e830d5d2f7e5a6ec"
+        },
+        "albedo.png": {
+          "bytes": 1523985,
+          "sha256": "6a38d07fc7639a2a3980b4f7a52dbf8ffba7b0adcb2f44f5d08038111997c879"
+        },
+        "albedo.webp": {
+          "bytes": 237000,
+          "sha256": "aa9ecea01a6d677f8418c9e06cae5d03fee3265f4bd489c404a4cfd5858a4780"
+        },
+        "height.png": {
+          "bytes": 804489,
+          "sha256": "9257d335a8f7b7390411fe82aa6e793ee7f265631f4a2e2b4ab450bbb16958b8"
+        },
+        "normal.png": {
+          "bytes": 1312686,
+          "sha256": "5292212340f4ff23aad9bfd0e35e31f48f05887651a4ef42483a252e13743066"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 308353,
+          "sha256": "6211d39157032f94ff4077ebd0611dbd5b2a349c0d46e2aa8defe747091d727a"
+        },
+        "roughness.png": {
+          "bytes": 415435,
+          "sha256": "6aaba688ccc33374ca953e8e86a396db4f89586f95c41864900e05fccf9e8ad9"
+        },
+        "source.png": {
+          "bytes": 1520940,
+          "sha256": "5e8ee5cdbe283949eaf26f4ca4c4cd0f7a09f954598946bc3072226087bcd072"
+        }
+      }
+    },
+    {
+      "id": "pit-rim-3",
+      "category": "pit-rim",
+      "seed": 1711203902,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, fractured basalt rock rim material, irregular cracked stone plates, fine pale ash in deep joints, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.484,
+      "seams": {
+        "before": {
+          "edge_mean_255": 41.684410095214844,
+          "interior_mean_255": 7.4256792068481445,
+          "seam_ratio": 5.613548278808594
+        },
+        "after": {
+          "edge_mean_255": 6.903351783752441,
+          "interior_mean_255": 7.4127278327941895,
+          "seam_ratio": 0.9312835931777954
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 106054,
+          "sha256": "c714ca2520a7d1a5b241781f6a15693ca81a57586cf8d0cd192522a25c307d24"
+        },
+        "albedo.png": {
+          "bytes": 1710437,
+          "sha256": "cae3e9dd3fd2cda1173dcde6c41a9da635292f4d07a15f2fdaf8592dfccedcc8"
+        },
+        "albedo.webp": {
+          "bytes": 270294,
+          "sha256": "fe53aab721be8022c6f8760ac181bf002f3aaaf89b92aec7edab22b8d392769f"
+        },
+        "height.png": {
+          "bytes": 861585,
+          "sha256": "4141b98c0896122ec3e9a608cf0822a66c9d92dfa81b2e03ff0b2ec15e7e28ab"
+        },
+        "normal.png": {
+          "bytes": 1435684,
+          "sha256": "2883c0e35efff3235350875e230f85589d05ad9121362d5ce0e7183862374bc2"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 313145,
+          "sha256": "fa32d3c91bd92503e2d7a316a64c4bcf460a19f08d24d284077a9946a0269560"
+        },
+        "roughness.png": {
+          "bytes": 474657,
+          "sha256": "5f70a1b0ec7e095cad0ba92a215c58e6102b09d5d168a1023630c40106f8a033"
+        },
+        "source.png": {
+          "bytes": 1709213,
+          "sha256": "270efea4559f8c678452f2e1963bb97c419d49bd36f1b993153901d35abf9b6f"
+        }
+      }
+    },
+    {
+      "id": "valley-silt-1",
+      "category": "valley-silt",
+      "seed": 1711204000,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, warm grey alluvial volcanic silt, flowing fine mineral sediment patterns, small scattered basalt pebbles, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.698,
+      "seams": {
+        "before": {
+          "edge_mean_255": 36.69889831542969,
+          "interior_mean_255": 6.326517105102539,
+          "seam_ratio": 5.800806045532227
+        },
+        "after": {
+          "edge_mean_255": 6.244987964630127,
+          "interior_mean_255": 6.299338340759277,
+          "seam_ratio": 0.9913720488548279
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 108134,
+          "sha256": "83f75b6484d17f66cb84d4878421a6cad1b07e36cfb877f6d6c1df9684301b74"
+        },
+        "albedo.png": {
+          "bytes": 1677424,
+          "sha256": "d9d1122202c9f24bfdaac58942cce9ee562306c2d2b144091b0d96cdedd6b6cb"
+        },
+        "albedo.webp": {
+          "bytes": 271802,
+          "sha256": "8f27988334be8921bc678b44812406a1404461b8243b9ae07276a7fb6193ff3c"
+        },
+        "height.png": {
+          "bytes": 797328,
+          "sha256": "ca8ff4e749e04cd116690cf875c2e3c805774723506391fa2c5cbf17f81ad7fd"
+        },
+        "normal.png": {
+          "bytes": 1379603,
+          "sha256": "8581fd32380fa86fb7f0f430f5f56eded247b311e9f24dbb9e4bf3c469df0a2d"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 308502,
+          "sha256": "263f267d8df0f3b42365fe3d3f58308ed1356c843c07e46ca78ea8d979e6bb40"
+        },
+        "roughness.png": {
+          "bytes": 441294,
+          "sha256": "235a2e2ea8eed7debe828c906bbfb3ef4e9d138f58ec983e5d3d778fc4ce4f2b"
+        },
+        "source.png": {
+          "bytes": 1680976,
+          "sha256": "797a82422d0ad66aef50c1fc20504433f7bffb72756014c80063b685d5b5152e"
+        }
+      }
+    },
+    {
+      "id": "valley-silt-2",
+      "category": "valley-silt",
+      "seed": 1711204001,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, warm grey alluvial volcanic silt, flowing fine mineral sediment patterns, small scattered basalt pebbles, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.287,
+      "seams": {
+        "before": {
+          "edge_mean_255": 33.694828033447266,
+          "interior_mean_255": 5.579938888549805,
+          "seam_ratio": 6.0385661125183105
+        },
+        "after": {
+          "edge_mean_255": 5.506523132324219,
+          "interior_mean_255": 5.571661949157715,
+          "seam_ratio": 0.9883089065551758
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 101518,
+          "sha256": "8899fb485198c31f8607bec5c04fcb3fa628fac05dfc9e4119046c237476d926"
+        },
+        "albedo.png": {
+          "bytes": 1606316,
+          "sha256": "2859550fe14d4d43f0d893b032e1f808ff1afc82dee8086397657fef57505ab7"
+        },
+        "albedo.webp": {
+          "bytes": 262886,
+          "sha256": "2e42767ad82464405d235c528e6c2738b1e54958b4690d56fea190615dce269f"
+        },
+        "height.png": {
+          "bytes": 760439,
+          "sha256": "367c848baf50e8387ea480eac96da3a112f7f892f6218b585a5a87ef4dff8a34"
+        },
+        "normal.png": {
+          "bytes": 1301692,
+          "sha256": "d5eee13a9ae3ebbda155359c1954a2d9f2da2ae81e03ffd65f1a8dc4e9f7e86c"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 305233,
+          "sha256": "d3d8e552482c50c33d33c2360146cc0ad0117a48d2fcd6d45d70d5e1fcdc2977"
+        },
+        "roughness.png": {
+          "bytes": 412717,
+          "sha256": "182e4bf676c9695ac14c2d43d84e8e1c7f64ed0645e9264c94fdcd82b33b03fc"
+        },
+        "source.png": {
+          "bytes": 1601767,
+          "sha256": "2212c83fac60f633bbd28346e3fed5789e20587424deb30ac1216672c0000385"
+        }
+      }
+    },
+    {
+      "id": "valley-silt-3",
+      "category": "valley-silt",
+      "seed": 1711204002,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, warm grey alluvial volcanic silt, flowing fine mineral sediment patterns, small scattered basalt pebbles, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.322,
+      "seams": {
+        "before": {
+          "edge_mean_255": 28.444011688232422,
+          "interior_mean_255": 5.133275508880615,
+          "seam_ratio": 5.541103363037109
+        },
+        "after": {
+          "edge_mean_255": 5.046032428741455,
+          "interior_mean_255": 5.125807285308838,
+          "seam_ratio": 0.9844366312026978
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 97094,
+          "sha256": "a80922529cca7e3d98b37aad7c6847f5999049048858e149460dbe5ff673de07"
+        },
+        "albedo.png": {
+          "bytes": 1556244,
+          "sha256": "496580db3374d49af4cd11ba0017c1b65039a2bf90d07970c09a12d79a7e938e"
+        },
+        "albedo.webp": {
+          "bytes": 242250,
+          "sha256": "0324882ca6436f7c451fdd46b9588b39fbdacef594f0f852ff492f9c50c55ceb"
+        },
+        "height.png": {
+          "bytes": 739491,
+          "sha256": "bb2096ae4abc64df70086e89cf8d2f4d896d995a2bdcaa5f55799cd8e0e7e016"
+        },
+        "normal.png": {
+          "bytes": 1260545,
+          "sha256": "7b75f8fbe5d319aad747ad38993d83f175cb4e8ede9d4342b51bb34316f6590d"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 293130,
+          "sha256": "97dcfe55a7f18d85515d6138b7ffbdfe3053843e66cc4b025c89d59a108d7591"
+        },
+        "roughness.png": {
+          "bytes": 401470,
+          "sha256": "a52bcaf81beaf137814902ed7332eddbdde7b5e843837a1e62537e3f91dec04d"
+        },
+        "source.png": {
+          "bytes": 1552736,
+          "sha256": "01c77f24240d11a30ccbe3931e27077dbeaf21cf5764792d7394c86f7c196beb"
+        }
+      }
+    },
+    {
+      "id": "valley-creek-bed-1",
+      "category": "valley-creek-bed",
+      "seed": 1711204100,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dry creek bed material, worn dark volcanic pebbles, fine ochre sand and natural mineral deposits, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.39,
+      "seams": {
+        "before": {
+          "edge_mean_255": 36.26871871948242,
+          "interior_mean_255": 6.131019592285156,
+          "seam_ratio": 5.915609836578369
+        },
+        "after": {
+          "edge_mean_255": 6.030794620513916,
+          "interior_mean_255": 6.111240386962891,
+          "seam_ratio": 0.9868363738059998
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 104356,
+          "sha256": "072f7ac9834a7a37003ee342f40b596471ca9035978515013e8604260b01bc3d"
+        },
+        "albedo.png": {
+          "bytes": 1677442,
+          "sha256": "6142d123a968aba2e68aaa8037421ca5f9b44eadab0c20eaab37e501e7656fcb"
+        },
+        "albedo.webp": {
+          "bytes": 258254,
+          "sha256": "55503e95163331fcdfcbc81cfe0c9cbf1518077154eea4de9d7d7a23a72512ef"
+        },
+        "height.png": {
+          "bytes": 786004,
+          "sha256": "b32b0ae0b3b122bbcdc16a3a7ca40f489fff933ca60d44226d8ae3a0bd74e5b0"
+        },
+        "normal.png": {
+          "bytes": 1367493,
+          "sha256": "499104e581e4fb00a1264ea7061521d61c397a13e078a28fe077085c7532eeef"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 321303,
+          "sha256": "9c6188c34b4a1c87bb1e50dd13d2bba3b85dbc9fe1d4b3265fcd4eee12a13d18"
+        },
+        "roughness.png": {
+          "bytes": 438605,
+          "sha256": "847c0ed6e42fe3756cda20577b39d8b8f8efea45441e2ca3b360f6ee53867b6c"
+        },
+        "source.png": {
+          "bytes": 1679919,
+          "sha256": "a284f9a2dab5137a723dc099f0b6d56279b44f6e91675623d97f4d868bc5eefe"
+        }
+      }
+    },
+    {
+      "id": "valley-creek-bed-2",
+      "category": "valley-creek-bed",
+      "seed": 1711204101,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dry creek bed material, worn dark volcanic pebbles, fine ochre sand and natural mineral deposits, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.329,
+      "seams": {
+        "before": {
+          "edge_mean_255": 37.86100387573242,
+          "interior_mean_255": 5.977046012878418,
+          "seam_ratio": 6.334400653839111
+        },
+        "after": {
+          "edge_mean_255": 6.884355545043945,
+          "interior_mean_255": 5.962646484375,
+          "seam_ratio": 1.1545804738998413
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 105276,
+          "sha256": "a9ebc74d86ed807d667b84f5cb174906de8b6eade07c70824934be01f8bfab18"
+        },
+        "albedo.png": {
+          "bytes": 1662270,
+          "sha256": "4cefd4e39c4e0d30c902610c1f68ff9f81e6051d7b6bf1e0b81851977f81499b"
+        },
+        "albedo.webp": {
+          "bytes": 272242,
+          "sha256": "c65ea9cb6e4ff415b4621556a5a7eae75164eea1134e724d741ec17a88e71920"
+        },
+        "height.png": {
+          "bytes": 776895,
+          "sha256": "31ba62a45c576c9a5a983794ef3fc98227f07fe1acbc99ddd870984bcc611d0f"
+        },
+        "normal.png": {
+          "bytes": 1330148,
+          "sha256": "a336f69fede168733c6abd3ef58c4f641b122e5b4a29b9fc99c585060e6092be"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 318298,
+          "sha256": "88896b663eee5443213cb7c575eab27b21c4a7f1ff98cc9ab7303534caa1b31a"
+        },
+        "roughness.png": {
+          "bytes": 426979,
+          "sha256": "af189aac4dcc8c6cfeb5c8dbf0121659681e62d816435869c425693925c47b3f"
+        },
+        "source.png": {
+          "bytes": 1660262,
+          "sha256": "02d6d1f823600306e26852de19405c28d9d467d9a10a00a7498eefc12f9e32be"
+        }
+      }
+    },
+    {
+      "id": "valley-creek-bed-3",
+      "category": "valley-creek-bed",
+      "seed": 1711204102,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dry creek bed material, worn dark volcanic pebbles, fine ochre sand and natural mineral deposits, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.81,
+      "seams": {
+        "before": {
+          "edge_mean_255": 32.499839782714844,
+          "interior_mean_255": 6.461312770843506,
+          "seam_ratio": 5.02991247177124
+        },
+        "after": {
+          "edge_mean_255": 6.125832557678223,
+          "interior_mean_255": 6.43731164932251,
+          "seam_ratio": 0.9516135454177856
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 112232,
+          "sha256": "a6ec629c72cdcb14d1f11b60a645ac6bbfa58e68cfddcb99a492827748160afe"
+        },
+        "albedo.png": {
+          "bytes": 1706881,
+          "sha256": "0ebb29a0b0f4ec2c7c22bef382d576a08b84d86f7291bd8346e5c43278a03c8a"
+        },
+        "albedo.webp": {
+          "bytes": 285822,
+          "sha256": "bfac1caa82cfb689b06d459d3ffbb3c53ee7dfd9c42a2537a4e3c799a23845ce"
+        },
+        "height.png": {
+          "bytes": 807750,
+          "sha256": "73330deb25b8fe8b0b08bd22c958c46472b90d5f95835fda0b621dade4eebe84"
+        },
+        "normal.png": {
+          "bytes": 1390641,
+          "sha256": "25af01e54e531b0e7f523be20a18f729c5401a56e33aae491434977f8f943aa7"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 321716,
+          "sha256": "d4fa77bb16e9ca6ddb6e61c70732d8c8cadf88065960054b2489d2070d29e16a"
+        },
+        "roughness.png": {
+          "bytes": 446815,
+          "sha256": "729d4eb844f8e153c81fb0d4a93eaaf7020bc26a725db69c7e2a61e7804fb86a"
+        },
+        "source.png": {
+          "bytes": 1710105,
+          "sha256": "4242010ba847d12f8a4ee537d21f650ec8758ff9c455cfb5a3b47c9b9900073a"
+        }
+      }
+    },
+    {
+      "id": "lowland-loam-1",
+      "category": "lowland-loam",
+      "seed": 1711204200,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, rich dark reddish volcanic loam, sparse tiny muted olive moss flecks, natural fine soil granules, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.927,
+      "seams": {
+        "before": {
+          "edge_mean_255": 29.069337844848633,
+          "interior_mean_255": 5.325088024139404,
+          "seam_ratio": 5.458940505981445
+        },
+        "after": {
+          "edge_mean_255": 4.845304489135742,
+          "interior_mean_255": 5.307354927062988,
+          "seam_ratio": 0.9129414558410645
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 108494,
+          "sha256": "107363410e927ea230b2c1de46ee49277d7256ab27df88d76b1ab01b5b967c90"
+        },
+        "albedo.png": {
+          "bytes": 1607162,
+          "sha256": "b4efac2772b893976f1dd87b17aba1590d501a1a28846f0a0a0fbecfcef418ad"
+        },
+        "albedo.webp": {
+          "bytes": 274726,
+          "sha256": "cd969a28f6dce309be47fe0befc3fb1ac0828a7ccfa56f9fbbdc032e5eca97e5"
+        },
+        "height.png": {
+          "bytes": 763798,
+          "sha256": "b3320467d039ecbd41040cf562361bc675fe0378fa81ae08b9aa03877ab1e2aa"
+        },
+        "normal.png": {
+          "bytes": 1297308,
+          "sha256": "86c74a7f31ee22d74c27edce31322549d13e7e944fee545d03bd48beb90382d8"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 283554,
+          "sha256": "c49875e29f2e8006ad026613917125bd2c682b4123bb860b13a88b8b287e356a"
+        },
+        "roughness.png": {
+          "bytes": 418639,
+          "sha256": "3f9598c989706790c316630d6b04c909a97f27226563fec79fa553b72cb03393"
+        },
+        "source.png": {
+          "bytes": 1607156,
+          "sha256": "7c4e954393eda56bf409abd609e00be9df3a5d82f8fd02d572c99714bd71f23a"
+        }
+      }
+    },
+    {
+      "id": "lowland-loam-2",
+      "category": "lowland-loam",
+      "seed": 1711204201,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, rich dark reddish volcanic loam, sparse tiny muted olive moss flecks, natural fine soil granules, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.392,
+      "seams": {
+        "before": {
+          "edge_mean_255": 33.420902252197266,
+          "interior_mean_255": 6.389551162719727,
+          "seam_ratio": 5.230555534362793
+        },
+        "after": {
+          "edge_mean_255": 6.226186275482178,
+          "interior_mean_255": 6.36447811126709,
+          "seam_ratio": 0.9782713055610657
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 116606,
+          "sha256": "c9b335a306c5792084a7294328a8e361166a759d5b37eebdbc32664362e55d77"
+        },
+        "albedo.png": {
+          "bytes": 1726717,
+          "sha256": "041d97463004057670df6d59a74402871dbeb84d8f1c3bb6d1d64be95b0f32f0"
+        },
+        "albedo.webp": {
+          "bytes": 299044,
+          "sha256": "b09d1ef986d4cff2e4683659cfb269fac7d33dd01f5be4ae4fb8b45ac83915f7"
+        },
+        "height.png": {
+          "bytes": 807614,
+          "sha256": "00dac2078213e51100b26e0b12239f01545d1e91dd971e8292d124bab2a4948a"
+        },
+        "normal.png": {
+          "bytes": 1413606,
+          "sha256": "ac2fa7da4657f8eee8d7fbc71e2f380f09e7975aad5b765762d6b71e16c79d41"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 320052,
+          "sha256": "546eac02006399de3c29a4b27134fdfdcd3806f3a645e750c427d4616aa48cb3"
+        },
+        "roughness.png": {
+          "bytes": 447815,
+          "sha256": "e69beb3de2a237f0e564231d042163172acab5f960edca7f116d29168e9e3c34"
+        },
+        "source.png": {
+          "bytes": 1726870,
+          "sha256": "10ea1a93d16e098f507078781bb6d29239ecc8e9ff8e50d00815cd0e1bfbb33a"
+        }
+      }
+    },
+    {
+      "id": "lowland-loam-3",
+      "category": "lowland-loam",
+      "seed": 1711204202,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, rich dark reddish volcanic loam, sparse tiny muted olive moss flecks, natural fine soil granules, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.378,
+      "seams": {
+        "before": {
+          "edge_mean_255": 29.045412063598633,
+          "interior_mean_255": 5.493437767028809,
+          "seam_ratio": 5.287292003631592
+        },
+        "after": {
+          "edge_mean_255": 4.6798248291015625,
+          "interior_mean_255": 5.481749057769775,
+          "seam_ratio": 0.8537100553512573
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 103346,
+          "sha256": "d799a49784569388ebb596ebd83586a50624c25eb8c6707de69c2c47a9c01cf1"
+        },
+        "albedo.png": {
+          "bytes": 1605310,
+          "sha256": "a4bee2b4169b595b95243115e7f6011127d18e404c73f1791d7cafe208519acc"
+        },
+        "albedo.webp": {
+          "bytes": 264234,
+          "sha256": "81c05a08a82d6b27ac2b9b344742917e5453b6f73abc21f06aeb01bb4a31b649"
+        },
+        "height.png": {
+          "bytes": 750623,
+          "sha256": "ce82c862275ee78132b9f5dbe08b67998103bdacd1adc3f2b89c3694f2085145"
+        },
+        "normal.png": {
+          "bytes": 1289079,
+          "sha256": "eaccd6f6a1d4e79c39e38b6632b0ff481629ecbc204ee77c81dbc5c98b05d971"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 291986,
+          "sha256": "5bf4deb6ffd4accc8cecd64d268686ef2eb08167c52dcd89a29efd1eff88b321"
+        },
+        "roughness.png": {
+          "bytes": 417852,
+          "sha256": "b89d533a5c0ccdd232d4d9409ba271c8142537a9414d4d8a8ae06bf8380104f3"
+        },
+        "source.png": {
+          "bytes": 1603789,
+          "sha256": "fca3ff3dd7101f4485dde8c28020f82801135be4d0abced07281266cc0e4d20c"
+        }
+      }
+    },
+    {
+      "id": "lowland-gravel-1",
+      "category": "lowland-gravel",
+      "seed": 1711204300,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, broad lowland volcanic gravel material, small rounded black pebbles, warm fine brown sand, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.445,
+      "seams": {
+        "before": {
+          "edge_mean_255": 31.524578094482422,
+          "interior_mean_255": 7.063080787658691,
+          "seam_ratio": 4.463290214538574
+        },
+        "after": {
+          "edge_mean_255": 6.334982872009277,
+          "interior_mean_255": 7.028236389160156,
+          "seam_ratio": 0.9013617038726807
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 118050,
+          "sha256": "7c9be3cfe731b7d49ea9aff2cfeddb993bc2d06b4e0fdf2ee268e06cd5dc571a"
+        },
+        "albedo.png": {
+          "bytes": 1729005,
+          "sha256": "6c30f7aa5a093d93142e819bb11344c995ec7ad1db2a38ee4384c800264cdd95"
+        },
+        "albedo.webp": {
+          "bytes": 296290,
+          "sha256": "be46ae6b3a206053512d05761c27ad9e0d67fe564abaceaf88ec7cf69c4e6d4a"
+        },
+        "height.png": {
+          "bytes": 821350,
+          "sha256": "767e2f54615b9ae57cf03e5292156a654fbad09fc373f1ce9a4892a6c4d2f9c3"
+        },
+        "normal.png": {
+          "bytes": 1407772,
+          "sha256": "c07c07c61ee9ce83db0bd90530e5c9a6687bd21a9c077910a4ffdbfe0e2ac5c5"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 351455,
+          "sha256": "ef65c7ef3a2bbe88b38aa3ea6c548a4fb98640c691b2cc1b5fa8d696530e2f89"
+        },
+        "roughness.png": {
+          "bytes": 458481,
+          "sha256": "0399f583996a65304633bb26d77f8be47530b64050931dbe0e723f349d05a348"
+        },
+        "source.png": {
+          "bytes": 1732425,
+          "sha256": "bde429d5f58519ab26b94fe8b821052226b78199510d083cac06f845d509d875"
+        }
+      }
+    },
+    {
+      "id": "lowland-gravel-2",
+      "category": "lowland-gravel",
+      "seed": 1711204301,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, broad lowland volcanic gravel material, small rounded black pebbles, warm fine brown sand, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.391,
+      "seams": {
+        "before": {
+          "edge_mean_255": 30.599123001098633,
+          "interior_mean_255": 5.9572858810424805,
+          "seam_ratio": 5.136420249938965
+        },
+        "after": {
+          "edge_mean_255": 5.791179656982422,
+          "interior_mean_255": 5.9352874755859375,
+          "seam_ratio": 0.9757201075553894
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 104570,
+          "sha256": "f83622b60cebfe6bf612479cb09bf8c0863ddca5236be1d7436a4a36c273c150"
+        },
+        "albedo.png": {
+          "bytes": 1618819,
+          "sha256": "9d9b422ff08ca2e07ed6a5fddec0ef9c8e582be6da3a9d01e2a31601f117e608"
+        },
+        "albedo.webp": {
+          "bytes": 254938,
+          "sha256": "8905bd603f914ad3ce2e112ec3a3e4bb91447d9026f921988bd3883086925e92"
+        },
+        "height.png": {
+          "bytes": 763523,
+          "sha256": "53cadaab6d4e46558e85c9e20e7582c338bdf861190a543940f85dae637d358c"
+        },
+        "normal.png": {
+          "bytes": 1304625,
+          "sha256": "45f9a5d233f4f9bdf1886f345c201f278101104c523d4a91ed1e987ef8c9a785"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 334504,
+          "sha256": "8318e3abd8bce935f89dc99792b135851d3a0cdcc0c235b9c2c9b795cfeaa45f"
+        },
+        "roughness.png": {
+          "bytes": 417631,
+          "sha256": "859c5985365cb525aadc451868657bd396d74c04d93ebe31737f5256f17f8788"
+        },
+        "source.png": {
+          "bytes": 1622080,
+          "sha256": "2d9978f08032b6ab2e16c426154afce5199d628f19212b6c9f490fa692de1f89"
+        }
+      }
+    },
+    {
+      "id": "lowland-gravel-3",
+      "category": "lowland-gravel",
+      "seed": 1711204302,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, broad lowland volcanic gravel material, small rounded black pebbles, warm fine brown sand, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.211,
+      "seams": {
+        "before": {
+          "edge_mean_255": 35.345542907714844,
+          "interior_mean_255": 7.444436073303223,
+          "seam_ratio": 4.7479143142700195
+        },
+        "after": {
+          "edge_mean_255": 7.1591901779174805,
+          "interior_mean_255": 7.41760778427124,
+          "seam_ratio": 0.9651616215705872
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 122252,
+          "sha256": "f93dc3d8a7e4164e6b09c6171e8f308f43409361877bde4c00eccf7d693a5ba1"
+        },
+        "albedo.png": {
+          "bytes": 1717023,
+          "sha256": "57550a8c6be92d05853e1a255ba60c9fc66035222230e91c7cf98e8198967efd"
+        },
+        "albedo.webp": {
+          "bytes": 312940,
+          "sha256": "abf09c6d258f5d6546de8432c82c303af7fb1c96f0391e8b99d3869ee7eff328"
+        },
+        "height.png": {
+          "bytes": 823476,
+          "sha256": "491ddf617ab6a19ee0706d66d1123acc48708b227d35106c7bd5585932f94bce"
+        },
+        "normal.png": {
+          "bytes": 1434072,
+          "sha256": "6db56b5ae7d829ae18f2e48554889975414128e3c19e77d6553480d163ac2788"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 356170,
+          "sha256": "f96f946c14cd9368ee9c19521501fb99f42a06f0d61d2c014de84e35a08ab466"
+        },
+        "roughness.png": {
+          "bytes": 460700,
+          "sha256": "e5fa2495537b4cd3249a24ccdca8c8c1ddea7c35ece7ca6ca35f36eb4ba1a5d2"
+        },
+        "source.png": {
+          "bytes": 1725475,
+          "sha256": "f902519b18a0af58c1b86d584d52f40fa0a6aefbb6a2a4eedd21f656fdd77f63"
+        }
+      }
+    },
+    {
+      "id": "lava-cold-crust-1",
+      "category": "lava-cold-crust",
+      "seed": 1711204400,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, cooled black lava crust, wrinkled folded rock, rough obsidian basalt, subtle muted rust cracks, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.18,
+      "seams": {
+        "before": {
+          "edge_mean_255": 35.08333969116211,
+          "interior_mean_255": 6.303236961364746,
+          "seam_ratio": 5.565924167633057
+        },
+        "after": {
+          "edge_mean_255": 7.050384998321533,
+          "interior_mean_255": 6.28159761428833,
+          "seam_ratio": 1.122387170791626
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 93210,
+          "sha256": "2a1f8d0969b2b95b44826430d114cde1c72eaa99b45e31365eb05d6412096662"
+        },
+        "albedo.png": {
+          "bytes": 1623410,
+          "sha256": "90875dc63bc80197c33e56991a0e85d5696aa4ec905487b4d6e65c65d7de447f"
+        },
+        "albedo.webp": {
+          "bytes": 259080,
+          "sha256": "cc2a25d08c0598c6d0a49d238ee1b5901a308d0b97775f5ed78f363d0d91709b"
+        },
+        "height.png": {
+          "bytes": 831849,
+          "sha256": "617ed3fe34a5c6989f8870b9da78b4099678ec5dd25e68ec8e1a05926843fd04"
+        },
+        "normal.png": {
+          "bytes": 1414451,
+          "sha256": "6bd69063b04ce72ce20e1e070c6fd88a2a9af43da38b43d683bb3e3ff7fbe02e"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 283608,
+          "sha256": "cf10f30a620426fbebc797e2f996286c6cdd8409ed61c74e272197484047bcd0"
+        },
+        "roughness.png": {
+          "bytes": 444014,
+          "sha256": "cfc9ae3d36b6ec8f522ea274edd10e7c76e87ba2d77460ba266e241541f436bd"
+        },
+        "source.png": {
+          "bytes": 1621946,
+          "sha256": "4239ce159bcc832d33999a9fbce007e330784dc879f94edb5e7e9bd8a618bb8d"
+        }
+      }
+    },
+    {
+      "id": "lava-cold-crust-2",
+      "category": "lava-cold-crust",
+      "seed": 1711204401,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, cooled black lava crust, wrinkled folded rock, rough obsidian basalt, subtle muted rust cracks, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.186,
+      "seams": {
+        "before": {
+          "edge_mean_255": 36.011234283447266,
+          "interior_mean_255": 6.383005619049072,
+          "seam_ratio": 5.641736030578613
+        },
+        "after": {
+          "edge_mean_255": 6.652259826660156,
+          "interior_mean_255": 6.355630874633789,
+          "seam_ratio": 1.046671748161316
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 100906,
+          "sha256": "436c05b1118b7c98890ba0e15ac97bfc6cdd59431e76d6553262f5cd0392d4cd"
+        },
+        "albedo.png": {
+          "bytes": 1649585,
+          "sha256": "748a472c691e76279e6b9f4352a1e27d1aa33a240e3668f213b1ca9019e8752b"
+        },
+        "albedo.webp": {
+          "bytes": 267564,
+          "sha256": "2272c31fa5860122836b67bdb76f25cf6cb7f4072d5380da3f90148e34615d11"
+        },
+        "height.png": {
+          "bytes": 809706,
+          "sha256": "54808b1e2d9baf77fb04694f08291ce9df7d996c952ee2a87d8b19c0a2c48159"
+        },
+        "normal.png": {
+          "bytes": 1379910,
+          "sha256": "e806dab7e7b5eea33c44a0dd612f74d3258a478932a53fce2d397b42f28fd31d"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 310726,
+          "sha256": "f42f344dd81f82645bae2c2dcf22e5324468be7fbd578be3d8f23e1add58fc18"
+        },
+        "roughness.png": {
+          "bytes": 439533,
+          "sha256": "eb1f5ffa17661e8343f66216b315999a8090c08c23079252b9e66c2e0b608f64"
+        },
+        "source.png": {
+          "bytes": 1647835,
+          "sha256": "9804620a8e6f1f8e8d72f1ba144637834ba62ecd8e482d46849467d6c7e3608c"
+        }
+      }
+    },
+    {
+      "id": "lava-cold-crust-3",
+      "category": "lava-cold-crust",
+      "seed": 1711204402,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, cooled black lava crust, wrinkled folded rock, rough obsidian basalt, subtle muted rust cracks, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.208,
+      "seams": {
+        "before": {
+          "edge_mean_255": 37.34896469116211,
+          "interior_mean_255": 6.470126628875732,
+          "seam_ratio": 5.772524356842041
+        },
+        "after": {
+          "edge_mean_255": 6.885698318481445,
+          "interior_mean_255": 6.456312656402588,
+          "seam_ratio": 1.066506266593933
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 95152,
+          "sha256": "fff467208f1d3ed49f8fe77a290bd2bfa8e47361f619800656c04b25be60573a"
+        },
+        "albedo.png": {
+          "bytes": 1665826,
+          "sha256": "adb167bd8143ebf33a837e269d661a64e20bf173b2bed901d198d1b847229dcc"
+        },
+        "albedo.webp": {
+          "bytes": 268792,
+          "sha256": "b07f52d61ee8efeae80fd69a18abd0a8845b8855349986f43032ad697eb1d744"
+        },
+        "height.png": {
+          "bytes": 851379,
+          "sha256": "ce5e41f116641980a9b11abee5b5569a3ac2135660ec84c49802bc5a33fce8f8"
+        },
+        "normal.png": {
+          "bytes": 1443373,
+          "sha256": "570a5d75fff99ecac0331d19a7e2e57ab7bdd4e2f38c5ba6bece5aa2333e771a"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 297278,
+          "sha256": "982217246513519b9d7bdfbcdf2c5598ba92a0fa1e515c31704148e3c5bf4e7e"
+        },
+        "roughness.png": {
+          "bytes": 456418,
+          "sha256": "beaa15f6b205326ea484e8ef83d7ba1c0dd2015a8dc1a4d4982ced43082c85ad"
+        },
+        "source.png": {
+          "bytes": 1664070,
+          "sha256": "21a72a655250b9588fa348fb2261dd06d8aff87d40b94eaf625ca30a2198a842"
+        }
+      }
+    },
+    {
+      "id": "lava-ember-cracks-1",
+      "category": "lava-ember-cracks",
+      "seed": 1711204500,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, charcoal volcanic lava crust, sparse thin deep orange ember fissures, mostly dark solid rough rock, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.284,
+      "seams": {
+        "before": {
+          "edge_mean_255": 25.56819725036621,
+          "interior_mean_255": 5.363753318786621,
+          "seam_ratio": 4.766848087310791
+        },
+        "after": {
+          "edge_mean_255": 4.473212242126465,
+          "interior_mean_255": 5.35627555847168,
+          "seam_ratio": 0.8351348042488098
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 97372,
+          "sha256": "3b22035d95b05a3e7bf75e8092b8ab2662ef75b2ea6179578bffed0830725e59"
+        },
+        "albedo.png": {
+          "bytes": 1600153,
+          "sha256": "fed7063f6e3ef42674691554498db1bf5009a4a6b98ab74a0d9321017df03bc1"
+        },
+        "albedo.webp": {
+          "bytes": 252308,
+          "sha256": "a8be4b0b68a8ec8210530ac8de6a5b4114187308e87aa178b7a84d50d95a86f1"
+        },
+        "height.png": {
+          "bytes": 757798,
+          "sha256": "1095fae88ece42fb8487b02649613c4840bd5b6fd0d3ceabb2d5c245c375c42b"
+        },
+        "normal.png": {
+          "bytes": 1328421,
+          "sha256": "595963dda8f7f15a8c48729fb390cf9fe0728e8fe00f1e6e9c59391e66c86c9e"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 315668,
+          "sha256": "793c64360c6a29d17d94497492f6c1d52a4c1febe5b34474f1621d0320fd0b25"
+        },
+        "roughness.png": {
+          "bytes": 411461,
+          "sha256": "12edfe68ccaf239d8bc86b4e9c3ca5bcd8d793c985228ce1ac4721d6eacc9e1a"
+        },
+        "source.png": {
+          "bytes": 1596650,
+          "sha256": "b14bb8dc56154cbb8455d17a82f9bb5fe5414063b4bfad57f82663525a4e7e10"
+        }
+      }
+    },
+    {
+      "id": "lava-ember-cracks-2",
+      "category": "lava-ember-cracks",
+      "seed": 1711204501,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, charcoal volcanic lava crust, sparse thin deep orange ember fissures, mostly dark solid rough rock, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.142,
+      "seams": {
+        "before": {
+          "edge_mean_255": 35.90104293823242,
+          "interior_mean_255": 7.34896993637085,
+          "seam_ratio": 4.885180473327637
+        },
+        "after": {
+          "edge_mean_255": 7.985635280609131,
+          "interior_mean_255": 7.304291248321533,
+          "seam_ratio": 1.0932799577713013
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 115450,
+          "sha256": "ff38c43b24790b5e7afb9256b3cfb4ef380d62869dc71837333d0e74be4cc379"
+        },
+        "albedo.png": {
+          "bytes": 1752419,
+          "sha256": "c1ab741df78c03a64ed3d2fa35602902e26f641def8e5095ca665f65ff8c5ff8"
+        },
+        "albedo.webp": {
+          "bytes": 303778,
+          "sha256": "8f326c57c01cad38bd8da8609b39d5128326f1ad33ab2c97b83464f273ff95e8"
+        },
+        "height.png": {
+          "bytes": 866520,
+          "sha256": "797d0c2539ec7b7c1509dbf4f722952b6dcc51f87fc1490668e3c840fb6f6174"
+        },
+        "normal.png": {
+          "bytes": 1541277,
+          "sha256": "e7e27d7512d817e8c1552ec92701b12b27a757282db862742751c67abee8c3ea"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 322425,
+          "sha256": "1cba320feb100f8a0e1d7f026ddf1af3434f09f22c3cd65d3cb62f8ead3ae63f"
+        },
+        "roughness.png": {
+          "bytes": 487244,
+          "sha256": "e8c9bee2ac75131676684ccd467240c195dd1e3308599ac79fb16454114df141"
+        },
+        "source.png": {
+          "bytes": 1764520,
+          "sha256": "2e78d0a89d7d9ab6b44f169605dec650fe94c910dd745dc59cf2d6c29a76980f"
+        }
+      }
+    },
+    {
+      "id": "lava-ember-cracks-3",
+      "category": "lava-ember-cracks",
+      "seed": 1711204502,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, charcoal volcanic lava crust, sparse thin deep orange ember fissures, mostly dark solid rough rock, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 5.407,
+      "seams": {
+        "before": {
+          "edge_mean_255": 35.082523345947266,
+          "interior_mean_255": 6.293591022491455,
+          "seam_ratio": 5.574325084686279
+        },
+        "after": {
+          "edge_mean_255": 6.651124000549316,
+          "interior_mean_255": 6.272139549255371,
+          "seam_ratio": 1.060423493385315
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 102430,
+          "sha256": "6aff47efb4a55c628ec7a6d58bc887797165c84179b0e44041bbee4207ca580b"
+        },
+        "albedo.png": {
+          "bytes": 1657141,
+          "sha256": "36c4f71a127eb73ba696dfc4404666b217a65ac90eb0535f7a879986fc87490c"
+        },
+        "albedo.webp": {
+          "bytes": 266152,
+          "sha256": "22d158d1326086a582bad4d821eceb0abee48e3fba9891d5c2cc01409a999f23"
+        },
+        "height.png": {
+          "bytes": 813175,
+          "sha256": "ad6f53019a0c89deacfb01eea96952c7f2a16c3683d27801d4b16d5865c27557"
+        },
+        "normal.png": {
+          "bytes": 1433046,
+          "sha256": "b551449432698f56b0e851c145335a8e44fe942ef3d5d13adc0845afd3a72ccc"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 309297,
+          "sha256": "78b2d53c4b0015c15cc6332b0dcc0b08eb4bc37372dec4ee2e0e4b119d9366f5"
+        },
+        "roughness.png": {
+          "bytes": 449430,
+          "sha256": "f8c145952131eabe4769f42c48ff75fea3598ef95f23a1863b680c29681216c6"
+        },
+        "source.png": {
+          "bytes": 1654493,
+          "sha256": "da48386f3556660858eacf997d06982c4350f85259e16ef5d485a6718cc89f21"
+        }
+      }
+    }
+  ]
+}

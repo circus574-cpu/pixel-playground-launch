@@ -39,7 +39,7 @@ func run() -> void:
 	var old_core:=Boot.empty_state()
 	old_core.file="core-c100-old.pck"
 	check("c100_core_cannot_override_new_apk",Boot.compatible_state(old_core).file=="")
-	old_core.file="core-c101-current.pck"
+	old_core.file=Boot.pack_id()+"-current.pck"
 	check("matching_core_keeps_bootstrap_state",Boot.compatible_state(old_core).file==old_core.file)
 	check("missing_status_denied",not Service.permits_preview({}))
 	check("local_role_not_accepted",not Service.permits_preview({"maintenance":true,"roles":["admin"]}))
@@ -61,6 +61,9 @@ func run() -> void:
 	var world: Node2D=screen.world
 	check("isolated_world2d",world.get_world_2d()!=root.world_2d)
 	check("same_data_height",FileAccess.get_sha256("res://service_preview/pyra/data/height.r32")=="186b5bd6bc80da84a31b1c3fabd08bf413fde187b151360fe797355218a85324")
+	var material_checks: Dictionary=world.material_library.validate()
+	for name: String in material_checks:
+		check("service_material_"+name,bool(material_checks[name]))
 	var viewport: SubViewport=screen.preview.get_child(0)
 	var touch:=InputEventScreenTouch.new()
 	touch.index=3;touch.pressed=true;touch.position=Vector2(180,540)

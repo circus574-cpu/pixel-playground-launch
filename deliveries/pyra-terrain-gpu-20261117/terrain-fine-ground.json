@@ -1,0 +1,793 @@
+{
+  "model": "Lykon/dreamshaper-xl-v2-turbo",
+  "revision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+  "source": "/opt/ki-iso-art2/repo/ports/godot-isometric-pyra/materials/ash.webp",
+  "source_sha256": "c379361affdf82875233e0d0ee7be99f7981767d1051625f3aaf2df260426835",
+  "steps": 24,
+  "guidance": 3.0,
+  "strength": 0.4,
+  "status": "fine material candidates; visual acceptance pending",
+  "items": [
+    {
+      "id": "fine-warm-ash-1",
+      "category": "fine-warm-ash",
+      "seed": 1711202900,
+      "prompt": "Top down seamless flat material texture, warm russet volcanic ash powder, tiny ochre mineral grains, subtle natural fine soil detail, even neutral diffuse lighting, edge to edge natural surface, fine scale, no objects.",
+      "negative": "rocks, stones, pebbles, boulders, objects, buildings, trees, grass, grid, tiles, horizon, shadows, text, vignette",
+      "seconds": 5.599,
+      "seams": {
+        "before": {
+          "edge_mean_255": 7.223145484924316,
+          "interior_mean_255": 2.74711537361145,
+          "seam_ratio": 2.6293563842773438
+        },
+        "after": {
+          "edge_mean_255": 3.1551778316497803,
+          "interior_mean_255": 2.722108840942383,
+          "seam_ratio": 1.1590931415557861
+        },
+        "before_granular_refinement": {
+          "edge_mean_255": 1.7176538705825806,
+          "interior_mean_255": 2.7469024658203125,
+          "seam_ratio": 0.625305712223053
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 56912,
+          "sha256": "14e9ff443b4ce75632355e269298bc77474452412636aad6baf37e1b50012614"
+        },
+        "albedo.png": {
+          "bytes": 1278949,
+          "sha256": "7af3a09b2d5a1ee35dbe28f80da2c17d44e5331e978e912a90dbde1413b009f2"
+        },
+        "albedo.webp": {
+          "bytes": 240738,
+          "sha256": "80c4a24ad6751169c5b44a553a869f02bb9b6565d188e4d6d3d08043cc5b7824"
+        },
+        "height.png": {
+          "bytes": 918615,
+          "sha256": "6ac9d750860e9e3afd0b4da82c2b4641b915d8150b934e7160613e13e33b2e2c"
+        },
+        "normal.png": {
+          "bytes": 1922556,
+          "sha256": "962b19e5b7e5f22c2d824017863e770f2863d2fd9bf68fd97023c366e2f568cb"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 119856,
+          "sha256": "57043c8efda982fe8b7d74d4dc600c2b6d8756d91f5f196c2f3fbcf73a80b748"
+        },
+        "roughness.png": {
+          "bytes": 903796,
+          "sha256": "2d06619643b6d2e4c983c0e930cf3b5bf7d7baa74eb108d2132ce1a56c6004ad"
+        },
+        "source.png": {
+          "bytes": 1322528,
+          "sha256": "777729f889b35740227f888157abc937d0638f8359a9d30df256f15dfe55bfa9"
+        }
+      },
+      "refinement": {
+        "method": "GPU periodic FFT multiscale granular material, SDXL high-frequency detail, authored microrelief",
+        "seed": 1711216900,
+        "raw_ai_source_preserved": true,
+        "scope": "material only; no planet geometry"
+      }
+    },
+    {
+      "id": "fine-warm-ash-2",
+      "category": "fine-warm-ash",
+      "seed": 1711202901,
+      "prompt": "Top down seamless flat material texture, warm russet volcanic ash powder, tiny ochre mineral grains, subtle natural fine soil detail, even neutral diffuse lighting, edge to edge natural surface, fine scale, no objects.",
+      "negative": "rocks, stones, pebbles, boulders, objects, buildings, trees, grass, grid, tiles, horizon, shadows, text, vignette",
+      "seconds": 4.805,
+      "seams": {
+        "before": {
+          "edge_mean_255": 7.303874492645264,
+          "interior_mean_255": 2.736253499984741,
+          "seam_ratio": 2.669297456741333
+        },
+        "after": {
+          "edge_mean_255": 3.274291515350342,
+          "interior_mean_255": 2.725285053253174,
+          "seam_ratio": 1.2014491558074951
+        },
+        "before_granular_refinement": {
+          "edge_mean_255": 1.7357561588287354,
+          "interior_mean_255": 2.736051321029663,
+          "seam_ratio": 0.6344019174575806
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 49228,
+          "sha256": "e6cf1218c39dd3f98d675db284b81e241b6dcbe3f74f6e3aa05019053244c7cf"
+        },
+        "albedo.png": {
+          "bytes": 1278155,
+          "sha256": "20a7852ecbdf46a7b9b75b56288324bfcb81b807a1896ced9a19ca8fe2c15e8f"
+        },
+        "albedo.webp": {
+          "bytes": 240192,
+          "sha256": "f83cbdcadb76f6e2c322b4c0aa57048f31b4f50bdfda7b10a6110389cae34252"
+        },
+        "height.png": {
+          "bytes": 919157,
+          "sha256": "a60b73127352b6ac93c2efa42f563a4e3c0bc7098aed6579b193fb4143bde984"
+        },
+        "normal.png": {
+          "bytes": 1923069,
+          "sha256": "a12003c6a439e05e049d5fc1ac627b3c1384423700134ba9969a16a5db118b0e"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 119496,
+          "sha256": "049be71ab4f683a30e48aa6112ba05d7125b2bba3fddf227c9a045746a905557"
+        },
+        "roughness.png": {
+          "bytes": 903615,
+          "sha256": "a3cc85a2bd8a6bbd98e1dcfa88536f5d8af0732d086e924982fe6447d70b9f69"
+        },
+        "source.png": {
+          "bytes": 1329807,
+          "sha256": "0ed58122a99556af36f6425954a8bf04edb25fd5b9bc73628dde676e7f28f34f"
+        }
+      },
+      "refinement": {
+        "method": "GPU periodic FFT multiscale granular material, SDXL high-frequency detail, authored microrelief",
+        "seed": 1711216901,
+        "raw_ai_source_preserved": true,
+        "scope": "material only; no planet geometry"
+      }
+    },
+    {
+      "id": "fine-dark-ash-1",
+      "category": "fine-dark-ash",
+      "seed": 1711202910,
+      "prompt": "Top down seamless flat material texture, fine dark charcoal volcanic ash powder, restrained warm grey mineral grains, subtle detail, even neutral diffuse lighting, edge to edge natural surface, fine scale, no objects.",
+      "negative": "rocks, stones, pebbles, boulders, objects, buildings, trees, grass, grid, tiles, horizon, shadows, text, vignette",
+      "seconds": 4.831,
+      "seams": {
+        "before": {
+          "edge_mean_255": 6.741862773895264,
+          "interior_mean_255": 2.645845413208008,
+          "seam_ratio": 2.548093795776367
+        },
+        "after": {
+          "edge_mean_255": 3.0176475048065186,
+          "interior_mean_255": 2.600701093673706,
+          "seam_ratio": 1.16032075881958
+        },
+        "before_granular_refinement": {
+          "edge_mean_255": 1.6272826194763184,
+          "interior_mean_255": 2.6457624435424805,
+          "seam_ratio": 0.6150524616241455
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 39872,
+          "sha256": "4c9f7bbe93a0a3d1dcb8b85099a718a956dd35912274a3b3a6f47e92274fc69e"
+        },
+        "albedo.png": {
+          "bytes": 1240166,
+          "sha256": "9780679cc21398878e9a8accd672bc874bdb0d37a848877e551e3ef3e4db87ed"
+        },
+        "albedo.webp": {
+          "bytes": 194594,
+          "sha256": "32f92d93e185ff18df92d2879027925e8ae3d8e9d006c202c766a08f2a2a998b"
+        },
+        "height.png": {
+          "bytes": 919500,
+          "sha256": "4ff864dca39048f77c10c21dc3b18c6e55da4984da175fed3019a32bf6d5c983"
+        },
+        "normal.png": {
+          "bytes": 1922847,
+          "sha256": "2300951b8fd7075902543c73c56b250ac30ab1c5c2108eea54fba335a519d375"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 109618,
+          "sha256": "4118dde326f3b2a318f9f0a30c9d5d782866bbba3a95d80cd5f4db0ea196d158"
+        },
+        "roughness.png": {
+          "bytes": 903491,
+          "sha256": "91d0ad23f180456c06b10d69f91d12f62a3494e9732beb64ba92b8d5d1d1b4b6"
+        },
+        "source.png": {
+          "bytes": 1293432,
+          "sha256": "6b59461a4dd264c07e9895b225c5d0dfe18e6c189eb4411d86c8d3517c5a14f8"
+        }
+      },
+      "refinement": {
+        "method": "GPU periodic FFT multiscale granular material, SDXL high-frequency detail, authored microrelief",
+        "seed": 1711216910,
+        "raw_ai_source_preserved": true,
+        "scope": "material only; no planet geometry"
+      }
+    },
+    {
+      "id": "fine-dark-ash-2",
+      "category": "fine-dark-ash",
+      "seed": 1711202911,
+      "prompt": "Top down seamless flat material texture, fine dark charcoal volcanic ash powder, restrained warm grey mineral grains, subtle detail, even neutral diffuse lighting, edge to edge natural surface, fine scale, no objects.",
+      "negative": "rocks, stones, pebbles, boulders, objects, buildings, trees, grass, grid, tiles, horizon, shadows, text, vignette",
+      "seconds": 4.736,
+      "seams": {
+        "before": {
+          "edge_mean_255": 6.6207685470581055,
+          "interior_mean_255": 2.5594561100006104,
+          "seam_ratio": 2.586787223815918
+        },
+        "after": {
+          "edge_mean_255": 3.0142595767974854,
+          "interior_mean_255": 2.5949103832244873,
+          "seam_ratio": 1.161604404449463
+        },
+        "before_granular_refinement": {
+          "edge_mean_255": 1.639137864112854,
+          "interior_mean_255": 2.5592570304870605,
+          "seam_ratio": 0.6404741406440735
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 41256,
+          "sha256": "183a2914a6c7210fb1452a0b4261c645f27e16c278f9ebb01d8e32bcf6599e27"
+        },
+        "albedo.png": {
+          "bytes": 1239631,
+          "sha256": "67cc0e025d6c134fda88b54d2f61c609da48d0a01d3adeb6bf1cf101491ea7a3"
+        },
+        "albedo.webp": {
+          "bytes": 193550,
+          "sha256": "0e6256538c91daab408f22c6f6b36034f0e3a72c8b1bdb877c24971a35189774"
+        },
+        "height.png": {
+          "bytes": 918762,
+          "sha256": "afaab5cac8ba5e4fbfc87559f973adfdf364f6e2eebb19f928b3115bcaf378cc"
+        },
+        "normal.png": {
+          "bytes": 1922838,
+          "sha256": "8d17c648c3e9b52a083f2a2e2511f1698bddd96e284bcba8f8e33f1afddcbc15"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 110236,
+          "sha256": "b69e32eeb278b043fc4ef0b7e405c0c7e19c42daa288e30787f9332e8b0baa98"
+        },
+        "roughness.png": {
+          "bytes": 904019,
+          "sha256": "7a26394af48b1f67aea3d23b55dc5743314733dea800b34639bbc2c619be263f"
+        },
+        "source.png": {
+          "bytes": 1274689,
+          "sha256": "44bdcf159f6632e867c188260c3bc35628647a11d0b5e374d5973f1ff07427ea"
+        }
+      },
+      "refinement": {
+        "method": "GPU periodic FFT multiscale granular material, SDXL high-frequency detail, authored microrelief",
+        "seed": 1711216911,
+        "raw_ai_source_preserved": true,
+        "scope": "material only; no planet geometry"
+      }
+    },
+    {
+      "id": "fine-packed-road-1",
+      "category": "fine-packed-road",
+      "seed": 1711202920,
+      "prompt": "Top down seamless flat material texture, compacted fine reddish ash dirt road surface, smooth worn packed grit, subtle irregular erosion, even neutral diffuse lighting, edge to edge natural surface, fine scale, no objects.",
+      "negative": "rocks, stones, pebbles, boulders, objects, buildings, trees, grass, grid, tiles, horizon, shadows, text, vignette",
+      "seconds": 4.796,
+      "seams": {
+        "before": {
+          "edge_mean_255": 7.16032075881958,
+          "interior_mean_255": 2.8245532512664795,
+          "seam_ratio": 2.5350277423858643
+        },
+        "after": {
+          "edge_mean_255": 2.713974952697754,
+          "interior_mean_255": 2.3100075721740723,
+          "seam_ratio": 1.1748770475387573
+        },
+        "before_granular_refinement": {
+          "edge_mean_255": 1.7877447605133057,
+          "interior_mean_255": 2.8242859840393066,
+          "seam_ratio": 0.6329900026321411
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 40174,
+          "sha256": "517e9131fe3e698aa67b46201e2ea8a452995dfe771abf59dcfd844305133bc0"
+        },
+        "albedo.png": {
+          "bytes": 1212455,
+          "sha256": "39b4a1ff96155af00cfa28b3a16f4283c36cacd325bcecc04a4205560ab40a2b"
+        },
+        "albedo.webp": {
+          "bytes": 194000,
+          "sha256": "e5f9893a76ea61fc7b3a51b1625726a37ad76f5880f9e6fb9ea083f3ed0760ed"
+        },
+        "height.png": {
+          "bytes": 919720,
+          "sha256": "915398ef374597adfb152d93b24ca0e88860d5c76b1fe35cbafa52468d04386d"
+        },
+        "normal.png": {
+          "bytes": 1923519,
+          "sha256": "b0f2475c3323d5369f7a61b7d18901284c3a19571a1a60aeb061a89474e40f74"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 105918,
+          "sha256": "cc8f01305554b706b27bc8a4a4570d3bfac9d0664be1a2fb82610c4f0889fd18"
+        },
+        "roughness.png": {
+          "bytes": 903683,
+          "sha256": "6386ab2c742c656e1e71148ff98bccddad008696d12b97a0a2a191b85efb0840"
+        },
+        "source.png": {
+          "bytes": 1358648,
+          "sha256": "1e247faa271885d1e4ab040b3d83ebb91054701a22e169422496527f6efc3be2"
+        }
+      },
+      "refinement": {
+        "method": "GPU periodic FFT multiscale granular material, SDXL high-frequency detail, authored microrelief",
+        "seed": 1711216920,
+        "raw_ai_source_preserved": true,
+        "scope": "material only; no planet geometry"
+      }
+    },
+    {
+      "id": "fine-packed-road-2",
+      "category": "fine-packed-road",
+      "seed": 1711202921,
+      "prompt": "Top down seamless flat material texture, compacted fine reddish ash dirt road surface, smooth worn packed grit, subtle irregular erosion, even neutral diffuse lighting, edge to edge natural surface, fine scale, no objects.",
+      "negative": "rocks, stones, pebbles, boulders, objects, buildings, trees, grass, grid, tiles, horizon, shadows, text, vignette",
+      "seconds": 4.795,
+      "seams": {
+        "before": {
+          "edge_mean_255": 7.377605438232422,
+          "interior_mean_255": 2.7640585899353027,
+          "seam_ratio": 2.6691203117370605
+        },
+        "after": {
+          "edge_mean_255": 2.7674999237060547,
+          "interior_mean_255": 2.302685260772705,
+          "seam_ratio": 1.2018576860427856
+        },
+        "before_granular_refinement": {
+          "edge_mean_255": 1.7943295240402222,
+          "interior_mean_255": 2.763888120651245,
+          "seam_ratio": 0.6492048501968384
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 40322,
+          "sha256": "0b434eb62f547faf48dfeb9de96cee867e1dd5d4da489556e4624d35d82ff05c"
+        },
+        "albedo.png": {
+          "bytes": 1211255,
+          "sha256": "5dcc4ea225c31f0245ecd4972534eb62468651b0aaf2e132b35382de660d456c"
+        },
+        "albedo.webp": {
+          "bytes": 193780,
+          "sha256": "cd5fcc57ab6abfeeeb1ef27ff942b5cb5e8a284309644f73ccf32fdc37368bab"
+        },
+        "height.png": {
+          "bytes": 919427,
+          "sha256": "b4263e38cb1d19e09a21fc41284711ebac6959ba3f94c3606e780c65e242d1eb"
+        },
+        "normal.png": {
+          "bytes": 1922567,
+          "sha256": "65dd5192c96d0fcb7054d77ec90fbe5bbf81f207faf1d2c0a3bc202c653a511a"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 105936,
+          "sha256": "92788c3edc4e9cde7b686e1a8aba143c2f9b9cf7aec40b03ba812e956156934a"
+        },
+        "roughness.png": {
+          "bytes": 903652,
+          "sha256": "843533037eda93c711c8d10c38c0411bba6cf81e1b83e430f1fead529dc05fec"
+        },
+        "source.png": {
+          "bytes": 1322203,
+          "sha256": "d8f8c0e2f3633c959a8d0100d918f0b27782f4277a7bee14b0685d43bff2c5f4"
+        }
+      },
+      "refinement": {
+        "method": "GPU periodic FFT multiscale granular material, SDXL high-frequency detail, authored microrelief",
+        "seed": 1711216921,
+        "raw_ai_source_preserved": true,
+        "scope": "material only; no planet geometry"
+      }
+    },
+    {
+      "id": "fine-valley-silt-1",
+      "category": "fine-valley-silt",
+      "seed": 1711202930,
+      "prompt": "Top down seamless flat material texture, fine warm grey volcanic silt, subtle natural sediment ripples, tiny fine sand grains, even neutral diffuse lighting, edge to edge natural surface, fine scale, no objects.",
+      "negative": "rocks, stones, pebbles, boulders, objects, buildings, trees, grass, grid, tiles, horizon, shadows, text, vignette",
+      "seconds": 4.898,
+      "seams": {
+        "before": {
+          "edge_mean_255": 6.780925273895264,
+          "interior_mean_255": 2.7825779914855957,
+          "seam_ratio": 2.4369218349456787
+        },
+        "after": {
+          "edge_mean_255": 3.3600802421569824,
+          "interior_mean_255": 2.896782398223877,
+          "seam_ratio": 1.1599352359771729
+        },
+        "before_granular_refinement": {
+          "edge_mean_255": 1.7099519968032837,
+          "interior_mean_255": 2.7822909355163574,
+          "seam_ratio": 0.6145841479301453
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 51642,
+          "sha256": "bfb8a5ffe471b68247fbc84f5ec41fe9648f354d45eb8a6ee5b9a95b6c0213ca"
+        },
+        "albedo.png": {
+          "bytes": 1269403,
+          "sha256": "67bae223b002faf1b99821a5cc678333c580e93e0635a7c3c8dbe46ef32a4ecb"
+        },
+        "albedo.webp": {
+          "bytes": 212522,
+          "sha256": "298800e5af8e243295202698d9847514f8b131729c0c58f9ab09e9fa8db171d9"
+        },
+        "height.png": {
+          "bytes": 919273,
+          "sha256": "6b8265a134d559212513ca70674b8c431fc0dfd20c5c76e151469cf1c59e1611"
+        },
+        "normal.png": {
+          "bytes": 1923011,
+          "sha256": "15c1d51be6f6d9ddfdb4a3fe7170fdda60ac19ecc8a19e9415ae098b02609a1f"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 118358,
+          "sha256": "a8581309201fd5559be10403c4770667898cba68dbd456af456bedf270bbef2f"
+        },
+        "roughness.png": {
+          "bytes": 904232,
+          "sha256": "f0d4d8769e579502253b3fc3d894bc469fad89a0d4547822d17a848820890553"
+        },
+        "source.png": {
+          "bytes": 1342550,
+          "sha256": "2817532a2899de2c382158472ec54244cea4cb0219d6c3c5f248aa8971e68ceb"
+        }
+      },
+      "refinement": {
+        "method": "GPU periodic FFT multiscale granular material, SDXL high-frequency detail, authored microrelief",
+        "seed": 1711216930,
+        "raw_ai_source_preserved": true,
+        "scope": "material only; no planet geometry"
+      }
+    },
+    {
+      "id": "fine-valley-silt-2",
+      "category": "fine-valley-silt",
+      "seed": 1711202931,
+      "prompt": "Top down seamless flat material texture, fine warm grey volcanic silt, subtle natural sediment ripples, tiny fine sand grains, even neutral diffuse lighting, edge to edge natural surface, fine scale, no objects.",
+      "negative": "rocks, stones, pebbles, boulders, objects, buildings, trees, grass, grid, tiles, horizon, shadows, text, vignette",
+      "seconds": 4.767,
+      "seams": {
+        "before": {
+          "edge_mean_255": 6.856446266174316,
+          "interior_mean_255": 2.6321752071380615,
+          "seam_ratio": 2.6048593521118164
+        },
+        "after": {
+          "edge_mean_255": 3.341984272003174,
+          "interior_mean_255": 2.8939907550811768,
+          "seam_ratio": 1.154801368713379
+        },
+        "before_granular_refinement": {
+          "edge_mean_255": 1.6478264331817627,
+          "interior_mean_255": 2.63204288482666,
+          "seam_ratio": 0.6260637044906616
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 51320,
+          "sha256": "251c2b4ad162eecbce678c24b3a26e096cf58273ae94937996a6eb3e36066f6a"
+        },
+        "albedo.png": {
+          "bytes": 1268635,
+          "sha256": "b40c344a675dfe31c3d7ad0b5f8e39e1294945edb34d82ca21cc03d4c1be7c84"
+        },
+        "albedo.webp": {
+          "bytes": 211724,
+          "sha256": "9e09aad0264605e8f5001b0f24dafdf4f2f2203718d9ccb8e90abb5a66ded050"
+        },
+        "height.png": {
+          "bytes": 918916,
+          "sha256": "0e3c286e2b51e2accec0f9fbae6ace6bb25c7f6ab9587b4dcf6125320859006c"
+        },
+        "normal.png": {
+          "bytes": 1922629,
+          "sha256": "e7496bf8706660ed9883ea6f06142fbe1b6237e5b4c9244199ce47b36f02f6f3"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 118061,
+          "sha256": "867cae5c4c9e8b39135fc429e2dce08e3826828f9f3b8077532556232e4f556f"
+        },
+        "roughness.png": {
+          "bytes": 903665,
+          "sha256": "bb91f9b69f5bbcf232f428f1d146fb82016f1f865c33deb4854981b685c2082e"
+        },
+        "source.png": {
+          "bytes": 1328645,
+          "sha256": "f059f986dd825b98ad9261bf78fc73eecf2d5f96c9f2dc7e1513f3c8105194a4"
+        }
+      },
+      "refinement": {
+        "method": "GPU periodic FFT multiscale granular material, SDXL high-frequency detail, authored microrelief",
+        "seed": 1711216931,
+        "raw_ai_source_preserved": true,
+        "scope": "material only; no planet geometry"
+      }
+    },
+    {
+      "id": "fine-lowland-soil-1",
+      "category": "fine-lowland-soil",
+      "seed": 1711202940,
+      "prompt": "Top down seamless flat material texture, rich muted brown volcanic loam soil, tiny fine natural mineral grains, soft soil detail, even neutral diffuse lighting, edge to edge natural surface, fine scale, no objects.",
+      "negative": "rocks, stones, pebbles, boulders, objects, buildings, trees, grass, grid, tiles, horizon, shadows, text, vignette",
+      "seconds": 4.792,
+      "seams": {
+        "before": {
+          "edge_mean_255": 7.126628875732422,
+          "interior_mean_255": 2.698298931121826,
+          "seam_ratio": 2.6411561965942383
+        },
+        "after": {
+          "edge_mean_255": 2.533879280090332,
+          "interior_mean_255": 2.1005795001983643,
+          "seam_ratio": 1.206276297569275
+        },
+        "before_granular_refinement": {
+          "edge_mean_255": 1.7588785886764526,
+          "interior_mean_255": 2.6980698108673096,
+          "seam_ratio": 0.6519024968147278
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 38146,
+          "sha256": "2547bfc0c553f4435ad826fde8d3f5a1d0616337670e2c9278ee181693a9c50b"
+        },
+        "albedo.png": {
+          "bytes": 1188182,
+          "sha256": "751184f9ceaffb5ab3efa3de219405836bba30013175d68b2ce264aa1e9af424"
+        },
+        "albedo.webp": {
+          "bytes": 184588,
+          "sha256": "d8e5d0ee10b70f482fb9e7e63ef0dcfcbccee66774adf1d75327a763162eabdc"
+        },
+        "height.png": {
+          "bytes": 919810,
+          "sha256": "60bda9ccb8e64a8c8f8aed632c7195a9d36b52ae5130ea1dc2355f59c8fd4575"
+        },
+        "normal.png": {
+          "bytes": 1923593,
+          "sha256": "fff80a63a5d8fd9572957c970b7771ac2c3dd13e93e7396a9037e45d441ffd66"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 101123,
+          "sha256": "6c7004605ba1f5345824186cb040743be0365832b310bda7fad16bf0bfeba18c"
+        },
+        "roughness.png": {
+          "bytes": 904445,
+          "sha256": "be1d82ea5268912b078367ab57f9d0726b7879686b0e6cd36934676641e28a66"
+        },
+        "source.png": {
+          "bytes": 1310539,
+          "sha256": "f644a110430c27ad7a580baec5331438e6a1998766046c2dd239951d0c4fa285"
+        }
+      },
+      "refinement": {
+        "method": "GPU periodic FFT multiscale granular material, SDXL high-frequency detail, authored microrelief",
+        "seed": 1711216940,
+        "raw_ai_source_preserved": true,
+        "scope": "material only; no planet geometry"
+      }
+    },
+    {
+      "id": "fine-lowland-soil-2",
+      "category": "fine-lowland-soil",
+      "seed": 1711202941,
+      "prompt": "Top down seamless flat material texture, rich muted brown volcanic loam soil, tiny fine natural mineral grains, soft soil detail, even neutral diffuse lighting, edge to edge natural surface, fine scale, no objects.",
+      "negative": "rocks, stones, pebbles, boulders, objects, buildings, trees, grass, grid, tiles, horizon, shadows, text, vignette",
+      "seconds": 4.984,
+      "seams": {
+        "before": {
+          "edge_mean_255": 8.103841781616211,
+          "interior_mean_255": 2.8374109268188477,
+          "seam_ratio": 2.856069326400757
+        },
+        "after": {
+          "edge_mean_255": 2.494570016860962,
+          "interior_mean_255": 2.100921630859375,
+          "seam_ratio": 1.187369465827942
+        },
+        "before_granular_refinement": {
+          "edge_mean_255": 1.8831875324249268,
+          "interior_mean_255": 2.8372631072998047,
+          "seam_ratio": 0.6637338399887085
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 37764,
+          "sha256": "dbf3e1e626271d767b224e6ec4d69891bf4a9da724822a35f0b34ac493c07931"
+        },
+        "albedo.png": {
+          "bytes": 1189335,
+          "sha256": "e847bbf0df13162a02b97d885a93bce1d23fd317f8c08b9d2c8b16b5225c69d7"
+        },
+        "albedo.webp": {
+          "bytes": 184934,
+          "sha256": "dcebac0902e6c7b603452e41033d3c261c02b6154a6175fea5ecec9ffb137e75"
+        },
+        "height.png": {
+          "bytes": 919623,
+          "sha256": "9553af46403d7f9d7006465a87eb5c87db67414cf6f5de5f14890970b38a1ce3"
+        },
+        "normal.png": {
+          "bytes": 1923748,
+          "sha256": "ee1f387b2c7642e3a732705414f32d49a8bcc561a4d0e13339de108d2b1cd2f2"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 101330,
+          "sha256": "c1506caa2f45c47f38d8a9914ceec4d8e316e6ca4b49b8f81ab592ff82038c01"
+        },
+        "roughness.png": {
+          "bytes": 904091,
+          "sha256": "6e596deeeaf89c0656fa6555d9493c4936cc3e090ca9817eedd3df4b28b3cfd4"
+        },
+        "source.png": {
+          "bytes": 1317229,
+          "sha256": "0cef862f8733b3a215c0056b63a16c8d963dea1eaf93ebe92f9d2116a180e48b"
+        }
+      },
+      "refinement": {
+        "method": "GPU periodic FFT multiscale granular material, SDXL high-frequency detail, authored microrelief",
+        "seed": 1711216941,
+        "raw_ai_source_preserved": true,
+        "scope": "material only; no planet geometry"
+      }
+    },
+    {
+      "id": "fine-ochre-earth-1",
+      "category": "fine-ochre-earth",
+      "seed": 1711202950,
+      "prompt": "Top down seamless flat material texture, warm ochre volcanic earth, very fine natural soil grain, delicate weathered mineral variation, even neutral diffuse lighting, edge to edge natural surface, fine scale, no objects.",
+      "negative": "rocks, stones, pebbles, boulders, objects, buildings, trees, grass, grid, tiles, horizon, shadows, text, vignette",
+      "seconds": 4.79,
+      "seams": {
+        "before": {
+          "edge_mean_255": 7.217611789703369,
+          "interior_mean_255": 2.849128484725952,
+          "seam_ratio": 2.5332701206207275
+        },
+        "after": {
+          "edge_mean_255": 3.3860068321228027,
+          "interior_mean_255": 2.9811315536499023,
+          "seam_ratio": 1.1358126401901245
+        },
+        "before_granular_refinement": {
+          "edge_mean_255": 1.8143415451049805,
+          "interior_mean_255": 2.8489534854888916,
+          "seam_ratio": 0.6368449330329895
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 57880,
+          "sha256": "2db99789a99395b8d2f7c46c113ff8c64fc2518b9101794119dc5c8a6df0735f"
+        },
+        "albedo.png": {
+          "bytes": 1315661,
+          "sha256": "c34cf7ad83fec45234982171c2b1805c638898beb57db98604f16f8c4545bee1"
+        },
+        "albedo.webp": {
+          "bytes": 274074,
+          "sha256": "7f3d831573c045e384644b7508235da9ef1bc9d537b2b2d294c68df13167bf87"
+        },
+        "height.png": {
+          "bytes": 919613,
+          "sha256": "6353b17e5d200f82309fec5bf3481095732f93da73a48150e25e46467c6caf70"
+        },
+        "normal.png": {
+          "bytes": 1923239,
+          "sha256": "8e31721f19d9e66ac72eeebdd4f80f59c5d88a2853ea3a4436a4ef9bde5ffdce"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 130593,
+          "sha256": "44244168f64332d55e348b60bc8eefbf3b5017eef5074a4692c7489396338345"
+        },
+        "roughness.png": {
+          "bytes": 904082,
+          "sha256": "874b6d5083c31b7ab1e9aaa7f03241bf7486f62eaf4c5e4996696bdbfb483848"
+        },
+        "source.png": {
+          "bytes": 1334711,
+          "sha256": "6d33c7a790b91620e0a5990412847ea999ceb75c2a0a81616e23802e230d9cbb"
+        }
+      },
+      "refinement": {
+        "method": "GPU periodic FFT multiscale granular material, SDXL high-frequency detail, authored microrelief",
+        "seed": 1711216950,
+        "raw_ai_source_preserved": true,
+        "scope": "material only; no planet geometry"
+      }
+    },
+    {
+      "id": "fine-ochre-earth-2",
+      "category": "fine-ochre-earth",
+      "seed": 1711202951,
+      "prompt": "Top down seamless flat material texture, warm ochre volcanic earth, very fine natural soil grain, delicate weathered mineral variation, even neutral diffuse lighting, edge to edge natural surface, fine scale, no objects.",
+      "negative": "rocks, stones, pebbles, boulders, objects, buildings, trees, grass, grid, tiles, horizon, shadows, text, vignette",
+      "seconds": 4.781,
+      "seams": {
+        "before": {
+          "edge_mean_255": 6.950522422790527,
+          "interior_mean_255": 2.7612767219543457,
+          "seam_ratio": 2.5171408653259277
+        },
+        "after": {
+          "edge_mean_255": 3.5566565990448,
+          "interior_mean_255": 2.9757025241851807,
+          "seam_ratio": 1.195232629776001
+        },
+        "before_granular_refinement": {
+          "edge_mean_255": 1.74303138256073,
+          "interior_mean_255": 2.761141777038574,
+          "seam_ratio": 0.6312719583511353
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 62870,
+          "sha256": "30b27d429e9169fd353b4de7651a40da71e79d804964923c362090ca4ea63dcf"
+        },
+        "albedo.png": {
+          "bytes": 1316102,
+          "sha256": "6891d58f974cced453725ae6adb1800df136a1060d8d4b2c71028cd05009527a"
+        },
+        "albedo.webp": {
+          "bytes": 270622,
+          "sha256": "058ceb8fd6db7686e0dbb3d2ff5d7d5237a491316992bf8470dd2d52d9c9da99"
+        },
+        "height.png": {
+          "bytes": 919764,
+          "sha256": "668dfd11eea26ccd3df93efb4dc1920b79087cea4dac0f008c62f88c5123eb1d"
+        },
+        "normal.png": {
+          "bytes": 1923619,
+          "sha256": "8cdef5a2fc56c776e4e3c7de4b51e515a32e7c9965738d36eb180eac0b58e547"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 131616,
+          "sha256": "6cd0780dde2e0e0f843c1fb1b545561022974c4a793a1bdcadea45599263a7fc"
+        },
+        "roughness.png": {
+          "bytes": 904557,
+          "sha256": "3a892ed0bd1531f80c81bca5f0ae3235df1d6fbc625861850d608bd9f9f22b11"
+        },
+        "source.png": {
+          "bytes": 1314792,
+          "sha256": "491d8d68a48547e1fdce0c58785955a4f007edf0c7d1a77c1aeddc057c19b292"
+        }
+      },
+      "refinement": {
+        "method": "GPU periodic FFT multiscale granular material, SDXL high-frequency detail, authored microrelief",
+        "seed": 1711216951,
+        "raw_ai_source_preserved": true,
+        "scope": "material only; no planet geometry"
+      }
+    }
+  ],
+  "granular_refinement": "detail-pyra-ground.py; raw AI images retained; height now authored microrelief, not luminance reconstruction"
+}
