@@ -1,0 +1,4 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+Vulkan 1.4.329 - Forward Mobile - Using Device #0: NVIDIA - NVIDIA A40
+
+TERRAIN_QA {"android_device_tested":false,"draw_calls":243.0,"floor_delta":0.000152587890625,"fps":148.0,"gameplay_port_complete":false,"hero_on_floor":true,"hero_position":"(-40.0, 12.00015, 50.0)","movement":[{"cancel_releases":true,"distance":16.133581161499,"fps_cap":30,"on_floor":true,"second_thumb_keeps_movement":true,"sim_seconds":2.01666666666666},{"cancel_releases":true,"distance":16.133581161499,"fps_cap":120,"on_floor":true,"second_thumb_keeps_movement":true,"sim_seconds":2.01666666666666}],"regions":4,"renderer":"NVIDIA A40","terrain3d":true,"texture_bytes":158628352.0}

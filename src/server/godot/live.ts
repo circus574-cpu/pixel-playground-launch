@@ -9,6 +9,9 @@ import { LANDS, RACES } from "./saveRules";
 type Peer = {
   id: string;
   account: string;
+  token: string;
+  accessCheckedAt: number;
+  checkingAccess: boolean;
   nick: string;
   race: string;
   level: number;
@@ -34,7 +37,10 @@ export class GodotLive {
   private timer: NodeJS.Timeout | null = null;
   private seq = 0;
 
-  constructor(private readonly accounts: () => AccountService | null) {}
+  constructor(
+    private readonly accounts: () => AccountService | null,
+    private readonly admission?: (token: unknown) => Promise<void>,
+  ) {}
 
   count() {
     const byLand: Record<string, number> = {};
@@ -77,16 +83,21 @@ export class GodotLive {
         }
         let nick: string;
         try {
+          await this.admission?.(msg["token"]);
           nick = (await accounts.view(account)).nick;
         } catch {
-          socket.close(1008, "Konto niedostępne");
+          socket.close(1008, "Serwer niedostępny lub trwa konserwacja");
           return;
         }
+        if (socket.readyState !== 1) return;
         for (const [other, p] of this.peers)
           if (p.account === account) other.close(4000, "Zalogowano na innym urządzeniu");
         me = {
           id: "p" + ++this.seq,
           account,
+          token: String(msg["token"]),
+          accessCheckedAt: Date.now(),
+          checkingAccess: false,
           nick,
           race: race as string,
           level: num(msg["level"], 1, 20) ?? 1,
@@ -157,9 +168,25 @@ export class GodotLive {
     const all = [...this.peers.values()];
     for (const me of all) {
       if (me.socket.readyState !== 1) continue;
+      if (this.admission && Date.now() - me.accessCheckedAt >= 1000) {
+        if (!me.checkingAccess) {
+          me.checkingAccess = true;
+          void this.admission(me.token)
+            .then(() => {
+              me.accessCheckedAt = Date.now();
+              me.checkingAccess = false;
+            })
+            .catch(() => me.socket.close(1008, "Serwer jest w trakcie konserwacji"));
+        }
+        continue;
+      }
       const near = all
         .filter(
-          (p) => p !== me && p.land === me.land && Math.hypot(p.x - me.x, p.y - me.y) <= RADIUS,
+          (p) =>
+            p !== me &&
+            !p.checkingAccess &&
+            p.land === me.land &&
+            Math.hypot(p.x - me.x, p.y - me.y) <= RADIUS,
         )
         .sort((a, b) => Math.hypot(a.x - me.x, a.y - me.y) - Math.hypot(b.x - me.x, b.y - me.y))
         .slice(0, MAX_PEERS_SENT)

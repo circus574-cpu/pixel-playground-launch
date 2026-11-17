@@ -262,6 +262,9 @@ def core_files() -> list[str]:
         rel = str(p.relative_to(PROJECT))
         if not rel.startswith((".godot", "tests/", "tools/")):
             out.append(rel)
+    for p in sorted((PROJECT / "service_preview").rglob("*")):
+        if p.is_file() and p.suffix in (".gd", ".tscn", ".gdshader"):
+            out.append(str(p.relative_to(PROJECT)))
     return out
 
 
@@ -277,6 +280,11 @@ def core_listing(work: Path) -> list[dict]:
             remap = remaps / (rel.replace("/", "__") + ".remap")
             remap.write_text(f'[remap]\n\npath="res://{rel}"\n')
             listing.append({"pck": "res://" + rel + ".remap", "disk": str(remap)})
+    for p in sorted((PROJECT / "service_preview").rglob("*")):
+        if not p.is_file() or p.suffix in (".gd", ".tscn", ".gdshader", ".import", ".uid"):
+            continue
+        for rel in disk_files(str(p.relative_to(PROJECT))):
+            listing.append({"pck": "res://" + rel, "disk": str(PROJECT / rel)})
     return listing
 
 
@@ -351,6 +359,8 @@ def main() -> int:
         members, sizes = plan()
         print_plan(members, sizes)
     else:
+        subprocess.run([sys.executable, str(REPO / "scripts/godot/prepare_service_preview.py")], check=True)
+        subprocess.run(["godot", "--headless", "--editor", "--path", str(PROJECT), "--import"], check=True)
         build(args.version)
     return 0
 

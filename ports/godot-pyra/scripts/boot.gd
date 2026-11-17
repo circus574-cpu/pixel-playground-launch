@@ -23,7 +23,7 @@ extends Control
 
 signal finished(report: Dictionary)
 
-const CLIENT_CODE := 100                 # versionCode of this APK; the test in smoke.gd keeps it equal to export_presets.cfg
+const CLIENT_CODE := 101                 # service-preview bootstrap; cannot mount a cached c100 core
 const STATE_PATH := "user://core.json"
 const DIR := "user://content"
 const TARGET := "res://scenes/title.tscn"
@@ -59,6 +59,11 @@ static func pack_id() -> String:
 
 static func empty_state() -> Dictionary:
 	return {"file": "", "sha256": "", "bytes": 0, "good": "", "attempts": 0, "bad": []}
+
+static func compatible_state(state: Dictionary) -> Dictionary:
+	if str(state.get("file",""))!="" and not str(state.file).begins_with("core-c%d-"%CLIENT_CODE):
+		return empty_state() # Keep the file on disk; only discard the incompatible bootstrap reference.
+	return state
 
 static func read_state(text: String) -> Dictionary:
 	var state := empty_state()
@@ -406,7 +411,7 @@ func remove_old_cores(keep: Array) -> void:
 
 func run() -> void:
 	var report := {"core": "", "mounted": false, "downloaded": false, "reached": false, "broken": "", "gave_up": ""}
-	var state := read_state(read_text(STATE_PATH))
+	var state := compatible_state(read_state(read_text(STATE_PATH)))
 	say("Sprawdzam aktualizacje gry…")
 	var offer: Dictionary = await ask_server()
 	report.reached = bool(offer.reached)

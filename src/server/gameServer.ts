@@ -30,6 +30,7 @@ import { AccountService } from "./accounts/service";
 import { signingKey } from "./accounts/crypto";
 import { WorldOverrideService, worldHttp } from "./world/overrides";
 import { collectRuntimeStatus, restartHttp, runtimeHttp } from "./runtimeStatus";
+import { ServiceAccess } from "./serviceAccess";
 
 export interface GameServerConfig {
   port: number;
@@ -87,7 +88,14 @@ export class GameServer {
   private world: WorldOverrideService | null = null;
   /** Android game: cloud saves, content releases, presence (/ws/godot/*). */
   private godot: GodotStore | null = null;
-  private godotLive = new GodotLive(() => this.accounts);
+  private serviceAccess = new ServiceAccess(
+    () => this.godot,
+    () => this.accounts,
+  );
+  private godotLive = new GodotLive(
+    () => this.accounts,
+    (token) => this.serviceAccess.require(token),
+  );
   private tickCount = 0;
   private tickTimes: number[] = [];
   private onlineTickTimes: number[] = [];
@@ -147,6 +155,7 @@ export class GameServer {
         store: this.godot,
         accounts: this.accounts,
         online: () => this.godotLive.count(),
+        settingsChanged: () => this.serviceAccess.invalidate(),
       });
       return;
     }
@@ -157,7 +166,9 @@ export class GameServer {
     }
 
     if (url.split("?")[0] === "/ws/characters" || url.startsWith("/ws/characters/")) {
-      void characterHttp(req, res, this.characterRepository, this.verifyAccount);
+      void characterHttp(req, res, this.characterRepository, this.verifyAccount, (token) =>
+        this.serviceAccess.require(token),
+      );
       return;
     }
 
@@ -304,6 +315,7 @@ export class GameServer {
             }
           },
           repository: this.characterRepository,
+          admission: (token) => this.serviceAccess.require(token),
           verify: this.verifyAccount,
           role: async (token, subject) => {
             // VPS accounts first; tokens of the previous authority only during the transition.

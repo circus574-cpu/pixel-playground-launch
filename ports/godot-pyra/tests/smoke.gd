@@ -72,8 +72,8 @@ func run() -> void:
 	verify(film_16_9 == Rect2(0, 0, 1280, 720) and film_20_9.size.y <= 1080.0 / 0.9 + 0.01 and film_20_9.position.y >= -(film_20_9.size.y - 1080.0) * 0.8 - 0.01 and absf((film_20_9.position.y + film_20_9.size.y) - 1080.0) >= 0.0 and (film_20_9.size.y - 1080.0) <= 1080.0 * 0.112, "the film is cut by at most a tenth of its height on a wide phone, mostly at the top, and not at all on 16:9")
 	verify(film_21_9.size.y - 1080.0 <= 1080.0 * 0.112 and film_21_9.position.x > 0.0, "on a very wide screen the film keeps its picture and the sides stay in the backdrop colour")
 	var title_script: GDScript = load("res://scripts/title_screen.gd")
-	verify(str(ProjectSettings.get_setting("application/config/version", "")) == "1.10" and str(config.get_value("preset.0.options", "version/name", "")) == "1.10", "the app built from this tree is version 1.10 (same versionCode 100 as 1.0, so one server release serves both)")
-	verify(title_script.shown_version('{"manifest":{"version":"1.2"}}') == "1.2" and title_script.shown_version('{"manifest":{"version":"2026.11.17.2"}}') == "1.10" and title_script.shown_version("not json") == "1.10", "the player sees the version of the downloaded release (1.1, 1.2, ...), the app version otherwise")
+	verify(str(ProjectSettings.get_setting("application/config/version", "")) == "1.14" and str(config.get_value("preset.0.options", "version/name", "")) == "1.14", "the service-preview app is version 1.14 (versionCode 101 isolates it from c100 cores)")
+	verify(title_script.shown_version('{"manifest":{"version":"1.2"}}') == "1.2" and title_script.shown_version('{"manifest":{"version":"2026.11.17.2"}}') == "1.14" and title_script.shown_version("not json") == "1.14", "the player sees the version of the downloaded release (1.1, 1.2, ...), the app version otherwise")
 	# scripts/skin.gd is loaded by the APK's boot.gd before the server's code is mounted, so an installed app keeps the APK's copy for ever:
 	# its functions must stay those of APK 1.0 (new looks go to scripts/look.gd). Release 1.1 broke the sign-in window by breaking this.
 	var skin_names: Array = []

@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - ports/godot-pyra/**
+      - ports/godot-isometric-pyra/**
       - scripts/godot/**
       - src/test/godot-pyra-export.test.ts
       - .github/workflows/godot-pyra.yml
@@ -19,6 +20,10 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+      - name: Prepare the namespaced isometric service preview
+        run: |
+          git lfs pull --include='ports/godot-isometric-pyra/**'
+          python3 scripts/godot/prepare_service_preview.py
       - name: Install pinned Godot 4.6.3
         shell: bash
         run: |
@@ -38,6 +43,16 @@ jobs:
           if grep -E 'SCRIPT ERROR:|^ERROR:' godot-qa/import.txt; then exit 1; fi
       - name: Headless physics and input integration
         run: timeout 180s godot --headless --audio-driver Dummy --path ports/godot-pyra --script res://tests/smoke.gd -- --fresh --qa-output "$GITHUB_WORKSPACE/godot-qa/headless" > godot-qa/headless.txt 2>&1
+      - name: Service preview, private world and unchanged saves
+        run: |
+          timeout 180s xvfb-run -a -s '-screen 0 1600x900x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --audio-driver Dummy --rendering-method gl_compatibility --path ports/godot-pyra --script res://tests/service_preview.gd -- --qa-output="$GITHUB_WORKSPACE/godot-qa/service" > godot-qa/service.txt 2>&1
+          python3 - <<'PY'
+          import json, pathlib
+          result = json.loads(pathlib.Path('godot-qa/service/results.json').read_text())
+          assert result['failed'] == 0 and result['passed'] >= 21, result
+          text = pathlib.Path('godot-qa/service.txt').read_text()
+          assert 'SCRIPT ERROR:' not in text and '\nERROR:' not in text
+          PY
       - name: Mobile HUD, minimap and staff access
         shell: bash
         run: |

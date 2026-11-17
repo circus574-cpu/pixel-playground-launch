@@ -1,0 +1,8 @@
+{
+  "source_archive_sha256": "c6baa1dc172d1e53a277e917b1f3ab474f39f2e35a5734cf9e2e2350518fd260",
+  "source_archive_bytes": 9380622,
+  "contents": "Five original ComfyUI PNGs, including rejected first ash, and complete workflow submissions.",
+  "runtime": "ports/godot-isometric-pyra",
+  "authoring": "ports/godot-terrain3d",
+  "note": "Originals remain separate from processed runtime WebP exports."
+}

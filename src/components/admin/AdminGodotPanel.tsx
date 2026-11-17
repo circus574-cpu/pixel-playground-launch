@@ -83,8 +83,8 @@ export function AdminGodotPanel({ isAdmin }: { isAdmin: boolean }) {
             {when(overview.stats.lastWriteAt)}
           </li>
           <li>
-            Tryb serwisowy: <b>{s.maintenance ? "WŁĄCZONY" : "wyłączony"}</b>, minimalna wersja
-            aplikacji (versionCode): <b>{s.minClientCode}</b>
+            TEST SERWER: <b>{s.maintenance ? "tylko administrator" : "otwarty dla graczy"}</b>,
+            minimalna wersja aplikacji (versionCode): <b>{s.minClientCode}</b>
           </li>
         </ul>
         <small>
@@ -93,7 +93,7 @@ export function AdminGodotPanel({ isAdmin }: { isAdmin: boolean }) {
         </small>
       </section>
 
-      <Settings settings={s} isAdmin={isAdmin} run={run} />
+      <Settings key={s.updatedAt} settings={s} isAdmin={isAdmin} run={run} />
       <Releases overview={overview} isAdmin={isAdmin} run={run} setError={setError} />
       <Saves isAdmin={isAdmin} />
     </>
@@ -133,8 +133,12 @@ function Settings({
           onChange={(e) => setMaintenance(e.target.checked)}
           disabled={!isAdmin}
         />{" "}
-        Tryb serwisowy (gracze nie pobiorą treści; administrator wchodzi)
+        TEST SERWER — tylko administrator (strona gry i Android; pozostali widzą konserwację)
       </label>
+      <p>
+        Włączenie zamyka również aktywne połączenia zwykłych graczy. Konto z samą rolą GM nie ma
+        dostępu. Administrator może testować izometryczny prototyp Godota.
+      </p>
       <label style={field}>
         Komunikat serwisowy{" "}
         <input

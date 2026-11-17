@@ -1,0 +1,513 @@
+{
+  "ash": {
+    "source": "/workspace/runpod-slim/ComfyUI/output/KI_Pyra_Terrain3D/ash_r2_00001_.png",
+    "source_sha256": "8249ed7e88dcbbd815f59e84a084e280879bf8ce0e300d05d97d08dcbed2e091",
+    "runtime": "ash.webp",
+    "runtime_sha256": "c379361affdf82875233e0d0ee7be99f7981767d1051625f3aaf2df260426835",
+    "prompt_id": "2d5da72a-3df1-487d-ba4f-900ec04d92cd",
+    "processing": "periodic-plus-smooth, WebP quality 95; albedo only, not measured physical PBR",
+    "edge_error_before": 10.120768229166666,
+    "edge_error_after": 4.403645833333333,
+    "workflow": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "ki-sdxl-base.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "Seamless tileable fine volcanic ash texture, very fine dark warm grey dusty powder and sand, subtle smooth windblown ripples, tiny mineral specks, uniform flat diffuse ground albedo, orthographic top down, high resolution natural surface, fine scale"
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "text, letters, logo, watermark, border, frame, grid, blurry, low resolution, large objects, buildings, landscape, mountains, horizon, perspective, isometric, dramatic lighting, strong shadows, glowing lava, grass, plants, cobblestones, big pebbles, rounded stones, boulders, gravel, slabs"
+        }
+      },
+      "4": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1
+        }
+      },
+      "5": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "2",
+            0
+          ],
+          "negative": [
+            "3",
+            0
+          ],
+          "latent_image": [
+            "4",
+            0
+          ],
+          "seed": 17112031,
+          "steps": 30,
+          "cfg": 6.0,
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "denoise": 1.0
+        }
+      },
+      "6": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "5",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "7": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "6",
+            0
+          ],
+          "filename_prefix": "KI_Pyra_Terrain3D/ash_r2"
+        }
+      }
+    },
+    "execution": {
+      "status_str": "success",
+      "completed": true,
+      "messages": [
+        [
+          "execution_start",
+          {
+            "prompt_id": "2d5da72a-3df1-487d-ba4f-900ec04d92cd",
+            "timestamp": 1794930795137
+          }
+        ],
+        [
+          "execution_cached",
+          {
+            "nodes": [
+              "1",
+              "4"
+            ],
+            "prompt_id": "2d5da72a-3df1-487d-ba4f-900ec04d92cd",
+            "timestamp": 1794930795138
+          }
+        ],
+        [
+          "execution_success",
+          {
+            "prompt_id": "2d5da72a-3df1-487d-ba4f-900ec04d92cd",
+            "timestamp": 1794930802442
+          }
+        ]
+      ]
+    }
+  },
+  "basalt": {
+    "source": "/workspace/runpod-slim/ComfyUI/output/KI_Pyra_Terrain3D/basalt_00001_.png",
+    "source_sha256": "99f250f3d3631d8e44da2962e53d9adcc9d5d99d0cf0b4594afb9ad5b22cddb7",
+    "runtime": "basalt.webp",
+    "runtime_sha256": "659dd26a3ee0163f3cbe8e7068a3c195b706a7496ba85929f3e702a47fe71807",
+    "prompt_id": "ac738cd8-5a3a-4fb2-9c74-28af9bffa14a",
+    "processing": "periodic-plus-smooth, WebP quality 95; albedo only, not measured physical PBR",
+    "edge_error_before": 54.4462890625,
+    "edge_error_after": 9.562825520833334,
+    "workflow": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "ki-sdxl-base.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "Seamless tileable terrain albedo texture, fractured dark basalt stone ground, layered charcoal slate and muted rust mineral veins, small worn angular stones, elegant high detail fantasy action RPG volcanic landscape material, perfectly top down orthographic, evenly lit diffuse surface, no cast shadows, no perspective, no objects"
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "text, letters, logo, watermark, border, frame, grid, blurry, low resolution, large objects, buildings, landscape, mountains, horizon, perspective, isometric, dramatic lighting, strong shadows, glowing lava, grass, plants"
+        }
+      },
+      "4": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1
+        }
+      },
+      "5": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "2",
+            0
+          ],
+          "negative": [
+            "3",
+            0
+          ],
+          "latent_image": [
+            "4",
+            0
+          ],
+          "seed": 17112027,
+          "steps": 30,
+          "cfg": 6.0,
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "denoise": 1.0
+        }
+      },
+      "6": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "5",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "7": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "6",
+            0
+          ],
+          "filename_prefix": "KI_Pyra_Terrain3D/basalt"
+        }
+      }
+    },
+    "execution": {
+      "status_str": "success",
+      "completed": true,
+      "messages": [
+        [
+          "execution_start",
+          {
+            "prompt_id": "ac738cd8-5a3a-4fb2-9c74-28af9bffa14a",
+            "timestamp": 1794930374186
+          }
+        ],
+        [
+          "execution_cached",
+          {
+            "nodes": [
+              "1",
+              "3",
+              "4"
+            ],
+            "prompt_id": "ac738cd8-5a3a-4fb2-9c74-28af9bffa14a",
+            "timestamp": 1794930374187
+          }
+        ],
+        [
+          "execution_success",
+          {
+            "prompt_id": "ac738cd8-5a3a-4fb2-9c74-28af9bffa14a",
+            "timestamp": 1794930381401
+          }
+        ]
+      ]
+    }
+  },
+  "paving": {
+    "source": "/workspace/runpod-slim/ComfyUI/output/KI_Pyra_Terrain3D/paving_00001_.png",
+    "source_sha256": "8337698d1342dcefbf76673b6713ba19621315c223ddfe668ea3897448b19a15",
+    "runtime": "paving.webp",
+    "runtime_sha256": "97be0869dd80f2bc2fa3c22d7f3d0adc153710cc91cb8c1038e7d9b87caa7da9",
+    "prompt_id": "c11e557e-362d-47d4-bebd-38f21d0d436f",
+    "processing": "periodic-plus-smooth, WebP quality 95; albedo only, not measured physical PBR",
+    "edge_error_before": 30.628580729166668,
+    "edge_error_after": 5.8037109375,
+    "workflow": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "ki-sdxl-base.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "Seamless tileable terrain albedo texture, ancient dark basalt paving slabs, irregular closely fitted polygonal stones, worn warm copper edges and dark fine mortar, restrained realistic anime fantasy fortress courtyard stone floor, perfectly top down orthographic, evenly lit diffuse surface, no cast shadows, no perspective, no objects"
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "text, letters, logo, watermark, border, frame, grid, blurry, low resolution, large objects, buildings, landscape, mountains, horizon, perspective, isometric, dramatic lighting, strong shadows, glowing lava, grass, plants"
+        }
+      },
+      "4": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1
+        }
+      },
+      "5": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "2",
+            0
+          ],
+          "negative": [
+            "3",
+            0
+          ],
+          "latent_image": [
+            "4",
+            0
+          ],
+          "seed": 17112028,
+          "steps": 30,
+          "cfg": 6.0,
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "denoise": 1.0
+        }
+      },
+      "6": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "5",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "7": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "6",
+            0
+          ],
+          "filename_prefix": "KI_Pyra_Terrain3D/paving"
+        }
+      }
+    },
+    "execution": {
+      "status_str": "success",
+      "completed": true,
+      "messages": [
+        [
+          "execution_start",
+          {
+            "prompt_id": "c11e557e-362d-47d4-bebd-38f21d0d436f",
+            "timestamp": 1794930381402
+          }
+        ],
+        [
+          "execution_cached",
+          {
+            "nodes": [
+              "1",
+              "3",
+              "4"
+            ],
+            "prompt_id": "c11e557e-362d-47d4-bebd-38f21d0d436f",
+            "timestamp": 1794930381403
+          }
+        ],
+        [
+          "execution_success",
+          {
+            "prompt_id": "c11e557e-362d-47d4-bebd-38f21d0d436f",
+            "timestamp": 1794930388738
+          }
+        ]
+      ]
+    }
+  },
+  "cliff": {
+    "source": "/workspace/runpod-slim/ComfyUI/output/KI_Pyra_Terrain3D/cliff_00001_.png",
+    "source_sha256": "73b21b60930320969c920f9e4324ce716d141eba0515d5bbc4833da962ba1468",
+    "runtime": "cliff.webp",
+    "runtime_sha256": "23ef3410af36ecdbd76a7252f6d6e222e035f94385406bacdd22e4cff33a9a35",
+    "prompt_id": "41f575a6-1ba7-4ce6-b0ce-95c344c70be5",
+    "processing": "periodic-plus-smooth, WebP quality 95; albedo only, not measured physical PBR",
+    "edge_error_before": 46.805338541666664,
+    "edge_error_after": 7.877604166666667,
+    "workflow": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "ki-sdxl-base.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "Seamless tileable rock surface albedo texture, jagged layered black volcanic basalt cliff, smoky grey mineral bands and weathered brown stone, beautiful detailed natural weathering, dark fantasy action RPG, front orthographic evenly lit diffuse surface, no shadows, no scenery, no objects"
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "text, letters, logo, watermark, border, frame, grid, blurry, low resolution, large objects, buildings, landscape, mountains, horizon, perspective, isometric, dramatic lighting, strong shadows, glowing lava, grass, plants"
+        }
+      },
+      "4": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1
+        }
+      },
+      "5": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "2",
+            0
+          ],
+          "negative": [
+            "3",
+            0
+          ],
+          "latent_image": [
+            "4",
+            0
+          ],
+          "seed": 17112029,
+          "steps": 30,
+          "cfg": 6.0,
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "denoise": 1.0
+        }
+      },
+      "6": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "5",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "7": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "6",
+            0
+          ],
+          "filename_prefix": "KI_Pyra_Terrain3D/cliff"
+        }
+      }
+    },
+    "execution": {
+      "status_str": "success",
+      "completed": true,
+      "messages": [
+        [
+          "execution_start",
+          {
+            "prompt_id": "41f575a6-1ba7-4ce6-b0ce-95c344c70be5",
+            "timestamp": 1794930389051
+          }
+        ],
+        [
+          "execution_cached",
+          {
+            "nodes": [
+              "1",
+              "3",
+              "4"
+            ],
+            "prompt_id": "41f575a6-1ba7-4ce6-b0ce-95c344c70be5",
+            "timestamp": 1794930389052
+          }
+        ],
+        [
+          "execution_success",
+          {
+            "prompt_id": "41f575a6-1ba7-4ce6-b0ce-95c344c70be5",
+            "timestamp": 1794930396294
+          }
+        ]
+      ]
+    }
+  }
+}

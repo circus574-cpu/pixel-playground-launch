@@ -5,6 +5,7 @@ import hashlib
 import json
 import os
 import pathlib
+import re
 import shutil
 import subprocess
 import tempfile
@@ -16,6 +17,8 @@ parser.add_argument("--java", default=os.environ.get("JAVA_HOME", ""))
 parser.add_argument("--godot", default="godot")
 parser.add_argument("--debug-keystore", default=str(pathlib.Path.home() / ".local/share/ki-legends-godot/debug.keystore"))
 parser.add_argument("--output", default=str(root / "ports/godot-pyra/builds/ki-legends-pyra-debug.apk"))
+parser.add_argument("--reference-apk", default=str(root / "deliveries/godot-ki-legends-1.0/ki-legends-1.0.apk"),
+                    help="Previously published APK. Its certificate MUST match, otherwise no update is exported.")
 args = parser.parse_args()
 sdk = pathlib.Path(args.sdk).resolve()
 java = pathlib.Path(args.java).resolve() if args.java else pathlib.Path(shutil.which("java")).resolve().parents[1]
@@ -25,14 +28,23 @@ if not (sdk / "platform-tools/adb").is_file() or not tools:
 if not (java / "bin/keytool").is_file():
     parser.error("Pass a JDK with keytool using --java or JAVA_HOME.")
 out = pathlib.Path(args.output).resolve()
+reference = pathlib.Path(args.reference_apk).resolve()
+key = pathlib.Path(args.debug_keystore).resolve()
+if not reference.is_file():
+    parser.error("Brak opublikowanego APK do kontroli podpisu. Podaj --reference-apk (pełny plik, nie wskaźnik Git LFS).")
+if not key.is_file():
+    parser.error("Brak zachowanego klucza podpisu. Nie generuję nowego: uniemożliwiłby aktualizację istniejącej aplikacji.")
+probe = subprocess.run([str(tools[-1] / "apksigner"), "verify", "--print-certs", str(reference)], capture_output=True, text=True, check=True)
+certificates = re.findall(r"certificate SHA-256 digest: ([a-f0-9]{64})", probe.stdout)
+certificate = subprocess.check_output([str(java / "bin/keytool"), "-exportcert", "-keystore", str(key),
+                                       "-storepass", "android", "-alias", "androiddebugkey"])
+signer = hashlib.sha256(certificate).hexdigest()
+if certificates != [signer]:
+    parser.error("NIEZGODNY PODPIS z opublikowanym APK. Eksport aktualizacji zablokowany; potrzebny jest oryginalny debug.keystore.")
 out.parent.mkdir(parents=True, exist_ok=True)
+subprocess.run(["python3", str(root / "scripts/godot/prepare_service_preview.py")], check=True)
 with tempfile.TemporaryDirectory(prefix="ki-godot-export-") as directory:
     temp = pathlib.Path(directory)
-    key = pathlib.Path(args.debug_keystore).resolve()
-    key.parent.mkdir(parents=True, exist_ok=True)
-    if not key.exists():
-        subprocess.run([str(java / "bin/keytool"), "-genkeypair", "-keystore", str(key), "-storepass", "android", "-alias", "androiddebugkey", "-keypass", "android", "-dname", "CN=KI Legends Godot Prototype,O=Local Test,C=PL", "-keyalg", "RSA", "-keysize", "2048", "-validity", "10000"], check=True)
-        key.chmod(0o600)
     config = temp / "config/godot"
     config.mkdir(parents=True)
     values = {"export/android/android_sdk_path": str(sdk), "export/android/java_sdk_path": str(java), "export/android/debug_keystore": str(key), "export/android/debug_keystore_user": "androiddebugkey", "export/android/debug_keystore_pass": "android"}
@@ -41,4 +53,7 @@ with tempfile.TemporaryDirectory(prefix="ki-godot-export-") as directory:
     env = {**os.environ, "XDG_CONFIG_HOME": str(temp / "config"), "JAVA_HOME": str(java), "ANDROID_HOME": str(sdk)}
     subprocess.run([args.godot, "--headless", "--path", str(root / "ports/godot-pyra"), "--export-debug", "Android", str(out)], env=env, check=True)
     subprocess.run([str(tools[-1] / "apksigner"), "verify", "--verbose", str(out)], env=env, check=True)
+    exported = subprocess.check_output([str(tools[-1] / "apksigner"), "verify", "--print-certs", str(out)], text=True)
+    if re.findall(r"certificate SHA-256 digest: ([a-f0-9]{64})", exported) != certificates:
+        raise RuntimeError("Exported APK certificate differs from the published application; do not install it")
 print(json.dumps({"apk": str(out), "bytes": out.stat().st_size, "sha256": hashlib.sha256(out.read_bytes()).hexdigest(), "signing": "Local debug certificate, retained outside Git. Not a Play Store release."}))

@@ -116,6 +116,7 @@ def launch(base: Path, home: Path, port: int) -> dict:
 
 def main() -> int:
     builder = load_builder()
+    Fake.key = f"core-c{builder.client_code()}"
     work = Path("/tmp/ki-e2e-core")
     shutil.rmtree(work, ignore_errors=True)
     work.mkdir(parents=True)

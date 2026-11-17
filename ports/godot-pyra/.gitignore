@@ -3,3 +3,4 @@ builds/
 *.tmp
 *.log
 export_credentials.cfg
+service_preview/

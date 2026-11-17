@@ -164,7 +164,9 @@ func download(id: String, index: int, count: int, done_before: int, total_bytes:
 		http.timeout = 0.0
 		http.use_threads = true
 		online.add_child(http)
-		var error := http.request(url)
+		var headers:=PackedStringArray()
+		if online.access_token!="":headers.append("Authorization: Bearer "+online.access_token)
+		var error := http.request(url,headers)
 		if error != OK:
 			http.queue_free()
 			last_message = "Nie można połączyć się z serwerem."

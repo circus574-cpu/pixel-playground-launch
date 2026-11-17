@@ -5,12 +5,14 @@ import { RateLimiter } from "../accounts/http";
 import { ContentError, PACK_FILE_PATTERN, VERSION_PATTERN } from "./contentFiles";
 import { RevisionConflict, type GodotStore } from "./store";
 import { MAX_SAVE_SLOT, PLAYER_SAVE_SLOTS, SaveRejected } from "./saveRules";
+import { SERVICE_MESSAGE } from "../serviceAccess";
 
 export type GodotHttpDeps = {
   store: GodotStore | null;
   accounts: AccountService | null;
   /** Players currently on the live channel (admin overview). */
   online: () => { count: number; byLand: Record<string, number> };
+  settingsChanged?: () => void;
 };
 
 const validSlot = (slot: number) => Number.isInteger(slot) && slot >= 1 && slot <= MAX_SAVE_SLOT;
@@ -96,14 +98,32 @@ export async function godotHttp(
     if (method === "GET" && path === "/status") {
       const s = await store.settings();
       const live = deps.online();
+      const sub = accounts.subjectOf(bearer);
+      const admin = !!sub && (await accounts.roles(sub)).includes("admin");
       return send(200, {
         ok: true,
         serverTime: new Date().toISOString(),
         maintenance: s.maintenance,
+        message: s.maintenanceMessage || SERVICE_MESSAGE,
+        canEnter: !s.maintenance || admin,
+        canPreview: s.maintenance && admin,
         activeVersion: s.activeVersion,
         minClientCode: s.minClientCode,
         online: live.count,
       });
+    }
+
+    // Cached manifests must not bypass the switch. Status, auth and admin stay reachable.
+    if (path !== "/manifest" && !path.startsWith("/admin/")) {
+      const s = await store.settings();
+      if (s.maintenance) {
+        const sub = accounts.subjectOf(bearer);
+        if (!sub || !(await accounts.roles(sub)).includes("admin"))
+          return send(503, {
+            error: "MAINTENANCE",
+            message: s.maintenanceMessage || SERVICE_MESSAGE,
+          });
+      }
     }
 
     if (method === "GET" && path === "/manifest") {
@@ -284,6 +304,7 @@ export async function godotHttp(
       if (method === "POST" && path === "/admin/settings") {
         const actor = await staff(true);
         const settings = await store.updateSettings(actor, await jsonBody(4_000));
+        deps.settingsChanged?.();
         await accounts.audit(actor, "GODOT_SETTINGS", null, settings);
         return send(200, { settings });
       }
