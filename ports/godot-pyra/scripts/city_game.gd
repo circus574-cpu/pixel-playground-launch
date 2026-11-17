@@ -1703,6 +1703,11 @@ func start_new_character(new_race: String) -> void:
 		return
 	if not current_room.is_empty():
 		load_space("", city_return)
+	# A newly created character must not inherit a previous hero's death timer
+	# or movement lock (including when character creation follows a death).
+	respawn_timer = -1.0
+	respawn_started_ms = -1
+	player.locked = false
 	quests.reset()
 	story.reset()
 	dungeon_state = {}
