@@ -3,6 +3,7 @@ extends Control
 ## Painted map of the Pyra continent (65600 x 42304 units): cities, named places, the hero. Pan, pinch / wheel zoom, tap a marker.
 
 signal marker_picked(label: String)
+signal point_picked(world: Vector2)   # a spot of the land was tapped (a marker's own point, or the ground)
 
 var texture: Texture2D
 var world_size := Vector2(65600, 42304)
@@ -15,6 +16,8 @@ var dragging := false
 var drag_moved := false
 var drag_start := Vector2.ZERO
 var selected := ""
+var pin_active := false
+var pin := Vector2.ZERO
 var font: Font = ThemeDB.fallback_font
 var sea_color := Color("0c2f40")
 
@@ -107,6 +110,14 @@ func pick(at: Vector2) -> void:
 	selected = best
 	if best != "":
 		marker_picked.emit(best)
+		for marker in markers:
+			if str(marker.label) == best:
+				pin = marker.point
+	else:
+		pin = to_world(at)
+	pin_active = Rect2(Vector2.ZERO, world_size).has_point(pin)
+	if pin_active:
+		point_picked.emit(pin)
 	queue_redraw()
 
 const PRIORITY := {"city": 0, "famous": 1, "port": 2, "village": 2, "watchtower": 3, "shrine": 3, "cave": 4, "maze": 4}
@@ -174,6 +185,13 @@ func _draw() -> void:
 		plaques.append({"at": at + Vector2(14 + (w + 20) / 2.0, 0), "text": text, "px": px, "color": Color("ffe9bd") if big else Color("efe7d6"), "strong": big})
 	for plaque in plaques:   # captions go over every marker, so no pin sits on a name
 		MapStyle.plaque(self, plaque.at, str(plaque.text), int(plaque.px), plaque.color, bool(plaque.strong))
+	if pin_active:
+		var pa := to_screen(pin)
+		draw_circle(pa + Vector2(0, 3), 13.0, Color(0, 0, 0, 0.45))
+		draw_arc(pa, 15.0, 0.0, TAU, 32, Color("ffd76a"), 4.0, true)
+		draw_arc(pa, 22.0, 0.0, TAU, 32, Color(1.0, 0.85, 0.4, 0.5), 2.0, true)
+		draw_line(pa + Vector2(-9, 0), pa + Vector2(9, 0), Color("ffd76a"), 3.0, true)
+		draw_line(pa + Vector2(0, -9), pa + Vector2(0, 9), Color("ffd76a"), 3.0, true)
 	MapStyle.hero_marker(self, to_screen(player_world))
 	MapStyle.vignette(self, Rect2(Vector2.ZERO, size))
 	MapStyle.compass(self, Vector2(66, 82), 34.0)

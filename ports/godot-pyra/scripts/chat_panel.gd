@@ -56,6 +56,9 @@ func _ready() -> void:
 		closed.emit()
 		queue_free())
 	box.add_child(close_button)
+	Look.add_close(self, func() -> void:
+		closed.emit()
+		queue_free())
 	refresh()
 
 func add_line(nick: String, text: String) -> void:

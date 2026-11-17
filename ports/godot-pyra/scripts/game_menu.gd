@@ -20,7 +20,7 @@ func _ready() -> void:
 	shade.color = Color(0.015,0.01,0.02,0.9)
 	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(shade)
-	frame.add_theme_stylebox_override("panel",Look.window(28))
+	frame.add_theme_stylebox_override("panel",Look.window(58))
 	add_child(frame)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation",16)
@@ -28,13 +28,14 @@ func _ready() -> void:
 	var bar := HBoxContainer.new()
 	box.add_child(bar)
 	heading.text = "KI LEGENDS · MENU"
-	heading.add_theme_font_override("font",Look.title_font())
-	heading.add_theme_font_size_override("font_size",32)
+	Look.style_heading(heading,34)
 	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	heading.clip_text = true
+	heading.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	heading.custom_minimum_size.x = 0
 	bar.add_child(heading)
-	var back := make_button("WRÓĆ DO GRY",func():closed.emit())
-	back.custom_minimum_size.x = 260
-	bar.add_child(back)
+	Look.reserve_close(bar)
+	Look.add_close(self,func():closed.emit())
 	var scroll := ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL

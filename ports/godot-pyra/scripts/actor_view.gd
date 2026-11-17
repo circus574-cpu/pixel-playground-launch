@@ -95,7 +95,14 @@ func sheet(path: String) -> Texture2D:
 		sheet_cache[path] = load(path)
 	return sheet_cache[path]
 
+## Clips that stay in memory while the figure exists; every other clip is released after it has not been played for a while (see prune_clips).
+const KEEP_CLIPS := ["idle", "walk", "run", "kiidle", "kiwalk", "kirun"]
+const CLIP_IDLE_MS := 20000
+var clip_used: Dictionary = {}     # clip -> time (ms) it was last asked for
+var prune_timer := 0.0
+
 func ensure_clip(clip_name: String) -> bool:
+	clip_used[clip_name] = Time.get_ticks_msec()
 	if built.has(clip_name):
 		return built[clip_name]
 	if not definition.clips.has(clip_name):
@@ -249,7 +256,30 @@ func hurt_flash() -> void:
 	flash = 0.25
 	sprite.modulate = Color(1.0, 0.55, 0.5)
 
+## A hero rendered from a 3D model has 38 large sheets (~230 MB if all were in memory at once, more than a phone's graphics memory can spare next to the
+## terrain): the clips that have not been played for CLIP_IDLE_MS are released; they are built again, from disk, when played next.
+func prune_clips() -> void:
+	var now := Time.get_ticks_msec()
+	var playing := sprite.animation.get_slice(":", 0) if is_instance_valid(sprite) else ""
+	for clip_name: String in built.keys():
+		if KEEP_CLIPS.has(clip_name) or clip_name == playing or clip_name == one_shot_clip and now / 1000.0 < one_shot_until + 1.0:
+			continue
+		if not bool(built[clip_name]) or now - int(clip_used.get(clip_name, 0)) < CLIP_IDLE_MS:
+			continue
+		var clip: Dictionary = definition.clips[clip_name]
+		for facing: String in clip.directions:
+			var animation := clip_name + ":" + facing
+			if frames.has_animation(animation):
+				frames.remove_animation(animation)
+		built.erase(clip_name)
+		if clip.has("sheet") and sheet_cache.has(str(clip.sheet)):
+			sheet_cache.erase(str(clip.sheet))
+
 func _process(delta: float) -> void:
+	prune_timer += delta
+	if prune_timer >= 5.0:
+		prune_timer = 0.0
+		prune_clips()
 	if flash > 0.0:
 		flash -= delta
 		if flash <= 0.0:

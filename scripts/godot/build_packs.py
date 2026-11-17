@@ -8,6 +8,7 @@ particular land or world is moved into PCK files that the game downloads from th
   monsters-<w>   monster sheets and monster sounds of one world
   npcs-<w>       NPC sheets of one world
   heroes         the heroes of the four races (rendered from 3D models), needed by every land
+  minimaps       the minimap pictures of all lands (rendered from the real ground), needed by every land
   rooms-<w>      interior pictures of one world (and the first-trial floor for pyra)
   music-<w>      the continent music of one world
 
@@ -84,6 +85,8 @@ def classify(path: str) -> list[str]:
     parts = path.split("/")
     if parts[0] == "data" and len(parts) >= 3 and parts[1] == "lands":
         return [f"land-{parts[2]}"]
+    if parts[0] == "assets" and len(parts) >= 4 and parts[1] == "lands" and parts[3] in ("minimap.webp",):
+        return ["minimaps"]   # the minimap pictures rendered from the real ground: one small pack for every land, so a new picture does not re-download a land pack
     if parts[0] == "assets" and len(parts) >= 3 and parts[1] == "lands":
         return [f"land-{parts[2]}"]
     if parts[0] == "assets" and parts[1] == "monsters":
@@ -181,8 +184,9 @@ def requirements(members: dict[str, list[str]]) -> dict[str, list[str]]:
         for kind in ("npcs", "rooms", "music"):
             if f"{kind}-{world}" in members:
                 need.append(f"{kind}-{world}")
-        if "heroes" in members:
-            need.append("heroes")
+        for shared in ("heroes", "minimaps"):
+            if shared in members:
+                need.append(shared)
         out[land] = sorted(dict.fromkeys(need))
     return out
 

@@ -25,6 +25,8 @@ const WORLD_OF_RACE := {"legend": "pyra", "planetary": "verdant", "sage": "aethe
 const HOME_OF_RACE := {"legend": "pyra", "planetary": "verdant", "sage": "aether", "android": "nexus"}
 const LEGEND_PATH := "res://data/legend.json"
 const SAVE_PATH := "user://city-checkpoint-v1.json"
+const Characters := preload("res://scripts/characters.gd")
+var character_id := ""   # the id of the active character (scripts/characters.gd)
 const ALL_LANDS := ["pyra", "verdant", "aether", "nexus", "island-1", "island-2", "island-3", "island-4", "island-5", "island-6"]
 const SAVE_FORMAT := "ki-godot-pyra-save-2"
 const INTERACTION_RANGE := 160.0
@@ -259,7 +261,10 @@ func set_race(new_race: String) -> void:
 	kit.gear = economy.gear()
 	kit.terrain_at = func() -> String: return continent.terrain_kind(player.position) if is_instance_valid(continent) else "open"
 	hero = PyraActor.usable_hero(actors, str(WORLD_OF_RACE[race]))
-	for clip: Dictionary in (hero.clips as Dictionary).values():   # decode every animation sheet of the hero off the main thread
+	# decode off the main thread only the sheets used all the time; the rest (Ki form, skills, death...) load when first played,
+	# so a hero with many large sheets (the 3D renders: ~230 MB if all were in memory) does not fill a phone's memory at start
+	for clip_name in ["idle", "walk", "run", "attack", "attack2", "hit", "dodge"]:
+		var clip: Dictionary = (hero.clips as Dictionary).get(clip_name, {})
 		var sheet := str(clip.get("sheet", ""))
 		if sheet != "" and not ResourceLoader.has_cached(sheet):
 			ResourceLoader.load_threaded_request(sheet)
@@ -1624,6 +1629,10 @@ func open_map() -> void:
 		cave_names[str(entrance.id)] = str(entrance.name)
 	view.setup(map_data, land, player.position if current_room.is_empty() else city_return, region_name(), cave_names)
 	view.travel.connect(travel_to)
+	view.teleport_enabled = KiNet.online().is_staff()
+	view.teleport.connect(func(land_name: String, spot: Vector2) -> void:
+		close_screen()
+		await gm_tools.execute({"action": "teleport", "land": land_name, "x": spot.x, "y": spot.y}))
 	open_screen(view)
 
 func sync_staff_access() -> void:
@@ -1647,6 +1656,39 @@ func open_race_screen(can_close: bool = true) -> void:
 	view.chosen.connect(start_new_character)
 	open_screen(view)
 
+## The characters of this device (ZMIEŃ POSTAĆ): choose another one, make a new one. The current one is saved first and stays in its slot.
+func open_character_select() -> void:
+	if is_instance_valid(screen):
+		return
+	save_checkpoint(SAVE_PATH, true)
+	var view := preload("res://scripts/character_select.gd").new()
+	view.setup(Characters.list(), character_id)
+	view.picked.connect(switch_character)
+	view.new_character.connect(func() -> void:
+		close_screen()
+		open_race_screen(true))
+	open_screen(view)
+
+func switch_character(id: String) -> void:
+	close_screen()
+	if id == character_id:
+		return
+	var value := Characters.read(Characters.slot_path(id))
+	if value.is_empty() or not await ensure_land_content(str(value.get("land", "pyra"))):
+		hud.toast("Nie można wczytać tej postaci (brak danych krainy).")
+		return
+	var previous := character_id
+	Characters.activate(id)
+	if restore_checkpoint():
+		hud.refresh(kit)
+		hud.toast("Gra jako: %s, poz. %d" % [str(PyraContinent.load_json("res://data/races/%s.json" % race).raceName), kit.level])
+		save_checkpoint(SAVE_PATH, true)
+	else:
+		checkpoint_protected = false
+		character_id = previous
+		Characters.activate(previous)
+		hud.toast("Ta postać ma uszkodzony zapis — zostajesz przy obecnej.")
+
 ## A fresh character of the chosen race starts in that race's capital with the starting purse.
 func start_new_character(new_race: String) -> void:
 	close_screen()
@@ -1665,10 +1707,12 @@ func start_new_character(new_race: String) -> void:
 	economy.depot_gold = 0
 	for slot in PyraEconomy.SLOTS:
 		economy.equipment[slot] = ""
+	character_id = Characters.new_id()   # a new character: the previous one stays in its slot (scripts/characters.gd)
 	set_race(new_race)
 	enter_land(str(HOME_OF_RACE[new_race]))
 	hud.refresh(kit)
 	hud.toast("Witaj w %s!" % str(land.name))
+	save_checkpoint(SAVE_PATH, true)
 	play_intro.call_deferred()
 
 ## The story of the race and the first steps: shown once after a new character is made.
@@ -1795,6 +1839,7 @@ func show_menu() -> void:
 		{"id":"music","text":"MUZYKA: %d%%" % roundi(audio.music_volume*100),"callback":func():audio.set_volumes(next_volume(audio.music_volume),audio.sfx_volume);close_screen();show_menu()},
 		{"id":"sounds","text":"EFEKTY: %d%%" % roundi(audio.sfx_volume*100),"callback":func():audio.set_volumes(audio.music_volume,next_volume(audio.sfx_volume));close_screen();show_menu()},
 		{"id":"chat","text":"CZAT OKOLICY","callback":func():close_screen();open_chat()},
+		{"id":"switch","text":"ZMIEŃ POSTAĆ","callback":func():close_screen();open_character_select()},
 		{"id":"new","text":"NOWA POSTAĆ","callback":func():close_screen();open_race_screen(true)},
 		{"id":"import","text":"POSTAĆ Z PRZEGLĄDARKI","callback":func():close_screen();BrowserImport.run(self)},
 		{"id":"download","text":"POBIERZ KRAINY","callback":func():close_screen();download_everything()},
@@ -1819,7 +1864,7 @@ func save_checkpoint(path: String = SAVE_PATH, quiet: bool = false) -> bool:
 	var in_cave := in_dungeon()
 	var save_room := "" if in_cave else current_room
 	var save_at := city_return if in_cave else player.position
-	var value := {"format": SAVE_FORMAT, "version": 2, "race": race, "land": land_id, "room": save_room, "town": room_town, "position": [save_at.x, save_at.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save(), "economy": economy.to_save(), "quests": quests.to_save(), "story": story.to_save(), "dungeons": dungeon_state, "events": world_events.to_save()}
+	var value := {"format": SAVE_FORMAT, "version": 2, "race": race, "land": land_id, "room": save_room, "town": room_town, "position": [save_at.x, save_at.y], "cityReturn": [city_return.x, city_return.y], "kit": kit.to_save(), "economy": economy.to_save(), "quests": quests.to_save(), "story": story.to_save(), "dungeons": dungeon_state, "events": world_events.to_save(), "characterId": character_id}
 	var file := FileAccess.open(path + ".tmp", FileAccess.WRITE)
 	if file == null:
 		return false
@@ -1828,6 +1873,8 @@ func save_checkpoint(path: String = SAVE_PATH, quiet: bool = false) -> bool:
 	var result := DirAccess.rename_absolute(ProjectSettings.globalize_path(path + ".tmp"), ProjectSettings.globalize_path(path)) == OK
 	if not quiet:
 		hud.toast("Zapisano pozycję i postać." if result else "Nie zapisano punktu próby.")
+	if result and path == SAVE_PATH:
+		Characters.store(value)
 	if result and path == SAVE_PATH and KiNet.online().logged_in():
 		push_cloud(not quiet)
 	return result
@@ -2015,6 +2062,9 @@ func restore_checkpoint(path: String = SAVE_PATH) -> bool:
 		story.from_save(value.get("story", null))
 		refresh_quest_ui()
 	city_return = back
+	character_id = str(value.get("characterId", ""))
+	if character_id == "":
+		character_id = Characters.new_id()   # a save from before the roster existed (or from the cloud) becomes a character
 	load_space(room, at, str(value.get("town", "")))
 	return true
 

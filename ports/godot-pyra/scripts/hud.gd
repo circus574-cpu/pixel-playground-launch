@@ -250,7 +250,7 @@ func set_land(id: String, size_of_world: Vector2, markers: Array[Dictionary]) ->
 	land_id = id
 	world_size = size_of_world
 	map_markers = markers
-	var texture: Texture2D = load("res://assets/lands/%s/map.webp" % id)
+	var texture: Texture2D = PyraContinent.map_texture(id)
 	minimap_material.set_shader_parameter("map", texture)
 	signature = ""
 

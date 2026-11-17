@@ -48,7 +48,12 @@ func setup(legend_kit: RaceKit) -> void:
 	Look.style_heading(level_label, 30)
 	level_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bar.add_child(level_label)
-	bar.add_child(button("ZAMKNIJ", func(): closed.emit(), Vector2(150, 60)))
+	level_label.clip_text = true
+	level_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	level_label.custom_minimum_size.x = 0
+	Look.reserve_close(bar)
+	bar.custom_minimum_size.y = 96.0   # the round close button floats over the corner: the bar is tall enough that the content starts below it
+	Look.add_close(self, func(): closed.emit())
 	root.add_child(bar)
 	var body := HBoxContainer.new()
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL

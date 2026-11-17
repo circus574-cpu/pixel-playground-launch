@@ -58,7 +58,7 @@ func _ready() -> void:
 	shade.color = Color(0.01,0.01,0.02,0.92)
 	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(shade)
-	frame.add_theme_stylebox_override("panel", Look.window(28))
+	frame.add_theme_stylebox_override("panel", Look.window(58))
 	add_child(frame)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation",12)
@@ -66,11 +66,16 @@ func _ready() -> void:
 	var header := HBoxContainer.new()
 	box.add_child(header)
 	var title := label("NARZĘDZIA GM",header,32)
-	title.add_theme_font_override("font",Look.title_font())
+	Look.style_heading(title,34)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.clip_text = true
+	title.autowrap_mode = TextServer.AUTOWRAP_OFF
+	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	title.custom_minimum_size.x = 0
 	refresh_button = button("SPRAWDŹ DOSTĘP",refresh_data)
 	header.add_child(refresh_button)
-	header.add_child(button("WRÓĆ DO GRY",func():closed.emit()))
+	Look.reserve_close(header)
+	Look.add_close(self,func():closed.emit())
 	body.add_theme_font_size_override("font_size",23)
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.text = "Sprawdzanie uprawnień GM…"
@@ -109,7 +114,7 @@ func _ready() -> void:
 	gold_input.value = game.economy.gold if game != null else 0
 	gold_input.custom_minimum_size = Vector2(190,88)
 	for spin in [level_input,gold_input]:
-		spin.get_line_edit().add_theme_font_size_override("font_size",26)
+		Look.style_spin(spin)
 		spin.get_line_edit().virtual_keyboard_type = LineEdit.KEYBOARD_TYPE_NUMBER
 	edits.add_child(gold_input)
 	edits.add_child(button("USTAW MONETY",func():run_command({"action":"setGold","value":gold_input.value}),"setGold"))
@@ -117,6 +122,7 @@ func _ready() -> void:
 	land_picker.custom_minimum_size = Vector2(0,88)
 	land_picker.add_theme_font_size_override("font_size",24)
 	PyraSkin.style_button(land_picker)
+	Look.style_picker(land_picker)
 	content.add_child(land_picker)
 	actions.append(land_picker)
 	if game != null:
@@ -140,6 +146,7 @@ func _ready() -> void:
 	place_picker.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	place_picker.add_theme_font_size_override("font_size",24)
 	PyraSkin.style_button(place_picker)
+	Look.style_picker(place_picker)
 	places.add_child(place_picker)
 	actions.append(place_picker)
 	places.add_child(button("TELEPORT DO MIEJSCA",teleport_place,"place"))
@@ -150,6 +157,8 @@ func _ready() -> void:
 		edit.custom_minimum_size = Vector2(180,88)
 		edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		edit.add_theme_font_size_override("font_size",24)
+		edit.add_theme_stylebox_override("normal",PyraSkin.field_box(false))
+		edit.add_theme_stylebox_override("focus",PyraSkin.field_box(true))
 		edit.virtual_keyboard_type = LineEdit.KEYBOARD_TYPE_NUMBER_DECIMAL
 		coords.add_child(edit)
 	x_input.placeholder_text = "X"
