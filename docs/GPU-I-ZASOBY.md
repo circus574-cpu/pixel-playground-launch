@@ -973,3 +973,21 @@ albedo mają korektę szwu CPU i eksport WebP. Nie są pomiarowymi mapami PBR.
 Reprodukowanie środowiska: `scripts/gpu/bootstrap-terrain3d.sh`; geometria jest generowana CPU.
 Pod koniec prac integracyjnych A40 był bez aktywnego generowania; dalsza praca
 nad przełącznikiem i APK nie potrzebuje GPU. Poda nie zatrzymywano.
+
+### Budynki Pyry — kolejna próba stylistyczna 17.11
+
+`deliveries/pyra-buildings-20261117/masters` zachowuje źródła PNG z OpenAI
+image_gen: kuźnię, gospodę i arkusz czterech pozostałych usług. Rejestr
+`provenance.json` odróżnia pochodzenie od oceny prawnej. Pakowanie:
+`python3 scripts/gpu/import-pyra-painted-buildings.py --smithy PATH --inn PATH --sheet PATH`.
+To podział arkusza, przycięcie przezroczystych marginesów i redukcja do 768 px;
+bez płatnego Meshy. Kamera malowanych grafik jest przybliżona, nie skalibrowana.
+
+Na działającym A40 `1ol56m0rtgorym` wykonano także eksperyment Blendera 4.5.3
+(CUDA) i dwa img2img SDXL. To **Lykon/dreamshaper-xl-v2-turbo**, rewizja
+`f70ad5bce436c640d23fc02cd0a6ccc787280b6e`, nie SDXL Base.
+Zapisy parametrów znajdują się w `deliveries/pyra-buildings-20261117/experiments`;
+renderer: `scripts/gpu/render-pyra-isometric-buildings.py`. Tych wariantów nie
+włączono do sceny. Pliki robocze pozostają w `/workspace/ki-iso-art2` na podzie;
+Blender, venv SDXL i Godot są pod `/opt/ki-iso-art2` (wolumin nie obsługuje
+wszystkich metadanych plików wykonywalnych). Nie wykonywano operacji lifecycle poda.

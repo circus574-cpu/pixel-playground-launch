@@ -1,0 +1,57 @@
+{
+  "format": "ki-isometric-art-1",
+  "scope": "Pyra prototype; presentation only",
+  "camera": {
+    "projection": "orthographic",
+    "yaw_degrees": 45,
+    "elevation_degrees": 30,
+    "target_height_m": 8,
+    "ortho_scale_m": 96,
+    "resolution": 1536
+  },
+  "world_projection": {
+    "x": 8,
+    "z_to_y": 4,
+    "height_to_y": 9.797958971
+  },
+  "light": {
+    "direction": [
+      -6,
+      8,
+      14
+    ],
+    "strength": 3,
+    "angular_size_degrees": 12,
+    "color": [
+      1,
+      0.96,
+      0.9
+    ]
+  },
+  "palette": {
+    "basalt": "302a32",
+    "stone_edge": "52414a",
+    "plaster": "b59472",
+    "wood": "55271e",
+    "roof": "a32b21",
+    "roof_highlight": "c94b2b",
+    "gold": "c59343",
+    "iron": "282731",
+    "cloth": "9c1c22",
+    "embers": "ff5b17"
+  },
+  "render": {
+    "engine": "CYCLES",
+    "device": "CUDA",
+    "samples": 64,
+    "transparent": true,
+    "denoise": true
+  },
+  "rules": [
+    "Keep existing positions and collision footprints",
+    "Separate beauty and ground shadow",
+    "Foot anchors come from projected world origin",
+    "Preserve original assets",
+    "Models are render sources, not replacement gameplay geometry"
+  ]
+}

@@ -1,0 +1,6 @@
+test_geography_and_art (__main__.BuildingArtTest.test_geography_and_art) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.132s
+
+OK

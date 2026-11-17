@@ -39,7 +39,8 @@ func setup(source: Node2D) -> void:
 		sprite.shaded=false
 		sprite.pixel_size=original.scale.x/sqrt(128.0)
 		viewport.add_child(sprite)
-		sprites.append({"node":sprite,"xz":item.xz,"rise":original.texture.get_height()*.42*sprite.pixel_size})
+		var center:=original.offset+Vector2(original.texture.get_size())*.5
+		sprites.append({"node":sprite,"xz":item.xz,"rise":-center.y*sprite.pixel_size,"side":center.x*sprite.pixel_size})
 	var sphere:=SphereMesh.new()
 	sphere.radius=5
 	sphere.height=10
@@ -121,7 +122,7 @@ func update_camera() -> void:
 	camera.look_at(Vector3.ZERO)
 	for item in sprites:
 		var p: Vector2=item.xz
-		item.node.position=Vector3(p.x,world.sample_height(p),p.y)+camera.global_basis.y*float(item.rise)
+		item.node.position=Vector3(p.x,world.sample_height(p),p.y)+camera.global_basis.y*float(item.rise)+camera.global_basis.x*float(item.side)
 	viewport.render_target_update_mode=SubViewport.UPDATE_ONCE
 
 func update_player() -> void:

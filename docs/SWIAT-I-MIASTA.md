@@ -577,5 +577,12 @@ Widoczny teren składa się z 64 siatek; TileMapLayer jest niewidocznym indeksem
 
 Podgląd można uruchomić w ekranie serwisowym Godota po serwerowym potwierdzeniu
 roli administratora. Nie zmienia geometrii ani zapisów opublikowanego świata.
-Budynki dopasowane do rzutu pozostają następnym etapem: model → stała kamera i światło
-Blendera → sprite, kotwica stóp, drzwi i obrys kolizji. Płatnego generowania Meshy nie uruchomiono.
+Na gałęzi `art/pyra-isometric-coherence-20261117` próba korzysta z sześciu nowych
+malowanych sprite'ów: bazalt, czerwone dachówki, ciemne drewno, złote okucia.
+`data/building-art.json` rozdziela prezentacyjne kotwice i skalę od niezmienionych
+pozycji/kolizji `data/buildings.json`. Kontaktowy cień jest osobną, miękką warstwą
+próbkowaną na tym samym terenie. `--legacy-buildings` przywraca stare grafiki
+do porównania. Mapa 2D współdzieli obiekty, a billboardy 3D uwzględniają ich kotwice.
+Perspektywa malowanych źródeł pozostaje przybliżona; to nie komplet skalibrowanych
+modeli 3D. Akceptacja artystyczna, przejścia do wnętrz i animowane światła/dym
+pozostają otwarte. Nie wydano nowego APK i nie zmieniono produkcyjnej gry.

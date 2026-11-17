@@ -90,3 +90,44 @@ starej aplikacji działającej na odłączonym od internetu urządzeniu.
 
 GPU nie jest potrzebne do tego etapu. Źródła próby i materiałów zabezpieczono w Git LFS;
 decyzja o zatrzymaniu poda pozostaje przy właścicielu.
+
+## 3. Budynki i styl izometrycznej Pyry
+
+Gałąź `art/pyra-isometric-coherence-20261117`, baza `d1d8ba4a` z PR #182.
+Nowe sześć malowanych grafik podłączono do rzeczywistej sceny Godota:
+kuźnia, gospoda, Sala Przysiąg, sklep, depozyt i plac treningowy.
+Wspólny styl: czerwone dachówki, bazalt, ciemne drewno, złote detale.
+Źródła PNG i pochodzenie zachowano w `deliveries/pyra-buildings-20261117`.
+
+| Element | Przed | Zmiana | Dowód |
+| --- | --- | --- | --- |
+| Budynki | Dawne tymczasowe grafiki | 6 sprite'ów do 768 px, niezależne sylwetki usług | [Miasto w Godocie](qa/pyra-buildings/after/city-wide.jpg) |
+| Osadzenie | Jedna kotwica 0,92 dla wszystkich | Kotwice prezentacji w `building-art.json`, miękki cień kontaktowy | [Gospoda](qa/pyra-buildings/after/building-inn.jpg), [kuźnia](qa/pyra-buildings/after/building-smithy.jpg) |
+| Geometria | 6 pozycji i footprintów | Bez zmian; stare źródła pozostają, `--legacy-buildings` do porównania | Test importera + [stary widok](qa/pyra-buildings/before/city-wide.jpg) |
+| Mapy | Wspólne dane terenu | Billboardy 3D respektują nowe kotwice | [2D](qa/pyra-buildings/after/same-world-map.jpg), [3D](qa/pyra-buildings/after/same-world-map-3d.jpg) |
+| Serwis | Izolowany podgląd | Nowe zasoby są kopiowane przez istniejący preparator | [21/21](qa/pyra-buildings/service/results.json) |
+
+**Weryfikacja lokalna:** pełny TypeScript PASS (pierwszy równoległy przebieg
+zakończył się kodem 137 przy presji pamięci; powtórka PASS), lint 0 błędów /
+17 ostrzeżeń, build PASS, Vitest **2215 zaliczonych, 0 błędów, 21 pominiętych**
+przez istniejący zestaw. Test pakowania sprawdza sześć zasobów i niezmienione
+pozycje/kolizje. [Rejestr kontroli i hashy kodu](qa/pyra-buildings/verification.json).
+Zrzuty są klatkami uruchomionego Godota, nie obrazami generatora.
+
+Godot OpenGL/Mesa: **32/32**, poprzednie grafiki **26/26**, serwis **21/21**.
+Budżet tekstur po zmianie 54,12 MiB (limit 64 MiB), przed 49,50 MiB.
+Kontrola przy limitach renderowania 30/120 obejmuje czas symulacji i dotyk;
+software renderer osiągał około 14 FPS, więc nie jest to pomiar wydajności telefonu.
+Dodano niezależny workflow `godot-isometric-art.yml`, który odtwarza kontrolę
+w rzeczywistym silniku i zachowuje zrzuty na SHA uruchomienia.
+
+**Otwarte:** odbiór artystyczny, perspektywa części malowanych elewacji
+(przybliżona, nie geometrycznie skalibrowana), dopracowanie otoczenia i posadzek,
+wnętrza/usługi prototypu oraz animowane światła i dym. Fizycznego Androida,
+przeglądarkowego Canvas/WebGL i nowego APK w tym etapie nie testowano ani nie wydano.
+Wyniki eksperymentów Blender/SDXL nie są podłączone. Stan licencji nowych grafik
+pozostaje do sprawdzenia; rekord generacji nie zastępuje dowodu praw.
+
+Nie scalono ani nie wdrożono. Dotychczasowa bramka PR #182 miała osobny błąd
+czasowy testu odrodzenia w pełnym smoke OpenGL; ten etap grafik go nie naprawia
+i nie stanowi potwierdzenia zielonego pełnego CI tamtej gałęzi.

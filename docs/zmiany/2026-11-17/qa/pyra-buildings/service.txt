@@ -1,0 +1,26 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS ordinary_not_allowed
+PASS c100_core_cannot_override_new_apk
+PASS matching_core_keeps_bootstrap_state
+PASS missing_status_denied
+PASS local_role_not_accepted
+PASS ordinary_cannot_create_preview
+PASS preview_is_running
+PASS return_button_outside_joystick
+PASS isolated_world2d
+PASS same_data_height
+PASS touch_movement_in_service_viewport
+PASS cancel_releases_service_joystick
+PASS map2d_shared_in_service
+PASS map3d_shared_in_service
+PASS return_disposes_viewport
+PASS can_open_again
+PASS role_revocation_closes_preview
+PASS save_unchanged_city-checkpoint-v1.json
+PASS save_unchanged_account.json
+PASS save_unchanged_cloud.json
+PASS save_unchanged_characters.json
