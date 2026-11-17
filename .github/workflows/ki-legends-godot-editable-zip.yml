@@ -1,0 +1,72 @@
+name: Przygotuj KI Legends Godot ZIP do edycji
+on:
+  push:
+    branches:
+      - artifact/ki-legends-godot-editor-20261118
+    paths:
+      - .github/workflows/ki-legends-godot-editable-zip.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  godot-zip:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Pobierz tylko projekt Godot
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            ports/godot-pyra
+          sparse-checkout-cone-mode: true
+          lfs: false
+          persist-credentials: true
+      - name: Pobierz pelne zasoby graficzne Git LFS
+        shell: bash
+        run: |
+          set -euo pipefail
+          git lfs version
+          git lfs pull --include='ports/godot-pyra/**' --exclude=''
+      - name: Zapakuj kompletny, edytowalny projekt Godot
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile, ZIP_DEFLATED
+          import hashlib, os
+          src = Path('ports/godot-pyra')
+          assert (src/'project.godot').is_file(), 'Brak project.godot'
+          files = [p for p in src.rglob('*') if p.is_file() and not any(t in {'.godot','builds','service_preview','__pycache__'} for t in p.relative_to(src).parts)]
+          assert len(files) > 100, f'Za malo plikow: {len(files)}'
+          broken = [str(p) for p in files if p.stat().st_size < 512 and p.read_bytes().startswith(b'version https://git-lfs.github.com/spec/v1')]
+          assert not broken, f'Niepobrane zasoby Git LFS: {broken[:10]}'
+          archive = Path('KI-LEGENDS-GODOT-1.14-DO-EDYCJI.zip')
+          guide = ('KI LEGENDS — edytowalny projekt Godot 4.6.3\n'
+                   'Stan repozytorium main: c1930e5cabf9bfa2cd43519c59aabef8b9f06e3e (17.11.2026).\n\n'
+                   '1. Rozpakuj archiwum.\n'
+                   '2. Zainstaluj Godot Engine 4.6.3 (wersja standardowa).\n'
+                   '3. W Godot wybierz Import -> Browse i wskaz folder KI-Legends-Godot/project.godot.\n'
+                   '4. Otworz projekt; po zaimportowaniu zasobow nacisnij F5.\n'
+                   '5. Sceny: scenes/, kod: scripts/, grafika: assets/, dane swiata: data/.\n\n'
+                   'WAZNE: Gra wykorzystuje takze zasoby/aktualizacje online serwera kilegends.pl.\n'
+                   'Nie wszystkie elementy beda dzialac bez polaczenia z serwerem.\n'
+                   'To kod zrodlowy Godot, nie gotowe APK.\n')
+          with ZipFile(archive,'w',compression=ZIP_DEFLATED,compresslevel=5,allowZip64=True) as z:
+              z.writestr('KI-Legends-Godot/JAK-URUCHOMIC.txt',guide)
+              for p in sorted(files):
+                  z.write(p,'KI-Legends-Godot/'+p.relative_to(src).as_posix())
+          digest=hashlib.sha256(archive.read_bytes()).hexdigest()
+          print(f'ZIP: {archive} pliki: {len(files)} rozmiar: {archive.stat().st_size} SHA256: {digest}')
+          Path('KI-LEGENDS-GODOT-SHA256.txt').write_text(f'{digest}  {archive.name}\n')
+          PY
+      - name: Udostepnij plik ZIP do pobrania
+        uses: actions/upload-artifact@v4
+        with:
+          name: KI-LEGENDS-GODOT-1.14-EDYTOR
+          path: |
+            KI-LEGENDS-GODOT-1.14-DO-EDYCJI.zip
+            KI-LEGENDS-GODOT-SHA256.txt
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
