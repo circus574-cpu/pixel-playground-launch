@@ -258,7 +258,7 @@ func set_race(new_race: String) -> void:
 			audio.sfx("common/no-energy"))
 	kit.gear = economy.gear()
 	kit.terrain_at = func() -> String: return continent.terrain_kind(player.position) if is_instance_valid(continent) else "open"
-	hero = actors[str(WORLD_OF_RACE[race]) + ".hero"]
+	hero = PyraActor.usable_hero(actors, str(WORLD_OF_RACE[race]))
 	for clip: Dictionary in (hero.clips as Dictionary).values():   # decode every animation sheet of the hero off the main thread
 		var sheet := str(clip.get("sheet", ""))
 		if sheet != "" and not ResourceLoader.has_cached(sheet):
@@ -1377,6 +1377,8 @@ func celebrate_level() -> void:
 ## The ground ring under the foe being fought and the camera shake, once per frame.
 func update_feel(delta: float) -> void:
 	shake = move_toward(shake, 0.0, delta * 30.0)
+	# the camera looks at the middle of the hero's body, not at his feet (the figure stands above its position): the head stays clear of the HUD at the top
+	camera.position = Vector2(0.0, -player.visual.display.y * 0.45) if is_instance_valid(player) and is_instance_valid(player.visual) else Vector2.ZERO
 	camera.offset = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * shake if shake > 0.05 else Vector2.ZERO
 	var ring_parent := monster_parent()
 	if not is_instance_valid(ring_parent):
@@ -1437,7 +1439,17 @@ func simulate(delta: float) -> void:
 	economy.tick(delta)
 	player.speed = float(kit.stats().speed) * (1.0 - clampf(kit.debuff_pct("slow"), 0.0, 0.9))
 	handle_death(delta)
+	var was_ki := player.ki_form
 	player.set_ki_form(kit.buff_active("T"))
+	if player.ki_form and not was_ki and player.transform_seconds > 0.0:
+		# the burst of the transformation: when the old form is half burnt away, a flash, a shockwave and a heavy shake
+		var burst_at := player.transform_seconds * 0.55
+		get_tree().create_timer(burst_at).timeout.connect(func() -> void:
+			if is_instance_valid(player):
+				PyraFx.spawn(fx_parent(), "burst", player.position, 260.0, "C9", player.facing)
+				PyraFx.spawn(fx_parent(), "buff", player.position, 200.0, "T", player.facing)
+				add_shake(10.0)
+				hit_stop(0.08))
 	if attack_held:
 		do_basic()
 	player.step(delta)
