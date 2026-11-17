@@ -1,0 +1,29 @@
+{
+	"android_device_tested": false,
+	"checks": {
+		"c100_core_cannot_override_new_apk": true,
+		"can_open_again": true,
+		"cancel_releases_service_joystick": true,
+		"isolated_world2d": true,
+		"local_role_not_accepted": true,
+		"map2d_shared_in_service": true,
+		"map3d_shared_in_service": true,
+		"matching_core_keeps_bootstrap_state": true,
+		"missing_status_denied": true,
+		"ordinary_cannot_create_preview": true,
+		"ordinary_not_allowed": true,
+		"preview_is_running": true,
+		"return_button_outside_joystick": true,
+		"return_disposes_viewport": true,
+		"role_revocation_closes_preview": true,
+		"same_data_height": true,
+		"save_unchanged_account.json": true,
+		"save_unchanged_characters.json": true,
+		"save_unchanged_city-checkpoint-v1.json": true,
+		"save_unchanged_cloud.json": true,
+		"touch_movement_in_service_viewport": true
+	},
+	"failed": 0,
+	"passed": 21,
+	"renderer": "gl_compatibility"
+}

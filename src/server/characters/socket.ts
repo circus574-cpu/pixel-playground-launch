@@ -38,6 +38,7 @@ export function serveOnlineSocket(
     metric?: (kind: "in" | "out" | "tick", value: number) => void;
     onFrame?: (frame: ReturnType<OnlineSession["view"]>) => void;
     onClose?: () => void;
+    admission?: (token: unknown) => Promise<void>;
   },
 ) {
   let bucketAt = performance.now(),
@@ -51,6 +52,11 @@ export function serveOnlineSocket(
     token = "",
     verifiedAt = 0,
     subject = "";
+  let accessCheckedAt = 0;
+  const admit = async () => {
+    await options.admission?.(token);
+    accessCheckedAt = Date.now();
+  };
   const deadline = setTimeout(() => {
     if (!session) fail("AUTH_TIMEOUT");
   }, 15000);
@@ -106,6 +112,7 @@ export function serveOnlineSocket(
         if (input.type === "open") {
           if (session) throw Error("ALREADY_OPEN");
           token = input.token;
+          await admit();
           const owner = await options.verify(token);
           subject = owner.subject;
           verifiedAt = Date.now();
@@ -128,6 +135,7 @@ export function serveOnlineSocket(
             if (ticking || closed || !session) return;
             ticking = true;
             void (async () => {
+              if (Date.now() - accessCheckedAt >= 1000) await admit();
               if (Date.now() - verifiedAt > 30000) {
                 await options.verify(token);
                 verifiedAt = Date.now();
@@ -154,6 +162,7 @@ export function serveOnlineSocket(
           }, 50);
         } else {
           if (!session) throw Error("AUTH_REQUIRED");
+          if (Date.now() - accessCheckedAt >= 1000) await admit();
           if (input.type === "reauth") {
             const next = await options.verify(input.token);
             if (next.subject !== subject) throw Error("ACCOUNT_CHANGED");

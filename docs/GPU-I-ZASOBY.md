@@ -957,3 +957,19 @@ Pakowaczka GPU wymaga ramki 512 × 512 RGBA oraz **2 px czystej krawędzi na kla
 Użycie: `npm run assets:pack -- <wyjście> <out> --id=<id> --world=<świat> --profile=npc`, potem
 import. Profil `npc` celowo nie wystawia `actorBindings` (`frame-layout.ts`) — rolę podpinamy
 przy instalacji jako `<świat>.npc.<rola>`, bo to czyta już `actorVisual()`.
+
+## A40 i próba izometrii — 17.11.2026
+
+Na wyraźne polecenie właściciela utworzono A40 48 GB, 9 vCPU, RAM 50 GB,
+kontener 300 GB, EU-SE-1; pod `9jv4ah7gckh6fc`. GPU $0.59/h, dysk około $0.04167/h.
+Narzędzia: Godot 4.6.3, Terrain3D 1.1.0, Blender 4.0.2, ComfyUI/SDXL Base 1.0.
+Godot MCP uruchomiony i sprawdzony jako serwer stdio (14 narzędzi); nie jest to
+potwierdzenie automatycznego podłączenia go do każdej sesji czatu.
+
+Wykonano pięć zadań ComfyUI, w tym poprawkę popiołu. Cztery przyjęte materiały
+albedo mają korektę szwu CPU i eksport WebP. Nie są pomiarowymi mapami PBR.
+Źródła, workflow, licencja, sumy i artefakty próby znajdują się w
+`deliveries/pyra-isometric-a40-20261117` i dziennym `qa/terrain3d-a40`.
+Reprodukowanie środowiska: `scripts/gpu/bootstrap-terrain3d.sh`; geometria jest generowana CPU.
+Pod koniec prac integracyjnych A40 był bez aktywnego generowania; dalsza praca
+nad przełącznikiem i APK nie potrzebuje GPU. Poda nie zatrzymywano.

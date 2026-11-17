@@ -139,7 +139,8 @@ func _layout() -> void:
 func start_city() -> void:
 	if loading or gate_active or is_instance_valid(city_instance):
 		return
-	if not gate_done and not PyraContent.embedded():
+	if not gate_done and (not PyraContent.embedded() or Engine.has_meta("ki_service_required")):
+		Engine.remove_meta("ki_service_required")
 		run_gate()
 		return
 	choose_character()

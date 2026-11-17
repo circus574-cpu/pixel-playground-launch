@@ -72,8 +72,8 @@ func run() -> void:
 	verify(film_16_9 == Rect2(0, 0, 1280, 720) and film_20_9.size.y <= 1080.0 / 0.9 + 0.01 and film_20_9.position.y >= -(film_20_9.size.y - 1080.0) * 0.8 - 0.01 and absf((film_20_9.position.y + film_20_9.size.y) - 1080.0) >= 0.0 and (film_20_9.size.y - 1080.0) <= 1080.0 * 0.112, "the film is cut by at most a tenth of its height on a wide phone, mostly at the top, and not at all on 16:9")
 	verify(film_21_9.size.y - 1080.0 <= 1080.0 * 0.112 and film_21_9.position.x > 0.0, "on a very wide screen the film keeps its picture and the sides stay in the backdrop colour")
 	var title_script: GDScript = load("res://scripts/title_screen.gd")
-	verify(str(ProjectSettings.get_setting("application/config/version", "")) == "1.10" and str(config.get_value("preset.0.options", "version/name", "")) == "1.10", "the app built from this tree is version 1.10 (same versionCode 100 as 1.0, so one server release serves both)")
-	verify(title_script.shown_version('{"manifest":{"version":"1.2"}}') == "1.2" and title_script.shown_version('{"manifest":{"version":"2026.11.17.2"}}') == "1.10" and title_script.shown_version("not json") == "1.10", "the player sees the version of the downloaded release (1.1, 1.2, ...), the app version otherwise")
+	verify(str(ProjectSettings.get_setting("application/config/version", "")) == "1.14" and str(config.get_value("preset.0.options", "version/name", "")) == "1.14", "the service-preview app is version 1.14 (versionCode 101 isolates it from c100 cores)")
+	verify(title_script.shown_version('{"manifest":{"version":"1.2"}}') == "1.2" and title_script.shown_version('{"manifest":{"version":"2026.11.17.2"}}') == "1.14" and title_script.shown_version("not json") == "1.14", "the player sees the version of the downloaded release (1.1, 1.2, ...), the app version otherwise")
 	# scripts/skin.gd is loaded by the APK's boot.gd before the server's code is mounted, so an installed app keeps the APK's copy for ever:
 	# its functions must stay those of APK 1.0 (new looks go to scripts/look.gd). Release 1.1 broke the sign-in window by breaking this.
 	var skin_names: Array = []
@@ -1274,9 +1274,14 @@ func run() -> void:
 	killer.queue_free()
 	mm.active.erase(killer.spawn_index)
 	verify(game.kit.dead, "monster damage can kill the hero")
-	await create_timer(3.5).timeout
+	# Wait for the actual state transition, not a guessed frame count.
+	# llvmpipe/OpenGL can render slowly, so 3.5 seconds of wall time alone
+	# is not evidence that the game loop has processed the respawn.
+	var death_deadline := Time.get_ticks_msec() + 15000
+	while game.kit.dead and Time.get_ticks_msec() < death_deadline:
+		await process_frame
 	await settle(2)
-	verify(not game.kit.dead and game.in_safe_city(game.player.position) and game.kit.hp >= float(game.kit.stats().maxHp) * 0.99, "after death the hero returns to the city with full health")
+	verify(not game.kit.dead and game.in_safe_city(game.player.position) and game.kit.hp >= float(game.kit.stats().maxHp) * 0.99, "after death the hero returns to the city with full health", {"dead": game.kit.dead, "timer": game.respawn_timer, "safe": game.in_safe_city(game.player.position), "hp": game.kit.hp, "maxHp": game.kit.stats().maxHp})
 	game.player.fx_lock = 0.0
 	game.kit.set_level(1)
 	game.start_new_character("legend")
@@ -1807,8 +1812,16 @@ func run() -> void:
 	file.store_string(JSON.stringify(report, "\t"))
 	file.close()
 	print("PYRA GODOT QA: ", results.size() - failures.size(), "/", results.size(), " failed: ", failures)
+	var succeeded := failures.is_empty()
 	root.remove_child(game)
 	game.queue_free()
-	await process_frame
-	await process_frame
-	quit(0 if failures.is_empty() else 1)
+	game = null
+	results.clear()
+	# End the long async test function before quitting. Otherwise its local
+	# RefCounted textures/fonts are still alive when Godot tears down the renderer.
+	call_deferred("_finish_after_cleanup", succeeded)
+
+func _finish_after_cleanup(succeeded: bool) -> void:
+	for i in 5:
+		await process_frame
+	quit(0 if succeeded else 1)

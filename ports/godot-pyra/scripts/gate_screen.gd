@@ -1,6 +1,7 @@
 class_name PyraGate
 extends Control
 const Look := preload("res://scripts/look.gd")   # the look that can change with server updates (see look.gd)
+const Service := preload("res://scripts/service_screen.gd")
 ## The way into the game on a device that carries only the base: sign in (or play offline), check the server (maintenance, minimum
 ## version), reconcile the cloud save with the local one, then download the content of the land the hero starts in. The same screen
 ## shows the progress when a land that is not on the device yet is entered later (`download_land`).
@@ -127,11 +128,19 @@ func run_boot() -> bool:
 			say("KI LEGENDS", "Logowanie…")
 			signed_in = await KiNet.online().resume()
 		if not signed_in and not offline_mode:
-			var mode := await login_form()
+			var service_action:=await service_entry()
+			if service_action=="quit":return false
+			var mode := await login_form(service_action!="login")
 			if mode == "quit":
 				return false
 			signed_in = mode == "login"
 			offline_mode = mode == "offline"
+		if signed_in:
+			var service_action:=await service_entry()
+			if service_action=="quit":return false
+			if service_action=="login":
+				await login_form(false)
+				continue
 		var reached := false
 		if not offline_mode or KiNet.online().logged_in():
 			say("KI LEGENDS", "Łączenie z serwerem…")
@@ -139,10 +148,10 @@ func run_boot() -> bool:
 			reached = bool(m.ok)
 			if not reached:
 				if bool(m.get("blocked", false)):
-					var again := await offer_message("Serwer", str(m.message), ["SPRÓBUJ PONOWNIE", "GRAJ OFFLINE"] if offline_possible() else ["SPRÓBUJ PONOWNIE"])
+					var again := await offer_message("Serwer", str(m.message), ["SPRÓBUJ PONOWNIE", "WYJDŹ"])
 					if again == 0:
 						continue
-					offline_mode = true
+					return false
 				elif not KiNet.content().has_manifest():
 					var retry := await offer_message("Brak połączenia", str(m.message) + "\nPierwsze uruchomienie wymaga internetu, aby pobrać grę.", ["SPRÓBUJ PONOWNIE", "WYJDŹ"])
 					if retry == 0:
@@ -161,6 +170,16 @@ func run_boot() -> bool:
 		if next != 0:
 			return false
 	return false
+
+func service_entry() -> String:
+	var screen:=Service.new()
+	screen.request=KiNet.online().request
+	panel.hide()
+	add_child(screen)
+	var action: String=await screen.run()
+	screen.queue_free()
+	panel.show()
+	return action
 
 func offline_possible() -> bool:
 	return PyraContent.embedded() or all_cached(start_land())
@@ -203,7 +222,7 @@ static func write_login_prefs(email: String, remember_me: bool) -> void:
 		file.store_string(JSON.stringify({"email": email, "remember": true}))
 		file.close()
 
-func login_form() -> String:
+func login_form(allow_offline: bool = true) -> String:
 	var online := KiNet.online()
 	form.visible = true
 	var prefs := read_login_prefs()
@@ -216,7 +235,7 @@ func login_form() -> String:
 		nick_field.visible = registering
 		say("KI LEGENDS ONLINE", "Zaloguj się kontem Ki Legends (to samo konto co w przeglądarce)." if not registering else "Załóż konto: dostaniesz e-mail z linkiem aktywacyjnym.", "Serwer: " + online.server)
 		var labels := ["ZALOGUJ", "UTWÓRZ KONTO" if not registering else "MAM KONTO"]
-		if offline_possible():
+		if allow_offline and offline_possible():
 			labels.append("GRAJ OFFLINE")
 		var pick := await offer(labels)
 		if pick == 1:

@@ -1,0 +1,18 @@
+; Separate Pyra 3D study. The released Android project and character saves are untouched.
+config_version=5
+[application]
+config/name="KI Legends — Pyra Terrain3D study"
+run/main_scene="res://world.tscn"
+config/features=PackedStringArray("4.6", "Mobile")
+config/use_custom_user_dir=true
+config/custom_user_dir_name="ki-legends-terrain3d-study"
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+[rendering]
+renderer/rendering_method="mobile"
+renderer/rendering_method.mobile="mobile"
+textures/default_filters/use_nearest_mipmap_filter=false
+[physics]
+common/physics_ticks_per_second=60

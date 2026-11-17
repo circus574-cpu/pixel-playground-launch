@@ -1366,3 +1366,40 @@ pięć stacji; `boss_script.gd` i `data/bosses.json` (8 bossów), `dungeon.gd` (
 `deploy/multiplayer/init/007-godot-android.sql`, zakładka „Gra Android” w `/admin`, klient `scripts/{net,online,content,gate_screen,remote_players,chat_panel}.gd`,
 paczki `scripts/godot/build_packs.py`. Serwer nie jest autorytatywny dla walki (to lokalna symulacja PvE). Testy: `src/test/godot-android.test.ts` (PostgreSQL),
 `scripts/godot/e2e_online.py`, `scripts/godot/qa_admin_ui.py`. Szczegóły: [README Android, sekcja 2a](../ports/godot-pyra/README.md#2a-gra-online-konta-chmura-treść-z-serwera-panel-administratora).
+
+## TEST SERWER i izometryczny podgląd Godota — 17.11.2026
+
+`/admin` → **Gra Android** → **TEST SERWER — tylko administrator** używa dotychczasowego
+pola `godot_android.settings.maintenance`; nie powstaje drugi adres ani baza danych.
+Przełącznik i jego komunikat zapisuje wyłącznie administrator, z audytem serwerowym.
+Przy włączeniu anonimowi, gracze i GM nie otrzymują dostępu do gry. `/konto` i `/admin`
+pozostają dostępne. Sama deklaracja roli po stronie klienta niczego nie odblokowuje.
+
+- `ServiceAccess` sprawdza role z bazy. Cache ustawień ma 500 ms; istniejące połączenia
+  przeglądarkowe i obecność Androida ponawiają kontrolę co sekundę. Odrzucenie zamyka
+  sesję z dotychczasowym zapisem, bez usuwania postaci. To blokada dostępu online,
+  nie zdalne usuwanie wcześniej pobranej gry z odłączonego urządzenia.
+- `/ws/godot/status` udostępnia komunikat i decyzje `canEnter`/`canPreview` dla
+  aktualnego tokenu. Manifest, bezpośrednie GET/HEAD/Range paczek, operacje zapisów,
+  API postaci i WebSocket są sprawdzane również na serwerze.
+- `ServiceGate` zamienia stronę gry na konserwację i kontroluje stan co 5 s.
+  Nowy Android kontroluje dostęp podczas gry co 3 s; po blokadzie wraca do bramki.
+- `service_screen.gd` pokazuje administratorowi przycisk **PROTOTYP IZOMETRYCZNY · PYRA**.
+  Oddzielny `World2D` nie używa zapisu, ekonomii, postaci ani questów głównej gry.
+  Ponowna kontrola co 3 s zamyka podgląd po odebraniu uprawnień.
+
+`python3 scripts/godot/prepare_service_preview.py` przenosi źródła samodzielnej próby
+pod `res://service_preview/pyra/`, usuwa klasę globalną aktora i kod QA zapisujący pliki.
+Generowany katalog jest ignorowany w Git; zasoby nie są utrzymywane w dwóch wersjach.
+Eksport i builder paczek przygotowują go automatycznie. CI przygotowuje go przed importem.
+
+APK **1.14 / versionCode 101** zawiera nową bramkę. Bootstrap pomija referencję do
+starego rdzenia `c100`; pliki postaci pozostają w tej samej przestrzeni aplikacji.
+Stary APK nie pobiera nowego kodu podczas konserwacji, dlatego ta zmiana wymaga
+aktualizacji APK i wdrożenia serwera z nowymi decyzjami dostępu. Nie wystarczy publikacja
+samotnej paczki `c100`. `build_android.py` porównuje certyfikat klucza z opublikowanym
+APK przed eksportem i blokuje niezgodny podpis. Klucz nigdy nie trafia do Git.
+
+Weryfikacja podglądu: `tests/service_preview.gd`,
+`scripts/godot/qa_service_apk.py --apk <APK>`, `scripts/godot/qa_service_browser.mjs`.
+Wyniki i granice pomiaru są w [dzienniku](zmiany/2026-11-17/ZMIANY.md).

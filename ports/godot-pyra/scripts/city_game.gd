@@ -91,6 +91,7 @@ var citizen_clock := 0.0
 var dungeon_state: Dictionary = {}     # dungeon id -> {"keys", "gates", "chests", "secrets"}: id lists, saved with the character
 var dungeon_explored: Dictionary = {}  # "<id>#<floor>" -> automap cells (kept while the game runs)
 var respawn_timer := -1.0
+var respawn_started_ms := -1
 var quests: PyraQuests
 var story := PyraStory.new()
 var skip_intro := false                       # tests start many characters and do not want the story screen
@@ -1005,8 +1006,9 @@ func reward(def: Dictionary, at: Vector2) -> void:
 	if xp > 0:
 		PyraFx.number(monster_parent(), at + Vector2(0, -60), xp, true, "xp")
 
-func handle_death(delta: float) -> void:
+func handle_death(_delta: float) -> void:
 	if kit.dead and respawn_timer < 0.0:
+		respawn_started_ms = Time.get_ticks_msec()
 		respawn_timer = 3.0
 		player.locked = true
 		hud.touch.reset()
@@ -1016,9 +1018,12 @@ func handle_death(delta: float) -> void:
 		hud.toast("Poległeś. Za 3 s wrócisz do miasta.")
 		audio.sfx("common/player-death")
 	if respawn_timer >= 0.0:
-		respawn_timer -= delta
+		# Wall-clock seconds: a software renderer must not stretch a 3 s respawn
+		# when a slow frame is clamped by simulate(minf(delta, 0.05)).
+		respawn_timer = maxf(0.0, 3.0 - float(Time.get_ticks_msec() - respawn_started_ms) / 1000.0)
 		if respawn_timer <= 0.0:
 			respawn_timer = -1.0
+			respawn_started_ms = -1
 			respawn_player()
 
 func respawn_player() -> void:
@@ -1698,6 +1703,11 @@ func start_new_character(new_race: String) -> void:
 		return
 	if not current_room.is_empty():
 		load_space("", city_return)
+	# A newly created character must not inherit a previous hero's death timer
+	# or movement lock (including when character creation follows a death).
+	respawn_timer = -1.0
+	respawn_started_ms = -1
+	player.locked = false
 	quests.reset()
 	story.reset()
 	dungeon_state = {}
