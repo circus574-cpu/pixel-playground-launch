@@ -1,0 +1,197 @@
+{
+ "note": "Modele i rigi Meshy zapisane przed wygaśnięciem zasobów API (3 dni; 20.11.2026). Modele: image-to-3d (GLB z teksturą), rigi: rigged_character_glb. Animacje nie są zapisane (3 kredyty za sztukę; plan i numery ruchów w pipeline/).",
+ "models": [
+  {
+   "file": "proby/model-proba-a0abff9f-01.glb",
+   "task_id": "a0abff9f-66ab-4e32-a6d9-c97162fb35c8",
+   "race": null,
+   "form": null,
+   "created_at": "2026-11-17T05:38:21.340000+00:00",
+   "expires_at": "2026-11-20T05:40:16.626000+00:00",
+   "bytes": 51304748
+  },
+  {
+   "file": "proby/model-proba-469b2f76-02.glb",
+   "task_id": "469b2f76-2479-5dd0-80fd-6c15c5e33faf",
+   "race": null,
+   "form": null,
+   "created_at": "2026-11-17T05:40:17.293000+00:00",
+   "expires_at": "2026-11-20T05:40:17.291000+00:00",
+   "bytes": 36715716
+  },
+  {
+   "file": "proby/model-proba-f86fb800-03.glb",
+   "task_id": "f86fb800-b66b-43ad-a54f-0a6d8f01cb44",
+   "race": null,
+   "form": null,
+   "created_at": "2026-11-17T05:57:34.443000+00:00",
+   "expires_at": "2026-11-20T05:59:14.091000+00:00",
+   "bytes": 40706680
+  },
+  {
+   "file": "proby/model-proba-fe9d3ac5-04.glb",
+   "task_id": "fe9d3ac5-5d3e-530b-bfd4-f07af27eec08",
+   "race": null,
+   "form": null,
+   "created_at": "2026-11-17T05:59:15.258000+00:00",
+   "expires_at": "2026-11-20T05:59:15.256000+00:00",
+   "bytes": 27865380
+  },
+  {
+   "file": "proby/model-proba-01a1e81f-05.glb",
+   "task_id": "01a1e81f-b9f7-77cb-83d8-57d25205035e",
+   "race": null,
+   "form": null,
+   "created_at": "2026-11-17T06:09:16.951000+00:00",
+   "expires_at": "2026-11-20T06:10:33.073000+00:00",
+   "bytes": 5208128
+  },
+  {
+   "file": "proby/model-proba-01a1e822-06.glb",
+   "task_id": "01a1e822-7596-75c1-860a-b1285ffb7fd9",
+   "race": null,
+   "form": null,
+   "created_at": "2026-11-17T06:12:16.097000+00:00",
+   "expires_at": "2026-11-20T06:13:49.190000+00:00",
+   "bytes": 5443348
+  },
+  {
+   "file": "legend/model-normal-01a1e825-07.glb",
+   "task_id": "01a1e825-c1e4-70ea-90fd-293dfbe6a923",
+   "race": "legend",
+   "form": "normal",
+   "created_at": "2026-11-17T06:15:52.255000+00:00",
+   "expires_at": "2026-11-20T06:18:47.916000+00:00",
+   "bytes": 12410196
+  },
+  {
+   "file": "android/model-normal-01a1e891-08.glb",
+   "task_id": "01a1e891-6ffe-727e-813f-a8c62b1efc8b",
+   "race": "android",
+   "form": "normal",
+   "created_at": "2026-11-17T08:13:29.039000+00:00",
+   "expires_at": "2026-11-20T08:16:27.535000+00:00",
+   "bytes": 12555304
+  },
+  {
+   "file": "sage/model-normal-01a1e8cb-09.glb",
+   "task_id": "01a1e8cb-3719-732d-bf60-054a1d8a97cd",
+   "race": "sage",
+   "form": "normal",
+   "created_at": "2026-11-17T09:16:35.630000+00:00",
+   "expires_at": "2026-11-20T09:19:22.304000+00:00",
+   "bytes": 12184580
+  },
+  {
+   "file": "planetary/model-normal-01a1e8df-10.glb",
+   "task_id": "01a1e8df-90b8-7659-b9dd-11080461983a",
+   "race": "planetary",
+   "form": "normal",
+   "created_at": "2026-11-17T09:38:49.153000+00:00",
+   "expires_at": "2026-11-20T09:41:20.602000+00:00",
+   "bytes": 11911764
+  },
+  {
+   "file": "legend/model-ki-01a1e902-11.glb",
+   "task_id": "01a1e902-ae8c-7632-b17d-f3e2547b81bc",
+   "race": "legend",
+   "form": "ki",
+   "created_at": "2026-11-17T10:17:10.623000+00:00",
+   "expires_at": "2026-11-20T10:19:29.671000+00:00",
+   "bytes": 11481076
+  },
+  {
+   "file": "planetary/model-ki-01a1e92b-12.glb",
+   "task_id": "01a1e92b-52ca-750a-ad0b-22acbf232177",
+   "race": "planetary",
+   "form": "ki",
+   "created_at": "2026-11-17T11:01:34.083000+00:00",
+   "expires_at": "2026-11-20T11:04:17.644000+00:00",
+   "bytes": 11044224
+  },
+  {
+   "file": "sage/model-ki-01a1e92b-13.glb",
+   "task_id": "01a1e92b-52fa-764e-962f-5e5d21aad26f",
+   "race": "sage",
+   "form": "ki",
+   "created_at": "2026-11-17T11:01:34.115000+00:00",
+   "expires_at": "2026-11-20T11:04:48.598000+00:00",
+   "bytes": 11812624
+  },
+  {
+   "file": "android/model-ki-01a1e92b-14.glb",
+   "task_id": "01a1e92b-5288-72d8-bce3-634234348b6a",
+   "race": "android",
+   "form": "ki",
+   "created_at": "2026-11-17T11:01:34.156000+00:00",
+   "expires_at": "2026-11-20T11:04:17.998000+00:00",
+   "bytes": 11803940
+  }
+ ],
+ "rigs": [
+  {
+   "file": "legend/rig-normal-01a1e82a.glb",
+   "task_id": "01a1e82a-257a-7076-97bf-6cc9e6f97f18",
+   "race": "legend",
+   "form": "normal",
+   "created_at": "2026-11-17T06:20:43.203000+00:00",
+   "bytes": 19670616
+  },
+  {
+   "file": "android/rig-normal-01a1e894.glb",
+   "task_id": "01a1e894-7f75-778c-8bcf-2dc0dedd16c3",
+   "race": "android",
+   "form": "normal",
+   "created_at": "2026-11-17T08:16:52.262000+00:00",
+   "bytes": 19261344
+  },
+  {
+   "file": "sage/rig-normal-01a1e8cd.glb",
+   "task_id": "01a1e8cd-dbd1-73ad-8fa8-29c55ee8d2b4",
+   "race": "sage",
+   "form": "normal",
+   "created_at": "2026-11-17T09:19:31.222000+00:00",
+   "bytes": 18953136
+  },
+  {
+   "file": "planetary/rig-normal-01a1e8e1.glb",
+   "task_id": "01a1e8e1-f7e7-71a6-a9bf-77b1e5105a3f",
+   "race": "planetary",
+   "form": "normal",
+   "created_at": "2026-11-17T09:41:29.174000+00:00",
+   "bytes": 18526936
+  },
+  {
+   "file": "legend/rig-ki-01a1e904.glb",
+   "task_id": "01a1e904-da0d-721d-8278-53a833cd5b77",
+   "race": "legend",
+   "form": "ki",
+   "created_at": "2026-11-17T10:19:35.102000+00:00",
+   "bytes": 17845424
+  },
+  {
+   "file": "sage/rig-ki-01a1e92e.glb",
+   "task_id": "01a1e92e-6beb-70e3-9beb-66a4a084e202",
+   "race": "sage",
+   "form": "ki",
+   "created_at": "2026-11-17T11:04:59.614000+00:00",
+   "bytes": 18692880
+  },
+  {
+   "file": "planetary/rig-ki-01a1e92d.glb",
+   "task_id": "01a1e92d-f609-70ac-be8c-423aee1d3f9b",
+   "race": "planetary",
+   "form": "ki",
+   "created_at": "2026-11-17T11:04:33.497000+00:00",
+   "bytes": 16616316
+  },
+  {
+   "file": "android/rig-ki-01a1e92d.glb",
+   "task_id": "01a1e92d-f5d2-7503-bbd7-13f90aaba914",
+   "race": "android",
+   "form": "ki",
+   "created_at": "2026-11-17T11:04:29.440000+00:00",
+   "bytes": 18002448
+  }
+ ]
+}
