@@ -1087,7 +1087,11 @@ func use_slot(index: int) -> void:
 	var result := kit.use(id)
 	if result.ok:
 		story.note("skill")
-		player.visual.play_once(str(result.get("clip", "skill")))
+		var clip := str(result.get("clip", "skill"))
+		var own := "sk_" + id   # the skill's own motion (data/actors.json `sk_<node id>`, normal form only); the shared skill clips remain the fallback
+		if not player.ki_form and player.visual.definition.clips.has(own):
+			clip = own
+		player.visual.play_once(clip)
 	elif str(result.reason) != "":
 		hud.toast(str(result.reason))
 		audio.sfx("common/no-energy")

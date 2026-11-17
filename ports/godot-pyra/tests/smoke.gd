@@ -48,6 +48,9 @@ func nearest_free(from: Vector2) -> Vector2:
 	return from
 
 func run() -> void:
+	# The test must not depend on the live server: it polls /ws/godot/status and leaves the game when the service is in maintenance (net.gd: check_service_access).
+	if OS.get_environment("KI_SERVER") == "":
+		OS.set_environment("KI_SERVER", "http://127.0.0.1:9")
 	var args := OS.get_cmdline_user_args()
 	for i in range(args.size()):
 		if args[i] == "--qa-output" and i+1 < args.size():
