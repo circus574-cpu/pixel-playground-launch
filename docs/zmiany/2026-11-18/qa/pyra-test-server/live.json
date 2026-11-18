@@ -1,0 +1,34 @@
+{
+  "workflow": "https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/44251931494",
+  "publication_sha": "f15a9c12f13fa99ca09d19559bd858c718ac52ba",
+  "checks": {
+    "/ws/godot/status": {
+      "http": 200,
+      "body": {
+        "ok": true,
+        "serverTime": "2026-11-18T06:32:49.856Z",
+        "maintenance": true,
+        "message": "Serwer jest w trakcie konserwacji. Wróć za chwilę.",
+        "canEnter": false,
+        "canPreview": false,
+        "activeVersion": "1.14.2",
+        "minClientCode": 1,
+        "online": 0
+      }
+    },
+    "/ws/godot/manifest": {
+      "http": 503,
+      "body": {
+        "error": "MAINTENANCE",
+        "message": "Trwają prace serwisowe. Spróbuj za chwilę."
+      }
+    },
+    "/ws/godot/pack/1.14.2/core-c101-2a0740780fc7.pck": {
+      "http": 503,
+      "body": {
+        "error": "MAINTENANCE",
+        "message": "Serwer jest w trakcie konserwacji. Wróć za chwilę."
+      }
+    }
+  }
+}

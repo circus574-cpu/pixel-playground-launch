@@ -196,3 +196,8 @@ animacje otoczenia, mapy oraz niezmienione bajty zapisów.
 [Wyniki i zrzut](qa/pyra-test-server/results.json) ·
 [Widok pobranej sceny](qa/pyra-test-server/downloaded-preview.jpg).
 Test fizycznego telefonu pozostaje otwarty.
+
+Wdrożenie 1.14.2 zakończone. Serwer potwierdził aktywną wersję 1.14.2 i
+włączoną konserwację. Anonimowe żądania manifestu i paczki testowej
+otrzymały HTTP 503. [Weryfikacja serwera](qa/pyra-test-server/live.json) ·
+[GitHub Actions](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/44251931494).
