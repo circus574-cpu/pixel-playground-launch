@@ -1,6 +1,6 @@
 extends SceneTree
-## Walks the hero through the prototype (movie) and checks the collisions: the river and the map edge stop the hero, the bridge lets it cross.
-## godot --path ports/godot-iso-proto --write-movie /tmp/iso.avi --fixed-fps 30 --resolution 1280x720 --script res://qa_walk.gd
+## Walks the hero through the prototype and checks the collisions in LOGICAL game units: the river and the zone edge stop the hero, the bridge lets it cross,
+## and the city zone is 4000 x 2500 units. godot --path ports/godot-iso-proto --write-movie /tmp/iso.avi --fixed-fps 30 --resolution 1280x720 --script res://qa_walk.gd
 var main: Node2D
 var failures := 0
 func check(ok: bool, what: String) -> void:
@@ -12,6 +12,13 @@ func walk(dir: Vector2, seconds: float) -> void:
 	main.scripted_motion = dir
 	await frames(int(seconds * 30.0))
 	main.scripted_motion = Vector2.ZERO
+func in_water(l: Vector2) -> bool:
+	var w: Vector2 = main.to_world(l)
+	for poly: Array in main.scene.water_world:
+		var pts := PackedVector2Array()
+		for q: Array in poly: pts.append(Vector2(q[0], q[1]))
+		if Geometry2D.is_point_in_polygon(w, pts): return true
+	return false
 func _initialize() -> void:
 	run.call_deferred()
 func run() -> void:
@@ -19,34 +26,22 @@ func run() -> void:
 	root.add_child(main)
 	await frames(10)
 	main.use_script_motion = true
-	var start: Vector2 = main.hero.position
-	# 1. a tour of the market and the harbour
+	check(is_equal_approx(main.unit * float(main.scene.world[0]), 4000.0), "the city zone is 4000 units wide (unit %.2f per metre)" % main.unit)
+	check(absf(float(main.scene.world[1]) * main.unit - 2500.0) < 1.0, "and 2500 units high")
 	for s in [[Vector2(1, 0), 1.6], [Vector2(0, -1), 1.4], [Vector2(-1, 0), 1.4], [Vector2(0, 1), 1.8], [Vector2(1, 1), 1.2], [Vector2(1, 0), 1.2]]:
 		await walk(s[0], s[1])
-	# 2. into the river: the hero must not cross it away from the bridge
-	main.hero.position = main.screen_of(-12.0, -6.5, 0.4)
+	main.hero.position = main.to_logical(-12.0, -6.5)
 	await frames(2)
-	await walk(Vector2(1, 0.3), 6.0)
-	var edge: Vector2 = main.hero.position
-	var in_water := false
-	for poly: Array in main.scene.water:
-		var pts := PackedVector2Array()
-		for q: Array in poly: pts.append(Vector2(q[0], q[1]))
-		if Geometry2D.is_point_in_polygon(edge, pts): in_water = true
-	check(not in_water, "the river stops the hero (it is not in the water)")
-	# 3. across the bridge: the gap between the two water pieces
-	var gap: Array = main.scene.water
-	var top_poly: Array = gap[1]
-	var bridge_screen: Vector2 = main.screen_of(float(main.scene.placements.filter(func(p): return p.proto == "bridge")[0].x) - 10.0, 10.25, 0.4)
-	main.hero.position = bridge_screen
+	await walk(Vector2(1, 1), 14.0)       # screen down-right = logical east: towards the river and past it, if nothing stopped the hero
+	check(not in_water(main.hero.position), "the river stops the hero (it is not in the water)")
+	var br: Dictionary = main.scene.placements.filter(func(p): return p.proto == "bridge")[0]
+	var start: Vector2 = main.to_logical(float(br.x) - 10.0, float(br.y))
+	main.hero.position = start
 	await frames(2)
-	await walk(Vector2(1, 0), 2.5)
-	var across: Vector2 = main.hero.position
-	check(across.x > bridge_screen.x + 60.0, "the hero walks over the bridge (moved %.0f px)" % (across.x - bridge_screen.x))
-	# 4. the map edge
-	await walk(Vector2(1, 0), 8.0)
-	var v: Array = main.scene.view
-	check(main.hero.position.x < float(v[2]) and main.hero.position.y < float(v[3]) and main.hero.position.x > float(v[0]), "the map edge keeps the hero inside")
+	await walk(Vector2(1, 1), 5.0)        # logical +x (east) over the bridge
+	check(main.hero.position.x > start.x + 400.0, "the hero walks over the bridge (moved %.0f units)" % (main.hero.position.x - start.x))
+	await walk(Vector2(1, 1), 40.0)
+	check(absf(main.hero.position.x) < 2000.0 and absf(main.hero.position.y) < 1250.0, "the zone edge keeps the hero inside 4000 x 2500")
 	await walk(Vector2(0, 0), 0.5)
 	print("ISO PROTO QA failures ", failures)
 	quit(1 if failures > 0 else 0)

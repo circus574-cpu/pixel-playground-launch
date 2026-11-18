@@ -1,0 +1,11 @@
+; Terrain3D renderer for the isometric prototype: builds the ground of Zielona Przystań from data/ (height, control map, textures) and renders it with the iso camera.
+config_version=5
+
+[application]
+config/name="iso terrain render"
+run/main_scene="res://render.tscn"
+config/features=PackedStringArray("4.6", "Forward Plus")
+
+[rendering]
+renderer/rendering_method="forward_plus"
+anti_aliasing/quality/msaa_3d=0

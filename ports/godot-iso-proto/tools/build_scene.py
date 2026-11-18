@@ -15,7 +15,8 @@ ap.add_argument("--samples", type=int, default=48); ap.add_argument("--only", de
 args = ap.parse_args(sys.argv[sys.argv.index("--") + 1:])
 OUT = Path(args.out); OUT.mkdir(parents=True, exist_ok=True)
 RNG = random.Random(7); NP = np.random.default_rng(7)
-W, H = 84.0, 56.0          # world size in metres (x east, y north), centre at 0,0
+W, H = 89.6, 56.0          # the city zone in metres (x east, y north), centre at 0,0: 4000 x 2500 game units as in docs/SWIAT-I-MIASTA.md (44.64 units per metre)
+UNIT = 4000.0 / W
 RES_X = args.res; RES_Y = int(args.res * 0.62)
 CAM_YAW, CAM_ELEV = 45.0, 30.0
 
@@ -48,6 +49,31 @@ def reset():
     scn.render.use_freestyle = False   # ink outlines are added to the sprites in post (alpha dilation), see crop_png
     return scn, cam
 scn, cam = reset()
+
+def textured(name, a, b, kind, scale=1.0, rough=.85):
+    """procedural surface: colour variation + bump from shader nodes (object coordinates), no image files"""
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N, L = nt.nodes, nt.links
+    bsdf = N["Principled BSDF"]; bsdf.inputs["Roughness"].default_value = rough
+    tc = N.new("ShaderNodeTexCoord"); mp = N.new("ShaderNodeMapping"); mp.inputs["Scale"].default_value = (scale, scale, scale); L.new(tc.outputs["Object"], mp.inputs["Vector"])
+    ramp = N.new("ShaderNodeValToRGB"); ramp.color_ramp.elements[0].color = (*lin(a), 1); ramp.color_ramp.elements[1].color = (*lin(b), 1)
+    bump = N.new("ShaderNodeBump"); bump.inputs["Strength"].default_value = .35
+    if kind == "tiles":
+        br = N.new("ShaderNodeTexBrick"); br.inputs["Scale"].default_value = 3.2; br.offset = .5; br.inputs["Mortar Size"].default_value = .03; br.inputs["Brick Width"].default_value = .5; br.inputs["Row Height"].default_value = .25
+        br.inputs["Color1"].default_value = (*lin(a), 1); br.inputs["Color2"].default_value = (*lin(b), 1); br.inputs["Mortar"].default_value = (*lin("1c1a18"), 1)
+        L.new(mp.outputs[0], br.inputs["Vector"]); L.new(br.outputs["Color"], bsdf.inputs["Base Color"]); L.new(br.outputs["Fac"], bump.inputs["Height"])
+    elif kind == "stone":
+        br = N.new("ShaderNodeTexBrick"); br.inputs["Scale"].default_value = 1.6; br.offset = .5; br.inputs["Mortar Size"].default_value = .04; br.inputs["Brick Width"].default_value = .9; br.inputs["Row Height"].default_value = .45
+        br.inputs["Color1"].default_value = (*lin(a), 1); br.inputs["Color2"].default_value = (*lin(b), 1); br.inputs["Mortar"].default_value = (*lin("2b2a2c"), 1)
+        nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 9; L.new(mp.outputs[0], nz.inputs["Vector"]); L.new(mp.outputs[0], br.inputs["Vector"])
+        mix = N.new("ShaderNodeMix"); mix.data_type = "RGBA"; mix.inputs[0].default_value = .22; L.new(br.outputs["Color"], mix.inputs[6]); L.new(nz.outputs["Color"], mix.inputs[7]); L.new(mix.outputs[2], bsdf.inputs["Base Color"]); L.new(br.outputs["Fac"], bump.inputs["Height"])
+    elif kind == "wood":
+        wv = N.new("ShaderNodeTexWave"); wv.wave_type = "BANDS"; wv.bands_direction = "Y"; wv.inputs["Scale"].default_value = 7; wv.inputs["Distortion"].default_value = 5; wv.inputs["Detail"].default_value = 3
+        L.new(mp.outputs[0], wv.inputs["Vector"]); L.new(wv.outputs["Fac"], ramp.inputs["Fac"]); L.new(ramp.outputs["Color"], bsdf.inputs["Base Color"]); L.new(wv.outputs["Fac"], bump.inputs["Height"])
+    else:   # noise-based: plaster, foliage, thatch, rock
+        nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = {"plaster": 14, "leaf": 6, "thatch": 22, "rock": 5}.get(kind, 10); nz.inputs["Detail"].default_value = 8; nz.inputs["Roughness"].default_value = .6
+        L.new(mp.outputs[0], nz.inputs["Vector"]); L.new(nz.outputs["Fac"], ramp.inputs["Fac"]); L.new(ramp.outputs["Color"], bsdf.inputs["Base Color"]); L.new(nz.outputs["Fac"], bump.inputs["Height"])
+    L.new(bump.outputs["Normal"], bsdf.inputs["Normal"]); return m
+
 def make_materials():
     global M
     M = {k: mat(k, v[0], v[1]) for k, v in {
@@ -56,6 +82,12 @@ def make_materials():
         "pine": ("1f4a2c", 1), "pine2": ("2a5c33", 1), "oak": ("3d7a2e", 1), "oak2": ("56922f", 1), "fruit": ("4f9a3a", 1), "canvasA": ("d9c9a0", .95), "canvasB": ("b4442f", .95),
         "canvasC": ("d2a23a", .95), "canvasD": ("4f6fa8", .95), "rock": ("77808a", .95), "dark": ("2a2420", .9), "sail": ("e8dcc0", .95), "hull": ("5a3b24", .9), "crate": ("8b6a3e", .9),
         "lantern": ("ffb347", .5)}.items()}
+    M.update({"plaster": textured("plaster", "d3bf9c", "b9a07a", "plaster"), "plaster2": textured("plaster2", "c4ab85", "a98e68", "plaster"),
+              "roofg": textured("roofg", "4a6b57", "35503f", "tiles"), "roofr": textured("roofr", "8a4331", "6a3022", "tiles"), "roofdark": textured("roofdark", "3a4636", "2a3329", "tiles"),
+              "thatch": textured("thatch", "6e8a3a", "4a6628", "thatch", 1.2), "stone": textured("stone", "8a8a84", "6e6e6a", "stone"), "stone2": textured("stone2", "77776f", "5c5c58", "stone"),
+              "timber": textured("timber", "5a3322", "3a2014", "wood"), "wood": textured("wood", "7a5634", "5a3e24", "wood"), "wood2": textured("wood2", "98744a", "7a5a36", "wood"), "crate": textured("crate", "9a7646", "7a5a32", "wood"),
+              "bark": textured("bark", "5a4230", "3a2a1e", "wood", 2.0), "pine": textured("pine", "1d4a2a", "123220", "leaf"), "pine2": textured("pine2", "2b6034", "1d4a2a", "leaf"),
+              "oak": textured("oak", "3f7a2e", "2a5a22", "leaf"), "oak2": textured("oak2", "6a9c35", "46802a", "leaf"), "fruit": textured("fruit", "5aa23a", "3a7a2a", "leaf"), "rock": textured("rock", "8a929c", "5e6672", "rock", .8)})
     M["lantern"].node_tree.nodes["Principled BSDF"].inputs["Emission Color"].default_value = (1, .7, .25, 1); M["lantern"].node_tree.nodes["Principled BSDF"].inputs["Emission Strength"].default_value = 6
 make_materials()
 
@@ -65,27 +97,8 @@ def project(p):
     return [round(v.x * RES_X, 1), round((1 - v.y) * RES_Y, 1)]
 
 # ---------------------------------------------------------------- terrain -------------------------------------------------------------
-def river_cx(y): return 4.0 * math.sin(y * 0.11) + 1.5 * math.sin(y * 0.31 + 1.0) - 0.0
-def river_half(y): return 7.5 + 1.5 * math.sin(y * 0.17 + 2.0) + (1.0 if y > 14 else 0)
-BRIDGE_Y = (8.0, 12.5)     # the main bridge deck crosses the river here
-def smooth(a, b, x): t = min(1, max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t)
-def hnoise(x, y):
-    return (math.sin(x * .13 + 1.7) * math.cos(y * .11 + .4) * 1.0 + math.sin(x * .31 + y * .23) * .45 + math.sin(x * .07 - y * .19 + 2.1) * .8) * .5
-def height(x, y):
-    d = x - river_cx(y); hw = river_half(y); a = abs(d)
-    bank = smooth(hw - .6, hw + 1.2, a)
-    h_left = .35 + smooth(-26, -42, x) * 5.5 + max(0, hnoise(x, y)) * .8 * smooth(-18, -34, x)
-    h_right = .5 + smooth(14, 36, x) * 4.2 + max(0, hnoise(x, y)) * .7 * smooth(12, 32, x)
-    side = h_left if d < 0 else h_right
-    if d > 0 and 16 < x < 30 and -18 < y < 12:      # orchard terraces
-        t = (x - 14) / 5.0; side = .6 + (math.floor(t) + smooth(.8, 1.0, t - math.floor(t))) * .7
-    cliff = smooth(20, 30, y) * (2.6 + 2.4 * abs(hnoise(x * 1.3, y * 1.3)))   # rocky back wall
-    bed = -1.4 + (a / hw) ** 2 * 1.2
-    h = bed * (1 - bank) + (side + cliff * (1 if abs(x) > 4 else .5)) * bank
-    # outer mountains
-    far = smooth(-6, 26, -(x - y) * 0.7)          # the camera looks from +x,-y: far sides get mountains, near sides only foothills
-    ring = smooth(40, 60, max(abs(x) * 1.0, abs(y) * 1.4)) * (4 + 11 * far)
-    return h + ring * (0.45 + 0.55 * abs(hnoise(x * .8, y * .8)) * 2) * (0.25 + 0.75 * bank)
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from zp_world import river_cx, river_half, BRIDGE_Y, smooth, hnoise, height
 def terrain_colors(x, y, h, slope):
     d = x - river_cx(y); a = abs(d); hw = river_half(y)
     if a < hw - .3:        # water
@@ -258,6 +271,7 @@ def layout(Zfun):
         if abs(d) < river_half(y) + 2.2: return False
         if -27 < x < -8 and -22 < y < 16: return False
         if abs(x + 14) < 2.2: return False
+        if abs(y - 10.25) < 3.5 and abs(d) < 18: return False     # the approaches of the bridge stay open
         if d > 0 and 12 < x < 38 and -22 < y < 8: return False
         return all((x - tx) ** 2 + (y - ty) ** 2 > (tr + r) ** 2 for tx, ty, tr in taken)
     for i in range(520):
@@ -290,7 +304,7 @@ def crop_png(path, box):
     out = bpy.data.images.new("c", x1 - x0 + 6, y1 - y0 + 6, alpha=True); out.pixels = sub.flatten().tolist(); out.filepath_raw = str(path); out.file_format = "PNG"; out.save(); bpy.data.images.remove(out)
 
 only = args.only.split(",")
-info = {"res": [RES_X, RES_Y], "world": [W, H], "camera": {"yaw": CAM_YAW, "elev": CAM_ELEV, "ortho": 104.0}, "river": {"bridge_y": BRIDGE_Y}}
+info = {"res": [RES_X, RES_Y], "world": [W, H], "unit": UNIT, "city_units": [4000, 2500], "camera": {"yaw": CAM_YAW, "elev": CAM_ELEV, "ortho": 104.0}, "river": {"bridge_y": BRIDGE_Y}}
 ground, (xs, ys, Z) = build_terrain()
 def zfun(x, y): return height(x, y)
 if "terrain" in only:
@@ -318,11 +332,15 @@ for p in placements:
     scr = project((p["x"], p["y"], z)); p["z"] = round(z, 2); p["screen"] = scr; p["depth"] = round(p["x"] + (-p["y"]) * 1.0, 2) * 0 + round(-(p["y"]) + (p["x"]) * 0, 2)
     placed.append(p)
 info["placements"] = placed
+info["hgrid"] = {"x0": -W / 2, "y0": -H / 2, "step": 1.0, "nx": int(W) + 2, "ny": int(H) + 2, "z": [[round(height(-W / 2 + i, -H / 2 + j), 2) for i in range(int(W) + 2)] for j in range(int(H) + 2)]}
 # river geometry for collisions (screen pixels): water strips split at the bridge
 def strip(y0, y1, n=14):
     ysamp = np.linspace(y0, y1, n); L = [project((river_cx(y) - river_half(y) + .6, y, 0)) for y in ysamp]; R = [project((river_cx(y) + river_half(y) - .6, y, 0)) for y in ysamp]
     return L + R[::-1]
 info["water"] = [strip(-H / 2 - 12, BRIDGE_Y[0], 20), strip(BRIDGE_Y[1], H / 2 + 14, 16)]
+def strip_world(y0, y1, n=14):
+    ysamp = np.linspace(y0, y1, n); return [[round(river_cx(y) - river_half(y) + .6, 2), round(y, 2)] for y in ysamp] + [[round(river_cx(y) + river_half(y) - .6, 2), round(y, 2)] for y in ysamp[::-1]]
+info["water_world"] = [strip_world(-H / 2 - 12, BRIDGE_Y[0], 20), strip_world(BRIDGE_Y[1], H / 2 + 14, 16)]
 info["start"] = project((-15.5, -1.0, height(-15.5, -1.0)))
 info["bounds"] = [project((-W / 2 + 2, -H / 2 + 2, 0)), project((W / 2 - 2, -H / 2 + 2, 0)), project((W / 2 - 2, H / 2 - 2, 0)), project((-W / 2 + 2, H / 2 - 2, 0))]
 (OUT / "scene.json").write_text(json.dumps(info))
