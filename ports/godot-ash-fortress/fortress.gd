@@ -30,6 +30,7 @@ var roof: StandardMaterial3D
 var iron: StandardMaterial3D
 var fire: StandardMaterial3D
 var paving: StandardMaterial3D
+var steps: StandardMaterial3D
 var rng := RandomNumberGenerator.new()
 
 func _exit_tree() -> void:
@@ -39,19 +40,21 @@ func _exit_tree() -> void:
 
 func _ready() -> void:
 	rng.seed = 20261118
-	stone = material(Color("776970"), "res://assets/bazalt-klif.png")
-	ash = material(Color("b4a6a1"), "res://assets/popiol-taras.png")
+	stone = material(Color("9f999f"), "res://assets/sciana-bazaltowa.webp")
+	ash = material(Color("b9abb0"), "res://assets/popiolek.webp")
 	lava = material(Color("ef6b25"), "res://assets/lawa-nurt.png", Color("f04915"))
 	roof = material(Color("592d36"))
 	iron = material(Color("403a46"))
 	fire = material(Color("ffab42"), "", Color("ff7023"))
-	paving = material(Color("b6a19b"), "res://assets/bazalt-klif.png")
+	paving = material(Color("d2b5a6"), "res://assets/bruk.webp")
+	paving.uv1_scale = Vector3(3.5, 3.5, 3.5)
+	steps = material(Color("7e7477"), "res://assets/popiol-taras.png")
 	for name in ["hall", "shop", "inn", "forge", "rocks", "legend", "gate", "brazier", "tree"]:
 		art[name] = load("res://assets/" + name + ".webp")
 	var environment := WorldEnvironment.new()
 	environment.environment = Environment.new()
 	environment.environment.background_mode = Environment.BG_COLOR
-	environment.environment.background_color = Color("30262e")
+	environment.environment.background_color = Color("332d36")
 	environment.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	environment.environment.ambient_light_color = Color("c9b7c7")
 	environment.environment.ambient_light_energy = 0.68
@@ -59,7 +62,8 @@ func _ready() -> void:
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-53, -38, 0)
 	sun.light_color = Color("ffcaa5")
-	sun.light_energy = 1.18
+	sun.light_energy = 1.33
+	sun.shadow_enabled = true
 	add_child(sun)
 	add_child(camera)
 	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
@@ -201,7 +205,40 @@ func ground_piece(rect: Rect2, h: float) -> void:
 			var depth := minf(4, rect.end.y - z)
 			var c := Vector3(x + width / 2, h - 0.15, z + depth / 2)
 			box(c, Vector3(width, .3, depth), ash)
-			box(c - Vector3(0, (h + 4) / 2, 0), Vector3(width, h + 4, depth), stone)
+	var e := rect.end
+	var s := rect.position
+	var corners := [s, Vector2(e.x,s.y), e, Vector2(s.x,e.y)]
+	for edge in 4:
+		cliff_face(corners[edge], corners[(edge + 1) % 4], h)
+
+func cliff_face(a: Vector2, b: Vector2, top: float) -> void:
+	var mesh := SurfaceTool.new()
+	mesh.begin(Mesh.PRIMITIVE_TRIANGLES)
+	mesh.set_smooth_group(-1)
+	var outward := (b - a).normalized().orthogonal()
+	var segments := ceili(a.distance_to(b) / 1.25)
+	var lattice: Array[PackedVector3Array] = []
+	for rung in 5:
+		var row := PackedVector3Array()
+		for segment in range(segments + 1):
+			var p := a.lerp(b, segment / float(segments))
+			if rung > 0:
+				p += outward * (rung * .16 + rng.randf_range(-.56, .72))
+			var elevation := lerpf(top - .1, -5.15, rung / 4.0)
+			if rung in [1, 2, 3]:
+				elevation += rng.randf_range(-.58, .58)
+			row.append(Vector3(p.x, elevation, p.y))
+		lattice.append(row)
+	for rung in 4:
+		for segment in segments:
+			for c in [Vector2i(0,0),Vector2i(1,0),Vector2i(0,1),Vector2i(1,0),Vector2i(1,1),Vector2i(0,1)]:
+				var p := lattice[rung + c.y][segment + c.x]
+				mesh.set_uv(Vector2((segment + c.x) / 4.0, (top - p.y) / 4.0))
+				mesh.add_vertex(p)
+	mesh.generate_normals()
+	stone.cull_mode = BaseMaterial3D.CULL_DISABLED
+	var center := (a + b) * .5
+	mesh_at(mesh.commit(), stone, Vector3(center.x, 0, center.y)).position = Vector3.ZERO
 
 func wall(a: Vector2, b: Vector2, h: float) -> void:
 	var center := (a + b) * .5
@@ -226,6 +263,7 @@ func lava_river() -> void:
 	mesh_at(strip.commit(), lava, Vector3(6, 0, 18)).position = Vector3.ZERO
 
 func build_city() -> void:
+	box(Vector3(0,-5.65,0),Vector3(240,1,240),material(Color("392f37"), "res://assets/popiol-taras.png"))
 	for area in AREAS:
 		ground_piece(area[0], area[1])
 	for stair in STAIRS:
@@ -233,7 +271,7 @@ func build_city() -> void:
 		for i in 16:
 			var z := r.position.y + (i + .5) * r.size.y / 16
 			var h := lerpf(stair[1], stair[2], (i + .5) / 16)
-			box(Vector3(r.get_center().x, h - .12, z), Vector3(r.size.x, .24, r.size.y / 16 + .012), ash)
+			box(Vector3(r.get_center().x, h - .12, z), Vector3(r.size.x, .24, r.size.y / 16 + .012), steps)
 			for x in [r.position.x, r.end.x]:
 				if i % 5 == 0:
 					column(Vector3(x, h + .52, z), .19, .23, 1.04, 5, iron)
