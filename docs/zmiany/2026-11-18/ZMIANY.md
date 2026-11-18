@@ -372,3 +372,7 @@ globus. Test domyka także oczekujące wywołanie ekranu serwisowego.
 [Test 23/23](qa/gemini-authenticated/results.json) ·
 [Żądania HTTP z kontrolą autoryzacji](qa/gemini-authenticated/http-requests.json).
 Test wykorzystuje zasoby podpisanego APK w Godocie na komputerze.
+
+Treść 1.14.4 aktywna w TEST SERWERZE. Konserwacja nadal blokuje manifest
+i paczkę dla gości. [Weryfikacja na VPS](qa/gemini-authenticated/live.json) ·
+[GitHub Actions](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/44417595460).

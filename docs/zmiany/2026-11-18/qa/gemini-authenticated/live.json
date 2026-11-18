@@ -1,0 +1,17 @@
+{
+  "status": {
+    "ok": true,
+    "serverTime": "2026-11-18T23:08:31.953Z",
+    "maintenance": true,
+    "message": "Serwer jest w trakcie konserwacji. Wróć za chwilę.",
+    "canEnter": false,
+    "canPreview": false,
+    "activeVersion": "1.14.4",
+    "minClientCode": 1,
+    "online": 0
+  },
+  "guest": {
+    "/ws/godot/manifest?client=102": 503,
+    "/ws/godot/pack/1.14.4/core-c101-0fb371403b8a.pck": 503
+  }
+}
