@@ -1,0 +1,163 @@
+{
+  "pyra": {
+    "districts": 3,
+    "blocks": 15,
+    "existing_buildings": 6,
+    "squares": 3,
+    "routes": [
+      {
+        "name": "Zakręty Cytadeli",
+        "current_surface_blocked_samples": 0,
+        "samples": 195
+      },
+      {
+        "name": "Trakt Bramy",
+        "current_surface_blocked_samples": 53,
+        "samples": 255
+      },
+      {
+        "name": "Obwód Kuźni",
+        "current_surface_blocked_samples": 0,
+        "samples": 327
+      },
+      {
+        "name": "Aleja Północna",
+        "current_surface_blocked_samples": 0,
+        "samples": 169
+      }
+    ],
+    "terrain_review": [
+      {
+        "district": "Targ przy bramie",
+        "block": [
+          -273,
+          -67
+        ]
+      },
+      {
+        "district": "Targ przy bramie",
+        "block": [
+          -254,
+          11
+        ]
+      }
+    ]
+  },
+  "verdantia": {
+    "districts": 3,
+    "blocks": 17,
+    "existing_buildings": 6,
+    "squares": 3,
+    "routes": [
+      {
+        "name": "Bulwar Zachodni",
+        "current_surface_blocked_samples": 0,
+        "samples": 252
+      },
+      {
+        "name": "Aleja Domów",
+        "current_surface_blocked_samples": 0,
+        "samples": 459
+      },
+      {
+        "name": "Droga Sadów",
+        "current_surface_blocked_samples": 0,
+        "samples": 301
+      },
+      {
+        "name": "Wschodni Bulwar",
+        "current_surface_blocked_samples": 0,
+        "samples": 133
+      }
+    ],
+    "terrain_review": []
+  },
+  "aetheria": {
+    "districts": 3,
+    "blocks": 15,
+    "existing_buildings": 6,
+    "squares": 3,
+    "routes": [
+      {
+        "name": "Droga Pielgrzymów",
+        "current_surface_blocked_samples": 0,
+        "samples": 183
+      },
+      {
+        "name": "Pasaż Skryptoriów",
+        "current_surface_blocked_samples": 0,
+        "samples": 172
+      },
+      {
+        "name": "Zakręty Sanktuariów",
+        "current_surface_blocked_samples": 14,
+        "samples": 287
+      },
+      {
+        "name": "Droga Stokowa",
+        "current_surface_blocked_samples": 54,
+        "samples": 180
+      }
+    ],
+    "terrain_review": [
+      {
+        "district": "Górna Dzielnica Sanktuariów",
+        "block": [
+          -220,
+          -163
+        ]
+      },
+      {
+        "district": "Górna Dzielnica Sanktuariów",
+        "block": [
+          -181,
+          -81
+        ]
+      }
+    ]
+  },
+  "nexus": {
+    "districts": 3,
+    "blocks": 16,
+    "existing_buildings": 6,
+    "squares": 3,
+    "routes": [
+      {
+        "name": "Rampa Zarządu",
+        "current_surface_blocked_samples": 4,
+        "samples": 146
+      },
+      {
+        "name": "Łuk Transportowy",
+        "current_surface_blocked_samples": 0,
+        "samples": 202
+      },
+      {
+        "name": "Pętla Warsztatów",
+        "current_surface_blocked_samples": 4,
+        "samples": 454
+      },
+      {
+        "name": "Podjazd Północny",
+        "current_surface_blocked_samples": 0,
+        "samples": 216
+      }
+    ],
+    "terrain_review": [
+      {
+        "district": "Hala Transportowa",
+        "block": [
+          119,
+          -86
+        ]
+      },
+      {
+        "district": "Dolne Warsztaty",
+        "block": [
+          -77,
+          256
+        ]
+      }
+    ]
+  }
+}

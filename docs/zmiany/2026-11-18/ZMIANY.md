@@ -89,3 +89,24 @@ z siecią i dojście z tej sieci w okolice wszystkich 24 budynków.
 - [Nexus-9](qa/city-streets/nexus/settlement-overview.jpg), [40/40 kontroli](qa/city-streets/nexus/results.json).
 
 Kadry są z Godota 4.6.3. Układy są zmianą gałęzi prototypów.
+
+## Plan rozbudowy czterech stolic
+
+[Atlas stolic w PDF](qa/capital-plans/stolice-superiora.pdf) pokazuje
+istniejące centrum i trzy nowe dzielnice każdej stolicy. Łącznie zaplanowano
+12 dzielnic, 12 nowych placów, 16 przebiegów ulic i 63 kwartały pod zabudowę.
+
+- [Pyra](qa/capital-plans/pyra.jpg) ma cytadelę, targ bramny i Dolne Kuźnie.
+- [Verdantia](qa/capital-plans/verdantia.jpg) ma zachodni targ z nabrzeżem, domy ogrodowe i sady.
+- [Aetheria](qa/capital-plans/aetheria.jpg) prowadzi od miasta gości przez tarasy nauki do sanktuariów.
+- [Nexus-9](qa/capital-plans/nexus.jpg) ma górną platformę administracji, przesiadki i niższe warsztaty.
+
+[Źródła planów](../../design/superior-capital-plans.json) zapisują granice,
+osie ulic, place i kwartały we współrzędnych prototypów. Plansze korzystają
+z danych wysokości Godota. Kontrola wykazała, że kwartały mieszczą się w
+dzielnicach i nie pokrywają istniejących budynków, placów ani osi dróg.
+[Przegląd terenu](qa/capital-plans/terrain-review.json) oznacza próbki
+projektowanych ulic wypadające poza aktualną maską ruchu. Rampa, mur
+oporowy lub korekta przebiegu będzie wymagana przy wykonaniu tych odcinków.
+To etap projektu urbanistycznego. Aktualny teren, serwer i budynki pozostają
+w dotychczasowej wersji.
