@@ -11,6 +11,10 @@ import numpy as np
 from PIL import Image, ImageDraw
 from scipy.ndimage import gaussian_filter, label
 
+from pyra_quarters import (
+    FORGES, MARKET, PATROLS, QUARTER_COURTS, QUARTER_GROVES, QUARTER_LAMPS, QUARTER_MARKERS, QUARTER_STREETS,
+)
+
 ROOT=Path(__file__).resolve().parents[2]
 PROJECT=ROOT/'ports/godot-isometric-pyra'
 BASE=PROJECT/'data'
@@ -51,8 +55,8 @@ STREET_LAMPS = [[-78,-136],[-81,-163],[-64,-162],[-34,-171],[-50,-206]]
 MARKET_COURT = [[-63,-154],[-54,-160],[-52,-163],[-36,-164],[-34,-159],[-38,-157],[-55,-156]]
 GROVES = [[-124,-111],[-118,-102],[-138,-134],[-108,-173],[-104,-180],[-13,-187],[-8,-185],[-6,-147]]
 
-OBSTACLES.extend({'xz': point, 'size': size} for _, _, _, point, size, _ in DISTRICT)
-OBSTACLES.extend({'xz': point, 'size': [2.2, 2.2]} for point in STREET_LAMPS)
+OBSTACLES.extend({'xz': point, 'size': size} for _, _, _, point, size, _ in DISTRICT + MARKET + FORGES)
+OBSTACLES.extend({'xz': point, 'size': [2.2, 2.2]} for point in STREET_LAMPS + QUARTER_LAMPS)
 
 
 def digest(path):
@@ -84,12 +88,22 @@ def fit_terrace():
     blend=np.clip((22-distance)/15,0,1)*taper
     height=height*(1-blend)+axis_height*blend
     changed|=blend>0
-    for _, _, _, (px, pz), (width, depth), level in DISTRICT:
+    for _, _, _, (px, pz), (width, depth), level in DISTRICT + MARKET + FORGES:
         distance_to_wall = np.maximum(abs(x - px) - width / 2, abs(z - pz) - depth / 2)
         pad = np.clip((12 - distance_to_wall) / 10, 0, 1)
         height = height * (1 - pad) + level * pad
         changed |= pad > 0
-    for (_, _, points), levels in zip(DISTRICT_STREETS, [[20,19,18,17,17,16.5,16.5], [19,19,19,19,19]], strict=True):
+    for _, _, (cx, cz), (rx, rz), level in QUARTER_COURTS:
+        envelope = np.hypot((x - cx) / rx, (z - cz) / rz)
+        apron = np.clip((1.7 - envelope) / .7, 0, 1)
+        height = height * (1 - apron) + level * apron
+        changed |= apron > 0
+    street_grades = [
+        (*DISTRICT_STREETS[0], [20,19,18,17,17,16.5,16.5]),
+        (*DISTRICT_STREETS[1], [19,19,19,19,19]),
+        *QUARTER_STREETS,
+    ]
+    for _, width, points, levels in street_grades:
         distance = np.full_like(height, 2500)
         grade = height.copy()
         for a,b,za,zb in zip(points[:-1],points[1:],levels[:-1],levels[1:],strict=True):
@@ -98,7 +112,8 @@ def fit_terrace():
             d=np.hypot(x-a[0]-t*dx,z-a[1]-t*dz)
             grade=np.where(d<distance,za+(zb-za)*t,grade)
             distance=np.minimum(d,distance)
-        branch = np.clip((9 - distance) / 5, 0, 1)
+        radius = 9 if width < 10 else width + 8
+        branch = np.clip((radius - distance) / (radius - (4 if width < 10 else width / 2)), 0, 1)
         height = height * (1 - branch) + grade * branch
         changed |= branch > 0
     height=np.where(changed,gaussian_filter(height,.45),h).astype('<f4')
@@ -111,7 +126,7 @@ def fit_terrace():
         open_area &= ~((abs(x-cx)<w/2+.8)&(abs(z-cz)<d/2+.8))
     components,_=label(open_area)
     assert components[(50+512)//2,(-40+512)//2]==components[(-209+512)//2,(-45+512)//2]>0
-    for name, _, _, (px, pz), (w, d), _ in DISTRICT:
+    for name, _, _, (px, pz), (w, d), _ in DISTRICT + MARKET + FORGES:
         apron = (abs(x-px) < w/2+9) & (abs(z-pz) < d/2+9)
         assert np.any(apron & (components == components[(50+512)//2,(-40+512)//2])), name
     config['height_range'] = [float(height.min()), float(height.max())]
@@ -120,7 +135,11 @@ def fit_terrace():
     config['citadel']={'plaza':[-45,-178],'gate':GATE,'plaza_height':LEVEL,'ground_patch_samples':int(changed.sum())}
     (OUT/'terrain.json').write_text(json.dumps(config,indent=2,ensure_ascii=False)+'\n')
     layout=runpy.run_path(str(ROOT/'scripts/gpu/design-city-streets.py'))
-    layout['bake']('pyra',OUT,{'streets':[('Zakręty Cytadeli',11,ROAD)]+DISTRICT_STREETS,'plazas':[('Plac Koronny',PLAZA),('Dziedziniec Kupców', MARKET_COURT)],'obstacles':OBSTACLES})
+    streets = [('Zakręty Cytadeli', 11, ROAD), *DISTRICT_STREETS,
+               *((name, width, points) for name, width, points, _ in QUARTER_STREETS)]
+    plazas = [('Plac Koronny', PLAZA), ('Dziedziniec Kupców', MARKET_COURT),
+              *((name, polygon) for name, polygon, *_ in QUARTER_COURTS)]
+    layout['bake']('pyra', OUT, {'streets': streets, 'plazas': plazas, 'obstacles': OBSTACLES})
     # A bronze compass rose in the paved surface, aligned in world coordinates.
     size=1024
     emblem=Image.new('L',(size,size))
@@ -217,12 +236,19 @@ def bind_models(source, painted_gate, streets, district_sheet):
                         'painted_source_sha256':painted_hash}
     props = [{'role':role,'xz':point} for role,point in PLACEMENTS]
     props.extend({'role': 'street-lantern', 'xz': point, 'size': [2.2, 2.2], 'flame_m': 6.0}
-                 for point in STREET_LAMPS)
+                 for point in STREET_LAMPS + QUARTER_LAMPS)
     bind_district(district_sheet, art, bindings)
     props.extend({'id': key, 'name': name, 'role': role, 'xz': point, 'size': size, 'entry': 'closed'}
                  for key, name, role, point, size, _ in DISTRICT)
+    existing_art = json.loads((BASE / 'building-art.json').read_text())['buildings']
+    for role in sorted({role for _, _, role, *_ in MARKET + FORGES} - bindings.keys()):
+        entry = existing_art[role]
+        bindings[role] = {key: entry[key] for key in ('texture', 'origin', 'scale', 'sha256')}
+    for quarter, buildings in [('market', MARKET), ('forges', FORGES)]:
+        props.extend({'id': key, 'name': name, 'role': role, 'xz': point, 'size': size, 'entry': 'closed', 'quarter': quarter}
+                     for key, name, role, point, size, _ in buildings)
     data={'assets':bindings,'props':props,'obstacles':OBSTACLES,
-          'groves': GROVES, 'camera_bounds': {'center': [-65, -159], 'radii': [89, 82]}}
+          'groves': GROVES + QUARTER_GROVES, 'districts': QUARTER_MARKERS, 'patrols': PATROLS}
     (OUT/'architecture.json').write_text(json.dumps(data,indent=2)+'\n')
 
 

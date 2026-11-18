@@ -87,6 +87,42 @@
       "scale": 0.3501683501683502,
       "sha256": "c85d8a93382521ba0296c14b1c8095c6e085d3baf20e2d835945cfd1599d6f2b",
       "source_sha256": "2973136ee0ff06d6f17cec1b18f0c31f52b4e25f5a449f1e5c7de2783c9e32b5"
+    },
+    "depot": {
+      "texture": "res://assets/buildings-painted/depot.png",
+      "origin": [
+        0.5,
+        0.70407197
+      ],
+      "scale": 0.57040998,
+      "sha256": "826047c5eac50e4c9ddfea50b0add95dca613f1cf926337d6f07f1e4867e60cb"
+    },
+    "inn": {
+      "texture": "res://assets/buildings-painted/inn.png",
+      "origin": [
+        0.5,
+        0.68895801
+      ],
+      "scale": 0.43478261,
+      "sha256": "a3f161c59617b6ec8f50d369ad5357c230d8874ab47c10b4da84fbe772837423"
+    },
+    "shop": {
+      "texture": "res://assets/buildings-painted/shop.png",
+      "origin": [
+        0.5,
+        0.72735192
+      ],
+      "scale": 0.54092527,
+      "sha256": "18cdb38a227785b37d7f71f495a07adec55487b3a3ceb1a55e30dad86c5b59c7"
+    },
+    "smithy": {
+      "texture": "res://assets/buildings-painted/smithy.png",
+      "origin": [
+        0.5,
+        0.70149254
+      ],
+      "scale": 0.45652174,
+      "sha256": "b80fa6811d1af50fabbf866a3ba0ad867dfc60b45ac41e5efc30aa56d583975f"
     }
   },
   "props": [
@@ -214,6 +250,78 @@
       "flame_m": 6.0
     },
     {
+      "role": "street-lantern",
+      "xz": [
+        -205,
+        -39
+      ],
+      "size": [
+        2.2,
+        2.2
+      ],
+      "flame_m": 6.0
+    },
+    {
+      "role": "street-lantern",
+      "xz": [
+        -224,
+        -22
+      ],
+      "size": [
+        2.2,
+        2.2
+      ],
+      "flame_m": 6.0
+    },
+    {
+      "role": "street-lantern",
+      "xz": [
+        -167,
+        -8
+      ],
+      "size": [
+        2.2,
+        2.2
+      ],
+      "flame_m": 6.0
+    },
+    {
+      "role": "street-lantern",
+      "xz": [
+        -62,
+        195
+      ],
+      "size": [
+        2.2,
+        2.2
+      ],
+      "flame_m": 6.0
+    },
+    {
+      "role": "street-lantern",
+      "xz": [
+        -29,
+        214
+      ],
+      "size": [
+        2.2,
+        2.2
+      ],
+      "flame_m": 6.0
+    },
+    {
+      "role": "street-lantern",
+      "xz": [
+        47,
+        184
+      ],
+      "size": [
+        2.2,
+        2.2
+      ],
+      "flame_m": 6.0
+    },
+    {
       "id": "west-watch",
       "name": "Wartownia Zakr\u0119tu",
       "role": "watch",
@@ -310,6 +418,156 @@
         10
       ],
       "entry": "closed"
+    },
+    {
+      "id": "caravan-watch",
+      "name": "Stra\u017cnica Karawan",
+      "role": "watch",
+      "xz": [
+        -258,
+        -55
+      ],
+      "size": [
+        12,
+        10
+      ],
+      "entry": "closed",
+      "quarter": "market"
+    },
+    {
+      "id": "caravan-inn",
+      "name": "Gospoda Karawan",
+      "role": "inn",
+      "xz": [
+        -224,
+        -61
+      ],
+      "size": [
+        22,
+        18
+      ],
+      "entry": "closed",
+      "quarter": "market"
+    },
+    {
+      "id": "spice-arcade",
+      "name": "Podcienia Korzenne",
+      "role": "arcade",
+      "xz": [
+        -179,
+        -55
+      ],
+      "size": [
+        17,
+        9
+      ],
+      "entry": "closed",
+      "quarter": "market"
+    },
+    {
+      "id": "cloth-shop",
+      "name": "Sk\u0142ad Sukna",
+      "role": "shop",
+      "xz": [
+        -153,
+        -26
+      ],
+      "size": [
+        20,
+        18
+      ],
+      "entry": "closed",
+      "quarter": "market"
+    },
+    {
+      "id": "market-house",
+      "name": "Dom Przyjezdnych",
+      "role": "home",
+      "xz": [
+        -247,
+        17
+      ],
+      "size": [
+        12,
+        10
+      ],
+      "entry": "closed",
+      "quarter": "market"
+    },
+    {
+      "id": "coal-depot",
+      "name": "Sk\u0142ad W\u0119gla",
+      "role": "depot",
+      "xz": [
+        -115,
+        154
+      ],
+      "size": [
+        22,
+        18
+      ],
+      "entry": "closed",
+      "quarter": "forges"
+    },
+    {
+      "id": "lower-smithy",
+      "name": "Ku\u017ania Dolna",
+      "role": "smithy",
+      "xz": [
+        -50,
+        174
+      ],
+      "size": [
+        24,
+        18
+      ],
+      "entry": "closed",
+      "quarter": "forges"
+    },
+    {
+      "id": "metal-house",
+      "name": "Dom Odlewnik\u00f3w",
+      "role": "home",
+      "xz": [
+        14,
+        168
+      ],
+      "size": [
+        12,
+        10
+      ],
+      "entry": "closed",
+      "quarter": "forges"
+    },
+    {
+      "id": "foundry",
+      "name": "Odlewnia",
+      "role": "smithy",
+      "xz": [
+        57,
+        216
+      ],
+      "size": [
+        24,
+        18
+      ],
+      "entry": "closed",
+      "quarter": "forges"
+    },
+    {
+      "id": "forge-hall",
+      "name": "Sk\u0142ad Sztab",
+      "role": "depot",
+      "xz": [
+        -66,
+        242
+      ],
+      "size": [
+        22,
+        18
+      ],
+      "entry": "closed",
+      "quarter": "forges"
     }
   ],
   "obstacles": [
@@ -485,6 +743,106 @@
     },
     {
       "xz": [
+        -258,
+        -55
+      ],
+      "size": [
+        12,
+        10
+      ]
+    },
+    {
+      "xz": [
+        -224,
+        -61
+      ],
+      "size": [
+        22,
+        18
+      ]
+    },
+    {
+      "xz": [
+        -179,
+        -55
+      ],
+      "size": [
+        17,
+        9
+      ]
+    },
+    {
+      "xz": [
+        -153,
+        -26
+      ],
+      "size": [
+        20,
+        18
+      ]
+    },
+    {
+      "xz": [
+        -247,
+        17
+      ],
+      "size": [
+        12,
+        10
+      ]
+    },
+    {
+      "xz": [
+        -115,
+        154
+      ],
+      "size": [
+        22,
+        18
+      ]
+    },
+    {
+      "xz": [
+        -50,
+        174
+      ],
+      "size": [
+        24,
+        18
+      ]
+    },
+    {
+      "xz": [
+        14,
+        168
+      ],
+      "size": [
+        12,
+        10
+      ]
+    },
+    {
+      "xz": [
+        57,
+        216
+      ],
+      "size": [
+        24,
+        18
+      ]
+    },
+    {
+      "xz": [
+        -66,
+        242
+      ],
+      "size": [
+        22,
+        18
+      ]
+    },
+    {
+      "xz": [
         -78,
         -136
       ],
@@ -532,6 +890,66 @@
         2.2,
         2.2
       ]
+    },
+    {
+      "xz": [
+        -205,
+        -39
+      ],
+      "size": [
+        2.2,
+        2.2
+      ]
+    },
+    {
+      "xz": [
+        -224,
+        -22
+      ],
+      "size": [
+        2.2,
+        2.2
+      ]
+    },
+    {
+      "xz": [
+        -167,
+        -8
+      ],
+      "size": [
+        2.2,
+        2.2
+      ]
+    },
+    {
+      "xz": [
+        -62,
+        195
+      ],
+      "size": [
+        2.2,
+        2.2
+      ]
+    },
+    {
+      "xz": [
+        -29,
+        214
+      ],
+      "size": [
+        2.2,
+        2.2
+      ]
+    },
+    {
+      "xz": [
+        47,
+        184
+      ],
+      "size": [
+        2.2,
+        2.2
+      ]
     }
   ],
   "groves": [
@@ -566,16 +984,96 @@
     [
       -6,
       -147
+    ],
+    [
+      -155,
+      9
+    ],
+    [
+      -203,
+      33
+    ],
+    [
+      -189,
+      37
+    ],
+    [
+      -248,
+      -22
+    ],
+    [
+      -221,
+      -51
+    ],
+    [
+      -82,
+      231
+    ],
+    [
+      23,
+      208
+    ],
+    [
+      43,
+      175
     ]
   ],
-  "camera_bounds": {
-    "center": [
-      -65,
-      -159
-    ],
-    "radii": [
-      89,
-      82
-    ]
-  }
+  "districts": [
+    {
+      "name": "Plac Koronny",
+      "center": [
+        -65,
+        -159
+      ],
+      "radii": [
+        89,
+        82
+      ]
+    },
+    {
+      "name": "Targ Bramny",
+      "center": [
+        -188,
+        -25
+      ],
+      "radii": [
+        92,
+        82
+      ]
+    },
+    {
+      "name": "Dolne Ku\u017anie",
+      "center": [
+        -22,
+        196
+      ],
+      "radii": [
+        134,
+        69
+      ]
+    }
+  ],
+  "patrols": [
+    {
+      "id": "caravan",
+      "name": "Tragarz",
+      "street": "Zau\u0142ek Karawan",
+      "tint": "e2b38a",
+      "speed": 3.2
+    },
+    {
+      "id": "market",
+      "name": "Targowa stra\u017c",
+      "street": "Trakt Bramy",
+      "tint": "d4c3b4",
+      "speed": 3.8
+    },
+    {
+      "id": "coal",
+      "name": "Pomocnik ku\u017ani",
+      "street": "Zau\u0142ek W\u0119glowy",
+      "tint": "c4a9a3",
+      "speed": 2.8
+    }
+  ]
 }

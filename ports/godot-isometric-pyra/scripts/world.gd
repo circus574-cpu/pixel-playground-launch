@@ -20,6 +20,8 @@ const CAMERA_LOOK_RATE := 5.0
 var data_root := "res://data"
 var architecture: Dictionary = {}
 var district_ambience: Node2D
+var district_title := Label.new()
+var district_patrols: Array[Dictionary] = []
 var city_center := CITY_CENTER
 var city_radii := CITY_RADII
 var city_height := 12.0
@@ -154,6 +156,7 @@ func _ready() -> void:
 	npc.setup(definitions["guide" if study!="pyra" else "pyra.npc.guide"],str(config.get("guide_name","Kaena")))
 	npc.position=iso(hero_world+Vector2(9,-22))
 	actors.add_child(npc)
+	build_district_patrols(definitions)
 	snap_camera_to_hero()
 	add_child(camera)
 	build_hud()
@@ -266,6 +269,8 @@ func build_objects() -> void:
 	for i in 350:
 		var p:=Vector2(rng.randfn(-270,60),rng.randfn(5,95))
 		if not walkable(p) or absf(p.x)>470 or absf(p.y)>470 or near_road(p):continue
+		# The western market replaces woodland. Keep its trees in authored groups.
+		if citadel_preview and ((p-Vector2(-201,-25))/Vector2(75,58)).length_squared()<1:continue
 		var cell:=Vector2i(p/9)
 		if occupied.has(cell):continue
 		occupied[cell]=true
@@ -308,6 +313,48 @@ func build_citadel_objects() -> void:
 		object_sprite("res://assets/objects/56b49778-ki-v2-objects-pyra-tree2-0.webp",p,width)
 		building_contact_shadow(p,Vector2(3,2))
 
+func build_district_patrols(definitions: Dictionary) -> void:
+	for plan: Dictionary in architecture.get("patrols", []):
+		for street: Dictionary in city_layout.streets:
+			if street.name!=plan.street:continue
+			var points:=PackedVector2Array()
+			for point: Array in street.centerline:
+				points.append(Vector2(point[0],point[1]))
+			var actor:=PyraActor.new()
+			actor.setup(definitions["pyra.npc.guide"],str(plan.name))
+			actor.sprite.modulate=Color(str(plan.tint))
+			actor.position=iso(points[0])
+			actors.add_child(actor)
+			district_patrols.append({
+				"actor":actor,"points":points,"position":points[0],
+				"next":1,"direction":1,"speed":float(plan.speed),"pause":1.0,
+			})
+			break
+
+func move_district_patrols(delta: float) -> void:
+	for patrol in district_patrols:
+		var actor: Node2D=patrol.actor
+		if patrol.pause>0:
+			patrol.pause-=delta
+			actor.animate(Vector2.ZERO)
+			continue
+		var current: Vector2=patrol.position
+		var destination: Vector2=patrol.points[patrol.next]
+		var next:=current.move_toward(destination,patrol.speed*delta)
+		var motion_on_screen:=iso(next-current,0).normalized()
+		if not walkable(next):
+			actor.animate(Vector2.ZERO)
+			continue
+		patrol.position=next
+		actor.position=iso(next)
+		actor.animate(motion_on_screen)
+		if next.is_equal_approx(destination):
+			var index:=int(patrol.next)+int(patrol.direction)
+			if index<0 or index>=patrol.points.size():
+				patrol.direction=-int(patrol.direction)
+				patrol.pause=2.0
+			patrol.next=int(patrol.next)+int(patrol.direction)
+
 func build_study_decorations() -> void:
 	var clusters: Array={
 		"verdantia":[Vector2(-250,90),Vector2(235,-110),Vector2(-180,280)],
@@ -349,9 +396,9 @@ func near_road(p: Vector2) -> bool:
 
 func build_hud() -> void:
 	add_child(hud)
-	var title:=Label.new()
+	var title:=district_title
 	title.text="KI LEGENDS · %s\nPRÓBA IZOMETRII 2D"%str(config.get("continent","Pyra")).to_upper()
-	if citadel_preview:title.text="KI LEGENDS · PYRA\nPLAC KORONNY"
+	if citadel_preview:update_district_title()
 	title.position=Vector2(22,18)
 	title.add_theme_font_size_override("font_size",23)
 	title.add_theme_color_override("font_color",Color("ffe0a6"))
@@ -482,6 +529,8 @@ func _physics_process(delta: float) -> void:
 	if walkable(next):hero_world=next
 	hero.position=iso(hero_world)
 	hero.animate(input)
+	move_district_patrols(delta)
+	if citadel_preview:update_district_title()
 	if follow_camera:update_camera_follow(hero_world-previous,delta)
 	map_refresh+=delta
 	if map_refresh>.33:
@@ -494,13 +543,27 @@ func _physics_process(delta: float) -> void:
 	status.text="WASD / lewy kciuk · %s · %s%d · x %.1f / z %.1f"%["Ulica" if on_street else "Teren",String.chr(65+cell.x),cell.y+1,hero_world.x,hero_world.y]
 	map_marker.position=map_holder.position+(hero.position-map_camera.position)*map_camera.zoom+map_holder.size/2-Vector2(7,9)
 
+func district_distance(district: Dictionary) -> float:
+	var center:=Vector2(district.center[0],district.center[1])
+	var radii:=Vector2(district.radii[0],district.radii[1])
+	return ((hero_world-center)/radii).length()
+
+func update_district_title() -> void:
+	var distance:=1.0
+	var label_text:="TWIERDZA POPIOŁU"
+	for district: Dictionary in architecture.get("districts", []):
+		var candidate:=district_distance(district)
+		if candidate<distance:
+			distance=candidate
+			label_text=str(district.name).to_upper()
+	var value:="KI LEGENDS · PYRA\n"+label_text
+	if district_title.text!=value:district_title.text=value
+
 func city_camera_distance() -> float:
-	var center_distance:=((hero_world-city_center)/city_radii).length()
-	if architecture.is_empty():return center_distance
-	var bounds: Dictionary=architecture.camera_bounds
-	var center:=Vector2(bounds.center[0],bounds.center[1])
-	var radii:=Vector2(bounds.radii[0],bounds.radii[1])
-	return minf(center_distance,((hero_world-center)/radii).length())
+	var distance:=((hero_world-city_center)/city_radii).length()
+	for district: Dictionary in architecture.get("districts", []):
+		distance=minf(distance,district_distance(district))
+	return distance
 
 func update_camera_follow(world_step: Vector2, delta: float) -> void:
 	# Use actual horizontal movement so pushing against a wall does not pull the camera.
@@ -799,7 +862,7 @@ func run_citadel_qa() -> void:
 	if out.is_empty():out="user://qa/pyra-citadel"
 	DirAccess.make_dir_recursive_absolute(out)
 	var checks:=city_layout_checks()
-	checks["eight_render_assets"]=architecture.assets.size()==8
+	checks["twelve_render_assets"]=architecture.assets.size()==12
 	var closed_count:=0
 	var grounded_count:=0
 	for item: Dictionary in architecture.props:
@@ -812,23 +875,29 @@ func run_citadel_qa() -> void:
 			for sign_z in [-1,1]:
 				var corner:=center+half*Vector2(sign_x,sign_z)
 				max_delta=maxf(max_delta,absf(sample_height(center)-sample_height(corner)))
-		if not walkable(center) and max_delta<1.2:grounded_count+=1
-	checks["seven_closed_grounded_buildings"]=closed_count==7 and grounded_count==7
-	checks["ambient_emitters_bounded"]=district_ambience.lanterns.size()==5 and district_ambience.chimneys.size()==3
+		var grounded:=not walkable(center) and max_delta<1.2
+		if grounded:grounded_count+=1
+		checks["building_"+str(item.id)]=grounded
+	checks["seventeen_closed_grounded_buildings"]=closed_count==17 and grounded_count==17
+	checks["ambient_emitters_bounded"]=district_ambience.lanterns.size()==11 and district_ambience.chimneys.size()==5
 	for role: String in architecture.assets:
 		var asset: Dictionary=architecture.assets[role]
 		checks[role+"_sha"]=FileAccess.get_sha256(str(asset.texture))==str(asset.sha256)
-	var market_paths:=0
+	var inspected := ["Łuk Kupców","Zaułek Miedziarza","Trakt Bramy","Zaułek Karawan","Obwód Kuźni","Zaułek Węglowy"]
 	for street: Dictionary in city_layout.streets:
-		if street.name not in ["Łuk Kupców","Zaułek Miedziarza"]:continue
+		if street.name not in inspected:continue
+		var clear:=true
 		for i in street.centerline.size()-1:
 			var a:=Vector2(street.centerline[i][0],street.centerline[i][1])
 			var b:=Vector2(street.centerline[i+1][0],street.centerline[i+1][1])
-			for part in 5:
-				if not walkable(a.lerp(b,part/5.0)):
-					market_paths=-100
-		market_paths+=1
-	checks["both_branch_streets_open"]=market_paths==2
+			var steps:=maxi(1,ceili(a.distance_to(b)/.35))
+			for part in steps+1:
+				clear=clear and walkable(a.lerp(b,float(part)/steps))
+		checks["street_"+street.name]=clear
+	checks["three_patrols"]=district_patrols.size()==3
+	var patrol_starts: Array[Vector2]=[]
+	for patrol in district_patrols:
+		patrol_starts.append(patrol.position)
 	var gate:=Vector2(config.citadel.gate[0],config.citadel.gate[1])
 	checks["gate_towers_block"]=not walkable(gate+Vector2(-7.35,0)) and not walkable(gate+Vector2(7.35,0))
 	checks["gate_center_open"]=walkable(gate)
@@ -840,6 +909,9 @@ func run_citadel_qa() -> void:
 	controlled=false
 	motion=Vector2.ZERO
 	checks["joystick_motion_passes_gate"]=hero_world.y<gate.y-7.0 and absf(hero_world.x-gate.x)<.5
+	for index in district_patrols.size():
+		var patrol:=district_patrols[index]
+		checks["patrol_%d_moves_on_walkable_ground"%index]=walkable(patrol.position) and Vector2(patrol.position).distance_to(patrol_starts[index])>3
 	hero_world=gate+Vector2(2,15)
 	snap_camera_to_hero()
 	checks["citadel_uses_wide_city_camera"]=camera_in_city and camera.zoom==CITY_CAMERA_ZOOM
@@ -858,6 +930,14 @@ func run_citadel_qa() -> void:
 	for i in 6:await get_tree().process_frame
 	await RenderingServer.frame_post_draw
 	get_viewport().get_texture().get_image().save_jpg(out.path_join("district.jpg"),.94)
+	for location in [["market",Vector2(-217,-34)],["forges",Vector2(-43,206)]]:
+		hero_world=location[1]
+		camera.position=iso(hero_world)+Vector2(0,-86)
+		camera.zoom=Vector2.ONE*.55
+		checks["city_camera_"+location[0]]=city_camera_distance()<1.0
+		for i in 5:await get_tree().process_frame
+		await RenderingServer.frame_post_draw
+		get_viewport().get_texture().get_image().save_jpg(out.path_join(str(location[0])+".jpg"),.93)
 	hud.show()
 	toggle_map()
 	toggle_map_mode()

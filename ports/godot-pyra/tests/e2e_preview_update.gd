@@ -68,10 +68,20 @@ func run() -> void:
 			check("citadel_variant",bool(world.citadel_preview))
 			check("start_at_royal_square",world.hero_world.distance_to(Vector2(-51,-173))<.05)
 			var closed:=0
+			var quarter_buildings:=0
 			for item: Dictionary in world.architecture.props:
-				if item.get("entry")=="closed":closed+=1
-			check("all_seven_district_buildings",closed==7)
-			check("lanterns_and_chimneys",world.district_ambience.lanterns.size()==5 and world.district_ambience.chimneys.size()==3)
+				if item.get("entry")!="closed":continue
+				if item.has("quarter"):
+					quarter_buildings+=1
+				else:
+					closed+=1
+			check("all_seven_citadel_buildings",closed==7)
+			if world.architecture.has("patrols"):
+				check("ten_quarter_buildings",quarter_buildings==10)
+				check("quarter_patrols",world.district_patrols.size()==3)
+				check("lanterns_and_chimneys",world.district_ambience.lanterns.size()==11 and world.district_ambience.chimneys.size()==5)
+			else:
+				check("lanterns_and_chimneys",world.district_ambience.lanterns.size()==5 and world.district_ambience.chimneys.size()==3)
 		check("private_world",world.get_world_2d()!=root.world_2d)
 		await shot("downloaded-preview.jpg")
 		world.toggle_map()

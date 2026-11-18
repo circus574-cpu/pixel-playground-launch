@@ -201,3 +201,27 @@ Wdrożenie 1.14.2 zakończone. Serwer potwierdził aktywną wersję 1.14.2 i
 włączoną konserwację. Anonimowe żądania manifestu i paczki testowej
 otrzymały HTTP 503. [Weryfikacja serwera](qa/pyra-test-server/live.json) ·
 [GitHub Actions](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/44251931494).
+
+### Targ Bramny i Dolne Kuźnie
+
+Rozbudowa prototypu Pyry na CPU z istniejących grafik. Trakt Bramy biegnie
+od gospody do targu na zboczu, z bocznym Zaułkiem Karawan. Dolne Kuźnie
+łączą Plac Węglowy oraz składy z centrum przez Obwód Kuźni i Zaułek Węglowy.
+Powstały cztery ulice, dwa place i dziesięć nowych budynków z kolizjami.
+Od strony wzgórza targ kończy się przy Strażnicy Karawan. W obydwu dzielnicach
+kamera pokazuje więcej otoczenia, a HUD podaje nazwę okolicy.
+
+Tragarz, straż i pomocnik kuźni idą po sprawdzonych trasach i zawracają na
+końcach. Do oświetlenia dodano sześć latarni. Budynki pozostają zamknięte,
+więc handel, warsztaty, rozmowy i wyposażenie wnętrz pozostają do wykonania.
+
+Układ, wysokości i trasy utrzymujemy w `scripts/godot/pyra_quarters.py`.
+Dane, kolizje i materiały są współdzielone przez podgląd i mapy.
+Ponowna generacja używa polecenia z sekcji Placu Koronnego.
+Godot zaliczył 56/56 kontroli sceny, w tym kolizje i osadzenie każdego
+z 17 budynków rozbudowy, przechodniość ulic i ruch trzech postaci.
+Podstawowa Pyra zaliczyła 81/81. Próba lokalnej aktualizacji na zasobach APK
+1.14 zaliczyła 54/54, w tym zachowanie zapisów. Serwer nadal używa 1.14.2.
+
+- [Targ Bramny](qa/pyra-quarters/market.jpg) i [Dolne Kuźnie](qa/pyra-quarters/forges.jpg) z Godota.
+- [Kontrole sceny](qa/pyra-quarters/results.json), [regresja Pyry](qa/pyra-quarters/pyra-regression.json) i [próba aktualizacji](qa/pyra-quarters/installed-update.json).
