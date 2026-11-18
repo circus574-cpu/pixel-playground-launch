@@ -1,0 +1,40 @@
+{
+	"base_apk": "1.14 / c101",
+	"boot_report": {
+		"broken": "",
+		"core": "core-c101-c7ad6b1f51d7.pck",
+		"downloaded": true,
+		"gave_up": "",
+		"mounted": true,
+		"reached": true
+	},
+	"checks": {
+		"boot_completed": true,
+		"continent_aether": true,
+		"continent_nexus": true,
+		"continent_pyra": true,
+		"continent_verdant": true,
+		"gemini_starts_in_pyra": true,
+		"guest_cannot_open_preview": true,
+		"hero_texture_aether": true,
+		"hero_texture_nexus": true,
+		"hero_texture_pyra": true,
+		"hero_texture_verdant": true,
+		"no_broken_core": true,
+		"original_apk_1_14": true,
+		"original_client_101": true,
+		"planet_atlas_and_globe": true,
+		"preserved_characters.json": true,
+		"preserved_city-checkpoint-v1.json": true,
+		"preserved_cloud.json": true,
+		"preview_open": true,
+		"private_world": true,
+		"revoked_access_closes_preview": true,
+		"server_core_mounted": true
+	},
+	"failed": 0,
+	"new_apk": false,
+	"passed": 22,
+	"physical_phone": false,
+	"renderer": "gl_compatibility"
+}

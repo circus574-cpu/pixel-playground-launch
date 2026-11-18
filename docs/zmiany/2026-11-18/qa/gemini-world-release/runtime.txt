@@ -1,0 +1,87 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS original_apk_1_14
+PASS original_client_101
+PASS boot_completed
+PASS server_core_mounted
+PASS no_broken_core
+PASS guest_cannot_open_preview
+PASS preview_open
+PASS private_world
+PASS gemini_starts_in_pyra
+PASS continent_pyra
+PASS hero_texture_pyra
+PASS continent_verdant
+PASS hero_texture_verdant
+PASS continent_aether
+PASS hero_texture_aether
+PASS continent_nexus
+PASS hero_texture_nexus
+PASS planet_atlas_and_globe
+PASS revoked_access_closes_preview
+PASS preserved_characters.json
+PASS preserved_city-checkpoint-v1.json
+PASS preserved_cloud.json
+PREVIEW_UPDATE_E2E {"base_apk":"1.14 / c101","boot_report":{"broken":"","core":"core-c101-c7ad6b1f51d7.pck","downloaded":true,"gave_up":"","mounted":true,"reached":true},"checks":{"boot_completed":true,"continent_aether":true,"continent_nexus":true,"continent_pyra":true,"continent_verdant":true,"gemini_starts_in_pyra":true,"guest_cannot_open_preview":true,"hero_texture_aether":true,"hero_texture_nexus":true,"hero_texture_pyra":true,"hero_texture_verdant":true,"no_broken_core":true,"original_apk_1_14":true,"original_client_101":true,"planet_atlas_and_globe":true,"preserved_characters.json":true,"preserved_city-checkpoint-v1.json":true,"preserved_cloud.json":true,"preview_open":true,"private_world":true,"revoked_access_closes_preview":true,"server_core_mounted":true},"failed":0,"new_apk":false,"passed":22,"physical_phone":false,"renderer":"gl_compatibility"}
+ERROR: 14 RID allocations of type 'N5GLES37TextureE' were leaked at exit.
+ERROR: 2 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+
+Failed to create /home/agent/.cache/mesa_shader_cache_db for shader cache (No space left on device)---disabling.
+Failed to create /home/agent/.cache/mesa_shader_cache_db for shader cache (No space left on device)---disabling.
+Failed to create /home/agent/.cache/mesa_shader_cache_db for shader cache (No space left on device)---disabling.
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+WARNING: Can't change the size of a `SubViewport` with a `SubViewportContainer` parent that has `stretch` enabled. Set `SubViewportContainer.stretch` to `false` to allow changing the size manually.
+     at: _internal_set_size (scene/main/viewport.cpp:5429)
+     GDScript backtrace (most recent call first):
+         [0] build_globe_and_tabs (res://service_preview/pyra/scripts/atlas_overlay.gd:98)
+         [1] _ready (res://service_preview/pyra/scripts/atlas_overlay.gd:74)
+         [2] build_hud (res://service_preview/pyra/scripts/world.gd:618)
+         [3] _ready (res://service_preview/pyra/scripts/world.gd:91)
+         [4] open_preview (res://scripts/service_screen.gd:116)
+         [5] run (res://e2e_preview_update.gd:59)
+         [6] frames (res://e2e_preview_update.gd:20)
+WARNING: Can't change the size of a `SubViewport` with a `SubViewportContainer` parent that has `stretch` enabled. Set `SubViewportContainer.stretch` to `false` to allow changing the size manually.
+     at: _internal_set_size (scene/main/viewport.cpp:5429)
+     GDScript backtrace (most recent call first):
+         [0] <anonymous lambda> (res://service_preview/pyra/scripts/atlas_overlay.gd:96)
+         [1] layout_minimap (res://service_preview/pyra/scripts/world.gd:671)
+         [2] build_hud (res://service_preview/pyra/scripts/world.gd:625)
+         [3] _ready (res://service_preview/pyra/scripts/world.gd:91)
+         [4] open_preview (res://scripts/service_screen.gd:116)
+         [5] run (res://e2e_preview_update.gd:59)
+         [6] frames (res://e2e_preview_update.gd:20)
+WARNING: 1 RID of type "CanvasItem" was leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2690)
+ERROR: Texture with GL ID of 29: leaked 131072 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 30: leaked 174762 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 31: leaked 131072 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 128: leaked 131072 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 129: leaked 131072 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 48: leaked 131072 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 133: leaked 131072 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 134: leaked 131072 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 135: leaked 131072 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 137: leaked 131072 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 139: leaked 131072 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 140: leaked 131072 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 141: leaked 131072 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 216: leaked 131072 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)

@@ -339,3 +339,21 @@ Serwer w trybie konserwacji zwraca wtedy HTTP 503. Publikacja aktywnej
 wersji sama w sobie nie wymusza pobrania na tym kliencie. Bezpieczna
 aktualizacja wymaga zgłoszenia po zalogowaniu administratora oraz dalszego
 pobierania paczki z tym samym uwierzytelnieniem.
+
+Lokalna próba na oryginalnym APK pobrała i zamontowała pakiet
+`core-c101-c7ad6b1f51d7.pck` (250 506 696 B). Zaliczyła 22 asercje,
+w tym załadowanie czterech kontynentów, tekstury bohaterów, atlas,
+globus, odmowę otwarcia podglądu gościowi i zachowanie zapisów.
+Pełna próba nie jest zielona: renderowanie Compatibility zgłasza wycieki
+zasobów podczas zamykania procesu.
+[Wynik](qa/gemini-world-release/results.json) ·
+[Log](qa/gemini-world-release/runtime.txt) ·
+[Pyra](qa/gemini-world-release/pyra.jpg) ·
+[Verdantia](qa/gemini-world-release/verdant.jpg) ·
+[Aetheria](qa/gemini-world-release/aether.jpg) ·
+[Nexus-9](qa/gemini-world-release/nexus.jpg) ·
+[Globus](qa/gemini-world-release/atlas.jpg).
+
+[Transfer pakietów do prywatnego katalogu staging VPS](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/44415875442)
+uruchomiono bez rejestracji i aktywacji. Serwer pozostaje przy 1.14.2
+w trybie konserwacji.
