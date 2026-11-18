@@ -54,5 +54,40 @@
       "gate/source.png",
       "ports/godot-isometric-pyra/assets/objects/9eba1e56-pyra-painted-hall.webp"
     ]
+  },
+  "district_sheet": {
+    "file": "district-sheet.png",
+    "sha256": "2973136ee0ff06d6f17cec1b18f0c31f52b4e25f5a449f1e5c7de2783c9e32b5",
+    "generator": "GPT Image",
+    "reference": "gate-painted-source.png",
+    "sprites": [
+      "watch",
+      "guild",
+      "home",
+      "arcade"
+    ]
+  },
+  "street_lantern": {
+    "archive": {
+      "file": "street-source.zip",
+      "sha256": "d292a8785f0d4646cb454c12b825669f8f11887996f20d3214af46b1e2b7d7e4"
+    },
+    "blender": "4.5.3 LTS",
+    "projection": "yaw 45, elevation 30",
+    "assets": {
+      "street-lantern": {
+        "file": "street-lantern/source.png",
+        "sha256": "2cdf43b1e890aa00f6b096608afb8acfc21871f8bd8112dea8fb876a92e42838",
+        "origin": [
+          0.5,
+          0.6102211773395538
+        ],
+        "runtime_scale": 0.40511326005479287,
+        "gpu": [
+          "NVIDIA RTX 6000 Ada Generation"
+        ],
+        "mesh_objects": 14
+      }
+    }
   }
 }

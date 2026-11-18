@@ -12,7 +12,9 @@ import bpy
 from bpy_extras.object_utils import world_to_camera_view
 from mathutils import Vector
 
-common_path, contract_path, empty_input, output = map(Path,sys.argv[sys.argv.index('--')+1:])
+arguments = sys.argv[sys.argv.index('--')+1:]
+common_path, contract_path, empty_input, output = map(Path, arguments[:4])
+asset_filter = arguments[4:]
 sys.argv = [str(common_path),'--','--contract',str(contract_path),'--buildings',str(empty_input),'--output',str(output)]
 lib=runpy.run_path(str(common_path))
 settings=lib['scene_setup'].__globals__
@@ -91,7 +93,23 @@ def brazier():
         box('Coals, dark edge',(x,y,2.51),(rng.uniform(.12,.24),.16,.14),stone[i%len(stone)],.04)
 
 
-for name,create in [('gate',gate),('retaining-wall',wall),('brazier',brazier)]:
+def street_lantern():
+    box('Basalt plinth', (0, 0, .32), (2.2, 2.2, .64), palette['basalt'], .12)
+    box('Foot collar', (0, 0, .75), (1.05, 1.05, .32), palette['gold'], .08)
+    cylinder('Forged post', (0, 0, 2.99), .23, 4.45, palette['iron'], 8)
+    for z, width in [(4.8, .88), (5.26, 1.24), (6.66, 1.48), (6.89, 1.05), (7.04, .64)]:
+        box('Chased bronze', (0, 0, z), (width, width, .2), palette['gold'], .06)
+    box('Amber lantern body', (0, 0, 5.98), (.91, .91, 1.22), palette['embers'], .12)
+    for x in (-.49, .49):
+        for y in (-.49, .49):
+            box('Cage iron', (x, y, 5.98), (.13, .13, 1.40), palette['iron'], .04)
+    cylinder('Finial', (0, 0, 7.29), .13, .34, palette['gold'], 8)
+
+
+assets = [('gate', gate), ('retaining-wall', wall), ('brazier', brazier), ('street-lantern', street_lantern)]
+for name, create in assets:
+    if name not in (asset_filter or ['gate', 'retaining-wall', 'brazier']):
+        continue
     scene,gpus=lib['scene_setup']()
     palette={key:material(key,color,.58 if key=='gold' else .07,.5 if key=='gold' else .72,1.65 if key=='embers' else 0)
              for key,color in settings['contract']['palette'].items()}
@@ -102,7 +120,7 @@ for name,create in [('gate',gate),('retaining-wall',wall),('brazier',brazier)]:
     target.mkdir(exist_ok=True)
     png=target/'source.png'
     scene.render.filepath=str(png)
-    bpy.ops.wm.save_as_mainfile(filepath='/opt/ki-pyra-citadel/'+name+'.blend')
+    bpy.ops.wm.save_as_mainfile(filepath=str(target/'source.blend'))
     bpy.ops.render.render(write_still=True)
     origin=world_to_camera_view(scene,scene.camera,Vector((0,0,0)))
     manifest['assets'][name]={'file':str(png.relative_to(out)),'sha256':hashlib.sha256(png.read_bytes()).hexdigest(),

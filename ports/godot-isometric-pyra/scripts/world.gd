@@ -19,6 +19,7 @@ const CAMERA_LOOK_RATE := 5.0
 @export var citadel_preview := false
 var data_root := "res://data"
 var architecture: Dictionary = {}
+var district_ambience: Node2D
 var city_center := CITY_CENTER
 var city_radii := CITY_RADII
 var city_height := 12.0
@@ -256,14 +257,8 @@ func build_objects() -> void:
 			sprite.scale=Vector2.ONE*float(binding.scale)
 			building_contact_shadow(p,Vector2(b.size[0],b.size[1]))
 		building_sprites[str(b.id)]=sprite
-	for item: Dictionary in architecture.get("props",[]):
-		var binding: Dictionary=architecture.assets[item.role]
-		var p:=Vector2(item.xz[0],item.xz[1])
-		var sprite:=object_sprite(str(binding.texture),p,1.0)
-		sprite.offset=-Vector2(sprite.texture.get_size())*Vector2(binding.origin[0],binding.origin[1])
-		sprite.scale=Vector2.ONE*float(binding.scale)
-		var footprint: Vector2={"gate":Vector2(21,6),"retaining-wall":Vector2(11.7,3),"brazier":Vector2(2.25,2.25)}[item.role]
-		building_contact_shadow(p,footprint)
+	if not architecture.is_empty():
+		build_citadel_objects()
 	if study!="pyra":
 		build_study_decorations()
 		return
@@ -281,6 +276,37 @@ func build_objects() -> void:
 		var p:=Vector2(x,z)
 		if sample_height(p)<2:continue
 		object_sprite("res://assets/objects/3d90558c-pyra-continent-rocks.webp",p,rng.randf_range(80,160))
+
+func build_citadel_objects() -> void:
+	district_ambience=preload("res://scripts/citadel_ambience.gd").new()
+	add_child(district_ambience)
+	var default_footprints: Dictionary={
+		"gate":Vector2(21,6),"retaining-wall":Vector2(11.7,3),"brazier":Vector2(2.25,2.25)
+	}
+	for item: Dictionary in architecture.props:
+		var binding: Dictionary=architecture.assets[item.role]
+		var p:=Vector2(item.xz[0],item.xz[1])
+		var sprite:=object_sprite(str(binding.texture),p,1.0)
+		sprite.offset=-Vector2(sprite.texture.get_size())*Vector2(binding.origin[0],binding.origin[1])
+		sprite.scale=Vector2.ONE*float(binding.scale)
+		var footprint: Vector2
+		if item.has("size"):
+			footprint=Vector2(item.size[0],item.size[1])
+		else:
+			footprint=default_footprints[item.role]
+		building_contact_shadow(p,footprint)
+		if item.has("flame_m"):
+			district_ambience.lanterns.append(iso(p,sample_height(p)+float(item.flame_m)))
+		if binding.has("chimney_uv"):
+			var uv:=Vector2(binding.chimney_uv[0],binding.chimney_uv[1])
+			district_ambience.chimneys.append(sprite.to_global(sprite.offset+uv*Vector2(sprite.texture.get_size())))
+
+	for point: Array in architecture.groves:
+		var p:=Vector2(point[0],point[1])
+		if not walkable(p):continue
+		var width:=129.0+fposmod(absf(p.x)*37.0,48.0)
+		object_sprite("res://assets/objects/56b49778-ki-v2-objects-pyra-tree2-0.webp",p,width)
+		building_contact_shadow(p,Vector2(3,2))
 
 func build_study_decorations() -> void:
 	var clusters: Array={
@@ -469,7 +495,12 @@ func _physics_process(delta: float) -> void:
 	map_marker.position=map_holder.position+(hero.position-map_camera.position)*map_camera.zoom+map_holder.size/2-Vector2(7,9)
 
 func city_camera_distance() -> float:
-	return ((hero_world-city_center)/city_radii).length()
+	var center_distance:=((hero_world-city_center)/city_radii).length()
+	if architecture.is_empty():return center_distance
+	var bounds: Dictionary=architecture.camera_bounds
+	var center:=Vector2(bounds.center[0],bounds.center[1])
+	var radii:=Vector2(bounds.radii[0],bounds.radii[1])
+	return minf(center_distance,((hero_world-center)/radii).length())
 
 func update_camera_follow(world_step: Vector2, delta: float) -> void:
 	# Use actual horizontal movement so pushing against a wall does not pull the camera.
@@ -768,10 +799,36 @@ func run_citadel_qa() -> void:
 	if out.is_empty():out="user://qa/pyra-citadel"
 	DirAccess.make_dir_recursive_absolute(out)
 	var checks:=city_layout_checks()
-	checks["three_render_assets"]=architecture.assets.size()==3
+	checks["eight_render_assets"]=architecture.assets.size()==8
+	var closed_count:=0
+	var grounded_count:=0
+	for item: Dictionary in architecture.props:
+		if item.get("entry")!="closed":continue
+		closed_count+=1
+		var center:=Vector2(item.xz[0],item.xz[1])
+		var half:=Vector2(item.size[0],item.size[1])*.5
+		var max_delta:=0.0
+		for sign_x in [-1,1]:
+			for sign_z in [-1,1]:
+				var corner:=center+half*Vector2(sign_x,sign_z)
+				max_delta=maxf(max_delta,absf(sample_height(center)-sample_height(corner)))
+		if not walkable(center) and max_delta<1.2:grounded_count+=1
+	checks["seven_closed_grounded_buildings"]=closed_count==7 and grounded_count==7
+	checks["ambient_emitters_bounded"]=district_ambience.lanterns.size()==5 and district_ambience.chimneys.size()==3
 	for role: String in architecture.assets:
 		var asset: Dictionary=architecture.assets[role]
 		checks[role+"_sha"]=FileAccess.get_sha256(str(asset.texture))==str(asset.sha256)
+	var market_paths:=0
+	for street: Dictionary in city_layout.streets:
+		if street.name not in ["Łuk Kupców","Zaułek Miedziarza"]:continue
+		for i in street.centerline.size()-1:
+			var a:=Vector2(street.centerline[i][0],street.centerline[i][1])
+			var b:=Vector2(street.centerline[i+1][0],street.centerline[i+1][1])
+			for part in 5:
+				if not walkable(a.lerp(b,part/5.0)):
+					market_paths=-100
+		market_paths+=1
+	checks["both_branch_streets_open"]=market_paths==2
 	var gate:=Vector2(config.citadel.gate[0],config.citadel.gate[1])
 	checks["gate_towers_block"]=not walkable(gate+Vector2(-7.35,0)) and not walkable(gate+Vector2(7.35,0))
 	checks["gate_center_open"]=walkable(gate)
@@ -785,6 +842,7 @@ func run_citadel_qa() -> void:
 	checks["joystick_motion_passes_gate"]=hero_world.y<gate.y-7.0 and absf(hero_world.x-gate.x)<.5
 	hero_world=gate+Vector2(2,15)
 	snap_camera_to_hero()
+	checks["citadel_uses_wide_city_camera"]=camera_in_city and camera.zoom==CITY_CAMERA_ZOOM
 	for i in 5:await get_tree().process_frame
 	await RenderingServer.frame_post_draw
 	get_viewport().get_texture().get_image().save_jpg(out.path_join("player-view.jpg"),.94)
@@ -795,6 +853,11 @@ func run_citadel_qa() -> void:
 	for i in 6:await get_tree().process_frame
 	await RenderingServer.frame_post_draw
 	get_viewport().get_texture().get_image().save_jpg(out.path_join("royal-square.jpg"),.94)
+	camera.position=iso(Vector2(-74,-146))+Vector2(0,-64)
+	camera.zoom=Vector2.ONE*.69
+	for i in 6:await get_tree().process_frame
+	await RenderingServer.frame_post_draw
+	get_viewport().get_texture().get_image().save_jpg(out.path_join("district.jpg"),.94)
 	hud.show()
 	toggle_map()
 	toggle_map_mode()

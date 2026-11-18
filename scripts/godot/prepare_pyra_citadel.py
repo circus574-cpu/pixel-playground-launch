@@ -8,7 +8,7 @@ import shutil
 from pathlib import Path
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw
 from scipy.ndimage import gaussian_filter, label
 
 ROOT=Path(__file__).resolve().parents[2]
@@ -31,6 +31,28 @@ PLACEMENTS=[
 OBSTACLES=[{'xz':[GATE[0]+side*7.35,GATE[1]],'size':[6,6]} for side in (-1,1)]
 OBSTACLES.extend({'xz':point,'size':[11.7,3.2] if role=='retaining-wall' else [2.25,2.25]}
                  for role,point in PLACEMENTS if role!='gate')
+
+
+# A watch post by the bend, a market terrace and homes off the main approach.
+DISTRICT = [
+    ('west-watch', 'Wartownia Zakrętu', 'watch', [-91, -177], [12, 10], 18),
+    ('west-home', 'Dom Miedziarza', 'home', [-128, -124], [11, 10], 19),
+    ('outer-home', 'Dom przy Trakcie', 'home', [-102, -120], [13, 11], 19),
+    ('guild', 'Hala Kupców', 'guild', [-43, -147], [22, 16], 17),
+    ('market', 'Podcienia Targowe', 'arcade', [-24, -164], [17, 9], 16.5),
+    ('market-home', 'Dom Tkaczy', 'home', [-18, -137], [12, 10], 17),
+    ('north-watch', 'Straż przed Cytadelą', 'watch', [-65, -213], [12, 10], 16.5),
+]
+DISTRICT_STREETS = [
+    ('Łuk Kupców', 8, [[-85,-142],[-72,-144],[-63,-155],[-52,-162],[-40,-162],[-38,-171],[-45,-183]]),
+    ('Zaułek Miedziarza', 7, [[-69,-122],[-82,-125],[-90,-134],[-91,-146],[-88,-160]]),
+]
+STREET_LAMPS = [[-78,-136],[-81,-163],[-64,-162],[-34,-171],[-50,-206]]
+MARKET_COURT = [[-63,-154],[-54,-160],[-52,-163],[-36,-164],[-34,-159],[-38,-157],[-55,-156]]
+GROVES = [[-124,-111],[-118,-102],[-138,-134],[-108,-173],[-104,-180],[-13,-187],[-8,-185],[-6,-147]]
+
+OBSTACLES.extend({'xz': point, 'size': size} for _, _, _, point, size, _ in DISTRICT)
+OBSTACLES.extend({'xz': point, 'size': [2.2, 2.2]} for point in STREET_LAMPS)
 
 
 def digest(path):
@@ -62,6 +84,23 @@ def fit_terrace():
     blend=np.clip((22-distance)/15,0,1)*taper
     height=height*(1-blend)+axis_height*blend
     changed|=blend>0
+    for _, _, _, (px, pz), (width, depth), level in DISTRICT:
+        distance_to_wall = np.maximum(abs(x - px) - width / 2, abs(z - pz) - depth / 2)
+        pad = np.clip((12 - distance_to_wall) / 10, 0, 1)
+        height = height * (1 - pad) + level * pad
+        changed |= pad > 0
+    for (_, _, points), levels in zip(DISTRICT_STREETS, [[20,19,18,17,17,16.5,16.5], [19,19,19,19,19]], strict=True):
+        distance = np.full_like(height, 2500)
+        grade = height.copy()
+        for a,b,za,zb in zip(points[:-1],points[1:],levels[:-1],levels[1:],strict=True):
+            dx,dz=np.subtract(b,a)
+            t=np.clip(((x-a[0])*dx+(z-a[1])*dz)/(dx*dx+dz*dz),0,1)
+            d=np.hypot(x-a[0]-t*dx,z-a[1]-t*dz)
+            grade=np.where(d<distance,za+(zb-za)*t,grade)
+            distance=np.minimum(d,distance)
+        branch = np.clip((9 - distance) / 5, 0, 1)
+        height = height * (1 - branch) + grade * branch
+        changed |= branch > 0
     height=np.where(changed,gaussian_filter(height,.45),h).astype('<f4')
     walk=np.where(changed,np.hypot(*np.gradient(height,2))<.70,walk)
     height.tofile(OUT/'height.r32')
@@ -72,15 +111,17 @@ def fit_terrace():
         open_area &= ~((abs(x-cx)<w/2+.8)&(abs(z-cz)<d/2+.8))
     components,_=label(open_area)
     assert components[(50+512)//2,(-40+512)//2]==components[(-209+512)//2,(-45+512)//2]>0
+    for name, _, _, (px, pz), (w, d), _ in DISTRICT:
+        apron = (abs(x-px) < w/2+9) & (abs(z-pz) < d/2+9)
+        assert np.any(apron & (components == components[(50+512)//2,(-40+512)//2])), name
     config['height_range'] = [float(height.min()), float(height.max())]
     config['walkable_percent'] = round(100 * float(walk.mean()), 2)
     config['files'] = {name: digest(OUT / name) for name in config['files']}
     config['citadel']={'plaza':[-45,-178],'gate':GATE,'plaza_height':LEVEL,'ground_patch_samples':int(changed.sum())}
     (OUT/'terrain.json').write_text(json.dumps(config,indent=2,ensure_ascii=False)+'\n')
     layout=runpy.run_path(str(ROOT/'scripts/gpu/design-city-streets.py'))
-    layout['bake']('pyra',OUT,{'streets':[('Zakręty Cytadeli',11,ROAD)],'plazas':[('Plac Koronny',PLAZA)],'obstacles':OBSTACLES})
+    layout['bake']('pyra',OUT,{'streets':[('Zakręty Cytadeli',11,ROAD)]+DISTRICT_STREETS,'plazas':[('Plac Koronny',PLAZA),('Dziedziniec Kupców', MARKET_COURT)],'obstacles':OBSTACLES})
     # A bronze compass rose in the paved surface, aligned in world coordinates.
-    from PIL import ImageDraw
     size=1024
     emblem=Image.new('L',(size,size))
     draw=ImageDraw.Draw(emblem)
@@ -104,12 +145,44 @@ def fit_terrace():
 
 
 
-def bind_models(source, painted_gate):
-    pack=json.loads((source/'manifest.json').read_text())
+def bind_district(sheet_path, art, bindings):
+    sheet = Image.open(sheet_path).convert('RGBA')
+    source_sha = digest(sheet_path)
+    # Crop bounds and manually identified ground contacts in the source sheet.
+    sprites = {
+        'watch': ((0, 0, 600, 635), (330, 562), (12, 10)),
+        'guild': ((610, 0, 1254, 635), (929, 483), (22, 16)),
+        'home': ((0, 635, 600, 1254), (324, 1135), (12, 10)),
+        'arcade': ((610, 635, 1254, 1254), (931, 1120), (17, 9)),
+    }
+    for role, (rect, (x, y), size) in sprites.items():
+        piece = sheet.crop(rect)
+        box = piece.getchannel('A').point(lambda a: 255 if a > 20 else 0).getbbox()
+        left, top = rect[0] + box[0], rect[1] + box[1]
+        piece = piece.crop(box)
+        width, height = piece.size
+        path = art / f'{role}.webp'
+        piece.save(path, lossless=True)
+        binding = {
+            'texture': f'res://studies/pyra-citadel/art/{path.name}',
+            'origin': [(x - left) / width, (y - top) / height],
+            'scale': 8 * sum(size) / width,
+            'sha256': digest(path),
+            'source_sha256': source_sha,
+        }
+        if role == 'home':
+            binding['chimney_uv'] = [(443 - left) / width, (662 - top) / height]
+        bindings[role] = binding
+
+
+def bind_models(source, painted_gate, streets, district_sheet):
+    pack=json.loads((source/'manifest.json').read_text())['assets']
+    street_asset=json.loads((streets/'manifest.json').read_text())['assets']
+    pack.update({role: {**entry, 'file': streets / entry['file']} for role, entry in street_asset.items()})
     art=OUT/'art'
     art.mkdir(exist_ok=True)
     bindings={}
-    for role,entry in pack['assets'].items():
+    for role,entry in pack.items():
         image=source/entry['file']
         assert digest(image)==entry['sha256'], role
         image=Image.open(image).convert('RGBA')
@@ -142,7 +215,14 @@ def bind_models(source, painted_gate):
                         'origin':[(origin[0]-left+16)/cropped.width,(origin[1]-top+16)/cropped.height],
                         'scale':scale,'sha256':digest(path),'source_sha256':entry['sha256'],
                         'painted_source_sha256':painted_hash}
-    data={'assets':bindings,'props':[{'role':role,'xz':point} for role,point in PLACEMENTS],'obstacles':OBSTACLES}
+    props = [{'role':role,'xz':point} for role,point in PLACEMENTS]
+    props.extend({'role': 'street-lantern', 'xz': point, 'size': [2.2, 2.2], 'flame_m': 6.0}
+                 for point in STREET_LAMPS)
+    bind_district(district_sheet, art, bindings)
+    props.extend({'id': key, 'name': name, 'role': role, 'xz': point, 'size': size, 'entry': 'closed'}
+                 for key, name, role, point, size, _ in DISTRICT)
+    data={'assets':bindings,'props':props,'obstacles':OBSTACLES,
+          'groves': GROVES, 'camera_bounds': {'center': [-65, -159], 'radii': [89, 82]}}
     (OUT/'architecture.json').write_text(json.dumps(data,indent=2)+'\n')
 
 
@@ -150,7 +230,9 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser()
     parser.add_argument('--renders',required=True,type=Path)
     parser.add_argument('--painted-gate',type=Path)
+    parser.add_argument('--street-renders',required=True,type=Path)
+    parser.add_argument('--district-sheet',required=True,type=Path)
     args=parser.parse_args()
     OUT.mkdir(parents=True,exist_ok=True)
     fit_terrace()
-    bind_models(args.renders,args.painted_gate)
+    bind_models(args.renders,args.painted_gate,args.street_renders.resolve(),args.district_sheet)

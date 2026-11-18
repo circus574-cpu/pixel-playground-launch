@@ -32,6 +32,61 @@
       "sha256": "ca9ff6643763bb28c7097ddc2ae2aae6b6080a38f3d85b50ef84a8d39f914220",
       "source_sha256": "7994cac2fcd3e77eccfe738dd0342d20e65d0eb321fe3cb07dc7d80e7a6b2ed7",
       "painted_source_sha256": null
+    },
+    "street-lantern": {
+      "texture": "res://studies/pyra-citadel/art/street-lantern.png",
+      "origin": [
+        0.5,
+        0.8438286314619349
+      ],
+      "scale": 0.40511326005479287,
+      "sha256": "413146509fe251e5a2f75b58df438be4dcad13bf0a3f0552abcd462d272e93dd",
+      "source_sha256": "2cdf43b1e890aa00f6b096608afb8acfc21871f8bd8112dea8fb876a92e42838",
+      "painted_source_sha256": null
+    },
+    "watch": {
+      "texture": "res://studies/pyra-citadel/art/watch.webp",
+      "origin": [
+        0.49085365853658536,
+        0.9052287581699346
+      ],
+      "scale": 0.5365853658536586,
+      "sha256": "c20c0a0ef6171b3f5d6d63f901726175d16f934a513965f0528ebfaafafb74db",
+      "source_sha256": "2973136ee0ff06d6f17cec1b18f0c31f52b4e25f5a449f1e5c7de2783c9e32b5"
+    },
+    "guild": {
+      "texture": "res://studies/pyra-citadel/art/guild.webp",
+      "origin": [
+        0.4928,
+        0.7955801104972375
+      ],
+      "scale": 0.4864,
+      "sha256": "bcab65c5d76f832562096b521a75a51d301f956735383c42f16172866d8b3ae2",
+      "source_sha256": "2973136ee0ff06d6f17cec1b18f0c31f52b4e25f5a449f1e5c7de2783c9e32b5"
+    },
+    "home": {
+      "texture": "res://studies/pyra-citadel/art/home.webp",
+      "origin": [
+        0.4772277227722772,
+        0.8313458262350937
+      ],
+      "scale": 0.3485148514851485,
+      "sha256": "43281c9f778ca4ab2de617bfb4f89557814ed58b639788b3f1537d13f4241ec7",
+      "source_sha256": "2973136ee0ff06d6f17cec1b18f0c31f52b4e25f5a449f1e5c7de2783c9e32b5",
+      "chimney_uv": [
+        0.7128712871287128,
+        0.02555366269165247
+      ]
+    },
+    "arcade": {
+      "texture": "res://studies/pyra-citadel/art/arcade.webp",
+      "origin": [
+        0.5016835016835017,
+        0.8025594149908593
+      ],
+      "scale": 0.3501683501683502,
+      "sha256": "c85d8a93382521ba0296c14b1c8095c6e085d3baf20e2d835945cfd1599d6f2b",
+      "source_sha256": "2973136ee0ff06d6f17cec1b18f0c31f52b4e25f5a449f1e5c7de2783c9e32b5"
     }
   },
   "props": [
@@ -97,6 +152,164 @@
         -30,
         -164
       ]
+    },
+    {
+      "role": "street-lantern",
+      "xz": [
+        -78,
+        -136
+      ],
+      "size": [
+        2.2,
+        2.2
+      ],
+      "flame_m": 6.0
+    },
+    {
+      "role": "street-lantern",
+      "xz": [
+        -81,
+        -163
+      ],
+      "size": [
+        2.2,
+        2.2
+      ],
+      "flame_m": 6.0
+    },
+    {
+      "role": "street-lantern",
+      "xz": [
+        -64,
+        -162
+      ],
+      "size": [
+        2.2,
+        2.2
+      ],
+      "flame_m": 6.0
+    },
+    {
+      "role": "street-lantern",
+      "xz": [
+        -34,
+        -171
+      ],
+      "size": [
+        2.2,
+        2.2
+      ],
+      "flame_m": 6.0
+    },
+    {
+      "role": "street-lantern",
+      "xz": [
+        -50,
+        -206
+      ],
+      "size": [
+        2.2,
+        2.2
+      ],
+      "flame_m": 6.0
+    },
+    {
+      "id": "west-watch",
+      "name": "Wartownia Zakr\u0119tu",
+      "role": "watch",
+      "xz": [
+        -91,
+        -177
+      ],
+      "size": [
+        12,
+        10
+      ],
+      "entry": "closed"
+    },
+    {
+      "id": "west-home",
+      "name": "Dom Miedziarza",
+      "role": "home",
+      "xz": [
+        -128,
+        -124
+      ],
+      "size": [
+        11,
+        10
+      ],
+      "entry": "closed"
+    },
+    {
+      "id": "outer-home",
+      "name": "Dom przy Trakcie",
+      "role": "home",
+      "xz": [
+        -102,
+        -120
+      ],
+      "size": [
+        13,
+        11
+      ],
+      "entry": "closed"
+    },
+    {
+      "id": "guild",
+      "name": "Hala Kupc\u00f3w",
+      "role": "guild",
+      "xz": [
+        -43,
+        -147
+      ],
+      "size": [
+        22,
+        16
+      ],
+      "entry": "closed"
+    },
+    {
+      "id": "market",
+      "name": "Podcienia Targowe",
+      "role": "arcade",
+      "xz": [
+        -24,
+        -164
+      ],
+      "size": [
+        17,
+        9
+      ],
+      "entry": "closed"
+    },
+    {
+      "id": "market-home",
+      "name": "Dom Tkaczy",
+      "role": "home",
+      "xz": [
+        -18,
+        -137
+      ],
+      "size": [
+        12,
+        10
+      ],
+      "entry": "closed"
+    },
+    {
+      "id": "north-watch",
+      "name": "Stra\u017c przed Cytadel\u0105",
+      "role": "watch",
+      "xz": [
+        -65,
+        -213
+      ],
+      "size": [
+        12,
+        10
+      ],
+      "entry": "closed"
     }
   ],
   "obstacles": [
@@ -199,6 +412,170 @@
         2.25,
         2.25
       ]
+    },
+    {
+      "xz": [
+        -91,
+        -177
+      ],
+      "size": [
+        12,
+        10
+      ]
+    },
+    {
+      "xz": [
+        -128,
+        -124
+      ],
+      "size": [
+        11,
+        10
+      ]
+    },
+    {
+      "xz": [
+        -102,
+        -120
+      ],
+      "size": [
+        13,
+        11
+      ]
+    },
+    {
+      "xz": [
+        -43,
+        -147
+      ],
+      "size": [
+        22,
+        16
+      ]
+    },
+    {
+      "xz": [
+        -24,
+        -164
+      ],
+      "size": [
+        17,
+        9
+      ]
+    },
+    {
+      "xz": [
+        -18,
+        -137
+      ],
+      "size": [
+        12,
+        10
+      ]
+    },
+    {
+      "xz": [
+        -65,
+        -213
+      ],
+      "size": [
+        12,
+        10
+      ]
+    },
+    {
+      "xz": [
+        -78,
+        -136
+      ],
+      "size": [
+        2.2,
+        2.2
+      ]
+    },
+    {
+      "xz": [
+        -81,
+        -163
+      ],
+      "size": [
+        2.2,
+        2.2
+      ]
+    },
+    {
+      "xz": [
+        -64,
+        -162
+      ],
+      "size": [
+        2.2,
+        2.2
+      ]
+    },
+    {
+      "xz": [
+        -34,
+        -171
+      ],
+      "size": [
+        2.2,
+        2.2
+      ]
+    },
+    {
+      "xz": [
+        -50,
+        -206
+      ],
+      "size": [
+        2.2,
+        2.2
+      ]
     }
-  ]
+  ],
+  "groves": [
+    [
+      -124,
+      -111
+    ],
+    [
+      -118,
+      -102
+    ],
+    [
+      -138,
+      -134
+    ],
+    [
+      -108,
+      -173
+    ],
+    [
+      -104,
+      -180
+    ],
+    [
+      -13,
+      -187
+    ],
+    [
+      -8,
+      -185
+    ],
+    [
+      -6,
+      -147
+    ]
+  ],
+  "camera_bounds": {
+    "center": [
+      -65,
+      -159
+    ],
+    "radii": [
+      89,
+      82
+    ]
+  }
 }

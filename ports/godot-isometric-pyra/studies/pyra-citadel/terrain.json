@@ -192,7 +192,7 @@
       ]
     ]
   ],
-  "walkable_percent": 91.08,
+  "walkable_percent": 91.04,
   "texture_assets": [
     "ash",
     "basalt",
@@ -206,9 +206,9 @@
     "navigation_is_grid_analysis_not_runtime_proof": true
   },
   "files": {
-    "height.r32": "2b8b1b5b7f46c29b35c23538c99e51e284b14468fa532c07fe8b37e4fc0b8491",
+    "height.r32": "98577e530611450141c7198954c60c0cf0e789b0f4a852e8c6adf5e2b96d910f",
     "control.r32": "d23717c3a9c0512c94917583d8ae93f7b5c7295edc333154ff375c6b5330e51a",
-    "walkable.u8": "595fa501addb9905fc074eaf923d4b8ad69ffcdc6ff2eac73595520ca209d759",
+    "walkable.u8": "9d173fe6015a91dc8f8931a19481bccc99fe086ec292818e18f4b01489d62cad",
     "weights.png": "1ad7c934d7121ed0b3bf45b254dc6e077bf197998f8bdac0acadbe7745b0a2b3",
     "surface.png": "071466e6daffcac88c9c996bbb1f734021926ca15e1c8b665c14e92fdaa77d75"
   },
@@ -222,6 +222,6 @@
       -194
     ],
     "plaza_height": 16.5,
-    "ground_patch_samples": 2572
+    "ground_patch_samples": 3393
   }
 }

@@ -127,9 +127,54 @@ do kolizji filarów. [Paczka źródłowa z manifestem, modelami i logiem GPU](..
 - [Widok gracza](qa/pyra-citadel/player-view.jpg) i [widok placu](qa/pyra-citadel/royal-square.jpg) pochodzą z uruchomionej sceny.
 - [Kontrole Godota](qa/pyra-citadel/results.json) obejmują przejście przez bramę, kolizje filarów i zgodność danych widoków mapy.
 - Aby odtworzyć scenę, wypakuj `citadel-source.zip` i podaj katalog z oryginalnymi renderami do
-  `python3 scripts/godot/prepare_pyra_citadel.py --renders <katalog> --painted-gate deliveries/pyra-citadel-20261118/gate-painted-source.png`.
+  polecenia odtwarzania podanego poniżej w sekcji o rozbudowie dzielnicy.
   Otwórz `pyra-citadel.tscn` w projekcie `ports/godot-isometric-pyra`.
 
 To działający fragment Pyry. Zabudowa kwartałów cytadeli, jej wnętrza i ruch NPC
 pozostają w planie. Scenę sprawdzono na komputerze w Godot 4.6.3. Trafia na
 gałąź prototypów.
+
+### Zabudowa przy drodze do cytadeli
+
+W scenie Placu Koronnego stoi siedem nowych budynków. Przy zakręcie
+i za bramą są wartownie, przy bocznych drogach trzy domy, a przy podejściu
+do placu hala kupców i podcienia targowe. Łuk Kupców i Zaułek Miedziarza
+rozchodzą się na bok głównej drogi. Przy hali powstał brukowany dziedziniec.
+Bryły mają kolizje i lokalnie wypoziomowane podstawy. Wejścia są na razie
+zamknięte. Kamera nad dzielnicą zachowuje szerszy widok miejski.
+
+Cztery malowane sylwetki pochodzą z GPT Image i zostały rozdzielone na
+osobne sprite'y. Model latarni powstał w Blenderze 4.5.3 i został
+wyrenderowany w Cycles na RTX 6000 Ada. W scenie pięć latarni migocze,
+a trzy kominy mają animowany dym. Oba widoki mapy używają tych samych
+pozycji i wysokości zabudowy. Dym i migotanie są dodatkami widoku 2D.
+
+[Widok dzielnicy w Godocie](qa/pyra-citadel-district/district.jpg) ·
+[Widok gracza](qa/pyra-citadel-district/player-view.jpg) ·
+[Kontrole dzielnicy](qa/pyra-citadel-district/results.json) ·
+[Regresja podstawowej sceny](qa/pyra-citadel-district/pyra-regression.json).
+
+Odtwarzanie wymaga wypakowania `citadel-source.zip` i `street-source.zip`
+do osobnych katalogów. [Manifest źródeł i sumy SHA-256](../../../deliveries/pyra-citadel-20261118/manifest.json).
+
+```sh
+python3 scripts/godot/prepare_pyra_citadel.py \
+  --renders katalog-cytadeli --street-renders katalog-latarni \
+  --painted-gate deliveries/pyra-citadel-20261118/gate-painted-source.png \
+  --district-sheet deliveries/pyra-citadel-20261118/district-sheet.png
+```
+
+**Kontynuacja.** Otwórz `ports/godot-isometric-pyra/pyra-citadel.tscn`
+w Godocie 4.6.3. Pozycje domów, tras, latarni i kęp drzew zmieniaj w
+`scripts/godot/prepare_pyra_citadel.py`, po czym wygeneruj dane ponownie.
+Uruchom obie sceny z argumentem `-- --qa` w trybie graficznym: dla
+`pyra-citadel.tscn` oczekuj 24/24, a dla `world.tscn` 81/81. Ścieżkę
+zrzutów ustawia `KI_ISO_QA_DIR`. Następny fragment to Targ Bramny
+i Dolne Kuźnie według planu miasta. Wnętrza i ruch NPC pozostają do wdrożenia.
+
+Render latarni można odtworzyć w Blenderze, podając do
+`scripts/gpu/render-pyra-citadel.py` kolejno: `common.py` i `contract.json`
+z paczki cytadeli, plik JSON z pustą listą `[]`, katalog wynikowy oraz
+`street-lantern`. Paczka latarni zawiera edytowalny `.blend`, render PNG
+i log Cycles. Scena jest w gałęzi prototypowej. Aktualizację serwerową
+przygotowuje się osobno z tej gałęzi po akceptacji sceny.
