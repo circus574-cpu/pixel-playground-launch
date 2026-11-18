@@ -24,3 +24,7 @@ Godot 4.6.3 zaimportował projekt i zaliczył test trasy. Materiały powstały n
 - [Atlas wysokości](qa/atlas-preview.png)
 - [Próby materiałów](qa/podglad-materialow.jpg)
 - [Manifest topografii](qa/manifest-topografii.json)
+
+### Zrzut z kamery gracza
+
+W Godot 4.6.3 uruchomiono scenę z grafikami istniejących budynków i postaci z portu Pyry, bramą i paleniskami z prób RunPod oraz nieregularnymi formacjami bazaltowymi. Trasa znów przeszła test. [Zrzut z gry](qa/zrzut-gracza-pyra.png) przedstawia postać przy targu. [Widok całej twierdzy](qa/podglad-pyry.png) pokazuje układ tarasów. Klify i wieże są wciąż w trakcie dopracowywania.

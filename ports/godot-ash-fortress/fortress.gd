@@ -19,7 +19,8 @@ var active: Dictionary = {}
 var obstacles: Array[Rect2] = []
 var hero := Vector2(-10, 19)
 var destination := Vector2.INF
-var marker: MeshInstance3D
+var marker: Sprite3D
+var art: Dictionary = {}
 var camera := Camera3D.new()
 var overview := true
 var stone: StandardMaterial3D
@@ -31,6 +32,11 @@ var fire: StandardMaterial3D
 var paving: StandardMaterial3D
 var rng := RandomNumberGenerator.new()
 
+func _exit_tree() -> void:
+	for chunk: Node3D in chunks.values():
+		if chunk.get_parent() == null:
+			chunk.free()
+
 func _ready() -> void:
 	rng.seed = 20261118
 	stone = material(Color("776970"), "res://assets/bazalt-klif.png")
@@ -40,6 +46,8 @@ func _ready() -> void:
 	iron = material(Color("403a46"))
 	fire = material(Color("ffab42"), "", Color("ff7023"))
 	paving = material(Color("b6a19b"), "res://assets/bazalt-klif.png")
+	for name in ["hall", "shop", "inn", "forge", "rocks", "legend", "gate", "brazier", "tree"]:
+		art[name] = load("res://assets/" + name + ".webp")
 	var environment := WorldEnvironment.new()
 	environment.environment = Environment.new()
 	environment.environment.background_mode = Environment.BG_COLOR
@@ -57,12 +65,7 @@ func _ready() -> void:
 	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
 	camera.current = true
 	build_city()
-	marker = MeshInstance3D.new()
-	var body := CapsuleMesh.new()
-	body.radius = 0.27
-	body.height = 1.18
-	marker.mesh = body
-	marker.material_override = material(Color("86e2ce"))
+	marker = make_sprite("legend", 1.46)
 	add_child(marker)
 	place_camera()
 	stream_chunks()
@@ -86,6 +89,14 @@ func capture_view() -> void:
 	await RenderingServer.frame_post_draw
 	await RenderingServer.frame_post_draw
 	var result := get_viewport().get_texture().get_image().save_png("res://podglad-pyry.png")
+	if result != OK:
+		get_tree().quit(result)
+		return
+	hero = Vector2(-8, 7)
+	toggle_camera()
+	await RenderingServer.frame_post_draw
+	await RenderingServer.frame_post_draw
+	result = get_viewport().get_texture().get_image().save_png("res://zrzut-gracza-pyra.png")
 	get_tree().quit(result)
 
 func material(color: Color, path := "", emission := Color.BLACK) -> StandardMaterial3D:
@@ -147,22 +158,41 @@ func column(pos: Vector3, top: float, bottom: float, tall: float, sides: int, ma
 	mesh.radial_segments = sides
 	mesh_at(mesh, mat, pos)
 
+func make_sprite(key: String, height: float) -> Sprite3D:
+	var sprite := Sprite3D.new()
+	sprite.texture = art[key]
+	sprite.pixel_size = height / sprite.texture.get_height()
+	sprite.centered = false
+	sprite.offset.x = -sprite.texture.get_width() * .5
+	sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
+	sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	return sprite
+
+func prop(key: String, p: Vector2, ground: float, height: float) -> void:
+	var sprite := make_sprite(key, height)
+	sprite.position = Vector3(p.x, ground, p.y)
+	chunk_for(p).add_child(sprite)
+
 func tower(p: Vector2, ground: float, size: float) -> void:
 	column(Vector3(p.x, ground + size * 0.68, p.y), size * .46, size * .62, size * 1.36, 8, iron)
 	column(Vector3(p.x, ground + size * 1.65, p.y), 0.04, size * .54, size * .72, 8, roof)
 	obstacles.append(Rect2(p - Vector2.ONE * size * .45, Vector2.ONE * size * .9))
 
-func house(p: Vector2, ground: float, size: Vector2, forge := false) -> void:
-	box(Vector3(p.x, ground + 0.85, p.y), Vector3(size.x, 1.7, size.y), stone)
-	var cap := PrismMesh.new()
-	cap.size = Vector3(size.x + .32, .95, size.y + .35)
-	mesh_at(cap, roof, Vector3(p.x, ground + 2.16, p.y))
-	box(Vector3(p.x, ground + .61, p.y + size.y * .51), Vector3(.62, 1.12, .08), fire if forge else iron)
-	for dx in [-.36, .36]:
-		box(Vector3(p.x + size.x * dx, ground + 1.1, p.y + size.y * .514), Vector3(.25,.37,.09), fire)
-	if forge:
-		column(Vector3(p.x + size.x * .34, ground + 2.1, p.y - size.y * .25), .27, .47, 4.2, 6, iron)
+func house(p: Vector2, ground: float, size: Vector2, appearance: String, height: float) -> void:
+	prop(appearance, p, ground, height)
 	obstacles.append(Rect2(p - size * .5, size))
+
+func dark_stone(p: Vector2, bottom: float, height: float, width: float) -> void:
+	var tall := height * rng.randf_range(.8, 1.18)
+	var cliff := CylinderMesh.new()
+	cliff.radial_segments = 5
+	cliff.rings = 1
+	cliff.top_radius = width * rng.randf_range(.48, .83)
+	cliff.bottom_radius = width
+	cliff.height = tall
+	var rock := mesh_at(cliff, stone, Vector3(p.x, bottom + tall * .5, p.y))
+	rock.rotation = Vector3(rng.randf_range(-.12, .12), rng.randf_range(0, TAU), rng.randf_range(-.16, .16))
 
 func ground_piece(rect: Rect2, h: float) -> void:
 	for x in range(floori(rect.position.x), ceili(rect.end.x), 4):
@@ -208,9 +238,9 @@ func build_city() -> void:
 				if i % 5 == 0:
 					column(Vector3(x, h + .52, z), .19, .23, 1.04, 5, iron)
 					column(Vector3(x, h + 1.13, z), .10, .24, .27, 6, fire)
-	tower(Vector2(-13.6, 12), 3, 2.6)
-	tower(Vector2(-6.3, 12), 3, 2.6)
-	box(Vector3(-10, 6.4, 12), Vector3(6, 1.02, .8), iron)
+	prop("gate", Vector2(-10, 12.2), 2.55, 5.7)
+	obstacles.append(Rect2(-14, 11.4, 2.35, 1.4))
+	obstacles.append(Rect2(-8.35, 11.4, 2.35, 1.4))
 	for p in [Vector2(-14,-19),Vector2(-3,-19),Vector2(-14,-11),Vector2(-3,-11)]:
 		tower(p, 10, 2.4)
 	wall(Vector2(-14,-19), Vector2(-14,-11), 10)
@@ -219,20 +249,32 @@ func build_city() -> void:
 	wall(Vector2(-5,-11), Vector2(-3,-11), 10)
 	wall(Vector2(-14,12), Vector2(-14,2), 3)
 	wall(Vector2(-6,12), Vector2(2,12), 3)
-	house(Vector2(-8.5,-19), 10, Vector2(7,4))
-	for p in [Vector2(-12,-1),Vector2(-12,4),Vector2(-3,7),Vector2(0.5,6)]:
-		house(p, 3, Vector2(2.9,2.1))
+	house(Vector2(-8.5,-19), 10, Vector2(7,4), "hall", 6.0)
+	house(Vector2(-12,-1), 3, Vector2(2.9,2.1), "inn", 3.9)
+	for p in [Vector2(-12,4),Vector2(-3,7),Vector2(0.5,6)]:
+		house(p, 3, Vector2(2.9,2.1), "shop", 3.1)
 	for p in [Vector2(15,4),Vector2(20,3),Vector2(19,10),Vector2(9,11)]:
-		house(p, 0, Vector2(3.5,3), true)
+		house(p, 0, Vector2(3.5,3), "forge", 3.8)
+	for p in [Vector2(-11,-14),Vector2(-3,1),Vector2(14,8),Vector2(18,7)]:
+		prop("brazier", p, height_at(p), 1.35)
 	box(Vector3(-8.0, 3.025, 4.0), Vector3(3.0,.05,15.5), paving)
 	box(Vector3(4.0, 3.027, -4.0), Vector3(23.0,.05,2.8), paving)
 	box(Vector3(13.0, .025, 8.0), Vector3(9.0,.05,5.5), paving)
 	lava_river()
+	for z in range(-22, -9, 2):
+		dark_stone(Vector2(-.9, z), -4, 11, 1.65)
+	for x in range(-16, -9, 2) + range(-4, 0, 2):
+		dark_stone(Vector2(x, -8.8), -4, 11, 1.55)
+	for x in range(7, 23, 2):
+		dark_stone(Vector2(x, 15.2), -4, 2.5, 1.35)
 	for i in 140:
 		var p := Vector2(rng.randf_range(-24, 29), rng.randf_range(-25, 24))
 		if is_inf(height_at(p)) and p.y < 17:
-			var h := rng.randf_range(1.0, 6.0)
-			column(Vector3(p.x, h*.5-4, p.y), .24, rng.randf_range(.6, 1.8), h, 5, stone)
+			dark_stone(p, -4, rng.randf_range(1.0, 6.0), rng.randf_range(.6, 1.8))
+	for p in [Vector2(-15,17),Vector2(-7,20),Vector2(1,10),Vector2(22,13),Vector2(-13,-17)]:
+		prop("tree", p, height_at(p), rng.randf_range(1.8, 2.8))
+	for p in [Vector2(-16,20),Vector2(-5.5,21),Vector2(22,12),Vector2(6.8,13),Vector2(14,-5)]:
+		prop("rocks", p, height_at(p), 1.35)
 
 func stream_chunks() -> void:
 	var center := Vector2i((hero / CHUNK).floor())
@@ -287,7 +329,7 @@ func _physics_process(delta: float) -> void:
 	for axis in [Vector2(step.x, 0), Vector2(0, step.y)]:
 		if can_move(hero + axis, hero):
 			hero += axis
-	marker.position = Vector3(hero.x, height_at(hero) + .61, hero.y)
+	marker.position = Vector3(hero.x, height_at(hero) + .025, hero.y)
 	if not overview:
 		place_camera()
 	stream_chunks()
