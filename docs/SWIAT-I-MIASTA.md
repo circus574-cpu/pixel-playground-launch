@@ -624,4 +624,3 @@ kontynent):
   kuli 3D (`scripts/globe_view.gd`) z warstwą chmur, atmosferą Fresnela, obrysami poligonowymi
   (`data/map.json`) i wyborem kontynentu promieniem 3D (`raycast`). Szczegóły i dowody QA:
   [dziennik 18.11](zmiany/2026-11-18/ZMIANY.md), [README projektu](../ports/godot-isometric-world/README.md).
-

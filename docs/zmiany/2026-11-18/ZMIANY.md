@@ -325,3 +325,17 @@ Zgodnie z wytycznymi właściciela przebudowano wszystkie 4 kontynenty w `ports/
 - **Rzeczywisty Globus 3D Planety Superior (`scripts/globe_view.gd` + `scripts/atlas_overlay.gd`):**
   - Pod klawiszem `[G]` zintegrowano prawdziwą kulę 3D (`globe-color.webp`) z animowaną warstwą chmur (`globe-clouds.webp`), odblaskiem słońca na oceanach, niebieską atmosferą Fresnela, tłem kosmosu (`space.jpg`), obrysami poligonowymi kontynentów i wysp (`data/map.json`), napisami 3D Cinzel oraz obrotem `360°` i wyborem kontynentu promieniem 3D (`raycast`). Pod klawiszem `[Tab]` udostępniono malowany Atlas 2D (`assets/map/atlas.webp`), a pod `[M]` obrotową Mapę 3D całego kontynentu `1024 × 1024 m`.
 
+### Integracja świata Geminiego z serwerem testowym Androida
+
+Gałąź `feat/gemini-world-test-server` łączy gałąź studiów
+z `feat/isometric-world-2d-terrain3d-20261118` (źródło `a2b46764`).
+Cztery mapy i globus trafiają do osobnego świata podglądu administratora.
+Paczka treści `1.14.3` zastępuje wyłącznie `core-c101` z wydania 1.14.2,
+z zachowaniem pozostałych 29 pakietów. Eksporter zatrzymuje się, gdy brakuje
+celu dowolnego dowiązania do grafiki. [Manifest](../../../deliveries/godot-content-1.14.3/manifest.json).
+
+APK 1.14 sprawdza manifest przed logowaniem i bez nagłówka autoryzacji.
+Serwer w trybie konserwacji zwraca wtedy HTTP 503. Publikacja aktywnej
+wersji sama w sobie nie wymusza pobrania na tym kliencie. Bezpieczna
+aktualizacja wymaga zgłoszenia po zalogowaniu administratora oraz dalszego
+pobierania paczki z tym samym uwierzytelnieniem.

@@ -95,10 +95,10 @@ func sheet(path: String) -> Texture2D:
 	if not sheet_cache.has(path):
 		if ResourceLoader.exists(path):
 			sheet_cache[path] = load(path)
-		else:
-			var abs_p := ProjectSettings.globalize_path(path)
+		elif FileAccess.file_exists(path):
 			var img := Image.new()
-			if img.load(abs_p) == OK:
+			var err := img.load_webp_from_buffer(FileAccess.get_file_as_bytes(path)) if path.ends_with(".webp") else img.load(path)
+			if err == OK:
 				sheet_cache[path] = ImageTexture.create_from_image(img)
 	return sheet_cache.get(path, null)
 

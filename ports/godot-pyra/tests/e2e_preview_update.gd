@@ -68,10 +68,13 @@ func run() -> void:
 				world.switch_region(land)
 				await frames(3)
 				check("continent_"+land,world.current_land==land and world.heights.size()==262144 and world.walkable.size()==262144 and world.exp_zones.size()==6 and world.hero!=null)
+				var sprite: AnimatedSprite2D = world.hero.sprite
+				var first_frame := sprite.sprite_frames.get_frame_texture(sprite.animation, 0) as AtlasTexture
+				check("hero_texture_"+land,first_frame!=null and first_frame.atlas!=null)
 				await shot(land+".jpg")
 			world.toggle_atlas(true)
 			await frames(8)
-			check("planet_atlas",world.atlas_overlay!=null and world.atlas_expanded)
+			check("planet_atlas_and_globe",world.atlas_overlay!=null and world.atlas_overlay.globe!=null and world.atlas_expanded)
 			await shot("atlas.jpg")
 		else:
 			var material_checks: Dictionary=world.material_library.validate()

@@ -152,7 +152,7 @@ func load_tex(path: String) -> Texture2D:
 	var abs_path := ProjectSettings.globalize_path(path)
 	if FileAccess.file_exists(path) or FileAccess.file_exists(abs_path):
 		var img := Image.new()
-		var err := img.load(abs_path if FileAccess.file_exists(abs_path) else path)
+		var err := img.load_webp_from_buffer(FileAccess.get_file_as_bytes(path)) if path.ends_with(".webp") else img.load(path)
 		if err == OK:
 			var tex := ImageTexture.create_from_image(img)
 			tex_cache[path] = tex

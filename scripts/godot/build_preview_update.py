@@ -56,7 +56,8 @@ def main():
     for source in sorted(sources):
         rel = source.relative_to(builder.PROJECT).as_posix()
         # Raw bytes retain authoring hashes and height data; imports retain runtime resources.
-        paths = set([rel] + builder.disk_files(rel))
+        # Gemini textures can be decoded from WebP directly at runtime.
+        paths = {rel} if args.gemini and source.suffix == '.webp' else set([rel] + builder.disk_files(rel))
         for path in sorted(paths):
             listing.append({'pck': 'res://'+path, 'disk': str(builder.PROJECT/path)})
         if source.suffix in ('.gd', '.tscn', '.gdshader', '.gdshaderinc'):
