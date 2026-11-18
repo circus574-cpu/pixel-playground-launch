@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 PREFIX = "res://service_preview/pyra/"
 
 
-def prepare(source: Path, project: Path) -> dict:
+def prepare(source: Path, project: Path, *, citadel: bool = False) -> dict:
     output = project / "service_preview" / "pyra"
     output.mkdir(parents=True, exist_ok=True)
     entries = []
@@ -22,7 +22,16 @@ def prepare(source: Path, project: Path) -> dict:
             continue
         if rel.name == "project.godot" or path.suffix in (".uid", ".import"):
             continue
-        data = path.read_bytes()
+        if citadel:
+            if rel.parts[0] == "studies" and rel.parts[1] != "pyra-citadel":
+                continue
+            if rel.suffix == ".tscn" and rel.name != "world.tscn":
+                continue
+        data = (source / "pyra-citadel.tscn").read_bytes() if citadel and rel.name == "world.tscn" else path.read_bytes()
+        if citadel and rel.as_posix() == "studies/pyra-citadel/terrain.json":
+            terrain = json.loads(data)
+            terrain["spawn"] = [-51, -173]
+            data = (json.dumps(terrain, indent=2, ensure_ascii=False) + "\n").encode()
         if data.startswith(b"version https://git-lfs.github.com/spec/v1"):
             raise ValueError(f"Missing LFS data: {rel}; run git lfs pull")
         if path.suffix in (".gd", ".gdshader", ".tscn", ".json"):

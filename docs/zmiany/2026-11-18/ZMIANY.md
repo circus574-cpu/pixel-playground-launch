@@ -178,3 +178,21 @@ z paczki cytadeli, plik JSON z pustą listą `[]`, katalog wynikowy oraz
 `street-lantern`. Paczka latarni zawiera edytowalny `.blend`, render PNG
 i log Cycles. Scena jest w gałęzi prototypowej. Aktualizację serwerową
 przygotowuje się osobno z tej gałęzi po akceptacji sceny.
+
+### Plac Koronny w trybie TEST SERWER
+
+Wydanie treści Android `1.14.2` podmienia wyłącznie pakiet podglądu
+`core-c101`, zachowując zależności lądów i wszystkie 29 pozostałych
+pakietów z 1.14.1. Ekran serwisowy otwiera scenę Pyry przy Placu Koronnym.
+Paczka ma 45 774 548 bajtów. Obowiązuje istniejące APK 1.14 i autoryzacja
+administratorów. Włączenie wydania przez workflow wymaga aktywnej
+konserwacji i poprzedniej aktywnej wersji wskazanej w `test_base`.
+[Manifest wydania](../../../deliveries/godot-content-1.14.2/manifest.json).
+
+Test HTTP z zasobami oryginalnego APK 1.14, w Godot 4.6.3, przeszedł
+52/52 kontroli. Test objął montaż aktualizacji, otwarcie dla administratora,
+odmowę gościowi i zamknięcie podglądu po odebraniu dostępu, budynki,
+animacje otoczenia, mapy oraz niezmienione bajty zapisów.
+[Wyniki i zrzut](qa/pyra-test-server/results.json) ·
+[Widok pobranej sceny](qa/pyra-test-server/downloaded-preview.jpg).
+Test fizycznego telefonu pozostaje otwarty.

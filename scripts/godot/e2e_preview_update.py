@@ -28,12 +28,15 @@ listing.append({'pck':'res://e2e_preview_update.gd','disk':str(ROOT/'ports/godot
 subprocess.run(['godot','--headless','--audio-driver','Dummy','--path',str(core_test.PROJECT),'--script','res://tools/pack_builder.gd','--',str(work/'base.json'),str(work/'base.pck')],check=True)
 manifest=json.loads((Path(args.release)/'manifest.json').read_text())
 entry=manifest['packs']['core-c101']
+report_file=Path(args.release)/'preview-update.json'
+citadel=report_file.exists() and json.loads(report_file.read_text()).get('citadel_preview')
+extra=['--qa-citadel'] if citadel else []
 core_test.Fake.key='core-c101';core_test.Fake.offer=entry
 core_test.Fake.files={entry['file']:Path(args.release)/entry['file']}
 server=http.server.ThreadingHTTPServer(('127.0.0.1',0),core_test.Fake)
 threading.Thread(target=server.serve_forever,daemon=True).start()
 try:
-    run=subprocess.run(['godot','--audio-driver','Dummy','--rendering-method','gl_compatibility','--main-pack',str(work/'base.pck'),'--script','res://e2e_preview_update.gd','--',f'--server=http://127.0.0.1:{server.server_address[1]}',f'--qa-output={work}'],env={**os.environ,'XDG_DATA_HOME':str(work/'user')},capture_output=True,text=True,timeout=240)
+    run=subprocess.run(['godot','--audio-driver','Dummy','--rendering-method','gl_compatibility','--main-pack',str(work/'base.pck'),'--script','res://e2e_preview_update.gd','--',f'--server=http://127.0.0.1:{server.server_address[1]}',f'--qa-output={work}',*extra],env={**os.environ,'XDG_DATA_HOME':str(work/'user')},capture_output=True,text=True,timeout=240)
 finally:server.shutdown()
 (work/'runtime.txt').write_text(run.stdout+'\n'+run.stderr)
 result=json.loads((work/'results.json').read_text())

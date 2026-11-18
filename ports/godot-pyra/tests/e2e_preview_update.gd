@@ -50,6 +50,10 @@ func run() -> void:
 	var service: Control=load("res://scripts/service_screen.gd").new()
 	service.request=request
 	root.add_child(service)
+	status={"maintenance":true,"canEnter":false,"canPreview":false}
+	await service.open_preview()
+	check("guest_cannot_open_preview",service.world==null)
+	status={"maintenance":true,"canEnter":true,"canPreview":true}
 	service.run()
 	await frames(6)
 	await service.open_preview()
@@ -60,6 +64,14 @@ func run() -> void:
 		var material_checks: Dictionary=world.material_library.validate()
 		for name: String in material_checks:check("downloaded_"+name,bool(material_checks[name]))
 		check("new_buildings",world.building_art.size()==6)
+		if "--qa-citadel" in OS.get_cmdline_user_args():
+			check("citadel_variant",bool(world.citadel_preview))
+			check("start_at_royal_square",world.hero_world.distance_to(Vector2(-51,-173))<.05)
+			var closed:=0
+			for item: Dictionary in world.architecture.props:
+				if item.get("entry")=="closed":closed+=1
+			check("all_seven_district_buildings",closed==7)
+			check("lanterns_and_chimneys",world.district_ambience.lanterns.size()==5 and world.district_ambience.chimneys.size()==3)
 		check("private_world",world.get_world_2d()!=root.world_2d)
 		await shot("downloaded-preview.jpg")
 		world.toggle_map()
