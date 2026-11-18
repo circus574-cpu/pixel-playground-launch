@@ -110,3 +110,26 @@ projektowanych ulic wypadające poza aktualną maską ruchu. Rampa, mur
 oporowy lub korekta przebiegu będzie wymagana przy wykonaniu tych odcinków.
 To etap projektu urbanistycznego. Aktualny teren, serwer i budynki pozostają
 w dotychczasowej wersji.
+
+## Pyra — Plac Koronny
+
+Osobna scena Godota `res://pyra-citadel.tscn` pokazuje początek dzielnicy
+cytadeli na północ od centrum. Kręte podejście prowadzi na lokalny taras,
+gdzie na placu znajdują się brązowa rozeta, brama, odcinki muru i paleniska.
+Przejście między filarami jest dostępne pieszo. Podejście ma wyrównany spadek.
+Oba widoki mapy korzystają z tych samych danych wysokości i materiałów.
+
+Modele bramy, muru i paleniska wyrenderowano w Blenderze 4.5.3 (Cycles)
+na RTX 6000 Ada. Grafikę bramy dopracowano w GPT Image na podstawie kadru z
+Blendera i istniejącej ilustracji hali Pyry. W grze jej podstawy dopasowano
+do kolizji filarów. [Paczka źródłowa z manifestem, modelami i logiem GPU](../../../deliveries/pyra-citadel-20261118/manifest.json).
+
+- [Widok gracza](qa/pyra-citadel/player-view.jpg) i [widok placu](qa/pyra-citadel/royal-square.jpg) pochodzą z uruchomionej sceny.
+- [Kontrole Godota](qa/pyra-citadel/results.json) obejmują przejście przez bramę, kolizje filarów i zgodność danych widoków mapy.
+- Aby odtworzyć scenę, wypakuj `citadel-source.zip` i podaj katalog z oryginalnymi renderami do
+  `python3 scripts/godot/prepare_pyra_citadel.py --renders <katalog> --painted-gate deliveries/pyra-citadel-20261118/gate-painted-source.png`.
+  Otwórz `pyra-citadel.tscn` w projekcie `ports/godot-isometric-pyra`.
+
+To działający fragment Pyry. Zabudowa kwartałów cytadeli, jej wnętrza i ruch NPC
+pozostają w planie. Scenę sprawdzono na komputerze w Godot 4.6.3. Trafia na
+gałąź prototypów.

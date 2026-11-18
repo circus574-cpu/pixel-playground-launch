@@ -16,7 +16,9 @@ const CAMERA_LOOK_LIMIT := 76.0
 const CAMERA_FOLLOW_RATE := 8.0
 const CAMERA_LOOK_RATE := 5.0
 @export_enum("pyra", "verdantia", "aetheria", "nexus") var study := "pyra"
+@export var citadel_preview := false
 var data_root := "res://data"
+var architecture: Dictionary = {}
 var city_center := CITY_CENTER
 var city_radii := CITY_RADII
 var city_height := 12.0
@@ -94,14 +96,19 @@ func texture_id(p: Vector2) -> int:
 	var q := Vector2i((p+Vector2(512,512))/2)
 	return int(control_bytes.decode_u32((clampi(q.y,0,511)*512+clampi(q.x,0,511))*4)>>27)&31
 
+func blocked_by_footprint(p: Vector2, feature: Dictionary) -> bool:
+	var anchor:=Vector2(feature.xz[0],feature.xz[1])
+	var size:=Vector2(feature.size[0],feature.size[1])
+	return Rect2(anchor-size/2,size).grow(.8).has_point(p)
+
 func walkable(p: Vector2) -> bool:
 	if absf(p.x)>500 or absf(p.y)>500:return false
 	var q := Vector2i((p+Vector2(512,512))/2)
 	if not walk_bytes.is_empty() and walk_bytes[q.y*N+q.x]==0:return false
 	for building: Dictionary in buildings:
-		var b := Vector2(building.xz[0],building.xz[1])
-		var size := Vector2(building.size[0],building.size[1])
-		if Rect2(b-size/2,size).grow(.8).has_point(p):return false
+		if blocked_by_footprint(p,building):return false
+	for feature: Dictionary in architecture.get("obstacles",[]):
+		if blocked_by_footprint(p,feature):return false
 	return true
 
 func _ready() -> void:
@@ -109,6 +116,9 @@ func _ready() -> void:
 	if study!="pyra":
 		data_root="res://studies/%s"%study
 		legacy_terrain=true
+	if citadel_preview:
+		data_root="res://studies/pyra-citadel"
+		architecture=JSON.parse_string(FileAccess.get_file_as_string(data_root+"/architecture.json"))
 	config=JSON.parse_string(FileAccess.get_file_as_string(data_root+"/terrain.json"))
 	hero_world=Vector2(config.spawn[0],config.spawn[1])
 	if study!="pyra":
@@ -246,6 +256,14 @@ func build_objects() -> void:
 			sprite.scale=Vector2.ONE*float(binding.scale)
 			building_contact_shadow(p,Vector2(b.size[0],b.size[1]))
 		building_sprites[str(b.id)]=sprite
+	for item: Dictionary in architecture.get("props",[]):
+		var binding: Dictionary=architecture.assets[item.role]
+		var p:=Vector2(item.xz[0],item.xz[1])
+		var sprite:=object_sprite(str(binding.texture),p,1.0)
+		sprite.offset=-Vector2(sprite.texture.get_size())*Vector2(binding.origin[0],binding.origin[1])
+		sprite.scale=Vector2.ONE*float(binding.scale)
+		var footprint: Vector2={"gate":Vector2(21,6),"retaining-wall":Vector2(11.7,3),"brazier":Vector2(2.25,2.25)}[item.role]
+		building_contact_shadow(p,footprint)
 	if study!="pyra":
 		build_study_decorations()
 		return
@@ -307,6 +325,7 @@ func build_hud() -> void:
 	add_child(hud)
 	var title:=Label.new()
 	title.text="KI LEGENDS · %s\nPRÓBA IZOMETRII 2D"%str(config.get("continent","Pyra")).to_upper()
+	if citadel_preview:title.text="KI LEGENDS · PYRA\nPLAC KORONNY"
 	title.position=Vector2(22,18)
 	title.add_theme_font_size_override("font_size",23)
 	title.add_theme_color_override("font_color",Color("ffe0a6"))
@@ -484,6 +503,9 @@ func city_layout_checks() -> Dictionary:
 	return checks
 
 func run_qa() -> void:
+	if citadel_preview:
+		await run_citadel_qa()
+		return
 	if study!="pyra":
 		await run_study_qa()
 		return
@@ -738,4 +760,50 @@ func run_study_qa() -> void:
 	var file:=FileAccess.open(out.path_join("results.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(result,"\t"))
 	print("STUDY_QA ",JSON.stringify(result))
+	get_tree().quit(0 if passed==checks.size() else 1)
+
+func run_citadel_qa() -> void:
+	controlled=false
+	var out:=OS.get_environment("KI_ISO_QA_DIR")
+	if out.is_empty():out="user://qa/pyra-citadel"
+	DirAccess.make_dir_recursive_absolute(out)
+	var checks:=city_layout_checks()
+	checks["three_render_assets"]=architecture.assets.size()==3
+	for role: String in architecture.assets:
+		var asset: Dictionary=architecture.assets[role]
+		checks[role+"_sha"]=FileAccess.get_sha256(str(asset.texture))==str(asset.sha256)
+	var gate:=Vector2(config.citadel.gate[0],config.citadel.gate[1])
+	checks["gate_towers_block"]=not walkable(gate+Vector2(-7.35,0)) and not walkable(gate+Vector2(7.35,0))
+	checks["gate_center_open"]=walkable(gate)
+	hero_world=gate+Vector2(0,12)
+	for i in 3:await get_tree().physics_frame
+	motion=Vector2(1,-.5).normalized()
+	controlled=true
+	for i in 190:await get_tree().physics_frame
+	controlled=false
+	motion=Vector2.ZERO
+	checks["joystick_motion_passes_gate"]=hero_world.y<gate.y-7.0 and absf(hero_world.x-gate.x)<.5
+	hero_world=gate+Vector2(2,15)
+	snap_camera_to_hero()
+	for i in 5:await get_tree().process_frame
+	await RenderingServer.frame_post_draw
+	get_viewport().get_texture().get_image().save_jpg(out.path_join("player-view.jpg"),.94)
+	follow_camera=false
+	hud.hide()
+	camera.position=iso(gate+Vector2(0,10))+Vector2(0,-65)
+	camera.zoom=Vector2.ONE*.92
+	for i in 6:await get_tree().process_frame
+	await RenderingServer.frame_post_draw
+	get_viewport().get_texture().get_image().save_jpg(out.path_join("royal-square.jpg"),.94)
+	hud.show()
+	toggle_map()
+	toggle_map_mode()
+	for i in 8:await get_tree().process_frame
+	var alignment: Dictionary=map_3d.validate_alignment()
+	checks["maps_use_same_geometry_and_materials"]=alignment.shares_textures and alignment.height_max_m<.001 and map_view.world_2d==get_world_2d()
+	var passed:=checks.values().filter(func(ok):return ok).size()
+	var report:={"passed":passed,"failed":checks.size()-passed,"checks":checks,"map3d":alignment}
+	var file:=FileAccess.open(out.path_join("results.json"),FileAccess.WRITE)
+	file.store_string(JSON.stringify(report,"\t"))
+	print("CITADEL_QA ",JSON.stringify(report))
 	get_tree().quit(0 if passed==checks.size() else 1)

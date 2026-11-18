@@ -86,14 +86,14 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def bake(region):
-    path = ROOT/('data' if region=='pyra' else 'studies/'+region)
+def bake(region, destination=None, extension=None):
+    path = destination or ROOT/('data' if region=='pyra' else 'studies/'+region)
     base = json.loads((path/'terrain.json').read_text())
     buildings = json.loads((path/'buildings.json').read_text())
     z,x = np.mgrid[-512:512:2,-512:512:2]
     terrain = np.fromfile(path/'walkable.u8',dtype='u1').reshape(512,512)!=0
     open_area = terrain.copy()
-    for building in buildings:
+    for building in buildings + (extension or {}).get('obstacles',[]):
         px,pz = building['xz']
         w,d = building['size']
         open_area &= ~((abs(x-px)<w/2+.8)&(abs(z-pz)<d/2+.8))
@@ -101,6 +101,7 @@ def bake(region):
     streets = [(f'Droga {index+1}', width, base['paths'][index])
                for index,width in design.get('keep',{}).items()]
     streets.extend(design['streets'])
+    streets.extend((extension or {}).get('streets',[]))
     if region == 'pyra':
         # Keep the distant branches of the existing paths outside the new streets.
         streets.extend([('Szlak Grani',8,base['paths'][0][1:]),
@@ -121,7 +122,8 @@ def bake(region):
         road_mask |= np.asarray(img)>0
         layouts.append({'name':name,'width_m':width,'centerline':curve.round(3).tolist()})
     plaza_mask = np.zeros_like(road_mask)
-    for name,points in design['plazas']:
+    plazas = design['plazas'] + (extension or {}).get('plazas',[])
+    for name,points in plazas:
         img = Image.new('L',(512,512))
         ImageDraw.Draw(img).polygon([tuple(pt) for pt in pixel(points)],fill=255)
         plaza = np.asarray(img)>0
@@ -156,12 +158,12 @@ def bake(region):
     rim = plaza_floor & ~binary_erosion(plaza_floor, iterations=2)
     accent = np.stack((rim,plaza_floor,np.zeros_like(rim)),axis=-1).astype('uint8')*255
     Image.fromarray(accent).save(path/'city-plazas.png')
-    manifest = {'region':region,'streets':layouts,'plazas':[{'name':n,'polygon':p} for n,p in design['plazas']],
+    manifest = {'region':region,'streets':layouts,'plazas':[{'name':n,'polygon':p} for n,p in plazas],
                 'buildings_with_street_access':reached,'weights_sha256':sha((path/'city-weights.png').read_bytes()),
                 'plazas_sha256':sha((path/'city-plazas.png').read_bytes()),
                 'geometry_sha256':{n:sha((path/n).read_bytes()) for n in ('height.r32','walkable.u8','control.r32','buildings.json')}}
     (path/'city-layout.json').write_text(json.dumps(manifest,indent=2,ensure_ascii=False)+'\n')
-    print(region,len(streets),'streets',len(design['plazas']),'plazas',reached,'connected building approaches')
+    print(region,len(streets),'streets',len(plazas),'plazas',reached,'connected building approaches')
 
 
 if __name__=='__main__':

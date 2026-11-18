@@ -1,0 +1,204 @@
+{
+  "assets": {
+    "gate": {
+      "texture": "res://studies/pyra-citadel/art/gate.png",
+      "origin": [
+        0.514571190674438,
+        0.7898123494357805
+      ],
+      "scale": 0.1809230769230769,
+      "sha256": "41234213c176ec0060f77c283b2777c2776773d0908b008addc9aa3b5acb2000",
+      "source_sha256": "77c786e2b1dd32c01a7b09d6f2fd9bd273ef0b6ee4502c4e34089a97f4b02232",
+      "painted_source_sha256": "b8a16ad44c8014fbb89e2862e7884a32dda369a56ea1653c00b785ec8b508615"
+    },
+    "retaining-wall": {
+      "texture": "res://studies/pyra-citadel/art/retaining-wall.png",
+      "origin": [
+        0.5,
+        0.6799260160348711
+      ],
+      "scale": 0.40511326005479287,
+      "sha256": "3224ed85e6dbfbb25ba51d92932dd633da5118197319b6608d20553e06a05e16",
+      "source_sha256": "c827154889aeb7c53ff09f07b06628154fc85e1acaf66c11acb7317c4f2f3879",
+      "painted_source_sha256": null
+    },
+    "brazier": {
+      "texture": "res://studies/pyra-citadel/art/brazier.png",
+      "origin": [
+        0.5,
+        0.7087280031234499
+      ],
+      "scale": 0.40511326005479287,
+      "sha256": "ca9ff6643763bb28c7097ddc2ae2aae6b6080a38f3d85b50ef84a8d39f914220",
+      "source_sha256": "7994cac2fcd3e77eccfe738dd0342d20e65d0eb321fe3cb07dc7d80e7a6b2ed7",
+      "painted_source_sha256": null
+    }
+  },
+  "props": [
+    {
+      "role": "gate",
+      "xz": [
+        -45,
+        -194
+      ]
+    },
+    {
+      "role": "retaining-wall",
+      "xz": [
+        -61,
+        -194
+      ]
+    },
+    {
+      "role": "retaining-wall",
+      "xz": [
+        -72,
+        -194
+      ]
+    },
+    {
+      "role": "retaining-wall",
+      "xz": [
+        -29,
+        -194
+      ]
+    },
+    {
+      "role": "retaining-wall",
+      "xz": [
+        -18,
+        -194
+      ]
+    },
+    {
+      "role": "brazier",
+      "xz": [
+        -54,
+        -186
+      ]
+    },
+    {
+      "role": "brazier",
+      "xz": [
+        -36,
+        -186
+      ]
+    },
+    {
+      "role": "brazier",
+      "xz": [
+        -61,
+        -165
+      ]
+    },
+    {
+      "role": "brazier",
+      "xz": [
+        -30,
+        -164
+      ]
+    }
+  ],
+  "obstacles": [
+    {
+      "xz": [
+        -52.35,
+        -194
+      ],
+      "size": [
+        6,
+        6
+      ]
+    },
+    {
+      "xz": [
+        -37.65,
+        -194
+      ],
+      "size": [
+        6,
+        6
+      ]
+    },
+    {
+      "xz": [
+        -61,
+        -194
+      ],
+      "size": [
+        11.7,
+        3.2
+      ]
+    },
+    {
+      "xz": [
+        -72,
+        -194
+      ],
+      "size": [
+        11.7,
+        3.2
+      ]
+    },
+    {
+      "xz": [
+        -29,
+        -194
+      ],
+      "size": [
+        11.7,
+        3.2
+      ]
+    },
+    {
+      "xz": [
+        -18,
+        -194
+      ],
+      "size": [
+        11.7,
+        3.2
+      ]
+    },
+    {
+      "xz": [
+        -54,
+        -186
+      ],
+      "size": [
+        2.25,
+        2.25
+      ]
+    },
+    {
+      "xz": [
+        -36,
+        -186
+      ],
+      "size": [
+        2.25,
+        2.25
+      ]
+    },
+    {
+      "xz": [
+        -61,
+        -165
+      ],
+      "size": [
+        2.25,
+        2.25
+      ]
+    },
+    {
+      "xz": [
+        -30,
+        -164
+      ],
+      "size": [
+        2.25,
+        2.25
+      ]
+    }
+  ]
+}

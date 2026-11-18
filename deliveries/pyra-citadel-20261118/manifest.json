@@ -1,0 +1,58 @@
+{
+  "blender": "4.5.3 LTS",
+  "projection": "yaw 45, elevation 30",
+  "assets": {
+    "gate": {
+      "file": "gate/source.png",
+      "sha256": "77c786e2b1dd32c01a7b09d6f2fd9bd273ef0b6ee4502c4e34089a97f4b02232",
+      "origin": [
+        0.5,
+        0.6102211773395538
+      ],
+      "runtime_scale": 0.40511326005479287,
+      "gpu": [
+        "NVIDIA RTX 6000 Ada Generation"
+      ],
+      "mesh_objects": 258
+    },
+    "retaining-wall": {
+      "file": "retaining-wall/source.png",
+      "sha256": "c827154889aeb7c53ff09f07b06628154fc85e1acaf66c11acb7317c4f2f3879",
+      "origin": [
+        0.5,
+        0.6102211773395538
+      ],
+      "runtime_scale": 0.40511326005479287,
+      "gpu": [
+        "NVIDIA RTX 6000 Ada Generation"
+      ],
+      "mesh_objects": 25
+    },
+    "brazier": {
+      "file": "brazier/source.png",
+      "sha256": "7994cac2fcd3e77eccfe738dd0342d20e65d0eb321fe3cb07dc7d80e7a6b2ed7",
+      "origin": [
+        0.5,
+        0.6102211773395538
+      ],
+      "runtime_scale": 0.40511326005479287,
+      "gpu": [
+        "NVIDIA RTX 6000 Ada Generation"
+      ],
+      "mesh_objects": 14
+    }
+  },
+  "archive": {
+    "file": "citadel-source.zip",
+    "sha256": "f6be8c3be26241fcdfa5c156dda8379f91bf353d5db17e94936d23a60c26f4ad"
+  },
+  "painted_gate": {
+    "file": "gate-painted-source.png",
+    "sha256": "b8a16ad44c8014fbb89e2862e7884a32dda369a56ea1653c00b785ec8b508615",
+    "generator": "GPT Image",
+    "references": [
+      "gate/source.png",
+      "ports/godot-isometric-pyra/assets/objects/9eba1e56-pyra-painted-hall.webp"
+    ]
+  }
+}

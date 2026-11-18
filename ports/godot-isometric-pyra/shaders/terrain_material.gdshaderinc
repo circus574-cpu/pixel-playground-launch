@@ -41,9 +41,10 @@ vec3 terrain_albedo(vec2 map_uv) {
 	float road_layer=terrain_noise(world/85.0)>0.65?1.0:0.0;
 	vec3 road=terrain_sample(paving_tex,world/3.0,road_layer,breakup);
 	if(plaza_enabled){
-		vec2 zones=texture(plaza_tex,map_uv).rg;
+		vec3 zones=texture(plaza_tex,map_uv).rgb;
 		road=mix(road,terrain_sample(paving_tex,world/5.0,road_layer,breakup)*1.12,zones.g);
 		road*=1.0-zones.r*0.21;
+		road=mix(road,vec3(0.54,0.28,0.07),zones.b*0.78);
 	}
 	float cliff_layer=env.g<0.12?2.0:(env.r>0.75?3.0:(env.g>0.58?1.0:0.0));
 	vec3 cliff=terrain_sample(cliff_tex,world/12.0,cliff_layer,breakup);
