@@ -1,0 +1,9 @@
+{
+  "date_utc": "2026-11-18",
+  "application": "KI Legends Android 1.14 / c101",
+  "apk_sha256": "136f3eda5f3c58bedbb5715901cc1a6ff07fd70e989bc5eae7f21e4092878c19",
+  "server_content_release": "1.14.2",
+  "renderer": "Godot 4.6.3, Compatibility (llvmpipe)",
+  "source": "Original APK map.json, atlas, globe textures and renderer classes, run on desktop. Global atlas view; the server update changes the isolated Pyra service preview.",
+  "capture": "The atlas and globe controls were rendered in a dedicated SubViewport at full size. The test character marker was omitted. Four zoomed atlas views and four rotations use the coordinates from map.json."
+}

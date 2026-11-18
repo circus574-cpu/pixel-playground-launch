@@ -1,0 +1,116 @@
+KI LEGENDS — BRIEF DLA ARCHITEKTA ŚWIATA
+Superior · cztery osobne szkice kontynentów
+
+JAK UŻYĆ
+Do każdej generacji dołącz „superior-atlas-2d.jpg” oraz parę obrazów
+danego kontynentu: „…-atlas-2d.jpg” i „…-globe-3d.jpg”.
+Wklej część WSPÓLNA i jeden z czterech promptów. Powtórz osobno dla
+każdego kontynentu. Zapisuj obrazy w tej samej skali stylistycznej.
+
+WSPÓLNA CZĘŚĆ PROMPTU
+Jesteś architektem świata gry KI Legends. Stwórz JEDEN czytelny szkic
+kartograficzny wybranego kontynentu Superiora. Główna plansza ma rzut
+pionowy z północą u góry, proporcje 3:2 w poziomie, pełną linię brzegową
+i pas głębokiego błękitnego oceanu dookoła. Pokaż płytkie wody wyłącznie
+przy brzegu. Załączony atlas 2D jest referencją dla sylwetki, rzek,
+jezior, pasm górskich i położenia stolicy. Globus określa orientację
+na planecie. Zachowaj najważniejsze zakola wybrzeża i proporcje lądu.
+Jeśli potrzebujesz zmiany hydrologii lub położenia biomów, pokaż ją
+delikatną przerywaną linią założenia projektowego.
+
+Narysuj wyraźnie odrębne regiony terenu, przejścia wynikające z dolin
+i przełęczy, 2–3 czytelne trasy między większymi punktami oraz otwarte
+obszary eksploracji o różnym zagęszczeniu. W prawym dolnym rogu dodaj
+mały wycinek stolicy w izometrii 2D, możliwy do odtworzenia w Godocie
+z osobnych warstw: podłoża, dróg, skał, budynków i dekoracji. Wycinek
+nie zasłania konturu kontynentu. Ulice i place wynikają z terenu oraz
+funkcji dzielnicy. Zadbaj o czytelne fasady, widoczne podejścia do drzwi
+i przestrzeń dla postaci. Rysunek koncepcyjny z subtelnym reliefem,
+zróżnicowaną fakturą i prostą legendą. Możesz użyć numerowanych znaczników,
+jeśli tekst w obrazie byłby nieczytelny. Pomijaj HUD, przyciski i znaczniki
+gracza. Zachowaj cztery osobne kontynenty i sześć istniejących wysp
+na mapie planety. Cel 45% lądu i 55% oceanu dotyczy powierzchni sfery
+i jest osobnym wymaganiem dla ewentualnej przebudowy geometrii całej
+planety. Sam szkic artystyczny nie jest jego pomiarem.
+
+1. VERDANTIA — PLANETARNI
+Referencje: verdant-atlas-2d.jpg, verdant-globe-3d.jpg.
+Naszkicuj zielony kontynent, którego krajobraz porządkuje obieg wody.
+Zachowaj istniejące jezioro, rzeki i śnieżne grzbiety. Przy głównym
+biegu rzeki pokaż równiny zalewowe, podmokłe łąki i jary. Osobno zaznacz
+stary las z dużymi polanami oraz otwarte podgórze. Jeden szlak niech
+prowadzi wzdłuż brzegu, drugi wychodzi na przełęcz, a leśna ścieżka
+obchodzi mokradło suchą krawędzią. Rzeki kieruj w dół, ku jezioru
+i morzu. Naturalne przewężenia zaznacz jako miejsca przepraw.
+
+Wycinek stolicy: Zielona Przystań na obu brzegach rzeki. Most łączy
+nabrzeże i targ z domami ogrodowymi. Sady od strony lądu prowadzą do
+rzemiosła i drogi w dolinę. Kamienne cokoły, drewno i zielone dachy
+wtapiają budynki w teren. Drzewa grupuj przy wodzie i w ogrodach,
+zostawiając ulice oraz place czytelne. Paleta mchu, butelkowej zieleni,
+mokrego łupka i zimnego błękitu. Najważniejsze motywy to rzeka, most
+i skala żywego lasu.
+
+2. AETHERIA — MĘDRCY
+Referencje: aether-atlas-2d.jpg, aether-globe-3d.jpg.
+Naszkicuj wielopoziomowy kontynent górski. Wyróżnij cztery obszary:
+tarasy źródeł, święty gaj, lodowe szczyty i lodowce. Woda powinna
+wypływać spod lodowców, przechodzić przez kolejne misy skalne
+i znikać w głębszych dolinach. Turkusowe źródła KI zaznacz punktowo,
+zostawiając większość śniegu i skał neutralną. Pokaż różnicę między
+oblodzoną doliną, otwartą granią i osłoniętym gajem. Główna trasa po
+poziomicach łączy tarasy. Osobna ścieżka prowadzi ku górskiej przełęczy.
+
+Wycinek stolicy: Sanktuarium Tysiąca Źródeł. Od dolnego miasta gości
+prowadzi sekwencja przejść przez Tarasy Nauki do dzielnicy sanktuariów.
+Schody, rampy, mosty i mury oporowe pokaż w miejscach rzeczywistej zmiany
+wysokości. Pagody, jasny kamień, ciepłe drewno i odbicia w basenach
+tworzą rytm, a górna świątynia pozostaje dominantą. Paleta srebrzystych
+skał, błękitnych cieni, turkusu i małych ciepłych świateł. Zachowaj dużo
+pustej przestrzeni między kompleksami.
+
+3. NEXUS-9 — ANDROIDY
+Referencje: nexus-atlas-2d.jpg, nexus-globe-3d.jpg.
+Naszkicuj kontynent, na którym infrastruktura została zbudowana na
+naturalnym skalistym płaskowyżu. Wyraźnie rozdziel suche pustkowia,
+dzikie wybrzeża, pas przemysłowy, doki i rejon rdzenia energetycznego.
+Główne trasy wyglądają jak czytelne obwody transportowe. Podążają dolinami
+lub przechodzą przez nie rozpoznawalnymi wiaduktami. Drugorzędne trakty
+prowadzą wzdłuż kanałów technicznych do magazynów i na odległe przedmieścia.
+Między ośrodkami zostaw dużo przestrzeni na eksplorację.
+
+Wycinek stolicy: Węzeł Świadomości. Górna platforma skupia administrację
+i punkt orientacyjny rdzenia. Hala Transportowa spina sieć dojść, a Dolne
+Warsztaty i doki mają place dla ładunków i osobne wejścia serwisowe.
+Użyj różnych wysokości i rozstawu brył, tak aby z kamery gracza było
+widać powierzchnię ulic i wejścia. Grafit, ceramiczne poszycia, zgaszona
+stal i miejscowe akcenty cyjanu. Czytelność reaktora i komunikacji
+ważniejsza od gęstej siatki neonów.
+
+4. PYRA — LEGENDY
+Referencje: pyra-atlas-2d.jpg, pyra-globe-3d.jpg.
+Naszkicuj aktywny kontynent wulkaniczny. Ułóż pola popiołu, bazaltowe
+płaskowyże, kominy wulkaniczne i czerwone kaniony w rozpoznawalne
+układy. Rzeki lawy poprowadź naturalnymi obniżeniami ku wybrzeżu.
+Pokaż kontakt lawy z wodą przez jasną parę i czarne półki zastygłej
+skały. Oddziel bezpieczny szlak przez starsze, chłodne podłoże od
+obszarów ryzyka. Niech miasto osłania grzbiet i stary mur, a przejścia
+do dziczy prowadzą przez bramę oraz serpentynę.
+
+Wycinek stolicy: Twierdza Popiołu. Zaprojektuj trzy różne dzielnice:
+wysoką cytadelę i Plac Koronny, Targ Bramny przy zakręcie traktu
+oraz Dolne Kuźnie przy Placu Węglowym. Targ ma zwartą pierzeję,
+zadaszone stanowiska i zatokę dla wozów. Kuźnie mają wspólny dziedziniec
+roboczy, dojścia do składów i kominów oraz boczną drogę dostaw.
+Nawierzchnie rozróżniaj przez kształt i sposób ułożenia: bazaltowy bruk
+na ulicach, duże płyty na placach, ubita ziemia przy warsztatach.
+W dzielnicach używaj murów, schodów i latarni jako oprawy ulic.
+Roślinność trzymaj na obrzeżach i poza murami. Paleta grafitu, popiołu,
+utlenionej miedzi, ciemnej czerwieni i skupionego światła palenisk.
+
+ODBIÓR
+Cztery osobne arkusze w tej samej stylistyce. Na każdym czytelny pełny
+obrys kontynentu, stolica we wskazanym miejscu oraz odróżniające się
+biomy i trasy. Na końcu porównaj szkice z atlasem i z odpowiadającymi
+im pozycjami na globusie. Załączony atlas pokazuje aktualne zasoby gry,
+a układ ulic oraz funkcje dzielnic to wskazówki projektowe do szkicu.

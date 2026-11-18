@@ -245,3 +245,20 @@ z kolizjami i przechodniością ulic.
 w Godot 4.6.3. [Kontrole prototypu](qa/pyra-paving/results.json) objęły
 materiały, drzewa, rekwizyty, przechodniość oraz współdzielenie nawierzchni
 z mapą 3D. Zmiana jest na gałęzi prototypowej, serwer nadal używa 1.14.2.
+
+### Referencje Superiora dla architekta świata
+
+[Pełny atlas 2D](qa/superior-reference/superior-atlas-2d.jpg) oraz
+cztery zbliżenia mapy i obroty globusa wykonano w Godot 4.6.3 z zasobów
+APK 1.14. [Pochodzenie zrzutów](qa/superior-reference/provenance.json).
+
+| Kontynent | Atlas 2D | Globus 3D |
+| --- | --- | --- |
+| Verdantia | [Zrzut](qa/superior-reference/verdant-atlas-2d.jpg) | [Zrzut](qa/superior-reference/verdant-globe-3d.jpg) |
+| Aetheria | [Zrzut](qa/superior-reference/aether-atlas-2d.jpg) | [Zrzut](qa/superior-reference/aether-globe-3d.jpg) |
+| Nexus-9 | [Zrzut](qa/superior-reference/nexus-atlas-2d.jpg) | [Zrzut](qa/superior-reference/nexus-globe-3d.jpg) |
+| Pyra | [Zrzut](qa/superior-reference/pyra-atlas-2d.jpg) | [Zrzut](qa/superior-reference/pyra-globe-3d.jpg) |
+
+[Cztery prompty dla architekta](qa/superior-reference/prompty-architekt-superiora.txt)
+opisują geometrię, krajobrazy, komunikację i wycinki stolic w izometrii.
+Wytyczne projektowe pozostają propozycjami do szkiców.
