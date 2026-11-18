@@ -1,1871 +1,273 @@
 {
-  "seed": 20261118,
-  "atlasSize": [
-    2000,
-    1000
+  "planet": "Superior",
+  "atlas_resolution": [
+    2048,
+    1024
   ],
-  "continents": {
-    "verdant": {
+  "continents": [
+    {
       "id": "verdant",
-      "name": "Verdantia",
-      "kind": "continent",
-      "size": [
+      "title": "Verdantia",
+      "capital": "Zielona Przystań",
+      "cx": 362.0,
+      "cy": 267.0,
+      "rx": 285.0,
+      "ry": 175.0,
+      "world_dims": [
         77504,
         58560
       ],
-      "center": [
-        335.2,
-        270.25
+      "palette_low": [
+        38,
+        102,
+        52
       ],
-      "settlements": [
-        {
-          "id": "verdant-capital",
-          "kind": "capital",
-          "name": "Zielona Przystań",
-          "bounds": {
-            "height": 2048,
-            "width": 3072,
-            "x": 47536.06261,
-            "y": 33715.481075
-          },
-          "x": 49031.06261,
-          "y": 34975.481075,
-          "services": [
-            {
-              "id": "accepted-hall",
-              "service": "hall",
-              "door": {
-                "x": 48936.06261,
-                "y": 34210.481075
-              }
-            },
-            {
-              "id": "accepted-shop",
-              "service": "shop",
-              "door": {
-                "x": 48036.06261,
-                "y": 34440.481075
-              }
-            },
-            {
-              "id": "accepted-arena",
-              "service": "arena",
-              "door": {
-                "x": 49616.06261,
-                "y": 35370.481075
-              }
-            },
-            {
-              "id": "accepted-depot",
-              "service": "depot",
-              "door": {
-                "x": 48916.06261,
-                "y": 35510.481075
-              }
-            },
-            {
-              "id": "accepted-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 48036.06261,
-                "y": 35320.481075
-              }
-            },
-            {
-              "id": "accepted-inn",
-              "service": "inn",
-              "door": {
-                "x": 49636.06261,
-                "y": 34410.481075
-              }
-            }
-          ]
-        },
-        {
-          "id": "verdant-town-1",
-          "kind": "town",
-          "name": "Kamienny Sad",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 17872,
-            "y": 25936
-          },
-          "x": 19408,
-          "y": 27216,
-          "services": [
-            {
-              "id": "verdant-town-1-shop",
-              "service": "shop",
-              "door": {
-                "x": 18448,
-                "y": 26704
-              }
-            },
-            {
-              "id": "verdant-town-1-hall",
-              "service": "hall",
-              "door": {
-                "x": 19408,
-                "y": 26448
-              }
-            },
-            {
-              "id": "verdant-town-1-inn",
-              "service": "inn",
-              "door": {
-                "x": 20368,
-                "y": 26704
-              }
-            },
-            {
-              "id": "verdant-town-1-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 18448,
-                "y": 27984
-              }
-            },
-            {
-              "id": "verdant-town-1-depot",
-              "service": "depot",
-              "door": {
-                "x": 19408,
-                "y": 28240
-              }
-            },
-            {
-              "id": "verdant-town-1-arena",
-              "service": "arena",
-              "door": {
-                "x": 20368,
-                "y": 27984
-              }
-            }
-          ]
-        },
-        {
-          "id": "verdant-town-2",
-          "kind": "town",
-          "name": "Latarnia Korzeni",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 35856,
-            "y": 17840
-          },
-          "x": 37392,
-          "y": 19120,
-          "services": [
-            {
-              "id": "verdant-town-2-shop",
-              "service": "shop",
-              "door": {
-                "x": 36432,
-                "y": 18608
-              }
-            },
-            {
-              "id": "verdant-town-2-hall",
-              "service": "hall",
-              "door": {
-                "x": 37392,
-                "y": 18352
-              }
-            },
-            {
-              "id": "verdant-town-2-inn",
-              "service": "inn",
-              "door": {
-                "x": 38352,
-                "y": 18608
-              }
-            },
-            {
-              "id": "verdant-town-2-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 36432,
-                "y": 19888
-              }
-            },
-            {
-              "id": "verdant-town-2-depot",
-              "service": "depot",
-              "door": {
-                "x": 37392,
-                "y": 20144
-              }
-            },
-            {
-              "id": "verdant-town-2-arena",
-              "service": "arena",
-              "door": {
-                "x": 38352,
-                "y": 19888
-              }
-            }
-          ]
-        },
-        {
-          "id": "verdant-town-3",
-          "kind": "town",
-          "name": "Przystań Trzech Mostów",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 57328,
-            "y": 19920
-          },
-          "x": 58864,
-          "y": 21200,
-          "services": [
-            {
-              "id": "verdant-town-3-shop",
-              "service": "shop",
-              "door": {
-                "x": 57904,
-                "y": 20688
-              }
-            },
-            {
-              "id": "verdant-town-3-hall",
-              "service": "hall",
-              "door": {
-                "x": 58864,
-                "y": 20432
-              }
-            },
-            {
-              "id": "verdant-town-3-inn",
-              "service": "inn",
-              "door": {
-                "x": 59824,
-                "y": 20688
-              }
-            },
-            {
-              "id": "verdant-town-3-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 57904,
-                "y": 21968
-              }
-            },
-            {
-              "id": "verdant-town-3-depot",
-              "service": "depot",
-              "door": {
-                "x": 58864,
-                "y": 22224
-              }
-            },
-            {
-              "id": "verdant-town-3-arena",
-              "service": "arena",
-              "door": {
-                "x": 59824,
-                "y": 21968
-              }
-            }
-          ]
-        }
+      "palette_mid": [
+        74,
+        152,
+        68
+      ],
+      "palette_high": [
+        215,
+        226,
+        235
       ]
     },
-    "aether": {
+    {
       "id": "aether",
-      "name": "Aetheria",
-      "kind": "continent",
-      "size": [
+      "title": "Aetheria",
+      "capital": "Sanktuarium Tysiąca Źródeł",
+      "cx": 1337.0,
+      "cy": 309.0,
+      "rx": 270.0,
+      "ry": 168.0,
+      "world_dims": [
         70208,
         53440
       ],
-      "center": [
-        1309.3,
-        312.0
+      "palette_low": [
+        64,
+        148,
+        138
       ],
-      "settlements": [
-        {
-          "id": "aether-capital",
-          "kind": "capital",
-          "name": "Sanktuarium Tysiąca Źródeł",
-          "bounds": {
-            "height": 2150,
-            "width": 3300,
-            "x": 35561.22667100001,
-            "y": 24850.014998
-          },
-          "x": 36511.22667100001,
-          "y": 25730.014998,
-          "services": [
-            {
-              "id": "accepted-hall",
-              "service": "hall",
-              "door": {
-                "x": 36561.22667100001,
-                "y": 25160.014998
-              }
-            },
-            {
-              "id": "accepted-shop",
-              "service": "shop",
-              "door": {
-                "x": 37411.22667100001,
-                "y": 25580.014998
-              }
-            },
-            {
-              "id": "accepted-arena",
-              "service": "arena",
-              "door": {
-                "x": 38141.22667100001,
-                "y": 25480.014998
-              }
-            },
-            {
-              "id": "accepted-depot",
-              "service": "depot",
-              "door": {
-                "x": 36011.22667100001,
-                "y": 25977.014998
-              }
-            },
-            {
-              "id": "accepted-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 37521.22667100001,
-                "y": 26702.014998
-              }
-            },
-            {
-              "id": "accepted-inn",
-              "service": "inn",
-              "door": {
-                "x": 36011.22667100001,
-                "y": 26690.014998
-              }
-            }
-          ]
-        },
-        {
-          "id": "aether-town-1",
-          "kind": "town",
-          "name": "Biała Przystań",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 15472,
-            "y": 26576
-          },
-          "x": 17008,
-          "y": 27856,
-          "services": [
-            {
-              "id": "aether-town-1-shop",
-              "service": "shop",
-              "door": {
-                "x": 16048,
-                "y": 27344
-              }
-            },
-            {
-              "id": "aether-town-1-hall",
-              "service": "hall",
-              "door": {
-                "x": 17008,
-                "y": 27088
-              }
-            },
-            {
-              "id": "aether-town-1-inn",
-              "service": "inn",
-              "door": {
-                "x": 17968,
-                "y": 27344
-              }
-            },
-            {
-              "id": "aether-town-1-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 16048,
-                "y": 28624
-              }
-            },
-            {
-              "id": "aether-town-1-depot",
-              "service": "depot",
-              "door": {
-                "x": 17008,
-                "y": 28880
-              }
-            },
-            {
-              "id": "aether-town-1-arena",
-              "service": "arena",
-              "door": {
-                "x": 17968,
-                "y": 28624
-              }
-            }
-          ]
-        },
-        {
-          "id": "aether-town-2",
-          "kind": "town",
-          "name": "Archiwum Nad Chmurami",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 52848,
-            "y": 27408
-          },
-          "x": 54384,
-          "y": 28688,
-          "services": [
-            {
-              "id": "aether-town-2-shop",
-              "service": "shop",
-              "door": {
-                "x": 53424,
-                "y": 28176
-              }
-            },
-            {
-              "id": "aether-town-2-hall",
-              "service": "hall",
-              "door": {
-                "x": 54384,
-                "y": 27920
-              }
-            },
-            {
-              "id": "aether-town-2-inn",
-              "service": "inn",
-              "door": {
-                "x": 55344,
-                "y": 28176
-              }
-            },
-            {
-              "id": "aether-town-2-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 53424,
-                "y": 29456
-              }
-            },
-            {
-              "id": "aether-town-2-depot",
-              "service": "depot",
-              "door": {
-                "x": 54384,
-                "y": 29712
-              }
-            },
-            {
-              "id": "aether-town-2-arena",
-              "service": "arena",
-              "door": {
-                "x": 55344,
-                "y": 29456
-              }
-            }
-          ]
-        },
-        {
-          "id": "aether-town-3",
-          "kind": "town",
-          "name": "Tarasy Świtu",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 23504,
-            "y": 13072
-          },
-          "x": 25040,
-          "y": 14352,
-          "services": [
-            {
-              "id": "aether-town-3-shop",
-              "service": "shop",
-              "door": {
-                "x": 24080,
-                "y": 13840
-              }
-            },
-            {
-              "id": "aether-town-3-hall",
-              "service": "hall",
-              "door": {
-                "x": 25040,
-                "y": 13584
-              }
-            },
-            {
-              "id": "aether-town-3-inn",
-              "service": "inn",
-              "door": {
-                "x": 26000,
-                "y": 13840
-              }
-            },
-            {
-              "id": "aether-town-3-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 24080,
-                "y": 15120
-              }
-            },
-            {
-              "id": "aether-town-3-depot",
-              "service": "depot",
-              "door": {
-                "x": 25040,
-                "y": 15376
-              }
-            },
-            {
-              "id": "aether-town-3-arena",
-              "service": "arena",
-              "door": {
-                "x": 26000,
-                "y": 15120
-              }
-            }
-          ]
-        }
+      "palette_mid": [
+        132,
+        184,
+        162
+      ],
+      "palette_high": [
+        244,
+        248,
+        255
       ]
     },
-    "nexus": {
-      "id": "nexus",
-      "name": "Nexus-9",
-      "kind": "continent",
-      "size": [
-        63168,
-        49728
-      ],
-      "center": [
-        1757.3,
-        701.1500000000001
-      ],
-      "settlements": [
-        {
-          "id": "nexus-capital",
-          "kind": "capital",
-          "name": "Węzeł Świadomości",
-          "bounds": {
-            "height": 1750,
-            "width": 2050,
-            "x": 36679.72373500001,
-            "y": 22761.645136000006
-          },
-          "x": 37129.72373500001,
-          "y": 23831.645136000006,
-          "services": [
-            {
-              "id": "accepted-hall",
-              "service": "hall",
-              "door": {
-                "x": 37729.72373500001,
-                "y": 23086.645136000006
-              }
-            },
-            {
-              "id": "accepted-shop",
-              "service": "shop",
-              "door": {
-                "x": 38429.72373500001,
-                "y": 23388.645136000006
-              }
-            },
-            {
-              "id": "accepted-arena",
-              "service": "arena",
-              "door": {
-                "x": 38429.72373500001,
-                "y": 24138.645136000006
-              }
-            },
-            {
-              "id": "accepted-depot",
-              "service": "depot",
-              "door": {
-                "x": 36979.72373500001,
-                "y": 24328.645136000006
-              }
-            },
-            {
-              "id": "accepted-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 37729.72373500001,
-                "y": 24381.645136000006
-              }
-            },
-            {
-              "id": "accepted-inn",
-              "service": "inn",
-              "door": {
-                "x": 37029.72373500001,
-                "y": 23388.645136000006
-              }
-            }
-          ]
-        },
-        {
-          "id": "nexus-town-1",
-          "kind": "town",
-          "name": "Stacja Meridian",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 14896,
-            "y": 22576
-          },
-          "x": 16432,
-          "y": 23856,
-          "services": [
-            {
-              "id": "nexus-town-1-shop",
-              "service": "shop",
-              "door": {
-                "x": 15472,
-                "y": 23344
-              }
-            },
-            {
-              "id": "nexus-town-1-hall",
-              "service": "hall",
-              "door": {
-                "x": 16432,
-                "y": 23088
-              }
-            },
-            {
-              "id": "nexus-town-1-inn",
-              "service": "inn",
-              "door": {
-                "x": 17392,
-                "y": 23344
-              }
-            },
-            {
-              "id": "nexus-town-1-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 15472,
-                "y": 24624
-              }
-            },
-            {
-              "id": "nexus-town-1-depot",
-              "service": "depot",
-              "door": {
-                "x": 16432,
-                "y": 24880
-              }
-            },
-            {
-              "id": "nexus-town-1-arena",
-              "service": "arena",
-              "door": {
-                "x": 17392,
-                "y": 24624
-              }
-            }
-          ]
-        },
-        {
-          "id": "nexus-town-2",
-          "kind": "town",
-          "name": "Kuźnia Obwodów",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 25200,
-            "y": 14608
-          },
-          "x": 26736,
-          "y": 15888,
-          "services": [
-            {
-              "id": "nexus-town-2-shop",
-              "service": "shop",
-              "door": {
-                "x": 25776,
-                "y": 15376
-              }
-            },
-            {
-              "id": "nexus-town-2-hall",
-              "service": "hall",
-              "door": {
-                "x": 26736,
-                "y": 15120
-              }
-            },
-            {
-              "id": "nexus-town-2-inn",
-              "service": "inn",
-              "door": {
-                "x": 27696,
-                "y": 15376
-              }
-            },
-            {
-              "id": "nexus-town-2-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 25776,
-                "y": 16656
-              }
-            },
-            {
-              "id": "nexus-town-2-depot",
-              "service": "depot",
-              "door": {
-                "x": 26736,
-                "y": 16912
-              }
-            },
-            {
-              "id": "nexus-town-2-arena",
-              "service": "arena",
-              "door": {
-                "x": 27696,
-                "y": 16656
-              }
-            }
-          ]
-        },
-        {
-          "id": "nexus-town-3",
-          "kind": "town",
-          "name": "Port Zerowy",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 32368,
-            "y": 33904
-          },
-          "x": 33904,
-          "y": 35184,
-          "services": [
-            {
-              "id": "nexus-town-3-shop",
-              "service": "shop",
-              "door": {
-                "x": 32944,
-                "y": 34672
-              }
-            },
-            {
-              "id": "nexus-town-3-hall",
-              "service": "hall",
-              "door": {
-                "x": 33904,
-                "y": 34416
-              }
-            },
-            {
-              "id": "nexus-town-3-inn",
-              "service": "inn",
-              "door": {
-                "x": 34864,
-                "y": 34672
-              }
-            },
-            {
-              "id": "nexus-town-3-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 32944,
-                "y": 35952
-              }
-            },
-            {
-              "id": "nexus-town-3-depot",
-              "service": "depot",
-              "door": {
-                "x": 33904,
-                "y": 36208
-              }
-            },
-            {
-              "id": "nexus-town-3-arena",
-              "service": "arena",
-              "door": {
-                "x": 34864,
-                "y": 35952
-              }
-            }
-          ]
-        }
-      ]
-    },
-    "pyra": {
+    {
       "id": "pyra",
-      "name": "Pyra",
-      "kind": "continent",
-      "size": [
+      "title": "Pyra",
+      "capital": "Twierdza Popiołu",
+      "cx": 731.0,
+      "cy": 730.0,
+      "rx": 255.0,
+      "ry": 148.0,
+      "world_dims": [
         65600,
         42304
       ],
-      "center": [
-        714.6,
-        728.0
+      "palette_low": [
+        56,
+        36,
+        34
       ],
-      "settlements": [
-        {
-          "id": "pyra-capital",
-          "kind": "capital",
-          "name": "Twierdza Popiołu",
-          "bounds": {
-            "height": 1750,
-            "width": 2050,
-            "x": 44820.28602700001,
-            "y": 12552.471948999999
-          },
-          "x": 45850.28602700001,
-          "y": 13832.471948999999,
-          "services": [
-            {
-              "id": "accepted-hall",
-              "service": "hall",
-              "door": {
-                "x": 45870.28602700001,
-                "y": 12887.471948999999
-              }
-            },
-            {
-              "id": "accepted-shop",
-              "service": "shop",
-              "door": {
-                "x": 46570.28602700001,
-                "y": 13174.471948999999
-              }
-            },
-            {
-              "id": "accepted-arena",
-              "service": "arena",
-              "door": {
-                "x": 46570.28602700001,
-                "y": 13927.471948999999
-              }
-            },
-            {
-              "id": "accepted-depot",
-              "service": "depot",
-              "door": {
-                "x": 45120.28602700001,
-                "y": 14114.471948999999
-              }
-            },
-            {
-              "id": "accepted-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 45870.28602700001,
-                "y": 14184.471948999999
-              }
-            },
-            {
-              "id": "accepted-inn",
-              "service": "inn",
-              "door": {
-                "x": 45170.28602700001,
-                "y": 13174.471948999999
-              }
-            }
-          ]
-        },
-        {
-          "id": "pyra-town-1",
-          "kind": "town",
-          "name": "Cytadela Kowadeł",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 16112,
-            "y": 23888
-          },
-          "x": 17648,
-          "y": 25168,
-          "services": [
-            {
-              "id": "pyra-town-1-shop",
-              "service": "shop",
-              "door": {
-                "x": 16688,
-                "y": 24656
-              }
-            },
-            {
-              "id": "pyra-town-1-hall",
-              "service": "hall",
-              "door": {
-                "x": 17648,
-                "y": 24400
-              }
-            },
-            {
-              "id": "pyra-town-1-inn",
-              "service": "inn",
-              "door": {
-                "x": 18608,
-                "y": 24656
-              }
-            },
-            {
-              "id": "pyra-town-1-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 16688,
-                "y": 25936
-              }
-            },
-            {
-              "id": "pyra-town-1-depot",
-              "service": "depot",
-              "door": {
-                "x": 17648,
-                "y": 26192
-              }
-            },
-            {
-              "id": "pyra-town-1-arena",
-              "service": "arena",
-              "door": {
-                "x": 18608,
-                "y": 25936
-              }
-            }
-          ]
-        },
-        {
-          "id": "pyra-town-2",
-          "kind": "town",
-          "name": "Port Czerwonych Żagli",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 34128,
-            "y": 28080
-          },
-          "x": 35664,
-          "y": 29360,
-          "services": [
-            {
-              "id": "pyra-town-2-shop",
-              "service": "shop",
-              "door": {
-                "x": 34704,
-                "y": 28848
-              }
-            },
-            {
-              "id": "pyra-town-2-hall",
-              "service": "hall",
-              "door": {
-                "x": 35664,
-                "y": 28592
-              }
-            },
-            {
-              "id": "pyra-town-2-inn",
-              "service": "inn",
-              "door": {
-                "x": 36624,
-                "y": 28848
-              }
-            },
-            {
-              "id": "pyra-town-2-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 34704,
-                "y": 30128
-              }
-            },
-            {
-              "id": "pyra-town-2-depot",
-              "service": "depot",
-              "door": {
-                "x": 35664,
-                "y": 30384
-              }
-            },
-            {
-              "id": "pyra-town-2-arena",
-              "service": "arena",
-              "door": {
-                "x": 36624,
-                "y": 30128
-              }
-            }
-          ]
-        },
-        {
-          "id": "pyra-town-3",
-          "kind": "town",
-          "name": "Żarowy Trakt",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 27664,
-            "y": 11920
-          },
-          "x": 29200,
-          "y": 13200,
-          "services": [
-            {
-              "id": "pyra-town-3-shop",
-              "service": "shop",
-              "door": {
-                "x": 28240,
-                "y": 12688
-              }
-            },
-            {
-              "id": "pyra-town-3-hall",
-              "service": "hall",
-              "door": {
-                "x": 29200,
-                "y": 12432
-              }
-            },
-            {
-              "id": "pyra-town-3-inn",
-              "service": "inn",
-              "door": {
-                "x": 30160,
-                "y": 12688
-              }
-            },
-            {
-              "id": "pyra-town-3-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 28240,
-                "y": 13968
-              }
-            },
-            {
-              "id": "pyra-town-3-depot",
-              "service": "depot",
-              "door": {
-                "x": 29200,
-                "y": 14224
-              }
-            },
-            {
-              "id": "pyra-town-3-arena",
-              "service": "arena",
-              "door": {
-                "x": 30160,
-                "y": 13968
-              }
-            }
-          ]
-        }
+      "palette_mid": [
+        138,
+        62,
+        34
+      ],
+      "palette_high": [
+        252,
+        128,
+        36
+      ]
+    },
+    {
+      "id": "nexus",
+      "title": "Nexus-9",
+      "capital": "Węzeł Świadomości",
+      "cx": 1845.0,
+      "cy": 709.0,
+      "rx": 240.0,
+      "ry": 158.0,
+      "world_dims": [
+        63168,
+        49728
+      ],
+      "palette_low": [
+        32,
+        44,
+        62
+      ],
+      "palette_mid": [
+        62,
+        88,
+        118
+      ],
+      "palette_high": [
+        110,
+        232,
+        248
       ]
     }
-  },
-  "quest_islands": {
-    "island-1": {
+  ],
+  "quest_islands": [
+    {
       "id": "island-1",
-      "name": "Wyspa questowa I",
-      "kind": "island",
-      "size": [
-        13024,
-        8224
-      ],
-      "center": [
-        999.75,
-        27.6
-      ],
-      "settlements": [
-        {
-          "id": "island-1-harbour",
-          "kind": "town",
-          "name": "Przystań 1",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 4976,
-            "y": 2832
-          },
-          "x": 6512,
-          "y": 4112,
-          "services": [
-            {
-              "id": "island-1-harbour-shop",
-              "service": "shop",
-              "door": {
-                "x": 5552,
-                "y": 3600
-              }
-            },
-            {
-              "id": "island-1-harbour-hall",
-              "service": "hall",
-              "door": {
-                "x": 6512,
-                "y": 3344
-              }
-            },
-            {
-              "id": "island-1-harbour-inn",
-              "service": "inn",
-              "door": {
-                "x": 7472,
-                "y": 3600
-              }
-            },
-            {
-              "id": "island-1-harbour-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 5552,
-                "y": 4880
-              }
-            },
-            {
-              "id": "island-1-harbour-depot",
-              "service": "depot",
-              "door": {
-                "x": 6512,
-                "y": 5136
-              }
-            },
-            {
-              "id": "island-1-harbour-arena",
-              "service": "arena",
-              "door": {
-                "x": 7472,
-                "y": 4880
-              }
-            }
-          ]
-        }
-      ]
+      "title": "Wyspa Zefiru",
+      "cx": 107.0,
+      "cy": 501.0,
+      "r": 38.0
     },
-    "island-2": {
+    {
       "id": "island-2",
-      "name": "Wyspa questowa II",
-      "kind": "island",
-      "size": [
-        15936,
-        10400
-      ],
-      "center": [
-        1088.6,
-        499.75
-      ],
-      "settlements": [
-        {
-          "id": "island-2-harbour",
-          "kind": "town",
-          "name": "Przystań 2",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 6416,
-            "y": 3920
-          },
-          "x": 7952,
-          "y": 5200,
-          "services": [
-            {
-              "id": "island-2-harbour-shop",
-              "service": "shop",
-              "door": {
-                "x": 6992,
-                "y": 4688
-              }
-            },
-            {
-              "id": "island-2-harbour-hall",
-              "service": "hall",
-              "door": {
-                "x": 7952,
-                "y": 4432
-              }
-            },
-            {
-              "id": "island-2-harbour-inn",
-              "service": "inn",
-              "door": {
-                "x": 8912,
-                "y": 4688
-              }
-            },
-            {
-              "id": "island-2-harbour-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 6992,
-                "y": 5968
-              }
-            },
-            {
-              "id": "island-2-harbour-depot",
-              "service": "depot",
-              "door": {
-                "x": 7952,
-                "y": 6224
-              }
-            },
-            {
-              "id": "island-2-harbour-arena",
-              "service": "arena",
-              "door": {
-                "x": 8912,
-                "y": 5968
-              }
-            }
-          ]
-        }
-      ]
+      "title": "Wyspa Koralowa",
+      "cx": 608.0,
+      "cy": 501.0,
+      "r": 42.0
     },
-    "island-3": {
+    {
       "id": "island-3",
-      "name": "Wyspa questowa III",
-      "kind": "island",
-      "size": [
-        12704,
-        10016
-      ],
-      "center": [
-        1588.6,
-        499.5
-      ],
-      "settlements": [
-        {
-          "id": "island-3-harbour",
-          "kind": "town",
-          "name": "Przystań 3",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 4816,
-            "y": 3728
-          },
-          "x": 6352,
-          "y": 5008,
-          "services": [
-            {
-              "id": "island-3-harbour-shop",
-              "service": "shop",
-              "door": {
-                "x": 5392,
-                "y": 4496
-              }
-            },
-            {
-              "id": "island-3-harbour-hall",
-              "service": "hall",
-              "door": {
-                "x": 6352,
-                "y": 4240
-              }
-            },
-            {
-              "id": "island-3-harbour-inn",
-              "service": "inn",
-              "door": {
-                "x": 7312,
-                "y": 4496
-              }
-            },
-            {
-              "id": "island-3-harbour-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 5392,
-                "y": 5776
-              }
-            },
-            {
-              "id": "island-3-harbour-depot",
-              "service": "depot",
-              "door": {
-                "x": 6352,
-                "y": 6032
-              }
-            },
-            {
-              "id": "island-3-harbour-arena",
-              "service": "arena",
-              "door": {
-                "x": 7312,
-                "y": 5776
-              }
-            }
-          ]
-        }
-      ]
+      "title": "Wyspa Mgły",
+      "cx": 1109.0,
+      "cy": 501.0,
+      "r": 40.0
     },
-    "island-4": {
+    {
       "id": "island-4",
-      "name": "Wyspa questowa IV",
-      "kind": "island",
-      "size": [
-        13760,
-        11712
-      ],
-      "center": [
-        88.6,
-        499.8
-      ],
-      "settlements": [
-        {
-          "id": "island-4-harbour",
-          "kind": "town",
-          "name": "Przystań 4",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 5328,
-            "y": 4560
-          },
-          "x": 6864,
-          "y": 5840,
-          "services": [
-            {
-              "id": "island-4-harbour-shop",
-              "service": "shop",
-              "door": {
-                "x": 5904,
-                "y": 5328
-              }
-            },
-            {
-              "id": "island-4-harbour-hall",
-              "service": "hall",
-              "door": {
-                "x": 6864,
-                "y": 5072
-              }
-            },
-            {
-              "id": "island-4-harbour-inn",
-              "service": "inn",
-              "door": {
-                "x": 7824,
-                "y": 5328
-              }
-            },
-            {
-              "id": "island-4-harbour-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 5904,
-                "y": 6608
-              }
-            },
-            {
-              "id": "island-4-harbour-depot",
-              "service": "depot",
-              "door": {
-                "x": 6864,
-                "y": 6864
-              }
-            },
-            {
-              "id": "island-4-harbour-arena",
-              "service": "arena",
-              "door": {
-                "x": 7824,
-                "y": 6608
-              }
-            }
-          ]
-        }
-      ]
+      "title": "Wyspa Rdzy",
+      "cx": 1632.0,
+      "cy": 501.0,
+      "r": 38.0
     },
-    "island-5": {
+    {
       "id": "island-5",
-      "name": "Wyspa questowa V",
-      "kind": "island",
-      "size": [
-        14080,
-        8960
-      ],
-      "center": [
-        588.6,
-        500.0
-      ],
-      "settlements": [
-        {
-          "id": "island-5-harbour",
-          "kind": "town",
-          "name": "Przystań 5",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 5488,
-            "y": 3184
-          },
-          "x": 7024,
-          "y": 4464,
-          "services": [
-            {
-              "id": "island-5-harbour-shop",
-              "service": "shop",
-              "door": {
-                "x": 6064,
-                "y": 3952
-              }
-            },
-            {
-              "id": "island-5-harbour-hall",
-              "service": "hall",
-              "door": {
-                "x": 7024,
-                "y": 3696
-              }
-            },
-            {
-              "id": "island-5-harbour-inn",
-              "service": "inn",
-              "door": {
-                "x": 7984,
-                "y": 3952
-              }
-            },
-            {
-              "id": "island-5-harbour-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 6064,
-                "y": 5232
-              }
-            },
-            {
-              "id": "island-5-harbour-depot",
-              "service": "depot",
-              "door": {
-                "x": 7024,
-                "y": 5488
-              }
-            },
-            {
-              "id": "island-5-harbour-arena",
-              "service": "arena",
-              "door": {
-                "x": 7984,
-                "y": 5232
-              }
-            }
-          ]
-        }
-      ]
+      "title": "Wyspa Północna",
+      "cx": 480.0,
+      "cy": 36.0,
+      "r": 34.0
     },
-    "island-6": {
+    {
       "id": "island-6",
-      "name": "Wyspa questowa VI",
-      "kind": "island",
-      "size": [
-        13952,
-        10528
-      ],
-      "center": [
-        999.75,
-        973.4
-      ],
-      "settlements": [
-        {
-          "id": "island-6-harbour",
-          "kind": "town",
-          "name": "Przystań 6",
-          "bounds": {
-            "height": 2560,
-            "width": 3072,
-            "x": 5424,
-            "y": 3984
-          },
-          "x": 6960,
-          "y": 5264,
-          "services": [
-            {
-              "id": "island-6-harbour-shop",
-              "service": "shop",
-              "door": {
-                "x": 6000,
-                "y": 4752
-              }
-            },
-            {
-              "id": "island-6-harbour-hall",
-              "service": "hall",
-              "door": {
-                "x": 6960,
-                "y": 4496
-              }
-            },
-            {
-              "id": "island-6-harbour-inn",
-              "service": "inn",
-              "door": {
-                "x": 7920,
-                "y": 4752
-              }
-            },
-            {
-              "id": "island-6-harbour-smithy",
-              "service": "smithy",
-              "door": {
-                "x": 6000,
-                "y": 6032
-              }
-            },
-            {
-              "id": "island-6-harbour-depot",
-              "service": "depot",
-              "door": {
-                "x": 6960,
-                "y": 6288
-              }
-            },
-            {
-              "id": "island-6-harbour-arena",
-              "service": "arena",
-              "door": {
-                "x": 7920,
-                "y": 6032
-              }
-            }
-          ]
-        }
-      ]
+      "title": "Wyspa Południowa",
+      "cx": 640.0,
+      "cy": 984.0,
+      "r": 36.0
     }
-  },
+  ],
   "archipelagos": [
     {
-      "id": "archipelago-1",
-      "center": [
-        1778,
-        199
-      ],
-      "islets": [
-        [
-          1778,
-          199,
-          6
-        ],
-        [
-          1783,
-          224,
-          3
-        ],
-        [
-          1764,
-          223,
-          4
-        ],
-        [
-          1751,
-          188,
-          3
-        ],
-        [
-          1781,
-          179,
-          2
-        ],
-        [
-          1799,
-          179,
-          4
-        ],
-        [
-          1803,
-          209,
-          5
-        ]
-      ]
+      "id": "arch-1",
+      "x": 980.0,
+      "y": 190.0,
+      "r": 22.0
     },
     {
-      "id": "archipelago-2",
-      "center": [
-        1005,
-        883
-      ],
-      "islets": [
-        [
-          1005,
-          883,
-          7
-        ],
-        [
-          1018,
-          910,
-          3
-        ],
-        [
-          990,
-          900,
-          2
-        ],
-        [
-          985,
-          872,
-          2
-        ],
-        [
-          998,
-          861,
-          2
-        ],
-        [
-          1028,
-          871,
-          2
-        ]
-      ]
+      "id": "arch-2",
+      "x": 1020.0,
+      "y": 225.0,
+      "r": 16.0
     },
     {
-      "id": "archipelago-3",
-      "center": [
-        1178,
-        700
-      ],
-      "islets": [
-        [
-          1178,
-          700,
-          6
-        ],
-        [
-          1197,
-          726,
-          5
-        ],
-        [
-          1164,
-          718,
-          3
-        ],
-        [
-          1165,
-          694,
-          3
-        ],
-        [
-          1173,
-          670,
-          4
-        ]
-      ]
+      "id": "arch-3",
+      "x": 210.0,
+      "y": 760.0,
+      "r": 24.0
     },
     {
-      "id": "archipelago-4",
-      "center": [
-        1320,
-        597
-      ],
-      "islets": [
-        [
-          1320,
-          597,
-          8
-        ],
-        [
-          1331,
-          613,
-          5
-        ],
-        [
-          1305,
-          608,
-          3
-        ],
-        [
-          1301,
-          589,
-          3
-        ],
-        [
-          1317,
-          571,
-          2
-        ],
-        [
-          1348,
-          577,
-          3
-        ]
-      ]
+      "id": "arch-4",
+      "x": 250.0,
+      "y": 790.0,
+      "r": 15.0
     },
     {
-      "id": "archipelago-5",
-      "center": [
-        1845,
-        465
-      ],
-      "islets": [
-        [
-          1845,
-          465,
-          6
-        ],
-        [
-          1851,
-          489,
-          3
-        ],
-        [
-          1825,
-          488,
-          5
-        ],
-        [
-          1822,
-          453,
-          4
-        ],
-        [
-          1843,
-          440,
-          4
-        ],
-        [
-          1858,
-          454,
-          4
-        ]
-      ]
+      "id": "arch-5",
+      "x": 1340.0,
+      "y": 790.0,
+      "r": 25.0
     },
     {
-      "id": "archipelago-6",
-      "center": [
-        948,
-        528
-      ],
-      "islets": [
-        [
-          948,
-          528,
-          9
-        ],
-        [
-          958,
-          546,
-          5
-        ],
-        [
-          934,
-          548,
-          3
-        ],
-        [
-          921,
-          518,
-          3
-        ],
-        [
-          951,
-          501,
-          5
-        ],
-        [
-          970,
-          515,
-          5
-        ],
-        [
-          961,
-          535,
-          5
-        ]
-      ]
+      "id": "arch-6",
+      "x": 1390.0,
+      "y": 825.0,
+      "r": 18.0
     },
     {
-      "id": "archipelago-7",
-      "center": [
-        797,
-        420
-      ],
-      "islets": [
-        [
-          797,
-          420,
-          6
-        ],
-        [
-          802,
-          435,
-          5
-        ],
-        [
-          783,
-          447,
-          5
-        ],
-        [
-          767,
-          411,
-          3
-        ],
-        [
-          791,
-          392,
-          5
-        ],
-        [
-          810,
-          414,
-          5
-        ]
-      ]
+      "id": "arch-7",
+      "x": 1790.0,
+      "y": 180.0,
+      "r": 21.0
     },
     {
-      "id": "archipelago-8",
-      "center": [
-        305,
-        783
-      ],
-      "islets": [
-        [
-          305,
-          783,
-          9
-        ],
-        [
-          308,
-          798,
-          5
-        ],
-        [
-          287,
-          810,
-          4
-        ],
-        [
-          275,
-          775,
-          3
-        ],
-        [
-          307,
-          753,
-          3
-        ],
-        [
-          319,
-          769,
-          2
-        ],
-        [
-          320,
-          793,
-          3
-        ]
-      ]
+      "id": "arch-8",
+      "x": 850.0,
+      "y": 420.0,
+      "r": 17.0
     }
-  ]
+  ],
+  "capital_regions": {
+    "pyra": {
+      "land_id": "pyra",
+      "grid_size": 512,
+      "world_size_m": 1024.0,
+      "height_min_m": -4.99,
+      "height_max_m": 38.89,
+      "walkable_ratio": 0.861,
+      "buildings_count": 66,
+      "npcs_count": 10,
+      "exp_zones_count": 6,
+      "monsters_count": 30,
+      "fauna_count": 16,
+      "props_count": 274
+    },
+    "verdant": {
+      "land_id": "verdant",
+      "grid_size": 512,
+      "world_size_m": 1024.0,
+      "height_min_m": -2.71,
+      "height_max_m": 55.9,
+      "walkable_ratio": 0.56,
+      "buildings_count": 55,
+      "npcs_count": 10,
+      "exp_zones_count": 6,
+      "monsters_count": 30,
+      "fauna_count": 16,
+      "props_count": 263
+    },
+    "aether": {
+      "land_id": "aether",
+      "grid_size": 512,
+      "world_size_m": 1024.0,
+      "height_min_m": -4.47,
+      "height_max_m": 39.77,
+      "walkable_ratio": 0.799,
+      "buildings_count": 56,
+      "npcs_count": 10,
+      "exp_zones_count": 6,
+      "monsters_count": 30,
+      "fauna_count": 16,
+      "props_count": 270
+    },
+    "nexus": {
+      "land_id": "nexus",
+      "grid_size": 512,
+      "world_size_m": 1024.0,
+      "height_min_m": -6.8,
+      "height_max_m": 18.2,
+      "walkable_ratio": 0.729,
+      "buildings_count": 48,
+      "npcs_count": 10,
+      "exp_zones_count": 6,
+      "monsters_count": 30,
+      "fauna_count": 16,
+      "props_count": 288
+    }
+  }
 }

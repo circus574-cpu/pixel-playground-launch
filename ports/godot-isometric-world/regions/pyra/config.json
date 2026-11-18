@@ -1,0 +1,180 @@
+{
+  "id": "pyra",
+  "title": "Pyra · Twierdza Popiołu",
+  "capital_name": "Twierdza Popiołu",
+  "canonical_land_size": [
+    65600,
+    42304
+  ],
+  "canonical_capital_bounds": {
+    "height": 1750,
+    "width": 2050,
+    "x": 44820.28602700001,
+    "y": 12552.471948999999
+  },
+  "seed": 20261118,
+  "samples": 512,
+  "nx": 512,
+  "ny": 512,
+  "step": 2.0,
+  "spacing_m": 2.0,
+  "size_m": 1024.0,
+  "x0": -512.0,
+  "y0": -512.0,
+  "cx": 0.0,
+  "cz": 0.0,
+  "ortho": 760.0,
+  "uv": 0.035,
+  "water_kind": "lava",
+  "water_level": -1.5,
+  "height_range": [
+    -4.67,
+    103.83
+  ],
+  "walkable_percent": 93.28,
+  "spawn": [
+    -185,
+    140
+  ],
+  "landmarks": [
+    {
+      "id": "market",
+      "name": "Targ przy Bramie",
+      "xz": [
+        -185,
+        140
+      ],
+      "height": 13.95,
+      "reachable": true
+    },
+    {
+      "id": "crown-plaza",
+      "name": "Wysoka Cytadela · Plac Korony",
+      "xz": [
+        -145,
+        -135
+      ],
+      "height": 37.64,
+      "reachable": true
+    },
+    {
+      "id": "coal-plaza",
+      "name": "Dolne Kuźnie · Plac Węglowy",
+      "xz": [
+        120,
+        130
+      ],
+      "height": 7.61,
+      "reachable": true
+    },
+    {
+      "id": "citadel-road",
+      "name": "Droga do Cytadeli",
+      "xz": [
+        135,
+        -120
+      ],
+      "height": 21.2,
+      "reachable": true
+    }
+  ],
+  "paths": [
+    [
+      [
+        -370,
+        320
+      ],
+      [
+        -265,
+        220
+      ],
+      [
+        -185,
+        140
+      ]
+    ],
+    [
+      [
+        -185,
+        140
+      ],
+      [
+        -40,
+        20
+      ],
+      [
+        135,
+        -120
+      ],
+      [
+        250,
+        -220
+      ]
+    ],
+    [
+      [
+        -185,
+        140
+      ],
+      [
+        -165,
+        10
+      ],
+      [
+        -145,
+        -135
+      ]
+    ],
+    [
+      [
+        -40,
+        20
+      ],
+      [
+        -95,
+        -60
+      ],
+      [
+        -145,
+        -135
+      ]
+    ],
+    [
+      [
+        -40,
+        20
+      ],
+      [
+        45,
+        85
+      ],
+      [
+        120,
+        130
+      ]
+    ],
+    [
+      [
+        120,
+        130
+      ],
+      [
+        185,
+        165
+      ]
+    ]
+  ],
+  "texture_assets": [
+    "mat_0",
+    "mat_1",
+    "mat_2",
+    "mat_3"
+  ],
+  "files": {
+    "height.r32": "97d7294a13cc3e2fca7f53500cb07b79942cb60019bef626f26a3041a9eef67e",
+    "control.r32": "5f8a96169aff93749fc0ae29f511cc6d73e07b7e76728a2f0945628458d90dbf",
+    "walkable.u8": "cf384c86a00266012dc49384dd5dc907ae31b2fa932f516b425b6c986516bbc1",
+    "weights.png": "e355c31b158c8212324cfcc5b634a49728de62ad02cda38a4e7f4cfd59f142af",
+    "surface.png": "b6c6add6197a24bb5e119b9c30242a1f7a576ed723796db84c5daba6e99d5993"
+  }
+}
