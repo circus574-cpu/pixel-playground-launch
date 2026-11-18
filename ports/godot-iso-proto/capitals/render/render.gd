@@ -28,12 +28,12 @@ func _ready() -> void:
 	var cam := Camera3D.new()
 	cam.projection = Camera3D.PROJECTION_ORTHOGONAL
 	cam.keep_aspect = Camera3D.KEEP_WIDTH
-	cam.size = float(arg("--ortho", "5300"))
+	cam.size = float(cfg.get("ortho", 5300.0))
 	cam.near = 10.0
 	cam.far = 20000.0
 	var e := deg_to_rad(30.0)
 	var yw := deg_to_rad(45.0)
-	var target := Vector3(0, float(arg("--ty", "60")), 0)
+	var target := Vector3(float(cfg.get("cx", 0.0)), 0.0, float(cfg.get("cz", 0.0)))
 	cam.position = target + Vector3(6000.0 * cos(e) * sin(yw), 6000.0 * sin(e), 6000.0 * cos(e) * cos(yw))
 	cam.rotation_degrees = Vector3(-30.0, 45.0, 0.0)
 	vp.add_child(cam)
