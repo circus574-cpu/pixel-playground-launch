@@ -1,0 +1,11 @@
+; Terrain3D renderer for the capital city zones (no buildings): builds the ground from capitals/<land>/ and renders it with the isometric camera.
+config_version=5
+
+[application]
+config/name="capital terrain render"
+run/main_scene="res://render.tscn"
+config/features=PackedStringArray("4.6", "Forward Plus")
+
+[rendering]
+renderer/rendering_method="forward_plus"
+lights_and_shadows/directional_shadow/size=8192
