@@ -269,8 +269,7 @@ func build_objects() -> void:
 	for i in 350:
 		var p:=Vector2(rng.randfn(-270,60),rng.randfn(5,95))
 		if not walkable(p) or absf(p.x)>470 or absf(p.y)>470 or near_road(p):continue
-		# The western market replaces woodland. Keep its trees in authored groups.
-		if citadel_preview and ((p-Vector2(-201,-25))/Vector2(75,58)).length_squared()<1:continue
+		if uses_urban_ground(p):continue
 		var cell:=Vector2i(p/9)
 		if occupied.has(cell):continue
 		occupied[cell]=true
@@ -308,7 +307,7 @@ func build_citadel_objects() -> void:
 
 	for point: Array in architecture.groves:
 		var p:=Vector2(point[0],point[1])
-		if not walkable(p):continue
+		if not walkable(p) or uses_urban_ground(p):continue
 		var width:=129.0+fposmod(absf(p.x)*37.0,48.0)
 		object_sprite("res://assets/objects/56b49778-ki-v2-objects-pyra-tree2-0.webp",p,width)
 		building_contact_shadow(p,Vector2(3,2))
@@ -543,16 +542,21 @@ func _physics_process(delta: float) -> void:
 	status.text="WASD / lewy kciuk · %s · %s%d · x %.1f / z %.1f"%["Ulica" if on_street else "Teren",String.chr(65+cell.x),cell.y+1,hero_world.x,hero_world.y]
 	map_marker.position=map_holder.position+(hero.position-map_camera.position)*map_camera.zoom+map_holder.size/2-Vector2(7,9)
 
-func district_distance(district: Dictionary) -> float:
+func uses_urban_ground(p: Vector2) -> bool:
+	for area: Dictionary in architecture.get("urban_ground", []):
+		if district_distance(area,p)<1.06:return true
+	return false
+
+func district_distance(district: Dictionary, point: Vector2) -> float:
 	var center:=Vector2(district.center[0],district.center[1])
 	var radii:=Vector2(district.radii[0],district.radii[1])
-	return ((hero_world-center)/radii).length()
+	return ((point-center)/radii).length()
 
 func update_district_title() -> void:
 	var distance:=1.0
 	var label_text:="TWIERDZA POPIOŁU"
 	for district: Dictionary in architecture.get("districts", []):
-		var candidate:=district_distance(district)
+		var candidate:=district_distance(district,hero_world)
 		if candidate<distance:
 			distance=candidate
 			label_text=str(district.name).to_upper()
@@ -562,7 +566,7 @@ func update_district_title() -> void:
 func city_camera_distance() -> float:
 	var distance:=((hero_world-city_center)/city_radii).length()
 	for district: Dictionary in architecture.get("districts", []):
-		distance=minf(distance,district_distance(district))
+		distance=minf(distance,district_distance(district,hero_world))
 	return distance
 
 func update_camera_follow(world_step: Vector2, delta: float) -> void:
@@ -862,7 +866,28 @@ func run_citadel_qa() -> void:
 	if out.is_empty():out="user://qa/pyra-citadel"
 	DirAccess.make_dir_recursive_absolute(out)
 	var checks:=city_layout_checks()
-	checks["twelve_render_assets"]=architecture.assets.size()==12
+	checks["five_new_surface_textures"]=material_library.city_surfaces.size()==5
+	checks["paving_and_ground_have_mipmaps"]=true
+	for parameter in ["city_soil","city_pavers","city_slabs","city_cliff"]:
+		var texture: Texture2D=material_library.city_surfaces[parameter]
+		checks["paving_and_ground_have_mipmaps"]=checks["paving_and_ground_have_mipmaps"] and texture.get_image().has_mipmaps()
+	for file: String in city_layout.surface_sha256:
+		checks["surface_"+file]=FileAccess.get_sha256(data_root+"/"+file)==str(city_layout.surface_sha256[file])
+	var trees_inside:=0
+	var trees_outside:=0
+	for decoration: Dictionary in decorations:
+		if not decoration.sprite.texture.resource_path.contains("tree2"):continue
+		if uses_urban_ground(decoration.xz):
+			trees_inside+=1
+		else:
+			trees_outside+=1
+	checks["trees_only_outside_city"]=trees_inside==0 and trees_outside>30
+	checks["fifteen_render_assets"]=architecture.assets.size()==15
+	var yard_props:=0
+	for item: Dictionary in architecture.props:
+		if not item.get("yard_prop", false):continue
+		if not walkable(Vector2(item.xz[0],item.xz[1])):yard_props+=1
+	checks["eleven_yard_props_block_movement"]=yard_props==11
 	var closed_count:=0
 	var grounded_count:=0
 	for item: Dictionary in architecture.props:
@@ -930,20 +955,20 @@ func run_citadel_qa() -> void:
 	for i in 6:await get_tree().process_frame
 	await RenderingServer.frame_post_draw
 	get_viewport().get_texture().get_image().save_jpg(out.path_join("district.jpg"),.94)
+	hud.show()
 	for location in [["market",Vector2(-217,-34)],["forges",Vector2(-43,206)]]:
 		hero_world=location[1]
-		camera.position=iso(hero_world)+Vector2(0,-86)
-		camera.zoom=Vector2.ONE*.55
-		checks["city_camera_"+location[0]]=city_camera_distance()<1.0
+		snap_camera_to_hero()
+		checks["city_camera_"+location[0]]=camera_in_city and camera.zoom==CITY_CAMERA_ZOOM
 		for i in 5:await get_tree().process_frame
 		await RenderingServer.frame_post_draw
 		get_viewport().get_texture().get_image().save_jpg(out.path_join(str(location[0])+".jpg"),.93)
-	hud.show()
 	toggle_map()
 	toggle_map_mode()
 	for i in 8:await get_tree().process_frame
 	var alignment: Dictionary=map_3d.validate_alignment()
 	checks["maps_use_same_geometry_and_materials"]=alignment.shares_textures and alignment.height_max_m<.001 and map_view.world_2d==get_world_2d()
+	checks["new_city_surfaces_on_3d_map"]=alignment.get("shares_city_surfaces",false)
 	var passed:=checks.values().filter(func(ok):return ok).size()
 	var report:={"passed":passed,"failed":checks.size()-passed,"checks":checks,"map3d":alignment}
 	var file:=FileAccess.open(out.path_join("results.json"),FileAccess.WRITE)

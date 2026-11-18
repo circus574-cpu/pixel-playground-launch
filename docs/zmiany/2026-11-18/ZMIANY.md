@@ -225,3 +225,23 @@ Podstawowa Pyra zaliczyła 81/81. Próba lokalnej aktualizacji na zasobach APK
 
 - [Targ Bramny](qa/pyra-quarters/market.jpg) i [Dolne Kuźnie](qa/pyra-quarters/forges.jpg) z Godota.
 - [Kontrole sceny](qa/pyra-quarters/results.json), [regresja Pyry](qa/pyra-quarters/pyra-regression.json) i [próba aktualizacji](qa/pyra-quarters/installed-update.json).
+
+### Nawierzchnie i wyposażenie ulic Pyry
+
+Próba izometryczna otrzymała nawierzchnie z czterech niezależnych tekstur
+256 px, generowanych na CPU przez `scripts/godot/paint_pyra_surfaces.py`.
+Drogi mają bruk ze spoinami i ciemniejszą krawędź, place oraz dojazdy pod
+budynkami mają większe płyty, a na miejskich stokach użyto osobnego
+materiału warstwowego. Gęstsza maska oddziela place, ulice i ubite podłoże.
+Wysokość terenu i siatka przechodniości pochodzą z poprzedniej sceny.
+
+Drzewa rosną poza zabudową. Przy targu i kuźniach ustawiono wozy,
+skrzynie i beczki z istniejących zasobów Pyry. Ich pozycje i pochodzenie
+tekstur zapisano w danych architektury. Rozstawienie sprawdzono razem
+z kolizjami i przechodniością ulic.
+
+[Widok Targu Bramnego](qa/pyra-paving/market.jpg) i
+[widok Dolnych Kuźni](qa/pyra-paving/forges.jpg) pochodzą z kamery gracza
+w Godot 4.6.3. [Kontrole prototypu](qa/pyra-paving/results.json) objęły
+materiały, drzewa, rekwizyty, przechodniość oraz współdzielenie nawierzchni
+z mapą 3D. Zmiana jest na gałęzi prototypowej, serwer nadal używa 1.14.2.

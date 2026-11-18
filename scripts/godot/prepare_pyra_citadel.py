@@ -11,8 +11,9 @@ import numpy as np
 from PIL import Image, ImageDraw
 from scipy.ndimage import gaussian_filter, label
 
+from paint_pyra_surfaces import URBAN_GROUND, bake_city_surfaces
 from pyra_quarters import (
-    FORGES, MARKET, PATROLS, QUARTER_COURTS, QUARTER_GROVES, QUARTER_LAMPS, QUARTER_MARKERS, QUARTER_STREETS,
+    DRESSING, DRESSING_ASSETS, FORGES, MARKET, PATROLS, QUARTER_COURTS, QUARTER_GROVES, QUARTER_LAMPS, QUARTER_MARKERS, QUARTER_STREETS,
 )
 
 ROOT=Path(__file__).resolve().parents[2]
@@ -57,6 +58,7 @@ GROVES = [[-124,-111],[-118,-102],[-138,-134],[-108,-173],[-104,-180],[-13,-187]
 
 OBSTACLES.extend({'xz': point, 'size': size} for _, _, _, point, size, _ in DISTRICT + MARKET + FORGES)
 OBSTACLES.extend({'xz': point, 'size': [2.2, 2.2]} for point in STREET_LAMPS + QUARTER_LAMPS)
+OBSTACLES.extend({'xz': point, 'size': size} for _, point, size in DRESSING)
 
 
 def digest(path):
@@ -160,6 +162,7 @@ def fit_terrace():
     manifest_path=OUT/'city-layout.json'
     manifest=json.loads(manifest_path.read_text())
     manifest['plazas_sha256']=digest(accent_path)
+    manifest['surface_sha256'] = {name: digest(OUT / name) for name in bake_city_surfaces(manifest, OUT)}
     manifest_path.write_text(json.dumps(manifest,indent=2,ensure_ascii=False)+'\n')
 
 
@@ -240,6 +243,15 @@ def bind_models(source, painted_gate, streets, district_sheet):
     bind_district(district_sheet, art, bindings)
     props.extend({'id': key, 'name': name, 'role': role, 'xz': point, 'size': size, 'entry': 'closed'}
                  for key, name, role, point, size, _ in DISTRICT)
+    for role, (file, scale, origin, source_path) in DRESSING_ASSETS.items():
+        bindings[role] = {
+            'texture': f'res://studies/pyra-citadel/art/{file}',
+            'origin': origin,
+            'scale': scale,
+            'sha256': digest(art / file),
+            'source': 'public/game/assets/gpu/' + source_path,
+        }
+    props.extend({'role': role, 'xz': point, 'size': size, 'yard_prop': True} for role, point, size in DRESSING)
     existing_art = json.loads((BASE / 'building-art.json').read_text())['buildings']
     for role in sorted({role for _, _, role, *_ in MARKET + FORGES} - bindings.keys()):
         entry = existing_art[role]
@@ -248,7 +260,8 @@ def bind_models(source, painted_gate, streets, district_sheet):
         props.extend({'id': key, 'name': name, 'role': role, 'xz': point, 'size': size, 'entry': 'closed', 'quarter': quarter}
                      for key, name, role, point, size, _ in buildings)
     data={'assets':bindings,'props':props,'obstacles':OBSTACLES,
-          'groves': GROVES + QUARTER_GROVES, 'districts': QUARTER_MARKERS, 'patrols': PATROLS}
+          'groves': GROVES + QUARTER_GROVES, 'districts': QUARTER_MARKERS, 'patrols': PATROLS,
+          'urban_ground': [{'center': center, 'radii': radii} for center, radii in URBAN_GROUND]}
     (OUT/'architecture.json').write_text(json.dumps(data,indent=2)+'\n')
 
 

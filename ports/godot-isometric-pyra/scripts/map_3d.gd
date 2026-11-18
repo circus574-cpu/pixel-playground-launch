@@ -153,4 +153,8 @@ func validate_alignment() -> Dictionary:
 	shares_textures=shares_textures and terrain_mesh.material_override.get_shader_parameter("weights_tex")==world.material_library.weights
 	if not world.legacy_terrain:
 		shares_textures=shares_textures and terrain_mesh.material_override.get_shader_parameter("environment_tex")==world.material_library.environment and terrain_mesh.material_override.get_shader_parameter("transition_tex")==world.material_library.transition
-	return {"height_max_m":height_error,"projection_max_px":projection_error,"decorations":sprites.size(),"shares_textures":shares_textures}
+	var city_surfaces: Dictionary=world.material_library.city_surfaces
+	var shares_city_surfaces:=not city_surfaces.is_empty()
+	for parameter: String in city_surfaces:
+		shares_city_surfaces=shares_city_surfaces and terrain_mesh.material_override.get_shader_parameter(parameter)==city_surfaces[parameter]
+	return {"shares_city_surfaces":shares_city_surfaces,"height_max_m":height_error,"projection_max_px":projection_error,"decorations":sprites.size(),"shares_textures":shares_textures}

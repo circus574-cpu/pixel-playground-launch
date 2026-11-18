@@ -1834,12 +1834,19 @@
     }
   ],
   "buildings_with_street_access": 6,
-  "weights_sha256": "b7f019c75d098c586cfc3f61fc792b90cb0cc120df6c8941f64b9b1d8ac6ba4f",
-  "plazas_sha256": "90ca5db629123caab7b408e3ba7e5934470fbfa5535437d7ad4407aa0ef9c3a8",
+  "weights_sha256": "c912fa8cbb85ffe6a06fc24d75ff76d0965eda2ac771f609680e34bd186e0bf0",
+  "plazas_sha256": "290a8ee61d3037bdfd73d2cba4535813f22361963996df616320b2236acfc01a",
   "geometry_sha256": {
     "height.r32": "0f59e7f5093bf150d0e9e775a3c2ccaffe5b9e9d50138b03fe2390473c3e5348",
     "walkable.u8": "f277af517c884a8fafeb2cb39a8718c08262bf08aa70d9f913c21f160f5be875",
     "control.r32": "d23717c3a9c0512c94917583d8ae93f7b5c7295edc333154ff375c6b5330e51a",
     "buildings.json": "fec28cf7abfffae6a35e2e81d9d9fffd38b42aa0d109be87d9e47a25dde342a4"
+  },
+  "surface_sha256": {
+    "city-soil.png": "1ce3c2d185924ef06f00d73190055437c786375026088033356c7135caa4317b",
+    "city-pavers.png": "07249f4285579e22b93382a729f5e1b978b54228ada8e2e53afe63ebf5248630",
+    "city-cliff.png": "20e3b4e8d266d049a3a30253b4e061e96428cf9b3d5f6001dafb78bb2480d88f",
+    "city-slabs.png": "9772b0611b09547f2444b4000835775a433df3b2392e8af01d55cee94aa9cf94",
+    "city-surfaces.png": "2095cb8e694feca3638a401fcce79f7339fb1e2b98656c714dd67c4b01d2804e"
   }
 }

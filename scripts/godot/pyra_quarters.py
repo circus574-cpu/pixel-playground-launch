@@ -42,3 +42,35 @@ PATROLS = [
     {'id': 'market', 'name': 'Targowa straż', 'street': 'Trakt Bramy', 'tint': 'd4c3b4', 'speed': 3.8},
     {'id': 'coal', 'name': 'Pomocnik kuźni', 'street': 'Zaułek Węglowy', 'tint': 'c4a9a3', 'speed': 2.8},
 ]
+
+# Aprons connect building fronts to the carriageway and give working areas a hard floor.
+FRONTAGES = [
+    [[-236,-57],[-214,-56],[-211,-40],[-224,-34],[-236,-42]],
+    [[-205,-29],[-194,-47],[-169,-50],[-171,-38],[-192,-24]],
+    [[-168,-16],[-143,-20],[-143,-10],[-156,0],[-169,-5]],
+    [[-66,176],[-37,177],[-32,201],[-48,211],[-68,202]],
+    [[34,197],[46,187],[68,188],[77,210],[63,216],[43,216]],
+    [[-78,215],[-59,213],[-51,235],[-75,239]],
+]
+
+DRESSING_ASSETS = {
+    'market-cart': ('pyra-continent-cart.webp', .145, [0.5, 0.83],
+                    'pyra-continent-v2/1.0.0-55660ce18ae5/pyra-continent-cart.webp'),
+    'yard-barrels': ('pyra-smithy-barrels.webp', .09, [0.5, 0.85],
+                     'pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-barrels.webp'),
+    'yard-crates': ('pyra-smithy-crates-stack.webp', .095, [0.5, 0.89],
+                    'pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-crates-stack.webp'),
+}
+DRESSING = [
+    ('market-cart', [-228,-46], [6,4]),
+    ('yard-barrels', [-218,-49], [3,3]),
+    ('yard-crates', [-189,-42], [3,3]),
+    ('yard-crates', [-177,-44], [3,3]),
+    ('yard-barrels', [-147,-14], [3,3]),
+    ('market-cart', [-66,191], [6,4]),
+    ('yard-crates', [-59,187], [3,3]),
+    ('yard-barrels', [-40,185], [3,3]),
+    ('yard-crates', [52,199], [3,3]),
+    ('yard-barrels', [67,201], [3,3]),
+    ('yard-crates', [-61,229], [3,3]),
+]

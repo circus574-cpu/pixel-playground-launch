@@ -9,6 +9,7 @@ var plazas: Texture2D
 var surface: Texture2D
 var environment: Texture2D
 var transition: Texture2D
+var city_surfaces: Dictionary = {}
 var hazard_color := Color("ff3004")
 var alternate_study := false
 var water_enabled := false
@@ -48,6 +49,14 @@ func load_assets(use_legacy: bool, data_root: String, study: String) -> void:
 		textures.append(array)
 	environment=load("res://data/material-environment.png")
 	transition=load("res://data/material-transition.png")
+	if ResourceLoader.exists(data_root+"/city-surfaces.png"):
+		city_surfaces["city_surfaces"]=load(data_root+"/city-surfaces.png")
+		for material in ["soil","pavers","slabs","cliff"]:
+			var imported: Texture2D=load(data_root+"/city-"+material+".png")
+			var image:=imported.get_image()
+			if image.is_compressed():image.decompress()
+			image.generate_mipmaps()
+			city_surfaces["city_"+material]=ImageTexture.create_from_image(image)
 
 func apply(material: ShaderMaterial) -> void:
 	for i in FAMILIES.size():material.set_shader_parameter(FAMILIES[i]+"_tex",textures[i])
@@ -62,6 +71,9 @@ func apply(material: ShaderMaterial) -> void:
 	if not legacy:
 		material.set_shader_parameter("environment_tex",environment)
 		material.set_shader_parameter("transition_tex",transition)
+		material.set_shader_parameter("city_style_enabled",not city_surfaces.is_empty())
+		for parameter: String in city_surfaces:
+			material.set_shader_parameter(parameter,city_surfaces[parameter])
 
 func validate() -> Dictionary:
 	var checks: Dictionary={"four_families":textures.size()==4}

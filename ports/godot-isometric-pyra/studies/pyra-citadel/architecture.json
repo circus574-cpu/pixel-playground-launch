@@ -88,6 +88,36 @@
       "sha256": "c85d8a93382521ba0296c14b1c8095c6e085d3baf20e2d835945cfd1599d6f2b",
       "source_sha256": "2973136ee0ff06d6f17cec1b18f0c31f52b4e25f5a449f1e5c7de2783c9e32b5"
     },
+    "market-cart": {
+      "texture": "res://studies/pyra-citadel/art/pyra-continent-cart.webp",
+      "origin": [
+        0.5,
+        0.83
+      ],
+      "scale": 0.145,
+      "sha256": "dd40f5f0a2b0f9b1b4f58b267927557dd0839c35e873cbdae804a0284f5649e0",
+      "source": "public/game/assets/gpu/pyra-continent-v2/1.0.0-55660ce18ae5/pyra-continent-cart.webp"
+    },
+    "yard-barrels": {
+      "texture": "res://studies/pyra-citadel/art/pyra-smithy-barrels.webp",
+      "origin": [
+        0.5,
+        0.85
+      ],
+      "scale": 0.09,
+      "sha256": "d385450e6917bf1baaedc66d981b037291090bf57bfff8680a7ed5b0179d5305",
+      "source": "public/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-barrels.webp"
+    },
+    "yard-crates": {
+      "texture": "res://studies/pyra-citadel/art/pyra-smithy-crates-stack.webp",
+      "origin": [
+        0.5,
+        0.89
+      ],
+      "scale": 0.095,
+      "sha256": "66fd5ef4f9eddbbe9649bfaf101eef2fe4a50719f89a3e1324d1f6a63ff4103a",
+      "source": "public/game/assets/gpu/pyra-smithy/1.1.0-97d9e4a7446e/pyra-smithy-crates-stack.webp"
+    },
     "depot": {
       "texture": "res://assets/buildings-painted/depot.png",
       "origin": [
@@ -418,6 +448,138 @@
         10
       ],
       "entry": "closed"
+    },
+    {
+      "role": "market-cart",
+      "xz": [
+        -228,
+        -46
+      ],
+      "size": [
+        6,
+        4
+      ],
+      "yard_prop": true
+    },
+    {
+      "role": "yard-barrels",
+      "xz": [
+        -218,
+        -49
+      ],
+      "size": [
+        3,
+        3
+      ],
+      "yard_prop": true
+    },
+    {
+      "role": "yard-crates",
+      "xz": [
+        -189,
+        -42
+      ],
+      "size": [
+        3,
+        3
+      ],
+      "yard_prop": true
+    },
+    {
+      "role": "yard-crates",
+      "xz": [
+        -177,
+        -44
+      ],
+      "size": [
+        3,
+        3
+      ],
+      "yard_prop": true
+    },
+    {
+      "role": "yard-barrels",
+      "xz": [
+        -147,
+        -14
+      ],
+      "size": [
+        3,
+        3
+      ],
+      "yard_prop": true
+    },
+    {
+      "role": "market-cart",
+      "xz": [
+        -66,
+        191
+      ],
+      "size": [
+        6,
+        4
+      ],
+      "yard_prop": true
+    },
+    {
+      "role": "yard-crates",
+      "xz": [
+        -59,
+        187
+      ],
+      "size": [
+        3,
+        3
+      ],
+      "yard_prop": true
+    },
+    {
+      "role": "yard-barrels",
+      "xz": [
+        -40,
+        185
+      ],
+      "size": [
+        3,
+        3
+      ],
+      "yard_prop": true
+    },
+    {
+      "role": "yard-crates",
+      "xz": [
+        52,
+        199
+      ],
+      "size": [
+        3,
+        3
+      ],
+      "yard_prop": true
+    },
+    {
+      "role": "yard-barrels",
+      "xz": [
+        67,
+        201
+      ],
+      "size": [
+        3,
+        3
+      ],
+      "yard_prop": true
+    },
+    {
+      "role": "yard-crates",
+      "xz": [
+        -61,
+        229
+      ],
+      "size": [
+        3,
+        3
+      ],
+      "yard_prop": true
     },
     {
       "id": "caravan-watch",
@@ -950,6 +1112,116 @@
         2.2,
         2.2
       ]
+    },
+    {
+      "xz": [
+        -228,
+        -46
+      ],
+      "size": [
+        6,
+        4
+      ]
+    },
+    {
+      "xz": [
+        -218,
+        -49
+      ],
+      "size": [
+        3,
+        3
+      ]
+    },
+    {
+      "xz": [
+        -189,
+        -42
+      ],
+      "size": [
+        3,
+        3
+      ]
+    },
+    {
+      "xz": [
+        -177,
+        -44
+      ],
+      "size": [
+        3,
+        3
+      ]
+    },
+    {
+      "xz": [
+        -147,
+        -14
+      ],
+      "size": [
+        3,
+        3
+      ]
+    },
+    {
+      "xz": [
+        -66,
+        191
+      ],
+      "size": [
+        6,
+        4
+      ]
+    },
+    {
+      "xz": [
+        -59,
+        187
+      ],
+      "size": [
+        3,
+        3
+      ]
+    },
+    {
+      "xz": [
+        -40,
+        185
+      ],
+      "size": [
+        3,
+        3
+      ]
+    },
+    {
+      "xz": [
+        52,
+        199
+      ],
+      "size": [
+        3,
+        3
+      ]
+    },
+    {
+      "xz": [
+        67,
+        201
+      ],
+      "size": [
+        3,
+        3
+      ]
+    },
+    {
+      "xz": [
+        -61,
+        229
+      ],
+      "size": [
+        3,
+        3
+      ]
     }
   ],
   "groves": [
@@ -1074,6 +1346,48 @@
       "street": "Zau\u0142ek W\u0119glowy",
       "tint": "c4a9a3",
       "speed": 2.8
+    }
+  ],
+  "urban_ground": [
+    {
+      "center": [
+        -5,
+        41
+      ],
+      "radii": [
+        143,
+        113
+      ]
+    },
+    {
+      "center": [
+        -64,
+        -152
+      ],
+      "radii": [
+        96,
+        91
+      ]
+    },
+    {
+      "center": [
+        -187,
+        -24
+      ],
+      "radii": [
+        108,
+        78
+      ]
+    },
+    {
+      "center": [
+        -22,
+        196
+      ],
+      "radii": [
+        141,
+        72
+      ]
     }
   ]
 }
