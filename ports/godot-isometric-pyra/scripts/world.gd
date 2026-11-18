@@ -4,6 +4,17 @@ const SX := 8.0
 const SY := 4.0
 const SH := 9.797958971
 const N := 512
+const CITY_CAMERA_ZOOM := Vector2(0.54,0.54)
+const FIELD_CAMERA_ZOOM := Vector2(0.65,0.65)
+# The prototype's settlement plateau. This boundary only controls framing.
+const CITY_CENTER := Vector2(0,35)
+const CITY_RADII := Vector2(126,115)
+const CITY_CAMERA_LIFT := Vector2(0,-36)
+const CAMERA_ZOOM_RATE := 3.5
+const CAMERA_LOOK_SECONDS := 0.9
+const CAMERA_LOOK_LIMIT := 76.0
+const CAMERA_FOLLOW_RATE := 8.0
+const CAMERA_LOOK_RATE := 5.0
 var height_bytes: PackedByteArray
 var control_bytes: PackedByteArray
 var walk_bytes: PackedByteArray
@@ -35,6 +46,8 @@ var controlled := true
 var occupied: Dictionary = {}
 var map_refresh := 0.0
 var follow_camera := true
+var camera_look := Vector2.ZERO
+var camera_in_city := true
 var map_expanded := false
 var map_caption := Label.new()
 var map_grid: Control
@@ -109,8 +122,7 @@ func _ready() -> void:
 	npc.setup(definitions["pyra.npc.guide"],"Kaena")
 	npc.position=iso(Vector2(-31,28))
 	actors.add_child(npc)
-	camera.position=hero.position
-	camera.zoom=Vector2.ONE*.65
+	snap_camera_to_hero()
 	add_child(camera)
 	build_hud()
 	if "--qa" in OS.get_cmdline_user_args():run_qa.call_deferred()
@@ -379,11 +391,12 @@ func _physics_process(delta: float) -> void:
 	else:input=Vector2.ZERO
 	input=input.limit_length(1)
 	var direction:=flat_inverse(input,0).normalized() if input.length_squared()>.001 else Vector2.ZERO
+	var previous:=hero_world
 	var next:=hero_world+direction*8*delta
 	if walkable(next):hero_world=next
 	hero.position=iso(hero_world)
 	hero.animate(input)
-	if follow_camera:camera.position=hero.position
+	if follow_camera:update_camera_follow(hero_world-previous,delta)
 	map_refresh+=delta
 	if map_refresh>.33:
 		map_refresh=0
@@ -394,6 +407,29 @@ func _physics_process(delta: float) -> void:
 	var on_street:=tilemap.get_cell_source_id(street_cell)>=0
 	status.text="WASD / lewy kciuk · %s · %s%d · x %.1f / z %.1f"%["Ulica" if on_street else "Teren",String.chr(65+cell.x),cell.y+1,hero_world.x,hero_world.y]
 	map_marker.position=map_holder.position+(hero.position-map_camera.position)*map_camera.zoom+map_holder.size/2-Vector2(7,9)
+
+func city_camera_distance() -> float:
+	return ((hero_world-CITY_CENTER)/CITY_RADII).length()
+
+func update_camera_follow(world_step: Vector2, delta: float) -> void:
+	# Use actual horizontal movement so pushing against a wall does not pull the camera.
+	# A small buffer at the city edge prevents switching repeatedly while standing nearby.
+	var distance:=city_camera_distance()
+	camera_in_city=distance<=(1.04 if camera_in_city else 0.96)
+	var look_seconds:=0.0 if camera_in_city else CAMERA_LOOK_SECONDS
+	var screen_step:=iso(world_step,0)
+	var look_target: Vector2=(screen_step*(look_seconds/delta)).limit_length(CAMERA_LOOK_LIMIT)
+	camera_look=camera_look.lerp(look_target,1.0-exp(-CAMERA_LOOK_RATE*delta))
+	var lift:=CITY_CAMERA_LIFT if camera_in_city else Vector2.ZERO
+	camera.position=camera.position.lerp(hero.position+lift+camera_look,1.0-exp(-CAMERA_FOLLOW_RATE*delta))
+	var target_zoom:=CITY_CAMERA_ZOOM if camera_in_city else FIELD_CAMERA_ZOOM
+	camera.zoom=camera.zoom.lerp(target_zoom,1.0-exp(-CAMERA_ZOOM_RATE*delta))
+
+func snap_camera_to_hero() -> void:
+	camera_look=Vector2.ZERO
+	camera_in_city=city_camera_distance()<=1.0
+	camera.position=iso(hero_world)+(CITY_CAMERA_LIFT if camera_in_city else Vector2.ZERO)
+	camera.zoom=CITY_CAMERA_ZOOM if camera_in_city else FIELD_CAMERA_ZOOM
 
 func run_qa() -> void:
 	controlled=false
@@ -419,7 +455,7 @@ func run_qa() -> void:
 			await RenderingServer.frame_post_draw
 			get_viewport().get_texture().get_image().save_jpg(out.path_join("building-%s.jpg"%b.id),.93)
 		follow_camera=true
-		camera.zoom=Vector2.ONE*.65
+		snap_camera_to_hero()
 		for frame in 5:await get_tree().process_frame
 	await RenderingServer.frame_post_draw
 	get_viewport().get_texture().get_image().save_jpg(out.path_join("city.jpg"),.93)
@@ -436,7 +472,7 @@ func run_qa() -> void:
 	get_viewport().get_texture().get_image().save_jpg(out.path_join("same-world-map.jpg"),.93)
 	toggle_map()
 	hero_world=Vector2(-235,-285)
-	camera.zoom=Vector2.ONE*.55
+	snap_camera_to_hero()
 	for i in 30:await get_tree().process_frame
 	await RenderingServer.frame_post_draw
 	get_viewport().get_texture().get_image().save_jpg(out.path_join("western-ridge.jpg"),.93)
@@ -455,11 +491,12 @@ func run_qa() -> void:
 		var p:=Vector2(rng.randf_range(-495,495),rng.randf_range(-495,495))
 		roundtrip=maxf(roundtrip,p.distance_to(flat_inverse(iso(p),sample_height(p))))
 	hero_world=Vector2(-40,50)
-	camera.zoom=Vector2.ONE*.65
+	camera.zoom=CITY_CAMERA_ZOOM
 	var movement: Array[Dictionary]=[]
 	for fps in [30,120]:
 		Engine.max_fps=fps
 		hero_world=Vector2(-40,50)
+		snap_camera_to_hero()
 		controlled=true
 		var touch:=InputEventScreenTouch.new()
 		touch.index=4
@@ -483,12 +520,53 @@ func run_qa() -> void:
 		while elapsed<2:
 			await get_tree().physics_frame
 			elapsed+=get_physics_process_delta_time()
+		var city_camera_wide:=camera_in_city and camera.zoom.is_equal_approx(CITY_CAMERA_ZOOM)
 		touch.pressed=false
 		touch.canceled=true
 		get_viewport().push_input(touch,true)
-		movement.append({"fps_cap":fps,"distance_m":hero_world.distance_to(start),"sim_seconds":elapsed,"second_thumb_keeps_motion":kept,"cancel_releases":move_pointer==-1 and motion==Vector2.ZERO,"walk_animation":hero.sprite.animation})
+		movement.append({"fps_cap":fps,"distance_m":hero_world.distance_to(start),"sim_seconds":elapsed,"second_thumb_keeps_motion":kept,"cancel_releases":move_pointer==-1 and motion==Vector2.ZERO,"walk_animation":hero.sprite.animation,"city_camera_wide":city_camera_wide})
 		controlled=false
 	Engine.max_fps=0
+	# Exercise the runtime framing with movement across both sides of the same boundary.
+	follow_camera=false
+	hero_world=CITY_CENTER
+	hero.position=iso(hero_world)
+	snap_camera_to_hero()
+	var city_lift_ok:=camera.position.is_equal_approx(hero.position+CITY_CAMERA_LIFT)
+	var delta:=1.0/60.0
+	hero_world=CITY_CENTER+Vector2(CITY_RADII.x*1.02,0)
+	hero.position=iso(hero_world)
+	update_camera_follow(Vector2.ZERO,delta)
+	var edge_buffer_ok:=camera_in_city
+	hero_world=CITY_CENTER+Vector2(CITY_RADII.x*1.06,0)
+	hero.position=iso(hero_world)
+	update_camera_follow(Vector2.ZERO,delta)
+	var field_transition_ok:=not camera_in_city and camera.zoom.x>CITY_CAMERA_ZOOM.x and camera.zoom.x<FIELD_CAMERA_ZOOM.x
+	for frame in 120:
+		var step:=Vector2(0.08,-0.08)
+		hero_world+=step
+		hero.position=iso(hero_world)
+		update_camera_follow(step,delta)
+	var field_lead_ok:=camera.position.x-hero.position.x>25.0 and camera.zoom.distance_to(FIELD_CAMERA_ZOOM)<.001
+	for frame in 120:update_camera_follow(Vector2.ZERO,delta)
+	var field_recenters:=camera.position.distance_to(hero.position)<.5
+	hero_world=CITY_CENTER+Vector2(CITY_RADII.x*0.98,0)
+	hero.position=iso(hero_world)
+	update_camera_follow(Vector2.ZERO,delta)
+	edge_buffer_ok=edge_buffer_ok and not camera_in_city
+	hero_world=CITY_CENTER
+	hero.position=iso(hero_world)
+	update_camera_follow(Vector2.ZERO,delta)
+	var city_return_ok:=camera_in_city and camera.zoom.x>CITY_CAMERA_ZOOM.x and camera.zoom.x<FIELD_CAMERA_ZOOM.x
+	for frame in 240:update_camera_follow(Vector2.ZERO,delta)
+	var wheel:=InputEventMouseButton.new()
+	wheel.button_index=MOUSE_BUTTON_WHEEL_UP
+	wheel.pressed=true
+	get_viewport().push_input(wheel,true)
+	var pinch:=InputEventMagnifyGesture.new()
+	pinch.factor=1.5
+	get_viewport().push_input(pinch,true)
+	var camera_rejects_zoom:=camera.zoom.distance_to(CITY_CAMERA_ZOOM)<.001
 	var tile_error:=0.0
 	for cell: Vector2i in tilemap.get_used_cells():
 		tile_error=maxf(tile_error,(tilemap.map_to_local(cell)+tilemap.position).distance_to(iso(Vector2(cell)*8,12)))
@@ -508,6 +586,14 @@ func run_qa() -> void:
 		checks["movement_%d_fps"%item.fps_cap]=absf(float(item.distance_m)-8*float(item.sim_seconds))<.4
 		checks["two_thumb_%d_fps"%item.fps_cap]=item.second_thumb_keeps_motion
 		checks["pointer_cancel_%d_fps"%item.fps_cap]=item.cancel_releases
+		checks["camera_city_wide_%d_fps"%item.fps_cap]=item.city_camera_wide
+	checks["camera_city_lift"]=city_lift_ok
+	checks["camera_zone_edge_buffer"]=edge_buffer_ok
+	checks["camera_smooth_exit"]=field_transition_ok
+	checks["camera_action_lookahead"]=field_lead_ok
+	checks["camera_recenters_after_stop"]=field_recenters
+	checks["camera_smooth_return"]=city_return_ok
+	checks["camera_wheel_and_pinch_keep_context_zoom"]=camera_rejects_zoom
 	checks.merge(art_checks)
 	checks.merge(material_library.validate())
 	report["checks"]=checks
