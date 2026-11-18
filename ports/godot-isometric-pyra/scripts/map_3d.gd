@@ -148,6 +148,9 @@ func validate_alignment() -> Dictionary:
 	var shares_textures:=true
 	for i in 4:
 		shares_textures=shares_textures and terrain_mesh.material_override.get_shader_parameter(["ash_tex","basalt_tex","paving_tex","cliff_tex"][i])==world.textures[i]
+	if world.material_library.plazas!=null:
+		shares_textures=shares_textures and terrain_mesh.material_override.get_shader_parameter("plaza_tex")==world.material_library.plazas
+	shares_textures=shares_textures and terrain_mesh.material_override.get_shader_parameter("weights_tex")==world.material_library.weights
 	if not world.legacy_terrain:
 		shares_textures=shares_textures and terrain_mesh.material_override.get_shader_parameter("environment_tex")==world.material_library.environment and terrain_mesh.material_override.get_shader_parameter("transition_tex")==world.material_library.transition
 	return {"height_max_m":height_error,"projection_max_px":projection_error,"decorations":sprites.size(),"shares_textures":shares_textures}

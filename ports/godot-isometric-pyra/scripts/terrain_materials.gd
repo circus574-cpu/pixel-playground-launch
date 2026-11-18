@@ -5,6 +5,7 @@ var textures: Array = []
 var contract: Dictionary = {}
 var legacy := false
 var weights: Texture2D
+var plazas: Texture2D
 var surface: Texture2D
 var environment: Texture2D
 var transition: Texture2D
@@ -14,7 +15,10 @@ var water_enabled := false
 
 func load_assets(use_legacy: bool, data_root: String, study: String) -> void:
 	legacy=use_legacy
-	weights=load(data_root+"/weights.png")
+	var city_weights:=data_root+"/city-weights.png"
+	weights=load(city_weights if ResourceLoader.exists(city_weights) else data_root+"/weights.png")
+	if ResourceLoader.exists(data_root+"/city-plazas.png"):
+		plazas=load(data_root+"/city-plazas.png")
 	alternate_study=study!="pyra"
 	surface=load(data_root+("/hazards.png" if alternate_study else "/surface.png"))
 	match study:
@@ -48,6 +52,9 @@ func load_assets(use_legacy: bool, data_root: String, study: String) -> void:
 func apply(material: ShaderMaterial) -> void:
 	for i in FAMILIES.size():material.set_shader_parameter(FAMILIES[i]+"_tex",textures[i])
 	material.set_shader_parameter("weights_tex",weights)
+	if plazas!=null:
+		material.set_shader_parameter("plaza_tex",plazas)
+		material.set_shader_parameter("plaza_enabled",true)
 	material.set_shader_parameter("surface_tex",surface)
 	if alternate_study:
 		material.set_shader_parameter("hazard_color",hazard_color)

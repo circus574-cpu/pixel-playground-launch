@@ -4,6 +4,8 @@ uniform sampler2DArray basalt_tex : source_color, filter_linear_mipmap, repeat_e
 uniform sampler2DArray paving_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2DArray cliff_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D weights_tex : filter_linear;
+uniform sampler2D plaza_tex : filter_linear;
+uniform bool plaza_enabled = false;
 uniform sampler2D surface_tex : filter_linear;
 uniform sampler2D environment_tex : filter_linear;
 uniform sampler2D transition_tex : filter_linear, repeat_enable;
@@ -38,6 +40,11 @@ vec3 terrain_albedo(vec2 map_uv) {
 	vec3 stone=terrain_sample(basalt_tex,world/7.0,stone_layer,breakup);
 	float road_layer=terrain_noise(world/85.0)>0.65?1.0:0.0;
 	vec3 road=terrain_sample(paving_tex,world/3.0,road_layer,breakup);
+	if(plaza_enabled){
+		vec2 zones=texture(plaza_tex,map_uv).rg;
+		road=mix(road,terrain_sample(paving_tex,world/5.0,road_layer,breakup)*1.12,zones.g);
+		road*=1.0-zones.r*0.21;
+	}
 	float cliff_layer=env.g<0.12?2.0:(env.r>0.75?3.0:(env.g>0.58?1.0:0.0));
 	vec3 cliff=terrain_sample(cliff_tex,world/12.0,cliff_layer,breakup);
 	vec3 color=soil*w.r+stone*w.g+road*w.b+cliff*w.a;

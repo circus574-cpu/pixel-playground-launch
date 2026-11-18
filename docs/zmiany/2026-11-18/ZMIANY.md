@@ -67,3 +67,25 @@ Kadry przeglądowe pokazują geometrię w uruchomionym Godocie. W prototypach
 pozostaje dopracowanie zabudowy, otoczenia budynków i konstrukcji przepraw.
 Pyra ma nadal własną dotychczasową rzeźbę, a obecne wydanie na serwerze
 nie zawiera tych trzech przebudowanych scen.
+
+## Ulice i place czterech miast
+
+[Plany czterech miast](qa/city-streets/plany-czterech-miast.png) pokazują
+osobne układy ulic, parceli i trzech placów w każdym mieście. Pyra ma
+Trakt Popiołu i obejście areny. Verdantia spina oba brzegi łukami dróg
+wokół przepraw. Pasaż Aetherii wpisuje się w tarasy, a w Nexusie-9 pętle
+łączą strefy techniczne i handlowe.
+
+`scripts/gpu/design-city-streets.py` wygładza kierunki dróg, rasteruje
+place z indywidualnie opisanych obrysów i zapisuje osobne maski nawierzchni.
+Kształty placów mają wyraźny brzeg i większą skalę bruku. Renderery 2D/3D
+używają wspólnych masek. Zachowano wysokości, przechodniość oraz kolizje.
+Test danych próbkował osie ulic, sprawdził połączenia wszystkich ulic
+z siecią i dojście z tej sieci w okolice wszystkich 24 budynków.
+
+- [Pyra](qa/city-streets/pyra/settlement-overview.jpg), [81/81 kontroli](qa/city-streets/pyra/results.json).
+- [Verdantia](qa/city-streets/verdantia/settlement-overview.jpg), [40/40 kontroli](qa/city-streets/verdantia/results.json).
+- [Aetheria](qa/city-streets/aetheria/settlement-overview.jpg), [40/40 kontroli](qa/city-streets/aetheria/results.json).
+- [Nexus-9](qa/city-streets/nexus/settlement-overview.jpg), [40/40 kontroli](qa/city-streets/nexus/results.json).
+
+Kadry są z Godota 4.6.3. Układy są zmianą gałęzi prototypów.

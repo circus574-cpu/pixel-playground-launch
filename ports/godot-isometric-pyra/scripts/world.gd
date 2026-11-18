@@ -20,6 +20,7 @@ var data_root := "res://data"
 var city_center := CITY_CENTER
 var city_radii := CITY_RADII
 var city_height := 12.0
+var city_layout: Dictionary = {}
 var height_bytes: PackedByteArray
 var control_bytes: PackedByteArray
 var walk_bytes: PackedByteArray
@@ -115,6 +116,12 @@ func _ready() -> void:
 		city_center=Vector2(config.city_center[0],config.city_center[1])
 		city_radii=Vector2(config.city_radii[0],config.city_radii[1])
 		city_height=float(config.city_height)
+	var layout_path:=data_root+"/city-layout.json"
+	if FileAccess.file_exists(layout_path):
+		city_layout=JSON.parse_string(FileAccess.get_file_as_string(layout_path))
+		config.paths=[]
+		for street: Dictionary in city_layout.streets:
+			config.paths.append(street.centerline)
 	buildings=JSON.parse_string(FileAccess.get_file_as_string(data_root+"/buildings.json"))
 	height_bytes=FileAccess.get_file_as_bytes(data_root+"/height.r32")
 	control_bytes=FileAccess.get_file_as_bytes(data_root+"/control.r32")
@@ -207,10 +214,12 @@ func build_tilemap() -> void:
 	tilemap.modulate.a=0.0
 	add_child(tilemap)
 	tilemap.position=Vector2(0,-city_height*SH)-tilemap.map_to_local(Vector2i.ZERO)
+	var paving: Image=material_library.weights.get_image()
 	for z in range(-12,18):
 		for x in range(-15,12):
 			var p:=Vector2(x*8,z*8)
-			if texture_id(p)==2 and absf(sample_height(p)-city_height)<.05:
+			var grid:=Vector2i((p+Vector2(512,512))/2)
+			if paving.get_pixelv(grid).b>.5 and absf(sample_height(p)-city_height)<.05:
 				tilemap.set_cell(Vector2i(x,z),0,Vector2i.ZERO)
 
 func object_sprite(path: String, p: Vector2, width: float) -> Sprite2D:
@@ -463,6 +472,17 @@ func snap_camera_to_hero() -> void:
 	camera.position=iso(hero_world)+(CITY_CAMERA_LIFT if camera_in_city else Vector2.ZERO)
 	camera.zoom=CITY_CAMERA_ZOOM if camera_in_city else FIELD_CAMERA_ZOOM
 
+func city_layout_checks() -> Dictionary:
+	if city_layout.is_empty():return {}
+	var checks: Dictionary={
+		"city_plazas_pinned":FileAccess.get_sha256(data_root+"/city-plazas.png")==str(city_layout.plazas_sha256),
+		"city_paving_pinned":FileAccess.get_sha256(data_root+"/city-weights.png")==str(city_layout.weights_sha256),
+		"city_building_approaches":int(city_layout.buildings_with_street_access)==buildings.size()
+	}
+	for file: String in city_layout.geometry_sha256:
+		checks["city_unchanged_"+file]=FileAccess.get_sha256(data_root+"/"+file)==str(city_layout.geometry_sha256[file])
+	return checks
+
 func run_qa() -> void:
 	if study!="pyra":
 		await run_study_qa()
@@ -500,6 +520,12 @@ func run_qa() -> void:
 	for i in 45:await get_tree().process_frame
 	await RenderingServer.frame_post_draw
 	get_viewport().get_texture().get_image().save_jpg(out.path_join("city-wide.jpg"),.93)
+	hud.hide()
+	camera.zoom=Vector2.ONE*0.30
+	for frame in 4:await get_tree().process_frame
+	await RenderingServer.frame_post_draw
+	get_viewport().get_texture().get_image().save_jpg(out.path_join("settlement-overview.jpg"),.93)
+	hud.show()
 	follow_camera=true
 	toggle_map()
 	for i in 30:await get_tree().process_frame
@@ -631,6 +657,7 @@ func run_qa() -> void:
 	checks["camera_wheel_and_pinch_keep_context_zoom"]=camera_rejects_zoom
 	checks.merge(art_checks)
 	checks.merge(material_library.validate())
+	checks.merge(city_layout_checks())
 	report["checks"]=checks
 	report["passed"]=checks.values().filter(func(v):return v).size()
 	report["failed"]=checks.size()-report.passed
@@ -646,6 +673,7 @@ func run_study_qa() -> void:
 	if out.is_empty():out="user://qa/"+study
 	DirAccess.make_dir_recursive_absolute(out)
 	var checks: Dictionary={"city_spawn":camera_in_city and walkable(hero_world),"six_buildings":building_sprites.size()==6}
+	checks.merge(city_layout_checks())
 	var hall: Sprite2D=building_sprites["hall"]
 	checks["new_hall_in_runtime"]=hall.texture.resource_path.ends_with("/new-hall.png")
 	checks["water_shader_matches_region"]=material_library.water_enabled==(study=="verdantia")
