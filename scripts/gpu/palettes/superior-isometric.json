@@ -1,0 +1,17 @@
+{
+  "verdantia-ground": "deep woodland loam, dense olive moss and dry oak leaf litter, fine earthy detail, no rocks",
+  "aetheria-ground": "wind-packed ivory snow over pale slate, subtle blue-grey icy grains and thin frost",
+  "nexus-ground": "charcoal synthetic desert dust and fine mineral grains, scarce teal flecks, no large objects",
+  "verdantia-road": "warm irregular ochre sandstone pavers with worn edges and restrained soft moss in seams",
+  "aetheria-road": "worn pale limestone flagstones with fine blue slate seams and sparse frost at the joints",
+  "nexus-road": "flat worn graphite alloy panels, subtle industrial recessed joints and scuffed ceramic edges",
+  "verdantia-waterbank": "pale alluvial silt, fine rounded dark pebbles and scattered low moss, gentle river bank sediment",
+  "aetheria-terrace": "carved pale stone terrace blocks, thin gold mineral lines, frost in shadowed joints",
+  "nexus-yard": "industrial ceramic ground slabs, dark matte metal seams and weathered amber service paint traces",
+  "verdantia-rock": "layered slate outcrop stone with subtle moss and warm brown mineral bands, flat rock material",
+  "aetheria-rock": "stratified blue-grey mountain slate cut by delicate pale ice bands, flat rock material",
+  "nexus-rock": "dark fractured metalliferous badlands rock, muted purple oxides and fine turquoise mineral grains",
+  "verdantia-meadow": "short dense muted green meadow grass mixed with fine clover, sparse ivory petals",
+  "aetheria-ice": "blue-grey glacial ice sheet, faint pale fractures, matte softly diffused surface",
+  "nexus-waste": "oxidized slag, small graphite grit and fine orange rust deposits, uneven mineral texture"
+}

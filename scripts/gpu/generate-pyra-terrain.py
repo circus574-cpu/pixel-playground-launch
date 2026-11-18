@@ -91,9 +91,25 @@ def main():
     parser.add_argument("--out", default="/workspace/ki-iso-art2/terrain-production")
     parser.add_argument("--variants", type=int, default=3)
     parser.add_argument("--steps", type=int, default=14)
+    parser.add_argument("--palette", type=Path, help="JSON mapping stable material IDs to prompts")
+    parser.add_argument("--seed-base", type=int, default=1711202600)
     args = parser.parse_args()
+    materials = json.loads(args.palette.read_text()) if args.palette else MATERIALS
+    if not isinstance(materials, dict) or not materials or not all(
+        isinstance(name, str) and name and name.isascii() and name.replace("-", "").isalnum()
+        and isinstance(prompt, str) and prompt.strip()
+        for name, prompt in materials.items()
+    ):
+        parser.error("Palette must map portable material IDs to nonempty prompts")
+    if not 1 <= args.variants <= 100 or args.steps < 1:
+        parser.error("Choose 1–100 variants and at least one inference step")
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
+    manifest = out / "manifest.json"
+    recipe = {"materials": materials, "seed_base": args.seed_base, "variants": args.variants, "steps": args.steps}
+    previous = json.loads(manifest.read_text()) if manifest.exists() else {}
+    if previous and previous.get("recipe") != recipe:
+        parser.error("Existing output uses another recipe. Choose a fresh directory.")
     torch.set_num_threads(8)
     pipeline = StableDiffusionXLPipeline.from_pretrained(args.model, torch_dtype=torch.float16, variant="fp16", use_safetensors=True, local_files_only=True)
     pipeline.scheduler = DPMSolverMultistepScheduler.from_config(pipeline.scheduler.config, algorithm_type="sde-dpmsolver++", use_karras_sigmas=True)
@@ -111,14 +127,12 @@ def main():
         "seam_processing": "GPU FFT periodic plus smooth decomposition; no mirroring",
         "derived_maps": "luminance-derived artistic approximations, OpenGL normals; not measured PBR",
         "geometry": "material textures only; no actual mountains, holes, valleys or collision geometry changed",
-        "items": [],
+        "recipe": recipe,
+        "items": previous.get("items", []),
     }
-    manifest = out / "manifest.json"
-    if manifest.exists():
-        record["items"] = json.loads(manifest.read_text())["items"]
     completed = {item["id"] for item in record["items"]}
     negative = "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard"
-    for index, (name, material) in enumerate(MATERIALS.items()):
+    for index, (name, material) in enumerate(materials.items()):
         prompt = f"Seamless tileable game material, top down orthographic flat surface, {material}, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge."
         for variant in range(args.variants):
             identifier = f"{name}-{variant + 1}"
@@ -126,7 +140,7 @@ def main():
                 continue
             directory = out / identifier
             directory.mkdir(exist_ok=True)
-            seed = 1711202600 + index * 100 + variant
+            seed = args.seed_base + index * 100 + variant
             started = time.monotonic()
             image = pipeline(prompt=prompt, negative_prompt=negative, width=1024, height=1024, num_inference_steps=args.steps, guidance_scale=2.0, generator=torch.Generator("cuda").manual_seed(seed)).images[0].convert("RGB")
             image.save(directory / "source.png")
@@ -145,7 +159,9 @@ def main():
             preview.save(directory / "repeat-3x3.jpg", quality=90)
             files = {p.name: {"bytes": p.stat().st_size, "sha256": digest(p)} for p in directory.iterdir() if p.is_file()}
             record["items"].append({"id": identifier, "category": name, "seed": seed, "prompt": prompt, "negative": negative, "seconds": round(time.monotonic() - started, 3), "seams": seam, "files": files})
-            manifest.write_text(json.dumps(record, indent=2) + "\n")
+            temp_manifest = manifest.with_suffix(".json.tmp")
+            temp_manifest.write_text(json.dumps(record, indent=2) + "\n")
+            temp_manifest.replace(manifest)
             print("TEXTURE_DONE", identifier, "seconds", record["items"][-1]["seconds"], "seam", round(seam["after"]["seam_ratio"], 3), flush=True)
     shutil.copyfile(Path(args.model) / "README.md", out / "MODEL-README.txt")
     shutil.copyfile(Path(args.model).parent / "model-download.json", out / "model-download.json")
