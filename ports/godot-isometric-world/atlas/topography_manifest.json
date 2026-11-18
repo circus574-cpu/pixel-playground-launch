@@ -1,0 +1,273 @@
+{
+  "planet": "Superior",
+  "atlas_resolution": [
+    2048,
+    1024
+  ],
+  "continents": [
+    {
+      "id": "verdant",
+      "title": "Verdantia",
+      "capital": "Zielona Przystań",
+      "cx": 362.0,
+      "cy": 267.0,
+      "rx": 285.0,
+      "ry": 175.0,
+      "world_dims": [
+        77504,
+        58560
+      ],
+      "palette_low": [
+        38,
+        102,
+        52
+      ],
+      "palette_mid": [
+        74,
+        152,
+        68
+      ],
+      "palette_high": [
+        215,
+        226,
+        235
+      ]
+    },
+    {
+      "id": "aether",
+      "title": "Aetheria",
+      "capital": "Sanktuarium Tysiąca Źródeł",
+      "cx": 1337.0,
+      "cy": 309.0,
+      "rx": 270.0,
+      "ry": 168.0,
+      "world_dims": [
+        70208,
+        53440
+      ],
+      "palette_low": [
+        64,
+        148,
+        138
+      ],
+      "palette_mid": [
+        132,
+        184,
+        162
+      ],
+      "palette_high": [
+        244,
+        248,
+        255
+      ]
+    },
+    {
+      "id": "pyra",
+      "title": "Pyra",
+      "capital": "Twierdza Popiołu",
+      "cx": 731.0,
+      "cy": 730.0,
+      "rx": 255.0,
+      "ry": 148.0,
+      "world_dims": [
+        65600,
+        42304
+      ],
+      "palette_low": [
+        56,
+        36,
+        34
+      ],
+      "palette_mid": [
+        138,
+        62,
+        34
+      ],
+      "palette_high": [
+        252,
+        128,
+        36
+      ]
+    },
+    {
+      "id": "nexus",
+      "title": "Nexus-9",
+      "capital": "Węzeł Świadomości",
+      "cx": 1845.0,
+      "cy": 709.0,
+      "rx": 240.0,
+      "ry": 158.0,
+      "world_dims": [
+        63168,
+        49728
+      ],
+      "palette_low": [
+        32,
+        44,
+        62
+      ],
+      "palette_mid": [
+        62,
+        88,
+        118
+      ],
+      "palette_high": [
+        110,
+        232,
+        248
+      ]
+    }
+  ],
+  "quest_islands": [
+    {
+      "id": "island-1",
+      "title": "Wyspa Zefiru",
+      "cx": 107.0,
+      "cy": 501.0,
+      "r": 38.0
+    },
+    {
+      "id": "island-2",
+      "title": "Wyspa Koralowa",
+      "cx": 608.0,
+      "cy": 501.0,
+      "r": 42.0
+    },
+    {
+      "id": "island-3",
+      "title": "Wyspa Mgły",
+      "cx": 1109.0,
+      "cy": 501.0,
+      "r": 40.0
+    },
+    {
+      "id": "island-4",
+      "title": "Wyspa Rdzy",
+      "cx": 1632.0,
+      "cy": 501.0,
+      "r": 38.0
+    },
+    {
+      "id": "island-5",
+      "title": "Wyspa Północna",
+      "cx": 480.0,
+      "cy": 36.0,
+      "r": 34.0
+    },
+    {
+      "id": "island-6",
+      "title": "Wyspa Południowa",
+      "cx": 640.0,
+      "cy": 984.0,
+      "r": 36.0
+    }
+  ],
+  "archipelagos": [
+    {
+      "id": "arch-1",
+      "x": 980.0,
+      "y": 190.0,
+      "r": 22.0
+    },
+    {
+      "id": "arch-2",
+      "x": 1020.0,
+      "y": 225.0,
+      "r": 16.0
+    },
+    {
+      "id": "arch-3",
+      "x": 210.0,
+      "y": 760.0,
+      "r": 24.0
+    },
+    {
+      "id": "arch-4",
+      "x": 250.0,
+      "y": 790.0,
+      "r": 15.0
+    },
+    {
+      "id": "arch-5",
+      "x": 1340.0,
+      "y": 790.0,
+      "r": 25.0
+    },
+    {
+      "id": "arch-6",
+      "x": 1390.0,
+      "y": 825.0,
+      "r": 18.0
+    },
+    {
+      "id": "arch-7",
+      "x": 1790.0,
+      "y": 180.0,
+      "r": 21.0
+    },
+    {
+      "id": "arch-8",
+      "x": 850.0,
+      "y": 420.0,
+      "r": 17.0
+    }
+  ],
+  "capital_regions": {
+    "pyra": {
+      "land_id": "pyra",
+      "grid_size": 512,
+      "world_size_m": 1024.0,
+      "height_min_m": -4.99,
+      "height_max_m": 38.89,
+      "walkable_ratio": 0.861,
+      "buildings_count": 66,
+      "npcs_count": 10,
+      "exp_zones_count": 6,
+      "monsters_count": 30,
+      "fauna_count": 16,
+      "props_count": 274
+    },
+    "verdant": {
+      "land_id": "verdant",
+      "grid_size": 512,
+      "world_size_m": 1024.0,
+      "height_min_m": -2.71,
+      "height_max_m": 55.9,
+      "walkable_ratio": 0.56,
+      "buildings_count": 55,
+      "npcs_count": 10,
+      "exp_zones_count": 6,
+      "monsters_count": 30,
+      "fauna_count": 16,
+      "props_count": 263
+    },
+    "aether": {
+      "land_id": "aether",
+      "grid_size": 512,
+      "world_size_m": 1024.0,
+      "height_min_m": -4.47,
+      "height_max_m": 39.77,
+      "walkable_ratio": 0.799,
+      "buildings_count": 56,
+      "npcs_count": 10,
+      "exp_zones_count": 6,
+      "monsters_count": 30,
+      "fauna_count": 16,
+      "props_count": 270
+    },
+    "nexus": {
+      "land_id": "nexus",
+      "grid_size": 512,
+      "world_size_m": 1024.0,
+      "height_min_m": -6.8,
+      "height_max_m": 18.2,
+      "walkable_ratio": 0.729,
+      "buildings_count": 48,
+      "npcs_count": 10,
+      "exp_zones_count": 6,
+      "monsters_count": 30,
+      "fauna_count": 16,
+      "props_count": 288
+    }
+  }
+}

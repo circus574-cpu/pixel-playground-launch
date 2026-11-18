@@ -1,0 +1,4032 @@
+{
+  "land_id": "nexus",
+  "world_size": 1024.0,
+  "grid_size": 512,
+  "safe_city_radius": 180.0,
+  "buildings": [
+    {
+      "id": "nexus-reactor-core",
+      "title": "Rdzeń Przeciążonej Pamięci (Główny Reaktor)",
+      "role": "landmark",
+      "sprite": "res://assets/objects/93c8e791-nexus-art-reactor.webp",
+      "w": 680,
+      "h": 690,
+      "x": 0.0,
+      "z": -68.0,
+      "y": 18.09
+    },
+    {
+      "id": "nexus-hall",
+      "title": "Węzeł Świadomości (Centrum)",
+      "role": "hall",
+      "sprite": "res://assets/objects/cbfb678c-nexus-painted-hall.webp",
+      "w": 610,
+      "h": 550,
+      "x": 0.0,
+      "z": -8.0,
+      "y": 18.11
+    },
+    {
+      "id": "nexus-garden",
+      "title": "Syntetyczny Ogród Obwodów",
+      "role": "landmark",
+      "sprite": "res://assets/objects/3a6c0fa4-nexus-art-tech-garden.webp",
+      "w": 460,
+      "h": 390,
+      "x": 0.0,
+      "z": 48.0,
+      "y": 18.08
+    },
+    {
+      "id": "nexus-lab-w",
+      "title": "Laboratorium Pierwszej Kalibracji",
+      "role": "landmark",
+      "sprite": "res://assets/objects/b2f6afaa-nexus-continent-field-lab.webp",
+      "w": 390,
+      "h": 380,
+      "x": -128.0,
+      "z": -95.0,
+      "y": 9.06
+    },
+    {
+      "id": "nexus-reactor-e",
+      "title": "Reaktor Pomocniczy Sektor-2",
+      "role": "landmark",
+      "sprite": "res://assets/objects/3da45722-nexus-continent-reactor.webp",
+      "w": 360,
+      "h": 380,
+      "x": 128.0,
+      "z": -95.0,
+      "y": 9.04
+    },
+    {
+      "id": "nexus-smithy",
+      "title": "Zakład Uzbrojenia HEF-4",
+      "role": "smithy",
+      "sprite": "res://assets/objects/fc0f86ab-ki-v2-buildings-nexus-smithy.webp",
+      "w": 440,
+      "h": 410,
+      "x": -95.0,
+      "z": -18.0,
+      "y": 8.33
+    },
+    {
+      "id": "nexus-inn",
+      "title": "Stacja Regeneracji SOLA-6",
+      "role": "inn",
+      "sprite": "res://assets/objects/39d82fa9-ki-v2-buildings-nexus-inn.webp",
+      "w": 410,
+      "h": 440,
+      "x": 95.0,
+      "z": -18.0,
+      "y": 8.37
+    },
+    {
+      "id": "nexus-shop",
+      "title": "Terminal Wymiany MIRA-2",
+      "role": "shop",
+      "sprite": "res://assets/objects/a5145228-nexus-painted-shop.webp",
+      "w": 590,
+      "h": 535,
+      "x": -92.0,
+      "z": 62.0,
+      "y": 7.41
+    },
+    {
+      "id": "nexus-arena",
+      "title": "Poligon Kalibracji Bojowej",
+      "role": "arena",
+      "sprite": "res://assets/objects/a0860314-nexus-painted-arena.webp",
+      "w": 610,
+      "h": 550,
+      "x": 96.0,
+      "z": 62.0,
+      "y": 7.8
+    },
+    {
+      "id": "nexus-depot",
+      "title": "Magazyn Rdzeni ARCH-5",
+      "role": "depot",
+      "sprite": "res://assets/objects/ee32c98c-nexus-painted-depot.webp",
+      "w": 590,
+      "h": 535,
+      "x": 0.0,
+      "z": 108.0,
+      "y": 7.44
+    },
+    {
+      "id": "nexus-house-0",
+      "title": "Moduł Mieszkalny",
+      "role": "house",
+      "sprite": "res://assets/objects/fe8b61cf-ki-v2-buildings-nexus-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": -142.0,
+      "z": -48.0,
+      "y": 8.95
+    },
+    {
+      "id": "nexus-house-1",
+      "title": "Moduł Mieszkalny",
+      "role": "house",
+      "sprite": "res://assets/objects/fe8b61cf-ki-v2-buildings-nexus-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": -145.0,
+      "z": 26.0,
+      "y": 8.86
+    },
+    {
+      "id": "nexus-house-2",
+      "title": "Moduł Mieszkalny",
+      "role": "house",
+      "sprite": "res://assets/objects/fe8b61cf-ki-v2-buildings-nexus-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": -128.0,
+      "z": 108.0,
+      "y": 2.59
+    },
+    {
+      "id": "nexus-house-3",
+      "title": "Moduł Mieszkalny",
+      "role": "house",
+      "sprite": "res://assets/objects/fe8b61cf-ki-v2-buildings-nexus-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": 142.0,
+      "z": -48.0,
+      "y": 8.95
+    },
+    {
+      "id": "nexus-house-4",
+      "title": "Moduł Mieszkalny",
+      "role": "house",
+      "sprite": "res://assets/objects/fe8b61cf-ki-v2-buildings-nexus-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": 145.0,
+      "z": 26.0,
+      "y": 9.1
+    },
+    {
+      "id": "nexus-house-5",
+      "title": "Moduł Mieszkalny",
+      "role": "house",
+      "sprite": "res://assets/objects/fe8b61cf-ki-v2-buildings-nexus-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": 128.0,
+      "z": 108.0,
+      "y": 1.25
+    },
+    {
+      "id": "nexus-house-6",
+      "title": "Moduł Mieszkalny",
+      "role": "house",
+      "sprite": "res://assets/objects/fe8b61cf-ki-v2-buildings-nexus-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": -52.0,
+      "z": -125.0,
+      "y": 8.88
+    },
+    {
+      "id": "nexus-house-7",
+      "title": "Moduł Mieszkalny",
+      "role": "house",
+      "sprite": "res://assets/objects/fe8b61cf-ki-v2-buildings-nexus-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": 52.0,
+      "z": -125.0,
+      "y": 8.95
+    },
+    {
+      "id": "nexus-house-8",
+      "title": "Moduł Mieszkalny",
+      "role": "house",
+      "sprite": "res://assets/objects/fe8b61cf-ki-v2-buildings-nexus-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": -52.0,
+      "z": 134.0,
+      "y": 9.18
+    },
+    {
+      "id": "nexus-house-9",
+      "title": "Moduł Mieszkalny",
+      "role": "house",
+      "sprite": "res://assets/objects/fe8b61cf-ki-v2-buildings-nexus-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": 52.0,
+      "z": 134.0,
+      "y": 9.04
+    },
+    {
+      "id": "nexus-gate-0",
+      "title": "Brama Tranzytowa",
+      "role": "gate",
+      "sprite": "res://assets/objects/2a827b38-nexus-continent-transit-gate.webp",
+      "w": 420,
+      "h": 420,
+      "x": -175.0,
+      "z": 0.0,
+      "y": -0.08
+    },
+    {
+      "id": "nexus-gate-1",
+      "title": "Brama Tranzytowa",
+      "role": "gate",
+      "sprite": "res://assets/objects/2a827b38-nexus-continent-transit-gate.webp",
+      "w": 420,
+      "h": 420,
+      "x": 175.0,
+      "z": 0.0,
+      "y": 0.04
+    },
+    {
+      "id": "nexus-gate-2",
+      "title": "Brama Tranzytowa",
+      "role": "gate",
+      "sprite": "res://assets/objects/2a827b38-nexus-continent-transit-gate.webp",
+      "w": 420,
+      "h": 420,
+      "x": 0.0,
+      "z": -175.0,
+      "y": -0.13
+    },
+    {
+      "id": "nexus-gate-3",
+      "title": "Brama Tranzytowa",
+      "role": "gate",
+      "sprite": "res://assets/objects/2a827b38-nexus-continent-transit-gate.webp",
+      "w": 420,
+      "h": 420,
+      "x": 0.0,
+      "z": 175.0,
+      "y": 0.21
+    },
+    {
+      "id": "nexus-wall-0",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": -112.0,
+      "z": -168.0,
+      "y": 1.43
+    },
+    {
+      "id": "nexus-wall-1",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": -56.0,
+      "z": -172.0,
+      "y": 0.09
+    },
+    {
+      "id": "nexus-wall-2",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": 56.0,
+      "z": -172.0,
+      "y": -0.09
+    },
+    {
+      "id": "nexus-wall-3",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": 112.0,
+      "z": -168.0,
+      "y": 0.72
+    },
+    {
+      "id": "nexus-wall-4",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": -112.0,
+      "z": 168.0,
+      "y": 1.74
+    },
+    {
+      "id": "nexus-wall-5",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": -56.0,
+      "z": 172.0,
+      "y": 0.14
+    },
+    {
+      "id": "nexus-wall-6",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": 56.0,
+      "z": 172.0,
+      "y": 0.11
+    },
+    {
+      "id": "nexus-wall-7",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": 112.0,
+      "z": 168.0,
+      "y": 0.9
+    },
+    {
+      "id": "nexus-wall-8",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": -172.0,
+      "z": -108.0,
+      "y": 0.69
+    },
+    {
+      "id": "nexus-wall-9",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": -172.0,
+      "z": -54.0,
+      "y": 0.04
+    },
+    {
+      "id": "nexus-wall-10",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": -172.0,
+      "z": 54.0,
+      "y": 0.0
+    },
+    {
+      "id": "nexus-wall-11",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": -172.0,
+      "z": 108.0,
+      "y": 1.56
+    },
+    {
+      "id": "nexus-wall-12",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": 172.0,
+      "z": -108.0,
+      "y": 1.71
+    },
+    {
+      "id": "nexus-wall-13",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": 172.0,
+      "z": -54.0,
+      "y": 0.07
+    },
+    {
+      "id": "nexus-wall-14",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": 172.0,
+      "z": 54.0,
+      "y": 0.04
+    },
+    {
+      "id": "nexus-wall-15",
+      "title": "Mur Obwodu Bezpieczeństwa",
+      "role": "wall",
+      "sprite": "res://assets/objects/nexus-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": 172.0,
+      "z": 108.0,
+      "y": 1.56
+    },
+    {
+      "id": "nexus-pylon-0",
+      "title": "Pylon Energetyczny",
+      "role": "prop",
+      "sprite": "res://assets/objects/44993ea9-nexus-art-pylon.webp",
+      "w": 125,
+      "h": 384,
+      "x": -42.0,
+      "z": -42.0,
+      "y": 18.15
+    },
+    {
+      "id": "nexus-pylon-1",
+      "title": "Pylon Energetyczny",
+      "role": "prop",
+      "sprite": "res://assets/objects/44993ea9-nexus-art-pylon.webp",
+      "w": 125,
+      "h": 384,
+      "x": 42.0,
+      "z": -42.0,
+      "y": 18.07
+    },
+    {
+      "id": "nexus-pylon-2",
+      "title": "Pylon Energetyczny",
+      "role": "prop",
+      "sprite": "res://assets/objects/44993ea9-nexus-art-pylon.webp",
+      "w": 125,
+      "h": 384,
+      "x": -42.0,
+      "z": 42.0,
+      "y": 18.14
+    },
+    {
+      "id": "nexus-pylon-3",
+      "title": "Pylon Energetyczny",
+      "role": "prop",
+      "sprite": "res://assets/objects/44993ea9-nexus-art-pylon.webp",
+      "w": 125,
+      "h": 384,
+      "x": 42.0,
+      "z": 42.0,
+      "y": 17.97
+    },
+    {
+      "id": "nexus-pylon-4",
+      "title": "Pylon Energetyczny",
+      "role": "prop",
+      "sprite": "res://assets/objects/44993ea9-nexus-art-pylon.webp",
+      "w": 125,
+      "h": 384,
+      "x": -82.0,
+      "z": 0.0,
+      "y": 8.95
+    },
+    {
+      "id": "nexus-pylon-5",
+      "title": "Pylon Energetyczny",
+      "role": "prop",
+      "sprite": "res://assets/objects/44993ea9-nexus-art-pylon.webp",
+      "w": 125,
+      "h": 384,
+      "x": 82.0,
+      "z": 0.0,
+      "y": 8.93
+    },
+    {
+      "id": "nexus-pylon-6",
+      "title": "Pylon Energetyczny",
+      "role": "prop",
+      "sprite": "res://assets/objects/44993ea9-nexus-art-pylon.webp",
+      "w": 125,
+      "h": 384,
+      "x": 0.0,
+      "z": -82.0,
+      "y": 9.08
+    },
+    {
+      "id": "nexus-pylon-7",
+      "title": "Pylon Energetyczny",
+      "role": "prop",
+      "sprite": "res://assets/objects/44993ea9-nexus-art-pylon.webp",
+      "w": 125,
+      "h": 384,
+      "x": 0.0,
+      "z": 82.0,
+      "y": 9.01
+    }
+  ],
+  "npcs": [
+    {
+      "actor_id": "nexus.npc.guide",
+      "name": "LYRA-7",
+      "role": "Przewodniczka sieci",
+      "quest_mark": "!",
+      "x": -16.0,
+      "z": 20.0,
+      "y": 18.14,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus.npc.steward",
+      "name": "VEGA-3",
+      "role": "Zarządca synchronizacji",
+      "quest_mark": "?",
+      "x": 0.0,
+      "z": -54.0,
+      "y": 18.11,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus.npc.smith",
+      "name": "HEF-4",
+      "role": "Inżynier uzbrojenia",
+      "quest_mark": "!",
+      "x": -74.0,
+      "z": -20.0,
+      "y": 13.27,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus.npc.innkeeper",
+      "name": "SOLA-6",
+      "role": "Operatorka regeneracji",
+      "quest_mark": "",
+      "x": 74.0,
+      "z": -20.0,
+      "y": 10.77,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus.npc.merchant",
+      "name": "MIRA-2",
+      "role": "Operatorka wymiany",
+      "quest_mark": "?",
+      "x": -66.0,
+      "z": 56.0,
+      "y": 9.06,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus.npc.trainer",
+      "name": "KRON-9",
+      "role": "Instruktor kalibracji",
+      "quest_mark": "!",
+      "x": 70.0,
+      "z": 56.0,
+      "y": 8.7,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus.npc.keeper",
+      "name": "ARCH-5",
+      "role": "Strażnik magazynu",
+      "quest_mark": "",
+      "x": 0.0,
+      "z": 82.0,
+      "y": 9.01,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus.npc.hunter",
+      "name": "AXON",
+      "role": "Strażnik perymetru",
+      "quest_mark": "!",
+      "x": 0.0,
+      "z": 146.0,
+      "y": 9.14,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus.npc.alchemist",
+      "name": "FLUX-8",
+      "role": "Syntezator plazmy",
+      "quest_mark": "?",
+      "x": -115.0,
+      "z": 16.0,
+      "y": 8.1,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus.npc.warden",
+      "name": "AEGIS-1",
+      "role": "Dowódca obwodu",
+      "quest_mark": "",
+      "x": 115.0,
+      "z": 16.0,
+      "y": 8.08,
+      "patrol_radius": 18.0
+    }
+  ],
+  "exp_zones": [
+    {
+      "id": "nexus-exp-1",
+      "name": "Strefa Dronów i Pełzaczy (Lv. 1–3)",
+      "x": -315.0,
+      "z": -20.0,
+      "y": 4.5,
+      "radius": 52.0
+    },
+    {
+      "id": "nexus-exp-2",
+      "name": "Sektor Pająków Spawalniczych (Lv. 4–6)",
+      "x": -250.0,
+      "z": -260.0,
+      "y": 7.3,
+      "radius": 54.0
+    },
+    {
+      "id": "nexus-exp-3",
+      "name": "Bateria Wieżyczek i Nanitów (Lv. 8–10)",
+      "x": 0.0,
+      "z": -330.0,
+      "y": 8.14,
+      "radius": 55.0
+    },
+    {
+      "id": "nexus-exp-4",
+      "name": "Poligon Psów Łowców (Lv. 12–14)",
+      "x": 325.0,
+      "z": 20.0,
+      "y": 8.12,
+      "radius": 55.0
+    },
+    {
+      "id": "nexus-exp-5",
+      "name": "Obwód Latarni Plazmowych (Lv. 14–16)",
+      "x": 245.0,
+      "z": 265.0,
+      "y": 8.03,
+      "radius": 55.0
+    },
+    {
+      "id": "nexus-exp-6",
+      "name": "Rdzeń Kruków Danych (Lv. 16–18)",
+      "x": 0.0,
+      "z": 330.0,
+      "y": 7.95,
+      "radius": 58.0
+    }
+  ],
+  "monsters": [
+    {
+      "actor_id": "nexus-dron-zwiadowca",
+      "name": "Dron Zwiadowca",
+      "level": 1,
+      "hp": 56,
+      "exp_zone": "nexus-exp-1",
+      "x": -299.97,
+      "z": -14.51,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-dron-zwiadowca",
+      "name": "Dron Zwiadowca",
+      "level": 1,
+      "hp": 56,
+      "exp_zone": "nexus-exp-1",
+      "x": -315.97,
+      "z": 6.98,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-pelzacz-serwisowy",
+      "name": "Pełzacz Serwisowy",
+      "level": 2,
+      "hp": 114,
+      "exp_zone": "nexus-exp-1",
+      "x": -330.38,
+      "z": -15.6,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-pelzacz-serwisowy",
+      "name": "Pełzacz Serwisowy",
+      "level": 2,
+      "hp": 114,
+      "exp_zone": "nexus-exp-1",
+      "x": -330.08,
+      "z": -42.4,
+      "y": 4.21,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-skaner-gasienicowy",
+      "name": "Skaner Gąsienicowy",
+      "level": 4,
+      "hp": 266,
+      "exp_zone": "nexus-exp-1",
+      "x": -305.14,
+      "z": -32.6,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-skaner-gasienicowy",
+      "name": "Skaner Gąsienicowy",
+      "level": 4,
+      "hp": 266,
+      "exp_zone": "nexus-exp-2",
+      "x": -234.97,
+      "z": -254.51,
+      "y": 7.3,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-skaner-gasienicowy",
+      "name": "Skaner Gąsienicowy",
+      "level": 4,
+      "hp": 266,
+      "exp_zone": "nexus-exp-2",
+      "x": -250.97,
+      "z": -233.02,
+      "y": 7.3,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-pajak-spawalniczy",
+      "name": "Pająk Spawalniczy",
+      "level": 6,
+      "hp": 372,
+      "exp_zone": "nexus-exp-2",
+      "x": -265.38,
+      "z": -255.6,
+      "y": 7.3,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-pajak-spawalniczy",
+      "name": "Pająk Spawalniczy",
+      "level": 6,
+      "hp": 372,
+      "exp_zone": "nexus-exp-2",
+      "x": -265.08,
+      "z": -282.4,
+      "y": 7.16,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-pelzacz-serwisowy",
+      "name": "Pełzacz Serwisowy",
+      "level": 2,
+      "hp": 114,
+      "exp_zone": "nexus-exp-2",
+      "x": -240.14,
+      "z": -272.6,
+      "y": 7.3,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-wiezyczka-autonomiczna",
+      "name": "Wieżyczka Autonomiczna",
+      "level": 8,
+      "hp": 752,
+      "exp_zone": "nexus-exp-3",
+      "x": 15.03,
+      "z": -324.51,
+      "y": 8.14,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-wiezyczka-autonomiczna",
+      "name": "Wieżyczka Autonomiczna",
+      "level": 8,
+      "hp": 752,
+      "exp_zone": "nexus-exp-3",
+      "x": -0.97,
+      "z": -303.02,
+      "y": 8.14,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-roj-nanitow",
+      "name": "Rój Nanitów",
+      "level": 10,
+      "hp": 517,
+      "exp_zone": "nexus-exp-3",
+      "x": -15.38,
+      "z": -325.6,
+      "y": 8.14,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-roj-nanitow",
+      "name": "Rój Nanitów",
+      "level": 10,
+      "hp": 517,
+      "exp_zone": "nexus-exp-3",
+      "x": -15.08,
+      "z": -352.4,
+      "y": 8.05,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-pajak-spawalniczy",
+      "name": "Pająk Spawalniczy",
+      "level": 6,
+      "hp": 372,
+      "exp_zone": "nexus-exp-3",
+      "x": 9.86,
+      "z": -342.6,
+      "y": 8.14,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-pies-lowca",
+      "name": "Pies Łowca",
+      "level": 12,
+      "hp": 933,
+      "exp_zone": "nexus-exp-4",
+      "x": 340.03,
+      "z": 25.49,
+      "y": 8.12,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-pies-lowca",
+      "name": "Pies Łowca",
+      "level": 12,
+      "hp": 933,
+      "exp_zone": "nexus-exp-4",
+      "x": 324.03,
+      "z": 46.98,
+      "y": 8.12,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-straznik-rdzenia",
+      "name": "Strażnik Rdzenia",
+      "level": 14,
+      "hp": 1929,
+      "exp_zone": "nexus-exp-4",
+      "x": 309.62,
+      "z": 24.4,
+      "y": 8.12,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-straznik-rdzenia",
+      "name": "Strażnik Rdzenia",
+      "level": 14,
+      "hp": 1929,
+      "exp_zone": "nexus-exp-4",
+      "x": 309.92,
+      "z": -2.4,
+      "y": 8.05,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-roj-nanitow",
+      "name": "Rój Nanitów",
+      "level": 10,
+      "hp": 517,
+      "exp_zone": "nexus-exp-4",
+      "x": 334.86,
+      "z": 7.4,
+      "y": 8.12,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-latarnia-plazmowa",
+      "name": "Latarnia Plazmowa",
+      "level": 16,
+      "hp": 1355,
+      "exp_zone": "nexus-exp-5",
+      "x": 260.03,
+      "z": 270.49,
+      "y": 8.03,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-latarnia-plazmowa",
+      "name": "Latarnia Plazmowa",
+      "level": 16,
+      "hp": 1355,
+      "exp_zone": "nexus-exp-5",
+      "x": 244.03,
+      "z": 291.98,
+      "y": 8.03,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-straznik-rdzenia",
+      "name": "Strażnik Rdzenia",
+      "level": 14,
+      "hp": 1929,
+      "exp_zone": "nexus-exp-5",
+      "x": 229.62,
+      "z": 269.4,
+      "y": 8.03,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-pies-lowca",
+      "name": "Pies Łowca",
+      "level": 12,
+      "hp": 933,
+      "exp_zone": "nexus-exp-5",
+      "x": 229.92,
+      "z": 242.6,
+      "y": 7.99,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-latarnia-plazmowa",
+      "name": "Latarnia Plazmowa",
+      "level": 16,
+      "hp": 1355,
+      "exp_zone": "nexus-exp-5",
+      "x": 254.86,
+      "z": 252.4,
+      "y": 8.03,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-kruk-danych",
+      "name": "Kruk Danych",
+      "level": 18,
+      "hp": 1274,
+      "exp_zone": "nexus-exp-6",
+      "x": 15.03,
+      "z": 335.49,
+      "y": 7.95,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-kruk-danych",
+      "name": "Kruk Danych",
+      "level": 18,
+      "hp": 1274,
+      "exp_zone": "nexus-exp-6",
+      "x": -0.97,
+      "z": 356.98,
+      "y": 7.95,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-latarnia-plazmowa",
+      "name": "Latarnia Plazmowa",
+      "level": 16,
+      "hp": 1355,
+      "exp_zone": "nexus-exp-6",
+      "x": -15.38,
+      "z": 334.4,
+      "y": 7.95,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-straznik-rdzenia",
+      "name": "Strażnik Rdzenia",
+      "level": 14,
+      "hp": 1929,
+      "exp_zone": "nexus-exp-6",
+      "x": -15.08,
+      "z": 307.6,
+      "y": 7.93,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "nexus-kruk-danych",
+      "name": "Kruk Danych",
+      "level": 18,
+      "hp": 1274,
+      "exp_zone": "nexus-exp-6",
+      "x": 9.86,
+      "z": 317.4,
+      "y": 7.95,
+      "patrol_radius": 18.0
+    }
+  ],
+  "fauna": [
+    {
+      "actor_id": "A-09",
+      "name": "Bio-królik Hodowlany",
+      "x": 206.01,
+      "z": 302.35,
+      "y": 4.04,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-10",
+      "name": "Bio-kura Hodowlana",
+      "x": 275.06,
+      "z": -303.72,
+      "y": 4.21,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-09",
+      "name": "Bio-królik Hodowlany",
+      "x": -318.36,
+      "z": -251.9,
+      "y": 8.07,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-10",
+      "name": "Bio-kura Hodowlana",
+      "x": 279.93,
+      "z": -380.12,
+      "y": 8.1,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-09",
+      "name": "Bio-królik Hodowlany",
+      "x": 366.62,
+      "z": 357.36,
+      "y": 3.47,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-10",
+      "name": "Bio-kura Hodowlana",
+      "x": -369.76,
+      "z": 333.56,
+      "y": 8.11,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-09",
+      "name": "Bio-królik Hodowlany",
+      "x": -50.7,
+      "z": -214.77,
+      "y": 3.65,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-10",
+      "name": "Bio-kura Hodowlana",
+      "x": -41.33,
+      "z": -310.67,
+      "y": 7.96,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-09",
+      "name": "Bio-królik Hodowlany",
+      "x": 411.59,
+      "z": -147.42,
+      "y": 8.0,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-10",
+      "name": "Bio-kura Hodowlana",
+      "x": -226.78,
+      "z": -148.53,
+      "y": 4.02,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-09",
+      "name": "Bio-królik Hodowlany",
+      "x": 20.5,
+      "z": 319.7,
+      "y": 7.94,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-10",
+      "name": "Bio-kura Hodowlana",
+      "x": -300.14,
+      "z": -295.8,
+      "y": 6.87,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-09",
+      "name": "Bio-królik Hodowlany",
+      "x": -195.14,
+      "z": 76.5,
+      "y": 0.55,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-10",
+      "name": "Bio-kura Hodowlana",
+      "x": 365.83,
+      "z": -176.58,
+      "y": 8.24,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-09",
+      "name": "Bio-królik Hodowlany",
+      "x": 336.06,
+      "z": 359.62,
+      "y": 4.15,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-10",
+      "name": "Bio-kura Hodowlana",
+      "x": 260.72,
+      "z": -331.03,
+      "y": 4.26,
+      "patrol_radius": 24.0
+    }
+  ],
+  "props": [
+    {
+      "id": "nexus-exp-1-frame-0",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/54c3c2b2-nexus-continent-monolith.webp",
+      "w": 320,
+      "h": 430,
+      "x": -268.31,
+      "z": -9.56,
+      "y": 2.8
+    },
+    {
+      "id": "nexus-exp-1-frame-1",
+      "kind": "rock",
+      "sprite": "res://assets/objects/3d2c4533-nexus-art-crystal.webp",
+      "w": 310,
+      "h": 360,
+      "x": -289.37,
+      "z": 20.39,
+      "y": -0.18
+    },
+    {
+      "id": "nexus-exp-1-frame-2",
+      "kind": "rock",
+      "sprite": "res://assets/objects/4c52045f-nexus-continent-crystal-outcrop.webp",
+      "w": 290,
+      "h": 310,
+      "x": -325.44,
+      "z": 26.69,
+      "y": 3.83
+    },
+    {
+      "id": "nexus-exp-1-frame-3",
+      "kind": "rock",
+      "sprite": "res://assets/objects/914e8c5c-nexus-continent-crystals.webp",
+      "w": 260,
+      "h": 270,
+      "x": -355.39,
+      "z": 5.63,
+      "y": 3.87
+    },
+    {
+      "id": "nexus-exp-1-frame-4",
+      "kind": "rock",
+      "sprite": "res://assets/objects/9eed299f-island-3.props.rose-crystals.webp",
+      "w": 260,
+      "h": 270,
+      "x": -361.69,
+      "z": -30.44,
+      "y": 3.84
+    },
+    {
+      "id": "nexus-exp-1-frame-5",
+      "kind": "rock",
+      "sprite": "res://assets/objects/c8cfa39a-nexus-continent-cliff.webp",
+      "w": 380,
+      "h": 320,
+      "x": -340.63,
+      "z": -60.39,
+      "y": 3.33
+    },
+    {
+      "id": "nexus-exp-1-frame-6",
+      "kind": "rock",
+      "sprite": "res://assets/objects/fcf607db-nexus-continent-rocks.webp",
+      "w": 260,
+      "h": 220,
+      "x": -304.56,
+      "z": -66.69,
+      "y": 3.24
+    },
+    {
+      "id": "nexus-exp-1-frame-7",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/32b36d65-nexus-continent-ruin.webp",
+      "w": 360,
+      "h": 340,
+      "x": -274.61,
+      "z": -45.63,
+      "y": 2.87
+    },
+    {
+      "id": "nexus-exp-2-frame-0",
+      "kind": "rock",
+      "sprite": "res://assets/objects/914e8c5c-nexus-continent-crystals.webp",
+      "w": 260,
+      "h": 270,
+      "x": -201.52,
+      "z": -249.16,
+      "y": 7.27
+    },
+    {
+      "id": "nexus-exp-2-frame-1",
+      "kind": "rock",
+      "sprite": "res://assets/objects/9eed299f-island-3.props.rose-crystals.webp",
+      "w": 260,
+      "h": 270,
+      "x": -223.38,
+      "z": -218.05,
+      "y": 6.49
+    },
+    {
+      "id": "nexus-exp-2-frame-2",
+      "kind": "rock",
+      "sprite": "res://assets/objects/c8cfa39a-nexus-continent-cliff.webp",
+      "w": 380,
+      "h": 320,
+      "x": -260.84,
+      "z": -211.52,
+      "y": 7.97
+    },
+    {
+      "id": "nexus-exp-2-frame-3",
+      "kind": "rock",
+      "sprite": "res://assets/objects/fcf607db-nexus-continent-rocks.webp",
+      "w": 260,
+      "h": 220,
+      "x": -291.95,
+      "z": -233.38,
+      "y": 8.11
+    },
+    {
+      "id": "nexus-exp-2-frame-4",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/32b36d65-nexus-continent-ruin.webp",
+      "w": 360,
+      "h": 340,
+      "x": -298.48,
+      "z": -270.84,
+      "y": 4.17
+    },
+    {
+      "id": "nexus-exp-2-frame-5",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/b639b86b-nexus-continent-cave.webp",
+      "w": 390,
+      "h": 340,
+      "x": -276.62,
+      "z": -301.95,
+      "y": 7.32
+    },
+    {
+      "id": "nexus-exp-2-frame-6",
+      "kind": "camp",
+      "sprite": "res://assets/objects/711e2a5b-nexus-continent-camp.webp",
+      "w": 330,
+      "h": 270,
+      "x": -239.16,
+      "z": -308.48,
+      "y": 11.47
+    },
+    {
+      "id": "nexus-exp-2-frame-7",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/cd607c7f-island-3.props.violet-arch.webp",
+      "w": 370,
+      "h": 340,
+      "x": -208.05,
+      "z": -286.62,
+      "y": 10.94
+    },
+    {
+      "id": "nexus-exp-3-frame-0",
+      "kind": "rock",
+      "sprite": "res://assets/objects/fcf607db-nexus-continent-rocks.webp",
+      "w": 260,
+      "h": 220,
+      "x": 49.38,
+      "z": -318.96,
+      "y": 3.41
+    },
+    {
+      "id": "nexus-exp-3-frame-2",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/b639b86b-nexus-continent-cave.webp",
+      "w": 390,
+      "h": 340,
+      "x": -11.04,
+      "z": -280.62,
+      "y": 7.94
+    },
+    {
+      "id": "nexus-exp-3-frame-4",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/cd607c7f-island-3.props.violet-arch.webp",
+      "w": 370,
+      "h": 340,
+      "x": -49.38,
+      "z": -341.04,
+      "y": 7.9
+    },
+    {
+      "id": "nexus-exp-3-frame-5",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/54c3c2b2-nexus-continent-monolith.webp",
+      "w": 320,
+      "h": 430,
+      "x": -27.11,
+      "z": -372.73,
+      "y": 7.57
+    },
+    {
+      "id": "nexus-exp-3-frame-6",
+      "kind": "rock",
+      "sprite": "res://assets/objects/3d2c4533-nexus-art-crystal.webp",
+      "w": 310,
+      "h": 360,
+      "x": 11.04,
+      "z": -379.38,
+      "y": 7.53
+    },
+    {
+      "id": "nexus-exp-3-frame-7",
+      "kind": "rock",
+      "sprite": "res://assets/objects/4c52045f-nexus-continent-crystal-outcrop.webp",
+      "w": 290,
+      "h": 310,
+      "x": 42.73,
+      "z": -357.11,
+      "y": 3.6
+    },
+    {
+      "id": "nexus-exp-4-frame-0",
+      "kind": "camp",
+      "sprite": "res://assets/objects/711e2a5b-nexus-continent-camp.webp",
+      "w": 330,
+      "h": 270,
+      "x": 374.38,
+      "z": 31.04,
+      "y": 7.46
+    },
+    {
+      "id": "nexus-exp-4-frame-1",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/cd607c7f-island-3.props.violet-arch.webp",
+      "w": 370,
+      "h": 340,
+      "x": 352.11,
+      "z": 62.73,
+      "y": 7.93
+    },
+    {
+      "id": "nexus-exp-4-frame-2",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/54c3c2b2-nexus-continent-monolith.webp",
+      "w": 320,
+      "h": 430,
+      "x": 313.96,
+      "z": 69.38,
+      "y": 8.04
+    },
+    {
+      "id": "nexus-exp-4-frame-3",
+      "kind": "rock",
+      "sprite": "res://assets/objects/3d2c4533-nexus-art-crystal.webp",
+      "w": 310,
+      "h": 360,
+      "x": 282.27,
+      "z": 47.11,
+      "y": 8.09
+    },
+    {
+      "id": "nexus-exp-4-frame-4",
+      "kind": "rock",
+      "sprite": "res://assets/objects/4c52045f-nexus-continent-crystal-outcrop.webp",
+      "w": 290,
+      "h": 310,
+      "x": 275.62,
+      "z": 8.96,
+      "y": 8.08
+    },
+    {
+      "id": "nexus-exp-4-frame-5",
+      "kind": "rock",
+      "sprite": "res://assets/objects/914e8c5c-nexus-continent-crystals.webp",
+      "w": 260,
+      "h": 270,
+      "x": 297.89,
+      "z": -22.73,
+      "y": 7.52
+    },
+    {
+      "id": "nexus-exp-4-frame-6",
+      "kind": "rock",
+      "sprite": "res://assets/objects/9eed299f-island-3.props.rose-crystals.webp",
+      "w": 260,
+      "h": 270,
+      "x": 336.04,
+      "z": -29.38,
+      "y": 7.52
+    },
+    {
+      "id": "nexus-exp-4-frame-7",
+      "kind": "rock",
+      "sprite": "res://assets/objects/c8cfa39a-nexus-continent-cliff.webp",
+      "w": 380,
+      "h": 320,
+      "x": 367.73,
+      "z": -7.11,
+      "y": 7.36
+    },
+    {
+      "id": "nexus-exp-5-frame-0",
+      "kind": "rock",
+      "sprite": "res://assets/objects/3d2c4533-nexus-art-crystal.webp",
+      "w": 310,
+      "h": 360,
+      "x": 294.38,
+      "z": 276.04,
+      "y": 7.56
+    },
+    {
+      "id": "nexus-exp-5-frame-1",
+      "kind": "rock",
+      "sprite": "res://assets/objects/4c52045f-nexus-continent-crystal-outcrop.webp",
+      "w": 290,
+      "h": 310,
+      "x": 272.11,
+      "z": 307.73,
+      "y": 7.98
+    },
+    {
+      "id": "nexus-exp-5-frame-2",
+      "kind": "rock",
+      "sprite": "res://assets/objects/914e8c5c-nexus-continent-crystals.webp",
+      "w": 260,
+      "h": 270,
+      "x": 233.96,
+      "z": 314.38,
+      "y": 8.03
+    },
+    {
+      "id": "nexus-exp-5-frame-3",
+      "kind": "rock",
+      "sprite": "res://assets/objects/9eed299f-island-3.props.rose-crystals.webp",
+      "w": 260,
+      "h": 270,
+      "x": 202.27,
+      "z": 292.11,
+      "y": 4.06
+    },
+    {
+      "id": "nexus-exp-5-frame-4",
+      "kind": "rock",
+      "sprite": "res://assets/objects/c8cfa39a-nexus-continent-cliff.webp",
+      "w": 380,
+      "h": 320,
+      "x": 195.62,
+      "z": 253.96,
+      "y": 8.08
+    },
+    {
+      "id": "nexus-exp-5-frame-5",
+      "kind": "rock",
+      "sprite": "res://assets/objects/fcf607db-nexus-continent-rocks.webp",
+      "w": 260,
+      "h": 220,
+      "x": 217.89,
+      "z": 222.27,
+      "y": 6.04
+    },
+    {
+      "id": "nexus-exp-5-frame-6",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/32b36d65-nexus-continent-ruin.webp",
+      "w": 360,
+      "h": 340,
+      "x": 256.04,
+      "z": 215.62,
+      "y": 7.43
+    },
+    {
+      "id": "nexus-exp-5-frame-7",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/b639b86b-nexus-continent-cave.webp",
+      "w": 390,
+      "h": 340,
+      "x": 287.73,
+      "z": 237.89,
+      "y": 7.3
+    },
+    {
+      "id": "nexus-exp-6-frame-0",
+      "kind": "rock",
+      "sprite": "res://assets/objects/9eed299f-island-3.props.rose-crystals.webp",
+      "w": 260,
+      "h": 270,
+      "x": 52.07,
+      "z": 341.64,
+      "y": 7.58
+    },
+    {
+      "id": "nexus-exp-6-frame-3",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/32b36d65-nexus-continent-ruin.webp",
+      "w": 360,
+      "h": 340,
+      "x": -45.06,
+      "z": 358.59,
+      "y": 11.95
+    },
+    {
+      "id": "nexus-exp-6-frame-4",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/b639b86b-nexus-continent-cave.webp",
+      "w": 390,
+      "h": 340,
+      "x": -52.07,
+      "z": 318.36,
+      "y": 7.86
+    },
+    {
+      "id": "nexus-exp-6-frame-6",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/cd607c7f-island-3.props.violet-arch.webp",
+      "w": 370,
+      "h": 340,
+      "x": 11.64,
+      "z": 277.93,
+      "y": 7.51
+    },
+    {
+      "id": "nexus-city-flora-0",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b2924462-nexus-continent-crystal-tree.webp",
+      "w": 306,
+      "h": 331,
+      "x": -87.8,
+      "z": 141.43,
+      "y": 7.8
+    },
+    {
+      "id": "nexus-city-flora-1",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f42c644b-nexus-continent-violet-tree.webp",
+      "w": 297,
+      "h": 327,
+      "x": 85.0,
+      "z": 150.97,
+      "y": 2.56
+    },
+    {
+      "id": "nexus-city-flora-2",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccfdd0b1-ki-v2-objects-nexus-oak-3.webp",
+      "w": 280,
+      "h": 301,
+      "x": 20.5,
+      "z": -119.92,
+      "y": 8.59
+    },
+    {
+      "id": "nexus-city-flora-3",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccbfb72b-ki-v2-objects-nexus-tree2-0.webp",
+      "w": 272,
+      "h": 297,
+      "x": 102.41,
+      "z": -131.4,
+      "y": 3.72
+    },
+    {
+      "id": "nexus-city-flora-4",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dca04e0f-nexus-continent-violet-bush.webp",
+      "w": 182,
+      "h": 161,
+      "x": 92.85,
+      "z": 98.91,
+      "y": 8.74
+    },
+    {
+      "id": "nexus-city-flora-5",
+      "kind": "flora",
+      "sprite": "res://assets/objects/caef9d12-nexus-continent-fern.webp",
+      "w": 170,
+      "h": 144,
+      "x": 61.31,
+      "z": -93.9,
+      "y": 7.51
+    },
+    {
+      "id": "nexus-city-flora-6",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dcebeac3-ki-v2-objects-nexus-mushrooms-3.webp",
+      "w": 157,
+      "h": 148,
+      "x": -60.28,
+      "z": 91.4,
+      "y": 7.41
+    },
+    {
+      "id": "nexus-city-flora-7",
+      "kind": "tree",
+      "sprite": "res://assets/objects/42fbcaa4-nature-obj-crystal-tree.webp",
+      "w": 297,
+      "h": 323,
+      "x": -86.62,
+      "z": -85.27,
+      "y": 8.77
+    },
+    {
+      "id": "nexus-city-flora-8",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1703df02-island-3.props.violet-tree.webp",
+      "w": 289,
+      "h": 318,
+      "x": 76.33,
+      "z": 99.65,
+      "y": 8.87
+    },
+    {
+      "id": "nexus-city-flora-9",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f01a8406-ki-v2-objects-nexus-pine-0.webp",
+      "w": 233,
+      "h": 310,
+      "x": -40.51,
+      "z": 99.3,
+      "y": 8.04
+    },
+    {
+      "id": "nexus-city-flora-10",
+      "kind": "tree",
+      "sprite": "res://assets/objects/532b8a19-ki-v2-objects-nexus-tree2-2.webp",
+      "w": 272,
+      "h": 297,
+      "x": 113.14,
+      "z": 39.19,
+      "y": 7.76
+    },
+    {
+      "id": "nexus-city-flora-11",
+      "kind": "flora",
+      "sprite": "res://assets/objects/382d7c5f-ki-v2-objects-nexus-flowerbush-1.webp",
+      "w": 178,
+      "h": 157,
+      "x": -72.68,
+      "z": -74.6,
+      "y": 7.21
+    },
+    {
+      "id": "nexus-city-flora-12",
+      "kind": "flora",
+      "sprite": "res://assets/objects/38ac99c6-ki-v2-objects-nexus-fern-0.webp",
+      "w": 157,
+      "h": 136,
+      "x": -72.93,
+      "z": 93.78,
+      "y": 8.6
+    },
+    {
+      "id": "nexus-city-flora-13",
+      "kind": "flora",
+      "sprite": "res://assets/objects/b57e1841-ki-v2-objects-nexus-reeds-0.webp",
+      "w": 157,
+      "h": 165,
+      "x": 99.98,
+      "z": 25.33,
+      "y": 7.74
+    },
+    {
+      "id": "nexus-city-flora-14",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1cf54e0a-nexus-continent-cyan-tree.webp",
+      "w": 297,
+      "h": 327,
+      "x": -111.1,
+      "z": -40.55,
+      "y": 7.63
+    },
+    {
+      "id": "nexus-city-flora-15",
+      "kind": "tree",
+      "sprite": "res://assets/objects/24d5db1c-nexus-continent-silver-cypress.webp",
+      "w": 221,
+      "h": 331,
+      "x": 77.58,
+      "z": 103.78,
+      "y": 8.94
+    },
+    {
+      "id": "nexus-city-flora-16",
+      "kind": "tree",
+      "sprite": "res://assets/objects/95e297e9-ki-v2-objects-nexus-pine-1.webp",
+      "w": 233,
+      "h": 310,
+      "x": -42.77,
+      "z": 102.77,
+      "y": 7.54
+    },
+    {
+      "id": "nexus-city-flora-17",
+      "kind": "flora",
+      "sprite": "res://assets/objects/9b396bb1-nexus-continent-luminous-grass.webp",
+      "w": 178,
+      "h": 148,
+      "x": 79.71,
+      "z": -94.43,
+      "y": 8.94
+    },
+    {
+      "id": "nexus-city-flora-18",
+      "kind": "flora",
+      "sprite": "res://assets/objects/7df6af54-ki-v2-objects-nexus-flowerbush-2.webp",
+      "w": 178,
+      "h": 157,
+      "x": -42.61,
+      "z": -89.89,
+      "y": 8.53
+    },
+    {
+      "id": "nexus-city-flora-19",
+      "kind": "flora",
+      "sprite": "res://assets/objects/fce0ef4d-nexus-continent-mushrooms.webp",
+      "w": 170,
+      "h": 161,
+      "x": 122.91,
+      "z": 136.88,
+      "y": 0.18
+    },
+    {
+      "id": "nexus-city-flora-20",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b2924462-nexus-continent-crystal-tree.webp",
+      "w": 306,
+      "h": 331,
+      "x": 73.34,
+      "z": 117.32,
+      "y": 8.95
+    },
+    {
+      "id": "nexus-city-flora-21",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f42c644b-nexus-continent-violet-tree.webp",
+      "w": 297,
+      "h": 327,
+      "x": -93.8,
+      "z": 91.1,
+      "y": 8.94
+    },
+    {
+      "id": "nexus-city-flora-22",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccfdd0b1-ki-v2-objects-nexus-oak-3.webp",
+      "w": 280,
+      "h": 301,
+      "x": -53.42,
+      "z": -94.22,
+      "y": 7.15
+    },
+    {
+      "id": "nexus-city-flora-23",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccbfb72b-ki-v2-objects-nexus-tree2-0.webp",
+      "w": 272,
+      "h": 297,
+      "x": -52.4,
+      "z": -10.64,
+      "y": 18.01
+    },
+    {
+      "id": "nexus-city-flora-24",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dca04e0f-nexus-continent-violet-bush.webp",
+      "w": 182,
+      "h": 161,
+      "x": -119.64,
+      "z": 139.02,
+      "y": 0.35
+    },
+    {
+      "id": "nexus-city-flora-25",
+      "kind": "flora",
+      "sprite": "res://assets/objects/caef9d12-nexus-continent-fern.webp",
+      "w": 170,
+      "h": 144,
+      "x": 138.9,
+      "z": 76.95,
+      "y": 8.97
+    },
+    {
+      "id": "nexus-city-flora-26",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dcebeac3-ki-v2-objects-nexus-mushrooms-3.webp",
+      "w": 157,
+      "h": 148,
+      "x": -76.74,
+      "z": -110.07,
+      "y": 8.99
+    },
+    {
+      "id": "nexus-city-flora-27",
+      "kind": "tree",
+      "sprite": "res://assets/objects/42fbcaa4-nature-obj-crystal-tree.webp",
+      "w": 297,
+      "h": 323,
+      "x": -28.81,
+      "z": 90.15,
+      "y": 8.94
+    },
+    {
+      "id": "nexus-city-flora-28",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1703df02-island-3.props.violet-tree.webp",
+      "w": 289,
+      "h": 318,
+      "x": 107.39,
+      "z": 23.61,
+      "y": 7.14
+    },
+    {
+      "id": "nexus-city-flora-29",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f01a8406-ki-v2-objects-nexus-pine-0.webp",
+      "w": 233,
+      "h": 310,
+      "x": -120.99,
+      "z": 36.57,
+      "y": 8.72
+    },
+    {
+      "id": "nexus-city-flora-30",
+      "kind": "tree",
+      "sprite": "res://assets/objects/532b8a19-ki-v2-objects-nexus-tree2-2.webp",
+      "w": 272,
+      "h": 297,
+      "x": 35.05,
+      "z": -87.17,
+      "y": 9.09
+    },
+    {
+      "id": "nexus-city-flora-31",
+      "kind": "flora",
+      "sprite": "res://assets/objects/382d7c5f-ki-v2-objects-nexus-flowerbush-1.webp",
+      "w": 178,
+      "h": 157,
+      "x": 24.61,
+      "z": 98.09,
+      "y": 7.77
+    },
+    {
+      "id": "nexus-city-flora-32",
+      "kind": "flora",
+      "sprite": "res://assets/objects/38ac99c6-ki-v2-objects-nexus-fern-0.webp",
+      "w": 157,
+      "h": 136,
+      "x": 90.63,
+      "z": -70.42,
+      "y": 8.19
+    },
+    {
+      "id": "nexus-city-flora-33",
+      "kind": "flora",
+      "sprite": "res://assets/objects/b57e1841-ki-v2-objects-nexus-reeds-0.webp",
+      "w": 157,
+      "h": 165,
+      "x": 88.52,
+      "z": -134.12,
+      "y": 8.94
+    },
+    {
+      "id": "nexus-city-flora-34",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1cf54e0a-nexus-continent-cyan-tree.webp",
+      "w": 297,
+      "h": 327,
+      "x": 73.78,
+      "z": -104.43,
+      "y": 8.98
+    },
+    {
+      "id": "nexus-city-flora-35",
+      "kind": "tree",
+      "sprite": "res://assets/objects/24d5db1c-nexus-continent-silver-cypress.webp",
+      "w": 221,
+      "h": 331,
+      "x": 49.26,
+      "z": -80.26,
+      "y": 8.88
+    },
+    {
+      "id": "nexus-wild-0",
+      "kind": "tree",
+      "sprite": "res://assets/objects/42fbcaa4-nature-obj-crystal-tree.webp",
+      "w": 344,
+      "h": 373,
+      "x": -102.07,
+      "z": -209.65,
+      "y": 4.41
+    },
+    {
+      "id": "nexus-wild-1",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccbfb72b-ki-v2-objects-nexus-tree2-0.webp",
+      "w": 310,
+      "h": 339,
+      "x": 96.68,
+      "z": 318.11,
+      "y": 8.06
+    },
+    {
+      "id": "nexus-wild-2",
+      "kind": "flora",
+      "sprite": "res://assets/objects/fce0ef4d-nexus-continent-mushrooms.webp",
+      "w": 191,
+      "h": 182,
+      "x": 438.67,
+      "z": 360.55,
+      "y": 12.04
+    },
+    {
+      "id": "nexus-wild-3",
+      "kind": "rock",
+      "sprite": "res://assets/objects/c8cfa39a-nexus-continent-cliff.webp",
+      "w": 384,
+      "h": 323,
+      "x": -341.84,
+      "z": -365.13,
+      "y": 8.08
+    },
+    {
+      "id": "nexus-wild-4",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1cf54e0a-nexus-continent-cyan-tree.webp",
+      "w": 364,
+      "h": 401,
+      "x": 127.63,
+      "z": -300.36,
+      "y": 4.12
+    },
+    {
+      "id": "nexus-wild-5",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dca04e0f-nexus-continent-violet-bush.webp",
+      "w": 192,
+      "h": 170,
+      "x": -122.9,
+      "z": -341.82,
+      "y": 11.86
+    },
+    {
+      "id": "nexus-wild-6",
+      "kind": "rock",
+      "sprite": "res://assets/objects/3d2c4533-nexus-art-crystal.webp",
+      "w": 327,
+      "h": 380,
+      "x": 104.61,
+      "z": -431.41,
+      "y": 3.97
+    },
+    {
+      "id": "nexus-wild-7",
+      "kind": "camp",
+      "sprite": "res://assets/objects/711e2a5b-nexus-continent-camp.webp",
+      "w": 302,
+      "h": 247,
+      "x": -83.65,
+      "z": -239.48,
+      "y": 6.64
+    },
+    {
+      "id": "nexus-wild-8",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f01a8406-ki-v2-objects-nexus-pine-0.webp",
+      "w": 289,
+      "h": 383,
+      "x": 360.93,
+      "z": -101.2,
+      "y": 8.14
+    },
+    {
+      "id": "nexus-wild-9",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/54c3c2b2-nexus-continent-monolith.webp",
+      "w": 326,
+      "h": 438,
+      "x": 268.45,
+      "z": 203.44,
+      "y": 7.92
+    },
+    {
+      "id": "nexus-wild-10",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/b639b86b-nexus-continent-cave.webp",
+      "w": 424,
+      "h": 369,
+      "x": 196.22,
+      "z": -297.47,
+      "y": 8.07
+    },
+    {
+      "id": "nexus-wild-11",
+      "kind": "tree",
+      "sprite": "res://assets/objects/24d5db1c-nexus-continent-silver-cypress.webp",
+      "w": 272,
+      "h": 408,
+      "x": -222.93,
+      "z": 294.92,
+      "y": 7.89
+    },
+    {
+      "id": "nexus-wild-12",
+      "kind": "flora",
+      "sprite": "res://assets/objects/7df6af54-ki-v2-objects-nexus-flowerbush-2.webp",
+      "w": 203,
+      "h": 179,
+      "x": -165.86,
+      "z": -358.24,
+      "y": 11.99
+    },
+    {
+      "id": "nexus-wild-13",
+      "kind": "rock",
+      "sprite": "res://assets/objects/4c52045f-nexus-continent-crystal-outcrop.webp",
+      "w": 318,
+      "h": 340,
+      "x": -346.7,
+      "z": -274.51,
+      "y": 8.17
+    },
+    {
+      "id": "nexus-wild-14",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/cd607c7f-island-3.props.violet-arch.webp",
+      "w": 417,
+      "h": 383,
+      "x": -317.0,
+      "z": -452.01,
+      "y": 8.2
+    },
+    {
+      "id": "nexus-wild-15",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccbfb72b-ki-v2-objects-nexus-tree2-0.webp",
+      "w": 315,
+      "h": 345,
+      "x": 318.01,
+      "z": -115.29,
+      "y": 8.16
+    },
+    {
+      "id": "nexus-wild-16",
+      "kind": "flora",
+      "sprite": "res://assets/objects/fce0ef4d-nexus-continent-mushrooms.webp",
+      "w": 176,
+      "h": 167,
+      "x": 315.7,
+      "z": 83.93,
+      "y": 8.08
+    },
+    {
+      "id": "nexus-wild-17",
+      "kind": "rock",
+      "sprite": "res://assets/objects/c8cfa39a-nexus-continent-cliff.webp",
+      "w": 350,
+      "h": 294,
+      "x": 352.31,
+      "z": -462.59,
+      "y": 4.19
+    },
+    {
+      "id": "nexus-wild-18",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1cf54e0a-nexus-continent-cyan-tree.webp",
+      "w": 336,
+      "h": 370,
+      "x": 324.74,
+      "z": 316.97,
+      "y": 3.13
+    },
+    {
+      "id": "nexus-wild-19",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dca04e0f-nexus-continent-violet-bush.webp",
+      "w": 203,
+      "h": 180,
+      "x": -222.09,
+      "z": 289.64,
+      "y": 7.9
+    },
+    {
+      "id": "nexus-wild-20",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/54c3c2b2-nexus-continent-monolith.webp",
+      "w": 346,
+      "h": 465,
+      "x": 451.65,
+      "z": -185.12,
+      "y": 8.17
+    },
+    {
+      "id": "nexus-wild-21",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/b639b86b-nexus-continent-cave.webp",
+      "w": 395,
+      "h": 345,
+      "x": 417.31,
+      "z": 238.61,
+      "y": 4.0
+    },
+    {
+      "id": "nexus-wild-22",
+      "kind": "tree",
+      "sprite": "res://assets/objects/24d5db1c-nexus-continent-silver-cypress.webp",
+      "w": 241,
+      "h": 362,
+      "x": -208.5,
+      "z": -168.29,
+      "y": 4.03
+    },
+    {
+      "id": "nexus-wild-23",
+      "kind": "flora",
+      "sprite": "res://assets/objects/382d7c5f-ki-v2-objects-nexus-flowerbush-1.webp",
+      "w": 235,
+      "h": 207,
+      "x": 246.18,
+      "z": 75.53,
+      "y": 7.42
+    },
+    {
+      "id": "nexus-wild-24",
+      "kind": "rock",
+      "sprite": "res://assets/objects/3d2c4533-nexus-art-crystal.webp",
+      "w": 341,
+      "h": 396,
+      "x": -165.34,
+      "z": 77.4,
+      "y": 0.05
+    },
+    {
+      "id": "nexus-wild-25",
+      "kind": "camp",
+      "sprite": "res://assets/objects/711e2a5b-nexus-continent-camp.webp",
+      "w": 328,
+      "h": 269,
+      "x": 347.14,
+      "z": -41.55,
+      "y": 8.2
+    },
+    {
+      "id": "nexus-wild-26",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f01a8406-ki-v2-objects-nexus-pine-0.webp",
+      "w": 246,
+      "h": 327,
+      "x": 190.51,
+      "z": 289.1,
+      "y": 8.05
+    },
+    {
+      "id": "nexus-wild-27",
+      "kind": "flora",
+      "sprite": "res://assets/objects/38ac99c6-ki-v2-objects-nexus-fern-0.webp",
+      "w": 186,
+      "h": 161,
+      "x": 280.21,
+      "z": -42.51,
+      "y": 8.14
+    },
+    {
+      "id": "nexus-wild-28",
+      "kind": "rock",
+      "sprite": "res://assets/objects/c8cfa39a-nexus-continent-cliff.webp",
+      "w": 389,
+      "h": 328,
+      "x": -162.25,
+      "z": -102.01,
+      "y": 0.28
+    },
+    {
+      "id": "nexus-wild-29",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f42c644b-nexus-continent-violet-tree.webp",
+      "w": 361,
+      "h": 397,
+      "x": 114.22,
+      "z": 216.24,
+      "y": 6.35
+    },
+    {
+      "id": "nexus-wild-30",
+      "kind": "flora",
+      "sprite": "res://assets/objects/9b396bb1-nexus-continent-luminous-grass.webp",
+      "w": 186,
+      "h": 155,
+      "x": 98.29,
+      "z": -311.95,
+      "y": 8.17
+    },
+    {
+      "id": "nexus-wild-31",
+      "kind": "flora",
+      "sprite": "res://assets/objects/b57e1841-ki-v2-objects-nexus-reeds-0.webp",
+      "w": 180,
+      "h": 190,
+      "x": -25.05,
+      "z": -227.51,
+      "y": 2.67
+    },
+    {
+      "id": "nexus-wild-32",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/32b36d65-nexus-continent-ruin.webp",
+      "w": 335,
+      "h": 316,
+      "x": -368.35,
+      "z": -317.73,
+      "y": 8.16
+    },
+    {
+      "id": "nexus-wild-33",
+      "kind": "tree",
+      "sprite": "res://assets/objects/24d5db1c-nexus-continent-silver-cypress.webp",
+      "w": 247,
+      "h": 371,
+      "x": 70.17,
+      "z": -322.83,
+      "y": 8.19
+    },
+    {
+      "id": "nexus-wild-34",
+      "kind": "flora",
+      "sprite": "res://assets/objects/382d7c5f-ki-v2-objects-nexus-flowerbush-1.webp",
+      "w": 208,
+      "h": 183,
+      "x": -234.15,
+      "z": 232.42,
+      "y": 6.35
+    },
+    {
+      "id": "nexus-wild-35",
+      "kind": "rock",
+      "sprite": "res://assets/objects/3d2c4533-nexus-art-crystal.webp",
+      "w": 275,
+      "h": 320,
+      "x": -126.27,
+      "z": 374.91,
+      "y": 7.97
+    },
+    {
+      "id": "nexus-wild-36",
+      "kind": "camp",
+      "sprite": "res://assets/objects/711e2a5b-nexus-continent-camp.webp",
+      "w": 329,
+      "h": 269,
+      "x": -172.84,
+      "z": -62.7,
+      "y": 0.03
+    },
+    {
+      "id": "nexus-wild-37",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccfdd0b1-ki-v2-objects-nexus-oak-3.webp",
+      "w": 366,
+      "h": 394,
+      "x": 356.86,
+      "z": -79.54,
+      "y": 8.18
+    },
+    {
+      "id": "nexus-wild-38",
+      "kind": "flora",
+      "sprite": "res://assets/objects/38ac99c6-ki-v2-objects-nexus-fern-0.webp",
+      "w": 179,
+      "h": 155,
+      "x": 146.34,
+      "z": -397.27,
+      "y": 12.11
+    },
+    {
+      "id": "nexus-wild-39",
+      "kind": "rock",
+      "sprite": "res://assets/objects/9eed299f-island-3.props.rose-crystals.webp",
+      "w": 287,
+      "h": 298,
+      "x": 223.66,
+      "z": -400.04,
+      "y": 12.12
+    },
+    {
+      "id": "nexus-wild-40",
+      "kind": "tree",
+      "sprite": "res://assets/objects/532b8a19-ki-v2-objects-nexus-tree2-2.webp",
+      "w": 342,
+      "h": 374,
+      "x": -250.9,
+      "z": 141.77,
+      "y": 3.99
+    },
+    {
+      "id": "nexus-wild-41",
+      "kind": "flora",
+      "sprite": "res://assets/objects/b57e1841-ki-v2-objects-nexus-reeds-0.webp",
+      "w": 175,
+      "h": 184,
+      "x": -360.75,
+      "z": -34.38,
+      "y": 7.85
+    },
+    {
+      "id": "nexus-wild-42",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/32b36d65-nexus-continent-ruin.webp",
+      "w": 321,
+      "h": 303,
+      "x": 270.56,
+      "z": -124.04,
+      "y": 8.18
+    },
+    {
+      "id": "nexus-wild-43",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1703df02-island-3.props.violet-tree.webp",
+      "w": 377,
+      "h": 416,
+      "x": -302.93,
+      "z": -302.54,
+      "y": 6.29
+    },
+    {
+      "id": "nexus-wild-44",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dca04e0f-nexus-continent-violet-bush.webp",
+      "w": 202,
+      "h": 178,
+      "x": -291.06,
+      "z": 259.4,
+      "y": 4.13
+    },
+    {
+      "id": "nexus-wild-45",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/54c3c2b2-nexus-continent-monolith.webp",
+      "w": 324,
+      "h": 435,
+      "x": 354.18,
+      "z": -259.1,
+      "y": 8.24
+    },
+    {
+      "id": "nexus-wild-46",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/b639b86b-nexus-continent-cave.webp",
+      "w": 411,
+      "h": 358,
+      "x": -225.39,
+      "z": -341.89,
+      "y": 7.95
+    },
+    {
+      "id": "nexus-wild-47",
+      "kind": "tree",
+      "sprite": "res://assets/objects/24d5db1c-nexus-continent-silver-cypress.webp",
+      "w": 278,
+      "h": 417,
+      "x": -347.36,
+      "z": 99.81,
+      "y": 7.89
+    },
+    {
+      "id": "nexus-wild-48",
+      "kind": "flora",
+      "sprite": "res://assets/objects/7df6af54-ki-v2-objects-nexus-flowerbush-2.webp",
+      "w": 185,
+      "h": 163,
+      "x": 232.7,
+      "z": -407.05,
+      "y": 12.1
+    },
+    {
+      "id": "nexus-wild-49",
+      "kind": "rock",
+      "sprite": "res://assets/objects/914e8c5c-nexus-continent-crystals.webp",
+      "w": 277,
+      "h": 288,
+      "x": 268.84,
+      "z": -141.86,
+      "y": 8.16
+    },
+    {
+      "id": "nexus-wild-50",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b2924462-nexus-continent-crystal-tree.webp",
+      "w": 363,
+      "h": 393,
+      "x": -142.8,
+      "z": 230.0,
+      "y": 8.07
+    },
+    {
+      "id": "nexus-wild-51",
+      "kind": "tree",
+      "sprite": "res://assets/objects/532b8a19-ki-v2-objects-nexus-tree2-2.webp",
+      "w": 284,
+      "h": 311,
+      "x": -245.34,
+      "z": -418.96,
+      "y": 12.05
+    },
+    {
+      "id": "nexus-wild-52",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dcebeac3-ki-v2-objects-nexus-mushrooms-3.webp",
+      "w": 201,
+      "h": 190,
+      "x": 91.84,
+      "z": 303.29,
+      "y": 8.07
+    },
+    {
+      "id": "nexus-wild-53",
+      "kind": "rock",
+      "sprite": "res://assets/objects/fcf607db-nexus-continent-rocks.webp",
+      "w": 268,
+      "h": 226,
+      "x": -304.82,
+      "z": 155.9,
+      "y": 8.17
+    },
+    {
+      "id": "nexus-wild-54",
+      "kind": "tree",
+      "sprite": "res://assets/objects/24d5db1c-nexus-continent-silver-cypress.webp",
+      "w": 275,
+      "h": 412,
+      "x": 292.15,
+      "z": 349.47,
+      "y": 4.14
+    },
+    {
+      "id": "nexus-wild-55",
+      "kind": "flora",
+      "sprite": "res://assets/objects/382d7c5f-ki-v2-objects-nexus-flowerbush-1.webp",
+      "w": 211,
+      "h": 186,
+      "x": 418.49,
+      "z": -51.95,
+      "y": 7.87
+    },
+    {
+      "id": "nexus-wild-56",
+      "kind": "rock",
+      "sprite": "res://assets/objects/3d2c4533-nexus-art-crystal.webp",
+      "w": 351,
+      "h": 407,
+      "x": 72.0,
+      "z": 276.95,
+      "y": 8.03
+    },
+    {
+      "id": "nexus-wild-57",
+      "kind": "camp",
+      "sprite": "res://assets/objects/711e2a5b-nexus-continent-camp.webp",
+      "w": 347,
+      "h": 284,
+      "x": -314.59,
+      "z": 177.17,
+      "y": 4.14
+    },
+    {
+      "id": "nexus-wild-58",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccbfb72b-ki-v2-objects-nexus-tree2-0.webp",
+      "w": 311,
+      "h": 340,
+      "x": 441.9,
+      "z": 15.58,
+      "y": 7.88
+    },
+    {
+      "id": "nexus-wild-59",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dcebeac3-ki-v2-objects-nexus-mushrooms-3.webp",
+      "w": 169,
+      "h": 160,
+      "x": 364.93,
+      "z": -366.01,
+      "y": 2.28
+    },
+    {
+      "id": "nexus-wild-60",
+      "kind": "rock",
+      "sprite": "res://assets/objects/fcf607db-nexus-continent-rocks.webp",
+      "w": 291,
+      "h": 246,
+      "x": -235.05,
+      "z": 79.27,
+      "y": 3.13
+    },
+    {
+      "id": "nexus-wild-61",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1703df02-island-3.props.violet-tree.webp",
+      "w": 343,
+      "h": 379,
+      "x": 290.3,
+      "z": 185.75,
+      "y": 7.93
+    },
+    {
+      "id": "nexus-wild-62",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dca04e0f-nexus-continent-violet-bush.webp",
+      "w": 225,
+      "h": 198,
+      "x": 283.07,
+      "z": -74.68,
+      "y": 4.17
+    },
+    {
+      "id": "nexus-wild-63",
+      "kind": "rock",
+      "sprite": "res://assets/objects/3d2c4533-nexus-art-crystal.webp",
+      "w": 338,
+      "h": 392,
+      "x": -289.34,
+      "z": 89.81,
+      "y": 3.98
+    },
+    {
+      "id": "nexus-wild-64",
+      "kind": "camp",
+      "sprite": "res://assets/objects/711e2a5b-nexus-continent-camp.webp",
+      "w": 307,
+      "h": 251,
+      "x": -196.87,
+      "z": 125.63,
+      "y": 2.75
+    },
+    {
+      "id": "nexus-wild-65",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccfdd0b1-ki-v2-objects-nexus-oak-3.webp",
+      "w": 301,
+      "h": 324,
+      "x": 399.08,
+      "z": -142.69,
+      "y": 8.03
+    },
+    {
+      "id": "nexus-wild-66",
+      "kind": "flora",
+      "sprite": "res://assets/objects/7df6af54-ki-v2-objects-nexus-flowerbush-2.webp",
+      "w": 205,
+      "h": 181,
+      "x": 231.04,
+      "z": -13.19,
+      "y": 5.98
+    },
+    {
+      "id": "nexus-wild-67",
+      "kind": "rock",
+      "sprite": "res://assets/objects/9eed299f-island-3.props.rose-crystals.webp",
+      "w": 234,
+      "h": 243,
+      "x": -297.0,
+      "z": -303.03,
+      "y": 6.82
+    },
+    {
+      "id": "nexus-wild-68",
+      "kind": "tree",
+      "sprite": "res://assets/objects/42fbcaa4-nature-obj-crystal-tree.webp",
+      "w": 375,
+      "h": 407,
+      "x": -201.72,
+      "z": -321.98,
+      "y": 11.81
+    },
+    {
+      "id": "nexus-wild-69",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccbfb72b-ki-v2-objects-nexus-tree2-0.webp",
+      "w": 346,
+      "h": 379,
+      "x": -252.17,
+      "z": 107.51,
+      "y": 8.02
+    },
+    {
+      "id": "nexus-wild-70",
+      "kind": "flora",
+      "sprite": "res://assets/objects/fce0ef4d-nexus-continent-mushrooms.webp",
+      "w": 212,
+      "h": 201,
+      "x": -326.5,
+      "z": -250.56,
+      "y": 8.07
+    },
+    {
+      "id": "nexus-wild-71",
+      "kind": "rock",
+      "sprite": "res://assets/objects/c8cfa39a-nexus-continent-cliff.webp",
+      "w": 382,
+      "h": 321,
+      "x": -240.25,
+      "z": -130.87,
+      "y": 3.99
+    },
+    {
+      "id": "nexus-wild-72",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f42c644b-nexus-continent-violet-tree.webp",
+      "w": 329,
+      "h": 362,
+      "x": 148.94,
+      "z": -334.96,
+      "y": 8.03
+    },
+    {
+      "id": "nexus-wild-73",
+      "kind": "flora",
+      "sprite": "res://assets/objects/9b396bb1-nexus-continent-luminous-grass.webp",
+      "w": 216,
+      "h": 180,
+      "x": 393.5,
+      "z": -148.89,
+      "y": 8.06
+    },
+    {
+      "id": "nexus-wild-74",
+      "kind": "flora",
+      "sprite": "res://assets/objects/b57e1841-ki-v2-objects-nexus-reeds-0.webp",
+      "w": 208,
+      "h": 219,
+      "x": -293.4,
+      "z": -444.57,
+      "y": 12.16
+    },
+    {
+      "id": "nexus-wild-75",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b2924462-nexus-continent-crystal-tree.webp",
+      "w": 344,
+      "h": 373,
+      "x": -275.45,
+      "z": -323.26,
+      "y": 8.02
+    },
+    {
+      "id": "nexus-wild-76",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccbfb72b-ki-v2-objects-nexus-tree2-0.webp",
+      "w": 362,
+      "h": 396,
+      "x": -326.64,
+      "z": -157.93,
+      "y": 8.02
+    },
+    {
+      "id": "nexus-wild-77",
+      "kind": "flora",
+      "sprite": "res://assets/objects/fce0ef4d-nexus-continent-mushrooms.webp",
+      "w": 221,
+      "h": 210,
+      "x": 393.27,
+      "z": 150.46,
+      "y": 3.96
+    },
+    {
+      "id": "nexus-wild-78",
+      "kind": "rock",
+      "sprite": "res://assets/objects/c8cfa39a-nexus-continent-cliff.webp",
+      "w": 426,
+      "h": 359,
+      "x": -51.2,
+      "z": 193.38,
+      "y": 0.62
+    },
+    {
+      "id": "nexus-wild-79",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f42c644b-nexus-continent-violet-tree.webp",
+      "w": 381,
+      "h": 419,
+      "x": -53.2,
+      "z": -375.53,
+      "y": 8.01
+    },
+    {
+      "id": "nexus-wild-80",
+      "kind": "flora",
+      "sprite": "res://assets/objects/9b396bb1-nexus-continent-luminous-grass.webp",
+      "w": 217,
+      "h": 180,
+      "x": -326.22,
+      "z": 88.98,
+      "y": 7.91
+    },
+    {
+      "id": "nexus-wild-81",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/54c3c2b2-nexus-continent-monolith.webp",
+      "w": 318,
+      "h": 428,
+      "x": -154.48,
+      "z": 105.11,
+      "y": 0.36
+    },
+    {
+      "id": "nexus-wild-82",
+      "kind": "camp",
+      "sprite": "res://assets/objects/711e2a5b-nexus-continent-camp.webp",
+      "w": 360,
+      "h": 294,
+      "x": 455.83,
+      "z": 333.03,
+      "y": 8.06
+    },
+    {
+      "id": "nexus-wild-83",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccfdd0b1-ki-v2-objects-nexus-oak-3.webp",
+      "w": 342,
+      "h": 368,
+      "x": 49.19,
+      "z": -382.15,
+      "y": 4.07
+    },
+    {
+      "id": "nexus-wild-84",
+      "kind": "flora",
+      "sprite": "res://assets/objects/caef9d12-nexus-continent-fern.webp",
+      "w": 199,
+      "h": 169,
+      "x": -271.68,
+      "z": -440.09,
+      "y": 12.17
+    },
+    {
+      "id": "nexus-wild-85",
+      "kind": "rock",
+      "sprite": "res://assets/objects/914e8c5c-nexus-continent-crystals.webp",
+      "w": 261,
+      "h": 271,
+      "x": 198.61,
+      "z": -369.73,
+      "y": 8.12
+    },
+    {
+      "id": "nexus-wild-86",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b2924462-nexus-continent-crystal-tree.webp",
+      "w": 364,
+      "h": 394,
+      "x": -190.18,
+      "z": 29.03,
+      "y": 0.27
+    },
+    {
+      "id": "nexus-wild-87",
+      "kind": "tree",
+      "sprite": "res://assets/objects/95e297e9-ki-v2-objects-nexus-pine-1.webp",
+      "w": 281,
+      "h": 373,
+      "x": -207.78,
+      "z": -347.89,
+      "y": 11.96
+    },
+    {
+      "id": "nexus-wild-88",
+      "kind": "flora",
+      "sprite": "res://assets/objects/38ac99c6-ki-v2-objects-nexus-fern-0.webp",
+      "w": 166,
+      "h": 143,
+      "x": -368.54,
+      "z": 8.93,
+      "y": 3.9
+    },
+    {
+      "id": "nexus-wild-89",
+      "kind": "rock",
+      "sprite": "res://assets/objects/9eed299f-island-3.props.rose-crystals.webp",
+      "w": 278,
+      "h": 289,
+      "x": 325.56,
+      "z": 78.01,
+      "y": 8.06
+    },
+    {
+      "id": "nexus-wild-90",
+      "kind": "tree",
+      "sprite": "res://assets/objects/42fbcaa4-nature-obj-crystal-tree.webp",
+      "w": 382,
+      "h": 415,
+      "x": 348.34,
+      "z": -447.63,
+      "y": 4.18
+    },
+    {
+      "id": "nexus-wild-91",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccbfb72b-ki-v2-objects-nexus-tree2-0.webp",
+      "w": 332,
+      "h": 363,
+      "x": -193.37,
+      "z": -455.28,
+      "y": 12.2
+    },
+    {
+      "id": "nexus-wild-92",
+      "kind": "flora",
+      "sprite": "res://assets/objects/fce0ef4d-nexus-continent-mushrooms.webp",
+      "w": 191,
+      "h": 182,
+      "x": 295.21,
+      "z": -444.04,
+      "y": 8.15
+    },
+    {
+      "id": "nexus-wild-93",
+      "kind": "rock",
+      "sprite": "res://assets/objects/c8cfa39a-nexus-continent-cliff.webp",
+      "w": 424,
+      "h": 357,
+      "x": -104.91,
+      "z": -159.39,
+      "y": 0.55
+    },
+    {
+      "id": "nexus-wild-94",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1703df02-island-3.props.violet-tree.webp",
+      "w": 348,
+      "h": 384,
+      "x": 172.77,
+      "z": 74.7,
+      "y": -0.03
+    },
+    {
+      "id": "nexus-wild-95",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dca04e0f-nexus-continent-violet-bush.webp",
+      "w": 238,
+      "h": 211,
+      "x": -95.41,
+      "z": -390.48,
+      "y": 7.94
+    },
+    {
+      "id": "nexus-wild-96",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/54c3c2b2-nexus-continent-monolith.webp",
+      "w": 358,
+      "h": 482,
+      "x": -30.86,
+      "z": 220.06,
+      "y": 2.43
+    },
+    {
+      "id": "nexus-wild-97",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/cd607c7f-island-3.props.violet-arch.webp",
+      "w": 333,
+      "h": 306,
+      "x": 40.24,
+      "z": -233.17,
+      "y": 3.06
+    },
+    {
+      "id": "nexus-wild-98",
+      "kind": "tree",
+      "sprite": "res://assets/objects/95e297e9-ki-v2-objects-nexus-pine-1.webp",
+      "w": 307,
+      "h": 407,
+      "x": 240.25,
+      "z": 163.05,
+      "y": 8.04
+    },
+    {
+      "id": "nexus-wild-99",
+      "kind": "flora",
+      "sprite": "res://assets/objects/38ac99c6-ki-v2-objects-nexus-fern-0.webp",
+      "w": 201,
+      "h": 174,
+      "x": 237.36,
+      "z": 105.48,
+      "y": 7.07
+    },
+    {
+      "id": "nexus-wild-100",
+      "kind": "rock",
+      "sprite": "res://assets/objects/fcf607db-nexus-continent-rocks.webp",
+      "w": 269,
+      "h": 228,
+      "x": -329.41,
+      "z": 56.67,
+      "y": 3.83
+    },
+    {
+      "id": "nexus-wild-101",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f42c644b-nexus-continent-violet-tree.webp",
+      "w": 323,
+      "h": 355,
+      "x": -116.21,
+      "z": -194.52,
+      "y": 2.22
+    },
+    {
+      "id": "nexus-wild-102",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dca04e0f-nexus-continent-violet-bush.webp",
+      "w": 205,
+      "h": 181,
+      "x": 217.24,
+      "z": -422.42,
+      "y": 12.18
+    },
+    {
+      "id": "nexus-wild-103",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/54c3c2b2-nexus-continent-monolith.webp",
+      "w": 300,
+      "h": 404,
+      "x": 234.02,
+      "z": -104.73,
+      "y": 7.11
+    },
+    {
+      "id": "nexus-wild-104",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/b639b86b-nexus-continent-cave.webp",
+      "w": 415,
+      "h": 362,
+      "x": 155.77,
+      "z": 244.62,
+      "y": 8.15
+    },
+    {
+      "id": "nexus-wild-105",
+      "kind": "tree",
+      "sprite": "res://assets/objects/24d5db1c-nexus-continent-silver-cypress.webp",
+      "w": 281,
+      "h": 422,
+      "x": -68.68,
+      "z": -339.03,
+      "y": 11.88
+    },
+    {
+      "id": "nexus-wild-106",
+      "kind": "flora",
+      "sprite": "res://assets/objects/caef9d12-nexus-continent-fern.webp",
+      "w": 182,
+      "h": 155,
+      "x": 408.7,
+      "z": 133.67,
+      "y": 3.94
+    },
+    {
+      "id": "nexus-wild-107",
+      "kind": "rock",
+      "sprite": "res://assets/objects/914e8c5c-nexus-continent-crystals.webp",
+      "w": 292,
+      "h": 304,
+      "x": 425.63,
+      "z": 273.23,
+      "y": 8.04
+    },
+    {
+      "id": "nexus-wild-108",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b2924462-nexus-continent-crystal-tree.webp",
+      "w": 368,
+      "h": 398,
+      "x": 183.22,
+      "z": -417.78,
+      "y": 12.14
+    },
+    {
+      "id": "nexus-wild-109",
+      "kind": "tree",
+      "sprite": "res://assets/objects/95e297e9-ki-v2-objects-nexus-pine-1.webp",
+      "w": 285,
+      "h": 379,
+      "x": -294.06,
+      "z": 138.71,
+      "y": 4.16
+    },
+    {
+      "id": "nexus-wild-110",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/54c3c2b2-nexus-continent-monolith.webp",
+      "w": 289,
+      "h": 389,
+      "x": 348.51,
+      "z": 330.28,
+      "y": 4.11
+    },
+    {
+      "id": "nexus-wild-111",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/cd607c7f-island-3.props.violet-arch.webp",
+      "w": 325,
+      "h": 299,
+      "x": 300.47,
+      "z": 83.87,
+      "y": 8.11
+    },
+    {
+      "id": "nexus-wild-112",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f01a8406-ki-v2-objects-nexus-pine-0.webp",
+      "w": 304,
+      "h": 403,
+      "x": 278.0,
+      "z": -114.95,
+      "y": 4.19
+    },
+    {
+      "id": "nexus-wild-113",
+      "kind": "flora",
+      "sprite": "res://assets/objects/caef9d12-nexus-continent-fern.webp",
+      "w": 205,
+      "h": 174,
+      "x": 193.42,
+      "z": 359.02,
+      "y": 7.98
+    },
+    {
+      "id": "nexus-wild-114",
+      "kind": "rock",
+      "sprite": "res://assets/objects/914e8c5c-nexus-continent-crystals.webp",
+      "w": 271,
+      "h": 282,
+      "x": 148.84,
+      "z": -390.48,
+      "y": 12.09
+    },
+    {
+      "id": "nexus-wild-115",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b2924462-nexus-continent-crystal-tree.webp",
+      "w": 350,
+      "h": 380,
+      "x": -373.55,
+      "z": 73.05,
+      "y": 7.93
+    },
+    {
+      "id": "nexus-wild-116",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccbfb72b-ki-v2-objects-nexus-tree2-0.webp",
+      "w": 351,
+      "h": 384,
+      "x": -55.75,
+      "z": -278.8,
+      "y": 7.87
+    },
+    {
+      "id": "nexus-wild-117",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dcebeac3-ki-v2-objects-nexus-mushrooms-3.webp",
+      "w": 205,
+      "h": 194,
+      "x": -64.36,
+      "z": -423.37,
+      "y": 12.0
+    },
+    {
+      "id": "nexus-wild-118",
+      "kind": "rock",
+      "sprite": "res://assets/objects/fcf607db-nexus-continent-rocks.webp",
+      "w": 253,
+      "h": 214,
+      "x": 349.17,
+      "z": -233.47,
+      "y": 4.27
+    },
+    {
+      "id": "nexus-wild-119",
+      "kind": "tree",
+      "sprite": "res://assets/objects/24d5db1c-nexus-continent-silver-cypress.webp",
+      "w": 235,
+      "h": 353,
+      "x": 461.19,
+      "z": 32.12,
+      "y": 7.8
+    },
+    {
+      "id": "nexus-wild-120",
+      "kind": "flora",
+      "sprite": "res://assets/objects/382d7c5f-ki-v2-objects-nexus-flowerbush-1.webp",
+      "w": 190,
+      "h": 168,
+      "x": 446.4,
+      "z": 212.93,
+      "y": 3.94
+    },
+    {
+      "id": "nexus-wild-121",
+      "kind": "rock",
+      "sprite": "res://assets/objects/4c52045f-nexus-continent-crystal-outcrop.webp",
+      "w": 329,
+      "h": 352,
+      "x": 394.55,
+      "z": 144.28,
+      "y": 3.94
+    },
+    {
+      "id": "nexus-wild-122",
+      "kind": "tree",
+      "sprite": "res://assets/objects/42fbcaa4-nature-obj-crystal-tree.webp",
+      "w": 341,
+      "h": 370,
+      "x": -379.35,
+      "z": 348.36,
+      "y": 8.09
+    },
+    {
+      "id": "nexus-wild-123",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccbfb72b-ki-v2-objects-nexus-tree2-0.webp",
+      "w": 294,
+      "h": 321,
+      "x": -329.96,
+      "z": -439.91,
+      "y": 8.17
+    },
+    {
+      "id": "nexus-wild-124",
+      "kind": "rock",
+      "sprite": "res://assets/objects/914e8c5c-nexus-continent-crystals.webp",
+      "w": 239,
+      "h": 249,
+      "x": -146.24,
+      "z": 110.83,
+      "y": 0.31
+    },
+    {
+      "id": "nexus-wild-125",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b2924462-nexus-continent-crystal-tree.webp",
+      "w": 374,
+      "h": 405,
+      "x": 290.72,
+      "z": 352.29,
+      "y": 4.13
+    },
+    {
+      "id": "nexus-wild-126",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccbfb72b-ki-v2-objects-nexus-tree2-0.webp",
+      "w": 358,
+      "h": 392,
+      "x": 298.63,
+      "z": 117.21,
+      "y": 8.02
+    },
+    {
+      "id": "nexus-wild-127",
+      "kind": "flora",
+      "sprite": "res://assets/objects/fce0ef4d-nexus-continent-mushrooms.webp",
+      "w": 190,
+      "h": 181,
+      "x": 139.74,
+      "z": 160.34,
+      "y": 3.34
+    },
+    {
+      "id": "nexus-wild-128",
+      "kind": "rock",
+      "sprite": "res://assets/objects/fcf607db-nexus-continent-rocks.webp",
+      "w": 279,
+      "h": 236,
+      "x": -207.49,
+      "z": -146.68,
+      "y": 3.96
+    },
+    {
+      "id": "nexus-wild-129",
+      "kind": "tree",
+      "sprite": "res://assets/objects/24d5db1c-nexus-continent-silver-cypress.webp",
+      "w": 295,
+      "h": 443,
+      "x": 460.05,
+      "z": -53.2,
+      "y": 11.91
+    },
+    {
+      "id": "nexus-wild-130",
+      "kind": "flora",
+      "sprite": "res://assets/objects/382d7c5f-ki-v2-objects-nexus-flowerbush-1.webp",
+      "w": 217,
+      "h": 192,
+      "x": 53.57,
+      "z": -387.16,
+      "y": 4.07
+    },
+    {
+      "id": "nexus-wild-131",
+      "kind": "rock",
+      "sprite": "res://assets/objects/4c52045f-nexus-continent-crystal-outcrop.webp",
+      "w": 256,
+      "h": 274,
+      "x": -376.44,
+      "z": -49.22,
+      "y": 7.9
+    },
+    {
+      "id": "nexus-wild-132",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/cd607c7f-island-3.props.violet-arch.webp",
+      "w": 365,
+      "h": 336,
+      "x": -333.14,
+      "z": 45.76,
+      "y": 3.81
+    },
+    {
+      "id": "nexus-wild-133",
+      "kind": "tree",
+      "sprite": "res://assets/objects/95e297e9-ki-v2-objects-nexus-pine-1.webp",
+      "w": 302,
+      "h": 401,
+      "x": 385.22,
+      "z": -74.3,
+      "y": 8.06
+    },
+    {
+      "id": "nexus-wild-134",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dcebeac3-ki-v2-objects-nexus-mushrooms-3.webp",
+      "w": 180,
+      "h": 170,
+      "x": 166.86,
+      "z": 220.02,
+      "y": 8.08
+    },
+    {
+      "id": "nexus-wild-135",
+      "kind": "rock",
+      "sprite": "res://assets/objects/fcf607db-nexus-continent-rocks.webp",
+      "w": 243,
+      "h": 206,
+      "x": 352.49,
+      "z": 263.66,
+      "y": 4.05
+    },
+    {
+      "id": "nexus-wild-136",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1703df02-island-3.props.violet-tree.webp",
+      "w": 300,
+      "h": 331,
+      "x": 267.48,
+      "z": 73.42,
+      "y": 8.08
+    },
+    {
+      "id": "nexus-wild-137",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dca04e0f-nexus-continent-violet-bush.webp",
+      "w": 206,
+      "h": 182,
+      "x": 387.66,
+      "z": 324.35,
+      "y": 8.08
+    },
+    {
+      "id": "nexus-wild-138",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/54c3c2b2-nexus-continent-monolith.webp",
+      "w": 364,
+      "h": 489,
+      "x": 260.72,
+      "z": -412.56,
+      "y": 8.08
+    },
+    {
+      "id": "nexus-wild-139",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/b639b86b-nexus-continent-cave.webp",
+      "w": 400,
+      "h": 348,
+      "x": 423.92,
+      "z": 49.47,
+      "y": 7.78
+    },
+    {
+      "id": "nexus-wild-140",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ccfdd0b1-ki-v2-objects-nexus-oak-3.webp",
+      "w": 364,
+      "h": 392,
+      "x": -89.56,
+      "z": -393.64,
+      "y": 7.95
+    },
+    {
+      "id": "nexus-wild-141",
+      "kind": "flora",
+      "sprite": "res://assets/objects/7df6af54-ki-v2-objects-nexus-flowerbush-2.webp",
+      "w": 186,
+      "h": 163,
+      "x": 370.99,
+      "z": -436.31,
+      "y": 4.18
+    },
+    {
+      "id": "nexus-wild-142",
+      "kind": "rock",
+      "sprite": "res://assets/objects/914e8c5c-nexus-continent-crystals.webp",
+      "w": 265,
+      "h": 275,
+      "x": 348.0,
+      "z": -142.4,
+      "y": 8.21
+    },
+    {
+      "id": "nexus-wild-143",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1cf54e0a-nexus-continent-cyan-tree.webp",
+      "w": 381,
+      "h": 419,
+      "x": 317.61,
+      "z": -390.22,
+      "y": 8.17
+    },
+    {
+      "id": "nexus-wild-144",
+      "kind": "tree",
+      "sprite": "res://assets/objects/532b8a19-ki-v2-objects-nexus-tree2-2.webp",
+      "w": 360,
+      "h": 394,
+      "x": 282.95,
+      "z": -78.13,
+      "y": 4.19
+    },
+    {
+      "id": "nexus-wild-145",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dcebeac3-ki-v2-objects-nexus-mushrooms-3.webp",
+      "w": 201,
+      "h": 190,
+      "x": 251.36,
+      "z": -134.8,
+      "y": 8.13
+    },
+    {
+      "id": "nexus-wild-146",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/32b36d65-nexus-continent-ruin.webp",
+      "w": 363,
+      "h": 343,
+      "x": -157.32,
+      "z": 324.71,
+      "y": 7.71
+    },
+    {
+      "id": "nexus-wild-147",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1703df02-island-3.props.violet-tree.webp",
+      "w": 324,
+      "h": 358,
+      "x": 203.73,
+      "z": -327.44,
+      "y": 8.07
+    },
+    {
+      "id": "nexus-wild-148",
+      "kind": "flora",
+      "sprite": "res://assets/objects/7df6af54-ki-v2-objects-nexus-flowerbush-2.webp",
+      "w": 233,
+      "h": 205,
+      "x": -347.02,
+      "z": -411.4,
+      "y": 8.05
+    },
+    {
+      "id": "nexus-wild-149",
+      "kind": "rock",
+      "sprite": "res://assets/objects/914e8c5c-nexus-continent-crystals.webp",
+      "w": 292,
+      "h": 303,
+      "x": -133.56,
+      "z": 213.66,
+      "y": 7.48
+    },
+    {
+      "id": "nexus-wild-150",
+      "kind": "tree",
+      "sprite": "res://assets/objects/42fbcaa4-nature-obj-crystal-tree.webp",
+      "w": 391,
+      "h": 425,
+      "x": 61.46,
+      "z": -392.84,
+      "y": 4.06
+    },
+    {
+      "id": "nexus-wild-151",
+      "kind": "tree",
+      "sprite": "res://assets/objects/532b8a19-ki-v2-objects-nexus-tree2-2.webp",
+      "w": 336,
+      "h": 367,
+      "x": -244.39,
+      "z": -155.0,
+      "y": 3.97
+    },
+    {
+      "id": "nexus-wild-152",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dcebeac3-ki-v2-objects-nexus-mushrooms-3.webp",
+      "w": 207,
+      "h": 196,
+      "x": 262.41,
+      "z": -327.73,
+      "y": 4.26
+    },
+    {
+      "id": "nexus-wild-153",
+      "kind": "rock",
+      "sprite": "res://assets/objects/fcf607db-nexus-continent-rocks.webp",
+      "w": 256,
+      "h": 216,
+      "x": -247.92,
+      "z": -358.88,
+      "y": 8.07
+    },
+    {
+      "id": "nexus-wild-154",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1703df02-island-3.props.violet-tree.webp",
+      "w": 333,
+      "h": 368,
+      "x": 445.57,
+      "z": -260.21,
+      "y": 8.16
+    },
+    {
+      "id": "nexus-wild-155",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dca04e0f-nexus-continent-violet-bush.webp",
+      "w": 205,
+      "h": 181,
+      "x": 253.36,
+      "z": -412.17,
+      "y": 12.09
+    },
+    {
+      "id": "nexus-wild-156",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/54c3c2b2-nexus-continent-monolith.webp",
+      "w": 306,
+      "h": 412,
+      "x": 375.03,
+      "z": 166.35,
+      "y": 8.01
+    },
+    {
+      "id": "nexus-wild-157",
+      "kind": "camp",
+      "sprite": "res://assets/objects/711e2a5b-nexus-continent-camp.webp",
+      "w": 342,
+      "h": 280,
+      "x": -148.01,
+      "z": -294.22,
+      "y": 11.74
+    },
+    {
+      "id": "nexus-wild-158",
+      "kind": "tree",
+      "sprite": "res://assets/objects/95e297e9-ki-v2-objects-nexus-pine-1.webp",
+      "w": 282,
+      "h": 374,
+      "x": -245.8,
+      "z": -366.12,
+      "y": 8.09
+    },
+    {
+      "id": "nexus-wild-159",
+      "kind": "flora",
+      "sprite": "res://assets/objects/38ac99c6-ki-v2-objects-nexus-fern-0.webp",
+      "w": 164,
+      "h": 142,
+      "x": -375.74,
+      "z": -434.03,
+      "y": 8.12
+    },
+    {
+      "id": "nexus-wild-160",
+      "kind": "rock",
+      "sprite": "res://assets/objects/c8cfa39a-nexus-continent-cliff.webp",
+      "w": 397,
+      "h": 334,
+      "x": 263.96,
+      "z": -293.7,
+      "y": 4.19
+    },
+    {
+      "id": "nexus-wild-161",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1cf54e0a-nexus-continent-cyan-tree.webp",
+      "w": 325,
+      "h": 358,
+      "x": 385.93,
+      "z": 226.24,
+      "y": 4.06
+    },
+    {
+      "id": "nexus-wild-162",
+      "kind": "flora",
+      "sprite": "res://assets/objects/9b396bb1-nexus-continent-luminous-grass.webp",
+      "w": 230,
+      "h": 191,
+      "x": -324.36,
+      "z": 89.43,
+      "y": 7.92
+    },
+    {
+      "id": "nexus-wild-163",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/54c3c2b2-nexus-continent-monolith.webp",
+      "w": 296,
+      "h": 398,
+      "x": 371.0,
+      "z": -210.2,
+      "y": 8.17
+    },
+    {
+      "id": "nexus-wild-164",
+      "kind": "camp",
+      "sprite": "res://assets/objects/711e2a5b-nexus-continent-camp.webp",
+      "w": 309,
+      "h": 253,
+      "x": 300.84,
+      "z": 77.12,
+      "y": 8.1
+    },
+    {
+      "id": "nexus-wild-165",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f01a8406-ki-v2-objects-nexus-pine-0.webp",
+      "w": 247,
+      "h": 328,
+      "x": 428.48,
+      "z": -317.48,
+      "y": 8.09
+    },
+    {
+      "id": "nexus-wild-166",
+      "kind": "flora",
+      "sprite": "res://assets/objects/caef9d12-nexus-continent-fern.webp",
+      "w": 205,
+      "h": 174,
+      "x": 446.83,
+      "z": 252.91,
+      "y": 3.93
+    },
+    {
+      "id": "nexus-wild-167",
+      "kind": "rock",
+      "sprite": "res://assets/objects/c8cfa39a-nexus-continent-cliff.webp",
+      "w": 355,
+      "h": 298,
+      "x": -318.17,
+      "z": 104.32,
+      "y": 7.97
+    },
+    {
+      "id": "nexus-wild-168",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1cf54e0a-nexus-continent-cyan-tree.webp",
+      "w": 383,
+      "h": 422,
+      "x": 395.16,
+      "z": -43.08,
+      "y": 7.98
+    },
+    {
+      "id": "nexus-wild-169",
+      "kind": "tree",
+      "sprite": "res://assets/objects/532b8a19-ki-v2-objects-nexus-tree2-2.webp",
+      "w": 354,
+      "h": 387,
+      "x": -337.61,
+      "z": -115.48,
+      "y": 4.01
+    },
+    {
+      "id": "nexus-wild-170",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dcebeac3-ki-v2-objects-nexus-mushrooms-3.webp",
+      "w": 184,
+      "h": 174,
+      "x": 128.89,
+      "z": -282.0,
+      "y": 4.06
+    },
+    {
+      "id": "nexus-wild-171",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/32b36d65-nexus-continent-ruin.webp",
+      "w": 407,
+      "h": 384,
+      "x": 415.3,
+      "z": 328.96,
+      "y": 8.08
+    },
+    {
+      "id": "nexus-wild-172",
+      "kind": "tree",
+      "sprite": "res://assets/objects/24d5db1c-nexus-continent-silver-cypress.webp",
+      "w": 232,
+      "h": 348,
+      "x": -162.78,
+      "z": 246.84,
+      "y": 8.05
+    },
+    {
+      "id": "nexus-wild-173",
+      "kind": "flora",
+      "sprite": "res://assets/objects/7df6af54-ki-v2-objects-nexus-flowerbush-2.webp",
+      "w": 189,
+      "h": 166,
+      "x": 457.2,
+      "z": -207.84,
+      "y": 12.22
+    },
+    {
+      "id": "nexus-wild-174",
+      "kind": "rock",
+      "sprite": "res://assets/objects/4c52045f-nexus-continent-crystal-outcrop.webp",
+      "w": 316,
+      "h": 338,
+      "x": 429.15,
+      "z": -371.76,
+      "y": 8.13
+    },
+    {
+      "id": "nexus-wild-175",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/cd607c7f-island-3.props.violet-arch.webp",
+      "w": 345,
+      "h": 317,
+      "x": 395.61,
+      "z": -269.39,
+      "y": 8.16
+    },
+    {
+      "id": "nexus-wild-176",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f01a8406-ki-v2-objects-nexus-pine-0.webp",
+      "w": 283,
+      "h": 376,
+      "x": -340.73,
+      "z": 283.45,
+      "y": 8.07
+    },
+    {
+      "id": "nexus-wild-177",
+      "kind": "flora",
+      "sprite": "res://assets/objects/caef9d12-nexus-continent-fern.webp",
+      "w": 182,
+      "h": 155,
+      "x": 176.77,
+      "z": -356.9,
+      "y": 12.03
+    },
+    {
+      "id": "nexus-wild-178",
+      "kind": "rock",
+      "sprite": "res://assets/objects/914e8c5c-nexus-continent-crystals.webp",
+      "w": 232,
+      "h": 241,
+      "x": -163.16,
+      "z": -158.86,
+      "y": 1.61
+    },
+    {
+      "id": "nexus-wild-179",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b2924462-nexus-continent-crystal-tree.webp",
+      "w": 350,
+      "h": 380,
+      "x": -286.07,
+      "z": 199.54,
+      "y": 4.29
+    },
+    {
+      "id": "nexus-wild-180",
+      "kind": "tree",
+      "sprite": "res://assets/objects/95e297e9-ki-v2-objects-nexus-pine-1.webp",
+      "w": 304,
+      "h": 404,
+      "x": -85.42,
+      "z": -327.94,
+      "y": 11.89
+    },
+    {
+      "id": "nexus-wild-181",
+      "kind": "flora",
+      "sprite": "res://assets/objects/38ac99c6-ki-v2-objects-nexus-fern-0.webp",
+      "w": 205,
+      "h": 177,
+      "x": -120.43,
+      "z": -312.19,
+      "y": 11.86
+    },
+    {
+      "id": "nexus-wild-182",
+      "kind": "rock",
+      "sprite": "res://assets/objects/fcf607db-nexus-continent-rocks.webp",
+      "w": 267,
+      "h": 226,
+      "x": -145.87,
+      "z": 311.57,
+      "y": 7.68
+    },
+    {
+      "id": "nexus-wild-183",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f42c644b-nexus-continent-violet-tree.webp",
+      "w": 373,
+      "h": 410,
+      "x": 445.03,
+      "z": -129.95,
+      "y": 11.97
+    },
+    {
+      "id": "nexus-wild-184",
+      "kind": "flora",
+      "sprite": "res://assets/objects/9b396bb1-nexus-continent-luminous-grass.webp",
+      "w": 187,
+      "h": 156,
+      "x": 301.04,
+      "z": -95.93,
+      "y": 4.19
+    },
+    {
+      "id": "nexus-wild-185",
+      "kind": "flora",
+      "sprite": "res://assets/objects/b57e1841-ki-v2-objects-nexus-reeds-0.webp",
+      "w": 180,
+      "h": 189,
+      "x": 459.82,
+      "z": 226.66,
+      "y": 3.93
+    },
+    {
+      "id": "nexus-wild-186",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/32b36d65-nexus-continent-ruin.webp",
+      "w": 382,
+      "h": 361,
+      "x": 225.93,
+      "z": -393.35,
+      "y": 8.11
+    },
+    {
+      "id": "nexus-wild-187",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1703df02-island-3.props.violet-tree.webp",
+      "w": 303,
+      "h": 334,
+      "x": 119.51,
+      "z": 142.12,
+      "y": 0.38
+    },
+    {
+      "id": "nexus-wild-188",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dca04e0f-nexus-continent-violet-bush.webp",
+      "w": 219,
+      "h": 193,
+      "x": -305.61,
+      "z": 179.72,
+      "y": 4.18
+    },
+    {
+      "id": "nexus-wild-189",
+      "kind": "rock",
+      "sprite": "res://assets/objects/4c52045f-nexus-continent-crystal-outcrop.webp",
+      "w": 270,
+      "h": 289,
+      "x": -316.95,
+      "z": -446.83,
+      "y": 8.18
+    },
+    {
+      "id": "nexus-wild-190",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/cd607c7f-island-3.props.violet-arch.webp",
+      "w": 381,
+      "h": 350,
+      "x": 131.35,
+      "z": -441.03,
+      "y": 8.0
+    },
+    {
+      "id": "nexus-wild-191",
+      "kind": "tree",
+      "sprite": "res://assets/objects/95e297e9-ki-v2-objects-nexus-pine-1.webp",
+      "w": 242,
+      "h": 321,
+      "x": -268.9,
+      "z": -203.22,
+      "y": 7.96
+    },
+    {
+      "id": "nexus-wild-192",
+      "kind": "flora",
+      "sprite": "res://assets/objects/38ac99c6-ki-v2-objects-nexus-fern-0.webp",
+      "w": 201,
+      "h": 173,
+      "x": 162.3,
+      "z": 115.17,
+      "y": 1.22
+    },
+    {
+      "id": "nexus-wild-193",
+      "kind": "rock",
+      "sprite": "res://assets/objects/c8cfa39a-nexus-continent-cliff.webp",
+      "w": 431,
+      "h": 363,
+      "x": -184.59,
+      "z": 210.91,
+      "y": 8.14
+    },
+    {
+      "id": "nexus-wild-194",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1cf54e0a-nexus-continent-cyan-tree.webp",
+      "w": 315,
+      "h": 347,
+      "x": 428.83,
+      "z": -44.88,
+      "y": 11.81
+    },
+    {
+      "id": "nexus-wild-195",
+      "kind": "flora",
+      "sprite": "res://assets/objects/9b396bb1-nexus-continent-luminous-grass.webp",
+      "w": 224,
+      "h": 186,
+      "x": 238.38,
+      "z": -18.84,
+      "y": 6.95
+    },
+    {
+      "id": "nexus-wild-196",
+      "kind": "flora",
+      "sprite": "res://assets/objects/b57e1841-ki-v2-objects-nexus-reeds-0.webp",
+      "w": 163,
+      "h": 171,
+      "x": 461.28,
+      "z": -153.94,
+      "y": 12.05
+    },
+    {
+      "id": "nexus-wild-197",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/32b36d65-nexus-continent-ruin.webp",
+      "w": 399,
+      "h": 377,
+      "x": 50.27,
+      "z": -311.41,
+      "y": 4.0
+    },
+    {
+      "id": "nexus-wild-198",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1703df02-island-3.props.violet-tree.webp",
+      "w": 370,
+      "h": 408,
+      "x": 441.23,
+      "z": -297.12,
+      "y": 8.09
+    },
+    {
+      "id": "nexus-wild-199",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dca04e0f-nexus-continent-violet-bush.webp",
+      "w": 201,
+      "h": 178,
+      "x": 280.27,
+      "z": -86.01,
+      "y": 4.21
+    },
+    {
+      "id": "nexus-wild-200",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/54c3c2b2-nexus-continent-monolith.webp",
+      "w": 355,
+      "h": 477,
+      "x": -223.01,
+      "z": 26.15,
+      "y": -0.14
+    },
+    {
+      "id": "nexus-wild-201",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/b639b86b-nexus-continent-cave.webp",
+      "w": 409,
+      "h": 356,
+      "x": 204.87,
+      "z": -63.39,
+      "y": 2.38
+    },
+    {
+      "id": "nexus-wild-202",
+      "kind": "tree",
+      "sprite": "res://assets/objects/24d5db1c-nexus-continent-silver-cypress.webp",
+      "w": 265,
+      "h": 397,
+      "x": -266.86,
+      "z": -167.49,
+      "y": 7.95
+    },
+    {
+      "id": "nexus-wild-203",
+      "kind": "flora",
+      "sprite": "res://assets/objects/caef9d12-nexus-continent-fern.webp",
+      "w": 187,
+      "h": 159,
+      "x": -256.58,
+      "z": 231.41,
+      "y": 8.12
+    },
+    {
+      "id": "nexus-wild-204",
+      "kind": "rock",
+      "sprite": "res://assets/objects/914e8c5c-nexus-continent-crystals.webp",
+      "w": 283,
+      "h": 294,
+      "x": 285.86,
+      "z": 348.48,
+      "y": 4.12
+    },
+    {
+      "id": "nexus-wild-205",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1cf54e0a-nexus-continent-cyan-tree.webp",
+      "w": 365,
+      "h": 401,
+      "x": -32.86,
+      "z": -196.97,
+      "y": 0.63
+    },
+    {
+      "id": "nexus-wild-206",
+      "kind": "flora",
+      "sprite": "res://assets/objects/dca04e0f-nexus-continent-violet-bush.webp",
+      "w": 233,
+      "h": 206,
+      "x": -294.8,
+      "z": -108.16,
+      "y": 4.01
+    },
+    {
+      "id": "nexus-wild-207",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/54c3c2b2-nexus-continent-monolith.webp",
+      "w": 312,
+      "h": 419,
+      "x": 360.59,
+      "z": -458.6,
+      "y": 4.18
+    },
+    {
+      "id": "nexus-wild-208",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/b639b86b-nexus-continent-cave.webp",
+      "w": 374,
+      "h": 326,
+      "x": 397.0,
+      "z": -326.62,
+      "y": 8.12
+    },
+    {
+      "id": "nexus-wild-209",
+      "kind": "tree",
+      "sprite": "res://assets/objects/24d5db1c-nexus-continent-silver-cypress.webp",
+      "w": 240,
+      "h": 361,
+      "x": -275.45,
+      "z": 172.81,
+      "y": 4.25
+    }
+  ]
+}

@@ -1,0 +1,3859 @@
+{
+  "land_id": "verdant",
+  "world_size": 1024.0,
+  "grid_size": 512,
+  "safe_city_radius": 180.0,
+  "buildings": [
+    {
+      "id": "verdant-fountain",
+      "title": "Źródło Pierwszego Oddechu (Fontanna Rynku)",
+      "role": "landmark",
+      "sprite": "res://assets/objects/7c9c601a-verdantia-extra-spring.webp",
+      "w": 430,
+      "h": 355,
+      "x": 0.0,
+      "z": 0.0,
+      "y": 7.6
+    },
+    {
+      "id": "verdant-hall",
+      "title": "Dom Zgromadzeń",
+      "role": "hall",
+      "sprite": "res://assets/objects/f1c31d72-verdant-leaf-hall.webp",
+      "w": 590,
+      "h": 586,
+      "x": 0.0,
+      "z": -68.0,
+      "y": 7.65
+    },
+    {
+      "id": "verdant-forge",
+      "title": "Korzenna Kuźnia Pradawnych Rytów",
+      "role": "landmark",
+      "sprite": "res://assets/objects/e4e9d345-ki-v2-landmarks-verdant-forge.webp",
+      "w": 660,
+      "h": 720,
+      "x": -125.0,
+      "z": -95.0,
+      "y": 16.93
+    },
+    {
+      "id": "verdant-cottage",
+      "title": "Dom Podwójnego Echa",
+      "role": "landmark",
+      "sprite": "res://assets/objects/7adc64fb-ki-v2-landmarks-verdant-cottage.webp",
+      "w": 620,
+      "h": 650,
+      "x": 125.0,
+      "z": -95.0,
+      "y": 4.93
+    },
+    {
+      "id": "verdant-smithy",
+      "title": "Kuźnia Korzeni",
+      "role": "smithy",
+      "sprite": "res://assets/objects/b71a5ab2-verdant-leaf-smithy.webp",
+      "w": 580,
+      "h": 580,
+      "x": -82.0,
+      "z": -22.0,
+      "y": 7.88
+    },
+    {
+      "id": "verdant-inn",
+      "title": "Karczma Pod Liściem",
+      "role": "inn",
+      "sprite": "res://assets/objects/8f5e282c-verdant-leaf-inn.webp",
+      "w": 580,
+      "h": 570,
+      "x": 82.0,
+      "z": -22.0,
+      "y": 7.5
+    },
+    {
+      "id": "verdant-shop",
+      "title": "Zielony Targ",
+      "role": "shop",
+      "sprite": "res://assets/objects/5a272efe-verdant-leaf-shop.webp",
+      "w": 580,
+      "h": 540,
+      "x": -72.0,
+      "z": 48.0,
+      "y": 7.62
+    },
+    {
+      "id": "verdant-arena",
+      "title": "Krąg Łowców",
+      "role": "arena",
+      "sprite": "res://assets/objects/a5819767-verdant-leaf-arena.webp",
+      "w": 590,
+      "h": 576,
+      "x": 76.0,
+      "z": 48.0,
+      "y": 7.38
+    },
+    {
+      "id": "verdant-depot",
+      "title": "Magazyn Przystani",
+      "role": "depot",
+      "sprite": "res://assets/objects/959575c7-verdant-leaf-depot.webp",
+      "w": 580,
+      "h": 578,
+      "x": 0.0,
+      "z": 128.0,
+      "y": 7.68
+    },
+    {
+      "id": "verdant-house-0",
+      "title": "Dom Ogrodowy",
+      "role": "house",
+      "sprite": "res://assets/objects/19d3eb50-ki-v2-buildings-verdant-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": -138.0,
+      "z": -45.0,
+      "y": 14.19
+    },
+    {
+      "id": "verdant-house-1",
+      "title": "Dom Ogrodowy",
+      "role": "house",
+      "sprite": "res://assets/objects/19d3eb50-ki-v2-buildings-verdant-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": -142.0,
+      "z": 28.0,
+      "y": 8.63
+    },
+    {
+      "id": "verdant-house-2",
+      "title": "Dom Ogrodowy",
+      "role": "house",
+      "sprite": "res://assets/objects/19d3eb50-ki-v2-buildings-verdant-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": -125.0,
+      "z": 108.0,
+      "y": -1.68
+    },
+    {
+      "id": "verdant-house-3",
+      "title": "Dom Ogrodowy",
+      "role": "house",
+      "sprite": "res://assets/objects/19d3eb50-ki-v2-buildings-verdant-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": 138.0,
+      "z": -45.0,
+      "y": 7.36
+    },
+    {
+      "id": "verdant-house-4",
+      "title": "Dom Ogrodowy",
+      "role": "house",
+      "sprite": "res://assets/objects/19d3eb50-ki-v2-buildings-verdant-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": 142.0,
+      "z": 28.0,
+      "y": 7.59
+    },
+    {
+      "id": "verdant-house-5",
+      "title": "Dom Ogrodowy",
+      "role": "house",
+      "sprite": "res://assets/objects/19d3eb50-ki-v2-buildings-verdant-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": 125.0,
+      "z": 108.0,
+      "y": 1.98
+    },
+    {
+      "id": "verdant-house-6",
+      "title": "Dom Ogrodowy",
+      "role": "house",
+      "sprite": "res://assets/objects/19d3eb50-ki-v2-buildings-verdant-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": -52.0,
+      "z": -122.0,
+      "y": 12.51
+    },
+    {
+      "id": "verdant-house-7",
+      "title": "Dom Ogrodowy",
+      "role": "house",
+      "sprite": "res://assets/objects/19d3eb50-ki-v2-buildings-verdant-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": 52.0,
+      "z": -122.0,
+      "y": 7.57
+    },
+    {
+      "id": "verdant-house-8",
+      "title": "Dom Ogrodowy",
+      "role": "house",
+      "sprite": "res://assets/objects/19d3eb50-ki-v2-buildings-verdant-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": -54.0,
+      "z": 132.0,
+      "y": 7.77
+    },
+    {
+      "id": "verdant-house-9",
+      "title": "Dom Ogrodowy",
+      "role": "house",
+      "sprite": "res://assets/objects/19d3eb50-ki-v2-buildings-verdant-house.webp",
+      "w": 275,
+      "h": 255,
+      "x": 54.0,
+      "z": 132.0,
+      "y": 7.55
+    },
+    {
+      "id": "verdant-gate-0",
+      "title": "Brama Korzeni",
+      "role": "gate",
+      "sprite": "res://assets/objects/a98e0b02-verdantia-extra-arch.webp",
+      "w": 340,
+      "h": 320,
+      "x": -172.0,
+      "z": 0.0,
+      "y": 5.38
+    },
+    {
+      "id": "verdant-gate-1",
+      "title": "Brama Korzeni",
+      "role": "gate",
+      "sprite": "res://assets/objects/a98e0b02-verdantia-extra-arch.webp",
+      "w": 340,
+      "h": 320,
+      "x": 172.0,
+      "z": 0.0,
+      "y": 0.99
+    },
+    {
+      "id": "verdant-gate-2",
+      "title": "Brama Korzeni",
+      "role": "gate",
+      "sprite": "res://assets/objects/a98e0b02-verdantia-extra-arch.webp",
+      "w": 340,
+      "h": 320,
+      "x": 0.0,
+      "z": -172.0,
+      "y": 4.9
+    },
+    {
+      "id": "verdant-gate-3",
+      "title": "Brama Korzeni",
+      "role": "gate",
+      "sprite": "res://assets/objects/a98e0b02-verdantia-extra-arch.webp",
+      "w": 340,
+      "h": 320,
+      "x": 0.0,
+      "z": 172.0,
+      "y": 4.5
+    },
+    {
+      "id": "verdant-wall-0",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": -110.0,
+      "z": -165.0,
+      "y": 26.88
+    },
+    {
+      "id": "verdant-wall-1",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": -55.0,
+      "z": -168.0,
+      "y": 12.99
+    },
+    {
+      "id": "verdant-wall-2",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": 55.0,
+      "z": -168.0,
+      "y": 1.37
+    },
+    {
+      "id": "verdant-wall-3",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": 110.0,
+      "z": -165.0,
+      "y": 3.15
+    },
+    {
+      "id": "verdant-wall-4",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": -110.0,
+      "z": 165.0,
+      "y": 6.53
+    },
+    {
+      "id": "verdant-wall-5",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": -55.0,
+      "z": 168.0,
+      "y": 4.5
+    },
+    {
+      "id": "verdant-wall-6",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": 55.0,
+      "z": 168.0,
+      "y": -0.15
+    },
+    {
+      "id": "verdant-wall-7",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": 110.0,
+      "z": 165.0,
+      "y": 0.33
+    },
+    {
+      "id": "verdant-wall-8",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": -168.0,
+      "z": -105.0,
+      "y": 23.76
+    },
+    {
+      "id": "verdant-wall-9",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": -168.0,
+      "z": -52.0,
+      "y": 11.85
+    },
+    {
+      "id": "verdant-wall-10",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": -168.0,
+      "z": 52.0,
+      "y": -0.97
+    },
+    {
+      "id": "verdant-wall-11",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": -168.0,
+      "z": 105.0,
+      "y": 2.07
+    },
+    {
+      "id": "verdant-wall-12",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": 168.0,
+      "z": -105.0,
+      "y": 3.41
+    },
+    {
+      "id": "verdant-wall-13",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": 168.0,
+      "z": -52.0,
+      "y": 0.77
+    },
+    {
+      "id": "verdant-wall-14",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": 168.0,
+      "z": 52.0,
+      "y": 2.12
+    },
+    {
+      "id": "verdant-wall-15",
+      "title": "Mur Zielonej Przystani",
+      "role": "wall",
+      "sprite": "res://assets/objects/verdant-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": 168.0,
+      "z": 105.0,
+      "y": 4.03
+    },
+    {
+      "id": "verdant-lamp-0",
+      "title": "Latarnia Przystani",
+      "role": "prop",
+      "sprite": "res://assets/objects/b63f70b2-verdant-city-lamp.webp",
+      "w": 145,
+      "h": 420,
+      "x": -42.0,
+      "z": -42.0,
+      "y": 7.73
+    },
+    {
+      "id": "verdant-lamp-1",
+      "title": "Latarnia Przystani",
+      "role": "prop",
+      "sprite": "res://assets/objects/b63f70b2-verdant-city-lamp.webp",
+      "w": 145,
+      "h": 420,
+      "x": 42.0,
+      "z": -42.0,
+      "y": 7.61
+    },
+    {
+      "id": "verdant-lamp-2",
+      "title": "Latarnia Przystani",
+      "role": "prop",
+      "sprite": "res://assets/objects/b63f70b2-verdant-city-lamp.webp",
+      "w": 145,
+      "h": 420,
+      "x": -42.0,
+      "z": 42.0,
+      "y": 7.72
+    },
+    {
+      "id": "verdant-lamp-3",
+      "title": "Latarnia Przystani",
+      "role": "prop",
+      "sprite": "res://assets/objects/b63f70b2-verdant-city-lamp.webp",
+      "w": 145,
+      "h": 420,
+      "x": 42.0,
+      "z": 42.0,
+      "y": 7.45
+    },
+    {
+      "id": "verdant-lamp-4",
+      "title": "Latarnia Przystani",
+      "role": "prop",
+      "sprite": "res://assets/objects/b63f70b2-verdant-city-lamp.webp",
+      "w": 145,
+      "h": 420,
+      "x": -78.0,
+      "z": 0.0,
+      "y": 7.46
+    },
+    {
+      "id": "verdant-lamp-5",
+      "title": "Latarnia Przystani",
+      "role": "prop",
+      "sprite": "res://assets/objects/b63f70b2-verdant-city-lamp.webp",
+      "w": 145,
+      "h": 420,
+      "x": 78.0,
+      "z": 0.0,
+      "y": 7.43
+    },
+    {
+      "id": "verdant-lamp-6",
+      "title": "Latarnia Przystani",
+      "role": "prop",
+      "sprite": "res://assets/objects/b63f70b2-verdant-city-lamp.webp",
+      "w": 145,
+      "h": 420,
+      "x": 0.0,
+      "z": 78.0,
+      "y": 7.55
+    },
+    {
+      "id": "verdant-lamp-7",
+      "title": "Latarnia Przystani",
+      "role": "prop",
+      "sprite": "res://assets/objects/b63f70b2-verdant-city-lamp.webp",
+      "w": 145,
+      "h": 420,
+      "x": 0.0,
+      "z": 140.0,
+      "y": 7.69
+    },
+    {
+      "id": "verdant-bridge-0",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/5f861b00-verdantia-extra-bridge.webp",
+      "w": 528,
+      "h": 390,
+      "x": -177.62,
+      "z": 1.04,
+      "y": 5.19
+    },
+    {
+      "id": "verdant-bridge-1",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/5f861b00-verdantia-extra-bridge.webp",
+      "w": 528,
+      "h": 390,
+      "x": -0.55,
+      "z": 173.75,
+      "y": 4.5
+    },
+    {
+      "id": "verdant-bridge-2",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/5f861b00-verdantia-extra-bridge.webp",
+      "w": 528,
+      "h": 390,
+      "x": -234.11,
+      "z": 1.21,
+      "y": 18.54
+    },
+    {
+      "id": "verdant-bridge-3",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/5f861b00-verdantia-extra-bridge.webp",
+      "w": 528,
+      "h": 390,
+      "x": 206.07,
+      "z": 31.37,
+      "y": 4.5
+    },
+    {
+      "id": "verdant-bridge-4",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/5f861b00-verdantia-extra-bridge.webp",
+      "w": 528,
+      "h": 390,
+      "x": -126.36,
+      "z": 216.62,
+      "y": 9.28
+    },
+    {
+      "id": "verdant-bridge-5",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/5f861b00-verdantia-extra-bridge.webp",
+      "w": 528,
+      "h": 390,
+      "x": -4.45,
+      "z": 256.11,
+      "y": 8.42
+    },
+    {
+      "id": "verdant-bridge-6",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/5f861b00-verdantia-extra-bridge.webp",
+      "w": 528,
+      "h": 390,
+      "x": -204.23,
+      "z": -89.75,
+      "y": 28.17
+    },
+    {
+      "id": "verdant-bridge-7",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/5f861b00-verdantia-extra-bridge.webp",
+      "w": 528,
+      "h": 390,
+      "x": -2.16,
+      "z": -314.58,
+      "y": 34.3
+    }
+  ],
+  "npcs": [
+    {
+      "actor_id": "verdant.npc.guide",
+      "name": "Aira",
+      "role": "Przewodniczka miasta",
+      "quest_mark": "!",
+      "x": -16.0,
+      "z": 20.0,
+      "y": 6.38,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant.npc.steward",
+      "name": "Oren",
+      "role": "Opiekun miasta",
+      "quest_mark": "?",
+      "x": 0.0,
+      "z": -56.0,
+      "y": 7.67,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant.npc.smith",
+      "name": "Taro",
+      "role": "Kowal",
+      "quest_mark": "!",
+      "x": -76.0,
+      "z": -20.0,
+      "y": 7.6,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant.npc.innkeeper",
+      "name": "Lina",
+      "role": "Gospodyni",
+      "quest_mark": "",
+      "x": 76.0,
+      "z": -20.0,
+      "y": 7.48,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant.npc.merchant",
+      "name": "Mio",
+      "role": "Kupczyni",
+      "quest_mark": "?",
+      "x": -68.0,
+      "z": 56.0,
+      "y": 7.7,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant.npc.trainer",
+      "name": "Iwo",
+      "role": "Mistrz treningu",
+      "quest_mark": "!",
+      "x": 72.0,
+      "z": 56.0,
+      "y": 6.15,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant.npc.keeper",
+      "name": "Nela",
+      "role": "Opiekunka depozytu",
+      "quest_mark": "",
+      "x": 0.0,
+      "z": 84.0,
+      "y": 7.54,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant.npc.hunter",
+      "name": "Ren",
+      "role": "Strażnik bramy",
+      "quest_mark": "!",
+      "x": 0.0,
+      "z": 148.0,
+      "y": 7.31,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant.npc.alchemist",
+      "name": "Sylwa",
+      "role": "Zielarka korzeni",
+      "quest_mark": "?",
+      "x": -116.0,
+      "z": 16.0,
+      "y": 7.85,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant.npc.warden",
+      "name": "Bram",
+      "role": "Kapitan przystani",
+      "quest_mark": "",
+      "x": 116.0,
+      "z": 16.0,
+      "y": 7.38,
+      "patrol_radius": 18.0
+    }
+  ],
+  "exp_zones": [
+    {
+      "id": "verdant-exp-1",
+      "name": "Polana Mchowych Szlamaków (Lv. 1–3)",
+      "x": -315.0,
+      "z": 35.0,
+      "y": 32.22,
+      "radius": 52.0
+    },
+    {
+      "id": "verdant-exp-2",
+      "name": "Gaj Liściaków i Pełzaczy (Lv. 4–6)",
+      "x": -40.0,
+      "z": -330.0,
+      "y": 39.26,
+      "radius": 54.0
+    },
+    {
+      "id": "verdant-exp-3",
+      "name": "Krąg Grzybowych Zarodników (Lv. 8–10)",
+      "x": 270.0,
+      "z": -240.0,
+      "y": 8.37,
+      "radius": 55.0
+    },
+    {
+      "id": "verdant-exp-4",
+      "name": "Wzgórze Skalnych Jeleni (Lv. 12–14)",
+      "x": 325.0,
+      "z": 25.0,
+      "y": 11.05,
+      "radius": 55.0
+    },
+    {
+      "id": "verdant-exp-5",
+      "name": "Gniazdo Puchaczy Pyłowych (Lv. 14–16)",
+      "x": -260.0,
+      "z": 275.0,
+      "y": 9.11,
+      "radius": 54.0
+    },
+    {
+      "id": "verdant-exp-6",
+      "name": "Pradawne Ruiny Strażników (Lv. 16–18)",
+      "x": 35.0,
+      "z": 330.0,
+      "y": 6.83,
+      "radius": 58.0
+    }
+  ],
+  "monsters": [
+    {
+      "actor_id": "verdant-mchowy-szlamak",
+      "name": "Mchowy Szlamak",
+      "level": 1,
+      "hp": 110,
+      "exp_zone": "verdant-exp-1",
+      "x": -299.97,
+      "z": 40.49,
+      "y": 32.22,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-mchowy-szlamak",
+      "name": "Mchowy Szlamak",
+      "level": 1,
+      "hp": 110,
+      "exp_zone": "verdant-exp-1",
+      "x": -315.97,
+      "z": 61.98,
+      "y": 32.22,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-cierniowy-wilk",
+      "name": "Cierniowy Wilk",
+      "level": 2,
+      "hp": 100,
+      "exp_zone": "verdant-exp-1",
+      "x": -330.38,
+      "z": 39.4,
+      "y": 32.22,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-cierniowy-wilk",
+      "name": "Cierniowy Wilk",
+      "level": 2,
+      "hp": 100,
+      "exp_zone": "verdant-exp-1",
+      "x": -330.08,
+      "z": 12.6,
+      "y": 32.03,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-mala-osa",
+      "name": "Mała Osa",
+      "level": 4,
+      "hp": 40,
+      "exp_zone": "verdant-exp-1",
+      "x": -305.14,
+      "z": 22.4,
+      "y": 32.22,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-lisciak-skrytobojca",
+      "name": "Liściak Skrytobójca",
+      "level": 4,
+      "hp": 142,
+      "exp_zone": "verdant-exp-2",
+      "x": -24.97,
+      "z": -324.51,
+      "y": 39.26,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-lisciak-skrytobojca",
+      "name": "Liściak Skrytobójca",
+      "level": 4,
+      "hp": 142,
+      "exp_zone": "verdant-exp-2",
+      "x": -40.97,
+      "z": -303.02,
+      "y": 39.26,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-korzeniowy-pelzacz",
+      "name": "Korzeniowy Pełzacz",
+      "level": 6,
+      "hp": 484,
+      "exp_zone": "verdant-exp-2",
+      "x": -55.38,
+      "z": -325.6,
+      "y": 39.26,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-korzeniowy-pelzacz",
+      "name": "Korzeniowy Pełzacz",
+      "level": 6,
+      "hp": 484,
+      "exp_zone": "verdant-exp-2",
+      "x": -55.08,
+      "z": -352.4,
+      "y": 39.14,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-cierniowy-wilk",
+      "name": "Cierniowy Wilk",
+      "level": 2,
+      "hp": 100,
+      "exp_zone": "verdant-exp-2",
+      "x": -30.14,
+      "z": -342.6,
+      "y": 39.26,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-grzybowy-zarodnik",
+      "name": "Grzybowy Zarodnik",
+      "level": 8,
+      "hp": 703,
+      "exp_zone": "verdant-exp-3",
+      "x": 285.03,
+      "z": -234.51,
+      "y": 8.37,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-grzybowy-zarodnik",
+      "name": "Grzybowy Zarodnik",
+      "level": 8,
+      "hp": 703,
+      "exp_zone": "verdant-exp-3",
+      "x": 269.03,
+      "z": -213.02,
+      "y": 8.37,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-bursztynowa-osa",
+      "name": "Bursztynowa Osa",
+      "level": 10,
+      "hp": 452,
+      "exp_zone": "verdant-exp-3",
+      "x": 254.62,
+      "z": -235.6,
+      "y": 8.37,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-bursztynowa-osa",
+      "name": "Bursztynowa Osa",
+      "level": 10,
+      "hp": 452,
+      "exp_zone": "verdant-exp-3",
+      "x": 254.92,
+      "z": -262.4,
+      "y": 8.3,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-mala-osa",
+      "name": "Mała Osa",
+      "level": 4,
+      "hp": 40,
+      "exp_zone": "verdant-exp-3",
+      "x": 279.86,
+      "z": -252.6,
+      "y": 8.37,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-skalny-jelen",
+      "name": "Skalny Jeleń",
+      "level": 12,
+      "hp": 1307,
+      "exp_zone": "verdant-exp-4",
+      "x": 340.03,
+      "z": 30.49,
+      "y": 11.05,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-skalny-jelen",
+      "name": "Skalny Jeleń",
+      "level": 12,
+      "hp": 1307,
+      "exp_zone": "verdant-exp-4",
+      "x": 324.03,
+      "z": 51.98,
+      "y": 11.05,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-lesny-pajak",
+      "name": "Leśny Pająk",
+      "level": 14,
+      "hp": 1135,
+      "exp_zone": "verdant-exp-4",
+      "x": 309.62,
+      "z": 29.4,
+      "y": 11.05,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-lesny-pajak",
+      "name": "Leśny Pająk",
+      "level": 14,
+      "hp": 1135,
+      "exp_zone": "verdant-exp-4",
+      "x": 309.92,
+      "z": 2.6,
+      "y": 11.0,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-bursztynowa-osa",
+      "name": "Bursztynowa Osa",
+      "level": 10,
+      "hp": 452,
+      "exp_zone": "verdant-exp-4",
+      "x": 334.86,
+      "z": 12.4,
+      "y": 11.05,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-puchacz-pylowy",
+      "name": "Puchacz Pyłowy",
+      "level": 16,
+      "hp": 1219,
+      "exp_zone": "verdant-exp-5",
+      "x": -244.97,
+      "z": 280.49,
+      "y": 9.11,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-puchacz-pylowy",
+      "name": "Puchacz Pyłowy",
+      "level": 16,
+      "hp": 1219,
+      "exp_zone": "verdant-exp-5",
+      "x": -260.97,
+      "z": 301.98,
+      "y": 9.11,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-lesny-pajak",
+      "name": "Leśny Pająk",
+      "level": 14,
+      "hp": 1135,
+      "exp_zone": "verdant-exp-5",
+      "x": -275.38,
+      "z": 279.4,
+      "y": 9.11,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-skalny-jelen",
+      "name": "Skalny Jeleń",
+      "level": 12,
+      "hp": 1307,
+      "exp_zone": "verdant-exp-5",
+      "x": -275.08,
+      "z": 252.6,
+      "y": 9.05,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-puchacz-pylowy",
+      "name": "Puchacz Pyłowy",
+      "level": 16,
+      "hp": 1219,
+      "exp_zone": "verdant-exp-5",
+      "x": -250.14,
+      "z": 262.4,
+      "y": 9.11,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-straznik-ruin",
+      "name": "Strażnik Ruin",
+      "level": 18,
+      "hp": 3186,
+      "exp_zone": "verdant-exp-6",
+      "x": 50.03,
+      "z": 335.49,
+      "y": 6.83,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-straznik-ruin",
+      "name": "Strażnik Ruin",
+      "level": 18,
+      "hp": 3186,
+      "exp_zone": "verdant-exp-6",
+      "x": 34.03,
+      "z": 356.98,
+      "y": 6.83,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-puchacz-pylowy",
+      "name": "Puchacz Pyłowy",
+      "level": 16,
+      "hp": 1219,
+      "exp_zone": "verdant-exp-6",
+      "x": 19.62,
+      "z": 334.4,
+      "y": 6.83,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-lesny-pajak",
+      "name": "Leśny Pająk",
+      "level": 14,
+      "hp": 1135,
+      "exp_zone": "verdant-exp-6",
+      "x": 19.92,
+      "z": 307.6,
+      "y": 6.81,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "verdant-straznik-ruin",
+      "name": "Strażnik Ruin",
+      "level": 18,
+      "hp": 3186,
+      "exp_zone": "verdant-exp-6",
+      "x": 44.86,
+      "z": 317.4,
+      "y": 6.83,
+      "patrol_radius": 18.0
+    }
+  ],
+  "fauna": [
+    {
+      "actor_id": "A-01",
+      "name": "Zając Łąkowy",
+      "x": 192.35,
+      "z": -53.01,
+      "y": 3.12,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-02",
+      "name": "Kura Leśna",
+      "x": 327.58,
+      "z": 183.43,
+      "y": 4.43,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-03",
+      "name": "Dzik Mchowy",
+      "x": 251.95,
+      "z": -299.13,
+      "y": 7.63,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-01",
+      "name": "Zając Łąkowy",
+      "x": -378.16,
+      "z": -22.71,
+      "y": 40.64,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-02",
+      "name": "Kura Leśna",
+      "x": 224.72,
+      "z": 203.38,
+      "y": 10.43,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-03",
+      "name": "Dzik Mchowy",
+      "x": 245.7,
+      "z": 228.62,
+      "y": 7.81,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-01",
+      "name": "Zając Łąkowy",
+      "x": 215.63,
+      "z": 90.31,
+      "y": 11.26,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-02",
+      "name": "Kura Leśna",
+      "x": -273.06,
+      "z": -78.93,
+      "y": 34.14,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-03",
+      "name": "Dzik Mchowy",
+      "x": -320.22,
+      "z": -326.82,
+      "y": 46.85,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-01",
+      "name": "Zając Łąkowy",
+      "x": 22.82,
+      "z": -293.22,
+      "y": 27.83,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-02",
+      "name": "Kura Leśna",
+      "x": 159.14,
+      "z": -117.73,
+      "y": 3.43,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-03",
+      "name": "Dzik Mchowy",
+      "x": -363.07,
+      "z": -262.64,
+      "y": 44.89,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-01",
+      "name": "Zając Łąkowy",
+      "x": 183.75,
+      "z": -59.31,
+      "y": 1.7,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-02",
+      "name": "Kura Leśna",
+      "x": 242.68,
+      "z": 154.97,
+      "y": 11.51,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-03",
+      "name": "Dzik Mchowy",
+      "x": 141.26,
+      "z": -176.15,
+      "y": 8.33,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-01",
+      "name": "Zając Łąkowy",
+      "x": 240.94,
+      "z": -342.99,
+      "y": 7.66,
+      "patrol_radius": 24.0
+    }
+  ],
+  "props": [
+    {
+      "id": "verdant-exp-1-frame-1",
+      "kind": "rock",
+      "sprite": "res://assets/objects/701b11e2-verdantia-continent-rocks.webp",
+      "w": 260,
+      "h": 220,
+      "x": -289.37,
+      "z": 75.39,
+      "y": 25.18
+    },
+    {
+      "id": "verdant-exp-1-frame-2",
+      "kind": "rock",
+      "sprite": "res://assets/objects/98845042-verdantia-extra-cliff.webp",
+      "w": 380,
+      "h": 320,
+      "x": -325.44,
+      "z": 81.69,
+      "y": 33.29
+    },
+    {
+      "id": "verdant-exp-1-frame-3",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fa6d3bf2-verdantia-extra-shrine.webp",
+      "w": 310,
+      "h": 350,
+      "x": -355.39,
+      "z": 60.63,
+      "y": 40.72
+    },
+    {
+      "id": "verdant-exp-1-frame-4",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fc1e269d-verdantia-extra-cave.webp",
+      "w": 390,
+      "h": 350,
+      "x": -361.69,
+      "z": 24.56,
+      "y": 40.22
+    },
+    {
+      "id": "verdant-exp-2-frame-1",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fc1e269d-verdantia-extra-cave.webp",
+      "w": 390,
+      "h": 350,
+      "x": -13.38,
+      "z": -288.05,
+      "y": 30.68
+    },
+    {
+      "id": "verdant-exp-2-frame-3",
+      "kind": "camp",
+      "sprite": "res://assets/objects/6ceb4056-ki-v2-camps-verdant-bonfire.webp",
+      "w": 240,
+      "h": 230,
+      "x": -81.95,
+      "z": -303.38,
+      "y": 42.86
+    },
+    {
+      "id": "verdant-exp-2-frame-4",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/a98e0b02-verdantia-extra-arch.webp",
+      "w": 350,
+      "h": 330,
+      "x": -88.48,
+      "z": -340.84,
+      "y": 44.94
+    },
+    {
+      "id": "verdant-exp-2-frame-6",
+      "kind": "rock",
+      "sprite": "res://assets/objects/701b11e2-verdantia-continent-rocks.webp",
+      "w": 260,
+      "h": 220,
+      "x": -29.16,
+      "z": -378.48,
+      "y": 45.62
+    },
+    {
+      "id": "verdant-exp-3-frame-1",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/a98e0b02-verdantia-extra-arch.webp",
+      "w": 350,
+      "h": 330,
+      "x": 297.11,
+      "z": -197.27,
+      "y": 5.24
+    },
+    {
+      "id": "verdant-exp-3-frame-3",
+      "kind": "rock",
+      "sprite": "res://assets/objects/701b11e2-verdantia-continent-rocks.webp",
+      "w": 260,
+      "h": 220,
+      "x": 227.27,
+      "z": -212.89,
+      "y": 8.69
+    },
+    {
+      "id": "verdant-exp-3-frame-5",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fa6d3bf2-verdantia-extra-shrine.webp",
+      "w": 310,
+      "h": 350,
+      "x": 242.89,
+      "z": -282.73,
+      "y": 6.6
+    },
+    {
+      "id": "verdant-exp-3-frame-7",
+      "kind": "camp",
+      "sprite": "res://assets/objects/29d17949-verdantia-extra-camp.webp",
+      "w": 330,
+      "h": 270,
+      "x": 312.73,
+      "z": -267.11,
+      "y": 7.34
+    },
+    {
+      "id": "verdant-exp-4-frame-2",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fa6d3bf2-verdantia-extra-shrine.webp",
+      "w": 310,
+      "h": 350,
+      "x": 313.96,
+      "z": 74.38,
+      "y": 9.14
+    },
+    {
+      "id": "verdant-exp-4-frame-3",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fc1e269d-verdantia-extra-cave.webp",
+      "w": 390,
+      "h": 350,
+      "x": 282.27,
+      "z": 52.11,
+      "y": 9.29
+    },
+    {
+      "id": "verdant-exp-4-frame-4",
+      "kind": "camp",
+      "sprite": "res://assets/objects/29d17949-verdantia-extra-camp.webp",
+      "w": 330,
+      "h": 270,
+      "x": 275.62,
+      "z": 13.96,
+      "y": 11.29
+    },
+    {
+      "id": "verdant-waterfall-0",
+      "kind": "waterfall",
+      "sprite": "res://assets/objects/7c9c601a-verdantia-extra-spring.webp",
+      "w": 360,
+      "h": 295,
+      "x": -265.0,
+      "z": -245.0,
+      "y": 42.79
+    },
+    {
+      "id": "verdant-waterfall-1",
+      "kind": "waterfall",
+      "sprite": "res://assets/objects/7c9c601a-verdantia-extra-spring.webp",
+      "w": 360,
+      "h": 295,
+      "x": -185.0,
+      "z": -255.0,
+      "y": 45.1
+    },
+    {
+      "id": "verdant-city-flora-0",
+      "kind": "tree",
+      "sprite": "res://assets/objects/74b2bb88-verdantia-extra-ancient-oak.webp",
+      "w": 391,
+      "h": 399,
+      "x": 107.23,
+      "z": -119.16,
+      "y": 3.78
+    },
+    {
+      "id": "verdant-city-flora-1",
+      "kind": "tree",
+      "sprite": "res://assets/objects/df63f301-verdantia-continent-pine.webp",
+      "w": 246,
+      "h": 331,
+      "x": 120.05,
+      "z": -121.27,
+      "y": 1.07
+    },
+    {
+      "id": "verdant-city-flora-2",
+      "kind": "tree",
+      "sprite": "res://assets/objects/37f48ddb-ki-v2-objects-verdant-oak-2.webp",
+      "w": 297,
+      "h": 314,
+      "x": -116.96,
+      "z": -122.37,
+      "y": 16.49
+    },
+    {
+      "id": "verdant-city-flora-3",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f977e5a7-ki-v2-objects-verdant-tree2-2.webp",
+      "w": 276,
+      "h": 301,
+      "x": 25.97,
+      "z": -129.03,
+      "y": 7.44
+    },
+    {
+      "id": "verdant-city-flora-4",
+      "kind": "flora",
+      "sprite": "res://assets/objects/e70f7fe7-verdantia-extra-rose.webp",
+      "w": 178,
+      "h": 165,
+      "x": 91.44,
+      "z": 134.62,
+      "y": 2.85
+    },
+    {
+      "id": "verdant-city-flora-5",
+      "kind": "flora",
+      "sprite": "res://assets/objects/9031832d-nature-obj-flower-bush.webp",
+      "w": 182,
+      "h": 161,
+      "x": 107.38,
+      "z": 74.67,
+      "y": 7.35
+    },
+    {
+      "id": "verdant-city-flora-6",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c4e9e6a1-ki-v2-objects-verdant-fern-0.webp",
+      "w": 157,
+      "h": 136,
+      "x": -82.04,
+      "z": -143.37,
+      "y": 14.63
+    },
+    {
+      "id": "verdant-city-flora-7",
+      "kind": "flora",
+      "sprite": "res://assets/objects/8f3d6df6-ki-v2-objects-verdant-reeds-5.webp",
+      "w": 157,
+      "h": 165,
+      "x": -148.07,
+      "z": -75.75,
+      "y": 13.99
+    },
+    {
+      "id": "verdant-city-flora-8",
+      "kind": "tree",
+      "sprite": "res://assets/objects/711c3cbc-verdantia-extra-birch.webp",
+      "w": 263,
+      "h": 331,
+      "x": 135.29,
+      "z": -16.66,
+      "y": 7.56
+    },
+    {
+      "id": "verdant-city-flora-9",
+      "kind": "tree",
+      "sprite": "res://assets/objects/21caeb8f-ki-v2-objects-verdant-oak-1.webp",
+      "w": 289,
+      "h": 310,
+      "x": -26.72,
+      "z": 71.39,
+      "y": 7.72
+    },
+    {
+      "id": "verdant-city-flora-10",
+      "kind": "tree",
+      "sprite": "res://assets/objects/fe9b1faa-ki-v2-objects-verdant-tree2-0.webp",
+      "w": 272,
+      "h": 297,
+      "x": 110.85,
+      "z": -28.43,
+      "y": 7.54
+    },
+    {
+      "id": "verdant-city-flora-11",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b1a00069-island-5.props.silver-willow.webp",
+      "w": 306,
+      "h": 323,
+      "x": 115.99,
+      "z": 49.84,
+      "y": 7.33
+    },
+    {
+      "id": "verdant-city-flora-12",
+      "kind": "flora",
+      "sprite": "res://assets/objects/27399570-verdantia-extra-blueberry.webp",
+      "w": 170,
+      "h": 153,
+      "x": -127.8,
+      "z": -127.31,
+      "y": 18.71
+    },
+    {
+      "id": "verdant-city-flora-13",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5b60f067-verdantia-extra-fern.webp",
+      "w": 165,
+      "h": 140,
+      "x": 61.21,
+      "z": 100.09,
+      "y": 7.48
+    },
+    {
+      "id": "verdant-city-flora-14",
+      "kind": "flora",
+      "sprite": "res://assets/objects/6e9e582b-ki-v2-objects-verdant-mushrooms-1.webp",
+      "w": 153,
+      "h": 144,
+      "x": -100.69,
+      "z": -123.54,
+      "y": 16.69
+    },
+    {
+      "id": "verdant-city-flora-15",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ce21ffe1-verdantia-extra-willow.webp",
+      "w": 331,
+      "h": 348,
+      "x": -28.51,
+      "z": -68.97,
+      "y": 7.62
+    },
+    {
+      "id": "verdant-city-flora-16",
+      "kind": "tree",
+      "sprite": "res://assets/objects/8c447433-ki-v2-objects-verdant-oak-0.webp",
+      "w": 289,
+      "h": 306,
+      "x": -15.8,
+      "z": -126.3,
+      "y": 9.41
+    },
+    {
+      "id": "verdant-city-flora-17",
+      "kind": "tree",
+      "sprite": "res://assets/objects/9d3815c8-ki-v2-objects-verdant-oak-3.webp",
+      "w": 289,
+      "h": 306,
+      "x": -113.22,
+      "z": 19.17,
+      "y": 7.73
+    },
+    {
+      "id": "verdant-city-flora-18",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ad73954b-island-4.props.olive-tree.webp",
+      "w": 280,
+      "h": 289,
+      "x": -31.64,
+      "z": 70.21,
+      "y": 7.73
+    },
+    {
+      "id": "verdant-city-flora-19",
+      "kind": "flora",
+      "sprite": "res://assets/objects/48c51d4d-verdantia-extra-flowers.webp",
+      "w": 187,
+      "h": 157,
+      "x": -14.97,
+      "z": 40.28,
+      "y": 7.69
+    },
+    {
+      "id": "verdant-city-flora-20",
+      "kind": "flora",
+      "sprite": "res://assets/objects/13955587-ki-v2-objects-verdant-flowerbush-0.webp",
+      "w": 178,
+      "h": 157,
+      "x": 88.83,
+      "z": -83.02,
+      "y": 7.66
+    },
+    {
+      "id": "verdant-city-flora-21",
+      "kind": "flora",
+      "sprite": "res://assets/objects/68b9d6ee-verdantia-extra-mushrooms.webp",
+      "w": 165,
+      "h": 157,
+      "x": -69.71,
+      "z": -46.58,
+      "y": 8.51
+    },
+    {
+      "id": "verdant-city-flora-22",
+      "kind": "tree",
+      "sprite": "res://assets/objects/74b2bb88-verdantia-extra-ancient-oak.webp",
+      "w": 391,
+      "h": 399,
+      "x": -79.68,
+      "z": 108.39,
+      "y": 7.67
+    },
+    {
+      "id": "verdant-city-flora-23",
+      "kind": "tree",
+      "sprite": "res://assets/objects/df63f301-verdantia-continent-pine.webp",
+      "w": 246,
+      "h": 331,
+      "x": -97.93,
+      "z": -87.39,
+      "y": 14.91
+    },
+    {
+      "id": "verdant-city-flora-24",
+      "kind": "tree",
+      "sprite": "res://assets/objects/37f48ddb-ki-v2-objects-verdant-oak-2.webp",
+      "w": 297,
+      "h": 314,
+      "x": -92.58,
+      "z": 74.81,
+      "y": 7.7
+    },
+    {
+      "id": "verdant-city-flora-25",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f977e5a7-ki-v2-objects-verdant-tree2-2.webp",
+      "w": 276,
+      "h": 301,
+      "x": 131.15,
+      "z": -147.74,
+      "y": 3.03
+    },
+    {
+      "id": "verdant-city-flora-26",
+      "kind": "flora",
+      "sprite": "res://assets/objects/e70f7fe7-verdantia-extra-rose.webp",
+      "w": 178,
+      "h": 165,
+      "x": 118.81,
+      "z": -124.39,
+      "y": 0.99
+    },
+    {
+      "id": "verdant-city-flora-27",
+      "kind": "flora",
+      "sprite": "res://assets/objects/9031832d-nature-obj-flower-bush.webp",
+      "w": 182,
+      "h": 161,
+      "x": 113.27,
+      "z": -14.44,
+      "y": 7.56
+    },
+    {
+      "id": "verdant-city-flora-28",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c4e9e6a1-ki-v2-objects-verdant-fern-0.webp",
+      "w": 157,
+      "h": 136,
+      "x": -148.16,
+      "z": -80.93,
+      "y": 14.21
+    },
+    {
+      "id": "verdant-city-flora-29",
+      "kind": "flora",
+      "sprite": "res://assets/objects/8f3d6df6-ki-v2-objects-verdant-reeds-5.webp",
+      "w": 157,
+      "h": 165,
+      "x": -121.24,
+      "z": -132.25,
+      "y": 18.8
+    },
+    {
+      "id": "verdant-city-flora-30",
+      "kind": "tree",
+      "sprite": "res://assets/objects/711c3cbc-verdantia-extra-birch.webp",
+      "w": 263,
+      "h": 331,
+      "x": 80.27,
+      "z": -142.31,
+      "y": 2.29
+    },
+    {
+      "id": "verdant-city-flora-31",
+      "kind": "tree",
+      "sprite": "res://assets/objects/21caeb8f-ki-v2-objects-verdant-oak-1.webp",
+      "w": 289,
+      "h": 310,
+      "x": 91.53,
+      "z": -92.23,
+      "y": 7.61
+    },
+    {
+      "id": "verdant-city-flora-32",
+      "kind": "tree",
+      "sprite": "res://assets/objects/fe9b1faa-ki-v2-objects-verdant-tree2-0.webp",
+      "w": 272,
+      "h": 297,
+      "x": 104.6,
+      "z": -123.9,
+      "y": 3.17
+    },
+    {
+      "id": "verdant-city-flora-33",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b1a00069-island-5.props.silver-willow.webp",
+      "w": 306,
+      "h": 323,
+      "x": 149.45,
+      "z": -78.3,
+      "y": 1.31
+    },
+    {
+      "id": "verdant-city-flora-34",
+      "kind": "flora",
+      "sprite": "res://assets/objects/27399570-verdantia-extra-blueberry.webp",
+      "w": 170,
+      "h": 153,
+      "x": 132.07,
+      "z": -126.77,
+      "y": 1.98
+    },
+    {
+      "id": "verdant-city-flora-35",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5b60f067-verdantia-extra-fern.webp",
+      "w": 165,
+      "h": 140,
+      "x": -117.67,
+      "z": 43.79,
+      "y": 7.45
+    },
+    {
+      "id": "verdant-wild-0",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ce21ffe1-verdantia-extra-willow.webp",
+      "w": 377,
+      "h": 397,
+      "x": -140.03,
+      "z": -345.98,
+      "y": 50.83
+    },
+    {
+      "id": "verdant-wild-1",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b1a00069-island-5.props.silver-willow.webp",
+      "w": 364,
+      "h": 385,
+      "x": 218.9,
+      "z": -234.87,
+      "y": 8.54
+    },
+    {
+      "id": "verdant-wild-2",
+      "kind": "flora",
+      "sprite": "res://assets/objects/6e9e582b-ki-v2-objects-verdant-mushrooms-1.webp",
+      "w": 185,
+      "h": 175,
+      "x": -310.85,
+      "z": -305.06,
+      "y": 47.22
+    },
+    {
+      "id": "verdant-wild-3",
+      "kind": "camp",
+      "sprite": "res://assets/objects/6ceb4056-ki-v2-camps-verdant-bonfire.webp",
+      "w": 270,
+      "h": 259,
+      "x": -376.41,
+      "z": -247.99,
+      "y": 44.27
+    },
+    {
+      "id": "verdant-wild-4",
+      "kind": "tree",
+      "sprite": "res://assets/objects/37f48ddb-ki-v2-objects-verdant-oak-2.webp",
+      "w": 363,
+      "h": 384,
+      "x": -368.81,
+      "z": 205.17,
+      "y": 16.3
+    },
+    {
+      "id": "verdant-wild-5",
+      "kind": "flora",
+      "sprite": "res://assets/objects/13955587-ki-v2-objects-verdant-flowerbush-0.webp",
+      "w": 191,
+      "h": 168,
+      "x": -56.13,
+      "z": 257.0,
+      "y": 8.42
+    },
+    {
+      "id": "verdant-wild-6",
+      "kind": "rock",
+      "sprite": "res://assets/objects/98845042-verdantia-extra-cliff.webp",
+      "w": 423,
+      "h": 356,
+      "x": -423.25,
+      "z": -261.75,
+      "y": 42.47
+    },
+    {
+      "id": "verdant-wild-7",
+      "kind": "tree",
+      "sprite": "res://assets/objects/df63f301-verdantia-continent-pine.webp",
+      "w": 272,
+      "h": 367,
+      "x": -126.56,
+      "z": -333.53,
+      "y": 49.38
+    },
+    {
+      "id": "verdant-wild-8",
+      "kind": "flora",
+      "sprite": "res://assets/objects/48c51d4d-verdantia-extra-flowers.webp",
+      "w": 197,
+      "h": 166,
+      "x": 256.1,
+      "z": -424.08,
+      "y": 8.87
+    },
+    {
+      "id": "verdant-wild-9",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/7c9c601a-verdantia-extra-spring.webp",
+      "w": 375,
+      "h": 309,
+      "x": 184.1,
+      "z": -400.16,
+      "y": 17.15
+    },
+    {
+      "id": "verdant-wild-10",
+      "kind": "tree",
+      "sprite": "res://assets/objects/df63f301-verdantia-continent-pine.webp",
+      "w": 299,
+      "h": 403,
+      "x": -380.93,
+      "z": -330.57,
+      "y": 47.85
+    },
+    {
+      "id": "verdant-wild-11",
+      "kind": "flora",
+      "sprite": "res://assets/objects/e70f7fe7-verdantia-extra-rose.webp",
+      "w": 204,
+      "h": 189,
+      "x": -354.79,
+      "z": -257.91,
+      "y": 45.12
+    },
+    {
+      "id": "verdant-wild-12",
+      "kind": "flora",
+      "sprite": "res://assets/objects/6e9e582b-ki-v2-objects-verdant-mushrooms-1.webp",
+      "w": 188,
+      "h": 177,
+      "x": 342.38,
+      "z": 187.24,
+      "y": 5.23
+    },
+    {
+      "id": "verdant-wild-13",
+      "kind": "camp",
+      "sprite": "res://assets/objects/6ceb4056-ki-v2-camps-verdant-bonfire.webp",
+      "w": 225,
+      "h": 216,
+      "x": -419.54,
+      "z": -358.99,
+      "y": 46.85
+    },
+    {
+      "id": "verdant-wild-14",
+      "kind": "tree",
+      "sprite": "res://assets/objects/37f48ddb-ki-v2-objects-verdant-oak-2.webp",
+      "w": 372,
+      "h": 394,
+      "x": 69.58,
+      "z": -337.04,
+      "y": 27.9
+    },
+    {
+      "id": "verdant-wild-15",
+      "kind": "flora",
+      "sprite": "res://assets/objects/27399570-verdantia-extra-blueberry.webp",
+      "w": 226,
+      "h": 203,
+      "x": -335.11,
+      "z": 115.73,
+      "y": 28.67
+    },
+    {
+      "id": "verdant-wild-16",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/7c9c601a-verdantia-extra-spring.webp",
+      "w": 352,
+      "h": 290,
+      "x": 359.19,
+      "z": -158.45,
+      "y": 11.46
+    },
+    {
+      "id": "verdant-wild-17",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ce21ffe1-verdantia-extra-willow.webp",
+      "w": 355,
+      "h": 373,
+      "x": -118.5,
+      "z": 252.12,
+      "y": 9.03
+    },
+    {
+      "id": "verdant-wild-18",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ad73954b-island-4.props.olive-tree.webp",
+      "w": 311,
+      "h": 321,
+      "x": -248.0,
+      "z": 61.64,
+      "y": 18.98
+    },
+    {
+      "id": "verdant-wild-19",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fc1e269d-verdantia-extra-cave.webp",
+      "w": 405,
+      "h": 363,
+      "x": -257.02,
+      "z": -306.09,
+      "y": 50.52
+    },
+    {
+      "id": "verdant-wild-20",
+      "kind": "tree",
+      "sprite": "res://assets/objects/8c447433-ki-v2-objects-verdant-oak-0.webp",
+      "w": 384,
+      "h": 407,
+      "x": 259.35,
+      "z": 240.89,
+      "y": 7.45
+    },
+    {
+      "id": "verdant-wild-21",
+      "kind": "flora",
+      "sprite": "res://assets/objects/e70f7fe7-verdantia-extra-rose.webp",
+      "w": 217,
+      "h": 201,
+      "x": 288.99,
+      "z": 120.66,
+      "y": 7.24
+    },
+    {
+      "id": "verdant-wild-22",
+      "kind": "flora",
+      "sprite": "res://assets/objects/8f3d6df6-ki-v2-objects-verdant-reeds-5.webp",
+      "w": 164,
+      "h": 173,
+      "x": 51.02,
+      "z": -384.07,
+      "y": 34.74
+    },
+    {
+      "id": "verdant-wild-23",
+      "kind": "tree",
+      "sprite": "res://assets/objects/74b2bb88-verdantia-extra-ancient-oak.webp",
+      "w": 519,
+      "h": 530,
+      "x": -33.28,
+      "z": -225.59,
+      "y": 22.42
+    },
+    {
+      "id": "verdant-wild-24",
+      "kind": "tree",
+      "sprite": "res://assets/objects/fe9b1faa-ki-v2-objects-verdant-tree2-0.webp",
+      "w": 347,
+      "h": 379,
+      "x": -377.4,
+      "z": 110.86,
+      "y": 33.58
+    },
+    {
+      "id": "verdant-wild-25",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c4e9e6a1-ki-v2-objects-verdant-fern-0.webp",
+      "w": 197,
+      "h": 171,
+      "x": -429.83,
+      "z": -133.05,
+      "y": 42.47
+    },
+    {
+      "id": "verdant-wild-26",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fc1e269d-verdantia-extra-cave.webp",
+      "w": 352,
+      "h": 316,
+      "x": -436.25,
+      "z": -142.1,
+      "y": 41.35
+    },
+    {
+      "id": "verdant-wild-27",
+      "kind": "tree",
+      "sprite": "res://assets/objects/9d3815c8-ki-v2-objects-verdant-oak-3.webp",
+      "w": 385,
+      "h": 407,
+      "x": 79.84,
+      "z": -234.53,
+      "y": 11.03
+    },
+    {
+      "id": "verdant-wild-28",
+      "kind": "flora",
+      "sprite": "res://assets/objects/9031832d-nature-obj-flower-bush.webp",
+      "w": 195,
+      "h": 172,
+      "x": -264.96,
+      "z": -394.28,
+      "y": 49.52
+    },
+    {
+      "id": "verdant-wild-29",
+      "kind": "rock",
+      "sprite": "res://assets/objects/701b11e2-verdantia-continent-rocks.webp",
+      "w": 252,
+      "h": 213,
+      "x": -431.23,
+      "z": 171.55,
+      "y": 29.98
+    },
+    {
+      "id": "verdant-wild-30",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ce21ffe1-verdantia-extra-willow.webp",
+      "w": 405,
+      "h": 425,
+      "x": -240.27,
+      "z": -424.63,
+      "y": 49.3
+    },
+    {
+      "id": "verdant-wild-31",
+      "kind": "flora",
+      "sprite": "res://assets/objects/e70f7fe7-verdantia-extra-rose.webp",
+      "w": 233,
+      "h": 216,
+      "x": -63.09,
+      "z": -400.33,
+      "y": 47.43
+    },
+    {
+      "id": "verdant-wild-32",
+      "kind": "flora",
+      "sprite": "res://assets/objects/6e9e582b-ki-v2-objects-verdant-mushrooms-1.webp",
+      "w": 196,
+      "h": 185,
+      "x": -212.66,
+      "z": -440.37,
+      "y": 53.39
+    },
+    {
+      "id": "verdant-wild-33",
+      "kind": "camp",
+      "sprite": "res://assets/objects/6ceb4056-ki-v2-camps-verdant-bonfire.webp",
+      "w": 258,
+      "h": 248,
+      "x": -188.99,
+      "z": -458.77,
+      "y": 50.77
+    },
+    {
+      "id": "verdant-wild-34",
+      "kind": "tree",
+      "sprite": "res://assets/objects/37f48ddb-ki-v2-objects-verdant-oak-2.webp",
+      "w": 363,
+      "h": 383,
+      "x": -396.13,
+      "z": 86.99,
+      "y": 38.11
+    },
+    {
+      "id": "verdant-wild-35",
+      "kind": "flora",
+      "sprite": "res://assets/objects/27399570-verdantia-extra-blueberry.webp",
+      "w": 204,
+      "h": 184,
+      "x": -131.43,
+      "z": -347.34,
+      "y": 49.9
+    },
+    {
+      "id": "verdant-wild-36",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/7c9c601a-verdantia-extra-spring.webp",
+      "w": 378,
+      "h": 312,
+      "x": 366.05,
+      "z": -213.62,
+      "y": 5.6
+    },
+    {
+      "id": "verdant-wild-37",
+      "kind": "tree",
+      "sprite": "res://assets/objects/74b2bb88-verdantia-extra-ancient-oak.webp",
+      "w": 472,
+      "h": 482,
+      "x": 200.98,
+      "z": -191.12,
+      "y": 7.95
+    },
+    {
+      "id": "verdant-wild-38",
+      "kind": "tree",
+      "sprite": "res://assets/objects/fe9b1faa-ki-v2-objects-verdant-tree2-0.webp",
+      "w": 291,
+      "h": 318,
+      "x": -264.58,
+      "z": -72.32,
+      "y": 33.67
+    },
+    {
+      "id": "verdant-wild-39",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c4e9e6a1-ki-v2-objects-verdant-fern-0.webp",
+      "w": 169,
+      "h": 146,
+      "x": -76.39,
+      "z": -400.11,
+      "y": 46.49
+    },
+    {
+      "id": "verdant-wild-40",
+      "kind": "camp",
+      "sprite": "res://assets/objects/29d17949-verdantia-extra-camp.webp",
+      "w": 374,
+      "h": 306,
+      "x": 176.37,
+      "z": 124.16,
+      "y": 10.8
+    },
+    {
+      "id": "verdant-wild-41",
+      "kind": "tree",
+      "sprite": "res://assets/objects/21caeb8f-ki-v2-objects-verdant-oak-1.webp",
+      "w": 309,
+      "h": 332,
+      "x": -196.9,
+      "z": -457.89,
+      "y": 50.74
+    },
+    {
+      "id": "verdant-wild-42",
+      "kind": "flora",
+      "sprite": "res://assets/objects/48c51d4d-verdantia-extra-flowers.webp",
+      "w": 224,
+      "h": 188,
+      "x": 357.46,
+      "z": -164.91,
+      "y": 11.14
+    },
+    {
+      "id": "verdant-wild-43",
+      "kind": "flora",
+      "sprite": "res://assets/objects/8f3d6df6-ki-v2-objects-verdant-reeds-5.webp",
+      "w": 179,
+      "h": 188,
+      "x": -393.19,
+      "z": 127.45,
+      "y": 32.89
+    },
+    {
+      "id": "verdant-wild-44",
+      "kind": "camp",
+      "sprite": "res://assets/objects/6ceb4056-ki-v2-camps-verdant-bonfire.webp",
+      "w": 230,
+      "h": 220,
+      "x": 330.0,
+      "z": -392.86,
+      "y": 5.41
+    },
+    {
+      "id": "verdant-wild-45",
+      "kind": "tree",
+      "sprite": "res://assets/objects/9d3815c8-ki-v2-objects-verdant-oak-3.webp",
+      "w": 329,
+      "h": 349,
+      "x": 254.49,
+      "z": -131.41,
+      "y": 7.75
+    },
+    {
+      "id": "verdant-wild-46",
+      "kind": "flora",
+      "sprite": "res://assets/objects/9031832d-nature-obj-flower-bush.webp",
+      "w": 242,
+      "h": 214,
+      "x": -433.06,
+      "z": -244.67,
+      "y": 43.4
+    },
+    {
+      "id": "verdant-wild-47",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/7c9c601a-verdantia-extra-spring.webp",
+      "w": 340,
+      "h": 280,
+      "x": 173.74,
+      "z": 173.18,
+      "y": 13.84
+    },
+    {
+      "id": "verdant-wild-48",
+      "kind": "tree",
+      "sprite": "res://assets/objects/8c447433-ki-v2-objects-verdant-oak-0.webp",
+      "w": 376,
+      "h": 398,
+      "x": 276.81,
+      "z": 77.97,
+      "y": 8.58
+    },
+    {
+      "id": "verdant-wild-49",
+      "kind": "flora",
+      "sprite": "res://assets/objects/27399570-verdantia-extra-blueberry.webp",
+      "w": 193,
+      "h": 174,
+      "x": -223.61,
+      "z": -304.02,
+      "y": 53.8
+    },
+    {
+      "id": "verdant-wild-50",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/7c9c601a-verdantia-extra-spring.webp",
+      "w": 368,
+      "h": 303,
+      "x": -277.3,
+      "z": -330.78,
+      "y": 47.22
+    },
+    {
+      "id": "verdant-wild-51",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ce21ffe1-verdantia-extra-willow.webp",
+      "w": 375,
+      "h": 394,
+      "x": -391.91,
+      "z": -15.65,
+      "y": 40.63
+    },
+    {
+      "id": "verdant-wild-52",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ad73954b-island-4.props.olive-tree.webp",
+      "w": 324,
+      "h": 333,
+      "x": -439.97,
+      "z": -79.82,
+      "y": 41.79
+    },
+    {
+      "id": "verdant-wild-53",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c4e9e6a1-ki-v2-objects-verdant-fern-0.webp",
+      "w": 189,
+      "h": 163,
+      "x": 306.0,
+      "z": -298.53,
+      "y": 9.82
+    },
+    {
+      "id": "verdant-wild-54",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fa6d3bf2-verdantia-extra-shrine.webp",
+      "w": 329,
+      "h": 372,
+      "x": 118.82,
+      "z": -223.81,
+      "y": 10.17
+    },
+    {
+      "id": "verdant-wild-55",
+      "kind": "tree",
+      "sprite": "res://assets/objects/df63f301-verdantia-continent-pine.webp",
+      "w": 286,
+      "h": 384,
+      "x": 179.52,
+      "z": -454.68,
+      "y": 28.05
+    },
+    {
+      "id": "verdant-wild-56",
+      "kind": "flora",
+      "sprite": "res://assets/objects/e70f7fe7-verdantia-extra-rose.webp",
+      "w": 210,
+      "h": 195,
+      "x": -347.02,
+      "z": 69.21,
+      "y": 40.19
+    },
+    {
+      "id": "verdant-wild-57",
+      "kind": "flora",
+      "sprite": "res://assets/objects/6e9e582b-ki-v2-objects-verdant-mushrooms-1.webp",
+      "w": 196,
+      "h": 185,
+      "x": 22.88,
+      "z": -284.45,
+      "y": 26.09
+    },
+    {
+      "id": "verdant-wild-58",
+      "kind": "tree",
+      "sprite": "res://assets/objects/df63f301-verdantia-continent-pine.webp",
+      "w": 284,
+      "h": 382,
+      "x": -427.69,
+      "z": -354.65,
+      "y": 47.03
+    },
+    {
+      "id": "verdant-wild-59",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b1a00069-island-5.props.silver-willow.webp",
+      "w": 364,
+      "h": 384,
+      "x": -349.15,
+      "z": -85.32,
+      "y": 36.91
+    },
+    {
+      "id": "verdant-wild-60",
+      "kind": "camp",
+      "sprite": "res://assets/objects/6ceb4056-ki-v2-camps-verdant-bonfire.webp",
+      "w": 259,
+      "h": 248,
+      "x": -355.92,
+      "z": -12.67,
+      "y": 38.9
+    },
+    {
+      "id": "verdant-wild-61",
+      "kind": "tree",
+      "sprite": "res://assets/objects/37f48ddb-ki-v2-objects-verdant-oak-2.webp",
+      "w": 375,
+      "h": 396,
+      "x": -397.32,
+      "z": 133.77,
+      "y": 32.16
+    },
+    {
+      "id": "verdant-wild-62",
+      "kind": "flora",
+      "sprite": "res://assets/objects/27399570-verdantia-extra-blueberry.webp",
+      "w": 194,
+      "h": 175,
+      "x": -322.77,
+      "z": 160.58,
+      "y": 16.33
+    },
+    {
+      "id": "verdant-wild-63",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/7c9c601a-verdantia-extra-spring.webp",
+      "w": 348,
+      "h": 286,
+      "x": 292.57,
+      "z": -449.0,
+      "y": 6.93
+    },
+    {
+      "id": "verdant-wild-64",
+      "kind": "tree",
+      "sprite": "res://assets/objects/74b2bb88-verdantia-extra-ancient-oak.webp",
+      "w": 456,
+      "h": 466,
+      "x": 13.81,
+      "z": -323.75,
+      "y": 32.51
+    },
+    {
+      "id": "verdant-wild-65",
+      "kind": "tree",
+      "sprite": "res://assets/objects/fe9b1faa-ki-v2-objects-verdant-tree2-0.webp",
+      "w": 326,
+      "h": 356,
+      "x": -272.51,
+      "z": 155.79,
+      "y": 10.46
+    },
+    {
+      "id": "verdant-wild-66",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/7c9c601a-verdantia-extra-spring.webp",
+      "w": 310,
+      "h": 255,
+      "x": 195.29,
+      "z": 94.52,
+      "y": 9.88
+    },
+    {
+      "id": "verdant-wild-67",
+      "kind": "tree",
+      "sprite": "res://assets/objects/74b2bb88-verdantia-extra-ancient-oak.webp",
+      "w": 443,
+      "h": 453,
+      "x": -362.78,
+      "z": 136.41,
+      "y": 27.47
+    },
+    {
+      "id": "verdant-wild-68",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f977e5a7-ki-v2-objects-verdant-tree2-2.webp",
+      "w": 298,
+      "h": 326,
+      "x": 17.04,
+      "z": -397.05,
+      "y": 43.1
+    },
+    {
+      "id": "verdant-wild-69",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c4e9e6a1-ki-v2-objects-verdant-fern-0.webp",
+      "w": 175,
+      "h": 151,
+      "x": -149.88,
+      "z": -453.38,
+      "y": 48.31
+    },
+    {
+      "id": "verdant-wild-70",
+      "kind": "camp",
+      "sprite": "res://assets/objects/29d17949-verdantia-extra-camp.webp",
+      "w": 338,
+      "h": 277,
+      "x": -286.19,
+      "z": 87.68,
+      "y": 24.21
+    },
+    {
+      "id": "verdant-wild-71",
+      "kind": "tree",
+      "sprite": "res://assets/objects/9d3815c8-ki-v2-objects-verdant-oak-3.webp",
+      "w": 343,
+      "h": 363,
+      "x": 21.96,
+      "z": -277.53,
+      "y": 24.15
+    },
+    {
+      "id": "verdant-wild-72",
+      "kind": "flora",
+      "sprite": "res://assets/objects/68b9d6ee-verdantia-extra-mushrooms.webp",
+      "w": 175,
+      "h": 166,
+      "x": 231.03,
+      "z": 140.73,
+      "y": 12.92
+    },
+    {
+      "id": "verdant-wild-73",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fc1e269d-verdantia-extra-cave.webp",
+      "w": 404,
+      "h": 362,
+      "x": 117.62,
+      "z": -388.47,
+      "y": 24.16
+    },
+    {
+      "id": "verdant-wild-74",
+      "kind": "tree",
+      "sprite": "res://assets/objects/8c447433-ki-v2-objects-verdant-oak-0.webp",
+      "w": 362,
+      "h": 384,
+      "x": 196.73,
+      "z": 230.63,
+      "y": 10.04
+    },
+    {
+      "id": "verdant-wild-75",
+      "kind": "flora",
+      "sprite": "res://assets/objects/48c51d4d-verdantia-extra-flowers.webp",
+      "w": 217,
+      "h": 183,
+      "x": -333.68,
+      "z": -382.93,
+      "y": 44.63
+    },
+    {
+      "id": "verdant-wild-76",
+      "kind": "flora",
+      "sprite": "res://assets/objects/8f3d6df6-ki-v2-objects-verdant-reeds-5.webp",
+      "w": 205,
+      "h": 216,
+      "x": -412.05,
+      "z": -379.22,
+      "y": 44.91
+    },
+    {
+      "id": "verdant-wild-77",
+      "kind": "camp",
+      "sprite": "res://assets/objects/6ceb4056-ki-v2-camps-verdant-bonfire.webp",
+      "w": 270,
+      "h": 259,
+      "x": -459.27,
+      "z": -383.95,
+      "y": 45.0
+    },
+    {
+      "id": "verdant-wild-78",
+      "kind": "tree",
+      "sprite": "res://assets/objects/37f48ddb-ki-v2-objects-verdant-oak-2.webp",
+      "w": 316,
+      "h": 334,
+      "x": 20.65,
+      "z": -426.02,
+      "y": 45.75
+    },
+    {
+      "id": "verdant-wild-79",
+      "kind": "flora",
+      "sprite": "res://assets/objects/13955587-ki-v2-objects-verdant-flowerbush-0.webp",
+      "w": 213,
+      "h": 188,
+      "x": -46.15,
+      "z": -391.03,
+      "y": 48.34
+    },
+    {
+      "id": "verdant-wild-80",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fc1e269d-verdantia-extra-cave.webp",
+      "w": 425,
+      "h": 381,
+      "x": 68.49,
+      "z": -374.3,
+      "y": 28.21
+    },
+    {
+      "id": "verdant-wild-81",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b1a00069-island-5.props.silver-willow.webp",
+      "w": 347,
+      "h": 367,
+      "x": -247.71,
+      "z": -375.74,
+      "y": 49.4
+    },
+    {
+      "id": "verdant-wild-82",
+      "kind": "flora",
+      "sprite": "res://assets/objects/68b9d6ee-verdantia-extra-mushrooms.webp",
+      "w": 177,
+      "h": 168,
+      "x": 324.68,
+      "z": -163.41,
+      "y": 9.22
+    },
+    {
+      "id": "verdant-wild-83",
+      "kind": "tree",
+      "sprite": "res://assets/objects/711c3cbc-verdantia-extra-birch.webp",
+      "w": 308,
+      "h": 387,
+      "x": -0.6,
+      "z": -253.74,
+      "y": 20.61
+    },
+    {
+      "id": "verdant-wild-84",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b1a00069-island-5.props.silver-willow.webp",
+      "w": 372,
+      "h": 393,
+      "x": 321.13,
+      "z": -165.39,
+      "y": 9.0
+    },
+    {
+      "id": "verdant-wild-85",
+      "kind": "flora",
+      "sprite": "res://assets/objects/68b9d6ee-verdantia-extra-mushrooms.webp",
+      "w": 209,
+      "h": 199,
+      "x": 221.18,
+      "z": -62.66,
+      "y": 6.47
+    },
+    {
+      "id": "verdant-wild-86",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fc1e269d-verdantia-extra-cave.webp",
+      "w": 392,
+      "h": 352,
+      "x": 353.71,
+      "z": 253.26,
+      "y": 7.13
+    },
+    {
+      "id": "verdant-wild-87",
+      "kind": "tree",
+      "sprite": "res://assets/objects/37f48ddb-ki-v2-objects-verdant-oak-2.webp",
+      "w": 374,
+      "h": 395,
+      "x": 252.1,
+      "z": -329.88,
+      "y": 7.76
+    },
+    {
+      "id": "verdant-wild-88",
+      "kind": "flora",
+      "sprite": "res://assets/objects/13955587-ki-v2-objects-verdant-flowerbush-0.webp",
+      "w": 189,
+      "h": 166,
+      "x": 249.58,
+      "z": 92.01,
+      "y": 8.06
+    },
+    {
+      "id": "verdant-wild-89",
+      "kind": "rock",
+      "sprite": "res://assets/objects/701b11e2-verdantia-continent-rocks.webp",
+      "w": 280,
+      "h": 237,
+      "x": 311.88,
+      "z": -323.15,
+      "y": 7.74
+    },
+    {
+      "id": "verdant-wild-90",
+      "kind": "tree",
+      "sprite": "res://assets/objects/711c3cbc-verdantia-extra-birch.webp",
+      "w": 341,
+      "h": 429,
+      "x": -85.3,
+      "z": -445.21,
+      "y": 52.16
+    },
+    {
+      "id": "verdant-wild-91",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b1a00069-island-5.props.silver-willow.webp",
+      "w": 406,
+      "h": 429,
+      "x": 273.87,
+      "z": 171.66,
+      "y": 8.58
+    },
+    {
+      "id": "verdant-wild-92",
+      "kind": "flora",
+      "sprite": "res://assets/objects/8f3d6df6-ki-v2-objects-verdant-reeds-5.webp",
+      "w": 167,
+      "h": 176,
+      "x": 327.29,
+      "z": -231.79,
+      "y": 7.45
+    },
+    {
+      "id": "verdant-wild-93",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/a98e0b02-verdantia-extra-arch.webp",
+      "w": 398,
+      "h": 375,
+      "x": 108.04,
+      "z": -271.29,
+      "y": 10.35
+    },
+    {
+      "id": "verdant-wild-94",
+      "kind": "flora",
+      "sprite": "res://assets/objects/e70f7fe7-verdantia-extra-rose.webp",
+      "w": 229,
+      "h": 213,
+      "x": -156.59,
+      "z": -369.67,
+      "y": 51.25
+    },
+    {
+      "id": "verdant-wild-95",
+      "kind": "flora",
+      "sprite": "res://assets/objects/6e9e582b-ki-v2-objects-verdant-mushrooms-1.webp",
+      "w": 161,
+      "h": 152,
+      "x": 13.3,
+      "z": -228.2,
+      "y": 14.96
+    },
+    {
+      "id": "verdant-wild-96",
+      "kind": "tree",
+      "sprite": "res://assets/objects/74b2bb88-verdantia-extra-ancient-oak.webp",
+      "w": 408,
+      "h": 417,
+      "x": -145.42,
+      "z": -353.21,
+      "y": 50.81
+    },
+    {
+      "id": "verdant-wild-97",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f977e5a7-ki-v2-objects-verdant-tree2-2.webp",
+      "w": 341,
+      "h": 372,
+      "x": -406.83,
+      "z": -61.36,
+      "y": 39.44
+    },
+    {
+      "id": "verdant-wild-98",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5b60f067-verdantia-extra-fern.webp",
+      "w": 221,
+      "h": 187,
+      "x": 308.88,
+      "z": 197.26,
+      "y": 4.78
+    },
+    {
+      "id": "verdant-wild-99",
+      "kind": "camp",
+      "sprite": "res://assets/objects/29d17949-verdantia-extra-camp.webp",
+      "w": 352,
+      "h": 288,
+      "x": 303.77,
+      "z": -124.99,
+      "y": 11.06
+    },
+    {
+      "id": "verdant-wild-100",
+      "kind": "tree",
+      "sprite": "res://assets/objects/fe9b1faa-ki-v2-objects-verdant-tree2-0.webp",
+      "w": 301,
+      "h": 330,
+      "x": 355.88,
+      "z": -243.96,
+      "y": 6.54
+    },
+    {
+      "id": "verdant-wild-101",
+      "kind": "flora",
+      "sprite": "res://assets/objects/13955587-ki-v2-objects-verdant-flowerbush-0.webp",
+      "w": 188,
+      "h": 166,
+      "x": -101.01,
+      "z": -278.09,
+      "y": 45.93
+    },
+    {
+      "id": "verdant-wild-102",
+      "kind": "rock",
+      "sprite": "res://assets/objects/98845042-verdantia-extra-cliff.webp",
+      "w": 414,
+      "h": 348,
+      "x": 161.5,
+      "z": -335.12,
+      "y": 11.83
+    },
+    {
+      "id": "verdant-wild-103",
+      "kind": "tree",
+      "sprite": "res://assets/objects/df63f301-verdantia-continent-pine.webp",
+      "w": 300,
+      "h": 404,
+      "x": -325.38,
+      "z": 148.24,
+      "y": 19.95
+    },
+    {
+      "id": "verdant-wild-104",
+      "kind": "flora",
+      "sprite": "res://assets/objects/48c51d4d-verdantia-extra-flowers.webp",
+      "w": 227,
+      "h": 190,
+      "x": -317.9,
+      "z": -117.49,
+      "y": 38.35
+    },
+    {
+      "id": "verdant-wild-105",
+      "kind": "flora",
+      "sprite": "res://assets/objects/8f3d6df6-ki-v2-objects-verdant-reeds-5.webp",
+      "w": 194,
+      "h": 204,
+      "x": -82.39,
+      "z": -218.06,
+      "y": 34.4
+    },
+    {
+      "id": "verdant-wild-106",
+      "kind": "tree",
+      "sprite": "res://assets/objects/21caeb8f-ki-v2-objects-verdant-oak-1.webp",
+      "w": 313,
+      "h": 336,
+      "x": -285.7,
+      "z": -402.4,
+      "y": 48.91
+    },
+    {
+      "id": "verdant-wild-107",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c4e9e6a1-ki-v2-objects-verdant-fern-0.webp",
+      "w": 202,
+      "h": 175,
+      "x": -361.18,
+      "z": -411.19,
+      "y": 43.31
+    },
+    {
+      "id": "verdant-wild-108",
+      "kind": "camp",
+      "sprite": "res://assets/objects/29d17949-verdantia-extra-camp.webp",
+      "w": 335,
+      "h": 274,
+      "x": 85.6,
+      "z": -429.91,
+      "y": 28.01
+    },
+    {
+      "id": "verdant-wild-109",
+      "kind": "tree",
+      "sprite": "res://assets/objects/9d3815c8-ki-v2-objects-verdant-oak-3.webp",
+      "w": 335,
+      "h": 355,
+      "x": 149.37,
+      "z": -200.21,
+      "y": 8.72
+    },
+    {
+      "id": "verdant-wild-110",
+      "kind": "flora",
+      "sprite": "res://assets/objects/13955587-ki-v2-objects-verdant-flowerbush-0.webp",
+      "w": 192,
+      "h": 169,
+      "x": -287.48,
+      "z": -290.61,
+      "y": 46.67
+    },
+    {
+      "id": "verdant-wild-111",
+      "kind": "rock",
+      "sprite": "res://assets/objects/98845042-verdantia-extra-cliff.webp",
+      "w": 341,
+      "h": 287,
+      "x": 179.46,
+      "z": -111.73,
+      "y": 4.01
+    },
+    {
+      "id": "verdant-wild-112",
+      "kind": "tree",
+      "sprite": "res://assets/objects/711c3cbc-verdantia-extra-birch.webp",
+      "w": 341,
+      "h": 430,
+      "x": -324.9,
+      "z": -273.87,
+      "y": 47.15
+    },
+    {
+      "id": "verdant-wild-113",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b1a00069-island-5.props.silver-willow.webp",
+      "w": 390,
+      "h": 411,
+      "x": 143.44,
+      "z": -134.29,
+      "y": 3.09
+    },
+    {
+      "id": "verdant-wild-114",
+      "kind": "flora",
+      "sprite": "res://assets/objects/68b9d6ee-verdantia-extra-mushrooms.webp",
+      "w": 203,
+      "h": 193,
+      "x": 111.16,
+      "z": 216.09,
+      "y": 10.05
+    },
+    {
+      "id": "verdant-wild-115",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fc1e269d-verdantia-extra-cave.webp",
+      "w": 436,
+      "h": 391,
+      "x": 181.88,
+      "z": -316.34,
+      "y": 8.9
+    },
+    {
+      "id": "verdant-wild-116",
+      "kind": "tree",
+      "sprite": "res://assets/objects/8c447433-ki-v2-objects-verdant-oak-0.webp",
+      "w": 314,
+      "h": 332,
+      "x": -239.41,
+      "z": 210.24,
+      "y": 10.67
+    },
+    {
+      "id": "verdant-wild-117",
+      "kind": "flora",
+      "sprite": "res://assets/objects/48c51d4d-verdantia-extra-flowers.webp",
+      "w": 217,
+      "h": 183,
+      "x": 298.14,
+      "z": -429.27,
+      "y": 6.67
+    },
+    {
+      "id": "verdant-wild-118",
+      "kind": "flora",
+      "sprite": "res://assets/objects/8f3d6df6-ki-v2-objects-verdant-reeds-5.webp",
+      "w": 163,
+      "h": 172,
+      "x": -62.61,
+      "z": 212.21,
+      "y": 8.48
+    },
+    {
+      "id": "verdant-wild-119",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ce21ffe1-verdantia-extra-willow.webp",
+      "w": 410,
+      "h": 431,
+      "x": -393.13,
+      "z": 194.47,
+      "y": 23.39
+    },
+    {
+      "id": "verdant-wild-120",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ad73954b-island-4.props.olive-tree.webp",
+      "w": 301,
+      "h": 310,
+      "x": 182.56,
+      "z": 129.56,
+      "y": 12.12
+    },
+    {
+      "id": "verdant-wild-121",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/7c9c601a-verdantia-extra-spring.webp",
+      "w": 336,
+      "h": 276,
+      "x": -136.77,
+      "z": -441.17,
+      "y": 47.73
+    },
+    {
+      "id": "verdant-wild-122",
+      "kind": "tree",
+      "sprite": "res://assets/objects/74b2bb88-verdantia-extra-ancient-oak.webp",
+      "w": 511,
+      "h": 522,
+      "x": 153.8,
+      "z": -341.62,
+      "y": 13.38
+    },
+    {
+      "id": "verdant-wild-123",
+      "kind": "tree",
+      "sprite": "res://assets/objects/fe9b1faa-ki-v2-objects-verdant-tree2-0.webp",
+      "w": 362,
+      "h": 396,
+      "x": -462.87,
+      "z": -154.79,
+      "y": 40.74
+    },
+    {
+      "id": "verdant-wild-124",
+      "kind": "rock",
+      "sprite": "res://assets/objects/98845042-verdantia-extra-cliff.webp",
+      "w": 404,
+      "h": 340,
+      "x": -362.51,
+      "z": 226.44,
+      "y": 12.68
+    },
+    {
+      "id": "verdant-wild-125",
+      "kind": "tree",
+      "sprite": "res://assets/objects/21caeb8f-ki-v2-objects-verdant-oak-1.webp",
+      "w": 319,
+      "h": 342,
+      "x": -0.57,
+      "z": -452.03,
+      "y": 45.34
+    },
+    {
+      "id": "verdant-wild-126",
+      "kind": "flora",
+      "sprite": "res://assets/objects/9031832d-nature-obj-flower-bush.webp",
+      "w": 208,
+      "h": 184,
+      "x": 34.57,
+      "z": -239.52,
+      "y": 15.91
+    },
+    {
+      "id": "verdant-wild-127",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/7c9c601a-verdantia-extra-spring.webp",
+      "w": 304,
+      "h": 250,
+      "x": 209.72,
+      "z": -7.29,
+      "y": 5.48
+    },
+    {
+      "id": "verdant-wild-128",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ce21ffe1-verdantia-extra-willow.webp",
+      "w": 349,
+      "h": 367,
+      "x": 116.66,
+      "z": -404.36,
+      "y": 23.83
+    },
+    {
+      "id": "verdant-wild-129",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b1a00069-island-5.props.silver-willow.webp",
+      "w": 370,
+      "h": 391,
+      "x": 350.12,
+      "z": 257.99,
+      "y": 6.6
+    },
+    {
+      "id": "verdant-wild-130",
+      "kind": "flora",
+      "sprite": "res://assets/objects/68b9d6ee-verdantia-extra-mushrooms.webp",
+      "w": 177,
+      "h": 168,
+      "x": 168.22,
+      "z": 213.47,
+      "y": 11.78
+    },
+    {
+      "id": "verdant-wild-131",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fc1e269d-verdantia-extra-cave.webp",
+      "w": 372,
+      "h": 334,
+      "x": 268.35,
+      "z": -390.54,
+      "y": 7.78
+    },
+    {
+      "id": "verdant-wild-132",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ad73954b-island-4.props.olive-tree.webp",
+      "w": 352,
+      "h": 362,
+      "x": 43.0,
+      "z": 231.79,
+      "y": 6.16
+    },
+    {
+      "id": "verdant-wild-133",
+      "kind": "flora",
+      "sprite": "res://assets/objects/68b9d6ee-verdantia-extra-mushrooms.webp",
+      "w": 207,
+      "h": 196,
+      "x": 254.21,
+      "z": -355.12,
+      "y": 8.59
+    },
+    {
+      "id": "verdant-wild-134",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fc1e269d-verdantia-extra-cave.webp",
+      "w": 352,
+      "h": 316,
+      "x": -408.83,
+      "z": 132.06,
+      "y": 33.32
+    },
+    {
+      "id": "verdant-wild-135",
+      "kind": "tree",
+      "sprite": "res://assets/objects/8c447433-ki-v2-objects-verdant-oak-0.webp",
+      "w": 378,
+      "h": 400,
+      "x": 0.99,
+      "z": -412.86,
+      "y": 44.52
+    },
+    {
+      "id": "verdant-wild-136",
+      "kind": "flora",
+      "sprite": "res://assets/objects/9031832d-nature-obj-flower-bush.webp",
+      "w": 230,
+      "h": 203,
+      "x": 62.06,
+      "z": -388.28,
+      "y": 32.43
+    },
+    {
+      "id": "verdant-wild-137",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/7c9c601a-verdantia-extra-spring.webp",
+      "w": 361,
+      "h": 297,
+      "x": -368.61,
+      "z": -415.81,
+      "y": 42.89
+    },
+    {
+      "id": "verdant-wild-138",
+      "kind": "tree",
+      "sprite": "res://assets/objects/df63f301-verdantia-continent-pine.webp",
+      "w": 316,
+      "h": 425,
+      "x": 78.58,
+      "z": -241.2,
+      "y": 11.38
+    },
+    {
+      "id": "verdant-wild-139",
+      "kind": "flora",
+      "sprite": "res://assets/objects/e70f7fe7-verdantia-extra-rose.webp",
+      "w": 196,
+      "h": 182,
+      "x": 136.0,
+      "z": 191.35,
+      "y": 9.75
+    },
+    {
+      "id": "verdant-wild-140",
+      "kind": "flora",
+      "sprite": "res://assets/objects/6e9e582b-ki-v2-objects-verdant-mushrooms-1.webp",
+      "w": 198,
+      "h": 187,
+      "x": -431.14,
+      "z": -92.65,
+      "y": 40.43
+    },
+    {
+      "id": "verdant-wild-141",
+      "kind": "camp",
+      "sprite": "res://assets/objects/29d17949-verdantia-extra-camp.webp",
+      "w": 292,
+      "h": 239,
+      "x": 112.49,
+      "z": -306.46,
+      "y": 14.12
+    },
+    {
+      "id": "verdant-wild-142",
+      "kind": "tree",
+      "sprite": "res://assets/objects/21caeb8f-ki-v2-objects-verdant-oak-1.webp",
+      "w": 312,
+      "h": 335,
+      "x": -376.38,
+      "z": -31.03,
+      "y": 41.58
+    },
+    {
+      "id": "verdant-wild-143",
+      "kind": "flora",
+      "sprite": "res://assets/objects/9031832d-nature-obj-flower-bush.webp",
+      "w": 235,
+      "h": 208,
+      "x": -140.32,
+      "z": 140.83,
+      "y": 6.63
+    },
+    {
+      "id": "verdant-wild-144",
+      "kind": "rock",
+      "sprite": "res://assets/objects/98845042-verdantia-extra-cliff.webp",
+      "w": 399,
+      "h": 336,
+      "x": -83.07,
+      "z": -186.36,
+      "y": 26.86
+    },
+    {
+      "id": "verdant-wild-145",
+      "kind": "tree",
+      "sprite": "res://assets/objects/df63f301-verdantia-continent-pine.webp",
+      "w": 309,
+      "h": 415,
+      "x": 273.89,
+      "z": 82.85,
+      "y": 8.55
+    },
+    {
+      "id": "verdant-wild-146",
+      "kind": "flora",
+      "sprite": "res://assets/objects/e70f7fe7-verdantia-extra-rose.webp",
+      "w": 185,
+      "h": 171,
+      "x": 173.58,
+      "z": -165.28,
+      "y": 5.69
+    },
+    {
+      "id": "verdant-wild-147",
+      "kind": "flora",
+      "sprite": "res://assets/objects/8f3d6df6-ki-v2-objects-verdant-reeds-5.webp",
+      "w": 172,
+      "h": 182,
+      "x": -53.06,
+      "z": -425.63,
+      "y": 50.3
+    },
+    {
+      "id": "verdant-wild-148",
+      "kind": "camp",
+      "sprite": "res://assets/objects/6ceb4056-ki-v2-camps-verdant-bonfire.webp",
+      "w": 249,
+      "h": 239,
+      "x": -322.79,
+      "z": 187.39,
+      "y": 12.31
+    },
+    {
+      "id": "verdant-wild-149",
+      "kind": "tree",
+      "sprite": "res://assets/objects/37f48ddb-ki-v2-objects-verdant-oak-2.webp",
+      "w": 330,
+      "h": 349,
+      "x": -394.4,
+      "z": -388.8,
+      "y": 45.21
+    },
+    {
+      "id": "verdant-wild-150",
+      "kind": "flora",
+      "sprite": "res://assets/objects/27399570-verdantia-extra-blueberry.webp",
+      "w": 202,
+      "h": 182,
+      "x": 25.33,
+      "z": -377.52,
+      "y": 39.16
+    },
+    {
+      "id": "verdant-wild-151",
+      "kind": "rock",
+      "sprite": "res://assets/objects/701b11e2-verdantia-continent-rocks.webp",
+      "w": 228,
+      "h": 193,
+      "x": 67.5,
+      "z": -444.05,
+      "y": 34.2
+    },
+    {
+      "id": "verdant-wild-152",
+      "kind": "tree",
+      "sprite": "res://assets/objects/711c3cbc-verdantia-extra-birch.webp",
+      "w": 287,
+      "h": 362,
+      "x": -312.06,
+      "z": -215.06,
+      "y": 47.99
+    },
+    {
+      "id": "verdant-wild-153",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ad73954b-island-4.props.olive-tree.webp",
+      "w": 347,
+      "h": 357,
+      "x": 53.51,
+      "z": -181.08,
+      "y": 3.75
+    },
+    {
+      "id": "verdant-wild-154",
+      "kind": "flora",
+      "sprite": "res://assets/objects/68b9d6ee-verdantia-extra-mushrooms.webp",
+      "w": 201,
+      "h": 191,
+      "x": -397.28,
+      "z": 219.88,
+      "y": 19.63
+    },
+    {
+      "id": "verdant-wild-155",
+      "kind": "tree",
+      "sprite": "res://assets/objects/74b2bb88-verdantia-extra-ancient-oak.webp",
+      "w": 512,
+      "h": 523,
+      "x": -303.4,
+      "z": -343.97,
+      "y": 46.91
+    },
+    {
+      "id": "verdant-wild-156",
+      "kind": "tree",
+      "sprite": "res://assets/objects/fe9b1faa-ki-v2-objects-verdant-tree2-0.webp",
+      "w": 361,
+      "h": 395,
+      "x": -451.57,
+      "z": -73.55,
+      "y": 42.99
+    },
+    {
+      "id": "verdant-wild-157",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5b60f067-verdantia-extra-fern.webp",
+      "w": 191,
+      "h": 162,
+      "x": 103.13,
+      "z": -294.75,
+      "y": 13.25
+    },
+    {
+      "id": "verdant-wild-158",
+      "kind": "rock",
+      "sprite": "res://assets/objects/98845042-verdantia-extra-cliff.webp",
+      "w": 363,
+      "h": 306,
+      "x": -365.34,
+      "z": -385.98,
+      "y": 45.89
+    },
+    {
+      "id": "verdant-wild-159",
+      "kind": "tree",
+      "sprite": "res://assets/objects/8c447433-ki-v2-objects-verdant-oak-0.webp",
+      "w": 380,
+      "h": 402,
+      "x": 326.01,
+      "z": -138.95,
+      "y": 11.37
+    },
+    {
+      "id": "verdant-wild-160",
+      "kind": "flora",
+      "sprite": "res://assets/objects/13955587-ki-v2-objects-verdant-flowerbush-0.webp",
+      "w": 215,
+      "h": 189,
+      "x": -459.42,
+      "z": -107.82,
+      "y": 42.04
+    },
+    {
+      "id": "verdant-wild-161",
+      "kind": "camp",
+      "sprite": "res://assets/objects/29d17949-verdantia-extra-camp.webp",
+      "w": 364,
+      "h": 298,
+      "x": -273.5,
+      "z": -303.15,
+      "y": 47.77
+    },
+    {
+      "id": "verdant-wild-162",
+      "kind": "tree",
+      "sprite": "res://assets/objects/37f48ddb-ki-v2-objects-verdant-oak-2.webp",
+      "w": 382,
+      "h": 404,
+      "x": 123.53,
+      "z": -311.43,
+      "y": 13.24
+    },
+    {
+      "id": "verdant-wild-163",
+      "kind": "flora",
+      "sprite": "res://assets/objects/27399570-verdantia-extra-blueberry.webp",
+      "w": 213,
+      "h": 191,
+      "x": -371.19,
+      "z": 179.92,
+      "y": 21.1
+    },
+    {
+      "id": "verdant-wild-164",
+      "kind": "camp",
+      "sprite": "res://assets/objects/29d17949-verdantia-extra-camp.webp",
+      "w": 336,
+      "h": 275,
+      "x": 66.56,
+      "z": -450.11,
+      "y": 33.27
+    },
+    {
+      "id": "verdant-wild-165",
+      "kind": "tree",
+      "sprite": "res://assets/objects/21caeb8f-ki-v2-objects-verdant-oak-1.webp",
+      "w": 300,
+      "h": 322,
+      "x": 182.97,
+      "z": -152.14,
+      "y": 6.13
+    },
+    {
+      "id": "verdant-wild-166",
+      "kind": "flora",
+      "sprite": "res://assets/objects/27399570-verdantia-extra-blueberry.webp",
+      "w": 196,
+      "h": 177,
+      "x": -224.21,
+      "z": -427.65,
+      "y": 48.41
+    },
+    {
+      "id": "verdant-wild-167",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fa6d3bf2-verdantia-extra-shrine.webp",
+      "w": 324,
+      "h": 366,
+      "x": 228.17,
+      "z": 187.99,
+      "y": 11.52
+    },
+    {
+      "id": "verdant-wild-168",
+      "kind": "tree",
+      "sprite": "res://assets/objects/8c447433-ki-v2-objects-verdant-oak-0.webp",
+      "w": 376,
+      "h": 399,
+      "x": -6.74,
+      "z": -430.07,
+      "y": 45.31
+    },
+    {
+      "id": "verdant-wild-169",
+      "kind": "flora",
+      "sprite": "res://assets/objects/8f3d6df6-ki-v2-objects-verdant-reeds-5.webp",
+      "w": 193,
+      "h": 204,
+      "x": -130.49,
+      "z": 262.29,
+      "y": 8.96
+    },
+    {
+      "id": "verdant-wild-170",
+      "kind": "tree",
+      "sprite": "res://assets/objects/8c447433-ki-v2-objects-verdant-oak-0.webp",
+      "w": 381,
+      "h": 404,
+      "x": 193.34,
+      "z": -145.21,
+      "y": 5.87
+    },
+    {
+      "id": "verdant-wild-171",
+      "kind": "flora",
+      "sprite": "res://assets/objects/48c51d4d-verdantia-extra-flowers.webp",
+      "w": 205,
+      "h": 172,
+      "x": -73.03,
+      "z": -416.74,
+      "y": 50.29
+    },
+    {
+      "id": "verdant-wild-172",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/7c9c601a-verdantia-extra-spring.webp",
+      "w": 351,
+      "h": 289,
+      "x": 289.1,
+      "z": -316.72,
+      "y": 9.51
+    },
+    {
+      "id": "verdant-wild-173",
+      "kind": "tree",
+      "sprite": "res://assets/objects/df63f301-verdantia-continent-pine.webp",
+      "w": 290,
+      "h": 391,
+      "x": 273.39,
+      "z": 240.36,
+      "y": 6.08
+    },
+    {
+      "id": "verdant-wild-174",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b1a00069-island-5.props.silver-willow.webp",
+      "w": 343,
+      "h": 362,
+      "x": -135.64,
+      "z": 262.97,
+      "y": 9.37
+    },
+    {
+      "id": "verdant-wild-175",
+      "kind": "flora",
+      "sprite": "res://assets/objects/8f3d6df6-ki-v2-objects-verdant-reeds-5.webp",
+      "w": 163,
+      "h": 172,
+      "x": 180.07,
+      "z": 218.59,
+      "y": 11.74
+    },
+    {
+      "id": "verdant-wild-176",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/a98e0b02-verdantia-extra-arch.webp",
+      "w": 346,
+      "h": 326,
+      "x": -426.98,
+      "z": -234.54,
+      "y": 43.81
+    },
+    {
+      "id": "verdant-wild-177",
+      "kind": "flora",
+      "sprite": "res://assets/objects/e70f7fe7-verdantia-extra-rose.webp",
+      "w": 187,
+      "h": 173,
+      "x": 5.05,
+      "z": -419.03,
+      "y": 45.28
+    },
+    {
+      "id": "verdant-wild-178",
+      "kind": "flora",
+      "sprite": "res://assets/objects/6e9e582b-ki-v2-objects-verdant-mushrooms-1.webp",
+      "w": 198,
+      "h": 187,
+      "x": 204.47,
+      "z": -100.69,
+      "y": 3.75
+    },
+    {
+      "id": "verdant-wild-179",
+      "kind": "camp",
+      "sprite": "res://assets/objects/6ceb4056-ki-v2-camps-verdant-bonfire.webp",
+      "w": 222,
+      "h": 213,
+      "x": 354.29,
+      "z": -217.25,
+      "y": 6.28
+    },
+    {
+      "id": "verdant-wild-180",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b1a00069-island-5.props.silver-willow.webp",
+      "w": 378,
+      "h": 399,
+      "x": -218.62,
+      "z": -443.96,
+      "y": 53.1
+    },
+    {
+      "id": "verdant-wild-181",
+      "kind": "flora",
+      "sprite": "res://assets/objects/68b9d6ee-verdantia-extra-mushrooms.webp",
+      "w": 190,
+      "h": 181,
+      "x": 219.49,
+      "z": -189.49,
+      "y": 7.93
+    },
+    {
+      "id": "verdant-wild-182",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fc1e269d-verdantia-extra-cave.webp",
+      "w": 436,
+      "h": 391,
+      "x": 206.98,
+      "z": -218.61,
+      "y": 8.57
+    },
+    {
+      "id": "verdant-wild-183",
+      "kind": "tree",
+      "sprite": "res://assets/objects/21caeb8f-ki-v2-objects-verdant-oak-1.webp",
+      "w": 363,
+      "h": 390,
+      "x": 215.07,
+      "z": -380.85,
+      "y": 10.65
+    },
+    {
+      "id": "verdant-wild-184",
+      "kind": "flora",
+      "sprite": "res://assets/objects/27399570-verdantia-extra-blueberry.webp",
+      "w": 219,
+      "h": 197,
+      "x": -84.95,
+      "z": 227.18,
+      "y": 8.65
+    },
+    {
+      "id": "verdant-wild-185",
+      "kind": "rock",
+      "sprite": "res://assets/objects/701b11e2-verdantia-continent-rocks.webp",
+      "w": 247,
+      "h": 209,
+      "x": -462.68,
+      "z": -85.22,
+      "y": 42.47
+    },
+    {
+      "id": "verdant-wild-186",
+      "kind": "tree",
+      "sprite": "res://assets/objects/9d3815c8-ki-v2-objects-verdant-oak-3.webp",
+      "w": 343,
+      "h": 363,
+      "x": -412.04,
+      "z": -280.0,
+      "y": 42.88
+    },
+    {
+      "id": "verdant-wild-187",
+      "kind": "flora",
+      "sprite": "res://assets/objects/13955587-ki-v2-objects-verdant-flowerbush-0.webp",
+      "w": 213,
+      "h": 187,
+      "x": 346.33,
+      "z": -287.38,
+      "y": 7.78
+    },
+    {
+      "id": "verdant-wild-188",
+      "kind": "rock",
+      "sprite": "res://assets/objects/98845042-verdantia-extra-cliff.webp",
+      "w": 378,
+      "h": 318,
+      "x": -319.57,
+      "z": 138.74,
+      "y": 20.69
+    },
+    {
+      "id": "verdant-wild-189",
+      "kind": "tree",
+      "sprite": "res://assets/objects/df63f301-verdantia-continent-pine.webp",
+      "w": 256,
+      "h": 344,
+      "x": -321.67,
+      "z": 212.87,
+      "y": 12.03
+    },
+    {
+      "id": "verdant-wild-190",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b1a00069-island-5.props.silver-willow.webp",
+      "w": 360,
+      "h": 380,
+      "x": 318.87,
+      "z": -33.09,
+      "y": 13.74
+    },
+    {
+      "id": "verdant-wild-191",
+      "kind": "flora",
+      "sprite": "res://assets/objects/68b9d6ee-verdantia-extra-mushrooms.webp",
+      "w": 213,
+      "h": 202,
+      "x": -368.0,
+      "z": 178.39,
+      "y": 20.78
+    },
+    {
+      "id": "verdant-wild-192",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fc1e269d-verdantia-extra-cave.webp",
+      "w": 392,
+      "h": 352,
+      "x": 290.88,
+      "z": -17.47,
+      "y": 12.29
+    },
+    {
+      "id": "verdant-wild-193",
+      "kind": "tree",
+      "sprite": "res://assets/objects/21caeb8f-ki-v2-objects-verdant-oak-1.webp",
+      "w": 318,
+      "h": 341,
+      "x": 58.73,
+      "z": -184.89,
+      "y": 4.61
+    },
+    {
+      "id": "verdant-wild-194",
+      "kind": "flora",
+      "sprite": "res://assets/objects/27399570-verdantia-extra-blueberry.webp",
+      "w": 216,
+      "h": 195,
+      "x": 174.53,
+      "z": -221.03,
+      "y": 9.36
+    },
+    {
+      "id": "verdant-wild-195",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/7c9c601a-verdantia-extra-spring.webp",
+      "w": 332,
+      "h": 273,
+      "x": -407.31,
+      "z": 112.58,
+      "y": 36.76
+    },
+    {
+      "id": "verdant-wild-196",
+      "kind": "tree",
+      "sprite": "res://assets/objects/711c3cbc-verdantia-extra-birch.webp",
+      "w": 326,
+      "h": 411,
+      "x": -431.87,
+      "z": -293.79,
+      "y": 41.47
+    },
+    {
+      "id": "verdant-wild-197",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b1a00069-island-5.props.silver-willow.webp",
+      "w": 323,
+      "h": 341,
+      "x": -320.34,
+      "z": -224.11,
+      "y": 48.08
+    },
+    {
+      "id": "verdant-wild-198",
+      "kind": "camp",
+      "sprite": "res://assets/objects/29d17949-verdantia-extra-camp.webp",
+      "w": 349,
+      "h": 285,
+      "x": -432.83,
+      "z": 64.66,
+      "y": 40.89
+    },
+    {
+      "id": "verdant-wild-199",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ad73954b-island-4.props.olive-tree.webp",
+      "w": 353,
+      "h": 364,
+      "x": -308.48,
+      "z": -412.68,
+      "y": 46.05
+    },
+    {
+      "id": "verdant-wild-200",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c4e9e6a1-ki-v2-objects-verdant-fern-0.webp",
+      "w": 195,
+      "h": 169,
+      "x": -412.57,
+      "z": -375.68,
+      "y": 44.79
+    },
+    {
+      "id": "verdant-wild-201",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/fc1e269d-verdantia-extra-cave.webp",
+      "w": 386,
+      "h": 347,
+      "x": 183.88,
+      "z": 154.79,
+      "y": 14.39
+    },
+    {
+      "id": "verdant-wild-202",
+      "kind": "tree",
+      "sprite": "res://assets/objects/9d3815c8-ki-v2-objects-verdant-oak-3.webp",
+      "w": 380,
+      "h": 402,
+      "x": -267.43,
+      "z": 205.3,
+      "y": 11.22
+    },
+    {
+      "id": "verdant-wild-203",
+      "kind": "flora",
+      "sprite": "res://assets/objects/13955587-ki-v2-objects-verdant-flowerbush-0.webp",
+      "w": 237,
+      "h": 209,
+      "x": -451.39,
+      "z": -51.6,
+      "y": 43.07
+    },
+    {
+      "id": "verdant-wild-204",
+      "kind": "rock",
+      "sprite": "res://assets/objects/98845042-verdantia-extra-cliff.webp",
+      "w": 431,
+      "h": 363,
+      "x": -55.17,
+      "z": -391.18,
+      "y": 47.46
+    },
+    {
+      "id": "verdant-wild-205",
+      "kind": "tree",
+      "sprite": "res://assets/objects/711c3cbc-verdantia-extra-birch.webp",
+      "w": 328,
+      "h": 412,
+      "x": -462.13,
+      "z": -130.1,
+      "y": 42.2
+    },
+    {
+      "id": "verdant-wild-206",
+      "kind": "flora",
+      "sprite": "res://assets/objects/e70f7fe7-verdantia-extra-rose.webp",
+      "w": 236,
+      "h": 219,
+      "x": -402.0,
+      "z": -354.9,
+      "y": 45.91
+    },
+    {
+      "id": "verdant-wild-207",
+      "kind": "flora",
+      "sprite": "res://assets/objects/8f3d6df6-ki-v2-objects-verdant-reeds-5.webp",
+      "w": 198,
+      "h": 208,
+      "x": 199.04,
+      "z": 84.15,
+      "y": 9.93
+    },
+    {
+      "id": "verdant-wild-208",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/a98e0b02-verdantia-extra-arch.webp",
+      "w": 373,
+      "h": 351,
+      "x": -457.74,
+      "z": -46.69,
+      "y": 43.61
+    },
+    {
+      "id": "verdant-wild-209",
+      "kind": "tree",
+      "sprite": "res://assets/objects/f977e5a7-ki-v2-objects-verdant-tree2-2.webp",
+      "w": 335,
+      "h": 365,
+      "x": -295.72,
+      "z": -279.57,
+      "y": 44.82
+    }
+  ]
+}

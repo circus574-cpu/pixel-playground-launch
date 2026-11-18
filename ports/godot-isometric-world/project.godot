@@ -1,0 +1,21 @@
+; KI Legends — 2D Isometric World & 4 Capitals + Planet Atlas (Godot 4.6.3)
+config_version=5
+[application]
+config/name="KI Legends — Świat Izometryczny 2D"
+run/main_scene="res://world.tscn"
+config/features=PackedStringArray("4.6", "Mobile")
+config/use_custom_user_dir=true
+config/custom_user_dir_name="ki-legends-isometric-world"
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/handheld/orientation=4
+[rendering]
+renderer/rendering_method="mobile"
+renderer/rendering_method.mobile="mobile"
+environment/defaults/default_clear_color=Color(0.045,0.04,0.045,1)
+[physics]
+common/physics_ticks_per_second=60
+[input_devices]
+pointing/emulate_mouse_from_touch=true

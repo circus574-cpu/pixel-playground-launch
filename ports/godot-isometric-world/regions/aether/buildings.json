@@ -1,0 +1,3940 @@
+{
+  "land_id": "aether",
+  "world_size": 1024.0,
+  "grid_size": 512,
+  "safe_city_radius": 180.0,
+  "buildings": [
+    {
+      "id": "aether-sanctum",
+      "title": "Sanktuarium Pustej Paginy",
+      "role": "landmark",
+      "sprite": "res://assets/objects/df70d07d-aether-art-ki-source.webp",
+      "w": 540,
+      "h": 520,
+      "x": 0.0,
+      "z": -68.0,
+      "y": 13.24
+    },
+    {
+      "id": "aether-hall",
+      "title": "Pawilon Tysiąca Źródeł",
+      "role": "hall",
+      "sprite": "res://assets/objects/2b002168-aether-painted-hall.webp",
+      "w": 620,
+      "h": 455,
+      "x": 0.0,
+      "z": -12.0,
+      "y": 24.15
+    },
+    {
+      "id": "aether-koi",
+      "title": "Staw Lustrzeń i Karpi Koi",
+      "role": "landmark",
+      "sprite": "res://assets/objects/971c1090-aether-x-koi-pond.webp",
+      "w": 620,
+      "h": 410,
+      "x": 0.0,
+      "z": 42.0,
+      "y": 24.13
+    },
+    {
+      "id": "aether-observatory",
+      "title": "Wschodnie Obserwatorium Sygnałów",
+      "role": "landmark",
+      "sprite": "res://assets/objects/0ca65cb7-ki-v2-landmarks-aether-observatory.webp",
+      "w": 640,
+      "h": 740,
+      "x": 132.0,
+      "z": -95.0,
+      "y": 5.15
+    },
+    {
+      "id": "aether-archive",
+      "title": "Zachodnie Archiwum Imion",
+      "role": "landmark",
+      "sprite": "res://assets/objects/fff58068-ki-v2-landmarks-aether-archive.webp",
+      "w": 680,
+      "h": 730,
+      "x": -132.0,
+      "z": -95.0,
+      "y": 5.06
+    },
+    {
+      "id": "aether-smithy",
+      "title": "Kuźnia Pieczęci",
+      "role": "smithy",
+      "sprite": "res://assets/objects/ff1310ee-aether-painted-smithy.webp",
+      "w": 600,
+      "h": 455,
+      "x": -115.0,
+      "z": -18.0,
+      "y": 12.89
+    },
+    {
+      "id": "aether-inn",
+      "title": "Herbaciarnia Obłoków",
+      "role": "inn",
+      "sprite": "res://assets/objects/ac6ae586-aether-painted-inn.webp",
+      "w": 600,
+      "h": 465,
+      "x": 115.0,
+      "z": -18.0,
+      "y": 12.96
+    },
+    {
+      "id": "aether-shop",
+      "title": "Dom Wymiany Zwojów",
+      "role": "shop",
+      "sprite": "res://assets/objects/866fc0e8-aether-painted-shop.webp",
+      "w": 600,
+      "h": 445,
+      "x": -112.0,
+      "z": 64.0,
+      "y": 13.1
+    },
+    {
+      "id": "aether-arena",
+      "title": "Krąg Skupienia Ki",
+      "role": "arena",
+      "sprite": "res://assets/objects/6d7c1c83-aether-painted-arena.webp",
+      "w": 780,
+      "h": 540,
+      "x": 118.0,
+      "z": 64.0,
+      "y": 12.82
+    },
+    {
+      "id": "aether-depot",
+      "title": "Skarbiec Zwojów",
+      "role": "depot",
+      "sprite": "res://assets/objects/806ab11b-aether-painted-depot.webp",
+      "w": 600,
+      "h": 435,
+      "x": 0.0,
+      "z": 118.0,
+      "y": 13.14
+    },
+    {
+      "id": "aether-house-0",
+      "title": "Pawilon Uczonych",
+      "role": "house",
+      "sprite": "res://assets/objects/19c93221-ki-v2-buildings-aether-house.webp",
+      "w": 275,
+      "h": 260,
+      "x": -145.0,
+      "z": -52.0,
+      "y": 4.95
+    },
+    {
+      "id": "aether-house-1",
+      "title": "Pawilon Uczonych",
+      "role": "house",
+      "sprite": "res://assets/objects/19c93221-ki-v2-buildings-aether-house.webp",
+      "w": 275,
+      "h": 260,
+      "x": -148.0,
+      "z": 24.0,
+      "y": 5.28
+    },
+    {
+      "id": "aether-house-2",
+      "title": "Pawilon Uczonych",
+      "role": "house",
+      "sprite": "res://assets/objects/19c93221-ki-v2-buildings-aether-house.webp",
+      "w": 275,
+      "h": 260,
+      "x": -132.0,
+      "z": 112.0,
+      "y": 5.16
+    },
+    {
+      "id": "aether-house-3",
+      "title": "Pawilon Uczonych",
+      "role": "house",
+      "sprite": "res://assets/objects/19c93221-ki-v2-buildings-aether-house.webp",
+      "w": 275,
+      "h": 260,
+      "x": 145.0,
+      "z": -52.0,
+      "y": 4.97
+    },
+    {
+      "id": "aether-house-4",
+      "title": "Pawilon Uczonych",
+      "role": "house",
+      "sprite": "res://assets/objects/19c93221-ki-v2-buildings-aether-house.webp",
+      "w": 275,
+      "h": 260,
+      "x": 148.0,
+      "z": 24.0,
+      "y": 5.18
+    },
+    {
+      "id": "aether-house-5",
+      "title": "Pawilon Uczonych",
+      "role": "house",
+      "sprite": "res://assets/objects/19c93221-ki-v2-buildings-aether-house.webp",
+      "w": 275,
+      "h": 260,
+      "x": 132.0,
+      "z": 112.0,
+      "y": 4.88
+    },
+    {
+      "id": "aether-house-6",
+      "title": "Pawilon Uczonych",
+      "role": "house",
+      "sprite": "res://assets/objects/19c93221-ki-v2-buildings-aether-house.webp",
+      "w": 275,
+      "h": 260,
+      "x": -54.0,
+      "z": -128.0,
+      "y": 12.34
+    },
+    {
+      "id": "aether-house-7",
+      "title": "Pawilon Uczonych",
+      "role": "house",
+      "sprite": "res://assets/objects/19c93221-ki-v2-buildings-aether-house.webp",
+      "w": 275,
+      "h": 260,
+      "x": 54.0,
+      "z": -128.0,
+      "y": 12.03
+    },
+    {
+      "id": "aether-house-8",
+      "title": "Pawilon Uczonych",
+      "role": "house",
+      "sprite": "res://assets/objects/19c93221-ki-v2-buildings-aether-house.webp",
+      "w": 275,
+      "h": 260,
+      "x": -54.0,
+      "z": 138.0,
+      "y": 5.86
+    },
+    {
+      "id": "aether-house-9",
+      "title": "Pawilon Uczonych",
+      "role": "house",
+      "sprite": "res://assets/objects/19c93221-ki-v2-buildings-aether-house.webp",
+      "w": 275,
+      "h": 260,
+      "x": 54.0,
+      "z": 138.0,
+      "y": 5.45
+    },
+    {
+      "id": "aether-gate-0",
+      "title": "Brama Duchów",
+      "role": "gate",
+      "sprite": "res://assets/objects/23099b47-aether-x-spirit-gate.webp",
+      "w": 480,
+      "h": 560,
+      "x": -175.0,
+      "z": 0.0,
+      "y": 4.44
+    },
+    {
+      "id": "aether-gate-1",
+      "title": "Brama Duchów",
+      "role": "gate",
+      "sprite": "res://assets/objects/23099b47-aether-x-spirit-gate.webp",
+      "w": 480,
+      "h": 560,
+      "x": 175.0,
+      "z": 0.0,
+      "y": 4.58
+    },
+    {
+      "id": "aether-gate-2",
+      "title": "Brama Duchów",
+      "role": "gate",
+      "sprite": "res://assets/objects/23099b47-aether-x-spirit-gate.webp",
+      "w": 480,
+      "h": 560,
+      "x": 0.0,
+      "z": -175.0,
+      "y": 4.84
+    },
+    {
+      "id": "aether-gate-3",
+      "title": "Brama Duchów",
+      "role": "gate",
+      "sprite": "res://assets/objects/23099b47-aether-x-spirit-gate.webp",
+      "w": 480,
+      "h": 560,
+      "x": 0.0,
+      "z": 175.0,
+      "y": 5.27
+    },
+    {
+      "id": "aether-wall-0",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": -112.0,
+      "z": -168.0,
+      "y": 5.13
+    },
+    {
+      "id": "aether-wall-1",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": -56.0,
+      "z": -172.0,
+      "y": 5.04
+    },
+    {
+      "id": "aether-wall-2",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": 56.0,
+      "z": -172.0,
+      "y": 4.8
+    },
+    {
+      "id": "aether-wall-3",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": 112.0,
+      "z": -168.0,
+      "y": 4.97
+    },
+    {
+      "id": "aether-wall-4",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": -112.0,
+      "z": 168.0,
+      "y": 5.33
+    },
+    {
+      "id": "aether-wall-5",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": -56.0,
+      "z": 172.0,
+      "y": 5.19
+    },
+    {
+      "id": "aether-wall-6",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": 56.0,
+      "z": 172.0,
+      "y": 5.14
+    },
+    {
+      "id": "aether-wall-7",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-ne.webp",
+      "w": 360,
+      "h": 220,
+      "x": 112.0,
+      "z": 168.0,
+      "y": 5.09
+    },
+    {
+      "id": "aether-wall-8",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": -172.0,
+      "z": -108.0,
+      "y": 5.03
+    },
+    {
+      "id": "aether-wall-9",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": -172.0,
+      "z": -54.0,
+      "y": 4.96
+    },
+    {
+      "id": "aether-wall-10",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": -172.0,
+      "z": 54.0,
+      "y": 3.42
+    },
+    {
+      "id": "aether-wall-11",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": -172.0,
+      "z": 108.0,
+      "y": 2.79
+    },
+    {
+      "id": "aether-wall-12",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": 172.0,
+      "z": -108.0,
+      "y": 5.29
+    },
+    {
+      "id": "aether-wall-13",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": 172.0,
+      "z": -54.0,
+      "y": 5.07
+    },
+    {
+      "id": "aether-wall-14",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": 172.0,
+      "z": 54.0,
+      "y": 3.42
+    },
+    {
+      "id": "aether-wall-15",
+      "title": "Marmurowa Balustrada Tarasu",
+      "role": "wall",
+      "sprite": "res://assets/objects/aether-wall-nw.webp",
+      "w": 360,
+      "h": 220,
+      "x": 172.0,
+      "z": 108.0,
+      "y": 2.51
+    },
+    {
+      "id": "aether-lantern-0",
+      "title": "Kamienna Latarnia",
+      "role": "prop",
+      "sprite": "res://assets/objects/a69fa5ad-aether-x-stone-lantern.webp",
+      "w": 155,
+      "h": 330,
+      "x": -38.0,
+      "z": -38.0,
+      "y": 24.13
+    },
+    {
+      "id": "aether-lantern-1",
+      "title": "Kamienna Latarnia",
+      "role": "prop",
+      "sprite": "res://assets/objects/a69fa5ad-aether-x-stone-lantern.webp",
+      "w": 155,
+      "h": 330,
+      "x": 38.0,
+      "z": -38.0,
+      "y": 24.03
+    },
+    {
+      "id": "aether-lantern-2",
+      "title": "Kamienna Latarnia",
+      "role": "prop",
+      "sprite": "res://assets/objects/a69fa5ad-aether-x-stone-lantern.webp",
+      "w": 155,
+      "h": 330,
+      "x": -38.0,
+      "z": 38.0,
+      "y": 24.14
+    },
+    {
+      "id": "aether-lantern-3",
+      "title": "Kamienna Latarnia",
+      "role": "prop",
+      "sprite": "res://assets/objects/a69fa5ad-aether-x-stone-lantern.webp",
+      "w": 155,
+      "h": 330,
+      "x": 38.0,
+      "z": 38.0,
+      "y": 23.9
+    },
+    {
+      "id": "aether-lantern-4",
+      "title": "Kamienna Latarnia",
+      "role": "prop",
+      "sprite": "res://assets/objects/a69fa5ad-aether-x-stone-lantern.webp",
+      "w": 155,
+      "h": 330,
+      "x": -86.0,
+      "z": 0.0,
+      "y": 12.72
+    },
+    {
+      "id": "aether-lantern-5",
+      "title": "Kamienna Latarnia",
+      "role": "prop",
+      "sprite": "res://assets/objects/a69fa5ad-aether-x-stone-lantern.webp",
+      "w": 155,
+      "h": 330,
+      "x": 86.0,
+      "z": 0.0,
+      "y": 12.71
+    },
+    {
+      "id": "aether-lantern-6",
+      "title": "Kamienna Latarnia",
+      "role": "prop",
+      "sprite": "res://assets/objects/a69fa5ad-aether-x-stone-lantern.webp",
+      "w": 155,
+      "h": 330,
+      "x": 0.0,
+      "z": -86.0,
+      "y": 12.9
+    },
+    {
+      "id": "aether-lantern-7",
+      "title": "Kamienna Latarnia",
+      "role": "prop",
+      "sprite": "res://assets/objects/a69fa5ad-aether-x-stone-lantern.webp",
+      "w": 155,
+      "h": 330,
+      "x": 0.0,
+      "z": 86.0,
+      "y": 12.82
+    },
+    {
+      "id": "aether-bridge-0",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 380,
+      "h": 340,
+      "x": -279.27,
+      "z": 9.41,
+      "y": 4.5
+    },
+    {
+      "id": "aether-bridge-1",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 380,
+      "h": 340,
+      "x": 296.14,
+      "z": -9.93,
+      "y": 4.5
+    },
+    {
+      "id": "aether-bridge-2",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 380,
+      "h": 340,
+      "x": -204.36,
+      "z": 258.53,
+      "y": 4.5
+    },
+    {
+      "id": "aether-bridge-3",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 380,
+      "h": 340,
+      "x": 204.9,
+      "z": 222.43,
+      "y": 4.5
+    },
+    {
+      "id": "aether-bridge-4",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 380,
+      "h": 340,
+      "x": -24.69,
+      "z": 298.79,
+      "y": 4.5
+    },
+    {
+      "id": "aether-bridge-5",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 380,
+      "h": 340,
+      "x": -30.73,
+      "z": 165.73,
+      "y": 5.23
+    },
+    {
+      "id": "aether-bridge-6",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 380,
+      "h": 340,
+      "x": 110.87,
+      "z": 294.92,
+      "y": 0.03
+    },
+    {
+      "id": "aether-bridge-7",
+      "title": "Most Kamienny",
+      "role": "bridge",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 380,
+      "h": 340,
+      "x": -173.55,
+      "z": 141.83,
+      "y": 4.5
+    }
+  ],
+  "npcs": [
+    {
+      "actor_id": "aether.npc.guide",
+      "name": "Sora",
+      "role": "Opiekunka źródeł",
+      "quest_mark": "!",
+      "x": -16.0,
+      "z": 20.0,
+      "y": 24.18,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether.npc.steward",
+      "name": "Hoshi",
+      "role": "Zarządca Sali Rady",
+      "quest_mark": "?",
+      "x": 0.0,
+      "z": -54.0,
+      "y": 24.14,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether.npc.smith",
+      "name": "Enso",
+      "role": "Rzemieślnik pieczęci",
+      "quest_mark": "!",
+      "x": -74.0,
+      "z": -20.0,
+      "y": 11.61,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether.npc.innkeeper",
+      "name": "Yuna",
+      "role": "Mistrzyni herbaty",
+      "quest_mark": "",
+      "x": 74.0,
+      "z": -20.0,
+      "y": 11.39,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether.npc.merchant",
+      "name": "Mei",
+      "role": "Archiwistka wymiany",
+      "quest_mark": "?",
+      "x": -66.0,
+      "z": 56.0,
+      "y": 8.99,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether.npc.trainer",
+      "name": "Raku",
+      "role": "Mistrz skupienia",
+      "quest_mark": "!",
+      "x": 70.0,
+      "z": 56.0,
+      "y": 8.87,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether.npc.keeper",
+      "name": "Kaede",
+      "role": "Strażniczka zwojów",
+      "quest_mark": "",
+      "x": 0.0,
+      "z": 82.0,
+      "y": 12.83,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether.npc.hunter",
+      "name": "Ishin",
+      "role": "Strażnik ogrodów",
+      "quest_mark": "!",
+      "x": 0.0,
+      "z": 146.0,
+      "y": 6.68,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether.npc.alchemist",
+      "name": "Kiri",
+      "role": "Alchemiczka rosy",
+      "quest_mark": "?",
+      "x": -115.0,
+      "z": 16.0,
+      "y": 12.83,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether.npc.warden",
+      "name": "Tenzin",
+      "role": "Strażnik sanktuarium",
+      "quest_mark": "",
+      "x": 115.0,
+      "z": 16.0,
+      "y": 12.8,
+      "patrol_radius": 18.0
+    }
+  ],
+  "exp_zones": [
+    {
+      "id": "aether-exp-1",
+      "name": "Ogród Świetlików Pieczęci (Lv. 1–3)",
+      "x": -315.0,
+      "z": 25.0,
+      "y": 4.5,
+      "radius": 52.0
+    },
+    {
+      "id": "aether-exp-2",
+      "name": "Taras Kryształowych Motyli (Lv. 4–6)",
+      "x": 0.0,
+      "z": -330.0,
+      "y": 13.28,
+      "radius": 54.0
+    },
+    {
+      "id": "aether-exp-3",
+      "name": "Archiwum Duchów i Skarabeuszy (Lv. 8–10)",
+      "x": 325.0,
+      "z": 20.0,
+      "y": 4.5,
+      "radius": 55.0
+    },
+    {
+      "id": "aether-exp-4",
+      "name": "Dziedziniec Lwów Świątyni (Lv. 12–14)",
+      "x": -250.0,
+      "z": 265.0,
+      "y": 4.5,
+      "radius": 55.0
+    },
+    {
+      "id": "aether-exp-5",
+      "name": "Krąg Marionetek Rytuału (Lv. 14–16)",
+      "x": 255.0,
+      "z": 265.0,
+      "y": 4.5,
+      "radius": 55.0
+    },
+    {
+      "id": "aether-exp-6",
+      "name": "Sanktuarium Mgielnych Żurawi (Lv. 16–18)",
+      "x": 0.0,
+      "z": 335.0,
+      "y": 4.5,
+      "radius": 58.0
+    }
+  ],
+  "monsters": [
+    {
+      "actor_id": "aether-swietlik-pieczeci",
+      "name": "Świetlik Pieczęci",
+      "level": 1,
+      "hp": 64,
+      "exp_zone": "aether-exp-1",
+      "x": -299.97,
+      "z": 30.49,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-swietlik-pieczeci",
+      "name": "Świetlik Pieczęci",
+      "level": 1,
+      "hp": 64,
+      "exp_zone": "aether-exp-1",
+      "x": -315.97,
+      "z": 51.98,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-pergaminowy-straznik",
+      "name": "Pergaminowy Strażnik",
+      "level": 2,
+      "hp": 126,
+      "exp_zone": "aether-exp-1",
+      "x": -330.38,
+      "z": 29.4,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-pergaminowy-straznik",
+      "name": "Pergaminowy Strażnik",
+      "level": 2,
+      "hp": 126,
+      "exp_zone": "aether-exp-1",
+      "x": -330.08,
+      "z": 2.6,
+      "y": 4.3,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-krysztalowy-motyl",
+      "name": "Kryształowy Motyl",
+      "level": 4,
+      "hp": 123,
+      "exp_zone": "aether-exp-1",
+      "x": -305.14,
+      "z": 12.4,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-krysztalowy-motyl",
+      "name": "Kryształowy Motyl",
+      "level": 4,
+      "hp": 123,
+      "exp_zone": "aether-exp-2",
+      "x": 15.03,
+      "z": -324.51,
+      "y": 13.28,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-krysztalowy-motyl",
+      "name": "Kryształowy Motyl",
+      "level": 4,
+      "hp": 123,
+      "exp_zone": "aether-exp-2",
+      "x": -0.97,
+      "z": -303.02,
+      "y": 13.28,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-szmaragdowy-waz",
+      "name": "Szmaragdowy Wąż",
+      "level": 6,
+      "hp": 372,
+      "exp_zone": "aether-exp-2",
+      "x": -15.38,
+      "z": -325.6,
+      "y": 13.28,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-szmaragdowy-waz",
+      "name": "Szmaragdowy Wąż",
+      "level": 6,
+      "hp": 372,
+      "exp_zone": "aether-exp-2",
+      "x": -15.08,
+      "z": -352.4,
+      "y": 13.16,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-pergaminowy-straznik",
+      "name": "Pergaminowy Strażnik",
+      "level": 2,
+      "hp": 126,
+      "exp_zone": "aether-exp-2",
+      "x": 9.86,
+      "z": -342.6,
+      "y": 13.28,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-duch-bibliotekarza",
+      "name": "Duch Bibliotekarza",
+      "level": 8,
+      "hp": 401,
+      "exp_zone": "aether-exp-3",
+      "x": 340.03,
+      "z": 25.49,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-duch-bibliotekarza",
+      "name": "Duch Bibliotekarza",
+      "level": 8,
+      "hp": 401,
+      "exp_zone": "aether-exp-3",
+      "x": 324.03,
+      "z": 46.98,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-zloty-skarabeusz",
+      "name": "Złoty Skarabeusz",
+      "level": 10,
+      "hp": 969,
+      "exp_zone": "aether-exp-3",
+      "x": 309.62,
+      "z": 24.4,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-zloty-skarabeusz",
+      "name": "Złoty Skarabeusz",
+      "level": 10,
+      "hp": 969,
+      "exp_zone": "aether-exp-3",
+      "x": 309.92,
+      "z": -2.4,
+      "y": 4.43,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-szmaragdowy-waz",
+      "name": "Szmaragdowy Wąż",
+      "level": 6,
+      "hp": 372,
+      "exp_zone": "aether-exp-3",
+      "x": 334.86,
+      "z": 7.4,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-lew-swiatyni",
+      "name": "Lew Świątyni",
+      "level": 12,
+      "hp": 1492,
+      "exp_zone": "aether-exp-4",
+      "x": -234.97,
+      "z": 270.49,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-lew-swiatyni",
+      "name": "Lew Świątyni",
+      "level": 12,
+      "hp": 1492,
+      "exp_zone": "aether-exp-4",
+      "x": -250.97,
+      "z": 291.98,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-oko-wiedzy",
+      "name": "Oko Wiedzy",
+      "level": 14,
+      "hp": 1021,
+      "exp_zone": "aether-exp-4",
+      "x": -265.38,
+      "z": 269.4,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-oko-wiedzy",
+      "name": "Oko Wiedzy",
+      "level": 14,
+      "hp": 1021,
+      "exp_zone": "aether-exp-4",
+      "x": -265.08,
+      "z": 242.6,
+      "y": 4.46,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-zloty-skarabeusz",
+      "name": "Złoty Skarabeusz",
+      "level": 10,
+      "hp": 969,
+      "exp_zone": "aether-exp-4",
+      "x": -240.14,
+      "z": 252.4,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-marionetka-rytualu",
+      "name": "Marionetka Rytuału",
+      "level": 16,
+      "hp": 1626,
+      "exp_zone": "aether-exp-5",
+      "x": 270.03,
+      "z": 270.49,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-marionetka-rytualu",
+      "name": "Marionetka Rytuału",
+      "level": 16,
+      "hp": 1626,
+      "exp_zone": "aether-exp-5",
+      "x": 254.03,
+      "z": 291.98,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-oko-wiedzy",
+      "name": "Oko Wiedzy",
+      "level": 14,
+      "hp": 1021,
+      "exp_zone": "aether-exp-5",
+      "x": 239.62,
+      "z": 269.4,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-lew-swiatyni",
+      "name": "Lew Świątyni",
+      "level": 12,
+      "hp": 1492,
+      "exp_zone": "aether-exp-5",
+      "x": 239.92,
+      "z": 242.6,
+      "y": 4.46,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-marionetka-rytualu",
+      "name": "Marionetka Rytuału",
+      "level": 16,
+      "hp": 1626,
+      "exp_zone": "aether-exp-5",
+      "x": 264.86,
+      "z": 252.4,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-mgielny-zuraw",
+      "name": "Mgielny Żuraw",
+      "level": 18,
+      "hp": 1593,
+      "exp_zone": "aether-exp-6",
+      "x": 15.03,
+      "z": 340.49,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-mgielny-zuraw",
+      "name": "Mgielny Żuraw",
+      "level": 18,
+      "hp": 1593,
+      "exp_zone": "aether-exp-6",
+      "x": -0.97,
+      "z": 361.98,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-marionetka-rytualu",
+      "name": "Marionetka Rytuału",
+      "level": 16,
+      "hp": 1626,
+      "exp_zone": "aether-exp-6",
+      "x": -15.38,
+      "z": 339.4,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-oko-wiedzy",
+      "name": "Oko Wiedzy",
+      "level": 14,
+      "hp": 1021,
+      "exp_zone": "aether-exp-6",
+      "x": -15.08,
+      "z": 312.6,
+      "y": 4.49,
+      "patrol_radius": 18.0
+    },
+    {
+      "actor_id": "aether-mgielny-zuraw",
+      "name": "Mgielny Żuraw",
+      "level": 18,
+      "hp": 1593,
+      "exp_zone": "aether-exp-6",
+      "x": 9.86,
+      "z": 322.4,
+      "y": 4.5,
+      "patrol_radius": 18.0
+    }
+  ],
+  "fauna": [
+    {
+      "actor_id": "A-07",
+      "name": "Owca Księżycowa",
+      "x": 209.37,
+      "z": 36.65,
+      "y": 4.67,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-08",
+      "name": "Gołąb Pergaminowy",
+      "x": -166.93,
+      "z": -254.42,
+      "y": 6.61,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-07",
+      "name": "Owca Księżycowa",
+      "x": 24.57,
+      "z": -392.2,
+      "y": 25.98,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-08",
+      "name": "Gołąb Pergaminowy",
+      "x": -416.58,
+      "z": 212.96,
+      "y": -0.14,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-07",
+      "name": "Owca Księżycowa",
+      "x": 87.58,
+      "z": 263.08,
+      "y": -0.04,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-08",
+      "name": "Gołąb Pergaminowy",
+      "x": -250.22,
+      "z": -396.68,
+      "y": 34.79,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-07",
+      "name": "Owca Księżycowa",
+      "x": 269.81,
+      "z": 285.34,
+      "y": 4.5,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-08",
+      "name": "Gołąb Pergaminowy",
+      "x": -233.3,
+      "z": 387.5,
+      "y": -0.43,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-07",
+      "name": "Owca Księżycowa",
+      "x": 313.52,
+      "z": 121.76,
+      "y": -0.07,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-08",
+      "name": "Gołąb Pergaminowy",
+      "x": -76.34,
+      "z": -241.79,
+      "y": -0.12,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-07",
+      "name": "Owca Księżycowa",
+      "x": -373.85,
+      "z": -166.89,
+      "y": 23.02,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-08",
+      "name": "Gołąb Pergaminowy",
+      "x": 83.68,
+      "z": -419.61,
+      "y": 23.69,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-07",
+      "name": "Owca Księżycowa",
+      "x": 267.04,
+      "z": -45.6,
+      "y": 0.51,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-08",
+      "name": "Gołąb Pergaminowy",
+      "x": -211.72,
+      "z": 99.13,
+      "y": 4.88,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-07",
+      "name": "Owca Księżycowa",
+      "x": 12.25,
+      "z": -321.22,
+      "y": 13.28,
+      "patrol_radius": 24.0
+    },
+    {
+      "actor_id": "A-08",
+      "name": "Gołąb Pergaminowy",
+      "x": -286.55,
+      "z": -135.09,
+      "y": 7.09,
+      "patrol_radius": 24.0
+    }
+  ],
+  "props": [
+    {
+      "id": "aether-exp-1-frame-1",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/21e2da3e-aetheria-continent-spring.webp",
+      "w": 350,
+      "h": 290,
+      "x": -289.37,
+      "z": 65.39,
+      "y": -0.15
+    },
+    {
+      "id": "aether-exp-1-frame-2",
+      "kind": "rock",
+      "sprite": "res://assets/objects/28823ef2-aether-art-cloud-peak.webp",
+      "w": 450,
+      "h": 470,
+      "x": -325.44,
+      "z": 71.69,
+      "y": -0.15
+    },
+    {
+      "id": "aether-exp-1-frame-3",
+      "kind": "rock",
+      "sprite": "res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp",
+      "w": 410,
+      "h": 350,
+      "x": -355.39,
+      "z": 50.63,
+      "y": -0.21
+    },
+    {
+      "id": "aether-exp-1-frame-4",
+      "kind": "rock",
+      "sprite": "res://assets/objects/83749d6d-aetheria-continent-peak.webp",
+      "w": 380,
+      "h": 360,
+      "x": -361.69,
+      "z": 14.56,
+      "y": 0.94
+    },
+    {
+      "id": "aether-exp-2-frame-3",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/f88f9d0e-aetheria-continent-shrine.webp",
+      "w": 340,
+      "h": 370,
+      "x": -41.95,
+      "z": -303.38,
+      "y": 8.22
+    },
+    {
+      "id": "aether-exp-2-frame-4",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/99bc8df9-aetheria-continent-ruin.webp",
+      "w": 370,
+      "h": 350,
+      "x": -48.48,
+      "z": -340.84,
+      "y": 18.36
+    },
+    {
+      "id": "aether-exp-2-frame-6",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3e13c2fe-aetheria-continent-camp.webp",
+      "w": 330,
+      "h": 270,
+      "x": 10.84,
+      "z": -378.48,
+      "y": 22.51
+    },
+    {
+      "id": "aether-exp-3-frame-0",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/f88f9d0e-aetheria-continent-shrine.webp",
+      "w": 340,
+      "h": 370,
+      "x": 374.38,
+      "z": 31.04,
+      "y": 0.05
+    },
+    {
+      "id": "aether-exp-3-frame-1",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/99bc8df9-aetheria-continent-ruin.webp",
+      "w": 370,
+      "h": 350,
+      "x": 352.11,
+      "z": 62.73,
+      "y": -0.09
+    },
+    {
+      "id": "aether-exp-3-frame-2",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2676f749-aetheria-continent-cave.webp",
+      "w": 390,
+      "h": 340,
+      "x": 313.96,
+      "z": 69.38,
+      "y": 0.05
+    },
+    {
+      "id": "aether-exp-3-frame-3",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3e13c2fe-aetheria-continent-camp.webp",
+      "w": 330,
+      "h": 270,
+      "x": 282.27,
+      "z": 47.11,
+      "y": 0.18
+    },
+    {
+      "id": "aether-exp-3-frame-4",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3cfdc1af-ki-v2-camps-aether-bonfire.webp",
+      "w": 240,
+      "h": 230,
+      "x": 275.62,
+      "z": 8.96,
+      "y": 0.24
+    },
+    {
+      "id": "aether-exp-3-frame-5",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 370,
+      "h": 340,
+      "x": 297.89,
+      "z": -22.73,
+      "y": 0.62
+    },
+    {
+      "id": "aether-exp-4-frame-2",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 370,
+      "h": 340,
+      "x": -261.04,
+      "z": 314.38,
+      "y": -0.11
+    },
+    {
+      "id": "aether-exp-4-frame-3",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/df70d07d-aether-art-ki-source.webp",
+      "w": 420,
+      "h": 410,
+      "x": -292.73,
+      "z": 292.11,
+      "y": 0.01
+    },
+    {
+      "id": "aether-exp-4-frame-4",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/21e2da3e-aetheria-continent-spring.webp",
+      "w": 350,
+      "h": 290,
+      "x": -299.38,
+      "z": 253.96,
+      "y": 0.18
+    },
+    {
+      "id": "aether-exp-5-frame-0",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/df70d07d-aether-art-ki-source.webp",
+      "w": 420,
+      "h": 410,
+      "x": 304.38,
+      "z": 276.04,
+      "y": -0.34
+    },
+    {
+      "id": "aether-exp-5-frame-1",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/21e2da3e-aetheria-continent-spring.webp",
+      "w": 350,
+      "h": 290,
+      "x": 282.11,
+      "z": 307.73,
+      "y": -0.03
+    },
+    {
+      "id": "aether-exp-5-frame-2",
+      "kind": "rock",
+      "sprite": "res://assets/objects/28823ef2-aether-art-cloud-peak.webp",
+      "w": 450,
+      "h": 470,
+      "x": 243.96,
+      "z": 314.38,
+      "y": -0.39
+    },
+    {
+      "id": "aether-exp-5-frame-6",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/f88f9d0e-aetheria-continent-shrine.webp",
+      "w": 340,
+      "h": 370,
+      "x": 266.04,
+      "z": 215.62,
+      "y": -0.64
+    },
+    {
+      "id": "aether-exp-6-frame-0",
+      "kind": "rock",
+      "sprite": "res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp",
+      "w": 410,
+      "h": 350,
+      "x": 52.07,
+      "z": 346.64,
+      "y": -0.81
+    },
+    {
+      "id": "aether-exp-6-frame-4",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/99bc8df9-aetheria-continent-ruin.webp",
+      "w": 370,
+      "h": 350,
+      "x": -52.07,
+      "z": 323.36,
+      "y": -0.2
+    },
+    {
+      "id": "aether-waterfall-0",
+      "kind": "waterfall",
+      "sprite": "res://assets/objects/21e2da3e-aetheria-continent-spring.webp",
+      "w": 370,
+      "h": 310,
+      "x": -195.0,
+      "z": -135.0,
+      "y": 4.19
+    },
+    {
+      "id": "aether-waterfall-1",
+      "kind": "waterfall",
+      "sprite": "res://assets/objects/21e2da3e-aetheria-continent-spring.webp",
+      "w": 370,
+      "h": 310,
+      "x": 195.0,
+      "z": -135.0,
+      "y": 4.28
+    },
+    {
+      "id": "aether-city-flora-0",
+      "kind": "tree",
+      "sprite": "res://assets/objects/021d8442-aether-x-cherry-tree.webp",
+      "w": 348,
+      "h": 357,
+      "x": 58.34,
+      "z": 97.66,
+      "y": 12.65
+    },
+    {
+      "id": "aether-city-flora-1",
+      "kind": "tree",
+      "sprite": "res://assets/objects/89c801d4-island-2.props.ginkgo.webp",
+      "w": 297,
+      "h": 327,
+      "x": 107.88,
+      "z": 122.81,
+      "y": 5.02
+    },
+    {
+      "id": "aether-city-flora-2",
+      "kind": "tree",
+      "sprite": "res://assets/objects/36107785-aetheria-continent-cypress.webp",
+      "w": 178,
+      "h": 348,
+      "x": 105.07,
+      "z": -64.77,
+      "y": 13.07
+    },
+    {
+      "id": "aether-city-flora-3",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1d5e519a-ki-v2-objects-aether-oak-1.webp",
+      "w": 289,
+      "h": 306,
+      "x": -27.54,
+      "z": -114.54,
+      "y": 12.85
+    },
+    {
+      "id": "aether-city-flora-4",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5ac42fa2-aetheria-continent-lavender.webp",
+      "w": 204,
+      "h": 174,
+      "x": 144.43,
+      "z": 77.33,
+      "y": 4.78
+    },
+    {
+      "id": "aether-city-flora-5",
+      "kind": "flora",
+      "sprite": "res://assets/objects/01c5ee13-ki-v2-objects-aether-flowerbush-2.webp",
+      "w": 182,
+      "h": 161,
+      "x": 71.89,
+      "z": 105.82,
+      "y": 12.96
+    },
+    {
+      "id": "aether-city-flora-6",
+      "kind": "flora",
+      "sprite": "res://assets/objects/06b95ec4-aetheria-continent-reeds.webp",
+      "w": 170,
+      "h": 178,
+      "x": 112.98,
+      "z": 14.39,
+      "y": 12.76
+    },
+    {
+      "id": "aether-city-flora-7",
+      "kind": "tree",
+      "sprite": "res://assets/objects/a8e4292b-aetheria-continent-cherry.webp",
+      "w": 323,
+      "h": 331,
+      "x": 97.25,
+      "z": -137.94,
+      "y": 4.96
+    },
+    {
+      "id": "aether-city-flora-8",
+      "kind": "tree",
+      "sprite": "res://assets/objects/4d090d85-aether-art-ki-tree.webp",
+      "w": 382,
+      "h": 391,
+      "x": -105.51,
+      "z": -141.84,
+      "y": 5.07
+    },
+    {
+      "id": "aether-city-flora-9",
+      "kind": "tree",
+      "sprite": "res://assets/objects/3587a851-aetheria-continent-snow-pine.webp",
+      "w": 246,
+      "h": 331,
+      "x": -81.84,
+      "z": -82.97,
+      "y": 12.74
+    },
+    {
+      "id": "aether-city-flora-10",
+      "kind": "tree",
+      "sprite": "res://assets/objects/2b93857f-ki-v2-objects-aether-pine-3.webp",
+      "w": 238,
+      "h": 314,
+      "x": 26.44,
+      "z": -121.31,
+      "y": 12.95
+    },
+    {
+      "id": "aether-city-flora-11",
+      "kind": "flora",
+      "sprite": "res://assets/objects/0e381537-aetheria-continent-flowers.webp",
+      "w": 195,
+      "h": 165,
+      "x": 111.63,
+      "z": -129.27,
+      "y": 5.03
+    },
+    {
+      "id": "aether-city-flora-12",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5b4871a3-ki-v2-objects-aether-flowerbush-3.webp",
+      "w": 182,
+      "h": 161,
+      "x": -138.55,
+      "z": -125.54,
+      "y": 4.97
+    },
+    {
+      "id": "aether-city-flora-13",
+      "kind": "flora",
+      "sprite": "res://assets/objects/53ec23b9-ki-v2-objects-aether-mushrooms-0.webp",
+      "w": 161,
+      "h": 153,
+      "x": -135.87,
+      "z": -133.83,
+      "y": 4.96
+    },
+    {
+      "id": "aether-city-flora-14",
+      "kind": "tree",
+      "sprite": "res://assets/objects/dc095c5f-aetheria-continent-ginkgo.webp",
+      "w": 306,
+      "h": 340,
+      "x": -100.23,
+      "z": -57.71,
+      "y": 12.83
+    },
+    {
+      "id": "aether-city-flora-15",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ac1ecb7c-aetheria-continent-bamboo.webp",
+      "w": 246,
+      "h": 357,
+      "x": -148.6,
+      "z": -151.49,
+      "y": 4.94
+    },
+    {
+      "id": "aether-city-flora-16",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b7fdcd43-ki-v2-objects-aether-oak-0.webp",
+      "w": 289,
+      "h": 306,
+      "x": -75.21,
+      "z": -101.37,
+      "y": 12.92
+    },
+    {
+      "id": "aether-city-flora-17",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ea1d036a-ki-v2-objects-aether-tree2-0.webp",
+      "w": 280,
+      "h": 306,
+      "x": 81.36,
+      "z": 84.88,
+      "y": 12.71
+    },
+    {
+      "id": "aether-city-flora-18",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c3dedab1-aether-art-garden.webp",
+      "w": 357,
+      "h": 297,
+      "x": 98.02,
+      "z": -52.78,
+      "y": 12.64
+    },
+    {
+      "id": "aether-city-flora-19",
+      "kind": "flora",
+      "sprite": "res://assets/objects/f0a05edf-ki-v2-objects-aether-fern-1.webp",
+      "w": 157,
+      "h": 136,
+      "x": -67.61,
+      "z": 105.27,
+      "y": 13.14
+    },
+    {
+      "id": "aether-city-flora-20",
+      "kind": "tree",
+      "sprite": "res://assets/objects/021d8442-aether-x-cherry-tree.webp",
+      "w": 348,
+      "h": 357,
+      "x": -33.91,
+      "z": 117.41,
+      "y": 13.25
+    },
+    {
+      "id": "aether-city-flora-21",
+      "kind": "tree",
+      "sprite": "res://assets/objects/89c801d4-island-2.props.ginkgo.webp",
+      "w": 297,
+      "h": 327,
+      "x": -112.21,
+      "z": 141.33,
+      "y": 5.24
+    },
+    {
+      "id": "aether-city-flora-22",
+      "kind": "tree",
+      "sprite": "res://assets/objects/36107785-aetheria-continent-cypress.webp",
+      "w": 178,
+      "h": 348,
+      "x": -98.28,
+      "z": -144.71,
+      "y": 5.1
+    },
+    {
+      "id": "aether-city-flora-23",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1d5e519a-ki-v2-objects-aether-oak-1.webp",
+      "w": 289,
+      "h": 306,
+      "x": -96.96,
+      "z": -96.0,
+      "y": 12.6
+    },
+    {
+      "id": "aether-city-flora-24",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5ac42fa2-aetheria-continent-lavender.webp",
+      "w": 204,
+      "h": 174,
+      "x": 106.17,
+      "z": -141.05,
+      "y": 4.93
+    },
+    {
+      "id": "aether-city-flora-25",
+      "kind": "flora",
+      "sprite": "res://assets/objects/01c5ee13-ki-v2-objects-aether-flowerbush-2.webp",
+      "w": 182,
+      "h": 161,
+      "x": -94.24,
+      "z": 86.31,
+      "y": 13.23
+    },
+    {
+      "id": "aether-city-flora-26",
+      "kind": "flora",
+      "sprite": "res://assets/objects/06b95ec4-aetheria-continent-reeds.webp",
+      "w": 170,
+      "h": 178,
+      "x": -78.47,
+      "z": 83.86,
+      "y": 12.93
+    },
+    {
+      "id": "aether-city-flora-27",
+      "kind": "tree",
+      "sprite": "res://assets/objects/a8e4292b-aetheria-continent-cherry.webp",
+      "w": 323,
+      "h": 331,
+      "x": 110.18,
+      "z": -51.04,
+      "y": 13.0
+    },
+    {
+      "id": "aether-city-flora-28",
+      "kind": "tree",
+      "sprite": "res://assets/objects/4d090d85-aether-art-ki-tree.webp",
+      "w": 382,
+      "h": 391,
+      "x": -51.75,
+      "z": 15.18,
+      "y": 24.15
+    },
+    {
+      "id": "aether-city-flora-29",
+      "kind": "tree",
+      "sprite": "res://assets/objects/3587a851-aetheria-continent-snow-pine.webp",
+      "w": 246,
+      "h": 331,
+      "x": -85.74,
+      "z": -72.43,
+      "y": 12.58
+    },
+    {
+      "id": "aether-city-flora-30",
+      "kind": "tree",
+      "sprite": "res://assets/objects/2b93857f-ki-v2-objects-aether-pine-3.webp",
+      "w": 238,
+      "h": 314,
+      "x": 118.94,
+      "z": -137.46,
+      "y": 5.08
+    },
+    {
+      "id": "aether-city-flora-31",
+      "kind": "flora",
+      "sprite": "res://assets/objects/0e381537-aetheria-continent-flowers.webp",
+      "w": 195,
+      "h": 165,
+      "x": -107.49,
+      "z": 28.14,
+      "y": 12.51
+    },
+    {
+      "id": "aether-city-flora-32",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5b4871a3-ki-v2-objects-aether-flowerbush-3.webp",
+      "w": 182,
+      "h": 161,
+      "x": -138.6,
+      "z": 77.28,
+      "y": 5.02
+    },
+    {
+      "id": "aether-city-flora-33",
+      "kind": "flora",
+      "sprite": "res://assets/objects/53ec23b9-ki-v2-objects-aether-mushrooms-0.webp",
+      "w": 161,
+      "h": 153,
+      "x": -79.64,
+      "z": -143.22,
+      "y": 5.07
+    },
+    {
+      "id": "aether-city-flora-34",
+      "kind": "tree",
+      "sprite": "res://assets/objects/dc095c5f-aetheria-continent-ginkgo.webp",
+      "w": 306,
+      "h": 340,
+      "x": -108.32,
+      "z": 139.91,
+      "y": 5.24
+    },
+    {
+      "id": "aether-city-flora-35",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ac1ecb7c-aetheria-continent-bamboo.webp",
+      "w": 246,
+      "h": 357,
+      "x": -113.64,
+      "z": 36.07,
+      "y": 12.87
+    },
+    {
+      "id": "aether-wild-0",
+      "kind": "tree",
+      "sprite": "res://assets/objects/dc095c5f-aetheria-continent-ginkgo.webp",
+      "w": 375,
+      "h": 417,
+      "x": -290.32,
+      "z": -339.51,
+      "y": 27.16
+    },
+    {
+      "id": "aether-wild-1",
+      "kind": "tree",
+      "sprite": "res://assets/objects/2b93857f-ki-v2-objects-aether-pine-3.webp",
+      "w": 278,
+      "h": 368,
+      "x": -296.2,
+      "z": -392.56,
+      "y": 29.15
+    },
+    {
+      "id": "aether-wild-2",
+      "kind": "flora",
+      "sprite": "res://assets/objects/06b95ec4-aetheria-continent-reeds.webp",
+      "w": 176,
+      "h": 185,
+      "x": -149.87,
+      "z": -119.23,
+      "y": 4.92
+    },
+    {
+      "id": "aether-wild-3",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2676f749-aetheria-continent-cave.webp",
+      "w": 433,
+      "h": 377,
+      "x": -271.46,
+      "z": -300.57,
+      "y": 27.78
+    },
+    {
+      "id": "aether-wild-4",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ac1ecb7c-aetheria-continent-bamboo.webp",
+      "w": 303,
+      "h": 439,
+      "x": -326.13,
+      "z": 374.78,
+      "y": -0.23
+    },
+    {
+      "id": "aether-wild-5",
+      "kind": "flora",
+      "sprite": "res://assets/objects/0e381537-aetheria-continent-flowers.webp",
+      "w": 224,
+      "h": 190,
+      "x": 377.31,
+      "z": 167.75,
+      "y": 0.01
+    },
+    {
+      "id": "aether-wild-6",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/21e2da3e-aetheria-continent-spring.webp",
+      "w": 370,
+      "h": 306,
+      "x": -284.05,
+      "z": -425.59,
+      "y": 33.46
+    },
+    {
+      "id": "aether-wild-7",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3cfdc1af-ki-v2-camps-aether-bonfire.webp",
+      "w": 216,
+      "h": 207,
+      "x": 395.81,
+      "z": 264.07,
+      "y": 0.13
+    },
+    {
+      "id": "aether-wild-8",
+      "kind": "tree",
+      "sprite": "res://assets/objects/3587a851-aetheria-continent-snow-pine.webp",
+      "w": 258,
+      "h": 347,
+      "x": -459.59,
+      "z": -365.99,
+      "y": 23.83
+    },
+    {
+      "id": "aether-wild-9",
+      "kind": "flora",
+      "sprite": "res://assets/objects/01c5ee13-ki-v2-objects-aether-flowerbush-2.webp",
+      "w": 210,
+      "h": 186,
+      "x": 411.77,
+      "z": -384.17,
+      "y": 32.1
+    },
+    {
+      "id": "aether-wild-10",
+      "kind": "rock",
+      "sprite": "res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp",
+      "w": 422,
+      "h": 360,
+      "x": -376.01,
+      "z": 156.5,
+      "y": -0.12
+    },
+    {
+      "id": "aether-wild-11",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 380,
+      "h": 349,
+      "x": -330.4,
+      "z": -322.87,
+      "y": 29.25
+    },
+    {
+      "id": "aether-wild-12",
+      "kind": "tree",
+      "sprite": "res://assets/objects/3587a851-aetheria-continent-snow-pine.webp",
+      "w": 274,
+      "h": 369,
+      "x": 300.71,
+      "z": -219.81,
+      "y": 21.22
+    },
+    {
+      "id": "aether-wild-13",
+      "kind": "flora",
+      "sprite": "res://assets/objects/f0a05edf-ki-v2-objects-aether-fern-1.webp",
+      "w": 201,
+      "h": 173,
+      "x": -423.61,
+      "z": -383.11,
+      "y": 29.34
+    },
+    {
+      "id": "aether-wild-14",
+      "kind": "rock",
+      "sprite": "res://assets/objects/83749d6d-aetheria-continent-peak.webp",
+      "w": 340,
+      "h": 322,
+      "x": -282.74,
+      "z": -141.06,
+      "y": 7.39
+    },
+    {
+      "id": "aether-wild-15",
+      "kind": "tree",
+      "sprite": "res://assets/objects/021d8442-aether-x-cherry-tree.webp",
+      "w": 462,
+      "h": 473,
+      "x": 382.0,
+      "z": 276.96,
+      "y": 0.05
+    },
+    {
+      "id": "aether-wild-16",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b7fdcd43-ki-v2-objects-aether-oak-0.webp",
+      "w": 386,
+      "h": 409,
+      "x": -360.18,
+      "z": 171.97,
+      "y": 0.0
+    },
+    {
+      "id": "aether-wild-17",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5b4871a3-ki-v2-objects-aether-flowerbush-3.webp",
+      "w": 223,
+      "h": 197,
+      "x": 418.93,
+      "z": 43.32,
+      "y": 0.0
+    },
+    {
+      "id": "aether-wild-18",
+      "kind": "rock",
+      "sprite": "res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp",
+      "w": 409,
+      "h": 349,
+      "x": -426.16,
+      "z": -183.39,
+      "y": 27.94
+    },
+    {
+      "id": "aether-wild-19",
+      "kind": "tree",
+      "sprite": "res://assets/objects/021d8442-aether-x-cherry-tree.webp",
+      "w": 372,
+      "h": 381,
+      "x": -112.34,
+      "z": 332.09,
+      "y": -0.13
+    },
+    {
+      "id": "aether-wild-20",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1d5e519a-ki-v2-objects-aether-oak-1.webp",
+      "w": 387,
+      "h": 410,
+      "x": 285.24,
+      "z": 188.16,
+      "y": -0.13
+    },
+    {
+      "id": "aether-wild-21",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/df70d07d-aether-art-ki-source.webp",
+      "w": 419,
+      "h": 409,
+      "x": -61.62,
+      "z": 272.71,
+      "y": 0.01
+    },
+    {
+      "id": "aether-wild-22",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2676f749-aetheria-continent-cave.webp",
+      "w": 404,
+      "h": 352,
+      "x": 395.72,
+      "z": -194.94,
+      "y": 30.1
+    },
+    {
+      "id": "aether-wild-23",
+      "kind": "tree",
+      "sprite": "res://assets/objects/3587a851-aetheria-continent-snow-pine.webp",
+      "w": 290,
+      "h": 390,
+      "x": -69.59,
+      "z": 303.12,
+      "y": -0.09
+    },
+    {
+      "id": "aether-wild-24",
+      "kind": "flora",
+      "sprite": "res://assets/objects/01c5ee13-ki-v2-objects-aether-flowerbush-2.webp",
+      "w": 193,
+      "h": 171,
+      "x": -267.59,
+      "z": 355.93,
+      "y": 0.03
+    },
+    {
+      "id": "aether-wild-25",
+      "kind": "rock",
+      "sprite": "res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp",
+      "w": 400,
+      "h": 341,
+      "x": -381.54,
+      "z": -455.72,
+      "y": 33.85
+    },
+    {
+      "id": "aether-wild-26",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 335,
+      "h": 308,
+      "x": -357.46,
+      "z": 49.13,
+      "y": -0.2
+    },
+    {
+      "id": "aether-wild-27",
+      "kind": "tree",
+      "sprite": "res://assets/objects/3587a851-aetheria-continent-snow-pine.webp",
+      "w": 329,
+      "h": 442,
+      "x": -77.52,
+      "z": -369.02,
+      "y": 25.65
+    },
+    {
+      "id": "aether-wild-28",
+      "kind": "flora",
+      "sprite": "res://assets/objects/01c5ee13-ki-v2-objects-aether-flowerbush-2.webp",
+      "w": 227,
+      "h": 200,
+      "x": -55.93,
+      "z": -286.16,
+      "y": 4.93
+    },
+    {
+      "id": "aether-wild-29",
+      "kind": "rock",
+      "sprite": "res://assets/objects/28823ef2-aether-art-cloud-peak.webp",
+      "w": 509,
+      "h": 531,
+      "x": -273.52,
+      "z": -417.44,
+      "y": 35.36
+    },
+    {
+      "id": "aether-wild-30",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3cfdc1af-ki-v2-camps-aether-bonfire.webp",
+      "w": 263,
+      "h": 252,
+      "x": 242.07,
+      "z": 15.51,
+      "y": 2.9
+    },
+    {
+      "id": "aether-wild-31",
+      "kind": "tree",
+      "sprite": "res://assets/objects/36107785-aetheria-continent-cypress.webp",
+      "w": 206,
+      "h": 402,
+      "x": 420.05,
+      "z": -449.78,
+      "y": 25.71
+    },
+    {
+      "id": "aether-wild-32",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c3dedab1-aether-art-garden.webp",
+      "w": 469,
+      "h": 391,
+      "x": 337.33,
+      "z": -295.04,
+      "y": 25.63
+    },
+    {
+      "id": "aether-wild-33",
+      "kind": "rock",
+      "sprite": "res://assets/objects/83749d6d-aetheria-continent-peak.webp",
+      "w": 390,
+      "h": 369,
+      "x": -407.63,
+      "z": -37.67,
+      "y": 6.02
+    },
+    {
+      "id": "aether-wild-34",
+      "kind": "tree",
+      "sprite": "res://assets/objects/021d8442-aether-x-cherry-tree.webp",
+      "w": 420,
+      "h": 431,
+      "x": 318.88,
+      "z": -415.07,
+      "y": 23.89
+    },
+    {
+      "id": "aether-wild-35",
+      "kind": "tree",
+      "sprite": "res://assets/objects/2b93857f-ki-v2-objects-aether-pine-3.webp",
+      "w": 308,
+      "h": 407,
+      "x": -280.28,
+      "z": 318.67,
+      "y": -0.07
+    },
+    {
+      "id": "aether-wild-36",
+      "kind": "flora",
+      "sprite": "res://assets/objects/06b95ec4-aetheria-continent-reeds.webp",
+      "w": 202,
+      "h": 212,
+      "x": 153.87,
+      "z": -440.71,
+      "y": 34.04
+    },
+    {
+      "id": "aether-wild-37",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/f88f9d0e-aetheria-continent-shrine.webp",
+      "w": 321,
+      "h": 350,
+      "x": -451.81,
+      "z": -308.39,
+      "y": 24.34
+    },
+    {
+      "id": "aether-wild-38",
+      "kind": "tree",
+      "sprite": "res://assets/objects/4d090d85-aether-art-ki-tree.webp",
+      "w": 400,
+      "h": 409,
+      "x": -300.61,
+      "z": 141.07,
+      "y": 0.21
+    },
+    {
+      "id": "aether-wild-39",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5ac42fa2-aetheria-continent-lavender.webp",
+      "w": 261,
+      "h": 223,
+      "x": -42.0,
+      "z": -451.79,
+      "y": 30.82
+    },
+    {
+      "id": "aether-wild-40",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/df70d07d-aether-art-ki-source.webp",
+      "w": 399,
+      "h": 389,
+      "x": 200.6,
+      "z": -345.0,
+      "y": 28.04
+    },
+    {
+      "id": "aether-wild-41",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3e13c2fe-aetheria-continent-camp.webp",
+      "w": 366,
+      "h": 299,
+      "x": 137.66,
+      "z": -217.06,
+      "y": 0.25
+    },
+    {
+      "id": "aether-wild-42",
+      "kind": "tree",
+      "sprite": "res://assets/objects/36107785-aetheria-continent-cypress.webp",
+      "w": 209,
+      "h": 408,
+      "x": -103.83,
+      "z": -175.16,
+      "y": 5.13
+    },
+    {
+      "id": "aether-wild-43",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c3dedab1-aether-art-garden.webp",
+      "w": 397,
+      "h": 330,
+      "x": 373.59,
+      "z": 292.65,
+      "y": 0.03
+    },
+    {
+      "id": "aether-wild-44",
+      "kind": "rock",
+      "sprite": "res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp",
+      "w": 436,
+      "h": 372,
+      "x": 302.48,
+      "z": 131.74,
+      "y": -0.06
+    },
+    {
+      "id": "aether-wild-45",
+      "kind": "tree",
+      "sprite": "res://assets/objects/a8e4292b-aetheria-continent-cherry.webp",
+      "w": 394,
+      "h": 405,
+      "x": 126.3,
+      "z": -415.31,
+      "y": 27.61
+    },
+    {
+      "id": "aether-wild-46",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1d5e519a-ki-v2-objects-aether-oak-1.webp",
+      "w": 339,
+      "h": 359,
+      "x": 305.43,
+      "z": 213.59,
+      "y": -0.04
+    },
+    {
+      "id": "aether-wild-47",
+      "kind": "flora",
+      "sprite": "res://assets/objects/f0a05edf-ki-v2-objects-aether-fern-1.webp",
+      "w": 207,
+      "h": 179,
+      "x": 425.26,
+      "z": -243.6,
+      "y": 34.5
+    },
+    {
+      "id": "aether-wild-48",
+      "kind": "rock",
+      "sprite": "res://assets/objects/83749d6d-aetheria-continent-peak.webp",
+      "w": 369,
+      "h": 349,
+      "x": -363.92,
+      "z": 37.78,
+      "y": 0.02
+    },
+    {
+      "id": "aether-wild-49",
+      "kind": "tree",
+      "sprite": "res://assets/objects/021d8442-aether-x-cherry-tree.webp",
+      "w": 366,
+      "h": 375,
+      "x": 82.32,
+      "z": 345.61,
+      "y": 0.04
+    },
+    {
+      "id": "aether-wild-50",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b7fdcd43-ki-v2-objects-aether-oak-0.webp",
+      "w": 326,
+      "h": 345,
+      "x": 381.59,
+      "z": -116.47,
+      "y": 18.98
+    },
+    {
+      "id": "aether-wild-51",
+      "kind": "flora",
+      "sprite": "res://assets/objects/f0a05edf-ki-v2-objects-aether-fern-1.webp",
+      "w": 208,
+      "h": 180,
+      "x": -423.04,
+      "z": -265.92,
+      "y": 24.34
+    },
+    {
+      "id": "aether-wild-52",
+      "kind": "rock",
+      "sprite": "res://assets/objects/83749d6d-aetheria-continent-peak.webp",
+      "w": 383,
+      "h": 363,
+      "x": 16.27,
+      "z": -427.94,
+      "y": 30.89
+    },
+    {
+      "id": "aether-wild-53",
+      "kind": "tree",
+      "sprite": "res://assets/objects/021d8442-aether-x-cherry-tree.webp",
+      "w": 419,
+      "h": 429,
+      "x": -324.02,
+      "z": -370.0,
+      "y": 28.84
+    },
+    {
+      "id": "aether-wild-54",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b7fdcd43-ki-v2-objects-aether-oak-0.webp",
+      "w": 301,
+      "h": 319,
+      "x": -461.19,
+      "z": -424.25,
+      "y": 31.13
+    },
+    {
+      "id": "aether-wild-55",
+      "kind": "flora",
+      "sprite": "res://assets/objects/f0a05edf-ki-v2-objects-aether-fern-1.webp",
+      "w": 194,
+      "h": 167,
+      "x": 270.14,
+      "z": 337.71,
+      "y": 0.09
+    },
+    {
+      "id": "aether-wild-56",
+      "kind": "rock",
+      "sprite": "res://assets/objects/83749d6d-aetheria-continent-peak.webp",
+      "w": 354,
+      "h": 336,
+      "x": -88.41,
+      "z": 333.86,
+      "y": -0.13
+    },
+    {
+      "id": "aether-wild-57",
+      "kind": "tree",
+      "sprite": "res://assets/objects/a8e4292b-aetheria-continent-cherry.webp",
+      "w": 354,
+      "h": 364,
+      "x": -239.87,
+      "z": -68.03,
+      "y": 1.02
+    },
+    {
+      "id": "aether-wild-58",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ea1d036a-ki-v2-objects-aether-tree2-0.webp",
+      "w": 346,
+      "h": 378,
+      "x": -295.21,
+      "z": 217.78,
+      "y": 0.21
+    },
+    {
+      "id": "aether-wild-59",
+      "kind": "flora",
+      "sprite": "res://assets/objects/53ec23b9-ki-v2-objects-aether-mushrooms-0.webp",
+      "w": 216,
+      "h": 204,
+      "x": -346.46,
+      "z": -130.11,
+      "y": 13.16
+    },
+    {
+      "id": "aether-wild-60",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2676f749-aetheria-continent-cave.webp",
+      "w": 404,
+      "h": 353,
+      "x": 69.17,
+      "z": 355.8,
+      "y": -0.76
+    },
+    {
+      "id": "aether-wild-61",
+      "kind": "tree",
+      "sprite": "res://assets/objects/2b93857f-ki-v2-objects-aether-pine-3.webp",
+      "w": 269,
+      "h": 356,
+      "x": -453.37,
+      "z": -2.37,
+      "y": 3.12
+    },
+    {
+      "id": "aether-wild-62",
+      "kind": "flora",
+      "sprite": "res://assets/objects/06b95ec4-aetheria-continent-reeds.webp",
+      "w": 204,
+      "h": 214,
+      "x": 159.44,
+      "z": -98.21,
+      "y": 5.24
+    },
+    {
+      "id": "aether-wild-63",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2676f749-aetheria-continent-cave.webp",
+      "w": 349,
+      "h": 304,
+      "x": -275.34,
+      "z": -440.43,
+      "y": 34.41
+    },
+    {
+      "id": "aether-wild-64",
+      "kind": "tree",
+      "sprite": "res://assets/objects/4d090d85-aether-art-ki-tree.webp",
+      "w": 462,
+      "h": 472,
+      "x": 254.07,
+      "z": -437.58,
+      "y": 35.08
+    },
+    {
+      "id": "aether-wild-65",
+      "kind": "flora",
+      "sprite": "res://assets/objects/0e381537-aetheria-continent-flowers.webp",
+      "w": 244,
+      "h": 207,
+      "x": -206.77,
+      "z": -47.61,
+      "y": 4.33
+    },
+    {
+      "id": "aether-wild-66",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/df70d07d-aether-art-ki-source.webp",
+      "w": 398,
+      "h": 388,
+      "x": 168.66,
+      "z": -307.34,
+      "y": 16.83
+    },
+    {
+      "id": "aether-wild-67",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3cfdc1af-ki-v2-camps-aether-bonfire.webp",
+      "w": 230,
+      "h": 221,
+      "x": -375.07,
+      "z": 103.14,
+      "y": -0.21
+    },
+    {
+      "id": "aether-wild-68",
+      "kind": "tree",
+      "sprite": "res://assets/objects/3587a851-aetheria-continent-snow-pine.webp",
+      "w": 271,
+      "h": 365,
+      "x": -315.65,
+      "z": -396.39,
+      "y": 31.02
+    },
+    {
+      "id": "aether-wild-69",
+      "kind": "flora",
+      "sprite": "res://assets/objects/01c5ee13-ki-v2-objects-aether-flowerbush-2.webp",
+      "w": 230,
+      "h": 203,
+      "x": 191.0,
+      "z": -416.28,
+      "y": 38.57
+    },
+    {
+      "id": "aether-wild-70",
+      "kind": "rock",
+      "sprite": "res://assets/objects/28823ef2-aether-art-cloud-peak.webp",
+      "w": 510,
+      "h": 533,
+      "x": 34.7,
+      "z": -236.15,
+      "y": 4.23
+    },
+    {
+      "id": "aether-wild-71",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3cfdc1af-ki-v2-camps-aether-bonfire.webp",
+      "w": 223,
+      "h": 214,
+      "x": -387.63,
+      "z": -327.05,
+      "y": 28.42
+    },
+    {
+      "id": "aether-wild-72",
+      "kind": "tree",
+      "sprite": "res://assets/objects/3587a851-aetheria-continent-snow-pine.webp",
+      "w": 288,
+      "h": 387,
+      "x": -373.24,
+      "z": 267.15,
+      "y": -0.06
+    },
+    {
+      "id": "aether-wild-73",
+      "kind": "flora",
+      "sprite": "res://assets/objects/01c5ee13-ki-v2-objects-aether-flowerbush-2.webp",
+      "w": 239,
+      "h": 212,
+      "x": 449.82,
+      "z": 300.78,
+      "y": 0.02
+    },
+    {
+      "id": "aether-wild-74",
+      "kind": "rock",
+      "sprite": "res://assets/objects/28823ef2-aether-art-cloud-peak.webp",
+      "w": 443,
+      "h": 463,
+      "x": -321.36,
+      "z": 376.24,
+      "y": -0.24
+    },
+    {
+      "id": "aether-wild-75",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3cfdc1af-ki-v2-camps-aether-bonfire.webp",
+      "w": 225,
+      "h": 216,
+      "x": 444.41,
+      "z": -268.11,
+      "y": 30.58
+    },
+    {
+      "id": "aether-wild-76",
+      "kind": "tree",
+      "sprite": "res://assets/objects/36107785-aetheria-continent-cypress.webp",
+      "w": 188,
+      "h": 367,
+      "x": -425.45,
+      "z": 105.89,
+      "y": 0.07
+    },
+    {
+      "id": "aether-wild-77",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5b4871a3-ki-v2-objects-aether-flowerbush-3.webp",
+      "w": 192,
+      "h": 170,
+      "x": 434.56,
+      "z": 352.81,
+      "y": -0.27
+    },
+    {
+      "id": "aether-wild-78",
+      "kind": "rock",
+      "sprite": "res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp",
+      "w": 456,
+      "h": 389,
+      "x": -279.64,
+      "z": -351.04,
+      "y": 28.82
+    },
+    {
+      "id": "aether-wild-79",
+      "kind": "tree",
+      "sprite": "res://assets/objects/021d8442-aether-x-cherry-tree.webp",
+      "w": 410,
+      "h": 420,
+      "x": -339.85,
+      "z": -233.1,
+      "y": 28.18
+    },
+    {
+      "id": "aether-wild-80",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b7fdcd43-ki-v2-objects-aether-oak-0.webp",
+      "w": 325,
+      "h": 344,
+      "x": 371.68,
+      "z": 158.11,
+      "y": -0.05
+    },
+    {
+      "id": "aether-wild-81",
+      "kind": "flora",
+      "sprite": "res://assets/objects/06b95ec4-aetheria-continent-reeds.webp",
+      "w": 204,
+      "h": 214,
+      "x": -214.05,
+      "z": 87.05,
+      "y": 4.94
+    },
+    {
+      "id": "aether-wild-82",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/99bc8df9-aetheria-continent-ruin.webp",
+      "w": 370,
+      "h": 350,
+      "x": -375.43,
+      "z": 283.48,
+      "y": -0.06
+    },
+    {
+      "id": "aether-wild-83",
+      "kind": "tree",
+      "sprite": "res://assets/objects/89c801d4-island-2.props.ginkgo.webp",
+      "w": 355,
+      "h": 391,
+      "x": -419.65,
+      "z": -370.22,
+      "y": 28.8
+    },
+    {
+      "id": "aether-wild-84",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ea1d036a-ki-v2-objects-aether-tree2-0.webp",
+      "w": 293,
+      "h": 320,
+      "x": 258.21,
+      "z": -367.68,
+      "y": 29.29
+    },
+    {
+      "id": "aether-wild-85",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/df70d07d-aether-art-ki-source.webp",
+      "w": 388,
+      "h": 379,
+      "x": -145.99,
+      "z": -238.05,
+      "y": 1.81
+    },
+    {
+      "id": "aether-wild-86",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2676f749-aetheria-continent-cave.webp",
+      "w": 418,
+      "h": 364,
+      "x": -375.87,
+      "z": -270.9,
+      "y": 29.09
+    },
+    {
+      "id": "aether-wild-87",
+      "kind": "tree",
+      "sprite": "res://assets/objects/4d090d85-aether-art-ki-tree.webp",
+      "w": 406,
+      "h": 415,
+      "x": -453.83,
+      "z": 246.76,
+      "y": -0.12
+    },
+    {
+      "id": "aether-wild-88",
+      "kind": "flora",
+      "sprite": "res://assets/objects/0e381537-aetheria-continent-flowers.webp",
+      "w": 241,
+      "h": 204,
+      "x": -158.9,
+      "z": 280.35,
+      "y": -0.23
+    },
+    {
+      "id": "aether-wild-89",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/21e2da3e-aetheria-continent-spring.webp",
+      "w": 318,
+      "h": 263,
+      "x": -304.09,
+      "z": -192.81,
+      "y": 20.98
+    },
+    {
+      "id": "aether-wild-90",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3e13c2fe-aetheria-continent-camp.webp",
+      "w": 364,
+      "h": 297,
+      "x": -446.85,
+      "z": -357.2,
+      "y": 25.64
+    },
+    {
+      "id": "aether-wild-91",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ac1ecb7c-aetheria-continent-bamboo.webp",
+      "w": 262,
+      "h": 380,
+      "x": 207.04,
+      "z": -335.51,
+      "y": 27.44
+    },
+    {
+      "id": "aether-wild-92",
+      "kind": "flora",
+      "sprite": "res://assets/objects/0e381537-aetheria-continent-flowers.webp",
+      "w": 250,
+      "h": 212,
+      "x": 110.27,
+      "z": -269.57,
+      "y": 4.15
+    },
+    {
+      "id": "aether-wild-93",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/21e2da3e-aetheria-continent-spring.webp",
+      "w": 370,
+      "h": 306,
+      "x": 424.83,
+      "z": 268.67,
+      "y": 0.04
+    },
+    {
+      "id": "aether-wild-94",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3cfdc1af-ki-v2-camps-aether-bonfire.webp",
+      "w": 263,
+      "h": 252,
+      "x": -464.1,
+      "z": 328.42,
+      "y": -0.02
+    },
+    {
+      "id": "aether-wild-95",
+      "kind": "tree",
+      "sprite": "res://assets/objects/36107785-aetheria-continent-cypress.webp",
+      "w": 187,
+      "h": 365,
+      "x": 60.18,
+      "z": 285.22,
+      "y": 0.04
+    },
+    {
+      "id": "aether-wild-96",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c3dedab1-aether-art-garden.webp",
+      "w": 376,
+      "h": 313,
+      "x": 103.39,
+      "z": -310.25,
+      "y": 12.04
+    },
+    {
+      "id": "aether-wild-97",
+      "kind": "rock",
+      "sprite": "res://assets/objects/28823ef2-aether-art-cloud-peak.webp",
+      "w": 458,
+      "h": 479,
+      "x": 351.9,
+      "z": -421.33,
+      "y": 21.47
+    },
+    {
+      "id": "aether-wild-98",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3cfdc1af-ki-v2-camps-aether-bonfire.webp",
+      "w": 265,
+      "h": 254,
+      "x": 243.97,
+      "z": -287.0,
+      "y": 21.84
+    },
+    {
+      "id": "aether-wild-99",
+      "kind": "tree",
+      "sprite": "res://assets/objects/3587a851-aetheria-continent-snow-pine.webp",
+      "w": 320,
+      "h": 431,
+      "x": -311.6,
+      "z": 179.88,
+      "y": 0.19
+    },
+    {
+      "id": "aether-wild-100",
+      "kind": "flora",
+      "sprite": "res://assets/objects/01c5ee13-ki-v2-objects-aether-flowerbush-2.webp",
+      "w": 208,
+      "h": 184,
+      "x": -460.57,
+      "z": -283.55,
+      "y": 24.17
+    },
+    {
+      "id": "aether-wild-101",
+      "kind": "rock",
+      "sprite": "res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp",
+      "w": 389,
+      "h": 332,
+      "x": 297.59,
+      "z": -462.76,
+      "y": 26.21
+    },
+    {
+      "id": "aether-wild-102",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 414,
+      "h": 380,
+      "x": 395.65,
+      "z": 282.06,
+      "y": 0.11
+    },
+    {
+      "id": "aether-wild-103",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b7fdcd43-ki-v2-objects-aether-oak-0.webp",
+      "w": 354,
+      "h": 374,
+      "x": -401.93,
+      "z": 149.3,
+      "y": -0.24
+    },
+    {
+      "id": "aether-wild-104",
+      "kind": "flora",
+      "sprite": "res://assets/objects/53ec23b9-ki-v2-objects-aether-mushrooms-0.webp",
+      "w": 185,
+      "h": 175,
+      "x": -304.3,
+      "z": -284.1,
+      "y": 26.47
+    },
+    {
+      "id": "aether-wild-105",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/f88f9d0e-aetheria-continent-shrine.webp",
+      "w": 333,
+      "h": 363,
+      "x": -356.45,
+      "z": -291.62,
+      "y": 29.44
+    },
+    {
+      "id": "aether-wild-106",
+      "kind": "tree",
+      "sprite": "res://assets/objects/4d090d85-aether-art-ki-tree.webp",
+      "w": 473,
+      "h": 484,
+      "x": -183.55,
+      "z": -282.69,
+      "y": 19.13
+    },
+    {
+      "id": "aether-wild-107",
+      "kind": "flora",
+      "sprite": "res://assets/objects/0e381537-aetheria-continent-flowers.webp",
+      "w": 252,
+      "h": 214,
+      "x": -164.13,
+      "z": 198.93,
+      "y": -0.1
+    },
+    {
+      "id": "aether-wild-108",
+      "kind": "rock",
+      "sprite": "res://assets/objects/28823ef2-aether-art-cloud-peak.webp",
+      "w": 475,
+      "h": 496,
+      "x": -185.8,
+      "z": -441.96,
+      "y": 33.11
+    },
+    {
+      "id": "aether-wild-109",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3cfdc1af-ki-v2-camps-aether-bonfire.webp",
+      "w": 215,
+      "h": 206,
+      "x": -291.86,
+      "z": -166.97,
+      "y": 12.52
+    },
+    {
+      "id": "aether-wild-110",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1d5e519a-ki-v2-objects-aether-oak-1.webp",
+      "w": 305,
+      "h": 323,
+      "x": 28.4,
+      "z": -237.17,
+      "y": 4.47
+    },
+    {
+      "id": "aether-wild-111",
+      "kind": "flora",
+      "sprite": "res://assets/objects/f0a05edf-ki-v2-objects-aether-fern-1.webp",
+      "w": 181,
+      "h": 156,
+      "x": 3.07,
+      "z": -227.37,
+      "y": 4.93
+    },
+    {
+      "id": "aether-wild-112",
+      "kind": "rock",
+      "sprite": "res://assets/objects/83749d6d-aetheria-continent-peak.webp",
+      "w": 400,
+      "h": 379,
+      "x": -353.02,
+      "z": -279.07,
+      "y": 28.43
+    },
+    {
+      "id": "aether-wild-113",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ac1ecb7c-aetheria-continent-bamboo.webp",
+      "w": 322,
+      "h": 467,
+      "x": 440.18,
+      "z": 50.1,
+      "y": -0.16
+    },
+    {
+      "id": "aether-wild-114",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c3dedab1-aether-art-garden.webp",
+      "w": 439,
+      "h": 366,
+      "x": 144.02,
+      "z": -203.04,
+      "y": 0.75
+    },
+    {
+      "id": "aether-wild-115",
+      "kind": "rock",
+      "sprite": "res://assets/objects/28823ef2-aether-art-cloud-peak.webp",
+      "w": 512,
+      "h": 535,
+      "x": -369.71,
+      "z": 178.66,
+      "y": -0.07
+    },
+    {
+      "id": "aether-wild-116",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3cfdc1af-ki-v2-camps-aether-bonfire.webp",
+      "w": 215,
+      "h": 206,
+      "x": -320.58,
+      "z": -377.13,
+      "y": 28.51
+    },
+    {
+      "id": "aether-wild-117",
+      "kind": "tree",
+      "sprite": "res://assets/objects/36107785-aetheria-continent-cypress.webp",
+      "w": 193,
+      "h": 377,
+      "x": 421.07,
+      "z": -175.24,
+      "y": 28.15
+    },
+    {
+      "id": "aether-wild-118",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c3dedab1-aether-art-garden.webp",
+      "w": 411,
+      "h": 342,
+      "x": -323.28,
+      "z": -289.31,
+      "y": 28.98
+    },
+    {
+      "id": "aether-wild-119",
+      "kind": "rock",
+      "sprite": "res://assets/objects/28823ef2-aether-art-cloud-peak.webp",
+      "w": 435,
+      "h": 454,
+      "x": -332.91,
+      "z": -181.2,
+      "y": 21.02
+    },
+    {
+      "id": "aether-wild-120",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3cfdc1af-ki-v2-camps-aether-bonfire.webp",
+      "w": 217,
+      "h": 208,
+      "x": -405.34,
+      "z": 100.29,
+      "y": 0.08
+    },
+    {
+      "id": "aether-wild-121",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b7fdcd43-ki-v2-objects-aether-oak-0.webp",
+      "w": 312,
+      "h": 330,
+      "x": -338.7,
+      "z": 302.57,
+      "y": 0.02
+    },
+    {
+      "id": "aether-wild-122",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5b4871a3-ki-v2-objects-aether-flowerbush-3.webp",
+      "w": 204,
+      "h": 181,
+      "x": -255.74,
+      "z": 54.28,
+      "y": -0.21
+    },
+    {
+      "id": "aether-wild-123",
+      "kind": "rock",
+      "sprite": "res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp",
+      "w": 400,
+      "h": 341,
+      "x": 389.19,
+      "z": 263.83,
+      "y": 0.1
+    },
+    {
+      "id": "aether-wild-124",
+      "kind": "tree",
+      "sprite": "res://assets/objects/a8e4292b-aetheria-continent-cherry.webp",
+      "w": 384,
+      "h": 394,
+      "x": -451.7,
+      "z": 204.15,
+      "y": -0.13
+    },
+    {
+      "id": "aether-wild-125",
+      "kind": "tree",
+      "sprite": "res://assets/objects/2b93857f-ki-v2-objects-aether-pine-3.webp",
+      "w": 252,
+      "h": 333,
+      "x": 65.5,
+      "z": -430.8,
+      "y": 25.36
+    },
+    {
+      "id": "aether-wild-126",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/df70d07d-aether-art-ki-source.webp",
+      "w": 466,
+      "h": 454,
+      "x": -372.37,
+      "z": 362.03,
+      "y": 0.08
+    },
+    {
+      "id": "aether-wild-127",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2676f749-aetheria-continent-cave.webp",
+      "w": 413,
+      "h": 360,
+      "x": -281.67,
+      "z": -449.89,
+      "y": 33.91
+    },
+    {
+      "id": "aether-wild-128",
+      "kind": "tree",
+      "sprite": "res://assets/objects/4d090d85-aether-art-ki-tree.webp",
+      "w": 427,
+      "h": 436,
+      "x": -450.03,
+      "z": -150.07,
+      "y": 20.75
+    },
+    {
+      "id": "aether-wild-129",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5ac42fa2-aetheria-continent-lavender.webp",
+      "w": 258,
+      "h": 221,
+      "x": 132.04,
+      "z": -445.45,
+      "y": 29.85
+    },
+    {
+      "id": "aether-wild-130",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/df70d07d-aether-art-ki-source.webp",
+      "w": 453,
+      "h": 442,
+      "x": 459.12,
+      "z": -353.22,
+      "y": 31.52
+    },
+    {
+      "id": "aether-wild-131",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3cfdc1af-ki-v2-camps-aether-bonfire.webp",
+      "w": 220,
+      "h": 211,
+      "x": 94.8,
+      "z": -458.69,
+      "y": 20.33
+    },
+    {
+      "id": "aether-wild-132",
+      "kind": "tree",
+      "sprite": "res://assets/objects/36107785-aetheria-continent-cypress.webp",
+      "w": 216,
+      "h": 423,
+      "x": 369.4,
+      "z": 221.78,
+      "y": 0.02
+    },
+    {
+      "id": "aether-wild-133",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c3dedab1-aether-art-garden.webp",
+      "w": 411,
+      "h": 342,
+      "x": 159.56,
+      "z": -355.82,
+      "y": 32.69
+    },
+    {
+      "id": "aether-wild-134",
+      "kind": "rock",
+      "sprite": "res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp",
+      "w": 383,
+      "h": 327,
+      "x": 316.72,
+      "z": -66.56,
+      "y": 4.62
+    },
+    {
+      "id": "aether-wild-135",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 373,
+      "h": 343,
+      "x": 159.56,
+      "z": -448.49,
+      "y": 35.51
+    },
+    {
+      "id": "aether-wild-136",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1d5e519a-ki-v2-objects-aether-oak-1.webp",
+      "w": 347,
+      "h": 367,
+      "x": 398.49,
+      "z": -338.95,
+      "y": 28.97
+    },
+    {
+      "id": "aether-wild-137",
+      "kind": "flora",
+      "sprite": "res://assets/objects/f0a05edf-ki-v2-objects-aether-fern-1.webp",
+      "w": 184,
+      "h": 159,
+      "x": 370.67,
+      "z": -158.84,
+      "y": 24.86
+    },
+    {
+      "id": "aether-wild-138",
+      "kind": "rock",
+      "sprite": "res://assets/objects/83749d6d-aetheria-continent-peak.webp",
+      "w": 424,
+      "h": 402,
+      "x": -167.99,
+      "z": -367.73,
+      "y": 32.53
+    },
+    {
+      "id": "aether-wild-139",
+      "kind": "tree",
+      "sprite": "res://assets/objects/021d8442-aether-x-cherry-tree.webp",
+      "w": 381,
+      "h": 390,
+      "x": -393.74,
+      "z": -464.53,
+      "y": 33.85
+    },
+    {
+      "id": "aether-wild-140",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b7fdcd43-ki-v2-objects-aether-oak-0.webp",
+      "w": 362,
+      "h": 383,
+      "x": -65.55,
+      "z": 304.31,
+      "y": -0.09
+    },
+    {
+      "id": "aether-wild-141",
+      "kind": "flora",
+      "sprite": "res://assets/objects/53ec23b9-ki-v2-objects-aether-mushrooms-0.webp",
+      "w": 193,
+      "h": 182,
+      "x": 185.67,
+      "z": -354.65,
+      "y": 30.86
+    },
+    {
+      "id": "aether-wild-142",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/99bc8df9-aetheria-continent-ruin.webp",
+      "w": 380,
+      "h": 359,
+      "x": -383.89,
+      "z": 31.7,
+      "y": 0.53
+    },
+    {
+      "id": "aether-wild-143",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b7fdcd43-ki-v2-objects-aether-oak-0.webp",
+      "w": 343,
+      "h": 364,
+      "x": 70.01,
+      "z": -464.24,
+      "y": 20.8
+    },
+    {
+      "id": "aether-wild-144",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5b4871a3-ki-v2-objects-aether-flowerbush-3.webp",
+      "w": 195,
+      "h": 173,
+      "x": 434.19,
+      "z": 226.78,
+      "y": -0.11
+    },
+    {
+      "id": "aether-wild-145",
+      "kind": "rock",
+      "sprite": "res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp",
+      "w": 399,
+      "h": 341,
+      "x": 281.67,
+      "z": -370.42,
+      "y": 31.61
+    },
+    {
+      "id": "aether-wild-146",
+      "kind": "tree",
+      "sprite": "res://assets/objects/dc095c5f-aetheria-continent-ginkgo.webp",
+      "w": 360,
+      "h": 400,
+      "x": -185.33,
+      "z": -413.04,
+      "y": 34.71
+    },
+    {
+      "id": "aether-wild-147",
+      "kind": "tree",
+      "sprite": "res://assets/objects/2b93857f-ki-v2-objects-aether-pine-3.webp",
+      "w": 278,
+      "h": 368,
+      "x": 148.16,
+      "z": -391.52,
+      "y": 34.45
+    },
+    {
+      "id": "aether-wild-148",
+      "kind": "flora",
+      "sprite": "res://assets/objects/53ec23b9-ki-v2-objects-aether-mushrooms-0.webp",
+      "w": 188,
+      "h": 178,
+      "x": 164.04,
+      "z": -430.75,
+      "y": 36.12
+    },
+    {
+      "id": "aether-wild-149",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/f88f9d0e-aetheria-continent-shrine.webp",
+      "w": 305,
+      "h": 332,
+      "x": -446.32,
+      "z": -407.56,
+      "y": 31.72
+    },
+    {
+      "id": "aether-wild-150",
+      "kind": "tree",
+      "sprite": "res://assets/objects/dc095c5f-aetheria-continent-ginkgo.webp",
+      "w": 366,
+      "h": 407,
+      "x": -288.58,
+      "z": 324.07,
+      "y": -0.09
+    },
+    {
+      "id": "aether-wild-151",
+      "kind": "tree",
+      "sprite": "res://assets/objects/2b93857f-ki-v2-objects-aether-pine-3.webp",
+      "w": 300,
+      "h": 396,
+      "x": -364.43,
+      "z": -181.21,
+      "y": 23.56
+    },
+    {
+      "id": "aether-wild-152",
+      "kind": "flora",
+      "sprite": "res://assets/objects/06b95ec4-aetheria-continent-reeds.webp",
+      "w": 179,
+      "h": 188,
+      "x": -67.41,
+      "z": -209.94,
+      "y": 4.81
+    },
+    {
+      "id": "aether-wild-153",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/f88f9d0e-aetheria-continent-shrine.webp",
+      "w": 302,
+      "h": 329,
+      "x": 394.64,
+      "z": 259.7,
+      "y": 0.13
+    },
+    {
+      "id": "aether-wild-154",
+      "kind": "tree",
+      "sprite": "res://assets/objects/dc095c5f-aetheria-continent-ginkgo.webp",
+      "w": 321,
+      "h": 357,
+      "x": -385.42,
+      "z": 306.73,
+      "y": -0.04
+    },
+    {
+      "id": "aether-wild-155",
+      "kind": "tree",
+      "sprite": "res://assets/objects/2b93857f-ki-v2-objects-aether-pine-3.webp",
+      "w": 257,
+      "h": 340,
+      "x": 300.68,
+      "z": -301.59,
+      "y": 21.75
+    },
+    {
+      "id": "aether-wild-156",
+      "kind": "flora",
+      "sprite": "res://assets/objects/06b95ec4-aetheria-continent-reeds.webp",
+      "w": 207,
+      "h": 218,
+      "x": 97.29,
+      "z": -297.47,
+      "y": 8.13
+    },
+    {
+      "id": "aether-wild-157",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/f88f9d0e-aetheria-continent-shrine.webp",
+      "w": 364,
+      "h": 396,
+      "x": 246.39,
+      "z": 131.28,
+      "y": -0.1
+    },
+    {
+      "id": "aether-wild-158",
+      "kind": "tree",
+      "sprite": "res://assets/objects/4d090d85-aether-art-ki-tree.webp",
+      "w": 510,
+      "h": 521,
+      "x": 438.27,
+      "z": 193.0,
+      "y": -0.06
+    },
+    {
+      "id": "aether-wild-159",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5ac42fa2-aetheria-continent-lavender.webp",
+      "w": 238,
+      "h": 204,
+      "x": 154.78,
+      "z": 144.93,
+      "y": 4.43
+    },
+    {
+      "id": "aether-wild-160",
+      "kind": "rock",
+      "sprite": "res://assets/objects/28823ef2-aether-art-cloud-peak.webp",
+      "w": 452,
+      "h": 472,
+      "x": -336.26,
+      "z": -310.6,
+      "y": 29.46
+    },
+    {
+      "id": "aether-wild-161",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 402,
+      "h": 369,
+      "x": 414.1,
+      "z": -343.24,
+      "y": 32.46
+    },
+    {
+      "id": "aether-wild-162",
+      "kind": "tree",
+      "sprite": "res://assets/objects/3587a851-aetheria-continent-snow-pine.webp",
+      "w": 279,
+      "h": 375,
+      "x": -308.62,
+      "z": -206.78,
+      "y": 23.81
+    },
+    {
+      "id": "aether-wild-163",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5b4871a3-ki-v2-objects-aether-flowerbush-3.webp",
+      "w": 206,
+      "h": 182,
+      "x": -166.81,
+      "z": -459.73,
+      "y": 36.08
+    },
+    {
+      "id": "aether-wild-164",
+      "kind": "rock",
+      "sprite": "res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp",
+      "w": 371,
+      "h": 317,
+      "x": -314.48,
+      "z": -212.31,
+      "y": 24.88
+    },
+    {
+      "id": "aether-wild-165",
+      "kind": "tree",
+      "sprite": "res://assets/objects/a8e4292b-aetheria-continent-cherry.webp",
+      "w": 364,
+      "h": 373,
+      "x": 13.34,
+      "z": -397.9,
+      "y": 28.58
+    },
+    {
+      "id": "aether-wild-166",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1d5e519a-ki-v2-objects-aether-oak-1.webp",
+      "w": 317,
+      "h": 336,
+      "x": 400.19,
+      "z": -339.65,
+      "y": 29.57
+    },
+    {
+      "id": "aether-wild-167",
+      "kind": "flora",
+      "sprite": "res://assets/objects/06b95ec4-aetheria-continent-reeds.webp",
+      "w": 220,
+      "h": 231,
+      "x": 15.5,
+      "z": -424.54,
+      "y": 31.1
+    },
+    {
+      "id": "aether-wild-168",
+      "kind": "rock",
+      "sprite": "res://assets/objects/29f8b15e-aetheria-continent-cliff.webp",
+      "w": 336,
+      "h": 283,
+      "x": 456.85,
+      "z": 270.81,
+      "y": -0.06
+    },
+    {
+      "id": "aether-wild-169",
+      "kind": "tree",
+      "sprite": "res://assets/objects/a8e4292b-aetheria-continent-cherry.webp",
+      "w": 345,
+      "h": 354,
+      "x": 158.32,
+      "z": 211.12,
+      "y": 0.06
+    },
+    {
+      "id": "aether-wild-170",
+      "kind": "tree",
+      "sprite": "res://assets/objects/1d5e519a-ki-v2-objects-aether-oak-1.webp",
+      "w": 334,
+      "h": 354,
+      "x": -261.77,
+      "z": -355.44,
+      "y": 28.75
+    },
+    {
+      "id": "aether-wild-171",
+      "kind": "flora",
+      "sprite": "res://assets/objects/f0a05edf-ki-v2-objects-aether-fern-1.webp",
+      "w": 201,
+      "h": 174,
+      "x": -173.91,
+      "z": 317.74,
+      "y": -0.4
+    },
+    {
+      "id": "aether-wild-172",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 406,
+      "h": 373,
+      "x": -178.27,
+      "z": -297.67,
+      "y": 22.3
+    },
+    {
+      "id": "aether-wild-173",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b7fdcd43-ki-v2-objects-aether-oak-0.webp",
+      "w": 306,
+      "h": 324,
+      "x": 283.15,
+      "z": -447.13,
+      "y": 29.04
+    },
+    {
+      "id": "aether-wild-174",
+      "kind": "flora",
+      "sprite": "res://assets/objects/5b4871a3-ki-v2-objects-aether-flowerbush-3.webp",
+      "w": 200,
+      "h": 177,
+      "x": 45.68,
+      "z": -461.18,
+      "y": 21.98
+    },
+    {
+      "id": "aether-wild-175",
+      "kind": "rock",
+      "sprite": "res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp",
+      "w": 462,
+      "h": 394,
+      "x": -328.66,
+      "z": -461.08,
+      "y": 34.21
+    },
+    {
+      "id": "aether-wild-176",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 412,
+      "h": 378,
+      "x": 208.29,
+      "z": 82.04,
+      "y": 4.79
+    },
+    {
+      "id": "aether-wild-177",
+      "kind": "tree",
+      "sprite": "res://assets/objects/b7fdcd43-ki-v2-objects-aether-oak-0.webp",
+      "w": 356,
+      "h": 377,
+      "x": -427.82,
+      "z": 318.79,
+      "y": 0.05
+    },
+    {
+      "id": "aether-wild-178",
+      "kind": "flora",
+      "sprite": "res://assets/objects/f0a05edf-ki-v2-objects-aether-fern-1.webp",
+      "w": 164,
+      "h": 142,
+      "x": -318.44,
+      "z": -69.98,
+      "y": 3.28
+    },
+    {
+      "id": "aether-wild-179",
+      "kind": "rock",
+      "sprite": "res://assets/objects/83749d6d-aetheria-continent-peak.webp",
+      "w": 420,
+      "h": 398,
+      "x": -372.53,
+      "z": 330.61,
+      "y": 0.15
+    },
+    {
+      "id": "aether-wild-180",
+      "kind": "tree",
+      "sprite": "res://assets/objects/89c801d4-island-2.props.ginkgo.webp",
+      "w": 327,
+      "h": 359,
+      "x": -428.12,
+      "z": -390.91,
+      "y": 31.96
+    },
+    {
+      "id": "aether-wild-181",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ea1d036a-ki-v2-objects-aether-tree2-0.webp",
+      "w": 329,
+      "h": 359,
+      "x": 268.81,
+      "z": -104.14,
+      "y": 2.27
+    },
+    {
+      "id": "aether-wild-182",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/df70d07d-aether-art-ki-source.webp",
+      "w": 443,
+      "h": 433,
+      "x": -359.52,
+      "z": 160.95,
+      "y": 0.0
+    },
+    {
+      "id": "aether-wild-183",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3e13c2fe-aetheria-continent-camp.webp",
+      "w": 365,
+      "h": 299,
+      "x": 120.45,
+      "z": -338.36,
+      "y": 21.76
+    },
+    {
+      "id": "aether-wild-184",
+      "kind": "tree",
+      "sprite": "res://assets/objects/36107785-aetheria-continent-cypress.webp",
+      "w": 229,
+      "h": 448,
+      "x": 265.53,
+      "z": 203.07,
+      "y": -0.07
+    },
+    {
+      "id": "aether-wild-185",
+      "kind": "flora",
+      "sprite": "res://assets/objects/01c5ee13-ki-v2-objects-aether-flowerbush-2.webp",
+      "w": 238,
+      "h": 211,
+      "x": -404.97,
+      "z": -157.73,
+      "y": 24.19
+    },
+    {
+      "id": "aether-wild-186",
+      "kind": "rock",
+      "sprite": "res://assets/objects/29f8b15e-aetheria-continent-cliff.webp",
+      "w": 343,
+      "h": 289,
+      "x": 228.55,
+      "z": 377.0,
+      "y": -0.49
+    },
+    {
+      "id": "aether-wild-187",
+      "kind": "tree",
+      "sprite": "res://assets/objects/36107785-aetheria-continent-cypress.webp",
+      "w": 195,
+      "h": 381,
+      "x": -250.0,
+      "z": 391.97,
+      "y": -0.57
+    },
+    {
+      "id": "aether-wild-188",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c3dedab1-aether-art-garden.webp",
+      "w": 405,
+      "h": 338,
+      "x": -299.27,
+      "z": -31.0,
+      "y": 1.0
+    },
+    {
+      "id": "aether-wild-189",
+      "kind": "rock",
+      "sprite": "res://assets/objects/28823ef2-aether-art-cloud-peak.webp",
+      "w": 468,
+      "h": 489,
+      "x": 379.11,
+      "z": -296.35,
+      "y": 27.91
+    },
+    {
+      "id": "aether-wild-190",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2bb9e10a-aetheria-continent-arch.webp",
+      "w": 333,
+      "h": 306,
+      "x": 166.08,
+      "z": -336.66,
+      "y": 28.8
+    },
+    {
+      "id": "aether-wild-191",
+      "kind": "tree",
+      "sprite": "res://assets/objects/2b93857f-ki-v2-objects-aether-pine-3.webp",
+      "w": 306,
+      "h": 404,
+      "x": -453.6,
+      "z": -146.88,
+      "y": 20.46
+    },
+    {
+      "id": "aether-wild-192",
+      "kind": "flora",
+      "sprite": "res://assets/objects/06b95ec4-aetheria-continent-reeds.webp",
+      "w": 223,
+      "h": 235,
+      "x": -115.89,
+      "z": -397.91,
+      "y": 33.5
+    },
+    {
+      "id": "aether-wild-193",
+      "kind": "rock",
+      "sprite": "res://assets/objects/29f8b15e-aetheria-continent-cliff.webp",
+      "w": 385,
+      "h": 324,
+      "x": 166.13,
+      "z": -362.97,
+      "y": 34.05
+    },
+    {
+      "id": "aether-wild-194",
+      "kind": "tree",
+      "sprite": "res://assets/objects/a8e4292b-aetheria-continent-cherry.webp",
+      "w": 426,
+      "h": 437,
+      "x": 67.31,
+      "z": 197.62,
+      "y": 5.01
+    },
+    {
+      "id": "aether-wild-195",
+      "kind": "tree",
+      "sprite": "res://assets/objects/ea1d036a-ki-v2-objects-aether-tree2-0.webp",
+      "w": 327,
+      "h": 357,
+      "x": 342.16,
+      "z": -116.61,
+      "y": 14.86
+    },
+    {
+      "id": "aether-wild-196",
+      "kind": "flora",
+      "sprite": "res://assets/objects/53ec23b9-ki-v2-objects-aether-mushrooms-0.webp",
+      "w": 181,
+      "h": 171,
+      "x": 91.51,
+      "z": -189.68,
+      "y": 4.89
+    },
+    {
+      "id": "aether-wild-197",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2676f749-aetheria-continent-cave.webp",
+      "w": 348,
+      "h": 304,
+      "x": -448.05,
+      "z": -109.99,
+      "y": 15.0
+    },
+    {
+      "id": "aether-wild-198",
+      "kind": "tree",
+      "sprite": "res://assets/objects/4d090d85-aether-art-ki-tree.webp",
+      "w": 428,
+      "h": 437,
+      "x": 344.46,
+      "z": -299.91,
+      "y": 25.97
+    },
+    {
+      "id": "aether-wild-199",
+      "kind": "flora",
+      "sprite": "res://assets/objects/0e381537-aetheria-continent-flowers.webp",
+      "w": 223,
+      "h": 189,
+      "x": 114.63,
+      "z": 208.36,
+      "y": 4.47
+    },
+    {
+      "id": "aether-wild-200",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/df70d07d-aether-art-ki-source.webp",
+      "w": 424,
+      "h": 414,
+      "x": 336.58,
+      "z": 309.27,
+      "y": 0.06
+    },
+    {
+      "id": "aether-wild-201",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2676f749-aetheria-continent-cave.webp",
+      "w": 384,
+      "h": 335,
+      "x": 463.67,
+      "z": 319.1,
+      "y": 0.02
+    },
+    {
+      "id": "aether-wild-202",
+      "kind": "tree",
+      "sprite": "res://assets/objects/4d090d85-aether-art-ki-tree.webp",
+      "w": 435,
+      "h": 445,
+      "x": 417.41,
+      "z": -113.02,
+      "y": 18.54
+    },
+    {
+      "id": "aether-wild-203",
+      "kind": "flora",
+      "sprite": "res://assets/objects/0e381537-aetheria-continent-flowers.webp",
+      "w": 249,
+      "h": 211,
+      "x": -419.73,
+      "z": 47.19,
+      "y": 0.16
+    },
+    {
+      "id": "aether-wild-204",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/df70d07d-aether-art-ki-source.webp",
+      "w": 440,
+      "h": 430,
+      "x": -415.07,
+      "z": 285.42,
+      "y": -0.01
+    },
+    {
+      "id": "aether-wild-205",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/2676f749-aetheria-continent-cave.webp",
+      "w": 426,
+      "h": 371,
+      "x": -355.94,
+      "z": 79.26,
+      "y": -0.2
+    },
+    {
+      "id": "aether-wild-206",
+      "kind": "tree",
+      "sprite": "res://assets/objects/4d090d85-aether-art-ki-tree.webp",
+      "w": 485,
+      "h": 496,
+      "x": -106.38,
+      "z": 175.69,
+      "y": 5.34
+    },
+    {
+      "id": "aether-wild-207",
+      "kind": "flora",
+      "sprite": "res://assets/objects/c3dedab1-aether-art-garden.webp",
+      "w": 416,
+      "h": 347,
+      "x": -299.14,
+      "z": -427.96,
+      "y": 30.64
+    },
+    {
+      "id": "aether-wild-208",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/21e2da3e-aetheria-continent-spring.webp",
+      "w": 378,
+      "h": 313,
+      "x": -387.8,
+      "z": -437.54,
+      "y": 33.51
+    },
+    {
+      "id": "aether-wild-209",
+      "kind": "camp",
+      "sprite": "res://assets/objects/3e13c2fe-aetheria-continent-camp.webp",
+      "w": 295,
+      "h": 241,
+      "x": -349.69,
+      "z": -445.36,
+      "y": 33.31
+    }
+  ]
+}

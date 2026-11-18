@@ -61,37 +61,50 @@ func run() -> void:
 	check("preview_open",service.world!=null)
 	if service.world!=null:
 		var world: Node2D=service.world
-		var material_checks: Dictionary=world.material_library.validate()
-		for name: String in material_checks:check("downloaded_"+name,bool(material_checks[name]))
-		check("new_buildings",world.building_art.size()==6)
-		if "--qa-citadel" in OS.get_cmdline_user_args():
-			check("citadel_variant",bool(world.citadel_preview))
-			check("start_at_royal_square",world.hero_world.distance_to(Vector2(-51,-173))<.05)
-			var closed:=0
-			var quarter_buildings:=0
-			for item: Dictionary in world.architecture.props:
-				if item.get("entry")!="closed":continue
-				if item.has("quarter"):
-					quarter_buildings+=1
+		if "--qa-gemini" in OS.get_cmdline_user_args():
+			check("private_world",world.get_world_2d()!=root.world_2d)
+			check("gemini_starts_in_pyra",world.current_land=="pyra")
+			for land in ["pyra","verdant","aether","nexus"]:
+				world.switch_region(land)
+				await frames(3)
+				check("continent_"+land,world.current_land==land and world.heights.size()==262144 and world.walkable.size()==262144 and world.exp_zones.size()==6 and world.hero!=null)
+				await shot(land+".jpg")
+			world.toggle_atlas(true)
+			await frames(8)
+			check("planet_atlas",world.atlas_overlay!=null and world.atlas_expanded)
+			await shot("atlas.jpg")
+		else:
+			var material_checks: Dictionary=world.material_library.validate()
+			for name: String in material_checks:check("downloaded_"+name,bool(material_checks[name]))
+			check("new_buildings",world.building_art.size()==6)
+			if "--qa-citadel" in OS.get_cmdline_user_args():
+				check("citadel_variant",bool(world.citadel_preview))
+				check("start_at_royal_square",world.hero_world.distance_to(Vector2(-51,-173))<.05)
+				var closed:=0
+				var quarter_buildings:=0
+				for item: Dictionary in world.architecture.props:
+					if item.get("entry")!="closed":continue
+					if item.has("quarter"):
+						quarter_buildings+=1
+					else:
+						closed+=1
+				check("all_seven_citadel_buildings",closed==7)
+				if world.architecture.has("patrols"):
+					check("ten_quarter_buildings",quarter_buildings==10)
+					check("quarter_patrols",world.district_patrols.size()==3)
+					check("lanterns_and_chimneys",world.district_ambience.lanterns.size()==11 and world.district_ambience.chimneys.size()==5)
 				else:
-					closed+=1
-			check("all_seven_citadel_buildings",closed==7)
-			if world.architecture.has("patrols"):
-				check("ten_quarter_buildings",quarter_buildings==10)
-				check("quarter_patrols",world.district_patrols.size()==3)
-				check("lanterns_and_chimneys",world.district_ambience.lanterns.size()==11 and world.district_ambience.chimneys.size()==5)
-			else:
-				check("lanterns_and_chimneys",world.district_ambience.lanterns.size()==5 and world.district_ambience.chimneys.size()==3)
-		check("private_world",world.get_world_2d()!=root.world_2d)
-		await shot("downloaded-preview.jpg")
-		world.toggle_map()
-		check("downloaded_map2d",world.map_view.world_2d==world.get_world_2d())
-		await shot("downloaded-map2d.jpg")
-		world.toggle_map_mode()
-		await frames(8)
-		var alignment: Dictionary=world.map_3d.validate_alignment()
-		check("downloaded_map3d",alignment.height_max_m<.001 and alignment.projection_max_px<.05 and alignment.shares_textures)
-		await shot("downloaded-map3d.jpg")
+					check("lanterns_and_chimneys",world.district_ambience.lanterns.size()==5 and world.district_ambience.chimneys.size()==3)
+			check("private_world",world.get_world_2d()!=root.world_2d)
+			await shot("downloaded-preview.jpg")
+			world.toggle_map()
+			check("downloaded_map2d",world.map_view.world_2d==world.get_world_2d())
+			await shot("downloaded-map2d.jpg")
+			world.toggle_map_mode()
+			await frames(8)
+			var alignment: Dictionary=world.map_3d.validate_alignment()
+			check("downloaded_map3d",alignment.height_max_m<.001 and alignment.projection_max_px<.05 and alignment.shares_textures)
+			await shot("downloaded-map3d.jpg")
 		status={"maintenance":true,"canEnter":false,"canPreview":false}
 		await service.refresh_access()
 		await frames(5)

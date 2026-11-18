@@ -1,0 +1,64 @@
+{
+  "phase": "Phase A + Phase C Full Continents, Spline Roads, 24 Exp-Zones, Water/Lava, 338 Painted Assets + GeoNodes Walls, 99 Animated Entities & Real 3D Globe",
+  "project": "ports/godot-isometric-world",
+  "projection_roundtrip_error_m": 0.0,
+  "regions": {
+    "aether": {
+      "buildings_count": 56,
+      "exp_zones_count": 6,
+      "fauna_count": 16,
+      "grid_size": 512,
+      "monsters_count": 30,
+      "npcs_count": 10,
+      "props_count": 270,
+      "title": "Aetheria — Sanktuarium Tysiąca Źródeł i Niebiańskie Tarasy",
+      "world_size_m": 1024.0
+    },
+    "nexus": {
+      "buildings_count": 48,
+      "exp_zones_count": 6,
+      "fauna_count": 16,
+      "grid_size": 512,
+      "monsters_count": 30,
+      "npcs_count": 10,
+      "props_count": 288,
+      "title": "Nexus-9 — Węzeł Świadomości i Obwody Rdzeni",
+      "world_size_m": 1024.0
+    },
+    "pyra": {
+      "buildings_count": 66,
+      "exp_zones_count": 6,
+      "fauna_count": 16,
+      "grid_size": 512,
+      "monsters_count": 30,
+      "npcs_count": 10,
+      "props_count": 274,
+      "title": "Pyra — Twierdza Popiołu i Wulkaniczny Kontynent",
+      "world_size_m": 1024.0
+    },
+    "verdant": {
+      "buildings_count": 55,
+      "exp_zones_count": 6,
+      "fauna_count": 16,
+      "grid_size": 512,
+      "monsters_count": 30,
+      "npcs_count": 10,
+      "props_count": 263,
+      "title": "Verdantia — Zielona Przystań i Szmaragdowa Dolina",
+      "world_size_m": 1024.0
+    }
+  },
+  "screenshots": [
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/pyra-citadel.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/pyra-expzone.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/verdant-harbor.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/verdant-expzone.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/aether-sanctuary.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/aether-expzone.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/nexus-core.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/nexus-expzone.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/globe-3d.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/planet-atlas.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/map-3d.jpg"
+  ]
+}

@@ -23,9 +23,12 @@ def main():
     parser.add_argument('--base', default='1.13.1')
     parser.add_argument('--base-ref', default='HEAD')
     parser.add_argument('--citadel', action='store_true')
+    parser.add_argument('--gemini', action='store_true')
     args = parser.parse_args()
+    assert not (args.gemini and args.citadel)
     from prepare_service_preview import prepare
-    preview = prepare(ROOT/'ports/godot-isometric-pyra', ROOT/'ports/godot-pyra', citadel=args.citadel)
+    source = 'godot-isometric-world' if args.gemini else 'godot-isometric-pyra'
+    preview = prepare(ROOT/'ports'/source, ROOT/'ports/godot-pyra', citadel=args.citadel, gemini=args.gemini)
     subprocess.run(['godot', '--headless', '--audio-driver', 'Dummy', '--editor', '--path',
                     str(ROOT/'ports/godot-pyra'), '--import'], check=True)
     spec = importlib.util.spec_from_file_location('builder', ROOT/'scripts/godot/build_packs.py')
@@ -41,7 +44,7 @@ def main():
     old_core = base['packs'].get('core-c101')
     if old_core:
         prior_report = json.loads(base_file('preview-update.json'))
-        assert args.citadel and prior_report['changes_only_preview_namespace'] and prior_report['core'] == old_core
+        assert (args.citadel or args.gemini) and prior_report['changes_only_preview_namespace'] and prior_report['core'] == old_core
         assert all(path.startswith(('res://'+PREFIX, 'res://.godot/imported/')) for path in prior_report['files'])
     out = ROOT/f'deliveries/godot-content-{args.version}'
     out.mkdir(parents=True, exist_ok=True)
@@ -85,7 +88,7 @@ def main():
     report = {'base': args.base, 'version': args.version, 'installed_client_code': 101,
               'preserved_packs': len(preserved), 'unchanged_lands': manifest['lands'] == base['lands'],
               'core': manifest['packs']['core-c101'], 'changes_only_preview_namespace': True,
-              'changed_apk': False, 'citadel_preview': args.citadel, 'files': [item['pck'] for item in listing]}
+              'changed_apk': False, 'citadel_preview': args.citadel, 'gemini_world': args.gemini, 'files': [item['pck'] for item in listing]}
     (out/'preview-update.json').write_text(json.dumps(report, indent=2)+'\n')
     print(json.dumps({k:v for k,v in report.items() if k!='files'}))
 

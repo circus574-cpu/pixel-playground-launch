@@ -31,6 +31,8 @@ entry=manifest['packs']['core-c101']
 report_file=Path(args.release)/'preview-update.json'
 citadel=report_file.exists() and json.loads(report_file.read_text()).get('citadel_preview')
 extra=['--qa-citadel'] if citadel else []
+if report_file.exists() and json.loads(report_file.read_text()).get('gemini_world'):
+    extra.append('--qa-gemini')
 core_test.Fake.key='core-c101';core_test.Fake.offer=entry
 core_test.Fake.files={entry['file']:Path(args.release)/entry['file']}
 server=http.server.ThreadingHTTPServer(('127.0.0.1',0),core_test.Fake)

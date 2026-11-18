@@ -594,3 +594,34 @@ materiału; dane wysokości, kolizji, dróg i nawigacji pozostają identyczne.
 Zmiana trafia do prywatnej próby przez aktualizację serwerową `core-c101`,
 czytaną przez istniejącą aplikację 1.14. Nie podmienia produkcyjnych kontynentów
 ani zapisów postaci. Stan publikacji zapisano w dzienniku dnia.
+Budynki dopasowane do rzutu pozostają następnym etapem: model → stała kamera i światło
+Blendera → sprite, kotwica stóp, drzwi i obrys kolizji. Płatnego generowania Meshy nie uruchomiono.
+
+## Świat Izometryczny 2D — 4 Pełne Kontynenty, 24 Expowiska i Globus 3D (Faza A + C) — 18.11.2026
+
+W `ports/godot-isometric-world` (gałąź `feat/isometric-world-2d-terrain3d-20261118`) rozbudowano
+świat izometryczny 2D w **Godot 4.6.3** do pełnych 4 kontynentów (`1024 × 1024 m` na kontynent,
+siatka `512 × 512`, bezpieczna stolica `safe_city_radius = 180 m` w centrum + otaczający dziki
+kontynent):
+
+- **Architektura, fortyfikacje i przyroda:** wyeliminowano prymitywne bloki zastępcze; podłączono
+  **338 ręcznie malowanych obiektów `.webp`** (kuźnie, karczmy, targi, areny, skarbce, hale,
+  sanktuaria, obserwatoria, reaktory, stawy koi, źródła, mosty oraz `263..288` obiektów flory/skał/ruin/obozów
+  na kontynent) oraz **12 segmentów murów oporowych, baszt, bram, koksowników i latarni** wygenerowanych
+  w `Blender 4.0.2 Cycles GPU + Geometry Nodes` (`scripts/gpu/blender_geonodes_fortifications.py`).
+- **Sieć dróg `Catmull-Rom Spline` i 24 Polany Bojowe (`Expowiska Lv. 1–18`):** generator
+  `scripts/gpu/gen_world_topography.py` buduje aleje miejskie, pierścienie stolic, 4 główne trakty
+  wychodzące z 4 bram, obwodnicę kontynentu, automatyczne mosty na przecięciach z rzekami/lawą
+  oraz 6 odnóg na kontynent prowadzących do **6 szerokich, płaskich polan bojowych (`Expowisk`,
+  `radius = 52..58 m`) na każdy kontynent (`24` expowiska łącznie)**.
+- **Żywa woda, jeziora, zatoki oceaniczne i płynna lawa:** shadery `shaders/terrain.gdshader` i
+  `shaders/map_3d.gdshader` renderują animowaną wodę z pianą przybrzeżną, rzeki, jeziora alpejskie,
+  zatoki oceaniczne, cyjanowe kanały plazmowe oraz emisyjną lawę i baseny magmy.
+- **99 animowanych bytów + `PyraAmbient`:** 4 bohaterów, 40 NPC w stolicach (`!` / `?`), 41 gatunków
+  potworów (`30` na kontynent w 6 expowiskach z `Lv. 1..18` i paskami HP) oraz 10 gatunków fauny
+  (`A-01..A-10`, `16` na kontynent) wraz z żywym ogniem, dymem, parą wodną i iskrami.
+- **Globus 3D (`[G]`), Atlas 2D (`[Tab]`) i Mapa 3D Kontynentu (`[M]`):** integracja prawdziwej
+  kuli 3D (`scripts/globe_view.gd`) z warstwą chmur, atmosferą Fresnela, obrysami poligonowymi
+  (`data/map.json`) i wyborem kontynentu promieniem 3D (`raycast`). Szczegóły i dowody QA:
+  [dziennik 18.11](zmiany/2026-11-18/ZMIANY.md), [README projektu](../ports/godot-isometric-world/README.md).
+

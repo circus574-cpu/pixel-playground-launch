@@ -12,12 +12,14 @@ ROOT = Path(__file__).resolve().parents[2]
 PREFIX = "res://service_preview/pyra/"
 
 
-def prepare(source: Path, project: Path, *, citadel: bool = False) -> dict:
+def prepare(source: Path, project: Path, *, citadel: bool = False, gemini: bool = False) -> dict:
     output = project / "service_preview" / "pyra"
     output.mkdir(parents=True, exist_ok=True)
     entries = []
     for path in sorted(source.rglob("*")):
         rel = path.relative_to(source)
+        if gemini and path.is_symlink() and not path.is_file():
+            raise ValueError(f"Missing Gemini asset target: {rel}")
         if not path.is_file() or any(p.startswith(".") for p in rel.parts):
             continue
         if rel.name == "project.godot" or path.suffix in (".uid", ".import"):
@@ -36,9 +38,14 @@ def prepare(source: Path, project: Path, *, citadel: bool = False) -> dict:
             raise ValueError(f"Missing LFS data: {rel}; run git lfs pull")
         if path.suffix in (".gd", ".gdshader", ".tscn", ".json"):
             text = data.decode().replace("res://", PREFIX)
-            if str(rel) == "scripts/actor_view.gd":
+            if gemini:
+                text = text.replace("class_name MapMath\n", "").replace("class_name MapStyle\n", "").replace("class_name IsoWorldActor\n", "")
+                if str(rel) == "scripts/world.gd":
+                    text = text.split("\nfunc snap(", 1)[0]
+                    text = text.replace('\tif "--qa" in OS.get_cmdline_user_args() or "--qa" in OS.get_cmdline_args():\n\t\tcall_deferred("run_qa")\n', "")
+            if not gemini and str(rel) == "scripts/actor_view.gd":
                 text = text.replace("class_name PyraActor\n", "")
-            if str(rel) == "scripts/world.gd":
+            if not gemini and str(rel) == "scripts/world.gd":
                 text = text.replace("PyraActor", "IsoActor")
                 text = text.split("\nfunc run_qa()", 1)[0]
                 text = text.replace('\tif "--qa" in OS.get_cmdline_user_args():run_qa.call_deferred()\n', "")
