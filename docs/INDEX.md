@@ -1,5 +1,13 @@
 # KI Legends — dokumentacja projektu
 
+**18.11 — Świat Izometryczny 2D, 4 Stolice i Atlas Planety (`ports/godot-isometric-world`):**
+wieloregionowy świat izometryczny 2D w Godot 4.6.3 wygenerowany i zweryfikowany na podzie GPU
+(NVIDIA A40 48 GB VRAM) przy użyciu potoku Terrain3D + ProtonScatter + Blender 4.0.2 Python API +
+FastNoiseLite + NumPy/SciPy + Pillow/OpenCV: 4 wielopoziomowe stolice (Pyra, Verdantia, Aetheria,
+Nexus-9), 28 modeli 3D `.glb` i sprite'ów izometrycznych, obrotowa mapa 3D regionu (`[M]`) oraz
+interaktywny Atlas Planety Superior (`[G]`). [Raport i dowody QA](zmiany/2026-11-18/ZMIANY.md),
+[dokumentacja projektu](../ports/godot-isometric-world/README.md).
+
 **17.11 — Godot, izometria i TEST SERWER:** samodzielna próba Pyry 1024×1024 m
 oraz podgląd uruchamiany w ekranie serwisowym Androida. Przełącznik w `/admin`
 zamyka dostęp zwykłym graczom także na stronie; wyjątek wymaga roli administratora

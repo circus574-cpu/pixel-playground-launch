@@ -1,0 +1,198 @@
+{
+  "cliff_basalt": {
+    "id": "cliff_basalt",
+    "width": 296,
+    "height": 375,
+    "anchor_x": 0.5067567567567568,
+    "anchor_y": 0.832
+  },
+  "rock_cluster": {
+    "id": "rock_cluster",
+    "width": 271,
+    "height": 252,
+    "anchor_x": 0.4981549815498155,
+    "anchor_y": 0.8055555555555556
+  },
+  "tree_pine": {
+    "id": "tree_pine",
+    "width": 236,
+    "height": 328,
+    "anchor_x": 0.4957627118644068,
+    "anchor_y": 0.8079268292682927
+  },
+  "tree_oak": {
+    "id": "tree_oak",
+    "width": 285,
+    "height": 307,
+    "anchor_x": 0.5052631578947369,
+    "anchor_y": 0.739413680781759
+  },
+  "tree_sakura": {
+    "id": "tree_sakura",
+    "width": 280,
+    "height": 301,
+    "anchor_x": 0.4928571428571429,
+    "anchor_y": 0.7242524916943521
+  },
+  "tree_charred": {
+    "id": "tree_charred",
+    "width": 147,
+    "height": 258,
+    "anchor_x": 0.47619047619047616,
+    "anchor_y": 0.8488372093023255
+  },
+  "ruin_pillar": {
+    "id": "ruin_pillar",
+    "width": 226,
+    "height": 337,
+    "anchor_x": 0.47345132743362833,
+    "anchor_y": 0.8427299703264095
+  },
+  "bridge_arch": {
+    "id": "bridge_arch",
+    "width": 338,
+    "height": 274,
+    "anchor_x": 0.514792899408284,
+    "anchor_y": 0.7846715328467153
+  },
+  "pyra_citadel": {
+    "id": "pyra_citadel",
+    "width": 380,
+    "height": 396,
+    "anchor_x": 0.48947368421052634,
+    "anchor_y": 0.8358585858585859
+  },
+  "pyra_gate": {
+    "id": "pyra_gate",
+    "width": 322,
+    "height": 373,
+    "anchor_x": 0.4968944099378882,
+    "anchor_y": 0.8203753351206434
+  },
+  "pyra_forge": {
+    "id": "pyra_forge",
+    "width": 376,
+    "height": 395,
+    "anchor_x": 0.4867021276595745,
+    "anchor_y": 0.830379746835443
+  },
+  "pyra_market": {
+    "id": "pyra_market",
+    "width": 369,
+    "height": 316,
+    "anchor_x": 0.5013550135501355,
+    "anchor_y": 0.7943037974683544
+  },
+  "pyra_watchtower": {
+    "id": "pyra_watchtower",
+    "width": 234,
+    "height": 368,
+    "anchor_x": 0.49572649572649574,
+    "anchor_y": 0.8369565217391305
+  },
+  "verdant_bridge": {
+    "id": "verdant_bridge",
+    "width": 338,
+    "height": 337,
+    "anchor_x": 0.5029585798816568,
+    "anchor_y": 0.8011869436201781
+  },
+  "verdant_guildhall": {
+    "id": "verdant_guildhall",
+    "width": 370,
+    "height": 323,
+    "anchor_x": 0.4972972972972973,
+    "anchor_y": 0.7956656346749226
+  },
+  "verdant_market": {
+    "id": "verdant_market",
+    "width": 362,
+    "height": 287,
+    "anchor_x": 0.48342541436464087,
+    "anchor_y": 0.7909407665505227
+  },
+  "verdant_dockhouse": {
+    "id": "verdant_dockhouse",
+    "width": 317,
+    "height": 277,
+    "anchor_x": 0.5078864353312302,
+    "anchor_y": 0.8158844765342961
+  },
+  "verdant_gardenhouse": {
+    "id": "verdant_gardenhouse",
+    "width": 366,
+    "height": 311,
+    "anchor_x": 0.505464480874317,
+    "anchor_y": 0.7942122186495176
+  },
+  "aether_pagoda": {
+    "id": "aether_pagoda",
+    "width": 310,
+    "height": 387,
+    "anchor_x": 0.4967741935483871,
+    "anchor_y": 0.8733850129198967
+  },
+  "aether_aqueduct": {
+    "id": "aether_aqueduct",
+    "width": 323,
+    "height": 323,
+    "anchor_x": 0.4984520123839009,
+    "anchor_y": 0.8080495356037152
+  },
+  "aether_hall": {
+    "id": "aether_hall",
+    "width": 380,
+    "height": 348,
+    "anchor_x": 0.5026315789473684,
+    "anchor_y": 0.8017241379310345
+  },
+  "aether_gate": {
+    "id": "aether_gate",
+    "width": 409,
+    "height": 343,
+    "anchor_x": 0.5134474327628362,
+    "anchor_y": 0.7988338192419825
+  },
+  "aether_shrine": {
+    "id": "aether_shrine",
+    "width": 276,
+    "height": 292,
+    "anchor_x": 0.4963768115942029,
+    "anchor_y": 0.8493150684931506
+  },
+  "nexus_core": {
+    "id": "nexus_core",
+    "width": 322,
+    "height": 339,
+    "anchor_x": 0.4968944099378882,
+    "anchor_y": 0.8436578171091446
+  },
+  "nexus_hangar": {
+    "id": "nexus_hangar",
+    "width": 382,
+    "height": 318,
+    "anchor_x": 0.5,
+    "anchor_y": 0.7924528301886793
+  },
+  "nexus_workshop": {
+    "id": "nexus_workshop",
+    "width": 364,
+    "height": 306,
+    "anchor_x": 0.49725274725274726,
+    "anchor_y": 0.7941176470588235
+  },
+  "nexus_conduit": {
+    "id": "nexus_conduit",
+    "width": 217,
+    "height": 349,
+    "anchor_x": 0.4976958525345622,
+    "anchor_y": 0.8653295128939829
+  },
+  "nexus_dock": {
+    "id": "nexus_dock",
+    "width": 368,
+    "height": 305,
+    "anchor_x": 0.49728260869565216,
+    "anchor_y": 0.8032786885245902
+  }
+}

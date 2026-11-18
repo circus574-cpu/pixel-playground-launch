@@ -1,0 +1,675 @@
+{
+  "land": "pyra",
+  "buildings": [
+    {
+      "id": "citadel_main",
+      "sprite": "pyra_citadel",
+      "title": "Wysoka Cytadela",
+      "x": 168.0,
+      "z": 58.0,
+      "scale": 0.42,
+      "radius": 11.0,
+      "y": 41.831,
+      "anchor_x": 0.48947368421052634,
+      "anchor_y": 0.8358585858585859
+    },
+    {
+      "id": "gate_main",
+      "sprite": "pyra_gate",
+      "title": "Brama Główna",
+      "x": 58.0,
+      "z": 212.0,
+      "scale": 0.34,
+      "radius": 8.0,
+      "y": 33.472,
+      "anchor_x": 0.4968944099378882,
+      "anchor_y": 0.8203753351206434
+    },
+    {
+      "id": "market_hall",
+      "sprite": "pyra_market",
+      "title": "Targ przy Bramie",
+      "x": 96.0,
+      "z": 166.0,
+      "scale": 0.3,
+      "radius": 7.0,
+      "y": 13.865,
+      "anchor_x": 0.5013550135501355,
+      "anchor_y": 0.7943037974683544
+    },
+    {
+      "id": "market_east",
+      "sprite": "pyra_market",
+      "title": "Zbrojownia Targowa",
+      "x": 74.0,
+      "z": 182.0,
+      "scale": 0.27,
+      "radius": 6.5,
+      "y": 13.872,
+      "anchor_x": 0.5013550135501355,
+      "anchor_y": 0.7943037974683544
+    },
+    {
+      "id": "forge_main",
+      "sprite": "pyra_forge",
+      "title": "Wielka Kuźnia",
+      "x": 208.0,
+      "z": 192.0,
+      "scale": 0.34,
+      "radius": 8.5,
+      "y": 28.541,
+      "anchor_x": 0.4867021276595745,
+      "anchor_y": 0.830379746835443
+    },
+    {
+      "id": "forge_south",
+      "sprite": "pyra_forge",
+      "title": "Huta Popiołu",
+      "x": 154.0,
+      "z": 196.0,
+      "scale": 0.31,
+      "radius": 8.0,
+      "y": 15.201,
+      "anchor_x": 0.4867021276595745,
+      "anchor_y": 0.830379746835443
+    },
+    {
+      "id": "tower_west",
+      "sprite": "pyra_watchtower",
+      "title": "Baszta Zachodnia",
+      "x": 116.0,
+      "z": 102.0,
+      "scale": 0.3,
+      "radius": 5.5,
+      "y": 38.123,
+      "anchor_x": 0.49572649572649574,
+      "anchor_y": 0.8369565217391305
+    },
+    {
+      "id": "tower_crown",
+      "sprite": "pyra_watchtower",
+      "title": "Baszta Korony",
+      "x": 202.0,
+      "z": 80.0,
+      "scale": 0.31,
+      "radius": 5.5,
+      "y": 50.383,
+      "anchor_x": 0.49572649572649574,
+      "anchor_y": 0.8369565217391305
+    },
+    {
+      "id": "bridge_stairs",
+      "sprite": "bridge_arch",
+      "title": "Most nad Przepaścią",
+      "x": 144.0,
+      "z": 118.0,
+      "scale": 0.28,
+      "radius": 0.0,
+      "y": 18.714,
+      "anchor_x": 0.514792899408284,
+      "anchor_y": 0.7846715328467153
+    }
+  ],
+  "props": [
+    {
+      "id": "prop_0",
+      "sprite": "tree_charred",
+      "x": 146.63,
+      "y": 7.473,
+      "z": 170.27,
+      "scale": 0.216,
+      "anchor_x": 0.47619047619047616,
+      "anchor_y": 0.8488372093023255
+    },
+    {
+      "id": "prop_1",
+      "sprite": "cliff_basalt",
+      "x": 39.58,
+      "y": 53.122,
+      "z": 38.38,
+      "scale": 0.233,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_2",
+      "sprite": "rock_cluster",
+      "x": 35.69,
+      "y": 19.61,
+      "z": 138.41,
+      "scale": 0.192,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_3",
+      "sprite": "ruin_pillar",
+      "x": 128.98,
+      "y": 23.093,
+      "z": 226.93,
+      "scale": 0.232,
+      "anchor_x": 0.47345132743362833,
+      "anchor_y": 0.8427299703264095
+    },
+    {
+      "id": "prop_4",
+      "sprite": "tree_charred",
+      "x": 68.78,
+      "y": 45.04,
+      "z": 27.07,
+      "scale": 0.19,
+      "anchor_x": 0.47619047619047616,
+      "anchor_y": 0.8488372093023255
+    },
+    {
+      "id": "prop_5",
+      "sprite": "cliff_basalt",
+      "x": 152.67,
+      "y": 20.89,
+      "z": 101.93,
+      "scale": 0.211,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_6",
+      "sprite": "rock_cluster",
+      "x": 142.48,
+      "y": 23.539,
+      "z": 225.03,
+      "scale": 0.197,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_7",
+      "sprite": "ruin_pillar",
+      "x": 109.96,
+      "y": 17.324,
+      "z": 39.71,
+      "scale": 0.206,
+      "anchor_x": 0.47345132743362833,
+      "anchor_y": 0.8427299703264095
+    },
+    {
+      "id": "prop_8",
+      "sprite": "tree_charred",
+      "x": 102.12,
+      "y": 17.861,
+      "z": 208.94,
+      "scale": 0.24,
+      "anchor_x": 0.47619047619047616,
+      "anchor_y": 0.8488372093023255
+    },
+    {
+      "id": "prop_9",
+      "sprite": "cliff_basalt",
+      "x": 204.71,
+      "y": 14.975,
+      "z": 156.52,
+      "scale": 0.208,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_10",
+      "sprite": "rock_cluster",
+      "x": 115.71,
+      "y": 13.934,
+      "z": 162.03,
+      "scale": 0.236,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_11",
+      "sprite": "ruin_pillar",
+      "x": 74.35,
+      "y": 18.596,
+      "z": 50.95,
+      "scale": 0.181,
+      "anchor_x": 0.47345132743362833,
+      "anchor_y": 0.8427299703264095
+    },
+    {
+      "id": "prop_12",
+      "sprite": "tree_charred",
+      "x": 61.54,
+      "y": 37.854,
+      "z": 116.91,
+      "scale": 0.2,
+      "anchor_x": 0.47619047619047616,
+      "anchor_y": 0.8488372093023255
+    },
+    {
+      "id": "prop_13",
+      "sprite": "cliff_basalt",
+      "x": 61.38,
+      "y": 37.786,
+      "z": 98.65,
+      "scale": 0.217,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_14",
+      "sprite": "rock_cluster",
+      "x": 214.96,
+      "y": 13.939,
+      "z": 141.99,
+      "scale": 0.19,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_15",
+      "sprite": "ruin_pillar",
+      "x": 27.12,
+      "y": 60.643,
+      "z": 211.17,
+      "scale": 0.228,
+      "anchor_x": 0.47345132743362833,
+      "anchor_y": 0.8427299703264095
+    },
+    {
+      "id": "prop_16",
+      "sprite": "tree_charred",
+      "x": 46.87,
+      "y": 17.793,
+      "z": 144.23,
+      "scale": 0.195,
+      "anchor_x": 0.47619047619047616,
+      "anchor_y": 0.8488372093023255
+    },
+    {
+      "id": "prop_17",
+      "sprite": "cliff_basalt",
+      "x": 101.87,
+      "y": 16.955,
+      "z": 52.98,
+      "scale": 0.19,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_18",
+      "sprite": "rock_cluster",
+      "x": 151.35,
+      "y": 7.545,
+      "z": 147.87,
+      "scale": 0.227,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_19",
+      "sprite": "ruin_pillar",
+      "x": 184.53,
+      "y": 66.373,
+      "z": 34.32,
+      "scale": 0.193,
+      "anchor_x": 0.47345132743362833,
+      "anchor_y": 0.8427299703264095
+    },
+    {
+      "id": "prop_20",
+      "sprite": "tree_charred",
+      "x": 186.61,
+      "y": 6.218,
+      "z": 155.54,
+      "scale": 0.211,
+      "anchor_x": 0.47619047619047616,
+      "anchor_y": 0.8488372093023255
+    },
+    {
+      "id": "prop_21",
+      "sprite": "cliff_basalt",
+      "x": 135.18,
+      "y": 18.82,
+      "z": 88.55,
+      "scale": 0.244,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_22",
+      "sprite": "rock_cluster",
+      "x": 57.47,
+      "y": 16.622,
+      "z": 184.86,
+      "scale": 0.218,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_23",
+      "sprite": "ruin_pillar",
+      "x": 118.76,
+      "y": 18.86,
+      "z": 222.74,
+      "scale": 0.212,
+      "anchor_x": 0.47345132743362833,
+      "anchor_y": 0.8427299703264095
+    },
+    {
+      "id": "prop_24",
+      "sprite": "tree_charred",
+      "x": 99.5,
+      "y": 38.015,
+      "z": 76.68,
+      "scale": 0.221,
+      "anchor_x": 0.47619047619047616,
+      "anchor_y": 0.8488372093023255
+    },
+    {
+      "id": "prop_25",
+      "sprite": "cliff_basalt",
+      "x": 180.14,
+      "y": 21.337,
+      "z": 108.61,
+      "scale": 0.197,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_26",
+      "sprite": "rock_cluster",
+      "x": 163.37,
+      "y": 19.391,
+      "z": 121.34,
+      "scale": 0.236,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_27",
+      "sprite": "ruin_pillar",
+      "x": 119.3,
+      "y": 16.54,
+      "z": 138.37,
+      "scale": 0.241,
+      "anchor_x": 0.47345132743362833,
+      "anchor_y": 0.8427299703264095
+    },
+    {
+      "id": "prop_28",
+      "sprite": "tree_charred",
+      "x": 177.57,
+      "y": 5.91,
+      "z": 169.12,
+      "scale": 0.22,
+      "anchor_x": 0.47619047619047616,
+      "anchor_y": 0.8488372093023255
+    },
+    {
+      "id": "prop_29",
+      "sprite": "cliff_basalt",
+      "x": 40.49,
+      "y": 63.454,
+      "z": 223.37,
+      "scale": 0.231,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_30",
+      "sprite": "rock_cluster",
+      "x": 92.15,
+      "y": 37.643,
+      "z": 93.97,
+      "scale": 0.211,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_31",
+      "sprite": "ruin_pillar",
+      "x": 151.37,
+      "y": 42.413,
+      "z": 22.35,
+      "scale": 0.228,
+      "anchor_x": 0.47345132743362833,
+      "anchor_y": 0.8427299703264095
+    },
+    {
+      "id": "prop_32",
+      "sprite": "tree_charred",
+      "x": 73.0,
+      "y": 37.752,
+      "z": 114.26,
+      "scale": 0.226,
+      "anchor_x": 0.47619047619047616,
+      "anchor_y": 0.8488372093023255
+    },
+    {
+      "id": "prop_33",
+      "sprite": "cliff_basalt",
+      "x": 169.18,
+      "y": 11.939,
+      "z": 132.9,
+      "scale": 0.206,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_34",
+      "sprite": "rock_cluster",
+      "x": 228.92,
+      "y": 49.668,
+      "z": 84.11,
+      "scale": 0.234,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_35",
+      "sprite": "ruin_pillar",
+      "x": 129.11,
+      "y": 17.449,
+      "z": 34.7,
+      "scale": 0.238,
+      "anchor_x": 0.47345132743362833,
+      "anchor_y": 0.8427299703264095
+    },
+    {
+      "id": "prop_36",
+      "sprite": "tree_charred",
+      "x": 124.65,
+      "y": 38.571,
+      "z": 84.9,
+      "scale": 0.197,
+      "anchor_x": 0.47619047619047616,
+      "anchor_y": 0.8488372093023255
+    },
+    {
+      "id": "prop_37",
+      "sprite": "cliff_basalt",
+      "x": 22.25,
+      "y": 33.163,
+      "z": 95.69,
+      "scale": 0.238,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_38",
+      "sprite": "rock_cluster",
+      "x": 54.81,
+      "y": 47.998,
+      "z": 39.97,
+      "scale": 0.215,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_39",
+      "sprite": "ruin_pillar",
+      "x": 26.83,
+      "y": 61.566,
+      "z": 51.82,
+      "scale": 0.207,
+      "anchor_x": 0.47345132743362833,
+      "anchor_y": 0.8427299703264095
+    },
+    {
+      "id": "prop_40",
+      "sprite": "tree_charred",
+      "x": 184.51,
+      "y": 26.709,
+      "z": 96.75,
+      "scale": 0.23,
+      "anchor_x": 0.47619047619047616,
+      "anchor_y": 0.8488372093023255
+    },
+    {
+      "id": "prop_41",
+      "sprite": "cliff_basalt",
+      "x": 27.55,
+      "y": 36.742,
+      "z": 74.17,
+      "scale": 0.198,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_42",
+      "sprite": "rock_cluster",
+      "x": 149.31,
+      "y": 23.479,
+      "z": 57.31,
+      "scale": 0.181,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_43",
+      "sprite": "ruin_pillar",
+      "x": 201.45,
+      "y": 16.137,
+      "z": 167.17,
+      "scale": 0.192,
+      "anchor_x": 0.47345132743362833,
+      "anchor_y": 0.8427299703264095
+    },
+    {
+      "id": "prop_44",
+      "sprite": "tree_charred",
+      "x": 94.06,
+      "y": 14.136,
+      "z": 144.52,
+      "scale": 0.239,
+      "anchor_x": 0.47619047619047616,
+      "anchor_y": 0.8488372093023255
+    },
+    {
+      "id": "prop_45",
+      "sprite": "cliff_basalt",
+      "x": 212.22,
+      "y": 18.145,
+      "z": 126.85,
+      "scale": 0.217,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_46",
+      "sprite": "rock_cluster",
+      "x": 222.04,
+      "y": 27.879,
+      "z": 100.95,
+      "scale": 0.244,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_47",
+      "sprite": "ruin_pillar",
+      "x": 164.79,
+      "y": 32.433,
+      "z": 226.26,
+      "scale": 0.207,
+      "anchor_x": 0.47345132743362833,
+      "anchor_y": 0.8427299703264095
+    },
+    {
+      "id": "prop_48",
+      "sprite": "tree_charred",
+      "x": 130.83,
+      "y": 15.983,
+      "z": 48.94,
+      "scale": 0.182,
+      "anchor_x": 0.47619047619047616,
+      "anchor_y": 0.8488372093023255
+    },
+    {
+      "id": "prop_49",
+      "sprite": "cliff_basalt",
+      "x": 92.15,
+      "y": 32.762,
+      "z": 27.08,
+      "scale": 0.195,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_50",
+      "sprite": "rock_cluster",
+      "x": 96.31,
+      "y": 15.176,
+      "z": 42.94,
+      "scale": 0.18,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_51",
+      "sprite": "ruin_pillar",
+      "x": 93.22,
+      "y": 14.016,
+      "z": 186.11,
+      "scale": 0.196,
+      "anchor_x": 0.47345132743362833,
+      "anchor_y": 0.8427299703264095
+    },
+    {
+      "id": "prop_52",
+      "sprite": "tree_charred",
+      "x": 29.39,
+      "y": 55.553,
+      "z": 194.87,
+      "scale": 0.245,
+      "anchor_x": 0.47619047619047616,
+      "anchor_y": 0.8488372093023255
+    },
+    {
+      "id": "prop_53",
+      "sprite": "cliff_basalt",
+      "x": 108.8,
+      "y": 31.618,
+      "z": 119.89,
+      "scale": 0.193,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_54",
+      "sprite": "rock_cluster",
+      "x": 214.8,
+      "y": 21.029,
+      "z": 109.89,
+      "scale": 0.217,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_55",
+      "sprite": "ruin_pillar",
+      "x": 225.97,
+      "y": 23.681,
+      "z": 134.9,
+      "scale": 0.182,
+      "anchor_x": 0.47345132743362833,
+      "anchor_y": 0.8427299703264095
+    }
+  ]
+}

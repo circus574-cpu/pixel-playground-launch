@@ -1,0 +1,651 @@
+{
+  "land": "nexus",
+  "buildings": [
+    {
+      "id": "core_main",
+      "sprite": "nexus_core",
+      "title": "Rdzeń Energetyczny",
+      "x": 150.0,
+      "z": 76.0,
+      "scale": 0.42,
+      "radius": 10.5,
+      "y": 36.053,
+      "anchor_x": 0.4968944099378882,
+      "anchor_y": 0.8436578171091446
+    },
+    {
+      "id": "hangar_west",
+      "sprite": "nexus_hangar",
+      "title": "Hala Transportowa",
+      "x": 78.0,
+      "z": 78.0,
+      "scale": 0.36,
+      "radius": 9.0,
+      "y": 26.0,
+      "anchor_x": 0.5,
+      "anchor_y": 0.7924528301886793
+    },
+    {
+      "id": "conduit_mid_w",
+      "sprite": "nexus_conduit",
+      "title": "Węzeł Przesyłowy W",
+      "x": 102.0,
+      "z": 128.0,
+      "scale": 0.3,
+      "radius": 5.0,
+      "y": 8.406,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "conduit_mid_e",
+      "sprite": "nexus_conduit",
+      "title": "Węzeł Przesyłowy E",
+      "x": 168.0,
+      "z": 128.0,
+      "scale": 0.3,
+      "radius": 5.0,
+      "y": 22.112,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "workshop_lower",
+      "sprite": "nexus_workshop",
+      "title": "Dolne Warsztaty",
+      "x": 76.0,
+      "z": 182.0,
+      "scale": 0.35,
+      "radius": 8.5,
+      "y": -4.5,
+      "anchor_x": 0.49725274725274726,
+      "anchor_y": 0.7941176470588235
+    },
+    {
+      "id": "dock_east",
+      "sprite": "nexus_dock",
+      "title": "Plac Przeładunkowy",
+      "x": 196.0,
+      "z": 176.0,
+      "scale": 0.34,
+      "radius": 8.0,
+      "y": 12.408,
+      "anchor_x": 0.49728260869565216,
+      "anchor_y": 0.8032786885245902
+    },
+    {
+      "id": "conduit_south",
+      "sprite": "nexus_conduit",
+      "title": "Pylon Doków",
+      "x": 138.0,
+      "z": 196.0,
+      "scale": 0.29,
+      "radius": 5.0,
+      "y": -2.592,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    }
+  ],
+  "props": [
+    {
+      "id": "prop_0",
+      "sprite": "nexus_conduit",
+      "x": 97.8,
+      "y": 11.704,
+      "z": 48.04,
+      "scale": 0.2,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_1",
+      "sprite": "cliff_basalt",
+      "x": 197.73,
+      "y": 12.005,
+      "z": 149.77,
+      "scale": 0.221,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_2",
+      "sprite": "rock_cluster",
+      "x": 160.54,
+      "y": 13.964,
+      "z": 180.74,
+      "scale": 0.21,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_3",
+      "sprite": "nexus_conduit",
+      "x": 78.23,
+      "y": 6.381,
+      "z": 161.36,
+      "scale": 0.207,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_4",
+      "sprite": "cliff_basalt",
+      "x": 222.94,
+      "y": 11.574,
+      "z": 60.73,
+      "scale": 0.186,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_5",
+      "sprite": "rock_cluster",
+      "x": 77.05,
+      "y": 26.0,
+      "z": 108.61,
+      "scale": 0.215,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_6",
+      "sprite": "nexus_conduit",
+      "x": 210.6,
+      "y": 11.846,
+      "z": 72.0,
+      "scale": 0.234,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_7",
+      "sprite": "cliff_basalt",
+      "x": 160.27,
+      "y": 36.015,
+      "z": 61.48,
+      "scale": 0.197,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_8",
+      "sprite": "rock_cluster",
+      "x": 200.24,
+      "y": 35.997,
+      "z": 63.97,
+      "scale": 0.249,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_9",
+      "sprite": "nexus_conduit",
+      "x": 184.84,
+      "y": 35.981,
+      "z": 108.54,
+      "scale": 0.226,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_10",
+      "sprite": "cliff_basalt",
+      "x": 39.85,
+      "y": 14.697,
+      "z": 89.0,
+      "scale": 0.181,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_11",
+      "sprite": "rock_cluster",
+      "x": 225.55,
+      "y": 12.108,
+      "z": 72.11,
+      "scale": 0.237,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_12",
+      "sprite": "nexus_conduit",
+      "x": 98.63,
+      "y": 4.851,
+      "z": 172.0,
+      "scale": 0.199,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_13",
+      "sprite": "cliff_basalt",
+      "x": 65.59,
+      "y": 19.18,
+      "z": 64.17,
+      "scale": 0.224,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_14",
+      "sprite": "rock_cluster",
+      "x": 188.37,
+      "y": 36.04,
+      "z": 85.74,
+      "scale": 0.206,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_15",
+      "sprite": "nexus_conduit",
+      "x": 84.43,
+      "y": 25.997,
+      "z": 98.63,
+      "scale": 0.241,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_16",
+      "sprite": "cliff_basalt",
+      "x": 135.16,
+      "y": 13.322,
+      "z": 34.42,
+      "scale": 0.249,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_17",
+      "sprite": "rock_cluster",
+      "x": 30.73,
+      "y": 12.796,
+      "z": 133.26,
+      "scale": 0.205,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_18",
+      "sprite": "nexus_conduit",
+      "x": 164.01,
+      "y": 10.504,
+      "z": 155.6,
+      "scale": 0.236,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_19",
+      "sprite": "cliff_basalt",
+      "x": 225.42,
+      "y": 13.957,
+      "z": 158.83,
+      "scale": 0.201,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_20",
+      "sprite": "rock_cluster",
+      "x": 128.45,
+      "y": 12.803,
+      "z": 22.63,
+      "scale": 0.225,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_21",
+      "sprite": "nexus_conduit",
+      "x": 117.85,
+      "y": 11.541,
+      "z": 46.43,
+      "scale": 0.243,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_22",
+      "sprite": "cliff_basalt",
+      "x": 25.18,
+      "y": 14.191,
+      "z": 27.06,
+      "scale": 0.191,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_23",
+      "sprite": "rock_cluster",
+      "x": 164.5,
+      "y": 12.511,
+      "z": 27.71,
+      "scale": 0.224,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_24",
+      "sprite": "nexus_conduit",
+      "x": 220.0,
+      "y": 12.537,
+      "z": 24.16,
+      "scale": 0.227,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_25",
+      "sprite": "cliff_basalt",
+      "x": 229.47,
+      "y": 12.453,
+      "z": 50.71,
+      "scale": 0.189,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_26",
+      "sprite": "rock_cluster",
+      "x": 215.77,
+      "y": 13.507,
+      "z": 131.15,
+      "scale": 0.211,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_27",
+      "sprite": "nexus_conduit",
+      "x": 171.3,
+      "y": 14.399,
+      "z": 192.92,
+      "scale": 0.225,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_28",
+      "sprite": "cliff_basalt",
+      "x": 203.59,
+      "y": 32.374,
+      "z": 97.32,
+      "scale": 0.218,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_29",
+      "sprite": "rock_cluster",
+      "x": 24.54,
+      "y": 12.751,
+      "z": 45.75,
+      "scale": 0.232,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_30",
+      "sprite": "nexus_conduit",
+      "x": 51.07,
+      "y": 12.584,
+      "z": 27.9,
+      "scale": 0.203,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_31",
+      "sprite": "cliff_basalt",
+      "x": 51.64,
+      "y": 11.861,
+      "z": 54.64,
+      "scale": 0.205,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_32",
+      "sprite": "rock_cluster",
+      "x": 218.5,
+      "y": 14.85,
+      "z": 142.24,
+      "scale": 0.208,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_33",
+      "sprite": "nexus_conduit",
+      "x": 124.11,
+      "y": 36.069,
+      "z": 111.99,
+      "scale": 0.218,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_34",
+      "sprite": "cliff_basalt",
+      "x": 223.88,
+      "y": 12.062,
+      "z": 186.19,
+      "scale": 0.213,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_35",
+      "sprite": "rock_cluster",
+      "x": 198.67,
+      "y": 14.634,
+      "z": 35.97,
+      "scale": 0.208,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_36",
+      "sprite": "nexus_conduit",
+      "x": 233.68,
+      "y": 13.838,
+      "z": 117.47,
+      "scale": 0.209,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_37",
+      "sprite": "cliff_basalt",
+      "x": 36.34,
+      "y": 13.855,
+      "z": 29.96,
+      "scale": 0.214,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_38",
+      "sprite": "rock_cluster",
+      "x": 82.01,
+      "y": 13.541,
+      "z": 26.78,
+      "scale": 0.24,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_39",
+      "sprite": "nexus_conduit",
+      "x": 217.14,
+      "y": 14.035,
+      "z": 109.96,
+      "scale": 0.18,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_40",
+      "sprite": "cliff_basalt",
+      "x": 164.86,
+      "y": 35.967,
+      "z": 106.37,
+      "scale": 0.249,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_41",
+      "sprite": "rock_cluster",
+      "x": 34.27,
+      "y": 12.389,
+      "z": 59.38,
+      "scale": 0.226,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_42",
+      "sprite": "nexus_conduit",
+      "x": 174.19,
+      "y": 12.221,
+      "z": 162.18,
+      "scale": 0.187,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_43",
+      "sprite": "cliff_basalt",
+      "x": 212.67,
+      "y": 12.028,
+      "z": 56.17,
+      "scale": 0.241,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_44",
+      "sprite": "rock_cluster",
+      "x": 48.95,
+      "y": 12.057,
+      "z": 144.15,
+      "scale": 0.246,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_45",
+      "sprite": "nexus_conduit",
+      "x": 62.84,
+      "y": 12.612,
+      "z": 51.49,
+      "scale": 0.244,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_46",
+      "sprite": "cliff_basalt",
+      "x": 197.58,
+      "y": 36.079,
+      "z": 113.32,
+      "scale": 0.224,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_47",
+      "sprite": "rock_cluster",
+      "x": 201.16,
+      "y": 35.984,
+      "z": 81.84,
+      "scale": 0.24,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_48",
+      "sprite": "nexus_conduit",
+      "x": 169.21,
+      "y": 35.937,
+      "z": 93.38,
+      "scale": 0.242,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_49",
+      "sprite": "cliff_basalt",
+      "x": 103.89,
+      "y": 26.0,
+      "z": 99.91,
+      "scale": 0.189,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_50",
+      "sprite": "rock_cluster",
+      "x": 84.19,
+      "y": 15.149,
+      "z": 45.6,
+      "scale": 0.242,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_51",
+      "sprite": "nexus_conduit",
+      "x": 60.47,
+      "y": 14.6,
+      "z": 130.88,
+      "scale": 0.241,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_52",
+      "sprite": "cliff_basalt",
+      "x": 134.95,
+      "y": 36.02,
+      "z": 89.28,
+      "scale": 0.182,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    },
+    {
+      "id": "prop_53",
+      "sprite": "rock_cluster",
+      "x": 211.46,
+      "y": 13.192,
+      "z": 162.22,
+      "scale": 0.238,
+      "anchor_x": 0.4981549815498155,
+      "anchor_y": 0.8055555555555556
+    },
+    {
+      "id": "prop_54",
+      "sprite": "nexus_conduit",
+      "x": 148.31,
+      "y": 12.244,
+      "z": 48.9,
+      "scale": 0.182,
+      "anchor_x": 0.4976958525345622,
+      "anchor_y": 0.8653295128939829
+    },
+    {
+      "id": "prop_55",
+      "sprite": "cliff_basalt",
+      "x": 182.93,
+      "y": 14.029,
+      "z": 45.97,
+      "scale": 0.182,
+      "anchor_x": 0.5067567567567568,
+      "anchor_y": 0.832
+    }
+  ]
+}

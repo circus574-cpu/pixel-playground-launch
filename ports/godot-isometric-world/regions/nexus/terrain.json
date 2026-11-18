@@ -1,0 +1,149 @@
+{
+  "id": "nexus",
+  "title": "Nexus-9 · Węzeł Świadomości",
+  "capital_name": "Węzeł Świadomości",
+  "canonical_land_size": [
+    63168,
+    49728
+  ],
+  "canonical_capital_bounds": {
+    "height": 1750,
+    "width": 2050,
+    "x": 36679.72373500001,
+    "y": 22761.645136000006
+  },
+  "seed": 20261118,
+  "samples": 512,
+  "nx": 512,
+  "ny": 512,
+  "step": 2.0,
+  "spacing_m": 2.0,
+  "size_m": 1024.0,
+  "x0": -512.0,
+  "y0": -512.0,
+  "cx": 0.0,
+  "cz": 0.0,
+  "ortho": 760.0,
+  "uv": 0.035,
+  "water_kind": "harbor",
+  "water_level": -1.0,
+  "height_range": [
+    -4.5,
+    36.12
+  ],
+  "walkable_percent": 72.11,
+  "spawn": {
+    "x": 148.0,
+    "z": 78.0
+  },
+  "landmarks": [
+    {
+      "id": "core",
+      "title": "Rdzeń Energetyczny",
+      "x": 148.0,
+      "z": 78.0,
+      "y": 36.07
+    },
+    {
+      "id": "transport-hall",
+      "title": "Hala Transportowa",
+      "x": 82.0,
+      "z": 82.0,
+      "y": 26.0
+    },
+    {
+      "id": "conduits",
+      "title": "Trakty Łączące",
+      "x": 128.0,
+      "z": 128.0,
+      "y": 17.21
+    },
+    {
+      "id": "workshops",
+      "title": "Dolne Warsztaty i Doki",
+      "x": 82.0,
+      "z": 182.0,
+      "y": -4.5
+    },
+    {
+      "id": "cargo-yard",
+      "title": "Place Przeładunkowe",
+      "x": 192.0,
+      "z": 176.0,
+      "y": 12.37
+    }
+  ],
+  "paths": [
+    [
+      [
+        -185,
+        105
+      ],
+      [
+        -75,
+        165
+      ],
+      [
+        65,
+        225
+      ]
+    ],
+    [
+      [
+        -75,
+        165
+      ],
+      [
+        10,
+        45
+      ],
+      [
+        85,
+        -55
+      ],
+      [
+        135,
+        -145
+      ]
+    ],
+    [
+      [
+        -75,
+        165
+      ],
+      [
+        -145,
+        10
+      ],
+      [
+        -195,
+        -145
+      ]
+    ],
+    [
+      [
+        135,
+        -145
+      ],
+      [
+        235,
+        -145
+      ]
+    ]
+  ],
+  "texture_assets": [
+    "mat_0",
+    "mat_1",
+    "mat_2",
+    "mat_3"
+  ],
+  "files": {
+    "height.r32": "a1aff465f2c74a49b9e9940dfb47f6c2723eddec2d36b281fe1874f99bba78b3",
+    "control.r32": "ff052fe86d9b338132b3ab8fc64756e7779a7ca2d85d1d7f83903c151fe1fbfa",
+    "walkable.u8": "f78ec4ca936ed37a43bd6d394ca08d4eafdd3ecac85fb4c372fb2a1e113c5e9a",
+    "weights.png": "a44041d1ccb8642e46e6995a12c523f88d855fbb5daac40e8f49dcfc3fd38e05",
+    "surface.png": "e071059d2e316e91ceedf56e3fa5dc4dfb475c409ba149100cf1375018c76af4"
+  },
+  "size": 512,
+  "world_size": 256.0
+}

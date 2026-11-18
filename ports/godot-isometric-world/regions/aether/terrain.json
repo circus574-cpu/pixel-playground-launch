@@ -1,0 +1,158 @@
+{
+  "id": "aether",
+  "title": "Aetheria · Sanktuarium Tysiąca Źródeł",
+  "capital_name": "Sanktuarium Tysiąca Źródeł",
+  "canonical_land_size": [
+    70208,
+    53440
+  ],
+  "canonical_capital_bounds": {
+    "height": 2150,
+    "width": 3300,
+    "x": 35561.22667100001,
+    "y": 24850.014998
+  },
+  "seed": 20261118,
+  "samples": 512,
+  "nx": 512,
+  "ny": 512,
+  "step": 2.0,
+  "spacing_m": 2.0,
+  "size_m": 1024.0,
+  "x0": -512.0,
+  "y0": -512.0,
+  "cx": 0.0,
+  "cz": 0.0,
+  "ortho": 760.0,
+  "uv": 0.035,
+  "water_kind": "springs",
+  "water_level": -1.0,
+  "height_range": [
+    9.86,
+    86.2
+  ],
+  "walkable_percent": 97.06,
+  "spawn": {
+    "x": 128.0,
+    "z": 210.0
+  },
+  "landmarks": [
+    {
+      "id": "lower-town",
+      "title": "Dolne Miasto Gościnne",
+      "x": 128.0,
+      "z": 210.0,
+      "y": 22.96
+    },
+    {
+      "id": "science-terrace",
+      "title": "Tarasy Nauki",
+      "x": 128.0,
+      "z": 144.0,
+      "y": 23.99
+    },
+    {
+      "id": "upper-sanctuary",
+      "title": "Górne Sanktuarium",
+      "x": 132.0,
+      "z": 62.0,
+      "y": 16.5
+    },
+    {
+      "id": "spring-courtyard",
+      "title": "Źródlany Dziedziniec",
+      "x": 132.0,
+      "z": 88.0,
+      "y": 38.04
+    }
+  ],
+  "paths": [
+    [
+      [
+        -285,
+        275
+      ],
+      [
+        -175,
+        175
+      ],
+      [
+        -95,
+        115
+      ]
+    ],
+    [
+      [
+        -95,
+        115
+      ],
+      [
+        -20,
+        45
+      ],
+      [
+        35,
+        15
+      ]
+    ],
+    [
+      [
+        35,
+        15
+      ],
+      [
+        -85,
+        -35
+      ]
+    ],
+    [
+      [
+        35,
+        15
+      ],
+      [
+        75,
+        -75
+      ],
+      [
+        135,
+        -155
+      ]
+    ],
+    [
+      [
+        135,
+        -155
+      ],
+      [
+        60,
+        -185
+      ]
+    ],
+    [
+      [
+        135,
+        -155
+      ],
+      [
+        215,
+        -175
+      ]
+    ]
+  ],
+  "texture_assets": [
+    "mat_0",
+    "mat_1",
+    "mat_2",
+    "mat_3"
+  ],
+  "files": {
+    "height.r32": "65a32724c554a630e8f9a066e4aac65c893ecbfff8b1a0bda205e2b9778ea52b",
+    "control.r32": "8e14182c21d3f1832e187c97c9f00fdb7bacd0454816954bb1e71fd3050ff960",
+    "walkable.u8": "ebc68438f6441a7636b3092f3f794bd8bf62fbfc09167dfb72f41e8fe75786e7",
+    "weights.png": "40e4c762a565b1efd879debfd8a30011c20842c6968d62718ba1706b90746ed2",
+    "surface.png": "e9c4a470ad900801f7de4f9402eb27af8a1cc00eac80d618ef16bac39fb27d33"
+  },
+  "size": 512,
+  "world_size": 256.0
+}

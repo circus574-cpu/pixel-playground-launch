@@ -1,0 +1,181 @@
+{
+  "all_landmarks_walkable": true,
+  "fps_30_120_position_delta_m": 0.0,
+  "project": "ports/godot-isometric-world",
+  "projection_roundtrip_error_m": 0.0,
+  "regions": {
+    "aether": {
+      "buildings_count": 8,
+      "grid_size": 512,
+      "landmarks": [
+        {
+          "height": 23.09,
+          "id": "lower-town",
+          "title": "Dolne Miasto Gościnne",
+          "walkable": true
+        },
+        {
+          "height": 23.99,
+          "id": "science-terrace",
+          "title": "Tarasy Nauki",
+          "walkable": true
+        },
+        {
+          "height": 16.66,
+          "id": "upper-sanctuary",
+          "title": "Górne Sanktuarium",
+          "walkable": true
+        },
+        {
+          "height": 38.03,
+          "id": "spring-courtyard",
+          "title": "Źródlany Dziedziniec",
+          "walkable": true
+        }
+      ],
+      "props_count": 56,
+      "title": "Aetheria — Sanktuarium Tysiąca Źródeł"
+    },
+    "nexus": {
+      "buildings_count": 7,
+      "grid_size": 512,
+      "landmarks": [
+        {
+          "height": 36.07,
+          "id": "core",
+          "title": "Rdzeń Energetyczny",
+          "walkable": true
+        },
+        {
+          "height": 26.0,
+          "id": "transport-hall",
+          "title": "Hala Transportowa",
+          "walkable": true
+        },
+        {
+          "height": 18.15,
+          "id": "conduits",
+          "title": "Trakty Łączące",
+          "walkable": true
+        },
+        {
+          "height": -4.5,
+          "id": "workshops",
+          "title": "Dolne Warsztaty i Doki",
+          "walkable": true
+        },
+        {
+          "height": 12.37,
+          "id": "cargo-yard",
+          "title": "Place Przeładunkowe",
+          "walkable": true
+        }
+      ],
+      "props_count": 56,
+      "title": "Nexus-9 — Węzeł Świadomości"
+    },
+    "pyra": {
+      "buildings_count": 9,
+      "grid_size": 512,
+      "landmarks": [
+        {
+          "height": 24.44,
+          "id": "gate",
+          "title": "Brama Główna",
+          "walkable": true
+        },
+        {
+          "height": 13.86,
+          "id": "market",
+          "title": "Targ przy Bramie",
+          "walkable": true
+        },
+        {
+          "height": 19.77,
+          "id": "stairs",
+          "title": "Schody do Popiołu",
+          "walkable": true
+        },
+        {
+          "height": 29.01,
+          "id": "crown-plaza",
+          "title": "Plac Korony",
+          "walkable": true
+        },
+        {
+          "height": 41.08,
+          "id": "citadel",
+          "title": "Wysoka Cytadela",
+          "walkable": true
+        },
+        {
+          "height": 15.11,
+          "id": "forges",
+          "title": "Dolne Kuźnie i Plac Węglowy",
+          "walkable": true
+        }
+      ],
+      "props_count": 56,
+      "title": "Pyra — Twierdza Popiołu"
+    },
+    "verdant": {
+      "buildings_count": 7,
+      "grid_size": 512,
+      "landmarks": [
+        {
+          "height": 11.41,
+          "id": "crafts",
+          "title": "Dzielnica Rzemieślnicza",
+          "walkable": true
+        },
+        {
+          "height": 11.04,
+          "id": "market",
+          "title": "Targ",
+          "walkable": true
+        },
+        {
+          "height": 7.27,
+          "id": "main-bridge",
+          "title": "Most Główny",
+          "walkable": true
+        },
+        {
+          "height": 12.29,
+          "id": "harbor",
+          "title": "Przystań i Nabrzeże",
+          "walkable": true
+        },
+        {
+          "height": 18.09,
+          "id": "gardens",
+          "title": "Domy Ogrodowe i Sady",
+          "walkable": true
+        }
+      ],
+      "props_count": 56,
+      "title": "Verdantia — Zielona Przystań"
+    }
+  },
+  "screenshots": [
+    "/workspace/ki-world-iso-20261118/qa/pyra-citadel.jpg",
+    "/workspace/ki-world-iso-20261118/qa/verdant-harbor.jpg",
+    "/workspace/ki-world-iso-20261118/qa/aether-sanctuary.jpg",
+    "/workspace/ki-world-iso-20261118/qa/nexus-core.jpg",
+    "/workspace/ki-world-iso-20261118/qa/map-3d.jpg",
+    "/workspace/ki-world-iso-20261118/qa/planet-atlas.jpg"
+  ],
+  "stair_climb_end": [
+    158.54,
+    90.58
+  ],
+  "stair_climb_height_m": 22.91,
+  "touch_controls": {
+    "left_thumb_motion": [
+      0.89,
+      -0.37
+    ],
+    "right_pinch_zoom_after": 1.47,
+    "right_pinch_zoom_before": 0.92
+  }
+}
