@@ -1,12 +1,14 @@
 # KI Legends — dokumentacja projektu
 
-**18.11 — Świat Izometryczny 2D, 4 Stolice i Atlas Planety (`ports/godot-isometric-world`):**
-wieloregionowy świat izometryczny 2D w Godot 4.6.3 wygenerowany i zweryfikowany na podzie GPU
-(NVIDIA A40 48 GB VRAM) przy użyciu potoku Terrain3D + ProtonScatter + Blender 4.0.2 Python API +
-FastNoiseLite + NumPy/SciPy + Pillow/OpenCV: 4 wielopoziomowe stolice (Pyra, Verdantia, Aetheria,
-Nexus-9), 28 modeli 3D `.glb` i sprite'ów izometrycznych, obrotowa mapa 3D regionu (`[M]`) oraz
-interaktywny Atlas Planety Superior (`[G]`). [Raport i dowody QA](zmiany/2026-11-18/ZMIANY.md),
-[dokumentacja projektu](../ports/godot-isometric-world/README.md).
+**18.11 — Świat Izometryczny 2D (Faza A + C): 4 Pełne Kontynenty `1024×1024 m`, 24 Expowiska, Żywa Woda/Lawa, 99 Bytów i Globus 3D (`ports/godot-isometric-world`):**
+wieloregionowy świat izometryczny 2D w Godot 4.6.3 obejmujący 4 pełne kontynenty `1024×1024 m`
+(Pyra, Verdantia, Aetheria, Nexus-9 — ufortyfikowana bezpieczna stolica `r = 180 m` + dziki kontynent),
+generator dróg `Catmull-Rom Spline`, **24 polany bojowe (`Expowiska Lv. 1–18`)**, animowane rzeki,
+jeziora, zatoki oceaniczne, wodospady i płynną lawę, **338 ręcznie malowanych obiektów `.webp` +
+12 murów/baszt/bram z Blender Cycles GPU / Geometry Nodes**, **99 animowanych bytów** (4 bohaterów,
+40 NPC, 41 gatunków potworów, 10 gatunków fauny) z efektami `PyraAmbient`, rzeczywisty **Globus 3D
+Planety Superior (`[G]`)**, malowany **Atlas 2D (`[Tab]`)** oraz obrotową **Mapę 3D Kontynentu (`[M]`)**.
+[Raport i dowody QA](zmiany/2026-11-18/ZMIANY.md), [dokumentacja projektu](../ports/godot-isometric-world/README.md).
 
 **17.11 — Godot, izometria i TEST SERWER:** samodzielna próba Pyry 1024×1024 m
 oraz podgląd uruchamiany w ekranie serwisowym Androida. Przełącznik w `/admin`
@@ -58,7 +60,7 @@ warianty i 48 wypraw. Kod i postęp są podłączone do gry; niezależny odbiór
 fizyczny telefon i balans całej kampanii pozostają otwarte.
 [Wyniki i dowody](zmiany/2026-11-12/ZMIANY.md).
 
-Aktualizacja: **12.11.2026**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
+Aktualizacja: **18.11.2026**. Punkt odniesienia kodu i głównej gałęzi: `main`. Hosting: VPS Aruba (Coolify); wdrożenie startuje po pushu do `main` i wymaga zielonej bramki (typecheck, testy, lint, zasoby, dokumentacja, build).
 
 **Wydajność:** audyt 11.11.2026 zmierzył, że wąskim gardłem nie jest symulacja (tick z 32 potworami
 0,79 ms), lecz **pamięć tekstur 198–240 MiB przy budżecie 192 MiB**, pętla widoczności iterująca
@@ -106,6 +108,7 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-11-18](zmiany/2026-11-18/ZMIANY.md)
 - [2026-11-17](zmiany/2026-11-17/ZMIANY.md)
 
 - [2026-11-15](zmiany/2026-11-15/ZMIANY.md)
