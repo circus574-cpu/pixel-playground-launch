@@ -174,6 +174,8 @@ func run_boot() -> bool:
 func service_entry() -> String:
 	var screen:=Service.new()
 	screen.request=KiNet.online().request
+	screen.prepare_preview=KiNet.content().ensure_service_preview
+	KiNet.content().progress.connect(screen.preview_download_progress)
 	panel.hide()
 	add_child(screen)
 	var action: String=await screen.run()

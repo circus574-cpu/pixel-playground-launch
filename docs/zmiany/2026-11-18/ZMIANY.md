@@ -357,3 +357,18 @@ zasobów podczas zamykania procesu.
 [Transfer pakietów do prywatnego katalogu staging VPS](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/44415875442)
 uruchomiono bez rejestracji i aktywacji. Serwer pozostaje przy 1.14.2
 w trybie konserwacji.
+
+### Pobieranie świata Geminiego po zalogowaniu
+
+APK 1.15 (kod 102) korzysta z istniejącego podpisu Androida. Przy otwarciu
+podglądu serwer potwierdza rolę administratora. Klient pobiera manifest i
+paczkę z nagłówkiem uwierzytelnienia, sprawdza SHA-256 i ponawia kontrolę
+dostępu przed uruchomieniem sceny. Zasoby podglądu pochodzą z serwera.
+Usunięto niepodłączoną etykietę atlasu i zwolniono tekstury używane przez
+globus. Test domyka także oczekujące wywołanie ekranu serwisowego.
+
+[APK 1.15](../../../deliveries/godot-ki-legends-1.15/ki-legends-1.15.apk) ·
+[Manifest treści 1.14.4](../../../deliveries/godot-content-1.14.4/manifest.json) ·
+[Test 23/23](qa/gemini-authenticated/results.json) ·
+[Żądania HTTP z kontrolą autoryzacji](qa/gemini-authenticated/http-requests.json).
+Test wykorzystuje zasoby podpisanego APK w Godocie na komputerze.

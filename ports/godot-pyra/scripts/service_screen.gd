@@ -3,6 +3,7 @@ extends Control
 signal picked(action: String)
 const SCENE := "res://service_preview/pyra/world.tscn"
 var request: Callable
+var prepare_preview: Callable
 var allowed := false
 var preview: SubViewportContainer
 var world: Node2D
@@ -90,18 +91,40 @@ func refresh_access() -> void:
 		return
 	show_status(status)
 
+func preview_download_progress(info: Dictionary) -> void:
+	if not checking or str(info.get("pack",""))!="core-c101":return
+	var done_mb:=float(info.get("done",0))/1048576.0
+	var total_mb:=float(info.get("total",0))/1048576.0
+	caption.text="Pobieranie prototypu… %.0f / %.0f MiB" % [done_mb,total_mb]
+
 func open_preview() -> void:
 	if checking or preview!=null:return
 	checking=true
 	var status:=await read_status()
-	checking=false
+	if not is_inside_tree():return
 	if not permits_preview(status):
+		checking=false
 		show_status(status)
 		return
+	if prepare_preview.is_valid():
+		caption.text="Sprawdzanie paczki prototypu…"
+		var prepared: Dictionary=await prepare_preview.call()
+		if not is_inside_tree():return
+		if not prepared.get("ok",false):
+			checking=false
+			caption.text=str(prepared.get("message","Pobieranie prototypu nie powiodło się."))
+			return
+		status=await read_status()
+		if not is_inside_tree():return
+		if not permits_preview(status):
+			checking=false
+			show_status(status)
+			return
+	checking=false
 	if not ResourceLoader.exists(SCENE):
 		caption.text="Brak paczki prototypu. Wymagana jest wersja aplikacji z podglądem izometrii."
 		return
-	var scene:=load(SCENE) as PackedScene
+	var scene:=ResourceLoader.load(SCENE,"",ResourceLoader.CACHE_MODE_REPLACE_DEEP) as PackedScene
 	if scene==null:return
 	page.hide()
 	preview=SubViewportContainer.new()

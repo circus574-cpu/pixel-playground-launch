@@ -2,6 +2,7 @@ extends SceneTree
 ## Runs from the installed 1.14 APK's resource pack. No game preloads before its boot mounts the update.
 var checks: Dictionary={}
 var output:="/tmp/ki-preview-update-e2e"
+var authenticated := "--qa-authenticated" in OS.get_cmdline_user_args()
 var status: Dictionary={"maintenance":true,"canEnter":true,"canPreview":true}
 
 func _initialize() -> void:
@@ -34,8 +35,8 @@ func run() -> void:
 		original[name]=FileAccess.get_sha256("user://"+name)
 	# This is the ORIGINAL APK boot, not a freshly exported bootstrap.
 	var boot: Control=load("res://scenes/boot.tscn").instantiate()
-	check("original_apk_1_14",str(ProjectSettings.get_setting("application/config/version"))=="1.14")
-	check("original_client_101",int(boot.get_script().get_script_constant_map().get("CLIENT_CODE",0))==101)
+	check("apk_version",str(ProjectSettings.get_setting("application/config/version"))==("1.15" if authenticated else "1.14"))
+	check("client_code",int(boot.get_script().get_script_constant_map().get("CLIENT_CODE",0))==(102 if authenticated else 101))
 	boot.change_scene=false
 	boot.play_intro=false
 	var state:={"done":false,"report":{}}
@@ -44,11 +45,20 @@ func run() -> void:
 	var deadline:=Time.get_ticks_msec()+90000
 	while not state.done and Time.get_ticks_msec()<deadline:await process_frame
 	check("boot_completed",state.done)
-	check("server_core_mounted",state.report.get("mounted",false))
+	check("boot_mount_matches_mode",bool(state.report.get("mounted",false))==not authenticated)
 	check("no_broken_core",str(state.report.get("broken",""))=="")
 	# Load the screen only AFTER the existing client has mounted the server PCK.
 	var service: Control=load("res://scripts/service_screen.gd").new()
 	service.request=request
+	var content: Node
+	if authenticated:
+		var online: Node=load("res://scripts/online.gd").new()
+		root.add_child(online)
+		online.access_token="fixture-admin"
+		content=load("res://scripts/content.gd").new()
+		content.online=online
+		online.add_child(content)
+		service.prepare_preview=content.ensure_service_preview
 	root.add_child(service)
 	status={"maintenance":true,"canEnter":false,"canPreview":false}
 	await service.open_preview()
@@ -59,6 +69,8 @@ func run() -> void:
 	await service.open_preview()
 	await frames(12)
 	check("preview_open",service.world!=null)
+	if authenticated:
+		check("authenticated_content_mounted",str(content.mounted.get("core-c101","")).begins_with("core-c101-"))
 	if service.world!=null:
 		var world: Node2D=service.world
 		if "--qa-gemini" in OS.get_cmdline_user_args():
@@ -114,11 +126,13 @@ func run() -> void:
 		check("revoked_access_closes_preview",service.preview==null)
 	for name: String in original:
 		check("preserved_"+name,FileAccess.get_sha256("user://"+name)==original[name])
+	service.picked.emit("quit")
 	service.queue_free()
 	boot.queue_free()
 	await frames(5)
+	await RenderingServer.frame_post_draw
 	var failed:=checks.values().filter(func(ok):return not ok).size()
-	var result:={"checks":checks,"passed":checks.size()-failed,"failed":failed,"boot_report":state.report,"physical_phone":false,"base_apk":"1.14 / c101","new_apk":false,"renderer":RenderingServer.get_current_rendering_method()}
+	var result:={"checks":checks,"passed":checks.size()-failed,"failed":failed,"boot_report":state.report,"physical_phone":false,"base_apk":"1.15 / c102" if authenticated else "1.14 / c101","new_apk":authenticated,"renderer":RenderingServer.get_current_rendering_method()}
 	var file:=FileAccess.open(output.path_join("results.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(result,"\t"))
 	file.close()

@@ -1,0 +1,10 @@
+{
+  "version": "1.15",
+  "versionCode": 102,
+  "package": "pl.kilegends.godot.pyra",
+  "bytes": 68247732,
+  "sha256": "c8846ed8912d886db6b7093b8cc67b3455ee40fa7001d533f680ca624be75c4a",
+  "certificate_sha256": "dd788170dde4237f84775deda5c4132d82ebd9067cfdb7e52dda5de275591761",
+  "content_release": "1.14.4",
+  "physical_phone_tested": false
+}

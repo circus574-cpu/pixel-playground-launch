@@ -202,6 +202,34 @@ func download(id: String, index: int, count: int, done_before: int, total_bytes:
 		return {"ok": true}
 	return {"ok": false, "message": last_message if last_message != "" else "Nie udało się pobrać paczki %s." % id}
 
+## The service world is requested only after the administrator has signed in.
+func ensure_service_preview() -> Dictionary:
+	var refreshed := await fetch_manifest()
+	if not refreshed.ok:
+		return refreshed
+	# c101 is the existing isolated prototype pack format. C102 never mounts
+	# it during boot. Mount it here after an authenticated manifest request.
+	const PREVIEW_PACK := "core-c101"
+	if not manifest.get("packs", {}).has(PREVIEW_PACK):
+		return {"ok": false, "message": "Serwer nie udostępnia paczki prototypu."}
+	var entry: Dictionary = manifest.packs[PREVIEW_PACK]
+	if mounted.get(PREVIEW_PACK) == entry.file:
+		return {"ok": true}
+	var path := pack_file(PREVIEW_PACK)
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(DIR))
+	busy = true
+	cancelled = false
+	if not cached(PREVIEW_PACK) or FileAccess.get_sha256(path) != str(entry.sha256):
+		var result := await download(PREVIEW_PACK, 0, 1, 0, int(entry.bytes))
+		if not result.ok:
+			busy = false
+			return result
+	busy = false
+	if not ProjectSettings.load_resource_pack(ProjectSettings.globalize_path(path), true):
+		return {"ok": false, "message": "Nie udało się wczytać paczki prototypu."}
+	mounted[PREVIEW_PACK] = entry.file
+	return {"ok": true}
+
 func ensure_land(land: String) -> Dictionary:
 	if not has_manifest():
 		return {"ok": false, "message": "Brak informacji o treści gry. Połącz się z internetem."}

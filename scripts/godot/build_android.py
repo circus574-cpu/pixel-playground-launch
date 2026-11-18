@@ -17,6 +17,7 @@ parser.add_argument("--java", default=os.environ.get("JAVA_HOME", ""))
 parser.add_argument("--godot", default="godot")
 parser.add_argument("--debug-keystore", default=str(pathlib.Path.home() / ".local/share/ki-legends-godot/debug.keystore"))
 parser.add_argument("--output", default=str(root / "ports/godot-pyra/builds/ki-legends-pyra-debug.apk"))
+parser.add_argument("--server-preview-only", action="store_true", help="Do not embed a service preview. The authenticated client downloads it.")
 parser.add_argument("--reference-apk", default=str(root / "deliveries/godot-ki-legends-1.0/ki-legends-1.0.apk"),
                     help="Previously published APK. Its certificate MUST match, otherwise no update is exported.")
 args = parser.parse_args()
@@ -42,7 +43,8 @@ signer = hashlib.sha256(certificate).hexdigest()
 if certificates != [signer]:
     parser.error("NIEZGODNY PODPIS z opublikowanym APK. Eksport aktualizacji zablokowany; potrzebny jest oryginalny debug.keystore.")
 out.parent.mkdir(parents=True, exist_ok=True)
-subprocess.run(["python3", str(root / "scripts/godot/prepare_service_preview.py")], check=True)
+if not args.server_preview_only:
+    subprocess.run(["python3", str(root / "scripts/godot/prepare_service_preview.py")], check=True)
 with tempfile.TemporaryDirectory(prefix="ki-godot-export-") as directory:
     temp = pathlib.Path(directory)
     config = temp / "config/godot"

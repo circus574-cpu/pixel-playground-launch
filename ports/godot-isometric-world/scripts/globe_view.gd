@@ -249,6 +249,11 @@ func add_marker(lonlat: Vector2, color: Color, radius: float) -> void:
 	sprite.position = surface(lonlat.x, lonlat.y, 1.02)
 	markers.add_child(sprite)
 
+func _exit_tree() -> void:
+	viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	select_view.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	globe_material.set_shader_parameter("select_tex", null)
+
 func apply_rotation() -> void:
 	pivot.basis = Basis(Vector3.RIGHT, deg_to_rad(lat0)) * Basis(Vector3.UP, deg_to_rad(-lon0))
 	camera.position = Vector3(0, 0, distance)

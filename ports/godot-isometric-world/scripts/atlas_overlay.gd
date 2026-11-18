@@ -17,7 +17,6 @@ var mode := "globe" # "globe" or "atlas"
 var globe
 var btn_globe := Button.new()
 var btn_atlas := Button.new()
-var info_label := Label.new()
 
 const CONTINENT_META := {
 	"verdant": {

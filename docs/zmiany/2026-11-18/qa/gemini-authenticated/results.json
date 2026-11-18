@@ -1,0 +1,41 @@
+{
+	"base_apk": "1.15 / c102",
+	"boot_report": {
+		"broken": "",
+		"core": "",
+		"downloaded": false,
+		"gave_up": "",
+		"mounted": false,
+		"reached": false
+	},
+	"checks": {
+		"apk_version": true,
+		"authenticated_content_mounted": true,
+		"boot_completed": true,
+		"boot_mount_matches_mode": true,
+		"client_code": true,
+		"continent_aether": true,
+		"continent_nexus": true,
+		"continent_pyra": true,
+		"continent_verdant": true,
+		"gemini_starts_in_pyra": true,
+		"guest_cannot_open_preview": true,
+		"hero_texture_aether": true,
+		"hero_texture_nexus": true,
+		"hero_texture_pyra": true,
+		"hero_texture_verdant": true,
+		"no_broken_core": true,
+		"planet_atlas_and_globe": true,
+		"preserved_characters.json": true,
+		"preserved_city-checkpoint-v1.json": true,
+		"preserved_cloud.json": true,
+		"preview_open": true,
+		"private_world": true,
+		"revoked_access_closes_preview": true
+	},
+	"failed": 0,
+	"new_apk": true,
+	"passed": 23,
+	"physical_phone": false,
+	"renderer": "gl_compatibility"
+}

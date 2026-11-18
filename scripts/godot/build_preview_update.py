@@ -34,7 +34,7 @@ def main():
     spec = importlib.util.spec_from_file_location('builder', ROOT/'scripts/godot/build_packs.py')
     builder = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(builder)
-    assert builder.client_code() == 101, 'Must target the installed 1.14 app, not a new APK'
+    assert builder.client_code() == 101 or (args.gemini and builder.client_code() == 102), 'Unsupported client for preview pack'
     base_dir = f'deliveries/godot-content-{args.base}'
     def base_file(name):
         return subprocess.check_output(['git', 'show', args.base_ref+':'+base_dir+'/'+name], cwd=ROOT)

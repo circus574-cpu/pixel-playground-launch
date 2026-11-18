@@ -23,7 +23,7 @@ extends Control
 
 signal finished(report: Dictionary)
 
-const CLIENT_CODE := 101                 # service-preview bootstrap; cannot mount a cached c100 core
+const CLIENT_CODE := 102                 # service-preview bootstrap; cannot mount a cached c101 core
 const STATE_PATH := "user://core.json"
 const DIR := "user://content"
 const TARGET := "res://scenes/title.tscn"

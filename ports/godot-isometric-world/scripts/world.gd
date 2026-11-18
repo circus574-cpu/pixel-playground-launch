@@ -96,6 +96,7 @@ func _ready() -> void:
 
 func _exit_tree() -> void:
 	ActorScript.sheet_cache.clear()
+	AmbientScript.soft_texture = null
 	var style = preload("res://scripts/map_style.gd")
 	style.title_font = null
 	style.vignette_texture = null

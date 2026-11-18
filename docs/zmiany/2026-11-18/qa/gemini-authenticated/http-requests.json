@@ -1,0 +1,14 @@
+[
+  [
+    "/ws/godot/manifest?client=102",
+    false
+  ],
+  [
+    "/ws/godot/manifest?client=102",
+    true
+  ],
+  [
+    "/ws/godot/pack/e2e/core-c101-0fb371403b8a.pck",
+    true
+  ]
+]
