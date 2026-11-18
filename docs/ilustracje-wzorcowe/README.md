@@ -10,7 +10,13 @@ Status: **materiały referencyjne / koncepcje wizualne, NIE ukończone mapy ani 
 4. **Pyra — Twierdza Popiołu**: ciemna warownia na skalnych tarasach; wysoka cytadela i Plac Korony, targ przy bramie, Plac Węglowy, dolne kuźnie, schody wykute w skale, serpentyny dróg, rzeka lawy, bazaltowe kaniony i czerwony żar.
 5. **Atlas czterech kontynentów**: Verdantia — lasy, rzeki, jeziora i góry; Aetheria — lodowce, ośnieżone łańcuchy i źródła; Nexus-9 — suche płaskowyże, góry, zbiorniki i techniczne kanały; Pyra — aktywne wulkany, kaldery, płynąca lawa, brunatno-czerwony bazalt i zatoki. Styl mapy: rysowany atlas fantasy z izometrycznymi wstawkami.
 
-**Uwaga o plikach:** powyższe to dokładny indeks i opis dostarczonych w rozmowie ilustracji. Oryginalne pliki JPG są w załącznikach rozmowy i nie zostały jeszcze przesłane do GitHub; NIE twierdzić, że są w repozytorium.
+**Ilustracje wzorcowe:** pliki JPG z archiwum właściciela, zapisane bez zmian.
+
+- [01_AETHERIA_Sanktuarium_Tysiaca_Zrodel.jpg](originaly/01_AETHERIA_Sanktuarium_Tysiaca_Zrodel.jpg)
+- [02_NEXUS_9_Wezel_Swiadomosci.jpg](originaly/02_NEXUS_9_Wezel_Swiadomosci.jpg)
+- [03_VERDANTIA_Zielona_Przystan.jpg](originaly/03_VERDANTIA_Zielona_Przystan.jpg)
+- [04_PYRA_Twierdza_Popiolu.jpg](originaly/04_PYRA_Twierdza_Popiolu.jpg)
+- [05_ATLAS_Cztery_Kontynenty.jpg](originaly/05_ATLAS_Cztery_Kontynenty.jpg)
 
 ## Priorytet projektowy: topografia wymaga stworzenia
 
