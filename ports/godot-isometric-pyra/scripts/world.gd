@@ -15,6 +15,11 @@ const CAMERA_LOOK_SECONDS := 0.9
 const CAMERA_LOOK_LIMIT := 76.0
 const CAMERA_FOLLOW_RATE := 8.0
 const CAMERA_LOOK_RATE := 5.0
+@export_enum("pyra", "verdantia", "aetheria", "nexus") var study := "pyra"
+var data_root := "res://data"
+var city_center := CITY_CENTER
+var city_radii := CITY_RADII
+var city_height := 12.0
 var height_bytes: PackedByteArray
 var control_bytes: PackedByteArray
 var walk_bytes: PackedByteArray
@@ -100,27 +105,36 @@ func walkable(p: Vector2) -> bool:
 
 func _ready() -> void:
 	texture_filter=CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	config=JSON.parse_string(FileAccess.get_file_as_string("res://data/terrain.json"))
-	buildings=JSON.parse_string(FileAccess.get_file_as_string("res://data/buildings.json"))
-	height_bytes=FileAccess.get_file_as_bytes("res://data/height.r32")
-	control_bytes=FileAccess.get_file_as_bytes("res://data/control.r32")
-	walk_bytes=FileAccess.get_file_as_bytes("res://data/walkable.u8")
+	if study!="pyra":
+		data_root="res://studies/%s"%study
+		legacy_terrain=true
+	config=JSON.parse_string(FileAccess.get_file_as_string(data_root+"/terrain.json"))
+	hero_world=Vector2(config.spawn[0],config.spawn[1])
+	if study!="pyra":
+		legacy_buildings=true
+		city_center=Vector2(config.city_center[0],config.city_center[1])
+		city_radii=Vector2(config.city_radii[0],config.city_radii[1])
+		city_height=float(config.city_height)
+	buildings=JSON.parse_string(FileAccess.get_file_as_string(data_root+"/buildings.json"))
+	height_bytes=FileAccess.get_file_as_bytes(data_root+"/height.r32")
+	control_bytes=FileAccess.get_file_as_bytes(data_root+"/control.r32")
+	walk_bytes=FileAccess.get_file_as_bytes(data_root+"/walkable.u8")
 	rng.seed=int(config.seed)
-	material_library.load_assets(legacy_terrain)
+	material_library.load_assets(legacy_terrain,data_root,study)
 	textures.assign(material_library.textures)
 	build_ground()
 	build_tilemap()
 	actors.y_sort_enabled=true
 	add_child(actors)
 	build_objects()
-	var definitions: Dictionary=JSON.parse_string(FileAccess.get_file_as_string("res://data/actors.json"))
+	var definitions: Dictionary=JSON.parse_string(FileAccess.get_file_as_string(data_root+"/actors.json"))
 	hero=PyraActor.new()
-	hero.setup(definitions["pyra.hero"],"",false,true)
+	hero.setup(definitions["hero" if study!="pyra" else "pyra.hero"],"",false,true)
 	hero.position=iso(hero_world)
 	actors.add_child(hero)
 	var npc:=PyraActor.new()
-	npc.setup(definitions["pyra.npc.guide"],"Kaena")
-	npc.position=iso(Vector2(-31,28))
+	npc.setup(definitions["guide" if study!="pyra" else "pyra.npc.guide"],str(config.get("guide_name","Kaena")))
+	npc.position=iso(hero_world+Vector2(9,-22))
 	actors.add_child(npc)
 	snap_camera_to_hero()
 	add_child(camera)
@@ -192,11 +206,11 @@ func build_tilemap() -> void:
 	tilemap.z_index=-90
 	tilemap.modulate.a=0.0
 	add_child(tilemap)
-	tilemap.position=Vector2(0,-12*SH)-tilemap.map_to_local(Vector2i.ZERO)
+	tilemap.position=Vector2(0,-city_height*SH)-tilemap.map_to_local(Vector2i.ZERO)
 	for z in range(-12,18):
 		for x in range(-15,12):
 			var p:=Vector2(x*8,z*8)
-			if texture_id(p)==2 and absf(sample_height(p)-12)<.05:
+			if texture_id(p)==2 and absf(sample_height(p)-city_height)<.05:
 				tilemap.set_cell(Vector2i(x,z),0,Vector2i.ZERO)
 
 func object_sprite(path: String, p: Vector2, width: float) -> Sprite2D:
@@ -215,7 +229,7 @@ func build_objects() -> void:
 		building_art=JSON.parse_string(FileAccess.get_file_as_string("res://data/building-art.json")).buildings
 	for b: Dictionary in buildings:
 		var p:=Vector2(b.xz[0],b.xz[1])
-		var binding: Dictionary=building_art.get(str(b.id),{})
+		var binding: Dictionary=b.get("art",building_art.get(str(b.id),{}))
 		var sprite:=object_sprite(str(binding.get("texture",b.texture)),p,float(b.size[0])*16)
 		if not binding.is_empty():
 			var origin:=Vector2(binding.origin[0],binding.origin[1])
@@ -223,6 +237,9 @@ func build_objects() -> void:
 			sprite.scale=Vector2.ONE*float(binding.scale)
 			building_contact_shadow(p,Vector2(b.size[0],b.size[1]))
 		building_sprites[str(b.id)]=sprite
+	if study!="pyra":
+		build_study_decorations()
+		return
 	# Cluster local woodland on the sheltered western slope; scree follows the rift.
 	for i in 350:
 		var p:=Vector2(rng.randfn(-270,60),rng.randfn(5,95))
@@ -237,6 +254,21 @@ func build_objects() -> void:
 		var p:=Vector2(x,z)
 		if sample_height(p)<2:continue
 		object_sprite("res://assets/objects/3d90558c-pyra-continent-rocks.webp",p,rng.randf_range(80,160))
+
+func build_study_decorations() -> void:
+	var clusters: Array={
+		"verdantia":[Vector2(-250,90),Vector2(235,-110),Vector2(-180,280)],
+		"aetheria":[Vector2(-170,190),Vector2(30,-225)],
+		"nexus":[Vector2(280,117),Vector2(-190,260)]
+	}[study]
+	for center: Vector2 in clusters:
+		for i in (80 if study=="verdantia" else 38):
+			var p:=center+Vector2(rng.randfn(0,55),rng.randfn(0,72))
+			if not walkable(p) or near_road(p):continue
+			var cell:=Vector2i(p/9)
+			if occupied.has(cell):continue
+			occupied[cell]=true
+			object_sprite(str(config.decoration),p,rng.randf_range(85,175))
 
 func building_contact_shadow(p: Vector2, size: Vector2) -> void:
 	# Presentation only; sampled from the SAME terrain, never a collision change.
@@ -265,7 +297,7 @@ func near_road(p: Vector2) -> bool:
 func build_hud() -> void:
 	add_child(hud)
 	var title:=Label.new()
-	title.text="KI LEGENDS · PYRA\nPRÓBA IZOMETRII 2D"
+	title.text="KI LEGENDS · %s\nPRÓBA IZOMETRII 2D"%str(config.get("continent","Pyra")).to_upper()
 	title.position=Vector2(22,18)
 	title.add_theme_font_size_override("font_size",23)
 	title.add_theme_color_override("font_color",Color("ffe0a6"))
@@ -409,7 +441,7 @@ func _physics_process(delta: float) -> void:
 	map_marker.position=map_holder.position+(hero.position-map_camera.position)*map_camera.zoom+map_holder.size/2-Vector2(7,9)
 
 func city_camera_distance() -> float:
-	return ((hero_world-CITY_CENTER)/CITY_RADII).length()
+	return ((hero_world-city_center)/city_radii).length()
 
 func update_camera_follow(world_step: Vector2, delta: float) -> void:
 	# Use actual horizontal movement so pushing against a wall does not pull the camera.
@@ -432,6 +464,9 @@ func snap_camera_to_hero() -> void:
 	camera.zoom=CITY_CAMERA_ZOOM if camera_in_city else FIELD_CAMERA_ZOOM
 
 func run_qa() -> void:
+	if study!="pyra":
+		await run_study_qa()
+		return
 	controlled=false
 	await get_tree().create_timer(2.0).timeout
 	for i in 30:await get_tree().process_frame
@@ -577,7 +612,7 @@ func run_qa() -> void:
 		map_error=maxf(map_error,manual.distance_to(actual))
 	var movement_ok:=true
 	for item in movement:movement_ok=movement_ok and item.second_thumb_keeps_motion and item.cancel_releases and absf(float(item.distance_m)-8*float(item.sim_seconds))<.4
-	var report:={"renderer":"Godot 2D / "+RenderingServer.get_current_rendering_method(),"adapter":RenderingServer.get_video_adapter_name(),"height_sha256":FileAccess.get_sha256("res://data/height.r32"),"control_sha256":FileAccess.get_sha256("res://data/control.r32"),"map_shares_actual_World2D":map_view.world_2d==get_world_2d(),"projection_roundtrip_max_m":roundtrip,"terrain_batches":ground_meshes,"tilemap_cells":tilemap.get_used_cells().size(),"fps":Engine.get_frames_per_second(),"hero_animation":hero.sprite.animation,"draw_calls":Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),"texture_bytes":Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),"android_device_tested":false,"full_game_port":false,"map3d":map3d_alignment,"movement":movement,"movement_passed":movement_ok,"tilemap_alignment_max_px":tile_error,"map_camera_alignment_max_px":map_error}
+	var report:={"renderer":"Godot 2D / "+RenderingServer.get_current_rendering_method(),"adapter":RenderingServer.get_video_adapter_name(),"height_sha256":FileAccess.get_sha256(data_root+"/height.r32"),"control_sha256":FileAccess.get_sha256(data_root+"/control.r32"),"map_shares_actual_World2D":map_view.world_2d==get_world_2d(),"projection_roundtrip_max_m":roundtrip,"terrain_batches":ground_meshes,"tilemap_cells":tilemap.get_used_cells().size(),"fps":Engine.get_frames_per_second(),"hero_animation":hero.sprite.animation,"draw_calls":Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),"texture_bytes":Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),"android_device_tested":false,"full_game_port":false,"map3d":map3d_alignment,"movement":movement,"movement_passed":movement_ok,"tilemap_alignment_max_px":tile_error,"map_camera_alignment_max_px":map_error}
 	var file:=FileAccess.open(out.path_join("results.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(report,"\t"))
 	print("ISO_QA ",JSON.stringify(report))
@@ -603,3 +638,65 @@ func run_qa() -> void:
 	file.store_string(JSON.stringify(report,"\t"))
 	print("ISO_CHECKS ",report.passed,"/",checks.size())
 	get_tree().quit(0 if report.failed==0 else 1)
+
+
+func run_study_qa() -> void:
+	controlled=false
+	var out:=OS.get_environment("KI_ISO_QA_DIR")
+	if out.is_empty():out="user://qa/"+study
+	DirAccess.make_dir_recursive_absolute(out)
+	var checks: Dictionary={"city_spawn":camera_in_city and walkable(hero_world),"six_buildings":building_sprites.size()==6}
+	var hall: Sprite2D=building_sprites["hall"]
+	checks["new_hall_in_runtime"]=hall.texture.resource_path.ends_with("/new-hall.png")
+	checks["water_shader_matches_region"]=material_library.water_enabled==(study=="verdantia")
+	for place: Dictionary in config.landmarks:
+		var point:=Vector2(place.xz[0],place.xz[1])
+		checks[str(place.name)]=walkable(point)
+	for name: String in config.files:
+		checks["sha_"+name]=FileAccess.get_sha256(data_root+"/"+name)==str(config.files[name])
+	await RenderingServer.frame_post_draw
+	get_viewport().get_texture().get_image().save_jpg(out.path_join("city.jpg"),.92)
+	toggle_map()
+	for frame in 5:await get_tree().process_frame
+	await RenderingServer.frame_post_draw
+	get_viewport().get_texture().get_image().save_jpg(out.path_join("map2d.jpg"),.92)
+	checks["shared_world2d"]=map_view.world_2d==get_world_2d()
+	toggle_map_mode()
+	for frame in 5:await get_tree().process_frame
+	var alignment: Dictionary=map_3d.validate_alignment()
+	checks["shared_map3d"]=alignment.shares_textures and alignment.height_max_m<.001 and alignment.projection_max_px<.05
+	await RenderingServer.frame_post_draw
+	get_viewport().get_texture().get_image().save_jpg(out.path_join("map3d.jpg"),.92)
+	toggle_map_mode()
+	toggle_map()
+	var start:=hero_world
+	var touch:=InputEventScreenTouch.new()
+	touch.index=4
+	touch.position=Vector2(160,500)
+	touch.pressed=true
+	get_viewport().push_input(touch,true)
+	var drag:=InputEventScreenDrag.new()
+	drag.index=4
+	drag.position=touch.position+Vector2(65,0)
+	controlled=true
+	get_viewport().push_input(drag,true)
+	for frame in 60:await get_tree().physics_frame
+	checks["walking_and_animation"]=hero_world.distance_to(start)>5 and str(hero.sprite.animation).begins_with("walk:")
+	touch.pressed=false
+	touch.canceled=true
+	get_viewport().push_input(touch,true)
+	checks["touch_releases"]=move_pointer==-1 and motion==Vector2.ZERO
+	controlled=false
+	for index in config.landmarks.size():
+		var place: Dictionary=config.landmarks[index]
+		hero_world=Vector2(place.xz[0],place.xz[1])
+		snap_camera_to_hero()
+		for frame in 4:await get_tree().process_frame
+		await RenderingServer.frame_post_draw
+		get_viewport().get_texture().get_image().save_jpg(out.path_join("landmark-%d.jpg"%(index+1)),.92)
+	var passed:=checks.values().filter(func(ok):return ok).size()
+	var result:={ "study":study,"passed":passed,"failed":checks.size()-passed,"checks":checks,"map3d":alignment }
+	var file:=FileAccess.open(out.path_join("results.json"),FileAccess.WRITE)
+	file.store_string(JSON.stringify(result,"\t"))
+	print("STUDY_QA ",JSON.stringify(result))
+	get_tree().quit(0 if passed==checks.size() else 1)

@@ -1,0 +1,83 @@
+[
+  {
+    "id": "hall",
+    "xz": [
+      -60,
+      -29
+    ],
+    "size": [
+      28,
+      22
+    ],
+    "texture": "res://studies/verdantia/art/f1c31d72-verdant-leaf-hall.webp",
+    "art": {
+      "texture": "res://studies/verdantia/art/new-hall.png",
+      "origin": [
+        0.5,
+        0.7301369863013699
+      ],
+      "scale": 0.5524861878453039,
+      "source_sha256": "70f75a7f427bab22d93ec3e5466d6309541b1ca650a3a499661462b11c48dab8"
+    }
+  },
+  {
+    "id": "inn",
+    "xz": [
+      -6,
+      79
+    ],
+    "size": [
+      20,
+      16
+    ],
+    "texture": "res://studies/verdantia/art/8f5e282c-verdant-leaf-inn.webp"
+  },
+  {
+    "id": "shop",
+    "xz": [
+      -99,
+      17
+    ],
+    "size": [
+      18,
+      15
+    ],
+    "texture": "res://studies/verdantia/art/5a272efe-verdant-leaf-shop.webp"
+  },
+  {
+    "id": "arena",
+    "xz": [
+      -75,
+      103
+    ],
+    "size": [
+      21,
+      20
+    ],
+    "texture": "res://studies/verdantia/art/a5819767-verdant-leaf-arena.webp"
+  },
+  {
+    "id": "smithy",
+    "xz": [
+      -122,
+      67
+    ],
+    "size": [
+      22,
+      18
+    ],
+    "texture": "res://studies/verdantia/art/b71a5ab2-verdant-leaf-smithy.webp"
+  },
+  {
+    "id": "depot",
+    "xz": [
+      -8,
+      1
+    ],
+    "size": [
+      20,
+      16
+    ],
+    "texture": "res://studies/verdantia/art/959575c7-verdant-leaf-depot.webp"
+  }
+]

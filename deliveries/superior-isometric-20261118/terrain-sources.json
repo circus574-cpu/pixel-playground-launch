@@ -1,0 +1,1705 @@
+{
+  "model": "Lykon/dreamshaper-xl-v2-turbo",
+  "revision": "f70ad5bce436c640d23fc02cd0a6ccc787280b6e",
+  "gpu": "NVIDIA RTX 6000 Ada Generation",
+  "torch": "2.8.0+cu129",
+  "cuda": "12.9",
+  "status": "GPU-generated candidates; visual review pending",
+  "steps": 14,
+  "guidance": 2.0,
+  "seam_processing": "GPU FFT periodic plus smooth decomposition; no mirroring",
+  "derived_maps": "luminance-derived artistic approximations, OpenGL normals; not measured PBR",
+  "geometry": "material textures only; no actual mountains, holes, valleys or collision geometry changed",
+  "recipe": {
+    "materials": {
+      "verdantia-ground": "deep woodland loam, dense olive moss and dry oak leaf litter, fine earthy detail, no rocks",
+      "aetheria-ground": "wind-packed ivory snow over pale slate, subtle blue-grey icy grains and thin frost",
+      "nexus-ground": "charcoal synthetic desert dust and fine mineral grains, scarce teal flecks, no large objects",
+      "verdantia-road": "warm irregular ochre sandstone pavers with worn edges and restrained soft moss in seams",
+      "aetheria-road": "worn pale limestone flagstones with fine blue slate seams and sparse frost at the joints",
+      "nexus-road": "flat worn graphite alloy panels, subtle industrial recessed joints and scuffed ceramic edges",
+      "verdantia-waterbank": "pale alluvial silt, fine rounded dark pebbles and scattered low moss, gentle river bank sediment",
+      "aetheria-terrace": "carved pale stone terrace blocks, thin gold mineral lines, frost in shadowed joints",
+      "nexus-yard": "industrial ceramic ground slabs, dark matte metal seams and weathered amber service paint traces",
+      "verdantia-rock": "layered slate outcrop stone with subtle moss and warm brown mineral bands, flat rock material",
+      "aetheria-rock": "stratified blue-grey mountain slate cut by delicate pale ice bands, flat rock material",
+      "nexus-rock": "dark fractured metalliferous badlands rock, muted purple oxides and fine turquoise mineral grains",
+      "verdantia-meadow": "short dense muted green meadow grass mixed with fine clover, sparse ivory petals",
+      "aetheria-ice": "blue-grey glacial ice sheet, faint pale fractures, matte softly diffused surface",
+      "nexus-waste": "oxidized slag, small graphite grit and fine orange rust deposits, uneven mineral texture"
+    },
+    "seed_base": 1811202600,
+    "variants": 2,
+    "steps": 14
+  },
+  "items": [
+    {
+      "id": "verdantia-ground-1",
+      "category": "verdantia-ground",
+      "seed": 1811202600,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, deep woodland loam, dense olive moss and dry oak leaf litter, fine earthy detail, no rocks, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.924,
+      "seams": {
+        "before": {
+          "edge_mean_255": 49.012699127197266,
+          "interior_mean_255": 9.328523635864258,
+          "seam_ratio": 5.254068374633789
+        },
+        "after": {
+          "edge_mean_255": 8.402253150939941,
+          "interior_mean_255": 9.175177574157715,
+          "seam_ratio": 0.9157592058181763
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 133916,
+          "sha256": "d238b5652d7697cb1065e4c95f8357cd7c1c756f79b4c7d099afeb172b6c4fbf"
+        },
+        "albedo.png": {
+          "bytes": 1897799,
+          "sha256": "82f7c8854a1a80a26055d4a600b9f418951f2841436785382d8b9918cf9c913b"
+        },
+        "albedo.webp": {
+          "bytes": 354128,
+          "sha256": "01ba576c1402c08026ebf84668e1a493dcecae922f86d2d0606b19dacc34a672"
+        },
+        "height.png": {
+          "bytes": 916702,
+          "sha256": "c1e9a6a9988cf7aa43637324150c4947313e67b28d6078b5075dcb3160af5f04"
+        },
+        "normal.png": {
+          "bytes": 1612669,
+          "sha256": "5506e81a8984fa18c0c1164bfcb4afd62798ef098d98f4606190946ad3568bfd"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 388409,
+          "sha256": "6e495b622398e8a246fd09d9dc6558d4f06e1078f97d6619e86afa89f00760d9"
+        },
+        "roughness.png": {
+          "bytes": 526443,
+          "sha256": "64b9c907fd7f35b2a5e8422449638fac9ccf09a4d2a2e2e01e34f0337513075f"
+        },
+        "source.png": {
+          "bytes": 1917824,
+          "sha256": "6db7b935d7156c87db0ae022a81636084f93a55933de2717526e3a0bbb51841c"
+        }
+      }
+    },
+    {
+      "id": "verdantia-ground-2",
+      "category": "verdantia-ground",
+      "seed": 1811202601,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, deep woodland loam, dense olive moss and dry oak leaf litter, fine earthy detail, no rocks, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.346,
+      "seams": {
+        "before": {
+          "edge_mean_255": 41.65201950073242,
+          "interior_mean_255": 7.255360126495361,
+          "seam_ratio": 5.740861892700195
+        },
+        "after": {
+          "edge_mean_255": 6.938446998596191,
+          "interior_mean_255": 7.1838698387146,
+          "seam_ratio": 0.9658370018005371
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 123868,
+          "sha256": "5fea0167c2c27aa60db9f9e46e911fbf4d9729e6535c1bcb0ebecf7459666ba4"
+        },
+        "albedo.png": {
+          "bytes": 1767509,
+          "sha256": "e5115478734a9bcd520782374203dc114b424b72dea0f2f7e8e7a54cc3193c4c"
+        },
+        "albedo.webp": {
+          "bytes": 319172,
+          "sha256": "4cc493496bc176e4b21755dc8144d206658332398a9d45669346a24df53ae570"
+        },
+        "height.png": {
+          "bytes": 838109,
+          "sha256": "e28942380e45de666a5383dae987c7dc236f792cddf4d088dab145265611ea18"
+        },
+        "normal.png": {
+          "bytes": 1441098,
+          "sha256": "ee73f665fa07e502e81e95483d166a1ea4b5ea6a13e11a168fe53db39f246793"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 368446,
+          "sha256": "016c801a02ae3c4f2cabedc2428c17c98004a714b42e3b2384b2aac04d80862e"
+        },
+        "roughness.png": {
+          "bytes": 471692,
+          "sha256": "a90738dec6896e9cdab0ca2207df18239b60c5f60db56f45fe5a7179ae511f6b"
+        },
+        "source.png": {
+          "bytes": 1772279,
+          "sha256": "a7319bf2f71f8364a444b37eefd15b370ad39c898f9db11459d1175442f395f4"
+        }
+      }
+    },
+    {
+      "id": "aetheria-ground-1",
+      "category": "aetheria-ground",
+      "seed": 1811202700,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, wind-packed ivory snow over pale slate, subtle blue-grey icy grains and thin frost, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.396,
+      "seams": {
+        "before": {
+          "edge_mean_255": 32.356773376464844,
+          "interior_mean_255": 6.2078142166137695,
+          "seam_ratio": 5.2122650146484375
+        },
+        "after": {
+          "edge_mean_255": 5.702297210693359,
+          "interior_mean_255": 6.202346324920654,
+          "seam_ratio": 0.9193773865699768
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 92856,
+          "sha256": "9b7facf8df125eb096bc0821897469de458194dffe88577425bcab4a9a5b21da"
+        },
+        "albedo.png": {
+          "bytes": 1594546,
+          "sha256": "c07563c63d769e7bd8b691a39359aa7a302cf081a4dafbb3d5f0d5245552a479"
+        },
+        "albedo.webp": {
+          "bytes": 245398,
+          "sha256": "da4922235184c0d1a46f17dcda1aee8b23897d67acdc6cd4b98d264ca144bd8b"
+        },
+        "height.png": {
+          "bytes": 804186,
+          "sha256": "151e1b9e6d9fac8ad0561c34189ac43ade31e3e244486f55f7dbfd90d385e2b7"
+        },
+        "normal.png": {
+          "bytes": 1358659,
+          "sha256": "da6d6136b1a5961b0f8e759dfadf4a5cbafeada7d9972927bbaf5195e76c8ac7"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 275367,
+          "sha256": "71795cc833cfe6e0c46f334cd9aea54b729ea2e3d9913fb1b3a3ea49d986a9ef"
+        },
+        "roughness.png": {
+          "bytes": 432465,
+          "sha256": "bba5a553bef36cba9a3b7a760491df5bcf04a2807909e5ac385bd6700c0a2755"
+        },
+        "source.png": {
+          "bytes": 1588261,
+          "sha256": "888d8bbc235fa8363c78c692f98115905a236f945b3f08c6996826a864263cd1"
+        }
+      }
+    },
+    {
+      "id": "aetheria-ground-2",
+      "category": "aetheria-ground",
+      "seed": 1811202701,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, wind-packed ivory snow over pale slate, subtle blue-grey icy grains and thin frost, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.373,
+      "seams": {
+        "before": {
+          "edge_mean_255": 30.93880271911621,
+          "interior_mean_255": 6.198477745056152,
+          "seam_ratio": 4.991354942321777
+        },
+        "after": {
+          "edge_mean_255": 5.695545196533203,
+          "interior_mean_255": 6.185521125793457,
+          "seam_ratio": 0.9207866191864014
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 95998,
+          "sha256": "564a77e851d257c3203b8f45cd9c9e652ef9064616d5f69b45c4f5bc8400ad46"
+        },
+        "albedo.png": {
+          "bytes": 1639418,
+          "sha256": "3543586217f41c7b83858e9676bcd98f3e9a61e4c132d04be28747ad0b3faa18"
+        },
+        "albedo.webp": {
+          "bytes": 241764,
+          "sha256": "bacf4eac50f8852dc4180f6909b667ede40c11385af6a99e25dda7db4f05ba88"
+        },
+        "height.png": {
+          "bytes": 805483,
+          "sha256": "94811c095ce12bca43122b6a56d13f4a6f3af6aec0afa0ffde761357fdf50f13"
+        },
+        "normal.png": {
+          "bytes": 1371122,
+          "sha256": "c849c2d1290810c3044dc989489bc3d64728621245708c3cd524cf8f6316b7bc"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 295990,
+          "sha256": "edceaa2007dc9fb57f1d5284b4a6c06bc013b7b84c861b84a69c17fbeec08b2e"
+        },
+        "roughness.png": {
+          "bytes": 440661,
+          "sha256": "13ea6d54825aa9ec476f3f98d923c16907feb9c5ec3337178e8b797023ab45aa"
+        },
+        "source.png": {
+          "bytes": 1635689,
+          "sha256": "6ebd3126ba24fefafe877691b956fdd7a4cec0ad7990eb005c4fd14886e11c5b"
+        }
+      }
+    },
+    {
+      "id": "nexus-ground-1",
+      "category": "nexus-ground",
+      "seed": 1811202800,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, charcoal synthetic desert dust and fine mineral grains, scarce teal flecks, no large objects, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.09,
+      "seams": {
+        "before": {
+          "edge_mean_255": 41.68473815917969,
+          "interior_mean_255": 7.555993556976318,
+          "seam_ratio": 5.516778469085693
+        },
+        "after": {
+          "edge_mean_255": 7.731914520263672,
+          "interior_mean_255": 7.529150485992432,
+          "seam_ratio": 1.0269304513931274
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 114506,
+          "sha256": "ef0dd44240ccd8f9e8917569b4413f5732bacff84af891ce51ca9d8e18b19b51"
+        },
+        "albedo.png": {
+          "bytes": 1809790,
+          "sha256": "a14552162deacd6f62b3e3deaaca1fc548e39b3bd32146afa15e17f0bbbf457c"
+        },
+        "albedo.webp": {
+          "bytes": 304630,
+          "sha256": "a4bdbbe24dd3a887e614bb56d47e09ae25e5f3ea822c5f8e97a22fd4c742b1c4"
+        },
+        "height.png": {
+          "bytes": 858402,
+          "sha256": "aba1ed1a19b129ba6b21681bbf25360ee2142dd1fad65d247619ed4306fcfc3b"
+        },
+        "normal.png": {
+          "bytes": 1504055,
+          "sha256": "924affcc06a2208a72bef8e291a81123e72b7cedbbfa428b7f72d64738c275ff"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 329238,
+          "sha256": "48a5ebecfa8d63d39061bc08b381d088a221654999135e3fef1d923e1e6744d9"
+        },
+        "roughness.png": {
+          "bytes": 483402,
+          "sha256": "670c627e7a1cdcf8e0ba38dd2ed018363391126a02dd7c6751f6e11c7483e8cb"
+        },
+        "source.png": {
+          "bytes": 1813713,
+          "sha256": "c331835dcebe0ff313c341dbb40fcbc890f0c85e602ce165b2bbf7a6480e389c"
+        }
+      }
+    },
+    {
+      "id": "nexus-ground-2",
+      "category": "nexus-ground",
+      "seed": 1811202801,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, charcoal synthetic desert dust and fine mineral grains, scarce teal flecks, no large objects, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.143,
+      "seams": {
+        "before": {
+          "edge_mean_255": 35.573246002197266,
+          "interior_mean_255": 6.875576019287109,
+          "seam_ratio": 5.173856735229492
+        },
+        "after": {
+          "edge_mean_255": 6.77847957611084,
+          "interior_mean_255": 6.856777667999268,
+          "seam_ratio": 0.9885809421539307
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 111928,
+          "sha256": "440151cc43c6eb4cb008843c7afa1fdc0f4b0811f71b07a48da5e22501249de4"
+        },
+        "albedo.png": {
+          "bytes": 1722211,
+          "sha256": "9df75a8e44c3d5be82370da82aa4a928160e1533091da6834c2d7633d821f6ad"
+        },
+        "albedo.webp": {
+          "bytes": 283788,
+          "sha256": "b28621a92c9851761ccbb9738f9049f287735f6226d93ae5595268d6aca429fb"
+        },
+        "height.png": {
+          "bytes": 818821,
+          "sha256": "5bff7ac574aac238a5342006782284751fea431571667078aaddd445e8a9d3de"
+        },
+        "normal.png": {
+          "bytes": 1415694,
+          "sha256": "5912e1db5988579e02d399835800c9ac3d004f8c634b0057518c5368534f612d"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 329542,
+          "sha256": "18c0813a93bf9ca66e5276f289aacbbe58e11e0b2ee0ccaf1e2b5b3ac41981d3"
+        },
+        "roughness.png": {
+          "bytes": 455130,
+          "sha256": "27de60d9727381cd3bc946208ffbab93d6642cb397b1ecf79f427115e1915a55"
+        },
+        "source.png": {
+          "bytes": 1725211,
+          "sha256": "3ec0664bfa6a29bceaf0e1454fc1722af157b0a34c54bf26e274bf9c26016e96"
+        }
+      }
+    },
+    {
+      "id": "verdantia-road-1",
+      "category": "verdantia-road",
+      "seed": 1811202900,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, warm irregular ochre sandstone pavers with worn edges and restrained soft moss in seams, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.195,
+      "seams": {
+        "before": {
+          "edge_mean_255": 32.5380859375,
+          "interior_mean_255": 5.984184741973877,
+          "seam_ratio": 5.437346458435059
+        },
+        "after": {
+          "edge_mean_255": 5.879106044769287,
+          "interior_mean_255": 5.973363876342773,
+          "seam_ratio": 0.9842203259468079
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 101710,
+          "sha256": "6d119949385dfc2e5e4c17154a438d04448f64446d77c1735607d80ffdb2b0c8"
+        },
+        "albedo.png": {
+          "bytes": 1600470,
+          "sha256": "924f6afc69207d0d4cf3b29846b0b3cb4faab0b2a23fca3d81bded572c259622"
+        },
+        "albedo.webp": {
+          "bytes": 268918,
+          "sha256": "e630f23b2c38ec006e8575f24a912b80dd5ddcc983cd2c47d84eac55ffa50640"
+        },
+        "height.png": {
+          "bytes": 795671,
+          "sha256": "fce0bd41a24ae26e529823e024f62f9c8fd92aba81b99074208b373f3b2d4d02"
+        },
+        "normal.png": {
+          "bytes": 1300679,
+          "sha256": "98b2109f3a714cdfab59993f72dd9727e0e697302d83fb7d64098c9756e1a579"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 302825,
+          "sha256": "302cd0f0024a3a449c962baaade10b425ef2e30689e02dd42e84b0f8714f932b"
+        },
+        "roughness.png": {
+          "bytes": 428177,
+          "sha256": "25fb6e4ffc96ac78dfd9e21981d5a56b317e5f0b2f95ac7266af511ffe55158e"
+        },
+        "source.png": {
+          "bytes": 1597707,
+          "sha256": "315754fff9b7d27f056beb0b15ebf1d16a5d7c8bdb4edcf253a42f62831431e6"
+        }
+      }
+    },
+    {
+      "id": "verdantia-road-2",
+      "category": "verdantia-road",
+      "seed": 1811202901,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, warm irregular ochre sandstone pavers with worn edges and restrained soft moss in seams, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.247,
+      "seams": {
+        "before": {
+          "edge_mean_255": 31.443851470947266,
+          "interior_mean_255": 6.538173198699951,
+          "seam_ratio": 4.809271812438965
+        },
+        "after": {
+          "edge_mean_255": 5.421972751617432,
+          "interior_mean_255": 6.509562015533447,
+          "seam_ratio": 0.8329243659973145
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 105858,
+          "sha256": "c90bc3d683c19900ead8d4895fa6cc54cea213329dae1e6f0a1c51c5158d19db"
+        },
+        "albedo.png": {
+          "bytes": 1660426,
+          "sha256": "bb08607f5b26bb331b1c58566de00c959ccc9b786de38ff2d7c8c5d5091f168e"
+        },
+        "albedo.webp": {
+          "bytes": 272530,
+          "sha256": "296ef42a9aa15195b296b2e2358eadae735e7c6311300962f078ba2c5182f77c"
+        },
+        "height.png": {
+          "bytes": 805957,
+          "sha256": "9501396f039eaa8c3a394551e4adfe14d0116acc27a62af9472af91afa33ff01"
+        },
+        "normal.png": {
+          "bytes": 1355444,
+          "sha256": "f37ee518a2cad8a0c82409b858c5b26140757f0a5f4b3a3859e27cb3a9e0a877"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 318950,
+          "sha256": "3a39b4653984a065b4da6a996e360a4120576f9683fa9764791c21ebed58299c"
+        },
+        "roughness.png": {
+          "bytes": 443567,
+          "sha256": "08e089037db798304d406554470846c2407eccc61939864d62b6e1f52470b8b0"
+        },
+        "source.png": {
+          "bytes": 1660932,
+          "sha256": "c55e718aaa63c77b7fe5eeb2394fcb69deed7a5f97e5b1ffbc5cf665fd1bfb15"
+        }
+      }
+    },
+    {
+      "id": "aetheria-road-1",
+      "category": "aetheria-road",
+      "seed": 1811203000,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, worn pale limestone flagstones with fine blue slate seams and sparse frost at the joints, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.096,
+      "seams": {
+        "before": {
+          "edge_mean_255": 26.21533203125,
+          "interior_mean_255": 5.424996376037598,
+          "seam_ratio": 4.832322597503662
+        },
+        "after": {
+          "edge_mean_255": 5.4099297523498535,
+          "interior_mean_255": 5.393407821655273,
+          "seam_ratio": 1.0030633211135864
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 80408,
+          "sha256": "6c1f91f778fd01720f320401756bc5c0faadd2992ec48cd88596845f1bd8e545"
+        },
+        "albedo.png": {
+          "bytes": 1480849,
+          "sha256": "b74f3851ace79234195444d6c9a0ef49a0f34e2ce758c171c5856c0db4df88b7"
+        },
+        "albedo.webp": {
+          "bytes": 217128,
+          "sha256": "fd85c609d2e4791cf30e843c347c1899d42fa6981bf6ddcccbce6d4022b418ae"
+        },
+        "height.png": {
+          "bytes": 730110,
+          "sha256": "5847faf426f89a6d69497b7dbf19913c9d05a2294c1672931fdcf71bb98cd707"
+        },
+        "normal.png": {
+          "bytes": 1214751,
+          "sha256": "250909913bf9f8106c4dd5de903e5e53e5acaf4b55c74e6486f12a0cf5ca29e5"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 250454,
+          "sha256": "0460acf15ef0bd72d07be5735cc80d6a9619741f4677633541ae3e1e3834ab4e"
+        },
+        "roughness.png": {
+          "bytes": 381891,
+          "sha256": "a169615edddce4251f8e2836266e43e0ff64b22b44848054ddbe9457e8982ea9"
+        },
+        "source.png": {
+          "bytes": 1482735,
+          "sha256": "de8ca5ac4abf74e2ee77fb733f2e070122aecfb68ce9a919a99b0bb02934a4f6"
+        }
+      }
+    },
+    {
+      "id": "aetheria-road-2",
+      "category": "aetheria-road",
+      "seed": 1811203001,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, worn pale limestone flagstones with fine blue slate seams and sparse frost at the joints, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.215,
+      "seams": {
+        "before": {
+          "edge_mean_255": 29.061851501464844,
+          "interior_mean_255": 5.372168064117432,
+          "seam_ratio": 5.4097065925598145
+        },
+        "after": {
+          "edge_mean_255": 5.630640983581543,
+          "interior_mean_255": 5.365739345550537,
+          "seam_ratio": 1.049368977546692
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 92670,
+          "sha256": "b9e58013e7d334436a6f279df15aff749a72e8d8d17f1a59a0bbb0025b6a6e9f"
+        },
+        "albedo.png": {
+          "bytes": 1538275,
+          "sha256": "4e3ac504f6bdea17c6f16c40f88b99702ae3b842d2d6c82d8f64fe4d316a2337"
+        },
+        "albedo.webp": {
+          "bytes": 236830,
+          "sha256": "f7192797d88063ba16b4eba7e3c6f5755157c67405eef2a467a416dca7cd4625"
+        },
+        "height.png": {
+          "bytes": 737211,
+          "sha256": "342ee0127c76ff6012db41acd521871893accdac586c15bcdb256fe5a7a7bf83"
+        },
+        "normal.png": {
+          "bytes": 1227576,
+          "sha256": "b6a276b8339c049f4b16d6063219a330a27d6f5dc41f8046fcfd71f9d6f0fab3"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 278648,
+          "sha256": "8d29d9d5bc814bc22e2d6a54cab4c98fd29e3f04d40e3c06458626ccc794e729"
+        },
+        "roughness.png": {
+          "bytes": 395964,
+          "sha256": "5f66897f3dc8796268189608f50684f0b0321607215fcc6cfde90c6c6b2d9b3a"
+        },
+        "source.png": {
+          "bytes": 1534409,
+          "sha256": "a9f1e34d3f683899cb8984aa59e8e5297766adf9333e5dff69e5df651b666d34"
+        }
+      }
+    },
+    {
+      "id": "nexus-road-1",
+      "category": "nexus-road",
+      "seed": 1811203100,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, flat worn graphite alloy panels, subtle industrial recessed joints and scuffed ceramic edges, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.342,
+      "seams": {
+        "before": {
+          "edge_mean_255": 29.839845657348633,
+          "interior_mean_255": 4.904506206512451,
+          "seam_ratio": 6.084169387817383
+        },
+        "after": {
+          "edge_mean_255": 5.877796173095703,
+          "interior_mean_255": 4.89274263381958,
+          "seam_ratio": 1.2013294696807861
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 94138,
+          "sha256": "927a5caa0236ef57140c5bdfa20bf9d0eb50c338d915623acbaf5e71dacba361"
+        },
+        "albedo.png": {
+          "bytes": 1516037,
+          "sha256": "b5a3e719c0e51d7d29815330d7aec9fcf5c50426313e57d371c918e2a9d420b2"
+        },
+        "albedo.webp": {
+          "bytes": 239994,
+          "sha256": "31ac9a97e29e03a23dffa033f699bb7896b7c7b8b5c36002a6717c467b946b21"
+        },
+        "height.png": {
+          "bytes": 724726,
+          "sha256": "a917d2e7f54b042ae504782e2db81cceeaaed989dc39293ea9fb36420570c0cd"
+        },
+        "normal.png": {
+          "bytes": 1223049,
+          "sha256": "8110efb576f835717ce947a05b83da77e4855d570a92881c1db675a62034f5cb"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 254090,
+          "sha256": "07a94cae6819fbb3711c716d820922f8249dda15d88fa2b79557a4f61b5e4022"
+        },
+        "roughness.png": {
+          "bytes": 389238,
+          "sha256": "d93845e46f82dc73b4512e7650cf8ee6312f925b8674ed8c8621fe9c0e2e150b"
+        },
+        "source.png": {
+          "bytes": 1516307,
+          "sha256": "6f14372722b2572b4ca725d5d5e8a264cdcbc479c3e309144baddeb07095fe53"
+        }
+      }
+    },
+    {
+      "id": "nexus-road-2",
+      "category": "nexus-road",
+      "seed": 1811203101,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, flat worn graphite alloy panels, subtle industrial recessed joints and scuffed ceramic edges, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.222,
+      "seams": {
+        "before": {
+          "edge_mean_255": 27.344404220581055,
+          "interior_mean_255": 5.885820388793945,
+          "seam_ratio": 4.645810127258301
+        },
+        "after": {
+          "edge_mean_255": 4.94877290725708,
+          "interior_mean_255": 5.857450485229492,
+          "seam_ratio": 0.8448680639266968
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 94730,
+          "sha256": "e555fe8507fc83e2f38add22a6079ef480682a3c69d6ba1aa165c2983de18412"
+        },
+        "albedo.png": {
+          "bytes": 1553556,
+          "sha256": "5351dafc4965a373f55a1b988d65439b7ed9eb4c83bcdef70803887b331d4a4e"
+        },
+        "albedo.webp": {
+          "bytes": 257290,
+          "sha256": "08c7ab7e158ff79493b21509a208afa6a9d81d99805011e66535af37d5793c18"
+        },
+        "height.png": {
+          "bytes": 775280,
+          "sha256": "785cd6f0ec6f4d657d0460c1dcc2be184b8d78b5be2a04247356343fef65bf94"
+        },
+        "normal.png": {
+          "bytes": 1284658,
+          "sha256": "6bdb49956be10396caa444f550acd76c9b6408481012d61de9eb1a5f4eb4cbd1"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 273172,
+          "sha256": "276bdca8314a26bd795711d8d72ce62271be119271be9c810501af35506e71ce"
+        },
+        "roughness.png": {
+          "bytes": 419563,
+          "sha256": "672e5733be5bf0012555fdac48ddfd9e8163f413fa41ef280cb700c34b124743"
+        },
+        "source.png": {
+          "bytes": 1558525,
+          "sha256": "b9892d4d850baf93a3b8a7cbe9c75f56144bc97ae8fea42b2050d0f1db317fd1"
+        }
+      }
+    },
+    {
+      "id": "verdantia-waterbank-1",
+      "category": "verdantia-waterbank",
+      "seed": 1811203200,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, pale alluvial silt, fine rounded dark pebbles and scattered low moss, gentle river bank sediment, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.127,
+      "seams": {
+        "before": {
+          "edge_mean_255": 34.544925689697266,
+          "interior_mean_255": 6.435755729675293,
+          "seam_ratio": 5.367656707763672
+        },
+        "after": {
+          "edge_mean_255": 6.431305885314941,
+          "interior_mean_255": 6.416450500488281,
+          "seam_ratio": 1.0023151636123657
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 112178,
+          "sha256": "82762a7404693b3c7af989434887d0eb0bce7f094cdd1a89d55428e1b2147aa1"
+        },
+        "albedo.png": {
+          "bytes": 1683387,
+          "sha256": "5fc7d8abc1d5c4b8b09b670083633b646a236b4c70c5bb78030de3746b9afadf"
+        },
+        "albedo.webp": {
+          "bytes": 276824,
+          "sha256": "7aae97420c85417ed2fb676c6c00b4b3912e5139be74762a4996c7e8a626a134"
+        },
+        "height.png": {
+          "bytes": 807902,
+          "sha256": "0c5f36ef192cf6286a8a4cad45aab1e29a2397586a0a1d59bd86e70357be0c03"
+        },
+        "normal.png": {
+          "bytes": 1402936,
+          "sha256": "4d55b931a8e05753a243ed56cff3d381071b1aeee9d79ba967e4a8ef2223fc1f"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 320441,
+          "sha256": "3b3b2ded96f53443696ed5123678c92d2a52fae97ee5e8c7687f7b7d8fa6ac96"
+        },
+        "roughness.png": {
+          "bytes": 445966,
+          "sha256": "6b4fab98386770d17ad7ebc1ed94a0457e382d064010e73923310811662686a1"
+        },
+        "source.png": {
+          "bytes": 1680627,
+          "sha256": "43c01cb99331bc553be3eb00f3f6868f736500e7e0a6e37a482420c96c08b4fc"
+        }
+      }
+    },
+    {
+      "id": "verdantia-waterbank-2",
+      "category": "verdantia-waterbank",
+      "seed": 1811203201,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, pale alluvial silt, fine rounded dark pebbles and scattered low moss, gentle river bank sediment, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.062,
+      "seams": {
+        "before": {
+          "edge_mean_255": 35.766929626464844,
+          "interior_mean_255": 6.434612274169922,
+          "seam_ratio": 5.558521270751953
+        },
+        "after": {
+          "edge_mean_255": 6.361291408538818,
+          "interior_mean_255": 6.376555919647217,
+          "seam_ratio": 0.997606098651886
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 104934,
+          "sha256": "9dcc7700e855824dd868c0fa6e118beace6bb12cf6ea72b35a71e8c50e8990dc"
+        },
+        "albedo.png": {
+          "bytes": 1679688,
+          "sha256": "021c576a0c41982026d5833cf281584e54289f4a65c65cc993f8924160ef4089"
+        },
+        "albedo.webp": {
+          "bytes": 275906,
+          "sha256": "564e72c972207a757a366eaba357db52c7c4e84b3edb38f77a0c185a3749875c"
+        },
+        "height.png": {
+          "bytes": 810975,
+          "sha256": "c72827cb49f624e56ca481d22440629284bd10562cbc3afa37ea8db7dd5bfd8d"
+        },
+        "normal.png": {
+          "bytes": 1388887,
+          "sha256": "5cbbbd9f930094c315fcb7c5c0fd135aaec18e9ccab260655947d75197bba82a"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 306052,
+          "sha256": "df0cff2683f9884679841a1ff042535443749d3195517c713add9d84e91db269"
+        },
+        "roughness.png": {
+          "bytes": 447115,
+          "sha256": "d74901384a8d6ad02d0ab34721b8ae87d25fb66cb8de29062eb4dc320715c7ba"
+        },
+        "source.png": {
+          "bytes": 1682382,
+          "sha256": "59b129172db0e7b5c9b40dbf67ec90aefca3bdd90a7ba19b39f25117ff81ea85"
+        }
+      }
+    },
+    {
+      "id": "aetheria-terrace-1",
+      "category": "aetheria-terrace",
+      "seed": 1811203300,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, carved pale stone terrace blocks, thin gold mineral lines, frost in shadowed joints, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.262,
+      "seams": {
+        "before": {
+          "edge_mean_255": 36.686038970947266,
+          "interior_mean_255": 7.495811462402344,
+          "seam_ratio": 4.894205570220947
+        },
+        "after": {
+          "edge_mean_255": 6.821173667907715,
+          "interior_mean_255": 7.483269214630127,
+          "seam_ratio": 0.9115232229232788
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 108144,
+          "sha256": "8883caf2b7e264fb4ec5483e34d159cbd71773a8853b6e59fc7e42e5e05aab59"
+        },
+        "albedo.png": {
+          "bytes": 1683418,
+          "sha256": "219507bbe6fbb68cd12d6bf070cc17d1ca05f761a90e8c9d87d10836165066b1"
+        },
+        "albedo.webp": {
+          "bytes": 284516,
+          "sha256": "7634ebe6c9d9c2db154f3293245941aaeb2ae545b37814290e60a32ad1366047"
+        },
+        "height.png": {
+          "bytes": 827056,
+          "sha256": "91d579824f8e7ef616426a2daac495109729f46eb9c2754a31d7bb9407ff6e14"
+        },
+        "normal.png": {
+          "bytes": 1383075,
+          "sha256": "2daa12709e8a42c8482e6e58bb71ca921d333c44cfa01f17fb423ebec49fbe88"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 326167,
+          "sha256": "470295c8d7394fcab73e5dde84f90012f292765b1ef2e8a5e4237fd3e09c69bd"
+        },
+        "roughness.png": {
+          "bytes": 454246,
+          "sha256": "0c042bdcf1eef9e744b88b1b79e4858db78ab4abcfef43a6f32441d7b7363df9"
+        },
+        "source.png": {
+          "bytes": 1678414,
+          "sha256": "4142a34d87a7b55521742e421857d7f3db417104cfd81e4f03814b9894270951"
+        }
+      }
+    },
+    {
+      "id": "aetheria-terrace-2",
+      "category": "aetheria-terrace",
+      "seed": 1811203301,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, carved pale stone terrace blocks, thin gold mineral lines, frost in shadowed joints, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.113,
+      "seams": {
+        "before": {
+          "edge_mean_255": 37.073246002197266,
+          "interior_mean_255": 6.634989261627197,
+          "seam_ratio": 5.587536811828613
+        },
+        "after": {
+          "edge_mean_255": 6.408536434173584,
+          "interior_mean_255": 6.621082782745361,
+          "seam_ratio": 0.9678985476493835
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 95448,
+          "sha256": "a50511439c68ac9600580252c0878092eac652e9d158641105a50ad2bd5e7d8f"
+        },
+        "albedo.png": {
+          "bytes": 1592826,
+          "sha256": "81271d8c0283fb5834ca331930af7ba09f55ad0a08f9b8198f98a8a8944d6151"
+        },
+        "albedo.webp": {
+          "bytes": 254068,
+          "sha256": "71fa61b13ed5ad80d651f76dbdf8cbe47fadc383eac7205a48e56bd7af5cfcde"
+        },
+        "height.png": {
+          "bytes": 778143,
+          "sha256": "014d20dec31e229bb44ff5d6239b94803c4ef5994f08c4cbd76e53067efc5dde"
+        },
+        "normal.png": {
+          "bytes": 1281589,
+          "sha256": "4bb81862c42d2c68bf8eb087029f865b94466d7742f779ae635b8c179443008e"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 301874,
+          "sha256": "2447cf3a02d9b31b58229fd3cafdd502180e8932146c43fe465a044ae12a5cc6"
+        },
+        "roughness.png": {
+          "bytes": 419425,
+          "sha256": "49869dd2674e93f5c207b4d58c56928e90c0db3dede390098911550633055665"
+        },
+        "source.png": {
+          "bytes": 1587184,
+          "sha256": "ac71cfddb97223a35028a51b4c3c73d0bab6acbddeceb78802e62ecd0b540f3e"
+        }
+      }
+    },
+    {
+      "id": "nexus-yard-1",
+      "category": "nexus-yard",
+      "seed": 1811203400,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, industrial ceramic ground slabs, dark matte metal seams and weathered amber service paint traces, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.293,
+      "seams": {
+        "before": {
+          "edge_mean_255": 25.604656219482422,
+          "interior_mean_255": 4.967648983001709,
+          "seam_ratio": 5.154280185699463
+        },
+        "after": {
+          "edge_mean_255": 4.478812217712402,
+          "interior_mean_255": 4.952020645141602,
+          "seam_ratio": 0.9044412970542908
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 98360,
+          "sha256": "1c3039b4ac559e1b81319cf267d03b42be2ca05b284ad193066ae99d909dee59"
+        },
+        "albedo.png": {
+          "bytes": 1537403,
+          "sha256": "36759c886715fb89b766c85b9b4cb732c9850fa0e6e52bff0d97120ffc7ef2a7"
+        },
+        "albedo.webp": {
+          "bytes": 258150,
+          "sha256": "056c88fde130c73d44d4f455a16f0e744c5f774da9866a57640eaacb59c3bc9f"
+        },
+        "height.png": {
+          "bytes": 730573,
+          "sha256": "d2c714317e88d3efdb97af4ba9bb56fea2c5e0e6110ef08a1d4bd1209609ee50"
+        },
+        "normal.png": {
+          "bytes": 1230476,
+          "sha256": "6fe7c1939b76ff0668d83747ca3d75830d4d386425fe405d79a95b61dc569973"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 276224,
+          "sha256": "7454c1b755de9ff7c8c7da82af5b059715f9bfcc70a2044bf4bfde62587246d6"
+        },
+        "roughness.png": {
+          "bytes": 394573,
+          "sha256": "0d988ec344b360260891905845d6960f5027c2d49fbb40fdeafb5c508471ab6e"
+        },
+        "source.png": {
+          "bytes": 1536720,
+          "sha256": "77a6ae2bb96f35961c42a33636585f1dc1a8fe22446a4d263d954c3732d015eb"
+        }
+      }
+    },
+    {
+      "id": "nexus-yard-2",
+      "category": "nexus-yard",
+      "seed": 1811203401,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, industrial ceramic ground slabs, dark matte metal seams and weathered amber service paint traces, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.273,
+      "seams": {
+        "before": {
+          "edge_mean_255": 27.405441284179688,
+          "interior_mean_255": 5.02884578704834,
+          "seam_ratio": 5.449647903442383
+        },
+        "after": {
+          "edge_mean_255": 4.977566719055176,
+          "interior_mean_255": 5.0184526443481445,
+          "seam_ratio": 0.991852879524231
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 102128,
+          "sha256": "feb131da6e2df5e6a5c67747919fa749cfedf5489e5debb6cc26c1224db699cd"
+        },
+        "albedo.png": {
+          "bytes": 1536506,
+          "sha256": "54574d24466dc54ef4c9b94400ed1afc4a9848d025b12b5cbe4e9454b398732d"
+        },
+        "albedo.webp": {
+          "bytes": 262454,
+          "sha256": "98f9289520e21d17a234f4263ed98082eabfb966bf6d9e9b51bd2e4aa00d39e2"
+        },
+        "height.png": {
+          "bytes": 736789,
+          "sha256": "9b78e4ea5b311173c71f63e22a4474eadc5b6c9f3d711ceac7e7affacb039980"
+        },
+        "normal.png": {
+          "bytes": 1221387,
+          "sha256": "ff6cfa90e154cc3e19f228fde5ea155f87b1569de1123d07e99dce8e1c10b168"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 286373,
+          "sha256": "7cee4b66864399279a498cb066efe2b0d7fea21d2b2c46e7c1dbf6858d364ff1"
+        },
+        "roughness.png": {
+          "bytes": 398906,
+          "sha256": "a1e01200c0f10a2c39da42a5de5f1883b6d774d87576b620ea268478011984fe"
+        },
+        "source.png": {
+          "bytes": 1534881,
+          "sha256": "1bfe66f6d3e1e12814f532b8d2ace10fedf7b39efa064030e0d092f4796bc636"
+        }
+      }
+    },
+    {
+      "id": "verdantia-rock-1",
+      "category": "verdantia-rock",
+      "seed": 1811203500,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, layered slate outcrop stone with subtle moss and warm brown mineral bands, flat rock material, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 3.994,
+      "seams": {
+        "before": {
+          "edge_mean_255": 36.412437438964844,
+          "interior_mean_255": 8.882308959960938,
+          "seam_ratio": 4.099433898925781
+        },
+        "after": {
+          "edge_mean_255": 7.498303413391113,
+          "interior_mean_255": 8.860700607299805,
+          "seam_ratio": 0.8462427258491516
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 116458,
+          "sha256": "51cab08a6b7b252a0681286a96fd2125d3884d2e862f10035c1ad5401e468b4e"
+        },
+        "albedo.png": {
+          "bytes": 1753625,
+          "sha256": "abed155e2ba71d24c6b89fc5ded2d434da426945fd1e2ad96e671116513123a4"
+        },
+        "albedo.webp": {
+          "bytes": 300040,
+          "sha256": "84a4d378ee7bbda36737b7b479a485d14ef8ce6fc716a5f009357d14ba7ecb15"
+        },
+        "height.png": {
+          "bytes": 881977,
+          "sha256": "b0b61cd310282fa5b263b35d218f54dda7de58be7e9b557d0cb673e3715a33e7"
+        },
+        "normal.png": {
+          "bytes": 1513554,
+          "sha256": "59c15110983767631c026d8e9956b7ccdb82b4c70e2aa3c086f03b272d95bc17"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 336458,
+          "sha256": "9cc48af81b4ec2ab8771a07637a8c3856de85a71c1226596a58143e3cc7f841f"
+        },
+        "roughness.png": {
+          "bytes": 495407,
+          "sha256": "c263c005ce99c7fffa03a688455b64716d5674e2de69110bf3f9fb213208c00f"
+        },
+        "source.png": {
+          "bytes": 1752819,
+          "sha256": "6f70c0a6764614713db562f56fa89e37583f5f8b38d91be056e741ec21a8b0ef"
+        }
+      }
+    },
+    {
+      "id": "verdantia-rock-2",
+      "category": "verdantia-rock",
+      "seed": 1811203501,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, layered slate outcrop stone with subtle moss and warm brown mineral bands, flat rock material, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.141,
+      "seams": {
+        "before": {
+          "edge_mean_255": 33.870121002197266,
+          "interior_mean_255": 6.2573561668396,
+          "seam_ratio": 5.412848472595215
+        },
+        "after": {
+          "edge_mean_255": 6.123911380767822,
+          "interior_mean_255": 6.23034143447876,
+          "seam_ratio": 0.9829174876213074
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 104834,
+          "sha256": "fa3e73ddc8c866df7d5d35fdedfbfc18314ec15ae44a2441ab68da452ee93f40"
+        },
+        "albedo.png": {
+          "bytes": 1662860,
+          "sha256": "fa7fe157adc27749fc7b065b5674bd2b55ee30942a6662c409d5fe938b6218ff"
+        },
+        "albedo.webp": {
+          "bytes": 283244,
+          "sha256": "85a2a3b75fb0407bde0fa543a02a08c11d7876f714869f73ca4ccda710cbe35a"
+        },
+        "height.png": {
+          "bytes": 803670,
+          "sha256": "662d63d5bef138ac5d79c17d0ee939a5de505eb38a3f7c7f805c40aa58f940a3"
+        },
+        "normal.png": {
+          "bytes": 1376958,
+          "sha256": "982caf3952cd67f264ae93c51482f2a85d28e7f4582908715c408658130b7c9e"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 298471,
+          "sha256": "898eeb929efcfb59e2372a3229e95fbfc6b7a6d51be6e073e659453400baaa5c"
+        },
+        "roughness.png": {
+          "bytes": 439860,
+          "sha256": "7f49b5ede3f40271495506982439abeab5f56a0b0f8f1d98f49b596c8be9fedc"
+        },
+        "source.png": {
+          "bytes": 1666214,
+          "sha256": "dac8ce796d687c7ee917d87b8fb53aa3b5d57b3e206df1dc8c73f90a9527cd04"
+        }
+      }
+    },
+    {
+      "id": "aetheria-rock-1",
+      "category": "aetheria-rock",
+      "seed": 1811203600,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, stratified blue-grey mountain slate cut by delicate pale ice bands, flat rock material, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.034,
+      "seams": {
+        "before": {
+          "edge_mean_255": 36.95768356323242,
+          "interior_mean_255": 7.894705772399902,
+          "seam_ratio": 4.6813249588012695
+        },
+        "after": {
+          "edge_mean_255": 7.65279483795166,
+          "interior_mean_255": 7.8685431480407715,
+          "seam_ratio": 0.9725809097290039
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 94920,
+          "sha256": "f5c8988e4b333c070fd7549d9243279acc6d1caf3efd7e2ed585d573c5d180d3"
+        },
+        "albedo.png": {
+          "bytes": 1689221,
+          "sha256": "2d7c9a3e972425000f0c03a5fad81fa65b86d8614f258a193324f91484ef42c5"
+        },
+        "albedo.webp": {
+          "bytes": 255728,
+          "sha256": "6a7ab9fe1ec0aa75d78de4c85269de0fda55e8902487345602cf9472d4078065"
+        },
+        "height.png": {
+          "bytes": 874605,
+          "sha256": "058b9b5686348e04967e66655dbf559e105ee4b48c7518153fe84e88629daa40"
+        },
+        "normal.png": {
+          "bytes": 1432956,
+          "sha256": "2ab5f5e652660fbd03a65b62b31c152cc8b49147d508a819c2b1f404edb570bf"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 295473,
+          "sha256": "c410304fd07840798cf40fd342291a6f3fd2a915eded1562a5f2ea4296565c4a"
+        },
+        "roughness.png": {
+          "bytes": 473327,
+          "sha256": "f4e3de179de01f9f302261f702ee16e8ec3cf38099c8efc4db2543320378317a"
+        },
+        "source.png": {
+          "bytes": 1684608,
+          "sha256": "d277b3ffb74264ec10bb6f6f5ee2bca453ba0e95c1170a90d575b16ba39aaa58"
+        }
+      }
+    },
+    {
+      "id": "aetheria-rock-2",
+      "category": "aetheria-rock",
+      "seed": 1811203601,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, stratified blue-grey mountain slate cut by delicate pale ice bands, flat rock material, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.058,
+      "seams": {
+        "before": {
+          "edge_mean_255": 35.03239440917969,
+          "interior_mean_255": 7.073098659515381,
+          "seam_ratio": 4.952906131744385
+        },
+        "after": {
+          "edge_mean_255": 7.021279335021973,
+          "interior_mean_255": 7.0490007400512695,
+          "seam_ratio": 0.9960673451423645
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 94964,
+          "sha256": "98781a970f59f47b89f38f3853bbb93defe9859db9020f2afc1991c62c9b8701"
+        },
+        "albedo.png": {
+          "bytes": 1605908,
+          "sha256": "07fea15bc18eab9aa22ef57e54d814c4e126f7c67590d420b89b746e8ff80ccc"
+        },
+        "albedo.webp": {
+          "bytes": 255598,
+          "sha256": "5eb5a79494587cde5e24a5ad127d3da7797bb5f83304f6205526371be4c2031c"
+        },
+        "height.png": {
+          "bytes": 837454,
+          "sha256": "374c48aabaa33760664c186eaa4cfa8fcc4d57047121fcb8a49fc8ae3e41a05d"
+        },
+        "normal.png": {
+          "bytes": 1364755,
+          "sha256": "abfe9b3fdd991f39ebc6fa7d837c208721bd9b9060b926409426ecf0c0f6b0b5"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 293220,
+          "sha256": "a47734de199766636e166992c890cbb7d5627f13b18cff13380bd8be9104666c"
+        },
+        "roughness.png": {
+          "bytes": 448397,
+          "sha256": "d6af9510480530860ce8d70ee24ee3f2f2d19507dbf38fd4e470879e07160ba8"
+        },
+        "source.png": {
+          "bytes": 1606082,
+          "sha256": "a1ebe4a6ab7c4dd6a4d49bd1b81c9a78523f07840edf4646d11326c54296a567"
+        }
+      }
+    },
+    {
+      "id": "nexus-rock-1",
+      "category": "nexus-rock",
+      "seed": 1811203700,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dark fractured metalliferous badlands rock, muted purple oxides and fine turquoise mineral grains, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 3.988,
+      "seams": {
+        "before": {
+          "edge_mean_255": 36.28385925292969,
+          "interior_mean_255": 6.650386810302734,
+          "seam_ratio": 5.455901622772217
+        },
+        "after": {
+          "edge_mean_255": 7.354454040527344,
+          "interior_mean_255": 6.630368709564209,
+          "seam_ratio": 1.1092073917388916
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 97038,
+          "sha256": "17a388828754860d2ac2c29c531c801082be77a2500f05d8deb0bdf78b7078ee"
+        },
+        "albedo.png": {
+          "bytes": 1649475,
+          "sha256": "f2a8708d010d3a465832bea197e10bc1011e9484a0646804273e2c5dfe33fefe"
+        },
+        "albedo.webp": {
+          "bytes": 269988,
+          "sha256": "b44c8cdcbbfa90a49ac6aa3f3b5cbb2e15d37e2c93d54c5eadf00cd200fe6e1b"
+        },
+        "height.png": {
+          "bytes": 814428,
+          "sha256": "44eafdfe4c3ee581db0b0134c9f111760b3c425bc26a790306e3ee44de728d6c"
+        },
+        "normal.png": {
+          "bytes": 1372093,
+          "sha256": "32d972e49b4c16d23fbb4202853db6bc0788f6fa1a0247947be77e37df91f324"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 309480,
+          "sha256": "9faece5c9543af0e0c797ed7a00d48808faa6a483a422b5ccd1ec3145f6caa81"
+        },
+        "roughness.png": {
+          "bytes": 438002,
+          "sha256": "aef7d2e0f71c1deca6efea984a5754b30f1025e449c9b427da222872ee1c13e5"
+        },
+        "source.png": {
+          "bytes": 1646991,
+          "sha256": "b8932ed833d5bf3e97fa787629b90b90be275c32647b0d3d86db09dc96d31b6c"
+        }
+      }
+    },
+    {
+      "id": "nexus-rock-2",
+      "category": "nexus-rock",
+      "seed": 1811203701,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, dark fractured metalliferous badlands rock, muted purple oxides and fine turquoise mineral grains, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.058,
+      "seams": {
+        "before": {
+          "edge_mean_255": 40.678714752197266,
+          "interior_mean_255": 8.086795806884766,
+          "seam_ratio": 5.030263900756836
+        },
+        "after": {
+          "edge_mean_255": 7.544370174407959,
+          "interior_mean_255": 8.057682991027832,
+          "seam_ratio": 0.936295211315155
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 114570,
+          "sha256": "aa42020c32d921148c1315a49ee3705cd7799b02e12404e82a68648df1e950bd"
+        },
+        "albedo.png": {
+          "bytes": 1765845,
+          "sha256": "d518f9be26d91dacbc801890204f50b02adaa5ad7e9930ba741df8bca49204b3"
+        },
+        "albedo.webp": {
+          "bytes": 297982,
+          "sha256": "b269be698c826a11df8033c3662ddcc5d61fe0498daef0f211ee1510580415bb"
+        },
+        "height.png": {
+          "bytes": 861051,
+          "sha256": "3f5b4c1a77a6347c332b31c75f8b37e824235690253c10a22e8f9790e56a4018"
+        },
+        "normal.png": {
+          "bytes": 1461486,
+          "sha256": "64357210b49c03caf5efc71f03fb2881f5909510bca3d137c79227e569a3b70d"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 354223,
+          "sha256": "ea4846c2563e5b6ed133a7c1069b672f8d2bca6096034927a592d89ddc758a0c"
+        },
+        "roughness.png": {
+          "bytes": 479375,
+          "sha256": "bd4055b5deb9108a41db4d4cb311d83d314c2994da40dcaf2fb2d76d9739abc7"
+        },
+        "source.png": {
+          "bytes": 1772841,
+          "sha256": "2701fae584457ae2162a68a650a62531b2015e258063bc9805b0d88b084f450a"
+        }
+      }
+    },
+    {
+      "id": "verdantia-meadow-1",
+      "category": "verdantia-meadow",
+      "seed": 1811203800,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, short dense muted green meadow grass mixed with fine clover, sparse ivory petals, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.126,
+      "seams": {
+        "before": {
+          "edge_mean_255": 43.86149597167969,
+          "interior_mean_255": 10.591400146484375,
+          "seam_ratio": 4.141236782073975
+        },
+        "after": {
+          "edge_mean_255": 9.500240325927734,
+          "interior_mean_255": 10.551135063171387,
+          "seam_ratio": 0.9003998637199402
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 135298,
+          "sha256": "e59d5f24a93ba23c2d5333f8a473f12180bbe80ee19073f009e0f06cb62167f0"
+        },
+        "albedo.png": {
+          "bytes": 1925050,
+          "sha256": "cfa41ba4ae68a651ef86e4ad59c8922187f720fb190dd9ddd75632c45c3cba83"
+        },
+        "albedo.webp": {
+          "bytes": 356590,
+          "sha256": "ed442c514002c27d2ca17448812aaa5020c31006750c03c232b1721e12806872"
+        },
+        "height.png": {
+          "bytes": 971663,
+          "sha256": "ab13afba5b8fb8605edf89419690edee0585dea3aeb47393a97734d67a470ea9"
+        },
+        "normal.png": {
+          "bytes": 1623765,
+          "sha256": "a4af8637df03d4193cfb079f6ac176e6da6a1838533901e992293cccb96d1dd6"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 421458,
+          "sha256": "07e5e7aa4bdf697e98f2725fd4b8ec0b787ea15beba8a6984621c478ca707a82"
+        },
+        "roughness.png": {
+          "bytes": 540314,
+          "sha256": "9a5a66168c28e0c7fadc274324622a57ea09a8408856439ad24c04f876761c74"
+        },
+        "source.png": {
+          "bytes": 1926663,
+          "sha256": "56ce939120485afbb46534bf4835cbf0ab299c3dea447ca5a5a9b10fbf3b4147"
+        }
+      }
+    },
+    {
+      "id": "verdantia-meadow-2",
+      "category": "verdantia-meadow",
+      "seed": 1811203801,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, short dense muted green meadow grass mixed with fine clover, sparse ivory petals, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.028,
+      "seams": {
+        "before": {
+          "edge_mean_255": 50.98796081542969,
+          "interior_mean_255": 10.462218284606934,
+          "seam_ratio": 4.873532295227051
+        },
+        "after": {
+          "edge_mean_255": 9.012368202209473,
+          "interior_mean_255": 10.271533012390137,
+          "seam_ratio": 0.8774121403694153
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 126452,
+          "sha256": "b86db2a5a1e5c9021b5e3f9c003aebe2b39c4070822f1998d17b5ee9c87894a8"
+        },
+        "albedo.png": {
+          "bytes": 1888617,
+          "sha256": "04cfcdcb8eccd6d364be74a56cfd816df6d7d631323da833bfc316fc28fdff65"
+        },
+        "albedo.webp": {
+          "bytes": 334934,
+          "sha256": "08761877d68320bc9cd783255cc8e003b19704ce2a90dfc389c6044559efba86"
+        },
+        "height.png": {
+          "bytes": 943873,
+          "sha256": "d6250b117dc078c06bfb5f78ec3d8aa2389c8e44f36ef12f6fdd556c9736c445"
+        },
+        "normal.png": {
+          "bytes": 1639125,
+          "sha256": "5b1fa9b13bbaaf701171968f82c0a9c72e76655d63df0b0f88b59780dfee53fd"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 388919,
+          "sha256": "192399e920ec23d24aaa2b499f45b586f09b90277348ddc6d68ab63f64466090"
+        },
+        "roughness.png": {
+          "bytes": 532001,
+          "sha256": "177828621e6d403905f1e74aa4ec80a7150ef944ef2c83a3c6e34d79b5ddaf3e"
+        },
+        "source.png": {
+          "bytes": 1924596,
+          "sha256": "61b74ee0081c3c3bcc3315e562378032b22939b451abe1bb3573c9da54009720"
+        }
+      }
+    },
+    {
+      "id": "aetheria-ice-1",
+      "category": "aetheria-ice",
+      "seed": 1811203900,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, blue-grey glacial ice sheet, faint pale fractures, matte softly diffused surface, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.079,
+      "seams": {
+        "before": {
+          "edge_mean_255": 31.360191345214844,
+          "interior_mean_255": 6.799966812133789,
+          "seam_ratio": 4.611815452575684
+        },
+        "after": {
+          "edge_mean_255": 5.875740051269531,
+          "interior_mean_255": 6.771800994873047,
+          "seam_ratio": 0.867677628993988
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 87478,
+          "sha256": "4d84d0b90c36aa4a089f36f10a6b738475de7dbb6079ffaff8c7ef8884df4655"
+        },
+        "albedo.png": {
+          "bytes": 1567624,
+          "sha256": "78f96f8156d7f2dda5ebd879bb8ffd3c33afe67b5b1ddb14d7fadb08fa6513a0"
+        },
+        "albedo.webp": {
+          "bytes": 226732,
+          "sha256": "9de46bde3418ecf9963f9cca879d3e63bfcd02a6d43a5020245688d667552860"
+        },
+        "height.png": {
+          "bytes": 798397,
+          "sha256": "3690f668bdd3ae56a435a8725c3ee888cbc9851eebeba5615c22e88144e2bfa8"
+        },
+        "normal.png": {
+          "bytes": 1274136,
+          "sha256": "56a7d13f66f36d166d0b9ad31c413e2af044da911470ef9fb81c3d6513edf7a3"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 283300,
+          "sha256": "e6ff25e37c784d318df73e4b58becc2d578e51ccf49be8d3add4efdf965556e0"
+        },
+        "roughness.png": {
+          "bytes": 432126,
+          "sha256": "806451866170dda3e637303ad35622468a1d7d16feb3367b4a2d624ad154f9d0"
+        },
+        "source.png": {
+          "bytes": 1565446,
+          "sha256": "60d0d7f58026886b131840c2fd3a72e2998587ecd10f44941338f79ed7436210"
+        }
+      }
+    },
+    {
+      "id": "aetheria-ice-2",
+      "category": "aetheria-ice",
+      "seed": 1811203901,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, blue-grey glacial ice sheet, faint pale fractures, matte softly diffused surface, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 3.864,
+      "seams": {
+        "before": {
+          "edge_mean_255": 31.739259719848633,
+          "interior_mean_255": 4.59757661819458,
+          "seam_ratio": 6.903476238250732
+        },
+        "after": {
+          "edge_mean_255": 4.880069732666016,
+          "interior_mean_255": 4.58457088470459,
+          "seam_ratio": 1.0644550323486328
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 63654,
+          "sha256": "6d05e8df1e330248a686f358c575c4e6c06cc29253a9a6749362d7dafb754caa"
+        },
+        "albedo.png": {
+          "bytes": 1368051,
+          "sha256": "53dcb4202b8ba177155ca16ce2c505b4e70dcf6e14ff3b3b86962ca2700d10b8"
+        },
+        "albedo.webp": {
+          "bytes": 179444,
+          "sha256": "99ab31753a12129230585b71a59dc6478a60c54ecd9d9c61069d88309a66d583"
+        },
+        "height.png": {
+          "bytes": 656691,
+          "sha256": "78d92af4f7a717da5f39f884051783d67ad2f58f8ffe5a9c26d31ff96747717d"
+        },
+        "normal.png": {
+          "bytes": 1103889,
+          "sha256": "5f060f9394bd18351a7e17f909f7ebc9ded8f59a39e7b1d8c15e2649067ad310"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 214068,
+          "sha256": "213b806968923693a473ace815e2f0238aa3cf79c5c29a88228b1531f57c84fc"
+        },
+        "roughness.png": {
+          "bytes": 335688,
+          "sha256": "3a7e5e740444ad6b9f3ecae2b331d770cde31426dda933b5034f5e90a30d9c9c"
+        },
+        "source.png": {
+          "bytes": 1359942,
+          "sha256": "96fe95e36612ef8265aa0ce56b300bed9e55f6ae2e127a834962a01e829a370d"
+        }
+      }
+    },
+    {
+      "id": "nexus-waste-1",
+      "category": "nexus-waste",
+      "seed": 1811204000,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, oxidized slag, small graphite grit and fine orange rust deposits, uneven mineral texture, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.262,
+      "seams": {
+        "before": {
+          "edge_mean_255": 29.310874938964844,
+          "interior_mean_255": 5.056970119476318,
+          "seam_ratio": 5.796133995056152
+        },
+        "after": {
+          "edge_mean_255": 4.795302867889404,
+          "interior_mean_255": 5.040918827056885,
+          "seam_ratio": 0.9512755274772644
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 102298,
+          "sha256": "a16b8d27c78b6b245d1fbcd9bf94d007ef758695e577008c384c50b62f81285b"
+        },
+        "albedo.png": {
+          "bytes": 1554409,
+          "sha256": "e1ce63f7e43cb83fcf7f1bfaaf64dad3eca1b31534e09ee1b845cb9eeb9fad66"
+        },
+        "albedo.webp": {
+          "bytes": 261140,
+          "sha256": "c675bed0d6bd360c5c055a66b5989491d60e42b4ef2eb351ae5013db1fb7af09"
+        },
+        "height.png": {
+          "bytes": 745869,
+          "sha256": "d17f30615d8d4320d7f9f64cbf6ebd77f9ddcb4b4dd6205772e7c97227041315"
+        },
+        "normal.png": {
+          "bytes": 1229714,
+          "sha256": "1a53e1eea16d60b17f78df8169ded01e705f12c711c1bc39207927c6c9770513"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 299181,
+          "sha256": "e5707de1c302a33d0c946cd289ef6eb05bf743457de22e2401166fc943a4d7ac"
+        },
+        "roughness.png": {
+          "bytes": 401455,
+          "sha256": "625ad67804ad7658244f0ac415d9c2034a48076c02d36fcb650a55b7e2e7cd14"
+        },
+        "source.png": {
+          "bytes": 1553844,
+          "sha256": "e80c4ee4c8bdf43276954146310c7e9a9c6fd66d8ba62d54ccb8c6f13fbac935"
+        }
+      }
+    },
+    {
+      "id": "nexus-waste-2",
+      "category": "nexus-waste",
+      "seed": 1811204001,
+      "prompt": "Seamless tileable game material, top down orthographic flat surface, oxidized slag, small graphite grit and fine orange rust deposits, uneven mineral texture, detailed hand painted fantasy RPG texture, rich restrained natural colors, even diffuse light, edge to edge.",
+      "negative": "horizon, sky, perspective, landscape, buildings, trees, text, letters, watermark, frame, border, shadows, vignette, grid, checkerboard",
+      "seconds": 4.209,
+      "seams": {
+        "before": {
+          "edge_mean_255": 31.196781158447266,
+          "interior_mean_255": 5.792988300323486,
+          "seam_ratio": 5.385265827178955
+        },
+        "after": {
+          "edge_mean_255": 6.00363302230835,
+          "interior_mean_255": 5.7814226150512695,
+          "seam_ratio": 1.0384353399276733
+        }
+      },
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 108840,
+          "sha256": "816fa9f040b774593b04b6315541d4e8ab6c9109b84e5afb4012948799af0177"
+        },
+        "albedo.png": {
+          "bytes": 1645041,
+          "sha256": "24996b5ed2953e798b12da1eb322fb41fbead630dda9d057f50e0832b75bf381"
+        },
+        "albedo.webp": {
+          "bytes": 286814,
+          "sha256": "737d6e51aeb99efe1a26397450e3f640cee12dccb2abd05ec3d5d834a1be01b5"
+        },
+        "height.png": {
+          "bytes": 792207,
+          "sha256": "93aa692980caeed1cdeedf1a1907e5d5037ad919e157d7ebe7ea97da06ae9aee"
+        },
+        "normal.png": {
+          "bytes": 1324961,
+          "sha256": "9ac4470b510d7f8973db535ea6f5123d6ed581094f7e468dbc65f4b206215040"
+        },
+        "repeat-3x3.jpg": {
+          "bytes": 292328,
+          "sha256": "74ff987c70a00626aaa42bb29fdd7769f7d41b59d4042e12f4a2303340beaff9"
+        },
+        "roughness.png": {
+          "bytes": 426914,
+          "sha256": "b73757b2bcf6d6923a5ef670c4d1fb58810f29fc28822335bc96ed5dde8f9cdd"
+        },
+        "source.png": {
+          "bytes": 1644182,
+          "sha256": "52714f4991d0d86aec1f757be279cf840bdaa120647d49b74099005f894155fb"
+        }
+      }
+    },
+    {
+      "id": "verdantia-ground-fine",
+      "seed": 1811209900,
+      "method": "GPU periodic granular ground with SDXL high-frequency detail",
+      "source": "verdantia-ground-1",
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 37560,
+          "sha256": "c6edb50e2851405986087bdd42293395460d8f9eea5b931e905a557e2e607c14"
+        },
+        "albedo.png": {
+          "bytes": 1171572,
+          "sha256": "9f10d468f1f1411c2dcf9adc69af0120e1b4c9e98a8f39114f2609ed7fd18013"
+        }
+      }
+    },
+    {
+      "id": "aetheria-ground-fine",
+      "seed": 1811209901,
+      "method": "GPU periodic granular ground with SDXL high-frequency detail",
+      "source": "aetheria-ground-1",
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 44838,
+          "sha256": "be51ab726296f528819177273e4e89525ef942d16805e68d007dd39019647cb8"
+        },
+        "albedo.png": {
+          "bytes": 1284065,
+          "sha256": "de3a089d1df99129643838f6b49523968602d5cf79af7bbc9ebf2d86f4a7dd31"
+        }
+      }
+    },
+    {
+      "id": "nexus-ground-fine",
+      "seed": 1811209902,
+      "method": "GPU periodic granular ground with SDXL high-frequency detail",
+      "source": "nexus-ground-1",
+      "files": {
+        "albedo-512.webp": {
+          "bytes": 26622,
+          "sha256": "29bd1d6062bf3477a5efd9049894a60a0cd0912317d2959b39b56372e7a5a686"
+        },
+        "albedo.png": {
+          "bytes": 1171595,
+          "sha256": "b7cd4fa2da96977d8900159db513eec7b73f0936e66763e7bfa0b5b2d4bbe0f5"
+        }
+      }
+    }
+  ]
+}

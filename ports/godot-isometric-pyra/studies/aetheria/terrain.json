@@ -1,0 +1,134 @@
+{
+  "continent": "Aetheria",
+  "seed": 18112027,
+  "spawn": [
+    -40,
+    50
+  ],
+  "paths": [
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        -95,
+        35
+      ],
+      [
+        -160,
+        -15
+      ],
+      [
+        -208,
+        -137
+      ]
+    ],
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        110,
+        80
+      ],
+      [
+        216,
+        93
+      ]
+    ],
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        -32,
+        -107
+      ],
+      [
+        50,
+        -236
+      ]
+    ]
+  ],
+  "city_center": [
+    -45,
+    35
+  ],
+  "city_radii": [
+    117,
+    105
+  ],
+  "city_height": 26,
+  "landmarks": [
+    {
+      "name": "Bia\u0142e Tarasy",
+      "xz": [
+        -208,
+        -137
+      ]
+    },
+    {
+      "name": "Brzeg lodowca",
+      "xz": [
+        216,
+        93
+      ]
+    },
+    {
+      "name": "Prze\u0142\u0119cz \u017ar\u00f3de\u0142",
+      "xz": [
+        50,
+        -236
+      ]
+    }
+  ],
+  "walkable_percent": 97.6,
+  "files": {
+    "control.r32": "6938036d79d6cfeb8e518e8ef7f35958b8009e27f2f67d38f7b7e3b5aad4f28b",
+    "hazards.png": "5051abc7a7ae2829e8a03bad7ce397c6dc011dd7bbfa925dac1f04d7743866b3",
+    "height.r32": "240111309880c809a59c3d1ee9c94c938b7b1c55a3f4a158542bc2d680ce7a78",
+    "walkable.u8": "6f8d83af8a3710c795cbd3f0ea8026284b0ca0cd4f0de1f52abbe0e81dd75ea3",
+    "weights.png": "f0686fef5bcc67530f966e6b9179b136d41c2b21d66ee162487281bca38354fa",
+    "actors.json": "38544c31c21277c9b17de73e806cd1b013dd27d388174bfc7a2b6b6de38f8aa2",
+    "art/2b002168-aether-painted-hall.webp": "1fd7d01250e6a8b91fcc392658ec91d819dfd2df238ff73335a7c2fafeb1c072",
+    "art/3587a851-aetheria-continent-snow-pine.webp": "e1871b7e74f9a952653373d779426c8bc24315447d42131e95349c05142b896f",
+    "art/6d7c1c83-aether-painted-arena.webp": "f3055ac9ec965237bbc407785dc4db9d15efa28dfd5e1159c7a4903c3c286b1e",
+    "art/806ab11b-aether-painted-depot.webp": "90691bf25de2a073753b23b114a37835c78686c02e78dfeefad4f499ea9176ab",
+    "art/866fc0e8-aether-painted-shop.webp": "13034e23728e53172e88c4a35bdaba52a3f7e744de9f8070d66de3109ec9d4ed",
+    "art/ac6ae586-aether-painted-inn.webp": "49fff2b2dd9d1d43ed8be3b01a25b20c16608c4b0cadfc4d84328088a9cb2653",
+    "art/aether-hero3d-idle.webp": "ea42e7efe7701e675cf16992cde58a3d8f97dddf58510d2801683ea82d906f51",
+    "art/aether-hero3d-walk.webp": "1142ad73873050841c6686d5c50f5fed0d681e7384859ec46020673810a401e4",
+    "art/ff1310ee-aether-painted-smithy.webp": "9b5c103503f115c017ad4d5cc188b20f88a2a280b24b23a6af8e1c5f0cefe4df",
+    "art/npc-aether-guide-page-0.webp": "6d54c9bd4124d4a1b0f023cec9fcdb5fe208eb8b52e318244c46ed104869e371",
+    "buildings.json": "8b060bf472160840e0bc3d560561a1ddd38e994ef13f1ce6a5ebd9485be98807",
+    "materials/ash.png": "14e76de3d1a9a80becf61c4889d39f7e068bb229f968912c6d97879ab829bda7",
+    "materials/basalt.png": "6ef28e29a5d1391746fd9a8ef1830e27e47dd88616cca73a02ed96b37559882a",
+    "materials/cliff.png": "1ee05d55a1c5cd2fc57cdeed82e550b61974b419365609e4ae9190e7cd0fd278",
+    "materials/paving.png": "1da68a81d5f3492e2dd68093e00897876b1c3fbb63e3976b81848bcb4603aff6",
+    "art/new-hall.png": "4b550048f7c5d8046481b83f0206ebfaf1036101a6b5af5f2df6914eeac13540"
+  },
+  "guide_name": "Sora",
+  "decoration": "res://studies/aetheria/art/3587a851-aetheria-continent-snow-pine.webp",
+  "art_revision": "c1930e5cabf9bfa2cd43519c59aabef8b9f06e3e",
+  "gpu_sources": {
+    "ash": {
+      "id": "aetheria-ground-fine",
+      "sha256": "be51ab726296f528819177273e4e89525ef942d16805e68d007dd39019647cb8"
+    },
+    "basalt": {
+      "id": "aetheria-terrace-1",
+      "sha256": "8883caf2b7e264fb4ec5483e34d159cbd71773a8853b6e59fc7e42e5e05aab59"
+    },
+    "paving": {
+      "id": "aetheria-road-1",
+      "sha256": "6c1f91f778fd01720f320401756bc5c0faadd2992ec48cd88596845f1bd8e545"
+    },
+    "cliff": {
+      "id": "aetheria-rock-1",
+      "sha256": "f5c8988e4b333c070fd7549d9243279acc6d1caf3efd7e2ed585d573c5d180d3"
+    }
+  }
+}

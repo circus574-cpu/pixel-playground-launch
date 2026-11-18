@@ -1,0 +1,6 @@
+{
+  "tool": "OpenAI image_gen",
+  "input": "Original text description of KI Legends architecture; left Verdantia, center Aetheria, right Nexus-9",
+  "source_sha256": "70f75a7f427bab22d93ec3e5466d6309541b1ca650a3a499661462b11c48dab8",
+  "status": "prototype; visual and legal review pending"
+}

@@ -1,0 +1,83 @@
+[
+  {
+    "id": "hall",
+    "xz": [
+      -22,
+      -35
+    ],
+    "size": [
+      28,
+      22
+    ],
+    "texture": "res://studies/nexus/art/cbfb678c-nexus-painted-hall.webp",
+    "art": {
+      "texture": "res://studies/nexus/art/new-hall.png",
+      "origin": [
+        0.5,
+        0.7383798140770252
+      ],
+      "scale": 0.5524861878453039,
+      "source_sha256": "70f75a7f427bab22d93ec3e5466d6309541b1ca650a3a499661462b11c48dab8"
+    }
+  },
+  {
+    "id": "inn",
+    "xz": [
+      -105,
+      44
+    ],
+    "size": [
+      20,
+      16
+    ],
+    "texture": "res://studies/nexus/art/39d82fa9-ki-v2-buildings-nexus-inn.webp"
+  },
+  {
+    "id": "shop",
+    "xz": [
+      21,
+      16
+    ],
+    "size": [
+      18,
+      15
+    ],
+    "texture": "res://studies/nexus/art/a5145228-nexus-painted-shop.webp"
+  },
+  {
+    "id": "arena",
+    "xz": [
+      50,
+      61
+    ],
+    "size": [
+      21,
+      20
+    ],
+    "texture": "res://studies/nexus/art/a0860314-nexus-painted-arena.webp"
+  },
+  {
+    "id": "smithy",
+    "xz": [
+      -81,
+      99
+    ],
+    "size": [
+      22,
+      18
+    ],
+    "texture": "res://studies/nexus/art/fc0f86ab-ki-v2-buildings-nexus-smithy.webp"
+  },
+  {
+    "id": "depot",
+    "xz": [
+      -3,
+      108
+    ],
+    "size": [
+      20,
+      16
+    ],
+    "texture": "res://studies/nexus/art/ee32c98c-nexus-painted-depot.webp"
+  }
+]

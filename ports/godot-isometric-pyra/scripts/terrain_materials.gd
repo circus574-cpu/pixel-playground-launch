@@ -8,14 +8,22 @@ var weights: Texture2D
 var surface: Texture2D
 var environment: Texture2D
 var transition: Texture2D
+var hazard_color := Color("ff3004")
+var alternate_study := false
+var water_enabled := false
 
-func load_assets(use_legacy: bool) -> void:
+func load_assets(use_legacy: bool, data_root: String, study: String) -> void:
 	legacy=use_legacy
-	weights=load("res://data/weights.png")
-	surface=load("res://data/surface.png")
+	weights=load(data_root+"/weights.png")
+	alternate_study=study!="pyra"
+	surface=load(data_root+("/hazards.png" if alternate_study else "/surface.png"))
+	match study:
+		"verdantia":water_enabled=true
+		"aetheria":hazard_color=Color("91bfd4")
+		"nexus":hazard_color=Color("282e3a")
 	if legacy:
 		for family: String in FAMILIES:
-			var original: Texture2D=load("res://materials/%s.webp"%family)
+			var original: Texture2D=load(data_root+"/materials/"+family+".png" if alternate_study else "res://materials/%s.webp"%family)
 			var image:=original.get_image()
 			if image.is_compressed():image.decompress()
 			image.generate_mipmaps()
@@ -41,6 +49,9 @@ func apply(material: ShaderMaterial) -> void:
 	for i in FAMILIES.size():material.set_shader_parameter(FAMILIES[i]+"_tex",textures[i])
 	material.set_shader_parameter("weights_tex",weights)
 	material.set_shader_parameter("surface_tex",surface)
+	if alternate_study:
+		material.set_shader_parameter("hazard_color",hazard_color)
+		material.set_shader_parameter("water_enabled",water_enabled)
 	if not legacy:
 		material.set_shader_parameter("environment_tex",environment)
 		material.set_shader_parameter("transition_tex",transition)

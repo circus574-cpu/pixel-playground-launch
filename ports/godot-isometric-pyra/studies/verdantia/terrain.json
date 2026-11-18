@@ -1,0 +1,134 @@
+{
+  "continent": "Verdantia",
+  "seed": 18112026,
+  "spawn": [
+    -40,
+    50
+  ],
+  "paths": [
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        1,
+        38
+      ],
+      [
+        132,
+        38
+      ],
+      [
+        224,
+        -30
+      ]
+    ],
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        -99,
+        110
+      ],
+      [
+        -224,
+        255
+      ]
+    ],
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        -115,
+        -55
+      ],
+      [
+        -210,
+        -175
+      ]
+    ]
+  ],
+  "city_center": [
+    -45,
+    35
+  ],
+  "city_radii": [
+    117,
+    105
+  ],
+  "city_height": 15,
+  "landmarks": [
+    {
+      "name": "Most Zielonej Przystani",
+      "xz": [
+        132,
+        38
+      ]
+    },
+    {
+      "name": "\u0141\u0105ka przy starym lesie",
+      "xz": [
+        -224,
+        255
+      ]
+    },
+    {
+      "name": "Le\u015bny grzbiet",
+      "xz": [
+        -210,
+        -175
+      ]
+    }
+  ],
+  "walkable_percent": 96.28,
+  "files": {
+    "control.r32": "0cbbfb50102ff29d2af9ab412789c6737c057adb9191335cbdb1f67d81ad22ab",
+    "hazards.png": "34ae6d2da51feab89ce7de8baaf3e60a65f2e2ccc9f19dbe9d80cd49b11e3e30",
+    "height.r32": "403b83693349b8534682b6573ee17a4c2b0e8a17ccfd5154fbbf730d0bd6a6f4",
+    "walkable.u8": "e884574f41493569d79edbe016094c4b49e1c9165c1ac4ee5bf6d8ce9dde0f8b",
+    "weights.png": "462d9ec4649df07320b78bb99c21d3be3f00e2f5489a32b35eb1bf1417658f11",
+    "actors.json": "703901af183486cd8e7ad6ccf20c34b62d6bbb0f775d076af1b14bb5b5dd2b52",
+    "art/5a272efe-verdant-leaf-shop.webp": "312a7308e2262adc3cfef059be15a2617c2b309a7e1b4613b25c33edd78b8d46",
+    "art/8f5e282c-verdant-leaf-inn.webp": "851f71465a5708e163262c03a631366d7e2b091cca287d52f421ce2e662deeb5",
+    "art/959575c7-verdant-leaf-depot.webp": "614c4bdc33dbc930491eb3d5a77bbd40151fbe5091511baa5144c7c97e36feef",
+    "art/a5819767-verdant-leaf-arena.webp": "4dbcad23a3b609dafa73343878109f023c63a6663d9cb02b2884273bd9853818",
+    "art/b71a5ab2-verdant-leaf-smithy.webp": "7c6ebf296da0b1be356fdbc2486c209195931f02167cf6d99f6fb34da6a7f61d",
+    "art/f1c31d72-verdant-leaf-hall.webp": "8b4881e9cdc4fc8cdf98e1162f093d5c34028c925bcabc41cd57f5660028a838",
+    "art/fe9b1faa-ki-v2-objects-verdant-tree2-0.webp": "f15d3900facc2d7a6fb55ae6010f83eb6a8d16fa870c5a570dd88febc9852b0a",
+    "art/npc-verdant-guide-page-0.webp": "d436263ee1fa76775c735daa7e71f48c63d00615752ab8f8b0eb461f077cdc53",
+    "art/verdant-hero3d-idle.webp": "353335e46b2cb780829ebf90d315968dadefe47a3f84c7df25c4a1f42a29f82e",
+    "art/verdant-hero3d-walk.webp": "bd6c692fc5a9ad603c937b622f530eb70a1792b51e30341627bd5eac1a495255",
+    "buildings.json": "7c55a99dcbc22cc2e31b1a422a2bcc30df318b361ea5d4218b63a91982e1728c",
+    "materials/ash.png": "85e9b3b3804b09a674bd55cb9a4bead19c8ddb8bd4c6b480445c15f1026fef70",
+    "materials/basalt.png": "623873116812ce52e7e6345acb294c9fe459a6c9112fefec5b214bb6785a25ab",
+    "materials/cliff.png": "a103f83648ba92701bd56aaf199c512848ca007b5070db9dfdfb1234f34dc7cd",
+    "materials/paving.png": "55296cb40a407a232f0d2119b72c7d79d3d29df0d807ceca8231f8f03886e74a",
+    "art/new-hall.png": "0172bcec282484bddcd3bff5d8e3c2fe95e7b89502a50e7e2e101e043d46f001"
+  },
+  "guide_name": "Aira",
+  "decoration": "res://studies/verdantia/art/fe9b1faa-ki-v2-objects-verdant-tree2-0.webp",
+  "art_revision": "c1930e5cabf9bfa2cd43519c59aabef8b9f06e3e",
+  "gpu_sources": {
+    "ash": {
+      "id": "verdantia-ground-fine",
+      "sha256": "c6edb50e2851405986087bdd42293395460d8f9eea5b931e905a557e2e607c14"
+    },
+    "basalt": {
+      "id": "verdantia-waterbank-1",
+      "sha256": "82762a7404693b3c7af989434887d0eb0bce7f094cdd1a89d55428e1b2147aa1"
+    },
+    "paving": {
+      "id": "verdantia-road-1",
+      "sha256": "6d119949385dfc2e5e4c17154a438d04448f64446d77c1735607d80ffdb2b0c8"
+    },
+    "cliff": {
+      "id": "verdantia-rock-1",
+      "sha256": "51cab08a6b7b252a0681286a96fd2125d3884d2e862f10035c1ad5401e468b4e"
+    }
+  }
+}

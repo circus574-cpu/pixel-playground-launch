@@ -1,0 +1,29 @@
+{
+  "archives": [
+    {
+      "path": "superior-textures-01.zip",
+      "size": 43061606,
+      "sha256": "d49d3e259d6740b1cf0a72cf3357bfa982b448382b03a11532d493c3c3efa213"
+    },
+    {
+      "path": "superior-textures-02.zip",
+      "size": 38287510,
+      "sha256": "a4f8f75739337c750e85e5e7341ac88b42a3dcd24bce2d9f99fe4d55b0acc83c"
+    },
+    {
+      "path": "superior-textures-03.zip",
+      "size": 39837379,
+      "sha256": "a6468aebb72d3ae1bb0a5163b3d5c2ba55b264d25fe36179a08967019823d5bd"
+    },
+    {
+      "path": "superior-textures-04.zip",
+      "size": 42011960,
+      "sha256": "a493e2ac45f5772116efcd1c397500ce7a5a6b2edfe044b04b1da507bfe3507c"
+    },
+    {
+      "path": "superior-textures-05.zip",
+      "size": 41078672,
+      "sha256": "7694f7a4e7c2c6621a7e8dea37005309036e95d2102d083fab2750851e059937"
+    }
+  ]
+}

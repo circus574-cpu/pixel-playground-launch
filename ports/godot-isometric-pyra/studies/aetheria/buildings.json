@@ -1,0 +1,83 @@
+[
+  {
+    "id": "hall",
+    "xz": [
+      -44,
+      -48
+    ],
+    "size": [
+      28,
+      22
+    ],
+    "texture": "res://studies/aetheria/art/2b002168-aether-painted-hall.webp",
+    "art": {
+      "texture": "res://studies/aetheria/art/new-hall.png",
+      "origin": [
+        0.5,
+        0.7327001356852103
+      ],
+      "scale": 0.5524861878453039,
+      "source_sha256": "70f75a7f427bab22d93ec3e5466d6309541b1ca650a3a499661462b11c48dab8"
+    }
+  },
+  {
+    "id": "inn",
+    "xz": [
+      -114,
+      79
+    ],
+    "size": [
+      20,
+      16
+    ],
+    "texture": "res://studies/aetheria/art/ac6ae586-aether-painted-inn.webp"
+  },
+  {
+    "id": "shop",
+    "xz": [
+      18,
+      19
+    ],
+    "size": [
+      18,
+      15
+    ],
+    "texture": "res://studies/aetheria/art/866fc0e8-aether-painted-shop.webp"
+  },
+  {
+    "id": "arena",
+    "xz": [
+      36,
+      -26
+    ],
+    "size": [
+      21,
+      20
+    ],
+    "texture": "res://studies/aetheria/art/6d7c1c83-aether-painted-arena.webp"
+  },
+  {
+    "id": "smithy",
+    "xz": [
+      -99,
+      -7
+    ],
+    "size": [
+      22,
+      18
+    ],
+    "texture": "res://studies/aetheria/art/ff1310ee-aether-painted-smithy.webp"
+  },
+  {
+    "id": "depot",
+    "xz": [
+      8,
+      85
+    ],
+    "size": [
+      20,
+      16
+    ],
+    "texture": "res://studies/aetheria/art/806ab11b-aether-painted-depot.webp"
+  }
+]
