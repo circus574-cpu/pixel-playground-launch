@@ -15,25 +15,21 @@ SOURCE = 'ports/godot-pyra'
 REV = 'c1930e5cabf9bfa2cd43519c59aabef8b9f06e3e'
 MEDIA = 'https://media.githubusercontent.com/media/circus574-cpu/pixel-playground-launch'
 ROLES = ('hall', 'inn', 'shop', 'arena', 'smithy', 'depot')
-SIZE = [(28,22),(20,16),(18,15),(21,20),(22,18),(20,16)]
 STUDIES = {
     'verdantia': {
         'race': 'verdant', 'guide': 'Aira',
-        'layout': [(-60,-29),(-6,79),(-99,17),(-75,103),(-122,67),(-8,1)],
         'buildings': ['f1c31d72-verdant-leaf-hall','8f5e282c-verdant-leaf-inn','5a272efe-verdant-leaf-shop','a5819767-verdant-leaf-arena','b71a5ab2-verdant-leaf-smithy','959575c7-verdant-leaf-depot'],
         'prop': 'fe9b1faa-ki-v2-objects-verdant-tree2-0',
         'material': ['ground','waterbank','road','rock'],
     },
     'aetheria': {
         'race': 'aether', 'guide': 'Sora',
-        'layout': [(-44,-48),(-114,79),(18,19),(36,-26),(-99,-7),(8,85)],
         'buildings': ['2b002168-aether-painted-hall','ac6ae586-aether-painted-inn','866fc0e8-aether-painted-shop','6d7c1c83-aether-painted-arena','ff1310ee-aether-painted-smithy','806ab11b-aether-painted-depot'],
         'prop': '3587a851-aetheria-continent-snow-pine',
         'material': ['ground','terrace','road','rock'],
     },
     'nexus': {
         'race': 'nexus', 'guide': 'LYRA-7',
-        'layout': [(-22,-35),(-105,44),(21,16),(50,61),(-81,99),(-3,108)],
         'buildings': ['cbfb678c-nexus-painted-hall','39d82fa9-ki-v2-buildings-nexus-inn','a5145228-nexus-painted-shop','a0860314-nexus-painted-arena','fc0f86ab-ki-v2-buildings-nexus-smithy','ee32c98c-nexus-painted-depot'],
         'prop': 'fcf607db-nexus-continent-rocks',
         'material': ['ground','waste','road','rock'],
@@ -62,9 +58,10 @@ def attach(folder, key, spec, actor_catalog, wave, halls):
         (art/name).write_bytes(data)
         return f'{prefix}/art/{name}'
 
+    config = json.loads((folder/'terrain.json').read_text())
     building_data = [
         {'id': role, 'xz': pos, 'size': size, 'texture': copy('assets/objects/'+name+'.webp')}
-        for role,pos,size,name in zip(ROLES,spec['layout'],SIZE,spec['buildings'],strict=True)
+        for role,pos,size,name in zip(ROLES,config['parcels'],config['parcel_sizes'],spec['buildings'],strict=True)
     ]
     if halls is not None:
         index = tuple(STUDIES).index(key)
@@ -95,7 +92,6 @@ def attach(folder, key, spec, actor_catalog, wave, halls):
         definitions[role]=data
     (folder/'actors.json').write_text(json.dumps(definitions,indent=2)+'\n')
 
-    config = json.loads((folder/'terrain.json').read_text())
     config.update(guide_name=spec['guide'], decoration=copy('assets/objects/'+spec['prop']+'.webp'))
     if wave is not None:
         (folder/'materials').mkdir(exist_ok=True)

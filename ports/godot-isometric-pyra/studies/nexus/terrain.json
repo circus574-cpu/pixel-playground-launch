@@ -30,8 +30,48 @@
         50
       ],
       [
-        -86,
-        -27
+        -54,
+        161
+      ],
+      [
+        -113,
+        249
+      ]
+    ],
+    [
+      [
+        -40,
+        50
+      ],
+      [
+        -40,
+        -6
+      ],
+      [
+        -40,
+        -39
+      ],
+      [
+        -106,
+        -39
+      ],
+      [
+        -112,
+        -34
+      ]
+    ],
+    [
+      [
+        -40,
+        -39
+      ],
+      [
+        -49,
+        -93
+      ],
+      [
+        -83,
+        -148
       ],
       [
         -126,
@@ -44,22 +84,140 @@
         50
       ],
       [
-        -54,
-        161
+        -40,
+        80
       ],
       [
-        -113,
-        249
+        61,
+        80
+      ],
+      [
+        61,
+        -10
+      ],
+      [
+        92,
+        -10
+      ]
+    ],
+    [
+      [
+        -40,
+        80
+      ],
+      [
+        -106,
+        80
+      ],
+      [
+        -106,
+        115
+      ],
+      [
+        -99,
+        120
+      ]
+    ],
+    [
+      [
+        -106,
+        80
+      ],
+      [
+        -95,
+        97
+      ]
+    ],
+    [
+      [
+        61,
+        80
+      ],
+      [
+        61,
+        110
+      ]
+    ],
+    [
+      [
+        -40,
+        80
+      ],
+      [
+        -13,
+        96
+      ]
+    ],
+    [
+      [
+        61,
+        39
+      ],
+      [
+        51,
+        24
       ]
     ]
   ],
+  "parcel_sizes": [
+    [
+      28,
+      22
+    ],
+    [
+      20,
+      16
+    ],
+    [
+      18,
+      15
+    ],
+    [
+      21,
+      20
+    ],
+    [
+      22,
+      18
+    ],
+    [
+      20,
+      16
+    ]
+  ],
+  "parcels": [
+    [
+      -128,
+      -34
+    ],
+    [
+      -83,
+      108
+    ],
+    [
+      39,
+      24
+    ],
+    [
+      78,
+      108
+    ],
+    [
+      -125,
+      120
+    ],
+    [
+      101,
+      -27
+    ]
+  ],
   "city_center": [
-    -45,
-    35
+    -22,
+    39
   ],
   "city_radii": [
-    117,
-    105
+    143,
+    122
   ],
   "city_height": 19,
   "landmarks": [
@@ -85,13 +243,13 @@
       ]
     }
   ],
-  "walkable_percent": 94.78,
+  "walkable_percent": 94.71,
   "files": {
-    "control.r32": "7731e8ebbc6faa2303cddc05260c77e0553dc661cbfb900e6336a2963b56f76e",
+    "control.r32": "8ec10f393aeebcd81579e9fca8b41621ea4684e95ba0d88f57f31a7ba07ba44b",
     "hazards.png": "909c8bdb1dc9be6e12ab26521fc5c4a3a9bd9983881c62cf5d4e5377ec8a1eeb",
-    "height.r32": "ae0058cb1a43e56600075ef11b858dd129cba845407aa0ba42c40701a190ec11",
-    "walkable.u8": "9afd8fed3ade99f3fe0b61216612cdc80e93332e3d1fd0a368922ca9d3904f10",
-    "weights.png": "ba0af06ee6eef3a07da1c4ff3aef6d051cd8a4f855d1bb49e5663c97342d6685",
+    "height.r32": "4b49056289830210dc991e7c3ad185e2bb4b203b0936d6accd06f130b7f63ca0",
+    "walkable.u8": "7bd65251096abf7b61f94a2d58eec3fcbec5365973b9d9301b44b52a135ac5ce",
+    "weights.png": "9ad4f42e5d7a0f989b9f5175580feadafbd1fa62219b7bc1bb7fc9ff586b5a7f",
     "actors.json": "0de35a6de48988b58e736c7b1a8cf5d89c8d3a939cf361e10d90483cb3944483",
     "art/39d82fa9-ki-v2-buildings-nexus-inn.webp": "57c1562c81887245ea871484d8658370b5913c73595b0b4039c3a06d9a54884b",
     "art/a0860314-nexus-painted-arena.webp": "8e26b71fef6f9a6dc6290b475b3d951893650d004aa4b509802607494773b110",
@@ -100,11 +258,11 @@
     "art/ee32c98c-nexus-painted-depot.webp": "6aa3790f10868e8574846c3e1c11ee662ec5cd5c1dae740634ef6b45e6eb45fd",
     "art/fc0f86ab-ki-v2-buildings-nexus-smithy.webp": "89ed60e7920147f8045b17957a9b0b6f3a24304eeda7647ef9f8e9020e03d862",
     "art/fcf607db-nexus-continent-rocks.webp": "77237cc0c83021934f4826dcd883f5b520af73eaa8915d081e97b4c4dfa25ed4",
+    "art/new-hall.png": "4405f6b7fb0ff4398ee8530deb5954d0ae65e15feb33c66b4a3a6124b14cab12",
     "art/nexus-hero3d-idle.webp": "82f8d614f0e5cf74389fd58dae0794f638c36d615fc4772df80a04c44ff95f90",
     "art/nexus-hero3d-walk.webp": "a0f001c0ecbb49fbfd39e6ac31bd91ead0e86d32fb967be71121bef8748e4b39",
     "art/npc-nexus-guide-page-0.webp": "0197a396e95a6eb25308e95390b8bbeb7e0308f3eaec9c6bac8d3a53690b6fe5",
-    "buildings.json": "e95f47a666a57879aace837a53fb71cf777844e45c1156badf1113942c3cc45e",
-    "art/new-hall.png": "4405f6b7fb0ff4398ee8530deb5954d0ae65e15feb33c66b4a3a6124b14cab12",
+    "buildings.json": "90c3a54f09d4ced8e28bc285d95e6e5cf5a37437413024e170bfb62da9b19ada",
     "materials/ash.png": "e7be9c6b3d89e043b606a9d31ec693892000eee82c07e7c26336a7ff1d30463d",
     "materials/basalt.png": "3f44b4184d5ffb67648a439408c4bbd4ed074a624b4218a33ad0d597391e7bbe",
     "materials/cliff.png": "e51dcf9bd5ea72b2bcb124051d87a64ff225a9ec22df2a62b82f0dd1c52e2873",
@@ -112,7 +270,6 @@
   },
   "guide_name": "LYRA-7",
   "decoration": "res://studies/nexus/art/fcf607db-nexus-continent-rocks.webp",
-  "art_revision": "c1930e5cabf9bfa2cd43519c59aabef8b9f06e3e",
   "gpu_sources": {
     "ash": {
       "id": "nexus-ground-fine",
@@ -130,5 +287,6 @@
       "id": "nexus-rock-1",
       "sha256": "17a388828754860d2ac2c29c531c801082be77a2500f05d8deb0bdf78b7078ee"
     }
-  }
+  },
+  "art_revision": "c1930e5cabf9bfa2cd43519c59aabef8b9f06e3e"
 }

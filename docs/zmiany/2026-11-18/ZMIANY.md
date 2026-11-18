@@ -44,3 +44,26 @@ dopracowanie placów, wnętrza i usługi, odbiór na fizycznym telefonie oraz
 publikacja prototypów pozostają otwarte. Można uruchamiać osobne sceny
 `verdantia.tscn`, `aetheria.tscn` i `nexus.tscn` w projekcie
 `ports/godot-isometric-pyra`. Ten etap nie zmienia aktywnej wersji na serwerze.
+
+## Różne układy osad w trzech prototypach
+
+Poprzedni generator kładł wspólny płaski plac pod każdą z trzech osad.
+Zielona Przystań zajmuje teraz oba brzegi rzeki. Dwie przeprawy prowadzą
+do różnych części osady, a sala stoi na wyższej zachodniej skarpie.
+Sanktuarium Tysiąca Źródeł ma trzy poziomy połączone ukośnymi drogami
+z łagodniejszym nachyleniem. Węzeł Świadomości dostał prostokątną górną
+platformę, niższy plac techniczny i ulice biegnące na różnych wysokościach.
+
+Generator definiuje wysokość i rozmiar każdej parceli. Te same dane określają
+położenie sprite'ów oraz przeszkody. Kontrola sprawdziła ciągłość dróg w próbkach
+co około metr i osiągalność wszystkich 18 parcel z uwzględnieniem kolizji.
+Sceny korzystają z tego samego reliefu w grze i na mapach.
+
+- Verdantia [widok całej osady](qa/superior-city-relief/verdantia/settlement-overview.jpg) i [33/33 kontroli](qa/superior-city-relief/verdantia/results.json).
+- Aetheria [widok całej osady](qa/superior-city-relief/aetheria/settlement-overview.jpg) i [33/33 kontroli](qa/superior-city-relief/aetheria/results.json).
+- Nexus-9 [widok całej osady](qa/superior-city-relief/nexus/settlement-overview.jpg) i [33/33 kontroli](qa/superior-city-relief/nexus/results.json).
+
+Kadry przeglądowe pokazują geometrię w uruchomionym Godocie. W prototypach
+pozostaje dopracowanie zabudowy, otoczenia budynków i konstrukcji przepraw.
+Pyra ma nadal własną dotychczasową rzeźbę, a obecne wydanie na serwerze
+nie zawiera tych trzech przebudowanych scen.

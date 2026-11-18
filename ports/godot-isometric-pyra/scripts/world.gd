@@ -656,6 +656,17 @@ func run_study_qa() -> void:
 		checks["sha_"+name]=FileAccess.get_sha256(data_root+"/"+name)==str(config.files[name])
 	await RenderingServer.frame_post_draw
 	get_viewport().get_texture().get_image().save_jpg(out.path_join("city.jpg"),.92)
+	# A review shot of the complete settlement, separate from the gameplay camera.
+	follow_camera=false
+	camera.position=iso(city_center)+Vector2(0,-100)
+	camera.zoom=Vector2.ONE*0.28
+	hud.hide()
+	for frame in 4:await get_tree().process_frame
+	await RenderingServer.frame_post_draw
+	get_viewport().get_texture().get_image().save_jpg(out.path_join("settlement-overview.jpg"),.93)
+	hud.show()
+	follow_camera=true
+	snap_camera_to_hero()
 	toggle_map()
 	for frame in 5:await get_tree().process_frame
 	await RenderingServer.frame_post_draw
