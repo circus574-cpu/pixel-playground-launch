@@ -86,28 +86,26 @@ const TYPE_LABELS := {
 	"transformation": "TRANSFORMACJA TRYBU KI",
 }
 
-const EQUIP_SLOTS := [
-	{"side": -1, "row": 0, "icon": "gear-helmet.webp", "name": "Hełm Żaru", "rarity": Color(0.38, 0.74, 1.0)},
-	{"side": -1, "row": 1, "icon": "gear-amulet.webp", "name": "Amulet Ki", "rarity": Color(0.76, 0.46, 1.0)},
-	{"side": -1, "row": 2, "icon": "gear-sword.webp", "name": "Ostrze Superior", "rarity": Color(1.0, 0.76, 0.28)},
-	{"side": -1, "row": 3, "icon": "gear-gloves.webp", "name": "Rękawice Klanu", "rarity": Color(0.36, 0.88, 0.52)},
-	{"side": 1, "row": 0, "icon": "gear-vest.webp", "name": "Kirys Strażnika", "rarity": Color(0.38, 0.74, 1.0)},
-	{"side": 1, "row": 1, "icon": "gear-shield.webp", "name": "Tarcza Bazaltu", "rarity": Color(0.36, 0.88, 0.52)},
-	{"side": 1, "row": 2, "icon": "gear-ring.webp", "name": "Pierścień Eteru", "rarity": Color(0.76, 0.46, 1.0)},
-	{"side": 1, "row": 3, "icon": "gear-boots.webp", "name": "Buty Szlaku +5%", "rarity": Color(0.36, 0.88, 0.52)},
+var equip_slots: Array[Dictionary] = [
+	{"side": -1, "row": 0, "icon": "gear-helmet.webp", "name": "Hełm Żaru", "rarity": Color(0.38, 0.74, 1.0), "def": 6, "hp": 20},
+	{"side": -1, "row": 1, "icon": "gear-amulet.webp", "name": "Amulet Ki", "rarity": Color(0.76, 0.46, 1.0), "ki": 12},
+	{"side": -1, "row": 2, "icon": "gear-sword.webp", "name": "Ostrze Superior", "rarity": Color(1.0, 0.76, 0.28), "atk": 12},
+	{"side": -1, "row": 3, "icon": "gear-gloves.webp", "name": "Rękawice Klanu", "rarity": Color(0.36, 0.88, 0.52), "atk": 4, "def": 4},
+	{"side": 1, "row": 0, "icon": "gear-vest.webp", "name": "Kirys Strażnika", "rarity": Color(0.38, 0.74, 1.0), "def": 10, "hp": 35},
+	{"side": 1, "row": 1, "icon": "gear-shield.webp", "name": "Tarcza Bazaltu", "rarity": Color(0.36, 0.88, 0.52), "def": 10},
+	{"side": 1, "row": 2, "icon": "gear-ring.webp", "name": "Pierścień Eteru", "rarity": Color(0.76, 0.46, 1.0), "ki": 10},
+	{"side": 1, "row": 3, "icon": "gear-boots.webp", "name": "Buty Szlaku +5%", "rarity": Color(0.36, 0.88, 0.52), "spd": 10},
 ]
 
-const BACKPACK_ITEMS := [
-	{"icon": "gear-potion.webp", "qty": "5"},
-	{"icon": "emblem_potion.webp", "qty": "3"},
-	{"icon": "gear-tusk.webp", "qty": "12"},
-	{"icon": "emblem_scroll.webp", "qty": "2"},
-	{"icon": "emblem_crystal.webp", "qty": "4"},
-	{"icon": "gear-coin.webp", "qty": "120"},
-	{"icon": "", "qty": ""},
-	{"icon": "", "qty": ""},
-	{"icon": "", "qty": ""},
-	{"icon": "", "qty": ""},
+var backpack_items: Array[Dictionary] = [
+	{"id": "potion_hp", "name": "Wielki Eliksir Życia", "icon": "gear-potion.webp", "qty": 5, "slot": -1, "heal_hp": 150, "rarity": Color(0.95, 0.34, 0.32)},
+	{"id": "potion_ki", "name": "Eliksir Energii Ki", "icon": "emblem_potion.webp", "qty": 3, "slot": -1, "heal_ki": 80, "rarity": Color(0.34, 0.78, 1.0)},
+	{"id": "tusk_beast", "name": "Kieł Wilka", "icon": "gear-tusk.webp", "qty": 12, "slot": -1, "rarity": Color(0.86, 0.68, 0.44)},
+	{"id": "scroll_tp", "name": "Zwój Powrotu", "icon": "emblem_scroll.webp", "qty": 2, "slot": -1, "rarity": Color(0.96, 0.84, 0.44)},
+	{"id": "crystal_ki", "name": "Kryształ Ki", "icon": "emblem_crystal.webp", "qty": 4, "slot": -1, "rarity": Color(0.46, 0.88, 1.0)},
+	{"id": "pouch_gold", "name": "Sakiewka Złota", "icon": "gear-coin.webp", "qty": 1, "slot": -1, "gold": 500, "rarity": Color(1.0, 0.86, 0.32)},
+	{}, {}, {}, {},
+	{}, {}, {}, {}, {},
 ]
 
 var world: Node2D
@@ -126,6 +124,10 @@ var hero_max_xp := 1000.0
 var hero_level := 5
 var hero_gold := 120
 var skill_points := 4
+var free_stat_points := 5
+var bonus_stat_pts: Dictionary = {"hp": 0, "ki": 0, "atk": 0, "def": 0, "spd": 0, "crit": 0}
+var stat_plus_hitboxes: Array[Dictionary] = []
+var backpack_hitboxes: Array[Dictionary] = []
 var cooldowns: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
 # Per-race unlocked node sets (realistic progression showcase at Lv. 5)
@@ -443,17 +445,137 @@ func _refresh_visuals() -> void:
 	if mc != null:
 		mc.queue_redraw()
 
-func set_region(land: String) -> void:
-	current_land = land
-	var meta: Dictionary = LAND_META.get(land, LAND_META["pyra"])
+func _equip_bonus(key: String) -> float:
+	var sum := 0.0
+	for sl: Dictionary in equip_slots:
+		sum += float(sl.get(key, 0.0))
+	return sum
+
+func get_total_attack() -> int:
 	var rd := _race_data()
 	var base: Dictionary = rd.get("base", {})
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
-	hero_max_hp = float(base.get("hp", 140)) + float(per_lv.get("hp", 35)) * lv_off
-	hero_hp = hero_max_hp
-	hero_max_ki = float(base.get("ki", 45)) + float(per_lv.get("ki", 4)) * lv_off
-	hero_ki = hero_max_ki
+	return int(round(float(base.get("attack", 14)) + float(per_lv.get("attack", 4)) * lv_off + float(bonus_stat_pts.get("atk", 0)) * 5.0 + _equip_bonus("atk")))
+
+func get_total_defense() -> int:
+	var rd := _race_data()
+	var base: Dictionary = rd.get("base", {})
+	var per_lv: Dictionary = rd.get("perLevel", {})
+	var lv_off := float(hero_level - 1)
+	return int(round(float(base.get("defense", 5)) + float(per_lv.get("defense", 2.2)) * lv_off + float(bonus_stat_pts.get("def", 0)) * 4.0 + _equip_bonus("def")))
+
+func get_total_speed() -> int:
+	var rd := _race_data()
+	var base: Dictionary = rd.get("base", {})
+	var lv_off := float(mini(hero_level - 1, 19))
+	var spd_base := float(base.get("speed", 185))
+	return int(round(spd_base * (1.0 + 0.05 * lv_off) + float(bonus_stat_pts.get("spd", 0)) * 15.0 + _equip_bonus("spd")))
+
+func get_speed_mult() -> float:
+	var rd := _race_data()
+	var base: Dictionary = rd.get("base", {})
+	var spd_base := maxf(float(base.get("speed", 185)), 1.0)
+	return clampf(float(get_total_speed()) / spd_base, 0.8, 3.5)
+
+func get_total_crit() -> float:
+	var rd := _race_data()
+	var base: Dictionary = rd.get("base", {})
+	var per_lv: Dictionary = rd.get("perLevel", {})
+	var lv_off := float(hero_level - 1)
+	return float(base.get("criticalChancePercent", 5.0)) + float(per_lv.get("criticalChancePercent", 0.25)) * lv_off + float(bonus_stat_pts.get("crit", 0)) * 2.0 + _equip_bonus("crit")
+
+func recalc_stats(refill: bool = false) -> void:
+	var rd := _race_data()
+	var base: Dictionary = rd.get("base", {})
+	var per_lv: Dictionary = rd.get("perLevel", {})
+	var lv_off := float(hero_level - 1)
+	var old_mhp := hero_max_hp
+	var old_mki := hero_max_ki
+	hero_max_hp = float(base.get("hp", 140)) + float(per_lv.get("hp", 35)) * lv_off + float(bonus_stat_pts.get("hp", 0)) * 25.0 + _equip_bonus("hp")
+	hero_max_ki = float(base.get("ki", 45)) + float(per_lv.get("ki", 4)) * lv_off + float(bonus_stat_pts.get("ki", 0)) * 15.0 + _equip_bonus("ki")
+	if refill:
+		hero_hp = hero_max_hp
+		hero_ki = hero_max_ki
+	else:
+		hero_hp = clampf(hero_hp + maxf(0.0, hero_max_hp - old_mhp), 1.0, hero_max_hp)
+		hero_ki = clampf(hero_ki + maxf(0.0, hero_max_ki - old_mki), 0.0, hero_max_ki)
+	_sync_bar_uniforms()
+	_refresh_visuals()
+
+func add_stat_points_gm(stat_key: String, delta_pts: int) -> void:
+	if not bonus_stat_pts.has(stat_key):
+		return
+	bonus_stat_pts[stat_key] = maxi(0, int(bonus_stat_pts[stat_key]) + delta_pts)
+	recalc_stats(false)
+
+func spend_free_stat_point(stat_key: String) -> bool:
+	if free_stat_points <= 0 or not bonus_stat_pts.has(stat_key):
+		return false
+	free_stat_points -= 1
+	bonus_stat_pts[stat_key] = int(bonus_stat_pts[stat_key]) + 1
+	recalc_stats(false)
+	return true
+
+func add_item_to_backpack(item_def: Dictionary, qty: int = 1) -> bool:
+	var iid := str(item_def.get("id", ""))
+	# Stack into existing slot if same item id
+	for i in backpack_items.size():
+		if not backpack_items[i].is_empty() and str(backpack_items[i].get("id", "")) == iid:
+			backpack_items[i]["qty"] = int(backpack_items[i].get("qty", 1)) + qty
+			_refresh_visuals()
+			return true
+	# Otherwise put into first empty slot
+	for i in backpack_items.size():
+		if backpack_items[i].is_empty():
+			var rec := item_def.duplicate(true)
+			rec["qty"] = qty
+			backpack_items[i] = rec
+			_refresh_visuals()
+			return true
+	return false
+
+func use_backpack_slot(idx: int) -> void:
+	if idx < 0 or idx >= backpack_items.size():
+		return
+	var it: Dictionary = backpack_items[idx]
+	if it.is_empty():
+		return
+	var slot_i := int(it.get("slot", -1))
+	if slot_i >= 0 and slot_i < equip_slots.size():
+		var old_eq := equip_slots[slot_i].duplicate(true)
+		var new_eq := it.duplicate(true)
+		new_eq["side"] = old_eq["side"]
+		new_eq["row"] = old_eq["row"]
+		equip_slots[slot_i] = new_eq
+		var cur_q := int(it.get("qty", 1)) - 1
+		if cur_q > 0:
+			backpack_items[idx]["qty"] = cur_q
+		else:
+			old_eq["slot"] = slot_i
+			old_eq["qty"] = 1
+			backpack_items[idx] = old_eq
+		recalc_stats(false)
+		return
+	# Consumable action
+	if it.has("heal_hp"):
+		hero_hp = minf(hero_max_hp, hero_hp + float(it["heal_hp"]))
+	elif it.has("heal_ki"):
+		hero_ki = minf(hero_max_ki, hero_ki + float(it["heal_ki"]))
+	elif it.has("gold"):
+		hero_gold += int(it["gold"])
+	elif str(it.get("id", "")) == "scroll_tp" and world != null:
+		world.teleport_to_capital()
+	var nq := int(it.get("qty", 1)) - 1
+	if nq > 0:
+		backpack_items[idx]["qty"] = nq
+	else:
+		backpack_items[idx] = {}
+	recalc_stats(false)
+
+func set_region(land: String) -> void:
+	current_land = land
+	var meta: Dictionary = LAND_META.get(land, LAND_META["pyra"])
 	hero_res = 68.0
 	selected_node_id = "A4"
 
@@ -466,7 +588,7 @@ func set_region(land: String) -> void:
 
 	res_bar_mat.set_shader_parameter("color_dark", meta["res_dark"])
 	res_bar_mat.set_shader_parameter("color_bright", meta["res_bright"])
-	_sync_bar_uniforms()
+	recalc_stats(true)
 	_rebuild_talent_icon_widgets()
 	_layout_all()
 	_refresh_visuals()
@@ -1025,18 +1147,21 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	util_hitboxes.clear()
 	var ring_gold := _load_tex("res://assets/ui/hud_node_ring_unlocked.png")
 	var ring_cyan := _load_tex("res://assets/ui/hud_node_ring_avail.png")
+	var gm_active: bool = world != null and bool(world.gm_open)
+	var spd_badge := ("%.0f×" % float(world.gm_speed_mult)) if (world != null and float(world.gm_speed_mult) > 1.05) else ""
 	var all_utils: Array = [
 		{"id": "talents", "key": "K", "icon": "emblem_crystal.webp", "badge": str(skill_points) if skill_points > 0 else "", "active": show_talents},
-		{"id": "char", "key": "I", "icon": "emblem_pack.webp", "badge": "", "active": show_character},
+		{"id": "char", "key": "I", "icon": "emblem_pack.webp", "badge": str(free_stat_points) if free_stat_points > 0 else "", "active": show_character},
 		{"id": "time", "key": "T", "icon": "emblem_scroll.webp", "badge": "", "active": false},
 		{"id": "atlas", "key": "TAB", "icon": "hud-map.webp", "badge": "", "active": false},
 		{"id": "globe", "key": "G", "icon": "emblem_gear.webp", "badge": "", "active": false},
 		{"id": "relief", "key": "M", "icon": "emblem_swords.webp", "badge": "", "active": false},
+		{"id": "gm", "key": "GM", "icon": "hud-target.webp", "badge": spd_badge, "active": gm_active},
 	]
-	var u_dia := 36.0
+	var u_dia := 34.0
 	var u_cy := 148.0
 	for ui in all_utils.size():
-		var u_cx := 42.0 + float(ui) * 48.0
+		var u_cx := 38.0 + float(ui) * 44.0
 		_draw_util_medallion(c, f, all_utils[ui], Vector2(u_cx, u_cy), u_dia, ring_gold, ring_cyan)
 
 	# --- B. Top-Center Minimalist Realm Ribbon Tabs (evenly centered inside _nav_ribbon_rect()) ---
@@ -1439,7 +1564,7 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 	c.draw_arc(Vector2(paper_cx, paper_cy), 106.0, 0.0, TAU, 48, Color(0.80, 0.64, 0.34, 0.32), 1.2, true)
 
 	var eq_sz := 62.0
-	for sl: Dictionary in EQUIP_SLOTS:
+	for sl: Dictionary in equip_slots:
 		var side := int(sl["side"])
 		var row := int(sl["row"])
 		var sx := paper_cx + float(side) * 164.0 - eq_sz * 0.5
@@ -1465,7 +1590,7 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 	var mw := fb.get_string_size(mech_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
 	c.draw_string(fb, Vector2(paper_cx - mw * 0.5, mr.position.y + 550.0), mech_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(accent.r, accent.g, accent.b, 0.94))
 
-	# Right Half: Canonical Stats Ledger + Painted Backpack Grid
+	# Right Half: Canonical Stats Ledger + Live [+] Stat Allocation + Painted 15-Slot Backpack Grid
 	var rx := mr.position.x + mr.size.x * 0.55
 	var ry := mr.position.y + 124.0
 	var rw_box := mr.size.x * 0.39
@@ -1482,61 +1607,75 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 	])
 	_draw_beveled_chamfer(c, st_pts, Color(0.05, 0.04, 0.06, 0.86), Color(0.82, 0.65, 0.35, 0.88), Color(1.0, 0.88, 0.56, 0.25))
 
-	c.draw_string(f, Vector2(rx + 24.0, ry + 32.0), "ATRYBUTY KANONICZNE (POZIOM %d)" % hero_level, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.88, 0.52))
-	c.draw_line(Vector2(rx + 22.0, ry + 42.0), Vector2(rx + rw_box - 22.0, ry + 42.0), Color(0.80, 0.62, 0.32, 0.50), 1.0, true)
+	var pts_tag := "  •  WOLNE PKT: %d" % free_stat_points if free_stat_points > 0 else ""
+	c.draw_string(f, Vector2(rx + 22.0, ry + 30.0), "ATRYBUTY (POZ. %d)%s" % [hero_level, pts_tag], HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.46, 0.96, 0.64) if free_stat_points > 0 else Color(1.0, 0.88, 0.52))
+	c.draw_line(Vector2(rx + 22.0, ry + 40.0), Vector2(rx + rw_box - 22.0, ry + 40.0), Color(0.80, 0.62, 0.32, 0.50), 1.0, true)
 
 	var base: Dictionary = rd.get("base", {})
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
-	var spd_base := float(base.get("speed", 185))
-	var spd_eff := int(round(spd_base * (1.0 + 0.05 * lv_off)))
 	var stats_rows: Array = [
-		["hud-hp.webp", "Punkty Życia (HP)", "%d" % int(round(hero_max_hp))],
-		["hud-ki.webp", "Energia KI", "%d" % int(round(hero_max_ki))],
-		["hud-combat.webp", "Atak bazowy", "%d" % int(round(float(base.get("attack", 14)) + float(per_lv.get("attack", 4)) * lv_off))],
-		["hud-shield.webp", "Obrona", "%d" % int(round(float(base.get("defense", 5)) + float(per_lv.get("defense", 2.2)) * lv_off))],
-		["gear-boots.webp", "Szybkość ruchu (+5%/poz.)", "%d j." % spd_eff],
-		["emblem_crystal.webp", "Regeneracja KI", "%.2f / s" % (float(base.get("kiRegen", 1.0)) + float(per_lv.get("kiRegen", 0.05)) * lv_off)],
-		["emblem_slash.webp", "Szansa na trafienie krytyczne", "%.1f%%" % (float(base.get("criticalChancePercent", 5.0)) + float(per_lv.get("criticalChancePercent", 0.25)) * lv_off)],
-		["gear-coin.webp", "Skarbiec Złota", "%d szt." % hero_gold],
+		["hud-hp.webp", "Punkty Życia (HP)", "%d" % int(round(hero_max_hp)), "hp"],
+		["hud-ki.webp", "Energia KI", "%d" % int(round(hero_max_ki)), "ki"],
+		["hud-combat.webp", "Atak całkowity", "%d" % get_total_attack(), "atk"],
+		["hud-shield.webp", "Obrona", "%d" % get_total_defense(), "def"],
+		["gear-boots.webp", "Szybkość ruchu", "%d j." % get_total_speed(), "spd"],
+		["emblem_slash.webp", "Szansa krytyczna", "%.1f%%" % get_total_crit(), "crit"],
+		["emblem_crystal.webp", "Regeneracja KI", "%.2f / s" % (float(base.get("kiRegen", 1.0)) + float(per_lv.get("kiRegen", 0.05)) * lv_off), ""],
+		["gear-coin.webp", "Skarbiec Złota", "%d szt." % hero_gold, ""],
 	]
+	stat_plus_hitboxes.clear()
 	for si in stats_rows.size():
-		var sr_y := ry + 64.0 + float(si) * 32.0
+		var sr_y := ry + 60.0 + float(si) * 28.0
 		var row: Array = stats_rows[si]
+		var skey := str(row[3])
 		var sico := _icon_tex(str(row[0]))
 		if sico != null:
-			c.draw_texture_rect(sico, Rect2(rx + 24.0, sr_y - 13.0, 20.0, 20.0), false)
-		c.draw_string(fb, Vector2(rx + 52.0, sr_y + 2.0), str(row[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.88, 0.86, 0.80))
+			c.draw_texture_rect(sico, Rect2(rx + 22.0, sr_y - 12.0, 18.0, 18.0), false)
+		c.draw_string(fb, Vector2(rx + 48.0, sr_y + 2.0), str(row[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.88, 0.86, 0.80))
 		var val_s := str(row[2])
-		var vw := fb.get_string_size(val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-		c.draw_string(fb, Vector2(rx + rw_box - 26.0 - vw, sr_y + 2.0), val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.90, 0.56))
+		var vw := fb.get_string_size(val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
+		var right_pad := 58.0 if (free_stat_points > 0 and not skey.is_empty()) else 24.0
+		c.draw_string(fb, Vector2(rx + rw_box - right_pad - vw, sr_y + 2.0), val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.90, 0.56))
+		if free_stat_points > 0 and not skey.is_empty():
+			var pbtn := Rect2(rx + rw_box - 48.0, sr_y - 12.0, 26.0, 20.0)
+			c.draw_rect(pbtn, Color(0.10, 0.30, 0.18, 0.96), true)
+			c.draw_rect(pbtn, Color(0.42, 0.96, 0.58, 0.96), false, 1.4)
+			c.draw_string(f, Vector2(pbtn.position.x + 8.0, pbtn.position.y + 15.0), "+", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.92, 1.0, 0.94))
+			stat_plus_hitboxes.append({"rect": pbtn.grow(3.0), "key": skey})
 		if si < stats_rows.size() - 1:
-			c.draw_line(Vector2(rx + 24.0, sr_y + 12.0), Vector2(rx + rw_box - 24.0, sr_y + 12.0), Color(0.60, 0.50, 0.34, 0.18), 1.0, true)
+			c.draw_line(Vector2(rx + 22.0, sr_y + 10.0), Vector2(rx + rw_box - 22.0, sr_y + 10.0), Color(0.60, 0.50, 0.34, 0.18), 1.0, true)
 
-	# Backpack 2x5 Grid
-	var bp_y := ry + 344.0
-	c.draw_string(f, Vector2(rx + 24.0, bp_y), "SAKWA WĘDROWCA", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.92, 0.78, 0.46))
-	var cell := 58.0
-	var gap := 10.0
+	# Backpack 3x5 Grid (15 live slots — tap item to equip or use!)
+	var bp_y := ry + 292.0
+	c.draw_string(f, Vector2(rx + 22.0, bp_y), "SAKWA WĘDROWCA (KLIK: ZAŁÓŻ / UŻYJ)", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.92, 0.78, 0.46))
+	var cell := 52.0
+	var gap := 8.0
 	var grid_x0 := rx + (rw_box - (5.0 * cell + 4.0 * gap)) * 0.5
-	for bi in BACKPACK_ITEMS.size():
+	backpack_hitboxes.clear()
+	for bi in backpack_items.size():
 		var col_i := bi % 5
 		var row_i := bi / 5
 		var bx := grid_x0 + float(col_i) * (cell + gap)
-		var by := bp_y + 14.0 + float(row_i) * (cell + gap)
+		var by := bp_y + 10.0 + float(row_i) * (cell + gap)
 		var br := Rect2(bx, by, cell, cell)
+		backpack_hitboxes.append({"rect": br, "idx": bi})
 		c.draw_rect(br, Color(0.04, 0.03, 0.05, 0.92), true)
-		var bi_d: Dictionary = BACKPACK_ITEMS[bi]
-		var bico := _icon_tex(str(bi_d["icon"]))
-		if bico != null:
-			c.draw_texture_rect(bico, Rect2(bx + 7.0, by + 7.0, cell - 14.0, cell - 14.0), false)
+		var bi_d: Dictionary = backpack_items[bi]
+		if not bi_d.is_empty():
+			var bico := _icon_tex(str(bi_d.get("icon", "")))
+			if bico != null:
+				c.draw_texture_rect(bico, Rect2(bx + 6.0, by + 6.0, cell - 12.0, cell - 12.0), false)
+			var rcol_b: Color = bi_d.get("rarity", Color(0.70, 0.58, 0.36))
+			c.draw_rect(br.grow(-2.0), Color(rcol_b.r, rcol_b.g, rcol_b.b, 0.55), false, 1.4)
 		if slot_tex != null:
 			c.draw_texture_rect(slot_tex, Rect2(bx - 2.0, by - 2.0, cell + 4.0, cell + 4.0), false)
-		var qty := str(bi_d["qty"])
-		if not qty.is_empty():
-			var qw := fb.get_string_size(qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
-			c.draw_string_outline(fb, Vector2(bx + cell - qw - 6.0, by + cell - 6.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 3, Color(0.0, 0.0, 0.0, 0.95))
-			c.draw_string(fb, Vector2(bx + cell - qw - 6.0, by + cell - 6.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.94, 0.76))
+		var qty_i := int(bi_d.get("qty", 0))
+		if qty_i > 0:
+			var qty := str(qty_i)
+			var qw := fb.get_string_size(qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x
+			c.draw_string_outline(fb, Vector2(bx + cell - qw - 5.0, by + cell - 5.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 3, Color(0.0, 0.0, 0.0, 0.95))
+			c.draw_string(fb, Vector2(bx + cell - qw - 5.0, by + cell - 5.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1.0, 0.94, 0.76))
 
 # ==============================================================================
 # INPUT HANDLING (MOUSE HOVER, MOBILE TOUCH TAPS, CONSTELLATION UNLOCKING, WILD RIFT SKILLS)
@@ -1576,6 +1715,15 @@ func _handle_primary_tap(p: Vector2) -> bool:
 	if show_character:
 		if char_close_rect.has_point(p) or not _modal_rect().has_point(p):
 			close_modals()
+			return true
+		for shb: Dictionary in stat_plus_hitboxes:
+			if (shb["rect"] as Rect2).has_point(p):
+				spend_free_stat_point(str(shb["key"]))
+				return true
+		for bhb: Dictionary in backpack_hitboxes:
+			if (bhb["rect"] as Rect2).has_point(p):
+				use_backpack_slot(int(bhb["idx"]))
+				return true
 		return true
 
 	# Top-Center Realm Navigation Ribbon
@@ -1621,6 +1769,9 @@ func _handle_primary_tap(p: Vector2) -> bool:
 				"relief":
 					if world != null:
 						world.toggle_map()
+				"gm":
+					if world != null and world.has_method("toggle_gm_panel"):
+						world.toggle_gm_panel()
 			return true
 	return false
 

@@ -201,3 +201,15 @@ Po przeglądzie zrzutu właściciela (`IMG_20261119_190937.jpg`) przeprowadzono 
   - Doprecyzowano kalibrację 6-DOF Aetherii w `ATLAS_WORLD_AFFINE` (`0 / 2 599` wierzchołków dróg w oceanie na `planet_real_world.png`).
   - Weryfikacja: `TOPOGRAPHY_1TO1_AUDIT_PASS`, `ISO_WORLD_QA_OK` (Godot 4.6.3, 18 odświeżonych zrzutów zweryfikowanych wizualnie 1:1 na wszystkich 4 kontynentach), `check_documentation.py` (`PASS`).
 
+## 11. Rozbudowany Panel GM (Teleport Kliknięciem na Mapie, Super Szybkość, Tworzenie Przedmiotów do Plecaka, Punkty Statystyk) i Publikacja Paczki `1.14.5` na Serwer Testowy (2026-11-19)
+
+- **Nowy Panel GM (`ports/godot-isometric-world/scripts/gm_panel.gd`, otwierany przyciskiem `GM` na HUD oraz `[F1]` / `[P]`):**
+  - **Teleport kliknięciem punktu na mapie (`atlas_overlay.gd`, `premium_minimap.gd`, `world.gd`):** przycisk `OTWÓRZ MAPĘ 2D I KLIKNIJ PUNKT TELEPORTU` uruchamia tryb `gm_map_teleport_mode` — kliknięcie dowolnego punktu na dowolnym kontynencie odwraca kalibrację 6-DOF (`atlas_to_world()`) i przenosi bohatera dokładnie w ten punkt (`teleport_to_world_pos()` z bezpiecznym dociągnięciem na suchy ląd). Dodatkowo dostępny przełącznik `MINIMAPA KLIK-TP` oraz przyciski szybkiego teleportu do 4 Stolic i wszystkich Warowni bieżącego kontynentu.
+  - **Super Szybkość i Przenikanie (`world.gd`):** przełączniki `1× / 2× / 4× / 8×` (`gm_speed_mult`) oraz `PRZENIKANIE (NOCLIP)` (`gm_noclip`) do swobodnego testowania całego świata.
+  - **Tworzenie przedmiotów do plecaka z listy (`gm_panel.gd`, `rpg_hud.gd`):** katalog 18 przedmiotów KI Legends podzielony na kategorie (*Broń*, *Pancerz*, *Biżuteria*, *Użytkowe*) z wyborem ilości (`×1 / ×5 / ×10`), malowanymi ikonami i bezpośrednim dodawaniem do 15-slotowej sakwy (`backpack_items` w `[I]`), gdzie kliknięcie przedmiotu zakłada go lub używa (eliksiry, sakiewka złota, zwój powrotu).
+  - **Dodawanie punktów statystyk z poziomu gry (`gm_panel.gd`, `rpg_hud.gd`):** rozdawanie wolnych punktów statystyk (`free_stat_points`) oraz bezpośrednie `+1 / +5 / -1` dla HP, KI, Ataku, Obrony, Szybkości i Szansy Krytycznej (a także `+1 Poziom`, `+5 Pkt Umiejętności`, `+1000 Złota`, `Pełne HP/KI`), działające na żywo zarówno w Panelu GM, jak i przez zielone przyciski `[+]` na Karcie Postaci `[I]`.
+- **Weryfikacja QA i publikacja na serwer testowy (`deliveries/godot-content-1.14.5`, `.github/workflows/godot-content-upload.yml`):**
+  - `ISO_WORLD_QA_OK` (Godot 4.6.3, 19 zrzutów w tym [gm-panel.jpg](qa/gm-panel.jpg) i odświeżony [character-sheet.jpg](qa/character-sheet.jpg)): `0` błędów GDScript/shaderów, `0` wycieków RID.
+  - Zbudowano paczkę aktualizacyjną `deliveries/godot-content-1.14.5` (bazującą na `1.14.4`) przez `scripts/godot/build_preview_update.py --gemini --base 1.14.4 --version 1.14.5` i opublikowano na serwer testowy workflowem `godot-content-upload.yml` (`publish=true`, `activate=true`, `test_base=1.14.4`).
+
+

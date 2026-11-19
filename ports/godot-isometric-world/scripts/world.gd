@@ -10,6 +10,7 @@ const AtlasOverlayScript := preload("res://scripts/atlas_overlay.gd")
 const PremiumMinimapScript := preload("res://scripts/premium_minimap.gd")
 const WorldAtmosphereScript := preload("res://scripts/world_atmosphere.gd")
 const RpgHudScript := preload("res://scripts/rpg_hud.gd")
+const GmPanelScript := preload("res://scripts/gm_panel.gd")
 const StickScript := preload("res://scripts/stick.gd")
 const MapStyle := preload("res://scripts/map_style.gd")
 
@@ -64,6 +65,7 @@ var camera := Camera2D.new()
 var hud := CanvasLayer.new()
 var atmosphere: Control
 var rpg_hud: Control
+var gm_panel: Control
 var premium_minimap: Control
 var map_3d: SubViewportContainer
 var atlas_overlay: Control
@@ -75,6 +77,11 @@ var target_pos := Vector2(-1.0, -1.0)
 var motion := Vector2.ZERO
 var map_expanded := false
 var atlas_expanded := false
+var gm_open := false
+var gm_speed_mult := 1.0
+var gm_noclip := false
+var gm_map_teleport_mode := false
+var gm_minimap_teleport := false
 var zoom_level := 0.62
 var move_pointer := -1
 var move_origin := Vector2.ZERO
@@ -102,6 +109,12 @@ func _ready() -> void:
 
 	if "--qa" in OS.get_cmdline_user_args() or "--qa" in OS.get_cmdline_args():
 		call_deferred("run_qa")
+
+func _exit_tree() -> void:
+	ActorScript.sheet_cache.clear()
+	AmbientScript.soft_texture = null
+	MapStyle.title_font = null
+	MapStyle.vignette_texture = null
 
 func load_databases() -> void:
 	if FileAccess.file_exists("res://data/actors.json"):
@@ -599,6 +612,30 @@ func teleport_to_capital() -> void:
 	target_pos = Vector2(-1.0, -1.0)
 	sync_hero()
 
+func teleport_to_world_pos(land: String, wx: float, wz: float) -> void:
+	if land != current_land and REGION_TITLES.has(land):
+		switch_region(land)
+	var tx := clampf(wx, 18.0, world_size - 18.0)
+	var tz := clampf(wz, 18.0, world_size - 18.0)
+	if not gm_noclip and not is_walkable(tx, tz):
+		# Snap cleanly to nearest walkable dry point within 90m so tap-on-map never gets stuck in water!
+		var found := false
+		for rad in range(4, 96, 6):
+			for ak in range(16):
+				var ang := TAU * float(ak) / 16.0
+				var cx := clampf(tx + cos(ang) * float(rad), 18.0, world_size - 18.0)
+				var cz := clampf(tz + sin(ang) * float(rad), 18.0, world_size - 18.0)
+				if is_walkable(cx, cz):
+					tx = cx
+					tz = cz
+					found = true
+					break
+			if found:
+				break
+	hero_pos = Vector2(tx, tz)
+	target_pos = Vector2(-1.0, -1.0)
+	sync_hero()
+
 func cycle_town_stronghold() -> void:
 	var towns: Array = []
 	for b: Dictionary in buildings:
@@ -644,6 +681,11 @@ func build_hud() -> void:
 	atlas_overlay.visible = false
 	hud.add_child(atlas_overlay)
 
+	gm_panel = GmPanelScript.new()
+	gm_panel.world = self
+	gm_panel.visible = false
+	hud.add_child(gm_panel)
+
 	stick_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
 	stick_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stick_layer.set_script(StickScript)
@@ -660,7 +702,7 @@ func cycle_time_of_day() -> void:
 func layout_minimap() -> void:
 	var vp := get_viewport_rect().size
 	var show_world_ui := not (map_expanded or atlas_expanded)
-	var rpg_modal_open: bool = rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character))
+	var rpg_modal_open: bool = gm_open or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)))
 	if rpg_hud != null:
 		rpg_hud.visible = show_world_ui
 	if atmosphere != null:
@@ -683,10 +725,28 @@ func layout_minimap() -> void:
 		atlas_overlay.position = Vector2(24, 20)
 		atlas_overlay.size = Vector2(vp.x - 48, vp.y - 40)
 		atlas_overlay.visible = atlas_expanded
+	if gm_panel != null:
+		gm_panel.visible = gm_open and show_world_ui
+
+func toggle_gm_panel(force_open: Variant = null) -> void:
+	var next_v: bool = (not gm_open) if force_open == null else bool(force_open)
+	gm_open = next_v
+	if gm_open:
+		map_expanded = false
+		atlas_expanded = false
+		if rpg_hud != null:
+			rpg_hud.close_modals()
+		if gm_panel != null:
+			gm_panel.refresh_content()
+	layout_minimap()
+	if rpg_hud != null:
+		rpg_hud._refresh_visuals()
 
 func toggle_map() -> void:
 	if atlas_expanded:
 		atlas_expanded = false
+	if gm_open:
+		gm_open = false
 	map_expanded = not map_expanded
 	layout_minimap()
 	stick_layer.queue_redraw()
@@ -695,6 +755,9 @@ func toggle_atlas(open: bool) -> void:
 	atlas_expanded = open
 	if atlas_expanded:
 		map_expanded = false
+		gm_open = false
+	else:
+		gm_map_teleport_mode = false
 	layout_minimap()
 	if atlas_overlay != null:
 		atlas_overlay.sync_live_hero()
@@ -702,7 +765,13 @@ func toggle_atlas(open: bool) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_M:
+		if event.keycode == KEY_F1 or event.keycode == KEY_P:
+			toggle_gm_panel()
+			return
+		elif event.keycode == KEY_ESCAPE and gm_open:
+			toggle_gm_panel(false)
+			return
+		elif event.keycode == KEY_M:
 			toggle_map()
 			return
 		elif event.keycode == KEY_T:
@@ -850,7 +919,10 @@ func step_world(delta: float) -> void:
 			world_dir = diff.normalized()
 			screen_dir = Vector2(world_dir.x - world_dir.y, (world_dir.x + world_dir.y) * 0.5).normalized()
 	if world_dir.length_squared() > 0.001:
-		try_move(world_dir * SPEED * delta)
+		var stat_spd_mult := 1.0
+		if rpg_hud != null and rpg_hud.has_method("get_speed_mult"):
+			stat_spd_mult = float(rpg_hud.get_speed_mult())
+		try_move(world_dir * SPEED * gm_speed_mult * stat_spd_mult * delta)
 	if hero != null:
 		hero.animate(screen_dir, true)
 	sync_hero()
@@ -874,6 +946,9 @@ func step_world(delta: float) -> void:
 		node.animate(s_dir if s_dir.length() > 0.01 else Vector2.ZERO, false)
 
 func try_move(step: Vector2) -> void:
+	if gm_noclip:
+		hero_pos = Vector2(clampf(hero_pos.x + step.x, 12.0, world_size - 12.0), clampf(hero_pos.y + step.y, 12.0, world_size - 12.0))
+		return
 	var h_now := height_at(hero_pos.x, hero_pos.y)
 	for candidate: Vector2 in [hero_pos + step, Vector2(hero_pos.x + step.x, hero_pos.y), Vector2(hero_pos.x, hero_pos.y + step.y)]:
 		if is_walkable(candidate.x, candidate.y) and absf(height_at(candidate.x, candidate.y) - h_now) < 5.5:
@@ -1069,6 +1144,16 @@ func run_qa() -> void:
 	shots.append(await snap(out_dir, "character-sheet.jpg"))
 	if rpg_hud != null:
 		rpg_hud.close_modals()
+
+	# 8) Upgraded GM Panel QA (Teleport, Super Speed, Item Creator, Stat Points)
+	toggle_gm_panel(true)
+	if rpg_hud != null:
+		rpg_hud.add_item_to_backpack({"id": "blade_pyra", "name": "Obsydianowy Miecz Żaru", "cat": "weapon", "icon": "emblem_swords.webp", "slot": 2, "atk": 42, "rarity": Color(1.0, 0.46, 0.24)}, 1)
+		rpg_hud.add_stat_points_gm("atk", 2)
+	for _i in 4:
+		await get_tree().process_frame
+	shots.append(await snap(out_dir, "gm-panel.jpg"))
+	toggle_gm_panel(false)
 
 	var report := {
 		"project": "ports/godot-isometric-world",

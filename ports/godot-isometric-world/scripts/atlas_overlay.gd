@@ -140,6 +140,26 @@ func world_to_atlas(rid: String, wx: float, wz: float, world_size: float = 1024.
 	var meta: Dictionary = CONTINENT_META.get(rid, CONTINENT_META["pyra"])
 	return meta["pos"]
 
+func atlas_to_world(rid: String, ax: float, ay: float, world_size: float = 1024.0) -> Vector2:
+	if ATLAS_WORLD_AFFINE.has(rid):
+		var m: Array = ATLAS_WORLD_AFFINE[rid]
+		var dx := ax - float(m[0])
+		if dx > 1000.0:
+			dx -= 2000.0
+		elif dx < -1000.0:
+			dx += 2000.0
+		var dy := ay - float(m[3])
+		var a := float(m[1])
+		var b := float(m[2])
+		var c := float(m[4])
+		var d := float(m[5])
+		var det := a * d - b * c
+		if absf(det) > 0.0001:
+			var u := clampf((d * dx - b * dy) / det, 0.02, 0.98)
+			var v := clampf((-c * dx + a * dy) / det, 0.02, 0.98)
+			return Vector2(u * world_size, v * world_size)
+	return Vector2(world_size * 0.5, world_size * 0.5)
+
 func hero_atlas_pos() -> Vector2:
 	if world == null:
 		return Vector2(715.0, 725.0)
@@ -369,8 +389,16 @@ func _gui_input(event: InputEvent) -> void:
 				if atlas_dragging and not atlas_drag_moved:
 					var picked := pick_continent(mb.position)
 					if not picked.is_empty():
-						world.switch_region(picked)
-						world.toggle_atlas(false)
+						var tp_exact: bool = bool(world.gm_map_teleport_mode) or atlas_zoom >= 1.6
+						if tp_exact:
+							var a_pt := _screen_to_atlas(mb.position, mr)
+							var w_pt := atlas_to_world(picked, a_pt.x, a_pt.y, float(world.world_size))
+							world.gm_map_teleport_mode = false
+							world.teleport_to_world_pos(picked, w_pt.x, w_pt.y)
+							world.toggle_atlas(false)
+						else:
+							world.switch_region(picked)
+							world.toggle_atlas(false)
 				atlas_dragging = false
 	elif event is InputEventMouseMotion:
 		var mm: InputEventMouseMotion = event
@@ -584,8 +612,10 @@ func _draw() -> void:
 	draw_rect(rect, Color(0.84, 0.66, 0.36, 0.92), false, 2.5)
 
 	var mr := _map_rect()
-	var title_txt := "GLOBUS PLANETY SUPERIOR (Kółko = Przybliż szczegóły)" if mode == "globe" else ("MAPA PLANETY SUPERIOR — ATLAS 2D  •  Zoom %.1f×" % atlas_zoom)
-	draw_string(f, Vector2(22, 36), title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(0.98, 0.88, 0.62))
+	var gm_tp_on: bool = world != null and bool(world.gm_map_teleport_mode)
+	var title_txt := "⚡ TRYB TELEPORTU GM — KLIKNIJ DOWOLNY PUNKT NA MAPIE (Zoom %.1f×)" % atlas_zoom if (mode == "atlas" and gm_tp_on) else ("GLOBUS PLANETY SUPERIOR (Kółko = Przybliż szczegóły)" if mode == "globe" else ("MAPA PLANETY SUPERIOR — ATLAS 2D  •  Zoom %.1f×" % atlas_zoom))
+	var title_col := Color(0.40, 0.96, 1.0) if (mode == "atlas" and gm_tp_on) else Color(0.98, 0.88, 0.62)
+	draw_string(f, Vector2(22, 36), title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, title_col)
 
 	if mode == "atlas":
 		draw_rect(mr, Color(0.04, 0.11, 0.20, 1.0))

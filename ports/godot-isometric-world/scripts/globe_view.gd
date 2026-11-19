@@ -338,6 +338,11 @@ func glow(core: Color) -> Texture2D:
 func add_marker(lonlat: Vector2, _color: Color, _radius: float, parent_node: Node3D = null) -> void:
 	add_icon_marker(lonlat, "hero_pyra", 0.092, parent_node, 1.032)
 
+func _exit_tree() -> void:
+	viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	select_view.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	globe_material.set_shader_parameter("select_tex", null)
+
 func apply_rotation() -> void:
 	pivot.basis = Basis(Vector3.RIGHT, deg_to_rad(lat0)) * Basis(Vector3.UP, deg_to_rad(-lon0))
 	camera.position = Vector3(0, 0, distance)
