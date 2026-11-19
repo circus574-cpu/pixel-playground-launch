@@ -247,16 +247,16 @@ def generate_planet_atlas() -> dict:
 # plus Blender Cycles GPU / Geometry Nodes fortifications
 ARCH_CATALOG = {
     "pyra": {
-        "fortress": ("pyra-premium-citadel.webp", 700, 680),
-        "altar": ("3b42d9ee-pyra-continent-spring.webp", 420, 340),
+        "fortress": ("pyra-premium-citadel.webp", 720, 700),
+        "altar": ("pyra-aaa-altar.webp", 490, 470),
         "statue": ("73fdbb3d-ki-v2-landmarks-pyra-statue.webp", 420, 690),
-        "hall": ("9eba1e56-pyra-painted-hall.webp", 536, 462),
-        "arena": ("b8db058a-pyra-painted-arena.webp", 544, 471),
-        "smithy": ("e320eb1e-pyra-painted-smithy.webp", 544, 472),
-        "inn": ("51cf60a5-pyra-painted-inn.webp", 530, 464),
-        "shop": ("e82ceee7-pyra-painted-shop.webp", 537, 450),
-        "depot": ("e0e8cc86-pyra-painted-depot.webp", 544, 452),
-        "house": ("1093fbd2-ki-v2-buildings-pyra-house.webp", 275, 258),
+        "hall": ("pyra-aaa-hall.webp", 545, 515),
+        "arena": ("pyra-aaa-arena.webp", 585, 535),
+        "smithy": ("pyra-aaa-smithy.webp", 525, 545),
+        "inn": ("pyra-aaa-inn.webp", 545, 515),
+        "shop": ("pyra-aaa-shop.webp", 525, 510),
+        "depot": ("pyra-aaa-depot.webp", 535, 525),
+        "house": ("pyra-aaa-house.webp", 335, 345),
         "bridge": ("pyra-premium-bridge.webp", 560, 460),
         "gate": ("pyra-citadel-gate.webp", 520, 440),
         "wall_ne": ("pyra-citadel-wall-ne.webp", 360, 220),
@@ -266,15 +266,15 @@ ARCH_CATALOG = {
         "lantern": ("pyra-street-lantern.webp", 130, 260),
     },
     "verdant": {
-        "forge": ("e4e9d345-ki-v2-landmarks-verdant-forge.webp", 660, 720),
-        "cottage": ("7adc64fb-ki-v2-landmarks-verdant-cottage.webp", 620, 650),
-        "hall": ("verdant-premium-treehall.webp", 640, 660),
-        "arena": ("a5819767-verdant-leaf-arena.webp", 590, 576),
-        "smithy": ("b71a5ab2-verdant-leaf-smithy.webp", 580, 580),
-        "inn": ("8f5e282c-verdant-leaf-inn.webp", 580, 570),
-        "shop": ("5a272efe-verdant-leaf-shop.webp", 580, 540),
-        "depot": ("959575c7-verdant-leaf-depot.webp", 580, 578),
-        "house": ("19d3eb50-ki-v2-buildings-verdant-house.webp", 275, 255),
+        "forge": ("verdant-aaa-forge.webp", 590, 580),
+        "cottage": ("verdant-aaa-cottage.webp", 440, 590),
+        "hall": ("verdant-premium-treehall.webp", 660, 680),
+        "arena": ("verdant-aaa-arena.webp", 565, 515),
+        "smithy": ("verdant-aaa-smithy.webp", 535, 520),
+        "inn": ("verdant-aaa-inn.webp", 515, 560),
+        "shop": ("verdant-aaa-shop.webp", 540, 520),
+        "depot": ("verdant-aaa-depot.webp", 550, 510),
+        "house": ("verdant-aaa-house.webp", 330, 325),
         "fountain": ("7c9c601a-verdantia-extra-spring.webp", 430, 355),
         "bridge": ("5f861b00-verdantia-extra-bridge.webp", 528, 390),
         "bridge2": ("5f861b00-verdantia-extra-bridge.webp", 528, 390),
@@ -284,16 +284,16 @@ ARCH_CATALOG = {
         "wall_nw": ("verdant-wall-nw.webp", 360, 220),
     },
     "aether": {
-        "sanctum": ("aether-premium-pagoda.webp", 680, 720),
+        "sanctum": ("aether-premium-pagoda.webp", 690, 730),
         "observatory": ("0ca65cb7-ki-v2-landmarks-aether-observatory.webp", 640, 740),
         "archive": ("fff58068-ki-v2-landmarks-aether-archive.webp", 680, 730),
-        "hall": ("2b002168-aether-painted-hall.webp", 620, 455),
-        "arena": ("6d7c1c83-aether-painted-arena.webp", 780, 540),
-        "smithy": ("ff1310ee-aether-painted-smithy.webp", 600, 455),
-        "inn": ("ac6ae586-aether-painted-inn.webp", 600, 465),
-        "shop": ("866fc0e8-aether-painted-shop.webp", 600, 445),
-        "depot": ("806ab11b-aether-painted-depot.webp", 600, 435),
-        "house": ("19c93221-ki-v2-buildings-aether-house.webp", 275, 260),
+        "hall": ("aether-aaa-hall.webp", 565, 540),
+        "arena": ("aether-aaa-arena.webp", 575, 545),
+        "smithy": ("aether-aaa-smithy.webp", 540, 525),
+        "inn": ("aether-aaa-inn.webp", 525, 540),
+        "shop": ("aether-aaa-shop.webp", 550, 515),
+        "depot": ("aether-aaa-depot.webp", 525, 515),
+        "house": ("aether-aaa-house.webp", 320, 315),
         "spirit_gate": ("23099b47-aether-x-spirit-gate.webp", 480, 560),
         "koi_pond": ("971c1090-aether-x-koi-pond.webp", 620, 410),
         "lantern": ("a69fa5ad-aether-x-stone-lantern.webp", 155, 330),
@@ -303,14 +303,14 @@ ARCH_CATALOG = {
     },
     "nexus": {
         "reactor_art": ("93c8e791-nexus-art-reactor.webp", 680, 690),
-        "reactor": ("3da45722-nexus-continent-reactor.webp", 360, 380),
-        "hall": ("cbfb678c-nexus-painted-hall.webp", 610, 550),
-        "arena": ("a0860314-nexus-painted-arena.webp", 610, 550),
-        "smithy": ("fc0f86ab-ki-v2-buildings-nexus-smithy.webp", 440, 410),
-        "inn": ("39d82fa9-ki-v2-buildings-nexus-inn.webp", 410, 440),
-        "shop": ("a5145228-nexus-painted-shop.webp", 590, 535),
-        "depot": ("ee32c98c-nexus-painted-depot.webp", 590, 535),
-        "house": ("fe8b61cf-ki-v2-buildings-nexus-house.webp", 275, 255),
+        "reactor": ("3da45722-nexus-continent-reactor.webp", 380, 400),
+        "hall": ("nexus-aaa-hall.webp", 580, 550),
+        "arena": ("nexus-aaa-arena.webp", 580, 550),
+        "smithy": ("nexus-aaa-smithy.webp", 520, 495),
+        "inn": ("nexus-aaa-inn.webp", 500, 520),
+        "shop": ("nexus-aaa-shop.webp", 550, 525),
+        "depot": ("nexus-aaa-depot.webp", 550, 525),
+        "house": ("nexus-aaa-house.webp", 320, 315),
         "transit_gate": ("2a827b38-nexus-continent-transit-gate.webp", 420, 420),
         "field_lab": ("b2f6afaa-nexus-continent-field-lab.webp", 390, 380),
         "terminal": ("006e9795-nexus-continent-terminal.webp", 310, 340),
@@ -526,13 +526,13 @@ NPCS_CATALOG = {
     ],
 }
 
-# 6 Exp-Zones per Continent (24 total) with canonical Monsters (Lv. 1..18)
+# 6 Exp-Zones per Continent (24 total) aligned strictly onto verified dry land of canonical relief_3d.r32
 EXP_ZONES_CATALOG = {
     "pyra": [
         {
             "id": "pyra-exp-1",
             "name": "Kotlina Węgielków i Salamander (Lv. 1–3)",
-            "cx": -310.0, "cz": 40.0, "radius": 52.0,
+            "cx": -315.0, "cz": 18.0, "radius": 52.0,
             "monsters": [
                 ("pyra-wegielek", "Węgielek", 1, 92),
                 ("pyra-ognista-salamandra", "Ognista Salamandra", 2, 100),
@@ -544,7 +544,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "pyra-exp-2",
             "name": "Wąwóz Popielnych Wilków (Lv. 4–6)",
-            "cx": -265.0, "cz": -250.0, "radius": 54.0,
+            "cx": -235.0, "cz": -228.0, "radius": 54.0,
             "monsters": [
                 ("pyra-popielny-wilk", "Popielny Wilk", 4, 183),
                 ("pyra-popielny-wilk", "Popielny Wilk", 4, 183),
@@ -556,7 +556,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "pyra-exp-3",
             "name": "Brzeg Magmowych Krabów (Lv. 8–10)",
-            "cx": -60.0, "cz": 335.0, "radius": 56.0,
+            "cx": -230.0, "cz": 110.0, "radius": 55.0,
             "monsters": [
                 ("pyra-magmowy-krab", "Magmowy Krab", 8, 752),
                 ("pyra-magmowy-krab", "Magmowy Krab", 8, 752),
@@ -568,7 +568,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "pyra-exp-4",
             "name": "Ruiny Golemów Popiołu (Lv. 12–14)",
-            "cx": 330.0, "cz": -20.0, "radius": 55.0,
+            "cx": 330.0, "cz": -12.0, "radius": 55.0,
             "monsters": [
                 ("pyra-golem-ruin", "Golem Ruin", 12, 1866),
                 ("pyra-golem-ruin", "Golem Ruin", 12, 1866),
@@ -580,7 +580,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "pyra-exp-5",
             "name": "Krwawa Arena Byków (Lv. 14–16)",
-            "cx": 30.0, "cz": -335.0, "radius": 54.0,
+            "cx": 210.0, "cz": -155.0, "radius": 54.0,
             "monsters": [
                 ("pyra-byk-areny", "Byk Areny", 16, 2440),
                 ("pyra-byk-areny", "Byk Areny", 16, 2440),
@@ -592,7 +592,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "pyra-exp-6",
             "name": "Kaldera Skorpiona Obsydianowego (Lv. 16–18)",
-            "cx": 150.0, "cz": 340.0, "radius": 58.0,
+            "cx": 188.0, "cz": 186.0, "radius": 56.0,
             "monsters": [
                 ("pyra-skorpion-obsydianowy", "Skorpion Obsydianowy", 18, 1912),
                 ("pyra-skorpion-obsydianowy", "Skorpion Obsydianowy", 18, 1912),
@@ -606,7 +606,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "verdant-exp-1",
             "name": "Polana Mchowych Szlamaków (Lv. 1–3)",
-            "cx": -315.0, "cz": 35.0, "radius": 52.0,
+            "cx": -325.0, "cz": 22.0, "radius": 52.0,
             "monsters": [
                 ("verdant-mchowy-szlamak", "Mchowy Szlamak", 1, 110),
                 ("verdant-mchowy-szlamak", "Mchowy Szlamak", 1, 110),
@@ -618,7 +618,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "verdant-exp-2",
             "name": "Gaj Liściaków i Pełzaczy (Lv. 4–6)",
-            "cx": -40.0, "cz": -330.0, "radius": 54.0,
+            "cx": -215.0, "cz": -222.0, "radius": 54.0,
             "monsters": [
                 ("verdant-lisciak-skrytobojca", "Liściak Skrytobójca", 4, 142),
                 ("verdant-lisciak-skrytobojca", "Liściak Skrytobójca", 4, 142),
@@ -630,7 +630,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "verdant-exp-3",
             "name": "Krąg Grzybowych Zarodników (Lv. 8–10)",
-            "cx": 270.0, "cz": -240.0, "radius": 55.0,
+            "cx": 248.0, "cz": -242.0, "radius": 55.0,
             "monsters": [
                 ("verdant-grzybowy-zarodnik", "Grzybowy Zarodnik", 8, 703),
                 ("verdant-grzybowy-zarodnik", "Grzybowy Zarodnik", 8, 703),
@@ -642,7 +642,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "verdant-exp-4",
             "name": "Wzgórze Skalnych Jeleni (Lv. 12–14)",
-            "cx": 325.0, "cz": 25.0, "radius": 55.0,
+            "cx": 330.0, "cz": 18.0, "radius": 55.0,
             "monsters": [
                 ("verdant-skalny-jelen", "Skalny Jeleń", 12, 1307),
                 ("verdant-skalny-jelen", "Skalny Jeleń", 12, 1307),
@@ -654,7 +654,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "verdant-exp-5",
             "name": "Gniazdo Puchaczy Pyłowych (Lv. 14–16)",
-            "cx": -260.0, "cz": 275.0, "radius": 54.0,
+            "cx": -245.0, "cz": 245.0, "radius": 54.0,
             "monsters": [
                 ("verdant-puchacz-pylowy", "Puchacz Pyłowy", 16, 1219),
                 ("verdant-puchacz-pylowy", "Puchacz Pyłowy", 16, 1219),
@@ -666,7 +666,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "verdant-exp-6",
             "name": "Pradawne Ruiny Strażników (Lv. 16–18)",
-            "cx": 35.0, "cz": 330.0, "radius": 58.0,
+            "cx": 225.0, "cz": 232.0, "radius": 56.0,
             "monsters": [
                 ("verdant-straznik-ruin", "Strażnik Ruin", 18, 3186),
                 ("verdant-straznik-ruin", "Strażnik Ruin", 18, 3186),
@@ -680,7 +680,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "aether-exp-1",
             "name": "Ogród Świetlików Pieczęci (Lv. 1–3)",
-            "cx": -315.0, "cz": 25.0, "radius": 52.0,
+            "cx": -325.0, "cz": 18.0, "radius": 52.0,
             "monsters": [
                 ("aether-swietlik-pieczeci", "Świetlik Pieczęci", 1, 64),
                 ("aether-swietlik-pieczeci", "Świetlik Pieczęci", 1, 64),
@@ -692,7 +692,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "aether-exp-2",
             "name": "Taras Kryształowych Motyli (Lv. 4–6)",
-            "cx": 0.0, "cz": -330.0, "radius": 54.0,
+            "cx": -228.0, "cz": -225.0, "radius": 54.0,
             "monsters": [
                 ("aether-krysztalowy-motyl", "Kryształowy Motyl", 4, 123),
                 ("aether-krysztalowy-motyl", "Kryształowy Motyl", 4, 123),
@@ -704,7 +704,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "aether-exp-3",
             "name": "Archiwum Duchów i Skarabeuszy (Lv. 8–10)",
-            "cx": 325.0, "cz": 20.0, "radius": 55.0,
+            "cx": 330.0, "cz": 16.0, "radius": 55.0,
             "monsters": [
                 ("aether-duch-bibliotekarza", "Duch Bibliotekarza", 8, 401),
                 ("aether-duch-bibliotekarza", "Duch Bibliotekarza", 8, 401),
@@ -716,7 +716,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "aether-exp-4",
             "name": "Dziedziniec Lwów Świątyni (Lv. 12–14)",
-            "cx": -250.0, "cz": 265.0, "radius": 55.0,
+            "cx": -242.0, "cz": 225.0, "radius": 55.0,
             "monsters": [
                 ("aether-lew-swiatyni", "Lew Świątyni", 12, 1492),
                 ("aether-lew-swiatyni", "Lew Świątyni", 12, 1492),
@@ -728,7 +728,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "aether-exp-5",
             "name": "Krąg Marionetek Rytuału (Lv. 14–16)",
-            "cx": 255.0, "cz": 265.0, "radius": 55.0,
+            "cx": 212.0, "cz": -215.0, "radius": 55.0,
             "monsters": [
                 ("aether-marionetka-rytualu", "Marionetka Rytuału", 16, 1626),
                 ("aether-marionetka-rytualu", "Marionetka Rytuału", 16, 1626),
@@ -740,7 +740,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "aether-exp-6",
             "name": "Sanktuarium Mgielnych Żurawi (Lv. 16–18)",
-            "cx": 0.0, "cz": 335.0, "radius": 58.0,
+            "cx": 168.0, "cz": 182.0, "radius": 56.0,
             "monsters": [
                 ("aether-mgielny-zuraw", "Mgielny Żuraw", 18, 1593),
                 ("aether-mgielny-zuraw", "Mgielny Żuraw", 18, 1593),
@@ -754,7 +754,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "nexus-exp-1",
             "name": "Strefa Dronów i Pełzaczy (Lv. 1–3)",
-            "cx": -315.0, "cz": -20.0, "radius": 52.0,
+            "cx": -322.0, "cz": -12.0, "radius": 52.0,
             "monsters": [
                 ("nexus-dron-zwiadowca", "Dron Zwiadowca", 1, 56),
                 ("nexus-dron-zwiadowca", "Dron Zwiadowca", 1, 56),
@@ -766,7 +766,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "nexus-exp-2",
             "name": "Sektor Pająków Spawalniczych (Lv. 4–6)",
-            "cx": -250.0, "cz": -260.0, "radius": 54.0,
+            "cx": -198.0, "cz": -202.0, "radius": 54.0,
             "monsters": [
                 ("nexus-skaner-gasienicowy", "Skaner Gąsienicowy", 4, 266),
                 ("nexus-skaner-gasienicowy", "Skaner Gąsienicowy", 4, 266),
@@ -778,7 +778,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "nexus-exp-3",
             "name": "Bateria Wieżyczek i Nanitów (Lv. 8–10)",
-            "cx": 0.0, "cz": -330.0, "radius": 55.0,
+            "cx": 212.0, "cz": -212.0, "radius": 55.0,
             "monsters": [
                 ("nexus-wiezyczka-autonomiczna", "Wieżyczka Autonomiczna", 8, 752),
                 ("nexus-wiezyczka-autonomiczna", "Wieżyczka Autonomiczna", 8, 752),
@@ -790,7 +790,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "nexus-exp-4",
             "name": "Poligon Psów Łowców (Lv. 12–14)",
-            "cx": 325.0, "cz": 20.0, "radius": 55.0,
+            "cx": 330.0, "cz": 16.0, "radius": 55.0,
             "monsters": [
                 ("nexus-pies-lowca", "Pies Łowca", 12, 933),
                 ("nexus-pies-lowca", "Pies Łowca", 12, 933),
@@ -802,7 +802,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "nexus-exp-5",
             "name": "Obwód Latarni Plazmowych (Lv. 14–16)",
-            "cx": 245.0, "cz": 265.0, "radius": 55.0,
+            "cx": -168.0, "cz": 175.0, "radius": 54.0,
             "monsters": [
                 ("nexus-latarnia-plazmowa", "Latarnia Plazmowa", 16, 1355),
                 ("nexus-latarnia-plazmowa", "Latarnia Plazmowa", 16, 1355),
@@ -814,7 +814,7 @@ EXP_ZONES_CATALOG = {
         {
             "id": "nexus-exp-6",
             "name": "Rdzeń Kruków Danych (Lv. 16–18)",
-            "cx": 0.0, "cz": 330.0, "radius": 58.0,
+            "cx": 222.0, "cz": 225.0, "radius": 56.0,
             "monsters": [
                 ("nexus-kruk-danych", "Kruk Danych", 18, 1274),
                 ("nexus-kruk-danych", "Kruk Danych", 18, 1274),
@@ -823,6 +823,34 @@ EXP_ZONES_CATALOG = {
                 ("nexus-kruk-danych", "Kruk Danych", 18, 1274),
             ],
         },
+    ],
+}
+
+# 16 Curated Scenic Wilderness POIs (4 per continent) connected by winding side-trails
+WILDERNESS_POIS_CATALOG = {
+    "pyra": [
+        ("pyra-poi-mine", "Stara Kopalnia Popiołu", -125.0, -245.0, "9faf3451-pyra-continent-mine.webp", 430, 390),
+        ("pyra-poi-cave", "Jaskinia Żaru", 115.0, -255.0, "9b0974a2-pyra-continent-cave.webp", 430, 380),
+        ("pyra-poi-arch", "Wulkaniczny Łuk Przysięgi", -245.0, 110.0, "5aa5d3c0-pyra-continent-rock-arch.webp", 450, 390),
+        ("pyra-poi-ruin", "Strażnica Obsydianowych Iglic", 255.0, 108.0, "5f186a05-pyra-continent-ruin.webp", 430, 400),
+    ],
+    "verdant": [
+        ("verdant-poi-shrine", "Zapomniana Kapliczka Gaju", -110.0, -255.0, "fa6d3bf2-verdantia-extra-shrine.webp", 370, 410),
+        ("verdant-poi-cave", "Grota Pradawnych Korzeni", 125.0, -260.0, "fc1e269d-verdantia-extra-cave.webp", 440, 390),
+        ("verdant-poi-camp", "Obozowisko Zwiadowców Przystani", -255.0, 135.0, "29d17949-verdantia-extra-camp.webp", 390, 330),
+        ("verdant-poi-spring", "Szmaragdowy Wodospad Doliny", 255.0, 132.0, "7c9c601a-verdantia-extra-spring.webp", 420, 345),
+    ],
+    "aether": [
+        ("aether-poi-source", "Źródło Błękitnego Ki", -112.0, -258.0, "df70d07d-aether-art-ki-source.webp", 450, 440),
+        ("aether-poi-shrine", "Kaplica Mgielnego Wiatru", 118.0, -255.0, "f88f9d0e-aetheria-continent-shrine.webp", 390, 420),
+        ("aether-poi-ruin", "Ruiny Starych Zwojów", -255.0, 128.0, "99bc8df9-aetheria-continent-ruin.webp", 420, 395),
+        ("aether-poi-cave", "Grota Kryształowych Pieczęci", 252.0, 120.0, "2676f749-aetheria-continent-cave.webp", 430, 385),
+    ],
+    "nexus": [
+        ("nexus-poi-monolith", "Monolit Pierwszego Sygnału", -110.0, -248.0, "54c3c2b2-nexus-continent-monolith.webp", 370, 480),
+        ("nexus-poi-ruin", "Zrujnowany Przekaźnik Obwodu", 115.0, -252.0, "32b36d65-nexus-continent-ruin.webp", 420, 395),
+        ("nexus-poi-cave", "Podziemny Węzeł Serwisowy", -252.0, 118.0, "b639b86b-nexus-continent-cave.webp", 430, 385),
+        ("nexus-poi-arch", "Kryształowa Brama Danych", 252.0, 122.0, "cd607c7f-island-3.props.violet-arch.webp", 420, 385),
     ],
 }
 
@@ -935,9 +963,9 @@ def generate_continent(land_id: str) -> dict:
         # 1) Southern & Eastern Ocean Bay (Zatoka Oceaniczna)
         ocean_s = smoothstep(235.0, 295.0, zz + np.sin(xx * 0.014) * 26.0 + (n_detail - 0.5) * 22.0)
         ocean_e = smoothstep(330.0, 390.0, xx + np.cos(zz * 0.014) * 24.0)
-        # 2) Great NW Emerald Forest Lake around (-215, -195)
-        d_nw_lake = np.sqrt((xx + 215.0 + (n_detail - 0.5) * 28.0) ** 2 + (zz + 195.0 + (n_macro - 0.5) * 28.0) ** 2)
-        m_nw_lake = 1.0 - smoothstep(72.0, 98.0, d_nw_lake)
+        # 2) Great NW Emerald Forest Lake around (-318, -238) framing the NW highlands
+        d_nw_lake = np.sqrt((xx + 318.0 + (n_detail - 0.5) * 28.0) ** 2 + (zz + 238.0 + (n_macro - 0.5) * 28.0) ** 2)
+        m_nw_lake = 1.0 - smoothstep(66.0, 92.0, d_nw_lake)
         # 3) Wide Rzeka Przełomu flowing from NW Lake around the capital (r ~ 195m) into the Southern Ocean
         riv1_dist = np.abs(zz - (188.0 * np.cos(xx * 0.0065) + np.sin(xx * 0.018) * 22.0))
         m_riv1 = np.exp(-(riv1_dist ** 2) / (2.0 * 17.0 ** 2)) * smoothstep(135.0, 168.0, rr)
@@ -966,11 +994,11 @@ def generate_continent(land_id: str) -> dict:
         axis_clear = np.maximum(np.exp(-(xx ** 2) / (2.0 * 15.0 ** 2)), np.exp(-(zz ** 2) / (2.0 * 15.0 ** 2)))
         m_ring_lagoon *= (1.0 - axis_clear * 0.95)
 
-        # 2) NW & NE Mirror Alpine Lakes
-        d_lake_nw = np.sqrt((xx + 225.0) ** 2 + (zz + 205.0) ** 2)
-        d_lake_ne = np.sqrt((xx - 225.0) ** 2 + (zz + 205.0) ** 2)
-        m_lake_nw = 1.0 - smoothstep(58.0, 82.0, d_lake_nw)
-        m_lake_ne = 1.0 - smoothstep(58.0, 82.0, d_lake_ne)
+        # 2) NW & NE Mirror Alpine Lakes positioned scenically beside the NW/NE combat terraces
+        d_lake_nw = np.sqrt((xx + 325.0) ** 2 + (zz + 245.0) ** 2)
+        d_lake_ne = np.sqrt((xx - 325.0) ** 2 + (zz + 245.0) ** 2)
+        m_lake_nw = 1.0 - smoothstep(54.0, 78.0, d_lake_nw)
+        m_lake_ne = 1.0 - smoothstep(54.0, 78.0, d_lake_ne)
 
         # 3) Southern Sky-Ocean Fjord & Twin Cascade Streams
         ocean_s = smoothstep(355.0, 415.0, zz + np.cos(xx * 0.012) * 24.0)
@@ -1009,99 +1037,138 @@ def generate_continent(land_id: str) -> dict:
         h -= energy_mask * 1.8
 
     # ------------------------------------------------------------------
-    # B. 6 Exp-Zone Combat Clearings ("Expowiska") — Flatten Amphitheaters + Scenic Shore Streams
+    # B. 6 Exp-Zone Combat Clearings ("Expowiska") — Natural Amphitheaters (Zero Artificial C-Puddles!)
     # ------------------------------------------------------------------
     exp_zones = EXP_ZONES_CATALOG[land_id]
+    wild_pois = WILDERNESS_POIS_CATALOG[land_id]
+
     for ez in exp_zones:
         ecx, ecz, erad = ez["cx"], ez["cz"], ez["radius"]
         d_ez = np.sqrt((xx - ecx) ** 2 + (zz - ecz) ** 2)
-        ez_flat = 1.0 - smoothstep(erad * 0.58, erad * 0.92, d_ez)
+        ez_flat = 1.0 - smoothstep(erad * 0.62, erad * 1.02, d_ez)
         if np.max(ez_flat) > 0.01:
-            # Sample average safe land elevation at the clearing center
             ci = int(np.clip((ecz + HALF) / WORLD_SIZE * GRID_N, 0, GRID_N - 1))
             cj = int(np.clip((ecx + HALF) / WORLD_SIZE * GRID_N, 0, GRID_N - 1))
-            target_h = max(float(h[ci, cj]), 4.5)
-            h = h * (1.0 - ez_flat) + target_h * ez_flat
-            # Clear any water or lava from the inner combat floor (d_ez < erad * 0.68)
-            water_mask *= (1.0 - smoothstep(erad * 0.72, erad * 0.56, d_ez))
-            lava_mask *= (1.0 - smoothstep(erad * 0.72, erad * 0.56, d_ez))
-            # Add a scenic Crescent Magma Stream / Emerald River / Alpine Lagoon along the back rim (d_ez ~ erad * 0.76)
-            shore_arc = np.exp(-((d_ez - erad * 0.76) ** 2) / (2.0 * 5.2 ** 2)) * smoothstep(-10.0, 12.0, (xx - ecx) * 0.5 - (zz - ecz) * 0.85)
-            if land_id == "pyra":
-                lava_mask = np.maximum(lava_mask, shore_arc * 0.95)
-            elif land_id in ("verdant", "aether"):
-                water_mask = np.maximum(water_mask, shore_arc * 0.95)
-            elif land_id == "nexus":
-                energy_mask = np.maximum(energy_mask, shore_arc * 0.95)
-            h -= shore_arc * 2.8
-            # Paint a subtle stone combat ring & paved floor in the exp-zone center (inside d_ez < erad * 0.54)
-            arena_ring = np.exp(-((d_ez - erad * 0.50) ** 2) / (2.0 * 2.8 ** 2))
-            arena_center = (1.0 - smoothstep(0.0, erad * 0.50, d_ez)) * 0.45
-            road_mask = np.maximum(road_mask, np.clip(arena_ring * 0.85 + arena_center, 0.0, 1.0))
+            target_h = max(float(h[ci, cj]), 5.5)
+            # Gentle terraced natural glade floor with micro-relief (no flat stamp)
+            h = h * (1.0 - ez_flat) + (target_h + (n_micro - 0.5) * 0.9) * ez_flat
+            # Keep combat floor & immediate perimeter clear of water/lava puddles
+            clear_liq = 1.0 - smoothstep(erad * 0.92, erad * 0.64, d_ez)
+            water_mask *= clear_liq
+            lava_mask *= clear_liq
+            # Subtle weathered flagstone clearing center (organic noise-modulated edge, never a hard circle!)
+            organic_r = d_ez + (n_detail - 0.5) * 14.0
+            clearing_floor = (1.0 - smoothstep(erad * 0.25, erad * 0.56, organic_r)) * 0.62
+            road_mask = np.maximum(road_mask, clearing_floor)
+
+    # Flatten small scenic viewpoints for the 4 Wilderness POIs
+    for _pid, _ptitle, px, pz, _pspr, _pw, _ph in wild_pois:
+        d_p = np.sqrt((xx - px) ** 2 + (zz - pz) ** 2)
+        p_flat = 1.0 - smoothstep(22.0, 38.0, d_p)
+        if np.max(p_flat) > 0.01:
+            ci = int(np.clip((pz + HALF) / WORLD_SIZE * GRID_N, 0, GRID_N - 1))
+            cj = int(np.clip((px + HALF) / WORLD_SIZE * GRID_N, 0, GRID_N - 1))
+            target_h = max(float(h[ci, cj]), 5.5)
+            h = h * (1.0 - p_flat) + target_h * p_flat
+            clear_l = 1.0 - smoothstep(32.0, 18.0, d_p)
+            water_mask *= clear_l
+            lava_mask *= clear_l
 
     # ------------------------------------------------------------------
-    # C. Catmull-Rom Spline Road Generator (City Avenues + Highways + Exp-Zone Spurs)
+    # C. Two-Tier Catmull-Rom Wilderness Road & Scenic Footpath Network
+    #    Tier 1: Grand Paved Highways (Capital Gates -> 4 Crossroads Waystations -> 6 Exp-Zones)
+    #    Tier 2: Winding Wilderness Dirt/Flagstone Footpaths (linking Exp-Zones & 16 Scenic POIs)
     # ------------------------------------------------------------------
-    # 1) Capital Plaza & Inner Ring Road (r=64m, inside the moat/lagoon) + Outer Ring Road (r=148m)
     plaza_m = (1.0 - smoothstep(30.0, 42.0, rr)) * (1.0 - np.clip(water_mask * 1.4, 0.0, 1.0)) * (1.0 - np.clip(lava_mask * 1.4, 0.0, 1.0))
     inner_ring = np.exp(-((rr - 64.0) ** 2) / (2.0 * 5.5 ** 2))
     outer_city_ring = np.exp(-((rr - 148.0) ** 2) / (2.0 * 6.0 ** 2))
     road_mask = np.maximum.reduce([road_mask, plaza_m, inner_ring, outer_city_ring])
 
-    # Define spline paths: 4 Main Highways from center through the 4 Gates + 6 Spurs to every Exp-Zone
-    spline_defs = [
-        # 4 Main City-to-Gate Avenues
-        ([(0.0, 0.0), (-85.0, 0.0), (-175.0, 0.0)], 15.0),
-        ([(0.0, 0.0), (85.0, 0.0), (175.0, 0.0)], 15.0),
-        ([(0.0, 0.0), (0.0, -85.0), (0.0, -175.0)], 15.0),
-        ([(0.0, 0.0), (0.0, 85.0), (0.0, 175.0)], 15.0),
+    # 4 Scenic Crossroads Waystations just outside each capital gate
+    crossroads = [
+        ("W", (-175.0, 0.0), (-238.0, 6.0)),
+        ("E", (175.0, 0.0), (238.0, -4.0)),
+        ("N", (0.0, -175.0), (0.0, -228.0)),
+        ("S", (0.0, 175.0), (0.0, 206.0)),
+    ]
+    # Format: (control_points, width_m, road_strength, tier)
+    spline_defs: list[tuple[list[tuple[float, float]], float, float, str]] = [
+        # 4 Main City-to-Gate Avenues -> Crossroads Waystations
+        ([(0.0, 0.0), (-85.0, 0.0), (-175.0, 0.0), (-238.0, 6.0)], 15.5, 1.0, "highway"),
+        ([(0.0, 0.0), (85.0, 0.0), (175.0, 0.0), (238.0, -4.0)], 15.5, 1.0, "highway"),
+        ([(0.0, 0.0), (0.0, -85.0), (0.0, -175.0), (0.0, -228.0)], 15.5, 1.0, "highway"),
+        ([(0.0, 0.0), (0.0, 85.0), (0.0, 175.0), (0.0, 206.0)], 15.5, 1.0, "highway"),
     ]
 
-    # Connect each of the 6 Exp-Zones back to the nearest City Gate ([-175,0], [175,0], [0,-175], [0,175]) via curved Catmull-Rom spline!
-    gates = [(-175.0, 0.0), (175.0, 0.0), (0.0, -175.0), (0.0, 175.0)]
+    # Tier 1 Highways: Route each Exp-Zone via graceful S-curve from its nearest Crossroads Waystation
+    waystation_pts = [cr[2] for cr in crossroads]
+    highway_curves: list[np.ndarray] = []
+    exp_approach_dirs: dict[str, tuple[float, float]] = {}
     for idx, ez in enumerate(exp_zones):
         ecx, ecz = ez["cx"], ez["cz"]
-        best_g = min(gates, key=lambda g: (g[0] - ecx) ** 2 + (g[1] - ecz) ** 2)
-        mid_x = 0.5 * (best_g[0] + ecx) + (28.0 if idx % 2 == 0 else -28.0)
-        mid_z = 0.5 * (best_g[1] + ecz) + (-26.0 if idx % 2 == 0 else 26.0)
-        spline_defs.append(([best_g, (mid_x, mid_z), (ecx, ecz)], 14.0))
+        best_ws = min(waystation_pts, key=lambda p: (p[0] - ecx) ** 2 + (p[1] - ecz) ** 2)
+        dx_w = ecx - best_ws[0]
+        dz_w = ecz - best_ws[1]
+        seg_len = max(math.hypot(dx_w, dz_w), 1.0)
+        px_n, pz_n = -dz_w / seg_len, dx_w / seg_len
+        bend = 24.0 if idx % 2 == 0 else -24.0
+        p1 = (best_ws[0] + dx_w * 0.36 + px_n * bend, best_ws[1] + dz_w * 0.36 + pz_n * bend)
+        p2 = (best_ws[0] + dx_w * 0.72 - px_n * bend * 0.65, best_ws[1] + dz_w * 0.72 - pz_n * bend * 0.65)
+        spline_defs.append(([best_ws, p1, p2, (ecx, ecz)], 13.8, 1.0, "highway"))
+        # Store approach unit vector pointing from exp-zone back toward road entrance (for gateway arch!)
+        exp_approach_dirs[ez["id"]] = ((p2[0] - ecx) / max(math.hypot(p2[0] - ecx, p2[1] - ecz), 1.0),
+                                       (p2[1] - ecz) / max(math.hypot(p2[0] - ecx, p2[1] - ecz), 1.0))
 
-    # Also add a scenic Perimeter Continent Loop connecting adjacent Exp-Zones!
-    for i in range(len(exp_zones)):
-        p_a = (exp_zones[i]["cx"], exp_zones[i]["cz"])
-        p_b = (exp_zones[(i + 1) % len(exp_zones)]["cx"], exp_zones[(i + 1) % len(exp_zones)]["cz"])
-        mx = 0.5 * (p_a[0] + p_b[0]) * 0.92
-        mz = 0.5 * (p_a[1] + p_b[1]) * 0.92
-        spline_defs.append(([p_a, (mx, mz), p_b], 11.5))
+    # Tier 2 Scenic Winding Footpaths linking all 4 Wilderness POIs to nearest Crossroads & Exp-Zones
+    for p_idx, (_pid, _ptitle, px, pz, _pspr, _pw, _ph) in enumerate(wild_pois):
+        best_ws = min(waystation_pts, key=lambda p: (p[0] - px) ** 2 + (p[1] - pz) ** 2)
+        best_ez = min(exp_zones, key=lambda e: (e["cx"] - px) ** 2 + (e["cz"] - pz) ** 2)
+        mx1 = 0.5 * (best_ws[0] + px) + (18.0 if p_idx % 2 == 0 else -18.0)
+        mz1 = 0.5 * (best_ws[1] + pz) + (-16.0 if p_idx % 2 == 0 else 16.0)
+        spline_defs.append(([best_ws, (mx1, mz1), (px, pz)], 8.8, 0.80, "footpath"))
+        mx2 = 0.5 * (px + best_ez["cx"]) + (-15.0 if p_idx % 2 == 0 else 15.0)
+        mz2 = 0.5 * (pz + best_ez["cz"]) + (14.0 if p_idx % 2 == 0 else -14.0)
+        spline_defs.append(([(px, pz), (mx2, mz2), (best_ez["cx"], best_ez["cz"])], 8.2, 0.76, "footpath"))
+
+    # Tier 2 Perimeter Wilderness Trail Loop linking neighboring Exp-Zones around the continent
+    ez_ordered = sorted(exp_zones, key=lambda e: math.atan2(e["cz"], e["cx"]))
+    for i in range(len(ez_ordered)):
+        p_a = (ez_ordered[i]["cx"], ez_ordered[i]["cz"])
+        p_b = (ez_ordered[(i + 1) % len(ez_ordered)]["cx"], ez_ordered[(i + 1) % len(ez_ordered)]["cz"])
+        mx = 0.5 * (p_a[0] + p_b[0]) * 0.90 + (16.0 if i % 2 == 0 else -16.0)
+        mz = 0.5 * (p_a[1] + p_b[1]) * 0.90 + (-14.0 if i % 2 == 0 else 14.0)
+        spline_defs.append(([p_a, (mx, mz), p_b], 8.4, 0.74, "footpath"))
 
     bridge_locations: list[tuple[float, float]] = []
 
-    for ctrl_pts, r_width in spline_defs:
-        curve = catmull_rom_spline(ctrl_pts, samples_per_seg=140)
-        # Vectorized distance field from grid (xx, zz) to dense polyline samples
+    for ctrl_pts, r_width, r_strength, tier in spline_defs:
+        curve = catmull_rom_spline(ctrl_pts, samples_per_seg=120)
+        if tier == "highway":
+            highway_curves.append(curve)
         c_pts = curve
         dx = xx[..., None] - c_pts[None, None, :, 0]
         dz = zz[..., None] - c_pts[None, None, :, 1]
         d_min = np.min(np.sqrt(dx * dx + dz * dz), axis=-1)
 
-        seg_mask = 1.0 - smoothstep(r_width * 0.42, r_width * 0.88, d_min)
+        # Slightly organic weathered edges on footpaths
+        edge_jit = (n_detail - 0.5) * (2.6 if tier == "footpath" else 1.2)
+        seg_mask = (1.0 - smoothstep(r_width * 0.42, r_width * 0.88, d_min + edge_jit)) * r_strength
         road_mask = np.maximum(road_mask, seg_mask)
 
-        # Where the road crosses water or lava, raise a flat bridge deck and clear liquid from the road bed
-        crossing = (seg_mask > 0.35) & ((water_mask > 0.35) | (lava_mask > 0.35))
+        # Where any road crosses water or lava, raise a flat bridge deck and clear liquid cleanly
+        crossing = (seg_mask > 0.30) & ((water_mask > 0.35) | (lava_mask > 0.35))
         if np.any(crossing):
-            h = np.where(crossing, np.maximum(h, 4.5), h)
-            water_mask = np.where(seg_mask > 0.45, water_mask * 0.15, water_mask)
-            lava_mask = np.where(seg_mask > 0.45, lava_mask * 0.15, lava_mask)
-            energy_mask = np.where(seg_mask > 0.45, energy_mask * 0.15, energy_mask)
-            # Record bridge midpoint if not too close to an existing bridge
+            h = np.where(crossing, np.maximum(h, 4.8), h)
+            water_mask = np.where(seg_mask > 0.38, water_mask * 0.12, water_mask)
+            lava_mask = np.where(seg_mask > 0.38, lava_mask * 0.12, lava_mask)
+            energy_mask = np.where(seg_mask > 0.38, energy_mask * 0.12, energy_mask)
             ys, xs = np.where(crossing)
             bx = float(np.mean(x_lin[xs]))
             bz = float(np.mean(z_lin[ys]))
-            if all((bx - ox) ** 2 + (bz - oz) ** 2 > 55.0 ** 2 for ox, oz in bridge_locations):
+            if all((bx - ox) ** 2 + (bz - oz) ** 2 > 52.0 ** 2 for ox, oz in bridge_locations):
                 bridge_locations.append((bx, bz))
 
-    # Never let road_mask overwrite open water or lava pools outside the narrow bridge crossings
+    # Never let road_mask overwrite open water or lava pools outside bridge crossings
     road_mask = np.where((water_mask > 0.35) | (lava_mask > 0.35), 0.0, road_mask)
 
     # Copy owner's accepted hand-painted terrain & water textures from ports/godot-pyra/assets/lands/<land_id>/terrain/
@@ -1149,7 +1216,7 @@ def generate_continent(land_id: str) -> dict:
     surf_rgba[..., 3] = np.clip((1.0 - energy_mask) * 255.0, 0, 255).astype(np.uint8)
     Image.fromarray(surf_rgba, mode="RGBA").save(reg_dir / "surface.png")
 
-    walkable = ((slope < 0.28) & (lava_mask < 0.35) & (water_mask < 0.35)) | (road_mask > 0.35)
+    walkable = ((slope < 0.28) & (lava_mask < 0.35) & (water_mask < 0.35)) | (road_mask > 0.30)
     walk_u8 = np.where(walkable, 255, 0).astype(np.uint8)
     walk_u8.tofile(reg_dir / "walkable.u8")
 
@@ -1163,7 +1230,7 @@ def generate_continent(land_id: str) -> dict:
         cj = int(np.clip((wx + HALF) / WORLD_SIZE * GRID_N, 0, GRID_N - 1))
         if lava_mask[ci, cj] > 0.20 or water_mask[ci, cj] > 0.20:
             return False
-        if clear_road and road_mask[ci, cj] > 0.28:
+        if clear_road and road_mask[ci, cj] > 0.24:
             return False
         return True
 
@@ -1188,7 +1255,6 @@ def generate_continent(land_id: str) -> dict:
         })
 
     if land_id == "pyra":
-        # Central Citadel & Services
         add_bldg("pyra-fortress", "Twierdza Popiołu (Cytadela)", "landmark", "fortress", 0.0, -76.0)
         add_bldg("pyra-hall", "Sala Przysięgi", "hall", "hall", 0.0, -24.0)
         add_bldg("pyra-altar", "Ołtarz Płomiennego Pojedynku", "landmark", "altar", -118.0, -98.0)
@@ -1198,14 +1264,12 @@ def generate_continent(land_id: str) -> dict:
         add_bldg("pyra-shop", "Targ Klanów", "shop", "shop", -72.0, 48.0)
         add_bldg("pyra-arena", "Arena Krwi i Popiołu", "arena", "arena", 76.0, 48.0)
         add_bldg("pyra-depot", "Skarbiec Twierdzy", "depot", "depot", 0.0, 128.0)
-        # Residential & Clan District houses
         for idx, (hx, hz) in enumerate([
             (-135.0, -45.0), (-142.0, 28.0), (-125.0, 105.0),
             (135.0, -45.0), (142.0, 28.0), (125.0, 105.0),
             (-48.0, -124.0), (48.0, -124.0), (-52.0, 132.0), (52.0, 132.0),
         ]):
             add_bldg(f"pyra-house-{idx}", "Dom Klanowy", "house", "house", hx, hz)
-        # 4 Grand Citadel Gates + Bastion Towers + Masonry Retaining Walls enclosing the capital
         for g_idx, (gx, gz) in enumerate([(-172.0, 0.0), (172.0, 0.0), (0.0, -172.0), (0.0, 172.0)]):
             add_bldg(f"pyra-gate-{g_idx}", "Brama Cytadeli", "gate", "gate", gx, gz)
         for t_idx, (tx, tz) in enumerate([(-155.0, -155.0), (155.0, -155.0), (-155.0, 155.0), (155.0, 155.0)]):
@@ -1217,7 +1281,6 @@ def generate_continent(land_id: str) -> dict:
             (168.0, -108.0, "wall_nw"), (168.0, -52.0, "wall_nw"), (168.0, 52.0, "wall_nw"), (168.0, 108.0, "wall_nw"),
         ]):
             add_bldg(f"pyra-wall-{w_idx}", "Mur Oporowy Cytadeli", "wall", w_key, wx, wz)
-        # Braziers & Street Lanterns lining the plaza and avenues
         for b_idx, (bx, bz) in enumerate([
             (-36.0, -36.0), (36.0, -36.0), (-36.0, 36.0), (36.0, 36.0),
             (-24.0, 145.0), (24.0, 145.0), (-24.0, -145.0), (24.0, -145.0),
@@ -1245,7 +1308,6 @@ def generate_continent(land_id: str) -> dict:
             (-52.0, -122.0), (52.0, -122.0), (-54.0, 132.0), (54.0, 132.0),
         ]):
             add_bldg(f"verdant-house-{idx}", "Dom Ogrodowy", "house", "house", hx, hz)
-        # Perimeter Walls & Living Arches
         for g_idx, (gx, gz) in enumerate([(-172.0, 0.0), (172.0, 0.0), (0.0, -172.0), (0.0, 172.0)]):
             add_bldg(f"verdant-gate-{g_idx}", "Brama Korzeni", "gate", "arch", gx, gz)
         for w_idx, (wx, wz, w_key) in enumerate([
@@ -1327,8 +1389,53 @@ def generate_continent(land_id: str) -> dict:
 
     # Add Painted Bridges at River/Lava Crossings
     bridge_key = "bridge" if "bridge" in arch else ("arch" if "arch" in arch else "transit_gate")
-    for b_idx, (bx, bz) in enumerate(bridge_locations[:8]):
-        add_bldg(f"{land_id}-bridge-{b_idx}", "Most Kamienny", "bridge", bridge_key, bx, bz)
+    for b_idx, (bx, bz) in enumerate(bridge_locations[:10]):
+        add_bldg(f"{land_id}-bridge-{b_idx}", "Most Szlaku", "bridge", bridge_key, bx, bz)
+
+    # Add the 4 Curated Scenic Wilderness POIs as named landmarks in buildings_list
+    for pid, ptitle, px, pz, pspr, pw, ph in wild_pois:
+        buildings_list.append({
+            "id": pid,
+            "title": ptitle,
+            "role": "landmark",
+            "sprite": f"res://assets/objects/{pspr}",
+            "w": pw,
+            "h": ph,
+            "x": round(px, 2),
+            "z": round(pz, 2),
+            "y": round(sample_h(px, pz), 2),
+        })
+
+    # Add Roadside Lanterns/Braziers/Pylons lining every wilderness Highway!
+    road_light_key = "lantern" if "lantern" in arch else ("lamp" if "lamp" in arch else "pylon")
+    placed_lights: list[tuple[float, float]] = []
+    for h_idx, h_curve in enumerate(highway_curves):
+        # Sample along curve every ~52m outside city walls (r > 188m)
+        dist_acc = 0.0
+        for si in range(1, len(h_curve)):
+            p0 = h_curve[si - 1]
+            p1 = h_curve[si]
+            step_d = float(math.hypot(p1[0] - p0[0], p1[1] - p0[1]))
+            dist_acc += step_d
+            if dist_acc < 52.0:
+                continue
+            dist_acc = 0.0
+            rx, rz = float(p1[0]), float(p1[1])
+            if math.hypot(rx, rz) < 188.0:
+                continue
+            if any(math.hypot(rx - ez["cx"], rz - ez["cz"]) < ez["radius"] * 0.78 for ez in exp_zones):
+                continue
+            tx = (p1[0] - p0[0]) / max(step_d, 1e-4)
+            tz = (p1[1] - p0[1]) / max(step_d, 1e-4)
+            side = 1.0 if (len(placed_lights) % 2 == 0) else -1.0
+            lx = rx - tz * 14.5 * side
+            lz = rz + tx * 14.5 * side
+            if not is_dry_ground(lx, lz, clear_road=True):
+                lx = rx + tz * 14.5 * side
+                lz = rz - tx * 14.5 * side
+            if is_dry_ground(lx, lz, clear_road=True) and all((lx - ox) ** 2 + (lz - oz) ** 2 > 38.0 ** 2 for ox, oz in placed_lights):
+                placed_lights.append((lx, lz))
+                add_bldg(f"{land_id}-roadlight-{len(placed_lights)}", "Latarnia Szlaku", "prop", road_light_key, lx, lz)
 
     # ------------------------------------------------------------------
     # F. Assemble 10 Capital NPCs, 30 Monsters in 6 Exp-Zones & 16 Fauna Animals
@@ -1380,10 +1487,10 @@ def generate_continent(land_id: str) -> dict:
     fauna_list = []
     fauna_species = FAUNA_CATALOG[land_id]
     tries = 0
-    while len(fauna_list) < 16 and tries < 400:
+    while len(fauna_list) < 18 and tries < 500:
         tries += 1
-        fx = rng.uniform(-420.0, 420.0)
-        fz = rng.uniform(-420.0, 420.0)
+        fx = rng.uniform(-400.0, 400.0)
+        fz = rng.uniform(-340.0, 340.0)
         if math.hypot(fx, fz) < 185.0:
             continue
         if not is_dry_ground(fx, fz, clear_road=False):
@@ -1399,57 +1506,98 @@ def generate_continent(land_id: str) -> dict:
         })
 
     # ------------------------------------------------------------------
-    # G. Scatter 250+ Diverse Painted Flora, Waterfalls, Rocks, Ruins, Shrines & Camps
+    # G. Curated Crossroads Waystations, Exp-Zone Gateway Arches, POI Vignettes & Natural Ecological Groves
     # ------------------------------------------------------------------
     props_catalog = FLORA_AND_PROPS_CATALOG[land_id]
     props_list = []
 
-    # 1) Frame each of the 6 Exp-Zones around its OUTER perimeter (r = erad * 0.86 .. erad * 1.08)
-    # with scenic camps, ruins, shrines, crystals, and rocks while keeping the combat center 100% clear!
     perimeter_items = [p for p in props_catalog if p[3] in ("camp", "landmark", "rock")]
-    flora_items = [p for p in props_catalog if p[3] in ("tree", "flora")]
+    tree_items = [p for p in props_catalog if p[3] == "tree"]
+    flora_items = [p for p in props_catalog if p[3] == "flora"]
+    rock_items = [p for p in props_catalog if p[3] == "rock"]
+    camp_items = [p for p in props_catalog if p[3] == "camp"]
+    arch_items = [p for p in props_catalog if ("arch" in p[0] or "ruin" in p[0] or "shrine" in p[0])]
     waterfall_items = [p for p in props_catalog if p[3] == "waterfall"]
 
-    for ez_idx, ez in enumerate(exp_zones):
-        ecx, ecz, erad = ez["cx"], ez["cz"], ez["radius"]
-        for k in range(8):
-            ang = (2.0 * math.pi * k) / 8.0 + 0.22
-            px = ecx + math.cos(ang) * (erad * 0.92)
-            pz = ecz + math.sin(ang) * (erad * 0.92)
+    def append_prop(pid: str, item: tuple, px: float, pz: float, scale: float = 1.0) -> None:
+        props_list.append({
+            "id": pid,
+            "kind": item[3],
+            "sprite": f"res://assets/objects/{item[0]}",
+            "w": int(item[1] * scale),
+            "h": int(item[2] * scale),
+            "x": round(px, 2),
+            "z": round(pz, 2),
+            "y": round(sample_h(px, pz), 2),
+        })
+
+    # 1) 4 Scenic Crossroads Waystations (camp, campfire/bonfire, boulders & framing trees beside each crossroads)
+    for cr_idx, (cr_dir, _g_pt, (cx, cz)) in enumerate(crossroads):
+        offsets = [(-22.0, -18.0), (22.0, -18.0), (-24.0, 20.0), (24.0, 20.0)]
+        for oi, (ox, oz) in enumerate(offsets):
+            px, pz = cx + ox, cz + oz
             if not is_dry_ground(px, pz, clear_road=True):
                 continue
-            item = perimeter_items[(ez_idx * 3 + k) % len(perimeter_items)]
-            props_list.append({
-                "id": f"{ez['id']}-frame-{k}",
-                "kind": item[3],
-                "sprite": f"res://assets/objects/{item[0]}",
-                "w": item[1],
-                "h": item[2],
-                "x": round(px, 2),
-                "z": round(pz, 2),
-                "y": round(sample_h(px, pz), 2),
-            })
+            if oi == 0 and camp_items:
+                append_prop(f"{land_id}-ws-{cr_dir}-camp", camp_items[0], px, pz, 1.05)
+            elif oi == 1 and len(camp_items) > 1:
+                append_prop(f"{land_id}-ws-{cr_dir}-fire", camp_items[1], px, pz, 1.0)
+            elif oi == 2 and tree_items:
+                append_prop(f"{land_id}-ws-{cr_dir}-tree", tree_items[cr_idx % len(tree_items)], px, pz, 1.08)
+            elif rock_items:
+                append_prop(f"{land_id}-ws-{cr_dir}-rock", rock_items[cr_idx % len(rock_items)], px, pz, 0.95)
 
-    # 2) Place Waterfalls at lake/river cliffs in Verdantia & Aetheria
+    # 2) Frame each of the 6 Exp-Zones with an Entrance Gateway Arch + Scenic Perimeter Clusters
+    for ez_idx, ez in enumerate(exp_zones):
+        ecx, ecz, erad = ez["cx"], ez["cz"], ez["radius"]
+        # Entrance gateway arch flanking the incoming highway
+        adx, adz = exp_approach_dirs.get(ez["id"], (0.0, -1.0))
+        if arch_items:
+            gx = ecx + adx * (erad * 0.78) - adz * 14.0
+            gz = ecz + adz * (erad * 0.78) + adx * 14.0
+            if is_dry_ground(gx, gz, clear_road=False):
+                append_prop(f"{ez['id']}-gateway", arch_items[ez_idx % len(arch_items)], gx, gz, 1.05)
+        for k in range(10):
+            ang = (2.0 * math.pi * k) / 10.0 + 0.18
+            px = ecx + math.cos(ang) * (erad * 0.94)
+            pz = ecz + math.sin(ang) * (erad * 0.94)
+            if not is_dry_ground(px, pz, clear_road=True):
+                continue
+            pool = perimeter_items if (k % 2 == 0) else (tree_items + flora_items)
+            item = pool[(ez_idx * 3 + k) % len(pool)]
+            append_prop(f"{ez['id']}-frame-{k}", item, px, pz, rng.uniform(0.92, 1.12))
+
+    # 3) Storytelling Vignettes around the 4 Curated Wilderness POIs (campfires, rocks, flowers, framing trees)
+    for poi_idx, (pid, _ptitle, px, pz, _pspr, _pw, _ph) in enumerate(wild_pois):
+        for k in range(6):
+            ang = (2.0 * math.pi * k) / 6.0 + 0.45
+            rad = 24.0 + (k % 2) * 10.0
+            qx = px + math.cos(ang) * rad
+            qz = pz + math.sin(ang) * rad
+            if not is_dry_ground(qx, qz, clear_road=True):
+                continue
+            if k == 0 and camp_items:
+                item = camp_items[poi_idx % len(camp_items)]
+            elif k in (1, 3) and tree_items:
+                item = tree_items[(poi_idx * 2 + k) % len(tree_items)]
+            elif k in (2, 4) and flora_items:
+                item = flora_items[(poi_idx * 3 + k) % len(flora_items)]
+            else:
+                item = rock_items[poi_idx % len(rock_items)]
+            append_prop(f"{pid}-vig-{k}", item, qx, qz, rng.uniform(0.90, 1.12))
+
+    # 4) Place Waterfalls at lake/river cliffs in Verdantia & Aetheria
     if waterfall_items:
         wf_item = waterfall_items[0]
         wf_coords = [(-265.0, -245.0), (-185.0, -255.0)] if land_id == "verdant" else [(-195.0, -135.0), (195.0, -135.0)]
         for w_i, (wx, wz) in enumerate(wf_coords):
-            props_list.append({
-                "id": f"{land_id}-waterfall-{w_i}",
-                "kind": "waterfall",
-                "sprite": f"res://assets/objects/{wf_item[0]}",
-                "w": wf_item[1],
-                "h": wf_item[2],
-                "x": round(wx, 2),
-                "z": round(wz, 2),
-                "y": round(sample_h(wx, wz), 2),
-            })
+            append_prop(f"{land_id}-waterfall-{w_i}", wf_item, wx, wz, 1.0)
 
-    # 3) Scatter 40 ornamental city trees/gardens inside the capital (outside road centerlines & building footprints)
+    # 5) Scatter 36 ornamental city trees/gardens inside the capital (outside roads & building footprints)
     city_tries = 0
     city_flora_count = 0
-    while city_flora_count < 36 and city_tries < 500:
+    city_pool = tree_items + flora_items
+    while city_flora_count < 36 and city_tries < 550:
         city_tries += 1
         px = rng.uniform(-155.0, 155.0)
         pz = rng.uniform(-155.0, 155.0)
@@ -1459,48 +1607,48 @@ def generate_continent(land_id: str) -> dict:
             continue
         if any(math.hypot(px - b["x"], pz - b["z"]) < 26.0 for b in buildings_list):
             continue
-        item = flora_items[(city_flora_count * 3) % len(flora_items)]
-        props_list.append({
-            "id": f"{land_id}-city-flora-{city_flora_count}",
-            "kind": item[3],
-            "sprite": f"res://assets/objects/{item[0]}",
-            "w": int(item[1] * 0.85),
-            "h": int(item[2] * 0.85),
-            "x": round(px, 2),
-            "z": round(pz, 2),
-            "y": round(sample_h(px, pz), 2),
-        })
+        item = city_pool[(city_flora_count * 3) % len(city_pool)]
+        append_prop(f"{land_id}-city-flora-{city_flora_count}", item, px, pz, 0.85)
         city_flora_count += 1
 
-    # 4) Scatter 210 diverse wild continent trees, flowers, rocks, ruins, caves, shrines & camps across the continent
-    wild_tries = 0
-    wild_count = 0
-    while wild_count < 210 and wild_tries < 2500:
-        wild_tries += 1
-        px = rng.uniform(-465.0, 465.0)
-        pz = rng.uniform(-465.0, 465.0)
-        if math.hypot(px, pz) < 182.0:
+    # 6) 32 Natural Ecological Wilderness Groves (3-5 clustered trees + undergrowth flora + boulders per grove!)
+    groves_placed = 0
+    grove_tries = 0
+    while groves_placed < 32 and grove_tries < 900:
+        grove_tries += 1
+        gx = rng.uniform(-440.0, 440.0)
+        gz = rng.uniform(-380.0, 380.0)
+        if math.hypot(gx, gz) < 192.0:
             continue
-        if not is_dry_ground(px, pz, clear_road=True):
+        if not is_dry_ground(gx, gz, clear_road=True):
             continue
-        # Strictly exclude inside any Exp-Zone combat clearing!
-        if any(math.hypot(px - ez["cx"], pz - ez["cz"]) < ez["radius"] * 0.90 for ez in exp_zones):
+        if any(math.hypot(gx - ez["cx"], gz - ez["cz"]) < ez["radius"] * 1.02 for ez in exp_zones):
             continue
-        item = props_catalog[(wild_count * 7 + wild_tries) % len(props_catalog)]
-        if item[3] == "waterfall":
+        if any(math.hypot(gx - wp[2], gz - wp[3]) < 42.0 for wp in wild_pois):
             continue
-        scale_jit = rng.uniform(0.88, 1.14)
-        props_list.append({
-            "id": f"{land_id}-wild-{wild_count}",
-            "kind": item[3],
-            "sprite": f"res://assets/objects/{item[0]}",
-            "w": int(item[1] * scale_jit),
-            "h": int(item[2] * scale_jit),
-            "x": round(px, 2),
-            "z": round(pz, 2),
-            "y": round(sample_h(px, pz), 2),
-        })
-        wild_count += 1
+        groves_placed += 1
+        # Core canopy trees (3-4 per grove)
+        n_trees = 3 + (groves_placed % 2)
+        for ti in range(n_trees):
+            ang = (2.0 * math.pi * ti) / n_trees + rng.uniform(-0.35, 0.35)
+            rad = rng.uniform(5.0, 22.0)
+            tx, tz = gx + math.cos(ang) * rad, gz + math.sin(ang) * rad
+            if is_dry_ground(tx, tz, clear_road=True):
+                t_item = tree_items[(groves_placed * 5 + ti) % len(tree_items)]
+                append_prop(f"{land_id}-grove-{groves_placed}-t{ti}", t_item, tx, tz, rng.uniform(0.88, 1.18))
+        # Undergrowth bushes, ferns, flowers, mushrooms (3 per grove)
+        for fi in range(3):
+            ang = rng.uniform(0.0, 2.0 * math.pi)
+            rad = rng.uniform(10.0, 28.0)
+            fx, fz = gx + math.cos(ang) * rad, gz + math.sin(ang) * rad
+            if is_dry_ground(fx, fz, clear_road=True):
+                f_item = flora_items[(groves_placed * 7 + fi) % len(flora_items)]
+                append_prop(f"{land_id}-grove-{groves_placed}-f{fi}", f_item, fx, fz, rng.uniform(0.85, 1.15))
+        # Natural rocky outcrop / crystal spire nestled beside grove
+        rx, rz = gx + rng.uniform(-24.0, 24.0), gz + rng.uniform(-24.0, 24.0)
+        if is_dry_ground(rx, rz, clear_road=True) and rock_items:
+            r_item = rock_items[groves_placed % len(rock_items)]
+            append_prop(f"{land_id}-grove-{groves_placed}-r", r_item, rx, rz, rng.uniform(0.86, 1.12))
 
     region_payload = {
         "land_id": land_id,
@@ -1517,22 +1665,23 @@ def generate_continent(land_id: str) -> dict:
     with open(reg_dir / "buildings.json", "w", encoding="utf-8") as f:
         json.dump(region_payload, f, ensure_ascii=False, indent=2)
 
-    # Bake 1024x1024 high-resolution cartographic minimap of the ACTUAL continent (textures, relief, contours, water/lava, roads, buildings & forest canopies)
-    render_premium_minimap(
-        land_id=land_id,
-        reg_dir=reg_dir,
-        h=h,
-        shade=shade,
-        weights=weights,
-        lava_mask=lava_mask,
-        water_mask=water_mask,
-        road_mask=road_mask,
-        energy_mask=energy_mask,
-        buildings_list=buildings_list,
-        props_list=props_list,
-        exp_zones_out=exp_zones_out,
-        world_size=WORLD_SIZE,
-    )
+    # Preserve owner-accepted canonical cartographic minimap_hq.png (built by build_canonical_maps.py)
+    if not (reg_dir / "minimap_hq.png").exists():
+        render_premium_minimap(
+            land_id=land_id,
+            reg_dir=reg_dir,
+            h=h,
+            shade=shade,
+            weights=weights,
+            lava_mask=lava_mask,
+            water_mask=water_mask,
+            road_mask=road_mask,
+            energy_mask=energy_mask,
+            buildings_list=buildings_list,
+            props_list=props_list,
+            exp_zones_out=exp_zones_out,
+            world_size=WORLD_SIZE,
+        )
 
     return {
         "land_id": land_id,
@@ -1802,8 +1951,11 @@ def main() -> None:
         print(f"Generating 1024x1024m Full Continent + Spline Roads + 6 Exp-Zones + Lakes/Oceans/Lava for {land_id}...")
         regions_meta[land_id] = generate_continent(land_id)
 
-    print("Compositing REAL 4 Continents onto Planet Superior 2D Map & 3D Globe Texture (2048x1024)...")
-    composite_real_planet_atlas()
+    if not (ATLAS_DIR / "planet_real_world.png").exists():
+        print("Compositing REAL 4 Continents onto Planet Superior 2D Map & 3D Globe Texture (2048x1024)...")
+        composite_real_planet_atlas()
+    else:
+        print("Preserving owner-accepted canonical planet_real_world.png & globe-real-world.webp.")
 
     manifest = {
         "planet": "Superior",

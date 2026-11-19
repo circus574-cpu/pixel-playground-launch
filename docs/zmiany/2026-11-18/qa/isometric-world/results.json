@@ -1,49 +1,49 @@
 {
-  "phase": "Canonical 2D/3D Maps + Etap 3 Atmosphere & Weather + Etap 4 Premium RPG HUD & 29-Node Talent Tree",
+  "phase": "AAA Studio Architecture + Ornate Action-RPG HUD & 29-Node Constellation + Open-World Wilderness Roads",
   "project": "ports/godot-isometric-world",
   "projection_roundtrip_error_m": 0.0,
   "regions": {
     "aether": {
-      "buildings_count": 56,
+      "buildings_count": 67,
       "exp_zones_count": 6,
-      "fauna_count": 16,
+      "fauna_count": 18,
       "grid_size": 512,
       "monsters_count": 30,
       "npcs_count": 10,
-      "props_count": 270,
+      "props_count": 332,
       "title": "Aetheria — Sanktuarium Tysiąca Źródeł i Niebiańskie Tarasy",
       "world_size_m": 1024.0
     },
     "nexus": {
-      "buildings_count": 48,
+      "buildings_count": 69,
       "exp_zones_count": 6,
-      "fauna_count": 16,
+      "fauna_count": 18,
       "grid_size": 512,
       "monsters_count": 30,
       "npcs_count": 10,
-      "props_count": 288,
+      "props_count": 337,
       "title": "Nexus-9 — Węzeł Świadomości i Obwody Rdzeni",
       "world_size_m": 1024.0
     },
     "pyra": {
-      "buildings_count": 66,
+      "buildings_count": 78,
       "exp_zones_count": 6,
-      "fauna_count": 16,
+      "fauna_count": 18,
       "grid_size": 512,
       "monsters_count": 30,
       "npcs_count": 10,
-      "props_count": 274,
+      "props_count": 328,
       "title": "Pyra — Twierdza Popiołu i Wulkaniczny Kontynent",
       "world_size_m": 1024.0
     },
     "verdant": {
-      "buildings_count": 55,
+      "buildings_count": 73,
       "exp_zones_count": 6,
-      "fauna_count": 16,
+      "fauna_count": 18,
       "grid_size": 512,
       "monsters_count": 30,
       "npcs_count": 10,
-      "props_count": 263,
+      "props_count": 310,
       "title": "Verdantia — Zielona Przystań i Szmaragdowa Dolina",
       "world_size_m": 1024.0
     }
@@ -61,6 +61,8 @@
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/planet-atlas.jpg",
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/map-3d.jpg",
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/map-3d-verdant.jpg",
-    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/talent-tree.jpg"
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/wilderness-road.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/talent-tree.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/character-sheet.jpg"
   ]
 }

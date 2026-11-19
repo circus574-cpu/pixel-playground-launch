@@ -1,122 +1,200 @@
 extends Control
-## Etap 4 — Premium Action-RPG HUD for KI Legends:
-## 1. Ornate Top-Left Hero Portrait & Resource Frame (HP, KI, Racial Resource, Coins, Level, Safe/Wild badge)
-##    + Compact Continent Quick-Travel & Telemetry Strip.
-## 2. Bottom-Center Premium RPG Action Dock with XP Progress Bar, 6 Racial Ability Slots (cooldown animations),
-##    and quick access pills ([K] Drzewko 29 Węzłów, [I] Postać/Ekwipunek, [T] Pora Dnia, [Tab] Mapa, [G] Globus).
-## 3. Interactive 29-Node Racial Talent Tree Overlay ([K]) & Character/Equipment Overlay ([I]).
+## AAA Ornate Dark-Fantasy Action-RPG HUD, 29-Node Diamond Constellation Skill Tree ([K]),
+## and Paperdoll Character & Equipment Sheet ([I]) for KI Legends.
+## Built strictly with painted studio textures (portraits, filigree crest, sculpted beveled rings,
+## 116+ canonical icons-v3, gear icons-v2, ui-v2 emblems), custom liquid-energy bar shader,
+## circular icon shader, and canonical 4-race x 29-node data from res://data/progression.json.
 
 const MapStyle := preload("res://scripts/map_style.gd")
 
-const RACE_CONFIG := {
+const LAND_TO_RACE := {
+	"pyra": "legend",
+	"verdant": "planetary",
+	"aether": "sage",
+	"nexus": "android",
+}
+
+const LAND_META := {
 	"pyra": {
 		"hero": "Ignis",
-		"race": "Legendy",
+		"title": "Wojownik Pyry",
+		"realm": "Pyra",
 		"res_name": "Żar",
-		"res_col": Color(1.0, 0.48, 0.14),
-		"accent": Color(1.0, 0.54, 0.22),
-		"hp": 140,
-		"ki": 40,
-		"skills": [
-			{"key": "Q", "name": "Cięcie Żaru", "col": Color(0.95, 0.34, 0.16), "cd": 1.2},
-			{"key": "1", "name": "Fala Popiołu", "col": Color(1.0, 0.52, 0.14), "cd": 4.0},
-			{"key": "2", "name": "Tarcza Bazaltu", "col": Color(0.84, 0.56, 0.28), "cd": 7.0},
-			{"key": "3", "name": "Furia Wulkanu", "col": Color(1.0, 0.24, 0.12), "cd": 10.0},
-			{"key": "4", "name": "Gniew Legendy", "col": Color(1.0, 0.78, 0.24), "cd": 16.0},
-			{"key": "SPC", "name": "Unik", "col": Color(0.32, 0.72, 0.96), "cd": 2.5},
-		],
+		"res_icon": "hud-zar.webp",
+		"res_dark": Color(0.46, 0.14, 0.03),
+		"res_bright": Color(1.0, 0.54, 0.14),
+		"accent": Color(1.0, 0.56, 0.22),
+		"portrait": "res://assets/ui/portrait_pyra.webp",
+		"race_icon": "race-legend.webp",
 	},
 	"verdant": {
 		"hero": "Sylvan",
-		"race": "Planetarni",
+		"title": "Strażnik Verdantii",
+		"realm": "Verdantia",
 		"res_name": "Nurt",
-		"res_col": Color(0.30, 0.90, 0.52),
+		"res_icon": "hud-ki.webp",
+		"res_dark": Color(0.06, 0.34, 0.16),
+		"res_bright": Color(0.32, 0.92, 0.52),
 		"accent": Color(0.38, 0.92, 0.56),
-		"hp": 135,
-		"ki": 50,
-		"skills": [
-			{"key": "Q", "name": "Cios Korzenia", "col": Color(0.28, 0.78, 0.42), "cd": 1.2},
-			{"key": "1", "name": "Pnącza Gaju", "col": Color(0.36, 0.88, 0.48), "cd": 4.5},
-			{"key": "2", "name": "Aegis Natury", "col": Color(0.56, 0.84, 0.34), "cd": 7.5},
-			{"key": "3", "name": "Szarża Łowcy", "col": Color(0.22, 0.84, 0.68), "cd": 9.0},
-			{"key": "4", "name": "Gniew Lasu", "col": Color(0.92, 0.82, 0.34), "cd": 15.0},
-			{"key": "SPC", "name": "Unik", "col": Color(0.32, 0.72, 0.96), "cd": 2.5},
-		],
+		"portrait": "res://assets/ui/portrait_verdant.webp",
+		"race_icon": "race-planetary.webp",
 	},
 	"aether": {
 		"hero": "Aurelius",
-		"race": "Mędrcy",
+		"title": "Mędrzec Aetherii",
+		"realm": "Aetheria",
 		"res_name": "Skupienie",
-		"res_col": Color(0.42, 0.88, 1.0),
+		"res_icon": "hud-ki.webp",
+		"res_dark": Color(0.08, 0.30, 0.48),
+		"res_bright": Color(0.42, 0.88, 1.0),
 		"accent": Color(0.46, 0.88, 1.0),
-		"hp": 120,
-		"ki": 70,
-		"skills": [
-			{"key": "Q", "name": "Strzała Ki", "col": Color(0.36, 0.82, 1.0), "cd": 1.1},
-			{"key": "1", "name": "Wir Źródeł", "col": Color(0.24, 0.72, 0.96), "cd": 4.0},
-			{"key": "2", "name": "Bariera Eteru", "col": Color(0.58, 0.88, 0.98), "cd": 7.0},
-			{"key": "3", "name": "Pieczęć Lodu", "col": Color(0.48, 0.68, 1.0), "cd": 9.5},
-			{"key": "4", "name": "Harmonia Ki", "col": Color(1.0, 0.86, 0.44), "cd": 16.0},
-			{"key": "SPC", "name": "Unik", "col": Color(0.32, 0.72, 0.96), "cd": 2.5},
-		],
+		"portrait": "res://assets/ui/portrait_aether.webp",
+		"race_icon": "race-sage.webp",
 	},
 	"nexus": {
 		"hero": "Cypher-9",
-		"race": "Androidy",
-		"res_name": "Ładunek",
-		"res_col": Color(0.18, 0.96, 0.98),
-		"accent": Color(0.22, 0.96, 0.98),
-		"hp": 150,
-		"ki": 55,
-		"skills": [
-			{"key": "Q", "name": "Impuls Plazmy", "col": Color(0.16, 0.86, 0.98), "cd": 1.0},
-			{"key": "1", "name": "Skan Taktyczny", "col": Color(0.28, 0.96, 0.80), "cd": 4.0},
-			{"key": "2", "name": "Pole Siłowe", "col": Color(0.36, 0.68, 1.0), "cd": 7.0},
-			{"key": "3", "name": "Przeciążenie", "col": Color(0.76, 0.44, 1.0), "cd": 10.0},
-			{"key": "4", "name": "Rdzeń Alfa", "col": Color(1.0, 0.76, 0.24), "cd": 16.0},
-			{"key": "SPC", "name": "Unik", "col": Color(0.32, 0.72, 0.96), "cd": 2.5},
-		],
+		"title": "Egzekutor Nexusa",
+		"realm": "Nexus-9",
+		"res_name": "Rdzeń",
+		"res_icon": "hud-rdzen.webp",
+		"res_dark": Color(0.04, 0.32, 0.42),
+		"res_bright": Color(0.18, 0.96, 0.98),
+		"accent": Color(0.24, 0.96, 0.98),
+		"portrait": "res://assets/ui/portrait_nexus.webp",
+		"race_icon": "race-android.webp",
 	},
 }
 
-const TALENT_BRANCHES := [
-	{"name": "SZLAK WALKI", "col": Color(1.0, 0.42, 0.26), "nodes": ["Ostrze Ki", "Siła Ciosu", "Pęd Bitewny", "Krytyczny Zryw", "Przebicie Pancerza", "Mistrz Broni", "Szał Tytana", "Apogeum Siły"]},
-	{"name": "SZLAK ENERGII KI", "col": Color(0.32, 0.86, 1.0), "nodes": ["Przepływ Ki", "Fala Rezonansu", "Błyskawica", "Skupienie Rdzenia", "Studnia Eteru", "Echo Mocy", "Przeciążenie Ki"]},
-	{"name": "SZLAK OCHRONY", "col": Color(0.42, 0.90, 0.54), "nodes": ["Twarda Skóra", "Bariera Ducha", "Odporność", "Regeneracja", "Bastion Woli", "Niezłomny", "Aegis Superior"]},
-	{"name": "SZLAK PODRÓŻY", "col": Color(1.0, 0.82, 0.34), "nodes": ["Szybki Krok +5%", "Zmysł Łowcy", "Kowalstwo", "Alchemia", "Targowanie", "Zwiadowca", "Mistrz Świata"]},
+const HOTBAR_NODE_IDS := ["R", "A1", "B1", "C1", "A4", "T"]
+const HOTBAR_KEYS := ["Q", "1", "2", "3", "4", "R"]
+const HOTBAR_CDS := [1.2, 5.5, 6.5, 11.0, 10.0, 28.0]
+
+const BRANCH_COLORS := {
+	"A": Color(0.98, 0.44, 0.24),
+	"B": Color(0.38, 0.90, 0.54),
+	"C": Color(0.36, 0.82, 1.0),
+	"R": Color(0.98, 0.82, 0.38),
+	"T": Color(1.0, 0.78, 0.26),
+}
+
+const TYPE_LABELS := {
+	"starting": "UMIEJĘTNOŚĆ STARTOWA",
+	"active": "UMIEJĘTNOŚĆ AKTYWNA",
+	"passive": "WĘZEŁ PASYWNY",
+	"choice": "WYBÓR ROZŁĄCZNY",
+	"ultimate": "ULTIMATE GAŁĘZI",
+	"transformation": "TRANSFORMACJA TRYBU KI",
+}
+
+const EQUIP_SLOTS := [
+	{"side": -1, "row": 0, "icon": "gear-helmet.webp", "name": "Hełm Żaru", "rarity": Color(0.38, 0.74, 1.0)},
+	{"side": -1, "row": 1, "icon": "gear-amulet.webp", "name": "Amulet Ki", "rarity": Color(0.76, 0.46, 1.0)},
+	{"side": -1, "row": 2, "icon": "gear-sword.webp", "name": "Ostrze Superior", "rarity": Color(1.0, 0.76, 0.28)},
+	{"side": -1, "row": 3, "icon": "gear-gloves.webp", "name": "Rękawice Klanu", "rarity": Color(0.36, 0.88, 0.52)},
+	{"side": 1, "row": 0, "icon": "gear-vest.webp", "name": "Kirys Strażnika", "rarity": Color(0.38, 0.74, 1.0)},
+	{"side": 1, "row": 1, "icon": "gear-shield.webp", "name": "Tarcza Bazaltu", "rarity": Color(0.36, 0.88, 0.52)},
+	{"side": 1, "row": 2, "icon": "gear-ring.webp", "name": "Pierścień Eteru", "rarity": Color(0.76, 0.46, 1.0)},
+	{"side": 1, "row": 3, "icon": "gear-boots.webp", "name": "Buty Szlaku +5%", "rarity": Color(0.36, 0.88, 0.52)},
+]
+
+const BACKPACK_ITEMS := [
+	{"icon": "gear-potion.webp", "qty": "5"},
+	{"icon": "emblem_potion.webp", "qty": "3"},
+	{"icon": "gear-tusk.webp", "qty": "12"},
+	{"icon": "emblem_scroll.webp", "qty": "2"},
+	{"icon": "emblem_crystal.webp", "qty": "4"},
+	{"icon": "gear-coin.webp", "qty": "120"},
+	{"icon": "", "qty": ""},
+	{"icon": "", "qty": ""},
+	{"icon": "", "qty": ""},
+	{"icon": "", "qty": ""},
 ]
 
 var world: Node2D
 var current_land := "pyra"
-var nearest_loc := "Stolica"
+var nearest_loc := "Twierdza Popiołu"
 var in_safe_city := true
+var time_mode_short := "Dzień"
+
 var hero_hp := 140.0
 var hero_max_hp := 140.0
 var hero_ki := 40.0
 var hero_max_ki := 40.0
-var hero_res := 36.0
-var hero_xp := 165.0
-var hero_max_xp := 500.0
-var hero_level := 1
+var hero_res := 64.0
+var hero_xp := 340.0
+var hero_max_xp := 1000.0
+var hero_level := 5
 var hero_gold := 120
-var skill_points := 3
-var unlocked_talents: Dictionary = {"0:0": true, "1:0": true, "3:0": true}
+var skill_points := 4
 var cooldowns: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+# Per-race unlocked node sets (realistic progression showcase at Lv. 5)
+var unlocked_by_race: Dictionary = {
+	"legend": {"R": true, "A1": true, "A2": true, "B1": true, "C1": true},
+	"planetary": {"R": true, "A1": true, "A2": true, "B1": true, "C1": true},
+	"sage": {"R": true, "A1": true, "B1": true, "B2": true, "C1": true},
+	"android": {"R": true, "A1": true, "B1": true, "C1": true, "C2": true},
+}
+
+var progression_db: Dictionary = {}
+var ui_tex_cache: Dictionary = {}
+var bar_shader: Shader
+var circle_shader: Shader
 
 var show_talents := false
 var show_character := false
-var nav_row := HBoxContainer.new()
-var dock_btns := HBoxContainer.new()
-var btn_time := Button.new()
+var selected_node_id := "A4"
+var hovered_node_id := ""
+var hovered_hotbar_idx := -1
+
+# Interactive layout hitboxes (rebuilt on layout/draw)
+var nav_hitboxes: Array[Dictionary] = []
+var hotbar_hitboxes: Array[Rect2] = []
+var util_hitboxes: Array[Dictionary] = []
+var talent_node_rects: Dictionary = {}
+var talent_close_rect := Rect2()
+var talent_unlock_btn_rect := Rect2()
+var char_close_rect := Rect2()
+
+# Live shader-backed Controls for crisp GPU-rendered liquid bars & circular icons
+var hud_widgets_root := Control.new()
+var portrait_rect := TextureRect.new()
+var portrait_mat := ShaderMaterial.new()
+var portrait_ring_rect := TextureRect.new()
+var race_badge_rect := TextureRect.new()
+var hp_bar_rect: ColorRect
+var hp_bar_mat := ShaderMaterial.new()
+var ki_bar_rect: ColorRect
+var ki_bar_mat := ShaderMaterial.new()
+var res_bar_rect: ColorRect
+var res_bar_mat := ShaderMaterial.new()
+var xp_bar_rect: ColorRect
+var xp_bar_mat := ShaderMaterial.new()
+var crest_rect := TextureRect.new()
+
+var modal_backdrop := TextureRect.new()
+var modal_overlay := Control.new()
+var talent_icon_nodes: Dictionary = {}
+var inspector_icon_rect := TextureRect.new()
+var inspector_icon_mat := ShaderMaterial.new()
+var inspector_ring_rect := TextureRect.new()
+var char_portrait_rect := TextureRect.new()
+var char_portrait_mat := ShaderMaterial.new()
+var char_portrait_ring := TextureRect.new()
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_PASS
-	_build_quick_buttons()
+	_load_progression_db()
+	bar_shader = load("res://shaders/rpg_bar.gdshader")
+	circle_shader = load("res://shaders/circle_icon.gdshader")
+	_build_shader_widgets()
+	_build_modal_layer()
 	if get_viewport() != null:
-		get_viewport().size_changed.connect(_sync_viewport_size)
-	resized.connect(_layout_controls)
-	_sync_viewport_size()
+		get_viewport().size_changed.connect(_on_resized)
+	resized.connect(_on_resized)
+	set_region("pyra")
+	_layout_all()
 
 func _vp_size() -> Vector2:
 	if get_viewport() != null:
@@ -125,366 +203,1405 @@ func _vp_size() -> Vector2:
 			return vs
 	return size
 
-func _sync_viewport_size() -> void:
-	_layout_controls()
+func _load_tex(path: String) -> Texture2D:
+	if path.is_empty():
+		return null
+	if ui_tex_cache.has(path):
+		return ui_tex_cache[path] as Texture2D
+	if world != null and world.has_method("load_tex"):
+		var wtex: Texture2D = world.load_tex(path)
+		if wtex != null:
+			ui_tex_cache[path] = wtex
+			return wtex
+	var abs_p := ProjectSettings.globalize_path(path)
+	if FileAccess.file_exists(abs_p) or FileAccess.file_exists(path):
+		var img := Image.new()
+		if img.load(abs_p if FileAccess.file_exists(abs_p) else path) == OK:
+			var itex := ImageTexture.create_from_image(img)
+			ui_tex_cache[path] = itex
+			return itex
+	return null
+
+func _icon_tex(fname: String) -> Texture2D:
+	if fname.is_empty():
+		return null
+	return _load_tex("res://assets/ui/icons/" + fname)
+
+func _load_progression_db() -> void:
+	if FileAccess.file_exists("res://data/progression.json"):
+		var raw := FileAccess.get_file_as_string("res://data/progression.json")
+		var parsed: Variant = JSON.parse_string(raw)
+		if parsed is Dictionary:
+			progression_db = (parsed as Dictionary).get("races", {})
+
+func _race_key() -> String:
+	return str(LAND_TO_RACE.get(current_land, "legend"))
+
+func _race_data() -> Dictionary:
+	var rk := _race_key()
+	if progression_db.has(rk):
+		return progression_db[rk] as Dictionary
+	return {}
+
+func _unlocked_map() -> Dictionary:
+	var rk := _race_key()
+	if not unlocked_by_race.has(rk):
+		unlocked_by_race[rk] = {"R": true}
+	return unlocked_by_race[rk] as Dictionary
+
+func _node_by_id(nid: String) -> Dictionary:
+	var rd := _race_data()
+	var nodes_arr: Array = rd.get("nodes", [])
+	for n_var in nodes_arr:
+		if n_var is Dictionary:
+			var nd: Dictionary = n_var
+			if str(nd.get("id", "")) == nid:
+				return nd
+	return {}
+
+func _node_state(nd: Dictionary) -> String:
+	var nid := str(nd.get("id", ""))
+	var umap := _unlocked_map()
+	if umap.get(nid, false):
+		return "unlocked"
+	# Check exclusive choices
+	var rd := _race_data()
+	var excl_arr: Array = rd.get("exclusiveChoices", [])
+	for pair_var in excl_arr:
+		if pair_var is Array:
+			var pair: Array = pair_var
+			if pair.size() == 2:
+				var p0 := str(pair[0])
+				var p1 := str(pair[1])
+				if nid == p0 and umap.get(p1, false):
+					return "excluded"
+				if nid == p1 and umap.get(p0, false):
+					return "excluded"
+	var reqs: Array = nd.get("requiresAny", [])
+	if reqs.is_empty():
+		return "available"
+	for r_var in reqs:
+		if umap.get(str(r_var), false):
+			return "available"
+	return "locked"
+
+func _make_bar_rect(mat: ShaderMaterial, dark: Color, bright: Color, taper: float, ticks: float) -> ColorRect:
+	var cr := ColorRect.new()
+	cr.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	mat.shader = bar_shader
+	mat.set_shader_parameter("color_dark", dark)
+	mat.set_shader_parameter("color_bright", bright)
+	mat.set_shader_parameter("bg_color", Color(0.05, 0.04, 0.06, 0.90))
+	mat.set_shader_parameter("border_color", Color(0.82, 0.64, 0.34, 0.92))
+	mat.set_shader_parameter("taper_right", taper)
+	mat.set_shader_parameter("tick_count", ticks)
+	mat.set_shader_parameter("fill_ratio", 1.0)
+	cr.material = mat
+	return cr
+
+func _build_shader_widgets() -> void:
+	hud_widgets_root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	hud_widgets_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(hud_widgets_root)
+
+	# Liquid energy shader bars (HP, KI, Racial Resource, XP filament)
+	hp_bar_rect = _make_bar_rect(hp_bar_mat, Color(0.42, 0.04, 0.06), Color(0.96, 0.20, 0.16), 0.065, 0.0)
+	ki_bar_rect = _make_bar_rect(ki_bar_mat, Color(0.05, 0.22, 0.48), Color(0.24, 0.78, 1.0), 0.065, 0.0)
+	res_bar_rect = _make_bar_rect(res_bar_mat, Color(0.46, 0.14, 0.03), Color(1.0, 0.54, 0.14), 0.065, 0.0)
+	xp_bar_rect = _make_bar_rect(xp_bar_mat, Color(0.48, 0.32, 0.08), Color(1.0, 0.84, 0.34), 0.0, 10.0)
+	hud_widgets_root.add_child(hp_bar_rect)
+	hud_widgets_root.add_child(ki_bar_rect)
+	hud_widgets_root.add_child(res_bar_rect)
+	hud_widgets_root.add_child(xp_bar_rect)
+
+	# Circularly masked Hero Portrait + sculpted antique-gold bezel ring + race badge
+	portrait_mat.shader = circle_shader
+	portrait_mat.set_shader_parameter("saturation", 1.05)
+	portrait_mat.set_shader_parameter("brightness", 1.04)
+	portrait_mat.set_shader_parameter("inner_vignette", 0.32)
+	portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	portrait_rect.material = portrait_mat
+	portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hud_widgets_root.add_child(portrait_rect)
+
+	portrait_ring_rect.texture = _load_tex("res://assets/ui/hud_portrait_ring.png")
+	portrait_ring_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	portrait_ring_rect.stretch_mode = TextureRect.STRETCH_SCALE
+	portrait_ring_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hud_widgets_root.add_child(portrait_ring_rect)
+
+	race_badge_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	race_badge_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	race_badge_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hud_widgets_root.add_child(race_badge_rect)
+
+	# Real painted antique-gold Fleur-de-lis crest finial crowning the bottom Action Dock
+	crest_rect.texture = _load_tex("res://assets/ui/hud_crest_top.png")
+	crest_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	crest_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	crest_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hud_widgets_root.add_child(crest_rect)
+
+func _build_modal_layer() -> void:
+	modal_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	modal_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	modal_overlay.visible = false
+	add_child(modal_overlay)
+
+	modal_backdrop.texture = _load_tex("res://assets/ui/talent_backdrop.webp")
+	modal_backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	modal_backdrop.stretch_mode = TextureRect.STRETCH_SCALE
+	modal_backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	modal_overlay.add_child(modal_backdrop)
+
+	# Inspector enlarged circular icon widget (for [K] Skill Tree)
+	inspector_icon_mat.shader = circle_shader
+	inspector_icon_mat.set_shader_parameter("inner_vignette", 0.28)
+	inspector_icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	inspector_icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	inspector_icon_rect.material = inspector_icon_mat
+	inspector_icon_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	modal_overlay.add_child(inspector_icon_rect)
+
+	inspector_ring_rect.texture = _load_tex("res://assets/ui/hud_node_ring_keystone.png")
+	inspector_ring_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	inspector_ring_rect.stretch_mode = TextureRect.STRETCH_SCALE
+	inspector_ring_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	modal_overlay.add_child(inspector_ring_rect)
+
+	# Character Paperdoll Hero Portrait widget (for [I] Character Sheet)
+	char_portrait_mat.shader = circle_shader
+	char_portrait_mat.set_shader_parameter("inner_vignette", 0.28)
+	char_portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	char_portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	char_portrait_rect.material = char_portrait_mat
+	char_portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	modal_overlay.add_child(char_portrait_rect)
+
+	char_portrait_ring.texture = _load_tex("res://assets/ui/hud_portrait_ring.png")
+	char_portrait_ring.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	char_portrait_ring.stretch_mode = TextureRect.STRETCH_SCALE
+	char_portrait_ring.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	modal_overlay.add_child(char_portrait_ring)
+
+	# Dedicated topmost canvas for modal graphics (constellation lines, nodes, labels, gear sockets)
+	var modal_canvas := Control.new()
+	modal_canvas.name = "ModalCanvas"
+	modal_canvas.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	modal_canvas.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	modal_canvas.draw.connect(_draw_modal_canvas.bind(modal_canvas))
+	modal_overlay.add_child(modal_canvas)
+
+	# Put custom HUD text/sockets/overlays above hud_widgets_root so labels draw cleanly over liquid bars!
+	var hud_fg := Control.new()
+	hud_fg.name = "HudForeground"
+	hud_fg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	hud_fg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hud_fg.draw.connect(_draw_hud_foreground.bind(hud_fg))
+	add_child(hud_fg)
+	# Ensure modal_overlay always sits on top of hud_fg
+	move_child(modal_overlay, get_child_count() - 1)
+
+func _on_resized() -> void:
+	_layout_all()
+	_refresh_visuals()
+
+func _refresh_visuals() -> void:
 	queue_redraw()
-
-func _style_pill(btn: Button, accent: Color = Color(0.84, 0.66, 0.36)) -> void:
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color(0.08, 0.06, 0.06, 0.90)
-	st.border_color = Color(accent.r, accent.g, accent.b, 0.82)
-	st.set_border_width_all(1)
-	st.set_corner_radius_all(6)
-	st.content_margin_left = 8
-	st.content_margin_right = 8
-	st.content_margin_top = 3
-	st.content_margin_bottom = 3
-	btn.add_theme_stylebox_override("normal", st)
-	var st_h := st.duplicate()
-	st_h.bg_color = Color(0.18, 0.13, 0.09, 0.96)
-	btn.add_theme_stylebox_override("hover", st_h)
-	btn.add_theme_color_override("font_color", Color(0.98, 0.92, 0.78))
-	btn.add_theme_font_size_override("font_size", 12)
-
-func _build_quick_buttons() -> void:
-	nav_row.add_theme_constant_override("separation", 5)
-	var lands := [["pyra", "[1] Pyra"], ["verdant", "[2] Verdantia"], ["aether", "[3] Aetheria"], ["nexus", "[4] Nexus-9"]]
-	for item: Array in lands:
-		var lid := str(item[0])
-		var b := Button.new()
-		b.text = str(item[1])
-		_style_pill(b)
-		b.pressed.connect(func() -> void:
-			if world != null:
-				world.switch_region(lid)
-		)
-		nav_row.add_child(b)
-
-	var b_cap := Button.new()
-	b_cap.text = "[C] Stolica"
-	_style_pill(b_cap, Color(0.42, 0.90, 0.56))
-	b_cap.pressed.connect(func() -> void:
-		if world != null:
-			world.teleport_to_capital()
-	)
-	nav_row.add_child(b_cap)
-
-	var b_exp := Button.new()
-	b_exp.text = "[E] Expowiska (6)"
-	_style_pill(b_exp, Color(1.0, 0.44, 0.24))
-	b_exp.pressed.connect(func() -> void:
-		if world != null:
-			world.cycle_exp_zone()
-	)
-	nav_row.add_child(b_exp)
-
-	add_child(nav_row)
-
-	# Compact RPG utility buttons attached to bottom-right of Action Dock
-	dock_btns.add_theme_constant_override("separation", 6)
-	var b_tal := Button.new()
-	b_tal.text = "[K] Drzewko"
-	_style_pill(b_tal, Color(1.0, 0.82, 0.34))
-	b_tal.pressed.connect(toggle_talents)
-	dock_btns.add_child(b_tal)
-
-	var b_inv := Button.new()
-	b_inv.text = "[I] Postać"
-	_style_pill(b_inv, Color(0.84, 0.72, 0.52))
-	b_inv.pressed.connect(toggle_character)
-	dock_btns.add_child(b_inv)
-
-	btn_time.text = "[T] Dzień"
-	_style_pill(btn_time, Color(0.56, 0.84, 1.0))
-	btn_time.pressed.connect(func() -> void:
-		if world != null:
-			world.cycle_time_of_day()
-	)
-	dock_btns.add_child(btn_time)
-
-	var b_2d := Button.new()
-	b_2d.text = "[Tab] Mapa 2D"
-	_style_pill(b_2d)
-	b_2d.pressed.connect(func() -> void:
-		if world != null:
-			if world.atlas_overlay != null:
-				world.atlas_overlay.set_mode("atlas")
-			world.toggle_atlas(true)
-	)
-	dock_btns.add_child(b_2d)
-
-	var b_3d := Button.new()
-	b_3d.text = "[G] Globus 3D"
-	_style_pill(b_3d)
-	b_3d.pressed.connect(func() -> void:
-		if world != null:
-			if world.atlas_overlay != null:
-				world.atlas_overlay.set_mode("globe")
-			world.toggle_atlas(true)
-	)
-	dock_btns.add_child(b_3d)
-
-	var b_m3d := Button.new()
-	b_m3d.text = "[M] Relief 3D"
-	_style_pill(b_m3d)
-	b_m3d.pressed.connect(func() -> void:
-		if world != null:
-			world.toggle_map()
-	)
-	dock_btns.add_child(b_m3d)
-
-	add_child(dock_btns)
-
-func _layout_controls() -> void:
-	var vs := _vp_size()
-	nav_row.position = Vector2(14.0, 114.0)
-	dock_btns.position = Vector2(maxf(vs.x * 0.5 - 266.0, 16.0), vs.y - 122.0)
+	var fg := get_node_or_null("HudForeground") as Control
+	if fg != null:
+		fg.queue_redraw()
+	var mc := modal_overlay.get_node_or_null("ModalCanvas") as Control
+	if mc != null:
+		mc.queue_redraw()
 
 func set_region(land: String) -> void:
 	current_land = land
-	var cfg: Dictionary = RACE_CONFIG.get(land, RACE_CONFIG["pyra"])
-	hero_max_hp = float(cfg["hp"])
+	var meta: Dictionary = LAND_META.get(land, LAND_META["pyra"])
+	var rd := _race_data()
+	var base: Dictionary = rd.get("base", {})
+	var per_lv: Dictionary = rd.get("perLevel", {})
+	var lv_off := float(hero_level - 1)
+	hero_max_hp = float(base.get("hp", 140)) + float(per_lv.get("hp", 35)) * lv_off
 	hero_hp = hero_max_hp
-	hero_max_ki = float(cfg["ki"])
+	hero_max_ki = float(base.get("ki", 45)) + float(per_lv.get("ki", 4)) * lv_off
 	hero_ki = hero_max_ki
-	hero_res = 38.0
-	queue_redraw()
+	hero_res = 68.0
+	selected_node_id = "A4"
+
+	portrait_rect.texture = _load_tex(str(meta["portrait"]))
+	char_portrait_rect.texture = _load_tex(str(meta["portrait"]))
+	race_badge_rect.texture = _icon_tex(str(meta["race_icon"]))
+
+	res_bar_mat.set_shader_parameter("color_dark", meta["res_dark"])
+	res_bar_mat.set_shader_parameter("color_bright", meta["res_bright"])
+	_sync_bar_uniforms()
+	_rebuild_talent_icon_widgets()
+	_layout_all()
+	_refresh_visuals()
+
+func _sync_bar_uniforms() -> void:
+	hp_bar_mat.set_shader_parameter("fill_ratio", clampf(hero_hp / maxf(hero_max_hp, 1.0), 0.0, 1.0))
+	ki_bar_mat.set_shader_parameter("fill_ratio", clampf(hero_ki / maxf(hero_max_ki, 1.0), 0.0, 1.0))
+	res_bar_mat.set_shader_parameter("fill_ratio", clampf(hero_res / 100.0, 0.0, 1.0))
+	xp_bar_mat.set_shader_parameter("fill_ratio", clampf(hero_xp / maxf(hero_max_xp, 1.0), 0.0, 1.0))
+
+func sync_status(loc: String, safe: bool) -> void:
+	nearest_loc = loc if not loc.is_empty() else "Stolica"
+	in_safe_city = safe
+	_refresh_visuals()
 
 func set_time_label(lbl: String) -> void:
-	btn_time.text = "[T] %s" % lbl
-
-func sync_status(loc_name: String, safe: bool) -> void:
-	nearest_loc = loc_name
-	in_safe_city = safe
-	queue_redraw()
+	if lbl.find("Zmierzch") >= 0:
+		time_mode_short = "Zmierzch"
+	elif lbl.find("Noc") >= 0:
+		time_mode_short = "Noc"
+	else:
+		time_mode_short = "Dzień"
+	_refresh_visuals()
 
 func trigger_skill(idx: int) -> void:
 	if idx < 0 or idx >= cooldowns.size():
 		return
-	if cooldowns[idx] > 0.0:
+	if cooldowns[idx] > 0.05:
 		return
-	var cfg: Dictionary = RACE_CONFIG.get(current_land, RACE_CONFIG["pyra"])
-	var skills: Array = cfg["skills"]
-	cooldowns[idx] = float(skills[idx]["cd"])
-	hero_ki = maxf(hero_ki - 6.0, 0.0)
-	hero_res = minf(hero_res + 14.0, 100.0)
-	queue_redraw()
-
-func _sync_modal_bars() -> void:
-	var modal_open := show_talents or show_character
-	nav_row.visible = not modal_open
-	dock_btns.visible = not modal_open
+	cooldowns[idx] = float(HOTBAR_CDS[idx])
+	hero_ki = maxf(6.0, hero_ki - (8.0 if idx > 0 else 0.0))
+	hero_res = minf(100.0, hero_res + 12.0)
+	hero_xp = fmod(hero_xp + 55.0, hero_max_xp)
+	_sync_bar_uniforms()
+	_refresh_visuals()
 
 func toggle_talents() -> void:
 	show_talents = not show_talents
 	if show_talents:
 		show_character = false
-	_sync_modal_bars()
-	queue_redraw()
+		_rebuild_talent_icon_widgets()
+	_sync_modal_visibility()
 
 func toggle_character() -> void:
 	show_character = not show_character
 	if show_character:
 		show_talents = false
-	_sync_modal_bars()
-	queue_redraw()
+	_sync_modal_visibility()
 
 func close_modals() -> void:
 	show_talents = false
 	show_character = false
-	_sync_modal_bars()
-	queue_redraw()
+	_sync_modal_visibility()
+
+func _sync_modal_visibility() -> void:
+	var any_open := show_talents or show_character
+	modal_overlay.visible = any_open
+	hud_widgets_root.visible = not any_open
+	var fg := get_node_or_null("HudForeground") as Control
+	if fg != null:
+		fg.visible = not any_open
+	inspector_icon_rect.visible = show_talents
+	inspector_ring_rect.visible = show_talents
+	for k in talent_icon_nodes.keys():
+		var pair: Dictionary = talent_icon_nodes[k]
+		(pair["icon"] as TextureRect).visible = show_talents
+		(pair["ring"] as TextureRect).visible = show_talents
+	char_portrait_rect.visible = show_character
+	char_portrait_ring.visible = show_character
+	if world != null and world.has_method("layout_minimap"):
+		world.layout_minimap()
+	_layout_all()
+	_refresh_visuals()
 
 func _process(delta: float) -> void:
-	var dirty := false
+	var changed := false
 	for i in cooldowns.size():
 		if cooldowns[i] > 0.0:
-			cooldowns[i] = maxf(cooldowns[i] - delta, 0.0)
-			dirty = true
+			cooldowns[i] = maxf(0.0, cooldowns[i] - delta)
+			changed = true
 	if hero_ki < hero_max_ki:
-		hero_ki = minf(hero_ki + delta * 3.5, hero_max_ki)
-		dirty = true
-	if dirty and visible:
-		queue_redraw()
+		hero_ki = minf(hero_max_ki, hero_ki + delta * 3.8)
+		changed = true
+	if changed:
+		_sync_bar_uniforms()
+		_refresh_visuals()
 
-func _gui_input(event: InputEvent) -> void:
-	if not (event is InputEventMouseButton and event.pressed):
-		return
-	var mb: InputEventMouseButton = event
-	if mb.button_index != MOUSE_BUTTON_LEFT:
-		return
-	# Handle clicking skill slots on the bottom dock
-	var dock := _dock_rect()
-	if dock.has_point(mb.position):
-		var start_x := dock.position.x + 14.0
-		var sy := dock.position.y + 24.0
-		for i in 6:
-			var sr := Rect2(start_x + float(i) * 86.0, sy, 78.0, 52.0)
-			if sr.has_point(mb.position):
-				trigger_skill(i)
-				accept_event()
-				return
-	# Handle clicking talent tree nodes when [K] panel is open
-	if show_talents:
-		var pr := _modal_rect()
-		if not pr.has_point(mb.position):
-			close_modals()
-			accept_event()
-			return
-		for b_idx in TALENT_BRANCHES.size():
-			var branch: Dictionary = TALENT_BRANCHES[b_idx]
-			var nodes: Array = branch["nodes"]
-			var col_x := pr.position.x + 30.0 + float(b_idx) * ((pr.size.x - 60.0) / 4.0)
-			for n_idx in nodes.size():
-				var nr := Rect2(col_x, pr.position.y + 92.0 + float(n_idx) * 48.0, 178.0, 38.0)
-				if nr.has_point(mb.position):
-					var key := "%d:%d" % [b_idx, n_idx]
-					if not unlocked_talents.has(key) and skill_points > 0:
-						unlocked_talents[key] = true
-						skill_points -= 1
-						queue_redraw()
-					accept_event()
-					return
-	elif show_character:
-		var cr := _modal_rect()
-		if not cr.has_point(mb.position):
-			close_modals()
-			accept_event()
-
-func _dock_rect() -> Rect2:
-	var vs := _vp_size()
-	return Rect2(vs.x * 0.5 - 268.0, vs.y - 90.0, 536.0, 82.0)
+# ==============================================================================
+# LAYOUT & CONSTELLATION GRAPH COORDINATES
+# ==============================================================================
 
 func _modal_rect() -> Rect2:
 	var vs := _vp_size()
-	return Rect2(vs.x * 0.5 - 410.0, vs.y * 0.5 - 255.0, 820.0, 500.0)
+	var mw := minf(vs.x - 110.0, 1280.0)
+	var mh := minf(vs.y - 84.0, 718.0)
+	return Rect2((vs.x - mw) * 0.5, (vs.y - mh) * 0.5, mw, mh)
 
-func _draw_bar(r: Rect2, frac: float, col: Color, bg: Color, txt: String, f: Font) -> void:
-	draw_rect(r, bg)
-	var fw := maxf(r.size.x * clampf(frac, 0.0, 1.0), 0.0)
-	if fw > 1.0:
-		draw_rect(Rect2(r.position, Vector2(fw, r.size.y)), col)
-		draw_rect(Rect2(r.position, Vector2(fw, r.size.y * 0.38)), Color(1, 1, 1, 0.16))
-	draw_rect(r, Color(0.55, 0.44, 0.24, 0.85), false, 1.2)
-	draw_string(f, r.position + Vector2(8.0, r.size.y - 3.5), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.98, 0.94))
+func _dock_rect() -> Rect2:
+	var vs := _vp_size()
+	var dw := 688.0
+	var dh := 96.0
+	return Rect2((vs.x - dw) * 0.5, vs.y - dh - 14.0, dw, dh)
+
+func _constellation_node_pos(nid: String, graph_rect: Rect2) -> Vector2:
+	var gx := graph_rect.position.x
+	var gy := graph_rect.position.y
+	var gw := graph_rect.size.x
+	var gh := graph_rect.size.y
+
+	if nid == "R":
+		return Vector2(gx + gw * 0.50, gy + gh * 0.928)
+	if nid == "T":
+		return Vector2(gx + gw * 0.50, gy + gh * 0.068)
+
+	var branch := nid.substr(0, 1)
+	var num := int(nid.substr(1))
+	var bx_center := 0.50
+	if branch == "A":
+		bx_center = 0.175
+	elif branch == "B":
+		bx_center = 0.500
+	elif branch == "C":
+		bx_center = 0.825
+
+	var spread := 0.088
+	var nx := bx_center
+	var ny := 0.50
+	match num:
+		1:
+			nx = bx_center
+			ny = 0.790
+		2:
+			nx = bx_center - spread
+			ny = 0.665
+		3:
+			nx = bx_center + spread
+			ny = 0.665
+		4:
+			nx = bx_center
+			ny = 0.542
+		5:
+			nx = bx_center - spread
+			ny = 0.422
+		6:
+			nx = bx_center + spread
+			ny = 0.422
+		7:
+			nx = bx_center - spread * 0.92
+			ny = 0.305
+		8:
+			nx = bx_center + spread * 0.92
+			ny = 0.305
+		9:
+			nx = bx_center
+			ny = 0.195
+	return Vector2(gx + gw * nx, gy + gh * ny)
+
+func _nav_ribbon_rect() -> Rect2:
+	var vs := _vp_size()
+	var left_bound := 348.0
+	var right_bound := vs.x - 278.0
+	var avail_w := maxf(right_bound - left_bound, 480.0)
+	var nav_w := minf(564.0, avail_w - 16.0)
+	var nav_x := left_bound + (avail_w - nav_w) * 0.5
+	return Rect2(nav_x, 10.0, nav_w, 30.0)
+
+func _constellation_graph_rect(mr: Rect2) -> Rect2:
+	return Rect2(mr.position.x + 58.0, mr.position.y + 114.0, mr.size.x * 0.635, mr.size.y - 172.0)
+
+func _inspector_rect(mr: Rect2) -> Rect2:
+	var gr := _constellation_graph_rect(mr)
+	var ix := gr.position.x + gr.size.x + 18.0
+	var iw := (mr.position.x + mr.size.x - 58.0) - ix
+	return Rect2(ix, gr.position.y + 6.0, maxf(iw, 240.0), gr.size.y - 12.0)
+
+func _rebuild_talent_icon_widgets() -> void:
+	for k in talent_icon_nodes.keys():
+		var pair: Dictionary = talent_icon_nodes[k]
+		if is_instance_valid(pair["icon"]):
+			(pair["icon"] as TextureRect).queue_free()
+		if is_instance_valid(pair["ring"]):
+			(pair["ring"] as TextureRect).queue_free()
+	talent_icon_nodes.clear()
+
+	var rd := _race_data()
+	var rk := _race_key()
+	var nodes_arr: Array = rd.get("nodes", [])
+	var mc := modal_overlay.get_node_or_null("ModalCanvas")
+	for n_var in nodes_arr:
+		if not (n_var is Dictionary):
+			continue
+		var nd: Dictionary = n_var
+		var nid := str(nd.get("id", ""))
+		var icon_tr := TextureRect.new()
+		icon_tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon_tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		icon_tr.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		icon_tr.texture = _icon_tex("%s-%s.webp" % [rk, nid])
+		var imat := ShaderMaterial.new()
+		imat.shader = circle_shader
+		icon_tr.material = imat
+		icon_tr.visible = show_talents
+
+		var ring_tr := TextureRect.new()
+		ring_tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		ring_tr.stretch_mode = TextureRect.STRETCH_SCALE
+		ring_tr.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		ring_tr.visible = show_talents
+
+		modal_overlay.add_child(icon_tr)
+		modal_overlay.add_child(ring_tr)
+		talent_icon_nodes[nid] = {"icon": icon_tr, "ring": ring_tr, "mat": imat}
+
+	# Keep modal_backdrop at index 0 and ModalCanvas at index 1 so star-chart conduits
+	# draw underneath the circular medallions and inspector/paperdoll icons draw cleanly on top.
+	if mc != null:
+		modal_overlay.move_child(modal_backdrop, 0)
+		modal_overlay.move_child(mc, 1)
+	_sync_talent_node_styles()
+
+func _sync_talent_node_styles() -> void:
+	var rd := _race_data()
+	var nodes_arr: Array = rd.get("nodes", [])
+	var tex_locked := _load_tex("res://assets/ui/hud_node_ring_locked.png")
+	var tex_avail := _load_tex("res://assets/ui/hud_node_ring_avail.png")
+	var tex_unlocked := _load_tex("res://assets/ui/hud_node_ring_unlocked.png")
+	var tex_keystone := _load_tex("res://assets/ui/hud_node_ring_keystone.png")
+
+	for n_var in nodes_arr:
+		if not (n_var is Dictionary):
+			continue
+		var nd: Dictionary = n_var
+		var nid := str(nd.get("id", ""))
+		if not talent_icon_nodes.has(nid):
+			continue
+		var entry: Dictionary = talent_icon_nodes[nid]
+		var imat: ShaderMaterial = entry["mat"]
+		var ring_tr: TextureRect = entry["ring"]
+		var st := _node_state(nd)
+		var ntype := str(nd.get("type", "passive"))
+		var is_major := ntype in ["starting", "ultimate", "transformation"]
+
+		if st == "unlocked":
+			imat.set_shader_parameter("saturation", 1.10)
+			imat.set_shader_parameter("brightness", 1.08)
+			imat.set_shader_parameter("inner_vignette", 0.24)
+			imat.set_shader_parameter("rim_glow", Color(1.0, 0.84, 0.36, 0.65))
+			ring_tr.texture = tex_keystone if is_major else tex_unlocked
+		elif st == "available":
+			imat.set_shader_parameter("saturation", 0.95)
+			imat.set_shader_parameter("brightness", 0.96)
+			imat.set_shader_parameter("inner_vignette", 0.30)
+			imat.set_shader_parameter("rim_glow", Color(0.32, 0.88, 1.0, 0.55))
+			ring_tr.texture = tex_avail
+		elif st == "excluded":
+			imat.set_shader_parameter("saturation", 0.12)
+			imat.set_shader_parameter("brightness", 0.32)
+			imat.set_shader_parameter("inner_vignette", 0.52)
+			imat.set_shader_parameter("rim_glow", Color(0.85, 0.18, 0.18, 0.45))
+			ring_tr.texture = tex_locked
+		else:
+			imat.set_shader_parameter("saturation", 0.24)
+			imat.set_shader_parameter("brightness", 0.50)
+			imat.set_shader_parameter("inner_vignette", 0.46)
+			imat.set_shader_parameter("rim_glow", Color(0.0, 0.0, 0.0, 0.0))
+			ring_tr.texture = tex_locked
+
+	# Sync Inspector showcase artwork
+	var active_id := hovered_node_id if not hovered_node_id.is_empty() else selected_node_id
+	var sel_nd := _node_by_id(active_id)
+	if not sel_nd.is_empty():
+		inspector_icon_rect.texture = _icon_tex("%s-%s.webp" % [_race_key(), active_id])
+		var sst := _node_state(sel_nd)
+		inspector_icon_mat.set_shader_parameter("saturation", 1.08 if sst != "locked" else 0.45)
+		inspector_icon_mat.set_shader_parameter("brightness", 1.05 if sst != "locked" else 0.72)
+		inspector_ring_rect.texture = tex_keystone if sst == "unlocked" else (tex_avail if sst == "available" else tex_locked)
+
+func _layout_all() -> void:
+	# 1) Top-Left Hero Medallion & Tapered Vitality Bars (compact sleek 338px width)
+	var p_center := Vector2(60.0, 64.0)
+	var p_rad := 40.0
+	portrait_rect.position = p_center - Vector2(p_rad, p_rad)
+	portrait_rect.size = Vector2(p_rad * 2.0, p_rad * 2.0)
+	var ring_rad := 49.0
+	portrait_ring_rect.position = p_center - Vector2(ring_rad, ring_rad)
+	portrait_ring_rect.size = Vector2(ring_rad * 2.0, ring_rad * 2.0)
+	race_badge_rect.position = Vector2(14.0, 14.0)
+	race_badge_rect.size = Vector2(24.0, 24.0)
+
+	hp_bar_rect.position = Vector2(128.0, 40.0)
+	hp_bar_rect.size = Vector2(194.0, 18.0)
+	ki_bar_rect.position = Vector2(128.0, 62.0)
+	ki_bar_rect.size = Vector2(176.0, 14.0)
+	res_bar_rect.position = Vector2(128.0, 80.0)
+	res_bar_rect.size = Vector2(124.0, 11.0)
+
+	# 2) Bottom-Center Ornate Action Dock
+	var dr := _dock_rect()
+	xp_bar_rect.position = Vector2(dr.position.x + 88.0, dr.position.y + 12.0)
+	xp_bar_rect.size = Vector2(dr.size.x - 176.0, 7.0)
+	crest_rect.position = Vector2(dr.position.x + dr.size.x * 0.5 - 78.0, dr.position.y - 34.0)
+	crest_rect.size = Vector2(156.0, 56.0)
+
+	# 3) Modal Tablet Layout ([K] & [I])
+	var mr := _modal_rect()
+	modal_backdrop.position = mr.position
+	modal_backdrop.size = mr.size
+
+	# Constellation 29-Node Icon Widgets
+	talent_node_rects.clear()
+	var gr := _constellation_graph_rect(mr)
+	var rd := _race_data()
+	var nodes_arr: Array = rd.get("nodes", [])
+	for n_var in nodes_arr:
+		if not (n_var is Dictionary):
+			continue
+		var nd: Dictionary = n_var
+		var nid := str(nd.get("id", ""))
+		var ntype := str(nd.get("type", "passive"))
+		var pos := _constellation_node_pos(nid, gr)
+		var dia := 37.0
+		if ntype == "transformation":
+			dia = 50.0
+		elif ntype == "starting":
+			dia = 46.0
+		elif ntype == "ultimate":
+			dia = 42.0
+		elif ntype == "active" or ntype == "choice":
+			dia = 40.0
+		var ring_d := dia + 14.0
+		talent_node_rects[nid] = Rect2(pos - Vector2(ring_d * 0.5, ring_d * 0.5), Vector2(ring_d, ring_d))
+		if talent_icon_nodes.has(nid):
+			var entry: Dictionary = talent_icon_nodes[nid]
+			var itr: TextureRect = entry["icon"]
+			var rtr: TextureRect = entry["ring"]
+			itr.position = pos - Vector2(dia * 0.5, dia * 0.5)
+			itr.size = Vector2(dia, dia)
+			rtr.position = pos - Vector2(ring_d * 0.5, ring_d * 0.5)
+			rtr.size = Vector2(ring_d, ring_d)
+
+	# Inspector Showcase Icon
+	var ir := _inspector_rect(mr)
+	var ic := Vector2(ir.position.x + ir.size.x * 0.5, ir.position.y + 64.0)
+	inspector_icon_rect.position = ic - Vector2(36.0, 36.0)
+	inspector_icon_rect.size = Vector2(72.0, 72.0)
+	inspector_ring_rect.position = ic - Vector2(46.0, 46.0)
+	inspector_ring_rect.size = Vector2(92.0, 92.0)
+
+	# Character Paperdoll Portrait
+	var paper_cx := mr.position.x + mr.size.x * 0.30
+	var paper_cy := mr.position.y + mr.size.y * 0.46
+	char_portrait_rect.position = Vector2(paper_cx - 72.0, paper_cy - 72.0)
+	char_portrait_rect.size = Vector2(144.0, 144.0)
+	char_portrait_ring.position = Vector2(paper_cx - 88.0, paper_cy - 88.0)
+	char_portrait_ring.size = Vector2(176.0, 176.0)
+
+# ==============================================================================
+# BASE LAYER DRAW (CHASSIS & SCULPTED PANELS BEHIND SHADER WIDGETS)
+# ==============================================================================
+
+func _draw_beveled_chamfer(canvas: CanvasItem, pts: PackedVector2Array, fill: Color, border: Color, inner_border: Color) -> void:
+	# Soft drop shadow
+	var sh_pts := PackedVector2Array()
+	for p in pts:
+		sh_pts.append(p + Vector2(0.0, 5.0))
+	canvas.draw_colored_polygon(sh_pts, Color(0.0, 0.0, 0.0, 0.46))
+	canvas.draw_colored_polygon(pts, fill)
+	var closed := PackedVector2Array(pts)
+	closed.append(pts[0])
+	canvas.draw_polyline(closed, border, 1.8, true)
+	# Subtle inset gold highlight along top edge
+	if pts.size() >= 2:
+		canvas.draw_line(pts[0] + Vector2(6, 2), pts[1] + Vector2(-6, 2), inner_border, 1.0, true)
 
 func _draw() -> void:
-	var f: Font = MapStyle.font()
-	var cfg: Dictionary = RACE_CONFIG.get(current_land, RACE_CONFIG["pyra"])
-	var accent: Color = cfg["accent"]
+	if show_talents or show_character:
+		return
+	var meta: Dictionary = LAND_META.get(current_land, LAND_META["pyra"])
+	var accent: Color = meta["accent"]
 
-	# 1. Ornate Top-Left Hero Portrait & Resource Frame
-	var uf := Rect2(14.0, 12.0, 386.0, 96.0)
-	draw_rect(uf, Color(0.05, 0.04, 0.05, 0.91))
-	draw_rect(uf, Color(0.84, 0.66, 0.34, 0.92), false, 2.0)
-	draw_rect(Rect2(uf.position + Vector2(3, 3), uf.size - Vector2(6, 6)), Color(accent.r, accent.g, accent.b, 0.22), false, 1.0)
+	# 1) Top-Left Tapered Obsidian-Glass Vitality Wing (flows gracefully behind portrait & bars)
+	var wing_pts := PackedVector2Array([
+		Vector2(56.0, 18.0),
+		Vector2(338.0, 18.0),
+		Vector2(322.0, 96.0),
+		Vector2(304.0, 118.0),
+		Vector2(54.0, 118.0),
+	])
+	_draw_beveled_chamfer(
+		self,
+		wing_pts,
+		Color(0.05, 0.04, 0.06, 0.80),
+		Color(0.76, 0.59, 0.30, 0.82),
+		Color(0.98, 0.86, 0.54, 0.30)
+	)
+	# Subtle dark circular backdrop behind portrait
+	draw_circle(Vector2(60.0, 64.0), 46.0, Color(0.04, 0.03, 0.05, 0.94))
 
-	# Portrait emblem medallion
-	var med := uf.position + Vector2(44.0, 48.0)
-	draw_circle(med, 32.0, Color(0.08, 0.06, 0.08, 0.98))
-	draw_circle(med, 26.0, Color(accent.r * 0.32, accent.g * 0.32, accent.b * 0.32, 0.95))
-	draw_arc(med, 32.0, 0.0, TAU, 36, Color(0.90, 0.72, 0.38, 0.96), 2.5, true)
-	draw_string(f, med + Vector2(-10, 8), "KI", HORIZONTAL_ALIGNMENT_LEFT, -1, 20, accent)
-	# Level badge on medallion bottom-right
-	var lv_p := med + Vector2(22.0, 22.0)
-	draw_circle(lv_p, 11.0, Color(0.10, 0.06, 0.04, 0.98))
-	draw_arc(lv_p, 11.0, 0.0, TAU, 18, Color(0.96, 0.78, 0.36), 1.6, true)
-	draw_string(f, lv_p + Vector2(-4, 4), str(hero_level), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.94, 0.72))
-
-	# Hero Name, Race, Coins & Safe/Wild Tag
-	var tx := uf.position.x + 88.0
-	draw_string(f, Vector2(tx, uf.position.y + 21.0), "%s  •  %s" % [str(cfg["hero"]), str(cfg["race"])], HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.93, 0.72))
-	var z_col := Color(0.42, 0.94, 0.62) if in_safe_city else Color(1.0, 0.50, 0.32)
-	var z_txt := "BEZPIECZNA STOLICA" if in_safe_city else "EXPOWISKO"
-	draw_string(f, Vector2(tx, uf.position.y + 36.0), "%s  •  %d mon." % [z_txt, hero_gold], HORIZONTAL_ALIGNMENT_LEFT, -1, 11, z_col)
-
-	# HP, KI, and Racial Resource Bars
-	_draw_bar(Rect2(tx, uf.position.y + 42.0, 284.0, 15.0), hero_hp / hero_max_hp, Color(0.84, 0.20, 0.16), Color(0.18, 0.05, 0.05), "HP  %d / %d" % [int(hero_hp), int(hero_max_hp)], f)
-	_draw_bar(Rect2(tx, uf.position.y + 60.0, 284.0, 14.0), hero_ki / hero_max_ki, Color(0.16, 0.52, 0.88), Color(0.05, 0.10, 0.18), "KI  %d / %d" % [int(hero_ki), int(hero_max_ki)], f)
-	_draw_bar(Rect2(tx, uf.position.y + 77.0, 284.0, 13.0), hero_res / 100.0, cfg["res_col"], Color(0.08, 0.06, 0.06), "%s  %d / 100" % [str(cfg["res_name"]), int(hero_res)], f)
-
-	# 2. Bottom-Center Premium RPG Action Dock
-	var dock := _dock_rect()
-	draw_rect(dock, Color(0.05, 0.04, 0.05, 0.92))
-	draw_rect(dock, Color(0.84, 0.66, 0.34, 0.92), false, 2.0)
-
-	# XP Bar across top of dock
-	_draw_bar(
-		Rect2(dock.position.x + 12.0, dock.position.y + 6.0, dock.size.x - 24.0, 12.0),
-		hero_xp / hero_max_xp,
-		Color(0.88, 0.66, 0.22),
-		Color(0.10, 0.08, 0.05),
-		"Poziom %d  •  XP %d / %d  •  Prędkość +%d%%" % [hero_level, int(hero_xp), int(hero_max_xp), hero_level * 5],
-		f
+	# 2) Top-Center Whisper-Thin Realm Navigation Ribbon (centered cleanly between wing & minimap)
+	var nr := _nav_ribbon_rect()
+	var nav_x := nr.position.x
+	var nav_y := nr.position.y
+	var nav_w := nr.size.x
+	var nav_h := nr.size.y
+	var nav_pts := PackedVector2Array([
+		Vector2(nav_x + 14.0, nav_y),
+		Vector2(nav_x + nav_w - 14.0, nav_y),
+		Vector2(nav_x + nav_w, nav_y + nav_h * 0.5),
+		Vector2(nav_x + nav_w - 14.0, nav_y + nav_h),
+		Vector2(nav_x + 14.0, nav_y + nav_h),
+		Vector2(nav_x, nav_y + nav_h * 0.5),
+	])
+	_draw_beveled_chamfer(
+		self,
+		nav_pts,
+		Color(0.05, 0.04, 0.06, 0.74),
+		Color(0.74, 0.58, 0.30, 0.72),
+		Color(1.0, 0.88, 0.58, 0.25)
 	)
 
-	# 6 Racial Skill Slots
-	var skills: Array = cfg["skills"]
-	var start_x := dock.position.x + 14.0
-	var sy := dock.position.y + 24.0
-	for i in skills.size():
-		var sk: Dictionary = skills[i]
-		var sr := Rect2(start_x + float(i) * 86.0, sy, 78.0, 52.0)
-		var scol: Color = sk["col"]
-		var cd := cooldowns[i]
-		draw_rect(sr, Color(0.09, 0.08, 0.10, 0.96))
-		draw_rect(Rect2(sr.position + Vector2(3, 3), Vector2(sr.size.x - 6, 18.0)), Color(scol.r, scol.g, scol.b, 0.34 if cd <= 0.0 else 0.12))
-		draw_rect(sr, Color(scol.r, scol.g, scol.b, 0.90) if cd <= 0.0 else Color(0.45, 0.45, 0.48, 0.65), false, 1.8)
-		draw_string(f, sr.position + Vector2(6, 15), "[%s]" % str(sk["key"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.94, 0.72))
-		var sname := str(sk["name"])
-		draw_string(f, sr.position + Vector2(5, 36), sname.left(11), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.92, 0.90, 0.86))
-		if cd > 0.0:
-			draw_rect(sr, Color(0.02, 0.02, 0.04, 0.64))
-			draw_string(f, sr.position + Vector2(22, 34), "%.1fs" % cd, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.86, 0.42))
+	# 3) Bottom-Center Ornate Sculpted Action Bar Chassis
+	var dr := _dock_rect()
+	var x0 := dr.position.x
+	var y0 := dr.position.y
+	var x1 := x0 + dr.size.x
+	var y1 := y0 + dr.size.y
+	var dock_pts := PackedVector2Array([
+		Vector2(x0 + 26.0, y0),
+		Vector2(x1 - 26.0, y0),
+		Vector2(x1, y0 + 22.0),
+		Vector2(x1 - 12.0, y1),
+		Vector2(x0 + 12.0, y1),
+		Vector2(x0, y0 + 22.0),
+	])
+	_draw_beveled_chamfer(
+		self,
+		dock_pts,
+		Color(0.05, 0.04, 0.06, 0.84),
+		Color(0.82, 0.64, 0.34, 0.90),
+		Color(1.0, 0.88, 0.56, 0.34)
+	)
+	# Inner etched bronze hairline frame inside dock
+	var in_pts := PackedVector2Array([
+		Vector2(x0 + 30.0, y0 + 5.0),
+		Vector2(x1 - 30.0, y0 + 5.0),
+		Vector2(x1 - 7.0, y0 + 24.0),
+		Vector2(x1 - 17.0, y1 - 5.0),
+		Vector2(x0 + 17.0, y1 - 5.0),
+		Vector2(x0 + 7.0, y0 + 24.0),
+		Vector2(x0 + 30.0, y0 + 5.0),
+	])
+	draw_polyline(in_pts, Color(accent.r, accent.g, accent.b, 0.22), 1.0, true)
 
-	# 3. Interactive 29-Node Talent Tree Modal ([K])
-	if show_talents:
-		_draw_talent_modal(f)
-	elif show_character:
-		_draw_character_modal(f, cfg)
+# ==============================================================================
+# FOREGROUND HUD DRAW (TEXT OVER BARS, PAINTED SKILL SOCKETS, CIRCULAR MEDALLIONS)
+# ==============================================================================
 
-func _draw_talent_modal(f: Font) -> void:
-	draw_rect(Rect2(Vector2.ZERO, _vp_size()), Color(0.01, 0.01, 0.02, 0.68))
-	var pr := _modal_rect()
-	draw_rect(pr, Color(0.05, 0.04, 0.06, 0.97))
-	draw_rect(pr, Color(0.86, 0.68, 0.34, 0.95), false, 2.5)
-	draw_string(f, pr.position + Vector2(24, 34), "DRZEWKO ROZWOJU KI — 4 SZLAKI / 29 WĘZŁÓW (Pozostałe punkty: %d)" % skill_points, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(1.0, 0.90, 0.62))
-	draw_string(f, pr.position + Vector2(24, 54), "Kliknij węzeł, aby zainwestować punkt rozwoju  •  [K] lub klik poza oknem = Zamknij", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.76, 0.80, 0.86))
+func _draw_hud_foreground(c: CanvasItem) -> void:
+	if show_talents or show_character:
+		return
+	var vs := _vp_size()
+	var f: Font = MapStyle.font()
+	var meta: Dictionary = LAND_META.get(current_land, LAND_META["pyra"])
+	var accent: Color = meta["accent"]
+	var rk := _race_key()
 
-	for b_idx in TALENT_BRANCHES.size():
-		var branch: Dictionary = TALENT_BRANCHES[b_idx]
-		var bcol: Color = branch["col"]
-		var nodes: Array = branch["nodes"]
-		var col_x := pr.position.x + 30.0 + float(b_idx) * ((pr.size.x - 60.0) / 4.0)
-		draw_string(f, Vector2(col_x, pr.position.y + 80.0), str(branch["name"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 13, bcol)
-		for n_idx in nodes.size():
-			var nr := Rect2(col_x, pr.position.y + 92.0 + float(n_idx) * 48.0, 178.0, 38.0)
-			if n_idx > 0:
-				var prev_c := Vector2(col_x + 89.0, pr.position.y + 92.0 + float(n_idx - 1) * 48.0 + 38.0)
-				draw_line(prev_c, Vector2(col_x + 89.0, nr.position.y), Color(bcol.r, bcol.g, bcol.b, 0.45), 2.0)
-			var key := "%d:%d" % [b_idx, n_idx]
-			var active := unlocked_talents.has(key)
-			draw_rect(nr, Color(bcol.r * 0.25, bcol.g * 0.25, bcol.b * 0.25, 0.94) if active else Color(0.09, 0.08, 0.11, 0.92))
-			draw_rect(nr, bcol if active else Color(0.42, 0.42, 0.46, 0.72), false, 2.0 if active else 1.2)
-			draw_string(f, nr.position + Vector2(10, 24), "%s %s" % ["★" if active else "○", str(nodes[n_idx])], HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.96, 0.84) if active else Color(0.76, 0.78, 0.82))
+	# --- A. Top-Left Portrait Level Seal, Hero Title, Gold & Bar Numbers ---
+	var seal_c := Vector2(89.0, 93.0)
+	c.draw_circle(seal_c, 15.0, Color(0.06, 0.04, 0.04, 0.96))
+	c.draw_arc(seal_c, 15.0, 0.0, TAU, 28, Color(0.92, 0.74, 0.38, 0.98), 2.2, true)
+	c.draw_arc(seal_c, 11.5, 0.0, TAU, 24, Color(0.62, 0.44, 0.18, 0.70), 1.0, true)
+	var lv_txt := str(hero_level)
+	var lv_w := f.get_string_size(lv_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+	c.draw_string(f, seal_c + Vector2(-lv_w * 0.5, 4.5), lv_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.92, 0.66))
 
-func _draw_character_modal(f: Font, cfg: Dictionary) -> void:
-	draw_rect(Rect2(Vector2.ZERO, _vp_size()), Color(0.01, 0.01, 0.02, 0.68))
-	var cr := _modal_rect()
-	draw_rect(cr, Color(0.05, 0.04, 0.06, 0.97))
-	draw_rect(cr, Color(0.86, 0.68, 0.34, 0.95), false, 2.5)
-	draw_string(f, cr.position + Vector2(24, 36), "KARTA POSTACI I EKWIPUNEK — %s (%s)" % [str(cfg["hero"]), str(cfg["race"])], HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.90, 0.62))
-	var stats := [
-		"Poziom: %d  |  Złoto: %d monet" % [hero_level, hero_gold],
-		"Zdrowie (HP): %d / %d" % [int(hero_hp), int(hero_max_hp)],
-		"Energia Ki: %d / %d" % [int(hero_ki), int(hero_max_ki)],
-		"Atak bazowy: 24  |  Obrona: 14  |  Szansa kryt.: 12%",
-		"Premia szybkości ruchu: +%d%% (5%% na poziom do Lv. 20)" % (hero_level * 5),
-		"Odblokowane węzły rozwoju: %d / 29" % unlocked_talents.size(),
+	# Hero Name + Race Title cleanly inside the 338px wing
+	var hero_name := str(meta["hero"]).to_upper()
+	c.draw_string_outline(f, Vector2(114.0, 34.0), hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color(0.02, 0.01, 0.02, 0.95))
+	c.draw_string(f, Vector2(114.0, 34.0), hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.93, 0.76))
+	var sub_txt := str(meta["title"])
+	c.draw_string(f, Vector2(114.0 + f.get_string_size(hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x + 8.0, 33.5), sub_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(accent.r, accent.g, accent.b, 0.92))
+
+	# Mini Painted Icons beside HP / KI / Racial Resource bars
+	var hp_ico := _icon_tex("hud-hp.webp")
+	var ki_ico := _icon_tex("hud-ki.webp")
+	var res_ico := _icon_tex(str(meta["res_icon"]))
+	if hp_ico != null:
+		c.draw_texture_rect(hp_ico, Rect2(108.0, 40.0, 17.0, 17.0), false)
+	if ki_ico != null:
+		c.draw_texture_rect(ki_ico, Rect2(109.0, 61.0, 15.0, 15.0), false)
+	if res_ico != null:
+		c.draw_texture_rect(res_ico, Rect2(110.0, 79.0, 13.0, 13.0), false)
+
+	# Clean crisp value overlays over the liquid bars
+	var hp_str := "%d / %d" % [int(round(hero_hp)), int(round(hero_max_hp))]
+	c.draw_string_outline(f, Vector2(136.0, 53.0), hp_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 3, Color(0.02, 0.01, 0.01, 0.92))
+	c.draw_string(f, Vector2(136.0, 53.0), hp_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.96, 0.94))
+
+	var ki_str := "KI %d / %d" % [int(round(hero_ki)), int(round(hero_max_ki))]
+	c.draw_string_outline(f, Vector2(136.0, 72.5), ki_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 3, Color(0.02, 0.03, 0.06, 0.92))
+	c.draw_string(f, Vector2(136.0, 72.5), ki_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.88, 0.96, 1.0))
+
+	var res_str := "%s %d" % [str(meta["res_name"]), int(round(hero_res))]
+	c.draw_string(f, Vector2(136.0, 89.5), res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(1.0, 0.94, 0.84))
+
+	# Gold purse neatly tucked beside the 3rd tapered bar (zero collision with Realm Ribbon!)
+	var coin_tex := _icon_tex("gear-coin.webp")
+	if coin_tex != null:
+		c.draw_texture_rect(coin_tex, Rect2(258.0, 77.0, 15.0, 15.0), false)
+	c.draw_string(f, Vector2(276.0, 89.5), str(hero_gold), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.85, 0.38))
+
+	# Zone safety jewel + clean location line
+	var z_col := Color(0.36, 0.94, 0.56) if in_safe_city else Color(1.0, 0.44, 0.24)
+	c.draw_circle(Vector2(115.0, 106.0), 4.0, z_col)
+	c.draw_arc(Vector2(115.0, 106.0), 6.0, 0.0, TAU, 16, Color(z_col.r, z_col.g, z_col.b, 0.40), 1.2, true)
+	var zone_prefix := "STOLICA" if in_safe_city else "WALKA"
+	var loc_short := nearest_loc if nearest_loc.length() <= 21 else (nearest_loc.substr(0, 19) + "…")
+	c.draw_string(f, Vector2(125.0, 110.0), "%s  •  %s" % [zone_prefix, loc_short], HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.92, 0.88, 0.78, 0.94))
+
+	# --- B. Top-Center Minimalist Realm Ribbon Tabs (evenly centered inside _nav_ribbon_rect()) ---
+	nav_hitboxes.clear()
+	var nr := _nav_ribbon_rect()
+	var nav_y := nr.position.y
+	var nav_items: Array = [
+		{"id": "pyra", "label": "PYRA", "kind": "land"},
+		{"id": "verdant", "label": "VERDANTIA", "kind": "land"},
+		{"id": "aether", "label": "AETHERIA", "kind": "land"},
+		{"id": "nexus", "label": "NEXUS-9", "kind": "land"},
+		{"id": "capital", "label": "STOLICA", "kind": "act"},
+		{"id": "exp", "label": "EXPOWISKA", "kind": "act"},
 	]
-	for i in stats.size():
-		draw_string(f, cr.position + Vector2(32, 88 + i * 32), stats[i], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.92, 0.90, 0.86))
-	var gear := ["Broń: Ostrze Nowicjusza (+8 ATK)", "Pancerz: Zbroja Strażnika (+6 DEF)", "Amulet: Kryształ Ki (+10 KI)", "Plecak: 3× Mikstura Życia, 2× Zestaw Naprawczy, Mapa Superior"]
-	draw_string(f, cr.position + Vector2(32, 300), "WYPOSAŻENIE:", HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.82, 0.36))
-	for i in gear.size():
-		draw_string(f, cr.position + Vector2(32, 332 + i * 28), "• " + gear[i], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.82, 0.88, 0.92))
+	var total_lbl_w := 0.0
+	for item: Dictionary in nav_items:
+		total_lbl_w += f.get_string_size(str(item["label"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+	var sep_gap := (nr.size.x - 42.0 - total_lbl_w - 10.0) / float(nav_items.size() - 1)
+	sep_gap = clampf(sep_gap, 14.0, 26.0)
+	var content_w := total_lbl_w + sep_gap * float(nav_items.size() - 1) + 10.0
+	var cur_x := nr.position.x + (nr.size.x - content_w) * 0.5
+	for idx in nav_items.size():
+		var item: Dictionary = nav_items[idx]
+		var lbl := str(item["label"])
+		var lw := f.get_string_size(lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+		var active := (str(item["kind"]) == "land" and str(item["id"]) == current_land)
+		var tcol := Color(1.0, 0.88, 0.50) if active else (Color(0.56, 0.92, 0.66) if str(item["id"]) == "capital" else (Color(1.0, 0.58, 0.36) if str(item["id"]) == "exp" else Color(0.78, 0.74, 0.66, 0.86)))
+		c.draw_string_outline(f, Vector2(cur_x, nav_y + 19.5), lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 3, Color(0.02, 0.02, 0.02, 0.90))
+		c.draw_string(f, Vector2(cur_x, nav_y + 19.5), lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, tcol)
+		if active:
+			c.draw_line(Vector2(cur_x - 2.0, nav_y + 26.0), Vector2(cur_x + lw + 2.0, nav_y + 26.0), Color(1.0, 0.84, 0.38, 0.95), 2.2, true)
+		nav_hitboxes.append({"rect": Rect2(cur_x - 6.0, nav_y, lw + 12.0, 30.0), "id": str(item["id"]), "kind": str(item["kind"])})
+		cur_x += lw + sep_gap
+		if idx == 3:
+			var sc := Vector2(cur_x - sep_gap * 0.5 + 3.0, nav_y + 15.0)
+			c.draw_colored_polygon(PackedVector2Array([sc + Vector2(0, -4), sc + Vector2(4, 0), sc + Vector2(0, 4), sc + Vector2(-4, 0)]), Color(0.88, 0.70, 0.36, 0.85))
+			cur_x += 10.0
+		elif idx < nav_items.size() - 1:
+			c.draw_circle(Vector2(cur_x - sep_gap * 0.5, nav_y + 15.0), 1.5, Color(0.70, 0.56, 0.32, 0.55))
+
+	# --- C. Bottom-Center Ornate Action Bar: 6 Painted Skill Sockets + 6 Circular Utility Medallions ---
+	var dr := _dock_rect()
+	var slot_tex := _load_tex("res://assets/ui/hud_skill_slot.png")
+	var ring_gold := _load_tex("res://assets/ui/hud_node_ring_unlocked.png")
+	var ring_cyan := _load_tex("res://assets/ui/hud_node_ring_avail.png")
+
+	# Subtle XP labels flanking the XP filament
+	var xp_pct := int(round((hero_xp / maxf(hero_max_xp, 1.0)) * 100.0))
+	c.draw_string(f, Vector2(dr.position.x + 42.0, dr.position.y + 19.0), "POZ.%d" % hero_level, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.96, 0.84, 0.52))
+	c.draw_string(f, Vector2(dr.position.x + dr.size.x - 78.0, dr.position.y + 19.0), "PD %d%%" % xp_pct, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.96, 0.84, 0.52))
+
+	# 6 Center Painted Skill Sockets (56x56 art inside 60x60 sculpted gold corner-bracket frame!)
+	hotbar_hitboxes.clear()
+	var sock_sz := 56.0
+	var sock_gap := 8.0
+	var total_sk_w := 6.0 * sock_sz + 5.0 * sock_gap
+	var sk_x0 := dr.position.x + (dr.size.x - total_sk_w) * 0.5
+	var sk_y0 := dr.position.y + 28.0
+
+	for i in 6:
+		var sx := sk_x0 + float(i) * (sock_sz + sock_gap)
+		var sr := Rect2(sx, sk_y0, sock_sz, sock_sz)
+		hotbar_hitboxes.append(sr)
+		var nid := str(HOTBAR_NODE_IDS[i])
+		var sk_ico := _icon_tex("%s-%s.webp" % [rk, nid])
+
+		# Dark socket recess
+		c.draw_rect(sr, Color(0.04, 0.03, 0.05, 0.94), true)
+		if sk_ico != null:
+			c.draw_texture_rect(sk_ico, Rect2(sx + 4.0, sk_y0 + 4.0, sock_sz - 8.0, sock_sz - 8.0), false)
+		# Cooldown veil
+		var cd := cooldowns[i]
+		if cd > 0.01:
+			var frac := clampf(cd / float(HOTBAR_CDS[i]), 0.0, 1.0)
+			var vh := (sock_sz - 8.0) * frac
+			c.draw_rect(Rect2(sx + 4.0, sk_y0 + sock_sz - 4.0 - vh, sock_sz - 8.0, vh), Color(0.03, 0.03, 0.06, 0.74), true)
+			var cd_txt := "%.1f" % cd
+			var cw := f.get_string_size(cd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
+			c.draw_string_outline(f, Vector2(sx + (sock_sz - cw) * 0.5, sk_y0 + 34.0), cd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.0, 0.0, 0.0, 0.95))
+			c.draw_string(f, Vector2(sx + (sock_sz - cw) * 0.5, sk_y0 + 34.0), cd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.92, 0.64))
+		# Sculpted beveled gold socket frame overlay
+		if slot_tex != null:
+			c.draw_texture_rect(slot_tex, Rect2(sx - 2.0, sk_y0 - 2.0, sock_sz + 4.0, sock_sz + 4.0), false)
+		if hovered_hotbar_idx == i:
+			c.draw_rect(sr.grow(1.5), Color(1.0, 0.88, 0.46, 0.85), false, 2.0)
+
+		# Sleek engraved keybind badge tucked neatly at bottom-center of socket
+		var kb := str(HOTBAR_KEYS[i])
+		var k_box := Rect2(sx + sock_sz * 0.5 - 11.0, sk_y0 + sock_sz - 9.0, 22.0, 14.0)
+		c.draw_rect(k_box, Color(0.06, 0.04, 0.04, 0.96), true)
+		c.draw_rect(k_box, Color(0.84, 0.66, 0.34, 0.90), false, 1.2)
+		var kw := f.get_string_size(kb, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x
+		c.draw_string(f, Vector2(k_box.position.x + (k_box.size.x - kw) * 0.5, k_box.position.y + 10.5), kb, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1.0, 0.92, 0.68))
+
+	# 6 Flanking Sculpted Circular Gilded Medallion Utility Buttons (3 left + 3 right)
+	util_hitboxes.clear()
+	var left_utils: Array = [
+		{"id": "talents", "key": "K", "icon": "emblem_crystal.webp", "badge": str(skill_points) if skill_points > 0 else "", "active": show_talents},
+		{"id": "char", "key": "I", "icon": "emblem_pack.webp", "badge": "", "active": show_character},
+		{"id": "time", "key": "T", "icon": "emblem_scroll.webp", "badge": "", "active": false},
+	]
+	var right_utils: Array = [
+		{"id": "atlas", "key": "TAB", "icon": "hud-map.webp", "badge": "", "active": false},
+		{"id": "globe", "key": "G", "icon": "emblem_gear.webp", "badge": "", "active": false},
+		{"id": "relief", "key": "M", "icon": "emblem_swords.webp", "badge": "", "active": false},
+	]
+	var u_dia := 40.0
+	var u_y := dr.position.y + 34.0
+	for li in left_utils.size():
+		var ux := dr.position.x + 22.0 + float(li) * 44.0
+		_draw_util_medallion(c, f, left_utils[li], Vector2(ux + u_dia * 0.5, u_y + u_dia * 0.5), u_dia, ring_gold, ring_cyan)
+	for ri in right_utils.size():
+		var ux := dr.position.x + dr.size.x - 150.0 + float(ri) * 44.0
+		_draw_util_medallion(c, f, right_utils[ri], Vector2(ux + u_dia * 0.5, u_y + u_dia * 0.5), u_dia, ring_gold, ring_cyan)
+
+	# Hover tooltip for bottom skill sockets
+	if hovered_hotbar_idx >= 0 and hovered_hotbar_idx < HOTBAR_NODE_IDS.size() and not (show_talents or show_character):
+		var h_nid := str(HOTBAR_NODE_IDS[hovered_hotbar_idx])
+		var h_nd := _node_by_id(h_nid)
+		if not h_nd.is_empty():
+			var tip_w := 340.0
+			var tip_h := 68.0
+			var tip_r := Rect2(vs.x * 0.5 - tip_w * 0.5, dr.position.y - tip_h - 40.0, tip_w, tip_h)
+			c.draw_rect(tip_r, Color(0.05, 0.04, 0.06, 0.94), true)
+			c.draw_rect(tip_r, Color(0.86, 0.68, 0.36, 0.90), false, 1.6)
+			c.draw_string(f, tip_r.position + Vector2(12, 20), "%s  [%s]" % [str(h_nd.get("name", "")).to_upper(), str(HOTBAR_KEYS[hovered_hotbar_idx])], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.88, 0.48))
+			c.draw_multiline_string(f, tip_r.position + Vector2(12, 38), str(h_nd.get("effect", "")), HORIZONTAL_ALIGNMENT_LEFT, tip_w - 24.0, 10, 2, Color(0.88, 0.86, 0.82))
+
+func _draw_util_medallion(c: CanvasItem, f: Font, item: Dictionary, center: Vector2, dia: float, ring_gold: Texture2D, ring_cyan: Texture2D) -> void:
+	var r := dia * 0.5
+	var rect := Rect2(center - Vector2(r, r), Vector2(dia, dia))
+	util_hitboxes.append({"rect": rect.grow(3.0), "id": str(item["id"])})
+	c.draw_circle(center, r, Color(0.05, 0.04, 0.06, 0.95))
+	var ico := _icon_tex(str(item["icon"]))
+	if ico != null:
+		var inner_r := r * 0.72
+		c.draw_texture_rect(ico, Rect2(center - Vector2(inner_r, inner_r), Vector2(inner_r * 2.0, inner_r * 2.0)), false)
+	var active := bool(item.get("active", false))
+	var ring_t := ring_cyan if active else ring_gold
+	if ring_t != null:
+		var rr := r + 4.5
+		c.draw_texture_rect(ring_t, Rect2(center - Vector2(rr, rr), Vector2(rr * 2.0, rr * 2.0)), false)
+	var badge := str(item.get("badge", ""))
+	if not badge.is_empty():
+		var bc := center + Vector2(r * 0.72, -r * 0.72)
+		c.draw_circle(bc, 8.5, Color(0.84, 0.22, 0.12, 0.98))
+		c.draw_arc(bc, 8.5, 0.0, TAU, 16, Color(1.0, 0.86, 0.46, 0.95), 1.4, true)
+		var bw := f.get_string_size(badge, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x
+		c.draw_string(f, bc + Vector2(-bw * 0.5, 3.5), badge, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1.0, 0.98, 0.90))
+	var ktxt := str(item["key"])
+	var kw := f.get_string_size(ktxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 9).x
+	c.draw_string_outline(f, Vector2(center.x - kw * 0.5, center.y + r + 13.0), ktxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, 3, Color(0.02, 0.01, 0.02, 0.95))
+	c.draw_string(f, Vector2(center.x - kw * 0.5, center.y + r + 13.0), ktxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(0.94, 0.84, 0.62))
+
+# ==============================================================================
+# MODAL CANVAS DRAW ([K] 29-NODE CONSTELLATION SKILL TREE & [I] CHARACTER PAPERDOLL)
+# ==============================================================================
+
+func _draw_outer_scrim(c: CanvasItem, vs: Vector2, mr: Rect2) -> void:
+	var sc := Color(0.01, 0.01, 0.02, 0.72)
+	c.draw_rect(Rect2(0.0, 0.0, vs.x, mr.position.y), sc, true)
+	c.draw_rect(Rect2(0.0, mr.position.y + mr.size.y, vs.x, vs.y - (mr.position.y + mr.size.y)), sc, true)
+	c.draw_rect(Rect2(0.0, mr.position.y, mr.position.x, mr.size.y), sc, true)
+	c.draw_rect(Rect2(mr.position.x + mr.size.x, mr.position.y, vs.x - (mr.position.x + mr.size.x), mr.size.y), sc, true)
+
+func _draw_modal_canvas(c: CanvasItem) -> void:
+	if not (show_talents or show_character):
+		return
+	var vs := _vp_size()
+	var f: Font = MapStyle.font()
+	var mr := _modal_rect()
+	_draw_outer_scrim(c, vs, mr)
+
+	if show_talents:
+		_draw_constellation_tree(c, f, mr)
+	elif show_character:
+		_draw_character_sheet(c, f, mr)
+
+func _draw_modal_header_plaque(c: CanvasItem, f: Font, mr: Rect2, title_txt: String, sub_txt: String) -> void:
+	var pw := 590.0
+	var ph := 48.0 if not sub_txt.is_empty() else 34.0
+	var px := mr.position.x + (mr.size.x - pw) * 0.5
+	var py := mr.position.y + 52.0
+	var pts := PackedVector2Array([
+		Vector2(px + 18.0, py),
+		Vector2(px + pw - 18.0, py),
+		Vector2(px + pw, py + ph * 0.5),
+		Vector2(px + pw - 18.0, py + ph),
+		Vector2(px + 18.0, py + ph),
+		Vector2(px, py + ph * 0.5),
+	])
+	_draw_beveled_chamfer(
+		c,
+		pts,
+		Color(0.05, 0.04, 0.06, 0.92),
+		Color(0.84, 0.66, 0.35, 0.90),
+		Color(1.0, 0.88, 0.56, 0.34)
+	)
+	var tw := f.get_string_size(title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+	var ty := py + 23.0
+	c.draw_string_outline(f, Vector2(mr.position.x + (mr.size.x - tw) * 0.5, ty), title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 4, Color(0.02, 0.01, 0.01, 0.96))
+	c.draw_string(f, Vector2(mr.position.x + (mr.size.x - tw) * 0.5, ty), title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(1.0, 0.89, 0.56))
+	if not sub_txt.is_empty():
+		var sw := f.get_string_size(sub_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+		c.draw_string(f, Vector2(mr.position.x + (mr.size.x - sw) * 0.5, py + 40.0), sub_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.84, 0.80, 0.72, 0.94))
+
+func _draw_constellation_tree(c: CanvasItem, f: Font, mr: Rect2) -> void:
+	var rd := _race_data()
+	var meta: Dictionary = LAND_META.get(current_land, LAND_META["pyra"])
+	var gr := _constellation_graph_rect(mr)
+	var ir := _inspector_rect(mr)
+	var umap := _unlocked_map()
+	var nodes_arr: Array = rd.get("nodes", [])
+	var branches: Dictionary = rd.get("skillBranches", {})
+
+	# Subtle translucent obsidian veil inside tablet interior so starlines & text have razor contrast
+	c.draw_rect(gr.grow(10.0), Color(0.03, 0.03, 0.05, 0.44), true)
+	c.draw_rect(gr.grow(10.0), Color(0.74, 0.58, 0.30, 0.36), false, 1.2)
+
+	# Royal Engraved Obsidian Header Plaque cleanly framing the title & point counter
+	var race_pl := str(rd.get("raceName", "Legendy")).to_upper()
+	var realm_pl := str(meta["realm"]).to_upper()
+	var title_txt := "KONSTELACJA UMIEJĘTNOŚCI — %s (%s)" % [race_pl, realm_pl]
+	var sub_txt := "29 Węzłów Kanonicznych  •  Poziom %d  •  Dostępne Punkty Talentów: %d" % [hero_level, skill_points]
+	_draw_modal_header_plaque(c, f, mr, title_txt, sub_txt)
+
+	# Gilded Close Medallion [✕] at top-right inside filigree border
+	var cl_c := Vector2(mr.position.x + mr.size.x - 62.0, mr.position.y + 62.0)
+	talent_close_rect = Rect2(cl_c - Vector2(18.0, 18.0), Vector2(36.0, 36.0))
+	c.draw_circle(cl_c, 16.0, Color(0.08, 0.05, 0.05, 0.94))
+	c.draw_arc(cl_c, 16.0, 0.0, TAU, 24, Color(0.86, 0.68, 0.36, 0.92), 1.8, true)
+	c.draw_string(f, cl_c + Vector2(-5.5, 5.5), "✕", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.88, 0.62))
+
+	# Branch Headers inscribed gently at bottom of each of the 3 diamond constellations
+	var b_specs: Array = [
+		{"k": "A", "xf": 0.175},
+		{"k": "B", "xf": 0.500},
+		{"k": "C", "xf": 0.825},
+	]
+	for bs: Dictionary in b_specs:
+		var bk := str(bs["k"])
+		var b_info: Dictionary = branches.get(bk, {})
+		var b_name := str(b_info.get("name", "Gałąź " + bk)).to_upper()
+		var b_col: Color = BRANCH_COLORS.get(bk, Color(0.9, 0.8, 0.5))
+		var bx := gr.position.x + gr.size.x * float(bs["xf"])
+		var bw := f.get_string_size(b_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+		var by := gr.position.y + gr.size.y - 4.0 if bk != "B" else gr.position.y + gr.size.y + 16.0
+		c.draw_string_outline(f, Vector2(bx - bw * 0.5, by), b_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 3, Color(0.02, 0.01, 0.02, 0.95))
+		c.draw_string(f, Vector2(bx - bw * 0.5, by), b_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, b_col)
+
+	# Constellation Star-Chart Conduit Lines (every requiresAny edge!)
+	var node_positions: Dictionary = {}
+	for n_var in nodes_arr:
+		if n_var is Dictionary:
+			var nid := str((n_var as Dictionary).get("id", ""))
+			node_positions[nid] = _constellation_node_pos(nid, gr)
+
+	for n_var in nodes_arr:
+		if not (n_var is Dictionary):
+			continue
+		var nd: Dictionary = n_var
+		var nid := str(nd.get("id", ""))
+		var dst: Vector2 = node_positions.get(nid, Vector2.ZERO)
+		var bkey := nid.substr(0, 1)
+		var bcol: Color = BRANCH_COLORS.get(bkey, Color(0.95, 0.80, 0.40))
+		var st := _node_state(nd)
+		var reqs: Array = nd.get("requiresAny", [])
+		for r_var in reqs:
+			var rid := str(r_var)
+			if not node_positions.has(rid):
+				continue
+			var src: Vector2 = node_positions[rid]
+			var both_unlocked := bool(umap.get(nid, false)) and bool(umap.get(rid, false))
+			var src_unlocked := bool(umap.get(rid, false))
+			if both_unlocked:
+				# Radiant double-pass golden energy conduit
+				c.draw_line(src, dst, Color(bcol.r, bcol.g, bcol.b, 0.34), 7.0, true)
+				c.draw_line(src, dst, Color(1.0, 0.88, 0.52, 0.96), 2.4, true)
+			elif src_unlocked and st == "available":
+				# Luminous invitation conduit
+				c.draw_line(src, dst, Color(0.32, 0.86, 1.0, 0.25), 5.0, true)
+				c.draw_line(src, dst, Color(0.46, 0.88, 1.0, 0.82), 1.8, true)
+			else:
+				# Etched obsidian star-chart line
+				c.draw_line(src, dst, Color(0.58, 0.48, 0.32, 0.34), 1.4, true)
+
+	# Crimson Exclusive-Choice Arcs between A7<->A8, B7<->B8, C7<->C8
+	var excl_arr: Array = rd.get("exclusiveChoices", [])
+	for pair_var in excl_arr:
+		if pair_var is Array and (pair_var as Array).size() == 2:
+			var p0: Vector2 = node_positions.get(str((pair_var as Array)[0]), Vector2.ZERO)
+			var p1: Vector2 = node_positions.get(str((pair_var as Array)[1]), Vector2.ZERO)
+			c.draw_line(p0, p1, Color(0.86, 0.26, 0.24, 0.55), 1.4, true)
+			var mid := (p0 + p1) * 0.5
+			c.draw_circle(mid, 7.5, Color(0.08, 0.04, 0.05, 0.92))
+			c.draw_string(f, mid + Vector2(-4.5, 4.0), "⇄", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.98, 0.46, 0.38))
+
+	# Selected / Hovered Node Radiant Halo Ring behind node medallion
+	var active_id := hovered_node_id if not hovered_node_id.is_empty() else selected_node_id
+	if node_positions.has(active_id):
+		var ap: Vector2 = node_positions[active_id]
+		c.draw_arc(ap, 32.0, 0.0, TAU, 36, Color(1.0, 0.90, 0.52, 0.86), 2.2, true)
+		c.draw_arc(ap, 36.0, 0.0, TAU, 36, Color(1.0, 0.80, 0.34, 0.35), 1.4, true)
+
+	# --- Right-Side Engraved Gilded Inspector Tablet ---
+	var ix := ir.position.x
+	var iy := ir.position.y
+	var iw := ir.size.x
+	var ih := ir.size.y
+	var ins_pts := PackedVector2Array([
+		Vector2(ix + 12.0, iy),
+		Vector2(ix + iw - 12.0, iy),
+		Vector2(ix + iw, iy + 12.0),
+		Vector2(ix + iw, iy + ih - 12.0),
+		Vector2(ix + iw - 12.0, iy + ih),
+		Vector2(ix + 12.0, iy + ih),
+		Vector2(ix, iy + ih - 12.0),
+		Vector2(ix, iy + 12.0),
+	])
+	_draw_beveled_chamfer(
+		c,
+		ins_pts,
+		Color(0.05, 0.04, 0.06, 0.86),
+		Color(0.82, 0.65, 0.35, 0.88),
+		Color(1.0, 0.88, 0.56, 0.28)
+	)
+
+	var sel_nd := _node_by_id(active_id)
+	if not sel_nd.is_empty():
+		var s_name := str(sel_nd.get("name", ""))
+		var s_type := str(sel_nd.get("type", "passive"))
+		var s_lvl := int(sel_nd.get("minLevel", 1))
+		var s_req := str(sel_nd.get("requiresSource", "—"))
+		var s_eff := str(sel_nd.get("effect", ""))
+		var s_st := _node_state(sel_nd)
+		var b_key := active_id.substr(0, 1)
+		var b_col: Color = BRANCH_COLORS.get(b_key, Color(1.0, 0.84, 0.42))
+
+		# Node Name & ID Plaque below enlarged circular showcase icon
+		var nw := f.get_string_size(s_name.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
+		c.draw_string_outline(f, Vector2(ix + (iw - nw) * 0.5, iy + 132.0), s_name.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color(0.02, 0.01, 0.01, 0.96))
+		c.draw_string(f, Vector2(ix + (iw - nw) * 0.5, iy + 132.0), s_name.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.91, 0.62))
+
+		var t_lbl := "%s  •  [%s]" % [str(TYPE_LABELS.get(s_type, "WĘZEŁ")), active_id]
+		var tlw := f.get_string_size(t_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x
+		c.draw_string(f, Vector2(ix + (iw - tlw) * 0.5, iy + 152.0), t_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, b_col)
+
+		# Subtle engraved gold divider
+		c.draw_line(Vector2(ix + 22.0, iy + 166.0), Vector2(ix + iw - 22.0, iy + 166.0), Color(0.80, 0.62, 0.32, 0.52), 1.0, true)
+
+		# Metadata rows
+		c.draw_string(f, Vector2(ix + 22.0, iy + 190.0), "WYMAGANY POZIOM:", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.72, 0.68, 0.62))
+		var lv_ok := hero_level >= s_lvl
+		c.draw_string(f, Vector2(ix + iw - 74.0, iy + 190.0), "Poz. %d" % s_lvl, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.42, 0.94, 0.58) if lv_ok else Color(1.0, 0.54, 0.36))
+
+		c.draw_string(f, Vector2(ix + 22.0, iy + 210.0), "WYMAGANIA:", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.72, 0.68, 0.62))
+		c.draw_string(f, Vector2(ix + iw - 74.0, iy + 210.0), s_req, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.94, 0.88, 0.76))
+
+		c.draw_line(Vector2(ix + 22.0, iy + 224.0), Vector2(ix + iw - 22.0, iy + 224.0), Color(0.80, 0.62, 0.32, 0.38), 1.0, true)
+
+		# Canonical Polish Description
+		c.draw_string(f, Vector2(ix + 22.0, iy + 246.0), "EFEKT UMIEJĘTNOŚCI", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.86, 0.72, 0.42))
+		c.draw_multiline_string(f, Vector2(ix + 22.0, iy + 268.0), s_eff, HORIZONTAL_ALIGNMENT_LEFT, iw - 44.0, 12, 8, Color(0.95, 0.92, 0.86))
+
+		# Interactive Unlock / Status Action Plaque at Bottom of Inspector
+		talent_unlock_btn_rect = Rect2(ix + 20.0, iy + ih - 94.0, iw - 40.0, 38.0)
+		var btn_fill := Color(0.14, 0.12, 0.10, 0.90)
+		var btn_rim := Color(0.55, 0.48, 0.38, 0.75)
+		var btn_txt := "WĘZEŁ ZABLOKOWANY"
+		var btn_tcol := Color(0.70, 0.66, 0.60)
+		if s_st == "unlocked":
+			btn_fill = Color(0.18, 0.14, 0.06, 0.94)
+			btn_rim = Color(1.0, 0.82, 0.36, 0.95)
+			btn_txt = "✦ ODBLOKOWANO ✦"
+			btn_tcol = Color(1.0, 0.90, 0.56)
+		elif s_st == "available" and skill_points > 0:
+			btn_fill = Color(0.08, 0.24, 0.32, 0.96)
+			btn_rim = Color(0.38, 0.88, 1.0, 0.96)
+			btn_txt = "ODBLOKUJ WĘZEŁ (1 PKT)"
+			btn_tcol = Color(0.90, 0.98, 1.0)
+		elif s_st == "excluded":
+			btn_fill = Color(0.22, 0.08, 0.08, 0.92)
+			btn_rim = Color(0.88, 0.32, 0.28, 0.85)
+			btn_txt = "WYKLUCZONE PRZEZ WYBÓR"
+			btn_tcol = Color(1.0, 0.68, 0.64)
+		c.draw_rect(talent_unlock_btn_rect, btn_fill, true)
+		c.draw_rect(talent_unlock_btn_rect, btn_rim, false, 1.8)
+		var btw := f.get_string_size(btn_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
+		c.draw_string(f, Vector2(talent_unlock_btn_rect.position.x + (talent_unlock_btn_rect.size.x - btw) * 0.5, talent_unlock_btn_rect.position.y + 24.0), btn_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, btn_tcol)
+
+		# Legend strip at very bottom of Inspector
+		var ly := iy + ih - 32.0
+		var leg: Array = [
+			[Color(1.0, 0.82, 0.36), "Odblok."],
+			[Color(0.36, 0.88, 1.0), "Dostępne"],
+			[Color(0.48, 0.46, 0.44), "Zablok."],
+		]
+		var lx := ix + 24.0
+		for lg: Array in leg:
+			c.draw_circle(Vector2(lx, ly), 4.5, lg[0] as Color)
+			c.draw_string(f, Vector2(lx + 9.0, ly + 4.0), str(lg[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.82, 0.78, 0.72))
+			lx += 82.0
+
+func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
+	var rd := _race_data()
+	var meta: Dictionary = LAND_META.get(current_land, LAND_META["pyra"])
+	var accent: Color = meta["accent"]
+	var slot_tex := _load_tex("res://assets/ui/hud_skill_slot.png")
+
+	# Royal Engraved Obsidian Header Plaque
+	var title_txt := "KARTA POSTACI I EKWIPUNEK — %s" % str(meta["hero"]).to_upper()
+	var sub_txt := "%s  •  Poziom %d  •  %s" % [str(rd.get("raceName", "")), hero_level, str(meta["realm"])]
+	_draw_modal_header_plaque(c, f, mr, title_txt, sub_txt)
+
+	var cl_c := Vector2(mr.position.x + mr.size.x - 62.0, mr.position.y + 62.0)
+	char_close_rect = Rect2(cl_c - Vector2(18.0, 18.0), Vector2(36.0, 36.0))
+	c.draw_circle(cl_c, 16.0, Color(0.08, 0.05, 0.05, 0.94))
+	c.draw_arc(cl_c, 16.0, 0.0, TAU, 24, Color(0.86, 0.68, 0.36, 0.92), 1.8, true)
+	c.draw_string(f, cl_c + Vector2(-5.5, 5.5), "✕", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.88, 0.62))
+
+	# Left Half: Hero Paperdoll Aura + 8 Painted Equipment Sockets
+	var paper_cx := mr.position.x + mr.size.x * 0.30
+	var paper_cy := mr.position.y + mr.size.y * 0.46
+	c.draw_circle(Vector2(paper_cx, paper_cy), 104.0, Color(accent.r, accent.g, accent.b, 0.10))
+	c.draw_arc(Vector2(paper_cx, paper_cy), 106.0, 0.0, TAU, 48, Color(0.80, 0.64, 0.34, 0.32), 1.2, true)
+
+	var eq_sz := 62.0
+	for sl: Dictionary in EQUIP_SLOTS:
+		var side := int(sl["side"])
+		var row := int(sl["row"])
+		var sx := paper_cx + float(side) * 164.0 - eq_sz * 0.5
+		var sy := mr.position.y + 150.0 + float(row) * 86.0
+		var sr := Rect2(sx, sy, eq_sz, eq_sz)
+		var rcol: Color = sl["rarity"]
+		c.draw_rect(sr, Color(0.05, 0.04, 0.06, 0.94), true)
+		var gico := _icon_tex(str(sl["icon"]))
+		if gico != null:
+			c.draw_texture_rect(gico, Rect2(sx + 6.0, sy + 6.0, eq_sz - 12.0, eq_sz - 12.0), false)
+		c.draw_rect(sr.grow(-2.0), Color(rcol.r, rcol.g, rcol.b, 0.45), false, 1.6)
+		if slot_tex != null:
+			c.draw_texture_rect(slot_tex, Rect2(sx - 2.0, sy - 2.0, eq_sz + 4.0, eq_sz + 4.0), false)
+		var gname := str(sl["name"])
+		var gnw := f.get_string_size(gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 9).x
+		c.draw_string(f, Vector2(sx + (eq_sz - gnw) * 0.5, sy + eq_sz + 13.0), gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(0.90, 0.86, 0.78))
+
+	# Race Identity Plaque under Paperdoll
+	var role_txt := "%s  •  %s" % [str(rd.get("raceName", "")), str(rd.get("role", ""))]
+	var rw := f.get_string_size(role_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+	c.draw_string(f, Vector2(paper_cx - rw * 0.5, mr.position.y + 528.0), role_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.88, 0.54))
+	var mech_txt := "Mechanika rasy: %s" % str(rd.get("raceMechanic", ""))
+	var mw := f.get_string_size(mech_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+	c.draw_string(f, Vector2(paper_cx - mw * 0.5, mr.position.y + 550.0), mech_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(accent.r, accent.g, accent.b, 0.92))
+
+	# Right Half: Canonical Stats Ledger + Painted Backpack Grid
+	var rx := mr.position.x + mr.size.x * 0.55
+	var ry := mr.position.y + 124.0
+	var rw_box := mr.size.x * 0.39
+	var rh_box := mr.size.y - 184.0
+	var st_pts := PackedVector2Array([
+		Vector2(rx + 12.0, ry),
+		Vector2(rx + rw_box - 12.0, ry),
+		Vector2(rx + rw_box, ry + 12.0),
+		Vector2(rx + rw_box, ry + rh_box - 12.0),
+		Vector2(rx + rw_box - 12.0, ry + rh_box),
+		Vector2(rx + 12.0, ry + rh_box),
+		Vector2(rx, ry + rh_box - 12.0),
+		Vector2(rx, ry + 12.0),
+	])
+	_draw_beveled_chamfer(c, st_pts, Color(0.05, 0.04, 0.06, 0.86), Color(0.82, 0.65, 0.35, 0.88), Color(1.0, 0.88, 0.56, 0.25))
+
+	c.draw_string(f, Vector2(rx + 24.0, ry + 32.0), "ATRYBUTY KANONICZNE (POZIOM %d)" % hero_level, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.88, 0.52))
+	c.draw_line(Vector2(rx + 22.0, ry + 42.0), Vector2(rx + rw_box - 22.0, ry + 42.0), Color(0.80, 0.62, 0.32, 0.50), 1.0, true)
+
+	var base: Dictionary = rd.get("base", {})
+	var per_lv: Dictionary = rd.get("perLevel", {})
+	var lv_off := float(hero_level - 1)
+	var spd_base := float(base.get("speed", 185))
+	var spd_eff := int(round(spd_base * (1.0 + 0.05 * lv_off)))
+	var stats_rows: Array = [
+		["hud-hp.webp", "Punkty Życia (HP)", "%d" % int(round(hero_max_hp))],
+		["hud-ki.webp", "Energia KI", "%d" % int(round(hero_max_ki))],
+		["hud-combat.webp", "Atak bazowy", "%d" % int(round(float(base.get("attack", 14)) + float(per_lv.get("attack", 4)) * lv_off))],
+		["hud-shield.webp", "Obrona", "%d" % int(round(float(base.get("defense", 5)) + float(per_lv.get("defense", 2.2)) * lv_off))],
+		["gear-boots.webp", "Szybkość ruchu (+5%/poz.)", "%d j." % spd_eff],
+		["emblem_crystal.webp", "Regeneracja KI", "%.2f / s" % (float(base.get("kiRegen", 1.0)) + float(per_lv.get("kiRegen", 0.05)) * lv_off)],
+		["emblem_slash.webp", "Szansa na trafienie krytyczne", "%.1f%%" % (float(base.get("criticalChancePercent", 5.0)) + float(per_lv.get("criticalChancePercent", 0.25)) * lv_off)],
+		["gear-coin.webp", "Skarbiec Złota", "%d szt." % hero_gold],
+	]
+	for si in stats_rows.size():
+		var sr_y := ry + 64.0 + float(si) * 32.0
+		var row: Array = stats_rows[si]
+		var sico := _icon_tex(str(row[0]))
+		if sico != null:
+			c.draw_texture_rect(sico, Rect2(rx + 24.0, sr_y - 13.0, 20.0, 20.0), false)
+		c.draw_string(f, Vector2(rx + 52.0, sr_y + 2.0), str(row[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.86, 0.84, 0.78))
+		var val_s := str(row[2])
+		var vw := f.get_string_size(val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
+		c.draw_string(f, Vector2(rx + rw_box - 26.0 - vw, sr_y + 2.0), val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.90, 0.56))
+		if si < stats_rows.size() - 1:
+			c.draw_line(Vector2(rx + 24.0, sr_y + 12.0), Vector2(rx + rw_box - 24.0, sr_y + 12.0), Color(0.60, 0.50, 0.34, 0.18), 1.0, true)
+
+	# Backpack 2x5 Grid
+	var bp_y := ry + 344.0
+	c.draw_string(f, Vector2(rx + 24.0, bp_y), "SAKWA WĘDROWCA", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.92, 0.78, 0.46))
+	var cell := 58.0
+	var gap := 10.0
+	var grid_x0 := rx + (rw_box - (5.0 * cell + 4.0 * gap)) * 0.5
+	for bi in BACKPACK_ITEMS.size():
+		var col_i := bi % 5
+		var row_i := bi / 5
+		var bx := grid_x0 + float(col_i) * (cell + gap)
+		var by := bp_y + 14.0 + float(row_i) * (cell + gap)
+		var br := Rect2(bx, by, cell, cell)
+		c.draw_rect(br, Color(0.04, 0.03, 0.05, 0.92), true)
+		var bi_d: Dictionary = BACKPACK_ITEMS[bi]
+		var bico := _icon_tex(str(bi_d["icon"]))
+		if bico != null:
+			c.draw_texture_rect(bico, Rect2(bx + 7.0, by + 7.0, cell - 14.0, cell - 14.0), false)
+		if slot_tex != null:
+			c.draw_texture_rect(slot_tex, Rect2(bx - 2.0, by - 2.0, cell + 4.0, cell + 4.0), false)
+		var qty := str(bi_d["qty"])
+		if not qty.is_empty():
+			var qw := f.get_string_size(qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x
+			c.draw_string_outline(f, Vector2(bx + cell - qw - 6.0, by + cell - 6.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 3, Color(0.0, 0.0, 0.0, 0.95))
+			c.draw_string(f, Vector2(bx + cell - qw - 6.0, by + cell - 6.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1.0, 0.94, 0.76))
+
+# ==============================================================================
+# INPUT HANDLING (MOUSE HOVER, CONSTELLATION UNLOCKING, HOTBAR & RIBBON CLICKS)
+# ==============================================================================
+
+func _try_unlock_node(nid: String) -> void:
+	var nd := _node_by_id(nid)
+	if nd.is_empty():
+		return
+	if _node_state(nd) == "available" and skill_points > 0:
+		var umap := _unlocked_map()
+		umap[nid] = true
+		skill_points -= 1
+		_sync_talent_node_styles()
+		_refresh_visuals()
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		var mp: Vector2 = (event as InputEventMouseMotion).position
+		if show_talents:
+			var new_hov := ""
+			for nid in talent_node_rects.keys():
+				if (talent_node_rects[nid] as Rect2).has_point(mp):
+					new_hov = str(nid)
+					break
+			if new_hov != hovered_node_id:
+				hovered_node_id = new_hov
+				_sync_talent_node_styles()
+				_refresh_visuals()
+			return
+		var new_hb := -1
+		for i in hotbar_hitboxes.size():
+			if hotbar_hitboxes[i].has_point(mp):
+				new_hb = i
+				break
+		if new_hb != hovered_hotbar_idx:
+			hovered_hotbar_idx = new_hb
+			_refresh_visuals()
+		return
+
+	if event is InputEventMouseButton and (event as InputEventMouseButton).pressed:
+		var mb := event as InputEventMouseButton
+		if mb.button_index == MOUSE_BUTTON_RIGHT and (show_talents or show_character):
+			close_modals()
+			accept_event()
+			return
+		if mb.button_index != MOUSE_BUTTON_LEFT:
+			return
+		var p := mb.position
+
+		if show_talents:
+			if talent_close_rect.has_point(p) or not _modal_rect().has_point(p):
+				close_modals()
+				accept_event()
+				return
+			if talent_unlock_btn_rect.has_point(p):
+				_try_unlock_node(selected_node_id)
+				accept_event()
+				return
+			for nid in talent_node_rects.keys():
+				if (talent_node_rects[nid] as Rect2).has_point(p):
+					var sid := str(nid)
+					if sid == selected_node_id:
+						_try_unlock_node(sid)
+					else:
+						selected_node_id = sid
+						_sync_talent_node_styles()
+						_refresh_visuals()
+					accept_event()
+					return
+			accept_event()
+			return
+
+		if show_character:
+			if char_close_rect.has_point(p) or not _modal_rect().has_point(p):
+				close_modals()
+			accept_event()
+			return
+
+		# Top-Center Realm Navigation Ribbon
+		for item: Dictionary in nav_hitboxes:
+			if (item["rect"] as Rect2).has_point(p):
+				var iid := str(item["id"])
+				if str(item["kind"]) == "land" and world != null:
+					world.switch_region(iid)
+				elif iid == "capital" and world != null:
+					world.teleport_to_capital()
+				elif iid == "exp" and world != null:
+					world.cycle_exp_zone()
+				accept_event()
+				return
+
+		# Bottom-Center 6 Painted Skill Sockets
+		for i in hotbar_hitboxes.size():
+			if hotbar_hitboxes[i].has_point(p):
+				trigger_skill(i)
+				accept_event()
+				return
+
+		# Bottom-Center 6 Circular Utility Medallions
+		for item: Dictionary in util_hitboxes:
+			if (item["rect"] as Rect2).has_point(p):
+				var uid := str(item["id"])
+				match uid:
+					"talents":
+						toggle_talents()
+					"char":
+						toggle_character()
+					"time":
+						if world != null:
+							world.cycle_time_of_day()
+					"atlas":
+						if world != null:
+							if world.atlas_overlay != null:
+								world.atlas_overlay.set_mode("atlas")
+							world.toggle_atlas(true)
+					"globe":
+						if world != null:
+							if world.atlas_overlay != null:
+								world.atlas_overlay.set_mode("globe")
+							world.toggle_atlas(true)
+					"relief":
+						if world != null:
+							world.toggle_map()
+				accept_event()
+				return

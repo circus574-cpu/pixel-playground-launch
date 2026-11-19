@@ -606,6 +606,7 @@ func cycle_time_of_day() -> void:
 func layout_minimap() -> void:
 	var vp := get_viewport_rect().size
 	var show_world_ui := not (map_expanded or atlas_expanded)
+	var rpg_modal_open: bool = rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character))
 	if rpg_hud != null:
 		rpg_hud.visible = show_world_ui
 	if atmosphere != null:
@@ -620,8 +621,10 @@ func layout_minimap() -> void:
 	else:
 		map_3d.visible = false
 		if premium_minimap != null:
-			premium_minimap.visible = show_world_ui
+			premium_minimap.visible = show_world_ui and not rpg_modal_open
 			premium_minimap.position = Vector2(vp.x - 270.0, 12.0)
+	if stick_layer != null:
+		stick_layer.visible = show_world_ui and not rpg_modal_open
 	if atlas_overlay != null:
 		atlas_overlay.position = Vector2(24, 20)
 		atlas_overlay.size = Vector2(vp.x - 48, vp.y - 40)
@@ -947,8 +950,16 @@ func run_qa() -> void:
 	shots.append(await snap(out_dir, "map-3d-verdant.jpg"))
 	toggle_map()
 
-	# 6) Etap 4: 29-Node Racial Talent Tree overlay on Pyra
+	# 6) Wilderness Road & Crossroads Scenic Vista outside Capital Walls (Verdantia West Highway)
+	switch_region("verdant")
+	set_zoom(0.68)
+	hero_pos = Vector2(512.0 - 238.0, 512.0 + 6.0)
+	step_world(0.20)
+	shots.append(await snap(out_dir, "wilderness-road.jpg"))
+
+	# 7) Etap 4: AAA 29-Node Diamond Constellation Skill Tree ([K]) & Paperdoll Character Sheet ([I]) on Pyra
 	switch_region("pyra")
+	set_zoom(0.76)
 	hero_pos = Vector2(512.0, 492.0)
 	step_world(0.1)
 	if rpg_hud != null:
@@ -957,11 +968,16 @@ func run_qa() -> void:
 		await get_tree().process_frame
 	shots.append(await snap(out_dir, "talent-tree.jpg"))
 	if rpg_hud != null:
+		rpg_hud.toggle_character()
+	for _i in 4:
+		await get_tree().process_frame
+	shots.append(await snap(out_dir, "character-sheet.jpg"))
+	if rpg_hud != null:
 		rpg_hud.close_modals()
 
 	var report := {
 		"project": "ports/godot-isometric-world",
-		"phase": "Canonical 2D/3D Maps + Etap 3 Atmosphere & Weather + Etap 4 Premium RPG HUD & 29-Node Talent Tree",
+		"phase": "AAA Studio Architecture + Ornate Action-RPG HUD & 29-Node Constellation + Open-World Wilderness Roads",
 		"projection_roundtrip_error_m": snappedf(roundtrip_err, 0.0001),
 		"regions": regions_report,
 		"screenshots": shots,
