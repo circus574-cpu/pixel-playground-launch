@@ -7,6 +7,9 @@ const ActorScript := preload("res://scripts/actor_view.gd")
 const AmbientScript := preload("res://scripts/ambient_fx.gd")
 const Map3DScript := preload("res://scripts/map_3d.gd")
 const AtlasOverlayScript := preload("res://scripts/atlas_overlay.gd")
+const PremiumMinimapScript := preload("res://scripts/premium_minimap.gd")
+const WorldAtmosphereScript := preload("res://scripts/world_atmosphere.gd")
+const RpgHudScript := preload("res://scripts/rpg_hud.gd")
 const StickScript := preload("res://scripts/stick.gd")
 
 const ISO_W := 5.6
@@ -55,14 +58,13 @@ var hero
 var live_agents: Array[Dictionary] = []
 var camera := Camera2D.new()
 var hud := CanvasLayer.new()
-var hud_panel := PanelContainer.new()
-var info_label := Label.new()
-var minimap_rect := TextureRect.new()
-var minimap_markers := Control.new()
+var atmosphere: Control
+var rpg_hud: Control
+var premium_minimap: Control
 var map_3d: SubViewportContainer
 var atlas_overlay: Control
 var stick_layer := Control.new()
-var region_bar := HBoxContainer.new()
+var shadow_tex: Texture2D
 
 var hero_pos := Vector2(512.0, 512.0)
 var target_pos := Vector2(-1.0, -1.0)
@@ -79,6 +81,7 @@ var current_exp_idx := 0
 var world_time := 0.0
 
 func _ready() -> void:
+	shadow_tex = make_shadow_tex()
 	load_databases()
 	add_child(terrain_mesh)
 	ysort.y_sort_enabled = true
@@ -162,15 +165,19 @@ func switch_region(land: String) -> void:
 	rebuild_hero(land)
 	build_isometric_mesh()
 	build_world_objects_and_actors()
-	build_minimap_texture()
 	hero_pos = Vector2(world_size * 0.5, world_size * 0.5 + 18.0)
 	target_pos = Vector2(-1.0, -1.0)
+	if premium_minimap != null:
+		premium_minimap.load_region_texture(land)
+	if atmosphere != null:
+		atmosphere.set_region(land)
+	if rpg_hud != null:
+		rpg_hud.set_region(land)
 	sync_hero()
 	if map_3d != null:
 		map_3d.rebuild_for_region()
-	minimap_markers.queue_redraw()
 	if atlas_overlay != null:
-		atlas_overlay.queue_redraw()
+		atlas_overlay.sync_live_hero()
 
 func load_terrain(land: String) -> void:
 	var rdir := "res://regions/" + land
@@ -322,6 +329,36 @@ func emit_tri(st: SurfaceTool, a: Dictionary, b: Dictionary, c: Dictionary) -> v
 		st.set_uv(v.uv)
 		st.add_vertex(Vector3(v.pos.x, v.pos.y, 0.0))
 
+func make_shadow_tex() -> Texture2D:
+	var g := Gradient.new()
+	g.offsets = PackedFloat32Array([0.0, 0.45, 0.78, 1.0])
+	g.colors = PackedColorArray([
+		Color(0.0, 0.0, 0.0, 0.82),
+		Color(0.0, 0.0, 0.0, 0.52),
+		Color(0.0, 0.0, 0.0, 0.16),
+		Color(0.0, 0.0, 0.0, 0.0),
+	])
+	var tex := GradientTexture2D.new()
+	tex.gradient = g
+	tex.fill = GradientTexture2D.FILL_RADIAL
+	tex.fill_from = Vector2(0.5, 0.5)
+	tex.fill_to = Vector2(1.0, 0.5)
+	tex.width = 64
+	tex.height = 64
+	return tex
+
+func add_contact_shadow(parent: Node2D, w_px: float, alpha: float = 0.38, y_off: float = 4.0) -> void:
+	if shadow_tex == null:
+		return
+	var sh := Sprite2D.new()
+	sh.texture = shadow_tex
+	sh.z_index = -1
+	var sx := clampf((w_px * SPRITE_SCALE) / 64.0 * 0.78, 0.65, 5.2)
+	sh.scale = Vector2(sx, sx * 0.44)
+	sh.position = Vector2(0.0, y_off)
+	sh.modulate = Color(0.02, 0.02, 0.05, alpha)
+	parent.add_child(sh)
+
 func make_fitted_sprite(tex_path: String, box_w: float, box_h: float, anchor_y: float = 0.88) -> Sprite2D:
 	var sp := Sprite2D.new()
 	var tex := load_tex(tex_path)
@@ -352,6 +389,8 @@ func build_world_objects_and_actors() -> void:
 
 		var node := Node2D.new()
 		node.position = iso(bx, bz, bh)
+		if role != "bridge":
+			add_contact_shadow(node, bw, 0.42 if role == "landmark" else 0.34, 4.0)
 		var sp := make_fitted_sprite(sp_path, bw, bh_px, 0.86 if role != "bridge" else 0.65)
 		node.add_child(sp)
 
@@ -385,6 +424,7 @@ func build_world_objects_and_actors() -> void:
 
 		var pnode := Node2D.new()
 		pnode.position = iso(px, pz, ph)
+		add_contact_shadow(pnode, pw, 0.30, 3.0)
 		var psp := make_fitted_sprite(p_path, pw, ph_px, 0.88)
 		pnode.add_child(psp)
 
@@ -515,7 +555,6 @@ func teleport_to_capital() -> void:
 	hero_pos = Vector2(world_size * 0.5, world_size * 0.5 + 18.0)
 	target_pos = Vector2(-1.0, -1.0)
 	sync_hero()
-	minimap_markers.queue_redraw()
 
 func cycle_exp_zone() -> void:
 	if exp_zones.is_empty():
@@ -525,82 +564,21 @@ func cycle_exp_zone() -> void:
 	hero_pos = Vector2(float(ez.get("x", 512.0)), float(ez.get("z", 512.0)))
 	target_pos = Vector2(-1.0, -1.0)
 	sync_hero()
-	minimap_markers.queue_redraw()
 
 func build_hud() -> void:
 	add_child(hud)
-	var panel := hud_panel
-	panel.position = Vector2(14, 14)
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.04, 0.03, 0.04, 0.88)
-	style.border_color = Color(0.84, 0.62, 0.30, 0.90)
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(8)
-	style.content_margin_left = 12
-	style.content_margin_right = 12
-	style.content_margin_top = 8
-	style.content_margin_bottom = 8
-	panel.add_theme_stylebox_override("panel", style)
 
-	var vbox := VBoxContainer.new()
-	panel.add_child(vbox)
-	info_label.add_theme_font_size_override("font_size", 14)
-	info_label.add_theme_color_override("font_color", Color("f7e4c1"))
-	vbox.add_child(info_label)
+	atmosphere = WorldAtmosphereScript.new()
+	atmosphere.world = self
+	hud.add_child(atmosphere)
 
-	region_bar.add_theme_constant_override("separation", 5)
-	for idx in REGION_ORDER.size():
-		var land_id: String = REGION_ORDER[idx]
-		var btn := Button.new()
-		btn.text = "[%d] %s" % [idx + 1, land_id.capitalize()]
-		btn.pressed.connect(func() -> void: switch_region(land_id))
-		region_bar.add_child(btn)
+	rpg_hud = RpgHudScript.new()
+	rpg_hud.world = self
+	hud.add_child(rpg_hud)
 
-	var btn_cap := Button.new()
-	btn_cap.text = "[C] Stolica"
-	btn_cap.pressed.connect(func() -> void: teleport_to_capital())
-	region_bar.add_child(btn_cap)
-
-	var btn_exp := Button.new()
-	btn_exp.text = "[E] Expowiska (6)"
-	btn_exp.pressed.connect(func() -> void: cycle_exp_zone())
-	region_bar.add_child(btn_exp)
-
-	var btn_globe := Button.new()
-	btn_globe.text = "[G] Globus 3D"
-	btn_globe.pressed.connect(func() -> void:
-		if atlas_overlay != null:
-			atlas_overlay.set_mode("globe")
-		toggle_atlas(not atlas_expanded)
-	)
-	region_bar.add_child(btn_globe)
-
-	var btn_atlas := Button.new()
-	btn_atlas.text = "[Tab] Atlas 2D"
-	btn_atlas.pressed.connect(func() -> void:
-		if atlas_overlay != null:
-			atlas_overlay.set_mode("atlas")
-		toggle_atlas(true)
-	)
-	region_bar.add_child(btn_atlas)
-
-	var btn_3d := Button.new()
-	btn_3d.text = "[M] Mapa 3D"
-	btn_3d.pressed.connect(func() -> void: toggle_map())
-	region_bar.add_child(btn_3d)
-
-	vbox.add_child(region_bar)
-	hud.add_child(panel)
-
-	minimap_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	minimap_rect.stretch_mode = TextureRect.STRETCH_SCALE
-	minimap_rect.mouse_filter = Control.MOUSE_FILTER_STOP
-	minimap_rect.gui_input.connect(_on_minimap_input)
-	hud.add_child(minimap_rect)
-
-	minimap_markers.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	minimap_markers.draw.connect(_draw_minimap_markers)
-	minimap_rect.add_child(minimap_markers)
+	premium_minimap = PremiumMinimapScript.new()
+	premium_minimap.world = self
+	hud.add_child(premium_minimap)
 
 	map_3d = Map3DScript.new()
 	map_3d.world = self
@@ -619,48 +597,31 @@ func build_hud() -> void:
 	hud.add_child(stick_layer)
 	layout_minimap()
 
-func build_minimap_texture() -> void:
-	var rdir := "res://regions/" + current_land
-	var weights := Image.new()
-	weights.load(ProjectSettings.globalize_path(rdir + "/weights.png"))
-	var surface := Image.new()
-	surface.load(ProjectSettings.globalize_path(rdir + "/surface.png"))
-	var img := Image.create(256, 256, false, Image.FORMAT_RGBA8)
-	for y in 256:
-		for x in 256:
-			var gx := x * 2
-			var gz := y * 2
-			var w := weights.get_pixel(gx, gz)
-			var s := surface.get_pixel(gx, gz)
-			var c := Color(0.24, 0.28, 0.22) * w.r + Color(0.38, 0.46, 0.34) * w.g + Color(0.76, 0.68, 0.54) * w.b + Color(0.34, 0.32, 0.36) * w.a
-			c = c * vertex_color(gx, gz).r
-			if s.b > 0.15:
-				c = c.lerp(Color(0.86, 0.78, 0.62), s.b * 0.75)
-			if s.g > 0.15:
-				c = c.lerp(Color(0.08, 0.58, 0.86), s.g * 0.90)
-			if s.r > 0.15:
-				c = c.lerp(Color(1.0, 0.38, 0.06), s.r * 0.95)
-			if (1.0 - s.a) > 0.15:
-				c = c.lerp(Color(0.28, 0.92, 1.0), (1.0 - s.a) * 0.90)
-			img.set_pixel(x, y, Color(c.r, c.g, c.b, 0.95))
-	minimap_rect.texture = ImageTexture.create_from_image(img)
+func cycle_time_of_day() -> void:
+	if atmosphere != null:
+		var lbl: String = str(atmosphere.cycle_time_mode())
+		if rpg_hud != null:
+			rpg_hud.set_time_label(lbl)
 
 func layout_minimap() -> void:
 	var vp := get_viewport_rect().size
-	hud_panel.visible = not (map_expanded or atlas_expanded)
+	var show_world_ui := not (map_expanded or atlas_expanded)
+	if rpg_hud != null:
+		rpg_hud.visible = show_world_ui
+	if atmosphere != null:
+		atmosphere.visible = show_world_ui
 	if map_expanded:
 		var rect := Rect2(Vector2(64.0, 28.0), Vector2(vp.x - 128.0, vp.y - 56.0))
 		map_3d.position = rect.position
 		map_3d.size = rect.size
 		map_3d.visible = true
-		minimap_rect.visible = false
+		if premium_minimap != null:
+			premium_minimap.visible = false
 	else:
 		map_3d.visible = false
-		minimap_rect.visible = not atlas_expanded
-		minimap_rect.size = Vector2(215, 215)
-		minimap_rect.position = Vector2(vp.x - 231, 14)
-	minimap_markers.size = minimap_rect.size
-	minimap_markers.queue_redraw()
+		if premium_minimap != null:
+			premium_minimap.visible = show_world_ui
+			premium_minimap.position = Vector2(vp.x - 270.0, 12.0)
 	if atlas_overlay != null:
 		atlas_overlay.position = Vector2(24, 20)
 		atlas_overlay.size = Vector2(vp.x - 48, vp.y - 40)
@@ -679,33 +640,36 @@ func toggle_atlas(open: bool) -> void:
 		map_expanded = false
 	layout_minimap()
 	if atlas_overlay != null:
-		atlas_overlay.queue_redraw()
+		atlas_overlay.sync_live_hero()
 	stick_layer.queue_redraw()
-
-func _on_minimap_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		toggle_map()
-
-func _draw_minimap_markers() -> void:
-	var s := minimap_rect.size
-	minimap_markers.draw_rect(Rect2(Vector2.ZERO, s), Color(0.84, 0.64, 0.32, 0.90), false, 2.5)
-	# Safe Capital circle
-	var c_center := Vector2(0.5 * s.x, 0.5 * s.y)
-	minimap_markers.draw_arc(c_center, (safe_city_radius / world_size) * s.x, 0, TAU, 32, Color(0.35, 0.92, 0.55, 0.65), 1.5, true)
-	# 6 Exp-Zones (red combat rings)
-	for ez: Dictionary in exp_zones:
-		var ep := Vector2(float(ez.x) / world_size * s.x, float(ez.z) / world_size * s.y)
-		minimap_markers.draw_circle(ep, 5.0, Color(1.0, 0.28, 0.18, 0.92))
-		minimap_markers.draw_arc(ep, 7.5, 0, TAU, 16, Color(1.0, 0.85, 0.35, 0.9), 1.5, true)
-	# Hero marker
-	var hp := Vector2(hero_pos.x / world_size * s.x, hero_pos.y / world_size * s.y)
-	minimap_markers.draw_circle(hp, 5.5, Color(0.2, 0.95, 1.0))
-	minimap_markers.draw_arc(hp, 8.0, 0, TAU, 20, Color(1, 1, 1, 0.9), 1.8, true)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_M:
 			toggle_map()
+			return
+		elif event.keycode == KEY_T:
+			cycle_time_of_day()
+			return
+		elif event.keycode == KEY_K:
+			if rpg_hud != null:
+				rpg_hud.toggle_talents()
+			return
+		elif event.keycode == KEY_I:
+			if rpg_hud != null:
+				rpg_hud.toggle_character()
+			return
+		elif event.keycode == KEY_Q:
+			if rpg_hud != null:
+				rpg_hud.trigger_skill(0)
+			return
+		elif event.keycode == KEY_SPACE:
+			if rpg_hud != null:
+				rpg_hud.trigger_skill(5)
+			return
+		elif event.keycode == KEY_Z:
+			if premium_minimap != null:
+				premium_minimap.toggle_zoom_mode()
 			return
 		elif event.keycode == KEY_G:
 			if atlas_overlay != null:
@@ -857,7 +821,6 @@ func try_move(step: Vector2) -> void:
 	for candidate: Vector2 in [hero_pos + step, Vector2(hero_pos.x + step.x, hero_pos.y), Vector2(hero_pos.x, hero_pos.y + step.y)]:
 		if is_walkable(candidate.x, candidate.y) and absf(height_at(candidate.x, candidate.y) - h_now) < 5.5:
 			hero_pos = candidate
-			minimap_markers.queue_redraw()
 			return
 
 func sync_hero() -> void:
@@ -873,10 +836,13 @@ func sync_hero() -> void:
 			best = d
 			nearest = str(lm.title)
 	var center := Vector2(world_size * 0.5, world_size * 0.5)
-	var zone_tag := "BEZPIECZNA STOLICA" if hero_pos.distance_to(center) <= safe_city_radius else "DZIKI KONTYNENT / EXPOWISKO"
-	info_label.text = "%s (%s)\nPozycja: (%.0f, %.0f) wys. %.1f m | Lokacja: %s | NPC: %d | Potwory: %d | Fauna: %d" % [
-		region_title, zone_tag, hero_pos.x, hero_pos.y, h, nearest, npcs_data.size(), monsters_data.size(), fauna_data.size()
-	]
+	var in_safe := hero_pos.distance_to(center) <= safe_city_radius
+	if rpg_hud != null:
+		rpg_hud.sync_status(nearest, in_safe)
+	if premium_minimap != null:
+		premium_minimap.refresh(nearest, in_safe)
+	if atlas_overlay != null and atlas_expanded:
+		atlas_overlay.sync_live_hero()
 
 func snap(out_dir: String, file: String) -> String:
 	for _i in 4:
@@ -964,7 +930,7 @@ func run_qa() -> void:
 	shots.append(await snap(out_dir, "planet-atlas.jpg"))
 	toggle_atlas(false)
 
-	# 5) 3D Local Continent Relief Map screenshot
+	# 5) 3D Local Continent Relief Map screenshots (Pyra + Verdantia)
 	switch_region("pyra")
 	toggle_map()
 	for _i in 5:
@@ -973,9 +939,29 @@ func run_qa() -> void:
 	shots.append(await snap(out_dir, "map-3d.jpg"))
 	toggle_map()
 
+	switch_region("verdant")
+	toggle_map()
+	for _i in 5:
+		await get_tree().process_frame
+	map_3d.orbit(Vector2(45, -12))
+	shots.append(await snap(out_dir, "map-3d-verdant.jpg"))
+	toggle_map()
+
+	# 6) Etap 4: 29-Node Racial Talent Tree overlay on Pyra
+	switch_region("pyra")
+	hero_pos = Vector2(512.0, 492.0)
+	step_world(0.1)
+	if rpg_hud != null:
+		rpg_hud.toggle_talents()
+	for _i in 4:
+		await get_tree().process_frame
+	shots.append(await snap(out_dir, "talent-tree.jpg"))
+	if rpg_hud != null:
+		rpg_hud.close_modals()
+
 	var report := {
 		"project": "ports/godot-isometric-world",
-		"phase": "Phase A + Phase C Full Continents, Spline Roads, 24 Exp-Zones, Water/Lava, 338 Painted Assets + GeoNodes Walls, 99 Animated Entities & Real 3D Globe",
+		"phase": "Canonical 2D/3D Maps + Etap 3 Atmosphere & Weather + Etap 4 Premium RPG HUD & 29-Node Talent Tree",
 		"projection_roundtrip_error_m": snappedf(roundtrip_err, 0.0001),
 		"regions": regions_report,
 		"screenshots": shots,

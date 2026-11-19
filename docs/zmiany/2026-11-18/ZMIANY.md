@@ -61,3 +61,37 @@ Zgodnie z wytycznymi właściciela przebudowano wszystkie 4 kontynenty w `ports/
 - **Rzeczywisty Globus 3D Planety Superior (`scripts/globe_view.gd` + `scripts/atlas_overlay.gd`):**
   - Pod klawiszem `[G]` zintegrowano prawdziwą kulę 3D (`globe-color.webp`) z animowaną warstwą chmur (`globe-clouds.webp`), odblaskiem słońca na oceanach, niebieską atmosferą Fresnela, tłem kosmosu (`space.jpg`), obrysami poligonowymi kontynentów i wysp (`data/map.json`), napisami 3D Cinzel oraz obrotem `360°` i wyborem kontynentu promieniem 3D (`raycast`). Pod klawiszem `[Tab]` udostępniono malowany Atlas 2D (`assets/map/atlas.webp`), a pod `[M]` obrotową Mapę 3D całego kontynentu `1024 × 1024 m`.
 
+## 3. Pakiet Graficzny i Kartograficzny Klasy Premium (CPU + `generate_image` + Godot 4.6.3)
+
+Bez użycia instancji GPU wdrożono i zweryfikowano w Godot 4.6.3 cztery ulepszenia klasy premium:
+
+- **Nowe ręcznie malowane budowle-symbole AAA (`assets/objects/*-premium-*.webp`):**
+  - Wygenerowano i wycięto z pełną przezroczystością RGBA `.webp` 4 kluczowe budowle: `pyra-premium-citadel.webp` (obsydianowa Cytadela Pyry z wieżami i żarem), `pyra-premium-bridge.webp` (wulkaniczny most kamienny), `verdant-premium-treehall.webp` (Sanktuarium Drzewa Świata w Verdantii) oraz `aether-premium-pagoda.webp` (Niebiańska Pagoda Aetherii) i podpięto je w `scripts/gpu/gen_world_topography.py`.
+- **Naturalne shadery wody, lawy i dróg + miękkie cienie kontaktowe (`shaders/terrain.gdshader`, `shaders/map_3d.gdshader`, `scripts/world.gd`):**
+  - Zastąpiono ostre neonowe obrysy brzegów wielooktawowym domenowo-falowanym brzegiem FBM: ciemne, wilgotne skarpy nad wodą, dwuwarstwowa kaustyka podwodna, naturalny batymetryczny gradient głębi i poszarpana piana brzegowa; przy lawie dodano przypaloną bazaltową krawędź i pływające płyty stygnącej skorupy bazaltowej nad żarzącymi się żyłami magmy; na terenie dodano miękkie plamy światła słonecznego oraz radialne, eliptyczne cienie kontaktowe pod wszystkimi budynkami i drzewami (`make_shadow_tex()`, `add_contact_shadow()`).
+- **Okrągła Minimapa Klasy Premium (`scripts/premium_minimap.gd`, `shaders/minimap_circle.gdshader`):**
+  - Zastąpiono dawną uproszczoną makietę `256×256` kartograficznym radarem opartym o renderowany z góry, rzeczywisty obraz kontynentu `regions/<land>/minimap_hq.png` (`1024×1024` z teksturami terenu, cieniowaniem 3D, poziomicami, drogami, rzekami/lawą, obrysami dachów i koronami drzew).
+  - Dodano antyaliasowaną maskę kołową ze szklanym połyskiem i winietą, podwójny pierścień z antycznego złota z podziałką kompasową i oznaczeniami **N / E / S / W**, przełącznik zbliżenia taktycznego `[Z]` (`2.1×` / `1.0×`), kierunkową strzałkę bohatera, wektorowe romby usług stolicy, odznaki expowisk, żywe punkty patrolujących NPC, potworów i dzikiej fauny oraz tabliczkę lokacji ze współrzędnymi `(X, Z)` i przyciskami szybkiego dostępu (`2.1×`, `3D`, `Globus`).
+- **Rzeczywisty Atlas 2D i Globus 3D Planety Superior (`atlas/planet_real_world.png`, `assets/map/globe-real-world.webp`, `scripts/atlas_overlay.gd`, `scripts/globe_view.gd`):**
+  - Funkcja `composite_real_planet_atlas()` w `scripts/gpu/gen_world_topography.py` wkomponowuje wszystkie 4 wygenerowane kontynenty (`minimap_hq.png`) dokładnie wewnątrz ich linii brzegowych z `data/map.json` na mapie `2048×1024`, dzięki czemu zarówno **Atlas 2D (`[Tab]`)**, jak i **Globus 3D (`[G]`)** pokazują prawdziwy układ dróg, rzek, lawy, miast i expowisk z gry.
+  - Dodano mapowanie pozycji bohatera na żywo (`hero_atlas_pos()` + `globe.set_player_atlas()`) na obu widokach, kartograficzną siatkę współrzędnych, różę wiatrów, spójne obrysy linii brzegowych z `data/map.json` oraz kartę telemetrii aktywnego kontynentu.
+  - Weryfikacja Godot 4.6.3 (`--qa`, 11 zrzutów ekranu): `0` błędów, `0` ostrzeżeń silnika, `ISO_WORLD_QA_OK`.
+
+## 4. Kanoniczne Mapy 2D/3D zgodne ze wzorcem + Etap 3 (Atmosfera i Pogoda) + Etap 4 (HUD Action-RPG i Drzewko 29 Węzłów)
+
+Po przeglądzie wzorca kartograficznego właściciela (`1794997646341.jpg`) całkowicie przebudowano wszystkie mapy 2D/3D oraz wdrożono Etap 3 i Etap 4:
+
+- **Kanoniczna kartografia 2D i 3D zgodna ze wzorcem właściciela (`scripts/gpu/build_canonical_maps.py`):**
+  - Usunięto wcześniejszy proceduralny schemat koncentrycznych pierścieni z map kontynentów; zastąpiono go malowanymi, wolnymi od etykiet mapami reliefowymi wszystkich 4 kontynentów (`Verdantia`, `Aetheria`, `Nexus-9`, `Pyra`) wiernie odwzorowującymi pasma górskie, Wielkie Jezioro, kanały chłodzące, fiordy i rzeki lawy.
+  - Wygenerowano spójny zestaw dla każdego regionu: `regions/<land>/map_art.png` (`1024×1024`), `regions/<land>/minimap_hq.png` (`1024×1024`) oraz rzeźbioną siatkę wysokości 3D `regions/<land>/relief_3d.r32` (`256×256`), a także bezszwowy atlas całej planety `atlas/planet_real_world.png` + `assets/map/globe-real-world.webp` (`2048×1024`) z oczyszczonymi krawędziami oceanu, 6 wyspami questowymi i turkusowymi szelfami.
+  - **Atlas 2D (`scripts/atlas_overlay.gd`, `[Tab]`):** przejrzysty widok kartograficzny z czcionką Cinzel, zoomem i przesuwaniem (`+ / - / ◎`), różą wiatrów (`MapStyle.compass()`), niekolizyjnym znacznikiem pozycji bohatera (`Ty`) i dolnym paskiem lore/telemetrii.
+  - **Globus 3D (`scripts/globe_view.gd`, `[G]`):** żywe, nieprzygaszone barwy wulkanicznej Pyry i pozostałych kontynentów na obracanej kuli 3D z atmosferą, chmurami i pozycją bohatera na żywo.
+  - **Mapa Reliefowa 3D (`scripts/map_3d.gd`, `shaders/map_3d.gdshader`, `[M]`):** rzeźbiona wyspa 3D z `relief_3d.r32` w bezkrawędziowym oceanie, z połyskiem wody, żarzącymi się żyłami lawy, złotą iglicą Stolicy i 6 pinezkami expowisk dociągniętymi na ląd.
+- **Etap 3 — Atmosfera, Cykl Dnia i Pogoda Biomów (`shaders/cloud_shadows.gdshader`, `scripts/world_atmosphere.gd`):**
+  - Wdrożono płynące cienie chmur FBM z subtelną winietą kinową oraz 4-etapowy cykl pory dnia przełączany klawiszem `[T]` (*Dzień*, *Złota Godzina*, *Zmierzch*, *Noc*).
+  - Dodano 48 aktywnych cząsteczek pogodowych dopasowanych do biomu (iskry wulkaniczne na Pyrze, świetliki i pyłek w Verdantii, płatki sakury i śnieg alpejski w Aetherii, cyjanowe drobiny danych w Nexus-9).
+- **Etap 4 — Interfejs Action-RPG, Pasek Umiejętności i Drzewko Rozwoju (`scripts/rpg_hud.gd`):**
+  - Zastąpiono stary debugowy panel pełnym HUD-em RPG: ozdobna ramka bohatera w lewym górnym rogu (medalion poziomu, `HP`, `KI`, zasób rasowy *Żar / Nurt / Skupienie / Ładunek*, monety, status *Bezpieczna Stolica / Expowisko*), dolny pasek akcji z paskiem `XP` (i premią `+5%` prędkości na poziom) oraz 6 klikalnymi umiejętnościami rasowymi z czasem odnowienia.
+  - Wdrożono interaktywne okno **Drzewka Rozwoju Ki (`[K]`)** z 4 szlakami i 29 węzłami (*Szlak Walki*, *Szlak Energii Ki*, *Szlak Ochrony*, *Szlak Podróży*) oraz **Kartę Postaci i Ekwipunku (`[I]`)**.
+- **Weryfikacja QA (`Godot 4.6.3 --qa`, 13 zrzutów ekranu):**
+  - Wygenerowano i zweryfikowano wizualnie wszystkie zrzuty w `docs/zmiany/2026-11-18/qa/isometric-world/` (w tym `planet-atlas.jpg`, `globe-3d.jpg`, `map-3d.jpg`, `map-3d-verdant.jpg`, `talent-tree.jpg` oraz widoki wszystkich 4 stolic i expowisk): `ISO_WORLD_QA_OK`, `0` błędów.

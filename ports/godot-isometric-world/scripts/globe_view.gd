@@ -32,7 +32,7 @@ void fragment() {
 	col += vec3(1.0, 0.55, 0.25) * smoothstep(0.0, 0.25, ndl) * (1.0 - smoothstep(0.25, 0.5, ndl)) * 0.10;
 	col = mix(col, vec3(1.0), cl * 0.28 * (0.4 + 0.6 * lit));
 	float m = texture(select_tex, UV).r * select_on;
-	col = mix(col, vec3(1.0, 0.82, 0.38), m * (0.30 + 0.08 * sin(TIME * 3.0)));
+	col = mix(col, vec3(1.0, 0.86, 0.44), m * (0.07 + 0.03 * sin(TIME * 3.0)));
 	col += vec3(0.30, 0.55, 1.0) * rim * 0.75;
 	ALBEDO = col;
 }
@@ -259,6 +259,12 @@ func focus_on(lonlat: Vector2) -> void:
 	velocity = Vector2.ZERO
 	idle = 0.0
 	apply_rotation()
+
+func set_player_atlas(player_atlas: Vector2) -> void:
+	if is_instance_valid(player_marker):
+		var ll := MapMath.atlas_to_lonlat(player_atlas)
+		player_marker.position = surface(ll.x, ll.y, 1.024)
+
 
 func select(id: String) -> void:
 	selected = id

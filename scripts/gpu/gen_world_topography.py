@@ -12,7 +12,7 @@ import random
 import struct
 from pathlib import Path
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFilter
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 OUT_ROOT = Path(os.environ.get("ISO_WORLD_OUT", str(REPO_ROOT / "ports/godot-isometric-world")))
@@ -247,7 +247,7 @@ def generate_planet_atlas() -> dict:
 # plus Blender Cycles GPU / Geometry Nodes fortifications
 ARCH_CATALOG = {
     "pyra": {
-        "fortress": ("5aa5d3c0-pyra-continent-rock-arch.webp", 540, 460),
+        "fortress": ("pyra-premium-citadel.webp", 700, 680),
         "altar": ("3b42d9ee-pyra-continent-spring.webp", 420, 340),
         "statue": ("73fdbb3d-ki-v2-landmarks-pyra-statue.webp", 420, 690),
         "hall": ("9eba1e56-pyra-painted-hall.webp", 536, 462),
@@ -257,7 +257,7 @@ ARCH_CATALOG = {
         "shop": ("e82ceee7-pyra-painted-shop.webp", 537, 450),
         "depot": ("e0e8cc86-pyra-painted-depot.webp", 544, 452),
         "house": ("1093fbd2-ki-v2-buildings-pyra-house.webp", 275, 258),
-        "bridge": ("62d823d3-pyra-continent-bridge.webp", 560, 350),
+        "bridge": ("pyra-premium-bridge.webp", 560, 460),
         "gate": ("pyra-citadel-gate.webp", 520, 440),
         "wall_ne": ("pyra-citadel-wall-ne.webp", 360, 220),
         "wall_nw": ("pyra-citadel-wall-nw.webp", 360, 220),
@@ -268,7 +268,7 @@ ARCH_CATALOG = {
     "verdant": {
         "forge": ("e4e9d345-ki-v2-landmarks-verdant-forge.webp", 660, 720),
         "cottage": ("7adc64fb-ki-v2-landmarks-verdant-cottage.webp", 620, 650),
-        "hall": ("f1c31d72-verdant-leaf-hall.webp", 590, 586),
+        "hall": ("verdant-premium-treehall.webp", 640, 660),
         "arena": ("a5819767-verdant-leaf-arena.webp", 590, 576),
         "smithy": ("b71a5ab2-verdant-leaf-smithy.webp", 580, 580),
         "inn": ("8f5e282c-verdant-leaf-inn.webp", 580, 570),
@@ -284,7 +284,7 @@ ARCH_CATALOG = {
         "wall_nw": ("verdant-wall-nw.webp", 360, 220),
     },
     "aether": {
-        "sanctum": ("df70d07d-aether-art-ki-source.webp", 540, 520),
+        "sanctum": ("aether-premium-pagoda.webp", 680, 720),
         "observatory": ("0ca65cb7-ki-v2-landmarks-aether-observatory.webp", 640, 740),
         "archive": ("fff58068-ki-v2-landmarks-aether-archive.webp", 680, 730),
         "hall": ("2b002168-aether-painted-hall.webp", 620, 455),
@@ -1517,6 +1517,23 @@ def generate_continent(land_id: str) -> dict:
     with open(reg_dir / "buildings.json", "w", encoding="utf-8") as f:
         json.dump(region_payload, f, ensure_ascii=False, indent=2)
 
+    # Bake 1024x1024 high-resolution cartographic minimap of the ACTUAL continent (textures, relief, contours, water/lava, roads, buildings & forest canopies)
+    render_premium_minimap(
+        land_id=land_id,
+        reg_dir=reg_dir,
+        h=h,
+        shade=shade,
+        weights=weights,
+        lava_mask=lava_mask,
+        water_mask=water_mask,
+        road_mask=road_mask,
+        energy_mask=energy_mask,
+        buildings_list=buildings_list,
+        props_list=props_list,
+        exp_zones_out=exp_zones_out,
+        world_size=WORLD_SIZE,
+    )
+
     return {
         "land_id": land_id,
         "grid_size": GRID_N,
@@ -1533,6 +1550,249 @@ def generate_continent(land_id: str) -> dict:
     }
 
 
+def render_premium_minimap(
+    land_id: str,
+    reg_dir: Path,
+    h: np.ndarray,
+    shade: np.ndarray,
+    weights: np.ndarray,
+    lava_mask: np.ndarray,
+    water_mask: np.ndarray,
+    road_mask: np.ndarray,
+    energy_mask: np.ndarray,
+    buildings_list: list[dict],
+    props_list: list[dict],
+    exp_zones_out: list[dict],
+    world_size: float,
+) -> None:
+    """Renders a crisp 1024x1024 top-down satellite/cartographic map directly from real biome textures,
+    hillshaded 3D relief, elevation contour lines, organic water/lava/roads, building footprints, and tree canopies."""
+    M = 1024
+    half = world_size * 0.5
+
+    def up_arr(arr: np.ndarray) -> np.ndarray:
+        img = Image.fromarray(np.clip(arr * 255.0, 0, 255).astype(np.uint8), mode="L")
+        return np.asarray(img.resize((M, M), Image.Resampling.BILINEAR), dtype=np.float32) / 255.0
+
+    def load_tiled(fname: str, tiles: int) -> np.ndarray:
+        p = reg_dir / fname
+        if not p.exists():
+            return np.full((M, M, 3), 0.35, dtype=np.float32)
+        t_sz = max(32, M // tiles)
+        tile = np.asarray(Image.open(p).convert("RGB").resize((t_sz, t_sz), Image.Resampling.BICUBIC), dtype=np.float32) / 255.0
+        reps = (M // t_sz) + 1
+        return np.tile(tile, (reps, reps, 1))[:M, :M, :]
+
+    c0 = load_tiled("mat_0.png", 16)
+    c1 = load_tiled("mat_1.png", 16)
+    c2 = load_tiled("mat_2.png", 20)
+    c3 = load_tiled("mat_3.png", 14)
+
+    w0 = up_arr(weights[..., 0])
+    w1 = up_arr(weights[..., 1])
+    w2 = up_arr(weights[..., 2])
+    w3 = up_arr(weights[..., 3])
+    w_sum = np.maximum(w0 + w1 + w2 + w3, 1e-4)
+
+    rgb = (c0 * w0[..., None] + c1 * w1[..., None] + c2 * w2[..., None] + c3 * w3[..., None]) / w_sum[..., None]
+
+    # Directional hillshade + gentle topographic contour lines every 8m
+    sh = up_arr(np.clip((shade - 0.30) / 0.85, 0.0, 1.0)) * 0.72 + 0.42
+    h_min, h_max = float(np.min(h)), float(np.max(h))
+    h_up = up_arr((h - h_min) / max(h_max - h_min, 1e-4)) * (h_max - h_min) + h_min
+    contour = np.abs(((h_up / 8.0) - np.floor(h_up / 8.0)) - 0.5)
+    contour_line = np.clip(1.0 - contour / 0.032, 0.0, 1.0) * 0.14
+    rgb = rgb * sh[..., None] * (1.0 - contour_line[..., None])
+
+    # Crisp spline roads with subtle dark masonry curb border
+    rd = up_arr(road_mask)
+    rd_edge = np.clip((rd - 0.14) / 0.24, 0.0, 1.0) * (1.0 - np.clip((rd - 0.42) / 0.24, 0.0, 1.0))
+    road_col = c2 * 0.82 + np.array([0.18, 0.16, 0.12], dtype=np.float32)
+    rgb = rgb * (1.0 - np.clip(rd * 1.15, 0.0, 0.92)[..., None]) + road_col * np.clip(rd * 1.15, 0.0, 0.92)[..., None]
+    rgb *= (1.0 - rd_edge[..., None] * 0.32)
+
+    # Natural bathymetric water with damp shoreline bank and delicate surf
+    wm = up_arr(water_mask)
+    wet_bank = np.clip((wm - 0.04) / 0.16, 0.0, 1.0) * (1.0 - np.clip((wm - 0.22) / 0.14, 0.0, 1.0))
+    rgb *= (1.0 - wet_bank[..., None] * 0.28)
+    shallow = np.array([0.11, 0.56, 0.68], dtype=np.float32)
+    deep = np.array([0.04, 0.22, 0.44], dtype=np.float32)
+    depth_t = np.clip((wm - 0.22) / 0.65, 0.0, 1.0)[..., None]
+    w_col = shallow * (1.0 - depth_t) + deep * depth_t
+    shore_foam = np.clip((wm - 0.18) / 0.10, 0.0, 1.0) * (1.0 - np.clip((wm - 0.30) / 0.14, 0.0, 1.0))
+    w_col = w_col * (1.0 - shore_foam[..., None] * 0.42) + np.array([0.85, 0.95, 0.98], dtype=np.float32) * (shore_foam[..., None] * 0.42)
+    w_blend = np.clip((wm - 0.14) / 0.20, 0.0, 1.0)[..., None]
+    rgb = rgb * (1.0 - w_blend) + w_col * w_blend
+
+    # Volcanic lava with scorched basalt bank and glowing molten core
+    lm = up_arr(lava_mask)
+    scorch = np.clip((lm - 0.04) / 0.16, 0.0, 1.0) * (1.0 - np.clip((lm - 0.24) / 0.16, 0.0, 1.0))
+    rgb *= (1.0 - scorch[..., None] * 0.48)
+    crust = np.array([0.22, 0.06, 0.03], dtype=np.float32)
+    magma = np.array([0.96, 0.34, 0.05], dtype=np.float32)
+    core = np.array([1.0, 0.84, 0.28], dtype=np.float32)
+    l_t1 = np.clip((lm - 0.16) / 0.36, 0.0, 1.0)[..., None]
+    l_t2 = np.clip((lm - 0.55) / 0.38, 0.0, 1.0)[..., None]
+    l_col = (crust * (1.0 - l_t1) + magma * l_t1) * (1.0 - l_t2) + core * l_t2
+    l_blend = np.clip((lm - 0.14) / 0.22, 0.0, 1.0)[..., None]
+    rgb = rgb * (1.0 - l_blend) + l_col * l_blend
+
+    # Cyan plasma conduits / waterfall mist
+    em = up_arr(energy_mask)
+    e_col = np.array([0.18, 0.86, 0.98], dtype=np.float32)
+    e_blend = np.clip((em - 0.15) / 0.32, 0.0, 0.88)[..., None]
+    rgb = rgb * (1.0 - e_blend) + e_col * e_blend
+
+    img = Image.fromarray(np.clip(rgb * 255.0, 0, 255).astype(np.uint8), mode="RGB").convert("RGBA")
+    overlay = Image.new("RGBA", (M, M), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(overlay)
+
+    def to_px(wx: float, wz: float) -> tuple[float, float]:
+        return ((wx + half) / world_size * M, (wz + half) / world_size * M)
+
+    # Tree & flora canopy clusters with subtle drop shadow
+    canopy_palette = {
+        "pyra": (122, 54, 34, 210),
+        "verdant": (42, 108, 44, 215),
+        "aether": (176, 108, 148, 205),
+        "nexus": (52, 134, 152, 205),
+    }
+    c_col = canopy_palette.get(land_id, (56, 112, 58, 210))
+    for p in props_list:
+        kind = p.get("kind", "")
+        if kind not in ("tree", "rock", "landmark", "camp"):
+            continue
+        px, py = to_px(float(p["x"]), float(p["z"]))
+        rad = 6.5 if kind == "tree" else (7.5 if kind == "landmark" else 4.5)
+        draw.ellipse((px - rad + 2, py - rad + 2, px + rad + 2, py + rad + 2), fill=(8, 8, 10, 95))
+        fill_c = c_col if kind == "tree" else ((136, 128, 118, 210) if kind == "rock" else (218, 174, 88, 220))
+        draw.ellipse((px - rad, py - rad, px + rad, py + rad), fill=fill_c, outline=(24, 20, 18, 130))
+
+    # Architectural rooftops, fortification walls, towers, gates & bridges
+    roof_palette = {
+        "pyra": (184, 58, 36, 245),
+        "verdant": (64, 154, 58, 245),
+        "aether": (46, 156, 138, 245),
+        "nexus": (76, 178, 214, 245),
+    }
+    r_col = roof_palette.get(land_id, (190, 150, 90, 245))
+    for b in buildings_list:
+        role = b.get("role", "building")
+        bx, by = to_px(float(b["x"]), float(b["z"]))
+        if role == "prop":
+            continue
+        if role == "wall":
+            draw.rectangle((bx - 10, by - 5, bx + 10, by + 5), fill=(96, 92, 96, 235), outline=(28, 24, 24, 220))
+        elif role == "bridge":
+            draw.rectangle((bx - 14, by - 7, bx + 14, by + 7), fill=(172, 146, 108, 245), outline=(42, 30, 22, 240))
+        elif role == "tower" or role == "gate":
+            draw.rectangle((bx - 10, by - 10, bx + 10, by + 10), fill=(138, 122, 106, 245), outline=(245, 212, 132, 230))
+        elif role == "house":
+            draw.rectangle((bx - 7, by - 6, bx + 7, by + 6), fill=(154, 132, 108, 235), outline=(36, 28, 24, 220))
+        else:
+            sz = 14 if role in ("landmark", "hall") else 11
+            draw.rectangle((bx - sz + 3, by - sz + 3, bx + sz + 3, by + sz + 3), fill=(10, 8, 8, 135))
+            draw.rectangle((bx - sz, by - sz, bx + sz, by + sz), fill=r_col, outline=(252, 226, 152, 245), width=2)
+
+    # Subtle safe-city ring border & exp-zone combat clearing rings
+    city_r = (180.0 / world_size) * M
+    draw.ellipse((M * 0.5 - city_r, M * 0.5 - city_r, M * 0.5 + city_r, M * 0.5 + city_r), outline=(246, 214, 132, 120), width=2)
+    for ez in exp_zones_out:
+        ex, ey = to_px(float(ez["x"]), float(ez["z"]))
+        er = (float(ez.get("radius", 52.0)) * 0.55 / world_size) * M
+        draw.ellipse((ex - er, ey - er, ex + er, ey + er), outline=(255, 112, 74, 165), width=2)
+
+    out_img = Image.alpha_composite(img, overlay).convert("RGB")
+    out_img.save(reg_dir / "minimap_hq.png", optimize=True)
+
+
+def composite_real_planet_atlas() -> None:
+    """Composites the ACTUAL 4 generated continents (minimap_hq.png) directly inside their exact
+    traced coastlines (data/map.json outlines) onto the Planet Superior equirectangular texture,
+    so BOTH the 2D Planet Map and the 3D Planet Globe display the real live game world."""
+    map_json_path = OUT_ROOT / "data" / "map.json"
+    base_globe_path = OUT_ROOT / "assets" / "map" / "globe-color.webp"
+    if not map_json_path.exists() or not base_globe_path.exists():
+        return
+
+    map_data = json.loads(map_json_path.read_text(encoding="utf-8"))
+    map_w = float(map_data.get("mapW", 2000.0))
+    map_h = float(map_data.get("mapH", 1000.0))
+
+    W, H = 2048, 1024
+    base_img = Image.open(base_globe_path).convert("RGB").resize((W, H), Image.Resampling.BICUBIC)
+    canvas = np.asarray(base_img, dtype=np.float32)
+
+    sx = W / map_w
+    sy = H / map_h
+
+    for region in map_data.get("regions", []):
+        rid = str(region.get("id", ""))
+        if rid not in ("pyra", "verdant", "aether", "nexus"):
+            continue
+        hq_path = REGIONS_DIR / rid / "minimap_hq.png"
+        if not hq_path.exists():
+            continue
+        outline = region.get("outline", [])
+        if not outline:
+            continue
+
+        # Rasterize the exact continent polygon (handling horizontal wrap-around across 0 / W)
+        mask_img = Image.new("L", (W, H), 0)
+        mdraw = ImageDraw.Draw(mask_img)
+        pts_base = [(float(pt[0]) * sx, float(pt[1]) * sy) for pt in outline]
+        for shift_x in (-W, 0, W):
+            shifted = [(x + shift_x, y) for (x, y) in pts_base]
+            mdraw.polygon(shifted, fill=255)
+
+        # Softly erode/feather mask so natural painted coastline beaches blend seamlessly
+        soft_mask = np.asarray(mask_img.filter(ImageFilter.GaussianBlur(radius=5.0)), dtype=np.float32) / 255.0
+        inner_mask = np.clip((soft_mask - 0.35) / 0.55, 0.0, 1.0)
+
+        # Find unwrapped bounding box around the continent center
+        center = region.get("center", region.get("label", [map_w * 0.5, map_h * 0.5]))
+        if isinstance(center, dict):
+            cx = float(center.get("x", map_w * 0.5)) * sx
+            cy = float(center.get("y", map_h * 0.5)) * sy
+        else:
+            cx = float(center[0]) * sx
+            cy = float(center[1]) * sy
+        unwrapped_x = []
+        unwrapped_y = []
+        for x, y in pts_base:
+            dx = x - cx
+            if dx > W * 0.5:
+                dx -= W
+            elif dx < -W * 0.5:
+                dx += W
+            unwrapped_x.append(cx + dx)
+            unwrapped_y.append(y)
+        min_x, max_x = min(unwrapped_x), max(unwrapped_x)
+        min_y, max_y = min(unwrapped_y), max(unwrapped_y)
+        bw = max(64, int(round(max_x - min_x)))
+        bh = max(64, int(round(max_y - min_y)))
+
+        cont_img = Image.open(hq_path).convert("RGB").resize((bw, bh), Image.Resampling.LANCZOS)
+        cont_arr = np.asarray(cont_img, dtype=np.float32)
+
+        # Tile into a full WxH buffer at (min_x, min_y) with horizontal modulo wrap
+        full_cont = np.zeros((H, W, 3), dtype=np.float32)
+        ys = np.arange(bh) + int(round(min_y))
+        valid_y = (ys >= 0) & (ys < H)
+        ys_valid = ys[valid_y]
+        xs_mod = (np.arange(bw) + int(round(min_x))) % W
+        full_cont[np.ix_(ys_valid, xs_mod)] = cont_arr[valid_y, :, :]
+
+        # Blend 88% real continent render with 12% original painted relief shading inside the coastline
+        alpha = (inner_mask * 0.88)[..., None]
+        canvas = canvas * (1.0 - alpha) + full_cont * alpha
+
+    out_atlas = Image.fromarray(np.clip(canvas, 0, 255).astype(np.uint8), mode="RGB")
+    out_atlas.save(ATLAS_DIR / "planet_real_world.png", optimize=True)
+    out_atlas.save(OUT_ROOT / "assets" / "map" / "globe-real-world.webp", "WEBP", quality=92, method=6)
+    print("REAL_PLANET_ATLAS_DONE:", ATLAS_DIR / "planet_real_world.png")
+
+
 def main() -> None:
     print("Generating Planet Superior 2D Relief Atlas (2048x1024)...")
     atlas_meta = generate_planet_atlas()
@@ -1541,6 +1801,9 @@ def main() -> None:
     for land_id in ["pyra", "verdant", "aether", "nexus"]:
         print(f"Generating 1024x1024m Full Continent + Spline Roads + 6 Exp-Zones + Lakes/Oceans/Lava for {land_id}...")
         regions_meta[land_id] = generate_continent(land_id)
+
+    print("Compositing REAL 4 Continents onto Planet Superior 2D Map & 3D Globe Texture (2048x1024)...")
+    composite_real_planet_atlas()
 
     manifest = {
         "planet": "Superior",

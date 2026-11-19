@@ -1,5 +1,5 @@
 {
-  "phase": "Phase A + Phase C Full Continents, Spline Roads, 24 Exp-Zones, Water/Lava, 338 Painted Assets + GeoNodes Walls, 99 Animated Entities & Real 3D Globe",
+  "phase": "Canonical 2D/3D Maps + Etap 3 Atmosphere & Weather + Etap 4 Premium RPG HUD & 29-Node Talent Tree",
   "project": "ports/godot-isometric-world",
   "projection_roundtrip_error_m": 0.0,
   "regions": {
@@ -59,6 +59,8 @@
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/nexus-expzone.jpg",
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/globe-3d.jpg",
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/planet-atlas.jpg",
-    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/map-3d.jpg"
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/map-3d.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/map-3d-verdant.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/talent-tree.jpg"
   ]
 }
