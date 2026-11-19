@@ -42,6 +42,8 @@ var safe_city_radius := 180.0
 var capital_center := Vector2(512.0, 512.0)
 var heights := PackedFloat32Array()
 var walkable := PackedByteArray()
+var surface_img: Image
+var roads: Array = []
 var landmarks: Array = []
 var buildings: Array = []
 var npcs_data: Array = []
@@ -73,7 +75,7 @@ var target_pos := Vector2(-1.0, -1.0)
 var motion := Vector2.ZERO
 var map_expanded := false
 var atlas_expanded := false
-var zoom_level := 0.80
+var zoom_level := 0.62
 var move_pointer := -1
 var move_origin := Vector2.ZERO
 var pinch_pointers: Dictionary = {}
@@ -125,7 +127,7 @@ func rebuild_hero(land: String) -> void:
 	if actors_db.has(h_key):
 		var h_def: Dictionary = actors_db[h_key]
 		hero.setup(h_def, h_name, false, true, "hero")
-	hero.scale = Vector2(0.62, 0.62)
+	hero.scale = Vector2(0.45, 0.45)
 	ysort.add_child(hero)
 
 func surface_color_for(land: String) -> Vector3:
@@ -188,7 +190,10 @@ func load_terrain(land: String) -> void:
 	var rdir := "res://regions/" + land
 	heights = FileAccess.get_file_as_bytes(rdir + "/height.r32").to_float32_array()
 	walkable = FileAccess.get_file_as_bytes(rdir + "/walkable.u8")
+	var surf_tex: Texture2D = load_tex(rdir + "/surface.png")
+	surface_img = surf_tex.get_image() if surf_tex != null else null
 
+	roads = []
 	buildings = []
 	npcs_data = []
 	exp_zones = []
@@ -202,7 +207,7 @@ func load_terrain(land: String) -> void:
 		var bdata: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(bpath))
 		grid_size = int(bdata.get("grid_size", 512))
 		world_size = float(bdata.get("world_size", 1024.0))
-		safe_city_radius = float(bdata.get("safe_city_radius", 180.0))
+		safe_city_radius = float(bdata.get("safe_city_radius", 205.0))
 		var half := world_size * 0.5
 		var cap_arr: Array = bdata.get("capital_center", [0.0, 0.0])
 		if cap_arr.size() >= 2:
@@ -210,10 +215,19 @@ func load_terrain(land: String) -> void:
 		else:
 			capital_center = Vector2(half, half)
 
+		for rd: Dictionary in bdata.get("roads", []):
+			var conv_pts: Array = []
+			for pt: Array in rd.get("pts", []):
+				conv_pts.append([float(pt[0]) + half, float(pt[1]) + half])
+			roads.append({"tier": str(rd.get("tier", "footpath")), "pts": conv_pts})
+
 		for b: Dictionary in bdata.get("buildings", []):
 			var bc: Dictionary = b.duplicate()
 			bc["x"] = float(b.get("x", 0.0)) + half
 			bc["z"] = float(b.get("z", 0.0)) + half
+			if b.has("entrance"):
+				var ent_arr: Array = b.get("entrance", [0.0, 0.0])
+				bc["entrance"] = [float(ent_arr[0]) + half, float(ent_arr[1]) + half]
 			buildings.append(bc)
 			if str(b.get("role", "")) in ["landmark", "hall", "arena", "smithy", "inn", "shop", "depot"]:
 				landmarks.append({"id": str(b.get("id", "")), "title": str(b.get("title", "")), "x": bc["x"], "z": bc["z"]})
@@ -293,6 +307,17 @@ func is_walkable(x: float, z: float) -> bool:
 	var gz := int(round(z / world_size * float(grid_size - 1)))
 	return walkable[grid_index(gx, gz)] > 0
 
+func is_on_road(x: float, z: float) -> bool:
+	if surface_img == null:
+		return false
+	var sw := surface_img.get_width()
+	var sh := surface_img.get_height()
+	if sw <= 1 or sh <= 1:
+		return false
+	var gx := clampi(int(round(x / world_size * float(sw - 1))), 0, sw - 1)
+	var gz := clampi(int(round(z / world_size * float(sh - 1))), 0, sh - 1)
+	return surface_img.get_pixel(gx, gz).b > 0.24
+
 func vertex_color(gx: int, gz: int) -> Color:
 	var hx := heights[grid_index(gx + 2, gz)] - heights[grid_index(gx - 2, gz)]
 	var hz := heights[grid_index(gx, gz + 2)] - heights[grid_index(gx, gz - 2)]
@@ -364,7 +389,7 @@ func add_contact_shadow(parent: Node2D, w_px: float, alpha: float = 0.38, y_off:
 	var sh := Sprite2D.new()
 	sh.texture = shadow_tex
 	sh.z_index = -1
-	var sx := clampf((w_px * SPRITE_SCALE) / 64.0 * 0.78, 0.65, 5.2)
+	var sx := clampf((w_px * SPRITE_SCALE) / 64.0 * 0.74, 0.65, 11.5)
 	sh.scale = Vector2(sx, sx * 0.44)
 	sh.position = Vector2(0.0, y_off)
 	sh.modulate = Color(0.02, 0.02, 0.05, alpha)
@@ -417,14 +442,14 @@ func build_world_objects_and_actors() -> void:
 		if role in ["landmark", "hall", "arena", "smithy", "inn", "shop", "depot", "gate"]:
 			var lbl := Label.new()
 			lbl.text = str(b.get("title", ""))
-			lbl.position = Vector2(-145, -bh_px * SPRITE_SCALE * 0.82 - 22.0)
-			lbl.size = Vector2(290, 26)
+			lbl.position = Vector2(-190, -bh_px * SPRITE_SCALE * 0.82 - 22.0)
+			lbl.size = Vector2(380, 30)
 			lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			lbl.add_theme_font_override("font", body_f)
-			lbl.add_theme_font_size_override("font_size", 14 if role != "landmark" else 16)
+			lbl.add_theme_font_size_override("font_size", 18 if role != "landmark" else 21)
 			lbl.add_theme_color_override("font_color", Color(1.0, 0.94, 0.74) if role != "landmark" else Color(1.0, 0.84, 0.38))
 			lbl.add_theme_color_override("font_outline_color", Color(0.04, 0.02, 0.02, 0.96))
-			lbl.add_theme_constant_override("outline_size", 6)
+			lbl.add_theme_constant_override("outline_size", 7)
 			node.add_child(lbl)
 
 		ysort.add_child(node)
@@ -460,11 +485,11 @@ func build_world_objects_and_actors() -> void:
 		ez_node.position = iso(ex, ez_z, eh)
 		var banner := Label.new()
 		banner.text = "⚔ EXPOWISKO: %s" % str(ez.get("name", ""))
-		banner.position = Vector2(-220, -145)
-		banner.size = Vector2(440, 32)
+		banner.position = Vector2(-240, -165)
+		banner.size = Vector2(480, 34)
 		banner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		banner.add_theme_font_override("font", body_f)
-		banner.add_theme_font_size_override("font_size", 17)
+		banner.add_theme_font_size_override("font_size", 19)
 		banner.add_theme_color_override("font_color", Color(1.0, 0.76, 0.28))
 		banner.add_theme_color_override("font_outline_color", Color(0.08, 0.02, 0.02, 0.98))
 		banner.add_theme_constant_override("outline_size", 7)
@@ -489,7 +514,7 @@ func build_world_objects_and_actors() -> void:
 			str(n.get("quest_mark", "")),
 			str(n.get("role", ""))
 		)
-		npc_actor.scale = Vector2(0.58, 0.58)
+		npc_actor.scale = Vector2(0.42, 0.42)
 		var nx := float(n.get("x", 512.0))
 		var nz := float(n.get("z", 512.0))
 		npc_actor.position = iso(nx, nz, height_at(nx, nz))
@@ -522,7 +547,7 @@ func build_world_objects_and_actors() -> void:
 			"monster",
 			int(m.get("level", 1))
 		)
-		mon_actor.scale = Vector2(0.60, 0.60)
+		mon_actor.scale = Vector2(0.47, 0.47)
 		var mx := float(m.get("x", 512.0))
 		var mz := float(m.get("z", 512.0))
 		mon_actor.position = iso(mx, mz, height_at(mx, mz))
@@ -536,7 +561,7 @@ func build_world_objects_and_actors() -> void:
 			"phase": float(idx) * 1.91,
 		})
 
-	# 6. 16 Animated Wildlife Fauna Animals (A-01..A-10) roaming near lakes, rivers & forests
+	# 6. 18 Animated Wildlife Fauna Animals (A-01..A-10) roaming near lakes, rivers & forests
 	for idx in fauna_data.size():
 		var fa: Dictionary = fauna_data[idx]
 		var faid := str(fa.get("actor_id", ""))
@@ -554,7 +579,7 @@ func build_world_objects_and_actors() -> void:
 			false,
 			"animal"
 		)
-		ani_actor.scale = Vector2(0.56, 0.56)
+		ani_actor.scale = Vector2(0.44, 0.44)
 		var fx := float(fa.get("x", 512.0))
 		var fz := float(fa.get("z", 512.0))
 		ani_actor.position = iso(fx, fz, height_at(fx, fz))
@@ -784,7 +809,7 @@ func pinch_span() -> float:
 	return (pinch_pointers[keys[0]] as Vector2).distance_to(pinch_pointers[keys[1]] as Vector2)
 
 func set_zoom(z: float) -> void:
-	zoom_level = clampf(z, 0.45, 1.85)
+	zoom_level = clampf(z, 0.36, 1.65)
 	camera.zoom = Vector2(zoom_level, zoom_level)
 
 func _process(delta: float) -> void:
@@ -907,18 +932,22 @@ func run_qa() -> void:
 
 	for land: String in REGION_ORDER:
 		switch_region(land)
-		set_zoom(0.76)
-		# 1) Capital City view framed on dynamic capital_center plaza
-		var cap_view := capital_center + Vector2(0.0, 18.0)
+		set_zoom(0.58)
+		# 1) Capital City view framed on paved central plaza showing 3x monumental buildings, streets to doors & dynamic minimap
+		var cap_view := capital_center + Vector2(0.0, 14.0)
 		hero_pos = cap_view if is_walkable(cap_view.x, cap_view.y) else capital_center
+		if premium_minimap != null:
+			premium_minimap.set_heading_immediate(Vector2(0.62, -0.78))
 		step_world(0.15)
 		shots.append(await snap(out_dir, cap_shots[land]))
 
-		# 2) Exp-Zone Combat Clearing view showing road spur, real continent terrain, perimeter props, and 5 patrolling monsters
+		# 2) Exp-Zone Combat Clearing view
 		if not exp_zones.is_empty():
 			var ez_idx := mini(exp_zones.size() - 1, 2 if land == "pyra" else (0 if land == "verdant" else (1 if land == "aether" else 3)))
 			var ez_pick: Dictionary = exp_zones[ez_idx]
 			hero_pos = Vector2(float(ez_pick.x), float(ez_pick.z))
+			if premium_minimap != null:
+				premium_minimap.set_heading_immediate(Vector2(-0.70, -0.70))
 			step_world(0.25)
 			shots.append(await snap(out_dir, exp_shots[land]))
 
@@ -932,6 +961,7 @@ func run_qa() -> void:
 			"world_size_m": world_size,
 			"grid_size": grid_size,
 			"capital_center": [capital_center.x - world_size * 0.5, capital_center.y - world_size * 0.5],
+			"roads_count": roads.size(),
 			"buildings_count": buildings.size(),
 			"bridges_count": bridge_cnt,
 			"npcs_count": npcs_data.size(),
@@ -950,21 +980,33 @@ func run_qa() -> void:
 		await get_tree().process_frame
 	shots.append(await snap(out_dir, "globe-3d.jpg"))
 
-	# 4) 2D Planet Superior Relief Atlas screenshot
+	# 4) 2D Planet Superior Relief Atlas (Overview + Zoomed-in Progressive LOD showing ALL roads, Capital Star, Towns & Enterable Building Dots!)
 	if atlas_overlay != null:
 		atlas_overlay.set_mode("atlas")
 	for _i in 4:
 		await get_tree().process_frame
 	shots.append(await snap(out_dir, "planet-atlas.jpg"))
+
+	if atlas_overlay != null:
+		atlas_overlay.focus_atlas_continent("pyra", 4.6)
+	for _i in 4:
+		await get_tree().process_frame
+	shots.append(await snap(out_dir, "planet-atlas-zoom.jpg"))
 	toggle_atlas(false)
 
-	# 5) 3D Local Continent Relief Map screenshots (Pyra + Verdantia)
+	# 5) 3D Local Continent Relief Map (Pyra Overview + Pyra Zoomed-In Progressive LOD + Verdantia Overview)
 	switch_region("pyra")
 	toggle_map()
 	for _i in 5:
 		await get_tree().process_frame
 	map_3d.orbit(Vector2(65, -16))
 	shots.append(await snap(out_dir, "map-3d.jpg"))
+
+	map_3d.focus_on_capital_close(290.0)
+	for _i in 5:
+		await get_tree().process_frame
+	shots.append(await snap(out_dir, "map-3d-zoom.jpg"))
+	map_3d.reset_overview()
 	toggle_map()
 
 	switch_region("verdant")
@@ -975,23 +1017,27 @@ func run_qa() -> void:
 	shots.append(await snap(out_dir, "map-3d-verdant.jpg"))
 	toggle_map()
 
-	# 6) Wilderness Road & Directional Bridge Crossing Scenic Vista (Verdantia water bridge + Pyra lava bridge)
+	# 6) Wilderness Road & Directional Bridge Crossing + Dynamic Rotating Minimap on Road
 	switch_region("verdant")
-	set_zoom(0.70)
+	set_zoom(0.58)
 	hero_pos = _find_first_bridge_pos()
+	if premium_minimap != null:
+		premium_minimap.set_heading_immediate(Vector2(0.85, 0.52))
 	step_world(0.20)
 	shots.append(await snap(out_dir, "wilderness-road.jpg"))
 
 	switch_region("pyra")
-	set_zoom(0.72)
+	set_zoom(0.58)
 	hero_pos = _find_first_bridge_pos()
+	if premium_minimap != null:
+		premium_minimap.set_heading_immediate(Vector2(-0.82, 0.56))
 	step_world(0.20)
 	shots.append(await snap(out_dir, "pyra-bridge.jpg"))
 
 	# 7) AAA 29-Node Diamond Constellation Skill Tree ([K]) & Paperdoll Character Sheet ([I]) on Pyra
 	switch_region("pyra")
-	set_zoom(0.76)
-	hero_pos = capital_center + Vector2(0.0, 18.0)
+	set_zoom(0.58)
+	hero_pos = capital_center + Vector2(0.0, 14.0)
 	step_world(0.1)
 	if rpg_hud != null:
 		rpg_hud.toggle_talents()
@@ -1008,7 +1054,7 @@ func run_qa() -> void:
 
 	var report := {
 		"project": "ports/godot-isometric-world",
-		"phase": "1:1 Canonical Map-Synced World + RTX 6000 Ada Winter Aetheria & Reserve Library + Blender Directional Bridges + Wild Rift Mobile HUD",
+		"phase": "3x Monumental Buildings + Roads-to-Doors + Dynamic Rotating Minimap + Progressive Zoom 2D/3D Maps (All Roads, Capital Stars, Town Shields & Enterable Building Dots)",
 		"projection_roundtrip_error_m": snappedf(roundtrip_err, 0.0001),
 		"regions": regions_report,
 		"screenshots": shots,

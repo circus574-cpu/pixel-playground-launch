@@ -69,7 +69,9 @@ var camera := Camera3D.new()
 var planet := MeshInstance3D.new()
 var globe_material := ShaderMaterial.new()
 var outlines := Node3D.new()
+var roads_3d := Node3D.new()
 var markers := Node3D.new()
+var detail_markers := Node3D.new()
 var highlight := MeshInstance3D.new()
 var lon0 := -52.8
 var lat0 := -18.0
@@ -91,7 +93,14 @@ static func surface(lon_deg: float, lat_deg: float, radius: float = 1.0) -> Vect
 	var lat := deg_to_rad(lat_deg)
 	return Vector3(cos(lat) * sin(lon), sin(lat), cos(lat) * cos(lon)) * radius
 
-func setup(color: Texture2D, cloud: Texture2D, region_list: Array, player_atlas: Vector2) -> void:
+func setup(
+	color: Texture2D,
+	cloud: Texture2D,
+	region_list: Array,
+	player_atlas: Vector2,
+	continent_data: Dictionary = {},
+	region_bboxes: Dictionary = {}
+) -> void:
 	regions = region_list
 	stretch = true
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -148,16 +157,15 @@ func setup(color: Texture2D, cloud: Texture2D, region_list: Array, player_atlas:
 	viewport.add_child(select_view)
 	globe_material.set_shader_parameter("select_tex", select_view.get_texture())
 	pivot.add_child(outlines)
+	pivot.add_child(roads_3d)
 	pivot.add_child(markers)
+	pivot.add_child(detail_markers)
 	viewport.add_child(pivot)
 	build_outlines()
-	add_marker(MapMath.atlas_to_lonlat(player_atlas), Color("ff4a2e"), 0.032)
+	build_continent_roads_and_details(continent_data, region_bboxes)
+	add_marker(MapMath.atlas_to_lonlat(player_atlas), Color("38f5ff"), 0.030, markers)
 	player_marker = markers.get_child(markers.get_child_count() - 1)
 	for region: Dictionary in regions:
-		var sp: Variant = region.get("settlementPoint", null)
-		if sp is Dictionary:
-			var sp_dict: Dictionary = sp
-			add_marker(MapMath.atlas_to_lonlat(Vector2(float(sp_dict.get("x", 0.0)), float(sp_dict.get("y", 0.0)))), Color("ffd36a"), 0.022)
 		if str(region.get("kind", "")) == "continent":
 			var label := Label3D.new()
 			label.text = str(region.get("name", ""))
@@ -176,6 +184,45 @@ func setup(color: Texture2D, cloud: Texture2D, region_list: Array, player_atlas:
 	highlight.visible = false
 	pivot.add_child(highlight)
 	apply_rotation()
+
+func build_continent_roads_and_details(continent_data: Dictionary, region_bboxes: Dictionary) -> void:
+	for rid: String in continent_data.keys():
+		if not region_bboxes.has(rid):
+			continue
+		var cd: Dictionary = continent_data[rid]
+		var bb: Dictionary = region_bboxes[rid]
+		var ws := float(cd.get("world_size", 1024.0))
+		var half := ws * 0.5
+		for rd: Dictionary in cd.get("roads", []):
+			var raw_pts: Array = rd.get("pts", [])
+			if raw_pts.size() < 2:
+				continue
+			var tier := str(rd.get("tier", "footpath"))
+			var pts3 := PackedVector3Array()
+			for pt: Array in raw_pts:
+				var u := clampf((float(pt[0]) + half) / ws, 0.0, 1.0)
+				var v := clampf((float(pt[1]) + half) / ws, 0.0, 1.0)
+				var ap := Vector2(lerpf(float(bb["min_x"]), float(bb["max_x"]), u), lerpf(float(bb["min_y"]), float(bb["max_y"]), v))
+				var ll := MapMath.atlas_to_lonlat(ap)
+				pts3.append(surface(ll.x, ll.y, 1.005))
+			var col := Color(1.0, 0.88, 0.58, 0.90) if tier in ["highway", "ring", "city"] else Color(0.88, 0.78, 0.56, 0.72)
+			roads_3d.add_child(line_mesh(pts3, col))
+
+		for b: Dictionary in cd.get("buildings", []):
+			var mk := str(b.get("map_kind", ""))
+			var is_ent := bool(b.get("enterable", false))
+			if mk != "capital" and mk != "town" and not is_ent:
+				continue
+			var u := clampf((float(b.get("x", 0.0)) + half) / ws, 0.0, 1.0)
+			var v := clampf((float(b.get("z", 0.0)) + half) / ws, 0.0, 1.0)
+			var ap := Vector2(lerpf(float(bb["min_x"]), float(bb["max_x"]), u), lerpf(float(bb["min_y"]), float(bb["max_y"]), v))
+			var ll := MapMath.atlas_to_lonlat(ap)
+			if mk == "capital":
+				add_marker(ll, Color("ffd94a"), 0.028, markers)
+			elif mk == "town":
+				add_marker(ll, Color("b8e0ff"), 0.020, markers)
+			elif is_ent:
+				add_marker(ll, Color("5ef08c"), 0.011, detail_markers)
 
 func build_sphere(rings: int, segments: int) -> ArrayMesh:
 	var tool := SurfaceTool.new()
@@ -238,7 +285,7 @@ func glow(core: Color) -> Texture2D:
 	tex.height = 64
 	return tex
 
-func add_marker(lonlat: Vector2, color: Color, radius: float) -> void:
+func add_marker(lonlat: Vector2, color: Color, radius: float, parent_node: Node3D = null) -> void:
 	var sprite := Sprite3D.new()
 	sprite.texture = glow(color)
 	sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
@@ -247,11 +294,16 @@ func add_marker(lonlat: Vector2, color: Color, radius: float) -> void:
 	sprite.pixel_size = radius * 2.6 / 64.0
 	sprite.transparent = true
 	sprite.position = surface(lonlat.x, lonlat.y, 1.02)
-	markers.add_child(sprite)
+	if parent_node != null:
+		parent_node.add_child(sprite)
+	else:
+		markers.add_child(sprite)
 
 func apply_rotation() -> void:
 	pivot.basis = Basis(Vector3.RIGHT, deg_to_rad(lat0)) * Basis(Vector3.UP, deg_to_rad(-lon0))
 	camera.position = Vector3(0, 0, distance)
+	roads_3d.visible = (distance <= 2.75)
+	detail_markers.visible = (distance <= 2.15)
 
 func focus_on(lonlat: Vector2) -> void:
 	lon0 = lonlat.x
@@ -287,7 +339,7 @@ func select(id: String) -> void:
 	globe_material.set_shader_parameter("select_on", 0.0)
 
 func zoom_by(factor: float) -> void:
-	distance = clampf(distance / factor, 1.55, 5.2)
+	distance = clampf(distance / factor, 1.35, 5.2)
 	apply_rotation()
 
 func _process(delta: float) -> void:

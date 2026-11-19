@@ -134,4 +134,23 @@ Po bezpośredniej weryfikacji właściciela na uruchomionym przez właściciela 
 - **Weryfikacja końcowa QA (`Godot 4.6.3 --qa`, 16 zrzutów ekranu):**
   - Przebieg `Godot_v4.6.3-stable_linux.x86_64 -- --qa`: `ISO_WORLD_QA_OK`, `0` błędów silnika/GDScript/shaderów, `0` wycieków RID, `projection_roundtrip_error_m = 0.0`. Zaktualizowano wszystkie 16 zrzutów (w tym nowy `pyra-bridge.jpg`) oraz `results.json` w `docs/zmiany/2026-11-18/qa/isometric-world/` i zweryfikowano wizualnie każdy kadr.
 
+## 7. Monumentalne Proporcje Budynków (≥3× względem Postaci), Drogi do Każdego Wejścia, Dynamiczna Obracana Minimapa oraz Progresywny Zoom Map 2D/3D (Wszystkie Drogi, Symbole Stolic/Miast i Punkty Budynków Użytkowych)
+
+Bez ponownego używania podu GPU wdrożono i zweryfikowano w **Godot 4.6.3** kolejny pakiet poprawek właściciela:
+
+- **Monumentalne proporcje budynków (≥3,1× większe względem postaci) i drogi poprowadzone do wejść (`scripts/gpu/gen_world_topography.py`, `scripts/world.gd`):**
+  - Powiększono wszystkie budynki w `ARCH_CATALOG` ok. `2,30×` (w połączeniu ze skalą bohatera `0.45` i NPC `0.42` daje to **~3,1–3,3×** większą proporcję budynków względem postaci; powiększono również mosty do `540×420` i drzewa `1,42×`, rozszerzając bezpieczną stolicę do `205 m` i domyślny kadr kamery do `0.62`).
+  - Odwrócono kolejność generacji: najpierw rozmieszczane są niekolizyjne budynki z wyznaczonym suchym punktem frontowego wejścia (`entrance`) i metadanymi `map_kind` (`capital`, `town`, `service`, `house`, `fort`, `bridge`) oraz `enterable`, a następnie sieć dróg `Catmull-Rom Spline` (aleje miejskie, pierścień stolicy, trakty do 6 expowisk, drogi do warowni/miast oraz ścieżki obwodowe) prowadzona jest bezpośrednio pod drzwi każdego budynku użytkowego z wyczyszczeniem rdzeni kolizyjnych budynków i zapisem wszystkich polilinii dróg (`24–28` traktów na kontynent) do `buildings.json["roads"]`.
+  - Automatyczny audyt `TOPOGRAPHY_1TO1_AUDIT_PASS`: `0` budynków/NPC/potworów/fauny/obiektów na wodzie i lawie, `0` nakładających się budynków, `0` brakujących sprite'ów.
+- **Dynamiczna, obracana i przesuwana minimapa z prawdziwymi drogami i budynkami (`scripts/premium_minimap.gd`, `shaders/minimap_circle.gdshader`, `scripts/world.gd`):**
+  - Symbol bohatera pozostaje na stałe zakotwiczony w samym środku minimapy (`MAP_CENTER`, bez przypinania na krawędziach mapy), a cały teren, drogi, mosty, obrysy budynków, punkty NPC/potworów oraz podziałka i kierunki kompasu `N/E/S/W` płynnie obracają się i przesuwają zgodnie z kierunkiem marszu gracza (z przełącznikiem `OBR` / `N↑` i 3 poziomami przybliżenia `3.2× / 1.9× / 1.0×`).
+  - `minimap_circle.gdshader` nakłada piksel-w-piksel rzeczywiste drogi, rzeki i lawę z `surface.png`, a `premium_minimap.gd` rysuje wektorowe drogi, mosty, obrysy dachów, **Złotą Gwiazdę Stolicy**, **Tarcze Miast/Warowni**, małe kolorowe punkty budynków użytkowych oraz live status `• Droga` (`world.is_on_road()`).
+- **Progresywne wyostrzanie szczegółów przy przybliżaniu na Mapie 2D (`[Tab]`), Mapie 3D (`[M]`) i Globusie 3D (`[G]`) (`scripts/atlas_overlay.gd`, `scripts/map_3d.gd`, `shaders/map_3d.gdshader`, `scripts/globe_view.gd`):**
+  - **Mapa 2D (`atlas_overlay.gd`, zoom do `12×`):** na widoku planety czytelna kartografia z odmiennymi symbolami **Stolicy (Złota 8-ramienna Gwiazda)** i **Miast/Warowni (Srebrno-Niebieska Tarcza)**; wraz z przybliżaniem pojawiają się **wszystkie prawdziwe drogi i mosty** ze wszystkich 4 kontynentów, małe punkty każdego **budynku użytkowego z wejściem**, polany expowisk, obrysy domów/bram oraz nazwy pojedynczych budynków + legenda u dołu ekranu.
+  - **Mapa Reliefowa 3D (`map_3d.gd`, `map_3d.gdshader`, zoom `145–1450 m` + przesuwanie `Shift+LPM`):** w miarę przybliżania na rzeźbie 3D wyostrzają się wszystkie prawdziwe drogi (`surface.png` + linie wektorowe na wysokości terenu), mosty, symbole Stolic/Miast, punkty i nazwy budynków użytkowych (przy ukryciu dużych stożków 3D w zbliżeniu) oraz legenda.
+  - **Globus 3D (`globe_view.gd`, zoom do `1.35`):** przy zbliżaniu ujawnia rzeczywiste sieci dróg 3D, odrębne znaczniki Stolic/Miast i punkty budynków użytkowych.
+- **Weryfikacja QA (`Godot 4.6.3 --qa`, 18 zrzutów ekranu):**
+  - `ISO_WORLD_QA_OK`, kod wyjścia `0`, `0` błędów GDScript/shaderów, `0` wycieków RID; zweryfikowano wizualnie wszystkie 18 zrzutów, w tym nowe `planet-atlas-zoom.jpg` (`4.6×`) oraz `map-3d-zoom.jpg` (`3.2×`).
+
+
 

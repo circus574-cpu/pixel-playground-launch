@@ -1,16 +1,17 @@
 extends Control
-## Premium Cartographic Circular Minimap Widget for KI Legends.
-## Displays the real 1024x1024 top-down satellite/topographic render of the active continent
-## inside an antique-gold compass bezel with tactical zoom (2.1x) / overview (1.0x),
-## live moving monster/fauna/NPC markers, capital service icons, exp-zone rings,
-## directional hero chevron, and a sleek location & coordinates plate.
+## Dynamic Rotating & Following Cartographic Minimap for KI Legends.
+## - Hero chevron stays PERMANENTLY centered at MAP_CENTER pointing forward (UP in rotating mode).
+## - The entire terrain, real roads, bridges, building footprints, capital/town crests,
+##   enterable utility building dots, NPCs, monsters, and compass ring smoothly ROTATE & TRANSLATE
+##   as the hero walks through the world!
 
 const MapStyle := preload("res://scripts/map_style.gd")
 
 const MAP_DIAMETER := 224.0
 const MAP_RADIUS := 112.0
 const MAP_CENTER := Vector2(128.0, 126.0)
-const WIDGET_SIZE := Vector2(256.0, 314.0)
+const WIDGET_SIZE := Vector2(256.0, 316.0)
+const ZOOM_LEVELS := [3.20, 1.90, 1.00]
 
 var world: Node2D
 var map_tex_rect := TextureRect.new()
@@ -20,12 +21,16 @@ var plate_panel := PanelContainer.new()
 var loc_label := Label.new()
 var coord_label := Label.new()
 var btn_zoom := Button.new()
+var btn_rot := Button.new()
 var btn_3d := Button.new()
 var btn_globe := Button.new()
 
-var tactical_zoom := true
-var current_zoom := 2.10
-var hero_heading := Vector2(0.0, 1.0)
+var zoom_idx := 0
+var current_zoom := 3.20
+var rotate_with_hero := true
+var hero_heading := Vector2(0.0, -1.0)
+var map_rotation := 0.0
+var target_rotation := 0.0
 var last_hero_pos := Vector2(512.0, 512.0)
 
 func _ready() -> void:
@@ -36,6 +41,7 @@ func _ready() -> void:
 	map_mat.shader = load("res://shaders/minimap_circle.gdshader")
 	map_mat.set_shader_parameter("center_uv", Vector2(0.5, 0.5))
 	map_mat.set_shader_parameter("zoom", current_zoom)
+	map_mat.set_shader_parameter("rotation_rad", 0.0)
 
 	map_tex_rect.position = MAP_CENTER - Vector2(MAP_RADIUS, MAP_RADIUS)
 	map_tex_rect.size = Vector2(MAP_DIAMETER, MAP_DIAMETER)
@@ -55,71 +61,79 @@ func _ready() -> void:
 	build_location_plate()
 
 func build_location_plate() -> void:
-	plate_panel.position = Vector2(8.0, MAP_CENTER.y + MAP_RADIUS + 10.0)
-	plate_panel.size = Vector2(WIDGET_SIZE.x - 16.0, 62.0)
+	plate_panel.position = Vector2(4.0, MAP_CENTER.y + MAP_RADIUS + 10.0)
+	plate_panel.size = Vector2(WIDGET_SIZE.x - 8.0, 64.0)
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.05, 0.04, 0.06, 0.92)
 	style.border_color = Color(0.84, 0.65, 0.33, 0.92)
 	style.set_border_width_all(2)
 	style.set_corner_radius_all(8)
-	style.content_margin_left = 10
-	style.content_margin_right = 10
+	style.content_margin_left = 8
+	style.content_margin_right = 8
 	style.content_margin_top = 5
 	style.content_margin_bottom = 5
 	plate_panel.add_theme_stylebox_override("panel", style)
 	add_child(plate_panel)
 
 	var vbox := VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 2)
+	vbox.add_theme_constant_override("separation", 3)
 	plate_panel.add_child(vbox)
 
 	var fb: Font = MapStyle.body_font()
 	loc_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	loc_label.clip_text = true
 	loc_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	loc_label.custom_minimum_size = Vector2(216, 18)
+	loc_label.custom_minimum_size = Vector2(226, 18)
 	loc_label.add_theme_font_override("font", fb)
-	loc_label.add_theme_font_size_override("font_size", 13)
+	loc_label.add_theme_font_size_override("font_size", 12)
 	loc_label.add_theme_color_override("font_color", Color(1.0, 0.92, 0.72))
 	loc_label.text = "Stolica"
 	vbox.add_child(loc_label)
 
 	var hbox := HBoxContainer.new()
 	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	hbox.add_theme_constant_override("separation", 6)
+	hbox.add_theme_constant_override("separation", 4)
 	vbox.add_child(hbox)
 
 	coord_label.add_theme_font_override("font", fb)
-	coord_label.add_theme_font_size_override("font_size", 11)
+	coord_label.add_theme_font_size_override("font_size", 10)
 	coord_label.add_theme_color_override("font_color", Color(0.76, 0.84, 0.86))
 	coord_label.text = "512, 512"
 	hbox.add_child(coord_label)
 
-	btn_zoom.text = "2.1×"
-	btn_zoom.custom_minimum_size = Vector2(44, 22)
+	btn_zoom.text = "3.2×"
+	btn_zoom.custom_minimum_size = Vector2(38, 22)
 	btn_zoom.add_theme_font_override("font", fb)
-	btn_zoom.add_theme_font_size_override("font_size", 11)
+	btn_zoom.add_theme_font_size_override("font_size", 10)
 	btn_zoom.pressed.connect(toggle_zoom_mode)
 	hbox.add_child(btn_zoom)
 
+	btn_rot.text = "OBR"
+	btn_rot.tooltip_text = "Obracanie minimapy zgodnie z kierunkiem marszu"
+	btn_rot.custom_minimum_size = Vector2(36, 22)
+	btn_rot.add_theme_font_override("font", fb)
+	btn_rot.add_theme_font_size_override("font_size", 10)
+	btn_rot.pressed.connect(toggle_rotate_mode)
+	hbox.add_child(btn_rot)
+
 	btn_3d.text = "3D"
-	btn_3d.custom_minimum_size = Vector2(34, 22)
+	btn_3d.custom_minimum_size = Vector2(28, 22)
 	btn_3d.add_theme_font_override("font", fb)
-	btn_3d.add_theme_font_size_override("font_size", 11)
+	btn_3d.add_theme_font_size_override("font_size", 10)
 	btn_3d.pressed.connect(func() -> void:
 		if world != null:
 			world.toggle_map()
 	)
 	hbox.add_child(btn_3d)
 
-	btn_globe.text = "Globus"
-	btn_globe.custom_minimum_size = Vector2(54, 22)
+	btn_globe.text = "Mapa"
+	btn_globe.custom_minimum_size = Vector2(44, 22)
 	btn_globe.add_theme_font_override("font", fb)
-	btn_globe.add_theme_font_size_override("font_size", 11)
+	btn_globe.add_theme_font_size_override("font_size", 10)
 	btn_globe.pressed.connect(func() -> void:
 		if world != null:
 			if world.atlas_overlay != null:
-				world.atlas_overlay.set_mode("globe")
+				world.atlas_overlay.set_mode("atlas")
 			world.toggle_atlas(true)
 	)
 	hbox.add_child(btn_globe)
@@ -130,13 +144,28 @@ func load_region_texture(land: String) -> void:
 	var tex: Texture2D = world.load_tex("res://regions/%s/minimap_hq.png" % land)
 	if tex != null:
 		map_tex_rect.texture = tex
+	var surf: Texture2D = world.load_tex("res://regions/%s/surface.png" % land)
+	map_mat.set_shader_parameter("surface_tex", surf)
+	map_mat.set_shader_parameter("has_surface", 1.0 if surf != null else 0.0)
+	map_mat.set_shader_parameter("is_aether", 1.0 if land == "aether" else 0.0)
+	map_mat.set_shader_parameter("is_pyra", 1.0 if land == "pyra" else 0.0)
 	last_hero_pos = world.hero_pos
+	hero_heading = Vector2(0.0, -1.0)
+	map_rotation = 0.0
+	target_rotation = 0.0
 	refresh()
 
 func toggle_zoom_mode() -> void:
-	tactical_zoom = not tactical_zoom
-	current_zoom = 2.10 if tactical_zoom else 1.0
-	btn_zoom.text = "2.1×" if tactical_zoom else "1.0×"
+	zoom_idx = (zoom_idx + 1) % ZOOM_LEVELS.size()
+	current_zoom = float(ZOOM_LEVELS[zoom_idx])
+	btn_zoom.text = "%.1f×" % current_zoom
+	refresh()
+
+func toggle_rotate_mode() -> void:
+	rotate_with_hero = not rotate_with_hero
+	btn_rot.text = "OBR" if rotate_with_hero else "N↑"
+	if not rotate_with_hero:
+		target_rotation = 0.0
 	refresh()
 
 func _on_radar_input(event: InputEvent) -> void:
@@ -151,71 +180,160 @@ func _on_radar_input(event: InputEvent) -> void:
 		elif mb.button_index == MOUSE_BUTTON_RIGHT:
 			toggle_zoom_mode()
 
-func _compute_center_uv() -> Vector2:
+func _hero_uv() -> Vector2:
 	if world == null:
 		return Vector2(0.5, 0.5)
-	var ws: float = float(world.world_size)
+	var ws: float = maxf(float(world.world_size), 1.0)
 	var hp: Vector2 = world.hero_pos
-	var hero_uv := Vector2(hp.x / ws, hp.y / ws)
-	if current_zoom <= 1.05:
-		return Vector2(0.5, 0.5)
-	var half_span := 0.5 / current_zoom
-	return Vector2(
-		clampf(hero_uv.x, half_span, 1.0 - half_span),
-		clampf(hero_uv.y, half_span, 1.0 - half_span)
-	)
+	# NEVER clamp hero_uv — player ALWAYS stays dead-center while the world moves & rotates beneath!
+	return Vector2(hp.x / ws, hp.y / ws)
 
 func _world_to_radar(wx: float, wz: float, center_uv: Vector2) -> Vector2:
-	var ws: float = float(world.world_size)
+	var ws: float = maxf(float(world.world_size), 1.0)
 	var uv := Vector2(wx / ws, wz / ws)
-	var rel := (uv - center_uv) * current_zoom
+	var rel := (uv - center_uv).rotated(-map_rotation) * current_zoom
 	return MAP_CENTER + rel * MAP_DIAMETER
+
+func set_heading_immediate(dir: Vector2) -> void:
+	if dir.length_squared() > 0.001:
+		hero_heading = dir.normalized()
+		if rotate_with_hero:
+			# Angle so that hero_heading points straight UP (0, -1) on radar!
+			target_rotation = hero_heading.angle() + PI * 0.5
+			map_rotation = target_rotation
 
 func refresh(nearest_name: String = "", in_safe: bool = true) -> void:
 	if world == null:
 		return
 	var hp: Vector2 = world.hero_pos
 	var delta_h: Vector2 = hp - last_hero_pos
-	if delta_h.length_squared() > 0.04:
+	if delta_h.length_squared() > 0.01:
 		hero_heading = delta_h.normalized()
 		last_hero_pos = hp
-	var center_uv := _compute_center_uv()
+		if rotate_with_hero:
+			target_rotation = hero_heading.angle() + PI * 0.5
+	if not rotate_with_hero:
+		target_rotation = 0.0
+	map_rotation = lerp_angle(map_rotation, target_rotation, 0.22)
+
+	var center_uv := _hero_uv()
 	map_mat.set_shader_parameter("center_uv", center_uv)
 	map_mat.set_shader_parameter("zoom", current_zoom)
+	map_mat.set_shader_parameter("rotation_rad", map_rotation)
+
+	var on_road: bool = world.is_on_road(hp.x, hp.y) if world.has_method("is_on_road") else false
 	if not nearest_name.is_empty():
-		loc_label.text = nearest_name
+		loc_label.text = ("%s • Droga" % nearest_name) if on_road else nearest_name
 	coord_label.text = "%d, %d" % [int(round(hp.x)), int(round(hp.y))]
-	loc_label.add_theme_color_override("font_color", Color(0.52, 0.96, 0.68) if in_safe else Color(1.0, 0.68, 0.42))
+	loc_label.add_theme_color_override("font_color", Color(0.52, 0.96, 0.68) if in_safe else Color(1.0, 0.72, 0.42))
 	overlay_canvas.queue_redraw()
 
-func _draw_diamond(pos: Vector2, r: float, fill: Color, outline: Color) -> void:
+func _draw_capital_crown_star(pos: Vector2, r: float) -> void:
+	var pts := PackedVector2Array()
+	for i in 16:
+		var ang := -PI * 0.5 + TAU * float(i) / 16.0
+		var rad := r if (i % 2 == 0) else (r * 0.46)
+		pts.append(pos + Vector2(cos(ang), sin(ang)) * rad)
+	overlay_canvas.draw_colored_polygon(pts, Color(1.0, 0.86, 0.28, 1.0))
+	pts.append(pts[0])
+	overlay_canvas.draw_polyline(pts, Color(0.14, 0.07, 0.02, 0.98), 1.6, true)
+	overlay_canvas.draw_circle(pos, r * 0.26, Color(1.0, 0.98, 0.86, 1.0))
+
+func _draw_town_shield(pos: Vector2, r: float) -> void:
 	var pts := PackedVector2Array([
-		pos + Vector2(0, -r),
-		pos + Vector2(r, 0),
-		pos + Vector2(0, r),
-		pos + Vector2(-r, 0),
+		pos + Vector2(0.0, -r),
+		pos + Vector2(r * 0.88, -r * 0.35),
+		pos + Vector2(r * 0.72, r * 0.52),
+		pos + Vector2(0.0, r),
+		pos + Vector2(-r * 0.72, r * 0.52),
+		pos + Vector2(-r * 0.88, -r * 0.35),
 	])
-	overlay_canvas.draw_colored_polygon(pts, fill)
-	var closed := PackedVector2Array([pts[0], pts[1], pts[2], pts[3], pts[0]])
-	overlay_canvas.draw_polyline(closed, outline, 1.4, true)
+	overlay_canvas.draw_colored_polygon(pts, Color(0.76, 0.88, 0.98, 0.98))
+	pts.append(pts[0])
+	overlay_canvas.draw_polyline(pts, Color(0.08, 0.12, 0.18, 0.98), 1.5, true)
+	overlay_canvas.draw_circle(pos, r * 0.28, Color(1.0, 0.84, 0.36, 1.0))
+
+func _draw_service_dot(pos: Vector2, fill: Color, r: float) -> void:
+	overlay_canvas.draw_circle(pos, r + 1.4, Color(0.05, 0.04, 0.03, 0.94))
+	overlay_canvas.draw_circle(pos, r, fill)
+	overlay_canvas.draw_circle(pos + Vector2(-r * 0.25, -r * 0.25), r * 0.30, Color(1.0, 1.0, 1.0, 0.55))
+
+func _draw_clipped_polyline(pts: PackedVector2Array, clip_r: float, col: Color, width: float) -> void:
+	for i in range(pts.size() - 1):
+		var a: Vector2 = pts[i]
+		var b: Vector2 = pts[i + 1]
+		var da := a.distance_to(MAP_CENTER)
+		var db := b.distance_to(MAP_CENTER)
+		if da > clip_r and db > clip_r:
+			continue
+		if da > clip_r:
+			a = MAP_CENTER + (a - MAP_CENTER).normalized() * clip_r
+		if db > clip_r:
+			b = MAP_CENTER + (b - MAP_CENTER).normalized() * clip_r
+		overlay_canvas.draw_line(a, b, col, width, true)
 
 func _draw_overlay() -> void:
 	if world == null:
 		return
 	var f: Font = MapStyle.font()
-	var center_uv := _compute_center_uv()
-	var clip_r := MAP_RADIUS - 5.0
+	var center_uv := _hero_uv()
+	var clip_r := MAP_RADIUS - 4.0
 	var pulse: float = 0.5 + 0.5 * sin(float(world.world_time) * 4.5)
-	var ws: float = float(world.world_size)
+	var ws: float = maxf(float(world.world_size), 1.0)
+	var px_per_m := (MAP_DIAMETER * current_zoom) / ws
 
-	# 1. Safe Capital perimeter ring centered on real map capital_center
+	# 1. ALL REAL IN-GAME VECTOR ROADS (crisp dual-stroke casing rotated with the map!)
+	if "roads" in world:
+		for rd: Dictionary in world.roads:
+			var raw_pts: Array = rd.get("pts", [])
+			if raw_pts.size() < 2:
+				continue
+			var tier := str(rd.get("tier", "footpath"))
+			var spts := PackedVector2Array()
+			for pt: Array in raw_pts:
+				spts.append(_world_to_radar(float(pt[0]), float(pt[1]), center_uv))
+			var rw := clampf((3.2 if tier in ["highway", "ring"] else (2.4 if tier in ["city", "town"] else 1.8)) * (current_zoom / 2.2), 1.2, 4.4)
+			_draw_clipped_polyline(spts, clip_r, Color(0.08, 0.05, 0.03, 0.72), rw + 1.5)
+			var rcol := Color(0.96, 0.86, 0.62, 0.86) if tier in ["highway", "ring", "city"] else Color(0.84, 0.74, 0.54, 0.72)
+			_draw_clipped_polyline(spts, clip_r, rcol, rw)
+
+	# 2. Safe Capital perimeter ring
 	var cap_c: Vector2 = world.capital_center if "capital_center" in world else Vector2(ws * 0.5, ws * 0.5)
 	var cap_pt := _world_to_radar(cap_c.x, cap_c.y, center_uv)
-	var cap_r: float = (float(world.safe_city_radius) / ws) * MAP_DIAMETER * current_zoom
-	if cap_pt.distance_to(MAP_CENTER) + cap_r < clip_r + 12.0:
-		overlay_canvas.draw_arc(cap_pt, minf(cap_r, clip_r), 0.0, TAU, 48, Color(0.38, 0.94, 0.62, 0.42), 1.4, true)
+	var cap_r: float = float(world.safe_city_radius) * px_per_m
+	if cap_pt.distance_to(MAP_CENTER) < clip_r + cap_r and cap_r < clip_r * 1.45:
+		overlay_canvas.draw_arc(cap_pt, minf(cap_r, clip_r), 0.0, TAU, 48, Color(0.38, 0.94, 0.62, 0.34), 1.2, true)
 
-	# 2. Live Wildlife Fauna (soft emerald/amber micro-dots)
+	# 3. REAL BUILDING FOOTPRINTS & BRIDGES (shows actual city layout directly on radar!)
+	for b: Dictionary in world.buildings:
+		var role := str(b.get("role", ""))
+		if role == "prop":
+			continue
+		var bp := _world_to_radar(float(b.get("x", 512.0)), float(b.get("z", 512.0)), center_uv)
+		if bp.distance_to(MAP_CENTER) > clip_r - 3.0:
+			continue
+		if role == "bridge":
+			var br := clampf(5.0 * (current_zoom / 2.2), 3.0, 7.5)
+			overlay_canvas.draw_rect(Rect2(bp - Vector2(br, br * 0.6), Vector2(br * 2.0, br * 1.2)), Color(0.76, 0.58, 0.32, 0.94))
+			overlay_canvas.draw_rect(Rect2(bp - Vector2(br, br * 0.6), Vector2(br * 2.0, br * 1.2)), Color(0.10, 0.06, 0.03, 0.95), false, 1.2)
+		else:
+			var foot_m := float(b.get("footprint_r", 20.0))
+			var fr := clampf(foot_m * px_per_m * 0.65, 2.4, 14.0)
+			if current_zoom >= 1.6:
+				# Rotated building roof block
+				var half_s := Vector2(fr, fr * 0.82)
+				var corners := PackedVector2Array([
+					bp + Vector2(-half_s.x, -half_s.y).rotated(-map_rotation),
+					bp + Vector2(half_s.x, -half_s.y).rotated(-map_rotation),
+					bp + Vector2(half_s.x, half_s.y).rotated(-map_rotation),
+					bp + Vector2(-half_s.x, half_s.y).rotated(-map_rotation),
+				])
+				var roof_col := Color(0.36, 0.30, 0.28, 0.85) if role == "house" else (Color(0.46, 0.42, 0.38, 0.88) if role in ["gate", "tower"] else Color(0.56, 0.40, 0.24, 0.90))
+				overlay_canvas.draw_colored_polygon(corners, roof_col)
+				corners.append(corners[0])
+				overlay_canvas.draw_polyline(corners, Color(0.06, 0.04, 0.03, 0.94), 1.3, true)
+
+	# 4. Live Wildlife Fauna, Monsters & NPCs
 	for ag: Dictionary in world.live_agents:
 		var node = ag.get("node")
 		if node == null or not is_instance_valid(node):
@@ -224,80 +342,83 @@ func _draw_overlay() -> void:
 		var rp := _world_to_radar(ap.x, ap.y, center_uv)
 		if rp.distance_to(MAP_CENTER) > clip_r - 2.0:
 			continue
-		var kind := str(node.get("kind")) if "kind" in node else ""
+		var kind := str(node.get("actor_kind")) if "actor_kind" in node else ""
 		if kind == "animal":
-			overlay_canvas.draw_circle(rp, 2.1, Color(0.56, 0.92, 0.58, 0.80))
+			overlay_canvas.draw_circle(rp, 2.0, Color(0.56, 0.92, 0.58, 0.78))
 		elif kind == "monster":
-			overlay_canvas.draw_circle(rp, 2.7, Color(0.98, 0.24, 0.18, 0.92))
-			overlay_canvas.draw_arc(rp, 3.6, 0.0, TAU, 10, Color(0.12, 0.02, 0.02, 0.7), 0.9, true)
+			overlay_canvas.draw_circle(rp, 2.6, Color(0.98, 0.24, 0.18, 0.92))
+			overlay_canvas.draw_arc(rp, 3.5, 0.0, TAU, 10, Color(0.12, 0.02, 0.02, 0.7), 0.9, true)
 		elif kind == "npc":
-			overlay_canvas.draw_circle(rp, 3.0, Color(1.0, 0.86, 0.34, 0.96))
-			overlay_canvas.draw_arc(rp, 4.1, 0.0, TAU, 12, Color(0.08, 0.06, 0.02, 0.85), 1.1, true)
+			overlay_canvas.draw_circle(rp, 2.6, Color(1.0, 0.90, 0.44, 0.95))
 
-	# 3. Capital Service Buildings (crisp vector icons)
+	# 5. Distinct Symbols: Capital Crown Star, Town/Stronghold Shields & Small Enterable Building Dots!
 	for b: Dictionary in world.buildings:
+		var mk := str(b.get("map_kind", ""))
+		var is_ent := bool(b.get("enterable", false))
 		var role := str(b.get("role", ""))
-		if not (role in ["landmark", "hall", "smithy", "inn", "shop", "arena", "depot"]):
+		if mk != "capital" and mk != "town" and not is_ent:
 			continue
 		var bp := _world_to_radar(float(b.get("x", 512.0)), float(b.get("z", 512.0)), center_uv)
-		if bp.distance_to(MAP_CENTER) > clip_r - 3.0:
+		if bp.distance_to(MAP_CENTER) > clip_r - 4.0:
 			continue
-		match role:
-			"landmark":
-				_draw_diamond(bp, 6.2, Color(1.0, 0.82, 0.28), Color(0.14, 0.08, 0.02))
-			"smithy":
-				_draw_diamond(bp, 4.6, Color(1.0, 0.54, 0.20), Color(0.12, 0.05, 0.02))
-			"inn":
-				_draw_diamond(bp, 4.6, Color(0.98, 0.72, 0.36), Color(0.12, 0.06, 0.02))
-			"shop":
-				_draw_diamond(bp, 4.6, Color(0.32, 0.92, 0.56), Color(0.04, 0.14, 0.06))
-			"arena":
-				_draw_diamond(bp, 4.8, Color(0.96, 0.34, 0.34), Color(0.14, 0.02, 0.02))
-			"depot":
-				_draw_diamond(bp, 4.4, Color(0.38, 0.84, 0.98), Color(0.03, 0.10, 0.16))
-			"hall":
-				_draw_diamond(bp, 5.0, Color(0.88, 0.78, 0.98), Color(0.10, 0.06, 0.16))
+		if mk == "capital":
+			_draw_capital_crown_star(bp, 8.2)
+		elif mk == "town":
+			_draw_town_shield(bp, 6.4)
+		elif is_ent:
+			var dot_col := Color(0.98, 0.84, 0.42)
+			match role:
+				"smithy":
+					dot_col = Color(1.0, 0.52, 0.18)
+				"inn":
+					dot_col = Color(1.0, 0.76, 0.34)
+				"shop":
+					dot_col = Color(0.32, 0.94, 0.54)
+				"arena":
+					dot_col = Color(0.96, 0.30, 0.30)
+				"depot":
+					dot_col = Color(0.36, 0.86, 1.0)
+				"hall":
+					dot_col = Color(0.88, 0.74, 1.0)
+			_draw_service_dot(bp, dot_col, 3.6 if current_zoom >= 2.0 else 2.8)
 
-	# 4. 6 Exp-Zone Combat Clearings (tactical battle rings)
+	# 6. 6 Exp-Zone Combat Clearings
 	for ez: Dictionary in world.exp_zones:
 		var ep := _world_to_radar(float(ez.get("x", 512.0)), float(ez.get("z", 512.0)), center_uv)
 		var dist_c := ep.distance_to(MAP_CENTER)
 		if dist_c <= clip_r - 3.0:
-			overlay_canvas.draw_circle(ep, 5.2, Color(0.92, 0.20, 0.14, 0.88))
-			overlay_canvas.draw_arc(ep, 7.6 + pulse * 1.4, 0.0, TAU, 18, Color(1.0, 0.80, 0.30, 0.88), 1.5, true)
-			# Crossed-swords X inside badge
-			overlay_canvas.draw_line(ep + Vector2(-2.6, -2.6), ep + Vector2(2.6, 2.6), Color(1.0, 0.96, 0.82), 1.3, true)
-			overlay_canvas.draw_line(ep + Vector2(2.6, -2.6), ep + Vector2(-2.6, 2.6), Color(1.0, 0.96, 0.82), 1.3, true)
+			overlay_canvas.draw_circle(ep, 4.8, Color(0.92, 0.20, 0.14, 0.88))
+			overlay_canvas.draw_arc(ep, 7.2 + pulse * 1.4, 0.0, TAU, 18, Color(1.0, 0.80, 0.30, 0.88), 1.4, true)
+			overlay_canvas.draw_line(ep + Vector2(-2.4, -2.4), ep + Vector2(2.4, 2.4), Color(1.0, 0.96, 0.82), 1.3, true)
+			overlay_canvas.draw_line(ep + Vector2(2.4, -2.4), ep + Vector2(-2.4, 2.4), Color(1.0, 0.96, 0.82), 1.3, true)
 		else:
-			# Edge indicator arrow pointing toward off-radar exp-zone
 			var dir := (ep - MAP_CENTER).normalized()
 			var edge_p := MAP_CENTER + dir * (clip_r - 1.5)
-			overlay_canvas.draw_circle(edge_p, 3.0, Color(1.0, 0.42, 0.24, 0.85))
+			overlay_canvas.draw_circle(edge_p, 2.8, Color(1.0, 0.42, 0.24, 0.85))
 
-	# 5. Hero Directional Arrow & Radar Pulse
-	var hp := _world_to_radar(world.hero_pos.x, world.hero_pos.y, center_uv)
-	if hp.distance_to(MAP_CENTER) <= clip_r:
-		overlay_canvas.draw_arc(hp, 8.5 + pulse * 3.5, 0.0, TAU, 24, Color(0.32, 0.94, 1.0, 0.48 - pulse * 0.22), 1.5, true)
-		var fwd := hero_heading.normalized()
-		var right := Vector2(-fwd.y, fwd.x)
-		var arrow := PackedVector2Array([
-			hp + fwd * 8.0,
-			hp - fwd * 5.2 + right * 5.2,
-			hp - fwd * 2.4,
-			hp - fwd * 5.2 - right * 5.2,
-		])
-		overlay_canvas.draw_colored_polygon(arrow, Color(0.24, 0.96, 1.0, 1.0))
-		var arrow_out := PackedVector2Array([arrow[0], arrow[1], arrow[2], arrow[3], arrow[0]])
-		overlay_canvas.draw_polyline(arrow_out, Color(0.03, 0.06, 0.10, 0.96), 1.8, true)
+	# 7. Hero Permanently Centered at MAP_CENTER! (Points straight UP in rotating mode, or heading in N-up mode)
+	var hp := MAP_CENTER
+	overlay_canvas.draw_arc(hp, 9.0 + pulse * 3.5, 0.0, TAU, 24, Color(0.32, 0.96, 1.0, 0.52 - pulse * 0.22), 1.6, true)
+	var fwd := Vector2(0.0, -1.0) if rotate_with_hero else hero_heading.normalized()
+	var right := Vector2(-fwd.y, fwd.x)
+	var arrow := PackedVector2Array([
+		hp + fwd * 8.6,
+		hp - fwd * 5.6 + right * 5.6,
+		hp - fwd * 2.4,
+		hp - fwd * 5.6 - right * 5.6,
+	])
+	overlay_canvas.draw_colored_polygon(arrow, Color(0.24, 0.98, 1.0, 1.0))
+	var arrow_out := PackedVector2Array([arrow[0], arrow[1], arrow[2], arrow[3], arrow[0]])
+	overlay_canvas.draw_polyline(arrow_out, Color(0.03, 0.06, 0.10, 0.98), 1.9, true)
 
-	# 6. Ornate Antique-Gold Double Bezel & Compass Degree Ticks
+	# 8. Ornate Antique-Gold Double Bezel & ROTATING Compass Degree Ticks
 	overlay_canvas.draw_arc(MAP_CENTER, MAP_RADIUS + 7.0, 0.0, TAU, 80, Color(0.03, 0.02, 0.03, 0.82), 6.0, true)
 	overlay_canvas.draw_arc(MAP_CENTER, MAP_RADIUS + 4.5, 0.0, TAU, 80, Color(0.58, 0.42, 0.18, 0.96), 3.6, true)
 	overlay_canvas.draw_arc(MAP_CENTER, MAP_RADIUS + 2.2, 0.0, TAU, 80, Color(0.92, 0.76, 0.42, 0.98), 2.4, true)
 	overlay_canvas.draw_arc(MAP_CENTER, MAP_RADIUS - 0.5, 0.0, TAU, 80, Color(0.10, 0.08, 0.06, 0.95), 2.2, true)
 
 	for deg in range(0, 360, 10):
-		var rad := deg_to_rad(float(deg))
+		var rad := deg_to_rad(float(deg)) - map_rotation
 		var is_major := (deg % 30 == 0)
 		var r0 := MAP_RADIUS - (5.0 if is_major else 2.5)
 		var r1 := MAP_RADIUS + 1.0
@@ -305,7 +426,7 @@ func _draw_overlay() -> void:
 		var p1 := MAP_CENTER + Vector2(cos(rad), sin(rad)) * r1
 		overlay_canvas.draw_line(p0, p1, Color(0.95, 0.80, 0.46, 0.82 if is_major else 0.45), 1.4 if is_major else 1.0, true)
 
-	# 7. Cardinal Compass Rose Badges (N, E, S, W)
+	# 9. Rotating Cardinal Compass Rose Badges (N, E, S, W rotate with the world!)
 	var cardinals := [
 		{"txt": "N", "ang": -PI * 0.5, "col": Color(1.0, 0.42, 0.28)},
 		{"txt": "E", "ang": 0.0, "col": Color(0.96, 0.84, 0.54)},
@@ -313,7 +434,7 @@ func _draw_overlay() -> void:
 		{"txt": "W", "ang": PI, "col": Color(0.96, 0.84, 0.54)},
 	]
 	for c: Dictionary in cardinals:
-		var ang: float = float(c["ang"])
+		var ang: float = float(c["ang"]) - map_rotation
 		var cp := MAP_CENTER + Vector2(cos(ang), sin(ang)) * (MAP_RADIUS + 3.5)
 		overlay_canvas.draw_circle(cp, 10.0, Color(0.07, 0.05, 0.06, 0.96))
 		overlay_canvas.draw_arc(cp, 10.0, 0.0, TAU, 20, Color(0.88, 0.70, 0.36, 0.96), 1.8, true)

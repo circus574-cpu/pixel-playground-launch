@@ -222,16 +222,16 @@
         -33.0
       ],
       "height_min_m": -4.2,
-      "height_max_m": 24.99,
-      "walkable_ratio": 0.264,
-      "buildings_count": 38,
-      "bridges_count": 8,
+      "height_max_m": 25.0,
+      "walkable_ratio": 0.253,
+      "buildings_count": 40,
+      "bridges_count": 10,
       "waterfalls_count": 3,
       "npcs_count": 10,
       "exp_zones_count": 6,
       "monsters_count": 30,
       "fauna_count": 18,
-      "props_count": 187,
+      "props_count": 161,
       "audit": {
         "BUILDINGS_ON_LIQUID": 0,
         "BUILDING_OVERLAPS": 0,
@@ -242,8 +242,10 @@
         "EXP_ZONES_ON_LIQUID": 0,
         "AETHER_SUMMER_ON_SNOW": 0,
         "MISSING_SPRITES": 0,
-        "BRIDGES_PLACED": 8,
-        "WATERFALLS_PLACED": 3
+        "ROADS_EXPORTED": 28,
+        "BRIDGES_PLACED": 10,
+        "WATERFALLS_PLACED": 3,
+        "MAJOR_BLDGS": 18
       }
     },
     "verdant": {
@@ -252,11 +254,11 @@
       "world_size_m": 1024.0,
       "capital_center": [
         -155.0,
-        -110.0
+        -118.0
       ],
       "height_min_m": -4.2,
-      "height_max_m": 26.43,
-      "walkable_ratio": 0.369,
+      "height_max_m": 26.23,
+      "walkable_ratio": 0.359,
       "buildings_count": 37,
       "bridges_count": 7,
       "waterfalls_count": 3,
@@ -264,7 +266,7 @@
       "exp_zones_count": 6,
       "monsters_count": 30,
       "fauna_count": 18,
-      "props_count": 206,
+      "props_count": 214,
       "audit": {
         "BUILDINGS_ON_LIQUID": 0,
         "BUILDING_OVERLAPS": 0,
@@ -275,8 +277,10 @@
         "EXP_ZONES_ON_LIQUID": 0,
         "AETHER_SUMMER_ON_SNOW": 0,
         "MISSING_SPRITES": 0,
+        "ROADS_EXPORTED": 24,
         "BRIDGES_PLACED": 7,
-        "WATERFALLS_PLACED": 3
+        "WATERFALLS_PLACED": 3,
+        "MAJOR_BLDGS": 18
       }
     },
     "aether": {
@@ -284,20 +288,20 @@
       "grid_size": 512,
       "world_size_m": 1024.0,
       "capital_center": [
-        101.0,
-        -135.0
+        93.0,
+        -127.0
       ],
       "height_min_m": -4.2,
-      "height_max_m": 26.26,
-      "walkable_ratio": 0.333,
-      "buildings_count": 34,
-      "bridges_count": 4,
+      "height_max_m": 26.53,
+      "walkable_ratio": 0.322,
+      "buildings_count": 30,
+      "bridges_count": 2,
       "waterfalls_count": 3,
       "npcs_count": 10,
       "exp_zones_count": 6,
       "monsters_count": 30,
       "fauna_count": 18,
-      "props_count": 225,
+      "props_count": 193,
       "audit": {
         "BUILDINGS_ON_LIQUID": 0,
         "BUILDING_OVERLAPS": 0,
@@ -308,8 +312,10 @@
         "EXP_ZONES_ON_LIQUID": 0,
         "AETHER_SUMMER_ON_SNOW": 0,
         "MISSING_SPRITES": 0,
-        "BRIDGES_PLACED": 4,
-        "WATERFALLS_PLACED": 3
+        "ROADS_EXPORTED": 26,
+        "BRIDGES_PLACED": 2,
+        "WATERFALLS_PLACED": 3,
+        "MAJOR_BLDGS": 17
       }
     },
     "nexus": {
@@ -317,20 +323,20 @@
       "grid_size": 512,
       "world_size_m": 1024.0,
       "capital_center": [
-        60.0,
-        6.0
+        72.0,
+        -6.0
       ],
       "height_min_m": -4.2,
-      "height_max_m": 25.64,
-      "walkable_ratio": 0.322,
-      "buildings_count": 36,
+      "height_max_m": 25.53,
+      "walkable_ratio": 0.311,
+      "buildings_count": 35,
       "bridges_count": 2,
       "waterfalls_count": 3,
       "npcs_count": 10,
       "exp_zones_count": 6,
       "monsters_count": 30,
       "fauna_count": 18,
-      "props_count": 203,
+      "props_count": 195,
       "audit": {
         "BUILDINGS_ON_LIQUID": 0,
         "BUILDING_OVERLAPS": 0,
@@ -341,8 +347,10 @@
         "EXP_ZONES_ON_LIQUID": 0,
         "AETHER_SUMMER_ON_SNOW": 0,
         "MISSING_SPRITES": 0,
+        "ROADS_EXPORTED": 27,
         "BRIDGES_PLACED": 2,
-        "WATERFALLS_PLACED": 3
+        "WATERFALLS_PLACED": 3,
+        "MAJOR_BLDGS": 18
       }
     }
   },
