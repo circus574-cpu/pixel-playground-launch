@@ -9,8 +9,8 @@ const MapStyle := preload("res://scripts/map_style.gd")
 
 const MAP_DIAMETER := 224.0
 const MAP_RADIUS := 112.0
-const MAP_CENTER := Vector2(128.0, 126.0)
-const WIDGET_SIZE := Vector2(256.0, 316.0)
+const MAP_CENTER := Vector2(138.0, 126.0)
+const WIDGET_SIZE := Vector2(276.0, 344.0)
 const ZOOM_LEVELS := [3.20, 1.90, 1.00]
 const ISO_ALIGN_ROT := -PI * 0.25 # Exact 1:1 match with iso(x,z) camera: NW=UP, NE=RIGHT, SE=DOWN, SW=LEFT!
 
@@ -62,65 +62,72 @@ func _ready() -> void:
 	build_location_plate()
 
 func build_location_plate() -> void:
-	plate_panel.position = Vector2(4.0, MAP_CENTER.y + MAP_RADIUS + 10.0)
-	plate_panel.size = Vector2(WIDGET_SIZE.x - 8.0, 64.0)
+	plate_panel.position = Vector2(4.0, MAP_CENTER.y + MAP_RADIUS + 8.0)
+	plate_panel.size = Vector2(WIDGET_SIZE.x - 8.0, 92.0)
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.05, 0.04, 0.06, 0.92)
-	style.border_color = Color(0.84, 0.65, 0.33, 0.92)
+	style.bg_color = Color(0.05, 0.04, 0.06, 0.94)
+	style.border_color = Color(0.88, 0.68, 0.34, 0.95)
 	style.set_border_width_all(2)
-	style.set_corner_radius_all(8)
+	style.set_corner_radius_all(9)
 	style.content_margin_left = 8
 	style.content_margin_right = 8
-	style.content_margin_top = 5
-	style.content_margin_bottom = 5
+	style.content_margin_top = 6
+	style.content_margin_bottom = 6
 	plate_panel.add_theme_stylebox_override("panel", style)
 	add_child(plate_panel)
 
 	var vbox := VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 3)
+	vbox.add_theme_constant_override("separation", 5)
 	plate_panel.add_child(vbox)
 
 	var fb: Font = MapStyle.body_font()
-	loc_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var top_info := HBoxContainer.new()
+	top_info.add_theme_constant_override("separation", 6)
+	vbox.add_child(top_info)
+
+	loc_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	loc_label.clip_text = true
 	loc_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	loc_label.custom_minimum_size = Vector2(226, 18)
+	loc_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	loc_label.add_theme_font_override("font", fb)
-	loc_label.add_theme_font_size_override("font_size", 12)
+	loc_label.add_theme_font_size_override("font_size", 14)
 	loc_label.add_theme_color_override("font_color", Color(1.0, 0.92, 0.72))
 	loc_label.text = "Stolica"
-	vbox.add_child(loc_label)
+	top_info.add_child(loc_label)
+
+	coord_label.add_theme_font_override("font", fb)
+	coord_label.add_theme_font_size_override("font_size", 12)
+	coord_label.add_theme_color_override("font_color", Color(0.76, 0.86, 0.92))
+	coord_label.text = "512, 512"
+	top_info.add_child(coord_label)
 
 	var hbox := HBoxContainer.new()
 	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	hbox.add_theme_constant_override("separation", 4)
+	hbox.add_theme_constant_override("separation", 5)
 	vbox.add_child(hbox)
 
-	coord_label.add_theme_font_override("font", fb)
-	coord_label.add_theme_font_size_override("font_size", 10)
-	coord_label.add_theme_color_override("font_color", Color(0.76, 0.84, 0.86))
-	coord_label.text = "512, 512"
-	hbox.add_child(coord_label)
-
 	btn_zoom.text = "3.2×"
-	btn_zoom.custom_minimum_size = Vector2(38, 22)
+	btn_zoom.custom_minimum_size = Vector2(56, 36)
+	btn_zoom.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn_zoom.add_theme_font_override("font", fb)
-	btn_zoom.add_theme_font_size_override("font_size", 10)
+	btn_zoom.add_theme_font_size_override("font_size", 13)
 	btn_zoom.pressed.connect(toggle_zoom_mode)
 	hbox.add_child(btn_zoom)
 
 	btn_rot.text = "ISO"
 	btn_rot.tooltip_text = "Przełącz: 1:1 z ekranem (ISO) / obrót za kierunkiem marszu (OBR)"
-	btn_rot.custom_minimum_size = Vector2(36, 22)
+	btn_rot.custom_minimum_size = Vector2(52, 36)
+	btn_rot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn_rot.add_theme_font_override("font", fb)
-	btn_rot.add_theme_font_size_override("font_size", 10)
+	btn_rot.add_theme_font_size_override("font_size", 13)
 	btn_rot.pressed.connect(toggle_rotate_mode)
 	hbox.add_child(btn_rot)
 
 	btn_3d.text = "3D"
-	btn_3d.custom_minimum_size = Vector2(28, 22)
+	btn_3d.custom_minimum_size = Vector2(46, 36)
+	btn_3d.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn_3d.add_theme_font_override("font", fb)
-	btn_3d.add_theme_font_size_override("font_size", 10)
+	btn_3d.add_theme_font_size_override("font_size", 13)
 	btn_3d.pressed.connect(func() -> void:
 		if world != null:
 			world.toggle_map()
@@ -128,9 +135,10 @@ func build_location_plate() -> void:
 	hbox.add_child(btn_3d)
 
 	btn_globe.text = "Mapa"
-	btn_globe.custom_minimum_size = Vector2(44, 22)
+	btn_globe.custom_minimum_size = Vector2(62, 36)
+	btn_globe.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn_globe.add_theme_font_override("font", fb)
-	btn_globe.add_theme_font_size_override("font_size", 10)
+	btn_globe.add_theme_font_size_override("font_size", 13)
 	btn_globe.pressed.connect(func() -> void:
 		if world != null:
 			if world.atlas_overlay != null:

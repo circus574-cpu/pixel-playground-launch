@@ -212,4 +212,16 @@ Po przeglądzie zrzutu właściciela (`IMG_20261119_190937.jpg`) przeprowadzono 
   - `ISO_WORLD_QA_OK` (Godot 4.6.3, 19 zrzutów w tym [gm-panel.jpg](qa/gm-panel.jpg) i odświeżony [character-sheet.jpg](qa/character-sheet.jpg)): `0` błędów GDScript/shaderów, `0` wycieków RID.
   - Zbudowano paczkę aktualizacyjną `deliveries/godot-content-1.14.5` (bazującą na `1.14.4`) przez `scripts/godot/build_preview_update.py --gemini --base 1.14.4 --version 1.14.5` i opublikowano na serwer testowy workflowem `godot-content-upload.yml` (`publish=true`, `activate=true`, `test_base=1.14.4`).
 
+## 12. Ergonomia Mobilna Android (`1.14.6`): Kamera 2× Bliżej (`1.25`), Odsłonięcie Menu spod `WRÓĆ · TRYB SERWISOWY`, Duże Przyciski Kciukowe i Wyraźny Przycisk `PANEL GM` (2026-11-19)
+
+Po teście na telefonie Android właściciela (`Screenshot_2026-11-19-22-04-16-39...jpg`) wprowadzono natychmiastowy pakiet poprawek mobilnych i opublikowano wydanie **`1.14.6`**:
+
+- **Kamera 2× bliżej (`ports/godot-isometric-world/scripts/world.gd`):** domyślne przybliżenie kamery zwiększono z `0.62` do **`1.25`** (zakres `0.50 .. 2.40`), dzięki czemu postać, drogi, mosty i budynki są natychmiast czytelne na ekranie telefonu.
+- **Zero zasłaniania przez `WRÓĆ · TRYB SERWISOWY` i duże przyciski (`rpg_hud.gd`, `premium_minimap.gd`, `gm_panel.gd`, `atlas_overlay.gd`):**
+  - Przesunięto górną wstęgę nawigacji (`PYRA · VERDANTIA · AETHERIA · NEXUS-9 ◆ STOLICA · WAROWNIE`) na `y = 94 px` (powiększona do `42 px` wysokości i czcionki `14 px`) — całkowicie poniżej banera serwisowego Androida (`y = 0 .. 84 px`).
+  - Powiększono lewe medaliony użytkowe (`SKILLE`, `PLECAK`, `MAPA`, `GLOBUS`, `3D`, `PORA`) z `34 px` do **`52 px`** w siatce `2×3` oraz dodano duży, osobny przycisk **`PANEL GM` (`192 × 48 px`, czcionka `16 px`)** bezpośrednio pod nimi.
+  - Powiększono przyciski pod minimapą (`3.2×`, `ISO`, `3D`, `Mapa` → `36 px` wysokości), kule umiejętności Wild Rift (`r = 48/38/34 px`), przyciski Panelu GM (`min_h = 42 px`) oraz przyciski zoomu Atlasu 2D (`56 × 56 px`).
+- **Publikacja `1.14.6` na serwer testowy:** `ISO_WORLD_QA_OK` w rozdzielczości Android 20:9 (`1600×720`), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.6` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.5`).
+
+
 

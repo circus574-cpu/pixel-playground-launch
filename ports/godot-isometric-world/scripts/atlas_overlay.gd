@@ -291,21 +291,21 @@ func _layout_controls() -> void:
 	if globe != null:
 		globe.position = mr.position
 		globe.size = mr.size
-	btn_close.position = Vector2(size.x - 134.0, 10.0)
-	btn_close.size = Vector2(116.0, 38.0)
-	btn_atlas.position = Vector2(size.x - 274.0, 10.0)
-	btn_atlas.size = Vector2(130.0, 38.0)
-	btn_globe.position = Vector2(size.x - 414.0, 10.0)
-	btn_globe.size = Vector2(130.0, 38.0)
+	btn_close.position = Vector2(size.x - 148.0, 8.0)
+	btn_close.size = Vector2(132.0, 46.0)
+	btn_atlas.position = Vector2(size.x - 296.0, 8.0)
+	btn_atlas.size = Vector2(140.0, 46.0)
+	btn_globe.position = Vector2(size.x - 446.0, 8.0)
+	btn_globe.size = Vector2(142.0, 46.0)
 
-	var rx := mr.end.x - 56.0
-	var ry := mr.position.y + mr.size.y * 0.5 - 76.0
+	var rx := mr.end.x - 68.0
+	var ry := mr.position.y + mr.size.y * 0.5 - 94.0
 	btn_zoom_in.position = Vector2(rx, ry)
-	btn_zoom_in.size = Vector2(44.0, 44.0)
-	btn_zoom_out.position = Vector2(rx, ry + 52.0)
-	btn_zoom_out.size = Vector2(44.0, 44.0)
-	btn_center.position = Vector2(rx, ry + 104.0)
-	btn_center.size = Vector2(44.0, 44.0)
+	btn_zoom_in.size = Vector2(56.0, 56.0)
+	btn_zoom_out.position = Vector2(rx, ry + 66.0)
+	btn_zoom_out.size = Vector2(56.0, 56.0)
+	btn_center.position = Vector2(rx, ry + 132.0)
+	btn_center.size = Vector2(56.0, 56.0)
 
 func set_mode(new_mode: String) -> void:
 	mode = new_mode

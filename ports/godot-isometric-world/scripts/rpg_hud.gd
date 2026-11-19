@@ -688,32 +688,31 @@ func _modal_rect() -> Rect2:
 
 func _xp_pill_rect() -> Rect2:
 	var vs := _vp_size()
-	var pw := 364.0
-	var ph := 24.0
+	var pw := 396.0
+	var ph := 28.0
 	return Rect2((vs.x - pw) * 0.5, vs.y - ph - 10.0, pw, ph)
 
 func _wild_rift_slot_specs() -> Array[Dictionary]:
-	# Ergonomic right-thumb Wild Rift combat cluster in bottom-right corner
-	# (leaving bottom-left 100% unobstructed for the left-thumb virtual joystick!)
+	# Ergonomic right-thumb Wild Rift combat cluster in bottom-right corner (large thumb-friendly orbs for mobile!)
 	var vs := _vp_size()
-	var base := Vector2(vs.x - 86.0, vs.y - 86.0)
-	var arc_r := 128.0
+	var base := Vector2(vs.x - 98.0, vs.y - 96.0)
+	var arc_r := 148.0
 	var specs: Array[Dictionary] = [
-		{"center": base, "r": 40.0, "keystone": true},
+		{"center": base, "r": 48.0, "keystone": true},
 	]
-	var arc_angles := [176.0, 207.0, 238.0, 269.0]
+	var arc_angles := [175.0, 206.0, 237.0, 268.0]
 	for ang_deg in arc_angles:
 		var rad := deg_to_rad(float(ang_deg))
 		specs.append({
 			"center": base + Vector2(cos(rad), sin(rad)) * arc_r,
-			"r": 27.0,
+			"r": 34.0,
 			"keystone": false,
 		})
-	# Grand Ultimate [R] on upper-outer crown of thumb arc (well below top-right minimap)
-	var ult_rad := deg_to_rad(222.0)
+	# Grand Ultimate [R] on upper-outer crown of thumb arc
+	var ult_rad := deg_to_rad(220.0)
 	specs.append({
-		"center": base + Vector2(cos(ult_rad), sin(ult_rad)) * 198.0,
-		"r": 32.0,
+		"center": base + Vector2(cos(ult_rad), sin(ult_rad)) * 224.0,
+		"r": 38.0,
 		"keystone": true,
 	})
 	return specs
@@ -773,13 +772,14 @@ func _constellation_node_pos(nid: String, graph_rect: Rect2) -> Vector2:
 	return Vector2(gx + gw * nx, gy + gh * ny)
 
 func _nav_ribbon_rect() -> Rect2:
+	# Positioned at y=94px so it NEVER collides with the Android top-center "WRÓĆ · TRYB SERWISOWY" bar (y=0..84px)!
 	var vs := _vp_size()
-	var left_bound := 348.0
-	var right_bound := vs.x - 278.0
-	var avail_w := maxf(right_bound - left_bound, 480.0)
-	var nav_w := minf(564.0, avail_w - 16.0)
+	var left_bound := 340.0
+	var right_bound := vs.x - 294.0
+	var avail_w := maxf(right_bound - left_bound, 500.0)
+	var nav_w := minf(636.0, avail_w - 12.0)
 	var nav_x := left_bound + (avail_w - nav_w) * 0.5
-	return Rect2(nav_x, 10.0, nav_w, 30.0)
+	return Rect2(nav_x, 94.0, nav_w, 42.0)
 
 func _constellation_graph_rect(mr: Rect2) -> Rect2:
 	return Rect2(mr.position.x + 58.0, mr.position.y + 114.0, mr.size.x * 0.635, mr.size.y - 172.0)
@@ -1148,23 +1148,46 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	var ring_gold := _load_tex("res://assets/ui/hud_node_ring_unlocked.png")
 	var ring_cyan := _load_tex("res://assets/ui/hud_node_ring_avail.png")
 	var gm_active: bool = world != null and bool(world.gm_open)
-	var spd_badge := ("%.0f×" % float(world.gm_speed_mult)) if (world != null and float(world.gm_speed_mult) > 1.05) else ""
+	var spd_badge := (" %.0f×" % float(world.gm_speed_mult)) if (world != null and float(world.gm_speed_mult) > 1.05) else ""
 	var all_utils: Array = [
-		{"id": "talents", "key": "K", "icon": "emblem_crystal.webp", "badge": str(skill_points) if skill_points > 0 else "", "active": show_talents},
-		{"id": "char", "key": "I", "icon": "emblem_pack.webp", "badge": str(free_stat_points) if free_stat_points > 0 else "", "active": show_character},
-		{"id": "time", "key": "T", "icon": "emblem_scroll.webp", "badge": "", "active": false},
-		{"id": "atlas", "key": "TAB", "icon": "hud-map.webp", "badge": "", "active": false},
-		{"id": "globe", "key": "G", "icon": "emblem_gear.webp", "badge": "", "active": false},
-		{"id": "relief", "key": "M", "icon": "emblem_swords.webp", "badge": "", "active": false},
-		{"id": "gm", "key": "GM", "icon": "hud-target.webp", "badge": spd_badge, "active": gm_active},
+		{"id": "talents", "key": "SKILLE", "icon": "emblem_crystal.webp", "badge": str(skill_points) if skill_points > 0 else "", "active": show_talents},
+		{"id": "char", "key": "PLECAK", "icon": "emblem_pack.webp", "badge": str(free_stat_points) if free_stat_points > 0 else "", "active": show_character},
+		{"id": "atlas", "key": "MAPA", "icon": "hud-map.webp", "badge": "", "active": false},
+		{"id": "globe", "key": "GLOBUS", "icon": "emblem_gear.webp", "badge": "", "active": false},
+		{"id": "relief", "key": "3D", "icon": "emblem_swords.webp", "badge": "", "active": false},
+		{"id": "time", "key": "PORA", "icon": "emblem_scroll.webp", "badge": "", "active": false},
 	]
-	var u_dia := 34.0
-	var u_cy := 148.0
+	var u_dia := 52.0
 	for ui in all_utils.size():
-		var u_cx := 38.0 + float(ui) * 44.0
+		var col_u := ui % 3
+		var row_u := ui / 3
+		var u_cx := 44.0 + float(col_u) * 68.0
+		var u_cy := 158.0 + float(row_u) * 72.0
 		_draw_util_medallion(c, f, all_utils[ui], Vector2(u_cx, u_cy), u_dia, ring_gold, ring_cyan)
 
-	# --- B. Top-Center Minimalist Realm Ribbon Tabs (evenly centered inside _nav_ribbon_rect()) ---
+	# Large Unmissable Mobile-Friendly PANEL GM Button right below the medallions!
+	var gm_rect := Rect2(18.0, 276.0, 192.0, 48.0)
+	util_hitboxes.append({"rect": gm_rect.grow(5.0), "id": "gm"})
+	var gm_pts := PackedVector2Array([
+		Vector2(gm_rect.position.x + 10.0, gm_rect.position.y),
+		Vector2(gm_rect.end.x - 10.0, gm_rect.position.y),
+		Vector2(gm_rect.end.x, gm_rect.position.y + 10.0),
+		Vector2(gm_rect.end.x, gm_rect.end.y - 10.0),
+		Vector2(gm_rect.end.x - 10.0, gm_rect.end.y),
+		Vector2(gm_rect.position.x + 10.0, gm_rect.end.y),
+		Vector2(gm_rect.position.x, gm_rect.end.y - 10.0),
+		Vector2(gm_rect.position.x, gm_rect.position.y + 10.0),
+	])
+	var gm_fill := Color(0.10, 0.28, 0.34, 0.96) if gm_active else Color(0.20, 0.13, 0.05, 0.96)
+	var gm_rim := Color(0.38, 0.94, 1.0, 1.0) if gm_active else Color(1.0, 0.82, 0.36, 0.98)
+	_draw_beveled_chamfer(c, gm_pts, gm_fill, gm_rim, Color(1.0, 0.92, 0.62, 0.45))
+	var gm_ico := _icon_tex("hud-target.webp")
+	if gm_ico != null:
+		c.draw_texture_rect(gm_ico, Rect2(gm_rect.position.x + 10.0, gm_rect.position.y + 9.0, 30.0, 30.0), false)
+	var gm_txt := "PANEL GM" + spd_badge
+	c.draw_string(f, Vector2(gm_rect.position.x + 48.0, gm_rect.position.y + 30.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.94, 0.72))
+
+	# --- B. Top-Center Realm Ribbon Tabs (at y=94px — 100% BELOW Android "WRÓĆ · TRYB SERWISOWY" banner!) ---
 	nav_hitboxes.clear()
 	var nr := _nav_ribbon_rect()
 	var nav_y := nr.position.y
@@ -1178,7 +1201,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	]
 	var total_lbl_w := 0.0
 	for item: Dictionary in nav_items:
-		total_lbl_w += f.get_string_size(str(item["label"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+		total_lbl_w += f.get_string_size(str(item["label"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
 	var sep_gap := (nr.size.x - 42.0 - total_lbl_w - 10.0) / float(nav_items.size() - 1)
 	sep_gap = clampf(sep_gap, 14.0, 26.0)
 	var content_w := total_lbl_w + sep_gap * float(nav_items.size() - 1) + 10.0
@@ -1186,21 +1209,21 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	for idx in nav_items.size():
 		var item: Dictionary = nav_items[idx]
 		var lbl := str(item["label"])
-		var lw := f.get_string_size(lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+		var lw := f.get_string_size(lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
 		var active := (str(item["kind"]) == "land" and str(item["id"]) == current_land)
-		var tcol := Color(1.0, 0.88, 0.50) if active else (Color(0.56, 0.92, 0.66) if str(item["id"]) == "capital" else (Color(1.0, 0.58, 0.36) if str(item["id"]) == "exp" else Color(0.78, 0.74, 0.66, 0.86)))
-		c.draw_string_outline(f, Vector2(cur_x, nav_y + 19.5), lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 3, Color(0.02, 0.02, 0.02, 0.90))
-		c.draw_string(f, Vector2(cur_x, nav_y + 19.5), lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, tcol)
+		var tcol := Color(1.0, 0.88, 0.50) if active else (Color(0.56, 0.92, 0.66) if str(item["id"]) == "capital" else Color(0.84, 0.80, 0.72, 0.92))
+		c.draw_string_outline(f, Vector2(cur_x, nav_y + 27.0), lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 3, Color(0.02, 0.02, 0.02, 0.92))
+		c.draw_string(f, Vector2(cur_x, nav_y + 27.0), lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, tcol)
 		if active:
-			c.draw_line(Vector2(cur_x - 2.0, nav_y + 26.0), Vector2(cur_x + lw + 2.0, nav_y + 26.0), Color(1.0, 0.84, 0.38, 0.95), 2.2, true)
-		nav_hitboxes.append({"rect": Rect2(cur_x - 6.0, nav_y, lw + 12.0, 30.0), "id": str(item["id"]), "kind": str(item["kind"])})
+			c.draw_line(Vector2(cur_x - 2.0, nav_y + 34.0), Vector2(cur_x + lw + 2.0, nav_y + 34.0), Color(1.0, 0.84, 0.38, 0.95), 2.4, true)
+		nav_hitboxes.append({"rect": Rect2(cur_x - 8.0, nav_y - 2.0, lw + 16.0, 46.0), "id": str(item["id"]), "kind": str(item["kind"])})
 		cur_x += lw + sep_gap
 		if idx == 3:
-			var sc := Vector2(cur_x - sep_gap * 0.5 + 3.0, nav_y + 15.0)
+			var sc := Vector2(cur_x - sep_gap * 0.5 + 3.0, nav_y + 21.0)
 			c.draw_colored_polygon(PackedVector2Array([sc + Vector2(0, -4), sc + Vector2(4, 0), sc + Vector2(0, 4), sc + Vector2(-4, 0)]), Color(0.88, 0.70, 0.36, 0.85))
 			cur_x += 10.0
 		elif idx < nav_items.size() - 1:
-			c.draw_circle(Vector2(cur_x - sep_gap * 0.5, nav_y + 15.0), 1.5, Color(0.70, 0.56, 0.32, 0.55))
+			c.draw_circle(Vector2(cur_x - sep_gap * 0.5, nav_y + 21.0), 1.8, Color(0.70, 0.56, 0.32, 0.60))
 
 	# --- C. Bottom-Center Slim XP Filament Labels ---
 	var xp_r := _xp_pill_rect()

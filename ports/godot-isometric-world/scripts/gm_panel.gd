@@ -49,16 +49,17 @@ func _ready() -> void:
 	resized.connect(_layout_panel)
 	_layout_panel()
 
-func _style_btn(btn: Button, bg: Color, border: Color, font_sz: int = 13) -> void:
+func _style_btn(btn: Button, bg: Color, border: Color, font_sz: int = 15) -> void:
+	btn.custom_minimum_size.y = maxf(btn.custom_minimum_size.y, 42.0)
 	var st := StyleBoxFlat.new()
 	st.bg_color = bg
 	st.border_color = border
 	st.set_border_width_all(2)
-	st.set_corner_radius_all(7)
-	st.content_margin_left = 10
-	st.content_margin_right = 10
-	st.content_margin_top = 6
-	st.content_margin_bottom = 6
+	st.set_corner_radius_all(8)
+	st.content_margin_left = 12
+	st.content_margin_right = 12
+	st.content_margin_top = 8
+	st.content_margin_bottom = 8
 	btn.add_theme_stylebox_override("normal", st)
 	var st_h := st.duplicate()
 	st_h.bg_color = bg.lightened(0.14)
@@ -67,7 +68,7 @@ func _style_btn(btn: Button, bg: Color, border: Color, font_sz: int = 13) -> voi
 	st_p.bg_color = bg.darkened(0.12)
 	btn.add_theme_stylebox_override("pressed", st_p)
 	btn.add_theme_font_override("font", MapStyle.body_font())
-	btn.add_theme_font_size_override("font_size", font_sz)
+	btn.add_theme_font_size_override("font_size", maxi(font_sz, 14))
 	btn.add_theme_color_override("font_color", Color(0.98, 0.94, 0.84))
 
 func _build_ui() -> void:

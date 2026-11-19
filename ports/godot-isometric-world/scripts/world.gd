@@ -82,7 +82,7 @@ var gm_speed_mult := 1.0
 var gm_noclip := false
 var gm_map_teleport_mode := false
 var gm_minimap_teleport := false
-var zoom_level := 0.62
+var zoom_level := 1.25
 var move_pointer := -1
 var move_origin := Vector2.ZERO
 var pinch_pointers: Dictionary = {}
@@ -718,7 +718,7 @@ func layout_minimap() -> void:
 		map_3d.visible = false
 		if premium_minimap != null:
 			premium_minimap.visible = show_world_ui and not rpg_modal_open
-			premium_minimap.position = Vector2(vp.x - 270.0, 12.0)
+			premium_minimap.position = Vector2(vp.x - 288.0, 10.0)
 	if stick_layer != null:
 		stick_layer.visible = show_world_ui and not rpg_modal_open
 	if atlas_overlay != null:
@@ -889,7 +889,7 @@ func pinch_span() -> float:
 	return (pinch_pointers[keys[0]] as Vector2).distance_to(pinch_pointers[keys[1]] as Vector2)
 
 func set_zoom(z: float) -> void:
-	zoom_level = clampf(z, 0.36, 1.65)
+	zoom_level = clampf(z, 0.50, 2.40)
 	camera.zoom = Vector2(zoom_level, zoom_level)
 
 func _process(delta: float) -> void:
