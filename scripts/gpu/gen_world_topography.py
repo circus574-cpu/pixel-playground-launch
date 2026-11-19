@@ -1497,12 +1497,12 @@ def generate_continent(land_id: str) -> dict:
         min_d_arr = np.full(len(cand_x), 1e9, dtype=np.float32)
         for nd in graph_nodes:
             min_d_arr = np.minimum(min_d_arr, np.hypot(cand_x - nd["x"], cand_z - nd["z"]))
-        target_total_nodes = 64
+        target_total_nodes = 72
         while len(graph_nodes) < target_total_nodes:
             # Prefer farthest uncovered valley/coastal region with low slope
             score = min_d_arr - cand_sl * 90.0
             best_i = int(np.argmax(score))
-            if float(min_d_arr[best_i]) < 72.0:
+            if float(min_d_arr[best_i]) < 62.0:
                 break
             nx_p, nz_p = float(cand_x[best_i]), float(cand_z[best_i])
             nid = add_graph_node(nx_p, nz_p, "crossroad", min_sep=68.0)
@@ -1859,16 +1859,20 @@ def generate_continent(land_id: str) -> dict:
                 while idx_c < n_c and in_chan[idx_c]:
                     idx_c += 1
                 r_end = idx_c - 1
-                if r_end - r_start >= 2:
-                    p_s, p_e = dense[max(0, r_start - 3)], dense[min(n_c - 1, r_end + 3)]
-                    if float(math.hypot(p_e[0] - p_s[0], p_e[1] - p_s[1])) > 46.0:
-                        return False
-                    crossings.append((r_start, r_end))
+                if r_end - r_start < 2:
+                    # Reject tiny 1-2 sample liquid grazes instead of letting a road dip into water/lava without a bridge!
+                    return False
+                p_s, p_e = dense[max(0, r_start - 3)], dense[min(n_c - 1, r_end + 3)]
+                if float(math.hypot(p_e[0] - p_s[0], p_e[1] - p_s[1])) > 46.0:
+                    return False
+                crossings.append((r_start, r_end))
             else:
                 idx_c += 1
 
+        prev_b_len = len(bridges_placed)
         for r_s, r_e in crossings:
             if not try_place_single_bridge_on_curve(dense, r_s, r_e):
+                del bridges_placed[prev_b_len:]
                 return False
 
         # Commit edge!
@@ -2036,6 +2040,16 @@ def generate_continent(land_id: str) -> dict:
                 bfs_q.append(nb)
 
     committed_edges = [ed for ed in committed_edges if ed["u"] in reach_set and ed["v"] in reach_set]
+
+    # Prune any bridge whose parent road edge was dropped during reachability pruning (guarantees 0 orphan bridges!)
+    if bridges_placed and committed_edges:
+        all_dense_pts = np.vstack([ed["dense"] for ed in committed_edges])
+        kept_bridges: list[dict] = []
+        for b_rec in bridges_placed:
+            bx_b, bz_b = float(b_rec["x"]), float(b_rec["z"])
+            if float(np.min(np.hypot(all_dense_pts[:, 0] - bx_b, all_dense_pts[:, 1] - bz_b))) <= 6.0:
+                kept_bridges.append(b_rec)
+        bridges_placed[:] = kept_bridges
 
     # Build weighted graph for Dijkstra shortest-path backbone from Capital -> ALL 7 Regional Towns/Strongholds!
     edge_lookup: dict[tuple[int, int], dict] = {}
@@ -2246,7 +2260,7 @@ def generate_continent(land_id: str) -> dict:
     surf_rgba[..., 3] = np.clip((1.0 - energy_mask) * 255.0, 0, 255).astype(np.uint8)
     Image.fromarray(surf_rgba, mode="RGBA").save(reg_dir / "surface.png")
 
-    walkable = ((((slope < 0.30) & (~liquid)) | bridge_walk_mask | (road_mask > 0.35)) & (~ocean)) & (~building_solid_mask)
+    walkable = ((((slope < 0.30) & (~liquid)) | bridge_walk_mask | (road_mask > 0.20)) & (~ocean)) & (~building_solid_mask)
     np.where(walkable, 255, 0).astype(np.uint8).tofile(reg_dir / "walkable.u8")
 
     def is_safe_dry(wx: float, wz: float, min_liq_m: float = 12.0, clear_road: bool = True) -> bool:
@@ -2564,13 +2578,34 @@ def generate_continent(land_id: str) -> dict:
                 if not disk_p.exists():
                     missing_sprites.append(sp)
 
+    orphan_bridges = 0
+    if bridges_placed and committed_edges:
+        all_dense_chk = np.vstack([ed["dense"] for ed in committed_edges])
+        for b_rec in bridges_placed:
+            if float(np.min(np.hypot(all_dense_chk[:, 0] - float(b_rec["x"]), all_dense_chk[:, 1] - float(b_rec["z"])))) > 6.0:
+                orphan_bridges += 1
+
+    road_in_liq_no_bridge = 0
+    liq_strict = (water_mask > 0.32) | (lava_mask > 0.32)
+    b_pts_chk = [(float(b["x"]), float(b["z"])) for b in bridges_placed]
+    for ed in committed_edges:
+        for px_r, pz_r in ed["dense"]:
+            if liq_strict[wz_to_i(float(pz_r)), wx_to_j(float(px_r))]:
+                if not any(math.hypot(float(px_r) - bx_c, float(pz_r) - bz_c) < 42.0 for bx_c, bz_c in b_pts_chk):
+                    road_in_liq_no_bridge += 1
+
+    road_not_walkable = int(((road_mask > 0.24) & (~walkable)).sum())
+
     audit = {
         "BUILDINGS_ON_LIQUID": bldg_on_liq,
         "BUILDINGS_ON_ROAD": bldg_on_road,
         "BUILDING_OVERLAPS": bldg_overlaps,
         "ROADS_IN_OCEAN": roads_in_ocean,
         "ROAD_CROSSINGS": road_crossings,
+        "ROAD_IN_LIQ_NO_BRIDGE": road_in_liq_no_bridge,
+        "ROAD_NOT_WALKABLE": road_not_walkable,
         "BRIDGE_CLUSTERS": bridge_clusters,
+        "ORPHAN_BRIDGES": orphan_bridges,
         "MONSTERS_COUNT": len(monsters_list),
         "EXP_ZONES_COUNT": len(exp_zones_out),
         "NPCS_ON_LIQUID": npcs_on_liq,
@@ -2590,7 +2625,10 @@ def generate_continent(land_id: str) -> dict:
     assert bldg_overlaps == 0, f"{land_id}: BUILDING_OVERLAPS={bldg_overlaps}"
     assert roads_in_ocean == 0, f"{land_id}: ROADS_IN_OCEAN={roads_in_ocean}"
     assert road_crossings == 0, f"{land_id}: ROAD_CROSSINGS={road_crossings}"
+    assert road_in_liq_no_bridge == 0, f"{land_id}: ROAD_IN_LIQ_NO_BRIDGE={road_in_liq_no_bridge}"
+    assert road_not_walkable == 0, f"{land_id}: ROAD_NOT_WALKABLE={road_not_walkable}"
     assert bridge_clusters == 0, f"{land_id}: BRIDGE_CLUSTERS={bridge_clusters}"
+    assert orphan_bridges == 0, f"{land_id}: ORPHAN_BRIDGES={orphan_bridges}"
     assert len(roads_export) >= 50, f"{land_id}: ROADS_EXPORTED={len(roads_export)} < 50!"
     assert len(monsters_list) == 0, f"{land_id}: MONSTERS_COUNT={len(monsters_list)}"
     assert len(exp_zones_out) == 0, f"{land_id}: EXP_ZONES_COUNT={len(exp_zones_out)}"

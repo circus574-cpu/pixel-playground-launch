@@ -123,7 +123,7 @@ func _load_all_continent_details() -> void:
 # Format: [x0, ax_u, ax_v, y0, ay_u, ay_v] -> GUARANTEED 0/2468 road vertices in outer ocean across all 4 continents!
 const ATLAS_WORLD_AFFINE := {
 	"verdant": [-28.53, 681.21, -10.50, -18.43, -16.00, 553.48],
-	"aether": [977.55, 688.20, 24.00, 7.67, -12.00, 576.29],
+	"aether": [983.55, 653.79, 24.00, 9.67, -12.00, 541.71],
 	"nexus": [1484.09, 528.46, 9.50, 426.54, -11.50, 548.22],
 	"pyra": [354.31, 717.29, 2.00, 434.46, 1.00, 586.52],
 }

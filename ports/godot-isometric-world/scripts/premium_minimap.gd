@@ -12,6 +12,7 @@ const MAP_RADIUS := 112.0
 const MAP_CENTER := Vector2(128.0, 126.0)
 const WIDGET_SIZE := Vector2(256.0, 316.0)
 const ZOOM_LEVELS := [3.20, 1.90, 1.00]
+const ISO_ALIGN_ROT := -PI * 0.25 # Exact 1:1 match with iso(x,z) camera: NW=UP, NE=RIGHT, SE=DOWN, SW=LEFT!
 
 var world: Node2D
 var map_tex_rect := TextureRect.new()
@@ -27,10 +28,10 @@ var btn_globe := Button.new()
 
 var zoom_idx := 0
 var current_zoom := 3.20
-var rotate_with_hero := true
-var hero_heading := Vector2(0.0, -1.0)
-var map_rotation := 0.0
-var target_rotation := 0.0
+var rotate_with_hero := false
+var hero_heading := Vector2(-0.7071, -0.7071)
+var map_rotation := ISO_ALIGN_ROT
+var target_rotation := ISO_ALIGN_ROT
 var last_hero_pos := Vector2(512.0, 512.0)
 
 func _ready() -> void:
@@ -41,7 +42,7 @@ func _ready() -> void:
 	map_mat.shader = load("res://shaders/minimap_circle.gdshader")
 	map_mat.set_shader_parameter("center_uv", Vector2(0.5, 0.5))
 	map_mat.set_shader_parameter("zoom", current_zoom)
-	map_mat.set_shader_parameter("rotation_rad", 0.0)
+	map_mat.set_shader_parameter("rotation_rad", ISO_ALIGN_ROT)
 
 	map_tex_rect.position = MAP_CENTER - Vector2(MAP_RADIUS, MAP_RADIUS)
 	map_tex_rect.size = Vector2(MAP_DIAMETER, MAP_DIAMETER)
@@ -108,8 +109,8 @@ func build_location_plate() -> void:
 	btn_zoom.pressed.connect(toggle_zoom_mode)
 	hbox.add_child(btn_zoom)
 
-	btn_rot.text = "OBR"
-	btn_rot.tooltip_text = "Obracanie minimapy zgodnie z kierunkiem marszu"
+	btn_rot.text = "ISO"
+	btn_rot.tooltip_text = "Przełącz: 1:1 z ekranem (ISO) / obrót za kierunkiem marszu (OBR)"
 	btn_rot.custom_minimum_size = Vector2(36, 22)
 	btn_rot.add_theme_font_override("font", fb)
 	btn_rot.add_theme_font_size_override("font_size", 10)
@@ -150,9 +151,9 @@ func load_region_texture(land: String) -> void:
 	map_mat.set_shader_parameter("is_aether", 1.0 if land == "aether" else 0.0)
 	map_mat.set_shader_parameter("is_pyra", 1.0 if land == "pyra" else 0.0)
 	last_hero_pos = world.hero_pos
-	hero_heading = Vector2(0.0, -1.0)
-	map_rotation = 0.0
-	target_rotation = 0.0
+	hero_heading = Vector2(-0.7071, -0.7071)
+	map_rotation = ISO_ALIGN_ROT
+	target_rotation = ISO_ALIGN_ROT
 	refresh()
 
 func toggle_zoom_mode() -> void:
@@ -163,9 +164,9 @@ func toggle_zoom_mode() -> void:
 
 func toggle_rotate_mode() -> void:
 	rotate_with_hero = not rotate_with_hero
-	btn_rot.text = "OBR" if rotate_with_hero else "N↑"
+	btn_rot.text = "OBR" if rotate_with_hero else "ISO"
 	if not rotate_with_hero:
-		target_rotation = 0.0
+		target_rotation = ISO_ALIGN_ROT
 	refresh()
 
 func _on_radar_input(event: InputEvent) -> void:
@@ -201,6 +202,9 @@ func set_heading_immediate(dir: Vector2) -> void:
 			# Angle so that hero_heading points straight UP (0, -1) on radar!
 			target_rotation = hero_heading.angle() + PI * 0.5
 			map_rotation = target_rotation
+		else:
+			target_rotation = ISO_ALIGN_ROT
+			map_rotation = ISO_ALIGN_ROT
 
 func refresh(nearest_name: String = "", in_safe: bool = true) -> void:
 	if world == null:
@@ -213,7 +217,7 @@ func refresh(nearest_name: String = "", in_safe: bool = true) -> void:
 		if rotate_with_hero:
 			target_rotation = hero_heading.angle() + PI * 0.5
 	if not rotate_with_hero:
-		target_rotation = 0.0
+		target_rotation = ISO_ALIGN_ROT
 	map_rotation = lerp_angle(map_rotation, target_rotation, 0.22)
 
 	var center_uv := _hero_uv()
@@ -377,10 +381,10 @@ func _draw_overlay() -> void:
 			var edge_p := MAP_CENTER + dir * (clip_r - 2.0)
 			overlay_canvas.draw_circle(edge_p, 2.6, Color(0.76, 0.90, 1.0, 0.85))
 
-	# 6. Hero Permanently Centered at MAP_CENTER! (Points straight UP in rotating mode, or heading in N-up mode)
+	# 6. Hero Permanently Centered at MAP_CENTER! (Points straight UP in OBR mode, or exact screen-space heading in ISO mode)
 	var hp := MAP_CENTER
 	overlay_canvas.draw_arc(hp, 9.5 + pulse * 3.0, 0.0, TAU, 24, Color(0.32, 0.96, 1.0, 0.52 - pulse * 0.22), 1.6, true)
-	var fwd := Vector2(0.0, -1.0) if rotate_with_hero else hero_heading.normalized()
+	var fwd := Vector2(0.0, -1.0) if rotate_with_hero else hero_heading.normalized().rotated(-map_rotation)
 	var right := Vector2(-fwd.y, fwd.x)
 	var arrow := PackedVector2Array([
 		hp + fwd * 9.0,

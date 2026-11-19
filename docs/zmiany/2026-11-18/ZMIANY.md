@@ -187,3 +187,17 @@ Po przeglądzie zrzutu właściciela (`Screenshot_2026-11-19-17-39-06-30...jpg`)
   - Dodano przycinanie odcinków algorytmem Liang-Barsky (`_clip_seg_to_rect()`) do ramki mapy w `atlas_overlay.gd` i `map_3d.gd` oraz ujednolicono 4-stopniową stylizację kartograficzną dróg w Atlasie 2D, Mapie 3D, Globusie 3D i dynamicznej minimapie. Kanoniczne mapy (`map_art.png`, `minimap_hq.png`, `relief_3d.r32`, `planet_real_world.png`, `globe-real-world.webp`) pozostały nietknięte.
 - **Weryfikacja końcowa QA (`Godot 4.6.3 --qa`, 18 zrzutów ekranu):**
   - `ISO_WORLD_QA_OK`, kod wyjścia `0`, `0` błędów GDScript/shaderów, `0` wycieków RID, `projection_roundtrip_error_m = 0.0`; zweryfikowano wizualnie wszystkie odświeżone kadry w `docs/zmiany/2026-11-18/qa/` (w tym `planet-atlas.jpg`, `planet-atlas-zoom.jpg` `3.5×`, `globe-3d.jpg`, `map-3d.jpg`, `map-3d-zoom.jpg`, `map-3d-verdant.jpg`, wszystkie 4 stolice, 4 widoki miast regionalnych oraz mosty `pyra-bridge.jpg` i `wilderness-road.jpg`).
+
+## 10. Wyrównanie Minimapy 1:1 z Kamerą Izometryczną (`ISO`) oraz Pełny Audyt i Naprawa Wszystkich 4 Kontynentów (2026-11-19)
+
+Po przeglądzie zrzutu właściciela (`IMG_20261119_190937.jpg`) przeprowadzono pełny audyt wszystkich 4 kontynentów oraz wyrównano orientację minimapy z ekranem gry:
+
+- **Minimapa 1:1 zgodna z rzutem izometrycznym (`ports/godot-isometric-world/scripts/premium_minimap.gd`):**
+  - Wprowadzono bazowy kąt wyrównania `ISO_ALIGN_ROT = -PI * 0.25` (`-45°`, gdzie `NW = góra`, `NE = prawo`, `SE = dół`, `SW = lewo`, identycznie jak w `world.iso()`), eliminując rozjazd obrotu (`180°` / `45°`) pomiędzy drogami na ekranie a minimapą.
+  - Bohater pozostaje na stałe zakotwiczony w centrum minimapy, świat płynnie przesuwa się pod nim, strzałka kierunku obraca się dokładnie w ekranowym kierunku marszu (`hero_heading.rotated(-map_rotation)`), a przełącznik `ISO` / `OBR` nadal pozwala w dowolnym momencie przełączyć się na tryb obrotu mapy za kierunkiem marszu.
+- **Usunięcie defektów wykrytych pełnym audytem 4 kontynentów (`scripts/gpu/gen_world_topography.py`, `ports/godot-isometric-world/scripts/atlas_overlay.gd`):**
+  - Usunięto osierocone mosty w Aetherii (`19.8 m` od drogi) i Nexus-9 (`38.4 m` od drogi) przez wycofywanie mostów przy odrzuceniu krawędzi oraz filtrowanie mostów po przycięciu grafu osiągalności (`ORPHAN_BRIDGES = 0`).
+  - Odrzucono krawędzie dróg ocierające się o lawę/wodę bez mostu (`ROAD_IN_LIQ_NO_BRIDGE = 0`) i obniżono próg przechodniości pikseli dróg do `0.20` (`ROAD_NOT_WALKABLE = 0`), uzyskując **309 gładkich dróg** (`Pyra: 52`, `Verdantia: 92`, `Aetheria: 83`, `Nexus-9: 82`), `12` pojedynczych mostów i `26` regionalnych miast/warowni.
+  - Doprecyzowano kalibrację 6-DOF Aetherii w `ATLAS_WORLD_AFFINE` (`0 / 2 599` wierzchołków dróg w oceanie na `planet_real_world.png`).
+  - Weryfikacja: `TOPOGRAPHY_1TO1_AUDIT_PASS`, `ISO_WORLD_QA_OK` (Godot 4.6.3, 18 odświeżonych zrzutów zweryfikowanych wizualnie 1:1 na wszystkich 4 kontynentach), `check_documentation.py` (`PASS`).
+
