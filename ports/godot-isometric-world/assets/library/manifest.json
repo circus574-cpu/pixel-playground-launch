@@ -1,0 +1,829 @@
+{
+  "version": "2026-11-19-rtx6000ada-blender453",
+  "generator": {
+    "sdxl_assets": "DreamShaper XL v2 Turbo + InSPyReNet GPU Alpha Matting (RTX 6000 Ada)",
+    "isometric_bridges_and_forts": "Blender 4.5.3 Cycles OptiX (Exact 2:1 Iso 5.6:2.8)"
+  },
+  "counts": {
+    "castles": 4,
+    "buildings": 8,
+    "waterfalls": 6,
+    "props": 10,
+    "fortifications": 28,
+    "directional_bridges": 16,
+    "aether_winter_objects": 15,
+    "total_library_assets": 56
+  },
+  "categories": {
+    "castles": [
+      {
+        "id": "castle_aether_citadel",
+        "category": "castles",
+        "biome": "aether",
+        "file": "castle_aether_citadel.webp",
+        "res_path": "res://assets/library/castles/castle_aether_citadel.webp",
+        "w": 732,
+        "h": 768
+      },
+      {
+        "id": "castle_nexus_fortress",
+        "category": "castles",
+        "biome": "nexus",
+        "file": "castle_nexus_fortress.webp",
+        "res_path": "res://assets/library/castles/castle_nexus_fortress.webp",
+        "w": 765,
+        "h": 768
+      },
+      {
+        "id": "castle_pyra_obsidian",
+        "category": "castles",
+        "biome": "pyra",
+        "file": "castle_pyra_obsidian.webp",
+        "res_path": "res://assets/library/castles/castle_pyra_obsidian.webp",
+        "w": 760,
+        "h": 768
+      },
+      {
+        "id": "castle_verdant_keep",
+        "category": "castles",
+        "biome": "verdant",
+        "file": "castle_verdant_keep.webp",
+        "res_path": "res://assets/library/castles/castle_verdant_keep.webp",
+        "w": 768,
+        "h": 768
+      }
+    ],
+    "buildings": [
+      {
+        "id": "bldg_alchemist_hut",
+        "category": "buildings",
+        "biome": "universal",
+        "file": "bldg_alchemist_hut.webp",
+        "res_path": "res://assets/library/buildings/bldg_alchemist_hut.webp",
+        "w": 702,
+        "h": 768
+      },
+      {
+        "id": "bldg_cyber_dome",
+        "category": "buildings",
+        "biome": "nexus",
+        "file": "bldg_cyber_dome.webp",
+        "res_path": "res://assets/library/buildings/bldg_cyber_dome.webp",
+        "w": 721,
+        "h": 768
+      },
+      {
+        "id": "bldg_harbor_dockhouse",
+        "category": "buildings",
+        "biome": "universal",
+        "file": "bldg_harbor_dockhouse.webp",
+        "res_path": "res://assets/library/buildings/bldg_harbor_dockhouse.webp",
+        "w": 768,
+        "h": 736
+      },
+      {
+        "id": "bldg_obsidian_foundry",
+        "category": "buildings",
+        "biome": "pyra",
+        "file": "bldg_obsidian_foundry.webp",
+        "res_path": "res://assets/library/buildings/bldg_obsidian_foundry.webp",
+        "w": 735,
+        "h": 768
+      },
+      {
+        "id": "bldg_stables",
+        "category": "buildings",
+        "biome": "universal",
+        "file": "bldg_stables.webp",
+        "res_path": "res://assets/library/buildings/bldg_stables.webp",
+        "w": 768,
+        "h": 694
+      },
+      {
+        "id": "bldg_watchtower_stone",
+        "category": "buildings",
+        "biome": "universal",
+        "file": "bldg_watchtower_stone.webp",
+        "res_path": "res://assets/library/buildings/bldg_watchtower_stone.webp",
+        "w": 646,
+        "h": 768
+      },
+      {
+        "id": "bldg_windmill",
+        "category": "buildings",
+        "biome": "universal",
+        "file": "bldg_windmill.webp",
+        "res_path": "res://assets/library/buildings/bldg_windmill.webp",
+        "w": 659,
+        "h": 768
+      },
+      {
+        "id": "bldg_wizard_tower",
+        "category": "buildings",
+        "biome": "universal",
+        "file": "bldg_wizard_tower.webp",
+        "res_path": "res://assets/library/buildings/bldg_wizard_tower.webp",
+        "w": 410,
+        "h": 768
+      }
+    ],
+    "waterfalls": [
+      {
+        "id": "waterfall_cliff_spring",
+        "category": "waterfalls",
+        "biome": "universal",
+        "file": "waterfall_cliff_spring.webp",
+        "res_path": "res://assets/library/waterfalls/waterfall_cliff_spring.webp",
+        "w": 768,
+        "h": 759
+      },
+      {
+        "id": "waterfall_emerald_cascade",
+        "category": "waterfalls",
+        "biome": "verdant",
+        "file": "waterfall_emerald_cascade.webp",
+        "res_path": "res://assets/library/waterfalls/waterfall_emerald_cascade.webp",
+        "w": 768,
+        "h": 753
+      },
+      {
+        "id": "waterfall_forest_tall",
+        "category": "waterfalls",
+        "biome": "verdant",
+        "file": "waterfall_forest_tall.webp",
+        "res_path": "res://assets/library/waterfalls/waterfall_forest_tall.webp",
+        "w": 768,
+        "h": 768
+      },
+      {
+        "id": "waterfall_frozen_aether",
+        "category": "waterfalls",
+        "biome": "aether",
+        "file": "waterfall_frozen_aether.webp",
+        "res_path": "res://assets/library/waterfalls/waterfall_frozen_aether.webp",
+        "w": 588,
+        "h": 768
+      },
+      {
+        "id": "waterfall_lava_pyra",
+        "category": "waterfalls",
+        "biome": "pyra",
+        "file": "waterfall_lava_pyra.webp",
+        "res_path": "res://assets/library/waterfalls/waterfall_lava_pyra.webp",
+        "w": 768,
+        "h": 751
+      },
+      {
+        "id": "waterfall_plasma_nexus",
+        "category": "waterfalls",
+        "biome": "nexus",
+        "file": "waterfall_plasma_nexus.webp",
+        "res_path": "res://assets/library/waterfalls/waterfall_plasma_nexus.webp",
+        "w": 743,
+        "h": 768
+      }
+    ],
+    "props": [
+      {
+        "id": "prop_ancient_portal",
+        "category": "props",
+        "biome": "universal",
+        "file": "prop_ancient_portal.webp",
+        "res_path": "res://assets/library/props/prop_ancient_portal.webp",
+        "w": 768,
+        "h": 749
+      },
+      {
+        "id": "prop_bonfire_pit",
+        "category": "props",
+        "biome": "universal",
+        "file": "prop_bonfire_pit.webp",
+        "res_path": "res://assets/library/props/prop_bonfire_pit.webp",
+        "w": 674,
+        "h": 768
+      },
+      {
+        "id": "prop_camp_tent",
+        "category": "props",
+        "biome": "universal",
+        "file": "prop_camp_tent.webp",
+        "res_path": "res://assets/library/props/prop_camp_tent.webp",
+        "w": 768,
+        "h": 654
+      },
+      {
+        "id": "prop_guardian_statue",
+        "category": "props",
+        "biome": "universal",
+        "file": "prop_guardian_statue.webp",
+        "res_path": "res://assets/library/props/prop_guardian_statue.webp",
+        "w": 552,
+        "h": 768
+      },
+      {
+        "id": "prop_harbor_boat",
+        "category": "props",
+        "biome": "universal",
+        "file": "prop_harbor_boat.webp",
+        "res_path": "res://assets/library/props/prop_harbor_boat.webp",
+        "w": 672,
+        "h": 768
+      },
+      {
+        "id": "prop_ice_glacier_arch",
+        "category": "props",
+        "biome": "aether",
+        "file": "prop_ice_glacier_arch.webp",
+        "res_path": "res://assets/library/props/prop_ice_glacier_arch.webp",
+        "w": 768,
+        "h": 675
+      },
+      {
+        "id": "prop_merchant_wagon",
+        "category": "props",
+        "biome": "universal",
+        "file": "prop_merchant_wagon.webp",
+        "res_path": "res://assets/library/props/prop_merchant_wagon.webp",
+        "w": 591,
+        "h": 768
+      },
+      {
+        "id": "prop_ruined_archway",
+        "category": "props",
+        "biome": "universal",
+        "file": "prop_ruined_archway.webp",
+        "res_path": "res://assets/library/props/prop_ruined_archway.webp",
+        "w": 768,
+        "h": 753
+      },
+      {
+        "id": "prop_runic_obelisk",
+        "category": "props",
+        "biome": "universal",
+        "file": "prop_runic_obelisk.webp",
+        "res_path": "res://assets/library/props/prop_runic_obelisk.webp",
+        "w": 391,
+        "h": 768
+      },
+      {
+        "id": "prop_waystone_pillar",
+        "category": "props",
+        "biome": "universal",
+        "file": "prop_waystone_pillar.webp",
+        "res_path": "res://assets/library/props/prop_waystone_pillar.webp",
+        "w": 671,
+        "h": 768
+      }
+    ],
+    "fortifications": [
+      {
+        "id": "aether-fort-corner",
+        "category": "fortifications",
+        "biome": "aether",
+        "piece": "corner",
+        "file": "aether-fort-corner.webp",
+        "res_path": "res://assets/library/fortifications/aether-fort-corner.webp",
+        "w": 480,
+        "h": 426
+      },
+      {
+        "id": "aether-fort-gate_x",
+        "category": "fortifications",
+        "biome": "aether",
+        "piece": "gate_x",
+        "file": "aether-fort-gate_x.webp",
+        "res_path": "res://assets/library/fortifications/aether-fort-gate_x.webp",
+        "w": 490,
+        "h": 492
+      },
+      {
+        "id": "aether-fort-gate_z",
+        "category": "fortifications",
+        "biome": "aether",
+        "piece": "gate_z",
+        "file": "aether-fort-gate_z.webp",
+        "res_path": "res://assets/library/fortifications/aether-fort-gate_z.webp",
+        "w": 490,
+        "h": 492
+      },
+      {
+        "id": "aether-fort-ruined_wall",
+        "category": "fortifications",
+        "biome": "aether",
+        "piece": "ruined_wall",
+        "file": "aether-fort-ruined_wall.webp",
+        "res_path": "res://assets/library/fortifications/aether-fort-ruined_wall.webp",
+        "w": 422,
+        "h": 324
+      },
+      {
+        "id": "aether-fort-tower",
+        "category": "fortifications",
+        "biome": "aether",
+        "piece": "tower",
+        "file": "aether-fort-tower.webp",
+        "res_path": "res://assets/library/fortifications/aether-fort-tower.webp",
+        "w": 326,
+        "h": 487
+      },
+      {
+        "id": "aether-fort-wall_x",
+        "category": "fortifications",
+        "biome": "aether",
+        "piece": "wall_x",
+        "file": "aether-fort-wall_x.webp",
+        "res_path": "res://assets/library/fortifications/aether-fort-wall_x.webp",
+        "w": 422,
+        "h": 366
+      },
+      {
+        "id": "aether-fort-wall_z",
+        "category": "fortifications",
+        "biome": "aether",
+        "piece": "wall_z",
+        "file": "aether-fort-wall_z.webp",
+        "res_path": "res://assets/library/fortifications/aether-fort-wall_z.webp",
+        "w": 422,
+        "h": 388
+      },
+      {
+        "id": "nexus-fort-corner",
+        "category": "fortifications",
+        "biome": "nexus",
+        "piece": "corner",
+        "file": "nexus-fort-corner.webp",
+        "res_path": "res://assets/library/fortifications/nexus-fort-corner.webp",
+        "w": 480,
+        "h": 426
+      },
+      {
+        "id": "nexus-fort-gate_x",
+        "category": "fortifications",
+        "biome": "nexus",
+        "piece": "gate_x",
+        "file": "nexus-fort-gate_x.webp",
+        "res_path": "res://assets/library/fortifications/nexus-fort-gate_x.webp",
+        "w": 490,
+        "h": 492
+      },
+      {
+        "id": "nexus-fort-gate_z",
+        "category": "fortifications",
+        "biome": "nexus",
+        "piece": "gate_z",
+        "file": "nexus-fort-gate_z.webp",
+        "res_path": "res://assets/library/fortifications/nexus-fort-gate_z.webp",
+        "w": 490,
+        "h": 492
+      },
+      {
+        "id": "nexus-fort-ruined_wall",
+        "category": "fortifications",
+        "biome": "nexus",
+        "piece": "ruined_wall",
+        "file": "nexus-fort-ruined_wall.webp",
+        "res_path": "res://assets/library/fortifications/nexus-fort-ruined_wall.webp",
+        "w": 422,
+        "h": 324
+      },
+      {
+        "id": "nexus-fort-tower",
+        "category": "fortifications",
+        "biome": "nexus",
+        "piece": "tower",
+        "file": "nexus-fort-tower.webp",
+        "res_path": "res://assets/library/fortifications/nexus-fort-tower.webp",
+        "w": 326,
+        "h": 487
+      },
+      {
+        "id": "nexus-fort-wall_x",
+        "category": "fortifications",
+        "biome": "nexus",
+        "piece": "wall_x",
+        "file": "nexus-fort-wall_x.webp",
+        "res_path": "res://assets/library/fortifications/nexus-fort-wall_x.webp",
+        "w": 422,
+        "h": 366
+      },
+      {
+        "id": "nexus-fort-wall_z",
+        "category": "fortifications",
+        "biome": "nexus",
+        "piece": "wall_z",
+        "file": "nexus-fort-wall_z.webp",
+        "res_path": "res://assets/library/fortifications/nexus-fort-wall_z.webp",
+        "w": 422,
+        "h": 388
+      },
+      {
+        "id": "pyra-fort-corner",
+        "category": "fortifications",
+        "biome": "pyra",
+        "piece": "corner",
+        "file": "pyra-fort-corner.webp",
+        "res_path": "res://assets/library/fortifications/pyra-fort-corner.webp",
+        "w": 480,
+        "h": 426
+      },
+      {
+        "id": "pyra-fort-gate_x",
+        "category": "fortifications",
+        "biome": "pyra",
+        "piece": "gate_x",
+        "file": "pyra-fort-gate_x.webp",
+        "res_path": "res://assets/library/fortifications/pyra-fort-gate_x.webp",
+        "w": 490,
+        "h": 492
+      },
+      {
+        "id": "pyra-fort-gate_z",
+        "category": "fortifications",
+        "biome": "pyra",
+        "piece": "gate_z",
+        "file": "pyra-fort-gate_z.webp",
+        "res_path": "res://assets/library/fortifications/pyra-fort-gate_z.webp",
+        "w": 490,
+        "h": 492
+      },
+      {
+        "id": "pyra-fort-ruined_wall",
+        "category": "fortifications",
+        "biome": "pyra",
+        "piece": "ruined_wall",
+        "file": "pyra-fort-ruined_wall.webp",
+        "res_path": "res://assets/library/fortifications/pyra-fort-ruined_wall.webp",
+        "w": 422,
+        "h": 324
+      },
+      {
+        "id": "pyra-fort-tower",
+        "category": "fortifications",
+        "biome": "pyra",
+        "piece": "tower",
+        "file": "pyra-fort-tower.webp",
+        "res_path": "res://assets/library/fortifications/pyra-fort-tower.webp",
+        "w": 326,
+        "h": 487
+      },
+      {
+        "id": "pyra-fort-wall_x",
+        "category": "fortifications",
+        "biome": "pyra",
+        "piece": "wall_x",
+        "file": "pyra-fort-wall_x.webp",
+        "res_path": "res://assets/library/fortifications/pyra-fort-wall_x.webp",
+        "w": 422,
+        "h": 366
+      },
+      {
+        "id": "pyra-fort-wall_z",
+        "category": "fortifications",
+        "biome": "pyra",
+        "piece": "wall_z",
+        "file": "pyra-fort-wall_z.webp",
+        "res_path": "res://assets/library/fortifications/pyra-fort-wall_z.webp",
+        "w": 422,
+        "h": 388
+      },
+      {
+        "id": "verdant-fort-corner",
+        "category": "fortifications",
+        "biome": "verdant",
+        "piece": "corner",
+        "file": "verdant-fort-corner.webp",
+        "res_path": "res://assets/library/fortifications/verdant-fort-corner.webp",
+        "w": 480,
+        "h": 426
+      },
+      {
+        "id": "verdant-fort-gate_x",
+        "category": "fortifications",
+        "biome": "verdant",
+        "piece": "gate_x",
+        "file": "verdant-fort-gate_x.webp",
+        "res_path": "res://assets/library/fortifications/verdant-fort-gate_x.webp",
+        "w": 490,
+        "h": 492
+      },
+      {
+        "id": "verdant-fort-gate_z",
+        "category": "fortifications",
+        "biome": "verdant",
+        "piece": "gate_z",
+        "file": "verdant-fort-gate_z.webp",
+        "res_path": "res://assets/library/fortifications/verdant-fort-gate_z.webp",
+        "w": 490,
+        "h": 492
+      },
+      {
+        "id": "verdant-fort-ruined_wall",
+        "category": "fortifications",
+        "biome": "verdant",
+        "piece": "ruined_wall",
+        "file": "verdant-fort-ruined_wall.webp",
+        "res_path": "res://assets/library/fortifications/verdant-fort-ruined_wall.webp",
+        "w": 422,
+        "h": 324
+      },
+      {
+        "id": "verdant-fort-tower",
+        "category": "fortifications",
+        "biome": "verdant",
+        "piece": "tower",
+        "file": "verdant-fort-tower.webp",
+        "res_path": "res://assets/library/fortifications/verdant-fort-tower.webp",
+        "w": 326,
+        "h": 487
+      },
+      {
+        "id": "verdant-fort-wall_x",
+        "category": "fortifications",
+        "biome": "verdant",
+        "piece": "wall_x",
+        "file": "verdant-fort-wall_x.webp",
+        "res_path": "res://assets/library/fortifications/verdant-fort-wall_x.webp",
+        "w": 422,
+        "h": 366
+      },
+      {
+        "id": "verdant-fort-wall_z",
+        "category": "fortifications",
+        "biome": "verdant",
+        "piece": "wall_z",
+        "file": "verdant-fort-wall_z.webp",
+        "res_path": "res://assets/library/fortifications/verdant-fort-wall_z.webp",
+        "w": 422,
+        "h": 388
+      }
+    ]
+  },
+  "directional_bridges": [
+    {
+      "id": "aether-bridge-ew",
+      "file": "aether-bridge-ew.webp",
+      "res_path": "res://assets/objects/aether-bridge-ew.webp",
+      "w": 640,
+      "h": 353,
+      "biome": "aether",
+      "axis": "ew"
+    },
+    {
+      "id": "aether-bridge-ns",
+      "file": "aether-bridge-ns.webp",
+      "res_path": "res://assets/objects/aether-bridge-ns.webp",
+      "w": 284,
+      "h": 458,
+      "biome": "aether",
+      "axis": "ns"
+    },
+    {
+      "id": "aether-bridge-x",
+      "file": "aether-bridge-x.webp",
+      "res_path": "res://assets/objects/aether-bridge-x.webp",
+      "w": 626,
+      "h": 450,
+      "biome": "aether",
+      "axis": "x"
+    },
+    {
+      "id": "aether-bridge-z",
+      "file": "aether-bridge-z.webp",
+      "res_path": "res://assets/objects/aether-bridge-z.webp",
+      "w": 626,
+      "h": 450,
+      "biome": "aether",
+      "axis": "z"
+    },
+    {
+      "id": "nexus-bridge-ew",
+      "file": "nexus-bridge-ew.webp",
+      "res_path": "res://assets/objects/nexus-bridge-ew.webp",
+      "w": 640,
+      "h": 348,
+      "biome": "nexus",
+      "axis": "ew"
+    },
+    {
+      "id": "nexus-bridge-ns",
+      "file": "nexus-bridge-ns.webp",
+      "res_path": "res://assets/objects/nexus-bridge-ns.webp",
+      "w": 284,
+      "h": 452,
+      "biome": "nexus",
+      "axis": "ns"
+    },
+    {
+      "id": "nexus-bridge-x",
+      "file": "nexus-bridge-x.webp",
+      "res_path": "res://assets/objects/nexus-bridge-x.webp",
+      "w": 626,
+      "h": 444,
+      "biome": "nexus",
+      "axis": "x"
+    },
+    {
+      "id": "nexus-bridge-z",
+      "file": "nexus-bridge-z.webp",
+      "res_path": "res://assets/objects/nexus-bridge-z.webp",
+      "w": 626,
+      "h": 443,
+      "biome": "nexus",
+      "axis": "z"
+    },
+    {
+      "id": "pyra-bridge-ew",
+      "file": "pyra-bridge-ew.webp",
+      "res_path": "res://assets/objects/pyra-bridge-ew.webp",
+      "w": 640,
+      "h": 348,
+      "biome": "pyra",
+      "axis": "ew"
+    },
+    {
+      "id": "pyra-bridge-ns",
+      "file": "pyra-bridge-ns.webp",
+      "res_path": "res://assets/objects/pyra-bridge-ns.webp",
+      "w": 284,
+      "h": 452,
+      "biome": "pyra",
+      "axis": "ns"
+    },
+    {
+      "id": "pyra-bridge-x",
+      "file": "pyra-bridge-x.webp",
+      "res_path": "res://assets/objects/pyra-bridge-x.webp",
+      "w": 626,
+      "h": 444,
+      "biome": "pyra",
+      "axis": "x"
+    },
+    {
+      "id": "pyra-bridge-z",
+      "file": "pyra-bridge-z.webp",
+      "res_path": "res://assets/objects/pyra-bridge-z.webp",
+      "w": 626,
+      "h": 443,
+      "biome": "pyra",
+      "axis": "z"
+    },
+    {
+      "id": "verdant-bridge-ew",
+      "file": "verdant-bridge-ew.webp",
+      "res_path": "res://assets/objects/verdant-bridge-ew.webp",
+      "w": 640,
+      "h": 348,
+      "biome": "verdant",
+      "axis": "ew"
+    },
+    {
+      "id": "verdant-bridge-ns",
+      "file": "verdant-bridge-ns.webp",
+      "res_path": "res://assets/objects/verdant-bridge-ns.webp",
+      "w": 284,
+      "h": 452,
+      "biome": "verdant",
+      "axis": "ns"
+    },
+    {
+      "id": "verdant-bridge-x",
+      "file": "verdant-bridge-x.webp",
+      "res_path": "res://assets/objects/verdant-bridge-x.webp",
+      "w": 626,
+      "h": 444,
+      "biome": "verdant",
+      "axis": "x"
+    },
+    {
+      "id": "verdant-bridge-z",
+      "file": "verdant-bridge-z.webp",
+      "res_path": "res://assets/objects/verdant-bridge-z.webp",
+      "w": 626,
+      "h": 443,
+      "biome": "verdant",
+      "axis": "z"
+    }
+  ],
+  "aether_winter_objects": [
+    {
+      "id": "aether-ice-crystal",
+      "file": "aether-ice-crystal.webp",
+      "res_path": "res://assets/objects/aether-ice-crystal.webp",
+      "w": 768,
+      "h": 739,
+      "biome": "aether"
+    },
+    {
+      "id": "aether-ice-ruin",
+      "file": "aether-ice-ruin.webp",
+      "res_path": "res://assets/objects/aether-ice-ruin.webp",
+      "w": 768,
+      "h": 716,
+      "biome": "aether"
+    },
+    {
+      "id": "aether-snow-arena",
+      "file": "aether-snow-arena.webp",
+      "res_path": "res://assets/objects/aether-snow-arena.webp",
+      "w": 768,
+      "h": 757,
+      "biome": "aether"
+    },
+    {
+      "id": "aether-snow-depot",
+      "file": "aether-snow-depot.webp",
+      "res_path": "res://assets/objects/aether-snow-depot.webp",
+      "w": 759,
+      "h": 768,
+      "biome": "aether"
+    },
+    {
+      "id": "aether-snow-hall",
+      "file": "aether-snow-hall.webp",
+      "res_path": "res://assets/objects/aether-snow-hall.webp",
+      "w": 733,
+      "h": 768,
+      "biome": "aether"
+    },
+    {
+      "id": "aether-snow-house",
+      "file": "aether-snow-house.webp",
+      "res_path": "res://assets/objects/aether-snow-house.webp",
+      "w": 766,
+      "h": 768,
+      "biome": "aether"
+    },
+    {
+      "id": "aether-snow-inn",
+      "file": "aether-snow-inn.webp",
+      "res_path": "res://assets/objects/aether-snow-inn.webp",
+      "w": 711,
+      "h": 768,
+      "biome": "aether"
+    },
+    {
+      "id": "aether-snow-observatory",
+      "file": "aether-snow-observatory.webp",
+      "res_path": "res://assets/objects/aether-snow-observatory.webp",
+      "w": 766,
+      "h": 768,
+      "biome": "aether"
+    },
+    {
+      "id": "aether-snow-pine1",
+      "file": "aether-snow-pine1.webp",
+      "res_path": "res://assets/objects/aether-snow-pine1.webp",
+      "w": 531,
+      "h": 768,
+      "biome": "aether"
+    },
+    {
+      "id": "aether-snow-pine2",
+      "file": "aether-snow-pine2.webp",
+      "res_path": "res://assets/objects/aether-snow-pine2.webp",
+      "w": 768,
+      "h": 743,
+      "biome": "aether"
+    },
+    {
+      "id": "aether-snow-rock",
+      "file": "aether-snow-rock.webp",
+      "res_path": "res://assets/objects/aether-snow-rock.webp",
+      "w": 741,
+      "h": 768,
+      "biome": "aether"
+    },
+    {
+      "id": "aether-snow-sanctum",
+      "file": "aether-snow-sanctum.webp",
+      "res_path": "res://assets/objects/aether-snow-sanctum.webp",
+      "w": 703,
+      "h": 768,
+      "biome": "aether"
+    },
+    {
+      "id": "aether-snow-shop",
+      "file": "aether-snow-shop.webp",
+      "res_path": "res://assets/objects/aether-snow-shop.webp",
+      "w": 768,
+      "h": 755,
+      "biome": "aether"
+    },
+    {
+      "id": "aether-snow-shrine",
+      "file": "aether-snow-shrine.webp",
+      "res_path": "res://assets/objects/aether-snow-shrine.webp",
+      "w": 666,
+      "h": 768,
+      "biome": "aether"
+    },
+    {
+      "id": "aether-snow-smithy",
+      "file": "aether-snow-smithy.webp",
+      "res_path": "res://assets/objects/aether-snow-smithy.webp",
+      "w": 742,
+      "h": 768,
+      "biome": "aether"
+    }
+  ]
+}

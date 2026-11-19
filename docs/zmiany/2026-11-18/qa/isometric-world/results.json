@@ -1,49 +1,69 @@
 {
-  "phase": "AAA Studio Architecture + Ornate Action-RPG HUD & 29-Node Constellation + Open-World Wilderness Roads",
+  "phase": "1:1 Canonical Map-Synced World + RTX 6000 Ada Winter Aetheria & Reserve Library + Blender Directional Bridges + Wild Rift Mobile HUD",
   "project": "ports/godot-isometric-world",
   "projection_roundtrip_error_m": 0.0,
   "regions": {
     "aether": {
-      "buildings_count": 67,
+      "bridges_count": 4,
+      "buildings_count": 34,
+      "capital_center": [
+        101.0,
+        -135.0
+      ],
       "exp_zones_count": 6,
       "fauna_count": 18,
       "grid_size": 512,
       "monsters_count": 30,
       "npcs_count": 10,
-      "props_count": 332,
-      "title": "Aetheria — Sanktuarium Tysiąca Źródeł i Niebiańskie Tarasy",
+      "props_count": 225,
+      "title": "Aetheria — Lodowe Sanktuarium i Śnieżne Szczyty",
       "world_size_m": 1024.0
     },
     "nexus": {
-      "buildings_count": 69,
+      "bridges_count": 2,
+      "buildings_count": 36,
+      "capital_center": [
+        60.0,
+        6.0
+      ],
       "exp_zones_count": 6,
       "fauna_count": 18,
       "grid_size": 512,
       "monsters_count": 30,
       "npcs_count": 10,
-      "props_count": 337,
+      "props_count": 203,
       "title": "Nexus-9 — Węzeł Świadomości i Obwody Rdzeni",
       "world_size_m": 1024.0
     },
     "pyra": {
-      "buildings_count": 78,
+      "bridges_count": 8,
+      "buildings_count": 38,
+      "capital_center": [
+        32.0,
+        -33.0
+      ],
       "exp_zones_count": 6,
       "fauna_count": 18,
       "grid_size": 512,
       "monsters_count": 30,
       "npcs_count": 10,
-      "props_count": 328,
+      "props_count": 187,
       "title": "Pyra — Twierdza Popiołu i Wulkaniczny Kontynent",
       "world_size_m": 1024.0
     },
     "verdant": {
-      "buildings_count": 73,
+      "bridges_count": 7,
+      "buildings_count": 37,
+      "capital_center": [
+        -155.0,
+        -110.0
+      ],
       "exp_zones_count": 6,
       "fauna_count": 18,
       "grid_size": 512,
       "monsters_count": 30,
       "npcs_count": 10,
-      "props_count": 310,
+      "props_count": 206,
       "title": "Verdantia — Zielona Przystań i Szmaragdowa Dolina",
       "world_size_m": 1024.0
     }
@@ -62,6 +82,7 @@
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/map-3d.jpg",
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/map-3d-verdant.jpg",
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/wilderness-road.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/pyra-bridge.jpg",
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/talent-tree.jpg",
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/isometric-world/character-sheet.jpg"
   ]

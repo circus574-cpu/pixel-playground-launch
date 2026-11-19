@@ -217,57 +217,134 @@
       "land_id": "pyra",
       "grid_size": 512,
       "world_size_m": 1024.0,
-      "height_min_m": -6.04,
-      "height_max_m": 39.63,
-      "walkable_ratio": 0.867,
-      "buildings_count": 78,
+      "capital_center": [
+        32.0,
+        -33.0
+      ],
+      "height_min_m": -4.2,
+      "height_max_m": 24.99,
+      "walkable_ratio": 0.264,
+      "buildings_count": 38,
+      "bridges_count": 8,
+      "waterfalls_count": 3,
       "npcs_count": 10,
       "exp_zones_count": 6,
       "monsters_count": 30,
       "fauna_count": 18,
-      "props_count": 328
+      "props_count": 187,
+      "audit": {
+        "BUILDINGS_ON_LIQUID": 0,
+        "BUILDING_OVERLAPS": 0,
+        "NPCS_ON_LIQUID": 0,
+        "MONSTERS_ON_LIQUID": 0,
+        "FAUNA_ON_LIQUID": 0,
+        "PROPS_ON_LIQUID": 0,
+        "EXP_ZONES_ON_LIQUID": 0,
+        "AETHER_SUMMER_ON_SNOW": 0,
+        "MISSING_SPRITES": 0,
+        "BRIDGES_PLACED": 8,
+        "WATERFALLS_PLACED": 3
+      }
     },
     "verdant": {
       "land_id": "verdant",
       "grid_size": 512,
       "world_size_m": 1024.0,
-      "height_min_m": -3.35,
-      "height_max_m": 60.15,
-      "walkable_ratio": 0.561,
-      "buildings_count": 73,
+      "capital_center": [
+        -155.0,
+        -110.0
+      ],
+      "height_min_m": -4.2,
+      "height_max_m": 26.43,
+      "walkable_ratio": 0.369,
+      "buildings_count": 37,
+      "bridges_count": 7,
+      "waterfalls_count": 3,
       "npcs_count": 10,
       "exp_zones_count": 6,
       "monsters_count": 30,
       "fauna_count": 18,
-      "props_count": 310
+      "props_count": 206,
+      "audit": {
+        "BUILDINGS_ON_LIQUID": 0,
+        "BUILDING_OVERLAPS": 0,
+        "NPCS_ON_LIQUID": 0,
+        "MONSTERS_ON_LIQUID": 0,
+        "FAUNA_ON_LIQUID": 0,
+        "PROPS_ON_LIQUID": 0,
+        "EXP_ZONES_ON_LIQUID": 0,
+        "AETHER_SUMMER_ON_SNOW": 0,
+        "MISSING_SPRITES": 0,
+        "BRIDGES_PLACED": 7,
+        "WATERFALLS_PLACED": 3
+      }
     },
     "aether": {
       "land_id": "aether",
       "grid_size": 512,
       "world_size_m": 1024.0,
-      "height_min_m": -4.62,
-      "height_max_m": 42.85,
-      "walkable_ratio": 0.81,
-      "buildings_count": 67,
+      "capital_center": [
+        101.0,
+        -135.0
+      ],
+      "height_min_m": -4.2,
+      "height_max_m": 26.26,
+      "walkable_ratio": 0.333,
+      "buildings_count": 34,
+      "bridges_count": 4,
+      "waterfalls_count": 3,
       "npcs_count": 10,
       "exp_zones_count": 6,
       "monsters_count": 30,
       "fauna_count": 18,
-      "props_count": 332
+      "props_count": 225,
+      "audit": {
+        "BUILDINGS_ON_LIQUID": 0,
+        "BUILDING_OVERLAPS": 0,
+        "NPCS_ON_LIQUID": 0,
+        "MONSTERS_ON_LIQUID": 0,
+        "FAUNA_ON_LIQUID": 0,
+        "PROPS_ON_LIQUID": 0,
+        "EXP_ZONES_ON_LIQUID": 0,
+        "AETHER_SUMMER_ON_SNOW": 0,
+        "MISSING_SPRITES": 0,
+        "BRIDGES_PLACED": 4,
+        "WATERFALLS_PLACED": 3
+      }
     },
     "nexus": {
       "land_id": "nexus",
       "grid_size": 512,
       "world_size_m": 1024.0,
-      "height_min_m": -6.8,
-      "height_max_m": 18.32,
-      "walkable_ratio": 0.734,
-      "buildings_count": 69,
+      "capital_center": [
+        60.0,
+        6.0
+      ],
+      "height_min_m": -4.2,
+      "height_max_m": 25.64,
+      "walkable_ratio": 0.322,
+      "buildings_count": 36,
+      "bridges_count": 2,
+      "waterfalls_count": 3,
       "npcs_count": 10,
       "exp_zones_count": 6,
       "monsters_count": 30,
       "fauna_count": 18,
-      "props_count": 337
+      "props_count": 203,
+      "audit": {
+        "BUILDINGS_ON_LIQUID": 0,
+        "BUILDING_OVERLAPS": 0,
+        "NPCS_ON_LIQUID": 0,
+        "MONSTERS_ON_LIQUID": 0,
+        "FAUNA_ON_LIQUID": 0,
+        "PROPS_ON_LIQUID": 0,
+        "EXP_ZONES_ON_LIQUID": 0,
+        "AETHER_SUMMER_ON_SNOW": 0,
+        "MISSING_SPRITES": 0,
+        "BRIDGES_PLACED": 2,
+        "WATERFALLS_PLACED": 3
+      }
     }
-  }
+  },
+  "sync_mode": "1:1 canonical map_art.png + relief_3d.r32"
 }

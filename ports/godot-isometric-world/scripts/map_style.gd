@@ -9,21 +9,34 @@ const PLAQUE_BG := Color(0.07, 0.05, 0.05, 0.74)
 const PLAQUE_EDGE := Color(0.62, 0.45, 0.26, 0.9)
 
 static var title_font: Font
+static var ui_body_font: Font
 static var vignette_texture: GradientTexture2D
+
+static func _load_font_path(res_path: String) -> Font:
+	if ResourceLoader.exists(res_path):
+		var loaded := load(res_path)
+		if loaded is Font:
+			return loaded as Font
+	var abs_p := ProjectSettings.globalize_path(res_path)
+	if FileAccess.file_exists(abs_p):
+		var ff := FontFile.new()
+		if ff.load_dynamic_font(abs_p) == OK:
+			return ff
+	return null
 
 static func font() -> Font:
 	if title_font == null:
-		if ResourceLoader.exists("res://assets/branding/cinzel-bold.ttf"):
-			title_font = load("res://assets/branding/cinzel-bold.ttf")
-		else:
-			var abs_p := ProjectSettings.globalize_path("res://assets/branding/cinzel-bold.ttf")
-			if FileAccess.file_exists(abs_p):
-				var ff := FontFile.new()
-				if ff.load_dynamic_font(abs_p) == OK:
-					title_font = ff
+		title_font = _load_font_path("res://assets/branding/cinzel-bold.ttf")
 		if title_font == null:
 			title_font = ThemeDB.fallback_font
 	return title_font
+
+static func body_font() -> Font:
+	if ui_body_font == null:
+		ui_body_font = _load_font_path("res://assets/branding/alegreya-bold.ttf")
+		if ui_body_font == null:
+			ui_body_font = font()
+	return ui_body_font
 
 static func plaque(canvas: CanvasItem, at: Vector2, label: String, size_px: int, color: Color, strong: bool = true) -> Rect2:
 	var text := label.to_upper()

@@ -8,8 +8,10 @@ uniform sampler2D mat_3_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D water_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D weights_tex : filter_linear;
 uniform sampler2D surface_tex : filter_linear;
+uniform sampler2D map_art_tex : source_color, filter_linear;
 uniform vec3 surface_color = vec3(1.0, 0.28, 0.04);
 uniform float uv_scale = 88.0;
+uniform float map_tint_strength = 0.48;
 
 float hash21(vec2 p) {
 	p = fract(p * vec2(123.34, 456.21));
@@ -54,8 +56,19 @@ void fragment() {
 	vec3 c3 = texture(mat_3_tex, uv * 0.85).rgb;
 
 	vec3 ground = c0 * weights.r + c1 * weights.g + c2 * weights.b + c3 * weights.a;
-	// Subtle dappled sunlight & cloud variation so open grass/rock never looks flat or tiled
-	ground *= mix(0.92, 1.08, n_macro);
+
+	// 1:1 Macro Biome Color Sync with Canonical map_art.png (preserves crisp PBR micro-grain while guaranteeing
+	// exact visual match to the minimap: snowy Aetheria + NW green oasis, snowy NE Verdantia peaks, Nexus tan/silver!)
+	vec3 map_col = texture(map_art_tex, UV).rgb;
+	float pbr_lum = max(dot(ground, vec3(0.299, 0.587, 0.114)), 0.08);
+	float map_lum = max(dot(map_col, vec3(0.299, 0.587, 0.114)), 0.08);
+	vec3 detail_grain = clamp(ground / pbr_lum, vec3(0.55), vec3(1.55));
+	vec3 synced_ground = clamp(map_col * mix(vec3(1.0), detail_grain, 0.68), vec3(0.0), vec3(1.0));
+	// Boost snow brightness & micro-sparkle when canonical map_art is bright snow
+	float is_snow = smoothstep(0.68, 0.84, map_lum) * (1.0 - smoothstep(0.18, 0.34, max(max(map_col.r, map_col.g), map_col.b) - min(min(map_col.r, map_col.g), map_col.b)));
+	ground = mix(ground, synced_ground, clamp(map_tint_strength + is_snow * 0.25, 0.0, 0.85));
+	// Subtle dappled sunlight & cloud variation so open grass/snow/rock never looks flat or tiled
+	ground *= mix(0.93, 1.07, n_macro);
 
 	vec4 surf = texture(surface_tex, UV);
 
@@ -64,7 +77,7 @@ void fragment() {
 	if (road_raw > 0.06) {
 		float road_alpha = smoothstep(0.14, 0.44, road_raw);
 		float curb = smoothstep(0.12, 0.28, road_raw) * (1.0 - smoothstep(0.28, 0.50, road_raw));
-		vec3 road_col = mix(c2 * 1.06, vec3(0.84, 0.77, 0.65), 0.14);
+		vec3 road_col = mix(c2 * 1.06, vec3(0.84, 0.77, 0.65), 0.12);
 		road_col *= mix(0.94, 1.06, n_fine);
 		road_col = mix(road_col, road_col * 0.66, curb * 0.78);
 		ground = mix(ground, road_col, road_alpha);

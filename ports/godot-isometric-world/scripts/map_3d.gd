@@ -133,7 +133,8 @@ func rebuild_for_region() -> void:
 	terrain_node.material_override = mat
 
 	var half := ws * 0.5
-	capital_pin.position = Vector3(0.0, relief_at_world(half, half) * 1.45 + 16.0, 0.0)
+	var cap_p: Vector2 = world.capital_center
+	capital_pin.position = Vector3(cap_p.x - half, relief_at_world(cap_p.x, cap_p.y) * 1.45 + 16.0, cap_p.y - half)
 
 	for child in pins.get_children():
 		child.queue_free()
@@ -145,14 +146,13 @@ func rebuild_for_region() -> void:
 		pins.add_child(pin)
 
 func _snap_pin_to_land(ex: float, ez_z: float, ws: float) -> Vector2:
-	var half := ws * 0.5
-	var center := Vector2(half, half)
+	var center: Vector2 = world.capital_center if world != null else Vector2(ws * 0.5, ws * 0.5)
 	var p := Vector2(ex, ez_z)
-	# Pull inward slightly until standing firmly on sculpted land (relief > 4.0)
+	# Keep exact canonical exp-zone location when already on sculpted land
 	for step in 16:
 		var t := 1.0 - float(step) * 0.045
 		var cand := center.lerp(p, t)
-		if relief_at_world(cand.x, cand.y) > 4.5:
+		if relief_at_world(cand.x, cand.y) > 2.5:
 			return cand
 	return center.lerp(p, 0.62)
 
@@ -225,7 +225,7 @@ func orbit(rel: Vector2) -> void:
 	pitch = clampf(pitch + rel.y * 0.007, 0.32, 1.35)
 
 func _draw() -> void:
-	var f: Font = MapStyle.font()
+	var f: Font = MapStyle.body_font()
 	var rect := Rect2(Vector2.ZERO, size)
 	draw_rect(rect, Color(0.86, 0.68, 0.36, 0.90), false, 3.0)
 	draw_rect(Rect2(12, 10, size.x - 24, 38), Color(0.03, 0.04, 0.06, 0.84))
@@ -240,14 +240,16 @@ func _draw() -> void:
 	if vp_s.x <= 1.0 or vp_s.y <= 1.0:
 		return
 
-	# Capital label
-	var cap_3d := Vector3(0.0, relief_at_world(half, half) * 1.45 + 48.0, 0.0)
+	# Capital label at dynamic capital_center
+	var cap_p: Vector2 = world.capital_center
+	var cap_3d := Vector3(cap_p.x - half, relief_at_world(cap_p.x, cap_p.y) * 1.45 + 48.0, cap_p.y - half)
 	if not cam.is_position_behind(cap_3d):
 		var cs := cam.unproject_position(cap_3d) * (size / vp_s)
 		draw_string_outline(f, cs + Vector2(-48, 0), "★ STOLICA", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 5, Color(0.03, 0.02, 0.02, 0.95))
 		draw_string(f, cs + Vector2(-48, 0), "★ STOLICA", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.90, 0.44))
 
-	# Exp-zone labels snapped to land and safely clamped inside viewport
+	# Exp-zone labels snapped to land, safely clamped and vertically de-overlapped
+	var placed_labels: Array[Rect2] = []
 	for ez: Dictionary in world.exp_zones:
 		var lp := _snap_pin_to_land(float(ez.x), float(ez.z), ws)
 		var p := Vector3(lp.x - half, relief_at_world(lp.x, lp.y) * 1.45 + 32.0, lp.y - half)
@@ -257,5 +259,17 @@ func _draw() -> void:
 			var tw := f.get_string_size(ename, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
 			var lx := clampf(s.x - tw * 0.5, 18.0, size.x - tw - 18.0)
 			var ly := clampf(s.y - 4.0, 66.0, size.y - 16.0)
+			var box := Rect2(lx - 4.0, ly - 13.0, tw + 8.0, 16.0)
+			for _attempt in 5:
+				var hit := false
+				for prev: Rect2 in placed_labels:
+					if box.intersects(prev):
+						ly = clampf(ly + 16.0, 66.0, size.y - 16.0)
+						box.position.y = ly - 13.0
+						hit = true
+						break
+				if not hit:
+					break
+			placed_labels.append(box)
 			draw_string_outline(f, Vector2(lx, ly), ename, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 4, Color(0.03, 0.02, 0.02, 0.94))
 			draw_string(f, Vector2(lx, ly), ename, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.86, 0.66))

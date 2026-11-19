@@ -11,6 +11,7 @@ const PremiumMinimapScript := preload("res://scripts/premium_minimap.gd")
 const WorldAtmosphereScript := preload("res://scripts/world_atmosphere.gd")
 const RpgHudScript := preload("res://scripts/rpg_hud.gd")
 const StickScript := preload("res://scripts/stick.gd")
+const MapStyle := preload("res://scripts/map_style.gd")
 
 const ISO_W := 5.6
 const ISO_D := 2.8
@@ -23,7 +24,7 @@ const REGION_ORDER := ["pyra", "verdant", "aether", "nexus"]
 const REGION_TITLES := {
 	"pyra": "Pyra — Twierdza Popiołu i Wulkaniczny Kontynent",
 	"verdant": "Verdantia — Zielona Przystań i Szmaragdowa Dolina",
-	"aether": "Aetheria — Sanktuarium Tysiąca Źródeł i Niebiańskie Tarasy",
+	"aether": "Aetheria — Lodowe Sanktuarium i Śnieżne Szczyty",
 	"nexus": "Nexus-9 — Węzeł Świadomości i Obwody Rdzeni",
 }
 const HERO_ACTORS := {
@@ -38,6 +39,7 @@ var region_title := "Pyra — Twierdza Popiołu"
 var grid_size := 512
 var world_size := 1024.0
 var safe_city_radius := 180.0
+var capital_center := Vector2(512.0, 512.0)
 var heights := PackedFloat32Array()
 var walkable := PackedByteArray()
 var landmarks: Array = []
@@ -83,8 +85,10 @@ var world_time := 0.0
 func _ready() -> void:
 	shadow_tex = make_shadow_tex()
 	load_databases()
+	terrain_mesh.z_index = -10
 	add_child(terrain_mesh)
 	ysort.y_sort_enabled = true
+	ysort.z_index = 0
 	add_child(ysort)
 
 	camera.enabled = true
@@ -165,7 +169,8 @@ func switch_region(land: String) -> void:
 	rebuild_hero(land)
 	build_isometric_mesh()
 	build_world_objects_and_actors()
-	hero_pos = Vector2(world_size * 0.5, world_size * 0.5 + 18.0)
+	var spawn := capital_center + Vector2(0.0, 22.0)
+	hero_pos = spawn if is_walkable(spawn.x, spawn.y) else capital_center
 	target_pos = Vector2(-1.0, -1.0)
 	if premium_minimap != null:
 		premium_minimap.load_region_texture(land)
@@ -199,6 +204,11 @@ func load_terrain(land: String) -> void:
 		world_size = float(bdata.get("world_size", 1024.0))
 		safe_city_radius = float(bdata.get("safe_city_radius", 180.0))
 		var half := world_size * 0.5
+		var cap_arr: Array = bdata.get("capital_center", [0.0, 0.0])
+		if cap_arr.size() >= 2:
+			capital_center = Vector2(float(cap_arr[0]) + half, float(cap_arr[1]) + half)
+		else:
+			capital_center = Vector2(half, half)
 
 		for b: Dictionary in bdata.get("buildings", []):
 			var bc: Dictionary = b.duplicate()
@@ -313,6 +323,7 @@ func build_isometric_mesh() -> void:
 	mat.set_shader_parameter("water_tex", load_tex("%s/water.png" % rdir))
 	mat.set_shader_parameter("weights_tex", load_tex("%s/weights.png" % rdir))
 	mat.set_shader_parameter("surface_tex", load_tex("%s/surface.png" % rdir))
+	mat.set_shader_parameter("map_art_tex", load_tex("%s/map_art.png" % rdir))
 	mat.set_shader_parameter("surface_color", surface_color_for(current_land))
 	terrain_mesh.material = mat
 
@@ -377,6 +388,8 @@ func build_world_objects_and_actors() -> void:
 		if child != hero:
 			child.queue_free()
 
+	var body_f: Font = MapStyle.body_font()
+
 	# 1. Painted Architectural Buildings + Blender Geometry Nodes Fortification Walls, Gates, Towers & Bridges
 	for b: Dictionary in buildings:
 		var bx := float(b.get("x", 512.0))
@@ -389,9 +402,11 @@ func build_world_objects_and_actors() -> void:
 
 		var node := Node2D.new()
 		node.position = iso(bx, bz, bh)
-		if role != "bridge":
+		if role == "bridge":
+			node.z_index = -2
+		else:
 			add_contact_shadow(node, bw, 0.42 if role == "landmark" else 0.34, 4.0)
-		var sp := make_fitted_sprite(sp_path, bw, bh_px, 0.86 if role != "bridge" else 0.65)
+		var sp := make_fitted_sprite(sp_path, bw, bh_px, 0.54 if role == "bridge" else 0.86)
 		node.add_child(sp)
 
 		var fx_kind := AmbientScript.kind_for(sp_path)
@@ -402,9 +417,10 @@ func build_world_objects_and_actors() -> void:
 		if role in ["landmark", "hall", "arena", "smithy", "inn", "shop", "depot", "gate"]:
 			var lbl := Label.new()
 			lbl.text = str(b.get("title", ""))
-			lbl.position = Vector2(-135, -bh_px * SPRITE_SCALE * 0.82 - 22.0)
-			lbl.size = Vector2(270, 26)
+			lbl.position = Vector2(-145, -bh_px * SPRITE_SCALE * 0.82 - 22.0)
+			lbl.size = Vector2(290, 26)
 			lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			lbl.add_theme_font_override("font", body_f)
 			lbl.add_theme_font_size_override("font_size", 14 if role != "landmark" else 16)
 			lbl.add_theme_color_override("font_color", Color(1.0, 0.94, 0.74) if role != "landmark" else Color(1.0, 0.84, 0.38))
 			lbl.add_theme_color_override("font_outline_color", Color(0.04, 0.02, 0.02, 0.96))
@@ -413,7 +429,7 @@ func build_world_objects_and_actors() -> void:
 
 		ysort.add_child(node)
 
-	# 2. 290 Diverse Painted Flora, Trees, Flowers, Waterfalls, Rocks, Ruins, Shrines & Camps
+	# 2. Diverse Painted Flora, Trees, Flowers, Waterfalls, Rocks, Ruins, Shrines & Camps
 	for p: Dictionary in props:
 		var px := float(p.get("x", 512.0))
 		var pz := float(p.get("z", 512.0))
@@ -444,9 +460,10 @@ func build_world_objects_and_actors() -> void:
 		ez_node.position = iso(ex, ez_z, eh)
 		var banner := Label.new()
 		banner.text = "⚔ EXPOWISKO: %s" % str(ez.get("name", ""))
-		banner.position = Vector2(-210, -145)
-		banner.size = Vector2(420, 32)
+		banner.position = Vector2(-220, -145)
+		banner.size = Vector2(440, 32)
 		banner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		banner.add_theme_font_override("font", body_f)
 		banner.add_theme_font_size_override("font_size", 17)
 		banner.add_theme_color_override("font_color", Color(1.0, 0.76, 0.28))
 		banner.add_theme_color_override("font_outline_color", Color(0.08, 0.02, 0.02, 0.98))
@@ -552,7 +569,8 @@ func build_world_objects_and_actors() -> void:
 		})
 
 func teleport_to_capital() -> void:
-	hero_pos = Vector2(world_size * 0.5, world_size * 0.5 + 18.0)
+	var spawn := capital_center + Vector2(0.0, 22.0)
+	hero_pos = spawn if is_walkable(spawn.x, spawn.y) else capital_center
 	target_pos = Vector2(-1.0, -1.0)
 	sync_hero()
 
@@ -838,8 +856,7 @@ func sync_hero() -> void:
 		if d < best:
 			best = d
 			nearest = str(lm.title)
-	var center := Vector2(world_size * 0.5, world_size * 0.5)
-	var in_safe := hero_pos.distance_to(center) <= safe_city_radius
+	var in_safe := hero_pos.distance_to(capital_center) <= safe_city_radius
 	if rpg_hud != null:
 		rpg_hud.sync_status(nearest, in_safe)
 	if premium_minimap != null:
@@ -855,13 +872,19 @@ func snap(out_dir: String, file: String) -> String:
 	img.save_jpg(path, 0.93)
 	return path
 
+func _find_first_bridge_pos() -> Vector2:
+	for b: Dictionary in buildings:
+		if str(b.get("role", "")) == "bridge":
+			return Vector2(float(b.get("x", capital_center.x)), float(b.get("z", capital_center.y)))
+	return capital_center + Vector2(-180.0, 20.0)
+
 func run_qa() -> void:
 	var out_dir := OS.get_environment("ISO_QA_DIR")
 	if out_dir.is_empty():
 		out_dir = ProjectSettings.globalize_path("res://qa_out")
 	DirAccess.make_dir_recursive_absolute(out_dir)
 
-	var probe := Vector2(512.0, 512.0)
+	var probe := capital_center
 	var h := height_at(probe.x, probe.y)
 	var roundtrip := unproject(iso(probe.x, probe.y, h), h)
 	var roundtrip_err := probe.distance_to(roundtrip)
@@ -885,30 +908,32 @@ func run_qa() -> void:
 	for land: String in REGION_ORDER:
 		switch_region(land)
 		set_zoom(0.76)
-		# 1) Capital City view showing painted architecture, walls/bridges, water/lava, and NPCs
-		if land == "pyra":
-			hero_pos = Vector2(512.0, 492.0)
-		elif land == "verdant":
-			hero_pos = Vector2(512.0, 502.0)
-		elif land == "aether":
-			hero_pos = Vector2(512.0, 496.0)
-		else:
-			hero_pos = Vector2(512.0, 496.0)
+		# 1) Capital City view framed on dynamic capital_center plaza
+		var cap_view := capital_center + Vector2(0.0, 18.0)
+		hero_pos = cap_view if is_walkable(cap_view.x, cap_view.y) else capital_center
 		step_world(0.15)
 		shots.append(await snap(out_dir, cap_shots[land]))
 
-		# 2) Exp-Zone Combat Clearing view showing road spur, water/lava shore, perimeter props, and 5 patrolling monsters
+		# 2) Exp-Zone Combat Clearing view showing road spur, real continent terrain, perimeter props, and 5 patrolling monsters
 		if not exp_zones.is_empty():
-			var ez_pick: Dictionary = exp_zones[2 if land == "pyra" else (0 if land == "verdant" else (1 if land == "aether" else 3))]
+			var ez_idx := mini(exp_zones.size() - 1, 2 if land == "pyra" else (0 if land == "verdant" else (1 if land == "aether" else 3)))
+			var ez_pick: Dictionary = exp_zones[ez_idx]
 			hero_pos = Vector2(float(ez_pick.x), float(ez_pick.z))
 			step_world(0.25)
 			shots.append(await snap(out_dir, exp_shots[land]))
+
+		var bridge_cnt := 0
+		for b: Dictionary in buildings:
+			if str(b.get("role", "")) == "bridge":
+				bridge_cnt += 1
 
 		regions_report[land] = {
 			"title": region_title,
 			"world_size_m": world_size,
 			"grid_size": grid_size,
+			"capital_center": [capital_center.x - world_size * 0.5, capital_center.y - world_size * 0.5],
 			"buildings_count": buildings.size(),
+			"bridges_count": bridge_cnt,
 			"npcs_count": npcs_data.size(),
 			"exp_zones_count": exp_zones.size(),
 			"monsters_count": monsters_data.size(),
@@ -950,17 +975,23 @@ func run_qa() -> void:
 	shots.append(await snap(out_dir, "map-3d-verdant.jpg"))
 	toggle_map()
 
-	# 6) Wilderness Road & Crossroads Scenic Vista outside Capital Walls (Verdantia West Highway)
+	# 6) Wilderness Road & Directional Bridge Crossing Scenic Vista (Verdantia water bridge + Pyra lava bridge)
 	switch_region("verdant")
-	set_zoom(0.68)
-	hero_pos = Vector2(512.0 - 238.0, 512.0 + 6.0)
+	set_zoom(0.70)
+	hero_pos = _find_first_bridge_pos()
 	step_world(0.20)
 	shots.append(await snap(out_dir, "wilderness-road.jpg"))
 
-	# 7) Etap 4: AAA 29-Node Diamond Constellation Skill Tree ([K]) & Paperdoll Character Sheet ([I]) on Pyra
+	switch_region("pyra")
+	set_zoom(0.72)
+	hero_pos = _find_first_bridge_pos()
+	step_world(0.20)
+	shots.append(await snap(out_dir, "pyra-bridge.jpg"))
+
+	# 7) AAA 29-Node Diamond Constellation Skill Tree ([K]) & Paperdoll Character Sheet ([I]) on Pyra
 	switch_region("pyra")
 	set_zoom(0.76)
-	hero_pos = Vector2(512.0, 492.0)
+	hero_pos = capital_center + Vector2(0.0, 18.0)
 	step_world(0.1)
 	if rpg_hud != null:
 		rpg_hud.toggle_talents()
@@ -977,7 +1008,7 @@ func run_qa() -> void:
 
 	var report := {
 		"project": "ports/godot-isometric-world",
-		"phase": "AAA Studio Architecture + Ornate Action-RPG HUD & 29-Node Constellation + Open-World Wilderness Roads",
+		"phase": "1:1 Canonical Map-Synced World + RTX 6000 Ada Winter Aetheria & Reserve Library + Blender Directional Bridges + Wild Rift Mobile HUD",
 		"projection_roundtrip_error_m": snappedf(roundtrip_err, 0.0001),
 		"regions": regions_report,
 		"screenshots": shots,

@@ -73,10 +73,12 @@ func build_location_plate() -> void:
 	vbox.add_theme_constant_override("separation", 2)
 	plate_panel.add_child(vbox)
 
+	var fb: Font = MapStyle.body_font()
 	loc_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	loc_label.clip_text = true
 	loc_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	loc_label.custom_minimum_size = Vector2(216, 18)
+	loc_label.add_theme_font_override("font", fb)
 	loc_label.add_theme_font_size_override("font_size", 13)
 	loc_label.add_theme_color_override("font_color", Color(1.0, 0.92, 0.72))
 	loc_label.text = "Stolica"
@@ -87,6 +89,7 @@ func build_location_plate() -> void:
 	hbox.add_theme_constant_override("separation", 6)
 	vbox.add_child(hbox)
 
+	coord_label.add_theme_font_override("font", fb)
 	coord_label.add_theme_font_size_override("font_size", 11)
 	coord_label.add_theme_color_override("font_color", Color(0.76, 0.84, 0.86))
 	coord_label.text = "512, 512"
@@ -94,12 +97,14 @@ func build_location_plate() -> void:
 
 	btn_zoom.text = "2.1×"
 	btn_zoom.custom_minimum_size = Vector2(44, 22)
+	btn_zoom.add_theme_font_override("font", fb)
 	btn_zoom.add_theme_font_size_override("font_size", 11)
 	btn_zoom.pressed.connect(toggle_zoom_mode)
 	hbox.add_child(btn_zoom)
 
 	btn_3d.text = "3D"
 	btn_3d.custom_minimum_size = Vector2(34, 22)
+	btn_3d.add_theme_font_override("font", fb)
 	btn_3d.add_theme_font_size_override("font_size", 11)
 	btn_3d.pressed.connect(func() -> void:
 		if world != null:
@@ -109,6 +114,7 @@ func build_location_plate() -> void:
 
 	btn_globe.text = "Globus"
 	btn_globe.custom_minimum_size = Vector2(54, 22)
+	btn_globe.add_theme_font_override("font", fb)
 	btn_globe.add_theme_font_size_override("font_size", 11)
 	btn_globe.pressed.connect(func() -> void:
 		if world != null:
@@ -202,8 +208,9 @@ func _draw_overlay() -> void:
 	var pulse: float = 0.5 + 0.5 * sin(float(world.world_time) * 4.5)
 	var ws: float = float(world.world_size)
 
-	# 1. Safe Capital perimeter ring (clipped to radar if center is near)
-	var cap_pt := _world_to_radar(ws * 0.5, ws * 0.5, center_uv)
+	# 1. Safe Capital perimeter ring centered on real map capital_center
+	var cap_c: Vector2 = world.capital_center if "capital_center" in world else Vector2(ws * 0.5, ws * 0.5)
+	var cap_pt := _world_to_radar(cap_c.x, cap_c.y, center_uv)
 	var cap_r: float = (float(world.safe_city_radius) / ws) * MAP_DIAMETER * current_zoom
 	if cap_pt.distance_to(MAP_CENTER) + cap_r < clip_r + 12.0:
 		overlay_canvas.draw_arc(cap_pt, minf(cap_r, clip_r), 0.0, TAU, 48, Color(0.38, 0.94, 0.62, 0.42), 1.4, true)
