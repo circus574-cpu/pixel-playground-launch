@@ -24,6 +24,7 @@ Single Source of Truth:
 from __future__ import annotations
 
 import collections
+import heapq
 import json
 import math
 import os
@@ -1064,48 +1065,38 @@ def generate_continent(land_id: str) -> dict:
         assert best_p is not None, f"Could not find dry site near ({nx}, {nz}) on {land_id}"
         return best_p
 
-    # 1) Place 6 Exp-Zones first (strictly outside safe capital & dry)
-    exp_zones = []
-    avoid_ez: list[tuple[float, float, float]] = [(cap_x, cap_z, SAFE_CITY_RADIUS + 18.0)]
-    for ez_def in EXP_ZONES_CATALOG[land_id]:
-        ecx, ecz = snap_dry_site(ez_def["cx"], ez_def["cz"], min_liq_m=24.0, avoid_pts=avoid_ez, max_search_r=150.0)
-        ez_copy = dict(ez_def)
-        ez_copy["cx"] = round(ecx, 2)
-        ez_copy["cz"] = round(ecz, 2)
-        exp_zones.append(ez_copy)
-        avoid_ez.append((ecx, ecz, 88.0))
-        d_ez = np.sqrt((xx - ecx) ** 2 + (zz - ecz) ** 2)
-        ez_h = max(float(h[wz_to_i(ecz), wx_to_j(ecx)]), 3.8)
-        ez_flat = (1.0 - smoothstep(24.0, 42.0, d_ez)) * smoothstep(8.0, 18.0, edt_liq)
-        h = h * (1.0 - ez_flat) + (ez_h + (n_micro - 0.5) * 0.5) * ez_flat
+    # 1) ZERO premature monster spawns & ZERO exp-zones (per owner mandate & AGENTS.md: spawns belong to a separate later phase)
+    exp_zones: list[dict] = []
 
-    # 2) Pick Wilderness Towns / Strongholds / Outposts
+    # 2) Pick Outer Towns / Strongholds / Castles (strictly outside safe capital & 100% dry)
     wild_strongholds = []
-    avoid_poi = list(avoid_ez)
+    avoid_poi: list[tuple[float, float, float]] = [(cap_x, cap_z, SAFE_CITY_RADIUS + 46.0)]
     for pid, ptitle, px_s, pz_s, akey, prole in WILDERNESS_POIS_CATALOG[land_id]:
         _, _, _, r_foot = ARCH_CATALOG[land_id][akey]
         px, pz = snap_dry_site(
             px_s, pz_s,
-            min_liq_m=r_foot + 10.0,
+            min_liq_m=r_foot + 14.0,
             avoid_pts=avoid_poi,
-            max_search_r=160.0,
+            max_search_r=175.0,
             require_non_oasis=(land_id == "aether"),
         )
         wild_strongholds.append((pid, ptitle, round(px, 2), round(pz, 2), akey, prole))
-        avoid_poi.append((px, pz, 86.0))
+        avoid_poi.append((px, pz, 115.0))
         d_p = np.sqrt((xx - px) ** 2 + (zz - pz) ** 2)
         ph_t = max(float(h[wz_to_i(pz), wx_to_j(px)]), 4.2)
-        p_flat = (1.0 - smoothstep(22.0, 40.0, d_p)) * smoothstep(8.0, 16.0, edt_liq)
+        p_flat = (1.0 - smoothstep(26.0, 44.0, d_p)) * smoothstep(8.0, 16.0, edt_liq)
         h = h * (1.0 - p_flat) + ph_t * p_flat
 
     def sample_h(wx: float, wz: float) -> float:
         return float(h[wz_to_i(wz), wx_to_j(wx)])
 
-    # 3) PLACE MONUMENTAL BUILDINGS FIRST (BEFORE ROADS!) so every street routes cleanly to building doors!
+    # 3) PLACE MONUMENTAL BUILDINGS FIRST IN CLEAN URBAN QUARTERS (ZERO overlaps, generous >= 22m street corridors!)
     arch = ARCH_CATALOG[land_id]
     buildings_list: list[dict] = []
     placed_major: list[tuple[float, float, float, float, float, str, str, bool]] = []
     placed_by_role: dict[str, list[dict]] = {}
+
+    PLAZA_R = 26.0
 
     def place_building_safe(
         b_id: str,
@@ -1117,39 +1108,50 @@ def generate_continent(land_id: str) -> dict:
         map_kind: str = "service",
         enterable: bool = True,
         enforce_spacing: bool = True,
-        min_extra_liq: float = 10.0,
+        min_extra_liq: float = 12.0,
         search_r: float = 96.0,
-        avoid_exp: bool = True,
+        keep_off_cardinal: bool = False,
+        ent_dir_override: tuple[float, float] | None = None,
     ) -> dict | None:
         sp_path, w_px, h_px, r_foot = arch[asset_key]
         is_minor = role in ("prop", "wall", "tower", "gate")
-        req_liq = (r_foot + min_extra_liq) if not is_minor else max(14.0, r_foot + 4.0)
-        spacing_gap = 16.0 if not is_minor else 8.0
+        req_liq = (r_foot + min_extra_liq) if not is_minor else max(14.0, r_foot + 5.0)
+        spacing_gap = 22.0 if not is_minor else 12.0
 
         def ok_at(cx: float, cz: float) -> tuple[bool, float, float]:
-            if abs(cx) > HALF - 26.0 or abs(cz) > HALF - 26.0:
+            if abs(cx) > HALF - 28.0 or abs(cz) > HALF - 28.0:
                 return False, cx, cz
             if liq_dist(cx, cz) < req_liq:
                 return False, cx, cz
-            if not is_minor and b_id != "verdant-fountain":
-                if math.hypot(cx - cap_x, cz - (cap_z + 18.0)) < r_foot + 26.0:
+            if not is_minor:
+                # Keep Central Royal Plaza open around (cap_x, cap_z)
+                if math.hypot(cx - cap_x, cz - cap_z) < r_foot + PLAZA_R + 12.0:
                     return False, cx, cz
+                # Keep 3 main cardinal avenues (E, W, S) clear inside inner capital
+                if keep_off_cardinal and math.hypot(cx - cap_x, cz - cap_z) < 190.0:
+                    if abs(cz - cap_z) < r_foot + 14.0:
+                        return False, cx, cz
+                    if cz > cap_z - 10.0 and abs(cx - cap_x) < r_foot + 14.0:
+                        return False, cx, cz
             if land_id == "aether" and not is_minor and float(edt_oasis[wz_to_i(cz), wx_to_j(cx)]) < 24.0:
                 return False, cx, cz
-            if avoid_exp:
-                for ez in exp_zones:
-                    if math.hypot(cx - ez["cx"], cz - ez["cz"]) < r_foot + ez["radius"] * 0.72:
-                        return False, cx, cz
-            dx_c = cap_x - cx
-            dz_c = cap_z - cz
-            dc = math.hypot(dx_c, dz_c)
-            if dc > 6.0 and map_kind != "town":
-                ex = cx + (dx_c / dc) * (r_foot + 10.0)
-                ez = cz + (dz_c / dc) * (r_foot + 10.0)
+
+            if ent_dir_override is not None:
+                ux, uz = ent_dir_override
+                ex = cx + ux * (r_foot + 16.0)
+                ez = cz + uz * (r_foot + 16.0)
             else:
-                ex = cx + (r_foot + 10.0) * 0.55
-                ez = cz + (r_foot + 10.0) * 0.84
-            if not is_minor and liq_dist(ex, ez) < 10.0:
+                dx_c = cap_x - cx
+                dz_c = cap_z - cz
+                dc = math.hypot(dx_c, dz_c)
+                if dc > 6.0 and map_kind != "town":
+                    ex = cx + (dx_c / dc) * (r_foot + 16.0)
+                    ez = cz + (dz_c / dc) * (r_foot + 16.0)
+                else:
+                    ex = cx + (r_foot + 16.0) * 0.55
+                    ez = cz + (r_foot + 16.0) * 0.84
+
+            if not is_minor and liq_dist(ex, ez) < 12.0:
                 return False, ex, ez
             if enforce_spacing:
                 for ox, oz, orad, oex, oez, _, _, _ in placed_major:
@@ -1157,15 +1159,15 @@ def generate_continent(land_id: str) -> dict:
                     if math.hypot(cx - ox, cz - oz) < min_dist:
                         return False, ex, ez
                     if not is_minor:
-                        if math.hypot(ex - ox, ez - oz) < orad + 12.0:
+                        if math.hypot(ex - ox, ez - oz) < orad + 14.0:
                             return False, ex, ez
-                        if math.hypot(cx - oex, cz - oez) < r_foot + 12.0:
+                        if math.hypot(cx - oex, cz - oez) < r_foot + 14.0:
                             return False, ex, ez
             return True, ex, ez
 
         best = None
         for r_ring in range(0, int(search_r) + 1, 6):
-            steps = 1 if r_ring == 0 else max(14, int(2 * math.pi * r_ring / 9))
+            steps = 1 if r_ring == 0 else max(16, int(2 * math.pi * r_ring / 9))
             for k in range(steps):
                 ang = (2.0 * math.pi * k) / steps
                 tx = target_x + math.cos(ang) * r_ring
@@ -1177,10 +1179,10 @@ def generate_continent(land_id: str) -> dict:
             if best is not None:
                 break
 
-        if best is None and not is_minor and min_extra_liq > 4.0:
-            req_liq = r_foot + 4.0
-            for r_ring in range(0, int(search_r + 48.0) + 1, 8):
-                steps = 1 if r_ring == 0 else max(16, int(2 * math.pi * r_ring / 10))
+        if best is None and not is_minor:
+            req_liq = r_foot + 5.0
+            for r_ring in range(0, int(search_r + 64.0) + 1, 8):
+                steps = 1 if r_ring == 0 else max(18, int(2 * math.pi * r_ring / 10))
                 for k in range(steps):
                     ang = (2.0 * math.pi * k) / steps
                     tx = target_x + math.cos(ang) * r_ring
@@ -1217,106 +1219,88 @@ def generate_continent(land_id: str) -> dict:
             placed_major.append((fx, fz, r_foot, ex, ez, role, map_kind, enterable))
         return rec
 
-    # Monumental Capital Layout (spacious ~105..195m offsets matching 3x bigger buildings!)
+    # Disciplined 4-Quarter Imperial Capital Layout:
+    # - North Acropolis Citadel directly crowning the Grand North Promenade (0, -92)
+    # - 4 Inner Diagonal Service Quarters (NW, NE, SW, SE) with generous clear avenues between them
+    # - 2 South-Flanking Service Quarters + 2 Outer Landmarks cleanly off all cardinal roads
     if land_id == "pyra":
         cap_plan = [
-            ("pyra-fortress", "Twierdza Popiołu (Cytadela)", "landmark", "fortress", "capital", True, 0.0, -98.0),
-            ("pyra-hall", "Sala Przysięgi", "hall", "hall", "service", True, -104.0, -56.0),
-            ("pyra-inn", "Gospoda Ogniska", "inn", "inn", "service", True, 104.0, -56.0),
-            ("pyra-smithy", "Kuźnia Żaru", "smithy", "smithy", "service", True, -112.0, 38.0),
-            ("pyra-arena", "Arena Krwi i Popiołu", "arena", "arena", "service", True, 112.0, 38.0),
-            ("pyra-shop", "Targ Klanów", "shop", "shop", "service", True, -68.0, 118.0),
-            ("pyra-depot", "Skarbiec Twierdzy", "depot", "depot", "service", True, 68.0, 118.0),
-            ("pyra-altar", "Ołtarz Płomiennego Pojedynku", "landmark", "altar", "service", True, -172.0, -124.0),
-            ("pyra-statue", "Kolos Areny Dziedzictwa", "landmark", "statue", "service", False, 172.0, -124.0),
+            ("pyra-fortress", "Twierdza Popiołu (Cytadela)", "landmark", "fortress", "capital", True, 0.0, -94.0, (0.0, 1.0), False),
+            ("pyra-hall", "Sala Przysięgi", "hall", "hall", "service", True, -92.0, -56.0, None, True),
+            ("pyra-inn", "Gospoda Ogniska", "inn", "inn", "service", True, 92.0, -56.0, None, True),
+            ("pyra-smithy", "Kuźnia Żaru", "smithy", "smithy", "service", True, -90.0, 58.0, None, True),
+            ("pyra-arena", "Arena Krwi i Popiołu", "arena", "arena", "service", True, 90.0, 58.0, None, True),
+            ("pyra-shop", "Targ Klanów", "shop", "shop", "service", True, -66.0, 144.0, None, True),
+            ("pyra-depot", "Skarbiec Twierdzy", "depot", "depot", "service", True, 66.0, 144.0, None, True),
+            ("pyra-altar", "Ołtarz Płomiennego Pojedynku", "landmark", "altar", "service", True, -166.0, -118.0, None, True),
+            ("pyra-statue", "Kolos Areny Dziedzictwa", "landmark", "statue", "service", False, 166.0, -118.0, None, True),
         ]
     elif land_id == "verdant":
         cap_plan = [
-            ("verdant-hall", "Dom Zgromadzeń", "landmark", "hall", "capital", True, 0.0, -102.0),
-            ("verdant-fountain", "Źródło Pierwszego Oddechu", "landmark", "fountain", "service", False, 0.0, -8.0),
-            ("verdant-smithy", "Kuźnia Korzeni", "smithy", "smithy", "service", True, -108.0, -54.0),
-            ("verdant-inn", "Karczma Pod Liściem", "inn", "inn", "service", True, 108.0, -54.0),
-            ("verdant-shop", "Zielony Targ", "shop", "shop", "service", True, -116.0, 42.0),
-            ("verdant-arena", "Krąg Łowców", "arena", "arena", "service", True, 116.0, 42.0),
-            ("verdant-depot", "Magazyn Przystani", "depot", "depot", "service", True, 0.0, 122.0),
-            ("verdant-forge", "Korzenna Kuźnia Pradawnych Rytów", "landmark", "forge", "service", True, -176.0, -120.0),
-            ("verdant-cottage", "Dom Podwójnego Echa", "landmark", "cottage", "service", True, 176.0, -120.0),
+            ("verdant-hall", "Dom Zgromadzeń", "landmark", "hall", "capital", True, 0.0, -96.0, (0.0, 1.0), False),
+            ("verdant-smithy", "Kuźnia Korzeni", "smithy", "smithy", "service", True, -92.0, -56.0, None, True),
+            ("verdant-inn", "Karczma Pod Liściem", "inn", "inn", "service", True, 92.0, -56.0, None, True),
+            ("verdant-shop", "Zielony Targ", "shop", "shop", "service", True, -90.0, 58.0, None, True),
+            ("verdant-arena", "Krąg Łowców", "arena", "arena", "service", True, 90.0, 58.0, None, True),
+            ("verdant-depot", "Magazyn Przystani", "depot", "depot", "service", True, -66.0, 144.0, None, True),
+            ("verdant-fountain", "Źródło Pierwszego Oddechu", "landmark", "fountain", "service", False, 66.0, 144.0, None, True),
+            ("verdant-forge", "Korzenna Kuźnia Pradawnych Rytów", "landmark", "forge", "service", True, -168.0, -118.0, None, True),
+            ("verdant-cottage", "Dom Podwójnego Echa", "landmark", "cottage", "service", True, 168.0, -118.0, None, True),
         ]
     elif land_id == "aether":
         cap_plan = [
-            ("aether-sanctum", "Lodowe Sanktuarium Pieczęci", "landmark", "sanctum", "capital", True, 0.0, -102.0),
-            ("aether-hall", "Pawilon Śnieżnej Rady", "hall", "hall", "service", True, -108.0, -54.0),
-            ("aether-inn", "Herbaciarnia Obłoków", "inn", "inn", "service", True, 108.0, -54.0),
-            ("aether-smithy", "Kuźnia Run Lodu", "smithy", "smithy", "service", True, -114.0, 42.0),
-            ("aether-arena", "Krąg Skupienia Ki", "arena", "arena", "service", True, 114.0, 42.0),
-            ("aether-shop", "Dom Wymiany Zwojów", "shop", "shop", "service", True, -68.0, 120.0),
-            ("aether-depot", "Skarbiec Zwojów", "depot", "depot", "service", True, 68.0, 120.0),
-            ("aether-observatory", "Śnieżne Obserwatorium Sygnałów", "landmark", "observatory", "service", True, 174.0, -122.0),
-            ("aether-archive", "Zachodnie Archiwum Mrozu", "landmark", "archive", "service", True, -174.0, -122.0),
+            ("aether-sanctum", "Lodowe Sanktuarium Pieczęci", "landmark", "sanctum", "capital", True, 0.0, -96.0, (0.0, 1.0), False),
+            ("aether-hall", "Pawilon Śnieżnej Rady", "hall", "hall", "service", True, -92.0, -56.0, None, True),
+            ("aether-inn", "Herbaciarnia Obłoków", "inn", "inn", "service", True, 92.0, -56.0, None, True),
+            ("aether-smithy", "Kuźnia Run Lodu", "smithy", "smithy", "service", True, -90.0, 58.0, None, True),
+            ("aether-arena", "Krąg Skupienia Ki", "arena", "arena", "service", True, 90.0, 58.0, None, True),
+            ("aether-shop", "Dom Wymiany Zwojów", "shop", "shop", "service", True, -66.0, 144.0, None, True),
+            ("aether-depot", "Skarbiec Zwojów", "depot", "depot", "service", True, 66.0, 144.0, None, True),
+            ("aether-observatory", "Śnieżne Obserwatorium Sygnałów", "landmark", "observatory", "service", True, 168.0, -118.0, None, True),
+            ("aether-archive", "Zachodnie Archiwum Mrozu", "landmark", "archive", "service", True, -168.0, -118.0, None, True),
         ]
     else:
         cap_plan = [
-            ("nexus-reactor-core", "Rdzeń Przeciążonej Pamięci", "landmark", "reactor_art", "capital", True, 0.0, -102.0),
-            ("nexus-hall", "Węzeł Świadomości (Centrum)", "hall", "hall", "service", True, -108.0, -54.0),
-            ("nexus-inn", "Stacja Regeneracji SOLA-6", "inn", "inn", "service", True, 108.0, -54.0),
-            ("nexus-smithy", "Zakład Uzbrojenia HEF-4", "smithy", "smithy", "service", True, -114.0, 42.0),
-            ("nexus-arena", "Poligon Kalibracji Bojowej", "arena", "arena", "service", True, 114.0, 42.0),
-            ("nexus-shop", "Terminal Wymiany MIRA-2", "shop", "shop", "service", True, -68.0, 120.0),
-            ("nexus-depot", "Magazyn Rdzeni ARCH-5", "depot", "depot", "service", True, 68.0, 120.0),
-            ("nexus-lab-w", "Laboratorium Kalibracji", "landmark", "field_lab", "service", True, -174.0, -122.0),
-            ("nexus-reactor-e", "Reaktor Pomocniczy Sektor-2", "landmark", "reactor", "service", True, 174.0, -122.0),
+            ("nexus-reactor-core", "Rdzeń Przeciążonej Pamięci", "landmark", "reactor_art", "capital", True, 0.0, -96.0, (0.0, 1.0), False),
+            ("nexus-hall", "Węzeł Świadomości (Centrum)", "hall", "hall", "service", True, -92.0, -56.0, None, True),
+            ("nexus-inn", "Stacja Regeneracji SOLA-6", "inn", "inn", "service", True, 92.0, -56.0, None, True),
+            ("nexus-smithy", "Zakład Uzbrojenia HEF-4", "smithy", "smithy", "service", True, -90.0, 58.0, None, True),
+            ("nexus-arena", "Poligon Kalibracji Bojowej", "arena", "arena", "service", True, 90.0, 58.0, None, True),
+            ("nexus-shop", "Terminal Wymiany MIRA-2", "shop", "shop", "service", True, -66.0, 144.0, None, True),
+            ("nexus-depot", "Magazyn Rdzeni ARCH-5", "depot", "depot", "service", True, 66.0, 144.0, None, True),
+            ("nexus-lab-w", "Laboratorium Kalibracji", "landmark", "field_lab", "service", True, -168.0, -118.0, None, True),
+            ("nexus-reactor-e", "Reaktor Pomocniczy Sektor-2", "landmark", "reactor", "service", True, 168.0, -118.0, None, True),
         ]
 
-    for bid, btitle, brole, bkey, bkind, b_ent, ox, oz in cap_plan:
+    for bid, btitle, brole, bkey, bkind, b_ent, ox, oz, edir, off_card in cap_plan:
         place_building_safe(
             bid, btitle, brole, bkey, cap_x + ox, cap_z + oz,
-            map_kind=bkind, enterable=b_ent, enforce_spacing=True, min_extra_liq=10.0, search_r=96.0,
+            map_kind=bkind, enterable=b_ent, enforce_spacing=True, min_extra_liq=12.0,
+            search_r=108.0, keep_off_cardinal=off_card, ent_dir_override=edir,
         )
 
-    house_offsets = [(-188.0, -18.0), (188.0, -18.0), (-162.0, 118.0), (162.0, 118.0), (-78.0, -182.0), (78.0, -182.0)]
+    # Outer Residential Houses strictly placed in outer diagonal residential blocks
+    house_offsets = [(-176.0, 58.0), (176.0, 58.0), (-154.0, 148.0), (154.0, 148.0), (-88.0, -164.0), (88.0, -164.0)]
     for h_i, (hx, hz) in enumerate(house_offsets):
         place_building_safe(
             f"{land_id}-house-{h_i}",
             "Dom Mieszkańców" if land_id != "nexus" else "Moduł Mieszkalny",
             "house", "house", cap_x + hx, cap_z + hz,
-            map_kind="house", enterable=False, enforce_spacing=True, min_extra_liq=10.0, search_r=64.0,
+            map_kind="house", enterable=False, enforce_spacing=True, min_extra_liq=12.0,
+            search_r=72.0, keep_off_cardinal=True,
         )
 
-    placed_gates: list[dict] = []
-    for gd, gx, gz, gkey in [("W", -190.0, 0.0, "gate_z"), ("E", 190.0, 0.0, "gate_z"), ("N", 0.0, -190.0, "gate_x"), ("S", 0.0, 190.0, "gate_x")]:
-        grec = place_building_safe(
-            f"{land_id}-gate-{gd}", "Brama Stolicy", "gate", gkey, cap_x + gx, cap_z + gz,
-            map_kind="fort", enterable=False, enforce_spacing=True, min_extra_liq=10.0, search_r=36.0,
-        )
-        if grec is not None:
-            placed_gates.append(grec)
-
-    for ti, (tx, tz) in enumerate([(-172.0, -172.0), (172.0, -172.0), (-172.0, 172.0), (172.0, 172.0)]):
-        place_building_safe(
-            f"{land_id}-tower-{ti}", "Baszta Strażnicza", "tower", "tower", cap_x + tx, cap_z + tz,
-            map_kind="fort", enterable=False, enforce_spacing=True, min_extra_liq=10.0, search_r=28.0,
-        )
-
-    # Wilderness Strongholds / Secondary Towns / Outposts (distinct "town" symbol on maps!)
+    # Outer Towns / Strongholds / Castles (distinct heraldic Town Shield medallion on maps!)
     placed_towns: list[dict] = []
     for pid, ptitle, px, pz, akey, prole in wild_strongholds:
         trec = place_building_safe(
             pid, ptitle, prole, akey, px, pz,
-            map_kind="town", enterable=True, enforce_spacing=True, min_extra_liq=10.0, search_r=56.0,
+            map_kind="town", enterable=True, enforce_spacing=True, min_extra_liq=12.0, search_r=64.0,
         )
         if trec is not None:
             placed_towns.append(trec)
-            if akey == "castle":
-                place_building_safe(
-                    f"{pid}-tower-w", "Baszta Zamkowa", "tower", "tower", trec["x"] - 64.0, trec["z"] + 38.0,
-                    map_kind="fort", enterable=False, enforce_spacing=True, min_extra_liq=10.0, search_r=26.0,
-                )
-                place_building_safe(
-                    f"{pid}-tower-e", "Baszta Zamkowa", "tower", "tower", trec["x"] + 64.0, trec["z"] + 38.0,
-                    map_kind="fort", enterable=False, enforce_spacing=True, min_extra_liq=10.0, search_r=26.0,
-                )
 
-    # 4) BUILD REAL ROAD NETWORK ROUTED DIRECTLY TO EVERY BUILDING'S FRONT DOOR + EXP-ZONES + TOWNS!
+    # 4) PLANAR A* ROAD NETWORK ROUTER (ZERO SPAGHETTI, ZERO BUILDINGS ON ROADS, SINGLE CONTINUOUS BRIDGES ONLY!)
     water_mask = blur_float((ocean | inland_water).astype(np.float32), 1.35)
     water_mask = np.where(ocean | inland_water, np.maximum(water_mask, 0.85), water_mask * 0.45)
     lava_mask = blur_float(lava.astype(np.float32), 1.25)
@@ -1324,124 +1308,217 @@ def generate_continent(land_id: str) -> dict:
     road_mask = np.zeros((GRID_N, GRID_N), dtype=np.float32)
     energy_mask = np.zeros((GRID_N, GRID_N), dtype=np.float32)
     bridge_walk_mask = np.zeros((GRID_N, GRID_N), dtype=bool)
-
-    dry_plaza = smoothstep(8.0, 18.0, edt_liq)
-    plaza_m = (1.0 - smoothstep(26.0, 38.0, d_cap)) * dry_plaza
-    ring_r = 122.0
-    ring_rd = np.exp(-((d_cap - ring_r) ** 2) / (2.0 * 4.6 ** 2)) * dry_plaza
-    road_mask = np.maximum.reduce([road_mask, plaza_m, ring_rd])
-
     roads_export: list[dict] = []
 
-    ring_pts: list[list[float]] = []
-    for k in range(37):
-        ang = (2.0 * math.pi * k) / 36.0
-        rx = cap_x + math.cos(ang) * ring_r
-        rz = cap_z + math.sin(ang) * ring_r
-        if liq_dist(rx, rz) >= 10.0:
-            ring_pts.append([round(rx, 1), round(rz, 1)])
-        else:
-            if len(ring_pts) >= 2:
-                roads_export.append({"tier": "ring", "pts": ring_pts})
-            ring_pts = []
-    if len(ring_pts) >= 2:
-        roads_export.append({"tier": "ring", "pts": ring_pts})
+    dry_plaza = smoothstep(8.0, 18.0, edt_liq)
+    plaza_m = (1.0 - smoothstep(PLAZA_R - 4.0, PLAZA_R + 6.0, d_cap)) * dry_plaza
+    road_mask = np.maximum(road_mask, plaza_m)
 
-    spline_defs: list[tuple[list[tuple[float, float]], float, float, str]] = []
+    # Build 256x256 navigation grid (4m/cell) where ocean, wide rivers/lakes, and building footprints+collar are STRICTLY IMPASSABLE
+    NAV_N = 256
+    NAV_STEP = WORLD_SIZE / (NAV_N - 1)  # ~4.015m/cell
+    nav_lin = np.linspace(-HALF, HALF, NAV_N, dtype=np.float32)
+    nav_zz, nav_xx = np.meshgrid(nav_lin, nav_lin, indexing="ij")
 
-    def make_graceful_road(
-        p_a: tuple[float, float], p_b: tuple[float, float], bend: float, width: float, strength: float, tier: str
-    ) -> None:
-        dx_w = p_b[0] - p_a[0]
-        dz_w = p_b[1] - p_a[1]
-        seg_len = max(math.hypot(dx_w, dz_w), 1.0)
-        nx_p, nz_p = -dz_w / seg_len, dx_w / seg_len
-        p1 = (p_a[0] + dx_w * 0.34 + nx_p * bend, p_a[1] + dz_w * 0.34 + nz_p * bend)
-        p2 = (p_a[0] + dx_w * 0.68 - nx_p * bend * 0.55, p_a[1] + dz_w * 0.68 - nz_p * bend * 0.55)
-        spline_defs.append(([p_a, p1, p2, p_b], width, strength, tier))
+    # Downsample masks conservatively (2x2 max-pool so no thin water/ocean pixel leaks through)
+    def pool2_any(m512: np.ndarray) -> np.ndarray:
+        return m512.reshape(NAV_N, 2, NAV_N, 2).any(axis=(1, 3))
 
-    # 4a) Dedicated Paved City Streets directly from Capital Plaza/Ring -> EVERY Capital Enterable Building Door!
-    for b_idx, b in enumerate(buildings_list):
-        if b["map_kind"] in ("capital", "service") and b["enterable"]:
-            ex, ez = float(b["entrance"][0]), float(b["entrance"][1])
-            dist_c = math.hypot(ex - cap_x, ez - cap_z)
-            if dist_c > ring_r + 16.0:
-                ang = math.atan2(ez - cap_z, ex - cap_x)
-                start_pt = (cap_x + math.cos(ang) * ring_r, cap_z + math.sin(ang) * ring_r)
-                if liq_dist(start_pt[0], start_pt[1]) < 10.0:
-                    start_pt = (cap_x, cap_z)
-            else:
-                start_pt = (cap_x, cap_z)
-            make_graceful_road(
-                start_pt, (ex, ez),
-                bend=7.0 if b_idx % 2 == 0 else -7.0,
-                width=9.4, strength=0.92, tier="city",
-            )
-            d_ent = np.sqrt((xx - ex) ** 2 + (zz - ez) ** 2)
-            apron = (1.0 - smoothstep(8.0, 14.5, d_ent)) * smoothstep(4.0, 10.0, edt_liq) * 0.92
-            road_mask = np.maximum(road_mask, apron)
+    nav_ocean = pool2_any(ocean)
+    nav_inland = pool2_any(inland_water) & (~nav_ocean)
+    nav_lava = pool2_any(lava) & (~nav_ocean)
+    nav_cross_liq = nav_inland | nav_lava
+    nav_liquid = nav_ocean | nav_cross_liq
+    nav_edt_liq = exact_edt(nav_liquid) * NAV_STEP
+    nav_slope = base_slope.reshape(NAV_N, 2, NAV_N, 2).mean(axis=(1, 3))
 
-    # 4b) Tier-1 Paved Highways from Capital -> ALL 6 Exp-Zones
-    for idx, ez in enumerate(exp_zones):
-        make_graceful_road(
-            (cap_x, cap_z), (ez["cx"], ez["cz"]),
-            bend=18.0 if idx % 2 == 0 else -18.0,
-            width=11.5, strength=0.94, tier="highway",
-        )
+    # Precompute narrow_crossable mask: ONLY narrow river/lava channels (span <= 38m bank-to-bank) can be bridged with 1 SINGLE continuous bridge!
+    narrow_crossable = np.zeros((NAV_N, NAV_N), dtype=bool)
+    max_half_cells = 5  # <= 10 cells (~40m) total span, comfortably spanned by ONE single 540px Blender Cycles bridge!
+    chan_ys, chan_xs = np.where(nav_cross_liq)
+    for cy, cx_i in zip(chan_ys, chan_xs):
+        if cy < 8 or cy >= NAV_N - 8 or cx_i < 8 or cx_i >= NAV_N - 8:
+            continue
+        is_narrow = False
+        for dy_d, dx_d in ((0, 1), (1, 0), (1, 1), (1, -1)):
+            s_pos = None
+            for k in range(1, max_half_cells + 1):
+                ny, nx_i = cy + dy_d * k, cx_i + dx_d * k
+                if nav_ocean[ny, nx_i]:
+                    break
+                if not nav_liquid[ny, nx_i]:
+                    s_pos = k
+                    break
+            if s_pos is None:
+                continue
+            s_neg = None
+            for k in range(1, max_half_cells + 1):
+                ny, nx_i = cy - dy_d * k, cx_i - dx_d * k
+                if nav_ocean[ny, nx_i]:
+                    break
+                if not nav_liquid[ny, nx_i]:
+                    s_neg = k
+                    break
+            if s_neg is not None:
+                step_m = NAV_STEP * (1.4142 if (dy_d != 0 and dx_d != 0) else 1.0)
+                if (s_pos + s_neg) * step_m <= 38.0:
+                    is_narrow = True
+                    break
+        if is_narrow:
+            narrow_crossable[cy, cx_i] = True
 
-    # 4c) Tier-1/2 Town Roads -> EVERY Wilderness Castle/Town/Outpost Door!
-    for idx, trec in enumerate(placed_towns):
-        ex, ez = float(trec["entrance"][0]), float(trec["entrance"][1])
-        nearest_ez = min(exp_zones, key=lambda e: math.hypot(e["cx"] - ex, e["cz"] - ez))
-        src_pt = (cap_x, cap_z) if idx == 0 else (nearest_ez["cx"], nearest_ez["cz"])
-        make_graceful_road(
-            src_pt, (ex, ez),
-            bend=14.0 if idx % 2 == 0 else -14.0,
-            width=9.8, strength=0.88, tier="town",
-        )
-        d_ent = np.sqrt((xx - ex) ** 2 + (zz - ez) ** 2)
-        apron = (1.0 - smoothstep(9.0, 16.0, d_ent)) * smoothstep(4.0, 10.0, edt_liq) * 0.90
-        road_mask = np.maximum(road_mask, apron)
+    # Building solid + generous safety collar (r_foot + 10.5m) strictly IMPASSABLE so NO road can EVER cross a building!
+    nav_blocked = nav_ocean.copy() | (nav_cross_liq & (~narrow_crossable))
+    nav_blocked[:4, :] = True
+    nav_blocked[-4:, :] = True
+    nav_blocked[:, :4] = True
+    nav_blocked[:, -4:] = True
 
-    # 4d) Continent Perimeter Footpath Loop linking neighboring Exp-Zones
-    ez_ordered = sorted(exp_zones, key=lambda e: math.atan2(e["cz"] - cap_z, e["cx"] - cap_x))
-    for i in range(len(ez_ordered)):
-        a = ez_ordered[i]
-        b = ez_ordered[(i + 1) % len(ez_ordered)]
-        mx, mz = 0.5 * (a["cx"] + b["cx"]), 0.5 * (a["cz"] + b["cz"])
-        if not ocean[wz_to_i(mz), wx_to_j(mx)]:
-            make_graceful_road(
-                (a["cx"], a["cz"]), (b["cx"], b["cz"]),
-                bend=12.0 if i % 2 == 0 else -12.0,
-                width=8.4, strength=0.80, tier="footpath",
-            )
+    for fx, fz, r_foot, _ex, _ez, _rl, _mk, _ent in placed_major:
+        d_nb = np.sqrt((nav_xx - fx) ** 2 + (nav_zz - fz) ** 2)
+        nav_blocked |= (d_nb < r_foot + 10.5)
 
-    # 5) Detect EVERY Water & Lava Crossing along ALL Roads -> Place Oriented Directional Blender Bridges!
-    crossable_liq = inland_water | lava
+    # Track built road cells & placed single-span bridges so subsequent roads reuse existing trunks & bridges!
+    built_road_nav = np.zeros((NAV_N, NAV_N), dtype=bool)
+    # Mark Central Royal Plaza perimeter as built road hub
+    d_nav_cap = np.sqrt((nav_xx - cap_x) ** 2 + (nav_zz - cap_z) ** 2)
+    built_road_nav |= (d_nav_cap <= PLAZA_R - 2.0) & (~nav_blocked)
+
     bridges_placed: list[dict] = []
+    bridge_excl_mask = np.zeros((NAV_N, NAV_N), dtype=bool)
 
-    def try_add_bridge_from_run(curve: np.ndarray, run_start: int, run_end: int) -> bool:
+    def world_to_nav(wx: float, wz: float) -> tuple[int, int]:
+        ni = int(np.clip(round((wz + HALF) / WORLD_SIZE * (NAV_N - 1)), 4, NAV_N - 5))
+        nj = int(np.clip(round((wx + HALF) / WORLD_SIZE * (NAV_N - 1)), 4, NAV_N - 5))
+        return ni, nj
+
+    def nearest_free_nav(wx: float, wz: float) -> tuple[int, int]:
+        ni0, nj0 = world_to_nav(wx, wz)
+        if not nav_blocked[ni0, nj0] and not nav_liquid[ni0, nj0]:
+            return ni0, nj0
+        for rad in range(1, 16):
+            for di in range(-rad, rad + 1):
+                for dj in range(-rad, rad + 1):
+                    if abs(di) != rad and abs(dj) != rad:
+                        continue
+                    ni, nj = ni0 + di, nj0 + dj
+                    if 4 <= ni < NAV_N - 4 and 4 <= nj < NAV_N - 4:
+                        if not nav_blocked[ni, nj] and not nav_liquid[ni, nj]:
+                            return ni, nj
+        return ni0, nj0
+
+    def astar_planar_road(
+        src_w: tuple[float, float],
+        dst_w: tuple[float, float],
+        allow_bridges: bool = True,
+        stop_on_existing_road: bool = True,
+    ) -> list[tuple[int, int]] | None:
+        si, sj = nearest_free_nav(src_w[0], src_w[1])
+        ti, tj = nearest_free_nav(dst_w[0], dst_w[1])
+        if (si, sj) == (ti, tj):
+            return [(si, sj)]
+
+        # Precompute fast flat cost array
+        g_score = np.full((NAV_N, NAV_N), 1e9, dtype=np.float32)
+        parent = np.full((NAV_N, NAV_N), -1, dtype=np.int32)
+        g_score[si, sj] = 0.0
+
+        # 8-connected neighbors
+        nbrs = [
+            (-1, 0, 1.0), (1, 0, 1.0), (0, -1, 1.0), (0, 1, 1.0),
+            (-1, -1, 1.4142), (-1, 1, 1.4142), (1, -1, 1.4142), (1, 1, 1.4142),
+        ]
+
+        pq: list[tuple[float, float, int, int]] = [(math.hypot(ti - si, tj - sj) * 0.24, 0.0, si, sj)]
+        goal_hit = None
+
+        while pq:
+            _f_cur, g_pop, ci, cj = heapq.heappop(pq)
+            if g_pop > float(g_score[ci, cj]) + 1e-4:
+                continue
+            if (ci == ti and cj == tj) or (stop_on_existing_road and built_road_nav[ci, cj] and (ci != si or cj != sj)):
+                goal_hit = (ci, cj)
+                break
+
+            for di, dj, step_w in nbrs:
+                ni, nj = ci + di, cj + dj
+                if ni < 4 or ni >= NAV_N - 4 or nj < 4 or nj >= NAV_N - 4:
+                    continue
+                if nav_blocked[ni, nj]:
+                    continue
+                is_built = bool(built_road_nav[ni, nj])
+                is_liq = bool(nav_cross_liq[ni, nj])
+                if is_liq and not is_built:
+                    if not allow_bridges or bridge_excl_mask[ni, nj]:
+                        continue
+                    cell_cost = 18.0
+                elif is_built:
+                    cell_cost = 0.24
+                else:
+                    sl = float(nav_slope[ni, nj])
+                    liq_pen = 2.4 if float(nav_edt_liq[ni, nj]) < 10.0 else 0.0
+                    cell_cost = 1.0 + sl * 7.5 + liq_pen
+
+                ng = g_pop + step_w * cell_cost
+                if ng < float(g_score[ni, nj]):
+                    g_score[ni, nj] = ng
+                    parent[ni, nj] = ci * NAV_N + cj
+                    h_est = math.hypot(ti - ni, tj - nj) * 0.24
+                    heapq.heappush(pq, (ng + h_est, ng, ni, nj))
+
+        if goal_hit is None:
+            return None
+        path: list[tuple[int, int]] = []
+        ci, cj = goal_hit
+        while ci >= 0:
+            path.append((ci, cj))
+            p_code = int(parent[ci, cj])
+            if p_code < 0:
+                break
+            ci, cj = divmod(p_code, NAV_N)
+        path.reverse()
+        return path
+
+    def smooth_nav_path(nav_pts: list[tuple[int, int]]) -> np.ndarray:
+        raw = np.array([[float(nav_lin[j]), float(nav_lin[i])] for i, j in nav_pts], dtype=np.float32)
+        if len(raw) <= 2:
+            return raw
+        pts = raw.copy()
+        for _ in range(4):
+            nxt = pts.copy()
+            for k in range(1, len(pts) - 1):
+                cand = 0.25 * pts[k - 1] + 0.50 * pts[k] + 0.25 * pts[k + 1]
+                # Reject smoothing displacement that would nudge into a building collar or ocean
+                ni, nj = world_to_nav(float(cand[0]), float(cand[1]))
+                if not nav_blocked[ni, nj]:
+                    nxt[k] = cand
+            pts = nxt
+        return pts
+
+    def try_place_single_bridge_on_curve(curve: np.ndarray, run_start: int, run_end: int) -> bool:
+        """Places STRICTLY ONE single continuous Blender Cycles bridge (n_segs = 1 ALWAYS!)
+        spanning bank-to-bank with >= 88m spacing from every other bridge (ZERO multi-bridge seams!)."""
         n_pts = len(curve)
         i0 = max(0, run_start - 3)
         i1 = min(n_pts - 1, run_end + 3)
         p_start = curve[i0]
         p_end = curve[i1]
         span_m = float(math.hypot(p_end[0] - p_start[0], p_end[1] - p_start[1]))
-        if span_m < 9.0 or span_m > 98.0:
+        if span_m < 8.0 or span_m > 52.0:
             return False
         if ocean[wz_to_i(float(p_start[1])), wx_to_j(float(p_start[0]))]:
             return False
         if ocean[wz_to_i(float(p_end[1])), wx_to_j(float(p_end[0]))]:
             return False
+        mid_i = (run_start + run_end) // 2
+        bx, bz = float(curve[mid_i][0]), float(curve[mid_i][1])
+        # Enforce strict minimum 88m spacing -> ZERO bridge clusters or overlapping decks!
+        if any(math.hypot(bx - b["x"], bz - b["z"]) < 88.0 for b in bridges_placed):
+            return False
+
         dx = float(p_end[0] - p_start[0])
         dz = float(p_end[1] - p_start[1])
         axis = select_directional_bridge_axis(dx, dz)
-
-        n_segs = 1 if span_m <= 42.0 else (2 if span_m <= 74.0 else 3)
-        mid_i = (run_start + run_end) // 2
-        cx_m, cz_m = float(curve[mid_i][0]), float(curve[mid_i][1])
-        if any(math.hypot(cx_m - b["x"], cz_m - b["z"]) < 72.0 for b in bridges_placed):
-            return False
 
         bank_h = max(
             float(h[wz_to_i(float(p_start[1])), wx_to_j(float(p_start[0]))]),
@@ -1452,40 +1529,60 @@ def generate_continent(land_id: str) -> dict:
         rdx = xx[..., None] - run_pts[None, None, :, 0]
         rdz = zz[..., None] - run_pts[None, None, :, 1]
         d_run = np.min(np.sqrt(rdx * rdx + rdz * rdz), axis=-1)
-        bridge_walk_mask[:] |= (d_run < 11.5)
-        lift_w = 1.0 - smoothstep(6.5, 13.0, d_run)
+        bridge_walk_mask[:] |= (d_run < 12.0)
+        lift_w = 1.0 - smoothstep(6.5, 13.5, d_run)
         h[:] = np.where(lift_w > 0.02, h * (1.0 - lift_w) + bank_h * lift_w, h)
 
-        for s_k in range(n_segs):
-            frac = (s_k + 0.5) / n_segs
-            idx_s = int(round(run_start + frac * (run_end - run_start)))
-            bx, bz = float(curve[idx_s][0]), float(curve[idx_s][1])
-            bridges_placed.append({
-                "id": f"{land_id}-bridge-{len(bridges_placed)}",
-                "title": "Most Szlaku",
-                "role": "bridge",
-                "map_kind": "bridge",
-                "enterable": False,
-                "axis": axis,
-                "sprite": f"res://assets/objects/{land_id}-bridge-{axis}.webp",
-                "w": 540,
-                "h": 420,
-                "x": round(bx, 2),
-                "z": round(bz, 2),
-                "y": round(bank_h, 2),
-            })
+        # Mark neighboring liquid cells within 85m as excluded for NEW bridges so other roads reuse THIS bridge!
+        d_nav_b = np.sqrt((nav_xx - bx) ** 2 + (nav_zz - bz) ** 2)
+        bridge_excl_mask[:] |= nav_cross_liq & (d_nav_b < 85.0) & (d_nav_b > 11.0)
+
+        bridges_placed.append({
+            "id": f"{land_id}-bridge-{len(bridges_placed)}",
+            "title": "Most Szlaku",
+            "role": "bridge",
+            "map_kind": "bridge",
+            "enterable": False,
+            "axis": axis,
+            "sprite": f"res://assets/objects/{land_id}-bridge-{axis}.webp",
+            "w": 560,
+            "h": 435,
+            "x": round(bx, 2),
+            "z": round(bz, 2),
+            "y": round(bank_h, 2),
+        })
         return True
 
-    for ctrl_pts, r_width, r_strength, tier in spline_defs:
-        curve = catmull_rom_spline(ctrl_pts, samples_per_seg=110)
-        ci_arr = np.clip(np.round((curve[:, 1] + HALF) / WORLD_SIZE * (GRID_N - 1)).astype(int), 0, GRID_N - 1)
-        cj_arr = np.clip(np.round((curve[:, 0] + HALF) / WORLD_SIZE * (GRID_N - 1)).astype(int), 0, GRID_N - 1)
-        if int(np.sum(ocean[ci_arr, cj_arr])) > 16:
-            continue
+    crossable_liq = inland_water | lava
+    committed_road_polylines: list[np.ndarray] = []
 
+    def commit_planar_road(nav_pts: list[tuple[int, int]], r_width: float, r_strength: float, tier: str) -> np.ndarray | None:
+        if nav_pts is None or len(nav_pts) < 2:
+            return None
+        # Mark cells in built_road_nav so subsequent routes merge cleanly at T/Y junctions instead of overlapping!
+        for ni, nj in nav_pts:
+            built_road_nav[ni, nj] = True
+            for di, dj in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+                if not nav_blocked[ni + di, nj + dj] and not nav_cross_liq[ni + di, nj + dj]:
+                    built_road_nav[ni + di, nj + dj] = True
+
+        curve = smooth_nav_path(nav_pts)
+        # Upsample curve cleanly for smooth 512px road_mask rasterization & crossing detection
+        dense_pts = [curve[0]]
+        for k in range(len(curve) - 1):
+            a, b_p = curve[k], curve[k + 1]
+            seg_d = float(math.hypot(b_p[0] - a[0], b_p[1] - a[1]))
+            n_sub = max(1, int(math.ceil(seg_d / 2.2)))
+            for s in range(1, n_sub + 1):
+                t = s / n_sub
+                dense_pts.append(a * (1.0 - t) + b_p * t)
+        dense = np.array(dense_pts, dtype=np.float32)
+
+        ci_arr = np.clip(np.round((dense[:, 1] + HALF) / WORLD_SIZE * (GRID_N - 1)).astype(int), 0, GRID_N - 1)
+        cj_arr = np.clip(np.round((dense[:, 0] + HALF) / WORLD_SIZE * (GRID_N - 1)).astype(int), 0, GRID_N - 1)
         in_chan = crossable_liq[ci_arr, cj_arr]
         idx_c = 0
-        n_c = len(curve)
+        n_c = len(dense)
         while idx_c < n_c:
             if in_chan[idx_c]:
                 r_start = idx_c
@@ -1493,63 +1590,111 @@ def generate_continent(land_id: str) -> dict:
                     idx_c += 1
                 r_end = idx_c - 1
                 if r_end - r_start >= 2:
-                    try_add_bridge_from_run(curve, r_start, r_end)
+                    try_place_single_bridge_on_curve(dense, r_start, r_end)
             else:
                 idx_c += 1
 
-        step_exp = max(1, len(curve) // 22)
-        exp_pts = [[round(float(curve[k, 0]), 1), round(float(curve[k, 1]), 1)] for k in range(0, len(curve), step_exp)]
-        if exp_pts[-1] != [round(float(curve[-1, 0]), 1), round(float(curve[-1, 1]), 1)]:
-            exp_pts.append([round(float(curve[-1, 0]), 1), round(float(curve[-1, 1]), 1)])
-        roads_export.append({"tier": tier, "pts": exp_pts})
+        # Export clean simplified polyline (~12m vertex spacing)
+        exp_pts = [[round(float(curve[0, 0]), 1), round(float(curve[0, 1]), 1)]]
+        for k in range(1, len(curve) - 1):
+            if math.hypot(curve[k, 0] - exp_pts[-1][0], curve[k, 1] - exp_pts[-1][1]) >= 10.0:
+                exp_pts.append([round(float(curve[k, 0]), 1), round(float(curve[k, 1]), 1)])
+        last_pt = [round(float(curve[-1, 0]), 1), round(float(curve[-1, 1]), 1)]
+        if exp_pts[-1] != last_pt:
+            exp_pts.append(last_pt)
+        # If this street reached the Central Royal Plaza rim, join cleanly into the Plaza hub (cap_x, cap_z) so zero visual gap appears on maps!
+        if math.hypot(exp_pts[-1][0] - cap_x, exp_pts[-1][1] - cap_z) <= PLAZA_R + 10.0:
+            hub_pt = [round(cap_x, 1), round(cap_z, 1)]
+            if exp_pts[-1] != hub_pt:
+                exp_pts.append(hub_pt)
+        if len(exp_pts) >= 2:
+            roads_export.append({"tier": tier, "pts": exp_pts})
+            committed_road_polylines.append(curve)
 
-        sub_pts = curve[::2]
+        # Rasterize smooth paved road onto 512x512 road_mask
+        sub_pts = dense[::2]
         dx = xx[..., None] - sub_pts[None, None, :, 0]
         dz = zz[..., None] - sub_pts[None, None, :, 1]
         d_min = np.min(np.sqrt(dx * dx + dz * dz), axis=-1)
-        edge_jit = (n_detail - 0.5) * (2.0 if tier == "footpath" else 0.9)
-        seg_mask = (1.0 - smoothstep(r_width * 0.42, r_width * 0.88, d_min + edge_jit)) * r_strength
-        road_mask = np.maximum(road_mask, seg_mask)
+        edge_jit = (n_detail - 0.5) * (1.2 if tier == "footpath" else 0.65)
+        seg_mask = (1.0 - smoothstep(r_width * 0.42, r_width * 0.86, d_min + edge_jit)) * r_strength
+        road_mask[:] = np.maximum(road_mask, seg_mask)
+        return curve
 
-    if len(bridges_placed) < 2 and np.any(crossable_liq):
-        ys_l, xs_l = np.where(crossable_liq)
-        step_s = max(1, len(xs_l) // 180)
-        for k in range(0, len(xs_l), step_s):
-            if len(bridges_placed) >= 2:
+    # 4a) Capital City Streets: route cleanly from EVERY enterable capital building's front door to the Plaza/existing street network!
+    # Sort closest-to-plaza first so inner buildings form the crisp city avenues, and outer buildings connect via short T-stubs!
+    cap_enterables = [b for b in buildings_list if b["map_kind"] in ("capital", "service") and b["enterable"]]
+    cap_enterables.sort(key=lambda b: math.hypot(b["entrance"][0] - cap_x, b["entrance"][1] - cap_z))
+    for b in cap_enterables:
+        ex, ez = float(b["entrance"][0]), float(b["entrance"][1])
+        path = astar_planar_road((ex, ez), (cap_x, cap_z), allow_bridges=False, stop_on_existing_road=True)
+        if path is None:
+            path = astar_planar_road((ex, ez), (cap_x, cap_z), allow_bridges=True, stop_on_existing_road=True)
+        if path is not None:
+            commit_planar_road(path, r_width=8.6, r_strength=0.92, tier="city")
+        d_ent = np.sqrt((xx - ex) ** 2 + (zz - ez) ** 2)
+        apron = (1.0 - smoothstep(7.5, 13.0, d_ent)) * smoothstep(4.0, 10.0, edt_liq) * 0.90
+        road_mask = np.maximum(road_mask, apron)
+
+    # 4b) Continent Trunk Highways: route from EVERY Outer Castle/Town/Outpost door to Capital (merging cleanly into trunk highways at Y/T junctions!)
+    towns_sorted = sorted(placed_towns, key=lambda t: math.hypot(t["entrance"][0] - cap_x, t["entrance"][1] - cap_z))
+    highway_curves: list[np.ndarray] = []
+    for trec in towns_sorted:
+        ex, ez = float(trec["entrance"][0]), float(trec["entrance"][1])
+        path = astar_planar_road((ex, ez), (cap_x, cap_z), allow_bridges=True, stop_on_existing_road=True)
+        if path is not None:
+            c = commit_planar_road(path, r_width=10.6, r_strength=0.94, tier="highway")
+            if c is not None:
+                highway_curves.append(c)
+        d_ent = np.sqrt((xx - ex) ** 2 + (zz - ez) ** 2)
+        apron = (1.0 - smoothstep(8.5, 14.5, d_ent)) * smoothstep(4.0, 10.0, edt_liq) * 0.90
+        road_mask = np.maximum(road_mask, apron)
+
+    # 4c) Ensure at least 1 scenic single-span bridge per continent if a continent's towns all sat on the same bank
+    if len(bridges_placed) < 1 and np.any(narrow_crossable):
+        ys_n, xs_n = np.where(narrow_crossable)
+        step_s = max(1, len(xs_n) // 160)
+        for k in range(0, len(xs_n), step_s):
+            if len(bridges_placed) >= 1:
                 break
-            lx = float(x_lin[xs_l[k]])
-            lz = float(z_lin[ys_l[k]])
-            if math.hypot(lx - cap_x, lz - cap_z) < SAFE_CITY_RADIUS * 0.72:
+            lx = float(nav_lin[xs_n[k]])
+            lz = float(nav_lin[ys_n[k]])
+            if math.hypot(lx - cap_x, lz - cap_z) < 150.0:
                 continue
-            if any(math.hypot(lx - b["x"], lz - b["z"]) < 75.0 for b in bridges_placed):
+            if any(math.hypot(lx - bx, lz - bz) < br + 28.0 for bx, bz, br, _, _, _, _, _ in placed_major):
                 continue
             for ang_deg in (0.0, 90.0, 45.0, 135.0):
                 rad = math.radians(ang_deg)
                 ux, uz = math.cos(rad), math.sin(rad)
-                found_span = None
-                for half_s in (18.0, 26.0, 34.0):
-                    p0 = (lx - ux * half_s, lz - uz * half_s)
-                    p1 = (lx + ux * half_s, lz + uz * half_s)
-                    if abs(p0[0]) > HALF - 24 or abs(p0[1]) > HALF - 24 or abs(p1[0]) > HALF - 24 or abs(p1[1]) > HALF - 24:
+                p0 = (lx - ux * 20.0, lz - uz * 20.0)
+                p1 = (lx + ux * 20.0, lz + uz * 20.0)
+                if abs(p0[0]) > HALF - 26 or abs(p0[1]) > HALF - 26 or abs(p1[0]) > HALF - 26 or abs(p1[1]) > HALF - 26:
+                    continue
+                if liq_dist(p0[0], p0[1]) >= 10.0 and liq_dist(p1[0], p1[1]) >= 10.0:
+                    # Verify neither end hits a building
+                    if any(
+                        math.hypot(p0[0] - bx, p0[1] - bz) < br + 16.0 or math.hypot(p1[0] - bx, p1[1] - bz) < br + 16.0
+                        for bx, bz, br, _, _, _, _, _ in placed_major
+                    ):
                         continue
-                    if liq_dist(p0[0], p0[1]) >= 10.0 and liq_dist(p1[0], p1[1]) >= 10.0:
-                        found_span = (p0, p1)
-                        break
-                if found_span is not None:
-                    p0, p1 = found_span
-                    spur = catmull_rom_spline([p0, (lx, lz), p1], samples_per_seg=40)
+                    spur = np.linspace(np.array(p0, dtype=np.float32), np.array(p1, dtype=np.float32), 24)
                     ci_s = np.clip(np.round((spur[:, 1] + HALF) / WORLD_SIZE * (GRID_N - 1)).astype(int), 0, GRID_N - 1)
                     cj_s = np.clip(np.round((spur[:, 0] + HALF) / WORLD_SIZE * (GRID_N - 1)).astype(int), 0, GRID_N - 1)
                     idxs = np.where(crossable_liq[ci_s, cj_s])[0]
-                    if len(idxs) >= 2 and try_add_bridge_from_run(spur, int(idxs[0]), int(idxs[-1])):
+                    if len(idxs) >= 2 and try_place_single_bridge_on_curve(spur, int(idxs[0]), int(idxs[-1])):
+                        # Connect one bank cleanly back to the main planar road network via A*!
+                        link_path = astar_planar_road(p0, (cap_x, cap_z), allow_bridges=False, stop_on_existing_road=True)
+                        if link_path is not None:
+                            commit_planar_road(link_path, r_width=8.0, r_strength=0.84, tier="footpath")
                         roads_export.append({
                             "tier": "footpath",
-                            "pts": [[round(float(spur[j, 0]), 1), round(float(spur[j, 1]), 1)] for j in range(0, len(spur), 6)],
+                            "pts": [[round(float(p0[0]), 1), round(float(p0[1]), 1)], [round(float(p1[0]), 1), round(float(p1[1]), 1)]],
                         })
+                        committed_road_polylines.append(spur)
                         dx = xx[..., None] - spur[None, None, :, 0]
                         dz = zz[..., None] - spur[None, None, :, 1]
                         d_min = np.min(np.sqrt(dx * dx + dz * dz), axis=-1)
-                        seg_m = (1.0 - smoothstep(4.5, 9.5, d_min)) * 0.90
+                        seg_m = (1.0 - smoothstep(4.0, 8.5, d_min)) * 0.88
                         road_mask = np.maximum(road_mask, seg_m)
                         break
 
@@ -1559,15 +1704,73 @@ def generate_continent(land_id: str) -> dict:
     for fx, fz, r_foot, _ex, _ez, _rl, _mk, _ent in placed_major:
         d_b = np.sqrt((xx - fx) ** 2 + (zz - fz) ** 2)
         building_solid_mask |= (d_b < r_foot * 0.56)
-        road_mask = np.where(d_b < r_foot * 0.50, 0.0, road_mask)
+        road_mask = np.where(d_b < r_foot * 0.72, 0.0, road_mask)
+
+    # Place 4 Corner Watchtowers & Castle Flanking Towers STRICTLY OFF-ROAD (after roads are finalized!)
+    def is_clear_of_roads(wx: float, wz: float, min_road_d: float = 20.0) -> bool:
+        ci, cj = wz_to_i(wz), wx_to_j(wx)
+        if float(road_mask[ci, cj]) > 0.08:
+            return False
+        for poly in committed_road_polylines:
+            if len(poly) < 2:
+                continue
+            d_v = np.hypot(poly[:, 0] - wx, poly[:, 1] - wz)
+            if float(np.min(d_v)) < min_road_d:
+                return False
+        return True
+
+    for ti, (tx, tz) in enumerate([(-170.0, -170.0), (170.0, -170.0), (-170.0, 170.0), (170.0, 170.0)]):
+        for dr in range(0, 48, 8):
+            placed_t = False
+            for ang_k in range(8):
+                ang = (2.0 * math.pi * ang_k) / 8.0
+                cx_t = cap_x + tx + math.cos(ang) * dr
+                cz_t = cap_z + tz + math.sin(ang) * dr
+                if is_clear_of_roads(cx_t, cz_t, 24.0):
+                    t_rec = place_building_safe(
+                        f"{land_id}-tower-{ti}", "Baszta Strażnicza", "tower", "tower", cx_t, cz_t,
+                        map_kind="fort", enterable=False, enforce_spacing=True, min_extra_liq=10.0, search_r=0.0,
+                    )
+                    if t_rec is not None:
+                        placed_t = True
+                        break
+            if placed_t:
+                break
+
+    # Place up to 4 Capital Road Gates right where outgoing highways exit the outer city perimeter (~175m from capital center!)
+    placed_gate_pts: list[tuple[float, float]] = []
+    for h_curve in highway_curves:
+        dists_c = np.hypot(h_curve[:, 0] - cap_x, h_curve[:, 1] - cap_z)
+        cand_idxs = np.where((dists_c >= 168.0) & (dists_c <= 205.0))[0]
+        if len(cand_idxs) == 0:
+            continue
+        gi = int(cand_idxs[len(cand_idxs) // 2])
+        gx, gz = float(h_curve[gi, 0]), float(h_curve[gi, 1])
+        if liq_dist(gx, gz) < 18.0:
+            continue
+        if any(math.hypot(gx - ogx, gz - ogz) < 68.0 for ogx, ogz in placed_gate_pts):
+            continue
+        if any(math.hypot(gx - bx, gz - bz) < br + 38.0 for bx, bz, br, _, _, _, _, _ in placed_major):
+            continue
+        p_prev = h_curve[max(0, gi - 2)]
+        p_next = h_curve[min(len(h_curve) - 1, gi + 2)]
+        g_key = "gate_z" if abs(p_next[0] - p_prev[0]) >= abs(p_next[1] - p_prev[1]) else "gate_x"
+        g_rec = place_building_safe(
+            f"{land_id}-gate-{len(placed_gate_pts)}", "Brama Stolicy", "gate", g_key, gx, gz,
+            map_kind="fort", enterable=False, enforce_spacing=False, min_extra_liq=14.0, search_r=0.0,
+        )
+        if g_rec is not None:
+            placed_gate_pts.append((gx, gz))
 
     buildings_list.extend(bridges_placed)
 
-    for li, (lx, lz) in enumerate([(-44.0, -38.0), (44.0, -38.0), (-44.0, 38.0), (44.0, 38.0), (-80.0, 4.0), (80.0, 4.0)]):
-        place_building_safe(
-            f"{land_id}-lamp-{li}", "Latarnia Placu", "prop", "lantern", cap_x + lx, cap_z + lz,
-            map_kind="prop", enterable=False, enforce_spacing=False, min_extra_liq=12.0, search_r=18.0,
-        )
+    for li, (lx, lz) in enumerate([(-34.0, -34.0), (34.0, -34.0), (-34.0, 34.0), (34.0, 34.0)]):
+        px_l, pz_l = cap_x + lx, cap_z + lz
+        if is_clear_of_roads(px_l, pz_l, 12.0):
+            place_building_safe(
+                f"{land_id}-lamp-{li}", "Latarnia Placu", "prop", "lantern", px_l, pz_l,
+                map_kind="prop", enterable=False, enforce_spacing=False, min_extra_liq=12.0, search_r=12.0,
+            )
 
     # Preserve all deployed RTX 6000 Ada PBR textures — only fill missing legacy textures if absent
     src_terrain_dir = REPO_ROOT / "ports" / "godot-pyra" / "assets" / "lands" / land_id / "terrain"
@@ -1638,26 +1841,26 @@ def generate_continent(land_id: str) -> dict:
             return False
         if building_solid_mask[ci, cj]:
             return False
-        if clear_road and float(road_mask[ci, cj]) > 0.22:
+        if clear_road and float(road_mask[ci, cj]) > 0.16:
             return False
         return True
 
     # 6) 10 Capital NPCs stationed cleanly right beside Building Front Entrances (100% Dry!)
-    npc_role_map = ["hall", "smithy", "shop", "inn", "arena", "depot", "landmark", "gate", "hall", "smithy"]
+    npc_role_map = ["hall", "smithy", "shop", "inn", "arena", "depot", "landmark", "hall", "smithy", "inn"]
     npcs_list = []
-    avoid_b_cores = [(bx, bz, br + 6.0) for bx, bz, br, _, _, _, _, _ in placed_major]
+    avoid_b_cores = [(bx, bz, br + 8.0) for bx, bz, br, _, _, _, _, _ in placed_major]
     for n_idx, (actor_id, name, role, q_mark, nox, noz) in enumerate(NPCS_CATALOG[land_id]):
         target_role = npc_role_map[n_idx % len(npc_role_map)]
         cands = placed_by_role.get(target_role, [])
         if cands:
             brec = cands[0]
-            ent = brec.get("entrance", [brec["x"], brec["z"] + 32.0])
-            nx = float(ent[0]) + (6.0 if n_idx % 2 == 0 else -6.0)
-            nz = float(ent[1]) + (4.0 if n_idx < 5 else -4.0)
+            ent = brec.get("entrance", [brec["x"], brec["z"] + 36.0])
+            nx = float(ent[0]) + (7.0 if n_idx % 2 == 0 else -7.0)
+            nz = float(ent[1]) + (5.0 if n_idx < 5 else -5.0)
         else:
             nx, nz = cap_x + nox, cap_z + noz
         if not is_safe_dry(nx, nz, min_liq_m=10.0, clear_road=False) or any(
-            math.hypot(nx - bx, nz - bz) < br + 4.0 for bx, bz, br, _, _, _, _, _ in placed_major
+            math.hypot(nx - bx, nz - bz) < br + 5.0 for bx, bz, br, _, _, _, _, _ in placed_major
         ):
             nx, nz = snap_dry_site(nx, nz, min_liq_m=12.0, avoid_pts=avoid_b_cores, max_search_r=75.0)
         npcs_list.append({
@@ -1668,54 +1871,25 @@ def generate_continent(land_id: str) -> dict:
             "x": round(nx, 2),
             "z": round(nz, 2),
             "y": round(sample_h(nx, nz), 2),
-            "patrol_radius": 7.0,
+            "patrol_radius": 6.0,
         })
 
-    # 7) 30 Monsters in 6 Exp-Zones (100% Dry Ground)
-    monsters_list = []
-    exp_zones_out = []
-    for ez in exp_zones:
-        ecx, ecz, erad = ez["cx"], ez["cz"], ez["radius"]
-        exp_zones_out.append({
-            "id": ez["id"],
-            "name": ez["name"],
-            "x": ecx,
-            "z": ecz,
-            "y": round(sample_h(ecx, ecz), 2),
-            "radius": erad,
-        })
-        m_defs = ez["monsters"]
-        for m_idx, (m_id, m_name, m_lv, m_hp) in enumerate(m_defs):
-            ang = (2.0 * math.pi * m_idx) / len(m_defs) + 0.35
-            dist = 14.0 + (m_idx % 2) * 8.0
-            mx = ecx + math.cos(ang) * dist
-            mz = ecz + math.sin(ang) * dist
-            if not is_safe_dry(mx, mz, min_liq_m=14.0, clear_road=False):
-                mx, mz = snap_dry_site(ecx, ecz, min_liq_m=14.0, avoid_pts=[], max_search_r=36.0)
-            monsters_list.append({
-                "actor_id": m_id,
-                "name": m_name,
-                "level": m_lv,
-                "hp": m_hp,
-                "exp_zone": ez["id"],
-                "x": round(mx, 2),
-                "z": round(mz, 2),
-                "y": round(sample_h(mx, mz), 2),
-                "patrol_radius": 10.0,
-            })
+    # 7) ZERO Monster Spawns & ZERO Exp-Zones (spawns belong strictly to a separate later phase!)
+    monsters_list: list[dict] = []
+    exp_zones_out: list[dict] = []
 
-    # 8) 18 Wildlife Fauna Animals (100% Dry Ground)
+    # 8) 18 Peaceful Wildlife Fauna Animals (strictly outside capital & 100% Dry Ground)
     rng = random.Random(f"fauna_{land_id}_20261119")
     fauna_list = []
     fauna_species = FAUNA_CATALOG[land_id]
     tries = 0
-    while len(fauna_list) < 18 and tries < 1200:
+    while len(fauna_list) < 18 and tries < 1400:
         tries += 1
         fx = rng.uniform(-HALF + 32.0, HALF - 32.0)
         fz = rng.uniform(-HALF + 32.0, HALF - 32.0)
-        if math.hypot(fx - cap_x, fz - cap_z) < SAFE_CITY_RADIUS + 10.0:
+        if math.hypot(fx - cap_x, fz - cap_z) < SAFE_CITY_RADIUS + 20.0:
             continue
-        if not is_safe_dry(fx, fz, min_liq_m=18.0, clear_road=False):
+        if not is_safe_dry(fx, fz, min_liq_m=18.0, clear_road=True):
             continue
         sp_id, sp_name = fauna_species[len(fauna_list) % len(fauna_species)]
         fauna_list.append({
@@ -1780,41 +1954,30 @@ def generate_continent(land_id: str) -> dict:
                 break
             wx_f = float(x_lin[wf_cand_x[o_idx]])
             wz_f = float(z_lin[wf_cand_y[o_idx]])
-            if math.hypot(wx_f - cap_x, wz_f - cap_z) < 110.0:
+            if math.hypot(wx_f - cap_x, wz_f - cap_z) < 120.0:
                 continue
             if any(math.hypot(wx_f - ox, wz_f - oz) < 110.0 for ox, oz in wf_placed):
                 continue
-            if any(math.hypot(wx_f - b["x"], wz_f - b["z"]) < b.get("footprint_r", 20.0) + 22.0 for b in buildings_list):
+            if any(math.hypot(wx_f - b["x"], wz_f - b["z"]) < b.get("footprint_r", 20.0) + 24.0 for b in buildings_list):
+                continue
+            if not is_clear_of_roads(wx_f, wz_f, 16.0):
                 continue
             wf_sp, wf_w, wf_h = wf_specs[len(wf_placed) % len(wf_specs)]
             append_prop(f"{land_id}-waterfall-{len(wf_placed)}", (wf_sp, wf_w, wf_h, "waterfall"), wx_f, wz_f, 1.0)
             wf_placed.append((wx_f, wz_f))
 
-    # Exp-zone perimeter framing props
-    for ez_idx, ez in enumerate(exp_zones):
-        ecx, ecz, erad = ez["cx"], ez["cz"], ez["radius"]
-        for k in range(8):
-            ang = (2.0 * math.pi * k) / 8.0 + 0.22
-            px = ecx + math.cos(ang) * (erad * 0.92)
-            pz = ecz + math.sin(ang) * (erad * 0.92)
-            if not is_safe_dry(px, pz, min_liq_m=12.0, clear_road=True):
-                continue
-            if any(math.hypot(px - b["x"], pz - b["z"]) < b.get("footprint_r", 20.0) + 18.0 for b in buildings_list):
-                continue
-            want = "rock" if k % 3 == 0 else ("tree" if k % 2 == 0 else "flora")
-            item = pick_biome_flora(px, pz, want, ez_idx * 5 + k)
-            append_prop(f"{ez['id']}-frame-{k}", item, px, pz, rng.uniform(0.90, 1.10))
-
-    # 24 Ornamental Capital Trees & Winter Shrines
+    # 26 Ornamental Capital Trees & Winter Shrines (strictly off roads & buildings!)
     city_tries = 0
     city_cnt = 0
-    while city_cnt < 24 and city_tries < 800:
+    while city_cnt < 26 and city_tries < 900:
         city_tries += 1
-        px = cap_x + rng.uniform(-185.0, 185.0)
-        pz = cap_z + rng.uniform(-185.0, 185.0)
-        if math.hypot(px - cap_x, pz - cap_z) < 48.0:
+        px = cap_x + rng.uniform(-195.0, 195.0)
+        pz = cap_z + rng.uniform(-195.0, 195.0)
+        if math.hypot(px - cap_x, pz - cap_z) < 42.0:
             continue
         if not is_safe_dry(px, pz, min_liq_m=14.0, clear_road=True):
+            continue
+        if not is_clear_of_roads(px, pz, 14.0):
             continue
         if any(math.hypot(px - b["x"], pz - b["z"]) < b.get("footprint_r", 20.0) + 18.0 for b in buildings_list):
             continue
@@ -1828,10 +1991,12 @@ def generate_continent(land_id: str) -> dict:
         oy, ox = np.where(oasis_mask & (edt_liq >= 12.0))
         if len(ox) > 0:
             picked_o: list[tuple[float, float]] = []
-            for k in range(28):
+            for k in range(30):
                 idx_r = rng.randrange(len(ox))
                 px, pz = float(x_lin[ox[idx_r]]), float(z_lin[oy[idx_r]])
                 if any(math.hypot(px - qx, pz - qz) < 15.0 for qx, qz in picked_o):
+                    continue
+                if not is_clear_of_roads(px, pz, 14.0):
                     continue
                 if any(math.hypot(px - b["x"], pz - b["z"]) < b.get("footprint_r", 20.0) + 18.0 for b in buildings_list):
                     continue
@@ -1839,10 +2004,10 @@ def generate_continent(land_id: str) -> dict:
                 append_prop(f"aether-oasis-{len(picked_o)}", item, px, pz, rng.uniform(0.88, 1.12))
                 picked_o.append((px, pz))
 
-    # 28 Natural Ecological Wilderness Groves
+    # 34 Natural Ecological Wilderness Groves (framing highways & outer towns cleanly!)
     groves_placed = 0
     grove_tries = 0
-    while groves_placed < 28 and grove_tries < 1400:
+    while groves_placed < 34 and grove_tries < 1600:
         grove_tries += 1
         gx = rng.uniform(-HALF + 32.0, HALF - 32.0)
         gz = rng.uniform(-HALF + 32.0, HALF - 32.0)
@@ -1850,16 +2015,16 @@ def generate_continent(land_id: str) -> dict:
             continue
         if not is_safe_dry(gx, gz, min_liq_m=16.0, clear_road=True):
             continue
-        if any(math.hypot(gx - ez["cx"], gz - ez["cz"]) < ez["radius"] * 1.05 for ez in exp_zones):
+        if not is_clear_of_roads(gx, gz, 18.0):
             continue
-        if any(math.hypot(gx - b["x"], gz - b["z"]) < b.get("footprint_r", 24.0) + 22.0 for b in buildings_list):
+        if any(math.hypot(gx - b["x"], gz - b["z"]) < b.get("footprint_r", 24.0) + 24.0 for b in buildings_list):
             continue
         groves_placed += 1
         for ti in range(3):
             ang = (2.0 * math.pi * ti) / 3.0 + rng.uniform(-0.35, 0.35)
             rad = rng.uniform(6.0, 20.0)
             tx, tz = gx + math.cos(ang) * rad, gz + math.sin(ang) * rad
-            if is_safe_dry(tx, tz, min_liq_m=12.0, clear_road=True) and all(
+            if is_safe_dry(tx, tz, min_liq_m=12.0, clear_road=True) and is_clear_of_roads(tx, tz, 14.0) and all(
                 math.hypot(tx - b["x"], tz - b["z"]) >= b.get("footprint_r", 20.0) + 14.0 for b in buildings_list
             ):
                 t_item = pick_biome_flora(tx, tz, "tree", groves_placed * 5 + ti)
@@ -1868,13 +2033,13 @@ def generate_continent(land_id: str) -> dict:
             ang = rng.uniform(0.0, 2.0 * math.pi)
             rad = rng.uniform(9.0, 24.0)
             fx, fz = gx + math.cos(ang) * rad, gz + math.sin(ang) * rad
-            if is_safe_dry(fx, fz, min_liq_m=12.0, clear_road=True) and all(
+            if is_safe_dry(fx, fz, min_liq_m=12.0, clear_road=True) and is_clear_of_roads(fx, fz, 12.0) and all(
                 math.hypot(fx - b["x"], fz - b["z"]) >= b.get("footprint_r", 20.0) + 12.0 for b in buildings_list
             ):
                 f_item = pick_biome_flora(fx, fz, "flora", groves_placed * 7 + fi)
                 append_prop(f"{land_id}-grove-{groves_placed}-f{fi}", f_item, fx, fz, rng.uniform(0.86, 1.10))
         rx, rz = gx + rng.uniform(-22.0, 22.0), gz + rng.uniform(-22.0, 22.0)
-        if is_safe_dry(rx, rz, min_liq_m=12.0, clear_road=True) and all(
+        if is_safe_dry(rx, rz, min_liq_m=12.0, clear_road=True) and is_clear_of_roads(rx, rz, 14.0) and all(
             math.hypot(rx - b["x"], rz - b["z"]) >= b.get("footprint_r", 20.0) + 14.0 for b in buildings_list
         ):
             r_item = pick_biome_flora(rx, rz, "rock" if groves_placed % 3 != 0 else "landmark", groves_placed)
@@ -1904,15 +2069,35 @@ def generate_continent(land_id: str) -> dict:
     for i in range(len(major_b)):
         for j in range(i + 1, len(major_b)):
             d_ij = math.hypot(major_b[i]["x"] - major_b[j]["x"], major_b[i]["z"] - major_b[j]["z"])
-            req_d = major_b[i].get("footprint_r", 24.0) + major_b[j].get("footprint_r", 24.0) + 14.0
+            req_d = major_b[i].get("footprint_r", 24.0) + major_b[j].get("footprint_r", 24.0) + 16.0
             if d_ij < req_d:
                 bldg_overlaps += 1
 
+    # Check BOTH pixel road_mask AND vector road polylines against EVERY non-gate/non-bridge building!
+    bldg_on_road = 0
+    for b in major_b:
+        bx, bz, br = float(b["x"]), float(b["z"]), float(b.get("footprint_r", 24.0))
+        if float(road_mask[wz_to_i(bz), wx_to_j(bx)]) > 0.10:
+            bldg_on_road += 1
+            continue
+        hit_vec = False
+        for poly in committed_road_polylines:
+            if len(poly) >= 2 and float(np.min(np.hypot(poly[:, 0] - bx, poly[:, 1] - bz))) < br + 4.0:
+                hit_vec = True
+                break
+        if hit_vec:
+            bldg_on_road += 1
+
+    # Check ZERO bridge clusters (every pair of bridges must be >= 85m apart, n_segs = 1 ALWAYS!)
+    bridge_clusters = 0
+    for i in range(len(bridges_placed)):
+        for j in range(i + 1, len(bridges_placed)):
+            if math.hypot(bridges_placed[i]["x"] - bridges_placed[j]["x"], bridges_placed[i]["z"] - bridges_placed[j]["z"]) < 85.0:
+                bridge_clusters += 1
+
     npcs_on_liq = sum(1 for n in npcs_list if liquid[wz_to_i(n["z"]), wx_to_j(n["x"])])
-    mons_on_liq = sum(1 for m in monsters_list if liquid[wz_to_i(m["z"]), wx_to_j(m["x"])])
     fauna_on_liq = sum(1 for fa in fauna_list if liquid[wz_to_i(fa["z"]), wx_to_j(fa["x"])])
     props_on_liq = sum(1 for p in props_list if liquid[wz_to_i(p["z"]), wx_to_j(p["x"])])
-    ez_on_liq = sum(1 for e in exp_zones_out if liquid[wz_to_i(e["z"]), wx_to_j(e["x"])])
 
     summer_on_snow = 0
     if land_id == "aether":
@@ -1933,30 +2118,35 @@ def generate_continent(land_id: str) -> dict:
 
     audit = {
         "BUILDINGS_ON_LIQUID": bldg_on_liq,
+        "BUILDINGS_ON_ROAD": bldg_on_road,
         "BUILDING_OVERLAPS": bldg_overlaps,
+        "BRIDGE_CLUSTERS": bridge_clusters,
+        "MONSTERS_COUNT": len(monsters_list),
+        "EXP_ZONES_COUNT": len(exp_zones_out),
         "NPCS_ON_LIQUID": npcs_on_liq,
-        "MONSTERS_ON_LIQUID": mons_on_liq,
         "FAUNA_ON_LIQUID": fauna_on_liq,
         "PROPS_ON_LIQUID": props_on_liq,
-        "EXP_ZONES_ON_LIQUID": ez_on_liq,
         "AETHER_SUMMER_ON_SNOW": summer_on_snow,
         "MISSING_SPRITES": len(missing_sprites),
         "ROADS_EXPORTED": len(roads_export),
         "BRIDGES_PLACED": len(bridges_placed),
         "WATERFALLS_PLACED": len(wf_placed),
         "MAJOR_BLDGS": len(major_b),
+        "TOWNS_PLACED": len(placed_towns),
     }
     print(f"  [AUDIT {land_id:7s}] cap=({cap_x:+.0f},{cap_z:+.0f}) {json.dumps(audit)}")
     assert bldg_on_liq == 0, f"{land_id}: BUILDINGS_ON_LIQUID={bldg_on_liq}"
+    assert bldg_on_road == 0, f"{land_id}: BUILDINGS_ON_ROAD={bldg_on_road}"
     assert bldg_overlaps == 0, f"{land_id}: BUILDING_OVERLAPS={bldg_overlaps}"
+    assert bridge_clusters == 0, f"{land_id}: BRIDGE_CLUSTERS={bridge_clusters}"
+    assert len(monsters_list) == 0, f"{land_id}: MONSTERS_COUNT={len(monsters_list)}"
+    assert len(exp_zones_out) == 0, f"{land_id}: EXP_ZONES_COUNT={len(exp_zones_out)}"
     assert npcs_on_liq == 0, f"{land_id}: NPCS_ON_LIQUID={npcs_on_liq}"
-    assert mons_on_liq == 0, f"{land_id}: MONSTERS_ON_LIQUID={mons_on_liq}"
     assert fauna_on_liq == 0, f"{land_id}: FAUNA_ON_LIQUID={fauna_on_liq}"
     assert props_on_liq == 0, f"{land_id}: PROPS_ON_LIQUID={props_on_liq}"
-    assert ez_on_liq == 0, f"{land_id}: EXP_ZONES_ON_LIQUID={ez_on_liq}"
     assert summer_on_snow == 0, f"{land_id}: AETHER_SUMMER_ON_SNOW={summer_on_snow}"
     assert not missing_sprites, f"{land_id}: MISSING_SPRITES={missing_sprites[:5]}"
-    assert len(bridges_placed) > 0, f"{land_id}: expected at least 1 directional bridge!"
+    assert len(bridges_placed) > 0, f"{land_id}: expected at least 1 single continuous directional bridge!"
 
     return {
         "land_id": land_id,

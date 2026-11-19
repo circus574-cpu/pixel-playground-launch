@@ -185,6 +185,41 @@ func setup(
 	pivot.add_child(highlight)
 	apply_rotation()
 
+var pin_tex_cache: Dictionary = {}
+
+func _load_pin_tex(key: String) -> Texture2D:
+	if pin_tex_cache.has(key):
+		return pin_tex_cache[key] as Texture2D
+	var path := "res://assets/ui/map_icons/pin_%s.webp" % key
+	var abs_p := ProjectSettings.globalize_path(path)
+	var tex: Texture2D = null
+	if FileAccess.file_exists(abs_p):
+		var img := Image.new()
+		if img.load(abs_p) == OK:
+			tex = ImageTexture.create_from_image(img)
+	pin_tex_cache[key] = tex
+	return tex
+
+func add_icon_marker(lonlat: Vector2, icon_key: String, world_diam: float, parent_node: Node3D = null, elev: float = 1.024) -> Sprite3D:
+	var sprite := Sprite3D.new()
+	var tex := _load_pin_tex(icon_key)
+	if tex != null:
+		sprite.texture = tex
+		sprite.pixel_size = world_diam / float(max(tex.get_width(), 64))
+	else:
+		sprite.texture = glow(Color("ffd94a"))
+		sprite.pixel_size = world_diam / 64.0
+	sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	sprite.shaded = false
+	sprite.double_sided = true
+	sprite.transparent = true
+	sprite.position = surface(lonlat.x, lonlat.y, elev)
+	if parent_node != null:
+		parent_node.add_child(sprite)
+	else:
+		markers.add_child(sprite)
+	return sprite
+
 func build_continent_roads_and_details(continent_data: Dictionary, region_bboxes: Dictionary) -> void:
 	for rid: String in continent_data.keys():
 		if not region_bboxes.has(rid):
@@ -205,12 +240,13 @@ func build_continent_roads_and_details(continent_data: Dictionary, region_bboxes
 				var ap := Vector2(lerpf(float(bb["min_x"]), float(bb["max_x"]), u), lerpf(float(bb["min_y"]), float(bb["max_y"]), v))
 				var ll := MapMath.atlas_to_lonlat(ap)
 				pts3.append(surface(ll.x, ll.y, 1.005))
-			var col := Color(1.0, 0.88, 0.58, 0.90) if tier in ["highway", "ring", "city"] else Color(0.88, 0.78, 0.56, 0.72)
+			var col := Color(1.0, 0.88, 0.58, 0.90) if tier in ["highway", "city"] else Color(0.88, 0.78, 0.56, 0.72)
 			roads_3d.add_child(line_mesh(pts3, col))
 
 		for b: Dictionary in cd.get("buildings", []):
 			var mk := str(b.get("map_kind", ""))
 			var is_ent := bool(b.get("enterable", false))
+			var role := str(b.get("role", ""))
 			if mk != "capital" and mk != "town" and not is_ent:
 				continue
 			var u := clampf((float(b.get("x", 0.0)) + half) / ws, 0.0, 1.0)
@@ -218,11 +254,12 @@ func build_continent_roads_and_details(continent_data: Dictionary, region_bboxes
 			var ap := Vector2(lerpf(float(bb["min_x"]), float(bb["max_x"]), u), lerpf(float(bb["min_y"]), float(bb["max_y"]), v))
 			var ll := MapMath.atlas_to_lonlat(ap)
 			if mk == "capital":
-				add_marker(ll, Color("ffd94a"), 0.028, markers)
+				add_icon_marker(ll, "capital", 0.088, markers, 1.028)
 			elif mk == "town":
-				add_marker(ll, Color("b8e0ff"), 0.020, markers)
+				add_icon_marker(ll, "town", 0.062, markers, 1.024)
 			elif is_ent:
-				add_marker(ll, Color("5ef08c"), 0.011, detail_markers)
+				var rk := role if role in ["hall", "smithy", "inn", "shop", "arena", "depot", "landmark"] else "landmark"
+				add_icon_marker(ll, rk, 0.040, detail_markers, 1.020)
 
 func build_sphere(rings: int, segments: int) -> ArrayMesh:
 	var tool := SurfaceTool.new()
@@ -285,19 +322,8 @@ func glow(core: Color) -> Texture2D:
 	tex.height = 64
 	return tex
 
-func add_marker(lonlat: Vector2, color: Color, radius: float, parent_node: Node3D = null) -> void:
-	var sprite := Sprite3D.new()
-	sprite.texture = glow(color)
-	sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-	sprite.shaded = false
-	sprite.double_sided = true
-	sprite.pixel_size = radius * 2.6 / 64.0
-	sprite.transparent = true
-	sprite.position = surface(lonlat.x, lonlat.y, 1.02)
-	if parent_node != null:
-		parent_node.add_child(sprite)
-	else:
-		markers.add_child(sprite)
+func add_marker(lonlat: Vector2, _color: Color, _radius: float, parent_node: Node3D = null) -> void:
+	add_icon_marker(lonlat, "hero_pyra", 0.092, parent_node, 1.032)
 
 func apply_rotation() -> void:
 	pivot.basis = Basis(Vector3.RIGHT, deg_to_rad(lat0)) * Basis(Vector3.UP, deg_to_rad(-lon0))
@@ -315,7 +341,13 @@ func focus_on(lonlat: Vector2) -> void:
 func set_player_atlas(player_atlas: Vector2) -> void:
 	if is_instance_valid(player_marker):
 		var ll := MapMath.atlas_to_lonlat(player_atlas)
-		player_marker.position = surface(ll.x, ll.y, 1.024)
+		player_marker.position = surface(ll.x, ll.y, 1.032)
+
+func set_player_land(land: String) -> void:
+	if is_instance_valid(player_marker) and player_marker is Sprite3D:
+		var tex := _load_pin_tex("hero_" + land)
+		if tex != null:
+			(player_marker as Sprite3D).texture = tex
 
 
 func select(id: String) -> void:

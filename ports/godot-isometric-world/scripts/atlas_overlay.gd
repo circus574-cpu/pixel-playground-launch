@@ -141,6 +141,8 @@ func hero_atlas_pos() -> Vector2:
 func sync_live_hero() -> void:
 	if globe != null:
 		globe.set_player_atlas(hero_atlas_pos())
+		if world != null:
+			globe.set_player_land(str(world.current_land))
 	if visible:
 		queue_redraw()
 
@@ -390,35 +392,32 @@ func pick_continent(local_pos: Vector2) -> String:
 			return rid
 	return ""
 
-func _draw_capital_crown_star(pos: Vector2, r: float) -> void:
-	var pts := PackedVector2Array()
-	for i in 16:
-		var ang := -PI * 0.5 + TAU * float(i) / 16.0
-		var rad := r if (i % 2 == 0) else (r * 0.45)
-		pts.append(pos + Vector2(cos(ang), sin(ang)) * rad)
-	draw_colored_polygon(pts, Color(1.0, 0.86, 0.28, 1.0))
-	pts.append(pts[0])
-	draw_polyline(pts, Color(0.14, 0.07, 0.02, 0.98), 1.7, true)
-	draw_circle(pos, r * 0.28, Color(1.0, 0.98, 0.88, 1.0))
+var pin_cache: Dictionary = {}
 
-func _draw_town_shield(pos: Vector2, r: float) -> void:
-	var pts := PackedVector2Array([
-		pos + Vector2(0.0, -r),
-		pos + Vector2(r * 0.88, -r * 0.35),
-		pos + Vector2(r * 0.72, r * 0.52),
-		pos + Vector2(0.0, r),
-		pos + Vector2(-r * 0.72, r * 0.52),
-		pos + Vector2(-r * 0.88, -r * 0.35),
-	])
-	draw_colored_polygon(pts, Color(0.76, 0.88, 0.98, 0.98))
-	pts.append(pts[0])
-	draw_polyline(pts, Color(0.08, 0.12, 0.18, 0.98), 1.5, true)
-	draw_circle(pos, r * 0.28, Color(1.0, 0.84, 0.36, 1.0))
+func _pin_tex(key: String) -> Texture2D:
+	if pin_cache.has(key):
+		return pin_cache[key] as Texture2D
+	var path := "res://assets/ui/map_icons/pin_%s.webp" % key
+	var tex: Texture2D = world.load_tex(path) if (world != null and world.has_method("load_tex")) else null
+	if tex == null:
+		var abs_p := ProjectSettings.globalize_path(path)
+		if FileAccess.file_exists(abs_p):
+			var img := Image.new()
+			if img.load(abs_p) == OK:
+				tex = ImageTexture.create_from_image(img)
+	pin_cache[key] = tex
+	return tex
 
-func _draw_service_dot(pos: Vector2, fill: Color, r: float) -> void:
-	draw_circle(pos, r + 1.4, Color(0.05, 0.04, 0.03, 0.95))
-	draw_circle(pos, r, fill)
-	draw_circle(pos + Vector2(-r * 0.24, -r * 0.24), r * 0.28, Color(1.0, 1.0, 1.0, 0.55))
+func _draw_pin(key: String, pos: Vector2, dia: float) -> void:
+	var tex := _pin_tex(key)
+	if tex != null:
+		draw_circle(pos + Vector2(0.0, 1.5), dia * 0.40, Color(0.02, 0.02, 0.03, 0.48))
+		draw_texture_rect(tex, Rect2(pos - Vector2(dia * 0.5, dia * 0.5), Vector2(dia, dia)), false)
+
+func _role_pin_key(role: String) -> String:
+	if role in ["hall", "smithy", "inn", "shop", "arena", "depot", "landmark"]:
+		return role
+	return "landmark"
 
 func _draw_continent_real_details(rid: String, mr: Rect2, f: Font, fb: Font, placed_labels: Array[Rect2]) -> void:
 	if not continent_data.has(rid) or not region_bboxes.has(rid):
@@ -428,13 +427,12 @@ func _draw_continent_real_details(rid: String, mr: Rect2, f: Font, fb: Font, pla
 	var half := ws * 0.5
 	var detail_t := clampf((atlas_zoom - 1.0) / 3.8, 0.0, 1.0)
 
-	# 1. ALL REAL IN-GAME ROADS — subtly visible even at 1.0x, sharpening progressively as you zoom in!
+	# 1. ALL REAL PLANAR IN-GAME ROADS — subtly visible at 1.0x, sharpening progressively as you zoom in!
 	var roads_arr: Array = cd.get("roads", [])
-	var road_alpha := lerpf(0.42, 0.96, detail_t)
+	var road_alpha := lerpf(0.50, 0.96, detail_t)
 	for rd: Dictionary in roads_arr:
 		var tier := str(rd.get("tier", "footpath"))
-		# At overview 1.0x show highways, town roads & ring; as you zoom >= 1.35x reveal EVERY city street & footpath!
-		if atlas_zoom < 1.35 and tier in ["city", "footpath"]:
+		if atlas_zoom < 1.35 and tier == "city":
 			continue
 		var raw_pts: Array = rd.get("pts", [])
 		if raw_pts.size() < 2:
@@ -447,18 +445,18 @@ func _draw_continent_real_details(rid: String, mr: Rect2, f: Font, fb: Font, pla
 				spts.append(sp)
 			else:
 				if spts.size() >= 2:
-					var rw := clampf((1.5 if tier in ["highway", "ring"] else 1.1) * sqrt(atlas_zoom), 1.1, 4.2)
-					draw_polyline(spts, Color(0.08, 0.05, 0.03, road_alpha * 0.82), rw + 1.6, true)
-					var rc := Color(0.96, 0.86, 0.60, road_alpha) if tier != "footpath" else Color(0.84, 0.74, 0.54, road_alpha * 0.86)
+					var rw := clampf((1.6 if tier == "highway" else 1.2) * sqrt(atlas_zoom), 1.2, 4.2)
+					draw_polyline(spts, Color(0.08, 0.05, 0.03, road_alpha * 0.84), rw + 1.6, true)
+					var rc := Color(0.96, 0.86, 0.60, road_alpha) if tier != "footpath" else Color(0.86, 0.76, 0.56, road_alpha * 0.88)
 					draw_polyline(spts, rc, rw, true)
 				spts.clear()
 		if spts.size() >= 2:
-			var rw := clampf((1.5 if tier in ["highway", "ring"] else 1.1) * sqrt(atlas_zoom), 1.1, 4.2)
-			draw_polyline(spts, Color(0.08, 0.05, 0.03, road_alpha * 0.82), rw + 1.6, true)
-			var rc := Color(0.96, 0.86, 0.60, road_alpha) if tier != "footpath" else Color(0.84, 0.74, 0.54, road_alpha * 0.86)
+			var rw := clampf((1.6 if tier == "highway" else 1.2) * sqrt(atlas_zoom), 1.2, 4.2)
+			draw_polyline(spts, Color(0.08, 0.05, 0.03, road_alpha * 0.84), rw + 1.6, true)
+			var rc := Color(0.96, 0.86, 0.60, road_alpha) if tier != "footpath" else Color(0.86, 0.76, 0.56, road_alpha * 0.88)
 			draw_polyline(spts, rc, rw, true)
 
-	# 2. REAL BUILDINGS, BRIDGES, TOWNS & CAPITAL SYMBOLS (progressive zoom LOD!)
+	# 2. PAINTED HERALDIC MEDALLIONS: Royal Capital Citadel, Town Shields, Bridge Badges & Enterable Utility Buildings!
 	var bldgs: Array = cd.get("buildings", [])
 	for b: Dictionary in bldgs:
 		var role := str(b.get("role", ""))
@@ -470,41 +468,32 @@ func _draw_continent_real_details(rid: String, mr: Rect2, f: Font, fb: Font, pla
 		if not mr.has_point(sp):
 			continue
 
-		if role == "bridge" and atlas_zoom >= 1.6:
-			var br := clampf(2.4 * sqrt(atlas_zoom), 2.5, 6.2)
-			draw_rect(Rect2(sp - Vector2(br, br * 0.55), Vector2(br * 2.0, br * 1.1)), Color(0.80, 0.62, 0.34, 0.94))
-			draw_rect(Rect2(sp - Vector2(br, br * 0.55), Vector2(br * 2.0, br * 1.1)), Color(0.08, 0.05, 0.03, 0.94), false, 1.2)
+		if role == "bridge" and atlas_zoom >= 1.5:
+			_draw_pin("bridge", sp, clampf(12.0 + (atlas_zoom - 1.5) * 2.5, 13.0, 24.0))
 		elif mk == "capital":
-			_draw_capital_crown_star(sp, clampf(6.5 * pow(atlas_zoom, 0.35), 7.0, 14.0))
-			if atlas_zoom >= 2.2:
-				var ctitle := "★ " + str(CONTINENT_META.get(rid, {}).get("capital", "Stolica"))
+			var cap_d := clampf(22.0 * pow(atlas_zoom, 0.30), 22.0, 40.0)
+			_draw_pin("capital", sp, cap_d)
+			if atlas_zoom >= 2.0:
+				var ctitle := str(CONTINENT_META.get(rid, {}).get("capital", "Stolica"))
 				var tw := f.get_string_size(ctitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
-				draw_string_outline(f, sp + Vector2(-tw * 0.5, -14.0), ctitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color(0.03, 0.02, 0.02, 0.96))
-				draw_string(f, sp + Vector2(-tw * 0.5, -14.0), ctitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.90, 0.46))
+				draw_string_outline(f, sp + Vector2(-tw * 0.5, -cap_d * 0.55), ctitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color(0.03, 0.02, 0.02, 0.96))
+				draw_string(f, sp + Vector2(-tw * 0.5, -cap_d * 0.55), ctitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.90, 0.46))
 		elif mk == "town":
-			_draw_town_shield(sp, clampf(5.2 * pow(atlas_zoom, 0.35), 5.5, 11.0))
-			if atlas_zoom >= 2.4:
+			var td := clampf(16.0 * pow(atlas_zoom, 0.30), 16.0, 30.0)
+			_draw_pin("town", sp, td)
+			if atlas_zoom >= 2.2:
 				var tname := str(b.get("title", ""))
 				var tw := fb.get_string_size(tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
-				draw_string_outline(fb, sp + Vector2(-tw * 0.5, -12.0), tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 4, Color(0.03, 0.04, 0.06, 0.96))
-				draw_string(fb, sp + Vector2(-tw * 0.5, -12.0), tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.84, 0.92, 1.0))
-		elif is_ent and atlas_zoom >= 1.8:
-			# Small crisp dot for EVERY enterable utility building!
-			var dot_col := Color(0.98, 0.84, 0.42)
-			match role:
-				"smithy": dot_col = Color(1.0, 0.52, 0.18)
-				"inn": dot_col = Color(1.0, 0.76, 0.34)
-				"shop": dot_col = Color(0.32, 0.94, 0.54)
-				"arena": dot_col = Color(0.96, 0.30, 0.30)
-				"depot": dot_col = Color(0.36, 0.86, 1.0)
-				"hall": dot_col = Color(0.88, 0.74, 1.0)
-			var dr := clampf(2.0 + (atlas_zoom - 1.8) * 0.65, 2.2, 5.4)
-			_draw_service_dot(sp, dot_col, dr)
-			if atlas_zoom >= 3.6:
+				draw_string_outline(fb, sp + Vector2(-tw * 0.5, -td * 0.55), tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 4, Color(0.03, 0.04, 0.06, 0.96))
+				draw_string(fb, sp + Vector2(-tw * 0.5, -td * 0.55), tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.86, 0.94, 1.0))
+		elif is_ent and atlas_zoom >= 1.7:
+			var sd := clampf(11.0 + (atlas_zoom - 1.7) * 2.6, 12.0, 24.0)
+			_draw_pin(_role_pin_key(role), sp, sd)
+			if atlas_zoom >= 3.4:
 				var btitle := str(b.get("title", ""))
 				var tw := fb.get_string_size(btitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x
 				var lx := sp.x - tw * 0.5
-				var ly := sp.y - dr - 5.0
+				var ly := sp.y - sd * 0.56
 				var box := Rect2(lx - 3.0, ly - 11.0, tw + 6.0, 14.0)
 				var hit := false
 				for prev: Rect2 in placed_labels:
@@ -516,36 +505,9 @@ func _draw_continent_real_details(rid: String, mr: Rect2, f: Font, fb: Font, pla
 					draw_string_outline(fb, Vector2(lx, ly), btitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 4, Color(0.03, 0.02, 0.02, 0.96))
 					draw_string(fb, Vector2(lx, ly), btitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1.0, 0.94, 0.78))
 		elif role in ["house", "gate", "tower"] and atlas_zoom >= 3.2:
-			var hr := clampf(1.6 + (atlas_zoom - 3.2) * 0.45, 1.8, 4.2)
+			var hr := clampf(1.8 + (atlas_zoom - 3.2) * 0.45, 2.0, 4.4)
 			draw_rect(Rect2(sp - Vector2(hr, hr), Vector2(hr * 2.0, hr * 2.0)), Color(0.56, 0.50, 0.44, 0.84))
-			draw_rect(Rect2(sp - Vector2(hr, hr), Vector2(hr * 2.0, hr * 2.0)), Color(0.08, 0.06, 0.04, 0.92), false, 1.0)
-
-	# 3. Exp-Zones appear cleanly from zoom >= 1.8x
-	if atlas_zoom >= 1.8:
-		for ez: Dictionary in cd.get("exp_zones", []):
-			var ex := float(ez.get("x", 0.0)) + half
-			var ez_z := float(ez.get("z", 0.0)) + half
-			var sp := _atlas_to_screen(world_to_atlas(rid, ex, ez_z, ws), mr)
-			if not mr.has_point(sp):
-				continue
-			var er := clampf(3.0 + (atlas_zoom - 1.8) * 0.4, 3.2, 5.8)
-			draw_circle(sp, er, Color(0.92, 0.22, 0.16, 0.90))
-			draw_arc(sp, er + 2.0, 0.0, TAU, 16, Color(1.0, 0.82, 0.34, 0.88), 1.3, true)
-			if atlas_zoom >= 2.8:
-				var ename := str(ez.get("name", ""))
-				var tw := fb.get_string_size(ename, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x
-				var lx := sp.x - tw * 0.5
-				var ly := sp.y + er + 14.0
-				var box := Rect2(lx - 3.0, ly - 11.0, tw + 6.0, 14.0)
-				var hit := false
-				for prev: Rect2 in placed_labels:
-					if box.intersects(prev):
-						hit = true
-						break
-				if not hit and mr.has_point(Vector2(lx, ly)):
-					placed_labels.append(box)
-					draw_string_outline(fb, Vector2(lx, ly), ename, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 4, Color(0.04, 0.02, 0.02, 0.95))
-					draw_string(fb, Vector2(lx, ly), ename, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1.0, 0.82, 0.62))
+			draw_rect(Rect2(sp - Vector2(hr, hr), Vector2(hr * 2.0, hr * 2.0)), Color(0.08, 0.06, 0.04, 0.94), false, 1.0)
 
 func _draw() -> void:
 	var f: Font = MapStyleScript.font()
@@ -607,7 +569,6 @@ func _draw() -> void:
 				if mr.has_point(sa) and mr.has_point(sb):
 					draw_line(sa, sb, line_col, line_w, true)
 
-			# Only draw big continent titles at overview/medium zoom (at deep zoom, city/building names take over!)
 			if atlas_zoom < 3.4:
 				var r_lbl = reg.get("label")
 				if r_lbl is Dictionary:
@@ -621,19 +582,19 @@ func _draw() -> void:
 						draw_string_outline(f, Vector2(lp.x - tw * 0.5, draw_y), rname, HORIZONTAL_ALIGNMENT_LEFT, -1, fsize, 5, Color(0.03, 0.02, 0.02, 0.96))
 						draw_string(f, Vector2(lp.x - tw * 0.5, draw_y), rname, HORIZONTAL_ALIGNMENT_LEFT, -1, fsize, tcol)
 
-		# Progressive real in-game roads, Capital Stars, Town Shields & Enterable Utility Building Dots for ALL 4 continents!
+		# Progressive real planar roads, Painted Capital Medallions, Town Shields & Service Medallions for ALL 4 continents!
 		var placed_labels: Array[Rect2] = []
 		for rid: String in ["pyra", "verdant", "aether", "nexus"]:
 			_draw_continent_real_details(rid, mr, f, fb, placed_labels)
 
-		# Live Hero Position Marker ("Ty")
+		# Live Hero Portrait Medallion ("Ty")
 		var h_atlas := hero_atlas_pos()
 		var hp := _atlas_to_screen(h_atlas, mr)
 		if mr.has_point(hp):
-			draw_circle(hp, 11.0, Color(0.24, 0.96, 1.0, 0.34))
-			draw_circle(hp, 6.2, Color(0.24, 0.96, 1.0, 1.0))
-			draw_circle(hp, 2.8, Color(1.0, 1.0, 1.0, 1.0))
-			var tag_pos := hp + Vector2(10.0, -8.0)
+			var cur_land: String = str(world.current_land) if world != null else "pyra"
+			var hd := clampf(26.0 * pow(atlas_zoom, 0.16), 26.0, 34.0)
+			_draw_pin("hero_" + cur_land, hp, hd)
+			var tag_pos := hp + Vector2(hd * 0.55, -6.0)
 			draw_string_outline(f, tag_pos, "Ty", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 5, Color(0.02, 0.02, 0.03, 0.96))
 			draw_string(f, tag_pos, "Ty", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.96, 0.84))
 
@@ -642,7 +603,7 @@ func _draw() -> void:
 
 	draw_rect(mr, Color(0.84, 0.66, 0.36, 0.82), false, 2.0)
 
-	# Bottom Lore, Telemetry & Cartographic Symbol Legend Bar
+	# Bottom Lore, Telemetry & Painted Heraldic Medallion Legend Bar
 	var bar := Rect2(16.0, mr.end.y + 10.0, size.x - 32.0, 88.0)
 	draw_rect(bar, Color(0.06, 0.04, 0.04, 0.92))
 	draw_rect(bar, Color(0.68, 0.50, 0.28, 0.85), false, 1.8)
@@ -654,19 +615,22 @@ func _draw() -> void:
 	], HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.90, 0.64))
 	draw_string(fb, bar.position + Vector2(16, 44), str(meta.lore), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.90, 0.88, 0.84))
 
-	# Crisp Symbol Legend Row
+	# Painted Medallion Legend Row
 	var ly := bar.position.y + 70.0
-	var lx := bar.position.x + 24.0
-	_draw_capital_crown_star(Vector2(lx, ly - 3.0), 6.8)
-	draw_string(fb, Vector2(lx + 12.0, ly + 1.0), "Stolica", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.90, 0.56))
+	var lx := bar.position.x + 26.0
+	_draw_pin("capital", Vector2(lx, ly - 3.0), 22.0)
+	draw_string(fb, Vector2(lx + 15.0, ly + 1.0), "Stolica", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.90, 0.56))
+	lx += 92.0
+	_draw_pin("town", Vector2(lx, ly - 3.0), 20.0)
+	draw_string(fb, Vector2(lx + 14.0, ly + 1.0), "Miasto / Warownia", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.84, 0.92, 1.0))
+	lx += 162.0
+	_draw_pin("smithy", Vector2(lx, ly - 3.0), 18.0)
+	draw_string(fb, Vector2(lx + 13.0, ly + 1.0), "Budynek użytkowy (wejście)", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.88, 0.94, 0.86))
+	lx += 212.0
+	_draw_pin("bridge", Vector2(lx, ly - 3.0), 18.0)
+	draw_string(fb, Vector2(lx + 13.0, ly + 1.0), "Mosty", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.94, 0.88, 0.74))
 	lx += 82.0
-	_draw_town_shield(Vector2(lx, ly - 3.0), 6.0)
-	draw_string(fb, Vector2(lx + 11.0, ly + 1.0), "Miasto / Warownia", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.82, 0.90, 1.0))
-	lx += 148.0
-	_draw_service_dot(Vector2(lx, ly - 3.0), Color(0.32, 0.94, 0.54), 3.6)
-	draw_string(fb, Vector2(lx + 10.0, ly + 1.0), "Budynek użytkowy (wejście)", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.86, 0.94, 0.86))
-	lx += 196.0
 	draw_line(Vector2(lx - 6.0, ly - 3.0), Vector2(lx + 14.0, ly - 3.0), Color(0.96, 0.86, 0.60, 0.95), 2.8, true)
-	draw_string(fb, Vector2(lx + 20.0, ly + 1.0), "Wszystkie drogi i mosty", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.94, 0.88, 0.74))
-	lx += 178.0
-	draw_string(fb, Vector2(lx, ly + 1.0), "|  Kółko / + / −: Przybliż szczegóły (do 12×)  •  Klik: Podróż", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.76, 0.84, 0.92))
+	draw_string(fb, Vector2(lx + 20.0, ly + 1.0), "Drogi", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.94, 0.88, 0.74))
+	lx += 78.0
+	draw_string(fb, Vector2(lx, ly + 1.0), "|  Kółko / + / −: Przybliż (do 12×)  •  Klik: Podróż", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.76, 0.84, 0.92))

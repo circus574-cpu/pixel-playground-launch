@@ -152,5 +152,26 @@ Bez ponownego używania podu GPU wdrożono i zweryfikowano w **Godot 4.6.3** kol
 - **Weryfikacja QA (`Godot 4.6.3 --qa`, 18 zrzutów ekranu):**
   - `ISO_WORLD_QA_OK`, kod wyjścia `0`, `0` błędów GDScript/shaderów, `0` wycieków RID; zweryfikowano wizualnie wszystkie 18 zrzutów, w tym nowe `planet-atlas-zoom.jpg` (`4.6×`) oraz `map-3d-zoom.jpg` (`3.2×`).
 
+## 8. Planarna sieć dróg A*, 0 budynków na drogach, pojedyncze mosty, usunięcie przedwczesnych spawnów i malowane medaliony mapowe (2026-11-19)
+
+- **Planarna sieć dróg A* zamiast nakładających się splajnów (`scripts/gpu/gen_world_topography.py`):**
+  - Zastąpiono niezależne krzywe Catmull-Rom 256×256 routerem planarnym A* (`4 m/komórkę`), w którym ocean, szerokie rzeki/jeziora oraz fundamenty wszystkich budynków z kołnierzem bezpieczeństwa (`r_foot + 10.5 m`) są bezwzględnie nieprzejezdne.
+  - Istniejące drogi otrzymują zniżkowy koszt (`0.24`), dzięki czemu ulice i trakty kontynentalne łączą się czysto w skrzyżowaniach T/Y oraz w centralnym węźle Placu Stolicy (`BUILDINGS_ON_ROAD = 0` sprawdzane zarówno w masce pikseli `road_mask`, jak i w poliliniach wektorowych dla wszystkich 4 kontynentów).
+- **Uporządkowana 4-kwartałowa urbanistyka stolic (`scripts/gpu/gen_world_topography.py`):**
+  - Każda stolica posiada otwarty Plac Królewski, Cytadelę na osi północnej oraz 4 kwarty usługowe (NW, NE, SW, SE) z minimalnym odstępem `r1 + r2 + 22 m` (`BUILDING_OVERLAPS = 0`) i bramami odsuniętymi na zewnętrzny pierścień traktów (`>= 168 m` od centrum i `>= r_foot + 38 m` od budynków).
+- **Usunięcie wszystkich przedwczesnych spawnów potworów i expowisk:**
+  - Zgodnie z decyzją właściciela i `AGENTS.md` wyzerowano `monsters = []` oraz `exp_zones = []` na wszystkich 4 kontynentach (`MONSTERS_COUNT = 0`, `EXP_ZONES_COUNT = 0`).
+  - W HUD (`rpg_hud.gd`, `world.gd`) zastąpiono przycisk `EXPOWISKA` przyciskiem `WAROWNIE` (cykliczny podgląd zewnętrznych zamków i miasteczek kontynentu), a etykietę strefy `WALKA` zmieniono na `KONTYNENT`.
+- **Wyłącznie pojedyncze, ciągłe mosty (`n_segs = 1`, zero łączeń):**
+  - Wprowadzono maskę `narrow_crossable` (`span <= 38 m` od brzegu do brzegu) oraz strefę wykluczenia `85 m` wokół każdego postawionego mostu, zmuszającą A* do omijania szerokich akwenów lub korzystania z istniejącego mostu. Wyeliminowało to całkowicie sklejanie 2–3 mostów obok siebie (`BRIDGE_CLUSTERS = 0`, pojedynczy ciągły most Blender Cycles na każdy przekrój).
+- **Malowane medaliony heraldyczne mapy zamiast prymitywnych stożków/ostrosłupów (`scripts/gpu/build_map_icons.py`):**
+  - Usunięto całkowicie `make_cone()`, `capital_pin`, `hero_pin` i wszystkie 3D stożki z `map_3d.gd`.
+  - Wygenerowano 14 supersamplowanych medalionów RGBA 128×128 (`ports/godot-isometric-world/assets/ui/map_icons/pin_*.webp`): gwiazda Cytadeli Stolicy (`pin_capital.webp`), heraldyczna tarcza Miasta/Warowni (`pin_town.webp`), portrety 4 bohaterów (`pin_hero_{pyra,verdant,aether,nexus}.webp`), medaliony budynków użytkowych (`pin_{hall,smithy,inn,shop,arena,depot,landmark}.webp`) oraz ikona mostu (`pin_bridge.webp`).
+  - Wdrożono medaliony spójnie w Atlasie 2D (`atlas_overlay.gd`), Mapie 3D (`map_3d.gd`), Globusie 3D (`globe_view.gd`) i dynamicznej obrotowej minimapie (`premium_minimap.gd`, z przycinaniem pierścienia strefy bezpiecznej ściśle do ramki radaru).
+- **Automatyczny audyt 0-naruszeń i QA w Godot 4.6.3:**
+  - `TOPOGRAPHY_1TO1_AUDIT_PASS` (Pyra / Verdantia / Aetheria / Nexus-9): `BUILDINGS_ON_LIQUID = 0`, `BUILDINGS_ON_ROAD = 0`, `BUILDING_OVERLAPS = 0`, `BRIDGE_CLUSTERS = 0`, `MONSTERS_COUNT = 0`, `EXP_ZONES_COUNT = 0`, `AETHER_SUMMER_ON_SNOW = 0`, `MISSING_SPRITES = 0`.
+  - `ISO_WORLD_QA_OK` (Godot 4.6.3, 18 zrzutów ekranu): `0` błędów GDScript/shaderów, `0` wycieków RID; nowe zrzuty zewnętrznych warowni [pyra-town.jpg](qa/pyra-town.jpg), [verdant-town.jpg](qa/verdant-town.jpg), [aether-town.jpg](qa/aether-town.jpg), [nexus-town.jpg](qa/nexus-town.jpg) oraz odświeżone mapy i mosty [planet-atlas.jpg](qa/planet-atlas.jpg), [planet-atlas-zoom.jpg](qa/planet-atlas-zoom.jpg), [map-3d.jpg](qa/map-3d.jpg), [map-3d-zoom.jpg](qa/map-3d-zoom.jpg), [pyra-bridge.jpg](qa/pyra-bridge.jpg), [wilderness-road.jpg](qa/wilderness-road.jpg).
+
+
 
 

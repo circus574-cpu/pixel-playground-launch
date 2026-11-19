@@ -599,14 +599,25 @@ func teleport_to_capital() -> void:
 	target_pos = Vector2(-1.0, -1.0)
 	sync_hero()
 
-func cycle_exp_zone() -> void:
-	if exp_zones.is_empty():
+func cycle_town_stronghold() -> void:
+	var towns: Array = []
+	for b: Dictionary in buildings:
+		if str(b.get("map_kind", "")) == "town":
+			towns.append(b)
+	if towns.is_empty():
 		return
-	var ez: Dictionary = exp_zones[current_exp_idx % exp_zones.size()]
-	current_exp_idx = (current_exp_idx + 1) % exp_zones.size()
-	hero_pos = Vector2(float(ez.get("x", 512.0)), float(ez.get("z", 512.0)))
+	var pick: Dictionary = towns[current_exp_idx % towns.size()]
+	current_exp_idx = (current_exp_idx + 1) % towns.size()
+	var ent = pick.get("entrance", [])
+	if ent is Array and ent.size() >= 2:
+		hero_pos = Vector2(float(ent[0]), float(ent[1]))
+	else:
+		hero_pos = Vector2(float(pick.get("x", 512.0)), float(pick.get("z", 512.0)) + 48.0)
 	target_pos = Vector2(-1.0, -1.0)
 	sync_hero()
+
+func cycle_exp_zone() -> void:
+	cycle_town_stronghold()
 
 func build_hud() -> void:
 	add_child(hud)
@@ -923,33 +934,40 @@ func run_qa() -> void:
 		"aether": "aether-sanctuary.jpg",
 		"nexus": "nexus-core.jpg",
 	}
-	var exp_shots := {
-		"pyra": "pyra-expzone.jpg",
-		"verdant": "verdant-expzone.jpg",
-		"aether": "aether-expzone.jpg",
-		"nexus": "nexus-expzone.jpg",
+	var town_shots := {
+		"pyra": "pyra-town.jpg",
+		"verdant": "verdant-town.jpg",
+		"aether": "aether-town.jpg",
+		"nexus": "nexus-town.jpg",
 	}
 
 	for land: String in REGION_ORDER:
 		switch_region(land)
 		set_zoom(0.58)
-		# 1) Capital City view framed on paved central plaza showing 3x monumental buildings, streets to doors & dynamic minimap
-		var cap_view := capital_center + Vector2(0.0, 14.0)
+		# 1) Capital City view framed on paved central plaza showing 4-quarter planned city, planar streets to doors & rotating minimap
+		var cap_view := capital_center + Vector2(0.0, 12.0)
 		hero_pos = cap_view if is_walkable(cap_view.x, cap_view.y) else capital_center
 		if premium_minimap != null:
 			premium_minimap.set_heading_immediate(Vector2(0.62, -0.78))
 		step_world(0.15)
 		shots.append(await snap(out_dir, cap_shots[land]))
 
-		# 2) Exp-Zone Combat Clearing view
-		if not exp_zones.is_empty():
-			var ez_idx := mini(exp_zones.size() - 1, 2 if land == "pyra" else (0 if land == "verdant" else (1 if land == "aether" else 3)))
-			var ez_pick: Dictionary = exp_zones[ez_idx]
-			hero_pos = Vector2(float(ez_pick.x), float(ez_pick.z))
+		# 2) Outer Town / Stronghold Castle Vista (ZERO monsters/exp-zones!)
+		var towns_here: Array = []
+		for b: Dictionary in buildings:
+			if str(b.get("map_kind", "")) == "town":
+				towns_here.append(b)
+		if not towns_here.is_empty():
+			var t_pick: Dictionary = towns_here[0]
+			var ent = t_pick.get("entrance", [])
+			if ent is Array and ent.size() >= 2:
+				hero_pos = Vector2(float(ent[0]), float(ent[1]))
+			else:
+				hero_pos = Vector2(float(t_pick.get("x", 512.0)), float(t_pick.get("z", 512.0)) + 48.0)
 			if premium_minimap != null:
 				premium_minimap.set_heading_immediate(Vector2(-0.70, -0.70))
 			step_world(0.25)
-			shots.append(await snap(out_dir, exp_shots[land]))
+			shots.append(await snap(out_dir, town_shots[land]))
 
 		var bridge_cnt := 0
 		for b: Dictionary in buildings:
@@ -980,7 +998,7 @@ func run_qa() -> void:
 		await get_tree().process_frame
 	shots.append(await snap(out_dir, "globe-3d.jpg"))
 
-	# 4) 2D Planet Superior Relief Atlas (Overview + Zoomed-in Progressive LOD showing ALL roads, Capital Star, Towns & Enterable Building Dots!)
+	# 4) 2D Planet Superior Relief Atlas (Overview + Zoomed-in Progressive LOD with Planar Roads & Painted Heraldic Medallions!)
 	if atlas_overlay != null:
 		atlas_overlay.set_mode("atlas")
 	for _i in 4:
@@ -994,7 +1012,7 @@ func run_qa() -> void:
 	shots.append(await snap(out_dir, "planet-atlas-zoom.jpg"))
 	toggle_atlas(false)
 
-	# 5) 3D Local Continent Relief Map (Pyra Overview + Pyra Zoomed-In Progressive LOD + Verdantia Overview)
+	# 5) 3D Local Continent Relief Map (ZERO cones! Painted Heraldic Medallions + Planar Roads)
 	switch_region("pyra")
 	toggle_map()
 	for _i in 5:
@@ -1017,7 +1035,7 @@ func run_qa() -> void:
 	shots.append(await snap(out_dir, "map-3d-verdant.jpg"))
 	toggle_map()
 
-	# 6) Wilderness Road & Directional Bridge Crossing + Dynamic Rotating Minimap on Road
+	# 6) Wilderness Road & Single Continuous Bridge Crossing + Dynamic Rotating Minimap on Road
 	switch_region("verdant")
 	set_zoom(0.58)
 	hero_pos = _find_first_bridge_pos()
@@ -1037,7 +1055,7 @@ func run_qa() -> void:
 	# 7) AAA 29-Node Diamond Constellation Skill Tree ([K]) & Paperdoll Character Sheet ([I]) on Pyra
 	switch_region("pyra")
 	set_zoom(0.58)
-	hero_pos = capital_center + Vector2(0.0, 14.0)
+	hero_pos = capital_center + Vector2(0.0, 12.0)
 	step_world(0.1)
 	if rpg_hud != null:
 		rpg_hud.toggle_talents()
@@ -1054,7 +1072,7 @@ func run_qa() -> void:
 
 	var report := {
 		"project": "ports/godot-isometric-world",
-		"phase": "3x Monumental Buildings + Roads-to-Doors + Dynamic Rotating Minimap + Progressive Zoom 2D/3D Maps (All Roads, Capital Stars, Town Shields & Enterable Building Dots)",
+		"phase": "Planar A* Roads (Zero Spaghetti, Zero Buildings on Roads) + Single Continuous Bridges + Zero Monster Spawns + Studio Painted Heraldic Map Medallions",
 		"projection_roundtrip_error_m": snappedf(roundtrip_err, 0.0001),
 		"regions": regions_report,
 		"screenshots": shots,

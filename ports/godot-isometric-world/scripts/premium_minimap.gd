@@ -228,35 +228,32 @@ func refresh(nearest_name: String = "", in_safe: bool = true) -> void:
 	loc_label.add_theme_color_override("font_color", Color(0.52, 0.96, 0.68) if in_safe else Color(1.0, 0.72, 0.42))
 	overlay_canvas.queue_redraw()
 
-func _draw_capital_crown_star(pos: Vector2, r: float) -> void:
-	var pts := PackedVector2Array()
-	for i in 16:
-		var ang := -PI * 0.5 + TAU * float(i) / 16.0
-		var rad := r if (i % 2 == 0) else (r * 0.46)
-		pts.append(pos + Vector2(cos(ang), sin(ang)) * rad)
-	overlay_canvas.draw_colored_polygon(pts, Color(1.0, 0.86, 0.28, 1.0))
-	pts.append(pts[0])
-	overlay_canvas.draw_polyline(pts, Color(0.14, 0.07, 0.02, 0.98), 1.6, true)
-	overlay_canvas.draw_circle(pos, r * 0.26, Color(1.0, 0.98, 0.86, 1.0))
+var pin_cache: Dictionary = {}
 
-func _draw_town_shield(pos: Vector2, r: float) -> void:
-	var pts := PackedVector2Array([
-		pos + Vector2(0.0, -r),
-		pos + Vector2(r * 0.88, -r * 0.35),
-		pos + Vector2(r * 0.72, r * 0.52),
-		pos + Vector2(0.0, r),
-		pos + Vector2(-r * 0.72, r * 0.52),
-		pos + Vector2(-r * 0.88, -r * 0.35),
-	])
-	overlay_canvas.draw_colored_polygon(pts, Color(0.76, 0.88, 0.98, 0.98))
-	pts.append(pts[0])
-	overlay_canvas.draw_polyline(pts, Color(0.08, 0.12, 0.18, 0.98), 1.5, true)
-	overlay_canvas.draw_circle(pos, r * 0.28, Color(1.0, 0.84, 0.36, 1.0))
+func _pin_tex(key: String) -> Texture2D:
+	if pin_cache.has(key):
+		return pin_cache[key] as Texture2D
+	var path := "res://assets/ui/map_icons/pin_%s.webp" % key
+	var tex: Texture2D = world.load_tex(path) if (world != null and world.has_method("load_tex")) else null
+	if tex == null:
+		var abs_p := ProjectSettings.globalize_path(path)
+		if FileAccess.file_exists(abs_p):
+			var img := Image.new()
+			if img.load(abs_p) == OK:
+				tex = ImageTexture.create_from_image(img)
+	pin_cache[key] = tex
+	return tex
 
-func _draw_service_dot(pos: Vector2, fill: Color, r: float) -> void:
-	overlay_canvas.draw_circle(pos, r + 1.4, Color(0.05, 0.04, 0.03, 0.94))
-	overlay_canvas.draw_circle(pos, r, fill)
-	overlay_canvas.draw_circle(pos + Vector2(-r * 0.25, -r * 0.25), r * 0.30, Color(1.0, 1.0, 1.0, 0.55))
+func _draw_pin(key: String, pos: Vector2, dia: float) -> void:
+	var tex := _pin_tex(key)
+	if tex != null:
+		overlay_canvas.draw_circle(pos + Vector2(0.0, 1.0), dia * 0.40, Color(0.02, 0.02, 0.03, 0.45))
+		overlay_canvas.draw_texture_rect(tex, Rect2(pos - Vector2(dia * 0.5, dia * 0.5), Vector2(dia, dia)), false)
+
+func _role_pin_key(role: String) -> String:
+	if role in ["hall", "smithy", "inn", "shop", "arena", "depot", "landmark"]:
+		return role
+	return "landmark"
 
 func _draw_clipped_polyline(pts: PackedVector2Array, clip_r: float, col: Color, width: float) -> void:
 	for i in range(pts.size() - 1):
@@ -282,7 +279,7 @@ func _draw_overlay() -> void:
 	var ws: float = maxf(float(world.world_size), 1.0)
 	var px_per_m := (MAP_DIAMETER * current_zoom) / ws
 
-	# 1. ALL REAL IN-GAME VECTOR ROADS (crisp dual-stroke casing rotated with the map!)
+	# 1. ALL REAL PLANAR IN-GAME VECTOR ROADS (crisp dual-stroke casing rotated with the map!)
 	if "roads" in world:
 		for rd: Dictionary in world.roads:
 			var raw_pts: Array = rd.get("pts", [])
@@ -292,17 +289,21 @@ func _draw_overlay() -> void:
 			var spts := PackedVector2Array()
 			for pt: Array in raw_pts:
 				spts.append(_world_to_radar(float(pt[0]), float(pt[1]), center_uv))
-			var rw := clampf((3.2 if tier in ["highway", "ring"] else (2.4 if tier in ["city", "town"] else 1.8)) * (current_zoom / 2.2), 1.2, 4.4)
-			_draw_clipped_polyline(spts, clip_r, Color(0.08, 0.05, 0.03, 0.72), rw + 1.5)
-			var rcol := Color(0.96, 0.86, 0.62, 0.86) if tier in ["highway", "ring", "city"] else Color(0.84, 0.74, 0.54, 0.72)
+			var rw := clampf((3.2 if tier == "highway" else (2.4 if tier == "city" else 1.8)) * (current_zoom / 2.2), 1.2, 4.4)
+			_draw_clipped_polyline(spts, clip_r, Color(0.08, 0.05, 0.03, 0.76), rw + 1.6)
+			var rcol := Color(0.96, 0.86, 0.62, 0.90) if tier in ["highway", "city"] else Color(0.84, 0.74, 0.54, 0.78)
 			_draw_clipped_polyline(spts, clip_r, rcol, rw)
 
-	# 2. Safe Capital perimeter ring
+	# 2. Safe Capital perimeter ring (strictly clipped inside circular radar bezel!)
 	var cap_c: Vector2 = world.capital_center if "capital_center" in world else Vector2(ws * 0.5, ws * 0.5)
 	var cap_pt := _world_to_radar(cap_c.x, cap_c.y, center_uv)
 	var cap_r: float = float(world.safe_city_radius) * px_per_m
-	if cap_pt.distance_to(MAP_CENTER) < clip_r + cap_r and cap_r < clip_r * 1.45:
-		overlay_canvas.draw_arc(cap_pt, minf(cap_r, clip_r), 0.0, TAU, 48, Color(0.38, 0.94, 0.62, 0.34), 1.2, true)
+	if cap_pt.distance_to(MAP_CENTER) < clip_r + cap_r and cap_r > 4.0:
+		var ring_pts := PackedVector2Array()
+		for ri in 49:
+			var ang := TAU * float(ri) / 48.0
+			ring_pts.append(cap_pt + Vector2(cos(ang), sin(ang)) * cap_r)
+		_draw_clipped_polyline(ring_pts, clip_r, Color(0.38, 0.94, 0.62, 0.34), 1.3)
 
 	# 3. REAL BUILDING FOOTPRINTS & BRIDGES (shows actual city layout directly on radar!)
 	for b: Dictionary in world.buildings:
@@ -310,17 +311,14 @@ func _draw_overlay() -> void:
 		if role == "prop":
 			continue
 		var bp := _world_to_radar(float(b.get("x", 512.0)), float(b.get("z", 512.0)), center_uv)
-		if bp.distance_to(MAP_CENTER) > clip_r - 3.0:
+		if bp.distance_to(MAP_CENTER) > clip_r - 4.0:
 			continue
 		if role == "bridge":
-			var br := clampf(5.0 * (current_zoom / 2.2), 3.0, 7.5)
-			overlay_canvas.draw_rect(Rect2(bp - Vector2(br, br * 0.6), Vector2(br * 2.0, br * 1.2)), Color(0.76, 0.58, 0.32, 0.94))
-			overlay_canvas.draw_rect(Rect2(bp - Vector2(br, br * 0.6), Vector2(br * 2.0, br * 1.2)), Color(0.10, 0.06, 0.03, 0.95), false, 1.2)
+			_draw_pin("bridge", bp, 16.0 if current_zoom >= 2.0 else 12.0)
 		else:
 			var foot_m := float(b.get("footprint_r", 20.0))
 			var fr := clampf(foot_m * px_per_m * 0.65, 2.4, 14.0)
 			if current_zoom >= 1.6:
-				# Rotated building roof block
 				var half_s := Vector2(fr, fr * 0.82)
 				var corners := PackedVector2Array([
 					bp + Vector2(-half_s.x, -half_s.y).rotated(-map_rotation),
@@ -328,12 +326,12 @@ func _draw_overlay() -> void:
 					bp + Vector2(half_s.x, half_s.y).rotated(-map_rotation),
 					bp + Vector2(-half_s.x, half_s.y).rotated(-map_rotation),
 				])
-				var roof_col := Color(0.36, 0.30, 0.28, 0.85) if role == "house" else (Color(0.46, 0.42, 0.38, 0.88) if role in ["gate", "tower"] else Color(0.56, 0.40, 0.24, 0.90))
+				var roof_col := Color(0.36, 0.30, 0.28, 0.84) if role == "house" else (Color(0.46, 0.42, 0.38, 0.86) if role in ["gate", "tower"] else Color(0.56, 0.40, 0.24, 0.88))
 				overlay_canvas.draw_colored_polygon(corners, roof_col)
 				corners.append(corners[0])
 				overlay_canvas.draw_polyline(corners, Color(0.06, 0.04, 0.03, 0.94), 1.3, true)
 
-	# 4. Live Wildlife Fauna, Monsters & NPCs
+	# 4. Live Peaceful Wildlife Fauna & Capital NPCs
 	for ag: Dictionary in world.live_agents:
 		var node = ag.get("node")
 		if node == null or not is_instance_valid(node):
@@ -345,13 +343,10 @@ func _draw_overlay() -> void:
 		var kind := str(node.get("actor_kind")) if "actor_kind" in node else ""
 		if kind == "animal":
 			overlay_canvas.draw_circle(rp, 2.0, Color(0.56, 0.92, 0.58, 0.78))
-		elif kind == "monster":
-			overlay_canvas.draw_circle(rp, 2.6, Color(0.98, 0.24, 0.18, 0.92))
-			overlay_canvas.draw_arc(rp, 3.5, 0.0, TAU, 10, Color(0.12, 0.02, 0.02, 0.7), 0.9, true)
 		elif kind == "npc":
-			overlay_canvas.draw_circle(rp, 2.6, Color(1.0, 0.90, 0.44, 0.95))
+			overlay_canvas.draw_circle(rp, 2.5, Color(1.0, 0.90, 0.44, 0.95))
 
-	# 5. Distinct Symbols: Capital Crown Star, Town/Stronghold Shields & Small Enterable Building Dots!
+	# 5. Painted Heraldic Medallions: Capital Starburst, Town Shields & Enterable Service Medallions!
 	for b: Dictionary in world.buildings:
 		var mk := str(b.get("map_kind", ""))
 		var is_ent := bool(b.get("enterable", false))
@@ -359,53 +354,30 @@ func _draw_overlay() -> void:
 		if mk != "capital" and mk != "town" and not is_ent:
 			continue
 		var bp := _world_to_radar(float(b.get("x", 512.0)), float(b.get("z", 512.0)), center_uv)
-		if bp.distance_to(MAP_CENTER) > clip_r - 4.0:
-			continue
-		if mk == "capital":
-			_draw_capital_crown_star(bp, 8.2)
+		var dist_c := bp.distance_to(MAP_CENTER)
+		if dist_c <= clip_r - 5.0:
+			if mk == "capital":
+				_draw_pin("capital", bp, 22.0)
+			elif mk == "town":
+				_draw_pin("town", bp, 18.0)
+			elif is_ent:
+				_draw_pin(_role_pin_key(role), bp, 14.0 if current_zoom >= 2.0 else 11.0)
 		elif mk == "town":
-			_draw_town_shield(bp, 6.4)
-		elif is_ent:
-			var dot_col := Color(0.98, 0.84, 0.42)
-			match role:
-				"smithy":
-					dot_col = Color(1.0, 0.52, 0.18)
-				"inn":
-					dot_col = Color(1.0, 0.76, 0.34)
-				"shop":
-					dot_col = Color(0.32, 0.94, 0.54)
-				"arena":
-					dot_col = Color(0.96, 0.30, 0.30)
-				"depot":
-					dot_col = Color(0.36, 0.86, 1.0)
-				"hall":
-					dot_col = Color(0.88, 0.74, 1.0)
-			_draw_service_dot(bp, dot_col, 3.6 if current_zoom >= 2.0 else 2.8)
+			# Subtle directional compass hint on radar rim for distant strongholds/towns
+			var dir := (bp - MAP_CENTER).normalized()
+			var edge_p := MAP_CENTER + dir * (clip_r - 2.0)
+			overlay_canvas.draw_circle(edge_p, 2.6, Color(0.76, 0.90, 1.0, 0.85))
 
-	# 6. 6 Exp-Zone Combat Clearings
-	for ez: Dictionary in world.exp_zones:
-		var ep := _world_to_radar(float(ez.get("x", 512.0)), float(ez.get("z", 512.0)), center_uv)
-		var dist_c := ep.distance_to(MAP_CENTER)
-		if dist_c <= clip_r - 3.0:
-			overlay_canvas.draw_circle(ep, 4.8, Color(0.92, 0.20, 0.14, 0.88))
-			overlay_canvas.draw_arc(ep, 7.2 + pulse * 1.4, 0.0, TAU, 18, Color(1.0, 0.80, 0.30, 0.88), 1.4, true)
-			overlay_canvas.draw_line(ep + Vector2(-2.4, -2.4), ep + Vector2(2.4, 2.4), Color(1.0, 0.96, 0.82), 1.3, true)
-			overlay_canvas.draw_line(ep + Vector2(2.4, -2.4), ep + Vector2(-2.4, 2.4), Color(1.0, 0.96, 0.82), 1.3, true)
-		else:
-			var dir := (ep - MAP_CENTER).normalized()
-			var edge_p := MAP_CENTER + dir * (clip_r - 1.5)
-			overlay_canvas.draw_circle(edge_p, 2.8, Color(1.0, 0.42, 0.24, 0.85))
-
-	# 7. Hero Permanently Centered at MAP_CENTER! (Points straight UP in rotating mode, or heading in N-up mode)
+	# 6. Hero Permanently Centered at MAP_CENTER! (Points straight UP in rotating mode, or heading in N-up mode)
 	var hp := MAP_CENTER
-	overlay_canvas.draw_arc(hp, 9.0 + pulse * 3.5, 0.0, TAU, 24, Color(0.32, 0.96, 1.0, 0.52 - pulse * 0.22), 1.6, true)
+	overlay_canvas.draw_arc(hp, 9.5 + pulse * 3.0, 0.0, TAU, 24, Color(0.32, 0.96, 1.0, 0.52 - pulse * 0.22), 1.6, true)
 	var fwd := Vector2(0.0, -1.0) if rotate_with_hero else hero_heading.normalized()
 	var right := Vector2(-fwd.y, fwd.x)
 	var arrow := PackedVector2Array([
-		hp + fwd * 8.6,
-		hp - fwd * 5.6 + right * 5.6,
+		hp + fwd * 9.0,
+		hp - fwd * 5.8 + right * 5.8,
 		hp - fwd * 2.4,
-		hp - fwd * 5.6 - right * 5.6,
+		hp - fwd * 5.8 - right * 5.8,
 	])
 	overlay_canvas.draw_colored_polygon(arrow, Color(0.24, 0.98, 1.0, 1.0))
 	var arrow_out := PackedVector2Array([arrow[0], arrow[1], arrow[2], arrow[3], arrow[0]])

@@ -1017,7 +1017,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	var z_col := Color(0.36, 0.94, 0.56) if in_safe_city else Color(1.0, 0.44, 0.24)
 	c.draw_circle(Vector2(115.0, 106.0), 4.0, z_col)
 	c.draw_arc(Vector2(115.0, 106.0), 6.0, 0.0, TAU, 16, Color(z_col.r, z_col.g, z_col.b, 0.40), 1.2, true)
-	var zone_prefix := "STOLICA" if in_safe_city else "WALKA"
+	var zone_prefix := "STOLICA" if in_safe_city else "KONTYNENT"
 	var loc_short := nearest_loc if nearest_loc.length() <= 21 else (nearest_loc.substr(0, 19) + "…")
 	c.draw_string(fb, Vector2(125.0, 110.0), "%s  •  %s" % [zone_prefix, loc_short], HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.92, 0.88, 0.78, 0.94))
 
@@ -1049,7 +1049,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		{"id": "aether", "label": "AETHERIA", "kind": "land"},
 		{"id": "nexus", "label": "NEXUS-9", "kind": "land"},
 		{"id": "capital", "label": "STOLICA", "kind": "act"},
-		{"id": "exp", "label": "EXPOWISKA", "kind": "act"},
+		{"id": "town", "label": "WAROWNIE", "kind": "act"},
 	]
 	var total_lbl_w := 0.0
 	for item: Dictionary in nav_items:
@@ -1586,8 +1586,8 @@ func _handle_primary_tap(p: Vector2) -> bool:
 				world.switch_region(iid)
 			elif iid == "capital" and world != null:
 				world.teleport_to_capital()
-			elif iid == "exp" and world != null:
-				world.cycle_exp_zone()
+			elif iid == "town" and world != null:
+				world.cycle_town_stronghold()
 			return true
 
 	# Bottom-Right Wild Rift Right-Thumb Combat Orbs
