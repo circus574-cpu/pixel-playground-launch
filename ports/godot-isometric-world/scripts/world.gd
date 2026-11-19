@@ -1006,7 +1006,7 @@ func run_qa() -> void:
 	shots.append(await snap(out_dir, "planet-atlas.jpg"))
 
 	if atlas_overlay != null:
-		atlas_overlay.focus_atlas_continent("pyra", 4.6)
+		atlas_overlay.focus_atlas_continent("pyra", 3.5)
 	for _i in 4:
 		await get_tree().process_frame
 	shots.append(await snap(out_dir, "planet-atlas-zoom.jpg"))

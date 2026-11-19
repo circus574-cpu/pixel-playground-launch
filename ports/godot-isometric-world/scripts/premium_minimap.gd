@@ -279,20 +279,29 @@ func _draw_overlay() -> void:
 	var ws: float = maxf(float(world.world_size), 1.0)
 	var px_per_m := (MAP_DIAMETER * current_zoom) / ws
 
-	# 1. ALL REAL PLANAR IN-GAME VECTOR ROADS (crisp dual-stroke casing rotated with the map!)
+	# 1. ALL REAL PLANAR IN-GAME VECTOR ROADS (4-tier cartographic hierarchy rotated smoothly with the hero!)
 	if "roads" in world:
-		for rd: Dictionary in world.roads:
-			var raw_pts: Array = rd.get("pts", [])
-			if raw_pts.size() < 2:
-				continue
-			var tier := str(rd.get("tier", "footpath"))
-			var spts := PackedVector2Array()
-			for pt: Array in raw_pts:
-				spts.append(_world_to_radar(float(pt[0]), float(pt[1]), center_uv))
-			var rw := clampf((3.2 if tier == "highway" else (2.4 if tier == "city" else 1.8)) * (current_zoom / 2.2), 1.2, 4.4)
-			_draw_clipped_polyline(spts, clip_r, Color(0.08, 0.05, 0.03, 0.76), rw + 1.6)
-			var rcol := Color(0.96, 0.86, 0.62, 0.90) if tier in ["highway", "city"] else Color(0.84, 0.74, 0.54, 0.78)
-			_draw_clipped_polyline(spts, clip_r, rcol, rw)
+		var tier_order := ["footpath", "regional", "city", "highway"]
+		for want_tier: String in tier_order:
+			for rd: Dictionary in world.roads:
+				var tier := str(rd.get("tier", "footpath"))
+				if tier != want_tier:
+					continue
+				var raw_pts: Array = rd.get("pts", [])
+				if raw_pts.size() < 2:
+					continue
+				var spts := PackedVector2Array()
+				for pt: Array in raw_pts:
+					spts.append(_world_to_radar(float(pt[0]), float(pt[1]), center_uv))
+				var base_w := 3.0 if tier == "highway" else (2.4 if tier == "city" else (2.0 if tier == "regional" else 1.4))
+				var rw := clampf(base_w * (current_zoom / 2.2), 1.0, 4.2)
+				_draw_clipped_polyline(spts, clip_r, Color(0.08, 0.05, 0.03, 0.76), rw + 1.4)
+				var rcol := Color(0.98, 0.89, 0.64, 0.92) if tier == "highway" else (
+					Color(0.95, 0.87, 0.68, 0.88) if tier == "city" else (
+						Color(0.88, 0.78, 0.56, 0.82) if tier == "regional" else Color(0.78, 0.68, 0.50, 0.72)
+					)
+				)
+				_draw_clipped_polyline(spts, clip_r, rcol, rw)
 
 	# 2. Safe Capital perimeter ring (strictly clipped inside circular radar bezel!)
 	var cap_c: Vector2 = world.capital_center if "capital_center" in world else Vector2(ws * 0.5, ws * 0.5)

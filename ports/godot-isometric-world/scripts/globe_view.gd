@@ -220,12 +220,25 @@ func add_icon_marker(lonlat: Vector2, icon_key: String, world_diam: float, paren
 		markers.add_child(sprite)
 	return sprite
 
+func _uv_to_atlas(spec: Variant, u: float, v: float) -> Vector2:
+	if spec is Array and (spec as Array).size() >= 6:
+		var m: Array = spec
+		return Vector2(
+			fposmod(float(m[0]) + float(m[1]) * u + float(m[2]) * v, 2000.0),
+			clampf(float(m[3]) + float(m[4]) * u + float(m[5]) * v, 0.0, 1000.0)
+		)
+	var bb: Dictionary = spec
+	return Vector2(
+		fposmod(lerpf(float(bb["min_x"]), float(bb["max_x"]), u), 2000.0),
+		clampf(lerpf(float(bb["min_y"]), float(bb["max_y"]), v), 0.0, 1000.0)
+	)
+
 func build_continent_roads_and_details(continent_data: Dictionary, region_bboxes: Dictionary) -> void:
 	for rid: String in continent_data.keys():
 		if not region_bboxes.has(rid):
 			continue
 		var cd: Dictionary = continent_data[rid]
-		var bb: Dictionary = region_bboxes[rid]
+		var bb: Variant = region_bboxes[rid]
 		var ws := float(cd.get("world_size", 1024.0))
 		var half := ws * 0.5
 		for rd: Dictionary in cd.get("roads", []):
@@ -237,10 +250,10 @@ func build_continent_roads_and_details(continent_data: Dictionary, region_bboxes
 			for pt: Array in raw_pts:
 				var u := clampf((float(pt[0]) + half) / ws, 0.0, 1.0)
 				var v := clampf((float(pt[1]) + half) / ws, 0.0, 1.0)
-				var ap := Vector2(lerpf(float(bb["min_x"]), float(bb["max_x"]), u), lerpf(float(bb["min_y"]), float(bb["max_y"]), v))
+				var ap := _uv_to_atlas(bb, u, v)
 				var ll := MapMath.atlas_to_lonlat(ap)
 				pts3.append(surface(ll.x, ll.y, 1.005))
-			var col := Color(1.0, 0.88, 0.58, 0.90) if tier in ["highway", "city"] else Color(0.88, 0.78, 0.56, 0.72)
+			var col := Color(1.0, 0.90, 0.62, 0.92) if tier == "highway" else (Color(0.94, 0.84, 0.60, 0.80) if tier in ["city", "regional"] else Color(0.84, 0.74, 0.54, 0.62))
 			roads_3d.add_child(line_mesh(pts3, col))
 
 		for b: Dictionary in cd.get("buildings", []):
@@ -251,7 +264,7 @@ func build_continent_roads_and_details(continent_data: Dictionary, region_bboxes
 				continue
 			var u := clampf((float(b.get("x", 0.0)) + half) / ws, 0.0, 1.0)
 			var v := clampf((float(b.get("z", 0.0)) + half) / ws, 0.0, 1.0)
-			var ap := Vector2(lerpf(float(bb["min_x"]), float(bb["max_x"]), u), lerpf(float(bb["min_y"]), float(bb["max_y"]), v))
+			var ap := _uv_to_atlas(bb, u, v)
 			var ll := MapMath.atlas_to_lonlat(ap)
 			if mk == "capital":
 				add_icon_marker(ll, "capital", 0.088, markers, 1.028)

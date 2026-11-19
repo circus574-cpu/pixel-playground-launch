@@ -4,8 +4,8 @@
   "projection_roundtrip_error_m": 0.0,
   "regions": {
     "aether": {
-      "bridges_count": 1,
-      "buildings_count": 23,
+      "bridges_count": 3,
+      "buildings_count": 26,
       "capital_center": [
         93.0,
         -127.0
@@ -15,14 +15,14 @@
       "grid_size": 512,
       "monsters_count": 0,
       "npcs_count": 10,
-      "props_count": 230,
-      "roads_count": 14,
+      "props_count": 173,
+      "roads_count": 75,
       "title": "Aetheria — Lodowe Sanktuarium i Śnieżne Szczyty",
       "world_size_m": 1024.0
     },
     "nexus": {
-      "bridges_count": 1,
-      "buildings_count": 24,
+      "bridges_count": 2,
+      "buildings_count": 26,
       "capital_center": [
         60.0,
         6.0
@@ -32,14 +32,14 @@
       "grid_size": 512,
       "monsters_count": 0,
       "npcs_count": 10,
-      "props_count": 213,
-      "roads_count": 14,
+      "props_count": 173,
+      "roads_count": 68,
       "title": "Nexus-9 — Węzeł Świadomości i Obwody Rdzeni",
       "world_size_m": 1024.0
     },
     "pyra": {
-      "bridges_count": 1,
-      "buildings_count": 22,
+      "bridges_count": 4,
+      "buildings_count": 28,
       "capital_center": [
         28.0,
         -37.0
@@ -49,25 +49,25 @@
       "grid_size": 512,
       "monsters_count": 0,
       "npcs_count": 10,
-      "props_count": 181,
-      "roads_count": 13,
+      "props_count": 112,
+      "roads_count": 53,
       "title": "Pyra — Twierdza Popiołu i Wulkaniczny Kontynent",
       "world_size_m": 1024.0
     },
     "verdant": {
-      "bridges_count": 1,
-      "buildings_count": 20,
+      "bridges_count": 4,
+      "buildings_count": 24,
       "capital_center": [
         -155.0,
-        -110.0
+        -118.0
       ],
       "exp_zones_count": 0,
       "fauna_count": 18,
       "grid_size": 512,
       "monsters_count": 0,
       "npcs_count": 10,
-      "props_count": 224,
-      "roads_count": 12,
+      "props_count": 187,
+      "roads_count": 78,
       "title": "Verdantia — Zielona Przystań i Szmaragdowa Dolina",
       "world_size_m": 1024.0
     }

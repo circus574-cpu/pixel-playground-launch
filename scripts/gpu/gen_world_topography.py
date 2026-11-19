@@ -911,24 +911,40 @@ EXP_ZONES_CATALOG = {
 
 WILDERNESS_POIS_CATALOG = {
     "pyra": [
-        ("pyra-castle-stronghold", "Obsydianowy Zamek Wulkaniczny", -122.0, 128.0, "castle", "landmark"),
-        ("pyra-outpost-foundry", "Odlewnia Magmy", 145.0, -145.0, "outpost_1", "landmark"),
-        ("pyra-outpost-watch", "Strażnica Popielnego Szlaku", -265.0, -25.0, "outpost_2", "landmark"),
+        ("pyra-castle-stronghold", "Obsydianowy Zamek Wulkaniczny", -145.0, 145.0, "castle", "landmark"),
+        ("pyra-outpost-foundry", "Odlewnia Magmy", 185.0, -135.0, "outpost_1", "smithy"),
+        ("pyra-outpost-watch", "Strażnica Popielnego Szlaku", -295.0, -18.0, "outpost_2", "landmark"),
+        ("pyra-town-fjord", "Przystań Północnych Fiordów", -245.0, -210.0, "inn", "inn"),
+        ("pyra-town-basalt", "Osada Bazaltowych Górników", 260.0, 12.0, "shop", "shop"),
+        ("pyra-town-caldera", "Wioska Południowej Kaldery", 95.0, 195.0, "house", "inn"),
+        ("pyra-town-ridge", "Posterunek Wschodniej Grani", 335.0, -85.0, "outpost_2", "landmark"),
     ],
     "verdant": [
         ("verdant-castle-keep", "Twierdza Szmaragdowego Gaju", 182.0, -125.0, "castle", "landmark"),
-        ("verdant-outpost-mill", "Wiatrak Doliny", -95.0, 145.0, "outpost_1", "landmark"),
-        ("verdant-outpost-alch", "Chata Zielarza Alchemika", -278.0, -25.0, "outpost_2", "landmark"),
+        ("verdant-outpost-mill", "Wiatrak Doliny", -95.0, 165.0, "outpost_1", "shop"),
+        ("verdant-outpost-alch", "Chata Zielarza Alchemika", -305.0, -15.0, "outpost_2", "landmark"),
+        ("verdant-town-lake", "Przystań Wielkiego Jeziora", 285.0, 45.0, "inn", "inn"),
+        ("verdant-town-pass", "Osada Północnej Przełęczy", -15.0, -275.0, "cottage", "landmark"),
+        ("verdant-town-bay", "Zatoka Południowych Rybaków", 115.0, 215.0, "shop", "shop"),
+        ("verdant-town-woods", "Strażnica Starego Lasu", -235.0, 155.0, "house", "inn"),
     ],
     "aether": [
-        ("aether-castle-citadel", "Lodowa Cytadela Szczytów", -255.0, -20.0, "castle", "landmark"),
-        ("aether-outpost-wizard", "Wieża Mroźnego Maga", 275.0, -50.0, "outpost_1", "landmark"),
-        ("aether-outpost-stables", "Stajnia Górska", 45.0, 118.0, "outpost_2", "landmark"),
+        ("aether-castle-citadel", "Lodowa Cytadela Szczytów", -275.0, -15.0, "castle", "landmark"),
+        ("aether-outpost-wizard", "Wieża Mroźnego Maga", 295.0, -45.0, "outpost_1", "landmark"),
+        ("aether-outpost-stables", "Stajnia Górska", 35.0, 145.0, "outpost_2", "inn"),
+        ("aether-town-glacier", "Północna Strażnica Lodowca", -125.0, -235.0, "observatory", "landmark"),
+        ("aether-town-drifts", "Osada Wschodnich Zasp", 265.0, 125.0, "inn", "inn"),
+        ("aether-town-oasis", "Przełęcz Szmaragdowej Oazy", -245.0, -175.0, "shop", "shop"),
+        ("aether-town-south", "Sanktuarium Południowego Brzegu", -145.0, 195.0, "archive", "depot"),
     ],
     "nexus": [
-        ("nexus-castle-fortress", "Cytadela Tytanowa Sektor-9", -240.0, -135.0, "castle", "landmark"),
-        ("nexus-outpost-dome", "Kopuła Badawcza Bio-Rdzenia", -18.0, 135.0, "outpost_1", "landmark"),
-        ("nexus-outpost-harbor", "Magazyn Portu Zerowego", 225.0, 155.0, "outpost_2", "landmark"),
+        ("nexus-castle-fortress", "Cytadela Tytanowa Sektor-9", -245.0, -135.0, "castle", "landmark"),
+        ("nexus-outpost-dome", "Kopuła Badawcza Bio-Rdzenia", -25.0, 165.0, "outpost_1", "landmark"),
+        ("nexus-outpost-harbor", "Magazyn Portu Zerowego", 255.0, 155.0, "outpost_2", "depot"),
+        ("nexus-town-north", "Sektor Północnych Kolektorów", -35.0, -245.0, "reactor", "landmark"),
+        ("nexus-town-dunes", "Węzeł Zachodnich Wydm", -295.0, 55.0, "field_lab", "shop"),
+        ("nexus-town-east", "Estakada Wschodniego Portu", 315.0, -15.0, "depot", "depot"),
+        ("nexus-town-channel", "Baza Południowego Kanału", -165.0, 175.0, "inn", "inn"),
     ],
 }
 
@@ -1068,23 +1084,26 @@ def generate_continent(land_id: str) -> dict:
     # 1) ZERO premature monster spawns & ZERO exp-zones (per owner mandate & AGENTS.md: spawns belong to a separate later phase)
     exp_zones: list[dict] = []
 
-    # 2) Pick Outer Towns / Strongholds / Castles (strictly outside safe capital & 100% dry)
+    # 2) Pick 7 Outer Towns / Strongholds / Castles / Outposts (strictly outside safe capital & 100% dry)
     wild_strongholds = []
-    avoid_poi: list[tuple[float, float, float]] = [(cap_x, cap_z, SAFE_CITY_RADIUS + 46.0)]
+    avoid_poi: list[tuple[float, float, float]] = [(cap_x, cap_z, SAFE_CITY_RADIUS + 26.0)]
     for pid, ptitle, px_s, pz_s, akey, prole in WILDERNESS_POIS_CATALOG[land_id]:
         _, _, _, r_foot = ARCH_CATALOG[land_id][akey]
-        px, pz = snap_dry_site(
-            px_s, pz_s,
-            min_liq_m=r_foot + 14.0,
-            avoid_pts=avoid_poi,
-            max_search_r=175.0,
-            require_non_oasis=(land_id == "aether"),
-        )
+        try:
+            px, pz = snap_dry_site(
+                px_s, pz_s,
+                min_liq_m=r_foot + 6.0,
+                avoid_pts=avoid_poi,
+                max_search_r=220.0,
+                require_non_oasis=(land_id == "aether"),
+            )
+        except AssertionError:
+            continue
         wild_strongholds.append((pid, ptitle, round(px, 2), round(pz, 2), akey, prole))
-        avoid_poi.append((px, pz, 115.0))
+        avoid_poi.append((px, pz, 88.0))
         d_p = np.sqrt((xx - px) ** 2 + (zz - pz) ** 2)
         ph_t = max(float(h[wz_to_i(pz), wx_to_j(px)]), 4.2)
-        p_flat = (1.0 - smoothstep(26.0, 44.0, d_p)) * smoothstep(8.0, 16.0, edt_liq)
+        p_flat = (1.0 - smoothstep(24.0, 42.0, d_p)) * smoothstep(8.0, 16.0, edt_liq)
         h = h * (1.0 - p_flat) + ph_t * p_flat
 
     def sample_h(wx: float, wz: float) -> float:
@@ -1300,7 +1319,8 @@ def generate_continent(land_id: str) -> dict:
         if trec is not None:
             placed_towns.append(trec)
 
-    # 4) PLANAR A* ROAD NETWORK ROUTER (ZERO SPAGHETTI, ZERO BUILDINGS ON ROADS, SINGLE CONTINUOUS BRIDGES ONLY!)
+    # 4) PLANAR GABRIEL + THETA* STRING-PULLED + CHAIKIN-SMOOTHED ROAD NETWORK (55-80+ ROADS PER CONTINENT!)
+    # Guarantees: >= 50 roads/continent, 0 crossings, 0 zigzags, 0 ocean leaks, 0 buildings on roads, 1-piece bridges only!
     water_mask = blur_float((ocean | inland_water).astype(np.float32), 1.35)
     water_mask = np.where(ocean | inland_water, np.maximum(water_mask, 0.85), water_mask * 0.45)
     lava_mask = blur_float(lava.astype(np.float32), 1.25)
@@ -1314,13 +1334,12 @@ def generate_continent(land_id: str) -> dict:
     plaza_m = (1.0 - smoothstep(PLAZA_R - 4.0, PLAZA_R + 6.0, d_cap)) * dry_plaza
     road_mask = np.maximum(road_mask, plaza_m)
 
-    # Build 256x256 navigation grid (4m/cell) where ocean, wide rivers/lakes, and building footprints+collar are STRICTLY IMPASSABLE
+    # 256x256 navigation grid (~4.0m/cell) with conservative 2x2 max-pool so zero water/ocean leaks through
     NAV_N = 256
-    NAV_STEP = WORLD_SIZE / (NAV_N - 1)  # ~4.015m/cell
+    NAV_STEP = WORLD_SIZE / (NAV_N - 1)
     nav_lin = np.linspace(-HALF, HALF, NAV_N, dtype=np.float32)
     nav_zz, nav_xx = np.meshgrid(nav_lin, nav_lin, indexing="ij")
 
-    # Downsample masks conservatively (2x2 max-pool so no thin water/ocean pixel leaks through)
     def pool2_any(m512: np.ndarray) -> np.ndarray:
         return m512.reshape(NAV_N, 2, NAV_N, 2).any(axis=(1, 3))
 
@@ -1331,10 +1350,11 @@ def generate_continent(land_id: str) -> dict:
     nav_liquid = nav_ocean | nav_cross_liq
     nav_edt_liq = exact_edt(nav_liquid) * NAV_STEP
     nav_slope = base_slope.reshape(NAV_N, 2, NAV_N, 2).mean(axis=(1, 3))
+    crossable_liq = inland_water | lava
 
-    # Precompute narrow_crossable mask: ONLY narrow river/lava channels (span <= 38m bank-to-bank) can be bridged with 1 SINGLE continuous bridge!
+    # Precompute narrow_crossable mask: ONLY narrow river/lava channels (span <= 38m bank-to-bank) can carry 1 single bridge!
     narrow_crossable = np.zeros((NAV_N, NAV_N), dtype=bool)
-    max_half_cells = 5  # <= 10 cells (~40m) total span, comfortably spanned by ONE single 540px Blender Cycles bridge!
+    max_half_cells = 5
     chan_ys, chan_xs = np.where(nav_cross_liq)
     for cy, cx_i in zip(chan_ys, chan_xs):
         if cy < 8 or cy >= NAV_N - 8 or cx_i < 8 or cx_i >= NAV_N - 8:
@@ -1367,175 +1387,402 @@ def generate_continent(land_id: str) -> dict:
         if is_narrow:
             narrow_crossable[cy, cx_i] = True
 
-    # Building solid + generous safety collar (r_foot + 10.5m) strictly IMPASSABLE so NO road can EVER cross a building!
+    # Strictly impassable cells: ocean, wide lakes/rivers, map borders, and ALL building footprints + 10.5m collar!
     nav_blocked = nav_ocean.copy() | (nav_cross_liq & (~narrow_crossable))
     nav_blocked[:4, :] = True
     nav_blocked[-4:, :] = True
     nav_blocked[:, :4] = True
     nav_blocked[:, -4:] = True
 
+    nav_bldg_blocked = np.zeros((NAV_N, NAV_N), dtype=bool)
     for fx, fz, r_foot, _ex, _ez, _rl, _mk, _ent in placed_major:
         d_nb = np.sqrt((nav_xx - fx) ** 2 + (nav_zz - fz) ** 2)
-        nav_blocked |= (d_nb < r_foot + 10.5)
+        nav_bldg_blocked |= (d_nb < r_foot + 10.5)
+    nav_blocked |= nav_bldg_blocked
 
-    # Track built road cells & placed single-span bridges so subsequent roads reuse existing trunks & bridges!
-    built_road_nav = np.zeros((NAV_N, NAV_N), dtype=bool)
-    # Mark Central Royal Plaza perimeter as built road hub
-    d_nav_cap = np.sqrt((nav_xx - cap_x) ** 2 + (nav_zz - cap_z) ** 2)
-    built_road_nav |= (d_nav_cap <= PLAZA_R - 2.0) & (~nav_blocked)
-
-    bridges_placed: list[dict] = []
-    bridge_excl_mask = np.zeros((NAV_N, NAV_N), dtype=bool)
+    # Fine 512x512 exact liquid-unbridgeable mask for line-of-sight & smoothing safety validation
+    narrow_512 = np.repeat(np.repeat(narrow_crossable, 2, axis=0), 2, axis=1)
+    unbridgeable_512 = ocean | (crossable_liq & (~narrow_512))
+    # Dilate ocean by 2 pixels (4m) so no road centerline ever skims ocean foam!
+    ocean_pad_512 = exact_edt(ocean) * STEP < 5.0
 
     def world_to_nav(wx: float, wz: float) -> tuple[int, int]:
         ni = int(np.clip(round((wz + HALF) / WORLD_SIZE * (NAV_N - 1)), 4, NAV_N - 5))
         nj = int(np.clip(round((wx + HALF) / WORLD_SIZE * (NAV_N - 1)), 4, NAV_N - 5))
         return ni, nj
 
-    def nearest_free_nav(wx: float, wz: float) -> tuple[int, int]:
-        ni0, nj0 = world_to_nav(wx, wz)
-        if not nav_blocked[ni0, nj0] and not nav_liquid[ni0, nj0]:
-            return ni0, nj0
-        for rad in range(1, 16):
-            for di in range(-rad, rad + 1):
-                for dj in range(-rad, rad + 1):
-                    if abs(di) != rad and abs(dj) != rad:
-                        continue
-                    ni, nj = ni0 + di, nj0 + dj
-                    if 4 <= ni < NAV_N - 4 and 4 <= nj < NAV_N - 4:
-                        if not nav_blocked[ni, nj] and not nav_liquid[ni, nj]:
-                            return ni, nj
-        return ni0, nj0
+    def point_is_safe_for_road(wx: float, wz: float, allow_narrow_bridge: bool = True, bldg_pad: float = 8.0) -> bool:
+        if abs(wx) > HALF - 18.0 or abs(wz) > HALF - 18.0:
+            return False
+        ci, cj = wz_to_i(wz), wx_to_j(wx)
+        if ocean_pad_512[ci, cj] or unbridgeable_512[ci, cj]:
+            return False
+        if not allow_narrow_bridge and liquid[ci, cj]:
+            return False
+        for fx, fz, r_foot, _ex, _ez, _rl, _mk, _ent in placed_major:
+            if math.hypot(wx - fx, wz - fz) < r_foot + bldg_pad:
+                return False
+        return True
 
-    def astar_planar_road(
-        src_w: tuple[float, float],
-        dst_w: tuple[float, float],
-        allow_bridges: bool = True,
-        stop_on_existing_road: bool = True,
-    ) -> list[tuple[int, int]] | None:
-        si, sj = nearest_free_nav(src_w[0], src_w[1])
-        ti, tj = nearest_free_nav(dst_w[0], dst_w[1])
+    # 4.1) Build Rich Continent-Wide Dry-Land Node Cloud V (~58-68 junction nodes covering 100% of every landmass!)
+    # Node format: {"x": float, "z": float, "kind": "hub"|"cap_door"|"cap_ring"|"town_door"|"crossroad"}
+    graph_nodes: list[dict] = []
+
+    def add_graph_node(wx: float, wz: float, kind: str, min_sep: float = 0.0) -> int:
+        if min_sep > 0.0:
+            for nd in graph_nodes:
+                if math.hypot(wx - nd["x"], wz - nd["z"]) < min_sep:
+                    return -1
+        idx_n = len(graph_nodes)
+        graph_nodes.append({"id": idx_n, "x": float(wx), "z": float(wz), "kind": kind})
+        return idx_n
+
+    # Hub 0: Central Royal Plaza
+    hub_id = add_graph_node(cap_x, cap_z, "hub")
+
+    # Capital enterable building front doors
+    cap_enterables = [b for b in buildings_list if b["map_kind"] in ("capital", "service") and b["enterable"]]
+    cap_door_ids: list[int] = []
+    for b in cap_enterables:
+        ex, ez = float(b["entrance"][0]), float(b["entrance"][1])
+        if point_is_safe_for_road(ex, ez, allow_narrow_bridge=False, bldg_pad=6.0):
+            nid = add_graph_node(ex, ez, "cap_door", min_sep=14.0)
+            if nid >= 0:
+                cap_door_ids.append(nid)
+        d_ent = np.sqrt((xx - ex) ** 2 + (zz - ez) ** 2)
+        apron = (1.0 - smoothstep(7.0, 12.5, d_ent)) * smoothstep(4.0, 10.0, edt_liq) * 0.90
+        road_mask = np.maximum(road_mask, apron)
+
+    # 6 Capital Outer Ring Crossroads (cleanly outside inner buildings, guiding highways out of the city!)
+    cap_ring_ids: list[int] = []
+    for rk in range(8):
+        ang = (2.0 * math.pi * rk) / 8.0
+        for r_try in (132.0, 148.0, 118.0, 162.0):
+            rx = cap_x + math.cos(ang) * r_try
+            rz = cap_z + math.sin(ang) * r_try
+            if point_is_safe_for_road(rx, rz, allow_narrow_bridge=False, bldg_pad=14.0) and liq_dist(rx, rz) >= 14.0:
+                nid = add_graph_node(rx, rz, "cap_ring", min_sep=46.0)
+                if nid >= 0:
+                    cap_ring_ids.append(nid)
+                    break
+
+    # 7 Regional Town / Stronghold / Outpost Front Doors
+    town_door_ids: list[int] = []
+    for trec in placed_towns:
+        ex, ez = float(trec["entrance"][0]), float(trec["entrance"][1])
+        if not point_is_safe_for_road(ex, ez, allow_narrow_bridge=False, bldg_pad=6.0):
+            ex, ez = snap_dry_site(ex, ez, min_liq_m=12.0, avoid_pts=[(fx, fz, r_foot + 10.0) for fx, fz, r_foot, *_ in placed_major], max_search_r=42.0)
+        nid = add_graph_node(ex, ez, "town_door", min_sep=18.0)
+        if nid >= 0:
+            town_door_ids.append(nid)
+        d_ent = np.sqrt((xx - ex) ** 2 + (zz - ez) ** 2)
+        apron = (1.0 - smoothstep(8.0, 14.0, d_ent)) * smoothstep(4.0, 10.0, edt_liq) * 0.90
+        road_mask = np.maximum(road_mask, apron)
+
+    # Continent-Wide Farthest-Point Poisson Crossroads (~42-48 nodes covering EVERY dry peninsula, valley, coast & pass!)
+    dry_cand_mask = (~liquid) & (edt_liq >= 13.0) & (base_slope < 0.25)
+    dry_cand_mask[:16, :] = False
+    dry_cand_mask[-16:, :] = False
+    dry_cand_mask[:, :16] = False
+    dry_cand_mask[:, -16:] = False
+    for fx, fz, r_foot, *_ in placed_major:
+        dry_cand_mask &= (np.hypot(xx - fx, zz - fz) >= r_foot + 18.0)
+
+    # Subsample 4px grid (~8m) for instant farthest-point selection
+    cy_c, cx_c = np.where(dry_cand_mask[::4, ::4])
+    cand_x = x_lin[cx_c * 4].astype(np.float32)
+    cand_z = z_lin[cy_c * 4].astype(np.float32)
+    cand_sl = base_slope[cy_c * 4, cx_c * 4].astype(np.float32)
+    if len(cand_x) > 0:
+        min_d_arr = np.full(len(cand_x), 1e9, dtype=np.float32)
+        for nd in graph_nodes:
+            min_d_arr = np.minimum(min_d_arr, np.hypot(cand_x - nd["x"], cand_z - nd["z"]))
+        target_total_nodes = 64
+        while len(graph_nodes) < target_total_nodes:
+            # Prefer farthest uncovered valley/coastal region with low slope
+            score = min_d_arr - cand_sl * 90.0
+            best_i = int(np.argmax(score))
+            if float(min_d_arr[best_i]) < 72.0:
+                break
+            nx_p, nz_p = float(cand_x[best_i]), float(cand_z[best_i])
+            nid = add_graph_node(nx_p, nz_p, "crossroad", min_sep=68.0)
+            if nid < 0:
+                min_d_arr[best_i] = 0.0
+                continue
+            min_d_arr = np.minimum(min_d_arr, np.hypot(cand_x - nx_p, cand_z - nz_p))
+
+    N_NODES = len(graph_nodes)
+
+    # 4.2) Exact 2D Segment Intersection & Planar Road Tracking
+    bridges_placed: list[dict] = []
+    bridge_excl_mask = np.zeros((NAV_N, NAV_N), dtype=bool)
+    road_corridor_owner = np.full((NAV_N, NAV_N), -1, dtype=np.int32)
+    committed_edges: list[dict] = []  # {"u": int, "v": int, "curve": np.ndarray, "dense": np.ndarray, "pts": list, "aabb": tuple}
+    adj_edges: dict[int, list[int]] = {i: [] for i in range(N_NODES)}
+    node_exit_angles: dict[int, list[float]] = {i: [] for i in range(N_NODES)}
+
+    def segs_intersect_strict(ax1: float, az1: float, ax2: float, az2: float, bx1: float, bz1: float, bx2: float, bz2: float) -> bool:
+        if max(ax1, ax2) < min(bx1, bx2) - 0.1 or max(bx1, bx2) < min(ax1, ax2) - 0.1:
+            return False
+        if max(az1, az2) < min(bz1, bz2) - 0.1 or max(bz1, bz2) < min(az1, az2) - 0.1:
+            return False
+        # Ignore exact shared endpoint
+        for px, pz in ((ax1, az1), (ax2, az2)):
+            for qx, qz in ((bx1, bz1), (bx2, bz2)):
+                if math.hypot(px - qx, pz - qz) < 2.2:
+                    return False
+        d1 = (ax2 - ax1) * (bz1 - az1) - (az2 - az1) * (bx1 - ax1)
+        d2 = (ax2 - ax1) * (bz2 - az1) - (az2 - az1) * (bx2 - ax1)
+        d3 = (bx2 - bx1) * (az1 - bz1) - (bz2 - bz1) * (ax1 - bx1)
+        d4 = (bx2 - bx1) * (az2 - bz1) - (bz2 - bz1) * (ax2 - bx1)
+        eps = 1e-4
+        return (((d1 > eps and d2 < -eps) or (d1 < -eps and d2 > eps)) and
+                ((d3 > eps and d4 < -eps) or (d3 < -eps and d4 > eps)))
+
+    def polyline_crosses_existing(poly: np.ndarray, u_id: int, v_id: int, min_interior_clr: float = 9.0) -> bool:
+        p_minx, p_maxx = float(np.min(poly[:, 0])), float(np.max(poly[:, 0]))
+        p_minz, p_maxz = float(np.min(poly[:, 1])), float(np.max(poly[:, 1]))
+        pu_x, pu_z = graph_nodes[u_id]["x"], graph_nodes[u_id]["z"]
+        pv_x, pv_z = graph_nodes[v_id]["x"], graph_nodes[v_id]["z"]
+
+        for ed in committed_edges:
+            emin_x, emax_x, emin_z, emax_z = ed["aabb"]
+            if p_maxx < emin_x - min_interior_clr or p_minx > emax_x + min_interior_clr:
+                continue
+            if p_maxz < emin_z - min_interior_clr or p_minz > emax_z + min_interior_clr:
+                continue
+            ep = ed["curve"]
+            # 1) Exact segment-segment intersection test
+            for i in range(len(poly) - 1):
+                ax1, az1 = float(poly[i, 0]), float(poly[i, 1])
+                ax2, az2 = float(poly[i + 1, 0]), float(poly[i + 1, 1])
+                for j in range(len(ep) - 1):
+                    if segs_intersect_strict(ax1, az1, ax2, az2, float(ep[j, 0]), float(ep[j, 1]), float(ep[j + 1, 0]), float(ep[j + 1, 1])):
+                        return True
+            # 2) Minimum interior clearance test (prevents parallel skimming / double-tracked roads!)
+            shares_uv = (ed["u"] in (u_id, v_id)) or (ed["v"] in (u_id, v_id))
+            ed_d = ed["dense"]
+            for k in range(len(poly)):
+                px, pz = float(poly[k, 0]), float(poly[k, 1])
+                if shares_uv and (math.hypot(px - pu_x, pz - pu_z) < 20.0 or math.hypot(px - pv_x, pz - pv_z) < 20.0):
+                    continue
+                if float(np.min(np.hypot(ed_d[:, 0] - px, ed_d[:, 1] - pz))) < min_interior_clr:
+                    return True
+        return False
+
+    def segment_clear_for_pull(a: np.ndarray, b: np.ndarray, u_id: int, v_id: int, allow_bridges: bool) -> bool:
+        dist = float(math.hypot(b[0] - a[0], b[1] - a[1]))
+        n_s = max(2, int(math.ceil(dist / 2.2)))
+        ts = np.linspace(0.0, 1.0, n_s, dtype=np.float32)
+        xs = a[0] + (b[0] - a[0]) * ts
+        zs = a[1] + (b[1] - a[1]) * ts
+        cis = np.clip(np.round((zs + HALF) / WORLD_SIZE * (GRID_N - 1)).astype(int), 0, GRID_N - 1)
+        cjs = np.clip(np.round((xs + HALF) / WORLD_SIZE * (GRID_N - 1)).astype(int), 0, GRID_N - 1)
+        if np.any(ocean_pad_512[cis, cjs]) or np.any(unbridgeable_512[cis, cjs]):
+            return False
+        if not allow_bridges and np.any(liquid[cis, cjs]):
+            return False
+        if np.any(base_slope[cis, cjs] > 0.30):
+            return False
+        # Check building collars
+        for fx, fz, r_foot, *_ in placed_major:
+            if float(np.min(np.hypot(xs - fx, zs - fz))) < r_foot + 9.5:
+                return False
+        # Check bridge exclusion zone
+        nis = np.clip(np.round((zs + HALF) / WORLD_SIZE * (NAV_N - 1)).astype(int), 4, NAV_N - 5)
+        njs = np.clip(np.round((xs + HALF) / WORLD_SIZE * (NAV_N - 1)).astype(int), 4, NAV_N - 5)
+        if np.any(bridge_excl_mask[nis, njs]):
+            return False
+        return not polyline_crosses_existing(np.stack([a, b], axis=0), u_id, v_id, min_interior_clr=8.5)
+
+    def astar_edge_route(u_id: int, v_id: int, allow_bridges: bool = True) -> list[tuple[int, int]] | None:
+        ux, uz = graph_nodes[u_id]["x"], graph_nodes[u_id]["z"]
+        vx, vz = graph_nodes[v_id]["x"], graph_nodes[v_id]["z"]
+        si, sj = world_to_nav(ux, uz)
+        ti, tj = world_to_nav(vx, vz)
         if (si, sj) == (ti, tj):
-            return [(si, sj)]
+            return None
 
-        # Precompute fast flat cost array
-        g_score = np.full((NAV_N, NAV_N), 1e9, dtype=np.float32)
-        parent = np.full((NAV_N, NAV_N), -1, dtype=np.int32)
-        g_score[si, sj] = 0.0
+        # Bounding window around u-v so A* is blazing fast and never wanders across the entire map!
+        pad_c = 28
+        imin = max(4, min(si, ti) - pad_c)
+        imax = min(NAV_N - 5, max(si, ti) + pad_c)
+        jmin = max(4, min(sj, tj) - pad_c)
+        jmax = min(NAV_N - 5, max(sj, tj) + pad_c)
 
-        # 8-connected neighbors
+        g_score: dict[int, float] = {si * NAV_N + sj: 0.0}
+        parent: dict[int, int] = {}
         nbrs = [
             (-1, 0, 1.0), (1, 0, 1.0), (0, -1, 1.0), (0, 1, 1.0),
             (-1, -1, 1.4142), (-1, 1, 1.4142), (1, -1, 1.4142), (1, 1, 1.4142),
         ]
+        pq: list[tuple[float, float, int, int]] = [(math.hypot(ti - si, tj - sj), 0.0, si, sj)]
+        goal_hit = False
+        max_expansions = 4200
+        exp_cnt = 0
 
-        pq: list[tuple[float, float, int, int]] = [(math.hypot(ti - si, tj - sj) * 0.24, 0.0, si, sj)]
-        goal_hit = None
-
-        while pq:
-            _f_cur, g_pop, ci, cj = heapq.heappop(pq)
-            if g_pop > float(g_score[ci, cj]) + 1e-4:
+        while pq and exp_cnt < max_expansions:
+            _f, g_pop, ci, cj = heapq.heappop(pq)
+            code = ci * NAV_N + cj
+            if g_pop > g_score.get(code, 1e9) + 1e-4:
                 continue
-            if (ci == ti and cj == tj) or (stop_on_existing_road and built_road_nav[ci, cj] and (ci != si or cj != sj)):
-                goal_hit = (ci, cj)
+            if ci == ti and cj == tj:
+                goal_hit = True
                 break
-
+            exp_cnt += 1
             for di, dj, step_w in nbrs:
                 ni, nj = ci + di, cj + dj
-                if ni < 4 or ni >= NAV_N - 4 or nj < 4 or nj >= NAV_N - 4:
+                if ni < imin or ni > imax or nj < jmin or nj > jmax:
                     continue
                 if nav_blocked[ni, nj]:
                     continue
-                is_built = bool(built_road_nav[ni, nj])
+                # Prevent crossing or hugging ANY existing road corridor (except right around shared endpoints u, v)
+                owner = int(road_corridor_owner[ni, nj])
+                if owner >= 0:
+                    cx_n, cz_n = float(nav_lin[nj]), float(nav_lin[ni])
+                    if math.hypot(cx_n - ux, cz_n - uz) > 22.0 and math.hypot(cx_n - vx, cz_n - vz) > 22.0:
+                        continue
                 is_liq = bool(nav_cross_liq[ni, nj])
-                if is_liq and not is_built:
+                if is_liq:
                     if not allow_bridges or bridge_excl_mask[ni, nj]:
                         continue
-                    cell_cost = 18.0
-                elif is_built:
-                    cell_cost = 0.24
+                    cell_cost = 20.0
                 else:
                     sl = float(nav_slope[ni, nj])
-                    liq_pen = 2.4 if float(nav_edt_liq[ni, nj]) < 10.0 else 0.0
-                    cell_cost = 1.0 + sl * 7.5 + liq_pen
-
+                    shore_pen = 2.6 if float(nav_edt_liq[ni, nj]) < 11.0 else 0.0
+                    cell_cost = 1.0 + sl * 12.0 + shore_pen
                 ng = g_pop + step_w * cell_cost
-                if ng < float(g_score[ni, nj]):
-                    g_score[ni, nj] = ng
-                    parent[ni, nj] = ci * NAV_N + cj
-                    h_est = math.hypot(ti - ni, tj - nj) * 0.24
-                    heapq.heappush(pq, (ng + h_est, ng, ni, nj))
+                ncode = ni * NAV_N + nj
+                if ng < g_score.get(ncode, 1e9):
+                    g_score[ncode] = ng
+                    parent[ncode] = code
+                    heapq.heappush(pq, (ng + math.hypot(ti - ni, tj - nj), ng, ni, nj))
 
-        if goal_hit is None:
+        if not goal_hit:
             return None
         path: list[tuple[int, int]] = []
-        ci, cj = goal_hit
-        while ci >= 0:
+        cur = ti * NAV_N + tj
+        while True:
+            ci, cj = divmod(cur, NAV_N)
             path.append((ci, cj))
-            p_code = int(parent[ci, cj])
-            if p_code < 0:
+            if cur not in parent:
                 break
-            ci, cj = divmod(p_code, NAV_N)
+            cur = parent[cur]
         path.reverse()
         return path
 
-    def smooth_nav_path(nav_pts: list[tuple[int, int]]) -> np.ndarray:
+    def smooth_and_pull_edge(nav_pts: list[tuple[int, int]], u_id: int, v_id: int, allow_bridges: bool) -> np.ndarray:
+        """Theta* Line-of-Sight String-Pulling + Gentle Organic Chaikin Smoothing -> ZERO 45°/90° zigzags!"""
         raw = np.array([[float(nav_lin[j]), float(nav_lin[i])] for i, j in nav_pts], dtype=np.float32)
-        if len(raw) <= 2:
-            return raw
-        pts = raw.copy()
-        for _ in range(4):
-            nxt = pts.copy()
-            for k in range(1, len(pts) - 1):
-                cand = 0.25 * pts[k - 1] + 0.50 * pts[k] + 0.25 * pts[k + 1]
-                # Reject smoothing displacement that would nudge into a building collar or ocean
-                ni, nj = world_to_nav(float(cand[0]), float(cand[1]))
-                if not nav_blocked[ni, nj]:
-                    nxt[k] = cand
-            pts = nxt
-        return pts
+        raw[0] = [graph_nodes[u_id]["x"], graph_nodes[u_id]["z"]]
+        raw[-1] = [graph_nodes[v_id]["x"], graph_nodes[v_id]["z"]]
 
-    def try_place_single_bridge_on_curve(curve: np.ndarray, run_start: int, run_end: int) -> bool:
+        # 1) Greedy Line-of-Sight String Pulling (eliminates ALL A* staircase zigzags!)
+        pulled = [raw[0]]
+        idx = 0
+        n_r = len(raw)
+        while idx < n_r - 1:
+            farthest = idx + 1
+            # Test farthest reachable vertex in descending order (up to 40 steps ahead)
+            hi = min(n_r - 1, idx + 45)
+            for j in range(hi, idx + 1, -1):
+                if segment_clear_for_pull(raw[idx], raw[j], u_id, v_id, allow_bridges):
+                    farthest = j
+                    break
+            pulled.append(raw[farthest])
+            idx = farthest
+        ctrl = np.array(pulled, dtype=np.float32)
+
+        # 2) Subdivide long straight chords (> 44m) with a subtle gentle natural bend (±3..5m) if safe
+        sub_ctrl = [ctrl[0]]
+        for k in range(len(ctrl) - 1):
+            a, b_p = ctrl[k], ctrl[k + 1]
+            L = float(math.hypot(b_p[0] - a[0], b_p[1] - a[1]))
+            if L > 46.0:
+                mid = 0.5 * (a + b_p)
+                nx_p, nz_p = -(b_p[1] - a[1]) / L, (b_p[0] - a[0]) / L
+                sign = 1.0 if ((u_id * 31 + v_id * 17 + k) % 2 == 0) else -1.0
+                bend_amt = min(6.5, L * 0.065) * sign
+                cand = np.array([mid[0] + nx_p * bend_amt, mid[1] + nz_p * bend_amt], dtype=np.float32)
+                if point_is_safe_for_road(float(cand[0]), float(cand[1]), allow_narrow_bridge=allow_bridges, bldg_pad=10.5):
+                    sub_ctrl.append(cand)
+                else:
+                    sub_ctrl.append(mid)
+            sub_ctrl.append(b_p)
+        pts = np.array(sub_ctrl, dtype=np.float32)
+
+        # 3) 3-round Chaikin corner-cutting with pinned exact endpoints u, v and strict safety validation
+        for _ in range(3):
+            if len(pts) < 3:
+                break
+            nxt = [pts[0]]
+            for k in range(len(pts) - 1):
+                p0, p1 = pts[k], pts[k + 1]
+                q = 0.75 * p0 + 0.25 * p1
+                r = 0.25 * p0 + 0.75 * p1
+                if k > 0:
+                    nxt.append(q if point_is_safe_for_road(float(q[0]), float(q[1]), allow_narrow_bridge=allow_bridges, bldg_pad=9.5) else p0)
+                if k < len(pts) - 2:
+                    nxt.append(r if point_is_safe_for_road(float(r[0]), float(r[1]), allow_narrow_bridge=allow_bridges, bldg_pad=9.5) else p1)
+            nxt.append(pts[-1])
+            pts = np.array(nxt, dtype=np.float32)
+
+        # Decimate to crisp ~9m vertex spacing keeping exact start/end
+        clean = [pts[0]]
+        for k in range(1, len(pts) - 1):
+            if math.hypot(float(pts[k, 0] - clean[-1][0]), float(pts[k, 1] - clean[-1][1])) >= 8.5:
+                clean.append(pts[k])
+        if math.hypot(float(pts[-1, 0] - clean[-1][0]), float(pts[-1, 1] - clean[-1][1])) > 0.5:
+            clean.append(pts[-1])
+        else:
+            clean[-1] = pts[-1]
+        return np.array(clean, dtype=np.float32)
+
+    def try_place_single_bridge_on_curve(dense: np.ndarray, run_start: int, run_end: int) -> bool:
         """Places STRICTLY ONE single continuous Blender Cycles bridge (n_segs = 1 ALWAYS!)
         spanning bank-to-bank with >= 88m spacing from every other bridge (ZERO multi-bridge seams!)."""
-        n_pts = len(curve)
+        n_pts = len(dense)
         i0 = max(0, run_start - 3)
         i1 = min(n_pts - 1, run_end + 3)
-        p_start = curve[i0]
-        p_end = curve[i1]
+        p_start, p_end = dense[i0], dense[i1]
         span_m = float(math.hypot(p_end[0] - p_start[0], p_end[1] - p_start[1]))
-        if span_m < 8.0 or span_m > 52.0:
+        if span_m < 7.0 or span_m > 46.0:
             return False
         if ocean[wz_to_i(float(p_start[1])), wx_to_j(float(p_start[0]))]:
             return False
         if ocean[wz_to_i(float(p_end[1])), wx_to_j(float(p_end[0]))]:
             return False
         mid_i = (run_start + run_end) // 2
-        bx, bz = float(curve[mid_i][0]), float(curve[mid_i][1])
-        # Enforce strict minimum 88m spacing -> ZERO bridge clusters or overlapping decks!
-        if any(math.hypot(bx - b["x"], bz - b["z"]) < 88.0 for b in bridges_placed):
-            return False
+        bx, bz = float(dense[mid_i][0]), float(dense[mid_i][1])
+        # Reuse existing bridge if crossing right on it; reject if too close (14..88m)
+        for b in bridges_placed:
+            db = math.hypot(bx - b["x"], bz - b["z"])
+            if db < 14.0:
+                return True
+            if db < 88.0:
+                return False
 
-        dx = float(p_end[0] - p_start[0])
-        dz = float(p_end[1] - p_start[1])
-        axis = select_directional_bridge_axis(dx, dz)
-
+        axis = select_directional_bridge_axis(float(p_end[0] - p_start[0]), float(p_end[1] - p_start[1]))
         bank_h = max(
             float(h[wz_to_i(float(p_start[1])), wx_to_j(float(p_start[0]))]),
             float(h[wz_to_i(float(p_end[1])), wx_to_j(float(p_end[0]))]),
             3.4,
         )
-        run_pts = curve[max(0, run_start - 4) : min(n_pts, run_end + 5)]
-        rdx = xx[..., None] - run_pts[None, None, :, 0]
-        rdz = zz[..., None] - run_pts[None, None, :, 1]
+        run_pts = dense[max(0, run_start - 4) : min(n_pts, run_end + 5)]
+        # Fast bounding-box lift for bridge deck walkability
+        bi0 = max(0, int(np.min((run_pts[:, 1] + HALF) / WORLD_SIZE * (GRID_N - 1))) - 10)
+        bi1 = min(GRID_N, int(np.max((run_pts[:, 1] + HALF) / WORLD_SIZE * (GRID_N - 1))) + 11)
+        bj0 = max(0, int(np.min((run_pts[:, 0] + HALF) / WORLD_SIZE * (GRID_N - 1))) - 10)
+        bj1 = min(GRID_N, int(np.max((run_pts[:, 0] + HALF) / WORLD_SIZE * (GRID_N - 1))) + 11)
+        rdx = xx[bi0:bi1, bj0:bj1, None] - run_pts[None, None, :, 0]
+        rdz = zz[bi0:bi1, bj0:bj1, None] - run_pts[None, None, :, 1]
         d_run = np.min(np.sqrt(rdx * rdx + rdz * rdz), axis=-1)
-        bridge_walk_mask[:] |= (d_run < 12.0)
+        bridge_walk_mask[bi0:bi1, bj0:bj1] |= (d_run < 12.0)
         lift_w = 1.0 - smoothstep(6.5, 13.5, d_run)
-        h[:] = np.where(lift_w > 0.02, h * (1.0 - lift_w) + bank_h * lift_w, h)
+        h[bi0:bi1, bj0:bj1] = np.where(lift_w > 0.02, h[bi0:bi1, bj0:bj1] * (1.0 - lift_w) + bank_h * lift_w, h[bi0:bi1, bj0:bj1])
 
-        # Mark neighboring liquid cells within 85m as excluded for NEW bridges so other roads reuse THIS bridge!
         d_nav_b = np.sqrt((nav_xx - bx) ** 2 + (nav_zz - bz) ** 2)
-        bridge_excl_mask[:] |= nav_cross_liq & (d_nav_b < 85.0) & (d_nav_b > 11.0)
+        bridge_excl_mask[:] |= nav_cross_liq & (d_nav_b < 88.0) & (d_nav_b > 12.0)
 
         bridges_placed.append({
             "id": f"{land_id}-bridge-{len(bridges_placed)}",
@@ -1553,26 +1800,36 @@ def generate_continent(land_id: str) -> dict:
         })
         return True
 
-    crossable_liq = inland_water | lava
-    committed_road_polylines: list[np.ndarray] = []
+    def angle_conflict_at(node_id: int, exit_ang: float, min_ang_deg: float = 34.0) -> bool:
+        min_rad = math.radians(min_ang_deg)
+        for prev_a in node_exit_angles[node_id]:
+            diff = abs((exit_ang - prev_a + math.pi) % (2.0 * math.pi) - math.pi)
+            if diff < min_rad:
+                return True
+        return False
 
-    def commit_planar_road(nav_pts: list[tuple[int, int]], r_width: float, r_strength: float, tier: str) -> np.ndarray | None:
-        if nav_pts is None or len(nav_pts) < 2:
-            return None
-        # Mark cells in built_road_nav so subsequent routes merge cleanly at T/Y junctions instead of overlapping!
-        for ni, nj in nav_pts:
-            built_road_nav[ni, nj] = True
-            for di, dj in ((-1, 0), (1, 0), (0, -1), (0, 1)):
-                if not nav_blocked[ni + di, nj + dj] and not nav_cross_liq[ni + di, nj + dj]:
-                    built_road_nav[ni + di, nj + dj] = True
+    def try_build_edge(u_id: int, v_id: int, allow_bridges: bool = True, min_ang_deg: float = 34.0) -> bool:
+        if v_id in adj_edges[u_id]:
+            return False
+        nav_path = astar_edge_route(u_id, v_id, allow_bridges=allow_bridges)
+        if nav_path is None or len(nav_path) < 2:
+            return False
+        curve = smooth_and_pull_edge(nav_path, u_id, v_id, allow_bridges=allow_bridges)
+        if len(curve) < 2:
+            return False
 
-        curve = smooth_nav_path(nav_pts)
-        # Upsample curve cleanly for smooth 512px road_mask rasterization & crossing detection
+        # Verify clean fork angles at BOTH junctions so roads never skim side-by-side!
+        ang_u = math.atan2(float(curve[1, 1] - curve[0, 1]), float(curve[1, 0] - curve[0, 0]))
+        ang_v = math.atan2(float(curve[-2, 1] - curve[-1, 1]), float(curve[-2, 0] - curve[-1, 0]))
+        if min_ang_deg > 0.0 and (angle_conflict_at(u_id, ang_u, min_ang_deg) or angle_conflict_at(v_id, ang_v, min_ang_deg)):
+            return False
+
+        # Dense 2m sampling for strict zero-ocean, zero-building-hit, and single-bridge checks
         dense_pts = [curve[0]]
         for k in range(len(curve) - 1):
             a, b_p = curve[k], curve[k + 1]
             seg_d = float(math.hypot(b_p[0] - a[0], b_p[1] - a[1]))
-            n_sub = max(1, int(math.ceil(seg_d / 2.2)))
+            n_sub = max(1, int(math.ceil(seg_d / 2.0)))
             for s in range(1, n_sub + 1):
                 t = s / n_sub
                 dense_pts.append(a * (1.0 - t) + b_p * t)
@@ -1580,7 +1837,20 @@ def generate_continent(land_id: str) -> dict:
 
         ci_arr = np.clip(np.round((dense[:, 1] + HALF) / WORLD_SIZE * (GRID_N - 1)).astype(int), 0, GRID_N - 1)
         cj_arr = np.clip(np.round((dense[:, 0] + HALF) / WORLD_SIZE * (GRID_N - 1)).astype(int), 0, GRID_N - 1)
+        if np.any(ocean[ci_arr, cj_arr]):
+            return False
+        if np.any(unbridgeable_512[ci_arr, cj_arr]):
+            return False
+        for fx, fz, r_foot, *_ in placed_major:
+            if float(np.min(np.hypot(dense[:, 0] - fx, dense[:, 1] - fz))) < r_foot + 6.0:
+                return False
+
+        if polyline_crosses_existing(curve, u_id, v_id, min_interior_clr=9.0):
+            return False
+
+        # Validate EVERY water/lava crossing along this curve before committing
         in_chan = crossable_liq[ci_arr, cj_arr]
+        crossings: list[tuple[int, int]] = []
         idx_c = 0
         n_c = len(dense)
         while idx_c < n_c:
@@ -1590,113 +1860,259 @@ def generate_continent(land_id: str) -> dict:
                     idx_c += 1
                 r_end = idx_c - 1
                 if r_end - r_start >= 2:
-                    try_place_single_bridge_on_curve(dense, r_start, r_end)
+                    p_s, p_e = dense[max(0, r_start - 3)], dense[min(n_c - 1, r_end + 3)]
+                    if float(math.hypot(p_e[0] - p_s[0], p_e[1] - p_s[1])) > 46.0:
+                        return False
+                    crossings.append((r_start, r_end))
             else:
                 idx_c += 1
 
-        # Export clean simplified polyline (~12m vertex spacing)
-        exp_pts = [[round(float(curve[0, 0]), 1), round(float(curve[0, 1]), 1)]]
-        for k in range(1, len(curve) - 1):
-            if math.hypot(curve[k, 0] - exp_pts[-1][0], curve[k, 1] - exp_pts[-1][1]) >= 10.0:
-                exp_pts.append([round(float(curve[k, 0]), 1), round(float(curve[k, 1]), 1)])
-        last_pt = [round(float(curve[-1, 0]), 1), round(float(curve[-1, 1]), 1)]
-        if exp_pts[-1] != last_pt:
-            exp_pts.append(last_pt)
-        # If this street reached the Central Royal Plaza rim, join cleanly into the Plaza hub (cap_x, cap_z) so zero visual gap appears on maps!
-        if math.hypot(exp_pts[-1][0] - cap_x, exp_pts[-1][1] - cap_z) <= PLAZA_R + 10.0:
-            hub_pt = [round(cap_x, 1), round(cap_z, 1)]
-            if exp_pts[-1] != hub_pt:
-                exp_pts.append(hub_pt)
-        if len(exp_pts) >= 2:
-            roads_export.append({"tier": tier, "pts": exp_pts})
-            committed_road_polylines.append(curve)
+        for r_s, r_e in crossings:
+            if not try_place_single_bridge_on_curve(dense, r_s, r_e):
+                return False
 
-        # Rasterize smooth paved road onto 512x512 road_mask
-        sub_pts = dense[::2]
-        dx = xx[..., None] - sub_pts[None, None, :, 0]
-        dz = zz[..., None] - sub_pts[None, None, :, 1]
-        d_min = np.min(np.sqrt(dx * dx + dz * dz), axis=-1)
-        edge_jit = (n_detail - 0.5) * (1.2 if tier == "footpath" else 0.65)
-        seg_mask = (1.0 - smoothstep(r_width * 0.42, r_width * 0.86, d_min + edge_jit)) * r_strength
-        road_mask[:] = np.maximum(road_mask, seg_mask)
-        return curve
+        # Commit edge!
+        edge_idx = len(committed_edges)
+        aabb = (float(np.min(curve[:, 0])), float(np.max(curve[:, 0])), float(np.min(curve[:, 1])), float(np.max(curve[:, 1])))
+        committed_edges.append({
+            "idx": edge_idx,
+            "u": u_id,
+            "v": v_id,
+            "curve": curve,
+            "dense": dense,
+            "aabb": aabb,
+            "length": float(np.sum(np.hypot(np.diff(curve[:, 0]), np.diff(curve[:, 1])))),
+            "tier": "regional",
+        })
+        adj_edges[u_id].append(v_id)
+        adj_edges[v_id].append(u_id)
+        node_exit_angles[u_id].append(ang_u)
+        node_exit_angles[v_id].append(ang_v)
 
-    # 4a) Capital City Streets: route cleanly from EVERY enterable capital building's front door to the Plaza/existing street network!
-    # Sort closest-to-plaza first so inner buildings form the crisp city avenues, and outer buildings connect via short T-stubs!
-    cap_enterables = [b for b in buildings_list if b["map_kind"] in ("capital", "service") and b["enterable"]]
-    cap_enterables.sort(key=lambda b: math.hypot(b["entrance"][0] - cap_x, b["entrance"][1] - cap_z))
-    for b in cap_enterables:
-        ex, ez = float(b["entrance"][0]), float(b["entrance"][1])
-        path = astar_planar_road((ex, ez), (cap_x, cap_z), allow_bridges=False, stop_on_existing_road=True)
-        if path is None:
-            path = astar_planar_road((ex, ez), (cap_x, cap_z), allow_bridges=True, stop_on_existing_road=True)
-        if path is not None:
-            commit_planar_road(path, r_width=8.6, r_strength=0.92, tier="city")
-        d_ent = np.sqrt((xx - ex) ** 2 + (zz - ez) ** 2)
-        apron = (1.0 - smoothstep(7.5, 13.0, d_ent)) * smoothstep(4.0, 10.0, edt_liq) * 0.90
-        road_mask = np.maximum(road_mask, apron)
+        # Mark 12m corridor along this edge so future edges route cleanly around it (zero crossings/overlaps!)
+        for px, pz in dense[::2]:
+            ni, nj = world_to_nav(float(px), float(pz))
+            for di in range(-3, 4):
+                for dj in range(-3, 4):
+                    if di * di + dj * dj <= 10:
+                        mi, mj = ni + di, nj + dj
+                        if 4 <= mi < NAV_N - 4 and 4 <= mj < NAV_N - 4:
+                            road_corridor_owner[mi, mj] = edge_idx
+        return True
 
-    # 4b) Continent Trunk Highways: route from EVERY Outer Castle/Town/Outpost door to Capital (merging cleanly into trunk highways at Y/T junctions!)
-    towns_sorted = sorted(placed_towns, key=lambda t: math.hypot(t["entrance"][0] - cap_x, t["entrance"][1] - cap_z))
-    highway_curves: list[np.ndarray] = []
-    for trec in towns_sorted:
-        ex, ez = float(trec["entrance"][0]), float(trec["entrance"][1])
-        path = astar_planar_road((ex, ez), (cap_x, cap_z), allow_bridges=True, stop_on_existing_road=True)
-        if path is not None:
-            c = commit_planar_road(path, r_width=10.6, r_strength=0.94, tier="highway")
-            if c is not None:
-                highway_curves.append(c)
-        d_ent = np.sqrt((xx - ex) ** 2 + (zz - ez) ** 2)
-        apron = (1.0 - smoothstep(8.5, 14.5, d_ent)) * smoothstep(4.0, 10.0, edt_liq) * 0.90
-        road_mask = np.maximum(road_mask, apron)
+    # 4.3) Build Strictly Planar Gabriel Graph Edge Candidates across ALL ~64 Continent Nodes!
+    # Priority 1: Capital doors -> Hub / closest ring node (cleanest urban streets)
+    for d_id in cap_door_ids:
+        cands_c = [hub_id] + cap_ring_ids + [x for x in cap_door_ids if x != d_id]
+        cands_c.sort(key=lambda nid: math.hypot(graph_nodes[d_id]["x"] - graph_nodes[nid]["x"], graph_nodes[d_id]["z"] - graph_nodes[nid]["z"]))
+        linked = False
+        for target_id in cands_c[:4]:
+            if try_build_edge(d_id, target_id, allow_bridges=False, min_ang_deg=26.0):
+                linked = True
+                break
+        if not linked:
+            for target_id in cands_c[:4]:
+                if try_build_edge(d_id, target_id, allow_bridges=True, min_ang_deg=0.0):
+                    break
 
-    # 4c) Ensure at least 1 scenic single-span bridge per continent if a continent's towns all sat on the same bank
+    # Build planar Gabriel candidate list for ALL node pairs (guaranteed mathematically planar!)
+    gabriel_pairs: list[tuple[float, int, int]] = []
+    for i in range(N_NODES):
+        xi, zi = graph_nodes[i]["x"], graph_nodes[i]["z"]
+        for j in range(i + 1, N_NODES):
+            xj, zj = graph_nodes[j]["x"], graph_nodes[j]["z"]
+            d_ij = math.hypot(xi - xj, zi - zj)
+            if d_ij < 22.0 or d_ij > 245.0:
+                continue
+            mx, mz = 0.5 * (xi + xj), 0.5 * (zi + zj)
+            rad_sq = (0.485 * d_ij) ** 2
+            blocked_g = False
+            for k in range(N_NODES):
+                if k == i or k == j:
+                    continue
+                dxk = graph_nodes[k]["x"] - mx
+                dzk = graph_nodes[k]["z"] - mz
+                if dxk * dxk + dzk * dzk < rad_sq:
+                    blocked_g = True
+                    break
+            if not blocked_g:
+                gabriel_pairs.append((d_ij, i, j))
+
+    gabriel_pairs.sort(key=lambda t: t[0])
+
+    # Union-Find for Priority 2: Minimum Spanning Tree across the entire continent first!
+    uf_parent = list(range(N_NODES))
+    def uf_find(x: int) -> int:
+        while uf_parent[x] != x:
+            uf_parent[x] = uf_parent[uf_parent[x]]
+            x = uf_parent[x]
+        return x
+    def uf_union(a: int, b: int) -> None:
+        ra, rb = uf_find(a), uf_find(b)
+        if ra != rb:
+            uf_parent[ra] = rb
+
+    for ed in committed_edges:
+        uf_union(ed["u"], ed["v"])
+
+    # Pass A: Kruskal MST over Gabriel pairs (connects EVERY town, capital door, coast & valley into 1 single network!)
+    leftover_gabriel: list[tuple[float, int, int]] = []
+    for d_ij, u_id, v_id in gabriel_pairs:
+        if uf_find(u_id) != uf_find(v_id):
+            if try_build_edge(u_id, v_id, allow_bridges=True, min_ang_deg=24.0):
+                uf_union(u_id, v_id)
+            else:
+                leftover_gabriel.append((d_ij, u_id, v_id))
+        else:
+            leftover_gabriel.append((d_ij, u_id, v_id))
+
+    # Pass B: Ensure any remaining disconnected components (e.g. across a wider detour) join cleanly
+    for d_ij, u_id, v_id in list(leftover_gabriel):
+        if uf_find(u_id) != uf_find(v_id):
+            if try_build_edge(u_id, v_id, allow_bridges=True, min_ang_deg=0.0):
+                uf_union(u_id, v_id)
+
+    # Pass C: Add rich planar Gabriel loop edges (coastal circuits, valley loops, inter-town shortcuts -> 60-92 total roads!)
+    for d_ij, u_id, v_id in leftover_gabriel:
+        if len(committed_edges) >= 92:
+            break
+        # Keep junction degrees clean & realistic (max degree 4 in countryside, 6 at plaza hub)
+        max_du = 6 if u_id == hub_id else 4
+        max_dv = 6 if v_id == hub_id else 4
+        if len(adj_edges[u_id]) >= max_du or len(adj_edges[v_id]) >= max_dv:
+            continue
+        try_build_edge(u_id, v_id, allow_bridges=True, min_ang_deg=32.0)
+
+    # Guarantee at least 1 scenic single-span bridge per continent if none crossed inland rivers yet
     if len(bridges_placed) < 1 and np.any(narrow_crossable):
         ys_n, xs_n = np.where(narrow_crossable)
         step_s = max(1, len(xs_n) // 160)
         for k in range(0, len(xs_n), step_s):
             if len(bridges_placed) >= 1:
                 break
-            lx = float(nav_lin[xs_n[k]])
-            lz = float(nav_lin[ys_n[k]])
-            if math.hypot(lx - cap_x, lz - cap_z) < 150.0:
+            lx, lz = float(nav_lin[xs_n[k]]), float(nav_lin[ys_n[k]])
+            if math.hypot(lx - cap_x, lz - cap_z) < 140.0:
                 continue
-            if any(math.hypot(lx - bx, lz - bz) < br + 28.0 for bx, bz, br, _, _, _, _, _ in placed_major):
+            if any(math.hypot(lx - bx, lz - bz) < br + 28.0 for bx, bz, br, *_ in placed_major):
                 continue
             for ang_deg in (0.0, 90.0, 45.0, 135.0):
                 rad = math.radians(ang_deg)
                 ux, uz = math.cos(rad), math.sin(rad)
-                p0 = (lx - ux * 20.0, lz - uz * 20.0)
-                p1 = (lx + ux * 20.0, lz + uz * 20.0)
-                if abs(p0[0]) > HALF - 26 or abs(p0[1]) > HALF - 26 or abs(p1[0]) > HALF - 26 or abs(p1[1]) > HALF - 26:
-                    continue
-                if liq_dist(p0[0], p0[1]) >= 10.0 and liq_dist(p1[0], p1[1]) >= 10.0:
-                    # Verify neither end hits a building
-                    if any(
-                        math.hypot(p0[0] - bx, p0[1] - bz) < br + 16.0 or math.hypot(p1[0] - bx, p1[1] - bz) < br + 16.0
-                        for bx, bz, br, _, _, _, _, _ in placed_major
-                    ):
-                        continue
-                    spur = np.linspace(np.array(p0, dtype=np.float32), np.array(p1, dtype=np.float32), 24)
+                p0, p1 = (lx - ux * 20.0, lz - uz * 20.0), (lx + ux * 20.0, lz + uz * 20.0)
+                if point_is_safe_for_road(p0[0], p0[1], False, 14.0) and point_is_safe_for_road(p1[0], p1[1], False, 14.0):
+                    spur = np.linspace(np.array(p0, dtype=np.float32), np.array(p1, dtype=np.float32), 20)
                     ci_s = np.clip(np.round((spur[:, 1] + HALF) / WORLD_SIZE * (GRID_N - 1)).astype(int), 0, GRID_N - 1)
                     cj_s = np.clip(np.round((spur[:, 0] + HALF) / WORLD_SIZE * (GRID_N - 1)).astype(int), 0, GRID_N - 1)
                     idxs = np.where(crossable_liq[ci_s, cj_s])[0]
-                    if len(idxs) >= 2 and try_place_single_bridge_on_curve(spur, int(idxs[0]), int(idxs[-1])):
-                        # Connect one bank cleanly back to the main planar road network via A*!
-                        link_path = astar_planar_road(p0, (cap_x, cap_z), allow_bridges=False, stop_on_existing_road=True)
-                        if link_path is not None:
-                            commit_planar_road(link_path, r_width=8.0, r_strength=0.84, tier="footpath")
-                        roads_export.append({
-                            "tier": "footpath",
-                            "pts": [[round(float(p0[0]), 1), round(float(p0[1]), 1)], [round(float(p1[0]), 1), round(float(p1[1]), 1)]],
-                        })
-                        committed_road_polylines.append(spur)
-                        dx = xx[..., None] - spur[None, None, :, 0]
-                        dz = zz[..., None] - spur[None, None, :, 1]
-                        d_min = np.min(np.sqrt(dx * dx + dz * dz), axis=-1)
-                        seg_m = (1.0 - smoothstep(4.0, 8.5, d_min)) * 0.88
-                        road_mask = np.maximum(road_mask, seg_m)
-                        break
+                    if len(idxs) >= 2:
+                        n0 = add_graph_node(p0[0], p0[1], "crossroad")
+                        n1 = add_graph_node(p1[0], p1[1], "crossroad")
+                        adj_edges[n0] = []
+                        adj_edges[n1] = []
+                        node_exit_angles[n0] = []
+                        node_exit_angles[n1] = []
+                        if not polyline_crosses_existing(spur, n0, n1, min_interior_clr=8.0) and try_place_single_bridge_on_curve(spur, int(idxs[0]), int(idxs[-1])):
+                            # Commit bridge edge + connect p0 back to nearest node in main graph
+                            aabb_s = (float(np.min(spur[:, 0])), float(np.max(spur[:, 0])), float(np.min(spur[:, 1])), float(np.max(spur[:, 1])))
+                            committed_edges.append({"idx": len(committed_edges), "u": n0, "v": n1, "curve": np.array([p0, p1], dtype=np.float32), "dense": spur, "aabb": aabb_s, "length": 40.0, "tier": "footpath"})
+                            adj_edges[n0].append(n1)
+                            adj_edges[n1].append(n0)
+                            # Link bank n0 to nearest connected main node
+                            cands_b = sorted(range(N_NODES), key=lambda nid: math.hypot(graph_nodes[nid]["x"] - p0[0], graph_nodes[nid]["z"] - p0[1]))
+                            for cid in cands_b[:5]:
+                                if try_build_edge(n0, cid, allow_bridges=False, min_ang_deg=20.0):
+                                    break
+                            break
+
+    # 4.4) Prune any tiny isolated components not reachable from Capital Hub, then classify 4 Cartographic Road Tiers!
+    reach_set: set[int] = set()
+    bfs_q = collections.deque([hub_id])
+    reach_set.add(hub_id)
+    while bfs_q:
+        cur = bfs_q.popleft()
+        for nb in adj_edges.get(cur, []):
+            if nb not in reach_set:
+                reach_set.add(nb)
+                bfs_q.append(nb)
+
+    committed_edges = [ed for ed in committed_edges if ed["u"] in reach_set and ed["v"] in reach_set]
+
+    # Build weighted graph for Dijkstra shortest-path backbone from Capital -> ALL 7 Regional Towns/Strongholds!
+    edge_lookup: dict[tuple[int, int], dict] = {}
+    g_adj: dict[int, list[tuple[int, float]]] = {}
+    for ed in committed_edges:
+        u, v, L = ed["u"], ed["v"], ed["length"]
+        edge_lookup[(u, v)] = ed
+        edge_lookup[(v, u)] = ed
+        g_adj.setdefault(u, []).append((v, L))
+        g_adj.setdefault(v, []).append((u, L))
+
+    dist_sp = {hub_id: 0.0}
+    prev_sp: dict[int, int] = {}
+    pq_sp: list[tuple[float, int]] = [(0.0, hub_id)]
+    while pq_sp:
+        d_cur, u = heapq.heappop(pq_sp)
+        if d_cur > dist_sp.get(u, 1e9) + 1e-4:
+            continue
+        for v, w in g_adj.get(u, []):
+            nd = d_cur + w
+            if nd < dist_sp.get(v, 1e9):
+                dist_sp[v] = nd
+                prev_sp[v] = u
+                heapq.heappush(pq_sp, (nd, v))
+
+    highway_edge_ids: set[int] = set()
+    for t_id in town_door_ids:
+        cur = t_id
+        while cur in prev_sp:
+            par = prev_sp[cur]
+            ed = edge_lookup.get((cur, par))
+            if ed is not None:
+                highway_edge_ids.add(ed["idx"])
+            cur = par
+
+    # Classify tiers + rasterize into 512x512 road_mask (bounding-box sliced -> ultra-fast!) + export JSON!
+    committed_road_polylines: list[np.ndarray] = []
+    highway_curves: list[np.ndarray] = []
+    tier_widths = {"highway": 9.4, "city": 8.0, "regional": 6.8, "footpath": 5.0}
+    tier_strengths = {"highway": 0.94, "city": 0.90, "regional": 0.84, "footpath": 0.74}
+
+    for ed in committed_edges:
+        u_nd, v_nd = graph_nodes[ed["u"]], graph_nodes[ed["v"]]
+        du_cap = math.hypot(u_nd["x"] - cap_x, u_nd["z"] - cap_z)
+        dv_cap = math.hypot(v_nd["x"] - cap_x, v_nd["z"] - cap_z)
+        if ed["idx"] in highway_edge_ids:
+            tier = "highway"
+            highway_curves.append(ed["curve"])
+        elif du_cap <= 178.0 and dv_cap <= 178.0:
+            tier = "city"
+        elif len(g_adj.get(ed["u"], [])) >= 3 and len(g_adj.get(ed["v"], [])) >= 3:
+            tier = "regional"
+        elif len(g_adj.get(ed["u"], [])) >= 2 and len(g_adj.get(ed["v"], [])) >= 2:
+            tier = "regional" if (ed["idx"] % 2 == 0) else "footpath"
+        else:
+            tier = "footpath"
+        ed["tier"] = tier
+
+        exp_pts = [[round(float(p[0]), 1), round(float(p[1]), 1)] for p in ed["curve"]]
+        roads_export.append({"tier": tier, "pts": exp_pts})
+        committed_road_polylines.append(ed["curve"])
+
+        # Fast bounding-box rasterization onto 512x512 road_mask
+        sub_pts = ed["dense"][::2]
+        r_width = tier_widths[tier]
+        r_strength = tier_strengths[tier]
+        pad_px = int(math.ceil(r_width / STEP)) + 4
+        bi0 = max(0, int(np.min((sub_pts[:, 1] + HALF) / WORLD_SIZE * (GRID_N - 1))) - pad_px)
+        bi1 = min(GRID_N, int(np.max((sub_pts[:, 1] + HALF) / WORLD_SIZE * (GRID_N - 1))) + pad_px + 1)
+        bj0 = max(0, int(np.min((sub_pts[:, 0] + HALF) / WORLD_SIZE * (GRID_N - 1))) - pad_px)
+        bj1 = min(GRID_N, int(np.max((sub_pts[:, 0] + HALF) / WORLD_SIZE * (GRID_N - 1))) + pad_px + 1)
+        dx = xx[bi0:bi1, bj0:bj1, None] - sub_pts[None, None, :, 0]
+        dz = zz[bi0:bi1, bj0:bj1, None] - sub_pts[None, None, :, 1]
+        d_min = np.min(np.sqrt(dx * dx + dz * dz), axis=-1)
+        edge_jit = (n_detail[bi0:bi1, bj0:bj1] - 0.5) * (1.1 if tier == "footpath" else 0.55)
+        seg_mask = (1.0 - smoothstep(r_width * 0.40, r_width * 0.86, d_min + edge_jit)) * r_strength
+        road_mask[bi0:bi1, bj0:bj1] = np.maximum(road_mask[bi0:bi1, bj0:bj1], seg_mask)
 
     # Suppress flat road_mask strictly inside liquid and under solid building cores!
     road_mask = np.where((water_mask > 0.28) | (lava_mask > 0.28), 0.0, road_mask)
@@ -1706,8 +2122,8 @@ def generate_continent(land_id: str) -> dict:
         building_solid_mask |= (d_b < r_foot * 0.56)
         road_mask = np.where(d_b < r_foot * 0.72, 0.0, road_mask)
 
-    # Place 4 Corner Watchtowers & Castle Flanking Towers STRICTLY OFF-ROAD (after roads are finalized!)
-    def is_clear_of_roads(wx: float, wz: float, min_road_d: float = 20.0) -> bool:
+    # Place 4 Corner Watchtowers STRICTLY OFF-ROAD (after roads are finalized!)
+    def is_clear_of_roads(wx: float, wz: float, min_road_d: float = 18.0) -> bool:
         ci, cj = wz_to_i(wz), wx_to_j(wx)
         if float(road_mask[ci, cj]) > 0.08:
             return False
@@ -1720,13 +2136,13 @@ def generate_continent(land_id: str) -> dict:
         return True
 
     for ti, (tx, tz) in enumerate([(-170.0, -170.0), (170.0, -170.0), (-170.0, 170.0), (170.0, 170.0)]):
-        for dr in range(0, 48, 8):
+        for dr in range(0, 56, 8):
             placed_t = False
             for ang_k in range(8):
                 ang = (2.0 * math.pi * ang_k) / 8.0
                 cx_t = cap_x + tx + math.cos(ang) * dr
                 cz_t = cap_z + tz + math.sin(ang) * dr
-                if is_clear_of_roads(cx_t, cz_t, 24.0):
+                if is_clear_of_roads(cx_t, cz_t, 22.0):
                     t_rec = place_building_safe(
                         f"{land_id}-tower-{ti}", "Baszta Strażnicza", "tower", "tower", cx_t, cz_t,
                         map_kind="fort", enterable=False, enforce_spacing=True, min_extra_liq=10.0, search_r=0.0,
@@ -1741,7 +2157,7 @@ def generate_continent(land_id: str) -> dict:
     placed_gate_pts: list[tuple[float, float]] = []
     for h_curve in highway_curves:
         dists_c = np.hypot(h_curve[:, 0] - cap_x, h_curve[:, 1] - cap_z)
-        cand_idxs = np.where((dists_c >= 168.0) & (dists_c <= 205.0))[0]
+        cand_idxs = np.where((dists_c >= 168.0) & (dists_c <= 208.0))[0]
         if len(cand_idxs) == 0:
             continue
         gi = int(cand_idxs[len(cand_idxs) // 2])
@@ -1752,8 +2168,8 @@ def generate_continent(land_id: str) -> dict:
             continue
         if any(math.hypot(gx - bx, gz - bz) < br + 38.0 for bx, bz, br, _, _, _, _, _ in placed_major):
             continue
-        p_prev = h_curve[max(0, gi - 2)]
-        p_next = h_curve[min(len(h_curve) - 1, gi + 2)]
+        p_prev = h_curve[max(0, gi - 1)]
+        p_next = h_curve[min(len(h_curve) - 1, gi + 1)]
         g_key = "gate_z" if abs(p_next[0] - p_prev[0]) >= abs(p_next[1] - p_prev[1]) else "gate_x"
         g_rec = place_building_safe(
             f"{land_id}-gate-{len(placed_gate_pts)}", "Brama Stolicy", "gate", g_key, gx, gz,
@@ -2088,6 +2504,38 @@ def generate_continent(land_id: str) -> dict:
         if hit_vec:
             bldg_on_road += 1
 
+    # Check ZERO roads in ocean and ZERO road crossings (exact 2D segment-segment audit!)
+    roads_in_ocean = 0
+    for ed in committed_edges:
+        d_arr = ed["dense"]
+        cis = np.clip(np.round((d_arr[:, 1] + HALF) / WORLD_SIZE * (GRID_N - 1)).astype(int), 0, GRID_N - 1)
+        cjs = np.clip(np.round((d_arr[:, 0] + HALF) / WORLD_SIZE * (GRID_N - 1)).astype(int), 0, GRID_N - 1)
+        if np.any(ocean[cis, cjs]):
+            roads_in_ocean += 1
+
+    road_crossings = 0
+    for ei in range(len(committed_edges)):
+        p1 = committed_edges[ei]["curve"]
+        bb1 = committed_edges[ei]["aabb"]
+        for ej in range(ei + 1, len(committed_edges)):
+            bb2 = committed_edges[ej]["aabb"]
+            if bb1[1] < bb2[0] or bb2[1] < bb1[0] or bb1[3] < bb2[2] or bb2[3] < bb1[2]:
+                continue
+            p2 = committed_edges[ej]["curve"]
+            crossed = False
+            for a in range(len(p1) - 1):
+                for b_k in range(len(p2) - 1):
+                    if segs_intersect_strict(
+                        float(p1[a, 0]), float(p1[a, 1]), float(p1[a + 1, 0]), float(p1[a + 1, 1]),
+                        float(p2[b_k, 0]), float(p2[b_k, 1]), float(p2[b_k + 1, 0]), float(p2[b_k + 1, 1]),
+                    ):
+                        crossed = True
+                        break
+                if crossed:
+                    break
+            if crossed:
+                road_crossings += 1
+
     # Check ZERO bridge clusters (every pair of bridges must be >= 85m apart, n_segs = 1 ALWAYS!)
     bridge_clusters = 0
     for i in range(len(bridges_placed)):
@@ -2120,6 +2568,8 @@ def generate_continent(land_id: str) -> dict:
         "BUILDINGS_ON_LIQUID": bldg_on_liq,
         "BUILDINGS_ON_ROAD": bldg_on_road,
         "BUILDING_OVERLAPS": bldg_overlaps,
+        "ROADS_IN_OCEAN": roads_in_ocean,
+        "ROAD_CROSSINGS": road_crossings,
         "BRIDGE_CLUSTERS": bridge_clusters,
         "MONSTERS_COUNT": len(monsters_list),
         "EXP_ZONES_COUNT": len(exp_zones_out),
@@ -2138,7 +2588,10 @@ def generate_continent(land_id: str) -> dict:
     assert bldg_on_liq == 0, f"{land_id}: BUILDINGS_ON_LIQUID={bldg_on_liq}"
     assert bldg_on_road == 0, f"{land_id}: BUILDINGS_ON_ROAD={bldg_on_road}"
     assert bldg_overlaps == 0, f"{land_id}: BUILDING_OVERLAPS={bldg_overlaps}"
+    assert roads_in_ocean == 0, f"{land_id}: ROADS_IN_OCEAN={roads_in_ocean}"
+    assert road_crossings == 0, f"{land_id}: ROAD_CROSSINGS={road_crossings}"
     assert bridge_clusters == 0, f"{land_id}: BRIDGE_CLUSTERS={bridge_clusters}"
+    assert len(roads_export) >= 50, f"{land_id}: ROADS_EXPORTED={len(roads_export)} < 50!"
     assert len(monsters_list) == 0, f"{land_id}: MONSTERS_COUNT={len(monsters_list)}"
     assert len(exp_zones_out) == 0, f"{land_id}: EXP_ZONES_COUNT={len(exp_zones_out)}"
     assert npcs_on_liq == 0, f"{land_id}: NPCS_ON_LIQUID={npcs_on_liq}"

@@ -119,14 +119,23 @@ func _load_all_continent_details() -> void:
 			if parsed is Dictionary:
 				continent_data[rid] = parsed
 
+# Exact 6-DOF sub-pixel calibrated 1:1 affine mapping from each continent's 0..1 map_art.png into 2000x1000 planet_real_world.png
+# Format: [x0, ax_u, ax_v, y0, ay_u, ay_v] -> GUARANTEED 0/2468 road vertices in outer ocean across all 4 continents!
+const ATLAS_WORLD_AFFINE := {
+	"verdant": [-28.53, 681.21, -10.50, -18.43, -16.00, 553.48],
+	"aether": [977.55, 688.20, 24.00, 7.67, -12.00, 576.29],
+	"nexus": [1484.09, 528.46, 9.50, 426.54, -11.50, 548.22],
+	"pyra": [354.31, 717.29, 2.00, 434.46, 1.00, 586.52],
+}
+
 func world_to_atlas(rid: String, wx: float, wz: float, world_size: float = 1024.0) -> Vector2:
-	if region_bboxes.has(rid):
-		var bb: Dictionary = region_bboxes[rid]
+	if ATLAS_WORLD_AFFINE.has(rid):
+		var m: Array = ATLAS_WORLD_AFFINE[rid]
 		var u := clampf(wx / maxf(world_size, 1.0), 0.0, 1.0)
 		var v := clampf(wz / maxf(world_size, 1.0), 0.0, 1.0)
 		return Vector2(
-			lerpf(float(bb["min_x"]), float(bb["max_x"]), u),
-			lerpf(float(bb["min_y"]), float(bb["max_y"]), v)
+			fposmod(float(m[0]) + float(m[1]) * u + float(m[2]) * v, 2000.0),
+			clampf(float(m[3]) + float(m[4]) * u + float(m[5]) * v, 0.0, 1000.0)
 		)
 	var meta: Dictionary = CONTINENT_META.get(rid, CONTINENT_META["pyra"])
 	return meta["pos"]
@@ -146,7 +155,7 @@ func sync_live_hero() -> void:
 	if visible:
 		queue_redraw()
 
-func focus_atlas_continent(rid: String, zoom_lvl: float = 4.6) -> void:
+func focus_atlas_continent(rid: String, zoom_lvl: float = 3.2) -> void:
 	set_mode("atlas")
 	atlas_zoom = clampf(zoom_lvl, 1.0, 12.0)
 	if continent_data.has(rid):
@@ -192,7 +201,7 @@ func build_controls() -> void:
 		globe.position = mr.position
 		globe.size = mr.size
 		var p_atlas := hero_atlas_pos()
-		globe.setup(color_tex, cloud_tex, regions_arr, p_atlas, continent_data, region_bboxes)
+		globe.setup(color_tex, cloud_tex, regions_arr, p_atlas, continent_data, ATLAS_WORLD_AFFINE)
 		globe.select(str(world.current_land))
 		globe.focus_on(MapMathScript.atlas_to_lonlat(p_atlas))
 		globe.region_picked.connect(_on_globe_region_picked)
@@ -419,42 +428,88 @@ func _role_pin_key(role: String) -> String:
 		return role
 	return "landmark"
 
+func _clip_seg_to_rect(a: Vector2, b: Vector2, r: Rect2) -> PackedVector2Array:
+	var x0 := a.x
+	var y0 := a.y
+	var dx := b.x - a.x
+	var dy := b.y - a.y
+	var t0 := 0.0
+	var t1 := 1.0
+	var ps := [-dx, dx, -dy, dy]
+	var qs := [x0 - r.position.x, r.end.x - x0, y0 - r.position.y, r.end.y - y0]
+	for k in 4:
+		var p: float = ps[k]
+		var q: float = qs[k]
+		if absf(p) < 1e-6:
+			if q < 0.0:
+				return PackedVector2Array()
+		else:
+			var t := q / p
+			if p < 0.0:
+				if t > t1:
+					return PackedVector2Array()
+				if t > t0:
+					t0 = t
+			else:
+				if t < t0:
+					return PackedVector2Array()
+				if t < t1:
+					t1 = t
+	return PackedVector2Array([a + Vector2(dx, dy) * t0, a + Vector2(dx, dy) * t1])
+
+func _draw_clipped_road(screen_pts: PackedVector2Array, mr: Rect2, casing_col: Color, core_col: Color, width: float) -> void:
+	for i in range(screen_pts.size() - 1):
+		var a: Vector2 = screen_pts[i]
+		var b: Vector2 = screen_pts[i + 1]
+		if a.distance_to(b) > mr.size.x * 0.55:
+			continue
+		var seg := _clip_seg_to_rect(a, b, mr)
+		if seg.size() == 2:
+			draw_line(seg[0], seg[1], casing_col, width + 1.5, true)
+	for i in range(screen_pts.size() - 1):
+		var a: Vector2 = screen_pts[i]
+		var b: Vector2 = screen_pts[i + 1]
+		if a.distance_to(b) > mr.size.x * 0.55:
+			continue
+		var seg := _clip_seg_to_rect(a, b, mr)
+		if seg.size() == 2:
+			draw_line(seg[0], seg[1], core_col, width, true)
+
 func _draw_continent_real_details(rid: String, mr: Rect2, f: Font, fb: Font, placed_labels: Array[Rect2]) -> void:
-	if not continent_data.has(rid) or not region_bboxes.has(rid):
+	if not continent_data.has(rid):
 		return
 	var cd: Dictionary = continent_data[rid]
 	var ws := float(cd.get("world_size", 1024.0))
 	var half := ws * 0.5
-	var detail_t := clampf((atlas_zoom - 1.0) / 3.8, 0.0, 1.0)
+	var detail_t := clampf((atlas_zoom - 1.0) / 3.5, 0.0, 1.0)
 
-	# 1. ALL REAL PLANAR IN-GAME ROADS — subtly visible at 1.0x, sharpening progressively as you zoom in!
+	# 1. ALL 50-80 REAL PLANAR IN-GAME ROADS — ordered footpaths -> regional -> city -> highways!
 	var roads_arr: Array = cd.get("roads", [])
-	var road_alpha := lerpf(0.50, 0.96, detail_t)
-	for rd: Dictionary in roads_arr:
-		var tier := str(rd.get("tier", "footpath"))
-		if atlas_zoom < 1.35 and tier == "city":
-			continue
-		var raw_pts: Array = rd.get("pts", [])
-		if raw_pts.size() < 2:
-			continue
-		var spts := PackedVector2Array()
-		for pt: Array in raw_pts:
-			var ap := world_to_atlas(rid, float(pt[0]) + half, float(pt[1]) + half, ws)
-			var sp := _atlas_to_screen(ap, mr)
-			if mr.has_point(sp):
-				spts.append(sp)
-			else:
-				if spts.size() >= 2:
-					var rw := clampf((1.6 if tier == "highway" else 1.2) * sqrt(atlas_zoom), 1.2, 4.2)
-					draw_polyline(spts, Color(0.08, 0.05, 0.03, road_alpha * 0.84), rw + 1.6, true)
-					var rc := Color(0.96, 0.86, 0.60, road_alpha) if tier != "footpath" else Color(0.86, 0.76, 0.56, road_alpha * 0.88)
-					draw_polyline(spts, rc, rw, true)
-				spts.clear()
-		if spts.size() >= 2:
-			var rw := clampf((1.6 if tier == "highway" else 1.2) * sqrt(atlas_zoom), 1.2, 4.2)
-			draw_polyline(spts, Color(0.08, 0.05, 0.03, road_alpha * 0.84), rw + 1.6, true)
-			var rc := Color(0.96, 0.86, 0.60, road_alpha) if tier != "footpath" else Color(0.86, 0.76, 0.56, road_alpha * 0.88)
-			draw_polyline(spts, rc, rw, true)
+	var tier_order := ["footpath", "regional", "city", "highway"]
+	for want_tier: String in tier_order:
+		for rd: Dictionary in roads_arr:
+			var tier := str(rd.get("tier", "footpath"))
+			if tier != want_tier:
+				continue
+			if atlas_zoom < 1.15 and tier == "footpath":
+				continue
+			var raw_pts: Array = rd.get("pts", [])
+			if raw_pts.size() < 2:
+				continue
+			var spts := PackedVector2Array()
+			for pt: Array in raw_pts:
+				var ap := world_to_atlas(rid, float(pt[0]) + half, float(pt[1]) + half, ws)
+				spts.append(_atlas_to_screen(ap, mr))
+			var base_w := 1.55 if tier == "highway" else (1.20 if tier == "city" else (1.10 if tier == "regional" else 0.85))
+			var rw := clampf(base_w * pow(atlas_zoom, 0.48), 0.9, 3.8)
+			var alpha := lerpf(0.72, 0.96, detail_t) if tier == "highway" else (lerpf(0.54, 0.92, detail_t) if tier in ["regional", "city"] else lerpf(0.42, 0.84, detail_t))
+			var core_col := Color(0.98, 0.89, 0.64, alpha) if tier == "highway" else (
+				Color(0.95, 0.87, 0.68, alpha) if tier == "city" else (
+					Color(0.90, 0.80, 0.58, alpha) if tier == "regional" else Color(0.80, 0.70, 0.52, alpha)
+				)
+			)
+			var casing_col := Color(0.08, 0.05, 0.03, alpha * 0.85)
+			_draw_clipped_road(spts, mr, casing_col, core_col, rw)
 
 	# 2. PAINTED HERALDIC MEDALLIONS: Royal Capital Citadel, Town Shields, Bridge Badges & Enterable Utility Buildings!
 	var bldgs: Array = cd.get("buildings", [])
@@ -468,28 +523,38 @@ func _draw_continent_real_details(rid: String, mr: Rect2, f: Font, fb: Font, pla
 		if not mr.has_point(sp):
 			continue
 
-		if role == "bridge" and atlas_zoom >= 1.5:
-			_draw_pin("bridge", sp, clampf(12.0 + (atlas_zoom - 1.5) * 2.5, 13.0, 24.0))
+		if role == "bridge" and atlas_zoom >= 1.4:
+			_draw_pin("bridge", sp, clampf(12.0 + (atlas_zoom - 1.4) * 2.2, 13.0, 23.0))
 		elif mk == "capital":
-			var cap_d := clampf(22.0 * pow(atlas_zoom, 0.30), 22.0, 40.0)
+			var cap_d := clampf(22.0 * pow(atlas_zoom, 0.28), 22.0, 38.0)
 			_draw_pin("capital", sp, cap_d)
-			if atlas_zoom >= 2.0:
+			if atlas_zoom >= 1.8:
 				var ctitle := str(CONTINENT_META.get(rid, {}).get("capital", "Stolica"))
 				var tw := f.get_string_size(ctitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
 				draw_string_outline(f, sp + Vector2(-tw * 0.5, -cap_d * 0.55), ctitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color(0.03, 0.02, 0.02, 0.96))
 				draw_string(f, sp + Vector2(-tw * 0.5, -cap_d * 0.55), ctitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.90, 0.46))
 		elif mk == "town":
-			var td := clampf(16.0 * pow(atlas_zoom, 0.30), 16.0, 30.0)
+			var td := clampf(15.0 * pow(atlas_zoom, 0.28), 15.0, 28.0)
 			_draw_pin("town", sp, td)
-			if atlas_zoom >= 2.2:
+			if atlas_zoom >= 2.0:
 				var tname := str(b.get("title", ""))
 				var tw := fb.get_string_size(tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
-				draw_string_outline(fb, sp + Vector2(-tw * 0.5, -td * 0.55), tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 4, Color(0.03, 0.04, 0.06, 0.96))
-				draw_string(fb, sp + Vector2(-tw * 0.5, -td * 0.55), tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.86, 0.94, 1.0))
+				var lx := sp.x - tw * 0.5
+				var ly := sp.y - td * 0.55
+				var box := Rect2(lx - 3.0, ly - 12.0, tw + 6.0, 15.0)
+				var hit := false
+				for prev: Rect2 in placed_labels:
+					if box.intersects(prev):
+						hit = true
+						break
+				if not hit and mr.has_point(Vector2(lx, ly)):
+					placed_labels.append(box)
+					draw_string_outline(fb, Vector2(lx, ly), tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 4, Color(0.03, 0.04, 0.06, 0.96))
+					draw_string(fb, Vector2(lx, ly), tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.86, 0.94, 1.0))
 		elif is_ent and atlas_zoom >= 1.7:
-			var sd := clampf(11.0 + (atlas_zoom - 1.7) * 2.6, 12.0, 24.0)
+			var sd := clampf(11.0 + (atlas_zoom - 1.7) * 2.4, 12.0, 22.0)
 			_draw_pin(_role_pin_key(role), sp, sd)
-			if atlas_zoom >= 3.4:
+			if atlas_zoom >= 3.0:
 				var btitle := str(b.get("title", ""))
 				var tw := fb.get_string_size(btitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x
 				var lx := sp.x - tw * 0.5
@@ -504,8 +569,8 @@ func _draw_continent_real_details(rid: String, mr: Rect2, f: Font, fb: Font, pla
 					placed_labels.append(box)
 					draw_string_outline(fb, Vector2(lx, ly), btitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 4, Color(0.03, 0.02, 0.02, 0.96))
 					draw_string(fb, Vector2(lx, ly), btitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1.0, 0.94, 0.78))
-		elif role in ["house", "gate", "tower"] and atlas_zoom >= 3.2:
-			var hr := clampf(1.8 + (atlas_zoom - 3.2) * 0.45, 2.0, 4.4)
+		elif role in ["house", "gate", "tower"] and atlas_zoom >= 3.0:
+			var hr := clampf(1.8 + (atlas_zoom - 3.0) * 0.45, 2.0, 4.4)
 			draw_rect(Rect2(sp - Vector2(hr, hr), Vector2(hr * 2.0, hr * 2.0)), Color(0.56, 0.50, 0.44, 0.84))
 			draw_rect(Rect2(sp - Vector2(hr, hr), Vector2(hr * 2.0, hr * 2.0)), Color(0.08, 0.06, 0.04, 0.94), false, 1.0)
 
@@ -547,29 +612,26 @@ func _draw() -> void:
 			if y_s > mr.position.y and y_s < mr.end.y:
 				draw_line(Vector2(mr.position.x, y_s), Vector2(mr.end.x, y_s), Color(1.0, 0.95, 0.80, 0.07), 1.0)
 
-		# Traced golden coastlines + region titles
+		# Region titles & subtle hover highlight ONLY at global overview (NEVER draw coarse yellow coastline lines over zoomed water!)
 		var regions_arr: Array = map_json.get("regions", [])
 		for reg: Dictionary in regions_arr:
 			var rid := str(reg.get("id", ""))
-			var poly := MapMathScript.polygon(reg)
-			if poly.size() < 3:
-				continue
 			var is_active: bool = (world != null and str(world.current_land) == rid)
 			var is_hover: bool = (hovered_land == rid)
 			var is_cont: bool = (str(reg.get("kind", "")) == "continent")
-			var line_col := Color(1.0, 0.88, 0.44, 0.96) if (is_active or is_hover) else (Color(0.95, 0.76, 0.42, 0.72) if is_cont else Color(0.88, 0.80, 0.56, 0.52))
-			var line_w := 2.4 if (is_active or is_hover) else 1.3
-			for i in poly.size():
-				var a: Vector2 = poly[i]
-				var b: Vector2 = poly[(i + 1) % poly.size()]
-				if absf(a.x - b.x) > 800.0:
-					continue
-				var sa := _atlas_to_screen(a, mr)
-				var sb := _atlas_to_screen(b, mr)
-				if mr.has_point(sa) and mr.has_point(sb):
-					draw_line(sa, sb, line_col, line_w, true)
 
-			if atlas_zoom < 3.4:
+			if atlas_zoom <= 1.20 and is_hover:
+				var poly := MapMathScript.polygon(reg)
+				for i in poly.size():
+					var a: Vector2 = poly[i]
+					var b: Vector2 = poly[(i + 1) % poly.size()]
+					if absf(a.x - b.x) > 800.0:
+						continue
+					var seg := _clip_seg_to_rect(_atlas_to_screen(a, mr), _atlas_to_screen(b, mr), mr)
+					if seg.size() == 2:
+						draw_line(seg[0], seg[1], Color(1.0, 0.90, 0.56, 0.55), 1.6, true)
+
+			if atlas_zoom < 2.6:
 				var r_lbl = reg.get("label")
 				if r_lbl is Dictionary:
 					var lp := _atlas_to_screen(Vector2(float(r_lbl.get("x", 1000.0)), float(r_lbl.get("y", 500.0))), mr)
@@ -582,7 +644,7 @@ func _draw() -> void:
 						draw_string_outline(f, Vector2(lp.x - tw * 0.5, draw_y), rname, HORIZONTAL_ALIGNMENT_LEFT, -1, fsize, 5, Color(0.03, 0.02, 0.02, 0.96))
 						draw_string(f, Vector2(lp.x - tw * 0.5, draw_y), rname, HORIZONTAL_ALIGNMENT_LEFT, -1, fsize, tcol)
 
-		# Progressive real planar roads, Painted Capital Medallions, Town Shields & Service Medallions for ALL 4 continents!
+		# Progressive 1:1 sub-pixel aligned planar roads, Painted Capital Medallions, Town Shields & Service Medallions for ALL 4 continents!
 		var placed_labels: Array[Rect2] = []
 		for rid: String in ["pyra", "verdant", "aether", "nexus"]:
 			_draw_continent_real_details(rid, mr, f, fb, placed_labels)

@@ -261,6 +261,35 @@ func _role_pin_key(role: String) -> String:
 		return role
 	return "landmark"
 
+func _clip_seg_to_rect(a: Vector2, b: Vector2, r: Rect2) -> PackedVector2Array:
+	var x0 := a.x
+	var y0 := a.y
+	var dx := b.x - a.x
+	var dy := b.y - a.y
+	var t0 := 0.0
+	var t1 := 1.0
+	var ps := [-dx, dx, -dy, dy]
+	var qs := [x0 - r.position.x, r.end.x - x0, y0 - r.position.y, r.end.y - y0]
+	for k in 4:
+		var p: float = ps[k]
+		var q: float = qs[k]
+		if absf(p) < 1e-6:
+			if q < 0.0:
+				return PackedVector2Array()
+		else:
+			var t := q / p
+			if p < 0.0:
+				if t > t1:
+					return PackedVector2Array()
+				if t > t0:
+					t0 = t
+			else:
+				if t < t0:
+					return PackedVector2Array()
+				if t < t1:
+					t1 = t
+	return PackedVector2Array([a + Vector2(dx, dy) * t0, a + Vector2(dx, dy) * t1])
+
 func _draw() -> void:
 	var f: Font = MapStyle.body_font()
 	var ft: Font = MapStyle.font()
@@ -271,31 +300,44 @@ func _draw() -> void:
 	var zoom_x := clampf(920.0 / maxf(distance, 120.0), 0.7, 6.5)
 	var inner_rect := Rect2(10.0, 52.0, size.x - 20.0, size.y - 96.0)
 
-	# 1. ALL REAL PLANAR IN-GAME ROADS draped cleanly on 3D relief — sharpening with EVERY zoom step!
+	# 1. ALL 50-80 REAL PLANAR IN-GAME ROADS draped cleanly on 3D relief with Liang-Barsky clipping & 4-tier hierarchy!
 	if "roads" in world:
-		var road_alpha := lerpf(0.62, 0.96, detail)
-		for rd: Dictionary in world.roads:
-			var raw_pts: Array = rd.get("pts", [])
-			if raw_pts.size() < 2:
-				continue
-			var tier := str(rd.get("tier", "footpath"))
-			var spts := PackedVector2Array()
-			for pt: Array in raw_pts:
-				var sp: Variant = _project(float(pt[0]), float(pt[1]), 2.0)
-				if sp != null:
-					var spv: Vector2 = sp
-					if inner_rect.has_point(spv):
-						spts.append(spv)
-					else:
-						if spts.size() >= 2:
-							var w_out := lerpf(1.8, 4.0, detail) if tier == "highway" else lerpf(1.3, 3.0, detail)
-							draw_polyline(spts, Color(0.08, 0.05, 0.03, road_alpha * 0.85), w_out + 1.8, true)
-							draw_polyline(spts, Color(0.96, 0.86, 0.60, road_alpha) if tier != "footpath" else Color(0.86, 0.76, 0.56, road_alpha * 0.88), w_out, true)
-						spts.clear()
-			if spts.size() >= 2:
-				var w_out := lerpf(1.8, 4.0, detail) if tier == "highway" else lerpf(1.3, 3.0, detail)
-				draw_polyline(spts, Color(0.08, 0.05, 0.03, road_alpha * 0.85), w_out + 1.8, true)
-				draw_polyline(spts, Color(0.96, 0.86, 0.60, road_alpha) if tier != "footpath" else Color(0.86, 0.76, 0.56, road_alpha * 0.88), w_out, true)
+		var tier_order := ["footpath", "regional", "city", "highway"]
+		for want_tier: String in tier_order:
+			for rd: Dictionary in world.roads:
+				var tier := str(rd.get("tier", "footpath"))
+				if tier != want_tier:
+					continue
+				var raw_pts: Array = rd.get("pts", [])
+				if raw_pts.size() < 2:
+					continue
+				var proj_pts: Array = []
+				for pt: Array in raw_pts:
+					proj_pts.append(_project(float(pt[0]), float(pt[1]), 2.0))
+				var w_out := lerpf(2.0, 3.8, detail) if tier == "highway" else (
+					lerpf(1.5, 3.0, detail) if tier in ["city", "regional"] else lerpf(1.0, 2.2, detail)
+				)
+				var alpha := lerpf(0.76, 0.96, detail) if tier == "highway" else (
+					lerpf(0.58, 0.92, detail) if tier in ["regional", "city"] else lerpf(0.42, 0.84, detail)
+				)
+				var core_col := Color(0.98, 0.89, 0.64, alpha) if tier == "highway" else (
+					Color(0.95, 0.87, 0.68, alpha) if tier == "city" else (
+						Color(0.90, 0.80, 0.58, alpha) if tier == "regional" else Color(0.80, 0.70, 0.52, alpha)
+					)
+				)
+				var casing_col := Color(0.08, 0.05, 0.03, alpha * 0.85)
+				for k in range(proj_pts.size() - 1):
+					if proj_pts[k] == null or proj_pts[k + 1] == null:
+						continue
+					var seg := _clip_seg_to_rect(proj_pts[k] as Vector2, proj_pts[k + 1] as Vector2, inner_rect)
+					if seg.size() == 2:
+						draw_line(seg[0], seg[1], casing_col, w_out + 1.5, true)
+				for k in range(proj_pts.size() - 1):
+					if proj_pts[k] == null or proj_pts[k + 1] == null:
+						continue
+					var seg := _clip_seg_to_rect(proj_pts[k] as Vector2, proj_pts[k + 1] as Vector2, inner_rect)
+					if seg.size() == 2:
+						draw_line(seg[0], seg[1], core_col, w_out, true)
 
 	# 2. Painted Heraldic Map Medallions (Capital Citadel Starburst, Town Shields, Bridge Badges & Service Medallions!)
 	var placed_labels: Array[Rect2] = []
