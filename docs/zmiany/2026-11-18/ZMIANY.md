@@ -223,5 +223,16 @@ Po teście na telefonie Android właściciela (`Screenshot_2026-11-19-22-04-16-3
   - Powiększono przyciski pod minimapą (`3.2×`, `ISO`, `3D`, `Mapa` → `36 px` wysokości), kule umiejętności Wild Rift (`r = 48/38/34 px`), przyciski Panelu GM (`min_h = 42 px`) oraz przyciski zoomu Atlasu 2D (`56 × 56 px`).
 - **Publikacja `1.14.6` na serwer testowy:** `ISO_WORLD_QA_OK` w rozdzielczości Android 20:9 (`1600×720`), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.6` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.5`).
 
+## 13. Naprawa Dotyku Androida (Double-Toggle), Wyjście `✕ ZAMKNIJ` z Mapy 3D, Globus 3D GLES3, Zatrzymanie Muzyki Ładowania i Kamera `1.75` (`1.14.7`) (2026-11-19)
+
+Po testach na telefonie Android naprawiono wszystkie 6 zgłoszonych błędów i opublikowano wydanie **`1.14.7`**:
+
+- **Naprawa podwójnego kliknięcia dotyk+mysz (`rpg_hud.gd`, `gm_panel.gd`, `world.gd`):** na Androidzie z `pointing/emulate_mouse_from_touch=true` jedno dotknięcie generowało jednocześnie `InputEventScreenTouch` i `InputEventMouseButton`, co otwierało i natychmiast zamykało `PANEL GM`, `SKILLE`, `PLECAK`, `3D` i `GLOBUS`. Usunięto zdublowaną gałąź `InputEventScreenTouch` w `rpg_hud.gd` (dodając debounce `180 ms`), zabezpieczono tło `gm_panel.gd` (`320 ms` po otwarciu) oraz zablokowano przechwytywanie dotyku świata w `world.gd` przy otwartych oknach.
+- **Wyjście `✕ ZAMKNIJ` z Mapy 3D i Atlasu 2D (`map_3d.gd`, `atlas_overlay.gd`):** dodano wyraźny czerwono-złoty przycisk `✕ ZAMKNIJ` (`140×46 px`) oraz przyciski zoomu `+`/`−` (`52×52 px`) na Mapie 3D oraz czerwono-złoty `✕ ZAMKNIJ` w Atlasie 2D / Globusie 3D.
+- **Globus 3D na Android GLES3 (`globe_view.gd`):** wyłączono zagnieżdżone `MSAA_2X` (`MSAA_DISABLED`) i ustawiono `UPDATE_ALWAYS`, aby kula 3D renderowała się niezawodnie wewnątrz zagnieżdżonego `SubViewportContainer` na telefonach.
+- **Zatrzymanie zawieszonej muzyki ładowania i bliższa kamera `1.75` (`world.gd`):** dodano `_stop_lingering_loading_audio()` zatrzymujące odtwarzacz ekranu ładowania po wejściu do świata oraz zwiększono domyślny zoom kamery do **`1.75`** (zakres `0.65 .. 2.80`, ~2,8× bliżej względem bazowego `0.62`).
+- **Publikacja `1.14.7` na serwer testowy:** `ISO_WORLD_QA_OK`, `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.7` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.6`).
+
+
 
 

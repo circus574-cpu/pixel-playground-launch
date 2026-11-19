@@ -71,6 +71,8 @@ func _style_btn(btn: Button, bg: Color, border: Color, font_sz: int = 15) -> voi
 	btn.add_theme_font_size_override("font_size", maxi(font_sz, 14))
 	btn.add_theme_color_override("font_color", Color(0.98, 0.94, 0.84))
 
+var _opened_msec := 0
+
 func _build_ui() -> void:
 	var bg_dim := ColorRect.new()
 	bg_dim.color = Color(0.01, 0.01, 0.02, 0.62)
@@ -78,6 +80,8 @@ func _build_ui() -> void:
 	bg_dim.mouse_filter = Control.MOUSE_FILTER_STOP
 	bg_dim.gui_input.connect(func(ev: InputEvent) -> void:
 		if ev is InputEventMouseButton and (ev as InputEventMouseButton).pressed:
+			if Time.get_ticks_msec() - _opened_msec < 320:
+				return
 			if world != null and world.has_method("toggle_gm_panel"):
 				world.toggle_gm_panel(false)
 	)
@@ -180,6 +184,7 @@ func _section_label(txt: String) -> Label:
 	return l
 
 func refresh_content() -> void:
+	_opened_msec = Time.get_ticks_msec()
 	for tid in tab_btns.keys():
 		var tb: Button = tab_btns[tid]
 		if str(tid) == active_tab:

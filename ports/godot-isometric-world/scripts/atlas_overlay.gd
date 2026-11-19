@@ -237,8 +237,14 @@ func build_controls() -> void:
 	btn_atlas.pressed.connect(func() -> void: set_mode("atlas"))
 	add_child(btn_atlas)
 
-	btn_close.text = "ZAMKNIJ"
+	btn_close.text = "✕ ZAMKNIJ"
 	_style_nav_btn(btn_close)
+	var st_c := StyleBoxFlat.new()
+	st_c.bg_color = Color(0.32, 0.10, 0.10, 0.96)
+	st_c.border_color = Color(0.98, 0.56, 0.36, 0.98)
+	st_c.set_border_width_all(2)
+	st_c.set_corner_radius_all(8)
+	btn_close.add_theme_stylebox_override("normal", st_c)
 	btn_close.pressed.connect(func() -> void:
 		if world != null:
 			world.toggle_atlas(false)

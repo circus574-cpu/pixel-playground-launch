@@ -82,7 +82,7 @@ var gm_speed_mult := 1.0
 var gm_noclip := false
 var gm_map_teleport_mode := false
 var gm_minimap_teleport := false
-var zoom_level := 1.25
+var zoom_level := 1.75
 var move_pointer := -1
 var move_origin := Vector2.ZERO
 var pinch_pointers: Dictionary = {}
@@ -90,6 +90,20 @@ var pinch_distance := 0.0
 var tex_cache: Dictionary = {}
 var current_exp_idx := 0
 var world_time := 0.0
+
+func _stop_lingering_loading_audio() -> void:
+	var root := get_tree().root if get_tree() != null else null
+	if root == null:
+		return
+	var stack: Array[Node] = [root]
+	while not stack.is_empty():
+		var nd: Node = stack.pop_back()
+		if nd is AudioStreamPlayer:
+			var ap := nd as AudioStreamPlayer
+			if ap.playing:
+				ap.stop()
+		for ch in nd.get_children():
+			stack.append(ch)
 
 func _ready() -> void:
 	shadow_tex = make_shadow_tex()
@@ -106,6 +120,7 @@ func _ready() -> void:
 
 	build_hud()
 	switch_region("pyra")
+	call_deferred("_stop_lingering_loading_audio")
 
 	if "--qa" in OS.get_cmdline_user_args() or "--qa" in OS.get_cmdline_args():
 		call_deferred("run_qa")
@@ -829,6 +844,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			set_zoom(zoom_level * 1.12)
 		elif event.keycode == KEY_MINUS:
 			set_zoom(zoom_level / 1.12)
+	if gm_open or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character))):
+		return
 	if map_expanded:
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 			toggle_map()
@@ -889,7 +906,7 @@ func pinch_span() -> float:
 	return (pinch_pointers[keys[0]] as Vector2).distance_to(pinch_pointers[keys[1]] as Vector2)
 
 func set_zoom(z: float) -> void:
-	zoom_level = clampf(z, 0.50, 2.40)
+	zoom_level = clampf(z, 0.65, 2.80)
 	camera.zoom = Vector2(zoom_level, zoom_level)
 
 func _process(delta: float) -> void:

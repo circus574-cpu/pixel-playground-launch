@@ -1798,6 +1798,8 @@ func _handle_primary_tap(p: Vector2) -> bool:
 			return true
 	return false
 
+var _last_tap_msec := 0
+
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		var mp: Vector2 = (event as InputEventMouseMotion).position
@@ -1822,11 +1824,8 @@ func _gui_input(event: InputEvent) -> void:
 			_refresh_visuals()
 		return
 
-	if event is InputEventScreenTouch and (event as InputEventScreenTouch).pressed:
-		if _handle_primary_tap((event as InputEventScreenTouch).position):
-			accept_event()
-		return
-
+	# NOTE: pointing/emulate_mouse_from_touch=true on Android converts every finger tap into InputEventMouseButton.
+	# Handling ONLY InputEventMouseButton (with 180ms debounce) prevents double-toggling PANEL GM / menus open+closed!
 	if event is InputEventMouseButton and (event as InputEventMouseButton).pressed:
 		var mb := event as InputEventMouseButton
 		if mb.button_index == MOUSE_BUTTON_RIGHT and (show_talents or show_character):
@@ -1835,6 +1834,11 @@ func _gui_input(event: InputEvent) -> void:
 			return
 		if mb.button_index != MOUSE_BUTTON_LEFT:
 			return
+		var now_ms := Time.get_ticks_msec()
+		if now_ms - _last_tap_msec < 180:
+			accept_event()
+			return
 		if _handle_primary_tap(mb.position):
+			_last_tap_msec = now_ms
 			accept_event()
 			return

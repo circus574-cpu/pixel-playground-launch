@@ -71,7 +71,63 @@ func _ready() -> void:
 	cam.near = 2.0
 	cam.far = 3600.0
 	root.add_child(cam)
+	_build_mobile_buttons()
+	resized.connect(_layout_mobile_buttons)
+	_layout_mobile_buttons()
 	rebuild_for_region()
+
+var btn_close_3d := Button.new()
+var btn_zin_3d := Button.new()
+var btn_zout_3d := Button.new()
+
+func _style_3d_btn(btn: Button, bg: Color, border: Color, fsz: int = 16) -> void:
+	var st := StyleBoxFlat.new()
+	st.bg_color = bg
+	st.border_color = border
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(8)
+	btn.add_theme_stylebox_override("normal", st)
+	var sth := st.duplicate()
+	sth.bg_color = bg.lightened(0.15)
+	btn.add_theme_stylebox_override("hover", sth)
+	btn.add_theme_font_override("font", MapStyle.body_font())
+	btn.add_theme_font_size_override("font_size", fsz)
+	btn.add_theme_color_override("font_color", Color(1.0, 0.94, 0.80))
+
+func _build_mobile_buttons() -> void:
+	btn_close_3d.text = "✕ ZAMKNIJ"
+	_style_3d_btn(btn_close_3d, Color(0.32, 0.10, 0.10, 0.96), Color(0.98, 0.56, 0.36, 0.98), 16)
+	btn_close_3d.pressed.connect(func() -> void:
+		if world != null:
+			world.toggle_map()
+	)
+	add_child(btn_close_3d)
+
+	btn_zin_3d.text = "+"
+	_style_3d_btn(btn_zin_3d, Color(0.14, 0.10, 0.06, 0.94), Color(0.88, 0.70, 0.36, 0.96), 22)
+	btn_zin_3d.pressed.connect(func() -> void:
+		distance = clampf(distance * 0.78, 145.0, 1450.0)
+		queue_redraw()
+	)
+	add_child(btn_zin_3d)
+
+	btn_zout_3d.text = "−"
+	_style_3d_btn(btn_zout_3d, Color(0.14, 0.10, 0.06, 0.94), Color(0.88, 0.70, 0.36, 0.96), 22)
+	btn_zout_3d.pressed.connect(func() -> void:
+		distance = clampf(distance * 1.28, 145.0, 1450.0)
+		queue_redraw()
+	)
+	add_child(btn_zout_3d)
+
+func _layout_mobile_buttons() -> void:
+	var w := maxf(size.x, 320.0)
+	var h := maxf(size.y, 240.0)
+	btn_close_3d.position = Vector2(w - 152.0, 8.0)
+	btn_close_3d.size = Vector2(140.0, 46.0)
+	btn_zin_3d.position = Vector2(w - 64.0, h * 0.5 - 60.0)
+	btn_zin_3d.size = Vector2(52.0, 52.0)
+	btn_zout_3d.position = Vector2(w - 64.0, h * 0.5 + 4.0)
+	btn_zout_3d.size = Vector2(52.0, 52.0)
 
 func _pin_tex(key: String) -> Texture2D:
 	if icon_cache.has(key):
