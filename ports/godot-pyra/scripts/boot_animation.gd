@@ -80,7 +80,6 @@ func _ready() -> void:
 	status.add_theme_font_size_override("font_size", 17)
 	status.add_theme_color_override("font_color", Color("f7e3b1"))
 	status.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	layout.add_child(status)
 
 	meter.show_percentage = false
 	meter.indeterminate = true
@@ -95,6 +94,7 @@ func _ready() -> void:
 	meter.add_theme_stylebox_override("background", empty)
 	meter.add_theme_stylebox_override("fill", filled)
 	layout.add_child(meter)
+	layout.add_child(status)   # operation name BELOW the real progress bar
 	details.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	details.add_theme_font_size_override("font_size", 12)
 	details.add_theme_color_override("font_color", Color("a8c7dd"))
