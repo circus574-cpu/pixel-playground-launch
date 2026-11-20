@@ -13,6 +13,7 @@ const RpgHudScript := preload("res://scripts/rpg_hud.gd")
 const GmPanelScript := preload("res://scripts/gm_panel.gd")
 const InteriorRoomScript := preload("res://scripts/interior_room.gd")
 const DialogueStripScript := preload("res://scripts/dialogue_strip.gd")
+const LoadingScreenScript := preload("res://scripts/loading_screen.gd")
 const StickScript := preload("res://scripts/stick.gd")
 const MapStyle := preload("res://scripts/map_style.gd")
 
@@ -70,6 +71,8 @@ var rpg_hud: Control
 var gm_panel: Control
 var interior_room: Control
 var dialogue_strip: Control
+var loading_screen: Control
+var is_booting := false
 var btn_enter_bldg := Button.new()
 var btn_talk_npc := Button.new()
 var premium_minimap: Control
@@ -117,7 +120,6 @@ func _stop_lingering_loading_audio() -> void:
 
 func _ready() -> void:
 	shadow_tex = make_shadow_tex()
-	load_databases()
 	terrain_mesh.z_index = -10
 	add_child(terrain_mesh)
 	ysort.y_sort_enabled = true
@@ -128,12 +130,41 @@ func _ready() -> void:
 	camera.zoom = Vector2(zoom_level, zoom_level)
 	add_child(camera)
 
-	build_hud()
-	switch_region("pyra")
-	call_deferred("_stop_lingering_loading_audio")
+	add_child(hud)
+	loading_screen = LoadingScreenScript.new()
+	loading_screen.world = self
+	loading_screen.z_index = 200
+	hud.add_child(loading_screen)
 
-	if "--qa" in OS.get_cmdline_user_args() or "--qa" in OS.get_cmdline_args():
+	var is_qa := ("--qa" in OS.get_cmdline_user_args() or "--qa" in OS.get_cmdline_args())
+	if is_qa:
+		load_databases()
+		build_hud()
+		switch_region("pyra")
+		call_deferred("_stop_lingering_loading_audio")
 		call_deferred("run_qa")
+	else:
+		is_booting = true
+		loading_screen.show_loading("Wczytywanie bazy ras, potworów, zwierząt i 40 NPC…", 0.14, "KI Legends • Planeta Superior")
+		call_deferred("_boot_world_async")
+
+func _boot_world_async() -> void:
+	await get_tree().process_frame
+	load_databases()
+	loading_screen.set_stage(0.38, "Budowanie interfejsu HUD, minimapy i Globusa 3D…", "4 kontynenty • 24 malowane wnętrza budynków")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	build_hud()
+	loading_screen.set_stage(0.68, "Generowanie terenu, sieci 309 dróg i 59 budynków…", "Kontynent: Pyra — Twierdza Popiołu")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	switch_region("pyra")
+	loading_screen.set_stage(0.92, "Kalibracja kamery, dialogów NPC i obiektów świata…", "Synchronizacja gotowa")
+	call_deferred("_stop_lingering_loading_audio")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	is_booting = false
+	loading_screen.finish_loading()
 
 func _exit_tree() -> void:
 	ActorScript.sheet_cache.clear()
@@ -1124,7 +1155,7 @@ func set_zoom(z: float) -> void:
 	camera.zoom = Vector2(zoom_level, zoom_level)
 
 func _process(delta: float) -> void:
-	if in_interior:
+	if is_booting or in_interior:
 		return
 	step_world(delta)
 
@@ -1497,6 +1528,14 @@ func run_qa() -> void:
 		shots.append(await snap(out_dir, "npc-dialogue.jpg"))
 		if dialogue_strip != null:
 			dialogue_strip.close_dialogue(false)
+
+	# 11) Real Live Loading Screen QA (matching the intro film with live molten-gold bar & stage text)
+	if loading_screen != null:
+		loading_screen.set_immediate(0.68, "Wczytywanie 24 malowanych wnętrz budynków i sieci 309 dróg…", "Kontynent: Pyra — Twierdza Popiołu • 59 budynków użytkowych")
+		for _i in 3:
+			await get_tree().process_frame
+		shots.append(await snap(out_dir, "loading-screen.jpg"))
+		loading_screen.hide_immediate()
 
 	var report := {
 		"project": "ports/godot-isometric-world",

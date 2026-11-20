@@ -277,5 +277,17 @@ Wdrożono kompletny reskin HUD w oparciu o 9 dostarczonych przez właściciela a
   - Dodano 4-poziomowy LOD 3D na kuli planety: wyostrzenie detalu terenu w shaderze (`zoom_detail`) + zanikanie chmur z bliska (`cloud_alpha`), wszystkie 309 dróg (`≤ 2.85`), etykiety 3D stolic i warowni (`≤ 2.45`), ikony 59 budynków użytkowych (`≤ 2.20`) oraz indywidualne etykiety budynków (`≤ 1.72`).
 - **Weryfikacja QA i publikacja `1.14.11` na serwer testowy:** `ISO_WORLD_QA_OK` (Godot 4.6.3, odświeżone [interior-smithy.jpg](qa/interior-smithy.jpg), [pyra-citadel.jpg](qa/pyra-citadel.jpg), [map-3d.jpg](qa/map-3d.jpg), [globe-3d.jpg](qa/globe-3d.jpg), `0` błędów, `0` wycieków RID), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.11` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.10`).
 
+## 18. Prawdziwy Panel Ładowania Gry z Rzeczywistym Paskiem Postępu i Etapami (`loading_screen.gd` + `boot.gd`) i Wydanie `1.14.12` (2026-11-20)
+
+Zastąpiono filmowy pasek ładowania **prawdziwym, żywym panelem ładowania** zbudowanym na tej samej czystej grafice 4 bohaterów i logo **KI LEGENDS** (`intro-wide.webp` → `assets/ui/loading_bg.webp`):
+
+- **W świecie gry (`ports/godot-isometric-world/scripts/loading_screen.gd`, `world.gd` — aktywne natychmiast przez paczkę `1.14.12`):**
+  - Rzeczywisty, płynny pasek ładowania w stylu wulkanicznego obsydianu i roztopionego złota z 4-ramiennymi gwiazdami, animowanym błyskiem i dokładnym procentem (`0% → 100%`).
+  - Dynamiczny podpis pod paskiem pokazujący aktualnie wykonywany etap ładowania (baza ras i 40 NPC → HUD/minimapa/Globus 3D → teren, 309 dróg i 59 budynków → kalibracja kamery → płynne wygaszenie do gry).
+- **W ekranie startowym APK (`ports/godot-pyra/scripts/boot.gd` — gotowe pod kolejny build APK):**
+  - Zastąpiono odtwarzanie filmu `intro.ogv` prawdziwym ekranem ładowania na bazie `intro-wide.webp` z rzeczywistym złoto-obsydianowym paskiem pobierania aktualizacji (`MB / %`) i dokładnym statusem pod paskiem (*Sprawdzanie aktualizacji*, *Pobieranie paczki*, *Weryfikacja SHA-256*, *Montowanie i uruchamianie gry*).
+- **Weryfikacja QA i publikacja `1.14.12` na serwer testowy:** `ISO_WORLD_QA_OK` (Godot 4.6.3, nowy zrzut [loading-screen.jpg](qa/loading-screen.jpg)), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.12` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.11`).
+
+
 
 
