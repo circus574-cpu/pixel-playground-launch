@@ -10,7 +10,7 @@ const MapStyle := preload("res://scripts/map_style.gd")
 const MAP_DIAMETER := 224.0
 const MAP_RADIUS := 112.0
 const MAP_CENTER := Vector2(138.0, 126.0)
-const WIDGET_SIZE := Vector2(276.0, 344.0)
+const WIDGET_SIZE := Vector2(276.0, 256.0)
 const ZOOM_LEVELS := [3.20, 1.90, 1.00]
 const ISO_ALIGN_ROT := -PI * 0.25 # Exact 1:1 match with iso(x,z) camera: NW=UP, NE=RIGHT, SE=DOWN, SW=LEFT!
 
@@ -54,27 +54,14 @@ func _ready() -> void:
 	add_child(map_tex_rect)
 
 	overlay_canvas.position = Vector2.ZERO
-	overlay_canvas.size = Vector2(WIDGET_SIZE.x, MAP_CENTER.y + MAP_RADIUS + 20.0)
+	overlay_canvas.size = WIDGET_SIZE
 	overlay_canvas.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	overlay_canvas.draw.connect(_draw_overlay)
 	add_child(overlay_canvas)
 
-	build_location_plate()
-
 func build_location_plate() -> void:
-	plate_panel.position = Vector2(4.0, MAP_CENTER.y + MAP_RADIUS + 8.0)
-	plate_panel.size = Vector2(WIDGET_SIZE.x - 8.0, 92.0)
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.05, 0.04, 0.06, 0.94)
-	style.border_color = Color(0.88, 0.68, 0.34, 0.95)
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(9)
-	style.content_margin_left = 8
-	style.content_margin_right = 8
-	style.content_margin_top = 6
-	style.content_margin_bottom = 6
-	plate_panel.add_theme_stylebox_override("panel", style)
-	add_child(plate_panel)
+	# Removed per owner request: nothing rendered underneath the circular minimap; tapping opens KONTYNENT view.
+	plate_panel.visible = false
 
 	var vbox := VBoxContainer.new()
 	vbox.add_theme_constant_override("separation", 5)

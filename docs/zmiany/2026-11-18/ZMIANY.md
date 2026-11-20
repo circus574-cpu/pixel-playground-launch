@@ -266,4 +266,16 @@ Wdrożono kompletny reskin HUD w oparciu o 9 dostarczonych przez właściciela a
   - Prawy dolny klaster bojowy używa kuli ataku z mieczem (`btn_attack.webp`), kuli wiru `2` (`btn_skill2.webp`) oraz dedykowanej, działającej kuli mikstury leczenia (`btn_potion.webp`, `+40% HP / +30% KI`).
 - **Weryfikacja QA i publikacja `1.14.10` na serwer testowy:** `ISO_WORLD_QA_OK` (Godot 4.6.3, odświeżone [pyra-citadel.jpg](qa/pyra-citadel.jpg) i [npc-dialogue.jpg](qa/npc-dialogue.jpg), `0` błędów, `0` wycieków RID), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.10` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.9`).
 
+## 17. Malowane Wnętrza Budynków Specjalnych z Gry Przeglądarkowej, Czysta Minimapa → Kontynent/Globus i Głębokie Przybliżenie Szczegółów na Globusie 3D (`1.14.11`) (2026-11-20)
+
+- **24 malowane wnętrza budynków specjalnych/użytkowych z gry przeglądarkowej (`ports/godot-isometric-world/assets/interiors/painted/{pyra,verdant,aether,nexus}-{hall,shop,arena,depot,smithy,inn}.webp` + `data/painted_rooms.json`):** przeniesiono komplet 24 pełnoekranowych malowanych wnętrz z `public/game/interiors/` oraz dokładne kolizje mebli (`wallY`, `blocks`) i pozycje NPC z `src/game/city/paintedRooms.ts` bezpośrednio do `interior_room.gd`.
+- **Czysta minimapa bez dolnego panelu i płynny przełącznik `KONTYNENT / GLOBUS 3D / MAPA 2D` (`premium_minimap.gd`, `map_3d.gd`, `atlas_overlay.gd`):**
+  - Usunięto całkowicie panel i przyciski pod okrągłą minimapą (`WIDGET_SIZE = 276×256 px`).
+  - Kliknięcie okrągłej minimapy otwiera widok **KONTYNENT** (`map_3d.gd`), a u góry ekranu dodano spójny pasek przełączania **`KONTYNENT` | `GLOBUS 3D` | `MAPA 2D` | `✕ ZAMKNIJ`** w obu widokach.
+- **Progresywne szczegóły przy przybliżeniu na Globusie 3D (`globe_view.gd`):**
+  - Zwiększono głębię przybliżenia kamery (`distance` do `1.09`, `camera.near = 0.01`) i dodano obsługę dotykowego **pinch-to-zoom**.
+  - Dodano 4-poziomowy LOD 3D na kuli planety: wyostrzenie detalu terenu w shaderze (`zoom_detail`) + zanikanie chmur z bliska (`cloud_alpha`), wszystkie 309 dróg (`≤ 2.85`), etykiety 3D stolic i warowni (`≤ 2.45`), ikony 59 budynków użytkowych (`≤ 2.20`) oraz indywidualne etykiety budynków (`≤ 1.72`).
+- **Weryfikacja QA i publikacja `1.14.11` na serwer testowy:** `ISO_WORLD_QA_OK` (Godot 4.6.3, odświeżone [interior-smithy.jpg](qa/interior-smithy.jpg), [pyra-citadel.jpg](qa/pyra-citadel.jpg), [map-3d.jpg](qa/map-3d.jpg), [globe-3d.jpg](qa/globe-3d.jpg), `0` błędów, `0` wycieków RID), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.11` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.10`).
+
+
 

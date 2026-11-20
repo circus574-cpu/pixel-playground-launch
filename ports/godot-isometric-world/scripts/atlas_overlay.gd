@@ -28,6 +28,7 @@ var atlas_dragging := false
 var atlas_drag_moved := false
 var atlas_drag_start := Vector2.ZERO
 
+var btn_continent := Button.new()
 var btn_globe := Button.new()
 var btn_atlas := Button.new()
 var btn_close := Button.new()
@@ -227,6 +228,16 @@ func build_controls() -> void:
 		globe.region_picked.connect(_on_globe_region_picked)
 		add_child(globe)
 
+	btn_continent.text = "KONTYNENT"
+	_style_nav_btn(btn_continent)
+	btn_continent.pressed.connect(func() -> void:
+		if world != null:
+			world.toggle_atlas(false)
+			if not bool(world.map_expanded):
+				world.toggle_map()
+	)
+	add_child(btn_continent)
+
 	btn_globe.text = "GLOBUS 3D"
 	_style_nav_btn(btn_globe)
 	btn_globe.pressed.connect(func() -> void: set_mode("globe"))
@@ -255,7 +266,7 @@ func build_controls() -> void:
 	_style_nav_btn(btn_zoom_in)
 	btn_zoom_in.pressed.connect(func() -> void:
 		if mode == "globe" and globe != null:
-			globe.zoom_by(1.20)
+			globe.zoom_by(1.22)
 		else:
 			_zoom_atlas(1.35)
 	)
@@ -265,7 +276,7 @@ func build_controls() -> void:
 	_style_nav_btn(btn_zoom_out)
 	btn_zoom_out.pressed.connect(func() -> void:
 		if mode == "globe" and globe != null:
-			globe.zoom_by(1.0 / 1.20)
+			globe.zoom_by(1.0 / 1.22)
 		else:
 			_zoom_atlas(1.0 / 1.35)
 	)
@@ -299,10 +310,12 @@ func _layout_controls() -> void:
 		globe.size = mr.size
 	btn_close.position = Vector2(size.x - 148.0, 8.0)
 	btn_close.size = Vector2(132.0, 46.0)
-	btn_atlas.position = Vector2(size.x - 296.0, 8.0)
-	btn_atlas.size = Vector2(140.0, 46.0)
-	btn_globe.position = Vector2(size.x - 446.0, 8.0)
-	btn_globe.size = Vector2(142.0, 46.0)
+	btn_atlas.position = Vector2(size.x - 284.0, 8.0)
+	btn_atlas.size = Vector2(128.0, 46.0)
+	btn_globe.position = Vector2(size.x - 426.0, 8.0)
+	btn_globe.size = Vector2(134.0, 46.0)
+	btn_continent.position = Vector2(size.x - 568.0, 8.0)
+	btn_continent.size = Vector2(134.0, 46.0)
 
 	var rx := mr.end.x - 68.0
 	var ry := mr.position.y + mr.size.y * 0.5 - 94.0

@@ -9,7 +9,7 @@ const MapStyle := preload("res://scripts/map_style.gd")
 const GmPanelScript := preload("res://scripts/gm_panel.gd")
 
 const ROOM_W := 960.0
-const ROOM_H := 520.0
+const ROOM_H := 600.0
 const WALL_T := 64.0
 const WALK_SPEED := 280.0
 
@@ -45,17 +45,20 @@ var current_land := "pyra"
 var building_data: Dictionary = {}
 var room_role := "hall"
 var room_title := "Wnętrze"
+var painted_specs: Dictionary = {}
 
 var room_stage := Node2D.new()
 var floor_layer := Node2D.new()
 var ysort := Node2D.new()
 var hero_actor
 var npc_actor
-var hero_local := Vector2(0.0, 175.0)
-var npc_local := Vector2(0.0, -115.0)
+var hero_local := Vector2(0.0, 215.0)
+var npc_local := Vector2(0.0, 60.0)
 var walk_target := Vector2(9999.0, 9999.0)
 var colliders: Array[Dictionary] = [] # {"pos": Vector2, "r": float}
-var exit_zone := Rect2(-72.0, ROOM_H * 0.5 - 56.0, 144.0, 62.0)
+var block_rects: Array[Rect2] = []
+var room_wall_y := -40.0
+var exit_zone := Rect2(-72.0, ROOM_H * 0.5 - 52.0, 144.0, 56.0)
 
 var hud_root := Control.new()
 var title_lbl := Label.new()
@@ -77,6 +80,10 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	for _i in 15:
 		bank_items.append({})
+	if FileAccess.file_exists("res://data/painted_rooms.json"):
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/painted_rooms.json"))
+		if parsed is Dictionary:
+			painted_specs = parsed
 
 	var bg_rect := ColorRect.new()
 	bg_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -251,93 +258,53 @@ func _add_prop(fname: String, pos: Vector2, w_px: float, col_r: float = 0.0, und
 	if col_r > 1.0:
 		colliders.append({"pos": pos, "r": col_r})
 
+func _spec_pt(nx: float, ny: float) -> Vector2:
+	return Vector2((nx / 1000.0 - 0.5) * ROOM_W, (ny / 1000.0 - 0.5) * ROOM_H)
+
 func _rebuild_room_scene() -> void:
 	for ch in floor_layer.get_children():
 		ch.queue_free()
 	for ch in ysort.get_children():
 		ch.queue_free()
 	colliders.clear()
+	block_rects.clear()
 
-	# Textured Floor Sprite (biome stone/wood/ice/titanium tile)
-	var pal: Dictionary = BIOME_PALETTE.get(current_land, BIOME_PALETTE["pyra"])
-	var ftex: Texture2D = world.load_tex("res://regions/%s/mat_2.png" % current_land) if world != null else null
-	if ftex == null and world != null:
-		ftex = world.load_tex("res://regions/%s/mat_0.png" % current_land)
-	if ftex != null:
-		var fsp := Sprite2D.new()
-		fsp.texture = ftex
-		fsp.region_enabled = true
-		fsp.region_rect = Rect2(0, 0, ROOM_W, ROOM_H)
-		fsp.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
-		fsp.modulate = pal["floor_tint"] as Color
-		floor_layer.add_child(fsp)
+	# Use the exact 24 browser-game studio-painted special building interiors!
+	var painted_role := room_role if room_role in ["hall", "shop", "arena", "depot", "smithy", "inn"] else "hall"
+	var ptex: Texture2D = world.load_tex("res://assets/interiors/painted/%s-%s.webp" % [current_land, painted_role]) if world != null else null
+	var spec: Dictionary = {}
+	if painted_specs.has(current_land) and (painted_specs[current_land] as Dictionary).has(painted_role):
+		spec = (painted_specs[current_land] as Dictionary)[painted_role]
 
-	# Central Rug (underneath actors!)
-	_add_prop("rug.webp", Vector2(0.0, 20.0), 310.0, 0.0, true)
-
-	# Role-Specific Furniture Layout using the 48 biome GPU interior assets
-	match room_role:
-		"smithy":
-			_add_prop("counter.webp", Vector2(0.0, -155.0), 210.0, 48.0)
-			_add_prop("firepot.webp", Vector2(-240.0, -130.0), 130.0, 42.0)
-			_add_prop("weapons.webp", Vector2(-360.0, -120.0), 120.0, 38.0)
-			_add_prop("weapons.webp", Vector2(260.0, -140.0), 120.0, 38.0)
-			_add_prop("barrels.webp", Vector2(-370.0, 120.0), 125.0, 42.0)
-			_add_prop("crates.webp", Vector2(360.0, 110.0), 135.0, 44.0)
-			_add_prop("chest.webp", Vector2(360.0, -120.0), 96.0, 34.0)
-			_add_prop("lanterns.webp", Vector2(-140.0, -210.0), 92.0, 0.0)
-			_add_prop("lanterns.webp", Vector2(140.0, -210.0), 92.0, 0.0)
-		"shop":
-			_add_prop("counter.webp", Vector2(0.0, -145.0), 230.0, 50.0)
-			_add_prop("potions.webp", Vector2(-260.0, -165.0), 130.0, 42.0)
-			_add_prop("potions.webp", Vector2(260.0, -165.0), 130.0, 42.0)
-			_add_prop("crates.webp", Vector2(-365.0, 90.0), 135.0, 44.0)
-			_add_prop("barrels.webp", Vector2(365.0, 90.0), 125.0, 42.0)
-			_add_prop("chest.webp", Vector2(-355.0, -110.0), 98.0, 36.0)
-			_add_prop("weapons.webp", Vector2(360.0, -105.0), 115.0, 38.0)
-			_add_prop("lanterns.webp", Vector2(0.0, -215.0), 102.0, 0.0)
-		"depot":
-			_add_prop("counter.webp", Vector2(0.0, -145.0), 220.0, 50.0)
-			_add_prop("chest.webp", Vector2(-240.0, -155.0), 106.0, 38.0)
-			_add_prop("chest.webp", Vector2(240.0, -155.0), 106.0, 38.0)
-			_add_prop("chest.webp", Vector2(-355.0, 20.0), 106.0, 38.0)
-			_add_prop("chest.webp", Vector2(355.0, 20.0), 106.0, 38.0)
-			_add_prop("bookshelf.webp", Vector2(-360.0, -155.0), 115.0, 40.0)
-			_add_prop("bookshelf.webp", Vector2(360.0, -155.0), 115.0, 40.0)
-			_add_prop("crates.webp", Vector2(-350.0, 145.0), 130.0, 42.0)
-			_add_prop("barrels.webp", Vector2(350.0, 145.0), 120.0, 40.0)
-			_add_prop("lanterns.webp", Vector2(0.0, -215.0), 100.0, 0.0)
-		"inn":
-			_add_prop("counter.webp", Vector2(0.0, -155.0), 220.0, 48.0)
-			_add_prop("firepot.webp", Vector2(-245.0, -155.0), 125.0, 40.0)
-			_add_prop("table.webp", Vector2(-250.0, 55.0), 175.0, 52.0)
-			_add_prop("table.webp", Vector2(250.0, 55.0), 175.0, 52.0)
-			_add_prop("bed.webp", Vector2(350.0, -135.0), 138.0, 44.0)
-			_add_prop("barrels.webp", Vector2(-365.0, -125.0), 120.0, 40.0)
-			_add_prop("lanterns.webp", Vector2(-150.0, -210.0), 92.0, 0.0)
-			_add_prop("lanterns.webp", Vector2(150.0, -210.0), 92.0, 0.0)
-		"arena":
-			_add_prop("weapons.webp", Vector2(-360.0, -145.0), 125.0, 40.0)
-			_add_prop("weapons.webp", Vector2(360.0, -145.0), 125.0, 40.0)
-			_add_prop("barrels.webp", Vector2(-365.0, 130.0), 120.0, 40.0)
-			_add_prop("crates.webp", Vector2(365.0, 130.0), 125.0, 42.0)
-			_add_prop("firepot.webp", Vector2(-220.0, -170.0), 115.0, 38.0)
-			_add_prop("firepot.webp", Vector2(220.0, -170.0), 115.0, 38.0)
-			_add_prop("lanterns.webp", Vector2(0.0, -215.0), 104.0, 0.0)
-		_:
-			# Citadel / Hall / Stronghold / Sanctuary / Observatory
-			_add_prop("bookshelf.webp", Vector2(-280.0, -165.0), 122.0, 42.0)
-			_add_prop("bookshelf.webp", Vector2(280.0, -165.0), 122.0, 42.0)
-			_add_prop("table.webp", Vector2(0.0, -155.0), 195.0, 48.0)
-			_add_prop("weapons.webp", Vector2(-375.0, -20.0), 118.0, 38.0)
-			_add_prop("potions.webp", Vector2(375.0, -20.0), 118.0, 38.0)
-			_add_prop("chest.webp", Vector2(-355.0, 140.0), 100.0, 36.0)
-			_add_prop("chest.webp", Vector2(355.0, 140.0), 100.0, 36.0)
-			_add_prop("lanterns.webp", Vector2(-140.0, -215.0), 96.0, 0.0)
-			_add_prop("lanterns.webp", Vector2(140.0, -215.0), 96.0, 0.0)
+	if ptex != null:
+		var psp := Sprite2D.new()
+		psp.texture = ptex
+		var ts := ptex.get_size()
+		psp.scale = Vector2(ROOM_W / maxf(ts.x, 1.0), ROOM_H / maxf(ts.y, 1.0))
+		floor_layer.add_child(psp)
+		room_wall_y = _spec_pt(500.0, float(spec.get("wallY", 440.0))).y
+		for br: Array in spec.get("blocks", []):
+			if br.size() >= 4:
+				var p0 := _spec_pt(float(br[0]), float(br[1]))
+				var p1 := _spec_pt(float(br[2]), float(br[3]))
+				block_rects.append(Rect2(p0, p1 - p0))
+		var npc_arr: Array = spec.get("npc", [500.0, 680.0])
+		npc_local = _spec_pt(float(npc_arr[0]), float(npc_arr[1])) if npc_arr.size() >= 2 else Vector2(0.0, 40.0)
+	else:
+		room_wall_y = -ROOM_H * 0.5 + 32.0
+		var pal: Dictionary = BIOME_PALETTE.get(current_land, BIOME_PALETTE["pyra"])
+		var ftex: Texture2D = world.load_tex("res://regions/%s/mat_2.png" % current_land) if world != null else null
+		if ftex != null:
+			var fsp := Sprite2D.new()
+			fsp.texture = ftex
+			fsp.region_enabled = true
+			fsp.region_rect = Rect2(0, 0, ROOM_W, ROOM_H)
+			fsp.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+			fsp.modulate = pal["floor_tint"] as Color
+			floor_layer.add_child(fsp)
+		npc_local = Vector2(0.0, -45.0)
 
 	# Room Service NPC (using real animated NPC sprite from world.actors_db!)
-	npc_local = Vector2(0.0, -95.0)
 	if world != null and not world.actors_db.is_empty():
 		var npc_id := ""
 		if not world.npcs_data.is_empty():
@@ -359,8 +326,8 @@ func _rebuild_room_scene() -> void:
 		npc_actor.position = npc_local
 		ysort.add_child(npc_actor)
 
-	# Playable Hero inside the room!
-	hero_local = Vector2(0.0, 145.0)
+	# Playable Hero inside the painted browser room (starts cleanly at ENTRY_Y = 855/1000)
+	hero_local = _spec_pt(500.0, 845.0)
 	walk_target = Vector2(9999.0, 9999.0)
 	if world != null and world.HERO_ACTORS.has(current_land):
 		var hinfo: Array = world.HERO_ACTORS[current_land]
@@ -371,6 +338,15 @@ func _rebuild_room_scene() -> void:
 			hero_actor.scale = Vector2(0.72, 0.72)
 			hero_actor.position = hero_local
 			ysort.add_child(hero_actor)
+
+func _is_blocked(pt: Vector2) -> bool:
+	for col: Dictionary in colliders:
+		if pt.distance_to(col["pos"] as Vector2) < float(col["r"]):
+			return true
+	for r: Rect2 in block_rects:
+		if r.grow(10.0).has_point(pt):
+			return true
+	return false
 
 func _process(delta: float) -> void:
 	if not visible:
@@ -401,18 +377,14 @@ func _process(delta: float) -> void:
 	var spd_mult: float = float(world.gm_speed_mult) if world != null else 1.0
 	if dir.length_squared() > 0.001:
 		var step := dir * WALK_SPEED * clampf(spd_mult, 1.0, 3.0) * delta
-		var next_p := hero_local + step
 		var half_w := ROOM_W * 0.5 - 38.0
-		var half_h := ROOM_H * 0.5 - 26.0
-		next_p.x = clampf(next_p.x, -half_w, half_w)
-		next_p.y = clampf(next_p.y, -half_h + 24.0, half_h)
-		var blocked := false
-		for col: Dictionary in colliders:
-			if next_p.distance_to(col["pos"] as Vector2) < float(col["r"]):
-				blocked = true
+		var half_h := ROOM_H * 0.5 - 18.0
+		for cand: Vector2 in [hero_local + step, Vector2(hero_local.x + step.x, hero_local.y), Vector2(hero_local.x, hero_local.y + step.y)]:
+			cand.x = clampf(cand.x, -half_w, half_w)
+			cand.y = clampf(cand.y, room_wall_y, half_h)
+			if not _is_blocked(cand):
+				hero_local = cand
 				break
-		if not blocked:
-			hero_local = next_p
 	if hero_actor != null:
 		hero_actor.position = hero_local
 		hero_actor.animate(dir, true)

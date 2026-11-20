@@ -77,6 +77,9 @@ func _ready() -> void:
 	rebuild_for_region()
 
 var btn_close_3d := Button.new()
+var btn_tab_continent := Button.new()
+var btn_tab_globe := Button.new()
+var btn_tab_atlas := Button.new()
 var btn_zin_3d := Button.new()
 var btn_zout_3d := Button.new()
 
@@ -95,6 +98,30 @@ func _style_3d_btn(btn: Button, bg: Color, border: Color, fsz: int = 16) -> void
 	btn.add_theme_color_override("font_color", Color(1.0, 0.94, 0.80))
 
 func _build_mobile_buttons() -> void:
+	btn_tab_continent.text = "◆ KONTYNENT"
+	_style_3d_btn(btn_tab_continent, Color(0.28, 0.18, 0.06, 0.96), Color(1.0, 0.80, 0.30, 0.98), 15)
+	add_child(btn_tab_continent)
+
+	btn_tab_globe.text = "GLOBUS 3D"
+	_style_3d_btn(btn_tab_globe, Color(0.10, 0.12, 0.18, 0.94), Color(0.76, 0.60, 0.32, 0.94), 15)
+	btn_tab_globe.pressed.connect(func() -> void:
+		if world != null:
+			if world.atlas_overlay != null:
+				world.atlas_overlay.set_mode("globe")
+			world.toggle_atlas(true)
+	)
+	add_child(btn_tab_globe)
+
+	btn_tab_atlas.text = "MAPA 2D"
+	_style_3d_btn(btn_tab_atlas, Color(0.10, 0.12, 0.18, 0.94), Color(0.76, 0.60, 0.32, 0.94), 15)
+	btn_tab_atlas.pressed.connect(func() -> void:
+		if world != null:
+			if world.atlas_overlay != null:
+				world.atlas_overlay.set_mode("atlas")
+			world.toggle_atlas(true)
+	)
+	add_child(btn_tab_atlas)
+
 	btn_close_3d.text = "✕ ZAMKNIJ"
 	_style_3d_btn(btn_close_3d, Color(0.32, 0.10, 0.10, 0.96), Color(0.98, 0.56, 0.36, 0.98), 16)
 	btn_close_3d.pressed.connect(func() -> void:
@@ -122,8 +149,14 @@ func _build_mobile_buttons() -> void:
 func _layout_mobile_buttons() -> void:
 	var w := maxf(size.x, 320.0)
 	var h := maxf(size.y, 240.0)
-	btn_close_3d.position = Vector2(w - 152.0, 8.0)
-	btn_close_3d.size = Vector2(140.0, 46.0)
+	btn_close_3d.position = Vector2(w - 150.0, 8.0)
+	btn_close_3d.size = Vector2(138.0, 46.0)
+	btn_tab_atlas.position = Vector2(w - 284.0, 8.0)
+	btn_tab_atlas.size = Vector2(126.0, 46.0)
+	btn_tab_globe.position = Vector2(w - 426.0, 8.0)
+	btn_tab_globe.size = Vector2(134.0, 46.0)
+	btn_tab_continent.position = Vector2(w - 580.0, 8.0)
+	btn_tab_continent.size = Vector2(146.0, 46.0)
 	btn_zin_3d.position = Vector2(w - 64.0, h * 0.5 - 60.0)
 	btn_zin_3d.size = Vector2(52.0, 52.0)
 	btn_zout_3d.position = Vector2(w - 64.0, h * 0.5 + 4.0)
@@ -472,7 +505,7 @@ func _draw() -> void:
 	draw_rect(Rect2(12, 10, size.x - 24, 38), Color(0.03, 0.04, 0.06, 0.88))
 	draw_rect(Rect2(12, 10, size.x - 24, 38), Color(0.86, 0.68, 0.36, 0.58), false, 1.5)
 	var title: String = str(world.region_title)
-	draw_string(f, Vector2(24, 34), "%s — Mapa 3D (Zoom %.1f× • Kółko = Przybliż szczegóły • Shift+LPM = Przesuń • [M] Zamknij)" % [title, zoom_x], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.98, 0.90, 0.72))
+	draw_string(f, Vector2(24, 34), "%s  •  Zoom %.1f×" % [title, zoom_x], HORIZONTAL_ALIGNMENT_LEFT, maxf(size.x - 620.0, 220.0), 14, Color(0.98, 0.90, 0.72))
 
 	var leg := Rect2(12, size.y - 40, size.x - 24, 30)
 	draw_rect(leg, Color(0.03, 0.04, 0.06, 0.88))
