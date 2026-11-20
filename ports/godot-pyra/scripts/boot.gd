@@ -12,10 +12,11 @@ extends Control
 ## This script must not name any class of the game (not even through a typed variable): a class used here would be loaded from the
 ## APK before the pack is mounted and the pack could no longer replace it. Everything here is plain engine API.
 ##
-## Entry animation: the owner's intro film (assets/branding/intro.ogv, Ogg Theora, 10 s with sound) plays full screen while the update check
-## runs underneath. A touch after 0.8 s skips it; when it ends the last frame ("TOUCH TO START") stays until the player touches the
-## screen, then the game starts without a second start button (the title screen starts the game by itself). Nothing waits for the film
-## in headless runs or when `play_intro` is off (tests); a film that cannot be loaded is skipped.
+## Entry animation is a native Godot scene using the owner's illustrated intro-last.webp as the art.
+## Boot never plays intro.ogv: the artwork animates indefinitely, while the progress bar uses
+## actual HTTP bytes and ResourceLoader progress. Unknown-length steps use indeterminate mode.
+## User touch is accepted only once resources are ready. This bootstrap change needs a NEW APK:
+## a downloaded core cannot replace the boot script that was loaded before its pack was mounted.
 ##
 ## Safety: a core that does not compile, does not mount or never reaches the first city is put on a "bad" list and the APK's own
 ## code runs instead (after a restart, because a mounted pack cannot be unmounted). The decision rules are static functions and are
@@ -43,7 +44,7 @@ var quit_button := Button.new()
 var box := VBoxContainer.new()           # title, status and progress on the dark background (shown when no film plays)
 var pill := PanelContainer.new()         # the same status as a small pill over the film
 var pill_label := Label.new()
-var video := VideoStreamPlayer.new()
+var animated_intro: Control
 var last_frame := TextureRect.new()
 var intro_on := false                    # the film is playing
 var intro_over := true                   # no film, or it has ended or was skipped
@@ -163,9 +164,6 @@ func _ready() -> void:
 	last_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	last_frame.visible = false
 	add_child(last_frame)
-	video.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	video.visible = false
-	add_child(video)
 	box.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	box.custom_minimum_size = Vector2(620, 0)
 	box.grow_horizontal = Control.GROW_DIRECTION_BOTH
@@ -215,27 +213,26 @@ func _ready() -> void:
 	start_intro()
 	run.call_deferred()
 
-## Starts the film when it may play and exists; otherwise the dark background with the status is all there is.
+## Shows the native looping Godot animation. Never opens VideoStreamPlayer.
 func start_intro() -> void:
-	if not play_intro or DisplayServer.get_name() == "headless" or not ResourceLoader.exists(INTRO_VIDEO):
+	if not play_intro or DisplayServer.get_name() == "headless" or not ResourceLoader.exists(INTRO_LAST):
 		return
-	var stream: Resource = load(INTRO_VIDEO)
-	if not stream is VideoStream:
+	var image: Resource = load(INTRO_LAST)
+	if not image is Texture2D:
 		return
-	video.stream = stream as VideoStream
-	video.volume_db = linear_to_db(maxf(0.0001, intro_volume()))
-	if ResourceLoader.exists(INTRO_LAST):
-		last_frame.texture = load(INTRO_LAST)
-	video.finished.connect(end_intro)
-	video.expand = true
-	video.visible = true
-	box.visible = false
-	pill.visible = true
-	intro_on = true
-	intro_over = false
+	var script: GDScript = load("res://scripts/boot_animation.gd") as GDScript
+	if script == null:
+		return
+	animated_intro = Control.new()
+	animated_intro.set_script(script)
+	animated_intro.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	animated_intro.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(animated_intro)
+	intro_on = false
+	intro_over = true
 	intro_started = true
-	fit_video()
-	video.play()
+	box.visible = false
+	pill.visible = false
 
 ## The film's loudness follows the music volume of the game's settings (user://audio.json; 30 % by default), a little louder than the music.
 static func intro_volume() -> float:
@@ -254,8 +251,6 @@ func fit_video() -> void:
 	if area.x <= 0.0 or area.y <= 0.0:
 		return
 	var rect := film_rect(area)
-	video.position = rect.position
-	video.size = rect.size
 	last_frame.position = rect.position
 	last_frame.size = rect.size
 
@@ -267,21 +262,16 @@ static func film_rect(area: Vector2) -> Rect2:
 	var cut := maxf(0.0, film.y - area.y)
 	return Rect2(Vector2((area.x - film.x) / 2.0, -cut * 0.8), film)
 
+## The old signature is retained for recovery paths, but now removes a live scene.
 func end_intro() -> void:
-	if intro_over:
-		return
 	intro_on = false
 	intro_over = true
-	video.stop()
-	video.visible = false
-	last_frame.visible = last_frame.texture != null
-	box.visible = last_frame.texture == null
-	if last_frame.texture != null:
-		pill.visible = true
-
-func _process(delta: float) -> void:
-	if intro_on:
-		intro_elapsed += delta
+	if is_instance_valid(animated_intro):
+		animated_intro.queue_free()
+	animated_intro = null
+	last_frame.visible = false
+	pill.visible = false
+	box.visible = true
 
 func _input(event: InputEvent) -> void:
 	var pressed := false
@@ -292,22 +282,49 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventKey:
 		var key := event as InputEventKey
 		pressed = key.pressed and not key.echo
-	if not pressed:
-		return
-	if intro_on:
-		if intro_elapsed >= SKIP_AFTER:
-			touched = true
-			end_intro()
-	elif intro_over:
+	if pressed and work_done and intro_started:
 		touched = true
 
-## The game may start: the update work is done and the player has seen (or skipped) the film and touched the screen. Without a film there is nothing to wait for.
+## A user tap starts the game only AFTER all boot and scene-loading operations are finished.
 func may_start() -> bool:
 	return work_done and (not intro_started or (intro_over and touched))
 
-func say(text: String) -> void:
-	status.text = text
-	pill_label.text = text
+func say(message: String) -> void:
+	status.text = message
+	pill_label.text = message
+	if is_instance_valid(animated_intro):
+		animated_intro.call("set_stage", message, -1.0)
+
+## Fraction is the real bytes loaded / expected bytes, or ResourceLoader's returned progress.
+## A negative fraction means the operation cannot report progress: never fabricate a percentage.
+func display_progress(message: String, fraction: float = -1.0) -> void:
+	status.text = message
+	pill_label.text = message
+	bar.visible = true
+	bar.indeterminate = fraction < 0.0
+	if fraction >= 0.0:
+		bar.max_value = 100.0
+		bar.value = clampf(fraction, 0.0, 1.0) * 100.0
+	if is_instance_valid(animated_intro):
+		animated_intro.call("set_stage", message, fraction)
+
+## Loads the title scene without blocking the screen animation, reporting actual Godot progress.
+func prepare_title() -> PackedScene:
+	display_progress("Wczytuję zasoby ekranu gry…")
+	var err := ResourceLoader.load_threaded_request(TARGET)
+	if err != OK:
+		# Fallback is synchronous: it has no measurable progress and is never shown as 100%.
+		return load(TARGET) as PackedScene
+	while true:
+		var stage_progress: Array = []
+		var state := ResourceLoader.load_threaded_get_status(TARGET, stage_progress)
+		if state == ResourceLoader.THREAD_LOAD_LOADED:
+			return ResourceLoader.load_threaded_get(TARGET) as PackedScene
+		if state == ResourceLoader.THREAD_LOAD_FAILED or state == ResourceLoader.THREAD_LOAD_INVALID_RESOURCE:
+			return null
+		if stage_progress.size() > 0:
+			display_progress("Wczytuję zasoby ekranu gry…", clampf(float(stage_progress[0]), 0.0, 1.0))
+		await get_tree().process_frame
 
 func read_text(path: String) -> String:
 	return FileAccess.get_file_as_string(path) if FileAccess.file_exists(path) else ""
@@ -373,14 +390,14 @@ func download(entry: Dictionary, base: String) -> Dictionary:
 			box.result = result
 			box.code = code
 			box.finished = true)
-		bar.visible = true
+		display_progress("Pobieram aktualizację gry…", 0.0)
 		while not bool(box.finished):
-			bar.max_value = maxf(1.0, float(entry.bytes))
-			bar.value = float(http.get_downloaded_bytes())
-			say("Pobieram aktualizację gry… %d%%" % int(100.0 * bar.value / bar.max_value))
+			var expected := maxf(1.0, float(entry.bytes))
+			var received := float(http.get_downloaded_bytes())
+			display_progress("Pobieram aktualizację gry…", clampf(received / expected, 0.0, 1.0))
 			await get_tree().process_frame
 		http.queue_free()
-		bar.visible = false
+		display_progress("Weryfikuję pobrane pliki (SHA-256)…")
 		if int(box.result) == HTTPRequest.RESULT_SUCCESS and int(box.code) == 200 and FileAccess.file_exists(part):
 			var probe := FileAccess.open(part, FileAccess.READ)
 			var size := probe.get_length() if probe != null else -1
@@ -412,9 +429,11 @@ func remove_old_cores(keep: Array) -> void:
 func run() -> void:
 	var report := {"core": "", "mounted": false, "downloaded": false, "reached": false, "broken": "", "gave_up": ""}
 	var state := compatible_state(read_state(read_text(STATE_PATH)))
-	say("Sprawdzam aktualizacje gry…")
+	display_progress("Sprawdzam aktualizacje gry…")
 	var offer: Dictionary = await ask_server()
 	report.reached = bool(offer.reached)
+	if str(state.file) != "":
+		display_progress("Sprawdzam integralność lokalnych plików…")
 	var held_was_ok := held_ok(state)
 	var plan := decide(state, offer.entry, bool(offer.reached), held_was_ok)
 	if str(plan.give_up) != "":
@@ -436,7 +455,7 @@ func run() -> void:
 	save_state(state)
 	report.core = target
 	if target != "":
-		say("Uruchamiam grę…")
+		display_progress("Montuję i sprawdzam aktualizację…")
 		if ProjectSettings.load_resource_pack(ProjectSettings.globalize_path(file_path(target)), true):
 			report.mounted = true
 			report.broken = broken_script()
@@ -454,12 +473,24 @@ func run() -> void:
 			finished.emit(report)
 			return
 	remove_old_cores([target, str(state.file)])
+	var prepared: PackedScene
+	if change_scene:
+		prepared = await prepare_title()
+		if prepared == null:
+			end_intro()
+			say("Nie udało się wczytać ekranu gry. Uruchom aplikację ponownie.")
+			quit_button.visible = true
+			finished.emit(report)
+			return
 	work_done = true
 	pill.visible = false
+	bar.visible = false
+	if is_instance_valid(animated_intro):
+		animated_intro.call("ready_for_touch")
 	finished.emit(report)
 	if change_scene:
 		while not may_start():
 			await get_tree().process_frame
 		if intro_started:
-			Engine.set_meta("ki_autostart", true)   # the film said "touch to start": the title screen starts the game itself
-		get_tree().change_scene_to_file(TARGET)
+			Engine.set_meta("ki_autostart", true)
+		get_tree().change_scene_to_packed(prepared)
