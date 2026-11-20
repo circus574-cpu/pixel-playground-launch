@@ -89,6 +89,9 @@ var map_expanded := false
 var atlas_expanded := false
 var gm_open := false
 var in_interior := false
+var start_land := "pyra"
+var start_level := 0
+var start_gold := -1
 var audio: Node
 var nearest_enterable: Dictionary = {}
 var nearest_npc_agent: Dictionary = {}
@@ -162,7 +165,13 @@ func _boot_world_async() -> void:
 	loading_screen.set_stage(0.68, "Generowanie terenu, sieci 309 dróg i 59 budynków…", "Kontynent: Pyra — Twierdza Popiołu")
 	await get_tree().process_frame
 	await get_tree().process_frame
-	switch_region("pyra")
+	switch_region(start_land)
+	if rpg_hud != null:
+		if start_level > 0:
+			rpg_hud.hero_level = start_level
+			rpg_hud.recalc_stats(false)
+		if start_gold >= 0:
+			rpg_hud.hero_gold = start_gold
 	loading_screen.set_stage(0.92, "Kalibracja kamery, dialogów NPC i obiektów świata…", "Synchronizacja gotowa")
 	call_deferred("_stop_lingering_loading_audio")
 	await get_tree().process_frame

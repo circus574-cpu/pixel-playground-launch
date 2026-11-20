@@ -297,3 +297,8 @@ Zastąpiono filmowy pasek ładowania **prawdziwym, żywym panelem ładowania** z
 - **Główna gra zamiast trybu serwisowego:** `scripts/service_screen.gd` uruchamia izometryczny świat pełnoekranowo jako normalną grę (przycisk `WEJDŹ DO GRY` oraz wejście przy otwartym serwerze), bez paska `WRÓĆ · TRYB SERWISOWY`; powrót to systemowy przycisk „wstecz”. Przycisk `PROTOTYP IZOMETRYCZNY` nadal otwiera podgląd z paskiem.
 - **Pakowanie:** `build_preview_update.py` dodaje do `core-c101` także nadpisanie `scripts/service_screen.gd` (APK 1.14 dostaje zmianę przez OTA); raport ma `changes_only_preview_namespace=false`, `host_scripts`.
 - **Poprawki:** strażnik `add_child(hud)` w `build_hud()`, `tex_cache.clear()` przy wyjściu.
+
+## 20. Wybór postaci przed startem świata i wydanie `1.14.14` (2026-11-20)
+
+- `service_screen.gd`: `WEJDŹ DO GRY` pokazuje najpierw `character_select.gd` (postacie urządzenia) albo `RaceScreen`, gdy nie ma postaci; świat startuje na kontynencie wybranej postaci (`start_land`, `start_level`, `start_gold` w `world.gd`).
+- Postęp (poziom, złoto, kontynent) zapisuje się co 20 s i przy wyjściu do slotu lokalnego. **Brak:** zapisu w chmurze i autorytatywnego serwera (ekonomia, walka, multiplayer) – to następne etapy; do tego czasu stan liczy klient.
