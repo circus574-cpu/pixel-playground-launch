@@ -74,6 +74,11 @@ func run() -> void:
 	var film_21_9: Rect2 = boot_script.film_rect(Vector2(2520, 1080))
 	verify(film_16_9 == Rect2(0, 0, 1280, 720) and film_20_9.size.y <= 1080.0 / 0.9 + 0.01 and film_20_9.position.y >= -(film_20_9.size.y - 1080.0) * 0.8 - 0.01 and absf((film_20_9.position.y + film_20_9.size.y) - 1080.0) >= 0.0 and (film_20_9.size.y - 1080.0) <= 1080.0 * 0.112, "the film is cut by at most a tenth of its height on a wide phone, mostly at the top, and not at all on 16:9")
 	verify(film_21_9.size.y - 1080.0 <= 1080.0 * 0.112 and film_21_9.position.x > 0.0, "on a very wide screen the film keeps its picture and the sides stay in the backdrop colour")
+	var native_intro: GDScript = load("res://scripts/boot_animation.gd")
+	verify(native_intro != null, "the boot artwork is animated by Godot, without a video player")
+	if native_intro != null:
+		var native_rect: Rect2 = native_intro.cropped_rect(Vector2(1280, 720))
+		verify(native_rect == Rect2(Vector2.ZERO, Vector2(1280, 720)), "native loading artwork preserves 16:9 layout")
 	var title_script: GDScript = load("res://scripts/title_screen.gd")
 	verify(str(ProjectSettings.get_setting("application/config/version", "")) == "1.14" and str(config.get_value("preset.0.options", "version/name", "")) == "1.14", "the service-preview app is version 1.14 (versionCode 101 isolates it from c100 cores)")
 	verify(title_script.shown_version('{"manifest":{"version":"1.2"}}') == "1.2" and title_script.shown_version('{"manifest":{"version":"2026.11.17.2"}}') == "1.14" and title_script.shown_version("not json") == "1.14", "the player sees the version of the downloaded release (1.1, 1.2, ...), the app version otherwise")
@@ -123,7 +128,7 @@ func run() -> void:
 	var bt_film: Variant = load("res://assets/branding/intro.ogv")
 	var bt_last: Variant = load("res://assets/branding/intro-last.webp")
 	verify(bt_film is VideoStream and bt_last is Texture2D and (bt_last as Texture2D).get_size() == Vector2(1280.0, 720.0), "the entry film and its last frame are in the game")
-	verify(boot_script.intro_volume() >= 0.0 and boot_script.intro_volume() <= 1.0, "the film's volume follows the music setting")
+	verify(boot_script.intro_volume() >= 0.0 and boot_script.intro_volume() <= 1.0, "the legacy music-volume helper remains compatible")
 	var bt_node: Control = load("res://scenes/boot.tscn").instantiate()
 	var bt_steps: Array[bool] = []
 	bt_steps.append(bt_node.may_start())                          # nothing done yet
@@ -136,7 +141,7 @@ func run() -> void:
 	bt_steps.append(bt_node.may_start())                          # it ended, nobody touched yet
 	bt_node.touched = true
 	bt_steps.append(bt_node.may_start())                          # touched: go
-	verify(bt_steps == [false, true, false, false, true], "the game starts after the film only when the work is done and the player has touched the screen", bt_steps)
+	verify(bt_steps == [false, true, false, false, true], "the live intro starts the game only when the work is done and the player has touched the screen", bt_steps)
 	bt_node.free()
 	for viewport: Vector2i in [Vector2i(854,480),Vector2i(1280,720),Vector2i(1600,720)]:
 		root.size = viewport
