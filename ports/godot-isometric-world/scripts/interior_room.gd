@@ -419,6 +419,11 @@ func _process(delta: float) -> void:
 	if npc_actor != null:
 		npc_actor.animate(Vector2.ZERO, false)
 
+	var dlg_open: bool = world != null and world.dialogue_strip != null and bool(world.dialogue_strip.is_open)
+	btn_service.visible = not dlg_open and not service_open
+	if dlg_open and hero_local.distance_to(npc_local) > 295.0:
+		world.dialogue_strip.close_dialogue(true)
+
 	# Auto-exit if hero walks onto the glowing bottom doorway after 0.6s inside
 	if Time.get_ticks_msec() - _opened_ms > 700 and exit_zone.has_point(hero_local):
 		if world != null and world.has_method("exit_building"):
@@ -431,8 +436,17 @@ func _gui_input(event: InputEvent) -> void:
 		var mb := event as InputEventMouseButton
 		if mb.button_index == MOUSE_BUTTON_LEFT:
 			var local_pt: Vector2 = (mb.position - room_stage.position) / maxf(room_stage.scale.x, 0.1)
-			if local_pt.distance_to(npc_local) < 62.0:
-				toggle_service_panel(true)
+			if local_pt.distance_to(npc_local) < 76.0:
+				if world != null and world.has_method("open_interior_dialogue"):
+					world.open_interior_dialogue(
+						str(ROLE_NPC_TITLE.get(room_role, "Opiekun")),
+						room_title,
+						room_role,
+						npc_actor,
+						func() -> void: toggle_service_panel(true)
+					)
+				else:
+					toggle_service_panel(true)
 			elif absf(local_pt.x) <= ROOM_W * 0.5 and absf(local_pt.y) <= ROOM_H * 0.5:
 				walk_target = local_pt
 			accept_event()

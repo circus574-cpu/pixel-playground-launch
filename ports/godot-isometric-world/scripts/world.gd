@@ -12,6 +12,7 @@ const WorldAtmosphereScript := preload("res://scripts/world_atmosphere.gd")
 const RpgHudScript := preload("res://scripts/rpg_hud.gd")
 const GmPanelScript := preload("res://scripts/gm_panel.gd")
 const InteriorRoomScript := preload("res://scripts/interior_room.gd")
+const DialogueStripScript := preload("res://scripts/dialogue_strip.gd")
 const StickScript := preload("res://scripts/stick.gd")
 const MapStyle := preload("res://scripts/map_style.gd")
 
@@ -68,7 +69,9 @@ var atmosphere: Control
 var rpg_hud: Control
 var gm_panel: Control
 var interior_room: Control
+var dialogue_strip: Control
 var btn_enter_bldg := Button.new()
+var btn_talk_npc := Button.new()
 var premium_minimap: Control
 var map_3d: SubViewportContainer
 var atlas_overlay: Control
@@ -83,6 +86,8 @@ var atlas_expanded := false
 var gm_open := false
 var in_interior := false
 var nearest_enterable: Dictionary = {}
+var nearest_npc_agent: Dictionary = {}
+var active_talk_agent: Dictionary = {}
 var gm_speed_mult := 1.0
 var gm_noclip := false
 var gm_map_teleport_mode := false
@@ -553,6 +558,12 @@ func build_world_objects_and_actors() -> void:
 		npc_actor.position = iso(nx, nz, height_at(nx, nz))
 		ysort.add_child(npc_actor)
 		live_agents.append({
+			"kind": "npc",
+			"id": aid,
+			"name": str(n.get("name", "Mieszkaniec")),
+			"role": str(n.get("role", "Obywatel")),
+			"quest_mark": str(n.get("quest_mark", "")),
+			"last_bark_t": -20.0 - float(idx) * 2.5,
 			"node": npc_actor,
 			"home": Vector2(nx, nz),
 			"pos": Vector2(nx, nz),
@@ -731,10 +742,40 @@ func build_hud() -> void:
 	)
 	hud.add_child(btn_enter_bldg)
 
+	# Contextual mobile "ROZMAWIAJ Z NPC" button (non-obstructive cyan-gold pill)
+	var tst := StyleBoxFlat.new()
+	tst.bg_color = Color(0.06, 0.16, 0.22, 0.96)
+	tst.border_color = Color(0.36, 0.90, 1.0, 0.98)
+	tst.set_border_width_all(3)
+	tst.set_corner_radius_all(12)
+	tst.content_margin_left = 18
+	tst.content_margin_right = 18
+	tst.content_margin_top = 8
+	tst.content_margin_bottom = 8
+	btn_talk_npc.add_theme_stylebox_override("normal", tst)
+	var tsh := tst.duplicate()
+	tsh.bg_color = Color(0.10, 0.26, 0.34, 0.98)
+	btn_talk_npc.add_theme_stylebox_override("hover", tsh)
+	btn_talk_npc.add_theme_font_override("font", MapStyle.body_font())
+	btn_talk_npc.add_theme_font_size_override("font_size", 17)
+	btn_talk_npc.add_theme_color_override("font_color", Color(0.90, 0.98, 1.0))
+	btn_talk_npc.text = "▶ ROZMAWIAJ"
+	btn_talk_npc.visible = false
+	btn_talk_npc.pressed.connect(func() -> void:
+		if not nearest_npc_agent.is_empty():
+			open_npc_dialogue(nearest_npc_agent)
+	)
+	hud.add_child(btn_talk_npc)
+
 	interior_room = InteriorRoomScript.new()
 	interior_room.world = self
 	interior_room.visible = false
 	hud.add_child(interior_room)
+
+	dialogue_strip = DialogueStripScript.new()
+	dialogue_strip.world = self
+	dialogue_strip.visible = false
+	hud.add_child(dialogue_strip)
 
 	stick_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
 	stick_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -743,9 +784,44 @@ func build_hud() -> void:
 	hud.add_child(stick_layer)
 	layout_minimap()
 
+func open_npc_dialogue(ag: Dictionary) -> void:
+	if ag.is_empty() or dialogue_strip == null:
+		return
+	active_talk_agent = ag
+	var node = ag.get("node", null)
+	dialogue_strip.open_dialogue({
+		"id": str(ag.get("id", "")),
+		"name": str(ag.get("name", "Mieszkaniec")),
+		"role": str(ag.get("role", "Obywatel")),
+		"quest_mark": str(ag.get("quest_mark", "")),
+		"land": current_land,
+		"actor": node,
+		"is_interior": false,
+	})
+	btn_talk_npc.visible = false
+
+func open_interior_dialogue(npc_name: String, b_title: String, b_role: String, actor_node, service_cb: Callable) -> void:
+	if dialogue_strip == null:
+		return
+	active_talk_agent = {}
+	dialogue_strip.open_dialogue({
+		"id": b_role,
+		"name": npc_name,
+		"role": b_title,
+		"quest_mark": "",
+		"land": current_land,
+		"actor": actor_node,
+		"is_interior": true,
+		"building_role": b_role,
+		"service_cb": service_cb,
+	})
+
 func enter_building(b: Dictionary) -> void:
 	if b.is_empty() or interior_room == null:
 		return
+	if dialogue_strip != null:
+		dialogue_strip.close_dialogue(false)
+	active_talk_agent = {}
 	in_interior = true
 	map_expanded = false
 	atlas_expanded = false
@@ -762,6 +838,9 @@ func enter_building(b: Dictionary) -> void:
 func exit_building() -> void:
 	if not in_interior:
 		return
+	if dialogue_strip != null:
+		dialogue_strip.close_dialogue(false)
+	active_talk_agent = {}
 	in_interior = false
 	motion = Vector2.ZERO
 	move_pointer = -1
@@ -794,6 +873,7 @@ func layout_minimap() -> void:
 		if gm_panel != null:
 			gm_panel.visible = false
 		btn_enter_bldg.visible = false
+		btn_talk_npc.visible = false
 		if stick_layer != null:
 			stick_layer.visible = true
 		return
@@ -801,6 +881,7 @@ func layout_minimap() -> void:
 		interior_room.visible = false
 	var show_world_ui := not (map_expanded or atlas_expanded)
 	var rpg_modal_open: bool = gm_open or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)))
+	var dlg_open: bool = dialogue_strip != null and bool(dialogue_strip.is_open)
 	if rpg_hud != null:
 		rpg_hud.visible = show_world_ui
 	if atmosphere != null:
@@ -828,7 +909,12 @@ func layout_minimap() -> void:
 	var bw := clampf(vp.x * 0.34, 280.0, 420.0)
 	btn_enter_bldg.size = Vector2(bw, 52.0)
 	btn_enter_bldg.position = Vector2((vp.x - bw) * 0.5, vp.y - 148.0)
-	btn_enter_bldg.visible = show_world_ui and not rpg_modal_open and not nearest_enterable.is_empty()
+	btn_enter_bldg.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_enterable.is_empty()
+	var tw := clampf(vp.x * 0.30, 250.0, 360.0)
+	btn_talk_npc.size = Vector2(tw, 50.0)
+	var talk_y := (vp.y - 208.0) if btn_enter_bldg.visible else (vp.y - 148.0)
+	btn_talk_npc.position = Vector2((vp.x - tw) * 0.5, talk_y)
+	btn_talk_npc.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_npc_agent.is_empty()
 
 func toggle_gm_panel(force_open: Variant = null) -> void:
 	if in_interior:
@@ -875,7 +961,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if in_interior:
 		if event is InputEventKey and event.pressed and not event.echo:
 			if event.keycode == KEY_ESCAPE:
-				if interior_room != null and bool(interior_room.service_open):
+				if dialogue_strip != null and bool(dialogue_strip.is_open):
+					dialogue_strip.close_dialogue(false)
+				elif interior_room != null and bool(interior_room.service_open):
 					interior_room.toggle_service_panel(false)
 				else:
 					exit_building()
@@ -889,6 +977,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.keycode == KEY_F1 or event.keycode == KEY_P:
 			toggle_gm_panel()
 			return
+		elif event.keycode == KEY_ESCAPE and dialogue_strip != null and bool(dialogue_strip.is_open):
+			dialogue_strip.close_dialogue(true)
+			return
+		elif event.keycode == KEY_R:
+			if not nearest_npc_agent.is_empty():
+				open_npc_dialogue(nearest_npc_agent)
+				return
 		elif event.keycode == KEY_F or event.keycode == KEY_ENTER:
 			if not nearest_enterable.is_empty():
 				enter_building(nearest_enterable)
@@ -970,8 +1065,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			set_zoom(zoom_level / 1.1)
 		elif event.button_index == MOUSE_BUTTON_LEFT:
+			var world_click: Vector2 = get_canvas_transform().affine_inverse() * event.position
+			# Tap directly on an outdoor NPC to start non-obstructive dialogue!
+			for ag: Dictionary in live_agents:
+				if str(ag.get("kind", "")) != "npc":
+					continue
+				var nd = ag.get("node", null)
+				if is_instance_valid(nd) and world_click.distance_to(nd.position + Vector2(0, -32)) < 68.0:
+					if hero_pos.distance_to(ag["pos"] as Vector2) < 95.0:
+						open_npc_dialogue(ag)
+						return
 			if event.position.x > get_viewport_rect().size.x * 0.42:
-				var world_click: Vector2 = get_canvas_transform().affine_inverse() * event.position
 				target_pos = screen_to_ground(world_click)
 	elif event is InputEventScreenTouch:
 		handle_touch(event)
@@ -1056,10 +1160,31 @@ func step_world(delta: float) -> void:
 		hero.animate(screen_dir, true)
 	sync_hero()
 
-	# Animate all living NPCs, Monsters, and Wildlife Fauna animals
-	for ag: Dictionary in live_agents:
+	var dlg_open: bool = dialogue_strip != null and bool(dialogue_strip.is_open)
+	var talk_node = active_talk_agent.get("node", null) if dlg_open else null
+
+	# Auto-close outdoor dialogue smoothly if hero walks away (> 72m)
+	if dlg_open and not active_talk_agent.is_empty():
+		var tpos: Vector2 = active_talk_agent.get("pos", hero_pos)
+		if hero_pos.distance_to(tpos) > 72.0:
+			dialogue_strip.close_dialogue(true)
+			active_talk_agent = {}
+			dlg_open = false
+			talk_node = null
+
+	# Animate all living NPCs, Monsters, and Wildlife Fauna animals + ambient speech bubbles
+	for idx in live_agents.size():
+		var ag: Dictionary = live_agents[idx]
 		var node = ag["node"]
 		if not is_instance_valid(node):
+			continue
+		if dlg_open and node == talk_node:
+			# Pause patrol and turn toward hero while talking
+			var to_hero: Vector2 = hero_pos - (ag["pos"] as Vector2)
+			var face_s := Vector2(to_hero.x - to_hero.y, (to_hero.x + to_hero.y) * 0.5)
+			if face_s.length_squared() > 0.01:
+				node.face(face_s)
+			node.animate(Vector2.ZERO, false)
 			continue
 		var home: Vector2 = ag["home"]
 		var rad: float = float(ag["radius"])
@@ -1073,6 +1198,16 @@ func step_world(delta: float) -> void:
 		node.position = iso(next_p.x, next_p.y, height_at(next_p.x, next_p.y))
 		var s_dir := Vector2(d_pos.x - d_pos.y, (d_pos.x + d_pos.y) * 0.5)
 		node.animate(s_dir if s_dir.length() > 0.01 else Vector2.ZERO, false)
+
+		# Layer 1: Ambient floating World Speech Bubbles when hero walks near an NPC (0% HUD obstruction)
+		if str(ag.get("kind", "")) == "npc":
+			var dist_h := hero_pos.distance_to(next_p)
+			var last_b: float = float(ag.get("last_bark_t", -99.0))
+			if dist_h < 50.0 and world_time - last_b > 16.0:
+				ag["last_bark_t"] = world_time
+				if node.has_method("show_bubble"):
+					var bark: String = DialogueStripScript.pick_ambient_bark(current_land, str(ag.get("role", "")), idx + int(world_time))
+					node.show_bubble(bark, 4.2)
 
 func try_move(step: Vector2) -> void:
 	if gm_noclip:
@@ -1120,11 +1255,32 @@ func sync_hero() -> void:
 			best_bd = d
 			best_b = b
 	nearest_enterable = best_b
+
+	# Detect nearest outdoor NPC within 48m for contextual "ROZMAWIAJ" pill
+	var best_npc: Dictionary = {}
+	var best_nd := 48.0
+	for ag: Dictionary in live_agents:
+		if str(ag.get("kind", "")) != "npc":
+			continue
+		var nd := hero_pos.distance_to(ag["pos"] as Vector2)
+		if nd < best_nd:
+			best_nd = nd
+			best_npc = ag
+	nearest_npc_agent = best_npc
+
 	var show_world_ui := not (map_expanded or atlas_expanded or in_interior)
 	var rpg_modal_open: bool = gm_open or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)))
+	var dlg_open: bool = dialogue_strip != null and bool(dialogue_strip.is_open)
 	if not nearest_enterable.is_empty():
 		btn_enter_bldg.text = "▶ WEJDŹ: %s" % str(nearest_enterable.get("title", "Budynek"))
-	btn_enter_bldg.visible = show_world_ui and not rpg_modal_open and not nearest_enterable.is_empty()
+	btn_enter_bldg.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_enterable.is_empty()
+	if not nearest_npc_agent.is_empty():
+		btn_talk_npc.text = "▶ ROZMAWIAJ: %s" % str(nearest_npc_agent.get("name", "NPC"))
+	var vp := get_viewport_rect().size
+	var tw := clampf(vp.x * 0.30, 250.0, 360.0)
+	btn_talk_npc.size = Vector2(tw, 50.0)
+	btn_talk_npc.position = Vector2((vp.x - tw) * 0.5, (vp.y - 208.0) if btn_enter_bldg.visible else (vp.y - 148.0))
+	btn_talk_npc.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_npc_agent.is_empty()
 
 func snap(out_dir: String, file: String) -> String:
 	for _i in 4:
@@ -1323,9 +1479,28 @@ func run_qa() -> void:
 		shots.append(await snap(out_dir, "interior-smithy.jpg"))
 		exit_building()
 
+	# 10) Live-World Non-Obstructive NPC Dialogue QA (Bottom Strip + Floating Speech Bubble)
+	set_zoom(1.35)
+	if live_agents.size() >= 2:
+		var ag0: Dictionary = live_agents[0]
+		hero_pos = (ag0["pos"] as Vector2) + Vector2(12.0, 14.0)
+		step_world(0.1)
+		open_npc_dialogue(ag0)
+		if dialogue_strip != null:
+			dialogue_strip.shown_chars = float(dialogue_strip.full_text.length())
+			dialogue_strip.body_lbl.text = dialogue_strip.full_text
+		var ag1: Dictionary = live_agents[1]
+		if is_instance_valid(ag1.get("node", null)) and ag1["node"].has_method("show_bubble"):
+			ag1["node"].show_bubble("Ogień w piecach dziś nie gaśnie!", 5.0)
+		for _i in 4:
+			await get_tree().process_frame
+		shots.append(await snap(out_dir, "npc-dialogue.jpg"))
+		if dialogue_strip != null:
+			dialogue_strip.close_dialogue(false)
+
 	var report := {
 		"project": "ports/godot-isometric-world",
-		"phase": "Walkable Painted Building Interiors (59 Enterable Buildings, 48 Biome Props, Shop/Crafting/Bank/Inn/Arena/Hall Services)",
+		"phase": "Live-World Non-Obstructive NPC Dialogue (Floating Speech Bubbles + Bottom Dialogue Strip) & Walkable Building Interiors",
 		"projection_roundtrip_error_m": snappedf(roundtrip_err, 0.0001),
 		"regions": regions_report,
 		"screenshots": shots,

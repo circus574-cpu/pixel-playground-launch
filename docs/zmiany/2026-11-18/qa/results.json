@@ -1,5 +1,5 @@
 {
-  "phase": "Walkable Painted Building Interiors (59 Enterable Buildings, 48 Biome Props, Shop/Crafting/Bank/Inn/Arena/Hall Services)",
+  "phase": "Live-World Non-Obstructive NPC Dialogue (Floating Speech Bubbles + Bottom Dialogue Strip) & Walkable Building Interiors",
   "project": "ports/godot-isometric-world",
   "projection_roundtrip_error_m": 0.0,
   "regions": {
@@ -96,6 +96,7 @@
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/talent-tree.jpg",
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/character-sheet.jpg",
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/gm-panel.jpg",
-    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/interior-smithy.jpg"
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/interior-smithy.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/npc-dialogue.jpg"
   ]
 }

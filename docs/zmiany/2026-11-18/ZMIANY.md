@@ -243,3 +243,15 @@ Zaimplementowano pełne, chodzone wnętrza 2D (Y-sortowane) dla **wszystkich 59 
   - W środku gracz porusza się animowanym bohaterem (`WASD`, wirtualny joystick na ekranie dotykowym, kliknięcie w podłogę) z kolizją ścian i mebli, animowanym NPC usługowym, świecącą matą wyjścia na dole pokoju oraz przyciskiem **`✕ WYJDŹ NA ZEWNĄTRZ`** (`[Esc]`).
   - Działające usługi w budynkach (przycisk dolny lub kliknięcie NPC): **Sklep (`shop`)** — zakup do 15-slotowego plecaka za złoto, **Kuźnia (`smithy`)** — kucie/crafting ekwipunku, **Bank/Depozyt (`depot`)** — 15-slotowy skarbiec + wpłata/wypłata złota, **Karczma (`inn`)** — pełny odpoczynek `100% HP/KI`, **Arena (`arena`)** — trening bojowy (`+60 XP`, reset cooldownów), **Ratusz/Warownia (`hall`/`landmark`)** — kronika i błogosławieństwo.
 - **Weryfikacja QA i publikacja `1.14.8` na serwer testowy:** `ISO_WORLD_QA_OK` (Godot 4.6.3, nowy zrzut [interior-smithy.jpg](qa/interior-smithy.jpg), `0` błędów GDScript/shaderów, `0` wycieków RID), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.8` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.7`).
+
+## 15. Niezasłaniający System Rozmów z NPC „Live-World” (Dymki nad Głowami + Dolny Pasek Dialogowy) i Wydanie `1.14.9` (2026-11-19)
+
+Wdrożono dwuwarstwowy, niezasłaniający gry system rozmów ze wszystkimi 40 NPC na 4 kontynentach oraz NPC usługowymi we wnętrzach budynków (przy zachowaniu pełnego, funkcjonalnego okna sklepu/kuźni/banku):
+
+- **Warstwa 1 — Dymki nad głowami NPC (`actor_view.gd`, `world.gd`, `interior_room.gd`):** półprzezroczyste dymki z płynnym zanikaniem pojawiają się nad głowami NPC w miastach (gdy bohater przechodzi w zasięgu `≤ 50 m`, z cooldownem `16 s`) oraz przy wejściu do wnętrz budynków — `0%` zasłaniania HUD i sterowania.
+- **Warstwa 2 — Smukły dolny pasek dialogowy (`ports/godot-isometric-world/scripts/dialogue_strip.gd`, `world.gd`, `interior_room.gd`):**
+  - Zajmuje wyłącznie dolne ~21% ekranu (`148 px`), zostawiając górne ~79% świata w pełni otwarte i żywe; bohater może w każdej chwili odejść (`> 72 m` na zewnątrz / `> 295 px` w budynku), co automatycznie i płynnie zamyka rozmowę z krótkim pożegnaniem.
+  - Wywoływany przyciskiem **`▶ ROZMAWIAJ: <Imię>`** (lub `[R]` / bezpośrednim kliknięciem na NPC); podczas rozmowy NPC przerywa patrol i odwraca się przodem do gracza.
+  - Zawiera pigułki odpowiedzi: **`! ZADANIE (+45 XP / +80 zł)`** / **`? ODBIERZ NAGRODĘ`** (rzeczywiste nagrody do `rpg_hud` i czyszczenie znacznika `!`/`?`), **`◆ O REGIONIE`** (lore dla Pyry, Verdantii, Aetherii i Nexus-9), **`◆ OTWÓRZ USŁUGI`** (we wnętrzach — szybkie otwarcie funkcjonalnego okna sklepu/kuźni/banku) oraz **`✕ ŻEGNAJ`**.
+- **Weryfikacja QA i publikacja `1.14.9` na serwer testowy:** `ISO_WORLD_QA_OK` (Godot 4.6.3, nowy zrzut [npc-dialogue.jpg](qa/npc-dialogue.jpg), `0` błędów GDScript/shaderów, `0` wycieków RID), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.9` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.8`).
+

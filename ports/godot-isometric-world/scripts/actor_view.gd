@@ -192,3 +192,60 @@ func _draw() -> void:
 		draw_arc(qp, 13.0, 0.0, TAU, 20, qcol, 2.2)
 		var f := ThemeDB.fallback_font
 		draw_string(f, qp + Vector2(-4.5, 6.0), quest_mark, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, qcol)
+
+var bubble_panel: PanelContainer
+var bubble_lbl: Label
+var bubble_ttl := 0.0
+var bubble_max_ttl := 4.0
+
+func _ensure_bubble() -> void:
+	if bubble_panel != null:
+		return
+	bubble_panel = PanelContainer.new()
+	bubble_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bubble_panel.z_index = 25
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.06, 0.05, 0.08, 0.88)
+	st.border_color = Color(0.92, 0.74, 0.36, 0.92)
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(10)
+	st.content_margin_left = 10
+	st.content_margin_right = 10
+	st.content_margin_top = 6
+	st.content_margin_bottom = 6
+	bubble_panel.add_theme_stylebox_override("panel", st)
+	bubble_lbl = Label.new()
+	bubble_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bubble_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	bubble_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	bubble_lbl.custom_minimum_size = Vector2(180.0, 0.0)
+	bubble_lbl.add_theme_font_size_override("font_size", 14)
+	bubble_lbl.add_theme_color_override("font_color", Color(1.0, 0.96, 0.86))
+	bubble_panel.add_child(bubble_lbl)
+	bubble_panel.visible = false
+	add_child(bubble_panel)
+
+func show_bubble(msg: String, duration: float = 4.2) -> void:
+	_ensure_bubble()
+	bubble_lbl.text = msg
+	bubble_panel.size = Vector2(230.0, 40.0)
+	var top_y := -display.y - (108.0 if not quest_mark.is_empty() else 84.0)
+	bubble_panel.position = Vector2(-115.0, top_y)
+	bubble_panel.modulate = Color(1, 1, 1, 1)
+	bubble_panel.visible = true
+	bubble_ttl = duration
+	bubble_max_ttl = duration
+
+func hide_bubble() -> void:
+	bubble_ttl = 0.0
+	if bubble_panel != null:
+		bubble_panel.visible = false
+
+func _process(delta: float) -> void:
+	if bubble_ttl > 0.0 and bubble_panel != null and bubble_panel.visible:
+		bubble_ttl -= delta
+		if bubble_ttl <= 0.0:
+			bubble_panel.visible = false
+		elif bubble_ttl < 0.55:
+			bubble_panel.modulate.a = clampf(bubble_ttl / 0.55, 0.0, 1.0)
+
