@@ -30,11 +30,9 @@ const DIR := "user://content"
 const TARGET := "res://scenes/title.tscn"
 const MAX_TRIES := 3                     # launches of a core that never reached the first city before it is given up
 const ASK_TIMEOUT := 6.0
-const INTRO_VIDEO := "res://assets/branding/intro.ogv"
 const INTRO_LAST := "res://assets/branding/intro-last.webp"
 const INTRO_SIZE := Vector2(1280.0, 720.0)
 const MAX_CROP := 0.10                  # share of the film's height that may be cut off on a wide screen
-const SKIP_AFTER := 0.8
 
 var change_scene := true                 # tests turn this off and read `finished`
 var play_intro := true                   # tests turn this off; headless runs never play it
@@ -46,9 +44,8 @@ var pill := PanelContainer.new()         # the same status as a small pill over 
 var pill_label := Label.new()
 var animated_intro: Control
 var last_frame := TextureRect.new()
-var intro_on := false                    # the film is playing
-var intro_over := true                   # no film, or it has ended or was skipped
-var intro_elapsed := 0.0
+var intro_on := false                    # compatibility with tests; the native art has no video
+var intro_over := true                   # native artwork stays interactive while background operations run
 var touched := false
 var work_done := false
 var intro_started := false
