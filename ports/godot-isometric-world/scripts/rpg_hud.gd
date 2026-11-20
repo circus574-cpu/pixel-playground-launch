@@ -558,6 +558,8 @@ func use_backpack_slot(idx: int) -> void:
 		recalc_stats(false)
 		return
 	# Consumable action
+	if world != null and world.get("audio") != null:
+		world.audio.sfx("common/potion" if (it.has("heal_hp") or it.has("heal_ki")) else "ui/click")
 	if it.has("heal_hp"):
 		hero_hp = minf(hero_max_hp, hero_hp + float(it["heal_hp"]))
 	elif it.has("heal_ki"):

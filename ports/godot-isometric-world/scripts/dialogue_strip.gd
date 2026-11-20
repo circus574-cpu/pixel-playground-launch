@@ -214,6 +214,8 @@ func _set_text(msg: String) -> void:
 	body_lbl.text = ""
 
 func open_dialogue(npc: Dictionary) -> void:
+	if world != null and world.get("audio") != null:
+		world.audio.sfx("ui/open")
 	active_npc = npc
 	is_open = true
 	visible = true

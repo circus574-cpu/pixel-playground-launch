@@ -15,6 +15,7 @@ const InteriorRoomScript := preload("res://scripts/interior_room.gd")
 const DialogueStripScript := preload("res://scripts/dialogue_strip.gd")
 const LoadingScreenScript := preload("res://scripts/loading_screen.gd")
 const StickScript := preload("res://scripts/stick.gd")
+const AudioScript := preload("res://scripts/world_audio.gd")
 const MapStyle := preload("res://scripts/map_style.gd")
 
 const ISO_W := 5.6
@@ -88,6 +89,7 @@ var map_expanded := false
 var atlas_expanded := false
 var gm_open := false
 var in_interior := false
+var audio: Node
 var nearest_enterable: Dictionary = {}
 var nearest_npc_agent: Dictionary = {}
 var active_talk_agent: Dictionary = {}
@@ -111,7 +113,7 @@ func _stop_lingering_loading_audio() -> void:
 	var stack: Array[Node] = [root]
 	while not stack.is_empty():
 		var nd: Node = stack.pop_back()
-		if nd is AudioStreamPlayer:
+		if nd is AudioStreamPlayer and (audio == null or not audio.is_ours(nd)):
 			var ap := nd as AudioStreamPlayer
 			if ap.playing:
 				ap.stop()
@@ -119,6 +121,8 @@ func _stop_lingering_loading_audio() -> void:
 			stack.append(ch)
 
 func _ready() -> void:
+	audio = AudioScript.new()
+	add_child(audio)
 	shadow_tex = make_shadow_tex()
 	terrain_mesh.z_index = -10
 	add_child(terrain_mesh)
@@ -167,6 +171,7 @@ func _boot_world_async() -> void:
 	loading_screen.finish_loading()
 
 func _exit_tree() -> void:
+	tex_cache.clear()
 	ActorScript.sheet_cache.clear()
 	AmbientScript.soft_texture = null
 	MapStyle.title_font = null
@@ -242,6 +247,9 @@ func switch_region(land: String) -> void:
 	build_world_objects_and_actors()
 	var spawn := capital_center + Vector2(0.0, 22.0)
 	hero_pos = spawn if is_walkable(spawn.x, spawn.y) else capital_center
+	if audio != null:
+		audio.play_music(land)
+		audio.play_ambience(land, true)
 	target_pos = Vector2(-1.0, -1.0)
 	if premium_minimap != null:
 		premium_minimap.load_region_texture(land)
@@ -719,7 +727,8 @@ func cycle_exp_zone() -> void:
 	cycle_town_stronghold()
 
 func build_hud() -> void:
-	add_child(hud)
+	if hud.get_parent() == null:
+		add_child(hud)
 
 	atmosphere = WorldAtmosphereScript.new()
 	atmosphere.world = self
@@ -850,6 +859,8 @@ func open_interior_dialogue(npc_name: String, b_title: String, b_role: String, a
 func enter_building(b: Dictionary) -> void:
 	if b.is_empty() or interior_room == null:
 		return
+	if audio != null:
+		audio.sfx("common/door")
 	if dialogue_strip != null:
 		dialogue_strip.close_dialogue(false)
 	active_talk_agent = {}
@@ -871,6 +882,8 @@ func exit_building() -> void:
 		return
 	if dialogue_strip != null:
 		dialogue_strip.close_dialogue(false)
+	if audio != null:
+		audio.sfx("common/door")
 	active_talk_agent = {}
 	in_interior = false
 	motion = Vector2.ZERO
@@ -1187,6 +1200,9 @@ func step_world(delta: float) -> void:
 		if rpg_hud != null and rpg_hud.has_method("get_speed_mult"):
 			stat_spd_mult = float(rpg_hud.get_speed_mult())
 		try_move(world_dir * SPEED * gm_speed_mult * stat_spd_mult * delta)
+	if audio != null:
+		audio.step(delta, world_dir.length_squared() > 0.001, current_land, false)
+		audio.play_ambience(current_land, hero_pos.distance_to(capital_center) <= safe_city_radius)
 	if hero != null:
 		hero.animate(screen_dir, true)
 	sync_hero()

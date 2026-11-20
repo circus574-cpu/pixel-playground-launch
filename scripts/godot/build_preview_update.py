@@ -15,6 +15,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 PREFIX = 'service_preview/pyra/'
+# 1.14.13+: the gate script that launches the world as the normal game ships in the same core (APK scripts are overridden).
+HOST_SCRIPTS = ('scripts/service_screen.gd',)
+ALLOWED = ('res://'+PREFIX, 'res://.godot/imported/')+tuple('res://'+h for h in HOST_SCRIPTS)
 
 
 def main():
@@ -44,8 +47,8 @@ def main():
     old_core = base['packs'].get('core-c101')
     if old_core:
         prior_report = json.loads(base_file('preview-update.json'))
-        assert (args.citadel or args.gemini) and prior_report['changes_only_preview_namespace'] and prior_report['core'] == old_core
-        assert all(path.startswith(('res://'+PREFIX, 'res://.godot/imported/')) for path in prior_report['files'])
+        assert (args.citadel or args.gemini) and prior_report['core'] == old_core
+        assert all(path.startswith(ALLOWED) for path in prior_report['files'])
     out = ROOT/f'deliveries/godot-content-{args.version}'
     out.mkdir(parents=True, exist_ok=True)
     work = ROOT/'ports/godot-pyra/builds/preview-update-work'
@@ -53,6 +56,7 @@ def main():
     listing = []
     sources = [builder.PROJECT/PREFIX/entry['path'] for entry in preview['files']]
     sources.append(builder.PROJECT/PREFIX/'manifest.json')
+    sources.extend(builder.PROJECT/h for h in HOST_SCRIPTS if args.gemini)
     for source in sorted(sources):
         rel = source.relative_to(builder.PROJECT).as_posix()
         # Raw bytes retain authoring hashes and height data; imports retain runtime resources.
@@ -66,7 +70,7 @@ def main():
             listing.append({'pck': 'res://'+rel+'.remap', 'disk': str(remap)})
     by_path = {item['pck']: item for item in listing}
     listing = list(by_path.values())
-    assert all(item['pck'].startswith(('res://'+PREFIX, 'res://.godot/imported/')) for item in listing)
+    assert all(item['pck'].startswith(ALLOWED) for item in listing)
     listing_file = work/'files.json'
     listing_file.write_text(json.dumps(listing))
     target = out/'preview.pck'
@@ -88,7 +92,7 @@ def main():
     (out/'manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')
     report = {'base': args.base, 'version': args.version, 'installed_client_code': 101,
               'preserved_packs': len(preserved), 'unchanged_lands': manifest['lands'] == base['lands'],
-              'core': manifest['packs']['core-c101'], 'changes_only_preview_namespace': True,
+              'core': manifest['packs']['core-c101'], 'changes_only_preview_namespace': not args.gemini, 'host_scripts': list(HOST_SCRIPTS) if args.gemini else [],
               'changed_apk': False, 'citadel_preview': args.citadel, 'gemini_world': args.gemini, 'files': [item['pck'] for item in listing]}
     (out/'preview-update.json').write_text(json.dumps(report, indent=2)+'\n')
     print(json.dumps({k:v for k,v in report.items() if k!='files'}))

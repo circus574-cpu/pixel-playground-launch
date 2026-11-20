@@ -291,3 +291,9 @@ Zastąpiono filmowy pasek ładowania **prawdziwym, żywym panelem ładowania** z
 
 
 
+## 19. Prototyp jako główna gra + pełny dźwięk (`world_audio.gd`, `service_screen.gd`) i wydanie `1.14.13` (2026-11-20)
+
+- **Dźwięk w świecie izometrycznym:** `world_audio.gd` odtwarza muzykę per kontynent (Pyra, Verdantia, Aetheria, Nexus-9) z crossfadem, ambient miasta/świata, kroki wg powierzchni, drzwi budynków, otwarcie dialogu i miksturę z plecaka. Pliki mp3 pochodzą z zamontowanych paczek hosta (`assets/audio/...`); gdy ich brak (QA bez hosta), świat milczy bez błędów. `_stop_lingering_loading_audio()` nie zatrzymuje już własnych odtwarzaczy.
+- **Główna gra zamiast trybu serwisowego:** `scripts/service_screen.gd` uruchamia izometryczny świat pełnoekranowo jako normalną grę (przycisk `WEJDŹ DO GRY` oraz wejście przy otwartym serwerze), bez paska `WRÓĆ · TRYB SERWISOWY`; powrót to systemowy przycisk „wstecz”. Przycisk `PROTOTYP IZOMETRYCZNY` nadal otwiera podgląd z paskiem.
+- **Pakowanie:** `build_preview_update.py` dodaje do `core-c101` także nadpisanie `scripts/service_screen.gd` (APK 1.14 dostaje zmianę przez OTA); raport ma `changes_only_preview_namespace=false`, `host_scripts`.
+- **Poprawki:** strażnik `add_child(hud)` w `build_hud()`, `tex_cache.clear()` przy wyjściu.
