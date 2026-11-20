@@ -159,79 +159,83 @@ func _ready() -> void:
 	back.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(back)
 	last_frame.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	last_frame.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	last_frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	last_frame.stretch_mode = TextureRect.STRETCH_SCALE   # placed by fit_video, like the film
 	last_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	if ResourceLoader.exists("res://assets/branding/intro-wide.webp"):
-		last_frame.texture = load("res://assets/branding/intro-wide.webp")
-		last_frame.visible = true
-	else:
-		last_frame.visible = false
+	last_frame.visible = false
 	add_child(last_frame)
 	video.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	video.visible = false
 	add_child(video)
-
-	# Bottom-docked real loading bar panel (styled after the intro film, with real live progress & status text)
-	var bottom_scrim := ColorRect.new()
-	bottom_scrim.color = Color(0.02, 0.02, 0.04, 0.72)
-	bottom_scrim.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	bottom_scrim.offset_top = -156.0
-	bottom_scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(bottom_scrim)
-
-	box.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	box.offset_left = 120.0
-	box.offset_right = -120.0
-	box.offset_top = -132.0
-	box.offset_bottom = -24.0
-	box.add_theme_constant_override("separation", 10)
+	box.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	box.custom_minimum_size = Vector2(620, 0)
+	box.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	box.grow_vertical = Control.GROW_DIRECTION_BOTH
+	box.add_theme_constant_override("separation", 14)
 	add_child(box)
-
-	var bar_bg := StyleBoxFlat.new()
-	bar_bg.bg_color = Color(0.05, 0.04, 0.07, 0.96)
-	bar_bg.border_color = Color(0.98, 0.72, 0.24, 0.98)
-	bar_bg.set_border_width_all(2)
-	bar_bg.set_corner_radius_all(6)
-	var bar_fill := StyleBoxFlat.new()
-	bar_fill.bg_color = Color(0.96, 0.68, 0.18, 0.98)
-	bar_fill.border_color = Color(1.0, 0.90, 0.52, 0.90)
-	bar_fill.set_border_width_all(1)
-	bar_fill.set_corner_radius_all(5)
-	bar.add_theme_stylebox_override("background", bar_bg)
-	bar.add_theme_stylebox_override("fill", bar_fill)
-	bar.custom_minimum_size = Vector2(0, 22)
-	bar.show_percentage = false
-	bar.max_value = 100.0
-	bar.value = 10.0
-	bar.visible = true
-	box.add_child(bar)
-
+	var title := Label.new()
+	title.text = "KI LEGENDS"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 44)
+	title.add_theme_color_override("font_color", Color("f1c77f"))
+	if ResourceLoader.exists("res://assets/branding/cinzel-bold.ttf"):
+		title.add_theme_font_override("font", load("res://assets/branding/cinzel-bold.ttf"))
+	box.add_child(title)
 	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	status.add_theme_font_size_override("font_size", 19)
-	status.add_theme_color_override("font_color", Color("f7ecd4"))
-	status.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.02, 0.98))
-	status.add_theme_constant_override("outline_size", 5)
+	status.add_theme_font_size_override("font_size", 20)
+	status.add_theme_color_override("font_color", Color("d9cdb4"))
 	box.add_child(status)
-
+	bar.custom_minimum_size = Vector2(0, 14)
+	bar.show_percentage = false
+	bar.visible = false
+	box.add_child(bar)
 	quit_button.text = "ZAMKNIJ"
-	quit_button.custom_minimum_size = Vector2(0, 52)
+	quit_button.custom_minimum_size = Vector2(0, 60)
 	quit_button.visible = false
 	quit_button.pressed.connect(func() -> void: get_tree().quit())
 	box.add_child(quit_button)
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.03, 0.04, 0.08, 0.78)
+	style.set_corner_radius_all(18)
+	style.content_margin_left = 18
+	style.content_margin_right = 18
+	style.content_margin_top = 6
+	style.content_margin_bottom = 6
+	pill.add_theme_stylebox_override("panel", style)
+	pill.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	pill.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	pill.offset_top = 18
 	pill.visible = false
+	pill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	pill_label.add_theme_font_size_override("font_size", 18)
+	pill_label.add_theme_color_override("font_color", Color("f3e6c4"))
+	pill.add_child(pill_label)
 	add_child(pill)
 	resized.connect(fit_video)
-	intro_on = false
-	intro_over = true
-	intro_started = false
+	start_intro()
 	run.call_deferred()
 
-## Kept as a no-op stub so existing tests referencing start_intro() stay compatible; real bar replaces fake video.
+## Starts the film when it may play and exists; otherwise the dark background with the status is all there is.
 func start_intro() -> void:
-	intro_on = false
-	intro_over = true
+	if not play_intro or DisplayServer.get_name() == "headless" or not ResourceLoader.exists(INTRO_VIDEO):
+		return
+	var stream: Resource = load(INTRO_VIDEO)
+	if not stream is VideoStream:
+		return
+	video.stream = stream as VideoStream
+	video.volume_db = linear_to_db(maxf(0.0001, intro_volume()))
+	if ResourceLoader.exists(INTRO_LAST):
+		last_frame.texture = load(INTRO_LAST)
+	video.finished.connect(end_intro)
+	video.expand = true
+	video.visible = true
+	box.visible = false
+	pill.visible = true
+	intro_on = true
+	intro_over = false
+	intro_started = true
+	fit_video()
+	video.play()
 
 ## The film's loudness follows the music volume of the game's settings (user://audio.json; 30 % by default), a little louder than the music.
 static func intro_volume() -> float:
@@ -371,17 +375,12 @@ func download(entry: Dictionary, base: String) -> Dictionary:
 			box.finished = true)
 		bar.visible = true
 		while not bool(box.finished):
-			var total_b := maxf(1.0, float(entry.bytes))
-			var got_b := float(http.get_downloaded_bytes())
-			var dl_frac := clampf(got_b / total_b, 0.0, 1.0)
-			bar.max_value = 100.0
-			bar.value = 18.0 + dl_frac * 68.0
-			say("Pobieranie aktualizacji gry… %.1f / %.1f MB (%d%%)" % [got_b / 1048576.0, total_b / 1048576.0, int(round(dl_frac * 100.0))])
+			bar.max_value = maxf(1.0, float(entry.bytes))
+			bar.value = float(http.get_downloaded_bytes())
+			say("Pobieram aktualizację gry… %d%%" % int(100.0 * bar.value / bar.max_value))
 			await get_tree().process_frame
 		http.queue_free()
-		bar.value = 88.0
-		say("Weryfikacja integralności paczki (SHA-256)…")
-		await get_tree().process_frame
+		bar.visible = false
 		if int(box.result) == HTTPRequest.RESULT_SUCCESS and int(box.code) == 200 and FileAccess.file_exists(part):
 			var probe := FileAccess.open(part, FileAccess.READ)
 			var size := probe.get_length() if probe != null else -1
@@ -389,7 +388,6 @@ func download(entry: Dictionary, base: String) -> Dictionary:
 				probe.close()
 			if size == int(entry.bytes) and FileAccess.get_sha256(part) == str(entry.sha256):
 				DirAccess.rename_absolute(ProjectSettings.globalize_path(part), ProjectSettings.globalize_path(final_path))
-				bar.value = 92.0
 				return {"ok": true}
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(part))
 		await get_tree().create_timer(1.0 * float(attempt + 1)).timeout
@@ -414,9 +412,7 @@ func remove_old_cores(keep: Array) -> void:
 func run() -> void:
 	var report := {"core": "", "mounted": false, "downloaded": false, "reached": false, "broken": "", "gave_up": ""}
 	var state := compatible_state(read_state(read_text(STATE_PATH)))
-	bar.max_value = 100.0
-	bar.value = 12.0
-	say("Łączenie z serwerem — sprawdzam aktualizacje gry…")
+	say("Sprawdzam aktualizacje gry…")
 	var offer: Dictionary = await ask_server()
 	report.reached = bool(offer.reached)
 	var held_was_ok := held_ok(state)
@@ -440,9 +436,7 @@ func run() -> void:
 	save_state(state)
 	report.core = target
 	if target != "":
-		bar.value = 95.0
-		say("Montowanie zasobów świata i uruchamianie KI Legends…")
-		await get_tree().process_frame
+		say("Uruchamiam grę…")
 		if ProjectSettings.load_resource_pack(ProjectSettings.globalize_path(file_path(target)), true):
 			report.mounted = true
 			report.broken = broken_script()
