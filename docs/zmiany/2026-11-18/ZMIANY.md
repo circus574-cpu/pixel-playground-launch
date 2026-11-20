@@ -302,3 +302,9 @@ Zastąpiono filmowy pasek ładowania **prawdziwym, żywym panelem ładowania** z
 
 - `service_screen.gd`: `WEJDŹ DO GRY` pokazuje najpierw `character_select.gd` (postacie urządzenia) albo `RaceScreen`, gdy nie ma postaci; świat startuje na kontynencie wybranej postaci (`start_land`, `start_level`, `start_gold` w `world.gd`).
 - Postęp (poziom, złoto, kontynent) zapisuje się co 20 s i przy wyjściu do slotu lokalnego. **Brak:** zapisu w chmurze i autorytatywnego serwera (ekonomia, walka, multiplayer) – to następne etapy; do tego czasu stan liczy klient.
+
+## 21. Blokada rasy przy teleportacji + usunięcie paska prototypu i wydanie `1.14.15` (2026-11-20)
+
+- `service_screen.gd`, `world.gd`, `rpg_hud.gd`: wybrana rasa postaci (`start_race` → `hero_race_land` / `hero_land`) jest zablokowana od startu — teleportacja między kontynentami nie zmienia już wyglądu bohatera, portretu, nazwy ani drzewka skilli.
+- `rpg_hud.gd`: usunięto testowy górny pasek nawigacji prototypu (`PYRA · VERDANTIA · AETHERIA · NEXUS-9 · STOLICA · WAROWNIE`), który wisiał na ekranie w normalnej grze.
+- Weryfikacja QA (`ISO_WORLD_QA_OK`, `0` błędów) i publikacja `1.14.15` (`test_base=1.14.14`).

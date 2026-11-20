@@ -89,6 +89,9 @@ var map_expanded := false
 var atlas_expanded := false
 var gm_open := false
 var in_interior := false
+const RACE_TO_LAND := {"legend": "pyra", "planetary": "verdant", "sage": "aether", "android": "nexus"}
+var start_race := ""
+var hero_race_land := ""
 var start_land := "pyra"
 var start_level := 0
 var start_gold := -1
@@ -165,6 +168,9 @@ func _boot_world_async() -> void:
 	loading_screen.set_stage(0.68, "Generowanie terenu, sieci 309 dróg i 59 budynków…", "Kontynent: Pyra — Twierdza Popiołu")
 	await get_tree().process_frame
 	await get_tree().process_frame
+	hero_race_land = str(RACE_TO_LAND.get(start_race, start_land)) if start_race != "" else start_land
+	if rpg_hud != null and rpg_hud.has_method("set_hero_land"):
+		rpg_hud.set_hero_land(hero_race_land)
 	switch_region(start_land)
 	if rpg_hud != null:
 		if start_level > 0:
@@ -204,7 +210,8 @@ func rebuild_hero(land: String) -> void:
 	if hero != null and is_instance_valid(hero):
 		hero.queue_free()
 	hero = ActorScript.new()
-	var h_info: Array = HERO_ACTORS.get(land, ["pyra.hero", "Ignis"])
+	var actor_land := hero_race_land if hero_race_land != "" else land
+	var h_info: Array = HERO_ACTORS.get(actor_land, ["pyra.hero", "Ignis"])
 	var h_key: String = str(h_info[0])
 	var h_name: String = str(h_info[1])
 	if actors_db.has(h_key):

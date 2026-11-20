@@ -110,6 +110,7 @@ var backpack_items: Array[Dictionary] = [
 
 var world: Node2D
 var current_land := "pyra"
+var hero_land := ""
 var nearest_loc := "Twierdza Popiołu"
 var in_safe_city := true
 var time_mode_short := "Dzień"
@@ -239,8 +240,15 @@ func _load_progression_db() -> void:
 		if parsed is Dictionary:
 			progression_db = (parsed as Dictionary).get("races", {})
 
+func set_hero_land(land: String) -> void:
+	if LAND_META.has(land):
+		hero_land = land
+
+func _hero_land() -> String:
+	return hero_land if hero_land != "" else current_land
+
 func _race_key() -> String:
-	return str(LAND_TO_RACE.get(current_land, "legend"))
+	return str(LAND_TO_RACE.get(_hero_land(), "legend"))
 
 func _race_data() -> Dictionary:
 	var rk := _race_key()
@@ -577,7 +585,7 @@ func use_backpack_slot(idx: int) -> void:
 
 func set_region(land: String) -> void:
 	current_land = land
-	var meta: Dictionary = LAND_META.get(land, LAND_META["pyra"])
+	var meta: Dictionary = LAND_META.get(_hero_land(), LAND_META["pyra"])
 	hero_res = 68.0
 	selected_node_id = "A4"
 
@@ -1032,7 +1040,7 @@ func _draw_obsidian_plate(canvas: CanvasItem, rect: Rect2, border: Color) -> voi
 func _draw() -> void:
 	if show_talents or show_character:
 		return
-	var meta: Dictionary = LAND_META.get(current_land, LAND_META["pyra"])
+	var meta: Dictionary = LAND_META.get(_hero_land(), LAND_META["pyra"])
 	var accent: Color = meta["accent"]
 	var star_t := _load_tex("res://assets/ui/obsidian/star_gold.webp")
 	var div_w := _load_tex("res://assets/ui/obsidian/divider_wide.webp")
@@ -1046,14 +1054,6 @@ func _draw() -> void:
 	# Subtle dark circular backdrop behind portrait
 	draw_circle(Vector2(60.0, 64.0), 46.0, Color(0.04, 0.03, 0.05, 0.96))
 
-	# 2) Top-Center Cracked Obsidian Realm Navigation Ribbon (y=94px, clear of Android service bar)
-	var nr := _nav_ribbon_rect()
-	_draw_obsidian_plate(self, nr, Color(0.98, 0.68, 0.22, 0.90))
-	if div_w != null:
-		draw_texture_rect(div_w, Rect2(nr.position.x - 8.0, nr.end.y - 9.0, nr.size.x + 16.0, 18.0), false, Color(1.0, 0.94, 0.80, 0.85))
-	if star_t != null:
-		draw_texture_rect(star_t, Rect2(nr.position.x - 10.0, nr.position.y + nr.size.y * 0.5 - 10.0, 20.0, 20.0), false)
-		draw_texture_rect(star_t, Rect2(nr.end.x - 10.0, nr.position.y + nr.size.y * 0.5 - 10.0, 20.0, 20.0), false)
 
 	# 3) Bottom-Center Cracked Obsidian XP Bar Pill
 	var xp_r := _xp_pill_rect()
@@ -1084,7 +1084,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		return
 	var f: Font = MapStyle.font()
 	var fb: Font = MapStyle.body_font()
-	var meta: Dictionary = LAND_META.get(current_land, LAND_META["pyra"])
+	var meta: Dictionary = LAND_META.get(_hero_land(), LAND_META["pyra"])
 	var accent: Color = meta["accent"]
 
 	# --- A. Top-Left Portrait Level Seal, Hero Title, Gold & Bar Numbers ---
@@ -1182,43 +1182,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	if pot_tex != null:
 		c.draw_texture_rect(pot_tex, pot_rect, false)
 
-	# --- B. Top-Center Realm Ribbon Tabs (at y=94px — 100% BELOW Android "WRÓĆ · TRYB SERWISOWY" banner!) ---
 	nav_hitboxes.clear()
-	var nr := _nav_ribbon_rect()
-	var nav_y := nr.position.y
-	var nav_items: Array = [
-		{"id": "pyra", "label": "PYRA", "kind": "land"},
-		{"id": "verdant", "label": "VERDANTIA", "kind": "land"},
-		{"id": "aether", "label": "AETHERIA", "kind": "land"},
-		{"id": "nexus", "label": "NEXUS-9", "kind": "land"},
-		{"id": "capital", "label": "STOLICA", "kind": "act"},
-		{"id": "town", "label": "WAROWNIE", "kind": "act"},
-	]
-	var total_lbl_w := 0.0
-	for item: Dictionary in nav_items:
-		total_lbl_w += f.get_string_size(str(item["label"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-	var sep_gap := (nr.size.x - 42.0 - total_lbl_w - 10.0) / float(nav_items.size() - 1)
-	sep_gap = clampf(sep_gap, 14.0, 26.0)
-	var content_w := total_lbl_w + sep_gap * float(nav_items.size() - 1) + 10.0
-	var cur_x := nr.position.x + (nr.size.x - content_w) * 0.5
-	for idx in nav_items.size():
-		var item: Dictionary = nav_items[idx]
-		var lbl := str(item["label"])
-		var lw := f.get_string_size(lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-		var active := (str(item["kind"]) == "land" and str(item["id"]) == current_land)
-		var tcol := Color(1.0, 0.88, 0.50) if active else (Color(0.56, 0.92, 0.66) if str(item["id"]) == "capital" else Color(0.84, 0.80, 0.72, 0.92))
-		c.draw_string_outline(f, Vector2(cur_x, nav_y + 27.0), lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 3, Color(0.02, 0.02, 0.02, 0.92))
-		c.draw_string(f, Vector2(cur_x, nav_y + 27.0), lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, tcol)
-		if active:
-			c.draw_line(Vector2(cur_x - 2.0, nav_y + 34.0), Vector2(cur_x + lw + 2.0, nav_y + 34.0), Color(1.0, 0.76, 0.28, 0.98), 2.6, true)
-		nav_hitboxes.append({"rect": Rect2(cur_x - 8.0, nav_y - 2.0, lw + 16.0, 46.0), "id": str(item["id"]), "kind": str(item["kind"])})
-		cur_x += lw + sep_gap
-		if idx == 3:
-			var sc := Vector2(cur_x - sep_gap * 0.5 + 3.0, nav_y + 21.0)
-			c.draw_colored_polygon(PackedVector2Array([sc + Vector2(0, -4), sc + Vector2(4, 0), sc + Vector2(0, 4), sc + Vector2(-4, 0)]), Color(1.0, 0.74, 0.28, 0.92))
-			cur_x += 10.0
-		elif idx < nav_items.size() - 1:
-			c.draw_circle(Vector2(cur_x - sep_gap * 0.5, nav_y + 21.0), 1.8, Color(0.92, 0.64, 0.24, 0.70))
 
 	# --- C. Bottom-Center Slim XP Filament Labels ---
 	var xp_r := _xp_pill_rect()
@@ -1381,7 +1345,7 @@ func _draw_modal_header_plaque(c: CanvasItem, f: Font, mr: Rect2, title_txt: Str
 func _draw_constellation_tree(c: CanvasItem, f: Font, mr: Rect2) -> void:
 	var fb: Font = MapStyle.body_font()
 	var rd := _race_data()
-	var meta: Dictionary = LAND_META.get(current_land, LAND_META["pyra"])
+	var meta: Dictionary = LAND_META.get(_hero_land(), LAND_META["pyra"])
 	var gr := _constellation_graph_rect(mr)
 	var ir := _inspector_rect(mr)
 	var umap := _unlocked_map()
@@ -1582,7 +1546,7 @@ func _draw_constellation_tree(c: CanvasItem, f: Font, mr: Rect2) -> void:
 func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 	var fb: Font = MapStyle.body_font()
 	var rd := _race_data()
-	var meta: Dictionary = LAND_META.get(current_land, LAND_META["pyra"])
+	var meta: Dictionary = LAND_META.get(_hero_land(), LAND_META["pyra"])
 	var accent: Color = meta["accent"]
 	var slot_tex := _load_tex("res://assets/ui/hud_skill_slot.png")
 

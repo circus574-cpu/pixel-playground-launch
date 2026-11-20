@@ -172,6 +172,7 @@ func spawn_world(full: bool) -> void:
 	world=scene.instantiate()
 	if full and char_id!="":
 		var data:Dictionary=load("res://scripts/characters.gd").read(load("res://scripts/characters.gd").slot_path(char_id))
+		world.start_race=str(data.get("race","legend"))
 		world.start_land=str(data.get("land","pyra"))
 		world.start_level=int(data.get("kit",{}).get("level",1))
 		world.start_gold=int(data.get("gold",20))
