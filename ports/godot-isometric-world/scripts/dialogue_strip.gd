@@ -89,9 +89,9 @@ func _ready() -> void:
 	visible = false
 
 	var st := StyleBoxFlat.new()
-	st.bg_color = Color(0.05, 0.045, 0.075, 0.90)
-	st.border_color = Color(0.94, 0.76, 0.36, 0.96)
-	st.set_border_width_all(2)
+	st.bg_color = Color(0.05, 0.045, 0.065, 0.94)
+	st.border_color = Color(0.98, 0.70, 0.24, 0.98)
+	st.set_border_width_all(3)
 	st.set_corner_radius_all(12)
 	st.content_margin_left = 14
 	st.content_margin_right = 14

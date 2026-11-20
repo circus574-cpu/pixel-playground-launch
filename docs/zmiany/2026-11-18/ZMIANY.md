@@ -255,3 +255,15 @@ Wdrożono dwuwarstwowy, niezasłaniający gry system rozmów ze wszystkimi 40 NP
   - Zawiera pigułki odpowiedzi: **`! ZADANIE (+45 XP / +80 zł)`** / **`? ODBIERZ NAGRODĘ`** (rzeczywiste nagrody do `rpg_hud` i czyszczenie znacznika `!`/`?`), **`◆ O REGIONIE`** (lore dla Pyry, Verdantii, Aetherii i Nexus-9), **`◆ OTWÓRZ USŁUGI`** (we wnętrzach — szybkie otwarcie funkcjonalnego okna sklepu/kuźni/banku) oraz **`✕ ŻEGNAJ`**.
 - **Weryfikacja QA i publikacja `1.14.9` na serwer testowy:** `ISO_WORLD_QA_OK` (Godot 4.6.3, nowy zrzut [npc-dialogue.jpg](qa/npc-dialogue.jpg), `0` błędów GDScript/shaderów, `0` wycieków RID), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.9` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.8`).
 
+## 16. Nowy Styl HUD „Wulkaniczny Obsydian i Roztopione Złoto” (9 Grafik Właściciela) i Wydanie `1.14.10` (2026-11-19)
+
+Wdrożono kompletny reskin HUD w oparciu o 9 dostarczonych przez właściciela arkuszy i medalionów w stylu spękanego obsydianu z roztopionym złotem i 4-ramiennymi gwiazdami:
+
+- **16 wyciętych przezroczystych zasobów UI (`ports/godot-isometric-world/assets/ui/obsidian/*.webp`):** tekstura spękanego obsydianu (`obsidian_bg.webp`), pierścienie 4-gwiazdkowe i lawowe (`ring_star.webp`, `ring_lava.webp`, `ring_gold.webp`), tabliczka obsydianowa (`plaque_obsidian.webp`), separatory i gwiazdy (`divider_wide.webp`, `divider_star.webp`, `star_gold.webp`, `bar_lava.webp`, `bar_gold.webp`) oraz gotowe medaliony właściciela (`btn_plecak.webp`, `btn_mapa.webp`, `btn_menu.webp`, `btn_attack.webp`, `btn_skill2.webp`, `btn_potion.webp`).
+- **Pełna integracja w `rpg_hud.gd`, `premium_minimap.gd`, `dialogue_strip.gd`:**
+  - Ramka portretu bohatera, okrągły pierścień minimapy z 4 gwiazdami kompasu i kule umiejętności w spękanej obsydianowo-złotej oprawie (`ring_star.webp` / `ring_lava.webp`).
+  - Lewa siatka medalionów wykorzystuje bezpośrednio malowane ikony `PLECAK`, `MAPA`, `MENU` + spękane tabliczki obsydianowe dla `SKILLE`, `GLOBUS`, `3D` i `PANEL GM`.
+  - Prawy dolny klaster bojowy używa kuli ataku z mieczem (`btn_attack.webp`), kuli wiru `2` (`btn_skill2.webp`) oraz dedykowanej, działającej kuli mikstury leczenia (`btn_potion.webp`, `+40% HP / +30% KI`).
+- **Weryfikacja QA i publikacja `1.14.10` na serwer testowy:** `ISO_WORLD_QA_OK` (Godot 4.6.3, odświeżone [pyra-citadel.jpg](qa/pyra-citadel.jpg) i [npc-dialogue.jpg](qa/npc-dialogue.jpg), `0` błędów, `0` wycieków RID), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.10` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.9`).
+
+

@@ -411,11 +411,16 @@ func _draw_overlay() -> void:
 	var arrow_out := PackedVector2Array([arrow[0], arrow[1], arrow[2], arrow[3], arrow[0]])
 	overlay_canvas.draw_polyline(arrow_out, Color(0.03, 0.06, 0.10, 0.98), 1.9, true)
 
-	# 8. Ornate Antique-Gold Double Bezel & ROTATING Compass Degree Ticks
-	overlay_canvas.draw_arc(MAP_CENTER, MAP_RADIUS + 7.0, 0.0, TAU, 80, Color(0.03, 0.02, 0.03, 0.82), 6.0, true)
-	overlay_canvas.draw_arc(MAP_CENTER, MAP_RADIUS + 4.5, 0.0, TAU, 80, Color(0.58, 0.42, 0.18, 0.96), 3.6, true)
-	overlay_canvas.draw_arc(MAP_CENTER, MAP_RADIUS + 2.2, 0.0, TAU, 80, Color(0.92, 0.76, 0.42, 0.98), 2.4, true)
-	overlay_canvas.draw_arc(MAP_CENTER, MAP_RADIUS - 0.5, 0.0, TAU, 80, Color(0.10, 0.08, 0.06, 0.95), 2.2, true)
+	# 8. Owner Volcanic Obsidian Cracked-Lava & 4-Star Molten-Gold Minimap Bezel
+	var ring_t: Texture2D = world.load_tex("res://assets/ui/obsidian/ring_star.webp") if world != null else null
+	if ring_t != null:
+		var br := MAP_RADIUS + 20.0
+		overlay_canvas.draw_texture_rect(ring_t, Rect2(MAP_CENTER - Vector2(br, br), Vector2(br * 2.0, br * 2.0)), false)
+	else:
+		overlay_canvas.draw_arc(MAP_CENTER, MAP_RADIUS + 7.0, 0.0, TAU, 80, Color(0.03, 0.02, 0.03, 0.82), 6.0, true)
+		overlay_canvas.draw_arc(MAP_CENTER, MAP_RADIUS + 4.5, 0.0, TAU, 80, Color(0.58, 0.42, 0.18, 0.96), 3.6, true)
+		overlay_canvas.draw_arc(MAP_CENTER, MAP_RADIUS + 2.2, 0.0, TAU, 80, Color(0.92, 0.76, 0.42, 0.98), 2.4, true)
+		overlay_canvas.draw_arc(MAP_CENTER, MAP_RADIUS - 0.5, 0.0, TAU, 80, Color(0.10, 0.08, 0.06, 0.95), 2.2, true)
 
 	for deg in range(0, 360, 10):
 		var rad := deg_to_rad(float(deg)) - map_rotation

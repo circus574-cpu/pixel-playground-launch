@@ -330,9 +330,9 @@ func _build_shader_widgets() -> void:
 	portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hud_widgets_root.add_child(portrait_rect)
 
-	portrait_ring_rect.texture = _load_tex("res://assets/ui/hud_portrait_ring.png")
+	portrait_ring_rect.texture = _load_tex("res://assets/ui/obsidian/ring_star.webp")
 	portrait_ring_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	portrait_ring_rect.stretch_mode = TextureRect.STRETCH_SCALE
+	portrait_ring_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	portrait_ring_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hud_widgets_root.add_child(portrait_ring_rect)
 
@@ -346,8 +346,8 @@ func _build_shader_widgets() -> void:
 	hud_widgets_root.add_child(crest_rect)
 
 	# 6 Circular Wild Rift Right-Thumb Combat Buttons (Q Basic, 1-4 Active Arc, R Ultimate)
-	var ring_key := _load_tex("res://assets/ui/hud_node_ring_keystone.png")
-	var ring_std := _load_tex("res://assets/ui/hud_node_ring_unlocked.png")
+	var ring_key := _load_tex("res://assets/ui/obsidian/ring_star.webp")
+	var ring_std := _load_tex("res://assets/ui/obsidian/ring_lava.webp")
 	for i in 6:
 		var itr := TextureRect.new()
 		itr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -357,8 +357,8 @@ func _build_shader_widgets() -> void:
 		imat.shader = circle_shader
 		imat.set_shader_parameter("saturation", 1.10)
 		imat.set_shader_parameter("brightness", 1.06)
-		imat.set_shader_parameter("inner_vignette", 0.24)
-		imat.set_shader_parameter("rim_glow", Color(1.0, 0.84, 0.36, 0.55) if (i == 0 or i == 5) else Color(0.95, 0.80, 0.42, 0.35))
+		imat.set_shader_parameter("inner_vignette", 0.22)
+		imat.set_shader_parameter("rim_glow", Color(1.0, 0.72, 0.24, 0.55) if (i == 0 or i == 5) else Color(0.98, 0.68, 0.22, 0.35))
 		itr.material = imat
 		hud_widgets_root.add_child(itr)
 		hotbar_icon_rects.append(itr)
@@ -367,7 +367,7 @@ func _build_shader_widgets() -> void:
 		var rtr := TextureRect.new()
 		rtr.texture = ring_key if (i == 0 or i == 5) else ring_std
 		rtr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		rtr.stretch_mode = TextureRect.STRETCH_SCALE
+		rtr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		rtr.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		hud_widgets_root.add_child(rtr)
 		hotbar_ring_rects.append(rtr)
@@ -584,7 +584,20 @@ func set_region(land: String) -> void:
 	race_badge_rect.texture = _icon_tex(str(meta["race_icon"]))
 	var rk := _race_key()
 	for i in mini(hotbar_icon_rects.size(), HOTBAR_NODE_IDS.size()):
-		hotbar_icon_rects[i].texture = _icon_tex("%s-%s.webp" % [rk, str(HOTBAR_NODE_IDS[i])])
+		if i == 0:
+			hotbar_icon_rects[i].texture = _load_tex("res://assets/ui/obsidian/btn_attack.webp")
+			hotbar_icon_rects[i].material = null
+			hotbar_icon_rects[i].stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			hotbar_ring_rects[i].visible = false
+		elif i == 2:
+			hotbar_icon_rects[i].texture = _load_tex("res://assets/ui/obsidian/btn_skill2.webp")
+			hotbar_icon_rects[i].material = null
+			hotbar_icon_rects[i].stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			hotbar_ring_rects[i].visible = false
+		else:
+			hotbar_icon_rects[i].texture = _icon_tex("%s-%s.webp" % [rk, str(HOTBAR_NODE_IDS[i])])
+			hotbar_icon_rects[i].material = hotbar_icon_mats[i]
+			hotbar_ring_rects[i].visible = true
 
 	res_bar_mat.set_shader_parameter("color_dark", meta["res_dark"])
 	res_bar_mat.set_shader_parameter("color_bright", meta["res_bright"])
@@ -921,11 +934,15 @@ func _layout_all() -> void:
 		var spec: Dictionary = wr_specs[i]
 		var center: Vector2 = spec["center"]
 		var r: float = float(spec["r"])
-		var dia := r * 2.0
-		hotbar_icon_rects[i].position = center - Vector2(r, r)
-		hotbar_icon_rects[i].size = Vector2(dia, dia)
-		var ring_pad := 10.0 if bool(spec["keystone"]) else 7.5
+		var ring_pad := 11.0 if bool(spec["keystone"]) else 8.5
 		var rr := r + ring_pad
+		if i == 0 or i == 2:
+			hotbar_icon_rects[i].position = center - Vector2(rr, rr)
+			hotbar_icon_rects[i].size = Vector2(rr * 2.0, rr * 2.0)
+		else:
+			var dia := r * 2.0
+			hotbar_icon_rects[i].position = center - Vector2(r, r)
+			hotbar_icon_rects[i].size = Vector2(dia, dia)
 		hotbar_ring_rects[i].position = center - Vector2(rr, rr)
 		hotbar_ring_rects[i].size = Vector2(rr * 2.0, rr * 2.0)
 
@@ -995,87 +1012,65 @@ func _draw_beveled_chamfer(canvas: CanvasItem, pts: PackedVector2Array, fill: Co
 	canvas.draw_colored_polygon(pts, fill)
 	var closed := PackedVector2Array(pts)
 	closed.append(pts[0])
-	canvas.draw_polyline(closed, border, 1.8, true)
+	canvas.draw_polyline(closed, border, 2.2, true)
 	# Subtle inset gold highlight along top edge
 	if pts.size() >= 2:
-		canvas.draw_line(pts[0] + Vector2(6, 2), pts[1] + Vector2(-6, 2), inner_border, 1.0, true)
+		canvas.draw_line(pts[0] + Vector2(6, 2), pts[1] + Vector2(-6, 2), inner_border, 1.2, true)
+
+func _draw_obsidian_plate(canvas: CanvasItem, rect: Rect2, border: Color) -> void:
+	var obs := _load_tex("res://assets/ui/obsidian/obsidian_bg.webp")
+	canvas.draw_rect(Rect2(rect.position + Vector2(0, 4), rect.size), Color(0.0, 0.0, 0.0, 0.50), true)
+	if obs != null:
+		canvas.draw_texture_rect(obs, rect, true, Color(0.92, 0.88, 0.86, 0.94))
+	else:
+		canvas.draw_rect(rect, Color(0.05, 0.04, 0.06, 0.90), true)
+	canvas.draw_rect(rect, border, false, 2.4)
+	canvas.draw_rect(rect.grow(-2.0), Color(1.0, 0.78, 0.34, 0.32), false, 1.0)
 
 func _draw() -> void:
 	if show_talents or show_character:
 		return
 	var meta: Dictionary = LAND_META.get(current_land, LAND_META["pyra"])
 	var accent: Color = meta["accent"]
+	var star_t := _load_tex("res://assets/ui/obsidian/star_gold.webp")
+	var div_w := _load_tex("res://assets/ui/obsidian/divider_wide.webp")
 
-	# 1) Top-Left Tapered Obsidian-Glass Vitality Wing (flows gracefully behind portrait & bars)
-	var wing_pts := PackedVector2Array([
-		Vector2(56.0, 18.0),
-		Vector2(338.0, 18.0),
-		Vector2(322.0, 96.0),
-		Vector2(304.0, 118.0),
-		Vector2(54.0, 118.0),
-	])
-	_draw_beveled_chamfer(
-		self,
-		wing_pts,
-		Color(0.05, 0.04, 0.06, 0.80),
-		Color(0.76, 0.59, 0.30, 0.82),
-		Color(0.98, 0.86, 0.54, 0.30)
-	)
+	# 1) Top-Left Cracked Volcanic Obsidian Vitality Plate (flows behind portrait & bars)
+	var wing_r := Rect2(54.0, 18.0, 286.0, 100.0)
+	_draw_obsidian_plate(self, wing_r, Color(0.98, 0.68, 0.22, 0.94))
+	if star_t != null:
+		draw_texture_rect(star_t, Rect2(wing_r.end.x - 10.0, wing_r.position.y - 10.0, 20.0, 20.0), false)
+		draw_texture_rect(star_t, Rect2(wing_r.end.x - 10.0, wing_r.end.y - 10.0, 20.0, 20.0), false)
 	# Subtle dark circular backdrop behind portrait
-	draw_circle(Vector2(60.0, 64.0), 46.0, Color(0.04, 0.03, 0.05, 0.94))
+	draw_circle(Vector2(60.0, 64.0), 46.0, Color(0.04, 0.03, 0.05, 0.96))
 
-	# 2) Top-Center Whisper-Thin Realm Navigation Ribbon (centered cleanly between wing & minimap)
+	# 2) Top-Center Cracked Obsidian Realm Navigation Ribbon (y=94px, clear of Android service bar)
 	var nr := _nav_ribbon_rect()
-	var nav_x := nr.position.x
-	var nav_y := nr.position.y
-	var nav_w := nr.size.x
-	var nav_h := nr.size.y
-	var nav_pts := PackedVector2Array([
-		Vector2(nav_x + 14.0, nav_y),
-		Vector2(nav_x + nav_w - 14.0, nav_y),
-		Vector2(nav_x + nav_w, nav_y + nav_h * 0.5),
-		Vector2(nav_x + nav_w - 14.0, nav_y + nav_h),
-		Vector2(nav_x + 14.0, nav_y + nav_h),
-		Vector2(nav_x, nav_y + nav_h * 0.5),
-	])
-	_draw_beveled_chamfer(
-		self,
-		nav_pts,
-		Color(0.05, 0.04, 0.06, 0.74),
-		Color(0.74, 0.58, 0.30, 0.72),
-		Color(1.0, 0.88, 0.58, 0.25)
-	)
+	_draw_obsidian_plate(self, nr, Color(0.98, 0.68, 0.22, 0.90))
+	if div_w != null:
+		draw_texture_rect(div_w, Rect2(nr.position.x - 8.0, nr.end.y - 9.0, nr.size.x + 16.0, 18.0), false, Color(1.0, 0.94, 0.80, 0.85))
+	if star_t != null:
+		draw_texture_rect(star_t, Rect2(nr.position.x - 10.0, nr.position.y + nr.size.y * 0.5 - 10.0, 20.0, 20.0), false)
+		draw_texture_rect(star_t, Rect2(nr.end.x - 10.0, nr.position.y + nr.size.y * 0.5 - 10.0, 20.0, 20.0), false)
 
-	# 3) Bottom-Center Slim Obsidian XP Filament Pill (leaving bottom-left 100% open for joystick!)
+	# 3) Bottom-Center Cracked Obsidian XP Bar Pill
 	var xp_r := _xp_pill_rect()
-	var xp_pts := PackedVector2Array([
-		Vector2(xp_r.position.x + 10.0, xp_r.position.y),
-		Vector2(xp_r.position.x + xp_r.size.x - 10.0, xp_r.position.y),
-		Vector2(xp_r.position.x + xp_r.size.x, xp_r.position.y + xp_r.size.y * 0.5),
-		Vector2(xp_r.position.x + xp_r.size.x - 10.0, xp_r.position.y + xp_r.size.y),
-		Vector2(xp_r.position.x + 10.0, xp_r.position.y + xp_r.size.y),
-		Vector2(xp_r.position.x, xp_r.position.y + xp_r.size.y * 0.5),
-	])
-	_draw_beveled_chamfer(
-		self,
-		xp_pts,
-		Color(0.05, 0.04, 0.06, 0.82),
-		Color(0.78, 0.61, 0.32, 0.84),
-		Color(1.0, 0.88, 0.56, 0.28)
-	)
+	_draw_obsidian_plate(self, xp_r, Color(0.98, 0.70, 0.24, 0.94))
+	if star_t != null:
+		draw_texture_rect(star_t, Rect2(xp_r.position.x - 9.0, xp_r.position.y + xp_r.size.y * 0.5 - 9.0, 18.0, 18.0), false)
+		draw_texture_rect(star_t, Rect2(xp_r.end.x - 9.0, xp_r.position.y + xp_r.size.y * 0.5 - 9.0, 18.0, 18.0), false)
 
-	# 4) Bottom-Right Wild Rift Right-Thumb Combat Cluster Subtle Filigree Arc & Backings
+	# 4) Bottom-Right Wild Rift Right-Thumb Combat Cluster Subtle Molten-Gold Arc & Backings
 	var wr_specs := _wild_rift_slot_specs()
 	if not wr_specs.is_empty():
 		var base_c: Vector2 = wr_specs[0]["center"]
-		# Delicate engraved gold guide arcs connecting the 4 thumb-arc skills & ultimate crown
 		draw_arc(base_c, 128.0, deg_to_rad(172.0), deg_to_rad(273.0), 40, Color(0.04, 0.03, 0.05, 0.55), 14.0, true)
-		draw_arc(base_c, 128.0, deg_to_rad(172.0), deg_to_rad(273.0), 40, Color(0.84, 0.66, 0.34, 0.42), 1.8, true)
-		draw_arc(base_c, 198.0, deg_to_rad(208.0), deg_to_rad(236.0), 18, Color(accent.r, accent.g, accent.b, 0.32), 1.5, true)
+		draw_arc(base_c, 128.0, deg_to_rad(172.0), deg_to_rad(273.0), 40, Color(0.98, 0.66, 0.22, 0.55), 2.0, true)
+		draw_arc(base_c, 198.0, deg_to_rad(208.0), deg_to_rad(236.0), 18, Color(accent.r, accent.g, accent.b, 0.36), 1.6, true)
 		for spec: Dictionary in wr_specs:
 			var sc: Vector2 = spec["center"]
 			var sr: float = float(spec["r"])
-			draw_circle(sc + Vector2(0.0, 4.0), sr + 6.0, Color(0.0, 0.0, 0.0, 0.48))
+			draw_circle(sc + Vector2(0.0, 4.0), sr + 6.0, Color(0.0, 0.0, 0.0, 0.52))
 			draw_circle(sc, sr + 4.0, Color(0.04, 0.03, 0.06, 0.94))
 
 # ==============================================================================
@@ -1093,13 +1088,13 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	# --- A. Top-Left Portrait Level Seal, Hero Title, Gold & Bar Numbers ---
 	var seal_c := Vector2(89.0, 93.0)
 	c.draw_circle(seal_c, 15.0, Color(0.06, 0.04, 0.04, 0.96))
-	c.draw_arc(seal_c, 15.0, 0.0, TAU, 28, Color(0.92, 0.74, 0.38, 0.98), 2.2, true)
-	c.draw_arc(seal_c, 11.5, 0.0, TAU, 24, Color(0.62, 0.44, 0.18, 0.70), 1.0, true)
+	c.draw_arc(seal_c, 15.0, 0.0, TAU, 28, Color(0.98, 0.72, 0.28, 0.98), 2.4, true)
+	c.draw_arc(seal_c, 11.5, 0.0, TAU, 24, Color(0.72, 0.42, 0.14, 0.75), 1.0, true)
 	var lv_txt := str(hero_level)
 	var lv_w := f.get_string_size(lv_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
 	c.draw_string(f, seal_c + Vector2(-lv_w * 0.5, 4.5), lv_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.92, 0.66))
 
-	# Hero Name (Cinzel) + Race Title (Alegreya Polish body font) cleanly inside the 338px wing
+	# Hero Name (Cinzel) + Race Title cleanly inside the obsidian plate
 	var hero_name := str(meta["hero"]).to_upper()
 	c.draw_string_outline(f, Vector2(114.0, 34.0), hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color(0.02, 0.01, 0.02, 0.95))
 	c.draw_string(f, Vector2(114.0, 34.0), hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.93, 0.76))
@@ -1117,7 +1112,6 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	if res_ico != null:
 		c.draw_texture_rect(res_ico, Rect2(110.0, 79.0, 13.0, 13.0), false)
 
-	# Clean crisp value overlays over the liquid bars (clear KI spacing!)
 	var hp_str := "%d / %d" % [int(round(hero_hp)), int(round(hero_max_hp))]
 	c.draw_string_outline(fb, Vector2(136.0, 53.0), hp_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 3, Color(0.02, 0.01, 0.01, 0.92))
 	c.draw_string(fb, Vector2(136.0, 53.0), hp_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.96, 0.94))
@@ -1129,13 +1123,11 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	var res_str := "%s  %d" % [str(meta["res_name"]), int(round(hero_res))]
 	c.draw_string(fb, Vector2(136.0, 89.5), res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1.0, 0.94, 0.84))
 
-	# Gold purse neatly tucked beside the 3rd tapered bar
 	var coin_tex := _icon_tex("gear-coin.webp")
 	if coin_tex != null:
 		c.draw_texture_rect(coin_tex, Rect2(258.0, 77.0, 15.0, 15.0), false)
 	c.draw_string(fb, Vector2(276.0, 89.5), str(hero_gold), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.85, 0.38))
 
-	# Zone safety jewel + clean location line
 	var z_col := Color(0.36, 0.94, 0.56) if in_safe_city else Color(1.0, 0.44, 0.24)
 	c.draw_circle(Vector2(115.0, 106.0), 4.0, z_col)
 	c.draw_arc(Vector2(115.0, 106.0), 6.0, 0.0, TAU, 16, Color(z_col.r, z_col.g, z_col.b, 0.40), 1.2, true)
@@ -1143,49 +1135,50 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	var loc_short := nearest_loc if nearest_loc.length() <= 21 else (nearest_loc.substr(0, 19) + "…")
 	c.draw_string(fb, Vector2(125.0, 110.0), "%s  •  %s" % [zone_prefix, loc_short], HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.92, 0.88, 0.78, 0.94))
 
-	# --- A2. Compact Top-Left Utility Medallion Row tucked under Vitality Wing (Bottom-Left 100% Clear for Joystick!) ---
+	# --- A2. Volcanic Obsidian Utility Medallions (Owner Painted PLECAK, MAPA, MENU + 4-Star Obsidian Ring Medallions) ---
 	util_hitboxes.clear()
-	var ring_gold := _load_tex("res://assets/ui/hud_node_ring_unlocked.png")
+	var ring_obs := _load_tex("res://assets/ui/obsidian/ring_star.webp")
 	var ring_cyan := _load_tex("res://assets/ui/hud_node_ring_avail.png")
+	var plaque_obs := _load_tex("res://assets/ui/obsidian/plaque_obsidian.webp")
 	var gm_active: bool = world != null and bool(world.gm_open)
 	var spd_badge := (" %.0f×" % float(world.gm_speed_mult)) if (world != null and float(world.gm_speed_mult) > 1.05) else ""
 	var all_utils: Array = [
+		{"id": "char", "key": "PLECAK", "full_tex": "res://assets/ui/obsidian/btn_plecak.webp", "badge": str(free_stat_points) if free_stat_points > 0 else "", "active": show_character},
+		{"id": "atlas", "key": "MAPA", "full_tex": "res://assets/ui/obsidian/btn_mapa.webp", "badge": "", "active": false},
+		{"id": "gm", "key": "MENU", "full_tex": "res://assets/ui/obsidian/btn_menu.webp", "badge": "", "active": gm_active},
 		{"id": "talents", "key": "SKILLE", "icon": "emblem_crystal.webp", "badge": str(skill_points) if skill_points > 0 else "", "active": show_talents},
-		{"id": "char", "key": "PLECAK", "icon": "emblem_pack.webp", "badge": str(free_stat_points) if free_stat_points > 0 else "", "active": show_character},
-		{"id": "atlas", "key": "MAPA", "icon": "hud-map.webp", "badge": "", "active": false},
 		{"id": "globe", "key": "GLOBUS", "icon": "emblem_gear.webp", "badge": "", "active": false},
 		{"id": "relief", "key": "3D", "icon": "emblem_swords.webp", "badge": "", "active": false},
-		{"id": "time", "key": "PORA", "icon": "emblem_scroll.webp", "badge": "", "active": false},
 	]
-	var u_dia := 52.0
+	var u_dia := 54.0
 	for ui in all_utils.size():
 		var col_u := ui % 3
 		var row_u := ui / 3
-		var u_cx := 44.0 + float(col_u) * 68.0
-		var u_cy := 158.0 + float(row_u) * 72.0
-		_draw_util_medallion(c, f, all_utils[ui], Vector2(u_cx, u_cy), u_dia, ring_gold, ring_cyan)
+		var u_cx := 48.0 + float(col_u) * 74.0
+		var u_cy := 162.0 + float(row_u) * 80.0
+		_draw_util_medallion(c, f, all_utils[ui], Vector2(u_cx, u_cy), u_dia, ring_obs, ring_cyan, plaque_obs)
 
-	# Large Unmissable Mobile-Friendly PANEL GM Button right below the medallions!
-	var gm_rect := Rect2(18.0, 276.0, 192.0, 48.0)
-	util_hitboxes.append({"rect": gm_rect.grow(5.0), "id": "gm"})
-	var gm_pts := PackedVector2Array([
-		Vector2(gm_rect.position.x + 10.0, gm_rect.position.y),
-		Vector2(gm_rect.end.x - 10.0, gm_rect.position.y),
-		Vector2(gm_rect.end.x, gm_rect.position.y + 10.0),
-		Vector2(gm_rect.end.x, gm_rect.end.y - 10.0),
-		Vector2(gm_rect.end.x - 10.0, gm_rect.end.y),
-		Vector2(gm_rect.position.x + 10.0, gm_rect.end.y),
-		Vector2(gm_rect.position.x, gm_rect.end.y - 10.0),
-		Vector2(gm_rect.position.x, gm_rect.position.y + 10.0),
-	])
-	var gm_fill := Color(0.10, 0.28, 0.34, 0.96) if gm_active else Color(0.20, 0.13, 0.05, 0.96)
-	var gm_rim := Color(0.38, 0.94, 1.0, 1.0) if gm_active else Color(1.0, 0.82, 0.36, 0.98)
-	_draw_beveled_chamfer(c, gm_pts, gm_fill, gm_rim, Color(1.0, 0.92, 0.62, 0.45))
-	var gm_ico := _icon_tex("hud-target.webp")
-	if gm_ico != null:
-		c.draw_texture_rect(gm_ico, Rect2(gm_rect.position.x + 10.0, gm_rect.position.y + 9.0, 30.0, 30.0), false)
+	# Sculpted Volcanic Obsidian PANEL GM Plaque right below the 2x3 medallions!
+	var gm_rect := Rect2(14.0, 294.0, 214.0, 62.0)
+	util_hitboxes.append({"rect": gm_rect.grow(4.0), "id": "gm"})
+	if plaque_obs != null:
+		c.draw_texture_rect(plaque_obs, gm_rect, false, Color(0.76, 0.96, 1.0) if gm_active else Color(1, 1, 1))
+	else:
+		_draw_obsidian_plate(c, gm_rect, Color(1.0, 0.78, 0.30))
 	var gm_txt := "PANEL GM" + spd_badge
-	c.draw_string(f, Vector2(gm_rect.position.x + 48.0, gm_rect.position.y + 30.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.94, 0.72))
+	var gtw := f.get_string_size(gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+	c.draw_string_outline(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 37.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.01, 0.96))
+	c.draw_string(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 37.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.92, 0.66))
+
+	# Dedicated Quick-Heal Potion Orb (Owner's btn_potion.webp) next to Bottom-Right Combat Cluster!
+	var vs_p := _vp_size()
+	var pot_c := Vector2(vs_p.x - 348.0, vs_p.y - 62.0)
+	var pot_r := 38.0
+	var pot_rect := Rect2(pot_c - Vector2(pot_r, pot_r), Vector2(pot_r * 2.0, pot_r * 2.0))
+	util_hitboxes.append({"rect": pot_rect.grow(6.0), "id": "potion"})
+	var pot_tex := _load_tex("res://assets/ui/obsidian/btn_potion.webp")
+	if pot_tex != null:
+		c.draw_texture_rect(pot_tex, pot_rect, false)
 
 	# --- B. Top-Center Realm Ribbon Tabs (at y=94px — 100% BELOW Android "WRÓĆ · TRYB SERWISOWY" banner!) ---
 	nav_hitboxes.clear()
@@ -1215,23 +1208,23 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		c.draw_string_outline(f, Vector2(cur_x, nav_y + 27.0), lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 3, Color(0.02, 0.02, 0.02, 0.92))
 		c.draw_string(f, Vector2(cur_x, nav_y + 27.0), lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, tcol)
 		if active:
-			c.draw_line(Vector2(cur_x - 2.0, nav_y + 34.0), Vector2(cur_x + lw + 2.0, nav_y + 34.0), Color(1.0, 0.84, 0.38, 0.95), 2.4, true)
+			c.draw_line(Vector2(cur_x - 2.0, nav_y + 34.0), Vector2(cur_x + lw + 2.0, nav_y + 34.0), Color(1.0, 0.76, 0.28, 0.98), 2.6, true)
 		nav_hitboxes.append({"rect": Rect2(cur_x - 8.0, nav_y - 2.0, lw + 16.0, 46.0), "id": str(item["id"]), "kind": str(item["kind"])})
 		cur_x += lw + sep_gap
 		if idx == 3:
 			var sc := Vector2(cur_x - sep_gap * 0.5 + 3.0, nav_y + 21.0)
-			c.draw_colored_polygon(PackedVector2Array([sc + Vector2(0, -4), sc + Vector2(4, 0), sc + Vector2(0, 4), sc + Vector2(-4, 0)]), Color(0.88, 0.70, 0.36, 0.85))
+			c.draw_colored_polygon(PackedVector2Array([sc + Vector2(0, -4), sc + Vector2(4, 0), sc + Vector2(0, 4), sc + Vector2(-4, 0)]), Color(1.0, 0.74, 0.28, 0.92))
 			cur_x += 10.0
 		elif idx < nav_items.size() - 1:
-			c.draw_circle(Vector2(cur_x - sep_gap * 0.5, nav_y + 21.0), 1.8, Color(0.70, 0.56, 0.32, 0.60))
+			c.draw_circle(Vector2(cur_x - sep_gap * 0.5, nav_y + 21.0), 1.8, Color(0.92, 0.64, 0.24, 0.70))
 
 	# --- C. Bottom-Center Slim XP Filament Labels ---
 	var xp_r := _xp_pill_rect()
 	var xp_pct := int(round((hero_xp / maxf(hero_max_xp, 1.0)) * 100.0))
-	c.draw_string(f, Vector2(xp_r.position.x + 14.0, xp_r.position.y + 16.0), "POZ.%d" % hero_level, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.96, 0.84, 0.52))
+	c.draw_string(f, Vector2(xp_r.position.x + 14.0, xp_r.position.y + 16.0), "POZ.%d" % hero_level, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.98, 0.84, 0.48))
 	var pd_txt := "PD %d%%" % xp_pct
 	var pd_w := f.get_string_size(pd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x
-	c.draw_string(f, Vector2(xp_r.position.x + xp_r.size.x - pd_w - 14.0, xp_r.position.y + 16.0), pd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.96, 0.84, 0.52))
+	c.draw_string(f, Vector2(xp_r.position.x + xp_r.size.x - pd_w - 14.0, xp_r.position.y + 16.0), pd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.98, 0.84, 0.48))
 
 	# --- D. Bottom-Right Wild Rift Right-Thumb Circular Skill Overlays (Cooldowns, Hover & Keybind Seals) ---
 	hotbar_hitboxes.clear()
@@ -1257,15 +1250,16 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		if hovered_hotbar_idx == i:
 			c.draw_arc(center, r + 5.0, 0.0, TAU, 32, Color(1.0, 0.90, 0.50, 0.92), 2.4, true)
 
-		# Sleek engraved circular keybind seal at bottom-right rim of each combat orb
-		var kb := str(HOTBAR_KEYS[i])
-		var k_pos := center + Vector2(0.0, r + 2.0)
-		var kr := 11.0 if bool(spec["keystone"]) else 9.5
-		c.draw_circle(k_pos, kr, Color(0.06, 0.04, 0.05, 0.96))
-		c.draw_arc(k_pos, kr, 0.0, TAU, 20, Color(0.90, 0.72, 0.36, 0.95), 1.5, true)
-		var ksz := 11 if bool(spec["keystone"]) else 10
-		var kw := f.get_string_size(kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz).x
-		c.draw_string(f, k_pos + Vector2(-kw * 0.5, float(ksz) * 0.36), kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz, Color(1.0, 0.93, 0.70))
+		# Skip redundant keybind badge on baked owner art orbs (0 Sword & 2 Whirlwind '2')
+		if i != 0 and i != 2:
+			var kb := str(HOTBAR_KEYS[i])
+			var k_pos := center + Vector2(0.0, r + 2.0)
+			var kr := 11.0 if bool(spec["keystone"]) else 9.5
+			c.draw_circle(k_pos, kr, Color(0.06, 0.04, 0.05, 0.96))
+			c.draw_arc(k_pos, kr, 0.0, TAU, 20, Color(0.98, 0.72, 0.28, 0.96), 1.6, true)
+			var ksz := 11 if bool(spec["keystone"]) else 10
+			var kw := f.get_string_size(kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz).x
+			c.draw_string(f, k_pos + Vector2(-kw * 0.5, float(ksz) * 0.36), kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz, Color(1.0, 0.93, 0.70))
 
 	# Hover tooltip anchored cleanly above the bottom-right Wild Rift combat cluster
 	if hovered_hotbar_idx >= 0 and hovered_hotbar_idx < HOTBAR_NODE_IDS.size() and not (show_talents or show_character):
@@ -1276,37 +1270,58 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			var tip_w := 340.0
 			var tip_h := 72.0
 			var tip_r := Rect2(vs.x - tip_w - 22.0, vs.y - 344.0, tip_w, tip_h)
-			c.draw_rect(tip_r, Color(0.05, 0.04, 0.06, 0.94), true)
-			c.draw_rect(tip_r, Color(0.86, 0.68, 0.36, 0.90), false, 1.6)
+			_draw_obsidian_plate(c, tip_r, Color(0.98, 0.70, 0.26, 0.94))
 			c.draw_string(f, tip_r.position + Vector2(12, 20), "%s  [%s]" % [str(h_nd.get("name", "")).to_upper(), str(HOTBAR_KEYS[hovered_hotbar_idx])], HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.88, 0.48))
 			c.draw_multiline_string(fb, tip_r.position + Vector2(12, 39), str(h_nd.get("effect", "")), HORIZONTAL_ALIGNMENT_LEFT, tip_w - 24.0, 11, 2, Color(0.90, 0.88, 0.84))
 
-func _draw_util_medallion(c: CanvasItem, f: Font, item: Dictionary, center: Vector2, dia: float, ring_gold: Texture2D, ring_cyan: Texture2D) -> void:
+func _draw_util_medallion(c: CanvasItem, f: Font, item: Dictionary, center: Vector2, dia: float, ring_gold: Texture2D, ring_cyan: Texture2D, plaque_obs: Texture2D = null) -> void:
 	var r := dia * 0.5
+	var full_path := str(item.get("full_tex", ""))
+	if not full_path.is_empty():
+		var ftex := _load_tex(full_path)
+		var fw := dia + 14.0
+		var fh := fw * 1.24
+		var frect := Rect2(center.x - fw * 0.5, center.y - r - 6.0, fw, fh)
+		util_hitboxes.append({"rect": frect.grow(3.0), "id": str(item["id"])})
+		if ftex != null:
+			var tint := Color(0.76, 0.96, 1.0) if bool(item.get("active", false)) else Color(1, 1, 1)
+			c.draw_texture_rect(ftex, frect, false, tint)
+		var badge := str(item.get("badge", ""))
+		if not badge.is_empty():
+			var bc := center + Vector2(r * 0.85, -r * 0.72)
+			c.draw_circle(bc, 9.0, Color(0.84, 0.22, 0.12, 0.98))
+			c.draw_arc(bc, 9.0, 0.0, TAU, 16, Color(1.0, 0.86, 0.46, 0.95), 1.6, true)
+			var bw := f.get_string_size(badge, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x
+			c.draw_string(f, bc + Vector2(-bw * 0.5, 3.5), badge, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1.0, 0.98, 0.90))
+		return
+
 	var rect := Rect2(center - Vector2(r, r), Vector2(dia, dia))
-	util_hitboxes.append({"rect": rect.grow(4.0), "id": str(item["id"])})
-	c.draw_circle(center + Vector2(0.0, 3.0), r + 2.0, Color(0.0, 0.0, 0.0, 0.44))
-	c.draw_circle(center, r, Color(0.05, 0.04, 0.06, 0.95))
-	var ico := _icon_tex(str(item["icon"]))
+	util_hitboxes.append({"rect": rect.grow(5.0), "id": str(item["id"])})
+	c.draw_circle(center + Vector2(0.0, 3.0), r + 2.0, Color(0.0, 0.0, 0.0, 0.48))
+	c.draw_circle(center, r, Color(0.05, 0.04, 0.06, 0.96))
+	var ico := _icon_tex(str(item.get("icon", "")))
 	if ico != null:
-		var inner_r := r * 0.72
+		var inner_r := r * 0.70
 		c.draw_texture_rect(ico, Rect2(center - Vector2(inner_r, inner_r), Vector2(inner_r * 2.0, inner_r * 2.0)), false)
 	var active := bool(item.get("active", false))
 	var ring_t := ring_cyan if active else ring_gold
 	if ring_t != null:
-		var rr := r + 4.5
+		var rr := r + 7.0
 		c.draw_texture_rect(ring_t, Rect2(center - Vector2(rr, rr), Vector2(rr * 2.0, rr * 2.0)), false)
 	var badge := str(item.get("badge", ""))
 	if not badge.is_empty():
-		var bc := center + Vector2(r * 0.74, -r * 0.74)
-		c.draw_circle(bc, 8.0, Color(0.84, 0.22, 0.12, 0.98))
-		c.draw_arc(bc, 8.0, 0.0, TAU, 16, Color(1.0, 0.86, 0.46, 0.95), 1.4, true)
+		var bc := center + Vector2(r * 0.78, -r * 0.74)
+		c.draw_circle(bc, 9.0, Color(0.84, 0.22, 0.12, 0.98))
+		c.draw_arc(bc, 9.0, 0.0, TAU, 16, Color(1.0, 0.86, 0.46, 0.95), 1.6, true)
 		var bw := f.get_string_size(badge, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x
 		c.draw_string(f, bc + Vector2(-bw * 0.5, 3.5), badge, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1.0, 0.98, 0.90))
+	if plaque_obs != null:
+		var pr := Rect2(center.x - 32.0, center.y + r - 4.0, 64.0, 26.0)
+		c.draw_texture_rect(plaque_obs, pr, false)
 	var ktxt := str(item["key"])
 	var kw := f.get_string_size(ktxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 9).x
-	c.draw_string_outline(f, Vector2(center.x - kw * 0.5, center.y + r + 12.5), ktxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, 3, Color(0.02, 0.01, 0.02, 0.95))
-	c.draw_string(f, Vector2(center.x - kw * 0.5, center.y + r + 12.5), ktxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(0.94, 0.84, 0.62))
+	c.draw_string_outline(f, Vector2(center.x - kw * 0.5, center.y + r + 12.5), ktxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, 3, Color(0.02, 0.01, 0.02, 0.96))
+	c.draw_string(f, Vector2(center.x - kw * 0.5, center.y + r + 12.5), ktxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(1.0, 0.92, 0.68))
 
 # ==============================================================================
 # MODAL CANVAS DRAW ([K] 29-NODE CONSTELLATION SKILL TREE & [I] CHARACTER PAPERDOLL)
@@ -1795,6 +1810,11 @@ func _handle_primary_tap(p: Vector2) -> bool:
 				"gm":
 					if world != null and world.has_method("toggle_gm_panel"):
 						world.toggle_gm_panel()
+				"potion":
+					hero_hp = minf(hero_max_hp, hero_hp + hero_max_hp * 0.40)
+					hero_ki = minf(hero_max_ki, hero_ki + hero_max_ki * 0.30)
+					_sync_bar_uniforms()
+					_refresh_visuals()
 			return true
 	return false
 
