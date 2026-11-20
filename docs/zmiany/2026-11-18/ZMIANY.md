@@ -233,6 +233,13 @@ Po testach na telefonie Android naprawiono wszystkie 6 zgłoszonych błędów i 
 - **Zatrzymanie zawieszonej muzyki ładowania i bliższa kamera `1.75` (`world.gd`):** dodano `_stop_lingering_loading_audio()` zatrzymujące odtwarzacz ekranu ładowania po wejściu do świata oraz zwiększono domyślny zoom kamery do **`1.75`** (zakres `0.65 .. 2.80`, ~2,8× bliżej względem bazowego `0.62`).
 - **Publikacja `1.14.7` na serwer testowy:** `ISO_WORLD_QA_OK`, `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.7` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.6`).
 
+## 14. Chodzone Wnętrza Wszystkich 59 Budynków Używalnych (Sklep, Kuźnia/Crafting, Bank/Depozyt, Karczma, Arena, Ratusz/Cytadela) i Wydanie `1.14.8` (2026-11-19)
 
+Zaimplementowano pełne, chodzone wnętrza 2D (Y-sortowane) dla **wszystkich 59 budynków używalnych** (`enterable: true`) na wszystkich 4 kontynentach (`Pyra: 13`, `Verdantia: 14`, `Aetheria: 16`, `Nexus-9: 16`; łącznie 7 ról: `smithy`, `shop`, `depot`, `inn`, `arena`, `hall`, `landmark`):
 
-
+- **48 malowanych zasobów mebli i wystroju wnętrz (`ports/godot-isometric-world/assets/interiors/{pyra,verdant,aether,nexus}/*.webp`):** włączono kompletne pakiety GPU po 12 obiektów na biom (`bed`, `firepot`, `counter`, `barrels`, `lanterns`, `chest`, `table`, `potions`, `crates`, `bookshelf`, `weapons`, `rug`).
+- **Scena chodzonego wnętrza (`ports/godot-isometric-world/scripts/interior_room.gd`, `world.gd`):**
+  - Podejście do wejścia dowolnego budynku używalnego (`≤ 56 m`) wyświetla wyraźny mobilny przycisk **`▶ WEJDŹ: <Nazwa Budynku>`** (lub `[F]` / `[Enter]`).
+  - W środku gracz porusza się animowanym bohaterem (`WASD`, wirtualny joystick na ekranie dotykowym, kliknięcie w podłogę) z kolizją ścian i mebli, animowanym NPC usługowym, świecącą matą wyjścia na dole pokoju oraz przyciskiem **`✕ WYJDŹ NA ZEWNĄTRZ`** (`[Esc]`).
+  - Działające usługi w budynkach (przycisk dolny lub kliknięcie NPC): **Sklep (`shop`)** — zakup do 15-slotowego plecaka za złoto, **Kuźnia (`smithy`)** — kucie/crafting ekwipunku, **Bank/Depozyt (`depot`)** — 15-slotowy skarbiec + wpłata/wypłata złota, **Karczma (`inn`)** — pełny odpoczynek `100% HP/KI`, **Arena (`arena`)** — trening bojowy (`+60 XP`, reset cooldownów), **Ratusz/Warownia (`hall`/`landmark`)** — kronika i błogosławieństwo.
+- **Weryfikacja QA i publikacja `1.14.8` na serwer testowy:** `ISO_WORLD_QA_OK` (Godot 4.6.3, nowy zrzut [interior-smithy.jpg](qa/interior-smithy.jpg), `0` błędów GDScript/shaderów, `0` wycieków RID), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.8` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.7`).

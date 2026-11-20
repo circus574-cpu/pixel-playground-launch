@@ -1,5 +1,5 @@
 {
-  "phase": "Planar A* Roads (Zero Spaghetti, Zero Buildings on Roads) + Single Continuous Bridges + Zero Monster Spawns + Studio Painted Heraldic Map Medallions",
+  "phase": "Walkable Painted Building Interiors (59 Enterable Buildings, 48 Biome Props, Shop/Crafting/Bank/Inn/Arena/Hall Services)",
   "project": "ports/godot-isometric-world",
   "projection_roundtrip_error_m": 0.0,
   "regions": {
@@ -10,6 +10,7 @@
         93.0,
         -127.0
       ],
+      "enterable_buildings_count": 16,
       "exp_zones_count": 0,
       "fauna_count": 18,
       "grid_size": 512,
@@ -27,6 +28,7 @@
         72.0,
         -6.0
       ],
+      "enterable_buildings_count": 16,
       "exp_zones_count": 0,
       "fauna_count": 18,
       "grid_size": 512,
@@ -44,6 +46,7 @@
         36.0,
         -21.0
       ],
+      "enterable_buildings_count": 13,
       "exp_zones_count": 0,
       "fauna_count": 18,
       "grid_size": 512,
@@ -61,6 +64,7 @@
         -155.0,
         -118.0
       ],
+      "enterable_buildings_count": 14,
       "exp_zones_count": 0,
       "fauna_count": 18,
       "grid_size": 512,
@@ -91,6 +95,7 @@
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/pyra-bridge.jpg",
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/talent-tree.jpg",
     "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/character-sheet.jpg",
-    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/gm-panel.jpg"
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/gm-panel.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/interior-smithy.jpg"
   ]
 }

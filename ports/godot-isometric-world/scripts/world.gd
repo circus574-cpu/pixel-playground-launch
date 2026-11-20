@@ -11,6 +11,7 @@ const PremiumMinimapScript := preload("res://scripts/premium_minimap.gd")
 const WorldAtmosphereScript := preload("res://scripts/world_atmosphere.gd")
 const RpgHudScript := preload("res://scripts/rpg_hud.gd")
 const GmPanelScript := preload("res://scripts/gm_panel.gd")
+const InteriorRoomScript := preload("res://scripts/interior_room.gd")
 const StickScript := preload("res://scripts/stick.gd")
 const MapStyle := preload("res://scripts/map_style.gd")
 
@@ -66,6 +67,8 @@ var hud := CanvasLayer.new()
 var atmosphere: Control
 var rpg_hud: Control
 var gm_panel: Control
+var interior_room: Control
+var btn_enter_bldg := Button.new()
 var premium_minimap: Control
 var map_3d: SubViewportContainer
 var atlas_overlay: Control
@@ -78,6 +81,8 @@ var motion := Vector2.ZERO
 var map_expanded := false
 var atlas_expanded := false
 var gm_open := false
+var in_interior := false
+var nearest_enterable: Dictionary = {}
 var gm_speed_mult := 1.0
 var gm_noclip := false
 var gm_map_teleport_mode := false
@@ -701,12 +706,69 @@ func build_hud() -> void:
 	gm_panel.visible = false
 	hud.add_child(gm_panel)
 
+	# Large mobile-friendly "WEJDŹ DO BUDYNKU" prompt button (visible when near any of the 59 enterable buildings)
+	var est := StyleBoxFlat.new()
+	est.bg_color = Color(0.14, 0.11, 0.06, 0.96)
+	est.border_color = Color(0.98, 0.78, 0.34, 0.98)
+	est.set_border_width_all(3)
+	est.set_corner_radius_all(12)
+	est.content_margin_left = 18
+	est.content_margin_right = 18
+	est.content_margin_top = 8
+	est.content_margin_bottom = 8
+	btn_enter_bldg.add_theme_stylebox_override("normal", est)
+	var esh := est.duplicate()
+	esh.bg_color = Color(0.24, 0.18, 0.08, 0.98)
+	btn_enter_bldg.add_theme_stylebox_override("hover", esh)
+	btn_enter_bldg.add_theme_font_override("font", MapStyle.body_font())
+	btn_enter_bldg.add_theme_font_size_override("font_size", 17)
+	btn_enter_bldg.add_theme_color_override("font_color", Color(1.0, 0.94, 0.74))
+	btn_enter_bldg.text = "▶ WEJDŹ DO BUDYNKU"
+	btn_enter_bldg.visible = false
+	btn_enter_bldg.pressed.connect(func() -> void:
+		if not nearest_enterable.is_empty():
+			enter_building(nearest_enterable)
+	)
+	hud.add_child(btn_enter_bldg)
+
+	interior_room = InteriorRoomScript.new()
+	interior_room.world = self
+	interior_room.visible = false
+	hud.add_child(interior_room)
+
 	stick_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
 	stick_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stick_layer.set_script(StickScript)
 	stick_layer.set("world", self)
 	hud.add_child(stick_layer)
 	layout_minimap()
+
+func enter_building(b: Dictionary) -> void:
+	if b.is_empty() or interior_room == null:
+		return
+	in_interior = true
+	map_expanded = false
+	atlas_expanded = false
+	gm_open = false
+	if rpg_hud != null and rpg_hud.has_method("close_modals"):
+		rpg_hud.close_modals()
+	target_pos = Vector2(-1.0, -1.0)
+	motion = Vector2.ZERO
+	move_pointer = -1
+	interior_room.enter_building(current_land, b)
+	layout_minimap()
+	stick_layer.queue_redraw()
+
+func exit_building() -> void:
+	if not in_interior:
+		return
+	in_interior = false
+	motion = Vector2.ZERO
+	move_pointer = -1
+	target_pos = Vector2(-1.0, -1.0)
+	layout_minimap()
+	sync_hero()
+	stick_layer.queue_redraw()
 
 func cycle_time_of_day() -> void:
 	if atmosphere != null:
@@ -716,6 +778,27 @@ func cycle_time_of_day() -> void:
 
 func layout_minimap() -> void:
 	var vp := get_viewport_rect().size
+	if in_interior:
+		if interior_room != null:
+			interior_room.visible = true
+		if rpg_hud != null:
+			rpg_hud.visible = false
+		if atmosphere != null:
+			atmosphere.visible = false
+		if premium_minimap != null:
+			premium_minimap.visible = false
+		if map_3d != null:
+			map_3d.visible = false
+		if atlas_overlay != null:
+			atlas_overlay.visible = false
+		if gm_panel != null:
+			gm_panel.visible = false
+		btn_enter_bldg.visible = false
+		if stick_layer != null:
+			stick_layer.visible = true
+		return
+	if interior_room != null:
+		interior_room.visible = false
 	var show_world_ui := not (map_expanded or atlas_expanded)
 	var rpg_modal_open: bool = gm_open or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)))
 	if rpg_hud != null:
@@ -742,8 +825,14 @@ func layout_minimap() -> void:
 		atlas_overlay.visible = atlas_expanded
 	if gm_panel != null:
 		gm_panel.visible = gm_open and show_world_ui
+	var bw := clampf(vp.x * 0.34, 280.0, 420.0)
+	btn_enter_bldg.size = Vector2(bw, 52.0)
+	btn_enter_bldg.position = Vector2((vp.x - bw) * 0.5, vp.y - 148.0)
+	btn_enter_bldg.visible = show_world_ui and not rpg_modal_open and not nearest_enterable.is_empty()
 
 func toggle_gm_panel(force_open: Variant = null) -> void:
+	if in_interior:
+		return
 	var next_v: bool = (not gm_open) if force_open == null else bool(force_open)
 	gm_open = next_v
 	if gm_open:
@@ -758,6 +847,8 @@ func toggle_gm_panel(force_open: Variant = null) -> void:
 		rpg_hud._refresh_visuals()
 
 func toggle_map() -> void:
+	if in_interior:
+		return
 	if atlas_expanded:
 		atlas_expanded = false
 	if gm_open:
@@ -767,6 +858,8 @@ func toggle_map() -> void:
 	stick_layer.queue_redraw()
 
 func toggle_atlas(open: bool) -> void:
+	if in_interior and open:
+		return
 	atlas_expanded = open
 	if atlas_expanded:
 		map_expanded = false
@@ -779,10 +872,27 @@ func toggle_atlas(open: bool) -> void:
 	stick_layer.queue_redraw()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if in_interior:
+		if event is InputEventKey and event.pressed and not event.echo:
+			if event.keycode == KEY_ESCAPE:
+				if interior_room != null and bool(interior_room.service_open):
+					interior_room.toggle_service_panel(false)
+				else:
+					exit_building()
+				return
+		elif event is InputEventScreenTouch:
+			handle_touch(event)
+		elif event is InputEventScreenDrag:
+			handle_drag(event)
+		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_F1 or event.keycode == KEY_P:
 			toggle_gm_panel()
 			return
+		elif event.keycode == KEY_F or event.keycode == KEY_ENTER:
+			if not nearest_enterable.is_empty():
+				enter_building(nearest_enterable)
+				return
 		elif event.keycode == KEY_ESCAPE and gm_open:
 			toggle_gm_panel(false)
 			return
@@ -910,6 +1020,8 @@ func set_zoom(z: float) -> void:
 	camera.zoom = Vector2(zoom_level, zoom_level)
 
 func _process(delta: float) -> void:
+	if in_interior:
+		return
 	step_world(delta)
 
 func step_world(delta: float) -> void:
@@ -992,6 +1104,28 @@ func sync_hero() -> void:
 	if atlas_overlay != null and atlas_expanded:
 		atlas_overlay.sync_live_hero()
 
+	# Detect nearest enterable building within 56m of its entrance or center
+	var best_b: Dictionary = {}
+	var best_bd := 56.0
+	for b: Dictionary in buildings:
+		if not bool(b.get("enterable", false)):
+			continue
+		var bx := float(b.get("x", 0.0))
+		var bz := float(b.get("z", 0.0))
+		var d := hero_pos.distance_to(Vector2(bx, bz))
+		var ent = b.get("entrance", [])
+		if ent is Array and ent.size() >= 2:
+			d = minf(d, hero_pos.distance_to(Vector2(float(ent[0]), float(ent[1]))))
+		if d < best_bd:
+			best_bd = d
+			best_b = b
+	nearest_enterable = best_b
+	var show_world_ui := not (map_expanded or atlas_expanded or in_interior)
+	var rpg_modal_open: bool = gm_open or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)))
+	if not nearest_enterable.is_empty():
+		btn_enter_bldg.text = "▶ WEJDŹ: %s" % str(nearest_enterable.get("title", "Budynek"))
+	btn_enter_bldg.visible = show_world_ui and not rpg_modal_open and not nearest_enterable.is_empty()
+
 func snap(out_dir: String, file: String) -> String:
 	for _i in 4:
 		await get_tree().process_frame
@@ -1062,9 +1196,12 @@ func run_qa() -> void:
 			shots.append(await snap(out_dir, town_shots[land]))
 
 		var bridge_cnt := 0
+		var enterable_cnt := 0
 		for b: Dictionary in buildings:
 			if str(b.get("role", "")) == "bridge":
 				bridge_cnt += 1
+			if bool(b.get("enterable", false)):
+				enterable_cnt += 1
 
 		regions_report[land] = {
 			"title": region_title,
@@ -1073,6 +1210,7 @@ func run_qa() -> void:
 			"capital_center": [capital_center.x - world_size * 0.5, capital_center.y - world_size * 0.5],
 			"roads_count": roads.size(),
 			"buildings_count": buildings.size(),
+			"enterable_buildings_count": enterable_cnt,
 			"bridges_count": bridge_cnt,
 			"npcs_count": npcs_data.size(),
 			"exp_zones_count": exp_zones.size(),
@@ -1172,9 +1310,22 @@ func run_qa() -> void:
 	shots.append(await snap(out_dir, "gm-panel.jpg"))
 	toggle_gm_panel(false)
 
+	# 9) Walkable Building Interior QA (Pyra Smithy — Kuźnia Żaru)
+	var smithy_b: Dictionary = {}
+	for b: Dictionary in buildings:
+		if bool(b.get("enterable", false)) and str(b.get("role", "")) == "smithy":
+			smithy_b = b
+			break
+	if not smithy_b.is_empty():
+		enter_building(smithy_b)
+		for _i in 4:
+			await get_tree().process_frame
+		shots.append(await snap(out_dir, "interior-smithy.jpg"))
+		exit_building()
+
 	var report := {
 		"project": "ports/godot-isometric-world",
-		"phase": "Planar A* Roads (Zero Spaghetti, Zero Buildings on Roads) + Single Continuous Bridges + Zero Monster Spawns + Studio Painted Heraldic Map Medallions",
+		"phase": "Walkable Painted Building Interiors (59 Enterable Buildings, 48 Biome Props, Shop/Crafting/Bank/Inn/Arena/Hall Services)",
 		"projection_roundtrip_error_m": snappedf(roundtrip_err, 0.0001),
 		"regions": regions_report,
 		"screenshots": shots,
