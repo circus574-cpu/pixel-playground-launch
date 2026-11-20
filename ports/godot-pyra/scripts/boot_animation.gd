@@ -105,7 +105,7 @@ func _ready() -> void:
 
 static func fract_hash(value: float) -> float:
 	var n := sin(value * 12.9898) * 43758.5453
-	return n - floorf(n)
+	return n - floor(n)
 
 func _layout() -> void:
 	var rect := cropped_rect(size)
@@ -120,11 +120,11 @@ func _process(delta: float) -> void:
 	elapsed += delta
 	var rect := cropped_rect(size)
 	# Cinematic breathing / parallax, independently timed and loopable.
-	background.position = rect.position + Vector2(sinf(elapsed * 0.29) * 2.1, cosf(elapsed * 0.37) * 1.8)
+	background.position = rect.position + Vector2(sin(elapsed * 0.29) * 2.1, cos(elapsed * 0.37) * 1.8)
 	for i in range(specks.size()):
 		var p := positions[i]
-		specks[i].position = Vector2(p.x * size.x, p.y * size.y - 7.0 * sinf(elapsed * 0.28 + float(i)))
-		specks[i].modulate.a = clampf(0.2 + 0.65 * sinf(elapsed * (0.65 + float(i % 5) * 0.11) + float(i) * 1.81), 0.0, 0.7)
+		specks[i].position = Vector2(p.x * size.x, p.y * size.y - 7.0 * sin(elapsed * 0.28 + float(i)))
+		specks[i].modulate.a = clampf(0.2 + 0.65 * sin(elapsed * (0.65 + float(i % 5) * 0.11) + float(i) * 1.81), 0.0, 0.7)
 
 ## Negative fraction means progress cannot be measured, so show indeterminate animation.
 ## 0..1 is the real fraction of bytes received or resources loaded.
