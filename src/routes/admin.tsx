@@ -20,7 +20,6 @@ export const Route = createFileRoute("/admin")({
   component: AdminPage,
 });
 
-const CoderAdminPanel = lazy(() => import("@/components/admin/CoderAdminPanel"));
 const AdminServerStatus = lazy(() =>
   import("@/components/admin/AdminServerStatus").then((m) => ({
     default: m.AdminServerStatus,
@@ -49,7 +48,6 @@ function AdminPage() {
     | "monitoring"
     | "audit"
     | "content"
-    | "coder"
     | "diagnostyka"
     | "world-overview"
     | "android"
@@ -91,7 +89,6 @@ function AdminPage() {
               ["android", "Gra Android"],
               ["audit", "Dziennik"],
               ["logins", "Logowania"],
-              ["coder", "Postacie lokalne"],
               ["diagnostyka", "Diagnostyka urządzenia"],
             ] as const
           ).map(([id, label]) => (
@@ -137,11 +134,6 @@ function AdminPage() {
         {tab === "content" && (
           <Suspense fallback={<p role="status">Wczytywanie edytora zawartości…</p>}>
             <AdminWorldEditor />
-          </Suspense>
-        )}
-        {tab === "coder" && (
-          <Suspense fallback={<p role="status">Wczytywanie postaci lokalnych…</p>}>
-            <CoderAdminPanel />
           </Suspense>
         )}
         {tab === "diagnostyka" && <DeviceDiagnostics />}
