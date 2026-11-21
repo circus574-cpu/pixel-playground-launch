@@ -11,6 +11,7 @@ on:
       - vite.config.ts
       - Dockerfile
       - deploy/**
+      - scripts/build_publications.mjs
       - .github/workflows/aruba-production.yml
 permissions:
   contents: read
