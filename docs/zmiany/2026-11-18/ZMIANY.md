@@ -341,3 +341,19 @@ Zastąpiono filmowy pasek ładowania **prawdziwym, żywym panelem ładowania** z
   - Przycisk `ZADANIA I CELE` pod `PANEL GM` (oraz klawisz `[J]`) z licznikiem gotowych nagród i dwiema zakładkami: *Rozdziały Dziedzictwa* i *Cele Rozwoju Rasy*.
 - **Szkic rozkładu spawnów 40 potworów do wglądu właściciela:**
   - Wygenerowano 4 mapy kontynentów + zbiorczy arkusz poglądowy (0 potworów w bezpiecznych stolicach, 10 stref na kontynent, gradacja poziomów `1–4 → 6–10 → 12–16 → 18`) bez wprowadzania spawnów do gry przed akceptacją.
+
+### 25. 4× powiększenie kontynentów (`4096×4096 m`), 32 nowe obiekty biomowe, 5 sub-biomów na kontynent i 1:1 synchronizacja wszystkich map (`1.14.20`, 2026-11-21)
+
+- **Powiększenie 4 kontynentów (`scripts/godot/expand_iso_continents.py`):**
+  - Zwiększono skalę liniową wszystkich 4 kontynentów 4× (`world_size: 1024 → 4096 m`, czyli **16× większa powierzchnia**) bez utraty istniejących budynków, wnętrz, NPC, dróg ani mostów oraz z zachowaniem kanonicznych map `map_art.png`, `minimap_hq.png`, `relief_3d.r32`, `height.r32`, `walkable.u8`, `planet_real_world.png` i `globe-real-world.webp`.
+  - Zachowano kompaktowe, ludzkie stolice (`safe_city_radius = 250 m`, rozstaw budynków `1,08×` wokół centrum), dzięki czemu bezpieczna stolica zajmuje teraz **12,2% szerokości (~1,5% powierzchni)** zamiast wcześniejszych 40%, a zewnętrzne warownie, mosty i trakty leżą dokładnie w swoich kanonicznych współrzędnych UV (`4×`) z płynnym przejściem `C¹` dróg oraz odświeżonym kanałem dróg (`B`) w `surface.png` (`1024×1024`).
+- **Różnorodność krajobrazowa — 5 sub-biomów na każdym kontynencie (`ports/godot-isometric-world/assets/biomes/*.webp`):**
+  - Dodano **32 nowe, ręcznie malowane izometryczne obiekty krajobrazowe** (8 na kontynent, wycięte z czystą alfą bez białych obwódek) połączone z biblioteką wodospadów, ruin i flory w **2 738** rozmieszczonych wyłącznie na suchym terenie obiektów (`Pyra`: 586, `Verdantia`: 740, `Aetheria`: 713, `Nexus-9`: 699).
+  - Każdy kontynent dzieli się na 5 wyraźnie odmiennych geograficznie sub-biomów (m.in. *Wulkaniczna Kaldera*, *Spalony Las Żelazodrzewu*, *Cmentarzysko Smoków*, *Pradawna Puszcza Druidów*, *Świetliste Mokradła Lotosowe*, *Ośnieżone Szczyty Północy*, *Szmaragdowa Oaza Gorących Źródeł*, *Kryształowe Lodowce*, *Cmentarzysko Mechów*, *Pola Plazmowe*, *Bioluminescencyjne Ogrody*).
+  - `terrain.gdshader` i `world.gd`: dynamiczne `uv_scale = 88 × (world_size / 1024)` (`352` przy `4096 m`) z wielooktawową modulacją podłoża, dynamiczny culling widoczności obiektów wokół kamery dla stabilnych 60 FPS na Androidzie, szybszy bazowy ruch (`SPEED = 46`) oraz wyświetlanie aktualnej nazwy sub-biomu w HUD i na minimapie po wyjściu ze stolicy.
+- **1:1 synchronizacja 4 widoków map (`premium_minimap.gd`, `map_3d.gd`, `atlas_overlay.gd`, `globe_view.gd`):**
+  - Minimapa skaluje zoom dynamicznie względem `world_size` (`11,2× / 4,4× / 1,05×`), Mapa 3D kontynentu skaluje relief, zasięg kamery, mgłę i zbliżenie stolicy (`480 m`), a Atlas 2D pozwala przybliżać aż do `24×` na ulice zwartej stolicy — wszystko 1:1 ze światem gry.
+- **Zaktualizowane szkice spawnów 40 potworów (`scripts/godot/render_spawn_sketch.py`, `docs/zmiany/2026-11-18/qa/spawn_sketch_*.jpg`):**
+  - Wyrenderowano odświeżone szkice na skali `4096 m` z realnymi punktami budynków, kompaktową zieloną strefą bezpieczną (`r = 250 m`) i nazwami sub-biomów. W świecie gry nadal obowiązuje `0` spawnów potworów do akceptacji właściciela.
+- **Weryfikacja:** Godot 4.6.3 `--qa` (`ISO_WORLD_QA_OK`, `0` błędów skryptów/zasobów, inspekcja wizualna stolic, sub-biomów, mostów, Mapy 3D, Atlasu 2D i Globusa 3D), `python3 scripts/docs/check_documentation.py` (`PASS`), wydanie OTA **`1.14.20`**.
+

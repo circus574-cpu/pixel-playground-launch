@@ -23,7 +23,7 @@ const ISO_W := 5.6
 const ISO_D := 2.8
 const ISO_H := 3.8
 const STEP := 2
-const SPEED := 34.0
+const SPEED := 46.0
 const SPRITE_SCALE := 0.56
 
 const REGION_ORDER := ["pyra", "verdant", "aether", "nexus"]
@@ -43,12 +43,13 @@ const HERO_ACTORS := {
 var current_land := "pyra"
 var region_title := "Pyra — Twierdza Popiołu"
 var grid_size := 512
-var world_size := 1024.0
-var safe_city_radius := 180.0
-var capital_center := Vector2(512.0, 512.0)
+var world_size := 4096.0
+var safe_city_radius := 250.0
+var capital_center := Vector2(2048.0, 2048.0)
 var heights := PackedFloat32Array()
 var walkable := PackedByteArray()
 var surface_img: Image
+var sub_biomes: Array = []
 var roads: Array = []
 var landmarks: Array = []
 var buildings: Array = []
@@ -66,6 +67,8 @@ var terrain_mesh := MeshInstance2D.new()
 var ysort := Node2D.new()
 var hero
 var live_agents: Array[Dictionary] = []
+var prop_nodes: Array[Node2D] = []
+var _cull_accum := 0.0
 var camera := Camera2D.new()
 var hud := CanvasLayer.new()
 var atmosphere: Control
@@ -330,6 +333,7 @@ func load_terrain(land: String) -> void:
 	var surf_tex: Texture2D = load_tex(rdir + "/surface.png")
 	surface_img = surf_tex.get_image() if surf_tex != null else null
 
+	sub_biomes = []
 	roads = []
 	buildings = []
 	npcs_data = []
@@ -344,13 +348,19 @@ func load_terrain(land: String) -> void:
 		var bdata: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(bpath))
 		grid_size = int(bdata.get("grid_size", 512))
 		world_size = float(bdata.get("world_size", 1024.0))
-		safe_city_radius = float(bdata.get("safe_city_radius", 205.0))
+		safe_city_radius = float(bdata.get("safe_city_radius", 250.0))
 		var half := world_size * 0.5
 		var cap_arr: Array = bdata.get("capital_center", [0.0, 0.0])
 		if cap_arr.size() >= 2:
 			capital_center = Vector2(float(cap_arr[0]) + half, float(cap_arr[1]) + half)
 		else:
 			capital_center = Vector2(half, half)
+
+		for sb: Dictionary in bdata.get("sub_biomes", []):
+			var sbc: Dictionary = sb.duplicate()
+			sbc["x"] = float(sb.get("x", 0.0)) + half
+			sbc["z"] = float(sb.get("z", 0.0)) + half
+			sub_biomes.append(sbc)
 
 		for rd: Dictionary in bdata.get("roads", []):
 			var conv_pts: Array = []
@@ -487,6 +497,9 @@ func build_isometric_mesh() -> void:
 	mat.set_shader_parameter("surface_tex", load_tex("%s/surface.png" % rdir))
 	mat.set_shader_parameter("map_art_tex", load_tex("%s/map_art.png" % rdir))
 	mat.set_shader_parameter("surface_color", surface_color_for(current_land))
+	var ws_s := maxf(world_size / 1024.0, 1.0)
+	mat.set_shader_parameter("uv_scale", 88.0 * ws_s)
+	mat.set_shader_parameter("world_scale", ws_s)
 	terrain_mesh.material = mat
 
 func grid_vertex(gx: int, gz: int) -> Dictionary:
@@ -546,6 +559,8 @@ func make_fitted_sprite(tex_path: String, box_w: float, box_h: float, anchor_y: 
 
 func build_world_objects_and_actors() -> void:
 	live_agents.clear()
+	prop_nodes.clear()
+	_last_cull_cam = Vector2(1e9, 1e9)
 	for child in ysort.get_children():
 		if child != hero:
 			child.queue_free()
@@ -591,7 +606,7 @@ func build_world_objects_and_actors() -> void:
 
 		ysort.add_child(node)
 
-	# 2. Diverse Painted Flora, Trees, Flowers, Waterfalls, Rocks, Ruins, Shrines & Camps
+	# 2. Diverse Painted Flora, Trees, Flowers, Waterfalls, Rocks, Ruins, Shrines & Biome Landmarks (culled by camera radius)
 	for p: Dictionary in props:
 		var px := float(p.get("x", 512.0))
 		var pz := float(p.get("z", 512.0))
@@ -612,6 +627,7 @@ func build_world_objects_and_actors() -> void:
 			pnode.add_child(fx_node)
 
 		ysort.add_child(pnode)
+		prop_nodes.append(pnode)
 
 	# 3. 6 Exp-Zone Combat Clearing Banners ("EXPOWISKA Lv. 1..18")
 	for ez: Dictionary in exp_zones:
@@ -1334,19 +1350,45 @@ func try_move(step: Vector2) -> void:
 			hero_pos = candidate
 			return
 
+var _last_cull_cam := Vector2(1e9, 1e9)
+var _last_cull_zoom := -1.0
+
+func _cull_props(force: bool = false) -> void:
+	var cam_p := camera.position
+	if not force and cam_p.distance_squared_to(_last_cull_cam) < 900.0 and absf(zoom_level - _last_cull_zoom) < 0.02:
+		return
+	_last_cull_cam = cam_p
+	_last_cull_zoom = zoom_level
+	var rx := 2400.0 / maxf(zoom_level, 0.50)
+	var ry := 1750.0 / maxf(zoom_level, 0.50)
+	for nd: Node2D in prop_nodes:
+		if not is_instance_valid(nd):
+			continue
+		var dx := absf(nd.position.x - cam_p.x)
+		var dy := absf(nd.position.y - cam_p.y)
+		nd.visible = (dx < rx and dy < ry)
+
 func sync_hero() -> void:
 	var h := height_at(hero_pos.x, hero_pos.y)
 	if hero != null:
 		hero.position = iso(hero_pos.x, hero_pos.y, h)
 		camera.position = hero.position + Vector2(0, -34)
+	_cull_props()
 	var nearest := ""
-	var best := 9999.0
+	var best := 99999.0
 	for lm: Dictionary in landmarks:
 		var d := hero_pos.distance_to(Vector2(float(lm.x), float(lm.z)))
 		if d < best:
 			best = d
 			nearest = str(lm.title)
 	var in_safe := hero_pos.distance_to(capital_center) <= safe_city_radius
+	if not in_safe and best > 260.0 and not sub_biomes.is_empty():
+		var best_sb_d := 99999.0
+		for sb: Dictionary in sub_biomes:
+			var sd := hero_pos.distance_to(Vector2(float(sb.get("x", 0.0)), float(sb.get("z", 0.0))))
+			if sd < best_sb_d:
+				best_sb_d = sd
+				nearest = str(sb.get("name", nearest))
 	if rpg_hud != null:
 		rpg_hud.sync_status(nearest, in_safe)
 	if premium_minimap != null:
@@ -1521,7 +1563,7 @@ func run_qa() -> void:
 	map_3d.orbit(Vector2(65, -16))
 	shots.append(await snap(out_dir, "map-3d.jpg"))
 
-	map_3d.focus_on_capital_close(290.0)
+	map_3d.focus_on_capital_close(480.0)
 	for _i in 5:
 		await get_tree().process_frame
 	shots.append(await snap(out_dir, "map-3d-zoom.jpg"))
@@ -1536,7 +1578,7 @@ func run_qa() -> void:
 	shots.append(await snap(out_dir, "map-3d-verdant.jpg"))
 	toggle_map()
 
-	# 6) Wilderness Road & Single Continuous Bridge Crossing + Dynamic Rotating Minimap on Road
+	# 6) Wilderness Road, Single Continuous Bridge Crossing & Deep Sub-Biome Landscape Showcase
 	switch_region("verdant")
 	set_zoom(0.58)
 	hero_pos = _find_first_bridge_pos()
@@ -1552,6 +1594,17 @@ func run_qa() -> void:
 		premium_minimap.set_heading_immediate(Vector2(-0.82, 0.56))
 	step_world(0.20)
 	shots.append(await snap(out_dir, "pyra-bridge.jpg"))
+
+	# Deep Pyra Sub-Biome Vista (Sulfur Badlands / Dragon Graveyard / Magma Caldera)
+	var deep_pt := capital_center + Vector2(620.0, 260.0)
+	for p: Dictionary in props:
+		if str(p.get("sub_biome", "")) == "sulfur" and str(p.get("kind", "")) == "landmark":
+			deep_pt = Vector2(float(p.get("x", deep_pt.x)), float(p.get("z", deep_pt.y))) + Vector2(36.0, 42.0)
+			break
+	teleport_to_world_pos("pyra", deep_pt.x, deep_pt.y)
+	set_zoom(0.62)
+	step_world(0.20)
+	shots.append(await snap(out_dir, "pyra-wilderness-biome.jpg"))
 
 	# 7) AAA 29-Node Diamond Constellation Skill Tree ([K]) & Paperdoll Character Sheet ([I]) on Pyra
 	switch_region("pyra")

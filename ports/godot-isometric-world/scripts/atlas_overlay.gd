@@ -178,7 +178,7 @@ func sync_live_hero() -> void:
 
 func focus_atlas_continent(rid: String, zoom_lvl: float = 3.2) -> void:
 	set_mode("atlas")
-	atlas_zoom = clampf(zoom_lvl, 1.0, 12.0)
+	atlas_zoom = clampf(zoom_lvl, 1.0, 24.0)
 	if continent_data.has(rid):
 		var cd: Dictionary = continent_data[rid]
 		var ws := float(cd.get("world_size", 1024.0))
@@ -345,7 +345,7 @@ func set_mode(new_mode: String) -> void:
 func _zoom_atlas(factor: float, anchor_screen: Vector2 = Vector2(-1.0, -1.0)) -> void:
 	var mr := _map_rect()
 	var old_z := atlas_zoom
-	var new_z := clampf(atlas_zoom * factor, 1.0, 12.0)
+	var new_z := clampf(atlas_zoom * factor, 1.0, 24.0)
 	if anchor_screen.x >= 0.0 and mr.has_point(anchor_screen) and absf(new_z - old_z) > 0.001:
 		var anchor_a := _screen_to_atlas(anchor_screen, mr)
 		atlas_zoom = new_z

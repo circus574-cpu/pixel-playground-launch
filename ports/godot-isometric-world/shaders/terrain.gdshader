@@ -11,7 +11,8 @@ uniform sampler2D surface_tex : filter_linear;
 uniform sampler2D map_art_tex : source_color, filter_linear;
 uniform vec3 surface_color = vec3(1.0, 0.28, 0.04);
 uniform float uv_scale = 88.0;
-uniform float map_tint_strength = 0.48;
+uniform float world_scale = 1.0;
+uniform float map_tint_strength = 0.56;
 
 float hash21(vec2 p) {
 	p = fract(p * vec2(123.34, 456.21));
@@ -45,10 +46,12 @@ void fragment() {
 	vec4 weights = texture(weights_tex, UV);
 	weights /= max(dot(weights, vec4(1.0)), 0.001);
 	vec2 uv = UV * uv_scale;
+	float ws = max(world_scale, 1.0);
 
-	float n_macro = fbm(UV * 18.0);
-	float n_shore = fbm(UV * 68.0);
-	float n_fine = vnoise(UV * 190.0);
+	float n_macro = fbm(UV * 16.0);
+	float n_mid = fbm(UV * 44.0);
+	float n_shore = fbm(UV * 68.0 * sqrt(ws));
+	float n_fine = vnoise(UV * 190.0 * ws);
 
 	vec3 c0 = texture(mat_0_tex, uv).rgb;
 	vec3 c1 = texture(mat_1_tex, uv * 0.92).rgb;
@@ -63,12 +66,12 @@ void fragment() {
 	float pbr_lum = max(dot(ground, vec3(0.299, 0.587, 0.114)), 0.08);
 	float map_lum = max(dot(map_col, vec3(0.299, 0.587, 0.114)), 0.08);
 	vec3 detail_grain = clamp(ground / pbr_lum, vec3(0.55), vec3(1.55));
-	vec3 synced_ground = clamp(map_col * mix(vec3(1.0), detail_grain, 0.68), vec3(0.0), vec3(1.0));
+	vec3 synced_ground = clamp(map_col * mix(vec3(1.0), detail_grain, 0.70), vec3(0.0), vec3(1.0));
 	// Boost snow brightness & micro-sparkle when canonical map_art is bright snow
 	float is_snow = smoothstep(0.68, 0.84, map_lum) * (1.0 - smoothstep(0.18, 0.34, max(max(map_col.r, map_col.g), map_col.b) - min(min(map_col.r, map_col.g), map_col.b)));
-	ground = mix(ground, synced_ground, clamp(map_tint_strength + is_snow * 0.25, 0.0, 0.85));
-	// Subtle dappled sunlight & cloud variation so open grass/snow/rock never looks flat or tiled
-	ground *= mix(0.93, 1.07, n_macro);
+	ground = mix(ground, synced_ground, clamp(map_tint_strength + is_snow * 0.25, 0.0, 0.88));
+	// Rich multi-scale dappled sunlight & regional ground variation so vast 4096m sub-biomes never look uniform or tiled
+	ground *= mix(0.89, 1.11, n_macro) * mix(0.95, 1.05, n_mid);
 
 	vec4 surf = texture(surface_tex, UV);
 

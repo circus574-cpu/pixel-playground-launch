@@ -12,6 +12,8 @@ var world: Node2D
 var vp := SubViewport.new()
 var root := Node3D.new()
 var terrain_node := MeshInstance3D.new()
+var ocean_node := MeshInstance3D.new()
+var world_env := WorldEnvironment.new()
 var cam := Camera3D.new()
 var relief_heights := PackedFloat32Array()
 var relief_grid := 256
@@ -26,6 +28,20 @@ var dragging := false
 var panning := false
 const STEP := 2
 
+func _ws() -> float:
+	if world == null:
+		return 1024.0
+	return maxf(float(world.world_size), 256.0)
+
+func _ws_scale() -> float:
+	return maxf(_ws() / 1024.0, 1.0)
+
+func _min_dist() -> float:
+	return 145.0 if _ws_scale() <= 1.2 else 240.0
+
+func _max_dist() -> float:
+	return _ws() * 1.42
+
 func _ready() -> void:
 	stretch = true
 	vp.own_world_3d = true
@@ -35,7 +51,6 @@ func _ready() -> void:
 	add_child(vp)
 	vp.add_child(root)
 
-	var env := WorldEnvironment.new()
 	var e := Environment.new()
 	e.background_mode = Environment.BG_COLOR
 	e.background_color = Color(0.06, 0.14, 0.24, 1.0)
@@ -45,8 +60,8 @@ func _ready() -> void:
 	e.fog_enabled = true
 	e.fog_light_color = Color(0.06, 0.14, 0.24)
 	e.fog_density = 0.00045
-	env.environment = e
-	root.add_child(env)
+	world_env.environment = e
+	root.add_child(world_env)
 
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-42.0, -35.0, 0.0)
@@ -59,7 +74,6 @@ func _ready() -> void:
 	var ocean_mat := StandardMaterial3D.new()
 	ocean_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	ocean_mat.albedo_color = Color(0.085, 0.185, 0.305, 1.0)
-	var ocean_node := MeshInstance3D.new()
 	ocean_node.mesh = ocean_mesh
 	ocean_node.material_override = ocean_mat
 	ocean_node.position = Vector3(0.0, -1.2, 0.0)
@@ -68,8 +82,8 @@ func _ready() -> void:
 	root.add_child(terrain_node)
 
 	cam.fov = 36.0
-	cam.near = 2.0
-	cam.far = 3600.0
+	cam.near = 4.0
+	cam.far = 18000.0
 	root.add_child(cam)
 	_build_mobile_buttons()
 	resized.connect(_layout_mobile_buttons)
@@ -133,7 +147,7 @@ func _build_mobile_buttons() -> void:
 	btn_zin_3d.text = "+"
 	_style_3d_btn(btn_zin_3d, Color(0.14, 0.10, 0.06, 0.94), Color(0.88, 0.70, 0.36, 0.96), 22)
 	btn_zin_3d.pressed.connect(func() -> void:
-		distance = clampf(distance * 0.78, 145.0, 1450.0)
+		distance = clampf(distance * 0.76, _min_dist(), _max_dist())
 		queue_redraw()
 	)
 	add_child(btn_zin_3d)
@@ -141,7 +155,7 @@ func _build_mobile_buttons() -> void:
 	btn_zout_3d.text = "−"
 	_style_3d_btn(btn_zout_3d, Color(0.14, 0.10, 0.06, 0.94), Color(0.88, 0.70, 0.36, 0.96), 22)
 	btn_zout_3d.pressed.connect(func() -> void:
-		distance = clampf(distance * 1.28, 145.0, 1450.0)
+		distance = clampf(distance * 1.32, _min_dist(), _max_dist())
 		queue_redraw()
 	)
 	add_child(btn_zout_3d)
@@ -198,15 +212,16 @@ func relief_at_world(wx: float, wz: float) -> float:
 	return _relief_at_grid(gx, gz)
 
 func zoom_detail_level() -> float:
-	return clampf((880.0 - distance) / 660.0, 0.0, 1.0)
+	var ws := _ws()
+	return clampf((ws * 0.86 - distance) / maxf(ws * 0.72, 200.0), 0.0, 1.0)
 
-func focus_on_capital_close(dist_m: float = 280.0) -> void:
+func focus_on_capital_close(dist_m: float = 480.0) -> void:
 	if world == null:
 		return
 	var half: float = float(world.world_size) * 0.5
 	var cap_p: Vector2 = world.capital_center
 	focus_offset = Vector2(cap_p.x - half, cap_p.y - half)
-	distance = clampf(dist_m, 145.0, 1450.0)
+	distance = clampf(dist_m, _min_dist(), _max_dist())
 	pitch = 0.88
 	yaw = -0.35
 
@@ -232,6 +247,14 @@ func rebuild_for_region() -> void:
 		relief_grid = int(world.grid_size)
 
 	var ws: float = float(world.world_size)
+	var ws_s := _ws_scale()
+	cam.far = maxf(3600.0, ws * 4.8)
+	cam.near = maxf(2.0, 2.0 * ws_s)
+	if ocean_node.mesh is PlaneMesh:
+		(ocean_node.mesh as PlaneMesh).size = Vector2(ws * 9.0, ws * 9.0)
+	ocean_node.position = Vector3(0.0, -1.2 * ws_s, 0.0)
+	if world_env.environment != null:
+		world_env.environment.fog_density = 0.00045 / ws_s
 	distance = ws * 0.90
 	focus_offset = Vector2.ZERO
 
@@ -264,6 +287,7 @@ func rebuild_for_region() -> void:
 
 func cell(gx: int, gz: int, ws: float) -> Dictionary:
 	var half := ws * 0.5
+	var ws_s := maxf(ws / 1024.0, 1.0)
 	var u := float(gx) / float(relief_grid - 1)
 	var v := float(gz) / float(relief_grid - 1)
 	var wx := u * ws
@@ -274,7 +298,7 @@ func cell(gx: int, gz: int, ws: float) -> Dictionary:
 	var n := Vector3(-sx, 3.2, -sz).normalized()
 	var shade := clampf(0.68 + 0.44 * n.dot(Vector3(-0.55, 0.72, -0.42).normalized()), 0.46, 1.18)
 	var c := Color(shade, shade * 0.99, shade * 0.97, 1.0)
-	return {"p": Vector3(wx - half, h * 1.45, wz - half), "c": c, "uv": Vector2(u, v)}
+	return {"p": Vector3(wx - half, h * 1.45 * ws_s, wz - half), "c": c, "uv": Vector2(u, v)}
 
 func tri(st: SurfaceTool, a: Dictionary, b: Dictionary, c: Dictionary) -> void:
 	for v: Dictionary in [a, b, c]:
@@ -287,10 +311,11 @@ func _process(_d: float) -> void:
 		return
 	var ws: float = float(world.world_size)
 	var half := ws * 0.5
+	var ws_s := _ws_scale()
 	if terrain_mat != null:
 		terrain_mat.set_shader_parameter("zoom_detail", zoom_detail_level())
 
-	var ty := relief_at_world(focus_offset.x + half, focus_offset.y + half) * 1.45 + 12.0
+	var ty := relief_at_world(focus_offset.x + half, focus_offset.y + half) * 1.45 * ws_s + 12.0 * ws_s
 	var target := Vector3(focus_offset.x, ty, focus_offset.y)
 	var dir := Vector3(cos(pitch) * sin(yaw), sin(pitch), cos(pitch) * cos(yaw))
 	cam.look_at_from_position(target + dir * distance, target, Vector3.UP)
@@ -304,13 +329,15 @@ func _gui_input(event: InputEvent) -> void:
 		elif mb.button_index == MOUSE_BUTTON_MIDDLE:
 			panning = mb.pressed
 		elif mb.button_index == MOUSE_BUTTON_WHEEL_UP and mb.pressed:
-			distance = clampf(distance * 0.86, 145.0, 1450.0)
-			if world != null and distance < 460.0 and focus_offset.length() < 4.0:
-				var half: float = float(world.world_size) * 0.5
+			var ws := _ws()
+			distance = clampf(distance * 0.84, _min_dist(), _max_dist())
+			if world != null and distance < ws * 0.45 and focus_offset.length() < 4.0:
+				var half: float = ws * 0.5
 				focus_offset = focus_offset.lerp(world.capital_center - Vector2(half, half), 0.35)
 		elif mb.button_index == MOUSE_BUTTON_WHEEL_DOWN and mb.pressed:
-			distance = clampf(distance / 0.86, 145.0, 1450.0)
-			if distance > 780.0:
+			var ws := _ws()
+			distance = clampf(distance / 0.84, _min_dist(), _max_dist())
+			if distance > ws * 0.76:
 				focus_offset = focus_offset.lerp(Vector2.ZERO, 0.35)
 	elif event is InputEventMouseMotion:
 		var mm: InputEventMouseMotion = event
@@ -331,16 +358,18 @@ func pan_map(rel: Vector2) -> void:
 	var right_v := Vector2(cos(yaw), -sin(yaw))
 	var fwd_v := Vector2(-sin(yaw), -cos(yaw))
 	focus_offset += (-right_v * rel.x + fwd_v * rel.y) * scale_p
-	focus_offset.x = clampf(focus_offset.x, -420.0, 420.0)
-	focus_offset.y = clampf(focus_offset.y, -420.0, 420.0)
+	var lim := _ws() * 0.45
+	focus_offset.x = clampf(focus_offset.x, -lim, lim)
+	focus_offset.y = clampf(focus_offset.y, -lim, lim)
 
 func _project(wx: float, wz: float, h_bias: float = 0.0) -> Variant:
 	var ws: float = float(world.world_size)
 	var half := ws * 0.5
+	var ws_s := _ws_scale()
 	var vp_s := Vector2(vp.size)
 	if vp_s.x <= 1.0 or vp_s.y <= 1.0:
 		return null
-	var p3 := Vector3(wx - half, relief_at_world(wx, wz) * 1.45 + h_bias, wz - half)
+	var p3 := Vector3(wx - half, relief_at_world(wx, wz) * 1.45 * ws_s + h_bias * ws_s, wz - half)
 	if cam.is_position_behind(p3):
 		return null
 	return cam.unproject_position(p3) * (size / vp_s)
@@ -386,7 +415,7 @@ func _draw() -> void:
 	if world == null:
 		return
 	var detail := zoom_detail_level()
-	var zoom_x := clampf(920.0 / maxf(distance, 120.0), 0.7, 6.5)
+	var zoom_x := clampf((_ws() * 0.90) / maxf(distance, 120.0), 0.7, 16.0)
 	var inner_rect := Rect2(10.0, 52.0, size.x - 20.0, size.y - 96.0)
 
 	# 1. ALL 50-80 REAL PLANAR IN-GAME ROADS draped cleanly on 3D relief with Liang-Barsky clipping & 4-tier hierarchy!

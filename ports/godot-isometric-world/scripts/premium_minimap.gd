@@ -11,7 +11,7 @@ const MAP_DIAMETER := 224.0
 const MAP_RADIUS := 112.0
 const MAP_CENTER := Vector2(138.0, 126.0)
 const WIDGET_SIZE := Vector2(276.0, 256.0)
-const ZOOM_LEVELS := [3.20, 1.90, 1.00]
+const ZOOM_BASE_LEVELS := [2.80, 1.10, 1.05]
 const ISO_ALIGN_ROT := -PI * 0.25 # Exact 1:1 match with iso(x,z) camera: NW=UP, NE=RIGHT, SE=DOWN, SW=LEFT!
 
 var world: Node2D
@@ -33,6 +33,19 @@ var hero_heading := Vector2(-0.7071, -0.7071)
 var map_rotation := ISO_ALIGN_ROT
 var target_rotation := ISO_ALIGN_ROT
 var last_hero_pos := Vector2(512.0, 512.0)
+
+func _ws_scale() -> float:
+	if world == null:
+		return 1.0
+	return maxf(float(world.world_size) / 1024.0, 1.0)
+
+func _zoom_for_idx(idx: int) -> float:
+	var ws_s := _ws_scale()
+	if idx == 0:
+		return float(ZOOM_BASE_LEVELS[0]) * ws_s
+	elif idx == 1:
+		return float(ZOOM_BASE_LEVELS[1]) * ws_s
+	return float(ZOOM_BASE_LEVELS[2])
 
 func _ready() -> void:
 	custom_minimum_size = WIDGET_SIZE
@@ -137,6 +150,8 @@ func build_location_plate() -> void:
 func load_region_texture(land: String) -> void:
 	if world == null:
 		return
+	current_zoom = _zoom_for_idx(zoom_idx)
+	btn_zoom.text = "%.1f×" % current_zoom
 	var tex: Texture2D = world.load_tex("res://regions/%s/minimap_hq.png" % land)
 	if tex != null:
 		map_tex_rect.texture = tex
@@ -152,8 +167,8 @@ func load_region_texture(land: String) -> void:
 	refresh()
 
 func toggle_zoom_mode() -> void:
-	zoom_idx = (zoom_idx + 1) % ZOOM_LEVELS.size()
-	current_zoom = float(ZOOM_LEVELS[zoom_idx])
+	zoom_idx = (zoom_idx + 1) % ZOOM_BASE_LEVELS.size()
+	current_zoom = _zoom_for_idx(zoom_idx)
 	btn_zoom.text = "%.1f×" % current_zoom
 	refresh()
 
@@ -300,7 +315,8 @@ func _draw_overlay() -> void:
 				for pt: Array in raw_pts:
 					spts.append(_world_to_radar(float(pt[0]), float(pt[1]), center_uv))
 				var base_w := 3.0 if tier == "highway" else (2.4 if tier == "city" else (2.0 if tier == "regional" else 1.4))
-				var rw := clampf(base_w * (current_zoom / 2.2), 1.0, 4.2)
+				var norm_zoom := current_zoom / _ws_scale()
+				var rw := clampf(base_w * (norm_zoom / 2.2), 1.0, 4.2)
 				_draw_clipped_polyline(spts, clip_r, Color(0.08, 0.05, 0.03, 0.76), rw + 1.4)
 				var rcol := Color(0.98, 0.89, 0.64, 0.92) if tier == "highway" else (
 					Color(0.95, 0.87, 0.68, 0.88) if tier == "city" else (
@@ -321,6 +337,7 @@ func _draw_overlay() -> void:
 		_draw_clipped_polyline(ring_pts, clip_r, Color(0.38, 0.94, 0.62, 0.34), 1.3)
 
 	# 3. REAL BUILDING FOOTPRINTS & BRIDGES (shows actual city layout directly on radar!)
+	var norm_z := current_zoom / _ws_scale()
 	for b: Dictionary in world.buildings:
 		var role := str(b.get("role", ""))
 		if role == "prop":
@@ -329,11 +346,11 @@ func _draw_overlay() -> void:
 		if bp.distance_to(MAP_CENTER) > clip_r - 4.0:
 			continue
 		if role == "bridge":
-			_draw_pin("bridge", bp, 16.0 if current_zoom >= 2.0 else 12.0)
+			_draw_pin("bridge", bp, 16.0 if norm_z >= 1.5 else 12.0)
 		else:
 			var foot_m := float(b.get("footprint_r", 20.0))
 			var fr := clampf(foot_m * px_per_m * 0.65, 2.4, 14.0)
-			if current_zoom >= 1.6:
+			if norm_z >= 0.9:
 				var half_s := Vector2(fr, fr * 0.82)
 				var corners := PackedVector2Array([
 					bp + Vector2(-half_s.x, -half_s.y).rotated(-map_rotation),
