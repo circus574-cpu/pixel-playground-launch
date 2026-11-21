@@ -35,7 +35,7 @@ export function publicationEntry(sha, date, subject, body) {
   };
 }
 
-/** `### N. Title` headings of the newest daily journals. */
+/** `## N. Title` and `### N. Title` headings of the newest daily journals. */
 export function journalEntries(root, days = 5) {
   const dir = path.join(root, "docs", "zmiany");
   if (!existsSync(dir)) return [];
@@ -48,8 +48,8 @@ export function journalEntries(root, days = 5) {
       date,
       items: readFileSync(path.join(dir, date, "ZMIANY.md"), "utf8")
         .split("\n")
-        .filter((l) => /^###\s+/.test(l))
-        .map((l) => l.replace(/^###\s+(\d+\.\s*)?/, "").trim())
+        .filter((l) => /^#{2,3}\s+/.test(l))
+        .map((l) => l.replace(/^#{2,3}\s+(\d+\.\s*)?/, "").trim())
         .reverse(),
     }));
 }
