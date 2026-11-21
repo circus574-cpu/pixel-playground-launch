@@ -153,6 +153,10 @@ func choose_character() -> String:
 				var rec: Dictionary = server_chars[cid]
 				var race := str(rec.get("race", "legend"))
 				if not HOME.has(race): continue
+				var st: Dictionary = rec.get("state", {})
+				var stats: Dictionary = rec.get("stats", {})
+				var nodes_arr: Array = st.get("unlockedNodes", [])
+				var quests_dict: Dictionary = st.get("completedQuests", {})
 				roster.append({
 					"id": cid,
 					"race": race,
@@ -162,21 +166,50 @@ func choose_character() -> String:
 					"cloudSlot": 0,
 					"name": str(rec.get("name", "")),
 					"extra": auth_progress_text(rec),
+					"gold": int(rec.get("gold", 0)),
+					"bankGold": int(st.get("bankGold", 0)),
+					"hp": int(st.get("hp", int(stats.get("maxHp", 140)))),
+					"maxHp": int(stats.get("maxHp", 140)),
+					"ki": int(st.get("ki", int(stats.get("maxKi", 45)))),
+					"maxKi": int(stats.get("maxKi", 45)),
+					"attack": int(stats.get("attack", 14)),
+					"defense": int(stats.get("defense", 5)),
+					"critChance": float(stats.get("critChance", 5.0)),
+					"speedBonusPct": int(stats.get("speedBonusPct", 0)),
+					"xp": int(st.get("xp", 0)),
+					"xpNeeded": int(stats.get("xpNeeded", 1400)),
+					"talentsCount": nodes_arr.size(),
+					"questsCount": quests_dict.size(),
 				})
 		else:
 			for id in legacy_server:
 				var player: Dictionary = (legacy_server[id] as Dictionary).get("state", {}).get("player", {})
 				var race := str(player.get("race", "legend"))
 				if not HOME.has(race): continue
+				var lv := int(player.get("level", 1))
 				roster.append({
 					"id": id,
 					"race": race,
-					"level": int(player.get("level", 1)),
+					"level": lv,
 					"land": HOME[race],
 					"time": int(Time.get_unix_time_from_system()),
 					"cloudSlot": 0,
 					"name": str(player.get("name", "")),
 					"extra": progress_text(player),
+					"gold": int(player.get("gold", 0)),
+					"bankGold": 0,
+					"hp": 140 + (lv - 1) * 24,
+					"maxHp": 140 + (lv - 1) * 24,
+					"ki": 45 + (lv - 1) * 8,
+					"maxKi": 45 + (lv - 1) * 8,
+					"attack": 14 + (lv - 1) * 4,
+					"defense": 5 + (lv - 1) * 2,
+					"critChance": 5.0,
+					"speedBonusPct": mini(lv - 1, 19) * 5,
+					"xp": int(player.get("xp", 0)),
+					"xpNeeded": 1400,
+					"talentsCount": (player.get("skills", []) as Array).size() if player.get("skills") is Array else 1,
+					"questsCount": 0,
 				})
 			for entry in Chars.list():
 				if not legacy_server.has(str(entry.id)):

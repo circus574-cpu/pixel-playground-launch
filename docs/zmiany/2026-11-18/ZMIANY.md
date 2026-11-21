@@ -387,4 +387,13 @@ Zastąpiono filmowy pasek ładowania **prawdziwym, żywym panelem ładowania** z
   - **Modyfikator przewagi poziomu i kara za szare potwory:** potwory o `3+` poziomy wyższe od bohatera zadają `+35%` obrażeń i otrzymują `-35%` obrażeń; potwory o `3+` poziomy niższe od bohatera dają `-50%` PD (`-75%` przy `5+` poziomach różnicy).
 - **Weryfikacja:** `npm run typecheck`, `vitest` (`godot-android-economy.test.ts`, `admin-readability.test.tsx`), `eslint`, `npm run build`, `python3 scripts/docs/check_documentation.py` (`PASS`), Godot 4.6.3 `--qa` (`ISO_WORLD_QA_OK`), wydanie OTA **`1.14.22`**.
 
+### 28. Przebudowa ekranu wyboru postaci (`character_select.gd` + `service_screen.gd`, `1.14.23`, 2026-11-21)
+
+- **Pionowa lista postaci w słupku z płynnym przewijaniem dotykowym (`ports/godot-pyra/scripts/character_select.gd`):**
+  - Zastąpiono stary poziomy układ kart pionową, przewijaną palcem i kółkiem myszy listą w słupku (`Jan · Poziom 7 · Planetarny` + portret i kraina) z jawną obsługą gestu `InputEventScreenDrag` (bez blokowania przewijania przez kliknięcie kafelka) oraz przyciskiem `+ STWÓRZ NOWĄ POSTAĆ`.
+- **Rozsuwany panel statystyk bohatera z malowanymi ikonami (`service_screen.gd`, `character_select.gd`):**
+  - `service_screen.gd` przekazuje pełną strukturę statystyk z serwera (`hp`, `maxHp`, `ki`, `maxKi`, `attack`, `defense`, `critChance`, `speedBonusPct`, `xp`, `xpNeeded`, `gold`, `bankGold`, `talentsCount`, `questsCount`).
+  - Po dotknięciu bohatera na liście płynnie rozsuwa się (`Tween`) panel inspektora z portretem, emblematem rasy, paskiem doświadczenia (PD) i 8 kafelkami statystyk z malowanymi ikonami medalionowymi (serce dla Życia, kropla dla KI, skrzyżowane miecze dla Ataku, tarcza dla Obrony, cel dla Krytyka, buty dla Szybkości, monety dla Złota/Banku, zwój dla Talentów/Zleceń) oraz przyciskami `▶ GRAJ TĄ POSTACIĄ` i `USUŃ POSTAĆ`.
+- **Weryfikacja:** wizualny render w Godot 4.6.3 (`CHAR_SELECT_QA_OK`, `1280×720`, `0` błędów skryptu/zasobów), `python3 scripts/docs/check_documentation.py` (`PASS`), wydanie OTA **`1.14.23`**.
+
 
