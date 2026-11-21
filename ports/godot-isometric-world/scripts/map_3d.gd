@@ -521,6 +521,27 @@ func _draw() -> void:
 			draw_rect(Rect2(sp - Vector2(hr, hr), Vector2(hr * 2.0, hr * 2.0)), Color(0.56, 0.50, 0.44, 0.84))
 			draw_rect(Rect2(sp - Vector2(hr, hr), Vector2(hr * 2.0, hr * 2.0)), Color(0.08, 0.06, 0.05, 0.94), false, 1.1)
 
+	# 2b. Labyrinth Entrances (violet-gold diamonds) & Unopened Treasures (gold dots) on 3D Relief
+	if "labyrinths_data" in world:
+		for lab: Dictionary in world.labyrinths_data:
+			var lp_v: Variant = _project(float(lab.get("x", 0.0)), float(lab.get("z", 0.0)), 8.0)
+			if lp_v == null:
+				continue
+			var lp: Vector2 = lp_v
+			if not inner_rect.has_point(lp):
+				continue
+			var r := lerpf(7.5, 11.0, detail)
+			var dia := PackedVector2Array([lp + Vector2(0, -r), lp + Vector2(r, 0), lp + Vector2(0, r), lp + Vector2(-r, 0)])
+			draw_colored_polygon(dia, Color(0.76, 0.34, 1.0, 0.96))
+			dia.append(dia[0])
+			draw_polyline(dia, Color(1.0, 0.88, 0.42, 0.98), 2.0, true)
+			var lname := "⚔ %s" % str(lab.get("title", "Labirynt"))
+			var ltw := f.get_string_size(lname, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x
+			var tx := clampf(lp.x - ltw * 0.5, 18.0, size.x - ltw - 18.0)
+			var ty := clampf(lp.y - r - 6.0, 66.0, size.y - 50.0)
+			draw_string_outline(f, Vector2(tx, ty), lname, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 4, Color(0.04, 0.01, 0.06, 0.96))
+			draw_string(f, Vector2(tx, ty), lname, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.96, 0.68, 1.0))
+
 	# 3. Live Hero Portrait Medallion (replaces the old blue cone!)
 	var hp_s_v: Variant = _project(world.hero_pos.x, world.hero_pos.y, 12.0)
 	if hp_s_v != null:

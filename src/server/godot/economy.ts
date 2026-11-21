@@ -274,6 +274,10 @@ export type AndroidProgressState = {
   craftedCount: number;
   arenaCount: number;
   shopCount: number;
+  monsterKills: number;
+  openedTreasures: string[];
+  clearedLabyrinths: string[];
+  lastKillAt: number;
 };
 
 export type AndroidHeroState = {
@@ -467,6 +471,10 @@ export function createInitialAndroidState(
       craftedCount: 0,
       arenaCount: 0,
       shopCount: 0,
+      monsterKills: 0,
+      openedTreasures: [],
+      clearedLabyrinths: [],
+      lastKillAt: 0,
     },
   };
   const stats = computeAndroidStats(race, level, state);
@@ -555,6 +563,18 @@ export function normalizeAndroidState(
     ]),
   );
 
+  const normStrList = (rawArr: unknown, cap: number): string[] => {
+    if (!Array.isArray(rawArr)) return [];
+    const uniq = new Set<string>();
+    for (const entry of rawArr) {
+      if (typeof entry === "string" && entry.length >= 2 && entry.length <= 64) {
+        uniq.add(entry);
+        if (uniq.size >= cap) break;
+      }
+    }
+    return [...uniq];
+  };
+
   const state: AndroidHeroState = {
     version: 1,
     xp: clampInt(r["xp"], 0, 10_000_000, 0),
@@ -575,6 +595,10 @@ export function normalizeAndroidState(
       craftedCount: clampInt(progRaw["craftedCount"], 0, 1_000_000, 0),
       arenaCount: clampInt(progRaw["arenaCount"], 0, 1_000_000, 0),
       shopCount: clampInt(progRaw["shopCount"], 0, 1_000_000, 0),
+      monsterKills: clampInt(progRaw["monsterKills"], 0, 10_000_000, 0),
+      openedTreasures: normStrList(progRaw["openedTreasures"], 200),
+      clearedLabyrinths: normStrList(progRaw["clearedLabyrinths"], 40),
+      lastKillAt: clampInt(progRaw["lastKillAt"], 0, Number.MAX_SAFE_INTEGER, 0),
     },
   };
 
@@ -699,6 +723,23 @@ export const androidActionSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("arena_train") }).strict(),
   z.object({ type: z.literal("quest_complete"), questId: z.string().min(1).max(80) }).strict(),
   z.object({ type: z.literal("claim_goal"), goalId: z.string().min(1).max(40) }).strict(),
+  z
+    .object({
+      type: z.literal("claim_treasure"),
+      treasureId: z.string().min(2).max(64),
+      labyrinthId: z.string().min(2).max(64).optional(),
+      gold: z.number().int().min(0).max(600).optional(),
+      xp: z.number().int().min(0).max(520).optional(),
+      itemId: z.string().min(1).max(60).optional(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("monster_kill"),
+      monsterId: z.string().min(2).max(64),
+      level: z.number().int().min(1).max(MAX_LEVEL),
+    })
+    .strict(),
   z.object({ type: z.literal("travel"), land: z.enum(ANDROID_LANDS) }).strict(),
   z
     .object({
@@ -986,6 +1027,57 @@ export function applyAndroidAction(
       notice = res.leveledUp
         ? `${goal.title} — ukończono (+${goal.xpReward} PD, +${goal.goldReward} zł${extraStr}) — AWANS na poziom ${level}!`
         : `${goal.title} — ukończono! +${goal.xpReward} PD, +${goal.goldReward} zł${extraStr}.`;
+      break;
+    }
+
+    case "claim_treasure": {
+      const tid = action.treasureId.trim();
+      if (state.progress.openedTreasures.includes(tid)) {
+        throw new AndroidEconomyError("QUEST_ALREADY_COMPLETED", "Ten skarb został już otwarty.");
+      }
+      state.progress.openedTreasures.push(tid);
+      const rewardGold = clampInt(action.gold ?? 150, 20, 600, 150);
+      const rewardXp = clampInt(action.xp ?? 120, 20, 520, 120);
+      gold = Math.min(MAX_GOLD, gold + rewardGold);
+      let itemNote = "";
+      if (action.itemId && ANDROID_ITEM_MAP.has(action.itemId)) {
+        const def = ANDROID_ITEM_MAP.get(action.itemId)!;
+        if (addItemToSlots(state.backpack, def.id, 1)) {
+          itemNote = ` + ${def.name}`;
+        }
+      }
+      if (action.labyrinthId) {
+        const prefix = `chest-${action.labyrinthId}-`;
+        const labChests = state.progress.openedTreasures.filter((id) =>
+          id.startsWith(prefix),
+        ).length;
+        if (labChests >= 4 && !state.progress.clearedLabyrinths.includes(action.labyrinthId)) {
+          state.progress.clearedLabyrinths.push(action.labyrinthId);
+        }
+      }
+      const res = grantXp(current.race, level, state, rewardXp);
+      level = res.level;
+      notice = res.leveledUp
+        ? `Otwarto ukryty skarb (+${rewardGold} zł, +${rewardXp} PD${itemNote}) — AWANS na poziom ${level}!`
+        : `Otwarto ukryty skarb! +${rewardGold} zł, +${rewardXp} PD${itemNote}.`;
+      break;
+    }
+
+    case "monster_kill": {
+      if (nowMs - state.progress.lastKillAt < 1200) {
+        throw new AndroidEconomyError("ARENA_COOLDOWN", "Zbyt szybkie kolejne zabicie potwora.");
+      }
+      state.progress.lastKillAt = nowMs;
+      state.progress.monsterKills += 1;
+      const lvl = clampInt(action.level, 1, MAX_LEVEL, 1);
+      const rewardXp = 26 + lvl * 16;
+      const rewardGold = 10 + lvl * 6;
+      gold = Math.min(MAX_GOLD, gold + rewardGold);
+      const res = grantXp(current.race, level, state, rewardXp);
+      level = res.level;
+      notice = res.leveledUp
+        ? `Pokonano potwora (+${rewardXp} PD, +${rewardGold} zł) — AWANS na poziom ${level}!`
+        : `Pokonano potwora! +${rewardXp} PD, +${rewardGold} zł.`;
       break;
     }
 

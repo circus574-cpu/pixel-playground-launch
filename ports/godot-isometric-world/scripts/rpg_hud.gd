@@ -716,7 +716,8 @@ func trigger_skill(idx: int) -> void:
 	cooldowns[idx] = float(HOTBAR_CDS[idx])
 	hero_ki = maxf(6.0, hero_ki - (8.0 if idx > 0 else 0.0))
 	hero_res = minf(100.0, hero_res + 12.0)
-	hero_xp = fmod(hero_xp + 55.0, hero_max_xp)
+	if world != null and world.has_method("perform_combat_attack"):
+		world.perform_combat_attack(idx)
 	_sync_bar_uniforms()
 	_refresh_visuals()
 

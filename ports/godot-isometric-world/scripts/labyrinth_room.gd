@@ -1,0 +1,496 @@
+extends Control
+## Playable Dungeon Labyrinth Mode for KI Legends (8 unique biome-themed 15x15 mazes across Superior).
+## Features fog-of-war exploration, smooth WASD & touch-joystick movement, 4 hidden treasure chests per
+## labyrinth (server-authoritative claim_treasure), 3 patrolling labyrinth guardians (live combat),
+## biome lighting, maze minimap, and seamless exit portal back to the continent.
+
+const MapStyle := preload("res://scripts/map_style.gd")
+
+const TILE_PX := 74.0
+const HERO_RADIUS := 18.0
+const HERO_SPEED := 235.0
+
+const THEME_PALETTES := {
+	"pyra": {
+		"bg": Color(0.05, 0.025, 0.02, 1.0),
+		"wall_top": Color(0.22, 0.13, 0.11, 1.0),
+		"wall_side": Color(0.11, 0.06, 0.05, 1.0),
+		"wall_edge": Color(0.95, 0.42, 0.14, 0.72),
+		"floor_a": Color(0.16, 0.11, 0.09, 1.0),
+		"floor_b": Color(0.13, 0.09, 0.075, 1.0),
+		"accent": Color(1.0, 0.56, 0.18, 1.0),
+	},
+	"verdant": {
+		"bg": Color(0.02, 0.045, 0.03, 1.0),
+		"wall_top": Color(0.13, 0.22, 0.15, 1.0),
+		"wall_side": Color(0.07, 0.13, 0.08, 1.0),
+		"wall_edge": Color(0.36, 0.90, 0.52, 0.68),
+		"floor_a": Color(0.12, 0.16, 0.11, 1.0),
+		"floor_b": Color(0.10, 0.135, 0.095, 1.0),
+		"accent": Color(0.42, 0.96, 0.58, 1.0),
+	},
+	"aether": {
+		"bg": Color(0.03, 0.05, 0.085, 1.0),
+		"wall_top": Color(0.20, 0.28, 0.38, 1.0),
+		"wall_side": Color(0.11, 0.16, 0.24, 1.0),
+		"wall_edge": Color(0.48, 0.88, 1.0, 0.76),
+		"floor_a": Color(0.15, 0.20, 0.27, 1.0),
+		"floor_b": Color(0.125, 0.17, 0.23, 1.0),
+		"accent": Color(0.52, 0.92, 1.0, 1.0),
+	},
+	"nexus": {
+		"bg": Color(0.02, 0.04, 0.06, 1.0),
+		"wall_top": Color(0.14, 0.18, 0.24, 1.0),
+		"wall_side": Color(0.07, 0.10, 0.15, 1.0),
+		"wall_edge": Color(0.16, 0.94, 0.98, 0.78),
+		"floor_a": Color(0.10, 0.13, 0.17, 1.0),
+		"floor_b": Color(0.08, 0.105, 0.14, 1.0),
+		"accent": Color(0.22, 0.98, 1.0, 1.0),
+	},
+}
+
+var world: Node2D
+var current_land := "pyra"
+var lab_data: Dictionary = {}
+var grid_rows: Array[String] = []
+var maze_w := 15
+var maze_h := 15
+var visited: Dictionary = {}
+var hero_px := Vector2(111.0, 111.0)
+var hero_facing := Vector2(0.0, 1.0)
+var exit_px := Vector2(111.0, 111.0)
+var chests: Array[Dictionary] = []
+var guardians: Array[Dictionary] = []
+var float_texts: Array[Dictionary] = []
+var elapsed := 0.0
+var atk_cd := 0.0
+var nearest_chest: Dictionary = {}
+var nearest_guard_idx := -1
+var near_exit := false
+
+var btn_exit := Button.new()
+var btn_open_chest := Button.new()
+var btn_attack := Button.new()
+var toast_lbl := Label.new()
+var toast_timer := 0.0
+
+func _ready() -> void:
+	visible = false
+	mouse_filter = Control.MOUSE_FILTER_PASS
+	set_anchors_preset(Control.PRESET_FULL_RECT)
+	_build_ui()
+	resized.connect(_layout_ui)
+	_layout_ui()
+
+func _style_btn(btn: Button, bg: Color, border: Color, fsz: int = 16) -> void:
+	var st := StyleBoxFlat.new()
+	st.bg_color = bg
+	st.border_color = border
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(10)
+	st.content_margin_left = 14
+	st.content_margin_right = 14
+	st.content_margin_top = 8
+	st.content_margin_bottom = 8
+	btn.add_theme_stylebox_override("normal", st)
+	var sh := st.duplicate()
+	sh.bg_color = bg.lightened(0.16)
+	btn.add_theme_stylebox_override("hover", sh)
+	btn.add_theme_font_override("font", MapStyle.body_font())
+	btn.add_theme_font_size_override("font_size", fsz)
+	btn.add_theme_color_override("font_color", Color(1.0, 0.95, 0.84))
+
+func _build_ui() -> void:
+	btn_exit.text = "✕ WYJDŹ Z LABIRYNTU"
+	_style_btn(btn_exit, Color(0.32, 0.10, 0.10, 0.95), Color(0.96, 0.50, 0.34, 0.96), 15)
+	btn_exit.pressed.connect(func() -> void:
+		if world != null and world.has_method("exit_labyrinth"):
+			world.exit_labyrinth()
+	)
+	add_child(btn_exit)
+
+	btn_open_chest.text = "▶ OTWÓRZ UKRYTY SKARB"
+	_style_btn(btn_open_chest, Color(0.24, 0.17, 0.04, 0.97), Color(1.0, 0.84, 0.30, 0.98), 17)
+	btn_open_chest.visible = false
+	btn_open_chest.pressed.connect(_try_open_nearest_chest)
+	add_child(btn_open_chest)
+
+	btn_attack.text = "⚔ ATAKUJ STRAŻNIKA"
+	_style_btn(btn_attack, Color(0.38, 0.09, 0.09, 0.97), Color(1.0, 0.44, 0.32, 0.98), 17)
+	btn_attack.visible = false
+	btn_attack.pressed.connect(perform_labyrinth_attack)
+	add_child(btn_attack)
+
+	toast_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	toast_lbl.add_theme_font_override("font", MapStyle.body_font())
+	toast_lbl.add_theme_font_size_override("font_size", 18)
+	toast_lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.56))
+	toast_lbl.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.02, 0.98))
+	toast_lbl.add_theme_constant_override("outline_size", 6)
+	toast_lbl.visible = false
+	add_child(toast_lbl)
+
+func _layout_ui() -> void:
+	var vs := get_viewport_rect().size
+	if vs.x < 100.0:
+		vs = Vector2(1600.0, 720.0)
+	position = Vector2.ZERO
+	size = vs
+	btn_exit.position = Vector2(vs.x - 230.0, 14.0)
+	btn_exit.size = Vector2(212.0, 48.0)
+	var bw := clampf(vs.x * 0.34, 280.0, 420.0)
+	btn_open_chest.size = Vector2(bw, 54.0)
+	btn_open_chest.position = Vector2((vs.x - bw) * 0.5, vs.y - 122.0)
+	btn_attack.size = Vector2(260.0, 56.0)
+	btn_attack.position = Vector2(vs.x - 284.0, vs.y - 118.0)
+	toast_lbl.size = Vector2(vs.x - 120.0, 36.0)
+	toast_lbl.position = Vector2(60.0, 76.0)
+
+func enter_labyrinth(land: String, data: Dictionary) -> void:
+	current_land = land
+	lab_data = data.duplicate(true)
+	grid_rows.clear()
+	for row in data.get("grid", []):
+		grid_rows.append(str(row))
+	maze_h = grid_rows.size()
+	maze_w = grid_rows[0].length() if maze_h > 0 else 15
+	var sp: Array = data.get("spawn", [1, 1])
+	hero_px = Vector2((float(sp[0]) + 0.5) * TILE_PX, (float(sp[1]) + 0.5) * TILE_PX)
+	exit_px = hero_px
+	visited.clear()
+	float_texts.clear()
+	elapsed = 0.0
+	atk_cd = 0.0
+	chests.clear()
+	for c: Dictionary in data.get("chests", []):
+		var cc := c.duplicate(true)
+		cc["px"] = Vector2((float(c.get("tx", 1)) + 0.5) * TILE_PX, (float(c.get("ty", 1)) + 0.5) * TILE_PX)
+		chests.append(cc)
+	guardians.clear()
+	for g: Dictionary in data.get("guardians", []):
+		var gc := g.duplicate(true)
+		var gpos := Vector2((float(g.get("tx", 5)) + 0.5) * TILE_PX, (float(g.get("ty", 5)) + 0.5) * TILE_PX)
+		gc["home"] = gpos
+		gc["px"] = gpos
+		gc["max_hp"] = int(g.get("hp", 120))
+		gc["cur_hp"] = int(g.get("hp", 120))
+		gc["alive"] = true
+		gc["hit_flash"] = 0.0
+		guardians.append(gc)
+	_reveal_around_hero()
+	_show_toast("Wchodzisz do: %s • Odnajdź 4 ukryte skarby!" % str(data.get("title", "Labirynt")))
+	_layout_ui()
+	visible = true
+	queue_redraw()
+
+func _is_wall(tx: int, ty: int) -> bool:
+	if tx < 0 or ty < 0 or ty >= maze_h or tx >= maze_w:
+		return true
+	return grid_rows[ty].unicode_at(tx) == 35 # '#'
+
+func _can_stand(p: Vector2) -> bool:
+	var offs := [
+		Vector2(-HERO_RADIUS, -HERO_RADIUS),
+		Vector2(HERO_RADIUS, -HERO_RADIUS),
+		Vector2(-HERO_RADIUS, HERO_RADIUS),
+		Vector2(HERO_RADIUS, HERO_RADIUS),
+	]
+	for o: Vector2 in offs:
+		var q := p + o
+		var tx := int(floor(q.x / TILE_PX))
+		var ty := int(floor(q.y / TILE_PX))
+		if _is_wall(tx, ty):
+			return false
+	return true
+
+func _reveal_around_hero() -> void:
+	var htx := int(floor(hero_px.x / TILE_PX))
+	var hty := int(floor(hero_px.y / TILE_PX))
+	for dy in range(-3, 4):
+		for dx in range(-3, 4):
+			if dx * dx + dy * dy <= 11:
+				var nx := htx + dx
+				var ny := hty + dy
+				if nx >= 0 and ny >= 0 and nx < maze_w and ny < maze_h:
+					visited["%d,%d" % [nx, ny]] = true
+
+func _show_toast(msg: String) -> void:
+	toast_lbl.text = msg
+	toast_lbl.visible = true
+	toast_timer = 4.2
+
+func _is_chest_opened(cid: String) -> bool:
+	if world != null and world.has_method("is_treasure_opened"):
+		return bool(world.is_treasure_opened(cid))
+	return false
+
+func _try_open_nearest_chest() -> void:
+	if nearest_chest.is_empty():
+		return
+	var cid := str(nearest_chest.get("id", ""))
+	if _is_chest_opened(cid):
+		return
+	var lab_id := str(lab_data.get("id", ""))
+	if world != null and world.has_method("claim_treasure_reward"):
+		world.claim_treasure_reward(nearest_chest, lab_id)
+	var msg := "SKARB: %s (+%d zł, +%d PD)" % [
+		str(nearest_chest.get("title", "Skrzynia")),
+		int(nearest_chest.get("gold", 150)),
+		int(nearest_chest.get("xp", 120)),
+	]
+	_show_toast(msg)
+	float_texts.append({
+		"pos": nearest_chest["px"] as Vector2,
+		"txt": "+%d zł  +%d PD" % [int(nearest_chest.get("gold", 150)), int(nearest_chest.get("xp", 120))],
+		"col": Color(1.0, 0.88, 0.34),
+		"t": 1.6,
+	})
+	queue_redraw()
+
+func perform_labyrinth_attack() -> void:
+	if atk_cd > 0.05 or nearest_guard_idx < 0 or nearest_guard_idx >= guardians.size():
+		return
+	var g: Dictionary = guardians[nearest_guard_idx]
+	if not bool(g.get("alive", false)):
+		return
+	atk_cd = 0.55
+	var base_atk := 32
+	if world != null and world.rpg_hud != null and world.rpg_hud.has_method("get_total_attack"):
+		base_atk = int(world.rpg_hud.get_total_attack())
+	var dmg := maxi(16, int(round(float(base_atk) * randf_range(0.95, 1.35))))
+	g["cur_hp"] = maxi(0, int(g["cur_hp"]) - dmg)
+	g["hit_flash"] = 0.22
+	float_texts.append({
+		"pos": (g["px"] as Vector2) + Vector2(0, -24),
+		"txt": "-%d" % dmg,
+		"col": Color(1.0, 0.42, 0.28),
+		"t": 0.95,
+	})
+	if int(g["cur_hp"]) <= 0:
+		g["alive"] = false
+		if world != null and world.has_method("report_monster_kill"):
+			world.report_monster_kill(str(g.get("actor_id", "guardian")), int(g.get("level", 6)), str(g.get("name", "Strażnik")))
+		_show_toast("Pokonano: %s (+%d PD, +%d zł)" % [str(g.get("name", "")), int(g.get("xp", 80)), int(g.get("gold", 40))])
+	queue_redraw()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_F or event.keycode == KEY_ENTER:
+			if not nearest_chest.is_empty():
+				_try_open_nearest_chest()
+				get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_Q or event.keycode == KEY_SPACE or event.keycode == KEY_1:
+			perform_labyrinth_attack()
+			get_viewport().set_input_as_handled()
+
+func _process(delta: float) -> void:
+	if not visible:
+		return
+	elapsed += delta
+	atk_cd = maxf(0.0, atk_cd - delta)
+	if toast_timer > 0.0:
+		toast_timer -= delta
+		if toast_timer <= 0.0:
+			toast_lbl.visible = false
+
+	var dir := Vector2.ZERO
+	if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
+		dir.x -= 1.0
+	if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
+		dir.x += 1.0
+	if Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP):
+		dir.y -= 1.0
+	if Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN):
+		dir.y += 1.0
+	if world != null and int(world.move_pointer) != -1:
+		dir = world.motion
+	if dir.length_squared() > 0.001:
+		dir = dir.normalized()
+		hero_facing = dir
+		var step := dir * HERO_SPEED * delta
+		if _can_stand(hero_px + step):
+			hero_px += step
+		elif _can_stand(hero_px + Vector2(step.x, 0.0)):
+			hero_px.x += step.x
+		elif _can_stand(hero_px + Vector2(0.0, step.y)):
+			hero_px.y += step.y
+		_reveal_around_hero()
+
+	# Update chests proximity
+	nearest_chest = {}
+	var best_cd := 68.0
+	for c: Dictionary in chests:
+		if _is_chest_opened(str(c.get("id", ""))):
+			continue
+		var d := hero_px.distance_to(c["px"] as Vector2)
+		if d < best_cd:
+			best_cd = d
+			nearest_chest = c
+	if not nearest_chest.is_empty():
+		btn_open_chest.text = "▶ OTWÓRZ: %s" % str(nearest_chest.get("title", "Ukryty Skarb"))
+		btn_open_chest.visible = true
+	else:
+		btn_open_chest.visible = false
+
+	# Update guardians patrol & combat range
+	nearest_guard_idx = -1
+	var best_gd := 145.0
+	for gi in guardians.size():
+		var g: Dictionary = guardians[gi]
+		if not bool(g.get("alive", false)):
+			continue
+		g["hit_flash"] = maxf(0.0, float(g.get("hit_flash", 0.0)) - delta)
+		var home: Vector2 = g["home"]
+		var off := Vector2(cos(elapsed * 1.4 + float(gi) * 2.1), sin(elapsed * 1.1 + float(gi) * 1.7)) * 18.0
+		if _can_stand(home + off):
+			g["px"] = home + off
+		var gd := hero_px.distance_to(g["px"] as Vector2)
+		if gd < best_gd:
+			best_gd = gd
+			nearest_guard_idx = gi
+	btn_attack.visible = (nearest_guard_idx >= 0)
+	if nearest_guard_idx >= 0:
+		var g_sel: Dictionary = guardians[nearest_guard_idx]
+		btn_attack.text = "⚔ ATAKUJ: %s (%d/%d)" % [str(g_sel.get("name", "Strażnik")), int(g_sel["cur_hp"]), int(g_sel["max_hp"])]
+
+	near_exit = hero_px.distance_to(exit_px) < 42.0
+
+	var kept: Array[Dictionary] = []
+	for ft: Dictionary in float_texts:
+		ft["t"] = float(ft["t"]) - delta
+		ft["pos"] = (ft["pos"] as Vector2) + Vector2(0.0, -34.0 * delta)
+		if float(ft["t"]) > 0.0:
+			kept.append(ft)
+	float_texts = kept
+	queue_redraw()
+
+func _draw() -> void:
+	var pal: Dictionary = THEME_PALETTES.get(str(lab_data.get("theme", current_land)), THEME_PALETTES["pyra"])
+	var f: Font = MapStyle.font()
+	var fb: Font = MapStyle.body_font()
+	var vs := get_viewport_rect().size
+	if vs.x < 100.0:
+		vs = size
+	draw_rect(Rect2(Vector2.ZERO, vs), pal["bg"] as Color, true)
+
+	var cam_off := vs * 0.5 - hero_px
+	var accent: Color = pal["accent"]
+	var wall_top: Color = pal["wall_top"]
+	var wall_side: Color = pal["wall_side"]
+	var wall_edge: Color = pal["wall_edge"]
+	var floor_a: Color = pal["floor_a"]
+	var floor_b: Color = pal["floor_b"]
+
+	# Draw discovered maze floor & beveled walls
+	for ty in maze_h:
+		for tx in maze_w:
+			var key := "%d,%d" % [tx, ty]
+			if not visited.has(key):
+				continue
+			var tile_c := Vector2((float(tx) + 0.5) * TILE_PX, (float(ty) + 0.5) * TILE_PX)
+			var dist_t := hero_px.distance_to(tile_c) / TILE_PX
+			var light := clampf(1.18 - dist_t * 0.16, 0.36, 1.08)
+			var scr := Vector2(float(tx) * TILE_PX, float(ty) * TILE_PX) + cam_off
+			if scr.x > vs.x + TILE_PX or scr.y > vs.y + TILE_PX or scr.x + TILE_PX < -TILE_PX or scr.y + TILE_PX < -TILE_PX:
+				continue
+			var tr := Rect2(scr, Vector2(TILE_PX, TILE_PX))
+			if _is_wall(tx, ty):
+				draw_rect(tr, wall_side * light, true)
+				draw_rect(Rect2(scr + Vector2(3, 3), Vector2(TILE_PX - 6, TILE_PX - 14)), wall_top * light, true)
+				draw_rect(Rect2(scr + Vector2(3, 3), Vector2(TILE_PX - 6, TILE_PX - 14)), Color(wall_edge.r, wall_edge.g, wall_edge.b, wall_edge.a * light * 0.65), false, 1.5)
+			else:
+				var fc := floor_a if ((tx + ty) % 2 == 0) else floor_b
+				draw_rect(tr, fc * light, true)
+				draw_rect(tr, Color(0.02, 0.02, 0.03, 0.25), false, 1.0)
+
+	# Draw Exit Portal at spawn (1, 1)
+	var ep := exit_px + cam_off
+	var ep_pulse := 0.5 + 0.5 * sin(elapsed * 3.5)
+	draw_circle(ep, 22.0 + ep_pulse * 4.0, Color(0.24, 0.88, 1.0, 0.24))
+	draw_arc(ep, 20.0, 0.0, TAU, 28, Color(0.45, 0.96, 1.0, 0.92), 3.0, true)
+	draw_string(fb, ep + Vector2(-26, -26), "WYJŚCIE", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.76, 0.96, 1.0))
+
+	# Draw 4 Hidden Treasure Chests
+	var opened_cnt := 0
+	for c: Dictionary in chests:
+		var cid := str(c.get("id", ""))
+		var opened := _is_chest_opened(cid)
+		if opened:
+			opened_cnt += 1
+		var ckey := "%d,%d" % [int(c.get("tx", 1)), int(c.get("ty", 1))]
+		if not visited.has(ckey):
+			continue
+		var cp: Vector2 = (c["px"] as Vector2) + cam_off
+		if not opened:
+			var glow_r := 26.0 + 6.0 * sin(elapsed * 4.2)
+			draw_circle(cp, glow_r, Color(1.0, 0.82, 0.22, 0.22))
+			draw_rect(Rect2(cp - Vector2(16, 12), Vector2(32, 24)), Color(0.56, 0.34, 0.10, 1.0), true)
+			draw_rect(Rect2(cp - Vector2(16, 12), Vector2(32, 24)), Color(1.0, 0.86, 0.34, 0.98), false, 2.5)
+			draw_rect(Rect2(cp - Vector2(4, 3), Vector2(8, 8)), Color(1.0, 0.92, 0.45, 1.0), true)
+			draw_string_outline(fb, cp + Vector2(-46, -18), "★ UKRYTY SKARB", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 4, Color(0.04, 0.02, 0.01, 0.96))
+			draw_string(fb, cp + Vector2(-46, -18), "★ UKRYTY SKARB", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.90, 0.42))
+		else:
+			draw_rect(Rect2(cp - Vector2(14, 10), Vector2(28, 20)), Color(0.22, 0.18, 0.14, 0.72), true)
+			draw_rect(Rect2(cp - Vector2(14, 10), Vector2(28, 20)), Color(0.45, 0.40, 0.32, 0.72), false, 1.5)
+			draw_string(fb, cp + Vector2(-28, -15), "OTWARTE", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.65, 0.72, 0.68))
+
+	# Draw Patrolling Labyrinth Guardians
+	for g: Dictionary in guardians:
+		if not bool(g.get("alive", false)):
+			continue
+		var gpos: Vector2 = g["px"]
+		var gkey := "%d,%d" % [int(floor(gpos.x / TILE_PX)), int(floor(gpos.y / TILE_PX))]
+		if not visited.has(gkey):
+			continue
+		var gp := gpos + cam_off
+		var flash := float(g.get("hit_flash", 0.0)) > 0.01
+		draw_circle(gp, 20.0, Color(1.0, 0.85, 0.85, 0.95) if flash else Color(0.78, 0.18, 0.16, 0.94))
+		draw_arc(gp, 20.0, 0.0, TAU, 24, Color(1.0, 0.62, 0.32, 0.96), 2.5, true)
+		var pct := clampf(float(g["cur_hp"]) / maxf(float(g["max_hp"]), 1.0), 0.0, 1.0)
+		draw_rect(Rect2(gp.x - 26.0, gp.y - 34.0, 52.0, 7.0), Color(0.06, 0.04, 0.04, 0.92), true)
+		draw_rect(Rect2(gp.x - 25.0, gp.y - 33.0, 50.0 * pct, 5.0), Color(0.96, 0.24, 0.20, 0.98), true)
+		var gtitle := "%s Poz.%d" % [str(g.get("name", "Strażnik")), int(g.get("level", 6))]
+		draw_string_outline(fb, gp + Vector2(-48, -40), gtitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 4, Color(0.04, 0.01, 0.01, 0.96))
+		draw_string(fb, gp + Vector2(-48, -40), gtitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.80, 0.62))
+
+	# Draw Hero in center with glowing torch halo
+	var hp_scr := hero_px + cam_off
+	draw_circle(hp_scr, 42.0, Color(accent.r, accent.g, accent.b, 0.12))
+	draw_circle(hp_scr, 16.0, Color(0.24, 0.94, 1.0, 0.96))
+	draw_arc(hp_scr, 16.0, 0.0, TAU, 24, Color(1.0, 0.94, 0.72, 0.98), 2.6, true)
+	draw_line(hp_scr, hp_scr + hero_facing.normalized() * 22.0, Color(1.0, 0.94, 0.72, 0.96), 3.0, true)
+
+	# Floating combat/loot texts
+	for ft: Dictionary in float_texts:
+		var fp: Vector2 = (ft["pos"] as Vector2) + cam_off
+		draw_string_outline(fb, fp, str(ft["txt"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 5, Color(0.02, 0.01, 0.01, 0.98))
+		draw_string(fb, fp, str(ft["txt"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, ft["col"] as Color)
+
+	# Top Header Bar
+	draw_rect(Rect2(0, 0, vs.x, 66.0), Color(0.04, 0.035, 0.055, 0.92), true)
+	draw_line(Vector2(0, 66.0), Vector2(vs.x, 66.0), Color(0.92, 0.72, 0.34, 0.78), 2.0)
+	draw_string(f, Vector2(20, 30), "⚔ %s (Poz. %d)" % [str(lab_data.get("title", "Labirynt")), int(lab_data.get("level", 6))], HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.90, 0.56))
+	draw_string(fb, Vector2(20, 52), "%s  •  Ukryte skarby: %d / %d  •  [WASD / Joystick] ruch  •  [F] otwórz  •  [Q/Spacja] atak" % [
+		str(lab_data.get("subtitle", "")), opened_cnt, chests.size()
+	], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.84, 0.90, 0.96))
+
+	# Corner Maze Minimap (top-left below header)
+	var mm_cell := 9.0
+	var mm_origin := Vector2(18.0, 82.0)
+	var mm_sz := Vector2(float(maze_w) * mm_cell + 8.0, float(maze_h) * mm_cell + 8.0)
+	draw_rect(Rect2(mm_origin - Vector2(4, 4), mm_sz), Color(0.03, 0.03, 0.05, 0.88), true)
+	draw_rect(Rect2(mm_origin - Vector2(4, 4), mm_sz), Color(0.88, 0.68, 0.32, 0.85), false, 1.8)
+	for ty in maze_h:
+		for tx in maze_w:
+			if not visited.has("%d,%d" % [tx, ty]):
+				continue
+			var r := Rect2(mm_origin + Vector2(float(tx) * mm_cell, float(ty) * mm_cell), Vector2(mm_cell, mm_cell))
+			draw_rect(r, Color(0.32, 0.30, 0.36, 0.92) if _is_wall(tx, ty) else Color(0.14, 0.16, 0.22, 0.92), true)
+	for c: Dictionary in chests:
+		if not _is_chest_opened(str(c.get("id", ""))) and visited.has("%d,%d" % [int(c.get("tx", 1)), int(c.get("ty", 1))]):
+			var mp := mm_origin + Vector2((float(c.get("tx", 1)) + 0.5) * mm_cell, (float(c.get("ty", 1)) + 0.5) * mm_cell)
+			draw_circle(mp, 3.2, Color(1.0, 0.86, 0.28, 1.0))
+	var h_mm := mm_origin + Vector2(hero_px.x / TILE_PX * mm_cell, hero_px.y / TILE_PX * mm_cell)
+	draw_circle(h_mm, 3.4, Color(0.24, 0.98, 1.0, 1.0))

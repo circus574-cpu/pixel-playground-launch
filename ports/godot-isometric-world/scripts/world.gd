@@ -12,6 +12,7 @@ const WorldAtmosphereScript := preload("res://scripts/world_atmosphere.gd")
 const RpgHudScript := preload("res://scripts/rpg_hud.gd")
 const GmPanelScript := preload("res://scripts/gm_panel.gd")
 const InteriorRoomScript := preload("res://scripts/interior_room.gd")
+const LabyrinthRoomScript := preload("res://scripts/labyrinth_room.gd")
 const DialogueStripScript := preload("res://scripts/dialogue_strip.gd")
 const LoadingScreenScript := preload("res://scripts/loading_screen.gd")
 const QuestJournalScript := preload("res://scripts/quest_journal.gd")
@@ -57,6 +58,8 @@ var npcs_data: Array = []
 var exp_zones: Array = []
 var monsters_data: Array = []
 var fauna_data: Array = []
+var labyrinths_data: Array = []
+var treasures_data: Array = []
 var props: Array = []
 
 var actors_db: Dictionary = {}
@@ -68,6 +71,8 @@ var ysort := Node2D.new()
 var hero
 var live_agents: Array[Dictionary] = []
 var prop_nodes: Array[Node2D] = []
+var treasure_nodes: Dictionary = {}
+var opened_treasures: Dictionary = {}
 var _cull_accum := 0.0
 var camera := Camera2D.new()
 var hud := CanvasLayer.new()
@@ -75,12 +80,16 @@ var atmosphere: Control
 var rpg_hud: Control
 var gm_panel: Control
 var interior_room: Control
+var labyrinth_room: Control
 var dialogue_strip: Control
 var loading_screen: Control
 var quest_journal: Control
 var is_booting := false
 var btn_enter_bldg := Button.new()
 var btn_talk_npc := Button.new()
+var btn_open_treasure := Button.new()
+var combat_toast_lbl := Label.new()
+var combat_toast_t := 0.0
 var premium_minimap: Control
 var map_3d: SubViewportContainer
 var atlas_overlay: Control
@@ -94,6 +103,8 @@ var map_expanded := false
 var atlas_expanded := false
 var gm_open := false
 var in_interior := false
+var in_labyrinth := false
+var nearest_treasure: Dictionary = {}
 const RACE_TO_LAND := {"legend": "pyra", "planetary": "verdant", "sage": "aether", "android": "nexus"}
 var start_race := ""
 var hero_race_land := ""
@@ -235,6 +246,12 @@ func apply_server_character(ch: Dictionary) -> void:
 		dialogue_strip.apply_server_quests(st)
 	if quest_journal != null and quest_journal.has_method("apply_server_goals") and ch.has("goals") and ch["goals"] is Array:
 		quest_journal.apply_server_goals(ch["goals"] as Array)
+	var prog: Dictionary = st.get("progress", {}) if st.get("progress") is Dictionary else {}
+	var opened_arr = prog.get("openedTreasures", [])
+	if opened_arr is Array:
+		for tid in opened_arr:
+			opened_treasures[str(tid)] = true
+		_refresh_treasure_nodes_visibility()
 
 func dispatch_server_action(payload: Dictionary, on_done: Callable = Callable()) -> bool:
 	if not is_server_authoritative():
@@ -340,6 +357,8 @@ func load_terrain(land: String) -> void:
 	exp_zones = []
 	monsters_data = []
 	fauna_data = []
+	labyrinths_data = []
+	treasures_data = []
 	props = []
 	landmarks = []
 
@@ -376,7 +395,7 @@ func load_terrain(land: String) -> void:
 				var ent_arr: Array = b.get("entrance", [0.0, 0.0])
 				bc["entrance"] = [float(ent_arr[0]) + half, float(ent_arr[1]) + half]
 			buildings.append(bc)
-			if str(b.get("role", "")) in ["landmark", "hall", "arena", "smithy", "inn", "shop", "depot"]:
+			if str(b.get("role", "")) in ["landmark", "hall", "arena", "smithy", "inn", "shop", "depot", "labyrinth"]:
 				landmarks.append({"id": str(b.get("id", "")), "title": str(b.get("title", "")), "x": bc["x"], "z": bc["z"]})
 
 		for n: Dictionary in bdata.get("npcs", []):
@@ -390,7 +409,6 @@ func load_terrain(land: String) -> void:
 			ezc["x"] = float(ez.get("x", 0.0)) + half
 			ezc["z"] = float(ez.get("z", 0.0)) + half
 			exp_zones.append(ezc)
-			landmarks.append({"id": str(ez.get("id", "")), "title": str(ez.get("name", "")), "x": ezc["x"], "z": ezc["z"]})
 
 		for m: Dictionary in bdata.get("monsters", []):
 			var mc: Dictionary = m.duplicate()
@@ -403,6 +421,18 @@ func load_terrain(land: String) -> void:
 			fac["x"] = float(fa.get("x", 0.0)) + half
 			fac["z"] = float(fa.get("z", 0.0)) + half
 			fauna_data.append(fac)
+
+		for lab: Dictionary in bdata.get("labyrinths", []):
+			var lc: Dictionary = lab.duplicate(true)
+			lc["x"] = float(lab.get("x", 0.0)) + half
+			lc["z"] = float(lab.get("z", 0.0)) + half
+			labyrinths_data.append(lc)
+
+		for tr: Dictionary in bdata.get("treasures", []):
+			var tc: Dictionary = tr.duplicate(true)
+			tc["x"] = float(tr.get("x", 0.0)) + half
+			tc["z"] = float(tr.get("z", 0.0)) + half
+			treasures_data.append(tc)
 
 		for p: Dictionary in bdata.get("props", []):
 			var pc: Dictionary = p.duplicate()
@@ -560,6 +590,7 @@ func make_fitted_sprite(tex_path: String, box_w: float, box_h: float, anchor_y: 
 func build_world_objects_and_actors() -> void:
 	live_agents.clear()
 	prop_nodes.clear()
+	treasure_nodes.clear()
 	_last_cull_cam = Vector2(1e9, 1e9)
 	for child in ysort.get_children():
 		if child != hero:
@@ -567,7 +598,7 @@ func build_world_objects_and_actors() -> void:
 
 	var body_f: Font = MapStyle.body_font()
 
-	# 1. Painted Architectural Buildings + Blender Geometry Nodes Fortification Walls, Gates, Towers & Bridges
+	# 1. Painted Architectural Buildings + Labyrinth Portals + Fortifications & Bridges
 	for b: Dictionary in buildings:
 		var bx := float(b.get("x", 512.0))
 		var bz := float(b.get("z", 512.0))
@@ -582,7 +613,7 @@ func build_world_objects_and_actors() -> void:
 		if role == "bridge":
 			node.z_index = -2
 		else:
-			add_contact_shadow(node, bw, 0.42 if role == "landmark" else 0.34, 4.0)
+			add_contact_shadow(node, bw, 0.42 if role in ["landmark", "labyrinth"] else 0.34, 4.0)
 		var sp := make_fitted_sprite(sp_path, bw, bh_px, 0.54 if role == "bridge" else 0.86)
 		node.add_child(sp)
 
@@ -591,15 +622,15 @@ func build_world_objects_and_actors() -> void:
 			var fx := AmbientScript.create(fx_kind, Vector2.ZERO, sp_path)
 			node.add_child(fx)
 
-		if role in ["landmark", "hall", "arena", "smithy", "inn", "shop", "depot", "gate"]:
+		if role in ["landmark", "hall", "arena", "smithy", "inn", "shop", "depot", "gate", "labyrinth"]:
 			var lbl := Label.new()
-			lbl.text = str(b.get("title", ""))
-			lbl.position = Vector2(-190, -bh_px * SPRITE_SCALE * 0.82 - 22.0)
-			lbl.size = Vector2(380, 30)
+			lbl.text = ("⚔ LABIRYNT: %s (Poz.%d)" % [str(b.get("title", "")), int(b.get("level", 6))]) if role == "labyrinth" else str(b.get("title", ""))
+			lbl.position = Vector2(-240, -bh_px * SPRITE_SCALE * 0.82 - 22.0)
+			lbl.size = Vector2(480, 30)
 			lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			lbl.add_theme_font_override("font", body_f)
-			lbl.add_theme_font_size_override("font_size", 18 if role != "landmark" else 21)
-			lbl.add_theme_color_override("font_color", Color(1.0, 0.94, 0.74) if role != "landmark" else Color(1.0, 0.84, 0.38))
+			lbl.add_theme_font_size_override("font_size", 20 if role in ["landmark", "labyrinth"] else 18)
+			lbl.add_theme_color_override("font_color", Color(0.96, 0.56, 1.0) if role == "labyrinth" else (Color(1.0, 0.84, 0.38) if role == "landmark" else Color(1.0, 0.94, 0.74)))
 			lbl.add_theme_color_override("font_outline_color", Color(0.04, 0.02, 0.02, 0.96))
 			lbl.add_theme_constant_override("outline_size", 7)
 			node.add_child(lbl)
@@ -629,7 +660,36 @@ func build_world_objects_and_actors() -> void:
 		ysort.add_child(pnode)
 		prop_nodes.append(pnode)
 
-	# 3. 6 Exp-Zone Combat Clearing Banners ("EXPOWISKA Lv. 1..18")
+	# 2b. Hidden World Treasures & Adventure Shrines (6 per continent)
+	for tr: Dictionary in treasures_data:
+		var tid := str(tr.get("id", ""))
+		var tx := float(tr.get("x", 512.0))
+		var tz := float(tr.get("z", 512.0))
+		var th := height_at(tx, tz)
+		var tnode := Node2D.new()
+		tnode.position = iso(tx, tz, th)
+		add_contact_shadow(tnode, 240.0, 0.36, 3.0)
+		var tsp := make_fitted_sprite("res://assets/library/props/prop_runic_obelisk.webp", 230.0, 275.0, 0.88)
+		tnode.add_child(tsp)
+		var tlbl := Label.new()
+		tlbl.text = "★ UKRYTY SKARB: %s" % str(tr.get("title", "Skarb"))
+		tlbl.position = Vector2(-210, -172)
+		tlbl.size = Vector2(420, 28)
+		tlbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		tlbl.add_theme_font_override("font", body_f)
+		tlbl.add_theme_font_size_override("font_size", 16)
+		tlbl.add_theme_color_override("font_color", Color(1.0, 0.90, 0.36))
+		tlbl.add_theme_color_override("font_outline_color", Color(0.06, 0.03, 0.01, 0.98))
+		tlbl.add_theme_constant_override("outline_size", 6)
+		tnode.add_child(tlbl)
+		if opened_treasures.has(tid):
+			tnode.modulate = Color(0.55, 0.55, 0.58, 0.55)
+			tlbl.text = "✓ ODKRYTO: %s" % str(tr.get("title", "Skarb"))
+			tlbl.add_theme_color_override("font_color", Color(0.56, 0.88, 0.66))
+		ysort.add_child(tnode)
+		treasure_nodes[tid] = tnode
+
+	# 3. Exp-Zone Combat Clearing Banners ("EXPOWISKA Lv. 1..18")
 	for ez: Dictionary in exp_zones:
 		var ex := float(ez.get("x", 512.0))
 		var ez_z := float(ez.get("z", 512.0))
@@ -637,7 +697,7 @@ func build_world_objects_and_actors() -> void:
 		var ez_node := Node2D.new()
 		ez_node.position = iso(ex, ez_z, eh)
 		var banner := Label.new()
-		banner.text = "⚔ EXPOWISKO: %s" % str(ez.get("name", ""))
+		banner.text = "⚔ %s" % str(ez.get("name", ""))
 		banner.position = Vector2(-240, -165)
 		banner.size = Vector2(480, 34)
 		banner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -649,7 +709,7 @@ func build_world_objects_and_actors() -> void:
 		ez_node.add_child(banner)
 		ysort.add_child(ez_node)
 
-	# 4. 10 Animated Capital NPCs with Quest Markers (! / ?) and Patrols
+	# 4. Capital & Wilderness NPCs with Quest Markers (! / ?) and Patrols
 	for idx in npcs_data.size():
 		var n: Dictionary = npcs_data[idx]
 		var aid := str(n.get("actor_id", ""))
@@ -687,7 +747,7 @@ func build_world_objects_and_actors() -> void:
 			"phase": float(idx) * 1.37,
 		})
 
-	# 5. 30 Animated Monsters distributed across the 6 Exp-Zones (Lv. 1..18)
+	# 5. Live Canonical Monsters distributed across 10 Exp-Zones (Lv. 1..18, 0 inside safe capitals!)
 	for idx in monsters_data.size():
 		var m: Dictionary = monsters_data[idx]
 		var mid := str(m.get("actor_id", ""))
@@ -711,11 +771,23 @@ func build_world_objects_and_actors() -> void:
 		var mz := float(m.get("z", 512.0))
 		mon_actor.position = iso(mx, mz, height_at(mx, mz))
 		ysort.add_child(mon_actor)
+		var m_hp := int(m.get("hp", 42 + int(m.get("level", 1)) * 18))
 		live_agents.append({
+			"kind": "monster",
+			"id": str(m.get("id", mid)),
+			"actor_id": mid,
+			"name": str(m.get("name", "Potwór")),
+			"level": int(m.get("level", 1)),
+			"max_hp": m_hp,
+			"cur_hp": m_hp,
+			"xp": int(m.get("xp", 40)),
+			"gold": int(m.get("gold", 18)),
+			"alive": true,
+			"respawn_t": 0.0,
 			"node": mon_actor,
 			"home": Vector2(mx, mz),
 			"pos": Vector2(mx, mz),
-			"radius": float(m.get("patrol_radius", 16.0)),
+			"radius": float(m.get("patrol_radius", 22.0)),
 			"speed": 0.95,
 			"phase": float(idx) * 1.91,
 		})
@@ -892,6 +964,45 @@ func build_hud() -> void:
 	interior_room.visible = false
 	hud.add_child(interior_room)
 
+	labyrinth_room = LabyrinthRoomScript.new()
+	labyrinth_room.world = self
+	labyrinth_room.visible = false
+	hud.add_child(labyrinth_room)
+
+	# Contextual golden "OTWÓRZ UKRYTY SKARB" button when near one of the 24 hidden world treasures
+	var trst := StyleBoxFlat.new()
+	trst.bg_color = Color(0.24, 0.16, 0.04, 0.96)
+	trst.border_color = Color(1.0, 0.86, 0.28, 0.98)
+	trst.set_border_width_all(3)
+	trst.set_corner_radius_all(12)
+	trst.content_margin_left = 18
+	trst.content_margin_right = 18
+	trst.content_margin_top = 8
+	trst.content_margin_bottom = 8
+	btn_open_treasure.add_theme_stylebox_override("normal", trst)
+	var trsh := trst.duplicate()
+	trsh.bg_color = Color(0.36, 0.24, 0.06, 0.98)
+	btn_open_treasure.add_theme_stylebox_override("hover", trsh)
+	btn_open_treasure.add_theme_font_override("font", MapStyle.body_font())
+	btn_open_treasure.add_theme_font_size_override("font_size", 17)
+	btn_open_treasure.add_theme_color_override("font_color", Color(1.0, 0.95, 0.72))
+	btn_open_treasure.text = "★ OTWÓRZ UKRYTY SKARB"
+	btn_open_treasure.visible = false
+	btn_open_treasure.pressed.connect(func() -> void:
+		if not nearest_treasure.is_empty():
+			claim_treasure_reward(nearest_treasure, "")
+	)
+	hud.add_child(btn_open_treasure)
+
+	combat_toast_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	combat_toast_lbl.add_theme_font_override("font", MapStyle.body_font())
+	combat_toast_lbl.add_theme_font_size_override("font_size", 18)
+	combat_toast_lbl.add_theme_color_override("font_color", Color(1.0, 0.90, 0.44))
+	combat_toast_lbl.add_theme_color_override("font_outline_color", Color(0.04, 0.02, 0.01, 0.98))
+	combat_toast_lbl.add_theme_constant_override("outline_size", 6)
+	combat_toast_lbl.visible = false
+	hud.add_child(combat_toast_lbl)
+
 	dialogue_strip = DialogueStripScript.new()
 	dialogue_strip.world = self
 	dialogue_strip.visible = false
@@ -903,6 +1014,96 @@ func build_hud() -> void:
 	stick_layer.set("world", self)
 	hud.add_child(stick_layer)
 	layout_minimap()
+
+func _refresh_treasure_nodes_visibility() -> void:
+	for tid: String in treasure_nodes.keys():
+		var nd: Node2D = treasure_nodes[tid]
+		if not is_instance_valid(nd):
+			continue
+		if opened_treasures.has(tid):
+			nd.modulate = Color(0.55, 0.55, 0.58, 0.55)
+
+func is_treasure_opened(tid: String) -> bool:
+	return opened_treasures.has(tid)
+
+func show_combat_toast(msg: String, col: Color = Color(1.0, 0.90, 0.44)) -> void:
+	combat_toast_lbl.text = msg
+	combat_toast_lbl.add_theme_color_override("font_color", col)
+	var vp := get_viewport_rect().size
+	combat_toast_lbl.size = Vector2(maxf(vp.x - 160.0, 320.0), 34.0)
+	combat_toast_lbl.position = Vector2(80.0, 86.0)
+	combat_toast_lbl.visible = true
+	combat_toast_t = 3.8
+
+func claim_treasure_reward(tr: Dictionary, lab_id: String = "") -> void:
+	var tid := str(tr.get("id", ""))
+	if tid.is_empty() or opened_treasures.has(tid):
+		return
+	opened_treasures[tid] = true
+	_refresh_treasure_nodes_visibility()
+	var rgold := int(tr.get("gold", 150))
+	var rxp := int(tr.get("xp", 120))
+	var ritem := str(tr.get("item_id", ""))
+	var payload := {"type": "claim_treasure", "treasureId": tid, "gold": rgold, "xp": rxp}
+	if not lab_id.is_empty():
+		payload["labyrinthId"] = lab_id
+	if not ritem.is_empty():
+		payload["itemId"] = ritem
+	if not dispatch_server_action(payload):
+		if rpg_hud != null:
+			rpg_hud.hero_gold += rgold
+			rpg_hud.hero_xp = fmod(rpg_hud.hero_xp + float(rxp), rpg_hud.hero_max_xp)
+			rpg_hud._refresh_visuals()
+	if audio != null:
+		audio.sfx("common/ui_click")
+	show_combat_toast("★ ODKRYTO SKARB: %s (+%d zł, +%d PD)" % [str(tr.get("title", "Skarb")), rgold, rxp], Color(1.0, 0.92, 0.40))
+	sync_hero()
+
+func report_monster_kill(monster_id: String, lvl: int, mname: String) -> void:
+	var rxp := 26 + lvl * 16
+	var rgold := 10 + lvl * 6
+	if not dispatch_server_action({"type": "monster_kill", "monsterId": monster_id, "level": lvl}):
+		if rpg_hud != null:
+			rpg_hud.hero_gold += rgold
+			rpg_hud.hero_xp = fmod(rpg_hud.hero_xp + float(rxp), rpg_hud.hero_max_xp)
+			rpg_hud._refresh_visuals()
+	show_combat_toast("⚔ Pokonano: %s (Poz.%d) • +%d PD, +%d zł" % [mname, lvl, rxp, rgold], Color(1.0, 0.78, 0.36))
+
+func perform_combat_attack(skill_idx: int) -> void:
+	if in_labyrinth and labyrinth_room != null and labyrinth_room.has_method("perform_labyrinth_attack"):
+		labyrinth_room.perform_labyrinth_attack()
+		return
+	if in_interior or map_expanded or atlas_expanded:
+		return
+	var reach := 145.0 if skill_idx == 0 else 235.0
+	var mult := 1.0 if skill_idx == 0 else (1.45 if skill_idx < 4 else 2.15)
+	var base_atk := 34
+	if rpg_hud != null and rpg_hud.has_method("get_total_attack"):
+		base_atk = int(rpg_hud.get_total_attack())
+	var best_idx := -1
+	var best_d := reach
+	for idx in live_agents.size():
+		var ag: Dictionary = live_agents[idx]
+		if str(ag.get("kind", "")) != "monster" or not bool(ag.get("alive", true)):
+			continue
+		var d := hero_pos.distance_to(ag["pos"] as Vector2)
+		if d < best_d:
+			best_d = d
+			best_idx = idx
+	if best_idx < 0:
+		return
+	var target: Dictionary = live_agents[best_idx]
+	var dmg := maxi(14, int(round(float(base_atk) * mult * randf_range(0.92, 1.24))))
+	target["cur_hp"] = maxi(0, int(target.get("cur_hp", 50)) - dmg)
+	var mnode = target.get("node", null)
+	if is_instance_valid(mnode) and mnode.has_method("show_bubble"):
+		mnode.show_bubble("-%d HP (%d/%d)" % [dmg, int(target["cur_hp"]), int(target["max_hp"])], 1.4)
+	if int(target["cur_hp"]) <= 0:
+		target["alive"] = false
+		target["respawn_t"] = 22.0
+		if is_instance_valid(mnode):
+			mnode.visible = false
+		report_monster_kill(str(target.get("actor_id", "monster")), int(target.get("level", 1)), str(target.get("name", "Potwór")))
 
 func open_npc_dialogue(ag: Dictionary) -> void:
 	if ag.is_empty() or dialogue_strip == null:
@@ -936,8 +1137,57 @@ func open_interior_dialogue(npc_name: String, b_title: String, b_role: String, a
 		"service_cb": service_cb,
 	})
 
+func enter_labyrinth_by_id(lab_id: String) -> void:
+	if labyrinth_room == null:
+		return
+	var found: Dictionary = {}
+	for lab: Dictionary in labyrinths_data:
+		if str(lab.get("id", "")) == lab_id:
+			found = lab
+			break
+	if found.is_empty():
+		return
+	if audio != null:
+		audio.sfx("common/door")
+	if dialogue_strip != null:
+		dialogue_strip.close_dialogue(false)
+	active_talk_agent = {}
+	in_labyrinth = true
+	in_interior = false
+	map_expanded = false
+	atlas_expanded = false
+	gm_open = false
+	if rpg_hud != null and rpg_hud.has_method("close_modals"):
+		rpg_hud.close_modals()
+	target_pos = Vector2(-1.0, -1.0)
+	motion = Vector2.ZERO
+	move_pointer = -1
+	labyrinth_room.enter_labyrinth(current_land, found)
+	layout_minimap()
+	stick_layer.queue_redraw()
+
+func exit_labyrinth() -> void:
+	if not in_labyrinth:
+		return
+	if audio != null:
+		audio.sfx("common/door")
+	in_labyrinth = false
+	if labyrinth_room != null:
+		labyrinth_room.visible = false
+	motion = Vector2.ZERO
+	move_pointer = -1
+	target_pos = Vector2(-1.0, -1.0)
+	layout_minimap()
+	sync_hero()
+	stick_layer.queue_redraw()
+
 func enter_building(b: Dictionary) -> void:
-	if b.is_empty() or interior_room == null:
+	if b.is_empty():
+		return
+	if str(b.get("role", "")) == "labyrinth":
+		enter_labyrinth_by_id(str(b.get("labyrinth_id", b.get("id", ""))))
+		return
+	if interior_room == null:
 		return
 	if audio != null:
 		audio.sfx("common/door")
@@ -981,9 +1231,11 @@ func cycle_time_of_day() -> void:
 
 func layout_minimap() -> void:
 	var vp := get_viewport_rect().size
-	if in_interior:
+	if in_interior or in_labyrinth:
 		if interior_room != null:
-			interior_room.visible = true
+			interior_room.visible = in_interior
+		if labyrinth_room != null:
+			labyrinth_room.visible = in_labyrinth
 		if rpg_hud != null:
 			rpg_hud.visible = false
 		if atmosphere != null:
@@ -998,11 +1250,14 @@ func layout_minimap() -> void:
 			gm_panel.visible = false
 		btn_enter_bldg.visible = false
 		btn_talk_npc.visible = false
+		btn_open_treasure.visible = false
 		if stick_layer != null:
 			stick_layer.visible = true
 		return
 	if interior_room != null:
 		interior_room.visible = false
+	if labyrinth_room != null:
+		labyrinth_room.visible = false
 	var show_world_ui := not (map_expanded or atlas_expanded)
 	var rpg_modal_open: bool = gm_open or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)))
 	var dlg_open: bool = dialogue_strip != null and bool(dialogue_strip.is_open)
@@ -1034,9 +1289,12 @@ func layout_minimap() -> void:
 	btn_enter_bldg.size = Vector2(bw, 52.0)
 	btn_enter_bldg.position = Vector2((vp.x - bw) * 0.5, vp.y - 148.0)
 	btn_enter_bldg.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_enterable.is_empty()
+	btn_open_treasure.size = Vector2(bw, 52.0)
+	btn_open_treasure.position = Vector2((vp.x - bw) * 0.5, (vp.y - 208.0) if btn_enter_bldg.visible else (vp.y - 148.0))
+	btn_open_treasure.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_treasure.is_empty()
 	var tw := clampf(vp.x * 0.30, 250.0, 360.0)
 	btn_talk_npc.size = Vector2(tw, 50.0)
-	var talk_y := (vp.y - 208.0) if btn_enter_bldg.visible else (vp.y - 148.0)
+	var talk_y := (vp.y - 266.0) if (btn_enter_bldg.visible and btn_open_treasure.visible) else ((vp.y - 208.0) if (btn_enter_bldg.visible or btn_open_treasure.visible) else (vp.y - 148.0))
 	btn_talk_npc.position = Vector2((vp.x - tw) * 0.5, talk_y)
 	btn_talk_npc.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_npc_agent.is_empty()
 
@@ -1045,7 +1303,7 @@ func toggle_quest_journal() -> void:
 		quest_journal.toggle_journal()
 
 func toggle_gm_panel(force_open: Variant = null) -> void:
-	if in_interior:
+	if in_interior or in_labyrinth:
 		return
 	var next_v: bool = (not gm_open) if force_open == null else bool(force_open)
 	gm_open = next_v
@@ -1061,7 +1319,7 @@ func toggle_gm_panel(force_open: Variant = null) -> void:
 		rpg_hud._refresh_visuals()
 
 func toggle_map() -> void:
-	if in_interior:
+	if in_interior or in_labyrinth:
 		return
 	if atlas_expanded:
 		atlas_expanded = false
@@ -1072,7 +1330,7 @@ func toggle_map() -> void:
 	stick_layer.queue_redraw()
 
 func toggle_atlas(open: bool) -> void:
-	if in_interior and open:
+	if (in_interior or in_labyrinth) and open:
 		return
 	atlas_expanded = open
 	if atlas_expanded:
@@ -1086,6 +1344,16 @@ func toggle_atlas(open: bool) -> void:
 	stick_layer.queue_redraw()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if in_labyrinth:
+		if event is InputEventKey and event.pressed and not event.echo:
+			if event.keycode == KEY_ESCAPE:
+				exit_labyrinth()
+				return
+		elif event is InputEventScreenTouch:
+			handle_touch(event)
+		elif event is InputEventScreenDrag:
+			handle_drag(event)
+		return
 	if in_interior:
 		if event is InputEventKey and event.pressed and not event.echo:
 			if event.keycode == KEY_ESCAPE:
@@ -1115,6 +1383,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.keycode == KEY_F or event.keycode == KEY_ENTER:
 			if not nearest_enterable.is_empty():
 				enter_building(nearest_enterable)
+				return
+			elif not nearest_treasure.is_empty():
+				claim_treasure_reward(nearest_treasure, "")
 				return
 		elif event.keycode == KEY_ESCAPE and gm_open:
 			toggle_gm_panel(false)
@@ -1252,7 +1523,11 @@ func set_zoom(z: float) -> void:
 	camera.zoom = Vector2(zoom_level, zoom_level)
 
 func _process(delta: float) -> void:
-	if is_booting or in_interior:
+	if combat_toast_t > 0.0:
+		combat_toast_t -= delta
+		if combat_toast_t <= 0.0:
+			combat_toast_lbl.visible = false
+	if is_booting or in_interior or in_labyrinth:
 		return
 	step_world(delta)
 
@@ -1308,6 +1583,14 @@ func step_world(delta: float) -> void:
 		var ag: Dictionary = live_agents[idx]
 		var node = ag["node"]
 		if not is_instance_valid(node):
+			continue
+		if str(ag.get("kind", "")) == "monster" and not bool(ag.get("alive", true)):
+			ag["respawn_t"] = float(ag.get("respawn_t", 0.0)) - delta
+			if float(ag["respawn_t"]) <= 0.0:
+				ag["alive"] = true
+				ag["cur_hp"] = int(ag.get("max_hp", 80))
+				ag["pos"] = ag["home"]
+				node.visible = true
 			continue
 		if dlg_open and node == talk_node:
 			# Pause patrol and turn toward hero while talking
@@ -1425,18 +1708,39 @@ func sync_hero() -> void:
 			best_npc = ag
 	nearest_npc_agent = best_npc
 
-	var show_world_ui := not (map_expanded or atlas_expanded or in_interior)
+	# Detect nearest unopened hidden world treasure within 58m
+	var best_tr: Dictionary = {}
+	var best_td := 58.0
+	for tr: Dictionary in treasures_data:
+		var tid := str(tr.get("id", ""))
+		if opened_treasures.has(tid):
+			continue
+		var td := hero_pos.distance_to(Vector2(float(tr.get("x", 0.0)), float(tr.get("z", 0.0))))
+		if td < best_td:
+			best_td = td
+			best_tr = tr
+	nearest_treasure = best_tr
+
+	var show_world_ui := not (map_expanded or atlas_expanded or in_interior or in_labyrinth)
 	var rpg_modal_open: bool = gm_open or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)))
 	var dlg_open: bool = dialogue_strip != null and bool(dialogue_strip.is_open)
 	if not nearest_enterable.is_empty():
-		btn_enter_bldg.text = "▶ WEJDŹ: %s" % str(nearest_enterable.get("title", "Budynek"))
+		var bprefix := "⚔ WEJDŹ DO LABIRYNTU: " if str(nearest_enterable.get("role", "")) == "labyrinth" else "▶ WEJDŹ: "
+		btn_enter_bldg.text = "%s%s" % [bprefix, str(nearest_enterable.get("title", "Budynek"))]
 	btn_enter_bldg.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_enterable.is_empty()
+	if not nearest_treasure.is_empty():
+		btn_open_treasure.text = "★ OTWÓRZ SKARB: %s" % str(nearest_treasure.get("title", "Skarb"))
+	var vp := get_viewport_rect().size
+	var bw_tr := clampf(vp.x * 0.34, 280.0, 420.0)
+	btn_open_treasure.size = Vector2(bw_tr, 52.0)
+	btn_open_treasure.position = Vector2((vp.x - bw_tr) * 0.5, (vp.y - 208.0) if btn_enter_bldg.visible else (vp.y - 148.0))
+	btn_open_treasure.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_treasure.is_empty()
 	if not nearest_npc_agent.is_empty():
 		btn_talk_npc.text = "▶ ROZMAWIAJ: %s" % str(nearest_npc_agent.get("name", "NPC"))
-	var vp := get_viewport_rect().size
 	var tw := clampf(vp.x * 0.30, 250.0, 360.0)
 	btn_talk_npc.size = Vector2(tw, 50.0)
-	btn_talk_npc.position = Vector2((vp.x - tw) * 0.5, (vp.y - 208.0) if btn_enter_bldg.visible else (vp.y - 148.0))
+	var talk_y := (vp.y - 266.0) if (btn_enter_bldg.visible and btn_open_treasure.visible) else ((vp.y - 208.0) if (btn_enter_bldg.visible or btn_open_treasure.visible) else (vp.y - 148.0))
+	btn_talk_npc.position = Vector2((vp.x - tw) * 0.5, talk_y)
 	btn_talk_npc.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_npc_agent.is_empty()
 
 func snap(out_dir: String, file: String) -> String:
@@ -1605,6 +1909,22 @@ func run_qa() -> void:
 	set_zoom(0.62)
 	step_world(0.20)
 	shots.append(await snap(out_dir, "pyra-wilderness-biome.jpg"))
+
+	# Live Monster Zone QA (Pyra Zone 1 outside safe capital)
+	if not exp_zones.is_empty():
+		var ez0: Dictionary = exp_zones[0]
+		teleport_to_world_pos("pyra", float(ez0.get("x", deep_pt.x)), float(ez0.get("z", deep_pt.y)) + 28.0)
+		set_zoom(0.75)
+		step_world(0.20)
+		shots.append(await snap(out_dir, "pyra-monster-zone.jpg"))
+
+	# Playable Labyrinth Dungeon QA (Pyra Labirynt Wulkanicznej Kaldery)
+	if not labyrinths_data.is_empty():
+		enter_labyrinth_by_id(str((labyrinths_data[0] as Dictionary).get("id", "")))
+		for _i in 4:
+			await get_tree().process_frame
+		shots.append(await snap(out_dir, "labyrinth-dungeon.jpg"))
+		exit_labyrinth()
 
 	# 7) AAA 29-Node Diamond Constellation Skill Tree ([K]) & Paperdoll Character Sheet ([I]) on Pyra
 	switch_region("pyra")

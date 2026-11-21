@@ -363,20 +363,44 @@ func _draw_overlay() -> void:
 				corners.append(corners[0])
 				overlay_canvas.draw_polyline(corners, Color(0.06, 0.04, 0.03, 0.94), 1.3, true)
 
-	# 4. Live Peaceful Wildlife Fauna & Capital NPCs
+	# 4. Live Peaceful Wildlife Fauna, Monsters & Capital/Wilderness NPCs
 	for ag: Dictionary in world.live_agents:
 		var node = ag.get("node")
-		if node == null or not is_instance_valid(node):
+		if node == null or not is_instance_valid(node) or not node.visible:
 			continue
 		var ap: Vector2 = ag.get("pos", Vector2.ZERO)
 		var rp := _world_to_radar(ap.x, ap.y, center_uv)
 		if rp.distance_to(MAP_CENTER) > clip_r - 2.0:
 			continue
-		var kind := str(node.get("actor_kind")) if "actor_kind" in node else ""
-		if kind == "animal":
+		var kind := str(ag.get("kind", ""))
+		if kind.is_empty() and "actor_kind" in node:
+			kind = str(node.get("actor_kind"))
+		if kind == "monster":
+			overlay_canvas.draw_circle(rp, 2.8, Color(1.0, 0.24, 0.22, 0.94))
+		elif kind == "animal":
 			overlay_canvas.draw_circle(rp, 2.0, Color(0.56, 0.92, 0.58, 0.78))
 		elif kind == "npc":
-			overlay_canvas.draw_circle(rp, 2.5, Color(1.0, 0.90, 0.44, 0.95))
+			overlay_canvas.draw_circle(rp, 2.6, Color(1.0, 0.90, 0.44, 0.96))
+
+	# 4b. Unopened Hidden World Treasures (gold dots) & Labyrinth Entrances (violet-gold diamonds)
+	if "treasures_data" in world:
+		for tr: Dictionary in world.treasures_data:
+			if world.has_method("is_treasure_opened") and bool(world.is_treasure_opened(str(tr.get("id", "")))):
+				continue
+			var tp := _world_to_radar(float(tr.get("x", 0.0)), float(tr.get("z", 0.0)), center_uv)
+			if tp.distance_to(MAP_CENTER) <= clip_r - 3.0:
+				overlay_canvas.draw_circle(tp, 3.8, Color(1.0, 0.86, 0.22, 0.96))
+				overlay_canvas.draw_arc(tp, 3.8, 0.0, TAU, 12, Color(0.10, 0.06, 0.02, 0.95), 1.2, true)
+	if "labyrinths_data" in world:
+		for lab: Dictionary in world.labyrinths_data:
+			var lp := _world_to_radar(float(lab.get("x", 0.0)), float(lab.get("z", 0.0)), center_uv)
+			if lp.distance_to(MAP_CENTER) <= clip_r - 4.0:
+				var dia := PackedVector2Array([
+					lp + Vector2(0, -6.5), lp + Vector2(6.5, 0), lp + Vector2(0, 6.5), lp + Vector2(-6.5, 0)
+				])
+				overlay_canvas.draw_colored_polygon(dia, Color(0.76, 0.34, 1.0, 0.96))
+				dia.append(dia[0])
+				overlay_canvas.draw_polyline(dia, Color(1.0, 0.88, 0.42, 0.98), 1.6, true)
 
 	# 5. Painted Heraldic Medallions: Capital Starburst, Town Shields & Enterable Service Medallions!
 	for b: Dictionary in world.buildings:

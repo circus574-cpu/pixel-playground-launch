@@ -30,14 +30,10 @@ const AdminServerStatus = lazy(() =>
 const AdminGodotPanel = lazy(() => import("@/components/admin/AdminGodotPanel"));
 const AdminAndroidCharacters = lazy(() => import("@/components/admin/AdminAndroidCharacters"));
 const ServerCharacterManager = lazy(() => import("@/components/admin/ServerCharacterManager"));
-const AdminWorldEditor = lazy(() =>
-  import("@/components/admin/AdminWorldEditor").then((m) => ({
-    default: m.AdminWorldEditor,
+const AdminSuperiorWorld = lazy(() =>
+  import("@/components/admin/AdminSuperiorWorld").then((m) => ({
+    default: m.AdminSuperiorWorld,
   })),
-);
-
-const AdminWorldOverview = lazy(() =>
-  import("@/components/admin/AdminWorldOverview").then((m) => ({ default: m.AdminWorldOverview })),
 );
 
 const ROLE_NAME: Record<AppRole, string> = { admin: "administrator", gm: "game master" };
@@ -50,16 +46,17 @@ function AdminPage() {
     | "players"
     | "monitoring"
     | "audit"
-    | "content"
+    | "superior-world"
     | "coder"
     | "diagnostyka"
-    | "world-overview"
     | "android"
     | "logins"
   >(() =>
     typeof window !== "undefined" &&
-    new URLSearchParams(window.location.search).get("view") === "world-overview"
-      ? "world-overview"
+    ["world-overview", "superior-world"].includes(
+      new URLSearchParams(window.location.search).get("view") ?? "",
+    )
+      ? "superior-world"
       : "server-chars",
   );
   if (!account.ready) return <main className="ki-account">Wczytywanie…</main>;
@@ -88,8 +85,7 @@ function AdminPage() {
               ["server-chars", "Postacie (live)"],
               ["players", "Konta i role"],
               ["monitoring", "Serwer"],
-              ["content", "Świat i zawartość"],
-              ...(isAdmin ? [["world-overview", "Świat — przegląd"] as const] : []),
+              ["superior-world", "Świat Superior"],
               ["android", "Gra Android"],
               ["audit", "Dziennik"],
               ["logins", "Logowania"],
@@ -131,14 +127,9 @@ function AdminPage() {
           </>
         )}
         {tab === "logins" && <Logins />}
-        {tab === "world-overview" && isAdmin && (
-          <Suspense fallback={<p role="status">Wczytywanie przeglądu świata…</p>}>
-            <AdminWorldOverview />
-          </Suspense>
-        )}
-        {tab === "content" && (
-          <Suspense fallback={<p role="status">Wczytywanie edytora zawartości…</p>}>
-            <AdminWorldEditor />
+        {tab === "superior-world" && (
+          <Suspense fallback={<p role="status">Wczytywanie rzeczywistej mapy Świata Superior…</p>}>
+            <AdminSuperiorWorld />
           </Suspense>
         )}
         {tab === "coder" && (

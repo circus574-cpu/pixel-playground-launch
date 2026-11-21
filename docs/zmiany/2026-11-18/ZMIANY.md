@@ -357,3 +357,17 @@ Zastąpiono filmowy pasek ładowania **prawdziwym, żywym panelem ładowania** z
   - Wyrenderowano odświeżone szkice na skali `4096 m` z realnymi punktami budynków, kompaktową zieloną strefą bezpieczną (`r = 250 m`) i nazwami sub-biomów. W świecie gry nadal obowiązuje `0` spawnów potworów do akceptacji właściciela.
 - **Weryfikacja:** Godot 4.6.3 `--qa` (`ISO_WORLD_QA_OK`, `0` błędów skryptów/zasobów, inspekcja wizualna stolic, sub-biomów, mostów, Mapy 3D, Atlasu 2D i Globusa 3D), `python3 scripts/docs/check_documentation.py` (`PASS`), wydanie OTA **`1.14.20`**.
 
+### 26. Wdrożenie 152 spawnów potworów, 8 grywalnych labiryntów z ukrytymi skarbami, 24 skarbów terenowych, żywej walki PvE oraz rzeczywistej zakładki `/admin` „Świat Superior” (`1.14.21`, 2026-11-21)
+
+- **Zaakceptowane spawny 40 kanonicznych potworów (`scripts/godot/populate_superior_adventures.py`):**
+  - Wdrożono 40 stref (`10` na kontynent, `38` osobników / kontynent = `152` żywych potworów Poz. `1–18`) wyłącznie na suchym terenie poza bezpiecznymi stolicami (`r = 250 m`, `0` potworów w stolicach) oraz żywą walkę PvE w `world.gd` / `rpg_hud.gd` z respawnem `22 s` i serwerową akcją `monster_kill`.
+- **8 grywalnych labiryntów, wejścia, ukryte skarby i przygody terenowe (`ports/godot-isometric-world/scripts/labyrinth_room.gd`, `world.gd`, `quest_journal.gd`):**
+  - Dodano **8 grywalnych labiryntów (`2` na kontynent)** z wejściami na mapach kontynentów, generatorami przechodnich układów `15×15`, mgłą wojny, biomowym oświetleniem, minimapą korytarzy, **24 strażnikami** oraz **32 ukrytymi skrzyniami skarbów** (4/labirynt, serwerowe `claim_treasure`).
+  - Dodano **24 ukryte skarby terenowe** (`6` na kontynent) w 5 sub-biomach, **8 terenowych NPC ekspedycji** (łącznie `48` NPC na planecie) oraz **16 nowych serwerowych celów wypraw i labiryntów** w `src/server/godot/goals.ts` (łącznie `64` weryfikowane serwerowo zadania/cele, 3. zakładka `⚔ LABIRYNTY I PRZYGODY` w dzienniku zadań).
+  - Spawny potworów, wejścia labiryntów i nieotwarte skarby są 1:1 naniesione na minimapę (`premium_minimap.gd`) i Mapę 3D (`map_3d.gd`).
+- **Rzeczywista zakładka `/admin` „Świat Superior” (`src/components/admin/AdminSuperiorWorld.tsx`, `src/routes/admin.tsx`, `src/game/world/superiorLiveWorld.generated.ts`, `public/admin-world/*.webp`):**
+  - Usunięto stare przeglądarkowe zakładki „Świat i zawartość” oraz „Świat — przegląd” i zastąpiono je jedną rzeczywistą zakładką **„Świat Superior”** generowaną 1:1 z plików `regions/*/buildings.json` (`4096×4096 m`) i `goals.ts`.
+  - Interaktywna mapa z zoomem/przesuwaniem i przełącznikami warstw: bezpieczna stolica, drogi, miasta/budynki, 5 sub-biomów, spawny potworów, zwierzęta (fauna), NPC/questy, wejścia labiryntów (z podglądem rzeczywistej siatki `15×15`, skrzyń i strażników) oraz wszystkie ukryte skarby terenowe.
+- **Weryfikacja:** `npm run typecheck` (wszystkie 3 tsconfigi), `vitest`, `eslint`, `npm run build`, `python3 scripts/docs/check_documentation.py` (`PASS`), Godot 4.6.3 `--qa` (`ISO_WORLD_QA_OK`, wizualna weryfikacja strefy potworów, pełnoekranowego labiryntu i Mapy 3D), wydanie OTA **`1.14.21`**.
+
+

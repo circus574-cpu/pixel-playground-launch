@@ -41,7 +41,7 @@ const FALLBACK_CHAPTERS := {
 
 var world: Node2D
 var goals_data: Array = []
-var active_tab := "heritage" # "heritage" | "development"
+var active_tab := "heritage" # "heritage" | "development" | "adventure"
 var local_claimed: Dictionary = {}
 
 var backdrop := ColorRect.new()
@@ -50,6 +50,7 @@ var header_lbl := Label.new()
 var status_lbl := Label.new()
 var tab_heritage := Button.new()
 var tab_dev := Button.new()
+var tab_adv := Button.new()
 var btn_close := Button.new()
 var scroll := ScrollContainer.new()
 var list_vbox := VBoxContainer.new()
@@ -133,13 +134,21 @@ func _build_ui() -> void:
 	)
 	tabs_hb.add_child(tab_heritage)
 
-	tab_dev.text = "★ CELE ROZWOJU RASY (6)"
+	tab_dev.text = "★ CELE ROZWOJU (6)"
 	tab_dev.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	tab_dev.pressed.connect(func() -> void:
 		active_tab = "development"
 		_rebuild_list()
 	)
 	tabs_hb.add_child(tab_dev)
+
+	tab_adv.text = "⚔ LABIRYNTY I PRZYGODY (4)"
+	tab_adv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tab_adv.pressed.connect(func() -> void:
+		active_tab = "adventure"
+		_rebuild_list()
+	)
+	tabs_hb.add_child(tab_adv)
 
 	status_lbl.text = "Postęp i nagrody są weryfikowane oraz zapisywane na serwerze gry."
 	status_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -236,6 +245,12 @@ func _rebuild_list() -> void:
 		tab_dev,
 		Color(0.30, 0.20, 0.06, 0.98) if active_tab == "development" else Color(0.11, 0.11, 0.16, 0.94),
 		Color(1.0, 0.80, 0.30, 0.98) if active_tab == "development" else Color(0.50, 0.44, 0.34, 0.72),
+		14
+	)
+	_style_btn(
+		tab_adv,
+		Color(0.30, 0.20, 0.06, 0.98) if active_tab == "adventure" else Color(0.11, 0.11, 0.16, 0.94),
+		Color(1.0, 0.80, 0.30, 0.98) if active_tab == "adventure" else Color(0.50, 0.44, 0.34, 0.72),
 		14
 	)
 
