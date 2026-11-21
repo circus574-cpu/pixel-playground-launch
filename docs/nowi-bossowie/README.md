@@ -11,7 +11,7 @@
 - `bosses_design.json` — dane projektowe: wygląd, arena, mechaniki, fazy, ataki, łupy i SHA256 ilustracji.
 - `NOWI_BOSSOWIE_DOKUMENTACJA.md` — pełen opis każdej z 10 postaci.
 - `CODEX_IMPLEMENTACJA.md` — wymagania techniczne dla agenta.
-- `KI_LEGENDS_10_BOSSOW_3_WIDOKI_KOMPLET.zip` — kompletny pakiet do pobrania (PNG, dokumentacja, JSON).
+- `zbuduj_paczke.py` — tworzy i weryfikuje kompletny ZIP lokalnie z plików znajdujących się w repo. Sam ZIP nie jest obecnie zapisany w GitHubie (ograniczenie wielkości przesyłania).
 
 ## Stan przygotowania grafik
 
@@ -30,3 +30,6 @@
 | Nexus-9 | AXIOM-OMEGA, LEVIATAN ZERO |
 
 **Nie wdrażać na serwer i nie modyfikować APK ani produkcyjnych danych bossów bez osobnego zlecenia.**
+## Paczka ZIP
+
+Po pobraniu katalogu uruchom `python3 zbuduj_paczke.py` w folderze `docs/nowi-bossowie`. Skrypt weryfikuje 10 referencji i tworzy `KI_LEGENDS_10_BOSSOW_3_WIDOKI_KOMPLET.zip` obejmujący atlas, 10 obrazów PNG i dokumentację. Wszystkie pliki źródłowe są już częścią repozytorium.
