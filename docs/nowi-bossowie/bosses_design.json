@@ -1,0 +1,348 @@
+{
+  "project": "KI LEGENDS",
+  "title": "NOWI BOSSOWIE",
+  "created": "2026-11-21",
+  "source": "10 oryginalnych ilustracji koncepcyjnych wygenerowanych w rozmowie ChatGPT",
+  "status": "koncepcje i referencje 3 stron, nie modele 3D ani zaimplementowane postacie",
+  "bosses": [
+    {
+      "id": "azhkar",
+      "name": "AZH'KAR",
+      "title": "Władca Kaldery",
+      "continent": "pyra",
+      "level": 40,
+      "size": "12 m wysokości",
+      "category": "boss światowy",
+      "phases": 3,
+      "appearance": "Kolos z obsydianu i czarnego bazaltu, potężne rogi jak krawędź krateru, pomarańczowe oczy i odsłonięte serce magmy. Zbroja z segmentowanych płyt skalnych, żarzące się szczeliny.",
+      "arena": "Wulkaniczna kaldera; cztery skalne platformy, szczeliny lawowe i spadające meteory.",
+      "attacks": [
+        "Sejsmiczne uderzenie pięścią z falą obszarową",
+        "Wachlarz siedmiu pocisków ognia",
+        "Zapowiadany wybuch krateru z czerwonymi znacznikami",
+        "Chwyt i odrzucenie postaci"
+      ],
+      "phase_plan": [
+        "100–70%: wolne, silne uderzenia",
+        "70–30%: pęka pancerz i pojawiają się strumienie lawy",
+        "<30%: wybuch rdzenia, szybsze ataki i kurcząca się bezpieczna powierzchnia"
+      ],
+      "special": "Widoczny rdzeń magmy jako słaby punkt; kurcząca się arena nie może blokować drogi ucieczki.",
+      "loot": "Serce Kaldery",
+      "image": "01_AZHKAR_Wladca_Kaldery.png",
+      "file_sha256": "010504432de84d6d0125f423ff04aab6b3825063d26c1357c943c1dcd0adc0b9",
+      "file_bytes": 2621494,
+      "reference_quality": "osobna karta 1774x887",
+      "image_dimensions": [
+        1774,
+        887
+      ]
+    },
+    {
+      "id": "varkessa",
+      "name": "VARKESSA",
+      "title": "Królowa Żelaznego Żaru",
+      "continent": "pyra",
+      "level": 28,
+      "size": "4 m wysokości",
+      "category": "boss cytadeli",
+      "phases": 3,
+      "appearance": "Sześcioramienna władczyni kuźni; pancerz z czarnego metalu i złotych detali, włosy jak płynny ogień, mechaniczna korona. Dwa młoty, dwie zakrzywione klingi i dwa łańcuchy.",
+      "arena": "Podziemna kuźnia Twierdzy Popiołu; cztery pieców, kowadła i kanały lawy.",
+      "attacks": [
+        "Sześciu-ramienny wir broni",
+        "Przyciągnięcie rozżarzonym łańcuchem",
+        "Uderzenie młotem ze stożkiem iskier",
+        "Deszcz stopionych mieczy",
+        "Przywołanie żelaznych strażników"
+      ],
+      "phase_plan": [
+        "100–65%: walka wieloma rodzajami broni",
+        "65–30%: cztery piece odnawiają tarczę — gracz je niszczy",
+        "<30%: pancerz pęka, boss przyspiesza i walczy ognistymi ostrzami"
+      ],
+      "special": "Sześć niezależnych ramion musi być poprawnie policzone w riggu i hitboxach; piece z osobnymi punktami życia.",
+      "loot": "Korona Żelaznego Żaru",
+      "image": "02_VARKESSA_Krolowa_Zelaznego_Zaru.png",
+      "file_sha256": "f2a576910eed236196a53700927b274036451bb8e2b4c801039f1e0fc5069d4c",
+      "file_bytes": 2571748,
+      "reference_quality": "osobna karta 1774x887",
+      "image_dimensions": [
+        1774,
+        887
+      ]
+    },
+    {
+      "id": "nharrok",
+      "name": "NHAR'ROK",
+      "title": "Pożeracz Szczelin",
+      "continent": "pyra",
+      "level": 22,
+      "size": "30 m długości",
+      "category": "boss pustkowi",
+      "phases": 2,
+      "appearance": "Gigantyczny, pozbawiony oczu, segmentowany wąż z około 25 płyt bazaltu, magmą między segmentami, sześcioczęściowymi szczękami i kryształowymi zębami; ogon jak ostrze.",
+      "arena": "Bazaltowy kanion z niestabilnymi płytami i odsłanianą lawą.",
+      "attacks": [
+        "Podziemne nurkowanie i wyskok",
+        "Poziome smagnięcie całym ciałem",
+        "Odłamki obsydianu",
+        "Obrót ciała tworzący ognistą barierę"
+      ],
+      "phase_plan": [
+        "100–50%: polowanie pod ziemią według drgań",
+        "<50%: rozrywa podłoże, odsłania lawę i zmienia trasę szarży"
+      ],
+      "special": "Drgania terenu i kurz ostrzegają przed wyskokiem; segmentowe kolizje głowy i ogona.",
+      "loot": "Kieł Otchłani",
+      "image": "03_NHARROK_Pozeracz_Szczelin.png",
+      "file_sha256": "5c2b92473b7bd9af4ec7adcd259ae34edd2691d278528ef55fc99f89925415cf",
+      "file_bytes": 2517801,
+      "reference_quality": "osobna karta 1774x887",
+      "image_dimensions": [
+        1774,
+        887
+      ]
+    },
+    {
+      "id": "ghorum",
+      "name": "GHORUM",
+      "title": "Pradawne Serce Lasu",
+      "continent": "verdant",
+      "level": 35,
+      "size": "15 m wysokości",
+      "category": "boss światowy",
+      "phases": 3,
+      "appearance": "Pradawny drzewiec z pancerzem kory, koroną gałęzi i rogów, mchem, pnączami i szmaragdowymi runami; duży kryształowy rdzeń w piersi.",
+      "arena": "Święta polana z monumentalnymi korzeniami i czterema monolitami.",
+      "attacks": [
+        "Fala podziemnych korzeni",
+        "Uderzenie drewnianą pięścią",
+        "Wir liści-ostrzy",
+        "Leśni strażnicy",
+        "Promień energii z serca"
+      ],
+      "phase_plan": [
+        "100–70%: ciężkie ciosy",
+        "70–35%: arena porasta ruchomymi korzeniami",
+        "<35%: odsłania szmaragdowe serce i przyspiesza"
+      ],
+      "special": "Zniszczalne korzenie i czytelny słaby punkt odsłaniany w końcowej fazie.",
+      "loot": "Żywe Serce Verdantii",
+      "image": "04_GHORUM_Pradawne_Serce_Lasu.png",
+      "file_sha256": "f022242d1e39500f896f235e95e751b22e2befee02cd9439985efd03542029e6",
+      "file_bytes": 2934093,
+      "reference_quality": "osobna karta 1774x887",
+      "image_dimensions": [
+        1774,
+        887
+      ]
+    },
+    {
+      "id": "elaris",
+      "name": "ELARIS",
+      "title": "Łowczyni Szmaragdowego Księżyca",
+      "continent": "verdant",
+      "level": 26,
+      "size": "około 3,5 m wysokości",
+      "category": "boss świątyni",
+      "phases": 3,
+      "appearance": "Strażniczka o humanoidalnym torsie i czteronożnym ciele jelenia, srebrzystych włosach, kryształowym porożu, zielono-złotej zbroi i łuku ze świetlistych gałęzi.",
+      "arena": "Księżycowa świątynia z filarami, sadzawkami i świetlistymi drzewami.",
+      "attacks": [
+        "Trzy celowane strzały",
+        "Deszcz magicznych strzał",
+        "Szarża z uderzeniem poroża",
+        "Trzy iluzoryczne kopie",
+        "Sidła z pnączy"
+      ],
+      "phase_plan": [
+        "100–65%: łucznictwo dystansowe",
+        "65–30%: teleportacja, kopie i sidła",
+        "<30%: mistyczna transformacja i szybkie szarże"
+      ],
+      "special": "Prawdziwa Elaris rzuca cień; iluzje są bez cienia. Cztery nogi mają spójny rig.",
+      "loot": "Łuk Księżycowego Łowcy",
+      "image": "05_ELARIS_Lowczyni_Szmaragdowego_Ksiezyca.png",
+      "file_sha256": "2e7dfab3ceb2a5e560a96fd91c62733ca5f3313275d783c26f6d15603505b2df",
+      "file_bytes": 2309365,
+      "reference_quality": "osobna karta 1774x887",
+      "image_dimensions": [
+        1774,
+        887
+      ]
+    },
+    {
+      "id": "morgath",
+      "name": "MORGATH",
+      "title": "Władca Zatopionych Korzeni",
+      "continent": "verdant",
+      "level": 18,
+      "size": "8 m szerokości",
+      "category": "boss mokradeł",
+      "phases": 2,
+      "appearance": "Monstrualna ropucha-krab na sześciu segmentowanych nogach, z asymetrycznymi szczypcami, toksycznymi workami gardłowymi, mchem, korzeniami i błękitnymi świecącymi grzybami.",
+      "arena": "Zatopione ruiny bagna; zatruta woda, wysepki i kruche pomosty.",
+      "attacks": [
+        "Atak krabim szczypcem",
+        "Język chwytający postać",
+        "Chmura zarodników",
+        "Skok i fala błota",
+        "Przywołanie pasożytów"
+      ],
+      "phase_plan": [
+        "100–50%: walka na powierzchni",
+        "<50%: nurkowanie i wynurzanie pod wysepkami"
+      ],
+      "special": "Zniszczalne pomosty, czytelny wskaźnik zatrucia; zachować sześć odnóży plus dwa szczypce.",
+      "loot": "Jadowe Serce Bagien",
+      "image": "06_MORGATH_Wladca_Zatopionych_Korzeni.png",
+      "file_sha256": "1c4871732fb61576ce0b513caea21cb314d8e427f7913c4ce96cbb76527e24b2",
+      "file_bytes": 2689732,
+      "reference_quality": "osobna karta 1774x887",
+      "image_dimensions": [
+        1774,
+        887
+      ]
+    },
+    {
+      "id": "shirokan",
+      "name": "SHIROKAN",
+      "title": "Cesarz Wiecznej Zimy",
+      "continent": "aether",
+      "level": 40,
+      "size": "20 m długości",
+      "category": "boss światowy",
+      "phases": 3,
+      "appearance": "Kryształowy srebrno-biały smok na czterech łapach, sześciu rogach i wielkich transparentnych lodowych skrzydłach; turkusowe oczy, ogon z siedmioma kryształowymi ostrzami.",
+      "arena": "Szczyt lodowej góry; świątynia, przepaście i zamarznięte jezioro.",
+      "attacks": [
+        "Stożek lodowego oddechu",
+        "Deszcz lodowych włóczni",
+        "Huragan od skrzydeł",
+        "Nurkowanie z powietrza",
+        "Lodowe więzienie"
+      ],
+      "phase_plan": [
+        "100–70%: ataki naziemne",
+        "70–30%: lot i zamieć ograniczająca widoczność",
+        "<30%: rezonans kryształów i pękające platformy"
+      ],
+      "special": "Zapowiedź zrzutu lodu i cień celu przy lotach; lodowe więzienia muszą dawać możliwość uwolnienia.",
+      "loot": "Skrzydło Wiecznej Zimy",
+      "image": "07_SHIROKAN_Cesarz_Wiecznej_Zimy.png",
+      "file_sha256": "f91e90048070de62cd086eb1402c0553608f7d16bd0eea162b584b3f5e0b9da4",
+      "file_bytes": 788378,
+      "reference_quality": "wycinek atlasu, mniejsza rozdzielczość",
+      "image_dimensions": [
+        1532,
+        374
+      ]
+    },
+    {
+      "id": "tenshu",
+      "name": "TENSHU",
+      "title": "Strażnik Tysiąca Źródeł",
+      "continent": "aether",
+      "level": 32,
+      "size": "6 m wysokości",
+      "category": "boss sanktuarium",
+      "phases": 3,
+      "appearance": "Monumentalny kamienny lew z białego marmuru, jadeitu i złota. Turkusowe linie KI, grzywa jak pasma wody, miniaturowa pagoda na grzbiecie.",
+      "arena": "Najwyższy dziedziniec Sanktuarium Tysiąca Źródeł; cztery połączone baseny i kamienne mostki.",
+      "attacks": [
+        "Szarża i cios łapą",
+        "Wodny promień",
+        "Obracające pierścienie wody",
+        "Wodne duchy",
+        "Fala odpychająca"
+      ],
+      "phase_plan": [
+        "100–70%: kamienny strażnik",
+        "70–30%: pęknięcie marmuru i zalewanie areny",
+        "<30%: świetlisty lew KI i szybkie ataki energią"
+      ],
+      "special": "Cztery zawory zmieniają bieg strumieni i tworzą bezpieczne strefy.",
+      "loot": "Perła Tysiąca Źródeł",
+      "image": "08_TENSHU_Straznik_Tysiaca_Zrodel.png",
+      "file_sha256": "efea6f20e5d7dbecd22b34441ac445d49fc8e5eede9df8cfaf2fe2b4bab8c194",
+      "file_bytes": 808702,
+      "reference_quality": "wycinek atlasu, mniejsza rozdzielczość",
+      "image_dimensions": [
+        1536,
+        374
+      ]
+    },
+    {
+      "id": "axiom-omega",
+      "name": "AXIOM-OMEGA",
+      "title": "Absolutny Egzekutor",
+      "continent": "nexus",
+      "level": 38,
+      "size": "10 m wysokości",
+      "category": "boss systemowy",
+      "phases": 3,
+      "appearance": "Grafitowy humanoidalny mech z czterema ramionami, turkusowym reaktorem, działem plazmowym, energetycznym ostrzem i trzema wirującymi pierścieniami antygrawitacyjnymi.",
+      "arena": "Centralny reaktor Nexus-9; ruchome segmenty podłogi, bariery laserowe i pola energii.",
+      "attacks": [
+        "Obrotowy laser 180 stopni",
+        "Rakiety samonaprowadzające",
+        "Teleport i cięcie",
+        "Drony bojowe",
+        "Przeciążenie platformy"
+      ],
+      "phase_plan": [
+        "100–70%: podstawowe uzbrojenie",
+        "70–30%: dostosowuje obronę do działań gracza",
+        "<30%: tryb OMEGA z przegrzanym reaktorem"
+      ],
+      "special": "Zniszczenie pierścieni ogranicza zdolności; reakcje na styl gry muszą być przewidywalne.",
+      "loot": "Rdzeń Omega",
+      "image": "09_AXIOM_OMEGA_Absolutny_Egzekutor.png",
+      "file_sha256": "7cb7c298510c33e870b92d42ef0c2eba8c0ce8f36ce6011bb2f8ef09c0353d33",
+      "file_bytes": 775542,
+      "reference_quality": "wycinek atlasu, mniejsza rozdzielczość",
+      "image_dimensions": [
+        1532,
+        376
+      ]
+    },
+    {
+      "id": "leviatan-zero",
+      "name": "LEVIATAN ZERO",
+      "title": "Ostatni Protokół",
+      "continent": "nexus",
+      "level": 40,
+      "size": "40 m długości",
+      "category": "boss finałowy",
+      "phases": 4,
+      "appearance": "Segmentowy biomechaniczny lewiatan-smok ze stali grafitowej, turkusowymi plazmowymi kanałami, czterema płetwami energetycznymi, trzema oczami i mechaniczną paszczą.",
+      "arena": "Wielki podziemny hangar z ruchomymi platformami nad przepaścią i reaktorem.",
+      "attacks": [
+        "Plazmowy oddech",
+        "Uderzenie ogonem",
+        "Deszcz dronów",
+        "Impuls elektromagnetyczny",
+        "Obrotowe lasery",
+        "Pobór energii z reaktora"
+      ],
+      "phase_plan": [
+        "100–75%: ciężka walka lewiatana",
+        "75–50%: odrywanie segmentów-wrogów",
+        "50–25%: transformacja w rój dronów",
+        "<25%: rekonstrukcja jako szybki smok energetyczny"
+      ],
+      "special": "Modułowa animacja segmentów; limit aktywnych dronów na Androidzie; zwycięstwo z osobną sekwencją.",
+      "loot": "Jądro Pierwotnego Protokołu",
+      "image": "10_LEVIATAN_ZERO_Ostatni_Protokol.png",
+      "file_sha256": "3bcd672d0879c338d9861ad7f3a909330b9051f54cea5d68172d5e710d349717",
+      "file_bytes": 718984,
+      "reference_quality": "wycinek atlasu, mniejsza rozdzielczość",
+      "image_dimensions": [
+        1536,
+        376
+      ]
+    }
+  ],
+  "atlas_file": "00_ATLAS_10_BOSSOW.png"
+}
