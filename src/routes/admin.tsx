@@ -5,6 +5,7 @@ import {
   adminAccounts,
   adminAudit,
   adminSetRole,
+  adminUpdateAccount,
   type AdminAccount,
   type AdminAuditRow,
   type AppRole,
@@ -27,6 +28,7 @@ const AdminServerStatus = lazy(() =>
   })),
 );
 const AdminGodotPanel = lazy(() => import("@/components/admin/AdminGodotPanel"));
+const AdminAndroidCharacters = lazy(() => import("@/components/admin/AdminAndroidCharacters"));
 const ServerCharacterManager = lazy(() => import("@/components/admin/ServerCharacterManager"));
 const AdminWorldEditor = lazy(() =>
   import("@/components/admin/AdminWorldEditor").then((m) => ({
@@ -220,7 +222,8 @@ function Players({ me, isAdmin }: { me: string; isAdmin: boolean }) {
         />
         <p>
           <small>
-            Kont: {accounts.length} · aktywnych: {accounts.filter((a) => a.confirmed).length}
+            Kont: {accounts.length} · aktywnych: {accounts.filter((a) => a.confirmed).length} ·
+            zablokowanych: {accounts.filter((a) => a.disabled).length}
           </small>
         </p>
         {error && <p className="ki-account-error">{error}</p>}
@@ -229,6 +232,7 @@ function Players({ me, isAdmin }: { me: string; isAdmin: boolean }) {
             <button key={a.id} aria-pressed={a.id === selected} onClick={() => setSelected(a.id)}>
               <b>{a.nick}</b> {a.roles.map((r) => ROLE_NAME[r]).join(", ")}
               {!a.confirmed && <small> · nieaktywne</small>}
+              {a.disabled && <small> · ZABLOKOWANE</small>}
               <br />
               <small>ostatnio: {when(a.lastLoginAt)}</small>
             </button>
@@ -242,14 +246,32 @@ function Players({ me, isAdmin }: { me: string; isAdmin: boolean }) {
             <p>
               E-mail: {player.email}
               <br />
-              Status: {player.confirmed ? "aktywne" : "czeka na aktywację z e-maila"}
+              Status:{" "}
+              {player.disabled
+                ? "ZABLOKOWANE"
+                : player.confirmed
+                  ? "aktywne"
+                  : "czeka na aktywację z e-maila"}
               <br />
               <small>
-                Konto od {when(player.createdAt)} · ostatnie logowanie {when(player.lastLoginAt)}
+                UUID: <code>{player.id}</code> · Konto od {when(player.createdAt)} · ostatnie
+                logowanie {when(player.lastLoginAt)}
               </small>
             </p>
+            {isAdmin && (
+              <AccountEditForm
+                key={`${player.id}-${player.nick}-${player.email}-${String(player.confirmed)}-${String(player.disabled)}`}
+                player={player}
+                isSelf={player.id === me}
+                onSaved={async (msg) => {
+                  setMessage(msg);
+                  await reload();
+                }}
+                onError={(msg) => setMessage(msg)}
+              />
+            )}
             {isAdmin && player.id !== me && (
-              <div className="ki-account-actions">
+              <div className="ki-account-actions" style={{ marginTop: 10 }}>
                 {(["gm", "admin"] as const).map((role) =>
                   player.roles.includes(role) ? (
                     <button key={role} onClick={() => void setRole(role, false)}>
@@ -264,14 +286,132 @@ function Players({ me, isAdmin }: { me: string; isAdmin: boolean }) {
               </div>
             )}
             {message && <p className="ki-account-ok">{message}</p>}
+            <div style={{ marginTop: 16 }}>
+              <Suspense fallback={<p role="status">Wczytywanie postaci konta…</p>}>
+                <AdminAndroidCharacters
+                  isAdmin={isAdmin}
+                  accountId={player.id}
+                  accountNick={player.nick}
+                />
+              </Suspense>
+            </div>
             <p className="ki-section-hint">
-              Postacie gracza edytujesz w zakładce „Postacie (live)”.
+              Postacie przeglądarkowe tego gracza edytujesz dodatkowo w zakładce „Postacie (live)”.
             </p>
           </>
         ) : (
           <p>Wybierz gracza z listy.</p>
         )}
       </section>
+    </div>
+  );
+}
+
+function AccountEditForm({
+  player,
+  isSelf,
+  onSaved,
+  onError,
+}: {
+  player: AdminAccount;
+  isSelf: boolean;
+  onSaved: (msg: string) => Promise<void>;
+  onError: (msg: string) => void;
+}) {
+  const [nick, setNick] = useState(player.nick);
+  const [email, setEmail] = useState(player.email);
+  const [confirmed, setConfirmed] = useState(player.confirmed);
+  const [disabled, setDisabled] = useState(Boolean(player.disabled));
+  const [newPassword, setNewPassword] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  const submit = async (revokeSessions = false) => {
+    setSaving(true);
+    try {
+      const patch: {
+        nick?: string;
+        email?: string;
+        confirmed?: boolean;
+        disabled?: boolean;
+        newPassword?: string;
+        revokeSessions?: boolean;
+      } = {};
+      if (nick.trim() !== player.nick) patch.nick = nick.trim();
+      if (email.trim().toLowerCase() !== player.email.toLowerCase()) patch.email = email.trim();
+      if (confirmed !== player.confirmed) patch.confirmed = confirmed;
+      if (!isSelf && disabled !== Boolean(player.disabled)) patch.disabled = disabled;
+      if (newPassword.trim()) patch.newPassword = newPassword.trim();
+      if (revokeSessions) patch.revokeSessions = true;
+      await adminUpdateAccount(player.id, patch);
+      setNewPassword("");
+      await onSaved(
+        revokeSessions
+          ? "Wylogowano wszystkie sesje i zapisano zmiany konta."
+          : "Zapisano zmiany konta w PostgreSQL.",
+      );
+    } catch (e) {
+      onError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div style={{ border: "1px solid #4a3f2a", borderRadius: 8, padding: 12, marginTop: 10 }}>
+      <h4>Edycja konta</h4>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+          gap: 8,
+        }}
+      >
+        <label>
+          Nick konta
+          <input value={nick} onChange={(e) => setNick(e.target.value)} maxLength={20} />
+        </label>
+        <label>
+          Adres e-mail
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </label>
+        <label>
+          Ustaw nowe hasło (opcjonalnie, min. 8 znaków)
+          <input
+            type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            placeholder="Zostaw puste bez zmiany"
+          />
+        </label>
+      </div>
+      <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 10 }}>
+        <label>
+          <input
+            type="checkbox"
+            checked={confirmed}
+            onChange={(e) => setConfirmed(e.target.checked)}
+          />{" "}
+          Konto aktywne (e-mail potwierdzony)
+        </label>
+        {!isSelf && (
+          <label>
+            <input
+              type="checkbox"
+              checked={disabled}
+              onChange={(e) => setDisabled(e.target.checked)}
+            />{" "}
+            Zablokuj konto (ban)
+          </label>
+        )}
+      </div>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
+        <button disabled={saving} onClick={() => void submit(false)}>
+          {saving ? "Zapisywanie…" : "💾 Zapisz zmiany konta"}
+        </button>
+        <button disabled={saving} onClick={() => void submit(true)}>
+          Wyloguj wszystkie sesje
+        </button>
+      </div>
     </div>
   );
 }

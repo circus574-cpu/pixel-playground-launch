@@ -2,6 +2,22 @@ import type { Sql } from "postgres";
 import { z } from "zod";
 import { checkSave, type GodotSave } from "./saveRules";
 import { ContentError, ContentFiles, VERSION_PATTERN, type ContentManifest } from "./contentFiles";
+import {
+  ANDROID_LANDS,
+  ANDROID_RACES,
+  AndroidEconomyError,
+  applyAdminCharacterPatch,
+  applyAndroidAction,
+  characterNameSchema,
+  computeAndroidStats,
+  createInitialAndroidState,
+  MAX_PLAYER_ANDROID_CHARACTERS,
+  normalizeAndroidState,
+  type AndroidCharacterView,
+  type AndroidHeroState,
+  type AndroidLand,
+  type AndroidRace,
+} from "./economy";
 
 export type Settings = {
   activeVersion: string | null;
@@ -273,6 +289,279 @@ export class GodotStore {
       lastWriteAt: r?.last?.toISOString() ?? null,
     };
   }
+
+  /* --------------------- authoritative Android characters --------------------- */
+
+  /** Bridges any browser characters (game.online_character_state) of this account into godot_android.characters once. */
+  private async bridgeBrowserCharacters(accountId: string): Promise<void> {
+    try {
+      const browserRows = await this.sql<
+        { character_id: string; race: string; state: Record<string, unknown> }[]
+      >`SELECT c.id AS character_id, c.race, s.state
+        FROM game.online_character_state s
+        JOIN game.characters c ON c.id = s.character_id
+        JOIN game.accounts a ON a.id = c.account_id
+        WHERE a.auth_subject = ${accountId} AND c.retired_at IS NULL
+        ORDER BY c.created_at, c.id`;
+      for (const b of browserRows) {
+        if (!ANDROID_RACES.includes(b.race as AndroidRace)) continue;
+        const race = b.race as AndroidRace;
+        const player = (b.state?.["player"] ?? {}) as Record<string, unknown>;
+        const rawName = typeof player["name"] === "string" ? player["name"].trim() : "";
+        const baseName =
+          rawName.length >= 3 ? rawName.slice(0, 16) : `Bohater_${b.character_id.slice(0, 6)}`;
+        const skillsRaw = Array.isArray(player["skills"])
+          ? player["skills"].filter((x): x is string => typeof x === "string")
+          : ["R"];
+        const potionsRaw = (player["items"] as Record<string, unknown> | undefined)?.["potion"];
+        const init = createInitialAndroidState(race, {
+          level: Number(player["level"] ?? 1),
+          xp: Number(player["xp"] ?? 0),
+          gold: Number(player["gold"] ?? 120),
+          unlockedNodes: skillsRaw,
+          potions: typeof potionsRaw === "number" ? potionsRaw : 3,
+        });
+        const [exists] = await this.sql<{ id: string }[]>`
+          SELECT id FROM godot_android.characters
+          WHERE account_id = ${accountId} AND browser_character_id = ${b.character_id}`;
+        if (exists) continue;
+        let candidateName = baseName;
+        for (let attempt = 0; attempt < 5; attempt++) {
+          const [taken] = await this.sql<{ id: string }[]>`
+            SELECT id FROM godot_android.characters WHERE lower(name) = lower(${candidateName})`;
+          if (!taken) break;
+          const suffix = `_${b.character_id.slice(0, 3)}${attempt || ""}`;
+          candidateName = baseName.slice(0, 16 - suffix.length) + suffix;
+        }
+        await this.sql`
+          INSERT INTO godot_android.characters
+            (account_id, name, race, land, level, gold, revision, state, browser_character_id)
+          VALUES (${accountId}, ${candidateName}, ${race}, ${init.land}, ${init.level}, ${init.gold}, 1,
+                  ${this.sql.json(init.state as never)}, ${b.character_id})
+          ON CONFLICT DO NOTHING`;
+      }
+    } catch {
+      // Optional bridge: if game.online_character_state is not present in a minimal DB, continue cleanly.
+    }
+  }
+
+  async listCharacters(accountId: string): Promise<AndroidCharacterView[]> {
+    await this.bridgeBrowserCharacters(accountId);
+    const rows = await this.sql<CharacterDbRow[]>`
+      SELECT c.*, u.nick AS owner_nick, u.email AS owner_email
+      FROM godot_android.characters c
+      LEFT JOIN accounts.users u ON u.id = c.account_id
+      WHERE c.account_id = ${accountId}
+      ORDER BY c.updated_at DESC, c.created_at DESC`;
+    return rows.map(toCharacterView);
+  }
+
+  async getCharacter(accountId: string, characterId: string): Promise<AndroidCharacterView | null> {
+    const [row] = await this.sql<CharacterDbRow[]>`
+      SELECT c.*, u.nick AS owner_nick, u.email AS owner_email
+      FROM godot_android.characters c
+      LEFT JOIN accounts.users u ON u.id = c.account_id
+      WHERE c.id = ${characterId} AND c.account_id = ${accountId}`;
+    return row ? toCharacterView(row) : null;
+  }
+
+  async createCharacter(
+    accountId: string,
+    input: { name: unknown; race: unknown; land?: unknown; level?: unknown; gold?: unknown },
+    isAdmin = false,
+  ): Promise<AndroidCharacterView> {
+    const name = characterNameSchema.parse(input.name);
+    const race = z.enum(ANDROID_RACES).parse(input.race);
+    const init = createInitialAndroidState(race, {
+      level: input.level !== undefined ? Number(input.level) : 1,
+      gold: input.gold !== undefined ? Number(input.gold) : 120,
+    });
+    const land: AndroidLand =
+      input.land !== undefined ? z.enum(ANDROID_LANDS).parse(input.land) : init.land;
+    return this.sql.begin(async (tx) => {
+      if (!isAdmin) {
+        const [cnt] = await tx<{ n: string }[]>`
+          SELECT count(*) AS n FROM godot_android.characters WHERE account_id = ${accountId}`;
+        if (Number(cnt?.n ?? 0) >= MAX_PLAYER_ANDROID_CHARACTERS)
+          throw new AndroidEconomyError(
+            "CHARACTER_LIMIT",
+            `Limit postaci (${MAX_PLAYER_ANDROID_CHARACTERS}) został osiągnięty.`,
+          );
+      }
+      const [taken] = await tx<{ id: string }[]>`
+        SELECT id FROM godot_android.characters WHERE lower(name) = lower(${name})`;
+      if (taken) throw new AndroidEconomyError("NAME_TAKEN", "Ten nick postaci jest już zajęty.");
+      const [row] = await tx<CharacterDbRow[]>`
+        INSERT INTO godot_android.characters
+          (account_id, name, race, land, level, gold, revision, state)
+        VALUES (${accountId}, ${name}, ${race}, ${land}, ${init.level}, ${init.gold}, 1,
+                ${tx.json(init.state as never)})
+        RETURNING *, NULL::text AS owner_nick, NULL::text AS owner_email`;
+      return toCharacterView(row!);
+    });
+  }
+
+  async deleteCharacter(accountId: string, characterId: string): Promise<boolean> {
+    const rows = await this.sql`
+      DELETE FROM godot_android.characters WHERE id = ${characterId} AND account_id = ${accountId} RETURNING 1`;
+    return rows.length > 0;
+  }
+
+  /** Transaction-locked server-authoritative economy & progression action. */
+  async executeCharacterAction(
+    accountId: string,
+    characterId: string,
+    rawAction: unknown,
+    opts: { isStaff: boolean },
+  ): Promise<{ character: AndroidCharacterView; notice: string; teleportCapital: boolean }> {
+    return this.sql.begin(async (tx) => {
+      const [row] = await tx<CharacterDbRow[]>`
+        SELECT c.*, u.nick AS owner_nick, u.email AS owner_email
+        FROM godot_android.characters c
+        LEFT JOIN accounts.users u ON u.id = c.account_id
+        WHERE c.id = ${characterId} AND c.account_id = ${accountId}
+        FOR UPDATE OF c`;
+      if (!row) throw new AndroidEconomyError("NOT_FOUND", "Nie znaleziono postaci.");
+      const race = row.race as AndroidRace;
+      const land = row.land as AndroidLand;
+      const state = normalizeAndroidState(row.state, race, row.level);
+      const res = applyAndroidAction(
+        { race, land, level: row.level, gold: row.gold, state },
+        rawAction,
+        opts,
+      );
+      const nextRev = Number(row.revision) + 1;
+      const [updated] = await tx<CharacterDbRow[]>`
+        UPDATE godot_android.characters
+        SET land = ${res.land}, level = ${res.level}, gold = ${res.gold},
+            revision = ${nextRev}, state = ${tx.json(res.state as never)}, updated_at = now()
+        WHERE id = ${characterId}
+        RETURNING *, ${row.owner_nick}::text AS owner_nick, ${row.owner_email}::text AS owner_email`;
+      return {
+        character: toCharacterView(updated!),
+        notice: res.notice,
+        teleportCapital: Boolean(res.teleportCapital),
+      };
+    });
+  }
+
+  /* ------------------- admin authoritative Android characters ------------------- */
+
+  async adminListCharacters(query = "", accountId?: string): Promise<AndroidCharacterView[]> {
+    const q = "%" + query.trim().toLowerCase().replace(/[%_]/g, "") + "%";
+    const rows = accountId
+      ? await this.sql<CharacterDbRow[]>`
+          SELECT c.*, u.nick AS owner_nick, u.email AS owner_email
+          FROM godot_android.characters c
+          JOIN accounts.users u ON u.id = c.account_id
+          WHERE c.account_id = ${accountId}
+          ORDER BY c.updated_at DESC LIMIT 200`
+      : await this.sql<CharacterDbRow[]>`
+          SELECT c.*, u.nick AS owner_nick, u.email AS owner_email
+          FROM godot_android.characters c
+          JOIN accounts.users u ON u.id = c.account_id
+          WHERE lower(c.name) LIKE ${q} OR lower(u.nick) LIKE ${q} OR lower(u.email) LIKE ${q}
+          ORDER BY c.updated_at DESC LIMIT 200`;
+    return rows.map(toCharacterView);
+  }
+
+  async adminGetCharacter(characterId: string): Promise<AndroidCharacterView | null> {
+    const [row] = await this.sql<CharacterDbRow[]>`
+      SELECT c.*, u.nick AS owner_nick, u.email AS owner_email
+      FROM godot_android.characters c
+      JOIN accounts.users u ON u.id = c.account_id
+      WHERE c.id = ${characterId}`;
+    return row ? toCharacterView(row) : null;
+  }
+
+  async adminUpdateCharacter(
+    characterId: string,
+    rawPatch: unknown,
+  ): Promise<AndroidCharacterView> {
+    return this.sql.begin(async (tx) => {
+      const [row] = await tx<CharacterDbRow[]>`
+        SELECT c.*, u.nick AS owner_nick, u.email AS owner_email
+        FROM godot_android.characters c
+        JOIN accounts.users u ON u.id = c.account_id
+        WHERE c.id = ${characterId}
+        FOR UPDATE OF c`;
+      if (!row) throw new AndroidEconomyError("NOT_FOUND", "Nie znaleziono postaci.");
+      const curState = normalizeAndroidState(row.state, row.race as AndroidRace, row.level);
+      const next = applyAdminCharacterPatch(
+        {
+          name: row.name,
+          race: row.race as AndroidRace,
+          land: row.land as AndroidLand,
+          level: row.level,
+          gold: row.gold,
+          state: curState,
+        },
+        rawPatch,
+      );
+      if (next.name.toLowerCase() !== row.name.toLowerCase()) {
+        const [taken] = await tx<{ id: string }[]>`
+          SELECT id FROM godot_android.characters
+          WHERE lower(name) = lower(${next.name}) AND id <> ${characterId}`;
+        if (taken) throw new AndroidEconomyError("NAME_TAKEN", "Ten nick postaci jest już zajęty.");
+      }
+      const nextRev = Number(row.revision) + 1;
+      const [updated] = await tx<CharacterDbRow[]>`
+        UPDATE godot_android.characters
+        SET name = ${next.name}, race = ${next.race}, land = ${next.land},
+            level = ${next.level}, gold = ${next.gold}, revision = ${nextRev},
+            state = ${tx.json(next.state as never)}, updated_at = now()
+        WHERE id = ${characterId}
+        RETURNING *, ${row.owner_nick}::text AS owner_nick, ${row.owner_email}::text AS owner_email`;
+      return toCharacterView(updated!);
+    });
+  }
+
+  async adminDeleteCharacter(characterId: string): Promise<boolean> {
+    const rows = await this.sql`
+      DELETE FROM godot_android.characters WHERE id = ${characterId} RETURNING 1`;
+    return rows.length > 0;
+  }
+}
+
+type CharacterDbRow = {
+  id: string;
+  account_id: string;
+  owner_nick: string | null;
+  owner_email: string | null;
+  name: string;
+  race: string;
+  land: string;
+  level: number;
+  gold: number;
+  revision: string;
+  state: AndroidHeroState;
+  browser_character_id: string | null;
+  created_at: Date;
+  updated_at: Date;
+};
+
+function toCharacterView(r: CharacterDbRow): AndroidCharacterView {
+  const race = r.race as AndroidRace;
+  const land = r.land as AndroidLand;
+  const state = normalizeAndroidState(r.state, race, r.level);
+  const stats = computeAndroidStats(race, r.level, state);
+  return {
+    id: r.id,
+    accountId: r.account_id,
+    ...(r.owner_nick ? { ownerNick: r.owner_nick } : {}),
+    ...(r.owner_email ? { ownerEmail: r.owner_email } : {}),
+    name: r.name,
+    race,
+    land,
+    level: r.level,
+    gold: r.gold,
+    revision: Number(r.revision),
+    state,
+    stats,
+    browserCharacterId: r.browser_character_id,
+    createdAt: r.created_at.toISOString(),
+    updatedAt: r.updated_at.toISOString(),
+  };
 }
 
 function toRow(r: {

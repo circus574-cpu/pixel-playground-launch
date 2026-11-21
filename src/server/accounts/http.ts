@@ -113,6 +113,12 @@ export async function accountHttp(
         await service.setRole(subject, b["userId"], b["role"], b["granted"]);
         return send(200, { ok: true });
       }
+      const acctMatch = path.match(/^\/admin\/accounts\/([0-9a-f-]{36})$/);
+      if (request.method === "PATCH" && acctMatch) {
+        const b = await body();
+        const account = await service.adminUpdateAccount(subject, acctMatch[1], b);
+        return send(200, { account });
+      }
       return send(404, { error: "NOT_FOUND" });
     }
     if (request.method !== "POST") return send(405, { error: "METHOD_NOT_ALLOWED" });

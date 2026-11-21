@@ -495,6 +495,34 @@ func _refresh_service_ui() -> void:
 	else:
 		_build_hall_ui(hud_ref)
 
+func apply_server_bank(st: Dictionary) -> void:
+	bank_gold = maxi(0, int(st.get("bankGold", bank_gold)))
+	var bi_raw: Array = st.get("bankItems", [])
+	if bi_raw.size() == bank_items.size():
+		for i in bank_items.size():
+			var entry = bi_raw[i]
+			if entry == null or not (entry is Dictionary):
+				bank_items[i] = {}
+			else:
+				var iid := str((entry as Dictionary).get("id", ""))
+				var found: Dictionary = {}
+				for cat_it: Dictionary in GmPanelScript.ITEM_CATALOG:
+					if str(cat_it.get("id", "")) == iid:
+						found = cat_it.duplicate(true)
+						found["qty"] = maxi(1, int((entry as Dictionary).get("qty", 1)))
+						break
+				bank_items[i] = found
+	if service_open:
+		_refresh_service_ui()
+
+func _srv_act(payload: Dictionary) -> bool:
+	if world != null and world.has_method("dispatch_server_action"):
+		return world.dispatch_server_action(payload, func(res: Dictionary) -> void:
+			service_status.text = str(res.get("notice", ""))
+			_refresh_service_ui()
+		)
+	return false
+
 func _build_shop_ui(hud_ref) -> void:
 	for it: Dictionary in GmPanelScript.ITEM_CATALOG:
 		var price := 120 if str(it["cat"]) == "consumable" else 340
@@ -522,6 +550,8 @@ func _build_shop_ui(hud_ref) -> void:
 		_style_btn(b_buy, Color(0.12, 0.28, 0.16, 0.96), Color(0.42, 0.92, 0.56, 0.95), 13)
 		var it_c := it.duplicate(true)
 		b_buy.pressed.connect(func() -> void:
+			if _srv_act({"type": "shop_buy", "itemId": str(it_c["id"])}):
+				return
 			if int(hud_ref.hero_gold) < price:
 				service_status.text = "Za mało złota! Potrzebujesz %d zł." % price
 				return
@@ -564,6 +594,8 @@ func _build_crafting_ui(hud_ref) -> void:
 		_style_btn(b_craft, Color(0.28, 0.16, 0.06, 0.96), Color(1.0, 0.72, 0.28, 0.96), 13)
 		var it_c := it.duplicate(true)
 		b_craft.pressed.connect(func() -> void:
+			if _srv_act({"type": "craft", "itemId": str(it_c["id"])}):
+				return
 			if int(hud_ref.hero_gold) < cost:
 				service_status.text = "Za mało złota na kucie (%d zł)!" % cost
 				return
@@ -594,6 +626,8 @@ func _build_bank_ui(hud_ref) -> void:
 	b_dep.text = "WPŁAĆ 100 zł"
 	_style_btn(b_dep, Color(0.12, 0.26, 0.18, 0.96), Color(0.42, 0.92, 0.56, 0.95), 13)
 	b_dep.pressed.connect(func() -> void:
+		if _srv_act({"type": "bank_deposit_gold", "amount": 100}):
+			return
 		if int(hud_ref.hero_gold) >= 100:
 			hud_ref.hero_gold -= 100
 			bank_gold += 100
@@ -607,6 +641,8 @@ func _build_bank_ui(hud_ref) -> void:
 	b_wd.text = "WYPŁAĆ 100 zł"
 	_style_btn(b_wd, Color(0.24, 0.18, 0.08, 0.96), Color(1.0, 0.82, 0.36, 0.95), 13)
 	b_wd.pressed.connect(func() -> void:
+		if _srv_act({"type": "bank_withdraw_gold", "amount": 100}):
+			return
 		if bank_gold >= 100:
 			bank_gold -= 100
 			hud_ref.hero_gold += 100
@@ -632,6 +668,8 @@ func _build_bank_ui(hud_ref) -> void:
 		_style_btn(btn, Color(0.11, 0.14, 0.20, 0.95), Color(0.56, 0.78, 0.96, 0.90), 13)
 		var idx: int = int(i)
 		btn.pressed.connect(func() -> void:
+			if _srv_act({"type": "bank_deposit_item", "backpackIndex": idx}):
+				return
 			for bi in bank_items.size():
 				if bank_items[bi].is_empty():
 					bank_items[bi] = hud_ref.backpack_items[idx].duplicate(true)
@@ -660,6 +698,8 @@ func _build_bank_ui(hud_ref) -> void:
 		_style_btn(btn2, Color(0.12, 0.24, 0.16, 0.95), Color(0.46, 0.94, 0.62, 0.92), 13)
 		var bidx: int = int(bi)
 		btn2.pressed.connect(func() -> void:
+			if _srv_act({"type": "bank_withdraw_item", "bankIndex": bidx}):
+				return
 			if hud_ref.add_item_to_backpack(bank_items[bidx], int(bank_items[bidx].get("qty", 1))):
 				var nm := str(bank_items[bidx].get("name", ""))
 				bank_items[bidx] = {}
@@ -673,6 +713,8 @@ func _build_inn_ui(hud_ref) -> void:
 	b_rest.text = "🛏 PEŁNY ODPOCZYNEK I POSIŁEK (100% HP i KI — DARMOWE)"
 	_style_btn(b_rest, Color(0.12, 0.28, 0.18, 0.96), Color(0.46, 0.96, 0.64, 0.98), 15)
 	b_rest.pressed.connect(func() -> void:
+		if _srv_act({"type": "inn_rest"}):
+			return
 		hud_ref.hero_hp = hud_ref.hero_max_hp
 		hud_ref.hero_ki = hud_ref.hero_max_ki
 		hud_ref.recalc_stats()
@@ -686,6 +728,8 @@ func _build_arena_ui(hud_ref) -> void:
 	b_tr.text = "⚔ ODBĄDŹ TRENING BOJOWY (+60 PD i ODNOWIENIE UMIEJĘTNOŚCI)"
 	_style_btn(b_tr, Color(0.28, 0.14, 0.08, 0.96), Color(1.0, 0.62, 0.28, 0.98), 15)
 	b_tr.pressed.connect(func() -> void:
+		if _srv_act({"type": "arena_train"}):
+			return
 		hud_ref.hero_xp += 60.0
 		if hud_ref.hero_xp >= hud_ref.hero_max_xp:
 			hud_ref.hero_xp -= hud_ref.hero_max_xp

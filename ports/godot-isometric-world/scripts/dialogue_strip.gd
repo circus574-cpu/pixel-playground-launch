@@ -213,6 +213,12 @@ func _set_text(msg: String) -> void:
 	shown_chars = 0.0
 	body_lbl.text = ""
 
+func apply_server_quests(st: Dictionary) -> void:
+	var cq: Dictionary = st.get("completedQuests", {})
+	completed_quests.clear()
+	for k in cq.keys():
+		completed_quests[str(k)] = true
+
 func open_dialogue(npc: Dictionary) -> void:
 	if world != null and world.get("audio") != null:
 		world.audio.sfx("ui/open")
@@ -283,6 +289,20 @@ func _rebuild_choices() -> void:
 		b_q.text = "! ZADANIE (+45 XP / +80 zł)" if qm == "!" else "? ODBIERZ NAGRODĘ"
 		_style_pill(b_q, Color(0.28, 0.20, 0.06, 0.96), Color(1.0, 0.84, 0.30, 0.98))
 		b_q.pressed.connect(func() -> void:
+			if world != null and world.has_method("dispatch_server_action") and world.dispatch_server_action({"type": "quest_complete", "questId": q_key}, func(res: Dictionary) -> void:
+				if bool(res.get("ok", false)):
+					completed_quests[q_key] = true
+					active_npc["quest_mark"] = ""
+					var actor = active_npc.get("actor", null)
+					if is_instance_valid(actor):
+						actor.quest_mark = ""
+						actor.queue_redraw()
+					_set_text(str(res.get("notice", "Nagroda przyznana przez serwer!")))
+					_rebuild_choices()
+				else:
+					_set_text(str(res.get("notice", "Serwer odrzucił odbiór nagrody.")))
+			):
+				return
 			completed_quests[q_key] = true
 			active_npc["quest_mark"] = ""
 			var actor = active_npc.get("actor", null)

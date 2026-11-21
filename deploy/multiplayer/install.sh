@@ -63,6 +63,15 @@ if [ "$slots_present" != t ]; then
  sha256sum "$pre" > "$pre.sha256"
  docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < init/008-godot-android-slots.sql
 fi
+chars_present=$(docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -At -c "select exists (select 1 from godot_android.schema_version where version = 3)")
+if [ "$chars_present" != t ]; then
+ # Authoritative Android characters (economy, progression, bank, equipment): back up first, then apply the idempotent migration.
+ umask 077
+ pre="$BASE/backups/before-godot-android-chars-$(date -u +%Y%m%dT%H%M%SZ).dump"
+ docker compose -p ki-multiplayer-db -f compose.yml exec -T db pg_dump -U ki_owner -d ki_multiplayer -Fc > "$pre"
+ sha256sum "$pre" > "$pre.sha256"
+ docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < init/009-godot-android-characters.sql
+fi
 docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < verify.sql
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
 backup="$BASE/backups/initial-$stamp.dump"

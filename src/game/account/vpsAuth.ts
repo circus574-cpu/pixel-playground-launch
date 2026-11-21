@@ -182,7 +182,15 @@ export async function logout() {
 
 /* ------------------------------ administration ----------------------------- */
 
-export type AdminAccount = VpsAccount & { confirmed: boolean };
+export type AdminAccount = VpsAccount & { confirmed: boolean; disabled?: boolean };
+export type AdminAccountPatch = {
+  nick?: string;
+  email?: string;
+  confirmed?: boolean;
+  disabled?: boolean;
+  newPassword?: string;
+  revokeSessions?: boolean;
+};
 export type AdminAuditRow = {
   id: string;
   at: string;
@@ -202,6 +210,23 @@ export async function adminAccounts(query = "") {
 }
 export async function adminSetRole(userId: string, role: AppRole, granted: boolean) {
   await call("/admin/roles", { userId, role, granted }, await accessToken());
+}
+export async function adminUpdateAccount(userId: string, patch: AdminAccountPatch) {
+  const response = await fetch("/ws/auth/admin/accounts/" + encodeURIComponent(userId), {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + (await accessToken()),
+    },
+    body: JSON.stringify(patch),
+  });
+  const data = (await response.json().catch(() => ({}))) as {
+    account?: AdminAccount;
+    message?: string;
+    error?: string;
+  };
+  if (!response.ok) throw new Error(data.message ?? data.error ?? `Błąd ${response.status}`);
+  return data.account!;
 }
 export async function adminAudit(kind: "admin" | "login" = "admin") {
   return (

@@ -5,6 +5,7 @@ import { RateLimiter } from "../accounts/http";
 import { ContentError, PACK_FILE_PATTERN, VERSION_PATTERN } from "./contentFiles";
 import { RevisionConflict, type GodotStore } from "./store";
 import { MAX_SAVE_SLOT, PLAYER_SAVE_SLOTS, SaveRejected } from "./saveRules";
+import { ANDROID_ITEM_CATALOG, AndroidEconomyError } from "./economy";
 import { SERVICE_MESSAGE } from "../serviceAccess";
 
 export type GodotHttpDeps = {
@@ -247,6 +248,59 @@ export async function godotHttp(
       return send(405, { error: "METHOD_NOT_ALLOWED" });
     }
 
+    /* ------------------- authoritative Android characters ------------------- */
+    if (method === "GET" && path === "/catalog") {
+      return send(200, { items: ANDROID_ITEM_CATALOG });
+    }
+    if (path === "/characters") {
+      const who = subject();
+      if (method === "GET") {
+        return send(200, { characters: await store.listCharacters(who) });
+      }
+      if (method === "POST") {
+        if (!writes.allow(who))
+          return send(429, { error: "RATE_LIMITED", message: "Za dużo żądań. Poczekaj chwilę." });
+        const body = await jsonBody(8_000);
+        const isAdmin = (await accounts.roles(who)).includes("admin");
+        const created = await store.createCharacter(
+          who,
+          { name: body["name"], race: body["race"] },
+          isAdmin,
+        );
+        return send(201, { character: created });
+      }
+      return send(405, { error: "METHOD_NOT_ALLOWED" });
+    }
+    const charMatch = path.match(/^\/characters\/([0-9a-f-]{36})$/);
+    if (charMatch) {
+      const who = subject();
+      const charId = charMatch[1]!;
+      if (method === "GET") {
+        const found = await store.getCharacter(who, charId);
+        return found ? send(200, { character: found }) : send(404, { error: "NOT_FOUND" });
+      }
+      if (method === "DELETE") {
+        const deleted = await store.deleteCharacter(who, charId);
+        return send(200, { deleted });
+      }
+      return send(405, { error: "METHOD_NOT_ALLOWED" });
+    }
+    const charAct = path.match(/^\/characters\/([0-9a-f-]{36})\/action$/);
+    if (charAct && method === "POST") {
+      const who = subject();
+      if (!writes.allow(who))
+        return send(429, { error: "RATE_LIMITED", message: "Za dużo operacji. Poczekaj chwilę." });
+      const charId = charAct[1]!;
+      const body = await jsonBody(16_000);
+      const roles = await accounts.roles(who);
+      const isStaff = roles.includes("admin") || roles.includes("gm");
+      const result = await store.executeCharacterAction(who, charId, body, { isStaff });
+      if (body["type"] === "gm_action") {
+        await accounts.audit(who, "GODOT_GM_ACTION", charId, body);
+      }
+      return send(200, result);
+    }
+
     /* -------------------------------- admin -------------------------------- */
     if (path.startsWith("/admin/")) {
       if (method === "GET" && path === "/admin/overview") {
@@ -258,6 +312,72 @@ export async function godotHttp(
           stats: await store.stats(),
           online: live,
         });
+      }
+      if (method === "GET" && path === "/admin/characters") {
+        await staff(false);
+        const q = url.searchParams.get("q") ?? "";
+        const account = url.searchParams.get("account") ?? undefined;
+        if (account && !/^[0-9a-f-]{36}$/.test(account))
+          return send(400, { error: "INVALID_INPUT" });
+        return send(200, {
+          characters: await store.adminListCharacters(q, account),
+          catalog: ANDROID_ITEM_CATALOG,
+        });
+      }
+      if (method === "POST" && path === "/admin/characters") {
+        const actor = await staff(true);
+        const body = await jsonBody(16_000);
+        const accountId = String(body["accountId"] ?? "");
+        if (!/^[0-9a-f-]{36}$/.test(accountId))
+          return send(400, { error: "INVALID_INPUT", message: "Nieprawidłowe ID konta." });
+        const character = await store.createCharacter(
+          accountId,
+          {
+            name: body["name"],
+            race: body["race"],
+            land: body["land"],
+            level: body["level"],
+            gold: body["gold"],
+          },
+          true,
+        );
+        await accounts.audit(actor, "GODOT_ADMIN_CREATE_CHARACTER", character.id, {
+          accountId,
+          name: character.name,
+          race: character.race,
+        });
+        return send(201, { character });
+      }
+      const adminCharMatch = path.match(/^\/admin\/characters\/([0-9a-f-]{36})$/);
+      if (adminCharMatch) {
+        const charId = adminCharMatch[1]!;
+        if (method === "GET") {
+          await staff(false);
+          const found = await store.adminGetCharacter(charId);
+          return found
+            ? send(200, { character: found, catalog: ANDROID_ITEM_CATALOG })
+            : send(404, { error: "NOT_FOUND" });
+        }
+        if (method === "PATCH") {
+          const actor = await staff(true);
+          const body = await jsonBody(64_000);
+          const character = await store.adminUpdateCharacter(charId, body);
+          await accounts.audit(actor, "GODOT_ADMIN_EDIT_CHARACTER", charId, {
+            name: character.name,
+            race: character.race,
+            land: character.land,
+            level: character.level,
+            gold: character.gold,
+          });
+          return send(200, { character });
+        }
+        if (method === "DELETE") {
+          const actor = await staff(true);
+          const deleted = await store.adminDeleteCharacter(charId);
+          await accounts.audit(actor, "GODOT_ADMIN_DELETE_CHARACTER", charId, { deleted });
+          return send(200, { deleted });
+        }
+        return send(405, { error: "METHOD_NOT_ALLOWED" });
       }
       if (method === "GET" && path === "/admin/saves") {
         await staff(false);
@@ -332,6 +452,19 @@ export async function godotHttp(
   } catch (error) {
     const known = (error as { http?: [number, string] }).http;
     if (known) return send(known[0], { error: known[1] });
+    if (error instanceof AndroidEconomyError) {
+      const status =
+        error.code === "FORBIDDEN"
+          ? 403
+          : error.code === "NOT_FOUND"
+            ? 404
+            : error.code === "NAME_TAKEN" || error.code === "QUEST_ALREADY_COMPLETED"
+              ? 409
+              : error.code === "ARENA_COOLDOWN"
+                ? 429
+                : 422;
+      return send(status, { error: error.code, message: error.message });
+    }
     if (error instanceof RevisionConflict)
       return send(409, { error: "REVISION_CONFLICT", serverRevision: error.serverRevision });
     if (error instanceof SaveRejected)
@@ -341,7 +474,7 @@ export async function godotHttp(
       return send(status, { error: error.code, message });
     }
     if (error instanceof ZodError || error instanceof SyntaxError)
-      return send(400, { error: "INVALID_INPUT" });
+      return send(400, { error: "INVALID_INPUT", message: "Nieprawidłowe dane wejściowe." });
     console.error("[godot-http]", error instanceof Error ? error.message : error);
     return send(503, { error: "ANDROID_BACKEND_UNAVAILABLE" });
   }

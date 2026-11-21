@@ -95,6 +95,10 @@ var hero_race_land := ""
 var start_land := "pyra"
 var start_level := 0
 var start_gold := -1
+var start_name := ""
+var server_char_id := ""
+var server_character: Dictionary = {}
+var server_action_fn: Callable = Callable()
 var audio: Node
 var nearest_enterable: Dictionary = {}
 var nearest_npc_agent: Dictionary = {}
@@ -172,7 +176,11 @@ func _boot_world_async() -> void:
 	if rpg_hud != null and rpg_hud.has_method("set_hero_land"):
 		rpg_hud.set_hero_land(hero_race_land)
 	switch_region(start_land)
-	if rpg_hud != null:
+	if not server_character.is_empty():
+		apply_server_character(server_character)
+	elif rpg_hud != null:
+		if start_name != "":
+			rpg_hud.hero_custom_name = start_name
 		if start_level > 0:
 			rpg_hud.hero_level = start_level
 			rpg_hud.recalc_stats(false)
@@ -206,6 +214,36 @@ func load_databases() -> void:
 		if parsed_a is Dictionary:
 			animals_db = (parsed_a as Dictionary).get("animals", {})
 
+func is_server_authoritative() -> bool:
+	return server_char_id != "" and server_action_fn.is_valid()
+
+func apply_server_character(ch: Dictionary) -> void:
+	if ch.is_empty():
+		return
+	server_character = ch.duplicate(true)
+	if rpg_hud != null and rpg_hud.has_method("apply_server_character"):
+		rpg_hud.apply_server_character(ch)
+	var st: Dictionary = ch.get("state", {})
+	if interior_room != null and interior_room.has_method("apply_server_bank"):
+		interior_room.apply_server_bank(st)
+	if dialogue_strip != null and dialogue_strip.has_method("apply_server_quests"):
+		dialogue_strip.apply_server_quests(st)
+
+func dispatch_server_action(payload: Dictionary, on_done: Callable = Callable()) -> bool:
+	if not is_server_authoritative():
+		return false
+	server_action_fn.call(server_char_id, payload, func(res: Dictionary) -> void:
+		if bool(res.get("ok", false)):
+			var ch: Dictionary = res.get("character", {})
+			if not ch.is_empty():
+				apply_server_character(ch)
+			if bool(res.get("teleportCapital", false)):
+				teleport_to_capital()
+		if on_done.is_valid():
+			on_done.call(res)
+	)
+	return true
+
 func rebuild_hero(land: String) -> void:
 	if hero != null and is_instance_valid(hero):
 		hero.queue_free()
@@ -213,7 +251,7 @@ func rebuild_hero(land: String) -> void:
 	var actor_land := hero_race_land if hero_race_land != "" else land
 	var h_info: Array = HERO_ACTORS.get(actor_land, ["pyra.hero", "Ignis"])
 	var h_key: String = str(h_info[0])
-	var h_name: String = str(h_info[1])
+	var h_name: String = start_name if start_name != "" else str(h_info[1])
 	if actors_db.has(h_key):
 		var h_def: Dictionary = actors_db[h_key]
 		hero.setup(h_def, h_name, false, true, "hero")
@@ -266,6 +304,8 @@ func switch_region(land: String) -> void:
 	if audio != null:
 		audio.play_music(land)
 		audio.play_ambience(land, true)
+	if not is_booting and is_server_authoritative():
+		dispatch_server_action({"type": "travel", "land": land})
 	target_pos = Vector2(-1.0, -1.0)
 	if premium_minimap != null:
 		premium_minimap.load_region_texture(land)

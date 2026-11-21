@@ -13,6 +13,8 @@ var timer := Timer.new()
 var checking := false
 var full_mode := false
 var char_id := ""
+var server_chars: Dictionary = {}
+var active_server_char: Dictionary = {}
 var char_view: Node
 var autosave := Timer.new()
 const HOME := {"legend": "pyra", "planetary": "verdant", "sage": "aether", "android": "nexus"}
@@ -120,160 +122,246 @@ func open_world(full: bool) -> void:
 		char_id=chosen
 	spawn_world(full)
 
-## The account's heroes: the characters of the server account (the same as in the browser, GET /ws/characters) plus the ones only on
-## this device. A hero made here is created on the server (POST /ws/characters: nick and race). Returns the local slot id or "".
+## The account's heroes: authoritative Android characters on the server (GET /ws/godot/characters, which also bridges browser heroes).
+## Falls back to GET /ws/characters if the backend has not yet rolled out the new route.
 func choose_character() -> String:
-	var Chars=load("res://scripts/characters.gd")
-	var online=KiNet.online()
-	var server: Dictionary={}
+	var Chars = load("res://scripts/characters.gd")
+	var online = KiNet.online()
+	server_chars.clear()
+	active_server_char = {}
+	var legacy_server: Dictionary = {}
+	var use_authoritative := false
 	if online.logged_in():
-		var answer: Dictionary=await online.request(HTTPClient.METHOD_GET,"/ws/characters")
-		if int(answer.get("status",0))==200 and answer.get("json") is Dictionary:
-			for record in (answer.json as Dictionary).get("characters",[]):
-				if record is Dictionary:server["srv-"+str(record.get("id",""))]=record
+		var auth_ans: Dictionary = await online.request(HTTPClient.METHOD_GET, "/ws/godot/characters")
+		if int(auth_ans.get("status", 0)) == 200 and auth_ans.get("json") is Dictionary:
+			use_authoritative = true
+			for rec in (auth_ans.json as Dictionary).get("characters", []):
+				if rec is Dictionary and str(rec.get("id", "")) != "":
+					server_chars[str(rec.get("id", ""))] = rec
 		else:
-			notice("Nie udało się pobrać postaci z serwera. Spróbuj ponownie.")
+			var answer: Dictionary = await online.request(HTTPClient.METHOD_GET, "/ws/characters")
+			if int(answer.get("status", 0)) == 200 and answer.get("json") is Dictionary:
+				for record in (answer.json as Dictionary).get("characters", []):
+					if record is Dictionary:
+						legacy_server["srv-" + str(record.get("id", ""))] = record
+			else:
+				notice("Nie udało się pobrać postaci z serwera. Spróbuj ponownie.")
 	while true:
-		var roster: Array[Dictionary]=[]
-		for id in server:
-			var player: Dictionary=(server[id] as Dictionary).get("state",{}).get("player",{})
-			var race:=str(player.get("race","legend"))
-			if not HOME.has(race):continue
-			roster.append({"id":id,"race":race,"level":int(player.get("level",1)),"land":HOME[race],"time":int(Time.get_unix_time_from_system()),"cloudSlot":0,"name":str(player.get("name","")),"extra":progress_text(player)})
-		for entry in Chars.list():
-			if not server.has(str(entry.id)):roster.append(entry)
+		var roster: Array[Dictionary] = []
+		if use_authoritative:
+			for cid in server_chars:
+				var rec: Dictionary = server_chars[cid]
+				var race := str(rec.get("race", "legend"))
+				if not HOME.has(race): continue
+				roster.append({
+					"id": cid,
+					"race": race,
+					"level": int(rec.get("level", 1)),
+					"land": str(rec.get("land", HOME[race])),
+					"time": int(Time.get_unix_time_from_system()),
+					"cloudSlot": 0,
+					"name": str(rec.get("name", "")),
+					"extra": auth_progress_text(rec),
+				})
+		else:
+			for id in legacy_server:
+				var player: Dictionary = (legacy_server[id] as Dictionary).get("state", {}).get("player", {})
+				var race := str(player.get("race", "legend"))
+				if not HOME.has(race): continue
+				roster.append({
+					"id": id,
+					"race": race,
+					"level": int(player.get("level", 1)),
+					"land": HOME[race],
+					"time": int(Time.get_unix_time_from_system()),
+					"cloudSlot": 0,
+					"name": str(player.get("name", "")),
+					"extra": progress_text(player),
+				})
+			for entry in Chars.list():
+				if not legacy_server.has(str(entry.id)):
+					roster.append(entry)
 		if roster.is_empty():
-			var made:=await create_character(Chars,server)
-			if made=="":return ""
-			continue
+			var made := await create_character(Chars, legacy_server, use_authoritative)
+			if made == "": return ""
+			return made
 		page.hide()
-		var view=load("res://scripts/character_select.gd").new()
-		view.setup(roster,"")
-		char_view=view
+		var view = load("res://scripts/character_select.gd").new()
+		view.setup(roster, "")
+		char_view = view
 		add_child(view)
-		var result:=[""]
-		view.picked.connect(func(id:String)->void:result[0]=id;view.queue_free())
-		view.new_character.connect(func()->void:result[0]="#new";view.queue_free())
+		var result := [""]
+		view.picked.connect(func(id: String) -> void: result[0] = id; view.queue_free())
+		view.new_character.connect(func() -> void: result[0] = "#new"; view.queue_free())
 		await view.tree_exited
-		char_view=null
-		if result[0]=="":
+		char_view = null
+		if result[0] == "":
 			page.show()
 			return ""
-		if result[0]=="#new":
-			var made:=await create_character(Chars,server)
-			if made!="":return made
+		if result[0] == "#new":
+			var made := await create_character(Chars, legacy_server, use_authoritative)
+			if made != "": return made
 			continue
-		return adopt_server_character(Chars,server,str(result[0]))
+		var picked_id := str(result[0])
+		if use_authoritative and server_chars.has(picked_id):
+			active_server_char = server_chars[picked_id]
+			return picked_id
+		return adopt_server_character(Chars, legacy_server, picked_id)
 	return ""
 
-## Current progress of a hero for its card: experience, gold, learned skills, kills/quests when the record has them.
-func progress_text(player: Dictionary) -> String:
-	var lines: Array[String]=[]
-	lines.append("PD: %d · złoto: %d" % [int(player.get("xp",0)),int(player.get("gold",0))])
-	var skills: Variant=player.get("skills",[])
-	if skills is Array:lines.append("umiejętności: %d" % (skills as Array).size())
-	for key in ["kills","quests","questsDone","monstersKilled"]:
-		if player.has(key):
-			lines.append("%s: %s" % [{"kills":"zabójstwa","quests":"questy","questsDone":"questy","monstersKilled":"potwory"}[key],str(player[key]) if not player[key] is Array and not player[key] is Dictionary else str(player[key].size())])
+## Server-computed authoritative stats & progress for the character card.
+func auth_progress_text(rec: Dictionary) -> String:
+	var st: Dictionary = rec.get("state", {})
+	var stats: Dictionary = rec.get("stats", {})
+	var lines: Array[String] = []
+	lines.append("HP %d/%d · KI %d/%d" % [int(st.get("hp", 1)), int(stats.get("maxHp", 140)), int(st.get("ki", 0)), int(stats.get("maxKi", 45))])
+	lines.append("ATK %d · DEF %d · KRYT %.1f%%" % [int(stats.get("attack", 14)), int(stats.get("defense", 5)), float(stats.get("critChance", 5.0))])
+	lines.append("PD %d/%d · Złoto %d (Bank %d)" % [int(st.get("xp", 0)), int(stats.get("xpNeeded", 200)), int(rec.get("gold", 0)), int(st.get("bankGold", 0))])
+	var nodes: Array = st.get("unlockedNodes", [])
+	var quests: Dictionary = st.get("completedQuests", {})
+	lines.append("Talenty: %d · Zlecenia: %d" % [nodes.size(), quests.size()])
 	return "\n".join(lines)
 
-## A server character becomes a local slot (kept: progress already made on the device is not overwritten).
-func adopt_server_character(Chars,server: Dictionary,id: String) -> String:
-	if not server.has(id):return id
+## Legacy browser record progress text.
+func progress_text(player: Dictionary) -> String:
+	var lines: Array[String] = []
+	lines.append("PD: %d · złoto: %d" % [int(player.get("xp", 0)), int(player.get("gold", 0))])
+	var skills: Variant = player.get("skills", [])
+	if skills is Array: lines.append("umiejętności: %d" % (skills as Array).size())
+	return "\n".join(lines)
+
+func adopt_server_character(Chars, server: Dictionary, id: String) -> String:
+	if not server.has(id): return id
 	if Chars.read(Chars.slot_path(id)).is_empty():
-		var player: Dictionary=(server[id] as Dictionary).get("state",{}).get("player",{})
-		var race:=str(player.get("race","legend"))
-		Chars.write(Chars.slot_path(id),{"characterId":id,"race":race,"land":HOME.get(race,"pyra"),"name":str(player.get("name","")),"kit":{"level":int(player.get("level",1))},"gold":int(player.get("gold",20)),"cloudSlot":0})
+		var player: Dictionary = (server[id] as Dictionary).get("state", {}).get("player", {})
+		var race := str(player.get("race", "legend"))
+		Chars.write(Chars.slot_path(id), {"characterId": id, "race": race, "land": HOME.get(race, "pyra"), "name": str(player.get("name", "")), "kit": {"level": int(player.get("level", 1))}, "gold": int(player.get("gold", 20)), "cloudSlot": 0})
 	return id
 
-func create_character(Chars,server: Dictionary) -> String:
+func create_character(Chars, server: Dictionary, use_authoritative: bool) -> String:
 	page.hide()
-	var view=RaceScreen.new()
+	var view = RaceScreen.new()
 	view.setup(true)
-	char_view=view
+	char_view = view
 	add_child(view)
-	var race:=[""]
-	view.chosen.connect(func(r:String)->void:race[0]=r)
-	view.closed.connect(func()->void:race[0]="#back")
-	while race[0]=="":await get_tree().process_frame
+	var race := [""]
+	view.chosen.connect(func(r: String) -> void: race[0] = r)
+	view.closed.connect(func() -> void: race[0] = "#back")
+	while race[0] == "": await get_tree().process_frame
 	view.queue_free()
-	char_view=null
-	if race[0]=="#back":return ""
-	var nick:=await ask_name(str(race[0]))
-	if nick=="":return ""
-	var online=KiNet.online()
+	char_view = null
+	if race[0] == "#back": return ""
+	var nick := await ask_name(str(race[0]))
+	if nick == "": return ""
+	var online = KiNet.online()
 	if online.logged_in():
-		var created: Dictionary=await online.request(HTTPClient.METHOD_POST,"/ws/characters",{"race":race[0],"name":nick})
-		if int(created.get("status",0))==201 and created.get("json") is Dictionary:
-			var record: Dictionary=created.json
-			var rid:="srv-"+str(record.get("id",""))
-			server[rid]=record
-			Chars.write(Chars.slot_path(rid),{"characterId":rid,"race":race[0],"land":HOME[race[0]],"name":nick,"kit":{"level":1},"gold":20,"cloudSlot":0})
+		if use_authoritative:
+			var created: Dictionary = await online.request(HTTPClient.METHOD_POST, "/ws/godot/characters", {"race": race[0], "name": nick})
+			if int(created.get("status", 0)) == 201 and created.get("json") is Dictionary:
+				var rec: Dictionary = (created.json as Dictionary).get("character", {})
+				var cid := str(rec.get("id", ""))
+				if cid != "":
+					server_chars[cid] = rec
+					active_server_char = rec
+					return cid
+			notice(PyraOnline.message_of(created, "Serwer nie utworzył postaci (nick zajęty lub niedozwolony)."))
+			return ""
+		var created2: Dictionary = await online.request(HTTPClient.METHOD_POST, "/ws/characters", {"race": race[0], "name": nick})
+		if int(created2.get("status", 0)) == 201 and created2.get("json") is Dictionary:
+			var record: Dictionary = created2.json
+			var rid := "srv-" + str(record.get("id", ""))
+			server[rid] = record
+			Chars.write(Chars.slot_path(rid), {"characterId": rid, "race": race[0], "land": HOME[race[0]], "name": nick, "kit": {"level": 1}, "gold": 20, "cloudSlot": 0})
 			return rid
-		notice(PyraOnline.message_of(created,"Serwer nie utworzył postaci (nick zajęty lub niedozwolony)."))
+		notice(PyraOnline.message_of(created2, "Serwer nie utworzył postaci (nick zajęty lub niedozwolony)."))
 		return ""
-	var id:String=Chars.new_id()
-	Chars.write(Chars.slot_path(id),{"characterId":id,"race":race[0],"land":HOME[race[0]],"name":nick,"kit":{"level":1},"gold":20,"cloudSlot":0})
+	var id: String = Chars.new_id()
+	Chars.write(Chars.slot_path(id), {"characterId": id, "race": race[0], "land": HOME[race[0]], "name": nick, "kit": {"level": 1}, "gold": 20, "cloudSlot": 0})
 	return id
 
 ## The nick of a new hero: a full-screen form; "" when the player goes back.
 func ask_name(race: String) -> String:
-	var overlay:=Control.new()
+	var overlay := Control.new()
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var back:=ColorRect.new()
-	back.color=Color("0a101b")
+	var back := ColorRect.new()
+	back.color = Color("0a101b")
 	back.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.add_child(back)
-	var box:=VBoxContainer.new()
+	var box := VBoxContainer.new()
 	box.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-	box.grow_horizontal=Control.GROW_DIRECTION_BOTH
-	box.grow_vertical=Control.GROW_DIRECTION_BOTH
-	box.custom_minimum_size=Vector2(620,0)
-	box.add_theme_constant_override("separation",18)
+	box.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	box.grow_vertical = Control.GROW_DIRECTION_BOTH
+	box.custom_minimum_size = Vector2(620, 0)
+	box.add_theme_constant_override("separation", 18)
 	overlay.add_child(box)
-	var title:=Label.new()
-	title.text="NICK POSTACI · "+str({"legend":"LEGENDA","planetary":"PLANETARNY","sage":"MĘDRZEC","android":"ANDROID"}.get(race,race))
-	title.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size",30)
+	var title := Label.new()
+	title.text = "NICK POSTACI · " + str({"legend": "LEGENDA", "planetary": "PLANETARNY", "sage": "MĘDRZEC", "android": "ANDROID"}.get(race, race))
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 30)
 	box.add_child(title)
-	var field:=LineEdit.new()
-	field.placeholder_text="Wpisz nick (3–16 znaków)"
-	field.max_length=16
-	field.custom_minimum_size=Vector2(0,84)
-	field.add_theme_font_size_override("font_size",26)
+	var field := LineEdit.new()
+	field.placeholder_text = "Wpisz nick (3–16 znaków)"
+	field.max_length = 16
+	field.custom_minimum_size = Vector2(0, 84)
+	field.add_theme_font_size_override("font_size", 26)
 	box.add_child(field)
-	var done:=[false,""]
-	var ok:=Button.new()
-	ok.text="UTWÓRZ POSTAĆ"
-	ok.custom_minimum_size=Vector2(0,84)
-	ok.add_theme_font_size_override("font_size",24)
-	ok.pressed.connect(func()->void:
-		if field.text.strip_edges().length()<3:
-			title.text="NICK MUSI MIEĆ MIN. 3 ZNAKI"
+	var done := [false, ""]
+	var ok := Button.new()
+	ok.text = "UTWÓRZ POSTAĆ"
+	ok.custom_minimum_size = Vector2(0, 84)
+	ok.add_theme_font_size_override("font_size", 24)
+	ok.pressed.connect(func() -> void:
+		if field.text.strip_edges().length() < 3:
+			title.text = "NICK MUSI MIEĆ MIN. 3 ZNAKI"
 			return
-		done[1]=field.text.strip_edges();done[0]=true)
+		done[1] = field.text.strip_edges(); done[0] = true)
 	box.add_child(ok)
-	var cancel:=Button.new()
-	cancel.text="WSTECZ"
-	cancel.custom_minimum_size=Vector2(0,72)
-	cancel.add_theme_font_size_override("font_size",22)
-	cancel.pressed.connect(func()->void:done[0]=true)
+	var cancel := Button.new()
+	cancel.text = "WSTECZ"
+	cancel.custom_minimum_size = Vector2(0, 72)
+	cancel.add_theme_font_size_override("font_size", 22)
+	cancel.pressed.connect(func() -> void: done[0] = true)
 	box.add_child(cancel)
 	add_child(overlay)
-	while not done[0]:await get_tree().process_frame
+	while not done[0]: await get_tree().process_frame
 	overlay.queue_free()
 	return str(done[1])
 
 func notice(text: String) -> void:
-	var note:=Label.new()
-	note.text=text
-	note.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	note.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	note.add_theme_font_size_override("font_size",22)
+	var note := Label.new()
+	note.text = text
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	note.add_theme_font_size_override("font_size", 22)
 	note.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
-	note.offset_top=-140
+	note.offset_top = -140
 	add_child(note)
 	get_tree().create_timer(5.0).timeout.connect(note.queue_free)
+
+## Executes an authoritative server economy/progression action for the active Android character.
+func _run_server_action(cid: String, payload: Dictionary, done_cb: Callable) -> void:
+	var online = KiNet.online()
+	var ans: Dictionary = await online.request(HTTPClient.METHOD_POST, "/ws/godot/characters/%s/action" % cid, payload)
+	var ok := int(ans.get("status", 0)) == 200 and ans.get("json") is Dictionary
+	var res: Dictionary = {}
+	if ok:
+		var j: Dictionary = ans.json
+		if j.has("character") and j["character"] is Dictionary:
+			active_server_char = j["character"]
+			server_chars[cid] = active_server_char
+		res = {
+			"ok": true,
+			"character": j.get("character", {}),
+			"notice": str(j.get("notice", "")),
+			"teleportCapital": bool(j.get("teleportCapital", false)),
+		}
+	else:
+		res = {
+			"ok": false,
+			"notice": PyraOnline.message_of(ans, "Serwer odrzucił akcję."),
+		}
+	if done_cb.is_valid():
+		done_cb.call(res)
 
 func spawn_world(full: bool) -> void:
 	full_mode=full
@@ -292,14 +380,24 @@ func spawn_world(full: bool) -> void:
 	viewport.size=Vector2i(get_viewport_rect().size)
 	preview.add_child(viewport)
 	world=scene.instantiate()
-	if full and char_id!="":
-		var data:Dictionary=load("res://scripts/characters.gd").read(load("res://scripts/characters.gd").slot_path(char_id))
-		world.start_race=str(data.get("race","legend"))
-		world.start_land=str(data.get("land","pyra"))
-		world.start_level=int(data.get("kit",{}).get("level",1))
-		world.start_gold=int(data.get("gold",20))
-		autosave.wait_time=20.0
-		if autosave.get_parent()==null:
+	if full and not active_server_char.is_empty():
+		world.server_char_id = str(active_server_char.get("id", ""))
+		world.server_character = active_server_char.duplicate(true)
+		world.server_action_fn = Callable(self, "_run_server_action")
+		world.start_name = str(active_server_char.get("name", ""))
+		world.start_race = str(active_server_char.get("race", "legend"))
+		world.start_land = str(active_server_char.get("land", "pyra"))
+		world.start_level = int(active_server_char.get("level", 1))
+		world.start_gold = int(active_server_char.get("gold", 120))
+	elif full and char_id != "":
+		var data: Dictionary = load("res://scripts/characters.gd").read(load("res://scripts/characters.gd").slot_path(char_id))
+		world.start_name = str(data.get("name", ""))
+		world.start_race = str(data.get("race", "legend"))
+		world.start_land = str(data.get("land", "pyra"))
+		world.start_level = int(data.get("kit", {}).get("level", 1))
+		world.start_gold = int(data.get("gold", 20))
+		autosave.wait_time = 20.0
+		if autosave.get_parent() == null:
 			autosave.timeout.connect(save_progress)
 			add_child(autosave)
 		autosave.start()
@@ -323,6 +421,7 @@ func layout_preview() -> void:
 
 ## Hero progress (level, gold, land) goes into its local slot every 20 s and on exit. Cloud upload and server authority are not wired yet.
 func save_progress() -> void:
+	if not active_server_char.is_empty():return
 	if world==null or char_id=="" or not full_mode or world.get("rpg_hud")==null:return
 	var Chars=load("res://scripts/characters.gd")
 	var data:Dictionary=Chars.read(Chars.slot_path(char_id))

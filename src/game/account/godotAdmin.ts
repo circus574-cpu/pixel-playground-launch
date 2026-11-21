@@ -141,4 +141,88 @@ export async function godotPublish(
   await call("POST", "/admin/releases", { body: { manifest, note } });
 }
 
+export type AndroidItemDef = {
+  id: string;
+  name: string;
+  cat: "weapon" | "armor" | "jewelry" | "consumable";
+  icon: string;
+  slot: number;
+  desc: string;
+  shopPrice: number;
+  craftCost: number | null;
+};
+
+export type AndroidItemStack = { id: string; qty: number };
+
+export type AndroidCharacterAdmin = {
+  id: string;
+  accountId: string;
+  ownerNick?: string;
+  ownerEmail?: string;
+  name: string;
+  race: "legend" | "planetary" | "sage" | "android";
+  land: "pyra" | "verdant" | "aether" | "nexus";
+  level: number;
+  gold: number;
+  revision: number;
+  state: {
+    version: 1;
+    xp: number;
+    bankGold: number;
+    hp: number;
+    ki: number;
+    freeStatPoints: number;
+    skillPoints: number;
+    bonusStats: { hp: number; ki: number; atk: number; def: number; spd: number; crit: number };
+    unlockedNodes: string[];
+    equipment: Record<string, string | null>;
+    backpack: (AndroidItemStack | null)[];
+    bankItems: (AndroidItemStack | null)[];
+    completedQuests: Record<string, string>;
+    lastArenaAt: number;
+  };
+  stats: {
+    maxHp: number;
+    maxKi: number;
+    attack: number;
+    defense: number;
+    speed: number;
+    critChance: number;
+    xpNeeded: number;
+  };
+  browserCharacterId: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export const godotAdminCharacters = (query = "", accountId?: string) => {
+  const params = new URLSearchParams();
+  if (query.trim()) params.set("q", query.trim());
+  if (accountId) params.set("account", accountId);
+  const qs = params.toString();
+  return call<{ characters: AndroidCharacterAdmin[]; catalog: AndroidItemDef[] }>(
+    "GET",
+    "/admin/characters" + (qs ? "?" + qs : ""),
+  );
+};
+
+export const godotAdminCreateCharacter = (body: {
+  accountId: string;
+  name: string;
+  race: AndroidCharacterAdmin["race"];
+  land?: AndroidCharacterAdmin["land"];
+  level?: number;
+  gold?: number;
+}) => call<{ character: AndroidCharacterAdmin }>("POST", "/admin/characters", { body });
+
+export const godotAdminUpdateCharacter = (id: string, patch: Record<string, unknown>) =>
+  call<{ character: AndroidCharacterAdmin }>(
+    "PATCH",
+    `/admin/characters/${encodeURIComponent(id)}`,
+    { body: patch },
+  );
+
+export const godotAdminDeleteCharacter = (id: string) =>
+  call<{ deleted: boolean }>("DELETE", `/admin/characters/${encodeURIComponent(id)}`);
+
 export const formatMegabytes = (bytes: number) => (bytes / 1048576).toFixed(1) + " MB";

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { AdminAndroidCharacters } from "./AdminAndroidCharacters";
 import {
   formatMegabytes,
   godotActivate,
@@ -30,7 +31,7 @@ const RACE_NAMES: Record<string, string> = {
 const field = { display: "flex", flexDirection: "column", gap: 4, margin: "10px 0" } as const;
 const message = (e: unknown) => (e instanceof Error ? e.message : String(e));
 
-/** Android game (Godot): releases of downloadable content, client gating, maintenance, cloud saves, who is online. */
+/** Android game (Godot): releases of downloadable content, client gating, maintenance, authoritative characters, cloud saves, who is online. */
 export function AdminGodotPanel({ isAdmin }: { isAdmin: boolean }) {
   const [overview, setOverview] = useState<GodotOverview | null>(null);
   const [error, setError] = useState("");
@@ -88,11 +89,12 @@ export function AdminGodotPanel({ isAdmin }: { isAdmin: boolean }) {
           </li>
         </ul>
         <small>
-          Gra Android to lokalna symulacja PvE: serwer trzyma konta, zapisy, treść do pobrania i
-          obecność graczy (duchy i czat); nie rozstrzyga walki, łupu ani doświadczenia.
+          Ekonomia i postęp postaci Android (poziom, PD, złoto, bank, ekwipunek, sklep, kuźnia,
+          zlecenia) są liczone i zapisywane autorytatywnie na serwerze w PostgreSQL.
         </small>
       </section>
 
+      <AdminAndroidCharacters isAdmin={isAdmin} />
       <Settings key={s.updatedAt} settings={s} isAdmin={isAdmin} run={run} />
       <Releases overview={overview} isAdmin={isAdmin} run={run} setError={setError} />
       <Saves isAdmin={isAdmin} />

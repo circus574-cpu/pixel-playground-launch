@@ -111,6 +111,7 @@ var backpack_items: Array[Dictionary] = [
 var world: Node2D
 var current_land := "pyra"
 var hero_land := ""
+var hero_custom_name := ""
 var nearest_loc := "Twierdza Popiołu"
 var in_safe_city := true
 var time_mode_short := "Dzień"
@@ -517,9 +518,76 @@ func add_stat_points_gm(stat_key: String, delta_pts: int) -> void:
 	bonus_stat_pts[stat_key] = maxi(0, int(bonus_stat_pts[stat_key]) + delta_pts)
 	recalc_stats(false)
 
+static func _catalog_item_by_id(iid: String) -> Dictionary:
+	var gm_script = preload("res://scripts/gm_panel.gd")
+	for it: Dictionary in gm_script.ITEM_CATALOG:
+		if str(it.get("id", "")) == iid:
+			return it.duplicate(true)
+	return {}
+
+func apply_server_character(ch: Dictionary) -> void:
+	var st: Dictionary = ch.get("state", {})
+	var stats: Dictionary = ch.get("stats", {})
+	if str(ch.get("name", "")) != "":
+		hero_custom_name = str(ch.get("name", ""))
+	hero_level = maxi(1, int(ch.get("level", hero_level)))
+	hero_gold = maxi(0, int(ch.get("gold", hero_gold)))
+	hero_xp = float(st.get("xp", hero_xp))
+	hero_max_xp = maxf(1.0, float(stats.get("xpNeeded", 200 + (hero_level - 1) * 160)))
+	free_stat_points = maxi(0, int(st.get("freeStatPoints", free_stat_points)))
+	skill_points = maxi(0, int(st.get("skillPoints", skill_points)))
+	var bs: Dictionary = st.get("bonusStats", {})
+	for k in ["hp", "ki", "atk", "def", "spd", "crit"]:
+		if bs.has(k):
+			bonus_stat_pts[k] = maxi(0, int(bs[k]))
+	var nodes_arr: Array = st.get("unlockedNodes", [])
+	if not nodes_arr.is_empty():
+		var umap := _unlocked_map()
+		umap.clear()
+		for n in nodes_arr:
+			umap[str(n)] = true
+	var eq_raw: Dictionary = st.get("equipment", {})
+	for si in equip_slots.size():
+		var sk := str(si)
+		if eq_raw.has(sk):
+			var iid = eq_raw[sk]
+			if iid == null or str(iid) == "":
+				equip_slots[si]["id"] = ""
+				equip_slots[si]["name"] = "Pusty"
+				equip_slots[si]["icon"] = ""
+				for bk in ["atk", "def", "hp", "ki", "spd", "crit"]:
+					equip_slots[si].erase(bk)
+			else:
+				var cdef := _catalog_item_by_id(str(iid))
+				if not cdef.is_empty():
+					cdef["side"] = equip_slots[si].get("side", "left")
+					cdef["row"] = equip_slots[si].get("row", si % 4)
+					equip_slots[si] = cdef
+	var bp_raw: Array = st.get("backpack", [])
+	if bp_raw.size() == backpack_items.size():
+		for bi in backpack_items.size():
+			var entry = bp_raw[bi]
+			if entry == null or not (entry is Dictionary):
+				backpack_items[bi] = {}
+			else:
+				var cdef := _catalog_item_by_id(str((entry as Dictionary).get("id", "")))
+				if not cdef.is_empty():
+					cdef["qty"] = maxi(1, int((entry as Dictionary).get("qty", 1)))
+					backpack_items[bi] = cdef
+				else:
+					backpack_items[bi] = {}
+	recalc_stats(false)
+	hero_hp = clampf(float(st.get("hp", hero_hp)), 1.0, hero_max_hp)
+	hero_ki = clampf(float(st.get("ki", hero_ki)), 0.0, hero_max_ki)
+	_sync_bar_uniforms()
+	_sync_talent_node_styles()
+	_refresh_visuals()
+
 func spend_free_stat_point(stat_key: String) -> bool:
 	if free_stat_points <= 0 or not bonus_stat_pts.has(stat_key):
 		return false
+	if world != null and world.has_method("dispatch_server_action") and world.dispatch_server_action({"type": "allocate_stat", "stat": stat_key}):
+		return true
 	free_stat_points -= 1
 	bonus_stat_pts[stat_key] = int(bonus_stat_pts[stat_key]) + 1
 	recalc_stats(false)
@@ -548,6 +616,10 @@ func use_backpack_slot(idx: int) -> void:
 		return
 	var it: Dictionary = backpack_items[idx]
 	if it.is_empty():
+		return
+	if world != null and world.has_method("dispatch_server_action") and world.dispatch_server_action({"type": "use_item", "backpackIndex": idx}):
+		if world.get("audio") != null:
+			world.audio.sfx("common/potion" if (it.has("heal_hp") or it.has("heal_ki")) else "ui/click")
 		return
 	var slot_i := int(it.get("slot", -1))
 	if slot_i >= 0 and slot_i < equip_slots.size():
@@ -1097,7 +1169,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	c.draw_string(f, seal_c + Vector2(-lv_w * 0.5, 4.5), lv_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.92, 0.66))
 
 	# Hero Name (Cinzel) + Race Title cleanly inside the obsidian plate
-	var hero_name := str(meta["hero"]).to_upper()
+	var hero_name := (hero_custom_name if hero_custom_name != "" else str(meta["hero"])).to_upper()
 	c.draw_string_outline(f, Vector2(114.0, 34.0), hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color(0.02, 0.01, 0.02, 0.95))
 	c.draw_string(f, Vector2(114.0, 34.0), hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.93, 0.76))
 	var sub_txt := str(meta["title"])
@@ -1551,7 +1623,7 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 	var slot_tex := _load_tex("res://assets/ui/hud_skill_slot.png")
 
 	# Royal Engraved Obsidian Header Plaque
-	var title_txt := "KARTA POSTACI I EKWIPUNEK — %s" % str(meta["hero"]).to_upper()
+	var title_txt := "KARTA POSTACI I EKWIPUNEK — %s" % (hero_custom_name if hero_custom_name != "" else str(meta["hero"])).to_upper()
 	var sub_txt := "%s  •  Poziom %d  •  %s" % [str(rd.get("raceName", "")), hero_level, str(meta["realm"])]
 	_draw_modal_header_plaque(c, f, mr, title_txt, sub_txt)
 
@@ -1690,6 +1762,8 @@ func _try_unlock_node(nid: String) -> void:
 	if nd.is_empty():
 		return
 	if _node_state(nd) == "available" and skill_points > 0:
+		if world != null and world.has_method("dispatch_server_action") and world.dispatch_server_action({"type": "unlock_talent", "nodeId": nid}):
+			return
 		var umap := _unlocked_map()
 		umap[nid] = true
 		skill_points -= 1

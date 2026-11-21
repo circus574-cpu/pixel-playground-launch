@@ -419,7 +419,9 @@ export class AccountService {
 
   /* ---------------------------- administration ---------------------------- */
 
-  async listAccounts(query = ""): Promise<(AccountView & { confirmed: boolean })[]> {
+  async listAccounts(
+    query = "",
+  ): Promise<(AccountView & { confirmed: boolean; disabled: boolean })[]> {
     const q = "%" + query.trim().toLowerCase().replace(/[%_]/g, "") + "%";
     const rows = await this.o.sql<(UserRow & { roles: Role[] | null })[]>`
       SELECT u.*, array_remove(array_agg(r.role ORDER BY r.role), NULL) AS roles
@@ -432,9 +434,101 @@ export class AccountService {
       nick: u.nick,
       roles: u.roles ?? [],
       confirmed: Boolean(u.email_confirmed_at),
+      disabled: Boolean(u.disabled_at),
       createdAt: u.created_at.toISOString(),
       lastLoginAt: u.last_login_at?.toISOString() ?? null,
     }));
+  }
+
+  /** Full administrator account modification (nick, email, activation, block/unblock, password reset, session revocation). */
+  async adminUpdateAccount(
+    actor: string,
+    target: unknown,
+    rawPatch: unknown,
+  ): Promise<AccountView & { confirmed: boolean; disabled: boolean }> {
+    const userId = z.string().uuid().parse(target);
+    const patch = z
+      .object({
+        nick: nickSchema.optional(),
+        email: emailSchema.optional(),
+        confirmed: z.boolean().optional(),
+        disabled: z.boolean().optional(),
+        newPassword: passwordSchema.optional(),
+        revokeSessions: z.boolean().optional(),
+      })
+      .strict()
+      .parse(rawPatch);
+
+    if (patch.disabled === true && userId === actor) throw new AccountError("FORBIDDEN");
+
+    const sql = this.o.sql;
+    const [existing] = await sql<UserRow[]>`SELECT * FROM accounts.users WHERE id = ${userId}`;
+    if (!existing) throw new AccountError("INVALID_INPUT");
+
+    const nextNick = patch.nick ?? existing.nick;
+    const nextEmail = patch.email ?? existing.email;
+    if (nextNick.toLowerCase() !== existing.nick.toLowerCase()) {
+      const [taken] = await sql<{ id: string }[]>`
+        SELECT id FROM accounts.users WHERE lower(nick) = lower(${nextNick}) AND id <> ${userId}`;
+      if (taken) throw new AccountError("NICK_TAKEN");
+    }
+    if (nextEmail.toLowerCase() !== existing.email.toLowerCase()) {
+      const [taken] = await sql<{ id: string }[]>`
+        SELECT id FROM accounts.users WHERE lower(email) = lower(${nextEmail}) AND id <> ${userId}`;
+      if (taken) throw new AccountError("EMAIL_TAKEN");
+    }
+
+    const nextHash = patch.newPassword
+      ? await hashPassword(patch.newPassword)
+      : existing.password_hash;
+    const nextConfirmedAt =
+      patch.confirmed === undefined
+        ? existing.email_confirmed_at
+        : patch.confirmed
+          ? (existing.email_confirmed_at ?? new Date())
+          : null;
+    const nextDisabledAt =
+      patch.disabled === undefined
+        ? existing.disabled_at
+        : patch.disabled
+          ? (existing.disabled_at ?? new Date())
+          : null;
+
+    await sql`
+      UPDATE accounts.users
+      SET nick = ${nextNick},
+          email = ${nextEmail},
+          password_hash = ${nextHash},
+          email_confirmed_at = ${nextConfirmedAt},
+          disabled_at = ${nextDisabledAt}
+      WHERE id = ${userId}`;
+
+    if (patch.disabled === true || patch.newPassword || patch.revokeSessions) {
+      await sql`UPDATE accounts.sessions SET revoked_at = now() WHERE user_id = ${userId} AND revoked_at IS NULL`;
+    }
+
+    await this.audit(actor, "ADMIN_UPDATE_ACCOUNT", userId, {
+      nick: patch.nick !== undefined ? nextNick : undefined,
+      email: patch.email !== undefined ? nextEmail : undefined,
+      confirmed: patch.confirmed,
+      disabled: patch.disabled,
+      passwordReset: Boolean(patch.newPassword),
+      sessionsRevoked: Boolean(
+        patch.disabled === true || patch.newPassword || patch.revokeSessions,
+      ),
+    });
+
+    const [updated] = await sql<UserRow[]>`SELECT * FROM accounts.users WHERE id = ${userId}`;
+    return {
+      id: updated!.id,
+      email: updated!.email,
+      nick: updated!.nick,
+      roles: await this.roles(userId),
+      confirmed: Boolean(updated!.email_confirmed_at),
+      disabled: Boolean(updated!.disabled_at),
+      createdAt: updated!.created_at.toISOString(),
+      lastLoginAt: updated!.last_login_at?.toISOString() ?? null,
+    };
   }
 
   async setRole(actor: string, target: unknown, role: unknown, granted: unknown) {
