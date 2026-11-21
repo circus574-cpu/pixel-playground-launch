@@ -24,10 +24,6 @@ jobs:
             /ports/godot-isometric-pyra/
             /scripts/godot/prepare_service_preview.py
             /.github/workflows/ki-legends-editor-zip.yml
-      - name: Sprawdz duze zasoby
-        run: |
-          set -euo pipefail
-          git lfs pull --include='ports/godot-pyra/**,ports/godot-isometric-pyra/**' --exclude=''
       - name: Dodaj zasoby podgladu i przygotuj projekt Godot
         run: |
           set -euo pipefail
