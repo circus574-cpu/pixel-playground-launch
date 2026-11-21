@@ -1,0 +1,103 @@
+{
+  "phase": "Live-World Non-Obstructive NPC Dialogue (Floating Speech Bubbles + Bottom Dialogue Strip) & Walkable Building Interiors",
+  "project": "ports/godot-isometric-world",
+  "projection_roundtrip_error_m": 0.0,
+  "regions": {
+    "aether": {
+      "bridges_count": 2,
+      "buildings_count": 25,
+      "capital_center": [
+        93.0,
+        -127.0
+      ],
+      "enterable_buildings_count": 16,
+      "exp_zones_count": 0,
+      "fauna_count": 18,
+      "grid_size": 512,
+      "monsters_count": 0,
+      "npcs_count": 10,
+      "props_count": 170,
+      "roads_count": 83,
+      "title": "Aetheria — Lodowe Sanktuarium i Śnieżne Szczyty",
+      "world_size_m": 1024.0
+    },
+    "nexus": {
+      "bridges_count": 2,
+      "buildings_count": 25,
+      "capital_center": [
+        72.0,
+        -6.0
+      ],
+      "enterable_buildings_count": 16,
+      "exp_zones_count": 0,
+      "fauna_count": 18,
+      "grid_size": 512,
+      "monsters_count": 0,
+      "npcs_count": 10,
+      "props_count": 129,
+      "roads_count": 82,
+      "title": "Nexus-9 — Węzeł Świadomości i Obwody Rdzeni",
+      "world_size_m": 1024.0
+    },
+    "pyra": {
+      "bridges_count": 5,
+      "buildings_count": 28,
+      "capital_center": [
+        36.0,
+        -21.0
+      ],
+      "enterable_buildings_count": 13,
+      "exp_zones_count": 0,
+      "fauna_count": 18,
+      "grid_size": 512,
+      "monsters_count": 0,
+      "npcs_count": 10,
+      "props_count": 145,
+      "roads_count": 52,
+      "title": "Pyra — Twierdza Popiołu i Wulkaniczny Kontynent",
+      "world_size_m": 1024.0
+    },
+    "verdant": {
+      "bridges_count": 3,
+      "buildings_count": 24,
+      "capital_center": [
+        -155.0,
+        -118.0
+      ],
+      "enterable_buildings_count": 14,
+      "exp_zones_count": 0,
+      "fauna_count": 18,
+      "grid_size": 512,
+      "monsters_count": 0,
+      "npcs_count": 10,
+      "props_count": 173,
+      "roads_count": 92,
+      "title": "Verdantia — Zielona Przystań i Szmaragdowa Dolina",
+      "world_size_m": 1024.0
+    }
+  },
+  "screenshots": [
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/pyra-citadel.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/pyra-town.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/verdant-harbor.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/verdant-town.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/aether-sanctuary.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/aether-town.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/nexus-core.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/nexus-town.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/globe-3d.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/planet-atlas.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/planet-atlas-zoom.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/map-3d.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/map-3d-zoom.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/map-3d-verdant.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/wilderness-road.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/pyra-bridge.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/talent-tree.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/character-sheet.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/gm-panel.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/interior-smithy.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/npc-dialogue.jpg",
+    "/home/antigravity/circus574-cpu/pixel-playground-launch/docs/zmiany/2026-11-18/qa/loading-screen.jpg"
+  ]
+}

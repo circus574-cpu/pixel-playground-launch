@@ -1,0 +1,286 @@
+{
+  "format": "ki-godot-content-1",
+  "version": "1.14.11",
+  "engine": "4.6.3",
+  "createdAt": "2026-11-20T15:45:27+00:00",
+  "packs": {
+    "heroes": {
+      "file": "heroes-d400681fd3df.pck",
+      "bytes": 96954028,
+      "sha256": "d400681fd3df452b922498f72d56f6e406124e8154fe3ace43e4dd05f21994a3",
+      "files": 376
+    },
+    "land-aether": {
+      "file": "land-aether-25e3682e3465.pck",
+      "bytes": 22460416,
+      "sha256": "25e3682e34651ca564d13c514ac33b076525e7bbcebc4c333015172f51ef6933",
+      "files": 186
+    },
+    "land-island-1": {
+      "file": "land-island-1-071fb1406733.pck",
+      "bytes": 4147728,
+      "sha256": "071fb14067330829f4fdb55fffee39c26adfe4603df3ba4441bebb3bfc69c47c",
+      "files": 106
+    },
+    "land-island-2": {
+      "file": "land-island-2-79067de8b92c.pck",
+      "bytes": 4584072,
+      "sha256": "79067de8b92c373304d136312186eff5bc18a043f91e45d91e06b31ba851636e",
+      "files": 78
+    },
+    "land-island-3": {
+      "file": "land-island-3-1a417c58d94a.pck",
+      "bytes": 4479936,
+      "sha256": "1a417c58d94aa87543d0c5c8915512b8435544b8898f13698f8050e45cea96ae",
+      "files": 108
+    },
+    "land-island-4": {
+      "file": "land-island-4-426f87641b52.pck",
+      "bytes": 4128744,
+      "sha256": "426f87641b520c24508d8d0e7915dc757fe7b93a2547cb8cd7c781095d69241f",
+      "files": 82
+    },
+    "land-island-5": {
+      "file": "land-island-5-a2d4c4ed911f.pck",
+      "bytes": 3665688,
+      "sha256": "a2d4c4ed911fdc846932f0d7364a406088866a5f824efae46553ad7b5821f24f",
+      "files": 80
+    },
+    "land-island-6": {
+      "file": "land-island-6-f49903a4581e.pck",
+      "bytes": 3563008,
+      "sha256": "f49903a4581eacc2cfbea2c126b63f4669d06269ced9f5c97967fa2d1837dbcb",
+      "files": 104
+    },
+    "land-nexus": {
+      "file": "land-nexus-f953932379aa.pck",
+      "bytes": 19689940,
+      "sha256": "f953932379aa65dfe6668b1dc6a59441d8e48b39eca77f46645d1e903dd9ca34",
+      "files": 190
+    },
+    "land-pyra": {
+      "file": "land-pyra-8b6f3aeeeffe.pck",
+      "bytes": 18348328,
+      "sha256": "8b6f3aeeeffe33cb88d38a049d59329b5151a653894720c6082ef44492a6e611",
+      "files": 212
+    },
+    "land-verdant": {
+      "file": "land-verdant-9fa62e19efb8.pck",
+      "bytes": 25235752,
+      "sha256": "9fa62e19efb8b657dd3badfc7192e352ca0ca2113c6d496680810c15e5088e5b",
+      "files": 170
+    },
+    "minimaps": {
+      "file": "minimaps-3c67ac08f7be.pck",
+      "bytes": 31382196,
+      "sha256": "3c67ac08f7be8fdd9af5ed8c7ba658db4f8f09d95b4a2f763c572135a6ca90d2",
+      "files": 20
+    },
+    "monsters-aether": {
+      "file": "monsters-aether-64095ec267bd.pck",
+      "bytes": 6003992,
+      "sha256": "64095ec267bd95182ce50984f85d1550fdaa60219eb395b534bbda1e88e46f40",
+      "files": 76
+    },
+    "monsters-nexus": {
+      "file": "monsters-nexus-a61eb1b4e645.pck",
+      "bytes": 5489516,
+      "sha256": "a61eb1b4e64506ac3da0747e1842c87a87de13f759ccfe6b503a02e72546481e",
+      "files": 76
+    },
+    "monsters-pyra": {
+      "file": "monsters-pyra-a5ecfbd0bbfd.pck",
+      "bytes": 5333796,
+      "sha256": "a5ecfbd0bbfd84a63da4d437e86aa5e10fb3e47faaa9e3c4931f42ccd5ab1b44",
+      "files": 78
+    },
+    "monsters-verdant": {
+      "file": "monsters-verdant-6de23ba61acf.pck",
+      "bytes": 5932276,
+      "sha256": "6de23ba61acf8409f8ce0aa792ae192f46755406ddcce2b45a64190482f98acf",
+      "files": 78
+    },
+    "music-aether": {
+      "file": "music-aether-964b75477279.pck",
+      "bytes": 4296704,
+      "sha256": "964b754772797c800ed7c73a30feda5d5632b94778311de742b8711570bf8931",
+      "files": 2
+    },
+    "music-nexus": {
+      "file": "music-nexus-45174ec10de0.pck",
+      "bytes": 4304828,
+      "sha256": "45174ec10de04177ba1b5ded8f399513f38f1b9aec2019a95f829f39ee2b341b",
+      "files": 2
+    },
+    "music-pyra": {
+      "file": "music-pyra-fdb1f491cfd3.pck",
+      "bytes": 4253432,
+      "sha256": "fdb1f491cfd392157a56cced44fce7d3cb136697ad2d28393e63f6a8a4f51e55",
+      "files": 2
+    },
+    "music-verdant": {
+      "file": "music-verdant-8dbd1dda8f71.pck",
+      "bytes": 4301092,
+      "sha256": "8dbd1dda8f71a9104660127d9aaf5316e60ed605966d8a83ff1cc7f09811cf2f",
+      "files": 2
+    },
+    "npcs-aether": {
+      "file": "npcs-aether-947daac8301f.pck",
+      "bytes": 985928,
+      "sha256": "947daac8301f1911422c00a9c67f7733892420d06def2bca8dffe37c13cf5da3",
+      "files": 20
+    },
+    "npcs-nexus": {
+      "file": "npcs-nexus-af3e2692561d.pck",
+      "bytes": 990644,
+      "sha256": "af3e2692561ded5d45abb3d3fb87ddcea644e44e2fc14a01762776f14565319c",
+      "files": 20
+    },
+    "npcs-pyra": {
+      "file": "npcs-pyra-31c08d5df233.pck",
+      "bytes": 2109528,
+      "sha256": "31c08d5df233d20ea8efb5bab47425d7ce1bae1c32fca589eafca557bbfacca2",
+      "files": 26
+    },
+    "npcs-verdant": {
+      "file": "npcs-verdant-b4784e4e7e34.pck",
+      "bytes": 978644,
+      "sha256": "b4784e4e7e343539d4fda3013bcfff3a15daaeb817c55c319ea52cea931e060f",
+      "files": 20
+    },
+    "rooms-aether": {
+      "file": "rooms-aether-41617afdff61.pck",
+      "bytes": 1210808,
+      "sha256": "41617afdff61bd9ae351135bfdcbf538cc3fe6497f29153f14db13b2312749f9",
+      "files": 12
+    },
+    "rooms-nexus": {
+      "file": "rooms-nexus-5b0a2f10d43d.pck",
+      "bytes": 916108,
+      "sha256": "5b0a2f10d43db9d43f1b39007c67c45d9e6a3e01eb2e721cf9a701bea4b58a5c",
+      "files": 12
+    },
+    "rooms-pyra": {
+      "file": "rooms-pyra-42b5352a5033.pck",
+      "bytes": 2955440,
+      "sha256": "42b5352a5033febc9720f9d01c2c3387ef2c631527469153ca5cb817128bfb96",
+      "files": 56
+    },
+    "rooms-verdant": {
+      "file": "rooms-verdant-2e8759112e93.pck",
+      "bytes": 1322660,
+      "sha256": "2e8759112e932137e4585c17eae5911df9cc35d13dfd03578f0d77b5b40e40cb",
+      "files": 12
+    },
+    "core-c100": {
+      "file": "core-c100-8b9c37df587a.pck",
+      "bytes": 4346512,
+      "sha256": "8b9c37df587a8a700279d537fd2f9f2229b58e4425c0ff641ee5527a31805b83",
+      "files": 137
+    },
+    "core-c101": {
+      "file": "core-c101-e4ed2aec2856.pck",
+      "bytes": 293614628,
+      "sha256": "e4ed2aec2856264b01b8354657c9058447270299b8379b3b0359d630b42ff663",
+      "files": 1431
+    }
+  },
+  "lands": {
+    "pyra": [
+      "heroes",
+      "land-pyra",
+      "minimaps",
+      "monsters-pyra",
+      "music-pyra",
+      "npcs-pyra",
+      "rooms-pyra"
+    ],
+    "verdant": [
+      "heroes",
+      "land-verdant",
+      "minimaps",
+      "monsters-verdant",
+      "music-verdant",
+      "npcs-verdant",
+      "rooms-verdant"
+    ],
+    "aether": [
+      "heroes",
+      "land-aether",
+      "minimaps",
+      "monsters-aether",
+      "music-aether",
+      "npcs-aether",
+      "rooms-aether"
+    ],
+    "nexus": [
+      "heroes",
+      "land-nexus",
+      "minimaps",
+      "monsters-nexus",
+      "music-nexus",
+      "npcs-nexus",
+      "rooms-nexus"
+    ],
+    "island-1": [
+      "heroes",
+      "land-island-1",
+      "minimaps",
+      "monsters-aether",
+      "monsters-verdant",
+      "music-aether",
+      "npcs-aether",
+      "rooms-aether"
+    ],
+    "island-2": [
+      "heroes",
+      "land-island-2",
+      "minimaps",
+      "monsters-aether",
+      "monsters-pyra",
+      "music-aether",
+      "npcs-aether",
+      "rooms-aether"
+    ],
+    "island-3": [
+      "heroes",
+      "land-island-3",
+      "minimaps",
+      "monsters-aether",
+      "monsters-nexus",
+      "music-aether",
+      "npcs-aether",
+      "rooms-aether"
+    ],
+    "island-4": [
+      "heroes",
+      "land-island-4",
+      "minimaps",
+      "monsters-nexus",
+      "monsters-verdant",
+      "music-verdant",
+      "npcs-verdant",
+      "rooms-verdant"
+    ],
+    "island-5": [
+      "heroes",
+      "land-island-5",
+      "minimaps",
+      "monsters-pyra",
+      "monsters-verdant",
+      "music-verdant",
+      "npcs-verdant",
+      "rooms-verdant"
+    ],
+    "island-6": [
+      "heroes",
+      "land-island-6",
+      "minimaps",
+      "monsters-nexus",
+      "monsters-pyra",
+      "music-pyra",
+      "npcs-pyra",
+      "rooms-pyra"
+    ]
+  }
+}

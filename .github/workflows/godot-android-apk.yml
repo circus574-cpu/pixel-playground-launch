@@ -1,0 +1,89 @@
+name: Build Ki Legends Android APK (Godot 4.6.3)
+
+on:
+  workflow_dispatch:
+    inputs:
+      apk_name:
+        description: "Output APK filename"
+        required: false
+        default: "ki-legends-1.14-boot.apk"
+  push:
+    branches:
+      - feat/isometric-world-2d-terrain3d-20261118
+    paths:
+      - ".github/workflows/godot-android-apk.yml"
+      - "ports/godot-pyra/scripts/boot.gd"
+      - "ports/godot-pyra/export_presets.cfg"
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Pull required Godot LFS assets
+        run: |
+          git lfs pull --include='ports/godot-pyra/**,ports/godot-isometric-pyra/**'
+
+      - name: Install Godot 4.6.3 and Android export templates
+        run: |
+          mkdir -p "$RUNNER_TEMP/godot" "$HOME/.local/share/godot/export_templates/4.6.3.stable"
+          curl --fail --location --retry 2 -o "$RUNNER_TEMP/godot.zip" \
+            https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_linux.x86_64.zip
+          unzip -qo "$RUNNER_TEMP/godot.zip" -d "$RUNNER_TEMP/godot"
+          mv "$RUNNER_TEMP/godot/Godot_v4.6.3-stable_linux.x86_64" "$RUNNER_TEMP/godot/godot"
+          chmod +x "$RUNNER_TEMP/godot/godot"
+          echo "$RUNNER_TEMP/godot" >> "$GITHUB_PATH"
+
+          curl --fail --location --retry 2 -o "$RUNNER_TEMP/templates.tpz" \
+            https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_export_templates.tpz
+          unzip -qo "$RUNNER_TEMP/templates.tpz" "templates/android_debug.apk" "templates/android_release.apk" "templates/version.txt" -d "$RUNNER_TEMP/tpl_extract"
+          mv "$RUNNER_TEMP/tpl_extract/templates/"* "$HOME/.local/share/godot/export_templates/4.6.3.stable/"
+
+      - name: Prepare base preview assets and import Godot project
+        run: |
+          python3 scripts/godot/prepare_service_preview.py
+          godot --headless --audio-driver Dummy --path ports/godot-pyra --import || true
+
+      - name: Export and sign Android debug APK
+        run: |
+          APK_NAME="${{ github.event.inputs.apk_name || 'ki-legends-1.14-boot.apk' }}"
+          SDK="${ANDROID_HOME:-$ANDROID_SDK_ROOT}"
+          JAVA="${JAVA_HOME:-$(dirname "$(dirname "$(readlink -f "$(which java)")")")}"
+          KEYSTORE="$RUNNER_TEMP/debug.keystore"
+          keytool -genkeypair -v -keystore "$KEYSTORE" -storepass android \
+            -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 \
+            -validity 10000 -dname "CN=Ki Legends Debug,O=Android,C=PL"
+
+          CFG_DIR="$RUNNER_TEMP/godot_cfg/godot"
+          mkdir -p "$CFG_DIR"
+          cat > "$CFG_DIR/editor_settings-4.6.tres" <<EOF
+          [gd_resource type="EditorSettings" format=3]
+
+          [resource]
+          export/android/android_sdk_path = "$SDK"
+          export/android/java_sdk_path = "$JAVA"
+          export/android/debug_keystore = "$KEYSTORE"
+          export/android/debug_keystore_user = "androiddebugkey"
+          export/android/debug_keystore_pass = "android"
+          EOF
+
+          mkdir -p ports/godot-pyra/builds
+          OUT="$GITHUB_WORKSPACE/ports/godot-pyra/builds/$APK_NAME"
+          XDG_CONFIG_HOME="$RUNNER_TEMP/godot_cfg" ANDROID_HOME="$SDK" JAVA_HOME="$JAVA" \
+            godot --headless --audio-driver Dummy --path ports/godot-pyra --export-debug "Android" "$OUT"
+
+          APKSIGNER="$(ls -1d "$SDK"/build-tools/*/apksigner | sort -V | tail -1)"
+          "$APKSIGNER" verify --verbose "$OUT"
+          ls -lh "$OUT"
+          echo "APK_PATH=$OUT" >> "$GITHUB_ENV"
+          echo "APK_NAME=$APK_NAME" >> "$GITHUB_ENV"
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APK_NAME }}
+          path: ${{ env.APK_PATH }}
+          retention-days: 30

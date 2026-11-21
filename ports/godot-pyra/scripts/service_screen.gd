@@ -11,6 +11,11 @@ var page := VBoxContainer.new()
 var caption := Label.new()
 var timer := Timer.new()
 var checking := false
+var full_mode := false
+var char_id := ""
+var char_view: Node
+var autosave := Timer.new()
+const HOME := {"legend": "pyra", "planetary": "verdant", "sage": "aether", "android": "nexus"}
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -52,7 +57,12 @@ static func permits_preview(status: Dictionary) -> bool:
 func run() -> String:
 	caption.text="Sprawdzanie dostępu…"
 	var status:=await read_status()
-	if status.get("maintenance")==false and status.get("canEnter")==true:return "continue"
+	if status.get("maintenance")==false and status.get("canEnter")==true:
+		if ResourceLoader.exists(SCENE):
+			open_world(true)
+			timer.start()
+			return await picked
+		return "continue"
 	show_status(status)
 	timer.start()
 	return await picked
@@ -64,7 +74,7 @@ func show_status(status: Dictionary) -> void:
 		if child is Button:child.queue_free()
 	if allowed:
 		button("PROTOTYP IZOMETRYCZNY · PYRA",open_preview)
-		button("WEJDŹ DO GRY",func():picked.emit("continue"))
+		button("WEJDŹ DO GRY",func():open_world(true))
 	else:
 		button("ZALOGUJ JAKO ADMINISTRATOR",func():picked.emit("login"))
 	button("SPRAWDŹ PONOWNIE",refresh_access)
@@ -84,9 +94,11 @@ func refresh_access() -> void:
 	var status:=await read_status()
 	checking=false
 	if not is_inside_tree():return
-	if preview!=null and not permits_preview(status):close_preview()
+	if preview!=null and not full_mode and not permits_preview(status):close_preview()
 	if status.get("maintenance")==false and status.get("canEnter")==true:
-		picked.emit("continue")
+		if preview==null:
+			if ResourceLoader.exists(SCENE):open_world(true)
+			else:picked.emit("continue")
 		return
 	show_status(status)
 
@@ -98,6 +110,51 @@ func open_preview() -> void:
 	if not permits_preview(status):
 		show_status(status)
 		return
+	open_world(false)
+
+func open_world(full: bool) -> void:
+	if preview!=null or char_view!=null:return
+	if full:
+		var chosen: String=await choose_character()
+		if chosen=="":return
+		char_id=chosen
+	spawn_world(full)
+
+## The account's heroes of this device (scripts/characters.gd); none yet opens the race choice. Returns the character id or "".
+func choose_character() -> String:
+	var Chars=load("res://scripts/characters.gd")
+	var list: Array=Chars.list()
+	if list.is_empty():
+		return await create_character(Chars)
+	page.hide()
+	var view=load("res://scripts/character_select.gd").new()
+	view.setup(list,"")
+	char_view=view
+	add_child(view)
+	var result:=[""]
+	view.picked.connect(func(id:String)->void:result[0]=id;view.queue_free())
+	view.new_character.connect(func()->void:result[0]="#new";view.queue_free())
+	await view.tree_exited
+	char_view=null
+	if result[0]=="#new":return await create_character(Chars)
+	if result[0]=="":page.show()
+	return str(result[0])
+
+func create_character(Chars) -> String:
+	page.hide()
+	var view:=RaceScreen.new()
+	view.setup(false)
+	char_view=view
+	add_child(view)
+	var race:String=await view.chosen
+	view.queue_free()
+	char_view=null
+	var id:String=Chars.new_id()
+	Chars.write(Chars.slot_path(id),{"characterId":id,"race":race,"land":HOME[race],"kit":{"level":1},"gold":20,"cloudSlot":0})
+	return id
+
+func spawn_world(full: bool) -> void:
+	full_mode=full
 	if not ResourceLoader.exists(SCENE):
 		caption.text="Brak paczki prototypu. Wymagana jest wersja aplikacji z podglądem izometrii."
 		return
@@ -113,32 +170,61 @@ func open_preview() -> void:
 	viewport.size=Vector2i(get_viewport_rect().size)
 	preview.add_child(viewport)
 	world=scene.instantiate()
+	if full and char_id!="":
+		var data:Dictionary=load("res://scripts/characters.gd").read(load("res://scripts/characters.gd").slot_path(char_id))
+		world.start_race=str(data.get("race","legend"))
+		world.start_land=str(data.get("land","pyra"))
+		world.start_level=int(data.get("kit",{}).get("level",1))
+		world.start_gold=int(data.get("gold",20))
+		autosave.wait_time=20.0
+		if autosave.get_parent()==null:
+			autosave.timeout.connect(save_progress)
+			add_child(autosave)
+		autosave.start()
 	viewport.add_child(world)
-	close_button=Button.new()
-	close_button.text="WRÓĆ · TRYB SERWISOWY"
-	close_button.custom_minimum_size=Vector2(330,84)
-	close_button.add_theme_font_size_override("font_size",20)
-	close_button.pressed.connect(close_preview)
-	add_child(close_button)
+	if not full:
+		close_button=Button.new()
+		close_button.text="WRÓĆ · TRYB SERWISOWY"
+		close_button.custom_minimum_size=Vector2(330,84)
+		close_button.add_theme_font_size_override("font_size",20)
+		close_button.pressed.connect(close_preview)
+		add_child(close_button)
 	layout_preview()
 
 func layout_preview() -> void:
-	if preview==null:return
+	if preview==null or close_button==null:return
 	var safe:=Rect2(Vector2.ZERO,get_viewport_rect().size)
 	if OS.get_name()=="Android":
 		var screen:=DisplayServer.get_display_safe_area()
 		if screen.has_area():safe=(get_tree().root.get_screen_transform().affine_inverse()*Rect2(screen)).intersection(safe)
 	close_button.position=Vector2(safe.get_center().x-165,safe.position.y+16)
 
+## Hero progress (level, gold, land) goes into its local slot every 20 s and on exit. Cloud upload and server authority are not wired yet.
+func save_progress() -> void:
+	if world==null or char_id=="" or not full_mode or world.get("rpg_hud")==null:return
+	var Chars=load("res://scripts/characters.gd")
+	var data:Dictionary=Chars.read(Chars.slot_path(char_id))
+	if data.is_empty():return
+	var hud:Object=world.rpg_hud
+	data["kit"]=data.get("kit",{})
+	data["kit"]["level"]=int(hud.hero_level)
+	data["gold"]=int(hud.hero_gold)
+	data["land"]=str(world.current_land)
+	data["characterId"]=char_id
+	Chars.write(Chars.slot_path(char_id),data)
+
 func close_preview() -> void:
+	autosave.stop()
+	if full_mode:save_progress()
 	if preview==null:return
 	world.motion=Vector2.ZERO
 	world.move_pointer=-1
 	preview.queue_free()
 	preview=null
 	world=null
-	close_button.queue_free()
+	if close_button!=null:close_button.queue_free()
 	close_button=null
+	full_mode=false
 	page.show()
 
 func _unhandled_key_input(event: InputEvent) -> void:

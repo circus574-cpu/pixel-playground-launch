@@ -20,6 +20,10 @@ on:
         description: Also make the release the active one (needs publish). Clients get it on their next start.
         type: boolean
         default: false
+      test_base:
+        description: Current active release required for test-only activation during maintenance
+        type: string
+        default: ""
 permissions:
   contents: read
 concurrency:
@@ -34,11 +38,16 @@ jobs:
       VERSION: ${{ inputs.version }}
       PUBLISH: ${{ inputs.publish }}
       ACTIVATE: ${{ inputs.activate }}
+      TEST_BASE: ${{ inputs.test_base }}
     steps:
       - name: Check the version format
         run: |
           set -euo pipefail
           [[ "$VERSION" =~ ^[0-9A-Za-z][0-9A-Za-z._-]{0,39}$ ]] || { echo "::error::Bad version"; exit 1; }
+          if [ -n "$TEST_BASE" ]; then
+            [[ "$TEST_BASE" =~ ^[0-9A-Za-z][0-9A-Za-z._-]{0,39}$ ]] && [ "$TEST_BASE" != "$VERSION" ] &&
+              [ "$PUBLISH" = true ] && [ "$ACTIVATE" = true ] || { echo '::error::Invalid test activation'; exit 1; }
+          fi
       - uses: actions/checkout@v4
         with:
           lfs: true
@@ -89,9 +98,9 @@ jobs:
           ssh_opts=(-i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts")
           activate=false
           if [ "$ACTIVATE" = "true" ]; then activate=true; fi
-          ssh "${ssh_opts[@]}" codex@85.235.150.189 "bash -s -- '$VERSION' '$activate'" <<'REMOTE'
+          ssh "${ssh_opts[@]}" codex@85.235.150.189 "bash -s -- '$VERSION' '$activate' '$TEST_BASE'" <<'REMOTE'
           set -euo pipefail
-          VERSION="$1"; ACTIVATE="$2"
+          VERSION="$1"; ACTIVATE="$2"; TEST_BASE="$3"
           SRC="$HOME/ki-legends-aruba-staging/godot-content-incoming/$VERSION"
           APP=app-xh4qbckykxsq1iofxdoe5t3h
           test -s "$SRC/manifest.json"
@@ -112,8 +121,22 @@ jobs:
           docker exec -u root "$APP" chown -R node:node /data/godot-content
           cd "$HOME/ki-multiplayer-db"
           docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer \
-            -v ON_ERROR_STOP=1 -v m="$(cat "$SRC/manifest.json")" -v v="$VERSION" -v act="$ACTIVATE" <<'SQL'
+            -v ON_ERROR_STOP=1 -v m="$(cat "$SRC/manifest.json")" -v v="$VERSION" -v act="$ACTIVATE" -v test_base="$TEST_BASE" <<'SQL'
           BEGIN;
+          SELECT set_config('ki.expected_test_base', :'test_base', true);
+          DO $guard$
+          DECLARE expected text := current_setting('ki.expected_test_base');
+          BEGIN
+            IF expected <> '' THEN
+              PERFORM 1 FROM godot_android.settings
+              WHERE id = 1 AND maintenance AND active_version = expected
+              FOR UPDATE;
+              IF NOT FOUND THEN
+                RAISE EXCEPTION 'Test activation requires maintenance and active release %', expected;
+              END IF;
+            END IF;
+          END;
+          $guard$;
           INSERT INTO godot_android.releases (version, manifest, note)
           VALUES (:'v', :'m'::jsonb, 'published by the content workflow')
           ON CONFLICT (version) DO UPDATE SET manifest = EXCLUDED.manifest;
