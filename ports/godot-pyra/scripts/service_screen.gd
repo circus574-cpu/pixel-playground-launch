@@ -139,7 +139,7 @@ func choose_character() -> String:
 			var player: Dictionary=(server[id] as Dictionary).get("state",{}).get("player",{})
 			var race:=str(player.get("race","legend"))
 			if not HOME.has(race):continue
-			roster.append({"id":id,"race":race,"level":int(player.get("level",1)),"land":HOME[race],"time":int(Time.get_unix_time_from_system()),"cloudSlot":0,"name":str(player.get("name",""))})
+			roster.append({"id":id,"race":race,"level":int(player.get("level",1)),"land":HOME[race],"time":int(Time.get_unix_time_from_system()),"cloudSlot":0,"name":str(player.get("name","")),"extra":progress_text(player)})
 		for entry in Chars.list():
 			if not server.has(str(entry.id)):roster.append(entry)
 		if roster.is_empty():
@@ -165,6 +165,17 @@ func choose_character() -> String:
 			continue
 		return adopt_server_character(Chars,server,str(result[0]))
 	return ""
+
+## Current progress of a hero for its card: experience, gold, learned skills, kills/quests when the record has them.
+func progress_text(player: Dictionary) -> String:
+	var lines: Array[String]=[]
+	lines.append("PD: %d · złoto: %d" % [int(player.get("xp",0)),int(player.get("gold",0))])
+	var skills: Variant=player.get("skills",[])
+	if skills is Array:lines.append("umiejętności: %d" % (skills as Array).size())
+	for key in ["kills","quests","questsDone","monstersKilled"]:
+		if player.has(key):
+			lines.append("%s: %s" % [{"kills":"zabójstwa","quests":"questy","questsDone":"questy","monstersKilled":"potwory"}[key],str(player[key]) if not player[key] is Array and not player[key] is Dictionary else str(player[key].size())])
+	return "\n".join(lines)
 
 ## A server character becomes a local slot (kept: progress already made on the device is not overwritten).
 func adopt_server_character(Chars,server: Dictionary,id: String) -> String:

@@ -138,6 +138,8 @@ func make_card(entry: Dictionary) -> Control:
 	box.add_child(name)
 	var info := Label.new()
 	info.text = ("%s · " % str(data.raceName) if str(entry.get("name","")) != "" else "") + "poziom %d · %s\nostatnio: %s" % [int(entry.level), land_name(str(entry.land)), when(int(entry.time))]
+	if str(entry.get("extra","")) != "":
+		info.text += "\n" + str(entry.extra)
 	info.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	info.add_theme_font_size_override("font_size", 18)
 	info.add_theme_color_override("font_color", Color("e1d4c4"))

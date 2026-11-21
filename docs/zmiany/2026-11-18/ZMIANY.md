@@ -315,3 +315,4 @@ Zastąpiono filmowy pasek ładowania **prawdziwym, żywym panelem ładowania** z
 - `character_select.gd`: karta pokazuje nick postaci, rasę, poziom i krainę.
 - `core-c101` niesie też `scripts/character_select.gd`. APK z oryginalnym filmem `intro.ogv` budowany workflowem `godot-android-apk.yml`.
 - **Nadal brak:** poziom/złoto/ekwipunek w nowym świecie nie są liczone ani zapisywane na serwerze (stan lokalny); to kolejny etap.
+- `1.14.17`: karta postaci pokazuje dodatkowo bieżący postęp z serwera (PD, złoto, liczba umiejętności, zabójstwa/questy, jeśli rekord je ma).
