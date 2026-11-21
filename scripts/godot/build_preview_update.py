@@ -16,7 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 PREFIX = 'service_preview/pyra/'
 # 1.14.13+: the gate script that launches the world as the normal game ships in the same core (APK scripts are overridden).
-HOST_SCRIPTS = ('scripts/service_screen.gd',)
+HOST_SCRIPTS = ('scripts/service_screen.gd', 'scripts/character_select.gd')
 ALLOWED = ('res://'+PREFIX, 'res://.godot/imported/')+tuple('res://'+h for h in HOST_SCRIPTS)
 
 

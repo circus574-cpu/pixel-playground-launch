@@ -131,13 +131,13 @@ func make_card(entry: Dictionary) -> Control:
 	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.add_child(picture)
 	var name := Label.new()
-	name.text = str(data.raceName).to_upper()
+	name.text = (str(entry.name).to_upper() if str(entry.get("name","")) != "" else str(data.raceName).to_upper())
 	name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	Look.style_heading(name, 28)
 	name.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.add_child(name)
 	var info := Label.new()
-	info.text = "poziom %d · %s\nostatnio: %s" % [int(entry.level), land_name(str(entry.land)), when(int(entry.time))]
+	info.text = ("%s · " % str(data.raceName) if str(entry.get("name","")) != "" else "") + "poziom %d · %s\nostatnio: %s" % [int(entry.level), land_name(str(entry.land)), when(int(entry.time))]
 	info.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	info.add_theme_font_size_override("font_size", 18)
 	info.add_theme_color_override("font_color", Color("e1d4c4"))

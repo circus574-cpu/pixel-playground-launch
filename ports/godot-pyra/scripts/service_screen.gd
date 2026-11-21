@@ -120,38 +120,149 @@ func open_world(full: bool) -> void:
 		char_id=chosen
 	spawn_world(full)
 
-## The account's heroes of this device (scripts/characters.gd); none yet opens the race choice. Returns the character id or "".
+## The account's heroes: the characters of the server account (the same as in the browser, GET /ws/characters) plus the ones only on
+## this device. A hero made here is created on the server (POST /ws/characters: nick and race). Returns the local slot id or "".
 func choose_character() -> String:
 	var Chars=load("res://scripts/characters.gd")
-	var list: Array=Chars.list()
-	if list.is_empty():
-		return await create_character(Chars)
-	page.hide()
-	var view=load("res://scripts/character_select.gd").new()
-	view.setup(list,"")
-	char_view=view
-	add_child(view)
-	var result:=[""]
-	view.picked.connect(func(id:String)->void:result[0]=id;view.queue_free())
-	view.new_character.connect(func()->void:result[0]="#new";view.queue_free())
-	await view.tree_exited
-	char_view=null
-	if result[0]=="#new":return await create_character(Chars)
-	if result[0]=="":page.show()
-	return str(result[0])
+	var online=KiNet.online()
+	var server: Dictionary={}
+	if online.logged_in():
+		var answer: Dictionary=await online.request(HTTPClient.METHOD_GET,"/ws/characters")
+		if int(answer.get("status",0))==200 and answer.get("json") is Dictionary:
+			for record in (answer.json as Dictionary).get("characters",[]):
+				if record is Dictionary:server["srv-"+str(record.get("id",""))]=record
+		else:
+			notice("Nie udało się pobrać postaci z serwera. Spróbuj ponownie.")
+	while true:
+		var roster: Array[Dictionary]=[]
+		for id in server:
+			var player: Dictionary=(server[id] as Dictionary).get("state",{}).get("player",{})
+			var race:=str(player.get("race","legend"))
+			if not HOME.has(race):continue
+			roster.append({"id":id,"race":race,"level":int(player.get("level",1)),"land":HOME[race],"time":int(Time.get_unix_time_from_system()),"cloudSlot":0,"name":str(player.get("name",""))})
+		for entry in Chars.list():
+			if not server.has(str(entry.id)):roster.append(entry)
+		if roster.is_empty():
+			var made:=await create_character(Chars,server)
+			if made=="":return ""
+			continue
+		page.hide()
+		var view=load("res://scripts/character_select.gd").new()
+		view.setup(roster,"")
+		char_view=view
+		add_child(view)
+		var result:=[""]
+		view.picked.connect(func(id:String)->void:result[0]=id;view.queue_free())
+		view.new_character.connect(func()->void:result[0]="#new";view.queue_free())
+		await view.tree_exited
+		char_view=null
+		if result[0]=="":
+			page.show()
+			return ""
+		if result[0]=="#new":
+			var made:=await create_character(Chars,server)
+			if made!="":return made
+			continue
+		return adopt_server_character(Chars,server,str(result[0]))
+	return ""
 
-func create_character(Chars) -> String:
+## A server character becomes a local slot (kept: progress already made on the device is not overwritten).
+func adopt_server_character(Chars,server: Dictionary,id: String) -> String:
+	if not server.has(id):return id
+	if Chars.read(Chars.slot_path(id)).is_empty():
+		var player: Dictionary=(server[id] as Dictionary).get("state",{}).get("player",{})
+		var race:=str(player.get("race","legend"))
+		Chars.write(Chars.slot_path(id),{"characterId":id,"race":race,"land":HOME.get(race,"pyra"),"name":str(player.get("name","")),"kit":{"level":int(player.get("level",1))},"gold":int(player.get("gold",20)),"cloudSlot":0})
+	return id
+
+func create_character(Chars,server: Dictionary) -> String:
 	page.hide()
-	var view:=RaceScreen.new()
-	view.setup(false)
+	var view=RaceScreen.new()
+	view.setup(true)
 	char_view=view
 	add_child(view)
-	var race:String=await view.chosen
+	var race:=[""]
+	view.chosen.connect(func(r:String)->void:race[0]=r)
+	view.closed.connect(func()->void:race[0]="#back")
+	while race[0]=="":await get_tree().process_frame
 	view.queue_free()
 	char_view=null
+	if race[0]=="#back":return ""
+	var nick:=await ask_name(str(race[0]))
+	if nick=="":return ""
+	var online=KiNet.online()
+	if online.logged_in():
+		var created: Dictionary=await online.request(HTTPClient.METHOD_POST,"/ws/characters",{"race":race[0],"name":nick})
+		if int(created.get("status",0))==201 and created.get("json") is Dictionary:
+			var record: Dictionary=created.json
+			var rid:="srv-"+str(record.get("id",""))
+			server[rid]=record
+			Chars.write(Chars.slot_path(rid),{"characterId":rid,"race":race[0],"land":HOME[race[0]],"name":nick,"kit":{"level":1},"gold":20,"cloudSlot":0})
+			return rid
+		notice(PyraOnline.message_of(created,"Serwer nie utworzył postaci (nick zajęty lub niedozwolony)."))
+		return ""
 	var id:String=Chars.new_id()
-	Chars.write(Chars.slot_path(id),{"characterId":id,"race":race,"land":HOME[race],"kit":{"level":1},"gold":20,"cloudSlot":0})
+	Chars.write(Chars.slot_path(id),{"characterId":id,"race":race[0],"land":HOME[race[0]],"name":nick,"kit":{"level":1},"gold":20,"cloudSlot":0})
 	return id
+
+## The nick of a new hero: a full-screen form; "" when the player goes back.
+func ask_name(race: String) -> String:
+	var overlay:=Control.new()
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var back:=ColorRect.new()
+	back.color=Color("0a101b")
+	back.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(back)
+	var box:=VBoxContainer.new()
+	box.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	box.grow_horizontal=Control.GROW_DIRECTION_BOTH
+	box.grow_vertical=Control.GROW_DIRECTION_BOTH
+	box.custom_minimum_size=Vector2(620,0)
+	box.add_theme_constant_override("separation",18)
+	overlay.add_child(box)
+	var title:=Label.new()
+	title.text="NICK POSTACI · "+str({"legend":"LEGENDA","planetary":"PLANETARNY","sage":"MĘDRZEC","android":"ANDROID"}.get(race,race))
+	title.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size",30)
+	box.add_child(title)
+	var field:=LineEdit.new()
+	field.placeholder_text="Wpisz nick (3–16 znaków)"
+	field.max_length=16
+	field.custom_minimum_size=Vector2(0,84)
+	field.add_theme_font_size_override("font_size",26)
+	box.add_child(field)
+	var done:=[false,""]
+	var ok:=Button.new()
+	ok.text="UTWÓRZ POSTAĆ"
+	ok.custom_minimum_size=Vector2(0,84)
+	ok.add_theme_font_size_override("font_size",24)
+	ok.pressed.connect(func()->void:
+		if field.text.strip_edges().length()<3:
+			title.text="NICK MUSI MIEĆ MIN. 3 ZNAKI"
+			return
+		done[1]=field.text.strip_edges();done[0]=true)
+	box.add_child(ok)
+	var cancel:=Button.new()
+	cancel.text="WSTECZ"
+	cancel.custom_minimum_size=Vector2(0,72)
+	cancel.add_theme_font_size_override("font_size",22)
+	cancel.pressed.connect(func()->void:done[0]=true)
+	box.add_child(cancel)
+	add_child(overlay)
+	while not done[0]:await get_tree().process_frame
+	overlay.queue_free()
+	return str(done[1])
+
+func notice(text: String) -> void:
+	var note:=Label.new()
+	note.text=text
+	note.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	note.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	note.add_theme_font_size_override("font_size",22)
+	note.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	note.offset_top=-140
+	add_child(note)
+	get_tree().create_timer(5.0).timeout.connect(note.queue_free)
 
 func spawn_world(full: bool) -> void:
 	full_mode=full

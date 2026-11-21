@@ -308,3 +308,10 @@ Zastąpiono filmowy pasek ładowania **prawdziwym, żywym panelem ładowania** z
 - `service_screen.gd`, `world.gd`, `rpg_hud.gd`: wybrana rasa postaci (`start_race` → `hero_race_land` / `hero_land`) jest zablokowana od startu — teleportacja między kontynentami nie zmienia już wyglądu bohatera, portretu, nazwy ani drzewka skilli.
 - `rpg_hud.gd`: usunięto testowy górny pasek nawigacji prototypu (`PYRA · VERDANTIA · AETHERIA · NEXUS-9 · STOLICA · WAROWNIE`), który wisiał na ekranie w normalnej grze.
 - Weryfikacja QA (`ISO_WORLD_QA_OK`, `0` błędów) i publikacja `1.14.15` (`test_base=1.14.14`).
+
+## 22. Postacie konta z serwera, nick i rasa przy tworzeniu, `1.14.16` (2026-11-21)
+
+- `service_screen.gd`: po zalogowaniu lista postaci pochodzi z serwera (`GET /ws/characters`, te same postacie co w przeglądarce) plus postacie lokalne; `NOWA POSTAĆ` → wybór rasy → nick → `POST /ws/characters` (tworzy postać na serwerze). Błąd serwera (nick zajęty, konserwacja) jest pokazywany na ekranie.
+- `character_select.gd`: karta pokazuje nick postaci, rasę, poziom i krainę.
+- `core-c101` niesie też `scripts/character_select.gd`. APK z oryginalnym filmem `intro.ogv` budowany workflowem `godot-android-apk.yml`.
+- **Nadal brak:** poziom/złoto/ekwipunek w nowym świecie nie są liczone ani zapisywane na serwerze (stan lokalny); to kolejny etap.
