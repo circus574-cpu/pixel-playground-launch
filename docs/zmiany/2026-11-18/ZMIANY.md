@@ -1,6 +1,6 @@
 # Zmiany — 2026-11-18
 
-## 1. Świat Izometryczny 2D, 4 Stolice Kontynentów i Atlas Planety Superior (`ports/godot-isometric-world`)
+### 1. Świat Izometryczny 2D, 4 Stolice Kontynentów i Atlas Planety Superior (`ports/godot-isometric-world`)
 
 Zbudowano i zweryfikowano na podzie GPU właściciela (**RunPod NVIDIA A40 48 GB VRAM, 50 GB RAM**) kompletny, wieloregionowy świat izometryczny 2D w **Godot 4.6.3 + GDScript** wraz z potokiem **Terrain3D + ProtonScatter + Blender 4.0.2 Python API + FastNoiseLite + NumPy/SciPy + Pillow/OpenCV**:
 
@@ -36,7 +36,7 @@ Zbudowano i zweryfikowano na podzie GPU właściciela (**RunPod NVIDIA A40 48 GB
     - `planet-atlas.jpg`
     - `map-3d.jpg`
 
-## 2. Faza A + Faza C — Pełne Kontynenty `1024 × 1024 m`, Generator Dróg Spline, 24 Expowiska, Żywa Woda/Jeziora/Oceany/Lawa, 99 Animowanych Bytów i Rzeczywisty Globus 3D (`ports/godot-isometric-world`)
+### 2. Faza A + Faza C — Pełne Kontynenty `1024 × 1024 m`, Generator Dróg Spline, 24 Expowiska, Żywa Woda/Jeziora/Oceany/Lawa, 99 Animowanych Bytów i Rzeczywisty Globus 3D (`ports/godot-isometric-world`)
 
 Zgodnie z wytycznymi właściciela przebudowano wszystkie 4 kontynenty w `ports/godot-isometric-world` oraz generator `scripts/gpu/gen_world_topography.py`:
 
@@ -61,7 +61,7 @@ Zgodnie z wytycznymi właściciela przebudowano wszystkie 4 kontynenty w `ports/
 - **Rzeczywisty Globus 3D Planety Superior (`scripts/globe_view.gd` + `scripts/atlas_overlay.gd`):**
   - Pod klawiszem `[G]` zintegrowano prawdziwą kulę 3D (`globe-color.webp`) z animowaną warstwą chmur (`globe-clouds.webp`), odblaskiem słońca na oceanach, niebieską atmosferą Fresnela, tłem kosmosu (`space.jpg`), obrysami poligonowymi kontynentów i wysp (`data/map.json`), napisami 3D Cinzel oraz obrotem `360°` i wyborem kontynentu promieniem 3D (`raycast`). Pod klawiszem `[Tab]` udostępniono malowany Atlas 2D (`assets/map/atlas.webp`), a pod `[M]` obrotową Mapę 3D całego kontynentu `1024 × 1024 m`.
 
-## 3. Pakiet Graficzny i Kartograficzny Klasy Premium (CPU + `generate_image` + Godot 4.6.3)
+### 3. Pakiet Graficzny i Kartograficzny Klasy Premium (CPU + `generate_image` + Godot 4.6.3)
 
 Bez użycia instancji GPU wdrożono i zweryfikowano w Godot 4.6.3 cztery ulepszenia klasy premium:
 
@@ -77,7 +77,7 @@ Bez użycia instancji GPU wdrożono i zweryfikowano w Godot 4.6.3 cztery ulepsze
   - Dodano mapowanie pozycji bohatera na żywo (`hero_atlas_pos()` + `globe.set_player_atlas()`) na obu widokach, kartograficzną siatkę współrzędnych, różę wiatrów, spójne obrysy linii brzegowych z `data/map.json` oraz kartę telemetrii aktywnego kontynentu.
   - Weryfikacja Godot 4.6.3 (`--qa`, 11 zrzutów ekranu): `0` błędów, `0` ostrzeżeń silnika, `ISO_WORLD_QA_OK`.
 
-## 4. Kanoniczne Mapy 2D/3D zgodne ze wzorcem + Etap 3 (Atmosfera i Pogoda) + Etap 4 (HUD Action-RPG i Drzewko 29 Węzłów)
+### 4. Kanoniczne Mapy 2D/3D zgodne ze wzorcem + Etap 3 (Atmosfera i Pogoda) + Etap 4 (HUD Action-RPG i Drzewko 29 Węzłów)
 
 Po przeglądzie wzorca kartograficznego właściciela (`1794997646341.jpg`) całkowicie przebudowano wszystkie mapy 2D/3D oraz wdrożono Etap 3 i Etap 4:
 
@@ -96,7 +96,7 @@ Po przeglądzie wzorca kartograficznego właściciela (`1794997646341.jpg`) cał
 - **Weryfikacja QA (`Godot 4.6.3 --qa`, 13 zrzutów ekranu):**
   - Wygenerowano i zweryfikowano wizualnie wszystkie zrzuty w `docs/zmiany/2026-11-18/qa/isometric-world/` (w tym `planet-atlas.jpg`, `globe-3d.jpg`, `map-3d.jpg`, `map-3d-verdant.jpg`, `talent-tree.jpg` oraz widoki wszystkich 4 stolic i expowisk): `ISO_WORLD_QA_OK`, `0` błędów.
 
-## 5. Przebudowa AAA: Spójna Architektura 4 Stolic, Ozdobny HUD Action-RPG + Konstelacja 29 Węzłów (`[K]`) + Karta Postaci (`[I]`) oraz Rozbudowane Trakty Dzikich Kontynentów
+### 5. Przebudowa AAA: Spójna Architektura 4 Stolic, Ozdobny HUD Action-RPG + Konstelacja 29 Węzłów (`[K]`) + Karta Postaci (`[I]`) oraz Rozbudowane Trakty Dzikich Kontynentów
 
 Zgodnie z bezpośrednią uwagą właściciela (bez uruchamiania i bez jakiejkolwiek ingerencji w instancję GPU, przy pełnym zachowaniu zaakceptowanych kanonicznych map `minimap_hq.png`, `planet_real_world.png` i `globe-real-world.webp`) wykonano 3-częściową przebudowę wizualną `ports/godot-isometric-world`:
 
@@ -115,7 +115,7 @@ Zgodnie z bezpośrednią uwagą właściciela (bez uruchamiania i bez jakiejkolw
   - Zaktualizowano `scripts/world.gd` o automatyczne zrzuty `wilderness-road.jpg` i `character-sheet.jpg`.
   - Końcowy przebieg `Godot_v4.6.3-stable_linux.x86_64 -- --qa`: `ISO_WORLD_QA_OK`, kod wyjścia `0`, `0` błędów GDScript i shaderów, `0` ostrzeżeń o wyciekach RID/obiektów; wizualnie zweryfikowano wszystkie 15 zrzutów w `docs/zmiany/2026-11-18/qa/isometric-world/` oraz spójność zasobów (`0` brakujących sprite'ów i ikon).
 
-## 6. Zgodność Świata 1:1 z Kanonicznymi Mapami, Zimowa Aetheria i Biblioteka 56 Zasobów Zapasowych (RTX 6000 Ada + Blender 4.5.3 + PBR), Mosty Kierunkowe, Mobilny HUD Wild Rift i Polska Typografia Latin-Ext
+### 6. Zgodność Świata 1:1 z Kanonicznymi Mapami, Zimowa Aetheria i Biblioteka 56 Zasobów Zapasowych (RTX 6000 Ada + Blender 4.5.3 + PBR), Mosty Kierunkowe, Mobilny HUD Wild Rift i Polska Typografia Latin-Ext
 
 Po bezpośredniej weryfikacji właściciela na uruchomionym przez właściciela podzie **RTX 6000 Ada 48 GB** (bez żadnej ingerencji w cykl życia podu GPU) przeprowadzono pełną synchronizację grywalnego świata izometrycznego z zaakceptowanymi mapami oraz kompletny pakiet poprawek UX/HUD i zasobów zapasowych:
 
@@ -134,7 +134,7 @@ Po bezpośredniej weryfikacji właściciela na uruchomionym przez właściciela 
 - **Weryfikacja końcowa QA (`Godot 4.6.3 --qa`, 16 zrzutów ekranu):**
   - Przebieg `Godot_v4.6.3-stable_linux.x86_64 -- --qa`: `ISO_WORLD_QA_OK`, `0` błędów silnika/GDScript/shaderów, `0` wycieków RID, `projection_roundtrip_error_m = 0.0`. Zaktualizowano wszystkie 16 zrzutów (w tym nowy `pyra-bridge.jpg`) oraz `results.json` w `docs/zmiany/2026-11-18/qa/isometric-world/` i zweryfikowano wizualnie każdy kadr.
 
-## 7. Monumentalne Proporcje Budynków (≥3× względem Postaci), Drogi do Każdego Wejścia, Dynamiczna Obracana Minimapa oraz Progresywny Zoom Map 2D/3D (Wszystkie Drogi, Symbole Stolic/Miast i Punkty Budynków Użytkowych)
+### 7. Monumentalne Proporcje Budynków (≥3× względem Postaci), Drogi do Każdego Wejścia, Dynamiczna Obracana Minimapa oraz Progresywny Zoom Map 2D/3D (Wszystkie Drogi, Symbole Stolic/Miast i Punkty Budynków Użytkowych)
 
 Bez ponownego używania podu GPU wdrożono i zweryfikowano w **Godot 4.6.3** kolejny pakiet poprawek właściciela:
 
@@ -152,7 +152,7 @@ Bez ponownego używania podu GPU wdrożono i zweryfikowano w **Godot 4.6.3** kol
 - **Weryfikacja QA (`Godot 4.6.3 --qa`, 18 zrzutów ekranu):**
   - `ISO_WORLD_QA_OK`, kod wyjścia `0`, `0` błędów GDScript/shaderów, `0` wycieków RID; zweryfikowano wizualnie wszystkie 18 zrzutów, w tym nowe `planet-atlas-zoom.jpg` (`4.6×`) oraz `map-3d-zoom.jpg` (`3.2×`).
 
-## 8. Planarna sieć dróg A*, 0 budynków na drogach, pojedyncze mosty, usunięcie przedwczesnych spawnów i malowane medaliony mapowe (2026-11-19)
+### 8. Planarna sieć dróg A*, 0 budynków na drogach, pojedyncze mosty, usunięcie przedwczesnych spawnów i malowane medaliony mapowe (2026-11-19)
 
 - **Planarna sieć dróg A* zamiast nakładających się splajnów (`scripts/gpu/gen_world_topography.py`):**
   - Zastąpiono niezależne krzywe Catmull-Rom 256×256 routerem planarnym A* (`4 m/komórkę`), w którym ocean, szerokie rzeki/jeziora oraz fundamenty wszystkich budynków z kołnierzem bezpieczeństwa (`r_foot + 10.5 m`) są bezwzględnie nieprzejezdne.
@@ -172,7 +172,7 @@ Bez ponownego używania podu GPU wdrożono i zweryfikowano w **Godot 4.6.3** kol
   - `TOPOGRAPHY_1TO1_AUDIT_PASS` (Pyra / Verdantia / Aetheria / Nexus-9): `BUILDINGS_ON_LIQUID = 0`, `BUILDINGS_ON_ROAD = 0`, `BUILDING_OVERLAPS = 0`, `BRIDGE_CLUSTERS = 0`, `MONSTERS_COUNT = 0`, `EXP_ZONES_COUNT = 0`, `AETHER_SUMMER_ON_SNOW = 0`, `MISSING_SPRITES = 0`.
   - `ISO_WORLD_QA_OK` (Godot 4.6.3, 18 zrzutów ekranu): `0` błędów GDScript/shaderów, `0` wycieków RID; nowe zrzuty zewnętrznych warowni [pyra-town.jpg](qa/pyra-town.jpg), [verdant-town.jpg](qa/verdant-town.jpg), [aether-town.jpg](qa/aether-town.jpg), [nexus-town.jpg](qa/nexus-town.jpg) oraz odświeżone mapy i mosty [planet-atlas.jpg](qa/planet-atlas.jpg), [planet-atlas-zoom.jpg](qa/planet-atlas-zoom.jpg), [map-3d.jpg](qa/map-3d.jpg), [map-3d-zoom.jpg](qa/map-3d-zoom.jpg), [pyra-bridge.jpg](qa/pyra-bridge.jpg), [wilderness-road.jpg](qa/wilderness-road.jpg).
 
-## 9. Sieć 53–78 Gładkich Dróg na Kontynent (274 Łącznie), Usunięcie Żółtych Linii w Wodzie i Kalibracja 6-DOF Atlasu 2D (2026-11-19)
+### 9. Sieć 53–78 Gładkich Dróg na Kontynent (274 Łącznie), Usunięcie Żółtych Linii w Wodzie i Kalibracja 6-DOF Atlasu 2D (2026-11-19)
 
 Po przeglądzie zrzutu właściciela (`Screenshot_2026-11-19-17-39-06-30...jpg`) usunięto źródło pływających żółtych linii w oceanie oraz zastąpiono rzadkie łamane trasy A* pełną, gładką i planarną siecią drogową spełniającą wymóg **≥50 dróg na każdy kontynent**:
 
@@ -188,7 +188,7 @@ Po przeglądzie zrzutu właściciela (`Screenshot_2026-11-19-17-39-06-30...jpg`)
 - **Weryfikacja końcowa QA (`Godot 4.6.3 --qa`, 18 zrzutów ekranu):**
   - `ISO_WORLD_QA_OK`, kod wyjścia `0`, `0` błędów GDScript/shaderów, `0` wycieków RID, `projection_roundtrip_error_m = 0.0`; zweryfikowano wizualnie wszystkie odświeżone kadry w `docs/zmiany/2026-11-18/qa/` (w tym `planet-atlas.jpg`, `planet-atlas-zoom.jpg` `3.5×`, `globe-3d.jpg`, `map-3d.jpg`, `map-3d-zoom.jpg`, `map-3d-verdant.jpg`, wszystkie 4 stolice, 4 widoki miast regionalnych oraz mosty `pyra-bridge.jpg` i `wilderness-road.jpg`).
 
-## 10. Wyrównanie Minimapy 1:1 z Kamerą Izometryczną (`ISO`) oraz Pełny Audyt i Naprawa Wszystkich 4 Kontynentów (2026-11-19)
+### 10. Wyrównanie Minimapy 1:1 z Kamerą Izometryczną (`ISO`) oraz Pełny Audyt i Naprawa Wszystkich 4 Kontynentów (2026-11-19)
 
 Po przeglądzie zrzutu właściciela (`IMG_20261119_190937.jpg`) przeprowadzono pełny audyt wszystkich 4 kontynentów oraz wyrównano orientację minimapy z ekranem gry:
 
@@ -201,7 +201,7 @@ Po przeglądzie zrzutu właściciela (`IMG_20261119_190937.jpg`) przeprowadzono 
   - Doprecyzowano kalibrację 6-DOF Aetherii w `ATLAS_WORLD_AFFINE` (`0 / 2 599` wierzchołków dróg w oceanie na `planet_real_world.png`).
   - Weryfikacja: `TOPOGRAPHY_1TO1_AUDIT_PASS`, `ISO_WORLD_QA_OK` (Godot 4.6.3, 18 odświeżonych zrzutów zweryfikowanych wizualnie 1:1 na wszystkich 4 kontynentach), `check_documentation.py` (`PASS`).
 
-## 11. Rozbudowany Panel GM (Teleport Kliknięciem na Mapie, Super Szybkość, Tworzenie Przedmiotów do Plecaka, Punkty Statystyk) i Publikacja Paczki `1.14.5` na Serwer Testowy (2026-11-19)
+### 11. Rozbudowany Panel GM (Teleport Kliknięciem na Mapie, Super Szybkość, Tworzenie Przedmiotów do Plecaka, Punkty Statystyk) i Publikacja Paczki `1.14.5` na Serwer Testowy (2026-11-19)
 
 - **Nowy Panel GM (`ports/godot-isometric-world/scripts/gm_panel.gd`, otwierany przyciskiem `GM` na HUD oraz `[F1]` / `[P]`):**
   - **Teleport kliknięciem punktu na mapie (`atlas_overlay.gd`, `premium_minimap.gd`, `world.gd`):** przycisk `OTWÓRZ MAPĘ 2D I KLIKNIJ PUNKT TELEPORTU` uruchamia tryb `gm_map_teleport_mode` — kliknięcie dowolnego punktu na dowolnym kontynencie odwraca kalibrację 6-DOF (`atlas_to_world()`) i przenosi bohatera dokładnie w ten punkt (`teleport_to_world_pos()` z bezpiecznym dociągnięciem na suchy ląd). Dodatkowo dostępny przełącznik `MINIMAPA KLIK-TP` oraz przyciski szybkiego teleportu do 4 Stolic i wszystkich Warowni bieżącego kontynentu.
@@ -212,7 +212,7 @@ Po przeglądzie zrzutu właściciela (`IMG_20261119_190937.jpg`) przeprowadzono 
   - `ISO_WORLD_QA_OK` (Godot 4.6.3, 19 zrzutów w tym [gm-panel.jpg](qa/gm-panel.jpg) i odświeżony [character-sheet.jpg](qa/character-sheet.jpg)): `0` błędów GDScript/shaderów, `0` wycieków RID.
   - Zbudowano paczkę aktualizacyjną `deliveries/godot-content-1.14.5` (bazującą na `1.14.4`) przez `scripts/godot/build_preview_update.py --gemini --base 1.14.4 --version 1.14.5` i opublikowano na serwer testowy workflowem `godot-content-upload.yml` (`publish=true`, `activate=true`, `test_base=1.14.4`).
 
-## 12. Ergonomia Mobilna Android (`1.14.6`): Kamera 2× Bliżej (`1.25`), Odsłonięcie Menu spod `WRÓĆ · TRYB SERWISOWY`, Duże Przyciski Kciukowe i Wyraźny Przycisk `PANEL GM` (2026-11-19)
+### 12. Ergonomia Mobilna Android (`1.14.6`): Kamera 2× Bliżej (`1.25`), Odsłonięcie Menu spod `WRÓĆ · TRYB SERWISOWY`, Duże Przyciski Kciukowe i Wyraźny Przycisk `PANEL GM` (2026-11-19)
 
 Po teście na telefonie Android właściciela (`Screenshot_2026-11-19-22-04-16-39...jpg`) wprowadzono natychmiastowy pakiet poprawek mobilnych i opublikowano wydanie **`1.14.6`**:
 
@@ -223,7 +223,7 @@ Po teście na telefonie Android właściciela (`Screenshot_2026-11-19-22-04-16-3
   - Powiększono przyciski pod minimapą (`3.2×`, `ISO`, `3D`, `Mapa` → `36 px` wysokości), kule umiejętności Wild Rift (`r = 48/38/34 px`), przyciski Panelu GM (`min_h = 42 px`) oraz przyciski zoomu Atlasu 2D (`56 × 56 px`).
 - **Publikacja `1.14.6` na serwer testowy:** `ISO_WORLD_QA_OK` w rozdzielczości Android 20:9 (`1600×720`), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.6` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.5`).
 
-## 13. Naprawa Dotyku Androida (Double-Toggle), Wyjście `✕ ZAMKNIJ` z Mapy 3D, Globus 3D GLES3, Zatrzymanie Muzyki Ładowania i Kamera `1.75` (`1.14.7`) (2026-11-19)
+### 13. Naprawa Dotyku Androida (Double-Toggle), Wyjście `✕ ZAMKNIJ` z Mapy 3D, Globus 3D GLES3, Zatrzymanie Muzyki Ładowania i Kamera `1.75` (`1.14.7`) (2026-11-19)
 
 Po testach na telefonie Android naprawiono wszystkie 6 zgłoszonych błędów i opublikowano wydanie **`1.14.7`**:
 
@@ -233,7 +233,7 @@ Po testach na telefonie Android naprawiono wszystkie 6 zgłoszonych błędów i 
 - **Zatrzymanie zawieszonej muzyki ładowania i bliższa kamera `1.75` (`world.gd`):** dodano `_stop_lingering_loading_audio()` zatrzymujące odtwarzacz ekranu ładowania po wejściu do świata oraz zwiększono domyślny zoom kamery do **`1.75`** (zakres `0.65 .. 2.80`, ~2,8× bliżej względem bazowego `0.62`).
 - **Publikacja `1.14.7` na serwer testowy:** `ISO_WORLD_QA_OK`, `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.7` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.6`).
 
-## 14. Chodzone Wnętrza Wszystkich 59 Budynków Używalnych (Sklep, Kuźnia/Crafting, Bank/Depozyt, Karczma, Arena, Ratusz/Cytadela) i Wydanie `1.14.8` (2026-11-19)
+### 14. Chodzone Wnętrza Wszystkich 59 Budynków Używalnych (Sklep, Kuźnia/Crafting, Bank/Depozyt, Karczma, Arena, Ratusz/Cytadela) i Wydanie `1.14.8` (2026-11-19)
 
 Zaimplementowano pełne, chodzone wnętrza 2D (Y-sortowane) dla **wszystkich 59 budynków używalnych** (`enterable: true`) na wszystkich 4 kontynentach (`Pyra: 13`, `Verdantia: 14`, `Aetheria: 16`, `Nexus-9: 16`; łącznie 7 ról: `smithy`, `shop`, `depot`, `inn`, `arena`, `hall`, `landmark`):
 
@@ -244,7 +244,7 @@ Zaimplementowano pełne, chodzone wnętrza 2D (Y-sortowane) dla **wszystkich 59 
   - Działające usługi w budynkach (przycisk dolny lub kliknięcie NPC): **Sklep (`shop`)** — zakup do 15-slotowego plecaka za złoto, **Kuźnia (`smithy`)** — kucie/crafting ekwipunku, **Bank/Depozyt (`depot`)** — 15-slotowy skarbiec + wpłata/wypłata złota, **Karczma (`inn`)** — pełny odpoczynek `100% HP/KI`, **Arena (`arena`)** — trening bojowy (`+60 XP`, reset cooldownów), **Ratusz/Warownia (`hall`/`landmark`)** — kronika i błogosławieństwo.
 - **Weryfikacja QA i publikacja `1.14.8` na serwer testowy:** `ISO_WORLD_QA_OK` (Godot 4.6.3, nowy zrzut [interior-smithy.jpg](qa/interior-smithy.jpg), `0` błędów GDScript/shaderów, `0` wycieków RID), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.8` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.7`).
 
-## 15. Niezasłaniający System Rozmów z NPC „Live-World” (Dymki nad Głowami + Dolny Pasek Dialogowy) i Wydanie `1.14.9` (2026-11-19)
+### 15. Niezasłaniający System Rozmów z NPC „Live-World” (Dymki nad Głowami + Dolny Pasek Dialogowy) i Wydanie `1.14.9` (2026-11-19)
 
 Wdrożono dwuwarstwowy, niezasłaniający gry system rozmów ze wszystkimi 40 NPC na 4 kontynentach oraz NPC usługowymi we wnętrzach budynków (przy zachowaniu pełnego, funkcjonalnego okna sklepu/kuźni/banku):
 
@@ -255,7 +255,7 @@ Wdrożono dwuwarstwowy, niezasłaniający gry system rozmów ze wszystkimi 40 NP
   - Zawiera pigułki odpowiedzi: **`! ZADANIE (+45 XP / +80 zł)`** / **`? ODBIERZ NAGRODĘ`** (rzeczywiste nagrody do `rpg_hud` i czyszczenie znacznika `!`/`?`), **`◆ O REGIONIE`** (lore dla Pyry, Verdantii, Aetherii i Nexus-9), **`◆ OTWÓRZ USŁUGI`** (we wnętrzach — szybkie otwarcie funkcjonalnego okna sklepu/kuźni/banku) oraz **`✕ ŻEGNAJ`**.
 - **Weryfikacja QA i publikacja `1.14.9` na serwer testowy:** `ISO_WORLD_QA_OK` (Godot 4.6.3, nowy zrzut [npc-dialogue.jpg](qa/npc-dialogue.jpg), `0` błędów GDScript/shaderów, `0` wycieków RID), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.9` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.8`).
 
-## 16. Nowy Styl HUD „Wulkaniczny Obsydian i Roztopione Złoto” (9 Grafik Właściciela) i Wydanie `1.14.10` (2026-11-19)
+### 16. Nowy Styl HUD „Wulkaniczny Obsydian i Roztopione Złoto” (9 Grafik Właściciela) i Wydanie `1.14.10` (2026-11-19)
 
 Wdrożono kompletny reskin HUD w oparciu o 9 dostarczonych przez właściciela arkuszy i medalionów w stylu spękanego obsydianu z roztopionym złotem i 4-ramiennymi gwiazdami:
 
@@ -266,7 +266,7 @@ Wdrożono kompletny reskin HUD w oparciu o 9 dostarczonych przez właściciela a
   - Prawy dolny klaster bojowy używa kuli ataku z mieczem (`btn_attack.webp`), kuli wiru `2` (`btn_skill2.webp`) oraz dedykowanej, działającej kuli mikstury leczenia (`btn_potion.webp`, `+40% HP / +30% KI`).
 - **Weryfikacja QA i publikacja `1.14.10` na serwer testowy:** `ISO_WORLD_QA_OK` (Godot 4.6.3, odświeżone [pyra-citadel.jpg](qa/pyra-citadel.jpg) i [npc-dialogue.jpg](qa/npc-dialogue.jpg), `0` błędów, `0` wycieków RID), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.10` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.9`).
 
-## 17. Malowane Wnętrza Budynków Specjalnych z Gry Przeglądarkowej, Czysta Minimapa → Kontynent/Globus i Głębokie Przybliżenie Szczegółów na Globusie 3D (`1.14.11`) (2026-11-20)
+### 17. Malowane Wnętrza Budynków Specjalnych z Gry Przeglądarkowej, Czysta Minimapa → Kontynent/Globus i Głębokie Przybliżenie Szczegółów na Globusie 3D (`1.14.11`) (2026-11-20)
 
 - **24 malowane wnętrza budynków specjalnych/użytkowych z gry przeglądarkowej (`ports/godot-isometric-world/assets/interiors/painted/{pyra,verdant,aether,nexus}-{hall,shop,arena,depot,smithy,inn}.webp` + `data/painted_rooms.json`):** przeniesiono komplet 24 pełnoekranowych malowanych wnętrz z `public/game/interiors/` oraz dokładne kolizje mebli (`wallY`, `blocks`) i pozycje NPC z `src/game/city/paintedRooms.ts` bezpośrednio do `interior_room.gd`.
 - **Czysta minimapa bez dolnego panelu i płynny przełącznik `KONTYNENT / GLOBUS 3D / MAPA 2D` (`premium_minimap.gd`, `map_3d.gd`, `atlas_overlay.gd`):**
@@ -277,7 +277,7 @@ Wdrożono kompletny reskin HUD w oparciu o 9 dostarczonych przez właściciela a
   - Dodano 4-poziomowy LOD 3D na kuli planety: wyostrzenie detalu terenu w shaderze (`zoom_detail`) + zanikanie chmur z bliska (`cloud_alpha`), wszystkie 309 dróg (`≤ 2.85`), etykiety 3D stolic i warowni (`≤ 2.45`), ikony 59 budynków użytkowych (`≤ 2.20`) oraz indywidualne etykiety budynków (`≤ 1.72`).
 - **Weryfikacja QA i publikacja `1.14.11` na serwer testowy:** `ISO_WORLD_QA_OK` (Godot 4.6.3, odświeżone [interior-smithy.jpg](qa/interior-smithy.jpg), [pyra-citadel.jpg](qa/pyra-citadel.jpg), [map-3d.jpg](qa/map-3d.jpg), [globe-3d.jpg](qa/globe-3d.jpg), `0` błędów, `0` wycieków RID), `check_documentation.py` (`PASS`), `deliveries/godot-content-1.14.11` opublikowane i aktywowane (`publish=true`, `activate=true`, `test_base=1.14.10`).
 
-## 18. Prawdziwy Panel Ładowania Gry z Rzeczywistym Paskiem Postępu i Etapami (`loading_screen.gd` + `boot.gd`) i Wydanie `1.14.12` (2026-11-20)
+### 18. Prawdziwy Panel Ładowania Gry z Rzeczywistym Paskiem Postępu i Etapami (`loading_screen.gd` + `boot.gd`) i Wydanie `1.14.12` (2026-11-20)
 
 Zastąpiono filmowy pasek ładowania **prawdziwym, żywym panelem ładowania** zbudowanym na tej samej czystej grafice 4 bohaterów i logo **KI LEGENDS** (`intro-wide.webp` → `assets/ui/loading_bg.webp`):
 
@@ -291,25 +291,25 @@ Zastąpiono filmowy pasek ładowania **prawdziwym, żywym panelem ładowania** z
 
 
 
-## 19. Prototyp jako główna gra + pełny dźwięk (`world_audio.gd`, `service_screen.gd`) i wydanie `1.14.13` (2026-11-20)
+### 19. Prototyp jako główna gra + pełny dźwięk (`world_audio.gd`, `service_screen.gd`) i wydanie `1.14.13` (2026-11-20)
 
 - **Dźwięk w świecie izometrycznym:** `world_audio.gd` odtwarza muzykę per kontynent (Pyra, Verdantia, Aetheria, Nexus-9) z crossfadem, ambient miasta/świata, kroki wg powierzchni, drzwi budynków, otwarcie dialogu i miksturę z plecaka. Pliki mp3 pochodzą z zamontowanych paczek hosta (`assets/audio/...`); gdy ich brak (QA bez hosta), świat milczy bez błędów. `_stop_lingering_loading_audio()` nie zatrzymuje już własnych odtwarzaczy.
 - **Główna gra zamiast trybu serwisowego:** `scripts/service_screen.gd` uruchamia izometryczny świat pełnoekranowo jako normalną grę (przycisk `WEJDŹ DO GRY` oraz wejście przy otwartym serwerze), bez paska `WRÓĆ · TRYB SERWISOWY`; powrót to systemowy przycisk „wstecz”. Przycisk `PROTOTYP IZOMETRYCZNY` nadal otwiera podgląd z paskiem.
 - **Pakowanie:** `build_preview_update.py` dodaje do `core-c101` także nadpisanie `scripts/service_screen.gd` (APK 1.14 dostaje zmianę przez OTA); raport ma `changes_only_preview_namespace=false`, `host_scripts`.
 - **Poprawki:** strażnik `add_child(hud)` w `build_hud()`, `tex_cache.clear()` przy wyjściu.
 
-## 20. Wybór postaci przed startem świata i wydanie `1.14.14` (2026-11-20)
+### 20. Wybór postaci przed startem świata i wydanie `1.14.14` (2026-11-20)
 
 - `service_screen.gd`: `WEJDŹ DO GRY` pokazuje najpierw `character_select.gd` (postacie urządzenia) albo `RaceScreen`, gdy nie ma postaci; świat startuje na kontynencie wybranej postaci (`start_land`, `start_level`, `start_gold` w `world.gd`).
 - Postęp (poziom, złoto, kontynent) zapisuje się co 20 s i przy wyjściu do slotu lokalnego. **Brak:** zapisu w chmurze i autorytatywnego serwera (ekonomia, walka, multiplayer) – to następne etapy; do tego czasu stan liczy klient.
 
-## 21. Blokada rasy przy teleportacji + usunięcie paska prototypu i wydanie `1.14.15` (2026-11-20)
+### 21. Blokada rasy przy teleportacji + usunięcie paska prototypu i wydanie `1.14.15` (2026-11-20)
 
 - `service_screen.gd`, `world.gd`, `rpg_hud.gd`: wybrana rasa postaci (`start_race` → `hero_race_land` / `hero_land`) jest zablokowana od startu — teleportacja między kontynentami nie zmienia już wyglądu bohatera, portretu, nazwy ani drzewka skilli.
 - `rpg_hud.gd`: usunięto testowy górny pasek nawigacji prototypu (`PYRA · VERDANTIA · AETHERIA · NEXUS-9 · STOLICA · WAROWNIE`), który wisiał na ekranie w normalnej grze.
 - Weryfikacja QA (`ISO_WORLD_QA_OK`, `0` błędów) i publikacja `1.14.15` (`test_base=1.14.14`).
 
-## 22. Postacie konta z serwera, nick i rasa przy tworzeniu, `1.14.16` (2026-11-21)
+### 22. Postacie konta z serwera, nick i rasa przy tworzeniu, `1.14.16` (2026-11-21)
 
 - `service_screen.gd`: po zalogowaniu lista postaci pochodzi z serwera (`GET /ws/characters`, te same postacie co w przeglądarce) plus postacie lokalne; `NOWA POSTAĆ` → wybór rasy → nick → `POST /ws/characters` (tworzy postać na serwerze). Błąd serwera (nick zajęty, konserwacja) jest pokazywany na ekranie.
 - `character_select.gd`: karta pokazuje nick postaci, rasę, poziom i krainę.
@@ -317,7 +317,7 @@ Zastąpiono filmowy pasek ładowania **prawdziwym, żywym panelem ładowania** z
 - **Nadal brak:** poziom/złoto/ekwipunek w nowym świecie nie są liczone ani zapisywane na serwerze (stan lokalny); to kolejny etap.
 - `1.14.17`: karta postaci pokazuje dodatkowo bieżący postęp z serwera (PD, złoto, liczba umiejętności, zabójstwa/questy, jeśli rekord je ma).
 
-## 23. Autorytatywny moduł serwerowy ekonomii i postępu Android + pełna edycja kont i postaci w `/admin` (`1.14.18`, 2026-11-21)
+### 23. Autorytatywny moduł serwerowy ekonomii i postępu Android + pełna edycja kont i postaci w `/admin` (`1.14.18`, 2026-11-21)
 
 - **Migracja bazy (`deploy/multiplayer/init/009-godot-android-characters.sql`, `install.sh`, `online-server-qa.yml`):**
   - Nowa idempotentna tabela `godot_android.characters` (UUID, `account_id`, `name`, `race`, `land`, `level`, `gold`, `revision`, `state` JSONB, `browser_character_id`), unikalność nicku bez rozróżniania wielkości liter, uprawnienia dla `ki_game_server`.
@@ -332,3 +332,12 @@ Zastąpiono filmowy pasek ładowania **prawdziwym, żywym panelem ładowania** z
   - Sklep, kuźnia, bank, gospoda, arena, zlecenia, użycie przedmiotów, przydział statystyk, talenty i podróże między kontynentami wysyłają żądania do serwera i stosują wyłącznie stan zwrócony przez serwer.
 - **Weryfikacja:** `npm run typecheck` (wszystkie 3 tsconfigi), `eslint`, `vitest` (`godot-android-economy.test.ts` + `godot-android.test.ts`), `npm run build` (Vite + Nitro), `python3 scripts/docs/check_documentation.py` (`PASS`), Godot 4.6.3 (`--check-only` + `ISO_WORLD_QA_OK`).
 - **Uwaga dot. wdrożenia serwera:** migracja `009-godot-android-characters.sql` oraz nowy kod Node.js/web (`/admin`, `/ws/godot/characters/*`, `/ws/auth/admin/accounts/*`) znajdują się na gałęzi roboczej i wejdą na produkcję dopiero po osobnej decyzji właściciela (zgodnie z zasadami projektu).
+
+### 24. Zadania i cele rozwoju ras (24 rozdziały + 24 cele) oraz szkic rozkładu spawnów 40 potworów (`1.14.19`, 2026-11-21)
+
+- **Serwerowe zadania i cele rozwoju ras (`src/server/godot/goals.ts`, `economy.ts`, `store.ts`, `http.ts`):**
+  - 24 kanoniczne rozdziały dziedzictwa (po 6 na rasę: `H-P01..06`, `H-V01..06`, `H-A01..06`, `H-N01..06`) oraz 24 cele rozwoju rasy (`G-*01..06`: zakupy/zlecenia, kuźnia/ekwipunek, talenty i statystyki, arena, bank, podróż między kontynentami) z serwerowym odbiorem nagród `claim_goal` i endpointem `GET /ws/godot/goals`.
+- **Dziennik w kliencie Android (`ports/godot-isometric-world/scripts/quest_journal.gd`, `rpg_hud.gd`, `world.gd`):**
+  - Przycisk `ZADANIA I CELE` pod `PANEL GM` (oraz klawisz `[J]`) z licznikiem gotowych nagród i dwiema zakładkami: *Rozdziały Dziedzictwa* i *Cele Rozwoju Rasy*.
+- **Szkic rozkładu spawnów 40 potworów do wglądu właściciela:**
+  - Wygenerowano 4 mapy kontynentów + zbiorczy arkusz poglądowy (0 potworów w bezpiecznych stolicach, 10 stref na kontynent, gradacja poziomów `1–4 → 6–10 → 12–16 → 18`) bez wprowadzania spawnów do gry przed akceptacją.

@@ -1244,6 +1244,21 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	c.draw_string_outline(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 37.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.01, 0.96))
 	c.draw_string(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 37.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.92, 0.66))
 
+	# Sculpted Volcanic Obsidian ZADANIA (Racial Quests & Development Goals) Plaque right below PANEL GM!
+	var q_rect := Rect2(14.0, 358.0, 214.0, 56.0)
+	util_hitboxes.append({"rect": q_rect.grow(4.0), "id": "quests"})
+	if plaque_obs != null:
+		c.draw_texture_rect(plaque_obs, q_rect, false)
+	else:
+		_draw_obsidian_plate(c, q_rect, Color(1.0, 0.78, 0.30))
+	var ready_q := 0
+	if world != null and world.get("quest_journal") != null and world.quest_journal.has_method("count_ready"):
+		ready_q = int(world.quest_journal.count_ready())
+	var q_txt := "ZADANIA (%d)" % ready_q if ready_q > 0 else "ZADANIA I CELE"
+	var qtw := f.get_string_size(q_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
+	c.draw_string_outline(f, Vector2(q_rect.position.x + (q_rect.size.x - qtw) * 0.5, q_rect.position.y + 34.0), q_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color(0.02, 0.01, 0.01, 0.96))
+	c.draw_string(f, Vector2(q_rect.position.x + (q_rect.size.x - qtw) * 0.5, q_rect.position.y + 34.0), q_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.56, 0.96, 0.68) if ready_q > 0 else Color(1.0, 0.92, 0.66))
+
 	# Dedicated Quick-Heal Potion Orb (Owner's btn_potion.webp) next to Bottom-Right Combat Cluster!
 	var vs_p := _vp_size()
 	var pot_c := Vector2(vs_p.x - 348.0, vs_p.y - 62.0)
@@ -1850,11 +1865,22 @@ func _handle_primary_tap(p: Vector2) -> bool:
 				"gm":
 					if world != null and world.has_method("toggle_gm_panel"):
 						world.toggle_gm_panel()
+				"quests":
+					if world != null and world.has_method("toggle_quest_journal"):
+						world.toggle_quest_journal()
 				"potion":
-					hero_hp = minf(hero_max_hp, hero_hp + hero_max_hp * 0.40)
-					hero_ki = minf(hero_max_ki, hero_ki + hero_max_ki * 0.30)
-					_sync_bar_uniforms()
-					_refresh_visuals()
+					var used := false
+					for pi in backpack_items.size():
+						var pit: Dictionary = backpack_items[pi]
+						if not pit.is_empty() and pit.has("heal_hp"):
+							use_backpack_slot(pi)
+							used = true
+							break
+					if not used and (world == null or not world.has_method("is_server_authoritative") or not world.is_server_authoritative()):
+						hero_hp = minf(hero_max_hp, hero_hp + hero_max_hp * 0.40)
+						hero_ki = minf(hero_max_ki, hero_ki + hero_max_ki * 0.30)
+						_sync_bar_uniforms()
+						_refresh_visuals()
 			return true
 	return false
 

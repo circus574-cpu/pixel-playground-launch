@@ -14,6 +14,7 @@ const GmPanelScript := preload("res://scripts/gm_panel.gd")
 const InteriorRoomScript := preload("res://scripts/interior_room.gd")
 const DialogueStripScript := preload("res://scripts/dialogue_strip.gd")
 const LoadingScreenScript := preload("res://scripts/loading_screen.gd")
+const QuestJournalScript := preload("res://scripts/quest_journal.gd")
 const StickScript := preload("res://scripts/stick.gd")
 const AudioScript := preload("res://scripts/world_audio.gd")
 const MapStyle := preload("res://scripts/map_style.gd")
@@ -73,6 +74,7 @@ var gm_panel: Control
 var interior_room: Control
 var dialogue_strip: Control
 var loading_screen: Control
+var quest_journal: Control
 var is_booting := false
 var btn_enter_bldg := Button.new()
 var btn_talk_npc := Button.new()
@@ -228,6 +230,8 @@ func apply_server_character(ch: Dictionary) -> void:
 		interior_room.apply_server_bank(st)
 	if dialogue_strip != null and dialogue_strip.has_method("apply_server_quests"):
 		dialogue_strip.apply_server_quests(st)
+	if quest_journal != null and quest_journal.has_method("apply_server_goals") and ch.has("goals") and ch["goals"] is Array:
+		quest_journal.apply_server_goals(ch["goals"] as Array)
 
 func dispatch_server_action(payload: Dictionary, on_done: Callable = Callable()) -> bool:
 	if not is_server_authoritative():
@@ -793,6 +797,10 @@ func build_hud() -> void:
 	rpg_hud = RpgHudScript.new()
 	rpg_hud.world = self
 	hud.add_child(rpg_hud)
+	quest_journal = QuestJournalScript.new()
+	quest_journal.world = self
+	quest_journal.z_index = 45
+	hud.add_child(quest_journal)
 
 	premium_minimap = PremiumMinimapScript.new()
 	premium_minimap.world = self
@@ -1015,6 +1023,10 @@ func layout_minimap() -> void:
 	var talk_y := (vp.y - 208.0) if btn_enter_bldg.visible else (vp.y - 148.0)
 	btn_talk_npc.position = Vector2((vp.x - tw) * 0.5, talk_y)
 	btn_talk_npc.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_npc_agent.is_empty()
+
+func toggle_quest_journal() -> void:
+	if quest_journal != null:
+		quest_journal.toggle_journal()
 
 func toggle_gm_panel(force_open: Variant = null) -> void:
 	if in_interior:

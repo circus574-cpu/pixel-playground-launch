@@ -18,6 +18,7 @@ import {
   type AndroidLand,
   type AndroidRace,
 } from "./economy";
+import { listGoalsForCharacter } from "./goals";
 
 export type Settings = {
   activeVersion: string | null;
@@ -545,6 +546,7 @@ function toCharacterView(r: CharacterDbRow): AndroidCharacterView {
   const land = r.land as AndroidLand;
   const state = normalizeAndroidState(r.state, race, r.level);
   const stats = computeAndroidStats(race, r.level, state);
+  const goals = listGoalsForCharacter({ race, land, level: r.level, state });
   return {
     id: r.id,
     accountId: r.account_id,
@@ -558,6 +560,7 @@ function toCharacterView(r: CharacterDbRow): AndroidCharacterView {
     revision: Number(r.revision),
     state,
     stats,
+    goals,
     browserCharacterId: r.browser_character_id,
     createdAt: r.created_at.toISOString(),
     updatedAt: r.updated_at.toISOString(),

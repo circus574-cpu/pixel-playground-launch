@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { RACE_BASE } from "../../game/kit/nodes.generated";
 import type { RaceId } from "../../game/world/races";
+import { ANDROID_GOALS_MAP, evaluateGoalForCharacter, type AndroidGoalProgressView } from "./goals";
 
 export const ANDROID_RACES = ["legend", "planetary", "sage", "android"] as const;
 export type AndroidRace = (typeof ANDROID_RACES)[number];
@@ -268,6 +269,13 @@ export type StatKey = (typeof STAT_KEYS)[number];
 
 export type ItemStack = { id: string; qty: number };
 
+export type AndroidProgressState = {
+  visitedLands: AndroidLand[];
+  craftedCount: number;
+  arenaCount: number;
+  shopCount: number;
+};
+
 export type AndroidHeroState = {
   version: 1;
   xp: number;
@@ -283,6 +291,7 @@ export type AndroidHeroState = {
   bankItems: (ItemStack | null)[];
   completedQuests: Record<string, string>;
   lastArenaAt: number;
+  progress: AndroidProgressState;
 };
 
 export type AndroidComputedStats = {
@@ -308,6 +317,7 @@ export type AndroidCharacterView = {
   revision: number;
   state: AndroidHeroState;
   stats: AndroidComputedStats;
+  goals?: AndroidGoalProgressView[];
   browserCharacterId: string | null;
   createdAt: string;
   updatedAt: string;
@@ -328,6 +338,7 @@ export class AndroidEconomyError extends Error {
       | "NO_SKILL_POINTS"
       | "NODE_ALREADY_UNLOCKED"
       | "QUEST_ALREADY_COMPLETED"
+      | "GOAL_NOT_MET"
       | "ARENA_COOLDOWN"
       | "FORBIDDEN"
       | "NAME_TAKEN"
@@ -451,6 +462,12 @@ export function createInitialAndroidState(
     bankItems,
     completedQuests: {},
     lastArenaAt: 0,
+    progress: {
+      visitedLands: [HOME_LAND_BY_RACE[race]],
+      craftedCount: 0,
+      arenaCount: 0,
+      shopCount: 0,
+    },
   };
   const stats = computeAndroidStats(race, level, state);
   state.hp = stats.maxHp;
@@ -524,6 +541,20 @@ export function normalizeAndroidState(
     if (k.length <= 80 && typeof v === "string") completedQuests[k] = v.slice(0, 40);
   }
 
+  const progRaw = (
+    r["progress"] && typeof r["progress"] === "object" ? r["progress"] : {}
+  ) as Record<string, unknown>;
+  const rawLands = Array.isArray(progRaw["visitedLands"]) ? progRaw["visitedLands"] : [];
+  const visitedLands = Array.from(
+    new Set<AndroidLand>([
+      HOME_LAND_BY_RACE[race],
+      ...rawLands.filter(
+        (l): l is AndroidLand =>
+          typeof l === "string" && (ANDROID_LANDS as readonly string[]).includes(l),
+      ),
+    ]),
+  );
+
   const state: AndroidHeroState = {
     version: 1,
     xp: clampInt(r["xp"], 0, 10_000_000, 0),
@@ -539,6 +570,12 @@ export function normalizeAndroidState(
     bankItems: normalizeSlots(r["bankItems"], BANK_SIZE),
     completedQuests,
     lastArenaAt: clampInt(r["lastArenaAt"], 0, Number.MAX_SAFE_INTEGER, 0),
+    progress: {
+      visitedLands,
+      craftedCount: clampInt(progRaw["craftedCount"], 0, 1_000_000, 0),
+      arenaCount: clampInt(progRaw["arenaCount"], 0, 1_000_000, 0),
+      shopCount: clampInt(progRaw["shopCount"], 0, 1_000_000, 0),
+    },
   };
 
   const stats = computeAndroidStats(race, level, state);
@@ -661,6 +698,7 @@ export const androidActionSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("inn_rest") }).strict(),
   z.object({ type: z.literal("arena_train") }).strict(),
   z.object({ type: z.literal("quest_complete"), questId: z.string().min(1).max(80) }).strict(),
+  z.object({ type: z.literal("claim_goal"), goalId: z.string().min(1).max(40) }).strict(),
   z.object({ type: z.literal("travel"), land: z.enum(ANDROID_LANDS) }).strict(),
   z
     .object({
@@ -728,6 +766,7 @@ export function applyAndroidAction(
       if (!addItemToSlots(state.backpack, def.id, 1))
         throw new AndroidEconomyError("BACKPACK_FULL", "Plecak jest pełny (15/15)!");
       gold -= def.shopPrice;
+      state.progress.shopCount += 1;
       notice = `Kupiono: ${def.name} (-${def.shopPrice} zł)`;
       break;
     }
@@ -758,6 +797,7 @@ export function applyAndroidAction(
       if (!addItemToSlots(state.backpack, def.id, 1))
         throw new AndroidEconomyError("BACKPACK_FULL", "Brak miejsca w plecaku!");
       gold -= def.craftCost;
+      state.progress.craftedCount += 1;
       notice = `Wykuto w kuźni: ${def.name} (-${def.craftCost} zł)`;
       break;
     }
@@ -890,6 +930,7 @@ export function applyAndroidAction(
           "Odpocznij chwilę przed kolejnym treningiem (5 s).",
         );
       state.lastArenaAt = nowMs;
+      state.progress.arenaCount += 1;
       const res = grantXp(current.race, level, state, ARENA_XP_REWARD);
       level = res.level;
       notice = res.leveledUp
@@ -915,8 +956,44 @@ export function applyAndroidAction(
       break;
     }
 
+    case "claim_goal": {
+      const goal = ANDROID_GOALS_MAP.get(action.goalId);
+      if (!goal) throw new AndroidEconomyError("UNKNOWN_ITEM", "Nieznany cel rozwoju.");
+      const check = evaluateGoalForCharacter(goal, {
+        race: current.race,
+        land,
+        level,
+        state,
+      });
+      if (check.status === "claimed")
+        throw new AndroidEconomyError(
+          "QUEST_ALREADY_COMPLETED",
+          "Ten cel lub rozdział został już ukończony.",
+        );
+      if (check.status !== "ready")
+        throw new AndroidEconomyError("GOAL_NOT_MET", check.progressText);
+
+      state.completedQuests[goal.id] = new Date(nowMs).toISOString();
+      gold = Math.min(MAX_GOLD, gold + goal.goldReward);
+      if (goal.statPointsReward) state.freeStatPoints += goal.statPointsReward;
+      if (goal.skillPointsReward) state.skillPoints += goal.skillPointsReward;
+      const res = grantXp(current.race, level, state, goal.xpReward);
+      level = res.level;
+      const extras: string[] = [];
+      if (goal.statPointsReward) extras.push(`+${goal.statPointsReward} pkt stat.`);
+      if (goal.skillPointsReward) extras.push(`+${goal.skillPointsReward} pkt skilli`);
+      const extraStr = extras.length > 0 ? `, ${extras.join(", ")}` : "";
+      notice = res.leveledUp
+        ? `${goal.title} — ukończono (+${goal.xpReward} PD, +${goal.goldReward} zł${extraStr}) — AWANS na poziom ${level}!`
+        : `${goal.title} — ukończono! +${goal.xpReward} PD, +${goal.goldReward} zł${extraStr}.`;
+      break;
+    }
+
     case "travel": {
       land = action.land;
+      if (!state.progress.visitedLands.includes(land)) {
+        state.progress.visitedLands.push(land);
+      }
       notice = `Podróż do kontynentu: ${land}`;
       break;
     }

@@ -6,6 +6,7 @@ import { ContentError, PACK_FILE_PATTERN, VERSION_PATTERN } from "./contentFiles
 import { RevisionConflict, type GodotStore } from "./store";
 import { MAX_SAVE_SLOT, PLAYER_SAVE_SLOTS, SaveRejected } from "./saveRules";
 import { ANDROID_ITEM_CATALOG, AndroidEconomyError } from "./economy";
+import { ANDROID_GOALS_CATALOG } from "./goals";
 import { SERVICE_MESSAGE } from "../serviceAccess";
 
 export type GodotHttpDeps = {
@@ -251,6 +252,13 @@ export async function godotHttp(
     /* ------------------- authoritative Android characters ------------------- */
     if (method === "GET" && path === "/catalog") {
       return send(200, { items: ANDROID_ITEM_CATALOG });
+    }
+    if (method === "GET" && path === "/goals") {
+      const race = url.searchParams.get("race");
+      const goals = race
+        ? ANDROID_GOALS_CATALOG.filter((g) => g.race === race)
+        : ANDROID_GOALS_CATALOG;
+      return send(200, { goals });
     }
     if (path === "/characters") {
       const who = subject();

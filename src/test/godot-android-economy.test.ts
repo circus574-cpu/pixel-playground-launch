@@ -198,4 +198,66 @@ describe("Android authoritative economy & progression engine", () => {
     expect(patched.state.bankGold).toBe(10000);
     expect(patched.state.bonusStats.atk).toBe(10);
   });
+
+  it("enforces racial heritage chapters and development goals server-side", () => {
+    const hero = freshHero("legend", 500);
+    // Chapter 2 blocked before Chapter 1 & Lv.4
+    expect(() =>
+      applyAndroidAction(hero, { type: "claim_goal", goalId: "H-P02" }, { isStaff: false }),
+    ).toThrowError(AndroidEconomyError);
+
+    // Chapter 1 succeeds for Legend Lv.1
+    const ch1 = applyAndroidAction(
+      hero,
+      { type: "claim_goal", goalId: "H-P01" },
+      { isStaff: false },
+    );
+    expect(ch1.gold).toBe(530);
+    expect(ch1.state.xp).toBe(100);
+    expect(ch1.state.completedQuests["H-P01"]).toBeTruthy();
+
+    // Duplicate claim rejected
+    expect(() =>
+      applyAndroidAction(
+        { race: "legend", ...ch1 },
+        { type: "claim_goal", goalId: "H-P01" },
+        { isStaff: false },
+      ),
+    ).toThrowError(/ukończony/i);
+
+    // Development goal G-P01 requires a shop purchase or NPC quest first
+    expect(() =>
+      applyAndroidAction(
+        { race: "legend", ...ch1 },
+        { type: "claim_goal", goalId: "G-P01" },
+        { isStaff: false },
+      ),
+    ).toThrowError(AndroidEconomyError);
+
+    const bought = applyAndroidAction(
+      { race: "legend", ...ch1 },
+      { type: "shop_buy", itemId: "potion_hp" },
+      { isStaff: false },
+    );
+    const dev1 = applyAndroidAction(
+      { race: "legend", ...bought },
+      { type: "claim_goal", goalId: "G-P01" },
+      { isStaff: false },
+    );
+    expect(dev1.state.completedQuests["G-P01"]).toBeTruthy();
+    expect(dev1.gold).toBe(bought.gold + 50);
+
+    // Multi-continent travel goal G-P06
+    const traveled = applyAndroidAction(
+      { race: "legend", ...dev1 },
+      { type: "travel", land: "verdant" },
+      { isStaff: false },
+    );
+    const dev6 = applyAndroidAction(
+      { race: "legend", ...traveled },
+      { type: "claim_goal", goalId: "G-P06" },
+      { isStaff: false },
+    );
+    expect(dev6.state.completedQuests["G-P06"]).toBeTruthy();
+  });
 });
