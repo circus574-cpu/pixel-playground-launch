@@ -112,6 +112,18 @@ export const ANDROID_ITEM_CATALOG: readonly AndroidItemDef[] = [
     hp: 60,
   },
   {
+    id: "helm_aether",
+    name: "Korona Lodowego Mędrca",
+    cat: "armor",
+    icon: "gear-helmet.webp",
+    slot: 0,
+    desc: "+24 Obrona • +75 KI",
+    shopPrice: 340,
+    craftCost: 200,
+    def: 24,
+    ki: 75,
+  },
+  {
     id: "vest_guardian",
     name: "Kirys Strażnika Gaju",
     cat: "armor",
@@ -361,9 +373,38 @@ export const characterNameSchema = z
   .max(16)
   .regex(/^[\p{L}\p{N}_\- ]{3,16}$/u);
 
+/**
+ * Canonical hardcore RPG XP curve:
+ * - Lv 1 -> 5: 1,400 + 2,400 + 3,500 + 4,700 = 12,000 XP (~1.5-2h active combat + early goals)
+ * - Lv 5 -> 10: 11,000 + 15,500 + 20,500 + 25,000 + 30,000 = 102,000 XP (~6.5-7.5h focused grinding & labyrinths)
+ * - Lv 10 -> 20: 42,000 .. 220,000 XP (endgame deep biomes & crypts)
+ */
+export const XP_NEEDED_BY_LEVEL: readonly number[] = [
+  1400, // 1 -> 2
+  2400, // 2 -> 3
+  3500, // 3 -> 4
+  4700, // 4 -> 5
+  11000, // 5 -> 6
+  15500, // 6 -> 7
+  20500, // 7 -> 8
+  25000, // 8 -> 9
+  30000, // 9 -> 10
+  42000, // 10 -> 11
+  54000, // 11 -> 12
+  68000, // 12 -> 13
+  82000, // 13 -> 14
+  98000, // 14 -> 15
+  115000, // 15 -> 16
+  132000, // 16 -> 17
+  150000, // 17 -> 18
+  170000, // 18 -> 19
+  195000, // 19 -> 20
+  220000, // 20 cap
+];
+
 export function xpNeededForLevel(level: number): number {
   const lv = Math.max(1, Math.min(MAX_LEVEL, Math.floor(level)));
-  return 200 + (lv - 1) * 160;
+  return XP_NEEDED_BY_LEVEL[lv - 1] ?? 220000;
 }
 
 export function computeAndroidStats(
@@ -728,6 +769,7 @@ export const androidActionSchema = z.discriminatedUnion("type", [
       type: z.literal("claim_treasure"),
       treasureId: z.string().min(2).max(64),
       labyrinthId: z.string().min(2).max(64).optional(),
+      minLevel: z.number().int().min(1).max(MAX_LEVEL).optional(),
       gold: z.number().int().min(0).max(600).optional(),
       xp: z.number().int().min(0).max(520).optional(),
       itemId: z.string().min(1).max(60).optional(),
@@ -738,8 +780,10 @@ export const androidActionSchema = z.discriminatedUnion("type", [
       type: z.literal("monster_kill"),
       monsterId: z.string().min(2).max(64),
       level: z.number().int().min(1).max(MAX_LEVEL),
+      hpCost: z.number().int().min(0).max(5000).optional(),
     })
     .strict(),
+  z.object({ type: z.literal("hero_defeat") }).strict(),
   z.object({ type: z.literal("travel"), land: z.enum(ANDROID_LANDS) }).strict(),
   z
     .object({
@@ -1035,9 +1079,15 @@ export function applyAndroidAction(
       if (state.progress.openedTreasures.includes(tid)) {
         throw new AndroidEconomyError("QUEST_ALREADY_COMPLETED", "Ten skarb został już otwarty.");
       }
+      if (action.minLevel && level < action.minLevel) {
+        throw new AndroidEconomyError(
+          "GOAL_NOT_MET",
+          `Wymagany poziom ${action.minLevel}, aby otworzyć ten skarb (masz ${level}).`,
+        );
+      }
       state.progress.openedTreasures.push(tid);
-      const rewardGold = clampInt(action.gold ?? 150, 20, 600, 150);
-      const rewardXp = clampInt(action.xp ?? 120, 20, 520, 120);
+      const rewardGold = clampInt(action.gold ?? 120, 20, 600, 120);
+      const rewardXp = clampInt(action.xp ?? 90, 20, 520, 90);
       gold = Math.min(MAX_GOLD, gold + rewardGold);
       let itemNote = "";
       if (action.itemId && ANDROID_ITEM_MAP.has(action.itemId)) {
@@ -1064,20 +1114,37 @@ export function applyAndroidAction(
     }
 
     case "monster_kill": {
-      if (nowMs - state.progress.lastKillAt < 1200) {
+      if (nowMs - state.progress.lastKillAt < 400) {
         throw new AndroidEconomyError("ARENA_COOLDOWN", "Zbyt szybkie kolejne zabicie potwora.");
       }
       state.progress.lastKillAt = nowMs;
       state.progress.monsterKills += 1;
       const lvl = clampInt(action.level, 1, MAX_LEVEL, 1);
-      const rewardXp = 26 + lvl * 16;
-      const rewardGold = 10 + lvl * 6;
+      const baseXp = 18 + lvl * 7;
+      const lvDiff = level - lvl;
+      const xpMult = lvDiff >= 5 ? 0.25 : lvDiff >= 3 ? 0.5 : 1.0;
+      const rewardXp = Math.max(4, Math.round(baseXp * xpMult));
+      const rewardGold = 8 + lvl * 4;
       gold = Math.min(MAX_GOLD, gold + rewardGold);
+      if (action.hpCost && action.hpCost > 0) {
+        state.hp = Math.max(1, state.hp - action.hpCost);
+      }
       const res = grantXp(current.race, level, state, rewardXp);
       level = res.level;
       notice = res.leveledUp
         ? `Pokonano potwora (+${rewardXp} PD, +${rewardGold} zł) — AWANS na poziom ${level}!`
         : `Pokonano potwora! +${rewardXp} PD, +${rewardGold} zł.`;
+      break;
+    }
+
+    case "hero_defeat": {
+      const lostXp = Math.floor(state.xp * 0.1);
+      state.xp = Math.max(0, state.xp - lostXp);
+      const s = computeAndroidStats(current.race, level, state);
+      state.hp = Math.max(1, Math.round(s.maxHp * 0.65));
+      state.ki = Math.max(0, Math.round(s.maxKi * 0.65));
+      teleportCapital = true;
+      notice = `Porażka w walce! Tracisz ${lostXp} PD (-10%) i budzisz się w bezpiecznej stolicy.`;
       break;
     }
 

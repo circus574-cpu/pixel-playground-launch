@@ -14,6 +14,7 @@ const ITEM_CATALOG: Array[Dictionary] = [
 	{"id": "staff_aether", "name": "Kostur Tysiąca Źródeł", "cat": "weapon", "icon": "emblem_crystal.webp", "slot": 2, "desc": "+30 Atak • +45 KI", "rarity": Color(0.46, 0.88, 1.0), "atk": 30, "ki": 45},
 	{"id": "blade_nexus", "name": "Klinga Plazmowa MK-IX", "cat": "weapon", "icon": "emblem_slash.webp", "slot": 2, "desc": "+38 Atak • +8% Kryt", "rarity": Color(0.24, 0.96, 0.98), "atk": 38, "crit": 8.0},
 	{"id": "helm_pyra", "name": "Hełm Żaru Cytadeli", "cat": "armor", "icon": "gear-helmet.webp", "slot": 0, "desc": "+16 Obrona • +60 HP", "rarity": Color(0.38, 0.74, 1.0), "def": 16, "hp": 60},
+	{"id": "helm_aether", "name": "Korona Lodowego Mędrca", "cat": "armor", "icon": "gear-helmet.webp", "slot": 0, "desc": "+24 Obrona • +75 KI", "rarity": Color(0.46, 0.88, 1.0), "def": 24, "ki": 75},
 	{"id": "vest_guardian", "name": "Kirys Strażnika Gaju", "cat": "armor", "icon": "gear-vest.webp", "slot": 4, "desc": "+26 Obrona • +120 HP", "rarity": Color(0.36, 0.88, 0.52), "def": 26, "hp": 120},
 	{"id": "shield_basalt", "name": "Tarcza Bazaltowej Grani", "cat": "armor", "icon": "gear-shield.webp", "slot": 5, "desc": "+32 Obrona • +90 HP", "rarity": Color(0.76, 0.46, 1.0), "def": 32, "hp": 90},
 	{"id": "gloves_clan", "name": "Rękawice Mistrza Ki", "cat": "armor", "icon": "gear-gloves.webp", "slot": 3, "desc": "+14 Atak • +12 Obrona", "rarity": Color(0.38, 0.74, 1.0), "atk": 14, "def": 12},

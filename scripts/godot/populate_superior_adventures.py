@@ -419,10 +419,10 @@ def populate_land(land: str) -> dict:
         zx, zz = pick_dry_point(walk, surf, ws, cx, cz, safe_r, target_d, pref_deg, zone_pts, min_sep=290.0)
         zone_pts.append((zx, zz))
         lvl = int(mon.get("level", 1))
-        m_hp = int(42 + lvl * 18)
-        m_atk = int(7 + lvl * 3.2)
-        m_xp = int(26 + lvl * 16)
-        m_gold = int(10 + lvl * 6)
+        m_hp = int(135 + lvl * 68 + (lvl ** 2) * 9)
+        m_atk = int(16 + lvl * 7 + (lvl ** 1.5) * 1.6)
+        m_xp = int(18 + lvl * 7)
+        m_gold = int(8 + lvl * 4)
         zone_id = f"{land}-zone-{idx + 1}"
         exp_zones.append({
             "id": zone_id,
@@ -475,7 +475,9 @@ def populate_land(land: str) -> dict:
         lab_positions[ldef["id"]] = (lx, lz)
         maze = generate_maze_15x15(ldef["seed"])
         chests = []
-        for ci, (cname, gold, xp, item_id) in enumerate(ldef["chests"]):
+        lab_lvl = int(ldef["level"])
+        chest_xp_tier = [75, 95, 120, 160] if lab_lvl <= 8 else [160, 190, 230, 290]
+        for ci, (cname, gold, _old_xp, item_id) in enumerate(ldef["chests"]):
             tx, ty = maze["chest_tiles"][ci] if ci < len(maze["chest_tiles"]) else (13, 13)
             chests.append({
                 "id": f"chest-{ldef['id']}-{ci + 1}",
@@ -483,8 +485,9 @@ def populate_land(land: str) -> dict:
                 "tx": tx,
                 "ty": ty,
                 "gold": gold,
-                "xp": xp,
+                "xp": chest_xp_tier[min(ci, len(chest_xp_tier) - 1)],
                 "item_id": item_id,
+                "min_level": lab_lvl,
             })
         g_actor, g_name, g_lvl = ldef["guardian"]
         guardians = []
@@ -494,10 +497,10 @@ def populate_land(land: str) -> dict:
                 "actor_id": g_actor,
                 "name": g_name,
                 "level": g_lvl,
-                "hp": int(55 + g_lvl * 22),
-                "atk": int(9 + g_lvl * 3.5),
-                "xp": int(45 + g_lvl * 18),
-                "gold": int(24 + g_lvl * 8),
+                "hp": int(280 + g_lvl * 115 + (g_lvl ** 2) * 12),
+                "atk": int(26 + g_lvl * 9 + (g_lvl ** 1.5) * 1.8),
+                "xp": int(65 + g_lvl * 18),
+                "gold": int(28 + g_lvl * 10),
                 "tx": gx_t,
                 "ty": gy_t,
             })
@@ -542,9 +545,11 @@ def populate_land(land: str) -> dict:
             "entrance": [round(ex, 2), round(ez, 2)],
         })
 
-    # 3. 6 Hidden World Treasures / Adventure Shrines per continent
+    # 3. 6 Hidden World Treasures / Adventure Shrines per continent (with progressive min_level gates)
     treasures = []
-    for tid, ttitle, tlore, tgold, txp, titem, tdist, tang in WORLD_TREASURE_DEFS[land]:
+    tr_min_levels = [1, 2, 3, 5, 8, 12]
+    tr_xp_values = [45, 65, 85, 115, 145, 180]
+    for tidx, (tid, ttitle, tlore, tgold, _old_txp, titem, tdist, tang) in enumerate(WORLD_TREASURE_DEFS[land]):
         tx, tz = pick_dry_point(walk, surf, ws, cx, cz, safe_r, tdist, tang, occupied, min_sep=170.0)
         occupied.append((tx, tz))
         treasures.append({
@@ -552,8 +557,9 @@ def populate_land(land: str) -> dict:
             "title": ttitle,
             "lore": tlore,
             "gold": tgold,
-            "xp": txp,
+            "xp": tr_xp_values[min(tidx, len(tr_xp_values) - 1)],
             "item_id": titem,
+            "min_level": tr_min_levels[min(tidx, len(tr_min_levels) - 1)],
             "x": round(tx, 2),
             "z": round(tz, 2),
             "y": height_at(heights, ws, tx, tz),
@@ -752,6 +758,7 @@ export type SuperiorLabyrinthChest = {
   gold: number;
   xp: number;
   item_id: string;
+  min_level?: number;
 };
 
 export type SuperiorLabyrinthGuardian = {
@@ -792,6 +799,7 @@ export type SuperiorTreasure = {
   gold: number;
   xp: number;
   item_id: string;
+  min_level?: number;
   x: number;
   z: number;
   y: number;

@@ -172,13 +172,16 @@ func enter_labyrinth(land: String, data: Dictionary) -> void:
 		var gpos := Vector2((float(g.get("tx", 5)) + 0.5) * TILE_PX, (float(g.get("ty", 5)) + 0.5) * TILE_PX)
 		gc["home"] = gpos
 		gc["px"] = gpos
-		gc["max_hp"] = int(g.get("hp", 120))
-		gc["cur_hp"] = int(g.get("hp", 120))
+		gc["max_hp"] = int(g.get("hp", 800))
+		gc["cur_hp"] = int(g.get("hp", 800))
+		gc["atk"] = int(g.get("atk", 90))
+		gc["atk_cd"] = 0.0
+		gc["dmg_dealt_to_hero"] = 0
 		gc["alive"] = true
 		gc["hit_flash"] = 0.0
 		guardians.append(gc)
 	_reveal_around_hero()
-	_show_toast("Wchodzisz do: %s • Odnajdź 4 ukryte skarby!" % str(data.get("title", "Labirynt")))
+	_show_toast("Wchodzisz do: %s • Pokonaj strażników i odnajdź 4 ukryte skarby!" % str(data.get("title", "Labirynt")))
 	_layout_ui()
 	visible = true
 	queue_redraw()
@@ -230,18 +233,26 @@ func _try_open_nearest_chest() -> void:
 	var cid := str(nearest_chest.get("id", ""))
 	if _is_chest_opened(cid):
 		return
+	var cpos: Vector2 = nearest_chest["px"]
+	for g: Dictionary in guardians:
+		if bool(g.get("alive", false)) and (g["px"] as Vector2).distance_to(cpos) < 115.0:
+			_show_toast("⚔ Strażnik (%s) broni tej komnaty! Pokonaj go, aby otworzyć skrzynię." % str(g.get("name", "Strażnik")))
+			return
 	var lab_id := str(lab_data.get("id", ""))
+	var claimed := true
 	if world != null and world.has_method("claim_treasure_reward"):
-		world.claim_treasure_reward(nearest_chest, lab_id)
+		claimed = bool(world.claim_treasure_reward(nearest_chest, lab_id))
+	if not claimed:
+		return
 	var msg := "SKARB: %s (+%d zł, +%d PD)" % [
 		str(nearest_chest.get("title", "Skrzynia")),
 		int(nearest_chest.get("gold", 150)),
-		int(nearest_chest.get("xp", 120)),
+		int(nearest_chest.get("xp", 95)),
 	]
 	_show_toast(msg)
 	float_texts.append({
 		"pos": nearest_chest["px"] as Vector2,
-		"txt": "+%d zł  +%d PD" % [int(nearest_chest.get("gold", 150)), int(nearest_chest.get("xp", 120))],
+		"txt": "+%d zł  +%d PD" % [int(nearest_chest.get("gold", 150)), int(nearest_chest.get("xp", 95))],
 		"col": Color(1.0, 0.88, 0.34),
 		"t": 1.6,
 	})
@@ -255,9 +266,14 @@ func perform_labyrinth_attack() -> void:
 		return
 	atk_cd = 0.55
 	var base_atk := 32
-	if world != null and world.rpg_hud != null and world.rpg_hud.has_method("get_total_attack"):
-		base_atk = int(world.rpg_hud.get_total_attack())
-	var dmg := maxi(16, int(round(float(base_atk) * randf_range(0.95, 1.35))))
+	var hero_lv := 1
+	if world != null and world.rpg_hud != null:
+		hero_lv = int(world.rpg_hud.hero_level)
+		if world.rpg_hud.has_method("get_total_attack"):
+			base_atk = int(world.rpg_hud.get_total_attack())
+	var g_lvl := int(g.get("level", 7))
+	var lv_penalty := 0.65 if (g_lvl - hero_lv >= 3) else 1.0
+	var dmg := maxi(10, int(round(float(base_atk) * lv_penalty * randf_range(0.95, 1.30))))
 	g["cur_hp"] = maxi(0, int(g["cur_hp"]) - dmg)
 	g["hit_flash"] = 0.22
 	float_texts.append({
@@ -268,8 +284,10 @@ func perform_labyrinth_attack() -> void:
 	})
 	if int(g["cur_hp"]) <= 0:
 		g["alive"] = false
+		var hp_cost := int(g.get("dmg_dealt_to_hero", 0))
+		g["dmg_dealt_to_hero"] = 0
 		if world != null and world.has_method("report_monster_kill"):
-			world.report_monster_kill(str(g.get("actor_id", "guardian")), int(g.get("level", 6)), str(g.get("name", "Strażnik")))
+			world.report_monster_kill(str(g.get("actor_id", "guardian")), g_lvl, str(g.get("name", "Strażnik")), hp_cost)
 		_show_toast("Pokonano: %s (+%d PD, +%d zł)" % [str(g.get("name", "")), int(g.get("xp", 80)), int(g.get("gold", 40))])
 	queue_redraw()
 
@@ -334,7 +352,7 @@ func _process(delta: float) -> void:
 	else:
 		btn_open_chest.visible = false
 
-	# Update guardians patrol & combat range
+	# Update guardians patrol, active chase & counter-attack AI
 	nearest_guard_idx = -1
 	var best_gd := 145.0
 	for gi in guardians.size():
@@ -342,10 +360,45 @@ func _process(delta: float) -> void:
 		if not bool(g.get("alive", false)):
 			continue
 		g["hit_flash"] = maxf(0.0, float(g.get("hit_flash", 0.0)) - delta)
+		g["atk_cd"] = maxf(0.0, float(g.get("atk_cd", 0.0)) - delta)
 		var home: Vector2 = g["home"]
-		var off := Vector2(cos(elapsed * 1.4 + float(gi) * 2.1), sin(elapsed * 1.1 + float(gi) * 1.7)) * 18.0
-		if _can_stand(home + off):
-			g["px"] = home + off
+		var cur_gp: Vector2 = g["px"]
+		var dist_h := hero_px.distance_to(cur_gp)
+		var was_hurt := int(g.get("cur_hp", 100)) < int(g.get("max_hp", 100))
+		if (dist_h < 120.0 or (was_hurt and dist_h < 185.0)) and cur_gp.distance_to(home) < 220.0:
+			if dist_h > 30.0:
+				var gstep := (hero_px - cur_gp).normalized() * 130.0 * delta
+				if _can_stand(cur_gp + gstep):
+					cur_gp += gstep
+				elif _can_stand(cur_gp + Vector2(gstep.x, 0.0)):
+					cur_gp.x += gstep.x
+				elif _can_stand(cur_gp + Vector2(0.0, gstep.y)):
+					cur_gp.y += gstep.y
+				g["px"] = cur_gp
+			if hero_px.distance_to(cur_gp) <= 58.0 and float(g["atk_cd"]) <= 0.0:
+				g["atk_cd"] = 1.30
+				var g_atk := int(g.get("atk", 90))
+				var g_lvl := int(g.get("level", 7))
+				var hero_lv := int(world.rpg_hud.hero_level) if (world != null and world.rpg_hud != null) else 1
+				var hero_def := int(world.rpg_hud.get_total_defense()) if (world != null and world.rpg_hud != null and world.rpg_hud.has_method("get_total_defense")) else 16
+				var adv_mult := 1.35 if (g_lvl - hero_lv >= 3) else 1.0
+				var gdmg := maxi(8, int(round(float(g_atk) * adv_mult - float(hero_def) * 0.55)))
+				g["dmg_dealt_to_hero"] = int(g.get("dmg_dealt_to_hero", 0)) + gdmg
+				float_texts.append({
+					"pos": hero_px + Vector2(0, -24),
+					"txt": "-%d HP" % gdmg,
+					"col": Color(1.0, 0.26, 0.24),
+					"t": 1.0,
+				})
+				if world != null and world.rpg_hud != null and world.rpg_hud.has_method("take_combat_damage"):
+					if world.rpg_hud.take_combat_damage(gdmg):
+						if world.has_method("handle_hero_defeat"):
+							world.handle_hero_defeat()
+						return
+		else:
+			var off := Vector2(cos(elapsed * 1.4 + float(gi) * 2.1), sin(elapsed * 1.1 + float(gi) * 1.7)) * 18.0
+			if _can_stand(home + off):
+				g["px"] = home + off
 		var gd := hero_px.distance_to(g["px"] as Vector2)
 		if gd < best_gd:
 			best_gd = gd

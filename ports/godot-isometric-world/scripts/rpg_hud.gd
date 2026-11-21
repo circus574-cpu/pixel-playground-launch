@@ -518,6 +518,47 @@ func add_stat_points_gm(stat_key: String, delta_pts: int) -> void:
 	bonus_stat_pts[stat_key] = maxi(0, int(bonus_stat_pts[stat_key]) + delta_pts)
 	recalc_stats(false)
 
+const XP_NEEDED_BY_LEVEL := [
+	1400, 2400, 3500, 4700,
+	11000, 15500, 20500, 25000, 30000,
+	42000, 54000, 68000, 82000, 98000,
+	115000, 132000, 150000, 170000, 195000, 220000,
+]
+
+static func xp_needed_for_level(lv: int) -> float:
+	var idx := clampi(lv - 1, 0, XP_NEEDED_BY_LEVEL.size() - 1)
+	return float(XP_NEEDED_BY_LEVEL[idx])
+
+func grant_local_xp(rxp: int) -> bool:
+	if rxp <= 0:
+		return false
+	hero_max_xp = xp_needed_for_level(hero_level)
+	hero_xp = maxf(0.0, hero_xp + float(rxp))
+	var leveled := false
+	while hero_level < 20 and hero_xp >= hero_max_xp:
+		hero_xp -= hero_max_xp
+		hero_level += 1
+		free_stat_points += 3
+		skill_points += 1
+		hero_max_xp = xp_needed_for_level(hero_level)
+		leveled = true
+	if hero_level >= 20:
+		hero_xp = minf(hero_xp, hero_max_xp)
+	if leveled:
+		recalc_stats(true)
+	else:
+		_sync_bar_uniforms()
+		_refresh_visuals()
+	return leveled
+
+func take_combat_damage(dmg: int) -> bool:
+	if dmg <= 0:
+		return false
+	hero_hp = maxf(0.0, hero_hp - float(dmg))
+	_sync_bar_uniforms()
+	_refresh_visuals()
+	return hero_hp <= 0.0
+
 static func _catalog_item_by_id(iid: String) -> Dictionary:
 	var gm_script = preload("res://scripts/gm_panel.gd")
 	for it: Dictionary in gm_script.ITEM_CATALOG:
@@ -533,7 +574,7 @@ func apply_server_character(ch: Dictionary) -> void:
 	hero_level = maxi(1, int(ch.get("level", hero_level)))
 	hero_gold = maxi(0, int(ch.get("gold", hero_gold)))
 	hero_xp = float(st.get("xp", hero_xp))
-	hero_max_xp = maxf(1.0, float(stats.get("xpNeeded", 200 + (hero_level - 1) * 160)))
+	hero_max_xp = maxf(1.0, float(stats.get("xpNeeded", xp_needed_for_level(hero_level))))
 	free_stat_points = maxi(0, int(st.get("freeStatPoints", free_stat_points)))
 	skill_points = maxi(0, int(st.get("skillPoints", skill_points)))
 	var bs: Dictionary = st.get("bonusStats", {})

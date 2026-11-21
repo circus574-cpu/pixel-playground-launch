@@ -260,4 +260,63 @@ describe("Android authoritative economy & progression engine", () => {
     );
     expect(dev6.state.completedQuests["G-P06"]).toBeTruthy();
   });
+
+  it("enforces hardcore XP curve, monster_kill hpCost & grey-mob penalty, treasure minLevel, helm_aether, and hero_defeat", () => {
+    const hero = freshHero("legend", 800);
+    const stats1 = computeAndroidStats("legend", hero.level, hero.state);
+    expect(stats1.xpNeeded).toBe(1400);
+
+    // helm_aether is available in catalog and equips into helmet slot 0
+    const helmBought = applyAndroidAction(
+      hero,
+      { type: "shop_buy", itemId: "helm_aether" },
+      { isStaff: false },
+    );
+    expect(helmBought.state.backpack.some((s) => s?.id === "helm_aether")).toBe(true);
+
+    // Treasure minLevel gate rejects under-leveled hero
+    expect(() =>
+      applyAndroidAction(
+        { race: "legend", ...helmBought },
+        { type: "claim_treasure", treasureId: "tr-pyra-6", gold: 310, xp: 180, minLevel: 12 },
+        { isStaff: false },
+      ),
+    ).toThrowError(/Wymagany poziom 12/i);
+
+    // Monster kill applies hpCost and allows 400ms cooldown
+    const kill1 = applyAndroidAction(
+      { race: "legend", ...helmBought },
+      { type: "monster_kill", monsterId: "pyra-iskrowy-szerszen", level: 1, hpCost: 48 },
+      { isStaff: false, nowMs: 100_000 },
+    );
+    expect(kill1.state.xp).toBe(25); // 18 + 1*7
+    expect(kill1.state.hp).toBe(stats1.maxHp - 48);
+
+    // Next kill after 450ms succeeds (lowered from 1200ms to 400ms)
+    const kill2 = applyAndroidAction(
+      { race: "legend", ...kill1 },
+      { type: "monster_kill", monsterId: "pyra-iskrowy-szerszen", level: 1, hpCost: 30 },
+      { isStaff: false, nowMs: 100_450 },
+    );
+    expect(kill2.state.xp).toBe(50);
+
+    // Hero defeat deducts 10% XP, restores 65% HP, and teleports to safe capital
+    const defeated = applyAndroidAction(
+      { race: "legend", ...kill2 },
+      { type: "hero_defeat" },
+      { isStaff: false },
+    );
+    expect(defeated.state.xp).toBe(45); // floor(50 * 0.9)
+    expect(defeated.teleportCapital).toBe(true);
+    expect(defeated.state.hp).toBe(Math.round(stats1.maxHp * 0.65));
+
+    // Grey-mob penalty: Lv.7 hero killing Lv.1 monster gets 25% XP (6 PD instead of 25 PD)
+    const highHero = { race: "legend" as const, ...defeated, level: 7 };
+    const greyKill = applyAndroidAction(
+      highHero,
+      { type: "monster_kill", monsterId: "pyra-iskrowy-szerszen", level: 1 },
+      { isStaff: false, nowMs: 110_000 },
+    );
+    expect(greyKill.state.xp - defeated.state.xp).toBe(6);
+  });
 });

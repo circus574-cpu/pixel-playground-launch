@@ -666,15 +666,16 @@ func build_world_objects_and_actors() -> void:
 		var tx := float(tr.get("x", 512.0))
 		var tz := float(tr.get("z", 512.0))
 		var th := height_at(tx, tz)
+		var t_req_lv := int(tr.get("min_level", 1))
 		var tnode := Node2D.new()
 		tnode.position = iso(tx, tz, th)
 		add_contact_shadow(tnode, 240.0, 0.36, 3.0)
 		var tsp := make_fitted_sprite("res://assets/library/props/prop_runic_obelisk.webp", 230.0, 275.0, 0.88)
 		tnode.add_child(tsp)
 		var tlbl := Label.new()
-		tlbl.text = "★ UKRYTY SKARB: %s" % str(tr.get("title", "Skarb"))
-		tlbl.position = Vector2(-210, -172)
-		tlbl.size = Vector2(420, 28)
+		tlbl.text = ("★ UKRYTY SKARB (Poz.%d+): %s" % [t_req_lv, str(tr.get("title", "Skarb"))]) if t_req_lv > 1 else ("★ UKRYTY SKARB: %s" % str(tr.get("title", "Skarb")))
+		tlbl.position = Vector2(-220, -172)
+		tlbl.size = Vector2(440, 28)
 		tlbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		tlbl.add_theme_font_override("font", body_f)
 		tlbl.add_theme_font_size_override("font_size", 16)
@@ -771,17 +772,22 @@ func build_world_objects_and_actors() -> void:
 		var mz := float(m.get("z", 512.0))
 		mon_actor.position = iso(mx, mz, height_at(mx, mz))
 		ysort.add_child(mon_actor)
-		var m_hp := int(m.get("hp", 42 + int(m.get("level", 1)) * 18))
+		var m_lv := int(m.get("level", 1))
+		var m_hp := int(m.get("hp", 135 + m_lv * 68 + m_lv * m_lv * 9))
+		var m_atk := int(m.get("atk", 16 + m_lv * 8))
 		live_agents.append({
 			"kind": "monster",
 			"id": str(m.get("id", mid)),
 			"actor_id": mid,
 			"name": str(m.get("name", "Potwór")),
-			"level": int(m.get("level", 1)),
+			"level": m_lv,
 			"max_hp": m_hp,
 			"cur_hp": m_hp,
-			"xp": int(m.get("xp", 40)),
-			"gold": int(m.get("gold", 18)),
+			"atk": m_atk,
+			"atk_cd": 0.0,
+			"dmg_dealt_to_hero": 0,
+			"xp": int(m.get("xp", 18 + m_lv * 7)),
+			"gold": int(m.get("gold", 8 + m_lv * 4)),
 			"alive": true,
 			"respawn_t": 0.0,
 			"node": mon_actor,
@@ -1035,16 +1041,23 @@ func show_combat_toast(msg: String, col: Color = Color(1.0, 0.90, 0.44)) -> void
 	combat_toast_lbl.visible = true
 	combat_toast_t = 3.8
 
-func claim_treasure_reward(tr: Dictionary, lab_id: String = "") -> void:
+func claim_treasure_reward(tr: Dictionary, lab_id: String = "") -> bool:
 	var tid := str(tr.get("id", ""))
 	if tid.is_empty() or opened_treasures.has(tid):
-		return
+		return false
+	var req_lv := maxi(1, int(tr.get("min_level", 1)))
+	var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
+	if not gm_noclip and hero_lv < req_lv:
+		if audio != null:
+			audio.sfx("common/ui_click")
+		show_combat_toast("🔒 Wymagany Poziom %d, aby otworzyć: %s (masz Poz. %d)!" % [req_lv, str(tr.get("title", "Skarb")), hero_lv], Color(1.0, 0.45, 0.32))
+		return false
 	opened_treasures[tid] = true
 	_refresh_treasure_nodes_visibility()
 	var rgold := int(tr.get("gold", 150))
-	var rxp := int(tr.get("xp", 120))
+	var rxp := int(tr.get("xp", 95))
 	var ritem := str(tr.get("item_id", ""))
-	var payload := {"type": "claim_treasure", "treasureId": tid, "gold": rgold, "xp": rxp}
+	var payload := {"type": "claim_treasure", "treasureId": tid, "gold": rgold, "xp": rxp, "minLevel": req_lv}
 	if not lab_id.is_empty():
 		payload["labyrinthId"] = lab_id
 	if not ritem.is_empty():
@@ -1052,22 +1065,52 @@ func claim_treasure_reward(tr: Dictionary, lab_id: String = "") -> void:
 	if not dispatch_server_action(payload):
 		if rpg_hud != null:
 			rpg_hud.hero_gold += rgold
-			rpg_hud.hero_xp = fmod(rpg_hud.hero_xp + float(rxp), rpg_hud.hero_max_xp)
-			rpg_hud._refresh_visuals()
+			if rpg_hud.has_method("grant_local_xp"):
+				rpg_hud.grant_local_xp(rxp)
+			else:
+				rpg_hud._refresh_visuals()
 	if audio != null:
 		audio.sfx("common/ui_click")
 	show_combat_toast("★ ODKRYTO SKARB: %s (+%d zł, +%d PD)" % [str(tr.get("title", "Skarb")), rgold, rxp], Color(1.0, 0.92, 0.40))
 	sync_hero()
+	return true
 
-func report_monster_kill(monster_id: String, lvl: int, mname: String) -> void:
-	var rxp := 26 + lvl * 16
-	var rgold := 10 + lvl * 6
-	if not dispatch_server_action({"type": "monster_kill", "monsterId": monster_id, "level": lvl}):
+func report_monster_kill(monster_id: String, lvl: int, mname: String, hp_cost: int = 0) -> void:
+	var base_xp := 18 + lvl * 7
+	var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
+	var lv_diff := hero_lv - lvl
+	var rxp := maxi(5, int(round(float(base_xp) * 0.25))) if lv_diff >= 5 else (maxi(8, int(round(float(base_xp) * 0.50))) if lv_diff >= 3 else base_xp)
+	var rgold := 8 + lvl * 4
+	if not dispatch_server_action({"type": "monster_kill", "monsterId": monster_id, "level": lvl, "hpCost": maxi(0, hp_cost)}):
 		if rpg_hud != null:
 			rpg_hud.hero_gold += rgold
-			rpg_hud.hero_xp = fmod(rpg_hud.hero_xp + float(rxp), rpg_hud.hero_max_xp)
-			rpg_hud._refresh_visuals()
+			if rpg_hud.has_method("grant_local_xp"):
+				rpg_hud.grant_local_xp(rxp)
+			else:
+				rpg_hud._refresh_visuals()
 	show_combat_toast("⚔ Pokonano: %s (Poz.%d) • +%d PD, +%d zł" % [mname, lvl, rxp, rgold], Color(1.0, 0.78, 0.36))
+
+func handle_hero_defeat() -> void:
+	if in_labyrinth:
+		exit_labyrinth()
+	for ag: Dictionary in live_agents:
+		if str(ag.get("kind", "")) == "monster":
+			ag["cur_hp"] = int(ag.get("max_hp", 200))
+			ag["dmg_dealt_to_hero"] = 0
+			ag["atk_cd"] = 0.0
+			var mnd = ag.get("node", null)
+			if is_instance_valid(mnd):
+				mnd.hp_ratio = 1.0
+				mnd.queue_redraw()
+	if not dispatch_server_action({"type": "hero_defeat"}):
+		if rpg_hud != null:
+			rpg_hud.hero_xp = maxf(0.0, floor(rpg_hud.hero_xp * 0.90))
+			rpg_hud.hero_hp = maxf(1.0, round(rpg_hud.hero_max_hp * 0.65))
+			rpg_hud.hero_ki = maxf(0.0, round(rpg_hud.hero_max_ki * 0.65))
+			rpg_hud._sync_bar_uniforms()
+			rpg_hud._refresh_visuals()
+		teleport_to_capital()
+	show_combat_toast("☠ PORAŻKA W WALCE! Tracisz 10% PD i budzisz się w bezpiecznej stolicy.", Color(1.0, 0.36, 0.28))
 
 func perform_combat_attack(skill_idx: int) -> void:
 	if in_labyrinth and labyrinth_room != null and labyrinth_room.has_method("perform_labyrinth_attack"):
@@ -1093,17 +1136,26 @@ func perform_combat_attack(skill_idx: int) -> void:
 	if best_idx < 0:
 		return
 	var target: Dictionary = live_agents[best_idx]
-	var dmg := maxi(14, int(round(float(base_atk) * mult * randf_range(0.92, 1.24))))
-	target["cur_hp"] = maxi(0, int(target.get("cur_hp", 50)) - dmg)
+	var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
+	var m_lvl := int(target.get("level", 1))
+	var lv_penalty := 0.65 if (m_lvl - hero_lv >= 3) else 1.0
+	var dmg := maxi(8, int(round(float(base_atk) * mult * lv_penalty * randf_range(0.92, 1.22))))
+	target["cur_hp"] = maxi(0, int(target.get("cur_hp", 200)) - dmg)
 	var mnode = target.get("node", null)
-	if is_instance_valid(mnode) and mnode.has_method("show_bubble"):
-		mnode.show_bubble("-%d HP (%d/%d)" % [dmg, int(target["cur_hp"]), int(target["max_hp"])], 1.4)
+	if is_instance_valid(mnode):
+		mnode.hp_ratio = clampf(float(target["cur_hp"]) / maxf(float(target["max_hp"]), 1.0), 0.0, 1.0)
+		mnode.queue_redraw()
+		if mnode.has_method("show_bubble"):
+			mnode.show_bubble("-%d HP (%d/%d)" % [dmg, int(target["cur_hp"]), int(target["max_hp"])], 1.4)
 	if int(target["cur_hp"]) <= 0:
+		var hp_cost := int(target.get("dmg_dealt_to_hero", 0))
+		target["dmg_dealt_to_hero"] = 0
 		target["alive"] = false
 		target["respawn_t"] = 22.0
 		if is_instance_valid(mnode):
+			mnode.hp_ratio = 1.0
 			mnode.visible = false
-		report_monster_kill(str(target.get("actor_id", "monster")), int(target.get("level", 1)), str(target.get("name", "Potwór")))
+		report_monster_kill(str(target.get("actor_id", "monster")), m_lvl, str(target.get("name", "Potwór")), hp_cost)
 
 func open_npc_dialogue(ag: Dictionary) -> void:
 	if ag.is_empty() or dialogue_strip == null:
@@ -1146,6 +1198,13 @@ func enter_labyrinth_by_id(lab_id: String) -> void:
 			found = lab
 			break
 	if found.is_empty():
+		return
+	var req_lv := maxi(1, int(found.get("level", 6)))
+	var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
+	if not gm_noclip and hero_lv < req_lv:
+		if audio != null:
+			audio.sfx("common/ui_click")
+		show_combat_toast("🔒 Wymagany Poziom %d, aby wejść do: %s (masz Poz. %d)!" % [req_lv, str(found.get("title", "Labirynt")), hero_lv], Color(1.0, 0.45, 0.32))
 		return
 	if audio != null:
 		audio.sfx("common/door")
@@ -1404,6 +1463,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			if rpg_hud != null:
 				rpg_hud.toggle_character()
 			return
+		elif event.keycode == KEY_J:
+			toggle_quest_journal()
+			return
 		elif event.keycode == KEY_Q:
 			if rpg_hud != null:
 				rpg_hud.trigger_skill(0)
@@ -1578,18 +1640,25 @@ func step_world(delta: float) -> void:
 			dlg_open = false
 			talk_node = null
 
-	# Animate all living NPCs, Monsters, and Wildlife Fauna animals + ambient speech bubbles
+	var hero_in_safe := hero_pos.distance_to(capital_center) <= safe_city_radius
+
+	# Animate all living NPCs, Monsters, and Wildlife Fauna animals + active 2-way monster aggro/counter-attack
 	for idx in live_agents.size():
 		var ag: Dictionary = live_agents[idx]
 		var node = ag["node"]
 		if not is_instance_valid(node):
 			continue
-		if str(ag.get("kind", "")) == "monster" and not bool(ag.get("alive", true)):
+		var is_monster := str(ag.get("kind", "")) == "monster"
+		if is_monster and not bool(ag.get("alive", true)):
 			ag["respawn_t"] = float(ag.get("respawn_t", 0.0)) - delta
 			if float(ag["respawn_t"]) <= 0.0:
 				ag["alive"] = true
-				ag["cur_hp"] = int(ag.get("max_hp", 80))
+				ag["cur_hp"] = int(ag.get("max_hp", 200))
+				ag["dmg_dealt_to_hero"] = 0
+				ag["atk_cd"] = 0.0
 				ag["pos"] = ag["home"]
+				node.hp_ratio = 1.0
+				node.queue_redraw()
 				node.visible = true
 			continue
 		if dlg_open and node == talk_node:
@@ -1601,12 +1670,45 @@ func step_world(delta: float) -> void:
 			node.animate(Vector2.ZERO, false)
 			continue
 		var home: Vector2 = ag["home"]
-		var rad: float = float(ag["radius"])
-		var spd: float = float(ag["speed"])
-		var ph: float = float(ag["phase"])
-		var t := world_time * spd + ph
-		var next_p := home + Vector2(cos(t), sin(t * 0.75)) * (rad * 0.45)
 		var prev_p: Vector2 = ag["pos"]
+		var next_p := prev_p
+		if is_monster:
+			ag["atk_cd"] = maxf(0.0, float(ag.get("atk_cd", 0.0)) - delta)
+			var dist_to_hero := hero_pos.distance_to(prev_p)
+			var dist_from_home := prev_p.distance_to(home)
+			var was_hurt := int(ag.get("cur_hp", 100)) < int(ag.get("max_hp", 100))
+			if not hero_in_safe and ((dist_to_hero < 95.0) or (was_hurt and dist_to_hero < 155.0)) and dist_from_home < 165.0:
+				if dist_to_hero > 26.0:
+					var chase_step := (hero_pos - prev_p).normalized() * 36.0 * delta
+					var cand_p := prev_p + chase_step
+					if cand_p.distance_to(capital_center) > safe_city_radius + 16.0 and is_walkable(cand_p.x, cand_p.y):
+						next_p = cand_p
+				if hero_pos.distance_to(next_p) <= 52.0 and float(ag["atk_cd"]) <= 0.0:
+					ag["atk_cd"] = 1.35
+					var m_atk := int(ag.get("atk", 24))
+					var m_lvl := int(ag.get("level", 1))
+					var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
+					var hero_def := int(rpg_hud.get_total_defense()) if (rpg_hud != null and rpg_hud.has_method("get_total_defense")) else 12
+					var adv_mult := 1.35 if (m_lvl - hero_lv >= 3) else 1.0
+					var dmg := maxi(5, int(round(float(m_atk) * adv_mult - float(hero_def) * 0.55)))
+					ag["dmg_dealt_to_hero"] = int(ag.get("dmg_dealt_to_hero", 0)) + dmg
+					if hero != null and hero.has_method("show_bubble"):
+						hero.show_bubble("-%d HP" % dmg, 1.0)
+					if rpg_hud != null and rpg_hud.has_method("take_combat_damage") and rpg_hud.take_combat_damage(dmg):
+						handle_hero_defeat()
+						return
+			else:
+				var rad_m: float = float(ag["radius"])
+				var spd_m: float = float(ag["speed"])
+				var ph_m: float = float(ag["phase"])
+				var tm := world_time * spd_m + ph_m
+				next_p = home + Vector2(cos(tm), sin(tm * 0.75)) * (rad_m * 0.45)
+		else:
+			var rad: float = float(ag["radius"])
+			var spd: float = float(ag["speed"])
+			var ph: float = float(ag["phase"])
+			var t := world_time * spd + ph
+			next_p = home + Vector2(cos(t), sin(t * 0.75)) * (rad * 0.45)
 		var d_pos := next_p - prev_p
 		ag["pos"] = next_p
 		node.position = iso(next_p.x, next_p.y, height_at(next_p.x, next_p.y))
@@ -1920,11 +2022,13 @@ func run_qa() -> void:
 
 	# Playable Labyrinth Dungeon QA (Pyra Labirynt Wulkanicznej Kaldery)
 	if not labyrinths_data.is_empty():
+		gm_noclip = true
 		enter_labyrinth_by_id(str((labyrinths_data[0] as Dictionary).get("id", "")))
 		for _i in 4:
 			await get_tree().process_frame
 		shots.append(await snap(out_dir, "labyrinth-dungeon.jpg"))
 		exit_labyrinth()
+		gm_noclip = false
 
 	# 7) AAA 29-Node Diamond Constellation Skill Tree ([K]) & Paperdoll Character Sheet ([I]) on Pyra
 	switch_region("pyra")

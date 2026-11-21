@@ -370,4 +370,21 @@ Zastąpiono filmowy pasek ładowania **prawdziwym, żywym panelem ładowania** z
   - Interaktywna mapa z zoomem/przesuwaniem i przełącznikami warstw: bezpieczna stolica, drogi, miasta/budynki, 5 sub-biomów, spawny potworów, zwierzęta (fauna), NPC/questy, wejścia labiryntów (z podglądem rzeczywistej siatki `15×15`, skrzyń i strażników) oraz wszystkie ukryte skarby terenowe.
 - **Weryfikacja:** `npm run typecheck` (wszystkie 3 tsconfigi), `vitest`, `eslint`, `npm run build`, `python3 scripts/docs/check_documentation.py` (`PASS`), Godot 4.6.3 `--qa` (`ISO_WORLD_QA_OK`, wizualna weryfikacja strefy potworów, pełnoekranowego labiryntu i Mapy 3D), wydanie OTA **`1.14.21`**.
 
+### 27. Naprawa 7 błędów z audytu rozgrywki (Legend Poz. 1 → 5) oraz wdrożenie dwustronnej walki i krzywej progresji RPG (`1–2 h` Poz. 1→5, `6–8 h` Poz. 5→10, `1.14.22`, 2026-11-21)
+
+- **Naprawa wszystkich 7 błędów wykrytych podczas audytu przejścia Legendą (Poz. 1 → 5):**
+  1. **Dwustronna walka (aggro, pościg, kontratak i porażka bohatera w `world.gd`, `labyrinth_room.gd`, `rpg_hud.gd`, `src/server/godot/economy.ts`):** potwory w otwartym świecie (`< 95 m` aggro, `165 m` smycz, zakaz wejścia w bezpieczną stolicę `r = 250 m`) oraz strażnicy w labiryntach (`< 120 px`) ścigają bohatera i kontratakują co `1,30–1,35 s` (`dmg = max(5, round(m_atk * adv_mult - hero_def * 0,55))`). Przy `monster_kill` przekazywany jest `hpCost` (obrażenia odniesione w walce), dzięki czemu mikstury (`potion_hp`) i odpoczynek w gospodzie (`inn_rest`) są realnie potrzebne. Gdy `hero_hp <= 0`, uruchamiana jest serwerowa akcja `hero_defeat` (`-10%` bieżącego PD, odnowienie `65%` HP/KI i powrót do bezpiecznej stolicy).
+  2. **Żywy pasek HP potworów (`world.gd`):** na każdy cios i przy respawnie aktualizowane jest `mnode.hp_ratio = cur_hp / max_hp` oraz `mnode.queue_redraw()`.
+  3. **Prawidłowy awans poziomu w trybie lokalnym (`rpg_hud.gd`, `world.gd`):** zastąpiono `fmod(hero_xp + rxp, hero_max_xp)` metodą `grant_local_xp(rxp)` opartą na tej samej tabeli `XP_NEEDED_BY_LEVEL` co serwer (`+3` wolne punkty atrybutów i `+1` punkt talentu na poziom).
+  4. **Brakujący przedmiot `helm_aether` w katalogach (`src/server/godot/economy.ts`, `gm_panel.gd`):** dodano *Koronę Lodowego Mędrca* (`slot: 0`, `+24 Obrona • +75 KI`) do `ANDROID_ITEM_CATALOG` i `ITEM_CATALOG`.
+  5. **Blokady poziomowe (`min_level`) na labiryntach i skarbach (`world.gd`, `labyrinth_room.gd`, `economy.ts`, `populate_superior_adventures.py`):** wejście do labiryntów wymaga osiągnięcia poziomu labiryntu (`Poz. 6` i `Poz. 14`), skrzynie w labiryncie są chronione przez żywych strażników w promieniu `115 px`, a 6 skarbów terenowych na każdym kontynencie ma progresywne progi `min_level` (`1, 2, 3, 5, 8, 12`) weryfikowane w kliencie i na serwerze (`claim_treasure`).
+  6. **Skrót klawiszowy `[J]` dla Dziennika Zadań (`world.gd`):** dodano obsługę `KEY_J -> toggle_quest_journal()` w `_unhandled_input()`.
+  7. **Cooldown `monster_kill` (`src/server/godot/economy.ts`):** obniżono z `1200 ms` do `400 ms`, aby szybkie serie umiejętności obszarowych nie były odrzucane przez serwer.
+- **Nowa krzywa doświadczenia i wzmocnione statystyki potworów (`XP_NEEDED_BY_LEVEL`, `populate_superior_adventures.py`):**
+  - **Poz. 1 → 5 (`12 000 PD` łącznie = ok. `1,5–2 h` aktywnej gry):** `1 400 / 2 400 / 3 500 / 4 700 PD`.
+  - **Poz. 5 → 10 (`102 000 PD` łącznie = ok. `6,5–7,5 h` skupionego expienia i labiryntów):** `11 000 / 15 500 / 20 500 / 25 000 / 30 000 PD`.
+  - **Wzmocnione potwory i strażnicy:** HP potworów `135 + lvl*68 + lvl²*9` (`212 HP` na Poz. 1, `551 HP` na Poz. 4, `1 715 HP` na Poz. 10, `4 275 HP` na Poz. 18), ATK `16 + lvl*7 + lvl^1,5*1,6` (`24..264 ATK`), strażnicy labiryntów `1 255 HP / 122 ATK` (Poz. 7) oraz `3 705 HP / 265 ATK` (Poz. 15).
+  - **Modyfikator przewagi poziomu i kara za szare potwory:** potwory o `3+` poziomy wyższe od bohatera zadają `+35%` obrażeń i otrzymują `-35%` obrażeń; potwory o `3+` poziomy niższe od bohatera dają `-50%` PD (`-75%` przy `5+` poziomach różnicy).
+- **Weryfikacja:** `npm run typecheck`, `vitest` (`godot-android-economy.test.ts`, `admin-readability.test.tsx`), `eslint`, `npm run build`, `python3 scripts/docs/check_documentation.py` (`PASS`), Godot 4.6.3 `--qa` (`ISO_WORLD_QA_OK`), wydanie OTA **`1.14.22`**.
+
 
