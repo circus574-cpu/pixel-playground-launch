@@ -3,6 +3,7 @@ extends Control
 ## Hydrates directly from authoritative server character payload (`character.goals`) and claims rewards via `claim_goal`.
 
 const MapStyle := preload("res://scripts/map_style.gd")
+const ForgedUI := preload("res://scripts/forged_ui.gd")
 
 const FALLBACK_CHAPTERS := {
 	"legend": [
@@ -45,13 +46,11 @@ var active_tab := "heritage" # "heritage" | "development" | "adventure"
 var local_claimed: Dictionary = {}
 
 var backdrop := ColorRect.new()
-var panel := PanelContainer.new()
-var header_lbl := Label.new()
+var panel := Panel.new()
 var status_lbl := Label.new()
 var tab_heritage := Button.new()
 var tab_dev := Button.new()
 var tab_adv := Button.new()
-var btn_close := Button.new()
 var scroll := ScrollContainer.new()
 var list_vbox := VBoxContainer.new()
 
@@ -64,69 +63,42 @@ func _ready() -> void:
 	_layout_panel()
 
 func _style_btn(btn: Button, bg: Color, border: Color, font_sz: int = 14) -> void:
-	btn.custom_minimum_size.y = 38.0
-	var st := StyleBoxFlat.new()
-	st.bg_color = bg
-	st.border_color = border
-	st.set_border_width_all(2)
-	st.set_corner_radius_all(8)
-	st.content_margin_left = 12
-	st.content_margin_right = 12
-	st.content_margin_top = 6
-	st.content_margin_bottom = 6
-	btn.add_theme_stylebox_override("normal", st)
-	var sh := st.duplicate()
-	sh.bg_color = bg.lightened(0.14)
-	btn.add_theme_stylebox_override("hover", sh)
-	var sp := st.duplicate()
-	sp.bg_color = bg.darkened(0.12)
-	btn.add_theme_stylebox_override("pressed", sp)
-	btn.add_theme_font_override("font", MapStyle.body_font())
-	btn.add_theme_font_size_override("font_size", font_sz)
-	btn.add_theme_color_override("font_color", Color(0.98, 0.94, 0.84))
+	btn.custom_minimum_size.y = 44.0
+	var variant := "gold" if (border.r > 0.90 and border.g > 0.72) else ("crimson" if (bg.r > 0.24 and bg.g < 0.14) else "slate")
+	ForgedUI.style_button(btn, variant, maxi(font_sz, 14), 24.0, 8.0)
 
 func _build_ui() -> void:
-	backdrop.color = Color(0.02, 0.02, 0.04, 0.72)
+	backdrop.color = Color(0.015, 0.012, 0.025, 0.84)
 	backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
+	backdrop.gui_input.connect(func(ev: InputEvent) -> void:
+		if ev is InputEventMouseButton and ev.pressed and ev.button_index == MOUSE_BUTTON_LEFT:
+			close_journal()
+	)
 	add_child(backdrop)
 
-	var pstyle := StyleBoxFlat.new()
-	pstyle.bg_color = Color(0.06, 0.055, 0.08, 0.97)
-	pstyle.border_color = Color(0.96, 0.70, 0.24, 0.96)
-	pstyle.set_border_width_all(2)
-	pstyle.set_corner_radius_all(12)
-	pstyle.content_margin_left = 18
-	pstyle.content_margin_right = 18
-	pstyle.content_margin_top = 14
-	pstyle.content_margin_bottom = 14
-	panel.add_theme_stylebox_override("panel", pstyle)
+	panel.add_theme_stylebox_override("panel", ForgedUI.panel_box(42.0, 38.0))
+	panel.clip_contents = true
 	add_child(panel)
+
+	var inner_margin := MarginContainer.new()
+	inner_margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	inner_margin.add_theme_constant_override("margin_left", 44)
+	inner_margin.add_theme_constant_override("margin_right", 44)
+	inner_margin.add_theme_constant_override("margin_top", 40)
+	inner_margin.add_theme_constant_override("margin_bottom", 46)
+	panel.add_child(inner_margin)
 
 	var root_vb := VBoxContainer.new()
 	root_vb.add_theme_constant_override("separation", 10)
-	panel.add_child(root_vb)
+	inner_margin.add_child(root_vb)
 
-	var top_hb := HBoxContainer.new()
-	top_hb.add_theme_constant_override("separation", 10)
-	root_vb.add_child(top_hb)
-
-	header_lbl.text = "DZIENNIK ZADAŃ I CELÓW ROZWOJU RASY"
-	header_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header_lbl.add_theme_font_override("font", MapStyle.font())
-	header_lbl.add_theme_font_size_override("font_size", 20)
-	header_lbl.add_theme_color_override("font_color", Color(1.0, 0.88, 0.52))
-	top_hb.add_child(header_lbl)
-
-	btn_close.text = "✕ ZAMKNIJ"
-	_style_btn(btn_close, Color(0.28, 0.10, 0.10, 0.95), Color(0.94, 0.44, 0.34, 0.95), 14)
-	btn_close.pressed.connect(close_journal)
-	top_hb.add_child(btn_close)
+	root_vb.add_child(ForgedUI.make_header_bar("DZIENNIK ZADAŃ I ROZWOJU", close_journal, "← WSTECZ", "Rozdziały dziedzictwa, cele rasy i labirynty"))
 
 	var tabs_hb := HBoxContainer.new()
 	tabs_hb.add_theme_constant_override("separation", 10)
 	root_vb.add_child(tabs_hb)
 
-	tab_heritage.text = "◆ ROZDZIAŁY DZIEDZICTWA (6)"
+	tab_heritage.text = "◆ DZIEDZICTWO (6)"
 	tab_heritage.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	tab_heritage.pressed.connect(func() -> void:
 		active_tab = "heritage"
@@ -142,7 +114,7 @@ func _build_ui() -> void:
 	)
 	tabs_hb.add_child(tab_dev)
 
-	tab_adv.text = "⚔ LABIRYNTY I PRZYGODY (4)"
+	tab_adv.text = "⚔ LABIRYNTY (4)"
 	tab_adv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	tab_adv.pressed.connect(func() -> void:
 		active_tab = "adventure"
@@ -153,12 +125,15 @@ func _build_ui() -> void:
 	status_lbl.text = "Postęp i nagrody są weryfikowane oraz zapisywane na serwerze gry."
 	status_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	status_lbl.add_theme_font_override("font", MapStyle.body_font())
-	status_lbl.add_theme_font_size_override("font_size", 13)
-	status_lbl.add_theme_color_override("font_color", Color(0.82, 0.86, 0.94))
+	status_lbl.add_theme_font_size_override("font_size", 14)
+	status_lbl.add_theme_color_override("font_color", Color(0.84, 0.88, 0.94))
 	root_vb.add_child(status_lbl)
 
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	scroll.clip_contents = true
 	root_vb.add_child(scroll)
 
 	list_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -168,10 +143,14 @@ func _build_ui() -> void:
 func _layout_panel() -> void:
 	var vs := get_viewport_rect().size
 	if vs.x < 100.0:
-		vs = Vector2(1600.0, 720.0)
-	var pw := clampf(vs.x * 0.78, 560.0, 960.0)
-	var ph := clampf(vs.y * 0.82, 420.0, 620.0)
-	panel.position = Vector2((vs.x - pw) * 0.5, (vs.y - ph) * 0.5)
+		vs = Vector2(1280.0, 720.0)
+	var pw := clampf(vs.x * 0.82, 560.0, 1020.0)
+	var ph := clampf(vs.y * 0.86, 420.0, 640.0)
+	panel.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	panel.offset_left = (vs.x - pw) * 0.5
+	panel.offset_top = (vs.y - ph) * 0.5
+	panel.offset_right = panel.offset_left + pw
+	panel.offset_bottom = panel.offset_top + ph
 	panel.size = Vector2(pw, ph)
 
 func apply_server_goals(goals: Array) -> void:
@@ -193,6 +172,10 @@ func open_journal() -> void:
 
 func close_journal() -> void:
 	visible = false
+	if world != null and world.has_method("layout_minimap"):
+		world.layout_minimap()
+	if world != null and world.get("rpg_hud") != null:
+		world.rpg_hud._refresh_visuals()
 
 func toggle_journal() -> void:
 	if visible:
@@ -315,11 +298,12 @@ func _rebuild_list() -> void:
 		left.add_child(meta_lbl)
 
 		var act_btn := Button.new()
-		act_btn.custom_minimum_size = Vector2(170, 42)
+		act_btn.custom_minimum_size = Vector2(232, 46)
 		if st == "claimed":
 			act_btn.text = "✓ UKOŃCZONE"
 			act_btn.disabled = true
 			_style_btn(act_btn, Color(0.10, 0.22, 0.14, 0.85), Color(0.36, 0.82, 0.50, 0.75), 13)
+			act_btn.add_theme_color_override("font_disabled_color", Color(0.62, 0.96, 0.72, 0.95))
 		elif st == "ready":
 			act_btn.text = "★ ODBIERZ NAGRODĘ"
 			_style_btn(act_btn, Color(0.34, 0.22, 0.05, 0.98), Color(1.0, 0.82, 0.28, 0.98), 13)
@@ -330,6 +314,7 @@ func _rebuild_list() -> void:
 			act_btn.text = "W TOKU" if st == "in_progress" else "ZABLOKOWANE"
 			act_btn.disabled = true
 			_style_btn(act_btn, Color(0.12, 0.12, 0.16, 0.80), Color(0.40, 0.42, 0.50, 0.60), 13)
+			act_btn.add_theme_color_override("font_disabled_color", Color(0.78, 0.76, 0.74, 0.92))
 		row.add_child(act_btn)
 
 	if shown == 0:

@@ -22,14 +22,49 @@ var gate_done := false
 
 var intro := TextureRect.new()
 var floor_shade := TextureRect.new()
+var menu_music := AudioStreamPlayer.new()
+
+func _load_menu_stream() -> AudioStream:
+	for p in ["res://service_preview/pyra/assets/audio/music/menu.mp3", "res://assets/audio/music/menu.mp3"]:
+		if ResourceLoader.exists(p):
+			var loaded := load(p)
+			if loaded is AudioStream:
+				return loaded
+		if FileAccess.file_exists(p):
+			var mp3 := AudioStreamMP3.new()
+			mp3.data = FileAccess.get_file_as_bytes(p)
+			mp3.loop = true
+			return mp3
+	return null
+
+func start_menu_music() -> void:
+	var vol := 0.35
+	if FileAccess.file_exists("user://audio.json"):
+		var v: Variant = JSON.parse_string(FileAccess.get_file_as_string("user://audio.json"))
+		if v is Dictionary:
+			vol = clampf(float((v as Dictionary).get("music", vol)), 0.0, 1.0)
+	if vol <= 0.01:
+		menu_music.stop()
+		return
+	if menu_music.stream == null:
+		menu_music.stream = _load_menu_stream()
+	if menu_music.stream is AudioStreamMP3:
+		(menu_music.stream as AudioStreamMP3).loop = true
+	menu_music.volume_db = linear_to_db(maxf(vol * 0.72, 0.0001))
+	if menu_music.stream != null and not menu_music.playing:
+		menu_music.play()
+
+func stop_menu_music() -> void:
+	if menu_music.playing:
+		menu_music.stop()
 
 func _ready() -> void:
 	get_tree().quit_on_go_back = false
 	PyraSkin.install(get_tree())
 	Look.install_letters(get_tree())
-	var music := PyraAudio.new()
-	add_child(music)
-	music.play_music.call_deferred("loading")
+	menu_music.name = "MenuMusicPlayer"
+	add_child(menu_music)
+	start_menu_music.call_deferred()
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	# The owner's key art as a landscape composition (the game is landscape-only): it fills the whole screen.
 	intro.texture = load("res://assets/branding/intro-wide.webp")

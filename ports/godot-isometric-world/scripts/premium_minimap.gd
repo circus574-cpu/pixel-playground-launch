@@ -194,7 +194,10 @@ func _on_radar_input(event: InputEvent) -> void:
 					var ws: float = maxf(float(world.world_size), 1.0)
 					world.teleport_to_world_pos(str(world.current_land), uv.x * ws, uv.y * ws)
 				else:
-					world.toggle_map()
+					if world.has_method("open_world_map_on_hero"):
+						world.open_world_map_on_hero()
+					else:
+						world.toggle_atlas(true)
 		elif mb.button_index == MOUSE_BUTTON_RIGHT:
 			toggle_zoom_mode()
 

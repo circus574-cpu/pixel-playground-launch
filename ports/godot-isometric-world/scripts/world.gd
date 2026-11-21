@@ -16,6 +16,9 @@ const LabyrinthRoomScript := preload("res://scripts/labyrinth_room.gd")
 const DialogueStripScript := preload("res://scripts/dialogue_strip.gd")
 const LoadingScreenScript := preload("res://scripts/loading_screen.gd")
 const QuestJournalScript := preload("res://scripts/quest_journal.gd")
+const GameMenuScript := preload("res://scripts/game_menu.gd")
+const ForgedUI := preload("res://scripts/forged_ui.gd")
+const CombatVfxScript := preload("res://scripts/combat_vfx.gd")
 const StickScript := preload("res://scripts/stick.gd")
 const AudioScript := preload("res://scripts/world_audio.gd")
 const MapStyle := preload("res://scripts/map_style.gd")
@@ -26,6 +29,8 @@ const ISO_H := 3.8
 const STEP := 2
 const SPEED := 46.0
 const SPRITE_SCALE := 0.56
+const JOYSTICK_DEADZONE_PX := 14.0
+const JOYSTICK_MAX_RADIUS_PX := 62.0
 
 const REGION_ORDER := ["pyra", "verdant", "aether", "nexus"]
 const REGION_TITLES := {
@@ -60,6 +65,7 @@ var monsters_data: Array = []
 var fauna_data: Array = []
 var labyrinths_data: Array = []
 var treasures_data: Array = []
+var gatherables_data: Array = []
 var props: Array = []
 
 var actors_db: Dictionary = {}
@@ -68,17 +74,21 @@ var animals_db: Dictionary = {}
 
 var terrain_mesh := MeshInstance2D.new()
 var ysort := Node2D.new()
+var combat_vfx: Node2D
 var hero
 var live_agents: Array[Dictionary] = []
 var prop_nodes: Array[Node2D] = []
 var treasure_nodes: Dictionary = {}
 var opened_treasures: Dictionary = {}
+var gatherable_nodes: Dictionary = {}
+var gatherable_cd: Dictionary = {}
 var _cull_accum := 0.0
 var camera := Camera2D.new()
 var hud := CanvasLayer.new()
 var atmosphere: Control
 var rpg_hud: Control
 var gm_panel: Control
+var game_menu: Control
 var interior_room: Control
 var labyrinth_room: Control
 var dialogue_strip: Control
@@ -88,6 +98,7 @@ var is_booting := false
 var btn_enter_bldg := Button.new()
 var btn_talk_npc := Button.new()
 var btn_open_treasure := Button.new()
+var btn_gather := Button.new()
 var combat_toast_lbl := Label.new()
 var combat_toast_t := 0.0
 var premium_minimap: Control
@@ -105,6 +116,7 @@ var gm_open := false
 var in_interior := false
 var in_labyrinth := false
 var nearest_treasure: Dictionary = {}
+var nearest_gatherable: Dictionary = {}
 const RACE_TO_LAND := {"legend": "pyra", "planetary": "verdant", "sage": "aether", "android": "nexus"}
 var start_race := ""
 var hero_race_land := ""
@@ -115,6 +127,15 @@ var start_name := ""
 var server_char_id := ""
 var server_character: Dictionary = {}
 var server_action_fn: Callable = Callable()
+var initial_music_vol := 0.35
+var initial_sfx_vol := 0.70
+var audio_settings_fn: Callable = Callable()
+var return_to_char_select_fn: Callable = Callable()
+var logout_fn: Callable = Callable()
+var quit_game_fn: Callable = Callable()
+var combo_step := 0
+var combo_reset_t := 0.0
+var ki_mode_timer := 0.0
 var audio: Node
 var nearest_enterable: Dictionary = {}
 var nearest_npc_agent: Dictionary = {}
@@ -149,12 +170,15 @@ func _stop_lingering_loading_audio() -> void:
 func _ready() -> void:
 	audio = AudioScript.new()
 	add_child(audio)
+	audio.set_volumes(initial_music_vol, initial_sfx_vol)
 	shadow_tex = make_shadow_tex()
 	terrain_mesh.z_index = -10
 	add_child(terrain_mesh)
 	ysort.y_sort_enabled = true
 	ysort.z_index = 0
 	add_child(ysort)
+	combat_vfx = CombatVfxScript.new()
+	add_child(combat_vfx)
 
 	camera.enabled = true
 	camera.zoom = Vector2(zoom_level, zoom_level)
@@ -213,6 +237,8 @@ func _exit_tree() -> void:
 	tex_cache.clear()
 	ActorScript.sheet_cache.clear()
 	AmbientScript.soft_texture = null
+	CombatVfxScript._glow_tex = null
+	ForgedUI._tex_cache.clear()
 	MapStyle.title_font = null
 	MapStyle.vignette_texture = null
 
@@ -359,6 +385,8 @@ func load_terrain(land: String) -> void:
 	fauna_data = []
 	labyrinths_data = []
 	treasures_data = []
+	gatherables_data = []
+	gatherable_cd.clear()
 	props = []
 	landmarks = []
 
@@ -433,6 +461,12 @@ func load_terrain(land: String) -> void:
 			tc["x"] = float(tr.get("x", 0.0)) + half
 			tc["z"] = float(tr.get("z", 0.0)) + half
 			treasures_data.append(tc)
+
+		for g: Dictionary in bdata.get("gatherables", []):
+			var gc: Dictionary = g.duplicate(true)
+			gc["x"] = float(g.get("x", 0.0)) + half
+			gc["z"] = float(g.get("z", 0.0)) + half
+			gatherables_data.append(gc)
 
 		for p: Dictionary in bdata.get("props", []):
 			var pc: Dictionary = p.duplicate()
@@ -591,6 +625,7 @@ func build_world_objects_and_actors() -> void:
 	live_agents.clear()
 	prop_nodes.clear()
 	treasure_nodes.clear()
+	gatherable_nodes.clear()
 	_last_cull_cam = Vector2(1e9, 1e9)
 	for child in ysort.get_children():
 		if child != hero:
@@ -690,6 +725,39 @@ func build_world_objects_and_actors() -> void:
 		ysort.add_child(tnode)
 		treasure_nodes[tid] = tnode
 
+	# 2c. Interactive Wilderness Gatherables & Healing Rest Campfires (Paczka B: 28 per continent)
+	for g: Dictionary in gatherables_data:
+		var gid := str(g.get("id", ""))
+		var gkind := str(g.get("kind", "gather"))
+		var gx := float(g.get("x", 512.0))
+		var gz := float(g.get("z", 512.0))
+		var gh := height_at(gx, gz)
+		var gsp_path := str(g.get("sprite", ""))
+		var gw := float(g.get("w", 205.0))
+		var gh_px := float(g.get("h", 205.0))
+		var gnode := Node2D.new()
+		gnode.position = iso(gx, gz, gh)
+		add_contact_shadow(gnode, gw, 0.34, 3.0)
+		var gsp := make_fitted_sprite(gsp_path, gw, gh_px, 0.86)
+		gnode.add_child(gsp)
+		var gfx_kind := "fire" if gkind == "campfire" else AmbientScript.kind_for(gsp_path)
+		if gfx_kind != "":
+			var gfx := AmbientScript.create(gfx_kind, Vector2.ZERO, gsp_path)
+			gnode.add_child(gfx)
+		var glbl := Label.new()
+		glbl.text = ("🔥 %s (Odpoczynek)" % str(g.get("title", "Ognisko"))) if gkind == "campfire" else ("✦ %s" % str(g.get("title", "Surowiec")))
+		glbl.position = Vector2(-190, -gh_px * SPRITE_SCALE * 0.84 - 16.0)
+		glbl.size = Vector2(380, 26)
+		glbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		glbl.add_theme_font_override("font", body_f)
+		glbl.add_theme_font_size_override("font_size", 15)
+		glbl.add_theme_color_override("font_color", Color(1.0, 0.76, 0.36) if gkind == "campfire" else Color(0.56, 0.98, 0.72))
+		glbl.add_theme_color_override("font_outline_color", Color(0.04, 0.02, 0.01, 0.98))
+		glbl.add_theme_constant_override("outline_size", 6)
+		gnode.add_child(glbl)
+		ysort.add_child(gnode)
+		gatherable_nodes[gid] = gnode
+
 	# 3. Exp-Zone Combat Clearing Banners ("EXPOWISKA Lv. 1..18")
 	for ez: Dictionary in exp_zones:
 		var ex := float(ez.get("x", 512.0))
@@ -743,12 +811,15 @@ func build_world_objects_and_actors() -> void:
 			"node": npc_actor,
 			"home": Vector2(nx, nz),
 			"pos": Vector2(nx, nz),
-			"radius": float(n.get("patrol_radius", 14.0)),
-			"speed": 0.65,
+			"radius": float(n.get("patrol_radius", 18.0)),
+			"speed": 18.0,
 			"phase": float(idx) * 1.37,
+			"ai_state": "idle",
+			"ai_timer": randf_range(1.2, 5.2),
+			"ai_target": Vector2(nx, nz),
 		})
 
-	# 5. Live Canonical Monsters distributed across 10 Exp-Zones (Lv. 1..18, 0 inside safe capitals!)
+	# 5. Live Canonical Monsters + Named Zone Mini-Boss Elites (Lv. 1..18, 0 inside safe capitals!)
 	for idx in monsters_data.size():
 		var m: Dictionary = monsters_data[idx]
 		var mid := str(m.get("actor_id", ""))
@@ -758,6 +829,8 @@ func build_world_objects_and_actors() -> void:
 		var m_actor_def: Dictionary = m_entry.get("actor", {})
 		if m_actor_def.is_empty():
 			continue
+		var is_el := bool(m.get("is_elite", false))
+		var sc_m := float(m.get("scale_mult", 1.0))
 		var mon_actor := ActorScript.new()
 		mon_actor.setup(
 			m_actor_def,
@@ -765,9 +838,12 @@ func build_world_objects_and_actors() -> void:
 			false,
 			false,
 			"monster",
-			int(m.get("level", 1))
+			int(m.get("level", 1)),
+			"",
+			"",
+			is_el
 		)
-		mon_actor.scale = Vector2(0.47, 0.47)
+		mon_actor.scale = Vector2(0.47 * sc_m, 0.47 * sc_m)
 		var mx := float(m.get("x", 512.0))
 		var mz := float(m.get("z", 512.0))
 		mon_actor.position = iso(mx, mz, height_at(mx, mz))
@@ -781,21 +857,27 @@ func build_world_objects_and_actors() -> void:
 			"actor_id": mid,
 			"name": str(m.get("name", "Potwór")),
 			"level": m_lv,
+			"is_elite": is_el,
 			"max_hp": m_hp,
 			"cur_hp": m_hp,
 			"atk": m_atk,
 			"atk_cd": 0.0,
+			"atk_count": 0,
 			"dmg_dealt_to_hero": 0,
 			"xp": int(m.get("xp", 18 + m_lv * 7)),
 			"gold": int(m.get("gold", 8 + m_lv * 4)),
 			"alive": true,
+			"death_hide_t": 0.0,
 			"respawn_t": 0.0,
 			"node": mon_actor,
 			"home": Vector2(mx, mz),
 			"pos": Vector2(mx, mz),
-			"radius": float(m.get("patrol_radius", 22.0)),
-			"speed": 0.95,
+			"radius": float(m.get("patrol_radius", 26.0)),
+			"speed": 22.0,
 			"phase": float(idx) * 1.91,
+			"ai_state": "idle",
+			"ai_timer": randf_range(1.0, 4.0),
+			"ai_target": Vector2(mx, mz),
 		})
 
 	# 6. 18 Animated Wildlife Fauna Animals (A-01..A-10) roaming near lakes, rivers & forests
@@ -822,12 +904,16 @@ func build_world_objects_and_actors() -> void:
 		ani_actor.position = iso(fx, fz, height_at(fx, fz))
 		ysort.add_child(ani_actor)
 		live_agents.append({
+			"kind": "animal",
 			"node": ani_actor,
 			"home": Vector2(fx, fz),
 			"pos": Vector2(fx, fz),
-			"radius": float(fa.get("patrol_radius", 20.0)),
-			"speed": 1.15,
+			"radius": float(fa.get("patrol_radius", 24.0)),
+			"speed": 22.0,
 			"phase": float(idx) * 2.23,
+			"ai_state": "idle",
+			"ai_timer": randf_range(1.5, 4.5),
+			"ai_target": Vector2(fx, fz),
 		})
 
 func teleport_to_capital() -> void:
@@ -915,23 +1001,13 @@ func build_hud() -> void:
 	gm_panel.visible = false
 	hud.add_child(gm_panel)
 
-	# Large mobile-friendly "WEJDŹ DO BUDYNKU" prompt button (visible when near any of the 59 enterable buildings)
-	var est := StyleBoxFlat.new()
-	est.bg_color = Color(0.14, 0.11, 0.06, 0.96)
-	est.border_color = Color(0.98, 0.78, 0.34, 0.98)
-	est.set_border_width_all(3)
-	est.set_corner_radius_all(12)
-	est.content_margin_left = 18
-	est.content_margin_right = 18
-	est.content_margin_top = 8
-	est.content_margin_bottom = 8
-	btn_enter_bldg.add_theme_stylebox_override("normal", est)
-	var esh := est.duplicate()
-	esh.bg_color = Color(0.24, 0.18, 0.08, 0.98)
-	btn_enter_bldg.add_theme_stylebox_override("hover", esh)
-	btn_enter_bldg.add_theme_font_override("font", MapStyle.body_font())
-	btn_enter_bldg.add_theme_font_size_override("font_size", 17)
-	btn_enter_bldg.add_theme_color_override("font_color", Color(1.0, 0.94, 0.74))
+	game_menu = GameMenuScript.new()
+	game_menu.world = self
+	game_menu.visible = false
+	hud.add_child(game_menu)
+
+	# Large mobile-friendly Forged "WEJDŹ DO BUDYNKU" prompt button
+	ForgedUI.style_button(btn_enter_bldg, "gold", 17, 22.0, 10.0)
 	btn_enter_bldg.text = "▶ WEJDŹ DO BUDYNKU"
 	btn_enter_bldg.visible = false
 	btn_enter_bldg.pressed.connect(func() -> void:
@@ -940,23 +1016,8 @@ func build_hud() -> void:
 	)
 	hud.add_child(btn_enter_bldg)
 
-	# Contextual mobile "ROZMAWIAJ Z NPC" button (non-obstructive cyan-gold pill)
-	var tst := StyleBoxFlat.new()
-	tst.bg_color = Color(0.06, 0.16, 0.22, 0.96)
-	tst.border_color = Color(0.36, 0.90, 1.0, 0.98)
-	tst.set_border_width_all(3)
-	tst.set_corner_radius_all(12)
-	tst.content_margin_left = 18
-	tst.content_margin_right = 18
-	tst.content_margin_top = 8
-	tst.content_margin_bottom = 8
-	btn_talk_npc.add_theme_stylebox_override("normal", tst)
-	var tsh := tst.duplicate()
-	tsh.bg_color = Color(0.10, 0.26, 0.34, 0.98)
-	btn_talk_npc.add_theme_stylebox_override("hover", tsh)
-	btn_talk_npc.add_theme_font_override("font", MapStyle.body_font())
-	btn_talk_npc.add_theme_font_size_override("font_size", 17)
-	btn_talk_npc.add_theme_color_override("font_color", Color(0.90, 0.98, 1.0))
+	# Contextual mobile Forged "ROZMAWIAJ Z NPC" button
+	ForgedUI.style_button(btn_talk_npc, "slate", 17, 22.0, 10.0)
 	btn_talk_npc.text = "▶ ROZMAWIAJ"
 	btn_talk_npc.visible = false
 	btn_talk_npc.pressed.connect(func() -> void:
@@ -975,23 +1036,8 @@ func build_hud() -> void:
 	labyrinth_room.visible = false
 	hud.add_child(labyrinth_room)
 
-	# Contextual golden "OTWÓRZ UKRYTY SKARB" button when near one of the 24 hidden world treasures
-	var trst := StyleBoxFlat.new()
-	trst.bg_color = Color(0.24, 0.16, 0.04, 0.96)
-	trst.border_color = Color(1.0, 0.86, 0.28, 0.98)
-	trst.set_border_width_all(3)
-	trst.set_corner_radius_all(12)
-	trst.content_margin_left = 18
-	trst.content_margin_right = 18
-	trst.content_margin_top = 8
-	trst.content_margin_bottom = 8
-	btn_open_treasure.add_theme_stylebox_override("normal", trst)
-	var trsh := trst.duplicate()
-	trsh.bg_color = Color(0.36, 0.24, 0.06, 0.98)
-	btn_open_treasure.add_theme_stylebox_override("hover", trsh)
-	btn_open_treasure.add_theme_font_override("font", MapStyle.body_font())
-	btn_open_treasure.add_theme_font_size_override("font_size", 17)
-	btn_open_treasure.add_theme_color_override("font_color", Color(1.0, 0.95, 0.72))
+	# Contextual Forged golden "OTWÓRZ UKRYTY SKARB" button
+	ForgedUI.style_button(btn_open_treasure, "gold", 17, 22.0, 10.0)
 	btn_open_treasure.text = "★ OTWÓRZ UKRYTY SKARB"
 	btn_open_treasure.visible = false
 	btn_open_treasure.pressed.connect(func() -> void:
@@ -999,6 +1045,16 @@ func build_hud() -> void:
 			claim_treasure_reward(nearest_treasure, "")
 	)
 	hud.add_child(btn_open_treasure)
+
+	# Contextual Forged button for Wilderness Gatherables & Healing Rest Campfires (Paczka B)
+	ForgedUI.style_button(btn_gather, "gold", 17, 22.0, 10.0)
+	btn_gather.text = "✦ ZBIERZ SUROWIEC"
+	btn_gather.visible = false
+	btn_gather.pressed.connect(func() -> void:
+		if not nearest_gatherable.is_empty():
+			interact_gatherable(nearest_gatherable)
+	)
+	hud.add_child(btn_gather)
 
 	combat_toast_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	combat_toast_lbl.add_theme_font_override("font", MapStyle.body_font())
@@ -1034,12 +1090,73 @@ func is_treasure_opened(tid: String) -> bool:
 
 func show_combat_toast(msg: String, col: Color = Color(1.0, 0.90, 0.44)) -> void:
 	combat_toast_lbl.text = msg
+	combat_toast_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	combat_toast_lbl.add_theme_color_override("font_color", col)
 	var vp := get_viewport_rect().size
-	combat_toast_lbl.size = Vector2(maxf(vp.x - 160.0, 320.0), 34.0)
-	combat_toast_lbl.position = Vector2(80.0, 86.0)
-	combat_toast_lbl.visible = true
+	var left_x := 492.0
+	var right_x := maxf(vp.x - 306.0, left_x + 240.0)
+	combat_toast_lbl.size = Vector2(right_x - left_x, 56.0)
+	combat_toast_lbl.position = Vector2(left_x, 18.0)
+	combat_toast_lbl.visible = not (in_interior or in_labyrinth)
 	combat_toast_t = 3.8
+
+func interact_gatherable(g: Dictionary) -> void:
+	var gid := str(g.get("id", ""))
+	if gid.is_empty() or float(gatherable_cd.get(gid, 0.0)) > 0.0:
+		return
+	var gkind := str(g.get("kind", "gather"))
+	var gtitle := str(g.get("title", "Surowiec"))
+	if hero != null and hero.has_method("play_action"):
+		hero.play_action("interact", "victory", 0.55)
+	if gkind == "campfire":
+		gatherable_cd[gid] = 8.0
+		if not dispatch_server_action({"type": "inn_rest"}):
+			if rpg_hud != null:
+				rpg_hud.hero_hp = rpg_hud.hero_max_hp
+				rpg_hud.hero_ki = rpg_hud.hero_max_ki
+				rpg_hud._sync_bar_uniforms()
+				rpg_hud._refresh_visuals()
+		if combat_vfx != null and hero != null:
+			combat_vfx.spawn_heal_aura(hero.position, Color(0.38, 0.98, 0.62))
+		if hero != null and hero.has_method("show_damage_number"):
+			hero.show_damage_number("+100% HP / KI", Color(0.42, 1.0, 0.64), true)
+		if audio != null:
+			audio.sfx("ui/open", 0.85)
+		show_combat_toast("🔥 Odpoczynek przy %s — odzyskano 100%% HP i KI!" % gtitle, Color(0.46, 0.98, 0.68))
+	else:
+		gatherable_cd[gid] = 45.0
+		var gnode: Node2D = gatherable_nodes.get(gid, null)
+		if is_instance_valid(gnode):
+			gnode.modulate = Color(0.46, 0.46, 0.50, 0.42)
+			if combat_vfx != null:
+				combat_vfx.spawn_heal_aura(gnode.position, Color(1.0, 0.88, 0.34))
+		var rxp := int(g.get("xp", 24))
+		var rgold := int(g.get("gold", 20))
+		var iname := str(g.get("item_name", gtitle))
+		var iicon := str(g.get("icon", "emblem_scroll.webp"))
+		if rpg_hud != null:
+			rpg_hud.hero_gold += rgold
+			if rpg_hud.has_method("add_item_to_backpack"):
+				rpg_hud.add_item_to_backpack({
+					"id": str(g.get("item_id", gid)),
+					"name": iname,
+					"cat": "material",
+					"icon": iicon,
+					"desc": "Surowiec zebrany na kontynencie %s" % current_land.capitalize(),
+					"rarity": Color(0.54, 0.96, 0.68),
+				}, 1)
+			if rpg_hud.has_method("grant_local_xp"):
+				var lvl_up: bool = rpg_hud.grant_local_xp(rxp)
+				if lvl_up and audio != null:
+					audio.sfx("development/level-up", 0.95)
+			else:
+				rpg_hud._refresh_visuals()
+		if hero != null and hero.has_method("show_damage_number"):
+			hero.show_damage_number("+1 %s" % iname, Color(1.0, 0.92, 0.42), false)
+		if audio != null:
+			audio.sfx("ui/chest", 0.78)
+		show_combat_toast("✦ Zebrano: %s (+%d PD, +%d zł)" % [iname, rxp, rgold], Color(0.56, 0.98, 0.72))
+	sync_hero()
 
 func claim_treasure_reward(tr: Dictionary, lab_id: String = "") -> bool:
 	var tid := str(tr.get("id", ""))
@@ -1049,11 +1166,13 @@ func claim_treasure_reward(tr: Dictionary, lab_id: String = "") -> bool:
 	var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
 	if not gm_noclip and hero_lv < req_lv:
 		if audio != null:
-			audio.sfx("common/ui_click")
+			audio.sfx("ui/click")
 		show_combat_toast("🔒 Wymagany Poziom %d, aby otworzyć: %s (masz Poz. %d)!" % [req_lv, str(tr.get("title", "Skarb")), hero_lv], Color(1.0, 0.45, 0.32))
 		return false
 	opened_treasures[tid] = true
 	_refresh_treasure_nodes_visibility()
+	if hero != null and hero.has_method("play_action"):
+		hero.play_action("interact", "victory", 0.55)
 	var rgold := int(tr.get("gold", 150))
 	var rxp := int(tr.get("xp", 95))
 	var ritem := str(tr.get("item_id", ""))
@@ -1066,33 +1185,56 @@ func claim_treasure_reward(tr: Dictionary, lab_id: String = "") -> bool:
 		if rpg_hud != null:
 			rpg_hud.hero_gold += rgold
 			if rpg_hud.has_method("grant_local_xp"):
-				rpg_hud.grant_local_xp(rxp)
+				var lvl_up: bool = rpg_hud.grant_local_xp(rxp)
+				if lvl_up and audio != null:
+					audio.sfx("development/level-up", 0.95)
 			else:
 				rpg_hud._refresh_visuals()
 	if audio != null:
-		audio.sfx("common/ui_click")
+		audio.sfx("ui/chest", 0.90)
 	show_combat_toast("★ ODKRYTO SKARB: %s (+%d zł, +%d PD)" % [str(tr.get("title", "Skarb")), rgold, rxp], Color(1.0, 0.92, 0.40))
 	sync_hero()
 	return true
 
-func report_monster_kill(monster_id: String, lvl: int, mname: String, hp_cost: int = 0) -> void:
-	var base_xp := 18 + lvl * 7
+func report_monster_kill(monster_id: String, lvl: int, mname: String, hp_cost: int = 0, is_elite: bool = false) -> void:
+	var base_xp := (18 + lvl * 7) * (3 if is_elite else 1)
 	var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
 	var lv_diff := hero_lv - lvl
 	var rxp := maxi(5, int(round(float(base_xp) * 0.25))) if lv_diff >= 5 else (maxi(8, int(round(float(base_xp) * 0.50))) if lv_diff >= 3 else base_xp)
-	var rgold := 8 + lvl * 4
+	var rgold := (8 + lvl * 4) * (3 if is_elite else 1)
 	if not dispatch_server_action({"type": "monster_kill", "monsterId": monster_id, "level": lvl, "hpCost": maxi(0, hp_cost)}):
 		if rpg_hud != null:
 			rpg_hud.hero_gold += rgold
 			if rpg_hud.has_method("grant_local_xp"):
-				rpg_hud.grant_local_xp(rxp)
+				var lvl_up: bool = rpg_hud.grant_local_xp(rxp)
+				if lvl_up and audio != null:
+					audio.sfx("development/level-up", 0.95)
 			else:
 				rpg_hud._refresh_visuals()
-	show_combat_toast("⚔ Pokonano: %s (Poz.%d) • +%d PD, +%d zł" % [mname, lvl, rxp, rgold], Color(1.0, 0.78, 0.36))
+	if is_elite and rpg_hud != null and rpg_hud.has_method("add_item_to_backpack"):
+		rpg_hud.add_item_to_backpack({
+			"id": "pot_hp",
+			"name": "Mikstura Życia",
+			"cat": "consumable",
+			"icon": "consumable-mikstura-zycia.webp",
+			"hp_restore": 120,
+			"desc": "Łup Elity (+120 HP)",
+			"rarity": Color(1.0, 0.80, 0.28),
+		}, 2)
+		show_combat_toast("★ POKONANO ELITĘ: %s! (+%d PD, +%d zł, 2× Mikstura Życia)" % [mname, rxp, rgold], Color(1.0, 0.86, 0.24))
+	else:
+		show_combat_toast("⚔ Pokonano: %s (Poz.%d) • +%d PD, +%d zł" % [mname, lvl, rxp, rgold], Color(1.0, 0.78, 0.36))
 
 func handle_hero_defeat() -> void:
 	if in_labyrinth:
 		exit_labyrinth()
+	if audio != null:
+		audio.sfx("common/player-death", 0.95)
+	if hero != null and hero.has_method("set_ki_mode"):
+		ki_mode_timer = 0.0
+		hero.set_ki_mode(false)
+	if hero != null and hero.has_method("play_action"):
+		hero.play_action("death", "hitheavy", 0.70)
 	for ag: Dictionary in live_agents:
 		if str(ag.get("kind", "")) == "monster":
 			ag["cur_hp"] = int(ag.get("max_hp", 200))
@@ -1110,7 +1252,31 @@ func handle_hero_defeat() -> void:
 			rpg_hud._sync_bar_uniforms()
 			rpg_hud._refresh_visuals()
 		teleport_to_capital()
+		if hero != null and hero.has_method("play_action"):
+			hero.play_action("respawn", "interact", 0.65)
+		if audio != null:
+			audio.sfx("common/respawn", 0.85)
 	show_combat_toast("☠ PORAŻKA W WALCE! Tracisz 10% PD i budzisz się w bezpiecznej stolicy.", Color(1.0, 0.36, 0.28))
+
+func _hero_race_key() -> String:
+	if rpg_hud != null and rpg_hud.has_method("_race_key"):
+		return str(rpg_hud._race_key())
+	return str({"pyra": "legend", "verdant": "planetary", "aether": "sage", "nexus": "android"}.get(hero_race_land if hero_race_land != "" else current_land, "legend"))
+
+func _hero_aim_screen_dir(best_idx: int) -> Vector2:
+	if best_idx >= 0 and hero != null:
+		var mnd = live_agents[best_idx].get("node", null)
+		if is_instance_valid(mnd):
+			var d: Vector2 = (mnd.position as Vector2) - (hero.position as Vector2)
+			if d.length_squared() > 1.0:
+				return d.normalized()
+	var dir_map := {
+		"right": Vector2(1.0, 0.0), "down-right": Vector2(0.7, 0.7), "down": Vector2(0.0, 1.0),
+		"down-left": Vector2(-0.7, 0.7), "left": Vector2(-1.0, 0.0), "up-left": Vector2(-0.7, -0.7),
+		"up": Vector2(0.0, -1.0), "up-right": Vector2(0.7, -0.7),
+	}
+	var d_name := str(hero.direction) if hero != null else "down-right"
+	return dir_map.get(d_name, Vector2(0.7, 0.7)) as Vector2
 
 func perform_combat_attack(skill_idx: int) -> void:
 	if in_labyrinth and labyrinth_room != null and labyrinth_room.has_method("perform_labyrinth_attack"):
@@ -1118,13 +1284,19 @@ func perform_combat_attack(skill_idx: int) -> void:
 		return
 	if in_interior or map_expanded or atlas_expanded:
 		return
-	var reach := 145.0 if skill_idx == 0 else 235.0
-	var mult := 1.0 if skill_idx == 0 else (1.45 if skill_idx < 4 else 2.15)
+	var reach := 160.0 if skill_idx == 0 else (290.0 if skill_idx == 5 else 250.0)
+	var mult := 1.0 if skill_idx == 0 else (1.45 if skill_idx < 4 else (1.85 if skill_idx == 4 else 2.25))
+	if ki_mode_timer > 0.0:
+		mult *= 1.25
 	var base_atk := 34
 	if rpg_hud != null and rpg_hud.has_method("get_total_attack"):
 		base_atk = int(rpg_hud.get_total_attack())
+	var race_k := _hero_race_key()
+
+	# Find nearest alive monster (and all in AoE for skill 3 / skill 5 Ki burst)
 	var best_idx := -1
 	var best_d := reach
+	var hit_indices: Array[int] = []
 	for idx in live_agents.size():
 		var ag: Dictionary = live_agents[idx]
 		if str(ag.get("kind", "")) != "monster" or not bool(ag.get("alive", true)):
@@ -1133,29 +1305,124 @@ func perform_combat_attack(skill_idx: int) -> void:
 		if d < best_d:
 			best_d = d
 			best_idx = idx
-	if best_idx < 0:
+		if (skill_idx == 5 or skill_idx == 3) and d < reach:
+			hit_indices.append(idx)
+
+	# Face target immediately before playing attack/skill animation
+	if best_idx >= 0 and hero != null:
+		var tpos: Vector2 = live_agents[best_idx]["pos"]
+		var dv := tpos - hero_pos
+		var s_face := Vector2(dv.x - dv.y, (dv.x + dv.y) * 0.5)
+		if s_face.length_squared() > 0.01 and hero.has_method("face"):
+			hero.face(s_face)
+
+	var aim_dir := _hero_aim_screen_dir(best_idx)
+	var target_node = live_agents[best_idx].get("node", null) if best_idx >= 0 else null
+	var is_ranged_race := race_k in ["sage", "android"]
+
+	# ALWAYS play full 47-clip hero combat animation, racial VFX & skill SFX (even on air swing!)
+	if skill_idx == 5:
+		ki_mode_timer = 18.0
+		if hero != null and hero.has_method("set_ki_mode"):
+			if bool(hero.ki_mode_active):
+				hero.play_action("kitransform", "kiskillc")
+			else:
+				hero.set_ki_mode(true)
+		if combat_vfx != null and hero != null:
+			combat_vfx.spawn_transform_pillar(hero.position, race_k)
+		if audio != null:
+			audio.sfx("development/ki-charge", 0.95)
+		show_combat_toast("✦ TRYB KI AKTYWNY (18s) — +25% obrażeń i wzmocnione techniki!", Color(0.42, 0.98, 1.0))
+	elif skill_idx == 0:
+		var combo_clips := ["attack", "attack2", "attack3", "finisher"]
+		var cur_step := combo_step % 4
+		var chosen := str(combo_clips[cur_step])
+		combo_step = (combo_step + 1) % 4
+		combo_reset_t = 2.4
+		if hero != null and hero.has_method("play_action"):
+			hero.play_action(chosen, "attack")
+		if combat_vfx != null and hero != null:
+			if is_ranged_race and is_instance_valid(target_node):
+				combat_vfx.spawn_bolt(hero.position, target_node.position, race_k, 1.0)
+			else:
+				combat_vfx.spawn_slash(hero.position, aim_dir, race_k, 1.15 if cur_step == 3 else 0.92, cur_step % 2 == 1)
+		if audio != null:
+			audio.play_race_skill(race_k, "R")
+	else:
+		var sk_clips := ["sk_A1", "sk_B1", "sk_C1", "sk_A4"]
+		var sk_fbs := ["skill", "skillb", "skillc", "finisher"]
+		var sk_sfx := ["A1", "B1", "C1", "A4"]
+		var si := clampi(skill_idx - 1, 0, 3)
+		if hero != null and hero.has_method("play_action"):
+			hero.play_action(str(sk_clips[si]), str(sk_fbs[si]))
+		if combat_vfx != null and hero != null:
+			if skill_idx == 1:
+				combat_vfx.spawn_slash(hero.position, aim_dir, race_k, 1.38, false)
+				if is_ranged_race and is_instance_valid(target_node):
+					combat_vfx.spawn_bolt(hero.position, target_node.position, race_k, 1.25)
+			elif skill_idx == 2:
+				combat_vfx.spawn_shield_dome(hero.position, race_k)
+				if hero.has_method("show_damage_number"):
+					hero.show_damage_number("OSŁONA KI", Color(0.42, 0.94, 1.0), false)
+			elif skill_idx == 3:
+				combat_vfx.spawn_ki_burst(hero.position, race_k, 170.0)
+			else:
+				var end_pos: Vector2 = (target_node.position as Vector2) if is_instance_valid(target_node) else (hero.position + aim_dir * 135.0)
+				combat_vfx.spawn_bolt(hero.position, end_pos, race_k, 1.35)
+				combat_vfx.spawn_ki_burst(end_pos, race_k, 125.0)
+		if audio != null:
+			audio.play_race_skill(race_k, str(sk_sfx[si]))
+
+	if skill_idx != 5 and skill_idx != 3 and best_idx >= 0:
+		hit_indices = [best_idx]
+	if hit_indices.is_empty():
 		return
-	var target: Dictionary = live_agents[best_idx]
+
 	var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
-	var m_lvl := int(target.get("level", 1))
-	var lv_penalty := 0.65 if (m_lvl - hero_lv >= 3) else 1.0
-	var dmg := maxi(8, int(round(float(base_atk) * mult * lv_penalty * randf_range(0.92, 1.22))))
-	target["cur_hp"] = maxi(0, int(target.get("cur_hp", 200)) - dmg)
-	var mnode = target.get("node", null)
-	if is_instance_valid(mnode):
-		mnode.hp_ratio = clampf(float(target["cur_hp"]) / maxf(float(target["max_hp"]), 1.0), 0.0, 1.0)
-		mnode.queue_redraw()
-		if mnode.has_method("show_bubble"):
-			mnode.show_bubble("-%d HP (%d/%d)" % [dmg, int(target["cur_hp"]), int(target["max_hp"])], 1.4)
-	if int(target["cur_hp"]) <= 0:
-		var hp_cost := int(target.get("dmg_dealt_to_hero", 0))
-		target["dmg_dealt_to_hero"] = 0
-		target["alive"] = false
-		target["respawn_t"] = 22.0
+	var crit_pct: float = float(rpg_hud.get_total_crit()) if (rpg_hud != null and rpg_hud.has_method("get_total_crit")) else 6.0
+	var any_kill := false
+	for h_idx: int in hit_indices:
+		var target: Dictionary = live_agents[h_idx]
+		var m_lvl := int(target.get("level", 1))
+		var is_el := bool(target.get("is_elite", false))
+		var lv_penalty := 0.65 if (m_lvl - hero_lv >= 3) else 1.0
+		var is_crit := randf() * 100.0 < crit_pct
+		var crit_mult := 1.55 if is_crit else 1.0
+		var dmg := maxi(8, int(round(float(base_atk) * mult * lv_penalty * crit_mult * randf_range(0.92, 1.18))))
+		target["cur_hp"] = maxi(0, int(target.get("cur_hp", 200)) - dmg)
+		var mnode = target.get("node", null)
+		if audio != null:
+			audio.sfx("common/hit-crit" if is_crit else "common/hit", 0.82)
 		if is_instance_valid(mnode):
-			mnode.hp_ratio = 1.0
-			mnode.visible = false
-		report_monster_kill(str(target.get("actor_id", "monster")), m_lvl, str(target.get("name", "Potwór")), hp_cost)
+			mnode.hp_ratio = clampf(float(target["cur_hp"]) / maxf(float(target["max_hp"]), 1.0), 0.0, 1.0)
+			mnode.queue_redraw()
+			if combat_vfx != null:
+				combat_vfx.spawn_impact(mnode.position, race_k, is_crit)
+			if mnode.has_method("show_damage_number"):
+				var tag := "KRYT! -" if is_crit else "-"
+				var dcol := Color(1.0, 0.86, 0.22) if is_crit else Color(1.0, 0.42, 0.26)
+				mnode.show_damage_number("%s%d" % [tag, dmg], dcol, is_crit)
+		if int(target["cur_hp"]) <= 0:
+			any_kill = true
+			var hp_cost := int(target.get("dmg_dealt_to_hero", 0))
+			target["dmg_dealt_to_hero"] = 0
+			target["alive"] = false
+			target["death_hide_t"] = 0.85
+			target["respawn_t"] = 60.0 if is_el else 22.0
+			if is_instance_valid(mnode):
+				mnode.hp_ratio = 0.0
+				if is_el and combat_vfx != null:
+					combat_vfx.spawn_ki_burst(mnode.position, race_k, 145.0)
+				if mnode.has_method("play_action"):
+					mnode.play_action("death", "death", 0.90)
+			if audio != null:
+				audio.play_monster_sfx(str(target.get("actor_id", "")), "die")
+			report_monster_kill(str(target.get("actor_id", "monster")), m_lvl, str(target.get("name", "Potwór")), hp_cost, is_el)
+		else:
+			if is_instance_valid(mnode) and mnode.has_method("play_action"):
+				mnode.play_action("hit", "hit", 0.28)
+	if any_kill and skill_idx != 5 and hero != null and hero.has_method("play_action"):
+		hero.play_action("victory", "interact", 0.55)
 
 func open_npc_dialogue(ag: Dictionary) -> void:
 	if ag.is_empty() or dialogue_strip == null:
@@ -1310,6 +1577,8 @@ func layout_minimap() -> void:
 		btn_enter_bldg.visible = false
 		btn_talk_npc.visible = false
 		btn_open_treasure.visible = false
+		btn_gather.visible = false
+		combat_toast_lbl.visible = false
 		if stick_layer != null:
 			stick_layer.visible = true
 		return
@@ -1318,10 +1587,12 @@ func layout_minimap() -> void:
 	if labyrinth_room != null:
 		labyrinth_room.visible = false
 	var show_world_ui := not (map_expanded or atlas_expanded)
-	var rpg_modal_open: bool = gm_open or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)))
+	var menu_open: bool = game_menu != null and bool(game_menu.visible)
+	var q_open: bool = quest_journal != null and bool(quest_journal.visible)
+	var rpg_modal_open: bool = gm_open or menu_open or q_open or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)))
 	var dlg_open: bool = dialogue_strip != null and bool(dialogue_strip.is_open)
 	if rpg_hud != null:
-		rpg_hud.visible = show_world_ui
+		rpg_hud.visible = show_world_ui and not (menu_open or q_open or gm_open or dlg_open)
 	if atmosphere != null:
 		atmosphere.visible = show_world_ui
 	if map_expanded:
@@ -1339,27 +1610,137 @@ func layout_minimap() -> void:
 	if stick_layer != null:
 		stick_layer.visible = show_world_ui and not rpg_modal_open
 	if atlas_overlay != null:
-		atlas_overlay.position = Vector2(24, 20)
-		atlas_overlay.size = Vector2(vp.x - 48, vp.y - 40)
+		atlas_overlay.position = Vector2(16, 14)
+		atlas_overlay.size = Vector2(vp.x - 32, vp.y - 28)
 		atlas_overlay.visible = atlas_expanded
 	if gm_panel != null:
 		gm_panel.visible = gm_open and show_world_ui
+	if combat_toast_lbl != null and (not show_world_ui or rpg_modal_open):
+		combat_toast_lbl.visible = false
+	_layout_world_prompts(vp, show_world_ui and not rpg_modal_open and not dlg_open)
+
+func _layout_world_prompts(vp: Vector2, allow: bool) -> void:
+	var stack_y := vp.y - 154.0
 	var bw := clampf(vp.x * 0.34, 280.0, 420.0)
-	btn_enter_bldg.size = Vector2(bw, 52.0)
-	btn_enter_bldg.position = Vector2((vp.x - bw) * 0.5, vp.y - 148.0)
-	btn_enter_bldg.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_enterable.is_empty()
-	btn_open_treasure.size = Vector2(bw, 52.0)
-	btn_open_treasure.position = Vector2((vp.x - bw) * 0.5, (vp.y - 208.0) if btn_enter_bldg.visible else (vp.y - 148.0))
-	btn_open_treasure.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_treasure.is_empty()
+	btn_enter_bldg.visible = allow and not nearest_enterable.is_empty()
+	if btn_enter_bldg.visible:
+		btn_enter_bldg.size = Vector2(bw, 54.0)
+		btn_enter_bldg.position = Vector2((vp.x - bw) * 0.5, stack_y)
+		stack_y -= 62.0
+	btn_open_treasure.visible = allow and not nearest_treasure.is_empty()
+	if btn_open_treasure.visible:
+		btn_open_treasure.size = Vector2(bw, 54.0)
+		btn_open_treasure.position = Vector2((vp.x - bw) * 0.5, stack_y)
+		stack_y -= 62.0
+	btn_gather.visible = allow and not nearest_gatherable.is_empty()
+	if btn_gather.visible:
+		btn_gather.size = Vector2(bw, 54.0)
+		btn_gather.position = Vector2((vp.x - bw) * 0.5, stack_y)
+		stack_y -= 62.0
 	var tw := clampf(vp.x * 0.30, 250.0, 360.0)
-	btn_talk_npc.size = Vector2(tw, 50.0)
-	var talk_y := (vp.y - 266.0) if (btn_enter_bldg.visible and btn_open_treasure.visible) else ((vp.y - 208.0) if (btn_enter_bldg.visible or btn_open_treasure.visible) else (vp.y - 148.0))
-	btn_talk_npc.position = Vector2((vp.x - tw) * 0.5, talk_y)
-	btn_talk_npc.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_npc_agent.is_empty()
+	btn_talk_npc.visible = allow and not nearest_npc_agent.is_empty()
+	if btn_talk_npc.visible:
+		btn_talk_npc.size = Vector2(tw, 52.0)
+		btn_talk_npc.position = Vector2((vp.x - tw) * 0.5, stack_y)
+
+func notify_audio_changed(mv: float, sv: float) -> void:
+	initial_music_vol = mv
+	initial_sfx_vol = sv
+	if audio_settings_fn.is_valid():
+		audio_settings_fn.call(mv, sv)
+
+func request_change_character() -> void:
+	if return_to_char_select_fn.is_valid():
+		return_to_char_select_fn.call()
+
+func request_logout() -> void:
+	if logout_fn.is_valid():
+		logout_fn.call()
+
+func request_quit_game() -> void:
+	if quit_game_fn.is_valid():
+		quit_game_fn.call()
+	else:
+		get_tree().quit()
+
+func toggle_game_menu(force_open: Variant = null) -> void:
+	if game_menu == null:
+		return
+	var next_v: bool = (not bool(game_menu.visible)) if force_open == null else bool(force_open)
+	if next_v:
+		gm_open = false
+		map_expanded = false
+		atlas_expanded = false
+		if rpg_hud != null and rpg_hud.has_method("close_modals"):
+			rpg_hud.close_modals()
+		if quest_journal != null and bool(quest_journal.visible):
+			quest_journal.visible = false
+		motion = Vector2.ZERO
+		move_pointer = -1
+		game_menu.open_menu()
+	else:
+		game_menu.close_menu()
+	layout_minimap()
+	if rpg_hud != null:
+		rpg_hud._refresh_visuals()
+
+func open_world_map_on_hero() -> void:
+	if in_interior or in_labyrinth:
+		return
+	if game_menu != null and bool(game_menu.visible):
+		game_menu.close_menu()
+	if quest_journal != null and bool(quest_journal.visible):
+		quest_journal.visible = false
+	if rpg_hud != null and rpg_hud.has_method("close_modals"):
+		rpg_hud.close_modals()
+	if atlas_overlay != null and atlas_overlay.has_method("focus_on_hero"):
+		atlas_overlay.focus_on_hero(3.8)
+	toggle_atlas(true)
+
+func handle_back_request() -> bool:
+	if game_menu != null and bool(game_menu.visible):
+		toggle_game_menu(false)
+		return true
+	if dialogue_strip != null and bool(dialogue_strip.is_open):
+		dialogue_strip.close_dialogue(true)
+		return true
+	if in_interior:
+		if interior_room != null and bool(interior_room.service_open):
+			interior_room.toggle_service_panel(false)
+		else:
+			exit_building()
+		return true
+	if in_labyrinth:
+		exit_labyrinth()
+		return true
+	if atlas_expanded:
+		toggle_atlas(false)
+		return true
+	if map_expanded:
+		toggle_map()
+		return true
+	if gm_open:
+		toggle_gm_panel(false)
+		return true
+	if quest_journal != null and bool(quest_journal.visible):
+		quest_journal.toggle_journal()
+		layout_minimap()
+		return true
+	if rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)):
+		rpg_hud.close_modals()
+		return true
+	# Walking in the world -> open real Game Menu (never abruptly kills the game!)
+	toggle_game_menu(true)
+	return true
 
 func toggle_quest_journal() -> void:
 	if quest_journal != null:
+		if game_menu != null and bool(game_menu.visible):
+			game_menu.close_menu()
 		quest_journal.toggle_journal()
+		layout_minimap()
+		if rpg_hud != null:
+			rpg_hud._refresh_visuals()
 
 func toggle_gm_panel(force_open: Variant = null) -> void:
 	if in_interior or in_labyrinth:
@@ -1369,6 +1750,8 @@ func toggle_gm_panel(force_open: Variant = null) -> void:
 	if gm_open:
 		map_expanded = false
 		atlas_expanded = false
+		if game_menu != null and bool(game_menu.visible):
+			game_menu.close_menu()
 		if rpg_hud != null:
 			rpg_hud.close_modals()
 		if gm_panel != null:
@@ -1403,27 +1786,19 @@ func toggle_atlas(open: bool) -> void:
 	stick_layer.queue_redraw()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
+		handle_back_request()
+		return
+	if game_menu != null and bool(game_menu.visible):
+		return
 	if in_labyrinth:
-		if event is InputEventKey and event.pressed and not event.echo:
-			if event.keycode == KEY_ESCAPE:
-				exit_labyrinth()
-				return
-		elif event is InputEventScreenTouch:
+		if event is InputEventScreenTouch:
 			handle_touch(event)
 		elif event is InputEventScreenDrag:
 			handle_drag(event)
 		return
 	if in_interior:
-		if event is InputEventKey and event.pressed and not event.echo:
-			if event.keycode == KEY_ESCAPE:
-				if dialogue_strip != null and bool(dialogue_strip.is_open):
-					dialogue_strip.close_dialogue(false)
-				elif interior_room != null and bool(interior_room.service_open):
-					interior_room.toggle_service_panel(false)
-				else:
-					exit_building()
-				return
-		elif event is InputEventScreenTouch:
+		if event is InputEventScreenTouch:
 			handle_touch(event)
 		elif event is InputEventScreenDrag:
 			handle_drag(event)
@@ -1432,12 +1807,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.keycode == KEY_F1 or event.keycode == KEY_P:
 			toggle_gm_panel()
 			return
-		elif event.keycode == KEY_ESCAPE and dialogue_strip != null and bool(dialogue_strip.is_open):
-			dialogue_strip.close_dialogue(true)
-			return
 		elif event.keycode == KEY_R:
 			if not nearest_npc_agent.is_empty():
 				open_npc_dialogue(nearest_npc_agent)
+				return
+			elif rpg_hud != null:
+				rpg_hud.trigger_skill(5)
 				return
 		elif event.keycode == KEY_F or event.keycode == KEY_ENTER:
 			if not nearest_enterable.is_empty():
@@ -1446,11 +1821,14 @@ func _unhandled_input(event: InputEvent) -> void:
 			elif not nearest_treasure.is_empty():
 				claim_treasure_reward(nearest_treasure, "")
 				return
-		elif event.keycode == KEY_ESCAPE and gm_open:
-			toggle_gm_panel(false)
-			return
+			elif not nearest_gatherable.is_empty():
+				interact_gatherable(nearest_gatherable)
+				return
 		elif event.keycode == KEY_M:
-			toggle_map()
+			if atlas_expanded:
+				toggle_atlas(false)
+			else:
+				open_world_map_on_hero()
 			return
 		elif event.keycode == KEY_T:
 			cycle_time_of_day()
@@ -1484,9 +1862,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			toggle_atlas(not atlas_expanded)
 			return
 		elif event.keycode == KEY_TAB:
-			if atlas_overlay != null:
-				atlas_overlay.set_mode("atlas")
-			toggle_atlas(not atlas_expanded)
+			if atlas_expanded:
+				toggle_atlas(false)
+			else:
+				open_world_map_on_hero()
 			return
 		elif event.keycode == KEY_E:
 			cycle_exp_zone()
@@ -1495,22 +1874,26 @@ func _unhandled_input(event: InputEvent) -> void:
 			teleport_to_capital()
 			return
 		elif event.keycode == KEY_1:
-			switch_region("pyra")
+			if rpg_hud != null:
+				rpg_hud.trigger_skill(1)
 			return
 		elif event.keycode == KEY_2:
-			switch_region("verdant")
+			if rpg_hud != null:
+				rpg_hud.trigger_skill(2)
 			return
 		elif event.keycode == KEY_3:
-			switch_region("aether")
+			if rpg_hud != null:
+				rpg_hud.trigger_skill(3)
 			return
 		elif event.keycode == KEY_4:
-			switch_region("nexus")
+			if rpg_hud != null:
+				rpg_hud.trigger_skill(4)
 			return
 		elif event.keycode == KEY_EQUAL or event.keycode == KEY_PLUS:
 			set_zoom(zoom_level * 1.12)
 		elif event.keycode == KEY_MINUS:
 			set_zoom(zoom_level / 1.12)
-	if gm_open or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character))):
+	if gm_open or (quest_journal != null and bool(quest_journal.visible)) or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character))):
 		return
 	if map_expanded:
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
@@ -1527,7 +1910,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			set_zoom(zoom_level / 1.1)
 		elif event.button_index == MOUSE_BUTTON_LEFT:
 			var world_click: Vector2 = get_canvas_transform().affine_inverse() * event.position
-			# Tap directly on an outdoor NPC to start non-obstructive dialogue!
 			for ag: Dictionary in live_agents:
 				if str(ag.get("kind", "")) != "npc":
 					continue
@@ -1536,7 +1918,7 @@ func _unhandled_input(event: InputEvent) -> void:
 					if hero_pos.distance_to(ag["pos"] as Vector2) < 95.0:
 						open_npc_dialogue(ag)
 						return
-			if event.position.x > get_viewport_rect().size.x * 0.42:
+			if event.position.x > get_viewport_rect().size.x * 0.38:
 				target_pos = screen_to_ground(world_click)
 	elif event is InputEventScreenTouch:
 		handle_touch(event)
@@ -1546,9 +1928,19 @@ func _unhandled_input(event: InputEvent) -> void:
 func handle_touch(event: InputEventScreenTouch) -> void:
 	var vp := get_viewport_rect().size
 	if event.pressed:
-		if event.position.x < vp.x * 0.42 and move_pointer == -1:
+		# Strict bottom-left thumb zone ONLY (never activates over top-left HUD or right combat orbs!)
+		var in_thumb_zone := (
+			event.position.x >= 16.0
+			and event.position.x <= vp.x * 0.36
+			and event.position.y >= vp.y * 0.48
+			and event.position.y <= vp.y - 16.0
+		)
+		if in_thumb_zone and move_pointer == -1:
 			move_pointer = event.index
-			move_origin = event.position
+			move_origin = Vector2(
+				clampf(event.position.x, 82.0, maxf(vp.x * 0.32, 92.0)),
+				clampf(event.position.y, vp.y * 0.52, maxf(vp.y - 82.0, vp.y * 0.54))
+			)
 			motion = Vector2.ZERO
 			target_pos = Vector2(-1, -1)
 		else:
@@ -1567,7 +1959,12 @@ func handle_touch(event: InputEventScreenTouch) -> void:
 func handle_drag(event: InputEventScreenDrag) -> void:
 	if event.index == move_pointer:
 		var delta := event.position - move_origin
-		motion = delta.limit_length(54.0) / 54.0
+		var mag := delta.length()
+		if mag < JOYSTICK_DEADZONE_PX:
+			motion = Vector2.ZERO
+		else:
+			var scaled := clampf((mag - JOYSTICK_DEADZONE_PX) / (JOYSTICK_MAX_RADIUS_PX - JOYSTICK_DEADZONE_PX), 0.0, 1.0)
+			motion = delta.normalized() * scaled
 		stick_layer.queue_redraw()
 	elif pinch_pointers.has(event.index):
 		pinch_pointers[event.index] = event.position
@@ -1591,10 +1988,84 @@ func _process(delta: float) -> void:
 			combat_toast_lbl.visible = false
 	if is_booting or in_interior or in_labyrinth:
 		return
+	if game_menu != null and bool(game_menu.visible):
+		return
 	step_world(delta)
+
+func _step_agent_patrol(ag: Dictionary, delta: float, move_speed: float, is_monster: bool) -> Vector2:
+	var home: Vector2 = ag["home"]
+	var prev_p: Vector2 = ag["pos"]
+	var st := str(ag.get("ai_state", "idle"))
+	var timer := float(ag.get("ai_timer", 2.0)) - delta
+	if st == "idle":
+		ag["ai_timer"] = timer
+		if timer <= 0.0:
+			var max_r := clampf(float(ag.get("radius", 20.0)), 12.0, 34.0)
+			var picked := false
+			for _attempt in 6:
+				var ang := randf() * TAU
+				var dist := randf_range(10.0, max_r)
+				var cand := home + Vector2(cos(ang), sin(ang)) * dist
+				if cand.distance_to(prev_p) < 8.0:
+					continue
+				if is_monster and cand.distance_to(capital_center) <= safe_city_radius + 18.0:
+					continue
+				if is_walkable(cand.x, cand.y):
+					ag["ai_target"] = cand
+					ag["ai_state"] = "walk"
+					ag["ai_timer"] = 4.8
+					picked = true
+					break
+			if not picked:
+				ag["ai_timer"] = randf_range(2.4, 5.0)
+		return prev_p
+	# Walking straight toward waypoint at natural steady velocity (eliminates one-leg jitter & glide!)
+	var target: Vector2 = ag.get("ai_target", home)
+	var diff := target - prev_p
+	var dist_left := diff.length()
+	if dist_left <= 2.4 or timer <= 0.0:
+		ag["ai_state"] = "idle"
+		ag["ai_timer"] = randf_range(2.8, 6.2)
+		return prev_p
+	var step_v := diff.normalized() * minf(move_speed * delta, dist_left)
+	var cand_p := prev_p + step_v
+	if is_monster and cand_p.distance_to(capital_center) <= safe_city_radius + 16.0:
+		ag["ai_state"] = "idle"
+		ag["ai_timer"] = randf_range(2.5, 5.0)
+		return prev_p
+	if not is_walkable(cand_p.x, cand_p.y):
+		ag["ai_state"] = "idle"
+		ag["ai_timer"] = randf_range(2.2, 4.8)
+		return prev_p
+	ag["ai_timer"] = timer
+	return cand_p
 
 func step_world(delta: float) -> void:
 	world_time += delta
+	if combo_reset_t > 0.0:
+		combo_reset_t = maxf(0.0, combo_reset_t - delta)
+		if combo_reset_t <= 0.0:
+			combo_step = 0
+	if ki_mode_timer > 0.0:
+		ki_mode_timer = maxf(0.0, ki_mode_timer - delta)
+		if ki_mode_timer <= 0.0 and hero != null and hero.has_method("set_ki_mode"):
+			hero.set_ki_mode(false)
+			if rpg_hud != null:
+				rpg_hud._refresh_visuals()
+	if not gatherable_cd.is_empty():
+		var expired: Array[String] = []
+		for gid: String in gatherable_cd.keys():
+			var rem := float(gatherable_cd[gid]) - delta
+			if rem <= 0.0:
+				expired.append(gid)
+			else:
+				gatherable_cd[gid] = rem
+		for gid: String in expired:
+			gatherable_cd.erase(gid)
+			var gnode: Node2D = gatherable_nodes.get(gid, null)
+			if is_instance_valid(gnode):
+				gnode.modulate = Color.WHITE
+
 	var key_dir := Vector2.ZERO
 	if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
 		key_dir.x -= 1.0
@@ -1642,14 +2113,21 @@ func step_world(delta: float) -> void:
 
 	var hero_in_safe := hero_pos.distance_to(capital_center) <= safe_city_radius
 
-	# Animate all living NPCs, Monsters, and Wildlife Fauna animals + active 2-way monster aggro/counter-attack
+	# Animate all living NPCs, Monsters, and Wildlife Fauna animals with natural Waypoint AI + 2-way combat
 	for idx in live_agents.size():
 		var ag: Dictionary = live_agents[idx]
 		var node = ag["node"]
 		if not is_instance_valid(node):
 			continue
-		var is_monster := str(ag.get("kind", "")) == "monster"
+		var ag_kind := str(ag.get("kind", "animal"))
+		var is_monster := (ag_kind == "monster")
 		if is_monster and not bool(ag.get("alive", true)):
+			var dh := float(ag.get("death_hide_t", 0.0))
+			if dh > 0.0:
+				dh = maxf(0.0, dh - delta)
+				ag["death_hide_t"] = dh
+				if dh <= 0.0:
+					node.visible = false
 			ag["respawn_t"] = float(ag.get("respawn_t", 0.0)) - delta
 			if float(ag["respawn_t"]) <= 0.0:
 				ag["alive"] = true
@@ -1657,12 +2135,16 @@ func step_world(delta: float) -> void:
 				ag["dmg_dealt_to_hero"] = 0
 				ag["atk_cd"] = 0.0
 				ag["pos"] = ag["home"]
+				ag["ai_state"] = "idle"
+				ag["ai_timer"] = randf_range(1.2, 3.2)
 				node.hp_ratio = 1.0
+				node.position = iso((ag["home"] as Vector2).x, (ag["home"] as Vector2).y, height_at((ag["home"] as Vector2).x, (ag["home"] as Vector2).y))
 				node.queue_redraw()
 				node.visible = true
+				if node.has_method("play_action"):
+					node.play_action("respawn", "idle", 0.55)
 			continue
 		if dlg_open and node == talk_node:
-			# Pause patrol and turn toward hero while talking
 			var to_hero: Vector2 = hero_pos - (ag["pos"] as Vector2)
 			var face_s := Vector2(to_hero.x - to_hero.y, (to_hero.x + to_hero.y) * 0.5)
 			if face_s.length_squared() > 0.01:
@@ -1672,12 +2154,14 @@ func step_world(delta: float) -> void:
 		var home: Vector2 = ag["home"]
 		var prev_p: Vector2 = ag["pos"]
 		var next_p := prev_p
+		var stride := 0.68 if ag_kind == "npc" else 0.82
 		if is_monster:
 			ag["atk_cd"] = maxf(0.0, float(ag.get("atk_cd", 0.0)) - delta)
 			var dist_to_hero := hero_pos.distance_to(prev_p)
 			var dist_from_home := prev_p.distance_to(home)
 			var was_hurt := int(ag.get("cur_hp", 100)) < int(ag.get("max_hp", 100))
 			if not hero_in_safe and ((dist_to_hero < 95.0) or (was_hurt and dist_to_hero < 155.0)) and dist_from_home < 165.0:
+				stride = 1.0
 				if dist_to_hero > 26.0:
 					var chase_step := (hero_pos - prev_p).normalized() * 36.0 * delta
 					var cand_p := prev_p + chase_step
@@ -1685,6 +2169,15 @@ func step_world(delta: float) -> void:
 						next_p = cand_p
 				if hero_pos.distance_to(next_p) <= 52.0 and float(ag["atk_cd"]) <= 0.0:
 					ag["atk_cd"] = 1.35
+					ag["atk_count"] = int(ag.get("atk_count", 0)) + 1
+					var to_h: Vector2 = hero_pos - next_p
+					var face_h := Vector2(to_h.x - to_h.y, (to_h.x + to_h.y) * 0.5)
+					if face_h.length_squared() > 0.01 and node.has_method("face"):
+						node.face(face_h)
+					if node.has_method("play_action"):
+						node.play_action("skill" if (int(ag["atk_count"]) % 3 == 0) else "attack", "attack")
+					if audio != null:
+						audio.play_monster_sfx(str(ag.get("actor_id", "")), "atk")
 					var m_atk := int(ag.get("atk", 24))
 					var m_lvl := int(ag.get("level", 1))
 					var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
@@ -1692,38 +2185,36 @@ func step_world(delta: float) -> void:
 					var adv_mult := 1.35 if (m_lvl - hero_lv >= 3) else 1.0
 					var dmg := maxi(5, int(round(float(m_atk) * adv_mult - float(hero_def) * 0.55)))
 					ag["dmg_dealt_to_hero"] = int(ag.get("dmg_dealt_to_hero", 0)) + dmg
-					if hero != null and hero.has_method("show_bubble"):
-						hero.show_bubble("-%d HP" % dmg, 1.0)
+					if audio != null:
+						audio.sfx("common/player-hurt", 0.72)
+					if hero != null:
+						if hero.has_method("show_damage_number"):
+							hero.show_damage_number("-%d" % dmg, Color(1.0, 0.34, 0.28), false)
+						# Play hit flinch only if hero is not locked in an attack/skill clip
+						if Time.get_ticks_msec() / 1000.0 >= float(hero.one_shot_until) and hero.has_method("play_action"):
+							hero.play_action("hitheavy" if dmg >= 35 else "hit", "hit", 0.28)
 					if rpg_hud != null and rpg_hud.has_method("take_combat_damage") and rpg_hud.take_combat_damage(dmg):
 						handle_hero_defeat()
 						return
 			else:
-				var rad_m: float = float(ag["radius"])
-				var spd_m: float = float(ag["speed"])
-				var ph_m: float = float(ag["phase"])
-				var tm := world_time * spd_m + ph_m
-				next_p = home + Vector2(cos(tm), sin(tm * 0.75)) * (rad_m * 0.45)
+				next_p = _step_agent_patrol(ag, delta, float(ag.get("speed", 22.0)), true)
 		else:
-			var rad: float = float(ag["radius"])
-			var spd: float = float(ag["speed"])
-			var ph: float = float(ag["phase"])
-			var t := world_time * spd + ph
-			next_p = home + Vector2(cos(t), sin(t * 0.75)) * (rad * 0.45)
+			next_p = _step_agent_patrol(ag, delta, float(ag.get("speed", 18.0)), false)
 		var d_pos := next_p - prev_p
 		ag["pos"] = next_p
 		node.position = iso(next_p.x, next_p.y, height_at(next_p.x, next_p.y))
 		var s_dir := Vector2(d_pos.x - d_pos.y, (d_pos.x + d_pos.y) * 0.5)
-		node.animate(s_dir if s_dir.length() > 0.01 else Vector2.ZERO, false)
+		node.animate(s_dir if s_dir.length_squared() > 0.0004 else Vector2.ZERO, false, stride)
 
-		# Layer 1: Ambient floating World Speech Bubbles when hero walks near an NPC (0% HUD obstruction)
-		if str(ag.get("kind", "")) == "npc":
+		# Layer 1: Ambient floating World Speech Bubbles only when hero walks close to an NPC
+		if ag_kind == "npc" and world_time > 2.5:
 			var dist_h := hero_pos.distance_to(next_p)
 			var last_b: float = float(ag.get("last_bark_t", -99.0))
-			if dist_h < 50.0 and world_time - last_b > 16.0:
+			if dist_h < 34.0 and world_time - last_b > 18.0:
 				ag["last_bark_t"] = world_time
 				if node.has_method("show_bubble"):
 					var bark: String = DialogueStripScript.pick_ambient_bark(current_land, str(ag.get("role", "")), idx + int(world_time))
-					node.show_bubble(bark, 4.2)
+					node.show_bubble(bark, 4.0)
 
 func try_move(step: Vector2) -> void:
 	if gm_noclip:
@@ -1798,9 +2289,9 @@ func sync_hero() -> void:
 			best_b = b
 	nearest_enterable = best_b
 
-	# Detect nearest outdoor NPC within 48m for contextual "ROZMAWIAJ" pill
+	# Detect nearest outdoor NPC within 34m for contextual "ROZMAWIAJ" pill
 	var best_npc: Dictionary = {}
-	var best_nd := 48.0
+	var best_nd := 34.0
 	for ag: Dictionary in live_agents:
 		if str(ag.get("kind", "")) != "npc":
 			continue
@@ -1823,27 +2314,35 @@ func sync_hero() -> void:
 			best_tr = tr
 	nearest_treasure = best_tr
 
+	# Detect nearest ready wilderness gatherable or rest campfire within 56m
+	var best_g: Dictionary = {}
+	var best_gd := 56.0
+	for g: Dictionary in gatherables_data:
+		var gid := str(g.get("id", ""))
+		if float(gatherable_cd.get(gid, 0.0)) > 0.0:
+			continue
+		var gd := hero_pos.distance_to(Vector2(float(g.get("x", 0.0)), float(g.get("z", 0.0))))
+		if gd < best_gd:
+			best_gd = gd
+			best_g = g
+	nearest_gatherable = best_g
+
 	var show_world_ui := not (map_expanded or atlas_expanded or in_interior or in_labyrinth)
-	var rpg_modal_open: bool = gm_open or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)))
+	var menu_open: bool = game_menu != null and bool(game_menu.visible)
+	var q_open: bool = quest_journal != null and bool(quest_journal.visible)
+	var rpg_modal_open: bool = gm_open or menu_open or q_open or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)))
 	var dlg_open: bool = dialogue_strip != null and bool(dialogue_strip.is_open)
 	if not nearest_enterable.is_empty():
 		var bprefix := "⚔ WEJDŹ DO LABIRYNTU: " if str(nearest_enterable.get("role", "")) == "labyrinth" else "▶ WEJDŹ: "
 		btn_enter_bldg.text = "%s%s" % [bprefix, str(nearest_enterable.get("title", "Budynek"))]
-	btn_enter_bldg.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_enterable.is_empty()
 	if not nearest_treasure.is_empty():
 		btn_open_treasure.text = "★ OTWÓRZ SKARB: %s" % str(nearest_treasure.get("title", "Skarb"))
-	var vp := get_viewport_rect().size
-	var bw_tr := clampf(vp.x * 0.34, 280.0, 420.0)
-	btn_open_treasure.size = Vector2(bw_tr, 52.0)
-	btn_open_treasure.position = Vector2((vp.x - bw_tr) * 0.5, (vp.y - 208.0) if btn_enter_bldg.visible else (vp.y - 148.0))
-	btn_open_treasure.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_treasure.is_empty()
+	if not nearest_gatherable.is_empty():
+		var gkind := str(nearest_gatherable.get("kind", "gather"))
+		btn_gather.text = ("🔥 ODPOCZNIJ: %s" % str(nearest_gatherable.get("title", "Ognisko"))) if gkind == "campfire" else ("✦ ZBIERZ: %s" % str(nearest_gatherable.get("title", "Surowiec")))
 	if not nearest_npc_agent.is_empty():
 		btn_talk_npc.text = "▶ ROZMAWIAJ: %s" % str(nearest_npc_agent.get("name", "NPC"))
-	var tw := clampf(vp.x * 0.30, 250.0, 360.0)
-	btn_talk_npc.size = Vector2(tw, 50.0)
-	var talk_y := (vp.y - 266.0) if (btn_enter_bldg.visible and btn_open_treasure.visible) else ((vp.y - 208.0) if (btn_enter_bldg.visible or btn_open_treasure.visible) else (vp.y - 148.0))
-	btn_talk_npc.position = Vector2((vp.x - tw) * 0.5, talk_y)
-	btn_talk_npc.visible = show_world_ui and not rpg_modal_open and not dlg_open and not nearest_npc_agent.is_empty()
+	_layout_world_prompts(get_viewport_rect().size, show_world_ui and not rpg_modal_open and not dlg_open)
 
 func snap(out_dir: String, file: String) -> String:
 	for _i in 4:

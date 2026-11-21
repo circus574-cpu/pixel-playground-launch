@@ -1,17 +1,16 @@
 extends Node
-## Sound of the isometric world: one looping music track per continent (crossfading), city/world ambience bed and UI/gameplay
-## effects. It reads the owner's mp3 files from res://assets/audio (mounted by the host app's music/sfx packs); when a file is
-## not there (standalone QA) it stays silent instead of failing.
+## Sound of the isometric world: one looping music track per continent (crossfading), city/world ambience bed,
+## race skill SFX, per-monster SFX, and UI/gameplay effects. Loading music is intentionally removed.
 
-const MUSIC := {"pyra": "pyra", "verdant": "verdantia", "aether": "aetheria", "nexus": "nexus", "loading": "loadings"}
+const MUSIC := {"pyra": "pyra", "verdant": "verdantia", "aether": "aetheria", "nexus": "nexus"}
 ## Built at runtime so the preview packager (which rewrites the res:// prefix of scripts) leaves host audio paths alone.
 const ROOT := "res:" + "//"
 const FADE := 1.4
 const STEP_INTERVAL := 0.34
-const POOL := 10
+const POOL := 12
 
-var music_volume := 0.3
-var sfx_volume := 0.6
+var music_volume := 0.35
+var sfx_volume := 0.70
 var music_a := AudioStreamPlayer.new()
 var music_b := AudioStreamPlayer.new()
 var ambience := AudioStreamPlayer.new()
@@ -34,20 +33,36 @@ func _ready() -> void:
 		add_child(s)
 		pool.append(s)
 
+func set_volumes(music_v: float, sfx_v: float) -> void:
+	music_volume = clampf(music_v, 0.0, 1.0)
+	sfx_volume = clampf(sfx_v, 0.0, 1.0)
+	var mdb := music_db()
+	if fading_in != null and fading_in.playing:
+		fading_in.volume_db = mdb if music_volume > 0.01 else -80.0
+	if ambience.playing:
+		ambience.volume_db = linear_to_db(maxf(music_volume * 0.42, 0.0001)) if music_volume > 0.01 else -80.0
+
 func load_stream(path: String) -> AudioStream:
 	if cache.has(path):
 		return cache[path]
-	if not ResourceLoader.exists(path):
-		return null
-	var s: AudioStream = load(path)
-	cache[path] = s
-	return s
+	if ResourceLoader.exists(path):
+		var s: AudioStream = load(path)
+		cache[path] = s
+		return s
+	if FileAccess.file_exists(path) and path.ends_with(".mp3"):
+		var mp3 := AudioStreamMP3.new()
+		mp3.data = FileAccess.get_file_as_bytes(path)
+		cache[path] = mp3
+		return mp3
+	return null
 
 func is_ours(n: Node) -> bool:
 	return n == self or is_ancestor_of(n)
 
 func music_db() -> float:
-	return linear_to_db(maxf(music_volume * (1.0 if active_music == "loading" else 0.7), 0.0001))
+	if music_volume <= 0.01:
+		return -80.0
+	return linear_to_db(maxf(music_volume * 0.72, 0.0001))
 
 func play_music(key: String) -> void:
 	if not MUSIC.has(key) or key == active_music:
@@ -78,10 +93,12 @@ func play_ambience(land: String, safe: bool) -> void:
 	if bed is AudioStreamMP3:
 		(bed as AudioStreamMP3).loop = true
 	ambience.stream = bed
-	ambience.volume_db = linear_to_db(maxf(music_volume * 0.45, 0.0001))
+	ambience.volume_db = linear_to_db(maxf(music_volume * 0.42, 0.0001)) if music_volume > 0.01 else -80.0
 	ambience.play()
 
 func sfx(name: String, gain: float = 1.0) -> void:
+	if sfx_volume <= 0.01:
+		return
 	var now := Time.get_ticks_msec() / 1000.0
 	if now - float(last_played.get(name, -10.0)) < 0.05:
 		return
@@ -96,6 +113,24 @@ func sfx(name: String, gain: float = 1.0) -> void:
 			p.play()
 			return
 
+func play_race_skill(race: String, node_id: String) -> void:
+	var rk := race if race in ["legend", "planetary", "sage", "android"] else "legend"
+	var clean_id := node_id if node_id in ["R", "A1", "A4", "A9", "B1", "B4", "B9", "C1", "C4", "C9"] else "R"
+	var path := "%s/%s" % [rk, clean_id]
+	if load_stream(ROOT + "assets/audio/sfx/%s.mp3" % path) != null:
+		sfx(path, 0.92)
+	else:
+		sfx("common/hit", 0.85)
+
+func play_monster_sfx(actor_id: String, kind: String) -> void:
+	var path := "monsters/%s/%s" % [actor_id, kind]
+	if load_stream(ROOT + "assets/audio/sfx/%s.mp3" % path) != null:
+		sfx(path, 0.80)
+	elif kind == "die":
+		sfx("common/monster-death", 0.85)
+	elif kind == "atk":
+		sfx("common/hit", 0.72)
+
 func step(delta: float, moving: bool, land: String, interior: bool) -> void:
 	if not moving:
 		step_clock = STEP_INTERVAL * 0.5
@@ -107,7 +142,7 @@ func step(delta: float, moving: bool, land: String, interior: bool) -> void:
 	var surface: String = {"verdant": "grass", "aether": "stone", "nexus": "metal", "pyra": "ash"}.get(land, "dirt")
 	if interior:
 		surface = "metal" if land == "nexus" else "wood"
-	sfx("steps/" + surface, 0.45)
+	sfx("steps/" + surface, 0.42)
 
 func _process(delta: float) -> void:
 	if fade_t >= 1.0:

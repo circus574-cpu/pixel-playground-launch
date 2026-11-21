@@ -6,6 +6,7 @@ extends Control
 
 const ActorScript := preload("res://scripts/actor_view.gd")
 const MapStyle := preload("res://scripts/map_style.gd")
+const ForgedUI := preload("res://scripts/forged_ui.gd")
 const GmPanelScript := preload("res://scripts/gm_panel.gd")
 
 const ROOM_W := 960.0
@@ -61,10 +62,14 @@ var room_wall_y := -40.0
 var exit_zone := Rect2(-72.0, ROOM_H * 0.5 - 52.0, 144.0, 56.0)
 
 var hud_root := Control.new()
+var bg_rect := ColorRect.new()
+var top_bar := PanelContainer.new()
 var title_lbl := Label.new()
 var btn_exit := Button.new()
 var btn_service := Button.new()
-var service_panel := PanelContainer.new()
+var service_scrim := ColorRect.new()
+var service_panel := Panel.new()
+var service_hdr_lbl := Label.new()
 var service_scroll := ScrollContainer.new()
 var service_vbox := VBoxContainer.new()
 var service_status := Label.new()
@@ -85,9 +90,8 @@ func _ready() -> void:
 		if parsed is Dictionary:
 			painted_specs = parsed
 
-	var bg_rect := ColorRect.new()
 	bg_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg_rect.color = Color(0.03, 0.025, 0.035, 0.96)
+	bg_rect.color = Color(0.03, 0.022, 0.028, 1.0)
 	bg_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg_rect)
 
@@ -105,80 +109,95 @@ func _ready() -> void:
 	_layout_stage()
 
 func _style_btn(btn: Button, bg: Color, border: Color, fsz: int = 15) -> void:
-	btn.custom_minimum_size.y = maxf(btn.custom_minimum_size.y, 44.0)
-	var st := StyleBoxFlat.new()
-	st.bg_color = bg
-	st.border_color = border
-	st.set_border_width_all(2)
-	st.set_corner_radius_all(8)
-	st.content_margin_left = 14
-	st.content_margin_right = 14
-	st.content_margin_top = 8
-	st.content_margin_bottom = 8
-	btn.add_theme_stylebox_override("normal", st)
-	var sth := st.duplicate()
-	sth.bg_color = bg.lightened(0.14)
-	btn.add_theme_stylebox_override("hover", sth)
-	btn.add_theme_font_override("font", MapStyle.body_font())
-	btn.add_theme_font_size_override("font_size", fsz)
-	btn.add_theme_color_override("font_color", Color(1.0, 0.95, 0.84))
+	btn.custom_minimum_size.x = maxf(btn.custom_minimum_size.x, 214.0)
+	btn.custom_minimum_size.y = maxf(btn.custom_minimum_size.y, 46.0)
+	var variant := "slate"
+	if bg.r > bg.b + 0.14 and bg.g < 0.14:
+		variant = "crimson"
+	elif border.r > 0.85 and border.g > 0.65:
+		variant = "gold"
+	elif bg.g > bg.r + 0.08:
+		variant = "gold"
+	ForgedUI.style_button(btn, variant, fsz, 26.0, 8.0)
 
 func _build_hud() -> void:
-	title_lbl.add_theme_font_override("font", MapStyle.font())
-	title_lbl.add_theme_font_size_override("font_size", 20)
-	title_lbl.add_theme_color_override("font_color", Color(1.0, 0.90, 0.56))
-	hud_root.add_child(title_lbl)
+	top_bar.add_theme_stylebox_override("panel", ForgedUI.compact_panel_box(18.0, 8.0, Color(0.86, 0.68, 0.34, 0.88)))
+	hud_root.add_child(top_bar)
+	var top_h := HBoxContainer.new()
+	top_h.add_theme_constant_override("separation", 18)
+	top_bar.add_child(top_h)
 
-	btn_exit.text = "✕ WYJDŹ NA ZEWNĄTRZ"
-	_style_btn(btn_exit, Color(0.32, 0.10, 0.10, 0.96), Color(0.98, 0.56, 0.36, 0.98), 15)
+	btn_exit.text = "← WYJDŹ"
+	btn_exit.custom_minimum_size = Vector2(158.0, 48.0)
+	ForgedUI.style_button(btn_exit, "slate", 16, 22.0, 8.0)
 	btn_exit.pressed.connect(func() -> void:
 		if world != null and world.has_method("exit_building"):
 			world.exit_building()
 	)
-	hud_root.add_child(btn_exit)
+	top_h.add_child(btn_exit)
+
+	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	title_lbl.add_theme_font_override("font", MapStyle.font())
+	title_lbl.add_theme_font_size_override("font_size", 20)
+	title_lbl.add_theme_color_override("font_color", Color(1.0, 0.90, 0.56))
+	title_lbl.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.01, 0.96))
+	title_lbl.add_theme_constant_override("outline_size", 4)
+	top_h.add_child(title_lbl)
 
 	btn_service.text = "◆ USŁUGI"
-	_style_btn(btn_service, Color(0.10, 0.26, 0.32, 0.96), Color(0.38, 0.92, 1.0, 0.98), 16)
+	ForgedUI.style_button(btn_service, "gold", 17, 24.0, 10.0)
 	btn_service.pressed.connect(func() -> void:
 		toggle_service_panel(not service_open)
 	)
 	hud_root.add_child(btn_service)
 
-	# Interactive Service Panel (Shop / Crafting / Bank / Inn / Arena / Lore)
-	var pstyle := StyleBoxFlat.new()
-	pstyle.bg_color = Color(0.06, 0.05, 0.08, 0.96)
-	pstyle.border_color = Color(0.92, 0.72, 0.34, 0.96)
-	pstyle.set_border_width_all(2)
-	pstyle.set_corner_radius_all(12)
-	pstyle.content_margin_left = 14
-	pstyle.content_margin_right = 14
-	pstyle.content_margin_top = 12
-	pstyle.content_margin_bottom = 12
-	service_panel.add_theme_stylebox_override("panel", pstyle)
+	# Dark scrim + seamless Forged Obsidian & Gold Service Modal (locked height with MarginContainer)
+	service_scrim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	service_scrim.color = Color(0.015, 0.012, 0.025, 0.82)
+	service_scrim.mouse_filter = Control.MOUSE_FILTER_STOP
+	service_scrim.visible = false
+	hud_root.add_child(service_scrim)
+
+	service_panel.add_theme_stylebox_override("panel", ForgedUI.panel_box(44.0, 38.0))
 	service_panel.visible = false
 	hud_root.add_child(service_panel)
 
+	var mg := MarginContainer.new()
+	mg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	mg.add_theme_constant_override("margin_left", 44)
+	mg.add_theme_constant_override("margin_right", 44)
+	mg.add_theme_constant_override("margin_top", 38)
+	mg.add_theme_constant_override("margin_bottom", 36)
+	service_panel.add_child(mg)
+
 	var sv := VBoxContainer.new()
-	sv.add_theme_constant_override("separation", 8)
-	service_panel.add_child(sv)
+	sv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	sv.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	sv.add_theme_constant_override("separation", 10)
+	mg.add_child(sv)
 
 	var shdr := HBoxContainer.new()
+	shdr.add_theme_constant_override("separation", 14)
 	sv.add_child(shdr)
-	var sh_lbl := Label.new()
-	sh_lbl.name = "HeaderLbl"
-	sh_lbl.text = "USŁUGI BUDYNKU"
-	sh_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	sh_lbl.add_theme_font_override("font", MapStyle.font())
-	sh_lbl.add_theme_font_size_override("font_size", 16)
-	sh_lbl.add_theme_color_override("font_color", Color(1.0, 0.86, 0.46))
-	shdr.add_child(sh_lbl)
 
 	var s_close := Button.new()
-	s_close.text = "✕"
-	_style_btn(s_close, Color(0.30, 0.10, 0.10, 0.95), Color(0.96, 0.54, 0.36, 0.95), 15)
-	s_close.custom_minimum_size = Vector2(44, 38)
+	s_close.text = "← WSTECZ"
+	s_close.custom_minimum_size = Vector2(156.0, 48.0)
+	ForgedUI.style_button(s_close, "slate", 16, 20.0, 8.0)
 	s_close.pressed.connect(func() -> void: toggle_service_panel(false))
 	shdr.add_child(s_close)
+
+	service_hdr_lbl.name = "HeaderLbl"
+	service_hdr_lbl.text = "USŁUGI BUDYNKU"
+	service_hdr_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	service_hdr_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	service_hdr_lbl.add_theme_font_override("font", MapStyle.font())
+	service_hdr_lbl.add_theme_font_size_override("font_size", 18)
+	service_hdr_lbl.add_theme_color_override("font_color", Color(1.0, 0.88, 0.50))
+	service_hdr_lbl.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.01, 0.96))
+	service_hdr_lbl.add_theme_constant_override("outline_size", 4)
+	shdr.add_child(service_hdr_lbl)
 
 	service_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	service_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -190,7 +209,7 @@ func _build_hud() -> void:
 	service_scroll.add_child(service_vbox)
 
 	service_status.add_theme_font_override("font", MapStyle.body_font())
-	service_status.add_theme_font_size_override("font_size", 13)
+	service_status.add_theme_font_size_override("font_size", 14)
 	service_status.add_theme_color_override("font_color", Color(0.56, 0.96, 0.72))
 	sv.add_child(service_status)
 
@@ -198,21 +217,24 @@ func _layout_stage() -> void:
 	var vs := get_viewport_rect().size
 	if vs.x < 100.0:
 		vs = Vector2(1280.0, 720.0)
-	room_stage.position = vs * 0.5 + Vector2(0.0, 18.0)
-	var sc := minf((vs.x - 40.0) / (ROOM_W + 40.0), (vs.y - 110.0) / (ROOM_H + 40.0))
-	sc = clampf(sc, 0.72, 1.35)
+	bg_rect.position = Vector2.ZERO
+	bg_rect.size = vs
+	service_scrim.position = Vector2.ZERO
+	service_scrim.size = vs
+	room_stage.position = vs * 0.5 + Vector2(0.0, 22.0)
+	var sc := minf((vs.x - 40.0) / (ROOM_W + 40.0), (vs.y - 120.0) / (ROOM_H + 40.0))
+	sc = clampf(sc, 0.70, 1.35)
 	room_stage.scale = Vector2(sc, sc)
 
-	title_lbl.position = Vector2(280.0, 22.0)
-	btn_exit.position = Vector2(vs.x - 236.0, 14.0)
-	btn_exit.size = Vector2(216.0, 48.0)
+	top_bar.position = Vector2(16.0, 10.0)
+	top_bar.size = Vector2(vs.x - 32.0, 64.0)
 
-	btn_service.position = Vector2((vs.x - 300.0) * 0.5, vs.y - 68.0)
-	btn_service.size = Vector2(300.0, 52.0)
+	btn_service.position = Vector2((vs.x - 340.0) * 0.5, vs.y - 72.0)
+	btn_service.size = Vector2(340.0, 56.0)
 
-	var pw := clampf(vs.x - 160.0, 520.0, 740.0)
-	var ph := clampf(vs.y - 130.0, 380.0, 540.0)
-	service_panel.position = Vector2((vs.x - pw) * 0.5, (vs.y - ph) * 0.5 + 10.0)
+	var pw := clampf(vs.x - 140.0, 560.0, 820.0)
+	var ph := clampf(vs.y - 100.0, 420.0, 610.0)
+	service_panel.position = Vector2((vs.x - pw) * 0.5, (vs.y - ph) * 0.5)
 	service_panel.size = Vector2(pw, ph)
 
 func enter_building(land: String, bdata: Dictionary) -> void:
@@ -223,11 +245,12 @@ func enter_building(land: String, bdata: Dictionary) -> void:
 		room_role = "landmark"
 	room_title = str(bdata.get("title", "Wnętrze Budynku"))
 	service_open = false
+	service_scrim.visible = false
 	service_panel.visible = false
 	_opened_ms = Time.get_ticks_msec()
 
 	title_lbl.text = "%s  •  %s" % [room_title.to_upper(), str(ROLE_NPC_TITLE.get(room_role, "Wnętrze"))]
-	btn_service.text = str(ROLE_SERVICE_BTN.get(room_role, "💬 USŁUGI"))
+	btn_service.text = str(ROLE_SERVICE_BTN.get(room_role, "◆ USŁUGI"))
 
 	_rebuild_room_scene()
 	_layout_stage()
@@ -457,7 +480,9 @@ func _draw() -> void:
 
 func toggle_service_panel(open: bool) -> void:
 	service_open = open
+	service_scrim.visible = open
 	service_panel.visible = open
+	btn_service.visible = not open
 	if open:
 		_refresh_service_ui()
 

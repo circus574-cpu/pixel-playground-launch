@@ -7,6 +7,7 @@ extends Control
 ## 4. Live In-Game Stat Points & Attribute Editor (HP, KI, ATK, DEF, SPD, CRIT, Level, Gold, Skill Points).
 
 const MapStyle := preload("res://scripts/map_style.gd")
+const ForgedUI := preload("res://scripts/forged_ui.gd")
 
 const ITEM_CATALOG: Array[Dictionary] = [
 	{"id": "sword_superior", "name": "Ostrze Superior", "cat": "weapon", "icon": "gear-sword.webp", "slot": 2, "desc": "+28 Atak • +4% Kryt", "rarity": Color(1.0, 0.76, 0.28), "atk": 28, "crit": 4.0},
@@ -41,7 +42,6 @@ var tab_btns: Dictionary = {}
 var content_scroll := ScrollContainer.new()
 var content_vbox := VBoxContainer.new()
 var status_lbl := Label.new()
-var btn_close := Button.new()
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -51,32 +51,15 @@ func _ready() -> void:
 	_layout_panel()
 
 func _style_btn(btn: Button, bg: Color, border: Color, font_sz: int = 15) -> void:
-	btn.custom_minimum_size.y = maxf(btn.custom_minimum_size.y, 42.0)
-	var st := StyleBoxFlat.new()
-	st.bg_color = bg
-	st.border_color = border
-	st.set_border_width_all(2)
-	st.set_corner_radius_all(8)
-	st.content_margin_left = 12
-	st.content_margin_right = 12
-	st.content_margin_top = 8
-	st.content_margin_bottom = 8
-	btn.add_theme_stylebox_override("normal", st)
-	var st_h := st.duplicate()
-	st_h.bg_color = bg.lightened(0.14)
-	btn.add_theme_stylebox_override("hover", st_h)
-	var st_p := st.duplicate()
-	st_p.bg_color = bg.darkened(0.12)
-	btn.add_theme_stylebox_override("pressed", st_p)
-	btn.add_theme_font_override("font", MapStyle.body_font())
-	btn.add_theme_font_size_override("font_size", maxi(font_sz, 14))
-	btn.add_theme_color_override("font_color", Color(0.98, 0.94, 0.84))
+	btn.custom_minimum_size.y = maxf(btn.custom_minimum_size.y, 44.0)
+	var variant := "gold" if (border.r > 0.90 and border.g > 0.72) else ("crimson" if (bg.r > 0.24 and bg.g < 0.14) else "slate")
+	ForgedUI.style_button(btn, variant, maxi(font_sz, 14), 14.0, 8.0)
 
 var _opened_msec := 0
 
 func _build_ui() -> void:
 	var bg_dim := ColorRect.new()
-	bg_dim.color = Color(0.01, 0.01, 0.02, 0.62)
+	bg_dim.color = Color(0.015, 0.012, 0.025, 0.74)
 	bg_dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg_dim.mouse_filter = Control.MOUSE_FILTER_STOP
 	bg_dim.gui_input.connect(func(ev: InputEvent) -> void:
@@ -88,42 +71,18 @@ func _build_ui() -> void:
 	)
 	add_child(bg_dim)
 
-	var pstyle := StyleBoxFlat.new()
-	pstyle.bg_color = Color(0.06, 0.05, 0.08, 0.96)
-	pstyle.border_color = Color(0.92, 0.72, 0.34, 0.96)
-	pstyle.set_border_width_all(2)
-	pstyle.set_corner_radius_all(12)
-	pstyle.content_margin_left = 16
-	pstyle.content_margin_right = 16
-	pstyle.content_margin_top = 14
-	pstyle.content_margin_bottom = 14
-	panel_box.add_theme_stylebox_override("panel", pstyle)
+	panel_box.add_theme_stylebox_override("panel", ForgedUI.panel_box(28.0, 22.0))
 	add_child(panel_box)
 
 	var root_v := VBoxContainer.new()
 	root_v.add_theme_constant_override("separation", 10)
 	panel_box.add_child(root_v)
 
-	# Header Row
-	var hdr := HBoxContainer.new()
-	hdr.add_theme_constant_override("separation", 10)
-	root_v.add_child(hdr)
-
-	var title := Label.new()
-	title.text = "PANEL GM — NARZĘDZIA ADMINISTRATORA KI LEGENDS"
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.add_theme_font_override("font", MapStyle.font())
-	title.add_theme_font_size_override("font_size", 17)
-	title.add_theme_color_override("font_color", Color(1.0, 0.86, 0.44))
-	hdr.add_child(title)
-
-	btn_close.text = "✕ ZAMKNIJ"
-	_style_btn(btn_close, Color(0.28, 0.10, 0.10, 0.95), Color(0.94, 0.56, 0.36, 0.95), 13)
-	btn_close.pressed.connect(func() -> void:
+	# Consistent Forged Header Bar with "← WSTECZ"
+	root_v.add_child(ForgedUI.make_header_bar("PANEL GM — NARZĘDZIA ADMINISTRATORA", func() -> void:
 		if world != null and world.has_method("toggle_gm_panel"):
 			world.toggle_gm_panel(false)
-	)
-	hdr.add_child(btn_close)
+	, "← WSTECZ", "Teleportacja, przedmioty i testy balansu"))
 
 	# Tabs Row
 	var tabs_row := HBoxContainer.new()

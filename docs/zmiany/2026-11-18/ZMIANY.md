@@ -396,4 +396,26 @@ Zastąpiono filmowy pasek ładowania **prawdziwym, żywym panelem ładowania** z
   - Po dotknięciu bohatera na liście płynnie rozsuwa się (`Tween`) panel inspektora z portretem, emblematem rasy, paskiem doświadczenia (PD) i 8 kafelkami statystyk z malowanymi ikonami medalionowymi (serce dla Życia, kropla dla KI, skrzyżowane miecze dla Ataku, tarcza dla Obrony, cel dla Krytyka, buty dla Szybkości, monety dla Złota/Banku, zwój dla Talentów/Zleceń) oraz przyciskami `▶ GRAJ TĄ POSTACIĄ` i `USUŃ POSTAĆ`.
 - **Weryfikacja:** wizualny render w Godot 4.6.3 (`CHAR_SELECT_QA_OK`, `1280×720`, `0` błędów skryptu/zasobów), `python3 scripts/docs/check_documentation.py` (`PASS`), wydanie OTA **`1.14.23`**.
 
+### 29. Remont UI/UX (Forged Obsidian & Gold), muzyka menu, żywy wybór ras z transformacją KI, 47 klipów animacji, VFX walki, ujednolicona Mapa Świata i żywe kontynenty (Paczka A + B, `1.14.24`, 2026-11-21)
+
+- **Muzyka menu i pełne udźwiękowienie (`title_screen.gd`, `service_screen.gd`, `world_audio.gd`, `game_menu.gd`):**
+  - Wdrożono motyw właściciela `Warrior_Menu_Prelude.mp3` jako zapętloną muzykę menu i wyboru/tworzenia postaci (`assets/audio/music/menu.mp3`, spakowaną w `core-c101`), całkowicie wyciszono starą muzykę ładowania (`loadings.mp3`) oraz podpięto efekty SFX dla umiejętności ras, trafień/krytyków, potworów, kroków, otwierania okien, skarbów i ognisk.
+- **Jednolity system UI *Forged Obsidian & Burnished Gold* oraz nawigacja `← WSTECZ` (`forged_ui.gd`, `game_menu.gd`, `quest_journal.gd`, `gm_panel.gd`, `interior_room.gd`, `labyrinth_room.gd`, `dialogue_strip.gd`, `service_screen.gd`):**
+  - Zastąpiono stare płaskie ramki i przyciski bezszwowym 9-slice (`panel_forged.webp`, `btn_forged_{gold,slate,crimson}.webp`), ujednolicono przycisk `← WSTECZ` oraz stos zamykania okien pod Android Back / `ESC` (`world.gd:handle_back_request()`).
+  - Rozdzielono prawdziwe `MENU GRY` (głośność muzyki/SFX, zmiana postaci, wylogowanie, wyjście) od `PANELU GM`, wyłączając nachodzenie HUD pod oknami modalnymi i podczas rozmów z NPC.
+  - Poprawiono ikony `gear-boots.webp`, `gear-coin.webp`, dodano `hud-fist.webp`, podniesiono czytelność mobilnego HUD (`rpg_hud.gd`), dodano otwartą strefę wirtualnego joysticka z martwą strefą `14 px` (`stick.gd`, `world.gd`) oraz zablokowano wysokość przewijanych okien (`QuestJournal`, usługi wnętrz).
+- **Ekran wyboru postaci i żywy wybór ras (`character_select.gd`, `race_screen.gd`, `service_screen.gd`):**
+  - Zestawiono wszystkie 8 statystyk postaci w jednolitych medalionach z przypiętymi przyciskami `GRAJ`, `USUŃ POSTAĆ` (podpięty pod serwerowe `DELETE /ws/godot/characters/<id>`) i `+ NOWA POSTAĆ` (zweryfikowano na `16:9` oraz wąskim telefonie `20:9`).
+  - Zastąpiono statyczne grafiki poglądowe w wyborze rasy żywymi animowanymi modelami `hero3d` (`actors.json`) prezentującymi przejście `idle -> transform -> kiidle / kiattack` z płynną, rozmytą gaussowsko aurą KI i wyładowaniami plazmy.
+- **Ujednolicona Mapa Świata 2D/3D (`atlas_overlay.gd`, `premium_minimap.gd`):**
+  - Usunięto „niebieski kwadrat” kontynentu; kliknięcie minimapy otwiera pełną mapę całej Planety Superior z płynnym zoomem (`1,0×..24,0×`, pinch-zoom dwoma palcami), oddzielnymi warstwami pinów i bezkolizyjnych etykiet (budynki miast ukazywane przy zbliżeniu `zoom >= 7,0`, ciemne tabliczki kontynentów czytelne na śniegu Aetherii).
+- **47 animacji bohatera, naturalny patrol NPC, efekty VFX umiejętności rasowych (`actor_view.gd`, `combat_vfx.gd`, `world.gd`):**
+  - Podpięto wszystkie klipy bojowe (4-ciosowe combo, `sk_A1..sk_C9`, tryb KI `ki*`, `hit`, `death`, `respawn`, `victory`, `interact`) i 7 klipów potworów; zastąpiono czarne dymki obrażeń unoszącymi się liczbami RPG oraz wdrożono naturalne chodzenie waypointowe NPC/fauny.
+  - Dodano `combat_vfx.gd` z gładkimi, gaussowskimi efektami rasowymi: cięcia ostrzem, pociski energetyczne Mędrca/Androida, tarcza ochronna (`sk_B1`), wybuch falowy KI (`sk_C1`), słup transformacji KI z piorunami (`[R]`), rozbłyski trafień/krytyków i aurę leczenia.
+- **Żywe 4 kontynenty, bogate place stolic, surowce, ogniska i Elity (Paczka B, `enrich_continents_paczka_b.py`):**
+  - Odbudowano place wszystkich 4 stolic (Pyra, Verdantia, Aetheria, Nexus-9) autentycznymi malowanymi zasobami (usunięto zepsute `pyra-citadel-brazier.webp`), zagęszczono dzicz o ~`430–450` zgrupowanych obiektów na kontynent (`1 009–1 208` łącznie, 56 zagajników i 18 przydrożnych obozów/punktów orientacyjnych na kontynent).
+  - Dodano po `20` interaktywnych złóż surowców (`✦ ZBIERZ`, respawn `45 s`), `8` leczących ognisk wędrowców (`🔥 ODPOCZNIJ` — 100% HP/KI + efekt leczenia) oraz po `2` imiennych mini-bossów `[ELITA]` (skala `1,38×`, złoto-szkarłatna aura, wzmocniony pasek HP i dodatkowy łup mikstur) na każdym kontynencie.
+- **Weryfikacja:** bezlitosny audyt wizualny Godot 4.6.3 (20+ zrzutów ekranu: wybór postaci 16:9 i 20:9, żywa transformacja KI w wyborze rasy, 4 stolice, dzicz i ogniska, walka z Elitą i VFX Pyry/Aetherii, mapa świata, wnętrza, labirynt, dialog NPC, menu gry, dziennik, drzewko talentów, okno nadawania nicku — `0` błędów GDScript i `0` ostrzeżeń układu), `prepare_service_preview.py` (`1 274` pliki, `EXIT=0`), `python3 scripts/docs/check_documentation.py` (`PASS`), wydanie OTA **`1.14.24`**.
+
+
 

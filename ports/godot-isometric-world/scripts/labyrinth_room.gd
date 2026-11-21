@@ -5,6 +5,7 @@ extends Control
 ## biome lighting, maze minimap, and seamless exit portal back to the continent.
 
 const MapStyle := preload("res://scripts/map_style.gd")
+const ForgedUI := preload("res://scripts/forged_ui.gd")
 
 const TILE_PX := 74.0
 const HERO_RADIUS := 18.0
@@ -82,41 +83,23 @@ func _ready() -> void:
 	resized.connect(_layout_ui)
 	_layout_ui()
 
-func _style_btn(btn: Button, bg: Color, border: Color, fsz: int = 16) -> void:
-	var st := StyleBoxFlat.new()
-	st.bg_color = bg
-	st.border_color = border
-	st.set_border_width_all(2)
-	st.set_corner_radius_all(10)
-	st.content_margin_left = 14
-	st.content_margin_right = 14
-	st.content_margin_top = 8
-	st.content_margin_bottom = 8
-	btn.add_theme_stylebox_override("normal", st)
-	var sh := st.duplicate()
-	sh.bg_color = bg.lightened(0.16)
-	btn.add_theme_stylebox_override("hover", sh)
-	btn.add_theme_font_override("font", MapStyle.body_font())
-	btn.add_theme_font_size_override("font_size", fsz)
-	btn.add_theme_color_override("font_color", Color(1.0, 0.95, 0.84))
-
 func _build_ui() -> void:
-	btn_exit.text = "✕ WYJDŹ Z LABIRYNTU"
-	_style_btn(btn_exit, Color(0.32, 0.10, 0.10, 0.95), Color(0.96, 0.50, 0.34, 0.96), 15)
+	btn_exit.text = "← WSTECZ"
+	ForgedUI.style_button(btn_exit, "slate", 16, 22.0, 8.0)
 	btn_exit.pressed.connect(func() -> void:
 		if world != null and world.has_method("exit_labyrinth"):
 			world.exit_labyrinth()
 	)
 	add_child(btn_exit)
 
-	btn_open_chest.text = "▶ OTWÓRZ UKRYTY SKARB"
-	_style_btn(btn_open_chest, Color(0.24, 0.17, 0.04, 0.97), Color(1.0, 0.84, 0.30, 0.98), 17)
+	btn_open_chest.text = "★ OTWÓRZ UKRYTY SKARB"
+	ForgedUI.style_button(btn_open_chest, "gold", 17, 24.0, 10.0)
 	btn_open_chest.visible = false
 	btn_open_chest.pressed.connect(_try_open_nearest_chest)
 	add_child(btn_open_chest)
 
 	btn_attack.text = "⚔ ATAKUJ STRAŻNIKA"
-	_style_btn(btn_attack, Color(0.38, 0.09, 0.09, 0.97), Color(1.0, 0.44, 0.32, 0.98), 17)
+	ForgedUI.style_button(btn_attack, "crimson", 17, 24.0, 10.0)
 	btn_attack.visible = false
 	btn_attack.pressed.connect(perform_labyrinth_attack)
 	add_child(btn_attack)
@@ -134,17 +117,15 @@ func _layout_ui() -> void:
 	var vs := get_viewport_rect().size
 	if vs.x < 100.0:
 		vs = Vector2(1600.0, 720.0)
-	position = Vector2.ZERO
-	size = vs
-	btn_exit.position = Vector2(vs.x - 230.0, 14.0)
-	btn_exit.size = Vector2(212.0, 48.0)
+	btn_exit.position = Vector2(16.0, 10.0)
+	btn_exit.size = Vector2(164.0, 48.0)
 	var bw := clampf(vs.x * 0.34, 280.0, 420.0)
-	btn_open_chest.size = Vector2(bw, 54.0)
+	btn_open_chest.size = Vector2(bw, 56.0)
 	btn_open_chest.position = Vector2((vs.x - bw) * 0.5, vs.y - 122.0)
-	btn_attack.size = Vector2(260.0, 56.0)
-	btn_attack.position = Vector2(vs.x - 284.0, vs.y - 118.0)
+	btn_attack.size = Vector2(280.0, 58.0)
+	btn_attack.position = Vector2(vs.x - 304.0, vs.y - 118.0)
 	toast_lbl.size = Vector2(vs.x - 120.0, 36.0)
-	toast_lbl.position = Vector2(60.0, 76.0)
+	toast_lbl.position = Vector2(60.0, 78.0)
 
 func enter_labyrinth(land: String, data: Dictionary) -> void:
 	current_land = land
@@ -522,10 +503,10 @@ func _draw() -> void:
 		draw_string(fb, fp, str(ft["txt"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, ft["col"] as Color)
 
 	# Top Header Bar
-	draw_rect(Rect2(0, 0, vs.x, 66.0), Color(0.04, 0.035, 0.055, 0.92), true)
-	draw_line(Vector2(0, 66.0), Vector2(vs.x, 66.0), Color(0.92, 0.72, 0.34, 0.78), 2.0)
-	draw_string(f, Vector2(20, 30), "⚔ %s (Poz. %d)" % [str(lab_data.get("title", "Labirynt")), int(lab_data.get("level", 6))], HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.90, 0.56))
-	draw_string(fb, Vector2(20, 52), "%s  •  Ukryte skarby: %d / %d  •  [WASD / Joystick] ruch  •  [F] otwórz  •  [Q/Spacja] atak" % [
+	draw_rect(Rect2(0, 0, vs.x, 68.0), Color(0.04, 0.035, 0.055, 0.94), true)
+	draw_line(Vector2(0, 68.0), Vector2(vs.x, 68.0), Color(0.92, 0.72, 0.34, 0.85), 2.0)
+	draw_string(f, Vector2(198, 32), "⚔ %s (Poz. %d)" % [str(lab_data.get("title", "Labirynt")), int(lab_data.get("level", 6))], HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.90, 0.56))
+	draw_string(fb, Vector2(198, 54), "%s  •  Ukryte skarby: %d / %d  •  [WASD / Joystick] ruch  •  [F] otwórz  •  [Q/Spacja] atak" % [
 		str(lab_data.get("subtitle", "")), opened_cnt, chests.size()
 	], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.84, 0.90, 0.96))
 

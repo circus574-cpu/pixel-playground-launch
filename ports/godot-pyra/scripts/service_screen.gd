@@ -2,11 +2,17 @@ extends Control
 ## Uses the normal authenticated HTTP transport, never a local GM flag. Preview is a disposable private World2D.
 signal picked(action: String)
 const SCENE := "res://service_preview/pyra/world.tscn"
+const FORGED_BASE := "res://service_preview/pyra/assets/ui/forged/"
+const MENU_MUSIC_PATHS := ["res://service_preview/pyra/assets/audio/music/menu.mp3", "res://assets/audio/music/menu.mp3"]
+const AUDIO_PREFS_PATH := "user://audio.json"
+const Look := preload("res://scripts/look.gd")
+
 var request: Callable
 var allowed := false
 var preview: SubViewportContainer
 var world: Node2D
 var close_button: Button
+var page_card := PanelContainer.new()
 var page := VBoxContainer.new()
 var caption := Label.new()
 var timer := Timer.new()
@@ -17,49 +23,191 @@ var server_chars: Dictionary = {}
 var active_server_char: Dictionary = {}
 var char_view: Node
 var autosave := Timer.new()
+var menu_music := AudioStreamPlayer.new()
+var _tex_cache: Dictionary = {}
 const HOME := {"legend": "pyra", "planetary": "verdant", "sage": "aether", "android": "nexus"}
+
+func _load_tex(path: String) -> Texture2D:
+	if _tex_cache.has(path):
+		return _tex_cache[path] as Texture2D
+	if ResourceLoader.exists(path):
+		var loaded := load(path)
+		if loaded is Texture2D:
+			_tex_cache[path] = loaded
+			return loaded
+	if FileAccess.file_exists(path):
+		var bytes := FileAccess.get_file_as_bytes(path)
+		if not bytes.is_empty():
+			var img := Image.new()
+			if img.load_webp_from_buffer(bytes) == OK:
+				var tex := ImageTexture.create_from_image(img)
+				_tex_cache[path] = tex
+				return tex
+	return null
+
+func _forged_panel(pad_x: float = 40.0, pad_y: float = 34.0) -> StyleBox:
+	var tex := _load_tex(FORGED_BASE + "panel_forged.webp")
+	var cx := maxf(pad_x, 38.0)
+	var cy := maxf(pad_y, 34.0)
+	if tex == null:
+		return Look.window(cx)
+	var sb := StyleBoxTexture.new()
+	sb.texture = tex
+	sb.texture_margin_left = 38.0
+	sb.texture_margin_right = 38.0
+	sb.texture_margin_top = 38.0
+	sb.texture_margin_bottom = 38.0
+	sb.content_margin_left = cx
+	sb.content_margin_right = cx
+	sb.content_margin_top = cy
+	sb.content_margin_bottom = cy
+	return sb
+
+func _style_forged_btn(btn: Button, variant: String = "slate", font_sz: int = 20) -> void:
+	btn.focus_mode = Control.FOCUS_NONE
+	var fname := "btn_forged_gold.webp" if variant == "gold" else ("btn_forged_crimson.webp" if variant == "crimson" else "btn_forged_slate.webp")
+	var tex := _load_tex(FORGED_BASE + fname)
+	for st_name in ["normal", "hover", "pressed", "disabled"]:
+		if tex != null:
+			var sb := StyleBoxTexture.new()
+			sb.texture = tex
+			sb.texture_margin_left = 44.0
+			sb.texture_margin_right = 44.0
+			sb.texture_margin_top = 16.0
+			sb.texture_margin_bottom = 16.0
+			sb.content_margin_left = 24.0
+			sb.content_margin_right = 24.0
+			sb.content_margin_top = 8.0
+			sb.content_margin_bottom = 8.0
+			if st_name == "hover":
+				sb.modulate_color = Color(1.15, 1.13, 1.08, 1.0)
+			elif st_name == "pressed":
+				sb.modulate_color = Color(0.84, 0.80, 0.76, 1.0)
+			btn.add_theme_stylebox_override(st_name, sb)
+		else:
+			btn.add_theme_stylebox_override(st_name, PyraSkin.button_box(st_name, 20.0, 8.0))
+	btn.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+	var use_gold_bmp := (variant == "gold") and not ("←" in btn.text)
+	if use_gold_bmp:
+		btn.add_theme_font_override("font", Look.title_font())
+		btn.add_theme_color_override("font_color", Color.WHITE)
+	else:
+		btn.add_theme_font_override("font", ThemeDB.fallback_font)
+		btn.add_theme_color_override("font_color", Color("fff4d6") if variant == "gold" else Color("f4ece0"))
+	btn.add_theme_font_size_override("font_size", font_sz)
+	btn.add_theme_color_override("font_hover_color", Color.WHITE)
+	btn.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.01, 0.96))
+	btn.add_theme_constant_override("outline_size", 4)
+
+func _read_audio_prefs() -> Dictionary:
+	var prefs := {"music": 0.35, "sfx": 0.70}
+	if FileAccess.file_exists(AUDIO_PREFS_PATH):
+		var v: Variant = JSON.parse_string(FileAccess.get_file_as_string(AUDIO_PREFS_PATH))
+		if v is Dictionary:
+			prefs["music"] = clampf(float((v as Dictionary).get("music", 0.35)), 0.0, 1.0)
+			prefs["sfx"] = clampf(float((v as Dictionary).get("sfx", 0.70)), 0.0, 1.0)
+	return prefs
+
+func _on_world_audio_changed(music_v: float, sfx_v: float) -> void:
+	var f := FileAccess.open(AUDIO_PREFS_PATH, FileAccess.WRITE)
+	if f != null:
+		f.store_string(JSON.stringify({"music": clampf(music_v, 0.0, 1.0), "sfx": clampf(sfx_v, 0.0, 1.0)}))
+		f.close()
+
+func _silence_external_music() -> void:
+	# Stop any legacy loading music (PyraAudio / TitleScreen) so loadings.mp3 NEVER plays over menu or gameplay!
+	if get_tree() == null or get_tree().root == null:
+		return
+	var stack: Array[Node] = [get_tree().root]
+	while not stack.is_empty():
+		var cur: Node = stack.pop_back()
+		if cur == self or is_ancestor_of(cur):
+			continue
+		if cur is AudioStreamPlayer:
+			(cur as AudioStreamPlayer).stop()
+		if cur.has_method("stop_menu_music"):
+			cur.call("stop_menu_music")
+		for ch in cur.get_children():
+			stack.append(ch)
+
+func _start_menu_music() -> void:
+	_silence_external_music()
+	var prefs := _read_audio_prefs()
+	var mv := float(prefs["music"])
+	if mv <= 0.01:
+		menu_music.stop()
+		return
+	if menu_music.stream == null:
+		for p in MENU_MUSIC_PATHS:
+			if ResourceLoader.exists(p):
+				var s := load(p)
+				if s is AudioStream:
+					menu_music.stream = s
+					break
+			if FileAccess.file_exists(p):
+				var mp3 := AudioStreamMP3.new()
+				mp3.data = FileAccess.get_file_as_bytes(p)
+				mp3.loop = true
+				menu_music.stream = mp3
+				break
+	if menu_music.stream is AudioStreamMP3:
+		(menu_music.stream as AudioStreamMP3).loop = true
+	menu_music.volume_db = linear_to_db(maxf(mv * 0.72, 0.0001))
+	if menu_music.stream != null and not menu_music.playing:
+		menu_music.play()
+
+func _stop_menu_music() -> void:
+	if menu_music.playing:
+		menu_music.stop()
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	mouse_filter=Control.MOUSE_FILTER_STOP
-	var back:=ColorRect.new()
-	back.color=Color("0a101b")
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(menu_music)
+	_start_menu_music.call_deferred()
+
+	var back := ColorRect.new()
+	back.color = Color(0.025, 0.02, 0.035, 1.0)
 	back.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(back)
-	page.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-	page.grow_horizontal=Control.GROW_DIRECTION_BOTH
-	page.grow_vertical=Control.GROW_DIRECTION_BOTH
-	page.custom_minimum_size=Vector2(600,0)
-	page.add_theme_constant_override("separation",18)
-	add_child(page)
-	var title:=Label.new()
-	title.text="KI LEGENDS · TEST SERWER"
-	title.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size",30)
+	page_card.name = "PageCard"
+	page_card.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	page_card.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	page_card.grow_vertical = Control.GROW_DIRECTION_BOTH
+	page_card.custom_minimum_size = Vector2(660, 0)
+	page_card.add_theme_stylebox_override("panel", _forged_panel(46.0, 40.0))
+	add_child(page_card)
+	page.add_theme_constant_override("separation", 16)
+	page_card.add_child(page)
+	var title := Label.new()
+	title.text = "KI LEGENDS"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	Look.style_heading(title, 34)
 	page.add_child(title)
-	caption.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	caption.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	caption.add_theme_font_size_override("font_size",22)
+	caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	caption.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	caption.add_theme_font_size_override("font_size", 19)
+	caption.add_theme_color_override("font_color", Color("e6dac2"))
 	page.add_child(caption)
-	timer.wait_time=3
+	timer.wait_time = 3
 	timer.timeout.connect(refresh_access)
 	add_child(timer)
 	resized.connect(layout_preview)
 	set_process_unhandled_key_input(true)
 
 func read_status() -> Dictionary:
-	if not request.is_valid():return {}
-	var result: Dictionary=await request.call(HTTPClient.METHOD_GET,"/ws/godot/status",null,true,8.0)
-	if int(result.get("status",0))!=200 or not result.get("json") is Dictionary:return {}
+	if not request.is_valid(): return {}
+	var result: Dictionary = await request.call(HTTPClient.METHOD_GET, "/ws/godot/status", null, true, 8.0)
+	if int(result.get("status", 0)) != 200 or not result.get("json") is Dictionary: return {}
 	return result.json
 
 static func permits_preview(status: Dictionary) -> bool:
-	return status.get("maintenance")==true and status.get("canPreview")==true and status.get("canEnter")==true
+	return status.get("maintenance") == true and status.get("canPreview") == true and status.get("canEnter") == true
 
 func run() -> String:
-	caption.text="Sprawdzanie dostępu…"
-	var status:=await read_status()
-	if status.get("maintenance")==false and status.get("canEnter")==true:
+	caption.text = "Sprawdzanie dostępu…"
+	var status := await read_status()
+	if status.get("maintenance") == false and status.get("canEnter") == true:
 		if ResourceLoader.exists(SCENE):
 			open_world(true)
 			timer.start()
@@ -70,60 +218,60 @@ func run() -> String:
 	return await picked
 
 func show_status(status: Dictionary) -> void:
-	allowed=permits_preview(status)
-	caption.text="Podgląd administratora. Ta scena nie zmienia zapisów postaci." if allowed else str(status.get("message","Nie można sprawdzić serwera. Spróbuj ponownie."))
+	allowed = permits_preview(status)
+	caption.text = "Podgląd administratora. Ta scena nie zmienia zapisów postaci." if allowed else str(status.get("message", "Nie można sprawdzić serwera. Spróbuj ponownie."))
 	for child in page.get_children():
-		if child is Button:child.queue_free()
+		if child is Button: child.queue_free()
 	if allowed:
-		button("PROTOTYP IZOMETRYCZNY · PYRA",open_preview)
-		button("WEJDŹ DO GRY",func():open_world(true))
+		button("WEJDŹ DO GRY", func(): open_world(true), "gold")
+		button("PROTOTYP IZOMETRYCZNY · PYRA", open_preview, "slate")
 	else:
-		button("ZALOGUJ JAKO ADMINISTRATOR",func():picked.emit("login"))
-	button("SPRAWDŹ PONOWNIE",refresh_access)
-	button("ZAMKNIJ",func():picked.emit("quit"))
+		button("ZALOGUJ SIĘ", func(): picked.emit("login"), "gold")
+	button("SPRAWDŹ PONOWNIE", refresh_access, "slate")
+	button("ZAMKNIJ", func(): picked.emit("quit"), "crimson")
 
-func button(text: String, action: Callable) -> void:
-	var control:=Button.new()
-	control.text=text
-	control.custom_minimum_size=Vector2(580,84)
-	control.add_theme_font_size_override("font_size",22)
+func button(text: String, action: Callable, variant: String = "slate") -> void:
+	var control := Button.new()
+	control.text = text
+	control.custom_minimum_size = Vector2(540, 68)
+	_style_forged_btn(control, variant, 20)
 	control.pressed.connect(action)
 	page.add_child(control)
 
 func refresh_access() -> void:
-	if checking:return
-	checking=true
-	var status:=await read_status()
-	checking=false
-	if not is_inside_tree():return
-	if preview!=null and not full_mode and not permits_preview(status):close_preview()
-	if status.get("maintenance")==false and status.get("canEnter")==true:
-		if preview==null:
-			if ResourceLoader.exists(SCENE):open_world(true)
-			else:picked.emit("continue")
+	if checking: return
+	checking = true
+	var status := await read_status()
+	checking = false
+	if not is_inside_tree(): return
+	if preview != null and not full_mode and not permits_preview(status): close_preview()
+	if status.get("maintenance") == false and status.get("canEnter") == true:
+		if preview == null and char_view == null:
+			if ResourceLoader.exists(SCENE): open_world(true)
+			else: picked.emit("continue")
 		return
 	show_status(status)
 
 func open_preview() -> void:
-	if checking or preview!=null:return
-	checking=true
-	var status:=await read_status()
-	checking=false
+	if checking or preview != null: return
+	checking = true
+	var status := await read_status()
+	checking = false
 	if not permits_preview(status):
 		show_status(status)
 		return
 	open_world(false)
 
 func open_world(full: bool) -> void:
-	if preview!=null or char_view!=null:return
+	if preview != null or char_view != null: return
 	if full:
-		var chosen: String=await choose_character()
-		if chosen=="":return
-		char_id=chosen
+		_start_menu_music()
+		var chosen: String = await choose_character()
+		if chosen == "":
+			return
+		char_id = chosen
 	spawn_world(full)
 
-## The account's heroes: authoritative Android characters on the server (GET /ws/godot/characters, which also bridges browser heroes).
-## Falls back to GET /ws/characters if the backend has not yet rolled out the new route.
 func choose_character() -> String:
 	var Chars = load("res://scripts/characters.gd")
 	var online = KiNet.online()
@@ -218,7 +366,7 @@ func choose_character() -> String:
 			var made := await create_character(Chars, legacy_server, use_authoritative)
 			if made == "": return ""
 			return made
-		page.hide()
+		page_card.hide()
 		var view = load("res://scripts/character_select.gd").new()
 		view.setup(roster, "")
 		char_view = view
@@ -226,11 +374,28 @@ func choose_character() -> String:
 		var result := [""]
 		view.picked.connect(func(id: String) -> void: result[0] = id; view.queue_free())
 		view.new_character.connect(func() -> void: result[0] = "#new"; view.queue_free())
+		view.closed.connect(func() -> void: result[0] = "#back"; view.queue_free())
+		view.delete_requested.connect(func(del_id: String) -> void: result[0] = "#del:" + del_id; view.queue_free())
 		await view.tree_exited
 		char_view = null
-		if result[0] == "":
-			page.show()
+		if result[0] == "" or result[0] == "#back":
+			show_status({"maintenance": false, "canEnter": true, "message": "Wybierz akcję lub zaloguj się ponownie."})
+			page_card.show()
 			return ""
+		if str(result[0]).begins_with("#del:"):
+			var del_id: String = str(result[0]).substr(5)
+			if use_authoritative and server_chars.has(del_id) and online.logged_in():
+				var del_ans: Dictionary = await online.request(HTTPClient.METHOD_DELETE, "/ws/godot/characters/%s" % del_id)
+				if int(del_ans.get("status", 0)) == 200:
+					server_chars.erase(del_id)
+					notice("Postać została usunięta z serwera.")
+				else:
+					notice(PyraOnline.message_of(del_ans, "Nie udało się usunąć postaci na serwerze."))
+			else:
+				Chars.delete(del_id)
+				legacy_server.erase(del_id)
+				notice("Postać została usunięta.")
+			continue
 		if result[0] == "#new":
 			var made := await create_character(Chars, legacy_server, use_authoritative)
 			if made != "": return made
@@ -242,20 +407,18 @@ func choose_character() -> String:
 		return adopt_server_character(Chars, legacy_server, picked_id)
 	return ""
 
-## Server-computed authoritative stats & progress for the character card.
 func auth_progress_text(rec: Dictionary) -> String:
 	var st: Dictionary = rec.get("state", {})
 	var stats: Dictionary = rec.get("stats", {})
 	var lines: Array[String] = []
 	lines.append("HP %d/%d · KI %d/%d" % [int(st.get("hp", 1)), int(stats.get("maxHp", 140)), int(st.get("ki", 0)), int(stats.get("maxKi", 45))])
 	lines.append("ATK %d · DEF %d · KRYT %.1f%%" % [int(stats.get("attack", 14)), int(stats.get("defense", 5)), float(stats.get("critChance", 5.0))])
-	lines.append("PD %d/%d · Złoto %d (Bank %d)" % [int(st.get("xp", 0)), int(stats.get("xpNeeded", 200)), int(rec.get("gold", 0)), int(st.get("bankGold", 0))])
+	lines.append("PD %d/%d · Złoto %d (Bank %d)" % [int(st.get("xp", 0)), int(stats.get("xpNeeded", 1400)), int(rec.get("gold", 0)), int(st.get("bankGold", 0))])
 	var nodes: Array = st.get("unlockedNodes", [])
 	var quests: Dictionary = st.get("completedQuests", {})
 	lines.append("Talenty: %d · Zlecenia: %d" % [nodes.size(), quests.size()])
 	return "\n".join(lines)
 
-## Legacy browser record progress text.
 func progress_text(player: Dictionary) -> String:
 	var lines: Array[String] = []
 	lines.append("PD: %d · złoto: %d" % [int(player.get("xp", 0)), int(player.get("gold", 0))])
@@ -272,7 +435,7 @@ func adopt_server_character(Chars, server: Dictionary, id: String) -> String:
 	return id
 
 func create_character(Chars, server: Dictionary, use_authoritative: bool) -> String:
-	page.hide()
+	page_card.hide()
 	var view = RaceScreen.new()
 	view.setup(true)
 	char_view = view
@@ -312,66 +475,122 @@ func create_character(Chars, server: Dictionary, use_authoritative: bool) -> Str
 	Chars.write(Chars.slot_path(id), {"characterId": id, "race": race[0], "land": HOME[race[0]], "name": nick, "kit": {"level": 1}, "gold": 20, "cloudSlot": 0})
 	return id
 
-## The nick of a new hero: a full-screen form; "" when the player goes back.
+## Forged Obsidian & Gold nick entry anchored near TOP of screen so Android soft keyboard NEVER covers it!
 func ask_name(race: String) -> String:
 	var overlay := Control.new()
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.z_index = 104
 	var back := ColorRect.new()
-	back.color = Color("0a101b")
+	back.color = Color(0.025, 0.02, 0.035, 0.96)
 	back.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.add_child(back)
+
+	var card := PanelContainer.new()
+	card.anchor_left = 0.5
+	card.anchor_right = 0.5
+	card.anchor_top = 0.0
+	card.anchor_bottom = 0.0
+	card.offset_left = -360.0
+	card.offset_right = 360.0
+	card.offset_top = 34.0
+	card.offset_bottom = 398.0
+	card.add_theme_stylebox_override("panel", _forged_panel(46.0, 40.0))
+	overlay.add_child(card)
+
 	var box := VBoxContainer.new()
-	box.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-	box.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	box.grow_vertical = Control.GROW_DIRECTION_BOTH
-	box.custom_minimum_size = Vector2(620, 0)
-	box.add_theme_constant_override("separation", 18)
-	overlay.add_child(box)
+	box.add_theme_constant_override("separation", 14)
+	card.add_child(box)
+
+	var race_pl := str({"legend": "LEGENDA", "planetary": "PLANETARNY", "sage": "MĘDRZEC", "android": "ANDROID"}.get(race, race))
 	var title := Label.new()
-	title.text = "NICK POSTACI · " + str({"legend": "LEGENDA", "planetary": "PLANETARNY", "sage": "MĘDRZEC", "android": "ANDROID"}.get(race, race))
+	title.text = "NAZWIJ BOHATERA · " + race_pl
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 30)
+	Look.style_heading(title, 24)
 	box.add_child(title)
+
+	var err_lbl := Label.new()
+	err_lbl.text = "Wpisz od 3 do 16 znaków (litery, cyfry lub myślnik)."
+	err_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	err_lbl.add_theme_font_size_override("font_size", 15)
+	err_lbl.add_theme_color_override("font_color", Color("dfd2b8"))
+	box.add_child(err_lbl)
+
 	var field := LineEdit.new()
-	field.placeholder_text = "Wpisz nick (3–16 znaków)"
+	field.placeholder_text = "Np. Ignis, Jan, Aurelius..."
 	field.max_length = 16
-	field.custom_minimum_size = Vector2(0, 84)
-	field.add_theme_font_size_override("font_size", 26)
+	field.custom_minimum_size = Vector2(0, 62)
+	field.add_theme_font_size_override("font_size", 24)
+	field.add_theme_color_override("font_color", Color("fff6df"))
+	field.add_theme_color_override("font_placeholder_color", Color(0.65, 0.62, 0.58, 0.72))
+	var f_box := StyleBoxFlat.new()
+	f_box.bg_color = Color(0.05, 0.045, 0.075, 0.96)
+	f_box.border_color = Color(0.88, 0.70, 0.34, 0.94)
+	f_box.set_border_width_all(2)
+	f_box.set_corner_radius_all(10)
+	f_box.content_margin_left = 16
+	f_box.content_margin_right = 16
+	field.add_theme_stylebox_override("normal", f_box)
+	var f_foc := f_box.duplicate()
+	f_foc.border_color = Color(1.0, 0.86, 0.44, 1.0)
+	field.add_theme_stylebox_override("focus", f_foc)
 	box.add_child(field)
+
 	var done := [false, ""]
+	var btn_row := HBoxContainer.new()
+	btn_row.add_theme_constant_override("separation", 14)
+	box.add_child(btn_row)
+
+	var cancel := Button.new()
+	cancel.text = "← WSTECZ"
+	cancel.custom_minimum_size = Vector2(180, 62)
+	_style_forged_btn(cancel, "slate", 18)
+	cancel.pressed.connect(func() -> void: done[0] = true)
+	btn_row.add_child(cancel)
+
 	var ok := Button.new()
 	ok.text = "UTWÓRZ POSTAĆ"
-	ok.custom_minimum_size = Vector2(0, 84)
-	ok.add_theme_font_size_override("font_size", 24)
+	ok.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	ok.custom_minimum_size = Vector2(260, 62)
+	_style_forged_btn(ok, "gold", 20)
 	ok.pressed.connect(func() -> void:
-		if field.text.strip_edges().length() < 3:
-			title.text = "NICK MUSI MIEĆ MIN. 3 ZNAKI"
+		var cleaned := field.text.strip_edges()
+		if cleaned.length() < 3:
+			err_lbl.text = "Nick musi mieć co najmniej 3 znaki!"
+			err_lbl.add_theme_color_override("font_color", Color(1.0, 0.45, 0.36))
 			return
-		done[1] = field.text.strip_edges(); done[0] = true)
-	box.add_child(ok)
-	var cancel := Button.new()
-	cancel.text = "WSTECZ"
-	cancel.custom_minimum_size = Vector2(0, 72)
-	cancel.add_theme_font_size_override("font_size", 22)
-	cancel.pressed.connect(func() -> void: done[0] = true)
-	box.add_child(cancel)
+		done[1] = cleaned
+		done[0] = true
+	)
+	btn_row.add_child(ok)
+
+	char_view = overlay
 	add_child(overlay)
+	field.grab_focus()
 	while not done[0]: await get_tree().process_frame
+	char_view = null
 	overlay.queue_free()
 	return str(done[1])
 
 func notice(text: String) -> void:
+	var panel_n := PanelContainer.new()
+	panel_n.z_index = 200
+	panel_n.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	panel_n.offset_left = 120
+	panel_n.offset_right = -120
+	panel_n.offset_top = -104
+	panel_n.offset_bottom = -28
+	panel_n.add_theme_stylebox_override("panel", _forged_panel(18.0, 12.0))
 	var note := Label.new()
 	note.text = text
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	note.add_theme_font_size_override("font_size", 22)
-	note.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
-	note.offset_top = -140
-	add_child(note)
-	get_tree().create_timer(5.0).timeout.connect(note.queue_free)
+	note.add_theme_font_size_override("font_size", 18)
+	note.add_theme_color_override("font_color", Color("fff1ce"))
+	panel_n.add_child(note)
+	add_child(panel_n)
+	get_tree().create_timer(4.5).timeout.connect(panel_n.queue_free)
 
-## Executes an authoritative server economy/progression action for the active Android character.
 func _run_server_action(cid: String, payload: Dictionary, done_cb: Callable) -> void:
 	var online = KiNet.online()
 	var ans: Dictionary = await online.request(HTTPClient.METHOD_POST, "/ws/godot/characters/%s/action" % cid, payload)
@@ -396,23 +615,46 @@ func _run_server_action(cid: String, payload: Dictionary, done_cb: Callable) -> 
 	if done_cb.is_valid():
 		done_cb.call(res)
 
+func _on_world_change_character() -> void:
+	close_preview()
+	call_deferred("open_world", true)
+
+func _on_world_logout() -> void:
+	close_preview()
+	if KiNet.online().has_method("logout"):
+		KiNet.online().logout()
+	picked.emit("login")
+
+func _on_world_quit() -> void:
+	close_preview()
+	picked.emit("quit")
+
 func spawn_world(full: bool) -> void:
-	full_mode=full
+	full_mode = full
 	if not ResourceLoader.exists(SCENE):
-		caption.text="Brak paczki prototypu. Wymagana jest wersja aplikacji z podglądem izometrii."
+		caption.text = "Brak paczki prototypu. Wymagana jest wersja aplikacji z podglądem izometrii."
 		return
-	var scene:=load(SCENE) as PackedScene
-	if scene==null:return
-	page.hide()
-	preview=SubViewportContainer.new()
-	preview.stretch=true
+	var scene := load(SCENE) as PackedScene
+	if scene == null: return
+	_stop_menu_music()
+	_silence_external_music()
+	page_card.hide()
+	preview = SubViewportContainer.new()
+	preview.stretch = true
 	preview.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(preview)
-	var viewport:=SubViewport.new()
-	viewport.world_2d=World2D.new()
-	viewport.size=Vector2i(get_viewport_rect().size)
+	var viewport := SubViewport.new()
+	viewport.world_2d = World2D.new()
+	viewport.size = Vector2i(get_viewport_rect().size)
 	preview.add_child(viewport)
-	world=scene.instantiate()
+	world = scene.instantiate()
+	var aprefs := _read_audio_prefs()
+	world.initial_music_vol = float(aprefs["music"])
+	world.initial_sfx_vol = float(aprefs["sfx"])
+	world.audio_settings_fn = Callable(self, "_on_world_audio_changed")
+	world.return_to_char_select_fn = Callable(self, "_on_world_change_character")
+	world.logout_fn = Callable(self, "_on_world_logout")
+	world.quit_game_fn = Callable(self, "_on_world_quit")
 	if full and not active_server_char.is_empty():
 		world.server_char_id = str(active_server_char.get("id", ""))
 		world.server_character = active_server_char.duplicate(true)
@@ -436,57 +678,69 @@ func spawn_world(full: bool) -> void:
 		autosave.start()
 	viewport.add_child(world)
 	if not full:
-		close_button=Button.new()
-		close_button.text="WRÓĆ · TRYB SERWISOWY"
-		close_button.custom_minimum_size=Vector2(330,84)
-		close_button.add_theme_font_size_override("font_size",20)
+		close_button = Button.new()
+		close_button.text = "← WRÓĆ · TRYB SERWISOWY"
+		close_button.custom_minimum_size = Vector2(320, 62)
+		_style_forged_btn(close_button, "slate", 18)
 		close_button.pressed.connect(close_preview)
 		add_child(close_button)
 	layout_preview()
 
 func layout_preview() -> void:
-	if preview==null or close_button==null:return
-	var safe:=Rect2(Vector2.ZERO,get_viewport_rect().size)
-	if OS.get_name()=="Android":
-		var screen:=DisplayServer.get_display_safe_area()
-		if screen.has_area():safe=(get_tree().root.get_screen_transform().affine_inverse()*Rect2(screen)).intersection(safe)
-	close_button.position=Vector2(safe.get_center().x-165,safe.position.y+16)
+	if preview == null or close_button == null: return
+	var safe := Rect2(Vector2.ZERO, get_viewport_rect().size)
+	if OS.get_name() == "Android":
+		var screen := DisplayServer.get_display_safe_area()
+		if screen.has_area(): safe = (get_tree().root.get_screen_transform().affine_inverse() * Rect2(screen)).intersection(safe)
+	close_button.position = Vector2(safe.get_center().x - 160, safe.position.y + 14)
 
-## Hero progress (level, gold, land) goes into its local slot every 20 s and on exit. Cloud upload and server authority are not wired yet.
 func save_progress() -> void:
-	if not active_server_char.is_empty():return
-	if world==null or char_id=="" or not full_mode or world.get("rpg_hud")==null:return
-	var Chars=load("res://scripts/characters.gd")
-	var data:Dictionary=Chars.read(Chars.slot_path(char_id))
-	if data.is_empty():return
-	var hud:Object=world.rpg_hud
-	data["kit"]=data.get("kit",{})
-	data["kit"]["level"]=int(hud.hero_level)
-	data["gold"]=int(hud.hero_gold)
-	data["land"]=str(world.current_land)
-	data["characterId"]=char_id
-	Chars.write(Chars.slot_path(char_id),data)
+	if not active_server_char.is_empty(): return
+	if world == null or char_id == "" or not full_mode or world.get("rpg_hud") == null: return
+	var Chars = load("res://scripts/characters.gd")
+	var data: Dictionary = Chars.read(Chars.slot_path(char_id))
+	if data.is_empty(): return
+	var hud: Object = world.rpg_hud
+	data["kit"] = data.get("kit", {})
+	data["kit"]["level"] = int(hud.hero_level)
+	data["gold"] = int(hud.hero_gold)
+	data["land"] = str(world.current_land)
+	data["characterId"] = char_id
+	Chars.write(Chars.slot_path(char_id), data)
 
 func close_preview() -> void:
 	autosave.stop()
-	if full_mode:save_progress()
-	if preview==null:return
-	world.motion=Vector2.ZERO
-	world.move_pointer=-1
+	if full_mode: save_progress()
+	if preview == null: return
+	if world != null and world.get("audio") != null:
+		world.audio.stop_all()
+	world.motion = Vector2.ZERO
+	world.move_pointer = -1
 	preview.queue_free()
-	preview=null
-	world=null
-	if close_button!=null:close_button.queue_free()
-	close_button=null
-	full_mode=false
-	page.show()
+	preview = null
+	world = null
+	if close_button != null: close_button.queue_free()
+	close_button = null
+	full_mode = false
+	_start_menu_music()
+	page_card.show()
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE and preview!=null:
-		close_preview()
-		get_viewport().set_input_as_handled()
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		if preview != null and world != null and world.has_method("handle_back_request"):
+			world.handle_back_request()
+			get_viewport().set_input_as_handled()
+		elif char_view != null and char_view.has_signal("closed"):
+			char_view.emit_signal("closed")
+			get_viewport().set_input_as_handled()
 
 func _notification(what: int) -> void:
-	if what==NOTIFICATION_WM_GO_BACK_REQUEST:
-		if preview!=null:close_preview()
-		else:picked.emit("quit")
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		if preview != null and world != null and world.has_method("handle_back_request"):
+			world.handle_back_request()
+		elif char_view != null and char_view.has_signal("closed"):
+			char_view.emit_signal("closed")
+		elif preview != null:
+			close_preview()
+		else:
+			picked.emit("quit")

@@ -4,6 +4,7 @@ extends Control
 ## Walking away automatically closes the conversation; inside buildings a pill opens the functional Service Window.
 
 const MapStyle := preload("res://scripts/map_style.gd")
+const ForgedUI := preload("res://scripts/forged_ui.gd")
 
 const BIOME_LORE := {
 	"pyra": "Twierdza Popiołu stoi nad żyłami magmy od czasów Pierwszej Przysięgi. Każda droga prowadzi tu między bazaltowymi mostami a gorącymi kuźniami.",
@@ -88,26 +89,18 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visible = false
 
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color(0.05, 0.045, 0.065, 0.94)
-	st.border_color = Color(0.98, 0.70, 0.24, 0.98)
-	st.set_border_width_all(3)
-	st.set_corner_radius_all(12)
-	st.content_margin_left = 14
-	st.content_margin_right = 14
-	st.content_margin_top = 10
-	st.content_margin_bottom = 10
-	panel.add_theme_stylebox_override("panel", st)
+	panel.add_theme_stylebox_override("panel", ForgedUI.panel_box(42.0, 26.0))
 	panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(panel)
 
 	var hbox := HBoxContainer.new()
-	hbox.add_theme_constant_override("separation", 14)
+	hbox.add_theme_constant_override("separation", 18)
 	panel.add_child(hbox)
 
 	# Left: Role emblem + speaker identity
 	var left_v := VBoxContainer.new()
-	left_v.custom_minimum_size = Vector2(180.0, 0.0)
+	left_v.custom_minimum_size = Vector2(204.0, 0.0)
+	left_v.alignment = BoxContainer.ALIGNMENT_CENTER
 	left_v.add_theme_constant_override("separation", 4)
 	hbox.add_child(left_v)
 
@@ -115,7 +108,7 @@ func _ready() -> void:
 	id_row.add_theme_constant_override("separation", 10)
 	left_v.add_child(id_row)
 
-	icon_rect.custom_minimum_size = Vector2(46, 46)
+	icon_rect.custom_minimum_size = Vector2(48, 48)
 	icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	id_row.add_child(icon_rect)
@@ -128,10 +121,12 @@ func _ready() -> void:
 	name_lbl.add_theme_font_override("font", MapStyle.font())
 	name_lbl.add_theme_font_size_override("font_size", 17)
 	name_lbl.add_theme_color_override("font_color", Color(1.0, 0.88, 0.48))
+	name_lbl.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.01, 0.96))
+	name_lbl.add_theme_constant_override("outline_size", 4)
 	name_v.add_child(name_lbl)
 
 	role_lbl.add_theme_font_override("font", MapStyle.body_font())
-	role_lbl.add_theme_font_size_override("font_size", 12)
+	role_lbl.add_theme_font_size_override("font_size", 13)
 	role_lbl.add_theme_color_override("font_color", Color(0.54, 0.90, 0.98))
 	role_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	name_v.add_child(role_lbl)
@@ -149,7 +144,7 @@ func _ready() -> void:
 	body_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	body_lbl.add_theme_font_override("font", MapStyle.body_font())
-	body_lbl.add_theme_font_size_override("font_size", 15)
+	body_lbl.add_theme_font_size_override("font_size", 16)
 	body_lbl.add_theme_color_override("font_color", Color(0.98, 0.95, 0.88))
 	body_lbl.mouse_filter = Control.MOUSE_FILTER_STOP
 	body_lbl.gui_input.connect(func(ev: InputEvent) -> void:
@@ -159,8 +154,8 @@ func _ready() -> void:
 	)
 	hbox.add_child(body_lbl)
 
-	# Right: 2-3 compact pill choices
-	choices_vbox.custom_minimum_size = Vector2(215.0, 0.0)
+	# Right: 2-3 crisp forged pill choices
+	choices_vbox.custom_minimum_size = Vector2(292.0, 0.0)
 	choices_vbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	choices_vbox.add_theme_constant_override("separation", 6)
 	hbox.add_child(choices_vbox)
@@ -172,29 +167,21 @@ func _layout() -> void:
 	var vs := get_viewport_rect().size
 	if vs.x < 100.0:
 		vs = Vector2(1280.0, 720.0)
-	var pw := clampf(vs.x - 48.0, 620.0, 1140.0)
-	var ph := 148.0
+	var pw := clampf(vs.x - 40.0, 680.0, 1220.0)
+	var ph := 196.0
 	panel.size = Vector2(pw, ph)
-	panel.position = Vector2((vs.x - pw) * 0.5, vs.y - ph - 12.0)
+	panel.position = Vector2((vs.x - pw) * 0.5, vs.y - ph - 10.0)
 
 func _style_pill(btn: Button, bg: Color, border: Color) -> void:
-	btn.custom_minimum_size = Vector2(205.0, 36.0)
-	var st := StyleBoxFlat.new()
-	st.bg_color = bg
-	st.border_color = border
-	st.set_border_width_all(2)
-	st.set_corner_radius_all(8)
-	st.content_margin_left = 10
-	st.content_margin_right = 10
-	st.content_margin_top = 4
-	st.content_margin_bottom = 4
-	btn.add_theme_stylebox_override("normal", st)
-	var sth := st.duplicate()
-	sth.bg_color = bg.lightened(0.14)
-	btn.add_theme_stylebox_override("hover", sth)
-	btn.add_theme_font_override("font", MapStyle.body_font())
-	btn.add_theme_font_size_override("font_size", 13)
-	btn.add_theme_color_override("font_color", Color(1.0, 0.96, 0.86))
+	btn.custom_minimum_size = Vector2(288.0, 42.0)
+	var variant := "slate"
+	if bg.r > bg.b + 0.10 and bg.g < 0.14:
+		variant = "crimson"
+	elif border.r > 0.88 and border.g > 0.72:
+		variant = "gold"
+	elif border.b > 0.92 and border.g > 0.85:
+		variant = "gold"
+	ForgedUI.style_button(btn, variant, 14, 26.0, 6.0)
 
 func _icon_for(npc: Dictionary) -> Texture2D:
 	if world == null:
@@ -242,6 +229,8 @@ func open_dialogue(npc: Dictionary) -> void:
 	var greeting := _greeting_for(n_name, n_role, land, bool(npc.get("is_interior", false)))
 	_set_text(greeting)
 	_rebuild_choices()
+	if world != null and world.has_method("layout_minimap"):
+		world.layout_minimap()
 
 func close_dialogue(farewell: bool = false) -> void:
 	if not is_open:
@@ -253,6 +242,8 @@ func close_dialogue(farewell: bool = false) -> void:
 	is_open = false
 	visible = false
 	active_npc = {}
+	if world != null and world.has_method("layout_minimap"):
+		world.layout_minimap()
 
 func _greeting_for(n_name: String, n_role: String, land: String, is_int: bool) -> String:
 	if is_int:

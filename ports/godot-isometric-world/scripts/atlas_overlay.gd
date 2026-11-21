@@ -10,6 +10,7 @@ extends Control
 const GlobeViewScript := preload("res://scripts/globe_view.gd")
 const MapMathScript := preload("res://scripts/map_math.gd")
 const MapStyleScript := preload("res://scripts/map_style.gd")
+const ForgedUI := preload("res://scripts/forged_ui.gd")
 
 var world: Node2D
 var atlas_tex: Texture2D
@@ -18,20 +19,21 @@ var map_json: Dictionary = {}
 var region_bboxes: Dictionary = {}
 var continent_data: Dictionary = {} # rid -> parsed buildings.json (roads, buildings, exp_zones, capital_center)
 var hovered_land := ""
-var mode := "globe" # "globe" or "atlas"
+var mode := "atlas" # "atlas" (full world 2D) or "globe" (3D)
 var globe
 
-# 2D Atlas pan/zoom state (in 2000x1000 atlas space, up to 12.0x deep street zoom!)
+# 2D Atlas pan/zoom state (in 2000x1000 atlas space, 1.0x whole world .. 24.0x street zoom!)
 var atlas_zoom := 1.0
 var atlas_center := Vector2(1000.0, 500.0)
 var atlas_dragging := false
 var atlas_drag_moved := false
 var atlas_drag_start := Vector2.ZERO
+var _pinch_pts: Dictionary = {}
+var _pinch_span := 0.0
 
-var btn_continent := Button.new()
+var btn_back := Button.new()
 var btn_globe := Button.new()
 var btn_atlas := Button.new()
-var btn_close := Button.new()
 var btn_zoom_in := Button.new()
 var btn_zoom_out := Button.new()
 var btn_center := Button.new()
@@ -86,7 +88,7 @@ func _ready() -> void:
 	_load_all_continent_details()
 
 	build_controls()
-	set_mode("globe")
+	set_mode("atlas")
 
 func _cache_region_bboxes() -> void:
 	region_bboxes.clear()
@@ -176,8 +178,20 @@ func sync_live_hero() -> void:
 	if visible:
 		queue_redraw()
 
+func focus_on_hero(zoom_lvl: float = 3.8) -> void:
+	mode = "atlas"
+	if globe != null:
+		globe.visible = false
+	atlas_zoom = clampf(zoom_lvl, 1.0, 24.0)
+	atlas_center = hero_atlas_pos()
+	_clamp_atlas_center()
+	_refresh_mode_buttons()
+	queue_redraw()
+
 func focus_atlas_continent(rid: String, zoom_lvl: float = 3.2) -> void:
-	set_mode("atlas")
+	mode = "atlas"
+	if globe != null:
+		globe.visible = false
 	atlas_zoom = clampf(zoom_lvl, 1.0, 24.0)
 	if continent_data.has(rid):
 		var cd: Dictionary = continent_data[rid]
@@ -189,24 +203,15 @@ func focus_atlas_continent(rid: String, zoom_lvl: float = 3.2) -> void:
 		var bb: Dictionary = region_bboxes[rid]
 		atlas_center = Vector2((float(bb["min_x"]) + float(bb["max_x"])) * 0.5, (float(bb["min_y"]) + float(bb["max_y"])) * 0.5)
 	_clamp_atlas_center()
+	_refresh_mode_buttons()
 	queue_redraw()
 
-func _style_nav_btn(btn: Button) -> void:
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color(0.16, 0.10, 0.06, 0.92)
-	st.border_color = Color(0.84, 0.66, 0.36, 0.92)
-	st.set_border_width_all(2)
-	st.set_corner_radius_all(8)
-	btn.add_theme_stylebox_override("normal", st)
-	var st_h := st.duplicate()
-	st_h.bg_color = Color(0.28, 0.18, 0.10, 0.96)
-	btn.add_theme_stylebox_override("hover", st_h)
-	btn.add_theme_font_override("font", MapStyleScript.body_font())
-	btn.add_theme_color_override("font_color", Color(0.98, 0.92, 0.78))
-	btn.add_theme_font_size_override("font_size", 14)
+func _refresh_mode_buttons() -> void:
+	ForgedUI.style_button(btn_atlas, "gold" if mode == "atlas" else "slate", 15, 14.0, 8.0)
+	ForgedUI.style_button(btn_globe, "gold" if mode == "globe" else "slate", 15, 14.0, 8.0)
 
 func _map_rect() -> Rect2:
-	return Rect2(16.0, 58.0, maxf(size.x - 32.0, 320.0), maxf(size.y - 166.0, 240.0))
+	return Rect2(16.0, 68.0, maxf(size.x - 32.0, 320.0), maxf(size.y - 178.0, 240.0))
 
 func build_controls() -> void:
 	if world == null:
@@ -228,72 +233,57 @@ func build_controls() -> void:
 		globe.region_picked.connect(_on_globe_region_picked)
 		add_child(globe)
 
-	btn_continent.text = "KONTYNENT"
-	_style_nav_btn(btn_continent)
-	btn_continent.pressed.connect(func() -> void:
+	btn_back.text = "← WSTECZ"
+	ForgedUI.style_button(btn_back, "slate", 16, 22.0, 8.0)
+	btn_back.pressed.connect(func() -> void:
 		if world != null:
 			world.toggle_atlas(false)
-			if not bool(world.map_expanded):
-				world.toggle_map()
 	)
-	add_child(btn_continent)
+	add_child(btn_back)
+
+	btn_atlas.text = "MAPA ŚWIATA"
+	ForgedUI.style_button(btn_atlas, "gold", 15, 22.0, 8.0)
+	btn_atlas.pressed.connect(func() -> void: focus_on_hero(3.8))
+	add_child(btn_atlas)
 
 	btn_globe.text = "GLOBUS 3D"
-	_style_nav_btn(btn_globe)
+	ForgedUI.style_button(btn_globe, "slate", 15, 22.0, 8.0)
 	btn_globe.pressed.connect(func() -> void: set_mode("globe"))
 	add_child(btn_globe)
 
-	btn_atlas.text = "MAPA 2D"
-	_style_nav_btn(btn_atlas)
-	btn_atlas.pressed.connect(func() -> void: set_mode("atlas"))
-	add_child(btn_atlas)
-
-	btn_close.text = "✕ ZAMKNIJ"
-	_style_nav_btn(btn_close)
-	var st_c := StyleBoxFlat.new()
-	st_c.bg_color = Color(0.32, 0.10, 0.10, 0.96)
-	st_c.border_color = Color(0.98, 0.56, 0.36, 0.98)
-	st_c.set_border_width_all(2)
-	st_c.set_corner_radius_all(8)
-	btn_close.add_theme_stylebox_override("normal", st_c)
-	btn_close.pressed.connect(func() -> void:
-		if world != null:
-			world.toggle_atlas(false)
-	)
-	add_child(btn_close)
-
 	btn_zoom_in.text = "+"
-	_style_nav_btn(btn_zoom_in)
+	ForgedUI.style_square_button(btn_zoom_in, "slate", 26)
 	btn_zoom_in.pressed.connect(func() -> void:
 		if mode == "globe" and globe != null:
 			globe.zoom_by(1.22)
 		else:
-			_zoom_atlas(1.35)
+			_zoom_atlas(1.40)
 	)
 	add_child(btn_zoom_in)
 
 	btn_zoom_out.text = "−"
-	_style_nav_btn(btn_zoom_out)
+	ForgedUI.style_square_button(btn_zoom_out, "slate", 26)
 	btn_zoom_out.pressed.connect(func() -> void:
 		if mode == "globe" and globe != null:
 			globe.zoom_by(1.0 / 1.22)
 		else:
-			_zoom_atlas(1.0 / 1.35)
+			_zoom_atlas(1.0 / 1.40)
 	)
 	add_child(btn_zoom_out)
 
 	btn_center.text = "◎"
-	_style_nav_btn(btn_center)
+	ForgedUI.style_square_button(btn_center, "gold", 24)
+	btn_center.tooltip_text = "Przełącz: cały świat (1×) / pozycja bohatera (4×)"
 	btn_center.pressed.connect(func() -> void:
 		var p_atlas := hero_atlas_pos()
 		if mode == "globe" and globe != null:
 			globe.focus_on(MapMathScript.atlas_to_lonlat(p_atlas))
 		else:
-			if atlas_zoom > 1.2:
+			if atlas_zoom > 1.25:
 				atlas_zoom = 1.0
 				atlas_center = Vector2(1000.0, 500.0)
 			else:
-				atlas_zoom = 4.2
+				atlas_zoom = 4.0
 				atlas_center = p_atlas
 				_clamp_atlas_center()
 			queue_redraw()
@@ -308,17 +298,15 @@ func _layout_controls() -> void:
 	if globe != null:
 		globe.position = mr.position
 		globe.size = mr.size
-	btn_close.position = Vector2(size.x - 148.0, 8.0)
-	btn_close.size = Vector2(132.0, 46.0)
-	btn_atlas.position = Vector2(size.x - 284.0, 8.0)
-	btn_atlas.size = Vector2(128.0, 46.0)
-	btn_globe.position = Vector2(size.x - 426.0, 8.0)
-	btn_globe.size = Vector2(134.0, 46.0)
-	btn_continent.position = Vector2(size.x - 568.0, 8.0)
-	btn_continent.size = Vector2(134.0, 46.0)
+	btn_back.position = Vector2(16.0, 10.0)
+	btn_back.size = Vector2(168.0, 50.0)
+	btn_globe.position = Vector2(size.x - 184.0, 10.0)
+	btn_globe.size = Vector2(168.0, 50.0)
+	btn_atlas.position = Vector2(size.x - 380.0, 10.0)
+	btn_atlas.size = Vector2(188.0, 50.0)
 
 	var rx := mr.end.x - 68.0
-	var ry := mr.position.y + mr.size.y * 0.5 - 94.0
+	var ry := mr.position.y + mr.size.y * 0.5 - 98.0
 	btn_zoom_in.position = Vector2(rx, ry)
 	btn_zoom_in.size = Vector2(56.0, 56.0)
 	btn_zoom_out.position = Vector2(rx, ry + 66.0)
@@ -338,8 +326,7 @@ func set_mode(new_mode: String) -> void:
 	if mode == "atlas":
 		atlas_zoom = 1.0
 		atlas_center = Vector2(1000.0, 500.0)
-	btn_globe.modulate = Color(1.0, 0.94, 0.72) if mode == "globe" else Color(0.72, 0.72, 0.76)
-	btn_atlas.modulate = Color(1.0, 0.94, 0.72) if mode == "atlas" else Color(0.72, 0.72, 0.76)
+	_refresh_mode_buttons()
 	queue_redraw()
 
 func _zoom_atlas(factor: float, anchor_screen: Vector2 = Vector2(-1.0, -1.0)) -> void:
@@ -393,6 +380,35 @@ func _gui_input(event: InputEvent) -> void:
 	if world == null or mode == "globe":
 		return
 	var mr := _map_rect()
+	if event is InputEventScreenTouch:
+		var st: InputEventScreenTouch = event
+		if st.pressed:
+			if mr.has_point(st.position):
+				_pinch_pts[st.index] = st.position
+				if _pinch_pts.size() >= 2:
+					var ks := _pinch_pts.keys()
+					_pinch_span = (_pinch_pts[ks[0]] as Vector2).distance_to(_pinch_pts[ks[1]] as Vector2)
+					atlas_dragging = false
+		else:
+			_pinch_pts.erase(st.index)
+			if _pinch_pts.size() < 2:
+				_pinch_span = 0.0
+		return
+	elif event is InputEventScreenDrag:
+		var sd: InputEventScreenDrag = event
+		if _pinch_pts.has(sd.index):
+			_pinch_pts[sd.index] = sd.position
+		if _pinch_pts.size() >= 2:
+			var ks := _pinch_pts.keys()
+			var p0: Vector2 = _pinch_pts[ks[0]]
+			var p1: Vector2 = _pinch_pts[ks[1]]
+			var new_span := p0.distance_to(p1)
+			if _pinch_span > 12.0 and new_span > 12.0:
+				var ratio := clampf(new_span / _pinch_span, 0.72, 1.38)
+				_zoom_atlas(ratio, (p0 + p1) * 0.5)
+			_pinch_span = new_span
+			accept_event()
+			return
 	if event is InputEventMouseButton:
 		var mb: InputEventMouseButton = event
 		if mb.button_index == MOUSE_BUTTON_WHEEL_UP and mb.pressed:
@@ -405,23 +421,23 @@ func _gui_input(event: InputEvent) -> void:
 				atlas_drag_moved = false
 				atlas_drag_start = mb.position
 			else:
-				if atlas_dragging and not atlas_drag_moved:
+				if atlas_dragging and not atlas_drag_moved and _pinch_pts.size() < 2:
 					var picked := pick_continent(mb.position)
 					if not picked.is_empty():
-						var tp_exact: bool = bool(world.gm_map_teleport_mode) or atlas_zoom >= 1.6
+						var tp_exact: bool = bool(world.gm_map_teleport_mode)
 						if tp_exact:
 							var a_pt := _screen_to_atlas(mb.position, mr)
 							var w_pt := atlas_to_world(picked, a_pt.x, a_pt.y, float(world.world_size))
 							world.gm_map_teleport_mode = false
 							world.teleport_to_world_pos(picked, w_pt.x, w_pt.y)
 							world.toggle_atlas(false)
-						else:
-							world.switch_region(picked)
-							world.toggle_atlas(false)
+						elif atlas_zoom <= 1.25:
+							# Tapping a continent from whole-world view zooms smoothly into it!
+							focus_atlas_continent(picked, 3.6)
 				atlas_dragging = false
 	elif event is InputEventMouseMotion:
 		var mm: InputEventMouseMotion = event
-		if atlas_dragging:
+		if atlas_dragging and _pinch_pts.size() < 2:
 			if (mm.position - atlas_drag_start).length() > 8.0:
 				atlas_drag_moved = true
 			if atlas_drag_moved and atlas_zoom > 1.01:
@@ -558,8 +574,13 @@ func _draw_continent_real_details(rid: String, mr: Rect2, f: Font, fb: Font, pla
 			var casing_col := Color(0.08, 0.05, 0.03, alpha * 0.85)
 			_draw_clipped_road(spts, mr, casing_col, core_col, rw)
 
-	# 2. PAINTED HERALDIC MEDALLIONS: Royal Capital Citadel, Town Shields, Bridge Badges & Enterable Utility Buildings!
+	# 2. PAINTED HERALDIC MEDALLIONS (Pass A: Icons/Pins FIRST so no pin ever sits on top of text!)
+	var safe_lbl := Rect2(mr.position.x + 12.0, mr.position.y + 20.0, mr.size.x - 104.0, mr.size.y - 32.0)
 	var bldgs: Array = cd.get("buildings", [])
+	var pending_caps: Array[Dictionary] = []
+	var pending_towns: Array[Dictionary] = []
+	var pending_bldgs: Array[Dictionary] = []
+
 	for b: Dictionary in bldgs:
 		var role := str(b.get("role", ""))
 		var mk := str(b.get("map_kind", ""))
@@ -570,71 +591,153 @@ func _draw_continent_real_details(rid: String, mr: Rect2, f: Font, fb: Font, pla
 		if not mr.has_point(sp):
 			continue
 
-		if role == "bridge" and atlas_zoom >= 1.4:
-			_draw_pin("bridge", sp, clampf(12.0 + (atlas_zoom - 1.4) * 2.2, 13.0, 23.0))
+		if role == "bridge" and atlas_zoom >= 1.6:
+			_draw_pin("bridge", sp, clampf(13.0 + (atlas_zoom - 1.6) * 1.8, 13.0, 22.0))
 		elif mk == "capital":
-			var cap_d := clampf(22.0 * pow(atlas_zoom, 0.28), 22.0, 38.0)
+			var cap_d := clampf(24.0 * pow(atlas_zoom, 0.28), 24.0, 42.0)
 			_draw_pin("capital", sp, cap_d)
 			if atlas_zoom >= 1.8:
-				var ctitle := str(CONTINENT_META.get(rid, {}).get("capital", "Stolica"))
-				var tw := f.get_string_size(ctitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
-				draw_string_outline(f, sp + Vector2(-tw * 0.5, -cap_d * 0.55), ctitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color(0.03, 0.02, 0.02, 0.96))
-				draw_string(f, sp + Vector2(-tw * 0.5, -cap_d * 0.55), ctitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.90, 0.46))
+				pending_caps.append({"sp": sp, "d": cap_d, "text": str(CONTINENT_META.get(rid, {}).get("capital", "Stolica"))})
 		elif mk == "town":
-			var td := clampf(15.0 * pow(atlas_zoom, 0.28), 15.0, 28.0)
+			var td := clampf(18.0 * pow(atlas_zoom, 0.28), 18.0, 30.0)
 			_draw_pin("town", sp, td)
 			if atlas_zoom >= 2.0:
-				var tname := str(b.get("title", ""))
-				var tw := fb.get_string_size(tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
-				var lx := sp.x - tw * 0.5
-				var ly := sp.y - td * 0.55
-				var box := Rect2(lx - 3.0, ly - 12.0, tw + 6.0, 15.0)
-				var hit := false
-				for prev: Rect2 in placed_labels:
-					if box.intersects(prev):
-						hit = true
-						break
-				if not hit and mr.has_point(Vector2(lx, ly)):
-					placed_labels.append(box)
-					draw_string_outline(fb, Vector2(lx, ly), tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 4, Color(0.03, 0.04, 0.06, 0.96))
-					draw_string(fb, Vector2(lx, ly), tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.86, 0.94, 1.0))
-		elif is_ent and atlas_zoom >= 1.7:
-			var sd := clampf(11.0 + (atlas_zoom - 1.7) * 2.4, 12.0, 22.0)
+				pending_towns.append({"sp": sp, "d": td, "text": str(b.get("title", ""))})
+		elif is_ent and atlas_zoom >= 2.2:
+			var sd := clampf(12.0 + (atlas_zoom - 2.2) * 2.0, 12.0, 24.0)
 			_draw_pin(_role_pin_key(role), sp, sd)
-			if atlas_zoom >= 3.0:
-				var btitle := str(b.get("title", ""))
-				var tw := fb.get_string_size(btitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x
-				var lx := sp.x - tw * 0.5
-				var ly := sp.y - sd * 0.56
-				var box := Rect2(lx - 3.0, ly - 11.0, tw + 6.0, 14.0)
-				var hit := false
-				for prev: Rect2 in placed_labels:
-					if box.intersects(prev):
-						hit = true
-						break
-				if not hit and mr.has_point(Vector2(lx, ly)):
-					placed_labels.append(box)
-					draw_string_outline(fb, Vector2(lx, ly), btitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 4, Color(0.03, 0.02, 0.02, 0.96))
-					draw_string(fb, Vector2(lx, ly), btitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1.0, 0.94, 0.78))
-		elif role in ["house", "gate", "tower"] and atlas_zoom >= 3.0:
-			var hr := clampf(1.8 + (atlas_zoom - 3.0) * 0.45, 2.0, 4.4)
+			# Only show individual interior capital building labels when zoomed closely into the city!
+			if atlas_zoom >= 7.0:
+				pending_bldgs.append({"sp": sp, "d": sd, "text": str(b.get("title", ""))})
+		elif role in ["house", "gate", "tower"] and atlas_zoom >= 3.2:
+			var hr := clampf(2.0 + (atlas_zoom - 3.2) * 0.45, 2.2, 4.6)
 			draw_rect(Rect2(sp - Vector2(hr, hr), Vector2(hr * 2.0, hr * 2.0)), Color(0.56, 0.50, 0.44, 0.84))
 			draw_rect(Rect2(sp - Vector2(hr, hr), Vector2(hr * 2.0, hr * 2.0)), Color(0.08, 0.06, 0.04, 0.94), false, 1.0)
+
+	# 3. Monster Exp-Zones, Labyrinths & Hidden Treasures (icons/rings before labels!)
+	if atlas_zoom >= 2.1:
+		var zones: Array = cd.get("exp_zones", [])
+		for ez: Dictionary in zones:
+			var ex := float(ez.get("x", 0.0)) + half
+			var ez_z := float(ez.get("z", 0.0)) + half
+			var sp := _atlas_to_screen(world_to_atlas(rid, ex, ez_z, ws), mr)
+			if not mr.has_point(sp):
+				continue
+			var zr := clampf(12.0 + (atlas_zoom - 2.1) * 3.0, 12.0, 26.0)
+			var band := str(ez.get("band", "red"))
+			var ring_col := Color(0.36, 0.94, 0.56, 0.82) if band == "green" else (Color(1.0, 0.80, 0.28, 0.86) if band == "gold" else Color(1.0, 0.36, 0.30, 0.88))
+			draw_circle(sp, zr, Color(ring_col.r, ring_col.g, ring_col.b, 0.20))
+			draw_arc(sp, zr, 0.0, TAU, 24, ring_col, 2.2, true)
+			var ez_lv := int(ez.get("level", ez.get("min_lv", 1)))
+			var lv_txt := "Poz.%d" % ez_lv
+			var tw := fb.get_string_size(lv_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
+			var lx := clampf(sp.x - tw * 0.5, mr.position.x + 8.0, mr.end.x - tw - 8.0)
+			var lbox := Rect2(lx - 4.0, sp.y - 8.0, tw + 8.0, 16.0)
+			if mr.encloses(Rect2(lx, sp.y - 7.0, tw, 14.0)):
+				var ov := false
+				for prev: Rect2 in placed_labels:
+					if lbox.intersects(prev):
+						ov = true
+						break
+				if not ov:
+					placed_labels.append(lbox)
+					draw_string_outline(fb, Vector2(lx, sp.y + 4.5), lv_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color(0.04, 0.02, 0.02, 0.96))
+					draw_string(fb, Vector2(lx, sp.y + 4.5), lv_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.86, 1.0, 0.90) if band == "green" else (Color(1.0, 0.94, 0.68) if band == "gold" else Color(1.0, 0.76, 0.70)))
+
+	if world != null and str(world.current_land) == rid and atlas_zoom >= 1.9:
+		var live_ws := float(world.world_size)
+		if "labyrinths_data" in world:
+			for lab: Dictionary in world.labyrinths_data:
+				var lp := _atlas_to_screen(world_to_atlas(rid, float(lab.get("x", 0.0)), float(lab.get("z", 0.0)), live_ws), mr)
+				if mr.has_point(lp):
+					var d := clampf(7.5 + (atlas_zoom - 1.9) * 1.2, 8.0, 14.0)
+					var dia := PackedVector2Array([lp + Vector2(0, -d), lp + Vector2(d, 0), lp + Vector2(0, d), lp + Vector2(-d, 0)])
+					draw_colored_polygon(dia, Color(0.76, 0.34, 1.0, 0.94))
+					dia.append(dia[0])
+					draw_polyline(dia, Color(1.0, 0.90, 0.44, 0.98), 2.0, true)
+		if atlas_zoom >= 2.8 and "treasures_data" in world:
+			for tr: Dictionary in world.treasures_data:
+				if world.has_method("is_treasure_opened") and bool(world.is_treasure_opened(str(tr.get("id", "")))):
+					continue
+				var tp := _atlas_to_screen(world_to_atlas(rid, float(tr.get("x", 0.0)), float(tr.get("z", 0.0)), live_ws), mr)
+				if mr.has_point(tp):
+					draw_circle(tp, 5.0, Color(1.0, 0.86, 0.24, 0.96))
+					draw_arc(tp, 5.0, 0.0, TAU, 14, Color(0.10, 0.06, 0.02, 0.96), 1.5, true)
+
+	# Pass B: Priority-Ordered, Clamped, Collision-Free Text Labels (Capital -> Towns -> Close-up Buildings)
+	for cap: Dictionary in pending_caps:
+		var sp: Vector2 = cap["sp"]
+		var cap_d: float = float(cap["d"])
+		var ctitle: String = str(cap["text"])
+		var tw := f.get_string_size(ctitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
+		var lx := clampf(sp.x - tw * 0.5, safe_lbl.position.x + 4.0, safe_lbl.end.x - tw - 4.0)
+		var ly := clampf(sp.y - cap_d * 0.68 - 6.0, safe_lbl.position.y + 16.0, safe_lbl.end.y - 6.0)
+		var cbox := Rect2(lx - 8.0, ly - 16.0, tw + 16.0, 22.0)
+		placed_labels.append(cbox)
+		draw_rect(cbox, Color(0.04, 0.03, 0.05, 0.80), true)
+		draw_rect(cbox, Color(0.92, 0.74, 0.34, 0.78), false, 1.2)
+		draw_string_outline(f, Vector2(lx, ly), ctitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 5, Color(0.03, 0.02, 0.02, 0.96))
+		draw_string(f, Vector2(lx, ly), ctitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.92, 0.52))
+
+	for twn: Dictionary in pending_towns:
+		var sp: Vector2 = twn["sp"]
+		var td: float = float(twn["d"])
+		var tname: String = str(twn["text"])
+		var tw := fb.get_string_size(tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+		var lx := clampf(sp.x - tw * 0.5, safe_lbl.position.x + 2.0, safe_lbl.end.x - tw - 2.0)
+		var cand_ys := [sp.y - td * 0.64 - 4.0, sp.y + td * 0.64 + 14.0]
+		for cy in cand_ys:
+			var ly := clampf(float(cy), safe_lbl.position.y + 14.0, safe_lbl.end.y - 4.0)
+			var box := Rect2(lx - 6.0, ly - 14.0, tw + 12.0, 19.0)
+			if not safe_lbl.encloses(Rect2(lx, ly - 13.0, tw, 15.0)):
+				continue
+			var hit := false
+			for prev: Rect2 in placed_labels:
+				if box.intersects(prev):
+					hit = true
+					break
+			if not hit:
+				placed_labels.append(box)
+				draw_rect(box, Color(0.04, 0.05, 0.08, 0.72), true)
+				draw_string_outline(fb, Vector2(lx, ly), tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 4, Color(0.03, 0.04, 0.06, 0.96))
+				draw_string(fb, Vector2(lx, ly), tname, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.90, 0.96, 1.0))
+				break
+
+	for bld: Dictionary in pending_bldgs:
+		var sp: Vector2 = bld["sp"]
+		var sd: float = float(bld["d"])
+		var btitle: String = str(bld["text"])
+		var tw := fb.get_string_size(btitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
+		var lx := clampf(sp.x - tw * 0.5, safe_lbl.position.x + 2.0, safe_lbl.end.x - tw - 2.0)
+		var ly := clampf(sp.y - sd * 0.60 - 2.0, safe_lbl.position.y + 14.0, safe_lbl.end.y - 4.0)
+		var box := Rect2(lx - 5.0, ly - 13.0, tw + 10.0, 17.0)
+		if not safe_lbl.encloses(Rect2(lx, ly - 12.0, tw, 14.0)):
+			continue
+		var hit := false
+		for prev: Rect2 in placed_labels:
+			if box.intersects(prev):
+				hit = true
+				break
+		if not hit:
+			placed_labels.append(box)
+			draw_string_outline(fb, Vector2(lx, ly), btitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color(0.03, 0.02, 0.02, 0.96))
+			draw_string(fb, Vector2(lx, ly), btitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.94, 0.78))
 
 func _draw() -> void:
 	var f: Font = MapStyleScript.font()
 	var fb: Font = MapStyleScript.body_font()
 	var rect := Rect2(Vector2.ZERO, size)
-	draw_rect(rect, Color(0.02, 0.03, 0.05, 0.96))
+	draw_rect(rect, Color(0.02, 0.03, 0.05, 0.97))
 	if space_tex != null:
 		draw_texture_rect(space_tex, rect, false, Color(0.70, 0.78, 0.92, 0.55))
 	draw_rect(rect, Color(0.84, 0.66, 0.36, 0.92), false, 2.5)
 
 	var mr := _map_rect()
 	var gm_tp_on: bool = world != null and bool(world.gm_map_teleport_mode)
-	var title_txt := "⚡ TRYB TELEPORTU GM — KLIKNIJ DOWOLNY PUNKT NA MAPIE (Zoom %.1f×)" % atlas_zoom if (mode == "atlas" and gm_tp_on) else ("GLOBUS PLANETY SUPERIOR (Kółko = Przybliż szczegóły)" if mode == "globe" else ("MAPA PLANETY SUPERIOR — ATLAS 2D  •  Zoom %.1f×" % atlas_zoom))
-	var title_col := Color(0.40, 0.96, 1.0) if (mode == "atlas" and gm_tp_on) else Color(0.98, 0.88, 0.62)
-	draw_string(f, Vector2(22, 36), title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, title_col)
+	var title_txt := "⚡ TELEPORT GM — KLIKNIJ PUNKT (%.1f×)" % atlas_zoom if (mode == "atlas" and gm_tp_on) else ("GLOBUS PLANETY SUPERIOR" if mode == "globe" else ("MAPA ŚWIATA SUPERIOR  •  %.1f×" % atlas_zoom))
+	var title_col := Color(0.40, 0.96, 1.0) if (mode == "atlas" and gm_tp_on) else Color(1.0, 0.90, 0.60)
+	draw_string_outline(f, Vector2(202.0, 42.0), title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, 5, Color(0.02, 0.02, 0.03, 0.95))
+	draw_string(f, Vector2(202.0, 42.0), title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, title_col)
 
 	if mode == "atlas":
 		draw_rect(mr, Color(0.04, 0.11, 0.20, 1.0))
@@ -661,7 +764,20 @@ func _draw() -> void:
 			if y_s > mr.position.y and y_s < mr.end.y:
 				draw_line(Vector2(mr.position.x, y_s), Vector2(mr.end.x, y_s), Color(1.0, 0.95, 0.80, 0.07), 1.0)
 
-		# Region titles & subtle hover highlight ONLY at global overview (NEVER draw coarse yellow coastline lines over zoomed water!)
+		# Reserve hero pin area & right-side zoom buttons so NO label collides with them
+		var placed_labels: Array[Rect2] = []
+		placed_labels.append(Rect2(mr.end.x - 94.0, mr.position.y + mr.size.y * 0.30, 94.0, 240.0))
+		var h_atlas := hero_atlas_pos()
+		var hp := _atlas_to_screen(h_atlas, mr)
+		var hd := clampf(30.0 * pow(atlas_zoom, 0.16), 30.0, 40.0)
+		if mr.has_point(hp):
+			placed_labels.append(Rect2(hp - Vector2(hd * 0.72, hd * 0.72), Vector2(hd * 1.44, hd * 1.44)))
+
+		# Progressive 1:1 sub-pixel aligned planar roads, Capital/Town/Service Medallions, Exp-Zones & Labyrinths!
+		for rid: String in ["pyra", "verdant", "aether", "nexus"]:
+			_draw_continent_real_details(rid, mr, f, fb, placed_labels)
+
+		# Region titles & subtle hover highlight ONLY at global overview (drawn AFTER roads/pins with crisp dark plaque for snow contrast!)
 		var regions_arr: Array = map_json.get("regions", [])
 		for reg: Dictionary in regions_arr:
 			var rid := str(reg.get("id", ""))
@@ -669,7 +785,7 @@ func _draw() -> void:
 			var is_hover: bool = (hovered_land == rid)
 			var is_cont: bool = (str(reg.get("kind", "")) == "continent")
 
-			if atlas_zoom <= 1.20 and is_hover:
+			if atlas_zoom <= 1.25 and is_hover:
 				var poly := MapMathScript.polygon(reg)
 				for i in poly.size():
 					var a: Vector2 = poly[i]
@@ -680,68 +796,69 @@ func _draw() -> void:
 					if seg.size() == 2:
 						draw_line(seg[0], seg[1], Color(1.0, 0.90, 0.56, 0.55), 1.6, true)
 
-			if atlas_zoom < 2.6:
+			if atlas_zoom < 2.2:
 				var r_lbl = reg.get("label")
 				if r_lbl is Dictionary:
 					var lp := _atlas_to_screen(Vector2(float(r_lbl.get("x", 1000.0)), float(r_lbl.get("y", 500.0))), mr)
 					if mr.has_point(lp):
-						var rname := str(reg.get("name", rid.capitalize()))
-						var fsize := 17 if is_cont else 12
-						var tcol := Color(1.0, 0.93, 0.68) if (is_active or is_hover) else (Color(0.98, 0.92, 0.80) if is_cont else Color(0.88, 0.92, 0.98))
+						var rname := str(reg.get("name", rid.capitalize())).to_upper() if is_cont else str(reg.get("name", rid.capitalize()))
+						var fsize := 18 if is_cont else 13
+						var tcol := Color(1.0, 0.93, 0.62) if (is_active or is_hover) else (Color(0.98, 0.94, 0.84) if is_cont else Color(0.88, 0.92, 0.98))
 						var tw := f.get_string_size(rname, HORIZONTAL_ALIGNMENT_LEFT, -1, fsize).x
-						var draw_y := clampf(lp.y + (26.0 if is_cont else 0.0), mr.position.y + float(fsize) + 6.0, mr.end.y - 8.0)
-						draw_string_outline(f, Vector2(lp.x - tw * 0.5, draw_y), rname, HORIZONTAL_ALIGNMENT_LEFT, -1, fsize, 5, Color(0.03, 0.02, 0.02, 0.96))
-						draw_string(f, Vector2(lp.x - tw * 0.5, draw_y), rname, HORIZONTAL_ALIGNMENT_LEFT, -1, fsize, tcol)
+						var draw_x := clampf(lp.x - tw * 0.5, mr.position.x + 12.0, mr.end.x - tw - 104.0)
+						var draw_y := clampf(lp.y + (34.0 if is_cont else 0.0), mr.position.y + float(fsize) + 8.0, mr.end.y - 10.0)
+						if is_cont:
+							var pbox := Rect2(draw_x - 10.0, draw_y - float(fsize) - 1.0, tw + 20.0, float(fsize) + 8.0)
+							draw_rect(pbox, Color(0.03, 0.03, 0.05, 0.78), true)
+							draw_rect(pbox, Color(0.86, 0.68, 0.34, 0.72), false, 1.2)
+						draw_string_outline(f, Vector2(draw_x, draw_y), rname, HORIZONTAL_ALIGNMENT_LEFT, -1, fsize, 5, Color(0.02, 0.02, 0.03, 0.98))
+						draw_string(f, Vector2(draw_x, draw_y), rname, HORIZONTAL_ALIGNMENT_LEFT, -1, fsize, tcol)
 
-		# Progressive 1:1 sub-pixel aligned planar roads, Painted Capital Medallions, Town Shields & Service Medallions for ALL 4 continents!
-		var placed_labels: Array[Rect2] = []
-		for rid: String in ["pyra", "verdant", "aether", "nexus"]:
-			_draw_continent_real_details(rid, mr, f, fb, placed_labels)
-
-		# Live Hero Portrait Medallion ("Ty")
-		var h_atlas := hero_atlas_pos()
-		var hp := _atlas_to_screen(h_atlas, mr)
+		# Live Hero Portrait Medallion (clean cyan pulsing ring; NO overlapping "TY" colliding with PYRA on planet overview!)
 		if mr.has_point(hp):
 			var cur_land: String = str(world.current_land) if world != null else "pyra"
-			var hd := clampf(26.0 * pow(atlas_zoom, 0.16), 26.0, 34.0)
+			draw_arc(hp, hd * 0.64, 0.0, TAU, 24, Color(0.32, 0.98, 1.0, 0.95), 2.8, true)
 			_draw_pin("hero_" + cur_land, hp, hd)
-			var tag_pos := hp + Vector2(hd * 0.55, -6.0)
-			draw_string_outline(f, tag_pos, "Ty", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 5, Color(0.02, 0.02, 0.03, 0.96))
-			draw_string(f, tag_pos, "Ty", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.96, 0.84))
+			if atlas_zoom >= 2.2:
+				var tag_w := f.get_string_size("TY", HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+				var tag_box := Rect2(hp.x - tag_w * 0.5 - 6.0, hp.y + hd * 0.60, tag_w + 12.0, 18.0)
+				draw_rect(tag_box, Color(0.03, 0.06, 0.10, 0.88), true)
+				draw_rect(tag_box, Color(0.38, 0.96, 1.0, 0.92), false, 1.2)
+				draw_string(f, Vector2(hp.x - tag_w * 0.5, tag_box.position.y + 13.5), "TY", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.56, 0.98, 1.0))
 
 		# Compass rose (bottom-left inside map)
-		MapStyleScript.compass(self, Vector2(mr.position.x + 56.0, mr.end.y - 56.0), 28.0)
+		MapStyleScript.compass(self, Vector2(mr.position.x + 56.0, mr.end.y - 56.0), 30.0)
 
-	draw_rect(mr, Color(0.84, 0.66, 0.36, 0.82), false, 2.0)
+	draw_rect(mr, Color(0.84, 0.66, 0.36, 0.85), false, 2.2)
 
 	# Bottom Lore, Telemetry & Painted Heraldic Medallion Legend Bar
-	var bar := Rect2(16.0, mr.end.y + 10.0, size.x - 32.0, 88.0)
-	draw_rect(bar, Color(0.06, 0.04, 0.04, 0.92))
-	draw_rect(bar, Color(0.68, 0.50, 0.28, 0.85), false, 1.8)
+	var bar := Rect2(16.0, mr.end.y + 10.0, size.x - 32.0, 92.0)
+	draw_rect(bar, Color(0.05, 0.045, 0.065, 0.94))
+	draw_rect(bar, Color(0.76, 0.58, 0.30, 0.88), false, 2.0)
 
 	var inspect_id: String = hovered_land if not hovered_land.is_empty() else (str(world.current_land) if world != null else "pyra")
 	var meta: Dictionary = CONTINENT_META.get(inspect_id, CONTINENT_META["pyra"])
-	draw_string(f, bar.position + Vector2(16, 23), "%s  •  Lud: %s  •  Stolica: %s" % [
+	draw_string(f, bar.position + Vector2(18, 26), "%s  •  Lud: %s  •  Stolica: %s" % [
 		str(meta.name), str(meta.race), str(meta.capital)
-	], HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.90, 0.64))
-	draw_string(fb, bar.position + Vector2(16, 44), str(meta.lore), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.90, 0.88, 0.84))
+	], HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.90, 0.62))
+	draw_string(fb, bar.position + Vector2(18, 48), str(meta.lore), HORIZONTAL_ALIGNMENT_LEFT, int(bar.size.x - 36.0), 13, Color(0.90, 0.88, 0.84))
 
 	# Painted Medallion Legend Row
-	var ly := bar.position.y + 70.0
+	var ly := bar.position.y + 74.0
 	var lx := bar.position.x + 26.0
 	_draw_pin("capital", Vector2(lx, ly - 3.0), 22.0)
-	draw_string(fb, Vector2(lx + 15.0, ly + 1.0), "Stolica", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.90, 0.56))
-	lx += 92.0
+	draw_string(fb, Vector2(lx + 16.0, ly + 2.0), "Stolica", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.90, 0.56))
+	lx += 94.0
 	_draw_pin("town", Vector2(lx, ly - 3.0), 20.0)
-	draw_string(fb, Vector2(lx + 14.0, ly + 1.0), "Miasto / Warownia", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.84, 0.92, 1.0))
-	lx += 162.0
-	_draw_pin("smithy", Vector2(lx, ly - 3.0), 18.0)
-	draw_string(fb, Vector2(lx + 13.0, ly + 1.0), "Budynek użytkowy (wejście)", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.88, 0.94, 0.86))
-	lx += 212.0
-	_draw_pin("bridge", Vector2(lx, ly - 3.0), 18.0)
-	draw_string(fb, Vector2(lx + 13.0, ly + 1.0), "Mosty", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.94, 0.88, 0.74))
-	lx += 82.0
-	draw_line(Vector2(lx - 6.0, ly - 3.0), Vector2(lx + 14.0, ly - 3.0), Color(0.96, 0.86, 0.60, 0.95), 2.8, true)
-	draw_string(fb, Vector2(lx + 20.0, ly + 1.0), "Drogi", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.94, 0.88, 0.74))
+	draw_string(fb, Vector2(lx + 15.0, ly + 2.0), "Miasto", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.84, 0.92, 1.0))
+	lx += 94.0
+	_draw_pin("smithy", Vector2(lx, ly - 3.0), 20.0)
+	draw_string(fb, Vector2(lx + 15.0, ly + 2.0), "Budynki", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.88, 0.94, 0.86))
+	lx += 104.0
+	draw_arc(Vector2(lx, ly - 3.0), 7.0, 0.0, TAU, 16, Color(1.0, 0.36, 0.30, 0.92), 2.0, true)
+	draw_string(fb, Vector2(lx + 14.0, ly + 2.0), "Strefy potworów", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.72, 0.66))
+	lx += 156.0
+	draw_line(Vector2(lx - 6.0, ly - 3.0), Vector2(lx + 14.0, ly - 3.0), Color(0.96, 0.86, 0.60, 0.95), 3.0, true)
+	draw_string(fb, Vector2(lx + 20.0, ly + 2.0), "Drogi", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.94, 0.88, 0.74))
 	lx += 78.0
-	draw_string(fb, Vector2(lx, ly + 1.0), "|  Kółko / + / −: Przybliż (do 12×)  •  Klik: Podróż", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.76, 0.84, 0.92))
+	draw_string(fb, Vector2(lx, ly + 2.0), "|  Szczypnij lub + / − aby oddalić na cały świat  •  ◎ Bohater / Planeta", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.76, 0.88, 0.98))
