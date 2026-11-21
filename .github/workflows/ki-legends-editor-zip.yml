@@ -1,0 +1,77 @@
+name: KI Legends - Godot ZIP do edycji
+on:
+  push:
+    branches:
+      - package/ki-legends-1-14-23-editor-20261122
+    paths:
+      - .github/workflows/ki-legends-editor-zip.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Pobierz kod i potrzebne zasoby LFS
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          lfs: true
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /ports/godot-pyra/
+            /ports/godot-isometric-pyra/
+            /scripts/godot/prepare_service_preview.py
+            /.github/workflows/ki-legends-editor-zip.yml
+      - name: Sprawdz duze zasoby
+        run: |
+          set -euo pipefail
+          git lfs pull --include='ports/godot-pyra/**,ports/godot-isometric-pyra/**' --exclude=''
+      - name: Dodaj zasoby podgladu i przygotuj projekt Godot
+        run: |
+          set -euo pipefail
+          python3 scripts/godot/prepare_service_preview.py
+          mkdir -p _edition/KI-Legends-Godot
+          cp -a ports/godot-pyra/. _edition/KI-Legends-Godot/
+          rm -rf _edition/KI-Legends-Godot/.godot _edition/KI-Legends-Godot/builds
+          cat > _edition/KI-Legends-Godot/OTWORZ_NA_KOMPUTERZE.txt <<'EOF'
+          KI LEGENDS - PROJEKT GODOT DO EDYCJI
+          Zrodlo: circus574-cpu/pixel-playground-launch, feat/isometric-world-2d-terrain3d-20261118
+          Stan kodu: commit e37eded242fd90a57f6a26732da73bcbfaebff15 (21.11.2026, wydanie 1.14.23)
+
+          1. Rozpakuj pobrany ZIP.
+          2. Zainstaluj Godot Engine 4.6.3.
+          3. Otworz Godot > Import > wybierz plik project.godot.
+          4. Po skonczeniu importu uruchom projekt klawiszem F6 lub F5.
+          5. Edytuj sceny w katalogu scenes, skrypty w scripts, zasoby w assets i dane w data.
+
+          Wersja natywna Godot jest osobnym portem od gry WWW (Phaser).
+          Konta, serwer i aktualizacje zawartosci online moga wymagac dzialajacej uslugi.
+          Paczka nie zawiera sekretow serwera, historii Git ani binarnych APK.
+          EOF
+      - name: Weryfikuj kompletnosc i brak plikow Git LFS pointer
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          d = Path('_edition/KI-Legends-Godot')
+          assert (d / 'project.godot').is_file()
+          assert (d / 'scenes/boot.tscn').is_file()
+          files = [p for p in d.rglob('*') if p.is_file()]
+          assert len(files) >= 3000, len(files)
+          bad = []
+          for p in files:
+              with p.open('rb') as f:
+                  if f.read(48).startswith(b'version https://git-lfs.github.com/spec/v1'):
+                      bad.append(str(p))
+          assert not bad, f'Missing Git LFS files: {bad[:12]}'
+          print(f'Zweryfikowano {len(files)} plikow; rozmiar: {sum(p.stat().st_size for p in files):,} B')
+          PY
+      - name: Udostepnij gotowy ZIP do pobrania
+        uses: actions/upload-artifact@v4
+        with:
+          name: KI-Legends-Godot-1.14.23-EDYCJA-2026-11-22
+          path: _edition/KI-Legends-Godot/
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 6
