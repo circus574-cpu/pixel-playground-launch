@@ -5,6 +5,7 @@ const SCENE := "res://service_preview/pyra/world.tscn"
 const FORGED_BASE := "res://service_preview/pyra/assets/ui/forged/"
 const MENU_MUSIC_PATHS := ["res://service_preview/pyra/assets/audio/music/menu.mp3", "res://assets/audio/music/menu.mp3"]
 const AUDIO_PREFS_PATH := "user://audio.json"
+const HUD_LAYOUT_PATH := "user://hud_layout.json"
 const Look := preload("res://scripts/look.gd")
 
 var request: Callable
@@ -102,18 +103,36 @@ func _style_forged_btn(btn: Button, variant: String = "slate", font_sz: int = 20
 	btn.add_theme_constant_override("outline_size", 4)
 
 func _read_audio_prefs() -> Dictionary:
-	var prefs := {"music": 0.35, "sfx": 0.70}
+	var prefs := {"music": 0.45, "sfx": 0.80, "ambience": 0.55}
 	if FileAccess.file_exists(AUDIO_PREFS_PATH):
 		var v: Variant = JSON.parse_string(FileAccess.get_file_as_string(AUDIO_PREFS_PATH))
 		if v is Dictionary:
-			prefs["music"] = clampf(float((v as Dictionary).get("music", 0.35)), 0.0, 1.0)
-			prefs["sfx"] = clampf(float((v as Dictionary).get("sfx", 0.70)), 0.0, 1.0)
+			prefs["music"] = clampf(float((v as Dictionary).get("music", 0.45)), 0.0, 1.0)
+			prefs["sfx"] = clampf(float((v as Dictionary).get("sfx", 0.80)), 0.0, 1.0)
+			prefs["ambience"] = clampf(float((v as Dictionary).get("ambience", 0.55)), 0.0, 1.0)
 	return prefs
 
-func _on_world_audio_changed(music_v: float, sfx_v: float) -> void:
+func _on_world_audio_changed(music_v: float, sfx_v: float, amb_v: float = 0.55) -> void:
 	var f := FileAccess.open(AUDIO_PREFS_PATH, FileAccess.WRITE)
 	if f != null:
-		f.store_string(JSON.stringify({"music": clampf(music_v, 0.0, 1.0), "sfx": clampf(sfx_v, 0.0, 1.0)}))
+		f.store_string(JSON.stringify({
+			"music": clampf(music_v, 0.0, 1.0),
+			"sfx": clampf(sfx_v, 0.0, 1.0),
+			"ambience": clampf(amb_v, 0.0, 1.0),
+		}))
+		f.close()
+
+func _read_hud_layout() -> Dictionary:
+	if FileAccess.file_exists(HUD_LAYOUT_PATH):
+		var v: Variant = JSON.parse_string(FileAccess.get_file_as_string(HUD_LAYOUT_PATH))
+		if v is Dictionary:
+			return v as Dictionary
+	return {}
+
+func _on_world_hud_layout_changed(layout: Dictionary) -> void:
+	var f := FileAccess.open(HUD_LAYOUT_PATH, FileAccess.WRITE)
+	if f != null:
+		f.store_string(JSON.stringify(layout))
 		f.close()
 
 func _silence_external_music() -> void:
@@ -694,8 +713,11 @@ func spawn_world(full: bool) -> void:
 	world = scene.instantiate()
 	var aprefs := _read_audio_prefs()
 	world.initial_music_vol = float(aprefs["music"])
+	world.initial_ambience_vol = float(aprefs.get("ambience", 0.55))
 	world.initial_sfx_vol = float(aprefs["sfx"])
+	world.initial_hud_layout = _read_hud_layout()
 	world.audio_settings_fn = Callable(self, "_on_world_audio_changed")
+	world.hud_layout_changed_fn = Callable(self, "_on_world_hud_layout_changed")
 	world.return_to_char_select_fn = Callable(self, "_on_world_change_character")
 	world.logout_fn = Callable(self, "_on_world_logout")
 	world.quit_game_fn = Callable(self, "_on_world_quit")

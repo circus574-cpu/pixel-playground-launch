@@ -112,12 +112,23 @@ func setup(
 func sheet(path: String) -> Texture2D:
 	if not sheet_cache.has(path):
 		if ResourceLoader.exists(path):
-			sheet_cache[path] = load(path)
-		else:
-			var abs_p := ProjectSettings.globalize_path(path)
-			var img := Image.new()
-			if img.load(abs_p) == OK:
-				sheet_cache[path] = ImageTexture.create_from_image(img)
+			var loaded := load(path)
+			if loaded is Texture2D:
+				sheet_cache[path] = loaded
+				return loaded
+		if FileAccess.file_exists(path):
+			var bytes := FileAccess.get_file_as_bytes(path)
+			if not bytes.is_empty():
+				var img := Image.new()
+				var err := ERR_CANT_OPEN
+				if path.ends_with(".webp"):
+					err = img.load_webp_from_buffer(bytes)
+				elif path.ends_with(".png"):
+					err = img.load_png_from_buffer(bytes)
+				elif path.ends_with(".jpg") or path.ends_with(".jpeg"):
+					err = img.load_jpg_from_buffer(bytes)
+				if err == OK:
+					sheet_cache[path] = ImageTexture.create_from_image(img)
 	return sheet_cache.get(path, null)
 
 func ensure_clip(clip_name: String) -> bool:

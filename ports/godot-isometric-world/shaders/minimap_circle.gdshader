@@ -55,8 +55,10 @@ void fragment() {
 			col.rgb = mix(col.rgb, road_col, road_core * vis_strength);
 		}
 	} else {
-		float grid = sin(sample_uv.x * 160.0) * sin(sample_uv.y * 160.0) * 0.015;
-		col = vec4(0.04 + grid, 0.08 + grid, 0.13 + grid, 1.0);
+		vec4 edge_tex = texture(TEXTURE, clamp(sample_uv, vec2(0.004), vec2(0.996)));
+		vec3 sea_col = is_aether > 0.5 ? vec3(0.18, 0.44, 0.62) : vec3(0.10, 0.32, 0.50);
+		float wave = sin(sample_uv.x * 120.0 + sample_uv.y * 90.0) * 0.015;
+		col = vec4(mix(edge_tex.rgb, sea_col, 0.42) + vec3(wave), 1.0);
 	}
 
 	// Subtle glass lens inner rim shadow + warm cartographic contrast

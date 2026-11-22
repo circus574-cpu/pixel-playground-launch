@@ -110,13 +110,23 @@ func spawn_shield_dome(pos: Vector2, race_k: String) -> void:
 func spawn_ki_burst(pos: Vector2, race_k: String, radius: float = 155.0) -> void:
 	var pal := _pal(race_k)
 	var sparks: Array[Dictionary] = []
-	for i in 18:
-		var sa := (float(i) / 18.0) * TAU + randf_range(-0.14, 0.14)
+	for i in 24:
+		var sa := (float(i) / 24.0) * TAU + randf_range(-0.12, 0.12)
 		sparks.append({
 			"dir": Vector2(cos(sa), sin(sa) * 0.56),
-			"spd": randf_range(radius * 0.9, radius * 1.9),
-			"sz": randf_range(2.6, 5.2),
+			"spd": randf_range(radius * 0.95, radius * 2.15),
+			"sz": randf_range(2.8, 5.8),
 		})
+	var cracks: Array[PackedVector2Array] = []
+	for ci in 8:
+		var ca := (float(ci) / 8.0) * TAU + randf_range(-0.18, 0.18)
+		var pts := PackedVector2Array([Vector2.ZERO])
+		for seg in range(1, 5):
+			var frac := float(seg) / 4.0
+			var jitter := randf_range(-0.18, 0.18)
+			var r_c := radius * frac * 0.92
+			pts.append(Vector2(cos(ca + jitter) * r_c, sin(ca + jitter) * r_c * 0.54))
+		cracks.append(pts)
 	effects.append({
 		"kind": "burst",
 		"pos": pos,
@@ -125,20 +135,43 @@ func spawn_ki_burst(pos: Vector2, race_k: String, radius: float = 155.0) -> void
 		"core": pal["core"],
 		"edge": pal["edge"],
 		"sparks": sparks,
+		"cracks": cracks,
 		"age": 0.0,
-		"dur": 0.58,
+		"dur": 0.64,
+	})
+	queue_redraw()
+
+func spawn_teleport_flash(pos: Vector2, race_k: String = "sage") -> void:
+	var pal := _pal(race_k)
+	var motes: Array[Dictionary] = []
+	for i in 18:
+		motes.append({
+			"ang": (float(i) / 18.0) * TAU,
+			"rad": randf_range(18.0, 58.0),
+			"rise": randf_range(110.0, 230.0),
+			"sz": randf_range(2.6, 5.4),
+		})
+	effects.append({
+		"kind": "teleport",
+		"pos": pos,
+		"main": Color(0.36, 0.94, 1.0, 1.0),
+		"core": Color(0.96, 1.0, 1.0, 1.0),
+		"edge": pal["main"],
+		"motes": motes,
+		"age": 0.0,
+		"dur": 0.72,
 	})
 	queue_redraw()
 
 func spawn_transform_pillar(pos: Vector2, race_k: String) -> void:
 	var pal := _pal(race_k)
 	var bolts: Array[PackedVector2Array] = []
-	for i in 6:
+	for i in 8:
 		var pts := PackedVector2Array()
-		var bx := randf_range(-44.0, 44.0)
-		for seg in 7:
-			var fy := -float(seg) * 34.0
-			pts.append(Vector2(bx + randf_range(-16.0, 16.0), fy))
+		var bx := randf_range(-48.0, 48.0)
+		for seg in 8:
+			var fy := -float(seg) * 36.0
+			pts.append(Vector2(bx + randf_range(-18.0, 18.0), fy))
 		bolts.append(pts)
 	effects.append({
 		"kind": "pillar",
@@ -148,42 +181,42 @@ func spawn_transform_pillar(pos: Vector2, race_k: String) -> void:
 		"edge": pal["edge"],
 		"bolts": bolts,
 		"age": 0.0,
-		"dur": 0.92,
+		"dur": 0.96,
 	})
-	spawn_ki_burst(pos, race_k, 175.0)
+	spawn_ki_burst(pos, race_k, 190.0)
 	queue_redraw()
 
 func spawn_impact(pos: Vector2, race_k: String, is_crit: bool = false) -> void:
 	var pal := _pal(race_k)
 	var sparks: Array[Dictionary] = []
-	var cnt := 14 if is_crit else 8
+	var cnt := 18 if is_crit else 11
 	for i in cnt:
 		var sa := (float(i) / float(cnt)) * TAU + randf_range(-0.22, 0.22)
 		sparks.append({
 			"dir": Vector2(cos(sa), sin(sa)),
-			"spd": randf_range(60.0, 185.0 if is_crit else 125.0),
-			"sz": randf_range(2.4, 5.2 if is_crit else 3.8),
+			"spd": randf_range(70.0, 215.0 if is_crit else 145.0),
+			"sz": randf_range(2.6, 5.8 if is_crit else 4.2),
 		})
 	effects.append({
 		"kind": "impact",
 		"pos": pos + Vector2(0.0, -34.0),
 		"crit": is_crit,
 		"main": Color(1.0, 0.86, 0.22) if is_crit else pal["main"],
-		"core": Color(1.0, 0.98, 0.85),
+		"core": Color(1.0, 0.98, 0.88),
 		"sparks": sparks,
 		"age": 0.0,
-		"dur": 0.40 if is_crit else 0.28,
+		"dur": 0.44 if is_crit else 0.32,
 	})
 	queue_redraw()
 
 func spawn_heal_aura(pos: Vector2, col: Color = Color(0.36, 0.98, 0.62)) -> void:
 	var motes: Array[Dictionary] = []
-	for i in 14:
+	for i in 16:
 		motes.append({
-			"ox": randf_range(-38.0, 38.0),
+			"ox": randf_range(-40.0, 40.0),
 			"oy": randf_range(-12.0, 10.0),
-			"rise": randf_range(75.0, 145.0),
-			"sz": randf_range(3.0, 5.8),
+			"rise": randf_range(80.0, 155.0),
+			"sz": randf_range(3.0, 6.0),
 			"ph": randf_range(0.0, TAU),
 		})
 	effects.append({
@@ -295,42 +328,73 @@ func _draw() -> void:
 			var pos: Vector2 = fx["pos"]
 			var edge_c: Color = fx["edge"]
 			var max_r: float = float(fx["radius"])
-			var cur_r := lerpf(20.0, max_r, 1.0 - pow(1.0 - p, 2.2))
-			_draw_glow(pos, cur_r * 1.18, cur_r * 0.72, Color(edge_c.r, edge_c.g, edge_c.b, 0.56 * fade))
+			var cur_r := lerpf(24.0, max_r, 1.0 - pow(1.0 - p, 2.2))
+			_draw_glow(pos, cur_r * 1.25, cur_r * 0.78, Color(edge_c.r, edge_c.g, edge_c.b, 0.62 * fade))
+			var cracks: Array = fx.get("cracks", [])
+			for cr_pts: PackedVector2Array in cracks:
+				var shifted := PackedVector2Array()
+				for pt: Vector2 in cr_pts:
+					shifted.append(pos + pt * clampf(p * 2.2, 0.25, 1.0))
+				draw_polyline(shifted, Color(edge_c.r, edge_c.g, edge_c.b, 0.78 * fade), 4.6 * fade + 1.0, true)
+				draw_polyline(shifted, Color(core_c.r, core_c.g, core_c.b, 0.92 * fade), 2.0 * fade + 0.6, true)
 			draw_set_transform(pos, 0.0, Vector2(1.0, 0.54))
-			draw_arc(Vector2.ZERO, cur_r, 0.0, TAU, 36, Color(edge_c.r, edge_c.g, edge_c.b, 0.94 * fade), 8.5 * fade + 2.0, true)
-			draw_arc(Vector2.ZERO, cur_r * 0.86, 0.0, TAU, 32, Color(main_c.r, main_c.g, main_c.b, 0.92 * fade), 4.5 * fade + 1.5, true)
-			draw_arc(Vector2.ZERO, cur_r * 0.68, 0.0, TAU, 28, Color(core_c.r, core_c.g, core_c.b, 0.96 * fade), 2.8 * fade + 1.0, true)
+			draw_arc(Vector2.ZERO, cur_r, 0.0, TAU, 36, Color(edge_c.r, edge_c.g, edge_c.b, 0.96 * fade), 9.5 * fade + 2.2, true)
+			draw_arc(Vector2.ZERO, cur_r * 0.85, 0.0, TAU, 32, Color(main_c.r, main_c.g, main_c.b, 0.94 * fade), 5.0 * fade + 1.5, true)
+			draw_arc(Vector2.ZERO, cur_r * 0.66, 0.0, TAU, 28, Color(core_c.r, core_c.g, core_c.b, 0.98 * fade), 3.0 * fade + 1.0, true)
 			draw_set_transform(Vector2.ZERO)
 			for sp: Dictionary in fx["sparks"]:
-				var sp_p := pos + (sp["dir"] as Vector2) * (float(sp["spd"]) * age) + Vector2(0.0, -18.0 * p)
-				draw_circle(sp_p, float(sp["sz"]) * (1.0 - p * 0.50) + 1.4, Color(edge_c.r, edge_c.g, edge_c.b, 0.84 * fade))
-				draw_circle(sp_p, float(sp["sz"]) * (1.0 - p * 0.55), Color(core_c.r, core_c.g, core_c.b, 0.95 * fade))
+				var sp_p := pos + (sp["dir"] as Vector2) * (float(sp["spd"]) * age) + Vector2(0.0, -22.0 * p)
+				draw_circle(sp_p, float(sp["sz"]) * (1.0 - p * 0.50) + 1.5, Color(edge_c.r, edge_c.g, edge_c.b, 0.86 * fade))
+				draw_circle(sp_p, float(sp["sz"]) * (1.0 - p * 0.55), Color(core_c.r, core_c.g, core_c.b, 0.96 * fade))
+
+		elif kind == "teleport":
+			var pos: Vector2 = fx["pos"]
+			var edge_c: Color = fx["edge"]
+			var bw := lerpf(42.0, 12.0, p)
+			var bh := 260.0 * (1.0 - p * 0.25)
+			_draw_glow(pos + Vector2(0.0, -bh * 0.42), bw * 2.2, bh * 0.60, Color(main_c.r, main_c.g, main_c.b, 0.62 * fade))
+			_draw_glow(pos + Vector2(0.0, -bh * 0.38), bw * 0.85, bh * 0.54, Color(core_c.r, core_c.g, core_c.b, 0.92 * fade))
+			draw_set_transform(pos, 0.0, Vector2(1.0, 0.48))
+			var tr1 := lerpf(16.0, 88.0, 1.0 - pow(1.0 - p, 2.0))
+			draw_arc(Vector2.ZERO, tr1, 0.0, TAU, 32, Color(main_c.r, main_c.g, main_c.b, 0.94 * fade), 5.0 * fade + 1.5, true)
+			draw_arc(Vector2.ZERO, tr1 * 0.68, 0.0, TAU, 24, Color(edge_c.r, edge_c.g, edge_c.b, 0.88 * fade), 3.0 * fade + 1.0, true)
+			draw_set_transform(Vector2.ZERO)
+			for m: Dictionary in fx["motes"]:
+				var a := float(m["ang"]) + p * 4.2
+				var r := float(m["rad"]) * (1.0 - p * 0.45)
+				var mp := pos + Vector2(cos(a) * r, sin(a) * r * 0.48 - float(m["rise"]) * p)
+				draw_circle(mp, float(m["sz"]) * (1.0 - p * 0.5) + 1.2, Color(main_c.r, main_c.g, main_c.b, 0.85 * fade))
+				draw_circle(mp, float(m["sz"]) * (1.0 - p * 0.5), Color(core_c.r, core_c.g, core_c.b, 0.98 * fade))
 
 		elif kind == "pillar":
 			var pos: Vector2 = fx["pos"]
 			var edge_c: Color = fx["edge"]
-			var pw := lerpf(24.0, 86.0, sin(minf(p * 2.2, 1.0) * PI * 0.5)) * (1.0 - p * 0.42)
-			var ph := 310.0
-			_draw_glow(pos + Vector2(0.0, -ph * 0.42), pw * 2.4, ph * 0.62, Color(edge_c.r, edge_c.g, edge_c.b, 0.58 * fade))
-			_draw_glow(pos + Vector2(0.0, -ph * 0.40), pw * 1.15, ph * 0.56, Color(main_c.r, main_c.g, main_c.b, 0.72 * fade))
-			_draw_glow(pos + Vector2(0.0, -ph * 0.36), pw * 0.46, ph * 0.48, Color(core_c.r, core_c.g, core_c.b, 0.92 * fade))
+			var pw := lerpf(28.0, 94.0, sin(minf(p * 2.2, 1.0) * PI * 0.5)) * (1.0 - p * 0.40)
+			var ph := 325.0
+			_draw_glow(pos + Vector2(0.0, -ph * 0.42), pw * 2.5, ph * 0.64, Color(edge_c.r, edge_c.g, edge_c.b, 0.64 * fade))
+			_draw_glow(pos + Vector2(0.0, -ph * 0.40), pw * 1.20, ph * 0.58, Color(main_c.r, main_c.g, main_c.b, 0.78 * fade))
+			_draw_glow(pos + Vector2(0.0, -ph * 0.36), pw * 0.50, ph * 0.50, Color(core_c.r, core_c.g, core_c.b, 0.95 * fade))
 			for bpts: PackedVector2Array in fx["bolts"]:
 				var shifted := PackedVector2Array()
 				for pt: Vector2 in bpts:
 					shifted.append(pos + pt + Vector2(sin(p * 24.0 + pt.y * 0.05) * 6.0, 0.0))
-				draw_polyline(shifted, Color(edge_c.r, edge_c.g, edge_c.b, 0.76 * fade), 5.0, true)
-				draw_polyline(shifted, Color(core_c.r, core_c.g, core_c.b, 0.96 * fade), 2.4, true)
+				draw_polyline(shifted, Color(edge_c.r, edge_c.g, edge_c.b, 0.82 * fade), 5.6, true)
+				draw_polyline(shifted, Color(core_c.r, core_c.g, core_c.b, 0.98 * fade), 2.8, true)
 
 		elif kind == "impact":
 			var pos: Vector2 = fx["pos"]
 			var is_c: bool = bool(fx["crit"])
-			var rad := (62.0 if is_c else 40.0) * (0.65 + p * 0.75)
-			_draw_glow(pos, rad, rad, Color(main_c.r, main_c.g, main_c.b, 0.78 * fade))
-			draw_arc(pos, rad * 0.62, 0.0, TAU, 24, Color(core_c.r, core_c.g, core_c.b, 0.96 * fade), 3.6 if is_c else 2.4, true)
+			var rad := (72.0 if is_c else 46.0) * (0.65 + p * 0.75)
+			_draw_glow(pos, rad * 1.15, rad * 1.15, Color(main_c.r, main_c.g, main_c.b, 0.84 * fade))
+			draw_arc(pos, rad * 0.65, 0.0, TAU, 24, Color(core_c.r, core_c.g, core_c.b, 0.98 * fade), 4.2 if is_c else 2.8, true)
+			if is_c:
+				var fl := rad * 0.95 * (1.0 - p * 0.35)
+				draw_line(pos - Vector2(fl, 0.0), pos + Vector2(fl, 0.0), Color(core_c.r, core_c.g, core_c.b, 0.95 * fade), 4.2 * fade, true)
+				draw_line(pos - Vector2(0.0, fl), pos + Vector2(0.0, fl), Color(core_c.r, core_c.g, core_c.b, 0.95 * fade), 4.2 * fade, true)
 			for sp: Dictionary in fx["sparks"]:
 				var sp_p := pos + (sp["dir"] as Vector2) * (float(sp["spd"]) * age)
-				draw_circle(sp_p, float(sp["sz"]) * (1.0 - p * 0.6), Color(core_c.r, core_c.g, core_c.b, 0.95 * fade))
+				draw_circle(sp_p, float(sp["sz"]) * (1.0 - p * 0.55) + 1.0, Color(main_c.r, main_c.g, main_c.b, 0.80 * fade))
+				draw_circle(sp_p, float(sp["sz"]) * (1.0 - p * 0.6), Color(core_c.r, core_c.g, core_c.b, 0.96 * fade))
 
 		elif kind == "heal":
 			var pos: Vector2 = fx["pos"]

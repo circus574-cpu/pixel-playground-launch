@@ -32,6 +32,7 @@ var _pinch_pts: Dictionary = {}
 var _pinch_span := 0.0
 
 var btn_back := Button.new()
+var btn_teleport := Button.new()
 var btn_globe := Button.new()
 var btn_atlas := Button.new()
 var btn_zoom_in := Button.new()
@@ -207,8 +208,12 @@ func focus_atlas_continent(rid: String, zoom_lvl: float = 3.2) -> void:
 	queue_redraw()
 
 func _refresh_mode_buttons() -> void:
+	var tp_on: bool = world != null and bool(world.gm_map_teleport_mode)
 	ForgedUI.style_button(btn_atlas, "gold" if mode == "atlas" else "slate", 15, 14.0, 8.0)
 	ForgedUI.style_button(btn_globe, "gold" if mode == "globe" else "slate", 15, 14.0, 8.0)
+	btn_teleport.visible = (mode == "atlas")
+	btn_teleport.text = "⚡ TELEPORT: WŁ." if tp_on else "⚡ TELEPORT"
+	ForgedUI.style_button(btn_teleport, "gold" if tp_on else "slate", 15, 14.0, 8.0)
 
 func _map_rect() -> Rect2:
 	return Rect2(16.0, 68.0, maxf(size.x - 32.0, 320.0), maxf(size.y - 178.0, 240.0))
@@ -240,6 +245,17 @@ func build_controls() -> void:
 			world.toggle_atlas(false)
 	)
 	add_child(btn_back)
+
+	btn_teleport.text = "⚡ TELEPORT"
+	ForgedUI.style_button(btn_teleport, "slate", 15, 16.0, 8.0)
+	btn_teleport.tooltip_text = "Włącz tryb teleportu: kliknij dowolne miejsce na mapie świata"
+	btn_teleport.pressed.connect(func() -> void:
+		if world != null:
+			world.gm_map_teleport_mode = not bool(world.gm_map_teleport_mode)
+			_refresh_mode_buttons()
+			queue_redraw()
+	)
+	add_child(btn_teleport)
 
 	btn_atlas.text = "MAPA ŚWIATA"
 	ForgedUI.style_button(btn_atlas, "gold", 15, 22.0, 8.0)
@@ -299,11 +315,13 @@ func _layout_controls() -> void:
 		globe.position = mr.position
 		globe.size = mr.size
 	btn_back.position = Vector2(16.0, 10.0)
-	btn_back.size = Vector2(168.0, 50.0)
-	btn_globe.position = Vector2(size.x - 184.0, 10.0)
-	btn_globe.size = Vector2(168.0, 50.0)
-	btn_atlas.position = Vector2(size.x - 380.0, 10.0)
-	btn_atlas.size = Vector2(188.0, 50.0)
+	btn_back.size = Vector2(158.0, 50.0)
+	btn_globe.position = Vector2(size.x - 168.0, 10.0)
+	btn_globe.size = Vector2(152.0, 50.0)
+	btn_atlas.position = Vector2(size.x - 344.0, 10.0)
+	btn_atlas.size = Vector2(168.0, 50.0)
+	btn_teleport.position = Vector2(size.x - 548.0, 10.0)
+	btn_teleport.size = Vector2(196.0, 50.0)
 
 	var rx := mr.end.x - 68.0
 	var ry := mr.position.y + mr.size.y * 0.5 - 98.0
@@ -422,23 +440,25 @@ func _gui_input(event: InputEvent) -> void:
 				atlas_drag_start = mb.position
 			else:
 				if atlas_dragging and not atlas_drag_moved and _pinch_pts.size() < 2:
-					var picked := pick_continent(mb.position)
+					var tp_exact: bool = bool(world.gm_map_teleport_mode)
+					var allow_coastal: bool = tp_exact or atlas_zoom >= 1.5
+					var picked := pick_continent(mb.position, allow_coastal)
 					if not picked.is_empty():
-						var tp_exact: bool = bool(world.gm_map_teleport_mode)
-						if tp_exact:
+						if tp_exact or atlas_zoom >= 1.5:
 							var a_pt := _screen_to_atlas(mb.position, mr)
 							var w_pt := atlas_to_world(picked, a_pt.x, a_pt.y, float(world.world_size))
 							world.gm_map_teleport_mode = false
+							_refresh_mode_buttons()
 							world.teleport_to_world_pos(picked, w_pt.x, w_pt.y)
 							world.toggle_atlas(false)
 						elif atlas_zoom <= 1.25:
-							# Tapping a continent from whole-world view zooms smoothly into it!
+							# Tapping a continent from whole-world view zooms smoothly into it; second tap teleports!
 							focus_atlas_continent(picked, 3.6)
 				atlas_dragging = false
 	elif event is InputEventMouseMotion:
 		var mm: InputEventMouseMotion = event
 		if atlas_dragging and _pinch_pts.size() < 2:
-			if (mm.position - atlas_drag_start).length() > 8.0:
+			if (mm.position - atlas_drag_start).length() > 18.0:
 				atlas_drag_moved = true
 			if atlas_drag_moved and atlas_zoom > 1.01:
 				var sc := Vector2(mr.size.x / 2000.0, mr.size.y / 1000.0) * atlas_zoom
@@ -451,7 +471,7 @@ func _gui_input(event: InputEvent) -> void:
 			if hovered_land != prev:
 				queue_redraw()
 
-func pick_continent(local_pos: Vector2) -> String:
+func pick_continent(local_pos: Vector2, allow_nearest_coast: bool = false) -> String:
 	var mr := _map_rect()
 	if not mr.has_point(local_pos):
 		return ""
@@ -462,6 +482,20 @@ func pick_continent(local_pos: Vector2) -> String:
 		var rid := str(hit.get("id", ""))
 		if CONTINENT_META.has(rid):
 			return rid
+	if allow_nearest_coast:
+		var best_rid := ""
+		var best_d := 120.0
+		for rid: String in region_bboxes.keys():
+			if not CONTINENT_META.has(rid):
+				continue
+			var bb: Dictionary = region_bboxes[rid]
+			var cx := clampf(atlas_p.x, float(bb["min_x"]), float(bb["max_x"]))
+			var cy := clampf(atlas_p.y, float(bb["min_y"]), float(bb["max_y"]))
+			var d := Vector2(atlas_p.x - cx, atlas_p.y - cy).length()
+			if d < best_d:
+				best_d = d
+				best_rid = rid
+		return best_rid
 	return ""
 
 var pin_cache: Dictionary = {}
@@ -471,12 +505,6 @@ func _pin_tex(key: String) -> Texture2D:
 		return pin_cache[key] as Texture2D
 	var path := "res://assets/ui/map_icons/pin_%s.webp" % key
 	var tex: Texture2D = world.load_tex(path) if (world != null and world.has_method("load_tex")) else null
-	if tex == null:
-		var abs_p := ProjectSettings.globalize_path(path)
-		if FileAccess.file_exists(abs_p):
-			var img := Image.new()
-			if img.load(abs_p) == OK:
-				tex = ImageTexture.create_from_image(img)
 	pin_cache[key] = tex
 	return tex
 
@@ -734,10 +762,12 @@ func _draw() -> void:
 
 	var mr := _map_rect()
 	var gm_tp_on: bool = world != null and bool(world.gm_map_teleport_mode)
-	var title_txt := "⚡ TELEPORT GM — KLIKNIJ PUNKT (%.1f×)" % atlas_zoom if (mode == "atlas" and gm_tp_on) else ("GLOBUS PLANETY SUPERIOR" if mode == "globe" else ("MAPA ŚWIATA SUPERIOR  •  %.1f×" % atlas_zoom))
-	var title_col := Color(0.40, 0.96, 1.0) if (mode == "atlas" and gm_tp_on) else Color(1.0, 0.90, 0.60)
-	draw_string_outline(f, Vector2(202.0, 42.0), title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, 5, Color(0.02, 0.02, 0.03, 0.95))
-	draw_string(f, Vector2(202.0, 42.0), title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, title_col)
+	var tap_tp_ready: bool = mode == "atlas" and (gm_tp_on or atlas_zoom >= 1.5)
+	var title_txt := "⚡ TELEPORT — DOTKNIJ PUNKT NA MAPIE (%.1f×)" % atlas_zoom if (mode == "atlas" and gm_tp_on) else ("GLOBUS PLANETY SUPERIOR" if mode == "globe" else ("MAPA ŚWIATA • %.1f× • TAP = TELEPORT" % atlas_zoom if tap_tp_ready else "MAPA ŚWIATA SUPERIOR • %.1f×" % atlas_zoom))
+	var title_col := Color(0.40, 0.96, 1.0) if (mode == "atlas" and gm_tp_on) else (Color(1.0, 0.92, 0.56) if tap_tp_ready else Color(1.0, 0.90, 0.60))
+	var title_max_w := maxf(size.x - 758.0, 260.0)
+	draw_string_outline(f, Vector2(188.0, 42.0), title_txt, HORIZONTAL_ALIGNMENT_LEFT, int(title_max_w), 17, 5, Color(0.02, 0.02, 0.03, 0.95))
+	draw_string(f, Vector2(188.0, 42.0), title_txt, HORIZONTAL_ALIGNMENT_LEFT, int(title_max_w), 17, title_col)
 
 	if mode == "atlas":
 		draw_rect(mr, Color(0.04, 0.11, 0.20, 1.0))

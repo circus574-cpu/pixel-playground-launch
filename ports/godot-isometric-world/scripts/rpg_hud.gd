@@ -152,6 +152,22 @@ var selected_node_id := "A4"
 var hovered_node_id := ""
 var hovered_hotbar_idx := -1
 
+# Customizable HUD Layout & Live On-Screen Drag-and-Drop HUD Editor
+var hud_layout: Dictionary = {
+	"scale": 1.0,
+	"portrait": [0.0, 0.0],
+	"utils": [0.0, 0.0],
+	"minimap": [0.0, 0.0],
+	"combat": [0.0, 0.0],
+	"xp": [0.0, 0.0],
+}
+var hud_edit_mode := false
+var hud_drag_zone := ""
+var hud_drag_start := Vector2.ZERO
+var hud_drag_origin := Vector2.ZERO
+var hud_editor_bar := PanelContainer.new()
+var hud_scale_bar_lbl := Label.new()
+
 # Interactive layout hitboxes (rebuilt on layout/draw)
 var nav_hitboxes: Array[Dictionary] = []
 var hotbar_hitboxes: Array[Rect2] = []
@@ -198,6 +214,7 @@ func _ready() -> void:
 	circle_shader = load("res://shaders/circle_icon.gdshader")
 	_build_shader_widgets()
 	_build_modal_layer()
+	_build_hud_editor_bar()
 	if get_viewport() != null:
 		get_viewport().size_changed.connect(_on_resized)
 	resized.connect(_on_resized)
@@ -221,13 +238,15 @@ func _load_tex(path: String) -> Texture2D:
 		if wtex != null:
 			ui_tex_cache[path] = wtex
 			return wtex
-	var abs_p := ProjectSettings.globalize_path(path)
-	if FileAccess.file_exists(abs_p) or FileAccess.file_exists(path):
-		var img := Image.new()
-		if img.load(abs_p if FileAccess.file_exists(abs_p) else path) == OK:
-			var itex := ImageTexture.create_from_image(img)
-			ui_tex_cache[path] = itex
-			return itex
+	if FileAccess.file_exists(path):
+		var bytes := FileAccess.get_file_as_bytes(path)
+		if not bytes.is_empty():
+			var img := Image.new()
+			var err := img.load_webp_from_buffer(bytes) if path.ends_with(".webp") else (img.load_png_from_buffer(bytes) if path.ends_with(".png") else img.load_jpg_from_buffer(bytes))
+			if err == OK:
+				var itex := ImageTexture.create_from_image(img)
+				ui_tex_cache[path] = itex
+				return itex
 	return null
 
 func _icon_tex(fname: String) -> Texture2D:
@@ -815,6 +834,199 @@ func _process(delta: float) -> void:
 		_refresh_visuals()
 
 # ==============================================================================
+# CUSTOMIZABLE HUD LAYOUT & LIVE DRAG-AND-DROP HUD EDITOR
+# ==============================================================================
+
+func _build_hud_editor_bar() -> void:
+	hud_editor_bar.visible = false
+	hud_editor_bar.z_index = 120
+	hud_editor_bar.add_theme_stylebox_override("panel", ForgedUI.compact_panel_box(18.0, 10.0, Color(0.94, 0.76, 0.34, 0.96)))
+	add_child(hud_editor_bar)
+
+	var hbox := HBoxContainer.new()
+	hbox.add_theme_constant_override("separation", 10)
+	hud_editor_bar.add_child(hbox)
+
+	var tag := Label.new()
+	tag.text = "✥ EDYTOR HUD"
+	tag.add_theme_font_override("font", MapStyle.font())
+	tag.add_theme_font_size_override("font_size", 14)
+	tag.add_theme_color_override("font_color", Color(1.0, 0.92, 0.58))
+	hbox.add_child(tag)
+
+	var b_minus := Button.new()
+	b_minus.text = "−"
+	b_minus.custom_minimum_size = Vector2(38, 38)
+	ForgedUI.style_square_button(b_minus, "slate", 20)
+	b_minus.pressed.connect(func() -> void: set_hud_scale(get_hud_scale() - 0.05, false))
+	hbox.add_child(b_minus)
+
+	hud_scale_bar_lbl.text = "100%"
+	hud_scale_bar_lbl.custom_minimum_size = Vector2(52, 0)
+	hud_scale_bar_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hud_scale_bar_lbl.add_theme_font_override("font", MapStyle.font())
+	hud_scale_bar_lbl.add_theme_font_size_override("font_size", 14)
+	hud_scale_bar_lbl.add_theme_color_override("font_color", Color(0.54, 0.96, 1.0))
+	hbox.add_child(hud_scale_bar_lbl)
+
+	var b_plus := Button.new()
+	b_plus.text = "+"
+	b_plus.custom_minimum_size = Vector2(38, 38)
+	ForgedUI.style_square_button(b_plus, "slate", 20)
+	b_plus.pressed.connect(func() -> void: set_hud_scale(get_hud_scale() + 0.05, false))
+	hbox.add_child(b_plus)
+
+	var b_reset := Button.new()
+	b_reset.text = "RESET"
+	b_reset.custom_minimum_size = Vector2(96, 38)
+	ForgedUI.style_button(b_reset, "slate", 13, 12.0, 6.0)
+	b_reset.pressed.connect(func() -> void: reset_hud_layout(false))
+	hbox.add_child(b_reset)
+
+	var b_save := Button.new()
+	b_save.text = "ZAPISZ"
+	b_save.custom_minimum_size = Vector2(114, 38)
+	ForgedUI.style_button(b_save, "gold", 14, 14.0, 6.0)
+	b_save.pressed.connect(func() -> void: exit_hud_editor(true))
+	hbox.add_child(b_save)
+
+func get_hud_scale() -> float:
+	return clampf(float(hud_layout.get("scale", 1.0)), 0.80, 1.25)
+
+func get_zone_offset(zone: String) -> Vector2:
+	var v = hud_layout.get(zone, [0.0, 0.0])
+	if v is Array and (v as Array).size() >= 2:
+		return Vector2(float(v[0]), float(v[1]))
+	return Vector2.ZERO
+
+func set_zone_offset(zone: String, off: Vector2) -> void:
+	var vs := _vp_size()
+	var max_x := maxf(vs.x * 0.45, 220.0)
+	var max_y := maxf(vs.y * 0.45, 160.0)
+	var clamped := Vector2(clampf(off.x, -max_x, max_x), clampf(off.y, -max_y, max_y))
+	hud_layout[zone] = [snappedf(clamped.x, 1.0), snappedf(clamped.y, 1.0)]
+	_layout_all()
+	if world != null and world.has_method("layout_minimap"):
+		world.layout_minimap()
+	_refresh_visuals()
+
+func set_hud_scale(sc: float, persist: bool = false) -> void:
+	hud_layout["scale"] = snappedf(clampf(sc, 0.80, 1.25), 0.05)
+	hud_scale_bar_lbl.text = "%d%%" % int(round(get_hud_scale() * 100.0))
+	_layout_all()
+	if world != null and world.has_method("layout_minimap"):
+		world.layout_minimap()
+	if persist and world != null and world.has_method("notify_hud_layout_changed"):
+		world.notify_hud_layout_changed(hud_layout)
+	_refresh_visuals()
+
+func apply_hud_layout(data: Dictionary) -> void:
+	if data.is_empty():
+		return
+	if data.has("scale"):
+		hud_layout["scale"] = clampf(float(data["scale"]), 0.80, 1.25)
+	for zk: String in ["portrait", "utils", "minimap", "combat", "xp"]:
+		var val = data.get(zk, null)
+		if val is Array and (val as Array).size() >= 2:
+			hud_layout[zk] = [float(val[0]), float(val[1])]
+	hud_scale_bar_lbl.text = "%d%%" % int(round(get_hud_scale() * 100.0))
+	_layout_all()
+	if world != null and world.has_method("layout_minimap"):
+		world.layout_minimap()
+	_refresh_visuals()
+
+func apply_phone_safe_preset() -> void:
+	hud_layout = {
+		"scale": 0.90,
+		"portrait": [24.0, 10.0],
+		"utils": [24.0, 12.0],
+		"minimap": [-24.0, 10.0],
+		"combat": [-24.0, -14.0],
+		"xp": [0.0, -10.0],
+	}
+	hud_scale_bar_lbl.text = "%d%%" % int(round(get_hud_scale() * 100.0))
+	_layout_all()
+	if world != null and world.has_method("notify_hud_layout_changed"):
+		world.notify_hud_layout_changed(hud_layout)
+	_refresh_visuals()
+
+func reset_hud_layout(persist: bool = true) -> void:
+	hud_layout = {
+		"scale": 1.0,
+		"portrait": [0.0, 0.0],
+		"utils": [0.0, 0.0],
+		"minimap": [0.0, 0.0],
+		"combat": [0.0, 0.0],
+		"xp": [0.0, 0.0],
+	}
+	hud_scale_bar_lbl.text = "100%"
+	_layout_all()
+	if persist and world != null and world.has_method("notify_hud_layout_changed"):
+		world.notify_hud_layout_changed(hud_layout)
+	elif world != null and world.has_method("layout_minimap"):
+		world.layout_minimap()
+	_refresh_visuals()
+
+func enter_hud_editor() -> void:
+	close_modals()
+	hud_edit_mode = true
+	hud_drag_zone = ""
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	hud_scale_bar_lbl.text = "%d%%" % int(round(get_hud_scale() * 100.0))
+	hud_editor_bar.visible = true
+	_layout_all()
+	if world != null and world.get("audio") != null:
+		world.audio.sfx("ui/open", 0.80, 0.03)
+	_refresh_visuals()
+
+func exit_hud_editor(save: bool = true) -> void:
+	hud_edit_mode = false
+	hud_drag_zone = ""
+	mouse_filter = Control.MOUSE_FILTER_PASS
+	hud_editor_bar.visible = false
+	if save and world != null:
+		if world.has_method("notify_hud_layout_changed"):
+			world.notify_hud_layout_changed(hud_layout)
+		if world.get("audio") != null:
+			world.audio.sfx("ui/confirm", 0.85, 0.03)
+		if world.has_method("show_combat_toast"):
+			world.show_combat_toast("✓ Zapisano własny układ i skalę HUD!", Color(0.46, 0.98, 0.68))
+	elif world != null and world.has_method("layout_minimap"):
+		world.layout_minimap()
+	_refresh_visuals()
+
+func _zone_bounds_rect(zone: String) -> Rect2:
+	var vs := _vp_size()
+	var sc := get_hud_scale()
+	match zone:
+		"portrait":
+			return Rect2(Vector2(10.0, 10.0) + get_zone_offset("portrait"), Vector2(396.0, 134.0))
+		"utils":
+			return Rect2(Vector2(12.0, 158.0) + get_zone_offset("utils"), Vector2(372.0, 154.0))
+		"minimap":
+			var mw := 276.0 * sc
+			var mh := 256.0 * sc
+			if world != null and world.get("premium_minimap") != null:
+				return Rect2(world.premium_minimap.position, Vector2(mw, mh))
+			var m_off := get_zone_offset("minimap")
+			return Rect2(Vector2(vs.x - mw - 12.0 + m_off.x, 10.0 + m_off.y), Vector2(mw, mh))
+		"combat":
+			var base := _combat_base_center()
+			return Rect2(base.x - 296.0 * sc, base.y - 260.0 * sc, 368.0 * sc, 336.0 * sc)
+		"xp":
+			return _xp_pill_rect().grow(6.0)
+	return Rect2()
+
+func _combat_base_center() -> Vector2:
+	var vs := _vp_size()
+	var sc := get_hud_scale()
+	var c_off := get_zone_offset("combat")
+	return Vector2(
+		clampf(vs.x - 102.0 * sc + c_off.x, 280.0 * sc, vs.x - 68.0 * sc),
+		clampf(vs.y - 102.0 * sc + c_off.y, 240.0 * sc, vs.y - 68.0 * sc)
+	)
+
+# ==============================================================================
 # LAYOUT & CONSTELLATION GRAPH COORDINATES
 # ==============================================================================
 
@@ -826,31 +1038,37 @@ func _modal_rect() -> Rect2:
 
 func _xp_pill_rect() -> Rect2:
 	var vs := _vp_size()
+	var x_off := get_zone_offset("xp")
 	var pw := minf(468.0, vs.x * 0.42)
 	var ph := 36.0
-	return Rect2((vs.x - pw) * 0.5, vs.y - ph - 10.0, pw, ph)
+	return Rect2(
+		clampf((vs.x - pw) * 0.5 + x_off.x, 12.0, maxf(vs.x - pw - 12.0, 12.0)),
+		clampf(vs.y - ph - 10.0 + x_off.y, 12.0, maxf(vs.y - ph - 8.0, 12.0)),
+		pw,
+		ph
+	)
 
 func _wild_rift_slot_specs() -> Array[Dictionary]:
-	# Ergonomic right-thumb Wild Rift combat cluster in bottom-right corner (large thumb-friendly orbs for mobile!)
-	var vs := _vp_size()
-	var base := Vector2(vs.x - 102.0, vs.y - 102.0)
-	var arc_r := 158.0
+	# Ergonomic right-thumb Wild Rift combat cluster with spacious arc & customizable position/scale!
+	var sc := get_hud_scale()
+	var base := _combat_base_center()
+	var arc_r := 166.0 * sc
 	var specs: Array[Dictionary] = [
-		{"center": base, "r": 52.0, "keystone": true},
+		{"center": base, "r": 50.0 * sc, "keystone": true},
 	]
 	var arc_angles := [174.0, 205.0, 236.0, 267.0]
 	for ang_deg in arc_angles:
 		var rad := deg_to_rad(float(ang_deg))
 		specs.append({
 			"center": base + Vector2(cos(rad), sin(rad)) * arc_r,
-			"r": 37.0,
+			"r": 35.0 * sc,
 			"keystone": false,
 		})
 	# Grand Ki-Mode Transformation / Ultimate [R] on upper-outer crown of thumb arc
 	var ult_rad := deg_to_rad(221.0)
 	specs.append({
-		"center": base + Vector2(cos(ult_rad), sin(ult_rad)) * 238.0,
-		"r": 42.0,
+		"center": base + Vector2(cos(ult_rad), sin(ult_rad)) * (248.0 * sc),
+		"r": 40.0 * sc,
 		"keystone": true,
 	})
 	return specs
@@ -1027,22 +1245,31 @@ func _sync_talent_node_styles() -> void:
 		inspector_ring_rect.texture = tex_keystone if sst == "unlocked" else (tex_avail if sst == "available" else tex_locked)
 
 func _layout_all() -> void:
-	# 1) Top-Left Hero Medallion & Legible Vitality Bars (384x126 forged plate)
-	var p_center := Vector2(64.0, 76.0)
+	var vs := _vp_size()
+	var sc := get_hud_scale()
+	var p_off := get_zone_offset("portrait")
+	# 0) Floating HUD Layout Editor top-center bar (strictly inside open gap between Portrait and Minimap!)
+	if hud_editor_bar != null:
+		var bw := clampf(vs.x - 724.0, 510.0, 560.0)
+		hud_editor_bar.size = Vector2(bw, 58.0)
+		hud_editor_bar.position = Vector2(clampf((vs.x - bw) * 0.5, 412.0, maxf(vs.x - 296.0 - bw, 412.0)), 14.0)
+
+	# 1) Top-Left Hero Medallion & Legible Vitality Bars (384x126 forged plate + custom offset)
+	var p_center := Vector2(64.0, 76.0) + p_off
 	var p_rad := 44.0
 	portrait_rect.position = p_center - Vector2(p_rad, p_rad)
 	portrait_rect.size = Vector2(p_rad * 2.0, p_rad * 2.0)
 	var ring_rad := 54.0
 	portrait_ring_rect.position = p_center - Vector2(ring_rad, ring_rad)
 	portrait_ring_rect.size = Vector2(ring_rad * 2.0, ring_rad * 2.0)
-	race_badge_rect.position = Vector2(14.0, 14.0)
+	race_badge_rect.position = Vector2(14.0, 14.0) + p_off
 	race_badge_rect.size = Vector2(28.0, 28.0)
 
-	hp_bar_rect.position = Vector2(148.0, 48.0)
+	hp_bar_rect.position = Vector2(148.0, 48.0) + p_off
 	hp_bar_rect.size = Vector2(236.0, 22.0)
-	ki_bar_rect.position = Vector2(148.0, 74.0)
+	ki_bar_rect.position = Vector2(148.0, 74.0) + p_off
 	ki_bar_rect.size = Vector2(212.0, 18.0)
-	res_bar_rect.position = Vector2(148.0, 96.0)
+	res_bar_rect.position = Vector2(148.0, 96.0) + p_off
 	res_bar_rect.size = Vector2(124.0, 14.0)
 
 	# 2) Bottom-Center Legible XP Bar + Bottom-Right Wild Rift Combat Arc
@@ -1055,7 +1282,7 @@ func _layout_all() -> void:
 		var spec: Dictionary = wr_specs[i]
 		var center: Vector2 = spec["center"]
 		var r: float = float(spec["r"])
-		var ring_pad := 12.0 if bool(spec["keystone"]) else 9.0
+		var ring_pad := (12.0 if bool(spec["keystone"]) else 9.0) * sc
 		var rr := r + ring_pad
 		if i == 0 or i == 2:
 			hotbar_icon_rects[i].position = center - Vector2(rr, rr)
@@ -1171,11 +1398,13 @@ func _draw() -> void:
 		return
 	var meta: Dictionary = LAND_META.get(_hero_land(), LAND_META["pyra"])
 	var accent: Color = meta["accent"]
+	var p_off := get_zone_offset("portrait")
+	var sc := get_hud_scale()
 
-	# 1) Top-Left Sleek Forged Obsidian Vitality Plate (crisp obsidian-gold bezel, ZERO overlapping scrollwork!)
-	var wing_r := Rect2(56.0, 14.0, 344.0, 126.0)
+	# 1) Top-Left Sleek Forged Obsidian Vitality Plate
+	var wing_r := Rect2(Vector2(56.0, 14.0) + p_off, Vector2(344.0, 126.0))
 	_draw_obsidian_plate(self, wing_r, Color(0.92, 0.72, 0.34, 0.94))
-	draw_circle(Vector2(64.0, 76.0), 50.0, Color(0.04, 0.035, 0.05, 0.96))
+	draw_circle(Vector2(64.0, 76.0) + p_off, 50.0, Color(0.04, 0.035, 0.05, 0.96))
 
 	# 2) Bottom-Center Sleek Forged Obsidian XP Bar
 	var xp_r := _xp_pill_rect()
@@ -1185,14 +1414,14 @@ func _draw() -> void:
 	var wr_specs := _wild_rift_slot_specs()
 	if not wr_specs.is_empty():
 		var base_c: Vector2 = wr_specs[0]["center"]
-		draw_arc(base_c, 138.0, deg_to_rad(170.0), deg_to_rad(273.0), 40, Color(0.04, 0.03, 0.05, 0.55), 14.0, true)
-		draw_arc(base_c, 138.0, deg_to_rad(170.0), deg_to_rad(273.0), 40, Color(0.92, 0.70, 0.28, 0.58), 2.2, true)
-		draw_arc(base_c, 212.0, deg_to_rad(206.0), deg_to_rad(236.0), 18, Color(accent.r, accent.g, accent.b, 0.42), 1.8, true)
+		draw_arc(base_c, 145.0 * sc, deg_to_rad(170.0), deg_to_rad(273.0), 40, Color(0.04, 0.03, 0.05, 0.55), 14.0 * sc, true)
+		draw_arc(base_c, 145.0 * sc, deg_to_rad(170.0), deg_to_rad(273.0), 40, Color(0.92, 0.70, 0.28, 0.58), 2.2, true)
+		draw_arc(base_c, 222.0 * sc, deg_to_rad(206.0), deg_to_rad(236.0), 18, Color(accent.r, accent.g, accent.b, 0.42), 1.8, true)
 		for spec: Dictionary in wr_specs:
-			var sc: Vector2 = spec["center"]
+			var sp_c: Vector2 = spec["center"]
 			var sr: float = float(spec["r"])
-			draw_circle(sc + Vector2(0.0, 4.0), sr + 6.0, Color(0.0, 0.0, 0.0, 0.52))
-			draw_circle(sc, sr + 4.0, Color(0.04, 0.035, 0.06, 0.95))
+			draw_circle(sp_c + Vector2(0.0, 4.0), sr + 6.0, Color(0.0, 0.0, 0.0, 0.52))
+			draw_circle(sp_c, sr + 4.0, Color(0.04, 0.035, 0.06, 0.95))
 
 # ==============================================================================
 # FOREGROUND HUD DRAW (CRISP MOBILE-READABLE 13-18px LABELS & CLEAN CONTROLS)
@@ -1205,9 +1434,12 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	var fb: Font = MapStyle.body_font()
 	var meta: Dictionary = LAND_META.get(_hero_land(), LAND_META["pyra"])
 	var accent: Color = meta["accent"]
+	var p_off := get_zone_offset("portrait")
+	var u_off := get_zone_offset("utils")
+	var sc := get_hud_scale()
 
 	# --- A. Top-Left Portrait Level Seal, Hero Title, Gold & Legible Bar Numbers ---
-	var seal_c := Vector2(96.0, 112.0)
+	var seal_c := Vector2(96.0, 112.0) + p_off
 	c.draw_circle(seal_c, 17.0, Color(0.06, 0.04, 0.05, 0.98))
 	c.draw_arc(seal_c, 17.0, 0.0, TAU, 28, Color(0.98, 0.76, 0.32, 0.98), 2.6, true)
 	c.draw_arc(seal_c, 13.0, 0.0, TAU, 24, Color(0.72, 0.48, 0.18, 0.78), 1.2, true)
@@ -1217,50 +1449,50 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 
 	# Hero Name (18px Cinzel) + Race Title (13px)
 	var hero_name := (hero_custom_name if hero_custom_name != "" else str(meta["hero"])).to_upper()
-	c.draw_string_outline(f, Vector2(126.0, 38.0), hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, 4, Color(0.02, 0.01, 0.02, 0.96))
-	c.draw_string(f, Vector2(126.0, 38.0), hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.93, 0.74))
+	c.draw_string_outline(f, Vector2(126.0, 38.0) + p_off, hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, 4, Color(0.02, 0.01, 0.02, 0.96))
+	c.draw_string(f, Vector2(126.0, 38.0) + p_off, hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.93, 0.74))
 	var name_w := f.get_string_size(hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
 	var sub_txt := str(meta["title"])
 	if 126.0 + name_w + 10.0 < 386.0:
-		c.draw_string(fb, Vector2(126.0 + name_w + 10.0, 37.0), sub_txt, HORIZONTAL_ALIGNMENT_LEFT, int(maxf(388.0 - (126.0 + name_w + 10.0), 40.0)), 13, Color(accent.r, accent.g, accent.b, 0.96))
+		c.draw_string(fb, Vector2(126.0 + name_w + 10.0, 37.0) + p_off, sub_txt, HORIZONTAL_ALIGNMENT_LEFT, int(maxf(388.0 - (126.0 + name_w + 10.0), 40.0)), 13, Color(accent.r, accent.g, accent.b, 0.96))
 
 	# Crisp Painted Icons beside HP / KI / Racial Resource bars
 	var hp_ico := _icon_tex("hud-hp.webp")
 	var ki_ico := _icon_tex("hud-ki.webp")
 	var res_ico := _icon_tex(str(meta["res_icon"]))
 	if hp_ico != null:
-		c.draw_texture_rect(hp_ico, Rect2(122.0, 48.0, 22.0, 22.0), false)
+		c.draw_texture_rect(hp_ico, Rect2(Vector2(122.0, 48.0) + p_off, Vector2(22.0, 22.0)), false)
 	if ki_ico != null:
-		c.draw_texture_rect(ki_ico, Rect2(123.0, 73.0, 20.0, 20.0), false)
+		c.draw_texture_rect(ki_ico, Rect2(Vector2(123.0, 73.0) + p_off, Vector2(20.0, 20.0)), false)
 	if res_ico != null:
-		c.draw_texture_rect(res_ico, Rect2(125.0, 95.0, 17.0, 17.0), false)
+		c.draw_texture_rect(res_ico, Rect2(Vector2(125.0, 95.0) + p_off, Vector2(17.0, 17.0)), false)
 
 	var hp_str := "%d / %d" % [int(round(hero_hp)), int(round(hero_max_hp))]
-	c.draw_string_outline(fb, Vector2(156.0, 64.0), hp_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.02, 0.01, 0.01, 0.95))
-	c.draw_string(fb, Vector2(156.0, 64.0), hp_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.97, 0.95))
+	c.draw_string_outline(fb, Vector2(156.0, 64.0) + p_off, hp_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.02, 0.01, 0.01, 0.95))
+	c.draw_string(fb, Vector2(156.0, 64.0) + p_off, hp_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.97, 0.95))
 
 	var ki_str := "KI  %d / %d" % [int(round(hero_ki)), int(round(hero_max_ki))]
-	c.draw_string_outline(fb, Vector2(156.0, 88.0), ki_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 3, Color(0.02, 0.03, 0.06, 0.95))
-	c.draw_string(fb, Vector2(156.0, 88.0), ki_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.88, 0.96, 1.0))
+	c.draw_string_outline(fb, Vector2(156.0, 88.0) + p_off, ki_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 3, Color(0.02, 0.03, 0.06, 0.95))
+	c.draw_string(fb, Vector2(156.0, 88.0) + p_off, ki_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.88, 0.96, 1.0))
 
 	var res_str := "%s %d" % [str(meta["res_name"]), int(round(hero_res))]
-	c.draw_string_outline(fb, Vector2(154.0, 108.0), res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 3, Color(0.02, 0.01, 0.02, 0.95))
-	c.draw_string(fb, Vector2(154.0, 108.0), res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.95, 0.86))
+	c.draw_string_outline(fb, Vector2(154.0, 108.0) + p_off, res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 3, Color(0.02, 0.01, 0.02, 0.95))
+	c.draw_string(fb, Vector2(154.0, 108.0) + p_off, res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.95, 0.86))
 
 	var coin_tex := _icon_tex("gear-coin.webp")
 	if coin_tex != null:
-		c.draw_texture_rect(coin_tex, Rect2(282.0, 94.0, 19.0, 19.0), false)
-	c.draw_string_outline(fb, Vector2(305.0, 109.0), str(hero_gold), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 3, Color(0.02, 0.01, 0.01, 0.95))
-	c.draw_string(fb, Vector2(305.0, 109.0), str(hero_gold), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.88, 0.42))
+		c.draw_texture_rect(coin_tex, Rect2(Vector2(282.0, 94.0) + p_off, Vector2(19.0, 19.0)), false)
+	c.draw_string_outline(fb, Vector2(305.0, 109.0) + p_off, str(hero_gold), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 3, Color(0.02, 0.01, 0.01, 0.95))
+	c.draw_string(fb, Vector2(305.0, 109.0) + p_off, str(hero_gold), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.88, 0.42))
 
 	var z_col := Color(0.36, 0.96, 0.58) if in_safe_city else Color(1.0, 0.46, 0.24)
-	c.draw_circle(Vector2(130.0, 126.0), 4.5, z_col)
-	c.draw_arc(Vector2(130.0, 126.0), 7.0, 0.0, TAU, 16, Color(z_col.r, z_col.g, z_col.b, 0.44), 1.4, true)
+	c.draw_circle(Vector2(130.0, 126.0) + p_off, 4.5, z_col)
+	c.draw_arc(Vector2(130.0, 126.0) + p_off, 7.0, 0.0, TAU, 16, Color(z_col.r, z_col.g, z_col.b, 0.44), 1.4, true)
 	var zone_prefix := "STOLICA" if in_safe_city else "KONTYNENT"
 	var loc_short := nearest_loc if nearest_loc.length() <= 20 else (nearest_loc.substr(0, 18) + "…")
-	c.draw_string(fb, Vector2(142.0, 131.0), "%s • %s" % [zone_prefix, loc_short], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.94, 0.90, 0.82, 0.96))
+	c.draw_string(fb, Vector2(142.0, 131.0) + p_off, "%s • %s" % [zone_prefix, loc_short], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.94, 0.90, 0.82, 0.96))
 
-	# --- A2. Clean 4-Medallion Top-Left Utility Row (ALWAYS ABOVE y=292 so Left-Thumb Joystick Zone Stays 100% Free!) ---
+	# --- A2. Clean 4-Medallion Top-Left Utility Row (draggable as "utils" zone!) ---
 	util_hitboxes.clear()
 	var ring_obs := _load_tex("res://assets/ui/obsidian/ring_star.webp")
 	var ring_cyan := _load_tex("res://assets/ui/hud_node_ring_avail.png")
@@ -1281,10 +1513,10 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	for ui in all_utils.size():
 		var u_cx := 52.0 + float(ui) * 86.0
 		var u_cy := 196.0
-		_draw_util_medallion(c, f, all_utils[ui], Vector2(u_cx, u_cy), u_dia, ring_obs, ring_cyan)
+		_draw_util_medallion(c, f, all_utils[ui], Vector2(u_cx, u_cy) + u_off, u_dia, ring_obs, ring_cyan)
 
 	# Row 2: Two Crisp Forged Buttons side-by-side: [MAPA ŚWIATA] | [PANEL GM]
-	var map_rect := Rect2(16.0, 260.0, 184.0, 46.0)
+	var map_rect := Rect2(Vector2(16.0, 260.0) + u_off, Vector2(184.0, 46.0))
 	util_hitboxes.append({"rect": map_rect.grow(4.0), "id": "atlas"})
 	_draw_forged_pill(c, map_rect, false)
 	var m_txt := "MAPA ŚWIATA"
@@ -1292,7 +1524,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	c.draw_string_outline(f, Vector2(map_rect.position.x + (map_rect.size.x - mtw) * 0.5, map_rect.position.y + 29.0), m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.02, 0.01, 0.01, 0.96))
 	c.draw_string(f, Vector2(map_rect.position.x + (map_rect.size.x - mtw) * 0.5, map_rect.position.y + 29.0), m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.93, 0.72))
 
-	var gm_rect := Rect2(208.0, 260.0, 168.0, 46.0)
+	var gm_rect := Rect2(Vector2(208.0, 260.0) + u_off, Vector2(168.0, 46.0))
 	util_hitboxes.append({"rect": gm_rect.grow(4.0), "id": "gm"})
 	_draw_forged_pill(c, gm_rect, gm_active or not spd_badge.is_empty())
 	var gm_txt := "PANEL GM" + spd_badge
@@ -1300,10 +1532,10 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	c.draw_string_outline(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 29.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.02, 0.01, 0.01, 0.96))
 	c.draw_string(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 29.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.62, 0.98, 1.0) if gm_active else Color(1.0, 0.92, 0.68))
 
-	# Dedicated Clean Quick-Heal Potion Orb next to Bottom-Right Combat Cluster (NO duplicate baked numbers!)
-	var vs_p := _vp_size()
-	var pot_c := Vector2(vs_p.x - 356.0, vs_p.y - 68.0)
-	var pot_r := 36.0
+	# Dedicated Clean Quick-Heal Potion Orb anchored cleanly to Bottom-Right Combat Cluster!
+	var c_base := _combat_base_center()
+	var pot_c := c_base + Vector2(-248.0 * sc, 34.0 * sc)
+	var pot_r := 34.0 * sc
 	var pot_rect := Rect2(pot_c - Vector2(pot_r, pot_r), Vector2(pot_r * 2.0, pot_r * 2.0))
 	util_hitboxes.append({"rect": pot_rect.grow(8.0), "id": "potion"})
 	c.draw_circle(pot_c + Vector2(0.0, 3.0), pot_r + 3.0, Color(0.0, 0.0, 0.0, 0.52))
@@ -1313,7 +1545,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		var pr_in := pot_r * 0.72
 		c.draw_texture_rect(pot_ico, Rect2(pot_c - Vector2(pr_in, pr_in), Vector2(pr_in * 2.0, pr_in * 2.0)), false)
 	if ring_obs != null:
-		var rr_p := pot_r + 9.0
+		var rr_p := pot_r + 9.0 * sc
 		c.draw_texture_rect(ring_obs, Rect2(pot_c - Vector2(rr_p, rr_p), Vector2(rr_p * 2.0, rr_p * 2.0)), false)
 	var pot_qty := 0
 	for pit: Dictionary in backpack_items:
@@ -1347,7 +1579,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		var spec: Dictionary = wr_specs[i]
 		var center: Vector2 = spec["center"]
 		var r: float = float(spec["r"])
-		var hit_r := r + 9.0
+		var hit_r := r + 9.0 * sc
 		hotbar_hitboxes.append(Rect2(center - Vector2(hit_r, hit_r), Vector2(hit_r * 2.0, hit_r * 2.0)))
 
 		# Glowing Ki-Mode transformation halo on [R] (idx == 5)
@@ -1371,7 +1603,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			c.draw_string_outline(fb, center + Vector2(-cw * 0.5, 6.0), cd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, 4, Color(0.0, 0.0, 0.0, 0.96))
 			c.draw_string(fb, center + Vector2(-cw * 0.5, 6.0), cd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.94, 0.68))
 
-		if hovered_hotbar_idx == i:
+		if hovered_hotbar_idx == i and not hud_edit_mode:
 			c.draw_arc(center, r + 6.0, 0.0, TAU, 32, Color(1.0, 0.90, 0.50, 0.94), 2.6, true)
 
 		if i != 0 and i != 2:
@@ -1385,7 +1617,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			c.draw_string(f, k_pos + Vector2(-kw * 0.5, float(ksz) * 0.36), kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz, Color(1.0, 0.94, 0.72))
 
 	# Hover tooltip anchored cleanly above bottom-right Wild Rift combat cluster
-	if hovered_hotbar_idx >= 0 and hovered_hotbar_idx < HOTBAR_NODE_IDS.size() and not (show_talents or show_character):
+	if hovered_hotbar_idx >= 0 and hovered_hotbar_idx < HOTBAR_NODE_IDS.size() and not (show_talents or show_character or hud_edit_mode):
 		var h_nid := str(HOTBAR_NODE_IDS[hovered_hotbar_idx])
 		var h_nd := _node_by_id(h_nid)
 		if not h_nd.is_empty():
@@ -1396,6 +1628,32 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			_draw_obsidian_plate(c, tip_r, Color(0.92, 0.72, 0.32, 0.94))
 			c.draw_string(f, tip_r.position + Vector2(18, 26), "%s  [%s]" % [str(h_nd.get("name", "")).to_upper(), str(HOTBAR_KEYS[hovered_hotbar_idx])], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.90, 0.54))
 			c.draw_multiline_string(fb, tip_r.position + Vector2(18, 48), str(h_nd.get("effect", "")), HORIZONTAL_ALIGNMENT_LEFT, tip_w - 36.0, 13, 2, Color(0.92, 0.90, 0.86))
+
+	# --- E. Live On-Screen Drag-and-Drop HUD Editor Overlay ---
+	if hud_edit_mode:
+		var vs_e := _vp_size()
+		c.draw_rect(Rect2(Vector2.ZERO, vs_e), Color(0.01, 0.015, 0.03, 0.32), true)
+		var zones := [
+			["portrait", "✥ PORTRET I HP"],
+			["utils", "✥ PRZYCISKI MENU"],
+			["minimap", "✥ MINIMAPA"],
+			["combat", "✥ PRZYCISKI WALKI"],
+			["xp", "✥ PASEK PD"],
+		]
+		for zd: Array in zones:
+			var zk := str(zd[0])
+			var zlbl := str(zd[1])
+			var zr := _zone_bounds_rect(zk)
+			var active_z := (hud_drag_zone == zk)
+			var fill_c := Color(0.18, 0.72, 0.92, 0.24) if active_z else Color(0.92, 0.72, 0.24, 0.14)
+			var line_c := Color(0.38, 0.98, 1.0, 0.98) if active_z else Color(1.0, 0.86, 0.42, 0.90)
+			c.draw_rect(zr, fill_c, true)
+			c.draw_rect(zr, line_c, false, 3.0 if active_z else 2.2)
+			var tw := f.get_string_size(zlbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
+			var tag_r := Rect2(zr.get_center().x - tw * 0.5 - 12.0, zr.get_center().y - 14.0, tw + 24.0, 28.0)
+			c.draw_rect(tag_r, Color(0.04, 0.04, 0.07, 0.92), true)
+			c.draw_rect(tag_r, line_c, false, 1.6)
+			c.draw_string(f, Vector2(tag_r.position.x + 12.0, tag_r.position.y + 19.0), zlbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.56, 0.98, 1.0) if active_z else Color(1.0, 0.92, 0.62))
 
 func _draw_util_medallion(c: CanvasItem, f: Font, item: Dictionary, center: Vector2, dia: float, ring_gold: Texture2D, ring_cyan: Texture2D) -> void:
 	var r := dia * 0.5
@@ -1818,7 +2076,7 @@ func _try_unlock_node(nid: String) -> void:
 		umap[nid] = true
 		skill_points -= 1
 		if world != null and world.get("audio") != null:
-			world.audio.sfx("development/unlock")
+			world.audio.sfx("ui/skill-learn", 0.90, 0.04)
 		_sync_talent_node_styles()
 		_refresh_visuals()
 
@@ -1933,6 +2191,35 @@ func _handle_primary_tap(p: Vector2) -> bool:
 var _last_tap_msec := 0
 
 func _gui_input(event: InputEvent) -> void:
+	# Live On-Screen Drag-and-Drop HUD Editor Input (works identically on Android touch & desktop mouse)
+	if hud_edit_mode:
+		if event is InputEventMouseButton:
+			var mb_e := event as InputEventMouseButton
+			if mb_e.button_index == MOUSE_BUTTON_LEFT:
+				if mb_e.pressed:
+					hud_drag_zone = ""
+					for zk: String in ["minimap", "combat", "utils", "portrait", "xp"]:
+						if _zone_bounds_rect(zk).has_point(mb_e.position):
+							hud_drag_zone = zk
+							hud_drag_start = mb_e.position
+							hud_drag_origin = get_zone_offset(zk)
+							if world != null and world.get("audio") != null:
+								world.audio.sfx("ui/click", 0.65, 0.04)
+							_refresh_visuals()
+							break
+				else:
+					hud_drag_zone = ""
+					_refresh_visuals()
+				accept_event()
+				return
+		elif event is InputEventMouseMotion:
+			if not hud_drag_zone.is_empty():
+				var mp_e: Vector2 = (event as InputEventMouseMotion).position
+				set_zone_offset(hud_drag_zone, hud_drag_origin + (mp_e - hud_drag_start))
+				accept_event()
+			return
+		return
+
 	if event is InputEventMouseMotion:
 		var mp: Vector2 = (event as InputEventMouseMotion).position
 		if show_talents:

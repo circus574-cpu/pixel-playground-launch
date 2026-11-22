@@ -187,17 +187,10 @@ func _on_radar_input(event: InputEvent) -> void:
 			return
 		if mb.button_index == MOUSE_BUTTON_LEFT:
 			if world != null:
-				if bool(world.gm_minimap_teleport):
-					var center_uv := _hero_uv()
-					var rel := (local_c / (MAP_DIAMETER * current_zoom)).rotated(map_rotation)
-					var uv := center_uv + rel
-					var ws: float = maxf(float(world.world_size), 1.0)
-					world.teleport_to_world_pos(str(world.current_land), uv.x * ws, uv.y * ws)
+				if world.has_method("open_world_map_on_hero"):
+					world.open_world_map_on_hero()
 				else:
-					if world.has_method("open_world_map_on_hero"):
-						world.open_world_map_on_hero()
-					else:
-						world.toggle_atlas(true)
+					world.toggle_atlas(true)
 		elif mb.button_index == MOUSE_BUTTON_RIGHT:
 			toggle_zoom_mode()
 

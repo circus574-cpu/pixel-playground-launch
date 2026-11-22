@@ -27,12 +27,19 @@ const ISO_W := 5.6
 const ISO_D := 2.8
 const ISO_H := 3.8
 const STEP := 2
-const SPEED := 46.0
+const SPEED := 22.0
 const SPRITE_SCALE := 0.56
 const JOYSTICK_DEADZONE_PX := 14.0
 const JOYSTICK_MAX_RADIUS_PX := 62.0
+const PROP_CHUNK_PX := 640.0
 
 const REGION_ORDER := ["pyra", "verdant", "aether", "nexus"]
+const OCEAN_NEIGHBORS := {
+	"verdant": {"east": "aether", "west": "aether", "south": "pyra", "north": "pyra"},
+	"aether": {"west": "verdant", "east": "verdant", "south": "nexus", "north": "nexus"},
+	"pyra": {"east": "nexus", "west": "nexus", "north": "verdant", "south": "verdant"},
+	"nexus": {"west": "pyra", "east": "pyra", "north": "aether", "south": "aether"},
+}
 const REGION_TITLES := {
 	"pyra": "Pyra — Twierdza Popiołu i Wulkaniczny Kontynent",
 	"verdant": "Verdantia — Zielona Przystań i Szmaragdowa Dolina",
@@ -72,17 +79,23 @@ var actors_db: Dictionary = {}
 var monsters_db: Dictionary = {}
 var animals_db: Dictionary = {}
 
+var ocean_skirt := MeshInstance2D.new()
 var terrain_mesh := MeshInstance2D.new()
 var ysort := Node2D.new()
 var combat_vfx: Node2D
 var hero
 var live_agents: Array[Dictionary] = []
 var prop_nodes: Array[Node2D] = []
+var prop_chunks: Dictionary = {}
+var _visible_prop_chunks: Dictionary = {}
+var wind_shader: Shader
+var wind_mats: Array[ShaderMaterial] = []
 var treasure_nodes: Dictionary = {}
 var opened_treasures: Dictionary = {}
 var gatherable_nodes: Dictionary = {}
 var gatherable_cd: Dictionary = {}
 var _cull_accum := 0.0
+var _ocean_cross_cd := 0.0
 var camera := Camera2D.new()
 var hud := CanvasLayer.new()
 var atmosphere: Control
@@ -127,9 +140,12 @@ var start_name := ""
 var server_char_id := ""
 var server_character: Dictionary = {}
 var server_action_fn: Callable = Callable()
-var initial_music_vol := 0.35
-var initial_sfx_vol := 0.70
+var initial_music_vol := 0.45
+var initial_ambience_vol := 0.55
+var initial_sfx_vol := 0.80
+var initial_hud_layout: Dictionary = {}
 var audio_settings_fn: Callable = Callable()
+var hud_layout_changed_fn: Callable = Callable()
 var return_to_char_select_fn: Callable = Callable()
 var logout_fn: Callable = Callable()
 var quit_game_fn: Callable = Callable()
@@ -144,7 +160,7 @@ var gm_speed_mult := 1.0
 var gm_noclip := false
 var gm_map_teleport_mode := false
 var gm_minimap_teleport := false
-var zoom_level := 1.75
+var zoom_level := 1.15
 var move_pointer := -1
 var move_origin := Vector2.ZERO
 var pinch_pointers: Dictionary = {}
@@ -170,8 +186,19 @@ func _stop_lingering_loading_audio() -> void:
 func _ready() -> void:
 	audio = AudioScript.new()
 	add_child(audio)
-	audio.set_volumes(initial_music_vol, initial_sfx_vol)
+	audio.set_volumes(initial_music_vol, initial_sfx_vol, initial_ambience_vol)
 	shadow_tex = make_shadow_tex()
+	wind_shader = load("res://shaders/wind_sway.gdshader")
+	if wind_shader != null:
+		for wi in 6:
+			var wm := ShaderMaterial.new()
+			wm.shader = wind_shader
+			wm.set_shader_parameter("sway_speed", 1.35 + float(wi % 3) * 0.24)
+			wm.set_shader_parameter("sway_amount", 0.015 + float(wi % 2) * 0.005)
+			wm.set_shader_parameter("phase_offset", float(wi) * 1.15)
+			wind_mats.append(wm)
+	ocean_skirt.z_index = -15
+	add_child(ocean_skirt)
 	terrain_mesh.z_index = -10
 	add_child(terrain_mesh)
 	ysort.y_sort_enabled = true
@@ -329,14 +356,15 @@ func load_tex(path: String) -> Texture2D:
 		if res is Texture2D:
 			tex_cache[path] = res
 			return res
-	var abs_path := ProjectSettings.globalize_path(path)
-	if FileAccess.file_exists(path) or FileAccess.file_exists(abs_path):
-		var img := Image.new()
-		var err := img.load(abs_path if FileAccess.file_exists(abs_path) else path)
-		if err == OK:
-			var tex := ImageTexture.create_from_image(img)
-			tex_cache[path] = tex
-			return tex
+	if FileAccess.file_exists(path):
+		var bytes := FileAccess.get_file_as_bytes(path)
+		if not bytes.is_empty():
+			var img := Image.new()
+			var err := img.load_webp_from_buffer(bytes) if path.ends_with(".webp") else (img.load_png_from_buffer(bytes) if path.ends_with(".png") else img.load_jpg_from_buffer(bytes))
+			if err == OK:
+				var tex := ImageTexture.create_from_image(img)
+				tex_cache[path] = tex
+				return tex
 	return null
 
 func switch_region(land: String) -> void:
@@ -529,6 +557,17 @@ func is_on_road(x: float, z: float) -> bool:
 	var gz := clampi(int(round(z / world_size * float(sh - 1))), 0, sh - 1)
 	return surface_img.get_pixel(gx, gz).b > 0.24
 
+func is_in_water(x: float, z: float) -> bool:
+	if surface_img == null:
+		return false
+	var sw := surface_img.get_width()
+	var sh := surface_img.get_height()
+	if sw <= 1 or sh <= 1:
+		return false
+	var gx := clampi(int(round(x / world_size * float(sw - 1))), 0, sw - 1)
+	var gz := clampi(int(round(z / world_size * float(sh - 1))), 0, sh - 1)
+	return surface_img.get_pixel(gx, gz).g > 0.28
+
 func vertex_color(gx: int, gz: int) -> Color:
 	var hx := heights[grid_index(gx + 2, gz)] - heights[grid_index(gx - 2, gz)]
 	var hz := heights[grid_index(gx, gz + 2)] - heights[grid_index(gx, gz - 2)]
@@ -556,15 +595,37 @@ func build_isometric_mesh() -> void:
 		var t_png := load_tex("%s/mat_%d.png" % [rdir, i])
 		var t_webp := load_tex("%s/mat_%d.webp" % [rdir, i])
 		mat.set_shader_parameter("mat_%d_tex" % i, t_png if t_png != null else t_webp)
-	mat.set_shader_parameter("water_tex", load_tex("%s/water.png" % rdir))
+	var wtex := load_tex("%s/water.png" % rdir)
+	mat.set_shader_parameter("water_tex", wtex)
 	mat.set_shader_parameter("weights_tex", load_tex("%s/weights.png" % rdir))
 	mat.set_shader_parameter("surface_tex", load_tex("%s/surface.png" % rdir))
 	mat.set_shader_parameter("map_art_tex", load_tex("%s/map_art.png" % rdir))
 	mat.set_shader_parameter("surface_color", surface_color_for(current_land))
 	var ws_s := maxf(world_size / 1024.0, 1.0)
-	mat.set_shader_parameter("uv_scale", 88.0 * ws_s)
+	var uv_sc := 88.0 * ws_s
+	mat.set_shader_parameter("uv_scale", uv_sc)
 	mat.set_shader_parameter("world_scale", ws_s)
 	terrain_mesh.material = mat
+
+	# Seamless animated deep-ocean skirt extending 2600m (~15,000 px) beyond every continent edge so black void NEVER appears!
+	var edge_h := heights[0] if not heights.is_empty() else -4.2
+	var pad := 2600.0
+	var pad_u := pad / maxf(world_size, 1.0)
+	var ost := SurfaceTool.new()
+	ost.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var o00 := {"pos": iso(-pad, -pad, edge_h), "uv": Vector2(-pad_u, -pad_u), "color": Color.WHITE}
+	var o10 := {"pos": iso(world_size + pad, -pad, edge_h), "uv": Vector2(1.0 + pad_u, -pad_u), "color": Color.WHITE}
+	var o11 := {"pos": iso(world_size + pad, world_size + pad, edge_h), "uv": Vector2(1.0 + pad_u, 1.0 + pad_u), "color": Color.WHITE}
+	var o01 := {"pos": iso(-pad, world_size + pad, edge_h), "uv": Vector2(-pad_u, 1.0 + pad_u), "color": Color.WHITE}
+	emit_tri(ost, o00, o10, o11)
+	emit_tri(ost, o00, o11, o01)
+	ocean_skirt.mesh = ost.commit()
+	var omat := ShaderMaterial.new()
+	omat.shader = load("res://shaders/ocean_skirt.gdshader")
+	omat.set_shader_parameter("water_tex", wtex)
+	omat.set_shader_parameter("uv_scale", uv_sc)
+	omat.set_shader_parameter("world_scale", ws_s)
+	ocean_skirt.material = omat
 
 func grid_vertex(gx: int, gz: int) -> Dictionary:
 	var wx := float(gx) * world_size / float(grid_size - 1)
@@ -624,6 +685,8 @@ func make_fitted_sprite(tex_path: String, box_w: float, box_h: float, anchor_y: 
 func build_world_objects_and_actors() -> void:
 	live_agents.clear()
 	prop_nodes.clear()
+	prop_chunks.clear()
+	_visible_prop_chunks.clear()
 	treasure_nodes.clear()
 	gatherable_nodes.clear()
 	_last_cull_cam = Vector2(1e9, 1e9)
@@ -672,19 +735,27 @@ func build_world_objects_and_actors() -> void:
 
 		ysort.add_child(node)
 
-	# 2. Diverse Painted Flora, Trees, Flowers, Waterfalls, Rocks, Ruins, Shrines & Biome Landmarks (culled by camera radius)
-	for p: Dictionary in props:
+	# 2. Diverse Painted Flora, Trees, Flowers, Waterfalls, Rocks, Ruins, Shrines & Biome Landmarks (GPU wind sway + spatial chunk culling)
+	for pi in props.size():
+		var p: Dictionary = props[pi]
 		var px := float(p.get("x", 512.0))
 		var pz := float(p.get("z", 512.0))
 		var ph := height_at(px, pz)
 		var p_path := str(p.get("sprite", ""))
+		var p_kind := str(p.get("kind", ""))
 		var pw := float(p.get("w", 260.0))
 		var ph_px := float(p.get("h", 280.0))
 
 		var pnode := Node2D.new()
-		pnode.position = iso(px, pz, ph)
+		var ppos := iso(px, pz, ph)
+		pnode.position = ppos
+		pnode.visible = false
 		add_contact_shadow(pnode, pw, 0.30, 3.0)
 		var psp := make_fitted_sprite(p_path, pw, ph_px, 0.88)
+		if not wind_mats.is_empty():
+			var pl := p_path.to_lower()
+			if p_kind in ["tree", "bush"] or "tree" in pl or "pine" in pl or "cypress" in pl or "bush" in pl or "fern" in pl or "sakura" in pl or "flower" in pl or "palm" in pl or "willow" in pl or "bonsai" in pl:
+				psp.material = wind_mats[pi % wind_mats.size()]
 		pnode.add_child(psp)
 
 		var p_fx := AmbientScript.kind_for(p_path)
@@ -694,6 +765,10 @@ func build_world_objects_and_actors() -> void:
 
 		ysort.add_child(pnode)
 		prop_nodes.append(pnode)
+		var ck := Vector2i(int(floor(ppos.x / PROP_CHUNK_PX)), int(floor(ppos.y / PROP_CHUNK_PX)))
+		if not prop_chunks.has(ck):
+			prop_chunks[ck] = []
+		(prop_chunks[ck] as Array).append(pnode)
 
 	# 2b. Hidden World Treasures & Adventure Shrines (6 per continent)
 	for tr: Dictionary in treasures_data:
@@ -812,7 +887,7 @@ func build_world_objects_and_actors() -> void:
 			"home": Vector2(nx, nz),
 			"pos": Vector2(nx, nz),
 			"radius": float(n.get("patrol_radius", 18.0)),
-			"speed": 18.0,
+			"speed": 10.5,
 			"phase": float(idx) * 1.37,
 			"ai_state": "idle",
 			"ai_timer": randf_range(1.2, 5.2),
@@ -863,6 +938,7 @@ func build_world_objects_and_actors() -> void:
 			"atk": m_atk,
 			"atk_cd": 0.0,
 			"atk_count": 0,
+			"roared": false,
 			"dmg_dealt_to_hero": 0,
 			"xp": int(m.get("xp", 18 + m_lv * 7)),
 			"gold": int(m.get("gold", 8 + m_lv * 4)),
@@ -873,14 +949,14 @@ func build_world_objects_and_actors() -> void:
 			"home": Vector2(mx, mz),
 			"pos": Vector2(mx, mz),
 			"radius": float(m.get("patrol_radius", 26.0)),
-			"speed": 22.0,
+			"speed": 13.0,
 			"phase": float(idx) * 1.91,
 			"ai_state": "idle",
 			"ai_timer": randf_range(1.0, 4.0),
 			"ai_target": Vector2(mx, mz),
 		})
 
-	# 6. 18 Animated Wildlife Fauna Animals (A-01..A-10) roaming near lakes, rivers & forests
+	# 6. Animated Wildlife Fauna Animals (A-01..A-10) roaming near lakes, rivers & forests
 	for idx in fauna_data.size():
 		var fa: Dictionary = fauna_data[idx]
 		var faid := str(fa.get("actor_id", ""))
@@ -909,7 +985,7 @@ func build_world_objects_and_actors() -> void:
 			"home": Vector2(fx, fz),
 			"pos": Vector2(fx, fz),
 			"radius": float(fa.get("patrol_radius", 24.0)),
-			"speed": 22.0,
+			"speed": 13.0,
 			"phase": float(idx) * 2.23,
 			"ai_state": "idle",
 			"ai_timer": randf_range(1.5, 4.5),
@@ -921,16 +997,20 @@ func teleport_to_capital() -> void:
 	hero_pos = spawn if is_walkable(spawn.x, spawn.y) else capital_center
 	target_pos = Vector2(-1.0, -1.0)
 	sync_hero()
+	if combat_vfx != null and hero != null and combat_vfx.has_method("spawn_teleport_flash"):
+		combat_vfx.spawn_teleport_flash(hero.position, _hero_race_key())
+	if audio != null:
+		audio.sfx("ui/teleport", 0.85, 0.04)
 
-func teleport_to_world_pos(land: String, wx: float, wz: float) -> void:
+func teleport_to_world_pos(land: String, wx: float, wz: float, show_fx: bool = true) -> void:
 	if land != current_land and REGION_TITLES.has(land):
 		switch_region(land)
 	var tx := clampf(wx, 18.0, world_size - 18.0)
 	var tz := clampf(wz, 18.0, world_size - 18.0)
 	if not gm_noclip and not is_walkable(tx, tz):
-		# Snap cleanly to nearest walkable dry point within 90m so tap-on-map never gets stuck in water!
+		# Snap cleanly to nearest walkable dry point within 120m so tap-on-map never gets stuck in water!
 		var found := false
-		for rad in range(4, 96, 6):
+		for rad in range(4, 126, 6):
 			for ak in range(16):
 				var ang := TAU * float(ak) / 16.0
 				var cx := clampf(tx + cos(ang) * float(rad), 18.0, world_size - 18.0)
@@ -945,6 +1025,13 @@ func teleport_to_world_pos(land: String, wx: float, wz: float) -> void:
 	hero_pos = Vector2(tx, tz)
 	target_pos = Vector2(-1.0, -1.0)
 	sync_hero()
+	if show_fx:
+		if combat_vfx != null and hero != null and combat_vfx.has_method("spawn_teleport_flash"):
+			combat_vfx.spawn_teleport_flash(hero.position, _hero_race_key())
+		if audio != null:
+			audio.sfx("ui/teleport", 0.88, 0.04)
+		var cname := str(REGION_TITLES.get(current_land, current_land)).split("—")[0].strip_edges()
+		show_combat_toast("⚡ Teleportacja → %s (%d, %d)" % [cname, int(round(tx)), int(round(tz))], Color(0.48, 0.96, 1.0))
 
 func cycle_town_stronghold() -> void:
 	var towns: Array = []
@@ -977,6 +1064,8 @@ func build_hud() -> void:
 	rpg_hud = RpgHudScript.new()
 	rpg_hud.world = self
 	hud.add_child(rpg_hud)
+	if not initial_hud_layout.is_empty() and rpg_hud.has_method("apply_hud_layout"):
+		rpg_hud.apply_hud_layout(initial_hud_layout)
 	quest_journal = QuestJournalScript.new()
 	quest_journal.world = self
 	quest_journal.z_index = 45
@@ -1148,13 +1237,13 @@ func interact_gatherable(g: Dictionary) -> void:
 			if rpg_hud.has_method("grant_local_xp"):
 				var lvl_up: bool = rpg_hud.grant_local_xp(rxp)
 				if lvl_up and audio != null:
-					audio.sfx("development/level-up", 0.95)
+					audio.sfx("common/level-up", 0.95, 0.03)
 			else:
 				rpg_hud._refresh_visuals()
 		if hero != null and hero.has_method("show_damage_number"):
 			hero.show_damage_number("+1 %s" % iname, Color(1.0, 0.92, 0.42), false)
 		if audio != null:
-			audio.sfx("ui/chest", 0.78)
+			audio.sfx("crafting/harvest-ore", 0.84, 0.07)
 		show_combat_toast("✦ Zebrano: %s (+%d PD, +%d zł)" % [iname, rxp, rgold], Color(0.56, 0.98, 0.72))
 	sync_hero()
 
@@ -1166,7 +1255,7 @@ func claim_treasure_reward(tr: Dictionary, lab_id: String = "") -> bool:
 	var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
 	if not gm_noclip and hero_lv < req_lv:
 		if audio != null:
-			audio.sfx("ui/click")
+			audio.sfx("ui/locked", 0.85, 0.04)
 		show_combat_toast("🔒 Wymagany Poziom %d, aby otworzyć: %s (masz Poz. %d)!" % [req_lv, str(tr.get("title", "Skarb")), hero_lv], Color(1.0, 0.45, 0.32))
 		return false
 	opened_treasures[tid] = true
@@ -1187,11 +1276,11 @@ func claim_treasure_reward(tr: Dictionary, lab_id: String = "") -> bool:
 			if rpg_hud.has_method("grant_local_xp"):
 				var lvl_up: bool = rpg_hud.grant_local_xp(rxp)
 				if lvl_up and audio != null:
-					audio.sfx("development/level-up", 0.95)
+					audio.sfx("common/level-up", 0.95, 0.03)
 			else:
 				rpg_hud._refresh_visuals()
 	if audio != null:
-		audio.sfx("ui/chest", 0.90)
+		audio.sfx("ui/chest", 0.92, 0.04)
 	show_combat_toast("★ ODKRYTO SKARB: %s (+%d zł, +%d PD)" % [str(tr.get("title", "Skarb")), rgold, rxp], Color(1.0, 0.92, 0.40))
 	sync_hero()
 	return true
@@ -1208,7 +1297,7 @@ func report_monster_kill(monster_id: String, lvl: int, mname: String, hp_cost: i
 			if rpg_hud.has_method("grant_local_xp"):
 				var lvl_up: bool = rpg_hud.grant_local_xp(rxp)
 				if lvl_up and audio != null:
-					audio.sfx("development/level-up", 0.95)
+					audio.sfx("common/level-up", 0.95, 0.03)
 			else:
 				rpg_hud._refresh_visuals()
 	if is_elite and rpg_hud != null and rpg_hud.has_method("add_item_to_backpack"):
@@ -1470,11 +1559,11 @@ func enter_labyrinth_by_id(lab_id: String) -> void:
 	var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
 	if not gm_noclip and hero_lv < req_lv:
 		if audio != null:
-			audio.sfx("common/ui_click")
+			audio.sfx("ui/locked", 0.85, 0.04)
 		show_combat_toast("🔒 Wymagany Poziom %d, aby wejść do: %s (masz Poz. %d)!" % [req_lv, str(found.get("title", "Labirynt")), hero_lv], Color(1.0, 0.45, 0.32))
 		return
 	if audio != null:
-		audio.sfx("common/door")
+		audio.sfx("ui/portal", 0.88, 0.04)
 	if dialogue_strip != null:
 		dialogue_strip.close_dialogue(false)
 	active_talk_agent = {}
@@ -1496,7 +1585,7 @@ func exit_labyrinth() -> void:
 	if not in_labyrinth:
 		return
 	if audio != null:
-		audio.sfx("common/door")
+		audio.sfx("ui/portal", 0.85, 0.04)
 	in_labyrinth = false
 	if labyrinth_room != null:
 		labyrinth_room.visible = false
@@ -1589,10 +1678,12 @@ func layout_minimap() -> void:
 	var show_world_ui := not (map_expanded or atlas_expanded)
 	var menu_open: bool = game_menu != null and bool(game_menu.visible)
 	var q_open: bool = quest_journal != null and bool(quest_journal.visible)
+	var hud_edit_on: bool = rpg_hud != null and bool(rpg_hud.get("hud_edit_mode"))
 	var rpg_modal_open: bool = gm_open or menu_open or q_open or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)))
 	var dlg_open: bool = dialogue_strip != null and bool(dialogue_strip.is_open)
 	if rpg_hud != null:
 		rpg_hud.visible = show_world_ui and not (menu_open or q_open or gm_open or dlg_open)
+		rpg_hud.z_index = 90 if hud_edit_on else 0
 	if atmosphere != null:
 		atmosphere.visible = show_world_ui
 	if map_expanded:
@@ -1606,18 +1697,31 @@ func layout_minimap() -> void:
 		map_3d.visible = false
 		if premium_minimap != null:
 			premium_minimap.visible = show_world_ui and not rpg_modal_open
-			premium_minimap.position = Vector2(vp.x - 288.0, 10.0)
+			if "map_tex_rect" in premium_minimap and premium_minimap.map_tex_rect != null:
+				premium_minimap.map_tex_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE if hud_edit_on else Control.MOUSE_FILTER_STOP
+			var m_off := Vector2.ZERO
+			var m_sc := 1.0
+			if rpg_hud != null and rpg_hud.has_method("get_zone_offset"):
+				m_off = rpg_hud.get_zone_offset("minimap")
+				m_sc = float(rpg_hud.get_hud_scale())
+			premium_minimap.scale = Vector2(m_sc, m_sc)
+			var mw := 276.0 * m_sc
+			var mh := 256.0 * m_sc
+			premium_minimap.position = Vector2(
+				clampf(vp.x - mw - 12.0 + m_off.x, 8.0, maxf(vp.x - mw - 8.0, 8.0)),
+				clampf(10.0 + m_off.y, 8.0, maxf(vp.y - mh - 8.0, 8.0))
+			)
 	if stick_layer != null:
-		stick_layer.visible = show_world_ui and not rpg_modal_open
+		stick_layer.visible = show_world_ui and not rpg_modal_open and not hud_edit_on
 	if atlas_overlay != null:
 		atlas_overlay.position = Vector2(16, 14)
 		atlas_overlay.size = Vector2(vp.x - 32, vp.y - 28)
 		atlas_overlay.visible = atlas_expanded
 	if gm_panel != null:
 		gm_panel.visible = gm_open and show_world_ui
-	if combat_toast_lbl != null and (not show_world_ui or rpg_modal_open):
+	if combat_toast_lbl != null and (not show_world_ui or rpg_modal_open or hud_edit_on):
 		combat_toast_lbl.visible = false
-	_layout_world_prompts(vp, show_world_ui and not rpg_modal_open and not dlg_open)
+	_layout_world_prompts(vp, show_world_ui and not rpg_modal_open and not dlg_open and not hud_edit_on)
 
 func _layout_world_prompts(vp: Vector2, allow: bool) -> void:
 	var stack_y := vp.y - 154.0
@@ -1643,11 +1747,29 @@ func _layout_world_prompts(vp: Vector2, allow: bool) -> void:
 		btn_talk_npc.size = Vector2(tw, 52.0)
 		btn_talk_npc.position = Vector2((vp.x - tw) * 0.5, stack_y)
 
-func notify_audio_changed(mv: float, sv: float) -> void:
+func notify_audio_changed(mv: float, sv: float, av: float = -1.0) -> void:
 	initial_music_vol = mv
 	initial_sfx_vol = sv
+	if av >= 0.0:
+		initial_ambience_vol = av
 	if audio_settings_fn.is_valid():
-		audio_settings_fn.call(mv, sv)
+		if audio_settings_fn.get_argument_count() >= 3:
+			audio_settings_fn.call(mv, sv, initial_ambience_vol)
+		else:
+			audio_settings_fn.call(mv, sv)
+
+func notify_hud_layout_changed(layout: Dictionary) -> void:
+	initial_hud_layout = layout.duplicate(true)
+	layout_minimap()
+	if hud_layout_changed_fn.is_valid():
+		hud_layout_changed_fn.call(initial_hud_layout)
+
+func start_hud_editor() -> void:
+	if game_menu != null and bool(game_menu.visible):
+		game_menu.close_menu()
+	if rpg_hud != null and rpg_hud.has_method("enter_hud_editor"):
+		rpg_hud.enter_hud_editor()
+		layout_minimap()
 
 func request_change_character() -> void:
 	if return_to_char_select_fn.is_valid():
@@ -1671,6 +1793,8 @@ func toggle_game_menu(force_open: Variant = null) -> void:
 		gm_open = false
 		map_expanded = false
 		atlas_expanded = false
+		if rpg_hud != null and bool(rpg_hud.get("hud_edit_mode")) and rpg_hud.has_method("exit_hud_editor"):
+			rpg_hud.exit_hud_editor(true)
 		if rpg_hud != null and rpg_hud.has_method("close_modals"):
 			rpg_hud.close_modals()
 		if quest_journal != null and bool(quest_journal.visible):
@@ -1695,9 +1819,15 @@ func open_world_map_on_hero() -> void:
 		rpg_hud.close_modals()
 	if atlas_overlay != null and atlas_overlay.has_method("focus_on_hero"):
 		atlas_overlay.focus_on_hero(3.8)
+	if audio != null:
+		audio.sfx("ui/map-open", 0.85, 0.04)
 	toggle_atlas(true)
 
 func handle_back_request() -> bool:
+	if rpg_hud != null and bool(rpg_hud.get("hud_edit_mode")) and rpg_hud.has_method("exit_hud_editor"):
+		rpg_hud.exit_hud_editor(true)
+		layout_minimap()
+		return true
 	if game_menu != null and bool(game_menu.visible):
 		toggle_game_menu(false)
 		return true
@@ -1790,6 +1920,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		handle_back_request()
 		return
 	if game_menu != null and bool(game_menu.visible):
+		return
+	if rpg_hud != null and bool(rpg_hud.get("hud_edit_mode")):
 		return
 	if in_labyrinth:
 		if event is InputEventScreenTouch:
@@ -1990,6 +2122,8 @@ func _process(delta: float) -> void:
 		return
 	if game_menu != null and bool(game_menu.visible):
 		return
+	if rpg_hud != null and bool(rpg_hud.get("hud_edit_mode")):
+		return
 	step_world(delta)
 
 func _step_agent_patrol(ag: Dictionary, delta: float, move_speed: float, is_monster: bool) -> Vector2:
@@ -2042,6 +2176,8 @@ func _step_agent_patrol(ag: Dictionary, delta: float, move_speed: float, is_mons
 
 func step_world(delta: float) -> void:
 	world_time += delta
+	if _ocean_cross_cd > 0.0:
+		_ocean_cross_cd = maxf(0.0, _ocean_cross_cd - delta)
 	if combo_reset_t > 0.0:
 		combo_reset_t = maxf(0.0, combo_reset_t - delta)
 		if combo_reset_t <= 0.0:
@@ -2076,6 +2212,7 @@ func step_world(delta: float) -> void:
 	if Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN):
 		key_dir.y += 1.0
 	var screen_dir := motion if move_pointer != -1 else key_dir.normalized()
+	var move_mag := clampf(screen_dir.length(), 0.0, 1.0)
 	var world_dir := Vector2.ZERO
 	if screen_dir.length_squared() > 0.001:
 		target_pos = Vector2(-1, -1)
@@ -2087,16 +2224,20 @@ func step_world(delta: float) -> void:
 		else:
 			world_dir = diff.normalized()
 			screen_dir = Vector2(world_dir.x - world_dir.y, (world_dir.x + world_dir.y) * 0.5).normalized()
-	if world_dir.length_squared() > 0.001:
+			move_mag = 1.0
+	var is_moving := world_dir.length_squared() > 0.001
+	var is_running := move_mag >= 0.58
+	if is_moving:
 		var stat_spd_mult := 1.0
 		if rpg_hud != null and rpg_hud.has_method("get_speed_mult"):
 			stat_spd_mult = float(rpg_hud.get_speed_mult())
-		try_move(world_dir * SPEED * gm_speed_mult * stat_spd_mult * delta)
+		var analog_mult := lerpf(0.45, 1.0, move_mag)
+		try_move(world_dir * SPEED * analog_mult * gm_speed_mult * stat_spd_mult * delta)
 	if audio != null:
-		audio.step(delta, world_dir.length_squared() > 0.001, current_land, false)
+		audio.step(delta, is_moving, current_land, false, is_running, is_in_water(hero_pos.x, hero_pos.y))
 		audio.play_ambience(current_land, hero_pos.distance_to(capital_center) <= safe_city_radius)
 	if hero != null:
-		hero.animate(screen_dir, true)
+		hero.animate(screen_dir, is_running, lerpf(0.62, 1.0, move_mag))
 	sync_hero()
 
 	var dlg_open: bool = dialogue_strip != null and bool(dialogue_strip.is_open)
@@ -2112,8 +2253,10 @@ func step_world(delta: float) -> void:
 			talk_node = null
 
 	var hero_in_safe := hero_pos.distance_to(capital_center) <= safe_city_radius
+	var cam_p := camera.position
+	var ag_cull_r := 2500.0 / maxf(zoom_level, 0.50)
 
-	# Animate all living NPCs, Monsters, and Wildlife Fauna animals with natural Waypoint AI + 2-way combat
+	# Animate living NPCs, Monsters, and Wildlife Fauna animals with natural Waypoint AI + 2-way combat + distance culling
 	for idx in live_agents.size():
 		var ag: Dictionary = live_agents[idx]
 		var node = ag["node"]
@@ -2134,6 +2277,7 @@ func step_world(delta: float) -> void:
 				ag["cur_hp"] = int(ag.get("max_hp", 200))
 				ag["dmg_dealt_to_hero"] = 0
 				ag["atk_cd"] = 0.0
+				ag["roared"] = false
 				ag["pos"] = ag["home"]
 				ag["ai_state"] = "idle"
 				ag["ai_timer"] = randf_range(1.2, 3.2)
@@ -2144,6 +2288,12 @@ func step_world(delta: float) -> void:
 				if node.has_method("play_action"):
 					node.play_action("respawn", "idle", 0.55)
 			continue
+		if absf(node.position.x - cam_p.x) > ag_cull_r or absf(node.position.y - cam_p.y) > ag_cull_r * 0.78:
+			if node.visible:
+				node.visible = false
+			continue
+		if not node.visible:
+			node.visible = true
 		if dlg_open and node == talk_node:
 			var to_hero: Vector2 = hero_pos - (ag["pos"] as Vector2)
 			var face_s := Vector2(to_hero.x - to_hero.y, (to_hero.x + to_hero.y) * 0.5)
@@ -2154,21 +2304,25 @@ func step_world(delta: float) -> void:
 		var home: Vector2 = ag["home"]
 		var prev_p: Vector2 = ag["pos"]
 		var next_p := prev_p
-		var stride := 0.68 if ag_kind == "npc" else 0.82
+		var stride := 0.62 if ag_kind == "npc" else 0.76
 		if is_monster:
 			ag["atk_cd"] = maxf(0.0, float(ag.get("atk_cd", 0.0)) - delta)
 			var dist_to_hero := hero_pos.distance_to(prev_p)
 			var dist_from_home := prev_p.distance_to(home)
 			var was_hurt := int(ag.get("cur_hp", 100)) < int(ag.get("max_hp", 100))
 			if not hero_in_safe and ((dist_to_hero < 95.0) or (was_hurt and dist_to_hero < 155.0)) and dist_from_home < 165.0:
-				stride = 1.0
+				stride = 0.96
+				if not bool(ag.get("roared", false)):
+					ag["roared"] = true
+					if audio != null and bool(ag.get("is_elite", false)):
+						audio.play_monster_sfx(str(ag.get("actor_id", "")), "roar")
 				if dist_to_hero > 26.0:
-					var chase_step := (hero_pos - prev_p).normalized() * 36.0 * delta
+					var chase_step := (hero_pos - prev_p).normalized() * 21.0 * delta
 					var cand_p := prev_p + chase_step
 					if cand_p.distance_to(capital_center) > safe_city_radius + 16.0 and is_walkable(cand_p.x, cand_p.y):
 						next_p = cand_p
 				if hero_pos.distance_to(next_p) <= 52.0 and float(ag["atk_cd"]) <= 0.0:
-					ag["atk_cd"] = 1.35
+					ag["atk_cd"] = 1.40
 					ag["atk_count"] = int(ag.get("atk_count", 0)) + 1
 					var to_h: Vector2 = hero_pos - next_p
 					var face_h := Vector2(to_h.x - to_h.y, (to_h.x + to_h.y) * 0.5)
@@ -2186,20 +2340,20 @@ func step_world(delta: float) -> void:
 					var dmg := maxi(5, int(round(float(m_atk) * adv_mult - float(hero_def) * 0.55)))
 					ag["dmg_dealt_to_hero"] = int(ag.get("dmg_dealt_to_hero", 0)) + dmg
 					if audio != null:
-						audio.sfx("common/player-hurt", 0.72)
+						audio.sfx("common/player-hurt", 0.76)
 					if hero != null:
 						if hero.has_method("show_damage_number"):
 							hero.show_damage_number("-%d" % dmg, Color(1.0, 0.34, 0.28), false)
-						# Play hit flinch only if hero is not locked in an attack/skill clip
 						if Time.get_ticks_msec() / 1000.0 >= float(hero.one_shot_until) and hero.has_method("play_action"):
 							hero.play_action("hitheavy" if dmg >= 35 else "hit", "hit", 0.28)
 					if rpg_hud != null and rpg_hud.has_method("take_combat_damage") and rpg_hud.take_combat_damage(dmg):
 						handle_hero_defeat()
 						return
 			else:
-				next_p = _step_agent_patrol(ag, delta, float(ag.get("speed", 22.0)), true)
+				ag["roared"] = false
+				next_p = _step_agent_patrol(ag, delta, float(ag.get("speed", 13.0)), true)
 		else:
-			next_p = _step_agent_patrol(ag, delta, float(ag.get("speed", 18.0)), false)
+			next_p = _step_agent_patrol(ag, delta, float(ag.get("speed", 10.5)), false)
 		var d_pos := next_p - prev_p
 		ag["pos"] = next_p
 		node.position = iso(next_p.x, next_p.y, height_at(next_p.x, next_p.y))
@@ -2216,14 +2370,55 @@ func step_world(delta: float) -> void:
 					var bark: String = DialogueStripScript.pick_ambient_bark(current_land, str(ag.get("role", "")), idx + int(world_time))
 					node.show_bubble(bark, 4.0)
 
+func _check_ocean_crossing() -> bool:
+	if _ocean_cross_cd > 0.0:
+		return false
+	var edge := 36.0
+	var dir_key := ""
+	if hero_pos.x <= edge:
+		dir_key = "west"
+	elif hero_pos.x >= world_size - edge:
+		dir_key = "east"
+	elif hero_pos.y <= edge:
+		dir_key = "north"
+	elif hero_pos.y >= world_size - edge:
+		dir_key = "south"
+	if dir_key.is_empty():
+		return false
+	var neigh: Dictionary = OCEAN_NEIGHBORS.get(current_land, {})
+	var next_land := str(neigh.get(dir_key, ""))
+	if next_land.is_empty() or next_land == current_land:
+		return false
+	var keep_x := clampf(hero_pos.x, 220.0, world_size - 220.0)
+	var keep_z := clampf(hero_pos.y, 220.0, world_size - 220.0)
+	_ocean_cross_cd = 2.5
+	switch_region(next_land)
+	var dest := Vector2(world_size - 180.0, keep_z) if dir_key == "west" else (
+		Vector2(180.0, keep_z) if dir_key == "east" else (
+			Vector2(keep_x, world_size - 180.0) if dir_key == "north" else Vector2(keep_x, 180.0)
+		)
+	)
+	hero_pos = dest
+	target_pos = Vector2(-1.0, -1.0)
+	sync_hero()
+	if combat_vfx != null and hero != null and combat_vfx.has_method("spawn_teleport_flash"):
+		combat_vfx.spawn_teleport_flash(hero.position, _hero_race_key())
+	if audio != null:
+		audio.sfx("ui/portal", 0.80, 0.05)
+	var cname := str(REGION_TITLES.get(next_land, next_land)).split("—")[0].strip_edges()
+	show_combat_toast("⛵ Przeprawa morska → %s!" % cname, Color(0.46, 0.94, 1.0))
+	return true
+
 func try_move(step: Vector2) -> void:
 	if gm_noclip:
 		hero_pos = Vector2(clampf(hero_pos.x + step.x, 12.0, world_size - 12.0), clampf(hero_pos.y + step.y, 12.0, world_size - 12.0))
+		_check_ocean_crossing()
 		return
 	var h_now := height_at(hero_pos.x, hero_pos.y)
 	for candidate: Vector2 in [hero_pos + step, Vector2(hero_pos.x + step.x, hero_pos.y), Vector2(hero_pos.x, hero_pos.y + step.y)]:
 		if is_walkable(candidate.x, candidate.y) and absf(height_at(candidate.x, candidate.y) - h_now) < 5.5:
 			hero_pos = candidate
+			_check_ocean_crossing()
 			return
 
 var _last_cull_cam := Vector2(1e9, 1e9)
@@ -2231,18 +2426,32 @@ var _last_cull_zoom := -1.0
 
 func _cull_props(force: bool = false) -> void:
 	var cam_p := camera.position
-	if not force and cam_p.distance_squared_to(_last_cull_cam) < 900.0 and absf(zoom_level - _last_cull_zoom) < 0.02:
+	if not force and cam_p.distance_squared_to(_last_cull_cam) < 1600.0 and absf(zoom_level - _last_cull_zoom) < 0.02:
 		return
 	_last_cull_cam = cam_p
 	_last_cull_zoom = zoom_level
-	var rx := 2400.0 / maxf(zoom_level, 0.50)
-	var ry := 1750.0 / maxf(zoom_level, 0.50)
-	for nd: Node2D in prop_nodes:
-		if not is_instance_valid(nd):
-			continue
-		var dx := absf(nd.position.x - cam_p.x)
-		var dy := absf(nd.position.y - cam_p.y)
-		nd.visible = (dx < rx and dy < ry)
+	var rx := 2300.0 / maxf(zoom_level, 0.50)
+	var ry := 1680.0 / maxf(zoom_level, 0.50)
+	var min_cx := int(floor((cam_p.x - rx) / PROP_CHUNK_PX))
+	var max_cx := int(floor((cam_p.x + rx) / PROP_CHUNK_PX))
+	var min_cy := int(floor((cam_p.y - ry) / PROP_CHUNK_PX))
+	var max_cy := int(floor((cam_p.y + ry) / PROP_CHUNK_PX))
+	var next_chunks: Dictionary = {}
+	for cy in range(min_cy, max_cy + 1):
+		for cx in range(min_cx, max_cx + 1):
+			var ck := Vector2i(cx, cy)
+			if prop_chunks.has(ck):
+				next_chunks[ck] = true
+				if not _visible_prop_chunks.has(ck):
+					for nd: Node2D in prop_chunks[ck]:
+						if is_instance_valid(nd):
+							nd.visible = true
+	for old_ck: Vector2i in _visible_prop_chunks.keys():
+		if not next_chunks.has(old_ck) and prop_chunks.has(old_ck):
+			for nd: Node2D in prop_chunks[old_ck]:
+				if is_instance_valid(nd):
+					nd.visible = false
+	_visible_prop_chunks = next_chunks
 
 func sync_hero() -> void:
 	var h := height_at(hero_pos.x, hero_pos.y)

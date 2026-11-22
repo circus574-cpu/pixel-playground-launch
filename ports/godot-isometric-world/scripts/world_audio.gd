@@ -1,16 +1,18 @@
 extends Node
-## Sound of the isometric world: one looping music track per continent (crossfading), city/world ambience bed,
-## race skill SFX, per-monster SFX, and UI/gameplay effects. Loading music is intentionally removed.
+## Sound of the isometric world: continent soundtracks (crossfading), city/world ambience beds,
+## 40 race skill SFX, per-monster SFX, footsteps & UI feedback with organic pitch variation.
+## Searches OTA preview audio first (res://service_preview/pyra/assets/audio/) then host APK audio (res://assets/audio/).
 
 const MUSIC := {"pyra": "pyra", "verdant": "verdantia", "aether": "aetheria", "nexus": "nexus"}
-## Built at runtime so the preview packager (which rewrites the res:// prefix of scripts) leaves host audio paths alone.
-const ROOT := "res:" + "//"
+const HOST_ROOT := "res:" + "//assets/audio/"
 const FADE := 1.4
-const STEP_INTERVAL := 0.34
-const POOL := 12
+const STEP_INTERVAL := 0.38
+const POOL := 16
 
-var music_volume := 0.35
-var sfx_volume := 0.70
+var music_volume := 0.45
+var ambience_volume := 0.55
+var sfx_volume := 0.80
+var muted := false
 var music_a := AudioStreamPlayer.new()
 var music_b := AudioStreamPlayer.new()
 var ambience := AudioStreamPlayer.new()
@@ -33,41 +35,65 @@ func _ready() -> void:
 		add_child(s)
 		pool.append(s)
 
-func set_volumes(music_v: float, sfx_v: float) -> void:
+func set_volumes(music_v: float, sfx_v: float, amb_v: float = -1.0) -> void:
 	music_volume = clampf(music_v, 0.0, 1.0)
 	sfx_volume = clampf(sfx_v, 0.0, 1.0)
+	if amb_v >= 0.0:
+		ambience_volume = clampf(amb_v, 0.0, 1.0)
 	var mdb := music_db()
 	if fading_in != null and fading_in.playing:
-		fading_in.volume_db = mdb if music_volume > 0.01 else -80.0
+		fading_in.volume_db = mdb
 	if ambience.playing:
-		ambience.volume_db = linear_to_db(maxf(music_volume * 0.42, 0.0001)) if music_volume > 0.01 else -80.0
+		ambience.volume_db = ambience_db()
 
-func load_stream(path: String) -> AudioStream:
-	if cache.has(path):
-		return cache[path]
+func set_muted(on: bool) -> void:
+	muted = on
+	if fading_in != null and fading_in.playing:
+		fading_in.volume_db = music_db()
+	if ambience.playing:
+		ambience.volume_db = ambience_db()
+
+func _load_from(path: String) -> AudioStream:
 	if ResourceLoader.exists(path):
-		var s: AudioStream = load(path)
-		cache[path] = s
-		return s
+		var s := load(path)
+		if s is AudioStream:
+			return s as AudioStream
 	if FileAccess.file_exists(path) and path.ends_with(".mp3"):
-		var mp3 := AudioStreamMP3.new()
-		mp3.data = FileAccess.get_file_as_bytes(path)
-		cache[path] = mp3
-		return mp3
+		var bytes := FileAccess.get_file_as_bytes(path)
+		if not bytes.is_empty():
+			var mp3 := AudioStreamMP3.new()
+			mp3.data = bytes
+			return mp3
+	return null
+
+func load_stream(rel_path: String) -> AudioStream:
+	if cache.has(rel_path):
+		return cache[rel_path] as AudioStream
+	# Try OTA pack path (rewritten to res://service_preview/pyra/assets/audio/...) FIRST, then APK host path!
+	for p in ["res://assets/audio/" + rel_path, HOST_ROOT + rel_path]:
+		var s := _load_from(p)
+		if s != null:
+			cache[rel_path] = s
+			return s
 	return null
 
 func is_ours(n: Node) -> bool:
 	return n == self or is_ancestor_of(n)
 
 func music_db() -> float:
-	if music_volume <= 0.01:
+	if muted or music_volume <= 0.01:
 		return -80.0
-	return linear_to_db(maxf(music_volume * 0.72, 0.0001))
+	return linear_to_db(maxf(music_volume * 0.78, 0.0001))
+
+func ambience_db() -> float:
+	if muted or ambience_volume <= 0.01:
+		return -80.0
+	return linear_to_db(maxf(ambience_volume * 0.46, 0.0001))
 
 func play_music(key: String) -> void:
 	if not MUSIC.has(key) or key == active_music:
 		return
-	var s := load_stream(ROOT + "assets/audio/music/%s.mp3" % MUSIC[key])
+	var s := load_stream("music/%s.mp3" % MUSIC[key])
 	if s == null:
 		return
 	if s is AudioStreamMP3:
@@ -86,29 +112,30 @@ func play_ambience(land: String, safe: bool) -> void:
 	if name == active_ambience:
 		return
 	active_ambience = name
-	var bed := load_stream(ROOT + "assets/audio/sfx/ambience/%s.mp3" % name)
+	var bed := load_stream("sfx/ambience/%s.mp3" % name)
 	if bed == null:
 		ambience.stop()
 		return
 	if bed is AudioStreamMP3:
 		(bed as AudioStreamMP3).loop = true
 	ambience.stream = bed
-	ambience.volume_db = linear_to_db(maxf(music_volume * 0.42, 0.0001)) if music_volume > 0.01 else -80.0
+	ambience.volume_db = ambience_db()
 	ambience.play()
 
-func sfx(name: String, gain: float = 1.0) -> void:
-	if sfx_volume <= 0.01:
+func sfx(name: String, gain: float = 1.0, pitch_jitter: float = 0.06) -> void:
+	if muted or sfx_volume <= 0.01:
 		return
 	var now := Time.get_ticks_msec() / 1000.0
-	if now - float(last_played.get(name, -10.0)) < 0.05:
+	if now - float(last_played.get(name, -10.0)) < 0.045:
 		return
-	var s := load_stream(ROOT + "assets/audio/sfx/%s.mp3" % name)
+	var s := load_stream("sfx/%s.mp3" % name)
 	if s == null:
 		return
 	last_played[name] = now
 	for p in pool:
 		if not p.playing:
 			p.stream = s
+			p.pitch_scale = randf_range(1.0 - pitch_jitter, 1.0 + pitch_jitter) if pitch_jitter > 0.0 else 1.0
 			p.volume_db = linear_to_db(maxf(sfx_volume * gain, 0.0001))
 			p.play()
 			return
@@ -117,32 +144,37 @@ func play_race_skill(race: String, node_id: String) -> void:
 	var rk := race if race in ["legend", "planetary", "sage", "android"] else "legend"
 	var clean_id := node_id if node_id in ["R", "A1", "A4", "A9", "B1", "B4", "B9", "C1", "C4", "C9"] else "R"
 	var path := "%s/%s" % [rk, clean_id]
-	if load_stream(ROOT + "assets/audio/sfx/%s.mp3" % path) != null:
-		sfx(path, 0.92)
+	if load_stream("sfx/%s.mp3" % path) != null:
+		sfx(path, 0.96, 0.05)
 	else:
-		sfx("common/hit", 0.85)
+		sfx("common/hit", 0.90, 0.08)
 
 func play_monster_sfx(actor_id: String, kind: String) -> void:
 	var path := "monsters/%s/%s" % [actor_id, kind]
-	if load_stream(ROOT + "assets/audio/sfx/%s.mp3" % path) != null:
-		sfx(path, 0.80)
+	if load_stream("sfx/%s.mp3" % path) != null:
+		sfx(path, 0.88, 0.08)
 	elif kind == "die":
-		sfx("common/monster-death", 0.85)
+		sfx("common/monster-death", 0.90, 0.08)
 	elif kind == "atk":
-		sfx("common/hit", 0.72)
+		sfx("common/hit", 0.78, 0.10)
+	elif kind == "roar":
+		sfx("common/boss-warning", 0.76, 0.06)
 
-func step(delta: float, moving: bool, land: String, interior: bool) -> void:
+func play_test_chime(race: String = "legend") -> void:
+	play_race_skill(race, "A1")
+
+func step(delta: float, moving: bool, land: String, interior: bool, running: bool = true, in_water: bool = false) -> void:
 	if not moving:
-		step_clock = STEP_INTERVAL * 0.5
+		step_clock = STEP_INTERVAL * 0.45
 		return
 	step_clock -= delta
 	if step_clock > 0.0:
 		return
-	step_clock = STEP_INTERVAL
-	var surface: String = {"verdant": "grass", "aether": "stone", "nexus": "metal", "pyra": "ash"}.get(land, "dirt")
+	step_clock = STEP_INTERVAL if running else (STEP_INTERVAL * 1.48)
+	var surface: String = "water" if in_water else str({"verdant": "grass", "aether": "snow", "nexus": "metal", "pyra": "ash"}.get(land, "dirt"))
 	if interior:
 		surface = "metal" if land == "nexus" else "wood"
-	sfx("steps/" + surface, 0.42)
+	sfx("steps/" + surface, 0.50 if running else 0.36, 0.11)
 
 func _process(delta: float) -> void:
 	if fade_t >= 1.0:

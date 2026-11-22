@@ -164,13 +164,13 @@ func refresh_content() -> void:
 	status_lbl.text = status_text
 
 func _build_teleport_tab() -> void:
-	content_vbox.add_child(_section_label("1. TELEPORT Z NADUSZENIEM PUNKTU NA MAPIE"))
+	content_vbox.add_child(_section_label("1. TELEPORT NA DUŻEJ MAPIE ŚWIATA"))
 	var map_row := HBoxContainer.new()
 	map_row.add_theme_constant_override("separation", 8)
 	content_vbox.add_child(map_row)
 
 	var btn_map_tp := Button.new()
-	btn_map_tp.text = "⚡ OTWÓRZ MAPĘ 2D I KLIKNIJ PUNKT TELEPORTU"
+	btn_map_tp.text = "⚡ OTWÓRZ DUŻĄ MAPĘ ŚWIATA I KLIKNIJ PUNKT TELEPORTU"
 	btn_map_tp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_style_btn(btn_map_tp, Color(0.10, 0.28, 0.34, 0.96), Color(0.36, 0.92, 1.0, 0.98), 14)
 	btn_map_tp.pressed.connect(func() -> void:
@@ -182,23 +182,6 @@ func _build_teleport_tab() -> void:
 			world.toggle_atlas(true)
 	)
 	map_row.add_child(btn_map_tp)
-
-	var mini_tp_on: bool = world != null and bool(world.gm_minimap_teleport)
-	var btn_mini_tp := Button.new()
-	btn_mini_tp.text = "MINIMAPA KLIK-TP: %s" % ("WŁĄCZONY ✓" if mini_tp_on else "WYŁĄCZONY")
-	_style_btn(
-		btn_mini_tp,
-		Color(0.12, 0.30, 0.18, 0.96) if mini_tp_on else Color(0.15, 0.12, 0.16, 0.94),
-		Color(0.42, 0.96, 0.58, 0.96) if mini_tp_on else Color(0.62, 0.52, 0.34, 0.85),
-		13
-	)
-	btn_mini_tp.pressed.connect(func() -> void:
-		if world != null:
-			world.gm_minimap_teleport = not world.gm_minimap_teleport
-			_set_status("Teleport kliknięciem na minimapie: %s" % ("WŁĄCZONY" if world.gm_minimap_teleport else "WYŁĄCZONY"))
-			refresh_content()
-	)
-	map_row.add_child(btn_mini_tp)
 
 	content_vbox.add_child(_section_label("2. SUPER SZYBKOŚĆ I PRZENIKANIE (NOCLIP)"))
 	var spd_row := HBoxContainer.new()
