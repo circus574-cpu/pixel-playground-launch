@@ -54,6 +54,7 @@ class RaceStageView extends Control:
 	var clip_t: float = 0.0
 	var ki_active: bool = false
 	var transform_flash: float = 0.0
+	var _burst_fired: bool = false
 	var aura_t: float = 0.0
 	var showcase_cycle_t: float = 0.0
 	var tex_loader: Callable
@@ -100,20 +101,27 @@ class RaceStageView extends Control:
 		size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		size_flags_vertical = Control.SIZE_EXPAND_FILL
 		custom_minimum_size = Vector2(0, 220)
-		_prepare_clip("idle")
-		_prepare_clip("transform")
-		_prepare_clip("kiidle")
-		_prepare_clip("kiattack")
-		_prepare_clip("kitransform")
+		# Curated ZERO-SPIN front-facing sequences across all 4 races:
+		# Raw hero3d idle/kiidle frames 5..13 turn sideways/backwards; frames 0..3 are steady front-facing breathing.
+		_build_curated_clip("idle", [{"src": "idle", "indices": [0, 1, 2, 3, 2, 1]}], 5.5)
+		_build_curated_clip("kiidle", [{"src": "kiidle", "indices": [0, 1, 2, 3, 2, 1]}], 6.0)
+		# Real Ki transformation: gather energy front-facing -> raise fists -> blinding burst into Awakened Ki Form!
+		_build_curated_clip("transform", [
+			{"src": "channel", "indices": [5, 6, 7, 8, 9]},
+			{"src": "transform", "indices": [13, 14, 15, 16]},
+			{"src": "kitransform", "indices": [15, 16, 17]},
+		], 11.5)
+		# Periodic heroic Ki surge while selected (100% front-facing, zero spin)
+		_build_curated_clip("kipulse", [
+			{"src": "kichannel", "indices": [5, 6, 7, 8, 9, 11, 12, 13, 11, 8, 6]},
+		], 11.0)
 		current_clip = "idle"
-		clip_t = randf() * 1.4
+		clip_t = randf() * 0.9
 
-	func _prepare_clip(cname: String) -> void:
-		if clips.has(cname):
-			return
+	func _load_raw_frames(cname: String) -> Dictionary:
 		var cdict: Dictionary = hero_def.get("clips", {})
 		if not cdict.has(cname):
-			return
+			return {}
 		var c: Dictionary = cdict[cname]
 		var dirs: Dictionary = c.get("directions", {})
 		var chosen_dir := "down"
@@ -123,14 +131,15 @@ class RaceStageView extends Control:
 			elif not dirs.is_empty():
 				chosen_dir = str(dirs.keys()[0])
 			else:
-				return
+				return {}
 		var sheet_path := str(c.get("sheet", ""))
 		var tex: Texture2D = null
 		if tex_loader.is_valid() and not sheet_path.is_empty():
 			tex = tex_loader.call(sheet_path)
 		if tex == null:
-			return
+			return {}
 		var arr: Array = dirs[chosen_dir]
+		var mirrored: bool = chosen_dir in c.get("mirrored", [])
 		var parsed: Array = []
 		for item in arr:
 			if item is Array and (item as Array).size() >= 8:
@@ -138,6 +147,8 @@ class RaceStageView extends Control:
 				parsed.append({
 					"region": Rect2(float(a[0]), float(a[1]), float(a[2]), float(a[3])),
 					"margin": Rect2(float(a[4]), float(a[5]), float(a[6]), float(a[7])),
+					"tex": tex,
+					"mirrored": mirrored,
 				})
 			elif item is Dictionary:
 				var d: Dictionary = item
@@ -145,25 +156,46 @@ class RaceStageView extends Control:
 				parsed.append({
 					"region": Rect2(float(r[0]), float(r[1]), float(r[2]), float(r[3])),
 					"margin": Rect2(0, 0, 0, 0),
+					"tex": tex,
+					"mirrored": mirrored,
 				})
 		if parsed.is_empty():
-			return
-		var mirrored: bool = chosen_dir in c.get("mirrored", [])
-		clips[cname] = {
-			"fps": maxf(float(c.get("fps", 10.0)), 4.0),
-			"frames": parsed,
-			"tex": tex,
-			"mirrored": mirrored,
-		}
+			return {}
+		return {"frames": parsed, "fps": maxf(float(c.get("fps", 10.0)), 4.0)}
+
+	func _build_curated_clip(out_name: String, segments: Array, fps: float) -> void:
+		var combined: Array = []
+		for seg: Dictionary in segments:
+			var src_name := str(seg.get("src", ""))
+			var raw := _load_raw_frames(src_name)
+			if raw.is_empty():
+				continue
+			var src_frames: Array = raw["frames"]
+			var indices: Array = seg.get("indices", [])
+			if indices.is_empty():
+				for f in src_frames:
+					combined.append(f)
+			else:
+				for idx_v in indices:
+					var idx := int(idx_v)
+					if idx >= 0 and idx < src_frames.size():
+						combined.append(src_frames[idx])
+		if combined.is_empty() and out_name != "idle":
+			var fallback := _load_raw_frames(out_name)
+			if not fallback.is_empty():
+				combined = fallback["frames"]
+		if not combined.is_empty():
+			clips[out_name] = {"fps": fps, "frames": combined}
 
 	func set_selected_ki(active: bool, replay_transform: bool = true) -> void:
 		ki_active = active
 		if active:
 			showcase_cycle_t = 0.0
+			_burst_fired = false
 			if replay_transform and clips.has("transform"):
 				current_clip = "transform"
 				clip_t = 0.0
-				transform_flash = 1.0
+				transform_flash = 0.55
 			elif clips.has("kiidle"):
 				current_clip = "kiidle"
 				clip_t = 0.0
@@ -172,6 +204,7 @@ class RaceStageView extends Control:
 			current_clip = "idle"
 			clip_t = 0.0
 			transform_flash = 0.0
+			_burst_fired = false
 		queue_redraw()
 
 	func _process(delta: float) -> void:
@@ -182,20 +215,27 @@ class RaceStageView extends Control:
 		if ki_active:
 			showcase_cycle_t += delta
 			var cinfo: Dictionary = clips.get(current_clip, {})
-			var dur := 1.15
+			var dur := 1.05
+			var f_idx := 0
 			if not cinfo.is_empty():
-				dur = float((cinfo["frames"] as Array).size()) / float(cinfo["fps"])
+				var fps := float(cinfo["fps"])
+				dur = float((cinfo["frames"] as Array).size()) / fps
+				f_idx = int(floor(clip_t * fps))
+			# Peak Ki flash & shockwave right as normal form bursts into Awakened Ki Form (frame 9+)
+			if current_clip == "transform" and not _burst_fired and f_idx >= 9:
+				_burst_fired = true
+				transform_flash = 1.0
 			if current_clip == "transform" and clip_t >= dur:
 				current_clip = "kiidle" if clips.has("kiidle") else "idle"
 				clip_t = 0.0
-			elif current_clip == "kiattack" and clip_t >= dur:
+			elif current_clip == "kipulse" and clip_t >= dur:
 				current_clip = "kiidle" if clips.has("kiidle") else "idle"
 				clip_t = 0.0
-			elif current_clip == "kiidle" and showcase_cycle_t >= 4.2 and clips.has("kiattack"):
+			elif current_clip == "kiidle" and showcase_cycle_t >= 4.5 and clips.has("kipulse"):
 				showcase_cycle_t = 0.0
-				current_clip = "kiattack"
+				current_clip = "kipulse"
 				clip_t = 0.0
-				transform_flash = 0.35
+				transform_flash = 0.40
 		queue_redraw()
 
 	func _hash01(idx: int, salt: int) -> float:
@@ -261,11 +301,9 @@ class RaceStageView extends Control:
 		# 3. Back-layer REAL Smooth Feathered Anime KI AURA (vertical plasma column + feathered flame tongues!)
 		if ki_active:
 			var center_y := foot_y - body_h * 0.44
-			# Soft radiant vertical Ki aura column behind the hero
 			_draw_glow(Vector2(cx, center_y), ped_r * 1.15 * pulse, body_h * 0.68 * pulse, Color(core_col.r, core_col.g, core_col.b, 0.56))
 			_draw_glow(Vector2(cx, center_y + 10.0), ped_r * 0.72 * pulse, body_h * 0.54 * pulse, Color(rim_col.r, rim_col.g, rim_col.b, 0.62))
 			_draw_glow(Vector2(cx, center_y + 16.0), ped_r * 0.42, body_h * 0.36, Color(1.0, 0.98, 0.90, 0.44))
-			# Feathered plasma flame tongues rising smoothly around the silhouette (NO solid polygons!)
 			if _wisp_tex != null:
 				for i in 10:
 					var ph := fposmod(aura_t * (0.95 + 0.55 * _hash01(i, 1)) + _hash01(i, 2), 1.0)
@@ -278,7 +316,7 @@ class RaceStageView extends Control:
 					wcol.a = sin(ph * PI) * 0.72
 					draw_texture_rect(_wisp_tex, Rect2(wx - ww * 0.5, wy - wh * 0.75, ww, wh), false, wcol)
 
-		# 4. Real Animated Hero3D Sprite Frame (sliced directly from actors.json!)
+		# 4. Real Animated Hero3D Sprite Frame (ZERO-SPIN front-facing heroic stance!)
 		var cinfo: Dictionary = clips.get(current_clip, clips.get("idle", {}))
 		if not cinfo.is_empty():
 			var frames_arr: Array = cinfo["frames"]
@@ -289,7 +327,7 @@ class RaceStageView extends Control:
 			var fdata: Dictionary = frames_arr[f_idx]
 			var reg: Rect2 = fdata["region"]
 			var marg: Rect2 = fdata["margin"]
-			var tex: Texture2D = cinfo["tex"] as Texture2D
+			var tex: Texture2D = fdata["tex"] as Texture2D
 			var cell := float(hero_def.get("cell", 200.0))
 			var target_cell_px := clampf(minf(sz.x * 0.96, sz.y * 0.88), 150.0, 248.0)
 			var sc := target_cell_px / maxf(cell, 1.0)
@@ -298,9 +336,9 @@ class RaceStageView extends Control:
 			var draw_sz := reg.size * sc
 			var tint := Color(1.10, 1.07, 1.03, 1.0) if ki_active else Color(0.92, 0.91, 0.95, 1.0)
 			if transform_flash > 0.25:
-				var boost := (transform_flash - 0.25) * 0.65
+				var boost := (transform_flash - 0.25) * 0.75
 				tint = Color(1.0 + boost, 1.0 + boost * 0.88, 1.0 + boost * 0.70, 1.0)
-			if bool(cinfo.get("mirrored", false)):
+			if bool(fdata.get("mirrored", false)):
 				draw_texture_rect_region(tex, Rect2(Vector2(draw_pos.x + draw_sz.x, draw_pos.y), Vector2(-draw_sz.x, draw_sz.y)), reg, tint)
 			else:
 				draw_texture_rect_region(tex, Rect2(draw_pos, draw_sz), reg, tint)
@@ -328,7 +366,7 @@ class RaceStageView extends Control:
 				draw_set_transform(Vector2(cx, foot_y - 10.0), 0.0, Vector2(1.0, 0.40))
 				draw_arc(Vector2.ZERO, shock_r, 0.0, TAU, 40, Color(rim_col.r, rim_col.g, rim_col.b, transform_flash * 0.92), 6.0 * transform_flash + 1.5, true)
 				draw_set_transform(Vector2.ZERO)
-				_draw_glow(Vector2(cx, foot_y - body_h * 0.42), ped_r * (0.9 + e * 0.7), body_h * 0.55, Color(1.0, 0.96, 0.82, transform_flash * 0.45))
+				_draw_glow(Vector2(cx, foot_y - body_h * 0.42), ped_r * (0.9 + e * 0.7), body_h * 0.55, Color(1.0, 0.96, 0.82, transform_flash * 0.48))
 
 			var f := ThemeDB.fallback_font
 			var badge_txt := "✦ TRANSFORMACJA KI ✦" if current_clip == "transform" else "✦ FORMA KI ✦"
@@ -418,7 +456,6 @@ func _style_btn(btn: Button, variant: String = "slate", font_sz: int = 20, use_t
 			sb.texture_margin_bottom = 16.0
 			sb.content_margin_left = 26.0
 			sb.content_margin_right = 26.0
-			# Slight bottom lift compensates bitmap title-font baseline so letters sit dead-center
 			sb.content_margin_top = 6.0 if use_title_font else 8.0
 			sb.content_margin_bottom = 12.0 if use_title_font else 8.0
 			if st_name == "hover":
@@ -439,6 +476,33 @@ func _style_btn(btn: Button, variant: String = "slate", font_sz: int = 20, use_t
 	btn.add_theme_color_override("font_disabled_color", Color(0.65, 0.62, 0.58, 0.85))
 	btn.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.01, 0.96))
 	btn.add_theme_constant_override("outline_size", 4)
+
+func _apply_safe_margins() -> void:
+	if root_box == null:
+		return
+	var pad_l := 20.0
+	var pad_r := 20.0
+	var pad_t := 12.0
+	var pad_b := 14.0
+	if OS.get_name() == "Android" and is_inside_tree():
+		var vp := get_viewport_rect().size
+		var screen := DisplayServer.get_display_safe_area()
+		if screen.has_area() and vp.x > 100.0 and vp.y > 100.0:
+			var inv := get_tree().root.get_screen_transform().affine_inverse()
+			var safe: Rect2 = (inv * Rect2(screen)).intersection(Rect2(Vector2.ZERO, vp))
+			pad_l = maxf(pad_l, safe.position.x + 12.0)
+			pad_r = maxf(pad_r, (vp.x - safe.end.x) + 12.0)
+			pad_t = maxf(pad_t, safe.position.y + 8.0)
+			pad_b = maxf(pad_b, (vp.y - safe.end.y) + 12.0)
+	root_box.offset_left = pad_l
+	root_box.offset_right = -pad_r
+	root_box.offset_top = pad_t
+	root_box.offset_bottom = -pad_b
+
+func _ready() -> void:
+	_apply_safe_margins()
+	if not resized.is_connected(_apply_safe_margins):
+		resized.connect(_apply_safe_margins)
 
 func setup(can_close: bool = false) -> void:
 	allow_close = can_close
@@ -481,8 +545,9 @@ func setup(can_close: bool = false) -> void:
 	root_box.add_child(top)
 	if allow_close:
 		var back_btn := Button.new()
+		back_btn.name = "BackButton"
 		back_btn.text = "← WSTECZ"
-		back_btn.custom_minimum_size = Vector2(174, 52)
+		back_btn.custom_minimum_size = Vector2(182, 54)
 		_style_btn(back_btn, "slate", 16, false)
 		back_btn.pressed.connect(func() -> void: closed.emit())
 		top.add_child(back_btn)
@@ -495,7 +560,7 @@ func setup(can_close: bool = false) -> void:
 	top.add_child(title)
 	if allow_close:
 		var spacer := Control.new()
-		spacer.custom_minimum_size = Vector2(174, 0)
+		spacer.custom_minimum_size = Vector2(182, 0)
 		spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		top.add_child(spacer)
 
@@ -522,6 +587,7 @@ func setup(can_close: bool = false) -> void:
 	bar.alignment = BoxContainer.ALIGNMENT_CENTER
 	bar.add_theme_constant_override("separation", 14)
 	confirm = Button.new()
+	confirm.name = "ConfirmRaceButton"
 	confirm.text = "WYBIERZ RASĘ POWYŻEJ"
 	confirm.custom_minimum_size = Vector2(440, 58)
 	confirm.disabled = true
@@ -547,7 +613,7 @@ func make_card(race: String, data: Dictionary) -> Control:
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.add_child(box)
 
-	# LIVE Animated Hero3D + Ki Aura Stage (NO static concept-doc JPG!)
+	# LIVE Animated Hero3D + Ki Aura Stage (NO static concept-doc JPG, ZERO-SPIN!)
 	var stage := RaceStageView.new()
 	var hero_key := str(RACE_HERO_KEY.get(race, "pyra.hero"))
 	var hdef: Dictionary = actors_data.get(hero_key, {}) if actors_data.get(hero_key) is Dictionary else {}
@@ -590,10 +656,19 @@ func make_card(race: String, data: Dictionary) -> Control:
 	mech_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	info_box.add_child(mech_lbl)
 
-	panel.gui_input.connect(func(event: InputEvent) -> void:
-		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			select(race)
-	)
+	# Full-card transparent native Button guarantees 100% first-tap touch reliability on Android!
+	var hit_btn := Button.new()
+	hit_btn.name = "Tap_" + race
+	hit_btn.flat = true
+	hit_btn.focus_mode = Control.FOCUS_NONE
+	hit_btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	hit_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hit_btn.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var empty := StyleBoxEmpty.new()
+	for st_n in ["normal", "hover", "pressed", "disabled", "focus"]:
+		hit_btn.add_theme_stylebox_override(st_n, empty)
+	hit_btn.pressed.connect(func() -> void: select(race))
+	panel.add_child(hit_btn)
 	return panel
 
 func card_style(active: bool, color: Color) -> StyleBox:

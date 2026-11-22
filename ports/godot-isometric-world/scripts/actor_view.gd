@@ -132,9 +132,19 @@ func ensure_clip(clip_name: String) -> bool:
 	for facing: String in clip.directions:
 		var animation := clip_name + ":" + facing
 		frames.add_animation(animation)
-		frames.set_animation_speed(animation, float(clip.get("fps", 12.0)))
+		var raw_list: Array = clip.directions[facing]
+		var chosen_list: Array = raw_list
+		var fps := float(clip.get("fps", 12.0))
+		# Hero3D raw idle/kiidle frames 5..13 turn sideways/backwards; keep clean direction-locked breathing frames 0..3 ping-ponged!
+		if is_hero and (clip_name == "idle" or clip_name == "kiidle") and raw_list.size() >= 16:
+			chosen_list = [raw_list[0], raw_list[1], raw_list[2], raw_list[3], raw_list[2], raw_list[1]]
+			fps = 5.5
+		elif is_hero and (clip_name == "transform" or clip_name == "kitransform") and raw_list.size() >= 18:
+			chosen_list = [raw_list[12], raw_list[13], raw_list[14], raw_list[15], raw_list[16], raw_list[17]]
+			fps = 12.0
+		frames.set_animation_speed(animation, fps)
 		frames.set_animation_loop(animation, false if is_one_shot else bool(clip.get("loop", true)))
-		for item: Variant in clip.directions[facing]:
+		for item: Variant in chosen_list:
 			var atlas := AtlasTexture.new()
 			if item is Dictionary:
 				var d_item: Dictionary = item

@@ -61,7 +61,9 @@ var sfx_player := AudioStreamPlayer.new()
 
 var _drag_active := false
 var _drag_moved := false
-var _drag_start_y := 0.0
+var _drag_touch_idx := -1
+var _drag_tap_id := ""
+var _drag_start_gy := 0.0
 var _drag_start_scroll := 0
 
 func setup(list: Array[Dictionary], current: String = "") -> void:
@@ -548,9 +550,11 @@ func _make_roster_row(entry: Dictionary) -> PanelContainer:
 	var land_lbl := land_name(str(entry.get("land", info["land"])))
 
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(0, 74)
+	panel.name = "Row_" + id
+	panel.custom_minimum_size = Vector2(0, 76)
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.mouse_filter = Control.MOUSE_FILTER_PASS
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	panel.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	panel.set_meta("color", rcol)
 	panel.add_theme_stylebox_override("panel", _row_style(false, rcol))
 
@@ -607,7 +611,7 @@ func _make_roster_row(entry: Dictionary) -> PanelContainer:
 	hb.add_child(arrow)
 
 	panel.gui_input.connect(func(event: InputEvent) -> void:
-		_handle_list_drag(event, id)
+		_handle_list_drag(panel, event, id)
 	)
 	row_panels[id] = panel
 	row_arrows[id] = arrow
@@ -622,29 +626,45 @@ func _row_style(active: bool, color: Color) -> StyleBox:
 	return _inset_box(Color(0.06, 0.055, 0.085, 0.90), b, 2, 10, 12, 8)
 
 func _on_scroll_gui_input(event: InputEvent) -> void:
-	_handle_list_drag(event, "")
+	_handle_list_drag(list_scroll, event, "")
 
-func _handle_list_drag(event: InputEvent, tap_id: String) -> void:
+func _handle_list_drag(source: Control, event: InputEvent, tap_id: String) -> void:
+	# Convert local Control event position to unified global screen Y so rows and ScrollContainer share one coordinate space.
+	# Ignore emulated mouse events from Android touch (DEVICE_ID_EMULATION) so every finger tap is processed cleanly ONCE!
 	if event is InputEventScreenTouch:
 		var st := event as InputEventScreenTouch
-		if st.pressed:
-			_drag_active = true
-			_drag_moved = false
-			_drag_start_y = st.position.y
-			_drag_start_scroll = list_scroll.scroll_vertical
-		else:
-			if _drag_active and not _drag_moved and tap_id != "":
-				_play_ui_sfx("click")
-				select(tap_id, true)
+		var gy := source.global_position.y + st.position.y
+		if st.pressed and not st.canceled:
+			if _drag_touch_idx == -1:
+				_drag_touch_idx = st.index
+				_drag_active = true
+				_drag_moved = false
+				_drag_tap_id = tap_id
+				_drag_start_gy = gy
+				_drag_start_scroll = list_scroll.scroll_vertical
+		elif st.index == _drag_touch_idx:
+			var should_select := _drag_active and not _drag_moved and not st.canceled and _drag_tap_id != ""
+			var pick_id := _drag_tap_id
+			_drag_touch_idx = -1
 			_drag_active = false
+			_drag_tap_id = ""
+			if should_select:
+				_play_ui_sfx("click")
+				select(pick_id, true)
 	elif event is InputEventScreenDrag and _drag_active:
 		var sd := event as InputEventScreenDrag
-		var dy := sd.position.y - _drag_start_y
-		if absf(dy) > 10.0:
+		if sd.index != _drag_touch_idx:
+			return
+		var gy := source.global_position.y + sd.position.y
+		var dy := gy - _drag_start_gy
+		if absf(dy) > 22.0:
 			_drag_moved = true
-		list_scroll.scroll_vertical = maxi(0, _drag_start_scroll - int(dy))
+		if _drag_moved:
+			list_scroll.scroll_vertical = maxi(0, _drag_start_scroll - int(dy))
 	elif event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
+		if mb.device == InputEvent.DEVICE_ID_EMULATION:
+			return
 		if mb.button_index == MOUSE_BUTTON_WHEEL_UP and mb.pressed:
 			list_scroll.scroll_vertical = maxi(0, list_scroll.scroll_vertical - 56)
 		elif mb.button_index == MOUSE_BUTTON_WHEEL_DOWN and mb.pressed:
@@ -653,20 +673,27 @@ func _handle_list_drag(event: InputEvent, tap_id: String) -> void:
 			if mb.pressed:
 				_drag_active = true
 				_drag_moved = false
-				_drag_start_y = mb.position.y
+				_drag_tap_id = tap_id
+				_drag_start_gy = mb.global_position.y
 				_drag_start_scroll = list_scroll.scroll_vertical
 			else:
-				if _drag_active and not _drag_moved and tap_id != "":
-					_play_ui_sfx("click")
-					select(tap_id, true)
+				var should_select := _drag_active and not _drag_moved and _drag_tap_id != ""
+				var pick_id := _drag_tap_id
 				_drag_active = false
+				_drag_tap_id = ""
+				if should_select:
+					_play_ui_sfx("click")
+					select(pick_id, true)
 	elif event is InputEventMouseMotion and _drag_active:
 		var mm := event as InputEventMouseMotion
+		if mm.device == InputEvent.DEVICE_ID_EMULATION:
+			return
 		if (mm.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
-			var dy := mm.position.y - _drag_start_y
-			if absf(dy) > 8.0:
+			var dy := mm.global_position.y - _drag_start_gy
+			if absf(dy) > 12.0:
 				_drag_moved = true
-			list_scroll.scroll_vertical = maxi(0, _drag_start_scroll - int(dy))
+			if _drag_moved:
+				list_scroll.scroll_vertical = maxi(0, _drag_start_scroll - int(dy))
 
 func _entry_by_id(id: String) -> Dictionary:
 	for e: Dictionary in roster:

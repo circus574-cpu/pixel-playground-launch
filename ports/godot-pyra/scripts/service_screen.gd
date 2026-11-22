@@ -22,6 +22,8 @@ var char_id := ""
 var server_chars: Dictionary = {}
 var active_server_char: Dictionary = {}
 var char_view: Node
+var choosing_char := false
+var user_backed_out := false
 var autosave := Timer.new()
 var menu_music := AudioStreamPlayer.new()
 var _tex_cache: Dictionary = {}
@@ -169,7 +171,18 @@ func _ready() -> void:
 	var back := ColorRect.new()
 	back.color = Color(0.025, 0.02, 0.035, 1.0)
 	back.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	back.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(back)
+	var bg_art := _load_tex("res://assets/branding/intro-wide.webp")
+	if bg_art != null:
+		var bg_rect := TextureRect.new()
+		bg_rect.texture = bg_art
+		bg_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		bg_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		bg_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		bg_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		bg_rect.modulate = Color(0.26, 0.24, 0.30, 0.45)
+		add_child(bg_rect)
 	page_card.name = "PageCard"
 	page_card.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	page_card.grow_horizontal = Control.GROW_DIRECTION_BOTH
@@ -209,6 +222,7 @@ func run() -> String:
 	var status := await read_status()
 	if status.get("maintenance") == false and status.get("canEnter") == true:
 		if ResourceLoader.exists(SCENE):
+			user_backed_out = false
 			open_world(true)
 			timer.start()
 			return await picked
@@ -217,17 +231,42 @@ func run() -> String:
 	timer.start()
 	return await picked
 
+func show_menu_card() -> void:
+	# Clean menu after user presses ← WSTECZ from Character Select / Race Screen.
+	# Stays visible without timer yanking the player back!
+	user_backed_out = true
+	caption.text = "Menu główne konta. Wybierz akcję poniżej."
+	for child in page.get_children():
+		if child is Button: child.queue_free()
+	button("WEJDŹ DO GRY", func():
+		user_backed_out = false
+		open_world(true)
+	, "gold")
+	button("ZMIEŃ KONTO / WYLOGUJ", func():
+		if KiNet.online().has_method("logout"):
+			KiNet.online().logout()
+		picked.emit("login")
+	, "slate")
+	button("ZAMKNIJ GRĘ", func(): picked.emit("quit"), "crimson")
+	page_card.show()
+
 func show_status(status: Dictionary) -> void:
 	allowed = permits_preview(status)
 	caption.text = "Podgląd administratora. Ta scena nie zmienia zapisów postaci." if allowed else str(status.get("message", "Nie można sprawdzić serwera. Spróbuj ponownie."))
 	for child in page.get_children():
 		if child is Button: child.queue_free()
 	if allowed:
-		button("WEJDŹ DO GRY", func(): open_world(true), "gold")
+		button("WEJDŹ DO GRY", func():
+			user_backed_out = false
+			open_world(true)
+		, "gold")
 		button("PROTOTYP IZOMETRYCZNY · PYRA", open_preview, "slate")
 	else:
 		button("ZALOGUJ SIĘ", func(): picked.emit("login"), "gold")
-	button("SPRAWDŹ PONOWNIE", refresh_access, "slate")
+	button("SPRAWDŹ PONOWNIE", func():
+		user_backed_out = false
+		refresh_access()
+	, "slate")
 	button("ZAMKNIJ", func(): picked.emit("quit"), "crimson")
 
 func button(text: String, action: Callable, variant: String = "slate") -> void:
@@ -239,21 +278,22 @@ func button(text: String, action: Callable, variant: String = "slate") -> void:
 	page.add_child(control)
 
 func refresh_access() -> void:
-	if checking: return
+	if checking or choosing_char or user_backed_out: return
 	checking = true
 	var status := await read_status()
 	checking = false
 	if not is_inside_tree(): return
 	if preview != null and not full_mode and not permits_preview(status): close_preview()
 	if status.get("maintenance") == false and status.get("canEnter") == true:
-		if preview == null and char_view == null:
+		if preview == null and char_view == null and not choosing_char and not user_backed_out:
 			if ResourceLoader.exists(SCENE): open_world(true)
 			else: picked.emit("continue")
 		return
-	show_status(status)
+	if preview == null and char_view == null and not choosing_char:
+		show_status(status)
 
 func open_preview() -> void:
-	if checking or preview != null: return
+	if checking or choosing_char or preview != null: return
 	checking = true
 	var status := await read_status()
 	checking = false
@@ -263,10 +303,13 @@ func open_preview() -> void:
 	open_world(false)
 
 func open_world(full: bool) -> void:
-	if preview != null or char_view != null: return
+	if preview != null or char_view != null or choosing_char: return
 	if full:
+		choosing_char = true
+		user_backed_out = false
 		_start_menu_music()
 		var chosen: String = await choose_character()
+		choosing_char = false
 		if chosen == "":
 			return
 		char_id = chosen
@@ -364,7 +407,9 @@ func choose_character() -> String:
 					roster.append(entry)
 		if roster.is_empty():
 			var made := await create_character(Chars, legacy_server, use_authoritative)
-			if made == "": return ""
+			if made == "":
+				show_menu_card()
+				return ""
 			return made
 		page_card.hide()
 		var view = load("res://scripts/character_select.gd").new()
@@ -379,8 +424,7 @@ func choose_character() -> String:
 		await view.tree_exited
 		char_view = null
 		if result[0] == "" or result[0] == "#back":
-			show_status({"maintenance": false, "canEnter": true, "message": "Wybierz akcję lub zaloguj się ponownie."})
-			page_card.show()
+			show_menu_card()
 			return ""
 		if str(result[0]).begins_with("#del:"):
 			var del_id: String = str(result[0]).substr(5)
@@ -436,7 +480,7 @@ func adopt_server_character(Chars, server: Dictionary, id: String) -> String:
 
 func create_character(Chars, server: Dictionary, use_authoritative: bool) -> String:
 	page_card.hide()
-	var view = RaceScreen.new()
+	var view = load("res://scripts/race_screen.gd").new()
 	view.setup(true)
 	char_view = view
 	add_child(view)

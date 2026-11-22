@@ -217,12 +217,20 @@ func _ready() -> void:
 
 ## Starts the film when it may play and exists; otherwise the dark background with the status is all there is.
 func start_intro() -> void:
-	if not play_intro or DisplayServer.get_name() == "headless" or not ResourceLoader.exists(INTRO_VIDEO):
+	if not play_intro or DisplayServer.get_name() == "headless":
 		return
-	var stream: Resource = load(INTRO_VIDEO)
-	if not stream is VideoStream:
+	var stream: VideoStream = null
+	if ResourceLoader.exists(INTRO_VIDEO):
+		var res: Resource = load(INTRO_VIDEO)
+		if res is VideoStream:
+			stream = res as VideoStream
+	if stream == null and FileAccess.file_exists(INTRO_VIDEO):
+		var vs := VideoStreamTheora.new()
+		vs.file = INTRO_VIDEO
+		stream = vs
+	if stream == null:
 		return
-	video.stream = stream as VideoStream
+	video.stream = stream
 	video.volume_db = linear_to_db(maxf(0.0001, intro_volume()))
 	if ResourceLoader.exists(INTRO_LAST):
 		last_frame.texture = load(INTRO_LAST)
@@ -277,7 +285,7 @@ func end_intro() -> void:
 	last_frame.visible = last_frame.texture != null
 	box.visible = last_frame.texture == null
 	if last_frame.texture != null:
-		pill.visible = true
+		pill.visible = not work_done
 
 func _process(delta: float) -> void:
 	if intro_on:
