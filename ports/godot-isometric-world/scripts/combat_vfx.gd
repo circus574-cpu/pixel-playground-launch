@@ -26,27 +26,58 @@ const RACE_COLORS := {
 }
 
 static var _glow_tex: Texture2D
+static var _wisp_tex: Texture2D
 var effects: Array[Dictionary] = []
 
 func _ready() -> void:
 	z_index = 18
+	var add_mat := CanvasItemMaterial.new()
+	add_mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+	material = add_mat
 	_ensure_glow_tex()
 
 static func _ensure_glow_tex() -> Texture2D:
-	if _glow_tex != null:
-		return _glow_tex
-	var sz := 64
-	var img := Image.create(sz, sz, false, Image.FORMAT_RGBA8)
-	var half := float(sz) * 0.5
-	for y in sz:
-		for x in sz:
-			var dx := (float(x) + 0.5 - half) / half
-			var dy := (float(y) + 0.5 - half) / half
-			var r2 := dx * dx + dy * dy
-			var a := clampf(exp(-r2 * 4.4) - exp(-4.4), 0.0, 1.0)
-			img.set_pixel(x, y, Color(1.0, 1.0, 1.0, a))
-	_glow_tex = ImageTexture.create_from_image(img)
+	if _glow_tex == null:
+		var sz := 64
+		var img := Image.create(sz, sz, false, Image.FORMAT_RGBA8)
+		var half := float(sz) * 0.5
+		for y in sz:
+			for x in sz:
+				var dx := (float(x) + 0.5 - half) / half
+				var dy := (float(y) + 0.5 - half) / half
+				var r2 := dx * dx + dy * dy
+				var a := clampf(exp(-r2 * 4.4) - exp(-4.4), 0.0, 1.0)
+				img.set_pixel(x, y, Color(1.0, 1.0, 1.0, a))
+		_glow_tex = ImageTexture.create_from_image(img)
+	if _wisp_tex == null:
+		var w := 48
+		var h := 112
+		var img2 := Image.create(w, h, false, Image.FORMAT_RGBA8)
+		for y in h:
+			var ny := float(y) / float(h - 1)
+			var profile := sin(pow(ny, 0.72) * PI)
+			for x in w:
+				var nx := (float(x) + 0.5 - float(w) * 0.5) / (float(w) * 0.5)
+				var sw := maxf(profile * 0.92, 0.01)
+				var dx := absf(nx) / sw
+				var a := clampf(pow(maxf(0.0, 1.0 - dx), 2.1) * profile * (1.0 - ny * 0.35), 0.0, 1.0)
+				var core_hot := clampf(1.0 - dx * 1.4, 0.0, 1.0)
+				img2.set_pixel(x, y, Color(1.0, 0.92 + 0.08 * core_hot, 0.75 + 0.25 * core_hot, a))
+		_wisp_tex = ImageTexture.create_from_image(img2)
 	return _glow_tex
+
+func _draw_tapered_ray(center: Vector2, ang: float, length: float, half_w: float, col: Color, y_squash: float = 0.78) -> void:
+	if length < 2.0 or half_w < 0.35 or col.a <= 0.005:
+		return
+	var dir := Vector2(cos(ang), sin(ang) * y_squash)
+	var perp := Vector2(-sin(ang), cos(ang) * y_squash).normalized()
+	var poly := PackedVector2Array([
+		center - dir * (length * 0.08),
+		center + dir * (length * 0.14) + perp * half_w,
+		center + dir * length,
+		center + dir * (length * 0.14) - perp * half_w,
+	])
+	draw_colored_polygon(poly, col)
 
 func _pal(race_k: String) -> Dictionary:
 	return RACE_COLORS.get(race_k, RACE_COLORS["legend"])
@@ -165,14 +196,50 @@ func spawn_teleport_flash(pos: Vector2, race_k: String = "sage") -> void:
 
 func spawn_transform_pillar(pos: Vector2, race_k: String) -> void:
 	var pal := _pal(race_k)
-	var bolts: Array[PackedVector2Array] = []
-	for i in 8:
-		var pts := PackedVector2Array()
-		var bx := randf_range(-48.0, 48.0)
-		for seg in 8:
-			var fy := -float(seg) * 36.0
-			pts.append(Vector2(bx + randf_range(-18.0, 18.0), fy))
-		bolts.append(pts)
+	var bolts: Array[Dictionary] = []
+	for i in 14:
+		var bx := randf_range(-92.0, 92.0)
+		var bh := randf_range(220.0, 440.0)
+		bolts.append({
+			"bx": bx,
+			"bh": bh,
+			"ground_ang": (float(i) / 14.0) * TAU + randf_range(-0.2, 0.2),
+			"ground_r": randf_range(65.0, 175.0),
+			"is_ground": (i >= 8),
+			"seed": i * 37 + 11,
+		})
+	var rocks: Array[Dictionary] = []
+	for ri in 18:
+		var ra := (float(ri) / 18.0) * TAU + randf_range(-0.18, 0.18)
+		rocks.append({
+			"ang": ra,
+			"rad": randf_range(34.0, 145.0),
+			"rise": randf_range(90.0, 240.0),
+			"sz": randf_range(4.5, 9.5),
+			"rot": randf_range(0.0, TAU),
+			"spin": randf_range(-4.5, 4.5),
+			"delay": randf_range(0.08, 0.34),
+		})
+	var embers: Array[Dictionary] = []
+	for ei in 42:
+		embers.append({
+			"ang": randf_range(0.0, TAU),
+			"rad": randf_range(16.0, 130.0),
+			"rise": randf_range(180.0, 450.0),
+			"sz": randf_range(2.6, 6.2),
+			"swirl": randf_range(2.5, 6.5) * (-1.0 if ei % 2 == 0 else 1.0),
+			"delay": randf_range(0.0, 0.32),
+		})
+	var cracks: Array[PackedVector2Array] = []
+	for ci in 14:
+		var ca := (float(ci) / 14.0) * TAU + randf_range(-0.14, 0.14)
+		var pts := PackedVector2Array([Vector2.ZERO])
+		for seg in range(1, 6):
+			var frac := float(seg) / 5.0
+			var jitter := randf_range(-0.20, 0.20)
+			var r_c := 235.0 * frac
+			pts.append(Vector2(cos(ca + jitter) * r_c, sin(ca + jitter) * r_c * 0.50))
+		cracks.append(pts)
 	effects.append({
 		"kind": "pillar",
 		"pos": pos,
@@ -180,10 +247,13 @@ func spawn_transform_pillar(pos: Vector2, race_k: String) -> void:
 		"core": pal["core"],
 		"edge": pal["edge"],
 		"bolts": bolts,
+		"rocks": rocks,
+		"embers": embers,
+		"cracks": cracks,
 		"age": 0.0,
-		"dur": 0.96,
+		"dur": 1.65,
 	})
-	spawn_ki_burst(pos, race_k, 190.0)
+	spawn_ki_burst(pos, race_k, 240.0)
 	queue_redraw()
 
 func spawn_impact(pos: Vector2, race_k: String, is_crit: bool = false) -> void:
@@ -369,17 +439,152 @@ func _draw() -> void:
 		elif kind == "pillar":
 			var pos: Vector2 = fx["pos"]
 			var edge_c: Color = fx["edge"]
-			var pw := lerpf(28.0, 94.0, sin(minf(p * 2.2, 1.0) * PI * 0.5)) * (1.0 - p * 0.40)
-			var ph := 325.0
-			_draw_glow(pos + Vector2(0.0, -ph * 0.42), pw * 2.5, ph * 0.64, Color(edge_c.r, edge_c.g, edge_c.b, 0.64 * fade))
-			_draw_glow(pos + Vector2(0.0, -ph * 0.40), pw * 1.20, ph * 0.58, Color(main_c.r, main_c.g, main_c.b, 0.78 * fade))
-			_draw_glow(pos + Vector2(0.0, -ph * 0.36), pw * 0.50, ph * 0.50, Color(core_c.r, core_c.g, core_c.b, 0.95 * fade))
-			for bpts: PackedVector2Array in fx["bolts"]:
+			# Stage 1 (p < 0.24): Inward Ki Convergence Implosion
+			if p < 0.24:
+				var imp := p / 0.24
+				var imp_r := lerpf(210.0, 22.0, imp * imp)
+				draw_set_transform(pos, 0.0, Vector2(1.0, 0.50))
+				draw_arc(Vector2.ZERO, imp_r, 0.0, TAU, 40, Color(main_c.r, main_c.g, main_c.b, (1.0 - imp * 0.25) * 0.72), 4.0, true)
+				draw_arc(Vector2.ZERO, imp_r * 0.65, 0.0, TAU, 32, Color(core_c.r, core_c.g, core_c.b, 0.80), 2.0, true)
+				draw_set_transform(Vector2.ZERO)
+				for si in 14:
+					var sa := (float(si) / 14.0) * TAU + imp * 1.4
+					_draw_tapered_ray(pos + Vector2(cos(sa) * imp_r * 0.45, sin(sa) * imp_r * 0.22 - 30.0), sa, imp_r * 0.72, 3.8, Color(core_c.r, core_c.g, core_c.b, 0.65), 0.52)
+
+			# Stage 2 & 3: Additive Plasma Pillar, Roaring Feathered Flame Wisps, Starburst, Ground Cracks & Crisp Lightning
+			var beam_p := clampf((p - 0.06) / 0.94, 0.0, 1.0)
+			var beam_fade := pow(1.0 - beam_p, 1.25)
+			var grow := sin(minf(beam_p * 3.4, 1.0) * PI * 0.5)
+
+			# 14 Fractured glowing ground cracks radiating outward
+			var cracks: Array = fx.get("cracks", [])
+			for cr_pts: PackedVector2Array in cracks:
 				var shifted := PackedVector2Array()
-				for pt: Vector2 in bpts:
-					shifted.append(pos + pt + Vector2(sin(p * 24.0 + pt.y * 0.05) * 6.0, 0.0))
-				draw_polyline(shifted, Color(edge_c.r, edge_c.g, edge_c.b, 0.82 * fade), 5.6, true)
-				draw_polyline(shifted, Color(core_c.r, core_c.g, core_c.b, 0.98 * fade), 2.8, true)
+				for pt: Vector2 in cr_pts:
+					shifted.append(pos + pt * clampf(beam_p * 3.2, 0.20, 1.0))
+				draw_polyline(shifted, Color(edge_c.r, edge_c.g, edge_c.b, 0.58 * beam_fade), 3.4 * beam_fade + 0.8, true)
+				draw_polyline(shifted, Color(core_c.r, core_c.g, core_c.b, 0.78 * beam_fade), 1.4 * beam_fade + 0.4, true)
+
+			# Triple expanding crater shockwave rings + rotating ground Ki rune circle
+			draw_set_transform(pos, 0.0, Vector2(1.0, 0.50))
+			var cr_r1 := lerpf(32.0, 265.0, 1.0 - pow(1.0 - beam_p, 2.5))
+			var cr_r2 := lerpf(20.0, 195.0, 1.0 - pow(1.0 - beam_p, 1.9))
+			_draw_glow(Vector2.ZERO, cr_r2 * 1.15, cr_r2 * 1.15, Color(edge_c.r, edge_c.g, edge_c.b, 0.44 * beam_fade))
+			draw_arc(Vector2.ZERO, cr_r1, 0.0, TAU, 48, Color(edge_c.r, edge_c.g, edge_c.b, 0.74 * beam_fade), 6.5 * beam_fade + 1.5, true)
+			draw_arc(Vector2.ZERO, cr_r2, 0.0, TAU, 40, Color(main_c.r, main_c.g, main_c.b, 0.82 * beam_fade), 4.0 * beam_fade + 1.0, true)
+			draw_arc(Vector2.ZERO, cr_r2 * 0.62, 0.0, TAU, 32, Color(core_c.r, core_c.g, core_c.b, 0.90 * beam_fade), 2.2 * beam_fade + 0.6, true)
+			for seg in 8:
+				var ra0 := age * 3.8 + float(seg) * (TAU / 8.0)
+				draw_arc(Vector2.ZERO, 86.0 * grow + 14.0, ra0, ra0 + 0.44, 8, Color(core_c.r, core_c.g, core_c.b, 0.88 * beam_fade), 2.8, true)
+			draw_set_transform(Vector2.ZERO)
+
+			# Towering 500px additive multi-layer sky plasma beam
+			var pw := lerpf(38.0, 136.0, grow) * (1.0 - beam_p * 0.42) * (1.0 + sin(age * 28.0) * 0.08)
+			var ph := 500.0 * clampf(beam_p * 4.5, 0.35, 1.0)
+			_draw_glow(pos + Vector2(0.0, -ph * 0.46), pw * 2.4, ph * 0.68, Color(edge_c.r, edge_c.g, edge_c.b, 0.56 * beam_fade))
+			_draw_glow(pos + Vector2(0.0, -ph * 0.44), pw * 1.25, ph * 0.62, Color(main_c.r, main_c.g, main_c.b, 0.68 * beam_fade))
+			_draw_glow(pos + Vector2(0.0, -ph * 0.40), pw * 0.48, ph * 0.54, Color(core_c.r, core_c.g, core_c.b, 0.82 * beam_fade))
+
+			# 18 Roaring feathered plasma flame wisps shooting skyward around the hero!
+			if _wisp_tex != null:
+				for wi in 18:
+					var h0 := fposmod(sin(float(wi * 83 + 17)) * 43758.5453, 1.0)
+					var h1 := fposmod(sin(float(wi * 173 + 29)) * 43758.5453, 1.0)
+					var wph := fposmod(beam_p * (1.6 + 0.9 * h0) + h1 * 0.55, 1.0)
+					var side_f := (h0 - 0.5) * 2.0
+					var wx := pos.x + side_f * (pw * (0.35 + 0.82 * (1.0 - wph * 0.45))) + sin(wph * 9.0 + float(wi)) * 10.0
+					var wy := pos.y - 12.0 - wph * (ph * 0.78)
+					var ww := (1.0 - wph * 0.42) * (42.0 + 28.0 * h1)
+					var wh := (1.0 - wph * 0.28) * (105.0 + 68.0 * h0)
+					var wcol := edge_c.lerp(main_c, wph * 0.65)
+					wcol.a = sin(wph * PI) * 0.68 * beam_fade
+					draw_texture_rect(_wisp_tex, Rect2(wx - ww * 0.5, wy - wh * 0.75, ww, wh), false, wcol)
+
+			# Blinding razor-tapered 12-ray anime starburst lens flare at detonation peak
+			if beam_p < 0.52:
+				var fl_a := sin((beam_p / 0.52) * PI)
+				var fc := pos + Vector2(0.0, -48.0)
+				_draw_glow(fc, 195.0 * (0.6 + beam_p), 155.0 * (0.6 + beam_p), Color(main_c.r, main_c.g, main_c.b, 0.52 * fl_a))
+				_draw_glow(fc, 95.0 * (0.6 + beam_p), 80.0 * (0.6 + beam_p), Color(core_c.r, core_c.g, core_c.b, 0.78 * fl_a))
+				for ray_i in 12:
+					var ra := float(ray_i) * (TAU / 12.0) + age * 1.1
+					var is_major := (ray_i % 2 == 0)
+					var rlen := (235.0 if is_major else 135.0) * (0.55 + fl_a * 0.65)
+					var hw := (11.0 if is_major else 6.0) * fl_a
+					_draw_tapered_ray(fc, ra, rlen, hw, Color(main_c.r, main_c.g, main_c.b, 0.48 * fl_a), 0.72)
+					_draw_tapered_ray(fc, ra, rlen * 0.82, hw * 0.40, Color(core_c.r, core_c.g, core_c.b, 0.85 * fl_a), 0.72)
+
+			# Sleek luminous double-helix plasma coils spiraling upward
+			for strand in 2:
+				var hpts := PackedVector2Array()
+				for hi in 32:
+					var frac := float(hi) / 31.0
+					var ha := frac * 13.0 - age * 15.0 + float(strand) * PI
+					var hrad := lerpf(pw * 1.05, pw * 0.36, frac)
+					hpts.append(pos + Vector2(cos(ha) * hrad, -10.0 - frac * ph))
+				draw_polyline(hpts, Color(main_c.r, main_c.g, main_c.b, 0.52 * beam_fade), 4.6 * beam_fade + 1.0, true)
+				draw_polyline(hpts, Color(core_c.r, core_c.g, core_c.b, 0.82 * beam_fade), 1.7 * beam_fade + 0.5, true)
+
+			# 14 Crisp razor-sharp live-crackling Ki lightning arcs (vertical + ground snaps)
+			var tick := int(age * 16.0)
+			for bd: Dictionary in fx["bolts"]:
+				var bseed := int(bd["seed"])
+				var pts := PackedVector2Array()
+				if bool(bd.get("is_ground", false)):
+					var ga := float(bd["ground_ang"]) + sin(age * 3.0 + float(bseed)) * 0.15
+					var gr := float(bd["ground_r"]) * (0.45 + 0.65 * grow)
+					var g_end := pos + Vector2(cos(ga) * gr, sin(ga) * gr * 0.50)
+					var g_start := pos + Vector2(cos(ga) * 20.0, -54.0)
+					var perp := (g_end - g_start).orthogonal().normalized()
+					pts.append(g_start)
+					for seg in range(1, 6):
+						var frac := float(seg) / 6.0
+						var h_j := fposmod(sin(float(bseed * 17 + seg * 43 + tick * 61)) * 43758.5453, 1.0)
+						pts.append(g_start.lerp(g_end, frac) + perp * ((h_j - 0.5) * 32.0))
+					pts.append(g_end)
+				else:
+					var bx := float(bd["bx"]) * (0.55 + 0.55 * grow)
+					var bh := float(bd["bh"])
+					for seg in 10:
+						var frac := float(seg) / 9.0
+						var h_j := fposmod(sin(float(bseed * 23 + seg * 31 + tick * 59)) * 43758.5453, 1.0)
+						pts.append(pos + Vector2(bx + (h_j - 0.5) * 38.0, -frac * bh))
+				draw_polyline(pts, Color(main_c.r, main_c.g, main_c.b, 0.60 * beam_fade), 3.6 * beam_fade + 0.9, true)
+				draw_polyline(pts, Color(core_c.r, core_c.g, core_c.b, 0.94 * beam_fade), 1.4 * beam_fade + 0.5, true)
+
+			# 18 Glowing levitating magma/Ki rock shards rising in the updraft
+			for rk: Dictionary in fx.get("rocks", []):
+				var rp := clampf((p - float(rk["delay"])) / maxf(1.0 - float(rk["delay"]), 0.1), 0.0, 1.0)
+				if rp <= 0.0:
+					continue
+				var r_fade := sin(rp * PI)
+				var ra := float(rk["ang"]) + rp * 0.7
+				var rrad := float(rk["rad"]) * (0.82 + rp * 0.32)
+				var rpos := pos + Vector2(cos(ra) * rrad, sin(ra) * rrad * 0.50 - float(rk["rise"]) * pow(rp, 0.80))
+				var rsz := float(rk["sz"]) * (1.0 - rp * 0.25)
+				var rrot := float(rk["rot"]) + float(rk["spin"]) * age
+				var poly := PackedVector2Array()
+				for v in 5:
+					var va := rrot + float(v) * (TAU / 5.0)
+					var vr := rsz * (1.0 if v % 2 == 0 else 0.68)
+					poly.append(rpos + Vector2(cos(va) * vr, sin(va) * vr))
+				_draw_glow(rpos, rsz * 2.2, rsz * 2.2, Color(edge_c.r, edge_c.g, edge_c.b, 0.42 * r_fade))
+				draw_colored_polygon(poly, Color(edge_c.r * 0.65, edge_c.g * 0.55, edge_c.b * 0.45, 0.72 * r_fade))
+				poly.append(poly[0])
+				draw_polyline(poly, Color(core_c.r, core_c.g, core_c.b, 0.90 * r_fade), 1.6, true)
+
+			# 42 Soaring spiraling Ki flame embers shooting skyward
+			for em: Dictionary in fx.get("embers", []):
+				var ep := clampf((p - float(em["delay"])) / maxf(1.0 - float(em["delay"]), 0.1), 0.0, 1.0)
+				if ep <= 0.0:
+					continue
+				var efade := pow(1.0 - ep, 1.15)
+				var ea := float(em["ang"]) + float(em["swirl"]) * ep
+				var erad := float(em["rad"]) * (1.0 - ep * 0.35)
+				var epos := pos + Vector2(cos(ea) * erad, sin(ea) * erad * 0.48 - float(em["rise"]) * ep)
+				var esz := float(em["sz"]) * (1.0 - ep * 0.45)
+				_draw_glow(epos, esz * 2.8, esz * 2.8, Color(main_c.r, main_c.g, main_c.b, 0.68 * efade))
+				draw_circle(epos, maxf(1.2, esz * 0.65), Color(core_c.r, core_c.g, core_c.b, 0.92 * efade))
 
 		elif kind == "impact":
 			var pos: Vector2 = fx["pos"]

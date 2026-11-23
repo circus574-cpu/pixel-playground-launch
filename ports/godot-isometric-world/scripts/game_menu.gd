@@ -106,6 +106,63 @@ func _ready() -> void:
 		pg.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		pages_holder.add_child(pg)
 
+	# Permanent Always-Visible Bottom Session Bar (visible immediately on ALL tabs!)
+	var sep := ColorRect.new()
+	sep.custom_minimum_size = Vector2(0, 2)
+	sep.color = Color(0.84, 0.66, 0.30, 0.45)
+	root_v.add_child(sep)
+
+	var footer := HBoxContainer.new()
+	footer.add_theme_constant_override("separation", 8)
+	root_v.add_child(footer)
+
+	var f_resume := Button.new()
+	f_resume.text = "▶ WZNÓW"
+	f_resume.custom_minimum_size = Vector2(0, 48)
+	f_resume.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	ForgedUI.style_button(f_resume, "gold", 15, 14.0, 8.0)
+	f_resume.pressed.connect(close_menu)
+	footer.add_child(f_resume)
+
+	var f_char := Button.new()
+	f_char.text = "⇄ ZMIEŃ POSTAĆ"
+	f_char.custom_minimum_size = Vector2(0, 48)
+	f_char.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	ForgedUI.style_button(f_char, "slate", 14, 12.0, 8.0)
+	f_char.pressed.connect(func() -> void:
+		_play_click()
+		close_menu()
+		if world != null and world.has_method("request_change_character"):
+			world.request_change_character()
+	)
+	footer.add_child(f_char)
+
+	var f_logout := Button.new()
+	f_logout.text = "WYLOGUJ"
+	f_logout.custom_minimum_size = Vector2(130, 48)
+	ForgedUI.style_button(f_logout, "slate", 14, 12.0, 8.0)
+	f_logout.pressed.connect(func() -> void:
+		_play_click()
+		close_menu()
+		if world != null and world.has_method("request_logout"):
+			world.request_logout()
+	)
+	footer.add_child(f_logout)
+
+	var f_quit := Button.new()
+	f_quit.text = "✕ WYJDŹ Z GRY"
+	f_quit.custom_minimum_size = Vector2(180, 48)
+	f_quit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	ForgedUI.style_button(f_quit, "crimson", 15, 14.0, 8.0)
+	f_quit.pressed.connect(func() -> void:
+		_play_click()
+		if world != null and world.has_method("request_quit_game"):
+			world.request_quit_game()
+		else:
+			get_tree().quit()
+	)
+	footer.add_child(f_quit)
+
 	_select_tab("game", false)
 	resized.connect(_layout)
 	_layout()
@@ -568,8 +625,8 @@ func _layout() -> void:
 	var vs := get_viewport_rect().size
 	if vs.x < 100.0:
 		vs = size
-	var pw := clampf(vs.x * 0.72, 660.0, 920.0)
-	var ph := clampf(vs.y * 0.88, 520.0, 650.0)
+	var pw := clampf(vs.x * 0.78, 700.0, 960.0)
+	var ph := clampf(vs.y * 0.90, 540.0, 668.0)
 	panel.size = Vector2(pw, ph)
 	panel.position = Vector2((vs.x - pw) * 0.5, (vs.y - ph) * 0.5)
 

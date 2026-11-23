@@ -21,6 +21,15 @@ const ONE_SHOT_CLIPS := {
 }
 
 static var sheet_cache: Dictionary = {}
+static var _ki_glow_tex: Texture2D = null
+static var _ki_wisp_tex: Texture2D = null
+
+const KI_PALETTE := {
+	"legend":    {"main": Color(1.0, 0.54, 0.16), "edge": Color(1.0, 0.24, 0.08), "core": Color(1.0, 0.95, 0.72)},
+	"planetary": {"main": Color(0.28, 0.95, 0.52), "edge": Color(0.96, 0.84, 0.24), "core": Color(0.88, 1.0, 0.82)},
+	"sage":      {"main": Color(0.34, 0.86, 1.0),  "edge": Color(0.58, 0.48, 1.0), "core": Color(0.92, 0.98, 1.0)},
+	"android":   {"main": Color(0.16, 0.96, 0.98), "edge": Color(0.78, 0.34, 1.0), "core": Color(0.90, 0.98, 1.0)},
+}
 
 var sprite := AnimatedSprite2D.new()
 var label := Label.new()
@@ -31,6 +40,7 @@ var direction := "down"
 var state := "idle"
 var prefix := ""
 var ki_mode_active := false
+var ki_race := "legend"
 var display := Vector2.ZERO
 var one_shot_until := 0.0
 var one_shot_clip := ""
@@ -43,6 +53,38 @@ var role_title := ""
 var monster_level := 0
 var hp_ratio := 1.0
 var is_elite := false
+
+func _ki_pal() -> Dictionary:
+	return KI_PALETTE.get(ki_race, KI_PALETTE["legend"])
+
+static func _ensure_ki_textures() -> void:
+	if _ki_glow_tex == null:
+		var sz := 64
+		var img := Image.create(sz, sz, false, Image.FORMAT_RGBA8)
+		var half := float(sz) * 0.5
+		for y in sz:
+			for x in sz:
+				var dx := (float(x) + 0.5 - half) / half
+				var dy := (float(y) + 0.5 - half) / half
+				var d := sqrt(dx * dx + dy * dy)
+				var a := clampf(pow(maxf(0.0, 1.0 - d), 2.3), 0.0, 1.0)
+				img.set_pixel(x, y, Color(1.0, 1.0, 1.0, a))
+		_ki_glow_tex = ImageTexture.create_from_image(img)
+	if _ki_wisp_tex == null:
+		var w := 40
+		var h := 96
+		var img2 := Image.create(w, h, false, Image.FORMAT_RGBA8)
+		for y in h:
+			var ny := float(y) / float(h - 1)
+			var profile := sin(pow(ny, 0.72) * PI)
+			for x in w:
+				var nx := (float(x) + 0.5 - float(w) * 0.5) / (float(w) * 0.5)
+				var sw := maxf(profile * 0.92, 0.01)
+				var dx := absf(nx) / sw
+				var a := clampf(pow(maxf(0.0, 1.0 - dx), 2.1) * profile * (1.0 - ny * 0.35), 0.0, 1.0)
+				var core_hot := clampf(1.0 - dx * 1.4, 0.0, 1.0)
+				img2.set_pixel(x, y, Color(1.0, 0.92 + 0.08 * core_hot, 0.75 + 0.25 * core_hot, a))
+		_ki_wisp_tex = ImageTexture.create_from_image(img2)
 
 func setup(
 	data: Dictionary,
@@ -273,33 +315,81 @@ func _draw() -> void:
 		draw_arc(Vector2.ZERO, 24.0 * shadow_scale, 0.0, TAU, 24, Color(0.28, 0.88, 1.0, 0.58), 2.0)
 	elif is_hero:
 		if ki_mode_active:
+			var pal := _ki_pal()
+			var mc: Color = pal["main"]
+			var ec: Color = pal["edge"]
+			var cc: Color = pal["core"]
 			var t_sec := Time.get_ticks_msec() / 1000.0
-			var pulse := 1.0 + sin(t_sec * 6.5) * 0.10
-			draw_circle(Vector2.ZERO, 40.0 * shadow_scale * pulse, Color(1.0, 0.68, 0.16, 0.28))
-			draw_arc(Vector2.ZERO, 38.0 * shadow_scale * pulse, 0.0, TAU, 36, Color(1.0, 0.86, 0.32, 0.96), 4.0)
-			draw_arc(Vector2.ZERO, 28.0 * shadow_scale, 0.0, TAU, 28, Color(1.0, 0.96, 0.72, 0.80), 2.4)
+			var pulse := 1.0 + sin(t_sec * 7.2) * 0.12
+			draw_circle(Vector2.ZERO, 54.0 * shadow_scale * pulse, Color(ec.r, ec.g, ec.b, 0.26))
+			draw_circle(Vector2.ZERO, 40.0 * shadow_scale * pulse, Color(mc.r, mc.g, mc.b, 0.36))
+			draw_arc(Vector2.ZERO, 48.0 * shadow_scale * pulse, 0.0, TAU, 40, Color(ec.r, ec.g, ec.b, 0.92), 4.4, true)
+			draw_arc(Vector2.ZERO, 36.0 * shadow_scale * (1.0 + cos(t_sec * 5.0) * 0.06), 0.0, TAU, 32, Color(mc.r, mc.g, mc.b, 0.96), 3.2, true)
+			# Rotating incandescent runic arcs beneath the hero's feet
+			for seg in 6:
+				var a0 := t_sec * 1.9 + float(seg) * (TAU / 6.0)
+				draw_arc(Vector2.ZERO, 42.0 * shadow_scale, a0, a0 + 0.48, 8, Color(cc.r, cc.g, cc.b, 0.95), 2.6, true)
 		draw_arc(Vector2.ZERO, 26.0 * shadow_scale, 0.0, TAU, 28, Color(1.0, 0.82, 0.32, 0.80), 2.5)
 	draw_set_transform(Vector2.ZERO)
 
-	# Rising Ki Mode flame wisps & sparks around the hero's body
+	# Full-Power Anime Ki Mode Aura: feathered plasma halo, rising flame wisps, crackling lightning & embers
 	if is_hero and ki_mode_active:
+		_ensure_ki_textures()
+		var pal := _ki_pal()
+		var mc: Color = pal["main"]
+		var ec: Color = pal["edge"]
+		var cc: Color = pal["core"]
 		var t_s := Time.get_ticks_msec() / 1000.0
-		var body_h := maxf(display.y * 0.95, 110.0)
-		for i in 10:
-			var h0 := fposmod(sin(float(i * 97 + 13)) * 43758.5453, 1.0)
-			var h1 := fposmod(sin(float(i * 193 + 41)) * 43758.5453, 1.0)
-			var ph := fposmod(t_s * (1.1 + 0.55 * h0) + h1, 1.0)
-			var ang := TAU * h1 + t_s * 2.1
-			var wx := cos(ang) * 28.0 * shadow_scale
-			var wy := -10.0 - ph * body_h
-			var ww := (1.0 - ph) * 9.0
-			var tip := Vector2(wx + sin(ph * 8.0 + float(i)) * 6.0, wy - 26.0 * (1.0 - ph))
-			draw_colored_polygon(PackedVector2Array([
-				Vector2(wx - ww, wy + 14.0),
-				tip,
-				Vector2(wx + ww, wy + 14.0),
-			]), Color(1.0, 0.64 + 0.28 * ph, 0.18, 0.58 * (1.0 - ph)))
-			draw_circle(Vector2(wx * 1.15, wy - 6.0), (1.0 - ph) * 3.4 + 1.0, Color(1.0, 0.94, 0.65, 0.88 * (1.0 - ph)))
+		var body_h := maxf(display.y * 1.05, 118.0)
+		var pulse := 1.0 + sin(t_s * 7.0) * 0.10
+		if _ki_glow_tex != null:
+			var rx := 58.0 * shadow_scale * pulse
+			var ry := body_h * 0.78 * pulse
+			draw_texture_rect(_ki_glow_tex, Rect2(-rx, -body_h * 0.56 - ry * 0.55, rx * 2.0, ry * 1.35), false, Color(ec.r, ec.g, ec.b, 0.44))
+			draw_texture_rect(_ki_glow_tex, Rect2(-rx * 0.65, -body_h * 0.52 - ry * 0.42, rx * 1.30, ry * 1.05), false, Color(mc.r, mc.g, mc.b, 0.52))
+		if _ki_wisp_tex != null:
+			for i in 12:
+				var h0 := fposmod(sin(float(i * 97 + 13)) * 43758.5453, 1.0)
+				var h1 := fposmod(sin(float(i * 193 + 41)) * 43758.5453, 1.0)
+				var ph := fposmod(t_s * (1.25 + 0.65 * h0) + h1, 1.0)
+				var side_f := (h0 - 0.5) * 2.0
+				var wx := side_f * (22.0 + 26.0 * (1.0 - ph * 0.35)) * shadow_scale + sin(ph * 9.0 + float(i)) * 7.0
+				var wy := -8.0 - ph * body_h * 0.95
+				var ww := (1.0 - ph * 0.45) * (24.0 + 14.0 * h1)
+				var wh := (1.0 - ph * 0.30) * (54.0 + 32.0 * h0)
+				var wcol := ec.lerp(mc, ph * 0.72)
+				wcol.a = sin(ph * PI) * 0.74
+				draw_texture_rect(_ki_wisp_tex, Rect2(wx - ww * 0.5, wy - wh * 0.75, ww, wh), false, wcol)
+		# Crackling miniature Ki lightning arcs snapping around hero body
+		var frame_tick := int(t_s * 14.0)
+		for li in 4:
+			var side_l := -1.0 if li % 2 == 0 else 1.0
+			var lh := fposmod(sin(float(li * 73 + frame_tick * 19)) * 43758.5453, 1.0)
+			if lh < 0.25:
+				continue
+			var y0 := -16.0 - lh * body_h * 0.50
+			var p0 := Vector2(side_l * (24.0 + lh * 18.0) * shadow_scale, y0)
+			var p1 := Vector2(side_l * (10.0 + (1.0 - lh) * 22.0) * shadow_scale, y0 - 34.0 - lh * 32.0)
+			var pts := PackedVector2Array([p0])
+			var perp := (p1 - p0).orthogonal().normalized()
+			for seg in range(1, 5):
+				var frac := float(seg) / 5.0
+				var jit := (fposmod(sin(float(li * 41 + seg * 29 + frame_tick * 53)) * 43758.5453, 1.0) - 0.5) * 18.0
+				pts.append(p0.lerp(p1, frac) + perp * jit)
+			pts.append(p1)
+			draw_polyline(pts, Color(mc.r, mc.g, mc.b, 0.72), 4.0, true)
+			draw_polyline(pts, Color(cc.r, cc.g, cc.b, 0.96), 1.7, true)
+		# Rising glowing Ki embers
+		for ei in 14:
+			var h0 := fposmod(sin(float(ei * 61 + 7)) * 43758.5453, 1.0)
+			var h1 := fposmod(sin(float(ei * 139 + 29)) * 43758.5453, 1.0)
+			var ph := fposmod(t_s * (1.35 + 0.70 * h0) + h1, 1.0)
+			var ang := TAU * h1 + t_s * 2.8
+			var ex := cos(ang) * (20.0 + 26.0 * h0) * shadow_scale
+			var ey := -8.0 - ph * (body_h * 1.15)
+			var er := (1.0 - ph) * 3.8 + 1.1
+			draw_circle(Vector2(ex, ey), er + 1.5, Color(mc.r, mc.g, mc.b, 0.75 * (1.0 - ph)))
+			draw_circle(Vector2(ex, ey), er * 0.72, Color(cc.r, cc.g, cc.b, 0.96 * (1.0 - ph)))
 
 	# Monster HP bar (gilded wider bar for named Elites)
 	if actor_kind == "monster":

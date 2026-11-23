@@ -55,6 +55,47 @@ func _style_btn(btn: Button, bg: Color, border: Color, font_sz: int = 15) -> voi
 	var variant := "gold" if (border.r > 0.90 and border.g > 0.72) else ("crimson" if (bg.r > 0.24 and bg.g < 0.14) else "slate")
 	ForgedUI.style_button(btn, variant, maxi(font_sz, 14), 14.0, 8.0)
 
+## Crisp compact beveled control button for GM numeric +/- steppers & grids.
+## Uses narrow content padding (NO wide 44px Forged texture margins) so buttons NEVER clip horizontally!
+func _style_mini_btn(btn: Button, kind: String = "slate", font_sz: int = 13, min_w: float = 46.0, min_h: float = 34.0) -> void:
+	btn.focus_mode = Control.FOCUS_NONE
+	btn.custom_minimum_size = Vector2(min_w, min_h)
+	var bg_col := Color(0.11, 0.10, 0.15, 0.96)
+	var bd_col := Color(0.62, 0.52, 0.34, 0.90)
+	var txt_col := Color(0.96, 0.93, 0.84)
+	if kind == "plus":
+		bg_col = Color(0.09, 0.24, 0.14, 0.96)
+		bd_col = Color(0.38, 0.88, 0.52, 0.94)
+		txt_col = Color(0.86, 1.0, 0.90)
+	elif kind == "minus":
+		bg_col = Color(0.26, 0.09, 0.10, 0.96)
+		bd_col = Color(0.92, 0.42, 0.38, 0.94)
+		txt_col = Color(1.0, 0.88, 0.86)
+	elif kind == "gold":
+		bg_col = Color(0.24, 0.18, 0.07, 0.96)
+		bd_col = Color(0.98, 0.80, 0.34, 0.96)
+		txt_col = Color(1.0, 0.95, 0.76)
+	elif kind == "cyan":
+		bg_col = Color(0.08, 0.20, 0.26, 0.96)
+		bd_col = Color(0.36, 0.88, 1.0, 0.94)
+		txt_col = Color(0.88, 0.98, 1.0)
+	for st_name in ["normal", "hover", "pressed", "disabled"]:
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = bg_col.lightened(0.12) if st_name == "hover" else (bg_col.darkened(0.18) if st_name == "pressed" else bg_col)
+		sb.border_color = bd_col.lightened(0.16) if st_name == "hover" else bd_col
+		sb.set_border_width_all(2)
+		sb.set_corner_radius_all(6)
+		sb.content_margin_left = 8
+		sb.content_margin_right = 8
+		sb.content_margin_top = 4
+		sb.content_margin_bottom = 4
+		btn.add_theme_stylebox_override(st_name, sb)
+	btn.add_theme_font_override("font", MapStyle.body_font())
+	btn.add_theme_font_size_override("font_size", font_sz)
+	btn.add_theme_color_override("font_color", txt_col)
+	btn.add_theme_color_override("font_hover_color", Color.WHITE)
+	btn.add_theme_color_override("font_pressed_color", Color(1.0, 0.92, 0.65))
+
 var _opened_msec := 0
 
 func _build_ui() -> void:
@@ -82,7 +123,7 @@ func _build_ui() -> void:
 	root_v.add_child(ForgedUI.make_header_bar("PANEL GM — NARZĘDZIA ADMINISTRATORA", func() -> void:
 		if world != null and world.has_method("toggle_gm_panel"):
 			world.toggle_gm_panel(false)
-	, "← WSTECZ", "Teleportacja, przedmioty i testy balansu"))
+	, "← WSTECZ", "Pełna kontrola: teleportacja, przedmioty, statystyki i talenty"))
 
 	# Tabs Row
 	var tabs_row := HBoxContainer.new()
@@ -90,8 +131,8 @@ func _build_ui() -> void:
 	root_v.add_child(tabs_row)
 	var tab_defs := [
 		["teleport", "⚡ TELEPORT & SZYBKOŚĆ"],
-		["items", "🎒 TWORZENIE PRZEDMIOTÓW"],
-		["stats", "📊 PUNKTY STATYSTYK"],
+		["items", "🎒 PRZEDMIOTY"],
+		["stats", "📊 STATYSTYKI I BOHATER"],
 	]
 	for td: Array in tab_defs:
 		var tb := Button.new()
@@ -126,8 +167,8 @@ func _layout_panel() -> void:
 	var vs := get_viewport_rect().size
 	if vs.x < 100.0:
 		vs = Vector2(1280.0, 720.0)
-	var pw := clampf(vs.x - 120.0, 560.0, 820.0)
-	var ph := clampf(vs.y - 84.0, 440.0, 620.0)
+	var pw := clampf(vs.x - 80.0, 640.0, 920.0)
+	var ph := clampf(vs.y - 68.0, 480.0, 650.0)
 	panel_box.position = Vector2((vs.x - pw) * 0.5, (vs.y - ph) * 0.5)
 	panel_box.size = Vector2(pw, ph)
 
@@ -188,22 +229,17 @@ func _build_teleport_tab() -> void:
 	spd_row.add_theme_constant_override("separation", 8)
 	content_vbox.add_child(spd_row)
 	var cur_spd: float = float(world.gm_speed_mult) if world != null else 1.0
-	for mult_def: Array in [[1.0, "1× Normalna"], [2.0, "2× Szybka"], [4.0, "4× Super"], [8.0, "8× Błyskawica"]]:
+	for mult_def: Array in [[0.5, "0.5× Wolna"], [1.0, "1× Normalna"], [2.0, "2× Szybka"], [4.0, "4× Super"], [8.0, "8× Błyskawica"]]:
 		var mv: float = float(mult_def[0])
 		var sb := Button.new()
 		sb.text = str(mult_def[1])
 		sb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var is_sel := absf(cur_spd - mv) < 0.1
-		_style_btn(
-			sb,
-			Color(0.32, 0.22, 0.06, 0.98) if is_sel else Color(0.12, 0.10, 0.14, 0.94),
-			Color(1.0, 0.84, 0.36, 1.0) if is_sel else Color(0.55, 0.45, 0.30, 0.85),
-			13
-		)
+		var is_sel := absf(cur_spd - mv) < 0.05
+		_style_mini_btn(sb, "gold" if is_sel else "slate", 13, 0.0, 40.0)
 		sb.pressed.connect(func() -> void:
 			if world != null:
 				world.gm_speed_mult = mv
-				_set_status("Ustawiono szybkość ruchu GM: %.0f×" % mv)
+				_set_status("Ustawiono szybkość ruchu GM: %.1f×" % mv)
 				refresh_content()
 		)
 		spd_row.add_child(sb)
@@ -211,12 +247,7 @@ func _build_teleport_tab() -> void:
 	var noclip_on: bool = world != null and bool(world.gm_noclip)
 	var btn_nc := Button.new()
 	btn_nc.text = "PRZENIKANIE (NOCLIP — OMIJANIE WODY/GÓR): %s" % ("WŁĄCZONE ✓" if noclip_on else "WYŁĄCZONE")
-	_style_btn(
-		btn_nc,
-		Color(0.24, 0.12, 0.34, 0.96) if noclip_on else Color(0.12, 0.10, 0.14, 0.94),
-		Color(0.80, 0.56, 1.0, 0.96) if noclip_on else Color(0.55, 0.45, 0.30, 0.85),
-		13
-	)
+	_style_mini_btn(btn_nc, "cyan" if noclip_on else "slate", 13, 0.0, 40.0)
 	btn_nc.pressed.connect(func() -> void:
 		if world != null:
 			world.gm_noclip = not world.gm_noclip
@@ -234,7 +265,7 @@ func _build_teleport_tab() -> void:
 		var cb := Button.new()
 		cb.text = str(land_def[1])
 		cb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		_style_btn(cb, Color(0.14, 0.11, 0.16, 0.95), Color(0.84, 0.66, 0.34, 0.90), 13)
+		_style_mini_btn(cb, "gold" if (world != null and str(world.current_land) == lid) else "slate", 14, 0.0, 40.0)
 		cb.pressed.connect(func() -> void:
 			if world != null:
 				world.switch_region(lid)
@@ -259,7 +290,7 @@ func _build_teleport_tab() -> void:
 			var tb := Button.new()
 			tb.text = "🏰 %s (%d, %d)" % [tname, int(round(tx)), int(round(tz))]
 			tb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			_style_btn(tb, Color(0.11, 0.13, 0.18, 0.94), Color(0.54, 0.72, 0.92, 0.85), 12)
+			_style_mini_btn(tb, "slate", 13, 0.0, 38.0)
 			tb.pressed.connect(func() -> void:
 				if world != null:
 					world.teleport_to_world_pos(str(world.current_land), tx, tz)
@@ -279,12 +310,7 @@ func _build_items_tab() -> void:
 		fb.text = str(cat_def[1])
 		fb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var is_sel := item_cat == cid
-		_style_btn(
-			fb,
-			Color(0.28, 0.20, 0.08, 0.98) if is_sel else Color(0.11, 0.10, 0.14, 0.94),
-			Color(1.0, 0.84, 0.36, 1.0) if is_sel else Color(0.46, 0.40, 0.30, 0.82),
-			12
-		)
+		_style_mini_btn(fb, "gold" if is_sel else "slate", 13, 0.0, 36.0)
 		fb.pressed.connect(func() -> void:
 			item_cat = cid
 			refresh_content()
@@ -304,12 +330,7 @@ func _build_items_tab() -> void:
 		var qb := Button.new()
 		qb.text = "×%d" % qv
 		var is_q := item_qty == qv
-		_style_btn(
-			qb,
-			Color(0.14, 0.30, 0.20, 0.96) if is_q else Color(0.12, 0.10, 0.14, 0.94),
-			Color(0.46, 0.96, 0.62, 0.96) if is_q else Color(0.46, 0.40, 0.30, 0.82),
-			12
-		)
+		_style_mini_btn(qb, "plus" if is_q else "slate", 13, 52.0, 34.0)
 		qb.pressed.connect(func() -> void:
 			item_qty = qv
 			refresh_content()
@@ -318,7 +339,7 @@ func _build_items_tab() -> void:
 
 	var btn_open_bag := Button.new()
 	btn_open_bag.text = "OTWÓRZ PLECAK [I]"
-	_style_btn(btn_open_bag, Color(0.18, 0.14, 0.08, 0.96), Color(0.92, 0.74, 0.36, 0.95), 12)
+	_style_mini_btn(btn_open_bag, "gold", 13, 150.0, 34.0)
 	btn_open_bag.pressed.connect(func() -> void:
 		if world != null:
 			world.toggle_gm_panel(false)
@@ -362,7 +383,7 @@ func _build_items_tab() -> void:
 
 		var btn_add := Button.new()
 		btn_add.text = "+ STWÓRZ ×%d" % item_qty
-		_style_btn(btn_add, Color(0.12, 0.28, 0.16, 0.96), Color(0.42, 0.92, 0.56, 0.95), 12)
+		_style_mini_btn(btn_add, "plus", 13, 128.0, 34.0)
 		var it_copy := item.duplicate(true)
 		btn_add.pressed.connect(func() -> void:
 			if world != null and world.rpg_hud != null:
@@ -374,59 +395,118 @@ func _build_items_tab() -> void:
 		)
 		row.add_child(btn_add)
 
+func _gm_card(title: String) -> VBoxContainer:
+	var card := PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.add_theme_stylebox_override("panel", ForgedUI.inset_card(Color(0.76, 0.58, 0.28, 0.72), Color(0.055, 0.050, 0.082, 0.94), 14, 10))
+	content_vbox.add_child(card)
+	var vb := VBoxContainer.new()
+	vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vb.add_theme_constant_override("separation", 7)
+	card.add_child(vb)
+	vb.add_child(_section_label(title))
+	return vb
+
 func _build_stats_tab() -> void:
 	var hud_ref = world.rpg_hud if world != null else null
 	if hud_ref == null:
 		return
 
-	content_vbox.add_child(_section_label("PUNKTY STATYSTYK, POZIOM I ZASOBY BOHATERA"))
+	# Card 1: Level, Gold, Free Stat Points & Skill Points (Full +/- / Reset / Max)
+	var res_vb := _gm_card("POZIOM, ZŁOTO I PUNKTY — PEŁNA KONTROLA (+ / − / RESET)")
 
-	var sum_lbl := Label.new()
-	sum_lbl.text = "Poziom: %d  •  Wolne pkt statystyk: %d  •  Pkt umiejętności: %d  •  Złoto: %d" % [
-		int(hud_ref.hero_level), int(hud_ref.free_stat_points), int(hud_ref.skill_points), int(hud_ref.hero_gold)
+	var resource_rows := [
+		{
+			"label": "Poziom bohatera: %d" % int(hud_ref.hero_level),
+			"btns": [
+				["Poz.1", "slate", func() -> void: hud_ref.set_level_gm(1); _set_status("Ustawiono Poziom 1")],
+				["−5", "minus", func() -> void: hud_ref.add_level_gm(-5); _set_status("Poziom: %d" % int(hud_ref.hero_level))],
+				["−1", "minus", func() -> void: hud_ref.add_level_gm(-1); _set_status("Poziom: %d" % int(hud_ref.hero_level))],
+				["+1", "plus", func() -> void: hud_ref.add_level_gm(1); _set_status("Poziom: %d" % int(hud_ref.hero_level))],
+				["+5", "plus", func() -> void: hud_ref.add_level_gm(5); _set_status("Poziom: %d" % int(hud_ref.hero_level))],
+				["Poz.20", "gold", func() -> void: hud_ref.set_level_gm(20); _set_status("Ustawiono Poziom 20")],
+			],
+		},
+		{
+			"label": "Złoto: %d szt." % int(hud_ref.hero_gold),
+			"btns": [
+				["= 0", "slate", func() -> void: hud_ref.set_gold_gm(0); _set_status("Wyzerowano złoto")],
+				["−1k", "minus", func() -> void: hud_ref.add_gold_gm(-1000); _set_status("Złoto: %d" % int(hud_ref.hero_gold))],
+				["−100", "minus", func() -> void: hud_ref.add_gold_gm(-100); _set_status("Złoto: %d" % int(hud_ref.hero_gold))],
+				["+100", "plus", func() -> void: hud_ref.add_gold_gm(100); _set_status("Złoto: %d" % int(hud_ref.hero_gold))],
+				["+1k", "plus", func() -> void: hud_ref.add_gold_gm(1000); _set_status("Złoto: %d" % int(hud_ref.hero_gold))],
+				["+10k", "gold", func() -> void: hud_ref.add_gold_gm(10000); _set_status("Złoto: %d" % int(hud_ref.hero_gold))],
+			],
+		},
+		{
+			"label": "Wolne pkt statystyk: %d" % int(hud_ref.free_stat_points),
+			"btns": [
+				["= 0", "slate", func() -> void: hud_ref.set_free_stat_points_gm(0); _set_status("Wolne pkt statystyk = 0")],
+				["−10", "minus", func() -> void: hud_ref.add_free_stat_points_gm(-10); _set_status("Wolne pkt statystyk: %d" % int(hud_ref.free_stat_points))],
+				["−1", "minus", func() -> void: hud_ref.add_free_stat_points_gm(-1); _set_status("Wolne pkt statystyk: %d" % int(hud_ref.free_stat_points))],
+				["+1", "plus", func() -> void: hud_ref.add_free_stat_points_gm(1); _set_status("Wolne pkt statystyk: %d" % int(hud_ref.free_stat_points))],
+				["+10", "plus", func() -> void: hud_ref.add_free_stat_points_gm(10); _set_status("Wolne pkt statystyk: %d" % int(hud_ref.free_stat_points))],
+				["+50", "gold", func() -> void: hud_ref.add_free_stat_points_gm(50); _set_status("Wolne pkt statystyk: %d" % int(hud_ref.free_stat_points))],
+			],
+		},
+		{
+			"label": "Pkt umiejętności: %d" % int(hud_ref.skill_points),
+			"btns": [
+				["= 0", "slate", func() -> void: hud_ref.set_skill_points_gm(0); _set_status("Pkt umiejętności = 0")],
+				["−5", "minus", func() -> void: hud_ref.add_skill_points_gm(-5); _set_status("Pkt umiejętności: %d" % int(hud_ref.skill_points))],
+				["−1", "minus", func() -> void: hud_ref.add_skill_points_gm(-1); _set_status("Pkt umiejętności: %d" % int(hud_ref.skill_points))],
+				["+1", "plus", func() -> void: hud_ref.add_skill_points_gm(1); _set_status("Pkt umiejętności: %d" % int(hud_ref.skill_points))],
+				["+5", "plus", func() -> void: hud_ref.add_skill_points_gm(5); _set_status("Pkt umiejętności: %d" % int(hud_ref.skill_points))],
+				["+20", "gold", func() -> void: hud_ref.add_skill_points_gm(20); _set_status("Pkt umiejętności: %d" % int(hud_ref.skill_points))],
+			],
+		},
 	]
-	sum_lbl.add_theme_font_override("font", MapStyle.body_font())
-	sum_lbl.add_theme_font_size_override("font_size", 14)
-	sum_lbl.add_theme_color_override("font_color", Color(0.98, 0.92, 0.72))
-	content_vbox.add_child(sum_lbl)
+	for rr: Dictionary in resource_rows:
+		var row := HBoxContainer.new()
+		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_theme_constant_override("separation", 6)
+		res_vb.add_child(row)
 
-	var quick_row := HBoxContainer.new()
-	quick_row.add_theme_constant_override("separation", 6)
-	content_vbox.add_child(quick_row)
+		var lbl := Label.new()
+		lbl.text = str(rr["label"])
+		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		lbl.clip_text = true
+		lbl.add_theme_font_override("font", MapStyle.body_font())
+		lbl.add_theme_font_size_override("font_size", 14)
+		lbl.add_theme_color_override("font_color", Color(0.98, 0.93, 0.78))
+		row.add_child(lbl)
 
-	var quick_defs := [
-		["+5 Pkt Statystyk", "stat5"],
-		["+5 Pkt Umiejęt.", "skill5"],
-		["+1 Poziom", "lvl1"],
-		["+1000 Złota", "gold1000"],
-		["Pełne HP/KI", "heal"],
-	]
-	for qa: Array in quick_defs:
-		var qb := Button.new()
-		qb.text = str(qa[0])
-		qb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		_style_btn(qb, Color(0.22, 0.16, 0.08, 0.96), Color(0.92, 0.72, 0.34, 0.92), 12)
-		var act := str(qa[1])
-		qb.pressed.connect(func() -> void: _apply_quick_stat(act))
-		quick_row.add_child(qb)
+		for bdef: Array in rr["btns"]:
+			var b := Button.new()
+			b.text = str(bdef[0])
+			_style_mini_btn(b, str(bdef[1]), 12, 48.0, 32.0)
+			var cb: Callable = bdef[2]
+			b.pressed.connect(func() -> void:
+				cb.call()
+				refresh_content()
+			)
+			row.add_child(b)
 
-	content_vbox.add_child(_section_label("BEZPOŚREDNIE ROZDAWANIE ATRYBUTÓW (DZIAŁA NA ŻYWO W GRZE I W [I])"))
+	# Card 2: Direct Unlimited Attribute Editor (Decrease OR Increase freely, including below base!)
+	var attr_vb := _gm_card("ATRYBUTY BOHATERA — ZWIĘKSZ / ZMNIEJSZ BEZ OGRANICZEŃ")
 	var stat_defs := [
-		["hp", "Witalność (+25 Maks. HP / pkt)", "hud-hp.webp", int(round(hud_ref.hero_max_hp))],
-		["ki", "Energia Ki (+15 Maks. KI / pkt)", "hud-ki.webp", int(round(hud_ref.hero_max_ki))],
-		["atk", "Siła / Atak (+5 Ataku / pkt)", "hud-combat.webp", hud_ref.get_total_attack()],
-		["def", "Obrona (+4 Obrony / pkt)", "hud-shield.webp", hud_ref.get_total_defense()],
-		["spd", "Szybkość (+15 j. ruchu / pkt)", "gear-boots.webp", hud_ref.get_total_speed()],
-		["crit", "Szansa Krytyczna (+2% / pkt)", "emblem_slash.webp", int(round(hud_ref.get_total_crit()))],
+		["hp", "Witalność (HP)", "hud-hp.webp", int(round(hud_ref.hero_max_hp)), "±25/pkt"],
+		["ki", "Energia Ki", "hud-ki.webp", int(round(hud_ref.hero_max_ki)), "±15/pkt"],
+		["atk", "Siła / Atak", "hud-combat.webp", hud_ref.get_total_attack(), "±5/pkt"],
+		["def", "Obrona", "hud-shield.webp", hud_ref.get_total_defense(), "±4/pkt"],
+		["spd", "Szybkość ruchu", "gear-boots.webp", hud_ref.get_total_speed(), "±15/pkt"],
+		["crit", "Szansa Kryt.", "emblem_slash.webp", int(round(hud_ref.get_total_crit())), "±2%/pkt"],
 	]
 	for sd: Array in stat_defs:
 		var skey := str(sd[0])
+		var gm_bonus := int(hud_ref.bonus_stat_pts.get(skey, 0))
 		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 8)
-		content_vbox.add_child(row)
+		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_theme_constant_override("separation", 6)
+		attr_vb.add_child(row)
 
 		var ico := TextureRect.new()
-		ico.custom_minimum_size = Vector2(26, 26)
+		ico.custom_minimum_size = Vector2(24, 24)
 		ico.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		ico.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		if world != null:
@@ -435,54 +515,79 @@ func _build_stats_tab() -> void:
 
 		var sl := Label.new()
 		var suffix := "%" if skey == "crit" else ""
-		sl.text = "%s  →  Aktualnie: %d%s" % [str(sd[1]), int(sd[3]), suffix]
+		sl.text = "%s: %d%s  (GM: %+d • %s)" % [str(sd[1]), int(sd[3]), suffix, gm_bonus, str(sd[4])]
 		sl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		sl.clip_text = true
 		sl.add_theme_font_override("font", MapStyle.body_font())
 		sl.add_theme_font_size_override("font_size", 13)
-		sl.add_theme_color_override("font_color", Color(0.94, 0.90, 0.82))
+		sl.add_theme_color_override("font_color", Color(0.95, 0.91, 0.82))
 		row.add_child(sl)
 
-		for delta_def: Array in [[1, "+1"], [5, "+5"], [-1, "-1"]]:
+		for delta_def: Array in [[-10, "−10", "minus"], [-1, "−1", "minus"], [1, "+1", "plus"], [10, "+10", "plus"]]:
 			var dv: int = int(delta_def[0])
 			var db := Button.new()
 			db.text = str(delta_def[1])
-			db.custom_minimum_size = Vector2(48, 30)
-			var col_bg := Color(0.12, 0.28, 0.16, 0.96) if dv > 0 else Color(0.28, 0.12, 0.12, 0.94)
-			var col_bd := Color(0.42, 0.92, 0.56, 0.95) if dv > 0 else Color(0.90, 0.44, 0.40, 0.90)
-			_style_btn(db, col_bg, col_bd, 12)
+			_style_mini_btn(db, str(delta_def[2]), 12, 46.0, 32.0)
 			db.pressed.connect(func() -> void:
 				hud_ref.add_stat_points_gm(skey, dv)
-				_set_status("Zmieniono atrybut %s o %+d pkt!" % [skey.to_upper(), dv])
+				_set_status("Zmieniono %s o %+d pkt (bonus GM: %+d)" % [skey.to_upper(), dv, int(hud_ref.bonus_stat_pts.get(skey, 0))])
 				refresh_content()
 			)
 			row.add_child(db)
 
-func _apply_quick_stat(act: String) -> void:
-	var hud_ref = world.rpg_hud if world != null else null
-	if hud_ref == null:
-		return
-	match act:
-		"stat5":
-			hud_ref.free_stat_points += 5
-			hud_ref.recalc_stats()
-			_set_status("Dodano +5 wolnych punktów statystyk (łącznie: %d)" % int(hud_ref.free_stat_points))
-		"skill5":
-			hud_ref.skill_points += 5
-			hud_ref.recalc_stats()
-			_set_status("Dodano +5 punktów umiejętności (łącznie: %d)" % int(hud_ref.skill_points))
-		"lvl1":
-			hud_ref.hero_level += 1
-			hud_ref.free_stat_points += 3
-			hud_ref.skill_points += 1
-			hud_ref.recalc_stats(true)
-			_set_status("Awansowano na Poziom %d (+3 pkt statystyk, +1 pkt umiejętności)!" % int(hud_ref.hero_level))
-		"gold1000":
-			hud_ref.hero_gold += 1000
-			hud_ref.recalc_stats()
-			_set_status("Dodano +1000 złota (łącznie: %d)" % int(hud_ref.hero_gold))
-		"heal":
-			hud_ref.hero_hp = hud_ref.hero_max_hp
-			hud_ref.hero_ki = hud_ref.hero_max_ki
-			hud_ref.recalc_stats()
-			_set_status("Przywrócono 100% HP i KI!")
-	refresh_content()
+		var btn_zero := Button.new()
+		btn_zero.text = "↺0"
+		_style_mini_btn(btn_zero, "slate", 12, 38.0, 32.0)
+		btn_zero.pressed.connect(func() -> void:
+			hud_ref.set_stat_points_gm(skey, 0)
+			_set_status("Zresetowano bonus GM dla %s do 0" % skey.to_upper())
+			refresh_content()
+		)
+		row.add_child(btn_zero)
+
+	# Card 3: Instant GM Utility Actions (HP/KI, Cooldowns, Talents, Full Reset)
+	var util_vb := _gm_card("AKCJE NATYCHMIASTOWE GM (HP/KI, TALENTY, COOLDOWNY, RESET)")
+
+	var u_row1 := HBoxContainer.new()
+	u_row1.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	u_row1.add_theme_constant_override("separation", 8)
+	util_vb.add_child(u_row1)
+
+	var actions_1 := [
+		["♥ 100% HP / KI", "plus", func() -> void: hud_ref.set_hp_ki_gm(1.0, 1.0); _set_status("Przywrócono 100% HP i 100% KI!")],
+		["☠ 1 HP (Test śmierci)", "minus", func() -> void: hud_ref.set_hp_ki_gm(0.0, 1.0); _set_status("Ustawiono 1 HP do testów leczenia/walki")],
+		["⏱ Reset Cooldownów", "cyan", func() -> void: hud_ref.reset_cooldowns_gm(); _set_status("Zresetowano wszystkie czasy odnowienia umiejętności!")],
+	]
+	for ad: Array in actions_1:
+		var ab := Button.new()
+		ab.text = str(ad[0])
+		ab.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_style_mini_btn(ab, str(ad[1]), 13, 0.0, 38.0)
+		var cb: Callable = ad[2]
+		ab.pressed.connect(func() -> void:
+			cb.call()
+			refresh_content()
+		)
+		u_row1.add_child(ab)
+
+	var u_row2 := HBoxContainer.new()
+	u_row2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	u_row2.add_theme_constant_override("separation", 8)
+	util_vb.add_child(u_row2)
+
+	var actions_2 := [
+		["✦ Odblokuj Wszystkie Talenty", "gold", func() -> void: hud_ref.unlock_all_talents_gm(); _set_status("Odblokowano wszystkie 29 węzłów drzewka talentów!")],
+		["↺ Resetuj Talenty", "minus", func() -> void: hud_ref.reset_talents_gm(); _set_status("Zresetowano drzewko talentów (został startowy węzeł R)")],
+		["↺ Reset Statów GM", "slate", func() -> void: hud_ref.reset_all_bonus_stats_gm(); _set_status("Wyzerowano wszystkie bonusy statystyk GM")],
+	]
+	for ad: Array in actions_2:
+		var ab := Button.new()
+		ab.text = str(ad[0])
+		ab.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_style_mini_btn(ab, str(ad[1]), 13, 0.0, 38.0)
+		var cb: Callable = ad[2]
+		ab.pressed.connect(func() -> void:
+			cb.call()
+			refresh_content()
+		)
+		u_row2.add_child(ab)

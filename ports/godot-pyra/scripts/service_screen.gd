@@ -689,8 +689,15 @@ func _on_world_logout() -> void:
 	picked.emit("login")
 
 func _on_world_quit() -> void:
-	close_preview()
+	autosave.stop()
+	if full_mode:
+		save_progress()
+	if world != null and world.get("audio") != null:
+		world.audio.stop_all()
+	_stop_menu_music()
 	picked.emit("quit")
+	if get_tree() != null:
+		get_tree().call_deferred("quit")
 
 func spawn_world(full: bool) -> void:
 	full_mode = full

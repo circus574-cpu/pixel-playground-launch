@@ -343,30 +343,100 @@ class RaceStageView extends Control:
 			else:
 				draw_texture_rect_region(tex, Rect2(draw_pos, draw_sz), reg, tint)
 
-		# 5. Front-layer Electric Ki Arcs, Feathered Ascending Sparks & Shockwave Ring
+		# 5. Front-layer Electric Ki Arcs, Transformation Sky Beam, Levitating Stones, Sparks & Double Shockwave
 		if ki_active:
-			for arc_i in 4:
+			var is_burst := (transform_flash > 0.02) or (current_clip == "transform")
+			var burst_p := clampf(transform_flash, 0.0, 1.0)
+
+			# Towering transformation sky beam + spiraling double-helix energy ribbons during climax!
+			if burst_p > 0.03:
+				var e := 1.0 - burst_p
+				var bw_col := ped_r * (0.55 + 0.65 * sin(minf(e * 2.4, 1.0) * PI * 0.5)) * (0.45 + 0.55 * burst_p)
+				_draw_glow(Vector2(cx, foot_y - body_h * 0.62), bw_col * 1.85, body_h * 1.25, Color(core_col.r, core_col.g, core_col.b, burst_p * 0.62))
+				_draw_glow(Vector2(cx, foot_y - body_h * 0.58), bw_col * 0.85, body_h * 1.18, Color(rim_col.r, rim_col.g, rim_col.b, burst_p * 0.72))
+				_draw_glow(Vector2(cx, foot_y - body_h * 0.52), bw_col * 0.34, body_h * 1.08, Color(1.0, 0.99, 0.92, burst_p * 0.88))
+				# Swirling double-helix plasma ribbons rising up the pillar
+				for strand in 2:
+					var hpts := PackedVector2Array()
+					for hi in 24:
+						var frac := float(hi) / 23.0
+						var ha := frac * 11.0 - aura_t * 14.0 + float(strand) * PI
+						var hrad := ped_r * (0.74 - frac * 0.36)
+						hpts.append(Vector2(cx + cos(ha) * hrad, foot_y - 8.0 - frac * (body_h * 1.24)))
+					draw_polyline(hpts, Color(core_col.r, core_col.g, core_col.b, burst_p * 0.52), 3.4, true)
+					draw_polyline(hpts, Color(1.0, 0.98, 0.88, burst_p * 0.86), 1.4, true)
+				# 8-ray razor-tapered anime starburst lens flare
+				var fl_r := ped_r * (0.78 + e * 1.15)
+				var fc := Vector2(cx, foot_y - body_h * 0.46)
+				for ri in 8:
+					var ra := float(ri) * (TAU / 8.0) + aura_t * 1.4
+					var ray_l := fl_r * (1.0 if ri % 2 == 0 else 0.56)
+					var dir := Vector2(cos(ra), sin(ra) * 0.82)
+					var perp := Vector2(-sin(ra), cos(ra) * 0.82).normalized()
+					var hw := (6.5 if ri % 2 == 0 else 4.0) * burst_p
+					if hw < 0.35 or ray_l < 2.0:
+						continue
+					draw_colored_polygon(PackedVector2Array([
+						fc - dir * (ray_l * 0.08),
+						fc + dir * (ray_l * 0.14) + perp * hw,
+						fc + dir * ray_l,
+						fc + dir * (ray_l * 0.14) - perp * hw,
+					]), Color(rim_col.r, rim_col.g, rim_col.b, burst_p * 0.52))
+					draw_colored_polygon(PackedVector2Array([
+						fc - dir * (ray_l * 0.05),
+						fc + dir * (ray_l * 0.12) + perp * (hw * 0.42),
+						fc + dir * (ray_l * 0.86),
+						fc + dir * (ray_l * 0.12) - perp * (hw * 0.42),
+					]), Color(1.0, 0.98, 0.90, burst_p * 0.88))
+
+			# Electric Ki lightning arcs (8 snapping arcs during transform climax, 4 during steady Form Ki)
+			var arc_cnt := 8 if is_burst else 4
+			for arc_i in arc_cnt:
 				var side_a := -1.0 if arc_i % 2 == 0 else 1.0
-				var base_y := foot_y - 18.0 - _hash01(arc_i, 31) * body_h * 0.45
-				var p0 := Vector2(cx + side_a * ped_r * 0.48, base_y)
-				var p1 := Vector2(cx + side_a * ped_r * 0.24, base_y - 46.0 - _hash01(arc_i, 32) * 44.0)
+				var base_y := foot_y - 14.0 - _hash01(arc_i, 31) * body_h * 0.58
+				var p0 := Vector2(cx + side_a * ped_r * (0.42 + 0.30 * _hash01(arc_i, 33)), base_y)
+				var p1 := Vector2(cx + side_a * ped_r * (0.14 + 0.25 * _hash01(arc_i, 34)), base_y - 48.0 - _hash01(arc_i, 32) * 64.0)
 				var acol := rim_col.lerp(core_col, 0.35)
-				acol.a = 0.82
+				acol.a = 0.95 if is_burst else 0.82
 				_draw_ki_lightning(p0, p1, acol, arc_i + 1)
-			for j in 12:
-				var sp_ph := fposmod(aura_t * (1.2 + 0.65 * _hash01(j, 7)) + _hash01(j, 8), 1.0)
-				var sx := cx + (_hash01(j, 9) - 0.5) * ped_r * 1.45 + sin(sp_ph * 7.0 + float(j)) * 8.0
-				var sy := foot_y - 10.0 - sp_ph * (body_h * 0.95)
-				var sr := (1.0 - sp_ph) * 8.0 + 3.0
-				_draw_glow(Vector2(sx, sy), sr, sr, Color(rim_col.r, rim_col.g, rim_col.b, (1.0 - sp_ph) * 0.90))
-				draw_circle(Vector2(sx, sy), maxf(1.2, (1.0 - sp_ph) * 2.2), Color(1.0, 0.99, 0.92, (1.0 - sp_ph) * 0.95))
-			if transform_flash > 0.02:
-				var e := 1.0 - transform_flash
-				var shock_r := ped_r * (0.58 + e * 1.35)
-				draw_set_transform(Vector2(cx, foot_y - 10.0), 0.0, Vector2(1.0, 0.40))
-				draw_arc(Vector2.ZERO, shock_r, 0.0, TAU, 40, Color(rim_col.r, rim_col.g, rim_col.b, transform_flash * 0.92), 6.0 * transform_flash + 1.5, true)
+
+			# Levitating ground pebbles rising off the pedestal in the Ki updraft!
+			for rk in 10:
+				var rph := fposmod(aura_t * (0.75 + 0.45 * _hash01(rk, 41)) + _hash01(rk, 42), 1.0)
+				var rside := (_hash01(rk, 43) - 0.5) * 2.0
+				var rx := cx + rside * ped_r * (0.42 + 0.52 * _hash01(rk, 44))
+				var ry := foot_y + 4.0 - rph * (body_h * (0.95 if is_burst else 0.62))
+				var rsz := (3.2 + 3.0 * _hash01(rk, 45)) * (1.0 - rph * 0.35)
+				var r_al := sin(rph * PI) * (0.94 if is_burst else 0.70)
+				var rock_poly := PackedVector2Array([
+					Vector2(rx - rsz, ry),
+					Vector2(rx - rsz * 0.3, ry - rsz * 0.85),
+					Vector2(rx + rsz * 0.9, ry - rsz * 0.25),
+					Vector2(rx + rsz * 0.4, ry + rsz * 0.75),
+				])
+				draw_colored_polygon(rock_poly, Color(0.14, 0.12, 0.18, r_al))
+				draw_polyline(rock_poly, Color(rim_col.r, rim_col.g, rim_col.b, r_al * 0.92), 1.4, true)
+
+			# Soaring feathered luminous sparks
+			var sp_cnt := 20 if is_burst else 12
+			for j in sp_cnt:
+				var sp_ph := fposmod(aura_t * (1.35 + 0.75 * _hash01(j, 7)) + _hash01(j, 8), 1.0)
+				var sx := cx + (_hash01(j, 9) - 0.5) * ped_r * 1.65 + sin(sp_ph * 7.0 + float(j)) * 8.0
+				var sy := foot_y - 10.0 - sp_ph * (body_h * 1.12)
+				var sr := (1.0 - sp_ph) * 8.5 + 3.0
+				_draw_glow(Vector2(sx, sy), sr, sr, Color(rim_col.r, rim_col.g, rim_col.b, (1.0 - sp_ph) * 0.92))
+				draw_circle(Vector2(sx, sy), maxf(1.2, (1.0 - sp_ph) * 2.4), Color(1.0, 0.99, 0.92, (1.0 - sp_ph) * 0.96))
+
+			# Double expanding perspective shockwave rings + impact glow on transformation flash
+			if burst_p > 0.02:
+				var e := 1.0 - burst_p
+				var shock_r := ped_r * (0.52 + e * 1.55)
+				draw_set_transform(Vector2(cx, foot_y - 8.0), 0.0, Vector2(1.0, 0.40))
+				draw_arc(Vector2.ZERO, shock_r, 0.0, TAU, 44, Color(core_col.r, core_col.g, core_col.b, burst_p * 0.95), 7.2 * burst_p + 1.8, true)
+				draw_arc(Vector2.ZERO, shock_r * 0.74, 0.0, TAU, 36, Color(rim_col.r, rim_col.g, rim_col.b, burst_p * 0.95), 4.2 * burst_p + 1.2, true)
+				draw_arc(Vector2.ZERO, shock_r * 0.48, 0.0, TAU, 28, Color(1.0, 0.99, 0.90, burst_p * 0.92), 2.4 * burst_p + 0.8, true)
 				draw_set_transform(Vector2.ZERO)
-				_draw_glow(Vector2(cx, foot_y - body_h * 0.42), ped_r * (0.9 + e * 0.7), body_h * 0.55, Color(1.0, 0.96, 0.82, transform_flash * 0.48))
+				_draw_glow(Vector2(cx, foot_y - body_h * 0.42), ped_r * (1.05 + e * 0.85), body_h * 0.65, Color(1.0, 0.96, 0.82, burst_p * 0.56))
 
 			var f := ThemeDB.fallback_font
 			var badge_txt := "✦ TRANSFORMACJA KI ✦" if current_clip == "transform" else "✦ FORMA KI ✦"

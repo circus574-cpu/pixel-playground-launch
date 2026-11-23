@@ -485,34 +485,34 @@ func get_total_attack() -> int:
 	var base: Dictionary = rd.get("base", {})
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
-	return int(round(float(base.get("attack", 14)) + float(per_lv.get("attack", 4)) * lv_off + float(bonus_stat_pts.get("atk", 0)) * 5.0 + _equip_bonus("atk")))
+	return maxi(1, int(round(float(base.get("attack", 14)) + float(per_lv.get("attack", 4)) * lv_off + float(bonus_stat_pts.get("atk", 0)) * 5.0 + _equip_bonus("atk"))))
 
 func get_total_defense() -> int:
 	var rd := _race_data()
 	var base: Dictionary = rd.get("base", {})
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
-	return int(round(float(base.get("defense", 5)) + float(per_lv.get("defense", 2.2)) * lv_off + float(bonus_stat_pts.get("def", 0)) * 4.0 + _equip_bonus("def")))
+	return maxi(0, int(round(float(base.get("defense", 5)) + float(per_lv.get("defense", 2.2)) * lv_off + float(bonus_stat_pts.get("def", 0)) * 4.0 + _equip_bonus("def"))))
 
 func get_total_speed() -> int:
 	var rd := _race_data()
 	var base: Dictionary = rd.get("base", {})
 	var lv_off := float(mini(hero_level - 1, 19))
 	var spd_base := float(base.get("speed", 185))
-	return int(round(spd_base * (1.0 + 0.05 * lv_off) + float(bonus_stat_pts.get("spd", 0)) * 15.0 + _equip_bonus("spd")))
+	return maxi(30, int(round(spd_base * (1.0 + 0.05 * lv_off) + float(bonus_stat_pts.get("spd", 0)) * 15.0 + _equip_bonus("spd"))))
 
 func get_speed_mult() -> float:
 	var rd := _race_data()
 	var base: Dictionary = rd.get("base", {})
 	var spd_base := maxf(float(base.get("speed", 185)), 1.0)
-	return clampf(float(get_total_speed()) / spd_base, 0.8, 3.5)
+	return clampf(float(get_total_speed()) / spd_base, 0.25, 4.50)
 
 func get_total_crit() -> float:
 	var rd := _race_data()
 	var base: Dictionary = rd.get("base", {})
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
-	return float(base.get("criticalChancePercent", 5.0)) + float(per_lv.get("criticalChancePercent", 0.25)) * lv_off + float(bonus_stat_pts.get("crit", 0)) * 2.0 + _equip_bonus("crit")
+	return clampf(float(base.get("criticalChancePercent", 5.0)) + float(per_lv.get("criticalChancePercent", 0.25)) * lv_off + float(bonus_stat_pts.get("crit", 0)) * 2.0 + _equip_bonus("crit"), 0.0, 100.0)
 
 func recalc_stats(refill: bool = false) -> void:
 	var rd := _race_data()
@@ -521,8 +521,8 @@ func recalc_stats(refill: bool = false) -> void:
 	var lv_off := float(hero_level - 1)
 	var old_mhp := hero_max_hp
 	var old_mki := hero_max_ki
-	hero_max_hp = float(base.get("hp", 140)) + float(per_lv.get("hp", 35)) * lv_off + float(bonus_stat_pts.get("hp", 0)) * 25.0 + _equip_bonus("hp")
-	hero_max_ki = float(base.get("ki", 45)) + float(per_lv.get("ki", 4)) * lv_off + float(bonus_stat_pts.get("ki", 0)) * 15.0 + _equip_bonus("ki")
+	hero_max_hp = maxf(10.0, float(base.get("hp", 140)) + float(per_lv.get("hp", 35)) * lv_off + float(bonus_stat_pts.get("hp", 0)) * 25.0 + _equip_bonus("hp"))
+	hero_max_ki = maxf(0.0, float(base.get("ki", 45)) + float(per_lv.get("ki", 4)) * lv_off + float(bonus_stat_pts.get("ki", 0)) * 15.0 + _equip_bonus("ki"))
 	if refill:
 		hero_hp = hero_max_hp
 		hero_ki = hero_max_ki
@@ -535,8 +535,83 @@ func recalc_stats(refill: bool = false) -> void:
 func add_stat_points_gm(stat_key: String, delta_pts: int) -> void:
 	if not bonus_stat_pts.has(stat_key):
 		return
-	bonus_stat_pts[stat_key] = maxi(0, int(bonus_stat_pts[stat_key]) + delta_pts)
+	# Unlimited GM override: allows both increasing and decreasing stats freely (safe floors applied in getters)
+	bonus_stat_pts[stat_key] = clampi(int(bonus_stat_pts[stat_key]) + delta_pts, -500, 9999)
 	recalc_stats(false)
+
+func set_stat_points_gm(stat_key: String, val: int) -> void:
+	if not bonus_stat_pts.has(stat_key):
+		return
+	bonus_stat_pts[stat_key] = clampi(val, -500, 9999)
+	recalc_stats(false)
+
+func reset_all_bonus_stats_gm() -> void:
+	for k in bonus_stat_pts.keys():
+		bonus_stat_pts[k] = 0
+	recalc_stats(true)
+
+func set_level_gm(lv: int) -> void:
+	hero_level = clampi(lv, 1, 99)
+	hero_max_xp = xp_needed_for_level(hero_level)
+	hero_xp = clampf(hero_xp, 0.0, hero_max_xp)
+	recalc_stats(true)
+
+func add_level_gm(delta: int) -> void:
+	set_level_gm(hero_level + delta)
+
+func add_gold_gm(delta: int) -> void:
+	hero_gold = clampi(hero_gold + delta, 0, 99999999)
+	recalc_stats(false)
+
+func set_gold_gm(val: int) -> void:
+	hero_gold = clampi(val, 0, 99999999)
+	recalc_stats(false)
+
+func add_free_stat_points_gm(delta: int) -> void:
+	free_stat_points = clampi(free_stat_points + delta, 0, 9999)
+	recalc_stats(false)
+
+func set_free_stat_points_gm(val: int) -> void:
+	free_stat_points = clampi(val, 0, 9999)
+	recalc_stats(false)
+
+func add_skill_points_gm(delta: int) -> void:
+	skill_points = clampi(skill_points + delta, 0, 999)
+	recalc_stats(false)
+
+func set_skill_points_gm(val: int) -> void:
+	skill_points = clampi(val, 0, 999)
+	recalc_stats(false)
+
+func set_hp_ki_gm(hp_ratio_v: float, ki_ratio_v: float) -> void:
+	hero_hp = maxf(1.0, hero_max_hp * clampf(hp_ratio_v, 0.0, 1.0)) if hp_ratio_v > 0.0 else 1.0
+	hero_ki = hero_max_ki * clampf(ki_ratio_v, 0.0, 1.0)
+	_sync_bar_uniforms()
+	_refresh_visuals()
+
+func reset_cooldowns_gm() -> void:
+	for i in cooldowns.size():
+		cooldowns[i] = 0.0
+	_refresh_visuals()
+
+func unlock_all_talents_gm() -> void:
+	var umap := _unlocked_map()
+	var rd := _race_data()
+	var nodes_arr: Array = rd.get("nodes", [])
+	for n_var in nodes_arr:
+		if n_var is Dictionary:
+			var nid := str((n_var as Dictionary).get("id", ""))
+			if not nid.is_empty():
+				umap[nid] = true
+	_sync_talent_node_styles()
+	_refresh_visuals()
+
+func reset_talents_gm() -> void:
+	var umap := _unlocked_map()
+	umap.clear()
+	umap["R"] = true
+	_sync_talent_node_styles()
+	_refresh_visuals()
 
 const XP_NEEDED_BY_LEVEL := [
 	1400, 2400, 3500, 4700,

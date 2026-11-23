@@ -6,7 +6,7 @@ extends Node
 const MUSIC := {"pyra": "pyra", "verdant": "verdantia", "aether": "aetheria", "nexus": "nexus"}
 const HOST_ROOT := "res:" + "//assets/audio/"
 const FADE := 1.4
-const STEP_INTERVAL := 0.38
+const STEP_INTERVAL := 0.44
 const POOL := 16
 
 var music_volume := 0.45
@@ -25,6 +25,7 @@ var fading_in: AudioStreamPlayer
 var fading_out: AudioStreamPlayer
 var fade_t := 1.0
 var step_clock := 0.0
+var _step_alt := false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -88,7 +89,9 @@ func music_db() -> float:
 func ambience_db() -> float:
 	if muted or ambience_volume <= 0.01:
 		return -80.0
-	return linear_to_db(maxf(ambience_volume * 0.46, 0.0001))
+	# City crowd chatter reduced by 20% (0.80x) per owner feedback so city voices stay soft and natural
+	var bed_mult := 0.80 if active_ambience == "city" else 1.0
+	return linear_to_db(maxf(ambience_volume * 0.46 * bed_mult, 0.0001))
 
 func play_music(key: String) -> void:
 	if not MUSIC.has(key) or key == active_music:
@@ -122,7 +125,7 @@ func play_ambience(land: String, safe: bool) -> void:
 	ambience.volume_db = ambience_db()
 	ambience.play()
 
-func sfx(name: String, gain: float = 1.0, pitch_jitter: float = 0.06) -> void:
+func sfx(name: String, gain: float = 1.0, pitch_jitter: float = 0.06, pitch_base: float = 1.0) -> void:
 	if muted or sfx_volume <= 0.01:
 		return
 	var now := Time.get_ticks_msec() / 1000.0
@@ -135,19 +138,24 @@ func sfx(name: String, gain: float = 1.0, pitch_jitter: float = 0.06) -> void:
 	for p in pool:
 		if not p.playing:
 			p.stream = s
-			p.pitch_scale = randf_range(1.0 - pitch_jitter, 1.0 + pitch_jitter) if pitch_jitter > 0.0 else 1.0
+			p.pitch_scale = pitch_base * (randf_range(1.0 - pitch_jitter, 1.0 + pitch_jitter) if pitch_jitter > 0.0 else 1.0)
 			p.volume_db = linear_to_db(maxf(sfx_volume * gain, 0.0001))
 			p.play()
 			return
 
-func play_race_skill(race: String, node_id: String) -> void:
+func play_race_skill(race: String, node_id: String, gain: float = 0.96) -> void:
 	var rk := race if race in ["legend", "planetary", "sage", "android"] else "legend"
 	var clean_id := node_id if node_id in ["R", "A1", "A4", "A9", "B1", "B4", "B9", "C1", "C4", "C9"] else "R"
 	var path := "%s/%s" % [rk, clean_id]
 	if load_stream("sfx/%s.mp3" % path) != null:
-		sfx(path, 0.96, 0.05)
+		sfx(path, gain, 0.05)
 	else:
-		sfx("common/hit", 0.90, 0.08)
+		sfx("common/hit", gain * 0.92, 0.08)
+
+func play_transform_sfx(race: String) -> void:
+	sfx("development/ki-charge", 0.94, 0.02)
+	sfx("development/ki-source", 0.68, 0.02)
+	play_race_skill(race, "A9", 0.62)
 
 func play_monster_sfx(actor_id: String, kind: String) -> void:
 	var path := "monsters/%s/%s" % [actor_id, kind]
@@ -163,18 +171,24 @@ func play_monster_sfx(actor_id: String, kind: String) -> void:
 func play_test_chime(race: String = "legend") -> void:
 	play_race_skill(race, "A1")
 
-func step(delta: float, moving: bool, land: String, interior: bool, running: bool = true, in_water: bool = false) -> void:
+func step(delta: float, moving: bool, land: String, interior: bool, running: bool = true, in_water: bool = false, in_city: bool = false) -> void:
 	if not moving:
-		step_clock = STEP_INTERVAL * 0.45
+		step_clock = 0.14
 		return
 	step_clock -= delta
 	if step_clock > 0.0:
 		return
-	step_clock = STEP_INTERVAL if running else (STEP_INTERVAL * 1.48)
+	step_clock = STEP_INTERVAL if running else (STEP_INTERVAL * 1.46)
+	_step_alt = not _step_alt
 	var surface: String = "water" if in_water else str({"verdant": "grass", "aether": "snow", "nexus": "metal", "pyra": "ash"}.get(land, "dirt"))
 	if interior:
 		surface = "metal" if land == "nexus" else "wood"
-	sfx("steps/" + surface, 0.50 if running else 0.36, 0.11)
+	elif in_city and not in_water:
+		surface = "metal" if land == "nexus" else "stone"
+	# Soft, organic, subtle footsteps with gentle left/right stride pitch alternation
+	var lr_pitch := 1.04 if _step_alt else 0.95
+	var run_boost := 1.03 if running else 0.96
+	sfx("steps/" + surface, 0.36 if running else 0.24, 0.04, lr_pitch * run_boost)
 
 func _process(delta: float) -> void:
 	if fade_t >= 1.0:

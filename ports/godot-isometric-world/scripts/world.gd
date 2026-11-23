@@ -168,6 +168,15 @@ var pinch_distance := 0.0
 var tex_cache: Dictionary = {}
 var current_exp_idx := 0
 var world_time := 0.0
+var camera_shake_t := 0.0
+var camera_shake_dur := 0.01
+var camera_shake_amp := 0.0
+
+func trigger_camera_shake(amp: float, dur: float) -> void:
+	if amp >= camera_shake_amp or camera_shake_t <= 0.0:
+		camera_shake_amp = amp
+		camera_shake_dur = maxf(dur, 0.05)
+		camera_shake_t = camera_shake_dur
 
 func _stop_lingering_loading_audio() -> void:
 	var root := get_tree().root if get_tree() != null else null
@@ -1413,14 +1422,19 @@ func perform_combat_attack(skill_idx: int) -> void:
 	if skill_idx == 5:
 		ki_mode_timer = 18.0
 		if hero != null and hero.has_method("set_ki_mode"):
+			hero.ki_race = race_k
 			if bool(hero.ki_mode_active):
 				hero.play_action("kitransform", "kiskillc")
 			else:
 				hero.set_ki_mode(true)
+		trigger_camera_shake(13.0, 0.60)
 		if combat_vfx != null and hero != null:
 			combat_vfx.spawn_transform_pillar(hero.position, race_k)
 		if audio != null:
-			audio.sfx("development/ki-charge", 0.95)
+			if audio.has_method("play_transform_sfx"):
+				audio.play_transform_sfx(race_k)
+			else:
+				audio.sfx("development/ki-charge", 0.95)
 		show_combat_toast("✦ TRYB KI AKTYWNY (18s) — +25% obrażeń i wzmocnione techniki!", Color(0.42, 0.98, 1.0))
 	elif skill_idx == 0:
 		var combo_clips := ["attack", "attack2", "attack3", "finisher"]
@@ -1480,6 +1494,8 @@ func perform_combat_attack(skill_idx: int) -> void:
 		var dmg := maxi(8, int(round(float(base_atk) * mult * lv_penalty * crit_mult * randf_range(0.92, 1.18))))
 		target["cur_hp"] = maxi(0, int(target.get("cur_hp", 200)) - dmg)
 		var mnode = target.get("node", null)
+		if is_crit:
+			trigger_camera_shake(4.5, 0.14)
 		if audio != null:
 			audio.sfx("common/hit-crit" if is_crit else "common/hit", 0.82)
 		if is_instance_valid(mnode):
@@ -2176,6 +2192,13 @@ func _step_agent_patrol(ag: Dictionary, delta: float, move_speed: float, is_mons
 
 func step_world(delta: float) -> void:
 	world_time += delta
+	if camera_shake_t > 0.0:
+		camera_shake_t = maxf(0.0, camera_shake_t - delta)
+		var decay := camera_shake_t / maxf(camera_shake_dur, 0.05)
+		var amp := camera_shake_amp * decay * decay
+		camera.offset = Vector2(sin(world_time * 74.0) * amp, cos(world_time * 91.0) * amp * 0.72) if camera_shake_t > 0.0 else Vector2.ZERO
+	elif camera.offset != Vector2.ZERO:
+		camera.offset = Vector2.ZERO
 	if _ocean_cross_cd > 0.0:
 		_ocean_cross_cd = maxf(0.0, _ocean_cross_cd - delta)
 	if combo_reset_t > 0.0:
@@ -2233,9 +2256,10 @@ func step_world(delta: float) -> void:
 			stat_spd_mult = float(rpg_hud.get_speed_mult())
 		var analog_mult := lerpf(0.45, 1.0, move_mag)
 		try_move(world_dir * SPEED * analog_mult * gm_speed_mult * stat_spd_mult * delta)
+	var in_safe_now := hero_pos.distance_to(capital_center) <= safe_city_radius
 	if audio != null:
-		audio.step(delta, is_moving, current_land, false, is_running, is_in_water(hero_pos.x, hero_pos.y))
-		audio.play_ambience(current_land, hero_pos.distance_to(capital_center) <= safe_city_radius)
+		audio.step(delta, is_moving, current_land, false, is_running, is_in_water(hero_pos.x, hero_pos.y), in_safe_now)
+		audio.play_ambience(current_land, in_safe_now)
 	if hero != null:
 		hero.animate(screen_dir, is_running, lerpf(0.62, 1.0, move_mag))
 	sync_hero()
