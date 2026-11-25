@@ -26,7 +26,7 @@ const MapStyle := preload("res://scripts/map_style.gd")
 const ISO_W := 5.6
 const ISO_D := 2.8
 const ISO_H := 3.8
-const STEP := 2
+const STEP := 4
 const SPEED := 22.0
 const RECALL_CHANNEL_S := 2.5
 const RECALL_COOLDOWN_S := 45.0
@@ -83,7 +83,10 @@ var monsters_db: Dictionary = {}
 var animals_db: Dictionary = {}
 
 var ocean_skirt := MeshInstance2D.new()
-var terrain_mesh := MeshInstance2D.new()
+var terrain_mesh := Node2D.new()
+var terrain_chunks: Array[Dictionary] = []
+var _last_sync_scan_ms := -9999
+var _last_sync_scan_pos := Vector2(-9999.0, -9999.0)
 var ysort := Node2D.new()
 var combat_vfx: Node2D
 var hero
@@ -99,6 +102,7 @@ var gatherable_nodes: Dictionary = {}
 var gatherable_cd: Dictionary = {}
 var waystone_nodes: Dictionary = {}
 var discovered_waystones: Dictionary = {}
+var ground_loot: Array[Dictionary] = []
 var last_combat_time := -99.0
 var recall_channel := 0.0
 var recall_cooldown := 0.0
@@ -435,7 +439,7 @@ func switch_region(land: String) -> void:
 		atmosphere.set_region(land)
 	if rpg_hud != null:
 		rpg_hud.set_region(land)
-	sync_hero()
+	sync_hero(true)
 	if map_3d != null:
 		map_3d.rebuild_for_region()
 	if atlas_overlay != null:
@@ -627,18 +631,20 @@ func vertex_color(gx: int, gz: int) -> Color:
 	var shade := clampf(0.54 + 0.56 * normal.dot(sun), 0.34, 1.15)
 	return Color(shade, shade * 0.98, shade * 0.95, 1.0)
 
+func _emit_ocean_quad(ost: SurfaceTool, x0: float, z0: float, x1: float, z1: float, edge_h: float) -> void:
+	var ws := maxf(world_size, 1.0)
+	var o00 := {"pos": iso(x0, z0, edge_h), "uv": Vector2(x0 / ws, z0 / ws), "color": Color.WHITE}
+	var o10 := {"pos": iso(x1, z0, edge_h), "uv": Vector2(x1 / ws, z0 / ws), "color": Color.WHITE}
+	var o11 := {"pos": iso(x1, z1, edge_h), "uv": Vector2(x1 / ws, z1 / ws), "color": Color.WHITE}
+	var o01 := {"pos": iso(x0, z1, edge_h), "uv": Vector2(x0 / ws, z1 / ws), "color": Color.WHITE}
+	emit_tri(ost, o00, o10, o11)
+	emit_tri(ost, o00, o11, o01)
+
 func build_isometric_mesh() -> void:
-	var st := SurfaceTool.new()
-	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for gz in range(0, grid_size - STEP, STEP):
-		for gx in range(0, grid_size - STEP, STEP):
-			var p00 := grid_vertex(gx, gz)
-			var p10 := grid_vertex(gx + STEP, gz)
-			var p11 := grid_vertex(gx + STEP, gz + STEP)
-			var p01 := grid_vertex(gx, gz + STEP)
-			emit_tri(st, p00, p10, p11)
-			emit_tri(st, p00, p11, p01)
-	terrain_mesh.mesh = st.commit()
+	for child in terrain_mesh.get_children():
+		child.queue_free()
+	terrain_chunks.clear()
+
 	var mat := ShaderMaterial.new()
 	mat.shader = load("res://shaders/terrain.gdshader")
 	var rdir := "res://regions/" + current_land
@@ -658,20 +664,57 @@ func build_isometric_mesh() -> void:
 	var uv_sc := 88.0 * ws_s
 	mat.set_shader_parameter("uv_scale", uv_sc)
 	mat.set_shader_parameter("world_scale", ws_s)
-	terrain_mesh.material = mat
 
-	# Seamless animated deep-ocean skirt extending 2600m (~15,000 px) beyond every continent edge so black void NEVER appears!
+	# 8x8 spatial indexed terrain chunks: frustum-culled in _cull_props() so mobile GPU draws ~3,000 tris instead of 131,072!
+	var chunk_grid := 8
+	var max_g := grid_size - 1
+	var chunk_step := maxi(STEP, int(ceil(float(max_g) / float(chunk_grid) / float(STEP))) * STEP)
+	for cz in range(0, max_g, chunk_step):
+		var gz_end := mini(max_g, cz + chunk_step)
+		for cx in range(0, max_g, chunk_step):
+			var gx_end := mini(max_g, cx + chunk_step)
+			var st := SurfaceTool.new()
+			st.begin(Mesh.PRIMITIVE_TRIANGLES)
+			var min_p := Vector2(1e9, 1e9)
+			var max_p := Vector2(-1e9, -1e9)
+			var gz := cz
+			while gz < gz_end:
+				var gz_next := mini(gz + STEP, gz_end)
+				var gx := cx
+				while gx < gx_end:
+					var gx_next := mini(gx + STEP, gx_end)
+					var p00 := grid_vertex(gx, gz)
+					var p10 := grid_vertex(gx_next, gz)
+					var p11 := grid_vertex(gx_next, gz_next)
+					var p01 := grid_vertex(gx, gz_next)
+					for v_d: Dictionary in [p00, p10, p11, p01]:
+						var vp: Vector2 = v_d["pos"]
+						min_p.x = minf(min_p.x, vp.x)
+						min_p.y = minf(min_p.y, vp.y)
+						max_p.x = maxf(max_p.x, vp.x)
+						max_p.y = maxf(max_p.y, vp.y)
+					emit_tri(st, p00, p10, p11)
+					emit_tri(st, p00, p11, p01)
+					gx = gx_next
+				gz = gz_next
+			st.index()
+			var mi := MeshInstance2D.new()
+			mi.mesh = st.commit()
+			mi.material = mat
+			mi.visible = false
+			terrain_mesh.add_child(mi)
+			var bounds := Rect2(min_p - Vector2(64.0, 64.0), (max_p - min_p) + Vector2(128.0, 128.0))
+			terrain_chunks.append({"node": mi, "rect": bounds})
+
+	# 4-strip outer ocean frame around the continent ONLY (zero pixels drawn behind land = eliminates 100% hidden ocean overdraw!)
 	var edge_h := heights[0] if not heights.is_empty() else -4.2
 	var pad := 2600.0
-	var pad_u := pad / maxf(world_size, 1.0)
 	var ost := SurfaceTool.new()
 	ost.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var o00 := {"pos": iso(-pad, -pad, edge_h), "uv": Vector2(-pad_u, -pad_u), "color": Color.WHITE}
-	var o10 := {"pos": iso(world_size + pad, -pad, edge_h), "uv": Vector2(1.0 + pad_u, -pad_u), "color": Color.WHITE}
-	var o11 := {"pos": iso(world_size + pad, world_size + pad, edge_h), "uv": Vector2(1.0 + pad_u, 1.0 + pad_u), "color": Color.WHITE}
-	var o01 := {"pos": iso(-pad, world_size + pad, edge_h), "uv": Vector2(-pad_u, 1.0 + pad_u), "color": Color.WHITE}
-	emit_tri(ost, o00, o10, o11)
-	emit_tri(ost, o00, o11, o01)
+	_emit_ocean_quad(ost, -pad, -pad, world_size + pad, 0.0, edge_h)
+	_emit_ocean_quad(ost, -pad, world_size, world_size + pad, world_size + pad, edge_h)
+	_emit_ocean_quad(ost, -pad, 0.0, 0.0, world_size, edge_h)
+	_emit_ocean_quad(ost, world_size, 0.0, world_size + pad, world_size, edge_h)
 	ocean_skirt.mesh = ost.commit()
 	var omat := ShaderMaterial.new()
 	omat.shader = load("res://shaders/ocean_skirt.gdshader")
@@ -737,6 +780,7 @@ func make_fitted_sprite(tex_path: String, box_w: float, box_h: float, anchor_y: 
 
 func build_world_objects_and_actors() -> void:
 	live_agents.clear()
+	_clear_ground_loot()
 	prop_nodes.clear()
 	prop_chunks.clear()
 	_visible_prop_chunks.clear()
@@ -750,6 +794,13 @@ func build_world_objects_and_actors() -> void:
 
 	var body_f: Font = MapStyle.body_font()
 
+	var register_chunk := func(nd: Node2D, pos: Vector2) -> void:
+		nd.visible = false
+		var ck := Vector2i(int(floor(pos.x / PROP_CHUNK_PX)), int(floor(pos.y / PROP_CHUNK_PX)))
+		if not prop_chunks.has(ck):
+			prop_chunks[ck] = []
+		(prop_chunks[ck] as Array).append(nd)
+
 	# 1. Painted Architectural Buildings + Labyrinth Portals + Fortifications & Bridges
 	for b: Dictionary in buildings:
 		var bx := float(b.get("x", 512.0))
@@ -761,7 +812,8 @@ func build_world_objects_and_actors() -> void:
 		var role := str(b.get("role", "building"))
 
 		var node := Node2D.new()
-		node.position = iso(bx, bz, bh)
+		var bpos := iso(bx, bz, bh)
+		node.position = bpos
 		if role == "bridge":
 			node.z_index = -2
 		else:
@@ -788,6 +840,7 @@ func build_world_objects_and_actors() -> void:
 			node.add_child(lbl)
 
 		ysort.add_child(node)
+		register_chunk.call(node, bpos)
 
 	# 2. Diverse Painted Flora, Trees, Flowers, Waterfalls, Rocks, Ruins, Shrines & Biome Landmarks (GPU wind sway + spatial chunk culling)
 	for pi in props.size():
@@ -803,7 +856,6 @@ func build_world_objects_and_actors() -> void:
 		var pnode := Node2D.new()
 		var ppos := iso(px, pz, ph)
 		pnode.position = ppos
-		pnode.visible = false
 		add_contact_shadow(pnode, pw, 0.30, 3.0)
 		var psp := make_fitted_sprite(p_path, pw, ph_px, 0.88)
 		if not wind_mats.is_empty():
@@ -819,10 +871,7 @@ func build_world_objects_and_actors() -> void:
 
 		ysort.add_child(pnode)
 		prop_nodes.append(pnode)
-		var ck := Vector2i(int(floor(ppos.x / PROP_CHUNK_PX)), int(floor(ppos.y / PROP_CHUNK_PX)))
-		if not prop_chunks.has(ck):
-			prop_chunks[ck] = []
-		(prop_chunks[ck] as Array).append(pnode)
+		register_chunk.call(pnode, ppos)
 
 	# 2b. Hidden World Treasures & Adventure Shrines (6 per continent)
 	for tr: Dictionary in treasures_data:
@@ -832,7 +881,8 @@ func build_world_objects_and_actors() -> void:
 		var th := height_at(tx, tz)
 		var t_req_lv := int(tr.get("min_level", 1))
 		var tnode := Node2D.new()
-		tnode.position = iso(tx, tz, th)
+		var tpos := iso(tx, tz, th)
+		tnode.position = tpos
 		add_contact_shadow(tnode, 240.0, 0.36, 3.0)
 		var tsp := make_fitted_sprite("res://assets/library/props/prop_runic_obelisk.webp", 230.0, 275.0, 0.88)
 		tnode.add_child(tsp)
@@ -853,6 +903,7 @@ func build_world_objects_and_actors() -> void:
 			tlbl.add_theme_color_override("font_color", Color(0.56, 0.88, 0.66))
 		ysort.add_child(tnode)
 		treasure_nodes[tid] = tnode
+		register_chunk.call(tnode, tpos)
 
 	# 2c. Interactive Wilderness Gatherables & Healing Rest Campfires (Paczka B: 28 per continent)
 	for g: Dictionary in gatherables_data:
@@ -865,7 +916,8 @@ func build_world_objects_and_actors() -> void:
 		var gw := float(g.get("w", 205.0))
 		var gh_px := float(g.get("h", 205.0))
 		var gnode := Node2D.new()
-		gnode.position = iso(gx, gz, gh)
+		var gpos := iso(gx, gz, gh)
+		gnode.position = gpos
 		add_contact_shadow(gnode, gw, 0.34, 3.0)
 		var gsp := make_fitted_sprite(gsp_path, gw, gh_px, 0.86)
 		gnode.add_child(gsp)
@@ -886,6 +938,7 @@ func build_world_objects_and_actors() -> void:
 		gnode.add_child(glbl)
 		ysort.add_child(gnode)
 		gatherable_nodes[gid] = gnode
+		register_chunk.call(gnode, gpos)
 
 	# 2d. Discoverable Fast-Travel Waystones (4 per continent)
 	for ws_item: Dictionary in waystones_data:
@@ -894,7 +947,8 @@ func build_world_objects_and_actors() -> void:
 		var wwz := float(ws_item.get("z", 512.0))
 		var wwh := height_at(wwx, wwz)
 		var wnode := Node2D.new()
-		wnode.position = iso(wwx, wwz, wwh)
+		var wpos := iso(wwx, wwz, wwh)
+		wnode.position = wpos
 		add_contact_shadow(wnode, 250.0, 0.38, 3.0)
 		var wsp := make_fitted_sprite("res://assets/library/props/prop_runic_obelisk.webp", 240.0, 295.0, 0.88)
 		wsp.modulate = Color(0.68, 0.96, 1.0, 1.0) if is_waystone_discovered(wid) else Color(0.76, 0.82, 0.92, 0.90)
@@ -913,6 +967,7 @@ func build_world_objects_and_actors() -> void:
 		wnode.add_child(wlbl)
 		ysort.add_child(wnode)
 		waystone_nodes[wid] = wnode
+		register_chunk.call(wnode, wpos)
 
 	# 3. Exp-Zone Combat Clearing Banners ("EXPOWISKA Lv. 1..18")
 	for ez: Dictionary in exp_zones:
@@ -920,7 +975,8 @@ func build_world_objects_and_actors() -> void:
 		var ez_z := float(ez.get("z", 512.0))
 		var eh := height_at(ex, ez_z)
 		var ez_node := Node2D.new()
-		ez_node.position = iso(ex, ez_z, eh)
+		var ez_pos := iso(ex, ez_z, eh)
+		ez_node.position = ez_pos
 		var banner := Label.new()
 		banner.text = "⚔ %s" % str(ez.get("name", ""))
 		banner.position = Vector2(-240, -165)
@@ -933,6 +989,7 @@ func build_world_objects_and_actors() -> void:
 		banner.add_theme_constant_override("outline_size", 7)
 		ez_node.add_child(banner)
 		ysort.add_child(ez_node)
+		register_chunk.call(ez_node, ez_pos)
 
 	# 4. Capital & Wilderness NPCs with Quest Markers (! / ?) and Patrols
 	for idx in npcs_data.size():
@@ -1439,12 +1496,166 @@ func claim_treasure_reward(tr: Dictionary, lab_id: String = "") -> bool:
 	sync_hero()
 	return true
 
-func report_monster_kill(monster_id: String, lvl: int, mname: String, hp_cost: int = 0, is_elite: bool = false) -> void:
+func _clear_ground_loot() -> void:
+	for d: Dictionary in ground_loot:
+		var nd = d.get("node", null)
+		if is_instance_valid(nd):
+			nd.queue_free()
+	ground_loot.clear()
+
+func spawn_ground_loot(origin_world: Vector2, kind: String, label_txt: String, col: Color, icon_name: String, gold_val: int = 0, item_dict: Dictionary = {}, item_qty: int = 1, apply_local: bool = false, is_rare_beam: bool = false) -> void:
+	var ang := randf() * TAU
+	var dist := randf_range(9.0, 22.0)
+	var dest_w := origin_world + Vector2(cos(ang), sin(ang)) * dist
+	if not is_walkable(dest_w.x, dest_w.y):
+		dest_w = origin_world + Vector2(cos(ang + PI), sin(ang + PI)) * 8.0
+	var start_s := iso(origin_world.x, origin_world.y, height_at(origin_world.x, origin_world.y))
+	var dest_s := iso(dest_w.x, dest_w.y, height_at(dest_w.x, dest_w.y))
+
+	var root_n := Node2D.new()
+	root_n.position = start_s
+	root_n.z_index = 2
+
+	# Diablo-style pulsing ground halo + vertical rarity beam
+	var fx_n := Node2D.new()
+	fx_n.draw.connect(func() -> void:
+		fx_n.draw_set_transform(Vector2(0, 2), 0.0, Vector2(1.0, 0.42))
+		fx_n.draw_circle(Vector2.ZERO, 24.0 if is_rare_beam else 18.0, Color(col.r, col.g, col.b, 0.24))
+		fx_n.draw_arc(Vector2.ZERO, 22.0 if is_rare_beam else 16.0, 0.0, TAU, 24, Color(col.r, col.g, col.b, 0.78), 2.2, true)
+		fx_n.draw_set_transform(Vector2.ZERO)
+		if is_rare_beam:
+			fx_n.draw_rect(Rect2(-5.0, -96.0, 10.0, 96.0), Color(col.r, col.g, col.b, 0.26), true)
+			fx_n.draw_rect(Rect2(-2.0, -82.0, 4.0, 82.0), Color(1.0, 0.96, 0.84, 0.52), true)
+	)
+	root_n.add_child(fx_n)
+
+	# Crisp item/coin icon sprite
+	var icon_n := Sprite2D.new()
+	var tex := load_tex("res://assets/ui/icons/" + icon_name)
+	if tex != null:
+		icon_n.texture = tex
+		var sz := maxf(float(tex.get_width()), float(tex.get_height()))
+		if sz > 1.0:
+			var sc := (34.0 if is_rare_beam else 28.0) / sz
+			icon_n.scale = Vector2(sc, sc)
+	icon_n.position = Vector2(0.0, -14.0)
+	root_n.add_child(icon_n)
+
+	# Diablo-style floating loot nameplate (legible dark plate + rarity color)
+	var lbl := Label.new()
+	lbl.text = label_txt
+	lbl.position = Vector2(-110.0, -50.0 if is_rare_beam else -44.0)
+	lbl.size = Vector2(220.0, 24.0)
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_override("font", MapStyle.body_font())
+	lbl.add_theme_font_size_override("font_size", 14 if is_rare_beam else 13)
+	lbl.add_theme_color_override("font_color", col)
+	lbl.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.02, 0.98))
+	lbl.add_theme_constant_override("outline_size", 5)
+	root_n.add_child(lbl)
+
+	ysort.add_child(root_n)
+	ground_loot.append({
+		"node": root_n,
+		"icon": icon_n,
+		"kind": kind,
+		"label": label_txt,
+		"color": col,
+		"start_s": start_s,
+		"dest_s": dest_s,
+		"world_pos": dest_w,
+		"gold": gold_val,
+		"item": item_dict,
+		"qty": item_qty,
+		"apply_local": apply_local,
+		"age": 0.0,
+		"picking": false,
+		"pick_t": 0.0,
+		"pick_start": dest_s,
+	})
+
+func _step_ground_loot(delta: float) -> void:
+	if ground_loot.is_empty():
+		return
+	var hero_s: Vector2 = hero.position if hero != null else Vector2.ZERO
+	var alive: Array[Dictionary] = []
+	for d: Dictionary in ground_loot:
+		var nd: Node2D = d.get("node", null)
+		if not is_instance_valid(nd):
+			continue
+		var age := float(d["age"]) + delta
+		d["age"] = age
+		if age > 90.0:
+			nd.queue_free()
+			continue
+		if bool(d["picking"]):
+			var pt := minf(1.0, float(d["pick_t"]) + delta / 0.18)
+			d["pick_t"] = pt
+			var p0: Vector2 = d["pick_start"]
+			nd.position = p0.lerp(hero_s + Vector2(0.0, -24.0), pt * pt)
+			nd.scale = Vector2.ONE * lerpf(1.0, 0.35, pt)
+			if pt >= 1.0:
+				var col: Color = d["color"]
+				if str(d["kind"]) == "gold":
+					var gv := int(d["gold"])
+					if bool(d["apply_local"]) and rpg_hud != null and gv > 0:
+						rpg_hud.hero_gold += gv
+						rpg_hud._refresh_visuals()
+					if audio != null:
+						audio.sfx("ui/coin", 0.78, 0.06)
+					if hero != null and hero.has_method("show_damage_number"):
+						hero.show_damage_number("+%d zł" % gv, Color(1.0, 0.90, 0.28), false)
+				else:
+					var it_d: Dictionary = d["item"]
+					var q := int(d["qty"])
+					if bool(d["apply_local"]) and rpg_hud != null and not it_d.is_empty() and rpg_hud.has_method("add_item_to_backpack"):
+						rpg_hud.add_item_to_backpack(it_d, q)
+					if audio != null:
+						audio.sfx("ui/chest", 0.76, 0.06)
+					if hero != null and hero.has_method("show_damage_number"):
+						hero.show_damage_number("+%d %s" % [q, str(it_d.get("name", d["label"]))], col, false)
+				nd.queue_free()
+				continue
+		else:
+			if age < 0.36:
+				var f := age / 0.36
+				var p_lin: Vector2 = (d["start_s"] as Vector2).lerp(d["dest_s"] as Vector2, f)
+				var arc_y := -sin(f * PI) * 44.0
+				nd.position = p_lin + Vector2(0.0, arc_y)
+			else:
+				var bob := sin(age * 4.2) * 3.5
+				var ico_n = d.get("icon", null)
+				if is_instance_valid(ico_n):
+					ico_n.position.y = -14.0 + bob
+				nd.position = d["dest_s"]
+				# Diablo auto-pickup as soon as hero walks onto/over the drop!
+				if hero_pos.distance_to(d["world_pos"] as Vector2) <= 34.0:
+					d["picking"] = true
+					d["pick_t"] = 0.0
+					d["pick_start"] = nd.position
+		alive.append(d)
+	ground_loot = alive
+
+func _snapshot_bag_counts() -> Dictionary:
+	var out: Dictionary = {}
+	if rpg_hud == null:
+		return out
+	for it: Dictionary in rpg_hud.backpack_items:
+		if not it.is_empty():
+			var iid := str(it.get("id", ""))
+			if not iid.is_empty():
+				out[iid] = int(out.get(iid, 0)) + maxi(1, int(it.get("qty", 1)))
+	return out
+
+func report_monster_kill(monster_id: String, lvl: int, mname: String, hp_cost: int = 0, is_elite: bool = false, drop_pos: Vector2 = Vector2(-1.0, -1.0)) -> void:
 	var base_xp := (18 + lvl * 7) * (3 if is_elite else 1)
 	var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
 	var lv_diff := hero_lv - lvl
 	var rxp := maxi(5, int(round(float(base_xp) * 0.25))) if lv_diff >= 5 else (maxi(8, int(round(float(base_xp) * 0.50))) if lv_diff >= 3 else base_xp)
 	var rgold := (8 + lvl * 4) * (3 if is_elite else 1)
+	var loot_origin := drop_pos if drop_pos.x >= 0.0 else hero_pos
+	var prev_bag := _snapshot_bag_counts()
+	var prev_gold: int = int(rpg_hud.hero_gold) if rpg_hud != null else 0
 	var sent_srv := dispatch_server_action({
 		"type": "monster_kill",
 		"monsterId": monster_id,
@@ -1452,16 +1663,37 @@ func report_monster_kill(monster_id: String, lvl: int, mname: String, hp_cost: i
 		"hpCost": maxi(0, hp_cost),
 		"isElite": is_elite,
 		"land": current_land,
-	})
+	}, func(res: Dictionary) -> void:
+		if not bool(res.get("ok", false)):
+			return
+		var new_gold: int = int(rpg_hud.hero_gold) if rpg_hud != null else prev_gold
+		var dg := maxi(rgold, new_gold - prev_gold)
+		if dg > 0:
+			spawn_ground_loot(loot_origin, "gold", "★ %d Złota" % dg, Color(1.0, 0.88, 0.28), "gear-coin.webp", dg, {}, 1, false, is_elite)
+		var new_bag := _snapshot_bag_counts()
+		for iid: String in new_bag.keys():
+			var gained := int(new_bag[iid]) - int(prev_bag.get(iid, 0))
+			if gained > 0:
+				var cdef: Dictionary = GmPanelScript.find_item(iid)
+				var nm := str(cdef.get("name", iid))
+				var ico := str(cdef.get("icon", "gear-gem.webp"))
+				var rcol: Color = cdef.get("rarity", Color(0.56, 0.96, 0.72)) as Color
+				spawn_ground_loot(loot_origin, "item", "★ %s%s" % [nm, (" ×%d" % gained) if gained > 1 else ""], rcol, ico, 0, cdef, gained, false, true)
+	)
 	if not sent_srv and rpg_hud != null:
-		rpg_hud.hero_gold += rgold
-		if is_elite and rpg_hud.has_method("add_item_to_backpack"):
+		# Offline/local mode: spawn physical Diablo drops that credit gold & items on walk-over!
+		spawn_ground_loot(loot_origin, "gold", "★ %d Złota" % rgold, Color(1.0, 0.88, 0.28), "gear-coin.webp", rgold, {}, 1, true, is_elite)
+		if is_elite:
 			var core_it: Dictionary = GmPanelScript.find_item("mat_elite_core")
 			if not core_it.is_empty():
-				rpg_hud.add_item_to_backpack(core_it, 1)
+				spawn_ground_loot(loot_origin, "item", "★ %s" % str(core_it.get("name", "Rdzeń Elity")), Color(0.96, 0.56, 1.0), str(core_it.get("icon", "emblem_crystal.webp")), 0, core_it, 1, true, true)
 			var pot_it: Dictionary = GmPanelScript.find_item("potion_hp")
 			if not pot_it.is_empty():
-				rpg_hud.add_item_to_backpack(pot_it, 1)
+				spawn_ground_loot(loot_origin, "item", "★ %s" % str(pot_it.get("name", "Eliksir")), Color(1.0, 0.48, 0.42), str(pot_it.get("icon", "potion-hp.webp")), 0, pot_it, 1, true, false)
+		elif randf() < 0.35:
+			var pot_n: Dictionary = GmPanelScript.find_item("potion_hp")
+			if not pot_n.is_empty():
+				spawn_ground_loot(loot_origin, "item", "★ %s" % str(pot_n.get("name", "Eliksir")), Color(1.0, 0.48, 0.42), str(pot_n.get("icon", "potion-hp.webp")), 0, pot_n, 1, true, false)
 		if rpg_hud.has_method("grant_local_xp"):
 			var lvl_up: bool = rpg_hud.grant_local_xp(rxp)
 			if lvl_up and audio != null:
@@ -1469,9 +1701,9 @@ func report_monster_kill(monster_id: String, lvl: int, mname: String, hp_cost: i
 		else:
 			rpg_hud._refresh_visuals()
 	if is_elite:
-		show_combat_toast("★ POKONANO ELITĘ: %s! (+%d PD, +%d zł, Rdzeń Elity)" % [mname, rxp, rgold], Color(1.0, 0.86, 0.24))
+		show_combat_toast("★ POKONANO ELITĘ: %s! (+%d PD) — podejdź po łup!" % [mname, rxp], Color(1.0, 0.86, 0.24))
 	else:
-		show_combat_toast("⚔ Pokonano: %s (Poz.%d) • +%d PD, +%d zł" % [mname, lvl, rxp, rgold], Color(1.0, 0.78, 0.36))
+		show_combat_toast("⚔ Pokonano: %s (Poz.%d) • +%d PD — łup na ziemi!" % [mname, lvl, rxp], Color(1.0, 0.78, 0.36))
 
 func handle_hero_defeat() -> void:
 	if in_labyrinth:
@@ -1696,7 +1928,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0) -> void:
 					mnode.play_action("death", "death", 0.90)
 			if audio != null:
 				audio.play_monster_sfx(str(target.get("actor_id", "")), "die")
-			report_monster_kill(str(target.get("actor_id", "monster")), m_lvl, str(target.get("name", "Potwór")), hp_cost, is_el)
+			report_monster_kill(str(target.get("actor_id", "monster")), m_lvl, str(target.get("name", "Potwór")), hp_cost, is_el, target["pos"] as Vector2)
 		else:
 			if is_instance_valid(mnode) and mnode.has_method("play_action"):
 				mnode.play_action("hit", "hit", 0.28)
@@ -2500,6 +2732,7 @@ func step_world(delta: float) -> void:
 	if hero != null:
 		hero.animate(screen_dir, is_running, lerpf(0.62, 1.0, move_mag))
 	sync_hero()
+	_step_ground_loot(delta)
 
 	var dlg_open: bool = dialogue_strip != null and bool(dialogue_strip.is_open)
 	var talk_node = active_talk_agent.get("node", null) if dlg_open else null
@@ -2523,7 +2756,10 @@ func step_world(delta: float) -> void:
 		or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)))
 	)
 	var cam_p := camera.position
-	var ag_cull_r := 2500.0 / maxf(zoom_level, 0.50)
+	var vp_sz := get_viewport_rect().size
+	var inv_z := 1.0 / maxf(zoom_level, 0.45)
+	var ag_cull_x := vp_sz.x * 0.56 * inv_z + 320.0
+	var ag_cull_y := vp_sz.y * 0.56 * inv_z + 280.0
 
 	# Animate living NPCs, Monsters, and Wildlife Fauna animals with natural Waypoint AI + 2-way combat + distance culling
 	for idx in live_agents.size():
@@ -2559,7 +2795,7 @@ func step_world(delta: float) -> void:
 				if node.has_method("play_action"):
 					node.play_action("respawn", "idle", 0.55)
 			continue
-		if absf(node.position.x - cam_p.x) > ag_cull_r or absf(node.position.y - cam_p.y) > ag_cull_r * 0.78:
+		if absf(node.position.x - cam_p.x) > ag_cull_x or absf(node.position.y - cam_p.y) > ag_cull_y:
 			if node.visible:
 				node.visible = false
 			continue
@@ -2635,10 +2871,13 @@ func step_world(delta: float) -> void:
 		else:
 			next_p = _step_agent_patrol(ag, delta, float(ag.get("speed", 10.5)), false)
 		var d_pos := next_p - prev_p
-		ag["pos"] = next_p
-		node.position = iso(next_p.x, next_p.y, height_at(next_p.x, next_p.y))
-		var s_dir := Vector2(d_pos.x - d_pos.y, (d_pos.x + d_pos.y) * 0.5)
-		node.animate(s_dir if s_dir.length_squared() > 0.0004 else Vector2.ZERO, false, stride)
+		if d_pos.length_squared() > 0.0001:
+			ag["pos"] = next_p
+			node.position = iso(next_p.x, next_p.y, height_at(next_p.x, next_p.y))
+			var s_dir := Vector2(d_pos.x - d_pos.y, (d_pos.x + d_pos.y) * 0.5)
+			node.animate(s_dir if s_dir.length_squared() > 0.0004 else Vector2.ZERO, false, stride)
+		else:
+			node.animate(Vector2.ZERO, false, stride)
 
 		# Layer 1: Ambient floating World Speech Bubbles only when hero walks close to an NPC
 		if ag_kind == "npc" and world_time > 2.5:
@@ -2710,8 +2949,19 @@ func _cull_props(force: bool = false) -> void:
 		return
 	_last_cull_cam = cam_p
 	_last_cull_zoom = zoom_level
-	var rx := 2300.0 / maxf(zoom_level, 0.50)
-	var ry := 1680.0 / maxf(zoom_level, 0.50)
+	var vp := get_viewport_rect().size
+	var inv_z := 1.0 / maxf(zoom_level, 0.45)
+	var rx := vp.x * 0.56 * inv_z + 380.0
+	var ry := vp.y * 0.56 * inv_z + 340.0
+	# Frustum-cull the 64 spatial terrain chunks so mobile GPU only renders visible chunks (~3,000 tris vs 131,072!)
+	var cam_rect := Rect2(cam_p - Vector2(rx + 180.0, ry + 180.0), Vector2((rx + 180.0) * 2.0, (ry + 180.0) * 2.0))
+	for tc: Dictionary in terrain_chunks:
+		var tnode: MeshInstance2D = tc["node"]
+		if is_instance_valid(tnode):
+			var want_v: bool = (tc["rect"] as Rect2).intersects(cam_rect)
+			if tnode.visible != want_v:
+				tnode.visible = want_v
+
 	var min_cx := int(floor((cam_p.x - rx) / PROP_CHUNK_PX))
 	var max_cx := int(floor((cam_p.x + rx) / PROP_CHUNK_PX))
 	var min_cy := int(floor((cam_p.y - ry) / PROP_CHUNK_PX))
@@ -2733,12 +2983,23 @@ func _cull_props(force: bool = false) -> void:
 					nd.visible = false
 	_visible_prop_chunks = next_chunks
 
-func sync_hero() -> void:
+func sync_hero(force_scan: bool = false) -> void:
 	var h := height_at(hero_pos.x, hero_pos.y)
 	if hero != null:
 		hero.position = iso(hero_pos.x, hero_pos.y, h)
 		camera.position = hero.position + Vector2(0, -34)
-	_cull_props()
+	_cull_props(force_scan)
+	if premium_minimap != null:
+		premium_minimap.refresh()
+	if atlas_overlay != null and atlas_expanded:
+		atlas_overlay.sync_live_hero()
+
+	var now_ms := Time.get_ticks_msec()
+	if not force_scan and (now_ms - _last_sync_scan_ms) < 120 and hero_pos.distance_squared_to(_last_sync_scan_pos) < 16.0:
+		return
+	_last_sync_scan_ms = now_ms
+	_last_sync_scan_pos = hero_pos
+
 	var nearest := ""
 	var best := 99999.0
 	for lm: Dictionary in landmarks:
@@ -2756,10 +3017,6 @@ func sync_hero() -> void:
 				nearest = str(sb.get("name", nearest))
 	if rpg_hud != null:
 		rpg_hud.sync_status(nearest, in_safe)
-	if premium_minimap != null:
-		premium_minimap.refresh(nearest, in_safe)
-	if atlas_overlay != null and atlas_expanded:
-		atlas_overlay.sync_live_hero()
 
 	# Detect nearest enterable building within 56m of its entrance or center
 	var best_b: Dictionary = {}

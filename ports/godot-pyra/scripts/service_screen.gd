@@ -776,10 +776,15 @@ func choose_character() -> String:
 				var del_ans: Dictionary = await online.request(HTTPClient.METHOD_DELETE, "/ws/godot/characters/%s" % del_id)
 				if int(del_ans.get("status", 0)) == 200:
 					server_chars.erase(del_id)
-					notice("Postać została usunięta z serwera.")
+					Chars.delete(del_id)
+					if str(active_server_char.get("id", "")) == del_id:
+						active_server_char = {}
+					notice("Postać została trwale usunięta z serwera.")
 				else:
 					notice(PyraOnline.message_of(del_ans, "Nie udało się usunąć postaci na serwerze."))
 			else:
+				if del_id.begins_with("srv-") and online.logged_in():
+					await online.request(HTTPClient.METHOD_DELETE, "/ws/characters/%s" % del_id.substr(4))
 				Chars.delete(del_id)
 				legacy_server.erase(del_id)
 				notice("Postać została usunięta.")

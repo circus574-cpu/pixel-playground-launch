@@ -18,6 +18,7 @@ var time_idx := 0
 var land_id := "pyra"
 var particles: Array[Dictionary] = []
 var flyers: Array[Dictionary] = []
+var _redraw_acc := 0.0
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -37,25 +38,25 @@ func _seed_particles() -> void:
 	flyers.clear()
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 20261122
-	for i in 84:
+	for i in 28:
 		particles.append({
 			"x": rng.randf(),
 			"y": rng.randf(),
 			"vx": rng.randf_range(-0.028, 0.032),
 			"vy": rng.randf_range(0.018, 0.068),
-			"sz": rng.randf_range(2.2, 5.4),
+			"sz": rng.randf_range(2.2, 5.0),
 			"ph": rng.randf_range(0.0, TAU),
 			"kind": i % 3,
 		})
 	# Ambient flocks of distant sky birds / luminous forest butterflies / floating holo-drones
-	for j in 7:
+	for j in 4:
 		flyers.append({
 			"x": rng.randf(),
 			"y": rng.randf_range(0.10, 0.78),
 			"vx": rng.randf_range(0.035, 0.075) * (1.0 if j % 2 == 0 else -1.0),
 			"vy": rng.randf_range(-0.008, 0.008),
 			"wing": rng.randf_range(0.0, TAU),
-			"sz": rng.randf_range(6.5, 11.0),
+			"sz": rng.randf_range(6.5, 10.5),
 		})
 
 func set_region(new_land: String) -> void:
@@ -82,15 +83,20 @@ func apply_time_mode() -> void:
 func _process(delta: float) -> void:
 	if not visible:
 		return
+	_redraw_acc += delta
+	if _redraw_acc < 0.042:
+		return
+	var step := _redraw_acc
+	_redraw_acc = 0.0
 	var dir_y := -1.0 if (land_id == "pyra" or land_id == "nexus") else 1.0
 	for p: Dictionary in particles:
-		p["x"] = fposmod(float(p["x"]) + float(p["vx"]) * delta + 1.0, 1.0)
-		p["y"] = fposmod(float(p["y"]) + float(p["vy"]) * dir_y * delta + 1.0, 1.0)
-		p["ph"] = float(p["ph"]) + delta * 2.6
+		p["x"] = fposmod(float(p["x"]) + float(p["vx"]) * step + 1.0, 1.0)
+		p["y"] = fposmod(float(p["y"]) + float(p["vy"]) * dir_y * step + 1.0, 1.0)
+		p["ph"] = float(p["ph"]) + step * 2.6
 	for fl: Dictionary in flyers:
-		fl["x"] = fposmod(float(fl["x"]) + float(fl["vx"]) * delta + 1.0, 1.0)
-		fl["y"] = clampf(float(fl["y"]) + sin(float(fl["wing"]) * 0.45) * 0.012 * delta, 0.08, 0.84)
-		fl["wing"] = float(fl["wing"]) + delta * 7.8
+		fl["x"] = fposmod(float(fl["x"]) + float(fl["vx"]) * step + 1.0, 1.0)
+		fl["y"] = clampf(float(fl["y"]) + sin(float(fl["wing"]) * 0.45) * 0.012 * step, 0.08, 0.84)
+		fl["wing"] = float(fl["wing"]) + step * 7.8
 	queue_redraw()
 
 func _draw() -> void:

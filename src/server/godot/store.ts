@@ -518,9 +518,22 @@ export class GodotStore {
   }
 
   async adminDeleteCharacter(characterId: string): Promise<boolean> {
-    const rows = await this.sql`
-      DELETE FROM godot_android.characters WHERE id = ${characterId} RETURNING 1`;
-    return rows.length > 0;
+    const rows = await this.sql<{ browser_character_id: string | null }[]>`
+      DELETE FROM godot_android.characters
+      WHERE id = ${characterId}
+      RETURNING browser_character_id`;
+    if (rows.length === 0) return false;
+    const bid = rows[0]?.browser_character_id;
+    if (bid) {
+      try {
+        await this.sql`
+          UPDATE game.characters SET retired_at = now()
+          WHERE id = ${bid} AND retired_at IS NULL`;
+      } catch {
+        // Optional bridge table in minimal DBs.
+      }
+    }
+    return true;
   }
 }
 

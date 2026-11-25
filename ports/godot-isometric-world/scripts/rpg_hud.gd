@@ -156,6 +156,11 @@ var selected_node_id := "A1"
 var hovered_node_id := ""
 var hovered_hotbar_idx := -1
 var hovered_char_item: Dictionary = {}
+var selected_char_source := ""    # "backpack" or "equip"
+var selected_char_idx := -1
+var char_action_btn_rect := Rect2()
+var _last_slot_tap_key := ""
+var _last_slot_tap_ms := 0
 
 # Customizable HUD Layout & Live On-Screen Drag-and-Drop HUD Editor
 var hud_layout: Dictionary = {
@@ -1095,7 +1100,10 @@ func _sync_bar_uniforms() -> void:
 	xp_bar_mat.set_shader_parameter("fill_ratio", clampf(hero_xp / maxf(hero_max_xp, 1.0), 0.0, 1.0))
 
 func sync_status(loc: String, safe: bool) -> void:
-	nearest_loc = loc if not loc.is_empty() else "Stolica"
+	var next_loc := loc if not loc.is_empty() else "Stolica"
+	if next_loc == nearest_loc and safe == in_safe_city:
+		return
+	nearest_loc = next_loc
 	in_safe_city = safe
 	_refresh_visuals()
 
@@ -1185,12 +1193,21 @@ func toggle_character() -> void:
 	show_character = not show_character
 	if show_character:
 		show_talents = false
+		if selected_char_idx < 0:
+			for bi in backpack_items.size():
+				if not backpack_items[bi].is_empty():
+					selected_char_source = "backpack"
+					selected_char_idx = bi
+					break
 	_sync_modal_visibility()
 
 func close_modals() -> void:
 	show_talents = false
 	show_character = false
 	hovered_char_item = {}
+	selected_char_source = ""
+	selected_char_idx = -1
+	_last_slot_tap_key = ""
 	_sync_modal_visibility()
 
 func _sync_modal_visibility() -> void:
@@ -1455,8 +1472,8 @@ func _combat_base_center() -> Vector2:
 
 func _modal_rect() -> Rect2:
 	var vs := _vp_size()
-	var mw := minf(vs.x - 110.0, 1280.0)
-	var mh := minf(vs.y - 84.0, 718.0)
+	var mw := minf(vs.x - 24.0, 1440.0)
+	var mh := minf(vs.y - 20.0, 760.0)
 	return Rect2((vs.x - mw) * 0.5, (vs.y - mh) * 0.5, mw, mh)
 
 func _xp_pill_rect() -> Rect2:
@@ -1762,13 +1779,13 @@ func _layout_all() -> void:
 	inspector_ring_rect.position = ic - Vector2(46.0, 46.0)
 	inspector_ring_rect.size = Vector2(92.0, 92.0)
 
-	# Character Paperdoll Portrait
-	var paper_cx := mr.position.x + mr.size.x * 0.30
-	var paper_cy := mr.position.y + mr.size.y * 0.46
-	char_portrait_rect.position = Vector2(paper_cx - 72.0, paper_cy - 72.0)
-	char_portrait_rect.size = Vector2(144.0, 144.0)
-	char_portrait_ring.position = Vector2(paper_cx - 88.0, paper_cy - 88.0)
-	char_portrait_ring.size = Vector2(176.0, 176.0)
+	# Character Paperdoll Portrait (centered inside the Classic RPG Silhouette on Left Half)
+	var paper_cx := mr.position.x + mr.size.x * 0.245
+	var paper_cy := mr.position.y + 258.0
+	char_portrait_rect.position = Vector2(paper_cx - 58.0, paper_cy - 58.0)
+	char_portrait_rect.size = Vector2(116.0, 116.0)
+	char_portrait_ring.position = Vector2(paper_cx - 72.0, paper_cy - 72.0)
+	char_portrait_ring.size = Vector2(144.0, 144.0)
 
 # ==============================================================================
 # BASE LAYER DRAW (SEAMLESS FORGED OBSIDIAN & BURNISHED GOLD PLATES)
@@ -2454,6 +2471,64 @@ func _draw_constellation_tree(c: CanvasItem, f: Font, mr: Rect2) -> void:
 			c.draw_string(fb, Vector2(lx + 9.0, ly + 4.0), str(lg[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.86, 0.82, 0.76))
 			lx += 88.0
 
+func _get_selected_char_item() -> Dictionary:
+	if selected_char_source == "backpack" and selected_char_idx >= 0 and selected_char_idx < backpack_items.size():
+		var it: Dictionary = backpack_items[selected_char_idx]
+		if not it.is_empty():
+			return it
+	elif selected_char_source == "equip" and selected_char_idx >= 0 and selected_char_idx < equip_slots.size():
+		var eq: Dictionary = equip_slots[selected_char_idx]
+		if not str(eq.get("id", "")).is_empty():
+			return eq
+	return hovered_char_item
+
+func _execute_selected_char_action() -> void:
+	if selected_char_source == "backpack" and selected_char_idx >= 0 and selected_char_idx < backpack_items.size():
+		var it: Dictionary = backpack_items[selected_char_idx]
+		if not it.is_empty():
+			use_backpack_slot(selected_char_idx)
+			if selected_char_idx >= backpack_items.size() or backpack_items[selected_char_idx].is_empty():
+				selected_char_source = ""
+				selected_char_idx = -1
+	elif selected_char_source == "equip" and selected_char_idx >= 0 and selected_char_idx < equip_slots.size():
+		var eq: Dictionary = equip_slots[selected_char_idx]
+		if not str(eq.get("id", "")).is_empty():
+			unequip_slot(selected_char_idx)
+			selected_char_source = ""
+			selected_char_idx = -1
+	_refresh_visuals()
+
+func _item_stat_summary(it: Dictionary, compare_eq: Dictionary) -> Array[Dictionary]:
+	var lines: Array[Dictionary] = []
+	var stat_defs := [
+		["atk", "Atak", ""],
+		["def", "Obrona", ""],
+		["hp", "Maks. HP", ""],
+		["ki", "Maks. KI", ""],
+		["spd", "Szybkość", " j."],
+		["crit", "Kryt", "%"],
+		["heal_hp", "Leczy HP", ""],
+		["heal_ki", "Odnawia KI", ""],
+	]
+	for sd in stat_defs:
+		var k: String = sd[0]
+		var val := float(it.get(k, 0))
+		if absf(val) < 0.01:
+			continue
+		var txt := "+%d %s%s" % [int(round(val)), sd[1], sd[2]] if k != "crit" else "+%.1f%s %s" % [val, sd[2], sd[1]]
+		var col := Color(0.56, 0.98, 0.72) if k in ["heal_hp", "heal_ki"] else Color(0.98, 0.90, 0.62)
+		if not compare_eq.is_empty() and not (k in ["heal_hp", "heal_ki"]):
+			var old_v := float(compare_eq.get(k, 0))
+			var diff := val - old_v
+			if diff > 0.05:
+				txt += " (+%d)" % int(round(diff)) if k != "crit" else " (+%.1f%%)" % diff
+				col = Color(0.42, 0.98, 0.58)
+			elif diff < -0.05:
+				txt += " (%d)" % int(round(diff)) if k != "crit" else " (%.1f%%)" % diff
+				col = Color(1.0, 0.46, 0.38)
+		lines.append({"text": txt, "color": col})
+	return lines
+
 func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 	var fb: Font = MapStyle.body_font()
 	var rd := _race_data()
@@ -2461,157 +2536,297 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 	var accent: Color = meta["accent"]
 	var slot_tex := _load_tex("res://assets/ui/hud_skill_slot.png")
 
-	var title_txt := "KARTA POSTACI I EKWIPUNEK — %s" % (hero_custom_name if hero_custom_name != "" else str(meta["hero"])).to_upper()
+	var title_txt := "POSTAĆ I EKWIPUNEK — %s" % (hero_custom_name if hero_custom_name != "" else str(meta["hero"])).to_upper()
 	var total_tr := get_total_training_sessions()
 	var tr_word := "sesja" if total_tr == 1 else ("sesje" if (total_tr % 10 >= 2 and total_tr % 10 <= 4 and (total_tr % 100 < 12 or total_tr % 100 > 14)) else "sesji")
-	var sub_txt := "%s  •  Poz.%d  •  %s (%d %s treningu)" % [str(rd.get("raceName", "")), hero_level, get_training_mastery_title(), total_tr, tr_word]
+	var sub_txt := "%s  •  Poz.%d  •  %s (%d %s)" % [str(rd.get("raceName", "")), hero_level, get_training_mastery_title(), total_tr, tr_word]
 	_draw_modal_header_plaque(c, f, mr, title_txt, sub_txt)
 
-	# Consistent Forged "← WSTECZ" back button at top-left
-	char_close_rect = Rect2(mr.position.x + 48.0, mr.position.y + 52.0, 168.0, 44.0)
+	# Forged "← WSTECZ" back button at top-left
+	char_close_rect = Rect2(mr.position.x + 28.0, mr.position.y + 30.0, 174.0, 48.0)
 	_draw_forged_pill(c, char_close_rect, false)
 	var b_lbl := "← WSTECZ"
-	var b_lw := f.get_string_size(b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-	c.draw_string(f, Vector2(char_close_rect.position.x + (char_close_rect.size.x - b_lw) * 0.5, char_close_rect.position.y + 27.0), b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.93, 0.74))
+	var b_lw := f.get_string_size(b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+	c.draw_string(f, Vector2(char_close_rect.position.x + (char_close_rect.size.x - b_lw) * 0.5, char_close_rect.position.y + 30.0), b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.93, 0.74))
 
-	# Left Half: Hero Paperdoll Aura + 8 Interactive Equipment Sockets (Click equipped item to unequip!)
-	var paper_cx := mr.position.x + mr.size.x * 0.305
-	var paper_cy := mr.position.y + mr.size.y * 0.455
-	c.draw_circle(Vector2(paper_cx, paper_cy), 96.0, Color(accent.r, accent.g, accent.b, 0.10))
-	c.draw_arc(Vector2(paper_cx, paper_cy), 98.0, 0.0, TAU, 48, Color(0.80, 0.64, 0.34, 0.32), 1.2, true)
+	# ==========================================================================
+	# LEFT HALF: CLASSIC RPG PAPERDOLL SILHOUETTE + 8 BIG 66px EQUIPMENT SOCKETS + 2-COL STATS
+	# ==========================================================================
+	var lx := mr.position.x + 22.0
+	var lw := mr.size.x * 0.462
+	var paper_rect := Rect2(lx, mr.position.y + 98.0, lw, 328.0)
+	_draw_obsidian_plate(c, paper_rect, Color(0.84, 0.66, 0.35, 0.90))
 
-	var eq_sz := 60.0
+	var paper_cx := mr.position.x + mr.size.x * 0.245
+	var paper_cy := mr.position.y + 258.0
+
+	# Stylized Warrior Paperdoll Silhouette behind hero portrait (head, shoulders, torso, arms, legs)
+	var sil_fill := Color(accent.r * 0.32 + 0.08, accent.g * 0.32 + 0.08, accent.b * 0.38 + 0.12, 0.34)
+	var sil_edge := Color(0.88, 0.72, 0.38, 0.42)
+	var torso_poly := PackedVector2Array([
+		Vector2(paper_cx - 56.0, paper_cy - 34.0),
+		Vector2(paper_cx - 26.0, paper_cy - 54.0),
+		Vector2(paper_cx + 26.0, paper_cy - 54.0),
+		Vector2(paper_cx + 56.0, paper_cy - 34.0),
+		Vector2(paper_cx + 76.0, paper_cy + 46.0),
+		Vector2(paper_cx + 52.0, paper_cy + 52.0),
+		Vector2(paper_cx + 34.0, paper_cy + 6.0),
+		Vector2(paper_cx + 38.0, paper_cy + 88.0),
+		Vector2(paper_cx + 12.0, paper_cy + 88.0),
+		Vector2(paper_cx, paper_cy + 44.0),
+		Vector2(paper_cx - 12.0, paper_cy + 88.0),
+		Vector2(paper_cx - 38.0, paper_cy + 88.0),
+		Vector2(paper_cx - 34.0, paper_cy + 6.0),
+		Vector2(paper_cx - 52.0, paper_cy + 52.0),
+		Vector2(paper_cx - 76.0, paper_cy + 46.0),
+	])
+	c.draw_colored_polygon(torso_poly, sil_fill)
+	c.draw_polyline(torso_poly + PackedVector2Array([torso_poly[0]]), sil_edge, 1.8, true)
+	c.draw_circle(Vector2(paper_cx, paper_cy), 86.0, Color(accent.r, accent.g, accent.b, 0.12))
+	c.draw_arc(Vector2(paper_cx, paper_cy), 88.0, 0.0, TAU, 48, Color(0.84, 0.68, 0.36, 0.34), 1.4, true)
+
+	# Classic RPG Paperdoll Slot Coordinates:
+	# 0:Hełm (top center), 7:Buty (bottom center)
+	# Left column: 2:Broń (top-left), 4:Pancerz (mid-left), 3:Rękawice (bot-left)
+	# Right column: 1:Amulet (top-right), 5:Tarcza (mid-right), 6:Pierścień (bot-right)
+	var eq_sz := 62.0
+	var col_dx := minf(162.0, lw * 0.345)
+	var slot_centers := {
+		0: Vector2(paper_cx, mr.position.y + 140.0),
+		1: Vector2(paper_cx + col_dx, mr.position.y + 164.0),
+		2: Vector2(paper_cx - col_dx, mr.position.y + 164.0),
+		3: Vector2(paper_cx - col_dx, mr.position.y + 348.0),
+		4: Vector2(paper_cx - col_dx, mr.position.y + 256.0),
+		5: Vector2(paper_cx + col_dx, mr.position.y + 256.0),
+		6: Vector2(paper_cx + col_dx, mr.position.y + 348.0),
+		7: Vector2(paper_cx, mr.position.y + 372.0),
+	}
+	var anchor_targets := {
+		0: Vector2(paper_cx, paper_cy - 68.0),
+		1: Vector2(paper_cx + 38.0, paper_cy - 44.0),
+		2: Vector2(paper_cx - 56.0, paper_cy - 22.0),
+		3: Vector2(paper_cx - 60.0, paper_cy + 42.0),
+		4: Vector2(paper_cx - 42.0, paper_cy),
+		5: Vector2(paper_cx + 52.0, paper_cy),
+		6: Vector2(paper_cx + 60.0, paper_cy + 42.0),
+		7: Vector2(paper_cx, paper_cy + 78.0),
+	}
+
 	equip_hitboxes.clear()
 	for ei in equip_slots.size():
 		var sl: Dictionary = equip_slots[ei]
-		var side := int(sl.get("side", -1 if ei < 4 else 1))
-		var row := int(sl.get("row", ei % 4))
-		var sx := paper_cx + float(side) * 144.0 - eq_sz * 0.5
-		var sy := mr.position.y + 144.0 + float(row) * 86.0
+		var sc: Vector2 = slot_centers.get(ei, Vector2(paper_cx, paper_cy))
+		var at: Vector2 = anchor_targets.get(ei, Vector2(paper_cx, paper_cy))
+		c.draw_line(sc, at, Color(0.82, 0.66, 0.34, 0.32), 1.6, true)
+		var sx := sc.x - eq_sz * 0.5
+		var sy := sc.y - eq_sz * 0.5
 		var sr := Rect2(sx, sy, eq_sz, eq_sz)
 		equip_hitboxes.append({"rect": sr, "idx": ei})
 		var has_it := not str(sl.get("id", "")).is_empty()
+		var is_sel := (selected_char_source == "equip" and selected_char_idx == ei)
 		var rcol: Color = sl.get("rarity", Color(0.56, 0.50, 0.42)) as Color
-		c.draw_rect(sr, Color(0.05, 0.04, 0.06, 0.94), true)
+		c.draw_rect(sr, Color(0.06, 0.05, 0.08, 0.96), true)
 		var gico := _icon_tex(str(sl.get("icon", "")))
 		if has_it and gico != null:
 			c.draw_texture_rect(gico, Rect2(sx + 6.0, sy + 6.0, eq_sz - 12.0, eq_sz - 12.0), false)
-		c.draw_rect(sr.grow(-2.0), Color(rcol.r, rcol.g, rcol.b, 0.65 if has_it else 0.28), false, 1.6)
+		c.draw_rect(sr.grow(-2.0), Color(rcol.r, rcol.g, rcol.b, 0.85 if has_it else 0.30), false, 2.0)
 		if slot_tex != null:
 			c.draw_texture_rect(slot_tex, Rect2(sx - 2.0, sy - 2.0, eq_sz + 4.0, eq_sz + 4.0), false)
+		if is_sel:
+			c.draw_rect(sr.grow(3.0), Color(1.0, 0.86, 0.28, 0.98), false, 3.0)
 		var slot_hint := str(EQUIP_SLOT_NAMES[ei]) if ei < EQUIP_SLOT_NAMES.size() else "Slot"
 		var gname := str(sl.get("name", slot_hint)) if has_it else slot_hint
-		if gname.length() > 16:
-			gname = gname.substr(0, 15) + "…"
-		var gnw := fb.get_string_size(gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
-		c.draw_string(fb, Vector2(sx + (eq_sz - gnw) * 0.5, sy + eq_sz + 14.0), gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, rcol if has_it else Color(0.64, 0.60, 0.54))
+		if gname.length() > 14:
+			gname = gname.substr(0, 13) + "…"
+		var gnw := fb.get_string_size(gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+		c.draw_string_outline(fb, Vector2(sx + (eq_sz - gnw) * 0.5, sy + eq_sz + 15.0), gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 3, Color(0.02, 0.02, 0.03, 0.95))
+		c.draw_string(fb, Vector2(sx + (eq_sz - gnw) * 0.5, sy + eq_sz + 15.0), gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, rcol if has_it else Color(0.76, 0.72, 0.64))
 
-	var role_txt := "%s  •  %s" % [str(rd.get("raceName", "")), str(rd.get("role", ""))]
-	var rw := fb.get_string_size(role_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-	c.draw_string(fb, Vector2(paper_cx - rw * 0.5, mr.position.y + 520.0), role_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.88, 0.54))
-	var mech_txt := "Kliknij założony sprzęt, aby go zdjąć  •  Trening w Arenie/Sanktuarium daje staty (0 PD)"
-	var mw := fb.get_string_size(mech_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
-	c.draw_string(fb, Vector2(paper_cx - mw * 0.5, mr.position.y + 540.0), mech_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(accent.r, accent.g, accent.b, 0.92))
-
-	# Item Hover Tooltip on Left Bottom when hovering any backpack or equipped item!
-	if not hovered_char_item.is_empty():
-		var tip_r := Rect2(mr.position.x + 56.0, mr.position.y + 556.0, mr.size.x * 0.45, 76.0)
-		_draw_obsidian_plate(c, tip_r, Color(0.90, 0.72, 0.34, 0.94))
-		var h_rcol: Color = hovered_char_item.get("rarity", Color(0.95, 0.90, 0.76)) as Color
-		var h_nm := "%s  [Poz.%d]" % [str(hovered_char_item.get("name", "")), int(hovered_char_item.get("minLevel", 1))]
-		c.draw_string(f, tip_r.position + Vector2(14.0, 24.0), h_nm, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, h_rcol)
-		var h_desc := str(hovered_char_item.get("desc", ""))
-		var h_sell := int(hovered_char_item.get("sellPrice", 0))
-		if h_sell > 0:
-			h_desc += "  •  Sprzedaż: %d zł" % h_sell
-		c.draw_string(fb, tip_r.position + Vector2(14.0, 44.0), h_desc, HORIZONTAL_ALIGNMENT_LEFT, int(tip_r.size.x - 28.0), 12, Color(0.92, 0.90, 0.86))
-		var h_hint := str(hovered_char_item.get("_hint", "Kliknij, aby użyć / założyć"))
-		c.draw_string(fb, tip_r.position + Vector2(14.0, 62.0), h_hint, HORIZONTAL_ALIGNMENT_LEFT, int(tip_r.size.x - 28.0), 11, Color(0.62, 0.94, 0.72))
-
-	# Right Half: Forged Obsidian Stats Ledger + Live [+] Stat Allocation + Painted 6x4 (24-Slot) Backpack Grid
-	var rx := mr.position.x + mr.size.x * 0.535
-	var ry := mr.position.y + 112.0
-	var rw_box := mr.size.x * 0.425
-	var rh_box := mr.size.y - 156.0
-	_draw_obsidian_plate(c, Rect2(rx, ry, rw_box, rh_box), Color(0.84, 0.66, 0.35, 0.90))
+	# Lower-Left Panel: BIG 2-Column Readable Stats Ledger + [+] Buttons
+	var stats_y := mr.position.y + 436.0
+	var stats_h := maxf(180.0, mr.position.y + mr.size.y - stats_y - 18.0)
+	var stats_rect := Rect2(lx, stats_y, lw, stats_h)
+	_draw_obsidian_plate(c, stats_rect, Color(0.84, 0.66, 0.35, 0.88))
 
 	var pts_tag := "  •  WOLNE PKT: %d" % free_stat_points if free_stat_points > 0 else ""
-	c.draw_string(f, Vector2(rx + 22.0, ry + 28.0), "ATRYBUTY (POZ. %d)%s" % [hero_level, pts_tag], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.46, 0.96, 0.64) if free_stat_points > 0 else Color(1.0, 0.88, 0.52))
-	c.draw_line(Vector2(rx + 22.0, ry + 36.0), Vector2(rx + rw_box - 22.0, ry + 36.0), Color(0.80, 0.62, 0.32, 0.50), 1.0, true)
+	c.draw_string(f, Vector2(lx + 18.0, stats_y + 28.0), "ATRYBUTY BOHATERA (POZ. %d)%s" % [hero_level, pts_tag], HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.46, 0.98, 0.64) if free_stat_points > 0 else Color(1.0, 0.88, 0.54))
+	c.draw_line(Vector2(lx + 18.0, stats_y + 38.0), Vector2(lx + lw - 18.0, stats_y + 38.0), Color(0.80, 0.62, 0.32, 0.50), 1.2, true)
 
-	var tr_hp := int(training_ranks.get("hp", 0))
-	var tr_ki := int(training_ranks.get("ki", 0))
-	var tr_atk := int(training_ranks.get("atk", 0))
-	var tr_def := int(training_ranks.get("def", 0))
-	var tr_spd := int(training_ranks.get("spd", 0))
-	var tr_crit := int(training_ranks.get("crit", 0))
 	var stats_rows: Array = [
-		["hud-hp.webp", "Punkty Życia (HP)", "%d%s" % [int(round(hero_max_hp)), (" (+%d tr.)" % (tr_hp * 12)) if tr_hp > 0 else ""], "hp"],
-		["hud-ki.webp", "Energia KI", "%d%s" % [int(round(hero_max_ki)), (" (+%d tr.)" % (tr_ki * 8)) if tr_ki > 0 else ""], "ki"],
-		["hud-fist.webp", "Atak całkowity", "%d%s" % [get_total_attack(), (" (+%d tr.)" % (tr_atk * 2)) if tr_atk > 0 else ""], "atk"],
-		["hud-shield.webp", "Obrona", "%d%s" % [get_total_defense(), (" (+%d tr.)" % int(round(tr_def * 1.5))) if tr_def > 0 else ""], "def"],
-		["gear-boots.webp", "Szybkość ruchu", "%d j.%s" % [get_total_speed(), (" (+%d tr.)" % (tr_spd * 6)) if tr_spd > 0 else ""], "spd"],
-		["emblem_slash.webp", "Szansa krytyczna", "%.1f%%%s" % [get_total_crit(), (" (+%.1f%%)" % (tr_crit * 0.6)) if tr_crit > 0 else ""], "crit"],
-		["emblem_crystal.webp", "Regeneracja KI", "%.2f / s" % get_total_ki_regen(), ""],
-		["gear-coin.webp", "Skarbiec Złota", "%d szt." % hero_gold, ""],
+		["hud-hp.webp", "Życie (HP)", "%d" % int(round(hero_max_hp)), "hp"],
+		["hud-ki.webp", "Energia KI", "%d" % int(round(hero_max_ki)), "ki"],
+		["hud-fist.webp", "Atak", "%d" % get_total_attack(), "atk"],
+		["hud-shield.webp", "Obrona", "%d" % get_total_defense(), "def"],
+		["gear-boots.webp", "Szybkość", "%d j." % get_total_speed(), "spd"],
+		["emblem_slash.webp", "Kryt", "%.1f%%" % get_total_crit(), "crit"],
+		["emblem_crystal.webp", "Regen KI", "%.2f/s" % get_total_ki_regen(), ""],
+		["gear-coin.webp", "Złoto", "%d zł" % hero_gold, ""],
 	]
 	stat_plus_hitboxes.clear()
+	var col_w := (lw - 36.0) * 0.5
+	var row_h := minf(42.0, (stats_h - 54.0) / 4.0)
 	for si in stats_rows.size():
-		var sr_y := ry + 56.0 + float(si) * 24.5
+		var scol := si / 4
+		var srow := si % 4
+		var cell_x := lx + 18.0 + float(scol) * (col_w + 10.0)
+		var cell_y := stats_y + 62.0 + float(srow) * row_h
 		var row: Array = stats_rows[si]
 		var skey := str(row[3])
 		var sico := _icon_tex(str(row[0]))
 		if sico != null:
-			c.draw_texture_rect(sico, Rect2(rx + 22.0, sr_y - 13.0, 20.0, 20.0), false)
-		c.draw_string(fb, Vector2(rx + 48.0, sr_y + 2.0), str(row[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.92, 0.90, 0.84))
+			c.draw_texture_rect(sico, Rect2(cell_x, cell_y - 16.0, 24.0, 24.0), false)
+		c.draw_string(fb, Vector2(cell_x + 30.0, cell_y + 2.0), str(row[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.94, 0.91, 0.85))
 		var val_s := str(row[2])
-		var vw := fb.get_string_size(val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-		var right_pad := 58.0 if (free_stat_points > 0 and not skey.is_empty()) else 22.0
-		c.draw_string(fb, Vector2(rx + rw_box - right_pad - vw, sr_y + 2.0), val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.91, 0.58))
+		var vw := fb.get_string_size(val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+		var right_pad := 42.0 if (free_stat_points > 0 and not skey.is_empty()) else 12.0
+		c.draw_string(fb, Vector2(cell_x + col_w - right_pad - vw, cell_y + 2.0), val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.91, 0.54))
 		if free_stat_points > 0 and not skey.is_empty():
-			var pbtn := Rect2(rx + rw_box - 48.0, sr_y - 12.0, 26.0, 20.0)
-			c.draw_rect(pbtn, Color(0.10, 0.30, 0.18, 0.96), true)
-			c.draw_rect(pbtn, Color(0.42, 0.96, 0.58, 0.96), false, 1.6)
-			c.draw_string(f, Vector2(pbtn.position.x + 8.0, pbtn.position.y + 15.0), "+", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.92, 1.0, 0.94))
-			stat_plus_hitboxes.append({"rect": pbtn.grow(4.0), "key": skey})
-		if si < stats_rows.size() - 1:
-			c.draw_line(Vector2(rx + 22.0, sr_y + 9.0), Vector2(rx + rw_box - 22.0, sr_y + 9.0), Color(0.60, 0.50, 0.34, 0.22), 1.0, true)
+			var pbtn := Rect2(cell_x + col_w - 34.0, cell_y - 15.0, 28.0, 26.0)
+			c.draw_rect(pbtn, Color(0.10, 0.34, 0.20, 0.96), true)
+			c.draw_rect(pbtn, Color(0.42, 0.98, 0.60, 0.98), false, 1.8)
+			c.draw_string(f, Vector2(pbtn.position.x + 8.0, pbtn.position.y + 19.0), "+", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.94, 1.0, 0.96))
+			stat_plus_hitboxes.append({"rect": pbtn.grow(5.0), "key": skey})
 
-	# Backpack 6x4 Grid (24 live slots — tap item to equip or use; materials safely protected!)
-	var bp_y := ry + 256.0
+	# ==========================================================================
+	# RIGHT HALF: LARGE 6x4 BACKPACK (62px CELLS) + DETAILED ITEM INSPECTOR + ACTION BUTTON
+	# ==========================================================================
+	var rx := lx + lw + 16.0
+	var ry := mr.position.y + 98.0
+	var rw_box := mr.position.x + mr.size.x - rx - 22.0
+	var bp_panel_h := 328.0
+	_draw_obsidian_plate(c, Rect2(rx, ry, rw_box, bp_panel_h), Color(0.84, 0.66, 0.35, 0.90))
+
 	var used_slots := 0
 	for b_it: Dictionary in backpack_items:
 		if not b_it.is_empty():
 			used_slots += 1
-	c.draw_string(f, Vector2(rx + 22.0, bp_y), "SAKWA WĘDROWCA %d/%d (KLIK: ZAŁÓŻ / UŻYJ)" % [used_slots, BACKPACK_SLOTS], HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.94, 0.80, 0.48))
+	c.draw_string(f, Vector2(rx + 20.0, ry + 28.0), "PLECAK (%d/%d)" % [used_slots, BACKPACK_SLOTS], HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.88, 0.52))
+	var hint_s := "1× klik = szczegóły  •  2× klik = użyj / załóż"
+	var hw := fb.get_string_size(hint_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+	c.draw_string(fb, Vector2(rx + rw_box - 20.0 - hw, ry + 27.0), hint_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.76, 0.86, 0.96))
+	c.draw_line(Vector2(rx + 20.0, ry + 38.0), Vector2(rx + rw_box - 20.0, ry + 38.0), Color(0.80, 0.62, 0.32, 0.50), 1.2, true)
+
 	var cols := 6
-	var cell := 43.0
-	var gap := 6.0
-	var grid_x0 := rx + (rw_box - (float(cols) * cell + float(cols - 1) * gap)) * 0.5
+	var gap := 8.0
+	var max_cell_w := floorf((rw_box - 40.0 - float(cols - 1) * gap) / float(cols))
+	var max_cell_h := floorf((bp_panel_h - 56.0 - 3.0 * gap) / 4.0)
+	var cell := clampf(minf(max_cell_w, max_cell_h), 52.0, 68.0)
+	var grid_w := float(cols) * cell + float(cols - 1) * gap
+	var grid_x0 := rx + (rw_box - grid_w) * 0.5
+	var grid_y0 := ry + 46.0
 	backpack_hitboxes.clear()
 	for bi in mini(backpack_items.size(), BACKPACK_SLOTS):
 		var col_i := bi % cols
 		var row_i := bi / cols
 		var bx := grid_x0 + float(col_i) * (cell + gap)
-		var by := bp_y + 10.0 + float(row_i) * (cell + gap)
+		var by := grid_y0 + float(row_i) * (cell + gap)
 		var br := Rect2(bx, by, cell, cell)
 		backpack_hitboxes.append({"rect": br, "idx": bi})
-		c.draw_rect(br, Color(0.04, 0.03, 0.05, 0.92), true)
+		var is_sel_b := (selected_char_source == "backpack" and selected_char_idx == bi)
+		c.draw_rect(br, Color(0.05, 0.04, 0.07, 0.95), true)
 		var bi_d: Dictionary = backpack_items[bi]
 		if not bi_d.is_empty():
 			var bico := _icon_tex(str(bi_d.get("icon", "")))
 			if bico != null:
-				c.draw_texture_rect(bico, Rect2(bx + 5.0, by + 5.0, cell - 10.0, cell - 10.0), false)
+				c.draw_texture_rect(bico, Rect2(bx + 6.0, by + 6.0, cell - 12.0, cell - 12.0), false)
 			var rcol_b: Color = bi_d.get("rarity", Color(0.70, 0.58, 0.36)) as Color
-			c.draw_rect(br.grow(-2.0), Color(rcol_b.r, rcol_b.g, rcol_b.b, 0.62), false, 1.4)
+			c.draw_rect(br.grow(-2.0), Color(rcol_b.r, rcol_b.g, rcol_b.b, 0.78), false, 2.0)
 		if slot_tex != null:
 			c.draw_texture_rect(slot_tex, Rect2(bx - 2.0, by - 2.0, cell + 4.0, cell + 4.0), false)
+		if is_sel_b:
+			c.draw_rect(br.grow(3.0), Color(1.0, 0.86, 0.28, 0.98), false, 3.0)
 		var qty_i := int(bi_d.get("qty", 0))
-		if qty_i > 0:
+		if qty_i > 1 or (qty_i == 1 and str(bi_d.get("cat", "")) in ["consumable", "material"]):
 			var qty := str(qty_i)
-			var qw := fb.get_string_size(qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
-			c.draw_string_outline(fb, Vector2(bx + cell - qw - 4.0, by + cell - 4.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 3, Color(0.0, 0.0, 0.0, 0.95))
-			c.draw_string(fb, Vector2(bx + cell - qw - 4.0, by + cell - 4.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.94, 0.76))
+			var qw := fb.get_string_size(qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
+			c.draw_string_outline(fb, Vector2(bx + cell - qw - 5.0, by + cell - 5.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.0, 0.0, 0.0, 0.98))
+			c.draw_string(fb, Vector2(bx + cell - qw - 5.0, by + cell - 5.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.95, 0.76))
+
+	# Bottom-Right Panel: BIG Detailed Item Inspector + Explicit Action Button ("ZAŁÓŻ" / "UŻYJ" / "ZDEJMIJ")
+	var insp_rect := Rect2(rx, stats_y, rw_box, stats_h)
+	_draw_obsidian_plate(c, insp_rect, Color(0.90, 0.72, 0.34, 0.94))
+	char_action_btn_rect = Rect2()
+
+	var sel_item := _get_selected_char_item()
+	if sel_item.is_empty():
+		var empty_t := "SZCZEGÓŁY PRZEDMIOTU"
+		c.draw_string(f, Vector2(rx + 22.0, stats_y + 34.0), empty_t, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.88, 0.52))
+		c.draw_string(fb, Vector2(rx + 22.0, stats_y + 72.0), "Dotknij dowolny przedmiot w plecaku lub na postaci,", HORIZONTAL_ALIGNMENT_LEFT, int(rw_box - 44.0), 16, Color(0.88, 0.86, 0.82))
+		c.draw_string(fb, Vector2(rx + 22.0, stats_y + 98.0), "aby zobaczyć jego dokładne statystyki i opis.", HORIZONTAL_ALIGNMENT_LEFT, int(rw_box - 44.0), 16, Color(0.88, 0.86, 0.82))
+		c.draw_string(fb, Vector2(rx + 22.0, stats_y + 134.0), "• Szybkie 2× kliknięcie: natychmiastowe założenie lub użycie", HORIZONTAL_ALIGNMENT_LEFT, int(rw_box - 44.0), 15, Color(0.56, 0.96, 0.72))
+		c.draw_string(fb, Vector2(rx + 22.0, stats_y + 158.0), "• Lub użyj przycisku akcji obok opisu przedmiotu", HORIZONTAL_ALIGNMENT_LEFT, int(rw_box - 44.0), 15, Color(0.56, 0.96, 0.72))
+	else:
+		var rcol_s: Color = sel_item.get("rarity", Color(0.95, 0.90, 0.76)) as Color
+		var ico_box := Rect2(rx + 20.0, stats_y + 20.0, 74.0, 74.0)
+		c.draw_rect(ico_box, Color(0.05, 0.04, 0.07, 0.96), true)
+		var s_ico := _icon_tex(str(sel_item.get("icon", "")))
+		if s_ico != null:
+			c.draw_texture_rect(s_ico, ico_box.grow(-6.0), false)
+		c.draw_rect(ico_box, rcol_s, false, 2.4)
+
+		var tx_x := rx + 108.0
+		var tx_w := rw_box - 128.0
+		var nm_s := "%s  [Poz.%d]" % [str(sel_item.get("name", "Przedmiot")), int(sel_item.get("minLevel", 1))]
+		c.draw_string(f, Vector2(tx_x, stats_y + 38.0), nm_s, HORIZONTAL_ALIGNMENT_LEFT, int(tx_w), 19, rcol_s)
+
+		var cat_s := str(sel_item.get("cat", ""))
+		var eq_slot_i := int(sel_item.get("slot", -1))
+		var type_tag := "Surowiec rzemieślniczy" if cat_s == "material" else (
+			("Ekwipunek · %s" % str(EQUIP_SLOT_NAMES[eq_slot_i])) if (eq_slot_i >= 0 and eq_slot_i < EQUIP_SLOT_NAMES.size()) else "Przedmiot użytkowy"
+		)
+		if selected_char_source == "equip":
+			type_tag += "  •  ZAŁOŻONY"
+		var sell_v := int(sel_item.get("sellPrice", 0))
+		if sell_v > 0:
+			type_tag += "  •  Wartość: %d zł" % sell_v
+		c.draw_string(fb, Vector2(tx_x, stats_y + 60.0), type_tag, HORIZONTAL_ALIGNMENT_LEFT, int(tx_w), 14, Color(0.84, 0.80, 0.70))
+
+		# Stat bonuses + comparison vs equipped item
+		var cmp_eq: Dictionary = {}
+		if selected_char_source == "backpack" and eq_slot_i >= 0 and eq_slot_i < equip_slots.size():
+			var cur_eq: Dictionary = equip_slots[eq_slot_i]
+			if not str(cur_eq.get("id", "")).is_empty():
+				cmp_eq = cur_eq
+		var slines := _item_stat_summary(sel_item, cmp_eq)
+		var stat_x := tx_x
+		var stat_y := stats_y + 84.0
+		for sli in mini(slines.size(), 4):
+			var sl_d: Dictionary = slines[sli]
+			var s_txt := str(sl_d["text"])
+			c.draw_string(fb, Vector2(stat_x, stat_y), s_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, sl_d["color"] as Color)
+			stat_x += fb.get_string_size(s_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x + 18.0
+			if stat_x > rx + rw_box - 140.0 and sli < slines.size() - 1:
+				stat_x = tx_x
+				stat_y += 20.0
+
+		# Description text (bottom-left of inspector, leaving space for big Action Button on bottom-right)
+		var desc_s := str(sel_item.get("desc", ""))
+		var btn_w := 192.0
+		var desc_max_w := rw_box - btn_w - 48.0
+		c.draw_string(fb, Vector2(rx + 20.0, stats_y + stats_h - 46.0), desc_s, HORIZONTAL_ALIGNMENT_LEFT, int(maxf(140.0, desc_max_w)), 14, Color(0.90, 0.88, 0.84))
+		var action_hint := "2× klik na ikonę lub przycisk obok"
+		c.draw_string(fb, Vector2(rx + 20.0, stats_y + stats_h - 22.0), action_hint, HORIZONTAL_ALIGNMENT_LEFT, int(maxf(140.0, desc_max_w)), 13, Color(0.62, 0.92, 0.74))
+
+		# Explicit BIG Forged Gold Action Button on bottom-right of Inspector
+		var btn_rect := Rect2(rx + rw_box - btn_w - 18.0, stats_y + stats_h - 68.0, btn_w, 50.0)
+		if selected_char_source == "equip":
+			char_action_btn_rect = btn_rect
+			_draw_forged_pill(c, btn_rect, false)
+			var albl := "ZDEJMIJ"
+			var alw := f.get_string_size(albl, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+			c.draw_string(f, Vector2(btn_rect.position.x + (btn_rect.size.x - alw) * 0.5, btn_rect.position.y + 32.0), albl, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(1.0, 0.94, 0.78))
+		elif selected_char_source == "backpack" and cat_s != "material":
+			char_action_btn_rect = btn_rect
+			_draw_forged_pill(c, btn_rect, true)
+			var albl := "ZAŁÓŻ" if eq_slot_i >= 0 else "UŻYJ"
+			var alw := f.get_string_size(albl, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
+			c.draw_string(f, Vector2(btn_rect.position.x + (btn_rect.size.x - alw) * 0.5, btn_rect.position.y + 32.0), albl, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.97, 0.84))
+		elif cat_s == "material":
+			c.draw_rect(btn_rect, Color(0.10, 0.09, 0.12, 0.88), true)
+			c.draw_rect(btn_rect, Color(0.56, 0.48, 0.34, 0.65), false, 1.4)
+			var mlbl := "KUŹNIA / SKLEP"
+			var mlw := fb.get_string_size(mlbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
+			c.draw_string(fb, Vector2(btn_rect.position.x + (btn_rect.size.x - mlw) * 0.5, btn_rect.position.y + 30.0), mlbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.84, 0.78, 0.64))
 
 # ==============================================================================
 # INPUT HANDLING (MOUSE HOVER, MOBILE TOUCH TAPS, CONSTELLATION UNLOCKING, WILD RIFT SKILLS)
@@ -2662,17 +2877,59 @@ func _handle_primary_tap(p: Vector2) -> bool:
 		if char_close_rect.has_point(p) or not _modal_rect().has_point(p):
 			close_modals()
 			return true
+		if char_action_btn_rect.size.x > 1.0 and char_action_btn_rect.has_point(p):
+			_execute_selected_char_action()
+			return true
 		for shb: Dictionary in stat_plus_hitboxes:
 			if (shb["rect"] as Rect2).has_point(p):
 				spend_free_stat_point(str(shb["key"]))
 				return true
+		var now_ms := Time.get_ticks_msec()
 		for ehb: Dictionary in equip_hitboxes:
 			if (ehb["rect"] as Rect2).has_point(p):
-				unequip_slot(int(ehb["idx"]))
+				var eidx := int(ehb["idx"])
+				var eq_d: Dictionary = equip_slots[eidx]
+				if str(eq_d.get("id", "")).is_empty():
+					return true
+				var tap_key := "equip:%d" % eidx
+				if _last_slot_tap_key == tap_key and (now_ms - _last_slot_tap_ms) <= 450:
+					_last_slot_tap_key = ""
+					unequip_slot(eidx)
+					selected_char_source = ""
+					selected_char_idx = -1
+				else:
+					_last_slot_tap_key = tap_key
+					_last_slot_tap_ms = now_ms
+					selected_char_source = "equip"
+					selected_char_idx = eidx
+					if world != null and world.get("audio") != null:
+						world.audio.sfx("ui/click", 0.65, 0.04)
+				_refresh_visuals()
 				return true
 		for bhb: Dictionary in backpack_hitboxes:
 			if (bhb["rect"] as Rect2).has_point(p):
-				use_backpack_slot(int(bhb["idx"]))
+				var bidx := int(bhb["idx"])
+				var bg_d: Dictionary = backpack_items[bidx]
+				if bg_d.is_empty():
+					selected_char_source = ""
+					selected_char_idx = -1
+					_refresh_visuals()
+					return true
+				var tap_key := "bag:%d" % bidx
+				if _last_slot_tap_key == tap_key and (now_ms - _last_slot_tap_ms) <= 450:
+					_last_slot_tap_key = ""
+					use_backpack_slot(bidx)
+					if bidx >= backpack_items.size() or backpack_items[bidx].is_empty():
+						selected_char_source = ""
+						selected_char_idx = -1
+				else:
+					_last_slot_tap_key = tap_key
+					_last_slot_tap_ms = now_ms
+					selected_char_source = "backpack"
+					selected_char_idx = bidx
+					if world != null and world.get("audio") != null:
+						world.audio.sfx("ui/click", 0.65, 0.04)
+				_refresh_visuals()
 				return true
 		return true
 
@@ -2842,7 +3099,8 @@ func _gui_input(event: InputEvent) -> void:
 		if mb.button_index != MOUSE_BUTTON_LEFT:
 			return
 		var now_ms := Time.get_ticks_msec()
-		if now_ms - _last_tap_msec < 180:
+		var min_gap := 75 if show_character else 180
+		if now_ms - _last_tap_msec < min_gap:
 			accept_event()
 			return
 		if _handle_primary_tap(mb.position):

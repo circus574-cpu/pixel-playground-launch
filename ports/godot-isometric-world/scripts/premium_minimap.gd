@@ -140,12 +140,17 @@ func set_heading_immediate(dir: Vector2) -> void:
 			target_rotation = ISO_ALIGN_ROT
 			map_rotation = ISO_ALIGN_ROT
 
+var _last_radar_ms := 0
+var _last_drawn_uv := Vector2(-99.0, -99.0)
+var _last_drawn_rot := -99.0
+
 func refresh(_nearest_name: String = "", _in_safe: bool = true) -> void:
 	if world == null:
 		return
 	var hp: Vector2 = world.hero_pos
 	var delta_h: Vector2 = hp - last_hero_pos
-	if delta_h.length_squared() > 0.01:
+	var moved := delta_h.length_squared() > 0.01
+	if moved:
 		hero_heading = delta_h.normalized()
 		last_hero_pos = hp
 		if rotate_with_hero:
@@ -155,10 +160,18 @@ func refresh(_nearest_name: String = "", _in_safe: bool = true) -> void:
 	map_rotation = lerp_angle(map_rotation, target_rotation, 0.22)
 
 	var center_uv := _hero_uv()
-	map_mat.set_shader_parameter("center_uv", center_uv)
-	map_mat.set_shader_parameter("zoom", current_zoom)
-	map_mat.set_shader_parameter("rotation_rad", map_rotation)
-	overlay_canvas.queue_redraw()
+	var now_ms := Time.get_ticks_msec()
+	var uv_changed := center_uv.distance_squared_to(_last_drawn_uv) > 0.0000005
+	var rot_changed := absf(map_rotation - _last_drawn_rot) > 0.004
+	if uv_changed or rot_changed:
+		map_mat.set_shader_parameter("center_uv", center_uv)
+		map_mat.set_shader_parameter("zoom", current_zoom)
+		map_mat.set_shader_parameter("rotation_rad", map_rotation)
+	if uv_changed or rot_changed or (now_ms - _last_radar_ms >= 180):
+		_last_radar_ms = now_ms
+		_last_drawn_uv = center_uv
+		_last_drawn_rot = map_rotation
+		overlay_canvas.queue_redraw()
 
 var pin_cache: Dictionary = {}
 

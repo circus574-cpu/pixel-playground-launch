@@ -367,34 +367,69 @@ func _draw_ki_aura_back() -> void:
 		c.draw_arc(Vector2.ZERO, wr, 0.0, TAU, 36, Color(mc.r, mc.g, mc.b, (1.0 - wph) * 0.58 * a), 3.2 * (1.0 - wph * 0.5), true)
 	c.draw_set_transform(Vector2.ZERO)
 
-	# 2. Broad feathered radiant aura envelope behind hero body
+	# 2. Broad feathered radiant aura envelope framing behind hero body
 	if _ki_glow_tex != null:
-		var rx := 74.0 * shadow_scale * pulse
-		var ry := body_h * 0.92 * pulse
-		c.draw_texture_rect(_ki_glow_tex, Rect2(-rx, -body_h * 0.56 - ry * 0.56, rx * 2.0, ry * 1.42), false, Color(ec.r, ec.g, ec.b, 0.42 * a))
-		c.draw_texture_rect(_ki_glow_tex, Rect2(-rx * 0.68, -body_h * 0.52 - ry * 0.44, rx * 1.36, ry * 1.12), false, Color(mc.r, mc.g, mc.b, 0.54 * a))
-		c.draw_texture_rect(_ki_glow_tex, Rect2(-rx * 0.40, -body_h * 0.48 - ry * 0.32, rx * 0.80, ry * 0.82), false, Color(cc.r, cc.g, cc.b, 0.32 * a))
+		var rx := 82.0 * shadow_scale * pulse
+		var ry := body_h * 0.96 * pulse
+		c.draw_texture_rect(_ki_glow_tex, Rect2(-rx, -body_h * 0.56 - ry * 0.56, rx * 2.0, ry * 1.44), false, Color(ec.r, ec.g, ec.b, 0.44 * a))
+		c.draw_texture_rect(_ki_glow_tex, Rect2(-rx * 0.72, -body_h * 0.52 - ry * 0.46, rx * 1.44, ry * 1.14), false, Color(mc.r, mc.g, mc.b, 0.52 * a))
 
-	# 3. 16 surging anime Ki flame tongues rising behind and around hero silhouette
+	# 3. 16 surging anime Ki flame tongues rising BEHIND & AROUND hero silhouette (pushed outward so hero stands crisp in center)
 	if _ki_wisp_tex != null:
 		for i in 16:
 			var h0 := fposmod(sin(float(i * 97 + 13)) * 43758.5453, 1.0)
 			var h1 := fposmod(sin(float(i * 193 + 41)) * 43758.5453, 1.0)
 			var ph := fposmod(t_s * (1.35 + 0.75 * h0) + h1, 1.0)
-			var side_f := (h0 - 0.5) * 2.0
-			var spread := (24.0 + 34.0 * (1.0 - ph * 0.35)) * shadow_scale
-			var wx := side_f * spread + sin(ph * 10.0 + float(i) * 1.3) * 8.0
-			var wy := -4.0 - ph * body_h * 1.12
+			var side_sign := -1.0 if i % 2 == 0 else 1.0
+			var spread := (34.0 + 30.0 * h0) * (1.0 - ph * 0.22) * shadow_scale
+			var wx := side_sign * spread + sin(ph * 9.0 + float(i) * 1.3) * 7.0
+			var wy := -4.0 - ph * body_h * 1.15
 			var ww := (1.0 - ph * 0.42) * (28.0 + 18.0 * h1) * shadow_scale
-			var wh := (1.0 - ph * 0.25) * (66.0 + 38.0 * h0)
-			var wcol := ec.lerp(mc, ph * 0.68).lerp(cc, clampf((1.0 - absf(side_f)) * 0.35, 0.0, 0.35))
-			wcol.a = sin(ph * PI) * 0.72 * a
+			var wh := (1.0 - ph * 0.25) * (68.0 + 36.0 * h0)
+			var wcol := ec.lerp(mc, ph * 0.68).lerp(cc, 0.22)
+			wcol.a = sin(ph * PI) * 0.76 * a
 			c.draw_texture_rect(_ki_wisp_tex, Rect2(wx - ww * 0.5, wy - wh * 0.75, ww, wh), false, wcol)
+
+	# 4. Twin luminous Ki energy ribbons spiraling BEHIND the hero (never crossing face/torso)
+	for rib in 2:
+		var pts := PackedVector2Array()
+		var base_phase := float(rib) * PI + t_s * 3.6
+		for step in 12:
+			var frac := float(step) / 11.0
+			var ang := base_phase + frac * TAU * 1.1
+			var rad := (46.0 - frac * 8.0 + sin(t_s * 5.5 + frac * 4.0) * 3.5) * shadow_scale
+			var sx := cos(ang) * rad
+			var sy := -10.0 - frac * body_h * 1.04 + sin(ang) * 7.0
+			pts.append(Vector2(sx, sy))
+		if pts.size() >= 2:
+			c.draw_polyline(pts, Color(ec.r, ec.g, ec.b, 0.44 * a), 7.0, true)
+			c.draw_polyline(pts, Color(mc.r, mc.g, mc.b, 0.72 * a), 3.6, true)
+			c.draw_polyline(pts, Color(cc.r, cc.g, cc.b, 0.85 * a), 1.4, true)
+
+	# 5. Crackling outer Ki lightning arcs snapping around outer perimeter behind hero
+	var frame_tick := int(t_s * 14.0)
+	for li in 4:
+		var side_l := -1.0 if li % 2 == 0 else 1.0
+		var lh := fposmod(sin(float(li * 73 + frame_tick * 19)) * 43758.5453, 1.0)
+		if lh < 0.25:
+			continue
+		var y0 := -14.0 - lh * body_h * 0.56
+		var p0 := Vector2(side_l * (38.0 + lh * 20.0) * shadow_scale, y0)
+		var p1 := Vector2(side_l * (34.0 + (1.0 - lh) * 24.0) * shadow_scale, y0 - 38.0 - lh * 32.0)
+		var lpts := PackedVector2Array([p0])
+		var perp := (p1 - p0).orthogonal().normalized()
+		for seg in range(1, 4):
+			var frac := float(seg) / 4.0
+			var jit := (fposmod(sin(float(li * 41 + seg * 29 + frame_tick * 53)) * 43758.5453, 1.0) - 0.5) * 18.0
+			lpts.append(p0.lerp(p1, frac) + perp * jit)
+		lpts.append(p1)
+		c.draw_polyline(lpts, Color(ec.r, ec.g, ec.b, 0.55 * a), 4.8, true)
+		c.draw_polyline(lpts, Color(mc.r, mc.g, mc.b, 0.85 * a), 2.5, true)
+		c.draw_polyline(lpts, Color(cc.r, cc.g, cc.b, 0.96 * a), 1.2, true)
 
 func _draw_ki_aura_front() -> void:
 	if not is_hero or ki_aura_alpha <= 0.01:
 		return
-	_ensure_ki_textures()
 	var c := ki_aura_front
 	var pal := _ki_pal()
 	var mc: Color = pal["main"]
@@ -404,70 +439,24 @@ func _draw_ki_aura_front() -> void:
 	var a := ki_aura_alpha
 	var body_h := maxf(display.y * 1.08, 128.0)
 
-	# 1. Twin ascending luminous Ki energy ribbons spiraling around hero (front-facing segments only!)
-	for rib in 2:
-		var pts := PackedVector2Array()
-		var base_phase := float(rib) * PI + t_s * 3.8
-		for step in 14:
-			var frac := float(step) / 13.0
-			var ang := base_phase + frac * TAU * 1.15
-			var rad := (34.0 - frac * 10.0 + sin(t_s * 6.0 + frac * 5.0) * 3.5) * shadow_scale
-			var sx := cos(ang) * rad
-			var sy := -8.0 - frac * body_h * 1.05 + sin(ang) * 7.0
-			pts.append(Vector2(sx, sy))
-		if pts.size() >= 2:
-			c.draw_polyline(pts, Color(ec.r, ec.g, ec.b, 0.42 * a), 8.0, true)
-			c.draw_polyline(pts, Color(mc.r, mc.g, mc.b, 0.65 * a), 4.0, true)
-			c.draw_polyline(pts, Color(cc.r, cc.g, cc.b, 0.80 * a), 1.6, true)
+	# Keep front layer strictly AROUND the outer perimeter & below feet — NEVER obscuring the hero sprite!
+	# 1. Subtle front-half ground arc at feet level only
+	c.draw_set_transform(Vector2(0, 2), 0.0, Vector2(1.0, 0.36))
+	c.draw_arc(Vector2.ZERO, 44.0 * shadow_scale, 0.12, PI - 0.12, 22, Color(mc.r, mc.g, mc.b, 0.48 * a), 2.8, true)
+	c.draw_set_transform(Vector2.ZERO)
 
-	# 2. Translucent front-side edge flames framing the hero without obscuring the face
-	if _ki_wisp_tex != null:
-		for fi in 6:
-			var side_f := -1.0 if fi % 2 == 0 else 1.0
-			var h0 := fposmod(sin(float(fi * 83 + 17)) * 43758.5453, 1.0)
-			var ph := fposmod(t_s * (1.55 + 0.55 * h0) + float(fi) * 0.17, 1.0)
-			var wx := side_f * (30.0 + 14.0 * h0 - ph * 10.0) * shadow_scale + sin(ph * 8.0 + float(fi)) * 5.0
-			var wy := -6.0 - ph * body_h * 0.92
-			var ww := (1.0 - ph * 0.45) * 20.0 * shadow_scale
-			var wh := (1.0 - ph * 0.30) * 48.0
-			var fc := mc.lerp(cc, 0.35)
-			fc.a = sin(ph * PI) * 0.46 * a
-			c.draw_texture_rect(_ki_wisp_tex, Rect2(wx - ww * 0.5, wy - wh * 0.72, ww, wh), false, fc)
-
-	# 3. Crackling Ki lightning arcs snapping around hero silhouette
-	var frame_tick := int(t_s * 15.0)
-	for li in 5:
-		var side_l := -1.0 if li % 2 == 0 else 1.0
-		var lh := fposmod(sin(float(li * 73 + frame_tick * 19)) * 43758.5453, 1.0)
-		if lh < 0.22:
-			continue
-		var y0 := -14.0 - lh * body_h * 0.58
-		var p0 := Vector2(side_l * (26.0 + lh * 20.0) * shadow_scale, y0)
-		var p1 := Vector2(side_l * (12.0 + (1.0 - lh) * 26.0) * shadow_scale, y0 - 38.0 - lh * 34.0)
-		var lpts := PackedVector2Array([p0])
-		var perp := (p1 - p0).orthogonal().normalized()
-		for seg in range(1, 5):
-			var frac := float(seg) / 5.0
-			var jit := (fposmod(sin(float(li * 41 + seg * 29 + frame_tick * 53)) * 43758.5453, 1.0) - 0.5) * 20.0
-			lpts.append(p0.lerp(p1, frac) + perp * jit)
-		lpts.append(p1)
-		c.draw_polyline(lpts, Color(ec.r, ec.g, ec.b, 0.55 * a), 5.0, true)
-		c.draw_polyline(lpts, Color(mc.r, mc.g, mc.b, 0.85 * a), 2.8, true)
-		c.draw_polyline(lpts, Color(cc.r, cc.g, cc.b, 0.98 * a), 1.3, true)
-
-	# 4. 20 sparkling rising Ki motes & embers with bright white core
-	for ei in 20:
+	# 2. Outer perimeter rising Ki sparks strictly outside character torso width (|x| >= 38)
+	for ei in 12:
+		var side_e := -1.0 if ei % 2 == 0 else 1.0
 		var h0 := fposmod(sin(float(ei * 61 + 7)) * 43758.5453, 1.0)
 		var h1 := fposmod(sin(float(ei * 139 + 29)) * 43758.5453, 1.0)
-		var ph := fposmod(t_s * (1.20 + 0.85 * h0) + h1, 1.0)
-		var ang := TAU * h1 + t_s * (2.2 + h0 * 1.4)
-		var ex := cos(ang) * (24.0 + 30.0 * h0) * shadow_scale
-		var ey := -6.0 - ph * (body_h * 1.24)
-		var er := (1.0 - ph) * 4.2 + 1.2
-		var fade := sin(ph * PI) * a
-		c.draw_circle(Vector2(ex, ey), er + 2.2, Color(ec.r, ec.g, ec.b, 0.42 * fade))
-		c.draw_circle(Vector2(ex, ey), er + 0.8, Color(mc.r, mc.g, mc.b, 0.78 * fade))
-		c.draw_circle(Vector2(ex, ey), er * 0.65, Color(cc.r, cc.g, cc.b, 0.98 * fade))
+		var ph := fposmod(t_s * (1.15 + 0.75 * h0) + h1, 1.0)
+		var ex := side_e * (38.0 + 26.0 * h0) * shadow_scale + sin(t_s * 3.2 + float(ei)) * 5.0
+		var ey := -8.0 - ph * (body_h * 1.18)
+		var er := (1.0 - ph) * 3.4 + 1.1
+		var fade := sin(ph * PI) * 0.85 * a
+		c.draw_circle(Vector2(ex, ey), er + 1.6, Color(ec.r, ec.g, ec.b, 0.38 * fade))
+		c.draw_circle(Vector2(ex, ey), er * 0.65, Color(cc.r, cc.g, cc.b, 0.92 * fade))
 
 func _draw() -> void:
 	# Grounded contact shadow + faction/aggro ring
