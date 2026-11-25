@@ -218,6 +218,19 @@ func _active_goals() -> Array:
 	return out
 
 func _rebuild_list() -> void:
+	var all_g := _active_goals()
+	var cnt_h := 0
+	var cnt_d := 0
+	var cnt_a := 0
+	for item in all_g:
+		var k := str((item as Dictionary).get("kind", "heritage"))
+		if k == "heritage": cnt_h += 1
+		elif k == "development": cnt_d += 1
+		elif k == "adventure": cnt_a += 1
+	tab_heritage.text = "◆ DZIEDZICTWO (%d)" % cnt_h
+	tab_dev.text = "★ CELE ROZWOJU (%d)" % cnt_d
+	tab_adv.text = "⚔ WYPRAWY (%d)" % cnt_a
+
 	_style_btn(
 		tab_heritage,
 		Color(0.30, 0.20, 0.06, 0.98) if active_tab == "heritage" else Color(0.11, 0.11, 0.16, 0.94),
@@ -238,9 +251,10 @@ func _rebuild_list() -> void:
 	)
 
 	for ch in list_vbox.get_children():
+		list_vbox.remove_child(ch)
 		ch.queue_free()
 
-	var all_g := _active_goals()
+	var gm_script = preload("res://scripts/gm_panel.gd")
 	var shown := 0
 	for item in all_g:
 		var g: Dictionary = item
@@ -290,8 +304,14 @@ func _rebuild_list() -> void:
 			rew_txt += " • +%d pkt stat." % int(g.get("statPointsReward", 0))
 		if int(g.get("skillPointsReward", 0)) > 0:
 			rew_txt += " • +%d pkt skilli" % int(g.get("skillPointsReward", 0))
+		var irew := str(g.get("itemReward", ""))
+		if not irew.is_empty():
+			var idef: Dictionary = gm_script.find_item(irew)
+			var iname := str(idef.get("name", irew))
+			rew_txt += " • ✦ %s" % iname
 		var meta_lbl := Label.new()
 		meta_lbl.text = "%s   |   %s" % [rew_txt, str(g.get("progressText", ""))]
+		meta_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		meta_lbl.add_theme_font_override("font", MapStyle.body_font())
 		meta_lbl.add_theme_font_size_override("font_size", 12)
 		meta_lbl.add_theme_color_override("font_color", Color(0.52, 0.96, 0.64) if st == "claimed" else (Color(1.0, 0.84, 0.36) if st == "ready" else Color(0.68, 0.72, 0.82)))
@@ -335,7 +355,14 @@ func _claim_goal(gid: String, g_copy: Dictionary) -> void:
 	local_claimed[gid] = true
 	if world != null and world.rpg_hud != null:
 		world.rpg_hud.hero_gold += int(g_copy.get("goldReward", 30))
-		world.rpg_hud.hero_xp += float(g_copy.get("xpReward", 100))
-		world.rpg_hud.recalc_stats(false)
+		world.rpg_hud.free_stat_points += int(g_copy.get("statPointsReward", 0))
+		world.rpg_hud.skill_points += int(g_copy.get("skillPointsReward", 0))
+		var irew := str(g_copy.get("itemReward", ""))
+		if not irew.is_empty():
+			var gm_script = preload("res://scripts/gm_panel.gd")
+			var idef: Dictionary = gm_script.find_item(irew)
+			if not idef.is_empty():
+				world.rpg_hud.add_item_to_backpack(idef, 1)
+		world.rpg_hud.grant_local_xp(int(g_copy.get("xpReward", 100)))
 	status_lbl.text = "Ukończono (offline QA): %s" % str(g_copy.get("title", gid))
 	_rebuild_list()

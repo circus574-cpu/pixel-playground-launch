@@ -56,7 +56,7 @@ const LAND_META := {
 		"hero": "Cypher-9",
 		"title": "Egzekutor Nexusa",
 		"realm": "Nexus-9",
-		"res_name": "Rdzeń",
+		"res_name": "Ładunek",
 		"res_icon": "hud-rdzen.webp",
 		"res_dark": Color(0.04, 0.32, 0.42),
 		"res_bright": Color(0.18, 0.96, 0.98),
@@ -68,7 +68,11 @@ const LAND_META := {
 
 const HOTBAR_NODE_IDS := ["R", "A1", "B1", "C1", "A4", "T"]
 const HOTBAR_KEYS := ["Q", "1", "2", "3", "4", "R"]
-const HOTBAR_CDS := [0.55, 4.5, 5.5, 9.0, 8.5, 22.0]
+const HOTBAR_CDS := [0.65, 4.5, 6.0, 9.0, 8.5, 120.0]
+const HOTBAR_KI_COSTS := [0.0, 8.0, 10.0, 12.0, 18.0, 50.0]
+const BACKPACK_SLOTS := 24
+const TRAINING_COOLDOWN_MS := 8000
+const BLESSING_DURATION_MS := 900000
 
 const BRANCH_COLORS := {
 	"A": Color(0.98, 0.44, 0.24),
@@ -87,58 +91,58 @@ const TYPE_LABELS := {
 	"transformation": "TRANSFORMACJA TRYBU KI",
 }
 
+const EQUIP_SLOT_NAMES := ["Hełm", "Amulet", "Broń", "Rękawice", "Pancerz", "Tarcza", "Pierścień", "Buty"]
+
 var equip_slots: Array[Dictionary] = [
-	{"side": -1, "row": 0, "icon": "gear-helmet.webp", "name": "Hełm Żaru", "rarity": Color(0.38, 0.74, 1.0), "def": 6, "hp": 20},
-	{"side": -1, "row": 1, "icon": "gear-amulet.webp", "name": "Amulet Ki", "rarity": Color(0.76, 0.46, 1.0), "ki": 12},
-	{"side": -1, "row": 2, "icon": "gear-sword.webp", "name": "Ostrze Superior", "rarity": Color(1.0, 0.76, 0.28), "atk": 12},
-	{"side": -1, "row": 3, "icon": "gear-gloves.webp", "name": "Rękawice Klanu", "rarity": Color(0.36, 0.88, 0.52), "atk": 4, "def": 4},
-	{"side": 1, "row": 0, "icon": "gear-vest.webp", "name": "Kirys Strażnika", "rarity": Color(0.38, 0.74, 1.0), "def": 10, "hp": 35},
-	{"side": 1, "row": 1, "icon": "gear-shield.webp", "name": "Tarcza Bazaltu", "rarity": Color(0.36, 0.88, 0.52), "def": 10},
-	{"side": 1, "row": 2, "icon": "gear-ring.webp", "name": "Pierścień Eteru", "rarity": Color(0.76, 0.46, 1.0), "ki": 10},
-	{"side": 1, "row": 3, "icon": "gear-boots.webp", "name": "Buty Szlaku +5%", "rarity": Color(0.36, 0.88, 0.52), "spd": 10},
+	{"side": -1, "row": 0, "id": "", "icon": "", "name": "Pusty", "rarity": Color(0.56, 0.50, 0.42)},
+	{"side": -1, "row": 1, "id": "", "icon": "", "name": "Pusty", "rarity": Color(0.56, 0.50, 0.42)},
+	{"side": -1, "row": 2, "id": "", "icon": "", "name": "Pusty", "rarity": Color(0.56, 0.50, 0.42)},
+	{"side": -1, "row": 3, "id": "", "icon": "", "name": "Pusty", "rarity": Color(0.56, 0.50, 0.42)},
+	{"side": 1, "row": 0, "id": "", "icon": "", "name": "Pusty", "rarity": Color(0.56, 0.50, 0.42)},
+	{"side": 1, "row": 1, "id": "", "icon": "", "name": "Pusty", "rarity": Color(0.56, 0.50, 0.42)},
+	{"side": 1, "row": 2, "id": "", "icon": "", "name": "Pusty", "rarity": Color(0.56, 0.50, 0.42)},
+	{"side": 1, "row": 3, "id": "", "icon": "", "name": "Pusty", "rarity": Color(0.56, 0.50, 0.42)},
 ]
 
-var backpack_items: Array[Dictionary] = [
-	{"id": "potion_hp", "name": "Wielki Eliksir Życia", "icon": "gear-potion.webp", "qty": 5, "slot": -1, "heal_hp": 150, "rarity": Color(0.95, 0.34, 0.32)},
-	{"id": "potion_ki", "name": "Eliksir Energii Ki", "icon": "emblem_potion.webp", "qty": 3, "slot": -1, "heal_ki": 80, "rarity": Color(0.34, 0.78, 1.0)},
-	{"id": "tusk_beast", "name": "Kieł Wilka", "icon": "gear-tusk.webp", "qty": 12, "slot": -1, "rarity": Color(0.86, 0.68, 0.44)},
-	{"id": "scroll_tp", "name": "Zwój Powrotu", "icon": "emblem_scroll.webp", "qty": 2, "slot": -1, "rarity": Color(0.96, 0.84, 0.44)},
-	{"id": "crystal_ki", "name": "Kryształ Ki", "icon": "emblem_crystal.webp", "qty": 4, "slot": -1, "rarity": Color(0.46, 0.88, 1.0)},
-	{"id": "pouch_gold", "name": "Sakiewka Złota", "icon": "gear-coin.webp", "qty": 1, "slot": -1, "gold": 500, "rarity": Color(1.0, 0.86, 0.32)},
-	{}, {}, {}, {},
-	{}, {}, {}, {}, {},
-]
+var backpack_items: Array[Dictionary] = []
 
 var world: Node2D
 var current_land := "pyra"
 var hero_land := ""
 var hero_custom_name := ""
+var hero_name := "Ignis"
 var nearest_loc := "Twierdza Popiołu"
 var in_safe_city := true
 var time_mode_short := "Dzień"
 
 var hero_hp := 140.0
 var hero_max_hp := 140.0
-var hero_ki := 40.0
-var hero_max_ki := 40.0
-var hero_res := 64.0
-var hero_xp := 340.0
-var hero_max_xp := 1000.0
-var hero_level := 5
+var hero_ki := 45.0
+var hero_max_ki := 45.0
+var hero_res := 0.0
+var hero_shield_hp := 0.0
+var hero_shield_timer := 0.0
+var hero_xp := 0.0
+var hero_max_xp := 1400.0
+var hero_level := 1
 var hero_gold := 120
-var skill_points := 4
-var free_stat_points := 5
+var skill_points := 0
+var free_stat_points := 0
 var bonus_stat_pts: Dictionary = {"hp": 0, "ki": 0, "atk": 0, "def": 0, "spd": 0, "crit": 0}
+var training_ranks: Dictionary = {"hp": 0, "ki": 0, "atk": 0, "def": 0, "spd": 0, "crit": 0}
+var last_training_ms := 0
+var active_blessing: Dictionary = {} # {"kind": "march"|"might"|"focus", "expires_ms": int}
 var stat_plus_hitboxes: Array[Dictionary] = []
 var backpack_hitboxes: Array[Dictionary] = []
+var equip_hitboxes: Array[Dictionary] = []
 var cooldowns: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
-# Per-race unlocked node sets (realistic progression showcase at Lv. 5)
+# Per-race unlocked node sets (clean Lv. 1 starting state — only R unlocked by default!)
 var unlocked_by_race: Dictionary = {
-	"legend": {"R": true, "A1": true, "A2": true, "B1": true, "C1": true},
-	"planetary": {"R": true, "A1": true, "A2": true, "B1": true, "C1": true},
-	"sage": {"R": true, "A1": true, "B1": true, "B2": true, "C1": true},
-	"android": {"R": true, "A1": true, "B1": true, "C1": true, "C2": true},
+	"legend": {"R": true},
+	"planetary": {"R": true},
+	"sage": {"R": true},
+	"android": {"R": true},
 }
 
 var progression_db: Dictionary = {}
@@ -148,9 +152,10 @@ var circle_shader: Shader
 
 var show_talents := false
 var show_character := false
-var selected_node_id := "A4"
+var selected_node_id := "A1"
 var hovered_node_id := ""
 var hovered_hotbar_idx := -1
+var hovered_char_item: Dictionary = {}
 
 # Customizable HUD Layout & Live On-Screen Drag-and-Drop HUD Editor
 var hud_layout: Dictionary = {
@@ -160,7 +165,9 @@ var hud_layout: Dictionary = {
 	"minimap": [0.0, 0.0],
 	"combat": [0.0, 0.0],
 	"xp": [0.0, 0.0],
+	"show_perf": false,
 }
+var _perf_refresh_t := 0.0
 var hud_edit_mode := false
 var hud_drag_zone := ""
 var hud_drag_start := Vector2.ZERO
@@ -206,10 +213,28 @@ var char_portrait_rect := TextureRect.new()
 var char_portrait_mat := ShaderMaterial.new()
 var char_portrait_ring := TextureRect.new()
 
+func _init_starter_backpack() -> void:
+	backpack_items.clear()
+	for _i in BACKPACK_SLOTS:
+		backpack_items.append({})
+	var p1 := _catalog_item_by_id("potion_hp_small")
+	if not p1.is_empty():
+		p1["qty"] = 3
+		backpack_items[0] = p1
+	var p2 := _catalog_item_by_id("potion_ki")
+	if not p2.is_empty():
+		p2["qty"] = 2
+		backpack_items[1] = p2
+	var sc := _catalog_item_by_id("scroll_tp")
+	if not sc.is_empty():
+		sc["qty"] = 1
+		backpack_items[2] = sc
+
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_PASS
 	_load_progression_db()
+	_init_starter_backpack()
 	bar_shader = load("res://shaders/rpg_bar.gdshader")
 	circle_shader = load("res://shaders/circle_icon.gdshader")
 	_build_shader_widgets()
@@ -311,13 +336,19 @@ func _node_state(nd: Dictionary) -> String:
 					return "excluded"
 				if nid == p1 and umap.get(p0, false):
 					return "excluded"
+	var min_lv := int(nd.get("minLevel", 1))
 	var reqs: Array = nd.get("requiresAny", [])
-	if reqs.is_empty():
-		return "available"
-	for r_var in reqs:
-		if umap.get(str(r_var), false):
-			return "available"
-	return "locked"
+	var prereq_ok := reqs.is_empty()
+	if not prereq_ok:
+		for r_var in reqs:
+			if umap.get(str(r_var), false):
+				prereq_ok = true
+				break
+	if not prereq_ok:
+		return "locked"
+	if hero_level < min_lv:
+		return "level_locked"
+	return "available"
 
 func _make_bar_rect(mat: ShaderMaterial, dark: Color, bright: Color, taper: float, ticks: float) -> ColorRect:
 	var cr := ColorRect.new()
@@ -477,29 +508,142 @@ func _refresh_visuals() -> void:
 func _equip_bonus(key: String) -> float:
 	var sum := 0.0
 	for sl: Dictionary in equip_slots:
+		if str(sl.get("id", "")) == "":
+			continue
 		sum += float(sl.get(key, 0.0))
 	return sum
+
+func get_total_training_sessions() -> int:
+	var tot := 0
+	for k in ["hp", "ki", "atk", "def", "spd", "crit"]:
+		tot += maxi(0, int(training_ranks.get(k, 0)))
+	return tot
+
+func get_training_mastery_title() -> String:
+	var tot := get_total_training_sessions()
+	if tot >= 36:
+		return "Mistrz Ki"
+	if tot >= 24:
+		return "Weteran Stolicy"
+	if tot >= 14:
+		return "Wojownik Miasta"
+	if tot >= 6:
+		return "Adept Miasta"
+	return "Rekrut"
+
+func get_training_mastery_mult() -> float:
+	var tot := get_total_training_sessions()
+	if tot >= 36:
+		return 1.08
+	if tot >= 24:
+		return 1.06
+	if tot >= 14:
+		return 1.04
+	if tot >= 6:
+		return 1.02
+	return 1.0
+
+func get_active_blessing_kind() -> String:
+	if active_blessing.is_empty():
+		return ""
+	var exp_ms := int(active_blessing.get("expires_ms", 0))
+	if exp_ms <= Time.get_ticks_msec():
+		active_blessing.clear()
+		return ""
+	return str(active_blessing.get("kind", ""))
+
+func get_talent_passives() -> Dictionary:
+	var p := {
+		"hpPct": 0.0,
+		"kiPct": 0.0,
+		"atkPct": 0.0,
+		"defPct": 0.0,
+		"spdPct": 0.0,
+		"critFlat": 0.0,
+		"kiRegenPct": 0.0,
+		"dmgMult": 1.0,
+		"kiCostMult": 1.0,
+		"shieldMult": 1.0,
+		"a1CdMult": 1.0,
+		"b1CdMult": 1.0,
+		"atkIntervalMult": 1.0,
+		"rangeMult": 1.0,
+		"resGainMult": 1.0,
+		"burnBonus": 0.0,
+		"killHealPct": 0.0,
+		"oocHpRegenBonus": 0.0,
+	}
+	var rk := _race_key()
+	var umap := _unlocked_map()
+	if rk == "planetary":
+		if umap.get("A2", false): p["spdPct"] += 0.06
+		if umap.get("A6", false): p["critFlat"] += 5.0
+		if umap.get("B2", false): p["kiRegenPct"] += 0.15
+		if umap.get("B3", false): p["defPct"] += 0.08
+		if umap.get("C2", false): p["hpPct"] += 0.10
+		if umap.get("C3", false): p["oocHpRegenBonus"] += 0.01
+	elif rk == "sage":
+		if umap.get("A2", false): p["dmgMult"] += 0.10
+		if umap.get("A3", false): p["a1CdMult"] *= 0.80
+		if umap.get("A6", false): p["critFlat"] += 8.0
+		if umap.get("B2", false): p["defPct"] += 0.10
+		if umap.get("B7", false): p["shieldMult"] += 0.30
+		if umap.get("C2", false): p["kiPct"] += 0.15
+		if umap.get("C3", false):
+			p["kiRegenPct"] += 0.12
+			p["kiCostMult"] *= 0.92
+	elif rk == "android":
+		if umap.get("A2", false): p["critFlat"] += 6.0
+		if umap.get("A3", false): p["rangeMult"] += 0.15
+		if umap.get("A6", false): p["atkIntervalMult"] *= 0.92
+		if umap.get("B2", false): p["defPct"] += 0.08
+		if umap.get("B3", false): p["shieldMult"] += 0.25
+		if umap.get("B6", false): p["oocHpRegenBonus"] += 0.005
+		if umap.get("B8", false): p["b1CdMult"] *= 0.65
+		if umap.get("C5", false): p["kiPct"] += 0.12
+		if umap.get("C6", false): p["kiCostMult"] *= 0.80
+	elif rk == "legend":
+		if umap.get("A2", false): p["burnBonus"] += 0.15
+		if umap.get("A5", false): p["atkPct"] += 0.08
+		if umap.get("A6", false): p["critFlat"] += 6.0
+		if umap.get("B2", false): p["defPct"] += 0.08
+		if umap.get("B3", false): p["hpPct"] += 0.10
+		if umap.get("B6", false): p["killHealPct"] += 0.03
+		if umap.get("C2", false): p["resGainMult"] += 0.50
+		if umap.get("C6", false): p["kiRegenPct"] += 0.25
+	return p
 
 func get_total_attack() -> int:
 	var rd := _race_data()
 	var base: Dictionary = rd.get("base", {})
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
-	return maxi(1, int(round(float(base.get("attack", 14)) + float(per_lv.get("attack", 4)) * lv_off + float(bonus_stat_pts.get("atk", 0)) * 5.0 + _equip_bonus("atk"))))
+	var p := get_talent_passives()
+	var mastery := get_training_mastery_mult()
+	var b_mult := 1.10 if get_active_blessing_kind() == "might" else 1.0
+	var raw := float(base.get("attack", 14)) + float(per_lv.get("attack", 4)) * lv_off + float(bonus_stat_pts.get("atk", 0)) * 5.0 + float(training_ranks.get("atk", 0)) * 2.0 + _equip_bonus("atk")
+	return maxi(1, int(round(raw * (1.0 + float(p["atkPct"])) * mastery * b_mult)))
 
 func get_total_defense() -> int:
 	var rd := _race_data()
 	var base: Dictionary = rd.get("base", {})
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
-	return maxi(0, int(round(float(base.get("defense", 5)) + float(per_lv.get("defense", 2.2)) * lv_off + float(bonus_stat_pts.get("def", 0)) * 4.0 + _equip_bonus("def"))))
+	var p := get_talent_passives()
+	var mastery := get_training_mastery_mult()
+	var b_mult := 1.10 if get_active_blessing_kind() == "might" else 1.0
+	var raw := float(base.get("defense", 5)) + float(per_lv.get("defense", 2.2)) * lv_off + float(bonus_stat_pts.get("def", 0)) * 4.0 + float(training_ranks.get("def", 0)) * 1.5 + _equip_bonus("def")
+	return maxi(0, int(round(raw * (1.0 + float(p["defPct"])) * mastery * b_mult)))
 
 func get_total_speed() -> int:
 	var rd := _race_data()
 	var base: Dictionary = rd.get("base", {})
 	var lv_off := float(mini(hero_level - 1, 19))
 	var spd_base := float(base.get("speed", 185))
-	return maxi(30, int(round(spd_base * (1.0 + 0.05 * lv_off) + float(bonus_stat_pts.get("spd", 0)) * 15.0 + _equip_bonus("spd"))))
+	var p := get_talent_passives()
+	var b_mult := 1.15 if get_active_blessing_kind() == "march" else 1.0
+	var raw := spd_base * (1.0 + 0.05 * lv_off) + float(bonus_stat_pts.get("spd", 0)) * 15.0 + float(training_ranks.get("spd", 0)) * 6.0 + _equip_bonus("spd")
+	return maxi(30, int(round(raw * (1.0 + float(p["spdPct"])) * b_mult)))
 
 func get_speed_mult() -> float:
 	var rd := _race_data()
@@ -512,17 +656,66 @@ func get_total_crit() -> float:
 	var base: Dictionary = rd.get("base", {})
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
-	return clampf(float(base.get("criticalChancePercent", 5.0)) + float(per_lv.get("criticalChancePercent", 0.25)) * lv_off + float(bonus_stat_pts.get("crit", 0)) * 2.0 + _equip_bonus("crit"), 0.0, 100.0)
+	var p := get_talent_passives()
+	var raw := float(base.get("criticalChancePercent", 5.0)) + float(per_lv.get("criticalChancePercent", 0.25)) * lv_off + float(bonus_stat_pts.get("crit", 0)) * 2.0 + float(training_ranks.get("crit", 0)) * 0.6 + float(p["critFlat"]) + _equip_bonus("crit")
+	return clampf(raw, 0.0, 100.0)
+
+func get_total_ki_regen() -> float:
+	var rd := _race_data()
+	var base: Dictionary = rd.get("base", {})
+	var per_lv: Dictionary = rd.get("perLevel", {})
+	var lv_off := float(hero_level - 1)
+	var p := get_talent_passives()
+	var b_mult := 1.25 if get_active_blessing_kind() == "focus" else 1.0
+	var raw := float(base.get("kiRegen", 1.2)) + float(per_lv.get("kiRegen", 0.08)) * lv_off + float(training_ranks.get("ki", 0)) * 0.08
+	return maxf(0.4, raw * (1.0 + float(p["kiRegenPct"])) * b_mult)
+
+func get_basic_attack_interval() -> float:
+	var rd := _race_data()
+	var base: Dictionary = rd.get("base", {})
+	var ms := float(base.get("attackIntervalMs", 650.0))
+	var p := get_talent_passives()
+	return clampf((ms / 1000.0) * float(p["atkIntervalMult"]), 0.32, 1.40)
+
+func apply_local_city_training(stat_key: String) -> Dictionary:
+	if not training_ranks.has(stat_key):
+		return {"ok": false, "notice": "Nieznana statystyka treningu."}
+	var now_ms := Time.get_ticks_msec()
+	if last_training_ms > 0 and now_ms - last_training_ms < TRAINING_COOLDOWN_MS:
+		var wait_s := int(ceil(float(TRAINING_COOLDOWN_MS - (now_ms - last_training_ms)) / 1000.0))
+		return {"ok": false, "notice": "Odpocznij chwilę przed kolejną sesją treningową (%d s)." % wait_s}
+	var cap := 3 + maxi(0, hero_level - 1) * 2
+	var cur := int(training_ranks.get(stat_key, 0))
+	if cur >= cap:
+		return {"ok": false, "notice": "Osiągnięto limit treningu %s na Poz.%d (%d/%d). Awansuj poziom!" % [stat_key.to_upper(), hero_level, cur, cap]}
+	var cost := 0 if cur < 3 else (15 + (cur - 2) * 10)
+	if hero_gold < cost:
+		return {"ok": false, "notice": "Za mało złota na trening (%d zł)." % cost}
+	hero_gold -= cost
+	training_ranks[stat_key] = cur + 1
+	last_training_ms = now_ms
+	# Training raises stats permanently WITHOUT granting XP or leveling up!
+	recalc_stats(false)
+	var cost_txt := " (-%d zł)" % cost if cost > 0 else " (darmowy)"
+	return {"ok": true, "notice": "Trening w mieście [%s %d/%d]%s — statystyki wzrosły bez wbijania poziomu!" % [stat_key.to_upper(), cur + 1, cap, cost_txt]}
+
+func apply_local_blessing(kind: String) -> void:
+	active_blessing = {"kind": kind, "expires_ms": Time.get_ticks_msec() + BLESSING_DURATION_MS}
+	recalc_stats(true)
 
 func recalc_stats(refill: bool = false) -> void:
 	var rd := _race_data()
 	var base: Dictionary = rd.get("base", {})
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
+	var p := get_talent_passives()
+	var mastery := get_training_mastery_mult()
 	var old_mhp := hero_max_hp
 	var old_mki := hero_max_ki
-	hero_max_hp = maxf(10.0, float(base.get("hp", 140)) + float(per_lv.get("hp", 35)) * lv_off + float(bonus_stat_pts.get("hp", 0)) * 25.0 + _equip_bonus("hp"))
-	hero_max_ki = maxf(0.0, float(base.get("ki", 45)) + float(per_lv.get("ki", 4)) * lv_off + float(bonus_stat_pts.get("ki", 0)) * 15.0 + _equip_bonus("ki"))
+	var raw_hp := float(base.get("hp", 140)) + float(per_lv.get("hp", 35)) * lv_off + float(bonus_stat_pts.get("hp", 0)) * 25.0 + float(training_ranks.get("hp", 0)) * 12.0 + _equip_bonus("hp")
+	var raw_ki := float(base.get("ki", 45)) + float(per_lv.get("ki", 4)) * lv_off + float(bonus_stat_pts.get("ki", 0)) * 15.0 + float(training_ranks.get("ki", 0)) * 8.0 + _equip_bonus("ki")
+	hero_max_hp = maxf(10.0, round(raw_hp * (1.0 + float(p["hpPct"])) * mastery))
+	hero_max_ki = maxf(0.0, round(raw_ki * (1.0 + float(p["kiPct"]))))
 	if refill:
 		hero_hp = hero_max_hp
 		hero_ki = hero_max_ki
@@ -535,7 +728,6 @@ func recalc_stats(refill: bool = false) -> void:
 func add_stat_points_gm(stat_key: String, delta_pts: int) -> void:
 	if not bonus_stat_pts.has(stat_key):
 		return
-	# Unlimited GM override: allows both increasing and decreasing stats freely (safe floors applied in getters)
 	bonus_stat_pts[stat_key] = clampi(int(bonus_stat_pts[stat_key]) + delta_pts, -500, 9999)
 	recalc_stats(false)
 
@@ -603,6 +795,7 @@ func unlock_all_talents_gm() -> void:
 			var nid := str((n_var as Dictionary).get("id", ""))
 			if not nid.is_empty():
 				umap[nid] = true
+	recalc_stats(false)
 	_sync_talent_node_styles()
 	_refresh_visuals()
 
@@ -610,6 +803,7 @@ func reset_talents_gm() -> void:
 	var umap := _unlocked_map()
 	umap.clear()
 	umap["R"] = true
+	recalc_stats(false)
 	_sync_talent_node_styles()
 	_refresh_visuals()
 
@@ -649,23 +843,29 @@ func grant_local_xp(rxp: int) -> bool:
 func take_combat_damage(dmg: int) -> bool:
 	if dmg <= 0:
 		return false
-	hero_hp = maxf(0.0, hero_hp - float(dmg))
+	var rem := float(dmg)
+	if world != null and ("ki_mode_timer" in world) and float(world.ki_mode_timer) > 0.0:
+		rem = maxf(1.0, rem * 0.85)
+	if hero_shield_hp > 0.0 and hero_shield_timer > 0.0:
+		var absorbed := minf(hero_shield_hp, rem)
+		hero_shield_hp = maxf(0.0, hero_shield_hp - absorbed)
+		rem -= absorbed
+	if rem > 0.0:
+		hero_hp = maxf(0.0, hero_hp - rem)
 	_sync_bar_uniforms()
 	_refresh_visuals()
 	return hero_hp <= 0.0
 
 static func _catalog_item_by_id(iid: String) -> Dictionary:
 	var gm_script = preload("res://scripts/gm_panel.gd")
-	for it: Dictionary in gm_script.ITEM_CATALOG:
-		if str(it.get("id", "")) == iid:
-			return it.duplicate(true)
-	return {}
+	return gm_script.find_item(iid)
 
 func apply_server_character(ch: Dictionary) -> void:
 	var st: Dictionary = ch.get("state", {})
 	var stats: Dictionary = ch.get("stats", {})
 	if str(ch.get("name", "")) != "":
 		hero_custom_name = str(ch.get("name", ""))
+		hero_name = hero_custom_name
 	hero_level = maxi(1, int(ch.get("level", hero_level)))
 	hero_gold = maxi(0, int(ch.get("gold", hero_gold)))
 	hero_xp = float(st.get("xp", hero_xp))
@@ -676,6 +876,20 @@ func apply_server_character(ch: Dictionary) -> void:
 	for k in ["hp", "ki", "atk", "def", "spd", "crit"]:
 		if bs.has(k):
 			bonus_stat_pts[k] = maxi(0, int(bs[k]))
+	var tr: Dictionary = st.get("training", {})
+	for k in ["hp", "ki", "atk", "def", "spd", "crit"]:
+		training_ranks[k] = maxi(0, int(tr.get(k, 0)))
+	var ab: Variant = st.get("activeBlessing", null)
+	if ab is Dictionary and str((ab as Dictionary).get("kind", "")) != "":
+		var srv_exp := int((ab as Dictionary).get("expiresAt", 0))
+		var now_epoch_ms := int(Time.get_unix_time_from_system() * 1000.0)
+		var rem_ms := srv_exp - now_epoch_ms
+		if rem_ms > 500:
+			active_blessing = {"kind": str((ab as Dictionary).get("kind", "")), "expires_ms": Time.get_ticks_msec() + rem_ms}
+		else:
+			active_blessing.clear()
+	else:
+		active_blessing.clear()
 	var nodes_arr: Array = st.get("unlockedNodes", [])
 	if not nodes_arr.is_empty():
 		var umap := _unlocked_map()
@@ -685,33 +899,34 @@ func apply_server_character(ch: Dictionary) -> void:
 	var eq_raw: Dictionary = st.get("equipment", {})
 	for si in equip_slots.size():
 		var sk := str(si)
+		var side_i := -1 if si < 4 else 1
+		var row_i := si % 4
 		if eq_raw.has(sk):
 			var iid = eq_raw[sk]
 			if iid == null or str(iid) == "":
-				equip_slots[si]["id"] = ""
-				equip_slots[si]["name"] = "Pusty"
-				equip_slots[si]["icon"] = ""
-				for bk in ["atk", "def", "hp", "ki", "spd", "crit"]:
-					equip_slots[si].erase(bk)
+				equip_slots[si] = {"side": side_i, "row": row_i, "id": "", "icon": "", "name": "Pusty", "rarity": Color(0.56, 0.50, 0.42)}
 			else:
 				var cdef := _catalog_item_by_id(str(iid))
 				if not cdef.is_empty():
-					cdef["side"] = equip_slots[si].get("side", "left")
-					cdef["row"] = equip_slots[si].get("row", si % 4)
+					cdef["side"] = side_i
+					cdef["row"] = row_i
 					equip_slots[si] = cdef
+	if backpack_items.size() != BACKPACK_SLOTS:
+		backpack_items.clear()
+		for _i in BACKPACK_SLOTS:
+			backpack_items.append({})
 	var bp_raw: Array = st.get("backpack", [])
-	if bp_raw.size() == backpack_items.size():
-		for bi in backpack_items.size():
-			var entry = bp_raw[bi]
-			if entry == null or not (entry is Dictionary):
-				backpack_items[bi] = {}
+	for bi in BACKPACK_SLOTS:
+		if bi >= bp_raw.size() or bp_raw[bi] == null or not (bp_raw[bi] is Dictionary):
+			backpack_items[bi] = {}
+		else:
+			var entry: Dictionary = bp_raw[bi] as Dictionary
+			var cdef := _catalog_item_by_id(str(entry.get("id", "")))
+			if not cdef.is_empty():
+				cdef["qty"] = maxi(1, int(entry.get("qty", 1)))
+				backpack_items[bi] = cdef
 			else:
-				var cdef := _catalog_item_by_id(str((entry as Dictionary).get("id", "")))
-				if not cdef.is_empty():
-					cdef["qty"] = maxi(1, int((entry as Dictionary).get("qty", 1)))
-					backpack_items[bi] = cdef
-				else:
-					backpack_items[bi] = {}
+				backpack_items[bi] = {}
 	recalc_stats(false)
 	hero_hp = clampf(float(st.get("hp", hero_hp)), 1.0, hero_max_hp)
 	hero_ki = clampf(float(st.get("ki", hero_ki)), 0.0, hero_max_ki)
@@ -730,7 +945,12 @@ func spend_free_stat_point(stat_key: String) -> bool:
 	return true
 
 func add_item_to_backpack(item_def: Dictionary, qty: int = 1) -> bool:
+	if backpack_items.size() != BACKPACK_SLOTS:
+		while backpack_items.size() < BACKPACK_SLOTS:
+			backpack_items.append({})
 	var iid := str(item_def.get("id", ""))
+	if iid.is_empty():
+		return false
 	# Stack into existing slot if same item id
 	for i in backpack_items.size():
 		if not backpack_items[i].is_empty() and str(backpack_items[i].get("id", "")) == iid:
@@ -747,30 +967,75 @@ func add_item_to_backpack(item_def: Dictionary, qty: int = 1) -> bool:
 			return true
 	return false
 
+func unequip_slot(slot_i: int) -> void:
+	if slot_i < 0 or slot_i >= equip_slots.size():
+		return
+	var eq: Dictionary = equip_slots[slot_i]
+	var iid := str(eq.get("id", ""))
+	if iid.is_empty():
+		return
+	if world != null and world.has_method("dispatch_server_action") and world.dispatch_server_action({"type": "unequip_item", "equipSlot": slot_i}):
+		if world.get("audio") != null:
+			world.audio.sfx("ui/click")
+		return
+	var item_def := _catalog_item_by_id(iid)
+	if item_def.is_empty():
+		item_def = eq.duplicate(true)
+		item_def["slot"] = slot_i
+	if add_item_to_backpack(item_def, 1):
+		var side_i := -1 if slot_i < 4 else 1
+		var row_i := slot_i % 4
+		equip_slots[slot_i] = {"side": side_i, "row": row_i, "id": "", "icon": "", "name": "Pusty", "rarity": Color(0.56, 0.50, 0.42)}
+		recalc_stats(false)
+		if world != null and world.has_method("show_combat_toast"):
+			world.show_combat_toast("Zdjęto: %s" % str(item_def.get("name", iid)), Color(0.92, 0.86, 0.62))
+	elif world != null and world.has_method("show_combat_toast"):
+		world.show_combat_toast("Plecak jest pełny (24/24) — nie można zdjąć przedmiotu!", Color(1.0, 0.48, 0.36))
+
 func use_backpack_slot(idx: int) -> void:
 	if idx < 0 or idx >= backpack_items.size():
 		return
 	var it: Dictionary = backpack_items[idx]
 	if it.is_empty():
 		return
+	# Material click protection: NEVER destroy crafting materials on click!
+	if str(it.get("cat", "")) == "material":
+		if world != null and world.has_method("show_combat_toast"):
+			world.show_combat_toast("%s — surowiec rzemieślniczy (Kuźnia lub sprzedaż w Sklepie)!" % str(it.get("name", "Surowiec")), Color(0.68, 0.90, 1.0))
+		return
 	if world != null and world.has_method("dispatch_server_action") and world.dispatch_server_action({"type": "use_item", "backpackIndex": idx}):
+		if it.has("heal_hp") and world.has_method("notify_hero_healed"):
+			world.notify_hero_healed()
 		if world.get("audio") != null:
 			world.audio.sfx("common/potion" if (it.has("heal_hp") or it.has("heal_ki")) else "ui/click")
 		return
 	var slot_i := int(it.get("slot", -1))
 	if slot_i >= 0 and slot_i < equip_slots.size():
+		var min_lv := int(it.get("minLevel", 1))
+		if hero_level < min_lv:
+			if world != null and world.has_method("show_combat_toast"):
+				world.show_combat_toast("Wymagany poziom %d, aby założyć %s!" % [min_lv, str(it.get("name", ""))], Color(1.0, 0.56, 0.34))
+			return
 		var old_eq := equip_slots[slot_i].duplicate(true)
+		var had_old := not str(old_eq.get("id", "")).is_empty()
 		var new_eq := it.duplicate(true)
-		new_eq["side"] = old_eq["side"]
-		new_eq["row"] = old_eq["row"]
+		new_eq["side"] = -1 if slot_i < 4 else 1
+		new_eq["row"] = slot_i % 4
 		equip_slots[slot_i] = new_eq
 		var cur_q := int(it.get("qty", 1)) - 1
 		if cur_q > 0:
 			backpack_items[idx]["qty"] = cur_q
+			if had_old:
+				old_eq["slot"] = slot_i
+				old_eq["qty"] = 1
+				add_item_to_backpack(old_eq, 1)
 		else:
-			old_eq["slot"] = slot_i
-			old_eq["qty"] = 1
-			backpack_items[idx] = old_eq
+			if had_old:
+				old_eq["slot"] = slot_i
+				old_eq["qty"] = 1
+				backpack_items[idx] = old_eq
+			else:
+				backpack_items[idx] = {}
 		recalc_stats(false)
 		return
 	# Consumable action
@@ -778,6 +1043,8 @@ func use_backpack_slot(idx: int) -> void:
 		world.audio.sfx("common/potion" if (it.has("heal_hp") or it.has("heal_ki")) else "ui/click")
 	if it.has("heal_hp"):
 		hero_hp = minf(hero_max_hp, hero_hp + float(it["heal_hp"]))
+		if world != null and world.has_method("notify_hero_healed"):
+			world.notify_hero_healed()
 	elif it.has("heal_ki"):
 		hero_ki = minf(hero_max_ki, hero_ki + float(it["heal_ki"]))
 	elif it.has("gold"):
@@ -794,8 +1061,8 @@ func use_backpack_slot(idx: int) -> void:
 func set_region(land: String) -> void:
 	current_land = land
 	var meta: Dictionary = LAND_META.get(_hero_land(), LAND_META["pyra"])
-	hero_res = 68.0
-	selected_node_id = "A4"
+	hero_name = hero_custom_name if hero_custom_name != "" else str(meta["hero"])
+	selected_node_id = "A1"
 
 	portrait_rect.texture = _load_tex(str(meta["portrait"]))
 	char_portrait_rect.texture = _load_tex(str(meta["portrait"]))
@@ -807,14 +1074,11 @@ func set_region(land: String) -> void:
 			hotbar_icon_rects[i].material = null
 			hotbar_icon_rects[i].stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			hotbar_ring_rects[i].visible = false
-		elif i == 2:
-			hotbar_icon_rects[i].texture = _load_tex("res://assets/ui/obsidian/btn_skill2.webp")
-			hotbar_icon_rects[i].material = null
-			hotbar_icon_rects[i].stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			hotbar_ring_rects[i].visible = false
 		else:
+			# ALL active skills (A1, B1, C1, A4, T) use their authentic racial icon!
 			hotbar_icon_rects[i].texture = _icon_tex("%s-%s.webp" % [rk, str(HOTBAR_NODE_IDS[i])])
 			hotbar_icon_rects[i].material = hotbar_icon_mats[i]
+			hotbar_icon_rects[i].stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 			hotbar_ring_rects[i].visible = true
 
 	res_bar_mat.set_shader_parameter("color_dark", meta["res_dark"])
@@ -844,16 +1108,69 @@ func set_time_label(lbl: String) -> void:
 		time_mode_short = "Dzień"
 	_refresh_visuals()
 
+func get_hotbar_skill_min_level(idx: int) -> int:
+	if idx <= 0 or idx >= HOTBAR_NODE_IDS.size():
+		return 1
+	var nid := str(HOTBAR_NODE_IDS[idx])
+	var nd := _node_by_id(nid)
+	if not nd.is_empty():
+		return int(nd.get("minLevel", 20 if nid == "T" else 2))
+	return 20 if nid == "T" else (9 if nid == "A4" else 2)
+
+func is_hotbar_skill_unlocked(idx: int) -> bool:
+	if idx <= 0:
+		return true
+	if idx >= HOTBAR_NODE_IDS.size():
+		return false
+	var nid := str(HOTBAR_NODE_IDS[idx])
+	if not bool(_unlocked_map().get(nid, false)):
+		return false
+	return hero_level >= get_hotbar_skill_min_level(idx)
+
 func trigger_skill(idx: int) -> void:
 	if idx < 0 or idx >= cooldowns.size():
 		return
 	if cooldowns[idx] > 0.05:
 		return
-	cooldowns[idx] = float(HOTBAR_CDS[idx])
-	hero_ki = maxf(6.0, hero_ki - (8.0 if idx > 0 else 0.0))
-	hero_res = minf(100.0, hero_res + 12.0)
+	var nid := str(HOTBAR_NODE_IDS[idx])
+	if idx > 0 and not is_hotbar_skill_unlocked(idx):
+		var req_lv := get_hotbar_skill_min_level(idx)
+		if world != null and world.has_method("show_combat_toast"):
+			if nid == "T":
+				world.show_combat_toast("Forma KI [T] odblokowuje się od poz. %d w drzewku [K] (wymaga A9, B9 lub C9)!" % req_lv, Color(1.0, 0.68, 0.34))
+			else:
+				world.show_combat_toast("Odblokuj talent [%s] (Poz.%d) w drzewku [K], aby użyć tej umiejętności!" % [nid, req_lv], Color(1.0, 0.68, 0.34))
+		return
+	var p := get_talent_passives()
+	var ki_cost := float(HOTBAR_KI_COSTS[idx]) * float(p["kiCostMult"])
+	if ki_cost > 0.0 and hero_ki < ki_cost:
+		if world != null and world.has_method("show_combat_toast"):
+			world.show_combat_toast("Za mało energii KI (%d / %d)!" % [int(hero_ki), int(ceil(ki_cost))], Color(0.42, 0.84, 1.0))
+		return
+	var cd_val := get_basic_attack_interval() if idx == 0 else float(HOTBAR_CDS[idx])
+	if idx == 1:
+		cd_val *= float(p["a1CdMult"])
+	elif idx == 2:
+		cd_val *= float(p["b1CdMult"])
+	cooldowns[idx] = cd_val
+	hero_ki = maxf(0.0, hero_ki - ki_cost)
+
+	# Racial resource build on Q, +30% Surge consumption when >=50 on skills 1..4!
+	var surge_mult := 1.0
+	if idx == 0:
+		hero_res = minf(100.0, hero_res + 14.0 * float(p["resGainMult"]))
+	elif idx >= 1 and idx <= 4 and hero_res >= 50.0:
+		hero_res = maxf(0.0, hero_res - 50.0)
+		surge_mult = 1.30
+
+	# B1 (idx == 2): Activate real Ki Shield absorption!
+	if idx == 2:
+		var sh_val := (32.0 + hero_max_hp * 0.22) * float(p["shieldMult"]) * surge_mult
+		hero_shield_hp = maxf(hero_shield_hp, sh_val)
+		hero_shield_timer = 6.5
+
 	if world != null and world.has_method("perform_combat_attack"):
-		world.perform_combat_attack(idx)
+		world.perform_combat_attack(idx, surge_mult)
 	_sync_bar_uniforms()
 	_refresh_visuals()
 
@@ -873,6 +1190,7 @@ func toggle_character() -> void:
 func close_modals() -> void:
 	show_talents = false
 	show_character = false
+	hovered_char_item = {}
 	_sync_modal_visibility()
 
 func _sync_modal_visibility() -> void:
@@ -901,12 +1219,36 @@ func _process(delta: float) -> void:
 		if cooldowns[i] > 0.0:
 			cooldowns[i] = maxf(0.0, cooldowns[i] - delta)
 			changed = true
+	if hero_shield_timer > 0.0:
+		hero_shield_timer = maxf(0.0, hero_shield_timer - delta)
+		if hero_shield_timer <= 0.0:
+			hero_shield_hp = 0.0
+		changed = true
 	if hero_ki < hero_max_ki:
-		hero_ki = minf(hero_max_ki, hero_ki + delta * 3.8)
+		hero_ki = minf(hero_max_ki, hero_ki + delta * get_total_ki_regen())
+		changed = true
+	if is_perf_hud_enabled():
+		_perf_refresh_t += delta
+		if _perf_refresh_t >= 0.45:
+			_perf_refresh_t = 0.0
+			changed = true
+	if world != null and ("ki_mode_timer" in world) and float(world.ki_mode_timer) > 0.05:
 		changed = true
 	if changed:
 		_sync_bar_uniforms()
 		_refresh_visuals()
+
+func is_perf_hud_enabled() -> bool:
+	return bool(hud_layout.get("show_perf", false))
+
+func set_perf_hud_enabled(enabled: bool, persist: bool = true) -> void:
+	hud_layout["show_perf"] = enabled
+	_perf_refresh_t = 0.0
+	if enabled and world != null and world.has_method("trigger_server_ping"):
+		world.trigger_server_ping()
+	if persist and world != null and world.has_method("notify_hud_layout_changed"):
+		world.notify_hud_layout_changed(hud_layout)
+	_refresh_visuals()
 
 # ==============================================================================
 # CUSTOMIZABLE HUD LAYOUT & LIVE DRAG-AND-DROP HUD EDITOR
@@ -1000,6 +1342,8 @@ func apply_hud_layout(data: Dictionary) -> void:
 		return
 	if data.has("scale"):
 		hud_layout["scale"] = clampf(float(data["scale"]), 0.80, 1.25)
+	if data.has("show_perf"):
+		hud_layout["show_perf"] = bool(data["show_perf"])
 	for zk: String in ["portrait", "utils", "minimap", "combat", "xp"]:
 		var val = data.get(zk, null)
 		if val is Array and (val as Array).size() >= 2:
@@ -1011,6 +1355,7 @@ func apply_hud_layout(data: Dictionary) -> void:
 	_refresh_visuals()
 
 func apply_phone_safe_preset() -> void:
+	var keep_perf := is_perf_hud_enabled()
 	hud_layout = {
 		"scale": 0.90,
 		"portrait": [24.0, 10.0],
@@ -1018,6 +1363,7 @@ func apply_phone_safe_preset() -> void:
 		"minimap": [-24.0, 10.0],
 		"combat": [-24.0, -14.0],
 		"xp": [0.0, -10.0],
+		"show_perf": keep_perf,
 	}
 	hud_scale_bar_lbl.text = "%d%%" % int(round(get_hud_scale() * 100.0))
 	_layout_all()
@@ -1026,6 +1372,7 @@ func apply_phone_safe_preset() -> void:
 	_refresh_visuals()
 
 func reset_hud_layout(persist: bool = true) -> void:
+	var keep_perf := is_perf_hud_enabled()
 	hud_layout = {
 		"scale": 1.0,
 		"portrait": [0.0, 0.0],
@@ -1033,6 +1380,7 @@ func reset_hud_layout(persist: bool = true) -> void:
 		"minimap": [0.0, 0.0],
 		"combat": [0.0, 0.0],
 		"xp": [0.0, 0.0],
+		"show_perf": keep_perf,
 	}
 	hud_scale_bar_lbl.text = "100%"
 	_layout_all()
@@ -1359,7 +1707,7 @@ func _layout_all() -> void:
 		var r: float = float(spec["r"])
 		var ring_pad := (12.0 if bool(spec["keystone"]) else 9.0) * sc
 		var rr := r + ring_pad
-		if i == 0 or i == 2:
+		if i == 0:
 			hotbar_icon_rects[i].position = center - Vector2(rr, rr)
 			hotbar_icon_rects[i].size = Vector2(rr * 2.0, rr * 2.0)
 		else:
@@ -1523,10 +1871,10 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	c.draw_string(f, seal_c + Vector2(-lv_w * 0.5, 5.5), lv_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.94, 0.70))
 
 	# Hero Name (18px Cinzel) + Race Title (13px)
-	var hero_name := (hero_custom_name if hero_custom_name != "" else str(meta["hero"])).to_upper()
-	c.draw_string_outline(f, Vector2(126.0, 38.0) + p_off, hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, 4, Color(0.02, 0.01, 0.02, 0.96))
-	c.draw_string(f, Vector2(126.0, 38.0) + p_off, hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.93, 0.74))
-	var name_w := f.get_string_size(hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
+	var disp_hero_name := (hero_custom_name if hero_custom_name != "" else str(meta["hero"])).to_upper()
+	c.draw_string_outline(f, Vector2(126.0, 38.0) + p_off, disp_hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, 4, Color(0.02, 0.01, 0.02, 0.96))
+	c.draw_string(f, Vector2(126.0, 38.0) + p_off, disp_hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.93, 0.74))
+	var name_w := f.get_string_size(disp_hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
 	var sub_txt := str(meta["title"])
 	if 126.0 + name_w + 10.0 < 386.0:
 		c.draw_string(fb, Vector2(126.0 + name_w + 10.0, 37.0) + p_off, sub_txt, HORIZONTAL_ALIGNMENT_LEFT, int(maxf(388.0 - (126.0 + name_w + 10.0), 40.0)), 13, Color(accent.r, accent.g, accent.b, 0.96))
@@ -1542,7 +1890,15 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	if res_ico != null:
 		c.draw_texture_rect(res_ico, Rect2(Vector2(125.0, 95.0) + p_off, Vector2(17.0, 17.0)), false)
 
+	# Ki Shield Overlay on HP bar when B1 shield is active!
+	if hero_shield_hp > 0.5 and hero_shield_timer > 0.05:
+		var sh_frac := clampf(hero_shield_hp / maxf(hero_max_hp, 1.0), 0.0, 1.0)
+		var sh_r := Rect2(hp_bar_rect.position + Vector2(2.0, 1.0), Vector2((hp_bar_rect.size.x - 4.0) * sh_frac, 6.0))
+		c.draw_rect(sh_r, Color(0.46, 0.94, 1.0, 0.92), true)
+
 	var hp_str := "%d / %d" % [int(round(hero_hp)), int(round(hero_max_hp))]
+	if hero_shield_hp > 0.5 and hero_shield_timer > 0.05:
+		hp_str += "  [+%d OSŁ]" % int(round(hero_shield_hp))
 	c.draw_string_outline(fb, Vector2(156.0, 64.0) + p_off, hp_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.02, 0.01, 0.01, 0.95))
 	c.draw_string(fb, Vector2(156.0, 64.0) + p_off, hp_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.97, 0.95))
 
@@ -1550,9 +1906,9 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	c.draw_string_outline(fb, Vector2(156.0, 88.0) + p_off, ki_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 3, Color(0.02, 0.03, 0.06, 0.95))
 	c.draw_string(fb, Vector2(156.0, 88.0) + p_off, ki_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.88, 0.96, 1.0))
 
-	var res_str := "%s %d" % [str(meta["res_name"]), int(round(hero_res))]
+	var res_str := "%s %d%s" % [str(meta["res_name"]), int(round(hero_res)), " ⚡" if hero_res >= 50.0 else ""]
 	c.draw_string_outline(fb, Vector2(154.0, 108.0) + p_off, res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 3, Color(0.02, 0.01, 0.02, 0.95))
-	c.draw_string(fb, Vector2(154.0, 108.0) + p_off, res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.95, 0.86))
+	c.draw_string(fb, Vector2(154.0, 108.0) + p_off, res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.96, 0.64) if hero_res >= 50.0 else Color(1.0, 0.95, 0.86))
 
 	var coin_tex := _icon_tex("gear-coin.webp")
 	if coin_tex != null:
@@ -1564,8 +1920,13 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	c.draw_circle(Vector2(130.0, 126.0) + p_off, 4.5, z_col)
 	c.draw_arc(Vector2(130.0, 126.0) + p_off, 7.0, 0.0, TAU, 16, Color(z_col.r, z_col.g, z_col.b, 0.44), 1.4, true)
 	var zone_prefix := "STOLICA" if in_safe_city else "KONTYNENT"
-	var loc_short := nearest_loc if nearest_loc.length() <= 20 else (nearest_loc.substr(0, 18) + "…")
-	c.draw_string(fb, Vector2(142.0, 131.0) + p_off, "%s • %s" % [zone_prefix, loc_short], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.94, 0.90, 0.82, 0.96))
+	var loc_short := nearest_loc if nearest_loc.length() <= 18 else (nearest_loc.substr(0, 16) + "…")
+	var b_kind := get_active_blessing_kind()
+	var b_tag := ""
+	if b_kind == "march": b_tag = " • ✦MARSZ"
+	elif b_kind == "might": b_tag = " • ✦HART"
+	elif b_kind == "focus": b_tag = " • ✦SKUPIENIE"
+	c.draw_string(fb, Vector2(142.0, 131.0) + p_off, "%s • %s%s" % [zone_prefix, loc_short, b_tag], HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.94, 0.90, 0.82, 0.96))
 
 	# --- A2. Clean 4-Medallion Top-Left Utility Row (draggable as "utils" zone!) ---
 	util_hitboxes.clear()
@@ -1607,7 +1968,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	c.draw_string_outline(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 29.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.02, 0.01, 0.01, 0.96))
 	c.draw_string(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 29.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.62, 0.98, 1.0) if gm_active else Color(1.0, 0.92, 0.68))
 
-	# Dedicated Clean Quick-Heal Potion Orb anchored cleanly to Bottom-Right Combat Cluster!
+	# Dedicated Clean Quick-Heal Potion Orb + Free Return-to-Capital Stone (Kamień Powrotu)
 	var c_base := _combat_base_center()
 	var pot_c := c_base + Vector2(-248.0 * sc, 34.0 * sc)
 	var pot_r := 34.0 * sc
@@ -1634,6 +1995,38 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		var pq_w := fb.get_string_size(pq_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
 		c.draw_string(fb, pbc + Vector2(-pq_w * 0.5, 5.0), pq_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.98, 0.92))
 
+	# Kamień Powrotu (Free Return-to-Capital Stone — 2.5s channel, 45s CD) — stacked above Potion orb, clear of XP bar!
+	var rec_c := pot_c + Vector2(-8.0 * sc, -86.0 * sc)
+	var rec_r := 27.0 * sc
+	var rec_rect := Rect2(rec_c - Vector2(rec_r, rec_r), Vector2(rec_r * 2.0, rec_r * 2.0))
+	util_hitboxes.append({"rect": rec_rect.grow(8.0), "id": "recall"})
+	c.draw_circle(rec_c + Vector2(0.0, 3.0), rec_r + 3.0, Color(0.0, 0.0, 0.0, 0.52))
+	c.draw_circle(rec_c, rec_r, Color(0.05, 0.07, 0.12, 0.96))
+	var rec_ico := _icon_tex("emblem_scroll.webp")
+	if rec_ico != null:
+		var r_in := rec_r * 0.70
+		c.draw_texture_rect(rec_ico, Rect2(rec_c - Vector2(r_in, r_in), Vector2(r_in * 2.0, r_in * 2.0)), false)
+	var rec_cd: float = float(world.recall_cooldown) if (world != null and ("recall_cooldown" in world)) else 0.0
+	var rec_ch: float = float(world.recall_channel) if (world != null and ("recall_channel" in world)) else 0.0
+	if rec_ch > 0.01:
+		c.draw_arc(rec_c, rec_r + 3.0, -PI * 0.5, -PI * 0.5 + TAU * clampf(1.0 - rec_ch / 2.5, 0.0, 1.0), 28, Color(0.42, 0.96, 1.0, 0.98), 3.6, true)
+		var rcs := "%.1fs" % rec_ch
+		var rcw := fb.get_string_size(rcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+		c.draw_string_outline(fb, rec_c + Vector2(-rcw * 0.5, 5.0), rcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 3, Color(0.0, 0.0, 0.0, 0.96))
+		c.draw_string(fb, rec_c + Vector2(-rcw * 0.5, 5.0), rcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.54, 0.98, 1.0))
+	elif rec_cd > 0.1:
+		c.draw_circle(rec_c, rec_r - 1.0, Color(0.02, 0.02, 0.05, 0.68))
+		var rcd := "%ds" % int(ceil(rec_cd))
+		var rcdw := fb.get_string_size(rcd, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
+		c.draw_string(fb, rec_c + Vector2(-rcdw * 0.5, 5.0), rcd, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.86, 0.88, 0.94))
+	if ring_cyan != null and rec_cd <= 0.1:
+		var rr_c := rec_r + 7.0 * sc
+		c.draw_texture_rect(ring_cyan, Rect2(rec_c - Vector2(rr_c, rr_c), Vector2(rr_c * 2.0, rr_c * 2.0)), false)
+	var rec_lbl := "POWRÓT"
+	var rlw := f.get_string_size(rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x
+	c.draw_string_outline(f, rec_c + Vector2(-rlw * 0.5, rec_r + 14.0), rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 3, Color(0.02, 0.01, 0.02, 0.96))
+	c.draw_string(f, rec_c + Vector2(-rlw * 0.5, rec_r + 14.0), rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.68, 0.94, 1.0))
+
 	nav_hitboxes.clear()
 
 	# --- C. Bottom-Center Legible XP Bar Labels (14px!) ---
@@ -1646,7 +2039,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	c.draw_string_outline(f, Vector2(xp_r.position.x + xp_r.size.x - pd_w - 18.0, xp_r.position.y + 23.0), pd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 3, Color(0.02, 0.01, 0.01, 0.96))
 	c.draw_string(f, Vector2(xp_r.position.x + xp_r.size.x - pd_w - 18.0, xp_r.position.y + 23.0), pd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.88, 0.52))
 
-	# --- D. Bottom-Right Wild Rift Right-Thumb Circular Skill Overlays (Cooldowns, Ki-Mode Aura, Keybind Seals) ---
+	# --- D. Bottom-Right Wild Rift Right-Thumb Circular Skill Overlays (Cooldowns, Lock State, Ki-Mode Aura, Keybind Seals) ---
 	hotbar_hitboxes.clear()
 	var wr_specs := _wild_rift_slot_specs()
 	var ki_active: bool = world != null and ("ki_mode_timer" in world) and float(world.ki_mode_timer) > 0.05
@@ -1656,6 +2049,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		var r: float = float(spec["r"])
 		var hit_r := r + 9.0 * sc
 		hotbar_hitboxes.append(Rect2(center - Vector2(hit_r, hit_r), Vector2(hit_r * 2.0, hit_r * 2.0)))
+		var unlocked_skill := is_hotbar_skill_unlocked(i)
 
 		# Glowing Ki-Mode transformation halo on [R] (idx == 5)
 		if i == 5 and ki_active:
@@ -1667,10 +2061,21 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			c.draw_string_outline(f, center + Vector2(-ktw * 0.5, -r - 20.0), kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 4, Color(0.02, 0.04, 0.08, 0.96))
 			c.draw_string(f, center + Vector2(-ktw * 0.5, -r - 20.0), kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.42, 0.98, 1.0))
 
+		if not unlocked_skill:
+			c.draw_circle(center, r - 1.0, Color(0.02, 0.02, 0.04, 0.78))
+			var lk_s := str(HOTBAR_NODE_IDS[i])
+			var req_lv := get_hotbar_skill_min_level(i)
+			var lv_s := "Poz.%d" % req_lv
+			var lkw := f.get_string_size(lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
+			var lvw := fb.get_string_size(lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+			c.draw_string(f, center + Vector2(-lkw * 0.5, -2.0), lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.76, 0.70, 0.58, 0.94))
+			c.draw_string(fb, center + Vector2(-lvw * 0.5, 13.0), lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.96, 0.68, 0.36, 0.94) if i == 5 else Color(0.68, 0.66, 0.62, 0.90))
+
 		# Radial cooldown veil + bold 18px numeric timer
 		var cd := cooldowns[i]
 		if cd > 0.01:
-			var frac := clampf(cd / float(HOTBAR_CDS[i]), 0.0, 1.0)
+			var max_cd := get_basic_attack_interval() if i == 0 else float(HOTBAR_CDS[i])
+			var frac := clampf(cd / maxf(max_cd, 0.1), 0.0, 1.0)
 			c.draw_circle(center, r - 1.0, Color(0.02, 0.02, 0.05, 0.70))
 			c.draw_arc(center, r - 3.0, -PI * 0.5, -PI * 0.5 + TAU * frac, 28, Color(0.36, 0.88, 1.0, 0.95), 3.5, true)
 			var cd_txt := "%.1f" % cd
@@ -1681,15 +2086,46 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		if hovered_hotbar_idx == i and not hud_edit_mode:
 			c.draw_arc(center, r + 6.0, 0.0, TAU, 32, Color(1.0, 0.90, 0.50, 0.94), 2.6, true)
 
-		if i != 0 and i != 2:
+		if i != 0:
 			var kb := str(HOTBAR_KEYS[i])
 			var k_pos := center + Vector2(0.0, r + 3.0)
 			var kr := 13.0 if bool(spec["keystone"]) else 11.5
 			c.draw_circle(k_pos, kr, Color(0.06, 0.04, 0.05, 0.96))
-			c.draw_arc(k_pos, kr, 0.0, TAU, 20, Color(0.98, 0.76, 0.32, 0.96), 1.8, true)
+			c.draw_arc(k_pos, kr, 0.0, TAU, 20, Color(0.98, 0.76, 0.32, 0.96) if unlocked_skill else Color(0.42, 0.40, 0.44, 0.85), 1.8, true)
 			var ksz := 13 if bool(spec["keystone"]) else 12
 			var kw := f.get_string_size(kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz).x
-			c.draw_string(f, k_pos + Vector2(-kw * 0.5, float(ksz) * 0.36), kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz, Color(1.0, 0.94, 0.72))
+			c.draw_string(f, k_pos + Vector2(-kw * 0.5, float(ksz) * 0.36), kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz, Color(1.0, 0.94, 0.72) if unlocked_skill else Color(0.58, 0.56, 0.54))
+
+	# --- D2. Optional FPS & Ping Performance Overlay (toggled in Menu -> GRA) ---
+	if is_perf_hud_enabled():
+		var vs_p := _vp_size()
+		var fps_val := int(Engine.get_frames_per_second())
+		var fps_col := Color(0.36, 0.96, 0.54) if fps_val >= 50 else (Color(1.0, 0.84, 0.32) if fps_val >= 30 else Color(1.0, 0.38, 0.32))
+		var ping_ms := -1
+		if world != null and ("last_ping_ms" in world):
+			ping_ms = int(world.last_ping_ms)
+		var ping_txt := ("%d ms" % ping_ms) if ping_ms >= 0 else ("LOKALNY" if (world == null or not world.is_server_authoritative()) else "…")
+		var ping_col := Color(0.36, 0.96, 0.54) if (ping_ms >= 0 and ping_ms < 85) else (Color(1.0, 0.84, 0.32) if (ping_ms >= 85 and ping_ms <= 170) else (Color(1.0, 0.38, 0.32) if ping_ms > 170 else Color(0.68, 0.86, 0.98)))
+		var mm_off := get_zone_offset("minimap")
+		var mm_sz := 232.0 * sc
+		var mm_cx := vs_p.x - 16.0 - mm_sz * 0.5 + mm_off.x
+		var mm_bottom := 14.0 + mm_sz + mm_off.y
+		var pill_w := 204.0
+		var pill_h := 32.0
+		var pill_x := clampf(mm_cx - pill_w * 0.5, 420.0, vs_p.x - pill_w - 12.0)
+		var pill_y := clampf(mm_bottom + 8.0, 16.0, vs_p.y - 380.0)
+		var pill_r := Rect2(pill_x, pill_y, pill_w, pill_h)
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = Color(0.04, 0.035, 0.06, 0.88)
+		sb.border_color = Color(0.84, 0.66, 0.30, 0.88)
+		sb.set_border_width_all(1)
+		sb.set_corner_radius_all(8)
+		c.draw_style_box(sb, pill_r)
+		c.draw_circle(pill_r.position + Vector2(14.0, pill_h * 0.5), 4.0, fps_col)
+		c.draw_string(fb, pill_r.position + Vector2(24.0, 21.0), "FPS %d" % fps_val, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, fps_col)
+		c.draw_line(pill_r.position + Vector2(96.0, 6.0), pill_r.position + Vector2(96.0, pill_h - 6.0), Color(0.75, 0.60, 0.32, 0.45), 1.0)
+		c.draw_circle(pill_r.position + Vector2(108.0, pill_h * 0.5), 4.0, ping_col)
+		c.draw_string(fb, pill_r.position + Vector2(118.0, 21.0), "PING %s" % ping_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, ping_col)
 
 	# Hover tooltip anchored cleanly above bottom-right Wild Rift combat cluster
 	if hovered_hotbar_idx >= 0 and hovered_hotbar_idx < HOTBAR_NODE_IDS.size() and not (show_talents or show_character or hud_edit_mode):
@@ -1698,10 +2134,13 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		if not h_nd.is_empty():
 			var vs := _vp_size()
 			var tip_w := 360.0
-			var tip_h := 84.0
-			var tip_r := Rect2(vs.x - tip_w - 22.0, vs.y - 364.0, tip_w, tip_h)
+			var tip_h := 94.0
+			var tip_r := Rect2(vs.x - tip_w - 22.0, vs.y - 374.0, tip_w, tip_h)
 			_draw_obsidian_plate(c, tip_r, Color(0.92, 0.72, 0.32, 0.94))
-			c.draw_string(f, tip_r.position + Vector2(18, 26), "%s  [%s]" % [str(h_nd.get("name", "")).to_upper(), str(HOTBAR_KEYS[hovered_hotbar_idx])], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.90, 0.54))
+			var locked_note := "" if is_hotbar_skill_unlocked(hovered_hotbar_idx) else " (ZABLOK. — [K])"
+			var ki_c := int(round(float(HOTBAR_KI_COSTS[hovered_hotbar_idx]) * float(get_talent_passives()["kiCostMult"])))
+			var ki_note := (" • %d KI" % ki_c) if ki_c > 0 else ""
+			c.draw_string(f, tip_r.position + Vector2(18, 26), "%s [%s]%s%s" % [str(h_nd.get("name", "")).to_upper(), str(HOTBAR_KEYS[hovered_hotbar_idx]), ki_note, locked_note], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.90, 0.54))
 			c.draw_multiline_string(fb, tip_r.position + Vector2(18, 48), str(h_nd.get("effect", "")), HORIZONTAL_ALIGNMENT_LEFT, tip_w - 36.0, 13, 2, Color(0.92, 0.90, 0.86))
 
 	# --- E. Live On-Screen Drag-and-Drop HUD Editor Overlay ---
@@ -1991,6 +2430,12 @@ func _draw_constellation_tree(c: CanvasItem, f: Font, mr: Rect2) -> void:
 		elif can_unlock:
 			btn_txt = "ODBLOKUJ WĘZEŁ (1 PKT)"
 			btn_tcol = Color(1.0, 0.98, 0.90)
+		elif s_st == "level_locked":
+			btn_txt = "WYMAGANY POZ. %d" % s_lvl
+			btn_tcol = Color(1.0, 0.64, 0.42)
+		elif s_st == "available":
+			btn_txt = "BRAK PUNKTÓW TALENTÓW"
+			btn_tcol = Color(0.86, 0.80, 0.66)
 		elif s_st == "excluded":
 			btn_txt = "WYKLUCZONE PRZEZ WYBÓR"
 			btn_tcol = Color(1.0, 0.68, 0.64)
@@ -2017,7 +2462,9 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 	var slot_tex := _load_tex("res://assets/ui/hud_skill_slot.png")
 
 	var title_txt := "KARTA POSTACI I EKWIPUNEK — %s" % (hero_custom_name if hero_custom_name != "" else str(meta["hero"])).to_upper()
-	var sub_txt := "%s  •  Poziom %d  •  %s" % [str(rd.get("raceName", "")), hero_level, str(meta["realm"])]
+	var total_tr := get_total_training_sessions()
+	var tr_word := "sesja" if total_tr == 1 else ("sesje" if (total_tr % 10 >= 2 and total_tr % 10 <= 4 and (total_tr % 100 < 12 or total_tr % 100 > 14)) else "sesji")
+	var sub_txt := "%s  •  Poz.%d  •  %s (%d %s treningu)" % [str(rd.get("raceName", "")), hero_level, get_training_mastery_title(), total_tr, tr_word]
 	_draw_modal_header_plaque(c, f, mr, title_txt, sub_txt)
 
 	# Consistent Forged "← WSTECZ" back button at top-left
@@ -2027,94 +2474,124 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 	var b_lw := f.get_string_size(b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
 	c.draw_string(f, Vector2(char_close_rect.position.x + (char_close_rect.size.x - b_lw) * 0.5, char_close_rect.position.y + 27.0), b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.93, 0.74))
 
-	# Left Half: Hero Paperdoll Aura + 8 Painted Equipment Sockets (generous margin inside filigree!)
+	# Left Half: Hero Paperdoll Aura + 8 Interactive Equipment Sockets (Click equipped item to unequip!)
 	var paper_cx := mr.position.x + mr.size.x * 0.305
 	var paper_cy := mr.position.y + mr.size.y * 0.455
 	c.draw_circle(Vector2(paper_cx, paper_cy), 96.0, Color(accent.r, accent.g, accent.b, 0.10))
 	c.draw_arc(Vector2(paper_cx, paper_cy), 98.0, 0.0, TAU, 48, Color(0.80, 0.64, 0.34, 0.32), 1.2, true)
 
 	var eq_sz := 60.0
-	for sl: Dictionary in equip_slots:
-		var side := int(sl["side"])
-		var row := int(sl["row"])
+	equip_hitboxes.clear()
+	for ei in equip_slots.size():
+		var sl: Dictionary = equip_slots[ei]
+		var side := int(sl.get("side", -1 if ei < 4 else 1))
+		var row := int(sl.get("row", ei % 4))
 		var sx := paper_cx + float(side) * 144.0 - eq_sz * 0.5
 		var sy := mr.position.y + 144.0 + float(row) * 86.0
 		var sr := Rect2(sx, sy, eq_sz, eq_sz)
-		var rcol: Color = sl["rarity"]
+		equip_hitboxes.append({"rect": sr, "idx": ei})
+		var has_it := not str(sl.get("id", "")).is_empty()
+		var rcol: Color = sl.get("rarity", Color(0.56, 0.50, 0.42)) as Color
 		c.draw_rect(sr, Color(0.05, 0.04, 0.06, 0.94), true)
-		var gico := _icon_tex(str(sl["icon"]))
-		if gico != null:
+		var gico := _icon_tex(str(sl.get("icon", "")))
+		if has_it and gico != null:
 			c.draw_texture_rect(gico, Rect2(sx + 6.0, sy + 6.0, eq_sz - 12.0, eq_sz - 12.0), false)
-		c.draw_rect(sr.grow(-2.0), Color(rcol.r, rcol.g, rcol.b, 0.45), false, 1.6)
+		c.draw_rect(sr.grow(-2.0), Color(rcol.r, rcol.g, rcol.b, 0.65 if has_it else 0.28), false, 1.6)
 		if slot_tex != null:
 			c.draw_texture_rect(slot_tex, Rect2(sx - 2.0, sy - 2.0, eq_sz + 4.0, eq_sz + 4.0), false)
-		var gname := str(sl["name"])
-		var gnw := fb.get_string_size(gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
-		c.draw_string(fb, Vector2(sx + (eq_sz - gnw) * 0.5, sy + eq_sz + 15.0), gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.92, 0.88, 0.80))
+		var slot_hint := str(EQUIP_SLOT_NAMES[ei]) if ei < EQUIP_SLOT_NAMES.size() else "Slot"
+		var gname := str(sl.get("name", slot_hint)) if has_it else slot_hint
+		if gname.length() > 16:
+			gname = gname.substr(0, 15) + "…"
+		var gnw := fb.get_string_size(gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+		c.draw_string(fb, Vector2(sx + (eq_sz - gnw) * 0.5, sy + eq_sz + 14.0), gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, rcol if has_it else Color(0.64, 0.60, 0.54))
 
 	var role_txt := "%s  •  %s" % [str(rd.get("raceName", "")), str(rd.get("role", ""))]
-	var rw := fb.get_string_size(role_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
-	c.draw_string(fb, Vector2(paper_cx - rw * 0.5, mr.position.y + 528.0), role_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.88, 0.54))
-	var mech_txt := "Mechanika rasy: %s" % str(rd.get("raceMechanic", ""))
-	var mw := fb.get_string_size(mech_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-	c.draw_string(fb, Vector2(paper_cx - mw * 0.5, mr.position.y + 550.0), mech_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(accent.r, accent.g, accent.b, 0.94))
+	var rw := fb.get_string_size(role_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
+	c.draw_string(fb, Vector2(paper_cx - rw * 0.5, mr.position.y + 520.0), role_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.88, 0.54))
+	var mech_txt := "Kliknij założony sprzęt, aby go zdjąć  •  Trening w Arenie/Sanktuarium daje staty (0 PD)"
+	var mw := fb.get_string_size(mech_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+	c.draw_string(fb, Vector2(paper_cx - mw * 0.5, mr.position.y + 540.0), mech_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(accent.r, accent.g, accent.b, 0.92))
 
-	# Right Half: Forged Obsidian Stats Ledger + Live [+] Stat Allocation + Painted 15-Slot Backpack Grid
-	var rx := mr.position.x + mr.size.x * 0.545
-	var ry := mr.position.y + 120.0
-	var rw_box := mr.size.x * 0.405
-	var rh_box := mr.size.y - 172.0
+	# Item Hover Tooltip on Left Bottom when hovering any backpack or equipped item!
+	if not hovered_char_item.is_empty():
+		var tip_r := Rect2(mr.position.x + 56.0, mr.position.y + 556.0, mr.size.x * 0.45, 76.0)
+		_draw_obsidian_plate(c, tip_r, Color(0.90, 0.72, 0.34, 0.94))
+		var h_rcol: Color = hovered_char_item.get("rarity", Color(0.95, 0.90, 0.76)) as Color
+		var h_nm := "%s  [Poz.%d]" % [str(hovered_char_item.get("name", "")), int(hovered_char_item.get("minLevel", 1))]
+		c.draw_string(f, tip_r.position + Vector2(14.0, 24.0), h_nm, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, h_rcol)
+		var h_desc := str(hovered_char_item.get("desc", ""))
+		var h_sell := int(hovered_char_item.get("sellPrice", 0))
+		if h_sell > 0:
+			h_desc += "  •  Sprzedaż: %d zł" % h_sell
+		c.draw_string(fb, tip_r.position + Vector2(14.0, 44.0), h_desc, HORIZONTAL_ALIGNMENT_LEFT, int(tip_r.size.x - 28.0), 12, Color(0.92, 0.90, 0.86))
+		var h_hint := str(hovered_char_item.get("_hint", "Kliknij, aby użyć / założyć"))
+		c.draw_string(fb, tip_r.position + Vector2(14.0, 62.0), h_hint, HORIZONTAL_ALIGNMENT_LEFT, int(tip_r.size.x - 28.0), 11, Color(0.62, 0.94, 0.72))
+
+	# Right Half: Forged Obsidian Stats Ledger + Live [+] Stat Allocation + Painted 6x4 (24-Slot) Backpack Grid
+	var rx := mr.position.x + mr.size.x * 0.535
+	var ry := mr.position.y + 112.0
+	var rw_box := mr.size.x * 0.425
+	var rh_box := mr.size.y - 156.0
 	_draw_obsidian_plate(c, Rect2(rx, ry, rw_box, rh_box), Color(0.84, 0.66, 0.35, 0.90))
 
 	var pts_tag := "  •  WOLNE PKT: %d" % free_stat_points if free_stat_points > 0 else ""
-	c.draw_string(f, Vector2(rx + 24.0, ry + 32.0), "ATRYBUTY (POZ. %d)%s" % [hero_level, pts_tag], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.46, 0.96, 0.64) if free_stat_points > 0 else Color(1.0, 0.88, 0.52))
-	c.draw_line(Vector2(rx + 24.0, ry + 42.0), Vector2(rx + rw_box - 24.0, ry + 42.0), Color(0.80, 0.62, 0.32, 0.50), 1.0, true)
+	c.draw_string(f, Vector2(rx + 22.0, ry + 28.0), "ATRYBUTY (POZ. %d)%s" % [hero_level, pts_tag], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.46, 0.96, 0.64) if free_stat_points > 0 else Color(1.0, 0.88, 0.52))
+	c.draw_line(Vector2(rx + 22.0, ry + 36.0), Vector2(rx + rw_box - 22.0, ry + 36.0), Color(0.80, 0.62, 0.32, 0.50), 1.0, true)
 
-	var base: Dictionary = rd.get("base", {})
-	var per_lv: Dictionary = rd.get("perLevel", {})
-	var lv_off := float(hero_level - 1)
+	var tr_hp := int(training_ranks.get("hp", 0))
+	var tr_ki := int(training_ranks.get("ki", 0))
+	var tr_atk := int(training_ranks.get("atk", 0))
+	var tr_def := int(training_ranks.get("def", 0))
+	var tr_spd := int(training_ranks.get("spd", 0))
+	var tr_crit := int(training_ranks.get("crit", 0))
 	var stats_rows: Array = [
-		["hud-hp.webp", "Punkty Życia (HP)", "%d" % int(round(hero_max_hp)), "hp"],
-		["hud-ki.webp", "Energia KI", "%d" % int(round(hero_max_ki)), "ki"],
-		["hud-fist.webp", "Atak całkowity", "%d" % get_total_attack(), "atk"],
-		["hud-shield.webp", "Obrona", "%d" % get_total_defense(), "def"],
-		["gear-boots.webp", "Szybkość ruchu", "%d j." % get_total_speed(), "spd"],
-		["emblem_slash.webp", "Szansa krytyczna", "%.1f%%" % get_total_crit(), "crit"],
-		["emblem_crystal.webp", "Regeneracja KI", "%.2f / s" % (float(base.get("kiRegen", 1.0)) + float(per_lv.get("kiRegen", 0.05)) * lv_off), ""],
+		["hud-hp.webp", "Punkty Życia (HP)", "%d%s" % [int(round(hero_max_hp)), (" (+%d tr.)" % (tr_hp * 12)) if tr_hp > 0 else ""], "hp"],
+		["hud-ki.webp", "Energia KI", "%d%s" % [int(round(hero_max_ki)), (" (+%d tr.)" % (tr_ki * 8)) if tr_ki > 0 else ""], "ki"],
+		["hud-fist.webp", "Atak całkowity", "%d%s" % [get_total_attack(), (" (+%d tr.)" % (tr_atk * 2)) if tr_atk > 0 else ""], "atk"],
+		["hud-shield.webp", "Obrona", "%d%s" % [get_total_defense(), (" (+%d tr.)" % int(round(tr_def * 1.5))) if tr_def > 0 else ""], "def"],
+		["gear-boots.webp", "Szybkość ruchu", "%d j.%s" % [get_total_speed(), (" (+%d tr.)" % (tr_spd * 6)) if tr_spd > 0 else ""], "spd"],
+		["emblem_slash.webp", "Szansa krytyczna", "%.1f%%%s" % [get_total_crit(), (" (+%.1f%%)" % (tr_crit * 0.6)) if tr_crit > 0 else ""], "crit"],
+		["emblem_crystal.webp", "Regeneracja KI", "%.2f / s" % get_total_ki_regen(), ""],
 		["gear-coin.webp", "Skarbiec Złota", "%d szt." % hero_gold, ""],
 	]
 	stat_plus_hitboxes.clear()
 	for si in stats_rows.size():
-		var sr_y := ry + 64.0 + float(si) * 28.0
+		var sr_y := ry + 56.0 + float(si) * 24.5
 		var row: Array = stats_rows[si]
 		var skey := str(row[3])
 		var sico := _icon_tex(str(row[0]))
 		if sico != null:
-			c.draw_texture_rect(sico, Rect2(rx + 24.0, sr_y - 14.0, 22.0, 22.0), false)
-		c.draw_string(fb, Vector2(rx + 54.0, sr_y + 2.0), str(row[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.92, 0.90, 0.84))
+			c.draw_texture_rect(sico, Rect2(rx + 22.0, sr_y - 13.0, 20.0, 20.0), false)
+		c.draw_string(fb, Vector2(rx + 48.0, sr_y + 2.0), str(row[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.92, 0.90, 0.84))
 		var val_s := str(row[2])
-		var vw := fb.get_string_size(val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-		var right_pad := 62.0 if (free_stat_points > 0 and not skey.is_empty()) else 24.0
-		c.draw_string(fb, Vector2(rx + rw_box - right_pad - vw, sr_y + 2.0), val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.91, 0.58))
+		var vw := fb.get_string_size(val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+		var right_pad := 58.0 if (free_stat_points > 0 and not skey.is_empty()) else 22.0
+		c.draw_string(fb, Vector2(rx + rw_box - right_pad - vw, sr_y + 2.0), val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.91, 0.58))
 		if free_stat_points > 0 and not skey.is_empty():
-			var pbtn := Rect2(rx + rw_box - 52.0, sr_y - 13.0, 28.0, 22.0)
+			var pbtn := Rect2(rx + rw_box - 48.0, sr_y - 12.0, 26.0, 20.0)
 			c.draw_rect(pbtn, Color(0.10, 0.30, 0.18, 0.96), true)
 			c.draw_rect(pbtn, Color(0.42, 0.96, 0.58, 0.96), false, 1.6)
-			c.draw_string(f, Vector2(pbtn.position.x + 8.5, pbtn.position.y + 16.5), "+", HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.92, 1.0, 0.94))
+			c.draw_string(f, Vector2(pbtn.position.x + 8.0, pbtn.position.y + 15.0), "+", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.92, 1.0, 0.94))
 			stat_plus_hitboxes.append({"rect": pbtn.grow(4.0), "key": skey})
 		if si < stats_rows.size() - 1:
-			c.draw_line(Vector2(rx + 24.0, sr_y + 11.0), Vector2(rx + rw_box - 24.0, sr_y + 11.0), Color(0.60, 0.50, 0.34, 0.22), 1.0, true)
+			c.draw_line(Vector2(rx + 22.0, sr_y + 9.0), Vector2(rx + rw_box - 22.0, sr_y + 9.0), Color(0.60, 0.50, 0.34, 0.22), 1.0, true)
 
-	# Backpack 3x5 Grid (15 live slots — tap item to equip or use!)
-	var bp_y := ry + 298.0
-	c.draw_string(f, Vector2(rx + 24.0, bp_y), "SAKWA WĘDROWCA (KLIK: ZAŁÓŻ / UŻYJ)", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.94, 0.80, 0.48))
-	var cell := 52.0
-	var gap := 8.0
-	var grid_x0 := rx + (rw_box - (5.0 * cell + 4.0 * gap)) * 0.5
+	# Backpack 6x4 Grid (24 live slots — tap item to equip or use; materials safely protected!)
+	var bp_y := ry + 256.0
+	var used_slots := 0
+	for b_it: Dictionary in backpack_items:
+		if not b_it.is_empty():
+			used_slots += 1
+	c.draw_string(f, Vector2(rx + 22.0, bp_y), "SAKWA WĘDROWCA %d/%d (KLIK: ZAŁÓŻ / UŻYJ)" % [used_slots, BACKPACK_SLOTS], HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.94, 0.80, 0.48))
+	var cols := 6
+	var cell := 43.0
+	var gap := 6.0
+	var grid_x0 := rx + (rw_box - (float(cols) * cell + float(cols - 1) * gap)) * 0.5
 	backpack_hitboxes.clear()
-	for bi in backpack_items.size():
-		var col_i := bi % 5
-		var row_i := bi / 5
+	for bi in mini(backpack_items.size(), BACKPACK_SLOTS):
+		var col_i := bi % cols
+		var row_i := bi / cols
 		var bx := grid_x0 + float(col_i) * (cell + gap)
 		var by := bp_y + 10.0 + float(row_i) * (cell + gap)
 		var br := Rect2(bx, by, cell, cell)
@@ -2124,17 +2601,17 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 		if not bi_d.is_empty():
 			var bico := _icon_tex(str(bi_d.get("icon", "")))
 			if bico != null:
-				c.draw_texture_rect(bico, Rect2(bx + 6.0, by + 6.0, cell - 12.0, cell - 12.0), false)
-			var rcol_b: Color = bi_d.get("rarity", Color(0.70, 0.58, 0.36))
-			c.draw_rect(br.grow(-2.0), Color(rcol_b.r, rcol_b.g, rcol_b.b, 0.55), false, 1.4)
+				c.draw_texture_rect(bico, Rect2(bx + 5.0, by + 5.0, cell - 10.0, cell - 10.0), false)
+			var rcol_b: Color = bi_d.get("rarity", Color(0.70, 0.58, 0.36)) as Color
+			c.draw_rect(br.grow(-2.0), Color(rcol_b.r, rcol_b.g, rcol_b.b, 0.62), false, 1.4)
 		if slot_tex != null:
 			c.draw_texture_rect(slot_tex, Rect2(bx - 2.0, by - 2.0, cell + 4.0, cell + 4.0), false)
 		var qty_i := int(bi_d.get("qty", 0))
 		if qty_i > 0:
 			var qty := str(qty_i)
-			var qw := fb.get_string_size(qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
-			c.draw_string_outline(fb, Vector2(bx + cell - qw - 5.0, by + cell - 5.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 3, Color(0.0, 0.0, 0.0, 0.95))
-			c.draw_string(fb, Vector2(bx + cell - qw - 5.0, by + cell - 5.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.94, 0.76))
+			var qw := fb.get_string_size(qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+			c.draw_string_outline(fb, Vector2(bx + cell - qw - 4.0, by + cell - 4.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 3, Color(0.0, 0.0, 0.0, 0.95))
+			c.draw_string(fb, Vector2(bx + cell - qw - 4.0, by + cell - 4.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.94, 0.76))
 
 # ==============================================================================
 # INPUT HANDLING (MOUSE HOVER, MOBILE TOUCH TAPS, CONSTELLATION UNLOCKING, WILD RIFT SKILLS)
@@ -2144,12 +2621,18 @@ func _try_unlock_node(nid: String) -> void:
 	var nd := _node_by_id(nid)
 	if nd.is_empty():
 		return
-	if _node_state(nd) == "available" and skill_points > 0:
+	var st := _node_state(nd)
+	if st == "level_locked":
+		if world != null and world.has_method("show_combat_toast"):
+			world.show_combat_toast("Wymagany poziom %d dla węzła %s!" % [int(nd.get("minLevel", 1)), nid], Color(1.0, 0.64, 0.38))
+		return
+	if st == "available" and skill_points > 0:
 		if world != null and world.has_method("dispatch_server_action") and world.dispatch_server_action({"type": "unlock_talent", "nodeId": nid}):
 			return
 		var umap := _unlocked_map()
 		umap[nid] = true
 		skill_points -= 1
+		recalc_stats(false)
 		if world != null and world.get("audio") != null:
 			world.audio.sfx("ui/skill-learn", 0.90, 0.04)
 		_sync_talent_node_styles()
@@ -2182,6 +2665,10 @@ func _handle_primary_tap(p: Vector2) -> bool:
 		for shb: Dictionary in stat_plus_hitboxes:
 			if (shb["rect"] as Rect2).has_point(p):
 				spend_free_stat_point(str(shb["key"]))
+				return true
+		for ehb: Dictionary in equip_hitboxes:
+			if (ehb["rect"] as Rect2).has_point(p):
+				unequip_slot(int(ehb["idx"]))
 				return true
 		for bhb: Dictionary in backpack_hitboxes:
 			if (bhb["rect"] as Rect2).has_point(p):
@@ -2245,6 +2732,11 @@ func _handle_primary_tap(p: Vector2) -> bool:
 				"quests":
 					if world != null and world.has_method("toggle_quest_journal"):
 						world.toggle_quest_journal()
+				"recall":
+					if world != null and world.has_method("start_recall_to_capital"):
+						world.start_recall_to_capital()
+					elif world != null:
+						world.teleport_to_capital()
 				"potion":
 					var used := false
 					for pi in backpack_items.size():
@@ -2253,13 +2745,8 @@ func _handle_primary_tap(p: Vector2) -> bool:
 							use_backpack_slot(pi)
 							used = true
 							break
-					if not used and (world == null or not world.has_method("is_server_authoritative") or not world.is_server_authoritative()):
-						hero_hp = minf(hero_max_hp, hero_hp + hero_max_hp * 0.40)
-						hero_ki = minf(hero_max_ki, hero_ki + hero_max_ki * 0.30)
-						if world != null and world.get("audio") != null:
-							world.audio.sfx("common/potion")
-						_sync_bar_uniforms()
-						_refresh_visuals()
+					if not used and world != null and world.has_method("show_combat_toast"):
+						world.show_combat_toast("Brak eliksirów życia w plecaku — kup w Sklepie lub odpocznij w Gospodzie!", Color(1.0, 0.56, 0.36))
 			return true
 	return false
 
@@ -2306,6 +2793,32 @@ func _gui_input(event: InputEvent) -> void:
 			if new_hov != hovered_node_id:
 				hovered_node_id = new_hov
 				_sync_talent_node_styles()
+				_refresh_visuals()
+			return
+		if show_character:
+			var found_h: Dictionary = {}
+			for ehb: Dictionary in equip_hitboxes:
+				if (ehb["rect"] as Rect2).has_point(mp):
+					var eq_d: Dictionary = equip_slots[int(ehb["idx"])]
+					if not str(eq_d.get("id", "")).is_empty():
+						found_h = eq_d.duplicate(true)
+						found_h["_hint"] = "Kliknij, aby zdjąć do plecaka"
+					break
+			if found_h.is_empty():
+				for bhb: Dictionary in backpack_hitboxes:
+					if (bhb["rect"] as Rect2).has_point(mp):
+						var bg_d: Dictionary = backpack_items[int(bhb["idx"])]
+						if not bg_d.is_empty():
+							found_h = bg_d.duplicate(true)
+							if str(bg_d.get("cat", "")) == "material":
+								found_h["_hint"] = "Surowiec rzemieślniczy — Kuźnia lub sprzedaż w Sklepie"
+							elif int(bg_d.get("slot", -1)) >= 0:
+								found_h["_hint"] = "Kliknij, aby założyć ekwipunek"
+							else:
+								found_h["_hint"] = "Kliknij, aby użyć przedmiot"
+						break
+			if str(found_h.get("id", "")) != str(hovered_char_item.get("id", "")) or str(found_h.get("_hint", "")) != str(hovered_char_item.get("_hint", "")):
+				hovered_char_item = found_h
 				_refresh_visuals()
 			return
 		var new_hb := -1

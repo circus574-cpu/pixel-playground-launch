@@ -18,13 +18,6 @@ var world: Node2D
 var map_tex_rect := TextureRect.new()
 var map_mat := ShaderMaterial.new()
 var overlay_canvas := Control.new()
-var plate_panel := PanelContainer.new()
-var loc_label := Label.new()
-var coord_label := Label.new()
-var btn_zoom := Button.new()
-var btn_rot := Button.new()
-var btn_3d := Button.new()
-var btn_globe := Button.new()
 
 var zoom_idx := 0
 var current_zoom := 3.20
@@ -72,87 +65,17 @@ func _ready() -> void:
 	overlay_canvas.draw.connect(_draw_overlay)
 	add_child(overlay_canvas)
 
-func build_location_plate() -> void:
-	# Removed per owner request: nothing rendered underneath the circular minimap; tapping opens KONTYNENT view.
-	plate_panel.visible = false
-
-	var vbox := VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 5)
-	plate_panel.add_child(vbox)
-
-	var fb: Font = MapStyle.body_font()
-	var top_info := HBoxContainer.new()
-	top_info.add_theme_constant_override("separation", 6)
-	vbox.add_child(top_info)
-
-	loc_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	loc_label.clip_text = true
-	loc_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	loc_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	loc_label.add_theme_font_override("font", fb)
-	loc_label.add_theme_font_size_override("font_size", 14)
-	loc_label.add_theme_color_override("font_color", Color(1.0, 0.92, 0.72))
-	loc_label.text = "Stolica"
-	top_info.add_child(loc_label)
-
-	coord_label.add_theme_font_override("font", fb)
-	coord_label.add_theme_font_size_override("font_size", 12)
-	coord_label.add_theme_color_override("font_color", Color(0.76, 0.86, 0.92))
-	coord_label.text = "512, 512"
-	top_info.add_child(coord_label)
-
-	var hbox := HBoxContainer.new()
-	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	hbox.add_theme_constant_override("separation", 5)
-	vbox.add_child(hbox)
-
-	btn_zoom.text = "3.2×"
-	btn_zoom.custom_minimum_size = Vector2(56, 36)
-	btn_zoom.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	btn_zoom.add_theme_font_override("font", fb)
-	btn_zoom.add_theme_font_size_override("font_size", 13)
-	btn_zoom.pressed.connect(toggle_zoom_mode)
-	hbox.add_child(btn_zoom)
-
-	btn_rot.text = "ISO"
-	btn_rot.tooltip_text = "Przełącz: 1:1 z ekranem (ISO) / obrót za kierunkiem marszu (OBR)"
-	btn_rot.custom_minimum_size = Vector2(52, 36)
-	btn_rot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	btn_rot.add_theme_font_override("font", fb)
-	btn_rot.add_theme_font_size_override("font_size", 13)
-	btn_rot.pressed.connect(toggle_rotate_mode)
-	hbox.add_child(btn_rot)
-
-	btn_3d.text = "3D"
-	btn_3d.custom_minimum_size = Vector2(46, 36)
-	btn_3d.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	btn_3d.add_theme_font_override("font", fb)
-	btn_3d.add_theme_font_size_override("font_size", 13)
-	btn_3d.pressed.connect(func() -> void:
-		if world != null:
-			world.toggle_map()
-	)
-	hbox.add_child(btn_3d)
-
-	btn_globe.text = "Mapa"
-	btn_globe.custom_minimum_size = Vector2(62, 36)
-	btn_globe.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	btn_globe.add_theme_font_override("font", fb)
-	btn_globe.add_theme_font_size_override("font_size", 13)
-	btn_globe.pressed.connect(func() -> void:
-		if world != null:
-			if world.atlas_overlay != null:
-				world.atlas_overlay.set_mode("atlas")
-			world.toggle_atlas(true)
-	)
-	hbox.add_child(btn_globe)
-
 func load_region_texture(land: String) -> void:
 	if world == null:
 		return
 	current_zoom = _zoom_for_idx(zoom_idx)
-	btn_zoom.text = "%.1f×" % current_zoom
-	var tex: Texture2D = world.load_tex("res://regions/%s/minimap_hq.png" % land)
+	var hq_path := "res://regions/%s/minimap_hq.png" % land
+	var fallback_path := "res://regions/%s/map_art.png" % land
+	var tex: Texture2D = null
+	if FileAccess.file_exists(hq_path):
+		tex = world.load_tex(hq_path)
+	elif FileAccess.file_exists(fallback_path):
+		tex = world.load_tex(fallback_path)
 	if tex != null:
 		map_tex_rect.texture = tex
 	var surf: Texture2D = world.load_tex("res://regions/%s/surface.png" % land)
@@ -169,12 +92,10 @@ func load_region_texture(land: String) -> void:
 func toggle_zoom_mode() -> void:
 	zoom_idx = (zoom_idx + 1) % ZOOM_BASE_LEVELS.size()
 	current_zoom = _zoom_for_idx(zoom_idx)
-	btn_zoom.text = "%.1f×" % current_zoom
 	refresh()
 
 func toggle_rotate_mode() -> void:
 	rotate_with_hero = not rotate_with_hero
-	btn_rot.text = "OBR" if rotate_with_hero else "ISO"
 	if not rotate_with_hero:
 		target_rotation = ISO_ALIGN_ROT
 	refresh()
@@ -219,7 +140,7 @@ func set_heading_immediate(dir: Vector2) -> void:
 			target_rotation = ISO_ALIGN_ROT
 			map_rotation = ISO_ALIGN_ROT
 
-func refresh(nearest_name: String = "", in_safe: bool = true) -> void:
+func refresh(_nearest_name: String = "", _in_safe: bool = true) -> void:
 	if world == null:
 		return
 	var hp: Vector2 = world.hero_pos
@@ -237,12 +158,6 @@ func refresh(nearest_name: String = "", in_safe: bool = true) -> void:
 	map_mat.set_shader_parameter("center_uv", center_uv)
 	map_mat.set_shader_parameter("zoom", current_zoom)
 	map_mat.set_shader_parameter("rotation_rad", map_rotation)
-
-	var on_road: bool = world.is_on_road(hp.x, hp.y) if world.has_method("is_on_road") else false
-	if not nearest_name.is_empty():
-		loc_label.text = ("%s • Droga" % nearest_name) if on_road else nearest_name
-	coord_label.text = "%d, %d" % [int(round(hp.x)), int(round(hp.y))]
-	loc_label.add_theme_color_override("font_color", Color(0.52, 0.96, 0.68) if in_safe else Color(1.0, 0.72, 0.42))
 	overlay_canvas.queue_redraw()
 
 var pin_cache: Dictionary = {}

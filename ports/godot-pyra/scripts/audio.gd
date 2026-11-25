@@ -6,7 +6,7 @@ extends Node
 ## one sound. Volumes persist in user://audio.json (music 30 %, effects 60 % by default, like the browser game).
 
 const SETTINGS_PATH := "user://audio.json"
-const MUSIC := {"loading": "loadings", "verdant": "verdantia", "aether": "aetheria", "nexus": "nexus", "pyra": "pyra"}
+const MUSIC := {"loading": "loading_theme", "verdant": "verdantia", "aether": "aetheria", "nexus": "nexus", "pyra": "pyra"}
 const AMBIENCE := {"verdant": "verdantia", "aether": "aetheria", "nexus": "nexus", "pyra": "pyra"}
 const ABILITY_SOUNDS := ["R", "A1", "A4", "A9", "B1", "B4", "B9", "C1", "C4", "C9"]
 const STATUS_SOUNDS := {"slow": "slow", "stun": "stun", "root": "slow", "fear": "stun", "burn": "burn", "poison": "poison", "bleed": "poison", "dot": "burn"}
@@ -64,10 +64,17 @@ func set_volumes(music: float, sfx: float) -> void:
 func stream(path: String) -> AudioStream:
 	if cache.has(path):
 		return cache[path]
-	if not ResourceLoader.exists(path):
-		return null   # not on the device (yet): not remembered, a pack mounted later makes it available
-	cache[path] = load(path)
-	return cache[path]
+	if ResourceLoader.exists(path):
+		cache[path] = load(path)
+		return cache[path]
+	if path.ends_with(".mp3") and FileAccess.file_exists(path):
+		var bytes := FileAccess.get_file_as_bytes(path)
+		if not bytes.is_empty():
+			var mp3 := AudioStreamMP3.new()
+			mp3.data = bytes
+			cache[path] = mp3
+			return mp3
+	return null   # not on the device (yet): not remembered, a pack mounted later makes it available
 
 func music_target() -> float:
 	return music_volume * (1.0 if active_music == "loading" else CONTINENT_GAIN)

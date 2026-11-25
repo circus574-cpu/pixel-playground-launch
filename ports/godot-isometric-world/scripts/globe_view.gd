@@ -182,6 +182,8 @@ func setup(
 	pivot.add_child(roads_3d)
 	pivot.add_child(markers)
 	pivot.add_child(detail_markers)
+	pivot.add_child(town_labels_3d)
+	pivot.add_child(bldg_labels_3d)
 	viewport.add_child(pivot)
 	build_outlines()
 	build_continent_roads_and_details(continent_data, region_bboxes)

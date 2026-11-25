@@ -34,6 +34,12 @@ const INTRO_LAST := "res://assets/branding/intro-last.webp"
 const INTRO_SIZE := Vector2(1280.0, 720.0)
 const MAX_CROP := 0.10                  # share of the film's height that may be cut off on a wide screen
 const SKIP_AFTER := 0.8
+const BOOT_MUSIC_PATHS := [
+	"res://assets/audio/music/loading_theme.mp3",
+	"res://service_preview/pyra/assets/audio/music/loading_theme.mp3",
+	"res://assets/audio/music/loadings.mp3",
+	"res://assets/audio/music/menu.mp3",
+]
 
 var change_scene := true                 # tests turn this off and read `finished`
 var play_intro := true                   # tests turn this off; headless runs never play it
@@ -43,6 +49,9 @@ var quit_button := Button.new()
 var box := VBoxContainer.new()           # title, status and progress on the dark background (shown when no film plays)
 var pill := PanelContainer.new()         # the same status as a small pill over the film
 var pill_label := Label.new()
+var boot_music := AudioStreamPlayer.new()
+var _boot_music_fade := 1.0
+var _boot_music_target_db := -10.0
 var video := VideoStreamPlayer.new()
 var last_frame := TextureRect.new()
 var intro_on := false                    # the film is playing
@@ -211,9 +220,54 @@ func _ready() -> void:
 	pill_label.add_theme_color_override("font_color", Color("f3e6c4"))
 	pill.add_child(pill_label)
 	add_child(pill)
+	boot_music.name = "BootLoadingMusic"
+	add_child(boot_music)
 	resized.connect(fit_video)
 	start_intro()
+	if not intro_on:
+		start_boot_music()
 	run.call_deferred()
+
+func _load_boot_music_stream() -> AudioStream:
+	for p in BOOT_MUSIC_PATHS:
+		if ResourceLoader.exists(p):
+			var s: Variant = load(p)
+			if s is AudioStream:
+				return s as AudioStream
+		if FileAccess.file_exists(p):
+			var bytes := FileAccess.get_file_as_bytes(p)
+			if not bytes.is_empty():
+				var mp3 := AudioStreamMP3.new()
+				mp3.data = bytes
+				mp3.loop = true
+				return mp3
+	return null
+
+func start_boot_music() -> void:
+	if DisplayServer.get_name() == "headless":
+		return
+	var vol := 0.40
+	if FileAccess.file_exists("user://audio.json"):
+		var value: Variant = JSON.parse_string(FileAccess.get_file_as_string("user://audio.json"))
+		if value is Dictionary:
+			vol = clampf(float((value as Dictionary).get("music", vol)), 0.0, 1.0)
+	if vol <= 0.01:
+		return
+	if boot_music.stream == null:
+		boot_music.stream = _load_boot_music_stream()
+	if boot_music.stream == null:
+		return
+	if boot_music.stream is AudioStreamMP3:
+		(boot_music.stream as AudioStreamMP3).loop = true
+	_boot_music_target_db = linear_to_db(maxf(vol * 0.72, 0.0001))
+	if not boot_music.playing:
+		_boot_music_fade = 0.0
+		boot_music.volume_db = -42.0
+		boot_music.play()
+
+func stop_boot_music() -> void:
+	if boot_music.playing:
+		boot_music.stop()
 
 ## Starts the film when it may play and exists; otherwise the dark background with the status is all there is.
 func start_intro() -> void:
@@ -286,10 +340,14 @@ func end_intro() -> void:
 	box.visible = last_frame.texture == null
 	if last_frame.texture != null:
 		pill.visible = not work_done
+	start_boot_music()
 
 func _process(delta: float) -> void:
 	if intro_on:
 		intro_elapsed += delta
+	if _boot_music_fade < 1.0 and boot_music.playing:
+		_boot_music_fade = minf(1.0, _boot_music_fade + delta / 0.85)
+		boot_music.volume_db = lerpf(-42.0, _boot_music_target_db, _boot_music_fade)
 
 func _input(event: InputEvent) -> void:
 	var pressed := false
@@ -470,4 +528,5 @@ func run() -> void:
 			await get_tree().process_frame
 		if intro_started:
 			Engine.set_meta("ki_autostart", true)   # the film said "touch to start": the title screen starts the game itself
+		stop_boot_music()
 		get_tree().change_scene_to_file(TARGET)

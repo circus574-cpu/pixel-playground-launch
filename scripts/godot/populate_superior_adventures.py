@@ -24,19 +24,65 @@ MONSTERS_JSON = ROOT / "ports" / "godot-isometric-world" / "data" / "monsters.js
 ADMIN_MAP_DIR = ROOT / "public" / "admin-world"
 ADMIN_TS_OUT = ROOT / "src" / "game" / "world" / "superiorLiveWorld.generated.ts"
 
-# Accepted 4096m spawn layout (exact match to approved render_spawn_sketch.py)
+# Accepted 4096m spawn layout — closer outer-gate hunting rings (Lv.1-4 near capital) + smooth frontier progression
 ZONE_LAYOUT = [
-    ("green",  5, 115,  460,  -45),
-    ("green",  5, 115,  540,  140),
-    ("green",  5, 115,  640,   45),
-    ("gold",   4, 120,  860, -135),
-    ("gold",   4, 120,  960,   15),
-    ("gold",   4, 120, 1080,  105),
-    ("orange", 3, 120, 1280, -100),
-    ("orange", 3, 120, 1360,  -15),
-    ("orange", 3, 120, 1460,  165),
-    ("red",    2, 110, 1650,   75),
+    ("green",  5, 130,  345,  -45),
+    ("green",  5, 130,  420,  140),
+    ("green",  5, 130,  540,   45),
+    ("gold",   4, 135,  760, -135),
+    ("gold",   4, 135,  880,   15),
+    ("gold",   4, 135, 1020,  105),
+    ("orange", 3, 135, 1220, -100),
+    ("orange", 3, 135, 1340,  -15),
+    ("orange", 3, 135, 1460,  165),
+    ("red",    2, 120, 1620,   75),
 ]
+
+
+def monster_stats_for_level(lvl: int) -> tuple[int, int, int, int]:
+    """Rebalanced Lv.1-18 monster stats (hp, atk, xp, gold) for smooth solo progression without Lv.1 brick wall."""
+    lv = max(1, int(lvl))
+    if lv == 1:
+        return (145, 15, 28, 14)
+    if lv == 2:
+        return (225, 22, 40, 19)
+    if lv == 3:
+        return (320, 30, 54, 25)
+    if lv == 4:
+        return (440, 39, 70, 32)
+    m_hp = int(125 + lv * 64 + (lv ** 2) * 9)
+    m_atk = int(14 + lv * 6.8 + (lv ** 1.5) * 1.5)
+    m_xp = int(22 + lv * 13)
+    m_gold = int(10 + lv * 6)
+    return (m_hp, m_atk, m_xp, m_gold)
+
+
+WAYSTONE_DEFS = {
+    "pyra": [
+        ("ws-pyra-north", "Kamień Szlaku — Północne Łowiska", 440, -55, "res://assets/library/props/prop_waystone_pillar.webp"),
+        ("ws-pyra-south", "Kamień Szlaku — Południowy Trakt", 560, 135, "res://assets/library/props/prop_waystone_pillar.webp"),
+        ("ws-pyra-lab1", "Kamień Szlaku — Wrota Kaldery", 0, 0, "res://assets/library/props/prop_waystone_pillar.webp", "lab-pyra-caldera"),
+        ("ws-pyra-lab2", "Kamień Szlaku — Cmentarzysko Smoków", 0, 0, "res://assets/library/props/prop_waystone_pillar.webp", "lab-pyra-dragon"),
+    ],
+    "verdant": [
+        ("ws-verdant-north", "Kamień Szlaku — Polana Łowców", 440, -35, "res://assets/library/props/prop_waystone_pillar.webp"),
+        ("ws-verdant-south", "Kamień Szlaku — Szlak Korzeni", 560, 125, "res://assets/library/props/prop_waystone_pillar.webp"),
+        ("ws-verdant-lab1", "Kamień Szlaku — Krąg Druidów", 0, 0, "res://assets/library/props/prop_waystone_pillar.webp", "lab-verdant-roots"),
+        ("ws-verdant-lab2", "Kamień Szlaku — Katakumby Lotosu", 0, 0, "res://assets/library/props/prop_waystone_pillar.webp", "lab-verdant-lotus"),
+    ],
+    "aether": [
+        ("ws-aether-north", "Kamień Szlaku — Źródła Eteru", 450, -130, "res://assets/library/props/prop_runic_obelisk.webp"),
+        ("ws-aether-south", "Kamień Szlaku — Śnieżny Trakt", 570, 55, "res://assets/library/props/prop_runic_obelisk.webp"),
+        ("ws-aether-lab1", "Kamień Szlaku — Lodowy Labirynt", 0, 0, "res://assets/library/props/prop_runic_obelisk.webp", "lab-aether-glacier"),
+        ("ws-aether-lab2", "Kamień Szlaku — Krypta Astrolabium", 0, 0, "res://assets/library/props/prop_runic_obelisk.webp", "lab-aether-astro"),
+    ],
+    "nexus": [
+        ("ws-nexus-north", "Węzeł Telemetrii — Sektor Północny", 440, -45, "res://assets/biomes/nexus_holo_monolith.webp"),
+        ("ws-nexus-south", "Węzeł Telemetrii — Południowy Kanał", 560, 125, "res://assets/biomes/nexus_holo_monolith.webp"),
+        ("ws-nexus-lab1", "Węzeł Telemetrii — Labirynt Rdzenia", 0, 0, "res://assets/biomes/nexus_holo_monolith.webp", "lab-nexus-core"),
+        ("ws-nexus-lab2", "Węzeł Telemetrii — Cmentarzysko Mechów", 0, 0, "res://assets/biomes/nexus_holo_monolith.webp", "lab-nexus-mechs"),
+    ],
+}
 
 LABYRINTH_DEFS = {
     "pyra": [
@@ -44,19 +90,19 @@ LABYRINTH_DEFS = {
             "id": "lab-pyra-caldera",
             "title": "Labirynt Wulkanicznej Kaldery",
             "subtitle": "Magmowe Korytarze i Ołtarz Żaru",
-            "level": 6,
+            "level": 5,
             "theme": "pyra",
             "sprite": "res://assets/biomes/pyra_fire_arch.webp",
-            "target_dist": 760,
+            "target_dist": 720,
             "angle_deg": -20,
             "seed": 1101,
             "chests": [
                 ("Skarbiec Bazaltowego Korytarza", 140, 120, "crystal_ki"),
-                ("Kasetka Kowali Ognia", 180, 150, "potion_hp"),
-                ("Ukryty Relikwiarz Żaru", 220, 180, "ring_aether"),
-                ("Koronna Skrzynia Kaldery", 320, 260, "blade_pyra"),
+                ("Kasetka Kowali Ognia", 180, 150, "mat_elite_core"),
+                ("Ukryty Relikwiarz Żaru", 220, 180, "boots_swift_t2"),
+                ("Koronna Skrzynia Kaldery", 320, 260, "amulet_guardian_q"),
             ],
-            "guardian": ("pyra-skalny-berserker", "Strażnik Kaldery", 7),
+            "guardian": ("pyra-skalny-berserker", "Strażnik Kaldery", 6),
         },
         {
             "id": "lab-pyra-dragon",
@@ -69,7 +115,7 @@ LABYRINTH_DEFS = {
             "angle_deg": 25,
             "seed": 1102,
             "chests": [
-                ("Skrzynia Smoczych Łusek", 260, 220, "tusk_beast"),
+                ("Skrzynia Smoczych Łusek", 260, 220, "mat_elite_core"),
                 ("Zapieczętowana Urna Popiołu", 310, 260, "potion_ki"),
                 ("Skarb Obsydianowej Komnaty", 380, 320, "shield_basalt"),
                 ("Dziedzictwo Płomiennego Smoka", 520, 460, "ring_titan"),
@@ -82,19 +128,19 @@ LABYRINTH_DEFS = {
             "id": "lab-verdant-roots",
             "title": "Labirynt Korzeni Druidów",
             "subtitle": "Zarośnięte Dolmeny i Zielone Komnaty",
-            "level": 6,
+            "level": 5,
             "theme": "verdant",
             "sprite": "res://assets/biomes/verdant_druid_dolmen.webp",
-            "target_dist": 780,
+            "target_dist": 740,
             "angle_deg": 165,
             "seed": 2201,
             "chests": [
                 ("Skrzynia Mchowego Ołtarza", 140, 120, "potion_hp"),
-                ("Zasobnik Zielarza Przystani", 180, 150, "crystal_ki"),
-                ("Relikwia Starego Dębu", 220, 180, "gloves_clan"),
-                ("Skarbiec Kręgu Druidów", 320, 260, "boots_wind"),
+                ("Zasobnik Zielarza Przystani", 180, 150, "mat_elite_core"),
+                ("Relikwia Starego Dębu", 220, 180, "gloves_adept_t2"),
+                ("Skarbiec Kręgu Druidów", 320, 260, "amulet_guardian_q"),
             ],
-            "guardian": ("verdant-korzeniowy-pelzacz", "Strażnik Korzeni", 7),
+            "guardian": ("verdant-korzeniowy-pelzacz", "Strażnik Korzeni", 6),
         },
         {
             "id": "lab-verdant-lotus",
@@ -107,7 +153,7 @@ LABYRINTH_DEFS = {
             "angle_deg": 70,
             "seed": 2202,
             "chests": [
-                ("Skrytka Świetlistych Zarodników", 260, 220, "potion_ki"),
+                ("Skrytka Świetlistych Zarodników", 260, 220, "mat_elite_core"),
                 ("Kufer Zatopionej Świątyni", 310, 260, "crystal_ki"),
                 ("Skarb Szmaragdowego Nurtu", 380, 320, "amulet_ki"),
                 ("Pieczęć Pradawnego Lotosu", 520, 460, "ring_titan"),
@@ -120,19 +166,19 @@ LABYRINTH_DEFS = {
             "id": "lab-aether-glacier",
             "title": "Lodowy Labirynt Pieczęci",
             "subtitle": "Kryształowe Korytarze Mrozu",
-            "level": 6,
+            "level": 5,
             "theme": "aether",
             "sprite": "res://assets/biomes/aether_glacier_arch.webp",
-            "target_dist": 790,
+            "target_dist": 750,
             "angle_deg": 195,
             "seed": 3301,
             "chests": [
                 ("Szkatuła Białej Pieczęci", 140, 120, "potion_ki"),
-                ("Zamarznięty Kufer Kronikarza", 180, 150, "scroll_tp"),
-                ("Skarb Kryształowej Sali", 220, 180, "amulet_ki"),
-                ("Relikwiarz Lodowego Mędrca", 320, 260, "ring_aether"),
+                ("Zamarznięty Kufer Kronikarza", 180, 150, "mat_elite_core"),
+                ("Skarb Kryształowej Sali", 220, 180, "amulet_spark_t2"),
+                ("Relikwiarz Lodowego Mędrca", 320, 260, "amulet_guardian_q"),
             ],
-            "guardian": ("aether-szmaragdowy-waz", "Strażnik Pieczęci", 7),
+            "guardian": ("aether-szmaragdowy-waz", "Strażnik Pieczęci", 6),
         },
         {
             "id": "lab-aether-astro",
@@ -145,7 +191,7 @@ LABYRINTH_DEFS = {
             "angle_deg": 10,
             "seed": 3302,
             "chests": [
-                ("Komnata Gwiezdnych Tablic", 260, 220, "crystal_ki"),
+                ("Komnata Gwiezdnych Tablic", 260, 220, "mat_elite_core"),
                 ("Sejf Bibliotekarzy Eteru", 310, 260, "potion_hp"),
                 ("Kasetka Srebrnego Astrolabium", 380, 320, "helm_aether"),
                 ("Korona Tysiąca Źródeł", 520, 460, "ring_titan"),
@@ -158,19 +204,19 @@ LABYRINTH_DEFS = {
             "id": "lab-nexus-core",
             "title": "Sektor Labiryntu Rdzenia",
             "subtitle": "Zabezpieczony Węzeł Plazmowy",
-            "level": 6,
+            "level": 5,
             "theme": "nexus",
             "sprite": "res://assets/biomes/nexus_holo_monolith.webp",
-            "target_dist": 770,
+            "target_dist": 730,
             "angle_deg": -85,
             "seed": 4401,
             "chests": [
                 ("Kapsuła Danych Sektora-4", 140, 120, "crystal_ki"),
-                ("Zasobnik Plazmowy RD-9", 180, 150, "potion_ki"),
-                ("Skrytka Szyfrowanego Rdzenia", 220, 180, "boots_wind"),
-                ("Moduł Nadrzędny Nexusa", 320, 260, "gloves_clan"),
+                ("Zasobnik Plazmowy RD-9", 180, 150, "mat_elite_core"),
+                ("Skrytka Szyfrowanego Rdzenia", 220, 180, "helm_scout_t2"),
+                ("Moduł Nadrzędny Nexusa", 320, 260, "amulet_guardian_q"),
             ],
-            "guardian": ("nexus-pajak-spawalniczy", "Jednostka Ochrony Rdzenia", 7),
+            "guardian": ("nexus-pajak-spawalniczy", "Jednostka Ochrony Rdzenia", 6),
         },
         {
             "id": "lab-nexus-mechs",
@@ -183,7 +229,7 @@ LABYRINTH_DEFS = {
             "angle_deg": 175,
             "seed": 4402,
             "chests": [
-                ("Kontener Tytanowy MK-IV", 260, 220, "potion_hp"),
+                ("Kontener Tytanowy MK-IV", 260, 220, "mat_elite_core"),
                 ("Czarna Skrzynka Tytana", 310, 260, "crystal_ki"),
                 ("Zbrojownia Hangaru Zero", 380, 320, "shield_basalt"),
                 ("Rdzeń Prototypu Alfa-9", 520, 460, "ring_titan"),
@@ -195,35 +241,35 @@ LABYRINTH_DEFS = {
 
 WORLD_TREASURE_DEFS = {
     "pyra": [
-        ("tr-pyra-1", "Ołtarz Płomiennego Żaru", "Starożytny żar wciąż tli się w misie z obsydianu.", 95, 80, "potion_hp", 520, -110),
-        ("tr-pyra-2", "Zasypany Wóz Górników", "Porzucona skrzynia z wyprawy do bazaltowych kopalń.", 130, 110, "crystal_ki", 890, -45),
-        ("tr-pyra-3", "Kapliczka Żelazodrzewu", "Spalone pnie kryją schowek dawnych zwiadowców.", 150, 130, "scroll_tp", 780, 155),
-        ("tr-pyra-4", "Relikwiarz Smoczego Żebra", "Pod kośćmi pradawnej bestii lśni kasetka z brązu.", 210, 180, "tusk_beast", 1180, 35),
-        ("tr-pyra-5", "Skrytka Północnych Fiordów", "Ukryty depozyt korsarzy Popielnego Morza.", 240, 200, "potion_ki", 1120, -115),
+        ("tr-pyra-1", "Ołtarz Płomiennego Żaru", "Starożytny żar wciąż tli się w misie z obsydianu.", 95, 80, "potion_hp", 460, -110),
+        ("tr-pyra-2", "Zasypany Wóz Górników", "Porzucona skrzynia z wyprawy do bazaltowych kopalń.", 130, 110, "mat_obsidian", 820, -45),
+        ("tr-pyra-3", "Kapliczka Żelazodrzewu", "Spalone pnie kryją schowek dawnych zwiadowców.", 150, 130, "scroll_tp", 760, 155),
+        ("tr-pyra-4", "Relikwiarz Smoczego Żebra", "Pod kośćmi pradawnej bestii lśni kasetka z brązu.", 210, 180, "mat_ember", 1160, 35),
+        ("tr-pyra-5", "Skrytka Północnych Fiordów", "Ukryty depozyt korsarzy Popielnego Morza.", 240, 200, "mat_elite_core", 1120, -115),
         ("tr-pyra-6", "Pieczęć Wulkanicznej Grani", "Runiczny obelisk ze skarbem dla wytrwałych odkrywców.", 310, 260, "ring_aether", 1480, 110),
     ],
     "verdant": [
-        ("tr-verdant-1", "Dziupla Starego Dębu", "W wydrążonym pniu spoczywa sakwa leśnych strażników.", 95, 80, "potion_hp", 520, -140),
-        ("tr-verdant-2", "Ołtarz Kwitnącej Sakury", "Pod latarniami sakury ukryto dar wędrowców.", 130, 110, "crystal_ki", 820, -15),
-        ("tr-verdant-3", "Zatopiona Skrzynia Lotosu", "Pomiędzy liliami wystaje okuty kufer z brązu.", 150, 130, "potion_ki", 920, 85),
-        ("tr-verdant-4", "Kamienny Dolmen Przodków", "Mchowe runy otwierają skrytkę z dawnymi monetami.", 210, 180, "scroll_tp", 1120, 185),
-        ("tr-verdant-5", "Skarb Północnej Przełęczy", "Zamarznięty zasobnik na skraju ośnieżonych szczytów.", 240, 200, "tusk_beast", 1220, -65),
+        ("tr-verdant-1", "Dziupla Starego Dębu", "W wydrążonym pniu spoczywa sakwa leśnych strażników.", 95, 80, "potion_hp", 460, -140),
+        ("tr-verdant-2", "Ołtarz Kwitnącej Sakury", "Pod latarniami sakury ukryto dar wędrowców.", 130, 110, "mat_amber", 790, -15),
+        ("tr-verdant-3", "Zatopiona Skrzynia Lotosu", "Pomiędzy liliami wystaje okuty kufer z brązu.", 150, 130, "potion_ki", 900, 85),
+        ("tr-verdant-4", "Kamienny Dolmen Przodków", "Mchowe runy otwierają skrytkę z dawnymi monetami.", 210, 180, "scroll_tp", 1100, 185),
+        ("tr-verdant-5", "Skarb Północnej Przełęczy", "Zamarznięty zasobnik na skraju ośnieżonych szczytów.", 240, 200, "mat_elite_core", 1200, -65),
         ("tr-verdant-6", "Relikwiarz Zielonej Kaskady", "Za mgłą wodospadu czeka ukryty depozyt druidów.", 310, 260, "amulet_ki", 1460, 40),
     ],
     "aether": [
-        ("tr-aether-1", "Kapliczka Gorącego Źródła", "Para wodna skrywa rzeźbioną kasetkę z nefrytu.", 95, 80, "potion_ki", 580, -145),
-        ("tr-aether-2", "Zasypany Obelisk Śniegu", "Pod zaspą tkwi skrzynia ekspedycji kartografów.", 130, 110, "scroll_tp", 840, 115),
-        ("tr-aether-3", "Skrytka Marmurowego Akweduktu", "W niszy starego łuku zachował się skarb zakonu.", 150, 130, "crystal_ki", 880, 20),
-        ("tr-aether-4", "Kryształowa Grota Lodowca", "Lodowe odłamki otaczają nienaruszoną urnę Ki.", 210, 180, "potion_hp", 1140, 195),
-        ("tr-aether-5", "Północny Schowek Obserwatora", "Stare notatki i sakiewka złotych monet przy szlaku.", 240, 200, "crystal_ki", 1180, -80),
+        ("tr-aether-1", "Kapliczka Gorącego Źródła", "Para wodna skrywa rzeźbioną kasetkę z nefrytu.", 95, 80, "potion_ki", 510, -145),
+        ("tr-aether-2", "Zasypany Obelisk Śniegu", "Pod zaspą tkwi skrzynia ekspedycji kartografów.", 130, 110, "mat_rune", 800, 115),
+        ("tr-aether-3", "Skrytka Marmurowego Akweduktu", "W niszy starego łuku zachował się skarb zakonu.", 150, 130, "crystal_ki", 860, 20),
+        ("tr-aether-4", "Kryształowa Grota Lodowca", "Lodowe odłamki otaczają nienaruszoną urnę Ki.", 210, 180, "mat_lightdust", 1120, 195),
+        ("tr-aether-5", "Północny Schowek Obserwatora", "Stare notatki i sakiewka złotych monet przy szlaku.", 240, 200, "mat_elite_core", 1160, -80),
         ("tr-aether-6", "Relikwiarz Południowego Mrozu", "Ostatnia skrzynia dawnych strażników wybrzeża.", 310, 260, "ring_aether", 1460, 95),
     ],
     "nexus": [
-        ("tr-nexus-1", "Porzucony Kontener Zaopatrzenia", "Zapieczętowana skrzynia z konwoju Sektor-3.", 95, 80, "potion_hp", 540, -50),
-        ("tr-nexus-2", "Zaszyfrowany Terminal Danych", "Po odszyfrowaniu uwalnia kredyty i kryształy Ki.", 130, 110, "crystal_ki", 820, -110),
-        ("tr-nexus-3", "Wrak Zwiadowczego Ślizgacza", "W kokpicie zachował się nietknięty moduł zasobów.", 150, 130, "potion_ki", 920, 175),
-        ("tr-nexus-4", "Skrytka Bioluminescencyjnego Gaju", "Wśród świecących grzybów spoczywa kapsuła badawcza.", 210, 180, "scroll_tp", 1080, -45),
-        ("tr-nexus-5", "Sejf Przekaźnika Solarnego", "Zapasowa skrzynka techniczna inżynierów wschodu.", 240, 200, "crystal_ki", 1160, 25),
+        ("tr-nexus-1", "Porzucony Kontener Zaopatrzenia", "Zapieczętowana skrzynia z konwoju Sektor-3.", 95, 80, "potion_hp", 470, -50),
+        ("tr-nexus-2", "Zaszyfrowany Terminal Danych", "Po odszyfrowaniu uwalnia kredyty i kryształy Ki.", 130, 110, "mat_coil", 790, -110),
+        ("tr-nexus-3", "Wrak Zwiadowczego Ślizgacza", "W kokpicie zachował się nietknięty moduł zasobów.", 150, 130, "potion_ki", 900, 175),
+        ("tr-nexus-4", "Skrytka Bioluminescencyjnego Gaju", "Wśród świecących grzybów spoczywa kapsuła badawcza.", 210, 180, "mat_plasma", 1060, -45),
+        ("tr-nexus-5", "Sejf Przekaźnika Solarnego", "Zapasowa skrzynka techniczna inżynierów wschodu.", 240, 200, "mat_elite_core", 1160, 25),
         ("tr-nexus-6", "Kapsuła Wielkiego Kanału", "Elitarny depozyt ukryty na południowym krańcu kanału.", 310, 260, "amulet_ki", 1440, 115),
     ],
 }
@@ -342,7 +388,7 @@ def pick_dry_point(walk: np.ndarray, surf: np.ndarray, ws: float, cx: float, cz:
     best_pt = None
     best_score = 1e18
     for d_off in (0, 80, -80, 180, -180, 300, -300, 450, -450):
-        dist = max(safe_r + 170.0, min(1820.0, target_d + d_off))
+        dist = max(safe_r + 85.0, min(1820.0, target_d + d_off))
         for a_step in range(0, 360, 10):
             for sign in (1, -1):
                 ang = math.radians(pref_deg + sign * a_step)
@@ -369,7 +415,7 @@ def pick_dry_point(walk: np.ndarray, surf: np.ndarray, ws: float, cx: float, cz:
     for k in range(0, len(xs), 19):
         wx = (xs[k] / 511.0 - 0.5) * ws
         wz = (ys[k] / 511.0 - 0.5) * ws
-        if math.hypot(wx - cx, wz - cz) > safe_r + 180.0 and all(math.hypot(wx - ex, wz - ez) > min_sep * 0.75 for ex, ez in existing):
+        if math.hypot(wx - cx, wz - cz) > safe_r + 95.0 and all(math.hypot(wx - ex, wz - ez) > min_sep * 0.75 for ex, ez in existing):
             return wx, wz
     return cx + 480.0, cz
 
@@ -404,10 +450,16 @@ def populate_land(land: str) -> dict:
 
     # Strip previous generated labyrinth buildings & wilderness NPCs for clean idempotency
     buildings = [b for b in data.get("buildings", []) if b.get("role") != "labyrinth"]
+    # Ensure Verdantia has an enterable 'hall' role (Dom Zgromadzeń) matching Pyra/Aether/Nexus
+    if land == "verdant":
+        for b in buildings:
+            if b.get("id") == "verdant-hall":
+                b["role"] = "hall"
+                b["enterable"] = True
     npcs = [n for n in data.get("npcs", []) if not n.get("wilderness")]
     occupied = [(float(b["x"]), float(b["z"])) for b in buildings]
 
-    rng = random.Random(hash(("superior-adventures-v1", land)) & 0xFFFFFFFF)
+    rng = random.Random(hash(("superior-adventures-v2", land)) & 0xFFFFFFFF)
 
     # 1. Monster Exp-Zones & 38 live Monsters per continent (0 inside safe_city_radius!)
     monsters_defs = get_land_monsters(land)
@@ -416,13 +468,10 @@ def populate_land(land: str) -> dict:
     zone_pts: list[tuple[float, float]] = []
     for idx, mon in enumerate(monsters_defs):
         band, count, zrad_m, target_d, pref_deg = ZONE_LAYOUT[idx]
-        zx, zz = pick_dry_point(walk, surf, ws, cx, cz, safe_r, target_d, pref_deg, zone_pts, min_sep=290.0)
+        zx, zz = pick_dry_point(walk, surf, ws, cx, cz, safe_r, target_d, pref_deg, zone_pts, min_sep=250.0)
         zone_pts.append((zx, zz))
         lvl = int(mon.get("level", 1))
-        m_hp = int(135 + lvl * 68 + (lvl ** 2) * 9)
-        m_atk = int(16 + lvl * 7 + (lvl ** 1.5) * 1.6)
-        m_xp = int(18 + lvl * 7)
-        m_gold = int(8 + lvl * 4)
+        m_hp, m_atk, m_xp, m_gold = monster_stats_for_level(lvl)
         zone_id = f"{land}-zone-{idx + 1}"
         exp_zones.append({
             "id": zone_id,
@@ -439,17 +488,22 @@ def populate_land(land: str) -> dict:
             "y": height_at(heights, ws, zx, zz),
         })
 
+        zone_mob_pts: list[tuple[float, float]] = []
         for mi in range(count):
             placed_m = None
-            for attempt in range(36):
-                ang = (2.0 * math.pi * mi / max(count, 1)) + rng.uniform(-0.35, 0.35) + attempt * 0.25
-                rad = rng.uniform(22.0, zrad_m * 0.78)
+            for attempt in range(48):
+                ang = (2.0 * math.pi * mi / max(count, 1)) + rng.uniform(-0.35, 0.35) + attempt * 0.22
+                rad = rng.uniform(34.0, zrad_m * 0.85)
                 mx = zx + math.cos(ang) * rad
                 mz = zz + math.sin(ang) * rad
-                if math.hypot(mx - cx, mz - cz) > safe_r + 90.0 and is_dry_cell(walk, surf, ws, mx, mz):
-                    placed_m = (mx, mz)
-                    break
+                if math.hypot(mx - cx, mz - cz) <= safe_r + 75.0 or not is_dry_cell(walk, surf, ws, mx, mz):
+                    continue
+                if any(math.hypot(mx - omx, mz - omz) < 36.0 for omx, omz in zone_mob_pts):
+                    continue
+                placed_m = (mx, mz)
+                break
             mx, mz = placed_m if placed_m else (zx, zz)
+            zone_mob_pts.append((mx, mz))
             monsters.append({
                 "id": f"{zone_id}-m{mi + 1}",
                 "zone_id": zone_id,
@@ -497,8 +551,8 @@ def populate_land(land: str) -> dict:
                 "actor_id": g_actor,
                 "name": g_name,
                 "level": g_lvl,
-                "hp": int(280 + g_lvl * 115 + (g_lvl ** 2) * 12),
-                "atk": int(26 + g_lvl * 9 + (g_lvl ** 1.5) * 1.8),
+                "hp": int(240 + g_lvl * 105 + (g_lvl ** 2) * 11),
+                "atk": int(22 + g_lvl * 8.2 + (g_lvl ** 1.5) * 1.6),
                 "xp": int(65 + g_lvl * 18),
                 "gold": int(28 + g_lvl * 10),
                 "tx": gx_t,
@@ -584,12 +638,44 @@ def populate_land(land: str) -> dict:
             "patrol_radius": 8.0,
         })
 
+    # 5. 4 Discoverable Waystones (Kamienie Szlaku) per continent for non-GM fast travel
+    waystones = []
+    ws_pts: list[tuple[float, float]] = list(occupied)
+    for wdef in WAYSTONE_DEFS[land]:
+        wid, wtitle, wdist, wang, wsprite = wdef[0], wdef[1], wdef[2], wdef[3], wdef[4]
+        lab_anchor = wdef[5] if len(wdef) > 5 else None
+        if lab_anchor and lab_anchor in lab_positions:
+            lx, lz = lab_positions[lab_anchor]
+            placed_ws = None
+            for k in range(16):
+                a = (k / 16.0) * math.tau + 0.7
+                wx, wz = lx + math.cos(a) * 68.0, lz + math.sin(a) * 68.0
+                if is_dry_cell(walk, surf, ws, wx, wz) and math.hypot(wx - cx, wz - cz) > safe_r + 95.0:
+                    placed_ws = (wx, wz)
+                    break
+            wx, wz = placed_ws if placed_ws else (lx - 52.0, lz + 36.0)
+        else:
+            wx, wz = pick_dry_point(walk, surf, ws, cx, cz, safe_r, wdist, wang, ws_pts, min_sep=140.0)
+        ws_pts.append((wx, wz))
+        waystones.append({
+            "id": wid,
+            "title": wtitle,
+            "land": land,
+            "sprite": wsprite,
+            "w": 215,
+            "h": 285,
+            "x": round(wx, 2),
+            "z": round(wz, 2),
+            "y": height_at(heights, ws, wx, wz),
+        })
+
     data["buildings"] = buildings
     data["npcs"] = npcs
     data["exp_zones"] = exp_zones
     data["monsters"] = monsters
     data["labyrinths"] = labyrinths
     data["treasures"] = treasures
+    data["waystones"] = waystones
     bpath.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     # Export real 1024x1024 WebP map for /admin "Świat Superior"
@@ -630,7 +716,7 @@ def export_admin_ts(all_lands: dict[str, dict]) -> None:
             "monsters": [
                 {
                     "id": m["id"],
-                    "zone_id": m["zone_id"],
+                    "zone_id": m.get("zone_id", ""),
                     "actor_id": m["actor_id"],
                     "name": m["name"],
                     "level": m["level"],
@@ -640,6 +726,7 @@ def export_admin_ts(all_lands: dict[str, dict]) -> None:
                     "gold": m["gold"],
                     "x": m["x"],
                     "z": m["z"],
+                    "is_elite": bool(m.get("is_elite", False)),
                 }
                 for m in d.get("monsters", [])
             ],
@@ -667,7 +754,32 @@ def export_admin_ts(all_lands: dict[str, dict]) -> None:
                 for n in d.get("npcs", [])
             ],
             "labyrinths": d.get("labyrinths", []),
-            "treasures": d.get("treasures", []),
+            "treasures": [
+                {
+                    "id": t["id"],
+                    "title": t.get("title", ""),
+                    "lore": t.get("lore", ""),
+                    "gold": int(t.get("gold", 0)),
+                    "xp": int(t.get("xp", 0)),
+                    "item_id": t.get("item_id", ""),
+                    "min_level": int(t.get("min_level", 1)),
+                    "x": t["x"],
+                    "z": t["z"],
+                    "y": t.get("y", 0),
+                }
+                for t in d.get("treasures", [])
+            ],
+            "waystones": [
+                {
+                    "id": w["id"],
+                    "title": w.get("title", ""),
+                    "land": w.get("land", land),
+                    "x": w["x"],
+                    "z": w["z"],
+                    "y": w.get("y", 0),
+                }
+                for w in d.get("waystones", [])
+            ],
             "props_count": len(d.get("props", [])),
         }
 
@@ -730,6 +842,7 @@ export type SuperiorMonster = {
   gold: number;
   x: number;
   z: number;
+  is_elite?: boolean;
 };
 
 export type SuperiorFauna = {
@@ -806,6 +919,15 @@ export type SuperiorTreasure = {
   y: number;
 };
 
+export type SuperiorWaystone = {
+  id: string;
+  title: string;
+  land: SuperiorLandId;
+  x: number;
+  z: number;
+  y: number;
+};
+
 export type SuperiorLiveContinent = {
   land_id: SuperiorLandId;
   world_size: number;
@@ -821,6 +943,7 @@ export type SuperiorLiveContinent = {
   npcs: SuperiorNpc[];
   labyrinths: SuperiorLabyrinth[];
   treasures: SuperiorTreasure[];
+  waystones?: SuperiorWaystone[];
   props_count: number;
 };
 

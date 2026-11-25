@@ -27,7 +27,9 @@ const ISO_W := 5.6
 const ISO_D := 2.8
 const ISO_H := 3.8
 const STEP := 2
-const SPEED := 22.0
+const SPEED := 38.0
+const RECALL_CHANNEL_S := 2.5
+const RECALL_COOLDOWN_S := 45.0
 const SPRITE_SCALE := 0.56
 const JOYSTICK_DEADZONE_PX := 14.0
 const JOYSTICK_MAX_RADIUS_PX := 62.0
@@ -73,6 +75,7 @@ var fauna_data: Array = []
 var labyrinths_data: Array = []
 var treasures_data: Array = []
 var gatherables_data: Array = []
+var waystones_data: Array = []
 var props: Array = []
 
 var actors_db: Dictionary = {}
@@ -94,6 +97,11 @@ var treasure_nodes: Dictionary = {}
 var opened_treasures: Dictionary = {}
 var gatherable_nodes: Dictionary = {}
 var gatherable_cd: Dictionary = {}
+var waystone_nodes: Dictionary = {}
+var discovered_waystones: Dictionary = {}
+var last_combat_time := -99.0
+var recall_channel := 0.0
+var recall_cooldown := 0.0
 var _cull_accum := 0.0
 var _ocean_cross_cd := 0.0
 var camera := Camera2D.new()
@@ -140,6 +148,10 @@ var start_name := ""
 var server_char_id := ""
 var server_character: Dictionary = {}
 var server_action_fn: Callable = Callable()
+var server_ping_fn: Callable = Callable()
+var last_ping_ms := -1
+var _ping_poll_t := 0.0
+var _ping_in_flight := false
 var initial_music_vol := 0.45
 var initial_ambience_vol := 0.55
 var initial_sfx_vol := 0.80
@@ -236,6 +248,7 @@ func _ready() -> void:
 	else:
 		is_booting = true
 		loading_screen.show_loading("Wczytywanie bazy ras, potworów, zwierząt i 40 NPC…", 0.14, "KI Legends • Planeta Superior")
+		audio.play_music("loading")
 		call_deferred("_boot_world_async")
 
 func _boot_world_async() -> void:
@@ -245,7 +258,8 @@ func _boot_world_async() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	build_hud()
-	loading_screen.set_stage(0.68, "Generowanie terenu, sieci 309 dróg i 59 budynków…", "Kontynent: Pyra — Twierdza Popiołu")
+	var load_title := str(REGION_TITLES.get(start_land, REGION_TITLES["pyra"]))
+	loading_screen.set_stage(0.68, "Generowanie terenu, sieci dróg, kamieni szlaku i budynków…", "Kontynent: %s" % load_title)
 	await get_tree().process_frame
 	await get_tree().process_frame
 	hero_race_land = str(RACE_TO_LAND.get(start_race, start_land)) if start_race != "" else start_land
@@ -314,11 +328,18 @@ func apply_server_character(ch: Dictionary) -> void:
 		for tid in opened_arr:
 			opened_treasures[str(tid)] = true
 		_refresh_treasure_nodes_visibility()
+	var disc_ws = prog.get("discoveredWaystones", [])
+	if disc_ws is Array:
+		for wid in disc_ws:
+			discovered_waystones[str(wid)] = true
+		_refresh_waystone_nodes()
 
 func dispatch_server_action(payload: Dictionary, on_done: Callable = Callable()) -> bool:
 	if not is_server_authoritative():
 		return false
+	var t0 := Time.get_ticks_msec()
 	server_action_fn.call(server_char_id, payload, func(res: Dictionary) -> void:
+		last_ping_ms = maxi(1, int(Time.get_ticks_msec() - t0))
 		if bool(res.get("ok", false)):
 			var ch: Dictionary = res.get("character", {})
 			if not ch.is_empty():
@@ -329,6 +350,19 @@ func dispatch_server_action(payload: Dictionary, on_done: Callable = Callable())
 			on_done.call(res)
 	)
 	return true
+
+func trigger_server_ping() -> void:
+	if _ping_in_flight or not server_ping_fn.is_valid():
+		return
+	_ping_in_flight = true
+	var t0 := Time.get_ticks_msec()
+	server_ping_fn.call(func(ok: bool, rtt_ms: int = -1) -> void:
+		_ping_in_flight = false
+		if ok:
+			last_ping_ms = rtt_ms if rtt_ms >= 0 else maxi(1, int(Time.get_ticks_msec() - t0))
+		else:
+			last_ping_ms = -1
+	)
 
 func rebuild_hero(land: String) -> void:
 	if hero != null and is_instance_valid(hero):
@@ -341,6 +375,7 @@ func rebuild_hero(land: String) -> void:
 	if actors_db.has(h_key):
 		var h_def: Dictionary = actors_db[h_key]
 		hero.setup(h_def, h_name, false, true, "hero")
+	hero.ki_race = _hero_race_key()
 	hero.scale = Vector2(0.45, 0.45)
 	ysort.add_child(hero)
 
@@ -360,11 +395,6 @@ func surface_color_for(land: String) -> Vector3:
 func load_tex(path: String) -> Texture2D:
 	if tex_cache.has(path):
 		return tex_cache[path]
-	if ResourceLoader.exists(path):
-		var res := load(path)
-		if res is Texture2D:
-			tex_cache[path] = res
-			return res
 	if FileAccess.file_exists(path):
 		var bytes := FileAccess.get_file_as_bytes(path)
 		if not bytes.is_empty():
@@ -374,6 +404,11 @@ func load_tex(path: String) -> Texture2D:
 				var tex := ImageTexture.create_from_image(img)
 				tex_cache[path] = tex
 				return tex
+	if ResourceLoader.exists(path):
+		var res := load(path)
+		if res is Texture2D:
+			tex_cache[path] = res
+			return res
 	return null
 
 func switch_region(land: String) -> void:
@@ -423,6 +458,7 @@ func load_terrain(land: String) -> void:
 	labyrinths_data = []
 	treasures_data = []
 	gatherables_data = []
+	waystones_data = []
 	gatherable_cd.clear()
 	props = []
 	landmarks = []
@@ -504,6 +540,12 @@ func load_terrain(land: String) -> void:
 			gc["x"] = float(g.get("x", 0.0)) + half
 			gc["z"] = float(g.get("z", 0.0)) + half
 			gatherables_data.append(gc)
+
+		for ws_item: Dictionary in bdata.get("waystones", []):
+			var wsc: Dictionary = ws_item.duplicate(true)
+			wsc["x"] = float(ws_item.get("x", 0.0)) + half
+			wsc["z"] = float(ws_item.get("z", 0.0)) + half
+			waystones_data.append(wsc)
 
 		for p: Dictionary in bdata.get("props", []):
 			var pc: Dictionary = p.duplicate()
@@ -606,7 +648,9 @@ func build_isometric_mesh() -> void:
 		mat.set_shader_parameter("mat_%d_tex" % i, t_png if t_png != null else t_webp)
 	var wtex := load_tex("%s/water.png" % rdir)
 	mat.set_shader_parameter("water_tex", wtex)
-	mat.set_shader_parameter("weights_tex", load_tex("%s/weights.png" % rdir))
+	var weights_path := "%s/weights.png" % rdir
+	if FileAccess.file_exists(weights_path):
+		mat.set_shader_parameter("weights_tex", load_tex(weights_path))
 	mat.set_shader_parameter("surface_tex", load_tex("%s/surface.png" % rdir))
 	mat.set_shader_parameter("map_art_tex", load_tex("%s/map_art.png" % rdir))
 	mat.set_shader_parameter("surface_color", surface_color_for(current_land))
@@ -698,6 +742,7 @@ func build_world_objects_and_actors() -> void:
 	_visible_prop_chunks.clear()
 	treasure_nodes.clear()
 	gatherable_nodes.clear()
+	waystone_nodes.clear()
 	_last_cull_cam = Vector2(1e9, 1e9)
 	for child in ysort.get_children():
 		if child != hero:
@@ -731,7 +776,7 @@ func build_world_objects_and_actors() -> void:
 
 		if role in ["landmark", "hall", "arena", "smithy", "inn", "shop", "depot", "gate", "labyrinth"]:
 			var lbl := Label.new()
-			lbl.text = ("⚔ LABIRYNT: %s (Poz.%d)" % [str(b.get("title", "")), int(b.get("level", 6))]) if role == "labyrinth" else str(b.get("title", ""))
+			lbl.text = ("⚔ LABIRYNT: %s (Poz.%d)" % [str(b.get("title", "")), int(b.get("level", 5))]) if role == "labyrinth" else str(b.get("title", ""))
 			lbl.position = Vector2(-240, -bh_px * SPRITE_SCALE * 0.82 - 22.0)
 			lbl.size = Vector2(480, 30)
 			lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -842,6 +887,33 @@ func build_world_objects_and_actors() -> void:
 		ysort.add_child(gnode)
 		gatherable_nodes[gid] = gnode
 
+	# 2d. Discoverable Fast-Travel Waystones (4 per continent)
+	for ws_item: Dictionary in waystones_data:
+		var wid := str(ws_item.get("id", ""))
+		var wwx := float(ws_item.get("x", 512.0))
+		var wwz := float(ws_item.get("z", 512.0))
+		var wwh := height_at(wwx, wwz)
+		var wnode := Node2D.new()
+		wnode.position = iso(wwx, wwz, wwh)
+		add_contact_shadow(wnode, 250.0, 0.38, 3.0)
+		var wsp := make_fitted_sprite("res://assets/library/props/prop_runic_obelisk.webp", 240.0, 295.0, 0.88)
+		wsp.modulate = Color(0.68, 0.96, 1.0, 1.0) if is_waystone_discovered(wid) else Color(0.76, 0.82, 0.92, 0.90)
+		wnode.add_child(wsp)
+		var wlbl := Label.new()
+		wlbl.name = "WsLbl"
+		wlbl.text = ("✦ KAMIEŃ SZLAKU: %s" % str(ws_item.get("title", ""))) if is_waystone_discovered(wid) else ("◇ KAMIEŃ SZLAKU: %s (Podejdź)" % str(ws_item.get("title", "")))
+		wlbl.position = Vector2(-230, -182)
+		wlbl.size = Vector2(460, 28)
+		wlbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		wlbl.add_theme_font_override("font", body_f)
+		wlbl.add_theme_font_size_override("font_size", 16)
+		wlbl.add_theme_color_override("font_color", Color(0.42, 0.98, 1.0) if is_waystone_discovered(wid) else Color(0.84, 0.90, 0.98))
+		wlbl.add_theme_color_override("font_outline_color", Color(0.02, 0.04, 0.08, 0.98))
+		wlbl.add_theme_constant_override("outline_size", 6)
+		wnode.add_child(wlbl)
+		ysort.add_child(wnode)
+		waystone_nodes[wid] = wnode
+
 	# 3. Exp-Zone Combat Clearing Banners ("EXPOWISKA Lv. 1..18")
 	for ez: Dictionary in exp_zones:
 		var ex := float(ez.get("x", 512.0))
@@ -946,6 +1018,8 @@ func build_world_objects_and_actors() -> void:
 			"cur_hp": m_hp,
 			"atk": m_atk,
 			"atk_cd": 0.0,
+			"aggro_windup": 0.0,
+			"was_aggro": false,
 			"atk_count": 0,
 			"roared": false,
 			"dmg_dealt_to_hero": 0,
@@ -1186,6 +1260,56 @@ func _refresh_treasure_nodes_visibility() -> void:
 func is_treasure_opened(tid: String) -> bool:
 	return opened_treasures.has(tid)
 
+func is_waystone_discovered(wid: String) -> bool:
+	return discovered_waystones.has(wid)
+
+func _refresh_waystone_nodes() -> void:
+	for ws_item: Dictionary in waystones_data:
+		var wid := str(ws_item.get("id", ""))
+		var wnode: Node2D = waystone_nodes.get(wid, null)
+		if not is_instance_valid(wnode):
+			continue
+		var disc := is_waystone_discovered(wid)
+		var lbl := wnode.get_node_or_null("WsLbl") as Label
+		if lbl != null:
+			lbl.text = ("✦ KAMIEŃ SZLAKU: %s" % str(ws_item.get("title", ""))) if disc else ("◇ KAMIEŃ SZLAKU: %s (Podejdź)" % str(ws_item.get("title", "")))
+			lbl.add_theme_color_override("font_color", Color(0.42, 0.98, 1.0) if disc else Color(0.84, 0.90, 0.98))
+
+func _discover_waystone(ws_item: Dictionary) -> void:
+	var wid := str(ws_item.get("id", ""))
+	if wid.is_empty() or discovered_waystones.has(wid):
+		return
+	discovered_waystones[wid] = true
+	_refresh_waystone_nodes()
+	dispatch_server_action({"type": "discover_waystone", "waystoneId": wid})
+	if combat_vfx != null and hero != null and combat_vfx.has_method("spawn_teleport_flash"):
+		combat_vfx.spawn_teleport_flash(hero.position, _hero_race_key())
+	if audio != null:
+		audio.sfx("ui/portal", 0.88, 0.04)
+	show_combat_toast("✦ Odkryto Kamień Szlaku: %s! Dostępny na Mapie [M]." % str(ws_item.get("title", wid)), Color(0.42, 0.98, 1.0))
+
+func start_recall_to_capital() -> void:
+	if in_interior or in_labyrinth:
+		return
+	if recall_channel > 0.0:
+		return
+	if hero_pos.distance_to(capital_center) <= safe_city_radius:
+		show_combat_toast("Jesteś już w bezpiecznej stolicy!", Color(0.76, 0.92, 1.0))
+		return
+	if recall_cooldown > 0.05:
+		show_combat_toast("Kamień Powrotu ładuje się jeszcze przez %d s." % int(ceil(recall_cooldown)), Color(1.0, 0.72, 0.42))
+		return
+	target_pos = Vector2(-1.0, -1.0)
+	recall_channel = RECALL_CHANNEL_S
+	if audio != null:
+		audio.sfx("ui/portal", 0.72, 0.05)
+	show_combat_toast("🌀 Kamień Powrotu (%.1f s) — nie ruszaj się i unikaj ciosów!" % RECALL_CHANNEL_S, Color(0.46, 0.96, 1.0))
+
+func notify_hero_healed() -> void:
+	for ag: Dictionary in live_agents:
+		if str(ag.get("kind", "")) == "monster":
+			ag["dmg_dealt_to_hero"] = 0
+
 func show_combat_toast(msg: String, col: Color = Color(1.0, 0.90, 0.44)) -> void:
 	combat_toast_lbl.text = msg
 	combat_toast_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -1208,7 +1332,8 @@ func interact_gatherable(g: Dictionary) -> void:
 		hero.play_action("interact", "victory", 0.55)
 	if gkind == "campfire":
 		gatherable_cd[gid] = 8.0
-		if not dispatch_server_action({"type": "inn_rest"}):
+		notify_hero_healed()
+		if not dispatch_server_action({"type": "campfire_rest"}):
 			if rpg_hud != null:
 				rpg_hud.hero_hp = rpg_hud.hero_max_hp
 				rpg_hud.hero_ki = rpg_hud.hero_max_ki
@@ -1222,27 +1347,43 @@ func interact_gatherable(g: Dictionary) -> void:
 			audio.sfx("ui/open", 0.85)
 		show_combat_toast("🔥 Odpoczynek przy %s — odzyskano 100%% HP i KI!" % gtitle, Color(0.46, 0.98, 0.68))
 	else:
-		gatherable_cd[gid] = 45.0
+		gatherable_cd[gid] = 90.0
 		var gnode: Node2D = gatherable_nodes.get(gid, null)
 		if is_instance_valid(gnode):
 			gnode.modulate = Color(0.46, 0.46, 0.50, 0.42)
 			if combat_vfx != null:
 				combat_vfx.spawn_heal_aura(gnode.position, Color(1.0, 0.88, 0.34))
-		var rxp := int(g.get("xp", 24))
-		var rgold := int(g.get("gold", 20))
+		var rxp := int(g.get("xp", 22))
+		var rgold := int(g.get("gold", 12))
+		var item_id := str(g.get("item_id", gid))
 		var iname := str(g.get("item_name", gtitle))
 		var iicon := str(g.get("icon", "emblem_scroll.webp"))
-		if rpg_hud != null:
+		var sent_srv := dispatch_server_action({
+			"type": "gather_node",
+			"nodeId": gid,
+			"itemId": item_id,
+			"land": current_land,
+		}, func(res: Dictionary) -> void:
+			if not bool(res.get("ok", false)):
+				var err_txt := str(res.get("error", ""))
+				if not err_txt.is_empty():
+					show_combat_toast(err_txt, Color(1.0, 0.52, 0.36))
+		)
+		if not sent_srv and rpg_hud != null:
 			rpg_hud.hero_gold += rgold
 			if rpg_hud.has_method("add_item_to_backpack"):
-				rpg_hud.add_item_to_backpack({
-					"id": str(g.get("item_id", gid)),
-					"name": iname,
-					"cat": "material",
-					"icon": iicon,
-					"desc": "Surowiec zebrany na kontynencie %s" % current_land.capitalize(),
-					"rarity": Color(0.54, 0.96, 0.68),
-				}, 1)
+				var cat_it: Dictionary = GmPanelScript.find_item(item_id)
+				if not cat_it.is_empty():
+					rpg_hud.add_item_to_backpack(cat_it, 1)
+				else:
+					rpg_hud.add_item_to_backpack({
+						"id": item_id,
+						"name": iname,
+						"cat": "material",
+						"icon": iicon,
+						"desc": "Surowiec zebrany na kontynencie %s" % current_land.capitalize(),
+						"rarity": Color(0.54, 0.96, 0.68),
+					}, 1)
 			if rpg_hud.has_method("grant_local_xp"):
 				var lvl_up: bool = rpg_hud.grant_local_xp(rxp)
 				if lvl_up and audio != null:
@@ -1282,6 +1423,10 @@ func claim_treasure_reward(tr: Dictionary, lab_id: String = "") -> bool:
 	if not dispatch_server_action(payload):
 		if rpg_hud != null:
 			rpg_hud.hero_gold += rgold
+			if not ritem.is_empty() and rpg_hud.has_method("add_item_to_backpack"):
+				var cat_it: Dictionary = GmPanelScript.find_item(ritem)
+				if not cat_it.is_empty():
+					rpg_hud.add_item_to_backpack(cat_it, 1)
 			if rpg_hud.has_method("grant_local_xp"):
 				var lvl_up: bool = rpg_hud.grant_local_xp(rxp)
 				if lvl_up and audio != null:
@@ -1300,32 +1445,38 @@ func report_monster_kill(monster_id: String, lvl: int, mname: String, hp_cost: i
 	var lv_diff := hero_lv - lvl
 	var rxp := maxi(5, int(round(float(base_xp) * 0.25))) if lv_diff >= 5 else (maxi(8, int(round(float(base_xp) * 0.50))) if lv_diff >= 3 else base_xp)
 	var rgold := (8 + lvl * 4) * (3 if is_elite else 1)
-	if not dispatch_server_action({"type": "monster_kill", "monsterId": monster_id, "level": lvl, "hpCost": maxi(0, hp_cost)}):
-		if rpg_hud != null:
-			rpg_hud.hero_gold += rgold
-			if rpg_hud.has_method("grant_local_xp"):
-				var lvl_up: bool = rpg_hud.grant_local_xp(rxp)
-				if lvl_up and audio != null:
-					audio.sfx("common/level-up", 0.95, 0.03)
-			else:
-				rpg_hud._refresh_visuals()
-	if is_elite and rpg_hud != null and rpg_hud.has_method("add_item_to_backpack"):
-		rpg_hud.add_item_to_backpack({
-			"id": "pot_hp",
-			"name": "Mikstura Życia",
-			"cat": "consumable",
-			"icon": "consumable-mikstura-zycia.webp",
-			"hp_restore": 120,
-			"desc": "Łup Elity (+120 HP)",
-			"rarity": Color(1.0, 0.80, 0.28),
-		}, 2)
-		show_combat_toast("★ POKONANO ELITĘ: %s! (+%d PD, +%d zł, 2× Mikstura Życia)" % [mname, rxp, rgold], Color(1.0, 0.86, 0.24))
+	var sent_srv := dispatch_server_action({
+		"type": "monster_kill",
+		"monsterId": monster_id,
+		"level": lvl,
+		"hpCost": maxi(0, hp_cost),
+		"isElite": is_elite,
+		"land": current_land,
+	})
+	if not sent_srv and rpg_hud != null:
+		rpg_hud.hero_gold += rgold
+		if is_elite and rpg_hud.has_method("add_item_to_backpack"):
+			var core_it: Dictionary = GmPanelScript.find_item("mat_elite_core")
+			if not core_it.is_empty():
+				rpg_hud.add_item_to_backpack(core_it, 1)
+			var pot_it: Dictionary = GmPanelScript.find_item("potion_hp")
+			if not pot_it.is_empty():
+				rpg_hud.add_item_to_backpack(pot_it, 1)
+		if rpg_hud.has_method("grant_local_xp"):
+			var lvl_up: bool = rpg_hud.grant_local_xp(rxp)
+			if lvl_up and audio != null:
+				audio.sfx("common/level-up", 0.95, 0.03)
+		else:
+			rpg_hud._refresh_visuals()
+	if is_elite:
+		show_combat_toast("★ POKONANO ELITĘ: %s! (+%d PD, +%d zł, Rdzeń Elity)" % [mname, rxp, rgold], Color(1.0, 0.86, 0.24))
 	else:
 		show_combat_toast("⚔ Pokonano: %s (Poz.%d) • +%d PD, +%d zł" % [mname, lvl, rxp, rgold], Color(1.0, 0.78, 0.36))
 
 func handle_hero_defeat() -> void:
 	if in_labyrinth:
 		exit_labyrinth()
+	recall_channel = 0.0
 	if audio != null:
 		audio.sfx("common/player-death", 0.95)
 	if hero != null and hero.has_method("set_ki_mode"):
@@ -1338,6 +1489,7 @@ func handle_hero_defeat() -> void:
 			ag["cur_hp"] = int(ag.get("max_hp", 200))
 			ag["dmg_dealt_to_hero"] = 0
 			ag["atk_cd"] = 0.0
+			ag["was_aggro"] = false
 			var mnd = ag.get("node", null)
 			if is_instance_valid(mnd):
 				mnd.hp_ratio = 1.0
@@ -1376,20 +1528,50 @@ func _hero_aim_screen_dir(best_idx: int) -> Vector2:
 	var d_name := str(hero.direction) if hero != null else "down-right"
 	return dir_map.get(d_name, Vector2(0.7, 0.7)) as Vector2
 
-func perform_combat_attack(skill_idx: int) -> void:
+func _activate_ki_mode_visuals(race_k: String, duration_sec: float = 20.0) -> void:
+	ki_mode_timer = duration_sec
+	if hero != null and hero.has_method("set_ki_mode"):
+		hero.ki_race = race_k
+		if bool(hero.ki_mode_active):
+			hero.set_ki_remaining(duration_sec)
+			hero.play_action("kitransform", "kiskillc")
+		else:
+			hero.set_ki_mode(true, duration_sec)
+	trigger_camera_shake(13.0, 0.60)
+	if combat_vfx != null and hero != null:
+		combat_vfx.spawn_transform_pillar(hero.position, race_k)
+	if audio != null:
+		if audio.has_method("play_transform_sfx"):
+			audio.play_transform_sfx(race_k)
+		else:
+			audio.sfx("development/ki-charge", 0.95)
+	show_combat_toast("✦ FORMA KI AKTYWNA (%ds) — +25%% ATK, +15%% DEF, +10%% SPD i aura KI!" % int(round(duration_sec)), Color(0.42, 0.98, 1.0))
+
+func activate_ki_mode_gm(duration_sec: float = 20.0) -> void:
+	_activate_ki_mode_visuals(_hero_race_key(), duration_sec)
+
+func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0) -> void:
 	if in_labyrinth and labyrinth_room != null and labyrinth_room.has_method("perform_labyrinth_attack"):
 		labyrinth_room.perform_labyrinth_attack()
 		return
 	if in_interior or map_expanded or atlas_expanded:
 		return
-	var reach := 160.0 if skill_idx == 0 else (290.0 if skill_idx == 5 else 250.0)
+	recall_channel = 0.0
+	var race_k := _hero_race_key()
+	var is_ranged_race := race_k in ["sage", "android"]
+	var passives: Dictionary = rpg_hud.get_talent_passives() if (rpg_hud != null and rpg_hud.has_method("get_talent_passives")) else {}
+	var range_mult := 1.0 + float(passives.get("rangeMult", 0.0))
+	var base_reach := (220.0 if is_ranged_race else 125.0) if skill_idx == 0 else (290.0 if skill_idx == 5 else 250.0)
+	var reach := base_reach * range_mult
 	var mult := 1.0 if skill_idx == 0 else (1.45 if skill_idx < 4 else (1.85 if skill_idx == 4 else 2.25))
+	mult *= (1.0 + float(passives.get("dmgMult", 0.0))) * maxf(surge_mult, 1.0)
+	if skill_idx == 1 and float(passives.get("burnBonus", 0.0)) > 0.0:
+		mult *= (1.0 + float(passives.get("burnBonus", 0.0)))
 	if ki_mode_timer > 0.0:
 		mult *= 1.25
 	var base_atk := 34
 	if rpg_hud != null and rpg_hud.has_method("get_total_attack"):
 		base_atk = int(rpg_hud.get_total_attack())
-	var race_k := _hero_race_key()
 
 	# Find nearest alive monster (and all in AoE for skill 3 / skill 5 Ki burst)
 	var best_idx := -1
@@ -1416,26 +1598,13 @@ func perform_combat_attack(skill_idx: int) -> void:
 
 	var aim_dir := _hero_aim_screen_dir(best_idx)
 	var target_node = live_agents[best_idx].get("node", null) if best_idx >= 0 else null
-	var is_ranged_race := race_k in ["sage", "android"]
 
 	# ALWAYS play full 47-clip hero combat animation, racial VFX & skill SFX (even on air swing!)
 	if skill_idx == 5:
-		ki_mode_timer = 18.0
-		if hero != null and hero.has_method("set_ki_mode"):
-			hero.ki_race = race_k
-			if bool(hero.ki_mode_active):
-				hero.play_action("kitransform", "kiskillc")
-			else:
-				hero.set_ki_mode(true)
-		trigger_camera_shake(13.0, 0.60)
-		if combat_vfx != null and hero != null:
-			combat_vfx.spawn_transform_pillar(hero.position, race_k)
-		if audio != null:
-			if audio.has_method("play_transform_sfx"):
-				audio.play_transform_sfx(race_k)
-			else:
-				audio.sfx("development/ki-charge", 0.95)
-		show_combat_toast("✦ TRYB KI AKTYWNY (18s) — +25% obrażeń i wzmocnione techniki!", Color(0.42, 0.98, 1.0))
+		if rpg_hud != null and rpg_hud.has_method("is_hotbar_skill_unlocked") and not rpg_hud.is_hotbar_skill_unlocked(5):
+			show_combat_toast("Forma KI [T] odblokowuje się od poz. 20 w drzewku [K] (wymaga A9, B9 lub C9)!", Color(1.0, 0.68, 0.34))
+			return
+		_activate_ki_mode_visuals(race_k, 20.0)
 	elif skill_idx == 0:
 		var combo_clips := ["attack", "attack2", "attack3", "finisher"]
 		var cur_step := combo_step % 4
@@ -1481,8 +1650,10 @@ func perform_combat_attack(skill_idx: int) -> void:
 	if hit_indices.is_empty():
 		return
 
+	last_combat_time = world_time
 	var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
 	var crit_pct: float = float(rpg_hud.get_total_crit()) if (rpg_hud != null and rpg_hud.has_method("get_total_crit")) else 6.0
+	var kill_heal_pct := float(passives.get("killHealPct", 0.0))
 	var any_kill := false
 	for h_idx: int in hit_indices:
 		var target: Dictionary = live_agents[h_idx]
@@ -1512,8 +1683,11 @@ func perform_combat_attack(skill_idx: int) -> void:
 			var hp_cost := int(target.get("dmg_dealt_to_hero", 0))
 			target["dmg_dealt_to_hero"] = 0
 			target["alive"] = false
+			target["was_aggro"] = false
 			target["death_hide_t"] = 0.85
-			target["respawn_t"] = 60.0 if is_el else 22.0
+			target["respawn_t"] = 45.0 if is_el else 11.0
+			if kill_heal_pct > 0.0 and rpg_hud != null:
+				rpg_hud.hero_hp = minf(rpg_hud.hero_max_hp, rpg_hud.hero_hp + rpg_hud.hero_max_hp * kill_heal_pct)
 			if is_instance_valid(mnode):
 				mnode.hp_ratio = 0.0
 				if is_el and combat_vfx != null:
@@ -2019,7 +2193,18 @@ func _unhandled_input(event: InputEvent) -> void:
 			cycle_exp_zone()
 			return
 		elif event.keycode == KEY_C:
-			teleport_to_capital()
+			if gm_noclip:
+				teleport_to_capital()
+			else:
+				start_recall_to_capital()
+			return
+		elif event.keycode == KEY_H:
+			if rpg_hud != null:
+				for pi in rpg_hud.backpack_items.size():
+					var pit = rpg_hud.backpack_items[pi]
+					if pit is Dictionary and not pit.is_empty() and pit.has("heal_hp"):
+						rpg_hud.use_backpack_slot(pi)
+						return
 			return
 		elif event.keycode == KEY_1:
 			if rpg_hud != null:
@@ -2192,6 +2377,8 @@ func _step_agent_patrol(ag: Dictionary, delta: float, move_speed: float, is_mons
 
 func step_world(delta: float) -> void:
 	world_time += delta
+	if recall_cooldown > 0.0:
+		recall_cooldown = maxf(0.0, recall_cooldown - delta)
 	if camera_shake_t > 0.0:
 		camera_shake_t = maxf(0.0, camera_shake_t - delta)
 		var decay := camera_shake_t / maxf(camera_shake_dur, 0.05)
@@ -2207,10 +2394,17 @@ func step_world(delta: float) -> void:
 			combo_step = 0
 	if ki_mode_timer > 0.0:
 		ki_mode_timer = maxf(0.0, ki_mode_timer - delta)
+		if hero != null and hero.has_method("set_ki_remaining"):
+			hero.set_ki_remaining(ki_mode_timer)
 		if ki_mode_timer <= 0.0 and hero != null and hero.has_method("set_ki_mode"):
 			hero.set_ki_mode(false)
 			if rpg_hud != null:
 				rpg_hud._refresh_visuals()
+	if rpg_hud != null and rpg_hud.has_method("is_perf_hud_enabled") and rpg_hud.is_perf_hud_enabled():
+		_ping_poll_t += delta
+		if _ping_poll_t >= 4.0:
+			_ping_poll_t = 0.0
+			trigger_server_ping()
 	if not gatherable_cd.is_empty():
 		var expired: Array[String] = []
 		for gid: String in gatherable_cd.keys():
@@ -2250,12 +2444,55 @@ func step_world(delta: float) -> void:
 			move_mag = 1.0
 	var is_moving := world_dir.length_squared() > 0.001
 	var is_running := move_mag >= 0.58
+
+	# Return-to-Capital Stone (Kamień Powrotu) channeling
+	if recall_channel > 0.0:
+		if is_moving:
+			recall_channel = 0.0
+			show_combat_toast("Kamień Powrotu przerwany przez ruch.", Color(1.0, 0.72, 0.42))
+		else:
+			recall_channel = maxf(0.0, recall_channel - delta)
+			if recall_channel <= 0.0:
+				recall_cooldown = RECALL_COOLDOWN_S
+				teleport_to_capital()
+				show_combat_toast("✦ Kamień Powrotu przeniósł Cię do stolicy!", Color(0.46, 0.98, 1.0))
+
 	if is_moving:
 		var stat_spd_mult := 1.0
 		if rpg_hud != null and rpg_hud.has_method("get_speed_mult"):
 			stat_spd_mult = float(rpg_hud.get_speed_mult())
+		var ooc_mult := 1.30 if (world_time - last_combat_time >= 3.0) else 1.0
+		var road_mult := 1.15 if is_on_road(hero_pos.x, hero_pos.y) else 1.0
+		var ki_spd_mult := 1.10 if ki_mode_timer > 0.0 else 1.0
 		var analog_mult := lerpf(0.45, 1.0, move_mag)
-		try_move(world_dir * SPEED * analog_mult * gm_speed_mult * stat_spd_mult * delta)
+		try_move(world_dir * SPEED * analog_mult * gm_speed_mult * stat_spd_mult * ooc_mult * road_mult * ki_spd_mult * delta)
+
+	# Out-of-Combat passive HP/KI recovery (+4% HP/s + talent bonus, +6% KI/s after 5s OOC)
+	if world_time - last_combat_time >= 5.0 and rpg_hud != null and float(rpg_hud.hero_hp) > 0.0:
+		var ooc_hp_bonus := 0.0
+		if rpg_hud.has_method("get_talent_passives"):
+			ooc_hp_bonus = float((rpg_hud.get_talent_passives() as Dictionary).get("oocHpRegenBonus", 0.0))
+		var regenerated := false
+		if float(rpg_hud.hero_hp) < float(rpg_hud.hero_max_hp):
+			rpg_hud.hero_hp = minf(float(rpg_hud.hero_max_hp), float(rpg_hud.hero_hp) + float(rpg_hud.hero_max_hp) * (0.04 + ooc_hp_bonus) * delta)
+			regenerated = true
+			if float(rpg_hud.hero_hp) >= float(rpg_hud.hero_max_hp) - 0.5:
+				notify_hero_healed()
+		if float(rpg_hud.hero_ki) < float(rpg_hud.hero_max_ki):
+			rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + float(rpg_hud.hero_max_ki) * 0.06 * delta)
+			regenerated = true
+		if regenerated:
+			rpg_hud._sync_bar_uniforms()
+			rpg_hud._refresh_visuals()
+
+	# Auto-discover nearby Fast-Travel Waystones (within 72m)
+	for ws_item: Dictionary in waystones_data:
+		var wid := str(ws_item.get("id", ""))
+		if not discovered_waystones.has(wid):
+			var wpos := Vector2(float(ws_item.get("x", 0.0)), float(ws_item.get("z", 0.0)))
+			if hero_pos.distance_to(wpos) <= 72.0:
+				_discover_waystone(ws_item)
+
 	var in_safe_now := hero_pos.distance_to(capital_center) <= safe_city_radius
 	if audio != null:
 		audio.step(delta, is_moving, current_land, false, is_running, is_in_water(hero_pos.x, hero_pos.y), in_safe_now)
@@ -2277,6 +2514,14 @@ func step_world(delta: float) -> void:
 			talk_node = null
 
 	var hero_in_safe := hero_pos.distance_to(capital_center) <= safe_city_radius
+	var modal_pauses_combat := (
+		gm_open
+		or map_expanded
+		or atlas_expanded
+		or dlg_open
+		or (quest_journal != null and bool(quest_journal.visible))
+		or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)))
+	)
 	var cam_p := camera.position
 	var ag_cull_r := 2500.0 / maxf(zoom_level, 0.50)
 
@@ -2301,6 +2546,8 @@ func step_world(delta: float) -> void:
 				ag["cur_hp"] = int(ag.get("max_hp", 200))
 				ag["dmg_dealt_to_hero"] = 0
 				ag["atk_cd"] = 0.0
+				ag["aggro_windup"] = 0.0
+				ag["was_aggro"] = false
 				ag["roared"] = false
 				ag["pos"] = ag["home"]
 				ag["ai_state"] = "idle"
@@ -2331,11 +2578,15 @@ func step_world(delta: float) -> void:
 		var stride := 0.62 if ag_kind == "npc" else 0.76
 		if is_monster:
 			ag["atk_cd"] = maxf(0.0, float(ag.get("atk_cd", 0.0)) - delta)
+			ag["aggro_windup"] = maxf(0.0, float(ag.get("aggro_windup", 0.0)) - delta)
 			var dist_to_hero := hero_pos.distance_to(prev_p)
 			var dist_from_home := prev_p.distance_to(home)
 			var was_hurt := int(ag.get("cur_hp", 100)) < int(ag.get("max_hp", 100))
-			if not hero_in_safe and ((dist_to_hero < 95.0) or (was_hurt and dist_to_hero < 155.0)) and dist_from_home < 165.0:
+			if not hero_in_safe and not modal_pauses_combat and ((dist_to_hero < 72.0) or (was_hurt and dist_to_hero < 145.0)) and dist_from_home < 165.0:
 				stride = 0.96
+				if not bool(ag.get("was_aggro", false)):
+					ag["was_aggro"] = true
+					ag["aggro_windup"] = 0.50
 				if not bool(ag.get("roared", false)):
 					ag["roared"] = true
 					if audio != null and bool(ag.get("is_elite", false)):
@@ -2345,9 +2596,13 @@ func step_world(delta: float) -> void:
 					var cand_p := prev_p + chase_step
 					if cand_p.distance_to(capital_center) > safe_city_radius + 16.0 and is_walkable(cand_p.x, cand_p.y):
 						next_p = cand_p
-				if hero_pos.distance_to(next_p) <= 52.0 and float(ag["atk_cd"]) <= 0.0:
+				if hero_pos.distance_to(next_p) <= 50.0 and float(ag["atk_cd"]) <= 0.0 and float(ag["aggro_windup"]) <= 0.0:
 					ag["atk_cd"] = 1.40
 					ag["atk_count"] = int(ag.get("atk_count", 0)) + 1
+					last_combat_time = world_time
+					if recall_channel > 0.0:
+						recall_channel = 0.0
+						show_combat_toast("Powrót do stolicy przerwany przez obrażenia!", Color(1.0, 0.48, 0.34))
 					var to_h: Vector2 = hero_pos - next_p
 					var face_h := Vector2(to_h.x - to_h.y, (to_h.x + to_h.y) * 0.5)
 					if face_h.length_squared() > 0.01 and node.has_method("face"):
@@ -2375,6 +2630,7 @@ func step_world(delta: float) -> void:
 						return
 			else:
 				ag["roared"] = false
+				ag["was_aggro"] = false
 				next_p = _step_agent_patrol(ag, delta, float(ag.get("speed", 13.0)), true)
 		else:
 			next_p = _step_agent_patrol(ag, delta, float(ag.get("speed", 10.5)), false)

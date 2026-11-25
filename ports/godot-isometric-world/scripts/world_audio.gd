@@ -3,7 +3,14 @@ extends Node
 ## 40 race skill SFX, per-monster SFX, footsteps & UI feedback with organic pitch variation.
 ## Searches OTA preview audio first (res://service_preview/pyra/assets/audio/) then host APK audio (res://assets/audio/).
 
-const MUSIC := {"pyra": "pyra", "verdant": "verdantia", "aether": "aetheria", "nexus": "nexus"}
+const MUSIC := {
+	"pyra": "pyra",
+	"verdant": "verdantia",
+	"aether": "aetheria",
+	"nexus": "nexus",
+	"loading": "loading_theme",
+	"menu": "menu",
+}
 const HOST_ROOT := "res:" + "//assets/audio/"
 const FADE := 1.4
 const STEP_INTERVAL := 0.44

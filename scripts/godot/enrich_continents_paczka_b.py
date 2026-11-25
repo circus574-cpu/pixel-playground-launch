@@ -580,107 +580,159 @@ def enrich_land(land: str) -> None:
         })
         g_pts.append((gx, gz))
 
-    # 5. ROAMING WILDERNESS MONSTER PACKS (+72 monsters + 4 Named Elites = ~116 total/continent, 0 inside safe capitals!)
-    monsters_db = json.loads((ISO / "data/monsters.json").read_text(encoding="utf-8")).get("monsters", {})
-    land_mids = sorted([k for k in monsters_db.keys() if k.startswith(land + "-")])
-    # Order by rough tier if available, else canonical order
-    land_mids_info = [(mid, str(monsters_db[mid].get("name", mid.replace("-", " ").title()))) for mid in land_mids]
-    mon_pts = [(float(m["x"]), float(m["z"])) for m in monsters]
+    # 5. DETERMINISTIC RING-BASED ROAMING MONSTER PACKS (~155 roaming + 38 base + 4 Elites = ~197/continent, 0 in safe capitals!)
+    import sys as _sys
+    _sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from populate_superior_adventures import monster_stats_for_level
 
-    pack_centers = []
+    monsters_db = json.loads((ISO / "data/monsters.json").read_text(encoding="utf-8")).get("monsters", {})
+    land_mids_sorted = sorted(
+        [
+            (int(monsters_db[k].get("level", 1)), k, str(monsters_db[k].get("name", k.replace("-", " ").title())))
+            for k in monsters_db.keys()
+            if k.startswith(land + "-")
+        ],
+        key=lambda t: (t[0], t[1]),
+    )
+
+    def pick_actor_for_level(lv: int) -> tuple[str, str]:
+        if not land_mids_sorted:
+            return (f"{land}-beast", "Bestia Rubieży")
+        best = min(land_mids_sorted, key=lambda t: (abs(t[0] - lv), t[0]))
+        return (best[1], best[2])
+
+    mon_pts = [(float(m["x"]), float(m["z"])) for m in monsters]
+    pack_centers: list[tuple[float, float]] = []
     packs_made = 0
     wild_mon_added = 0
-    for attempt in range(2800):
-        if packs_made >= 24 or not land_mids_info:
-            break
-        if packs_made < 12 and highway_pts:
-            rx, rz = rng.choice(highway_pts)
-            ang = rng.uniform(0.0, math.tau)
-            px, pz = rx + math.cos(ang) * rng.uniform(46.0, 95.0), rz + math.sin(ang) * rng.uniform(46.0, 95.0)
-        else:
-            px = rng.uniform(-ws * 0.42, ws * 0.42)
-            pz = rng.uniform(-ws * 0.42, ws * 0.42)
-        dist_cap = math.hypot(px - cx, pz - cz)
-        if dist_cap < safe_r + 65.0:
-            continue
-        if not is_dry_walkable(walkable, gs, ws, px, pz, margin=2):
-            continue
-        if any(math.hypot(px - bx, pz - bz) < 80.0 for bx, bz in bldgs):
-            continue
-        if any(math.hypot(px - pcx, pz - pcz) < 165.0 for pcx, pcz in pack_centers):
-            continue
-        # Level scales smoothly with distance from capital (Lv. 1..17)
-        frac = min(1.0, max(0.0, (dist_cap - (safe_r + 65.0)) / 1450.0))
-        lv = max(1, min(17, int(round(1 + frac * 16))))
-        tier_idx = min(len(land_mids_info) - 1, int(frac * len(land_mids_info)))
-        mid, mname = land_mids_info[tier_idx]
-        packs_made += 1
-        pack_centers.append((px, pz))
-        pack_sz = 3
-        hp_v = int(135 + lv * 68 + lv * lv * 9)
-        atk_v = int(16 + lv * 7 + (lv ** 1.5) * 1.6)
-        xp_v = int(24 + lv * 14)
-        gold_v = int(10 + lv * 6)
-        for pi in range(pack_sz):
-            ang = (pi / float(pack_sz)) * math.tau + rng.uniform(-0.3, 0.3)
-            rad = rng.uniform(12.0, 28.0) if pi > 0 else 0.0
-            mx, mz = px + math.cos(ang) * rad, pz + math.sin(ang) * rad
-            if not is_dry_walkable(walkable, gs, ws, mx, mz, margin=1):
-                mx, mz = px, pz
-            if math.hypot(mx - cx, mz - cz) < safe_r + 50.0:
-                continue
-            hv = sample_grid(heights, gs, ws, mx, mz) or 19.0
-            wild_mon_added += 1
-            monsters.append({
-                "id": f"{land}-pb-pack-{packs_made}-m{pi+1}",
-                "zone_id": f"{land}-wild-pack-{packs_made}",
-                "actor_id": mid,
-                "name": mname,
-                "level": lv,
-                "hp": hp_v,
-                "atk": atk_v,
-                "xp": xp_v,
-                "gold": gold_v,
-                "x": round(mx, 2),
-                "z": round(mz, 2),
-                "y": round(float(hv), 2),
-                "patrol_radius": 24.0,
-            })
-            mon_pts.append((mx, mz))
 
-    # 4 Named Zone Mini-Boss Elites per continent (2 primary from palette + 2 frontier champions!)
+    # (level, pack_count, pack_size, min_offset_beyond_safe_r, max_offset_beyond_safe_r)
+    RING_QUOTAS = [
+        (1,  4, 4,   72.0,  230.0),  # Ring 1: immediate outer gates (16 + 5 base = 21 Lv.1)
+        (2,  4, 3,  115.0,  345.0),  # Ring 1: outer gates (12 + 5 base = 17 Lv.2)
+        (3,  4, 4,  235.0,  525.0),  # Ring 2: inner hunting grounds (16 Lv.3 — closes Aetheria 0 Lv.3 gap!)
+        (4,  4, 3,  325.0,  660.0),  # Ring 2: inner hunting grounds (12 + 5 base = 17 Lv.4)
+        (5,  4, 3,  450.0,  820.0),  # Ring 3: mid frontier (12 Lv.5 — closes Verdantia 1 Lv.5 gap!)
+        (6,  3, 3,  550.0,  930.0),  # Ring 3: Lab I approach (9 + 4 base = 13 Lv.6)
+        (7,  3, 3,  650.0, 1030.0),
+        (8,  3, 3,  750.0, 1130.0),
+        (9,  2, 3,  840.0, 1220.0),
+        (10, 2, 3,  920.0, 1300.0),
+        (11, 2, 3, 1000.0, 1380.0),
+        (12, 2, 3, 1080.0, 1460.0),
+        (13, 2, 3, 1160.0, 1540.0),
+        (14, 2, 3, 1230.0, 1620.0),
+        (15, 2, 3, 1300.0, 1680.0),
+        (16, 2, 3, 1360.0, 1740.0),
+        (17, 2, 3, 1420.0, 1800.0),
+        (18, 2, 3, 1460.0, 1850.0),
+    ]
+
+    for lv, want_packs, pack_sz, d_min, d_max in RING_QUOTAS:
+        mid, mname = pick_actor_for_level(lv)
+        hp_v, atk_v, xp_v, gold_v = monster_stats_for_level(lv)
+        placed_for_lv = 0
+        min_pack_sep = 115.0 if lv <= 5 else 135.0
+        for p_idx in range(want_packs):
+            base_ang = (p_idx / float(max(1, want_packs))) * math.tau + (lv * 0.71)
+            chosen_center = None
+            for relax in (1.0, 0.75, 0.5):
+                for attempt in range(180):
+                    ang = base_ang + rng.uniform(-math.pi / max(1, want_packs), math.pi / max(1, want_packs)) + (attempt * 0.19 if attempt > 40 else 0.0)
+                    r_lo = max(safe_r + 72.0, safe_r + d_min - (260.0 if relax < 1.0 else 0.0))
+                    r_hi = min(ws * 0.46, safe_r + d_max + (180.0 if relax < 1.0 else 0.0))
+                    dist = rng.uniform(r_lo, max(r_lo + 40.0, r_hi))
+                    px = cx + math.cos(ang) * dist
+                    pz = cz + math.sin(ang) * dist
+                    if abs(px) > ws * 0.46 or abs(pz) > ws * 0.46:
+                        continue
+                    if not is_dry_walkable(walkable, gs, ws, px, pz, margin=2):
+                        continue
+                    if any(math.hypot(px - bx, pz - bz) < 68.0 for bx, bz in bldgs):
+                        continue
+                    if any(math.hypot(px - pcx, pz - pcz) < min_pack_sep * relax for pcx, pcz in pack_centers):
+                        continue
+                    chosen_center = (px, pz)
+                    break
+                if chosen_center is not None:
+                    break
+            if chosen_center is None:
+                continue
+            px, pz = chosen_center
+            packs_made += 1
+            placed_for_lv += 1
+            pack_centers.append((px, pz))
+            local_mobs: list[tuple[float, float]] = []
+            for pi in range(pack_sz):
+                mx, mz = px, pz
+                for m_att in range(28):
+                    ang_m = (pi / float(pack_sz)) * math.tau + rng.uniform(-0.35, 0.35) + m_att * 0.25
+                    rad_m = rng.uniform(26.0, 56.0) if pi > 0 else rng.uniform(0.0, 12.0)
+                    cx_m = px + math.cos(ang_m) * rad_m
+                    cz_m = pz + math.sin(ang_m) * rad_m
+                    if not is_dry_walkable(walkable, gs, ws, cx_m, cz_m, margin=1):
+                        continue
+                    if math.hypot(cx_m - cx, cz_m - cz) < safe_r + 58.0:
+                        continue
+                    if any(math.hypot(cx_m - lx, cz_m - lz) < 24.0 for lx, lz in local_mobs):
+                        continue
+                    mx, mz = cx_m, cz_m
+                    break
+                if math.hypot(mx - cx, mz - cz) < safe_r + 55.0:
+                    continue
+                local_mobs.append((mx, mz))
+                hv = sample_grid(heights, gs, ws, mx, mz) or 19.0
+                wild_mon_added += 1
+                monsters.append({
+                    "id": f"{land}-pb-pack-{packs_made}-m{pi+1}",
+                    "zone_id": f"{land}-wild-pack-{packs_made}",
+                    "actor_id": mid,
+                    "name": mname,
+                    "level": lv,
+                    "hp": hp_v,
+                    "atk": atk_v,
+                    "xp": xp_v,
+                    "gold": gold_v,
+                    "x": round(mx, 2),
+                    "z": round(mz, 2),
+                    "y": round(float(hv), 2),
+                    "patrol_radius": 24.0,
+                })
+                mon_pts.append((mx, mz))
+
+    # 4 Named Zone Mini-Boss Elites per continent (Lv.5, Lv.9/10, Lv.13, Lv.15-17)
     ezs_sorted = sorted(ezs, key=lambda t: t[2])
     elite_defs = list(pal["elites"])
-    if len(land_mids_info) >= 6:
+    if len(land_mids_sorted) >= 6:
         elite_defs.append({
             "id": f"{land}-elite-3",
-            "actor_id": land_mids_info[2][0],
-            "name": f"[ELITA] Alfa {land_mids_info[2][1]}",
+            "actor_id": land_mids_sorted[2][1],
+            "name": f"[ELITA] Alfa {land_mids_sorted[2][2]}",
             "level": 5,
-            "hp": 680,
-            "atk": 58,
+            "hp": 640,
+            "atk": 52,
             "xp": 260,
             "gold": 115,
         })
         elite_defs.append({
             "id": f"{land}-elite-4",
-            "actor_id": land_mids_info[-2][0],
-            "name": f"[ELITA] Pradawny {land_mids_info[-2][1]}",
+            "actor_id": land_mids_sorted[-2][1],
+            "name": f"[ELITA] Pradawny {land_mids_sorted[-2][2]}",
             "level": 13,
-            "hp": 1720,
-            "atk": 146,
+            "hp": 1680,
+            "atk": 142,
             "xp": 660,
             "gold": 280,
         })
-    anchor_indices = [len(ezs_sorted) // 2, len(ezs_sorted) - 1, min(1, len(ezs_sorted) - 1), max(0, (len(ezs_sorted) * 3) // 4)]
+    anchor_indices = [len(ezs_sorted) // 2, len(ezs_sorted) - 1, min(2, len(ezs_sorted) - 1), max(0, (len(ezs_sorted) * 3) // 4)]
     for idx, el in enumerate(elite_defs):
         if not ezs_sorted:
             break
         ex, ez, _ = ezs_sorted[anchor_indices[idx % len(anchor_indices)]]
         for k in range(12):
             ang = (k / 12.0) * math.tau
-            mx, mz = ex + math.cos(ang) * 40.0, ez + math.sin(ang) * 40.0
-            if is_dry_walkable(walkable, gs, ws, mx, mz, margin=2) and math.hypot(mx - cx, mz - cz) > safe_r + 60.0:
+            mx, mz = ex + math.cos(ang) * 44.0, ez + math.sin(ang) * 44.0
+            if is_dry_walkable(walkable, gs, ws, mx, mz, margin=2) and math.hypot(mx - cx, mz - cz) > safe_r + 65.0:
                 hv = sample_grid(heights, gs, ws, mx, mz) or 19.0
                 monsters.append({
                     "id": el["id"],
@@ -782,16 +834,17 @@ def enrich_land(land: str) -> None:
                 })
                 break
 
-    # 8. EXPAND HIDDEN WORLD TREASURES (+4 extra -> 10 per continent!)
+    # 8. EXPAND HIDDEN WORLD TREASURES (+4 extra -> 10 per continent, with V2 crafting rewards!)
+    REGIONAL_MAT = {"pyra": "mat_ember", "verdant": "mat_amber", "aether": "mat_rune", "nexus": "mat_plasma"}
     EXTRA_TREASURES = [
-        ("Zapomniany Relikwiarz", 3, 95, 110),
-        ("Skrzynia Zwiadowcy", 6, 155, 190),
-        ("Krypta Pradawnego Mistrza", 10, 240, 310),
-        ("Skarbiec Rubieży", 14, 360, 480),
+        ("Zapomniany Relikwiarz", 3, 95, 110, REGIONAL_MAT[land], "Skrytka rzemieślników ze szlaku."),
+        ("Skrzynia Zwiadowcy", 6, 155, 190, "crystal_ki", "Zasobnik zwiadowców dalekich rubieży."),
+        ("Krypta Pradawnego Mistrza", 10, 240, 310, "mat_elite_core", "Kasetka z rdzeniem elitarnej bestii."),
+        ("Skarbiec Rubieży", 14, 360, 480, "mat_labyrinth_relic", "Zapieczętowany relikt dawnego zakonu."),
     ]
     tr_pts = [(float(t["x"]), float(t["z"])) for t in treasures]
     tr_added = 0
-    for title_t, min_lv, gold_t, xp_t in EXTRA_TREASURES:
+    for title_t, min_lv, gold_t, xp_t, item_t, lore_t in EXTRA_TREASURES:
         for attempt in range(300):
             tx = rng.uniform(-ws * 0.41, ws * 0.41)
             tz = rng.uniform(-ws * 0.41, ws * 0.41)
@@ -806,9 +859,11 @@ def enrich_land(land: str) -> None:
             treasures.append({
                 "id": f"{land}-pb-treasure-{tr_added}",
                 "title": title_t,
+                "lore": lore_t,
                 "min_level": min_lv,
                 "gold": gold_t,
                 "xp": xp_t,
+                "item_id": item_t,
                 "x": round(tx, 2),
                 "z": round(tz, 2),
                 "y": round(float(hv), 2),
@@ -824,8 +879,15 @@ def enrich_land(land: str) -> None:
     d["treasures"] = treasures
     bfile.write_text(json.dumps(d, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"{land}: props={len(props)} (+{added_props}: road={roadside_cnt}, camps={camps_made}, vignettes={vig_idx}), monsters={len(monsters)} (+{wild_mon_added} wild + {len(elite_defs)} elites), fauna={len(fauna)}, npcs={len(npcs)}, gaths={len(gatherables)} (fires={fire_cnt}, res={res_cnt}), treasures={len(treasures)}")
+    return d
 
 
 if __name__ == "__main__":
+    import sys as _sys
+    _sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from populate_superior_adventures import export_admin_ts
+    all_lands = {}
     for land in ("pyra", "verdant", "aether", "nexus"):
-        enrich_land(land)
+        all_lands[land] = enrich_land(land)
+    export_admin_ts(all_lands)
+    print("SYNCED superiorLiveWorld.generated.ts with enriched continents!")

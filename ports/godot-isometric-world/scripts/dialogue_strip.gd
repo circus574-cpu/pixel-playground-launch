@@ -245,9 +245,28 @@ func close_dialogue(farewell: bool = false) -> void:
 	if world != null and world.has_method("layout_minimap"):
 		world.layout_minimap()
 
+func _is_guide_npc(n_name: String, n_role: String) -> bool:
+	var nm := n_name.to_lower()
+	var rl := n_role.to_lower()
+	return nm in ["kaena", "aira", "sora", "lyra-7"] or ("przewodnicz" in rl) or ("przysięg" in rl) or ("opiekun" in rl)
+
+func _is_trainer_npc(n_name: String, n_role: String) -> bool:
+	var nm := n_name.to_lower()
+	var rl := n_role.to_lower()
+	return nm in ["kenzo", "iwo", "raku", "kron-9"] or ("trening" in rl) or ("ćwiczeń" in rl) or ("kalibrac" in rl) or ("skupienia" in rl) or str(active_npc.get("building_role", "")) == "arena"
+
 func _greeting_for(n_name: String, n_role: String, land: String, is_int: bool) -> String:
 	if is_int:
+		if _is_trainer_npc(n_name, n_role):
+			return "Witaj na sali ćwiczeń! Jestem %s. Trening w mieście NIE daje PD i nie wbija poziomu, ale na stałe podnosi Twoje statystyki! Pierwsze 3 sesje każdej dyscypliny są darmowe — otwórz usługi i sprawdź swój rytm Ki!" % n_name
 		return "Witaj w środku! Jestem %s. W czym mogę Ci dziś pomóc? Możesz spokojnie się rozejrzeć albo od razu skorzystać z moich usług." % n_name
+	if _is_guide_npc(n_name, n_role):
+		return "Witaj, wojowniku! Jestem %s (%s) — przygotuję Cię do wyprawy. Zanim wyjdziesz za mury, zajrzyj na Arenę i do Sali/Sanktuarium: trening miejski (0 PD) na stałe wzmocni Twój Atak, HP, Obronę, Szybkość, KI i Kryt bez awansu poziomu (pierwsze 3 serie za darmo!). Kliknij temat poniżej, jeśli chcesz poznać szczegóły." % [n_name, n_role]
+	if _is_trainer_npc(n_name, n_role):
+		var m_title := "Rekrut"
+		if world != null and world.get("rpg_hud") != null and world.rpg_hud.has_method("get_training_mastery_title"):
+			m_title = str(world.rpg_hud.get_training_mastery_title())
+		return "Stój prosto, adepcie! Jestem %s (%s). Twoja obecna Ranga Miejska to: %s. Na Arenie wyćwiczysz ATK, HP, DEF i SPD, a w Sanktuarium KI i Kryt — wszystko bez wbijania poziomu (0 PD), z próbą skupienia Ki!" % [n_name, n_role, m_title]
 	var qm := str(active_npc.get("quest_mark", ""))
 	if qm == "!":
 		return "Dobrze, że jesteś, wędrowcze! Nazywam się %s (%s). Mam dla Ciebie pilne zadanie w tym regionie." % [n_name, n_role]
@@ -257,16 +276,22 @@ func _greeting_for(n_name: String, n_role: String, land: String, is_int: bool) -
 
 func _rebuild_choices() -> void:
 	for ch in choices_vbox.get_children():
+		choices_vbox.remove_child(ch)
 		ch.queue_free()
 
-	var q_key := "%s:%s" % [str(active_npc.get("land", "pyra")), str(active_npc.get("name", ""))]
+	var land_s := str(active_npc.get("land", "pyra"))
+	var name_s := str(active_npc.get("name", ""))
+	var role_s := str(active_npc.get("role", ""))
+	var q_key := "npc:%s:%s" % [land_s, name_s]
+	var legacy_key := "%s:%s" % [land_s, name_s]
 	var qm := str(active_npc.get("quest_mark", ""))
-	var has_quest := (qm == "!" or qm == "?") and not completed_quests.has(q_key)
+	var already_done := completed_quests.has(q_key) or completed_quests.has(legacy_key)
+	var has_quest := (qm == "!" or qm == "?") and not already_done
 
 	# 1) Inside building: Direct pill to open the functional Service Window!
 	if bool(active_npc.get("is_interior", false)):
 		var b_srv := Button.new()
-		b_srv.text = "◆ OTWÓRZ USŁUGI"
+		b_srv.text = "⚔ ROZPOCZNIJ TRENING / USŁUGI" if _is_trainer_npc(name_s, role_s) else "◆ OTWÓRZ USŁUGI"
 		_style_pill(b_srv, Color(0.10, 0.28, 0.34, 0.96), Color(0.38, 0.92, 1.0, 0.98))
 		b_srv.pressed.connect(func() -> void:
 			var cb = active_npc.get("service_cb", null)
@@ -280,34 +305,59 @@ func _rebuild_choices() -> void:
 		b_q.text = "! ZADANIE (+45 XP / +80 zł)" if qm == "!" else "? ODBIERZ NAGRODĘ"
 		_style_pill(b_q, Color(0.28, 0.20, 0.06, 0.96), Color(1.0, 0.84, 0.30, 0.98))
 		b_q.pressed.connect(func() -> void:
+			var clear_agent_mark := func() -> void:
+				completed_quests[q_key] = true
+				completed_quests[legacy_key] = true
+				active_npc["quest_mark"] = ""
+				var actor = active_npc.get("actor", null)
+				if is_instance_valid(actor):
+					actor.quest_mark = ""
+					actor.queue_redraw()
+				if world != null and ("active_talk_agent" in world) and world.active_talk_agent is Dictionary:
+					world.active_talk_agent["quest_mark"] = ""
 			if world != null and world.has_method("dispatch_server_action") and world.dispatch_server_action({"type": "quest_complete", "questId": q_key}, func(res: Dictionary) -> void:
 				if bool(res.get("ok", false)):
-					completed_quests[q_key] = true
-					active_npc["quest_mark"] = ""
-					var actor = active_npc.get("actor", null)
-					if is_instance_valid(actor):
-						actor.quest_mark = ""
-						actor.queue_redraw()
+					clear_agent_mark.call()
 					_set_text(str(res.get("notice", "Nagroda przyznana przez serwer!")))
 					_rebuild_choices()
 				else:
 					_set_text(str(res.get("notice", "Serwer odrzucił odbiór nagrody.")))
 			):
 				return
-			completed_quests[q_key] = true
-			active_npc["quest_mark"] = ""
-			var actor = active_npc.get("actor", null)
-			if is_instance_valid(actor):
-				actor.quest_mark = ""
-				actor.queue_redraw()
+			clear_agent_mark.call()
 			if world != null and world.rpg_hud != null:
 				world.rpg_hud.hero_gold += 80
-				world.rpg_hud.hero_xp += 45
-				world.rpg_hud.recalc_stats()
-			_set_text("Znakomicie! Przyjmij 80 sztuk złota oraz 45 PD za pomoc dla naszej stolicy. Twoja sława rośnie!")
+				world.rpg_hud.grant_local_xp(45)
+			_set_text("Znakomita robota! Oto Twoja nagroda: +45 PD i +80 zł.")
 			_rebuild_choices()
 		)
 		choices_vbox.add_child(b_q)
+
+	# 1b) Onboarding Guide Topics for City Guides / Mentors & Trainers
+	if not bool(active_npc.get("is_interior", false)) and (_is_guide_npc(name_s, role_s) or _is_trainer_npc(name_s, role_s)):
+		var b_tr := Button.new()
+		b_tr.text = "⚔ O TRENINGU W MIEŚCIE (0 PD)"
+		_style_pill(b_tr, Color(0.24, 0.14, 0.06, 0.96), Color(1.0, 0.78, 0.32, 0.98))
+		b_tr.pressed.connect(func() -> void:
+			_set_text("Na Arenie wyćwiczysz ATK, HP, DEF i SPD, a w Sali/Sanktuarium energię KI oraz KRYT. Trening daje 0 PD (nigdy nie wbija poziomu), ale trwale podnosi Twoje statystyki! Pierwsze 3 serie każdej dyscypliny są darmowe. Podczas próby rytmu trafiaj w Złotą Strefę po bonus Perfekcyjnej Serii i awansuj Rangę Mistrzostwa (Rekrut → Adept → Wojownik → Weteran → Mistrz Ki)!")
+		)
+		choices_vbox.add_child(b_tr)
+
+		var b_eq := Button.new()
+		b_eq.text = "⚒ EKWIPUNEK: SKLEP VS KUŹNIA"
+		_style_pill(b_eq, Color(0.10, 0.22, 0.28, 0.96), Color(0.46, 0.88, 1.0, 0.96))
+		b_eq.pressed.connect(func() -> void:
+			_set_text("W Sklepie kupisz tylko mikstury, zwoje i podstawowy sprzęt startowy (Tier 1) oraz sprzedasz łupy (SPRZEDAJ). Prawdziwy ekwipunek Tier 2–4 wykuwasz w Kuźni z surowców ze zbieractwa i trofeów potworów! Unikalny sprzęt epicki i legendarny zdobędziesz z Elit, ciężkich kontraktów i Labiryntów (od Poz. 5).")
+		)
+		choices_vbox.add_child(b_eq)
+
+		var b_trv := Button.new()
+		b_trv.text = "🧭 PODRÓŻ I FORMA KI (POZ. 20)"
+		_style_pill(b_trv, Color(0.12, 0.16, 0.26, 0.96), Color(0.74, 0.82, 1.0, 0.94))
+		b_trv.pressed.connect(func() -> void:
+			_set_text("Po 3 s poza walką włącza się sprint (×1,30), a trakty dodają +15% szybkości. Do stolicy wrócisz za darmo przyciskiem POWRÓT [C] (2,5 s). Odkrywaj Kamienie Szlaku (✦), aby przenosić się do nich z Mapy Świata [M]. Pamiętaj: potężna Forma KI [T] z aurą odblokowuje się od 20. poziomu w drzewku [K] (po A9, B9 lub C9)!")
+		)
+		choices_vbox.add_child(b_trv)
 
 	# 2) Region / Building Lore
 	var b_lore := Button.new()

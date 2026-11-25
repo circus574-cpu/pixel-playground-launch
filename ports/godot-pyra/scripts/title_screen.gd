@@ -41,7 +41,12 @@ var intro_waiting_tap := false
 var intro_elapsed := 0.0
 
 func _load_menu_stream() -> AudioStream:
-	for p in ["res://service_preview/pyra/assets/audio/music/menu.mp3", "res://assets/audio/music/menu.mp3"]:
+	for p in [
+		"res://service_preview/pyra/assets/audio/music/menu.mp3",
+		"res://assets/audio/music/menu.mp3",
+		"res://assets/audio/music/loading_theme.mp3",
+		"res://assets/audio/music/loadings.mp3",
+	]:
 		if ResourceLoader.exists(p):
 			var loaded := load(p)
 			if loaded is AudioStream:
@@ -54,7 +59,7 @@ func _load_menu_stream() -> AudioStream:
 	return null
 
 func start_menu_music() -> void:
-	if intro_playing or intro_waiting_tap:
+	if intro_playing:
 		return
 	var vol := 0.35
 	if FileAccess.file_exists("user://audio.json"):
@@ -214,6 +219,7 @@ func _on_intro_video_finished() -> void:
 	if intro_last_frame != null and intro_last_frame.texture != null:
 		intro_last_frame.visible = true
 		intro_waiting_tap = true
+		start_menu_music()
 	else:
 		_finish_ota_intro()
 

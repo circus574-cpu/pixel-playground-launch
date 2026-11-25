@@ -72,6 +72,7 @@ var near_exit := false
 var btn_exit := Button.new()
 var btn_open_chest := Button.new()
 var btn_attack := Button.new()
+var btn_potion := Button.new()
 var toast_lbl := Label.new()
 var toast_timer := 0.0
 
@@ -104,6 +105,11 @@ func _build_ui() -> void:
 	btn_attack.pressed.connect(perform_labyrinth_attack)
 	add_child(btn_attack)
 
+	btn_potion.text = "🧪 ELIKSIR HP [H]"
+	ForgedUI.style_button(btn_potion, "gold", 14, 18.0, 8.0)
+	btn_potion.pressed.connect(_use_labyrinth_potion)
+	add_child(btn_potion)
+
 	toast_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	toast_lbl.add_theme_font_override("font", MapStyle.body_font())
 	toast_lbl.add_theme_font_size_override("font_size", 18)
@@ -124,6 +130,8 @@ func _layout_ui() -> void:
 	btn_open_chest.position = Vector2((vs.x - bw) * 0.5, vs.y - 122.0)
 	btn_attack.size = Vector2(280.0, 58.0)
 	btn_attack.position = Vector2(vs.x - 304.0, vs.y - 118.0)
+	btn_potion.size = Vector2(204.0, 50.0)
+	btn_potion.position = Vector2(24.0, vs.y - 72.0)
 	toast_lbl.size = Vector2(vs.x - 120.0, 36.0)
 	toast_lbl.position = Vector2(60.0, 78.0)
 
@@ -239,36 +247,88 @@ func _try_open_nearest_chest() -> void:
 	})
 	queue_redraw()
 
+func _count_hp_potions() -> int:
+	if world == null or world.rpg_hud == null:
+		return 0
+	var total := 0
+	for it in world.rpg_hud.backpack_items:
+		if it is Dictionary and not it.is_empty() and it.has("heal_hp"):
+			total += int(it.get("qty", 1))
+	return total
+
+func _use_labyrinth_potion() -> void:
+	if world == null or world.rpg_hud == null:
+		return
+	var hud = world.rpg_hud
+	if hud.hero_hp >= hud.hero_max_hp - 0.5:
+		_show_toast("Masz już pełne zdrowie (%d/%d HP)." % [int(round(hud.hero_hp)), int(round(hud.hero_max_hp))])
+		return
+	for i in hud.backpack_items.size():
+		var it = hud.backpack_items[i]
+		if it is Dictionary and not it.is_empty() and it.has("heal_hp"):
+			var heal_amt := int(it.get("heal_hp", 120))
+			hud.use_backpack_slot(i)
+			for g: Dictionary in guardians:
+				if bool(g.get("alive", false)):
+					g["dmg_dealt_to_hero"] = 0
+			float_texts.append({
+				"pos": hero_px + Vector2(-12, -26),
+				"txt": "+%d HP" % heal_amt,
+				"col": Color(0.42, 1.0, 0.58),
+				"t": 1.1,
+			})
+			_show_toast("🧪 Użyto: %s (+%d HP)" % [str(it.get("name", "Mikstura")), heal_amt])
+			queue_redraw()
+			return
+	_show_toast("Brak mikstur HP w plecaku! Kup zapas u Kupca w stolicy.")
+
 func perform_labyrinth_attack() -> void:
 	if atk_cd > 0.05 or nearest_guard_idx < 0 or nearest_guard_idx >= guardians.size():
 		return
 	var g: Dictionary = guardians[nearest_guard_idx]
 	if not bool(g.get("alive", false)):
 		return
-	atk_cd = 0.55
 	var base_atk := 32
 	var hero_lv := 1
+	var crit_pct := 6.0
+	var dmg_mult := 1.0
+	var kill_heal_pct := 0.0
+	atk_cd = 0.55
 	if world != null and world.rpg_hud != null:
 		hero_lv = int(world.rpg_hud.hero_level)
 		if world.rpg_hud.has_method("get_total_attack"):
 			base_atk = int(world.rpg_hud.get_total_attack())
-	var g_lvl := int(g.get("level", 7))
+		if world.rpg_hud.has_method("get_total_crit"):
+			crit_pct = float(world.rpg_hud.get_total_crit())
+		if world.rpg_hud.has_method("get_basic_attack_interval"):
+			atk_cd = float(world.rpg_hud.get_basic_attack_interval())
+		if world.rpg_hud.has_method("get_talent_passives"):
+			var passives: Dictionary = world.rpg_hud.get_talent_passives()
+			dmg_mult += float(passives.get("dmgMult", 0.0))
+			kill_heal_pct = float(passives.get("killHealPct", 0.0))
+	if world != null and float(world.get("ki_mode_timer")) > 0.0:
+		dmg_mult *= 1.25
+	var g_lvl := int(g.get("level", 6))
 	var lv_penalty := 0.65 if (g_lvl - hero_lv >= 3) else 1.0
-	var dmg := maxi(10, int(round(float(base_atk) * lv_penalty * randf_range(0.95, 1.30))))
+	var is_crit := randf() * 100.0 < crit_pct
+	var crit_mult := 1.60 if is_crit else 1.0
+	var dmg := maxi(10, int(round(float(base_atk) * dmg_mult * lv_penalty * crit_mult * randf_range(0.95, 1.26))))
 	g["cur_hp"] = maxi(0, int(g["cur_hp"]) - dmg)
 	g["hit_flash"] = 0.22
 	float_texts.append({
 		"pos": (g["px"] as Vector2) + Vector2(0, -24),
-		"txt": "-%d" % dmg,
-		"col": Color(1.0, 0.42, 0.28),
-		"t": 0.95,
+		"txt": ("KRYT! -%d" % dmg) if is_crit else ("-%d" % dmg),
+		"col": Color(1.0, 0.88, 0.24) if is_crit else Color(1.0, 0.42, 0.28),
+		"t": 1.05 if is_crit else 0.95,
 	})
 	if int(g["cur_hp"]) <= 0:
 		g["alive"] = false
 		var hp_cost := int(g.get("dmg_dealt_to_hero", 0))
 		g["dmg_dealt_to_hero"] = 0
+		if kill_heal_pct > 0.0 and world != null and world.rpg_hud != null:
+			world.rpg_hud.hero_hp = minf(world.rpg_hud.hero_max_hp, world.rpg_hud.hero_hp + world.rpg_hud.hero_max_hp * kill_heal_pct)
 		if world != null and world.has_method("report_monster_kill"):
-			world.report_monster_kill(str(g.get("actor_id", "guardian")), g_lvl, str(g.get("name", "Strażnik")), hp_cost)
+			world.report_monster_kill(str(g.get("actor_id", "guardian")), g_lvl, str(g.get("name", "Strażnik")), hp_cost, false)
 		_show_toast("Pokonano: %s (+%d PD, +%d zł)" % [str(g.get("name", "")), int(g.get("xp", 80)), int(g.get("gold", 40))])
 	queue_redraw()
 
@@ -282,6 +342,9 @@ func _unhandled_input(event: InputEvent) -> void:
 				get_viewport().set_input_as_handled()
 		elif event.keycode == KEY_Q or event.keycode == KEY_SPACE or event.keycode == KEY_1:
 			perform_labyrinth_attack()
+			get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_H or event.keycode == KEY_E:
+			_use_labyrinth_potion()
 			get_viewport().set_input_as_handled()
 
 func _process(delta: float) -> void:
@@ -388,6 +451,9 @@ func _process(delta: float) -> void:
 	if nearest_guard_idx >= 0:
 		var g_sel: Dictionary = guardians[nearest_guard_idx]
 		btn_attack.text = "⚔ ATAKUJ: %s (%d/%d)" % [str(g_sel.get("name", "Strażnik")), int(g_sel["cur_hp"]), int(g_sel["max_hp"])]
+	var pot_cnt := _count_hp_potions()
+	btn_potion.text = "🧪 ELIKSIR HP (%d) [H]" % pot_cnt
+	btn_potion.modulate = Color(1.0, 1.0, 1.0, 1.0) if pot_cnt > 0 else Color(0.66, 0.66, 0.72, 0.78)
 
 	near_exit = hero_px.distance_to(exit_px) < 42.0
 
@@ -505,10 +571,42 @@ func _draw() -> void:
 	# Top Header Bar
 	draw_rect(Rect2(0, 0, vs.x, 68.0), Color(0.04, 0.035, 0.055, 0.94), true)
 	draw_line(Vector2(0, 68.0), Vector2(vs.x, 68.0), Color(0.92, 0.72, 0.34, 0.85), 2.0)
-	draw_string(f, Vector2(198, 32), "⚔ %s (Poz. %d)" % [str(lab_data.get("title", "Labirynt")), int(lab_data.get("level", 6))], HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.90, 0.56))
-	draw_string(fb, Vector2(198, 54), "%s  •  Ukryte skarby: %d / %d  •  [WASD / Joystick] ruch  •  [F] otwórz  •  [Q/Spacja] atak" % [
+	draw_string(f, Vector2(198, 32), "⚔ %s (Poz. %d)" % [str(lab_data.get("title", "Labirynt")), int(lab_data.get("level", 5))], HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.90, 0.56))
+	draw_string(fb, Vector2(198, 54), "%s  •  Skarby: %d/%d  •  [WASD] ruch  •  [F] otwórz  •  [Q/Spacja] atak  •  [H] eliksir" % [
 		str(lab_data.get("subtitle", "")), opened_cnt, chests.size()
 	], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.84, 0.90, 0.96))
+
+	# Live Hero HP / Shield / KI bars in Top-Right Header
+	if world != null and world.rpg_hud != null:
+		var hud = world.rpg_hud
+		var bw_h := 268.0
+		var bx_h := vs.x - bw_h - 18.0
+		var hp_cur := float(hud.hero_hp)
+		var hp_max := maxf(float(hud.hero_max_hp), 1.0)
+		var hp_frac := clampf(hp_cur / hp_max, 0.0, 1.0)
+		var sh_val := float(hud.hero_shield_hp) if float(hud.hero_shield_timer) > 0.05 else 0.0
+		var ki_cur := float(hud.hero_ki)
+		var ki_max := maxf(float(hud.hero_max_ki), 1.0)
+		var ki_frac := clampf(ki_cur / ki_max, 0.0, 1.0)
+		# HP bar
+		var hp_rect := Rect2(bx_h, 11.0, bw_h, 21.0)
+		draw_rect(hp_rect, Color(0.10, 0.04, 0.05, 0.95), true)
+		draw_rect(Rect2(hp_rect.position + Vector2(1, 1), Vector2((bw_h - 2.0) * hp_frac, 19.0)), Color(0.86, 0.18, 0.18, 0.96), true)
+		if sh_val > 0.5:
+			var sh_frac := clampf(sh_val / hp_max, 0.0, 1.0)
+			draw_rect(Rect2(hp_rect.position + Vector2(1, 1), Vector2((bw_h - 2.0) * sh_frac, 5.0)), Color(0.32, 0.94, 1.0, 0.96), true)
+		draw_rect(hp_rect, Color(0.92, 0.72, 0.34, 0.85), false, 1.4)
+		var hp_txt := "HP %d / %d%s" % [int(round(hp_cur)), int(round(hp_max)), (" [+%d]" % int(round(sh_val))) if sh_val > 0.5 else ""]
+		draw_string_outline(fb, Vector2(bx_h + 8.0, 26.5), hp_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 3, Color(0.02, 0.01, 0.01, 0.98))
+		draw_string(fb, Vector2(bx_h + 8.0, 26.5), hp_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.96, 0.92))
+		# KI bar
+		var ki_rect := Rect2(bx_h, 38.0, bw_h, 18.0)
+		draw_rect(ki_rect, Color(0.04, 0.08, 0.14, 0.95), true)
+		draw_rect(Rect2(ki_rect.position + Vector2(1, 1), Vector2((bw_h - 2.0) * ki_frac, 16.0)), Color(0.18, 0.70, 0.98, 0.96), true)
+		draw_rect(ki_rect, Color(0.45, 0.82, 0.98, 0.80), false, 1.2)
+		var ki_txt := "KI %d / %d   •   Poz.%d" % [int(round(ki_cur)), int(round(ki_max)), int(hud.hero_level)]
+		draw_string_outline(fb, Vector2(bx_h + 8.0, 51.5), ki_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 3, Color(0.02, 0.02, 0.04, 0.98))
+		draw_string(fb, Vector2(bx_h + 8.0, 51.5), ki_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.84, 0.96, 1.0))
 
 	# Corner Maze Minimap (top-left below header)
 	var mm_cell := 9.0

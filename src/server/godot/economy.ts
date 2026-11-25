@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RACE_BASE } from "../../game/kit/nodes.generated";
+import { KIT_NODES, RACE_BASE } from "../../game/kit/nodes.generated";
 import type { RaceId } from "../../game/world/races";
 import { ANDROID_GOALS_MAP, evaluateGoalForCharacter, type AndroidGoalProgressView } from "./goals";
 
@@ -16,28 +16,46 @@ export const HOME_LAND_BY_RACE: Record<AndroidRace, AndroidLand> = {
   android: "nexus",
 };
 
-export const BACKPACK_SIZE = 15;
-export const BANK_SIZE = 12;
+export const BACKPACK_SIZE = 24;
+export const BANK_SIZE = 24;
 export const EQUIP_SLOTS = 8;
 export const MAX_LEVEL = 100;
 export const MAX_GOLD = 10_000_000;
-export const ARENA_COOLDOWN_MS = 5_000;
-export const ARENA_XP_REWARD = 60;
+export const TRAINING_COOLDOWN_MS = 8_000;
+export const ARENA_COOLDOWN_MS = TRAINING_COOLDOWN_MS;
+export const BLESSING_DURATION_MS = 15 * 60 * 1000;
+export const GATHER_NODE_COOLDOWN_MS = 90_000;
+export const GATHER_GLOBAL_COOLDOWN_MS = 1_200;
+export const KILL_WINDOW_MS = 1_000;
+export const MAX_KILLS_PER_WINDOW = 14;
 export const QUEST_GOLD_REWARD = 80;
 export const QUEST_XP_REWARD = 45;
 export const MAX_PLAYER_ANDROID_CHARACTERS = 12;
 
-export type AndroidItemCategory = "weapon" | "armor" | "jewelry" | "consumable";
+export type AndroidItemCategory = "weapon" | "armor" | "jewelry" | "consumable" | "material";
+export type AndroidItemRarity = "common" | "uncommon" | "rare" | "epic" | "legendary";
+export type AndroidItemSource = "shop" | "craft" | "quest" | "gather" | "drop" | "elite" | "legacy";
+
+export type CraftIngredient = { id: string; qty: number };
 
 export type AndroidItemDef = {
   id: string;
   name: string;
   cat: AndroidItemCategory;
+  rarity: AndroidItemRarity;
+  obtainableFrom: AndroidItemSource;
+  minLevel: number;
   icon: string;
-  slot: number; // -1 consumable, 0..7 equip slot
+  slot: number; // -1 consumable/material, 0..7 equip slot
   desc: string;
-  shopPrice: number;
+  /** Non-null ONLY for consumables and Tier-1 starter gear sold in Shop. */
+  shopPrice: number | null;
+  /** Sell payout in Shop (0 = unsellable). */
+  sellPrice: number;
+  /** Gold fee in Smithy (non-null ONLY for craftable gear). */
   craftCost: number | null;
+  /** Materials required in Smithy for crafting. */
+  craftIngredients?: readonly CraftIngredient[];
   atk?: number;
   def?: number;
   hp?: number;
@@ -49,183 +67,59 @@ export type AndroidItemDef = {
   gold?: number;
 };
 
-/** Canonical item catalog matching ports/godot-isometric-world/scripts/gm_panel.gd. Prices & bonuses live here on the server. */
+/**
+ * Canonical Android/Godot item catalog aligned with owner's V2 economy (12.11.2026 & 25.11.2026):
+ * - Shop: ONLY consumables + Tier 1 starter common gear (Lv.1-2). NO rare/epic/legendary, NO pouch_gold!
+ * - Craft (Smithy): Majority of equipment (Tier 2 uncommon Lv.2-4, Tier 3 rare Lv.6-9, Tier 4 epic Lv.10-14)
+ *   requiring real gathered materials + monster trophies + Elite cores + gold + level gate!
+ * - Hard Quests / Labyrinths / Elites: Unique rare/epic/legendary items not purchasable in shop!
+ */
 export const ANDROID_ITEM_CATALOG: readonly AndroidItemDef[] = [
+  // =========================================================================
+  // 1. CONSUMABLES (Shop + Drops)
+  // =========================================================================
   {
-    id: "sword_superior",
-    name: "Ostrze Superior",
-    cat: "weapon",
-    icon: "gear-sword.webp",
-    slot: 2,
-    desc: "+28 Atak • +4% Kryt",
-    shopPrice: 340,
-    craftCost: 200,
-    atk: 28,
-    crit: 4,
-  },
-  {
-    id: "blade_pyra",
-    name: "Obsydianowy Miecz Żaru",
-    cat: "weapon",
-    icon: "emblem_swords.webp",
-    slot: 2,
-    desc: "+42 Atak • Ogień Pyry",
-    shopPrice: 340,
-    craftCost: 200,
-    atk: 42,
-    crit: 5,
-  },
-  {
-    id: "staff_aether",
-    name: "Kostur Tysiąca Źródeł",
-    cat: "weapon",
-    icon: "emblem_crystal.webp",
-    slot: 2,
-    desc: "+30 Atak • +45 KI",
-    shopPrice: 340,
-    craftCost: 200,
-    atk: 30,
-    ki: 45,
-  },
-  {
-    id: "blade_nexus",
-    name: "Klinga Plazmowa MK-IX",
-    cat: "weapon",
-    icon: "emblem_slash.webp",
-    slot: 2,
-    desc: "+38 Atak • +8% Kryt",
-    shopPrice: 340,
-    craftCost: 200,
-    atk: 38,
-    crit: 8,
-  },
-  {
-    id: "helm_pyra",
-    name: "Hełm Żaru Cytadeli",
-    cat: "armor",
-    icon: "gear-helmet.webp",
-    slot: 0,
-    desc: "+16 Obrona • +60 HP",
-    shopPrice: 340,
-    craftCost: 200,
-    def: 16,
-    hp: 60,
-  },
-  {
-    id: "helm_aether",
-    name: "Korona Lodowego Mędrca",
-    cat: "armor",
-    icon: "gear-helmet.webp",
-    slot: 0,
-    desc: "+24 Obrona • +75 KI",
-    shopPrice: 340,
-    craftCost: 200,
-    def: 24,
-    ki: 75,
-  },
-  {
-    id: "vest_guardian",
-    name: "Kirys Strażnika Gaju",
-    cat: "armor",
-    icon: "gear-vest.webp",
-    slot: 4,
-    desc: "+26 Obrona • +120 HP",
-    shopPrice: 340,
-    craftCost: 200,
-    def: 26,
-    hp: 120,
-  },
-  {
-    id: "shield_basalt",
-    name: "Tarcza Bazaltowej Grani",
-    cat: "armor",
-    icon: "gear-shield.webp",
-    slot: 5,
-    desc: "+32 Obrona • +90 HP",
-    shopPrice: 340,
-    craftCost: 200,
-    def: 32,
-    hp: 90,
-  },
-  {
-    id: "gloves_clan",
-    name: "Rękawice Mistrza Ki",
-    cat: "armor",
-    icon: "gear-gloves.webp",
-    slot: 3,
-    desc: "+14 Atak • +12 Obrona",
-    shopPrice: 340,
-    craftCost: 200,
-    atk: 14,
-    def: 12,
-  },
-  {
-    id: "boots_wind",
-    name: "Buty Wichru Superior",
-    cat: "jewelry",
-    icon: "gear-boots.webp",
-    slot: 7,
-    desc: "+35 Szybkość • +10 Obrona",
-    shopPrice: 340,
-    craftCost: 200,
-    spd: 35,
-    def: 10,
-  },
-  {
-    id: "amulet_ki",
-    name: "Amulet Czystego Ki",
-    cat: "jewelry",
-    icon: "gear-amulet.webp",
-    slot: 1,
-    desc: "+65 KI • +5% Kryt",
-    shopPrice: 340,
-    craftCost: 200,
-    ki: 65,
-    crit: 5,
-  },
-  {
-    id: "ring_aether",
-    name: "Pierścień Eteru",
-    cat: "jewelry",
-    icon: "gear-ring.webp",
-    slot: 6,
-    desc: "+18 Atak • +35 KI",
-    shopPrice: 340,
-    craftCost: 200,
-    atk: 18,
-    ki: 35,
-  },
-  {
-    id: "ring_titan",
-    name: "Sygnet Tytana",
-    cat: "jewelry",
-    icon: "emblem_shield.webp",
-    slot: 6,
-    desc: "+140 HP • +22 Obrona",
-    shopPrice: 340,
-    craftCost: 200,
-    hp: 140,
-    def: 22,
+    id: "potion_hp_small",
+    name: "Mała Mikstura Życia",
+    cat: "consumable",
+    rarity: "common",
+    obtainableFrom: "shop",
+    minLevel: 1,
+    icon: "item-potion.webp",
+    slot: -1,
+    desc: "Przywraca +75 HP",
+    shopPrice: 45,
+    sellPrice: 12,
+    craftCost: null,
+    healHp: 75,
   },
   {
     id: "potion_hp",
     name: "Wielki Eliksir Życia",
     cat: "consumable",
+    rarity: "uncommon",
+    obtainableFrom: "shop",
+    minLevel: 1,
     icon: "gear-potion.webp",
     slot: -1,
-    desc: "Przywraca +150 HP",
-    shopPrice: 120,
+    desc: "Przywraca +160 HP",
+    shopPrice: 110,
+    sellPrice: 28,
     craftCost: null,
-    healHp: 150,
+    healHp: 160,
   },
   {
     id: "potion_ki",
     name: "Eliksir Energii Ki",
     cat: "consumable",
+    rarity: "common",
+    obtainableFrom: "shop",
+    minLevel: 1,
     icon: "emblem_potion.webp",
     slot: -1,
     desc: "Przywraca +80 KI",
-    shopPrice: 120,
+    shopPrice: 90,
+    sellPrice: 22,
     craftCost: null,
     healKi: 80,
   },
@@ -233,42 +127,1069 @@ export const ANDROID_ITEM_CATALOG: readonly AndroidItemDef[] = [
     id: "scroll_tp",
     name: "Zwój Powrotu do Stolicy",
     cat: "consumable",
+    rarity: "common",
+    obtainableFrom: "shop",
+    minLevel: 1,
     icon: "emblem_scroll.webp",
     slot: -1,
-    desc: "Natychmiastowy powrót",
-    shopPrice: 120,
+    desc: "Natychmiastowy powrót do stolicy (bez czasu oczekiwania)",
+    shopPrice: 80,
+    sellPrice: 20,
     craftCost: null,
   },
   {
+    // Legacy save compatibility only — NEVER sold in Shop (closes +380g exploit!)
+    id: "pouch_gold",
+    name: "Sakiewka Złota (Archiwalna)",
+    cat: "consumable",
+    rarity: "common",
+    obtainableFrom: "legacy",
+    minLevel: 1,
+    icon: "gear-coin.webp",
+    slot: -1,
+    desc: "Dodaje 100 złota",
+    shopPrice: null,
+    sellPrice: 0,
+    craftCost: null,
+    gold: 100,
+  },
+
+  // =========================================================================
+  // 2. GATHERED MATERIALS (12 regional resources — server-authoritative!)
+  // =========================================================================
+  {
+    id: "mat_ember",
+    name: "Esencja Płomienia",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "gather",
+    minLevel: 1,
+    icon: "material-esencja-plomienia.webp",
+    slot: -1,
+    desc: "Surowiec Pyry do craftingu w Kuźni",
+    shopPrice: null,
+    sellPrice: 18,
+    craftCost: null,
+  },
+  {
+    id: "mat_obsidian",
+    name: "Odłamek Obsydianu",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "gather",
+    minLevel: 1,
+    icon: "material-obsydian.webp",
+    slot: -1,
+    desc: "Surowiec Pyry do wykuwania broni i pancerzy",
+    shopPrice: null,
+    sellPrice: 18,
+    craftCost: null,
+  },
+  {
+    id: "mat_ash_herb",
+    name: "Skrzydło Żaru",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "gather",
+    minLevel: 1,
+    icon: "material-skrzydlo-zaru.webp",
+    slot: -1,
+    desc: "Zioło Pyry używane w rzemiośle",
+    shopPrice: null,
+    sellPrice: 15,
+    craftCost: null,
+  },
+  {
+    id: "mat_shroom",
+    name: "Czerwony Grzyb",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "gather",
+    minLevel: 1,
+    icon: "material-czerwony-grzyb.webp",
+    slot: -1,
+    desc: "Surowiec Verdantii do craftingu",
+    shopPrice: null,
+    sellPrice: 16,
+    craftCost: null,
+  },
+  {
+    id: "mat_amber",
+    name: "Złoty Bursztyn",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "gather",
+    minLevel: 1,
+    icon: "material-bursztyn.webp",
+    slot: -1,
+    desc: "Surowiec Verdantii do wykuwania broni i biżuterii",
+    shopPrice: null,
+    sellPrice: 18,
+    craftCost: null,
+  },
+  {
+    id: "mat_seeds",
+    name: "Nasiona Gaju",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "gather",
+    minLevel: 1,
+    icon: "material-nasiona.webp",
+    slot: -1,
+    desc: "Surowiec Verdantii do pancerzy natury",
+    shopPrice: null,
+    sellPrice: 15,
+    craftCost: null,
+  },
+  {
+    id: "mat_rune",
+    name: "Kamień Runiczny",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "gather",
+    minLevel: 1,
+    icon: "material-kamien-runiczny.webp",
+    slot: -1,
+    desc: "Surowiec Aetherii do kosturów i pieczęci",
+    shopPrice: null,
+    sellPrice: 18,
+    craftCost: null,
+  },
+  {
+    id: "mat_lightdust",
+    name: "Pył Światła",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "gather",
+    minLevel: 1,
+    icon: "material-pyl-swiatla.webp",
+    slot: -1,
+    desc: "Surowiec Aetherii do amuletów i hełmów",
+    shopPrice: null,
+    sellPrice: 17,
+    craftCost: null,
+  },
+  {
+    id: "mat_parchment",
+    name: "Karta Pergaminu",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "gather",
+    minLevel: 1,
+    icon: "material-karta-pergaminu.webp",
+    slot: -1,
+    desc: "Surowiec Aetherii do zaawansowanych receptur",
+    shopPrice: null,
+    sellPrice: 18,
+    craftCost: null,
+  },
+  {
+    id: "mat_plasma",
+    name: "Rdzeń Plazmy",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "gather",
+    minLevel: 1,
+    icon: "material-rdzen-plazmy.webp",
+    slot: -1,
+    desc: "Surowiec Nexus-9 do uzbrojenia plazmowego",
+    shopPrice: null,
+    sellPrice: 18,
+    craftCost: null,
+  },
+  {
+    id: "mat_coil",
+    name: "Cewka Zasilająca",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "gather",
+    minLevel: 1,
+    icon: "material-cewka.webp",
+    slot: -1,
+    desc: "Surowiec Nexus-9 do obwodów bojowych",
+    shopPrice: null,
+    sellPrice: 18,
+    craftCost: null,
+  },
+  {
+    id: "mat_optic",
+    name: "Moduł Optyczny",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "gather",
+    minLevel: 1,
+    icon: "material-modul-optyczny.webp",
+    slot: -1,
+    desc: "Surowiec Nexus-9 do precyzyjnego sprzętu",
+    shopPrice: null,
+    sellPrice: 17,
+    craftCost: null,
+  },
+
+  // =========================================================================
+  // 3. MONSTER TROPHIES & ELITE / LABYRINTH CORES
+  // =========================================================================
+  {
     id: "crystal_ki",
     name: "Kryształ Skupienia Ki",
-    cat: "consumable",
+    cat: "material",
+    rarity: "uncommon",
+    obtainableFrom: "gather",
+    minLevel: 1,
     icon: "emblem_crystal.webp",
     slot: -1,
-    desc: "Surowiec alchemiczny",
-    shopPrice: 120,
+    desc: "Uniwersalny kryształ rzemieślniczy (zbiór i potwory)",
+    shopPrice: null,
+    sellPrice: 24,
     craftCost: null,
   },
   {
     id: "tusk_beast",
-    name: "Kieł Płomiennego Wilka",
-    cat: "consumable",
+    name: "Kieł Bestii",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "drop",
+    minLevel: 1,
     icon: "gear-tusk.webp",
     slot: -1,
-    desc: "Trofeum rzemieślnicze",
-    shopPrice: 120,
+    desc: "Trofeum z potworów (do Kuźni lub na sprzedaż)",
+    shopPrice: null,
+    sellPrice: 16,
     craftCost: null,
   },
   {
-    id: "pouch_gold",
-    name: "Sakiewka Złota (+500)",
-    cat: "consumable",
-    icon: "gear-coin.webp",
+    id: "mat_salamander_scale",
+    name: "Łuska Salamandry",
+    cat: "material",
+    rarity: "uncommon",
+    obtainableFrom: "drop",
+    minLevel: 2,
+    icon: "material-luska-salamandry.webp",
     slot: -1,
-    desc: "Dodaje 500 złota",
-    shopPrice: 120,
+    desc: "Trofeum potworów Pyry do craftingu",
+    shopPrice: null,
+    sellPrice: 24,
     craftCost: null,
-    gold: 500,
+  },
+  {
+    id: "mat_magma_plate",
+    name: "Magmowy Pancerz",
+    cat: "material",
+    rarity: "rare",
+    obtainableFrom: "drop",
+    minLevel: 6,
+    icon: "material-magmowy-pancerz.webp",
+    slot: -1,
+    desc: "Rzadkie trofeum silnych potworów Pyry",
+    shopPrice: null,
+    sellPrice: 40,
+    craftCost: null,
+  },
+  {
+    id: "mat_moss_jelly",
+    name: "Mchowa Galaretka",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "drop",
+    minLevel: 1,
+    icon: "material-mchowa-galaretka.webp",
+    slot: -1,
+    desc: "Trofeum potworów Verdantii do craftingu",
+    shopPrice: null,
+    sellPrice: 20,
+    craftCost: null,
+  },
+  {
+    id: "mat_wolf_thorn",
+    name: "Cierń Wilka",
+    cat: "material",
+    rarity: "uncommon",
+    obtainableFrom: "drop",
+    minLevel: 3,
+    icon: "material-ciern-wilka.webp",
+    slot: -1,
+    desc: "Trofeum drapieżników Verdantii",
+    shopPrice: null,
+    sellPrice: 26,
+    craftCost: null,
+  },
+  {
+    id: "mat_spider_silk",
+    name: "Jedwab Pająka",
+    cat: "material",
+    rarity: "rare",
+    obtainableFrom: "drop",
+    minLevel: 6,
+    icon: "material-jedwab-pajaka.webp",
+    slot: -1,
+    desc: "Rzadkie trofeum głębokiego lasu Verdantii",
+    shopPrice: null,
+    sellPrice: 40,
+    craftCost: null,
+  },
+  {
+    id: "mat_aether_thread",
+    name: "Nić Eteru",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "drop",
+    minLevel: 1,
+    icon: "material-nic-eteru.webp",
+    slot: -1,
+    desc: "Trofeum istot Aetherii do craftingu",
+    shopPrice: null,
+    sellPrice: 20,
+    craftCost: null,
+  },
+  {
+    id: "mat_crystal_wing",
+    name: "Kryształowe Skrzydło",
+    cat: "material",
+    rarity: "uncommon",
+    obtainableFrom: "drop",
+    minLevel: 3,
+    icon: "material-skrzydlo-krysztalowe.webp",
+    slot: -1,
+    desc: "Trofeum eterycznych bestii Aetherii",
+    shopPrice: null,
+    sellPrice: 26,
+    craftCost: null,
+  },
+  {
+    id: "mat_temple_stone",
+    name: "Kamień Świątynny",
+    cat: "material",
+    rarity: "rare",
+    obtainableFrom: "drop",
+    minLevel: 6,
+    icon: "material-kamien-swiatynny.webp",
+    slot: -1,
+    desc: "Rzadkie trofeum strażników Aetherii",
+    shopPrice: null,
+    sellPrice: 40,
+    craftCost: null,
+  },
+  {
+    id: "mat_sensor",
+    name: "Czujnik Drona",
+    cat: "material",
+    rarity: "common",
+    obtainableFrom: "drop",
+    minLevel: 1,
+    icon: "material-czujnik.webp",
+    slot: -1,
+    desc: "Trofeum maszyn Nexus-9 do craftingu",
+    shopPrice: null,
+    sellPrice: 20,
+    craftCost: null,
+  },
+  {
+    id: "mat_armor_plate",
+    name: "Płyta Pancerna",
+    cat: "material",
+    rarity: "uncommon",
+    obtainableFrom: "drop",
+    minLevel: 3,
+    icon: "material-plyta-pancerna.webp",
+    slot: -1,
+    desc: "Trofeum jednostek bojowych Nexus-9",
+    shopPrice: null,
+    sellPrice: 26,
+    craftCost: null,
+  },
+  {
+    id: "mat_energy_core",
+    name: "Rdzeń Energii",
+    cat: "material",
+    rarity: "rare",
+    obtainableFrom: "drop",
+    minLevel: 6,
+    icon: "material-rdzen-energii.webp",
+    slot: -1,
+    desc: "Rzadkie trofeum ciężkich mechów Nexus-9",
+    shopPrice: null,
+    sellPrice: 40,
+    craftCost: null,
+  },
+  {
+    id: "mat_elite_core",
+    name: "Rdzeń Alfy",
+    cat: "material",
+    rarity: "rare",
+    obtainableFrom: "elite",
+    minLevel: 5,
+    icon: "material-zloty-pancerz.webp",
+    slot: -1,
+    desc: "Gwarantowany łup z Elit — wymagany do zaawansowanego craftu (Poz. 6+)",
+    shopPrice: null,
+    sellPrice: 75,
+    craftCost: null,
+  },
+  {
+    id: "mat_labyrinth_relic",
+    name: "Relikt Labiryntu",
+    cat: "material",
+    rarity: "epic",
+    obtainableFrom: "quest",
+    minLevel: 5,
+    icon: "material-maska-rytualu.webp",
+    slot: -1,
+    desc: "Zdobywany za ukończenie Labiryntu (4/4 skrzynie) — składnik mistrzowskiej Kuźni",
+    shopPrice: null,
+    sellPrice: 120,
+    craftCost: null,
+  },
+
+  // =========================================================================
+  // 4. TIER 1 — STARTER SHOP GEAR (common, Lv.1-2 — ONLY gear sold in Shop!)
+  // =========================================================================
+  {
+    id: "weapon_recruit_sword",
+    name: "Miecz Rekruta",
+    cat: "weapon",
+    rarity: "common",
+    obtainableFrom: "shop",
+    minLevel: 1,
+    icon: "item-sword.webp",
+    slot: 2,
+    desc: "Poz. 1 • +7 Atak (Sklep — podstawowy)",
+    shopPrice: 180,
+    sellPrice: 45,
+    craftCost: null,
+    atk: 7,
+  },
+  {
+    id: "weapon_apprentice_staff",
+    name: "Kostur Ucznia",
+    cat: "weapon",
+    rarity: "common",
+    obtainableFrom: "shop",
+    minLevel: 1,
+    icon: "emblem_crystal.webp",
+    slot: 2,
+    desc: "Poz. 1 • +6 Atak • +18 KI (Sklep — podstawowy)",
+    shopPrice: 180,
+    sellPrice: 45,
+    craftCost: null,
+    atk: 6,
+    ki: 18,
+  },
+  {
+    id: "armor_traveler_vest",
+    name: "Przeszywanica Wędrowca",
+    cat: "armor",
+    rarity: "common",
+    obtainableFrom: "shop",
+    minLevel: 1,
+    icon: "item-vest.webp",
+    slot: 4,
+    desc: "Poz. 1 • +6 Obrona • +30 HP (Sklep — podstawowy)",
+    shopPrice: 200,
+    sellPrice: 50,
+    craftCost: null,
+    def: 6,
+    hp: 30,
+  },
+  {
+    id: "helm_traveler",
+    name: "Kaptur Podróżnika",
+    cat: "armor",
+    rarity: "common",
+    obtainableFrom: "shop",
+    minLevel: 1,
+    icon: "gear-helmet.webp",
+    slot: 0,
+    desc: "Poz. 1 • +4 Obrona • +18 HP (Sklep — podstawowy)",
+    shopPrice: 150,
+    sellPrice: 38,
+    craftCost: null,
+    def: 4,
+    hp: 18,
+  },
+  {
+    id: "gloves_leather",
+    name: "Skórzane Rękawice",
+    cat: "armor",
+    rarity: "common",
+    obtainableFrom: "shop",
+    minLevel: 2,
+    icon: "gear-gloves.webp",
+    slot: 3,
+    desc: "Poz. 2 • +4 Atak • +3 Obrona (Sklep — podstawowy)",
+    shopPrice: 160,
+    sellPrice: 40,
+    craftCost: null,
+    atk: 4,
+    def: 3,
+  },
+  {
+    id: "boots_trail",
+    name: "Sandały Traktu",
+    cat: "jewelry",
+    rarity: "common",
+    obtainableFrom: "shop",
+    minLevel: 2,
+    icon: "gear-boots.webp",
+    slot: 7,
+    desc: "Poz. 2 • +12 Szybkość • +3 Obrona (Sklep — podstawowy)",
+    shopPrice: 170,
+    sellPrice: 42,
+    craftCost: null,
+    spd: 12,
+    def: 3,
+  },
+
+  // =========================================================================
+  // 5. TIER 2 — CRAFTED GEAR (uncommon, Lv.2-4 — NOT in Shop, requires mats!)
+  // =========================================================================
+  {
+    id: "blade_ember_t2",
+    name: "Ostrze Żaru I",
+    cat: "weapon",
+    rarity: "uncommon",
+    obtainableFrom: "craft",
+    minLevel: 2,
+    icon: "emblem_swords.webp",
+    slot: 2,
+    desc: "Poz. 2 • +15 Atak • +2% Kryt (Kuźnia)",
+    shopPrice: null,
+    sellPrice: 65,
+    craftCost: 110,
+    craftIngredients: [
+      { id: "mat_obsidian", qty: 2 },
+      { id: "tusk_beast", qty: 2 },
+    ],
+    atk: 15,
+    crit: 2,
+  },
+  {
+    id: "blade_grove_t2",
+    name: "Klinga Gaju I",
+    cat: "weapon",
+    rarity: "uncommon",
+    obtainableFrom: "craft",
+    minLevel: 2,
+    icon: "gear-sword.webp",
+    slot: 2,
+    desc: "Poz. 2 • +13 Atak • +12 Szybkość (Kuźnia)",
+    shopPrice: null,
+    sellPrice: 65,
+    craftCost: 110,
+    craftIngredients: [
+      { id: "mat_amber", qty: 2 },
+      { id: "mat_moss_jelly", qty: 2 },
+    ],
+    atk: 13,
+    spd: 12,
+  },
+  {
+    id: "staff_seal_t2",
+    name: "Laska Pieczęci I",
+    cat: "weapon",
+    rarity: "uncommon",
+    obtainableFrom: "craft",
+    minLevel: 2,
+    icon: "emblem_crystal.webp",
+    slot: 2,
+    desc: "Poz. 2 • +14 Atak • +28 KI (Kuźnia)",
+    shopPrice: null,
+    sellPrice: 65,
+    craftCost: 110,
+    craftIngredients: [
+      { id: "mat_rune", qty: 2 },
+      { id: "mat_aether_thread", qty: 2 },
+    ],
+    atk: 14,
+    ki: 28,
+  },
+  {
+    id: "blade_pulse_t2",
+    name: "Klinga Impulsowa MK-I",
+    cat: "weapon",
+    rarity: "uncommon",
+    obtainableFrom: "craft",
+    minLevel: 2,
+    icon: "emblem_slash.webp",
+    slot: 2,
+    desc: "Poz. 2 • +14 Atak • +4% Kryt (Kuźnia)",
+    shopPrice: null,
+    sellPrice: 65,
+    craftCost: 110,
+    craftIngredients: [
+      { id: "mat_coil", qty: 2 },
+      { id: "mat_sensor", qty: 2 },
+    ],
+    atk: 14,
+    crit: 4,
+  },
+  {
+    id: "helm_scout_t2",
+    name: "Hełm Zwiadowcy",
+    cat: "armor",
+    rarity: "uncommon",
+    obtainableFrom: "craft",
+    minLevel: 2,
+    icon: "gear-helmet.webp",
+    slot: 0,
+    desc: "Poz. 2 • +9 Obrona • +38 HP (Kuźnia)",
+    shopPrice: null,
+    sellPrice: 55,
+    craftCost: 95,
+    craftIngredients: [
+      { id: "tusk_beast", qty: 2 },
+      { id: "crystal_ki", qty: 1 },
+    ],
+    def: 9,
+    hp: 38,
+  },
+  {
+    id: "vest_scale_t2",
+    name: "Pancerz Łuskowy",
+    cat: "armor",
+    rarity: "uncommon",
+    obtainableFrom: "craft",
+    minLevel: 3,
+    icon: "gear-vest.webp",
+    slot: 4,
+    desc: "Poz. 3 • +13 Obrona • +62 HP (Kuźnia)",
+    shopPrice: null,
+    sellPrice: 75,
+    craftCost: 135,
+    craftIngredients: [
+      { id: "tusk_beast", qty: 3 },
+      { id: "crystal_ki", qty: 2 },
+    ],
+    def: 13,
+    hp: 62,
+  },
+  {
+    id: "shield_warden_t2",
+    name: "Tarcza Strażnika Szlaku",
+    cat: "armor",
+    rarity: "uncommon",
+    obtainableFrom: "craft",
+    minLevel: 3,
+    icon: "gear-shield.webp",
+    slot: 5,
+    desc: "Poz. 3 • +14 Obrona • +45 HP (Kuźnia)",
+    shopPrice: null,
+    sellPrice: 70,
+    craftCost: 130,
+    craftIngredients: [
+      { id: "tusk_beast", qty: 2 },
+      { id: "crystal_ki", qty: 2 },
+    ],
+    def: 14,
+    hp: 45,
+  },
+  {
+    id: "gloves_adept_t2",
+    name: "Rękawice Adepta Ki",
+    cat: "armor",
+    rarity: "uncommon",
+    obtainableFrom: "craft",
+    minLevel: 3,
+    icon: "gear-gloves.webp",
+    slot: 3,
+    desc: "Poz. 3 • +8 Atak • +6 Obrona (Kuźnia)",
+    shopPrice: null,
+    sellPrice: 60,
+    craftCost: 115,
+    craftIngredients: [
+      { id: "tusk_beast", qty: 2 },
+      { id: "crystal_ki", qty: 1 },
+    ],
+    atk: 8,
+    def: 6,
+  },
+  {
+    id: "boots_swift_t2",
+    name: "Buty Pędu Szlaku",
+    cat: "jewelry",
+    rarity: "uncommon",
+    obtainableFrom: "craft",
+    minLevel: 3,
+    icon: "gear-boots.webp",
+    slot: 7,
+    desc: "Poz. 3 • +22 Szybkość • +6 Obrona (Kuźnia)",
+    shopPrice: null,
+    sellPrice: 65,
+    craftCost: 120,
+    craftIngredients: [
+      { id: "tusk_beast", qty: 2 },
+      { id: "crystal_ki", qty: 2 },
+    ],
+    spd: 22,
+    def: 6,
+  },
+  {
+    id: "amulet_spark_t2",
+    name: "Amulet Iskry Ki",
+    cat: "jewelry",
+    rarity: "uncommon",
+    obtainableFrom: "craft",
+    minLevel: 4,
+    icon: "gear-amulet.webp",
+    slot: 1,
+    desc: "Poz. 4 • +32 KI • +3% Kryt (Kuźnia)",
+    shopPrice: null,
+    sellPrice: 70,
+    craftCost: 140,
+    craftIngredients: [{ id: "crystal_ki", qty: 3 }],
+    ki: 32,
+    crit: 3,
+  },
+
+  // =========================================================================
+  // 6. TIER 3 — RARE CRAFTED GEAR (Lv.6-9 — NOT in Shop, requires Elite Core!)
+  // =========================================================================
+  {
+    id: "sword_superior",
+    name: "Ostrze Superior",
+    cat: "weapon",
+    rarity: "rare",
+    obtainableFrom: "craft",
+    minLevel: 6,
+    icon: "gear-sword.webp",
+    slot: 2,
+    desc: "Poz. 6 • +28 Atak • +4% Kryt (Kuźnia — Rzadkie)",
+    shopPrice: null,
+    sellPrice: 130,
+    craftCost: 340,
+    craftIngredients: [
+      { id: "crystal_ki", qty: 4 },
+      { id: "tusk_beast", qty: 4 },
+      { id: "mat_elite_core", qty: 1 },
+    ],
+    atk: 28,
+    crit: 4,
+  },
+  {
+    id: "helm_pyra",
+    name: "Hełm Żaru Cytadeli",
+    cat: "armor",
+    rarity: "rare",
+    obtainableFrom: "craft",
+    minLevel: 6,
+    icon: "gear-helmet.webp",
+    slot: 0,
+    desc: "Poz. 6 • +16 Obrona • +60 HP (Kuźnia — Rzadkie)",
+    shopPrice: null,
+    sellPrice: 120,
+    craftCost: 310,
+    craftIngredients: [
+      { id: "mat_obsidian", qty: 4 },
+      { id: "mat_salamander_scale", qty: 3 },
+      { id: "mat_elite_core", qty: 1 },
+    ],
+    def: 16,
+    hp: 60,
+  },
+  {
+    id: "vest_guardian",
+    name: "Kirys Strażnika Gaju",
+    cat: "armor",
+    rarity: "rare",
+    obtainableFrom: "craft",
+    minLevel: 7,
+    icon: "gear-vest.webp",
+    slot: 4,
+    desc: "Poz. 7 • +26 Obrona • +120 HP (Kuźnia — Rzadkie)",
+    shopPrice: null,
+    sellPrice: 150,
+    craftCost: 390,
+    craftIngredients: [
+      { id: "crystal_ki", qty: 4 },
+      { id: "tusk_beast", qty: 5 },
+      { id: "mat_elite_core", qty: 1 },
+    ],
+    def: 26,
+    hp: 120,
+  },
+  {
+    id: "gloves_clan",
+    name: "Rękawice Mistrza Ki",
+    cat: "armor",
+    rarity: "rare",
+    obtainableFrom: "craft",
+    minLevel: 6,
+    icon: "gear-gloves.webp",
+    slot: 3,
+    desc: "Poz. 6 • +14 Atak • +12 Obrona (Kuźnia — Rzadkie)",
+    shopPrice: null,
+    sellPrice: 120,
+    craftCost: 320,
+    craftIngredients: [
+      { id: "crystal_ki", qty: 3 },
+      { id: "tusk_beast", qty: 4 },
+      { id: "mat_elite_core", qty: 1 },
+    ],
+    atk: 14,
+    def: 12,
+  },
+  {
+    id: "boots_wind",
+    name: "Buty Wichru Superior",
+    cat: "jewelry",
+    rarity: "rare",
+    obtainableFrom: "craft",
+    minLevel: 7,
+    icon: "gear-boots.webp",
+    slot: 7,
+    desc: "Poz. 7 • +35 Szybkość • +10 Obrona (Kuźnia — Rzadkie)",
+    shopPrice: null,
+    sellPrice: 130,
+    craftCost: 340,
+    craftIngredients: [
+      { id: "crystal_ki", qty: 4 },
+      { id: "tusk_beast", qty: 4 },
+      { id: "mat_elite_core", qty: 1 },
+    ],
+    spd: 35,
+    def: 10,
+  },
+  {
+    id: "amulet_ki",
+    name: "Amulet Czystego Ki",
+    cat: "jewelry",
+    rarity: "rare",
+    obtainableFrom: "craft",
+    minLevel: 8,
+    icon: "gear-amulet.webp",
+    slot: 1,
+    desc: "Poz. 8 • +65 KI • +5% Kryt (Kuźnia — Rzadkie)",
+    shopPrice: null,
+    sellPrice: 140,
+    craftCost: 380,
+    craftIngredients: [
+      { id: "crystal_ki", qty: 6 },
+      { id: "mat_elite_core", qty: 1 },
+    ],
+    ki: 65,
+    crit: 5,
+  },
+  {
+    id: "ring_aether",
+    name: "Pierścień Eteru",
+    cat: "jewelry",
+    rarity: "rare",
+    obtainableFrom: "craft",
+    minLevel: 8,
+    icon: "gear-ring.webp",
+    slot: 6,
+    desc: "Poz. 8 • +18 Atak • +35 KI (Kuźnia — Rzadkie)",
+    shopPrice: null,
+    sellPrice: 145,
+    craftCost: 390,
+    craftIngredients: [
+      { id: "mat_rune", qty: 4 },
+      { id: "crystal_ki", qty: 4 },
+      { id: "mat_elite_core", qty: 1 },
+    ],
+    atk: 18,
+    ki: 35,
+  },
+
+  // =========================================================================
+  // 7. TIER 4 — MASTER EPIC CRAFTED GEAR (Lv.10-14 — Elite Cores + Lab Relic!)
+  // =========================================================================
+  {
+    id: "blade_pyra",
+    name: "Obsydianowy Miecz Żaru",
+    cat: "weapon",
+    rarity: "epic",
+    obtainableFrom: "craft",
+    minLevel: 10,
+    icon: "emblem_swords.webp",
+    slot: 2,
+    desc: "Poz. 10 • +42 Atak • +5% Kryt (Mistrzowska Kuźnia)",
+    shopPrice: null,
+    sellPrice: 260,
+    craftCost: 780,
+    craftIngredients: [
+      { id: "mat_ember", qty: 6 },
+      { id: "mat_obsidian", qty: 6 },
+      { id: "mat_elite_core", qty: 2 },
+      { id: "mat_labyrinth_relic", qty: 1 },
+    ],
+    atk: 42,
+    crit: 5,
+  },
+  {
+    id: "staff_aether",
+    name: "Kostur Tysiąca Źródeł",
+    cat: "weapon",
+    rarity: "epic",
+    obtainableFrom: "craft",
+    minLevel: 10,
+    icon: "emblem_crystal.webp",
+    slot: 2,
+    desc: "Poz. 10 • +30 Atak • +45 KI (Mistrzowska Kuźnia)",
+    shopPrice: null,
+    sellPrice: 260,
+    craftCost: 780,
+    craftIngredients: [
+      { id: "mat_rune", qty: 6 },
+      { id: "mat_lightdust", qty: 6 },
+      { id: "mat_elite_core", qty: 2 },
+      { id: "mat_labyrinth_relic", qty: 1 },
+    ],
+    atk: 30,
+    ki: 45,
+  },
+  {
+    id: "blade_nexus",
+    name: "Klinga Plazmowa MK-IX",
+    cat: "weapon",
+    rarity: "epic",
+    obtainableFrom: "craft",
+    minLevel: 10,
+    icon: "emblem_slash.webp",
+    slot: 2,
+    desc: "Poz. 10 • +38 Atak • +8% Kryt (Mistrzowska Kuźnia)",
+    shopPrice: null,
+    sellPrice: 260,
+    craftCost: 780,
+    craftIngredients: [
+      { id: "mat_plasma", qty: 6 },
+      { id: "mat_coil", qty: 6 },
+      { id: "mat_elite_core", qty: 2 },
+      { id: "mat_labyrinth_relic", qty: 1 },
+    ],
+    atk: 38,
+    crit: 8,
+  },
+  {
+    id: "helm_aether",
+    name: "Korona Lodowego Mędrca",
+    cat: "armor",
+    rarity: "epic",
+    obtainableFrom: "craft",
+    minLevel: 11,
+    icon: "gear-helmet.webp",
+    slot: 0,
+    desc: "Poz. 11 • +24 Obrona • +75 KI (Mistrzowska Kuźnia)",
+    shopPrice: null,
+    sellPrice: 240,
+    craftCost: 720,
+    craftIngredients: [
+      { id: "mat_rune", qty: 5 },
+      { id: "crystal_ki", qty: 6 },
+      { id: "mat_elite_core", qty: 2 },
+      { id: "mat_labyrinth_relic", qty: 1 },
+    ],
+    def: 24,
+    ki: 75,
+  },
+  {
+    id: "shield_basalt",
+    name: "Tarcza Bazaltowej Grani",
+    cat: "armor",
+    rarity: "epic",
+    obtainableFrom: "craft",
+    minLevel: 11,
+    icon: "gear-shield.webp",
+    slot: 5,
+    desc: "Poz. 11 • +32 Obrona • +90 HP (Mistrzowska Kuźnia)",
+    shopPrice: null,
+    sellPrice: 250,
+    craftCost: 750,
+    craftIngredients: [
+      { id: "mat_obsidian", qty: 6 },
+      { id: "crystal_ki", qty: 5 },
+      { id: "mat_elite_core", qty: 2 },
+      { id: "mat_labyrinth_relic", qty: 1 },
+    ],
+    def: 32,
+    hp: 90,
+  },
+
+  // =========================================================================
+  // 8. HARD QUEST / LABYRINTH / ENDGAME EXCLUSIVES (NO Shop, NO Smithy!)
+  // =========================================================================
+  {
+    id: "ring_covenant_q",
+    name: "Pierścień Przymierza",
+    cat: "jewelry",
+    rarity: "rare",
+    obtainableFrom: "quest",
+    minLevel: 3,
+    icon: "gear-ring.webp",
+    slot: 6,
+    desc: "Poz. 3 • +12 Atak • +45 HP • +3% Kryt (Nagroda Ciężkiego Kontraktu I)",
+    shopPrice: null,
+    sellPrice: 120,
+    craftCost: null,
+    atk: 12,
+    hp: 45,
+    crit: 3,
+  },
+  {
+    id: "amulet_guardian_q",
+    name: "Amulet Strażnika Podziemi",
+    cat: "jewelry",
+    rarity: "rare",
+    obtainableFrom: "quest",
+    minLevel: 5,
+    icon: "gear-amulet.webp",
+    slot: 1,
+    desc: "Poz. 5 • +10 Obrona • +65 HP • +40 KI (Nagroda Labiryntu I)",
+    shopPrice: null,
+    sellPrice: 160,
+    craftCost: null,
+    def: 10,
+    hp: 65,
+    ki: 40,
+  },
+  {
+    id: "vest_champion_q",
+    name: "Zbroja Czempiona Superior",
+    cat: "armor",
+    rarity: "epic",
+    obtainableFrom: "quest",
+    minLevel: 8,
+    icon: "gear-vest.webp",
+    slot: 4,
+    desc: "Poz. 8 • +34 Obrona • +165 HP • +4% Kryt (Nagroda Ciężkiego Kontraktu II)",
+    shopPrice: null,
+    sellPrice: 280,
+    craftCost: null,
+    def: 34,
+    hp: 165,
+    crit: 4,
+  },
+  {
+    id: "ring_titan",
+    name: "Sygnet Tytana",
+    cat: "jewelry",
+    rarity: "legendary",
+    obtainableFrom: "quest",
+    minLevel: 12,
+    icon: "emblem_shield.webp",
+    slot: 6,
+    desc: "Poz. 12 • +140 HP • +22 Obrona (Legendarna nagroda Ciężkiego Kontraktu III / Krypty)",
+    shopPrice: null,
+    sellPrice: 400,
+    craftCost: null,
+    hp: 140,
+    def: 22,
+  },
+  {
+    id: "weapon_superior_legend",
+    name: "Reliktowe Ostrze Superiora",
+    cat: "weapon",
+    rarity: "legendary",
+    obtainableFrom: "quest",
+    minLevel: 15,
+    icon: "emblem_swords.webp",
+    slot: 2,
+    desc: "Poz. 15 • +56 Atak • +10% Kryt • +40 KI (Legendarna nagroda finału Dziedzictwa)",
+    shopPrice: null,
+    sellPrice: 500,
+    craftCost: null,
+    atk: 56,
+    crit: 10,
+    ki: 40,
   },
 ] as const;
 
@@ -279,21 +1200,31 @@ export const ANDROID_ITEM_MAP = new Map<string, AndroidItemDef>(
 export const STAT_KEYS = ["hp", "ki", "atk", "def", "spd", "crit"] as const;
 export type StatKey = (typeof STAT_KEYS)[number];
 
+export const BLESSING_KINDS = ["march", "might", "focus"] as const;
+export type BlessingKind = (typeof BLESSING_KINDS)[number];
+export type ActiveBlessing = { kind: BlessingKind; expiresAt: number };
+
 export type ItemStack = { id: string; qty: number };
 
 export type AndroidProgressState = {
   visitedLands: AndroidLand[];
   craftedCount: number;
   arenaCount: number;
+  trainingCount: number;
   shopCount: number;
   monsterKills: number;
+  eliteKills: number;
+  gatherCount: number;
+  gatheredNodes: Record<string, number>;
+  discoveredWaystones: string[];
   openedTreasures: string[];
   clearedLabyrinths: string[];
   lastKillAt: number;
+  recentKillTimes: number[];
 };
 
 export type AndroidHeroState = {
-  version: 1;
+  version: number;
   xp: number;
   bankGold: number;
   hp: number;
@@ -301,6 +1232,10 @@ export type AndroidHeroState = {
   freeStatPoints: number;
   skillPoints: number;
   bonusStats: Record<StatKey, number>;
+  /** Permanent City Training sessions per stat — boosts stats WITHOUT granting XP/levels! */
+  training: Record<StatKey, number>;
+  lastTrainingAt: number;
+  activeBlessing: ActiveBlessing | null;
   unlockedNodes: string[];
   equipment: Record<string, string | null>;
   backpack: (ItemStack | null)[];
@@ -317,14 +1252,15 @@ export type AndroidComputedStats = {
   defense: number;
   speed: number;
   critChance: number;
+  kiRegen: number;
   xpNeeded: number;
+  trainingMasteryTitle: string;
+  trainingCapPerStat: number;
 };
 
 export type AndroidCharacterView = {
   id: string;
   accountId: string;
-  ownerNick?: string;
-  ownerEmail?: string;
   name: string;
   race: AndroidRace;
   land: AndroidLand;
@@ -346,6 +1282,7 @@ export class AndroidEconomyError extends Error {
       | "UNKNOWN_ITEM"
       | "NOT_CRAFTABLE"
       | "INSUFFICIENT_GOLD"
+      | "INSUFFICIENT_MATERIALS"
       | "INSUFFICIENT_BANK_GOLD"
       | "BACKPACK_FULL"
       | "BANK_FULL"
@@ -355,6 +1292,7 @@ export class AndroidEconomyError extends Error {
       | "NODE_ALREADY_UNLOCKED"
       | "QUEST_ALREADY_COMPLETED"
       | "GOAL_NOT_MET"
+      | "TRAINING_CAP_REACHED"
       | "ARENA_COOLDOWN"
       | "FORBIDDEN"
       | "NAME_TAKEN"
@@ -373,12 +1311,6 @@ export const characterNameSchema = z
   .max(16)
   .regex(/^[\p{L}\p{N}_\- ]{3,16}$/u);
 
-/**
- * Canonical hardcore RPG XP curve:
- * - Lv 1 -> 5: 1,400 + 2,400 + 3,500 + 4,700 = 12,000 XP (~1.5-2h active combat + early goals)
- * - Lv 5 -> 10: 11,000 + 15,500 + 20,500 + 25,000 + 30,000 = 102,000 XP (~6.5-7.5h focused grinding & labyrinths)
- * - Lv 10 -> 20: 42,000 .. 220,000 XP (endgame deep biomes & crypts)
- */
 export const XP_NEEDED_BY_LEVEL: readonly number[] = [
   1400, // 1 -> 2
   2400, // 2 -> 3
@@ -407,10 +1339,123 @@ export function xpNeededForLevel(level: number): number {
   return XP_NEEDED_BY_LEVEL[lv - 1] ?? 220000;
 }
 
+/** Max permanent City Training sessions per stat at given hero level. */
+export function maxTrainingPerStat(level: number): number {
+  const lv = Math.max(1, Math.min(MAX_LEVEL, Math.floor(level)));
+  return 3 + (lv - 1) * 2;
+}
+
+/** Gold cost for the next City Training session (first 3 sessions per stat are FREE!). */
+export function trainingSessionCost(currentSessions: number): number {
+  const n = Math.max(0, Math.floor(currentSessions));
+  return n < 3 ? 0 : 15 + (n - 2) * 10;
+}
+
+export function computeTrainingBonuses(training: Record<StatKey, number>): {
+  hp: number;
+  ki: number;
+  kiRegen: number;
+  atk: number;
+  def: number;
+  spd: number;
+  crit: number;
+  masteryTitle: string;
+} {
+  const minAll = Math.min(
+    training.hp,
+    training.ki,
+    training.atk,
+    training.def,
+    training.spd,
+    training.crit,
+  );
+  let masteryTitle = "Rekrut";
+  let mHp = 0;
+  let mAtk = 0;
+  let mDef = 0;
+  if (minAll >= 15) {
+    masteryTitle = "Mistrz Ki";
+    mHp = 50;
+    mAtk = 8;
+    mDef = 6;
+  } else if (minAll >= 10) {
+    masteryTitle = "Weteran Stolicy";
+    mHp = 25;
+    mAtk = 4;
+    mDef = 4;
+  } else if (minAll >= 6) {
+    masteryTitle = "Wojownik Miasta";
+    mHp = 10;
+    mAtk = 2;
+    mDef = 2;
+  } else if (minAll >= 3) {
+    masteryTitle = "Adept Miasta";
+  }
+
+  return {
+    hp: training.hp * 12 + mHp,
+    ki: training.ki * 8,
+    kiRegen: Number((training.ki * 0.08).toFixed(2)),
+    atk: training.atk * 2 + mAtk,
+    def: Math.ceil(training.def * 1.5) + mDef,
+    spd: training.spd * 6,
+    crit: Number((training.crit * 0.6).toFixed(2)),
+    masteryTitle,
+  };
+}
+
+/** Canonical passive talent bonuses from KIT_NODES (annex 22.10.2026). */
+export function computeTalentPassiveBonuses(
+  race: AndroidRace,
+  unlockedNodes: readonly string[],
+): {
+  hpPct: number;
+  kiPct: number;
+  atkPct: number;
+  defPct: number;
+  spdPct: number;
+  critAdd: number;
+  kiRegenPct: number;
+} {
+  const has = (id: string) => unlockedNodes.includes(id);
+  let hpPct = 0;
+  let kiPct = 0;
+  let atkPct = 0;
+  let defPct = 0;
+  let spdPct = 0;
+  let critAdd = 0;
+  let kiRegenPct = 0;
+
+  if (race === "planetary") {
+    if (has("A2")) spdPct += 6;
+    if (has("A6")) critAdd += 5;
+    if (has("B2")) kiRegenPct += 15;
+    if (has("B3")) defPct += 8;
+    if (has("C2")) hpPct += 10;
+  } else if (race === "sage") {
+    if (has("A6")) critAdd += 8;
+    if (has("B2")) defPct += 10;
+    if (has("C2")) kiPct += 15;
+    if (has("C3")) kiRegenPct += 12;
+  } else if (race === "android") {
+    if (has("A2")) critAdd += 6;
+    if (has("B2")) defPct += 8;
+    if (has("C5")) kiPct += 12;
+  } else if (race === "legend") {
+    if (has("A5")) atkPct += 8;
+    if (has("A6")) critAdd += 6;
+    if (has("B2")) defPct += 8;
+    if (has("B3")) hpPct += 10;
+    if (has("C6")) kiRegenPct += 25;
+  }
+  return { hpPct, kiPct, atkPct, defPct, spdPct, critAdd, kiRegenPct };
+}
+
 export function computeAndroidStats(
   race: AndroidRace,
   level: number,
   state: AndroidHeroState,
+  nowMs?: number,
 ): AndroidComputedStats {
   const spec = RACE_BASE[race as RaceId];
   const lvOff = Math.max(0, level - 1);
@@ -434,28 +1479,55 @@ export function computeAndroidStats(
     eqCrit += def.crit ?? 0;
   }
 
-  const maxHp = Math.round(
-    spec.base.hp + spec.perLevel.hp * lvOff + (state.bonusStats.hp || 0) * 25 + eqHp,
+  const tr = computeTrainingBonuses(
+    state.training ?? { hp: 0, ki: 0, atk: 0, def: 0, spd: 0, crit: 0 },
   );
-  const maxKi = Math.round(
-    spec.base.ki + spec.perLevel.ki * lvOff + (state.bonusStats.ki || 0) * 15 + eqKi,
-  );
-  const attack = Math.round(
-    spec.base.attack + spec.perLevel.attack * lvOff + (state.bonusStats.atk || 0) * 5 + eqAtk,
-  );
+  const tal = computeTalentPassiveBonuses(race, state.unlockedNodes ?? ["R"]);
+  const blessActive =
+    state.activeBlessing && (nowMs === undefined || nowMs < state.activeBlessing.expiresAt)
+      ? state.activeBlessing.kind
+      : null;
+
+  const rawHp =
+    spec.base.hp + spec.perLevel.hp * lvOff + (state.bonusStats.hp || 0) * 25 + tr.hp + eqHp;
+  const rawKi =
+    spec.base.ki + spec.perLevel.ki * lvOff + (state.bonusStats.ki || 0) * 15 + tr.ki + eqKi;
+  const rawAtk =
+    spec.base.attack +
+    spec.perLevel.attack * lvOff +
+    (state.bonusStats.atk || 0) * 5 +
+    tr.atk +
+    eqAtk;
+  const rawDef =
+    spec.base.defense +
+    spec.perLevel.defense * lvOff +
+    (state.bonusStats.def || 0) * 4 +
+    tr.def +
+    eqDef;
+  const rawSpd =
+    spec.base.speed * (1 + 0.05 * spdLvOff) + (state.bonusStats.spd || 0) * 15 + tr.spd + eqSpd;
+  const rawKiRegen = spec.base.kiRegen + spec.perLevel.kiRegen * lvOff + tr.kiRegen;
+
+  const maxHp = Math.round(rawHp * (1 + tal.hpPct / 100));
+  const maxKi = Math.round(rawKi * (1 + tal.kiPct / 100));
+  const attack = Math.round(rawAtk * (1 + (tal.atkPct + (blessActive === "might" ? 10 : 0)) / 100));
   const defense = Math.round(
-    spec.base.defense + spec.perLevel.defense * lvOff + (state.bonusStats.def || 0) * 4 + eqDef,
+    rawDef * (1 + (tal.defPct + (blessActive === "might" ? 10 : 0)) / 100),
   );
-  const speed = Math.round(
-    spec.base.speed * (1 + 0.05 * spdLvOff) + (state.bonusStats.spd || 0) * 15 + eqSpd,
-  );
+  const speed = Math.round(rawSpd * (1 + (tal.spdPct + (blessActive === "march" ? 15 : 0)) / 100));
   const critChance = Number(
-    (
+    Math.min(
+      100,
       spec.base.criticalChancePercent +
-      spec.perLevel.criticalChancePercent * lvOff +
-      (state.bonusStats.crit || 0) * 2 +
-      eqCrit
+        spec.perLevel.criticalChancePercent * lvOff +
+        (state.bonusStats.crit || 0) * 2 +
+        tr.crit +
+        tal.critAdd +
+        eqCrit,
     ).toFixed(2),
+  );
+  const kiRegen = Number(
+    (rawKiRegen * (1 + (tal.kiRegenPct + (blessActive === "focus" ? 25 : 0)) / 100)).toFixed(2),
   );
 
   return {
@@ -465,7 +1537,10 @@ export function computeAndroidStats(
     defense,
     speed,
     critChance,
+    kiRegen,
     xpNeeded: xpNeededForLevel(level),
+    trainingMasteryTitle: tr.masteryTitle,
+    trainingCapPerStat: maxTrainingPerStat(level),
   };
 }
 
@@ -482,7 +1557,7 @@ export function createInitialAndroidState(
   const level = Math.max(1, Math.min(MAX_LEVEL, Math.floor(overrides?.level ?? 1)));
   const gold = Math.max(0, Math.min(MAX_GOLD, Math.floor(overrides?.gold ?? 120)));
   const backpack: (ItemStack | null)[] = Array.from({ length: BACKPACK_SIZE }, () => null);
-  backpack[0] = { id: "potion_hp", qty: Math.max(1, Math.min(99, overrides?.potions ?? 3)) };
+  backpack[0] = { id: "potion_hp_small", qty: Math.max(1, Math.min(99, overrides?.potions ?? 3)) };
   backpack[1] = { id: "potion_ki", qty: 2 };
   backpack[2] = { id: "scroll_tp", qty: 1 };
 
@@ -493,14 +1568,17 @@ export function createInitialAndroidState(
   const nodes = Array.from(new Set(["R", ...(overrides?.unlockedNodes ?? [])])).slice(0, 30);
 
   const state: AndroidHeroState = {
-    version: 1,
+    version: 2,
     xp: Math.max(0, Math.min(xpNeededForLevel(level) - 1, Math.floor(overrides?.xp ?? 0))),
     bankGold: 0,
     hp: 1,
     ki: 1,
     freeStatPoints: Math.max(0, (level - 1) * 3 + 5),
-    skillPoints: Math.max(0, level - 1 + 4 - Math.max(0, nodes.length - 1)),
+    skillPoints: Math.max(0, level - 1 + 1 - Math.max(0, nodes.length - 1)),
     bonusStats: { hp: 0, ki: 0, atk: 0, def: 0, spd: 0, crit: 0 },
+    training: { hp: 0, ki: 0, atk: 0, def: 0, spd: 0, crit: 0 },
+    lastTrainingAt: 0,
+    activeBlessing: null,
     unlockedNodes: nodes,
     equipment,
     backpack,
@@ -511,11 +1589,17 @@ export function createInitialAndroidState(
       visitedLands: [HOME_LAND_BY_RACE[race]],
       craftedCount: 0,
       arenaCount: 0,
+      trainingCount: 0,
       shopCount: 0,
       monsterKills: 0,
+      eliteKills: 0,
+      gatherCount: 0,
+      gatheredNodes: {},
+      discoveredWaystones: [],
       openedTreasures: [],
       clearedLabyrinths: [],
       lastKillAt: 0,
+      recentKillTimes: [],
     },
   };
   const stats = computeAndroidStats(race, level, state);
@@ -548,6 +1632,32 @@ export function normalizeAndroidState(
     spd: clampInt(bonusRaw["spd"], 0, 500, 0),
     crit: clampInt(bonusRaw["crit"], 0, 500, 0),
   };
+
+  const trainRaw = (
+    r["training"] && typeof r["training"] === "object" ? r["training"] : {}
+  ) as Record<string, unknown>;
+  const training: Record<StatKey, number> = {
+    hp: clampInt(trainRaw["hp"], 0, 300, 0),
+    ki: clampInt(trainRaw["ki"], 0, 300, 0),
+    atk: clampInt(trainRaw["atk"], 0, 300, 0),
+    def: clampInt(trainRaw["def"], 0, 300, 0),
+    spd: clampInt(trainRaw["spd"], 0, 300, 0),
+    crit: clampInt(trainRaw["crit"], 0, 300, 0),
+  };
+
+  let activeBlessing: ActiveBlessing | null = null;
+  if (r["activeBlessing"] && typeof r["activeBlessing"] === "object") {
+    const ab = r["activeBlessing"] as Record<string, unknown>;
+    const kind = ab["kind"];
+    const exp = clampInt(ab["expiresAt"], 0, Number.MAX_SAFE_INTEGER, 0);
+    if (
+      typeof kind === "string" &&
+      (BLESSING_KINDS as readonly string[]).includes(kind) &&
+      exp > 0
+    ) {
+      activeBlessing = { kind: kind as BlessingKind, expiresAt: exp };
+    }
+  }
 
   const equipment: Record<string, string | null> = {};
   const eqRaw = (
@@ -616,8 +1726,34 @@ export function normalizeAndroidState(
     return [...uniq];
   };
 
+  const gNodesRaw = (
+    progRaw["gatheredNodes"] && typeof progRaw["gatheredNodes"] === "object"
+      ? progRaw["gatheredNodes"]
+      : {}
+  ) as Record<string, unknown>;
+  const gatheredNodes: Record<string, number> = {};
+  let gnCnt = 0;
+  for (const [k, v] of Object.entries(gNodesRaw)) {
+    if (k.length <= 64 && gnCnt < 300) {
+      const ts = clampInt(v, 0, Number.MAX_SAFE_INTEGER, 0);
+      if (ts > 0) {
+        gatheredNodes[k] = ts;
+        gnCnt += 1;
+      }
+    }
+  }
+
+  const recentRaw = Array.isArray(progRaw["recentKillTimes"]) ? progRaw["recentKillTimes"] : [];
+  const recentKillTimes = recentRaw
+    .map((x) => clampInt(x, 0, Number.MAX_SAFE_INTEGER, 0))
+    .filter((x) => x > 0)
+    .slice(-16);
+
+  const trainTotal =
+    training.hp + training.ki + training.atk + training.def + training.spd + training.crit;
+
   const state: AndroidHeroState = {
-    version: 1,
+    version: 2,
     xp: clampInt(r["xp"], 0, 10_000_000, 0),
     bankGold: clampInt(r["bankGold"], 0, MAX_GOLD, 0),
     hp: clampInt(r["hp"], 1, 1_000_000, 100),
@@ -625,6 +1761,9 @@ export function normalizeAndroidState(
     freeStatPoints: clampInt(r["freeStatPoints"], 0, 2000, 0),
     skillPoints: clampInt(r["skillPoints"], 0, 200, 0),
     bonusStats,
+    training,
+    lastTrainingAt: clampInt(r["lastTrainingAt"], 0, Number.MAX_SAFE_INTEGER, 0),
+    activeBlessing,
     unlockedNodes,
     equipment,
     backpack: normalizeSlots(r["backpack"], BACKPACK_SIZE),
@@ -635,11 +1774,17 @@ export function normalizeAndroidState(
       visitedLands,
       craftedCount: clampInt(progRaw["craftedCount"], 0, 1_000_000, 0),
       arenaCount: clampInt(progRaw["arenaCount"], 0, 1_000_000, 0),
+      trainingCount: Math.max(trainTotal, clampInt(progRaw["trainingCount"], 0, 1_000_000, 0)),
       shopCount: clampInt(progRaw["shopCount"], 0, 1_000_000, 0),
       monsterKills: clampInt(progRaw["monsterKills"], 0, 10_000_000, 0),
+      eliteKills: clampInt(progRaw["eliteKills"], 0, 1_000_000, 0),
+      gatherCount: clampInt(progRaw["gatherCount"], 0, 1_000_000, 0),
+      gatheredNodes,
+      discoveredWaystones: normStrList(progRaw["discoveredWaystones"], 40),
       openedTreasures: normStrList(progRaw["openedTreasures"], 200),
       clearedLabyrinths: normStrList(progRaw["clearedLabyrinths"], 40),
       lastKillAt: clampInt(progRaw["lastKillAt"], 0, Number.MAX_SAFE_INTEGER, 0),
+      recentKillTimes,
     },
   };
 
@@ -668,11 +1813,37 @@ function addItemToSlots(slots: (ItemStack | null)[], itemId: string, qty: number
   return true;
 }
 
+function countItemInSlots(slots: readonly (ItemStack | null)[], itemId: string): number {
+  let total = 0;
+  for (const s of slots) {
+    if (s && s.id === itemId) total += s.qty;
+  }
+  return total;
+}
+
+function consumeItemFromSlots(slots: (ItemStack | null)[], itemId: string, qty: number): boolean {
+  if (countItemInSlots(slots, itemId) < qty) return false;
+  let rem = qty;
+  for (let i = 0; i < slots.length && rem > 0; i++) {
+    const s = slots[i];
+    if (!s || s.id !== itemId) continue;
+    if (s.qty > rem) {
+      s.qty -= rem;
+      rem = 0;
+    } else {
+      rem -= s.qty;
+      slots[i] = null;
+    }
+  }
+  return rem === 0;
+}
+
 function grantXp(
   race: AndroidRace,
   level: number,
   state: AndroidHeroState,
   deltaXp: number,
+  nowMs?: number,
 ): { level: number; leveledUp: boolean } {
   let curLevel = level;
   let leveledUp = false;
@@ -687,12 +1858,26 @@ function grantXp(
     leveledUp = true;
   }
   if (leveledUp) {
-    const stats = computeAndroidStats(race, curLevel, state);
+    const stats = computeAndroidStats(race, curLevel, state, nowMs);
     state.hp = stats.maxHp;
     state.ki = stats.maxKi;
   }
   return { level: curLevel, leveledUp };
 }
+
+const REGIONAL_TROPHIES: Record<AndroidLand, { low: string; mid: string; high: string }> = {
+  pyra: { low: "tusk_beast", mid: "mat_salamander_scale", high: "mat_magma_plate" },
+  verdant: { low: "mat_moss_jelly", mid: "mat_wolf_thorn", high: "mat_spider_silk" },
+  aether: { low: "mat_aether_thread", mid: "mat_crystal_wing", high: "mat_temple_stone" },
+  nexus: { low: "mat_sensor", mid: "mat_armor_plate", high: "mat_energy_core" },
+};
+
+const REGIONAL_GATHER_DEFAULT: Record<AndroidLand, readonly string[]> = {
+  pyra: ["mat_ember", "mat_obsidian", "mat_ash_herb"],
+  verdant: ["mat_shroom", "mat_amber", "mat_seeds"],
+  aether: ["mat_rune", "mat_lightdust", "mat_parchment"],
+  nexus: ["mat_plasma", "mat_coil", "mat_optic"],
+};
 
 export const androidActionSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("shop_buy"), itemId: z.string().min(1).max(60) }).strict(),
@@ -704,6 +1889,7 @@ export const androidActionSchema = z.discriminatedUnion("type", [
         .int()
         .min(0)
         .max(BACKPACK_SIZE - 1),
+      sellAll: z.boolean().optional(),
     })
     .strict(),
   z.object({ type: z.literal("craft"), itemId: z.string().min(1).max(60) }).strict(),
@@ -761,7 +1947,24 @@ export const androidActionSchema = z.discriminatedUnion("type", [
     .object({ type: z.literal("unlock_talent"), nodeId: z.string().regex(/^[A-Z0-9_-]{1,8}$/) })
     .strict(),
   z.object({ type: z.literal("inn_rest") }).strict(),
-  z.object({ type: z.literal("arena_train") }).strict(),
+  z.object({ type: z.literal("campfire_rest") }).strict(),
+  z.object({ type: z.literal("arena_train"), stat: z.enum(STAT_KEYS).optional() }).strict(),
+  z.object({ type: z.literal("city_train"), stat: z.enum(STAT_KEYS) }).strict(),
+  z.object({ type: z.literal("city_blessing"), kind: z.enum(BLESSING_KINDS) }).strict(),
+  z
+    .object({
+      type: z.literal("gather_node"),
+      nodeId: z.string().min(2).max(64),
+      itemId: z.string().min(1).max(60).optional(),
+      land: z.enum(ANDROID_LANDS).optional(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("discover_waystone"),
+      waystoneId: z.string().min(2).max(64),
+    })
+    .strict(),
   z.object({ type: z.literal("quest_complete"), questId: z.string().min(1).max(80) }).strict(),
   z.object({ type: z.literal("claim_goal"), goalId: z.string().min(1).max(40) }).strict(),
   z
@@ -781,6 +1984,8 @@ export const androidActionSchema = z.discriminatedUnion("type", [
       monsterId: z.string().min(2).max(64),
       level: z.number().int().min(1).max(MAX_LEVEL),
       hpCost: z.number().int().min(0).max(5000).optional(),
+      isElite: z.boolean().optional(),
+      land: z.enum(ANDROID_LANDS).optional(),
     })
     .strict(),
   z.object({ type: z.literal("hero_defeat") }).strict(),
@@ -828,13 +2033,17 @@ export function applyAndroidAction(
 ): ActionResult {
   const action = androidActionSchema.parse(rawAction);
   const nowMs = opts.nowMs ?? Date.now();
-  const state: AndroidHeroState = structuredClone(current.state);
+  const state: AndroidHeroState = normalizeAndroidState(
+    structuredClone(current.state),
+    current.race,
+    current.level,
+  );
   let { land, level, gold } = current;
   let notice = "";
   let teleportCapital = false;
 
   const clampVitals = () => {
-    const s = computeAndroidStats(current.race, level, state);
+    const s = computeAndroidStats(current.race, level, state, nowMs);
     state.hp = Math.max(1, Math.min(s.maxHp, state.hp));
     state.ki = Math.max(0, Math.min(s.maxKi, state.ki));
   };
@@ -843,13 +2052,26 @@ export function applyAndroidAction(
     case "shop_buy": {
       const def = ANDROID_ITEM_MAP.get(action.itemId);
       if (!def) throw new AndroidEconomyError("UNKNOWN_ITEM", "Nieznany przedmiot.");
+      if (def.shopPrice === null)
+        throw new AndroidEconomyError(
+          "INVALID_ACTION",
+          "Ten przedmiot nie jest sprzedawany w sklepie — zdobądź go przez crafting lub ciężkie zadania!",
+        );
+      if (level < def.minLevel)
+        throw new AndroidEconomyError(
+          "GOAL_NOT_MET",
+          `Wymagany poziom ${def.minLevel}, aby kupić ten przedmiot (masz ${level}).`,
+        );
       if (gold < def.shopPrice)
         throw new AndroidEconomyError(
           "INSUFFICIENT_GOLD",
           `Za mało złota! Potrzebujesz ${def.shopPrice} zł.`,
         );
       if (!addItemToSlots(state.backpack, def.id, 1))
-        throw new AndroidEconomyError("BACKPACK_FULL", "Plecak jest pełny (15/15)!");
+        throw new AndroidEconomyError(
+          "BACKPACK_FULL",
+          `Plecak jest pełny (${BACKPACK_SIZE}/${BACKPACK_SIZE})!`,
+        );
       gold -= def.shopPrice;
       state.progress.shopCount += 1;
       notice = `Kupiono: ${def.name} (-${def.shopPrice} zł)`;
@@ -861,11 +2083,17 @@ export function applyAndroidAction(
       if (!stack) throw new AndroidEconomyError("EMPTY_SLOT", "Ten slot plecaka jest pusty.");
       const def = ANDROID_ITEM_MAP.get(stack.id);
       if (!def) throw new AndroidEconomyError("UNKNOWN_ITEM", "Nieznany przedmiot.");
-      const payout = Math.max(1, Math.floor(def.shopPrice * 0.5));
-      if (stack.qty > 1) stack.qty -= 1;
+      if (def.sellPrice <= 0)
+        throw new AndroidEconomyError("INVALID_ACTION", "Tego przedmiotu nie można sprzedać.");
+      const qtyToSell = action.sellAll ? stack.qty : 1;
+      const payout = def.sellPrice * qtyToSell;
+      if (stack.qty > qtyToSell) stack.qty -= qtyToSell;
       else state.backpack[action.slotIndex] = null;
       gold = Math.min(MAX_GOLD, gold + payout);
-      notice = `Sprzedano: ${def.name} (+${payout} zł)`;
+      notice =
+        qtyToSell > 1
+          ? `Sprzedano: ${def.name} ×${qtyToSell} (+${payout} zł)`
+          : `Sprzedano: ${def.name} (+${payout} zł)`;
       break;
     }
 
@@ -874,13 +2102,33 @@ export function applyAndroidAction(
       if (!def) throw new AndroidEconomyError("UNKNOWN_ITEM", "Nieznany przedmiot.");
       if (def.craftCost === null)
         throw new AndroidEconomyError("NOT_CRAFTABLE", "Tego przedmiotu nie można wykuć w kuźni.");
+      if (level < def.minLevel)
+        throw new AndroidEconomyError(
+          "GOAL_NOT_MET",
+          `Wymagany poziom ${def.minLevel} do wykuciu: ${def.name} (masz ${level}).`,
+        );
       if (gold < def.craftCost)
         throw new AndroidEconomyError(
           "INSUFFICIENT_GOLD",
           `Za mało złota na kucie (${def.craftCost} zł)!`,
         );
-      if (!addItemToSlots(state.backpack, def.id, 1))
+      const reqs = def.craftIngredients ?? [];
+      for (const ing of reqs) {
+        const have = countItemInSlots(state.backpack, ing.id);
+        if (have < ing.qty) {
+          const idef = ANDROID_ITEM_MAP.get(ing.id);
+          throw new AndroidEconomyError(
+            "INSUFFICIENT_MATERIALS",
+            `Brak składnika: ${idef?.name ?? ing.id} (${have}/${ing.qty}).`,
+          );
+        }
+      }
+      // Verify backpack room before mutating (if ingredients free a slot, we simulate on a copy)
+      const simSlots = state.backpack.map((s) => (s ? { ...s } : null));
+      for (const ing of reqs) consumeItemFromSlots(simSlots, ing.id, ing.qty);
+      if (!addItemToSlots(simSlots, def.id, 1))
         throw new AndroidEconomyError("BACKPACK_FULL", "Brak miejsca w plecaku!");
+      state.backpack = simSlots;
       gold -= def.craftCost;
       state.progress.craftedCount += 1;
       notice = `Wykuto w kuźni: ${def.name} (-${def.craftCost} zł)`;
@@ -908,10 +2156,8 @@ export function applyAndroidAction(
     case "bank_deposit_item": {
       const stack = state.backpack[action.backpackIndex];
       if (!stack) throw new AndroidEconomyError("EMPTY_SLOT", "Ten slot plecaka jest pusty.");
-      const emptyBank = state.bankItems.findIndex((b) => b === null);
-      if (emptyBank === -1)
+      if (!addItemToSlots(state.bankItems, stack.id, stack.qty))
         throw new AndroidEconomyError("BANK_FULL", "Skarbiec Banku jest pełny!");
-      state.bankItems[emptyBank] = { ...stack };
       state.backpack[action.backpackIndex] = null;
       const def = ANDROID_ITEM_MAP.get(stack.id);
       notice = `Zdeponowano w Skarbcu: ${def?.name ?? stack.id}`;
@@ -934,7 +2180,17 @@ export function applyAndroidAction(
       if (!stack) throw new AndroidEconomyError("EMPTY_SLOT", "Pusty slot plecaka.");
       const def = ANDROID_ITEM_MAP.get(stack.id);
       if (!def) throw new AndroidEconomyError("UNKNOWN_ITEM", "Nieznany przedmiot.");
+      if (def.cat === "material")
+        throw new AndroidEconomyError(
+          "INVALID_ACTION",
+          `${def.name} to surowiec rzemieślniczy — użyj go w Kuźni lub sprzedaj w Sklepie.`,
+        );
       if (def.slot >= 0 && def.slot < EQUIP_SLOTS) {
+        if (level < def.minLevel)
+          throw new AndroidEconomyError(
+            "GOAL_NOT_MET",
+            `Wymagany poziom ${def.minLevel}, aby założyć: ${def.name} (masz ${level}).`,
+          );
         const slotKey = String(def.slot);
         const oldEq = state.equipment[slotKey] ?? null;
         state.equipment[slotKey] = def.id;
@@ -951,7 +2207,7 @@ export function applyAndroidAction(
         clampVitals();
         notice = `Założono: ${def.name}`;
       } else {
-        const stats = computeAndroidStats(current.race, level, state);
+        const stats = computeAndroidStats(current.race, level, state, nowMs);
         if (def.healHp) state.hp = Math.min(stats.maxHp, state.hp + def.healHp);
         if (def.healKi) state.ki = Math.min(stats.maxKi, state.ki + def.healKi);
         if (def.gold) gold = Math.min(MAX_GOLD, gold + def.gold);
@@ -979,10 +2235,10 @@ export function applyAndroidAction(
     case "allocate_stat": {
       if (state.freeStatPoints <= 0)
         throw new AndroidEconomyError("NO_STAT_POINTS", "Brak wolnych punktów statystyk.");
-      const before = computeAndroidStats(current.race, level, state);
+      const before = computeAndroidStats(current.race, level, state, nowMs);
       state.freeStatPoints -= 1;
       state.bonusStats[action.stat] += 1;
-      const after = computeAndroidStats(current.race, level, state);
+      const after = computeAndroidStats(current.race, level, state, nowMs);
       state.hp = Math.min(after.maxHp, state.hp + Math.max(0, after.maxHp - before.maxHp));
       state.ki = Math.min(after.maxKi, state.ki + Math.max(0, after.maxKi - before.maxKi));
       notice = `Zwiększono statystykę: ${action.stat.toUpperCase()}`;
@@ -994,33 +2250,161 @@ export function applyAndroidAction(
         throw new AndroidEconomyError("NODE_ALREADY_UNLOCKED", "Ten talent jest już odblokowany.");
       if (state.skillPoints <= 0)
         throw new AndroidEconomyError("NO_SKILL_POINTS", "Brak punktów umiejętności.");
+      const raceNodes = KIT_NODES[current.race as RaceId] ?? [];
+      const node = raceNodes.find((n) => n.id === action.nodeId);
+      if (!node)
+        throw new AndroidEconomyError("UNKNOWN_ITEM", "Nieznany węzeł talentu dla tej rasy.");
+      if (level < node.minLevel)
+        throw new AndroidEconomyError(
+          "GOAL_NOT_MET",
+          `Wymagany poziom ${node.minLevel} dla talentu ${node.name} (masz ${level}).`,
+        );
+      if (
+        node.requires.length > 0 &&
+        !node.requires.some((reqId) => state.unlockedNodes.includes(reqId))
+      )
+        throw new AndroidEconomyError(
+          "GOAL_NOT_MET",
+          `Wymaga wcześniejszego talentu: ${node.requires.join(" lub ")}.`,
+        );
+      if (node.excludes && state.unlockedNodes.includes(node.excludes))
+        throw new AndroidEconomyError(
+          "GOAL_NOT_MET",
+          `Ten wybór wyklucza się z odblokowanym talentem ${node.excludes}.`,
+        );
       state.skillPoints -= 1;
       state.unlockedNodes.push(action.nodeId);
-      notice = `Odblokowano talent: ${action.nodeId}`;
+      clampVitals();
+      notice = `Odblokowano talent: ${node.name} [${node.id}]`;
       break;
     }
 
     case "inn_rest": {
-      const stats = computeAndroidStats(current.race, level, state);
+      const stats = computeAndroidStats(current.race, level, state, nowMs);
       state.hp = stats.maxHp;
       state.ki = stats.maxKi;
       notice = "Wypoczęto w gospodzie! Przywrócono 100% HP i 100% KI.";
       break;
     }
 
-    case "arena_train": {
-      if (nowMs - state.lastArenaAt < ARENA_COOLDOWN_MS)
+    case "campfire_rest": {
+      const stats = computeAndroidStats(current.race, level, state, nowMs);
+      state.hp = stats.maxHp;
+      state.ki = stats.maxKi;
+      notice = "Odpoczynek przy ognisku! Przywrócono 100% HP i 100% KI.";
+      break;
+    }
+
+    case "arena_train":
+    case "city_train": {
+      const stat: StatKey = action.stat ?? "atk";
+      const lastT = Math.max(state.lastTrainingAt, state.lastArenaAt);
+      if (lastT > 0 && nowMs - lastT < TRAINING_COOLDOWN_MS) {
+        const waitS = Math.ceil((TRAINING_COOLDOWN_MS - (nowMs - lastT)) / 1000);
         throw new AndroidEconomyError(
           "ARENA_COOLDOWN",
-          "Odpocznij chwilę przed kolejnym treningiem (5 s).",
+          `Odpocznij chwilę przed kolejną sesją treningową (${waitS} s).`,
         );
+      }
+      const cap = maxTrainingPerStat(level);
+      const curRank = state.training[stat] ?? 0;
+      if (curRank >= cap)
+        throw new AndroidEconomyError(
+          "TRAINING_CAP_REACHED",
+          `Osiągnięto limit treningu ${stat.toUpperCase()} na poziomie ${level} (${curRank}/${cap}). Awansuj poziom, aby trenować dalej!`,
+        );
+      const cost = trainingSessionCost(curRank);
+      if (gold < cost)
+        throw new AndroidEconomyError(
+          "INSUFFICIENT_GOLD",
+          `Za mało złota na sesję treningową (${cost} zł).`,
+        );
+      const before = computeAndroidStats(current.race, level, state, nowMs);
+      gold -= cost;
+      state.training[stat] = curRank + 1;
+      state.lastTrainingAt = nowMs;
       state.lastArenaAt = nowMs;
       state.progress.arenaCount += 1;
-      const res = grantXp(current.race, level, state, ARENA_XP_REWARD);
+      state.progress.trainingCount += 1;
+      const after = computeAndroidStats(current.race, level, state, nowMs);
+      // Training raises stats WITHOUT granting XP or leveling up!
+      state.hp = Math.min(after.maxHp, state.hp + Math.max(0, after.maxHp - before.maxHp));
+      state.ki = Math.min(after.maxKi, state.ki + Math.max(0, after.maxKi - before.maxKi));
+      const statLabels: Record<StatKey, string> = {
+        hp: "+12 HP",
+        ki: "+8 KI / +0.08 KI/s",
+        atk: "+2 ATK",
+        def: "+1-2 DEF",
+        spd: "+6 SPD",
+        crit: "+0.6% KRYT",
+      };
+      const costTxt = cost > 0 ? ` (-${cost} zł)` : " (darmowy)";
+      notice = `Trening w mieście [${stat.toUpperCase()} ${curRank + 1}/${cap}]: ${statLabels[stat]}${costTxt} — bez wbijania poziomu!`;
+      break;
+    }
+
+    case "city_blessing": {
+      const expiresAt = nowMs + BLESSING_DURATION_MS;
+      state.activeBlessing = { kind: action.kind, expiresAt };
+      const stats = computeAndroidStats(current.race, level, state, nowMs);
+      state.hp = stats.maxHp;
+      state.ki = stats.maxKi;
+      const bNames: Record<BlessingKind, string> = {
+        march: "Błogosławieństwo Marszu (+15% Szybkości ruchu na 15 min)",
+        might: "Błogosławieństwo Hartu (+10% Ataku i Obrony na 15 min)",
+        focus: "Błogosławieństwo Skupienia (+25% Regeneracji KI na 15 min)",
+      };
+      notice = `Przyjęto ${bNames[action.kind]} oraz pełne HP/KI!`;
+      break;
+    }
+
+    case "gather_node": {
+      const nid = action.nodeId.trim();
+      const prevNodeTs = state.progress.gatheredNodes[nid] ?? 0;
+      if (prevNodeTs > 0 && nowMs - prevNodeTs < GATHER_NODE_COOLDOWN_MS) {
+        const waitS = Math.ceil((GATHER_NODE_COOLDOWN_MS - (nowMs - prevNodeTs)) / 1000);
+        throw new AndroidEconomyError(
+          "ARENA_COOLDOWN",
+          `To złoże odnawia się jeszcze przez ${waitS} s.`,
+        );
+      }
+      const gLand: AndroidLand = action.land ?? land;
+      const fallbackPool = REGIONAL_GATHER_DEFAULT[gLand];
+      const requestedId =
+        action.itemId && ANDROID_ITEM_MAP.get(action.itemId)?.cat === "material"
+          ? action.itemId
+          : fallbackPool[state.progress.gatherCount % fallbackPool.length]!;
+      if (!addItemToSlots(state.backpack, requestedId, 1))
+        throw new AndroidEconomyError(
+          "BACKPACK_FULL",
+          "Plecak jest pełny — zwolnij miejsce przed zbiorem!",
+        );
+      state.progress.gatheredNodes[nid] = nowMs;
+      state.progress.gatherCount += 1;
+      let bonusNote = "";
+      if (state.progress.gatherCount % 2 === 0 && addItemToSlots(state.backpack, "crystal_ki", 1)) {
+        bonusNote = " + Kryształ Skupienia Ki";
+      }
+      const rewardGold = 12;
+      const rewardXp = 22;
+      gold = Math.min(MAX_GOLD, gold + rewardGold);
+      const res = grantXp(current.race, level, state, rewardXp, nowMs);
       level = res.level;
+      const matDef = ANDROID_ITEM_MAP.get(requestedId);
       notice = res.leveledUp
-        ? `Trening ukończony (+${ARENA_XP_REWARD} PD) — AWANS na poziom ${level}!`
-        : `Trening bojowy ukończony! +${ARENA_XP_REWARD} PD.`;
+        ? `Zebrano: ${matDef?.name ?? requestedId}${bonusNote} (+${rewardXp} PD, +${rewardGold} zł) — AWANS na poziom ${level}!`
+        : `Zebrano: ${matDef?.name ?? requestedId}${bonusNote} (+${rewardXp} PD, +${rewardGold} zł)`;
+      break;
+    }
+
+    case "discover_waystone": {
+      const wid = action.waystoneId.trim();
+      if (!state.progress.discoveredWaystones.includes(wid)) {
+        state.progress.discoveredWaystones.push(wid);
+        notice = "Odkryto Kamień Szlaku! Możesz teraz szybko tu wracać z Mapy Świata [M].";
+      } else {
+        notice = "Ten Kamień Szlaku jest już odblokowany.";
+      }
       break;
     }
 
@@ -1033,7 +2417,7 @@ export function applyAndroidAction(
         );
       state.completedQuests[qid] = new Date(nowMs).toISOString();
       gold = Math.min(MAX_GOLD, gold + QUEST_GOLD_REWARD);
-      const res = grantXp(current.race, level, state, QUEST_XP_REWARD);
+      const res = grantXp(current.race, level, state, QUEST_XP_REWARD, nowMs);
       level = res.level;
       notice = res.leveledUp
         ? `Zlecenie ukończone (+${QUEST_XP_REWARD} PD, +${QUEST_GOLD_REWARD} zł) — AWANS na poziom ${level}!`
@@ -1062,11 +2446,19 @@ export function applyAndroidAction(
       gold = Math.min(MAX_GOLD, gold + goal.goldReward);
       if (goal.statPointsReward) state.freeStatPoints += goal.statPointsReward;
       if (goal.skillPointsReward) state.skillPoints += goal.skillPointsReward;
-      const res = grantXp(current.race, level, state, goal.xpReward);
-      level = res.level;
       const extras: string[] = [];
       if (goal.statPointsReward) extras.push(`+${goal.statPointsReward} pkt stat.`);
       if (goal.skillPointsReward) extras.push(`+${goal.skillPointsReward} pkt skilli`);
+      if (goal.itemReward && ANDROID_ITEM_MAP.has(goal.itemReward)) {
+        const idef = ANDROID_ITEM_MAP.get(goal.itemReward)!;
+        if (addItemToSlots(state.backpack, idef.id, 1)) {
+          extras.push(`+${idef.name}`);
+        } else if (addItemToSlots(state.bankItems, idef.id, 1)) {
+          extras.push(`+${idef.name} (wysłano do Banku)`);
+        }
+      }
+      const res = grantXp(current.race, level, state, goal.xpReward, nowMs);
+      level = res.level;
       const extraStr = extras.length > 0 ? `, ${extras.join(", ")}` : "";
       notice = res.leveledUp
         ? `${goal.title} — ukończono (+${goal.xpReward} PD, +${goal.goldReward} zł${extraStr}) — AWANS na poziom ${level}!`
@@ -1103,9 +2495,15 @@ export function applyAndroidAction(
         ).length;
         if (labChests >= 4 && !state.progress.clearedLabyrinths.includes(action.labyrinthId)) {
           state.progress.clearedLabyrinths.push(action.labyrinthId);
+          if (
+            addItemToSlots(state.backpack, "mat_labyrinth_relic", 1) ||
+            addItemToSlots(state.bankItems, "mat_labyrinth_relic", 1)
+          ) {
+            itemNote += " + Relikt Labiryntu";
+          }
         }
       }
-      const res = grantXp(current.race, level, state, rewardXp);
+      const res = grantXp(current.race, level, state, rewardXp, nowMs);
       level = res.level;
       notice = res.leveledUp
         ? `Otwarto ukryty skarb (+${rewardGold} zł, +${rewardXp} PD${itemNote}) — AWANS na poziom ${level}!`
@@ -1114,33 +2512,79 @@ export function applyAndroidAction(
     }
 
     case "monster_kill": {
-      if (nowMs - state.progress.lastKillAt < 400) {
-        throw new AndroidEconomyError("ARENA_COOLDOWN", "Zbyt szybkie kolejne zabicie potwora.");
+      // Sliding 1s window (max 14 kills/s) — lets AoE wipe whole monster packs cleanly without 400ms drops!
+      const recent = (state.progress.recentKillTimes ?? []).filter(
+        (ts) => nowMs - ts >= 0 && nowMs - ts < KILL_WINDOW_MS,
+      );
+      if (recent.length >= MAX_KILLS_PER_WINDOW) {
+        throw new AndroidEconomyError("ARENA_COOLDOWN", "Zbyt wiele zabójstw w jednej sekundzie.");
       }
+      recent.push(nowMs);
+      state.progress.recentKillTimes = recent;
       state.progress.lastKillAt = nowMs;
       state.progress.monsterKills += 1;
+
+      const isElite = Boolean(action.isElite);
+      if (isElite) state.progress.eliteKills += 1;
+
       const lvl = clampInt(action.level, 1, MAX_LEVEL, 1);
-      const baseXp = 18 + lvl * 7;
+      const eliteMult = isElite ? 3 : 1;
+      const baseXp = (18 + lvl * 7) * eliteMult;
       const lvDiff = level - lvl;
       const xpMult = lvDiff >= 5 ? 0.25 : lvDiff >= 3 ? 0.5 : 1.0;
       const rewardXp = Math.max(4, Math.round(baseXp * xpMult));
-      const rewardGold = 8 + lvl * 4;
+      const rewardGold = (8 + lvl * 4) * eliteMult;
       gold = Math.min(MAX_GOLD, gold + rewardGold);
       if (action.hpCost && action.hpCost > 0) {
         state.hp = Math.max(1, state.hp - action.hpCost);
       }
-      const res = grantXp(current.race, level, state, rewardXp);
+
+      // Deterministic/reliable crafting trophy drops + Elite guaranteed loot
+      const dropLand: AndroidLand = action.land ?? land;
+      const trophies = REGIONAL_TROPHIES[dropLand];
+      const dropNotes: string[] = [];
+      if (isElite) {
+        if (addItemToSlots(state.backpack, "mat_elite_core", 1)) dropNotes.push("Rdzeń Alfy");
+        if (addItemToSlots(state.backpack, "potion_hp", 1)) dropNotes.push("Wielki Eliksir Życia");
+      } else {
+        const k = state.progress.monsterKills;
+        const trophyId = lvl >= 6 ? trophies.high : lvl >= 3 ? trophies.mid : trophies.low;
+        if (k % 3 !== 0) {
+          // ~66% drop chance for regional crafting trophy
+          if (addItemToSlots(state.backpack, trophyId, 1)) {
+            dropNotes.push(ANDROID_ITEM_MAP.get(trophyId)?.name ?? trophyId);
+          }
+        }
+        if (k % 2 === 0 && trophyId !== "tusk_beast") {
+          // Reliable universal tusk_beast drop for universal Tier 2-3 armors
+          addItemToSlots(state.backpack, "tusk_beast", 1);
+        }
+        if (k % 5 === 0) {
+          addItemToSlots(state.backpack, "crystal_ki", 1);
+        }
+        // Rare 2% drop of weak Tier-1 starter item (matches V2 loot.ts DROP_CHANCE = 0.02!)
+        if (k % 50 === 0) {
+          const weakPool = ["weapon_recruit_sword", "armor_traveler_vest", "helm_traveler"];
+          const weakId = weakPool[(k / 50) % weakPool.length]!;
+          if (addItemToSlots(state.backpack, weakId, 1)) {
+            dropNotes.push(ANDROID_ITEM_MAP.get(weakId)?.name ?? weakId);
+          }
+        }
+      }
+
+      const res = grantXp(current.race, level, state, rewardXp, nowMs);
       level = res.level;
+      const dropSuffix = dropNotes.length > 0 ? ` • Łup: ${dropNotes.join(", ")}` : "";
       notice = res.leveledUp
-        ? `Pokonano potwora (+${rewardXp} PD, +${rewardGold} zł) — AWANS na poziom ${level}!`
-        : `Pokonano potwora! +${rewardXp} PD, +${rewardGold} zł.`;
+        ? `${isElite ? "★ Pokonano Elitę" : "Pokonano potwora"} (+${rewardXp} PD, +${rewardGold} zł${dropSuffix}) — AWANS na poziom ${level}!`
+        : `${isElite ? "★ Pokonano Elitę" : "Pokonano potwora"}! +${rewardXp} PD, +${rewardGold} zł${dropSuffix}.`;
       break;
     }
 
     case "hero_defeat": {
       const lostXp = Math.floor(state.xp * 0.1);
       state.xp = Math.max(0, state.xp - lostXp);
-      const s = computeAndroidStats(current.race, level, state);
+      const s = computeAndroidStats(current.race, level, state, nowMs);
       state.hp = Math.max(1, Math.round(s.maxHp * 0.65));
       state.ki = Math.max(0, Math.round(s.maxKi * 0.65));
       teleportCapital = true;
@@ -1175,7 +2619,7 @@ export function applyAndroidAction(
         }
         case "set_level": {
           level = clampInt(action.value ?? level, 1, MAX_LEVEL, level);
-          const stats = computeAndroidStats(current.race, level, state);
+          const stats = computeAndroidStats(current.race, level, state, nowMs);
           state.hp = stats.maxHp;
           state.ki = stats.maxKi;
           notice = `GM: Ustawiono poziom ${level}`;
@@ -1207,7 +2651,7 @@ export function applyAndroidAction(
           break;
         }
         case "full_heal": {
-          const stats = computeAndroidStats(current.race, level, state);
+          const stats = computeAndroidStats(current.race, level, state, nowMs);
           state.hp = stats.maxHp;
           state.ki = stats.maxKi;
           notice = "GM: Pełne odnowienie HP i KI.";
@@ -1245,13 +2689,24 @@ export const adminCharacterPatchSchema = z
       })
       .strict()
       .optional(),
+    training: z
+      .object({
+        hp: z.number().int().min(0).max(300).optional(),
+        ki: z.number().int().min(0).max(300).optional(),
+        atk: z.number().int().min(0).max(300).optional(),
+        def: z.number().int().min(0).max(300).optional(),
+        spd: z.number().int().min(0).max(300).optional(),
+        crit: z.number().int().min(0).max(300).optional(),
+      })
+      .strict()
+      .optional(),
     unlockedNodes: z
       .array(z.string().regex(/^[A-Z0-9_-]{1,8}$/))
       .max(40)
       .optional(),
     equipment: z.record(z.string(), z.string().nullable()).optional(),
-    backpack: z.array(itemStackSchema.nullable()).length(BACKPACK_SIZE).optional(),
-    bankItems: z.array(itemStackSchema.nullable()).length(BANK_SIZE).optional(),
+    backpack: z.array(itemStackSchema.nullable()).min(1).max(BACKPACK_SIZE).optional(),
+    bankItems: z.array(itemStackSchema.nullable()).min(1).max(BANK_SIZE).optional(),
     completedQuests: z.record(z.string().max(80), z.string().max(40)).optional(),
   })
   .strict();
@@ -1283,7 +2738,11 @@ export function applyAdminCharacterPatch(
   const level = p.level ?? current.level;
   const gold = p.gold ?? current.gold;
 
-  const mergedState: AndroidHeroState = structuredClone(current.state);
+  const mergedState: AndroidHeroState = normalizeAndroidState(
+    structuredClone(current.state),
+    race,
+    level,
+  );
   if (p.xp !== undefined) mergedState.xp = p.xp;
   if (p.bankGold !== undefined) mergedState.bankGold = p.bankGold;
   if (p.freeStatPoints !== undefined) mergedState.freeStatPoints = p.freeStatPoints;
@@ -1291,6 +2750,11 @@ export function applyAdminCharacterPatch(
   if (p.bonusStats) {
     for (const key of STAT_KEYS) {
       if (p.bonusStats[key] !== undefined) mergedState.bonusStats[key] = p.bonusStats[key]!;
+    }
+  }
+  if (p.training) {
+    for (const key of STAT_KEYS) {
+      if (p.training[key] !== undefined) mergedState.training[key] = p.training[key]!;
     }
   }
   if (p.unlockedNodes !== undefined) {
@@ -1314,8 +2778,12 @@ export function applyAdminCharacterPatch(
       }
     }
   }
-  if (p.backpack !== undefined) mergedState.backpack = p.backpack;
-  if (p.bankItems !== undefined) mergedState.bankItems = p.bankItems;
+  if (p.backpack !== undefined) {
+    mergedState.backpack = Array.from({ length: BACKPACK_SIZE }, (_, i) => p.backpack![i] ?? null);
+  }
+  if (p.bankItems !== undefined) {
+    mergedState.bankItems = Array.from({ length: BANK_SIZE }, (_, i) => p.bankItems![i] ?? null);
+  }
   if (p.completedQuests !== undefined) mergedState.completedQuests = p.completedQuests;
 
   const stats = computeAndroidStats(race, level, mergedState);

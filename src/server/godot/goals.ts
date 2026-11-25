@@ -43,11 +43,17 @@ export function evaluateGoalForCharacter(
     visitedLands: [char.land],
     craftedCount: 0,
     arenaCount: 0,
+    trainingCount: 0,
     shopCount: 0,
     monsterKills: 0,
+    eliteKills: 0,
+    gatherCount: 0,
+    gatheredNodes: {},
+    discoveredWaystones: [],
     openedTreasures: [],
     clearedLabyrinths: [],
     lastKillAt: 0,
+    recentKillTimes: [],
   };
   const suffix = goal.id.slice(-2);
 
@@ -55,6 +61,8 @@ export function evaluateGoalForCharacter(
     const kills = prog.monsterKills ?? 0;
     const chests = (prog.openedTreasures ?? []).length;
     const labs = (prog.clearedLabyrinths ?? []).length;
+    const elites = prog.eliteKills ?? 0;
+    const gathers = prog.gatherCount ?? 0;
     switch (suffix) {
       case "01":
         return kills >= 5
@@ -75,6 +83,26 @@ export function evaluateGoalForCharacter(
               status: "in_progress",
               progressText: `Labirynty: ${labs}/2 • Skarby: ${chests}/10 • Potwory: ${kills}/20`,
             };
+      case "05":
+        return kills >= 12 && gathers >= 5 && elites >= 1
+          ? {
+              status: "ready",
+              progressText: "Ciężki Kontrakt I ukończony — odbierz unikalną nagrodę!",
+            }
+          : {
+              status: "in_progress",
+              progressText: `Potwory: ${kills}/12 • Surowce: ${gathers}/5 • Elity: ${elites}/1`,
+            };
+      case "06":
+        return kills >= 35 && elites >= 3 && gathers >= 12
+          ? {
+              status: "ready",
+              progressText: "Ciężki Kontrakt II ukończony — odbierz Zbroję Czempiona!",
+            }
+          : {
+              status: "in_progress",
+              progressText: `Potwory: ${kills}/35 • Elity: ${elites}/3 • Surowce: ${gathers}/12`,
+            };
       default:
         return { status: "ready", progressText: "Gotowe" };
     }
@@ -83,8 +111,13 @@ export function evaluateGoalForCharacter(
   const equippedCount = Object.values(char.state.equipment).filter(Boolean).length;
   const totalBonus = Object.values(char.state.bonusStats).reduce((a, b) => a + b, 0);
   const bankItemCount = char.state.bankItems.filter(Boolean).length;
-  const npcQuestCount = Object.keys(char.state.completedQuests).filter((k) =>
-    k.startsWith("npc:"),
+  const npcQuestCount = Object.keys(char.state.completedQuests).filter(
+    (k) =>
+      k.startsWith("npc:") ||
+      k.startsWith("pyra:") ||
+      k.startsWith("verdant:") ||
+      k.startsWith("aether:") ||
+      k.startsWith("nexus:"),
   ).length;
 
   switch (suffix) {
@@ -117,10 +150,11 @@ export function evaluateGoalForCharacter(
           };
     }
     case "04": {
-      const done = prog.arenaCount >= 1;
+      const trained = prog.trainingCount ?? prog.arenaCount ?? 0;
+      const done = trained >= 3;
       return done
         ? { status: "ready", progressText: "Warunek spełniony — odbierz nagrodę!" }
-        : { status: "in_progress", progressText: `Treningi na arenie: ${prog.arenaCount}/1` };
+        : { status: "in_progress", progressText: `Sesje treningu w mieście: ${trained}/3` };
     }
     case "05": {
       const done = char.state.bankGold > 0 || bankItemCount >= 1;

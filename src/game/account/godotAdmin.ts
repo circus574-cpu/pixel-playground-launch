@@ -144,11 +144,14 @@ export async function godotPublish(
 export type AndroidItemDef = {
   id: string;
   name: string;
-  cat: "weapon" | "armor" | "jewelry" | "consumable";
+  cat: "weapon" | "armor" | "jewelry" | "consumable" | "material";
+  rarity?: "common" | "uncommon" | "rare" | "epic" | "legendary";
+  minLevel?: number;
   icon: string;
   slot: number;
   desc: string;
-  shopPrice: number;
+  shopPrice: number | null;
+  sellPrice?: number;
   craftCost: number | null;
 };
 
@@ -166,7 +169,7 @@ export type AndroidCharacterAdmin = {
   gold: number;
   revision: number;
   state: {
-    version: 1;
+    version: 1 | 2;
     xp: number;
     bankGold: number;
     hp: number;
@@ -174,6 +177,7 @@ export type AndroidCharacterAdmin = {
     freeStatPoints: number;
     skillPoints: number;
     bonusStats: { hp: number; ki: number; atk: number; def: number; spd: number; crit: number };
+    training?: { hp: number; ki: number; atk: number; def: number; spd: number; crit: number };
     unlockedNodes: string[];
     equipment: Record<string, string | null>;
     backpack: (AndroidItemStack | null)[];
@@ -184,6 +188,7 @@ export type AndroidCharacterAdmin = {
   stats: {
     maxHp: number;
     maxKi: number;
+    kiRegen?: number;
     attack: number;
     defense: number;
     speed: number;

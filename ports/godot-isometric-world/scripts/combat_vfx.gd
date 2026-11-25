@@ -478,12 +478,12 @@ func _draw() -> void:
 				draw_arc(Vector2.ZERO, 86.0 * grow + 14.0, ra0, ra0 + 0.44, 8, Color(core_c.r, core_c.g, core_c.b, 0.88 * beam_fade), 2.8, true)
 			draw_set_transform(Vector2.ZERO)
 
-			# Towering 500px additive multi-layer sky plasma beam
-			var pw := lerpf(38.0, 136.0, grow) * (1.0 - beam_p * 0.42) * (1.0 + sin(age * 28.0) * 0.08)
-			var ph := 500.0 * clampf(beam_p * 4.5, 0.35, 1.0)
-			_draw_glow(pos + Vector2(0.0, -ph * 0.46), pw * 2.4, ph * 0.68, Color(edge_c.r, edge_c.g, edge_c.b, 0.56 * beam_fade))
-			_draw_glow(pos + Vector2(0.0, -ph * 0.44), pw * 1.25, ph * 0.62, Color(main_c.r, main_c.g, main_c.b, 0.68 * beam_fade))
-			_draw_glow(pos + Vector2(0.0, -ph * 0.40), pw * 0.48, ph * 0.54, Color(core_c.r, core_c.g, core_c.b, 0.82 * beam_fade))
+			# Towering additive sky plasma beam (balanced opacity so bright snow on Aetheria never washes out!)
+			var pw := lerpf(32.0, 108.0, grow) * (1.0 - beam_p * 0.42) * (1.0 + sin(age * 28.0) * 0.08)
+			var ph := 440.0 * clampf(beam_p * 4.5, 0.35, 1.0)
+			_draw_glow(pos + Vector2(0.0, -ph * 0.46), pw * 2.0, ph * 0.62, Color(edge_c.r, edge_c.g, edge_c.b, 0.36 * beam_fade))
+			_draw_glow(pos + Vector2(0.0, -ph * 0.44), pw * 1.10, ph * 0.56, Color(main_c.r, main_c.g, main_c.b, 0.44 * beam_fade))
+			_draw_glow(pos + Vector2(0.0, -ph * 0.40), pw * 0.44, ph * 0.48, Color(core_c.r, core_c.g, core_c.b, 0.54 * beam_fade))
 
 			# 18 Roaring feathered plasma flame wisps shooting skyward around the hero!
 			if _wisp_tex != null:
@@ -494,25 +494,25 @@ func _draw() -> void:
 					var side_f := (h0 - 0.5) * 2.0
 					var wx := pos.x + side_f * (pw * (0.35 + 0.82 * (1.0 - wph * 0.45))) + sin(wph * 9.0 + float(wi)) * 10.0
 					var wy := pos.y - 12.0 - wph * (ph * 0.78)
-					var ww := (1.0 - wph * 0.42) * (42.0 + 28.0 * h1)
-					var wh := (1.0 - wph * 0.28) * (105.0 + 68.0 * h0)
+					var ww := (1.0 - wph * 0.42) * (36.0 + 24.0 * h1)
+					var wh := (1.0 - wph * 0.28) * (92.0 + 58.0 * h0)
 					var wcol := edge_c.lerp(main_c, wph * 0.65)
-					wcol.a = sin(wph * PI) * 0.68 * beam_fade
+					wcol.a = sin(wph * PI) * 0.48 * beam_fade
 					draw_texture_rect(_wisp_tex, Rect2(wx - ww * 0.5, wy - wh * 0.75, ww, wh), false, wcol)
 
-			# Blinding razor-tapered 12-ray anime starburst lens flare at detonation peak
-			if beam_p < 0.52:
-				var fl_a := sin((beam_p / 0.52) * PI)
+			# Crisp 12-ray anime starburst lens flare at detonation peak (clamped for snow clarity)
+			if beam_p < 0.48:
+				var fl_a := sin((beam_p / 0.48) * PI)
 				var fc := pos + Vector2(0.0, -48.0)
-				_draw_glow(fc, 195.0 * (0.6 + beam_p), 155.0 * (0.6 + beam_p), Color(main_c.r, main_c.g, main_c.b, 0.52 * fl_a))
-				_draw_glow(fc, 95.0 * (0.6 + beam_p), 80.0 * (0.6 + beam_p), Color(core_c.r, core_c.g, core_c.b, 0.78 * fl_a))
+				_draw_glow(fc, 148.0 * (0.6 + beam_p), 120.0 * (0.6 + beam_p), Color(main_c.r, main_c.g, main_c.b, 0.34 * fl_a))
+				_draw_glow(fc, 74.0 * (0.6 + beam_p), 64.0 * (0.6 + beam_p), Color(core_c.r, core_c.g, core_c.b, 0.50 * fl_a))
 				for ray_i in 12:
 					var ra := float(ray_i) * (TAU / 12.0) + age * 1.1
 					var is_major := (ray_i % 2 == 0)
-					var rlen := (235.0 if is_major else 135.0) * (0.55 + fl_a * 0.65)
-					var hw := (11.0 if is_major else 6.0) * fl_a
-					_draw_tapered_ray(fc, ra, rlen, hw, Color(main_c.r, main_c.g, main_c.b, 0.48 * fl_a), 0.72)
-					_draw_tapered_ray(fc, ra, rlen * 0.82, hw * 0.40, Color(core_c.r, core_c.g, core_c.b, 0.85 * fl_a), 0.72)
+					var rlen := (190.0 if is_major else 112.0) * (0.55 + fl_a * 0.60)
+					var hw := (8.5 if is_major else 4.8) * fl_a
+					_draw_tapered_ray(fc, ra, rlen, hw, Color(main_c.r, main_c.g, main_c.b, 0.34 * fl_a), 0.72)
+					_draw_tapered_ray(fc, ra, rlen * 0.80, hw * 0.38, Color(core_c.r, core_c.g, core_c.b, 0.58 * fl_a), 0.72)
 
 			# Sleek luminous double-helix plasma coils spiraling upward
 			for strand in 2:

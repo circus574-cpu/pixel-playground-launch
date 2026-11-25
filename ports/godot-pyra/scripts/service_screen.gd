@@ -3,7 +3,12 @@ extends Control
 signal picked(action: String)
 const SCENE := "res://service_preview/pyra/world.tscn"
 const FORGED_BASE := "res://service_preview/pyra/assets/ui/forged/"
-const MENU_MUSIC_PATHS := ["res://service_preview/pyra/assets/audio/music/menu.mp3", "res://assets/audio/music/menu.mp3"]
+const MENU_MUSIC_PATHS := [
+	"res://service_preview/pyra/assets/audio/music/menu.mp3",
+	"res://assets/audio/music/menu.mp3",
+	"res://assets/audio/music/loading_theme.mp3",
+	"res://assets/audio/music/loadings.mp3",
+]
 const AUDIO_PREFS_PATH := "user://audio.json"
 const HUD_LAYOUT_PATH := "user://hud_layout.json"
 const Look := preload("res://scripts/look.gd")
@@ -678,6 +683,15 @@ func _run_server_action(cid: String, payload: Dictionary, done_cb: Callable) -> 
 	if done_cb.is_valid():
 		done_cb.call(res)
 
+func _run_server_ping(done_cb: Callable) -> void:
+	var online = KiNet.online()
+	var t0 := Time.get_ticks_msec()
+	var ans: Dictionary = await online.request(HTTPClient.METHOD_GET, "/ws/godot/status", null, false, 6.0, false)
+	var ok := int(ans.get("status", 0)) == 200
+	var rtt := maxi(1, int(Time.get_ticks_msec() - t0)) if ok else -1
+	if done_cb.is_valid():
+		done_cb.call(ok, rtt)
+
 func _on_world_change_character() -> void:
 	close_preview()
 	call_deferred("open_world", true)
@@ -728,6 +742,7 @@ func spawn_world(full: bool) -> void:
 	world.return_to_char_select_fn = Callable(self, "_on_world_change_character")
 	world.logout_fn = Callable(self, "_on_world_logout")
 	world.quit_game_fn = Callable(self, "_on_world_quit")
+	world.server_ping_fn = Callable(self, "_run_server_ping")
 	if full and not active_server_char.is_empty():
 		world.server_char_id = str(active_server_char.get("id", ""))
 		world.server_character = active_server_char.duplicate(true)

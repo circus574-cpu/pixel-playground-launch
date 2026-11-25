@@ -33,6 +33,7 @@ var sfx_val_lbl := Label.new()
 var hud_scale_slider := HSlider.new()
 var hud_scale_lbl := Label.new()
 var hud_scale_btns: Array[Button] = []
+var btn_perf_hud := Button.new()
 
 var account_info_lbl := Label.new()
 var _syncing_ui := false
@@ -272,6 +273,28 @@ func _build_game_tab() -> VBoxContainer:
 	)
 	top_row.add_child(btn_cap)
 
+	# Performance & Network Telemetry Card (FPS + Ping) — visible immediately without scrolling!
+	var perf_pair := _section_card("WYDAJNOŚĆ I SIEĆ (FPS / PING)")
+	box.add_child(perf_pair[0] as Control)
+	var perf_vb: VBoxContainer = perf_pair[1]
+	btn_perf_hud.custom_minimum_size = Vector2(0, 46)
+	btn_perf_hud.pressed.connect(func() -> void:
+		if world != null and world.get("rpg_hud") != null and world.rpg_hud.has_method("set_perf_hud_enabled"):
+			var next_on := not bool(world.rpg_hud.is_perf_hud_enabled())
+			world.rpg_hud.set_perf_hud_enabled(next_on, true)
+			if world.get("audio") != null:
+				world.audio.sfx("ui/toggle-on" if next_on else "ui/click", 0.85, 0.02)
+		_sync_ui_values()
+	)
+	perf_vb.add_child(btn_perf_hud)
+	var perf_desc := Label.new()
+	perf_desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	perf_desc.add_theme_font_override("font", MapStyle.body_font())
+	perf_desc.add_theme_font_size_override("font_size", 13)
+	perf_desc.add_theme_color_override("font_color", Color(0.76, 0.84, 0.90))
+	perf_desc.text = "Wyświetla pod minimapą licznik klatek na sekundę (FPS) oraz bieżące opóźnienie do serwera (Ping ms)."
+	perf_vb.add_child(perf_desc)
+
 	# Camera Zoom Card
 	var cam_pair := _section_card("KAMERA I ODDALENIE WIDOKU")
 	box.add_child(cam_pair[0] as Control)
@@ -332,7 +355,7 @@ func _build_game_tab() -> VBoxContainer:
 	help_lbl.add_theme_font_override("font", MapStyle.body_font())
 	help_lbl.add_theme_font_size_override("font_size", 14)
 	help_lbl.add_theme_color_override("font_color", Color(0.90, 0.87, 0.80))
-	help_lbl.text = "• Ruch: wirtualny joystick w lewym dolnym rogu (lekkie wychylenie = chód, pełne = bieg).\n• Duża Mapa Świata (tap na minimapę): przybliż palcami lub tapnij kontynent, potem tapnij punkt aby się teleportować.\n• Przeprawa morska: dopłynięcie do granicy oceanu przenosi na sąsiedni kontynent Superior.\n• Walka: prawy dolny łuk umiejętności (Combo, 1–4, Tryb KI [R] i szybka Mikstura)."
+	help_lbl.text = "• Ruch: wirtualny joystick w lewym dolnym rogu (lekkie wychylenie = chód, pełne = bieg).\n• Duża Mapa Świata (tap na minimapę): szybka podróż do Stolic i odkrytych Kamieni Szlaku (✦).\n• Kamień Powrotu [C] / przycisk POWRÓT: darmowy powrót do bezpiecznej stolicy (2,5 s).\n• Walka: prawy dolny łuk umiejętności (Combo [Q], 1–4, Forma KI [R] od Poz. 20 oraz Mikstura [H])."
 	(help_pair[1] as VBoxContainer).add_child(help_lbl)
 	return box
 
@@ -598,6 +621,12 @@ func _sync_ui_values() -> void:
 	sfx_val_lbl.text = "WYŁ" if (is_muted or sv <= 0.01) else ("%d%%" % int(round(sv * 100.0)))
 	btn_mute.text = "🔇  WSZYSTKIE DŹWIĘKI WYCISZONE (KLIKNIJ ABY WŁĄCZYĆ)" if is_muted else "🔊  DŹWIĘK AKTYWNY (KLIKNIJ ABY WYCISZYĆ)"
 	ForgedUI.style_button(btn_mute, "crimson" if is_muted else "slate", 14, 14.0, 8.0)
+
+	var perf_on := false
+	if world != null and world.get("rpg_hud") != null and world.rpg_hud.has_method("is_perf_hud_enabled"):
+		perf_on = bool(world.rpg_hud.is_perf_hud_enabled())
+	btn_perf_hud.text = "📊  WYKAZ FPS I PING: WŁĄCZONY (KLIKNIJ ABY UKRYĆ)" if perf_on else "📊  WYKAZ FPS I PING: WYŁĄCZONY (KLIKNIJ ABY WŁĄCZYĆ)"
+	ForgedUI.style_button(btn_perf_hud, "gold" if perf_on else "slate", 14, 14.0, 8.0)
 
 	var hsc := 1.0
 	if world != null and world.get("rpg_hud") != null and world.rpg_hud.has_method("get_hud_scale"):

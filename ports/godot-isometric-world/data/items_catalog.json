@@ -1,0 +1,1271 @@
+{
+  "version": 2,
+  "backpack_size": 24,
+  "bank_size": 24,
+  "training_cooldown_s": 8,
+  "items": [
+    {
+      "id": "potion_hp_small",
+      "name": "Mała Mikstura Życia",
+      "cat": "consumable",
+      "rarity": "common",
+      "obtainableFrom": "shop",
+      "minLevel": 1,
+      "icon": "item-potion.webp",
+      "slot": -1,
+      "desc": "Przywraca +75 HP",
+      "shopPrice": 45,
+      "sellPrice": 12,
+      "craftCost": null,
+      "healHp": 75
+    },
+    {
+      "id": "potion_hp",
+      "name": "Wielki Eliksir Życia",
+      "cat": "consumable",
+      "rarity": "uncommon",
+      "obtainableFrom": "shop",
+      "minLevel": 1,
+      "icon": "gear-potion.webp",
+      "slot": -1,
+      "desc": "Przywraca +160 HP",
+      "shopPrice": 110,
+      "sellPrice": 28,
+      "craftCost": null,
+      "healHp": 160
+    },
+    {
+      "id": "potion_ki",
+      "name": "Eliksir Energii Ki",
+      "cat": "consumable",
+      "rarity": "common",
+      "obtainableFrom": "shop",
+      "minLevel": 1,
+      "icon": "emblem_potion.webp",
+      "slot": -1,
+      "desc": "Przywraca +80 KI",
+      "shopPrice": 90,
+      "sellPrice": 22,
+      "craftCost": null,
+      "healKi": 80
+    },
+    {
+      "id": "scroll_tp",
+      "name": "Zwój Powrotu do Stolicy",
+      "cat": "consumable",
+      "rarity": "common",
+      "obtainableFrom": "shop",
+      "minLevel": 1,
+      "icon": "emblem_scroll.webp",
+      "slot": -1,
+      "desc": "Natychmiastowy powrót do stolicy (bez czasu oczekiwania)",
+      "shopPrice": 80,
+      "sellPrice": 20,
+      "craftCost": null
+    },
+    {
+      "id": "pouch_gold",
+      "name": "Sakiewka Złota (Archiwalna)",
+      "cat": "consumable",
+      "rarity": "common",
+      "obtainableFrom": "legacy",
+      "minLevel": 1,
+      "icon": "gear-coin.webp",
+      "slot": -1,
+      "desc": "Dodaje 100 złota",
+      "shopPrice": null,
+      "sellPrice": 0,
+      "craftCost": null,
+      "gold": 100
+    },
+    {
+      "id": "mat_ember",
+      "name": "Esencja Płomienia",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "gather",
+      "minLevel": 1,
+      "icon": "material-esencja-plomienia.webp",
+      "slot": -1,
+      "desc": "Surowiec Pyry do craftingu w Kuźni",
+      "shopPrice": null,
+      "sellPrice": 18,
+      "craftCost": null
+    },
+    {
+      "id": "mat_obsidian",
+      "name": "Odłamek Obsydianu",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "gather",
+      "minLevel": 1,
+      "icon": "material-obsydian.webp",
+      "slot": -1,
+      "desc": "Surowiec Pyry do wykuwania broni i pancerzy",
+      "shopPrice": null,
+      "sellPrice": 18,
+      "craftCost": null
+    },
+    {
+      "id": "mat_ash_herb",
+      "name": "Skrzydło Żaru",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "gather",
+      "minLevel": 1,
+      "icon": "material-skrzydlo-zaru.webp",
+      "slot": -1,
+      "desc": "Zioło Pyry używane w rzemiośle",
+      "shopPrice": null,
+      "sellPrice": 15,
+      "craftCost": null
+    },
+    {
+      "id": "mat_shroom",
+      "name": "Czerwony Grzyb",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "gather",
+      "minLevel": 1,
+      "icon": "material-czerwony-grzyb.webp",
+      "slot": -1,
+      "desc": "Surowiec Verdantii do craftingu",
+      "shopPrice": null,
+      "sellPrice": 16,
+      "craftCost": null
+    },
+    {
+      "id": "mat_amber",
+      "name": "Złoty Bursztyn",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "gather",
+      "minLevel": 1,
+      "icon": "material-bursztyn.webp",
+      "slot": -1,
+      "desc": "Surowiec Verdantii do wykuwania broni i biżuterii",
+      "shopPrice": null,
+      "sellPrice": 18,
+      "craftCost": null
+    },
+    {
+      "id": "mat_seeds",
+      "name": "Nasiona Gaju",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "gather",
+      "minLevel": 1,
+      "icon": "material-nasiona.webp",
+      "slot": -1,
+      "desc": "Surowiec Verdantii do pancerzy natury",
+      "shopPrice": null,
+      "sellPrice": 15,
+      "craftCost": null
+    },
+    {
+      "id": "mat_rune",
+      "name": "Kamień Runiczny",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "gather",
+      "minLevel": 1,
+      "icon": "material-kamien-runiczny.webp",
+      "slot": -1,
+      "desc": "Surowiec Aetherii do kosturów i pieczęci",
+      "shopPrice": null,
+      "sellPrice": 18,
+      "craftCost": null
+    },
+    {
+      "id": "mat_lightdust",
+      "name": "Pył Światła",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "gather",
+      "minLevel": 1,
+      "icon": "material-pyl-swiatla.webp",
+      "slot": -1,
+      "desc": "Surowiec Aetherii do amuletów i hełmów",
+      "shopPrice": null,
+      "sellPrice": 17,
+      "craftCost": null
+    },
+    {
+      "id": "mat_parchment",
+      "name": "Karta Pergaminu",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "gather",
+      "minLevel": 1,
+      "icon": "material-karta-pergaminu.webp",
+      "slot": -1,
+      "desc": "Surowiec Aetherii do zaawansowanych receptur",
+      "shopPrice": null,
+      "sellPrice": 18,
+      "craftCost": null
+    },
+    {
+      "id": "mat_plasma",
+      "name": "Rdzeń Plazmy",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "gather",
+      "minLevel": 1,
+      "icon": "material-rdzen-plazmy.webp",
+      "slot": -1,
+      "desc": "Surowiec Nexus-9 do uzbrojenia plazmowego",
+      "shopPrice": null,
+      "sellPrice": 18,
+      "craftCost": null
+    },
+    {
+      "id": "mat_coil",
+      "name": "Cewka Zasilająca",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "gather",
+      "minLevel": 1,
+      "icon": "material-cewka.webp",
+      "slot": -1,
+      "desc": "Surowiec Nexus-9 do obwodów bojowych",
+      "shopPrice": null,
+      "sellPrice": 18,
+      "craftCost": null
+    },
+    {
+      "id": "mat_optic",
+      "name": "Moduł Optyczny",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "gather",
+      "minLevel": 1,
+      "icon": "material-modul-optyczny.webp",
+      "slot": -1,
+      "desc": "Surowiec Nexus-9 do precyzyjnego sprzętu",
+      "shopPrice": null,
+      "sellPrice": 17,
+      "craftCost": null
+    },
+    {
+      "id": "crystal_ki",
+      "name": "Kryształ Skupienia Ki",
+      "cat": "material",
+      "rarity": "uncommon",
+      "obtainableFrom": "gather",
+      "minLevel": 1,
+      "icon": "emblem_crystal.webp",
+      "slot": -1,
+      "desc": "Uniwersalny kryształ rzemieślniczy (zbiór i potwory)",
+      "shopPrice": null,
+      "sellPrice": 24,
+      "craftCost": null
+    },
+    {
+      "id": "tusk_beast",
+      "name": "Kieł Bestii",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "drop",
+      "minLevel": 1,
+      "icon": "gear-tusk.webp",
+      "slot": -1,
+      "desc": "Trofeum z potworów (do Kuźni lub na sprzedaż)",
+      "shopPrice": null,
+      "sellPrice": 16,
+      "craftCost": null
+    },
+    {
+      "id": "mat_salamander_scale",
+      "name": "Łuska Salamandry",
+      "cat": "material",
+      "rarity": "uncommon",
+      "obtainableFrom": "drop",
+      "minLevel": 2,
+      "icon": "material-luska-salamandry.webp",
+      "slot": -1,
+      "desc": "Trofeum potworów Pyry do craftingu",
+      "shopPrice": null,
+      "sellPrice": 24,
+      "craftCost": null
+    },
+    {
+      "id": "mat_magma_plate",
+      "name": "Magmowy Pancerz",
+      "cat": "material",
+      "rarity": "rare",
+      "obtainableFrom": "drop",
+      "minLevel": 6,
+      "icon": "material-magmowy-pancerz.webp",
+      "slot": -1,
+      "desc": "Rzadkie trofeum silnych potworów Pyry",
+      "shopPrice": null,
+      "sellPrice": 40,
+      "craftCost": null
+    },
+    {
+      "id": "mat_moss_jelly",
+      "name": "Mchowa Galaretka",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "drop",
+      "minLevel": 1,
+      "icon": "material-mchowa-galaretka.webp",
+      "slot": -1,
+      "desc": "Trofeum potworów Verdantii do craftingu",
+      "shopPrice": null,
+      "sellPrice": 20,
+      "craftCost": null
+    },
+    {
+      "id": "mat_wolf_thorn",
+      "name": "Cierń Wilka",
+      "cat": "material",
+      "rarity": "uncommon",
+      "obtainableFrom": "drop",
+      "minLevel": 3,
+      "icon": "material-ciern-wilka.webp",
+      "slot": -1,
+      "desc": "Trofeum drapieżników Verdantii",
+      "shopPrice": null,
+      "sellPrice": 26,
+      "craftCost": null
+    },
+    {
+      "id": "mat_spider_silk",
+      "name": "Jedwab Pająka",
+      "cat": "material",
+      "rarity": "rare",
+      "obtainableFrom": "drop",
+      "minLevel": 6,
+      "icon": "material-jedwab-pajaka.webp",
+      "slot": -1,
+      "desc": "Rzadkie trofeum głębokiego lasu Verdantii",
+      "shopPrice": null,
+      "sellPrice": 40,
+      "craftCost": null
+    },
+    {
+      "id": "mat_aether_thread",
+      "name": "Nić Eteru",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "drop",
+      "minLevel": 1,
+      "icon": "material-nic-eteru.webp",
+      "slot": -1,
+      "desc": "Trofeum istot Aetherii do craftingu",
+      "shopPrice": null,
+      "sellPrice": 20,
+      "craftCost": null
+    },
+    {
+      "id": "mat_crystal_wing",
+      "name": "Kryształowe Skrzydło",
+      "cat": "material",
+      "rarity": "uncommon",
+      "obtainableFrom": "drop",
+      "minLevel": 3,
+      "icon": "material-skrzydlo-krysztalowe.webp",
+      "slot": -1,
+      "desc": "Trofeum eterycznych bestii Aetherii",
+      "shopPrice": null,
+      "sellPrice": 26,
+      "craftCost": null
+    },
+    {
+      "id": "mat_temple_stone",
+      "name": "Kamień Świątynny",
+      "cat": "material",
+      "rarity": "rare",
+      "obtainableFrom": "drop",
+      "minLevel": 6,
+      "icon": "material-kamien-swiatynny.webp",
+      "slot": -1,
+      "desc": "Rzadkie trofeum strażników Aetherii",
+      "shopPrice": null,
+      "sellPrice": 40,
+      "craftCost": null
+    },
+    {
+      "id": "mat_sensor",
+      "name": "Czujnik Drona",
+      "cat": "material",
+      "rarity": "common",
+      "obtainableFrom": "drop",
+      "minLevel": 1,
+      "icon": "material-czujnik.webp",
+      "slot": -1,
+      "desc": "Trofeum maszyn Nexus-9 do craftingu",
+      "shopPrice": null,
+      "sellPrice": 20,
+      "craftCost": null
+    },
+    {
+      "id": "mat_armor_plate",
+      "name": "Płyta Pancerna",
+      "cat": "material",
+      "rarity": "uncommon",
+      "obtainableFrom": "drop",
+      "minLevel": 3,
+      "icon": "material-plyta-pancerna.webp",
+      "slot": -1,
+      "desc": "Trofeum jednostek bojowych Nexus-9",
+      "shopPrice": null,
+      "sellPrice": 26,
+      "craftCost": null
+    },
+    {
+      "id": "mat_energy_core",
+      "name": "Rdzeń Energii",
+      "cat": "material",
+      "rarity": "rare",
+      "obtainableFrom": "drop",
+      "minLevel": 6,
+      "icon": "material-rdzen-energii.webp",
+      "slot": -1,
+      "desc": "Rzadkie trofeum ciężkich mechów Nexus-9",
+      "shopPrice": null,
+      "sellPrice": 40,
+      "craftCost": null
+    },
+    {
+      "id": "mat_elite_core",
+      "name": "Rdzeń Alfy",
+      "cat": "material",
+      "rarity": "rare",
+      "obtainableFrom": "elite",
+      "minLevel": 5,
+      "icon": "material-zloty-pancerz.webp",
+      "slot": -1,
+      "desc": "Gwarantowany łup z Elit — wymagany do zaawansowanego craftu (Poz. 6+)",
+      "shopPrice": null,
+      "sellPrice": 75,
+      "craftCost": null
+    },
+    {
+      "id": "mat_labyrinth_relic",
+      "name": "Relikt Labiryntu",
+      "cat": "material",
+      "rarity": "epic",
+      "obtainableFrom": "quest",
+      "minLevel": 5,
+      "icon": "material-maska-rytualu.webp",
+      "slot": -1,
+      "desc": "Zdobywany za ukończenie Labiryntu (4/4 skrzynie) — składnik mistrzowskiej Kuźni",
+      "shopPrice": null,
+      "sellPrice": 120,
+      "craftCost": null
+    },
+    {
+      "id": "weapon_recruit_sword",
+      "name": "Miecz Rekruta",
+      "cat": "weapon",
+      "rarity": "common",
+      "obtainableFrom": "shop",
+      "minLevel": 1,
+      "icon": "item-sword.webp",
+      "slot": 2,
+      "desc": "Poz. 1 • +7 Atak (Sklep — podstawowy)",
+      "shopPrice": 180,
+      "sellPrice": 45,
+      "craftCost": null,
+      "atk": 7
+    },
+    {
+      "id": "weapon_apprentice_staff",
+      "name": "Kostur Ucznia",
+      "cat": "weapon",
+      "rarity": "common",
+      "obtainableFrom": "shop",
+      "minLevel": 1,
+      "icon": "emblem_crystal.webp",
+      "slot": 2,
+      "desc": "Poz. 1 • +6 Atak • +18 KI (Sklep — podstawowy)",
+      "shopPrice": 180,
+      "sellPrice": 45,
+      "craftCost": null,
+      "atk": 6,
+      "ki": 18
+    },
+    {
+      "id": "armor_traveler_vest",
+      "name": "Przeszywanica Wędrowca",
+      "cat": "armor",
+      "rarity": "common",
+      "obtainableFrom": "shop",
+      "minLevel": 1,
+      "icon": "item-vest.webp",
+      "slot": 4,
+      "desc": "Poz. 1 • +6 Obrona • +30 HP (Sklep — podstawowy)",
+      "shopPrice": 200,
+      "sellPrice": 50,
+      "craftCost": null,
+      "def": 6,
+      "hp": 30
+    },
+    {
+      "id": "helm_traveler",
+      "name": "Kaptur Podróżnika",
+      "cat": "armor",
+      "rarity": "common",
+      "obtainableFrom": "shop",
+      "minLevel": 1,
+      "icon": "gear-helmet.webp",
+      "slot": 0,
+      "desc": "Poz. 1 • +4 Obrona • +18 HP (Sklep — podstawowy)",
+      "shopPrice": 150,
+      "sellPrice": 38,
+      "craftCost": null,
+      "def": 4,
+      "hp": 18
+    },
+    {
+      "id": "gloves_leather",
+      "name": "Skórzane Rękawice",
+      "cat": "armor",
+      "rarity": "common",
+      "obtainableFrom": "shop",
+      "minLevel": 2,
+      "icon": "gear-gloves.webp",
+      "slot": 3,
+      "desc": "Poz. 2 • +4 Atak • +3 Obrona (Sklep — podstawowy)",
+      "shopPrice": 160,
+      "sellPrice": 40,
+      "craftCost": null,
+      "atk": 4,
+      "def": 3
+    },
+    {
+      "id": "boots_trail",
+      "name": "Sandały Traktu",
+      "cat": "jewelry",
+      "rarity": "common",
+      "obtainableFrom": "shop",
+      "minLevel": 2,
+      "icon": "gear-boots.webp",
+      "slot": 7,
+      "desc": "Poz. 2 • +12 Szybkość • +3 Obrona (Sklep — podstawowy)",
+      "shopPrice": 170,
+      "sellPrice": 42,
+      "craftCost": null,
+      "spd": 12,
+      "def": 3
+    },
+    {
+      "id": "blade_ember_t2",
+      "name": "Ostrze Żaru I",
+      "cat": "weapon",
+      "rarity": "uncommon",
+      "obtainableFrom": "craft",
+      "minLevel": 2,
+      "icon": "emblem_swords.webp",
+      "slot": 2,
+      "desc": "Poz. 2 • +15 Atak • +2% Kryt (Kuźnia)",
+      "shopPrice": null,
+      "sellPrice": 65,
+      "craftCost": 110,
+      "craftIngredients": [
+        {
+          "id": "mat_obsidian",
+          "qty": 2
+        },
+        {
+          "id": "tusk_beast",
+          "qty": 2
+        }
+      ],
+      "atk": 15,
+      "crit": 2
+    },
+    {
+      "id": "blade_grove_t2",
+      "name": "Klinga Gaju I",
+      "cat": "weapon",
+      "rarity": "uncommon",
+      "obtainableFrom": "craft",
+      "minLevel": 2,
+      "icon": "gear-sword.webp",
+      "slot": 2,
+      "desc": "Poz. 2 • +13 Atak • +12 Szybkość (Kuźnia)",
+      "shopPrice": null,
+      "sellPrice": 65,
+      "craftCost": 110,
+      "craftIngredients": [
+        {
+          "id": "mat_amber",
+          "qty": 2
+        },
+        {
+          "id": "mat_moss_jelly",
+          "qty": 2
+        }
+      ],
+      "atk": 13,
+      "spd": 12
+    },
+    {
+      "id": "staff_seal_t2",
+      "name": "Laska Pieczęci I",
+      "cat": "weapon",
+      "rarity": "uncommon",
+      "obtainableFrom": "craft",
+      "minLevel": 2,
+      "icon": "emblem_crystal.webp",
+      "slot": 2,
+      "desc": "Poz. 2 • +14 Atak • +28 KI (Kuźnia)",
+      "shopPrice": null,
+      "sellPrice": 65,
+      "craftCost": 110,
+      "craftIngredients": [
+        {
+          "id": "mat_rune",
+          "qty": 2
+        },
+        {
+          "id": "mat_aether_thread",
+          "qty": 2
+        }
+      ],
+      "atk": 14,
+      "ki": 28
+    },
+    {
+      "id": "blade_pulse_t2",
+      "name": "Klinga Impulsowa MK-I",
+      "cat": "weapon",
+      "rarity": "uncommon",
+      "obtainableFrom": "craft",
+      "minLevel": 2,
+      "icon": "emblem_slash.webp",
+      "slot": 2,
+      "desc": "Poz. 2 • +14 Atak • +4% Kryt (Kuźnia)",
+      "shopPrice": null,
+      "sellPrice": 65,
+      "craftCost": 110,
+      "craftIngredients": [
+        {
+          "id": "mat_coil",
+          "qty": 2
+        },
+        {
+          "id": "mat_sensor",
+          "qty": 2
+        }
+      ],
+      "atk": 14,
+      "crit": 4
+    },
+    {
+      "id": "helm_scout_t2",
+      "name": "Hełm Zwiadowcy",
+      "cat": "armor",
+      "rarity": "uncommon",
+      "obtainableFrom": "craft",
+      "minLevel": 2,
+      "icon": "gear-helmet.webp",
+      "slot": 0,
+      "desc": "Poz. 2 • +9 Obrona • +38 HP (Kuźnia)",
+      "shopPrice": null,
+      "sellPrice": 55,
+      "craftCost": 95,
+      "craftIngredients": [
+        {
+          "id": "tusk_beast",
+          "qty": 2
+        },
+        {
+          "id": "crystal_ki",
+          "qty": 1
+        }
+      ],
+      "def": 9,
+      "hp": 38
+    },
+    {
+      "id": "vest_scale_t2",
+      "name": "Pancerz Łuskowy",
+      "cat": "armor",
+      "rarity": "uncommon",
+      "obtainableFrom": "craft",
+      "minLevel": 3,
+      "icon": "gear-vest.webp",
+      "slot": 4,
+      "desc": "Poz. 3 • +13 Obrona • +62 HP (Kuźnia)",
+      "shopPrice": null,
+      "sellPrice": 75,
+      "craftCost": 135,
+      "craftIngredients": [
+        {
+          "id": "tusk_beast",
+          "qty": 3
+        },
+        {
+          "id": "crystal_ki",
+          "qty": 2
+        }
+      ],
+      "def": 13,
+      "hp": 62
+    },
+    {
+      "id": "shield_warden_t2",
+      "name": "Tarcza Strażnika Szlaku",
+      "cat": "armor",
+      "rarity": "uncommon",
+      "obtainableFrom": "craft",
+      "minLevel": 3,
+      "icon": "gear-shield.webp",
+      "slot": 5,
+      "desc": "Poz. 3 • +14 Obrona • +45 HP (Kuźnia)",
+      "shopPrice": null,
+      "sellPrice": 70,
+      "craftCost": 130,
+      "craftIngredients": [
+        {
+          "id": "tusk_beast",
+          "qty": 2
+        },
+        {
+          "id": "crystal_ki",
+          "qty": 2
+        }
+      ],
+      "def": 14,
+      "hp": 45
+    },
+    {
+      "id": "gloves_adept_t2",
+      "name": "Rękawice Adepta Ki",
+      "cat": "armor",
+      "rarity": "uncommon",
+      "obtainableFrom": "craft",
+      "minLevel": 3,
+      "icon": "gear-gloves.webp",
+      "slot": 3,
+      "desc": "Poz. 3 • +8 Atak • +6 Obrona (Kuźnia)",
+      "shopPrice": null,
+      "sellPrice": 60,
+      "craftCost": 115,
+      "craftIngredients": [
+        {
+          "id": "tusk_beast",
+          "qty": 2
+        },
+        {
+          "id": "crystal_ki",
+          "qty": 1
+        }
+      ],
+      "atk": 8,
+      "def": 6
+    },
+    {
+      "id": "boots_swift_t2",
+      "name": "Buty Pędu Szlaku",
+      "cat": "jewelry",
+      "rarity": "uncommon",
+      "obtainableFrom": "craft",
+      "minLevel": 3,
+      "icon": "gear-boots.webp",
+      "slot": 7,
+      "desc": "Poz. 3 • +22 Szybkość • +6 Obrona (Kuźnia)",
+      "shopPrice": null,
+      "sellPrice": 65,
+      "craftCost": 120,
+      "craftIngredients": [
+        {
+          "id": "tusk_beast",
+          "qty": 2
+        },
+        {
+          "id": "crystal_ki",
+          "qty": 2
+        }
+      ],
+      "spd": 22,
+      "def": 6
+    },
+    {
+      "id": "amulet_spark_t2",
+      "name": "Amulet Iskry Ki",
+      "cat": "jewelry",
+      "rarity": "uncommon",
+      "obtainableFrom": "craft",
+      "minLevel": 4,
+      "icon": "gear-amulet.webp",
+      "slot": 1,
+      "desc": "Poz. 4 • +32 KI • +3% Kryt (Kuźnia)",
+      "shopPrice": null,
+      "sellPrice": 70,
+      "craftCost": 140,
+      "craftIngredients": [
+        {
+          "id": "crystal_ki",
+          "qty": 3
+        }
+      ],
+      "ki": 32,
+      "crit": 3
+    },
+    {
+      "id": "sword_superior",
+      "name": "Ostrze Superior",
+      "cat": "weapon",
+      "rarity": "rare",
+      "obtainableFrom": "craft",
+      "minLevel": 6,
+      "icon": "gear-sword.webp",
+      "slot": 2,
+      "desc": "Poz. 6 • +28 Atak • +4% Kryt (Kuźnia — Rzadkie)",
+      "shopPrice": null,
+      "sellPrice": 130,
+      "craftCost": 340,
+      "craftIngredients": [
+        {
+          "id": "crystal_ki",
+          "qty": 4
+        },
+        {
+          "id": "tusk_beast",
+          "qty": 4
+        },
+        {
+          "id": "mat_elite_core",
+          "qty": 1
+        }
+      ],
+      "atk": 28,
+      "crit": 4
+    },
+    {
+      "id": "helm_pyra",
+      "name": "Hełm Żaru Cytadeli",
+      "cat": "armor",
+      "rarity": "rare",
+      "obtainableFrom": "craft",
+      "minLevel": 6,
+      "icon": "gear-helmet.webp",
+      "slot": 0,
+      "desc": "Poz. 6 • +16 Obrona • +60 HP (Kuźnia — Rzadkie)",
+      "shopPrice": null,
+      "sellPrice": 120,
+      "craftCost": 310,
+      "craftIngredients": [
+        {
+          "id": "mat_obsidian",
+          "qty": 4
+        },
+        {
+          "id": "mat_salamander_scale",
+          "qty": 3
+        },
+        {
+          "id": "mat_elite_core",
+          "qty": 1
+        }
+      ],
+      "def": 16,
+      "hp": 60
+    },
+    {
+      "id": "vest_guardian",
+      "name": "Kirys Strażnika Gaju",
+      "cat": "armor",
+      "rarity": "rare",
+      "obtainableFrom": "craft",
+      "minLevel": 7,
+      "icon": "gear-vest.webp",
+      "slot": 4,
+      "desc": "Poz. 7 • +26 Obrona • +120 HP (Kuźnia — Rzadkie)",
+      "shopPrice": null,
+      "sellPrice": 150,
+      "craftCost": 390,
+      "craftIngredients": [
+        {
+          "id": "crystal_ki",
+          "qty": 4
+        },
+        {
+          "id": "tusk_beast",
+          "qty": 5
+        },
+        {
+          "id": "mat_elite_core",
+          "qty": 1
+        }
+      ],
+      "def": 26,
+      "hp": 120
+    },
+    {
+      "id": "gloves_clan",
+      "name": "Rękawice Mistrza Ki",
+      "cat": "armor",
+      "rarity": "rare",
+      "obtainableFrom": "craft",
+      "minLevel": 6,
+      "icon": "gear-gloves.webp",
+      "slot": 3,
+      "desc": "Poz. 6 • +14 Atak • +12 Obrona (Kuźnia — Rzadkie)",
+      "shopPrice": null,
+      "sellPrice": 120,
+      "craftCost": 320,
+      "craftIngredients": [
+        {
+          "id": "crystal_ki",
+          "qty": 3
+        },
+        {
+          "id": "tusk_beast",
+          "qty": 4
+        },
+        {
+          "id": "mat_elite_core",
+          "qty": 1
+        }
+      ],
+      "atk": 14,
+      "def": 12
+    },
+    {
+      "id": "boots_wind",
+      "name": "Buty Wichru Superior",
+      "cat": "jewelry",
+      "rarity": "rare",
+      "obtainableFrom": "craft",
+      "minLevel": 7,
+      "icon": "gear-boots.webp",
+      "slot": 7,
+      "desc": "Poz. 7 • +35 Szybkość • +10 Obrona (Kuźnia — Rzadkie)",
+      "shopPrice": null,
+      "sellPrice": 130,
+      "craftCost": 340,
+      "craftIngredients": [
+        {
+          "id": "crystal_ki",
+          "qty": 4
+        },
+        {
+          "id": "tusk_beast",
+          "qty": 4
+        },
+        {
+          "id": "mat_elite_core",
+          "qty": 1
+        }
+      ],
+      "spd": 35,
+      "def": 10
+    },
+    {
+      "id": "amulet_ki",
+      "name": "Amulet Czystego Ki",
+      "cat": "jewelry",
+      "rarity": "rare",
+      "obtainableFrom": "craft",
+      "minLevel": 8,
+      "icon": "gear-amulet.webp",
+      "slot": 1,
+      "desc": "Poz. 8 • +65 KI • +5% Kryt (Kuźnia — Rzadkie)",
+      "shopPrice": null,
+      "sellPrice": 140,
+      "craftCost": 380,
+      "craftIngredients": [
+        {
+          "id": "crystal_ki",
+          "qty": 6
+        },
+        {
+          "id": "mat_elite_core",
+          "qty": 1
+        }
+      ],
+      "ki": 65,
+      "crit": 5
+    },
+    {
+      "id": "ring_aether",
+      "name": "Pierścień Eteru",
+      "cat": "jewelry",
+      "rarity": "rare",
+      "obtainableFrom": "craft",
+      "minLevel": 8,
+      "icon": "gear-ring.webp",
+      "slot": 6,
+      "desc": "Poz. 8 • +18 Atak • +35 KI (Kuźnia — Rzadkie)",
+      "shopPrice": null,
+      "sellPrice": 145,
+      "craftCost": 390,
+      "craftIngredients": [
+        {
+          "id": "mat_rune",
+          "qty": 4
+        },
+        {
+          "id": "crystal_ki",
+          "qty": 4
+        },
+        {
+          "id": "mat_elite_core",
+          "qty": 1
+        }
+      ],
+      "atk": 18,
+      "ki": 35
+    },
+    {
+      "id": "blade_pyra",
+      "name": "Obsydianowy Miecz Żaru",
+      "cat": "weapon",
+      "rarity": "epic",
+      "obtainableFrom": "craft",
+      "minLevel": 10,
+      "icon": "emblem_swords.webp",
+      "slot": 2,
+      "desc": "Poz. 10 • +42 Atak • +5% Kryt (Mistrzowska Kuźnia)",
+      "shopPrice": null,
+      "sellPrice": 260,
+      "craftCost": 780,
+      "craftIngredients": [
+        {
+          "id": "mat_ember",
+          "qty": 6
+        },
+        {
+          "id": "mat_obsidian",
+          "qty": 6
+        },
+        {
+          "id": "mat_elite_core",
+          "qty": 2
+        },
+        {
+          "id": "mat_labyrinth_relic",
+          "qty": 1
+        }
+      ],
+      "atk": 42,
+      "crit": 5
+    },
+    {
+      "id": "staff_aether",
+      "name": "Kostur Tysiąca Źródeł",
+      "cat": "weapon",
+      "rarity": "epic",
+      "obtainableFrom": "craft",
+      "minLevel": 10,
+      "icon": "emblem_crystal.webp",
+      "slot": 2,
+      "desc": "Poz. 10 • +30 Atak • +45 KI (Mistrzowska Kuźnia)",
+      "shopPrice": null,
+      "sellPrice": 260,
+      "craftCost": 780,
+      "craftIngredients": [
+        {
+          "id": "mat_rune",
+          "qty": 6
+        },
+        {
+          "id": "mat_lightdust",
+          "qty": 6
+        },
+        {
+          "id": "mat_elite_core",
+          "qty": 2
+        },
+        {
+          "id": "mat_labyrinth_relic",
+          "qty": 1
+        }
+      ],
+      "atk": 30,
+      "ki": 45
+    },
+    {
+      "id": "blade_nexus",
+      "name": "Klinga Plazmowa MK-IX",
+      "cat": "weapon",
+      "rarity": "epic",
+      "obtainableFrom": "craft",
+      "minLevel": 10,
+      "icon": "emblem_slash.webp",
+      "slot": 2,
+      "desc": "Poz. 10 • +38 Atak • +8% Kryt (Mistrzowska Kuźnia)",
+      "shopPrice": null,
+      "sellPrice": 260,
+      "craftCost": 780,
+      "craftIngredients": [
+        {
+          "id": "mat_plasma",
+          "qty": 6
+        },
+        {
+          "id": "mat_coil",
+          "qty": 6
+        },
+        {
+          "id": "mat_elite_core",
+          "qty": 2
+        },
+        {
+          "id": "mat_labyrinth_relic",
+          "qty": 1
+        }
+      ],
+      "atk": 38,
+      "crit": 8
+    },
+    {
+      "id": "helm_aether",
+      "name": "Korona Lodowego Mędrca",
+      "cat": "armor",
+      "rarity": "epic",
+      "obtainableFrom": "craft",
+      "minLevel": 11,
+      "icon": "gear-helmet.webp",
+      "slot": 0,
+      "desc": "Poz. 11 • +24 Obrona • +75 KI (Mistrzowska Kuźnia)",
+      "shopPrice": null,
+      "sellPrice": 240,
+      "craftCost": 720,
+      "craftIngredients": [
+        {
+          "id": "mat_rune",
+          "qty": 5
+        },
+        {
+          "id": "crystal_ki",
+          "qty": 6
+        },
+        {
+          "id": "mat_elite_core",
+          "qty": 2
+        },
+        {
+          "id": "mat_labyrinth_relic",
+          "qty": 1
+        }
+      ],
+      "def": 24,
+      "ki": 75
+    },
+    {
+      "id": "shield_basalt",
+      "name": "Tarcza Bazaltowej Grani",
+      "cat": "armor",
+      "rarity": "epic",
+      "obtainableFrom": "craft",
+      "minLevel": 11,
+      "icon": "gear-shield.webp",
+      "slot": 5,
+      "desc": "Poz. 11 • +32 Obrona • +90 HP (Mistrzowska Kuźnia)",
+      "shopPrice": null,
+      "sellPrice": 250,
+      "craftCost": 750,
+      "craftIngredients": [
+        {
+          "id": "mat_obsidian",
+          "qty": 6
+        },
+        {
+          "id": "crystal_ki",
+          "qty": 5
+        },
+        {
+          "id": "mat_elite_core",
+          "qty": 2
+        },
+        {
+          "id": "mat_labyrinth_relic",
+          "qty": 1
+        }
+      ],
+      "def": 32,
+      "hp": 90
+    },
+    {
+      "id": "ring_covenant_q",
+      "name": "Pierścień Przymierza",
+      "cat": "jewelry",
+      "rarity": "rare",
+      "obtainableFrom": "quest",
+      "minLevel": 3,
+      "icon": "gear-ring.webp",
+      "slot": 6,
+      "desc": "Poz. 3 • +12 Atak • +45 HP • +3% Kryt (Nagroda Ciężkiego Kontraktu I)",
+      "shopPrice": null,
+      "sellPrice": 120,
+      "craftCost": null,
+      "atk": 12,
+      "hp": 45,
+      "crit": 3
+    },
+    {
+      "id": "amulet_guardian_q",
+      "name": "Amulet Strażnika Podziemi",
+      "cat": "jewelry",
+      "rarity": "rare",
+      "obtainableFrom": "quest",
+      "minLevel": 5,
+      "icon": "gear-amulet.webp",
+      "slot": 1,
+      "desc": "Poz. 5 • +10 Obrona • +65 HP • +40 KI (Nagroda Labiryntu I)",
+      "shopPrice": null,
+      "sellPrice": 160,
+      "craftCost": null,
+      "def": 10,
+      "hp": 65,
+      "ki": 40
+    },
+    {
+      "id": "vest_champion_q",
+      "name": "Zbroja Czempiona Superior",
+      "cat": "armor",
+      "rarity": "epic",
+      "obtainableFrom": "quest",
+      "minLevel": 8,
+      "icon": "gear-vest.webp",
+      "slot": 4,
+      "desc": "Poz. 8 • +34 Obrona • +165 HP • +4% Kryt (Nagroda Ciężkiego Kontraktu II)",
+      "shopPrice": null,
+      "sellPrice": 280,
+      "craftCost": null,
+      "def": 34,
+      "hp": 165,
+      "crit": 4
+    },
+    {
+      "id": "ring_titan",
+      "name": "Sygnet Tytana",
+      "cat": "jewelry",
+      "rarity": "legendary",
+      "obtainableFrom": "quest",
+      "minLevel": 12,
+      "icon": "emblem_shield.webp",
+      "slot": 6,
+      "desc": "Poz. 12 • +140 HP • +22 Obrona (Legendarna nagroda Ciężkiego Kontraktu III / Krypty)",
+      "shopPrice": null,
+      "sellPrice": 400,
+      "craftCost": null,
+      "hp": 140,
+      "def": 22
+    },
+    {
+      "id": "weapon_superior_legend",
+      "name": "Reliktowe Ostrze Superiora",
+      "cat": "weapon",
+      "rarity": "legendary",
+      "obtainableFrom": "quest",
+      "minLevel": 15,
+      "icon": "emblem_swords.webp",
+      "slot": 2,
+      "desc": "Poz. 15 • +56 Atak • +10% Kryt • +40 KI (Legendarna nagroda finału Dziedzictwa)",
+      "shopPrice": null,
+      "sellPrice": 500,
+      "craftCost": null,
+      "atk": 56,
+      "crit": 10,
+      "ki": 40
+    }
+  ]
+}

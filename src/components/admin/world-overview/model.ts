@@ -130,7 +130,7 @@ export const placesFor = (id: string) => overviewCatalog.places[id];
 export const roomKey = (town: string, building: BuildingId) => town + ":" + building;
 export function normalized(value: string) {
   return value
-    .toLocaleLowerCase("pl")
+    .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/ł/g, "l");
@@ -488,6 +488,33 @@ export function questEntries(lands: LandData[], overrides: AdminWorldOverrides) 
   const all = lands.flatMap((l) => l.entries),
     entries: Entry[] = [],
     unmapped: { quest: string; target: string; description: string }[] = [];
+  const npcsByLandKey = new Map<string, Entry[]>();
+  const spawnsByLandKind = new Map<string, Entry[]>();
+  const nonCombatByLandKey = new Map<string, Entry[]>();
+  const pushMap = (map: Map<string, Entry[]>, key: string, entry: Entry) => {
+    let bucket = map.get(key);
+    if (!bucket) {
+      bucket = [];
+      map.set(key, bucket);
+    }
+    bucket.push(entry);
+  };
+  for (const e of all) {
+    if (e.layer === "spawns" && e.kind) {
+      pushMap(spawnsByLandKind, `${e.land}\0${e.kind}`, e);
+    }
+    if (e.sourceId) {
+      pushMap(nonCombatByLandKey, `${e.land}\0${e.sourceId}`, e);
+    }
+    if (e.layer === "npcs") {
+      if (e.sourceId) pushMap(npcsByLandKey, `${e.land}\0${e.sourceId}`, e);
+      const binding = (e.details as { binding?: string }).binding;
+      if (binding && binding !== e.sourceId) {
+        pushMap(npcsByLandKey, `${e.land}\0${binding}`, e);
+        pushMap(nonCombatByLandKey, `${e.land}\0${binding}`, e);
+      }
+    }
+  }
   const quests = overviewCatalog.quests.map((q) => ({
     ...q,
     ...overrides.quests[q.id],
@@ -497,7 +524,14 @@ export function questEntries(lands: LandData[], overrides: AdminWorldOverrides) 
       coins: overrides.quests[q.id]?.rewardCoins ?? q.reward.coins,
     },
   }));
-  const add = (q: QuestDefinition, target: Entry, label: string, key: string, details: unknown) =>
+  const add = (
+    q: QuestDefinition,
+    target: Entry,
+    label: string,
+    key: string,
+    details: unknown,
+    search: string,
+  ) =>
     entries.push({
       ...target,
       id: `quest:${q.id}:${key}:${target.id}`,
@@ -508,20 +542,21 @@ export function questEntries(lands: LandData[], overrides: AdminWorldOverrides) 
       source: "quests V2 + wiązanie aktualnego świata",
       details: { quest: q, target: details },
       related: [target.id],
-      search: normalized(`${q.id} ${q.title} ${q.giverName} ${label} ${JSON.stringify(details)}`),
+      search,
     });
   for (const q of quests) {
     const settlement = placesFor(q.continent)?.cities[q.cityId]?.settlement;
-    const giver = all.find(
-      (e) =>
-        e.layer === "npcs" &&
-        e.land === q.continent &&
-        (!settlement || e.town === settlement) &&
-        (e.sourceId === q.giverNpcId ||
-          (e.details as { binding?: string }).binding === q.giverNpcId),
-    );
-    if (giver) add(q, giver, "zleceniodawca " + q.giverName, "giver", q.unlockCondition);
-    else
+    const giverCandidates = npcsByLandKey.get(`${q.continent}\0${q.giverNpcId}`) ?? [];
+    const giver = settlement
+      ? giverCandidates.find((e) => e.town === settlement)
+      : giverCandidates[0];
+    if (giver) {
+      const giverLabel = "zleceniodawca " + q.giverName;
+      const giverSearch = normalized(
+        `${q.id} ${q.title} ${q.giverName} ${giverLabel} ${JSON.stringify(q.unlockCondition)}`,
+      );
+      add(q, giver, giverLabel, "giver", q.unlockCondition, giverSearch);
+    } else
       unmapped.push({
         quest: q.id,
         target: q.giverNpcId,
@@ -529,17 +564,19 @@ export function questEntries(lands: LandData[], overrides: AdminWorldOverrides) 
       });
     for (const stage of q.stages)
       for (const o of stage.objectives) {
-        const targets = all.filter(
-          (e) =>
-            e.land === o.continent &&
-            (o.type === "combat"
-              ? e.layer === "spawns" && e.kind === o.targetId
-              : e.sourceId === o.targetId ||
-                (e.layer === "npcs" && (e.details as { binding?: string }).binding === o.targetId)),
-        );
+        const targets =
+          o.type === "combat"
+            ? (spawnsByLandKind.get(`${o.continent}\0${o.targetId}`) ?? [])
+            : (nonCombatByLandKey.get(`${o.continent}\0${o.targetId}`) ?? []);
         if (!targets.length)
           unmapped.push({ quest: q.id, target: o.targetId, description: o.description });
-        for (const t of targets) add(q, t, o.description, stage.id + ":" + o.id, o);
+        else {
+          const objSearch = normalized(
+            `${q.id} ${q.title} ${q.giverName} ${o.description} ${JSON.stringify(o)}`,
+          );
+          const objKey = stage.id + ":" + o.id;
+          for (const t of targets) add(q, t, o.description, objKey, o, objSearch);
+        }
       }
   }
   return { entries, unmapped, quests };

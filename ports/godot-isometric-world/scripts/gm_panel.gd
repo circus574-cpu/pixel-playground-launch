@@ -9,27 +9,46 @@ extends Control
 const MapStyle := preload("res://scripts/map_style.gd")
 const ForgedUI := preload("res://scripts/forged_ui.gd")
 
-const ITEM_CATALOG: Array[Dictionary] = [
-	{"id": "sword_superior", "name": "Ostrze Superior", "cat": "weapon", "icon": "gear-sword.webp", "slot": 2, "desc": "+28 Atak • +4% Kryt", "rarity": Color(1.0, 0.76, 0.28), "atk": 28, "crit": 4.0},
-	{"id": "blade_pyra", "name": "Obsydianowy Miecz Żaru", "cat": "weapon", "icon": "emblem_swords.webp", "slot": 2, "desc": "+42 Atak • Ogień Pyry", "rarity": Color(1.0, 0.46, 0.24), "atk": 42, "crit": 5.0},
-	{"id": "staff_aether", "name": "Kostur Tysiąca Źródeł", "cat": "weapon", "icon": "emblem_crystal.webp", "slot": 2, "desc": "+30 Atak • +45 KI", "rarity": Color(0.46, 0.88, 1.0), "atk": 30, "ki": 45},
-	{"id": "blade_nexus", "name": "Klinga Plazmowa MK-IX", "cat": "weapon", "icon": "emblem_slash.webp", "slot": 2, "desc": "+38 Atak • +8% Kryt", "rarity": Color(0.24, 0.96, 0.98), "atk": 38, "crit": 8.0},
-	{"id": "helm_pyra", "name": "Hełm Żaru Cytadeli", "cat": "armor", "icon": "gear-helmet.webp", "slot": 0, "desc": "+16 Obrona • +60 HP", "rarity": Color(0.38, 0.74, 1.0), "def": 16, "hp": 60},
-	{"id": "helm_aether", "name": "Korona Lodowego Mędrca", "cat": "armor", "icon": "gear-helmet.webp", "slot": 0, "desc": "+24 Obrona • +75 KI", "rarity": Color(0.46, 0.88, 1.0), "def": 24, "ki": 75},
-	{"id": "vest_guardian", "name": "Kirys Strażnika Gaju", "cat": "armor", "icon": "gear-vest.webp", "slot": 4, "desc": "+26 Obrona • +120 HP", "rarity": Color(0.36, 0.88, 0.52), "def": 26, "hp": 120},
-	{"id": "shield_basalt", "name": "Tarcza Bazaltowej Grani", "cat": "armor", "icon": "gear-shield.webp", "slot": 5, "desc": "+32 Obrona • +90 HP", "rarity": Color(0.76, 0.46, 1.0), "def": 32, "hp": 90},
-	{"id": "gloves_clan", "name": "Rękawice Mistrza Ki", "cat": "armor", "icon": "gear-gloves.webp", "slot": 3, "desc": "+14 Atak • +12 Obrona", "rarity": Color(0.38, 0.74, 1.0), "atk": 14, "def": 12},
-	{"id": "boots_wind", "name": "Buty Wichru Superior", "cat": "jewelry", "icon": "gear-boots.webp", "slot": 7, "desc": "+35 Szybkość • +10 Obrona", "rarity": Color(0.36, 0.88, 0.52), "spd": 35, "def": 10},
-	{"id": "amulet_ki", "name": "Amulet Czystego Ki", "cat": "jewelry", "icon": "gear-amulet.webp", "slot": 1, "desc": "+65 KI • +5% Kryt", "rarity": Color(0.76, 0.46, 1.0), "ki": 65, "crit": 5.0},
-	{"id": "ring_aether", "name": "Pierścień Eteru", "cat": "jewelry", "icon": "gear-ring.webp", "slot": 6, "desc": "+18 Atak • +35 KI", "rarity": Color(0.76, 0.46, 1.0), "atk": 18, "ki": 35},
-	{"id": "ring_titan", "name": "Sygnet Tytana", "cat": "jewelry", "icon": "emblem_shield.webp", "slot": 6, "desc": "+140 HP • +22 Obrona", "rarity": Color(1.0, 0.76, 0.28), "hp": 140, "def": 22},
-	{"id": "potion_hp", "name": "Wielki Eliksir Życia", "cat": "consumable", "icon": "gear-potion.webp", "slot": -1, "desc": "Przywraca +150 HP", "rarity": Color(0.95, 0.34, 0.32), "heal_hp": 150},
-	{"id": "potion_ki", "name": "Eliksir Energii Ki", "cat": "consumable", "icon": "emblem_potion.webp", "slot": -1, "desc": "Przywraca +80 KI", "rarity": Color(0.34, 0.78, 1.0), "heal_ki": 80},
-	{"id": "scroll_tp", "name": "Zwój Powrotu do Stolicy", "cat": "consumable", "icon": "emblem_scroll.webp", "slot": -1, "desc": "Natychmiastowy powrót", "rarity": Color(0.96, 0.84, 0.44)},
-	{"id": "crystal_ki", "name": "Kryształ Skupienia Ki", "cat": "consumable", "icon": "emblem_crystal.webp", "slot": -1, "desc": "Surowiec alchemiczny", "rarity": Color(0.46, 0.88, 1.0)},
-	{"id": "tusk_beast", "name": "Kieł Płomiennego Wilka", "cat": "consumable", "icon": "gear-tusk.webp", "slot": -1, "desc": "Trofeum rzemieślnicze", "rarity": Color(0.86, 0.68, 0.44)},
-	{"id": "pouch_gold", "name": "Sakiewka Złota (+500)", "cat": "consumable", "icon": "gear-coin.webp", "slot": -1, "desc": "Dodaje 500 złota", "rarity": Color(1.0, 0.86, 0.32), "gold": 500},
-]
+const RARITY_COLORS := {
+	"common": Color(0.86, 0.86, 0.88),
+	"uncommon": Color(0.36, 0.90, 0.54),
+	"rare": Color(0.38, 0.74, 1.0),
+	"epic": Color(0.78, 0.48, 1.0),
+	"legendary": Color(1.0, 0.78, 0.28),
+}
+
+static var _catalog_cache: Array[Dictionary] = []
+static var _catalog_by_id: Dictionary = {}
+
+static func rarity_color(tier: String) -> Color:
+	return RARITY_COLORS.get(tier, Color(0.86, 0.86, 0.88)) as Color
+
+static func get_catalog() -> Array[Dictionary]:
+	if not _catalog_cache.is_empty():
+		return _catalog_cache
+	if FileAccess.file_exists("res://data/items_catalog.json"):
+		var raw: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/items_catalog.json"))
+		if raw is Dictionary:
+			var arr: Array = (raw as Dictionary).get("items", [])
+			for entry in arr:
+				if not (entry is Dictionary):
+					continue
+				var it: Dictionary = (entry as Dictionary).duplicate(true)
+				var r_tier := str(it.get("rarity", "common"))
+				it["rarity_tier"] = r_tier
+				it["rarity"] = rarity_color(r_tier)
+				_catalog_cache.append(it)
+				_catalog_by_id[str(it.get("id", ""))] = it
+	return _catalog_cache
+
+static func find_item(iid: String) -> Dictionary:
+	if _catalog_cache.is_empty():
+		get_catalog()
+	var found: Variant = _catalog_by_id.get(iid, null)
+	if found is Dictionary:
+		return (found as Dictionary).duplicate(true)
+	return {}
+
 
 var world: Node2D
 var active_tab := "teleport" # "teleport" | "items" | "stats"
@@ -304,7 +323,7 @@ func _build_items_tab() -> void:
 	var filter_row := HBoxContainer.new()
 	filter_row.add_theme_constant_override("separation", 6)
 	content_vbox.add_child(filter_row)
-	for cat_def: Array in [["all", "Wszystkie"], ["weapon", "Broń"], ["armor", "Pancerz"], ["jewelry", "Biżuteria"], ["consumable", "Użytkowe"]]:
+	for cat_def: Array in [["all", "Wszystkie"], ["weapon", "Broń"], ["armor", "Pancerz"], ["jewelry", "Biżuteria"], ["consumable", "Użytkowe"], ["material", "Surowce"]]:
 		var cid := str(cat_def[0])
 		var fb := Button.new()
 		fb.text = str(cat_def[1])
@@ -348,7 +367,7 @@ func _build_items_tab() -> void:
 	)
 	qty_row.add_child(btn_open_bag)
 
-	for item: Dictionary in ITEM_CATALOG:
+	for item: Dictionary in get_catalog():
 		if item_cat != "all" and str(item["cat"]) != item_cat:
 			continue
 		var row := HBoxContainer.new()
@@ -368,7 +387,7 @@ func _build_items_tab() -> void:
 		row.add_child(info_v)
 
 		var nm := Label.new()
-		nm.text = str(item["name"])
+		nm.text = "%s  [Poz.%d]" % [str(item["name"]), int(item.get("minLevel", 1))]
 		nm.add_theme_font_override("font", MapStyle.body_font())
 		nm.add_theme_font_size_override("font_size", 14)
 		nm.add_theme_color_override("font_color", item["rarity"] as Color)
@@ -391,7 +410,7 @@ func _build_items_tab() -> void:
 				if ok:
 					_set_status("Stworzono do plecaka: %s ×%d" % [str(it_copy["name"]), item_qty])
 				else:
-					_set_status("Plecak jest pełny (15/15 slotów)! Kliknij przedmiot w [I], aby użyć/założyć.")
+					_set_status("Plecak jest pełny (24/24 slotów)! Kliknij przedmiot w [I], aby użyć/założyć.")
 		)
 		row.add_child(btn_add)
 
@@ -557,6 +576,7 @@ func _build_stats_tab() -> void:
 		["♥ 100% HP / KI", "plus", func() -> void: hud_ref.set_hp_ki_gm(1.0, 1.0); _set_status("Przywrócono 100% HP i 100% KI!")],
 		["☠ 1 HP (Test śmierci)", "minus", func() -> void: hud_ref.set_hp_ki_gm(0.0, 1.0); _set_status("Ustawiono 1 HP do testów leczenia/walki")],
 		["⏱ Reset Cooldownów", "cyan", func() -> void: hud_ref.reset_cooldowns_gm(); _set_status("Zresetowano wszystkie czasy odnowienia umiejętności!")],
+		["⚡ Forma KI (20s)", "gold", func() -> void: _gm_preview_ki_mode()],
 	]
 	for ad: Array in actions_1:
 		var ab := Button.new()
@@ -591,3 +611,8 @@ func _build_stats_tab() -> void:
 			refresh_content()
 		)
 		u_row2.add_child(ab)
+
+func _gm_preview_ki_mode() -> void:
+	if world != null and world.has_method("activate_ki_mode_gm"):
+		world.activate_ki_mode_gm(20.0)
+		_set_status("Aktywowano podgląd Formy KI + Aury (20s, GM)")

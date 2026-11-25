@@ -388,7 +388,7 @@ function CharacterEditor({
       const empty = list.findIndex((s) => s === null);
       if (empty === -1) {
         onError(
-          addTarget === "backpack" ? "Plecak jest pełny (15/15)." : "Bank jest pełny (12/12).",
+          addTarget === "backpack" ? "Plecak jest pełny (24/24)." : "Bank jest pełny (24/24).",
         );
         return;
       }
@@ -636,7 +636,7 @@ function CharacterEditor({
         })}
       </div>
 
-      <h5 style={{ marginTop: 14 }}>Plecak (15) i Depozyt Bankowy (12)</h5>
+      <h5 style={{ marginTop: 14 }}>Plecak (24) i Depozyt Bankowy (24)</h5>
       {isAdmin && (
         <div
           style={{

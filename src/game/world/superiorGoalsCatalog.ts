@@ -16,6 +16,7 @@ export type AndroidGoalDef = {
   goldReward: number;
   statPointsReward?: number;
   skillPointsReward?: number;
+  itemReward?: string;
 };
 
 const HERITAGE_XP = [100, 160, 240, 360, 520, 720] as const;
@@ -49,7 +50,7 @@ const SEEDS: readonly ChapterSeed[] = [
       "Pierwsza warta w Twierdzy Popiołu",
       "Kuźnia Goro: broń lub pancerz Żaru",
       "Przebudzenie Ki Wojownika Pyry",
-      "Dyscyplina Ciała na Arenie",
+      "Dyscyplina Ciała — Trening w Mieście",
       "Skarbiec Cytadeli: zapasy wyprawy",
       "Szlak Czterech Kontynentów",
     ],
@@ -80,7 +81,7 @@ const SEEDS: readonly ChapterSeed[] = [
       "Pierwsze kroki w Zielonej Przystani",
       "Warsztat Taro: ekwipunek Strażnika",
       "Harmonia Drzewka Ki Verdantii",
-      "Próba Szlaku na Arenie",
+      "Próba Szlaku — Trening w Mieście",
       "Skarbiec Przystani: zapasy",
       "Szlak Czterech Kontynentów",
     ],
@@ -111,7 +112,7 @@ const SEEDS: readonly ChapterSeed[] = [
       "Pierwszy wpis w Sanktuarium",
       "Pracownia Enso: ekwipunek Mędrca",
       "Skupienie Drzewka Ki Aetherii",
-      "Próba Umysłu na Arenie",
+      "Próba Umysłu — Trening w Mieście",
       "Skarbiec Sanktuarium: depozyt",
       "Szlak Czterech Kontynentów",
     ],
@@ -136,7 +137,7 @@ const SEEDS: readonly ChapterSeed[] = [
       "Inicjalizacja w Węźle Świadomości",
       "Moduł HEF-4: wyposażenie Rdzenia",
       "Kalibracja Drzewka Ki Nexus-9",
-      "Test Wydajności na Arenie",
+      "Kalibracja Bojowa — Trening w Mieście",
       "Magazyn Banku: kopia zasobów",
       "Szlak Czterech Kontynentów",
     ],
@@ -167,6 +168,8 @@ function buildCatalog(): AndroidGoalDef[] {
         xpReward: HERITAGE_XP[idx]!,
         goldReward: HERITAGE_GOLD[idx]!,
         ...(n % 2 === 0 ? { statPointsReward: 1 } : {}),
+        ...(n === 4 ? { itemReward: "vest_champion_q" } : {}),
+        ...(n === 6 ? { itemReward: "weapon_superior_legend" } : {}),
       });
     });
 
@@ -186,7 +189,7 @@ function buildCatalog(): AndroidGoalDef[] {
         id: `G-${p}02`,
         order: 2,
         title: seed.devTitles[1],
-        summary: `Wykuj broń lub pancerz u kowala (${seed.smith}) albo załóż element ekwipunku.`,
+        summary: `Zbierz surowce w terenie i wykuj pierwszy przedmiot u kowala (${seed.smith}) albo załóż wyposażenie.`,
         requirementText: "Wykuj 1 przedmiot w kuźni lub załóż wyposażenie",
         minLevel: 1,
         xpReward: 90,
@@ -209,10 +212,11 @@ function buildCatalog(): AndroidGoalDef[] {
         id: `G-${p}04`,
         order: 4,
         title: seed.devTitles[3],
-        summary: "Odbądź trening bojowy na arenie stolicy, aby zahartować dyscyplinę swojej rasy.",
-        requirementText: "Ukończ co najmniej 1 trening na arenie",
+        summary:
+          "Odbądź 3 sesje treningu statystyk na Arenie lub w Sanktuarium (trening wzmacnia postać bez wbijania poziomu).",
+        requirementText: "Ukończ co najmniej 3 sesje treningu w mieście",
         minLevel: 1,
-        xpReward: 150,
+        xpReward: 140,
         goldReward: 100,
         statPointsReward: 1,
       },
@@ -266,28 +270,57 @@ function buildCatalog(): AndroidGoalDef[] {
         statPointsReward: 1,
       },
       {
-        id: `A-${p}03`,
+        id: `A-${p}05`,
         order: 3,
+        title: "Ciężki Kontrakt I: Łowca Alfy",
+        summary:
+          "Pokonaj 12 dzikich potworów, zbierz 5 surowców w dziczy i powal co najmniej 1 Elitę. Nagroda: unikalny Pierścień Przymierza (niedostępny w sklepie).",
+        requirementText: "12 potworów • 5 zbiorów surowców • 1 pokonana Elita",
+        minLevel: 3,
+        xpReward: 260,
+        goldReward: 220,
+        statPointsReward: 1,
+        itemReward: "ring_covenant_q",
+      },
+      {
+        id: `A-${p}03`,
+        order: 4,
         title: "Zdobywca Labiryntu (4/4 skrzynie)",
         summary:
-          "Wejdź do dowolnego labiryntu na kontynencie i odnajdź wszystkie 4 ukryte skrzynie.",
+          "Wejdź do pierwszego labiryntu kontynentu (Poz. 5) i odnajdź wszystkie 4 ukryte skrzynie. Nagroda: Amulet Strażnika Podziemi.",
         requirementText: "Ukończ co najmniej 1 labirynt (4/4 skrzynie)",
-        minLevel: 4,
-        xpReward: 280,
-        goldReward: 240,
+        minLevel: 5,
+        xpReward: 340,
+        goldReward: 280,
         skillPointsReward: 1,
+        itemReward: "amulet_guardian_q",
+      },
+      {
+        id: `A-${p}06`,
+        order: 5,
+        title: "Ciężki Kontrakt II: Władca Biomu",
+        summary:
+          "Pokonaj 35 potworów oraz 3 Elity i zbierz 12 surowców. Nagroda: Zbroja Czempiona Superior (epic, niedostępna w sklepie).",
+        requirementText: "35 potworów • 3 Elity • 12 zbiorów surowców",
+        minLevel: 8,
+        xpReward: 480,
+        goldReward: 380,
+        statPointsReward: 2,
+        itemReward: "vest_champion_q",
       },
       {
         id: `A-${p}04`,
-        order: 4,
-        title: "Mistrz Wypraw i Podziemi",
-        summary: "Ukończ 2 labirynty, otwórz 10 ukrytych skarbów i pokonaj 20 potworów.",
+        order: 6,
+        title: "Ciężki Kontrakt III: Mistrz Wypraw i Podziemi",
+        summary:
+          "Ukończ 2 labirynty, otwórz 10 ukrytych skarbów i pokonaj 20 potworów. Nagroda: legendarny Sygnet Tytana.",
         requirementText: "2 labirynty • 10 skarbów • 20 pokonanych potworów",
-        minLevel: 8,
-        xpReward: 520,
-        goldReward: 420,
+        minLevel: 12,
+        xpReward: 680,
+        goldReward: 520,
         statPointsReward: 2,
         skillPointsReward: 1,
+        itemReward: "ring_titan",
       },
     ];
     for (const a of advs) {

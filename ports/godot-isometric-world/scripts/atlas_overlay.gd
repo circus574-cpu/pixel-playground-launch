@@ -30,6 +30,9 @@ var atlas_drag_moved := false
 var atlas_drag_start := Vector2.ZERO
 var _pinch_pts: Dictionary = {}
 var _pinch_span := 0.0
+var fast_travel_pins: Array[Dictionary] = []
+var atlas_notice := ""
+var atlas_notice_t := 0.0
 
 var btn_back := Button.new()
 var btn_teleport := Button.new()
@@ -441,19 +444,42 @@ func _gui_input(event: InputEvent) -> void:
 			else:
 				if atlas_dragging and not atlas_drag_moved and _pinch_pts.size() < 2:
 					var tp_exact: bool = bool(world.gm_map_teleport_mode)
-					var allow_coastal: bool = tp_exact or atlas_zoom >= 1.5
-					var picked := pick_continent(mb.position, allow_coastal)
-					if not picked.is_empty():
-						if tp_exact or atlas_zoom >= 1.5:
+					if tp_exact:
+						var picked_gm := pick_continent(mb.position, true)
+						if not picked_gm.is_empty():
 							var a_pt := _screen_to_atlas(mb.position, mr)
-							var w_pt := atlas_to_world(picked, a_pt.x, a_pt.y, float(world.world_size))
+							var w_pt := atlas_to_world(picked_gm, a_pt.x, a_pt.y, float(world.world_size))
 							world.gm_map_teleport_mode = false
 							_refresh_mode_buttons()
-							world.teleport_to_world_pos(picked, w_pt.x, w_pt.y)
+							world.teleport_to_world_pos(picked_gm, w_pt.x, w_pt.y)
 							world.toggle_atlas(false)
+					else:
+						# Check fast-travel pins (Capitals + Waystones) first!
+						var best_pin: Dictionary = {}
+						var best_pin_d := 34.0
+						for pin: Dictionary in fast_travel_pins:
+							var psp: Vector2 = pin["sp"]
+							var d := mb.position.distance_to(psp)
+							if d < best_pin_d:
+								best_pin_d = d
+								best_pin = pin
+						if not best_pin.is_empty():
+							if bool(best_pin.get("discovered", false)):
+								var target_land := str(best_pin.get("land", "pyra"))
+								world.teleport_to_world_pos(target_land, float(best_pin.get("x", 2048.0)), float(best_pin.get("z", 2048.0)))
+								world.toggle_atlas(false)
+							else:
+								atlas_notice = "🔒 Nieodkryty Kamień Szlaku: %s — dotrzyj tam pieszo, by odblokować szybką podróż!" % str(best_pin.get("label", "Kamień Szlaku"))
+								atlas_notice_t = 3.5
+								queue_redraw()
 						elif atlas_zoom <= 1.25:
-							# Tapping a continent from whole-world view zooms smoothly into it; second tap teleports!
-							focus_atlas_continent(picked, 3.6)
+							var picked := pick_continent(mb.position, false)
+							if not picked.is_empty():
+								focus_atlas_continent(picked, 3.6)
+						else:
+							atlas_notice = "Szybka podróż: kliknij Stolicę lub odkryty Kamień Szlaku (✦)!"
+							atlas_notice_t = 3.2
+							queue_redraw()
 				atlas_dragging = false
 	elif event is InputEventMouseMotion:
 		var mm: InputEventMouseMotion = event
@@ -624,8 +650,18 @@ func _draw_continent_real_details(rid: String, mr: Rect2, f: Font, fb: Font, pla
 		elif mk == "capital":
 			var cap_d := clampf(24.0 * pow(atlas_zoom, 0.28), 24.0, 42.0)
 			_draw_pin("capital", sp, cap_d)
+			var cap_name := str(CONTINENT_META.get(rid, {}).get("capital", "Stolica"))
+			fast_travel_pins.append({
+				"land": rid,
+				"x": bx,
+				"z": bz,
+				"sp": sp,
+				"label": cap_name,
+				"kind": "capital",
+				"discovered": true,
+			})
 			if atlas_zoom >= 1.8:
-				pending_caps.append({"sp": sp, "d": cap_d, "text": str(CONTINENT_META.get(rid, {}).get("capital", "Stolica"))})
+				pending_caps.append({"sp": sp, "d": cap_d, "text": cap_name})
 		elif mk == "town":
 			var td := clampf(18.0 * pow(atlas_zoom, 0.28), 18.0, 30.0)
 			_draw_pin("town", sp, td)
@@ -641,6 +677,41 @@ func _draw_continent_real_details(rid: String, mr: Rect2, f: Font, fb: Font, pla
 			var hr := clampf(2.0 + (atlas_zoom - 3.2) * 0.45, 2.2, 4.6)
 			draw_rect(Rect2(sp - Vector2(hr, hr), Vector2(hr * 2.0, hr * 2.0)), Color(0.56, 0.50, 0.44, 0.84))
 			draw_rect(Rect2(sp - Vector2(hr, hr), Vector2(hr * 2.0, hr * 2.0)), Color(0.08, 0.06, 0.04, 0.94), false, 1.0)
+
+	# 2b. Discoverable Fast-Travel Waystones (4 per continent)
+	if atlas_zoom >= 1.35:
+		var waystones: Array = cd.get("waystones", [])
+		for ws_item: Dictionary in waystones:
+			var wid := str(ws_item.get("id", ""))
+			var wwx := float(ws_item.get("x", 0.0)) + half
+			var wwz := float(ws_item.get("z", 0.0)) + half
+			var wsp := _atlas_to_screen(world_to_atlas(rid, wwx, wwz, ws), mr)
+			if not mr.has_point(wsp):
+				continue
+			var is_disc: bool = world != null and world.has_method("is_waystone_discovered") and bool(world.is_waystone_discovered(wid))
+			var wd := clampf(8.5 + (atlas_zoom - 1.35) * 1.3, 8.5, 15.0)
+			var wdia := PackedVector2Array([wsp + Vector2(0, -wd), wsp + Vector2(wd, 0), wsp + Vector2(0, wd), wsp + Vector2(-wd, 0)])
+			if is_disc:
+				draw_circle(wsp, wd * 1.45, Color(0.24, 0.92, 1.0, 0.22))
+				draw_colored_polygon(wdia, Color(0.24, 0.94, 1.0, 0.96))
+				wdia.append(wdia[0])
+				draw_polyline(wdia, Color(1.0, 0.92, 0.46, 0.98), 2.2, true)
+			else:
+				draw_colored_polygon(wdia, Color(0.20, 0.24, 0.30, 0.65))
+				wdia.append(wdia[0])
+				draw_polyline(wdia, Color(0.60, 0.68, 0.78, 0.78), 1.6, true)
+			fast_travel_pins.append({
+				"land": rid,
+				"x": wwx,
+				"z": wwz,
+				"sp": wsp,
+				"label": str(ws_item.get("title", "Kamień Szlaku")),
+				"kind": "waystone",
+				"discovered": is_disc,
+			})
+			if atlas_zoom >= 2.2:
+				var wlbl := ("✦ " + str(ws_item.get("title", "Kamień Szlaku"))) if is_disc else ("🔒 " + str(ws_item.get("title", "Kamień Szlaku")))
+				pending_towns.append({"sp": wsp, "d": wd * 2.0, "text": wlbl})
 
 	# 3. Monster Exp-Zones, Labyrinths & Hidden Treasures (icons/rings before labels!)
 	if atlas_zoom >= 2.1:
@@ -751,7 +822,15 @@ func _draw_continent_real_details(rid: String, mr: Rect2, f: Font, fb: Font, pla
 			draw_string_outline(fb, Vector2(lx, ly), btitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color(0.03, 0.02, 0.02, 0.96))
 			draw_string(fb, Vector2(lx, ly), btitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.94, 0.78))
 
+func _process(delta: float) -> void:
+	if atlas_notice_t > 0.0:
+		atlas_notice_t = maxf(0.0, atlas_notice_t - delta)
+		if atlas_notice_t <= 0.0:
+			atlas_notice = ""
+			queue_redraw()
+
 func _draw() -> void:
+	fast_travel_pins.clear()
 	var f: Font = MapStyleScript.font()
 	var fb: Font = MapStyleScript.body_font()
 	var rect := Rect2(Vector2.ZERO, size)
@@ -762,9 +841,8 @@ func _draw() -> void:
 
 	var mr := _map_rect()
 	var gm_tp_on: bool = world != null and bool(world.gm_map_teleport_mode)
-	var tap_tp_ready: bool = mode == "atlas" and (gm_tp_on or atlas_zoom >= 1.5)
-	var title_txt := "⚡ TELEPORT — DOTKNIJ PUNKT NA MAPIE (%.1f×)" % atlas_zoom if (mode == "atlas" and gm_tp_on) else ("GLOBUS PLANETY SUPERIOR" if mode == "globe" else ("MAPA ŚWIATA • %.1f× • TAP = TELEPORT" % atlas_zoom if tap_tp_ready else "MAPA ŚWIATA SUPERIOR • %.1f×" % atlas_zoom))
-	var title_col := Color(0.40, 0.96, 1.0) if (mode == "atlas" and gm_tp_on) else (Color(1.0, 0.92, 0.56) if tap_tp_ready else Color(1.0, 0.90, 0.60))
+	var title_txt := "⚡ TELEPORT GM — DOTKNIJ PUNKT NA MAPIE (%.1f×)" % atlas_zoom if (mode == "atlas" and gm_tp_on) else ("GLOBUS PLANETY SUPERIOR" if mode == "globe" else ("MAPA ŚWIATA • %.1f× • STOLICA LUB ✦ SZLAK" % atlas_zoom if atlas_zoom >= 1.35 else "MAPA ŚWIATA SUPERIOR • %.1f×" % atlas_zoom))
+	var title_col := Color(0.40, 0.96, 1.0) if (mode == "atlas" and gm_tp_on) else Color(1.0, 0.90, 0.60)
 	var title_max_w := maxf(size.x - 758.0, 260.0)
 	draw_string_outline(f, Vector2(188.0, 42.0), title_txt, HORIZONTAL_ALIGNMENT_LEFT, int(title_max_w), 17, 5, Color(0.02, 0.02, 0.03, 0.95))
 	draw_string(f, Vector2(188.0, 42.0), title_txt, HORIZONTAL_ALIGNMENT_LEFT, int(title_max_w), 17, title_col)
@@ -803,7 +881,7 @@ func _draw() -> void:
 		if mr.has_point(hp):
 			placed_labels.append(Rect2(hp - Vector2(hd * 0.72, hd * 0.72), Vector2(hd * 1.44, hd * 1.44)))
 
-		# Progressive 1:1 sub-pixel aligned planar roads, Capital/Town/Service Medallions, Exp-Zones & Labyrinths!
+		# Progressive 1:1 sub-pixel aligned planar roads, Capital/Town/Service Medallions, Waystones, Exp-Zones & Labyrinths!
 		for rid: String in ["pyra", "verdant", "aether", "nexus"]:
 			_draw_continent_real_details(rid, mr, f, fb, placed_labels)
 
@@ -844,11 +922,11 @@ func _draw() -> void:
 						draw_string_outline(f, Vector2(draw_x, draw_y), rname, HORIZONTAL_ALIGNMENT_LEFT, -1, fsize, 5, Color(0.02, 0.02, 0.03, 0.98))
 						draw_string(f, Vector2(draw_x, draw_y), rname, HORIZONTAL_ALIGNMENT_LEFT, -1, fsize, tcol)
 
-		# Live Hero Portrait Medallion (clean cyan pulsing ring; NO overlapping "TY" colliding with PYRA on planet overview!)
+		# Live Hero Portrait Medallion — ALWAYS matches hero's own race (never morphs on foreign continents!)
 		if mr.has_point(hp):
-			var cur_land: String = str(world.current_land) if world != null else "pyra"
+			var race_land: String = str(world.hero_race_land) if (world != null and str(world.hero_race_land) != "") else (str(world.current_land) if world != null else "pyra")
 			draw_arc(hp, hd * 0.64, 0.0, TAU, 24, Color(0.32, 0.98, 1.0, 0.95), 2.8, true)
-			_draw_pin("hero_" + cur_land, hp, hd)
+			_draw_pin("hero_" + race_land, hp, hd)
 			if atlas_zoom >= 2.2:
 				var tag_w := f.get_string_size("TY", HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
 				var tag_box := Rect2(hp.x - tag_w * 0.5 - 6.0, hp.y + hd * 0.60, tag_w + 12.0, 18.0)
@@ -858,6 +936,14 @@ func _draw() -> void:
 
 		# Compass rose (bottom-left inside map)
 		MapStyleScript.compass(self, Vector2(mr.position.x + 56.0, mr.end.y - 56.0), 30.0)
+
+		# Inline fast-travel status notice banner
+		if not atlas_notice.is_empty() and atlas_notice_t > 0.0:
+			var ntw := fb.get_string_size(atlas_notice, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
+			var nbox := Rect2(mr.position.x + (mr.size.x - ntw - 32.0) * 0.5, mr.position.y + 14.0, ntw + 32.0, 32.0)
+			draw_rect(nbox, Color(0.04, 0.05, 0.08, 0.92), true)
+			draw_rect(nbox, Color(0.38, 0.92, 1.0, 0.90), false, 1.6)
+			draw_string(fb, Vector2(nbox.position.x + 16.0, nbox.position.y + 21.0), atlas_notice, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.92, 0.98, 1.0))
 
 	draw_rect(mr, Color(0.84, 0.66, 0.36, 0.85), false, 2.2)
 
@@ -877,18 +963,19 @@ func _draw() -> void:
 	var ly := bar.position.y + 74.0
 	var lx := bar.position.x + 26.0
 	_draw_pin("capital", Vector2(lx, ly - 3.0), 22.0)
-	draw_string(fb, Vector2(lx + 16.0, ly + 2.0), "Stolica", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.90, 0.56))
-	lx += 94.0
-	_draw_pin("town", Vector2(lx, ly - 3.0), 20.0)
-	draw_string(fb, Vector2(lx + 15.0, ly + 2.0), "Miasto", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.84, 0.92, 1.0))
-	lx += 94.0
+	draw_string(fb, Vector2(lx + 16.0, ly + 2.0), "Stolica (TP)", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.90, 0.56))
+	lx += 116.0
+	var ldia := PackedVector2Array([Vector2(lx, ly - 10.0), Vector2(lx + 7.0, ly - 3.0), Vector2(lx, ly + 4.0), Vector2(lx - 7.0, ly - 3.0)])
+	draw_colored_polygon(ldia, Color(0.24, 0.94, 1.0, 0.96))
+	draw_string(fb, Vector2(lx + 14.0, ly + 2.0), "Kamień Szlaku (TP)", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.64, 0.96, 1.0))
+	lx += 158.0
 	_draw_pin("smithy", Vector2(lx, ly - 3.0), 20.0)
 	draw_string(fb, Vector2(lx + 15.0, ly + 2.0), "Budynki", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.88, 0.94, 0.86))
-	lx += 104.0
+	lx += 94.0
 	draw_arc(Vector2(lx, ly - 3.0), 7.0, 0.0, TAU, 16, Color(1.0, 0.36, 0.30, 0.92), 2.0, true)
 	draw_string(fb, Vector2(lx + 14.0, ly + 2.0), "Strefy potworów", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.72, 0.66))
-	lx += 156.0
+	lx += 152.0
 	draw_line(Vector2(lx - 6.0, ly - 3.0), Vector2(lx + 14.0, ly - 3.0), Color(0.96, 0.86, 0.60, 0.95), 3.0, true)
-	draw_string(fb, Vector2(lx + 20.0, ly + 2.0), "Drogi", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.94, 0.88, 0.74))
-	lx += 78.0
-	draw_string(fb, Vector2(lx, ly + 2.0), "|  Szczypnij lub + / − aby oddalić na cały świat  •  ◎ Bohater / Planeta", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.76, 0.88, 0.98))
+	draw_string(fb, Vector2(lx + 20.0, ly + 2.0), "Drogi (+15% SPD)", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.94, 0.88, 0.74))
+	lx += 144.0
+	draw_string(fb, Vector2(lx, ly + 2.0), "|  + / − przybliż  •  ◎ Bohater", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.76, 0.88, 0.98))
