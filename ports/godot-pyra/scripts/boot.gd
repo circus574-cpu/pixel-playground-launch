@@ -49,6 +49,10 @@ var quit_button := Button.new()
 var box := VBoxContainer.new()           # title, status and progress on the dark background (shown when no film plays)
 var pill := PanelContainer.new()         # the same status as a small pill over the film
 var pill_label := Label.new()
+var dl_dock := PanelContainer.new()      # bottom forged loading bar with live speed (MB/s)
+var dl_status_lbl := Label.new()
+var dl_speed_lbl := Label.new()
+var dl_detail_lbl := Label.new()
 var boot_music := AudioStreamPlayer.new()
 var _boot_music_fade := 1.0
 var _boot_music_target_db := -10.0
@@ -140,6 +144,16 @@ static func server_url() -> String:
 			return str(value.server).rstrip("/")
 	return str(ProjectSettings.get_setting("ki/server/url", "https://kilegends.pl")).rstrip("/")
 
+static func format_speed(bytes_per_sec: float) -> String:
+	if bytes_per_sec >= 1048576.0:
+		return "%.2f MB/s" % (bytes_per_sec / 1048576.0)
+	if bytes_per_sec >= 1024.0:
+		return "%.0f KB/s" % (bytes_per_sec / 1024.0)
+	return "0 KB/s"
+
+static func format_mb(bytes_val: float) -> String:
+	return "%.1f MB" % (bytes_val / 1048576.0)
+
 ## Names of the game's scripts as they can be loaded (an export lists `x.gd.remap` or `x.gdc`, a pack adds plain `x.gd`).
 static func script_names(listing: PackedStringArray) -> Array[String]:
 	var seen := {}
@@ -194,10 +208,6 @@ func _ready() -> void:
 	status.add_theme_font_size_override("font_size", 20)
 	status.add_theme_color_override("font_color", Color("d9cdb4"))
 	box.add_child(status)
-	bar.custom_minimum_size = Vector2(0, 14)
-	bar.show_percentage = false
-	bar.visible = false
-	box.add_child(bar)
 	quit_button.text = "ZAMKNIJ"
 	quit_button.custom_minimum_size = Vector2(0, 60)
 	quit_button.visible = false
@@ -220,6 +230,58 @@ func _ready() -> void:
 	pill_label.add_theme_color_override("font_color", Color("f3e6c4"))
 	pill.add_child(pill_label)
 	add_child(pill)
+
+	# Bottom loading dock (always at bottom of screen with live download speed)
+	var dock_sb := StyleBoxFlat.new()
+	dock_sb.bg_color = Color(0.03, 0.04, 0.08, 0.90)
+	dock_sb.border_color = Color(0.76, 0.60, 0.28, 0.85)
+	dock_sb.set_border_width_all(2)
+	dock_sb.set_corner_radius_all(14)
+	dock_sb.content_margin_left = 22
+	dock_sb.content_margin_right = 22
+	dock_sb.content_margin_top = 12
+	dock_sb.content_margin_bottom = 14
+	dl_dock.add_theme_stylebox_override("panel", dock_sb)
+	dl_dock.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	dl_dock.offset_left = 36
+	dl_dock.offset_right = -36
+	dl_dock.offset_bottom = -20
+	dl_dock.offset_top = -108
+	dl_dock.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	dl_dock.visible = false
+	var dock_vb := VBoxContainer.new()
+	dock_vb.add_theme_constant_override("separation", 6)
+	dl_dock.add_child(dock_vb)
+	var top_hb := HBoxContainer.new()
+	top_hb.add_theme_constant_override("separation", 12)
+	dl_status_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dl_status_lbl.add_theme_font_size_override("font_size", 18)
+	dl_status_lbl.add_theme_color_override("font_color", Color("f3e6c4"))
+	dl_speed_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	dl_speed_lbl.add_theme_font_size_override("font_size", 19)
+	dl_speed_lbl.add_theme_color_override("font_color", Color("ffd46a"))
+	top_hb.add_child(dl_status_lbl)
+	top_hb.add_child(dl_speed_lbl)
+	dock_vb.add_child(top_hb)
+	var bar_bg := StyleBoxFlat.new()
+	bar_bg.bg_color = Color(0.08, 0.10, 0.16, 0.95)
+	bar_bg.border_color = Color(0.42, 0.34, 0.18, 0.8)
+	bar_bg.set_border_width_all(1)
+	bar_bg.set_corner_radius_all(8)
+	var bar_fill := StyleBoxFlat.new()
+	bar_fill.bg_color = Color(0.92, 0.72, 0.24, 1.0)
+	bar_fill.set_corner_radius_all(7)
+	bar.add_theme_stylebox_override("background", bar_bg)
+	bar.add_theme_stylebox_override("fill", bar_fill)
+	bar.custom_minimum_size = Vector2(0, 16)
+	bar.show_percentage = false
+	bar.visible = true
+	dock_vb.add_child(bar)
+	dl_detail_lbl.add_theme_font_size_override("font_size", 15)
+	dl_detail_lbl.add_theme_color_override("font_color", Color("b8c4d8"))
+	dock_vb.add_child(dl_detail_lbl)
+	add_child(dl_dock)
+
 	boot_music.name = "BootLoadingMusic"
 	add_child(boot_music)
 	resized.connect(fit_video)
@@ -424,9 +486,12 @@ func download(entry: Dictionary, base: String) -> Dictionary:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(DIR))
 	var final_path := file_path(str(entry.file))
 	var part := final_path + ".part"
+	var total_bytes := maxf(1.0, float(entry.bytes))
 	for attempt in 3:
 		var http := HTTPRequest.new()
 		http.download_file = part
+		http.download_chunk_size = 1048576
+		http.body_size_limit = -1
 		http.timeout = 0.0
 		http.use_threads = true
 		add_child(http)
@@ -439,13 +504,31 @@ func download(entry: Dictionary, base: String) -> Dictionary:
 			box.result = result
 			box.code = code
 			box.finished = true)
+		dl_dock.visible = true
 		bar.visible = true
+		bar.max_value = total_bytes
+		var last_t := Time.get_ticks_msec()
+		var last_b := 0
+		var smooth_bps := 0.0
 		while not bool(box.finished):
-			bar.max_value = maxf(1.0, float(entry.bytes))
-			bar.value = float(http.get_downloaded_bytes())
-			say("Pobieram aktualizację gry… %d%%" % int(100.0 * bar.value / bar.max_value))
+			var cur_b := http.get_downloaded_bytes()
+			var now_t := Time.get_ticks_msec()
+			var dt_ms := now_t - last_t
+			if dt_ms >= 200:
+				var inst_bps := float(maxi(0, cur_b - last_b)) / (float(dt_ms) / 1000.0)
+				smooth_bps = inst_bps if smooth_bps <= 1.0 else lerpf(smooth_bps, inst_bps, 0.35)
+				last_t = now_t
+				last_b = cur_b
+			var pct := int(clampf(100.0 * float(cur_b) / total_bytes, 0.0, 100.0))
+			var spd_str := format_speed(smooth_bps)
+			bar.value = float(cur_b)
+			dl_status_lbl.text = "Pobieram aktualizację gry… %d%%" % pct
+			dl_speed_lbl.text = "⚡ %s" % spd_str
+			dl_detail_lbl.text = "%s / %s · pełna prędkość (bez limitu)" % [format_mb(float(cur_b)), format_mb(total_bytes)]
+			say("Pobieram aktualizację gry… %d%% · %s" % [pct, spd_str])
 			await get_tree().process_frame
 		http.queue_free()
+		dl_dock.visible = false
 		bar.visible = false
 		if int(box.result) == HTTPRequest.RESULT_SUCCESS and int(box.code) == 200 and FileAccess.file_exists(part):
 			var probe := FileAccess.open(part, FileAccess.READ)

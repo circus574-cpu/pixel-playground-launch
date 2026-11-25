@@ -30,4 +30,10 @@ Wdrożono zatwierdzony przez właściciela plan przebudowy (5 filarów + 27 napr
 6. **Czystość silnika, optymalizacja i kontrakty:**
    - Naprawiono wycieki `ObjectDB` (`2× Node3D` w `ports/godot-isometric-world/scripts/globe_view.gd`: `town_labels_3d` i `bldg_labels_3d` podpięte pod `pivot` → `0` wycieków na wyjściu!), błędy `.ctex` w loaderze tekstur, kontrakty `shop_sell` / `unequip_item` / `discover_waystone`, limit zabójstw AoE (okno 1 s / 14 zabójstw) oraz indeksowanie `questEntries()` i `normalized()` w `src/components/admin/world-overview/model.ts`.
 
-Uwaga: prace wykonano wyłącznie na gałęzi roboczej; nic nie scalono do `main`, nie wypchnięto ani nie opublikowano (OTA), nie dotykano instancji GPU.
+7. **Błyskawiczne modularne aktualizacje OTA (1.14.30) + dolny pasek ładowania z prędkością:**
+   - Rozbito monolityczne `core-c101` (`348 MB`) w `scripts/godot/build_preview_update.py` na lekki rdzeń kodu/UI/JSON/muzyki menu **`core-c101` (`~12.7 MB`)** oraz **8 osobnych, niezmiennych paczek zasobów świata (`world-actors-a/b/c`, `world-objects`, `world-monsters`, `world-regions`, `world-audio`, `world-interiors`)** rejestrowanych w `manifest.lands.world` i automatycznie reużywanych przez wskaźniki Git LFS przy kolejnych aktualizacjach kodu.
+   - Usunięto ok. `57 MB` duplikatów (`.mp3str`/`.ctex` zbędne przy dekodowaniu surowych bajtów w runtime oraz zduplikowane `intro.ogv` obecne już w APK).
+   - Dodano w `ports/godot-pyra/scripts/service_screen.gd` **równoległy pobieracz 4-wątkowy bez limitu** (`download_chunk_size = 1 MB`, `body_size_limit = -1`), natychmiastowy cache SHA-256 (`user://content/world_packs_ok.json`) oraz **dolny pasek postępu z prędkością na żywo (`MB/s` / `KB/s`, `MB / MB`, `%`)**; ten sam dolny pasek z prędkością i buforem `1 MB` wdrożono w `ports/godot-pyra/scripts/boot.gd` i `content.gd`.
+   - Zwiększono bufor strumieniowania paczek po stronie serwera (`highWaterMark: 1 MB` w `src/server/godot/contentFiles.ts`) i wyłączono buforowanie proxy w `deploy/Caddyfile` (`flush_interval -1`).
+
+Uwaga: wszystkie wydania OTA (`1.14.28`, `1.14.29`, `1.14.30`) i wdrożenia na Arubie wykonano za wyraźną zgodą właściciela wyłącznie na gałęzi `feat/isometric-world-2d-terrain3d-20261118`; nie scalano do `main` i nie dotykano instancji GPU.

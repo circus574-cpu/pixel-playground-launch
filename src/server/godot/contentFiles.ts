@@ -60,7 +60,10 @@ export class ContentFiles {
   }
 
   open(version: string, file: string, range?: { start: number; end: number }) {
-    return createReadStream(this.packPath(version, file), range);
+    return createReadStream(this.packPath(version, file), {
+      ...(range ?? {}),
+      highWaterMark: 1024 * 1024,
+    });
   }
 
   async list(version: string): Promise<string[]> {

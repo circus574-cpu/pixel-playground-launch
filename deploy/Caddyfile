@@ -47,7 +47,9 @@
 		path /ws /ws/*
 	}
 	handle @websockets {
-		reverse_proxy {$WS_UPSTREAM:app:7420}
+		reverse_proxy {$WS_UPSTREAM:app:7420} {
+			flush_interval -1
+		}
 	}
 
 	@testpage path /test /test/*

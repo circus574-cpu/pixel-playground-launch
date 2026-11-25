@@ -4,9 +4,10 @@ signal picked(action: String)
 const SCENE := "res://service_preview/pyra/world.tscn"
 const FORGED_BASE := "res://service_preview/pyra/assets/ui/forged/"
 const MENU_MUSIC_PATHS := [
+	"res://service_preview/pyra/assets/audio/music/loading_theme.mp3",
+	"res://assets/audio/music/loading_theme.mp3",
 	"res://service_preview/pyra/assets/audio/music/menu.mp3",
 	"res://assets/audio/music/menu.mp3",
-	"res://assets/audio/music/loading_theme.mp3",
 	"res://assets/audio/music/loadings.mp3",
 ]
 const AUDIO_PREFS_PATH := "user://audio.json"
@@ -33,6 +34,19 @@ var user_backed_out := false
 var autosave := Timer.new()
 var menu_music := AudioStreamPlayer.new()
 var _tex_cache: Dictionary = {}
+var _downloading_packs := false
+var _world_packs_ready := false
+var _mounted_world_packs: Dictionary = {}
+var dl_dock := PanelContainer.new()
+var dl_title_lbl := Label.new()
+var dl_speed_lbl := Label.new()
+var dl_bar := ProgressBar.new()
+var dl_bytes_lbl := Label.new()
+var dl_meta_lbl := Label.new()
+const WORLD_PACK_DIR := "user://content"
+const WORLD_PACK_INDEX := "user://content/world_packs_ok.json"
+const WORLD_MANIFEST_CACHE := "user://content/manifest.json"
+const MAX_PARALLEL_PACKS := 4
 const HOME := {"legend": "pyra", "planetary": "verdant", "sage": "aether", "android": "nexus"}
 
 func _load_tex(path: String) -> Texture2D:
@@ -229,6 +243,65 @@ func _ready() -> void:
 	timer.wait_time = 3
 	timer.timeout.connect(refresh_access)
 	add_child(timer)
+
+	# Bottom forged download dock for parallel modular world packs (with live MB/s speed)
+	var dock_sb := StyleBoxFlat.new()
+	dock_sb.bg_color = Color(0.03, 0.035, 0.065, 0.92)
+	dock_sb.border_color = Color(0.78, 0.62, 0.28, 0.88)
+	dock_sb.set_border_width_all(2)
+	dock_sb.set_corner_radius_all(14)
+	dock_sb.content_margin_left = 24
+	dock_sb.content_margin_right = 24
+	dock_sb.content_margin_top = 14
+	dock_sb.content_margin_bottom = 14
+	dl_dock.name = "BottomDownloadDock"
+	dl_dock.add_theme_stylebox_override("panel", dock_sb)
+	dl_dock.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	dl_dock.offset_left = 36
+	dl_dock.offset_right = -36
+	dl_dock.offset_bottom = -22
+	dl_dock.offset_top = -118
+	dl_dock.visible = false
+	var dock_vb := VBoxContainer.new()
+	dock_vb.add_theme_constant_override("separation", 7)
+	dl_dock.add_child(dock_vb)
+	var row_top := HBoxContainer.new()
+	row_top.add_theme_constant_override("separation", 12)
+	dl_title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dl_title_lbl.add_theme_font_size_override("font_size", 19)
+	dl_title_lbl.add_theme_color_override("font_color", Color("f4ead0"))
+	dl_speed_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	dl_speed_lbl.add_theme_font_size_override("font_size", 20)
+	dl_speed_lbl.add_theme_color_override("font_color", Color("ffd46a"))
+	row_top.add_child(dl_title_lbl)
+	row_top.add_child(dl_speed_lbl)
+	dock_vb.add_child(row_top)
+	var bar_bg := StyleBoxFlat.new()
+	bar_bg.bg_color = Color(0.07, 0.09, 0.14, 0.96)
+	bar_bg.border_color = Color(0.45, 0.36, 0.20, 0.85)
+	bar_bg.set_border_width_all(1)
+	bar_bg.set_corner_radius_all(8)
+	var bar_fill := StyleBoxFlat.new()
+	bar_fill.bg_color = Color(0.93, 0.72, 0.24, 1.0)
+	bar_fill.set_corner_radius_all(7)
+	dl_bar.add_theme_stylebox_override("background", bar_bg)
+	dl_bar.add_theme_stylebox_override("fill", bar_fill)
+	dl_bar.custom_minimum_size = Vector2(0, 18)
+	dl_bar.show_percentage = false
+	dock_vb.add_child(dl_bar)
+	var row_bot := HBoxContainer.new()
+	row_bot.add_theme_constant_override("separation", 12)
+	dl_bytes_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dl_bytes_lbl.add_theme_font_size_override("font_size", 15)
+	dl_bytes_lbl.add_theme_color_override("font_color", Color("d2d9e6"))
+	dl_meta_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	dl_meta_lbl.add_theme_font_size_override("font_size", 14)
+	dl_meta_lbl.add_theme_color_override("font_color", Color("9cb0cc"))
+	row_bot.add_child(dl_bytes_lbl)
+	row_bot.add_child(dl_meta_lbl)
+	dock_vb.add_child(row_bot)
+	add_child(dl_dock)
+
 	resized.connect(layout_preview)
 	set_process_unhandled_key_input(true)
 
@@ -302,22 +375,22 @@ func button(text: String, action: Callable, variant: String = "slate") -> void:
 	page.add_child(control)
 
 func refresh_access() -> void:
-	if checking or choosing_char or user_backed_out: return
+	if checking or choosing_char or user_backed_out or _downloading_packs: return
 	checking = true
 	var status := await read_status()
 	checking = false
 	if not is_inside_tree(): return
 	if preview != null and not full_mode and not permits_preview(status): close_preview()
 	if status.get("maintenance") == false and status.get("canEnter") == true:
-		if preview == null and char_view == null and not choosing_char and not user_backed_out:
+		if preview == null and char_view == null and not choosing_char and not user_backed_out and not _downloading_packs:
 			if ResourceLoader.exists(SCENE): open_world(true)
 			else: picked.emit("continue")
 		return
-	if preview == null and char_view == null and not choosing_char:
+	if preview == null and char_view == null and not choosing_char and not _downloading_packs:
 		show_status(status)
 
 func open_preview() -> void:
-	if checking or choosing_char or preview != null: return
+	if checking or choosing_char or _downloading_packs or preview != null: return
 	checking = true
 	var status := await read_status()
 	checking = false
@@ -326,8 +399,255 @@ func open_preview() -> void:
 		return
 	open_world(false)
 
+static func _fmt_speed(bps: float) -> String:
+	if bps >= 1048576.0:
+		return "%.2f MB/s" % (bps / 1048576.0)
+	if bps >= 1024.0:
+		return "%.0f KB/s" % (bps / 1024.0)
+	return "0 KB/s"
+
+static func _fmt_mb(bytes_val: float) -> String:
+	return "%.1f MB" % (bytes_val / 1048576.0)
+
+func _read_pack_index() -> Dictionary:
+	if FileAccess.file_exists(WORLD_PACK_INDEX):
+		var v: Variant = JSON.parse_string(FileAccess.get_file_as_string(WORLD_PACK_INDEX))
+		if v is Dictionary:
+			return v as Dictionary
+	return {}
+
+func _save_pack_index(idx: Dictionary) -> void:
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(WORLD_PACK_DIR))
+	var f := FileAccess.open(WORLD_PACK_INDEX, FileAccess.WRITE)
+	if f != null:
+		f.store_string(JSON.stringify(idx))
+		f.close()
+
+func _prune_old_world_packs(keep_files: Dictionary) -> void:
+	var dir := DirAccess.open(WORLD_PACK_DIR)
+	if dir == null:
+		return
+	for name in dir.get_files():
+		if name.begins_with("world-") and (name.ends_with(".pck") or name.ends_with(".part")) and not keep_files.has(name):
+			dir.remove(name)
+
+func _mount_world_pack(id: String, path: String) -> bool:
+	if _mounted_world_packs.has(id):
+		return true
+	var ok := ProjectSettings.load_resource_pack(ProjectSettings.globalize_path(path), true)
+	if ok:
+		_mounted_world_packs[id] = true
+	return ok
+
+func _ensure_world_packs() -> bool:
+	if _world_packs_ready:
+		return true
+	# Fast path: monolithic core-c101 or desktop embedded already carries all world assets.
+	if FileAccess.file_exists("res://service_preview/pyra/regions/pyra/height.r32") and FileAccess.file_exists("res://service_preview/pyra/assets/actors/hero-legend-walk-v3-idle-0.webp"):
+		_world_packs_ready = true
+		return true
+	_downloading_packs = true
+	var online = KiNet.online()
+	var manifest: Dictionary = {}
+	var pack_base := ""
+	var res: Dictionary = await online.request(HTTPClient.METHOD_GET, "/ws/godot/manifest?client=%d" % KiNet.CLIENT_CODE, null, true, 15.0)
+	if int(res.get("status", 0)) == 200 and res.get("json") is Dictionary and (res.json as Dictionary).has("manifest"):
+		manifest = (res.json as Dictionary).get("manifest", {})
+		pack_base = str((res.json as Dictionary).get("packBase", ""))
+		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(WORLD_PACK_DIR))
+		var mf := FileAccess.open(WORLD_MANIFEST_CACHE, FileAccess.WRITE)
+		if mf != null:
+			mf.store_string(JSON.stringify(res.json))
+			mf.close()
+	elif FileAccess.file_exists(WORLD_MANIFEST_CACHE):
+		var cached_m: Variant = JSON.parse_string(FileAccess.get_file_as_string(WORLD_MANIFEST_CACHE))
+		if cached_m is Dictionary and (cached_m as Dictionary).has("manifest"):
+			manifest = (cached_m as Dictionary).get("manifest", {})
+			pack_base = str((cached_m as Dictionary).get("packBase", ""))
+	var lands: Dictionary = manifest.get("lands", {}) if manifest.get("lands") is Dictionary else {}
+	var packs_map: Dictionary = manifest.get("packs", {}) if manifest.get("packs") is Dictionary else {}
+	var world_ids_v: Variant = lands.get("world", [])
+	var world_ids: Array = world_ids_v if world_ids_v is Array else []
+	if world_ids.is_empty():
+		_downloading_packs = false
+		_world_packs_ready = true
+		return true
+
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(WORLD_PACK_DIR))
+	var ok_index := _read_pack_index()
+	var keep_files: Dictionary = {}
+	var missing: Array[Dictionary] = []
+	for raw_id in world_ids:
+		var pid := str(raw_id)
+		if not packs_map.has(pid) or not (packs_map[pid] is Dictionary):
+			continue
+		var entry: Dictionary = packs_map[pid]
+		var fname := str(entry.get("file", ""))
+		var want_bytes := int(entry.get("bytes", 0))
+		var want_sha := str(entry.get("sha256", ""))
+		keep_files[fname] = true
+		if _mounted_world_packs.has(pid):
+			continue
+		var fpath := "%s/%s" % [WORLD_PACK_DIR, fname]
+		var is_cached := false
+		if FileAccess.file_exists(fpath):
+			var probe := FileAccess.open(fpath, FileAccess.READ)
+			var sz := probe.get_length() if probe != null else -1
+			if probe != null:
+				probe.close()
+			if sz == want_bytes:
+				if str(ok_index.get(fname, "")) == want_sha:
+					is_cached = true
+				elif FileAccess.get_sha256(fpath) == want_sha:
+					ok_index[fname] = want_sha
+					_save_pack_index(ok_index)
+					is_cached = true
+		if is_cached:
+			if _mount_world_pack(pid, fpath):
+				continue
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(fpath))
+			ok_index.erase(fname)
+		missing.append({"id": pid, "file": fname, "bytes": want_bytes, "sha256": want_sha, "attempts": 0})
+
+	if missing.is_empty():
+		_prune_old_world_packs(keep_files)
+		_downloading_packs = false
+		_world_packs_ready = true
+		return true
+
+	# Parallel multi-stream download with bottom progress bar & live MB/s speed (no limit!)
+	page_card.hide()
+	dl_dock.visible = true
+	_start_menu_music()
+	var total_packs := missing.size()
+	var total_bytes := 0.0
+	for m in missing:
+		total_bytes += float(m["bytes"])
+	total_bytes = maxf(1.0, total_bytes)
+	dl_bar.max_value = total_bytes
+	dl_bar.value = 0.0
+	var queue: Array[Dictionary] = missing.duplicate()
+	var active: Array[Dictionary] = []
+	var completed_bytes := 0.0
+	var completed_count := 0
+	var failed_ids: Array[String] = []
+	var last_t := Time.get_ticks_msec()
+	var last_b := 0.0
+	var smooth_bps := 0.0
+
+	while not queue.is_empty() or not active.is_empty():
+		while active.size() < MAX_PARALLEL_PACKS and not queue.is_empty():
+			var job: Dictionary = queue.pop_front()
+			var final_path := "%s/%s" % [WORLD_PACK_DIR, str(job["file"])]
+			var part_path := final_path + ".part"
+			var http := HTTPRequest.new()
+			http.download_file = part_path
+			http.download_chunk_size = 1048576
+			http.body_size_limit = -1
+			http.timeout = 0.0
+			http.use_threads = true
+			add_child(http)
+			var url := str(online.server) + pack_base + str(job["file"])
+			var headers := PackedStringArray()
+			if str(online.access_token) != "":
+				headers.append("Authorization: Bearer " + str(online.access_token))
+			var worker := {
+				"job": job,
+				"final": final_path,
+				"part": part_path,
+				"http": http,
+				"done": false,
+				"result": -1,
+				"code": 0,
+			}
+			http.request_completed.connect(func(result: int, code: int, _h: PackedStringArray, _b: PackedByteArray) -> void:
+				worker["result"] = result
+				worker["code"] = code
+				worker["done"] = true)
+			if http.request(url, headers) != OK:
+				http.queue_free()
+				job["attempts"] = int(job["attempts"]) + 1
+				if int(job["attempts"]) < 3:
+					queue.append(job)
+				else:
+					failed_ids.append(str(job["id"]))
+			else:
+				active.append(worker)
+
+		var in_flight := 0.0
+		var still_active: Array[Dictionary] = []
+		for w in active:
+			var http: HTTPRequest = w["http"]
+			if bool(w["done"]):
+				http.queue_free()
+				var job: Dictionary = w["job"]
+				var part_p := str(w["part"])
+				var final_p := str(w["final"])
+				var valid := false
+				if int(w["result"]) == HTTPRequest.RESULT_SUCCESS and int(w["code"]) == 200 and FileAccess.file_exists(part_p):
+					var pr := FileAccess.open(part_p, FileAccess.READ)
+					var got_sz := pr.get_length() if pr != null else -1
+					if pr != null:
+						pr.close()
+					if got_sz == int(job["bytes"]) and FileAccess.get_sha256(part_p) == str(job["sha256"]):
+						DirAccess.rename_absolute(ProjectSettings.globalize_path(part_p), ProjectSettings.globalize_path(final_p))
+						if _mount_world_pack(str(job["id"]), final_p):
+							ok_index[str(job["file"])] = str(job["sha256"])
+							_save_pack_index(ok_index)
+							completed_bytes += float(job["bytes"])
+							completed_count += 1
+							valid = true
+				if not valid:
+					DirAccess.remove_absolute(ProjectSettings.globalize_path(part_p))
+					job["attempts"] = int(job["attempts"]) + 1
+					if int(job["attempts"]) < 3:
+						queue.append(job)
+					else:
+						failed_ids.append(str(job["id"]))
+			else:
+				in_flight += float(http.get_downloaded_bytes())
+				still_active.append(w)
+		active = still_active
+
+		var cur_total := minf(total_bytes, completed_bytes + in_flight)
+		var now_t := Time.get_ticks_msec()
+		var dt_ms := now_t - last_t
+		if dt_ms >= 200:
+			var inst_bps := maxf(0.0, cur_total - last_b) / (float(dt_ms) / 1000.0)
+			smooth_bps = inst_bps if smooth_bps <= 1.0 else lerpf(smooth_bps, inst_bps, 0.35)
+			last_t = now_t
+			last_b = cur_total
+		var pct := int(clampf(100.0 * cur_total / total_bytes, 0.0, 100.0))
+		dl_bar.value = cur_total
+		dl_title_lbl.text = "Pobieranie zasobów świata (%d/%d)…" % [mini(completed_count + active.size(), total_packs), total_packs]
+		dl_speed_lbl.text = "⚡ %s" % _fmt_speed(smooth_bps)
+		dl_bytes_lbl.text = "%s / %s · %d%%" % [_fmt_mb(cur_total), _fmt_mb(total_bytes), pct]
+		dl_meta_lbl.text = "%d wątki równolegle · bez limitu" % maxi(1, active.size())
+		await get_tree().process_frame
+
+	dl_dock.visible = false
+	_downloading_packs = false
+	if not failed_ids.is_empty():
+		caption.text = "Nie udało się pobrać części zasobów (%s). Sprawdź połączenie i spróbuj ponownie." % ", ".join(failed_ids)
+		for child in page.get_children():
+			if child is Button: child.queue_free()
+		button("SPRÓBUJ PONOWNIE", func():
+			user_backed_out = false
+			open_world(full_mode)
+		, "gold")
+		button("ZAMKNIJ GRĘ", func(): picked.emit("quit"), "crimson")
+		page_card.show()
+		return false
+	_prune_old_world_packs(keep_files)
+	_world_packs_ready = true
+	return true
+
 func open_world(full: bool) -> void:
-	if preview != null or char_view != null or choosing_char: return
+	if preview != null or char_view != null or choosing_char or _downloading_packs: return
+	full_mode = full
+	var packs_ok := await _ensure_world_packs()
+	if not packs_ok or not is_inside_tree():
+		return
 	if full:
 		choosing_char = true
 		user_backed_out = false

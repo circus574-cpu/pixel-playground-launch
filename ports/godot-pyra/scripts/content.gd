@@ -161,6 +161,8 @@ func download(id: String, index: int, count: int, done_before: int, total_bytes:
 			return {"ok": false, "message": "Przerwano."}
 		var http := HTTPRequest.new()
 		http.download_file = part
+		http.download_chunk_size = 1048576
+		http.body_size_limit = -1
 		http.timeout = 0.0
 		http.use_threads = true
 		online.add_child(http)
