@@ -27,7 +27,7 @@ const ISO_W := 5.6
 const ISO_D := 2.8
 const ISO_H := 3.8
 const STEP := 2
-const SPEED := 38.0
+const SPEED := 22.0
 const RECALL_CHANNEL_S := 2.5
 const RECALL_COOLDOWN_S := 45.0
 const SPRITE_SCALE := 0.56
@@ -2461,11 +2461,11 @@ func step_world(delta: float) -> void:
 		var stat_spd_mult := 1.0
 		if rpg_hud != null and rpg_hud.has_method("get_speed_mult"):
 			stat_spd_mult = float(rpg_hud.get_speed_mult())
-		var ooc_mult := 1.30 if (world_time - last_combat_time >= 3.0) else 1.0
-		var road_mult := 1.15 if is_on_road(hero_pos.x, hero_pos.y) else 1.0
+		var outside_city := hero_pos.distance_to(capital_center) > safe_city_radius
+		var road_mult := 1.10 if (outside_city and is_on_road(hero_pos.x, hero_pos.y)) else 1.0
 		var ki_spd_mult := 1.10 if ki_mode_timer > 0.0 else 1.0
 		var analog_mult := lerpf(0.45, 1.0, move_mag)
-		try_move(world_dir * SPEED * analog_mult * gm_speed_mult * stat_spd_mult * ooc_mult * road_mult * ki_spd_mult * delta)
+		try_move(world_dir * SPEED * analog_mult * gm_speed_mult * stat_spd_mult * road_mult * ki_spd_mult * delta)
 
 	# Out-of-Combat passive HP/KI recovery (+4% HP/s + talent bonus, +6% KI/s after 5s OOC)
 	if world_time - last_combat_time >= 5.0 and rpg_hud != null and float(rpg_hud.hero_hp) > 0.0:

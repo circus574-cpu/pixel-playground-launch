@@ -355,7 +355,7 @@ func _rebuild_choices() -> void:
 		b_trv.text = "🧭 PODRÓŻ I FORMA KI (POZ. 20)"
 		_style_pill(b_trv, Color(0.12, 0.16, 0.26, 0.96), Color(0.74, 0.82, 1.0, 0.94))
 		b_trv.pressed.connect(func() -> void:
-			_set_text("Po 3 s poza walką włącza się sprint (×1,30), a trakty dodają +15% szybkości. Do stolicy wrócisz za darmo przyciskiem POWRÓT [C] (2,5 s). Odkrywaj Kamienie Szlaku (✦), aby przenosić się do nich z Mapy Świata [M]. Pamiętaj: potężna Forma KI [T] z aurą odblokowuje się od 20. poziomu w drzewku [K] (po A9, B9 lub C9)!")
+			_set_text("Na traktach poza miastem poruszasz się o 10% szybciej, a swoją szybkość podniesiesz trwale przez poziomy (+5%/poz.), trening SPD na Arenie, buty z Kuźni i Błogosławieństwo Marszu! Do stolicy wrócisz za darmo przyciskiem POWRÓT [C] (2,5 s), a odkryte Kamienie Szlaku (✦) dają szybką podróż z Mapy [M]. Forma KI [T] odblokowuje się od 20. poziomu w drzewku [K]!")
 		)
 		choices_vbox.add_child(b_trv)
 

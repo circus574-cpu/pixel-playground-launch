@@ -15,8 +15,8 @@ Wdrożono zatwierdzony przez właściciela plan przebudowy (5 filarów + 27 napr
    - Kuźnia (`craft`): receptury Tier 2–4 wymagające `minLevel`, surowców ze zbieractwa (`gather_node` serwerowy), trofeów potworów, Rdzeni Elit (`mat_elite_core`) i złota, z czytelnym wyświetlaniem `posiadane/wymagane`.
    - Plecak i Bank ujednolicone do **24 slotów** (z migracją starych zapisów 12/15-slotowych). Katalog spójny klient↔serwer: `ports/godot-isometric-world/data/items_catalog.json` (`scripts/godot/export_android_catalog.ts`).
 
-3. **Drastyczne skrócenie biegania i gęste expowiska (4 kontynenty):**
-   - Prędkość `SPEED = 38.0` (z `22.0`), sprint poza walką `×1.30` po 3 s, bonus `+15%` na traktach, pasywna regeneracja HP/KI po 5 s poza walką, krótsze respawny (`11 s` / `45 s` Elity), darmowy **Kamień Powrotu** `[C]` (kanał `2,5 s`, CD `45 s`, przerwany ruchem/ciosami) oraz **4 odkrywane Kamienie Szlaku (Waystones)** na kontynent (`discover_waystone`) z szybką podróżą `[M]` do Stolic i odkrytych szlaków.
+3. **Mniej biegania bez psucia naturalnej prędkości na Poz. 1 + gęste expowiska (4 kontynenty):**
+   - Zachowano naturalną prędkość bazową **`SPEED = 22.0`** na Poz. 1 (usunięto zawyżone `38.0 × 1.30` w OTA `1.14.29`); prędkość rośnie naturalnie z poziomem (`+5%`/poz. do 20), treningiem `SPD` na Arenie, butami z Kuźni, Błogosławieństwem Marszu (`+15%`) i delikatnym bonusem `+10%` na traktach poza stolicą. Czas biegania skracają pasywna regeneracja HP/KI po 5 s poza walką, krótsze respawny (`11 s` / `45 s` Elity), darmowy **Kamień Powrotu** `[C]` (kanał `2,5 s`, CD `45 s`) oraz **4 odkrywane Kamienie Szlaku (Waystones)** na kontynent (`discover_waystone`) z szybką podróżą `[M]` do Stolic i odkrytych szlaków.
    - `197` potworów na kontynent (`0` w bezpiecznych stolicach, `0` luk poziomów 1–18), Laboratorium I obniżone do Poz. 5 (spójnie z celem `A-*03`), przywrócona `hall` na Verdantii, przebalansowane Poz. 1–4 i ciaśniejszy aggro (`72 m` + `0,5 s` zamachu).
 
 4. **Blokada Formy KI do Poz. 20 + Dwuwarstwowa Addytywna Aura KI:**

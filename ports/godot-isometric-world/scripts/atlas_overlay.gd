@@ -976,6 +976,6 @@ func _draw() -> void:
 	draw_string(fb, Vector2(lx + 14.0, ly + 2.0), "Strefy potworów", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.72, 0.66))
 	lx += 152.0
 	draw_line(Vector2(lx - 6.0, ly - 3.0), Vector2(lx + 14.0, ly - 3.0), Color(0.96, 0.86, 0.60, 0.95), 3.0, true)
-	draw_string(fb, Vector2(lx + 20.0, ly + 2.0), "Drogi (+15% SPD)", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.94, 0.88, 0.74))
+	draw_string(fb, Vector2(lx + 20.0, ly + 2.0), "Drogi (+10% SPD)", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.94, 0.88, 0.74))
 	lx += 144.0
 	draw_string(fb, Vector2(lx, ly + 2.0), "|  + / − przybliż  •  ◎ Bohater", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.76, 0.88, 0.98))
