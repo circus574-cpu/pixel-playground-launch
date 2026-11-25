@@ -1,0 +1,57 @@
+{
+  "model_height_m": 4.5,
+  "relative_scale": 2.0,
+  "reference_size_m": 2.25,
+  "eye_emissive_strength": 4.8,
+  "projected_emission_pixels": 728,
+  "clips": [
+    {
+      "name": "walk",
+      "duration": 1.209,
+      "loop": true,
+      "tracks": 66
+    },
+    {
+      "name": "heavy_strike",
+      "duration": 3.467,
+      "loop": false,
+      "tracks": 72
+    },
+    {
+      "name": "ki_blast",
+      "duration": 2.667,
+      "loop": false,
+      "tracks": 72
+    },
+    {
+      "name": "flight",
+      "duration": 6.967,
+      "loop": false,
+      "tracks": 72
+    },
+    {
+      "name": "takeoff",
+      "duration": 2.63,
+      "loop": false,
+      "tracks": 72
+    },
+    {
+      "name": "hover",
+      "duration": 3.2,
+      "loop": true,
+      "tracks": 72
+    },
+    {
+      "name": "glide",
+      "duration": 2.35,
+      "loop": true,
+      "tracks": 72
+    },
+    {
+      "name": "land",
+      "duration": 1.947,
+      "loop": false,
+      "tracks": 72
+    }
+  ]
+}

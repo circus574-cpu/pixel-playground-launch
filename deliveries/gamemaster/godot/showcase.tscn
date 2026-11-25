@@ -1,0 +1,61 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://showcase.gd" id="1"]
+[ext_resource type="PackedScene" path="res://assets/KI-Legends-GameMaster.glb" id="2"]
+
+[sub_resource type="Environment" id="Environment_stage"]
+background_mode = 1
+background_color = Color(0.035, 0.052, 0.09, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.74, 0.83, 1, 1)
+ambient_light_energy = 0.45
+
+[sub_resource type="StandardMaterial3D" id="Material_stage"]
+albedo_color = Color(0.085, 0.112, 0.169, 1)
+roughness = 0.92
+
+[sub_resource type="PlaneMesh" id="Plane_stage"]
+material = SubResource("Material_stage")
+size = Vector2(200, 200)
+
+[node name="GameMasterShowcase" type="Node3D"]
+script = ExtResource("1")
+
+[node name="Character" parent="." instance=ExtResource("2")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_stage")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.015, 0)
+mesh = SubResource("Plane_stage")
+
+[node name="Key" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-48, -28, 0)
+light_color = Color(1, 0.89, 0.78, 1)
+light_energy = 1.35
+shadow_enabled = true
+
+[node name="Rim" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-22, 132, 0)
+light_color = Color(0.45, 0.68, 1, 1)
+light_energy = 1.05
+
+[node name="Camera3D" type="Camera3D" parent="."]
+current = true
+fov = 32
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="PanelContainer" parent="Canvas"]
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 213.0
+
+[node name="Controls" type="VBoxContainer" parent="Canvas/Panel"]
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Canvas/Panel/Controls"]
+theme_override_font_sizes/font_size = 19
+horizontal_alignment = 1
+text = "GAMEMASTER"
