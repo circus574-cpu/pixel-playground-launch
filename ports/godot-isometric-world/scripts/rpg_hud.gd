@@ -1325,7 +1325,7 @@ func _build_hud_editor_bar() -> void:
 	hbox.add_child(b_save)
 
 func get_hud_scale() -> float:
-	return clampf(float(hud_layout.get("scale", 1.0)), 0.80, 1.25)
+	return clampf(float(hud_layout.get("scale", 1.0)), 0.85, 1.40)
 
 func get_zone_offset(zone: String) -> Vector2:
 	var v = hud_layout.get(zone, [0.0, 0.0])
@@ -1345,7 +1345,7 @@ func set_zone_offset(zone: String, off: Vector2) -> void:
 	_refresh_visuals()
 
 func set_hud_scale(sc: float, persist: bool = false) -> void:
-	hud_layout["scale"] = snappedf(clampf(sc, 0.80, 1.25), 0.05)
+	hud_layout["scale"] = snappedf(clampf(sc, 0.85, 1.40), 0.05)
 	hud_scale_bar_lbl.text = "%d%%" % int(round(get_hud_scale() * 100.0))
 	_layout_all()
 	if world != null and world.has_method("layout_minimap"):
@@ -1358,7 +1358,7 @@ func apply_hud_layout(data: Dictionary) -> void:
 	if data.is_empty():
 		return
 	if data.has("scale"):
-		hud_layout["scale"] = clampf(float(data["scale"]), 0.80, 1.25)
+		hud_layout["scale"] = clampf(float(data["scale"]), 0.85, 1.40)
 	if data.has("show_perf"):
 		hud_layout["show_perf"] = bool(data["show_perf"])
 	for zk: String in ["portrait", "utils", "minimap", "combat", "xp"]:
@@ -1374,12 +1374,12 @@ func apply_hud_layout(data: Dictionary) -> void:
 func apply_phone_safe_preset() -> void:
 	var keep_perf := is_perf_hud_enabled()
 	hud_layout = {
-		"scale": 0.90,
-		"portrait": [24.0, 10.0],
-		"utils": [24.0, 12.0],
-		"minimap": [-24.0, 10.0],
-		"combat": [-24.0, -14.0],
-		"xp": [0.0, -10.0],
+		"scale": 1.05,
+		"portrait": [18.0, 8.0],
+		"utils": [18.0, 10.0],
+		"minimap": [-18.0, 8.0],
+		"combat": [-18.0, -10.0],
+		"xp": [0.0, -8.0],
 		"show_perf": keep_perf,
 	}
 	hud_scale_bar_lbl.text = "%d%%" % int(round(get_hud_scale() * 100.0))
@@ -1440,9 +1440,9 @@ func _zone_bounds_rect(zone: String) -> Rect2:
 	var sc := get_hud_scale()
 	match zone:
 		"portrait":
-			return Rect2(Vector2(10.0, 10.0) + get_zone_offset("portrait"), Vector2(396.0, 134.0))
+			return Rect2(Vector2(10.0, 10.0) + get_zone_offset("portrait"), Vector2(512.0, 168.0))
 		"utils":
-			return Rect2(Vector2(12.0, 158.0) + get_zone_offset("utils"), Vector2(372.0, 154.0))
+			return Rect2(Vector2(12.0, 184.0) + get_zone_offset("utils"), Vector2(430.0, 178.0))
 		"minimap":
 			var mw := 276.0 * sc
 			var mh := 256.0 * sc
@@ -1452,7 +1452,7 @@ func _zone_bounds_rect(zone: String) -> Rect2:
 			return Rect2(Vector2(vs.x - mw - 12.0 + m_off.x, 10.0 + m_off.y), Vector2(mw, mh))
 		"combat":
 			var base := _combat_base_center()
-			return Rect2(base.x - 296.0 * sc, base.y - 260.0 * sc, 368.0 * sc, 336.0 * sc)
+			return Rect2(base.x - 332.0 * sc, base.y - 294.0 * sc, 412.0 * sc, 376.0 * sc)
 		"xp":
 			return _xp_pill_rect().grow(6.0)
 	return Rect2()
@@ -1462,8 +1462,8 @@ func _combat_base_center() -> Vector2:
 	var sc := get_hud_scale()
 	var c_off := get_zone_offset("combat")
 	return Vector2(
-		clampf(vs.x - 102.0 * sc + c_off.x, 280.0 * sc, vs.x - 68.0 * sc),
-		clampf(vs.y - 102.0 * sc + c_off.y, 240.0 * sc, vs.y - 68.0 * sc)
+		clampf(vs.x - 108.0 * sc + c_off.x, 310.0 * sc, vs.x - 76.0 * sc),
+		clampf(vs.y - 108.0 * sc + c_off.y, 260.0 * sc, vs.y - 76.0 * sc)
 	)
 
 # ==============================================================================
@@ -1479,8 +1479,8 @@ func _modal_rect() -> Rect2:
 func _xp_pill_rect() -> Rect2:
 	var vs := _vp_size()
 	var x_off := get_zone_offset("xp")
-	var pw := minf(468.0, vs.x * 0.42)
-	var ph := 36.0
+	var pw := minf(470.0, vs.x * 0.35)
+	var ph := 46.0
 	return Rect2(
 		clampf((vs.x - pw) * 0.5 + x_off.x, 12.0, maxf(vs.x - pw - 12.0, 12.0)),
 		clampf(vs.y - ph - 10.0 + x_off.y, 12.0, maxf(vs.y - ph - 8.0, 12.0)),
@@ -1489,26 +1489,26 @@ func _xp_pill_rect() -> Rect2:
 	)
 
 func _wild_rift_slot_specs() -> Array[Dictionary]:
-	# Ergonomic right-thumb Wild Rift combat cluster with spacious arc & customizable position/scale!
+	# Ergonomic BIG mobile-readable Wild Rift right-thumb combat cluster!
 	var sc := get_hud_scale()
 	var base := _combat_base_center()
-	var arc_r := 166.0 * sc
+	var arc_r := 188.0 * sc
 	var specs: Array[Dictionary] = [
-		{"center": base, "r": 50.0 * sc, "keystone": true},
+		{"center": base, "r": 58.0 * sc, "keystone": true},
 	]
 	var arc_angles := [174.0, 205.0, 236.0, 267.0]
 	for ang_deg in arc_angles:
 		var rad := deg_to_rad(float(ang_deg))
 		specs.append({
 			"center": base + Vector2(cos(rad), sin(rad)) * arc_r,
-			"r": 35.0 * sc,
+			"r": 42.0 * sc,
 			"keystone": false,
 		})
 	# Grand Ki-Mode Transformation / Ultimate [R] on upper-outer crown of thumb arc
 	var ult_rad := deg_to_rad(221.0)
 	specs.append({
-		"center": base + Vector2(cos(ult_rad), sin(ult_rad)) * (248.0 * sc),
-		"r": 40.0 * sc,
+		"center": base + Vector2(cos(ult_rad), sin(ult_rad)) * (282.0 * sc),
+		"r": 47.0 * sc,
 		"keystone": true,
 	})
 	return specs
@@ -1690,39 +1690,39 @@ func _layout_all() -> void:
 	var p_off := get_zone_offset("portrait")
 	# 0) Floating HUD Layout Editor top-center bar (strictly inside open gap between Portrait and Minimap!)
 	if hud_editor_bar != null:
-		var bw := clampf(vs.x - 724.0, 510.0, 560.0)
+		var bw := clampf(vs.x - 820.0, 480.0, 560.0)
 		hud_editor_bar.size = Vector2(bw, 58.0)
-		hud_editor_bar.position = Vector2(clampf((vs.x - bw) * 0.5, 412.0, maxf(vs.x - 296.0 - bw, 412.0)), 14.0)
+		hud_editor_bar.position = Vector2(clampf((vs.x - bw) * 0.5, 524.0, maxf(vs.x - 300.0 - bw, 524.0)), 14.0)
 
-	# 1) Top-Left Hero Medallion & Legible Vitality Bars (384x126 forged plate + custom offset)
-	var p_center := Vector2(64.0, 76.0) + p_off
-	var p_rad := 44.0
+	# 1) BIG Mobile-Readable Top-Left Hero Medallion & Vitality Plate (500x164 forged plate!)
+	var p_center := Vector2(74.0, 92.0) + p_off
+	var p_rad := 56.0
 	portrait_rect.position = p_center - Vector2(p_rad, p_rad)
 	portrait_rect.size = Vector2(p_rad * 2.0, p_rad * 2.0)
-	var ring_rad := 54.0
+	var ring_rad := 68.0
 	portrait_ring_rect.position = p_center - Vector2(ring_rad, ring_rad)
 	portrait_ring_rect.size = Vector2(ring_rad * 2.0, ring_rad * 2.0)
 	race_badge_rect.position = Vector2(14.0, 14.0) + p_off
-	race_badge_rect.size = Vector2(28.0, 28.0)
+	race_badge_rect.size = Vector2(34.0, 34.0)
 
-	hp_bar_rect.position = Vector2(148.0, 48.0) + p_off
-	hp_bar_rect.size = Vector2(236.0, 22.0)
-	ki_bar_rect.position = Vector2(148.0, 74.0) + p_off
-	ki_bar_rect.size = Vector2(212.0, 18.0)
-	res_bar_rect.position = Vector2(148.0, 96.0) + p_off
-	res_bar_rect.size = Vector2(124.0, 14.0)
+	hp_bar_rect.position = Vector2(180.0, 52.0) + p_off
+	hp_bar_rect.size = Vector2(316.0, 29.0)
+	ki_bar_rect.position = Vector2(180.0, 86.0) + p_off
+	ki_bar_rect.size = Vector2(286.0, 24.0)
+	res_bar_rect.position = Vector2(180.0, 115.0) + p_off
+	res_bar_rect.size = Vector2(162.0, 20.0)
 
-	# 2) Bottom-Center Legible XP Bar + Bottom-Right Wild Rift Combat Arc
+	# 2) BIG Bottom-Center Legible XP Bar + Bottom-Right Wild Rift Combat Arc
 	var xp_r := _xp_pill_rect()
-	xp_bar_rect.position = Vector2(xp_r.position.x + 88.0, xp_r.position.y + 12.0)
-	xp_bar_rect.size = Vector2(xp_r.size.x - 184.0, 12.0)
+	xp_bar_rect.position = Vector2(xp_r.position.x + 114.0, xp_r.position.y + 15.0)
+	xp_bar_rect.size = Vector2(xp_r.size.x - 236.0, 16.0)
 
 	var wr_specs := _wild_rift_slot_specs()
 	for i in mini(wr_specs.size(), hotbar_icon_rects.size()):
 		var spec: Dictionary = wr_specs[i]
 		var center: Vector2 = spec["center"]
 		var r: float = float(spec["r"])
-		var ring_pad := (12.0 if bool(spec["keystone"]) else 9.0) * sc
+		var ring_pad := (13.0 if bool(spec["keystone"]) else 10.0) * sc
 		var rr := r + ring_pad
 		if i == 0:
 			hotbar_icon_rects[i].position = center - Vector2(rr, rr)
@@ -1841,30 +1841,30 @@ func _draw() -> void:
 	var p_off := get_zone_offset("portrait")
 	var sc := get_hud_scale()
 
-	# 1) Top-Left Sleek Forged Obsidian Vitality Plate
-	var wing_r := Rect2(Vector2(56.0, 14.0) + p_off, Vector2(344.0, 126.0))
+	# 1) BIG Top-Left Forged Obsidian Vitality Plate
+	var wing_r := Rect2(Vector2(62.0, 12.0) + p_off, Vector2(452.0, 162.0))
 	_draw_obsidian_plate(self, wing_r, Color(0.92, 0.72, 0.34, 0.94))
-	draw_circle(Vector2(64.0, 76.0) + p_off, 50.0, Color(0.04, 0.035, 0.05, 0.96))
+	draw_circle(Vector2(74.0, 92.0) + p_off, 63.0, Color(0.04, 0.035, 0.05, 0.96))
 
-	# 2) Bottom-Center Sleek Forged Obsidian XP Bar
+	# 2) BIG Bottom-Center Forged Obsidian XP Bar
 	var xp_r := _xp_pill_rect()
 	_draw_obsidian_plate(self, xp_r, Color(0.88, 0.70, 0.34, 0.94))
 
-	# 3) Bottom-Right Wild Rift Right-Thumb Combat Cluster Subtle Molten-Gold Arc & Backings
+	# 3) BIG Bottom-Right Wild Rift Combat Cluster Molten-Gold Arc & Backings
 	var wr_specs := _wild_rift_slot_specs()
 	if not wr_specs.is_empty():
 		var base_c: Vector2 = wr_specs[0]["center"]
-		draw_arc(base_c, 145.0 * sc, deg_to_rad(170.0), deg_to_rad(273.0), 40, Color(0.04, 0.03, 0.05, 0.55), 14.0 * sc, true)
-		draw_arc(base_c, 145.0 * sc, deg_to_rad(170.0), deg_to_rad(273.0), 40, Color(0.92, 0.70, 0.28, 0.58), 2.2, true)
-		draw_arc(base_c, 222.0 * sc, deg_to_rad(206.0), deg_to_rad(236.0), 18, Color(accent.r, accent.g, accent.b, 0.42), 1.8, true)
+		draw_arc(base_c, 164.0 * sc, deg_to_rad(170.0), deg_to_rad(273.0), 40, Color(0.04, 0.03, 0.05, 0.58), 16.0 * sc, true)
+		draw_arc(base_c, 164.0 * sc, deg_to_rad(170.0), deg_to_rad(273.0), 40, Color(0.92, 0.70, 0.28, 0.62), 2.5, true)
+		draw_arc(base_c, 254.0 * sc, deg_to_rad(206.0), deg_to_rad(236.0), 18, Color(accent.r, accent.g, accent.b, 0.48), 2.2, true)
 		for spec: Dictionary in wr_specs:
 			var sp_c: Vector2 = spec["center"]
 			var sr: float = float(spec["r"])
-			draw_circle(sp_c + Vector2(0.0, 4.0), sr + 6.0, Color(0.0, 0.0, 0.0, 0.52))
-			draw_circle(sp_c, sr + 4.0, Color(0.04, 0.035, 0.06, 0.95))
+			draw_circle(sp_c + Vector2(0.0, 4.0), sr + 7.0, Color(0.0, 0.0, 0.0, 0.54))
+			draw_circle(sp_c, sr + 4.5, Color(0.04, 0.035, 0.06, 0.95))
 
 # ==============================================================================
-# FOREGROUND HUD DRAW (CRISP MOBILE-READABLE 13-18px LABELS & CLEAN CONTROLS)
+# FOREGROUND HUD DRAW (BIG BOLD MOBILE-READABLE 15-24px LABELS & CONTROLS)
 # ==============================================================================
 
 func _draw_hud_foreground(c: CanvasItem) -> void:
@@ -1878,74 +1878,76 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	var u_off := get_zone_offset("utils")
 	var sc := get_hud_scale()
 
-	# --- A. Top-Left Portrait Level Seal, Hero Title, Gold & Legible Bar Numbers ---
-	var seal_c := Vector2(96.0, 112.0) + p_off
-	c.draw_circle(seal_c, 17.0, Color(0.06, 0.04, 0.05, 0.98))
-	c.draw_arc(seal_c, 17.0, 0.0, TAU, 28, Color(0.98, 0.76, 0.32, 0.98), 2.6, true)
-	c.draw_arc(seal_c, 13.0, 0.0, TAU, 24, Color(0.72, 0.48, 0.18, 0.78), 1.2, true)
+	# --- A. BIG Top-Left Portrait Level Seal, Hero Title, Gold & Bold Bar Numbers ---
+	var seal_c := Vector2(112.0, 138.0) + p_off
+	c.draw_circle(seal_c, 22.0, Color(0.06, 0.04, 0.05, 0.98))
+	c.draw_arc(seal_c, 22.0, 0.0, TAU, 28, Color(0.98, 0.76, 0.32, 0.98), 3.0, true)
+	c.draw_arc(seal_c, 17.0, 0.0, TAU, 24, Color(0.72, 0.48, 0.18, 0.80), 1.4, true)
 	var lv_txt := str(hero_level)
-	var lv_w := f.get_string_size(lv_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
-	c.draw_string(f, seal_c + Vector2(-lv_w * 0.5, 5.5), lv_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.94, 0.70))
+	var lv_w := f.get_string_size(lv_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+	c.draw_string(f, seal_c + Vector2(-lv_w * 0.5, 7.0), lv_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color(1.0, 0.95, 0.72))
 
-	# Hero Name (18px Cinzel) + Race Title (13px)
+	# Hero Name (23px bold Cinzel) + Race Title (16px)
 	var disp_hero_name := (hero_custom_name if hero_custom_name != "" else str(meta["hero"])).to_upper()
-	c.draw_string_outline(f, Vector2(126.0, 38.0) + p_off, disp_hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, 4, Color(0.02, 0.01, 0.02, 0.96))
-	c.draw_string(f, Vector2(126.0, 38.0) + p_off, disp_hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.93, 0.74))
-	var name_w := f.get_string_size(disp_hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
+	c.draw_string_outline(f, Vector2(150.0, 42.0) + p_off, disp_hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 23, 5, Color(0.02, 0.01, 0.02, 0.98))
+	c.draw_string(f, Vector2(150.0, 42.0) + p_off, disp_hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 23, Color(1.0, 0.94, 0.74))
+	var name_w := f.get_string_size(disp_hero_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 23).x
 	var sub_txt := str(meta["title"])
-	if 126.0 + name_w + 10.0 < 386.0:
-		c.draw_string(fb, Vector2(126.0 + name_w + 10.0, 37.0) + p_off, sub_txt, HORIZONTAL_ALIGNMENT_LEFT, int(maxf(388.0 - (126.0 + name_w + 10.0), 40.0)), 13, Color(accent.r, accent.g, accent.b, 0.96))
+	if 150.0 + name_w + 12.0 < 502.0:
+		c.draw_string_outline(fb, Vector2(150.0 + name_w + 12.0, 41.0) + p_off, sub_txt, HORIZONTAL_ALIGNMENT_LEFT, int(maxf(504.0 - (150.0 + name_w + 12.0), 40.0)), 16, 4, Color(0.02, 0.01, 0.02, 0.95))
+		c.draw_string(fb, Vector2(150.0 + name_w + 12.0, 41.0) + p_off, sub_txt, HORIZONTAL_ALIGNMENT_LEFT, int(maxf(504.0 - (150.0 + name_w + 12.0), 40.0)), 16, Color(accent.r, accent.g, accent.b, 0.98))
 
 	# Crisp Painted Icons beside HP / KI / Racial Resource bars
 	var hp_ico := _icon_tex("hud-hp.webp")
 	var ki_ico := _icon_tex("hud-ki.webp")
 	var res_ico := _icon_tex(str(meta["res_icon"]))
 	if hp_ico != null:
-		c.draw_texture_rect(hp_ico, Rect2(Vector2(122.0, 48.0) + p_off, Vector2(22.0, 22.0)), false)
+		c.draw_texture_rect(hp_ico, Rect2(Vector2(148.0, 52.0) + p_off, Vector2(28.0, 28.0)), false)
 	if ki_ico != null:
-		c.draw_texture_rect(ki_ico, Rect2(Vector2(123.0, 73.0) + p_off, Vector2(20.0, 20.0)), false)
+		c.draw_texture_rect(ki_ico, Rect2(Vector2(149.0, 85.0) + p_off, Vector2(26.0, 26.0)), false)
 	if res_ico != null:
-		c.draw_texture_rect(res_ico, Rect2(Vector2(125.0, 95.0) + p_off, Vector2(17.0, 17.0)), false)
+		c.draw_texture_rect(res_ico, Rect2(Vector2(151.0, 114.0) + p_off, Vector2(22.0, 22.0)), false)
 
 	# Ki Shield Overlay on HP bar when B1 shield is active!
 	if hero_shield_hp > 0.5 and hero_shield_timer > 0.05:
 		var sh_frac := clampf(hero_shield_hp / maxf(hero_max_hp, 1.0), 0.0, 1.0)
-		var sh_r := Rect2(hp_bar_rect.position + Vector2(2.0, 1.0), Vector2((hp_bar_rect.size.x - 4.0) * sh_frac, 6.0))
+		var sh_r := Rect2(hp_bar_rect.position + Vector2(2.0, 1.0), Vector2((hp_bar_rect.size.x - 4.0) * sh_frac, 7.0))
 		c.draw_rect(sh_r, Color(0.46, 0.94, 1.0, 0.92), true)
 
 	var hp_str := "%d / %d" % [int(round(hero_hp)), int(round(hero_max_hp))]
 	if hero_shield_hp > 0.5 and hero_shield_timer > 0.05:
 		hp_str += "  [+%d OSŁ]" % int(round(hero_shield_hp))
-	c.draw_string_outline(fb, Vector2(156.0, 64.0) + p_off, hp_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.02, 0.01, 0.01, 0.95))
-	c.draw_string(fb, Vector2(156.0, 64.0) + p_off, hp_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.97, 0.95))
+	c.draw_string_outline(fb, Vector2(190.0, 73.0) + p_off, hp_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, 5, Color(0.02, 0.01, 0.01, 0.98))
+	c.draw_string(fb, Vector2(190.0, 73.0) + p_off, hp_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.98, 0.96))
 
 	var ki_str := "KI  %d / %d" % [int(round(hero_ki)), int(round(hero_max_ki))]
-	c.draw_string_outline(fb, Vector2(156.0, 88.0) + p_off, ki_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 3, Color(0.02, 0.03, 0.06, 0.95))
-	c.draw_string(fb, Vector2(156.0, 88.0) + p_off, ki_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.88, 0.96, 1.0))
+	c.draw_string_outline(fb, Vector2(190.0, 104.0) + p_off, ki_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 4, Color(0.02, 0.03, 0.06, 0.98))
+	c.draw_string(fb, Vector2(190.0, 104.0) + p_off, ki_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.90, 0.97, 1.0))
 
-	var res_str := "%s %d%s" % [str(meta["res_name"]), int(round(hero_res)), " ⚡" if hero_res >= 50.0 else ""]
-	c.draw_string_outline(fb, Vector2(154.0, 108.0) + p_off, res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 3, Color(0.02, 0.01, 0.02, 0.95))
-	c.draw_string(fb, Vector2(154.0, 108.0) + p_off, res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.96, 0.64) if hero_res >= 50.0 else Color(1.0, 0.95, 0.86))
+	var res_str := "%s %d%s" % [str(meta["res_name"]), int(round(hero_res)), " ★" if hero_res >= 50.0 else ""]
+	c.draw_string_outline(fb, Vector2(188.0, 131.0) + p_off, res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color(0.02, 0.01, 0.02, 0.98))
+	c.draw_string(fb, Vector2(188.0, 131.0) + p_off, res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.96, 0.64) if hero_res >= 50.0 else Color(1.0, 0.96, 0.88))
 
 	var coin_tex := _icon_tex("gear-coin.webp")
 	if coin_tex != null:
-		c.draw_texture_rect(coin_tex, Rect2(Vector2(282.0, 94.0) + p_off, Vector2(19.0, 19.0)), false)
-	c.draw_string_outline(fb, Vector2(305.0, 109.0) + p_off, str(hero_gold), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 3, Color(0.02, 0.01, 0.01, 0.95))
-	c.draw_string(fb, Vector2(305.0, 109.0) + p_off, str(hero_gold), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.88, 0.42))
+		c.draw_texture_rect(coin_tex, Rect2(Vector2(356.0, 113.0) + p_off, Vector2(24.0, 24.0)), false)
+	c.draw_string_outline(fb, Vector2(386.0, 132.0) + p_off, str(hero_gold), HORIZONTAL_ALIGNMENT_LEFT, -1, 18, 4, Color(0.02, 0.01, 0.01, 0.98))
+	c.draw_string(fb, Vector2(386.0, 132.0) + p_off, str(hero_gold), HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.90, 0.44))
 
 	var z_col := Color(0.36, 0.96, 0.58) if in_safe_city else Color(1.0, 0.46, 0.24)
-	c.draw_circle(Vector2(130.0, 126.0) + p_off, 4.5, z_col)
-	c.draw_arc(Vector2(130.0, 126.0) + p_off, 7.0, 0.0, TAU, 16, Color(z_col.r, z_col.g, z_col.b, 0.44), 1.4, true)
+	c.draw_circle(Vector2(158.0, 154.0) + p_off, 5.5, z_col)
+	c.draw_arc(Vector2(158.0, 154.0) + p_off, 8.5, 0.0, TAU, 16, Color(z_col.r, z_col.g, z_col.b, 0.48), 1.6, true)
 	var zone_prefix := "STOLICA" if in_safe_city else "KONTYNENT"
-	var loc_short := nearest_loc if nearest_loc.length() <= 18 else (nearest_loc.substr(0, 16) + "…")
+	var loc_short := nearest_loc if nearest_loc.length() <= 20 else (nearest_loc.substr(0, 18) + "…")
 	var b_kind := get_active_blessing_kind()
 	var b_tag := ""
 	if b_kind == "march": b_tag = " • ✦MARSZ"
 	elif b_kind == "might": b_tag = " • ✦HART"
 	elif b_kind == "focus": b_tag = " • ✦SKUPIENIE"
-	c.draw_string(fb, Vector2(142.0, 131.0) + p_off, "%s • %s%s" % [zone_prefix, loc_short, b_tag], HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.94, 0.90, 0.82, 0.96))
+	c.draw_string_outline(fb, Vector2(174.0, 160.0) + p_off, "%s • %s%s" % [zone_prefix, loc_short, b_tag], HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color(0.02, 0.01, 0.02, 0.95))
+	c.draw_string(fb, Vector2(174.0, 160.0) + p_off, "%s • %s%s" % [zone_prefix, loc_short, b_tag], HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.96, 0.92, 0.84, 0.98))
 
-	# --- A2. Clean 4-Medallion Top-Left Utility Row (draggable as "utils" zone!) ---
+	# --- A2. BIG 4-Medallion Top-Left Utility Row (draggable as "utils" zone!) ---
 	util_hitboxes.clear()
 	var ring_obs := _load_tex("res://assets/ui/obsidian/ring_star.webp")
 	var ring_cyan := _load_tex("res://assets/ui/hud_node_ring_avail.png")
@@ -1962,35 +1964,35 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		{"id": "quests", "key": "ZADANIA", "icon": "emblem_scroll.webp", "badge": str(ready_q) if ready_q > 0 else "", "active": world != null and ("quest_journal" in world) and world.quest_journal != null and bool(world.quest_journal.visible)},
 		{"id": "menu", "key": "MENU", "icon": "emblem_gear.webp", "badge": "", "active": menu_active},
 	]
-	var u_dia := 58.0
+	var u_dia := 70.0
 	for ui in all_utils.size():
-		var u_cx := 52.0 + float(ui) * 86.0
-		var u_cy := 196.0
+		var u_cx := 62.0 + float(ui) * 104.0
+		var u_cy := 228.0
 		_draw_util_medallion(c, f, all_utils[ui], Vector2(u_cx, u_cy) + u_off, u_dia, ring_obs, ring_cyan)
 
-	# Row 2: Two Crisp Forged Buttons side-by-side: [MAPA ŚWIATA] | [PANEL GM]
-	var map_rect := Rect2(Vector2(16.0, 260.0) + u_off, Vector2(184.0, 46.0))
-	util_hitboxes.append({"rect": map_rect.grow(4.0), "id": "atlas"})
+	# Row 2: Two BIG Forged Buttons side-by-side: [MAPA ŚWIATA] | [PANEL GM]
+	var map_rect := Rect2(Vector2(16.0, 304.0) + u_off, Vector2(212.0, 54.0))
+	util_hitboxes.append({"rect": map_rect.grow(5.0), "id": "atlas"})
 	_draw_forged_pill(c, map_rect, false)
 	var m_txt := "MAPA ŚWIATA"
-	var mtw := f.get_string_size(m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-	c.draw_string_outline(f, Vector2(map_rect.position.x + (map_rect.size.x - mtw) * 0.5, map_rect.position.y + 29.0), m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.02, 0.01, 0.01, 0.96))
-	c.draw_string(f, Vector2(map_rect.position.x + (map_rect.size.x - mtw) * 0.5, map_rect.position.y + 29.0), m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.93, 0.72))
+	var mtw := f.get_string_size(m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+	c.draw_string_outline(f, Vector2(map_rect.position.x + (map_rect.size.x - mtw) * 0.5, map_rect.position.y + 34.0), m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 5, Color(0.02, 0.01, 0.01, 0.98))
+	c.draw_string(f, Vector2(map_rect.position.x + (map_rect.size.x - mtw) * 0.5, map_rect.position.y + 34.0), m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(1.0, 0.94, 0.74))
 
-	var gm_rect := Rect2(Vector2(208.0, 260.0) + u_off, Vector2(168.0, 46.0))
-	util_hitboxes.append({"rect": gm_rect.grow(4.0), "id": "gm"})
+	var gm_rect := Rect2(Vector2(236.0, 304.0) + u_off, Vector2(198.0, 54.0))
+	util_hitboxes.append({"rect": gm_rect.grow(5.0), "id": "gm"})
 	_draw_forged_pill(c, gm_rect, gm_active or not spd_badge.is_empty())
 	var gm_txt := "PANEL GM" + spd_badge
-	var gtw := f.get_string_size(gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-	c.draw_string_outline(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 29.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.02, 0.01, 0.01, 0.96))
-	c.draw_string(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 29.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.62, 0.98, 1.0) if gm_active else Color(1.0, 0.92, 0.68))
+	var gtw := f.get_string_size(gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+	c.draw_string_outline(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 34.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 5, Color(0.02, 0.01, 0.01, 0.98))
+	c.draw_string(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 34.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.62, 0.98, 1.0) if gm_active else Color(1.0, 0.94, 0.72))
 
-	# Dedicated Clean Quick-Heal Potion Orb + Free Return-to-Capital Stone (Kamień Powrotu)
+	# Dedicated BIG Quick-Heal Potion Orb + Free Return-to-Capital Stone (Kamień Powrotu)
 	var c_base := _combat_base_center()
-	var pot_c := c_base + Vector2(-248.0 * sc, 34.0 * sc)
-	var pot_r := 34.0 * sc
+	var pot_c := c_base + Vector2(-284.0 * sc, 32.0 * sc)
+	var pot_r := 42.0 * sc
 	var pot_rect := Rect2(pot_c - Vector2(pot_r, pot_r), Vector2(pot_r * 2.0, pot_r * 2.0))
-	util_hitboxes.append({"rect": pot_rect.grow(8.0), "id": "potion"})
+	util_hitboxes.append({"rect": pot_rect.grow(10.0), "id": "potion"})
 	c.draw_circle(pot_c + Vector2(0.0, 3.0), pot_r + 3.0, Color(0.0, 0.0, 0.0, 0.52))
 	c.draw_circle(pot_c, pot_r, Color(0.06, 0.04, 0.06, 0.96))
 	var pot_ico := _icon_tex("gear-potion.webp")
@@ -1998,7 +2000,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		var pr_in := pot_r * 0.72
 		c.draw_texture_rect(pot_ico, Rect2(pot_c - Vector2(pr_in, pr_in), Vector2(pr_in * 2.0, pr_in * 2.0)), false)
 	if ring_obs != null:
-		var rr_p := pot_r + 9.0 * sc
+		var rr_p := pot_r + 10.0 * sc
 		c.draw_texture_rect(ring_obs, Rect2(pot_c - Vector2(rr_p, rr_p), Vector2(rr_p * 2.0, rr_p * 2.0)), false)
 	var pot_qty := 0
 	for pit: Dictionary in backpack_items:
@@ -2006,17 +2008,17 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			pot_qty += int(pit.get("qty", 1))
 	if pot_qty > 0:
 		var pbc := pot_c + Vector2(pot_r * 0.76, -pot_r * 0.72)
-		c.draw_circle(pbc, 13.0, Color(0.78, 0.16, 0.14, 0.98))
-		c.draw_arc(pbc, 13.0, 0.0, TAU, 18, Color(1.0, 0.88, 0.46, 0.98), 2.0, true)
+		c.draw_circle(pbc, 16.0, Color(0.78, 0.16, 0.14, 0.98))
+		c.draw_arc(pbc, 16.0, 0.0, TAU, 18, Color(1.0, 0.88, 0.46, 0.98), 2.4, true)
 		var pq_s := str(pot_qty)
-		var pq_w := fb.get_string_size(pq_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-		c.draw_string(fb, pbc + Vector2(-pq_w * 0.5, 5.0), pq_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.98, 0.92))
+		var pq_w := fb.get_string_size(pq_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+		c.draw_string(fb, pbc + Vector2(-pq_w * 0.5, 6.0), pq_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(1.0, 0.98, 0.94))
 
-	# Kamień Powrotu (Free Return-to-Capital Stone — 2.5s channel, 45s CD) — stacked above Potion orb, clear of XP bar!
-	var rec_c := pot_c + Vector2(-8.0 * sc, -86.0 * sc)
-	var rec_r := 27.0 * sc
+	# Kamień Powrotu (Free Return-to-Capital Stone — 2.5s channel, 45s CD)
+	var rec_c := pot_c + Vector2(-8.0 * sc, -104.0 * sc)
+	var rec_r := 34.0 * sc
 	var rec_rect := Rect2(rec_c - Vector2(rec_r, rec_r), Vector2(rec_r * 2.0, rec_r * 2.0))
-	util_hitboxes.append({"rect": rec_rect.grow(8.0), "id": "recall"})
+	util_hitboxes.append({"rect": rec_rect.grow(10.0), "id": "recall"})
 	c.draw_circle(rec_c + Vector2(0.0, 3.0), rec_r + 3.0, Color(0.0, 0.0, 0.0, 0.52))
 	c.draw_circle(rec_c, rec_r, Color(0.05, 0.07, 0.12, 0.96))
 	var rec_ico := _icon_tex("emblem_scroll.webp")
@@ -2026,37 +2028,37 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	var rec_cd: float = float(world.recall_cooldown) if (world != null and ("recall_cooldown" in world)) else 0.0
 	var rec_ch: float = float(world.recall_channel) if (world != null and ("recall_channel" in world)) else 0.0
 	if rec_ch > 0.01:
-		c.draw_arc(rec_c, rec_r + 3.0, -PI * 0.5, -PI * 0.5 + TAU * clampf(1.0 - rec_ch / 2.5, 0.0, 1.0), 28, Color(0.42, 0.96, 1.0, 0.98), 3.6, true)
+		c.draw_arc(rec_c, rec_r + 3.0, -PI * 0.5, -PI * 0.5 + TAU * clampf(1.0 - rec_ch / 2.5, 0.0, 1.0), 28, Color(0.42, 0.96, 1.0, 0.98), 4.2, true)
 		var rcs := "%.1fs" % rec_ch
-		var rcw := fb.get_string_size(rcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-		c.draw_string_outline(fb, rec_c + Vector2(-rcw * 0.5, 5.0), rcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 3, Color(0.0, 0.0, 0.0, 0.96))
-		c.draw_string(fb, rec_c + Vector2(-rcw * 0.5, 5.0), rcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.54, 0.98, 1.0))
+		var rcw := fb.get_string_size(rcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+		c.draw_string_outline(fb, rec_c + Vector2(-rcw * 0.5, 6.0), rcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.0, 0.0, 0.0, 0.98))
+		c.draw_string(fb, rec_c + Vector2(-rcw * 0.5, 6.0), rcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.54, 0.98, 1.0))
 	elif rec_cd > 0.1:
-		c.draw_circle(rec_c, rec_r - 1.0, Color(0.02, 0.02, 0.05, 0.68))
+		c.draw_circle(rec_c, rec_r - 1.0, Color(0.02, 0.02, 0.05, 0.72))
 		var rcd := "%ds" % int(ceil(rec_cd))
-		var rcdw := fb.get_string_size(rcd, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-		c.draw_string(fb, rec_c + Vector2(-rcdw * 0.5, 5.0), rcd, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.86, 0.88, 0.94))
+		var rcdw := fb.get_string_size(rcd, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+		c.draw_string(fb, rec_c + Vector2(-rcdw * 0.5, 6.0), rcd, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.92, 0.94, 0.98))
 	if ring_cyan != null and rec_cd <= 0.1:
-		var rr_c := rec_r + 7.0 * sc
+		var rr_c := rec_r + 8.0 * sc
 		c.draw_texture_rect(ring_cyan, Rect2(rec_c - Vector2(rr_c, rr_c), Vector2(rr_c * 2.0, rr_c * 2.0)), false)
 	var rec_lbl := "POWRÓT"
-	var rlw := f.get_string_size(rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x
-	c.draw_string_outline(f, rec_c + Vector2(-rlw * 0.5, rec_r + 14.0), rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 3, Color(0.02, 0.01, 0.02, 0.96))
-	c.draw_string(f, rec_c + Vector2(-rlw * 0.5, rec_r + 14.0), rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.68, 0.94, 1.0))
+	var rlw := f.get_string_size(rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
+	c.draw_string_outline(f, rec_c + Vector2(-rlw * 0.5, rec_r + 18.0), rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.02, 0.01, 0.02, 0.98))
+	c.draw_string(f, rec_c + Vector2(-rlw * 0.5, rec_r + 18.0), rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.74, 0.96, 1.0))
 
 	nav_hitboxes.clear()
 
-	# --- C. Bottom-Center Legible XP Bar Labels (14px!) ---
+	# --- C. BIG Bottom-Center Legible XP Bar Labels (18px bold!) ---
 	var xp_r := _xp_pill_rect()
 	var xp_pct := int(round((hero_xp / maxf(hero_max_xp, 1.0)) * 100.0))
-	c.draw_string_outline(f, Vector2(xp_r.position.x + 18.0, xp_r.position.y + 23.0), "POZ.%d" % hero_level, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 3, Color(0.02, 0.01, 0.01, 0.96))
-	c.draw_string(f, Vector2(xp_r.position.x + 18.0, xp_r.position.y + 23.0), "POZ.%d" % hero_level, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.88, 0.52))
+	c.draw_string_outline(f, Vector2(xp_r.position.x + 18.0, xp_r.position.y + 30.0), "POZ.%d" % hero_level, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, 4, Color(0.02, 0.01, 0.01, 0.98))
+	c.draw_string(f, Vector2(xp_r.position.x + 18.0, xp_r.position.y + 30.0), "POZ.%d" % hero_level, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.90, 0.54))
 	var pd_txt := "PD %d%%" % xp_pct
-	var pd_w := f.get_string_size(pd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-	c.draw_string_outline(f, Vector2(xp_r.position.x + xp_r.size.x - pd_w - 18.0, xp_r.position.y + 23.0), pd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 3, Color(0.02, 0.01, 0.01, 0.96))
-	c.draw_string(f, Vector2(xp_r.position.x + xp_r.size.x - pd_w - 18.0, xp_r.position.y + 23.0), pd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.88, 0.52))
+	var pd_w := f.get_string_size(pd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
+	c.draw_string_outline(f, Vector2(xp_r.position.x + xp_r.size.x - pd_w - 18.0, xp_r.position.y + 30.0), pd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, 4, Color(0.02, 0.01, 0.01, 0.98))
+	c.draw_string(f, Vector2(xp_r.position.x + xp_r.size.x - pd_w - 18.0, xp_r.position.y + 30.0), pd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.90, 0.54))
 
-	# --- D. Bottom-Right Wild Rift Right-Thumb Circular Skill Overlays (Cooldowns, Lock State, Ki-Mode Aura, Keybind Seals) ---
+	# --- D. BIG Bottom-Right Wild Rift Right-Thumb Circular Skill Overlays ---
 	hotbar_hitboxes.clear()
 	var wr_specs := _wild_rift_slot_specs()
 	var ki_active: bool = world != null and ("ki_mode_timer" in world) and float(world.ki_mode_timer) > 0.05
@@ -2064,56 +2066,58 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		var spec: Dictionary = wr_specs[i]
 		var center: Vector2 = spec["center"]
 		var r: float = float(spec["r"])
-		var hit_r := r + 9.0 * sc
+		var hit_r := r + 10.0 * sc
 		hotbar_hitboxes.append(Rect2(center - Vector2(hit_r, hit_r), Vector2(hit_r * 2.0, hit_r * 2.0)))
 		var unlocked_skill := is_hotbar_skill_unlocked(i)
 
 		# Glowing Ki-Mode transformation halo on [R] (idx == 5)
 		if i == 5 and ki_active:
 			var pulse_k := 0.5 + 0.5 * sin(float(world.world_time) * 7.0)
-			c.draw_arc(center, r + 9.0 + pulse_k * 3.0, 0.0, TAU, 36, Color(0.32, 0.96, 1.0, 0.85), 3.6, true)
-			c.draw_arc(center, r + 5.0, 0.0, TAU, 36, Color(1.0, 0.88, 0.42, 0.90), 2.2, true)
+			c.draw_arc(center, r + 10.0 + pulse_k * 3.0, 0.0, TAU, 36, Color(0.32, 0.96, 1.0, 0.88), 4.0, true)
+			c.draw_arc(center, r + 5.0, 0.0, TAU, 36, Color(1.0, 0.88, 0.42, 0.92), 2.5, true)
 			var kt_s := "KI %ds" % int(ceil(float(world.ki_mode_timer)))
-			var ktw := f.get_string_size(kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-			c.draw_string_outline(f, center + Vector2(-ktw * 0.5, -r - 20.0), kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 4, Color(0.02, 0.04, 0.08, 0.96))
-			c.draw_string(f, center + Vector2(-ktw * 0.5, -r - 20.0), kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.42, 0.98, 1.0))
+			var ktw := f.get_string_size(kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+			c.draw_string_outline(f, center + Vector2(-ktw * 0.5, -r - 22.0), kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 5, Color(0.02, 0.04, 0.08, 0.98))
+			c.draw_string(f, center + Vector2(-ktw * 0.5, -r - 22.0), kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.42, 0.98, 1.0))
 
 		if not unlocked_skill:
-			c.draw_circle(center, r - 1.0, Color(0.02, 0.02, 0.04, 0.78))
+			c.draw_circle(center, r - 1.0, Color(0.02, 0.02, 0.04, 0.80))
 			var lk_s := str(HOTBAR_NODE_IDS[i])
 			var req_lv := get_hotbar_skill_min_level(i)
 			var lv_s := "Poz.%d" % req_lv
-			var lkw := f.get_string_size(lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
-			var lvw := fb.get_string_size(lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
-			c.draw_string(f, center + Vector2(-lkw * 0.5, -2.0), lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.76, 0.70, 0.58, 0.94))
-			c.draw_string(fb, center + Vector2(-lvw * 0.5, 13.0), lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.96, 0.68, 0.36, 0.94) if i == 5 else Color(0.68, 0.66, 0.62, 0.90))
+			var lkw := f.get_string_size(lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+			var lvw := fb.get_string_size(lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
+			c.draw_string_outline(f, center + Vector2(-lkw * 0.5, -2.0), lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.02, 0.98))
+			c.draw_string(f, center + Vector2(-lkw * 0.5, -2.0), lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.88, 0.82, 0.68, 0.98))
+			c.draw_string_outline(fb, center + Vector2(-lvw * 0.5, 16.0), lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.02, 0.01, 0.02, 0.98))
+			c.draw_string(fb, center + Vector2(-lvw * 0.5, 16.0), lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.76, 0.42, 0.98) if i == 5 else Color(0.82, 0.80, 0.76, 0.96))
 
-		# Radial cooldown veil + bold 18px numeric timer
+		# Radial cooldown veil + BOLD 22px numeric timer
 		var cd := cooldowns[i]
 		if cd > 0.01:
 			var max_cd := get_basic_attack_interval() if i == 0 else float(HOTBAR_CDS[i])
 			var frac := clampf(cd / maxf(max_cd, 0.1), 0.0, 1.0)
-			c.draw_circle(center, r - 1.0, Color(0.02, 0.02, 0.05, 0.70))
-			c.draw_arc(center, r - 3.0, -PI * 0.5, -PI * 0.5 + TAU * frac, 28, Color(0.36, 0.88, 1.0, 0.95), 3.5, true)
+			c.draw_circle(center, r - 1.0, Color(0.02, 0.02, 0.05, 0.72))
+			c.draw_arc(center, r - 3.0, -PI * 0.5, -PI * 0.5 + TAU * frac, 28, Color(0.36, 0.88, 1.0, 0.96), 4.0, true)
 			var cd_txt := "%.1f" % cd
-			var cw := fb.get_string_size(cd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
-			c.draw_string_outline(fb, center + Vector2(-cw * 0.5, 6.0), cd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, 4, Color(0.0, 0.0, 0.0, 0.96))
-			c.draw_string(fb, center + Vector2(-cw * 0.5, 6.0), cd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.94, 0.68))
+			var cw := fb.get_string_size(cd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 22).x
+			c.draw_string_outline(fb, center + Vector2(-cw * 0.5, 8.0), cd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 22, 5, Color(0.0, 0.0, 0.0, 0.98))
+			c.draw_string(fb, center + Vector2(-cw * 0.5, 8.0), cd_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color(1.0, 0.96, 0.72))
 
 		if hovered_hotbar_idx == i and not hud_edit_mode:
-			c.draw_arc(center, r + 6.0, 0.0, TAU, 32, Color(1.0, 0.90, 0.50, 0.94), 2.6, true)
+			c.draw_arc(center, r + 6.0, 0.0, TAU, 32, Color(1.0, 0.90, 0.50, 0.94), 3.0, true)
 
 		if i != 0:
 			var kb := str(HOTBAR_KEYS[i])
-			var k_pos := center + Vector2(0.0, r + 3.0)
-			var kr := 13.0 if bool(spec["keystone"]) else 11.5
-			c.draw_circle(k_pos, kr, Color(0.06, 0.04, 0.05, 0.96))
-			c.draw_arc(k_pos, kr, 0.0, TAU, 20, Color(0.98, 0.76, 0.32, 0.96) if unlocked_skill else Color(0.42, 0.40, 0.44, 0.85), 1.8, true)
-			var ksz := 13 if bool(spec["keystone"]) else 12
+			var k_pos := center + Vector2(0.0, r + 4.0)
+			var kr := 16.0 if bool(spec["keystone"]) else 14.5
+			c.draw_circle(k_pos, kr, Color(0.06, 0.04, 0.05, 0.98))
+			c.draw_arc(k_pos, kr, 0.0, TAU, 20, Color(0.98, 0.76, 0.32, 0.98) if unlocked_skill else Color(0.48, 0.46, 0.50, 0.90), 2.2, true)
+			var ksz := 16 if bool(spec["keystone"]) else 15
 			var kw := f.get_string_size(kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz).x
-			c.draw_string(f, k_pos + Vector2(-kw * 0.5, float(ksz) * 0.36), kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz, Color(1.0, 0.94, 0.72) if unlocked_skill else Color(0.58, 0.56, 0.54))
+			c.draw_string(f, k_pos + Vector2(-kw * 0.5, float(ksz) * 0.36), kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz, Color(1.0, 0.96, 0.76) if unlocked_skill else Color(0.68, 0.66, 0.64))
 
-	# --- D2. Optional FPS & Ping Performance Overlay (toggled in Menu -> GRA) ---
+	# --- D2. BIG Readable FPS & Ping Performance Overlay (toggled in Menu -> GRA) ---
 	if is_perf_hud_enabled():
 		var vs_p := _vp_size()
 		var fps_val := int(Engine.get_frames_per_second())
@@ -2127,22 +2131,22 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		var mm_sz := 232.0 * sc
 		var mm_cx := vs_p.x - 16.0 - mm_sz * 0.5 + mm_off.x
 		var mm_bottom := 14.0 + mm_sz + mm_off.y
-		var pill_w := 204.0
-		var pill_h := 32.0
-		var pill_x := clampf(mm_cx - pill_w * 0.5, 420.0, vs_p.x - pill_w - 12.0)
+		var pill_w := 268.0
+		var pill_h := 42.0
+		var pill_x := clampf(mm_cx - pill_w * 0.5, 520.0, vs_p.x - pill_w - 12.0)
 		var pill_y := clampf(mm_bottom + 8.0, 16.0, vs_p.y - 380.0)
 		var pill_r := Rect2(pill_x, pill_y, pill_w, pill_h)
 		var sb := StyleBoxFlat.new()
-		sb.bg_color = Color(0.04, 0.035, 0.06, 0.88)
-		sb.border_color = Color(0.84, 0.66, 0.30, 0.88)
-		sb.set_border_width_all(1)
-		sb.set_corner_radius_all(8)
+		sb.bg_color = Color(0.04, 0.035, 0.06, 0.92)
+		sb.border_color = Color(0.88, 0.70, 0.34, 0.94)
+		sb.set_border_width_all(2)
+		sb.set_corner_radius_all(10)
 		c.draw_style_box(sb, pill_r)
-		c.draw_circle(pill_r.position + Vector2(14.0, pill_h * 0.5), 4.0, fps_col)
-		c.draw_string(fb, pill_r.position + Vector2(24.0, 21.0), "FPS %d" % fps_val, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, fps_col)
-		c.draw_line(pill_r.position + Vector2(96.0, 6.0), pill_r.position + Vector2(96.0, pill_h - 6.0), Color(0.75, 0.60, 0.32, 0.45), 1.0)
-		c.draw_circle(pill_r.position + Vector2(108.0, pill_h * 0.5), 4.0, ping_col)
-		c.draw_string(fb, pill_r.position + Vector2(118.0, 21.0), "PING %s" % ping_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, ping_col)
+		c.draw_circle(pill_r.position + Vector2(18.0, pill_h * 0.5), 5.5, fps_col)
+		c.draw_string(fb, pill_r.position + Vector2(30.0, 27.0), "FPS %d" % fps_val, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, fps_col)
+		c.draw_line(pill_r.position + Vector2(118.0, 8.0), pill_r.position + Vector2(118.0, pill_h - 8.0), Color(0.75, 0.60, 0.32, 0.55), 1.5)
+		c.draw_circle(pill_r.position + Vector2(134.0, pill_h * 0.5), 5.5, ping_col)
+		c.draw_string(fb, pill_r.position + Vector2(146.0, 27.0), "PING %s" % ping_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, ping_col)
 
 	# Hover tooltip anchored cleanly above bottom-right Wild Rift combat cluster
 	if hovered_hotbar_idx >= 0 and hovered_hotbar_idx < HOTBAR_NODE_IDS.size() and not (show_talents or show_character or hud_edit_mode):
@@ -2150,15 +2154,15 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		var h_nd := _node_by_id(h_nid)
 		if not h_nd.is_empty():
 			var vs := _vp_size()
-			var tip_w := 360.0
-			var tip_h := 94.0
-			var tip_r := Rect2(vs.x - tip_w - 22.0, vs.y - 374.0, tip_w, tip_h)
+			var tip_w := 410.0
+			var tip_h := 106.0
+			var tip_r := Rect2(vs.x - tip_w - 22.0, vs.y - 404.0, tip_w, tip_h)
 			_draw_obsidian_plate(c, tip_r, Color(0.92, 0.72, 0.32, 0.94))
 			var locked_note := "" if is_hotbar_skill_unlocked(hovered_hotbar_idx) else " (ZABLOK. — [K])"
 			var ki_c := int(round(float(HOTBAR_KI_COSTS[hovered_hotbar_idx]) * float(get_talent_passives()["kiCostMult"])))
 			var ki_note := (" • %d KI" % ki_c) if ki_c > 0 else ""
-			c.draw_string(f, tip_r.position + Vector2(18, 26), "%s [%s]%s%s" % [str(h_nd.get("name", "")).to_upper(), str(HOTBAR_KEYS[hovered_hotbar_idx]), ki_note, locked_note], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.90, 0.54))
-			c.draw_multiline_string(fb, tip_r.position + Vector2(18, 48), str(h_nd.get("effect", "")), HORIZONTAL_ALIGNMENT_LEFT, tip_w - 36.0, 13, 2, Color(0.92, 0.90, 0.86))
+			c.draw_string(f, tip_r.position + Vector2(18, 28), "%s [%s]%s%s" % [str(h_nd.get("name", "")).to_upper(), str(HOTBAR_KEYS[hovered_hotbar_idx]), ki_note, locked_note], HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.92, 0.56))
+			c.draw_multiline_string(fb, tip_r.position + Vector2(18, 52), str(h_nd.get("effect", "")), HORIZONTAL_ALIGNMENT_LEFT, tip_w - 36.0, 15, 2, Color(0.94, 0.92, 0.88))
 
 	# --- E. Live On-Screen Drag-and-Drop HUD Editor Overlay ---
 	if hud_edit_mode:
@@ -2180,21 +2184,21 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			var line_c := Color(0.38, 0.98, 1.0, 0.98) if active_z else Color(1.0, 0.86, 0.42, 0.90)
 			c.draw_rect(zr, fill_c, true)
 			c.draw_rect(zr, line_c, false, 3.0 if active_z else 2.2)
-			var tw := f.get_string_size(zlbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-			var tag_r := Rect2(zr.get_center().x - tw * 0.5 - 12.0, zr.get_center().y - 14.0, tw + 24.0, 28.0)
-			c.draw_rect(tag_r, Color(0.04, 0.04, 0.07, 0.92), true)
-			c.draw_rect(tag_r, line_c, false, 1.6)
-			c.draw_string(f, Vector2(tag_r.position.x + 12.0, tag_r.position.y + 19.0), zlbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.56, 0.98, 1.0) if active_z else Color(1.0, 0.92, 0.62))
+			var tw := f.get_string_size(zlbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+			var tag_r := Rect2(zr.get_center().x - tw * 0.5 - 14.0, zr.get_center().y - 16.0, tw + 28.0, 32.0)
+			c.draw_rect(tag_r, Color(0.04, 0.04, 0.07, 0.94), true)
+			c.draw_rect(tag_r, line_c, false, 1.8)
+			c.draw_string(f, Vector2(tag_r.position.x + 14.0, tag_r.position.y + 22.0), zlbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.56, 0.98, 1.0) if active_z else Color(1.0, 0.92, 0.62))
 
 func _draw_util_medallion(c: CanvasItem, f: Font, item: Dictionary, center: Vector2, dia: float, ring_gold: Texture2D, ring_cyan: Texture2D) -> void:
 	var r := dia * 0.5
 	var active := bool(item.get("active", false))
-	var pill_r := Rect2(center.x - 39.0, center.y + r - 4.0, 78.0, 24.0)
-	var hit_box := Rect2(center.x - 40.0, center.y - r - 6.0, 80.0, dia + 32.0)
+	var pill_r := Rect2(center.x - 48.0, center.y + r - 4.0, 96.0, 29.0)
+	var hit_box := Rect2(center.x - 50.0, center.y - r - 6.0, 100.0, dia + 38.0)
 	util_hitboxes.append({"rect": hit_box, "id": str(item["id"])})
 
 	# Shadow & forged obsidian orb backing
-	c.draw_circle(center + Vector2(0.0, 3.0), r + 3.0, Color(0.0, 0.0, 0.0, 0.52))
+	c.draw_circle(center + Vector2(0.0, 3.0), r + 3.0, Color(0.0, 0.0, 0.0, 0.54))
 	c.draw_circle(center, r, Color(0.06, 0.055, 0.08, 0.96))
 	var ico := _icon_tex(str(item.get("icon", "")))
 	if ico != null:
@@ -2202,26 +2206,26 @@ func _draw_util_medallion(c: CanvasItem, f: Font, item: Dictionary, center: Vect
 		c.draw_texture_rect(ico, Rect2(center - Vector2(inner_r, inner_r), Vector2(inner_r * 2.0, inner_r * 2.0)), false)
 	var ring_t := ring_cyan if active else ring_gold
 	if ring_t != null:
-		var rr := r + 8.0
+		var rr := r + 9.0
 		c.draw_texture_rect(ring_t, Rect2(center - Vector2(rr, rr), Vector2(rr * 2.0, rr * 2.0)), false)
 	else:
-		c.draw_arc(center, r + 1.0, 0.0, TAU, 28, Color(0.38, 0.94, 1.0) if active else Color(0.88, 0.70, 0.34), 2.4, true)
+		c.draw_arc(center, r + 1.0, 0.0, TAU, 28, Color(0.38, 0.94, 1.0) if active else Color(0.88, 0.70, 0.34), 2.8, true)
 
 	# Bold notification badge (stat points / skill points / ready quests)
 	var badge := str(item.get("badge", ""))
 	if not badge.is_empty():
 		var bc := center + Vector2(r * 0.78, -r * 0.74)
-		c.draw_circle(bc, 12.0, Color(0.84, 0.20, 0.12, 0.98))
-		c.draw_arc(bc, 12.0, 0.0, TAU, 18, Color(1.0, 0.88, 0.46, 0.96), 1.8, true)
-		var bw := f.get_string_size(badge, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-		c.draw_string(f, bc + Vector2(-bw * 0.5, 4.5), badge, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.98, 0.92))
+		c.draw_circle(bc, 15.0, Color(0.84, 0.20, 0.12, 0.98))
+		c.draw_arc(bc, 15.0, 0.0, TAU, 18, Color(1.0, 0.88, 0.46, 0.98), 2.2, true)
+		var bw := f.get_string_size(badge, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+		c.draw_string(f, bc + Vector2(-bw * 0.5, 5.5), badge, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.98, 0.94))
 
-	# Sleek beveled chamfered obsidian ribbon under medallion (no flat CSS rectangle!)
+	# Sleek BIG beveled chamfered obsidian ribbon under medallion
 	var px := pill_r.position.x
 	var py := pill_r.position.y + 2.0
 	var pw := pill_r.size.x
-	var ph := 23.0
-	var ch := 6.0
+	var ph := 29.0
+	var ch := 7.0
 	var pts := PackedVector2Array([
 		Vector2(px + ch, py),
 		Vector2(px + pw - ch, py),
@@ -2233,14 +2237,14 @@ func _draw_util_medallion(c: CanvasItem, f: Font, item: Dictionary, center: Vect
 	_draw_beveled_chamfer(
 		c,
 		pts,
-		Color(0.05, 0.045, 0.075, 0.95),
-		Color(0.38, 0.94, 1.0, 0.95) if active else Color(0.86, 0.68, 0.34, 0.90),
-		Color(1.0, 0.90, 0.56, 0.28)
+		Color(0.05, 0.045, 0.075, 0.96),
+		Color(0.38, 0.94, 1.0, 0.96) if active else Color(0.88, 0.70, 0.34, 0.94),
+		Color(1.0, 0.90, 0.56, 0.30)
 	)
 	var ktxt := str(item["key"])
-	var kw := f.get_string_size(ktxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
-	c.draw_string_outline(f, Vector2(center.x - kw * 0.5, py + 16.0), ktxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 3, Color(0.02, 0.01, 0.02, 0.98))
-	c.draw_string(f, Vector2(center.x - kw * 0.5, py + 16.0), ktxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.62, 0.98, 1.0) if active else Color(1.0, 0.93, 0.72))
+	var kw := f.get_string_size(ktxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
+	c.draw_string_outline(f, Vector2(center.x - kw * 0.5, py + 20.0), ktxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color(0.02, 0.01, 0.02, 0.98))
+	c.draw_string(f, Vector2(center.x - kw * 0.5, py + 20.0), ktxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.62, 0.98, 1.0) if active else Color(1.0, 0.94, 0.76))
 
 # ==============================================================================
 # MODAL CANVAS DRAW ([K] 29-NODE CONSTELLATION SKILL TREE & [I] CHARACTER PAPERDOLL)

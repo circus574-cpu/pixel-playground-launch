@@ -149,15 +149,16 @@ func _style_btn(btn: Button, bg: Color, border: Color, fsz: int = 15) -> void:
 	ForgedUI.style_button(btn, variant, fsz, 18.0, 7.0)
 
 func _build_hud() -> void:
-	top_bar.add_theme_stylebox_override("panel", ForgedUI.compact_panel_box(18.0, 8.0, Color(0.86, 0.68, 0.34, 0.88)))
+	# Clean floating top-left Exit + Title strip over the fullscreen interior (no bulky windowed chrome!)
+	top_bar.add_theme_stylebox_override("panel", ForgedUI.compact_panel_box(16.0, 8.0, Color(0.86, 0.68, 0.34, 0.90)))
 	hud_root.add_child(top_bar)
 	var top_h := HBoxContainer.new()
 	top_h.add_theme_constant_override("separation", 18)
 	top_bar.add_child(top_h)
 
 	btn_exit.text = "← WYJDŹ"
-	btn_exit.custom_minimum_size = Vector2(158.0, 48.0)
-	ForgedUI.style_button(btn_exit, "slate", 16, 22.0, 8.0)
+	btn_exit.custom_minimum_size = Vector2(182.0, 56.0)
+	ForgedUI.style_button(btn_exit, "slate", 20, 24.0, 10.0)
 	btn_exit.pressed.connect(func() -> void:
 		if world != null and world.has_method("exit_building"):
 			world.exit_building()
@@ -167,52 +168,52 @@ func _build_hud() -> void:
 	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	title_lbl.add_theme_font_override("font", MapStyle.font())
-	title_lbl.add_theme_font_size_override("font_size", 20)
-	title_lbl.add_theme_color_override("font_color", Color(1.0, 0.90, 0.56))
-	title_lbl.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.01, 0.96))
-	title_lbl.add_theme_constant_override("outline_size", 4)
+	title_lbl.add_theme_font_size_override("font_size", 22)
+	title_lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.60))
+	title_lbl.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.01, 0.98))
+	title_lbl.add_theme_constant_override("outline_size", 5)
 	top_h.add_child(title_lbl)
 
 	btn_service.text = "◆ USŁUGI"
-	ForgedUI.style_button(btn_service, "gold", 17, 24.0, 10.0)
+	ForgedUI.style_button(btn_service, "gold", 21, 28.0, 12.0)
 	btn_service.pressed.connect(func() -> void:
 		toggle_service_panel(not service_open)
 	)
 	hud_root.add_child(btn_service)
 
-	# Dark scrim + seamless Forged Obsidian & Gold Service Modal (locked height with MarginContainer)
+	# Dark scrim + full-width Forged Obsidian & Gold Service Modal (big readable mobile fonts)
 	service_scrim.set_anchors_preset(Control.PRESET_FULL_RECT)
-	service_scrim.color = Color(0.015, 0.012, 0.025, 0.82)
+	service_scrim.color = Color(0.015, 0.012, 0.025, 0.84)
 	service_scrim.mouse_filter = Control.MOUSE_FILTER_STOP
 	service_scrim.visible = false
 	hud_root.add_child(service_scrim)
 
-	service_panel.add_theme_stylebox_override("panel", ForgedUI.panel_box(44.0, 38.0))
+	service_panel.add_theme_stylebox_override("panel", ForgedUI.panel_box(36.0, 32.0))
 	service_panel.visible = false
 	hud_root.add_child(service_panel)
 
 	var mg := MarginContainer.new()
 	mg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	mg.add_theme_constant_override("margin_left", 44)
-	mg.add_theme_constant_override("margin_right", 44)
-	mg.add_theme_constant_override("margin_top", 38)
-	mg.add_theme_constant_override("margin_bottom", 36)
+	mg.add_theme_constant_override("margin_left", 36)
+	mg.add_theme_constant_override("margin_right", 36)
+	mg.add_theme_constant_override("margin_top", 30)
+	mg.add_theme_constant_override("margin_bottom", 28)
 	service_panel.add_child(mg)
 
 	var sv := VBoxContainer.new()
 	sv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	sv.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	sv.add_theme_constant_override("separation", 10)
+	sv.add_theme_constant_override("separation", 12)
 	mg.add_child(sv)
 
 	var shdr := HBoxContainer.new()
-	shdr.add_theme_constant_override("separation", 14)
+	shdr.add_theme_constant_override("separation", 16)
 	sv.add_child(shdr)
 
 	var s_close := Button.new()
 	s_close.text = "← WSTECZ"
-	s_close.custom_minimum_size = Vector2(156.0, 48.0)
-	ForgedUI.style_button(s_close, "slate", 16, 20.0, 8.0)
+	s_close.custom_minimum_size = Vector2(180.0, 56.0)
+	ForgedUI.style_button(s_close, "slate", 19, 22.0, 10.0)
 	s_close.pressed.connect(func() -> void: toggle_service_panel(false))
 	shdr.add_child(s_close)
 
@@ -221,10 +222,10 @@ func _build_hud() -> void:
 	service_hdr_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	service_hdr_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	service_hdr_lbl.add_theme_font_override("font", MapStyle.font())
-	service_hdr_lbl.add_theme_font_size_override("font_size", 18)
-	service_hdr_lbl.add_theme_color_override("font_color", Color(1.0, 0.88, 0.50))
-	service_hdr_lbl.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.01, 0.96))
-	service_hdr_lbl.add_theme_constant_override("outline_size", 4)
+	service_hdr_lbl.add_theme_font_size_override("font_size", 22)
+	service_hdr_lbl.add_theme_color_override("font_color", Color(1.0, 0.90, 0.54))
+	service_hdr_lbl.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.01, 0.98))
+	service_hdr_lbl.add_theme_constant_override("outline_size", 5)
 	shdr.add_child(service_hdr_lbl)
 
 	service_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -233,11 +234,11 @@ func _build_hud() -> void:
 	sv.add_child(service_scroll)
 
 	service_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	service_vbox.add_theme_constant_override("separation", 8)
+	service_vbox.add_theme_constant_override("separation", 10)
 	service_scroll.add_child(service_vbox)
 
 	service_status.add_theme_font_override("font", MapStyle.body_font())
-	service_status.add_theme_font_size_override("font_size", 14)
+	service_status.add_theme_font_size_override("font_size", 17)
 	service_status.add_theme_color_override("font_color", Color(0.56, 0.96, 0.72))
 	service_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	sv.add_child(service_status)
@@ -246,19 +247,27 @@ func _layout_stage() -> void:
 	var vs := get_viewport_rect().size
 	if vs.x < 100.0:
 		vs = Vector2(1280.0, 720.0)
-	room_stage.position = vs * 0.5 + Vector2(0.0, 22.0)
-	var sc := minf((vs.x - 40.0) / (ROOM_W + 40.0), (vs.y - 120.0) / (ROOM_H + 40.0))
-	sc = clampf(sc, 0.70, 1.35)
-	room_stage.scale = Vector2(sc, sc)
+	# TRUE FULLSCREEN EDGE-TO-EDGE ROOM: fills 100% of viewport width & height (zero black borders!)
+	room_stage.position = vs * 0.5
+	var sx := vs.x / ROOM_W
+	var sy := vs.y / ROOM_H
+	room_stage.scale = Vector2(sx, sy)
+	# Counter-scale actors horizontally so sprites stay crisp 1:1 aspect ratio on ultrawide 20:9 phones
+	var aspect_fix := sy / maxf(sx, 0.01)
+	if hero_actor != null and is_instance_valid(hero_actor):
+		hero_actor.scale = Vector2(0.76 * aspect_fix, 0.76)
+	if npc_actor != null and is_instance_valid(npc_actor):
+		npc_actor.scale = Vector2(0.72 * aspect_fix, 0.72)
 
-	top_bar.position = Vector2(16.0, 10.0)
-	top_bar.size = Vector2(vs.x - 32.0, 64.0)
+	top_bar.position = Vector2(14.0, 10.0)
+	top_bar.size = Vector2(minf(vs.x - 28.0, 780.0), 70.0)
 
-	btn_service.position = Vector2((vs.x - 360.0) * 0.5, vs.y - 72.0)
-	btn_service.size = Vector2(360.0, 56.0)
+	var srv_w := clampf(vs.x * 0.36, 380.0, 480.0)
+	btn_service.position = Vector2((vs.x - srv_w) * 0.5, vs.y - 78.0)
+	btn_service.size = Vector2(srv_w, 64.0)
 
-	var pw := clampf(vs.x - 100.0, 620.0, 900.0)
-	var ph := clampf(vs.y - 84.0, 440.0, 640.0)
+	var pw := clampf(vs.x - 36.0, 680.0, 1280.0)
+	var ph := clampf(vs.y - 30.0, 480.0, 720.0)
 	service_panel.position = Vector2((vs.x - pw) * 0.5, (vs.y - ph) * 0.5)
 	service_panel.size = Vector2(pw, ph)
 
@@ -376,6 +385,19 @@ func _rebuild_room_scene() -> void:
 			floor_layer.add_child(fsp)
 		npc_local = Vector2(0.0, -45.0)
 
+	# Glowing Golden Exit Threshold Mat right on the fullscreen floor
+	var ex_mat := Node2D.new()
+	ex_mat.draw.connect(func() -> void:
+		ex_mat.draw_rect(exit_zone, Color(0.98, 0.78, 0.28, 0.22), true)
+		ex_mat.draw_rect(exit_zone, Color(1.0, 0.86, 0.42, 0.90), false, 2.4)
+		var f: Font = MapStyle.font()
+		var ex_txt := "WYJŚCIE"
+		var ex_w := f.get_string_size(ex_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
+		ex_mat.draw_string_outline(f, Vector2(exit_zone.position.x + (exit_zone.size.x - ex_w) * 0.5, exit_zone.position.y + exit_zone.size.y * 0.64), ex_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color(0.02, 0.01, 0.01, 0.96))
+		ex_mat.draw_string(f, Vector2(exit_zone.position.x + (exit_zone.size.x - ex_w) * 0.5, exit_zone.position.y + exit_zone.size.y * 0.64), ex_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.94, 0.68))
+	)
+	floor_layer.add_child(ex_mat)
+
 	# Room Service NPC (distinct biome sprite per role + Polish role tag!)
 	if world != null and not world.actors_db.is_empty():
 		var npc_id := _pick_interior_npc_actor_id()
@@ -488,8 +510,11 @@ func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and (event as InputEventMouseButton).pressed:
 		var mb := event as InputEventMouseButton
 		if mb.button_index == MOUSE_BUTTON_LEFT:
-			var local_pt: Vector2 = (mb.position - room_stage.position) / maxf(room_stage.scale.x, 0.1)
-			if local_pt.distance_to(npc_local) < 76.0:
+			var local_pt := Vector2(
+				(mb.position.x - room_stage.position.x) / maxf(room_stage.scale.x, 0.1),
+				(mb.position.y - room_stage.position.y) / maxf(room_stage.scale.y, 0.1)
+			)
+			if local_pt.distance_to(npc_local) < 82.0:
 				if world != null and world.has_method("open_interior_dialogue"):
 					world.open_interior_dialogue(
 						str(ROLE_NPC_TITLE.get(room_role, "Opiekun")),
@@ -508,33 +533,6 @@ func _draw() -> void:
 	var vs := size
 	var pal: Dictionary = BIOME_PALETTE.get(current_land, BIOME_PALETTE["pyra"])
 	draw_rect(Rect2(Vector2.ZERO, vs), pal["bg"] as Color, true)
-
-	# Room Architectural Frame & Glowing Exit Threshold
-	var sc := room_stage.scale.x
-	var c := room_stage.position
-	var rw := ROOM_W * sc
-	var rh := ROOM_H * sc
-	var rrect := Rect2(c - Vector2(rw * 0.5, rh * 0.5), Vector2(rw, rh))
-	var wall_col: Color = pal["wall"]
-	var trim_col: Color = pal["trim"]
-
-	draw_rect(rrect.grow(16.0 * sc), wall_col, true)
-	draw_rect(rrect.grow(16.0 * sc), trim_col, false, 3.0)
-	draw_rect(rrect, Color(0.02, 0.02, 0.03, 0.65), false, 3.0)
-
-	# Top wall architectural frieze
-	var top_wall := Rect2(rrect.position.x, rrect.position.y - 16.0 * sc, rw, 22.0 * sc)
-	draw_rect(top_wall, wall_col.lightened(0.10), true)
-	draw_line(Vector2(rrect.position.x, rrect.position.y + 6.0 * sc), Vector2(rrect.end.x, rrect.position.y + 6.0 * sc), trim_col, 2.0)
-
-	# Glowing Golden Exit Doorway Mat at bottom center
-	var ex_r := Rect2(c + exit_zone.position * sc, exit_zone.size * sc)
-	draw_rect(ex_r, Color(0.98, 0.78, 0.28, 0.24), true)
-	draw_rect(ex_r, Color(1.0, 0.86, 0.42, 0.90), false, 2.2)
-	var f: Font = MapStyle.font()
-	var ex_txt := "WYJŚCIE"
-	var ex_w := f.get_string_size(ex_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-	draw_string(f, Vector2(ex_r.position.x + (ex_r.size.x - ex_w) * 0.5, ex_r.position.y + ex_r.size.y * 0.64), ex_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.92, 0.64))
 
 func toggle_service_panel(open: bool) -> void:
 	service_open = open

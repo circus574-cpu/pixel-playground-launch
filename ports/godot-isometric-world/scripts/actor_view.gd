@@ -471,21 +471,23 @@ func _draw() -> void:
 			draw_arc(Vector2.ZERO, 26.0 * shadow_scale, 0.0, TAU, 24, Color(1.0, 0.22, 0.14, 0.85), 2.4)
 		else:
 			draw_arc(Vector2.ZERO, 26.0 * shadow_scale, 0.0, TAU, 24, Color(1.0, 0.25, 0.15, 0.62), 2.4)
+	elif actor_kind == "animal" and hp_ratio < 0.999:
+		draw_arc(Vector2.ZERO, 22.0 * shadow_scale, 0.0, TAU, 22, Color(1.0, 0.62, 0.20, 0.72), 2.2)
 	elif actor_kind == "npc":
 		draw_arc(Vector2.ZERO, 24.0 * shadow_scale, 0.0, TAU, 24, Color(0.28, 0.88, 1.0, 0.58), 2.0)
 	elif is_hero:
 		draw_arc(Vector2.ZERO, 26.0 * shadow_scale, 0.0, TAU, 28, Color(1.0, 0.82, 0.32, 0.80), 2.5)
 	draw_set_transform(Vector2.ZERO)
 
-	# Monster HP bar (gilded wider bar for named Elites)
-	if actor_kind == "monster":
-		var bw := 104.0 if is_elite else 72.0
+	# Monster & Damaged Wildlife Animal HP bar (gilded wider bar for named Elites)
+	if actor_kind == "monster" or (actor_kind == "animal" and hp_ratio < 0.999):
+		var bw := 104.0 if is_elite else (72.0 if actor_kind == "monster" else 58.0)
 		var bh := 10.0 if is_elite else 8.0
 		var bp := Vector2(-bw * 0.5, -display.y - (14.0 if is_elite else 10.0))
 		if is_elite:
 			draw_rect(Rect2(bp - Vector2(2, 2), Vector2(bw + 4, bh + 4)), Color(1.0, 0.78, 0.24, 0.96), false, 2.0)
 		draw_rect(Rect2(bp - Vector2(1, 1), Vector2(bw + 2, bh + 2)), Color(0.04, 0.02, 0.02, 0.94))
-		draw_rect(Rect2(bp, Vector2(bw * clampf(hp_ratio, 0.0, 1.0), bh)), Color(0.96, 0.28, 0.14, 0.98) if is_elite else Color(0.94, 0.22, 0.16, 0.98))
+		draw_rect(Rect2(bp, Vector2(bw * clampf(hp_ratio, 0.0, 1.0), bh)), Color(0.96, 0.28, 0.14, 0.98) if is_elite else (Color(0.94, 0.22, 0.16, 0.98) if actor_kind == "monster" else Color(1.0, 0.64, 0.20, 0.98)))
 
 	# NPC Quest Marker (! or ?)
 	if actor_kind == "npc" and not quest_mark.is_empty():

@@ -1119,7 +1119,21 @@ func build_world_objects_and_actors() -> void:
 		var fz := float(fa.get("z", 512.0))
 		ani_actor.position = iso(fx, fz, height_at(fx, fz))
 		ysort.add_child(ani_actor)
+		var fa_name := str(fa.get("name", "Dzikie Zwierzę"))
 		live_agents.append({
+			"id": "animal_%s_%d" % [faid, idx],
+			"actor_id": faid,
+			"name": fa_name,
+			"level": 1,
+			"is_elite": false,
+			"max_hp": 75,
+			"cur_hp": 75,
+			"atk": 6,
+			"atk_cd": 0.0,
+			"dmg_dealt_to_hero": 0,
+			"alive": true,
+			"death_hide_t": 0.0,
+			"respawn_t": 0.0,
 			"kind": "animal",
 			"node": ani_actor,
 			"home": Vector2(fx, fz),
@@ -1236,7 +1250,7 @@ func build_hud() -> void:
 	hud.add_child(game_menu)
 
 	# Large mobile-friendly Forged "WEJDŹ DO BUDYNKU" prompt button
-	ForgedUI.style_button(btn_enter_bldg, "gold", 17, 22.0, 10.0)
+	ForgedUI.style_button(btn_enter_bldg, "gold", 21, 26.0, 12.0)
 	btn_enter_bldg.text = "▶ WEJDŹ DO BUDYNKU"
 	btn_enter_bldg.visible = false
 	btn_enter_bldg.pressed.connect(func() -> void:
@@ -1246,7 +1260,7 @@ func build_hud() -> void:
 	hud.add_child(btn_enter_bldg)
 
 	# Contextual mobile Forged "ROZMAWIAJ Z NPC" button
-	ForgedUI.style_button(btn_talk_npc, "slate", 17, 22.0, 10.0)
+	ForgedUI.style_button(btn_talk_npc, "slate", 20, 26.0, 11.0)
 	btn_talk_npc.text = "▶ ROZMAWIAJ"
 	btn_talk_npc.visible = false
 	btn_talk_npc.pressed.connect(func() -> void:
@@ -1266,7 +1280,7 @@ func build_hud() -> void:
 	hud.add_child(labyrinth_room)
 
 	# Contextual Forged golden "OTWÓRZ UKRYTY SKARB" button
-	ForgedUI.style_button(btn_open_treasure, "gold", 17, 22.0, 10.0)
+	ForgedUI.style_button(btn_open_treasure, "gold", 21, 26.0, 12.0)
 	btn_open_treasure.text = "★ OTWÓRZ UKRYTY SKARB"
 	btn_open_treasure.visible = false
 	btn_open_treasure.pressed.connect(func() -> void:
@@ -1276,7 +1290,7 @@ func build_hud() -> void:
 	hud.add_child(btn_open_treasure)
 
 	# Contextual Forged button for Wilderness Gatherables & Healing Rest Campfires (Paczka B)
-	ForgedUI.style_button(btn_gather, "gold", 17, 22.0, 10.0)
+	ForgedUI.style_button(btn_gather, "gold", 21, 26.0, 12.0)
 	btn_gather.text = "✦ ZBIERZ SUROWIEC"
 	btn_gather.visible = false
 	btn_gather.pressed.connect(func() -> void:
@@ -1287,10 +1301,10 @@ func build_hud() -> void:
 
 	combat_toast_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	combat_toast_lbl.add_theme_font_override("font", MapStyle.body_font())
-	combat_toast_lbl.add_theme_font_size_override("font_size", 18)
+	combat_toast_lbl.add_theme_font_size_override("font_size", 22)
 	combat_toast_lbl.add_theme_color_override("font_color", Color(1.0, 0.90, 0.44))
 	combat_toast_lbl.add_theme_color_override("font_outline_color", Color(0.04, 0.02, 0.01, 0.98))
-	combat_toast_lbl.add_theme_constant_override("outline_size", 6)
+	combat_toast_lbl.add_theme_constant_override("outline_size", 7)
 	combat_toast_lbl.visible = false
 	hud.add_child(combat_toast_lbl)
 
@@ -1505,10 +1519,16 @@ func _clear_ground_loot() -> void:
 
 func spawn_ground_loot(origin_world: Vector2, kind: String, label_txt: String, col: Color, icon_name: String, gold_val: int = 0, item_dict: Dictionary = {}, item_qty: int = 1, apply_local: bool = false, is_rare_beam: bool = false) -> void:
 	var ang := randf() * TAU
-	var dist := randf_range(9.0, 22.0)
+	var dist := randf_range(24.0, 44.0)
 	var dest_w := origin_world + Vector2(cos(ang), sin(ang)) * dist
+	# Always land visibly on the ground away from hero boots so you walk onto it to pick up (zero instant mid-air magnet!)
+	if dest_w.distance_to(hero_pos) < 24.0:
+		var away := origin_world - hero_pos
+		var base_ang := away.angle() if away.length_squared() > 0.1 else randf() * TAU
+		var alt_ang := base_ang + randf_range(-0.95, 0.95)
+		dest_w = origin_world + Vector2(cos(alt_ang), sin(alt_ang)) * randf_range(28.0, 46.0)
 	if not is_walkable(dest_w.x, dest_w.y):
-		dest_w = origin_world + Vector2(cos(ang + PI), sin(ang + PI)) * 8.0
+		dest_w = origin_world + Vector2(cos(ang + PI), sin(ang + PI)) * 22.0
 	var start_s := iso(origin_world.x, origin_world.y, height_at(origin_world.x, origin_world.y))
 	var dest_s := iso(dest_w.x, dest_w.y, height_at(dest_w.x, dest_w.y))
 
@@ -1519,13 +1539,13 @@ func spawn_ground_loot(origin_world: Vector2, kind: String, label_txt: String, c
 	# Diablo-style pulsing ground halo + vertical rarity beam
 	var fx_n := Node2D.new()
 	fx_n.draw.connect(func() -> void:
-		fx_n.draw_set_transform(Vector2(0, 2), 0.0, Vector2(1.0, 0.42))
-		fx_n.draw_circle(Vector2.ZERO, 24.0 if is_rare_beam else 18.0, Color(col.r, col.g, col.b, 0.24))
-		fx_n.draw_arc(Vector2.ZERO, 22.0 if is_rare_beam else 16.0, 0.0, TAU, 24, Color(col.r, col.g, col.b, 0.78), 2.2, true)
+		fx_n.draw_set_transform(Vector2(0, 2), 0.0, Vector2(1.0, 0.44))
+		fx_n.draw_circle(Vector2.ZERO, 28.0 if is_rare_beam else 21.0, Color(col.r, col.g, col.b, 0.28))
+		fx_n.draw_arc(Vector2.ZERO, 26.0 if is_rare_beam else 19.0, 0.0, TAU, 24, Color(col.r, col.g, col.b, 0.86), 2.5, true)
 		fx_n.draw_set_transform(Vector2.ZERO)
 		if is_rare_beam:
-			fx_n.draw_rect(Rect2(-5.0, -96.0, 10.0, 96.0), Color(col.r, col.g, col.b, 0.26), true)
-			fx_n.draw_rect(Rect2(-2.0, -82.0, 4.0, 82.0), Color(1.0, 0.96, 0.84, 0.52), true)
+			fx_n.draw_rect(Rect2(-6.0, -104.0, 12.0, 104.0), Color(col.r, col.g, col.b, 0.28), true)
+			fx_n.draw_rect(Rect2(-2.2, -88.0, 4.4, 88.0), Color(1.0, 0.96, 0.84, 0.56), true)
 	)
 	root_n.add_child(fx_n)
 
@@ -1536,22 +1556,22 @@ func spawn_ground_loot(origin_world: Vector2, kind: String, label_txt: String, c
 		icon_n.texture = tex
 		var sz := maxf(float(tex.get_width()), float(tex.get_height()))
 		if sz > 1.0:
-			var sc := (34.0 if is_rare_beam else 28.0) / sz
+			var sc := (40.0 if is_rare_beam else 33.0) / sz
 			icon_n.scale = Vector2(sc, sc)
-	icon_n.position = Vector2(0.0, -14.0)
+	icon_n.position = Vector2(0.0, -16.0)
 	root_n.add_child(icon_n)
 
-	# Diablo-style floating loot nameplate (legible dark plate + rarity color)
+	# Diablo-style readable loot nameplate (big outlined label for mobile screens)
 	var lbl := Label.new()
 	lbl.text = label_txt
-	lbl.position = Vector2(-110.0, -50.0 if is_rare_beam else -44.0)
-	lbl.size = Vector2(220.0, 24.0)
+	lbl.position = Vector2(-130.0, -58.0 if is_rare_beam else -50.0)
+	lbl.size = Vector2(260.0, 28.0)
 	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	lbl.add_theme_font_override("font", MapStyle.body_font())
-	lbl.add_theme_font_size_override("font_size", 14 if is_rare_beam else 13)
+	lbl.add_theme_font_size_override("font_size", 17 if is_rare_beam else 16)
 	lbl.add_theme_color_override("font_color", col)
-	lbl.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.02, 0.98))
-	lbl.add_theme_constant_override("outline_size", 5)
+	lbl.add_theme_color_override("font_outline_color", Color(0.02, 0.015, 0.02, 0.98))
+	lbl.add_theme_constant_override("outline_size", 6)
 	root_n.add_child(lbl)
 
 	ysort.add_child(root_n)
@@ -1569,15 +1589,11 @@ func spawn_ground_loot(origin_world: Vector2, kind: String, label_txt: String, c
 		"qty": item_qty,
 		"apply_local": apply_local,
 		"age": 0.0,
-		"picking": false,
-		"pick_t": 0.0,
-		"pick_start": dest_s,
 	})
 
 func _step_ground_loot(delta: float) -> void:
 	if ground_loot.is_empty():
 		return
-	var hero_s: Vector2 = hero.position if hero != null else Vector2.ZERO
 	var alive: Array[Dictionary] = []
 	for d: Dictionary in ground_loot:
 		var nd: Node2D = d.get("node", null)
@@ -1585,16 +1601,22 @@ func _step_ground_loot(delta: float) -> void:
 			continue
 		var age := float(d["age"]) + delta
 		d["age"] = age
-		if age > 90.0:
+		if age > 120.0:
 			nd.queue_free()
 			continue
-		if bool(d["picking"]):
-			var pt := minf(1.0, float(d["pick_t"]) + delta / 0.18)
-			d["pick_t"] = pt
-			var p0: Vector2 = d["pick_start"]
-			nd.position = p0.lerp(hero_s + Vector2(0.0, -24.0), pt * pt)
-			nd.scale = Vector2.ONE * lerpf(1.0, 0.35, pt)
-			if pt >= 1.0:
+		if age < 0.36:
+			var f := age / 0.36
+			var p_lin: Vector2 = (d["start_s"] as Vector2).lerp(d["dest_s"] as Vector2, f)
+			var arc_y := -sin(f * PI) * 48.0
+			nd.position = p_lin + Vector2(0.0, arc_y)
+		else:
+			var bob := sin(age * 4.0) * 3.5
+			var ico_n = d.get("icon", null)
+			if is_instance_valid(ico_n):
+				ico_n.position.y = -16.0 + bob
+			nd.position = d["dest_s"]
+			# True Diablo walk-over pickup: sits solidly on the ground (no remote magnet!) and collects instantly when stepped on
+			if age >= 0.45 and hero_pos.distance_to(d["world_pos"] as Vector2) <= 16.0:
 				var col: Color = d["color"]
 				if str(d["kind"]) == "gold":
 					var gv := int(d["gold"])
@@ -1602,7 +1624,7 @@ func _step_ground_loot(delta: float) -> void:
 						rpg_hud.hero_gold += gv
 						rpg_hud._refresh_visuals()
 					if audio != null:
-						audio.sfx("ui/coin", 0.78, 0.06)
+						audio.sfx("ui/coin", 0.80, 0.06)
 					if hero != null and hero.has_method("show_damage_number"):
 						hero.show_damage_number("+%d zł" % gv, Color(1.0, 0.90, 0.28), false)
 				else:
@@ -1611,28 +1633,11 @@ func _step_ground_loot(delta: float) -> void:
 					if bool(d["apply_local"]) and rpg_hud != null and not it_d.is_empty() and rpg_hud.has_method("add_item_to_backpack"):
 						rpg_hud.add_item_to_backpack(it_d, q)
 					if audio != null:
-						audio.sfx("ui/chest", 0.76, 0.06)
+						audio.sfx("ui/chest", 0.78, 0.06)
 					if hero != null and hero.has_method("show_damage_number"):
 						hero.show_damage_number("+%d %s" % [q, str(it_d.get("name", d["label"]))], col, false)
 				nd.queue_free()
 				continue
-		else:
-			if age < 0.36:
-				var f := age / 0.36
-				var p_lin: Vector2 = (d["start_s"] as Vector2).lerp(d["dest_s"] as Vector2, f)
-				var arc_y := -sin(f * PI) * 44.0
-				nd.position = p_lin + Vector2(0.0, arc_y)
-			else:
-				var bob := sin(age * 4.2) * 3.5
-				var ico_n = d.get("icon", null)
-				if is_instance_valid(ico_n):
-					ico_n.position.y = -14.0 + bob
-				nd.position = d["dest_s"]
-				# Diablo auto-pickup as soon as hero walks onto/over the drop!
-				if hero_pos.distance_to(d["world_pos"] as Vector2) <= 34.0:
-					d["picking"] = true
-					d["pick_t"] = 0.0
-					d["pick_start"] = nd.position
 		alive.append(d)
 	ground_loot = alive
 
@@ -1805,13 +1810,14 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0) -> void:
 	if rpg_hud != null and rpg_hud.has_method("get_total_attack"):
 		base_atk = int(rpg_hud.get_total_attack())
 
-	# Find nearest alive monster (and all in AoE for skill 3 / skill 5 Ki burst)
+	# Find nearest alive monster OR wildlife animal (and all in AoE for skill 3 / skill 5 Ki burst)
 	var best_idx := -1
 	var best_d := reach
 	var hit_indices: Array[int] = []
 	for idx in live_agents.size():
 		var ag: Dictionary = live_agents[idx]
-		if str(ag.get("kind", "")) != "monster" or not bool(ag.get("alive", true)):
+		var ag_k := str(ag.get("kind", ""))
+		if (ag_k != "monster" and ag_k != "animal") or not bool(ag.get("alive", true)):
 			continue
 		var d := hero_pos.distance_to(ag["pos"] as Vector2)
 		if d < best_d:
@@ -1889,6 +1895,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0) -> void:
 	var any_kill := false
 	for h_idx: int in hit_indices:
 		var target: Dictionary = live_agents[h_idx]
+		var is_animal := (str(target.get("kind", "")) == "animal")
 		var m_lvl := int(target.get("level", 1))
 		var is_el := bool(target.get("is_elite", false))
 		var lv_penalty := 0.65 if (m_lvl - hero_lv >= 3) else 1.0
@@ -1917,7 +1924,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0) -> void:
 			target["alive"] = false
 			target["was_aggro"] = false
 			target["death_hide_t"] = 0.85
-			target["respawn_t"] = 45.0 if is_el else 11.0
+			target["respawn_t"] = 22.0 if is_animal else (45.0 if is_el else 11.0)
 			if kill_heal_pct > 0.0 and rpg_hud != null:
 				rpg_hud.hero_hp = minf(rpg_hud.hero_max_hp, rpg_hud.hero_hp + rpg_hud.hero_max_hp * kill_heal_pct)
 			if is_instance_valid(mnode):
@@ -1925,10 +1932,25 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0) -> void:
 				if is_el and combat_vfx != null:
 					combat_vfx.spawn_ki_burst(mnode.position, race_k, 145.0)
 				if mnode.has_method("play_action"):
-					mnode.play_action("death", "death", 0.90)
+					mnode.play_action("death", "hit", 0.85)
 			if audio != null:
 				audio.play_monster_sfx(str(target.get("actor_id", "")), "die")
-			report_monster_kill(str(target.get("actor_id", "monster")), m_lvl, str(target.get("name", "Potwór")), hp_cost, is_el, target["pos"] as Vector2)
+			if is_animal:
+				var aname := str(target.get("name", "Zwierzę"))
+				var agold := randi_range(6, 14)
+				var axp := 14
+				spawn_ground_loot(target["pos"] as Vector2, "gold", "★ %d Złota" % agold, Color(1.0, 0.88, 0.28), "gear-coin.webp", agold, {}, 1, true, false)
+				if randf() < 0.45:
+					var hpot: Dictionary = GmPanelScript.find_item("potion_hp_small")
+					if not hpot.is_empty():
+						spawn_ground_loot(target["pos"] as Vector2, "item", "★ %s" % str(hpot.get("name", "Mikstura")), Color(1.0, 0.52, 0.42), str(hpot.get("icon", "potion-hp.webp")), 0, hpot, 1, true, false)
+				if rpg_hud != null and rpg_hud.has_method("grant_local_xp"):
+					var lvl_up: bool = rpg_hud.grant_local_xp(axp)
+					if lvl_up and audio != null:
+						audio.sfx("common/level-up", 0.95, 0.03)
+				show_combat_toast("⚔ Upolowano: %s (+%d PD) — podejdź po łup!" % [aname, axp], Color(1.0, 0.84, 0.42))
+			else:
+				report_monster_kill(str(target.get("actor_id", "monster")), m_lvl, str(target.get("name", "Potwór")), hp_cost, is_el, target["pos"] as Vector2)
 		else:
 			if is_instance_valid(mnode) and mnode.has_method("play_action"):
 				mnode.play_action("hit", "hit", 0.28)
@@ -2146,27 +2168,27 @@ func layout_minimap() -> void:
 	_layout_world_prompts(vp, show_world_ui and not rpg_modal_open and not dlg_open and not hud_edit_on)
 
 func _layout_world_prompts(vp: Vector2, allow: bool) -> void:
-	var stack_y := vp.y - 154.0
-	var bw := clampf(vp.x * 0.34, 280.0, 420.0)
+	var stack_y := vp.y - 168.0
+	var bw := clampf(vp.x * 0.38, 320.0, 480.0)
 	btn_enter_bldg.visible = allow and not nearest_enterable.is_empty()
 	if btn_enter_bldg.visible:
-		btn_enter_bldg.size = Vector2(bw, 54.0)
+		btn_enter_bldg.size = Vector2(bw, 62.0)
 		btn_enter_bldg.position = Vector2((vp.x - bw) * 0.5, stack_y)
-		stack_y -= 62.0
+		stack_y -= 70.0
 	btn_open_treasure.visible = allow and not nearest_treasure.is_empty()
 	if btn_open_treasure.visible:
-		btn_open_treasure.size = Vector2(bw, 54.0)
+		btn_open_treasure.size = Vector2(bw, 62.0)
 		btn_open_treasure.position = Vector2((vp.x - bw) * 0.5, stack_y)
-		stack_y -= 62.0
+		stack_y -= 70.0
 	btn_gather.visible = allow and not nearest_gatherable.is_empty()
 	if btn_gather.visible:
-		btn_gather.size = Vector2(bw, 54.0)
+		btn_gather.size = Vector2(bw, 62.0)
 		btn_gather.position = Vector2((vp.x - bw) * 0.5, stack_y)
-		stack_y -= 62.0
-	var tw := clampf(vp.x * 0.30, 250.0, 360.0)
+		stack_y -= 70.0
+	var tw := clampf(vp.x * 0.34, 290.0, 420.0)
 	btn_talk_npc.visible = allow and not nearest_npc_agent.is_empty()
 	if btn_talk_npc.visible:
-		btn_talk_npc.size = Vector2(tw, 52.0)
+		btn_talk_npc.size = Vector2(tw, 60.0)
 		btn_talk_npc.position = Vector2((vp.x - tw) * 0.5, stack_y)
 
 func notify_audio_changed(mv: float, sv: float, av: float = -1.0) -> void:
@@ -2769,7 +2791,8 @@ func step_world(delta: float) -> void:
 			continue
 		var ag_kind := str(ag.get("kind", "animal"))
 		var is_monster := (ag_kind == "monster")
-		if is_monster and not bool(ag.get("alive", true)):
+		var is_killable := (is_monster or ag_kind == "animal")
+		if is_killable and not bool(ag.get("alive", true)):
 			var dh := float(ag.get("death_hide_t", 0.0))
 			if dh > 0.0:
 				dh = maxf(0.0, dh - delta)
