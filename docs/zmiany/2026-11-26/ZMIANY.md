@@ -128,3 +128,38 @@ W bieżącym wydaniu `OTA 1.14.32` świat izometryczny działa w **100% jako izo
    - Zróżnicowane AI 41 potworów ze statusami i telegrafami AoE, uciekająca w biegu (`run`) fauna, 8 wielofazowych Bossów, 14 Wydarzeń Świata, wieloetapowe zadania z Trackerem na HUDzie, katalog 366 przedmiotów / 265 receptur, ulepszanie `+1..+9` u Kowala i 6 Wysp Archipelagu.
 5. **Etap 5 — Systemy społecznościowe i Endgame MMORPG:**
    - Drużyny (Party 2–4), wspólne potwory i World Bossowie serwerowi, Klany/Gildie, Handel 1-na-1 i Dom Aukcyjny, Pojedynki 1v1 na Arenie oraz Rankingi Top 100 i Poczta.
+
+## Etap 1 — pierwsze poprawki dla Androida
+
+Punktem odniesienia jest aktywne OTA **1.14.32**, kod `022b4d9a9`. Gałąź
+`fix/android-audit-stage1-20261126` zaczyna się od `c77dd3e2b`, który dopisał audyt
+i plan do kodu tego wydania.
+
+| Funkcja | Stan w 1.14.32 | Zmiana | Dowód lokalny |
+| --- | --- | --- | --- |
+| Dostęp GM | HUD, F1/P i teleport atlasu były dostępne bez potwierdzenia roli. | Launcher potwierdza rolę konta przed wejściem i odświeża ją co 30 s w sesji GM. Utrata roli zamyka panel i wyłącza aktywne ułatwienia. | Test Godot obejmuje zwykłego gracza, GM i utratę uprawnień. |
+| Zmiany postaci GM | Przedmioty, złoto, poziom i atrybuty zmieniały się lokalnie i mogły zniknąć po synchronizacji. | Panel wysyła `gm_action` dla postaci serwerowej i pokazuje odpowiedź serwera. Zapis obejmuje też punkty, talenty i testowe HP. Szybkość, przenikanie, podgląd KI i reset cooldownów pozostają narzędziami sesji GM. | Vitest sprawdza autoryzację, przejścia stanu i ponowny odczyt. Test Godot sprawdza żądanie i potwierdzenie. |
+| Mikstury HP i KI | HUD i Labirynt szukały innych kluczy niż katalog. Użycie mogło zerować naliczone obrażenia przed odpowiedzią serwera. | HUD, [H], plecak i Labirynt czytają katalog `healHp` / `healKi` oraz starsze pola lokalne. Po udanym leczeniu rozliczane są tylko wyleczone obrażenia. Zmiana przedmiotu w slocie przed obsłużeniem żądania kończy się odmową. | Test Godot sprawdza stan przed odpowiedzią, odmowę, ponowienie, zużycie oraz obrażenia zadane w trakcie oczekiwania. Vitest sprawdza właściwą miksturę i ochronę slotu. |
+
+Polecenie testu Godot 4.6.3 z katalogu repozytorium
+
+```sh
+godot --headless --path ports/godot-isometric-world -s tests/audit_stage1.gd
+```
+
+- 22 z 22 kontroli Godot i sprawdzenie składni launchera po imporcie projektu.
+- Vitest Android z lokalnym PostgreSQL 17.12 i migracjami projektu. 21 z 21 testów zaliczonych, w tym odmowa po odebraniu roli GM i zapis zatwierdzonej zmiany.
+- Pełne `npm run typecheck` i lint zmienionych plików TypeScript zaliczone.
+- Pełne `npm test` w częściowym checkoutcie. 1969 zaliczonych, 147 niezaliczonych,
+  44 pominięte. Wśród niepowodzeń są testy zasobów i map, których nie ma w tym checkoutcie.
+- Sprawdzenie na fizycznym Androidzie i odbiór w środowisku testowym jeszcze przed wdrożeniem.
+  Przy wdrożeniu backend obsługujący nowe operacje i weryfikację slotu trzeba zaktualizować
+  przed aktywacją paczki OTA. Dotychczasowy klient zachowuje możliwość użycia starego formatu akcji.
+
+Następne punkty etapu 1 to transakcyjny odbiór łupu przy podniesieniu,
+serwerowe rozliczanie polowania, zapis poprawnej pozycji postaci, walidacja
+nagród PvE i czasów odnowienia oraz ujednolicenie Rangi Mistrzostwa.
+Obecnie odbiór łupu przy śmierci potwora odbywa się w `applyAndroidAction`;
+silnik świata wyświetla go na podstawie zmian plecaka i złota.
+Przy zmianie warto zachować blokadę rekordu postaci w `executeCharacterAction`
+i rozliczać jednorazowy token podniesienia w tej samej transakcji co nagrodę.

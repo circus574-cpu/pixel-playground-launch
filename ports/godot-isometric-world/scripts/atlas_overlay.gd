@@ -211,10 +211,10 @@ func focus_atlas_continent(rid: String, zoom_lvl: float = 3.2) -> void:
 	queue_redraw()
 
 func _refresh_mode_buttons() -> void:
-	var tp_on: bool = world != null and bool(world.gm_map_teleport_mode)
+	var tp_on: bool = world != null and world.can_use_gm() and bool(world.gm_map_teleport_mode)
 	ForgedUI.style_button(btn_atlas, "gold" if mode == "atlas" else "slate", 15, 14.0, 8.0)
 	ForgedUI.style_button(btn_globe, "gold" if mode == "globe" else "slate", 15, 14.0, 8.0)
-	btn_teleport.visible = (mode == "atlas")
+	btn_teleport.visible = mode == "atlas" and world != null and world.can_use_gm()
 	btn_teleport.text = "⚡ TELEPORT: WŁ." if tp_on else "⚡ TELEPORT"
 	ForgedUI.style_button(btn_teleport, "gold" if tp_on else "slate", 15, 14.0, 8.0)
 
@@ -253,7 +253,7 @@ func build_controls() -> void:
 	ForgedUI.style_button(btn_teleport, "slate", 15, 16.0, 8.0)
 	btn_teleport.tooltip_text = "Włącz tryb teleportu: kliknij dowolne miejsce na mapie świata"
 	btn_teleport.pressed.connect(func() -> void:
-		if world != null:
+		if world != null and world.can_use_gm():
 			world.gm_map_teleport_mode = not bool(world.gm_map_teleport_mode)
 			_refresh_mode_buttons()
 			queue_redraw()
@@ -443,7 +443,7 @@ func _gui_input(event: InputEvent) -> void:
 				atlas_drag_start = mb.position
 			else:
 				if atlas_dragging and not atlas_drag_moved and _pinch_pts.size() < 2:
-					var tp_exact: bool = bool(world.gm_map_teleport_mode)
+					var tp_exact: bool = world.can_use_gm() and bool(world.gm_map_teleport_mode)
 					if tp_exact:
 						var picked_gm := pick_continent(mb.position, true)
 						if not picked_gm.is_empty():
@@ -840,7 +840,7 @@ func _draw() -> void:
 	draw_rect(rect, Color(0.84, 0.66, 0.36, 0.92), false, 2.5)
 
 	var mr := _map_rect()
-	var gm_tp_on: bool = world != null and bool(world.gm_map_teleport_mode)
+	var gm_tp_on: bool = world != null and world.can_use_gm() and bool(world.gm_map_teleport_mode)
 	var title_txt := "⚡ TELEPORT GM — DOTKNIJ PUNKT NA MAPIE (%.1f×)" % atlas_zoom if (mode == "atlas" and gm_tp_on) else ("GLOBUS PLANETY SUPERIOR" if mode == "globe" else ("MAPA ŚWIATA • %.1f× • STOLICA LUB ✦ SZLAK" % atlas_zoom if atlas_zoom >= 1.35 else "MAPA ŚWIATA SUPERIOR • %.1f×" % atlas_zoom))
 	var title_col := Color(0.40, 0.96, 1.0) if (mode == "atlas" and gm_tp_on) else Color(1.0, 0.90, 0.60)
 	var title_max_w := maxf(size.x - 758.0, 260.0)

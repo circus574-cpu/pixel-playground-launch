@@ -657,6 +657,12 @@ func open_world(full: bool) -> void:
 		if chosen == "":
 			return
 		char_id = chosen
+	if KiNet.online().is_staff():
+		choosing_char = true
+		await KiNet.online().verify_staff()
+		choosing_char = false
+		if not is_inside_tree():
+			return
 	spawn_world(full)
 
 func choose_character() -> String:
@@ -986,7 +992,10 @@ func notice(text: String) -> void:
 
 func _run_server_action(cid: String, payload: Dictionary, done_cb: Callable) -> void:
 	var online = KiNet.online()
+	var caller_world = world
 	var ans: Dictionary = await online.request(HTTPClient.METHOD_POST, "/ws/godot/characters/%s/action" % cid, payload)
+	if not is_instance_valid(caller_world) or world != caller_world:
+		return
 	var ok := int(ans.get("status", 0)) == 200 and ans.get("json") is Dictionary
 	var res: Dictionary = {}
 	if ok:
@@ -1038,6 +1047,10 @@ func _on_world_quit() -> void:
 	if get_tree() != null:
 		get_tree().call_deferred("quit")
 
+func _is_world_staff(expected_account: String) -> bool:
+	var online = KiNet.online()
+	return expected_account != "" and online.account_id == expected_account and online.is_staff()
+
 func spawn_world(full: bool) -> void:
 	full_mode = full
 	if not ResourceLoader.exists(SCENE):
@@ -1068,6 +1081,19 @@ func spawn_world(full: bool) -> void:
 	world.logout_fn = Callable(self, "_on_world_logout")
 	world.quit_game_fn = Callable(self, "_on_world_quit")
 	world.server_ping_fn = Callable(self, "_run_server_ping")
+	var online = KiNet.online()
+	if online.is_staff():
+		world.gm_access_fn = Callable(self, "_is_world_staff").bind(str(online.account_id))
+		var staff_refresh := Timer.new()
+		staff_refresh.wait_time = 30.0
+		staff_refresh.autostart = true
+		staff_refresh.timeout.connect(func() -> void:
+			if online.is_staff():
+				await online.verify_staff()
+			else:
+				staff_refresh.stop()
+		)
+		world.add_child(staff_refresh)
 	if full and not active_server_char.is_empty():
 		world.server_char_id = str(active_server_char.get("id", ""))
 		world.server_character = active_server_char.duplicate(true)

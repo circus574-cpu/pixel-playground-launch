@@ -195,6 +195,27 @@ func _set_status(msg: String) -> void:
 	status_text = msg
 	status_lbl.text = msg
 
+var _gm_request_pending := false
+
+func _send_gm_action(op: String, args: Dictionary = {}) -> void:
+	if world == null or not world.can_use_gm() or _gm_request_pending:
+		return
+	if not world.is_server_authoritative():
+		_set_status("Wybierz postać serwerową, aby zapisać zmiany GM.")
+		return
+	var payload := {"type": "gm_action", "op": op}
+	payload.merge(args)
+	_gm_request_pending = true
+	_set_status("Oczekiwanie na serwer…")
+	world.dispatch_server_action(payload, func(result: Dictionary) -> void:
+		_gm_request_pending = false
+		_set_status(str(result.get("notice", "Brak odpowiedzi serwera.")))
+		if visible and world.can_use_gm():
+			refresh_content()
+		if bool(result.get("ok", false)) and op in ["full_heal", "set_level", "set_test_hp"]:
+			world.notify_hero_healed()
+	)
+
 func _section_label(txt: String) -> Label:
 	var l := Label.new()
 	l.text = txt
@@ -204,6 +225,8 @@ func _section_label(txt: String) -> Label:
 	return l
 
 func refresh_content() -> void:
+	if world == null or not world.can_use_gm():
+		return
 	_opened_msec = Time.get_ticks_msec()
 	for tid in tab_btns.keys():
 		var tb: Button = tab_btns[tid]
@@ -234,7 +257,7 @@ func _build_teleport_tab() -> void:
 	btn_map_tp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_style_btn(btn_map_tp, Color(0.10, 0.28, 0.34, 0.96), Color(0.36, 0.92, 1.0, 0.98), 14)
 	btn_map_tp.pressed.connect(func() -> void:
-		if world != null:
+		if world != null and world.can_use_gm():
 			world.gm_map_teleport_mode = true
 			world.toggle_gm_panel(false)
 			if world.atlas_overlay != null:
@@ -256,7 +279,7 @@ func _build_teleport_tab() -> void:
 		var is_sel := absf(cur_spd - mv) < 0.05
 		_style_mini_btn(sb, "gold" if is_sel else "slate", 13, 0.0, 40.0)
 		sb.pressed.connect(func() -> void:
-			if world != null:
+			if world != null and world.can_use_gm():
 				world.gm_speed_mult = mv
 				_set_status("Ustawiono szybkość ruchu GM: %.1f×" % mv)
 				refresh_content()
@@ -268,7 +291,7 @@ func _build_teleport_tab() -> void:
 	btn_nc.text = "PRZENIKANIE (NOCLIP — OMIJANIE WODY/GÓR): %s" % ("WŁĄCZONE ✓" if noclip_on else "WYŁĄCZONE")
 	_style_mini_btn(btn_nc, "cyan" if noclip_on else "slate", 13, 0.0, 40.0)
 	btn_nc.pressed.connect(func() -> void:
-		if world != null:
+		if world != null and world.can_use_gm():
 			world.gm_noclip = not world.gm_noclip
 			_set_status("Przenikanie (Noclip): %s" % ("WŁĄCZONE" if world.gm_noclip else "WYŁĄCZONE"))
 			refresh_content()
@@ -286,13 +309,13 @@ func _build_teleport_tab() -> void:
 		cb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		_style_mini_btn(cb, "gold" if (world != null and str(world.current_land) == lid) else "slate", 14, 0.0, 40.0)
 		cb.pressed.connect(func() -> void:
-			if world != null:
+			if world != null and world.can_use_gm():
 				world.switch_region(lid)
 				world.toggle_gm_panel(false)
 		)
 		cap_row.add_child(cb)
 
-	if world != null:
+	if world != null and world.can_use_gm():
 		content_vbox.add_child(_section_label("4. WAROWNIE I MIASTA NA BIEŻĄCYM KONTYNENCIE"))
 		var grid := GridContainer.new()
 		grid.columns = 2
@@ -311,7 +334,7 @@ func _build_teleport_tab() -> void:
 			tb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			_style_mini_btn(tb, "slate", 13, 0.0, 38.0)
 			tb.pressed.connect(func() -> void:
-				if world != null:
+				if world != null and world.can_use_gm():
 					world.teleport_to_world_pos(str(world.current_land), tx, tz)
 					world.toggle_gm_panel(false)
 			)
@@ -360,7 +383,7 @@ func _build_items_tab() -> void:
 	btn_open_bag.text = "OTWÓRZ PLECAK [I]"
 	_style_mini_btn(btn_open_bag, "gold", 13, 150.0, 34.0)
 	btn_open_bag.pressed.connect(func() -> void:
-		if world != null:
+		if world != null and world.can_use_gm():
 			world.toggle_gm_panel(false)
 			if world.rpg_hud != null:
 				world.rpg_hud.toggle_character()
@@ -378,7 +401,7 @@ func _build_items_tab() -> void:
 		ico_rect.custom_minimum_size = Vector2(36, 36)
 		ico_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		ico_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		if world != null:
+		if world != null and world.can_use_gm():
 			ico_rect.texture = world.load_tex("res://assets/ui/icons/" + str(item["icon"]))
 		row.add_child(ico_rect)
 
@@ -403,14 +426,9 @@ func _build_items_tab() -> void:
 		var btn_add := Button.new()
 		btn_add.text = "+ STWÓRZ ×%d" % item_qty
 		_style_mini_btn(btn_add, "plus", 13, 128.0, 34.0)
-		var it_copy := item.duplicate(true)
+		var item_id := str(item["id"])
 		btn_add.pressed.connect(func() -> void:
-			if world != null and world.rpg_hud != null:
-				var ok: bool = world.rpg_hud.add_item_to_backpack(it_copy, item_qty)
-				if ok:
-					_set_status("Stworzono do plecaka: %s ×%d" % [str(it_copy["name"]), item_qty])
-				else:
-					_set_status("Plecak jest pełny (24/24 slotów)! Kliknij przedmiot w [I], aby użyć/założyć.")
+			_send_gm_action("give_item", {"itemId": item_id, "qty": item_qty})
 		)
 		row.add_child(btn_add)
 
@@ -438,45 +456,45 @@ func _build_stats_tab() -> void:
 		{
 			"label": "Poziom bohatera: %d" % int(hud_ref.hero_level),
 			"btns": [
-				["Poz.1", "slate", func() -> void: hud_ref.set_level_gm(1); _set_status("Ustawiono Poziom 1")],
-				["−5", "minus", func() -> void: hud_ref.add_level_gm(-5); _set_status("Poziom: %d" % int(hud_ref.hero_level))],
-				["−1", "minus", func() -> void: hud_ref.add_level_gm(-1); _set_status("Poziom: %d" % int(hud_ref.hero_level))],
-				["+1", "plus", func() -> void: hud_ref.add_level_gm(1); _set_status("Poziom: %d" % int(hud_ref.hero_level))],
-				["+5", "plus", func() -> void: hud_ref.add_level_gm(5); _set_status("Poziom: %d" % int(hud_ref.hero_level))],
-				["Poz.20", "gold", func() -> void: hud_ref.set_level_gm(20); _set_status("Ustawiono Poziom 20")],
+				["Poz.1", "slate", func() -> void: _send_gm_action("set_level", {"value": 1})],
+				["−5", "minus", func() -> void: _send_gm_action("set_level", {"value": int(hud_ref.hero_level) + (-5)})],
+				["−1", "minus", func() -> void: _send_gm_action("set_level", {"value": int(hud_ref.hero_level) + (-1)})],
+				["+1", "plus", func() -> void: _send_gm_action("set_level", {"value": int(hud_ref.hero_level) + (1)})],
+				["+5", "plus", func() -> void: _send_gm_action("set_level", {"value": int(hud_ref.hero_level) + (5)})],
+				["Poz.20", "gold", func() -> void: _send_gm_action("set_level", {"value": 20})],
 			],
 		},
 		{
 			"label": "Złoto: %d szt." % int(hud_ref.hero_gold),
 			"btns": [
-				["= 0", "slate", func() -> void: hud_ref.set_gold_gm(0); _set_status("Wyzerowano złoto")],
-				["−1k", "minus", func() -> void: hud_ref.add_gold_gm(-1000); _set_status("Złoto: %d" % int(hud_ref.hero_gold))],
-				["−100", "minus", func() -> void: hud_ref.add_gold_gm(-100); _set_status("Złoto: %d" % int(hud_ref.hero_gold))],
-				["+100", "plus", func() -> void: hud_ref.add_gold_gm(100); _set_status("Złoto: %d" % int(hud_ref.hero_gold))],
-				["+1k", "plus", func() -> void: hud_ref.add_gold_gm(1000); _set_status("Złoto: %d" % int(hud_ref.hero_gold))],
-				["+10k", "gold", func() -> void: hud_ref.add_gold_gm(10000); _set_status("Złoto: %d" % int(hud_ref.hero_gold))],
+				["= 0", "slate", func() -> void: _send_gm_action("set_gold", {"value": 0})],
+				["−1k", "minus", func() -> void: _send_gm_action("add_gold", {"value": -1000})],
+				["−100", "minus", func() -> void: _send_gm_action("add_gold", {"value": -100})],
+				["+100", "plus", func() -> void: _send_gm_action("add_gold", {"value": 100})],
+				["+1k", "plus", func() -> void: _send_gm_action("add_gold", {"value": 1000})],
+				["+10k", "gold", func() -> void: _send_gm_action("add_gold", {"value": 10000})],
 			],
 		},
 		{
 			"label": "Wolne pkt statystyk: %d" % int(hud_ref.free_stat_points),
 			"btns": [
-				["= 0", "slate", func() -> void: hud_ref.set_free_stat_points_gm(0); _set_status("Wolne pkt statystyk = 0")],
-				["−10", "minus", func() -> void: hud_ref.add_free_stat_points_gm(-10); _set_status("Wolne pkt statystyk: %d" % int(hud_ref.free_stat_points))],
-				["−1", "minus", func() -> void: hud_ref.add_free_stat_points_gm(-1); _set_status("Wolne pkt statystyk: %d" % int(hud_ref.free_stat_points))],
-				["+1", "plus", func() -> void: hud_ref.add_free_stat_points_gm(1); _set_status("Wolne pkt statystyk: %d" % int(hud_ref.free_stat_points))],
-				["+10", "plus", func() -> void: hud_ref.add_free_stat_points_gm(10); _set_status("Wolne pkt statystyk: %d" % int(hud_ref.free_stat_points))],
-				["+50", "gold", func() -> void: hud_ref.add_free_stat_points_gm(50); _set_status("Wolne pkt statystyk: %d" % int(hud_ref.free_stat_points))],
+				["= 0", "slate", func() -> void: _send_gm_action("set_stat_points", {"value": 0})],
+				["−10", "minus", func() -> void: _send_gm_action("add_stat_points", {"value": -10})],
+				["−1", "minus", func() -> void: _send_gm_action("add_stat_points", {"value": -1})],
+				["+1", "plus", func() -> void: _send_gm_action("add_stat_points", {"value": 1})],
+				["+10", "plus", func() -> void: _send_gm_action("add_stat_points", {"value": 10})],
+				["+50", "gold", func() -> void: _send_gm_action("add_stat_points", {"value": 50})],
 			],
 		},
 		{
 			"label": "Pkt umiejętności: %d" % int(hud_ref.skill_points),
 			"btns": [
-				["= 0", "slate", func() -> void: hud_ref.set_skill_points_gm(0); _set_status("Pkt umiejętności = 0")],
-				["−5", "minus", func() -> void: hud_ref.add_skill_points_gm(-5); _set_status("Pkt umiejętności: %d" % int(hud_ref.skill_points))],
-				["−1", "minus", func() -> void: hud_ref.add_skill_points_gm(-1); _set_status("Pkt umiejętności: %d" % int(hud_ref.skill_points))],
-				["+1", "plus", func() -> void: hud_ref.add_skill_points_gm(1); _set_status("Pkt umiejętności: %d" % int(hud_ref.skill_points))],
-				["+5", "plus", func() -> void: hud_ref.add_skill_points_gm(5); _set_status("Pkt umiejętności: %d" % int(hud_ref.skill_points))],
-				["+20", "gold", func() -> void: hud_ref.add_skill_points_gm(20); _set_status("Pkt umiejętności: %d" % int(hud_ref.skill_points))],
+				["= 0", "slate", func() -> void: _send_gm_action("set_skill_points", {"value": 0})],
+				["−5", "minus", func() -> void: _send_gm_action("add_skill_points", {"value": -5})],
+				["−1", "minus", func() -> void: _send_gm_action("add_skill_points", {"value": -1})],
+				["+1", "plus", func() -> void: _send_gm_action("add_skill_points", {"value": 1})],
+				["+5", "plus", func() -> void: _send_gm_action("add_skill_points", {"value": 5})],
+				["+20", "gold", func() -> void: _send_gm_action("add_skill_points", {"value": 20})],
 			],
 		},
 	]
@@ -500,14 +518,11 @@ func _build_stats_tab() -> void:
 			b.text = str(bdef[0])
 			_style_mini_btn(b, str(bdef[1]), 12, 48.0, 32.0)
 			var cb: Callable = bdef[2]
-			b.pressed.connect(func() -> void:
-				cb.call()
-				refresh_content()
-			)
+			b.pressed.connect(cb)
 			row.add_child(b)
 
-	# Card 2: Direct Unlimited Attribute Editor (Decrease OR Increase freely, including below base!)
-	var attr_vb := _gm_card("ATRYBUTY BOHATERA — ZWIĘKSZ / ZMNIEJSZ BEZ OGRANICZEŃ")
+	# Card 2: Server-persisted attribute bonuses
+	var attr_vb := _gm_card("ATRYBUTY BOHATERA — OD 0 DO 500 PKT PREMII")
 	var stat_defs := [
 		["hp", "Witalność (HP)", "hud-hp.webp", int(round(hud_ref.hero_max_hp)), "±25/pkt"],
 		["ki", "Energia Ki", "hud-ki.webp", int(round(hud_ref.hero_max_ki)), "±15/pkt"],
@@ -528,7 +543,7 @@ func _build_stats_tab() -> void:
 		ico.custom_minimum_size = Vector2(24, 24)
 		ico.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		ico.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		if world != null:
+		if world != null and world.can_use_gm():
 			ico.texture = world.load_tex("res://assets/ui/icons/" + str(sd[2]))
 		row.add_child(ico)
 
@@ -548,9 +563,7 @@ func _build_stats_tab() -> void:
 			db.text = str(delta_def[1])
 			_style_mini_btn(db, str(delta_def[2]), 12, 46.0, 32.0)
 			db.pressed.connect(func() -> void:
-				hud_ref.add_stat_points_gm(skey, dv)
-				_set_status("Zmieniono %s o %+d pkt (bonus GM: %+d)" % [skey.to_upper(), dv, int(hud_ref.bonus_stat_pts.get(skey, 0))])
-				refresh_content()
+				_send_gm_action("add_attribute", {"stat": skey, "value": dv})
 			)
 			row.add_child(db)
 
@@ -558,9 +571,7 @@ func _build_stats_tab() -> void:
 		btn_zero.text = "↺0"
 		_style_mini_btn(btn_zero, "slate", 12, 38.0, 32.0)
 		btn_zero.pressed.connect(func() -> void:
-			hud_ref.set_stat_points_gm(skey, 0)
-			_set_status("Zresetowano bonus GM dla %s do 0" % skey.to_upper())
-			refresh_content()
+			_send_gm_action("set_attribute", {"stat": skey, "value": 0})
 		)
 		row.add_child(btn_zero)
 
@@ -573,9 +584,9 @@ func _build_stats_tab() -> void:
 	util_vb.add_child(u_row1)
 
 	var actions_1 := [
-		["♥ 100% HP / KI", "plus", func() -> void: hud_ref.set_hp_ki_gm(1.0, 1.0); _set_status("Przywrócono 100% HP i 100% KI!")],
-		["☠ 1 HP (Test śmierci)", "minus", func() -> void: hud_ref.set_hp_ki_gm(0.0, 1.0); _set_status("Ustawiono 1 HP do testów leczenia/walki")],
-		["⏱ Reset Cooldownów", "cyan", func() -> void: hud_ref.reset_cooldowns_gm(); _set_status("Zresetowano wszystkie czasy odnowienia umiejętności!")],
+		["♥ 100% HP / KI", "plus", func() -> void: _send_gm_action("full_heal")],
+		["☠ 1 HP (Test śmierci)", "minus", func() -> void: _send_gm_action("set_test_hp")],
+		["⏱ Reset Cooldownów", "cyan", func() -> void: _reset_skill_cooldowns(hud_ref)],
 		["⚡ Forma KI (20s)", "gold", func() -> void: _gm_preview_ki_mode()],
 	]
 	for ad: Array in actions_1:
@@ -584,10 +595,7 @@ func _build_stats_tab() -> void:
 		ab.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		_style_mini_btn(ab, str(ad[1]), 13, 0.0, 38.0)
 		var cb: Callable = ad[2]
-		ab.pressed.connect(func() -> void:
-			cb.call()
-			refresh_content()
-		)
+		ab.pressed.connect(cb)
 		u_row1.add_child(ab)
 
 	var u_row2 := HBoxContainer.new()
@@ -596,9 +604,9 @@ func _build_stats_tab() -> void:
 	util_vb.add_child(u_row2)
 
 	var actions_2 := [
-		["✦ Odblokuj Wszystkie Talenty", "gold", func() -> void: hud_ref.unlock_all_talents_gm(); _set_status("Odblokowano wszystkie 29 węzłów drzewka talentów!")],
-		["↺ Resetuj Talenty", "minus", func() -> void: hud_ref.reset_talents_gm(); _set_status("Zresetowano drzewko talentów (został startowy węzeł R)")],
-		["↺ Reset Statów GM", "slate", func() -> void: hud_ref.reset_all_bonus_stats_gm(); _set_status("Wyzerowano wszystkie bonusy statystyk GM")],
+		["✦ Odblokuj Wszystkie Talenty", "gold", func() -> void: _send_gm_action("unlock_talents")],
+		["↺ Resetuj Talenty", "minus", func() -> void: _send_gm_action("reset_talents")],
+		["↺ Reset Statów GM", "slate", func() -> void: _send_gm_action("reset_attributes")],
 	]
 	for ad: Array in actions_2:
 		var ab := Button.new()
@@ -606,13 +614,15 @@ func _build_stats_tab() -> void:
 		ab.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		_style_mini_btn(ab, str(ad[1]), 13, 0.0, 38.0)
 		var cb: Callable = ad[2]
-		ab.pressed.connect(func() -> void:
-			cb.call()
-			refresh_content()
-		)
+		ab.pressed.connect(cb)
 		u_row2.add_child(ab)
 
 func _gm_preview_ki_mode() -> void:
-	if world != null and world.has_method("activate_ki_mode_gm"):
+	if world != null and world.can_use_gm():
 		world.activate_ki_mode_gm(20.0)
 		_set_status("Aktywowano podgląd Formy KI + Aury (20s, GM)")
+
+func _reset_skill_cooldowns(hud_ref: Control) -> void:
+	if world != null and world.can_use_gm():
+		hud_ref.reset_cooldowns_gm()
+		_set_status("Zresetowano czasy odnowienia umiejętności.")

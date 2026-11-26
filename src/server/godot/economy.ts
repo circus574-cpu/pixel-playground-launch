@@ -1925,6 +1925,7 @@ export const androidActionSchema = z.discriminatedUnion("type", [
   z
     .object({
       type: z.literal("use_item"),
+      expectedItemId: z.string().min(1).max(60).optional(),
       backpackIndex: z
         .number()
         .int()
@@ -1999,10 +2000,20 @@ export const androidActionSchema = z.discriminatedUnion("type", [
         "add_gold",
         "add_stat_points",
         "add_skill_points",
+        "set_gold",
+        "set_stat_points",
+        "set_skill_points",
+        "add_attribute",
+        "set_attribute",
+        "reset_attributes",
+        "unlock_talents",
+        "reset_talents",
+        "set_test_hp",
         "full_heal",
       ]),
       itemId: z.string().min(1).max(60).optional(),
       qty: z.number().int().min(1).max(99).optional(),
+      stat: z.enum(STAT_KEYS).optional(),
       value: z.number().int().min(-1_000_000).max(1_000_000).optional(),
     })
     .strict(),
@@ -2178,6 +2189,8 @@ export function applyAndroidAction(
     case "use_item": {
       const stack = state.backpack[action.backpackIndex];
       if (!stack) throw new AndroidEconomyError("EMPTY_SLOT", "Pusty slot plecaka.");
+      if (action.expectedItemId && action.expectedItemId !== stack.id)
+        throw new AndroidEconomyError("INVALID_ACTION", "Zawartość slotu uległa zmianie.");
       const def = ANDROID_ITEM_MAP.get(stack.id);
       if (!def) throw new AndroidEconomyError("UNKNOWN_ITEM", "Nieznany przedmiot.");
       if (def.cat === "material")
@@ -2625,14 +2638,18 @@ export function applyAndroidAction(
           notice = `GM: Ustawiono poziom ${level}`;
           break;
         }
-        case "add_gold": {
-          gold = clampInt(gold + (action.value ?? 0), 0, MAX_GOLD, gold);
+        case "add_gold":
+        case "set_gold": {
+          const value = action.value ?? 0;
+          gold = clampInt(action.op === "add_gold" ? gold + value : value, 0, MAX_GOLD, gold);
           notice = `GM: Złoto = ${gold}`;
           break;
         }
-        case "add_stat_points": {
+        case "add_stat_points":
+        case "set_stat_points": {
+          const value = action.value ?? 0;
           state.freeStatPoints = clampInt(
-            state.freeStatPoints + (action.value ?? 0),
+            action.op === "add_stat_points" ? state.freeStatPoints + value : value,
             0,
             2000,
             state.freeStatPoints,
@@ -2640,14 +2657,59 @@ export function applyAndroidAction(
           notice = `GM: Punkty statystyk = ${state.freeStatPoints}`;
           break;
         }
-        case "add_skill_points": {
+        case "add_skill_points":
+        case "set_skill_points": {
+          const value = action.value ?? 0;
           state.skillPoints = clampInt(
-            state.skillPoints + (action.value ?? 0),
+            action.op === "add_skill_points" ? state.skillPoints + value : value,
             0,
             200,
             state.skillPoints,
           );
           notice = `GM: Punkty skilli = ${state.skillPoints}`;
+          break;
+        }
+        case "add_attribute":
+        case "set_attribute": {
+          if (!action.stat) throw new AndroidEconomyError("INVALID_ACTION", "Wybierz atrybut.");
+          const currentValue = state.bonusStats[action.stat];
+          const value = action.value ?? 0;
+          state.bonusStats[action.stat] = clampInt(
+            action.op === "add_attribute" ? currentValue + value : value,
+            0,
+            500,
+            currentValue,
+          );
+          clampVitals();
+          notice = `GM: ${action.stat.toUpperCase()} = ${state.bonusStats[action.stat]} pkt`;
+          break;
+        }
+        case "reset_attributes": {
+          for (const stat of STAT_KEYS) state.bonusStats[stat] = 0;
+          clampVitals();
+          notice = "GM: Wyzerowano punkty atrybutów.";
+          break;
+        }
+        case "unlock_talents":
+        case "reset_talents": {
+          state.unlockedNodes =
+            action.op === "reset_talents"
+              ? ["R"]
+              : [
+                  ...new Set([
+                    "R",
+                    ...(KIT_NODES[current.race as RaceId] ?? []).map((node) => node.id),
+                  ]),
+                ];
+          clampVitals();
+          notice =
+            action.op === "reset_talents" ? "GM: Zresetowano talenty." : "GM: Odblokowano talenty.";
+          break;
+        }
+        case "set_test_hp": {
+          state.hp = 1;
+          state.ki = computeAndroidStats(current.race, level, state, nowMs).maxKi;
+          notice = "GM: Ustawiono 1 HP.";
           break;
         }
         case "full_heal": {

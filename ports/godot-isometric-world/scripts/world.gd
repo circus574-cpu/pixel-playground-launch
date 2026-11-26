@@ -152,6 +152,9 @@ var start_name := ""
 var server_char_id := ""
 var server_character: Dictionary = {}
 var server_action_fn: Callable = Callable()
+var gm_access_fn: Callable = Callable()
+var _had_gm_access := false
+var _gm_ki_preview := false
 var server_ping_fn: Callable = Callable()
 var last_ping_ms := -1
 var _ping_poll_t := 0.0
@@ -1381,6 +1384,32 @@ func notify_hero_healed() -> void:
 		if str(ag.get("kind", "")) == "monster":
 			ag["dmg_dealt_to_hero"] = 0
 
+func snapshot_unsettled_damage() -> Array[Dictionary]:
+	var entries: Array[Dictionary] = []
+	_capture_damage(live_agents, entries)
+	if in_labyrinth and is_instance_valid(labyrinth_room):
+		_capture_damage(labyrinth_room.guardians, entries)
+	return entries
+
+func _capture_damage(agents: Array, entries: Array[Dictionary]) -> void:
+	for agent: Dictionary in agents:
+		var amount := int(agent.get("dmg_dealt_to_hero", 0))
+		if amount > 0:
+			entries.append({"agent": agent, "amount": amount})
+
+func settle_potion_damage(before: Array[Dictionary], healed: int) -> int:
+	var remaining := healed
+	for entry: Dictionary in before:
+		var agent: Dictionary = entry["agent"]
+		var current := int(agent.get("dmg_dealt_to_hero", 0))
+		var settled := mini(remaining, mini(current, int(entry["amount"])))
+		agent["dmg_dealt_to_hero"] = current - settled
+		remaining -= settled
+	var outstanding := 0
+	for entry: Dictionary in snapshot_unsettled_damage():
+		outstanding += int(entry["amount"])
+	return outstanding
+
 func show_combat_toast(msg: String, col: Color = Color(1.0, 0.90, 0.44)) -> void:
 	combat_toast_lbl.text = msg
 	combat_toast_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -1785,6 +1814,9 @@ func _activate_ki_mode_visuals(race_k: String, duration_sec: float = 20.0) -> vo
 	show_combat_toast("✦ FORMA KI AKTYWNA (%ds) — +25%% ATK, +15%% DEF, +10%% SPD i aura KI!" % int(round(duration_sec)), Color(0.42, 0.98, 1.0))
 
 func activate_ki_mode_gm(duration_sec: float = 20.0) -> void:
+	if not can_use_gm():
+		return
+	_gm_ki_preview = true
 	_activate_ki_mode_visuals(_hero_race_key(), duration_sec)
 
 func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0) -> void:
@@ -1842,6 +1874,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0) -> void:
 		if rpg_hud != null and rpg_hud.has_method("is_hotbar_skill_unlocked") and not rpg_hud.is_hotbar_skill_unlocked(5):
 			show_combat_toast("Forma KI [T] odblokowuje się od poz. 20 w drzewku [K] (wymaga A9, B9 lub C9)!", Color(1.0, 0.68, 0.34))
 			return
+		_gm_ki_preview = false
 		_activate_ki_mode_visuals(race_k, 20.0)
 	elif skill_idx == 0:
 		var combo_clips := ["attack", "attack2", "attack3", "finisher"]
@@ -2316,7 +2349,35 @@ func toggle_quest_journal() -> void:
 		if rpg_hud != null:
 			rpg_hud._refresh_visuals()
 
+func can_use_gm() -> bool:
+	return gm_access_fn.is_valid() and bool(gm_access_fn.call())
+
+func _refresh_gm_access() -> void:
+	var allowed := can_use_gm()
+	if allowed == _had_gm_access:
+		return
+	_had_gm_access = allowed
+	if not allowed:
+		gm_open = false
+		gm_speed_mult = 1.0
+		gm_noclip = false
+		gm_map_teleport_mode = false
+		gm_minimap_teleport = false
+		if _gm_ki_preview:
+			_gm_ki_preview = false
+			ki_mode_timer = 0.0
+			if hero != null:
+				hero.set_ki_mode(false)
+		layout_minimap()
+		if atlas_overlay != null:
+			atlas_overlay._refresh_mode_buttons()
+			atlas_overlay.queue_redraw()
+	if rpg_hud != null:
+		rpg_hud._refresh_visuals()
+
 func toggle_gm_panel(force_open: Variant = null) -> void:
+	if (force_open == null or bool(force_open)) and not can_use_gm():
+		return
 	if in_interior or in_labyrinth:
 		return
 	var next_v: bool = (not gm_open) if force_open == null else bool(force_open)
@@ -2380,7 +2441,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			handle_drag(event)
 		return
 	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_F1 or event.keycode == KEY_P:
+		if (event.keycode == KEY_F1 or event.keycode == KEY_P) and can_use_gm():
 			toggle_gm_panel()
 			return
 		elif event.keycode == KEY_R:
@@ -2453,12 +2514,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				start_recall_to_capital()
 			return
 		elif event.keycode == KEY_H:
-			if rpg_hud != null:
-				for pi in rpg_hud.backpack_items.size():
-					var pit = rpg_hud.backpack_items[pi]
-					if pit is Dictionary and not pit.is_empty() and pit.has("heal_hp"):
-						rpg_hud.use_backpack_slot(pi)
-						return
+			if rpg_hud != null and not rpg_hud.use_quick_hp_potion():
+				show_combat_toast("Brak eliksirów życia w plecaku.", Color(1.0, 0.56, 0.36))
 			return
 		elif event.keycode == KEY_1:
 			if rpg_hud != null:
@@ -2569,6 +2626,7 @@ func set_zoom(z: float) -> void:
 	camera.zoom = Vector2(zoom_level, zoom_level)
 
 func _process(delta: float) -> void:
+	_refresh_gm_access()
 	if combat_toast_t > 0.0:
 		combat_toast_t -= delta
 		if combat_toast_t <= 0.0:
@@ -3315,16 +3373,6 @@ func run_qa() -> void:
 	shots.append(await snap(out_dir, "character-sheet.jpg"))
 	if rpg_hud != null:
 		rpg_hud.close_modals()
-
-	# 8) Upgraded GM Panel QA (Teleport, Super Speed, Item Creator, Stat Points)
-	toggle_gm_panel(true)
-	if rpg_hud != null:
-		rpg_hud.add_item_to_backpack({"id": "blade_pyra", "name": "Obsydianowy Miecz Żaru", "cat": "weapon", "icon": "emblem_swords.webp", "slot": 2, "atk": 42, "rarity": Color(1.0, 0.46, 0.24)}, 1)
-		rpg_hud.add_stat_points_gm("atk", 2)
-	for _i in 4:
-		await get_tree().process_frame
-	shots.append(await snap(out_dir, "gm-panel.jpg"))
-	toggle_gm_panel(false)
 
 	# 9) Walkable Building Interior QA (Pyra Smithy — Kuźnia Żaru)
 	var smithy_b: Dictionary = {}

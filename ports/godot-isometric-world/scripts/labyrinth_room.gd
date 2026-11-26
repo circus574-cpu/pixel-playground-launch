@@ -248,13 +248,7 @@ func _try_open_nearest_chest() -> void:
 	queue_redraw()
 
 func _count_hp_potions() -> int:
-	if world == null or world.rpg_hud == null:
-		return 0
-	var total := 0
-	for it in world.rpg_hud.backpack_items:
-		if it is Dictionary and not it.is_empty() and it.has("heal_hp"):
-			total += int(it.get("qty", 1))
-	return total
+	return world.rpg_hud.hp_potion_count() if world != null and world.rpg_hud != null else 0
 
 func _use_labyrinth_potion() -> void:
 	if world == null or world.rpg_hud == null:
@@ -263,24 +257,24 @@ func _use_labyrinth_potion() -> void:
 	if hud.hero_hp >= hud.hero_max_hp - 0.5:
 		_show_toast("Masz już pełne zdrowie (%d/%d HP)." % [int(round(hud.hero_hp)), int(round(hud.hero_max_hp))])
 		return
-	for i in hud.backpack_items.size():
-		var it = hud.backpack_items[i]
-		if it is Dictionary and not it.is_empty() and it.has("heal_hp"):
-			var heal_amt := int(it.get("heal_hp", 120))
-			hud.use_backpack_slot(i)
-			for g: Dictionary in guardians:
-				if bool(g.get("alive", false)):
-					g["dmg_dealt_to_hero"] = 0
-			float_texts.append({
-				"pos": hero_px + Vector2(-12, -26),
-				"txt": "+%d HP" % heal_amt,
-				"col": Color(0.42, 1.0, 0.58),
-				"t": 1.1,
-			})
-			_show_toast("🧪 Użyto: %s (+%d HP)" % [str(it.get("name", "Mikstura")), heal_amt])
-			queue_redraw()
+	var found: bool = hud.use_quick_hp_potion(func(ok: bool, item_name: String, restored: float, notice: String) -> void:
+		if not visible:
 			return
-	_show_toast("Brak mikstur HP w plecaku! Kup zapas u Kupca w stolicy.")
+		if not ok:
+			_show_toast(notice)
+			return
+		var heal_amt := int(round(restored))
+		float_texts.append({
+			"pos": hero_px + Vector2(-12, -26),
+			"txt": "+%d HP" % heal_amt,
+			"col": Color(0.42, 1.0, 0.58),
+			"t": 1.1,
+		})
+		_show_toast("🧪 Użyto: %s (+%d HP)" % [item_name, heal_amt])
+		queue_redraw()
+	)
+	if not found:
+		_show_toast("Brak mikstur HP w plecaku! Kup zapas u Kupca w stolicy.")
 
 func perform_labyrinth_attack() -> void:
 	if atk_cd > 0.05 or nearest_guard_idx < 0 or nearest_guard_idx >= guardians.size():

@@ -730,86 +730,9 @@ func recalc_stats(refill: bool = false) -> void:
 	_sync_bar_uniforms()
 	_refresh_visuals()
 
-func add_stat_points_gm(stat_key: String, delta_pts: int) -> void:
-	if not bonus_stat_pts.has(stat_key):
-		return
-	bonus_stat_pts[stat_key] = clampi(int(bonus_stat_pts[stat_key]) + delta_pts, -500, 9999)
-	recalc_stats(false)
-
-func set_stat_points_gm(stat_key: String, val: int) -> void:
-	if not bonus_stat_pts.has(stat_key):
-		return
-	bonus_stat_pts[stat_key] = clampi(val, -500, 9999)
-	recalc_stats(false)
-
-func reset_all_bonus_stats_gm() -> void:
-	for k in bonus_stat_pts.keys():
-		bonus_stat_pts[k] = 0
-	recalc_stats(true)
-
-func set_level_gm(lv: int) -> void:
-	hero_level = clampi(lv, 1, 99)
-	hero_max_xp = xp_needed_for_level(hero_level)
-	hero_xp = clampf(hero_xp, 0.0, hero_max_xp)
-	recalc_stats(true)
-
-func add_level_gm(delta: int) -> void:
-	set_level_gm(hero_level + delta)
-
-func add_gold_gm(delta: int) -> void:
-	hero_gold = clampi(hero_gold + delta, 0, 99999999)
-	recalc_stats(false)
-
-func set_gold_gm(val: int) -> void:
-	hero_gold = clampi(val, 0, 99999999)
-	recalc_stats(false)
-
-func add_free_stat_points_gm(delta: int) -> void:
-	free_stat_points = clampi(free_stat_points + delta, 0, 9999)
-	recalc_stats(false)
-
-func set_free_stat_points_gm(val: int) -> void:
-	free_stat_points = clampi(val, 0, 9999)
-	recalc_stats(false)
-
-func add_skill_points_gm(delta: int) -> void:
-	skill_points = clampi(skill_points + delta, 0, 999)
-	recalc_stats(false)
-
-func set_skill_points_gm(val: int) -> void:
-	skill_points = clampi(val, 0, 999)
-	recalc_stats(false)
-
-func set_hp_ki_gm(hp_ratio_v: float, ki_ratio_v: float) -> void:
-	hero_hp = maxf(1.0, hero_max_hp * clampf(hp_ratio_v, 0.0, 1.0)) if hp_ratio_v > 0.0 else 1.0
-	hero_ki = hero_max_ki * clampf(ki_ratio_v, 0.0, 1.0)
-	_sync_bar_uniforms()
-	_refresh_visuals()
-
 func reset_cooldowns_gm() -> void:
 	for i in cooldowns.size():
 		cooldowns[i] = 0.0
-	_refresh_visuals()
-
-func unlock_all_talents_gm() -> void:
-	var umap := _unlocked_map()
-	var rd := _race_data()
-	var nodes_arr: Array = rd.get("nodes", [])
-	for n_var in nodes_arr:
-		if n_var is Dictionary:
-			var nid := str((n_var as Dictionary).get("id", ""))
-			if not nid.is_empty():
-				umap[nid] = true
-	recalc_stats(false)
-	_sync_talent_node_styles()
-	_refresh_visuals()
-
-func reset_talents_gm() -> void:
-	var umap := _unlocked_map()
-	umap.clear()
-	umap["R"] = true
-	recalc_stats(false)
-	_sync_talent_node_styles()
 	_refresh_visuals()
 
 const XP_NEEDED_BY_LEVEL := [
@@ -997,7 +920,29 @@ func unequip_slot(slot_i: int) -> void:
 	elif world != null and world.has_method("show_combat_toast"):
 		world.show_combat_toast("Plecak jest pełny (24/24) — nie można zdjąć przedmiotu!", Color(1.0, 0.48, 0.36))
 
-func use_backpack_slot(idx: int) -> void:
+static func _restored_vital(item: Dictionary, field: String) -> float:
+	var legacy_field := "heal_hp" if field == "healHp" else "heal_ki"
+	return maxf(0.0, float(item.get(field, item.get(legacy_field, 0))))
+
+func hp_potion_count() -> int:
+	var total := 0
+	for item: Dictionary in backpack_items:
+		if _restored_vital(item, "healHp") > 0.0:
+			total += int(item.get("qty", 1))
+	return total
+
+func use_quick_hp_potion(on_done: Callable = Callable()) -> bool:
+	for idx in backpack_items.size():
+		if _restored_vital(backpack_items[idx], "healHp") > 0.0:
+			use_backpack_slot(idx, on_done)
+			return true
+	return false
+
+var _backpack_use_pending := false
+
+func use_backpack_slot(idx: int, on_done: Callable = Callable()) -> void:
+	if _backpack_use_pending:
+		return
 	if idx < 0 or idx >= backpack_items.size():
 		return
 	var it: Dictionary = backpack_items[idx]
@@ -1008,11 +953,38 @@ func use_backpack_slot(idx: int) -> void:
 		if world != null and world.has_method("show_combat_toast"):
 			world.show_combat_toast("%s — surowiec rzemieślniczy (Kuźnia lub sprzedaż w Sklepie)!" % str(it.get("name", "Surowiec")), Color(0.68, 0.90, 1.0))
 		return
-	if world != null and world.has_method("dispatch_server_action") and world.dispatch_server_action({"type": "use_item", "backpackIndex": idx}):
-		if it.has("heal_hp") and world.has_method("notify_hero_healed"):
-			world.notify_hero_healed()
-		if world.get("audio") != null:
-			world.audio.sfx("common/potion" if (it.has("heal_hp") or it.has("heal_ki")) else "ui/click")
+	var heal_hp := _restored_vital(it, "healHp")
+	var heal_ki := _restored_vital(it, "healKi")
+	var item_name := str(it.get("name", "Przedmiot"))
+	var hp_before := hero_hp
+	if world != null and world.is_server_authoritative():
+		var damage: Array[Dictionary] = world.snapshot_unsettled_damage() if heal_hp > 0.0 else []
+		_backpack_use_pending = true
+		world.dispatch_server_action({"type": "use_item", "backpackIndex": idx, "expectedItemId": str(it.get("id", ""))}, func(result: Dictionary) -> void:
+			_backpack_use_pending = false
+			var ok := bool(result.get("ok", false))
+			var hp_restored := 0.0
+			if ok:
+				if heal_hp > 0.0:
+					# Keep the unhealed part of damage that has not reached the server yet.
+					var desired_hp := minf(hero_max_hp, hp_before + heal_hp)
+					var pending_before := 0
+					for entry: Dictionary in damage:
+						pending_before += int(entry["amount"])
+					var settled := maxi(0, pending_before - ceili(maxf(0.0, hero_hp - desired_hp)))
+					var outstanding: int = world.settle_potion_damage(damage, settled)
+					var during := maxi(0, outstanding - (pending_before - settled))
+					hero_hp = maxf(1.0, minf(hero_hp - outstanding, desired_hp - during))
+					hp_restored = maxf(0.0, minf(heal_hp, desired_hp - hp_before))
+					_sync_bar_uniforms()
+					_refresh_visuals()
+				if world.audio != null:
+					world.audio.sfx("common/potion" if heal_hp > 0.0 or heal_ki > 0.0 else "ui/click")
+			elif not on_done.is_valid():
+				world.show_combat_toast(str(result.get("notice", "Nie można użyć przedmiotu.")), Color(1.0, 0.56, 0.36))
+			if on_done.is_valid():
+				on_done.call(ok, item_name, hp_restored, str(result.get("notice", "")))
+		)
 		return
 	var slot_i := int(it.get("slot", -1))
 	if slot_i >= 0 and slot_i < equip_slots.size():
@@ -1043,15 +1015,14 @@ func use_backpack_slot(idx: int) -> void:
 				backpack_items[idx] = {}
 		recalc_stats(false)
 		return
-	# Consumable action
+	# In local games the use and the healing are applied in the same frame.
 	if world != null and world.get("audio") != null:
-		world.audio.sfx("common/potion" if (it.has("heal_hp") or it.has("heal_ki")) else "ui/click")
-	if it.has("heal_hp"):
-		hero_hp = minf(hero_max_hp, hero_hp + float(it["heal_hp"]))
-		if world != null and world.has_method("notify_hero_healed"):
-			world.notify_hero_healed()
-	elif it.has("heal_ki"):
-		hero_ki = minf(hero_max_ki, hero_ki + float(it["heal_ki"]))
+		world.audio.sfx("common/potion" if heal_hp > 0.0 or heal_ki > 0.0 else "ui/click")
+	if heal_hp > 0.0 or heal_ki > 0.0:
+		hero_hp = minf(hero_max_hp, hero_hp + heal_hp)
+		hero_ki = minf(hero_max_ki, hero_ki + heal_ki)
+		if heal_hp > 0.0 and world != null:
+			world.settle_potion_damage(world.snapshot_unsettled_damage(), int(hero_hp - hp_before))
 	elif it.has("gold"):
 		hero_gold += int(it["gold"])
 	elif str(it.get("id", "")) == "scroll_tp" and world != null:
@@ -1062,6 +1033,8 @@ func use_backpack_slot(idx: int) -> void:
 	else:
 		backpack_items[idx] = {}
 	recalc_stats(false)
+	if on_done.is_valid():
+		on_done.call(true, item_name, hero_hp - hp_before, "")
 
 func set_region(land: String) -> void:
 	current_land = land
@@ -1979,13 +1952,14 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	c.draw_string_outline(f, Vector2(map_rect.position.x + (map_rect.size.x - mtw) * 0.5, map_rect.position.y + 34.0), m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 5, Color(0.02, 0.01, 0.01, 0.98))
 	c.draw_string(f, Vector2(map_rect.position.x + (map_rect.size.x - mtw) * 0.5, map_rect.position.y + 34.0), m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(1.0, 0.94, 0.74))
 
-	var gm_rect := Rect2(Vector2(236.0, 304.0) + u_off, Vector2(198.0, 54.0))
-	util_hitboxes.append({"rect": gm_rect.grow(5.0), "id": "gm"})
-	_draw_forged_pill(c, gm_rect, gm_active or not spd_badge.is_empty())
-	var gm_txt := "PANEL GM" + spd_badge
-	var gtw := f.get_string_size(gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
-	c.draw_string_outline(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 34.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 5, Color(0.02, 0.01, 0.01, 0.98))
-	c.draw_string(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 34.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.62, 0.98, 1.0) if gm_active else Color(1.0, 0.94, 0.72))
+	if world != null and world.can_use_gm():
+		var gm_rect := Rect2(Vector2(236.0, 304.0) + u_off, Vector2(198.0, 54.0))
+		util_hitboxes.append({"rect": gm_rect.grow(5.0), "id": "gm"})
+		_draw_forged_pill(c, gm_rect, gm_active or not spd_badge.is_empty())
+		var gm_txt := "PANEL GM" + spd_badge
+		var gtw := f.get_string_size(gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+		c.draw_string_outline(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 34.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 5, Color(0.02, 0.01, 0.01, 0.98))
+		c.draw_string(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 34.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.62, 0.98, 1.0) if gm_active else Color(1.0, 0.94, 0.72))
 
 	# Dedicated BIG Quick-Heal Potion Orb + Free Return-to-Capital Stone (Kamień Powrotu)
 	var c_base := _combat_base_center()
@@ -2002,10 +1976,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	if ring_obs != null:
 		var rr_p := pot_r + 10.0 * sc
 		c.draw_texture_rect(ring_obs, Rect2(pot_c - Vector2(rr_p, rr_p), Vector2(rr_p * 2.0, rr_p * 2.0)), false)
-	var pot_qty := 0
-	for pit: Dictionary in backpack_items:
-		if not pit.is_empty() and pit.has("heal_hp"):
-			pot_qty += int(pit.get("qty", 1))
+	var pot_qty := hp_potion_count()
 	if pot_qty > 0:
 		var pbc := pot_c + Vector2(pot_r * 0.76, -pot_r * 0.72)
 		c.draw_circle(pbc, 16.0, Color(0.78, 0.16, 0.14, 0.98))
@@ -2511,17 +2482,18 @@ func _item_stat_summary(it: Dictionary, compare_eq: Dictionary) -> Array[Diction
 		["ki", "Maks. KI", ""],
 		["spd", "Szybkość", " j."],
 		["crit", "Kryt", "%"],
-		["heal_hp", "Leczy HP", ""],
-		["heal_ki", "Odnawia KI", ""],
+		["healHp", "Leczy HP", ""],
+		["healKi", "Odnawia KI", ""],
 	]
 	for sd in stat_defs:
 		var k: String = sd[0]
-		var val := float(it.get(k, 0))
+		var is_heal := k in ["healHp", "healKi"]
+		var val := _restored_vital(it, k) if is_heal else float(it.get(k, 0))
 		if absf(val) < 0.01:
 			continue
 		var txt := "+%d %s%s" % [int(round(val)), sd[1], sd[2]] if k != "crit" else "+%.1f%s %s" % [val, sd[2], sd[1]]
-		var col := Color(0.56, 0.98, 0.72) if k in ["heal_hp", "heal_ki"] else Color(0.98, 0.90, 0.62)
-		if not compare_eq.is_empty() and not (k in ["heal_hp", "heal_ki"]):
+		var col := Color(0.56, 0.98, 0.72) if is_heal else Color(0.98, 0.90, 0.62)
+		if not compare_eq.is_empty() and not is_heal:
 			var old_v := float(compare_eq.get(k, 0))
 			var diff := val - old_v
 			if diff > 0.05:
@@ -2988,7 +2960,7 @@ func _handle_primary_tap(p: Vector2) -> bool:
 					if world != null:
 						world.toggle_map()
 				"gm":
-					if world != null and world.has_method("toggle_gm_panel"):
+					if world != null and world.can_use_gm():
 						world.toggle_gm_panel()
 				"quests":
 					if world != null and world.has_method("toggle_quest_journal"):
@@ -2999,14 +2971,7 @@ func _handle_primary_tap(p: Vector2) -> bool:
 					elif world != null:
 						world.teleport_to_capital()
 				"potion":
-					var used := false
-					for pi in backpack_items.size():
-						var pit: Dictionary = backpack_items[pi]
-						if not pit.is_empty() and pit.has("heal_hp"):
-							use_backpack_slot(pi)
-							used = true
-							break
-					if not used and world != null and world.has_method("show_combat_toast"):
+					if not use_quick_hp_potion() and world != null:
 						world.show_combat_toast("Brak eliksirów życia w plecaku — kup w Sklepie lub odpocznij w Gospodzie!", Color(1.0, 0.56, 0.36))
 			return true
 	return false

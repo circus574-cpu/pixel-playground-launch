@@ -1,7 +1,6 @@
 // @vitest-environment node
 /**
- * Android game backend: save rules (always) and the whole HTTP/WebSocket API against a real PostgreSQL with migrations
- * 001-007 applied (runs when KI_ACCOUNTS_TEST_DATABASE_URL is set, like the accounts test).
+ * Android game backend: save rules (always) and the whole HTTP/WebSocket API against a real PostgreSQL with the Android migrations applied (runs when KI_ACCOUNTS_TEST_DATABASE_URL is set, like the accounts test).
  */
 import { createHash } from "node:crypto";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
@@ -147,7 +146,7 @@ describe.runIf(url)("Android backend on PostgreSQL", () => {
     await sql`UPDATE godot_android.settings SET active_version = NULL, min_client_code = 1, maintenance = false, news = NULL`;
     await sql`DELETE FROM godot_android.releases`;
     await sql`DELETE FROM godot_android.saves`;
-    await sql`TRUNCATE accounts.audit, accounts.sessions, accounts.email_tokens, accounts.roles, accounts.users`;
+    await sql`TRUNCATE godot_android.characters, accounts.audit, accounts.sessions, accounts.email_tokens, accounts.roles, accounts.users`;
     dir = await mkdtemp(path.join(tmpdir(), "godot-content-"));
     store = new GodotStore(sql, new ContentFiles(dir));
     await store.ready();
@@ -397,6 +396,41 @@ describe.runIf(url)("Android backend on PostgreSQL", () => {
     );
     expect((await call("DELETE", "/saves/1", { token: t })).json).toEqual({ deleted: true });
     expect((await call("GET", "/saves/1", { token: t })).status).toBe(404);
+  });
+
+  it("requires a current staff role for GM actions and stores authorized changes", async () => {
+    const create = async (nick: string, name: string) => {
+      const response = await call("POST", "/characters", {
+        token: tokens[nick]!,
+        body: { name, race: "legend" },
+      });
+      expect(response.status).toBe(201);
+      return response.json!["character"];
+    };
+    const player = await create("gracz1", "Wojownik Testowy");
+    const staff = await create("gm1", "Mistrz Testowy");
+    const gmAction = (nick: string, id: string) =>
+      call("POST", `/characters/${id}/action`, {
+        token: tokens[nick]!,
+        body: { type: "gm_action", op: "add_attribute", stat: "atk", value: 5 },
+      });
+
+    expect((await gmAction("gracz1", player.id)).status).toBe(403);
+    expect((await gmAction("gm1", player.id)).status).toBe(404);
+    expect((await gmAction("gm1", staff.id)).status).toBe(200);
+
+    await sql`DELETE FROM accounts.roles WHERE user_id = ${ids["gm1"]!} AND role = 'gm'`;
+    try {
+      expect((await gmAction("gm1", staff.id)).status).toBe(403);
+      const loaded = await call("GET", `/characters/${staff.id}`, { token: tokens["gm1"]! });
+      expect(loaded.json!["character"].state.bonusStats.atk).toBe(5);
+      const audits = await sql`
+        SELECT details FROM accounts.audit WHERE action = 'GODOT_GM_ACTION' AND target = ${staff.id}
+      `;
+      expect(audits).toHaveLength(1);
+    } finally {
+      await sql`INSERT INTO accounts.roles (user_id, role) VALUES (${ids["gm1"]!}, 'gm')`;
+    }
   });
 
   it("lets staff see and manage saves and writes everything to the audit log", async () => {

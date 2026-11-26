@@ -2,6 +2,7 @@
 import { describe, expect, it } from "vitest";
 import {
   ANDROID_ITEM_CATALOG,
+  type AndroidAction,
   AndroidEconomyError,
   BACKPACK_SIZE,
   BANK_SIZE,
@@ -305,6 +306,80 @@ describe("Android authoritative economy, city training & progression engine", ()
       { isStaff: false, nowMs: 13_000 },
     );
     expect(g01.state.completedQuests["G-P01"]).toBeTruthy();
+  });
+
+  it("persists GM actions through the canonical transition and reload normalization", () => {
+    const hero = freshHero();
+    const commands = [
+      { type: "gm_action", op: "set_level", value: 20 },
+      { type: "gm_action", op: "add_gold", value: 500 },
+      { type: "gm_action", op: "set_gold", value: 1000 },
+      { type: "gm_action", op: "set_stat_points", value: 14 },
+      { type: "gm_action", op: "set_skill_points", value: 8 },
+      { type: "gm_action", op: "add_attribute", stat: "atk", value: 20 },
+      { type: "gm_action", op: "set_attribute", stat: "def", value: 2 },
+      { type: "gm_action", op: "unlock_talents" },
+      { type: "gm_action", op: "give_item", itemId: "potion_hp", qty: 2 },
+      { type: "gm_action", op: "set_test_hp" },
+    ] satisfies AndroidAction[];
+    let current = hero;
+    for (const command of commands) {
+      expect(() => applyAndroidAction(current, command, { isStaff: false })).toThrowError(
+        expect.objectContaining({ code: "FORBIDDEN" }),
+      );
+      const next = applyAndroidAction(current, command, { isStaff: true });
+      current = { ...current, ...next };
+    }
+    const restored = normalizeAndroidState(current.state, current.race, current.level);
+    expect(current).toMatchObject({ gold: 1000, level: 20 });
+    expect(restored).toMatchObject({
+      freeStatPoints: 14,
+      skillPoints: 8,
+      bonusStats: { atk: 20, def: 2 },
+      hp: 1,
+    });
+    expect(restored.unlockedNodes).toContain("A9");
+    expect(restored.backpack).toContainEqual({ id: "potion_hp", qty: 2 });
+
+    for (const op of ["reset_attributes", "reset_talents", "full_heal"] as const) {
+      current = {
+        ...current,
+        ...applyAndroidAction(current, { type: "gm_action", op }, { isStaff: true }),
+      };
+    }
+    expect(current.state.unlockedNodes).toEqual(["R"]);
+    expect(current.state.bonusStats.atk).toBe(0);
+    expect(current.state.hp).toBe(
+      computeAndroidStats(current.race, current.level, current.state).maxHp,
+    );
+  });
+
+  it("applies the canonical HP and KI potion entries and consumes only one item per action", () => {
+    const hero = freshHero();
+    hero.state.hp = 5;
+    hero.state.ki = 1;
+    expect(() =>
+      applyAndroidAction(
+        hero,
+        { type: "use_item", backpackIndex: 0, expectedItemId: "potion_ki" },
+        { isStaff: false },
+      ),
+    ).toThrowError(expect.objectContaining({ code: "INVALID_ACTION" }));
+    expect(hero.state.backpack[0]).toEqual({ id: "potion_hp_small", qty: 3 });
+    const hp = applyAndroidAction(
+      hero,
+      { type: "use_item", backpackIndex: 0, expectedItemId: "potion_hp_small" },
+      { isStaff: false },
+    );
+    expect(hp.state.hp).toBe(80);
+    expect(hp.state.backpack[0]).toEqual({ id: "potion_hp_small", qty: 2 });
+    const ki = applyAndroidAction(
+      { ...hero, ...hp },
+      { type: "use_item", backpackIndex: 1 },
+      { isStaff: false },
+    );
+    expect(ki.state.ki).toBe(computeAndroidStats(hero.race, hero.level, ki.state).maxKi);
+    expect(ki.state.backpack[1]).toEqual({ id: "potion_ki", qty: 1 });
   });
 
   it("blocks GM actions for non-staff and allows admin patches", () => {
