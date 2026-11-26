@@ -1,6 +1,8 @@
 import { randomInt, randomUUID } from "node:crypto";
 import { z } from "zod";
+import talentRankRules from "../../../ports/godot-isometric-world/data/talent_rank_rules.json";
 import { KIT_NODES, RACE_BASE } from "../../game/kit/nodes.generated";
+import { rankBonusPower } from "../../game/kit/rankScaling";
 import type { RaceId } from "../../game/world/races";
 import { ANDROID_GOALS_MAP, evaluateGoalForCharacter, type AndroidGoalProgressView } from "./goals";
 import {
@@ -1271,6 +1273,7 @@ export type AndroidHeroState = {
   lastTrainingAt: number;
   activeBlessing: ActiveBlessing | null;
   unlockedNodes: string[];
+  talentRanks: Record<string, number>;
   hotbarSlots?: [string, string, string, string];
   equipment: Record<string, string | null>;
   backpack: (ItemStack | null)[];
@@ -1459,10 +1462,24 @@ export function computeTrainingBonuses(training: Record<StatKey, number>): {
   };
 }
 
+function normalizeTalentRanks(
+  unlockedNodes: readonly string[],
+  raw: unknown,
+): Record<string, number> {
+  const ranks = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
+  return Object.fromEntries(
+    unlockedNodes.map((id) => [
+      id,
+      id === "R" ? 1 : clampInt(ranks[id], 1, talentRankRules.maxRank, 1),
+    ]),
+  );
+}
+
 /** Canonical passive talent bonuses from KIT_NODES (annex 22.10.2026). */
 export function computeTalentPassiveBonuses(
   race: AndroidRace,
   unlockedNodes: readonly string[],
+  talentRanks: Readonly<Record<string, number>> = {},
 ): {
   hpPct: number;
   kiPct: number;
@@ -1472,7 +1489,8 @@ export function computeTalentPassiveBonuses(
   critAdd: number;
   kiRegenPct: number;
 } {
-  const has = (id: string) => unlockedNodes.includes(id);
+  const power = (id: string) =>
+    rankBonusPower(unlockedNodes.includes(id) ? (talentRanks[id] ?? 1) : 0);
   let hpPct = 0;
   let kiPct = 0;
   let atkPct = 0;
@@ -1482,26 +1500,26 @@ export function computeTalentPassiveBonuses(
   let kiRegenPct = 0;
 
   if (race === "planetary") {
-    if (has("A2")) spdPct += 6;
-    if (has("A6")) critAdd += 5;
-    if (has("B2")) kiRegenPct += 15;
-    if (has("B3")) defPct += 8;
-    if (has("C2")) hpPct += 10;
+    spdPct += 6 * power("A2");
+    critAdd += 5 * power("A6");
+    kiRegenPct += 15 * power("B2");
+    defPct += 8 * power("B3");
+    hpPct += 10 * power("C2");
   } else if (race === "sage") {
-    if (has("A6")) critAdd += 8;
-    if (has("B2")) defPct += 10;
-    if (has("C2")) kiPct += 15;
-    if (has("C3")) kiRegenPct += 12;
+    critAdd += 8 * power("A6");
+    defPct += 10 * power("B2");
+    kiPct += 15 * power("C2");
+    kiRegenPct += 12 * power("C3");
   } else if (race === "android") {
-    if (has("A2")) critAdd += 6;
-    if (has("B2")) defPct += 8;
-    if (has("C5")) kiPct += 12;
+    critAdd += 6 * power("A2");
+    defPct += 8 * power("B2");
+    kiPct += 12 * power("C5");
   } else if (race === "legend") {
-    if (has("A5")) atkPct += 8;
-    if (has("A6")) critAdd += 6;
-    if (has("B2")) defPct += 8;
-    if (has("B3")) hpPct += 10;
-    if (has("C6")) kiRegenPct += 25;
+    atkPct += 8 * power("A5");
+    critAdd += 6 * power("A6");
+    defPct += 8 * power("B2");
+    hpPct += 10 * power("B3");
+    kiRegenPct += 25 * power("C6");
   }
   return { hpPct, kiPct, atkPct, defPct, spdPct, critAdd, kiRegenPct };
 }
@@ -1537,7 +1555,7 @@ export function computeAndroidStats(
   const tr = computeTrainingBonuses(
     state.training ?? { hp: 0, ki: 0, atk: 0, def: 0, spd: 0, crit: 0 },
   );
-  const tal = computeTalentPassiveBonuses(race, state.unlockedNodes ?? ["R"]);
+  const tal = computeTalentPassiveBonuses(race, state.unlockedNodes ?? ["R"], state.talentRanks);
   const blessActive =
     state.activeBlessing && (nowMs === undefined || nowMs < state.activeBlessing.expiresAt)
       ? state.activeBlessing.kind
@@ -1620,7 +1638,15 @@ export function createInitialAndroidState(
   const equipment: Record<string, string | null> = {};
   for (let i = 0; i < EQUIP_SLOTS; i++) equipment[String(i)] = null;
 
-  const nodes = Array.from(new Set(["R", ...(overrides?.unlockedNodes ?? [])])).slice(0, 30);
+  // Browser saves store one copy of the ID for every point already spent.
+  const importedRanks: Record<string, number> = { R: 1 };
+  const validNodes = new Set(KIT_NODES[race].map((node) => node.id));
+  for (const id of overrides?.unlockedNodes ?? []) {
+    if (id !== "R" && validNodes.has(id)) importedRanks[id] = (importedRanks[id] ?? 0) + 1;
+  }
+  const nodes = Object.keys(importedRanks);
+  const talentRanks = normalizeTalentRanks(nodes, importedRanks);
+  const spent = Object.values(talentRanks).reduce((total, rank) => total + rank, -1);
 
   const state: AndroidHeroState = {
     version: 2,
@@ -1632,12 +1658,13 @@ export function createInitialAndroidState(
     hp: 1,
     ki: 1,
     freeStatPoints: Math.max(0, (level - 1) * 3 + 5),
-    skillPoints: Math.max(0, level - 1 + 1 - Math.max(0, nodes.length - 1)),
+    skillPoints: Math.max(0, level - spent),
     bonusStats: { hp: 0, ki: 0, atk: 0, def: 0, spd: 0, crit: 0 },
     training: { hp: 0, ki: 0, atk: 0, def: 0, spd: 0, crit: 0 },
     lastTrainingAt: 0,
     activeBlessing: null,
     unlockedNodes: nodes,
+    talentRanks,
     hotbarSlots: [...DEFAULT_HOTBAR_SLOTS] as [string, string, string, string],
     equipment,
     backpack,
@@ -1892,6 +1919,7 @@ export function normalizeAndroidState(
     lastTrainingAt: clampInt(r["lastTrainingAt"], 0, Number.MAX_SAFE_INTEGER, 0),
     activeBlessing,
     unlockedNodes,
+    talentRanks: normalizeTalentRanks(unlockedNodes, r["talentRanks"]),
     hotbarSlots,
     equipment,
     backpack: normalizeSlots(r["backpack"], BACKPACK_SIZE),
@@ -2073,7 +2101,11 @@ export const androidActionSchema = z.discriminatedUnion("type", [
     .strict(),
   z.object({ type: z.literal("allocate_stat"), stat: z.enum(STAT_KEYS) }).strict(),
   z
-    .object({ type: z.literal("unlock_talent"), nodeId: z.string().regex(/^[A-Z0-9_-]{1,8}$/) })
+    .object({
+      type: z.literal("unlock_talent"),
+      nodeId: z.string().regex(/^[A-Z0-9_-]{1,8}$/),
+      expectedRank: z.number().int().min(0).max(talentRankRules.maxRank).optional(),
+    })
     .strict(),
   z
     .object({
@@ -2466,8 +2498,14 @@ export function applyAndroidAction(
     }
 
     case "unlock_talent": {
-      if (state.unlockedNodes.includes(action.nodeId))
+      const rank = state.talentRanks[action.nodeId] ?? 0;
+      const maxRank = talentRankRules.rankable[current.race].includes(action.nodeId)
+        ? talentRankRules.maxRank
+        : 1;
+      if (rank >= maxRank || (rank > 0 && action.expectedRank === undefined))
         throw new AndroidEconomyError("NODE_ALREADY_UNLOCKED", "Ten talent jest już odblokowany.");
+      if (action.expectedRank !== undefined && action.expectedRank !== rank)
+        throw new AndroidEconomyError("INVALID_ACTION", "Ranga talentu już się zmieniła.");
       if (state.skillPoints <= 0)
         throw new AndroidEconomyError("NO_SKILL_POINTS", "Brak punktów umiejętności.");
       const raceNodes = KIT_NODES[current.race as RaceId] ?? [];
@@ -2493,10 +2531,12 @@ export function applyAndroidAction(
           `Ten wybór wyklucza się z odblokowanym talentem ${node.excludes}.`,
         );
       state.skillPoints -= 1;
-      state.unlockedNodes.push(action.nodeId);
+      if (rank === 0) state.unlockedNodes.push(action.nodeId);
+      state.talentRanks[action.nodeId] = rank + 1;
       const hb =
         state.hotbarSlots ?? ([...DEFAULT_HOTBAR_SLOTS] as [string, string, string, string]);
       if (
+        rank === 0 &&
         (ASSIGNABLE_SKILL_NODES as readonly string[]).includes(action.nodeId) &&
         !hb.includes(action.nodeId)
       ) {
@@ -2505,7 +2545,7 @@ export function applyAndroidAction(
       }
       state.hotbarSlots = hb;
       clampVitals();
-      notice = `Odblokowano talent: ${node.name} [${node.id}]`;
+      notice = `${node.name} [${node.id}] · ranga ${rank + 1}`;
       break;
     }
 
@@ -3085,6 +3125,7 @@ export function applyAndroidAction(
                     ...(KIT_NODES[current.race as RaceId] ?? []).map((node) => node.id),
                   ]),
                 ];
+          state.talentRanks = normalizeTalentRanks(state.unlockedNodes, state.talentRanks);
           if (action.op === "reset_talents") {
             state.hotbarSlots = [...DEFAULT_HOTBAR_SLOTS] as [string, string, string, string];
           }
@@ -3216,6 +3257,10 @@ export function applyAdminCharacterPatch(
   }
   if (p.unlockedNodes !== undefined) {
     mergedState.unlockedNodes = Array.from(new Set(["R", ...p.unlockedNodes]));
+    mergedState.talentRanks = normalizeTalentRanks(
+      mergedState.unlockedNodes,
+      mergedState.talentRanks,
+    );
   }
   if (p.equipment !== undefined) {
     for (let i = 0; i < EQUIP_SLOTS; i++) {

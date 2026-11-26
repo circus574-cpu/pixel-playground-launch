@@ -46,6 +46,9 @@ func expect(condition: bool, label: String) -> void:
 
 func _make_dummy_agent(aid: String, kind: String, pos: Vector2, hp: int = 400, atk: int = 40) -> Dictionary:
 	var av := ActorView.new()
+	# The dummy bypasses ActorView.setup(), which normally parents these nodes.
+	av.add_child(av.sprite)
+	av.add_child(av.label)
 	av.position = pos
 	return {
 		"id": aid,
@@ -143,7 +146,7 @@ func run(world: TestWorld) -> void:
 	hud.hero_res = 0.0
 	world.last_combat_time = world.world_time
 	world.perform_combat_attack(0, 1.0, "R")
-	expect(float(hud.hero_res) >= 5.5, "Legend basic hit generates Żar (+6 w/ C2)")
+	expect(is_equal_approx(float(hud.hero_res), 5.0), "Legend C2 rank one gives +25% Żar per hit (4 → 5)")
 	world.perform_combat_attack(1, 1.0, "A1")
 	expect(float(m1.get("burn_t", 0.0)) > 1.0, "Legend A1+A2 applies burn DoT")
 	world.perform_combat_attack(2, 1.0, "B4")
@@ -166,7 +169,7 @@ func run(world: TestWorld) -> void:
 	m1["was_aggro"] = true
 	m1["stun_t"] = 0.0
 	world.step_world(0.05)
-	expect(float(hud.hero_hp) >= float(hud.hero_max_hp) * 0.25, "Legend B9 prevents lethal death and restores 30% HP")
+	expect(is_equal_approx(float(hud.hero_hp), roundf(float(hud.hero_max_hp) * 0.15)), "Legend B9 prevents lethal death and restores 15% HP at rank one")
 	expect(float(world.hero_buffs.get("last_flame_t", 0.0)) <= 0.05, "Legend B9 lethal-save consumed after triggering")
 
 	# ==========================================================================
@@ -208,7 +211,7 @@ func run(world: TestWorld) -> void:
 	hud.hero_hp = 50.0
 	world.perform_combat_attack(3, 1.0, "C4")
 	expect(world.android_overheat_t <= 0.01 and float(hud.hero_res) <= 0.01, "Android C4 clears Overheat and Charge")
-	expect(float(hud.hero_hp) > 55.0, "Android C4 heals 10% HP")
+	expect(is_equal_approx(float(hud.hero_hp), 50.0 + float(hud.hero_max_hp) * 0.05), "Android C4 restores 5% max HP at rank one")
 	world.perform_combat_attack(1, 1.0, "A1")
 	expect(float(m2.get("marked_t", 0.0)) > 4.0 and world.locked_target_id == "m-and-1", "Android A1 marks and locks target")
 	hud.hero_res = 60.0
@@ -264,7 +267,7 @@ func run(world: TestWorld) -> void:
 	world.step_world(3.2)
 	expect(world.delayed_seals.is_empty(), "Sage A1 delayed seal detonates cleanly without crashing when target dies early")
 	world.perform_combat_attack(2, 1.0, "B9")
-	expect(world._hero_circle_def_bonus() >= 0.29, "Sage B9 Temple grants +30% DEF circle")
+	expect(is_equal_approx(world._hero_circle_def_bonus(), 0.15), "Sage B9 Temple grants +15% DEF at rank one")
 	world.perform_combat_attack(3, 1.0, "C9")
 	expect(world.is_free_ki_active(), "Sage C9 Enlightenment makes skills free")
 
@@ -306,6 +309,53 @@ func run(world: TestWorld) -> void:
 	var g_hp_before := int(lab.guardians[0]["cur_hp"])
 	lab.perform_labyrinth_skill(1, "A1")
 	expect(int(lab.guardians[0]["cur_hp"]) < g_hp_before, "Labyrinth skill [1] damages guardian")
+
+	# Exercise the same purchase action as the talent tablet and reload the saved payload.
+	for test_case: Array in [
+		["verdant", "A2", "A1", "spdPct", 0.06],
+		["aether", "C2", "C1", "kiPct", 0.15],
+		["nexus", "B2", "B1", "defPct", 0.08],
+		["pyra", "B3", "B1", "hpPct", 0.10],
+	]:
+		var land := str(test_case[0])
+		var nid := str(test_case[1])
+		var desc := "%s %s" % [land, nid]
+		var key := str(test_case[3])
+		var base_bonus := float(test_case[4])
+		hud.set_hero_land(land)
+		hud.restore_talent_progress({"learned": ["R", test_case[2], nid], "skillPoints": 2})
+		expect(hud.talent_rank(nid) == 1, desc + " restores rank one from legacy save")
+		expect(is_equal_approx(float(hud.get_talent_passives()[key]), base_bonus * 0.5), desc + " rank one grants half the original bonus")
+		hud._try_unlock_node(nid)
+		expect(is_equal_approx(float(hud.get_talent_passives()[key]), base_bonus * 0.55), desc + " rank two adds 10% of first rank")
+		hud._try_unlock_node(nid)
+		hud._try_unlock_node(nid)
+		var saved: Dictionary = hud.export_talent_progress()
+		hud.restore_talent_progress({})
+		hud.restore_talent_progress(JSON.parse_string(JSON.stringify(saved)))
+		expect(hud.talent_rank(nid) == 3 and hud.skill_points == 0, desc + " reloads ranks and stops spending at zero points")
+		expect(is_equal_approx(float(hud.get_talent_passives()[key]), base_bonus * 0.60), desc + " rank three retains additive scaling")
+	hud.set_hero_land("verdant")
+	hud.restore_talent_progress({"learned": ["A1"], "skillPoints": 2})
+	hud._try_unlock_node("A1")
+	expect(hud.talent_rank("A1") == 1 and hud.skill_points == 2, "Planetary fixed dash cannot consume an extra point")
+	hud.restore_talent_progress({"learned": ["B1", "B2", "B3", "B4", "B6", "B7"], "skillPoints": 2})
+	hud._try_unlock_node("B8")
+	expect(hud.talent_rank("B8") == 0 and hud.skill_points == 2, "Planetary B7 still excludes B8")
+
+	# Confirm different ranks have measurable effects in the actual surface and labyrinth handlers.
+	hud.set_hero_land("nexus")
+	world._clear_transient_combat_state()
+	world.in_labyrinth = false
+	for rank in [1, 2]:
+		hud.restore_talent_progress({"talentRanks": {"C4": rank}})
+		var expected_hp := 10.0 + float(hud.hero_max_hp) * 0.10 * (0.5 if rank == 1 else 0.55)
+		hud.hero_hp = 10.0
+		world.perform_combat_attack(3, 1.0, "C4")
+		expect(is_equal_approx(float(hud.hero_hp), expected_hp), "Surface Android C4 heals exactly the amount for rank %d" % rank)
+		hud.hero_hp = 10.0
+		lab.perform_labyrinth_skill(3, "C4")
+		expect(is_equal_approx(float(hud.hero_hp), expected_hp), "Labyrinth Android C4 heals exactly the amount for rank %d" % rank)
 
 	print("STAGE3_AUDIT checks=%d failures=%d" % [checks, failures])
 	world.free()

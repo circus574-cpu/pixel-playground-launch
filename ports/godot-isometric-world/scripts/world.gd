@@ -152,6 +152,7 @@ var start_race := ""
 var hero_race_land := ""
 var start_land := "pyra"
 var start_level := 0
+var start_talents: Dictionary = {}
 var start_gold := -1
 var start_name := ""
 var server_char_id := ""
@@ -315,7 +316,7 @@ func _boot_world_async() -> void:
 			rpg_hud.hero_custom_name = start_name
 		if start_level > 0:
 			rpg_hud.hero_level = start_level
-			rpg_hud.recalc_stats(false)
+		rpg_hud.restore_talent_progress(start_talents)
 		if start_gold >= 0:
 			rpg_hud.hero_gold = start_gold
 	loading_screen.set_stage(0.92, "Kalibracja kamery, dialogów NPC i obiektów świata…", "Synchronizacja gotowa")
@@ -2078,6 +2079,22 @@ func _clear_transient_combat_state() -> void:
 		if is_instance_valid(mnd) and ("is_locked_target" in mnd):
 			mnd.is_locked_target = false
 
+func _hero_talent_power(nid: String) -> float:
+	return float(rpg_hud.talent_power(nid)) if rpg_hud != null else 0.0
+
+func _talent_attack_multiplier(nid: String, base: float) -> float:
+	return float(rpg_hud.talent_attack_multiplier(nid, base)) if rpg_hud != null else base
+
+func _ki_form_power() -> float:
+	return 1.0 if _gm_ki_preview else _hero_talent_power("T")
+
+func ki_form_attack_multiplier() -> float:
+	var attack_bonus := 0.25
+	match _hero_race_key():
+		"planetary": attack_bonus = 0.20
+		"legend": attack_bonus = 0.30
+	return 1.0 + attack_bonus * _ki_form_power()
+
 func _hero_has_talent(nid: String) -> bool:
 	return rpg_hud != null and rpg_hud.has_method("has_talent") and bool(rpg_hud.has_talent(nid))
 
@@ -2268,7 +2285,12 @@ func _sync_agent_status_flags(ag: Dictionary) -> void:
 	mnode.status_flags = flags
 	mnode.queue_redraw()
 
-func _apply_damage_to_agent(h_idx: int, raw_dmg: int, is_crit: bool, race_k: String, kill_heal_pct: float, apply_burn: float = 0.0, apply_stun: float = 0.0, apply_slow: float = 0.0, apply_mark: float = 0.0) -> bool:
+func _apply_agent_slow(agent: Dictionary, duration: float, strength: float) -> void:
+	var previous := float(agent.get("slow_pct", 0.0)) if float(agent.get("slow_t", 0.0)) > 0.0 else 0.0
+	agent["slow_pct"] = maxf(previous, strength)
+	agent["slow_t"] = maxf(float(agent.get("slow_t", 0.0)), duration)
+
+func _apply_damage_to_agent(h_idx: int, raw_dmg: int, is_crit: bool, race_k: String, kill_heal_pct: float, apply_burn: float = 0.0, apply_stun: float = 0.0, apply_slow: float = 0.0, apply_mark: float = 0.0, burn_dps: float = -1.0, slow_strength: float = 0.40) -> bool:
 	if h_idx < 0 or h_idx >= live_agents.size():
 		return false
 	var target: Dictionary = live_agents[h_idx]
@@ -2280,12 +2302,16 @@ func _apply_damage_to_agent(h_idx: int, raw_dmg: int, is_crit: bool, race_k: Str
 	var dmg := maxi(4, raw_dmg)
 	target["cur_hp"] = maxi(0, int(target.get("cur_hp", 200)) - dmg)
 	if apply_burn > 0.0:
+		var was_burning := float(target.get("burn_t", 0.0)) > 0.0
+		var attack_burn_dps := burn_dps if burn_dps >= 0.0 else maxf(8.0, float(dmg) * 0.22)
 		target["burn_t"] = maxf(float(target.get("burn_t", 0.0)), apply_burn)
-		target["burn_dps"] = maxf(float(target.get("burn_dps", 0.0)), maxf(8.0, float(dmg) * 0.22))
+		target["burn_dps"] = maxf(float(target.get("burn_dps", 0.0)), attack_burn_dps) if was_burning else attack_burn_dps
+		if not was_burning:
+			target["burn_acc"] = 0.0
 	if apply_stun > 0.0 and not is_animal:
 		target["stun_t"] = maxf(float(target.get("stun_t", 0.0)), apply_stun)
 	if apply_slow > 0.0:
-		target["slow_t"] = maxf(float(target.get("slow_t", 0.0)), apply_slow)
+		_apply_agent_slow(target, apply_slow, slow_strength)
 	if apply_mark > 0.0:
 		target["marked_t"] = maxf(float(target.get("marked_t", 0.0)), apply_mark)
 	if is_animal and int(target["cur_hp"]) > 0:
@@ -2411,12 +2437,13 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 	var is_ranged_race := race_k in ["sage", "android"]
 	var passives: Dictionary = rpg_hud.get_talent_passives() if (rpg_hud != null and rpg_hud.has_method("get_talent_passives")) else {}
 	var spec: Dictionary = rpg_hud.get_skill_spec(nid) if (rpg_hud != null and rpg_hud.has_method("get_skill_spec")) else {}
+	var skill_power := _hero_talent_power(nid)
 	var range_mult := 1.0 + float(passives.get("rangeMult", 0.0))
 	var base_reach := (225.0 if is_ranged_race else 130.0) if skill_idx == 0 else float(spec.get("radius", 220.0))
 	if race_k == "legend" and nid == "C4" and _hero_has_talent("C7"):
-		base_reach *= 1.50
+		base_reach *= 1.0 + 0.50 * _hero_talent_power("C7")
 	elif race_k == "planetary" and nid == "B1" and _hero_has_talent("B8"):
-		base_reach *= 1.40
+		base_reach *= 1.0 + 0.40 * _hero_talent_power("B8")
 	var reach := base_reach * range_mult
 
 	# Find target: prioritize locked_target_id if alive & in range, else nearest!
@@ -2463,21 +2490,21 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 	# Global damage multiplier (passives, Forma KI, racial buffs)
 	var dmg_scale := (1.0 + float(passives.get("dmgMult", 0.0))) * maxf(surge_mult, 1.0)
 	if ki_mode_timer > 0.0:
-		dmg_scale *= 1.25
+		dmg_scale *= ki_form_attack_multiplier()
 	if race_k == "legend" and rpg_hud != null:
-		if world_time - last_combat_time >= 5.0 and _hero_has_talent("C5") and float(rpg_hud.hero_res) < 20.0:
-			rpg_hud.hero_res = 20.0
+		if world_time - last_combat_time >= 5.0 and _hero_has_talent("C5"):
+			rpg_hud.hero_res = maxf(float(rpg_hud.hero_res), minf(100.0, 20.0 * _hero_talent_power("C5")))
 		dmg_scale *= (1.0 + float(rpg_hud.hero_res) * 0.001)
 		if float(hero_buffs.get("rage_t", 0.0)) > 0.05:
-			dmg_scale *= (1.40 if _hero_has_talent("B7") else 1.30)
+			dmg_scale *= 1.0 + 0.30 * _hero_talent_power("B4") + 0.10 * _hero_talent_power("B7")
 		if _hero_has_talent("A8") and nearby_foes <= 1:
-			dmg_scale *= 1.25
+			dmg_scale *= 1.0 + 0.25 * _hero_talent_power("A8")
 	if float(hero_buffs.get("overload_t", 0.0)) > 0.05:
-		dmg_scale *= 1.40
+		dmg_scale *= 1.0 + 0.40 * _hero_talent_power("C9")
 	if float(hero_buffs.get("enlighten_t", 0.0)) > 0.05:
-		dmg_scale *= 1.30
+		dmg_scale *= 1.0 + 0.30 * _hero_talent_power("C9")
 	if skill_idx > 0 and float(hero_buffs.get("meditate_emp_t", 0.0)) > 0.05:
-		dmg_scale *= 1.25
+		dmg_scale *= 1.0 + 0.25 * _hero_talent_power("C6")
 		hero_buffs["meditate_emp_t"] = 0.0
 
 	# ==========================================================================
@@ -2492,7 +2519,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 		if not hit_indices.is_empty():
 			last_combat_time = world_time
 			for h_idx in hit_indices:
-				var dmg_t := maxi(12, int(round(float(base_atk) * 2.10 * dmg_scale)))
+				var dmg_t := maxi(12, int(round(float(base_atk) * _talent_attack_multiplier("T", 2.10) * dmg_scale)))
 				_apply_damage_to_agent(h_idx, dmg_t, false, race_k, kill_heal_pct, 3.0 if race_k == "legend" else 0.0, 0.8)
 		return
 
@@ -2501,7 +2528,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 	# ==========================================================================
 	if race_k == "legend":
 		if nid == "B4":
-			hero_buffs["rage_t"] = 8.0
+			hero_buffs["rage_t"] = 8.0 + 4.0 * _hero_talent_power("B7")
 			if hero != null:
 				hero.play_action("sk_B4", "skillb")
 				if hero.has_method("show_damage_number"):
@@ -2512,7 +2539,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 			return
 		if nid == "B9":
 			hero_buffs["last_flame_t"] = 5.0
-			_grant_hero_shield((40.0 + float(rpg_hud.hero_max_hp) * 0.28) * shield_mult, 5.5)
+			_grant_hero_shield((40.0 + float(rpg_hud.hero_max_hp) * 0.28) * shield_mult * skill_power, 5.5)
 			if hero != null:
 				hero.play_action("sk_B9", "guard")
 				if hero.has_method("show_damage_number"):
@@ -2521,8 +2548,8 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 			return
 	elif race_k == "android":
 		if nid == "B1":
-			var ref_p := 0.25 if (_hero_has_talent("B5") or _hero_has_talent("B7")) else 0.0
-			_grant_hero_shield((36.0 + float(rpg_hud.hero_max_hp) * 0.24) * shield_mult, 6.5, ref_p)
+			var ref_p := minf(0.90, 0.25 * _hero_talent_power("B5") + 0.30 * _hero_talent_power("B7"))
+			_grant_hero_shield((36.0 + float(rpg_hud.hero_max_hp) * 0.24) * shield_mult * skill_power, 6.5, ref_p)
 			if hero != null: hero.play_action("guard", "guard")
 			if audio != null: audio.play_race_skill(race_k, "B1")
 			return
@@ -2530,7 +2557,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 			android_overheat_t = 0.0
 			if rpg_hud != null:
 				rpg_hud.hero_res = 0.0
-				var heal_c4 := float(rpg_hud.hero_max_hp) * 0.10
+				var heal_c4 := float(rpg_hud.hero_max_hp) * 0.10 * skill_power
 				rpg_hud.hero_hp = minf(float(rpg_hud.hero_max_hp), float(rpg_hud.hero_hp) + heal_c4)
 				if hero != null and hero.has_method("show_damage_number"):
 					hero.show_damage_number("CHŁODZENIE +%d" % int(round(heal_c4)), Color(0.32, 0.96, 1.0), false)
@@ -2542,11 +2569,11 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 			return
 		if nid == "B9":
 			hero_buffs["fortify_t"] = 6.0
-			_grant_hero_shield((50.0 + float(rpg_hud.hero_max_hp) * 0.30) * shield_mult, 6.0, 0.25)
+			_grant_hero_shield((50.0 + float(rpg_hud.hero_max_hp) * 0.30) * shield_mult * skill_power, 6.0, minf(0.90, 0.25 * skill_power))
 			if hero != null:
 				hero.play_action("sk_B9", "skillb")
 				if hero.has_method("show_damage_number"):
-					hero.show_damage_number("FORTYFIKACJA +60% OBR", Color(0.36, 0.94, 1.0), true)
+					hero.show_damage_number("FORTYFIKACJA +%.0f%% OBR" % (60.0 * skill_power), Color(0.36, 0.94, 1.0), true)
 			if audio != null: audio.play_race_skill(race_k, "B9")
 			return
 		if nid == "C9":
@@ -2565,11 +2592,11 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 			perform_dodge(true)
 			return
 		if nid == "C1":
-			var hot_pct := 0.18 if _hero_has_talent("C6") else 0.12
+			var hot_pct := 0.12 * skill_power * (1.0 + 0.30 * _hero_talent_power("C6"))
 			hero_buffs["hot_t"] = 4.0
 			hero_buffs["hot_rate"] = (float(rpg_hud.hero_max_hp) * hot_pct) / 4.0 if rpg_hud != null else 6.0
 			if _hero_has_talent("C8") and rpg_hud != null:
-				rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + 15.0)
+				rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + 15.0 * _hero_talent_power("C8"))
 			if hero != null:
 				hero.play_action("channel", "channel", 0.65)
 				if hero.has_method("show_damage_number"):
@@ -2579,42 +2606,42 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 			if audio != null: audio.play_race_skill(race_k, "C1")
 			return
 		if nid == "C4":
-			var ref_p := 0.25 if _hero_has_talent("C7") else 0.0
-			_grant_hero_shield((38.0 + float(rpg_hud.hero_max_hp) * 0.26) * shield_mult, 7.0, ref_p)
+			var ref_p := minf(0.90, 0.20 * _hero_talent_power("C7"))
+			_grant_hero_shield((38.0 + float(rpg_hud.hero_max_hp) * 0.26) * shield_mult * skill_power, 7.0, ref_p)
 			if hero != null: hero.play_action("guard", "guard")
 			if audio != null: audio.play_race_skill(race_k, "C4")
 			return
 		if nid == "C9":
 			if rpg_hud != null:
-				var h9 := float(rpg_hud.hero_max_hp) * 0.40
+				var h9 := float(rpg_hud.hero_max_hp) * 0.40 * skill_power
 				rpg_hud.hero_hp = minf(float(rpg_hud.hero_max_hp), float(rpg_hud.hero_hp) + h9)
-				_grant_hero_shield(float(rpg_hud.hero_max_hp) * 0.20 * shield_mult, 7.0)
+				_grant_hero_shield(float(rpg_hud.hero_max_hp) * 0.20 * shield_mult * skill_power, 7.0)
 				if hero != null and hero.has_method("show_damage_number"):
 					hero.show_damage_number("+%d ODRODZENIE!" % int(round(h9)), Color(0.38, 1.0, 0.62), true)
-			_spawn_ground_circle(hero_pos, 145.0, 3.5, "light", 0.12, 0.0, 0.0)
+			_spawn_ground_circle(hero_pos, 145.0, 3.5, "light", 0.12 * skill_power, 0.0, 0.0)
 			if hero != null: hero.play_action("sk_C9", "skillc")
 			if audio != null: audio.play_race_skill(race_k, "C9")
 			return
 	elif race_k == "sage":
 		if nid == "B1":
-			var sh_dur := 8.5 if _hero_has_talent("B3") else 6.5
-			var ref_s := 0.25 if (_hero_has_talent("B5") or _hero_has_talent("B8")) else 0.0
-			_grant_hero_shield((36.0 + float(rpg_hud.hero_max_hp) * 0.25) * shield_mult, sh_dur, ref_s)
+			var sh_dur := 6.5 + 2.0 * _hero_talent_power("B3")
+			var ref_s := minf(0.90, 0.15 * _hero_talent_power("B5") + (0.25 if _hero_has_talent("B8") else 0.0))
+			_grant_hero_shield((36.0 + float(rpg_hud.hero_max_hp) * 0.25) * shield_mult * skill_power, sh_dur, ref_s)
 			if hero != null: hero.play_action("guard", "guard")
 			if audio != null: audio.play_race_skill(race_k, "B1")
 			return
 		if nid == "C1":
-			start_ki_channel(1.6, 0.30, 0.0)
+			start_ki_channel(1.6, 0.30 * skill_power, 0.0)
 			if _hero_has_talent("C6"):
 				hero_buffs["meditate_emp_t"] = 6.0
 			if audio != null: audio.play_race_skill(race_k, "C1")
 			return
 		if nid == "C4":
-			start_ki_channel(1.8, 0.0, 0.30 if _hero_has_talent("C7") else 0.20)
+			start_ki_channel(1.8, 0.0, 0.20 * skill_power * (1.0 + 0.50 * _hero_talent_power("C7")))
 			if audio != null: audio.play_race_skill(race_k, "C4")
 			return
 		if nid == "B9":
-			_spawn_ground_circle(hero_pos, 220.0, 8.0, "temple", 0.30, 0.40, 0.0)
+			_spawn_ground_circle(hero_pos, 220.0, 8.0, "temple", 0.30 * skill_power, minf(0.90, 0.40 * skill_power), 0.0)
 			if hero != null:
 				hero.play_action("sk_B9", "skillb")
 				if hero.has_method("show_damage_number"):
@@ -2637,8 +2664,10 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 	# ==========================================================================
 	var skill_mult := 1.0 if skill_idx == 0 else float(spec.get("mult", 1.65))
 	var apply_burn := 0.0
+	var burn_dps := 0.0
 	var apply_stun := 0.0
 	var apply_slow := 0.0
+	var slow_strength := 0.0
 	var apply_mark := 0.0
 	var push_back := 0.0
 	var guaranteed_crit := false
@@ -2665,16 +2694,16 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 			if float(hero_buffs.get("dodge_empower_t", 0.0)) > 0.05:
 				hero_buffs["dodge_empower_t"] = 0.0
 				if _hero_has_talent("A3"):
-					skill_mult *= 1.25
+					skill_mult *= 1.0 + 0.25 * _hero_talent_power("A3")
 				if _hero_has_talent("A7"):
 					guaranteed_crit = true
 		elif race_k == "android" and rpg_hud != null:
 			android_last_shot_t = world_time
-			var charge_add := (4.0 * (0.85 if _hero_has_talent("C3") else 1.0)) * float(passives.get("resGainMult", 1.0))
+			var charge_add := (4.0 * maxf(0.10, 1.0 - 0.15 * _hero_talent_power("C3"))) * float(passives.get("resGainMult", 1.0))
 			var max_c := _android_max_charge()
 			rpg_hud.hero_res = minf(max_c, float(rpg_hud.hero_res) + charge_add)
 			if float(rpg_hud.hero_res) >= max_c - 0.1 and not _hero_has_talent("C8") and ki_mode_timer <= 0.0:
-				android_overheat_t = 1.0 if _hero_has_talent("C2") else 2.0
+				android_overheat_t = maxf(0.10, 2.0 - _hero_talent_power("C2"))
 				show_combat_toast("⚠ PRZEGRZANIE RDZENIA (%.1fs)!" % android_overheat_t, Color(1.0, 0.42, 0.28))
 		elif race_k == "sage" and _hero_has_talent("B2"):
 			var near_circle := false
@@ -2683,7 +2712,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 					near_circle = true
 					break
 			if not near_circle:
-				_spawn_ground_circle(hero_pos, 118.0, 6.0, "light", 0.10, 0.22 if _hero_has_talent("B6") else 0.0, 0.0)
+				_spawn_ground_circle(hero_pos, 118.0, 6.0, "light", 0.10 * _hero_talent_power("B2"), 0.22 if _hero_has_talent("B6") else 0.0, 0.0)
 	else:
 		var clip_name := str(spec.get("clip", "skill"))
 		var fb_name := str(spec.get("fb", "skill"))
@@ -2695,14 +2724,17 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 
 		if race_k == "legend":
 			if nid == "A1":
-				if _hero_has_talent("A7"): skill_mult *= 1.35
-				if _hero_has_talent("A2"): apply_burn = 3.5
+				if _hero_has_talent("A2"):
+					apply_burn = 3.0
+					burn_dps = float(base_atk) * 0.10 * _hero_talent_power("A2")
 				if combat_vfx != null and hero != null: combat_vfx.spawn_slash(hero.position, aim_dir, race_k, 1.45, false)
 			elif nid == "B1":
 				apply_stun = 1.2
-				_grant_hero_shield((30.0 + float(rpg_hud.hero_max_hp) * 0.22) * shield_mult, 6.0)
+				_grant_hero_shield((30.0 + float(rpg_hud.hero_max_hp) * 0.22) * shield_mult * skill_power, 6.0)
 			elif nid == "C1":
-				if _hero_has_talent("C3"): apply_burn = 4.0
+				if _hero_has_talent("C3"):
+					apply_burn = 4.0
+					burn_dps = float(base_atk) * 0.10 * _hero_talent_power("C3")
 				if combat_vfx != null and hero != null: combat_vfx.spawn_ki_burst(hero.position, race_k, 175.0)
 			elif nid == "A4":
 				var pre_a4: Vector2 = hero.position if hero != null else Vector2.ZERO
@@ -2718,8 +2750,9 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 				var spent_z := float(rpg_hud.hero_res) if rpg_hud != null else 0.0
 				if rpg_hud != null and ki_mode_timer <= 0.0:
 					rpg_hud.hero_res = 0.0
-				skill_mult = (1.0 + spent_z / 50.0) * (1.25 if _hero_has_talent("C8") else 1.0)
+				skill_mult = (1.0 + spent_z / 50.0) * (1.0 + 0.25 * _hero_talent_power("C8"))
 				apply_burn = 3.5
+				burn_dps = float(base_atk) * 0.10 * skill_power
 				if combat_vfx != null and hero != null: combat_vfx.spawn_ki_burst(hero.position, race_k, 210.0 if _hero_has_talent("C7") else 160.0)
 			elif nid == "A9":
 				if combat_vfx != null and hero != null:
@@ -2727,6 +2760,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 					combat_vfx.spawn_ki_burst(end_pos, race_k, 145.0)
 			elif nid == "C9":
 				apply_burn = 5.0
+				burn_dps = float(base_atk) * 0.10 * skill_power
 				if combat_vfx != null and hero != null: combat_vfx.spawn_ki_burst(hero.position, race_k, 240.0)
 		elif race_k == "android":
 			if nid == "A1":
@@ -2763,10 +2797,11 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 		elif race_k == "planetary":
 			if nid == "B1":
 				apply_slow = 3.5
-				if _hero_has_talent("B8"): apply_stun = 1.0
+				slow_strength = minf(0.90, 0.30 * skill_power)
+				if _hero_has_talent("B8"): apply_stun = minf(3.0, 0.50 * _hero_talent_power("B8"))
 				if combat_vfx != null and hero != null: combat_vfx.spawn_ki_burst(hero.position, race_k, 165.0)
 				if _hero_has_talent("B5"):
-					delayed_seals.append({"target_id": "", "pos": hero_pos, "life": 0.85, "dmg": int(round(float(base_atk) * 1.10 * dmg_scale)), "splash_r": reach, "spawn_burn_circle": false, "grant_ki": 0.0, "kind": "shockwave"})
+					delayed_seals.append({"target_id": "", "pos": hero_pos, "life": 0.85, "dmg": int(round(float(base_atk) * 0.60 * _hero_talent_power("B5") * dmg_scale)), "splash_r": reach, "spawn_burn_circle": false, "grant_ki": 0.0, "kind": "shockwave"})
 			elif nid == "A4" or nid == "A9":
 				if combat_vfx != null and hero != null: combat_vfx.spawn_ki_burst(hero.position, race_k, 185.0)
 			elif nid == "B4":
@@ -2778,7 +2813,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 						try_move(leap_v.normalized() * minf(leap_v.length() - 20.0, 145.0))
 						sync_hero()
 				if _hero_has_talent("B7"):
-					_grant_hero_shield(float(rpg_hud.hero_max_hp) * 0.16 * shield_mult, 5.0)
+					_grant_hero_shield(float(rpg_hud.hero_max_hp) * 0.15 * _hero_talent_power("B7") * shield_mult, 5.0)
 				if combat_vfx != null and hero != null:
 					combat_vfx.spawn_dash_afterimage(pre_b4, hero.position, race_k)
 					combat_vfx.spawn_ki_burst(hero.position, race_k, 190.0)
@@ -2798,10 +2833,11 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 						"target_id": tid,
 						"pos": live_agents[best_idx]["pos"] as Vector2,
 						"life": 3.0,
-						"dmg": maxi(14, int(round(float(base_atk) * 2.00 * dmg_scale))),
+						"dmg": maxi(14, int(round(float(base_atk) * _talent_attack_multiplier("A1", 2.00) * dmg_scale))),
 						"splash_r": 120.0 if _hero_has_talent("A5") else 0.0,
-						"spawn_burn_circle": _hero_has_talent("A7"),
-						"grant_ki": 15.0 if _hero_has_talent("A8") else 0.0,
+						"splash_power": 0.50 * _hero_talent_power("A5"),
+						"burn_dps": maxf(12.0, float(base_atk) * 0.35) * _hero_talent_power("A7"),
+						"grant_ki": 15.0 * _hero_talent_power("A8"),
 						"kind": "seal",
 					})
 					last_combat_time = world_time
@@ -2811,8 +2847,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 					combat_vfx.spawn_beam(hero.position, end_pos, race_k, 24.0, 0.45)
 			elif nid == "B4":
 				var c_pos: Vector2 = (live_agents[best_idx]["pos"] as Vector2) if best_idx >= 0 else hero_pos
-				_spawn_ground_circle(c_pos, 160.0, 6.0, "slow", 0.0, 0.40, 0.0)
-				apply_slow = 4.0
+				_spawn_ground_circle(c_pos, 160.0, 6.0, "slow", 0.0, minf(0.90, 0.40 * skill_power), 0.0)
 			elif nid == "A9":
 				var c9_pos: Vector2 = (live_agents[best_idx]["pos"] as Vector2) if best_idx >= 0 else hero_pos
 				_spawn_ground_circle(c9_pos, 190.0, 1.2, "light", 0.0, 0.25, 0.0)
@@ -2820,7 +2855,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 					"target_id": str(live_agents[best_idx]["id"]) if best_idx >= 0 else "",
 					"pos": c9_pos,
 					"life": 1.15,
-					"dmg": maxi(24, int(round(float(base_atk) * 4.20 * dmg_scale))),
+					"dmg": maxi(24, int(round(float(base_atk) * _talent_attack_multiplier("A9", 4.20) * dmg_scale))),
 					"splash_r": 190.0,
 					"spawn_burn_circle": false,
 					"grant_ki": 0.0,
@@ -2829,6 +2864,10 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 				last_combat_time = world_time
 				return
 
+	if skill_idx > 0:
+		skill_mult = _talent_attack_multiplier(nid, skill_mult)
+		if race_k == "legend" and nid == "A1":
+			skill_mult += 0.80 * _hero_talent_power("A7") * (2.0 * skill_power)
 	if not is_aoe and best_idx >= 0:
 		hit_indices = [best_idx]
 	if hit_indices.is_empty():
@@ -2837,7 +2876,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 	last_combat_time = world_time
 	# Legend real-hit Ember generation (+4, +6 w/ C2) & A3 streak haste!
 	if race_k == "legend" and skill_idx == 0 and rpg_hud != null:
-		var ember_gain := (6.0 if _hero_has_talent("C2") else 4.0) * float(passives.get("resGainMult", 1.0))
+		var ember_gain := 4.0 * float(passives.get("resGainMult", 1.0))
 		rpg_hud.hero_res = minf(100.0, float(rpg_hud.hero_res) + ember_gain)
 		if _hero_has_talent("A3"):
 			legend_streak += 1
@@ -2847,7 +2886,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 
 	# Planetary B6: +5 Ki per enemy hit by Impuls Ziemi!
 	if race_k == "planetary" and nid == "B1" and _hero_has_talent("B6") and rpg_hud != null:
-		rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + float(hit_indices.size()) * 5.0)
+		rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + minf(15.0, float(hit_indices.size()) * 5.0 * _hero_talent_power("B6")))
 
 	var any_kill := false
 	for h_idx: int in hit_indices:
@@ -2857,9 +2896,9 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 		var tgt_crit := crit_pct
 		var tgt_mult := skill_mult * dmg_scale
 		if float(target.get("marked_t", 0.0)) > 0.05:
-			tgt_crit += 15.0
+			tgt_crit += 15.0 * _hero_talent_power("A1")
 			if race_k == "android" and _hero_has_talent("A7"):
-				tgt_mult *= 1.40
+				tgt_mult *= 1.0 + 0.40 * _hero_talent_power("A7")
 		var is_crit := guaranteed_crit or (randf() * 100.0 < tgt_crit)
 		var crit_mult := 1.55 if is_crit else 1.0
 		var dmg := maxi(8, int(round(float(base_atk) * tgt_mult * lv_penalty * crit_mult * randf_range(0.92, 1.16))))
@@ -2871,7 +2910,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 				var pnd = target.get("node", null)
 				if is_instance_valid(pnd):
 					pnd.position = iso(cand_pb.x, cand_pb.y, height_at(cand_pb.x, cand_pb.y))
-		if _apply_damage_to_agent(h_idx, dmg, is_crit, race_k, kill_heal_pct, apply_burn, apply_stun, apply_slow, apply_mark):
+		if _apply_damage_to_agent(h_idx, dmg, is_crit, race_k, kill_heal_pct, apply_burn, apply_stun, apply_slow, apply_mark, burn_dps, slow_strength):
 			any_kill = true
 
 	# Android A8 Multishot: basic shot bounces to 2 nearby enemies for 40% dmg!
@@ -2887,7 +2926,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 				continue
 			if anchor_p.distance_to(eag["pos"] as Vector2) <= 145.0:
 				extras += 1
-				var edmg := maxi(5, int(round(float(base_atk) * 0.40 * dmg_scale)))
+				var edmg := maxi(5, int(round(float(base_atk) * 0.40 * _hero_talent_power("A8") * dmg_scale)))
 				if combat_vfx != null and is_instance_valid(target_node) and is_instance_valid(eag.get("node", null)):
 					combat_vfx.spawn_bolt(target_node.position, (eag["node"] as Node2D).position, race_k, 0.75)
 				if _apply_damage_to_agent(ei, edmg, false, race_k, kill_heal_pct):
@@ -3744,7 +3783,7 @@ func _step_stage3_combat_timers(delta: float, is_moving: bool) -> void:
 					continue
 				if cpos.distance_to(ag["pos"] as Vector2) <= crad:
 					if slow_p > 0.0:
-						ag["slow_t"] = maxf(float(ag.get("slow_t", 0.0)), 0.35)
+						_apply_agent_slow(ag, 0.35, slow_p)
 					if tick_burn:
 						_apply_damage_to_agent(ai, maxi(5, int(round(burn_d * 0.50))), false, _hero_race_key(), 0.0)
 		ci_i -= 1
@@ -3779,9 +3818,10 @@ func _step_stage3_combat_timers(delta: float, is_moving: bool) -> void:
 						if (ak != "monster" and ak != "animal") or not bool(ag.get("alive", true)):
 							continue
 						if dpos.distance_to(ag["pos"] as Vector2) <= sr:
-							_apply_damage_to_agent(ai, maxi(8, int(round(float(ddmg) * 0.65))), false, race_k, kill_heal_pct)
-				if bool(ds.get("spawn_burn_circle", false)):
-					_spawn_ground_circle(dpos, 115.0, 4.0, "burn", 0.0, 0.0, maxf(12.0, float(ddmg) * 0.35))
+							_apply_damage_to_agent(ai, maxi(8, int(round(float(ddmg) * float(ds.get("splash_power", 0.0))))), false, race_k, kill_heal_pct)
+				var seal_burn_dps := float(ds.get("burn_dps", 0.0))
+				if seal_burn_dps > 0.0:
+					_spawn_ground_circle(dpos, 115.0, 4.0, "burn", 0.0, 0.0, seal_burn_dps)
 				var gki := float(ds.get("grant_ki", 0.0))
 				if gki > 0.0 and rpg_hud != null:
 					rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + gki)
@@ -3802,25 +3842,26 @@ func _step_stage3_combat_timers(delta: float, is_moving: bool) -> void:
 			if ki_mode_timer > 0.0:
 				rpg_hud.hero_res = 100.0
 			elif world_time - last_combat_time >= 5.0 and float(rpg_hud.hero_res) > 0.0:
-				rpg_hud.hero_res = maxf(0.0, float(rpg_hud.hero_res) - 5.0 * delta)
+				rpg_hud.hero_res = maxf(0.0, float(rpg_hud.hero_res) - 5.0 * delta / (1.0 + _hero_talent_power("C2")))
 			if _hero_has_talent("C6") and float(rpg_hud.hero_res) >= 99.0:
-				rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + float(rpg_hud.get_total_ki_regen()) * 0.50 * delta)
+				rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + float(rpg_hud.get_total_ki_regen()) * 0.50 * _hero_talent_power("C6") * delta)
 			rpg_hud.hero_res_ratio = clampf(float(rpg_hud.hero_res) / 100.0, 0.0, 1.0)
 			rpg_hud.hero_res_label = "Żar %d/100%s" % [int(round(float(rpg_hud.hero_res))), " ★" if float(rpg_hud.hero_res) >= 80.0 else ""]
 		elif race_k == "android":
 			var max_c := _android_max_charge()
 			if android_overheat_t <= 0.0 and world_time - android_last_shot_t >= 1.0 and float(rpg_hud.hero_res) > 0.0:
-				rpg_hud.hero_res = maxf(0.0, float(rpg_hud.hero_res) - 6.0 * delta)
+				rpg_hud.hero_res = maxf(0.0, float(rpg_hud.hero_res) - 6.0 * (1.0 + 0.50 * _hero_talent_power("C2")) * delta)
 			rpg_hud.hero_res_ratio = clampf(float(rpg_hud.hero_res) / maxf(max_c, 1.0), 0.0, 1.0)
 			rpg_hud.hero_res_label = ("PRZEGRZANIE %.1fs" % android_overheat_t) if android_overheat_t > 0.05 else ("Ładunek %d/%d" % [int(round(float(rpg_hud.hero_res))), int(round(max_c))])
 		elif race_k == "planetary":
 			var terr := _get_planetary_terrain()
 			var has_b2 := _hero_has_talent("B2")
 			if has_b2 and terr == "forest":
-				rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + float(rpg_hud.get_total_ki_regen()) * 0.30 * delta)
+				rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + float(rpg_hud.get_total_ki_regen()) * 0.30 * _hero_talent_power("B2") * delta)
 			rpg_hud.hero_res = float(planetary_combo) * 50.0
 			rpg_hud.hero_res_ratio = clampf(float(planetary_combo) / 2.0, 0.0, 1.0)
-			var t_lbl := "Las +30%%KI" if terr == "forest" else ("Skała +10%%OBR" if terr == "rock" else "Woda +8%%SZYB")
+			var b2_power := _hero_talent_power("B2")
+			var t_lbl := ("Las +%.1f%% KI" % (30.0 * b2_power)) if terr == "forest" else (("Skała +%.1f%% OBR" % (10.0 * b2_power)) if terr == "rock" else ("Woda +%.1f%% SZYB" % (8.0 * b2_power)))
 			rpg_hud.hero_res_label = ("Teren: %s" % t_lbl) if has_b2 else ("Kombo %d/3" % (planetary_combo + 1))
 		elif race_k == "sage":
 			var in_c := 0
@@ -3923,14 +3964,12 @@ func step_world(delta: float) -> void:
 			stat_spd_mult = float(rpg_hud.get_speed_mult())
 		var outside_city := hero_pos.distance_to(capital_center) > safe_city_radius
 		var road_mult := 1.10 if (outside_city and is_on_road(hero_pos.x, hero_pos.y)) else 1.0
-		var ki_spd_mult := 1.10 if ki_mode_timer > 0.0 else 1.0
+		var ki_spd_mult := 1.0 + 0.10 * _ki_form_power() if ki_mode_timer > 0.0 else 1.0
 		var buff_spd := 1.0
-		if float(hero_buffs.get("streak_haste_t", 0.0)) > 0.05:
-			buff_spd *= 1.15
 		if float(hero_buffs.get("kill_spd_t", 0.0)) > 0.05:
-			buff_spd *= 1.15
+			buff_spd *= 1.0 + 0.15 * _hero_talent_power("A5")
 		if _hero_race_key() == "planetary" and _hero_has_talent("B2") and _get_planetary_terrain() == "water":
-			buff_spd *= 1.08
+			buff_spd *= 1.0 + 0.08 * _hero_talent_power("B2")
 		var analog_mult := lerpf(0.45, 1.0, move_mag)
 		try_move(world_dir * SPEED * analog_mult * gm_speed_mult * stat_spd_mult * road_mult * ki_spd_mult * buff_spd * delta)
 
@@ -4091,7 +4130,7 @@ func step_world(delta: float) -> void:
 			if float(ag.get("stun_t", 0.0)) > 0.05:
 				node.animate(Vector2.ZERO, false, stride)
 				continue
-			var slow_mult := 0.60 if float(ag.get("slow_t", 0.0)) > 0.05 else 1.0
+			var slow_mult := 1.0 - float(ag.get("slow_pct", 0.40)) if float(ag.get("slow_t", 0.0)) > 0.05 else 1.0
 			var dist_to_hero := hero_pos.distance_to(prev_p)
 			var dist_from_home := prev_p.distance_to(home)
 			var was_hurt := int(ag.get("cur_hp", 100)) < int(ag.get("max_hp", 100))
@@ -4133,10 +4172,10 @@ func step_world(delta: float) -> void:
 						var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
 						var hero_def := float(rpg_hud.get_total_defense()) if (rpg_hud != null and rpg_hud.has_method("get_total_defense")) else 12.0
 						var def_mult := 1.0
-						if ki_mode_timer > 0.0: def_mult += 0.15
-						if float(hero_buffs.get("fortify_t", 0.0)) > 0.05: def_mult += 0.60
-						if float(hero_buffs.get("dodge_def_t", 0.0)) > 0.05: def_mult += 0.20
-						if race_k_now == "planetary" and _hero_has_talent("B2") and _get_planetary_terrain() == "rock": def_mult += 0.10
+						if ki_mode_timer > 0.0: def_mult += 0.15 * _ki_form_power()
+						if float(hero_buffs.get("fortify_t", 0.0)) > 0.05: def_mult += 0.60 * _hero_talent_power("B9")
+						if float(hero_buffs.get("dodge_def_t", 0.0)) > 0.05: def_mult += 0.20 * _hero_talent_power("A8")
+						if race_k_now == "planetary" and _hero_has_talent("B2") and _get_planetary_terrain() == "rock": def_mult += 0.10 * _hero_talent_power("B2")
 						if race_k_now == "legend" and float(hero_buffs.get("rage_t", 0.0)) > 0.05 and not _hero_has_talent("B8"): def_mult -= 0.15
 						def_mult += _hero_circle_def_bonus()
 						var adv_mult := 1.35 if (m_lvl - hero_lv >= 3) else 1.0
@@ -4155,12 +4194,12 @@ func step_world(delta: float) -> void:
 						if rpg_hud != null and rpg_hud.has_method("take_combat_damage") and rpg_hud.take_combat_damage(dmg):
 							if float(hero_buffs.get("last_flame_t", 0.0)) > 0.05:
 								hero_buffs["last_flame_t"] = 0.0
-								rpg_hud.hero_hp = maxf(1.0, round(float(rpg_hud.hero_max_hp) * 0.30))
+								rpg_hud.hero_hp = maxf(1.0, round(float(rpg_hud.hero_max_hp) * minf(1.0, 0.30 * _hero_talent_power("B9"))))
 								rpg_hud._sync_bar_uniforms()
 								rpg_hud._refresh_visuals()
 								if combat_vfx != null and hero != null:
 									combat_vfx.spawn_ki_burst(hero.position, race_k_now, 180.0)
-								show_combat_toast("✦ OSTATNI PŁOMIEŃ uratował Cię przed śmiercią (+30%% HP)!", Color(1.0, 0.80, 0.28))
+								show_combat_toast("✦ OSTATNI PŁOMIEŃ uratował Cię przed śmiercią!", Color(1.0, 0.80, 0.28))
 							else:
 								handle_hero_defeat()
 								return

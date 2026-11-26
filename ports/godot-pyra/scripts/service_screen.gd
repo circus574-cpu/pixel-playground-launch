@@ -1129,6 +1129,8 @@ func spawn_world(full: bool) -> void:
 		world.start_race = str(data.get("race", "legend"))
 		world.start_land = str(data.get("land", "pyra"))
 		world.start_level = int(data.get("kit", {}).get("level", 1))
+		if "start_talents" in world:
+			world.start_talents = data.get("kit", {})
 		world.start_gold = int(data.get("gold", 20))
 	if full and char_id != "":
 		autosave.wait_time = 20.0
@@ -1166,6 +1168,8 @@ func save_progress() -> void:
 	var hud: Object = world.rpg_hud
 	data["kit"] = data.get("kit", {})
 	data["kit"]["level"] = int(hud.hero_level)
+	if hud.has_method("export_talent_progress"):
+		data["kit"].merge(hud.export_talent_progress(), true)
 	data["gold"] = int(hud.hero_gold)
 	data["land"] = str(world.current_land)
 	data["characterId"] = char_id

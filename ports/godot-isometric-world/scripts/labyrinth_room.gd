@@ -449,27 +449,30 @@ func perform_labyrinth_skill(skill_idx: int, node_id: String = "") -> void:
 	var dmg_scale := 1.0 + float(passives.get("dmgMult", 0.0))
 	var kill_heal_pct := float(passives.get("killHealPct", 0.0))
 	var shield_mult := float(passives.get("shieldMult", 1.0))
+	var skill_power := float(hud.talent_power(nid)) if hud != null else 1.0
 
 	if nid == "T" or skill_idx == 5:
 		if world != null and world.has_method("_activate_ki_mode_visuals"):
 			world._activate_ki_mode_visuals(race_k, 20.0)
 		skill_rings.append({"pos": hero_px, "r": 24.0, "max_r": 210.0, "col": Color(0.36, 0.96, 1.0), "t": 0.55, "dur": 0.55})
 		float_texts.append({"pos": hero_px + Vector2(-28, -28), "txt": "✦ FORMA KI!", "col": Color(0.42, 0.98, 1.0), "t": 1.2})
+		var form_mult := float(hud.talent_attack_multiplier("T", 2.10)) if hud != null else 2.10
+		var form_damage := maxi(18, int(round(float(base_atk) * form_mult * dmg_scale)))
 		for gi in guardians.size():
 			if bool(guardians[gi].get("alive", false)) and hero_px.distance_to(guardians[gi]["px"] as Vector2) <= 235.0:
-				_damage_guardian(gi, maxi(18, int(round(float(base_atk) * 2.10 * dmg_scale))), false, kill_heal_pct, 3.0, 1.0)
+				_damage_guardian(gi, form_damage, false, kill_heal_pct, 3.0, 1.0)
 		queue_redraw()
 		return
 
 	if world != null and float(world.get("ki_mode_timer")) > 0.0:
-		dmg_scale *= 1.25
+		dmg_scale *= float(world.ki_form_attack_multiplier())
 
 	# Dodge / Utility / Shield / Heal skills in Labyrinth
 	if race_k == "planetary" and nid == "A1":
 		perform_labyrinth_dodge(true)
 		return
 	if hud != null and ((nid == "B1" and race_k in ["android", "sage", "legend"]) or (nid == "C4" and race_k == "planetary") or (nid == "B9" and race_k in ["legend", "android"])):
-		var sh_val := (36.0 + float(hud.hero_max_hp) * 0.25) * shield_mult
+		var sh_val := (36.0 + float(hud.hero_max_hp) * 0.25) * shield_mult * skill_power
 		hud.hero_shield_hp = maxf(float(hud.hero_shield_hp), sh_val)
 		hud.hero_shield_timer = maxf(float(hud.hero_shield_timer), 6.5)
 		skill_rings.append({"pos": hero_px, "r": 16.0, "max_r": 96.0, "col": Color(0.38, 0.94, 1.0), "t": 0.45, "dur": 0.45})
@@ -478,14 +481,14 @@ func perform_labyrinth_skill(skill_idx: int, node_id: String = "") -> void:
 			queue_redraw()
 			return
 	if hud != null and ((race_k == "android" and nid == "C4") or (race_k == "planetary" and nid in ["C1", "C9"]) or (race_k == "sage" and nid in ["C1", "C4"])):
-		var heal_p := 0.40 if nid == "C9" else (0.20 if nid == "C4" else 0.14)
+		var heal_p := 0.40 if nid == "C9" else (0.10 if race_k == "android" else (0.20 if nid == "C4" else 0.12))
 		var ki_p := 0.30 if (race_k == "sage" and nid == "C1") else 0.0
 		if heal_p > 0.0 and not (race_k == "sage" and nid == "C1"):
-			var h_add := float(hud.hero_max_hp) * heal_p
+			var h_add := float(hud.hero_max_hp) * heal_p * skill_power
 			hud.hero_hp = minf(float(hud.hero_max_hp), float(hud.hero_hp) + h_add)
 			float_texts.append({"pos": hero_px + Vector2(-18, -28), "txt": "+%d HP" % int(round(h_add)), "col": Color(0.42, 1.0, 0.58), "t": 1.1})
 		if ki_p > 0.0:
-			var k_add := float(hud.hero_max_ki) * ki_p
+			var k_add := float(hud.hero_max_ki) * ki_p * skill_power
 			hud.hero_ki = minf(float(hud.hero_max_ki), float(hud.hero_ki) + k_add)
 			float_texts.append({"pos": hero_px + Vector2(-18, -28), "txt": "+%d KI" % int(round(k_add)), "col": Color(0.42, 0.92, 1.0), "t": 1.1})
 		skill_rings.append({"pos": hero_px, "r": 14.0, "max_r": 90.0, "col": Color(0.42, 0.98, 0.64), "t": 0.45, "dur": 0.45})
@@ -494,6 +497,8 @@ func perform_labyrinth_skill(skill_idx: int, node_id: String = "") -> void:
 
 	# Offensive & AoE Skills hitting guardians in Labyrinth!
 	var mult := maxf(1.35, float(spec.get("mult", 1.85)))
+	if hud != null:
+		mult = float(hud.talent_attack_multiplier(nid, mult))
 	var is_aoe: bool = bool(spec.get("aoe", false)) or (nid in ["C1", "C4", "A4", "B4", "B1", "A9", "B9", "C9"])
 	var reach_px := maxf(185.0, float(spec.get("radius", 185.0)))
 	var apply_burn := 3.5 if (race_k == "legend" and nid in ["A1", "C1", "C4", "C9"]) else 0.0

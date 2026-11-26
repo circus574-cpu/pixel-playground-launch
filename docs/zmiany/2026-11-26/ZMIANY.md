@@ -290,3 +290,41 @@ plików + `--check-only` wszystkich 5 skryptów w `res://service_preview/pyra/`)
 pełne sprawdzenie 3 konfiguracji TypeScript, ESLint, `check_documentation.py` oraz
 wizualna weryfikacja 3 zrzutów OpenGL3 `1600×720`.
 
+## Weryfikacja etapu 3 i rangi talentów Androida
+
+Kontynuacja od commita Gemini `fa19aa0203778fb686f1a2e4b24c5e5a86163b3a`.
+Poprzednia wersja traktowała odblokowanie jako flagę i odrzucała drugi
+punkt. Drzewko w Godot pokazuje teraz bieżącą i następną rangę. Premia
+pierwszej rangi to 50% wartości bazowej. Każdy dalszy punkt dodaje 10%
+pierwszej premii. Zwykły atak nadal stanowi podstawę ×1. Premie do tarcz,
+leczenia i dodatkowych trafień liczymy od zera.
+
+| Rasa | Węzły z kolejnymi rangami | Węzły bez dalszego wydawania punktów |
+| --- | ---: | --- |
+| Planetarni | 25 | R, A1, A7, C5 |
+| Mędrcy | 24 | R, B6, B8, C5, C8 |
+| Androidy | 25 | R, A5, C7, C8 |
+| Legendy | 26 | R, B5, B8 |
+
+Limit jednej rangi dotyczy korzenia, efektów stałych lub dwustanowych
+oraz efektów wymagających dalszej implementacji w porcie. Osobnego
+audytu mechaniki nadal wymagają m.in. osłabienie w kręgach Mędrca (B6),
+obniżenie obrony oznaczonego celu Androida (A5) i odporność na kontrolę
+Planetarnego oraz Mędrca (C5). Wnętrza stosują rangi do podstawowych
+wartości, w tym obrażeń, tarcz i leczenia. Pełna zgodność szczególnych
+zachowań zdolności między powierzchnią a labiryntami wymaga odrębnej weryfikacji.
+
+Do JSON zapisu online dodano `talentRanks`. Zapis bez tego pola jest
+odczytywany jako ranga 1 dla już zdobytych talentów. Kolejne rangi nie
+zmieniają przypisanego paska umiejętności. Nowy import postaci z gry webowej
+zachowuje powtórzenia ID jako wydane punkty. Zapis lokalny zachowuje rangi,
+wolne punkty i przypisanie paska. Zmiana jest addytywna i nie wymaga
+migracji SQL. Serwer sprawdza oczekiwaną rangę wewnątrz istniejącej
+transakcji aktualizacji postaci.
+
+Weryfikacja obejmuje kontrakt przydziału punktów dla 116 węzłów, pomiary rang
+1–3 u czterech ras, ponowny odczyt zapisów, kolizję dwóch żądań zakupu
+oraz pomiar leczenia C4 Androida na powierzchni i w labiryncie. Kontrole
+Godot etapów 1–3 dały odpowiednio 53/53, 27/27 i 86/86. Próba PostgreSQL,
+Godot i API dała 159/159 testów w trzech pakietach. Fizyczny Android,
+pełna zgodność poszczególnych efektów i wdrożenie OTA pozostają otwarte.

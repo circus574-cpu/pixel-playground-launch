@@ -1,7 +1,10 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
+import rankRules from "../../ports/godot-isometric-world/data/talent_rank_rules.json";
+import { KIT_NODES } from "../game/kit/nodes.generated";
 import {
   ANDROID_ITEM_CATALOG,
+  ANDROID_RACES,
   type AndroidAction,
   AndroidEconomyError,
   BACKPACK_SIZE,
@@ -10,6 +13,7 @@ import {
   applyAndroidAction,
   computeAndroidStats,
   computeTrainingBonuses,
+  computeTalentPassiveBonuses,
   createInitialAndroidState,
   maxTrainingPerStat,
   normalizeAndroidState,
@@ -294,7 +298,68 @@ describe("Android authoritative economy, city training & progression engine", ()
       { isStaff: false },
     );
     const critAfter = computeAndroidStats("android", 4, withA2.state).critChance;
-    expect(critAfter).toBeCloseTo(critBefore + 6, 1);
+    expect(critAfter).toBeCloseTo(critBefore + 3, 1);
+  });
+
+  const talentCases = ANDROID_RACES.flatMap((race) =>
+    KIT_NODES[race].map((node) => ({ race, id: node.id, node })),
+  );
+
+  it.each(talentCases)("$race $id obeys the Android rank contract", ({ race, id, node }) => {
+    const hero = freshHero(race, 500, 20);
+    hero.state.unlockedNodes = ["R", ...node.requires.filter((req) => req !== "R")];
+    const op = { type: "unlock_talent", nodeId: id };
+    const options = { isStaff: false };
+    if (id === "R") {
+      expect(() => applyAndroidAction(hero, { ...op, expectedRank: 1 }, options)).toThrow(
+        /już odblokowany/i,
+      );
+      expect(hero.state.skillPoints).toBe(20);
+      return;
+    }
+
+    const first = applyAndroidAction(hero, { ...op, expectedRank: 0 }, options);
+    const afterFirst = { race, ...first };
+    expect(first.state.skillPoints).toBe(19);
+    expect(first.state.talentRanks[id]).toBe(1);
+    expect(() => applyAndroidAction(afterFirst, { ...op, expectedRank: 0 }, options)).toThrow();
+    if (rankRules.rankable[race].includes(id)) {
+      const second = applyAndroidAction(afterFirst, { ...op, expectedRank: 1 }, options);
+      expect(second.state.talentRanks[id]).toBe(2);
+      expect(second.state.skillPoints).toBe(18);
+      expect(second.state.unlockedNodes).toEqual(first.state.unlockedNodes);
+      expect(second.state.hotbarSlots).toEqual(first.state.hotbarSlots);
+    } else {
+      expect(() => applyAndroidAction(afterFirst, { ...op, expectedRank: 1 }, options)).toThrow(
+        /już odblokowany/i,
+      );
+      expect(first.state.skillPoints).toBe(19);
+    }
+  });
+
+  it.each([
+    ["planetary", "A2", "spdPct", 6],
+    ["sage", "C2", "kiPct", 15],
+    ["android", "B2", "defPct", 8],
+    ["legend", "A5", "atkPct", 8],
+  ] as const)("%s scales %s additively and keeps browser ranks", (race, id, stat, base) => {
+    const legacy = normalizeAndroidState({ unlockedNodes: ["R", id], skillPoints: 4 }, race, 10);
+    expect(legacy.talentRanks).toEqual({ R: 1, [id]: 1 });
+    expect(legacy.skillPoints).toBe(4);
+    expect(
+      computeTalentPassiveBonuses(race, legacy.unlockedNodes, legacy.talentRanks)[stat],
+    ).toBeCloseTo(base * 0.5);
+    const imported = createInitialAndroidState(race, {
+      level: 10,
+      unlockedNodes: ["R", id, id, id],
+    });
+    expect(imported.state.unlockedNodes).toEqual(["R", id]);
+    expect(imported.state.talentRanks[id]).toBe(3);
+    expect(imported.state.skillPoints).toBe(7);
+    const reloaded = normalizeAndroidState(JSON.parse(JSON.stringify(imported.state)), race, 10);
+    expect(
+      computeTalentPassiveBonuses(race, reloaded.unlockedNodes, reloaded.talentRanks)[stat],
+    ).toBeCloseTo(base * 0.6);
   });
 
   it("enforces Hard Quests & awards unique non-shop equipment (ring_covenant_q, amulet_guardian_q)", () => {

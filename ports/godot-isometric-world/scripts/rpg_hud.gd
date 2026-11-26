@@ -205,6 +205,8 @@ var unlocked_by_race: Dictionary = {
 }
 
 var progression_db: Dictionary = {}
+var talent_rank_rules: Dictionary = {}
+var talent_purchase_pending := false
 var ui_tex_cache: Dictionary = {}
 var bar_shader: Shader
 var circle_shader: Shader
@@ -344,6 +346,10 @@ func _icon_tex(fname: String) -> Texture2D:
 	return _load_tex("res://assets/ui/icons/" + fname)
 
 func _load_progression_db() -> void:
+	var rank_rules: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/talent_rank_rules.json"))
+	if rank_rules is Dictionary:
+		talent_rank_rules = rank_rules
+
 	if FileAccess.file_exists("res://data/progression.json"):
 		var raw := FileAccess.get_file_as_string("res://data/progression.json")
 		var parsed: Variant = JSON.parse_string(raw)
@@ -371,6 +377,61 @@ func _unlocked_map() -> Dictionary:
 	if not unlocked_by_race.has(rk):
 		unlocked_by_race[rk] = {"R": true}
 	return unlocked_by_race[rk] as Dictionary
+
+func talent_rank(nid: String) -> int:
+	return int(_unlocked_map().get(nid, 0))
+
+func talent_rank_limit(nid: String) -> int:
+	var by_race: Dictionary = talent_rank_rules.get("rankable", {})
+	var rankable: Array = by_race.get(_race_key(), [])
+	return int(talent_rank_rules.get("maxRank", 1)) if nid in rankable else 1
+
+func talent_power(nid: String) -> float:
+	var rank := talent_rank(nid)
+	return 0.5 * (1.0 + 0.1 * float(rank - 1)) if rank > 0 else 0.0
+
+func talent_attack_multiplier(nid: String, base: float) -> float:
+	var power := talent_power(nid)
+	return 1.0 + (base - 1.0) * power if base >= 1.0 else base * power
+
+func _restore_talent_ranks(nodes: Array, ranks: Dictionary) -> void:
+	var umap := _unlocked_map()
+	umap.clear()
+	umap["R"] = 1
+	for node in nodes:
+		var nid := str(node)
+		if nid != "R" and not _node_by_id(nid).is_empty():
+			umap[nid] = clampi(int(ranks.get(nid, 1)), 1, int(talent_rank_rules.get("maxRank", 1)))
+
+func _restore_talent_hotbar(slots: Array) -> void:
+	if slots.size() < 4:
+		return
+	for slot in 4:
+		var nid := str(slots[slot])
+		if nid in ASSIGNABLE_NODES:
+			hotbar_nodes[slot + 1] = nid
+	_refresh_hotbar_icons()
+
+func export_talent_progress() -> Dictionary:
+	return {"talentRanks": _unlocked_map().duplicate(), "skillPoints": skill_points, "hotbarSlots": hotbar_nodes.slice(1, 5)}
+
+func restore_talent_progress(kit: Dictionary) -> void:
+	var ranks: Variant = kit.get("talentRanks", {})
+	if ranks is Dictionary:
+		var nodes: Array = ranks.keys()
+		var legacy_nodes: Variant = kit.get("learned", [])
+		if nodes.is_empty() and legacy_nodes is Array:
+			nodes = legacy_nodes
+		_restore_talent_ranks(nodes, ranks)
+		var spent := 0
+		for nid in _unlocked_map():
+			if nid != "R":
+				spent += talent_rank(nid)
+		skill_points = clampi(int(kit.get("skillPoints", maxi(0, hero_level - spent))), 0, 200)
+	var slots: Variant = kit.get("hotbarSlots", kit.get("slots", []))
+	if slots is Array:
+		_restore_talent_hotbar(slots)
+	recalc_stats(false)
 
 func _node_by_id(nid: String) -> Dictionary:
 	var rd := _race_data()
@@ -622,7 +683,7 @@ func get_active_blessing_kind() -> String:
 	return str(active_blessing.get("kind", ""))
 
 func has_talent(nid: String) -> bool:
-	return bool(_unlocked_map().get(nid, false))
+	return talent_rank(nid) > 0
 
 func get_talent_passives() -> Dictionary:
 	var p := {
@@ -642,52 +703,47 @@ func get_talent_passives() -> Dictionary:
 		"atkIntervalMult": 1.0,
 		"rangeMult": 0.0,
 		"resGainMult": 1.0,
-		"burnBonus": 0.0,
 		"killHealPct": 0.0,
 		"oocHpRegenBonus": 0.0,
 	}
 	var rk := _race_key()
-	var umap := _unlocked_map()
 	if rk == "planetary":
-		if umap.get("A2", false): p["spdPct"] += 0.06
-		if umap.get("A6", false): p["critFlat"] += 5.0
-		if umap.get("A8", false):
-			p["a1CdMult"] *= 0.70
-			p["dodgeCdMult"] *= 0.70
-		if umap.get("B2", false): p["kiRegenPct"] += 0.15
-		if umap.get("B3", false): p["defPct"] += 0.08
-		if umap.get("C2", false): p["hpPct"] += 0.10
-		if umap.get("C3", false): p["oocHpRegenBonus"] += 0.01
+		p["spdPct"] += 0.06 * talent_power("A2")
+		p["critFlat"] += 5.0 * talent_power("A6")
+		p["a1CdMult"] = maxf(0.10, 1.0 - 0.30 * talent_power("A8"))
+		p["dodgeCdMult"] = p["a1CdMult"]
+		p["kiRegenPct"] += 0.15 * talent_power("B2")
+		p["defPct"] += 0.08 * talent_power("B3")
+		p["hpPct"] += 0.10 * talent_power("C2")
+		p["oocHpRegenBonus"] += 0.01 * talent_power("C3")
 	elif rk == "sage":
-		if umap.get("A2", false): p["dmgMult"] += 0.10
-		if umap.get("A3", false): p["a1CdMult"] *= 0.80
-		if umap.get("A6", false): p["critFlat"] += 8.0
-		if umap.get("B2", false): p["defPct"] += 0.10
-		if umap.get("B7", false): p["shieldMult"] += 0.30
-		if umap.get("C2", false): p["kiPct"] += 0.15
-		if umap.get("C3", false):
-			p["kiRegenPct"] += 0.12
-			p["kiCostMult"] *= 0.92
+		p["dmgMult"] += 0.10 * talent_power("A2")
+		p["a1CdMult"] = maxf(0.10, 1.0 - 0.20 * talent_power("A3"))
+		p["critFlat"] += 8.0 * talent_power("A6")
+		p["defPct"] += 0.10 * talent_power("B2")
+		p["shieldMult"] += 0.30 * talent_power("B7")
+		p["kiPct"] += 0.15 * talent_power("C2")
+		p["kiRegenPct"] += 0.12 * talent_power("C3")
+		p["kiCostMult"] = maxf(0.10, 1.0 - 0.08 * talent_power("C3"))
 	elif rk == "android":
-		if umap.get("A2", false): p["critFlat"] += 6.0
-		if umap.get("A3", false): p["rangeMult"] += 0.15
-		if umap.get("A6", false): p["atkIntervalMult"] *= 0.92
-		if umap.get("A7", false): p["atkIntervalMult"] *= 1.10
-		if umap.get("B2", false): p["defPct"] += 0.08
-		if umap.get("B3", false): p["shieldMult"] += 0.25
-		if umap.get("B6", false): p["oocHpRegenBonus"] += 0.005
-		if umap.get("B8", false): p["b1CdMult"] *= 0.65
-		if umap.get("C5", false): p["kiPct"] += 0.12
-		if umap.get("C6", false): p["kiCostMult"] *= 0.80
+		p["critFlat"] += 6.0 * talent_power("A2")
+		p["rangeMult"] += 0.15 * talent_power("A3")
+		p["atkIntervalMult"] = maxf(0.10, 1.0 - 0.08 * talent_power("A6"))
+		p["atkIntervalMult"] *= 1.0 + 0.10 * talent_power("A7")
+		p["defPct"] += 0.08 * talent_power("B2")
+		p["shieldMult"] += 0.25 * talent_power("B3")
+		p["oocHpRegenBonus"] += 0.005 * talent_power("B6")
+		p["b1CdMult"] = maxf(0.10, 1.0 - 0.35 * talent_power("B8"))
+		p["kiPct"] += 0.12 * talent_power("C5")
+		p["kiCostMult"] = maxf(0.10, 1.0 - 0.20 * talent_power("C6"))
 	elif rk == "legend":
-		if umap.get("A2", false): p["burnBonus"] += 0.15
-		if umap.get("A5", false): p["atkPct"] += 0.08
-		if umap.get("A6", false): p["critFlat"] += 6.0
-		if umap.get("B2", false): p["defPct"] += 0.08
-		if umap.get("B3", false): p["hpPct"] += 0.10
-		if umap.get("B6", false): p["killHealPct"] += 0.03
-		if umap.get("C2", false): p["resGainMult"] += 0.50
-		if umap.get("C6", false): p["kiRegenPct"] += 0.25
+		p["atkPct"] += 0.08 * talent_power("A5")
+		p["critFlat"] += 6.0 * talent_power("A6")
+		p["defPct"] += 0.08 * talent_power("B2")
+		p["hpPct"] += 0.10 * talent_power("B3")
+		p["killHealPct"] += 0.03 * talent_power("B6")
+		p["resGainMult"] += 0.50 * talent_power("C2")
+		p["kiRegenPct"] += 0.25 * talent_power("C6")
 	return p
 
 func get_total_attack() -> int:
@@ -750,8 +806,8 @@ func get_ki_power() -> int:
 	var def := float(get_total_defense())
 	var transformed := world != null and float(world.get("ki_mode_timer")) > 0.0
 	if transformed:
-		atk = roundf(atk * 1.25)
-		def = roundf(def * 1.15)
+		atk = roundf(atk * world.ki_form_attack_multiplier())
+		def = roundf(def * (1.0 + 0.15 * world._ki_form_power()))
 	return maxi(0, int(round(hero_max_hp + hero_max_ki + 10.0 * (atk + def))))
 
 
@@ -760,7 +816,10 @@ func get_basic_attack_interval() -> float:
 	var base: Dictionary = rd.get("base", {})
 	var ms := float(base.get("attackIntervalMs", 650.0))
 	var p := get_talent_passives()
-	return clampf((ms / 1000.0) * float(p["atkIntervalMult"]), 0.32, 1.40)
+	var mult := float(p["atkIntervalMult"])
+	if _race_key() == "legend" and world != null and float(world.hero_buffs.get("streak_haste_t", 0.0)) > 0.05:
+		mult *= maxf(0.10, 1.0 - 0.10 * talent_power("A3"))
+	return clampf((ms / 1000.0) * mult, 0.32, 1.40)
 
 func apply_local_city_training(stat_key: String) -> Dictionary:
 	if not training_ranks.has(stat_key):
@@ -901,18 +960,10 @@ func apply_server_character(ch: Dictionary) -> void:
 		active_blessing.clear()
 	var nodes_arr: Array = st.get("unlockedNodes", [])
 	if not nodes_arr.is_empty():
-		var umap := _unlocked_map()
-		umap.clear()
-		for n in nodes_arr:
-			umap[str(n)] = true
+		_restore_talent_ranks(nodes_arr, st.get("talentRanks", {}))
 	var hb_raw: Variant = st.get("hotbarSlots", null)
-	if hb_raw is Array and (hb_raw as Array).size() >= 4:
-		var hb_arr: Array = hb_raw as Array
-		for hbi in 4:
-			var nid := str(hb_arr[hbi])
-			if nid in ASSIGNABLE_NODES:
-				hotbar_nodes[hbi + 1] = nid
-		_refresh_hotbar_icons()
+	if hb_raw is Array:
+		_restore_talent_hotbar(hb_raw)
 	var eq_raw: Dictionary = st.get("equipment", {})
 	for si in equip_slots.size():
 		var sk := str(si)
@@ -1214,10 +1265,10 @@ func get_hotbar_skill_cd(idx: int) -> float:
 	var p := get_talent_passives()
 	if nid == "A1":
 		cd_val *= float(p["a1CdMult"])
-		if _race_key() == "planetary" and has_talent("A8"):
-			cd_val *= 0.70
 	elif nid == "B1":
 		cd_val *= float(p["b1CdMult"])
+	if _race_key() == "sage" and nid != "T" and world != null and float(world.get("ki_mode_timer")) > 0.0:
+		cd_val *= maxf(0.10, 1.0 - 0.30 * world._ki_form_power())
 	return maxf(1.2, cd_val)
 
 func get_hotbar_skill_ki(idx: int) -> float:
@@ -2670,7 +2721,7 @@ func _draw_constellation_tree(c: CanvasItem, f: Font, mr: Rect2) -> void:
 		c.draw_string_outline(f, Vector2(ix + (iw - nw) * 0.5, iy + 132.0), s_name.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.01, 0.96))
 		c.draw_string(f, Vector2(ix + (iw - nw) * 0.5, iy + 132.0), s_name.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.91, 0.62))
 
-		var t_lbl := "%s  •  [%s]" % [str(TYPE_LABELS.get(s_type, "WĘZEŁ")), active_id]
+		var t_lbl := "%s · [%s] · RANGA %d" % [str(TYPE_LABELS.get(s_type, "WĘZEŁ")), active_id, talent_rank(active_id)]
 		var tlw := f.get_string_size(t_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
 		c.draw_string(f, Vector2(ix + (iw - tlw) * 0.5, iy + 152.0), t_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, b_col)
 
@@ -2688,7 +2739,7 @@ func _draw_constellation_tree(c: CanvasItem, f: Font, mr: Rect2) -> void:
 
 		c.draw_line(Vector2(ix + 22.0, iy + 228.0), Vector2(ix + iw - 22.0, iy + 228.0), Color(0.80, 0.62, 0.32, 0.38), 1.0, true)
 
-		c.draw_string(f, Vector2(ix + 22.0, iy + 250.0), "EFEKT UMIEJĘTNOŚCI", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.88, 0.74, 0.44))
+		c.draw_string(f, Vector2(ix + 22.0, iy + 250.0), "OPIS BAZOWY", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.88, 0.74, 0.44))
 		c.draw_multiline_string(fb, Vector2(ix + 22.0, iy + 272.0), s_eff, HORIZONTAL_ALIGNMENT_LEFT, iw - 44.0, 14, 8, Color(0.95, 0.92, 0.86))
 
 		# Hotbar Slot Assignment Pills [1] [2] [3] [4] for unlocked active / ultimate skills!
@@ -2710,20 +2761,23 @@ func _draw_constellation_tree(c: CanvasItem, f: Font, mr: Rect2) -> void:
 
 		# Interactive Unlock / Status Action Plaque at Bottom of Inspector
 		talent_unlock_btn_rect = Rect2(ix + 20.0, iy + ih - 98.0, iw - 40.0, 44.0)
-		var can_unlock := (s_st == "available" and skill_points > 0)
+		var rank := talent_rank(active_id)
+		var can_unlock := _can_buy_talent(active_id, s_st)
 		_draw_forged_pill(c, talent_unlock_btn_rect, can_unlock or s_st == "unlocked")
 		var btn_txt := "WĘZEŁ ZABLOKOWANY"
 		var btn_tcol := Color(0.72, 0.68, 0.62)
-		if s_st == "unlocked":
-			btn_txt = "✦ ODBLOKOWANO ✦"
-			btn_tcol = Color(1.0, 0.92, 0.62)
+		if talent_purchase_pending:
+			btn_txt = "ZAPISYWANIE…"
 		elif can_unlock:
-			btn_txt = "ODBLOKUJ WĘZEŁ (1 PKT)"
+			btn_txt = "RANGA %d (1 PKT)" % (rank + 1)
 			btn_tcol = Color(1.0, 0.98, 0.90)
+		elif rank >= talent_rank_limit(active_id):
+			btn_txt = "✦ MAKSYMALNA RANGA ✦"
+			btn_tcol = Color(1.0, 0.92, 0.62)
 		elif s_st == "level_locked":
 			btn_txt = "WYMAGANY POZ. %d" % s_lvl
 			btn_tcol = Color(1.0, 0.64, 0.42)
-		elif s_st == "available":
+		elif s_st in ["available", "unlocked"]:
 			btn_txt = "BRAK PUNKTÓW TALENTÓW"
 			btn_tcol = Color(0.86, 0.80, 0.66)
 		elif s_st == "excluded":
@@ -3109,6 +3163,9 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 # INPUT HANDLING (MOUSE HOVER, MOBILE TOUCH TAPS, CONSTELLATION UNLOCKING, WILD RIFT SKILLS)
 # ==============================================================================
 
+func _can_buy_talent(nid: String, state: String) -> bool:
+	return (state == "available" or state == "unlocked") and skill_points > 0 and talent_rank(nid) < talent_rank_limit(nid) and not talent_purchase_pending
+
 func _try_unlock_node(nid: String) -> void:
 	var nd := _node_by_id(nid)
 	if nd.is_empty():
@@ -3118,13 +3175,22 @@ func _try_unlock_node(nid: String) -> void:
 		if world != null and world.has_method("show_combat_toast"):
 			world.show_combat_toast("Wymagany poziom %d dla węzła %s!" % [int(nd.get("minLevel", 1)), nid], Color(1.0, 0.64, 0.38))
 		return
-	if st == "available" and skill_points > 0:
-		if world != null and world.has_method("dispatch_server_action") and world.dispatch_server_action({"type": "unlock_talent", "nodeId": nid}):
+	if _can_buy_talent(nid, st):
+		var rank := talent_rank(nid)
+		if world != null and world.has_method("is_server_authoritative") and world.is_server_authoritative():
+			talent_purchase_pending = true
+			world.dispatch_server_action({"type": "unlock_talent", "nodeId": nid, "expectedRank": rank}, func(result: Dictionary) -> void:
+				talent_purchase_pending = false
+				if not bool(result.get("ok", false)) and world != null:
+					world.show_combat_toast(str(result.get("notice", "Nie zapisano rangi talentu.")), Color(1.0, 0.64, 0.38))
+				_refresh_visuals()
+			)
+			_refresh_visuals()
 			return
 		var umap := _unlocked_map()
-		umap[nid] = true
+		umap[nid] = rank + 1
 		skill_points -= 1
-		if nid in ASSIGNABLE_NODES and not (nid in hotbar_nodes.slice(1, 5)):
+		if rank == 0 and nid in ASSIGNABLE_NODES and not (nid in hotbar_nodes.slice(1, 5)):
 			for s_i in range(1, 5):
 				if not bool(umap.get(hotbar_nodes[s_i], false)):
 					hotbar_nodes[s_i] = nid

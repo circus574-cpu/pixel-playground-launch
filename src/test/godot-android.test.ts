@@ -459,6 +459,49 @@ describe.runIf(url)("Android backend on PostgreSQL", () => {
     expect(hero.state.backpack).toContainEqual(loot.items[0]);
   });
 
+  it("migrates a rank-one character and spends only one point for concurrent rank upgrades", async () => {
+    await register("rangitest");
+    const token = tokens["rangitest"]!;
+    const created = await call("POST", "/characters", {
+      token,
+      body: { name: "Rangi Testowe", race: "legend" },
+    });
+    expect(created.status).toBe(201);
+    const first = created.json!["character"];
+    const legacy = {
+      ...first.state,
+      unlockedNodes: ["R", "A1"],
+      hotbarSlots: ["B1", "C1", "A4", "B4"],
+      skillPoints: 3,
+      xp: 78,
+    };
+    delete legacy.talentRanks;
+    await sql`
+      UPDATE godot_android.characters SET level = 4, state = ${sql.json(legacy)} WHERE id = ${first.id}`;
+    const path = `/characters/${first.id}`;
+    const body = { type: "unlock_talent", nodeId: "A1", expectedRank: 1 };
+    const request = () => call("POST", `${path}/action`, { token, body });
+    const outcomes = await Promise.all([request(), request()]);
+    expect(outcomes.map((response) => response.status).sort()).toEqual([200, 422]);
+    expect(outcomes.find((response) => response.status === 422)?.json).toMatchObject({
+      error: "INVALID_ACTION",
+      message: "Ranga talentu już się zmieniła.",
+    });
+    const reloaded = await call("GET", path, { token });
+    expect(reloaded.json!["character"]).toMatchObject({
+      level: 4,
+      gold: first.gold,
+      state: {
+        xp: 78,
+        unlockedNodes: ["R", "A1"],
+        talentRanks: { R: 1, A1: 2 },
+        skillPoints: 2,
+        backpack: first.state.backpack,
+        hotbarSlots: legacy.hotbarSlots,
+      },
+    });
+  });
+
   it("requires a current staff role for GM actions and stores authorized changes", async () => {
     const create = async (nick: string, name: string) => {
       const response = await call("POST", "/characters", {
