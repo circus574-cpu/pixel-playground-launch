@@ -66,7 +66,6 @@ var float_texts: Array[Dictionary] = []
 var ground_drops: Array[Dictionary] = []
 var _visit_id := 0
 var elapsed := 0.0
-var atk_cd := 0.0
 var dodge_invuln_t := 0.0
 var skill_rings: Array[Dictionary] = []
 var nearest_chest: Dictionary = {}
@@ -109,7 +108,7 @@ func _build_ui() -> void:
 	btn_attack.text = "⚔ ATAK [Q]"
 	ForgedUI.style_button(btn_attack, "crimson", 16, 18.0, 8.0)
 	btn_attack.visible = true
-	btn_attack.pressed.connect(perform_labyrinth_attack)
+	btn_attack.pressed.connect(_trigger_basic_attack)
 	add_child(btn_attack)
 
 	btn_potion.text = "🧪 ELIKSIR HP [H]"
@@ -209,7 +208,6 @@ func enter_labyrinth(land: String, data: Dictionary) -> void:
 	visited.clear()
 	float_texts.clear()
 	elapsed = 0.0
-	atk_cd = 0.0
 	chests.clear()
 	for c: Dictionary in data.get("chests", []):
 		var cc := c.duplicate(true)
@@ -224,6 +222,11 @@ func enter_labyrinth(land: String, data: Dictionary) -> void:
 		gc["max_hp"] = int(g.get("hp", 800))
 		gc["cur_hp"] = int(g.get("hp", 800))
 		gc["atk"] = int(g.get("atk", 90))
+		if world != null and g.has("actor_id"):
+			var entry: Dictionary = world.monsters_db.get(str(g["actor_id"]), {})
+			gc["def"] = float(g.get("def", entry.get("def", 0.0)))
+			gc["basic"] = str(g.get("basic", entry.get("basic", "melee")))
+			gc["skills"] = g.get("skills", entry.get("skills", []))
 		gc["atk_cd"] = 0.0
 		gc["dmg_dealt_to_hero"] = 0
 		gc["alive"] = true
@@ -370,7 +373,7 @@ func _damage_guardian(gi: int, dmg: int, is_crit: bool, kill_heal_pct: float, ap
 	var g: Dictionary = guardians[gi]
 	if not bool(g.get("alive", false)):
 		return
-	var final_dmg := maxi(6, dmg)
+	var final_dmg := maxi(1, dmg)
 	g["cur_hp"] = maxi(0, int(g["cur_hp"]) - final_dmg)
 	g["hit_flash"] = 0.22
 	if apply_burn > 0.0:
@@ -399,8 +402,14 @@ func _damage_guardian(gi: int, dmg: int, is_crit: bool, kill_heal_pct: float, ap
 				world.report_monster_kill(str(g["id"]), int(g.get("level", 6)), str(g.get("name", "Strażnik")), hp_cost)
 			_show_toast("Pokonano: %s" % str(g.get("name", "Strażnik")))
 
+func _trigger_basic_attack() -> void:
+	if world != null and world.rpg_hud != null and nearest_guard_idx >= 0:
+		world.rpg_hud.trigger_skill(0)
+
 func perform_labyrinth_attack() -> void:
-	if atk_cd > 0.05 or nearest_guard_idx < 0 or nearest_guard_idx >= guardians.size():
+	if world != null and not world.can_hero_cast_skill("R"):
+		return
+	if nearest_guard_idx < 0 or nearest_guard_idx >= guardians.size():
 		return
 	var g: Dictionary = guardians[nearest_guard_idx]
 	if not bool(g.get("alive", false)):
@@ -410,26 +419,27 @@ func perform_labyrinth_attack() -> void:
 	var crit_pct := 6.0
 	var dmg_mult := 1.0
 	var kill_heal_pct := 0.0
-	atk_cd = 0.55
 	if world != null and world.rpg_hud != null:
 		hero_lv = int(world.rpg_hud.hero_level)
 		if world.rpg_hud.has_method("get_total_attack"):
 			base_atk = int(world.rpg_hud.get_total_attack())
 		if world.rpg_hud.has_method("get_total_crit"):
 			crit_pct = float(world.rpg_hud.get_total_crit())
-		if world.rpg_hud.has_method("get_basic_attack_interval"):
-			atk_cd = float(world.rpg_hud.get_basic_attack_interval())
 		if world.rpg_hud.has_method("get_talent_passives"):
 			var passives: Dictionary = world.rpg_hud.get_talent_passives()
 			dmg_mult += float(passives.get("dmgMult", 0.0))
 			kill_heal_pct = float(passives.get("killHealPct", 0.0))
 	if world != null and float(world.get("ki_mode_timer")) > 0.0:
-		dmg_mult *= 1.25
+		dmg_mult *= float(world.ki_form_attack_multiplier())
 	var g_lvl := int(g.get("level", 6))
 	var lv_penalty := 0.65 if (g_lvl - hero_lv >= 3) else 1.0
+	if world != null:
+		crit_pct += float(world.target_mark_crit(g))
+		dmg_mult *= float(world.consume_attack_buff_multiplier("R")) * float(world.target_damage_multiplier(g))
 	var is_crit := randf() * 100.0 < crit_pct
-	var crit_mult := 1.60 if is_crit else 1.0
-	var dmg := maxi(10, int(round(float(base_atk) * dmg_mult * lv_penalty * crit_mult * randf_range(0.95, 1.26))))
+	var armor := float(world.enemy_armor(g)) if world != null else float(g.get("def", 0.0))
+	var unmitigated := float(base_atk) * dmg_mult * lv_penalty * randf_range(0.95, 1.26)
+	var dmg := int(round(maxf(1.0, unmitigated - armor * 0.5) * (1.50 if is_crit else 1.0)))
 	skill_rings.append({"pos": g["px"] as Vector2, "r": 12.0, "max_r": 54.0, "col": Color(1.0, 0.72, 0.34), "t": 0.24, "dur": 0.24})
 	_damage_guardian(nearest_guard_idx, dmg, is_crit, kill_heal_pct)
 	queue_redraw()
@@ -441,6 +451,8 @@ func perform_labyrinth_skill(skill_idx: int, node_id: String = "") -> void:
 	var hud = world.rpg_hud if world != null else null
 	var race_k: String = world._hero_race_key() if (world != null and world.has_method("_hero_race_key")) else "legend"
 	var nid: String = node_id if not node_id.is_empty() else (str(hud.get_hotbar_node(skill_idx)) if (hud != null and hud.has_method("get_hotbar_node")) else "A1")
+	if world != null and not world.can_hero_cast_skill(nid):
+		return
 	var spec: Dictionary = hud.get_skill_spec(nid) if (hud != null and hud.has_method("get_skill_spec")) else {"mult": 1.75, "radius": 180.0}
 	var passives: Dictionary = hud.get_talent_passives() if (hud != null and hud.has_method("get_talent_passives")) else {}
 	var base_atk := int(hud.get_total_attack()) if (hud != null and hud.has_method("get_total_attack")) else 36
@@ -448,10 +460,10 @@ func perform_labyrinth_skill(skill_idx: int, node_id: String = "") -> void:
 	var crit_pct := float(hud.get_total_crit()) if (hud != null and hud.has_method("get_total_crit")) else 8.0
 	var dmg_scale := 1.0 + float(passives.get("dmgMult", 0.0))
 	var kill_heal_pct := float(passives.get("killHealPct", 0.0))
-	var shield_mult := float(passives.get("shieldMult", 1.0))
-	var skill_power := float(hud.talent_power(nid)) if hud != null else 1.0
 
 	if nid == "T" or skill_idx == 5:
+		if hud != null and not hud.is_hotbar_skill_unlocked(5):
+			return
 		if world != null and world.has_method("_activate_ki_mode_visuals"):
 			world._activate_ki_mode_visuals(race_k, 20.0)
 		skill_rings.append({"pos": hero_px, "r": 24.0, "max_r": 210.0, "col": Color(0.36, 0.96, 1.0), "t": 0.55, "dur": 0.55})
@@ -467,32 +479,15 @@ func perform_labyrinth_skill(skill_idx: int, node_id: String = "") -> void:
 	if world != null and float(world.get("ki_mode_timer")) > 0.0:
 		dmg_scale *= float(world.ki_form_attack_multiplier())
 
-	# Dodge / Utility / Shield / Heal skills in Labyrinth
-	if race_k == "planetary" and nid == "A1":
-		perform_labyrinth_dodge(true)
-		return
-	if hud != null and ((nid == "B1" and race_k in ["android", "sage", "legend"]) or (nid == "C4" and race_k == "planetary") or (nid == "B9" and race_k in ["legend", "android"])):
-		var sh_val := (36.0 + float(hud.hero_max_hp) * 0.25) * shield_mult * skill_power
-		hud.hero_shield_hp = maxf(float(hud.hero_shield_hp), sh_val)
-		hud.hero_shield_timer = maxf(float(hud.hero_shield_timer), 6.5)
-		skill_rings.append({"pos": hero_px, "r": 16.0, "max_r": 96.0, "col": Color(0.38, 0.94, 1.0), "t": 0.45, "dur": 0.45})
-		float_texts.append({"pos": hero_px + Vector2(-26, -26), "txt": "+%d OSŁONA" % int(round(sh_val)), "col": Color(0.42, 0.94, 1.0), "t": 1.1})
-		if race_k != "legend":
-			queue_redraw()
-			return
-	if hud != null and ((race_k == "android" and nid == "C4") or (race_k == "planetary" and nid in ["C1", "C9"]) or (race_k == "sage" and nid in ["C1", "C4"])):
-		var heal_p := 0.40 if nid == "C9" else (0.10 if race_k == "android" else (0.20 if nid == "C4" else 0.12))
-		var ki_p := 0.30 if (race_k == "sage" and nid == "C1") else 0.0
-		if heal_p > 0.0 and not (race_k == "sage" and nid == "C1"):
-			var h_add := float(hud.hero_max_hp) * heal_p * skill_power
-			hud.hero_hp = minf(float(hud.hero_max_hp), float(hud.hero_hp) + h_add)
-			float_texts.append({"pos": hero_px + Vector2(-18, -28), "txt": "+%d HP" % int(round(h_add)), "col": Color(0.42, 1.0, 0.58), "t": 1.1})
-		if ki_p > 0.0:
-			var k_add := float(hud.hero_max_ki) * ki_p * skill_power
-			hud.hero_ki = minf(float(hud.hero_max_ki), float(hud.hero_ki) + k_add)
-			float_texts.append({"pos": hero_px + Vector2(-18, -28), "txt": "+%d KI" % int(round(k_add)), "col": Color(0.42, 0.92, 1.0), "t": 1.1})
-		skill_rings.append({"pos": hero_px, "r": 14.0, "max_r": 90.0, "col": Color(0.42, 0.98, 0.64), "t": 0.45, "dur": 0.45})
+	var reach_px := maxf(185.0, float(spec.get("radius", 185.0)))
+	var target_idx := _nearest_skill_target(reach_px)
+	var target_point: Vector2 = guardians[target_idx]["px"] if target_idx >= 0 else hero_px
+	if world != null and world.try_perform_support_skill(nid, hero_px, target_point):
 		queue_redraw()
+		return
+	if race_k == "android" and nid == "A1" and world != null:
+		if target_idx >= 0:
+			world.mark_enemy(guardians[target_idx])
 		return
 
 	# Offensive & AoE Skills hitting guardians in Labyrinth!
@@ -500,28 +495,40 @@ func perform_labyrinth_skill(skill_idx: int, node_id: String = "") -> void:
 	if hud != null:
 		mult = float(hud.talent_attack_multiplier(nid, mult))
 	var is_aoe: bool = bool(spec.get("aoe", false)) or (nid in ["C1", "C4", "A4", "B4", "B1", "A9", "B9", "C9"])
-	var reach_px := maxf(185.0, float(spec.get("radius", 185.0)))
+	if world != null:
+		dmg_scale *= float(world.consume_attack_buff_multiplier(nid))
 	var apply_burn := 3.5 if (race_k == "legend" and nid in ["A1", "C1", "C4", "C9"]) else 0.0
 	var apply_stun := 1.4 if (nid in ["B1", "B4", "B9"] and race_k in ["legend", "android", "planetary"]) else 0.0
 	var apply_slow := 3.5 if (nid in ["B1", "B4"] and race_k in ["planetary", "sage"]) else 0.0
 	skill_rings.append({"pos": hero_px, "r": 20.0, "max_r": reach_px * 0.85, "col": Color(1.0, 0.64, 0.24) if race_k == "legend" else Color(0.36, 0.92, 1.0), "t": 0.42, "dur": 0.42})
-	var targets: Array[int] = []
 	for gi in guardians.size():
-		if not bool(guardians[gi].get("alive", false)):
+		var target: Dictionary = guardians[gi]
+		if not bool(target.get("alive", false)) or (not is_aoe and gi != target_idx):
 			continue
-		if hero_px.distance_to(guardians[gi]["px"] as Vector2) <= reach_px:
-			targets.append(gi)
-			if not is_aoe:
-				break
-	if targets.is_empty() and nearest_guard_idx >= 0:
-		targets.append(nearest_guard_idx)
-	for gi in targets:
-		var g_lvl := int(guardians[gi].get("level", 6))
+		if hero_px.distance_to(target["px"] as Vector2) > reach_px:
+			continue
+		var g_lvl := int(target.get("level", 6))
 		var lv_pen := 0.65 if (g_lvl - hero_lv >= 3) else 1.0
-		var is_crit := randf() * 100.0 < crit_pct
-		var dmg := maxi(14, int(round(float(base_atk) * mult * dmg_scale * lv_pen * (1.55 if is_crit else 1.0))))
+		var mark_crit := float(world.target_mark_crit(target)) if world != null else 0.0
+		var armor := float(world.enemy_armor(target)) if world != null else float(target.get("def", 0.0))
+		var active_mult := float(world.target_damage_multiplier(target)) if world != null else 1.0
+		var is_crit := randf() * 100.0 < crit_pct + mark_crit
+		var dmg := int(round(maxf(1.0, float(base_atk) * mult * dmg_scale * lv_pen * active_mult - armor * 0.5) * (1.50 if is_crit else 1.0)))
 		_damage_guardian(gi, dmg, is_crit, kill_heal_pct, apply_burn, apply_stun, apply_slow)
 	queue_redraw()
+
+func _nearest_skill_target(reach: float) -> int:
+	var result := -1
+	var best := reach * reach
+	for gi in guardians.size():
+		var target: Dictionary = guardians[gi]
+		if not bool(target.get("alive", false)):
+			continue
+		var distance := hero_px.distance_squared_to(target["px"] as Vector2)
+		if distance < best:
+			best = distance
+			result = gi
+	return result
 
 func _report_guardian_defeat(guardian: Dictionary, hp_cost: int) -> void:
 	var visit := _visit_id
@@ -571,7 +578,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				_try_open_nearest_chest()
 				get_viewport().set_input_as_handled()
 		elif event.keycode == KEY_Q or event.keycode == KEY_SPACE:
-			perform_labyrinth_attack()
+			_trigger_basic_attack()
 			get_viewport().set_input_as_handled()
 		elif event.keycode in [KEY_1, KEY_2, KEY_3, KEY_4]:
 			var si := int(event.keycode - KEY_1) + 1
@@ -600,7 +607,7 @@ func _sync_skill_bar_labels() -> void:
 		var si := i + 1
 		var nid: String = hud.get_hotbar_node(si) if hud.has_method("get_hotbar_node") else "A1"
 		var unlocked: bool = hud.is_hotbar_skill_unlocked(si) if hud.has_method("is_hotbar_skill_unlocked") else false
-		var cd := float(hud.cooldowns[si]) if si < hud.cooldowns.size() else 0.0
+		var cd := float(hud.remaining_hotbar_cooldown(si))
 		if not unlocked:
 			skill_btns[i].text = "[%d] %s 🔒" % [si, nid]
 			skill_btns[i].modulate = Color(0.62, 0.62, 0.68, 0.80)
@@ -621,7 +628,6 @@ func _process(delta: float) -> void:
 	if not visible:
 		return
 	elapsed += delta
-	atk_cd = maxf(0.0, atk_cd - delta)
 	dodge_invuln_t = maxf(0.0, dodge_invuln_t - delta)
 	if world != null and float(world.get("ki_mode_timer")) > 0.0:
 		world.ki_mode_timer = maxf(0.0, float(world.ki_mode_timer) - delta)
@@ -643,10 +649,17 @@ func _process(delta: float) -> void:
 		dir.y += 1.0
 	if world != null and int(world.move_pointer) != -1:
 		dir = world.motion
+	if world != null:
+		world.step_hero_combat_effects(delta, dir.length_squared() > 0.001)
+		for ci in range(world.active_circles.size() - 1, -1, -1):
+			world.active_circles[ci]["life"] = float(world.active_circles[ci]["life"]) - delta
+			if float(world.active_circles[ci]["life"]) <= 0.0:
+				world.active_circles.remove_at(ci)
 	if dir.length_squared() > 0.001:
 		dir = dir.normalized()
 		hero_facing = dir
-		var step := dir * HERO_SPEED * delta
+		var move_mult := float(world.hero_movement_multiplier()) if world != null else 1.0
+		var step := dir * HERO_SPEED * move_mult * delta
 		if _can_stand(hero_px + step):
 			hero_px += step
 		elif _can_stand(hero_px + Vector2(step.x, 0.0)):
@@ -683,6 +696,7 @@ func _process(delta: float) -> void:
 		g["atk_cd"] = maxf(0.0, float(g.get("atk_cd", 0.0)) - delta)
 		g["stun_t"] = maxf(0.0, float(g.get("stun_t", 0.0)) - delta)
 		g["slow_t"] = maxf(0.0, float(g.get("slow_t", 0.0)) - delta)
+		g["marked_t"] = maxf(0.0, float(g.get("marked_t", 0.0)) - delta)
 		var bt := float(g.get("burn_t", 0.0))
 		if bt > 0.0:
 			g["burn_t"] = maxf(0.0, bt - delta)
@@ -698,9 +712,12 @@ func _process(delta: float) -> void:
 				best_gd = gd_s
 				nearest_guard_idx = gi
 			continue
-		var slow_mult := 0.60 if float(g.get("slow_t", 0.0)) > 0.05 else 1.0
+		var slow := float(g.get("slow_pct", 0.40)) if float(g.get("slow_t", 0.0)) > 0.05 else 0.0
 		var home: Vector2 = g["home"]
 		var cur_gp: Vector2 = g["px"]
+		if world != null:
+			slow = maxf(slow, float(world.combat_circle_bonus(cur_gp, "slow_pct")))
+		var slow_mult := 1.0 - slow
 		var dist_h := hero_px.distance_to(cur_gp)
 		var was_hurt := int(g.get("cur_hp", 100)) < int(g.get("max_hp", 100))
 		if (dist_h < 120.0 or (was_hurt and dist_h < 185.0)) and cur_gp.distance_to(home) < 220.0:
@@ -715,27 +732,21 @@ func _process(delta: float) -> void:
 				g["px"] = cur_gp
 			if hero_px.distance_to(cur_gp) <= 58.0 and float(g["atk_cd"]) <= 0.0:
 				g["atk_cd"] = 1.30
+				g["atk_count"] = int(g.get("atk_count", 0)) + 1
 				if dodge_invuln_t > 0.05:
 					float_texts.append({"pos": hero_px + Vector2(-12, -26), "txt": "UNIK!", "col": Color(0.46, 0.98, 0.72), "t": 0.9})
-				else:
-					var g_atk := int(g.get("atk", 90))
-					var g_lvl := int(g.get("level", 7))
-					var hero_lv := int(world.rpg_hud.hero_level) if (world != null and world.rpg_hud != null) else 1
-					var hero_def := int(world.rpg_hud.get_total_defense()) if (world != null and world.rpg_hud != null and world.rpg_hud.has_method("get_total_defense")) else 16
-					var adv_mult := 1.35 if (g_lvl - hero_lv >= 3) else 1.0
-					var gdmg := maxi(8, int(round(float(g_atk) * adv_mult - float(hero_def) * 0.55)))
-					g["dmg_dealt_to_hero"] = int(g.get("dmg_dealt_to_hero", 0)) + gdmg
-					float_texts.append({
-						"pos": hero_px + Vector2(0, -24),
-						"txt": "-%d HP" % gdmg,
-						"col": Color(1.0, 0.26, 0.24),
-						"t": 1.0,
-					})
-					if world != null and world.rpg_hud != null and world.rpg_hud.has_method("take_combat_damage"):
-						if world.rpg_hud.take_combat_damage(gdmg):
-							if world.has_method("handle_hero_defeat"):
-								world.handle_hero_defeat()
-							return
+				elif world != null and world.rpg_hud != null:
+					var special: Dictionary = world.foe_control_skill(g, elapsed)
+					var gdmg := int(world.enemy_hit_damage(g, cur_gp, hero_px, 8))
+					var hp_before := float(world.rpg_hud.hero_hp)
+					if world.resolve_enemy_hit(g, gdmg, special, func(reflected: int) -> void:
+						_damage_guardian(gi, reflected, false, kill_heal_pct)
+					):
+						world.handle_hero_defeat()
+						return
+					var hp_loss := int(round(hp_before - float(world.rpg_hud.hero_hp)))
+					if hp_loss > 0:
+						float_texts.append({"pos": hero_px + Vector2(0, -24), "txt": "-%d HP" % hp_loss, "col": Color(1.0, 0.26, 0.24), "t": 1.0})
 		else:
 			var off := Vector2(cos(elapsed * 1.4 + float(gi) * 2.1), sin(elapsed * 1.1 + float(gi) * 1.7)) * 18.0
 			if _can_stand(home + off):
@@ -839,6 +850,13 @@ func _draw() -> void:
 			draw_rect(Rect2(cp - Vector2(14, 10), Vector2(28, 20)), Color(0.45, 0.40, 0.32, 0.72), false, 1.5)
 			draw_string(fb, cp + Vector2(-28, -15), "OTWARTE", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.65, 0.72, 0.68))
 
+	if world != null:
+		for area: Dictionary in world.active_circles:
+			var point := (area["pos"] as Vector2) + cam_off
+			var radius := float(area["radius"])
+			draw_circle(point, radius, Color(0.28, 0.68, 0.98, 0.12))
+			draw_arc(point, radius, 0.0, TAU, 36, Color(0.44, 0.88, 1.0, 0.68), 2.0, true)
+
 	# Draw Patrolling Labyrinth Guardians
 	for g: Dictionary in guardians:
 		if not bool(g.get("alive", false)):
@@ -852,6 +870,8 @@ func _draw() -> void:
 		draw_circle(gp, 20.0, Color(1.0, 0.85, 0.85, 0.95) if flash else Color(0.78, 0.18, 0.16, 0.94))
 		var ring_col := Color(1.0, 0.90, 0.28, 0.98) if float(g.get("stun_t", 0.0)) > 0.05 else Color(1.0, 0.62, 0.32, 0.96)
 		draw_arc(gp, 20.0, 0.0, TAU, 24, ring_col, 2.8, true)
+		if float(g.get("marked_t", 0.0)) > 0.0:
+			draw_arc(gp, 25.0, 0.0, TAU, 24, Color(0.24, 0.92, 1.0), 2.0, true)
 		var pct := clampf(float(g["cur_hp"]) / maxf(float(g["max_hp"]), 1.0), 0.0, 1.0)
 		draw_rect(Rect2(gp.x - 26.0, gp.y - 34.0, 52.0, 7.0), Color(0.06, 0.04, 0.04, 0.92), true)
 		draw_rect(Rect2(gp.x - 25.0, gp.y - 33.0, 50.0 * pct, 5.0), Color(0.96, 0.24, 0.20, 0.98), true)
@@ -886,6 +906,8 @@ func _draw() -> void:
 	draw_circle(hp_scr, 42.0, Color(accent.r, accent.g, accent.b, 0.12))
 	if dodge_invuln_t > 0.05:
 		draw_arc(hp_scr, 24.0, 0.0, TAU, 24, Color(0.42, 1.0, 0.72, 0.95), 3.2, true)
+	if world != null and world.rpg_hud != null and float(world.rpg_hud.hero_shield_hp) > 0.0:
+		draw_arc(hp_scr, 29.0, 0.0, TAU, 28, Color(0.44, 0.88, 1.0, 0.85), 2.8, true)
 	draw_circle(hp_scr, 16.0, Color(0.24, 0.94, 1.0, 0.96))
 	draw_arc(hp_scr, 16.0, 0.0, TAU, 24, Color(1.0, 0.94, 0.72, 0.98), 2.6, true)
 	draw_line(hp_scr, hp_scr + hero_facing.normalized() * 22.0, Color(1.0, 0.94, 0.72, 0.96), 3.0, true)

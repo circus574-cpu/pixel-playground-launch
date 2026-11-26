@@ -328,3 +328,32 @@ oraz pomiar leczenia C4 Androida na powierzchni i w labiryncie. Kontrole
 Godot etapów 1–3 dały odpowiednio 53/53, 27/27 i 86/86. Próba PostgreSQL,
 Godot i API dała 159/159 testów w trzech pakietach. Fizyczny Android,
 pełna zgodność poszczególnych efektów i wdrożenie OTA pozostają otwarte.
+
+### Etap 3 Androida — efekty walki na powierzchni i w labiryntach
+
+Każda z czterech ras ma teraz 26 z 29 węzłów z kolejnymi rangami. W tej
+partii uruchomiono cztery wcześniej zablokowane premie liczbowe. Testy
+korzystają z handlerów walczących postaci i strażników Godota.
+
+| Mechanika | Zmiana i wynik w obu trybach |
+| --- | --- |
+| Mędrcy B6 | W kręgu wróg zadaje mniej obrażeń. Ranga 2 zmniejsza ATK wroga z 200 do 189 przed obliczeniem obrony bohatera. B4 stawia krąg spowolnienia, a B9 dodatkowo daje obronę w jego obrębie. |
+| Androidy A5 | W Namierzaniu ranga 2 zmniejsza obronę oznaczonego celu z 200 do 189. Następny cios wykorzystuje niższą obronę. Namierzanie samo nakłada znacznik. |
+| Planetarni i Mędrcy C5 | Ranga 2 skraca ogłuszenie z 1 s do 0,8625 s. Ranga 1 skraca spowolnienie z 3 s do 2,625 s, zachowując jego siłę. Obsłużono również unieruchomienie i wyciszenie. |
+| Odbicie i zdolności obronne | Lustro Mędrca odbija w całości jeden cios. Tarcze zachowują rozróżnienie ataku wręcz i pocisku. Ostatni Płomień Legendy ratuje przed śmiercią jeden raz, a Żelazna Wola chroni przed ogłuszeniem w Szale. Fortyfikacja Androida daje odporność na kontrolę wraz z premią do obrony. |
+| Kanałowanie i Przeciążenie | C8 Mędrca pozwala podtrzymać Skupienie KI w marszu. Trafienie nadal przerywa kanał, a C6 premiuje jego ukończenie. Po 6 s Przeciążenia Android ma 2 s wyłączenia układów. |
+| Odnowienie | Zegar należy do zdolności. Przeniesienie jej na inny slot zachowuje pozostały czas i nie powoduje ponownego pobrania KI. |
+
+Efekty wsparcia, obrona i obsługa trafień korzystają ze wspólnych reguł w
+obu trybach. Z ataków potworów podpięto na istniejącej kadencji autorskie
+dane czterech efektów kontroli. Strażnicy korzystają z nich, gdy mają
+skonfigurowane efekty lub odwołanie do bestiariusza. Pełne AI z zapowiedziami
+ataków, pozostałe efekty bestiariusza i audyt ofensywnych sekwencji oraz
+kierunków w labiryntach pozostają do odbioru. Wymagany jest też test APK
+na fizycznym Androidzie.
+
+Wynik lokalny Godot 4.6.3 to 166/166 kontroli etapu 3 oraz 53/53 i 27/27
+w regresji etapów 1–2. Osiem pakietów Vitest (w tym natywny klient,
+PostgreSQL, API i regresja kanonu webowego) dało 474/474 testów.
+Sprawdzono przeniesienie rejestru rang oraz składnię skryptów w układzie
+zasobów używanym przez Androida.

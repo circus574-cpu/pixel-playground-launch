@@ -78,6 +78,218 @@ func _unlock_nodes(hud: Control, ids: Array) -> void:
 		umap[str(id_v)] = true
 	hud.recalc_stats(false)
 
+func _effect_case(world: TestWorld, land: String, underground: bool, ranks: Dictionary, attack: int = 120) -> Dictionary:
+	var hud = world.rpg_hud
+	var lab = world.labyrinth_room
+	world._clear_transient_combat_state()
+	world.current_land = land
+	world.in_labyrinth = underground
+	world.hero_pos = Vector2(200, 200)
+	world.move_pointer = -1
+	world.motion = Vector2.ZERO
+	hud.set_hero_land(land)
+	hud.restore_talent_progress({"talentRanks": ranks})
+	hud.hero_hp = hud.hero_max_hp
+	hud.hero_ki = 0.0
+	hud.hero_res = 0.0
+	world.live_agents.clear()
+	lab.visible = false
+	if underground:
+		lab.enter_labyrinth(land, {
+			"id": "effects-room", "spawn": [1, 1], "grid": ["#####", "#...#", "#...#", "#...#", "#####"],
+			"guardians": [{"id": "g1", "tx": 2, "ty": 1, "level": 5, "hp": 5000, "atk": attack}],
+		})
+		var guardian: Dictionary = lab.guardians[0]
+		guardian["px"] = lab.hero_px + Vector2(20, 0)
+		guardian["home"] = guardian["px"]
+		return guardian
+	var enemy := _make_dummy_agent("effects-enemy", "monster", Vector2(220, 200), 5000, attack)
+	world.ysort.add_child(enemy["node"])
+	world.live_agents = [enemy]
+	return enemy
+
+func _step_effects_combat(world: TestWorld, delta: float) -> void:
+	if world.in_labyrinth:
+		world.labyrinth_room._process(delta)
+	else:
+		world.step_world(delta)
+
+func _arm_effect_attack(foe: Dictionary, attack_count: int = 0) -> void:
+	foe["atk_count"] = attack_count
+	foe["atk_cd"] = 0.0
+	foe["was_aggro"] = true
+	foe["aggro_windup"] = 0.0
+
+func _test_shared_combat_effects(world: TestWorld) -> void:
+	var hud = world.rpg_hud
+	var monsters: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/monsters.json"))["monsters"]
+	for underground: bool in [false, true]:
+		var scene_name := "Labyrinth" if underground else "Surface"
+		var point: Vector2
+
+		var enemy := _effect_case(world, "aether", underground, {"B4": 1, "B6": 2}, 200)
+		point = enemy["px"] if underground else enemy["pos"]
+		var hero_point: Vector2 = world.labyrinth_room.hero_px if underground else world.hero_pos
+		var normal_damage := world.enemy_hit_damage(enemy, point, hero_point, 5)
+		world.perform_combat_attack(2, 1.0, "B4")
+		expect(int(enemy["cur_hp"]) == 5000, scene_name + " Sage B4 is a circle without an immediate damaging hit")
+		expect(is_equal_approx(world.combat_circle_bonus(point, "weaken"), 0.055), scene_name + " Sage B6 rank two weakens by 5.5%")
+		expect(is_equal_approx(world.combat_circle_bonus(point, "slow_pct"), 0.20), scene_name + " Sage B4 rank one slows by 20%")
+		expect(world.combat_circle_bonus(point + Vector2(200, 0), "weaken") == 0.0, scene_name + " Sage B6 has no effect outside the circle")
+		_arm_effect_attack(enemy)
+		var hp_before := float(hud.hero_hp)
+		_step_effects_combat(world, 0.05)
+		expect(is_equal_approx(hp_before - float(hud.hero_hp), normal_damage - 11.0), scene_name + " B6 reduces an actual incoming hit")
+
+		enemy = _effect_case(world, "nexus", underground, {"A1": 1, "A5": 2, "A4": 1})
+		enemy["def"] = 200.0
+		hud.bonus_stat_pts["atk"] = 20
+		seed(42)
+		world.perform_combat_attack(4, 1.0, "A4")
+		var unmarked := 5000 - int(enemy["cur_hp"])
+		enemy["cur_hp"] = 5000
+		world.perform_combat_attack(1, 1.0, "A1")
+		expect(int(enemy["cur_hp"]) == 5000 and is_equal_approx(float(enemy["marked_t"]), 6.0), scene_name + " Android A1 marks without a damaging hit")
+		expect(is_equal_approx(world.enemy_armor(enemy), 189.0), scene_name + " Android A5 rank two reduces marked defense by 5.5%")
+		seed(42)
+		world.perform_combat_attack(4, 1.0, "A4")
+		expect(5000 - int(enemy["cur_hp"]) > unmarked, scene_name + " Namierzanie improves actual damage against armor")
+		hud.bonus_stat_pts["atk"] = 0
+
+		for land in ["verdant", "aether"]:
+			enemy = _effect_case(world, land, underground, {"C5": 2})
+			enemy["skills"] = monsters["verdant-skalny-jelen"]["skills"]
+			_arm_effect_attack(enemy, 2)
+			_step_effects_combat(world, 0.05)
+			expect(is_equal_approx(world.hero_stun_t, 0.8625), "%s %s C5 rank two shortens the authored 1 s stun" % [scene_name, land])
+			expect(not world.can_hero_cast_skill("R") and world.hero_movement_multiplier() == 0.0, "%s %s stun prevents casting and movement" % [scene_name, land])
+			_step_effects_combat(world, 0.88)
+			expect(world.can_hero_cast_skill("R"), "%s %s stun expires" % [scene_name, land])
+		enemy = _effect_case(world, "verdant", underground, {"C5": 1})
+		enemy["skills"] = monsters["verdant-mchowy-szlamak"]["skills"]
+		_arm_effect_attack(enemy, 2)
+		_step_effects_combat(world, 0.05)
+		expect(is_equal_approx(world.hero_slow_t, 2.625) and is_equal_approx(world.hero_movement_multiplier(), 0.80), scene_name + " C5 shortens slow without changing its magnitude")
+
+		enemy = _effect_case(world, "verdant", underground, {"C5": 1})
+		enemy["skills"] = monsters["verdant-korzeniowy-pelzacz"]["skills"]
+		_arm_effect_attack(enemy, 2)
+		_step_effects_combat(world, 0.05)
+		expect(is_equal_approx(world.hero_root_t, 1.75) and not world.can_hero_dodge() and world.can_hero_cast_skill("R"), scene_name + " root prevents movement and dash while allowing attacks")
+		enemy = _effect_case(world, "aether", underground, {"C5": 1})
+		enemy["skills"] = monsters["aether-pergaminowy-straznik"]["skills"]
+		_arm_effect_attack(enemy, 2)
+		_step_effects_combat(world, 0.05)
+		expect(is_equal_approx(world.hero_silence_t, 1.75) and world.can_hero_cast_skill("R") and not world.can_hero_cast_skill("A1"), scene_name + " silence blocks abilities and preserves basic attacks")
+
+		enemy = _effect_case(world, "aether", underground, {"B1": 1, "B8": 1})
+		world.perform_combat_attack(2, 1.0, "B1")
+		var shield := float(hud.hero_shield_hp)
+		_arm_effect_attack(enemy)
+		_step_effects_combat(world, 0.05)
+		expect(is_equal_approx(float(hud.hero_hp), float(hud.hero_max_hp)) and is_equal_approx(float(hud.hero_shield_hp), shield), scene_name + " Sage B8 fully redirects the first incoming hit")
+		expect(int(enemy["cur_hp"]) < 5000 and not bool(world.hero_buffs["mirror"]), scene_name + " mirror damage reaches the original attacker and uses the charge")
+		var reflected_hp := int(enemy["cur_hp"])
+		_arm_effect_attack(enemy)
+		_step_effects_combat(world, 0.05)
+		expect(int(enemy["cur_hp"]) == reflected_hp and float(hud.hero_shield_hp) < shield, scene_name + " the following hit consumes shield and is not mirrored")
+
+		enemy = _effect_case(world, "nexus", underground, {"B1": 1, "B5": 2})
+		world.perform_combat_attack(2, 1.0, "B1")
+		_arm_effect_attack(enemy)
+		_step_effects_combat(world, 0.05)
+		expect(int(enemy["cur_hp"]) == 5000, scene_name + " Android B5 does not reflect melee")
+		enemy["basic"] = "ranged"
+		world.perform_combat_attack(2, 1.0, "B1")
+		_arm_effect_attack(enemy)
+		_step_effects_combat(world, 0.05)
+		expect(int(enemy["cur_hp"]) < 5000, scene_name + " Android B5 reflects a projectile")
+
+		enemy = _effect_case(world, "nexus", underground, {"B1": 2, "B7": 2})
+		world.perform_combat_attack(2, 1.0, "B1")
+		expect(is_equal_approx(float(hud.hero_shield_hp), float(hud.hero_max_hp) * 0.099), scene_name + " Android B1 shield scales at rank two")
+		_arm_effect_attack(enemy)
+		_step_effects_combat(world, 0.05)
+		expect(int(enemy["cur_hp"]) < 5000, scene_name + " Android B7 reflects melee")
+		enemy = _effect_case(world, "verdant", underground, {"C4": 1, "C7": 1})
+		world.perform_combat_attack(3, 1.0, "C4")
+		expect(is_equal_approx(float(hud.hero_shield_hp), float(hud.hero_max_hp) * 0.09), scene_name + " Planetary C4 shield gives 9% max HP at rank one")
+		_arm_effect_attack(enemy)
+		_step_effects_combat(world, 0.05)
+		expect(int(enemy["cur_hp"]) < 5000, scene_name + " Planetary C7 reflects melee on the Leaf Shield")
+		enemy = _effect_case(world, "nexus", underground, {"B9": 1})
+		enemy["skills"] = monsters["verdant-skalny-jelen"]["skills"]
+		world.perform_combat_attack(2, 1.0, "B9")
+		_arm_effect_attack(enemy, 2)
+		_step_effects_combat(world, 0.05)
+		expect(world.hero_stun_t == 0.0 and float(hud.hero_shield_hp) == 0.0, scene_name + " Android B9 grants control immunity without adding a shield")
+
+		enemy = _effect_case(world, "aether", underground, {"C1": 1, "C6": 1})
+		enemy["atk_cd"] = 10.0
+		world.perform_combat_attack(3, 1.0, "C1")
+		world.move_pointer = 0
+		world.motion = Vector2.RIGHT
+		_step_effects_combat(world, 0.05)
+		expect(world.ki_channel_t == 0.0 and float(hud.hero_ki) == 0.0, scene_name + " moving interrupts ordinary Sage C1")
+		expect(float(world.hero_buffs.get("meditate_emp_t", 0.0)) == 0.0, scene_name + " cancelled focus grants no C6 bonus")
+
+		world.move_pointer = -1
+		world.motion = Vector2.ZERO
+		world.perform_combat_attack(3, 1.0, "C1")
+		var expected_ki := float(hud.hero_max_ki) * 0.15
+		_step_effects_combat(world, 3.1)
+		expect(is_equal_approx(float(hud.hero_ki), expected_ki) and is_equal_approx(float(world.hero_buffs.get("meditate_emp_t", 0.0)), 6.0), scene_name + " completed focus grants exactly 15% KI and prepares C6")
+
+		enemy = _effect_case(world, "aether", underground, {"C1": 1, "C8": 1})
+		enemy["atk_cd"] = 10.0
+		world.perform_combat_attack(3, 1.0, "C1")
+		world.move_pointer = 0
+		world.motion = Vector2.RIGHT
+		_step_effects_combat(world, 0.05)
+		expect(world.ki_channel_t > 2.9 and float(hud.hero_ki) > 0.0, scene_name + " Sage C8 preserves the focus while moving")
+		world.move_pointer = -1
+		world.motion = Vector2.ZERO
+		if underground:
+			enemy["px"] = world.labyrinth_room.hero_px + Vector2(20, 0)
+			enemy["home"] = enemy["px"]
+		else:
+			enemy["pos"] = world.hero_pos + Vector2(20, 0)
+			enemy["home"] = enemy["pos"]
+		_arm_effect_attack(enemy)
+		_step_effects_combat(world, 0.05)
+		expect(world.ki_channel_t == 0.0, scene_name + " damage still interrupts Sage C8 focus")
+
+		enemy = _effect_case(world, "nexus", underground, {"C9": 1})
+		enemy["atk_cd"] = 60.0
+		world.perform_combat_attack(3, 1.0, "C9")
+		expect(world.is_free_ki_active(), scene_name + " Android C9 starts a free-KI window")
+		_step_effects_combat(world, 6.0)
+		expect(not world.is_free_ki_active() and is_equal_approx(world.android_shutdown_t, 2.0) and not world.can_hero_cast_skill("C4"), scene_name + " Android C9 shutdown blocks all casts for 2 s")
+		_step_effects_combat(world, 2.0)
+		expect(world.can_hero_cast_skill("C4") and world.can_hero_dodge(), scene_name + " Android recovers from shutdown")
+
+		enemy = _effect_case(world, "pyra", underground, {"A1": 1, "A4": 1})
+		hud.restore_talent_progress({"talentRanks": {"A1": 1, "A4": 1}, "hotbarSlots": ["A1", "B1", "C1", "A4"]})
+		hud.reset_cooldowns_gm()
+		hud.hero_ki = hud.hero_max_ki
+		hud.trigger_skill(1)
+		var ki_after_cast := float(hud.hero_ki)
+		expect(hud.remaining_hotbar_cooldown(1) > 0.05 and ki_after_cast < float(hud.hero_max_ki), scene_name + " initial hotbar attack spends KI and starts its cooldown")
+		hud.assign_hotbar_slot(4, "A1")
+		hud.trigger_skill(4)
+		expect(hud.remaining_hotbar_cooldown(4) > 0.05 and hud.remaining_hotbar_cooldown(1) == 0.0 and is_equal_approx(float(hud.hero_ki), ki_after_cast), scene_name + " moving an ability to another slot cannot bypass cooldown")
+
+		enemy = _effect_case(world, "pyra", underground, {"B4": 1, "B5": 1, "B9": 2}, 1000)
+		enemy["skills"] = monsters["verdant-skalny-jelen"]["skills"]
+		world.perform_combat_attack(2, 1.0, "B4")
+		world.perform_combat_attack(2, 1.0, "B9")
+		hud.hero_hp = 20.0
+		_arm_effect_attack(enemy, 2)
+		_step_effects_combat(world, 0.05)
+		expect(world.hero_stun_t == 0.0, scene_name + " Legend B5 prevents stun during Rage")
+		expect(is_equal_approx(float(hud.hero_hp), roundf(float(hud.hero_max_hp) * 0.165)), scene_name + " Legend B9 rank two saves from lethal damage and recovers 16.5% HP")
+		expect(float(world.hero_buffs.get("last_flame_t", 0.0)) == 0.0 and int(enemy["cur_hp"]) == 5000, scene_name + " B9 is consumed once and never attacks its target")
+
 func _initialize() -> void:
 	var world := TestWorld.new()
 	root.add_child.call_deferred(world)
@@ -267,7 +479,7 @@ func run(world: TestWorld) -> void:
 	world.step_world(3.2)
 	expect(world.delayed_seals.is_empty(), "Sage A1 delayed seal detonates cleanly without crashing when target dies early")
 	world.perform_combat_attack(2, 1.0, "B9")
-	expect(is_equal_approx(world._hero_circle_def_bonus(), 0.15), "Sage B9 Temple grants +15% DEF at rank one")
+	expect(is_equal_approx(world.combat_circle_bonus(world.hero_pos, "def_bonus"), 0.15), "Sage B9 Temple grants +15% DEF at rank one")
 	world.perform_combat_attack(3, 1.0, "C9")
 	expect(world.is_free_ki_active(), "Sage C9 Enlightenment makes skills free")
 
@@ -356,6 +568,8 @@ func run(world: TestWorld) -> void:
 		hud.hero_hp = 10.0
 		lab.perform_labyrinth_skill(3, "C4")
 		expect(is_equal_approx(float(hud.hero_hp), expected_hp), "Labyrinth Android C4 heals exactly the amount for rank %d" % rank)
+
+	_test_shared_combat_effects(world)
 
 	print("STAGE3_AUDIT checks=%d failures=%d" % [checks, failures])
 	world.free()

@@ -191,7 +191,7 @@ var stat_plus_hitboxes: Array[Dictionary] = []
 var backpack_hitboxes: Array[Dictionary] = []
 var equip_hitboxes: Array[Dictionary] = []
 var hotbar_nodes: Array[String] = ["R", "A1", "B1", "C1", "A4", "T"]
-var cooldowns: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+var cooldown_by_node: Dictionary = {}
 var dodge_cd := 0.0
 var channel_cd := 0.0
 var talent_slot_rects: Array[Dictionary] = []
@@ -869,8 +869,7 @@ func recalc_stats(refill: bool = false) -> void:
 	_refresh_visuals()
 
 func reset_cooldowns_gm() -> void:
-	for i in cooldowns.size():
-		cooldowns[i] = 0.0
+	cooldown_by_node.clear()
 	dodge_cd = 0.0
 	channel_cd = 0.0
 	_refresh_visuals()
@@ -1318,7 +1317,7 @@ func assign_hotbar_slot(slot_idx: int, nid: String) -> bool:
 	return true
 
 func trigger_dodge() -> void:
-	if dodge_cd > 0.05:
+	if dodge_cd > 0.05 or (world != null and not world.can_hero_dodge()):
 		return
 	dodge_cd = 4.5
 	if world != null and world.has_method("perform_dodge"):
@@ -1326,7 +1325,7 @@ func trigger_dodge() -> void:
 	_refresh_visuals()
 
 func trigger_channel() -> void:
-	if channel_cd > 0.05:
+	if channel_cd > 0.05 or (world != null and not world.can_hero_channel()):
 		return
 	if hero_ki >= hero_max_ki - 0.5:
 		if world != null and world.has_method("show_combat_toast"):
@@ -1337,10 +1336,13 @@ func trigger_channel() -> void:
 		world.start_ki_channel(2.0, 0.28, 0.0)
 	_refresh_visuals()
 
+func remaining_hotbar_cooldown(idx: int) -> float:
+	return float(cooldown_by_node.get(get_hotbar_node(idx), 0.0))
+
 func trigger_skill(idx: int) -> void:
-	if idx < 0 or idx >= cooldowns.size():
+	if idx < 0 or idx >= hotbar_nodes.size():
 		return
-	if cooldowns[idx] > 0.05:
+	if remaining_hotbar_cooldown(idx) > 0.05:
 		return
 	var nid := get_hotbar_node(idx)
 	if idx > 0 and not is_hotbar_skill_unlocked(idx):
@@ -1358,7 +1360,7 @@ func trigger_skill(idx: int) -> void:
 		if world != null and world.has_method("show_combat_toast"):
 			world.show_combat_toast("Za mało energii KI (%d / %d)!" % [int(hero_ki), int(ceil(ki_cost))], Color(0.42, 0.84, 1.0))
 		return
-	cooldowns[idx] = get_hotbar_skill_cd(idx)
+	cooldown_by_node[nid] = get_hotbar_skill_cd(idx)
 	hero_ki = maxf(0.0, hero_ki - ki_cost)
 
 	if world != null and world.has_method("perform_combat_attack"):
@@ -1416,10 +1418,13 @@ func _sync_modal_visibility() -> void:
 
 func _process(delta: float) -> void:
 	var changed := false
-	for i in cooldowns.size():
-		if cooldowns[i] > 0.0:
-			cooldowns[i] = maxf(0.0, cooldowns[i] - delta)
-			changed = true
+	for nid in cooldown_by_node.keys():
+		var remaining := float(cooldown_by_node[nid]) - delta
+		if remaining > 0.0:
+			cooldown_by_node[nid] = remaining
+		else:
+			cooldown_by_node.erase(nid)
+		changed = true
 	if dodge_cd > 0.0:
 		dodge_cd = maxf(0.0, dodge_cd - delta)
 		changed = true
@@ -2396,7 +2401,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			c.draw_string(fb, center + Vector2(-lvw * 0.5, 16.0), lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.76, 0.42, 0.98) if i == 5 else Color(0.82, 0.80, 0.76, 0.96))
 
 		# Radial cooldown veil + BOLD 22px numeric timer
-		var cd := cooldowns[i]
+		var cd := remaining_hotbar_cooldown(i)
 		if cd > 0.01:
 			var max_cd := get_hotbar_skill_cd(i)
 			var frac := clampf(cd / maxf(max_cd, 0.1), 0.0, 1.0)

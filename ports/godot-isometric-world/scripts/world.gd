@@ -194,9 +194,17 @@ var dodge_invuln_t := 0.0
 var dodge_dash_t := 0.0
 var dodge_dash_dir := Vector2.ZERO
 var ki_channel_t := 0.0
+var ki_channel_breaks_on_move := true
+var ki_channel_empowers := false
+var hero_stun_t := 0.0
+var hero_root_t := 0.0
+var hero_silence_t := 0.0
+var hero_slow_t := 0.0
+var hero_slow_pct := 0.0
 var ki_channel_ki_rate := 0.0
 var ki_channel_hp_rate := 0.0
 var android_overheat_t := 0.0
+var android_shutdown_t := 0.0
 var android_last_shot_t := -99.0
 var legend_streak := 0
 var planetary_combo := 0
@@ -1274,6 +1282,9 @@ func build_world_objects_and_actors() -> void:
 			"max_hp": m_hp,
 			"cur_hp": m_hp,
 			"atk": m_atk,
+			"def": float(m_entry.get("def", 0)),
+			"basic": str(m_entry.get("basic", "melee")),
+			"skills": m_entry.get("skills", []),
 			"atk_cd": 0.0,
 			"aggro_windup": 0.0,
 			"was_aggro": false,
@@ -1608,6 +1619,9 @@ func settle_potion_damage(before: Array[Dictionary], healed: int) -> int:
 	return outstanding
 
 func show_combat_toast(msg: String, col: Color = Color(1.0, 0.90, 0.44)) -> void:
+	if in_labyrinth and is_instance_valid(labyrinth_room):
+		labyrinth_room._show_toast(msg)
+		return
 	combat_toast_lbl.text = msg
 	combat_toast_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	combat_toast_lbl.add_theme_color_override("font_color", col)
@@ -2068,10 +2082,20 @@ func _clear_transient_combat_state() -> void:
 	ki_channel_t = 0.0
 	ki_channel_ki_rate = 0.0
 	ki_channel_hp_rate = 0.0
+	ki_channel_empowers = false
+	hero_stun_t = 0.0
+	hero_root_t = 0.0
+	hero_silence_t = 0.0
+	hero_slow_t = 0.0
+	hero_slow_pct = 0.0
 	android_overheat_t = 0.0
+	android_shutdown_t = 0.0
 	legend_streak = 0
 	planetary_combo = 0
 	hero_buffs.clear()
+	if rpg_hud != null:
+		rpg_hud.hero_shield_hp = 0.0
+		rpg_hud.hero_shield_timer = 0.0
 	active_circles.clear()
 	delayed_seals.clear()
 	for ag: Dictionary in live_agents:
@@ -2116,6 +2140,10 @@ func is_free_ki_active() -> bool:
 	return float(hero_buffs.get("overload_t", 0.0)) > 0.05 or float(hero_buffs.get("enlighten_t", 0.0)) > 0.05
 
 func can_hero_cast_skill(nid: String) -> bool:
+	if android_shutdown_t > 0.0 or hero_stun_t > 0.0 or (hero_silence_t > 0.0 and nid != "R"):
+		return false
+	if nid == "A1" and _hero_race_key() == "planetary":
+		return can_hero_dodge()
 	if _hero_race_key() == "android" and android_overheat_t > 0.05 and nid != "C4" and nid != "T":
 		show_combat_toast("⚠ PRZEGRZANIE! Użyj Chłodzenia [C4] lub odczekaj %.1fs." % android_overheat_t, Color(1.0, 0.44, 0.32))
 		return false
@@ -2193,8 +2221,14 @@ func cycle_locked_target() -> void:
 	if combat_vfx != null and is_instance_valid(nd) and combat_vfx.has_method("spawn_target_reticle"):
 		combat_vfx.spawn_target_reticle(nd.position, _hero_race_key(), 1.2)
 
+func can_hero_dodge() -> bool:
+	return android_shutdown_t <= 0.0 and hero_stun_t <= 0.0 and hero_root_t <= 0.0
+
+func can_hero_channel() -> bool:
+	return android_shutdown_t <= 0.0 and hero_stun_t <= 0.0 and hero_silence_t <= 0.0
+
 func perform_dodge(is_planetary_a1: bool = false) -> void:
-	if in_interior or map_expanded or atlas_expanded:
+	if in_interior or map_expanded or atlas_expanded or not can_hero_dodge():
 		return
 	if in_labyrinth and labyrinth_room != null and labyrinth_room.has_method("perform_labyrinth_dodge"):
 		labyrinth_room.perform_labyrinth_dodge(is_planetary_a1)
@@ -2229,12 +2263,14 @@ func perform_dodge(is_planetary_a1: bool = false) -> void:
 	if audio != null:
 		audio.play_race_skill("planetary", "A1")
 
-func start_ki_channel(dur: float = 2.0, ki_pct: float = 0.28, hp_pct: float = 0.0) -> void:
-	if in_interior or in_labyrinth or map_expanded or atlas_expanded or rpg_hud == null:
+func start_ki_channel(dur: float = 2.0, ki_pct: float = 0.28, hp_pct: float = 0.0, breaks_on_move: bool = true, empowers: bool = false) -> void:
+	if in_interior or map_expanded or atlas_expanded or rpg_hud == null or not can_hero_channel():
 		return
 	recall_channel = 0.0
 	target_pos = Vector2(-1.0, -1.0)
 	ki_channel_t = maxf(0.4, dur)
+	ki_channel_breaks_on_move = breaks_on_move
+	ki_channel_empowers = empowers
 	ki_channel_ki_rate = (float(rpg_hud.hero_max_ki) * ki_pct) / ki_channel_t
 	ki_channel_hp_rate = (float(rpg_hud.hero_max_hp) * hp_pct) / ki_channel_t
 	if hero != null:
@@ -2254,20 +2290,22 @@ func _spawn_ground_circle(world_p: Vector2, radius: float, life: float, kind: St
 		"kind": kind,
 		"def_bonus": def_bonus,
 		"slow_pct": slow_pct,
+		"weaken": minf(0.90, 0.10 * _hero_talent_power("B6")) if _hero_race_key() == "sage" else 0.0,
 		"burn_dps": burn_dps,
 		"tick_acc": 0.0,
 	})
-	if combat_vfx != null and combat_vfx.has_method("spawn_light_circle"):
+	if not in_labyrinth and combat_vfx != null:
 		combat_vfx.spawn_light_circle(iso(world_p.x, world_p.y, height_at(world_p.x, world_p.y)), radius * 0.72, _hero_race_key(), life, kind)
 
-func _grant_hero_shield(amount: float, dur: float, reflect_pct: float = 0.0) -> void:
+func _grant_hero_shield(amount: float, dur: float, reflect_melee: float = 0.0, reflect_projectile: float = 0.0, mirror: bool = false) -> void:
 	if rpg_hud == null:
 		return
-	rpg_hud.hero_shield_hp = maxf(float(rpg_hud.hero_shield_hp), amount)
-	rpg_hud.hero_shield_timer = maxf(float(rpg_hud.hero_shield_timer), dur)
-	if reflect_pct > 0.0:
-		hero_buffs["reflect_pct"] = maxf(float(hero_buffs.get("reflect_pct", 0.0)), reflect_pct)
-	if hero != null and combat_vfx != null:
+	rpg_hud.hero_shield_hp = amount
+	rpg_hud.hero_shield_timer = dur
+	hero_buffs["reflect_melee"] = minf(0.90, reflect_melee)
+	hero_buffs["reflect_projectile"] = minf(0.90, reflect_projectile)
+	hero_buffs["mirror"] = mirror
+	if not in_labyrinth and hero != null and combat_vfx != null:
 		combat_vfx.spawn_shield_dome(hero.position, _hero_race_key())
 		if hero.has_method("show_damage_number"):
 			hero.show_damage_number("+%d OSŁONA" % int(round(amount)), Color(0.42, 0.94, 1.0), false)
@@ -2285,12 +2323,146 @@ func _sync_agent_status_flags(ag: Dictionary) -> void:
 	mnode.status_flags = flags
 	mnode.queue_redraw()
 
+func mark_enemy(target: Dictionary) -> void:
+	target["marked_t"] = 6.0
+	target["marked_def_reduction"] = minf(0.90, 0.10 * _hero_talent_power("A5"))
+	_sync_agent_status_flags(target)
+
+func target_mark_crit(target: Dictionary) -> float:
+	return 15.0 * _hero_talent_power("A1") if _hero_race_key() == "android" and float(target.get("marked_t", 0.0)) > 0.0 else 0.0
+
+func target_damage_multiplier(target: Dictionary) -> float:
+	if _hero_race_key() == "android" and float(target.get("marked_t", 0.0)) > 0.0:
+		return 1.0 + 0.40 * _hero_talent_power("A7")
+	return 1.0
+
+func consume_attack_buff_multiplier(nid: String) -> float:
+	var result := 1.0
+	if _hero_race_key() == "legend" and float(hero_buffs.get("rage_t", 0.0)) > 0.0:
+		result *= 1.0 + 0.30 * _hero_talent_power("B4") + 0.10 * _hero_talent_power("B7")
+	if float(hero_buffs.get("overload_t", 0.0)) > 0.0:
+		result *= 1.0 + 0.40 * _hero_talent_power("C9")
+	if float(hero_buffs.get("enlighten_t", 0.0)) > 0.0:
+		result *= 1.0 + 0.30 * _hero_talent_power("C9")
+	if nid != "R" and float(hero_buffs.get("meditate_emp_t", 0.0)) > 0.0:
+		result *= 1.0 + 0.25 * _hero_talent_power("C6")
+		hero_buffs["meditate_emp_t"] = 0.0
+	return result
+
+func enemy_armor(target: Dictionary) -> float:
+	var defense := float(target.get("def", 0.0))
+	if float(target.get("marked_t", 0.0)) > 0.0:
+		defense *= 1.0 - float(target.get("marked_def_reduction", 0.0))
+	return defense
+
+func hero_movement_multiplier() -> float:
+	if android_shutdown_t > 0.0 or hero_stun_t > 0.0 or hero_root_t > 0.0:
+		return 0.0
+	return 1.0 - hero_slow_pct if hero_slow_t > 0.0 else 1.0
+
+const HERO_CONTROL_LABELS := {
+	"stun": "Ogłuszenie", "root": "Unieruchomienie", "silence": "Wyciszenie", "slow": "Spowolnienie",
+}
+
+func _apply_enemy_control(effect: Dictionary) -> void:
+	var kind := str(effect.get("k", ""))
+	if not HERO_CONTROL_LABELS.has(kind):
+		return
+	var race := _hero_race_key()
+	if race == "android" and float(hero_buffs.get("fortify_t", 0.0)) > 0.0:
+		return
+	if kind == "stun" and race == "legend" and _hero_has_talent("B5") and float(hero_buffs.get("rage_t", 0.0)) > 0.0:
+		return
+	var duration := float(effect.get("ms", 0.0)) / 1000.0
+	if race in ["planetary", "sage"]:
+		duration *= maxf(0.0, 1.0 - 0.25 * _hero_talent_power("C5"))
+	if duration <= 0.0:
+		return
+	if kind == "stun":
+		hero_stun_t = maxf(hero_stun_t, duration)
+	elif kind == "root":
+		hero_root_t = maxf(hero_root_t, duration)
+	elif kind == "silence":
+		hero_silence_t = maxf(hero_silence_t, duration)
+	elif kind == "slow":
+		hero_slow_pct = maxf(hero_slow_pct if hero_slow_t > 0.0 else 0.0, clampf(float(effect.get("pct", 0.0)), 0.0, 0.90))
+		hero_slow_t = maxf(hero_slow_t, duration)
+	show_combat_toast("%s · %.1f s" % [HERO_CONTROL_LABELS[kind], duration], Color(1.0, 0.55, 0.36))
+
+func foe_control_skill(attacker: Dictionary, now: float) -> Dictionary:
+	if int(attacker.get("atk_count", 0)) % 3 != 0 or now < float(attacker.get("control_ready_at", 0.0)):
+		return {}
+	for skill: Dictionary in attacker.get("skills", []):
+		for effect: Dictionary in skill.get("fx", []):
+			if HERO_CONTROL_LABELS.has(str(effect.get("k", ""))):
+				attacker["control_ready_at"] = now + float(skill.get("cd", 0.0)) / 1000.0
+				return skill
+	return {}
+
+func _hero_combat_defense(point: Vector2) -> float:
+	if rpg_hud == null:
+		return 12.0
+	var mult := 1.0 + combat_circle_bonus(point, "def_bonus")
+	if ki_mode_timer > 0.0:
+		mult += 0.15 * _ki_form_power()
+	if float(hero_buffs.get("fortify_t", 0.0)) > 0.0:
+		mult += 0.60 * _hero_talent_power("B9")
+	if float(hero_buffs.get("dodge_def_t", 0.0)) > 0.0:
+		mult += 0.20 * _hero_talent_power("A8")
+	if _hero_race_key() == "planetary" and not in_labyrinth and _hero_has_talent("B2") and _get_planetary_terrain() == "rock":
+		mult += 0.10 * _hero_talent_power("B2")
+	if _hero_race_key() == "legend" and float(hero_buffs.get("rage_t", 0.0)) > 0.0 and not _hero_has_talent("B8"):
+		mult -= 0.20 * _hero_talent_power("B4")
+	return float(rpg_hud.get_total_defense()) * maxf(0.4, mult)
+
+func enemy_hit_damage(attacker: Dictionary, attacker_point: Vector2, hero_point: Vector2, minimum: int) -> int:
+	var level := int(rpg_hud.hero_level) if rpg_hud != null else 1
+	var level_multiplier := 1.35 if int(attacker.get("level", 1)) - level >= 3 else 1.0
+	var attack := float(attacker.get("atk", 24)) * level_multiplier
+	var weakened := combat_circle_bonus(attacker_point, "weaken")
+	return maxi(minimum, int(round(attack * (1.0 - weakened) - _hero_combat_defense(hero_point) * 0.55)))
+
+func resolve_enemy_hit(attacker: Dictionary, damage: int, skill: Dictionary, reflect: Callable) -> bool:
+	if rpg_hud == null:
+		return false
+	ki_channel_t = 0.0
+	var reflected := 0
+	if float(rpg_hud.hero_shield_hp) > 0.0 and float(rpg_hud.hero_shield_timer) > 0.0:
+		if bool(hero_buffs.get("mirror", false)):
+			hero_buffs["mirror"] = false
+			reflect.call(damage)
+			show_combat_toast("Lustro odbiło atak.", Color(0.62, 0.94, 1.0))
+			return false
+		var mode := str(skill.get("mode", attacker.get("basic", "melee")))
+		var ratio := 0.0
+		if mode == "ranged":
+			ratio = float(hero_buffs.get("reflect_projectile", 0.0))
+		elif mode in ["melee", "charge"]:
+			ratio = float(hero_buffs.get("reflect_melee", 0.0))
+		reflected = int(round(float(damage) * ratio))
+	var hp_before := float(rpg_hud.hero_hp)
+	var lethal: bool = rpg_hud.take_combat_damage(damage)
+	attacker["dmg_dealt_to_hero"] = int(attacker.get("dmg_dealt_to_hero", 0)) + int(round(hp_before - float(rpg_hud.hero_hp)))
+	if reflected > 0:
+		reflect.call(reflected)
+	if lethal and float(hero_buffs.get("last_flame_t", 0.0)) > 0.0:
+		hero_buffs["last_flame_t"] = 0.0
+		rpg_hud.hero_hp = maxf(1.0, roundf(float(rpg_hud.hero_max_hp) * minf(1.0, 0.30 * _hero_talent_power("B9"))))
+		rpg_hud._sync_bar_uniforms()
+		rpg_hud._refresh_visuals()
+		show_combat_toast("Ostatni Płomień uratował Cię przed śmiercią!", Color(1.0, 0.80, 0.28))
+		lethal = false
+	if not lethal:
+		for effect: Dictionary in skill.get("fx", []):
+			_apply_enemy_control(effect)
+	return lethal
+
 func _apply_agent_slow(agent: Dictionary, duration: float, strength: float) -> void:
 	var previous := float(agent.get("slow_pct", 0.0)) if float(agent.get("slow_t", 0.0)) > 0.0 else 0.0
 	agent["slow_pct"] = maxf(previous, strength)
 	agent["slow_t"] = maxf(float(agent.get("slow_t", 0.0)), duration)
 
-func _apply_damage_to_agent(h_idx: int, raw_dmg: int, is_crit: bool, race_k: String, kill_heal_pct: float, apply_burn: float = 0.0, apply_stun: float = 0.0, apply_slow: float = 0.0, apply_mark: float = 0.0, burn_dps: float = -1.0, slow_strength: float = 0.40) -> bool:
+func _apply_damage_to_agent(h_idx: int, raw_dmg: int, is_crit: bool, race_k: String, kill_heal_pct: float, apply_burn: float = 0.0, apply_stun: float = 0.0, apply_slow: float = 0.0, burn_dps: float = -1.0, slow_strength: float = 0.40) -> bool:
 	if h_idx < 0 or h_idx >= live_agents.size():
 		return false
 	var target: Dictionary = live_agents[h_idx]
@@ -2299,7 +2471,7 @@ func _apply_damage_to_agent(h_idx: int, raw_dmg: int, is_crit: bool, race_k: Str
 	var is_animal := (str(target.get("kind", "")) == "animal")
 	var m_lvl := int(target.get("level", 1))
 	var is_el := bool(target.get("is_elite", false))
-	var dmg := maxi(4, raw_dmg)
+	var dmg := maxi(1, raw_dmg)
 	target["cur_hp"] = maxi(0, int(target.get("cur_hp", 200)) - dmg)
 	if apply_burn > 0.0:
 		var was_burning := float(target.get("burn_t", 0.0)) > 0.0
@@ -2312,8 +2484,6 @@ func _apply_damage_to_agent(h_idx: int, raw_dmg: int, is_crit: bool, race_k: Str
 		target["stun_t"] = maxf(float(target.get("stun_t", 0.0)), apply_stun)
 	if apply_slow > 0.0:
 		_apply_agent_slow(target, apply_slow, slow_strength)
-	if apply_mark > 0.0:
-		target["marked_t"] = maxf(float(target.get("marked_t", 0.0)), apply_mark)
 	if is_animal and int(target["cur_hp"]) > 0:
 		target["flee_t"] = 4.5
 	var mnode = target.get("node", null)
@@ -2417,6 +2587,145 @@ func activate_ki_mode_gm(duration_sec: float = 20.0) -> void:
 	_gm_ki_preview = true
 	_activate_ki_mode_visuals(_hero_race_key(), duration_sec)
 
+func try_perform_support_skill(nid: String, caster_point: Vector2, target_point: Vector2) -> bool:
+	if rpg_hud == null:
+		return false
+	var race_k := _hero_race_key()
+	var skill_power := _hero_talent_power(nid)
+	var passives: Dictionary = rpg_hud.get_talent_passives()
+	var shield_mult := float(passives.get("shieldMult", 1.0))
+	var max_hp := float(rpg_hud.hero_max_hp)
+	if race_k == "legend":
+		if nid == "B4":
+			hero_buffs["rage_t"] = 8.0 + 4.0 * _hero_talent_power("B7")
+			if hero != null:
+				hero.play_action("sk_B4", "skillb")
+				if hero.has_method("show_damage_number"):
+					hero.show_damage_number("GNIEW +ATK!", Color(1.0, 0.48, 0.18), true)
+				if combat_vfx != null and combat_vfx.has_method("spawn_channel_ring"):
+					combat_vfx.spawn_channel_ring(hero.position, race_k, 1.0)
+			if audio != null: audio.play_race_skill(race_k, "B4")
+			return true
+		if nid == "B9":
+			hero_buffs["last_flame_t"] = 5.0
+			if hero != null:
+				hero.play_action("sk_B9", "guard")
+				if hero.has_method("show_damage_number"):
+					hero.show_damage_number("OSTATNI PŁOMIEŃ!", Color(1.0, 0.78, 0.24), true)
+			if audio != null: audio.play_race_skill(race_k, "B9")
+			return true
+	elif race_k == "android":
+		if nid == "B1":
+			_grant_hero_shield(max_hp * 0.18 * shield_mult * skill_power, 5.0, 0.30 * _hero_talent_power("B7"), 0.25 * _hero_talent_power("B5"))
+			if hero != null: hero.play_action("guard", "guard")
+			if audio != null: audio.play_race_skill(race_k, "B1")
+			return true
+		if nid == "C4":
+			android_overheat_t = 0.0
+			if rpg_hud != null:
+				rpg_hud.hero_res = 0.0
+				var heal_c4 := float(rpg_hud.hero_max_hp) * 0.10 * skill_power
+				rpg_hud.hero_hp = minf(float(rpg_hud.hero_max_hp), float(rpg_hud.hero_hp) + heal_c4)
+				if hero != null and hero.has_method("show_damage_number"):
+					hero.show_damage_number("CHŁODZENIE +%d" % int(round(heal_c4)), Color(0.32, 0.96, 1.0), false)
+			if hero != null:
+				hero.play_action("channel", "channel", 0.65)
+				if combat_vfx != null and combat_vfx.has_method("spawn_channel_ring"):
+					combat_vfx.spawn_channel_ring(hero.position, race_k, 0.9)
+			if audio != null: audio.play_race_skill(race_k, "C4")
+			return true
+		if nid == "B9":
+			hero_buffs["fortify_t"] = 6.0
+			if hero != null:
+				hero.play_action("sk_B9", "skillb")
+				if hero.has_method("show_damage_number"):
+					hero.show_damage_number("FORTYFIKACJA +%.0f%% OBR" % (60.0 * skill_power), Color(0.36, 0.94, 1.0), true)
+			if audio != null: audio.play_race_skill(race_k, "B9")
+			return true
+		if nid == "C9":
+			hero_buffs["overload_t"] = 6.0
+			android_overheat_t = 0.0
+			if hero != null:
+				hero.play_action("sk_C9", "skillc")
+				if hero.has_method("show_damage_number"):
+					hero.show_damage_number("PRZECIĄŻENIE 0 KI!", Color(0.28, 0.98, 1.0), true)
+				if combat_vfx != null:
+					combat_vfx.spawn_ki_burst(hero.position, race_k, 160.0)
+			if audio != null: audio.play_race_skill(race_k, "C9")
+			return true
+	elif race_k == "planetary":
+		if nid == "A1":
+			perform_dodge(true)
+			return true
+		if nid == "C1":
+			var hot_pct := 0.12 * skill_power * (1.0 + 0.30 * _hero_talent_power("C6"))
+			hero_buffs["hot_t"] = 4.0
+			hero_buffs["hot_rate"] = (float(rpg_hud.hero_max_hp) * hot_pct) / 4.0 if rpg_hud != null else 6.0
+			if _hero_has_talent("C8") and rpg_hud != null:
+				rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + 15.0 * _hero_talent_power("C8"))
+			if hero != null:
+				hero.play_action("channel", "channel", 0.65)
+				if hero.has_method("show_damage_number"):
+					hero.show_damage_number("KORZENNY ODDECH", Color(0.42, 0.98, 0.58), false)
+				if combat_vfx != null and combat_vfx.has_method("spawn_channel_ring"):
+					combat_vfx.spawn_channel_ring(hero.position, race_k, 1.2)
+			if audio != null: audio.play_race_skill(race_k, "C1")
+			return true
+		if nid == "C4":
+			_grant_hero_shield(max_hp * 0.18 * shield_mult * skill_power, 5.0, 0.20 * _hero_talent_power("C7"))
+			if hero != null: hero.play_action("guard", "guard")
+			if audio != null: audio.play_race_skill(race_k, "C4")
+			return true
+		if nid == "C9":
+			if rpg_hud != null:
+				var h9 := float(rpg_hud.hero_max_hp) * 0.40 * skill_power
+				rpg_hud.hero_hp = minf(float(rpg_hud.hero_max_hp), float(rpg_hud.hero_hp) + h9)
+				_grant_hero_shield(max_hp * 0.20 * shield_mult * skill_power, 6.0)
+				if hero != null and hero.has_method("show_damage_number"):
+					hero.show_damage_number("+%d ODRODZENIE!" % int(round(h9)), Color(0.38, 1.0, 0.62), true)
+			if hero != null: hero.play_action("sk_C9", "skillc")
+			if audio != null: audio.play_race_skill(race_k, "C9")
+			return true
+	elif race_k == "sage":
+		if nid == "B1":
+			var duration := 4.0 + 2.0 * _hero_talent_power("B3")
+			_grant_hero_shield(max_hp * 0.15 * shield_mult * skill_power, duration, 0.0, 0.15 * _hero_talent_power("B5"), _hero_has_talent("B8"))
+			if hero != null: hero.play_action("guard", "guard")
+			if audio != null: audio.play_race_skill(race_k, "B1")
+			return true
+		if nid == "C1":
+			start_ki_channel(3.0, 0.30 * skill_power, 0.0, not _hero_has_talent("C8"), _hero_has_talent("C6"))
+			if audio != null: audio.play_race_skill(race_k, "C1")
+			return true
+		if nid == "C4":
+			start_ki_channel(3.0, 0.0, 0.20 * skill_power * (1.0 + 0.50 * _hero_talent_power("C7")))
+			if audio != null: audio.play_race_skill(race_k, "C4")
+			return true
+		if nid == "B4":
+			_spawn_ground_circle(target_point, 140.0, 5.0, "slow", 0.0, minf(0.90, 0.40 * skill_power), 0.0)
+			if hero != null: hero.play_action("sk_B4", "skillc")
+			if audio != null: audio.play_race_skill(race_k, "B4")
+			return true
+		if nid == "B9":
+			_spawn_ground_circle(caster_point, 220.0, 8.0, "temple", 0.30 * skill_power, minf(0.90, 0.30 * skill_power), 0.0)
+			if hero != null:
+				hero.play_action("sk_B9", "skillb")
+				if hero.has_method("show_damage_number"):
+					hero.show_damage_number("ŚWIĄTYNIA ŚWIATŁA!", Color(1.0, 0.92, 0.48), true)
+			if audio != null: audio.play_race_skill(race_k, "B9")
+			return true
+		if nid == "C9":
+			hero_buffs["enlighten_t"] = 8.0
+			if hero != null:
+				hero.play_action("sk_C9", "skillc")
+				if hero.has_method("show_damage_number"):
+					hero.show_damage_number("OŚWIECENIE 0 KI!", Color(0.62, 0.94, 1.0), true)
+				if combat_vfx != null and combat_vfx.has_method("spawn_channel_ring"):
+					combat_vfx.spawn_channel_ring(hero.position, race_k, 1.6)
+			if audio != null: audio.play_race_skill(race_k, "C9")
+			return true
+	return false
+
 func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: String = "") -> void:
 	var nid := node_id
 	if nid.is_empty():
@@ -2495,17 +2804,8 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 		if world_time - last_combat_time >= 5.0 and _hero_has_talent("C5"):
 			rpg_hud.hero_res = maxf(float(rpg_hud.hero_res), minf(100.0, 20.0 * _hero_talent_power("C5")))
 		dmg_scale *= (1.0 + float(rpg_hud.hero_res) * 0.001)
-		if float(hero_buffs.get("rage_t", 0.0)) > 0.05:
-			dmg_scale *= 1.0 + 0.30 * _hero_talent_power("B4") + 0.10 * _hero_talent_power("B7")
 		if _hero_has_talent("A8") and nearby_foes <= 1:
 			dmg_scale *= 1.0 + 0.25 * _hero_talent_power("A8")
-	if float(hero_buffs.get("overload_t", 0.0)) > 0.05:
-		dmg_scale *= 1.0 + 0.40 * _hero_talent_power("C9")
-	if float(hero_buffs.get("enlighten_t", 0.0)) > 0.05:
-		dmg_scale *= 1.0 + 0.30 * _hero_talent_power("C9")
-	if skill_idx > 0 and float(hero_buffs.get("meditate_emp_t", 0.0)) > 0.05:
-		dmg_scale *= 1.0 + 0.25 * _hero_talent_power("C6")
-		hero_buffs["meditate_emp_t"] = 0.0
 
 	# ==========================================================================
 	# 1) FORMA KI [T]
@@ -2523,141 +2823,11 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 				_apply_damage_to_agent(h_idx, dmg_t, false, race_k, kill_heal_pct, 3.0 if race_k == "legend" else 0.0, 0.8)
 		return
 
-	# ==========================================================================
-	# 2) SELF / UTILITY / SPECIAL NON-STANDARD SKILLS BY RACE
-	# ==========================================================================
-	if race_k == "legend":
-		if nid == "B4":
-			hero_buffs["rage_t"] = 8.0 + 4.0 * _hero_talent_power("B7")
-			if hero != null:
-				hero.play_action("sk_B4", "skillb")
-				if hero.has_method("show_damage_number"):
-					hero.show_damage_number("GNIEW +ATK!", Color(1.0, 0.48, 0.18), true)
-				if combat_vfx != null and combat_vfx.has_method("spawn_channel_ring"):
-					combat_vfx.spawn_channel_ring(hero.position, race_k, 1.0)
-			if audio != null: audio.play_race_skill(race_k, "B4")
-			return
-		if nid == "B9":
-			hero_buffs["last_flame_t"] = 5.0
-			_grant_hero_shield((40.0 + float(rpg_hud.hero_max_hp) * 0.28) * shield_mult * skill_power, 5.5)
-			if hero != null:
-				hero.play_action("sk_B9", "guard")
-				if hero.has_method("show_damage_number"):
-					hero.show_damage_number("OSTATNI PŁOMIEŃ!", Color(1.0, 0.78, 0.24), true)
-			if audio != null: audio.play_race_skill(race_k, "B9")
-			return
-	elif race_k == "android":
-		if nid == "B1":
-			var ref_p := minf(0.90, 0.25 * _hero_talent_power("B5") + 0.30 * _hero_talent_power("B7"))
-			_grant_hero_shield((36.0 + float(rpg_hud.hero_max_hp) * 0.24) * shield_mult * skill_power, 6.5, ref_p)
-			if hero != null: hero.play_action("guard", "guard")
-			if audio != null: audio.play_race_skill(race_k, "B1")
-			return
-		if nid == "C4":
-			android_overheat_t = 0.0
-			if rpg_hud != null:
-				rpg_hud.hero_res = 0.0
-				var heal_c4 := float(rpg_hud.hero_max_hp) * 0.10 * skill_power
-				rpg_hud.hero_hp = minf(float(rpg_hud.hero_max_hp), float(rpg_hud.hero_hp) + heal_c4)
-				if hero != null and hero.has_method("show_damage_number"):
-					hero.show_damage_number("CHŁODZENIE +%d" % int(round(heal_c4)), Color(0.32, 0.96, 1.0), false)
-			if hero != null:
-				hero.play_action("channel", "channel", 0.65)
-				if combat_vfx != null and combat_vfx.has_method("spawn_channel_ring"):
-					combat_vfx.spawn_channel_ring(hero.position, race_k, 0.9)
-			if audio != null: audio.play_race_skill(race_k, "C4")
-			return
-		if nid == "B9":
-			hero_buffs["fortify_t"] = 6.0
-			_grant_hero_shield((50.0 + float(rpg_hud.hero_max_hp) * 0.30) * shield_mult * skill_power, 6.0, minf(0.90, 0.25 * skill_power))
-			if hero != null:
-				hero.play_action("sk_B9", "skillb")
-				if hero.has_method("show_damage_number"):
-					hero.show_damage_number("FORTYFIKACJA +%.0f%% OBR" % (60.0 * skill_power), Color(0.36, 0.94, 1.0), true)
-			if audio != null: audio.play_race_skill(race_k, "B9")
-			return
-		if nid == "C9":
-			hero_buffs["overload_t"] = 6.0
-			android_overheat_t = 0.0
-			if hero != null:
-				hero.play_action("sk_C9", "skillc")
-				if hero.has_method("show_damage_number"):
-					hero.show_damage_number("PRZECIĄŻENIE 0 KI!", Color(0.28, 0.98, 1.0), true)
-				if combat_vfx != null:
-					combat_vfx.spawn_ki_burst(hero.position, race_k, 160.0)
-			if audio != null: audio.play_race_skill(race_k, "C9")
-			return
-	elif race_k == "planetary":
-		if nid == "A1":
-			perform_dodge(true)
-			return
-		if nid == "C1":
-			var hot_pct := 0.12 * skill_power * (1.0 + 0.30 * _hero_talent_power("C6"))
-			hero_buffs["hot_t"] = 4.0
-			hero_buffs["hot_rate"] = (float(rpg_hud.hero_max_hp) * hot_pct) / 4.0 if rpg_hud != null else 6.0
-			if _hero_has_talent("C8") and rpg_hud != null:
-				rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + 15.0 * _hero_talent_power("C8"))
-			if hero != null:
-				hero.play_action("channel", "channel", 0.65)
-				if hero.has_method("show_damage_number"):
-					hero.show_damage_number("KORZENNY ODDECH", Color(0.42, 0.98, 0.58), false)
-				if combat_vfx != null and combat_vfx.has_method("spawn_channel_ring"):
-					combat_vfx.spawn_channel_ring(hero.position, race_k, 1.2)
-			if audio != null: audio.play_race_skill(race_k, "C1")
-			return
-		if nid == "C4":
-			var ref_p := minf(0.90, 0.20 * _hero_talent_power("C7"))
-			_grant_hero_shield((38.0 + float(rpg_hud.hero_max_hp) * 0.26) * shield_mult * skill_power, 7.0, ref_p)
-			if hero != null: hero.play_action("guard", "guard")
-			if audio != null: audio.play_race_skill(race_k, "C4")
-			return
-		if nid == "C9":
-			if rpg_hud != null:
-				var h9 := float(rpg_hud.hero_max_hp) * 0.40 * skill_power
-				rpg_hud.hero_hp = minf(float(rpg_hud.hero_max_hp), float(rpg_hud.hero_hp) + h9)
-				_grant_hero_shield(float(rpg_hud.hero_max_hp) * 0.20 * shield_mult * skill_power, 7.0)
-				if hero != null and hero.has_method("show_damage_number"):
-					hero.show_damage_number("+%d ODRODZENIE!" % int(round(h9)), Color(0.38, 1.0, 0.62), true)
-			_spawn_ground_circle(hero_pos, 145.0, 3.5, "light", 0.12 * skill_power, 0.0, 0.0)
-			if hero != null: hero.play_action("sk_C9", "skillc")
-			if audio != null: audio.play_race_skill(race_k, "C9")
-			return
-	elif race_k == "sage":
-		if nid == "B1":
-			var sh_dur := 6.5 + 2.0 * _hero_talent_power("B3")
-			var ref_s := minf(0.90, 0.15 * _hero_talent_power("B5") + (0.25 if _hero_has_talent("B8") else 0.0))
-			_grant_hero_shield((36.0 + float(rpg_hud.hero_max_hp) * 0.25) * shield_mult * skill_power, sh_dur, ref_s)
-			if hero != null: hero.play_action("guard", "guard")
-			if audio != null: audio.play_race_skill(race_k, "B1")
-			return
-		if nid == "C1":
-			start_ki_channel(1.6, 0.30 * skill_power, 0.0)
-			if _hero_has_talent("C6"):
-				hero_buffs["meditate_emp_t"] = 6.0
-			if audio != null: audio.play_race_skill(race_k, "C1")
-			return
-		if nid == "C4":
-			start_ki_channel(1.8, 0.0, 0.20 * skill_power * (1.0 + 0.50 * _hero_talent_power("C7")))
-			if audio != null: audio.play_race_skill(race_k, "C4")
-			return
-		if nid == "B9":
-			_spawn_ground_circle(hero_pos, 220.0, 8.0, "temple", 0.30 * skill_power, minf(0.90, 0.40 * skill_power), 0.0)
-			if hero != null:
-				hero.play_action("sk_B9", "skillb")
-				if hero.has_method("show_damage_number"):
-					hero.show_damage_number("ŚWIĄTYNIA ŚWIATŁA!", Color(1.0, 0.92, 0.48), true)
-			if audio != null: audio.play_race_skill(race_k, "B9")
-			return
-		if nid == "C9":
-			hero_buffs["enlighten_t"] = 8.0
-			if hero != null:
-				hero.play_action("sk_C9", "skillc")
-				if hero.has_method("show_damage_number"):
-					hero.show_damage_number("OŚWIECENIE 0 KI!", Color(0.62, 0.94, 1.0), true)
-				if combat_vfx != null and combat_vfx.has_method("spawn_channel_ring"):
-					combat_vfx.spawn_channel_ring(hero.position, race_k, 1.6)
-			if audio != null: audio.play_race_skill(race_k, "C9")
-			return
+	var target_point: Vector2 = live_agents[best_idx]["pos"] if best_idx >= 0 else hero_pos
+	if try_perform_support_skill(nid, hero_pos, target_point):
+		return
+	if race_k != "android" or nid != "A1":
+		dmg_scale *= consume_attack_buff_multiplier(nid)
 
 	# ==========================================================================
 	# 3) OFFENSIVE ATTACKS & SKILLS (ANIMATION + VFX + RACIAL MECHANICS)
@@ -2668,7 +2838,6 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 	var apply_stun := 0.0
 	var apply_slow := 0.0
 	var slow_strength := 0.0
-	var apply_mark := 0.0
 	var push_back := 0.0
 	var guaranteed_crit := false
 
@@ -2712,7 +2881,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 					near_circle = true
 					break
 			if not near_circle:
-				_spawn_ground_circle(hero_pos, 118.0, 6.0, "light", 0.10 * _hero_talent_power("B2"), 0.22 if _hero_has_talent("B6") else 0.0, 0.0)
+				_spawn_ground_circle(hero_pos, 118.0, 5.0, "light", 0.10 * _hero_talent_power("B2"), 0.0, 0.0)
 	else:
 		var clip_name := str(spec.get("clip", "skill"))
 		var fb_name := str(spec.get("fb", "skill"))
@@ -2730,7 +2899,6 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 				if combat_vfx != null and hero != null: combat_vfx.spawn_slash(hero.position, aim_dir, race_k, 1.45, false)
 			elif nid == "B1":
 				apply_stun = 1.2
-				_grant_hero_shield((30.0 + float(rpg_hud.hero_max_hp) * 0.22) * shield_mult * skill_power, 6.0)
 			elif nid == "C1":
 				if _hero_has_talent("C3"):
 					apply_burn = 4.0
@@ -2764,12 +2932,12 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 				if combat_vfx != null and hero != null: combat_vfx.spawn_ki_burst(hero.position, race_k, 240.0)
 		elif race_k == "android":
 			if nid == "A1":
-				apply_mark = 6.0
 				if best_idx >= 0:
+					mark_enemy(live_agents[best_idx])
 					set_locked_target(str(live_agents[best_idx]["id"]))
-				if combat_vfx != null and hero != null:
-					combat_vfx.spawn_bolt(hero.position, end_pos, race_k, 1.15)
-					combat_vfx.spawn_target_reticle(end_pos, race_k, 1.6)
+					if combat_vfx != null and hero != null:
+						combat_vfx.spawn_target_reticle(end_pos, race_k, 1.6)
+				return
 			elif nid == "C1":
 				var spent_c := float(rpg_hud.hero_res) if rpg_hud != null else 0.0
 				if rpg_hud != null:
@@ -2845,9 +3013,6 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 			elif nid == "A4":
 				if combat_vfx != null and hero != null:
 					combat_vfx.spawn_beam(hero.position, end_pos, race_k, 24.0, 0.45)
-			elif nid == "B4":
-				var c_pos: Vector2 = (live_agents[best_idx]["pos"] as Vector2) if best_idx >= 0 else hero_pos
-				_spawn_ground_circle(c_pos, 160.0, 6.0, "slow", 0.0, minf(0.90, 0.40 * skill_power), 0.0)
 			elif nid == "A9":
 				var c9_pos: Vector2 = (live_agents[best_idx]["pos"] as Vector2) if best_idx >= 0 else hero_pos
 				_spawn_ground_circle(c9_pos, 190.0, 1.2, "light", 0.0, 0.25, 0.0)
@@ -2893,15 +3058,12 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 		var target: Dictionary = live_agents[h_idx]
 		var m_lvl := int(target.get("level", 1))
 		var lv_penalty := 0.65 if (m_lvl - hero_lv >= 3) else 1.0
-		var tgt_crit := crit_pct
-		var tgt_mult := skill_mult * dmg_scale
-		if float(target.get("marked_t", 0.0)) > 0.05:
-			tgt_crit += 15.0 * _hero_talent_power("A1")
-			if race_k == "android" and _hero_has_talent("A7"):
-				tgt_mult *= 1.0 + 0.40 * _hero_talent_power("A7")
+		var tgt_crit := crit_pct + target_mark_crit(target)
+		var tgt_mult := skill_mult * dmg_scale * target_damage_multiplier(target)
 		var is_crit := guaranteed_crit or (randf() * 100.0 < tgt_crit)
-		var crit_mult := 1.55 if is_crit else 1.0
-		var dmg := maxi(8, int(round(float(base_atk) * tgt_mult * lv_penalty * crit_mult * randf_range(0.92, 1.16))))
+		var crit_mult := 1.50 if is_crit else 1.0
+		var unmitigated := float(base_atk) * tgt_mult * lv_penalty * randf_range(0.92, 1.16)
+		var dmg := maxi(1, int(round(maxf(1.0, unmitigated - enemy_armor(target) * 0.5) * crit_mult)))
 		if push_back > 0.0 and str(target.get("kind", "")) == "monster":
 			var away := ((target["pos"] as Vector2) - hero_pos).normalized()
 			var cand_pb := (target["pos"] as Vector2) + away * push_back
@@ -2910,7 +3072,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 				var pnd = target.get("node", null)
 				if is_instance_valid(pnd):
 					pnd.position = iso(cand_pb.x, cand_pb.y, height_at(cand_pb.x, cand_pb.y))
-		if _apply_damage_to_agent(h_idx, dmg, is_crit, race_k, kill_heal_pct, apply_burn, apply_stun, apply_slow, apply_mark, burn_dps, slow_strength):
+		if _apply_damage_to_agent(h_idx, dmg, is_crit, race_k, kill_heal_pct, apply_burn, apply_stun, apply_slow, burn_dps, slow_strength):
 			any_kill = true
 
 	# Android A8 Multishot: basic shot bounces to 2 nearby enemies for 40% dmg!
@@ -3004,6 +3166,9 @@ func enter_labyrinth_by_id(lab_id: String) -> void:
 	if dialogue_strip != null:
 		dialogue_strip.close_dialogue(false)
 	active_talk_agent = {}
+	active_circles.clear()
+	delayed_seals.clear()
+	ki_channel_t = 0.0
 	in_labyrinth = true
 	in_interior = false
 	map_expanded = false
@@ -3024,6 +3189,9 @@ func exit_labyrinth() -> void:
 	if audio != null:
 		audio.sfx("ui/portal", 0.85, 0.04)
 	in_labyrinth = false
+	active_circles.clear()
+	delayed_seals.clear()
+	ki_channel_t = 0.0
 	if labyrinth_room != null:
 		labyrinth_room.visible = false
 	motion = Vector2.ZERO
@@ -3717,12 +3885,53 @@ func _step_agent_patrol(ag: Dictionary, delta: float, move_speed: float, is_mons
 	ag["ai_timer"] = timer
 	return cand_p
 
-func _hero_circle_def_bonus() -> float:
-	var best_b := 0.0
-	for ci: Dictionary in active_circles:
-		if hero_pos.distance_to(ci["pos"] as Vector2) <= float(ci.get("radius", 120.0)):
-			best_b = maxf(best_b, float(ci.get("def_bonus", 0.0)))
-	return best_b
+func combat_circle_bonus(point: Vector2, effect: String) -> float:
+	var bonus := 0.0
+	for area: Dictionary in active_circles:
+		var radius := float(area["radius"])
+		if point.distance_squared_to(area["pos"] as Vector2) <= radius * radius:
+			bonus = maxf(bonus, float(area.get(effect, 0.0)))
+	return bonus
+
+func step_hero_combat_effects(delta: float, is_moving: bool) -> void:
+	hero_stun_t = maxf(0.0, hero_stun_t - delta)
+	hero_root_t = maxf(0.0, hero_root_t - delta)
+	hero_silence_t = maxf(0.0, hero_silence_t - delta)
+	hero_slow_t = maxf(0.0, hero_slow_t - delta)
+	android_shutdown_t = maxf(0.0, android_shutdown_t - delta)
+	var overload_t := float(hero_buffs.get("overload_t", 0.0))
+	if overload_t > 0.0 and overload_t <= delta:
+		android_shutdown_t = maxf(0.0, 2.0 - (delta - overload_t))
+		if android_shutdown_t > 0.0:
+			show_combat_toast("Przeciążenie. Układy wyłączone na %.1f s." % android_shutdown_t, Color(1.0, 0.44, 0.32))
+	if android_overheat_t > 0.0:
+		android_overheat_t = maxf(0.0, android_overheat_t - delta)
+		if android_overheat_t <= 0.0 and rpg_hud != null and _hero_race_key() == "android":
+			rpg_hud.hero_res = minf(float(rpg_hud.hero_res), _android_max_charge() * 0.45)
+
+	for key in ["rage_t", "last_flame_t", "streak_haste_t", "overload_t", "fortify_t", "dodge_empower_t", "dodge_def_t", "kill_spd_t", "enlighten_t", "meditate_emp_t"]:
+		if hero_buffs.has(key):
+			hero_buffs[key] = maxf(0.0, float(hero_buffs[key]) - delta)
+	if rpg_hud == null:
+		return
+	var hot_t := float(hero_buffs.get("hot_t", 0.0))
+	if hot_t > 0.0:
+		var heal := float(hero_buffs.get("hot_rate", 0.0)) * minf(delta, hot_t)
+		rpg_hud.hero_hp = minf(float(rpg_hud.hero_max_hp), float(rpg_hud.hero_hp) + heal)
+		hero_buffs["hot_t"] = maxf(0.0, hot_t - delta)
+		rpg_hud._sync_bar_uniforms()
+	if ki_channel_t <= 0.0:
+		return
+	if is_moving and ki_channel_breaks_on_move:
+		ki_channel_t = 0.0
+		return
+	var step := minf(delta, ki_channel_t)
+	rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + ki_channel_ki_rate * step)
+	rpg_hud.hero_hp = minf(float(rpg_hud.hero_max_hp), float(rpg_hud.hero_hp) + ki_channel_hp_rate * step)
+	ki_channel_t = maxf(0.0, ki_channel_t - step)
+	if ki_channel_t <= 0.0 and ki_channel_empowers:
+		hero_buffs["meditate_emp_t"] = 6.0
+	rpg_hud._sync_bar_uniforms()
 
 func _step_stage3_combat_timers(delta: float, is_moving: bool) -> void:
 	if dodge_invuln_t > 0.0:
@@ -3731,31 +3940,7 @@ func _step_stage3_combat_timers(delta: float, is_moving: bool) -> void:
 		dodge_dash_t = maxf(0.0, dodge_dash_t - delta)
 		if dodge_dash_dir.length_squared() > 0.01:
 			try_move(dodge_dash_dir * SPEED * 2.55 * delta)
-	if android_overheat_t > 0.0:
-		android_overheat_t = maxf(0.0, android_overheat_t - delta)
-		if android_overheat_t <= 0.0 and rpg_hud != null and _hero_race_key() == "android":
-			rpg_hud.hero_res = minf(float(rpg_hud.hero_res), _android_max_charge() * 0.45)
-
-	# Ki Channeling ([X], Sage C1 Medytacja, Sage C4 Leczniczy Kanał)
-	if ki_channel_t > 0.0 and rpg_hud != null:
-		if is_moving:
-			ki_channel_t = 0.0
-		else:
-			ki_channel_t = maxf(0.0, ki_channel_t - delta)
-			if ki_channel_ki_rate > 0.0:
-				rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + ki_channel_ki_rate * delta)
-			if ki_channel_hp_rate > 0.0:
-				rpg_hud.hero_hp = minf(float(rpg_hud.hero_max_hp), float(rpg_hud.hero_hp) + ki_channel_hp_rate * delta)
-
-	# Tick hero buff timers + Planetary C1 HoT
-	for bk in ["rage_t", "last_flame_t", "streak_haste_t", "overload_t", "fortify_t", "dodge_empower_t", "dodge_def_t", "kill_spd_t", "enlighten_t", "meditate_emp_t", "hot_t"]:
-		var bv := float(hero_buffs.get(bk, 0.0))
-		if bv > 0.0:
-			hero_buffs[bk] = maxf(0.0, bv - delta)
-	if float(hero_buffs.get("hot_t", 0.0)) > 0.0 and rpg_hud != null:
-		rpg_hud.hero_hp = minf(float(rpg_hud.hero_max_hp), float(rpg_hud.hero_hp) + float(hero_buffs.get("hot_rate", 0.0)) * delta)
-	if rpg_hud != null and float(rpg_hud.hero_shield_timer) <= 0.05:
-		hero_buffs["reflect_pct"] = 0.0
+	step_hero_combat_effects(delta, is_moving)
 
 	# Tick Active Ground Circles (Sage Light Circle, Slow Circle, Temple, Burn Circle)
 	var ci_i := active_circles.size() - 1
@@ -3971,7 +4156,8 @@ func step_world(delta: float) -> void:
 		if _hero_race_key() == "planetary" and _hero_has_talent("B2") and _get_planetary_terrain() == "water":
 			buff_spd *= 1.0 + 0.08 * _hero_talent_power("B2")
 		var analog_mult := lerpf(0.45, 1.0, move_mag)
-		try_move(world_dir * SPEED * analog_mult * gm_speed_mult * stat_spd_mult * road_mult * ki_spd_mult * buff_spd * delta)
+		var movement := hero_movement_multiplier()
+		try_move(world_dir * SPEED * analog_mult * gm_speed_mult * stat_spd_mult * road_mult * ki_spd_mult * buff_spd * movement * delta)
 
 	# Out-of-Combat passive HP/KI recovery (+4% HP/s + talent bonus, +6% KI/s after 5s OOC)
 	if world_time - last_combat_time >= 5.0 and rpg_hud != null and float(rpg_hud.hero_hp) > 0.0:
@@ -4167,42 +4353,22 @@ func step_world(delta: float) -> void:
 						if recall_channel > 0.0:
 							recall_channel = 0.0
 							show_combat_toast("Powrót do stolicy przerwany przez obrażenia!", Color(1.0, 0.48, 0.34))
-						var m_atk := int(ag.get("atk", 24))
-						var m_lvl := int(ag.get("level", 1))
-						var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
-						var hero_def := float(rpg_hud.get_total_defense()) if (rpg_hud != null and rpg_hud.has_method("get_total_defense")) else 12.0
-						var def_mult := 1.0
-						if ki_mode_timer > 0.0: def_mult += 0.15 * _ki_form_power()
-						if float(hero_buffs.get("fortify_t", 0.0)) > 0.05: def_mult += 0.60 * _hero_talent_power("B9")
-						if float(hero_buffs.get("dodge_def_t", 0.0)) > 0.05: def_mult += 0.20 * _hero_talent_power("A8")
-						if race_k_now == "planetary" and _hero_has_talent("B2") and _get_planetary_terrain() == "rock": def_mult += 0.10 * _hero_talent_power("B2")
-						if race_k_now == "legend" and float(hero_buffs.get("rage_t", 0.0)) > 0.05 and not _hero_has_talent("B8"): def_mult -= 0.15
-						def_mult += _hero_circle_def_bonus()
-						var adv_mult := 1.35 if (m_lvl - hero_lv >= 3) else 1.0
-						var dmg := maxi(5, int(round(float(m_atk) * adv_mult - (hero_def * maxf(0.4, def_mult)) * 0.55)))
-						ag["dmg_dealt_to_hero"] = int(ag.get("dmg_dealt_to_hero", 0)) + dmg
-						var refl := float(hero_buffs.get("reflect_pct", 0.0))
-						if refl > 0.01 and rpg_hud != null and float(rpg_hud.hero_shield_hp) > 1.0:
-							_apply_damage_to_agent(idx, maxi(4, int(round(float(dmg) * refl))), false, race_k_now, kill_heal_now)
-						if audio != null:
-							audio.sfx("common/player-hurt", 0.76)
-						if hero != null:
-							if hero.has_method("show_damage_number"):
-								hero.show_damage_number("-%d" % dmg, Color(1.0, 0.34, 0.28), false)
-							if Time.get_ticks_msec() / 1000.0 >= float(hero.one_shot_until) and hero.has_method("play_action"):
-								hero.play_action("hitheavy" if dmg >= 35 else "hit", "hit", 0.28)
-						if rpg_hud != null and rpg_hud.has_method("take_combat_damage") and rpg_hud.take_combat_damage(dmg):
-							if float(hero_buffs.get("last_flame_t", 0.0)) > 0.05:
-								hero_buffs["last_flame_t"] = 0.0
-								rpg_hud.hero_hp = maxf(1.0, round(float(rpg_hud.hero_max_hp) * minf(1.0, 0.30 * _hero_talent_power("B9"))))
-								rpg_hud._sync_bar_uniforms()
-								rpg_hud._refresh_visuals()
-								if combat_vfx != null and hero != null:
-									combat_vfx.spawn_ki_burst(hero.position, race_k_now, 180.0)
-								show_combat_toast("✦ OSTATNI PŁOMIEŃ uratował Cię przed śmiercią!", Color(1.0, 0.80, 0.28))
-							else:
-								handle_hero_defeat()
-								return
+						var special := foe_control_skill(ag, world_time)
+						var dmg := enemy_hit_damage(ag, next_p, hero_pos, 5)
+						var hp_before := float(rpg_hud.hero_hp) if rpg_hud != null else 0.0
+						if resolve_enemy_hit(ag, dmg, special, func(reflected: int) -> void:
+							_apply_damage_to_agent(idx, reflected, false, race_k_now, kill_heal_now)
+						):
+							handle_hero_defeat()
+							return
+						var hp_loss := int(round(hp_before - float(rpg_hud.hero_hp))) if rpg_hud != null else 0
+						if hp_loss > 0:
+							if audio != null:
+								audio.sfx("common/player-hurt", 0.76)
+							if hero != null:
+								hero.show_damage_number("-%d" % hp_loss, Color(1.0, 0.34, 0.28), false)
+								if Time.get_ticks_msec() / 1000.0 >= float(hero.one_shot_until):
+									hero.play_action("hitheavy" if hp_loss >= 35 else "hit", "hit", 0.28)
 			else:
 				ag["roared"] = false
 				ag["was_aggro"] = false
