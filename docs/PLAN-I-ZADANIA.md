@@ -1,5 +1,9 @@
 # KI Legends — aktualny plan i zadania
 
+## Audyt kompletny gry i plan rozwoju MMORPG — 26.11.2026 (`OTA 1.14.32`)
+
+Przeprowadzono pełny audyt techniczny i projektowy ~38 600 linii kodu (`ports/godot-isometric-world`, `ports/godot-pyra`, `src/server/godot`, panel `/admin` oraz zgodność z kanonem 10 dokumentów): animacje (wykorzystanie 47 klipów bohatera, potwory, fauna, NPC), walka i 29 węzłów drzewek rasowych, bestiariusz/bossowie/wydarzenia, ekonomia i zadania, bezpieczeństwo/anty-cheat oraz brakujące filary MMORPG. Pełny raport wraz z 5-etapowym planem wdrożenia: [dziennik i audyt 26.11](zmiany/2026-11-26/ZMIANY.md) (wcześniejsze optymalizacje mobilne 12→60 FPS, modularne OTA `12.7 MB`, Aura KI, łup na ziemi i Paperdoll RPG: [dziennik 25.11](zmiany/2026-11-25/ZMIANY.md)).
+
 **Domykanie rozwoju — 48/48 kontrolerów prób, 144 stopnie (11.11):** dodano
 pozostałe sześć prób Legend: obciążenie, przełamania, fale, ratunek i odwrót.
 Odblokowania i walidacja zapisu korzystają ze wspólnego rejestru. Tytuły czterech

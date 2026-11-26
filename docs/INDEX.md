@@ -108,6 +108,8 @@ Ten katalog ma **dokładnie 10 aktualnych dokumentów Markdown**, razem z tym in
 
 ## Historia — jeden dziennik na dzień
 
+- [2026-11-26](zmiany/2026-11-26/ZMIANY.md) — kompletny audyt kodu, animacji, systemów i brakujących filarów MMORPG + 5-etapowy plan zmian
+- [2026-11-25](zmiany/2026-11-25/ZMIANY.md) — modularne OTA `12.7 MB` (`1.14.28`–`1.14.32`), optymalizacja 12→60 FPS, Aura KI, łup Diablo, Paperdoll RPG i pełnoekranowe wnętrza
 - [2026-11-18](zmiany/2026-11-18/ZMIANY.md)
 - [2026-11-17](zmiany/2026-11-17/ZMIANY.md)
 
