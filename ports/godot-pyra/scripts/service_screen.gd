@@ -1054,6 +1054,19 @@ func _is_world_staff(expected_account: String) -> bool:
 	var online = KiNet.online()
 	return expected_account != "" and online.account_id == expected_account and online.is_staff()
 
+func _presence_session(expected_account: String) -> Dictionary:
+	var online = KiNet.online()
+	if not online.logged_in() or str(online.account_id) != expected_account:
+		return {}
+	return {"url": online.live_url(), "token": str(online.access_token)}
+
+func _refresh_presence_session(expected_account: String, done: Callable) -> void:
+	var online = KiNet.online()
+	if online.logged_in() and str(online.account_id) == expected_account:
+		await online.request(HTTPClient.METHOD_GET, "/ws/auth/me", null, true, 5.0)
+	if done.is_valid():
+		done.call()
+
 func spawn_world(full: bool) -> void:
 	full_mode = full
 	if not ResourceLoader.exists(SCENE):
@@ -1101,6 +1114,10 @@ func spawn_world(full: bool) -> void:
 		world.server_char_id = str(active_server_char.get("id", ""))
 		world.server_character = active_server_char.duplicate(true)
 		world.server_action_fn = Callable(self, "_run_server_action")
+		world.live_auth_fn = Callable(self, "_presence_session").bind(str(online.account_id))
+		var presence_account := str(online.account_id)
+		world.live_refresh_fn = func(done: Callable) -> void:
+			_refresh_presence_session(presence_account, done)
 		world.start_name = str(active_server_char.get("name", ""))
 		world.start_race = str(active_server_char.get("race", "legend"))
 		world.start_land = str(active_server_char.get("land", "pyra"))

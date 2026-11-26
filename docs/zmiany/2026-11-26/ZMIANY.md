@@ -205,3 +205,36 @@ Odbiór fizycznego Androida i aktywacja nowej paczki OTA pozostają otwarte.
 Mechanika walki i bieżąca pozycja nadal pochodzą z klienta. Stary kontrakt
 `monster_kill` nadal rozlicza łup natychmiast dla klienta 1.14.32.
 Po testowym odbiorze i przejściu na nowe OTA można wygasić tę ścieżkę zgodności.
+
+## Etap 2 — obecność graczy, czat i wizytówki w izometrii
+
+Gałąź `feat/android-audit-stage2-20261126` powstała od `a031be824`.
+Wszystkie trzy commity etapu 1 są już w historii gałęzi
+`fix/android-audit-stage1-20261126`.
+
+| Funkcja | Przed | Zmiana | Weryfikacja |
+| --- | --- | --- | --- |
+| Obecność | Świat izometryczny działał bez zdalnych postaci. | Autoryzowany klient korzysta z `/ws/godot/live`. Na powierzchni widać do 24 pobliskich graczy w promieniu 620 jednostek. Wysyłane są kierunek, klip animacji, Forma KI, nick i poziom. Ruch jest interpolowany, a klatki animacji są współdzielone przez postacie tej samej rasy. | PostgreSQL i dwa klienty Godot potwierdziły wymianę stanów oraz izolację kontynentu. |
+| Czat | Podpięty wyłącznie do starszego portu. | Panel mobilny ma kanały Świat, Kontynent, Lokalny i Szept. Czat lokalny wyświetla dymki, szept dociera do dwóch uczestników, a pole zachowuje tekst oczekujący na potwierdzenie. | Test czterech zalogowanych połączeń sprawdza odbiorców każdego kanału i licznik `/admin/overview`. Godot sprawdza układ przy 320×568, 360×640, 390×844 i 852×393. |
+| Wizytówka | Kliknięcie gracza nie było dostępne. | Kliknięcie pobliskiego gracza otwiera portret i aktualnie założony ekwipunek. Widać też poziom, nick, moc KI i przycisk szeptu. | Test dwóch instancji świata Godot sprawdza otwarcie karty z odpowiedzi serwera. Test API sprawdza zakres widocznych danych. |
+
+Socket otrzymuje postać należącą do zalogowanego konta. Zmiana kontynentu jest
+potwierdzana w zapisanej postaci. Podgląd serwisowy i postacie lokalne działają
+bez tego połączenia. Prywatne wnętrza i labirynty ukrywają gracza na powierzchni.
+Klient bez protokołu 2 zachowuje swój dotychczasowy kanał lokalny i osobny
+układ współrzędnych. Ruch i animacje z sieci służą do wyświetlania postaci.
+
+Wskaźnik mocy jest orientacyjny. Serwer używa wzoru
+`maks. HP + maks. KI + 10 × (ATK + DEF)` i uwzględnia kosmetyczny stan Formy KI
+przez dotychczasowe mnożniki `1,25 ATK` i `1,15 DEF`.
+Wskaźnik nie przyznaje nagród i nie zmienia statystyk.
+
+Weryfikacja lokalna obejmuje 30 z 30 testów Androida z PostgreSQL, w tym
+22 z 22 kontroli Godot etapu 2 z dwoma połączeniami WebSocket, oraz regresję
+53 z 53 kontroli etapu 1. Test natywnego klienta uruchamia się w suite
+`src/test/godot-android.test.ts` przy ustawionych `KI_ACCOUNTS_TEST_DATABASE_URL`
+i `KI_GODOT_TEST_BIN`. Pełny TypeScript, lint zmienionych plików, dokumentacja
+i sprawdzenie skryptów po przeniesieniu do przestrzeni nazw OTA zaliczone.
+
+Trwała lista znajomych, zaproszenia do drużyn oraz tagi gildii pozostają otwarte.
+Fizyczny Android i wydanie OTA również wymagają odbioru.

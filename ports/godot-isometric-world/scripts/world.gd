@@ -10,6 +10,9 @@ const AtlasOverlayScript := preload("res://scripts/atlas_overlay.gd")
 const PremiumMinimapScript := preload("res://scripts/premium_minimap.gd")
 const WorldAtmosphereScript := preload("res://scripts/world_atmosphere.gd")
 const RpgHudScript := preload("res://scripts/rpg_hud.gd")
+const LiveLinkScript := preload("res://scripts/live_link.gd")
+const LivePeersScript := preload("res://scripts/live_peers.gd")
+const LivePanelScript := preload("res://scripts/live_panel.gd")
 const GmPanelScript := preload("res://scripts/gm_panel.gd")
 const InteriorRoomScript := preload("res://scripts/interior_room.gd")
 const LabyrinthRoomScript := preload("res://scripts/labyrinth_room.gd")
@@ -159,6 +162,12 @@ var _position_sent := {}
 var _position_pending := false
 var _region_load_id := 0
 
+var live_auth_fn: Callable
+var live_refresh_fn: Callable
+var live_link: Node
+var live_peers: Node
+var live_panel: Control
+
 var server_action_fn: Callable = Callable()
 var gm_access_fn: Callable = Callable()
 var _had_gm_access := false
@@ -297,7 +306,69 @@ func _boot_world_async() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	is_booting = false
+	_start_live_presence()
 	loading_screen.finish_loading()
+
+func _start_live_presence() -> void:
+	if not is_server_authoritative() or not live_auth_fn.is_valid():
+		return
+	live_link = LiveLinkScript.new()
+	live_link.auth = live_auth_fn
+	live_link.refresh_auth = live_refresh_fn
+	live_link.payload = _live_snapshot
+	live_link.character_id = server_char_id
+	live_peers = LivePeersScript.new()
+	live_peers.world = self
+	live_panel = LivePanelScript.new()
+	live_panel.world = self
+	live_panel.link = live_link
+	live_panel.z_index = 42
+	hud.add_child(live_panel)
+	add_child(live_peers)
+	live_link.peers_received.connect(func(frame: Dictionary) -> void:
+		live_peers.accept(frame)
+		live_panel.update_online(int(frame.get("online", 0)), int(frame.get("power", 0)))
+	)
+	live_link.chat_received.connect(func(frame: Dictionary) -> void:
+		live_panel.add_line(frame)
+		if frame.get("scope") == "local":
+			if str(frame.get("id", "")) == str(live_link.peer_id) and hero != null and not in_interior and not in_labyrinth:
+				hero.show_bubble(str(frame.get("text", "")), 4.0)
+			else:
+				live_peers.show_bubble(frame)
+	)
+	live_link.profile_received.connect(func(frame: Dictionary) -> void:
+		if not in_interior and not in_labyrinth and live_peers.actors.has(str(frame.get("id", ""))):
+			live_panel.show_profile(frame)
+	)
+	live_link.status_changed.connect(func(connected: bool, message: String) -> void:
+		live_panel.set_status(connected, message)
+		if not connected:
+			live_peers.clear()
+	)
+	add_child(live_link)
+
+func _live_snapshot() -> Dictionary:
+	var facing := 2
+	var pose := "idle"
+	var action := 0
+	if hero != null:
+		facing = maxi(0, ActorScript.DIRECTIONS.find(hero.direction))
+		pose = str(hero.state)
+		var until: float = hero.one_shot_until
+		if Time.get_ticks_msec() / 1000.0 < until:
+			pose = str(hero.one_shot_clip)
+			action = int(round(until * 1000.0))
+	return {
+		"land": current_land,
+		"x": hero_pos.x,
+		"y": hero_pos.y,
+		"facing": facing,
+		"pose": pose,
+		"action": action,
+		"ki": ki_mode_timer > 0.0,
+		"visible": not in_interior and not in_labyrinth and not is_booting,
+	}
 
 func _exit_tree() -> void:
 	tex_cache.clear()
@@ -472,6 +543,8 @@ func switch_region(land: String) -> void:
 	if not REGION_TITLES.has(land):
 		return
 	_region_load_id += 1
+	if live_peers != null:
+		live_peers.clear()
 	current_land = land
 	region_title = REGION_TITLES[land]
 	current_exp_idx = 0
@@ -2443,6 +2516,9 @@ func open_world_map_on_hero() -> void:
 	toggle_atlas(true)
 
 func handle_back_request() -> bool:
+	if live_panel != null and live_panel.is_open():
+		live_panel.close_panel()
+		return true
 	if rpg_hud != null and bool(rpg_hud.get("hud_edit_mode")) and rpg_hud.has_method("exit_hud_editor"):
 		rpg_hud.exit_hud_editor(true)
 		layout_minimap()
@@ -2566,6 +2642,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
 		handle_back_request()
 		return
+	if live_panel != null and live_panel.is_open():
+		return
 	if game_menu != null and bool(game_menu.visible):
 		return
 	if rpg_hud != null and bool(rpg_hud.get("hud_edit_mode")):
@@ -2585,6 +2663,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		if (event.keycode == KEY_F1 or event.keycode == KEY_P) and can_use_gm():
 			toggle_gm_panel()
+			return
+		elif event.keycode == KEY_B and live_panel != null and live_panel.trigger.visible:
+			live_panel.open_chat()
 			return
 		elif event.keycode == KEY_R:
 			if not nearest_npc_agent.is_empty():
@@ -2704,6 +2785,11 @@ func _unhandled_input(event: InputEvent) -> void:
 					if hero_pos.distance_to(ag["pos"] as Vector2) < 95.0:
 						open_npc_dialogue(ag)
 						return
+			if live_peers != null and live_link != null:
+				var peer_id: String = live_peers.pick(world_click)
+				if not peer_id.is_empty():
+					live_link.inspect_peer(peer_id)
+					return
 			if event.position.x > get_viewport_rect().size.x * 0.38:
 				target_pos = screen_to_ground(world_click)
 	elif event is InputEventScreenTouch:
@@ -2773,6 +2859,12 @@ func _process(delta: float) -> void:
 		combat_toast_t -= delta
 		if combat_toast_t <= 0.0:
 			combat_toast_lbl.visible = false
+	if live_panel != null:
+		var modal := gm_open or map_expanded or atlas_expanded or in_interior or in_labyrinth
+		modal = modal or (game_menu != null and game_menu.visible) or (quest_journal != null and quest_journal.visible)
+		modal = modal or (dialogue_strip != null and bool(dialogue_strip.is_open))
+		modal = modal or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character) or bool(rpg_hud.hud_edit_mode)))
+		live_panel.set_available(not modal)
 	if is_booting or in_interior or in_labyrinth:
 		return
 	if game_menu != null and bool(game_menu.visible):
@@ -2882,6 +2974,8 @@ func step_world(delta: float) -> void:
 		key_dir.y -= 1.0
 	if Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN):
 		key_dir.y += 1.0
+	if live_panel != null and live_panel.is_open():
+		key_dir = Vector2.ZERO
 	var screen_dir := motion if move_pointer != -1 else key_dir.normalized()
 	var move_mag := clampf(screen_dir.length(), 0.0, 1.0)
 	var world_dir := Vector2.ZERO

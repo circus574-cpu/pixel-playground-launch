@@ -336,8 +336,8 @@ export class AccountService {
     return this.startSession(userId, userAgent);
   }
 
-  /** A blocked account gets no new session, whatever link it still holds (login and refresh check this as well). */
-  private async assertActive(userId: string) {
+  /** Requires an existing account that has not been disabled. */
+  async assertActive(userId: string) {
     const [row] = await this.o.sql<{ disabled_at: Date | null }[]>`
       SELECT disabled_at FROM accounts.users WHERE id = ${userId}`;
     if (!row) throw new AccountError("INVALID_TOKEN");

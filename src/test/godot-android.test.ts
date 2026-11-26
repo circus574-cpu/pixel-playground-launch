@@ -2,15 +2,17 @@
 /**
  * Android game backend: save rules (always) and the whole HTTP/WebSocket API against a real PostgreSQL with the Android migrations applied (runs when KI_ACCOUNTS_TEST_DATABASE_URL is set, like the accounts test).
  */
+import { execFile } from "node:child_process";
 import { createHash } from "node:crypto";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import http from "node:http";
 import type { AddressInfo } from "node:net";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { promisify } from "node:util";
 import postgres from "postgres";
 import { WebSocket, WebSocketServer } from "ws";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { AccountService } from "../server/accounts/service";
 import type { Mail, Mailer } from "../server/accounts/mailer";
 import { ContentFiles } from "../server/godot/contentFiles";
@@ -18,6 +20,7 @@ import { godotHttp } from "../server/godot/http";
 import { GodotLive } from "../server/godot/live";
 import { checkSave, SaveRejected } from "../server/godot/saveRules";
 import { GodotStore } from "../server/godot/store";
+import { ServiceAccess } from "../server/serviceAccess";
 
 /* eslint-disable @typescript-eslint/no-explicit-any -- test helpers over loosely typed JSON responses */
 const validSave = (over: Record<string, unknown> = {}) => ({
@@ -85,7 +88,15 @@ describe.runIf(url)("Android backend on PostgreSQL", () => {
   let store: GodotStore;
   let server: http.Server;
   let base = "";
-  const live = new GodotLive(() => accounts);
+  const access = new ServiceAccess(
+    () => store,
+    () => accounts,
+  );
+  const live = new GodotLive(
+    () => accounts,
+    (token) => access.require(token),
+    (account, id) => store.getCharacter(account, id),
+  );
   const tokens: Record<string, string> = {};
   const ids: Record<string, string> = {};
 
@@ -598,4 +609,177 @@ describe.runIf(url)("Android backend on PostgreSQL", () => {
     expect(intruder).toBe(1008);
     for (const c of [a, b, far]) c.ws.close();
   });
+
+  it("binds isometric presence to owned characters and scopes chat and inspection", async () => {
+    const wsUrl = base.replace("http", "ws") + "/live";
+    async function create(nick: string, name: string, race: string) {
+      const response = await call("POST", "/characters", {
+        token: tokens[nick]!,
+        body: { name, race },
+      });
+      expect(response.status).toBe(201);
+      return response.json!["character"].id as string;
+    }
+    const aId = await create("gracz1", "Orion Zywy", "legend");
+    const bId = await create("gracz2", "Ari Zywa", "legend");
+    const cId = await create("gm1", "Nara Zywa", "legend");
+    const dId = await create("admin1", "Lira Zywa", "planetary");
+
+    async function connect(nick: string, id: string, land: string, x: number) {
+      const socket = new WebSocket(wsUrl);
+      const frames: Record<string, any>[] = [];
+      let closed = 0;
+      socket.on("close", (code) => {
+        closed = code;
+      });
+      socket.on("message", (raw) => frames.push(JSON.parse(raw.toString())));
+      await new Promise<void>((resolve, reject) => {
+        socket.on("open", resolve);
+        socket.on("error", reject);
+      });
+      const send = (data: unknown) => socket.send(JSON.stringify(data));
+      send({
+        t: "hello",
+        protocol: 2,
+        token: tokens[nick]!,
+        characterId: id,
+        race: "android",
+        level: 100,
+      });
+      await vi.waitFor(() => {
+        expect(closed).toBe(0);
+        expect(frames.find((f) => f["t"] === "hello_ok")).toMatchObject({ protocol: 2, nick });
+      });
+      const announce = (extra: Record<string, unknown> = {}) =>
+        send({
+          t: "pos",
+          land,
+          x,
+          y: 1800,
+          visible: true,
+          facing: 5,
+          pose: "skillb",
+          action: 20,
+          ki: true,
+          ...extra,
+        });
+      await new Promise((resolve) => setTimeout(resolve, 165));
+      announce();
+      return { socket, frames, send, announce };
+    }
+
+    const a = await connect("gracz1", aId, "pyra", 1800);
+    const b = await connect("gracz2", bId, "pyra", 1930);
+    const c = await connect("gm1", cId, "pyra", 3500);
+    const d = await connect("admin1", dId, "verdant", 1800);
+    try {
+      const latest = () => a.frames.filter((f) => f["t"] === "peers").at(-1);
+      await vi.waitFor(() =>
+        expect(latest()?.["peers"]).toEqual([
+          expect.objectContaining({
+            nick: "gracz2",
+            race: "legend",
+            level: 1,
+            f: 5,
+            pose: "skillb",
+            ki: true,
+          }),
+        ]),
+      );
+      const liveId = latest()!["peers"][0].id;
+      const power = latest()!["power"];
+      expect(power).toBeGreaterThan(0);
+      a.send({ t: "inspect", id: liveId });
+      await vi.waitFor(() =>
+        expect(a.frames.find((f) => f["t"] === "profile")).toMatchObject({
+          name: "Ari Zywa",
+          nick: "gracz2",
+          equipment: expect.any(Object),
+        }),
+      );
+      expect(a.frames.find((f) => f["t"] === "profile")).not.toHaveProperty("accountId");
+      expect(a.frames.find((f) => f["t"] === "profile")).not.toHaveProperty("state");
+
+      for (const [sender, scope, text, to] of [
+        [a, "local", "blisko", undefined],
+        [b, "land", "tylko Pyra", undefined],
+        [c, "world", "każdy region", undefined],
+        [d, "whisper", "prywatna wiadomość", "gracz1"],
+      ] as const)
+        sender.send({ t: "chat", scope, text, to });
+
+      const received = (client: typeof a, scope: string) =>
+        client.frames.some((f) => f["t"] === "chat" && f["scope"] === scope);
+      await vi.waitFor(() => {
+        expect(received(b, "local")).toBe(true);
+        expect(received(c, "land")).toBe(true);
+        expect(received(d, "world")).toBe(true);
+        expect(received(a, "whisper")).toBe(true);
+        expect(received(d, "whisper")).toBe(true);
+      });
+      expect(received(c, "local")).toBe(false);
+      expect(received(d, "land")).toBe(false);
+      expect(received(b, "whisper")).toBe(false);
+      expect(received(c, "whisper")).toBe(false);
+      expect(
+        (await call("GET", "/admin/overview", { token: tokens["admin1"]! })).json!["online"],
+      ).toEqual({ count: 4, byLand: { pyra: 3, verdant: 1 } });
+
+      b.announce({ visible: false });
+      await vi.waitFor(() => expect(latest()?.["peers"]).toEqual([]));
+      a.announce({ ki: false });
+      await vi.waitFor(() => expect(latest()?.["power"]).toBeLessThan(power));
+
+      const rejected = new WebSocket(wsUrl);
+      const closed = new Promise<number>((resolve) => rejected.on("close", resolve));
+      rejected.on("open", () =>
+        rejected.send(
+          JSON.stringify({
+            t: "hello",
+            protocol: 2,
+            token: tokens["gracz2"]!,
+            characterId: aId,
+          }),
+        ),
+      );
+      expect(await closed).toBe(1008);
+    } finally {
+      for (const client of [a, b, c, d]) client.socket.close();
+    }
+  }, 12_000);
+
+  it.runIf(process.env["KI_GODOT_TEST_BIN"])(
+    "exchanges presence and whisper frames between two native Godot clients",
+    async () => {
+      const accounts = ["gracz1", "gracz2"];
+      const ids = await Promise.all(
+        accounts.map(async (nick, i) => {
+          const created = await call("POST", "/characters", {
+            token: tokens[nick]!,
+            body: { race: "legend", name: ["Valen Godot", "Soren Godot"][i] },
+          });
+          expect(created.status).toBe(201);
+          return created.json!["character"].id as string;
+        }),
+      );
+      const output = await promisify(execFile)(
+        process.env["KI_GODOT_TEST_BIN"]!,
+        ["--headless", "--path", "ports/godot-isometric-world", "-s", "tests/audit_stage2.gd"],
+        {
+          timeout: 12_000,
+          env: {
+            ...process.env,
+            KI_GODOT_LIVE_TEST_URL: base.replace("http", "ws") + "/live",
+            KI_GODOT_LIVE_TOKEN_1: tokens[accounts[0]!]!,
+            KI_GODOT_LIVE_TOKEN_2: tokens[accounts[1]!]!,
+            KI_GODOT_LIVE_CHARACTER_1: ids[0]!,
+            KI_GODOT_LIVE_CHARACTER_2: ids[1]!,
+          },
+        },
+      );
+      expect(output.stdout).toContain("Etap 2 — 22/22 kontroli Godot");
+      expect(output.stderr).not.toContain("SCRIPT ERROR");
+    },
+    15_000,
+  );
 });

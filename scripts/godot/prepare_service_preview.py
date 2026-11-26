@@ -22,7 +22,7 @@ def prepare(source: Path, project: Path, *, citadel: bool = False, gemini: bool 
             raise ValueError(f"Missing Gemini asset target: {rel}")
         if not path.is_file() or any(p.startswith(".") for p in rel.parts):
             continue
-        if rel.name == "project.godot" or path.suffix in (".uid", ".import"):
+        if rel.parts[0] == "tests" or rel.name == "project.godot" or path.suffix in (".uid", ".import"):
             continue
         if citadel:
             if rel.parts[0] == "studies" and rel.parts[1] != "pyra-citadel":

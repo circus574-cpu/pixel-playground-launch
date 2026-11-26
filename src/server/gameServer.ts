@@ -95,6 +95,7 @@ export class GameServer {
   private godotLive = new GodotLive(
     () => this.accounts,
     (token) => this.serviceAccess.require(token),
+    async (account, id) => (await this.godot?.getCharacter(account, id)) ?? null,
   );
   private tickCount = 0;
   private tickTimes: number[] = [];
