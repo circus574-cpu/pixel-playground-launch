@@ -4,10 +4,40 @@ extends Node
 const Actor := preload("res://scripts/actor_view.gd")
 const MAX_PEERS := 24
 const SNAP_DISTANCE := 125.0
+const DIR_VEC := {
+	"right": Vector2(1.0, 0.0),
+	"down-right": Vector2(0.7, 0.7),
+	"down": Vector2(0.0, 1.0),
+	"down-left": Vector2(-0.7, 0.7),
+	"left": Vector2(-1.0, 0.0),
+	"up-left": Vector2(-0.7, -0.7),
+	"up": Vector2(0.0, -1.0),
+	"up-right": Vector2(0.7, -0.7),
+}
 
 var world: Node2D
 var actors := {}
+var friend_nicks := {} # lowercase nick -> true
 var _art_by_race := {}
+
+func set_friends(accepted_list: Array) -> void:
+	friend_nicks.clear()
+	for entry: Variant in accepted_list:
+		if entry is Dictionary:
+			var n := str((entry as Dictionary).get("nick", "")).to_lower()
+			if not n.is_empty():
+				friend_nicks[n] = true
+	for entry: Dictionary in actors.values():
+		_apply_nameplate_color(entry)
+
+func _apply_nameplate_color(entry: Dictionary) -> void:
+	var actor: Node2D = entry["actor"]
+	if not is_instance_valid(actor):
+		return
+	var in_party := bool(entry.get("in_party", false))
+	var is_friend := friend_nicks.has(str(entry.get("nick", "")).to_lower())
+	var col := Color("72ff9e") if in_party else (Color("ffe27a") if is_friend else Color("92edfb"))
+	actor.label.add_theme_color_override("font_color", col)
 
 func accept(frame: Dictionary) -> void:
 	if str(frame.get("land", "")) != world.current_land or world.in_labyrinth or world.in_interior:
@@ -34,7 +64,17 @@ func accept(frame: Dictionary) -> void:
 			if current.is_empty():
 				continue
 		var actor: Node2D = current["actor"]
-		actor.label.text = "%s · Poz. %d" % [str(peer.get("nick", "")), int(peer.get("level", 1))]
+		var nick := str(peer.get("nick", ""))
+		var char_name := str(peer.get("name", ""))
+		var disp := char_name if not char_name.is_empty() else nick
+		var gtag := str(peer.get("guildTag", ""))
+		var lv := int(peer.get("level", 1))
+		actor.label.text = ("%s · Poz. %d\n<%s>" % [disp, lv, gtag]) if not gtag.is_empty() else ("%s · Poz. %d" % [disp, lv])
+		var dy: float = float(actor.display.y) if actor.get("display") is Vector2 else 110.0
+		actor.label.position = Vector2(-230, -dy - (54 if not gtag.is_empty() else 36))
+		current["nick"] = nick
+		current["in_party"] = bool(peer.get("inParty", false))
+		_apply_nameplate_color(current)
 		actor.direction = Actor.DIRECTIONS[clampi(int(peer.get("f", 2)), 0, 7)]
 		var transformed := bool(peer.get("ki", false))
 		if bool(actor.ki_mode_active) != transformed:
@@ -44,12 +84,31 @@ func accept(frame: Dictionary) -> void:
 		if action > 0 and action != int(current["action"]) and Actor.ONE_SHOT_CLIPS.has(pose):
 			actor.play_action(pose, "idle")
 			current["action"] = action
+			_spawn_peer_vfx(actor, race, pose)
 		elif Time.get_ticks_msec() / 1000.0 >= float(actor.one_shot_until):
 			actor.play_clip(pose if pose in ["walk", "run"] else "idle")
 		current["target"] = at
 	for id: String in actors.keys():
 		if not seen.has(id):
 			_remove(id)
+
+func _spawn_peer_vfx(actor: Node2D, race: String, pose: String) -> void:
+	if world == null or world.get("combat_vfx") == null:
+		return
+	var vfx = world.combat_vfx
+	var dir_v: Vector2 = DIR_VEC.get(str(actor.direction), Vector2(0.7, 0.7)) as Vector2
+	if pose in ["transform", "kitransform"]:
+		if vfx.has_method("spawn_transform_pillar"):
+			vfx.spawn_transform_pillar(actor.position, race)
+	elif pose in ["skillc", "kiskillc", "sk_C1", "sk_C4", "sk_C9", "sk_A9", "sk_B9"]:
+		if vfx.has_method("spawn_ki_burst"):
+			vfx.spawn_ki_burst(actor.position, race, 125.0)
+	elif pose in ["skillb", "kiskillb", "sk_B1", "sk_B4"]:
+		if vfx.has_method("spawn_shield_dome"):
+			vfx.spawn_shield_dome(actor.position, race)
+	elif pose in ["attack", "attack2", "attack3", "finisher", "kiattack", "kiattack2", "kifinisher", "skill", "kiskill", "sk_A1", "sk_A4"]:
+		if vfx.has_method("spawn_slash"):
+			vfx.spawn_slash(actor.position, dir_v, race, 0.85, pose == "attack2")
 
 func _add(id: String, race: String, at: Vector2) -> Dictionary:
 	if actors.size() >= MAX_PEERS:
@@ -75,7 +134,7 @@ func _add(id: String, race: String, at: Vector2) -> Dictionary:
 	actor.scale = Vector2(0.45, 0.45)
 	actor.position = _project(at)
 	world.ysort.add_child(actor)
-	var entry := {"actor": actor, "target": at, "shown": at, "action": 0, "race": race}
+	var entry := {"actor": actor, "target": at, "shown": at, "action": 0, "race": race, "nick": "", "in_party": false}
 	actors[id] = entry
 	return entry
 
@@ -95,9 +154,9 @@ func _process(delta: float) -> void:
 		entry["shown"] = target if point.distance_to(target) > SNAP_DISTANCE else point.lerp(target, weight)
 		actor.position = _project(entry["shown"])
 
-func pick(world_click: Vector2) -> String:
+func pick(world_click: Vector2, radius: float = 54.0) -> String:
 	var picked := ""
-	var best := 36.0
+	var best := radius
 	for id: String in actors:
 		var actor: Node2D = actors[id]["actor"]
 		var distance_to_actor := world_click.distance_to(actor.position + Vector2(0.0, -26.0))

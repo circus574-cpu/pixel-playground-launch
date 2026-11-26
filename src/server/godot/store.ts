@@ -20,6 +20,7 @@ import {
   type AndroidRace,
 } from "./economy";
 import { listGoalsForCharacter } from "./goals";
+import { GodotSocialStore } from "./social";
 
 export type Settings = {
   activeVersion: string | null;
@@ -87,15 +88,21 @@ type SettingsRow = {
 
 /** Cloud saves, content releases and client gating of the Android game, on the VPS database. */
 export class GodotStore {
+  readonly social: GodotSocialStore;
+
   constructor(
     private readonly sql: Sql,
     readonly files: ContentFiles,
-  ) {}
+  ) {
+    this.social = new GodotSocialStore(sql);
+  }
 
   async ready() {
     await this.sql`SELECT version FROM godot_android.schema_version LIMIT 1`;
     // The single settings row is part of the schema, but a restore or a manual clean-up must never leave the API without it.
     await this.sql`INSERT INTO godot_android.settings (id) VALUES (1) ON CONFLICT DO NOTHING`;
+    this.social.resetCache();
+    await this.social.isReady();
   }
 
   /* -------------------------------- settings -------------------------------- */

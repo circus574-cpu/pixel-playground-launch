@@ -18,11 +18,23 @@ export type GodotRelease = {
   packs: number;
   bytes: number;
 };
+export type GodotLivePlayer = {
+  id: string;
+  nick: string;
+  name: string;
+  race: string;
+  level: number;
+  land: string;
+  guildTag: string | null;
+  power: number;
+  ki: boolean;
+};
 export type GodotOverview = {
   settings: GodotSettings;
   releases: GodotRelease[];
   stats: { saves: number; accounts: number; bytes: number; lastWriteAt: string | null };
   online: { count: number; byLand: Record<string, number> };
+  onlinePlayers?: GodotLivePlayer[];
 };
 export type GodotSaveRow = {
   accountId: string;
@@ -112,6 +124,8 @@ export const godotActivate = (version: string) =>
   call("POST", "/admin/activate", { body: { version } });
 export const godotDeleteRelease = (version: string) =>
   call("DELETE", `/admin/releases/${encodeURIComponent(version)}`);
+export const godotBroadcast = (message: string) =>
+  call<{ ok: boolean; delivered: number }>("POST", "/admin/broadcast", { body: { message } });
 
 /** Uploads the packs of a manifest (skipping none: the server verifies size and SHA-256), then registers the release. */
 export async function godotPublish(

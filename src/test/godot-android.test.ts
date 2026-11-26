@@ -96,6 +96,7 @@ describe.runIf(url)("Android backend on PostgreSQL", () => {
     () => accounts,
     (token) => access.require(token),
     (account, id) => store.getCharacter(account, id),
+    () => store.social,
   );
   const tokens: Record<string, string> = {};
   const ids: Record<string, string> = {};
@@ -157,7 +158,7 @@ describe.runIf(url)("Android backend on PostgreSQL", () => {
     await sql`UPDATE godot_android.settings SET active_version = NULL, min_client_code = 1, maintenance = false, news = NULL`;
     await sql`DELETE FROM godot_android.releases`;
     await sql`DELETE FROM godot_android.saves`;
-    await sql`TRUNCATE godot_android.characters, accounts.audit, accounts.sessions, accounts.email_tokens, accounts.roles, accounts.users`;
+    await sql`TRUNCATE godot_android.friendships, godot_android.guild_members, godot_android.guilds, godot_android.characters, accounts.audit, accounts.sessions, accounts.email_tokens, accounts.roles, accounts.users`;
     dir = await mkdtemp(path.join(tmpdir(), "godot-content-"));
     store = new GodotStore(sql, new ContentFiles(dir));
     await store.ready();
@@ -167,7 +168,13 @@ describe.runIf(url)("Android backend on PostgreSQL", () => {
     await register("gracz2");
     await sql`INSERT INTO accounts.roles (user_id, role) VALUES (${ids["admin1"]!}, 'admin'), (${ids["gm1"]!}, 'gm')`;
     server = http.createServer((req, res) => {
-      void godotHttp(req, res, { store, accounts, online: () => live.count() });
+      void godotHttp(req, res, {
+        store,
+        accounts,
+        online: () => live.count(),
+        onlinePlayers: () => live.players(),
+        broadcast: (text) => live.broadcastSystem(text),
+      });
     });
     const wss = new WebSocketServer({ server });
     wss.on("connection", (socket) => live.attach(socket));
@@ -748,8 +755,208 @@ describe.runIf(url)("Android backend on PostgreSQL", () => {
     }
   }, 12_000);
 
+  it("persists friends and guilds, manages live parties, scoped party/guild chat, and admin broadcast", async () => {
+    const wsUrl = base.replace("http", "ws") + "/live";
+    const pickChar = async (nick: string, fallbackName: string, race: string) => {
+      const list = await call("GET", "/characters", { token: tokens[nick]! });
+      const existing = (list.json?.["characters"] as Array<{ id: string }> | undefined)?.[0];
+      if (existing) return existing.id;
+      const created = await call("POST", "/characters", {
+        token: tokens[nick]!,
+        body: { name: fallbackName, race },
+      });
+      expect(created.status).toBe(201);
+      return created.json!["character"].id as string;
+    };
+    const aId = await pickChar("gracz1", "Orion Soc", "legend");
+    const bId = await pickChar("gracz2", "Ari Soc", "legend");
+    const cId = await pickChar("admin1", "Lira Soc", "planetary");
+
+    async function connect(nick: string, id: string, land: string, x: number) {
+      const socket = new WebSocket(wsUrl);
+      const frames: Record<string, any>[] = [];
+      socket.on("message", (raw) => frames.push(JSON.parse(raw.toString())));
+      await new Promise<void>((resolve, reject) => {
+        socket.on("open", resolve);
+        socket.on("error", reject);
+      });
+      const send = (data: unknown) => socket.send(JSON.stringify(data));
+      send({ t: "hello", protocol: 2, token: tokens[nick]!, characterId: id });
+      await vi.waitFor(() => {
+        expect(frames.find((f) => f["t"] === "hello_ok")).toMatchObject({ protocol: 2, nick });
+      });
+      await new Promise((r) => setTimeout(r, 165));
+      send({
+        t: "pos",
+        land,
+        x,
+        y: 1800,
+        visible: true,
+        facing: 2,
+        pose: "idle",
+        action: 0,
+        ki: false,
+      });
+      return { socket, frames, send };
+    }
+
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    const a = await connect("gracz1", aId, "pyra", 1800);
+    const b = await connect("gracz2", bId, "pyra", 1880);
+    const c = await connect("admin1", cId, "verdant", 1800);
+    try {
+      // 1. Persistent Friends (request -> invite -> accept -> persisted)
+      a.send({ t: "friend_request", to: "gracz2" });
+      await vi.waitFor(() =>
+        expect(b.frames.find((f) => f["t"] === "friend_invite")).toMatchObject({
+          fromNick: "gracz1",
+        }),
+      );
+      b.send({ t: "friend_accept", target: "gracz1" });
+      await vi.waitFor(() => {
+        const latestFriends = a.frames.filter((f) => f["t"] === "friends").at(-1);
+        expect(latestFriends?.["accepted"]).toEqual(
+          expect.arrayContaining([expect.objectContaining({ nick: "gracz2", online: true })]),
+        );
+      });
+
+      // 2. Live Party (2-4 members) + Party Chat (isolated from outsider c)
+      await sleep(480);
+      a.send({ t: "party_invite", to: "gracz2" });
+      let partyId = "";
+      await vi.waitFor(() => {
+        const inv = b.frames.find((f) => f["t"] === "party_invite");
+        expect(inv).toMatchObject({ fromNick: "gracz1" });
+        partyId = String(inv?.["partyId"] ?? "");
+      });
+      await sleep(480);
+      b.send({ t: "party_respond", partyId, accept: true });
+      await vi.waitFor(() => {
+        const p = a.frames.filter((f) => f["t"] === "party").at(-1);
+        expect((p?.["members"] as unknown[])?.length).toBe(2);
+      });
+      a.send({ t: "chat", scope: "party", text: "Atakujemy razem!" });
+      await vi.waitFor(() =>
+        expect(
+          b.frames.some(
+            (f) => f["t"] === "chat" && f["scope"] === "party" && f["text"] === "Atakujemy razem!",
+          ),
+        ).toBe(true),
+      );
+      expect(c.frames.some((f) => f["t"] === "chat" && f["scope"] === "party")).toBe(false);
+
+      // 3. Persistent Guild (<TAG>) + Guild Chat across continents + Rich Inspect + Admin Overview
+      await sleep(480);
+      a.send({ t: "guild_create", name: "Bractwo Ognia", tag: "OGN" });
+      let guildId = "";
+      await vi.waitFor(() => {
+        const g = a.frames.filter((f) => f["t"] === "guild" && f["guild"]).at(-1);
+        expect(g?.["guild"]).toMatchObject({ name: "Bractwo Ognia", tag: "OGN", role: "leader" });
+        guildId = String(g?.["guild"]?.id ?? "");
+      });
+      await sleep(480);
+      a.send({ t: "guild_invite", to: "gracz2" });
+      await vi.waitFor(() =>
+        expect(b.frames.find((f) => f["t"] === "guild_invite")).toMatchObject({
+          guildTag: "OGN",
+          guildName: "Bractwo Ognia",
+        }),
+      );
+      await sleep(480);
+      b.send({ t: "guild_respond", guildId, accept: true });
+      await vi.waitFor(() => {
+        const g = b.frames.filter((f) => f["t"] === "guild" && f["guild"]).at(-1);
+        expect(g?.["guild"]).toMatchObject({ tag: "OGN", role: "member" });
+      });
+
+      // Verify peers snapshot carries <OGN> + inParty and inspect returns rich social flags
+      await vi.waitFor(() => {
+        const latestPeers = a.frames.filter((f) => f["t"] === "peers").at(-1);
+        expect(latestPeers?.["peers"]).toEqual([
+          expect.objectContaining({ nick: "gracz2", guildTag: "OGN", inParty: true }),
+        ]);
+      });
+      const peerId = a.frames.filter((f) => f["t"] === "peers").at(-1)!["peers"][0].id as string;
+      a.send({ t: "inspect", id: peerId });
+      await vi.waitFor(() =>
+        expect(a.frames.filter((f) => f["t"] === "profile").at(-1)).toMatchObject({
+          nick: "gracz2",
+          guildTag: "OGN",
+          guildName: "Bractwo Ognia",
+          isFriend: true,
+          sameParty: true,
+          canInviteParty: false,
+          canInviteGuild: false,
+        }),
+      );
+
+      // Guild chat (wait past 1.2s chat cooldown)
+      await sleep(1250);
+      a.send({ t: "chat", scope: "guild", text: "Zbiórka gildii OGN" });
+      await vi.waitFor(() =>
+        expect(
+          b.frames.some(
+            (f) => f["t"] === "chat" && f["scope"] === "guild" && f["guildTag"] === "OGN",
+          ),
+        ).toBe(true),
+      );
+      expect(c.frames.some((f) => f["t"] === "chat" && f["scope"] === "guild")).toBe(false);
+
+      // 4. Admin Live-Ops: onlinePlayers in /admin/overview + POST /admin/broadcast
+      const overview = await call("GET", "/admin/overview", { token: tokens["admin1"]! });
+      expect(overview.status).toBe(200);
+      expect(overview.json!["online"]).toEqual({ count: 3, byLand: { pyra: 2, verdant: 1 } });
+      expect(overview.json!["onlinePlayers"]).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ nick: "gracz1", guildTag: "OGN", land: "pyra" }),
+          expect.objectContaining({ nick: "gracz2", guildTag: "OGN", land: "pyra" }),
+          expect.objectContaining({ nick: "admin1", land: "verdant" }),
+        ]),
+      );
+
+      const forbiddenBroadcast = await call("POST", "/admin/broadcast", {
+        token: tokens["gracz1"]!,
+        body: { message: "Nieuprawniony" },
+      });
+      expect(forbiddenBroadcast.status).toBe(403);
+
+      const okBroadcast = await call("POST", "/admin/broadcast", {
+        token: tokens["admin1"]!,
+        body: { message: "Wydarzenie na Pyrze za 5 minut!" },
+      });
+      expect(okBroadcast.status).toBe(200);
+      expect(okBroadcast.json).toMatchObject({ ok: true, delivered: 3 });
+      await vi.waitFor(() => {
+        for (const client of [a, b, c]) {
+          expect(
+            client.frames.some(
+              (f) => f["t"] === "system" && f["text"] === "Wydarzenie na Pyrze za 5 minut!",
+            ),
+          ).toBe(true);
+        }
+      });
+
+      // Clean up social rows via protocol and verify guild disbands cleanly
+      await sleep(480);
+      b.send({ t: "party_leave" });
+      await sleep(480);
+      b.send({ t: "guild_leave" });
+      await sleep(480);
+      a.send({ t: "guild_leave" });
+      await sleep(480);
+      a.send({ t: "friend_remove", target: "gracz2" });
+      await vi.waitFor(() => {
+        const g = a.frames.filter((f) => f["t"] === "guild").at(-1);
+        expect(g?.["guild"]).toBeNull();
+      });
+    } finally {
+      for (const client of [a, b, c]) client.socket.close();
+      await sql`TRUNCATE godot_android.friendships, godot_android.guild_members, godot_android.guilds`;
+    }
+  }, 20_000);
+
   it.runIf(process.env["KI_GODOT_TEST_BIN"])(
-    "exchanges presence and whisper frames between two native Godot clients",
+    "exchanges presence, whisper, friends, party and guild frames between two native Godot clients",
     async () => {
       const accounts = ["gracz1", "gracz2"];
       const ids = await Promise.all(
@@ -766,7 +973,7 @@ describe.runIf(url)("Android backend on PostgreSQL", () => {
         process.env["KI_GODOT_TEST_BIN"]!,
         ["--headless", "--path", "ports/godot-isometric-world", "-s", "tests/audit_stage2.gd"],
         {
-          timeout: 12_000,
+          timeout: 22_000,
           env: {
             ...process.env,
             KI_GODOT_LIVE_TEST_URL: base.replace("http", "ws") + "/live",
@@ -777,9 +984,9 @@ describe.runIf(url)("Android backend on PostgreSQL", () => {
           },
         },
       );
-      expect(output.stdout).toContain("Etap 2 — 22/22 kontroli Godot");
+      expect(output.stdout).toContain("Etap 2 — 36/36 kontroli Godot");
       expect(output.stderr).not.toContain("SCRIPT ERROR");
     },
-    15_000,
+    25_000,
   );
 });

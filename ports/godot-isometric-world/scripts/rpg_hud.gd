@@ -678,6 +678,16 @@ func get_total_ki_regen() -> float:
 	var raw := float(base.get("kiRegen", 1.2)) + float(per_lv.get("kiRegen", 0.08)) * lv_off + float(training_ranks.get("ki", 0)) * 0.08
 	return maxf(0.4, raw * (1.0 + float(p["kiRegenPct"])) * b_mult)
 
+func get_ki_power() -> int:
+	var atk := float(get_total_attack())
+	var def := float(get_total_defense())
+	var transformed := world != null and float(world.get("ki_mode_timer")) > 0.0
+	if transformed:
+		atk = roundf(atk * 1.25)
+		def = roundf(def * 1.15)
+	return maxi(0, int(round(hero_max_hp + hero_max_ki + 10.0 * (atk + def))))
+
+
 func get_basic_attack_interval() -> float:
 	var rd := _race_data()
 	var base: Dictionary = rd.get("base", {})
@@ -2628,6 +2638,9 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 
 	var pts_tag := "  •  WOLNE PKT: %d" % free_stat_points if free_stat_points > 0 else ""
 	c.draw_string(f, Vector2(lx + 18.0, stats_y + 28.0), "ATRYBUTY BOHATERA (POZ. %d)%s" % [hero_level, pts_tag], HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.46, 0.98, 0.64) if free_stat_points > 0 else Color(1.0, 0.88, 0.54))
+	var ki_power_txt := "MOC KI: %d" % get_ki_power()
+	var kpw := f.get_string_size(ki_power_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
+	c.draw_string(f, Vector2(lx + lw - 18.0 - kpw, stats_y + 28.0), ki_power_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.42, 0.96, 1.0))
 	c.draw_line(Vector2(lx + 18.0, stats_y + 38.0), Vector2(lx + lw - 18.0, stats_y + 38.0), Color(0.80, 0.62, 0.32, 0.50), 1.2, true)
 
 	var stats_rows: Array = [

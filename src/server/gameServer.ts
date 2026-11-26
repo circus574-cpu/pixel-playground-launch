@@ -96,6 +96,7 @@ export class GameServer {
     () => this.accounts,
     (token) => this.serviceAccess.require(token),
     async (account, id) => (await this.godot?.getCharacter(account, id)) ?? null,
+    () => this.godot?.social ?? null,
   );
   private tickCount = 0;
   private tickTimes: number[] = [];
@@ -156,6 +157,8 @@ export class GameServer {
         store: this.godot,
         accounts: this.accounts,
         online: () => this.godotLive.count(),
+        onlinePlayers: () => this.godotLive.players(),
+        broadcast: (text) => this.godotLive.broadcastSystem(text),
         settingsChanged: () => this.serviceAccess.invalidate(),
       });
       return;

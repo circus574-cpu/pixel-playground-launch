@@ -201,6 +201,9 @@ var move_pointer := -1
 var move_origin := Vector2.ZERO
 var pinch_pointers: Dictionary = {}
 var pinch_distance := 0.0
+var _tap_peer_idx := -1
+var _tap_peer_start := Vector2.ZERO
+var _tap_peer_ms := 0
 var tex_cache: Dictionary = {}
 var current_exp_idx := 0
 var world_time := 0.0
@@ -328,6 +331,7 @@ func _start_live_presence() -> void:
 	live_link.peers_received.connect(func(frame: Dictionary) -> void:
 		live_peers.accept(frame)
 		live_panel.update_online(int(frame.get("online", 0)), int(frame.get("power", 0)))
+		_refresh_hero_nameplate()
 	)
 	live_link.chat_received.connect(func(frame: Dictionary) -> void:
 		live_panel.add_line(frame)
@@ -338,15 +342,67 @@ func _start_live_presence() -> void:
 				live_peers.show_bubble(frame)
 	)
 	live_link.profile_received.connect(func(frame: Dictionary) -> void:
-		if not in_interior and not in_labyrinth and live_peers.actors.has(str(frame.get("id", ""))):
+		if not in_interior and not in_labyrinth:
 			live_panel.show_profile(frame)
+	)
+	live_link.friends_received.connect(func(frame: Dictionary) -> void:
+		live_panel.apply_friends(frame)
+		var acc: Variant = frame.get("accepted", [])
+		if acc is Array:
+			live_peers.set_friends(acc as Array)
+	)
+	live_link.friend_invite_received.connect(func(frame: Dictionary) -> void:
+		var from_nick := str(frame.get("fromNick", "Gracz"))
+		var from_acc := str(frame.get("fromAccountId", from_nick))
+		live_panel.show_invite_banner("friend", from_acc, "Zaproszenie do znajomych od %s" % from_nick)
+	)
+	live_link.party_received.connect(func(frame: Dictionary) -> void:
+		live_panel.apply_party(frame)
+	)
+	live_link.party_invite_received.connect(func(frame: Dictionary) -> void:
+		var from_nick := str(frame.get("fromNick", "Gracz"))
+		var pid := str(frame.get("partyId", ""))
+		live_panel.show_invite_banner("party", pid, "Zaproszenie do drużyny od %s" % from_nick)
+	)
+	live_link.guild_received.connect(func(frame: Dictionary) -> void:
+		live_panel.apply_guild(frame)
+		_refresh_hero_nameplate()
+	)
+	live_link.guild_invite_received.connect(func(frame: Dictionary) -> void:
+		var from_nick := str(frame.get("fromNick", "Gracz"))
+		var gid := str(frame.get("guildId", ""))
+		var gname := str(frame.get("guildName", "Gildia"))
+		var gtag := str(frame.get("guildTag", ""))
+		live_panel.show_invite_banner("guild", gid, "%s zaprasza do gildii <%s> %s" % [from_nick, gtag, gname])
+	)
+	live_link.system_received.connect(func(frame: Dictionary) -> void:
+		var msg := str(frame.get("text", "")).strip_edges()
+		if not msg.is_empty():
+			live_panel.add_system_line(msg)
+			show_combat_toast("★ OGŁOSZENIE: %s" % msg, Color(1.0, 0.86, 0.34))
 	)
 	live_link.status_changed.connect(func(connected: bool, message: String) -> void:
 		live_panel.set_status(connected, message)
+		_refresh_hero_nameplate()
 		if not connected:
 			live_peers.clear()
 	)
 	add_child(live_link)
+
+func _refresh_hero_nameplate() -> void:
+	if hero == null or not is_instance_valid(hero):
+		return
+	var actor_land := hero_race_land if hero_race_land != "" else current_land
+	var h_info: Array = HERO_ACTORS.get(actor_land, ["pyra.hero", "Ignis"])
+	var base_name: String = start_name if start_name != "" else str(h_info[1])
+	if rpg_hud != null and not str(rpg_hud.hero_custom_name).is_empty():
+		base_name = str(rpg_hud.hero_custom_name)
+	var gtag := str(live_link.guild_tag) if live_link != null else ""
+	var desired := ("%s\n<%s>" % [base_name, gtag]) if not gtag.is_empty() else base_name
+	if hero.label.text != desired:
+		hero.label.text = desired
+		var dy: float = float(hero.display.y) if hero.get("display") is Vector2 else 110.0
+		hero.label.position = Vector2(-230, -dy - (54 if not gtag.is_empty() else 36))
 
 func _live_snapshot() -> Dictionary:
 	var facing := 2
@@ -506,6 +562,7 @@ func rebuild_hero(land: String) -> void:
 	hero.ki_race = _hero_race_key()
 	hero.scale = Vector2(0.45, 0.45)
 	ysort.add_child(hero)
+	_refresh_hero_nameplate()
 
 func surface_color_for(land: String) -> Vector3:
 	match land:
@@ -2798,6 +2855,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		handle_drag(event)
 
 func handle_touch(event: InputEventScreenTouch) -> void:
+	if live_panel != null and live_panel.is_open():
+		return
 	var vp := get_viewport_rect().size
 	if event.pressed:
 		# Strict bottom-left thumb zone ONLY (never activates over top-left HUD or right combat orbs!)
@@ -2817,18 +2876,46 @@ func handle_touch(event: InputEventScreenTouch) -> void:
 			target_pos = Vector2(-1, -1)
 		else:
 			pinch_pointers[event.index] = event.position
-			if pinch_pointers.size() == 2:
-				pinch_distance = pinch_span()
+			if pinch_pointers.size() == 1:
+				_tap_peer_idx = event.index
+				_tap_peer_start = event.position
+				_tap_peer_ms = Time.get_ticks_msec()
+			else:
+				_tap_peer_idx = -1
+				if pinch_pointers.size() == 2:
+					pinch_distance = pinch_span()
 	else:
 		if event.index == move_pointer:
 			move_pointer = -1
 			motion = Vector2.ZERO
+		if event.index == _tap_peer_idx:
+			var elapsed := Time.get_ticks_msec() - _tap_peer_ms
+			var moved := event.position.distance_to(_tap_peer_start)
+			_tap_peer_idx = -1
+			if elapsed <= 450 and moved <= 24.0:
+				var world_click: Vector2 = get_canvas_transform().affine_inverse() * event.position
+				var picked_npc := false
+				for ag: Dictionary in live_agents:
+					if str(ag.get("kind", "")) != "npc":
+						continue
+					var nd = ag.get("node", null)
+					if is_instance_valid(nd) and world_click.distance_to(nd.position + Vector2(0, -32)) < 68.0:
+						if hero_pos.distance_to(ag["pos"] as Vector2) < 95.0:
+							open_npc_dialogue(ag)
+							picked_npc = true
+							break
+				if not picked_npc and live_peers != null and live_link != null:
+					var peer_id: String = live_peers.pick(world_click)
+					if not peer_id.is_empty():
+						live_link.inspect_peer(peer_id)
 		pinch_pointers.erase(event.index)
 		if pinch_pointers.size() < 2:
 			pinch_distance = 0.0
 	stick_layer.queue_redraw()
 
 func handle_drag(event: InputEventScreenDrag) -> void:
+	if event.index == _tap_peer_idx and event.position.distance_to(_tap_peer_start) > 24.0:
+		_tap_peer_idx = -1
 	if event.index == move_pointer:
 		var delta := event.position - move_origin
 		var mag := delta.length()

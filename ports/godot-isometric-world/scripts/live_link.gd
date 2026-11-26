@@ -1,9 +1,17 @@
 extends Node
-## Transport for authenticated isometric presence. The launcher owns the account session.
+## Transport for authenticated isometric presence, chat, friends, parties and guilds.
+## The launcher owns the account session.
 
 signal peers_received(frame: Dictionary)
 signal chat_received(frame: Dictionary)
 signal profile_received(frame: Dictionary)
+signal friends_received(frame: Dictionary)
+signal friend_invite_received(frame: Dictionary)
+signal party_received(frame: Dictionary)
+signal party_invite_received(frame: Dictionary)
+signal guild_received(frame: Dictionary)
+signal guild_invite_received(frame: Dictionary)
+signal system_received(frame: Dictionary)
 signal status_changed(connected: bool, message: String)
 
 var auth: Callable
@@ -11,6 +19,7 @@ var refresh_auth: Callable
 var payload: Callable
 var character_id := ""
 var peer_id := ""
+var guild_tag := ""
 var connected := false
 
 var _socket: WebSocketPeer
@@ -105,11 +114,14 @@ func _receive(frame: Dictionary) -> void:
 				return
 			connected = true
 			peer_id = str(frame.get("id", ""))
+			guild_tag = str(frame.get("guildTag", ""))
 			_retry_delay = 1.0
 			_publish_in = 0.16
 			status_changed.emit(true, "Połączono")
 		"peers":
 			if connected:
+				if frame.has("guildTag"):
+					guild_tag = str(frame.get("guildTag", ""))
 				peers_received.emit(frame)
 		"chat":
 			if connected:
@@ -117,6 +129,29 @@ func _receive(frame: Dictionary) -> void:
 		"profile":
 			if connected:
 				profile_received.emit(frame)
+		"friends":
+			if connected:
+				friends_received.emit(frame)
+		"friend_invite":
+			if connected:
+				friend_invite_received.emit(frame)
+		"party":
+			if connected:
+				party_received.emit(frame)
+		"party_invite":
+			if connected:
+				party_invite_received.emit(frame)
+		"guild":
+			if connected:
+				var g: Variant = frame.get("guild", null)
+				guild_tag = str((g as Dictionary).get("tag", "")) if g is Dictionary else ""
+				guild_received.emit(frame)
+		"guild_invite":
+			if connected:
+				guild_invite_received.emit(frame)
+		"system":
+			if connected:
+				system_received.emit(frame)
 		"notice":
 			if connected:
 				status_changed.emit(true, str(frame.get("message", "")))
@@ -135,6 +170,48 @@ func send_chat(scope: String, text: String, to: String = "") -> bool:
 func inspect_peer(id: String) -> void:
 	if connected:
 		_send({"t": "inspect", "id": id})
+
+func sync_friends() -> bool:
+	return connected and _send({"t": "friends_sync"})
+
+func request_friend(to: String) -> bool:
+	return connected and not to.strip_edges().is_empty() and _send({"t": "friend_request", "to": to.strip_edges()})
+
+func accept_friend(target: String) -> bool:
+	return connected and not target.strip_edges().is_empty() and _send({"t": "friend_accept", "target": target.strip_edges()})
+
+func remove_friend(target: String) -> bool:
+	return connected and not target.strip_edges().is_empty() and _send({"t": "friend_remove", "target": target.strip_edges()})
+
+func invite_party(to: String) -> bool:
+	return connected and not to.strip_edges().is_empty() and _send({"t": "party_invite", "to": to.strip_edges()})
+
+func respond_party(party_id: String, accept: bool) -> bool:
+	return connected and not party_id.is_empty() and _send({"t": "party_respond", "partyId": party_id, "accept": accept})
+
+func leave_party() -> bool:
+	return connected and _send({"t": "party_leave"})
+
+func kick_party(target_id: String) -> bool:
+	return connected and not target_id.is_empty() and _send({"t": "party_kick", "targetId": target_id})
+
+func sync_guild() -> bool:
+	return connected and _send({"t": "guild_sync"})
+
+func create_guild(gname: String, gtag: String) -> bool:
+	return connected and _send({"t": "guild_create", "name": gname.strip_edges(), "tag": gtag.strip_edges()})
+
+func invite_guild(to: String) -> bool:
+	return connected and not to.strip_edges().is_empty() and _send({"t": "guild_invite", "to": to.strip_edges()})
+
+func respond_guild(guild_id: String, accept: bool) -> bool:
+	return connected and not guild_id.is_empty() and _send({"t": "guild_respond", "guildId": guild_id, "accept": accept})
+
+func leave_guild() -> bool:
+	return connected and _send({"t": "guild_leave"})
+
+func kick_guild(target: String) -> bool:
+	return connected and not target.strip_edges().is_empty() and _send({"t": "guild_kick", "target": target.strip_edges()})
 
 func _exit_tree() -> void:
 	if _socket != null:

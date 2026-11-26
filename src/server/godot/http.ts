@@ -9,11 +9,15 @@ import { ANDROID_ITEM_CATALOG, AndroidEconomyError } from "./economy";
 import { ANDROID_GOALS_CATALOG } from "./goals";
 import { SERVICE_MESSAGE } from "../serviceAccess";
 
+import type { LivePlayerSummary } from "./live";
+
 export type GodotHttpDeps = {
   store: GodotStore | null;
   accounts: AccountService | null;
   /** Players currently on the live channel (admin overview). */
   online: () => { count: number; byLand: Record<string, number> };
+  onlinePlayers?: () => LivePlayerSummary[];
+  broadcast?: (message: string) => number;
   settingsChanged?: () => void;
 };
 
@@ -319,7 +323,18 @@ export async function godotHttp(
           releases: await store.releases(),
           stats: await store.stats(),
           online: live,
+          onlinePlayers: deps.onlinePlayers ? deps.onlinePlayers() : [],
         });
+      }
+      if (method === "POST" && path === "/admin/broadcast") {
+        const actor = await staff(true);
+        const body = await jsonBody(2_000);
+        const text = String(body["message"] ?? "").trim();
+        if (!text || text.length > 240)
+          return send(400, { error: "INVALID_INPUT", message: "Wpisz komunikat (1–240 znaków)." });
+        const delivered = deps.broadcast ? deps.broadcast(text) : 0;
+        await accounts.audit(actor, "GODOT_ADMIN_BROADCAST", null, { text, delivered });
+        return send(200, { ok: true, delivered });
       }
       if (method === "GET" && path === "/admin/characters") {
         await staff(false);

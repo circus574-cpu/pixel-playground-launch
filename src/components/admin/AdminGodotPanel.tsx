@@ -3,6 +3,7 @@ import { AdminAndroidCharacters } from "./AdminAndroidCharacters";
 import {
   formatMegabytes,
   godotActivate,
+  godotBroadcast,
   godotDeleteRelease,
   godotDeleteSave,
   godotOverview,
@@ -36,6 +37,7 @@ export function AdminGodotPanel({ isAdmin }: { isAdmin: boolean }) {
   const [overview, setOverview] = useState<GodotOverview | null>(null);
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
+  const [broadcastMsg, setBroadcastMsg] = useState("");
   const reload = useCallback(async () => {
     try {
       setOverview(await godotOverview());
@@ -62,6 +64,7 @@ export function AdminGodotPanel({ isAdmin }: { isAdmin: boolean }) {
 
   if (!overview) return <p role="status">{error || "Wczytywanie danych gry Android…"}</p>;
   const s = overview.settings;
+  const livePlayers = overview.onlinePlayers ?? [];
   return (
     <>
       {error && <p className="ki-account-error">{error}</p>}
@@ -88,9 +91,49 @@ export function AdminGodotPanel({ isAdmin }: { isAdmin: boolean }) {
             minimalna wersja aplikacji (versionCode): <b>{s.minClientCode}</b>
           </li>
         </ul>
+        {livePlayers.length > 0 && (
+          <div style={{ marginTop: 10 }}>
+            <strong>Połączeni gracze na żywo ({livePlayers.length}):</strong>
+            <ul>
+              {livePlayers.map((p) => (
+                <li key={p.id}>
+                  <b>{p.name}</b> ({p.nick}){p.guildTag ? ` <${p.guildTag}>` : ""} — Poz. {p.level}{" "}
+                  · {RACE_NAMES[p.race] ?? p.race} · {LAND_NAMES[p.land] ?? p.land} · MOC KI:{" "}
+                  {p.power}
+                  {p.ki ? " [FORMA KI]" : ""}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {isAdmin && (
+          <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
+            <input
+              value={broadcastMsg}
+              maxLength={240}
+              placeholder="Ogłoszenie na żywo dla graczy Android (np. Restart za 5 min)…"
+              onChange={(e) => setBroadcastMsg(e.target.value)}
+              style={{ flex: "1 1 280px" }}
+            />
+            <button
+              type="button"
+              disabled={!broadcastMsg.trim()}
+              onClick={() =>
+                void run(async () => {
+                  const res = await godotBroadcast(broadcastMsg.trim());
+                  setBroadcastMsg("");
+                  setInfo(`Wysłano ogłoszenie na żywo (odbiorców: ${res.delivered}).`);
+                }, "Wysłano ogłoszenie na żywo.")
+              }
+            >
+              Wyślij ogłoszenie
+            </button>
+          </div>
+        )}
         <small>
           Ekonomia i postęp postaci Android (poziom, PD, złoto, bank, ekwipunek, sklep, kuźnia,
-          zlecenia) są liczone i zapisywane autorytatywnie na serwerze w PostgreSQL.
+          zlecenia, znajomi i gildie) są liczone i zapisywane autorytatywnie na serwerze w
+          PostgreSQL.
         </small>
       </section>
 

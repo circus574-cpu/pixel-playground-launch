@@ -238,3 +238,23 @@ i sprawdzenie skryptów po przeniesieniu do przestrzeni nazw OTA zaliczone.
 
 Trwała lista znajomych, zaproszenia do drużyn oraz tagi gildii pozostają otwarte.
 Fizyczny Android i wydanie OTA również wymagają odbioru.
+
+## Dokończenie etapu 2 — Znajomi, Drużyny, Gildie, Paperdoll Wizytówki i Admin Live-Ops
+
+Kontynuacja prac na gałęzi `feat/android-audit-stage2-20261126` domyka wszystkie
+pozostałe punkty etapu 2 (znajomi, drużyny 2–4, gildie z tagami `<TAG>`,
+6-kanałowy czat mobilny, panel wizytówki gracza oraz podgląd online i ogłoszenia
+w panelu `/admin`):
+
+| Obszar | Zmiana | Weryfikacja |
+| --- | --- | --- |
+| Baza danych PostgreSQL | Dodano migrację `deploy/multiplayer/init/010-godot-android-social.sql` (`godot_android.friendships`, `godot_android.guilds`, `godot_android.guild_members`, `schema_version = 4`) oraz podpięto ją w `deploy/multiplayer/install.sh` i `.github/workflows/online-server-qa.yml`. | Migracje `001`–`010` zaaplikowane bezbłędnie na izolowanym kontenerze PostgreSQL 17. |
+| Backend społeczny i WebSocket | Dodano trwały magazyn `src/server/godot/social.ts` (`GodotSocialStore`) i rozszerzono `src/server/godot/live.ts` o protokół znajomych (`friends_sync`, `friend_request/accept/remove`), drużyny 2–4 osobowe na żywo (`party_invite/respond/leave/kick`, czat `party`, rozgłaszanie HP/KI/kontynentu), trwałe gildie (`guild_sync/create/invite/respond/leave/kick`, czat `guild`, `<TAG>` w `peers` i `inspect`) oraz rozgłaszanie komunikatów systemowych (`system`). | Test integracyjny PostgreSQL + WebSocket (`src/test/godot-android.test.ts`): 31/31 testów (15/15 `godot-android.test.ts` + 16/16 `godot-android-economy.test.ts`). |
+| Panel `/admin` Live-Ops | Rozszerzono `GET /admin/overview` o listę `onlinePlayers` (przy zachowaniu dotychczasowego obiektu `online: { count, byLand }`), dodano `POST /admin/broadcast` (audyt `GODOT_ADMIN_BROADCAST`) oraz widok zalogowanych graczy i wysyłkę ogłoszeń na żywo w `src/components/admin/AdminGodotPanel.tsx`. | Test API potwierdza `403` dla zwykłego gracza, `200` dla administratora oraz dostarczenie ramki `system` do wszystkich połączonych klientów. |
+| Klient Godot — HUD i UI mobilne | Naprawiono kolizję przycisku `CZAT` z centralnym paskiem PD (przeniesiono na lewo od paska PD w poziomie i nad pasek PD w pionie), dodano 2-liniowy `mini_feed`, pasek przychodzących zaproszeń w luce górnego HUD-u, kompaktowy `party_hud`, 4-zakładkowy panel (`CZAT` / `ZNAJOMI` / `DRUŻYNA` / `GILDIA`) z responsywną siatką i 6 kanałami czatu, klasyczną kartę wizytówki RPG Paperdoll z ikonami ekwipunku i przyciskami akcji, obsługę dotykowego tapnięcia gracza na ekranie Androida (`handle_touch` w `world.gd`), tagi `<TAG>` nad głowami (własna postać i zdalni gracze), lekkie VFX walki zdalnych graczy oraz wskaźnik `MOC KI` w oknie postaci `[I]`. | `audit_stage2.gd`: 36/36 kontroli Godot (27 offline w tym 320×568, 360×640, 390×844, 852×393, 1600×720 + 9 testów dwóch natywnych klientów Godot przez WebSocket); regresja `audit_stage1.gd`: 53/53; relokacja OTA `prepare_service_preview.py` (`1558` plików) + `--check-only` wszystkich 5 skryptów w `res://service_preview/pyra/`; wizualny odbiór zrzutów OpenGL3 `1600×720`. |
+
+Pełny TypeScript (`tsconfig`, `tsconfig.e2e.json`, `tsconfig.tools.json`), ESLint
+zmienionych plików oraz `scripts/docs/check_documentation.py` zakończyły się
+wynikiem pozytywnym. Wdrożenie produkcyjne na Aruba VPS, publikacja paczki OTA
+oraz testy na fizycznym telefonie Android pozostają do osobnej decyzji
+właściciela.
